@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework><UseWindowsForms>true</UseWindowsForms><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><AssemblyName>ANTHEA</AssemblyName><Product>ANTHEA</Product><Title>ANTHEA</Title><ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../X.Core/X.Core.csproj" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="Assets/*.png" /></ItemGroup>
+</Project>

@@ -1,0 +1,11 @@
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+/app/
+/confronto_*.json
+/verifiche_*/
+/backup_*/
+*.programma
+*.anthea
