@@ -21,8 +21,8 @@ public sealed partial class FoglioEditor
     }
     private Panel Card(string title,Control body,bool expandable=false)
     {
-        var card=new PaperPanel{Padding=new Padding(Module=="str_palo"?8:16)};
-        var header=new TableLayoutPanel{Dock=DockStyle.Top,Height=36,BackColor=Color.White,ColumnCount=2,RowCount=1,Margin=Padding.Empty};
+        var card=new PaperPanel{Padding=new Padding(Module=="str_palo"?8:PileCapacity?14:16)};
+        var header=new TableLayoutPanel{Dock=DockStyle.Top,Height=PileCapacity?48:36,BackColor=Color.White,ColumnCount=2,RowCount=1,Margin=Padding.Empty};
         header.ColumnStyles.Add(new(SizeType.Percent,100));header.ColumnStyles.Add(new(SizeType.Absolute,expandable?88:0));
         header.Controls.Add(new Label{Text=title,Dock=DockStyle.Fill,TextAlign=ContentAlignment.MiddleLeft,Font=new Font("Segoe UI",11,FontStyle.Bold),ForeColor=Color.FromArgb(17,24,39)},0,0);
         if(expandable){int index=originalCards.Count;var expand=Ui.Button("Estendi",()=>{expandedCard=expandedCard==index?-1:index;LayoutCards();});expand.Dock=DockStyle.Fill;expand.Font=new Font("Segoe UI",8);expand.Margin=Padding.Empty;expand.AutoSize=false;header.Controls.Add(expand,1,0);}
@@ -58,7 +58,7 @@ public sealed partial class FoglioEditor
             var profile=Take(outputs,"Profilo");profile.Dispose();stratigraphy.Data=Data;stratigraphy.Micro=Micro;Card("Profilo stratigrafico",stratigraphy,true);
             // Il selettore delle curve è sotto il grafico, non una colonna laterale.
             visible.Dock=DockStyle.Bottom;visible.Height=125;visible.MultiColumn=true;visible.ColumnWidth=185;visible.Font=new Font("Segoe UI",8);
-            outputs.TabPages[0].Text="Grafico";Card("Grafici capacità portante",outputs,true);ConfigureCapacityPresentation();
+            outputs.TabPages[0].Text="Grafico";Card("Grafici capacità portante",outputs,true);ConfigureCapacityPresentation();if(PileCapacity)ConfigurePileCards();
         }
         foreach(var retained in new Control[]{inputs,outputs,status,calculate,warnings})
             if(retained.Parent is not null&&retained.Parent!=originalCards.LastOrDefault())
@@ -74,9 +74,16 @@ public sealed partial class FoglioEditor
     }
     private void LayoutCards()
     {
-        int w=Math.Max(Module=="str_palo"?1100:1440,originalScroll.ClientSize.Width-(Module=="str_palo"?0:20)),margin=Module=="str_palo"?5:Math.Max(24,(int)(w*.03)),gap=Module=="str_palo"?10:20;
+        int w=Math.Max(Module=="str_palo"?1100:PileCapacity?1500:1440,originalScroll.ClientSize.Width-(Module=="str_palo"?0:20)),margin=Module=="str_palo"?5:Math.Max(24,(int)(w*.03)),gap=Module=="str_palo"?10:PileCapacity?12:20;
+        int[] pileWidths=[(generalForm?.MinimumContentWidth??520)+32,230,(normativeForm?.MinimumContentWidth??350)+32,350];
+        if(PileCapacity)w=Math.Max(w,pileWidths.Sum()+2*margin+3*gap);
         int h=Math.Max(Module=="str_palo"?650:760,originalScroll.ClientSize.Height-4);
-        if(expandedCard==6&&Module!="str_palo")
+        if(PileCapacity)
+        {
+            UpdatePileProfile();
+            for(int i=0;i<originalCards.Count;i++)foreach(var button in GetAll(originalCards[i]).OfType<Button>().Where(b=>b.Text is "Estendi" or "Riduci"))button.Text=expandedCard==i?"Riduci":"Estendi";
+        }
+        if((expandedCard==6&&Module!="str_palo")||(PileCapacity&&expandedCard==4))
         {
             originalCanvas.Size=new Size(w,h);for(int i=0;i<originalCards.Count;i++)originalCards[i].Visible=i==expandedCard;
             originalCards[expandedCard].SetBounds(16,12,w-32,h-24);return;
@@ -92,9 +99,10 @@ public sealed partial class FoglioEditor
         }
         else
         {
-            int top=Math.Max(320,Math.Max((generalForm?.ContentHeight??300)+80,(normativeForm?.ContentHeight??260)+104)),available=w-2*margin-3*gap,x=margin;double[] ratios=[.39,.17,.24,.20];
-            for(int i=0;i<4;i++){int cw=i==3?w-margin-x:(int)(available*ratios[i]);originalCards[i].SetBounds(x,24,cw,top);x+=cw+gap;}
-            int y=24+top+gap;h=Math.Max(h,y+680);available=w-2*margin-2*gap;x=margin;double[] lower=[.47,.20,.33];
+            int top=PileCapacity?Math.Max(300,(generalForm?.ContentHeight??250)+80):Math.Max(320,Math.Max((generalForm?.ContentHeight??300)+80,(normativeForm?.ContentHeight??260)+104)),available=w-2*margin-3*gap,x=margin;double[] ratios=[.39,.17,.24,.20];
+            int topMargin=PileCapacity?14:24;
+            for(int i=0;i<4;i++){int cw=i==3?w-margin-x:PileCapacity?pileWidths[i]+(int)(Math.Max(0,available-pileWidths.Sum())*ratios[i]):(int)(available*ratios[i]);originalCards[i].SetBounds(x,topMargin,cw,top);x+=cw+gap;}
+            int y=topMargin+top+gap;h=Math.Max(h,y+(PileCapacity?420:680));available=w-2*margin-2*gap;x=margin;double[] lower=[.47,.20,.33];
             if(expandedCard==4)lower=[.66,.15,.19];else if(expandedCard==5)lower=[.16,.65,.19];
             for(int i=0;i<3;i++){int cw=i==2?w-margin-x:(int)(available*lower[i]);originalCards[i+4].SetBounds(x,y,cw,h-y-24);x+=cw+gap;}
         }
@@ -136,23 +144,27 @@ public sealed partial class FoglioEditor
     }
 }
 
-public sealed class StratigraphyDrawing:Control
+public sealed partial class StratigraphyDrawing:Control
 {
     public JsonObject? Data{get;set;}public bool Micro{get;set;}
+    public int SelectedIndex{get;set;}=-1;
+    public bool ShowAll{get;set;}=true;
+    public int[] VisibleIndices=>Data is null?[]:Enumerable.Range(0,Data.Array("stratigrafie").Count).Where(i=>ShowAll||i==SelectedIndex).ToArray();
     public StratigraphyDrawing(){Dock=DockStyle.Fill;DoubleBuffered=true;ResizeRedraw=true;BackColor=Color.White;}
     protected override void OnPaint(PaintEventArgs e)
     {
-        base.OnPaint(e);if(Data is null)return;var g=e.Graphics;g.SmoothingMode=System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+        base.OnPaint(e);if(Data is null)return;if(!Micro){DrawPileProfile(e.Graphics);return;}var g=e.Graphics;g.SmoothingMode=System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
         var sets=Data.Array("stratigrafie");var gen=Data["generali"];double length=gen.D("lunghezza"),angle=Micro?gen.D("inclinazione")*Math.PI/180:0;
-        double total=Math.Max(length*Math.Cos(angle),sets.Select(s=>s!.AsArray().Sum(r=>Math.Max(0,r.D("spessore")))).DefaultIfEmpty(0).Max());
+        var indices=VisibleIndices;
+        double total=Math.Max(length*Math.Cos(angle),indices.Select(i=>sets[i]!.AsArray().Sum(r=>Math.Max(0,r.D("spessore")))).DefaultIfEmpty(0).Max());
         if(total<=0){g.DrawString("Inserire la stratigrafia",Font,Brushes.Gray,12,35);return;}
-        float top=42,bottom=Height-45,scale=(bottom-top)/(float)total;if(scale<=0)return;int count=Math.Max(1,sets.Count);float band=(Width-56f)/count;
+        float top=42,bottom=Height-45,scale=(bottom-top)/(float)total;if(scale<=0)return;int count=Math.Max(1,indices.Length);float band=(Width-56f)/count;
         if(Micro&&length*Math.Sin(angle)>0)scale=Math.Min(scale,(band-20)/(float)(length*Math.Sin(angle)));
         Color[] colors=new[]{"#F4C95D","#DFA06E","#A8C686","#8FB8DE","#C6A0D5","#C9B79C","#F2A7B5","#86C5C9","#E4B363","#A9BCD0","#B8D8BA","#D6B5D8"}.Select(ColorTranslator.FromHtml).ToArray();
         using var font=new Font("Segoe UI",8);using var border=new Pen(Color.FromArgb(155,161,168));
-        for(int j=0;j<sets.Count;j++)
+        for(int position=0;position<indices.Length;position++)
         {
-            float x=38+j*band;double z=0;int layer=0;g.DrawString($"Stratigrafia {j+1}",font,Brushes.DimGray,x,15);
+            int j=indices[position];float x=38+position*band;double z=0;int layer=0;g.DrawString($"Stratigrafia {j+1}",font,Brushes.DimGray,x,15);
             foreach(var row in sets[j]!.AsArray())
             {
                 double h=row.D("spessore");if(h<=0)continue;float y=top+(float)z*scale,ph=(float)h*scale;using var fill=new SolidBrush(colors[layer++%colors.Length]);g.FillRectangle(fill,x,y,Math.Max(1,band-10),ph);g.DrawRectangle(border,x,y,Math.Max(1,band-10),ph);

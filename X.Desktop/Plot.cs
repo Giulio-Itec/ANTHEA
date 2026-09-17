@@ -5,7 +5,8 @@ using X.Core;
 
 namespace X.Desktop;
 
-public sealed record Serie(string Name,List<double[]> Points,Color Color,bool Dashed=false);
+public sealed record Serie(string Name,List<double[]> Points,Color Color,bool Dashed=false,bool Highlighted=false);
+public sealed record PlotMarker(double X,double Y,string Label,Color Color);
 public sealed partial class Plot:Control
 {
     public List<Serie> Series { get; set; }=[];
@@ -14,6 +15,9 @@ public sealed partial class Plot:Control
     public string YLabel { get; set; }="Profondità z [m]";
     public bool InvertY { get; set; }=true;
     public bool EqualScale { get; set; }
+    public double? XMinimum {get;set;}
+    public List<PlotMarker> Markers{get;set;}=[];
+    public string Note{get;set;}="";
     private float zoom=1;private PointF offset;private Point? drag;
     public Plot(){DoubleBuffered=true;BackColor=Color.White;Dock=DockStyle.Fill;ResizeRedraw=true;MouseWheel+=(_,e)=>{zoom=Math.Clamp(zoom*(e.Delta>0?1.2f:1/1.2f),1,20);Invalidate();};MouseDown+=(_,e)=>{if(e.Button==MouseButtons.Left){drag=e.Location;Capture=true;}};MouseMove+=(_,e)=>{if(drag is Point p){offset.X+=e.X-p.X;offset.Y+=e.Y-p.Y;drag=e.Location;Invalidate();}};MouseUp+=(_,_)=>{drag=null;Capture=false;};DoubleClick+=(_,_)=>ResetView();}
     public void ResetView(){zoom=1;offset=PointF.Empty;Invalidate();}
@@ -23,9 +27,11 @@ public sealed partial class Plot:Control
         if(CapacityStyle){RenderCapacity(g,bounds);return;}
         g.Clear(Color.White);g.SmoothingMode=SmoothingMode.AntiAlias;using var titleFont=new Font("Segoe UI",12,FontStyle.Bold);using var font=new Font("Segoe UI",8);using var ink=new SolidBrush(Ui.Navy);g.DrawString(Title,titleFont,ink,18,12);
         if(bounds.Width<200||bounds.Height<180)return;int legendColumns=bounds.Width>750?3:2;int legendHeight=(int)Math.Ceiling(Series.Count/(double)legendColumns)*18;var area=new RectangleF(70,65,bounds.Width-115,Math.Max(60,bounds.Height-125-legendHeight));
-        var points=Series.SelectMany(s=>s.Points).Where(p=>p.Length>=2&&double.IsFinite(p[0])&&double.IsFinite(p[1])).ToArray();if(points.Length==0){g.DrawString("Nessun risultato da visualizzare",font,Brushes.Gray,70,80);return;}
+        if(Note!=""){area.Y+=30;area.Height=Math.Max(40,area.Height-30);using var noteFont=new Font("Segoe UI",13,FontStyle.Regular,GraphicsUnit.Pixel);g.DrawString(Note,noteFont,ink,new RectangleF(18,39,bounds.Width-30,34));}
+        var points=Series.SelectMany(s=>s.Points).Concat(Markers.Select(m=>new[]{m.X,m.Y})).Where(p=>p.Length>=2&&double.IsFinite(p[0])&&double.IsFinite(p[1])).ToArray();if(points.Length==0){g.DrawString("Nessun risultato da visualizzare",font,Brushes.Gray,70,80);return;}
         double xmin=Math.Min(0,points.Min(p=>p[0])),xmax=points.Max(p=>p[0]),ymin=Math.Min(0,points.Min(p=>p[1])),ymax=points.Max(p=>p[1]);
-        if(xmax<=xmin)xmax=xmin+1;if(ymax<=ymin)ymax=ymin+1;double dx=xmax-xmin,dy=ymax-ymin;xmin-=dx*.04;xmax+=dx*.04;if(!InvertY){ymin-=dy*.05;ymax+=dy*.05;}
+        if(XMinimum is double minimum)xmin=minimum;
+        if(xmax<=xmin)xmax=xmin+1;if(ymax<=ymin)ymax=ymin+1;double dx=xmax-xmin,dy=ymax-ymin;if(XMinimum is null)xmin-=dx*.04;xmax+=dx*.04;if(!InvertY){ymin-=dy*.05;ymax+=dy*.05;}
         if(EqualScale){double ratio=area.Width/area.Height;if((xmax-xmin)/(ymax-ymin)>ratio){double mid=(ymin+ymax)/2,span=(xmax-xmin)/ratio;ymin=mid-span/2;ymax=mid+span/2;}else{double mid=(xmin+xmax)/2,span=(ymax-ymin)*ratio;xmin=mid-span/2;xmax=mid+span/2;}}
         PointF P(double x,double y)=>new(area.Left+(float)((x-xmin)/(xmax-xmin))*area.Width*zoom+offset.X,area.Top+(float)(InvertY?(y-ymin)/(ymax-ymin):1-(y-ymin)/(ymax-ymin))*area.Height*zoom+offset.Y);
         using var grid=new Pen(Color.FromArgb(224,231,239));using var border=new Pen(Color.FromArgb(140,155,174));
@@ -38,10 +44,17 @@ public sealed partial class Plot:Control
         var state=g.Save();g.SetClip(area);
         foreach(var s in Series)
         {
-            var pp=s.Points.Where(p=>p.Length>=2&&double.IsFinite(p[0])&&double.IsFinite(p[1])).Select(p=>P(p[0],p[1])).ToArray();using var pen=new Pen(s.Color,s.Name.StartsWith("Ed")?1.7f:2.1f){DashStyle=s.Dashed?DashStyle.Dash:DashStyle.Solid};
+            var pp=s.Points.Where(p=>p.Length>=2&&double.IsFinite(p[0])&&double.IsFinite(p[1])).Select(p=>P(p[0],p[1])).ToArray();using var pen=new Pen(s.Color,s.Highlighted?3.5f:s.Name.StartsWith("Ed")?1.7f:2.1f){DashStyle=s.Dashed?DashStyle.Dash:DashStyle.Solid};
             if(pp.Length>1)g.DrawLines(pen,pp);else if(pp.Length==1)g.FillEllipse(new SolidBrush(s.Color),pp[0].X-4,pp[0].Y-4,8,8);
         }
-        g.Restore(state);g.DrawRectangle(border,area.X,area.Y,area.Width,area.Height);g.DrawString(XLabel,font,ink,area.Left,area.Bottom+30);g.DrawString(YLabel,font,ink,18,43);
+        foreach(var marker in Markers)
+        {
+            var p=P(marker.X,marker.Y);using var guide=new Pen(marker.Color,1){DashStyle=DashStyle.Dash};using var fill=new SolidBrush(marker.Color);
+            g.DrawLine(guide,area.Left,p.Y,p.X,p.Y);g.DrawLine(guide,p.X,p.Y,p.X,area.Bottom);g.FillEllipse(fill,p.X-5,p.Y-5,10,10);g.DrawEllipse(Pens.White,p.X-5,p.Y-5,10,10);
+            using var markerFont=new Font("Segoe UI",13,FontStyle.Bold,GraphicsUnit.Pixel);var size=g.MeasureString(marker.Label,markerFont);float labelX=Math.Clamp(p.X+9,area.Left,Math.Max(area.Left,area.Right-size.Width)),labelY=Math.Clamp(p.Y-25,area.Top,Math.Max(area.Top,area.Bottom-size.Height));
+            g.FillRectangle(Brushes.White,labelX,labelY,size.Width,size.Height);g.DrawString(marker.Label,markerFont,fill,labelX,labelY);
+        }
+        g.Restore(state);g.DrawRectangle(border,area.X,area.Y,area.Width,area.Height);g.DrawString(XLabel,font,ink,area.Left,area.Bottom+30);g.DrawString(YLabel,font,ink,18,Note==""?43:73);
         for(int i=0;i<Series.Count;i++){float x=18+(i%legendColumns)*(bounds.Width-36f)/legendColumns,y=area.Bottom+53+(i/legendColumns)*18;using var pen=new Pen(Series[i].Color,2){DashStyle=Series[i].Dashed?DashStyle.Dash:DashStyle.Solid};g.DrawLine(pen,x,y+6,x+20,y+6);g.DrawString(Series[i].Name,font,Brushes.DimGray,x+25,y);}
     }
     public byte[] Png(){using var bitmap=new Bitmap(1200,750);using(var g=Graphics.FromImage(bitmap))Render(g,new Rectangle(0,0,1200,750));using var stream=new MemoryStream();bitmap.Save(stream,ImageFormat.Png);return stream.ToArray();}

@@ -8,10 +8,17 @@ public sealed partial class Plot
     public bool CapacityStyle{get;set;}
     public double CapacityDepth{get;set;}
     public int SondageCount{get;set;}
+    public bool QuietCapacityEmpty{get;set;}
+    public string CapacityEmptyMessage{get;set;}="Premere Calcola";
     private void RenderCapacity(Graphics g,Rectangle bounds)
     {
         // Scala e margini di pannello_grafici.py. Solo coordinate di presentazione.
         g.Clear(Color.White);g.SmoothingMode=SmoothingMode.AntiAlias;if(bounds.Width<100||bounds.Height<100)return;
+        if(QuietCapacityEmpty&&Series.Count==0)
+        {
+            using var emptyFont=new Font("Segoe UI",8);using var format=new StringFormat{Alignment=StringAlignment.Center,LineAlignment=StringAlignment.Center};
+            g.DrawString(CapacityEmptyMessage,emptyFont,Brushes.DimGray,bounds,format);return;
+        }
         using var font=new Font("Segoe UI",7);using var strong=new Font("Segoe UI",7,FontStyle.Bold);using var ink=new SolidBrush(Color.FromArgb(17,24,39));
         var area=new RectangleF(47,28,Math.Max(30,bounds.Width-59),Math.Max(45,bounds.Height-84));
         var points=Series.SelectMany(s=>s.Points).Where(p=>p.Length>=2&&double.IsFinite(p[0])&&double.IsFinite(p[1])).ToArray();
@@ -49,12 +56,14 @@ public sealed partial class FoglioEditor
     private readonly Label endValues=new(){Text="Valori a L [kN]",AutoSize=true,Font=new Font("Segoe UI",7,FontStyle.Bold),Padding=new Padding(0,8,0,0)};
     private void ConfigureCapacityPresentation()
     {
-        plot.CapacityStyle=true;visible.Visible=false;
+        plot.CapacityStyle=true;plot.QuietCapacityEmpty=PileCapacity;visible.Visible=false;
+        if(PileCapacity){capacityView.Font=new Font("Segoe UI",15,FontStyle.Regular,GraphicsUnit.Pixel);curveChoices.Visible=false;endValues.Text="Valori a L non disponibili";}
         var page=outputs.TabPages[0];var wrapper=page.Controls[0];
         foreach(var bar in wrapper.Controls.OfType<FlowLayoutPanel>().ToArray()){wrapper.Controls.Remove(bar);bar.Dispose();}
         var graph=plot.Parent!;graph.Controls.Add(curveChoices);
         var actions=new FlowLayoutPanel{Dock=DockStyle.Bottom,Height=36,WrapContents=false,BackColor=Color.White};actions.Controls.Add(endValues);
         foreach(var (title,show) in new[]{("Tutte",true),("Nessuna",false)}){var button=Ui.Button(title,()=>SetVisible(show));button.Font=new Font("Segoe UI",7);button.Padding=Padding.Empty;button.Height=27;actions.Controls.Add(button);}graph.Controls.Add(actions);
+        if(PileCapacity){actions.Height=32;outputs.Font=new Font("Segoe UI",8);foreach(TabPage tab in outputs.TabPages)tab.Padding=new Padding(2);}
         var context=new ContextMenuStrip();context.Items.Add("Adatta",null,(_,_)=>plot.ResetView());context.Items.Add("Salva PNG…",null,(_,_)=>SavePlot());plot.ContextMenuStrip=context;
         capacityView.Items.AddRange(Micro?new[]{"Tutte - progetto","Compressione","Trazione"}:new[]{"Tutte - progetto","Drenante · Compressione","Drenante · Trazione","Non drenante · Compressione","Non drenante · Trazione"});capacityView.SelectedIndex=0;
         capacityView.SelectedIndexChanged+=(_,_)=>{UpdateVisible();RebuildCurveChoices();};
@@ -72,6 +81,7 @@ public sealed partial class FoglioEditor
     }
     private void RebuildCurveChoices()
     {
+        if(PileCapacity){curveChoices.Visible=allSeries.Count>0;curveChoices.Height=Math.Min(100,24*allSeries.Count);}
         foreach(Control control in curveChoices.Controls.Cast<Control>().ToArray())control.Dispose();curveChoices.Controls.Clear();
         endValues.Text=Result?.B("copertura_completa")==true?$"Valori a L={Data["generali"].S("lunghezza")} m [kN]":"Valori a L non disponibili";
         for(int i=0;i<allSeries.Count;i++)

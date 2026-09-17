@@ -12,6 +12,16 @@ public static class Calcolo
     {
         ["Profilato d'acciaio"]=(.7,1,"tan20"),["Tubo d'acciaio chiuso"]=(1,2,"tan20"),["Calcestruzzo prefabbricato"]=(1,2,"tan3phi4"),["Calcestruzzo gettato in opera"]=(1,3,"tanphi"),["Trivellato"]=(.5,.4,"tanphi"),["Elica continua"]=(.7,.9,"tanphi")
     };
+    public static (double? K,double? Mu) CoefficientiLaterali(JsonNode g,JsonNode v)
+    {
+        string tipo=g.S("tipo_palo","Trivellato");if(tipo=="Battuto")tipo=g.S("sottotipo_palo_battuto","Profilato d'acciaio");
+        if(!Parametri.TryGetValue(tipo,out var p))return(null,null);
+        double? k=v.S("addensamento")=="Sciolto"?p.Sciolto:v.S("addensamento")=="Denso"?p.Denso:null;
+        double? phi=J.Number(v["angolo_attrito"]);
+        double? mu=p.Mu=="tan20"?Math.Tan(20*Math.PI/180):phi is null?null:Math.Tan((p.Mu=="tan3phi4"?3*phi.Value/4:phi.Value)*Math.PI/180);
+        return(k,mu);
+    }
+    public static double CoefficienteAlfa(JsonNode g,double cu)=>g.S("tipo_palo","Trivellato")=="Battuto"?(cu<=25?1:cu<70?1-.0111*(cu-25):.5):(cu<=25?.7:cu<70?.7-.008*(cu-25):.35);
     public static void ValidaForma(JsonNode? dati)
     {
         if(dati is not JsonObject)throw new ArgumentException("I dati del foglio devono essere un oggetto.");
@@ -123,17 +133,11 @@ public static class Calcolo
         }
         private (double? K,double? Mu) KMu(JsonNode v)
         {
-            string tipo=g.S("tipo_palo","Trivellato");if(tipo=="Battuto")tipo=g.S("sottotipo_palo_battuto","Profilato d'acciaio");
-            if(!Parametri.TryGetValue(tipo,out var p))return(null,null);
-            double? k=v.S("addensamento")=="Sciolto"?p.Sciolto:v.S("addensamento")=="Denso"?p.Denso:null;
-            double? phi=J.Number(v["angolo_attrito"]);
-            double? mu=p.Mu=="tan20"?Math.Tan(20*Math.PI/180):phi is null?null:Math.Tan((p.Mu=="tan3phi4"?3*phi.Value/4:phi.Value)*Math.PI/180);
-            return(k,mu);
+            return CoefficientiLaterali(g,v);
         }
         private double Alfa(double cu)
         {
-            if(g.S("tipo_palo","Trivellato")=="Battuto")return cu<=25?1:cu<70?1-.0111*(cu-25):.5;
-            return cu<=25?.7:cu<70?.7-.008*(cu-25):.35;
+            return CoefficienteAlfa(g,cu);
         }
         private JsonObject Resistenze(List<Strato> strata,double z,double area,double perimeter)
         {

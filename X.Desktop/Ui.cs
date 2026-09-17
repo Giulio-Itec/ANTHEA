@@ -34,12 +34,15 @@ public sealed class InputForm:UserControl
 {
     private readonly ToolTip fieldTips=new();
     private readonly bool sectionStyle;
+    private readonly bool capacityStyle;
     private bool displayOnly;
     private readonly Dictionary<string,int> headingRows=new();
     public int ContentHeight=>Controls.OfType<TableLayoutPanel>().First().PreferredSize.Height;
     public readonly Dictionary<string,Control> Editors=new();private readonly Dictionary<string,Control> labels=new();
-    public InputForm(JsonObject values,IEnumerable<Field> fields,Action<string> changed)
+    public int MinimumContentWidth{get;private set;}
+    public InputForm(JsonObject values,IEnumerable<Field> fields,Action<string> changed,bool capacityStyle=false)
     {
+        this.capacityStyle=capacityStyle;
         AutoScaleMode=AutoScaleMode.None;Dock=DockStyle.Fill;AutoScroll=true;BackColor=Color.White;var definitions=fields.ToArray();sectionStyle=definitions.Any(f=>f.Key is "shape" or "classe_cls" or "longitudinal_bar_count");
         var table=new TableLayoutPanel{Dock=DockStyle.Top,AutoSize=true,ColumnCount=4,Padding=new Padding(sectionStyle?0:4)};
         table.ColumnStyles.Add(new(SizeType.Percent,100));table.ColumnStyles.Add(new(SizeType.Absolute,sectionStyle?42:56));table.ColumnStyles.Add(new(SizeType.Absolute,sectionStyle?90:110));table.ColumnStyles.Add(new(SizeType.Absolute,sectionStyle?44:66));int row=0;
@@ -56,8 +59,9 @@ public sealed class InputForm:UserControl
                 "diametro"=>(field.Label.Contains("perforazione")?"Diametro di perforazione":"Diametro palo",field.Label.Contains("perforazione")?"Db":"D"),"lunghezza"=>("Lunghezza palo","L"),"peso_specifico_palo"=>("Peso specifico","γ"),"profondita_falda"=>("Profondità falda","zf"),"azione_compressione"=>("Azione assiale di progetto - Compressione","NEd,c"),"azione_trazione"=>("Azione assiale di progetto - Trazione","NEd,t"),
                 "__xi3"=>("Coefficiente di correlazione","ξ3"),"__xi4"=>("Coefficiente di correlazione","ξ4"),"sicurezza_laterale_compressione"=>("Sicurezza laterale - Compressione","γs"),"sicurezza_laterale_trazione"=>("Sicurezza laterale - Trazione","γt"),"sicurezza_base"=>("Sicurezza di base","γb"),"peso_palo_sfavorevole"=>("Peso proprio palo - Sfavorevole","γG,sfav"),"peso_palo_favorevole"=>("Peso proprio palo - Favorevole","γG,fav"),_ =>(field.Label,"")
             };
-            table.RowStyles.Add(new(SizeType.Absolute,sectionStyle?26:34));var label=new Label{Text=caption,Dock=DockStyle.Fill,TextAlign=ContentAlignment.MiddleLeft,AutoEllipsis=false,Font=new Font("Segoe UI",8),Margin=Padding.Empty};fieldTips.SetToolTip(label,field.Label+(field.Unit!=""?" ["+field.Unit+"]":""));labels[field.Key]=label;table.Controls.Add(label,0,row);Control editor;
+            table.RowStyles.Add(new(SizeType.Absolute,capacityStyle?36:sectionStyle?26:34));var label=new Label{Text=caption,Dock=DockStyle.Fill,TextAlign=ContentAlignment.MiddleLeft,AutoEllipsis=false,Font=new Font("Segoe UI",8),Margin=Padding.Empty};fieldTips.SetToolTip(label,field.Label+(field.Unit!=""?" ["+field.Unit+"]":""));labels[field.Key]=label;table.Controls.Add(label,0,row);Control editor;
             var symbolLabel=new Label{Text=symbol,Dock=DockStyle.Fill,TextAlign=ContentAlignment.MiddleCenter,ForeColor=Ui.Muted,Font=new Font("Segoe UI",8),Margin=Padding.Empty};table.Controls.Add(symbolLabel,1,row);
+            if(capacityStyle){symbolLabel.ForeColor=Ui.Navy;symbolLabel.Font=new Font("Segoe UI",9,FontStyle.Bold);}
             if(field.Bool)
             {
                 var check=new CheckBox{Checked=values.B(field.Key),Dock=DockStyle.Fill};check.CheckedChanged+=(_,_)=>{values[field.Key]=check.Checked;changed(field.Key);};editor=check;
@@ -68,9 +72,9 @@ public sealed class InputForm:UserControl
             }
             else
             {
-                var text=new NumericField(values.S(field.Key),field.ReadOnly){Dock=DockStyle.Fill};if(sectionStyle)text.SectionStyle();if(!field.ReadOnly)text.TextChanged+=(_,_)=>{if(displayOnly)return;values[field.Key]=text.Text;changed(field.Key);};editor=text;
+                var text=new NumericField(values.S(field.Key),field.ReadOnly){Dock=DockStyle.Fill};if(sectionStyle)text.SectionStyle();if(capacityStyle)text.Rounded=false;if(!field.ReadOnly)text.TextChanged+=(_,_)=>{if(displayOnly)return;values[field.Key]=text.Text;changed(field.Key);};editor=text;
             }
-            editor.Font=new Font("Segoe UI",sectionStyle?8:9);editor.Margin=new Padding(4,2,4,2);Editors[field.Key]=editor;table.Controls.Add(editor,2,row);
+            editor.Font=capacityStyle?new Font("Segoe UI",15,FontStyle.Regular,GraphicsUnit.Pixel):new Font("Segoe UI",sectionStyle?8:9);editor.Margin=new Padding(4,2,4,2);Editors[field.Key]=editor;table.Controls.Add(editor,2,row);
             if(field.Bool||field.Key=="metodo")
             {table.Controls.Remove(label);table.Controls.Remove(symbolLabel);label.Dispose();symbolLabel.Dispose();labels[field.Key]=editor;if(field.Bool)((CheckBox)editor).Text=caption;table.SetColumn(editor,0);table.SetColumnSpan(editor,4);}
             else if(field.Choices is not null&&field.Unit==""&&!sectionStyle){table.Controls.Remove(symbolLabel);symbolLabel.Dispose();table.SetColumn(editor,1);table.SetColumnSpan(editor,3);}
@@ -79,7 +83,37 @@ public sealed class InputForm:UserControl
         }
         if(definitions.Any(f=>f.Key=="metodo")){table.ColumnStyles[1].Width=0;table.ColumnStyles[2].Width=64;table.ColumnStyles[3].Width=26;}
         if(definitions.Any(f=>f.Key=="verticali_indagate")){table.ColumnStyles[1].Width=65;table.ColumnStyles[2].Width=74;table.ColumnStyles[3].Width=0;}
+        if(capacityStyle)
+        {
+            table.Padding=Padding.Empty;
+            if(definitions.Any(f=>f.Key=="diametro"))
+            {
+                table.ColumnStyles.Clear();
+                table.ColumnStyles.Add(new(SizeType.Percent,46));table.ColumnStyles.Add(new(SizeType.Absolute,62));
+                table.ColumnStyles.Add(new(SizeType.Percent,28));table.ColumnStyles.Add(new(SizeType.Percent,26));
+                foreach(var key in new[]{"tipo_palo","sottotipo_palo_battuto"})if(Editors.TryGetValue(key,out var choice)){table.SetColumn(choice,1);table.SetColumnSpan(choice,3);}
+            }
+            if(definitions.Any(f=>f.Key=="verticali_indagate")){table.ColumnStyles[1].Width=62;table.ColumnStyles[2].Width=70;}
+            if(Editors.TryGetValue("metodo",out var method))
+            {
+                table.RowStyles.Insert(0,new(SizeType.Absolute,18));
+                foreach(Control control in table.Controls)table.SetRow(control,table.GetRow(control)+1);
+                var methodLabel=new Label{Text="Metodo",Dock=DockStyle.Fill,Font=new Font("Segoe UI",8),Margin=Padding.Empty};table.Controls.Add(methodLabel,0,0);table.SetColumnSpan(methodLabel,4);
+            }
+        }
         Controls.Add(table);
+        if(capacityStyle)
+        {
+            void Uniform(Control parent){foreach(Control child in parent.Controls){child.Font=new Font("Segoe UI",15,child.Font.Style,GraphicsUnit.Pixel);Uniform(child);}}
+            Uniform(this);
+            if(definitions.Any(f=>f.Key is "diametro" or "verticali_indagate"))
+            {
+                int labelWidth=table.Controls.OfType<Label>().Where(c=>table.GetColumn(c)==0).Select(c=>TextRenderer.MeasureText(c.Text,c.Font,Size.Empty,TextFormatFlags.SingleLine).Width+12).DefaultIfEmpty(200).Max();
+                bool general=definitions.Any(f=>f.Key=="diametro");
+                table.ColumnStyles.Clear();table.ColumnStyles.Add(new(SizeType.Absolute,labelWidth));table.ColumnStyles.Add(new(SizeType.Absolute,68));table.ColumnStyles.Add(new(SizeType.Absolute,general?110:76));table.ColumnStyles.Add(new(SizeType.Absolute,general?66:0));
+                MinimumContentWidth=labelWidth+68+(general?176:76);table.MinimumSize=new Size(MinimumContentWidth,0);
+            }
+        }
     }
     public void Set(string key,string value){if(Editors.TryGetValue(key,out var e))e.Text=value;}
     public void SetDisplay(string key,string value){displayOnly=true;try{Set(key,value);}finally{displayOnly=false;}}
@@ -89,7 +123,7 @@ public sealed class InputForm:UserControl
     public void ShowField(string key,bool shown)
     {
         if(!Editors.TryGetValue(key,out var editor)||editor.Parent is not TableLayoutPanel table)return;
-        int row=table.GetRow(editor);table.RowStyles[row].Height=shown?(sectionStyle?26:34):0;
+        int row=table.GetRow(editor);table.RowStyles[row].Height=shown?(capacityStyle?36:sectionStyle?26:34):0;
         foreach(Control c in table.Controls)if(table.GetRow(c)==row)c.Visible=shown;
         if(headingRows.TryGetValue(key,out int headingRow)){table.RowStyles[headingRow].Height=shown?26:0;foreach(Control c in table.Controls)if(table.GetRow(c)==headingRow)c.Visible=shown;}
     }

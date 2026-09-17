@@ -33,14 +33,14 @@ public sealed partial class FoglioEditor:UserControl
         if(module=="str_palo")BuildSection();else BuildGeo();
         Ui.Tab(outputs,"Tabelle e dettagli",tablePanel);
         var raw=new TextBox{Multiline=true,ReadOnly=true,ScrollBars=ScrollBars.Both,WordWrap=false,Font=new Font("Consolas",9)};Ui.Tab(outputs,"Risultati JSON",raw);outputs.SelectedIndexChanged+=(_,_)=>{if(outputs.SelectedTab?.Text=="Risultati JSON")raw.Text=Result?.ToJsonString(J.Options)??"Premere Calcola.";};
-        RestoreOriginalLayout();building=false;Preview();
+        RestoreOriginalLayout();if(PileCapacity)FitPileFonts();building=false;Preview();if(PileCapacity)InitializePileAutomatic();else Disposed+=(_,_)=>pileTimer.Dispose();
     }
     public void Commit(){Validate();foreach(var grid in GetAll(this).OfType<DataGridView>())grid.EndEdit();}
     private static IEnumerable<Control> GetAll(Control c){foreach(Control child in c.Controls){yield return child;foreach(var descendant in GetAll(child))yield return descendant;}}
     private void Changed()
     {
         if(!building){allSeries.Clear();seriesKeys.Clear();visible.Items.Clear();foreach(var control in curveChoices.Controls.Cast<Control>().ToArray())control.Dispose();curveChoices.Controls.Clear();}
-        if(building)return;Result=null;UpdateVerification();tables=[];resultsGrid.Rows.Clear();tableSelect.Items.Clear();warnings.Text="";status.Text="Dati modificati · premere Calcola";plot.Series=[];plot.Title="Risultati da ricalcolare";plot.Invalidate();domain.Series=[];domain.Invalidate();domainCache.Clear();resultSelect.Items.Clear();sectionDrawing.Plane=null;Preview();Modified?.Invoke();
+        if(building)return;Result=null;UpdateVerification();tables=[];resultsGrid.Rows.Clear();tableSelect.Items.Clear();warnings.Text="";status.Text="Dati modificati · premere Calcola";plot.Series=[];plot.Title="Risultati da ricalcolare";plot.Invalidate();domain.Series=[];domain.Invalidate();domainCache.Clear();resultSelect.Items.Clear();sectionDrawing.Plane=null;Preview();QueuePileCalculation();Modified?.Invoke();
     }
     private bool Micro=>Module=="geo_micropalo_verticale";
     private void BuildGeo()
@@ -57,10 +57,10 @@ public sealed partial class FoglioEditor:UserControl
         else fields.AddRange([new("presenza_falda","Presenza falda",Bool:true),new("profondita_falda","Profondità falda","m"),new("considera_sottospinta","Considera sottospinta",Bool:true),new("metodo_nq","Metodo Nq",Choices:["Parametrizzata"])]);
         string[] fieldOrder=Micro?["tipo_iniezione","diametro","lunghezza","inizio_aderenza","considera_punta","percentuale_punta","pressione_iniezione","profilo_chs","peso_specifico_palo","azione_compressione","azione_trazione","inclinazione","metodo_micropalo"]:["tipo_palo","sottotipo_palo_battuto","diametro","lunghezza","peso_specifico_palo","presenza_falda","profondita_falda","considera_sottospinta","azione_compressione","azione_trazione","metodo_nq"];
         fields=fields.OrderBy(f=>Array.IndexOf(fieldOrder,f.Key)).ToList();
-        generalForm=new(g,fields,key=>{if(Micro&&key=="tipo_iniezione")ResetAlphas();Changed();});generalForm.ShowField(Micro?"metodo_micropalo":"metodo_nq",false);Ui.Tab(inputs,"Dati generali",generalForm);
+        generalForm=new(g,fields,key=>{if(Micro&&key=="tipo_iniezione")ResetAlphas();Changed();},capacityStyle:!Micro);generalForm.ShowField(Micro?"metodo_micropalo":"metodo_nq",false);Ui.Tab(inputs,"Dati generali",generalForm);
         var normativeFields=new[]{new Field("verticali_indagate","Verticali indagate",Choices:Calcolo.Verticali.Keys.ToArray()),new("__xi3","Correlazione ξ3",ReadOnly:true),new("__xi4","Correlazione ξ4",ReadOnly:true),new("sicurezza_laterale_compressione","γs,c · laterale compressione"),new("sicurezza_laterale_trazione","γs,t · laterale trazione"),new("sicurezza_base","γb · base"),new("peso_palo_sfavorevole","γG · peso sfavorevole"),new("peso_palo_favorevole","γG · peso favorevole")};
-        var nf=new InputForm(g,normativeFields,_=>Changed());normativeForm=nf;Ui.Tab(inputs,"Coefficienti",Ui.WithToolbar(nf,Ui.Button("Reset",()=>{foreach(var f in normativeFields.Where(f=>!f.ReadOnly))nf.Set(f.Key,defaults["generali"].S(f.Key));})));
-        var efficiency=new InputForm(Data["efficienza"]!.AsObject(),[new("metodo","Metodo efficienza",Choices:["Nessuna riduzione","Converse-Labarre","Feld","Definita dall'utente"]),new("numero_pali_x","Numero pali X"),new("numero_pali_y","Numero pali Y"),new("interasse_x","Interasse X","m"),new("interasse_y","Interasse Y","m"),new("eta_compressione","ηg,c manuale"),new("eta_trazione","ηg,t manuale")],_=>Changed());efficiency.Name="efficiency";
+        var nf=new InputForm(g,normativeFields,_=>Changed(),capacityStyle:!Micro);normativeForm=nf;Ui.Tab(inputs,"Coefficienti",Ui.WithToolbar(nf,Ui.Button("Reset",()=>{foreach(var f in normativeFields.Where(f=>!f.ReadOnly))nf.Set(f.Key,defaults["generali"].S(f.Key));})));
+        var efficiency=new InputForm(Data["efficienza"]!.AsObject(),[new("metodo","Metodo efficienza",Choices:["Nessuna riduzione","Converse-Labarre","Feld","Definita dall'utente"]),new("numero_pali_x","Numero pali X"),new("numero_pali_y","Numero pali Y"),new("interasse_x","Interasse X","m"),new("interasse_y","Interasse Y","m"),new("eta_compressione","ηg,c manuale"),new("eta_trazione","ηg,t manuale")],_=>Changed(),capacityStyle:!Micro);efficiency.Name="efficiency";
         var ep=new Panel();ep.Controls.Add(efficiency);ep.Controls.Add(effLabel);Ui.Tab(inputs,"Efficienza",ep);
         sondages=new TabControl{Dock=DockStyle.Fill};if(Data["stratigrafie"] is not JsonArray)Data["stratigrafie"]=new JsonArray();RebuildSondages();
         Ui.Tab(inputs,"Stratigrafie",Ui.WithToolbar(sondages,Ui.Button("+ Sondaggio",()=>{Data.Array("stratigrafie").Add(new JsonArray());RebuildSondages();sondages.SelectedIndex=sondages.TabCount-1;Changed();}),Ui.Button("− Sondaggio",()=>{if(sondages.SelectedIndex<0)return;if(MessageBox.Show(this,"Eliminare il sondaggio selezionato dal foglio?","Sondaggio",MessageBoxButtons.YesNo)==DialogResult.Yes){Data.Array("stratigrafie").RemoveAt(sondages.SelectedIndex);RebuildSondages();Changed();}})));
@@ -90,18 +90,20 @@ public sealed partial class FoglioEditor:UserControl
             string[] columnOrder=Micro?["laterale_attiva","terreno","spessore","alpha"]:["laterale_attiva","tipologia","addensamento","spessore","peso_specifico","peso_specifico_saturo","angolo_attrito","coesione_efficace","coesione_non_drenata","nc"];
             for(int ci=0;ci<columnOrder.Length;ci++)grid.Columns[columnOrder[ci]].DisplayIndex=ci;
             foreach(DataGridViewColumn col in grid.Columns){col.AutoSizeMode=DataGridViewAutoSizeColumnMode.None;col.Width=Micro&&col.Name=="terreno"?260:110;}
+            if(!Micro)StylePileLayers(grid);
             grid.CurrentCellDirtyStateChanged+=(_,_)=>{if(grid.IsCurrentCellDirty)grid.CommitEdit(DataGridViewDataErrorContexts.Commit);};
             grid.CellValueChanged+=(_,e)=>
             {
-                if(e.RowIndex<0||e.RowIndex>=rows.Count||e.ColumnIndex<0)return;string key=grid.Columns[e.ColumnIndex].Name;var value=grid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;rows[e.RowIndex]![key]=key=="laterale_attiva"?JsonValue.Create(value is true):JsonValue.Create(value?.ToString()??"");
+                if(e.RowIndex<0||e.RowIndex>=rows.Count||e.ColumnIndex<0)return;string key=grid.Columns[e.ColumnIndex].Name;if(key.StartsWith("__"))return;var value=grid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;rows[e.RowIndex]![key]=key=="laterale_attiva"?JsonValue.Create(value is true):JsonValue.Create(value?.ToString()??"");
                 if(Micro&&key=="terreno"&&BustamanteDoix.Terreni.ContainsKey(value?.ToString()??"")&&Data["generali"].S("tipo_iniezione") is "IGU" or "IRS")grid.Rows[e.RowIndex].Cells["alpha"].Value=BustamanteDoix.IntervalloAlpha(value!.ToString()!,Data["generali"].S("tipo_iniezione"))[0].ToString(System.Globalization.CultureInfo.InvariantCulture);
                 Changed();
             };
             var panel=Ui.WithToolbar(grid,Ui.Button("+ Strato",()=>
             {
                 var row=Micro?J.Obj(("spessore",""),("terreno",""),("alpha",""),("laterale_attiva",true)):J.Obj(("spessore",""),("tipologia","Granulare"),("addensamento","Sciolto"),("peso_specifico",""),("peso_specifico_saturo",""),("angolo_attrito",""),("coesione_efficace",""),("coesione_non_drenata",""),("nc","9"),("laterale_attiva",true));rows.Add(row);grid.Rows.Add(fields.Select(f=>f.Bool?(object)true:row.S(f.Key)).ToArray());Changed();
-            }),Ui.Button("− Strato",()=>{if(grid.CurrentRow is null)return;int i=grid.CurrentRow.Index;rows.RemoveAt(i);grid.Rows.RemoveAt(i);Changed();}));
-            Ui.Tab(sondages,$"Sondaggio {++index}",panel);
+            }),Ui.Button(Micro?"− Strato":"Elimina ultimo strato",()=>{if(grid.Rows.Count==0)return;int i=Micro?grid.CurrentRow?.Index??-1:grid.Rows.Count-1;if(i<0)return;rows.RemoveAt(i);grid.Rows.RemoveAt(i);Changed();}));
+            if(!Micro)ArrangePileLayerActions(panel,grid);
+            Ui.Tab(sondages,Micro?$"Sondaggio {++index}":$"{++index}",panel);
         }
         if(selected>=0&&selected<sondages.TabCount)sondages.SelectedIndex=selected;
     }
@@ -142,6 +144,7 @@ public sealed partial class FoglioEditor:UserControl
     {
         if(Module!="str_palo")
         {
+            if(PileCapacity){curveChoices.Visible=allSeries.Count>0;plot.CapacityEmptyMessage=Data["generali"].D("lunghezza")>0?"Completare i dati · calcolo automatico":"Lunghezza: inserire un numero valido";}
             var r=Calcolo.Efficienza(Data);effLabel.Text=r.S("errore")!=""?r.S("errore"):$"ηg,c = {r.D("eta_compressione"):F3}     ηg,t = {r.D("eta_trazione"):F3}";
             if(Calcolo.Verticali.TryGetValue(Data["generali"].S("verticali_indagate"),out var xi)){normativeForm?.Set("__xi3",xi.Xi3.ToString("F2"));normativeForm?.Set("__xi4",xi.Xi4.ToString("F2"));}
             if(generalForm is not null&&!Micro){generalForm.Enable("sottotipo_palo_battuto",Data["generali"].S("tipo_palo")=="Battuto");generalForm.Enable("profondita_falda",Data["generali"].B("presenza_falda"));generalForm.Enable("considera_sottospinta",Data["generali"].B("presenza_falda"));}
@@ -172,18 +175,19 @@ public sealed partial class FoglioEditor:UserControl
     }
     public async Task CalculateAsync()
     {
-        if(Busy)return;Commit();Busy=true;calculate.Enabled=false;originalCanvas.Enabled=false;status.Text="Calcolo in corso…";var snapshot=(JsonObject)Data.DeepClone();
+        if(Busy)return;if(!PileCapacity)Commit();else pileTimer.Stop();Busy=true;calculate.Enabled=false;if(!PileCapacity)originalCanvas.Enabled=false;status.Text="Calcolo in corso…";var snapshot=(JsonObject)Data.DeepClone();int revision=pileRevision;
         try
         {
-            Result=await Task.Run(()=>Module=="str_palo"?CalcoloSezione.Calcola(snapshot):Calcolo.Calcola(snapshot,Micro));
-            if(IsDisposed)return;
-            if(Result.S("errore")!=""){status.Text=Result.S("errore");warnings.Text=Result.S("errore");return;}
+            var result=await Task.Run(()=>Module=="str_palo"?CalcoloSezione.Calcola(snapshot):Calcolo.Calcola(snapshot,Micro));
+            if(IsDisposed||PileCapacity&&revision!=pileRevision)return;
+            Result=result;
+            if(Result.S("errore")!=""){status.Text=(PileCapacity?"Dati da completare: ":"")+Result.S("errore");if(PileCapacity){Result=null;warnings.Text="";}else warnings.Text=Result.S("errore");return;}
             warnings.Text=string.Join(Environment.NewLine,Result.Array("avvisi").Select(v=>v!.ToString()));
             if(Module=="str_palo")ShowSectionResults();else ShowGeoResults();
             status.Text="Calcolo completato · risultati riferiti ai dati correnti";
         }
         catch(Exception ex){status.Text="Errore: "+ex.Message;warnings.Text=ex.Message;Result=null;}
-        finally{Busy=false;if(!IsDisposed){calculate.Enabled=true;originalCanvas.Enabled=true;}}
+        finally{Busy=false;if(!IsDisposed){calculate.Enabled=true;originalCanvas.Enabled=true;UpdatePileRawResult();if(PileCapacity&&revision!=pileRevision)pileTimer.Start();}}
     }
     private void ShowGeoResults()
     {
@@ -205,7 +209,7 @@ public sealed partial class FoglioEditor:UserControl
     private void UpdateVisible()
     {
         foreach(var check in curveChoices.Controls.OfType<CheckBox>())if(check.Tag is int index&&index<visible.Items.Count&&check.Checked!=visible.GetItemChecked(index))check.Checked=visible.GetItemChecked(index);
-        if(IsDisposed)return;plot.Series=allSeries.Where((_,i)=>i<visible.Items.Count&&visible.GetItemChecked(i)&&CapacityIncludes(seriesKeys[i])).ToList();plot.Invalidate();
+        if(IsDisposed)return;plot.Series=allSeries.Where((_,i)=>i<visible.Items.Count&&visible.GetItemChecked(i)&&CapacityIncludes(seriesKeys[i])).ToList();if(PileCapacity&&Result is not null)plot.CapacityEmptyMessage="Nessuna curva selezionata";plot.Invalidate();
         if(Result is null)return;if(Data["visibilita_grafici"] is not JsonObject)Data["visibilita_grafici"]=new JsonObject();bool changed=false;
         for(int i=0;i<allSeries.Count&&i<visible.Items.Count;i++){string key=seriesKeys[i];bool value=visible.GetItemChecked(i);if(Data["visibilita_grafici"]![key]?.ToString()!=value.ToString().ToLowerInvariant())changed=true;Data["visibilita_grafici"]![key]=value;}
         if(changed)Modified?.Invoke();
@@ -248,7 +252,7 @@ public sealed partial class FoglioEditor:UserControl
     }
     private void BuildProfile()
     {
-        stratigraphy.Invalidate();
+        UpdatePileProfile();stratigraphy.Invalidate();
         var profile=GetAll(outputs).OfType<Plot>().FirstOrDefault(p=>p.Name=="profile");if(profile is null)return;var series=new List<Serie>();Color[] colors=[Ui.Blue,Color.SeaGreen,Color.DarkOrange,Color.Purple];int i=0;
         foreach(var rows in Data.Array("stratigrafie"))
         {
@@ -264,8 +268,10 @@ public sealed partial class FoglioEditor:UserControl
         else
         {
             bool big=Data["generali"].D("diametro",1)>.8;var ratios=big?Nq.RapportiGrande:Nq.RapportiMedio;
-            foreach(double ratio in ratios){double low=big?26:ratio==5?23.4:ratio==50?24.8:23.6,high=big?42:ratio==5?38.8:ratio==10?40:ratio==20?41:41.6;series.Add(new("z/D="+ratio,Enumerable.Range(0,161).Select(k=>{double phi=low+(high-low)*k/160;return new[]{phi,Nq.Dettaglio(phi,ratio,big).D("nq")};}).ToList(),colors[i++]));}
+            target.XMinimum=25;
+            foreach(double ratio in ratios){double low=big?26:25,high=big?42:ratio==5?38.8:ratio==10?40:ratio==20?41:41.6;series.Add(new("z/D="+ratio,Enumerable.Range(0,161).Select(k=>{double phi=low+(high-low)*k/160;return new[]{phi,Nq.Dettaglio(phi,ratio,big).D("nq")};}).ToList(),colors[i++]));}
         }
+        if(PileCapacity)AddActualPileNq(target,series,Data["generali"].D("diametro",1)>.8);
         target.Series=series;target.Invalidate();
     }
     private void SavePlot(){using var save=new SaveFileDialog{Filter="Immagine PNG|*.png",FileName="capacita.png"};if(save.ShowDialog(this)==DialogResult.OK)Archivio.ScriviAtomico(save.FileName,plot.Png());}

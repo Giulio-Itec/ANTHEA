@@ -104,8 +104,9 @@ public sealed partial class MainForm:Form
     public async Task Smoke(string directory,JsonArray cases)
     {
         Directory.CreateDirectory(directory);var log=new List<string>();
-        void Capture(string name){PerformLayout();Update();using var picture=new Bitmap(Width,Height);DrawToBitmap(picture,new Rectangle(0,0,Width,Height));picture.Save(Path.Combine(directory,name+".png"));}
+        void Capture(string name){PerformLayout();Update();Application.DoEvents();using var picture=new Bitmap(Width,Height);DrawToBitmap(picture,new Rectangle(0,0,Width,Height));picture.Save(Path.Combine(directory,name+".png"));}
         ShowHome();Capture("home");ShowModules();Capture("moduli");ShowProjects();Capture("progetti");
+        document=Archivio.Documento("geo_palo_verticale");ShowSheet(document);Capture("palo_vuoto");
         foreach(var (kind,name) in new[]{("palo","palo_storico_0"),("micropalo","micropalo_IRS_45_Feld"),("sezione","")})
         {
             string module=kind=="palo"?"geo_palo_verticale":kind=="micropalo"?"geo_micropalo_verticale":"str_palo";
@@ -117,6 +118,7 @@ public sealed partial class MainForm:Form
             if(kind!="sezione")editor.ExportReport(Path.Combine(directory,kind+".docx"),kind,ReportWord.Sezioni.Select(s=>s.Key).ToHashSet());
             log.Add(kind+": calcolo, rendering, archivio, export OK");
             editor.VerifyLayout(directory,kind);log.Add(kind+": schede simultanee, controlli conservati, espansione/ripristino OK");
+            if(kind=="palo"){await editor.VerifyPileAutomatic(directory);log.Add("palo: calcolo automatico, input incompleti, modifiche rapide, coefficienti, selezione/espansione profili e asse Nq OK");}
         }
         File.WriteAllLines(Path.Combine(directory,"smoke.txt"),log);dirty=false;
     }
