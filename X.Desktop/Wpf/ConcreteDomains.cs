@@ -9,6 +9,8 @@ namespace X.Desktop;
 
 internal sealed partial class ConcreteWorkspace
 {
+    private readonly Dictionary<string, (string Signature, CheckerDomain3D? Three, CheckerDomain2D? Two)> domainCache = new();
+    private readonly Dictionary<string, string> calculationErrors = new();
     private sealed class DomainPanel
     {
         internal bool ThreeD;
@@ -17,7 +19,9 @@ internal sealed partial class ConcreteWorkspace
         internal ComboBox Mode = null!;
         internal JsonGrid Grid = null!;
         internal DomainViewport3D? View3D;
-        internal readonly Plot Plot = new() { InvertY = false, Title = "Sezione del dominio", EmptyMessage = "Calcolare il dominio per visualizzare la sezione" };
+        internal Button ForceToggle = null!;
+        internal Slider? Transparency;
+        internal readonly Plot Plot = new() { InvertY = false, Title = "Sezione del dominio", EmptyMessage = "Dominio in attesa di aggiornamento automatico" };
         internal readonly TextBlock Detail = Ui.Text("Selezionare una combinazione", 12);
         internal string Key => Options.S("stato", "SLU");
         internal string Prefix => ThreeD ? "3D:" : "2D:";
@@ -26,24 +30,23 @@ internal sealed partial class ConcreteWorkspace
     {
         var panel = new DomainPanel { ThreeD = threeD, Options = settings[threeD ? "dominio3d" : "dominio2d"]!.AsObject() }; domainPanels.Add(panel);
         var fields = new List<Field> { new("stato", "Stato limite", Choices: ["SLU", "SLV"]) };
-        if (threeD) fields.AddRange([new("angoli", "Direzioni angolari"), new("campioni", "Campioni / profilo"), new("criterio", "Ricerca resistenza", Choices: ["Eccentricità costante", "N costante"])]);
+        if (threeD) fields.AddRange([new("criterio", "Ricerca resistenza", Choices: CheckerSection.Criteria), new("strategia", "Metodo", Choices: ["Iterativo", "Intersezione"]), new("interpolazione", "Interpolazione mesh", Choices: ["Quadratica", "Lineare"]), new("suddivisioni_n", "Suddivisioni N (mesh)")]);
         else fields.AddRange([new("tipo", "Sezione dominio", Choices: ["N–M", "Mx–My"]), new("theta", "Direzione θ", "°"), new("N", "N fissato", "kN")]);
+        fields.AddRange([new("angoli", "Direzioni angolari"), new("trazione_cls", "CLS resistente a trazione", Choices: ["No", "Sì"]), new("assi", "Assi delle azioni", Choices: ["Locali", "Principali", "Personalizzati"]), new("origine_x", "Origine x", "mm"), new("origine_y", "Origine y", "mm"), new("rotazione", "Rotazione assi", "°")]);
+        if (!threeD) fields.Add(new("proietta", "Proietta azioni sul piano", Choices: ["No", "Sì"]));
         fields.Add(new("filtro", "Filtro azioni", Choices: ["Tutte", "Entro il dominio", "Fuori dominio", "Da controllare"]));
         panel.Form = new(panel.Options, fields, key =>
         {
             if (initializing) return;
             if (key is "filtro" or "stato") { AttachDomainRows(panel); RefreshDomainPanel(panel); Modified?.Invoke(); }
-            else if (key is "angoli" or "campioni") Invalidate();
-            else
-            {
-                domainResults.Remove(panel.Prefix + "SLU"); domainResults.Remove(panel.Prefix + "SLV");
-                RefreshDomainPanel(panel); RefreshSummary(); RebuildExport(); Modified?.Invoke();
-            }
+            else Invalidate(false);
             panel.Form.Enable("theta", panel.Options.S("tipo") == "N–M"); panel.Form.Enable("N", panel.Options.S("tipo") == "Mx–My");
+            foreach (var field in new[] { "origine_x", "origine_y", "rotazione" }) panel.Form.Enable(field, panel.Options.S("assi") == "Personalizzati");
         }, true, true);
         panel.Mode = (ComboBox)panel.Form.Editors["stato"];
-        var calculate = Ui.Button(threeD ? "Calcola dominio 3D" : "Calcola sezione 2D", async () => await RunAnalysis(async token => await CalculateDomain(panel, token)), true);
-        var options = Ui.Stack(panel.Form, calculate);
+        panel.Form.GroupFields("Discretizzazione e interpolazione", ["angoli", "interpolazione", "suddivisioni_n"]);
+        panel.Form.GroupFields("Modello e assi delle azioni", ["trazione_cls", "assi", "origine_x", "origine_y", "rotazione", "proietta"]);
+        var options = Ui.Stack(panel.Form);
         if (!threeD) options.Children.Add(Ui.Button("Sezione sull’azione selezionata", () =>
         {
             if (panel.Grid.SelectedItem is not JsonRow row) return;
@@ -55,31 +58,42 @@ internal sealed partial class ConcreteWorkspace
             }
             catch (ArgumentException ex) { status.Text = ex.Message; }
         }));
-        options.Children.Add(Notice(threeD ? "SLU: campo plastico. SLV: campo elastico al limite dell’acciaio del motore attuale. La mesh è campionata: aumentare la discretizzazione per verificarne la stabilità." : "N–M è un taglio effettivo della mesh nella direzione θ. Mx–My è un taglio a N fissato. Le azioni esterne al piano non ricevono un esito 2D."));
-        options.Children.Add(Panel("Azione selezionata", panel.Detail));
+        options.Children.Add(Notice(threeD ? "Domini plastico/elastico e punti resistenti calcolati da Checker. L’interpolazione modifica la mesh visualizzata. Gli assi scelti si riferiscono alle azioni; il grafico è negli assi locali della sezione." : "Stessa logica CheckerUI: N–M diretto nelle direzioni locali principali, altrimenti sezione del dominio tramite Checker. Con proiezione attiva si verifica l’azione proiettata, non l’intera azione 3D."));
         options.Children.Add(Ui.Text("Arancio: azione selezionata\nViola: punto resistente\nVerde / rosso: posizione rispetto al dominio", 11, color: Ui.Muted));
-        var left = Panel("Opzioni di calcolo", Scroller(options), "N positivo a compressione · assi locali x, y");
-        UIElement viewport;
+        var left = Panel("Opzioni di calcolo", Scroller(options), "N negativo a compressione · grafici negli assi locali Checker");
+        UIElement viewport; ViewportFrame frame;
         if (threeD)
         {
-            panel.View3D = new(); var frame = new ViewportFrame("Dominio N–Mx–My", panel.View3D, panel.View3D.ResetView);
+            panel.View3D = new(); frame = new ViewportFrame("Dominio N–Mx–My", panel.View3D, panel.View3D.ResetView);
             frame.Toolbar.Children.Insert(0, Ui.Button("Mesh", panel.View3D.ToggleWireframe));
             var view = Ui.Choice(["Isometrica", "N–Mx", "N–My", "Mx–My"], "Isometrica"); view.Width = 100; view.SelectionChanged += (_, _) => panel.View3D.StandardView(view.Text); frame.Toolbar.Children.Insert(0, view);
             panel.View3D.ActionSelected += id => { panel.Grid.SelectedItem = actions[panel.Key].FirstOrDefault(r => r.Values.S("id") == id); if (panel.Grid.SelectedItem is not null) panel.Grid.ScrollIntoView(panel.Grid.SelectedItem); };
-            viewport = frame;
+            panel.Transparency = new Slider { Minimum = 0, Maximum = 100, Value = Math.Clamp(panel.Options.D("trasparenza", 35), 0, 100), Width = 95, VerticalAlignment = VerticalAlignment.Center, ToolTip = "Trasparenza del dominio: 0% opaco, 100% trasparente", SmallChange = 5, LargeChange = 10 };
+            var percent = Ui.Text($"{panel.Transparency.Value:0}%", 11); percent.MinWidth = 32;
+            panel.View3D.SurfaceOpacity = 1 - panel.Transparency.Value / 100;
+            panel.Transparency.ValueChanged += (_, _) => { panel.Options["trasparenza"] = panel.Transparency.Value; percent.Text = $"{panel.Transparency.Value:0}%"; panel.View3D.SurfaceOpacity = 1 - panel.Transparency.Value / 100; Modified?.Invoke(); };
+            frame.Toolbar.Children.Add(Ui.Bar(Ui.Text("Trasparenza", 11), panel.Transparency, percent));
         }
-        else viewport = new ViewportFrame("Sezione del dominio", panel.Plot, panel.Plot.ResetView);
+        else frame = new ViewportFrame("Sezione del dominio", panel.Plot, panel.Plot.ResetView);
+        string ForceLabel() => panel.Options.B("solo_selezionata") ? "Forze: selezionata" : "Forze: tutte";
+        panel.ForceToggle = Ui.Button(ForceLabel(), () => { panel.Options["solo_selezionata"] = !panel.Options.B("solo_selezionata"); panel.ForceToggle.Content = ForceLabel(); UpdateSelection(panel); Modified?.Invoke(); });
+        panel.ForceToggle.ToolTip = "Alterna tutte le azioni visibili e la sola combinazione selezionata; i filtri della tabella restano attivi.";
+        frame.Toolbar.Children.Insert(0, panel.ForceToggle); viewport = frame;
         string ratio = threeD ? "eta3d" : "eta2d", outcome = threeD ? "esito3d" : "esito2d";
         panel.Grid = new JsonGrid([new("visible", "Mostra", Bool: true), new("nome", "Combinazione"), new("N", "N [kN]"), new("Mx", "Mx [kNm]"), new("My", "My [kNm]"), new(ratio, "η [-]", ReadOnly: true), new(outcome, "Esito", ReadOnly: true)], true, actions[panel.Key]);
         panel.Grid.Columns[^1].Width = new DataGridLength(2, DataGridLengthUnitType.Star);
         var table = Panel("Combinazioni N–Mx–My", ActionTable(panel.Key, panel.Grid, () => UpdateSelection(panel)), "Le azioni SLU / SLV sono condivise fra le schede 3D e 2D");
-        var body = Columns((left, 2.65, 265), (Rows(viewport, table, 3.7, 2), 7.35, 640)); body.Margin = new Thickness(0, 10, 0, 0);
-        AttachDomainRows(panel); panel.Form.Enable("theta", panel.Options.S("tipo") == "N–M"); panel.Form.Enable("N", panel.Options.S("tipo") == "Mx–My"); return body;
+        var upper = Columns((viewport, 6, 350), (Panel("Riepilogo selezionato", Scroller(panel.Detail)), 4, 230));
+        var body = Columns((left, 2.65, 265), (Rows(upper, table, 3.7, 2), 7.35, 640)); body.Margin = new Thickness(0, 10, 0, 0);
+        AttachDomainRows(panel); panel.Form.Enable("theta", panel.Options.S("tipo") == "N–M"); panel.Form.Enable("N", panel.Options.S("tipo") == "Mx–My");
+        foreach (var field in new[] { "origine_x", "origine_y", "rotazione" }) panel.Form.Enable(field, panel.Options.S("assi") == "Personalizzati");
+        return body;
     }
     private void AttachDomainRows(DomainPanel panel)
     {
         if (panel.Grid is null) return;
-        var previous = (panel.Grid.SelectedItem as JsonRow)?.Values.S("id"); panel.Grid.Commit(); panel.Grid.Tag = panel.Key;
+        if (panel.Grid.ItemsSource is ListCollectionView editing && (editing.IsEditingItem || editing.IsAddingNew)) return;
+        var previous = (panel.Grid.SelectedItem as JsonRow)?.Values.S("id"); panel.Grid.Tag = panel.Key;
         var view = new ListCollectionView(actions[panel.Key]);
         view.Filter = item =>
         {
@@ -96,46 +110,41 @@ internal sealed partial class ConcreteWorkspace
         if (string.IsNullOrWhiteSpace(row.Values.S("nome"))) throw new ArgumentException("Assegnare un nome alla combinazione.");
         return new(SectionWorkspace.Number(row.Values.S("N"), "N"), SectionWorkspace.Number(row.Values.S("Mx"), "Mx"), SectionWorkspace.Number(row.Values.S("My"), "My"));
     }
-    private void ValidateEngine()
-    {
-        if (tendons.Rows.Count > 0) throw new ArgumentException("Trefoli presenti: calcolo sospeso fino al collegamento del motore di precompressione Checker.");
-        _ = new SezioneCA(Input);
-    }
-    private async Task<SectionDomainMesh> GetMesh(string key, CancellationToken token)
-    {
-        if (meshes.TryGetValue(key, out var existing)) return existing;
-        ValidateEngine(); var options = settings["dominio3d"]!;
-        int angles = SectionWorkspace.Subdivisions(options.S("angoli"), "Direzioni angolari", 12, 144), samples = SectionWorkspace.Subdivisions(options.S("campioni"), "Campioni", 21, 321);
-        var snapshot = (JsonObject)Input.DeepClone();
-        var mesh = await Task.Run(() => SectionDomainMesh.Build(snapshot, key == "SLV" ? "Elastico" : "Plastico", angles, samples, token), token);
-        token.ThrowIfCancellationRequested(); meshes[key] = mesh; return mesh;
-    }
+    private void ValidateEngine() { _ = new SezioneCA(Input); }
     private async Task CalculateDomain(DomainPanel panel, CancellationToken token, string? requestedKey = null)
     {
-        string key = requestedKey ?? panel.Key; status.Text = $"Calcolo {SectionWorkspace.Label(key)} · dominio {(panel.ThreeD ? "3D" : "2D")}…";
-        var mesh = await GetMesh(key, token);
-        bool nm = panel.Options.S("tipo") == "N–M"; double value = panel.ThreeD ? 0 : SectionWorkspace.Number(panel.Options.S(nm ? "theta" : "N"), nm ? "Direzione θ" : "N fissato") * (nm ? Math.PI / 180 : 1);
-        bool constantN = panel.ThreeD ? panel.Options.S("criterio") == "N costante" : !nm;
+        string key = requestedKey ?? panel.Key;
+        status.Text = $"Checker · {SectionWorkspace.Label(key)} · dominio {(panel.ThreeD ? "3D" : "2D")}…";
+        var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone(); var options = (JsonObject)panel.Options.DeepClone();
         var snapshots = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
-        var results = await Task.Run(() =>
+        var computationOptions = (JsonObject)options.DeepClone();
+        foreach (string visual in new[] { "stato", "filtro", "solo_selezionata", "trasparenza" }) computationOptions.Remove(visual);
+        string signature = input.ToJsonString() + workspace.S("normativa") + workspace["trefoli"]?.ToJsonString() + computationOptions.ToJsonString();
+        var cached = domainCache.GetValueOrDefault(panel.Prefix + key);
+        var calculated = await Task.Run(() =>
         {
-            var rows = new Dictionary<string, DomainCheck>();
+            CheckerDomain3D? three = cached.Signature == signature ? cached.Three : null;
+            CheckerDomain2D? two = cached.Signature == signature ? cached.Two : null;
+            if (three is null && two is null)
+            {
+                var engine = new CheckerSection(input, workspace, options, key);
+                three = panel.ThreeD ? engine.Domain3D(token) : null;
+                two = panel.ThreeD ? null : engine.Domain2D(token);
+            }
+            var results = new Dictionary<string, DomainCheck>();
             foreach (var snapshot in snapshots)
             {
-                token.ThrowIfCancellationRequested(); DomainCheck result;
-                try
-                {
-                    var force = ReadAction(new JsonRow(snapshot));
-                    bool inPlane = panel.ThreeD || (nm ? Math.Abs(-force.Mx * Math.Sin(value) + force.My * Math.Cos(value)) <= 1e-6 * Math.Max(1, double.Hypot(force.Mx, force.My)) : Math.Abs(force.N - value) <= 1e-6 * Math.Max(1, Math.Abs(value)));
-                    result = inPlane ? mesh.Check(force, constantN) : new(null, null, "Fuori dal piano selezionato");
-                }
-                catch (ArgumentException ex) { result = new(null, null, ex.Message); }
-                rows[snapshot.S("id")] = result;
+                token.ThrowIfCancellationRequested();
+                try { var force = ReadAction(new JsonRow(snapshot)); results[snapshot.S("id")] = three is not null ? three.Check(force) : two!.Check(force); }
+                catch (Exception ex) when (ex is not OperationCanceledException) { results[snapshot.S("id")] = new(null, null, "Checker: " + ex.Message); }
             }
-            return rows;
+            return (three, two, results);
         }, token);
         token.ThrowIfCancellationRequested();
-        domainResults[panel.Prefix + key] = results;
+        domainCache[panel.Prefix + key] = (signature, calculated.three, calculated.two);
+        if (calculated.three is not null) { checker3D[key] = calculated.three; meshes[key] = calculated.three.Mesh; }
+        if (calculated.two is not null) checker2D[key] = calculated.two;
+        domainResults[panel.Prefix + key] = calculated.results;
         if (key == panel.Key) { AttachDomainRows(panel); RefreshDomainPanel(panel); }
     }
     private void RefreshDomainViews() { foreach (var panel in domainPanels) RefreshDomainPanel(panel); }
@@ -152,22 +161,22 @@ internal sealed partial class ConcreteWorkspace
         else
         {
             panel.Plot.Series = []; panel.Plot.Markers = [];
-            if (mesh is not null)
+            if (checker2D.TryGetValue(panel.Key, out var section2d))
             {
                 try
                 {
                     bool nm = panel.Options.S("tipo") == "N–M";
                     double value = SectionWorkspace.Number(panel.Options.S(nm ? "theta" : "N"), nm ? "θ" : "N") * (nm ? Math.PI / 180 : 1);
-                    var cut = mesh.Cut(nm, value); var segments = cut.Select(s => (Project(s.A, nm, value), Project(s.B, nm, value))).ToArray();
+                    var segments = section2d.Segments.Select(s => (section2d.Project(s.A), section2d.Project(s.B))).ToArray();
                     panel.Plot.Segments = segments;
                     panel.Plot.Title = $"{SectionWorkspace.Label(panel.Key)} · " + (nm ? $"N–M, θ = {value * 180 / Math.PI:0.##}°" : $"Mx–My, N = {value:0.##} kN");
                     panel.Plot.XLabel = nm ? "Mθ [kNm]" : "Mx [kNm]"; panel.Plot.YLabel = nm ? "N [kN]" : "My [kNm]";
-                    panel.Plot.Note = "Taglio della superficie campionata · azioni fuori piano mostrate solo in proiezione";
+                    panel.Plot.Note = "Sezione calcolata da Checker · azioni fuori piano escluse salvo proiezione esplicita";
                     panel.Plot.EmptyMessage = "Nessuna intersezione del dominio con il piano selezionato";
                 }
                 catch (ArgumentException ex) { panel.Plot.Segments = []; panel.Plot.EmptyMessage = ex.Message; }
             }
-            else { panel.Plot.Segments = []; panel.Plot.EmptyMessage = "Calcolare il dominio per visualizzare la sezione"; }
+            else { panel.Plot.Segments = []; panel.Plot.EmptyMessage = calculationErrors.GetValueOrDefault(panel.Prefix + panel.Key, "Dominio in attesa di aggiornamento automatico"); }
             panel.Plot.InvalidateVisual();
         }
         UpdateSelection(panel);
@@ -180,8 +189,13 @@ internal sealed partial class ConcreteWorkspace
         var visible = new List<(string Id, ActionPoint Force, bool Pass)>();
         foreach (var item in panel.Grid.Items.OfType<JsonRow>())
         {
-            if (!item.Values.B("visible", true)) continue;
-            try { visible.Add((item.Values.S("id"), ReadAction(item), checks?.GetValueOrDefault(item.Values.S("id"))?.Utilization is <= 1)); } catch (ArgumentException) { }
+            if (!item.Values.B("visible", true) || panel.Options.B("solo_selezionata") && item.Values.S("id") != id) continue;
+            try {
+                var force = ReadAction(item);
+                if (panel.ThreeD && checker3D.TryGetValue(panel.Key, out var d3)) force = CheckerSection.Point(d3.Section.Force(force));
+                if (!panel.ThreeD && checker2D.TryGetValue(panel.Key, out var d2)) force = d2.LocalAction(force);
+                visible.Add((item.Values.S("id"), force, checks?.GetValueOrDefault(item.Values.S("id"))?.Utilization is <= 1));
+            } catch (ArgumentException) { }
         }
         if (panel.ThreeD) panel.View3D!.SetActions(visible, id, selectedCheck?.Resistance);
         else
@@ -190,8 +204,8 @@ internal sealed partial class ConcreteWorkspace
             try
             {
                 bool nm = panel.Options.S("tipo") == "N–M"; double value = SectionWorkspace.Number(panel.Options.S(nm ? "theta" : "N"), "Piano") * (nm ? Math.PI / 180 : 1);
-                foreach (var action in visible) { var p = Project(action.Force, nm, value); panel.Plot.Markers.Add(new(p[0], p[1], action.Id == id ? "Ed" : "", action.Id == id ? Ui.Brush("#E09620") : action.Pass ? Ui.Brush("#257761") : Ui.Brush("#CE4C4C"))); }
-                if (selectedCheck?.Resistance is ActionPoint r) { var p = Project(r, nm, value); panel.Plot.Markers.Add(new(p[0], p[1], "Rd", Ui.Brush("#A23BC4"))); }
+                foreach (var action in visible) { var p = checker2D.TryGetValue(panel.Key, out var d2) ? d2.Project(action.Force) : Project(action.Force, nm, value); panel.Plot.Markers.Add(new(p[0], p[1], action.Id == id ? "Ed" : "", action.Id == id ? Ui.Brush("#E09620") : action.Pass ? Ui.Brush("#257761") : Ui.Brush("#CE4C4C"))); }
+                if (selectedCheck?.Resistance is ActionPoint r) { var p = checker2D.TryGetValue(panel.Key, out var d2) ? d2.Project(r) : Project(r, nm, value); panel.Plot.Markers.Add(new(p[0], p[1], "Rd", Ui.Brush("#A23BC4"))); }
             }
             catch (ArgumentException) { }
             panel.Plot.InvalidateVisual();
@@ -200,54 +214,84 @@ internal sealed partial class ConcreteWorkspace
         try
         {
             var a = ReadAction(row); panel.Detail.Text = $"{row.Values.S("nome")}\n\nNEd = {a.N:0.##} kN\nMx,Ed = {a.Mx:0.##} kNm\nMy,Ed = {a.My:0.##} kNm\n\n" + (selectedCheck is null ? "Da calcolare" : $"η = {selectedCheck.Utilization?.ToString("0.000") ?? "—"}\n{selectedCheck.Status}");
-            if (selectedCheck?.Resistance is ActionPoint r) panel.Detail.Text += $"\n\nNRd = {r.N:0.##} kN\nMx,Rd = {r.Mx:0.##} kNm\nMy,Rd = {r.My:0.##} kNm";
+            panel.Detail.Text = SectionWorkspace.Label(panel.Key) + " · " + (panel.ThreeD ? panel.Options.S("criterio") + " / " + panel.Options.S("strategia") : panel.Options.S("tipo") + (panel.Options.S("proietta") == "Sì" ? " · proiezione attiva" : " · senza proiezione")) + "\n\nAZIONI · " + panel.Options.S("assi", "Locali") + "\n" + panel.Detail.Text;
+            if (selectedCheck?.Resistance is ActionPoint r) panel.Detail.Text += $"\n\nRESISTENZA · assi locali\nNRd = {r.N:0.##} kN\nMx,Rd = {r.Mx:0.##} kNm\nMy,Rd = {r.My:0.##} kNm\n" + ResponseSummary(selectedCheck.Response, "STATO AL PUNTO RESISTENTE");
+            var vertices = panel.ThreeD ? meshes.GetValueOrDefault(panel.Key)?.Vertices.AsEnumerable() : checker2D.GetValueOrDefault(panel.Key)?.Segments.SelectMany(s => new[] { s.A, s.B });
+            if (vertices?.ToArray() is { Length: > 0 } extrema)
+                panel.Detail.Text += $"\n\nESTREMI {(panel.ThreeD ? "MESH" : "CURVA")}\nN: {extrema.Min(p => p.N):0.##} … {extrema.Max(p => p.N):0.##} kN\nMx: {extrema.Min(p => p.Mx):0.##} … {extrema.Max(p => p.Mx):0.##} kNm\nMy: {extrema.Min(p => p.My):0.##} … {extrema.Max(p => p.My):0.##} kNm\nEstremi campionati; non sono resistenze al N della riga.";
+            if (calculationErrors.TryGetValue(panel.Prefix + panel.Key, out var error)) panel.Detail.Text += "\n\nDa correggere: " + error;
         }
         catch (ArgumentException ex) { panel.Detail.Text = ex.Message; }
     }
+    private static string ResponseSummary(SectionResponse? r, string title)
+    {
+        if (r is null) return title + "\nRiepilogo nativo non disponibile";
+        static string V(double? v) => v?.ToString("0.###") ?? "—";
+        string s = $"\n{title}\nσc min / max: {V(r.CMin)} / {V(r.CMax)} MPa\nσs min / max: {V(r.SMin)} / {V(r.SMax)} MPa\nεc min / max: {V(r.EcMin)} / {V(r.EcMax)} ‰\nεs min / max: {V(r.EsMin)} / {V(r.EsMax)} ‰";
+        if (r.PMin is not null) s += $"\nσp min / max: {V(r.PMin)} / {V(r.PMax)} MPa\nεp min / max: {V(r.EpMin)} / {V(r.EpMax)} ‰";
+        return s + $"\n\nd utile: {V(r.UsefulDepth)} mm\nDistanza asse neutro dal lembo (Checker): {V(r.NeutralDistance)} mm\nInclinazione asse neutro: {V(r.NeutralAngle)}°\n— indica dato non disponibile (es. deformazione uniforme).";
+    }
     private async Task RunAnalysis(Func<CancellationToken, Task> work)
     {
-        if (Busy || disposed) return; Commit(); int requested = revision; Busy = true; cancellation = new CancellationTokenSource(); var token = cancellation.Token;
-        tabs.IsEnabled = false; runAll.IsEnabled = false; cancel.Visibility = progress.Visibility = Visibility.Visible;
+        if (Busy || disposed) return; autoCalculate.Stop(); int requested = revision; Busy = true; cancellation = new CancellationTokenSource(); var token = cancellation.Token;
+        progress.Visibility = Visibility.Visible;
         try
         {
             ValidateEngine(); await work(token); token.ThrowIfCancellationRequested();
             if (disposed || requested != revision) return;
-            RefreshDomainViews(); RefreshSummary(); RebuildExport(); status.Text = "Calcolo completato · risultati riferiti ai dati correnti · verifiche normative non complete";
+            RefreshDomainViews(); RefreshSummary(); RebuildExport(); status.Text = calculationErrors.Count == 0 ? "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità" : "Aggiornamento parziale · " + string.Join(" · ", calculationErrors.Select(e => e.Key + ": " + e.Value));
         }
-        catch (OperationCanceledException) { status.Text = "Calcolo annullato"; RefreshSummary(); RebuildExport(); }
+        catch (OperationCanceledException) { status.Text = "Nuove modifiche · aggiornamento in attesa…"; }
         catch (Exception ex) { status.Text = "Calcolo non completato: " + ex.Message; RefreshSummary(); RebuildExport(); }
         finally
         {
-            Busy = false; tabs.IsEnabled = true; runAll.IsEnabled = true; cancel.Visibility = progress.Visibility = Visibility.Collapsed; cancellation.Dispose(); cancellation = null;
+            Busy = false; progress.Visibility = Visibility.Collapsed; cancellation.Dispose(); cancellation = null;
+            if (requested != revision) QueueCalculation();
         }
     }
-    internal Task CalculateAllAsync() => RunAnalysis(async token =>
+    internal async Task CalculateAllAsync()
     {
-        foreach (string key in new[] { "SLU", "SLV" }) { await CalculateDomain(domainPanels[0], token, key); await CalculateDomain(domainPanels[1], token, key); }
-        foreach (string key in SectionWorkspace.Sets.Skip(2)) await CalculateStress(key, token);
-    });
+        while (Busy && !disposed) await Task.Delay(30);
+        if (disposed) return;
+        await RunAnalysis(async token =>
+        {
+            calculationErrors.Clear();
+            async Task Step(string name, Func<Task> action)
+            {
+                token.ThrowIfCancellationRequested();
+                try { await action(); }
+                catch (Exception ex) when (ex is not OperationCanceledException) { calculationErrors[name] = ex.Message; }
+            }
+            foreach (string key in new[] { "SLU", "SLV" })
+                foreach (var panel in domainPanels) await Step(panel.Prefix + key, () => CalculateDomain(panel, token, key));
+            foreach (string key in SectionWorkspace.Sets.Skip(2)) await Step(key, () => CalculateStress(key, token));
+            token.ThrowIfCancellationRequested(); CalculateShear();
+        });
+    }
     private void RebuildExport()
     {
-        if (domainResults.Count == 0 && stressResults.Count == 0) { Result = null; return; }
+        if (domainResults.Count == 0 && stressResults.Count == 0 && shearResults.Count == 0) { Result = null; return; }
         var domains = new JsonObject(); foreach (var (key, rows) in domainResults) domains[key] = J.Node(rows);
         var stresses = new JsonObject(); foreach (var (key, rows) in stressResults) stresses[key] = J.Node(rows);
-        Result = J.Obj(("errore", ""), ("motore", "ANTHEA · superficie campionata / metodo n"), ("normativa_riferimento", settings.S("normativa")), ("verifica_normativa_completa", false), ("domini", domains), ("tensioni", stresses), ("dati", Data), ("avvisi", new[] { "Checker non ancora collegato", "Fessurazione e precompressione non implementate", "I limiti tensionali sono valori manuali, non automaticamente derivati dalla normativa" }));
+        Result = J.Obj(("errore", ""), ("motore", "GPCChecker.Concrete.dll"), ("normativa_riferimento", settings.S("normativa")), ("verifica_normativa_completa", false), ("domini", domains), ("tensioni", stresses), ("taglio", J.Node(shearResults)), ("dati", Data), ("avvisi", new[] { "Compressione negativa; azioni in kN e kNm", "Taglio e fessurazione: vedere esiti specifici e limiti di applicabilità" }));
+        Result["errori_calcolo"] = J.Node(calculationErrors);
     }
     private void RefreshSummary()
     {
         foreach (var (key, text) in summaries)
         {
             int count = actions[key].Count;
-            if (tendons.Rows.Count > 0) { text.Text = "Sospesa · trefoli da collegare a Checker"; text.Foreground = Ui.Brush("#865D16"); continue; }
             if (count == 0) { text.Text = "Nessuna combinazione inserita"; text.Foreground = Ui.Muted; continue; }
             if (key is "SLU" or "SLV")
             {
                 string Summary(string prefix)
                 {
                     var checks = domainResults.GetValueOrDefault(prefix + ":" + key);
-                    if (checks is null) return prefix + " · da calcolare";
+                    if (checks is null) return prefix + " · " + calculationErrors.GetValueOrDefault(prefix + ":" + key, "aggiornamento in attesa");
                     var values = checks.Values.Where(c => c.Utilization is not null).ToArray(); int missing = count - values.Length;
-                    return $"{prefix} · ηmax = {(values.Length == 0 ? "—" : values.Max(c => c.Utilization)!.Value.ToString("0.000"))} · {values.Count(c => c.Utilization > 1)} fuori" + (missing > 0 ? $"\n{prefix} · {missing} fuori piano / da controllare" : "");
+                    var worst = checks.Where(c => c.Value.Utilization is not null).OrderByDescending(c => c.Value.Utilization).FirstOrDefault();
+                    string name = actions[key].FirstOrDefault(r => r.Values.S("id") == worst.Key)?.Values.S("nome") ?? "—";
+                    return $"{prefix} · ηmax = {(values.Length == 0 ? "—" : values.Max(c => c.Utilization)!.Value.ToString("0.000"))} · {values.Count(c => c.Utilization > 1)} fuori\nGoverna: {name}" + (missing > 0 ? $"\n{prefix} · {missing} fuori piano / da controllare" : "");
                 }
                 text.Text = $"{count} combinazioni\n{Summary("3D")}\n{Summary("2D")}";
                 var all = new[] { "3D:", "2D:" }.SelectMany(prefix => domainResults.GetValueOrDefault(prefix + key)?.Values.AsEnumerable() ?? []);
@@ -256,8 +300,9 @@ internal sealed partial class ConcreteWorkspace
             else
             {
                 var checks = stressResults.GetValueOrDefault(key); var values = checks?.Values.Where(s => s.State is not null).ToArray();
-                text.Text = values is not { Length: > 0 } ? $"{count} combinazioni · tensioni da calcolare\nFessurazione: da collegare" : $"σc,max = {values.Max(s => s.State!.sigma_cls):0.00} MPa\n|σs|max = {values.Max(s => s.State!.sigma_acciaio):0.00} MPa\n{values.Length}/{count} analizzate · " + (values.Any(s => s.Ratio > 1) ? $"{values.Count(s => s.Ratio > 1)} oltre limite utente" : values.All(s => s.Ratio is null) ? "limiti non impostati" : "entro i limiti inseriti") + "\nFessurazione: da collegare";
-                text.Foreground = values?.Any(s => s.Ratio > 1) == true ? Ui.Brush("#BB4B41") : Ui.Muted;
+                text.Text = values is not { Length: > 0 } ? $"{count} combinazioni · tensioni da calcolare\nFessurazione: da calcolare" : $"σc,min = {values.Min(s => s.State!.sigma_cls):0.00} MPa\n|σs|max = {values.Max(s => s.State!.sigma_acciaio):0.00} MPa\n{values.Length}/{count} analizzate · " + (values.Any(s => s.Ratio > 1) ? $"{values.Count(s => s.Ratio > 1)} oltre limiti tensionali" : values.All(s => s.Ratio is null) ? "limite non previsto" : "entro i limiti NTC");
+                if (checks is not null) text.Text += $"\nFessurazione: {checks.Values.Count(s => s.CrackResult?.Passed == true)} entro limite, {checks.Values.Count(s => s.CrackResult?.Passed == false)} fuori, {checks.Values.Count(s => s.CrackResult?.Passed is null)} non verificate";
+                text.Foreground = values?.Any(s => s.Ratio > 1 || s.CrackResult?.Passed == false) == true ? Ui.Brush("#BB4B41") : Ui.Muted;
             }
         }
     }

@@ -24,7 +24,7 @@ La soluzione di Visual Studio è `ANTHEA.sln`.
 
 In `X.Desktop`, `App.xaml` definisce gli stili condivisi. La cartella `Wpf` contiene
 `MainWindow` (Home, moduli e progetti), `SheetEditor` e `GeoEditor` (geotecnica),
-`ConcreteWorkspace` con `ConcreteDomains` e `ConcreteStress` (calcestruzzo),
+`ConcreteWorkspace` con `ConcreteDomains`, `ConcreteStress` e `ConcreteShear` (calcestruzzo),
 i controlli e adattatori dei dati in `Ui`, e i disegni nativi WPF in
 `Drawings`. La composizione delle schermate è in C#; non utilizza controlli WinForms
 ospitati né dipendenze da `System.Drawing`.
@@ -34,17 +34,21 @@ ospitati né dipendenze da `System.Drawing`.
 Sono disponibili palo verticale, palo orizzontale, micropalo verticale e sezione in c.a. Gli altri
 moduli del catalogo restano predisposizioni. La migrazione WPF mantiene la
 disposizione dei pannelli geotecnici, i comandi File, il ricalcolo automatico del
-palo e quello manuale degli altri moduli. La sezione in c.a. ha quattro schede:
+palo e il ricalcolo automatico delle cinque schede in c.a.; micropalo e palo
+orizzontale mantengono i rispettivi comandi esistenti. La sezione in c.a. ha cinque schede:
 pannello di controllo, dominio 3D, dominio 2D, tensioni e fessurazione (Rara,
-Frequente, Quasi permanente).
+Frequente, Quasi permanente), taglio. Ogni tabella CA offre template Excel,
+reimportazione e Ctrl+C/Ctrl+V. Opzioni avanzate richiudibili, riepiloghi estesi,
+selettore delle forze, trasparenza 3D e contouring SLE sono documentati nella guida.
 
 Gli archivi `.programma` / `.anthea` conservano il formato JSON versione 1 e la
-gerarchia progetto → struttura → foglio. La migrazione non cambia le formule, il
-motore di base del calcestruzzo né la versione dei dati della sezione. Il nuovo
-workspace aggiunge impostazioni compatibili e un adattatore per superfici campionate
-e intersezioni. Il collegamento alla libreria Checker sarà un intervento separato.
+gerarchia progetto → struttura → foglio. Il workspace del calcestruzzo usa le
+DLL Checker versionate in `lib/Checker`, con compressione negativa. I vecchi
+workspace sono migrati una sola volta alla nuova convenzione di N. Domini,
+resistenze e tensioni sono calcolati da Checker; taglio e fessurazione integrano
+la logica Rhino2Midas con le correzioni NTC 2018 documentate.
 Vedere [interfaccia del calcestruzzo](docs/calcestruzzo-interfaccia.md) per funzionalità,
-limiti del motore attuale e formato dei nuovi dati.
+limiti di applicabilità, API collegate e formato dei dati.
 
 ## Controllo automatico dell'interfaccia
 
@@ -67,6 +71,10 @@ fallisce scrive `errore.txt` e termina con codice 1. Usare una cartella di outpu
 nuova per ogni esecuzione. I controlli coprono modifiche e invalidazione degli
 input, ricalcolo, filtri, espansione dei pannelli, domini, passaggio tra fogli e
 salvataggio dei progetti. Il file `ca_workspace_tests.txt` riepiloga anche le prove
-sulle quattro schede CA, con schermate dedicate, tagli della mesh, selezioni,
-invalidazione e limiti delle funzionalità predisposte. Le schermate includono finestre da 1600 e 1366 pixel di
+sulle cinque schede CA, con schermate dedicate, domini nativi, selezioni,
+invalidazione e verifiche degli esiti parziali. Le schermate includono finestre da 1600 e 1366 pixel di
 larghezza in unità WPF.
+
+Il controllo mirato `dotnet X.Verifiche/bin/Release/net8.0/ANTHEA.Verifiche.dll --checker`
+verifica il collegamento delle DLL, i benchmark e le correzioni NTC. I limiti e
+gli ultimi esiti sono in [verifica Checker](docs/checker-verifica.md).

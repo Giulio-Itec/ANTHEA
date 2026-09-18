@@ -1,4 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><AssemblyName>ANTHEA.Verifiche</AssemblyName><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
   <ItemGroup><ProjectReference Include="../X.Core/X.Core.csproj" /></ItemGroup>
+  <ItemGroup><Reference Include="../lib/Checker/*.dll" /></ItemGroup>
 </Project>

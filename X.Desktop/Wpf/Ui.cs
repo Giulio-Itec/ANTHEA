@@ -150,6 +150,21 @@ internal sealed class InputForm : ScrollViewer
     }
     internal void Enable(string key, bool enabled) { if (rows.TryGetValue(key, out var row)) foreach (var e in row) e.IsEnabled = enabled; }
     internal void ShowField(string key, bool show) { if (rows.TryGetValue(key, out var row)) foreach (var e in row) e.Visibility = show ? Visibility.Visible : Visibility.Collapsed; }
+    internal void GroupFields(string title, string[] keys, bool expanded = false)
+    {
+        // Keep the same editors/bindings; only their visual containers change.
+        if (Content is not StackPanel) { Content = null; Content = Ui.Stack(table); }
+        var group = new Grid();
+        foreach (var column in table.ColumnDefinitions) group.ColumnDefinitions.Add(new ColumnDefinition { Width = column.Width });
+        foreach (string key in keys)
+        {
+            if (!rows.TryGetValue(key, out var elements)) continue;
+            int start = elements.Min(Grid.GetRow), end = elements.Max(Grid.GetRow), target = group.RowDefinitions.Count;
+            for (int i = start; i <= end; i++) { group.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); table.RowDefinitions[i].Height = new GridLength(0); }
+            foreach (var element in elements) { table.Children.Remove(element); Grid.SetRow(element, target + Grid.GetRow(element) - start); group.Children.Add(element); }
+        }
+        ((StackPanel)Content).Children.Add(new Expander { Header = Ui.Text(title, 13, true), Content = group, IsExpanded = expanded, Margin = new Thickness(0, 8, 0, 8) });
+    }
 }
 
 // A small binding adapter keeps the existing JSON file format and unparsed user input.
@@ -182,7 +197,7 @@ internal sealed class JsonGrid : DataGrid
             if (f.Bool) column = new DataGridCheckBoxColumn { Binding = binding };
             else if (f.Choices is not null) column = new DataGridComboBoxColumn { ItemsSource = f.Choices, SelectedItemBinding = binding };
             else column = new DataGridTextColumn { Binding = binding };
-            column.Header = f.Label; column.IsReadOnly = f.ReadOnly; column.MinWidth = f.Bool ? 60 : 65;
+            column.Header = f.Label; column.SortMemberPath = f.Key; column.IsReadOnly = f.ReadOnly; column.MinWidth = f.Bool ? 60 : 65;
             column.Width = stretch ? new DataGridLength(1, DataGridLengthUnitType.Star) : new DataGridLength(f.Choices is not null ? 140 : 112);
             Columns.Add(column);
         }

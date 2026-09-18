@@ -21,7 +21,7 @@ public sealed partial class MainWindow
             JsonObject data = kind == "sezione" ? SezioneCA.DefaultData() : cases.First(c => c.S("nome") == name)!["input"]!.AsObject();
             document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", module), ("dati", data)); currentSheet = null; dirty = false; ShowSheet(document); await editor!.CalculateAsync();
             if (editor.Result is null || editor.Result.S("errore") != "") throw new Exception(kind + ": calcolo non riuscito");
-            var expected = kind == "sezione" ? CalcoloSezione.Calcola(editor.Data) : Calcolo.Calcola(editor.Data, kind == "micropalo");
+            var expected = kind == "sezione" ? null : Calcolo.Calcola(editor.Data, kind == "micropalo");
             if (kind != "sezione" && !JsonNode.DeepEquals(expected, editor.Result)) throw new Exception(kind + ": risultato WPF diverso dal Core");
             await Capture(kind); Commit(); string file = Path.Combine(directory, kind + ".programma"); Archivio.Scrivi(file, document);
             if (!JsonNode.DeepEquals(Archivio.Leggi(file), document)) throw new Exception("Round trip " + kind);

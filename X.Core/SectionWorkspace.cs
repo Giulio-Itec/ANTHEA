@@ -11,6 +11,7 @@ public static class SectionWorkspace
     {
         if (data["input"] is not JsonObject) data["input"] = SezioneCA.DefaultInput();
         foreach (var (key, value) in SezioneCA.DefaultInput()) if (!data["input"]!.AsObject().ContainsKey(key)) data["input"]![key] = value?.DeepClone();
+        if (data["input"]!["gettato_sottile"] is null) data["input"]!["gettato_sottile"] = "No";
         data["versione_sezione"] = 2;
         if (data["combinazioni"] is null)
             data["combinazioni"] = J.Obj(("SLU", new JsonArray(J.Obj(("nome", "Combo 1"), ("azioni", new[] { data["input"].S("axial_force_kn", "0"), data["input"].S("moment_x_knm", "0"), data["input"].S("moment_y_knm", "0") })))));
@@ -24,16 +25,43 @@ public static class SectionWorkspace
         }
         if (data["workspace_ca"] is not JsonObject) data["workspace_ca"] = new JsonObject();
         var settings = data["workspace_ca"]!.AsObject();
-        if (settings.D("versione", 1) != 1) throw new ArgumentException("Versione dell’interfaccia CA non supportata.");
+        if (settings.D("versione", 1) is not (1 or 2)) throw new ArgumentException("Versione dell’interfaccia CA non supportata.");
         void Default(string key, object value) { if (!settings.ContainsKey(key)) settings[key] = J.Node(value); }
         Default("versione", 1); Default("normativa", "NTC 2018"); Default("nota", ""); Default("tab", 0);
-        Default("dominio3d", J.Obj(("stato", "SLU"), ("angoli", "36"), ("campioni", "81"), ("criterio", "Eccentricità costante"), ("filtro", "Tutte")));
-        Default("dominio2d", J.Obj(("stato", "SLU"), ("tipo", "N–M"), ("theta", "0"), ("N", "1000"), ("filtro", "Tutte")));
+        Default("dominio3d", J.Obj(("stato", "SLU"), ("angoli", "32"), ("criterio", "N costante"), ("filtro", "Tutte")));
+        Default("dominio2d", J.Obj(("stato", "SLU"), ("tipo", "Mx–My"), ("theta", "0"), ("N", "1000"), ("filtro", "Tutte")));
         Default("trefoli", new JsonArray());
         Default("sle", new JsonObject());
         foreach (string set in Sets.Skip(2))
         {
             if (settings["sle"]![set] is not JsonObject) settings["sle"]![set] = J.Obj(("modello", "Lineare · sezione fessurata"), ("sigma_c_lim", ""), ("sigma_s_lim", ""), ("wk_lim", ""));
+        }
+        // v1 used compression-positive N; Mx/My retain their physical sign.
+        if (settings.D("versione", 1) == 1)
+        {
+            static void Flip(JsonNode node, string key) { if (J.Number(node[key]) is double n) node[key] = (-n).ToString("G17", System.Globalization.CultureInfo.InvariantCulture); }
+            Flip(data["input"]!, "axial_force_kn");
+            foreach (var set in Sets) foreach (var row in data["combinazioni"]![set]!.AsArray())
+                if (row?["azioni"] is JsonArray a && J.Number(a[0]) is double n) a[0] = (-n).ToString("G17", System.Globalization.CultureInfo.InvariantCulture);
+            Flip(settings["dominio2d"]!, "N");
+            settings["versione"] = 2;
+            settings["convenzione"] = "N negativo a compressione";
+            settings["migrazione_segni"] = "N convertito dalla precedente convenzione ANTHEA; momenti invariati";
+        }
+        foreach (var name in new[] { "dominio3d", "dominio2d" })
+        {
+            var o = settings[name]!.AsObject();
+            void Opt(string key, object value) { if (!o.ContainsKey(key)) o[key] = J.Node(value); }
+            Opt("angoli", name == "dominio3d" ? "32" : "64"); Opt("strategia", "Iterativo"); Opt("criterio", "N costante");
+            Opt("trazione_cls", "No"); Opt("assi", "Locali"); Opt("origine_x", "0"); Opt("origine_y", "0"); Opt("rotazione", "0");
+            Opt("proietta", "No"); Opt("interpolazione", "Quadratica"); Opt("suddivisioni_n", "50");
+        }
+        foreach (string set in Sets.Skip(2))
+        {
+            var o = settings["sle"]![set]!.AsObject();
+            o["modello"] = o.S("modello").StartsWith("Non lineare") ? "Non lineare" : "Lineare";
+            foreach (var (k, v) in new[] { ("phi", "0"), ("phi_trefoli", "0"), ("trazione_cls", "No"), ("assi", "Locali"), ("origine_x", "0"), ("origine_y", "0"), ("rotazione", "0"), ("esposizione", "Da scegliere"), ("sensibilita", "Poco sensibile"), ("durata", "Lunga"), ("aderenza", "Migliorata"), ("copriferro_fessure", ""), ("spaziatura_fessure", "") })
+                if (!o.ContainsKey(k)) o[k] = v;
         }
         return settings;
     }
@@ -56,94 +84,29 @@ public readonly record struct ActionPoint(double N, double Mx, double My)
     public ActionPoint Cross(ActionPoint b) => new(Mx * b.My - My * b.Mx, My * b.N - N * b.My, N * b.Mx - Mx * b.N);
     public double Length => Math.Sqrt(Dot(this));
 }
-public sealed record DomainCheck(double? Utilization, ActionPoint? Resistance, string Status);
+public sealed record DomainCheck(double? Utilization, ActionPoint? Resistance, string Status, SectionResponse? Response = null);
 public sealed record DomainSegment(ActionPoint A, ActionPoint B);
 
-/// <summary>Sampled surface of the existing ANTHEA engine, in kN / kNm, compression positive.
-/// This is not the future Checker adapter. No normative crack-width verification is performed here.</summary>
+/// <summary>Display-only geometry from Checker; no ANTHEA resistance algorithm.</summary>
 public sealed class SectionDomainMesh
 {
     public List<ActionPoint> Vertices { get; } = [];
     public List<int> Triangles { get; } = [];
     public string Mode { get; }
-    public ActionPoint Scale { get; private set; }
-    private SectionDomainMesh(string mode) { Mode = mode; }
-    public static SectionDomainMesh Build(JsonObject input, string mode, int angles = 36, int samples = 81, CancellationToken cancel = default)
+    public ActionPoint Scale { get; }
+    internal SectionDomainMesh(string mode, GPC.Geometry.Meshes.Mesh mesh)
     {
-        if (mode is not ("Plastico" or "Elastico")) throw new ArgumentException("Tipo di dominio non valido.");
-        if (angles < 12 || angles > 144 || samples < 21 || samples > 321) throw new ArgumentException("Discretizzazione fuori intervallo.");
-        var engine = new SezioneCA(input); var mesh = new SectionDomainMesh(mode); int count = 0;
-        for (int a = 0; a < angles; a++)
+        Mode = mode;
+        var vertices = mesh.GetVertices();
+        var indices = vertices.Select((v, i) => (v.Id, i)).ToDictionary(v => v.Id, v => v.i);
+        Vertices.AddRange(vertices.Select(v => new ActionPoint(v.Point.Z / 1000, v.Point.X / 1e6, v.Point.Y / 1e6)));
+        foreach (var f in mesh.GetFaces())
         {
-            cancel.ThrowIfCancellationRequested();
-            var curve = Domini.Profili(engine, mode, engine.NAutomatico, 2 * Math.PI * a / angles, samples); count = curve.Count;
-            mesh.Vertices.AddRange(curve.Select(p => new ActionPoint(p[0], p[1], p[2])));
+            Triangles.AddRange([indices[f.A], indices[f.B], indices[f.C]]);
+            if (f.IsQuad) Triangles.AddRange([indices[f.A], indices[f.C], indices[f.D]]);
         }
-        mesh.Scale = new(Math.Max(1, mesh.Vertices.Max(p => Math.Abs(p.N))), Math.Max(1, mesh.Vertices.Max(p => Math.Abs(p.Mx))), Math.Max(1, mesh.Vertices.Max(p => Math.Abs(p.My))));
-        void Triangle(int a, int b, int c)
-        {
-            if (mesh.Normalize(mesh.Vertices[b] - mesh.Vertices[a]).Cross(mesh.Normalize(mesh.Vertices[c] - mesh.Vertices[a])).Length < 1e-14) return;
-            mesh.Triangles.AddRange([a, b, c]);
-        }
-        for (int a = 0; a < angles; a++) for (int i = 0; i < count - 1; i++)
-        {
-            int p = a * count + i, q = (a + 1) % angles * count + i;
-            Triangle(p, q, p + 1); Triangle(p + 1, q, q + 1);
-        }
-        // Close the asymptotic ends (elastic profiles do not contain a single pure axial vertex).
-        foreach (int end in new[] { 0, count - 1 })
-        {
-            ActionPoint center = default; for (int a = 0; a < angles; a++) center += mesh.Vertices[a * count + end] * (1d / angles);
-            int index = mesh.Vertices.Count; mesh.Vertices.Add(center);
-            for (int a = 0; a < angles; a++) Triangle(index, a * count + end, (a + 1) % angles * count + end);
-        }
-        return mesh;
+        if (Vertices.Count == 0 || Vertices.Any(p => !double.IsFinite(p.N + p.Mx + p.My))) throw new ArgumentException("Checker: mesh assente o non valida.");
+        Scale = new(Math.Max(1, Vertices.Max(p => Math.Abs(p.N))), Math.Max(1, Vertices.Max(p => Math.Abs(p.Mx))), Math.Max(1, Vertices.Max(p => Math.Abs(p.My))));
     }
     public ActionPoint Normalize(ActionPoint p) => new(p.N / Scale.N, p.Mx / Scale.Mx, p.My / Scale.My);
-    public DomainCheck Check(ActionPoint force, bool constantN = false)
-    {
-        var origin = constantN ? new ActionPoint(force.N, 0, 0) : default;
-        var direction = force - origin;
-        if (constantN && Check(origin, false).Utilization is not <= 1)
-            return new(null, null, "N fuori campo per il percorso a N costante");
-        if (direction.Length < 1e-12)
-        {
-            if (force.Length < 1e-12) return new(0, null, "Azione nulla");
-            return Check(force, false);
-        }
-        var o = Normalize(origin); var d = Normalize(direction); double? factor = null;
-        for (int i = 0; i < Triangles.Count; i += 3)
-        {
-            var a = Normalize(Vertices[Triangles[i]]); var b = Normalize(Vertices[Triangles[i + 1]]); var c = Normalize(Vertices[Triangles[i + 2]]);
-            var e1 = b - a; var e2 = c - a; var h = d.Cross(e2); double det = e1.Dot(h);
-            if (Math.Abs(det) < 1e-13) continue;
-            var s = o - a; double u = s.Dot(h) / det; if (u < -1e-8 || u > 1 + 1e-8) continue;
-            var q = s.Cross(e1); double v = d.Dot(q) / det; if (v < -1e-8 || u + v > 1 + 1e-8) continue;
-            double t = e2.Dot(q) / det;
-            if (t > 1e-10 && (factor is null || t < factor)) factor = t;
-        }
-        if (factor is not double f) return new(null, null, "Fuori campo / intersezione assente");
-        double eta = 1 / f;
-        return new(eta, origin + direction * f, eta <= 1 + 1e-8 ? "Entro il dominio" : "Fuori dominio");
-    }
-    public List<DomainSegment> Cut(bool nm, double value)
-    {
-        // N-M: plane with M_perpendicular = 0, not a projection of a neutral-axis profile.
-        var normal = nm ? new ActionPoint(0, -Math.Sin(value), Math.Cos(value)) : new ActionPoint(1, 0, 0);
-        double offset = nm ? 0 : value; double tolerance = 1e-8 * (nm ? Math.Max(Scale.Mx, Scale.My) : Scale.N);
-        var result = new List<DomainSegment>();
-        for (int i = 0; i < Triangles.Count; i += 3)
-        {
-            var triangle = new[] { Vertices[Triangles[i]], Vertices[Triangles[i + 1]], Vertices[Triangles[i + 2]] }; var hits = new List<ActionPoint>();
-            void Add(ActionPoint p) { if (!hits.Any(q => Normalize(q - p).Length < 1e-8)) hits.Add(p); }
-            for (int j = 0; j < 3; j++)
-            {
-                var a = triangle[j]; var b = triangle[(j + 1) % 3]; double da = a.Dot(normal) - offset, db = b.Dot(normal) - offset;
-                if (Math.Abs(da) <= tolerance) Add(a);
-                if (da * db < 0) Add(a + (b - a) * (da / (da - db)));
-            }
-            if (hits.Count == 2 && Normalize(hits[1] - hits[0]).Length > 1e-10) result.Add(new(hits[0], hits[1]));
-        }
-        return result;
-    }
 }

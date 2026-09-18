@@ -174,10 +174,10 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         var dialog = Ui.Dialog(this, "Tabelle e dettagli", outputs, 1050, 650); dialog.Closed += (_, _) => dialog.Content = null; dialog.ShowDialog();
     }
     internal void ExportResult(string filename)
-    { if (Result is null) throw new InvalidOperationException("Premere Calcola prima di esportare."); Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(Result.ToJsonString(J.Options))); }
+    { if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare."); Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(Result.ToJsonString(J.Options))); }
     internal void ExportReport(string filename, string title, HashSet<string> options)
     {
-        if (Result is null) throw new InvalidOperationException("Premere Calcola prima di esportare.");
+        if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
         if (horizontal is not null) { ReportOrizzontale.Write(filename, title, Result); return; }
         var images = new List<ImmagineReport> { new(plot.Title, plot.Png(), "grafico_capacita"), new(reference.Title, reference.Png(), "grafico_nq") };
         bool old = stratigraphy.ShowAll; stratigraphy.ShowAll = true;

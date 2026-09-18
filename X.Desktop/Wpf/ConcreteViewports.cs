@@ -32,7 +32,7 @@ internal sealed class ViewportFrame : Border
             window.Closed += (_, _) => { window.Content = null; Host.Content = viewport; };
             window.ShowDialog();
         }));
-        var heading = new DockPanel { Margin = new Thickness(2, 0, 2, 6) }; DockPanel.SetDock(Toolbar, Dock.Right); heading.Children.Add(Toolbar); heading.Children.Add(Ui.Text(title, 15, true));
+        var heading = Ui.Stack(Ui.Text(title, 15, true), Toolbar); heading.Margin = new Thickness(2, 0, 2, 6);
         Child = Ui.Dock(Host, heading);
     }
 }
@@ -42,7 +42,10 @@ internal sealed class ConcreteSectionViewport : DrawingView
 {
     internal SezioneCA? Section { get; set; }
     internal List<TendonPoint> Tendons { get; set; } = [];
-    internal StatoElastico? Stress { get; set; }
+    internal CheckerStressState? Stress { get; set; }
+    internal static readonly string[] Contours = ["CLS · gradiente tensioni", "CLS · bande tensioni", "CLS · scala resistenza", "Barre · tensioni", "Barre · tasso resistenza", "Sezione · tasso resistenza", "CLS · deformazioni", "Solo geometria"];
+    internal string Contour { get; set; } = Contours[0];
+    internal string ContourLegend { get; private set; } = "";
     internal bool Labels { get; set; } = true;
     internal bool Axes { get; set; } = true;
     internal string SelectedBar { get; set; } = "";
@@ -77,20 +80,34 @@ internal sealed class ConcreteSectionViewport : DrawingView
         Point P(double x, double y) => new(size.Width / 2 + (x - (xmin + xmax) / 2) * scale + pan.X, (size.Height - 30) / 2 - (y - (ymin + ymax) / 2) * scale + pan.Y);
         var shape = Path(section.Outline.Select(p => P(p[0], p[1])), true);
         dc.DrawGeometry(Ui.Brush("#E3EAF1"), new Pen(Ui.Navy, 1.6), shape);
-        if (Stress is StatoElastico stress)
+        double[] concreteValues = [], barValues = []; double lower = 0, upper = 1; bool ratios = false, bands = false;
+        if (Stress is CheckerStressState stress && Contour != "Solo geometria")
         {
-            double maximum = Math.Max(stress.sigma_cls, .001), tile = Math.Sqrt(section.AreaCls / section.Fibers.Count) * scale * 1.8;
-            dc.PushClip(shape);
-            foreach (var f in section.Fibers)
+            bool onlyBars = Contour.StartsWith("Barre"); ratios = Contour.Contains("tasso"); bands = Contour.Contains("bande");
+            bool strains = Contour.Contains("deformazioni"), fixedScale = Contour.Contains("scala resistenza");
+            if (!onlyBars) concreteValues = strains ? stress.FiberStrains : ratios ? stress.FiberStresses.Select(v => Math.Abs(v) / Math.Max(1e-12, v < 0 ? stress.ConcreteCompressionStrength : stress.ConcreteTensionStrength)).ToArray() : stress.FiberStresses;
+            if (onlyBars || ratios) barValues = ratios ? stress.tensioni_barre.Select((v, i) => Math.Abs(v) / Math.Max(1e-12, stress.BarStrengths.ElementAtOrDefault(i))).ToArray() : stress.tensioni_barre;
+            var values = concreteValues.Concat(barValues).ToArray();
+            lower = fixedScale ? -stress.ConcreteCompressionStrength : ratios ? 0 : Math.Min(0, values.DefaultIfEmpty(0).Min());
+            upper = fixedScale ? stress.ConcreteTensionStrength : Math.Max(ratios ? 1 : 0, values.DefaultIfEmpty(0).Max());
+            if (lower == upper) upper = lower + 1;
+            double tile = Math.Sqrt(section.AreaCls / section.Fibers.Count) * scale * 1.8;
+            if (concreteValues.Length == section.Fibers.Count)
             {
-                double value = Math.Max(0, stress.piano[0] + stress.piano[1] * f.Y / stress.lunghezza_mm - stress.piano[2] * f.X / stress.lunghezza_mm);
-                var p = P(f.X, f.Y); double t = Math.Clamp(value / maximum, 0, 1);
-                var color = Color.FromRgb((byte)(226 - 204 * t), (byte)(236 - 95 * t), (byte)(245 - 73 * t));
-                dc.DrawRectangle(new SolidColorBrush(color), null, new Rect(p.X - tile / 2, p.Y - tile / 2, tile, tile));
+                dc.PushClip(shape);
+                for (int fi = 0; fi < section.Fibers.Count; fi++)
+                {
+                    var f = section.Fibers[fi]; var p = P(f.X, f.Y);
+                    dc.DrawRectangle(ContourColor(concreteValues[fi], lower, upper, ratios, bands), null, new Rect(p.X - tile / 2, p.Y - tile / 2, tile, tile));
+                }
+                dc.Pop(); dc.DrawGeometry(null, new Pen(Ui.Navy, 1.5), shape);
             }
-            dc.Pop(); dc.DrawGeometry(null, new Pen(Ui.Navy, 1.5), shape);
-            Text(dc, $"σc,max = {stress.sigma_cls:0.00} MPa    |σs|max = {stress.sigma_acciaio:0.00} MPa", 12, 12, 12, Ui.Navy, size.Width - 24, true);
+            ContourLegend = $"{lower:0.###} … {upper:0.###} {(strains ? "‰" : ratios ? "[-]" : "MPa")}";
+            Text(dc, Contour + " · " + ContourLegend, 12, 10, 11, Ui.Navy, size.Width - 24, true);
+            double legendWidth = Math.Min(190, size.Width - 40);
+            for (int i = 0; i < 40; i++) dc.DrawRectangle(ContourColor(lower + (upper - lower) * i / 39, lower, upper, ratios, bands), null, new Rect(12 + legendWidth * i / 40, 36, legendWidth / 40 + 1, 8));
         }
+        else ContourLegend = "";
         if (Axes)
         {
             var origin = P(0, 0); double arm = Math.Min(size.Width, size.Height) * .19;
@@ -103,18 +120,26 @@ internal sealed class ConcreteSectionViewport : DrawingView
         for (int i = 0; i < section.Bars.Count; i++)
         {
             var bar = section.Bars[i]; var p = P(bar.X, bar.Y); barLocations.Add(p); double radius = Math.Max(3, bar.Diametro * scale / 2);
-            bool chosen = SelectedBar == "B" + (i + 1); Brush color = Stress is not null && Stress.tensioni_barre[i] < 0 ? Ui.Blue : Ui.Navy;
+            bool chosen = SelectedBar == "B" + (i + 1); Brush color = i < barValues.Length ? ContourColor(barValues[i], lower, upper, ratios, bands) : Ui.Navy;
             dc.DrawEllipse(color, new Pen(chosen ? Brushes.Orange : Brushes.White, chosen ? 3 : 1), p, radius, radius);
             if (Labels) Text(dc, "B" + (i + 1), p.X + radius + 3, p.Y - 7, 10, Ui.Navy);
         }
-        foreach (var t in Tendons)
+        for (int ti = 0; ti < Tendons.Count; ti++)
         {
-            var p = P(t.X, t.Y); dc.DrawEllipse(Brushes.White, new Pen(Ui.Brush("#B77918"), 2), p, 5, 5);
+            var t = Tendons[ti]; int index = section.Bars.Count + ti;
+            var p = P(t.X, t.Y); dc.DrawEllipse(index < barValues.Length ? ContourColor(barValues[index], lower, upper, ratios, bands) : Brushes.White, new Pen(SelectedBar == t.Id ? Brushes.Orange : Ui.Brush("#B77918"), 2), p, 5, 5);
             dc.DrawLine(new Pen(Ui.Brush("#B77918"), 1), p - new Vector(7, 0), p + new Vector(7, 0));
             if (Labels) Text(dc, t.Id, p.X + 8, p.Y - 8, 10, Ui.Brush("#B77918"));
         }
         Text(dc, $"{section.Width:0.#} × {section.Height:0.#} mm  ·  Ac = {section.AreaCls / 100:0.0} cm²  ·  As = {section.AreaSteel / 100:0.0} cm²", 12, size.Height - 46, 11, width: size.Width - 24);
-        Text(dc, Stress is null ? "Origine: baricentro geometrico · barre B1…Bn · N positivo a compressione" : "CLS non resistente a trazione · blu: acciaio teso · tensioni in MPa", 12, size.Height - 26, 11, width: size.Width - 24);
+        Text(dc, Stress is null ? "Assi geometrici x/y · N < 0: compressione" : Contour == "Solo geometria" ? "Nessun contouring · risultati nel riepilogo" : ratios ? "Rapporto alla resistenza · NON esito SLE" : "Blu: negativo · rosso: positivo · valori Checker", 12, size.Height - 26, 11, width: size.Width - 24);
+    }
+    private static Brush ContourColor(double value, double lower, double upper, bool ratio, bool bands)
+    {
+        double fraction = Math.Clamp(value < 0 ? value / Math.Min(-1e-12, lower) : value / Math.Max(1e-12, upper), 0, 1);
+        if (bands) fraction = Math.Round(fraction * 10) / 10;
+        Color end = !ratio && value < 0 ? Color.FromRgb(35, 90, 183) : Color.FromRgb(197, 51, 48);
+        return new SolidColorBrush(Color.FromRgb((byte)(244 + (end.R - 244) * fraction), (byte)(246 + (end.G - 246) * fraction), (byte)(248 + (end.B - 248) * fraction)));
     }
 }
 
@@ -124,7 +149,7 @@ internal sealed class DomainViewport3D : Grid
     private readonly PerspectiveCamera camera = new() { FieldOfView = 40, NearPlaneDistance = .01, FarPlaneDistance = 100 };
     private readonly Model3DGroup surfaces = new(), markings = new(), wire = new();
     private readonly Canvas labels = new() { IsHitTestVisible = false };
-    private readonly TextBlock note = Ui.Text("Calcolare il dominio per visualizzare la mesh", 12, color: Ui.Muted);
+    private readonly TextBlock note = Ui.Text("Dominio in attesa di aggiornamento automatico", 12, color: Ui.Muted);
     private readonly Dictionary<GeometryModel3D, string> pickTargets = new();
     private readonly List<(string Id, ActionPoint Force, bool Pass)> actionPoints = [];
     private readonly List<(string Id, Point Position)> screenPoints = [];
@@ -135,6 +160,9 @@ internal sealed class DomainViewport3D : Grid
     private Point3D target;
     private bool panning;
     private bool userNavigated;
+    private readonly SolidColorBrush frontBrush = new(Color.FromRgb(104, 165, 198)), backBrush = new(Color.FromRgb(163, 200, 222));
+    internal double SurfaceOpacity { get => frontBrush.Opacity; set { frontBrush.Opacity = backBrush.Opacity = Math.Clamp(value, 0, 1); } }
+    internal int VisibleActionCount => actionPoints.Count;
     internal event Action<string>? ActionSelected;
     internal bool Wireframe { get; private set; }
     internal int TriangleCount => mesh?.Triangles.Count / 3 ?? 0;
@@ -186,10 +214,11 @@ internal sealed class DomainViewport3D : Grid
     { userNavigated = true; (yaw, elevation) = axis switch { "Mx–My" => (0, 85), "N–Mx" => (0, 0), "N–My" => (90, 0), _ => (-40, 25) }; UpdateCamera(); }
     internal void SetMesh(SectionDomainMesh? value)
     {
+        if (ReferenceEquals(mesh, value) && value is not null) return;
         bool first = mesh is null; mesh = value; surfaces.Children.Clear(); wire.Children.Clear(); markings.Children.Clear(); pickTargets.Clear(); actionPoints.Clear(); SelectedAction = SelectedResistance = null;
         if (mesh is null) { note.Text = "Dominio da calcolare · nessuna mesh valida"; UpdateLabels(); return; }
         var geometry = new MeshGeometry3D { Positions = new Point3DCollection(mesh.Vertices.Select(World)), TriangleIndices = new Int32Collection(mesh.Triangles) }; geometry.Freeze();
-        var material = new DiffuseMaterial(Ui.Brush("#68A5C6")); var back = new DiffuseMaterial(Ui.Brush("#A3C8DE"));
+        var material = new DiffuseMaterial(frontBrush); var back = new DiffuseMaterial(backBrush);
         surfaces.Children.Add(new GeometryModel3D(geometry, material) { BackMaterial = back });
         if (Wireframe) RebuildWire();
         note.Text = $"{TriangleCount:N0} triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente";
