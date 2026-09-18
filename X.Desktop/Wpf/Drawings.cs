@@ -42,6 +42,7 @@ internal sealed record PlotMarker(double X, double Y, string Label, Brush Color)
 internal sealed class Plot : DrawingView
 {
     internal List<Serie> Series { get; set; } = [];
+    internal (double[] A, double[] B)[] Segments { get; set; } = [];
     internal List<PlotMarker> Markers { get; set; } = [];
     internal string Title { get; set; } = "Premere Calcola";
     internal string XLabel { get; set; } = "Forza assiale [kN]";
@@ -69,7 +70,7 @@ internal sealed class Plot : DrawingView
         dc.DrawRectangle(Brushes.White, null, new Rect(size));
         if (size.Width < 100 || size.Height < 100) return;
         Text(dc, Title, 12, 7, 14, Ui.Navy, size.Width - 24, true);
-        var points = Series.SelectMany(s => s.Points).Where(p => p.Length >= 2 && double.IsFinite(p[0]) && double.IsFinite(p[1])).ToArray();
+        var points = Series.SelectMany(s => s.Points).Concat(Segments.SelectMany(s => new[] { s.A, s.B })).Concat(Markers.Select(m => new[] { m.X, m.Y })).Where(p => p.Length >= 2 && double.IsFinite(p[0]) && double.IsFinite(p[1])).ToArray();
         if (points.Length == 0) { Text(dc, EmptyMessage, 18, size.Height / 2, 13, width: size.Width - 36); return; }
         double xmin = XMinimum ?? (Capacity ? 0 : points.Min(p => p[0])), xmax = points.Max(p => p[0]);
         double ymin = Capacity ? 0 : points.Min(p => p[1]), ymax = Capacity && CapacityDepth > 0 ? CapacityDepth : points.Max(p => p[1]);
@@ -93,6 +94,7 @@ internal sealed class Plot : DrawingView
         dc.DrawRectangle(null, new Pen(Ui.Navy, 1), area);
         Text(dc, YLabel, 10, 28, 10, width: size.Width - 20); Text(dc, XLabel, area.Left + 15, area.Bottom + 23, 11, width: area.Width - 15);
         dc.PushClip(new RectangleGeometry(area));
+        foreach (var segment in Segments) dc.DrawLine(new Pen(Ui.Blue, 1.8), P(segment.A[0], segment.A[1]), P(segment.B[0], segment.B[1]));
         foreach (var s in Series)
         {
             var valid = s.Points.Where(p => p.Length >= 2 && double.IsFinite(p[0]) && double.IsFinite(p[1])).Select(p => P(p[0], p[1])).ToArray();

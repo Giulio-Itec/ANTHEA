@@ -11,6 +11,11 @@ public partial class App : Application
         base.OnStartup(e);
         DispatcherUnhandledException += (_, error) =>
         {
+            if (e.Args.Length == 3 && e.Args[0] == "--smoke")
+            {
+                Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), error.Exception.ToString());
+                error.Handled = true; Shutdown(1); return;
+            }
             MessageBox.Show(error.Exception.Message, "ANTHEA — errore", MessageBoxButton.OK, MessageBoxImage.Error);
             error.Handled = true;
         };

@@ -98,7 +98,7 @@ internal sealed class InputForm : ScrollViewer
     private bool displayOnly;
     internal readonly Dictionary<string, FrameworkElement> Editors = new();
     private readonly Dictionary<string, List<FrameworkElement>> rows = new();
-    internal InputForm(JsonObject values, IEnumerable<Field> fields, Action<string> changed, bool compact = false)
+    internal InputForm(JsonObject values, IEnumerable<Field> fields, Action<string> changed, bool compact = false, bool wideChoices = false)
     {
         this.values = values; this.changed = changed;
         VerticalScrollBarVisibility = ScrollBarVisibility.Auto; HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled; Content = table;
@@ -129,6 +129,11 @@ internal sealed class InputForm : ScrollViewer
             Grid.SetRow(label, row); Grid.SetRow(editor, row); Grid.SetRow(unit, row); Grid.SetColumn(editor, 1); Grid.SetColumn(unit, 2);
             var elements = new List<FrameworkElement> { label, editor, unit };
             if (f.Bool || f.Key == "metodo") { Grid.SetColumn(editor, 0); Grid.SetColumnSpan(editor, 3); elements = [editor]; }
+            else if (f.Choices is not null && wideChoices)
+            {
+                table.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                Grid.SetColumnSpan(label, 3); Grid.SetRow(editor, row + 1); Grid.SetColumn(editor, 0); Grid.SetColumnSpan(editor, 3); elements = [label, editor];
+            }
             else if (f.Choices is not null && f.Unit == "" && !compact) { Grid.SetColumnSpan(editor, 2); elements = [label, editor]; }
             foreach (var element in elements) table.Children.Add(element);
             Editors[f.Key] = editor; rows[f.Key] = elements;
@@ -164,9 +169,10 @@ internal sealed class JsonRow : INotifyPropertyChanged
 
 internal sealed class JsonGrid : DataGrid
 {
-    internal ObservableCollection<JsonRow> Rows { get; } = [];
-    internal JsonGrid(IEnumerable<Field> fields, bool stretch = false)
+    internal ObservableCollection<JsonRow> Rows { get; }
+    internal JsonGrid(IEnumerable<Field> fields, bool stretch = false, ObservableCollection<JsonRow>? rows = null)
     {
+        Rows = rows ?? [];
         Style = (Style)Application.Current.FindResource(typeof(DataGrid));
         ItemsSource = Rows; CanUserSortColumns = false;
         foreach (var f in fields)

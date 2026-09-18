@@ -14,8 +14,11 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
 {
     internal string Module { get; }
     internal JsonObject Data { get; }
-    internal JsonObject? Result { get; private set; }
-    internal bool Busy { get; private set; }
+    private JsonObject? result;
+    private bool busy;
+    private readonly ConcreteWorkspace? concrete;
+    internal JsonObject? Result { get => concrete is null ? result : concrete.Result; private set => result = value; }
+    internal bool Busy { get => concrete?.Busy ?? busy; private set => busy = value; }
     internal event Action? Modified;
     private bool building = true, disposed;
     private int revision, expanded = -1;
@@ -30,11 +33,10 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private readonly TextBox warnings = new() { IsReadOnly = true, TextWrapping = TextWrapping.Wrap, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Background = Ui.Brush("#FFFAEB"), MaxHeight = 62, Visibility = Visibility.Collapsed };
     private readonly Button calculate;
     private readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(450) };
-    private readonly Plot plot = new() { Capacity = true }, reference = new() { InvertY = false }, domain = new() { InvertY = false };
-    private readonly SectionDrawing sectionDrawing = new();
+    private readonly Plot plot = new() { Capacity = true }, reference = new() { InvertY = false };
     private readonly StratigraphyDrawing stratigraphy = new();
     private readonly TabControl outputs = new(), sondages = new();
-    private readonly ComboBox tableSelect = new(), resultSelect = new();
+    private readonly ComboBox tableSelect = new();
     private readonly ContentControl tableHost = new();
     private readonly TextBox raw = new() { IsReadOnly = true, AcceptsReturn = true, TextWrapping = TextWrapping.NoWrap, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, FontFamily = new FontFamily("Consolas") };
     private readonly ContentControl verification = new();
@@ -42,32 +44,33 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private readonly WrapPanel curveChoices = new();
     private readonly TextBlock endValues = Ui.Text("Valori a L non disponibili", 11, true);
     private readonly TextBlock effLabel = Ui.Text("", 12, color: Ui.Muted);
-    private readonly Dictionary<string, JsonGrid> combos = new();
     private readonly List<JsonGrid> layerGrids = [];
     private readonly List<(string Key, Serie Series)> allSeries = [];
     private readonly Dictionary<string, bool> visibility = new();
     private List<Tabella> tables = [];
-    private InputForm generalForm = null!, materialForm = null!, barForm = null!, normativeForm = null!, efficiencyForm = null!;
-    private readonly ComboBox domainType = Ui.Choice(["N–Mx", "Mx–My"], "N–Mx"), domainMode = Ui.Choice(["Plastico", "Elastico"], "Plastico");
-    private readonly TextBox domainN = new() { Text = "1000", Width = 75, Margin = new Thickness(3) };
+    private InputForm generalForm = null!, normativeForm = null!, efficiencyForm = null!;
 
     internal SheetEditor(string module, JsonObject data)
     {
         Module = module; Data = (JsonObject)data.DeepClone(); Background = Ui.Bg;
         calculate = Ui.Button("Calcola", async () => await CalculateAsync(), true); calculate.Width = 120; calculate.Visibility = Pile ? Visibility.Collapsed : Visibility.Visible;
+        if (Section)
+        {
+            concrete = new ConcreteWorkspace(Data); concrete.Modified += () => Modified?.Invoke(); Content = concrete; building = false; return;
+        }
         var footer = Ui.Dock(status, bottom: null); DockPanel.SetDock(calculate, System.Windows.Controls.Dock.Right); footer.Children.Insert(0, calculate); footer.Margin = new Thickness(24, 4, 24, 4);
         scroll.Content = canvas; Content = Ui.Dock(scroll, bottom: Ui.Stack(footer, warnings));
         tableSelect.SelectionChanged += (_, _) => ShowTable();
         Ui.Tab(outputs, "Tabelle e dettagli", Ui.Dock(tableHost, tableSelect)); Ui.Tab(outputs, "Risultati JSON", raw);
-        if (Section) BuildSection(); else BuildGeo();
+        BuildGeo();
         scroll.SizeChanged += (_, _) => LayoutCards();
         scroll.ScrollChanged += (_, e) => { if (e.Source == scroll && (e.ViewportWidthChange != 0 || e.ViewportHeightChange != 0)) LayoutCards(); };
         timer.Tick += TimerTick;
         building = false; Preview(); LayoutCards(); if (Pile) QueueCalculation();
     }
     private async void TimerTick(object? sender, EventArgs args) { if (Busy) return; timer.Stop(); if (!disposed) await CalculateAsync(); }
-    public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= TimerTick; }
-    internal void Commit() { foreach (var grid in layerGrids.Concat(combos.Values)) grid.Commit(); }
+    public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= TimerTick; concrete?.Dispose(); }
+    internal void Commit() { if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
         int index = cards.Count; var header = new DockPanel { Margin = new Thickness(0, 0, 0, 8), MinHeight = 28 };
@@ -114,23 +117,23 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     {
         if (building || disposed) return;
         revision++; Result = null; tables = []; tableSelect.Items.Clear(); tableHost.Content = null; warnings.Text = ""; warnings.Visibility = Visibility.Collapsed;
-        status.Text = "Dati modificati · premere Calcola"; allSeries.Clear(); visibility.Clear(); curveChoices.Children.Clear(); plot.Series = []; domain.Series = []; plot.InvalidateVisual(); domain.InvalidateVisual();
-        resultSelect.Items.Clear(); sectionDrawing.Plane = null; raw.Text = "Dati modificati · risultati da ricalcolare";
-        foreach (var grid in combos.Values) foreach (var row in grid.Rows) { row.Output("R", "—"); row.Output("sigma_s", "—"); row.Output("sigma_c", "—"); }
+        status.Text = "Dati modificati · premere Calcola"; allSeries.Clear(); visibility.Clear(); curveChoices.Children.Clear(); plot.Series = []; plot.InvalidateVisual();
+        raw.Text = "Dati modificati · risultati da ricalcolare";
         Preview(); UpdateVerification(); QueueCalculation(); Modified?.Invoke();
     }
     private void QueueCalculation() { if (!Pile || building || disposed) return; timer.Stop(); timer.Start(); status.Text = "Aggiornamento automatico in attesa…"; }
     internal async Task CalculateAsync()
     {
+        if (concrete is not null) { await concrete.CalculateAllAsync(); return; }
         if (Busy || disposed) return; Commit(); timer.Stop(); Busy = true; calculate.IsEnabled = false; if (!Pile) canvas.IsEnabled = false;
         int requested = revision; var snapshot = (JsonObject)Data.DeepClone(); status.Text = "Calcolo in corso…";
         try
         {
-            var result = await Task.Run(() => Section ? CalcoloSezione.Calcola(snapshot) : Calcolo.Calcola(snapshot, Micro));
+            var result = await Task.Run(() => Calcolo.Calcola(snapshot, Micro));
             if (disposed || requested != revision) return;
             if (result.S("errore") != "") { Result = null; status.Text = "Dati da completare: " + result.S("errore"); SetWarnings(Pile ? "" : result.S("errore")); return; }
             Result = result; SetWarnings(string.Join(Environment.NewLine, result.Array("avvisi").Select(v => v!.ToString())));
-            if (Section) ShowSectionResults(); else ShowGeoResults();
+            ShowGeoResults();
             raw.Text = Result.ToJsonString(J.Options); status.Text = "Calcolo completato · risultati riferiti ai dati correnti";
         }
         catch (Exception ex) { Result = null; status.Text = "Errore: " + ex.Message; SetWarnings(ex.Message); }

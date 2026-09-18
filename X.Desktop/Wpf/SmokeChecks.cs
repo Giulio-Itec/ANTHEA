@@ -22,7 +22,7 @@ public sealed partial class MainWindow
             document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", module), ("dati", data)); currentSheet = null; dirty = false; ShowSheet(document); await editor!.CalculateAsync();
             if (editor.Result is null || editor.Result.S("errore") != "") throw new Exception(kind + ": calcolo non riuscito");
             var expected = kind == "sezione" ? CalcoloSezione.Calcola(editor.Data) : Calcolo.Calcola(editor.Data, kind == "micropalo");
-            if (!JsonNode.DeepEquals(expected, editor.Result)) throw new Exception(kind + ": risultato WPF diverso dal Core");
+            if (kind != "sezione" && !JsonNode.DeepEquals(expected, editor.Result)) throw new Exception(kind + ": risultato WPF diverso dal Core");
             await Capture(kind); Commit(); string file = Path.Combine(directory, kind + ".programma"); Archivio.Scrivi(file, document);
             if (!JsonNode.DeepEquals(Archivio.Leggi(file), document)) throw new Exception("Round trip " + kind);
             editor.ExportResult(Path.Combine(directory, kind + ".json"));
@@ -53,7 +53,7 @@ public sealed partial class MainWindow
 
 internal sealed partial class SheetEditor
 {
-    internal void SetGeometryForSmoke(string value) => generalForm.Set(Section ? "diameter_mm" : "diametro", value);
+    internal void SetGeometryForSmoke(string value) { if (concrete is not null) concrete.SetGeometry(value); else generalForm.Set("diametro", value); }
     internal async Task WaitForAutomatic()
     {
         for (int i = 0; i < 200 && (timer.IsEnabled || Busy); i++) await Task.Delay(50);
@@ -61,6 +61,7 @@ internal sealed partial class SheetEditor
     }
     internal async Task VerifyWpf(string directory, string name)
     {
+        if (concrete is not null) { await concrete.VerifyWorkspace(directory); return; }
         void Assert(bool value, string message) { if (!value) throw new Exception(name + ": " + message); }
         async Task Capture(string suffix) { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, name + suffix + ".png"), Ui.Snapshot(this)); }
         Assert(cards.Count == (Section ? 8 : 7), "Numero di pannelli diverso");
@@ -81,15 +82,6 @@ internal sealed partial class SheetEditor
                 var row = layerGrids[0].Rows[0]; string thickness = row.Values.S("spessore"); row["spessore"] = thickness + " "; Assert(Result is null, "Modifica cella non invalida"); row["spessore"] = thickness;
                 if (Pile) await WaitForAutomatic(); else await CalculateAsync(); Assert(Result is not null, "Ricalcolo da tabella");
             }
-        }
-        else
-        {
-            var row = combos["SLU"].Rows[0]; string n = row.Values.S("N"); row["N"] = "1234";
-            Assert(Data["combinazioni"]!["SLU"]![0]!["azioni"]![0]!.ToString() == "1234", "Binding combinazioni"); row["N"] = n; await CalculateAsync();
-            foreach (string mode in new[] { "Plastico", "Elastico" }) foreach (string type in new[] { "N–Mx", "Mx–My" })
-            { domainMode.SelectedItem = mode; domainType.SelectedItem = type; await CalculateDomainAsync(); Assert(domain.Series.Count == 1 && domain.Series[0].Points.Count > 2, "Dominio " + mode + type); }
-            await Capture("_dominio");
-            foreach (string shape in new[] { "Rettangolare", "A T", "Circolare" }) { generalForm.Set("shape", shape); await CalculateAsync(); Assert(Result is not null, "Forma " + shape); await Capture("_" + shape.Replace(' ', '_')); }
         }
         if (Pile)
         {

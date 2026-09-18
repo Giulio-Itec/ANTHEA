@@ -62,5 +62,6 @@ foreach(var item in cases)
     catch(Exception ex){Console.WriteLine("FAIL "+item.S("nome")+": "+ex.Message);failed++;}
 }
 int softwareChecks=0;try{softwareChecks=SoftwareChecks.Run(cases);}catch(Exception ex){failed++;Console.WriteLine("FAIL software: "+ex);}
+try{softwareChecks+=SectionWorkspaceChecks.Run();}catch(Exception ex){failed++;Console.WriteLine("FAIL workspace CA: "+ex);}
 var report=J.Obj(("casi_superati",count),("controlli_software_superati",softwareChecks),("casi_falliti",failed),("valori_numerici_confrontati",numbers),("massimo_delta_assoluto",maxAbs),("massimo_delta_relativo_scalato",maxRel),("percorso_massimo_delta",maxPath),("tolleranza_assoluta",1e-8),("tolleranza_relativa",1e-10));
 Console.WriteLine(report.ToJsonString(J.Options));if(args.Length>1)File.WriteAllText(args[1],report.ToJsonString(J.Options));return failed==0?0:1;

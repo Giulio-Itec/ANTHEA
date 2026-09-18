@@ -23,8 +23,9 @@ La soluzione di Visual Studio è `ANTHEA.sln`.
 | `X.Verifiche` | Confronti con `casi_confronto.json`, archivi e report |
 
 In `X.Desktop`, `App.xaml` definisce gli stili condivisi. La cartella `Wpf` contiene
-`MainWindow` (Home, moduli e progetti), `SheetEditor` e le sue parti `GeoEditor` e
-`SectionEditor`, i controlli e adattatori dei dati in `Ui`, e i disegni nativi WPF in
+`MainWindow` (Home, moduli e progetti), `SheetEditor` e `GeoEditor` (geotecnica),
+`ConcreteWorkspace` con `ConcreteDomains` e `ConcreteStress` (calcestruzzo),
+i controlli e adattatori dei dati in `Ui`, e i disegni nativi WPF in
 `Drawings`. La composizione delle schermate è in C#; non utilizza controlli WinForms
 ospitati né dipendenze da `System.Drawing`.
 
@@ -32,13 +33,18 @@ ospitati né dipendenze da `System.Drawing`.
 
 Sono disponibili palo verticale, micropalo verticale e sezione in c.a. Gli altri
 moduli del catalogo restano predisposizioni. La migrazione WPF mantiene la
-disposizione dei pannelli esistenti, i comandi File, il ricalcolo automatico del
-palo e quello manuale degli altri moduli.
+disposizione dei pannelli geotecnici, i comandi File, il ricalcolo automatico del
+palo e quello manuale degli altri moduli. La sezione in c.a. ha quattro schede:
+pannello di controllo, dominio 3D, dominio 2D, tensioni e fessurazione (Rara,
+Frequente, Quasi permanente).
 
 Gli archivi `.programma` / `.anthea` conservano il formato JSON versione 1 e la
 gerarchia progetto → struttura → foglio. La migrazione non cambia le formule, il
-motore del calcestruzzo né la versione dei dati della sezione. Il collegamento alla
-libreria Checker e la nuova organizzazione delle schede saranno interventi separati.
+motore di base del calcestruzzo né la versione dei dati della sezione. Il nuovo
+workspace aggiunge impostazioni compatibili e un adattatore per superfici campionate
+e intersezioni. Il collegamento alla libreria Checker sarà un intervento separato.
+Vedere [interfaccia del calcestruzzo](docs/calcestruzzo-interfaccia.md) per funzionalità,
+limiti del motore attuale e formato dei nuovi dati.
 
 ## Controllo automatico dell'interfaccia
 
@@ -53,5 +59,7 @@ archivi, risultati JSON, report Word e un riepilogo `smoke.txt`; se una verifica
 fallisce scrive `errore.txt` e termina con codice 1. Usare una cartella di output
 nuova per ogni esecuzione. I controlli coprono modifiche e invalidazione degli
 input, ricalcolo, filtri, espansione dei pannelli, domini, passaggio tra fogli e
-salvataggio dei progetti. Le schermate includono finestre da 1600 e 1366 pixel di
+salvataggio dei progetti. Il file `ca_workspace_tests.txt` riepiloga anche le prove
+sulle quattro schede CA, con schermate dedicate, tagli della mesh, selezioni,
+invalidazione e limiti delle funzionalità predisposte. Le schermate includono finestre da 1600 e 1366 pixel di
 larghezza in unità WPF.

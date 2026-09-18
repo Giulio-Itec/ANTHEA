@@ -88,7 +88,7 @@ internal sealed partial class SheetEditor
     }
     private void Preview()
     {
-        if (Section) { PreviewSection(); return; }
+        if (Section) return;
         var g = Data["generali"]!; var efficiency = Calcolo.Efficienza(Data); effLabel.Text = efficiency.S("errore") != "" ? efficiency.S("errore") : $"ηg,c = {efficiency.D("eta_compressione"):F3}\nηg,t = {efficiency.D("eta_trazione"):F3}";
         if (Calcolo.Verticali.TryGetValue(g.S("verticali_indagate"), out var xi)) { normativeForm.Set("__xi3", xi.Xi3.ToString("F2"), true); normativeForm.Set("__xi4", xi.Xi4.ToString("F2"), true); }
         if (Micro) generalForm.Enable("percentuale_punta", g.B("considera_punta"));
