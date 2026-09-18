@@ -85,6 +85,12 @@ internal sealed partial class SheetEditor
         }
         if (Pile)
         {
+            outputs.SelectedIndex = 1; tableSelect.SelectedIndex = 0;
+            await Capture("_tabelle_compatte");
+            var capacityTables = Ui.Descendants<DataGrid>(tableHost).ToArray();
+            Assert(capacityTables.Length == 2 && capacityTables.All(t => t.Columns.Count == 4 && t.Items.Count == 2), "Riepilogo compatto drenate/non drenate");
+            expanded = 6; LayoutCards(); await Capture("_tabelle_compatte_estese"); expanded = -1; LayoutCards();
+            outputs.SelectedIndex = 0;
             expanded = 4; LayoutCards(); await Capture("_stratigrafia_estesa"); expanded = -1; LayoutCards();
             string length = generalForm.Get("lunghezza"); generalForm.Set("lunghezza", "abc"); await WaitForAutomatic(); Assert(Result is null && plot.Series.Count == 0, "Input invalido conserva risultati");
             generalForm.Set("lunghezza", "3"); generalForm.Set("lunghezza", length); await WaitForAutomatic(); Assert(Result is not null, "Ripristino calcolo automatico");

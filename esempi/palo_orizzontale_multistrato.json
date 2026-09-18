@@ -1,0 +1,19 @@
+{
+  "formato": "X", "versione": 1, "tipo": "calcolo", "modulo_id": "geo_palo_orizzontale",
+  "dati": {
+    "versione_orizzontale": 1,
+    "generali": {
+      "diametro": "1", "lunghezza": "10", "eccentricita": "0",
+      "vincolo": "Impedita", "modalita": "Multistrato sperimentale", "azione_orizzontale": "100",
+      "presenza_falda": true, "profondita_falda": "3", "origine_momento": "Manuale",
+      "momento_resistente": "1000", "provenienza_momento": "Valore assegnato per esempio sperimentale, non progetto esecutivo",
+      "azione_assiale": "0", "passo": "0.1", "tolleranza": "1e-8"
+    },
+    "sezione": {},
+    "verifica": { "applica_fattori": false, "xi": "1", "gamma_r": "1", "riferimento": "" },
+    "stratigrafie": [[
+      { "tipologia": "Granulare", "spessore": "2", "peso_specifico": "18", "peso_specifico_saturo": "20", "angolo_attrito": "28", "coesione_non_drenata": "0", "coesione_efficace": "0" },
+      { "tipologia": "Granulare", "spessore": "8", "peso_specifico": "20", "peso_specifico_saturo": "21", "angolo_attrito": "35", "coesione_non_drenata": "0", "coesione_efficace": "0" }
+    ]]
+  }
+}

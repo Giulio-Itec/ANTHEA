@@ -41,7 +41,7 @@ public sealed partial class MainWindow : Window
         tree.PreviewKeyDown += (_, e) => { if (editor?.Busy == true) e.Handled = true; };
     }
     internal void Safe(Action action) { try { action(); } catch (Exception ex) { MessageBox.Show(this, ex.Message, "Operazione non completata", MessageBoxButton.OK, MessageBoxImage.Error); } }
-    internal static string ModuleName(string module) => module switch { "geo_palo_verticale" => "Palo · capacità portante", "geo_micropalo_verticale" => "Micropalo · Bustamante–Doix", "str_palo" => "Sezione in c.a. · SLU / SLV / SLE", _ => module };
+    internal static string ModuleName(string module) => module switch { "geo_palo_verticale" => "Palo · capacità portante", "geo_palo_orizzontale" => "Palo · capacità portante orizzontale", "geo_micropalo_verticale" => "Micropalo · Bustamante–Doix", "str_palo" => "Sezione in c.a. · SLU / SLV / SLE", _ => module };
     private Menu BuildMenu()
     {
         var menu = new Menu { Background = Brushes.White }; var file = new MenuItem { Header = "_File" }; menu.Items.Add(file);
@@ -51,6 +51,7 @@ public sealed partial class MainWindow : Window
             if (key is Key k) { var command = new RoutedCommand(); CommandBindings.Add(new CommandBinding(command, (_, _) => Safe(action))); InputBindings.Add(new KeyBinding(command, k, modifiers)); item.InputGestureText = new KeyGesture(k, modifiers).GetDisplayStringForCulture(System.Globalization.CultureInfo.CurrentCulture); }
         }
         Add("Nuovo palo", () => NewCalculation("geo_palo_verticale"), Key.N); Add("Nuovo micropalo", () => NewCalculation("geo_micropalo_verticale")); Add("Nuova sezione in c.a.", () => NewCalculation("str_palo")); Add("Nuovo archivio progetti", NewProjects);
+        Add("Nuovo palo orizzontale", () => NewCalculation(PaloOrizzontale.Module));
         file.Items.Add(new Separator()); Add("Apri…", Open, Key.O); Add("Salva", () => Save(false), Key.S); Add("Salva con nome…", () => Save(true), Key.S, ModifierKeys.Control | ModifierKeys.Shift);
         Add("Esporta foglio selezionato…", ExportSheet); file.Items.Add(new Separator()); Add("Report Word…", ExportReport); Add("Risultati JSON…", ExportJson); Add("Esci", Close);
         return menu;
@@ -108,7 +109,7 @@ public sealed partial class MainWindow : Window
         var filters = Ui.Stack(Ui.Text("DISCIPLINE", 13, true)); filters.Width = 185; foreach (string name in new[] { "Tutti", "Geotecnica", "Strutture" }) filters.Children.Add(Ui.Button(name, () => ShowModules(name), discipline == name));
         var fp = Ui.Paper(filters, 16); fp.Margin = new Thickness(0, 0, 16, 0); DockPanel.SetDock(fp, System.Windows.Controls.Dock.Left); root.Children.Add(fp);
         var list = new StackPanel();
-        var modules = new[] { ("Geotecnica", "Palo", "Capacità portante verticale", "geo_palo_verticale"), ("Geotecnica", "Palo", "Capacità portante orizzontale", ""), ("Geotecnica", "Micropalo", "Capacità portante verticale", "geo_micropalo_verticale"), ("Geotecnica", "Micropalo", "Capacità portante orizzontale", ""), ("Strutture", "Sezione in c.a.", "Verifiche SLU · SLV · SLE", "str_palo"), ("Strutture", "Micropalo", "Verifiche strutturali", "") };
+        var modules = new[] { ("Geotecnica", "Palo", "Capacità portante verticale", "geo_palo_verticale"), ("Geotecnica", "Palo", "Capacità portante orizzontale", "geo_palo_orizzontale"), ("Geotecnica", "Micropalo", "Capacità portante verticale", "geo_micropalo_verticale"), ("Geotecnica", "Micropalo", "Capacità portante orizzontale", ""), ("Strutture", "Sezione in c.a.", "Verifiche SLU · SLV · SLE", "str_palo"), ("Strutture", "Micropalo", "Verifiche strutturali", "") };
         foreach (string area in new[] { "Geotecnica", "Strutture" }.Where(a => discipline == "Tutti" || a == discipline))
         {
             var label = Ui.Text(area, 21, true); label.Margin = new Thickness(0, 10, 0, 14); list.Children.Add(label);
@@ -248,6 +249,11 @@ public sealed partial class MainWindow : Window
     {
         Commit(); if (editor?.Result is null) { MessageBox.Show(this, "Premere Calcola prima di esportare il report."); return; }
         if (editor.Module == "str_palo") { MessageBox.Show(this, "Report Word della sezione non disponibile. È possibile esportare i risultati JSON dal menu File."); return; }
+        if (editor.Module == PaloOrizzontale.Module)
+        {
+            var save = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = "Relazione_palo_orizzontale.docx" };
+            if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []); return;
+        }
         var list = new StackPanel { Margin = new Thickness(16) }; var checks = new Dictionary<string, CheckBox>();
         foreach (var (key, label) in ReportWord.Sezioni) { var check = new CheckBox { Content = label, IsChecked = !key.StartsWith("grafico_"), Margin = new Thickness(4) }; checks[key] = check; list.Children.Add(check); }
         var window = Ui.Dialog(this, "Contenuti del report Word", list, 460, 500); var ok = Ui.Button("Esporta", () => window.DialogResult = true, true); list.Children.Add(ok); if (window.ShowDialog() != true) return;

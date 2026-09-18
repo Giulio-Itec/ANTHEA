@@ -11,7 +11,7 @@ public partial class App : Application
         base.OnStartup(e);
         DispatcherUnhandledException += (_, error) =>
         {
-            if (e.Args.Length == 3 && e.Args[0] == "--smoke")
+            if (e.Args.Length >= 2 && e.Args[0] is "--smoke" or "--smoke-horizontal")
             {
                 Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), error.Exception.ToString());
                 error.Handled = true; Shutdown(1); return;
@@ -21,14 +21,18 @@ public partial class App : Application
         };
         var window = new MainWindow();
         MainWindow = window;
-        if (e.Args.Length == 3 && e.Args[0] == "--smoke")
+        if (e.Args.Length == 3 && e.Args[0] == "--smoke" || e.Args.Length == 2 && e.Args[0] == "--smoke-horizontal")
         {
             window.ContentRendered += RunSmoke;
             async void RunSmoke(object? sender, EventArgs args)
             {
                 window.ContentRendered -= RunSmoke;
                 int code = 0;
-                try { await window.Smoke(e.Args[1], JsonNode.Parse(File.ReadAllText(e.Args[2]))!.AsArray()); }
+                try
+                {
+                    if (e.Args[0] == "--smoke-horizontal") await window.SmokeHorizontal(e.Args[1]);
+                    else { await window.Smoke(e.Args[1], JsonNode.Parse(File.ReadAllText(e.Args[2]))!.AsArray()); await window.SmokeHorizontal(e.Args[1]); }
+                }
                 catch (Exception ex)
                 {
                     Directory.CreateDirectory(e.Args[1]);

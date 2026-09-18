@@ -31,7 +31,7 @@ ospitati né dipendenze da `System.Drawing`.
 
 ## Moduli e compatibilità
 
-Sono disponibili palo verticale, micropalo verticale e sezione in c.a. Gli altri
+Sono disponibili palo verticale, palo orizzontale, micropalo verticale e sezione in c.a. Gli altri
 moduli del catalogo restano predisposizioni. La migrazione WPF mantiene la
 disposizione dei pannelli geotecnici, i comandi File, il ricalcolo automatico del
 palo e quello manuale degli altri moduli. La sezione in c.a. ha quattro schede:
@@ -47,6 +47,13 @@ Vedere [interfaccia del calcestruzzo](docs/calcestruzzo-interfaccia.md) per funz
 limiti del motore attuale e formato dei nuovi dati.
 
 ## Controllo automatico dell'interfaccia
+
+Il nuovo [modulo orizzontale](docs/palo-orizzontale.md) comprende Broms omogeneo,
+estensione multistrato sperimentale, momento resistente della sezione circolare,
+diagrammi, export CSV/JSON e relazione Word. L'interfaccia riprende il palo verticale
+con il pannello del momento al posto dei grafici. La verifica normativa resta
+incompleta; i fattori opzionali sono manuali e richiedono una fonte documentata.
+Un esempio riproducibile è in `esempi/palo_orizzontale.json`.
 
 Su Windows, dopo la compilazione Release:
 

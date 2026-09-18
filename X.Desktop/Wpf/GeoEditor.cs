@@ -136,7 +136,8 @@ internal sealed partial class SheetEditor
             var p = c!.Array("progetto")[^1]!; double rd = p[1]!.GetValue<double>(); var a = Result["azioni"]!.Array(key.Contains("trazione") ? "trazione" : "compressione").LastOrDefault(); double? ed = J.Number(a?[1]);
             summary.Add([key.Replace('_', ' '), Tabelle.F(p[0]), Tabelle.F(rd), ed.HasValue ? Tabelle.F(ed.Value) : "—", ed.HasValue ? ed <= rd ? "Verificato" : "Non verificato" : "Azione non inserita"]);
         }
-        tables.Insert(0, new("Riepilogo alla quota disponibile", ["Verifica", Micro ? "s [m]" : "z [m]", "Rd [kN]", "Ed [kN]", "Esito"], summary)); PopulateTables(); UpdateVerification(); BuildReferencePlot();
+        tables.Insert(0, new("Riepilogo alla quota disponibile", ["Verifica", Micro ? "s [m]" : "z [m]", "Rd [kN]", "Ed [kN]", "Esito"], summary));
+        PopulateTables(); UpdateVerification(); BuildReferencePlot();
         if (!Result.B("copertura_completa")) SetWarnings("ATTENZIONE: stratigrafia insufficiente; risultati limitati alla quota disponibile, non alla punta richiesta.\n" + warnings.Text);
     }
     private void UpdateVerification()

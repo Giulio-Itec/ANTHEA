@@ -17,8 +17,9 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private JsonObject? result;
     private bool busy;
     private readonly ConcreteWorkspace? concrete;
-    internal JsonObject? Result { get => concrete is null ? result : concrete.Result; private set => result = value; }
-    internal bool Busy { get => concrete?.Busy ?? busy; private set => busy = value; }
+    private readonly HorizontalWorkspace? horizontal;
+    internal JsonObject? Result { get => horizontal is not null ? horizontal.Result : concrete is null ? result : concrete.Result; private set => result = value; }
+    internal bool Busy { get => horizontal?.Busy ?? concrete?.Busy ?? busy; private set => busy = value; }
     internal event Action? Modified;
     private bool building = true, disposed;
     private int revision, expanded = -1;
@@ -54,6 +55,10 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     {
         Module = module; Data = (JsonObject)data.DeepClone(); Background = Ui.Bg;
         calculate = Ui.Button("Calcola", async () => await CalculateAsync(), true); calculate.Width = 120; calculate.Visibility = Pile ? Visibility.Collapsed : Visibility.Visible;
+        if (module == PaloOrizzontale.Module)
+        {
+            horizontal = new HorizontalWorkspace(Data); horizontal.Modified += () => Modified?.Invoke(); Content = horizontal; building = false; return;
+        }
         if (Section)
         {
             concrete = new ConcreteWorkspace(Data); concrete.Modified += () => Modified?.Invoke(); Content = concrete; building = false; return;
@@ -69,8 +74,8 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         building = false; Preview(); LayoutCards(); if (Pile) QueueCalculation();
     }
     private async void TimerTick(object? sender, EventArgs args) { if (Busy) return; timer.Stop(); if (!disposed) await CalculateAsync(); }
-    public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= TimerTick; concrete?.Dispose(); }
-    internal void Commit() { if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
+    public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= TimerTick; concrete?.Dispose(); horizontal?.Dispose(); }
+    internal void Commit() { if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
         int index = cards.Count; var header = new DockPanel { Margin = new Thickness(0, 0, 0, 8), MinHeight = 28 };
@@ -124,6 +129,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private void QueueCalculation() { if (!Pile || building || disposed) return; timer.Stop(); timer.Start(); status.Text = "Aggiornamento automatico in attesa…"; }
     internal async Task CalculateAsync()
     {
+        if (horizontal is not null) { await horizontal.CalculateAsync(); return; }
         if (concrete is not null) { await concrete.CalculateAllAsync(); return; }
         if (Busy || disposed) return; Commit(); timer.Stop(); Busy = true; calculate.IsEnabled = false; if (!Pile) canvas.IsEnabled = false;
         int requested = revision; var snapshot = (JsonObject)Data.DeepClone(); status.Text = "Calcolo in corso…";
@@ -141,8 +147,28 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     }
     private void SetWarnings(string text) { warnings.Text = text; warnings.Visibility = string.IsNullOrWhiteSpace(text) ? Visibility.Collapsed : Visibility.Visible; }
     private void PopulateTables()
-    { tableSelect.Items.Clear(); foreach (var t in tables) tableSelect.Items.Add(t.Titolo); if (tables.Count > 0) tableSelect.SelectedIndex = 0; }
-    private void ShowTable() { if (tableSelect.SelectedIndex is int i && i >= 0 && i < tables.Count) { var t = tables[i]; tableHost.Content = Ui.Table(t.Colonne, t.Righe); } }
+    { tableSelect.Items.Clear(); if (Pile) tableSelect.Items.Add("Capacità portante — riepilogo"); foreach (var t in tables) tableSelect.Items.Add(t.Titolo); if (tableSelect.Items.Count > 0) tableSelect.SelectedIndex = 0; }
+    private void ShowTable()
+    {
+        int i = tableSelect.SelectedIndex;
+        if (Pile && i == 0 && Result is not null)
+        {
+            var panel = new StackPanel();
+            panel.Children.Add(Ui.Text($"Compressione · quota disponibile z = {Tabelle.F(Result.D("profondita_massima"))} m" + (Result.B("copertura_completa") ? "" : " · copertura incompleta"), 11, color: Ui.Muted));
+            foreach (var t in Tabelle.CapacitaPalo(Result))
+            {
+                var title = Ui.Text(t.Titolo, 15, true); title.HorizontalAlignment = HorizontalAlignment.Center; title.Margin = new Thickness(0, 12, 0, 5); panel.Children.Add(title);
+                var grid = Ui.Table(t.Colonne, t.Righe);
+                foreach (var column in grid.Columns) column.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
+                grid.FontSize = 11; grid.MinHeight = 80; panel.Children.Add(grid);
+            }
+            panel.Children.Add(Ui.Text("Valori del ramo governante di progetto (media o minimo).", 10, color: Ui.Muted));
+            tableHost.Content = new ScrollViewer { Content = panel, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
+            return;
+        }
+        if (Pile) i--;
+        if (i >= 0 && i < tables.Count) { var t = tables[i]; tableHost.Content = Ui.Table(t.Colonne, t.Righe); }
+    }
     private void ShowDetails()
     {
         var dialog = Ui.Dialog(this, "Tabelle e dettagli", outputs, 1050, 650); dialog.Closed += (_, _) => dialog.Content = null; dialog.ShowDialog();
@@ -152,6 +178,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     internal void ExportReport(string filename, string title, HashSet<string> options)
     {
         if (Result is null) throw new InvalidOperationException("Premere Calcola prima di esportare.");
+        if (horizontal is not null) { ReportOrizzontale.Write(filename, title, Result); return; }
         var images = new List<ImmagineReport> { new(plot.Title, plot.Png(), "grafico_capacita"), new(reference.Title, reference.Png(), "grafico_nq") };
         bool old = stratigraphy.ShowAll; stratigraphy.ShowAll = true;
         try { images.Add(new("Profilo stratigrafico", stratigraphy.Png(), "grafico_profilo")); } finally { stratigraphy.ShowAll = old; }

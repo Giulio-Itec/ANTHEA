@@ -14,6 +14,29 @@ public static class SoftwareChecks
         {
             var data=cases.First(c=>c.S("tipo")=="palo")!["input"]!.AsObject();string snapshot=data.ToJsonString();var result=Calcolo.Calcola(data);
             Assert(snapshot==data.ToJsonString(),"Il calcolo ha modificato gli input.");
+            foreach (var test in cases.Where(c => c.S("tipo") == "palo"))
+            {
+                var capacity = Calcolo.Calcola(test!["input"]!.AsObject());
+                if (capacity.S("errore") != "") continue;
+                string original = capacity.ToJsonString();
+                var capacityTables = Tabelle.CapacitaPalo(capacity);
+                Assert(capacityTables.Count == 2 && capacityTables.All(t => t.Colonne.Length == 4 && t.Righe.Count == 2 && t.Righe.All(row => row.Length == 4)), "Tabelle capacità palo: struttura compatta");
+                double Number(string value) => double.Parse(value, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
+                foreach (var table in capacityTables)
+                {
+                    string condition = table.Titolo == "NON DRENATE" ? "non_drenante" : "drenante";
+                    var curve = capacity["curve"]![condition + "_compressione"]!;
+                    double expected = curve.Array("progetto")[^1]![1]!.GetValue<double>();
+                    Assert(Math.Abs(Number(table.Righe[0][3]) + Number(table.Righe[1][3]) - expected) <= .00011, "Tabelle capacità palo: progetto coerente con curva");
+                    string branch = curve.Array("media")[^1]![1]!.GetValue<double>() <= curve.Array("minima")[^1]![1]!.GetValue<double>() ? "Media" : "Minimo";
+                    var components = capacity.Array("dettagli")[^1]!["componenti"]![condition]![branch]!;
+                    for (int row = 0; row < 2; row++)
+                    for (int column = 0; column < 3; column++)
+                        Assert(table.Righe[row][column + 1] == Tabelle.F(components.Array(new[] { "calc", "k", "d" }[column])[row]), "Tabelle capacità palo: corrispondenza componente/livello");
+                    Assert(table.Righe[0][0] == "Laterale" && table.Righe[1][0] == "Punta", "Tabelle capacità palo: intestazioni righe");
+                }
+                Assert(original == capacity.ToJsonString(), "Le tabelle capacità hanno modificato i risultati");
+            }
             foreach(var invalid in new[]{"null","[]","{\"generali\":null}","{\"stratigrafie\":[null]}","{\"generali\":{\"presenza_falda\":\"false\"}}"})
             {
                 bool rejected=false;try{Calcolo.ValidaForma(JsonNode.Parse(invalid));}catch(ArgumentException){rejected=true;}Assert(rejected,"Formato non valido accettato: "+invalid);
@@ -21,7 +44,7 @@ public static class SoftwareChecks
             var sheets=new JsonArray();
             foreach(var module in Archivio.Moduli)
             {
-                var d=module=="str_palo"?SezioneCA.DefaultData():module=="geo_micropalo_verticale"?cases.First(c=>c.S("tipo")=="micropalo")!["input"]!.AsObject():data;
+                var d=module==PaloOrizzontale.Module?PaloOrizzontale.Defaults():module=="str_palo"?SezioneCA.DefaultData():module=="geo_micropalo_verticale"?cases.First(c=>c.S("tipo")=="micropalo")!["input"]!.AsObject():data;
                 var doc=J.Obj(("formato","X"),("versione",1),("tipo","calcolo"),("modulo_id",module),("dati",d));string file=Path.Combine(temp,module+".programma");Archivio.Scrivi(file,doc);Assert(JsonNode.DeepEquals(doc,Archivio.Leggi(file)),"Round trip "+module);
                 sheets.Add(J.Obj(("id",module),("nome",module),("modulo_id",module),("dati",d)));
             }

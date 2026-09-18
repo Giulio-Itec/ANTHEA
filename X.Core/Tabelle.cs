@@ -8,6 +8,25 @@ public static class Tabelle
 {
     public static string F(JsonNode? value)=>value is null?"—":J.Number(value) is double d?F(d):value.ToString();
     public static string F(double value)=>value.ToString("0.####",CultureInfo.GetCultureInfo("it-IT"));
+    public static List<Tabella> CapacitaPalo(JsonObject r)
+    {
+        var tables = new List<Tabella>();
+        if (r.S("errore") != "") return tables;
+        foreach (string condition in new[] { "drenante", "non_drenante" })
+        {
+            string key = condition + "_compressione";
+            var curve = r["curve"]![key]!;
+            // Show the components of the same governing design branch at the final available depth.
+            string governing = curve.Array("media")[^1]![1]!.GetValue<double>() <= curve.Array("minima")[^1]![1]!.GetValue<double>() ? "Media" : "Minimo";
+            var components = r.Array("dettagli")[^1]!["componenti"]![condition]![governing]!;
+            var rows = new List<string[]>();
+            for (int i = 0; i < 2; i++)
+                rows.Add([i == 0 ? "Laterale" : "Punta", F(components.Array("calc")[i]), F(components.Array("k")[i]), F(components.Array("d")[i])]);
+            tables.Add(new(condition == "drenante" ? "DRENATE" : "NON DRENATE",
+                ["", "Calcolo [kN]", "Caratteristiche [kN]", "Progetto [kN]"], rows));
+        }
+        return tables;
+    }
     public static List<Tabella> Crea(JsonObject r,bool micro)
     {
         var tables=new List<Tabella>();if(r.S("errore")!="")return tables;

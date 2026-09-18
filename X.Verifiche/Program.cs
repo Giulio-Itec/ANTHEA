@@ -4,7 +4,7 @@ using X.Core;
 if(args.Length==3&&args[0]=="--calcola")
 {
     var doc=JsonNode.Parse(File.ReadAllText(args[1]))!;var data=doc["dati"]??doc;var module=doc.S("modulo_id");
-    var result=module=="str_palo"?CalcoloSezione.Calcola(data.AsObject()):Calcolo.Calcola(data,module=="geo_micropalo_verticale");
+    var result=module==PaloOrizzontale.Module?PaloOrizzontale.Calculate(data.AsObject()):module=="str_palo"?CalcoloSezione.Calcola(data.AsObject()):Calcolo.Calcola(data,module=="geo_micropalo_verticale");
     File.WriteAllText(args[2],result.ToJsonString(J.Options));return result.S("errore")==""?0:1;
 }
 Console.WriteLine("ANTHEA — verifiche C#");
@@ -63,5 +63,6 @@ foreach(var item in cases)
 }
 int softwareChecks=0;try{softwareChecks=SoftwareChecks.Run(cases);}catch(Exception ex){failed++;Console.WriteLine("FAIL software: "+ex);}
 try{softwareChecks+=SectionWorkspaceChecks.Run();}catch(Exception ex){failed++;Console.WriteLine("FAIL workspace CA: "+ex);}
+try{softwareChecks+=HorizontalChecks.Run();}catch(Exception ex){failed++;Console.WriteLine("FAIL palo orizzontale: "+ex);}
 var report=J.Obj(("casi_superati",count),("controlli_software_superati",softwareChecks),("casi_falliti",failed),("valori_numerici_confrontati",numbers),("massimo_delta_assoluto",maxAbs),("massimo_delta_relativo_scalato",maxRel),("percorso_massimo_delta",maxPath),("tolleranza_assoluta",1e-8),("tolleranza_relativa",1e-10));
 Console.WriteLine(report.ToJsonString(J.Options));if(args.Length>1)File.WriteAllText(args[1],report.ToJsonString(J.Options));return failed==0?0:1;
