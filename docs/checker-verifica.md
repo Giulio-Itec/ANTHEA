@@ -9,16 +9,20 @@ Configurazione: Windows, .NET 8, Release; DLL locali registrate in
 | --- | --- |
 | Compilazione `ANTHEA.sln` | 0 errori, 0 avvisi |
 | Test mirati `--checker` | 143 controlli superati: 72 Checker/NTC, 18 Excel, 53 estensioni CA |
-| Regressione sui casi storici | 464 casi superati, 0 falliti |
-| Controlli software complessivi | 1.581 superati, inclusi Checker, Excel ed estensioni CA |
-| Confronti numerici storici | 1.025.450 valori; delta massimo assoluto 1,819×10⁻¹² |
-| Interfaccia CA WPF | 161 controlli, inclusi menu contour reale, scorrimento finestra ridotta, numeri centrati, cache dei criteri, SLE comuni, scale, taglio automatico, Excel, report e riapertura degli archivi |
+| Regressione sui casi storici | 462 casi superati, 2 falliti (`palo_storico_0`, `palo_storico_3`) |
+| Controlli software complessivi | 1.705 superati, inclusi Checker, Excel ed estensioni CA |
+| Confronti numerici storici | 999.103 valori; delta massimo assoluto 0,407289 nel calcolo geotecnico del palo |
+| Interfaccia CA WPF | 163 controlli, inclusi menu contour reale, scorrimento finestra ridotta, numeri centrati, cache dei criteri, SLE comuni, scale, taglio automatico, Excel, report e riapertura degli archivi |
 
 Le prove dedicate includono confronto dei risultati dell'adattatore con le API
 della DLL, cinque percorsi di resistenza, plastico/elastico, lineare/non lineare,
 tagli 2D e proiezioni, assi ruotati/eccentrici, trefoli, benchmark VCA_N_1,
 valori analitici a taglio e fessurazione, area efficace rettangolare, controlli
 senza esito automatico e riduzione dei limiti per elementi piani sottili.
+
+I due scostamenti della regressione storica sono nelle curve
+`drenante_compressione.media` dei pali e non attraversano le DLL Checker/Geometry
+aggiornate. I valori attesi non sono stati modificati automaticamente.
 
 Le estensioni verificano anche il collegamento delle nove classi normative,
 l'applicazione dei coefficienti personalizzati, vertici e raster tensionali
@@ -89,6 +93,44 @@ Durante le prove sono stati corretti due casi della nuova presentazione:
 normalizzazione dei valori resistenti del CLS (la DLL usa valori negativi
 per la compressione) e riepilogo senza azioni verificabili. Non sono stati
 cambiati i valori resistenti né i tassi restituiti dalla DLL.
+
+## Import massivi e grafici differiti
+
+Il raster SLE viene campionato al primo utilizzo grafico e memorizzato per
+risultato; le verifiche e l'esportazione JSON non lo generano. La mesh grafica
+3D viene creata alla prima apertura del dominio o alla richiesta del report.
+Le schede nascoste non ricostruiscono grafici e dettagli di selezione; i report
+possono richiedere esplicitamente i grafici anche senza aprire le schede.
+
+L'importazione e l'incolla aggiornano le collezioni in blocco, con una notifica
+Reset per famiglia. Gli aggiornamenti dei risultati sospendono le notifiche
+dei singoli campi ed emettono una sola notifica finale per riga modificata.
+I test coprono 10.000 inserimenti, scope annidati, risultati invariati,
+importazione SLE/taglio, selezione successiva all'import e assenza di raster
+per le schede nascoste. Il test numerico confronta il raster differito con
+quello di un'analisi indipendente dopo altre analisi sullo stesso motore.
+
+## Ricalcolo selettivo
+
+La coda mantiene le singole verifiche da aggiornare: 3D/2D per SLU e SLV,
+le tre famiglie SLE e il taglio. Le modifiche durante il calcolo annullano
+lo snapshot in esecuzione e conservano nella coda le verifiche non completate.
+I risultati indipendenti restano disponibili e non vengono ricostruiti.
+
+- Modello e impostazioni SLE condivise: solo le tre famiglie SLE.
+- Passo, braccia e opzioni del taglio: solo taglio.
+- Diametro staffe: aggiornamento completo, perché modifica la posizione
+  delle barre longitudinali in `SezioneCA`.
+- Azioni e importazioni: solo le famiglie modificate; SLU/SLV aggiornano
+  i rispettivi controlli 3D e 2D conservando i domini compatibili.
+- Opzioni dominio: solo il pannello 3D oppure 2D interessato.
+- Geometria, materiali, normativa e trefoli: aggiornamento completo.
+
+184 controlli WPF superati, inclusa la conservazione per identità dei
+risultati indipendenti e l'accodamento contemporaneo di modifiche SLE/staffe.
+Sul file reale da 9.994 righe e rettangolare predefinita: cambio a SLE non
+lineare 2,303 s; cambio passo staffe 0,194 s, senza errori di calcolo.
+Tempi indicativi della macchina di prova, comprensivi di aggiornamento UI.
 
 ## Cosa attestano queste prove
 

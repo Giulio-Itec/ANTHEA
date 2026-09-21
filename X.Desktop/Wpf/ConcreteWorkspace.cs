@@ -13,7 +13,15 @@ namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
 {
     internal JsonObject Data { get; }
-    internal JsonObject? Result { get; private set; }
+    private JsonObject? exportResult;
+    internal bool HasResults { get; private set; }
+    // Native results are the source of truth. JSON is an export artifact, not a
+    // prerequisite for showing checks or switching tabs.
+    internal JsonObject? Result
+    {
+        get { if (!HasResults) return null; if (exportResult is null) RebuildExport(); return exportResult; }
+        private set { exportResult = value; HasResults = value is not null; }
+    }
     internal bool Busy { get; private set; }
     internal event Action? Modified;
     private readonly JsonObject settings;
@@ -23,12 +31,12 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private readonly TextBlock status = Ui.Text("Dati della sezione · selezionare una scheda per iniziare", 12);
     private readonly ProgressBar progress = new() { Height = 3, IsIndeterminate = true, Visibility = Visibility.Collapsed };
     private bool calculationQueued;
-    private bool forceOnlyUpdate;
-    private readonly HashSet<DomainPanel> pendingForcePanels = [];
+    private static readonly string[] AllCalculations = ["3D:SLU", "2D:SLU", "3D:SLV", "2D:SLV", "SLE", "SLE_FREQ", "SLE_QP", "Taglio"];
+    private readonly HashSet<string> pendingCalculations = new(AllCalculations);
     private CancellationTokenSource? cancellation;
     private bool initializing = true, disposed, synchronizing;
     private int revision;
-    private readonly Dictionary<string, ObservableCollection<JsonRow>> actions = new();
+    private readonly Dictionary<string, JsonRows> actions = new();
     private readonly List<JsonGrid> grids = [];
     private readonly Dictionary<string, TextBlock> summaries = new();
     private readonly Dictionary<string, SectionDomainMesh> meshes = new();
@@ -50,14 +58,14 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         PrepareCoefficients(); PrepareStirrups();
         foreach (string key in SectionWorkspace.Sets)
         {
-            var rows = new ObservableCollection<JsonRow>(); actions[key] = rows;
+            var rows = new JsonRows(); actions[key] = rows;
             foreach (var item in Data["combinazioni"]![key]!.AsArray())
             {
                 var a = item!.Array("azioni");
                 rows.Add(CreateAction(key, item.S("nome"), a.ElementAtOrDefault(0)?.ToString() ?? "", a.ElementAtOrDefault(1)?.ToString() ?? "", a.ElementAtOrDefault(2)?.ToString() ?? "", item.S("id"), item.B("visible", true)));
             }
         }
-        Loaded += (_, _) => { if (Result is null) QueueCalculation(); };
+        Loaded += (_, _) => { if (!HasResults) QueueCalculation(); };
         var footer = new DockPanel { Margin = new Thickness(16, 4, 16, 8) }; footer.Children.Add(status);
         var workspaceBody = Ui.Dock(tabs, bottom: Ui.Stack(progress, footer));
         workspaceScroll.Content = workspaceBody; Content = workspaceScroll;
@@ -161,8 +169,8 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         {
             if (synchronizing) return;
             SyncActions(key);
-            if (field == "visible") { RefreshDomainViews(); Modified?.Invoke(); }
-            else Invalidate(false);
+            if (field == "visible") { foreach (var panel in domainPanels) panel.NeedsVisualRefresh = true; RefreshDomainViews(); Modified?.Invoke(); }
+            else InvalidateActions(key);
         });
     }
     private void SyncActions(string key)
@@ -179,8 +187,9 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     internal void SetGeometry(string value) => geometry.Set("diameter_mm", value);
     private void Invalidate(bool geometryChanged = true)
     {
+        using var notifications = JsonRow.DeferNotifications(actions.Values.SelectMany(r => r));
         if (initializing || disposed || synchronizing) return;
-        forceOnlyUpdate = false; pendingForcePanels.Clear();
+        pendingCalculations.UnionWith(AllCalculations);
         revision++; cancellation?.Cancel(); Result = null; meshes.Clear(); checker3D.Clear(); checker2D.Clear(); domainResults.Clear(); stressResults.Clear(); InvalidateShear();
         synchronizing = true;
         try { foreach (var row in actions.Values.SelectMany(r => r)) foreach (string key in new[] { "eta3d", "eta2d", "esito3d", "esito2d", "sigma_c", "sigma_s", "eta_sigma", "stress_status", "wk" }) row.Output(key, key.StartsWith("esito") || key == "stress_status" ? "Da calcolare" : key == "wk" ? "Da calcolare" : "—"); }
@@ -201,12 +210,30 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
             if (!Busy) await CalculateAllAsync();
         }));
     }
-    private void InvalidateChecks(bool onlyDomainForces = false)
+    private void InvalidateChecks(params string[] affected)
     {
         if (initializing || disposed || synchronizing) return;
-        forceOnlyUpdate = onlyDomainForces && (forceOnlyUpdate || !Busy && !calculationQueued);
-        if (!forceOnlyUpdate) pendingForcePanels.Clear();
+        pendingCalculations.UnionWith(affected.Length == 0 ? AllCalculations : affected);
         revision++; cancellation?.Cancel(); Result = null; QueueCalculation(); Modified?.Invoke();
+    }
+    private void InvalidateActions(string key)
+    {
+        if (initializing || disposed || synchronizing) return;
+        if (key == "Taglio") { InvalidateShear(); InvalidateChecks("Taglio"); return; }
+        using var notifications = JsonRow.DeferNotifications(actions[key]);
+        if (key is "SLU" or "SLV")
+        {
+            foreach (string prefix in new[] { "3D:", "2D:" }) domainResults.Remove(prefix + key);
+            foreach (var row in actions[key]) foreach (string field in new[] { "eta3d", "eta2d", "esito3d", "esito2d" }) row.Output(field, "Da calcolare");
+            RefreshDomainViews(); InvalidateChecks("3D:" + key, "2D:" + key);
+        }
+        else
+        {
+            stressResults.Remove(key);
+            foreach (var row in actions[key]) foreach (string field in new[] { "sigma_c", "sigma_s", "eta_sigma", "stress_status", "wk" }) row.Output(field, "Da calcolare");
+            UpdateStressSelection(key); InvalidateChecks(key);
+        }
+        RefreshSummary();
     }
     private void RefreshPreview()
     {
@@ -251,11 +278,11 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         string NextName(string set)
         { int n = 1; while (actions[set].Any(r => r.Values.S("nome") == "Combo " + n)) n++; return "Combo " + n; }
         void Add()
-        { string set = ActiveKey(); grid.Commit(); var row = CreateAction(set, NextName(set), "0", "0", "0"); actions[set].Add(row); SyncActions(set); Invalidate(false); grid.SelectedItem = row; grid.ScrollIntoView(row); }
+        { string set = ActiveKey(); grid.Commit(); var row = CreateAction(set, NextName(set), "0", "0", "0"); actions[set].Add(row); SyncActions(set); InvalidateActions(set); grid.SelectedItem = row; grid.ScrollIntoView(row); }
         void Duplicate()
-        { if (grid.SelectedItem is not JsonRow selected) return; string set = ActiveKey(); var r = selected.Values; var row = CreateAction(set, NextName(set), r.S("N"), r.S("Mx"), r.S("My")); actions[set].Add(row); SyncActions(set); Invalidate(false); grid.SelectedItem = row; }
+        { if (grid.SelectedItem is not JsonRow selected) return; string set = ActiveKey(); var r = selected.Values; var row = CreateAction(set, NextName(set), r.S("N"), r.S("Mx"), r.S("My")); actions[set].Add(row); SyncActions(set); InvalidateActions(set); grid.SelectedItem = row; }
         void Remove()
-        { grid.Commit(); if (grid.SelectedItem is not JsonRow row) return; string set = ActiveKey(); int index = actions[set].IndexOf(row); actions[set].Remove(row); SyncActions(set); Invalidate(false); if (actions[set].Count > 0) grid.SelectedItem = actions[set][Math.Min(index, actions[set].Count - 1)]; }
+        { grid.Commit(); if (grid.SelectedItem is not JsonRow row) return; string set = ActiveKey(); int index = actions[set].IndexOf(row); actions[set].Remove(row); SyncActions(set); InvalidateActions(set); if (actions[set].Count > 0) grid.SelectedItem = actions[set][Math.Min(index, actions[set].Count - 1)]; }
         var buttons = Ui.Bar(Ui.Button("+ Riga", Add), Ui.Button("Duplica", Duplicate), Ui.Button("− Riga", Remove));
         AttachClipboard(grid, ActiveKey, buttons);
         return Ui.Dock(WithFilters(grid), bottom: buttons);

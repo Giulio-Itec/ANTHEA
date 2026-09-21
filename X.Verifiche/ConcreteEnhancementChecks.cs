@@ -20,16 +20,49 @@ internal static class ConcreteEnhancementChecks
         Check(ReportConcrete.Governing(reportRows, false)?.Key == "B" && ReportConcrete.Governing(reportRows, true)?.Key == "A", "Governanti tensioni e fessurazione indipendenti");
         Check(ReportConcrete.Governing(new JsonObject { ["err"] = reportRows["invalida"]!.DeepClone() }, false) is null && ReportConcrete.Envelope(new(), false).Count == 0, "Nessun governante inventato se risultati mancanti");
         var options = settings["dominio3d"]!.AsObject(); options["angoli"] = "8"; options["suddivisioni_n"] = "8";
+        var rectangularData = SezioneCA.DefaultData(); rectangularData["input"]!["shape"] = "Rettangolare";
+        var rectangularSettings = SectionWorkspace.Prepare(rectangularData);
+        var batchOptions = rectangularSettings["dominio3d"]!.AsObject();
+        var batchActions = Enumerable.Range(0, 70).Select(i => new ActionPoint(-250 - i * 15, 20 + i, 10 - i)).Concat([new ActionPoint(0, 0, 0), new(-500, 0, 0), new(-250, 20, 10)]).ToArray();
+        foreach (string state in new[] { "SLU", "SLV" }) foreach (string strategy in new[] { "Iterativo", "Intersezione" })
+        {
+            batchOptions["strategia"] = strategy;
+            var batchDomain = new CheckerSection(rectangularData["input"]!.AsObject(), rectangularSettings, batchOptions, state).Domain3D();
+            foreach (string criterion in CheckerSection.Criteria)
+            {
+                batchOptions["criterio"] = criterion; batchDomain.ConfigureVerification(batchOptions);
+                var actual = batchDomain.CheckMany(batchActions);
+                var expected = batchActions.Select(batchDomain.Check).ToArray();
+                Check(actual.SequenceEqual(expected), $"Batch rettangolare identico al seriale (ordine, resistenze, tassi, response): {state}, {strategy}, {criterion}");
+                Check(ReferenceEquals(actual[0], actual[^1]), "Azioni identiche riusano lo stesso risultato senza perdere righe");
+            }
+            Check(batchDomain.CheckMany([]).Length == 0, "Batch vuoto");
+            Check(batchDomain.CheckMany([new(double.NaN, 1, 1), new(0, 0, 0)])[0].Utilization is null, "Azione non finita non blocca il batch");
+            using var stopped = new CancellationTokenSource(); stopped.Cancel();
+            try { batchDomain.CheckMany(batchActions, stopped.Token); throw new Exception("Batch ignora annullamento"); }
+            catch (OperationCanceledException) { count++; }
+        }
         foreach (string norm in ConcreteStandards.Names)
         {
             settings["normativa"] = norm; settings["coefficienti"] = ConcreteStandards.Defaults(norm);
             input["alpha_cc"] = settings["coefficienti"]!["AlphaCC"]!.DeepClone(); input["gamma_c"] = settings["coefficienti"]!["GammaC"]!.DeepClone(); input["gamma_s"] = settings["coefficienti"]!["GammaS"]!.DeepClone();
-            var engine = new CheckerSection(input, settings, options); var result = engine.Domain3D().Check(new(-500, 100, 50));
+            var engine = new CheckerSection(input, settings, options); var lazyDomain = engine.Domain3D(); var result = lazyDomain.Check(new(-500, 100, 50));
+            Check(!lazyDomain.IsMeshCreated, "Verifiche dominio senza mesh grafica " + norm);
+            var lazyMesh = lazyDomain.Mesh;
+            Check(lazyDomain.IsMeshCreated && ReferenceEquals(lazyMesh, lazyDomain.Mesh), "Mesh grafica creata una sola volta " + norm);
             Check(result.Resistance.HasValue && result.Utilization is > 0, "Motore disponibile " + norm);
             settings["coefficienti"]!["ServiceabilityStressConcreteCoefficientForCharacteristicCombination"] = "0.51";
-            var stress = new CheckerSection(input, settings, settings["sle"]!["SLE"]!.AsObject()).Stress(new(-500, 5, 5), "SLE");
+            var stressEngine = new CheckerSection(input, settings, settings["sle"]!["SLE"]!.AsObject());
+            var stress = stressEngine.Stress(new(-500, 5, 5), "SLE");
+            Check(!stress.IsRasterCreated, "Verifica SLE senza raster " + norm);
+            var secondStress = stressEngine.Stress(new(-700, 10, 10), "SLE");
+            Check(!secondStress.IsRasterCreated && !stress.IsRasterCreated, "Combinazioni non visualizzate senza raster " + norm);
             Check(Math.Abs(stress.ConcreteStressLimit!.Value - .51 * input.D("fck_mpa")) < 1e-10, "Limite personalizzato passato alla DLL " + norm);
             Check(stress.ConcreteVertices.Length == engine.Geometry.Outline.Count && stress.Raster?.Stresses.All(double.IsFinite) == true, "Contouring e vertici nativi " + norm);
+            var raster = stress.Raster!;
+            var fresh = new CheckerSection(input, settings, settings["sle"]!["SLE"]!.AsObject()).Stress(new(-500, 5, 5), "SLE").Raster!;
+            Check(stress.IsRasterCreated && ReferenceEquals(raster, stress.Raster) && !secondStress.IsRasterCreated, "Raster memorizzato per la sola combinazione richiesta " + norm);
+            Check(raster.Stresses.SequenceEqual(fresh.Stresses) && raster.Strains.SequenceEqual(fresh.Strains), "Raster differito conserva lo stato dopo altre analisi " + norm);
         }
         settings["trefoli"]!.AsArray().Add(J.Obj(("id", "T1"), ("x", "9999"), ("y", "0"), ("area", "150"), ("sigma0", "1000"), ("Ep", "195000"), ("fpyk", "1670"), ("fpk", "1860"), ("eps_u", "35")));
         Reject(() => new CheckerSection(input, settings, options), "Trefolo esterno");

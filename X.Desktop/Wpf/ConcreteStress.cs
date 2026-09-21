@@ -33,9 +33,10 @@ internal sealed partial class ConcreteWorkspace
             panel.Options = new InputForm(options, [new("modello", "Analisi", Choices: ["Lineare", "Non lineare"]), new("n_armature", "n armature"), new("phi", "Viscosità φ armature"), new("n_trefoli", "n trefoli (Ep riferimento)"), new("phi_trefoli", "Viscosità φ trefoli"), new("__ep_ref", "Ep di riferimento", "MPa", ReadOnly: true), new("trazione_cls", "CLS resistente a trazione", Choices: ["No", "Sì"]), new("assi", "Assi delle azioni", Choices: ["Locali", "Principali", "Personalizzati"]), new("origine_x", "Origine x", "mm"), new("origine_y", "Origine y", "mm"), new("rotazione", "Rotazione assi", "°"), new("esposizione", "Esposizione", Choices: Ntc2018Checks.Exposures), new("sensibilita", "Armatura", Choices: ["Poco sensibile", "Sensibile"]), new("durata", "Durata del carico", Choices: ["Lunga", "Breve"]), new("aderenza", "Barre", Choices: ["Migliorata", "Liscia"]), new("copriferro_fessure", "c barra (vuoto: auto)", "mm"), new("spaziatura_fessure", "Spaziatura massima barre tese", "mm")], field =>
             {
                 if (initializing) return;
+                using var notifications = JsonRow.DeferNotifications(actions.Values.SelectMany(r => r));
                 SynchronizeHomogenization(key, field); SynchronizeSharedSle(key); EnableOptions();
                 stressResults.Remove(key); foreach (var row in actions[key]) { row.Output("sigma_c", "—"); row.Output("sigma_s", "—"); row.Output("stress_status", "Da calcolare"); row.Output("eta_sigma", "—"); row.Output("wk", "Da calcolare"); }
-                UpdateStressSelection(key); RefreshSummary(); InvalidateChecks();
+                UpdateStressSelection(key); RefreshSummary(); InvalidateChecks(SectionWorkspace.Sets.Skip(2).ToArray());
             }, true, true);
             panel.Options.GroupFields("Analisi e omogeneizzazione", ["modello", "n_armature", "phi", "n_trefoli", "phi_trefoli", "__ep_ref"], true);
             panel.Options.GroupFields("Verifiche SLE · ambiente e armatura", ["esposizione", "sensibilita", "durata", "aderenza"], true);
@@ -74,20 +75,21 @@ internal sealed partial class ConcreteWorkspace
             var table = Panel("Combinazioni · " + SectionWorkspace.Label(key), ActionTable(key, panel.Grid, () => UpdateStressSelection(key)));
             var body = Columns((optionsPanel, 2.6, 260), (Rows(upper, table, 3.5, 2), 7.4, 680)); body.Margin = new Thickness(0, 8, 0, 0);
             Ui.Tab(sleTabs, SectionWorkspace.Label(key), body);
+            panel.View.IsVisibleChanged += (_, _) => { if (panel.View.IsVisible) UpdateStressSelection(key); };
             if (actions[key].Count > 0) panel.Grid.SelectedIndex = 0;
         }
         var header = Ui.Text("SLE · tensioni e fessurazione", 17, true); header.Margin = new Thickness(4, 12, 4, 10);
         return Ui.Dock(sleTabs, header);
     }
-    private async Task CalculateStress(string key, CancellationToken token)
+    private async Task CalculateStress(string key, CancellationToken token, CheckerSectionModel? prepared = null, JsonObject? preparedInput = null, JsonObject? preparedWorkspace = null)
     {
         status.Text = "Analisi tensionale · " + SectionWorkspace.Label(key) + "…"; var settingsSle = settings["sle"]![key]!;
-        var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone(); var options = (JsonObject)settingsSle.DeepClone();
+        var input = preparedInput ?? (JsonObject)Input.DeepClone(); var workspace = preparedWorkspace ?? (JsonObject)settings.DeepClone(); var options = (JsonObject)settingsSle.DeepClone();
         var requests = actions[key].Select(row => (Id: row.Values.S("id"), Values: (JsonObject)row.Values.DeepClone())).ToArray();
         var outcomes = await Task.Run(() =>
         {
             var results = new Dictionary<string, StressOutcome>(); if (requests.Length == 0) return results;
-            var engine = new CheckerSection(input, workspace, options);
+            var engine = prepared is null ? new CheckerSection(input, workspace, options) : new CheckerSection(prepared, input, workspace, options);
             foreach (var request in requests)
             {
                 token.ThrowIfCancellationRequested();
@@ -103,6 +105,7 @@ internal sealed partial class ConcreteWorkspace
             return results;
         }, token);
         token.ThrowIfCancellationRequested(); stressResults[key] = outcomes;
+        using var notifications = JsonRow.DeferNotifications(actions[key]);
         foreach (var row in actions[key])
         {
             var outcome = outcomes[row.Values.S("id")]; row.Output("sigma_c", EngineeringFormat.Number(outcome.State?.sigma_cls)); row.Output("sigma_s", EngineeringFormat.Number(outcome.State?.sigma_acciaio)); row.Output("eta_sigma", EngineeringFormat.Number(outcome.Ratio)); row.Output("stress_status", outcome.Status); row.Output("wk", outcome.CrackResult?.Width is double width ? $"{EngineeringFormat.Number(width)} / {EngineeringFormat.Number(outcome.CrackResult.Limit)} mm · η={EngineeringFormat.Number(outcome.CrackResult.Ratio)}" : outcome.Cracking);
@@ -111,7 +114,9 @@ internal sealed partial class ConcreteWorkspace
     }
     private void UpdateStressSelection(string key)
     {
-        if (!stressPanels.TryGetValue(key, out var panel) || panel.Grid is null) return;
+        if (synchronizing || !stressPanels.TryGetValue(key, out var panel) || panel.Grid is null || !panel.View.IsVisible) return;
+        using var barsRefresh = panel.Bars.Rows.DeferRefresh();
+        using var concreteRefresh = panel.Concrete.Rows.DeferRefresh();
         var row = panel.Grid.SelectedItem as JsonRow; var outcome = row is null ? null : stressResults.GetValueOrDefault(key)?.GetValueOrDefault(row.Values.S("id"));
         panel.View.Stress = outcome?.State; panel.View.InvalidateVisual(); panel.Bars.Rows.Clear(); panel.Concrete.Rows.Clear();
         if (outcome?.State is CheckerStressState state)

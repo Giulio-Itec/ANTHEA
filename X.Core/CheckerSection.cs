@@ -13,8 +13,19 @@ using GPC.Model.Standards;
 namespace X.Core;
 
 /// <summary>Unit/DTO adapter only. All section equilibrium and domain searches belong to the shipped Checker DLL.</summary>
+public sealed class CheckerSectionModel
+{
+    public ReinforcedConcreteSection Section { get; }
+    public CoordinateSystem Local { get; }
+    public SezioneCA Geometry { get; }
+    internal CheckerSectionModel(ReinforcedConcreteSection section, CoordinateSystem local, SezioneCA geometry)
+        => (Section, Local, Geometry) = (section, local, geometry);
+}
+
 public sealed class CheckerSection
 {
+    private static readonly object NativeSolverConstruction = new();
+    public CheckerSectionModel Model { get; }
     public ReinforcedConcreteSection Section { get; }
     public CoordinateSystem Local { get; }
     public CoordinateSystem ForceAxes { get; }
@@ -33,17 +44,16 @@ public sealed class CheckerSection
         "N e My costanti" => SectionSolver.FailureAnalysisTypes.ConstantNMy,
         _ => throw new ArgumentException("Criterio Checker non riconosciuto.")
     };
-    public CheckerSection(JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU")
+    public static CheckerSectionModel PrepareModel(JsonObject input, JsonObject workspace)
     {
-        Options = (JsonObject)options.DeepClone(); Geometry = new SezioneCA(input);
-        compressionReduction = workspace.S("normativa", "NTC 2018") == "NTC 2018" && input.S("gettato_sottile", "No") == "Sì" ? .8 : 1;
+        var geometry = new SezioneCA(input);
         var concrete = ConcreteMaterials.Concrete(input);
         var steel = ConcreteMaterials.Rebar(input);
-        Section = new ReinforcedConcreteSection(new Shape2d(new Polygon2d(Geometry.Outline.Select(p => new Point2d(p[0], p[1])).ToArray())), concrete);
-        for (int i = 0; i < Geometry.Bars.Count; i++)
+        var section = new ReinforcedConcreteSection(new Shape2d(new Polygon2d(geometry.Outline.Select(p => new Point2d(p[0], p[1])).ToArray())), concrete);
+        for (int i = 0; i < geometry.Bars.Count; i++)
         {
-            var b = Geometry.Bars[i]; ValidateRebarPosition(b.X, b.Y, b.Diametro / 2, "B" + (i + 1));
-            Section.AddRebars([new ReinforcedConcreteRebar(new RebarSectionCircular(b.Diametro, steel), new Point2d(b.X, b.Y))]);
+            var b = geometry.Bars[i]; ValidateRebarPosition(geometry, section, b.X, b.Y, b.Diametro / 2, "B" + (i + 1));
+            section.AddRebars([new ReinforcedConcreteRebar(new RebarSectionCircular(b.Diametro, steel), new Point2d(b.X, b.Y))]);
         }
         foreach (var t in workspace.Array("trefoli"))
         {
@@ -52,10 +62,17 @@ public sealed class CheckerSection
             if (fpu < fpy || strain <= fpy / ep || sigma >= fpu) throw new ArgumentException("Trefolo: controllare fpk, fpyk, εpu e σp0.");
             var material = new SteelMaterial(t.S("id"), ep, fpy, fpu, strain, SteelMaterial.StressStrainCurveType.ElasticHardening, SteelMaterial.SteelTypes.Tendon);
             double x = SectionWorkspace.Number(t.S("x"), "x trefolo"), y = SectionWorkspace.Number(t.S("y"), "y trefolo"), radius = Math.Sqrt(area / Math.PI);
-            ValidateRebarPosition(x, y, radius, t.S("id"));
-            Section.AddRebars([new ReinforcedConcreteRebar(new RebarSectionCircular(2 * radius, material), new Point2d(x, y), sigma)]);
+            ValidateRebarPosition(geometry, section, x, y, radius, t.S("id"));
+            section.AddRebars([new ReinforcedConcreteRebar(new RebarSectionCircular(2 * radius, material), new Point2d(x, y), sigma)]);
         }
-        Local = new CoordinateSystem(Section.Centroid, new Vector3d(-1, 0, 0), new Vector3d(0, -1, 0));
+        return new(section, new CoordinateSystem(section.Centroid, new Vector3d(-1, 0, 0), new Vector3d(0, -1, 0)), geometry);
+    }
+    public CheckerSection(JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU")
+        : this(PrepareModel(input, workspace), input, workspace, options, state) { }
+    public CheckerSection(CheckerSectionModel model, JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU")
+    {
+        Model = model; Options = (JsonObject)options.DeepClone(); Geometry = model.Geometry; Section = model.Section; Local = model.Local;
+        compressionReduction = workspace.S("normativa", "NTC 2018") == "NTC 2018" && input.S("gettato_sottile", "No") == "Sì" ? .8 : 1;
         ForceAxes = new CoordinateSystem(Local);
         switch (options.S("assi", "Locali"))
         {
@@ -74,12 +91,17 @@ public sealed class CheckerSection
             state == "SLV" ? SectionSolver.FailureDomainTypes.Elastic : SectionSolver.FailureDomainTypes.Plastic,
             options.S("modello", "Non lineare") == "Lineare" ? SectionSolver.StressAnalysisTypes.Linear : SectionSolver.StressAnalysisTypes.NonLinear,
             Nonnegative("phi"), workspace.Array("trefoli").Count > 0 ? Nonnegative("phi_trefoli") : 0, tensile, subdivisions);
-        Checker = new SectionCheckerModelCode2010(new SectionCheckerAttribute(Section, null, null), settings, standard, tensile);
-        Checker.SetDomainPointStrategy(options.S("strategia", "Iterativo") == "Intersezione" ? SectionSolver.DomainPointStrategyTypes.Intersection : SectionSolver.DomainPointStrategyTypes.Iterative);
+        // GPC's Delaunay integration-mesh creation is not thread-safe. Keep only this
+        // short construction phase serialized; calculations on distinct solvers may overlap.
+        lock (NativeSolverConstruction)
+        {
+            Checker = new SectionCheckerModelCode2010(new SectionCheckerAttribute(Section, null, null), settings, standard, tensile);
+            Checker.SetDomainPointStrategy(options.S("strategia", "Iterativo") == "Intersezione" ? SectionSolver.DomainPointStrategyTypes.Intersection : SectionSolver.DomainPointStrategyTypes.Iterative);
+        }
     }
-    private void ValidateRebarPosition(double x, double y, double radius, string id)
+    private static void ValidateRebarPosition(SezioneCA geometry, ReinforcedConcreteSection section, double x, double y, double radius, string id)
     {
-        var polygon = Geometry.Outline; bool inside = false; double distance = double.PositiveInfinity;
+        var polygon = geometry.Outline; bool inside = false; double distance = double.PositiveInfinity;
         for (int i = 0, j = polygon.Count - 1; i < polygon.Count; j = i++)
         {
             var a = polygon[j]; var b = polygon[i];
@@ -89,7 +111,7 @@ public sealed class CheckerSection
             distance = Math.Min(distance, Math.Sqrt(Math.Pow(x - a[0] - u * dx, 2) + Math.Pow(y - a[1] - u * dy, 2)));
         }
         if (!inside || distance < radius) throw new ArgumentException($"Armatura {id}: area esterna alla sezione di calcestruzzo.");
-        foreach (var bar in Section.Rebars)
+        foreach (var bar in section.Rebars)
         {
             // Cross-section radii include ordinary bars and tendons already inserted.
             if (Math.Sqrt(Math.Pow(x - bar.Position.X, 2) + Math.Pow(y - bar.Position.Y, 2)) < radius + Math.Sqrt(bar.Area / Math.PI) - 1e-8)
@@ -179,7 +201,7 @@ public sealed class CheckerSection
             SteelStressLimit = standard.ServiceabilityStressSteelCoefficientForCharacteristicCombination * Math.Abs(Section.Rebars.First().RebarMaterial.Fyk),
             ConcreteVertices = Geometry.Outline.Select((p, i) => new StressPoint("C" + (i + 1), p[0], p[1], linear ? result.GetConcreteTension(phi, new Point2d(p[0], p[1])) : result.GetConcreteTension(new Point2d(p[0], p[1])), (linear ? result.GetVerticeStrain(new Point2d(p[0], p[1]), phi) : result.GetVerticeStrain(new Point2d(p[0], p[1]))) * 1000)).ToArray(),
             BarStrains = Section.Rebars.Select(b => (linear ? result.GetRebarStrain(b, b.EpsilonP != 0 ? phiT : phi) : result.GetRebarStrain(b)) * 1000).ToArray()
-            ,Raster = StressRaster.Sample(Geometry, p => linear ? result.GetConcreteTension(phi, p) : result.GetConcreteTension(p), p => (linear ? result.GetVerticeStrain(p, phi) : result.GetVerticeStrain(p)) * 1000)
+            ,RasterFactory = new(() => StressRaster.Sample(Geometry, p => linear ? result.GetConcreteTension(phi, p) : result.GetConcreteTension(p), p => (linear ? result.GetVerticeStrain(p, phi) : result.GetVerticeStrain(p)) * 1000))
         };
     }
 }
@@ -193,7 +215,9 @@ public sealed record CheckerStressState(double sigma_cls, double sigma_acciaio, 
     public double SteelStressLimit { get; init; }
     public StressPoint[] ConcreteVertices { get; init; } = [];
     public double[] BarStrains { get; init; } = [];
-    [System.Text.Json.Serialization.JsonIgnore] public StressRaster? Raster { get; init; }
+    internal Lazy<StressRaster>? RasterFactory { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore] public StressRaster? Raster => RasterFactory?.Value;
+    [System.Text.Json.Serialization.JsonIgnore] public bool IsRasterCreated => RasterFactory?.IsValueCreated == true;
     public double[] BarStrengths { get; init; } = [];
     public double[] FiberStrains { get; init; } = [];
 }
@@ -227,7 +251,9 @@ public sealed class CheckerDomain3D(CheckerSection section, FailureDomainResult 
 {
     public CheckerSection Section { get; } = section;
     public FailureDomainResult Native { get; } = native;
-    public SectionDomainMesh Mesh { get; } = new(section.Checker.SectionCheckerOptions.FailureDomainType.ToString(), native.Domain.GetMesh(out _));
+    private readonly Lazy<SectionDomainMesh> mesh = new(() => new(section.Checker.SectionCheckerOptions.FailureDomainType.ToString(), native.Domain.GetMesh(out _)));
+    public SectionDomainMesh Mesh => mesh.Value;
+    public bool IsMeshCreated => mesh.IsValueCreated;
     public void ConfigureVerification(JsonObject options)
     {
         Native.FailureAnalysisType = CheckerSection.Criterion(options.S("criterio", "N costante"));
@@ -239,9 +265,66 @@ public sealed class CheckerDomain3D(CheckerSection section, FailureDomainResult 
         var force = Section.Force(action);
         if (action.Length == 0 && !Section.Section.Rebars.Any(r => r.EpsilonP != 0)) return new(0, null, "Azione nulla");
         var p = Native.CalculateForce(force);
-        if (p is null) return new(null, null, "Checker: punto resistente non trovato");
-        return Outcome(p.CalculateWorkingRatio(Native.FailureAnalysisType, force, 1e6, 1000), CheckerSection.Point(p)) with { Response = Section.Describe(p) };
+        return Describe(p, force);
     }
+    /// <summary>Ordered batch on a configured domain; do not reconfigure it while this call is running.</summary>
+    public DomainCheck[] CheckMany(IReadOnlyList<ActionPoint> actions, CancellationToken token = default)
+    {
+        token.ThrowIfCancellationRequested();
+        // Exact value equality, not rounding: different demands must never share a check.
+        var indices = new Dictionary<ActionPoint, int>();
+        var unique = new List<ActionPoint>(); var map = new int[actions.Count];
+        for (int i = 0; i < actions.Count; i++)
+        {
+            token.ThrowIfCancellationRequested();
+            if (!indices.TryGetValue(actions[i], out int index))
+            { index = unique.Count; indices.Add(actions[i], index); unique.Add(actions[i]); }
+            map[i] = index;
+        }
+        var checks = new DomainCheck[unique.Count];
+        bool prestressed = Section.Section.Rebars.Any(r => r.EpsilonP != 0);
+        // The native vector overload parallelizes the searches. Small chunks bound
+        // temporary memory and cancellation latency, without any UI refresh per force.
+        const int batchSize = 64;
+        for (int start = 0; start < unique.Count; start += batchSize)
+        {
+            token.ThrowIfCancellationRequested();
+            var pending = new List<int>(); var forces = new List<ResultBeamForces>();
+            for (int i = start; i < Math.Min(start + batchSize, unique.Count); i++)
+            {
+                var action = unique[i];
+                if (!double.IsFinite(action.N) || !double.IsFinite(action.Mx) || !double.IsFinite(action.My))
+                { checks[i] = new(null, null, "Checker: azione non finita"); continue; }
+                if (action.Length == 0 && !prestressed) { checks[i] = new(0, null, "Azione nulla"); continue; }
+                pending.Add(i); forces.Add(Section.Force(action, i + 1));
+            }
+            if (pending.Count == 0) continue;
+            FailureDomain.FailureDomainPoint[] points;
+            try { points = Section.Checker.SectionSolver.CalculateDomainPoint(forces.ToArray()); }
+            catch (Exception ex) when (ex is not OperationCanceledException)
+            {
+                // One native failure must not discard every other combination.
+                foreach (int i in pending)
+                {
+                    token.ThrowIfCancellationRequested();
+                    try { checks[i] = Check(unique[i]); }
+                    catch (Exception error) when (error is not OperationCanceledException) { checks[i] = new(null, null, "Checker: " + error.Message); }
+                }
+                continue;
+            }
+            for (int i = 0; i < pending.Count; i++)
+            {
+                token.ThrowIfCancellationRequested();
+                try { checks[pending[i]] = Describe(points[i], forces[i]); }
+                catch (Exception ex) when (ex is not OperationCanceledException) { checks[pending[i]] = new(null, null, "Checker: " + ex.Message); }
+            }
+        }
+        token.ThrowIfCancellationRequested();
+        return map.Select(i => checks[i]).ToArray();
+    }
+    private DomainCheck Describe(FailureDomain.FailureDomainPoint? p, ResultBeamForces force)
+        => p is null ? new(null, null, "Checker: punto resistente non trovato")
+         : Outcome(p.CalculateWorkingRatio(Native.FailureAnalysisType, force, 1e6, 1000), CheckerSection.Point(p)) with { Response = Section.Describe(p) };
     internal static DomainCheck Outcome(double ratio, ActionPoint p)
         => !double.IsFinite(ratio) || ratio < 0 || !double.IsFinite(p.N + p.Mx + p.My) ? new(null, null, "Checker: resistenza non determinata")
          : new(ratio, p, ratio <= 1 ? "Entro il dominio" : "Fuori dominio");

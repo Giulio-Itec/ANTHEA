@@ -62,7 +62,9 @@ public static class ReportConcrete
         }
         void Parameters(string heading, JsonNode values, (string Key, string Label)[] fields)
         { Subheading(heading); Table(["Parametro", "Valore"], fields.Where(f => values[f.Key] is not null).Select(f => new[] { f.Label, J.Number(values[f.Key]) is double n ? EngineeringFormat.Number(n) : values.S(f.Key) })); }
-        string Name(string family, string id) => data["combinazioni"]!.Array(family).FirstOrDefault(row => row.S("id") == id).S("nome", id);
+        var names = SectionWorkspace.Sets.ToDictionary(family => family,
+            family => data["combinazioni"]!.Array(family).GroupBy(row => row.S("id")).ToDictionary(g => g.Key, g => g.First().S("nome", g.Key)));
+        string Name(string family, string id) => names[family].GetValueOrDefault(id, id);
         P("Relazione della sezione in calcestruzzo armato", "Title"); P(title, "Subtitle"); P("ANTHEA · " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
         Heading("Ambito e limiti");
         P("Normativa selezionata: " + settings.S("normativa") + ". Motore GPC Checker collegato tramite DLL. Compressione negativa; geometria in mm, tensioni in MPa, deformazioni in ‰, azioni N e V in kN, momenti in kNm. Arrotondamenti solo di presentazione.");
