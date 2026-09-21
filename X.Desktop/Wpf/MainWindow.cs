@@ -18,6 +18,7 @@ public sealed partial class MainWindow : Window
     private SheetEditor? editor;
     private readonly ContentControl body = new();
     private readonly Grid dashboard = new();
+    private readonly ScrollViewer dashboardViewport;
     private readonly DockPanel moduleView = new();
     private readonly ContentControl dashboardBody = new() { Margin = new Thickness(42, 24, 42, 36) };
     private readonly ContentControl sheetContent = new();
@@ -28,8 +29,10 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         Style = (Style)Application.Current.FindResource(typeof(Window));
-        Title = "ANTHEA"; Width = 1600; Height = 990; MinWidth = 1200; MinHeight = 850; WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        Title = "ANTHEA"; Width = 1600; Height = 990; MinWidth = 760; MinHeight = 480; WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        dashboardViewport = DisplayAdaptation.Viewport(dashboard, 1120, 680);
         var root = Ui.Dock(body, BuildMenu()); root.Background = Ui.Bg; Content = root; BuildShell(); ShowHome();
+        DisplayAdaptation.Attach(this);
         Closing += (_, e) => { if (testing) return; if (editor?.Busy == true) { e.Cancel = true; MessageBox.Show(this, "Attendere il completamento del calcolo."); return; } e.Cancel = !ConfirmDiscard(); };
         Closed += (_, _) => editor?.Dispose();
         tree.SelectedItemChanged += (_, e) =>
@@ -67,7 +70,7 @@ public sealed partial class MainWindow : Window
         }
         nav.Children.Add(FileCommands(false)); var footer = Ui.Text("Moduli disponibili: 3 di 6", color: Ui.Muted); footer.Margin = new Thickness(20);
         var sidebar = Ui.Dock(nav, bottom: footer); sidebar.Background = Brushes.White; dashboard.Children.Add(sidebar); Grid.SetColumn(dashboardBody, 1); dashboard.Children.Add(dashboardBody);
-        var top = new DockPanel { Background = Ui.Navy, Height = 68, LastChildFill = true };
+        var top = new DockPanel { Background = Ui.Navy, MinHeight = 68, LastChildFill = true };
         var back = Ui.Button("← Torna ad ANTHEA", () => { if (editor?.Busy == true) return; Commit(); ShowHome(); }, true); back.Width = 200; back.BorderThickness = new Thickness(0); top.Children.Add(back); top.Children.Add(FileCommands(true));
         var titles = Ui.Stack(heading, Ui.Text("Scheda di calcolo · input, profilo e risultati", 12, color: Ui.Brush("#B9C8D8"))); titles.Margin = new Thickness(15, 10, 0, 0); top.Children.Add(titles);
         DockPanel.SetDock(top, System.Windows.Controls.Dock.Top); moduleView.Children.Add(top); moduleView.Children.Add(sheetContent);
@@ -78,14 +81,16 @@ public sealed partial class MainWindow : Window
         foreach (var (label, icon, action) in new (string, string, Action)[] { ("Apri", "📂", Open), ("Salva", "▣", () => Save(false)), ("Salva con nome", "▤", () => Save(true)), ("Report Word", "W", ExportReport) })
         {
             if (!dark && label == "Report Word") continue;
-            var b = Ui.Button(icon, () => Safe(action), dark); b.ToolTip = label; b.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, label); b.Width = 37; b.Height = 36; b.Padding = new Thickness(2); bar.Children.Add(b);
+            bool save = label is "Salva" or "Salva con nome";
+            var b = Ui.Button(save ? label : icon, () => Safe(action), dark); b.ToolTip = label; b.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, label);
+            if (!save) b.Width = 37; b.Height = 36; b.Padding = new Thickness(save ? 10 : 2, 2, save ? 10 : 2, 2); bar.Children.Add(b);
         }
         return bar;
     }
     private void SelectNavigation(string name)
     {
         if (tree.Parent is Panel p) p.Children.Remove(tree);
-        dashboardBody.Content = null; body.Content = dashboard;
+        dashboardBody.Content = null; body.Content = dashboardViewport;
         foreach (var (key, b) in navigation) { b.Background = key == name ? Ui.Navy : Brushes.White; b.Foreground = key == name ? Brushes.White : Ui.Navy; }
     }
     private void ShowHome()
@@ -93,6 +98,8 @@ public sealed partial class MainWindow : Window
         SelectNavigation("Home"); var layout = new Grid(); layout.RowDefinitions.Add(new RowDefinition { Height = new GridLength(250) }); layout.RowDefinitions.Add(new RowDefinition());
         var hero = new DockPanel { Background = Ui.Navy, Margin = new Thickness(0, 0, 0, 10) }; var logo = Ui.Logo(220); logo.Margin = new Thickness(24, 8, 20, 8); hero.Children.Add(logo);
         var copy = Ui.Stack(Ui.Text("Strumenti di calcolo per l'ingegneria", 30, true, Brushes.White), Ui.Text("Apri un modulo indipendente oppure organizza più verifiche all'interno di un progetto.", 15, color: Ui.Brush("#B9C8D8"))); copy.VerticalAlignment = VerticalAlignment.Center; copy.Margin = new Thickness(20); hero.Children.Add(copy); layout.Children.Add(hero);
+        if (editor is not null && currentSheet is not null)
+            copy.Children.Add(Ui.Button("Riprendi · " + currentSheet.S("nome", ModuleName(editor.Module)), () => ResumeCalculation(), true));
         var cards = new Grid { Margin = new Thickness(0, 10, 0, 0) }; cards.ColumnDefinitions.Add(new ColumnDefinition()); cards.ColumnDefinitions.Add(new ColumnDefinition()); Grid.SetRow(cards, 1); layout.Children.Add(cards);
         void Card(int col, string title, string description, string badge, string button, Action action)
         {
@@ -122,7 +129,7 @@ public sealed partial class MainWindow : Window
                     string icon = id != "" ? id : area == "Strutture" ? "str_micropalo" : title == "Palo" ? "geo_palo_orizzontale" : "geo_micropalo_orizzontale";
                     var copy = Ui.Stack(Ui.Text(id == "" ? "In preparazione" : "Disponibile", 11, true, id == "" ? Ui.Muted : Brushes.ForestGreen), Ui.Text(description, 17, true), Ui.Text(area + " · " + title, 12, color: Ui.Muted)); copy.Margin = new Thickness(12);
                     var row = new DockPanel(); row.Children.Add(Ui.ModuleIcon(icon)); row.Children.Add(copy);
-                    var open = Ui.Button(id == "" ? "Dettagli" : "Apri", () => { if (id != "") Safe(() => NewCalculation(id)); else MessageBox.Show(this, "Modulo in preparazione, come nella versione originale."); }, id != ""); open.HorizontalAlignment = HorizontalAlignment.Right;
+                    var open = Ui.Button(id == "" ? "Dettagli" : editor?.Module == id ? "Riprendi" : "Apri", () => { if (id != "") Safe(() => OpenModule(id)); else MessageBox.Show(this, "Modulo in preparazione, come nella versione originale."); }, id != ""); open.HorizontalAlignment = HorizontalAlignment.Right;
                     var card = Ui.Paper(Ui.Dock(row, bottom: open)); card.Height = 200; card.Margin = new Thickness(0, 0, 0, 8); pane.Children.Add(card);
                 }
                 pane.Margin = new Thickness(0, 0, 14, 0); Grid.SetColumn(pane, col++); groups.Children.Add(pane);
@@ -150,8 +157,12 @@ public sealed partial class MainWindow : Window
     private void Commit() { if (editor is null || currentSheet is null) return; editor.Commit(); currentSheet["dati"] = editor.Data.DeepClone(); }
     private void ShowSheet(JsonObject sheet)
     {
+        if (editor is not null && ReferenceEquals(sheet, currentSheet)) { ResumeCalculation(); return; }
         if (editor?.Busy == true) return; editor?.Dispose(); currentSheet = sheet; string module = sheet.S("modulo_id");
-        editor = new SheetEditor(module, sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(module)); editor.Modified += MarkDirty; sheetContent.Content = editor; heading.Text = sheet.S("nome", ModuleName(module)); body.Content = moduleView;
+        editor = new SheetEditor(module, sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(module)); editor.Modified += MarkDirty;
+        sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale"
+            ? editor : DisplayAdaptation.Viewport(editor, 1120, 600);
+        heading.Text = sheet.S("nome", ModuleName(module)); body.Content = moduleView;
     }
     private void RefreshTree(JsonObject? selected = null)
     {
@@ -180,6 +191,17 @@ public sealed partial class MainWindow : Window
     }
     private void NewCalculation(string module)
     { if (editor?.Busy == true || !ConfirmDiscard()) return; document = Archivio.Documento(module); path = null; dirty = false; currentSheet = null; ShowSheet(document); RefreshTree(); UpdateTitle(); }
+    private void OpenModule(string module)
+    {
+        if (editor?.Module == module && currentSheet is not null) ResumeCalculation();
+        else NewCalculation(module);
+    }
+    private void ResumeCalculation()
+    {
+        if (editor is null || currentSheet is null) return;
+        heading.Text = currentSheet.S("nome", ModuleName(editor.Module));
+        body.Content = moduleView;
+    }
     private void NewProjects()
     {
         if (editor?.Busy == true || !ConfirmDiscard()) return;
@@ -255,7 +277,7 @@ public sealed partial class MainWindow : Window
             if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []); return;
         }
         var list = new StackPanel { Margin = new Thickness(16) }; var checks = new Dictionary<string, CheckBox>();
-        foreach (var (key, label) in ReportWord.Sezioni) { var check = new CheckBox { Content = label, IsChecked = !key.StartsWith("grafico_"), Margin = new Thickness(4) }; checks[key] = check; list.Children.Add(check); }
+        foreach (var (key, label) in ReportWord.Sezioni) { var check = new CheckBox { Content = editor.Module == "geo_micropalo_verticale" ? key == "nq" ? "Metodo Bustamante–Doix" : key == "grafico_nq" ? "Abachi Bustamante–Doix" : label : label, IsChecked = !key.StartsWith("grafico_") || key == "grafico_nq", Margin = new Thickness(4) }; checks[key] = check; list.Children.Add(check); }
         var window = Ui.Dialog(this, "Contenuti del report Word", list, 460, 500); var ok = Ui.Button("Esporta", () => window.DialogResult = true, true); list.Children.Add(ok); if (window.ShowDialog() != true) return;
         var d = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = "Relazione.docx" }; if (d.ShowDialog(this) == true) editor.ExportReport(d.FileName, heading.Text, checks.Where(p => p.Value.IsChecked == true).Select(p => p.Key).ToHashSet());
     }

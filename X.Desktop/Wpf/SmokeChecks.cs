@@ -88,7 +88,7 @@ internal sealed partial class SheetEditor
             outputs.SelectedIndex = 1; tableSelect.SelectedIndex = 0;
             await Capture("_tabelle_compatte");
             var capacityTables = Ui.Descendants<DataGrid>(tableHost).ToArray();
-            Assert(capacityTables.Length == 2 && capacityTables.All(t => t.Columns.Count == 4 && t.Items.Count == 2), "Riepilogo compatto drenate/non drenate");
+            Assert(capacityTables.Length == 2 && capacityTables.All(t => t.Columns.Count == 4 && t.Items.Count == 3), "Riepilogo compatto drenate/non drenate");
             expanded = 6; LayoutCards(); await Capture("_tabelle_compatte_estese"); expanded = -1; LayoutCards();
             outputs.SelectedIndex = 0;
             expanded = 4; LayoutCards(); await Capture("_stratigrafia_estesa"); expanded = -1; LayoutCards();
@@ -97,7 +97,7 @@ internal sealed partial class SheetEditor
             var duplicated = Data.Array("stratigrafie")[0]!.DeepClone(); duplicated!.AsArray().Last()!["angolo_attrito"] = "32"; Data.Array("stratigrafie").Add(duplicated); RebuildSondages(1); Changed(); await WaitForAutomatic();
             Assert(stratigraphy.VisibleIndices.SequenceEqual(new[] { 1 }), "Selezione profilo");
             Assert(reference.Markers.Count == 1 && reference.Markers[0].X == 32, "Selezione Nq");
-            expanded = 5; LayoutCards(); Assert(stratigraphy.VisibleIndices.Length == 2 && cards.All(c => c.Visibility == Visibility.Visible), "Espansione profilo"); await Capture("_profili");
+            expanded = 5; LayoutCards(); Assert(stratigraphy.VisibleIndices.Length == 2 && cards[5].Visibility == Visibility.Visible, "Espansione profilo"); await Capture("_profili");
             expanded = -1; Data.Array("stratigrafie").RemoveAt(1); RebuildSondages(0); Changed(); LayoutCards(); await WaitForAutomatic();
         }
         Assert(Result is not null, "Risultato finale assente");

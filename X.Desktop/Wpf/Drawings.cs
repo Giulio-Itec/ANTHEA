@@ -36,8 +36,8 @@ internal abstract class DrawingView : FrameworkElement
     }
 }
 
-internal sealed record Serie(string Name, List<double[]> Points, Brush Color, bool Dashed = false, bool Highlighted = false);
-internal sealed record PlotMarker(double X, double Y, string Label, Brush Color);
+internal sealed record Serie(string Name, List<double[]> Points, Brush Color, bool Dashed = false, bool Highlighted = false, DashStyle? DashPattern = null);
+internal sealed record PlotMarker(double X, double Y, string Label, Brush Color, bool ProjectToAxes = false, string? XCaption = null, string? YCaption = null);
 
 internal sealed class Plot : DrawingView
 {
@@ -98,11 +98,30 @@ internal sealed class Plot : DrawingView
         foreach (var s in Series)
         {
             var valid = s.Points.Where(p => p.Length >= 2 && double.IsFinite(p[0]) && double.IsFinite(p[1])).Select(p => P(p[0], p[1])).ToArray();
-            var pen = new Pen(s.Color, s.Highlighted ? 3 : 1.7) { DashStyle = s.Dashed ? DashStyles.Dash : DashStyles.Solid };
+            var pen = new Pen(s.Color, s.Highlighted ? 3 : 1.7) { DashStyle = s.DashPattern ?? (s.Dashed ? DashStyles.Dash : DashStyles.Solid) };
             if (valid.Length > 1) dc.DrawGeometry(null, pen, Path(valid, false));
         }
-        foreach (var m in Markers) { var p = P(m.X, m.Y); dc.DrawEllipse(m.Color, new Pen(Brushes.White, 1), p, 5, 5); Text(dc, m.Label, p.X + 7, p.Y - 16, 10, m.Color); }
+        foreach (var m in Markers)
+        {
+            var p = P(m.X, m.Y);
+            if (m.ProjectToAxes && area.Contains(p))
+            {
+                var guide = new Pen(m.Color, .8);
+                dc.DrawLine(guide, p, new Point(area.Left, p.Y)); dc.DrawLine(guide, p, new Point(p.X, area.Bottom));
+            }
+            dc.DrawEllipse(m.Color, new Pen(Brushes.White, 1), p, 5, 5);
+            if (!m.ProjectToAxes) Text(dc, m.Label, p.X + 7, p.Y - 16, 10, m.Color);
+        }
         dc.Pop();
+        foreach (var m in Markers.Where(m => m.ProjectToAxes))
+        {
+            var p = P(m.X, m.Y); if (!area.Contains(p)) continue;
+            double labelX = Math.Clamp(p.X - 28, area.Left, Math.Max(area.Left, area.Right - 66));
+            dc.DrawRectangle(Brushes.White, null, new Rect(labelX, area.Bottom + 2, 66, 18));
+            Text(dc, m.XCaption ?? $"φ={m.X:0.#}°", labelX, area.Bottom + 3, 11, m.Color, 66, true);
+            dc.DrawRectangle(Brushes.White, null, new Rect(0, p.Y - 15, area.Left - 2, 31));
+            Text(dc, m.YCaption ?? $"Nq\n{m.Y:0.#}", 1, p.Y - 15, 10, m.Color, area.Left - 3, true);
+        }
         if (legendHeight > 0)
         {
             for (int i = 0; i < Series.Count; i++)
@@ -151,6 +170,7 @@ internal sealed class SectionDrawing : DrawingView
 
 internal sealed class StratigraphyDrawing : DrawingView
 {
+    internal static readonly string[] LayerColors = ["#F4C95D", "#DFA06E", "#A8C686", "#8FB8DE", "#C6A0D5", "#C9B79C"];
     internal JsonObject? Data { get; set; }
     internal bool Micro { get; set; }
     internal int SelectedIndex { get; set; }
@@ -162,36 +182,46 @@ internal sealed class StratigraphyDrawing : DrawingView
         var indices = VisibleIndices; var g = Data["generali"]!; var sets = Data.Array("stratigrafie");
         double length = g.D("lunghezza"), angle = Micro ? g.D("inclinazione") * Math.PI / 180 : 0;
         double maximum = indices.Select(i => sets[i]!.AsArray().Sum(r => Math.Max(0, r.D("spessore")))).DefaultIfEmpty(0).Max();
-        if (Micro) maximum = Math.Max(maximum, length * Math.Cos(angle));
+        maximum = Math.Max(maximum, length * Math.Cos(angle));
         if (maximum <= 0) { Text(dc, "Inserire la stratigrafia", 8, 30, width: size.Width - 16); return; }
         double top = 34, band = size.Width / Math.Max(1, indices.Length), scale = (size.Height - 90) / maximum;
-        if (Micro && length * Math.Sin(angle) > 0) scale = Math.Min(scale, Math.Max(10, band - 80) / (length * Math.Sin(angle)));
-        string[] colors = ["#F4C95D", "#DFA06E", "#A8C686", "#8FB8DE", "#C6A0D5", "#C9B79C"];
+        if (Micro && length * Math.Sin(angle) > 0) scale = Math.Min(scale, Math.Max(4, (band - 96) * .48 - 20) / (length * Math.Sin(angle)));
+        var colors = LayerColors;
         for (int p = 0; p < indices.Length; p++)
         {
-            int index = indices[p]; double left = p * band, x = left + 37, width = Math.Max(24, band - (Micro ? 50 : 96)), z = 0; int i = 0;
+            int index = indices[p]; double left = p * band, x = left + 37, width = Math.Max(24, band - 96), z = 0; int i = 0;
+            double pileWidth = Math.Clamp(g.D("diametro") * scale, 8, Math.Max(8, Math.Min(24, width * .22)));
+            double run = Micro ? length * Math.Sin(angle) * scale : 0;
+            double textWidth = Math.Max(8, width - run - pileWidth - 22);
             Text(dc, $"Stratigrafia {index + 1}", left + 6, 3, 12, bold: true, width: band - 12);
             foreach (var row in sets[index]!.AsArray())
             {
-                double h = row.D("spessore"); if (h <= 0) continue; double y = top + z * scale, ph = h * scale;
+                double h = row.D("spessore"); if (h <= 0) { i++; continue; } double y = top + z * scale, ph = h * scale;
                 dc.DrawRectangle(Ui.Brush(colors[i % colors.Length]), new Pen(Ui.Muted, 0.6), new Rect(x, y, width, ph));
                 Text(dc, z.ToString("0.##"), left, y - 6, 10, width: 35);
                 string name = row.S("strato", ((char)('A' + i % 26)).ToString());
                 string description = ph >= 130 ? (Micro ? $"Strato {name}\n{row.S("terreno")}\nS = {h:0.##} m\nα = {row.S("alpha")}" : $"Strato {name}\n{row.S("tipologia")} · {row.S("addensamento")}\nφ′ = {row.S("angolo_attrito")}°\nγ = {row.S("peso_specifico")}\nCu = {row.S("coesione_non_drenata")} kPa") : ph >= 65 ? $"Strato {name}\nS = {h:0.##} m" : $"Strato {name}";
-                dc.PushClip(new RectangleGeometry(new Rect(x + 1, y + 1, Math.Max(1, width - 2), Math.Max(1, ph - 2))));
-                if (ph >= 18) Text(dc, description, x + 5, y + 4, 11, Brushes.Black, width - 10);
+                dc.PushClip(new RectangleGeometry(new Rect(x + 1, y + 1, Math.Max(1, textWidth + 5), Math.Max(1, ph - 2))));
+                if (ph >= 18) Text(dc, description, x + 5, y + 4, 11, Brushes.Black, textWidth);
                 dc.Pop();
-                if (!Micro) Text(dc, $"{h:0.##} m", x + width + 5, y + ph / 2 - 7, 10, width: 49);
+                Text(dc, $"{h:0.##} m", x + width + 5, y + ph / 2 - 7, 10, width: 49);
                 z += h; i++;
             }
             Text(dc, z.ToString("0.##"), left, top + z * scale - 6, 10, width: 35);
             Text(dc, $"Totale: {z:0.##} m", left + 3, size.Height - 45, 12, bold: true, width: band - 6);
+            if (!Micro && length > 0)
+            {
+                double px = x + width - pileWidth - 7;
+                dc.DrawRectangle(Ui.Brush("#96999D"), new Pen(Ui.Brush("#62666B"), 1), new Rect(px, top, pileWidth, length * scale));
+                Text(dc, "Palo", px - 4, top - 18, 10, Ui.Navy, pileWidth + 16);
+            }
             if (Micro && length > 0)
             {
-                double px = x + 5; Point P(double s) => new(px + s * Math.Sin(angle) * scale, top + s * Math.Cos(angle) * scale);
-                dc.DrawLine(new Pen(Ui.Brush("#96999D"), Math.Clamp(g.D("diametro") * scale, 5, 18)), P(0), P(length));
+                double px = x + width - run - pileWidth / 2 - 7; Point P(double s) => new(px + s * Math.Sin(angle) * scale, top + s * Math.Cos(angle) * scale);
+                dc.DrawLine(new Pen(Ui.Brush("#96999D"), pileWidth), P(0), P(length));
                 double start = Math.Clamp(g.D("inizio_aderenza"), 0, length);
-                dc.DrawLine(new Pen(Ui.Navy, 3), P(start), P(length));
+                dc.DrawLine(new Pen(Ui.Brush("#62666B"), Math.Max(2, pileWidth * .35)), P(start), P(length));
+                Text(dc, "Micropalo", Math.Max(x, px - 28), top - 18, 10, Ui.Navy, 70);
             }
             if (!Micro && g.B("presenza_falda"))
             {

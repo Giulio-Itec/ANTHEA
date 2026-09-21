@@ -8,6 +8,7 @@
     <AssemblyName>ANTHEA</AssemblyName>
     <Product>ANTHEA</Product>
     <Title>ANTHEA</Title>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup><ProjectReference Include="../X.Core/X.Core.csproj" /></ItemGroup>
   <ItemGroup><Reference Include="../lib/Checker/*.dll" /></ItemGroup>

@@ -8,21 +8,26 @@ public static class Tabelle
 {
     public static string F(JsonNode? value)=>value is null?"—":J.Number(value) is double d?F(d):value.ToString();
     public static string F(double value)=>value.ToString("0.####",CultureInfo.GetCultureInfo("it-IT"));
-    public static List<Tabella> CapacitaPalo(JsonObject r)
+    public static List<Tabella> CapacitaPalo(JsonObject r,bool micro=false)
     {
         var tables = new List<Tabella>();
         if (r.S("errore") != "") return tables;
-        foreach (string condition in new[] { "drenante", "non_drenante" })
+        foreach (string condition in micro ? new[] { "compressione" } : new[] { "drenante", "non_drenante" })
         {
-            string key = condition + "_compressione";
+            string key = micro ? "compressione" : condition + "_compressione";
             var curve = r["curve"]![key]!;
             // Show the components of the same governing design branch at the final available depth.
             string governing = curve.Array("media")[^1]![1]!.GetValue<double>() <= curve.Array("minima")[^1]![1]!.GetValue<double>() ? "Media" : "Minimo";
             var components = r.Array("dettagli")[^1]!["componenti"]![condition]![governing]!;
             var rows = new List<string[]>();
             for (int i = 0; i < 2; i++)
-                rows.Add([i == 0 ? "Laterale" : "Punta", F(components.Array("calc")[i]), F(components.Array("k")[i]), F(components.Array("d")[i])]);
-            tables.Add(new(condition == "drenante" ? "DRENATE" : "NON DRENATE",
+                rows.Add([i == 0 ? "Laterale compressione" : "Punta compressione", F(components.Array("calc")[i]), F(components.Array("k")[i]), F(components.Array("d")[i])]);
+            string tensionKey = micro ? "trazione" : condition + "_trazione";
+            var tensionCurve = r["curve"]![tensionKey]!;
+            string tensionGoverning = tensionCurve.Array("media")[^1]![1]!.GetValue<double>() <= tensionCurve.Array("minima")[^1]![1]!.GetValue<double>() ? "Media" : "Minimo";
+            var tension = r.Array("dettagli")[^1]!["componenti"]![tensionKey]![tensionGoverning]!;
+            rows.Add(["Laterale trazione", F(tension.Array("calc")[0]), F(tension.Array("k")[0]), F(tension.Array("d")[0])]);
+            tables.Add(new(micro ? "MICROPALO" : condition == "drenante" ? "DRENATE" : "NON DRENATE",
                 ["", "Calcolo [kN]", "Caratteristiche [kN]", "Progetto [kN]"], rows));
         }
         return tables;
@@ -57,6 +62,7 @@ public static class Tabelle
             foreach(var c in conditions)Add(prefix+c.Replace('_',' ')+" — resistenze calcolate",[axis,"Rs,calc [kN]","Rb,calc [kN]","Rc,calc [kN]"],details.Select(d=>new[]{F(d?["z"]),F(d!.Array("sondaggi")[i]?[c]?["laterale"]),F(d.Array("sondaggi")[i]?[c]?["base"]),F(d.Array("sondaggi")[i]?[c].D("laterale")+d.Array("sondaggi")[i]?[c].D("base")??0)}));
         }
         foreach(var c in conditions)foreach(var branch in new[]{"Minimo","Media"})Add(c.Replace('_',' ')+" — "+branch+" — componenti",[axis,"L calc [kN]","P calc [kN]","L k [kN]","P k [kN]","L d [kN]","P d [kN]"],details.Select(d=>new[]{F(d?["z"])}.Concat(new[]{"calc","k","d"}.SelectMany(k=>d!["componenti"]![c]![branch]!.Array(k).Select(F))).ToArray()));
+        if(micro)foreach(var branch in new[]{"Minimo","Media"})Add("trazione — "+branch+" — componente laterale",[axis,"L calc [kN]","L k [kN]","L d [kN]"],details.Select(d=>new[]{F(d?["z"])}.Concat(new[]{"calc","k","d"}.Select(k=>F(d!["componenti"]!["trazione"]![branch]!.Array(k)[0]))).ToArray()));
         foreach(var (key,curve) in r["curve"]!.AsObject())
         {
             var branchMaps=new[]{"media","minima","progetto"}.ToDictionary(k=>k,k=>curve!.Array(k).ToDictionary(p=>p![0]!.GetValue<double>(),p=>p![1]!.GetValue<double>()));

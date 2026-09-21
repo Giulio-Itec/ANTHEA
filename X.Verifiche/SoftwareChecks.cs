@@ -20,7 +20,7 @@ public static class SoftwareChecks
                 if (capacity.S("errore") != "") continue;
                 string original = capacity.ToJsonString();
                 var capacityTables = Tabelle.CapacitaPalo(capacity);
-                Assert(capacityTables.Count == 2 && capacityTables.All(t => t.Colonne.Length == 4 && t.Righe.Count == 2 && t.Righe.All(row => row.Length == 4)), "Tabelle capacità palo: struttura compatta");
+                Assert(capacityTables.Count == 2 && capacityTables.All(t => t.Colonne.Length == 4 && t.Righe.Count == 3 && t.Righe.All(row => row.Length == 4)), "Tabelle capacità palo: struttura compatta");
                 double Number(string value) => double.Parse(value, System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
                 foreach (var table in capacityTables)
                 {
@@ -33,7 +33,9 @@ public static class SoftwareChecks
                     for (int row = 0; row < 2; row++)
                     for (int column = 0; column < 3; column++)
                         Assert(table.Righe[row][column + 1] == Tabelle.F(components.Array(new[] { "calc", "k", "d" }[column])[row]), "Tabelle capacità palo: corrispondenza componente/livello");
-                    Assert(table.Righe[0][0] == "Laterale" && table.Righe[1][0] == "Punta", "Tabelle capacità palo: intestazioni righe");
+                    Assert(table.Righe[0][0] == "Laterale compressione" && table.Righe[1][0] == "Punta compressione" && table.Righe[2][0] == "Laterale trazione", "Tabelle capacità palo: intestazioni righe");
+                    double tension = capacity["curve"]![condition + "_trazione"]!.Array("progetto")[^1]![1]!.GetValue<double>();
+                    Assert(Math.Abs(Number(table.Righe[2][3]) - tension) <= .00011, "Tabella trazione diversa dal risultato di progetto");
                 }
                 Assert(original == capacity.ToJsonString(), "Le tabelle capacità hanno modificato i risultati");
             }
@@ -63,6 +65,17 @@ public static class SoftwareChecks
                 foreach(var e in archive.Entries.Where(e=>e.FullName.EndsWith(".xml")||e.FullName.EndsWith(".rels"))){using var s=e.Open();_=XDocument.Load(s);}
                 Assert(true,"XML Word");
                 string partial=Path.Combine(temp,"parziale.docx");ReportWord.Esporta(partial,"Test",micro?"geo_micropalo_verticale":"geo_palo_verticale",source,output,new HashSet<string>{"risultati"});using var zip=ZipFile.OpenRead(partial);using var xmlStream=zip.GetEntry("word/document.xml")!.Open();Assert(!XDocument.Load(xmlStream).ToString().Contains("Dettagli ogni 0,50"),"Selezione sezioni report");
+            }
+            foreach(var (complete,action,expected) in new[]{(true,99.0,"Verifica soddisfatta"),(true,100.0,"Verifica soddisfatta"),(true,101.0,"Verifica non soddisfatta"),(false,0.0,"Verifica incompleta: stratigrafia insufficiente"),(true,-1.0,"Azione non inserita")})
+            {
+                var outcomeResult=J.Obj(("copertura_completa",complete),("curve",J.Obj(("drenante_compressione",J.Obj(("progetto",new JsonArray(new JsonArray(1.0,100.0))))))),
+                    ("azioni",J.Obj(("compressione",action<0?new JsonArray():new JsonArray(new JsonArray(1,action))))));
+                string path=Path.Combine(temp,"esito.docx");
+                ReportWord.Esporta(path,"Test esito","geo_palo_verticale",data,outcomeResult,new HashSet<string>{"risultati"});
+                using var archive=ZipFile.OpenRead(path);using var stream=archive.GetEntry("word/document.xml")!.Open();var xml=XDocument.Load(stream);
+                XNamespace w="http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+                Assert(xml.Descendants(w+"t").Any(t=>t.Value==expected),"Esito relazione: "+expected);
+                Assert(!xml.ToString().Contains("Verificato alla quota disponibile"),"Dicitura ambigua nella relazione");
             }
             var section=CalcoloSezione.Calcola(SezioneCA.DefaultData());Assert(section.S("errore")==""&&section["risultati"]!.AsObject().Count==3,"Combinazioni SLU SLV SLE");
             Assert(section["risultati"]!.AsObject().All(p=>p.Value.S("errore")==""),"Errore combinazione sezione");

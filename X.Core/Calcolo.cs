@@ -94,7 +94,8 @@ public static class Calcolo
             if(!Verticali.ContainsKey(g.S("verticali_indagate","1")))throw new ArgumentException("Numero di verticali indagate non riconosciuto.");
             if(micro)
             {
-                pi=g.Required("pressione_iniezione",strict:true);pesoChs=Chs.Peso(g.S("profilo_chs"),d,g.D("peso_specifico_palo",25));
+                pi=g.Required("pressione_iniezione",strict:true);
+                pesoChs=Chs.Peso(g.S("profilo_chs"),d,g.D("peso_specifico_palo",25));
                 sb=g.ContainsKey("inizio_aderenza")?g.Required("inizio_aderenza"):0;
                 if(sb>=l)throw new ArgumentException("La zona di aderenza deve iniziare prima della punta.");
                 pct=g.B("considera_punta")?g.Required("percentuale_punta"):0;if(pct>15)throw new ArgumentException("Il contributo di punta deve essere compreso tra 0% e 15% della resistenza laterale.");
@@ -154,7 +155,8 @@ public static class Calcolo
                 effective+=increment;
                 double gamma=v.D("peso_specifico"),sat=v.D("peso_specifico_saturo",gamma),wet=falda?Math.Max(0,bottom-Math.Max(st.Cielo,zf)):0;
                 total+=gamma*(length-wet)+sat*wet;tip=st;
-                var (k,mu)=KMu(v);double cohesion=v.D("coesione_efficace"),friction=k is not null&&mu is not null?k.Value*mu.Value*mean:0;
+                // In drained granular soil the effective-cohesion contribution is zero.
+                var (k,mu)=KMu(v);double cohesion=v.S("tipologia")=="Coesivo"?v.D("coesione_efficace"):0,friction=k is not null&&mu is not null?k.Value*mu.Value*mean:0;
                 bool active=v.B("laterale_attiva",true);double td=active?cohesion+friction:0,tu;double? alfa=null;ld+=perimeter*length*td;
                 if(v.S("tipologia")=="Coesivo")
                 {
@@ -234,6 +236,7 @@ public static class Calcolo
                     // Micropalo: la fonte deriva le basi dopo la media delle laterali.
                     if(micro){bm=lm*pct/100;bmin=lmin*pct/100;}
                     components[c]=Componenti(lm,bm,lmin,bmin,xi3,xi4,gs,gb,etaC);
+                    components[micro ? "trazione" : c + "_trazione"] = Componenti(lm,0,lmin,0,xi3,xi4,gt,gb,etaT);
                     foreach(var dir in new[]{"compressione","trazione"})
                     {
                         bool compression=dir=="compressione";double mean,min;
