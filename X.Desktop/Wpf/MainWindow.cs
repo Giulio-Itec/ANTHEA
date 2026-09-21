@@ -276,8 +276,10 @@ public sealed partial class MainWindow : Window
             if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []); return;
         }
         var list = new StackPanel { Margin = new Thickness(16) }; var checks = new Dictionary<string, CheckBox>();
-        foreach (var (key, label) in ReportWord.Sezioni) { var check = new CheckBox { Content = label, IsChecked = !key.StartsWith("grafico_"), Margin = new Thickness(4) }; checks[key] = check; list.Children.Add(check); }
-        var window = Ui.Dialog(this, "Contenuti del report Word", list, 460, 500); var ok = Ui.Button("Esporta", () => window.DialogResult = true, true); list.Children.Add(ok); if (window.ShowDialog() != true) return;
+        var saved = editor.Data["workspace_ca"]?["report_sezioni"] as JsonArray;
+        foreach (var (key, label) in editor.Module == "str_palo" ? ReportConcrete.Sections : ReportWord.Sezioni) { var check = new CheckBox { Content = label, IsChecked = saved is not null ? saved.Any(v => v?.ToString() == key) : editor.Module == "str_palo" ? key is not ("dettagli" or "sle_tutte") : !key.StartsWith("grafico"), Margin = new Thickness(4) }; checks[key] = check; list.Children.Add(check); }
+        if (editor.Module == "str_palo") list.Children.Add(Ui.Text("SLE: di default inviluppo degli estremi con combinazione di origine e casi governanti distinti per tensioni e fessurazione. Nessun esito non determinato viene escluso. In modalità completa si stampano tutte le combinazioni; i grafici SLE restano riferiti ai casi governanti. Ambito, avvisi ed errori sono sempre inclusi.", 11));
+        var window = Ui.Dialog(this, "Contenuti del report Word", new ChainedScrollViewer { Content = list, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 590, 650); var ok = Ui.Button("Esporta", () => { if (checks.Any(c => c.Value.IsChecked == true && c.Key is not ("sle_tutte" or "dettagli" or "grafici"))) window.DialogResult = true; }, true); list.Children.Add(ok); if (window.ShowDialog() != true) return;
         var d = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = "Relazione.docx" }; if (d.ShowDialog(this) == true) editor.ExportReport(d.FileName, heading.Text, checks.Where(p => p.Value.IsChecked == true).Select(p => p.Key).ToHashSet());
     }
 }

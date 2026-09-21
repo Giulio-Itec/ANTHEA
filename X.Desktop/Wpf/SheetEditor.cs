@@ -228,6 +228,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     {
         if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
         if (horizontal is not null) { ReportOrizzontale.Write(filename, title, Result); return; }
+        if (concrete is not null) { concrete.ExportReport(filename, title, options); return; }
         var images = new List<ImmagineReport> { new(plot.Title, plot.Png(), "grafico_capacita") };
         if (Micro)
         {

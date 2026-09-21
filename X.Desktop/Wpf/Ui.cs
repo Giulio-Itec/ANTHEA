@@ -168,7 +168,12 @@ internal sealed class InputForm : ChainedScrollViewer
             else
             {
                 var t = new TextBox { Text = values.S(f.Key), IsReadOnly = f.ReadOnly, TextAlignment = TextAlignment.Right, Background = f.ReadOnly ? Ui.Brush("#EAF2FA") : Ui.Brush("#F8FAFC") };
-                if (!f.ReadOnly) t.TextChanged += (_, _) => Store(f.Key, t.Text); editor = t;
+                if (!f.ReadOnly)
+                {
+                    t.TextChanged += (_, _) => { if (displayOnly) return; if ((bool)GetValue(CommitOnFocusLossProperty) && t.IsKeyboardFocusWithin) drafts.Add(f.Key); else Store(f.Key, t.Text); };
+                    t.LostKeyboardFocus += (_, _) => { if (drafts.Remove(f.Key)) Store(f.Key, t.Text); };
+                }
+                editor = t;
             }
             editor.Margin = new Thickness(2, 3, 2, 3); editor.MinHeight = compact ? 22 : 27; editor.ToolTip = f.Label + (f.Unit != "" ? " [" + f.Unit + "]" : "");
             editor.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, f.Label);
@@ -192,6 +197,10 @@ internal sealed class InputForm : ChainedScrollViewer
         }
     }
     private void Store(string key, object value) { if (displayOnly) return; values[key] = J.Node(value); changed(key); }
+    internal void Commit()
+    {
+        foreach (var key in drafts.ToArray()) { drafts.Remove(key); if (Editors[key] is TextBox { IsReadOnly: false } text) Store(key, text.Text); }
+    }
     internal string Get(string key) => Editors[key] switch { TextBox t => t.Text, ComboBox c => c.SelectedItem?.ToString() ?? "", _ => "" };
     internal void Set(string key, string value, bool display = false)
     {
@@ -260,7 +269,7 @@ internal sealed class JsonGrid : DataGrid
             DataGridColumn column;
             if (f.Bool) column = new DataGridCheckBoxColumn { Binding = binding };
             else if (f.Choices is not null) column = new DataGridComboBoxColumn { ItemsSource = f.Choices, SelectedItemBinding = binding };
-            else column = new DataGridTextColumn { Binding = binding };
+            else column = new DataGridTextColumn { Binding = binding, ElementStyle = Ui.NumericTextStyle(), EditingElementStyle = Ui.NumericTextStyle(true) };
             column.Header = f.Label; column.SortMemberPath = f.Key; column.IsReadOnly = f.ReadOnly; column.MinWidth = f.Bool ? 60 : 65;
             column.Width = stretch ? new DataGridLength(1, DataGridLengthUnitType.Star) : new DataGridLength(f.Choices is not null ? 140 : 112);
             Columns.Add(column);
