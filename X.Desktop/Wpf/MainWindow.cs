@@ -264,20 +264,19 @@ public sealed partial class MainWindow : Window
     }
     private void ExportJson()
     {
-        Commit(); if (editor?.Result is null) { MessageBox.Show(this, "Premere Calcola prima di esportare i risultati."); return; }
+        Commit(); if (editor?.Result is null) { MessageBox.Show(this, editor?.Module == "str_palo" ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi." : "Premere Calcola prima di esportare i risultati."); return; }
         var d = new SaveFileDialog { Filter = "Risultati JSON|*.json", FileName = "Risultati.json" }; if (d.ShowDialog(this) == true) editor.ExportResult(d.FileName);
     }
     private void ExportReport()
     {
-        Commit(); if (editor?.Result is null) { MessageBox.Show(this, "Premere Calcola prima di esportare il report."); return; }
-        if (editor.Module == "str_palo") { MessageBox.Show(this, "Report Word della sezione non disponibile. È possibile esportare i risultati JSON dal menu File."); return; }
+        Commit(); if (editor?.Result is null || editor.Busy) { MessageBox.Show(this, editor?.Module == "str_palo" ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi." : "Completare il calcolo prima di esportare il report."); return; }
         if (editor.Module == PaloOrizzontale.Module)
         {
             var save = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = "Relazione_palo_orizzontale.docx" };
             if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []); return;
         }
         var list = new StackPanel { Margin = new Thickness(16) }; var checks = new Dictionary<string, CheckBox>();
-        foreach (var (key, label) in ReportWord.Sezioni) { var check = new CheckBox { Content = editor.Module == "geo_micropalo_verticale" ? key == "nq" ? "Metodo Bustamante–Doix" : key == "grafico_nq" ? "Abachi Bustamante–Doix" : label : label, IsChecked = !key.StartsWith("grafico_") || key == "grafico_nq", Margin = new Thickness(4) }; checks[key] = check; list.Children.Add(check); }
+        foreach (var (key, label) in ReportWord.Sezioni) { var check = new CheckBox { Content = label, IsChecked = !key.StartsWith("grafico_"), Margin = new Thickness(4) }; checks[key] = check; list.Children.Add(check); }
         var window = Ui.Dialog(this, "Contenuti del report Word", list, 460, 500); var ok = Ui.Button("Esporta", () => window.DialogResult = true, true); list.Children.Add(ok); if (window.ShowDialog() != true) return;
         var d = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = "Relazione.docx" }; if (d.ShowDialog(this) == true) editor.ExportReport(d.FileName, heading.Text, checks.Where(p => p.Value.IsChecked == true).Select(p => p.Key).ToHashSet());
     }

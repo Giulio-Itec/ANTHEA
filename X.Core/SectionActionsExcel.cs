@@ -16,6 +16,48 @@ public static class SectionActionsExcel
         using var stream = typeof(SectionActionsExcel).Assembly.GetManifestResourceStream("ANTHEA.Sollecitazioni.xlsx") ?? throw new InvalidOperationException("Template Excel non disponibile.");
         using var buffer = new MemoryStream(); stream.CopyTo(buffer); return buffer.ToArray();
     }
+    public static byte[] Write(IEnumerable<Row> source)
+    {
+        var rows = source.ToArray();
+        if (rows.Length > 10000) throw new ArgumentException("Massimo 10.000 combinazioni per esportazione.");
+        XNamespace ns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+        using var buffer = new MemoryStream(); buffer.Write(Template());
+        using (var zip = new ZipArchive(buffer, ZipArchiveMode.Update, true))
+        {
+            var entry = zip.GetEntry("xl/worksheets/sheet1.xml")!; XDocument document;
+            using (var stream = entry.Open()) document = XDocument.Load(stream);
+            var body = document.Root!.Element(ns + "sheetData")!;
+            var styles = body.Elements(ns + "row").FirstOrDefault(r => (int?)r.Attribute("r") == 7)?.Elements(ns + "c").Select(c => (string?)c.Attribute("s")).ToArray() ?? [];
+            body.Elements(ns + "row").Where(r => (int?)r.Attribute("r") >= 7).Remove();
+            for (int i = 0; i < rows.Length; i++)
+            {
+                var item = rows[i]; var row = new XElement(ns + "row", new XAttribute("r", i + 7));
+                string family = Family(item.Family);
+                object?[] values = [family switch { "SLE" => "Rara", "SLE_FREQ" => "Frequente", "SLE_QP" => "Quasi permanente", _ => family }, item.Name, item.N, item.Mx, item.My, item.Vx, item.Vy];
+                for (int c = 0; c < values.Length; c++)
+                {
+                    var cell = new XElement(ns + "c", new XAttribute("r", $"{(char)('A' + c)}{i + 7}"));
+                    if (styles.ElementAtOrDefault(c) is string style) cell.SetAttributeValue("s", style);
+                    if (values[c] is string text) { cell.SetAttributeValue("t", "inlineStr"); cell.Add(new XElement(ns + "is", new XElement(ns + "t", new XAttribute(XNamespace.Xml + "space", "preserve"), text))); }
+                    else if (values[c] is double value) { if (!double.IsFinite(value)) throw new ArgumentException("Sollecitazione non finita."); cell.Add(new XElement(ns + "v", value.ToString("G17", CultureInfo.InvariantCulture))); }
+                    row.Add(cell);
+                }
+                body.Add(row);
+            }
+            int end = Math.Max(7, rows.Length + 6);
+            document.Root.Element(ns + "dimension")?.SetAttributeValue("ref", "A1:G" + end);
+            document.Root.Element(ns + "autoFilter")?.SetAttributeValue("ref", "A6:G" + end);
+            foreach (var validation in document.Descendants(ns + "dataValidation")) validation.SetAttributeValue("sqref", "A7:A" + Math.Max(10006, end));
+            entry.Delete(); using (var stream = zip.CreateEntry("xl/worksheets/sheet1.xml").Open()) document.Save(stream);
+            foreach (var tableEntry in zip.Entries.Where(e => e.FullName.StartsWith("xl/tables/") && e.FullName.EndsWith(".xml")).ToArray())
+            {
+                XDocument table; using (var stream = tableEntry.Open()) table = XDocument.Load(stream);
+                table.Root!.SetAttributeValue("ref", "A6:G" + end); table.Root.Element(ns + "autoFilter")?.SetAttributeValue("ref", "A6:G" + end);
+                string name = tableEntry.FullName; tableEntry.Delete(); using var streamOut = zip.CreateEntry(name).Open(); table.Save(streamOut);
+            }
+        }
+        var bytes = buffer.ToArray(); _ = Read(bytes); return bytes;
+    }
     public static string Family(string value) => value.Trim().ToUpperInvariant() switch
     {
         "SLU" => "SLU", "SLV" => "SLV", "RARA" or "SLE" => "SLE", "FREQUENTE" or "SLE_FREQ" => "SLE_FREQ",

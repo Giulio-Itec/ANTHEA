@@ -6,6 +6,7 @@ using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using X.Core;
@@ -40,7 +41,18 @@ internal static class Ui
     internal static TabItem Tab(TabControl tabs, string title, UIElement body)
     { var t = new TabItem { Header = title, Content = body, Background = Brushes.White }; tabs.Items.Add(t); return t; }
     internal static ComboBox Choice(IEnumerable<string> choices, string? value = null)
-    { var c = new ComboBox { ItemsSource = choices.Where(v => !string.IsNullOrWhiteSpace(v)).Distinct().ToArray(), Margin = new Thickness(2) }; c.SelectedItem = value; return c; }
+    {
+        var c = new ComboBox { ItemsSource = choices.ToArray(), Margin = new Thickness(2) }; c.SelectedItem = value;
+        c.PreviewMouseWheel += (_, e) => { if (c.IsDropDownOpen) return; ChainedScrollViewer.ForwardWheel(c, e); e.Handled = true; };
+        return c;
+    }
+    internal static Style NumericTextStyle(bool editing = false)
+    {
+        var style = new Style(editing ? typeof(TextBox) : typeof(TextBlock));
+        style.Setters.Add(new Setter(editing ? TextBox.TextAlignmentProperty : TextBlock.TextAlignmentProperty,
+            new Binding("Text") { RelativeSource = new RelativeSource(RelativeSourceMode.Self), Converter = new NumericAlignmentConverter() }));
+        return style;
+    }
     internal static Window Dialog(DependencyObject owner, string title, UIElement body, double width = 500, double height = 400)
     {
         var dialog = new Window { Owner = Window.GetWindow(owner), Title = title, Content = body, Width = width, Height = height, WindowStartupLocation = WindowStartupLocation.CenterOwner };
@@ -73,7 +85,7 @@ internal static class Ui
     internal static DataGrid Table(string[] headers, IEnumerable<string[]> rows)
     {
         var grid = new DataGrid { IsReadOnly = true };
-        for (int i = 0; i < headers.Length; i++) grid.Columns.Add(new DataGridTextColumn { Header = headers[i], Binding = new Binding($"[{i}]"), MinWidth = 65, Width = DataGridLength.SizeToCells });
+        for (int i = 0; i < headers.Length; i++) grid.Columns.Add(new DataGridTextColumn { Header = headers[i], Binding = new Binding($"[{i}]"), ElementStyle = NumericTextStyle(), MinWidth = 65, Width = DataGridLength.SizeToCells });
         grid.ItemsSource = rows.ToList(); return grid;
     }
     internal static IEnumerable<T> Descendants<T>(DependencyObject root) where T : DependencyObject
@@ -94,12 +106,40 @@ internal sealed class SectionIcon : FrameworkElement
 
 internal sealed record Field(string Key, string Label, string Unit = "", string[]? Choices = null, bool Bool = false, bool ReadOnly = false, string Symbol = "");
 
-internal sealed class InputForm : ScrollViewer
+internal class ChainedScrollViewer : ScrollViewer
 {
+    internal static void ForwardWheel(DependencyObject source, MouseWheelEventArgs e)
+    {
+        for (var parent = VisualTreeHelper.GetParent(source); parent is not null; parent = VisualTreeHelper.GetParent(parent))
+            if (parent is ScrollViewer scroll)
+            {
+                scroll.RaiseEvent(new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta) { RoutedEvent = MouseWheelEvent, Source = scroll });
+                return;
+            }
+    }
+    protected override void OnMouseWheel(MouseWheelEventArgs e)
+    {
+        if (ScrollableHeight <= 0 || (e.Delta > 0 ? VerticalOffset <= 0 : VerticalOffset >= ScrollableHeight))
+        { ForwardWheel(this, e); e.Handled = true; return; }
+        base.OnMouseWheel(e);
+    }
+}
+
+internal sealed class NumericAlignmentConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
+        J.Number(JsonValue.Create(value?.ToString())) is double ? TextAlignment.Center : TextAlignment.Left;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+}
+
+internal sealed class InputForm : ChainedScrollViewer
+{
+    internal static readonly DependencyProperty CommitOnFocusLossProperty = DependencyProperty.RegisterAttached("CommitOnFocusLoss", typeof(bool), typeof(InputForm), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits));
     private readonly Grid table = new();
     private readonly JsonObject values;
     private readonly Action<string> changed;
     private bool displayOnly;
+    private readonly HashSet<string> drafts = [];
     internal readonly Dictionary<string, FrameworkElement> Editors = new();
     private readonly Dictionary<string, List<FrameworkElement>> rows = new();
     internal InputForm(JsonObject values, IEnumerable<Field> fields, Action<string> changed, bool compact = false, bool wideChoices = false, bool symbolColumns = false)
@@ -127,7 +167,7 @@ internal sealed class InputForm : ScrollViewer
             }
             else
             {
-                var t = new TextBox { Text = values.S(f.Key), IsReadOnly = f.ReadOnly, TextAlignment = symbolColumns ? TextAlignment.Center : TextAlignment.Right, Background = f.ReadOnly ? Ui.Brush("#EAF2FA") : Ui.Brush("#F8FAFC") };
+                var t = new TextBox { Text = values.S(f.Key), IsReadOnly = f.ReadOnly, TextAlignment = TextAlignment.Right, Background = f.ReadOnly ? Ui.Brush("#EAF2FA") : Ui.Brush("#F8FAFC") };
                 if (!f.ReadOnly) t.TextChanged += (_, _) => Store(f.Key, t.Text); editor = t;
             }
             editor.Margin = new Thickness(2, 3, 2, 3); editor.MinHeight = compact ? 22 : 27; editor.ToolTip = f.Label + (f.Unit != "" ? " [" + f.Unit + "]" : "");
@@ -152,41 +192,13 @@ internal sealed class InputForm : ScrollViewer
         }
     }
     private void Store(string key, object value) { if (displayOnly) return; values[key] = J.Node(value); changed(key); }
-    internal Size UnwrappedSize()
-    {
-        // Measure the form's labels on one line, including the fixed editor/unit columns.
-        table.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-        return table.DesiredSize;
-    }
-    private static Field WithSymbol(Field f)
-    {
-        if (f.Symbol != "") return f;
-        var (name, symbol) = f.Key switch
-        {
-            "diametro" => ("Diametro palo", "D"), "lunghezza" => ("Lunghezza palo", "L"),
-            "peso_specifico_palo" => ("Peso specifico CLS / palo", "γp"),
-            "azione_compressione" => ("Azione assiale — Compressione", "NEd,c"), "azione_trazione" => ("Azione assiale — Trazione", "NEd,t"),
-            "profondita_falda" => ("Profondità falda", "zf"), "verticali_indagate" => ("Verticali indagate", "n"),
-            "__xi3" => ("Correlazione", "ξ3"), "__xi4" => ("Correlazione", "ξ4"),
-            "sicurezza_laterale_compressione" => ("Sicurezza laterale — Compressione", "γs"),
-            "sicurezza_laterale_trazione" => ("Sicurezza laterale — Trazione", "γt"),
-            "sicurezza_base" => ("Sicurezza di base", "γb"), "peso_palo_sfavorevole" => ("Peso proprio — Sfavorevole", "γG"),
-            "peso_palo_favorevole" => ("Peso proprio — Favorevole", "γG"),
-            "numero_pali_x" => ("Pali in X", "nx"), "numero_pali_y" => ("Pali in Y", "ny"),
-            "interasse_x" => ("Interasse X", "sx"), "interasse_y" => ("Interasse Y", "sy"),
-            "eta_compressione" => ("Efficienza compressione", "ηg,c"), "eta_trazione" => ("Efficienza trazione", "ηg,t"),
-            "pressione_iniezione" => ("Pressione di iniezione", "pi = pl"), "inclinazione" => ("Inclinazione dalla verticale", "θ"),
-            "inizio_aderenza" => ("Inizio aderenza lungo asse", "sb"), "percentuale_punta" => ("Punta rispetto alla laterale", ""),
-            _ => (f.Label, f.Symbol)
-        };
-        return f with { Label = name, Symbol = symbol };
-    }
     internal string Get(string key) => Editors[key] switch { TextBox t => t.Text, ComboBox c => c.SelectedItem?.ToString() ?? "", _ => "" };
     internal void Set(string key, string value, bool display = false)
     {
         if (!Editors.TryGetValue(key, out var editor)) return;
+        drafts.Remove(key);
         displayOnly = display;
-        try { if (editor is TextBox t) t.Text = value; else if (editor is ComboBox c) c.SelectedItem = value; }
+        try { if (editor is TextBox t) { t.Text = value; if (!display && values.S(key) != value) Store(key, value); } else if (editor is ComboBox c) c.SelectedItem = value; }
         finally { displayOnly = false; }
     }
     internal void Enable(string key, bool enabled, bool dim = false)
@@ -235,12 +247,19 @@ internal sealed class JsonGrid : DataGrid
         Rows = rows ?? [];
         Style = (Style)Application.Current.FindResource(typeof(DataGrid));
         ItemsSource = Rows; CanUserSortColumns = false;
+        Loaded += (_, _) =>
+        {
+            if (!(bool)GetValue(InputForm.CommitOnFocusLossProperty)) return;
+            foreach (var column in Columns.OfType<DataGridTextColumn>())
+                if (column.Binding is Binding binding && !column.IsReadOnly && binding.UpdateSourceTrigger != UpdateSourceTrigger.LostFocus)
+                    column.Binding = new Binding(binding.Path.Path) { Mode = binding.Mode, UpdateSourceTrigger = UpdateSourceTrigger.LostFocus };
+        };
         foreach (var f in fields)
         {
             var binding = new Binding($"[{f.Key}]") { Mode = f.ReadOnly ? BindingMode.OneWay : BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
             DataGridColumn column;
             if (f.Bool) column = new DataGridCheckBoxColumn { Binding = binding };
-            else if (f.Choices is not null) column = new DataGridComboBoxColumn { ItemsSource = f.Choices.Where(v => !string.IsNullOrWhiteSpace(v)).Distinct().ToArray(), SelectedItemBinding = binding };
+            else if (f.Choices is not null) column = new DataGridComboBoxColumn { ItemsSource = f.Choices, SelectedItemBinding = binding };
             else column = new DataGridTextColumn { Binding = binding };
             column.Header = f.Label; column.SortMemberPath = f.Key; column.IsReadOnly = f.ReadOnly; column.MinWidth = f.Bool ? 60 : 65;
             column.Width = stretch ? new DataGridLength(1, DataGridLengthUnitType.Star) : new DataGridLength(f.Choices is not null ? 140 : 112);

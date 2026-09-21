@@ -1,0 +1,123 @@
+using System.Globalization;
+using System.Text.Json.Nodes;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using X.Core;
+
+namespace X.Desktop;
+internal sealed partial class ConcreteWorkspace
+{
+    private sealed class DomainLabelConverter : IValueConverter
+    {
+        public object Convert(object value, Type type, object parameter, CultureInfo culture) => SectionWorkspace.Label(value?.ToString() ?? "");
+        public object ConvertBack(object value, Type type, object parameter, CultureInfo culture) => Binding.DoNothing;
+    }
+    private readonly List<FrameworkElement> tendonOnlyControls = [];
+    private void RefreshTendonOptions()
+    {
+        bool present = tendons.Rows.Count > 0;
+        foreach (var panel in stressPanels.Values)
+            foreach (string key in new[] { "n_trefoli", "phi_trefoli", "__ep_ref" }) panel.Options.ShowField(key, present);
+        foreach (var control in tendonOnlyControls) control.Visibility = present ? Visibility.Visible : Visibility.Collapsed;
+        if (coefficients is not null) foreach (var (key, _) in ConcreteStandards.Coefficients.Where(c => c.Key.Contains("Prestress"))) coefficients.ShowField(key, present);
+    }
+    private void SynchronizeSharedSle(string source)
+    {
+        var from = settings["sle"]![source]!;
+        foreach (string field in SectionWorkspace.SharedSleFields)
+        {
+            settings["sle_comuni"]![field] = from[field]?.DeepClone();
+            foreach (var (key, panel) in stressPanels)
+            {
+                if (key == source) continue;
+                settings["sle"]![key]![field] = from[field]?.DeepClone(); panel.Options.Set(field, from.S(field), true);
+            }
+        }
+        foreach (var (key, panel) in stressPanels)
+        {
+            var o = settings["sle"]![key]!;
+            foreach (string field in new[] { "phi", "phi_trefoli", "n_armature", "n_trefoli" }) panel.Options.Enable(field, o.S("modello") == "Lineare");
+            foreach (string field in new[] { "origine_x", "origine_y", "rotazione" }) panel.Options.Enable(field, o.S("assi") == "Personalizzati");
+            stressResults.Remove(key);
+            foreach (var row in actions[key]) foreach (string field in new[] { "sigma_c", "sigma_s", "stress_status", "eta_sigma", "wk" }) row.Output(field, "Da calcolare");
+            UpdateStressSelection(key);
+        }
+    }
+    private void InvalidateDomainForces(DomainPanel panel)
+    {
+        foreach (string key in new[] { "SLU", "SLV" })
+        {
+            domainResults.Remove(panel.Prefix + key);
+            foreach (var row in actions[key]) { row.Output(panel.ThreeD ? "eta3d" : "eta2d", "—"); row.Output(panel.ThreeD ? "esito3d" : "esito2d", "Da calcolare"); }
+        }
+        pendingForcePanels.Add(panel);
+        UpdateSelection(panel); RefreshSummary(); status.Text = "Aggiornamento punti resistenti e tassi · dominio conservato"; InvalidateChecks(true);
+    }
+    private void AddDomainScaleControls(DomainPanel panel, ViewportFrame frame)
+    {
+        if (!panel.ThreeD) panel.Plot.ViewReset += () => { panel.Options["scala_x"] = 1; panel.Options["scala_y"] = 1; Modified?.Invoke(); };
+        void Apply()
+        {
+            if (panel.ThreeD) panel.View3D!.SetAxisScale(panel.Options.D("scala_mx", 1), panel.Options.D("scala_n", 1), panel.Options.D("scala_my", 1));
+            else { panel.Plot.ScaleX = panel.Options.D("scala_x", 1); panel.Plot.ScaleY = panel.Options.D("scala_y", 1); panel.Plot.FitIncludesMarkers = panel.Options.B("fit_azioni"); panel.Plot.InvalidateVisual(); }
+        }
+        Apply();
+        frame.Toolbar.Children.Add(Ui.Button("Scala…", () =>
+        {
+            string[] keys = panel.ThreeD ? ["scala_mx", "scala_n", "scala_my"] : ["scala_x", "scala_y"];
+            var draft = new JsonObject(); foreach (string key in keys) draft[key] = panel.Options.D(key, 1).ToString("G12", CultureInfo.InvariantCulture);
+            draft["zoom"] = ((panel.ThreeD ? panel.View3D!.Zoom : panel.Plot.Zoom) * 100).ToString("0", CultureInfo.InvariantCulture);
+            draft["fit_azioni"] = panel.Options.B("fit_azioni") ? "Sì" : "No";
+            var fields = keys.Select(k => new Field(k, "Fattore " + k[6..].ToUpperInvariant(), "×")).ToList();
+            fields.Add(new("zoom", "Zoom", "%")); fields.Add(new("fit_azioni", "Adatta anche le azioni", Choices: ["No", "Sì"]));
+            var form = new InputForm(draft, fields, _ => { }); var message = Ui.Text("Fattori grafici 0,25–4; zoom 10–2000%. Non modificano i calcoli. Adatta ripristina i fattori unitari.", 12);
+            var window = Ui.Dialog(this, "Scala del dominio " + (panel.ThreeD ? "3D" : "2D"), new Border(), 470, 390);
+            window.Content = Ui.Paper(Ui.Stack(form, message, Ui.Button("Applica", () =>
+            {
+                try
+                {
+                    form.Commit(); var values = keys.ToDictionary(k => k, k => SectionWorkspace.Number(draft.S(k), k)); double zoom = SectionWorkspace.Number(draft.S("zoom"), "Zoom") / 100;
+                    if (values.Values.Any(v => v < .25 || v > 4) || zoom < .1 || zoom > 20) throw new ArgumentException("Fattori ammessi 0,25–4; zoom 10–2000%.");
+                    foreach (var (key, value) in values) panel.Options[key] = value;
+                    panel.Options["fit_azioni"] = draft.S("fit_azioni") == "Sì"; Apply();
+                    if (panel.ThreeD) { panel.View3D!.FitIncludesActions = panel.Options.B("fit_azioni"); panel.View3D.FitView(); panel.View3D.Zoom = zoom; } else panel.Plot.Zoom = zoom;
+                    Modified?.Invoke(); window.Close();
+                }
+                catch (ArgumentException ex) { message.Text = ex.Message; }
+            })), 16);
+            window.ShowDialog();
+        }));
+        panel.View3D?.SetFitActions(panel.Options.B("fit_azioni"));
+        var fit = frame.Toolbar.Children.OfType<Button>().First(b => b.Content?.ToString() == "Adatta");
+        int index = frame.Toolbar.Children.IndexOf(fit); frame.Toolbar.Children.Remove(fit);
+        frame.Toolbar.Children.Insert(index, Ui.Button("Adatta", () =>
+        {
+            foreach (string key in new[] { "scala_x", "scala_y", "scala_n", "scala_mx", "scala_my" }) panel.Options[key] = 1;
+            Apply(); if (panel.ThreeD) panel.View3D!.FitView(); else panel.Plot.ResetView(); Modified?.Invoke();
+        }));
+    }
+    private void RefreshVerificationSummaries()
+    {
+        foreach (var panel in domainPanels)
+            panel.Summary.Text = string.Join("\n\n", new[] { "SLU", "SLV" }.Select(key => WorstSummary(SectionWorkspace.Label(key), actions[key].Count,
+                domainResults.GetValueOrDefault(panel.Prefix + key)?.Select(kv => (Name(key, kv.Key), kv.Value.Utilization, kv.Value.Status)) ?? [])));
+        string sle = string.Join("\n\n", SectionWorkspace.Sets.Skip(2).Select(key =>
+        {
+            var values = stressResults.GetValueOrDefault(key);
+            return WorstSummary(SectionWorkspace.Label(key) + " · tensioni", actions[key].Count, values?.Select(kv => (Name(key, kv.Key), kv.Value.Ratio, kv.Value.Status)) ?? []) + "\n" +
+                WorstSummary("Fessurazione", actions[key].Count, values?.Select(kv => (Name(key, kv.Key), kv.Value.CrackResult?.Ratio, kv.Value.Cracking)) ?? []);
+        }));
+        foreach (var panel in stressPanels.Values) panel.Summary.Text = sle;
+        string Name(string key, string id) => actions[key].FirstOrDefault(r => r.Values.S("id") == id)?.Values.S("nome") ?? id;
+    }
+    private static string WorstSummary(string title, int total, IEnumerable<(string Name, double? Ratio, string Status)> source)
+    {
+        var rows = source.ToArray(); var valid = rows.Where(r => r.Ratio is double n && double.IsFinite(n)).OrderByDescending(r => r.Ratio).ToArray();
+        string result = title + (total == 0 ? "\nNessuna combinazione" : valid.Length == 0 ? "\nTasso non disponibile / non applicabile" : $"\nGoverna: {valid[0].Name} · η = {EngineeringFormat.Number(valid[0].Ratio)}\n{valid[0].Status}");
+        if (total > 0) result += $"\n{valid.Length}/{total} con tasso · {valid.Count(r => r.Ratio > 1)} oltre 1";
+        var missing = rows.Where(r => r.Ratio is null).ToArray();
+        if (missing.Length > 0) result += "\nSenza tasso: " + string.Join("; ", missing.Select(r => r.Name + ": " + r.Status));
+        return result;
+    }
+}

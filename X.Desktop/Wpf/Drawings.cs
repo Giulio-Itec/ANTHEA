@@ -44,6 +44,21 @@ internal sealed class Plot : DrawingView
     internal List<Serie> Series { get; set; } = [];
     internal (double[] A, double[] B)[] Segments { get; set; } = [];
     internal List<PlotMarker> Markers { get; set; } = [];
+    internal List<(double[] A, double[] B)> VerificationSegments { get; set; } = [];
+    internal bool CenteredAxes { get; set; }
+    internal bool FitIncludesMarkers { get; set; } = true;
+    internal double ScaleX { get; set; } = 1;
+    internal double ScaleY { get; set; } = 1;
+    internal double Zoom { get => zoom; set { zoom = Math.Clamp(value, .1, 20); InvalidateVisual(); } }
+    internal event Action? ViewReset;
+    internal (double X, double Y) AxisHalfRange { get; private set; }
+    internal static double NiceHalfRange(double extent)
+    {
+        if (!double.IsFinite(extent) || extent <= 0) return 10;
+        double desiredStep = extent / 2, power = Math.Pow(10, Math.Floor(Math.Log10(desiredStep)));
+        double step = new[] { 1d, 2d, 5d, 10d }.First(v => desiredStep <= v * power) * power;
+        return step * 2;
+    }
     internal string Title { get; set; } = "Premere Calcola";
     internal string XLabel { get; set; } = "Forza assiale [kN]";
     internal string YLabel { get; set; } = "Profondità z [m]";
@@ -58,42 +73,56 @@ internal sealed class Plot : DrawingView
     private Point? drag;
     internal Plot()
     {
-        MouseWheel += (_, e) => { zoom = Math.Clamp(zoom * (e.Delta > 0 ? 1.2 : 1 / 1.2), 1, 20); InvalidateVisual(); e.Handled = true; };
+        MouseWheel += (_, e) => { Zoom = Math.Clamp(zoom * (e.Delta > 0 ? 1.2 : 1 / 1.2), CenteredAxes ? .1 : 1, 20); e.Handled = true; };
         MouseLeftButtonDown += (_, e) => { if (e.ClickCount == 2) ResetView(); else { drag = e.GetPosition(this); CaptureMouse(); } };
-        MouseMove += (_, e) => { if (drag is Point p) { var q = e.GetPosition(this); offset += q - p; drag = q; InvalidateVisual(); } };
+        MouseMove += (_, e) => { if (!CenteredAxes && drag is Point p) { var q = e.GetPosition(this); offset += q - p; drag = q; InvalidateVisual(); } };
         MouseLeftButtonUp += (_, _) => { drag = null; ReleaseMouseCapture(); };
         ToolTip = "Rotella: zoom · trascina: sposta · doppio clic: adatta";
     }
-    internal void ResetView() { zoom = 1; offset = default; InvalidateVisual(); }
+    internal void ResetView() { zoom = 1; ScaleX = ScaleY = 1; offset = default; ViewReset?.Invoke(); InvalidateVisual(); }
     protected override void Render(DrawingContext dc, Size size)
     {
         dc.DrawRectangle(Brushes.White, null, new Rect(size));
         if (size.Width < 100 || size.Height < 100) return;
         Text(dc, Title, 12, 7, 14, Ui.Navy, size.Width - 24, true);
-        var points = Series.SelectMany(s => s.Points).Concat(Segments.SelectMany(s => new[] { s.A, s.B })).Concat(Markers.Select(m => new[] { m.X, m.Y })).Where(p => p.Length >= 2 && double.IsFinite(p[0]) && double.IsFinite(p[1])).ToArray();
+        var points = Series.SelectMany(s => s.Points).Concat(Segments.SelectMany(s => new[] { s.A, s.B })).Concat(FitIncludesMarkers ? Markers.Select(m => new[] { m.X, m.Y }) : []).Where(p => p.Length >= 2 && double.IsFinite(p[0]) && double.IsFinite(p[1])).ToArray();
         if (points.Length == 0) { Text(dc, EmptyMessage, 18, size.Height / 2, 13, width: size.Width - 36); return; }
         double xmin = XMinimum ?? (Capacity ? 0 : points.Min(p => p[0])), xmax = points.Max(p => p[0]);
         double ymin = Capacity ? 0 : points.Min(p => p[1]), ymax = Capacity && CapacityDepth > 0 ? CapacityDepth : points.Max(p => p[1]);
         if (Capacity && xmax > 0) { double power = Math.Pow(10, Math.Floor(Math.Log10(xmax))); xmax = new[] { 1d, 2d, 5d, 10d }.First(v => xmax / power <= v) * power; }
         if (xmax <= xmin) xmax = xmin + 1; if (ymax <= ymin) ymax = ymin + 1;
+        if (CenteredAxes)
+        {
+            xmax = NiceHalfRange(Math.Max(Math.Abs(xmin), Math.Abs(xmax)) * 1.05) / (zoom * Math.Clamp(ScaleX, .25, 4)); xmin = -xmax;
+            ymax = NiceHalfRange(Math.Max(Math.Abs(ymin), Math.Abs(ymax)) * 1.05) / (zoom * Math.Clamp(ScaleY, .25, 4)); ymin = -ymax;
+            AxisHalfRange = (xmax, ymax); offset = default;
+        }
         int legendColumns = Math.Max(1, (int)((size.Width - 24) / 170));
         double legendHeight = !Capacity && Series.Count > 1 ? Math.Ceiling(Series.Count / (double)legendColumns) * 18 : 0;
         var area = new Rect(58, 47, Math.Max(20, size.Width - 77), Math.Max(20, size.Height - (Note == "" ? 105 : 130) - legendHeight));
-        Point P(double x, double y) => new(area.Left + (x - xmin) / (xmax - xmin) * area.Width * zoom + offset.X,
-            area.Top + (InvertY ? (y - ymin) / (ymax - ymin) : (ymax - y) / (ymax - ymin)) * area.Height * zoom + offset.Y);
+        double viewZoom = CenteredAxes ? 1 : zoom;
+        Point P(double x, double y) => new(area.Left + (x - xmin) / (xmax - xmin) * area.Width * viewZoom + offset.X,
+            area.Top + (InvertY ? (y - ymin) / (ymax - ymin) : (ymax - y) / (ymax - ymin)) * area.Height * viewZoom + offset.Y);
         string F(double v) => Math.Abs(v) >= 10000 ? (v / 1000).ToString("0.#") + "k" : v.ToString("0.##");
         for (int i = 0; i <= 4; i++)
         {
             double t = i / 4d, x = area.Left + t * area.Width, y = area.Top + t * area.Height;
             var pen = new Pen(Ui.Brush("#E8EDF3"), 1);
             dc.DrawLine(pen, new Point(x, area.Top), new Point(x, area.Bottom)); dc.DrawLine(pen, new Point(area.Left, y), new Point(area.Right, y));
-            Text(dc, F(xmin + (t - offset.X / area.Width) / zoom * (xmax - xmin)), x - 15, area.Bottom + 5, 10);
-            double ordinate = (t - offset.Y / area.Height) / zoom;
+            Text(dc, F(xmin + (t - offset.X / area.Width) / viewZoom * (xmax - xmin)), x - 15, area.Bottom + 5, 10);
+            double ordinate = (t - offset.Y / area.Height) / viewZoom;
             Text(dc, F(InvertY ? ymin + ordinate * (ymax - ymin) : ymax - ordinate * (ymax - ymin)), 1, y - 7, 10, width: 53);
         }
         dc.DrawRectangle(null, new Pen(Ui.Navy, 1), area);
         Text(dc, YLabel, 10, 28, 10, width: size.Width - 20); Text(dc, XLabel, area.Left + 15, area.Bottom + 23, 11, width: area.Width - 15);
         dc.PushClip(new RectangleGeometry(area));
+        if (CenteredAxes)
+        {
+            var axisPen = new Pen(Ui.Brush("#8796A8"), 1);
+            dc.DrawLine(axisPen, P(xmin, 0), P(xmax, 0)); dc.DrawLine(axisPen, P(0, ymin), P(0, ymax));
+            var origin = P(0, 0); dc.DrawEllipse(Brushes.White, new Pen(Ui.Navy, 1), origin, 3, 3); Text(dc, "0,0", origin.X + 5, origin.Y + 4, 10);
+        }
+        foreach (var segment in VerificationSegments) dc.DrawLine(new Pen(Ui.Brush("#9664B5"), 1.4) { DashStyle = DashStyles.Dash }, P(segment.A[0], segment.A[1]), P(segment.B[0], segment.B[1]));
         foreach (var segment in Segments) dc.DrawLine(new Pen(Ui.Blue, 1.8), P(segment.A[0], segment.A[1]), P(segment.B[0], segment.B[1]));
         foreach (var s in Series)
         {

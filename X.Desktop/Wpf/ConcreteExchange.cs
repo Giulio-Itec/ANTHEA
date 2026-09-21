@@ -11,6 +11,19 @@ namespace X.Desktop;
 
 internal sealed partial class ConcreteWorkspace
 {
+    private readonly List<TextBox> excelPaths = [];
+    private void RememberExcel(string path)
+    {
+        settings["file_sollecitazioni"] = path;
+        foreach (var text in excelPaths) { text.Text = path; text.ToolTip = path; }
+        Modified?.Invoke();
+    }
+    private string? ChooseExcel()
+    {
+        var dialog = new OpenFileDialog { Filter = "Cartella Excel|*.xlsx", FileName = settings.S("file_sollecitazioni") };
+        if (dialog.ShowDialog(Window.GetWindow(this)) != true) return null;
+        RememberExcel(dialog.FileName); return dialog.FileName;
+    }
     private void AttachClipboard(JsonGrid grid, Func<string> family, WrapPanel buttons)
     {
         grid.SelectionMode = DataGridSelectionMode.Extended;
@@ -36,6 +49,9 @@ internal sealed partial class ConcreteWorkspace
         var paste = Ui.Button("Incolla", () => Paste(false)); paste.ToolTip = "Ctrl+V: dalla cella corrente. 4 colonne: Nome e azioni; 3: azioni. Le righe eccedenti vengono aggiunte."; buttons.Children.Add(paste);
         buttons.Children.Add(Ui.Button("Template Excel", SaveActionTemplate));
         buttons.Children.Add(Ui.Button("Importa Excel", ImportActionWorkbook));
+        buttons.Children.Add(Ui.Button("Esporta Excel", ExportActionWorkbook));
+        var path = new TextBox { Text = settings.S("file_sollecitazioni"), Width = 210, IsReadOnly = true, ToolTip = "File da reimportare. Template ed esportazione aggiornano questo percorso; Sfoglia permette di scegliere un altro file." };
+        excelPaths.Add(path); buttons.Children.Add(path); buttons.Children.Add(Ui.Button("Sfoglia…", () => ChooseExcel()));
         grid.PreviewKeyDown += (_, e) =>
         {
             if (Keyboard.Modifiers != ModifierKeys.Control) return;
@@ -101,17 +117,18 @@ internal sealed partial class ConcreteWorkspace
     {
         var dialog = new SaveFileDialog { Filter = "Cartella Excel|*.xlsx", FileName = "ANTHEA_Sollecitazioni.xlsx" };
         if (dialog.ShowDialog(Window.GetWindow(this)) != true) return;
-        try { Archivio.ScriviAtomico(dialog.FileName, SectionActionsExcel.Template()); status.Text = "Template salvato: compilare il foglio Azioni e usare Importa Excel."; }
+        try { Archivio.ScriviAtomico(dialog.FileName, SectionActionsExcel.Template()); RememberExcel(dialog.FileName); status.Text = "Template salvato: Importa Excel rileggerà questo file. Usare Sfoglia per cambiarlo."; }
         catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message, "Template Excel"); }
     }
     private void ImportActionWorkbook()
     {
-        var dialog = new OpenFileDialog { Filter = "Cartella Excel|*.xlsx" };
-        if (dialog.ShowDialog(Window.GetWindow(this)) != true) return;
+        string? path = settings.S("file_sollecitazioni");
+        if (string.IsNullOrWhiteSpace(path) || !File.Exists(path)) path = ChooseExcel();
+        if (path is null) return;
         try
         {
-            if (new FileInfo(dialog.FileName).Length > 20_000_000) throw new ArgumentException("File troppo grande: massimo 20 MB.");
-            var import = SectionActionsExcel.Read(File.ReadAllBytes(dialog.FileName));
+            if (new FileInfo(path).Length > 20_000_000) throw new ArgumentException("File troppo grande: massimo 20 MB.");
+            var import = SectionActionsExcel.Read(File.ReadAllBytes(path));
             if (import.Rows.Count == 0) { status.Text = "Il foglio Azioni è vuoto: nessuna modifica."; return; }
             string summary = string.Join("\n", import.Rows.GroupBy(r => r.Family).Select(g => (g.Key == "Taglio" ? g.Key : SectionWorkspace.Label(g.Key)) + ": " + g.Count() + " combinazioni"));
             string formulas = import.FormulaCells > 0 ? $"\n\n{import.FormulaCells} formule: si importano i valori memorizzati nel file. Confermare solo se il file è stato ricalcolato e salvato in Excel." : "";
@@ -121,6 +138,23 @@ internal sealed partial class ConcreteWorkspace
             status.Text = $"Importate {import.Rows.Count} combinazioni · aggiornamento automatico in attesa…";
         }
         catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message + "\nImportazione non eseguita.", "Importazione Excel", MessageBoxButton.OK, MessageBoxImage.Warning); }
+    }
+    private void ExportActionWorkbook()
+    {
+        try
+        {
+            Commit(); var bytes = SectionActionsExcel.Write(ExportActionRows());
+            var dialog = new SaveFileDialog { Filter = "Cartella Excel|*.xlsx", FileName = "ANTHEA_Sollecitazioni_compilate.xlsx" };
+            if (dialog.ShowDialog(Window.GetWindow(this)) != true) return;
+            Archivio.ScriviAtomico(dialog.FileName, bytes); RememberExcel(dialog.FileName); status.Text = "Esportate tutte le combinazioni, anche quelle nascoste dai filtri. Importa rileggerà il file esportato.";
+        }
+        catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message, "Esportazione Excel"); }
+    }
+    private IEnumerable<SectionActionsExcel.Row> ExportActionRows()
+    {
+        foreach (var (key, rows) in actions) foreach (var row in rows) { var p = ReadAction(row); yield return new(key, row.Values.S("nome"), p.N, p.Mx, p.My, null, null); }
+        if (shearGrid is not null) foreach (var row in shearGrid.Rows)
+            yield return new("Taglio", row.Values.S("nome"), SectionWorkspace.Number(row.Values.S("N"), "N taglio"), null, null, SectionWorkspace.Number(row.Values.S("Vx"), "Vx"), SectionWorkspace.Number(row.Values.S("Vy"), "Vy"));
     }
     private void ApplyImport(SectionActionsExcel.Import import, bool replace)
     {

@@ -6,7 +6,8 @@ namespace X.Core;
 public static class SectionWorkspace
 {
     public static readonly string[] Sets = ["SLU", "SLV", "SLE", "SLE_FREQ", "SLE_QP"];
-    public static string Label(string key) => key switch { "SLU" => "SLU plastico", "SLV" => "SLV elastico", "SLE" => "Rara", "SLE_FREQ" => "Frequente", "SLE_QP" => "Quasi permanente", _ => key };
+    public static string Label(string key) => key switch { "SLU" => "Plastico", "SLV" => "Elastico", "SLE" => "Rara", "SLE_FREQ" => "Frequente", "SLE_QP" => "Quasi permanente", _ => key };
+    public static readonly string[] SharedSleFields = ["modello", "phi", "phi_trefoli", "n_armature", "n_trefoli", "trazione_cls", "assi", "origine_x", "origine_y", "rotazione", "esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure"];
     public static JsonObject Prepare(JsonObject data)
     {
         if (data["input"] is not JsonObject) data["input"] = SezioneCA.DefaultInput();
@@ -63,6 +64,14 @@ public static class SectionWorkspace
             foreach (var (k, v) in new[] { ("phi", "0"), ("phi_trefoli", "0"), ("trazione_cls", "No"), ("assi", "Locali"), ("origine_x", "0"), ("origine_y", "0"), ("rotazione", "0"), ("esposizione", "Da scegliere"), ("sensibilita", "Poco sensibile"), ("durata", "Lunga"), ("aderenza", "Migliorata"), ("copriferro_fessure", ""), ("spaziatura_fessure", "") })
                 if (!o.ContainsKey(k)) o[k] = v;
         }
+        if (settings["sle_comuni"] is not JsonObject)
+        {
+            settings["sle_precedenti_unificazione"] = settings["sle"]!.DeepClone();
+            settings["sle_comuni"] = new JsonObject();
+            foreach (string key in SharedSleFields) settings["sle_comuni"]![key] = settings["sle"]!["SLE"]![key]?.DeepClone();
+        }
+        foreach (string set in Sets.Skip(2)) foreach (string key in SharedSleFields)
+            if (settings["sle_comuni"]!.AsObject().ContainsKey(key)) settings["sle"]![set]![key] = settings["sle_comuni"]![key]?.DeepClone();
         return settings;
     }
     public static double Number(string text, string label)

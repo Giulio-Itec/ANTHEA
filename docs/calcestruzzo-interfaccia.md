@@ -41,11 +41,58 @@ fra chiamate: non interrompe una chiamata interna già iniziata nella DLL.
 
 ## Schede e opzioni
 
+### Rifiniture del 21 settembre 2026
+
+- Le etichette dei domini sono **Plastico** ed **Elastico**. Gli identificativi
+  interni e le famiglie Excel rimangono SLU/SLV per compatibilità degli archivi.
+- Ø e passo delle staffe sono solo nel gruppo Staffe, non duplicati in Armature.
+- Cambiare criterio di ricerca o strategia aggiorna le opzioni del solver nativo
+  e ricalcola punti resistenti/tassi, mantenendo le stesse istanze di dominio e
+  mesh visualizzata. Cambiando strategia in Intersezione, la DLL può comunque
+  preparare una propria mesh ausiliaria interna; cambiare solo N costante/eccentricità
+  ecc. non richiede questa preparazione. Senza altri aggiornamenti pendenti non vengono ricalcolate neppure le
+  SLE o l'altra scheda dominio. La proiezione 2D conserva la curva nativa.
+- Proietta sul piano è visibile prima del filtro azioni, fuori dalle opzioni avanzate.
+- **Scala…** offre zoom percentuale e fattori indipendenti X/Y nel 2D,
+  Mx/N/My nel 3D. Sono trasformazioni grafiche, non alterano sollecitazioni,
+  resistenze o unità. Adatta ripristina i fattori unitari. Il fit 2D considera
+  normalmente solo il dominio e mantiene l'origine al centro; includere le
+  azioni è facoltativo. Lo zoom è continuo, anche in riduzione. Nel 3D il fit
+  usa gli estremi effettivi, l'orientamento corrente e le proporzioni del viewport.
+- Senza trefoli si nascondono n/φp/Ep, i coefficienti normativi dei trefoli,
+  il relativo comando delle etichette e il pulsante materiale dedicato.
+  Rimane disponibile + Trefolo; aggiungendone uno ricompaiono le impostazioni.
+- Le opzioni di calcolo/verifica SLE sono comuni alle tre famiglie. Azioni,
+  contouring ed etichette restano indipendenti. Al primo passaggio di un vecchio
+  foglio si adottano le opzioni Rara e si conserva una copia delle tre configurazioni
+  in `sle_precedenti_unificazione`. I dati comuni sono in `sle_comuni`.
+- Accanto ai dettagli della combinazione, **Riepilogo verifiche** mostra il
+  nome governante e η massimo per Plastico/Elastico, tensioni/fessurazione delle
+  tre SLE e taglio Vx/Vy. Include tutte le righe, non solo quelle filtrate, e
+  distingue gli esiti privi di tasso da quelli verificati.
+- Il taglio propone **Automatici da sezione** per i parametri del wizard.
+  Per rettangolare: bw,x = h e bw,y = b; per T: bw,x = hf e bw,y = bw dell'anima.
+  d deriva dal baricentro delle barre di lembo; si usa il minore nei due versi.
+  Si raggruppano le barre entro un diametro massimo dal centro più esterno,
+  separatamente nelle due metà geometriche; Asl è il minimo delle aree dei
+  due gruppi, non tutta l'armatura longitudinale. Sono stime geometriche esplicite,
+  da verificare rispetto al meccanismo resistente reale; non usano il segno di V
+  per dedurre il lembo teso. **Manuali** permette di sovrascriverle.
+  Le precedenti impostazioni sono conservate in `parametri_precedenti`.
+  Senza staffe l'Asl geometrica richiede conferma dell'ancoraggio efficace prima
+  di produrre un esito; cambiare i parametri geometrici derivati annulla la
+  conferma. Circolare/CAP e geometria generica restano fuori campo.
+
+Riferimento per bw, d e condizione di ancoraggio di Asl:
+[NTC 2018, §4.1.2.3.5](https://www.gazzettaufficiale.it/eli/gu/2018/02/20/42/so/8/sg/pdf#page=83).
+
 ### Aggiornamento automatico e scambio delle azioni
 
 Nelle cinque schede CA non ci sono pulsanti **Calcola**. All'apertura e dopo
-ogni modifica dei dati il calcolo parte automaticamente, dopo 600 ms di pausa
-nella digitazione. Gli input rimangono utilizzabili; una nuova modifica annulla
+ogni conferma dei dati il calcolo parte automaticamente, **senza timer**.
+I campi di testo e le celle si confermano al cambio di focus o al salvataggio;
+durante la digitazione rimane valido lo stato precedentemente confermato.
+Selettori e caselle di spunta si confermano subito. Gli input rimangono utilizzabili; una nuova modifica annulla
 la pubblicazione dei risultati precedenti e accoda l'aggiornamento. Le chiamate
 interne alla DLL già avviate devono terminare prima della richiesta successiva.
 Gli errori di una verifica non impediscono il calcolo delle altre; vedere gli
@@ -57,7 +104,13 @@ effettive. Filtri, selezione, trasparenza e contouring sono solo visualizzazioni
 non lanciano un nuovo calcolo. Le opzioni avanzate sono raggruppate in sezioni
 apribili/richiudibili; nasconderle non ne cambia i valori.
 
-Ogni tabella delle sollecitazioni offre **Template Excel** e **Importa Excel**.
+Ogni tabella delle sollecitazioni offre **Template Excel**, **Importa Excel** e
+**Esporta Excel**. Senza percorso selezionato, Importa chiede il file. Template
+ed Esporta memorizzano il percorso nel foglio ANTHEA: Importa rilegge quel file.
+Il percorso è visibile e **Sfoglia** permette di cambiarlo. Se il file non esiste
+più viene chiesto di selezionarne un altro. Esporta include tutte le famiglie e
+tutte le righe, indipendentemente dai filtri; conserva i valori double senza
+arrotondare i dati. I nomi sono testi Excel anche se iniziano con `=`.
 Il template `.xlsx` è incluso nel programma e non richiede Excel installato.
 Un solo foglio `Azioni`, con colonne Famiglia, Nome, N [kN], Mx [kNm], My [kNm],
 Vx [kN], Vy [kN]. Famiglie: SLU, SLV, Rara, Frequente, Quasi permanente, Taglio.
@@ -83,11 +136,25 @@ sono aggiunte; il menu contestuale offre anche **Aggiungi dagli appunti**.
 In modifica di una cella, un testo singolo mantiene il normale incolla testuale.
 Un incolla tabellare non valido non modifica alcuna riga.
 
+Tutte le tabelle CA, comprese barre, trefoli e vertici CLS, hanno filtro per
+colonna con Contiene, Inizia con, Uguale a e Non contiene. Ordinamento crescente
+o decrescente dalla barra oppure clic sull'intestazione: confronto numerico per
+valori numerici, alfabetico per testi. Non si eliminano né si escludono azioni dal
+calcolo. I filtri sono locali alla vista e non vengono salvati nell'archivio.
+
 ### Visualizzazioni e riepiloghi
 
 Nei domini 3D e 2D **Forze: tutte / selezionata** alterna le azioni visibili,
 rispettando filtro e colonna Mostra. Il 3D ha uno slider di trasparenza 0–100%:
 0% opaco, 100% superficie invisibile; assi, punti e reticolo restano leggibili.
+Sollecitazioni, resistenze e linee di verifica hanno interruttori indipendenti.
+Colori η è facoltativo: verde sotto 0,80, ambra fino a 1, rosso oltre 1, grigio
+se il tasso non è determinato. Sono soglie grafiche, non ulteriori verifiche.
+Il 3D ha illuminazione con normali interpolate e griglia sul piano N=0.
+Il 2D mantiene l'origine al centro anche nello zoom, senza traslazione, con
+assi simmetrici e passi arrotondati 1/2/5 × 10ⁿ (multipli di 10 quando la scala
+lo consente). La spezzata origine–Ed–Rd identifica la verifica selezionata;
+non sostituisce il criterio resistente della DLL.
 Il riepilogo laterale distingue Ed negli assi di input da Rd negli assi locali,
 mostra criterio, tasso, tensioni/deformazioni minime e massime, altezza utile,
 posizione/inclinazione dell'asse neutro forniti da `CalculateStrainPlaneResult`.
@@ -95,7 +162,7 @@ Gli estremi della mesh/curva sono **campionati sull'intero dominio** e non vanno
 confusi con le resistenze al N della combinazione. Lo stato tensionale riportato
 nel dominio è quello **al punto resistente**, non all'azione Ed.
 
-In SLE il dettaglio ha le viste **Riepilogo** e **Barre e trefoli**. Riporta azioni,
+In SLE il dettaglio ha le viste **Riepilogo**, **Barre e trefoli** e **Calcestruzzo**. Riporta azioni,
 modello, limiti applicabili, tassi, stato tensionale/deformativo all'azione Ed,
 asse neutro, condizioni ambientali, wk, limite, Ac,eff e As,eff quando disponibili.
 Il selettore contouring riprende le rappresentazioni pertinenti di CheckerUI:
@@ -103,16 +170,40 @@ gradiente/bande delle tensioni CLS, scala riferita alla resistenza del CLS,
 tensioni nelle barre, tasso delle barre, tasso della sezione; aggiunge
 deformazioni CLS e sola geometria. Ogni mappa ha legenda e unità. I rapporti alla
 resistenza del materiale **non sono gli esiti tensionali SLE**. Il campo CLS è
-campionato sui punti della preview e i suoi estremi possono differire dai valori
+campionato con getter nativi su un raster 96×96, ritagliato al contorno della
+sezione e interpolato soltanto per il disegno; non interviene nel calcolo.
+La palette predefinita è blu per valori negativi, bianco allo zero e rosso per
+positivi. Le legende sono verticali. Gli estremi della legenda campionata possono differire dai valori
 ai vertici nel riepilogo. Le resistenze usate per normalizzare le mappe sono
 positive in valore assoluto; il segno delle tensioni resta quello di Checker.
 Non sono aggiunti i contouring dei profili metallici interni, non presenti nel
 modello geometrico attuale di ANTHEA.
 
+Tre comandi, spenti di default, mostrano σ/ε per tutte le barre, tutti i trefoli
+e tutti i vertici del CLS; per contorni con molti vertici conviene espandere e
+ingrandire la vista o usare la tabella Calcestruzzo. Le deformazioni usano le API
+native `GetRebarStrain` / `GetVerticeStrain`, con φ nella lineare: sono incrementali,
+senza εp iniziale. Valori calcolati a due decimali; per piccoli valori non nulli
+si usa notazione scientifica invece di farli apparire nulli. I risultati e gli
+esiti continuano a usare la precisione completa.
+
+Nelle opzioni comuni delle tre SLE sono modificabili sia n armature sia n trefoli (se presenti):
+`n = Eacciaio × (1 + φ) / Ec`. Modificare n aggiorna φ, modificare φ aggiorna n.
+Cambiare materiale mantiene φ e aggiorna n. Si usa Ec del materiale DLL.
+Ep di riferimento è il primo trefolo presente, oppure il materiale trefolo
+predefinito, oppure 195000 MPa se non ci sono trefoli. Con Ep differenti,
+φp è comune e ogni materiale ha un n effettivo diverso. φ deve essere non negativo;
+valori n incompatibili bloccano l'analisi SLE. n/φ non governano la non lineare.
+
 Il Taglio ha gruppi separati Vx/Vy, preview e riepilogo selezionato con VRsd,
 VRcd, VRd, cot θ, elemento governante e tasso per direzione. Restano espliciti
 i limiti di applicabilità già documentati; la riorganizzazione grafica non
 estende il modello resistente.
+Ø, passo e braccia si impostano sia nel pannello di controllo sia nel Taglio,
+su dati condivisi. Rettangolare/T: braccia per Vx e Vy; circolare: staffa chiusa
+o spirale e ferri interni. Il disegno è **indicativo e non esecutivo**: non include
+ancoraggi, piegature e sagomario. La scelta Spirale non abilita un modello a taglio
+circolare non ancora validato.
 
 ### Contenuto delle schede
 
@@ -124,7 +215,7 @@ estende il modello resistente.
    CLS teso, assi, filtri e tabella delle combinazioni.
 3. Dominio 2D: N–M con direzione θ oppure Mx–My a N fissato, risoluzione,
    assi, CLS teso, filtro e proiezione esplicita delle azioni fuori piano.
-4. Tensioni e fessurazione: Rara, Frequente e Quasi permanente indipendenti;
+4. Tensioni e fessurazione: Rara, Frequente e Quasi permanente con azioni indipendenti e opzioni comuni;
    analisi lineare/non lineare, viscosità φ per barre e trefoli nella lineare,
    CLS teso, assi; esposizione, sensibilità dell'armatura, durata, aderenza,
    copriferro e spaziatura massima delle barre tese.
@@ -138,14 +229,67 @@ Il 3D è ruotabile; selezionare una riga evidenzia Ed e Rd. Le azioni SLU/SLV so
 condivise fra 2D e 3D. SLE e taglio richiedono azioni già combinate: non vengono
 generati coefficienti ψ né combinazioni di carico.
 
-Il materiale ordinario usa CLS parabola-rettangolo e acciaio elastico-perfettamente
-plastico, con proprietà e coefficienti comuni espliciti. L'acciaio è marcato
+I materiali predefiniti usano CLS parabola-rettangolo e acciaio elastico-perfettamente
+plastico. I pulsanti + CLS / + Acciaio / + Trefoli creano materiali custom salvati
+nel foglio e riapplicabili dal relativo elenco. CLS: nome, fck (12–90 MPa) e
+diagramma parabola-rettangolo, bilineare, stress block o non lineare. Moduli,
+deformazioni limite e resistenza a trazione derivano dalla DLL. Acciaio: Es,
+fyk, fu, εu e legge elastoplastica/incrudente. Trefoli: Ep, fpyk, fpk, εpu;
+l'applicazione aggiorna i materiali dei trefoli esistenti senza cambiare Ap,
+posizione o σp0, e predispone i nuovi. L'acciaio è marcato
 `SteelTypes.Rebar`: lasciare Undefined impediva alla DLL di costruire il dominio.
-Non è stato importato l'intero editor materiali/geometrie di CheckerUI:
-restano le geometrie parametriche circolare, rettangolare e a T di ANTHEA.
+Non è stato importato l'intero editor materiali/geometrie di CheckerUI: curve
+tabellari, FRC e profili metallici interni restano da implementare. Restano le
+geometrie parametriche circolare, rettangolare e a T. **Generica (da definire)**
+è una scelta salvabile ma blocca esplicitamente il calcolo finché non sarà
+implementata la definizione di contorni, fori e armature.
 I trefoli richiedono Ap, Ep, fpyk, fpk, εpu e σp0 (tensione iniziale positiva,
 da fornire già coerente con le perdite considerate). Il motore li include
 effettivamente; dati incompleti bloccano il calcolo.
+Si controllano valori finiti, dimensioni, copriferro/disposizione, conteggi,
+sovrapposizione delle armature e contenimento dell'intera area di barre/trefoli
+nel CLS. Fu e deformazioni ultime devono essere coerenti con E e fy.
+La DLL distingue alcune API SLE dei trefoli tramite εp: per σp0=0 l'adattatore
+non pubblica un esito SLE impropriamente classificato come armatura ordinaria.
+Il coefficiente SLE dei trefoli è applicato dalla DLL a **fpyk**, non a fpk:
+questo è reso esplicito nell'editor e va riesaminato nella validazione normativa CAP.
+
+## Normative disponibili e report
+
+Il selettore collega NTC 2018, Model Code 2010, EN 1992-1-1, UNI, DIN, DS e NS
+EN 1992-1-1, CNR-DT 204/2006 e CS-TR34. Tutti i coefficienti esposti dalla classe
+base sono visibili e modificabili; la scelta di una nuova normativa ripristina
+i suoi valori predefiniti. I tre input storici αcc/γc/γs sono sincronizzati.
+La cache dei domini include normativa, coefficienti e materiali. Taglio e
+fessurazione portati da Rhino2Midas restano abilitati **solo per NTC 2018**.
+Per supporto effettivo, differenze nazionali e parti mancanti vedere
+[normative-calcestruzzo.md](normative-calcestruzzo.md).
+
+Dal menu **Report Word** si selezionano geometria, materiali, coefficienti,
+azioni, domini, ogni SLE, taglio, dettagli di barre/vertici e grafici. Le scelte
+si salvano nel foglio. Ambito, limiti ed errori sono sempre inclusi. La struttura
+è Input (geometria, armature, staffe, trefoli), Materiali (CLS, acciaio, trefoli),
+Coefficienti, Sollecitazioni e Verifiche. I grafici sono nelle rispettive sezioni.
+Per ciascuna famiglia SLE, di default si stampano gli estremi algebrici delle
+tensioni/deformazioni con la combinazione di origine, il caso con ησ massimo e
+quello con ηw massimo, distinti. Gli estremi non sono uno stato simultaneo.
+Gli esiti senza tasso numerico (non applicabilità, decompressione, errori) restano
+espliciti: non si inventa un caso governante. L'opzione `sle_tutte` abilita tutte
+le combinazioni. I dettagli facoltativi riportano i casi da cui provengono gli
+estremi e i governanti, oppure tutti i casi in modalità completa. Le immagini SLE
+sono riferite ai governanti effettivi, indipendentemente dalla riga selezionata;
+i domini rappresentano le opzioni correnti (3D in isometria).
+Un aggiornamento in corso o dati globalmente invalidi bloccano
+l'export. Il DOCX non ricalcola e non dichiara una conformità normativa globale.
+
+La finestra CA ha scorrimento orizzontale e verticale quando lo spazio è inferiore
+alla superficie minima di lavoro; i pannelli mantengono i propri scroll interni.
+La rotella su un menu chiuso scorre il pannello senza cambiare la selezione.
+I menu contour e filtri leggono la voce selezionata, non il testo ancora in
+aggiornamento. I numeri nelle griglie sono centrati, anche durante l'editing.
+Lo spessore disegnato delle staffe segue Ø × scala senza limite massimo in pixel;
+asse della staffa a copriferro + Ø/2. Resta uno schema, non un disegno esecutivo
+di piegatura, ancoraggio o sviluppo della spirale.
 
 ## Integrazione Rhino2Midas e correzioni autorizzate
 
@@ -209,8 +353,8 @@ certificazione della struttura. L'esportazione mantiene
 - SLV elastico è il dominio elastico della libreria, non l'intera verifica sismica.
 - Per geometrie, esposizioni, materiali e carichi reali occorre una verifica
   indipendente del progettista. Le scelte fuori campo sono segnalate nella tabella.
-- Il selettore operativo è NTC 2018; un archivio con altra normativa richiede
-  una scelta esplicita prima del calcolo, senza rietichettatura silenziosa.
+- Normative e coefficienti nazionali incompleti non vengono presentati come
+  implementazioni normative complete; vedere la matrice dedicata.
 
 ## Archivi e compatibilità
 

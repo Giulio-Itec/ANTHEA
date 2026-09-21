@@ -3,7 +3,7 @@ using X.Core;
 if (args.Length == 2 && args[0] == "--software") { SoftwareChecks.Run(JsonNode.Parse(File.ReadAllText(args[1]))!.AsArray()); return 0; }
 if (args.Length == 2 && args[0] == "--micropalo") { MicropileChecks.Run(JsonNode.Parse(File.ReadAllText(args[1]))!.AsArray()); return 0; }
 if (args.Length == 1 && args[0] == "--coesione") { CohesionChecks.Run(); return 0; }
-if (args.Length == 1 && args[0] == "--checker") { SectionWorkspaceChecks.Run(); SectionExchangeChecks.Run(); return 0; }
+if (args.Length == 1 && args[0] == "--checker") { SectionWorkspaceChecks.Run(); SectionExchangeChecks.Run(); ConcreteEnhancementChecks.Run(); return 0; }
 
 if(args.Length==3&&args[0]=="--calcola")
 {
@@ -72,6 +72,7 @@ foreach(var item in cases)
 int softwareChecks=0;try{softwareChecks=SoftwareChecks.Run(cases);}catch(Exception ex){failed++;Console.WriteLine("FAIL software: "+ex);}
 try{softwareChecks+=SectionWorkspaceChecks.Run();}catch(Exception ex){failed++;Console.WriteLine("FAIL workspace CA: "+ex);}
 try{softwareChecks+=SectionExchangeChecks.Run();}catch(Exception ex){failed++;Console.WriteLine("FAIL Excel azioni: "+ex);}
+try{softwareChecks+=ConcreteEnhancementChecks.Run();}catch(Exception ex){failed++;Console.WriteLine("FAIL estensioni CA: "+ex);}
 try{softwareChecks+=HorizontalChecks.Run();}catch(Exception ex){failed++;Console.WriteLine("FAIL palo orizzontale: "+ex);}
 var report=J.Obj(("casi_superati",count),("controlli_software_superati",softwareChecks),("casi_falliti",failed),("valori_numerici_confrontati",numbers),("massimo_delta_assoluto",maxAbs),("massimo_delta_relativo_scalato",maxRel),("percorso_massimo_delta",maxPath),("tolleranza_assoluta",1e-8),("tolleranza_relativa",1e-10));
 Console.WriteLine(report.ToJsonString(J.Options));if(args.Length>1)File.WriteAllText(args[1],report.ToJsonString(J.Options));return failed==0?0:1;

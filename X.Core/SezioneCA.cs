@@ -50,6 +50,7 @@ public sealed class SezioneCA
     public static double Hypot(double x,double y)=>double.Hypot(x,y);
     private void Validate()
     {
+        if(Shape.StartsWith("Generica"))throw new ArgumentException("Sezione generica: predisposizione salvabile; definizione del contorno e delle armature ancora da implementare. Calcolo non disponibile.");
         if(Shape is not ("Circolare" or "Rettangolare" or "A T"))throw new ArgumentException("Tipo di sezione non riconosciuto.");
         string[] common=["cover_mm","transverse_bar_diameter_mm","transverse_spacing_mm","fck_mpa","fyk_mpa","alpha_cc","gamma_c","gamma_s","steel_modulus_mpa","minimum_eccentricity_mm"];
         foreach(var k in common)Input.Required(k,strict:k is not ("cover_mm" or "minimum_eccentricity_mm"));

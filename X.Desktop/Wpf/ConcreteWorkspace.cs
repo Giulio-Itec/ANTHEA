@@ -19,9 +19,12 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private readonly JsonObject settings;
     private JsonObject Input => Data["input"]!.AsObject();
     private readonly TabControl tabs = new() { Margin = new Thickness(12, 8, 12, 0), BorderThickness = new Thickness(0), Background = Ui.Bg };
+    private readonly ScrollViewer workspaceScroll = new ChainedScrollViewer { HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
     private readonly TextBlock status = Ui.Text("Dati della sezione · selezionare una scheda per iniziare", 12);
     private readonly ProgressBar progress = new() { Height = 3, IsIndeterminate = true, Visibility = Visibility.Collapsed };
-    private readonly System.Windows.Threading.DispatcherTimer autoCalculate = new() { Interval = TimeSpan.FromMilliseconds(600) };
+    private bool calculationQueued;
+    private bool forceOnlyUpdate;
+    private readonly HashSet<DomainPanel> pendingForcePanels = [];
     private CancellationTokenSource? cancellation;
     private bool initializing = true, disposed, synchronizing;
     private int revision;
@@ -42,7 +45,9 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
 
     internal ConcreteWorkspace(JsonObject data)
     {
-        Data = data; settings = SectionWorkspace.Prepare(Data); Background = Ui.Bg; MinWidth = 1040;
+        Data = data; settings = SectionWorkspace.Prepare(Data); Background = Ui.Bg;
+        SetValue(InputForm.CommitOnFocusLossProperty, true);
+        PrepareCoefficients(); PrepareStirrups();
         foreach (string key in SectionWorkspace.Sets)
         {
             var rows = new ObservableCollection<JsonRow>(); actions[key] = rows;
@@ -52,10 +57,17 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
                 rows.Add(CreateAction(key, item.S("nome"), a.ElementAtOrDefault(0)?.ToString() ?? "", a.ElementAtOrDefault(1)?.ToString() ?? "", a.ElementAtOrDefault(2)?.ToString() ?? "", item.S("id"), item.B("visible", true)));
             }
         }
-        autoCalculate.Tick += async (_, _) => { autoCalculate.Stop(); if (!Busy && !disposed) await CalculateAllAsync(); };
         Loaded += (_, _) => { if (Result is null) QueueCalculation(); };
         var footer = new DockPanel { Margin = new Thickness(16, 4, 16, 8) }; footer.Children.Add(status);
-        Content = Ui.Dock(tabs, bottom: Ui.Stack(progress, footer));
+        var workspaceBody = Ui.Dock(tabs, bottom: Ui.Stack(progress, footer));
+        workspaceScroll.Content = workspaceBody; Content = workspaceScroll;
+        void ResizeWorkspace()
+        {
+            workspaceBody.Width = Math.Max(1120, double.IsFinite(workspaceScroll.ViewportWidth) ? workspaceScroll.ViewportWidth : 0);
+            workspaceBody.Height = Math.Max(700, double.IsFinite(workspaceScroll.ViewportHeight) ? workspaceScroll.ViewportHeight : 0);
+        }
+        workspaceScroll.SizeChanged += (_, _) => ResizeWorkspace();
+        workspaceScroll.ScrollChanged += (_, e) => { if (e.Source == workspaceScroll && (e.ViewportWidthChange != 0 || e.ViewportHeightChange != 0)) ResizeWorkspace(); };
         AddTab("01", "Pannello di controllo", BuildControlPanel());
         AddTab("02", "Dominio 3D", BuildDomainPanel(true));
         AddTab("03", "Dominio 2D", BuildDomainPanel(false));
@@ -98,7 +110,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         grid.Children.Add(top); var split = new GridSplitter { Height = 6, HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Center, Background = Ui.Bg, ResizeBehavior = GridResizeBehavior.PreviousAndNext };
         Grid.SetRow(split, 1); grid.Children.Add(split); Grid.SetRow(bottom, 2); grid.Children.Add(bottom); return grid;
     }
-    private static ScrollViewer Scroller(UIElement content) => new() { Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
+    private static ScrollViewer Scroller(UIElement content) => new ChainedScrollViewer { Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
     private static Border Notice(string text)
     {
         var border = Ui.Paper(Ui.Text(text, 11, color: Ui.Brush("#865D16")), 10); border.Background = Ui.Brush("#FFF6DD"); border.BorderBrush = Ui.Brush("#EEDCAF"); border.Margin = new Thickness(0, 8, 0, 8); return border;
@@ -107,20 +119,20 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
 
     private UIElement BuildControlPanel()
     {
-        var norm = new InputForm(settings, [new("normativa", "Normativa", Choices: ["NTC 2018"]), new("nota", "Nota del foglio")], _ => Invalidate());
-        geometry = new(Input, [new("shape", "Sezione", Choices: ["Circolare", "Rettangolare", "A T"]), new("diameter_mm", "Diametro D", "mm"), new("width_mm", "Larghezza b", "mm"), new("height_mm", "Altezza h", "mm"), new("flange_width_mm", "Larghezza ala bf", "mm"), new("web_width_mm", "Larghezza anima bw", "mm"), new("flange_thickness_mm", "Spessore ala hf", "mm"), new("cover_mm", "Copriferro netto", "mm")], _ => Invalidate(), true);
-        materials = new(Input, [new("classe_cls", "Classe CLS", Choices: ["C12/15", "C16/20", "C20/25", "C25/30", "C30/37", "C35/45", "C40/50", "C45/55", "C50/60", "C55/67", "C60/75", "C70/85", "C80/95", "C90/105", "Personalizzato"]), new("fck_mpa", "fck", "MPa"), new("fyk_mpa", "fyk", "MPa"), new("steel_modulus_mpa", "Es", "MPa"), new("alpha_cc", "αcc"), new("gamma_c", "γc"), new("gamma_s", "γs"), new("gettato_sottile", "Piano gettato in opera < 50 mm", Choices: ["No", "Sì"]), new("__fcd", "fcd", "MPa", ReadOnly: true), new("__fyd", "fyd", "MPa", ReadOnly: true), new("__ecm", "Ecm", "MPa", ReadOnly: true), new("__ec2", "εc2", "‰", ReadOnly: true), new("__ecu", "εcu", "‰", ReadOnly: true), new("n", "Es / Ecm (riferimento)", ReadOnly: true), new("__nmode", "Viscosità", ReadOnly: true)], key =>
+        var norm = new InputForm(settings, [new("normativa", "Normativa", Choices: ConcreteStandards.Names), new("nota", "Nota del foglio")], key => { if (key == "normativa") ResetCoefficients(); Invalidate(); });
+        geometry = new(Input, [new("shape", "Sezione", Choices: ["Circolare", "Rettangolare", "A T", "Generica (da definire)"]), new("diameter_mm", "Diametro D", "mm"), new("width_mm", "Larghezza b", "mm"), new("height_mm", "Altezza h", "mm"), new("flange_width_mm", "Larghezza ala bf", "mm"), new("web_width_mm", "Larghezza anima bw", "mm"), new("flange_thickness_mm", "Spessore ala hf", "mm"), new("cover_mm", "Copriferro netto", "mm")], _ => Invalidate(), true);
+        materials = new(Input, [new("classe_cls", "Classe CLS", Choices: ["C12/15", "C16/20", "C20/25", "C25/30", "C30/37", "C35/45", "C40/50", "C45/55", "C50/60", "C55/67", "C60/75", "C70/85", "C80/95", "C90/105", "Personalizzato"]), new("fck_mpa", "fck", "MPa"), new("fyk_mpa", "fyk", "MPa"), new("steel_modulus_mpa", "Es", "MPa"), new("alpha_cc", "αcc"), new("gamma_c", "γc"), new("gamma_s", "γs"), new("gettato_sottile", "Piano gettato in opera < 50 mm", Choices: ["No", "Sì"]), new("__fcd", "fcd", "MPa", ReadOnly: true), new("__fyd", "fyd", "MPa", ReadOnly: true), new("__ecm", "Ecm", "MPa", ReadOnly: true), new("__ec2", "εc,y (diagramma)", "‰", ReadOnly: true), new("__ecu", "εc,u (diagramma)", "‰", ReadOnly: true), new("n", "Es / Ecm (riferimento)", ReadOnly: true), new("__nmode", "Viscosità", ReadOnly: true)], key =>
         {
             if (key == "classe_cls" && Input.S(key).StartsWith('C')) materials.Set("fck_mpa", Input.S(key)[1..].Split('/')[0]);
             if (key == "n") Data["n_automatico"] = false;
-            Invalidate();
+            SyncCoefficientsFromInput(); Invalidate();
         }, true);
-        reinforcement = new(Input, [new("longitudinal_bar_count", "Barre circolari"), new("longitudinal_bar_diameter_mm", "Diametro", "mm"), new("top_bar_count", "Barre superiori"), new("top_bar_diameter_mm", "Ø superiori", "mm"), new("bottom_bar_count", "Barre inferiori"), new("bottom_bar_diameter_mm", "Ø inferiori", "mm"), new("side_bar_count_per_side", "Barre laterali / lato"), new("side_bar_diameter_mm", "Ø laterali", "mm"), new("transverse_bar_diameter_mm", "Ø staffe", "mm"), new("transverse_spacing_mm", "Passo staffe", "mm")], _ => Invalidate(), true);
+        reinforcement = new(Input, [new("longitudinal_bar_count", "Barre circolari"), new("longitudinal_bar_diameter_mm", "Diametro", "mm"), new("top_bar_count", "Barre superiori"), new("top_bar_diameter_mm", "Ø superiori", "mm"), new("bottom_bar_count", "Barre inferiori"), new("bottom_bar_diameter_mm", "Ø inferiori", "mm"), new("side_bar_count_per_side", "Barre laterali / lato"), new("side_bar_diameter_mm", "Ø laterali", "mm")], _ => Invalidate(), true);
         foreach (var item in settings.Array("trefoli").OfType<JsonObject>()) tendons.Rows.Add(new JsonRow((JsonObject)item.DeepClone(), _ => TendonsChanged()));
         grids.Add(tendons); tendons.Height = 165;
-        var tendonInput = Ui.Stack(Notice("Trefoli gestiti da Checker. Inserire le proprietà del materiale; σp0 è la tensione iniziale positiva del trefolo. Campi mancanti bloccano il calcolo."), tendons,
-            Ui.Bar(Ui.Button("+ Trefolo", () => { tendons.Rows.Add(new JsonRow(J.Obj(("id", "T" + (tendons.Rows.Count + 1)), ("x", "0"), ("y", "0"), ("area", "150"), ("sigma0", ""), ("Ep", ""), ("fpyk", ""), ("fpk", ""), ("eps_u", "")), _ => TendonsChanged())); TendonsChanged(); }), Ui.Button("−", () => { tendons.Commit(); if (tendons.SelectedItem is JsonRow r) { tendons.Rows.Remove(r); TendonsChanged(); } })));
-        var inputStack = Ui.Stack(norm, Group("Geometria", geometry, true), Group("Materiali e coefficienti", materials), Group("Armature", reinforcement), Group("Trefoli", tendonInput));
+        var tendonInput = Ui.Stack(Notice("Trefoli gestiti da Checker. Inserire le proprietà del materiale; σp0 è la tensione iniziale positiva del trefolo. Campi mancanti bloccano il calcolo."), WithFilters(tendons),
+            Ui.Bar(Ui.Button("+ Trefolo", () => { var m = settings["materiale_trefolo"]; tendons.Rows.Add(new JsonRow(J.Obj(("id", "T" + (tendons.Rows.Count + 1)), ("x", "0"), ("y", "0"), ("area", "150"), ("sigma0", ""), ("Ep", m.S("Ep")), ("fpyk", m.S("fpyk")), ("fpk", m.S("fpk")), ("eps_u", m.S("eps_u"))), _ => TendonsChanged())); TendonsChanged(); }), Ui.Button("−", () => { tendons.Commit(); if (tendons.SelectedItem is JsonRow r) { tendons.Rows.Remove(r); TendonsChanged(); } })));
+        var inputStack = Ui.Stack(norm, standardNote, Group("Geometria", geometry, true), Group("Materiali", Ui.Stack(materials, BuildCustomMaterials())), Group("Coefficienti da normativa / personalizzati", BuildCoefficients()), Group("Armature", reinforcement), Group("Staffe", BuildStirrups()), Group("Trefoli", tendonInput));
         var left = Panel("Definizione della sezione", Scroller(inputStack), "Dati comuni a tutte le verifiche · mm, MPa");
         var viewport = new ViewportFrame("Sezione geometrica", preview, preview.ResetView);
         var axes = new CheckBox { Content = "Assi", IsChecked = true, Margin = new Thickness(7, 3, 5, 3), VerticalAlignment = VerticalAlignment.Center };
@@ -129,7 +141,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         viewport.Toolbar.Children.Insert(0, axes); viewport.Toolbar.Children.Insert(1, labels);
         barInventory.SelectionChanged += (_, _) => { preview.SelectedBar = (barInventory.SelectedItem as JsonRow)?.Values.S("id") ?? ""; preview.InvalidateVisual(); };
         preview.BarSelected += index => { if (index < barInventory.Rows.Count) { barInventory.SelectedIndex = index; barInventory.ScrollIntoView(barInventory.SelectedItem); } };
-        var middle = Rows(viewport, Panel("Coordinate e identificativi delle barre", barInventory, "x e y rispetto al baricentro · clic su una barra per identificarla"), 4, 1.6);
+        var middle = Rows(viewport, Panel("Coordinate e identificativi delle barre", WithFilters(barInventory), "x e y rispetto al baricentro · clic su una barra per identificarla"), 4, 1.6);
         var summary = new StackPanel();
         foreach (string key in SectionWorkspace.Sets)
         {
@@ -139,7 +151,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
             var card = Panel(title, Ui.Stack(value, button)); card.Margin = new Thickness(0, 0, 0, 9); summary.Children.Add(card);
         }
         summary.Children.Add(Panel("Taglio", Ui.Stack(shearDashboard, Ui.Button("Apri →", () => tabs.SelectedIndex = 4))));
-        summary.Children.Add(Notice("Motore GPC Checker · NTC 2018 · compressione negativa. Esiti distinti per ogni verifica; nessun esito globale di conformità."));
+        summary.Children.Add(Notice("Motore GPC Checker · compressione negativa. Esiti distinti per ogni verifica; nessun esito globale di conformità."));
         var page = Columns((left, 3, 285), (middle, 5.3, 380), (Scroller(summary), 2.7, 250)); page.Margin = new Thickness(0, 10, 0, 0); return page;
     }
     private JsonRow CreateAction(string key, string name, string n, string mx, string my, string? id = null, bool visible = true)
@@ -160,6 +172,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private void TendonsChanged() { settings["trefoli"] = new JsonArray(tendons.Rows.Select(r => r.Values.DeepClone()).ToArray()); Invalidate(); }
     internal void Commit()
     {
+        foreach (var form in Ui.Descendants<InputForm>(this).ToArray()) form.Commit();
         foreach (var grid in grids) grid.Commit(); foreach (string key in actions.Keys) SyncActions(key);
         if (shearGrid is not null) ShearOptions["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")))).ToArray());
     }
@@ -167,22 +180,32 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private void Invalidate(bool geometryChanged = true)
     {
         if (initializing || disposed || synchronizing) return;
+        forceOnlyUpdate = false; pendingForcePanels.Clear();
         revision++; cancellation?.Cancel(); Result = null; meshes.Clear(); checker3D.Clear(); checker2D.Clear(); domainResults.Clear(); stressResults.Clear(); InvalidateShear();
         synchronizing = true;
         try { foreach (var row in actions.Values.SelectMany(r => r)) foreach (string key in new[] { "eta3d", "eta2d", "esito3d", "esito2d", "sigma_c", "sigma_s", "eta_sigma", "stress_status", "wk" }) row.Output(key, key.StartsWith("esito") || key == "stress_status" ? "Da calcolare" : key == "wk" ? "Da calcolare" : "—"); }
         finally { synchronizing = false; }
-        foreach (var panel in domainPanels) { panel.View3D?.SetMesh(null); panel.Plot.Series = []; panel.Plot.Segments = []; panel.Plot.Markers = []; panel.Plot.InvalidateVisual(); panel.Detail.Text = "Dati modificati · aggiornamento automatico in attesa"; }
-        foreach (var panel in stressPanels.Values) { panel.View.Stress = null; panel.View.InvalidateVisual(); panel.Detail.Text = "Nessun risultato aggiornato"; panel.Bars.Rows.Clear(); }
+        foreach (var panel in domainPanels) { panel.View3D?.SetMesh(null); panel.Plot.Series = []; panel.Plot.Segments = []; panel.Plot.Markers = []; panel.Plot.VerificationSegments = []; panel.Plot.InvalidateVisual(); panel.Detail.Text = "Dati modificati · aggiornamento automatico in attesa"; }
+        foreach (var panel in stressPanels.Values) { panel.View.Stress = null; panel.View.InvalidateVisual(); panel.Detail.Text = "Nessun risultato aggiornato"; panel.Bars.Rows.Clear(); panel.Concrete.Rows.Clear(); }
         if (geometryChanged) RefreshPreview(); RefreshSummary(); status.Text = "Modifiche acquisite · aggiornamento automatico in attesa…"; Modified?.Invoke(); QueueCalculation();
     }
     private void QueueCalculation()
     {
-        if (initializing || disposed) return;
-        autoCalculate.Stop(); autoCalculate.Start();
+        if (initializing || disposed || calculationQueued) return;
+        calculationQueued = true;
+        // One dispatcher turn lets the cell/focus commit finish. There is no time-based debounce.
+        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(async () =>
+        {
+            if (!calculationQueued || disposed) return;
+            calculationQueued = false;
+            if (!Busy) await CalculateAllAsync();
+        }));
     }
-    private void InvalidateChecks()
+    private void InvalidateChecks(bool onlyDomainForces = false)
     {
         if (initializing || disposed || synchronizing) return;
+        forceOnlyUpdate = onlyDomainForces && (forceOnlyUpdate || !Busy && !calculationQueued);
+        if (!forceOnlyUpdate) pendingForcePanels.Clear();
         revision++; cancellation?.Cancel(); Result = null; QueueCalculation(); Modified?.Invoke();
     }
     private void RefreshPreview()
@@ -194,20 +217,25 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         try
         {
             engine = new SezioneCA(Input); preview.Message = "";
-            materials.Set("__fcd", (engine.Fcd * (Input.S("gettato_sottile") == "Sì" ? .8 : 1)).ToString("0.00", CultureInfo.InvariantCulture), true); materials.Set("__fyd", engine.Fyd.ToString("0.00", CultureInfo.InvariantCulture), true);
-            materials.Set("__ecm", (engine.Es / engine.NAutomatico).ToString("0", CultureInfo.InvariantCulture), true); materials.Set("__ec2", (engine.EpsC2 * 1000).ToString("0.###", CultureInfo.InvariantCulture), true); materials.Set("__ecu", (engine.EpsCu * 1000).ToString("0.###", CultureInfo.InvariantCulture), true);
+            var concrete = ConcreteMaterials.Concrete(Input); var steel = ConcreteMaterials.Rebar(Input); var standard = ConcreteStandards.Effective(Input, settings);
+            double reduction = settings.S("normativa") == "NTC 2018" && Input.S("gettato_sottile") == "Sì" ? .8 : 1;
+            materials.Set("__fcd", EngineeringFormat.Number(Math.Abs(concrete.CalculateFcd(standard)) * reduction), true); materials.Set("__fyd", EngineeringFormat.Number(Math.Abs(steel.CalculateFyd(standard))), true);
+            materials.Set("__ecm", EngineeringFormat.Number(concrete.E), true); materials.Set("__ec2", EngineeringFormat.Number(Math.Abs(concrete.StrainYCompression) * 1000), true); materials.Set("__ecu", EngineeringFormat.Number(Math.Abs(concrete.StrainUCompression) * 1000), true);
             materials.Set("__nmode", "φ nelle schede SLE", true);
-            materials.Set("n", engine.NAutomatico.ToString("G6", CultureInfo.InvariantCulture), true);
+            materials.Set("n", EngineeringFormat.Number(steel.E / concrete.E), true);
         }
-        catch (ArgumentException ex) { preview.Message = ex.Message; foreach (string key in materials.Editors.Keys.Where(k => k.StartsWith("__"))) materials.Set(key, "—", true); }
+        catch (ArgumentException ex) { engine = null; preview.Message = ex.Message; foreach (string key in materials.Editors.Keys.Where(k => k.StartsWith("__"))) materials.Set(key, "—", true); }
         preview.Section = engine; preview.Tendons = [];
         foreach (var row in tendons.Rows)
         {
             var t = row.Values; var x = J.Number(t["x"]); var y = J.Number(t["y"]); var a = J.Number(t["area"]);
             if (x is double xx && y is double yy && a is > 0) preview.Tendons.Add(new(t.S("id"), xx, yy, a.Value));
         }
+        SynchronizeStirrups(); foreach (string key in stressPanels.Keys) SynchronizeHomogenization(key);
+        foreach (string field in SectionWorkspace.SharedSleFields) settings["sle_comuni"]![field] = settings["sle"]!["SLE"]![field]?.DeepClone();
+        RefreshTendonOptions(); RefreshAutomaticShear();
         preview.InvalidateVisual(); barInventory.Rows.Clear();
-        if (engine is not null) for (int i = 0; i < engine.Bars.Count; i++) { var b = engine.Bars[i]; barInventory.Rows.Add(new JsonRow(J.Obj(("id", "B" + (i + 1)), ("x", b.X.ToString("0.##")), ("y", b.Y.ToString("0.##")), ("phi", b.Diametro.ToString("0.##"))))); }
+        if (engine is not null) for (int i = 0; i < engine.Bars.Count; i++) { var b = engine.Bars[i]; barInventory.Rows.Add(new JsonRow(J.Obj(("id", "B" + (i + 1)), ("x", b.X.ToString("0.00")), ("y", b.Y.ToString("0.00")), ("phi", b.Diametro.ToString("0.00"))))); }
         foreach (var panel in stressPanels.Values) { panel.View.Section = engine; panel.View.Tendons = preview.Tendons; panel.View.Message = preview.Message; panel.View.InvalidateVisual(); }
     }
     private UIElement ActionTable(string key, JsonGrid grid, Action? onSelection = null)
@@ -230,7 +258,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         { grid.Commit(); if (grid.SelectedItem is not JsonRow row) return; string set = ActiveKey(); int index = actions[set].IndexOf(row); actions[set].Remove(row); SyncActions(set); Invalidate(false); if (actions[set].Count > 0) grid.SelectedItem = actions[set][Math.Min(index, actions[set].Count - 1)]; }
         var buttons = Ui.Bar(Ui.Button("+ Riga", Add), Ui.Button("Duplica", Duplicate), Ui.Button("− Riga", Remove));
         AttachClipboard(grid, ActiveKey, buttons);
-        return Ui.Dock(grid, bottom: buttons);
+        return Ui.Dock(WithFilters(grid), bottom: buttons);
     }
     internal static List<string[]> ParsePaste(string text)
     {
@@ -247,5 +275,5 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         if (result.Count == 0) throw new ArgumentException("Nessuna combinazione da incollare.");
         return result;
     }
-    public void Dispose() { disposed = true; autoCalculate.Stop(); cancellation?.Cancel(); }
+    public void Dispose() { disposed = true; calculationQueued = false; cancellation?.Cancel(); }
 }
