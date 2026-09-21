@@ -3,6 +3,7 @@ using X.Core;
 if (args.Length == 2 && args[0] == "--software") { SoftwareChecks.Run(JsonNode.Parse(File.ReadAllText(args[1]))!.AsArray()); return 0; }
 if (args.Length == 2 && args[0] == "--micropalo") { MicropileChecks.Run(JsonNode.Parse(File.ReadAllText(args[1]))!.AsArray()); return 0; }
 if (args.Length == 1 && args[0] == "--coesione") { CohesionChecks.Run(); return 0; }
+if (args.Length == 1 && args[0] == "--gamma-sat") { SaturatedWeightChecks.Run(); return 0; }
 if (args.Length == 1 && args[0] == "--checker") { SectionWorkspaceChecks.Run(); SectionExchangeChecks.Run(); ConcreteEnhancementChecks.Run(); return 0; }
 
 if(args.Length==3&&args[0]=="--calcola")

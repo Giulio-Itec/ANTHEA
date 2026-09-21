@@ -211,6 +211,31 @@ internal sealed partial class SheetEditor
             if (layer.Values.S("__tau") != "—") throw new Exception("τ disponibile fuori abaco");
             generalForm.Set("pressione_iniezione", pressure); await WaitForAutomatic();
         }
+        if (!Micro)
+        {
+            var layer = grid.Rows[0]; string gamma = layer.Values.S("peso_specifico"), sat = layer.Values.S("peso_specifico_saturo");
+            var satInput = Ui.Descendants<TextBox>(grid).First(t => ReferenceEquals(t.DataContext, layer) && System.Windows.Automation.AutomationProperties.GetName(t) == "γsat [kN/m³]");
+            var hint = Ui.Descendants<TextBlock>(grid).First(t => ReferenceEquals(t.DataContext, layer) && Equals(t.Tag, "gamma-sat-automatico"));
+            foreach (string blank in new[] { "", "  " })
+            {
+                satInput.Text = blank; layer["peso_specifico"] = "19,5";
+                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                if (hint.Visibility != Visibility.Visible || hint.Text != "19,5" || !Equals(hint.Foreground, Brushes.Gray) || satInput.Text != blank || layer.Values.S("peso_specifico_saturo") != blank)
+                    throw new Exception("γsat automatico non visualizzato o memorizzato come valore esplicito");
+                layer["peso_specifico"] = "20";
+                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                if (hint.Text != "20") throw new Exception("γsat automatico non segue γ");
+            }
+            foreach (string explicitValue in new[] { "21", "0" })
+            {
+                satInput.Text = explicitValue;
+                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                if (hint.Visibility != Visibility.Collapsed || layer.Values.S("peso_specifico_saturo") != explicitValue) throw new Exception("γsat esplicito sostituito dal valore automatico");
+            }
+            satInput.Text = ""; await WaitForAutomatic();
+            if (hint.Visibility != Visibility.Visible || layer.Values.S("peso_specifico_saturo") != "") throw new Exception("Ricalcolo perde γsat automatico");
+            layer["peso_specifico"] = gamma; satInput.Text = sat; await WaitForAutomatic();
+        }
         int count = grid.Rows.Count;
         var add = Ui.Descendants<Button>(sondages).First(b => Equals(b.Content, "Aggiungi strato"));
         add.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));

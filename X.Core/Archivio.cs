@@ -65,7 +65,7 @@ public static class Archivio
     }
     public static JsonObject NuovoStratoMicropalo() => J.Obj(("spessore", "0"), ("terreno", ""), ("alpha", "0"), ("laterale_attiva", true));
     public static JsonObject NuovoStratoPalo() => J.Obj(("spessore", "0"), ("tipologia", ""), ("addensamento", ""),
-        ("peso_specifico", "0"), ("peso_specifico_saturo", "0"), ("angolo_attrito", "0"),
+        ("peso_specifico", "0"), ("peso_specifico_saturo", ""), ("angolo_attrito", "0"),
         ("coesione_efficace", "0"), ("coesione_non_drenata", "0"), ("nc", "9"), ("laterale_attiva", true));
     public static JsonObject Documento(string module)=>J.Obj(("formato","X"),("versione",1),("tipo","calcolo"),("modulo_id",module),("dati",NuovoFoglio(module)));
 }

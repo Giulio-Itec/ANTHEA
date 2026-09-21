@@ -8,6 +8,13 @@ namespace X.Desktop;
 
 internal static class StratigraphyTable
 {
+    private sealed class EmptyVisibility : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+            => string.IsNullOrWhiteSpace(value as string) ? Visibility.Visible : Visibility.Collapsed;
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+            => throw new NotSupportedException();
+    }
     private static Binding Value(string key, bool readOnly = false) => new($"[{key}]")
     { Mode = readOnly ? BindingMode.OneWay : BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
 
@@ -68,6 +75,23 @@ internal static class StratigraphyTable
                 "coesione_efficace" => "Coesione efficace\nc′ [kPa]", "coesione_non_drenata" => "Coesione non drenata\nCu [kPa]",
                 "nc" => "Fattore\nNc [−]", "__tau" => "Aderenza\nτ [kPa]", _ => field.Label.Replace("Coeff. ", "Coefficiente\n").Replace("Fattore ", "Fattore\n")
             };
+            if (field.Key == "peso_specifico_saturo")
+            {
+                // The hint is not input: keep the stored value empty so it follows γ dynamically.
+                var container = new FrameworkElementFactory(typeof(Grid));
+                container.SetValue(FrameworkElement.ToolTipProperty, "Se vuoto, si usa automaticamente γ dello stesso strato (valore in grigio). Per tornare al valore automatico, cancellare γsat.");
+                container.AppendChild(control);
+                var hint = new FrameworkElementFactory(typeof(TextBlock));
+                hint.SetBinding(TextBlock.TextProperty, Value("peso_specifico", true));
+                var visibility = Value(field.Key, true); visibility.Converter = new EmptyVisibility();
+                hint.SetBinding(UIElement.VisibilityProperty, visibility);
+                hint.SetValue(TextBlock.ForegroundProperty, Brushes.Gray);
+                hint.SetValue(TextBlock.TextAlignmentProperty, TextAlignment.Center);
+                hint.SetValue(FrameworkElement.VerticalAlignmentProperty, VerticalAlignment.Center);
+                hint.SetValue(UIElement.IsHitTestVisibleProperty, false);
+                hint.SetValue(FrameworkElement.TagProperty, "gamma-sat-automatico");
+                container.AppendChild(hint); control = container;
+            }
             AddColumn(label, control, micro ? field.Key switch { "terreno" => 200, "spessore" => 110, "alpha" => 80, "__tau" => 90, _ => 125 } : field.Choices is not null ? 130 : 125);
         }
         var remove = new FrameworkElementFactory(typeof(Button)); remove.SetValue(ContentControl.ContentProperty, "[−]");
