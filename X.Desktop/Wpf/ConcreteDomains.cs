@@ -10,6 +10,7 @@ namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
 {
     private readonly Dictionary<string, (string Signature, CheckerDomain3D? Three, CheckerDomain2D? Two)> domainCache = new();
+    private (string Signature, CheckerSectionModel Model)? preparedSection;
     private readonly Dictionary<string, string> calculationErrors = new();
     private sealed class DomainPanel
     {
@@ -21,6 +22,9 @@ internal sealed partial class ConcreteWorkspace
         internal DomainViewport3D? View3D;
         internal Button ForceToggle = null!;
         internal Slider? Transparency;
+        internal bool NeedsVisualRefresh = true, AttachingRows;
+        internal string? OutputKey;
+        internal Dictionary<string, DomainCheck>? OutputChecks;
         internal readonly Plot Plot = new() { InvertY = false, CenteredAxes = true, Title = "Sezione del dominio", EmptyMessage = "Dominio in attesa di aggiornamento automatico" };
         internal readonly TextBlock Detail = Ui.Text("Selezionare una combinazione", 12);
         internal readonly TextBlock Summary = Ui.Text("Verifiche da calcolare", 12);
@@ -41,7 +45,7 @@ internal sealed partial class ConcreteWorkspace
             if (initializing) return;
             if (key is "filtro" or "stato") { AttachDomainRows(panel); RefreshDomainPanel(panel); Modified?.Invoke(); }
             else if (key is "criterio" or "strategia" or "proietta") InvalidateDomainForces(panel);
-            else Invalidate(false);
+            else InvalidateDomainForces(panel);
             panel.Form.Enable("theta", panel.Options.S("tipo") == "N–M"); panel.Form.Enable("N", panel.Options.S("tipo") == "Mx–My");
             foreach (var field in new[] { "origine_x", "origine_y", "rotazione" }) panel.Form.Enable(field, panel.Options.S("assi") == "Personalizzati");
         }, true, true);
@@ -97,6 +101,7 @@ internal sealed partial class ConcreteWorkspace
         var detailTabs = new TabControl(); Ui.Tab(detailTabs, "Dettagli combinazione", Scroller(panel.Detail)); Ui.Tab(detailTabs, "Riepilogo verifiche", Scroller(panel.Summary));
         var upper = Columns((viewport, 6, 350), (detailTabs, 4, 230));
         var body = Columns((left, 2.65, 265), (Rows(upper, table, 3.7, 2), 7.35, 640)); body.Margin = new Thickness(0, 10, 0, 0);
+        panel.Grid.IsVisibleChanged += (_, _) => { if (panel.Grid.IsVisible && panel.NeedsVisualRefresh) RefreshDomainPanel(panel); };
         AttachDomainRows(panel); panel.Form.Enable("theta", panel.Options.S("tipo") == "N–M"); panel.Form.Enable("N", panel.Options.S("tipo") == "Mx–My");
         foreach (var field in new[] { "origine_x", "origine_y", "rotazione" }) panel.Form.Enable(field, panel.Options.S("assi") == "Personalizzati");
         return body;
@@ -114,21 +119,25 @@ internal sealed partial class ConcreteWorkspace
             DomainCheck? check = results?.GetValueOrDefault(row.Values.S("id"));
             return panel.Options.S("filtro") switch { "Entro il dominio" => check?.Utilization is <= 1, "Fuori dominio" => check?.Utilization is > 1, "Da controllare" => check?.Utilization is null, _ => true };
         };
-        panel.Grid.ItemsSource = view;
-        ApplyTableFilter(panel.Grid);
-        panel.Grid.SelectedItem = view.Cast<JsonRow>().FirstOrDefault(r => r.Values.S("id") == previous) ?? view.Cast<JsonRow>().FirstOrDefault();
+        panel.NeedsVisualRefresh = true; panel.AttachingRows = true;
+        try
+        {
+            panel.Grid.ItemsSource = view;
+            ApplyTableFilter(panel.Grid);
+            panel.Grid.SelectedItem = view.Cast<JsonRow>().FirstOrDefault(r => r.Values.S("id") == previous) ?? view.Cast<JsonRow>().FirstOrDefault();
+        }
+        finally { panel.AttachingRows = false; }
     }
     private static ActionPoint ReadAction(JsonRow row)
     {
         if (string.IsNullOrWhiteSpace(row.Values.S("nome"))) throw new ArgumentException("Assegnare un nome alla combinazione.");
         return new(SectionWorkspace.Number(row.Values.S("N"), "N"), SectionWorkspace.Number(row.Values.S("Mx"), "Mx"), SectionWorkspace.Number(row.Values.S("My"), "My"));
     }
-    private void ValidateEngine() { _ = new CheckerSection(Input, settings, settings["dominio3d"]!.AsObject()); ValidateStirrups(); }
-    private async Task CalculateDomain(DomainPanel panel, CancellationToken token, string? requestedKey = null)
+    private async Task CalculateDomain(DomainPanel panel, CancellationToken token, string? requestedKey = null, CheckerSectionModel? prepared = null, JsonObject? preparedInput = null, JsonObject? preparedWorkspace = null)
     {
         string key = requestedKey ?? panel.Key;
         status.Text = $"Checker · {SectionWorkspace.Label(key)} · dominio {(panel.ThreeD ? "3D" : "2D")}…";
-        var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone(); var options = (JsonObject)panel.Options.DeepClone();
+        var input = preparedInput ?? (JsonObject)Input.DeepClone(); var workspace = preparedWorkspace ?? (JsonObject)settings.DeepClone(); var options = (JsonObject)panel.Options.DeepClone();
         var snapshots = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
         var computationOptions = (JsonObject)options.DeepClone();
         foreach (string visual in new[] { "stato", "filtro", "solo_selezionata", "trasparenza", "mostra_ed", "mostra_rd", "mostra_linee", "colora_eta", "criterio", "strategia", "proietta", "scala_x", "scala_y", "scala_n", "scala_mx", "scala_my", "fit_azioni" }) computationOptions.Remove(visual);
@@ -140,39 +149,61 @@ internal sealed partial class ConcreteWorkspace
             CheckerDomain2D? two = cached.Signature == signature ? cached.Two : null;
             if (three is null && two is null)
             {
-                var engine = new CheckerSection(input, workspace, options, key);
+                var engine = prepared is null ? new CheckerSection(input, workspace, options, key) : new CheckerSection(prepared, input, workspace, options, key);
                 three = panel.ThreeD ? engine.Domain3D(token) : null;
                 two = panel.ThreeD ? null : engine.Domain2D(token);
             }
             three?.ConfigureVerification(options);
             if (two is not null) two.Section.Options["proietta"] = options["proietta"]?.DeepClone();
             var results = new Dictionary<string, DomainCheck>();
+            var valid = new List<(string Id, ActionPoint Force)>();
             foreach (var snapshot in snapshots)
             {
                 token.ThrowIfCancellationRequested();
-                try { var force = ReadAction(new JsonRow(snapshot)); results[snapshot.S("id")] = three is not null ? three.Check(force) : two!.Check(force); }
+                try
+                {
+                    var force = ReadAction(new JsonRow(snapshot));
+                    if (three is not null) valid.Add((snapshot.S("id"), force));
+                    else results[snapshot.S("id")] = two!.Check(force);
+                }
                 catch (Exception ex) when (ex is not OperationCanceledException) { results[snapshot.S("id")] = new(null, null, "Checker: " + ex.Message); }
+            }
+            if (three is not null)
+            {
+                var checks = three.CheckMany(valid.Select(row => row.Force).ToArray(), token);
+                for (int i = 0; i < valid.Count; i++) results[valid[i].Id] = checks[i];
             }
             return (three, two, results);
         }, token);
         token.ThrowIfCancellationRequested();
         domainCache[panel.Prefix + key] = (signature, calculated.three, calculated.two);
-        if (calculated.three is not null) { checker3D[key] = calculated.three; meshes[key] = calculated.three.Mesh; }
+        if (calculated.three is not null) checker3D[key] = calculated.three;
         if (calculated.two is not null) checker2D[key] = calculated.two;
         domainResults[panel.Prefix + key] = calculated.results;
         if (key == panel.Key) { AttachDomainRows(panel); RefreshDomainPanel(panel); }
     }
     private void RefreshDomainViews() { foreach (var panel in domainPanels) RefreshDomainPanel(panel); }
-    private void RefreshDomainPanel(DomainPanel panel)
+    private void RefreshDomainPanel(DomainPanel panel, bool renderHidden = false)
     {
         if (panel.Grid is null) return;
-        meshes.TryGetValue(panel.Key, out var mesh); domainResults.TryGetValue(panel.Prefix + panel.Key, out var checks);
-        string eta = panel.ThreeD ? "eta3d" : "eta2d", outcome = panel.ThreeD ? "esito3d" : "esito2d";
-        foreach (var row in actions[panel.Key])
+        domainResults.TryGetValue(panel.Prefix + panel.Key, out var checks);
+        if (panel.OutputKey != panel.Key || !ReferenceEquals(panel.OutputChecks, checks))
         {
-            var check = checks?.GetValueOrDefault(row.Values.S("id")); row.Output(eta, EngineeringFormat.Number(check?.Utilization)); row.Output(outcome, check?.Status ?? "Da calcolare");
+            using var notifications = JsonRow.DeferNotifications(actions[panel.Key]);
+            string eta = panel.ThreeD ? "eta3d" : "eta2d", outcome = panel.ThreeD ? "esito3d" : "esito2d";
+            foreach (var row in actions[panel.Key])
+            {
+                var check = checks?.GetValueOrDefault(row.Values.S("id")); row.Output(eta, EngineeringFormat.Number(check?.Utilization)); row.Output(outcome, check?.Status ?? "Da calcolare");
+            }
+            panel.OutputKey = panel.Key; panel.OutputChecks = checks; panel.NeedsVisualRefresh = true;
         }
-        if (panel.ThreeD) panel.View3D!.SetMesh(mesh);
+        if (synchronizing || !panel.NeedsVisualRefresh || !renderHidden && !panel.Grid.IsVisible) return;
+        if (panel.ThreeD)
+        {
+            var mesh = checker3D.GetValueOrDefault(panel.Key)?.Mesh;
+            if (mesh is not null) meshes[panel.Key] = mesh;
+            panel.View3D!.SetMesh(mesh);
+        }
         else
         {
             panel.Plot.Series = []; panel.Plot.Markers = [];
@@ -194,12 +225,14 @@ internal sealed partial class ConcreteWorkspace
             else { panel.Plot.Segments = []; panel.Plot.EmptyMessage = calculationErrors.GetValueOrDefault(panel.Prefix + panel.Key, "Dominio in attesa di aggiornamento automatico"); }
             panel.Plot.InvalidateVisual();
         }
-        UpdateSelection(panel);
+        UpdateSelection(panel, renderHidden);
     }
     private static double[] Project(ActionPoint p, bool nm, double value) => nm ? [p.Mx * Math.Cos(value) + p.My * Math.Sin(value), p.N] : [p.Mx, p.My];
-    private void UpdateSelection(DomainPanel panel)
+    private void UpdateSelection(DomainPanel panel, bool renderHidden = false)
     {
-        if (panel.Grid is null) return;
+        panel.NeedsVisualRefresh = true;
+        if (synchronizing || panel.AttachingRows || panel.Grid is null || !renderHidden && !panel.Grid.IsVisible) return;
+        panel.NeedsVisualRefresh = false;
         var row = panel.Grid.SelectedItem as JsonRow; string? id = row?.Values.S("id"); domainResults.TryGetValue(panel.Prefix + panel.Key, out var checks); DomainCheck? selectedCheck = id is null ? null : checks?.GetValueOrDefault(id);
         var visible = new List<(string Id, ActionPoint Force, bool Pass)>();
         foreach (var item in panel.Grid.Items.OfType<JsonRow>())
@@ -268,9 +301,13 @@ internal sealed partial class ConcreteWorkspace
         progress.Visibility = Visibility.Visible;
         try
         {
-            ValidateEngine(); await work(token); token.ThrowIfCancellationRequested();
+            await work(token); token.ThrowIfCancellationRequested();
             if (disposed || requested != revision) return;
-            RefreshDomainViews(); RefreshSummary(); RebuildExport(); status.Text = calculationErrors.Count == 0 ? "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità" : "Aggiornamento parziale · " + string.Join(" · ", calculationErrors.Select(e => e.Key + ": " + e.Value));
+            status.Text = "Aggiornamento tabelle e riepiloghi…";
+            RefreshDomainViews(); RefreshSummary();
+            exportResult = null;
+            HasResults = domainResults.Count != 0 || stressResults.Count != 0 || shearResults.Count != 0;
+            status.Text = calculationErrors.Count == 0 ? "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità" : "Aggiornamento parziale · " + string.Join(" · ", calculationErrors.Select(e => e.Key + ": " + e.Value));
         }
         catch (OperationCanceledException) { status.Text = "Nuove modifiche · aggiornamento in attesa…"; }
         catch (Exception ex) { status.Text = "Dati non validi · calcolo bloccato: " + ex.Message; calculationErrors["Dati"] = ex.Message; Result = null; RefreshSummary(); }
@@ -284,32 +321,84 @@ internal sealed partial class ConcreteWorkspace
     {
         while (Busy && !disposed) await Task.Delay(30);
         if (disposed) return;
-        var forcePanels = forceOnlyUpdate ? pendingForcePanels.ToArray() : [];
-        forceOnlyUpdate = false; pendingForcePanels.Clear();
+        var requestedCalculations = pendingCalculations.ToHashSet();
+        if (requestedCalculations.Count == 0) return;
         await RunAnalysis(async token =>
         {
-            if (forcePanels.Length == 0) calculationErrors.Clear();
-            else foreach (var panel in forcePanels) foreach (string key in new[] { "SLU", "SLV" }) calculationErrors.Remove(panel.Prefix + key);
+            calculationErrors.Remove("Dati");
+            var activeSteps = new HashSet<string>();
             async Task Step(string name, Func<Task> action)
             {
                 token.ThrowIfCancellationRequested();
-                try { await action(); }
+                calculationErrors.Remove(name);
+                activeSteps.Add(name);
+                void Progress() => status.Text = "Checker · in corso: " + string.Join(" · ", activeSteps);
+                try { var task = action(); Progress(); await task; }
                 catch (Exception ex) when (ex is not OperationCanceledException) { calculationErrors[name] = ex.Message; }
+                finally
+                {
+                    // A modification during an await cancels the snapshot. Keep its
+                    // unfinished work queued, together with the newly affected checks.
+                    if (!token.IsCancellationRequested) pendingCalculations.Remove(name);
+                    activeSteps.Remove(name); if (activeSteps.Count > 0) Progress();
+                }
             }
-            foreach (string key in new[] { "SLU", "SLV" })
-                foreach (var panel in forcePanels.Length == 0 ? domainPanels.AsEnumerable() : forcePanels) await Step(panel.Prefix + key, () => CalculateDomain(panel, token, key));
-            if (forcePanels.Length > 0) return;
-            foreach (string key in SectionWorkspace.Sets.Skip(2)) await Step(key, () => CalculateStress(key, token));
-            token.ThrowIfCancellationRequested(); CalculateShear();
+            if (requestedCalculations.SetEquals(["Taglio"]))
+            {
+                await Step("Taglio", () => { CalculateShear(); return Task.CompletedTask; }); return;
+            }
+            var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone();
+            string sectionSignature = input.ToJsonString() + workspace["trefoli"]?.ToJsonString();
+            CheckerSectionModel prepared;
+            if (preparedSection is { } cached && cached.Signature == sectionSignature) prepared = cached.Model;
+            else
+            {
+                status.Text = "Checker · preparazione unica della sezione…";
+                prepared = await Task.Run(() => CheckerSection.PrepareModel(input, workspace), token);
+                token.ThrowIfCancellationRequested(); preparedSection = (sectionSignature, prepared);
+            }
+            token.ThrowIfCancellationRequested();
+            var domainTasks = from key in new[] { "SLU", "SLV" } from panel in domainPanels
+                              where requestedCalculations.Contains(panel.Prefix + key)
+                              select Step(panel.Prefix + key, () => CalculateDomain(panel, token, key, prepared, input, workspace));
+            await Task.WhenAll(domainTasks);
+            var stressTasks = SectionWorkspace.Sets.Skip(2).Where(requestedCalculations.Contains).Select(key => Step(key, () => CalculateStress(key, token, prepared, input, workspace)));
+            await Task.WhenAll(stressTasks);
+            token.ThrowIfCancellationRequested();
+            if (requestedCalculations.Contains("Taglio")) await Step("Taglio", () => { status.Text = "Verifiche a taglio…"; CalculateShear(); return Task.CompletedTask; });
         });
     }
     private void RebuildExport()
     {
         if (domainResults.Count == 0 && stressResults.Count == 0 && shearResults.Count == 0) { Result = null; return; }
         var domains = new JsonObject(); foreach (var (key, rows) in domainResults) domains[key] = J.Node(rows);
-        var stresses = new JsonObject(); foreach (var (key, rows) in stressResults) stresses[key] = J.Node(rows);
-        Result = J.Obj(("errore", ""), ("motore", "GPCChecker.Concrete.dll"), ("normativa_riferimento", settings.S("normativa")), ("verifica_normativa_completa", false), ("domini", domains), ("tensioni", stresses), ("taglio", J.Node(shearResults)), ("dati", Data), ("avvisi", new[] { "Compressione negativa; azioni in kN e kNm", "Taglio e fessurazione: vedere esiti specifici e limiti di applicabilità" }));
-        Result["errori_calcolo"] = J.Node(calculationErrors);
+        var stresses = new JsonObject();
+        foreach (var (key, rows) in stressResults)
+        {
+            var exportedRows = new JsonObject();
+            foreach (var (id, outcome) in rows)
+            {
+                var s = outcome.State;
+                // Keep engineering results and report details, never native objects,
+                // integration fibres, raster pixels or other reconstructible graphics.
+                exportedRows[id] = J.Node(new
+                {
+                    State = s is null ? null : new { s.sigma_cls, s.sigma_acciaio, s.tensioni_barre,
+                        s.Response, s.ConcreteStressLimit, s.SteelStressLimit, s.ConcreteVertices, s.BarStrains },
+                    outcome.Ratio, outcome.Status, outcome.Cracking, outcome.CrackResult
+                });
+            }
+            stresses[key] = exportedRows;
+        }
+        // Attach freshly created nodes directly: J.Obj would deep-clone them again.
+        Result = new JsonObject
+        {
+            ["errore"] = "", ["motore"] = "GPCChecker.Concrete.dll",
+            ["normativa_riferimento"] = settings.S("normativa"), ["verifica_normativa_completa"] = false,
+            ["domini"] = domains, ["tensioni"] = stresses, ["taglio"] = J.Node(shearResults),
+            ["dati"] = Data.DeepClone(), ["errori_calcolo"] = J.Node(calculationErrors),
+            ["avvisi"] = J.Node(new[] { "Compressione negativa; azioni in kN e kNm", "Taglio e fessurazione: vedere esiti specifici e limiti di applicabilità" })
+        };
     }
     private void RefreshSummary()
     {

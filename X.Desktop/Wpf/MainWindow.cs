@@ -33,15 +33,13 @@ public sealed partial class MainWindow : Window
         dashboardViewport = DisplayAdaptation.Viewport(dashboard, 1120, 680);
         var root = Ui.Dock(body, BuildMenu()); root.Background = Ui.Bg; Content = root; BuildShell(); ShowHome();
         DisplayAdaptation.Attach(this);
-        Closing += (_, e) => { if (testing) return; if (editor?.Busy == true) { e.Cancel = true; MessageBox.Show(this, "Attendere il completamento del calcolo."); return; } e.Cancel = !ConfirmDiscard(); };
+        Closing += (_, e) => { if (testing) return; e.Cancel = !ConfirmDiscard(); };
         Closed += (_, _) => editor?.Dispose();
         tree.SelectedItemChanged += (_, e) =>
         {
-            if (refreshing || editor?.Busy == true) return;
+            if (refreshing) return;
             if (e.NewValue is TreeViewItem { Tag: JsonObject sheet } && sheet.ContainsKey("modulo_id")) { Commit(); ShowSheet(sheet); }
         };
-        tree.PreviewMouseDown += (_, e) => { if (editor?.Busy == true) e.Handled = true; };
-        tree.PreviewKeyDown += (_, e) => { if (editor?.Busy == true) e.Handled = true; };
     }
     internal void Safe(Action action) { try { action(); } catch (Exception ex) { MessageBox.Show(this, ex.Message, "Operazione non completata", MessageBoxButton.OK, MessageBoxImage.Error); } }
     internal static string ModuleName(string module) => module switch { "geo_palo_verticale" => "Palo · capacità portante", "geo_palo_orizzontale" => "Palo · capacità portante orizzontale", "geo_micropalo_verticale" => "Micropalo · Bustamante–Doix", MicropaloOrizzontale.Module => "Micropalo · capacità portante orizzontale", "str_palo" => "Sezione in c.a. · SLU / SLV / SLE", _ => module };
@@ -67,12 +65,12 @@ public sealed partial class MainWindow : Window
         nav.Children.Add(Ui.Text("Strumenti di calcolo", color: Ui.Muted));
         foreach (var (title, action) in new (string, Action)[] { ("Home", ShowHome), ("Moduli singoli", () => ShowModules()), ("Progetti", ShowProjects) })
         {
-            var b = Ui.Button(title, () => Safe(() => { if (editor?.Busy == true) return; Commit(); action(); })); b.Height = 45; b.HorizontalContentAlignment = HorizontalAlignment.Left; b.FontWeight = FontWeights.SemiBold; nav.Children.Add(b); navigation[title] = b;
+            var b = Ui.Button(title, () => Safe(() => { Commit(); action(); })); b.Height = 45; b.HorizontalContentAlignment = HorizontalAlignment.Left; b.FontWeight = FontWeights.SemiBold; nav.Children.Add(b); navigation[title] = b;
         }
         nav.Children.Add(FileCommands(false)); var footer = Ui.Text("Moduli disponibili: 3 di 6", color: Ui.Muted); footer.Margin = new Thickness(20);
         var sidebar = Ui.Dock(nav, bottom: footer); sidebar.Background = Brushes.White; dashboard.Children.Add(sidebar); Grid.SetColumn(dashboardBody, 1); dashboard.Children.Add(dashboardBody);
         var top = new DockPanel { Background = Ui.Navy, MinHeight = 68, LastChildFill = true };
-        var back = Ui.Button("← Torna ad ANTHEA", () => { if (editor?.Busy == true) return; Commit(); ShowHome(); }, true); back.Width = 200; back.BorderThickness = new Thickness(0); top.Children.Add(back); top.Children.Add(FileCommands(true));
+        var back = Ui.Button("← Torna ad ANTHEA", () => { Commit(); ShowHome(); }, true); back.Width = 200; back.BorderThickness = new Thickness(0); top.Children.Add(back); top.Children.Add(FileCommands(true));
         var titles = Ui.Stack(heading, Ui.Text("Scheda di calcolo · input, profilo e risultati", 12, color: Ui.Brush("#B9C8D8"))); titles.Margin = new Thickness(15, 10, 0, 0); top.Children.Add(titles);
         DockPanel.SetDock(top, System.Windows.Controls.Dock.Top); moduleView.Children.Add(top); moduleView.Children.Add(sheetContent);
     }
@@ -159,7 +157,7 @@ public sealed partial class MainWindow : Window
     private void ShowSheet(JsonObject sheet)
     {
         if (editor is not null && ReferenceEquals(sheet, currentSheet)) { ResumeCalculation(); return; }
-        if (editor?.Busy == true) return; editor?.Dispose(); currentSheet = sheet; string module = sheet.S("modulo_id");
+        editor?.Dispose(); currentSheet = sheet; string module = sheet.S("modulo_id");
         editor = new SheetEditor(module, sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(module)); editor.Modified += MarkDirty;
         sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module
             ? editor : DisplayAdaptation.Viewport(editor, 1120, 600);
@@ -191,7 +189,7 @@ public sealed partial class MainWindow : Window
         return answer != MessageBoxResult.Cancel && (answer != MessageBoxResult.Yes || Save(false));
     }
     private void NewCalculation(string module)
-    { if (editor?.Busy == true || !ConfirmDiscard()) return; document = Archivio.Documento(module); path = null; dirty = false; currentSheet = null; ShowSheet(document); RefreshTree(); UpdateTitle(); }
+    { if (!ConfirmDiscard()) return; document = Archivio.Documento(module); path = null; dirty = false; currentSheet = null; ShowSheet(document); RefreshTree(); UpdateTitle(); }
     private void OpenModule(string module)
     {
         if (editor?.Module == module && currentSheet is not null) ResumeCalculation();
@@ -205,19 +203,18 @@ public sealed partial class MainWindow : Window
     }
     private void NewProjects()
     {
-        if (editor?.Busy == true || !ConfirmDiscard()) return;
+        if (!ConfirmDiscard()) return;
         editor?.Dispose(); editor = null; currentSheet = null; sheetContent.Content = null;
         document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "progetti"), ("progetti", new JsonArray())); path = null; dirty = false; ShowProjects(); UpdateTitle(); AddProject();
     }
     private void AddProject()
     {
-        if (editor?.Busy == true) return; if (document.S("tipo") != "progetti") { NewProjects(); return; }
+        if (document.S("tipo") != "progetti") { NewProjects(); return; }
         string? name = Ui.Ask(this, "Nome progetto", "Progetto " + (document.Array("progetti").Count + 1)); if (string.IsNullOrWhiteSpace(name)) return;
         Commit(); var p = J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("strutture", new JsonArray())); document.Array("progetti").Add(p); MarkDirty(); RefreshTree(p);
     }
     private void AddStructure()
     {
-        if (editor?.Busy == true) return;
         if (document.S("tipo") != "progetti") { MessageBox.Show(this, "Creare o aprire un archivio progetti dal menu File."); return; }
         var node = tree.SelectedItem as TreeViewItem; while (node?.Parent is TreeViewItem parent) node = parent;
         if (node?.Tag is not JsonObject p) { AddProject(); return; }
@@ -226,7 +223,7 @@ public sealed partial class MainWindow : Window
     }
     private void AddSheet(string module)
     {
-        if (editor?.Busy == true) return; if (document.S("tipo") != "progetti") { NewCalculation(module); return; }
+        if (document.S("tipo") != "progetti") { NewCalculation(module); return; }
         var node = tree.SelectedItem as TreeViewItem; if (node?.Tag is JsonObject f && f.ContainsKey("modulo_id")) node = node.Parent as TreeViewItem;
         if (node?.Tag is not JsonObject s || !s.ContainsKey("fogli")) { MessageBox.Show(this, "Selezionare una struttura nell'albero dei progetti."); return; }
         string? name = Ui.Ask(this, "Nome foglio", ModuleName(module)); if (string.IsNullOrWhiteSpace(name)) return;
@@ -234,20 +231,20 @@ public sealed partial class MainWindow : Window
     }
     private void Rename()
     {
-        if (editor?.Busy == true || tree.SelectedItem is not TreeViewItem { Tag: JsonObject target } node) return;
+        if (tree.SelectedItem is not TreeViewItem { Tag: JsonObject target } node) return;
         string? name = Ui.Ask(this, "Rinomina", target.S("nome", node.Header.ToString() ?? "")); if (string.IsNullOrWhiteSpace(name)) return;
         target["nome"] = name; MarkDirty(); RefreshTree(target); if (ReferenceEquals(target, currentSheet)) heading.Text = name;
     }
     private void Delete()
     {
-        if (document.S("tipo") != "progetti" || tree.SelectedItem is not TreeViewItem { Tag: JsonObject target } || editor?.Busy == true) return;
+        if (document.S("tipo") != "progetti" || tree.SelectedItem is not TreeViewItem { Tag: JsonObject target }) return;
         if (MessageBox.Show(this, "Eliminare l'elemento selezionato e i suoi contenuti dal documento? Il file su disco resta invariato fino al salvataggio.", "Elimina", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes) return;
         Commit(); if (target.Parent is JsonArray list) list.Remove(target); editor?.Dispose(); editor = null; currentSheet = null; sheetContent.Content = null; MarkDirty(); RefreshTree();
     }
     private void Open() { var d = new OpenFileDialog { Filter = "File ANTHEA|*.programma;*.anthea|Tutti i file|*.*" }; if (d.ShowDialog(this) == true) LoadFile(d.FileName); }
     internal void LoadFile(string filename)
     {
-        if (editor?.Busy == true) return; var loaded = Archivio.Leggi(filename); if (!ConfirmDiscard()) return;
+        var loaded = Archivio.Leggi(filename); if (!ConfirmDiscard()) return;
         editor?.Dispose(); editor = null; currentSheet = null; document = loaded; path = filename; dirty = false; sheetContent.Content = null;
         if (document.S("tipo") == "calcolo") ShowSheet(document); else ShowProjects(); RefreshTree(); UpdateTitle();
     }
@@ -265,13 +262,13 @@ public sealed partial class MainWindow : Window
     }
     private void ExportJson()
     {
-        Commit(); if (editor?.Result is null) { MessageBox.Show(this, editor?.Module == "str_palo" ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi." : "Premere Calcola prima di esportare i risultati."); return; }
+        Commit(); if (editor?.HasResults != true) { MessageBox.Show(this, editor?.Module == "str_palo" ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi." : "Premere Calcola prima di esportare i risultati."); return; }
         var d = new SaveFileDialog { Filter = "Risultati JSON|*.json", FileName = "Risultati.json" }; if (d.ShowDialog(this) == true) editor.ExportResult(d.FileName);
     }
     private void ExportReport()
     {
-        Commit(); if (editor?.Result is null || editor.Busy) { MessageBox.Show(this, editor?.Module == "str_palo" ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi." : "Completare il calcolo prima di esportare il report."); return; }
-        if (editor.Module is PaloOrizzontale.Module or MicropaloOrizzontale.Module)
+        Commit(); if (editor?.HasResults != true || editor.Busy) { MessageBox.Show(this, editor?.Module == "str_palo" ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi." : "Completare il calcolo prima di esportare il report."); return; }
+        if (editor.Module == PaloOrizzontale.Module)
         {
             var save = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = "Relazione_palo_orizzontale.docx" };
             if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []); return;

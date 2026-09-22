@@ -24,6 +24,7 @@ internal sealed partial class ConcreteWorkspace
     }
     private void SynchronizeSharedSle(string source)
     {
+        using var notifications = JsonRow.DeferNotifications(actions.Values.SelectMany(r => r));
         var from = settings["sle"]![source]!;
         foreach (string field in SectionWorkspace.SharedSleFields)
         {
@@ -46,13 +47,13 @@ internal sealed partial class ConcreteWorkspace
     }
     private void InvalidateDomainForces(DomainPanel panel)
     {
+        using var notifications = JsonRow.DeferNotifications(actions.Values.SelectMany(r => r));
         foreach (string key in new[] { "SLU", "SLV" })
         {
             domainResults.Remove(panel.Prefix + key);
             foreach (var row in actions[key]) { row.Output(panel.ThreeD ? "eta3d" : "eta2d", "—"); row.Output(panel.ThreeD ? "esito3d" : "esito2d", "Da calcolare"); }
         }
-        pendingForcePanels.Add(panel);
-        UpdateSelection(panel); RefreshSummary(); status.Text = "Aggiornamento punti resistenti e tassi · dominio conservato"; InvalidateChecks(true);
+        UpdateSelection(panel); RefreshSummary(); status.Text = "Aggiornamento punti resistenti e tassi · dominio conservato"; InvalidateChecks(panel.Prefix + "SLU", panel.Prefix + "SLV");
     }
     private void AddDomainScaleControls(DomainPanel panel, ViewportFrame frame)
     {
@@ -99,6 +100,7 @@ internal sealed partial class ConcreteWorkspace
     }
     private void RefreshVerificationSummaries()
     {
+        var names = actions.ToDictionary(kv => kv.Key, kv => kv.Value.ToDictionary(r => r.Values.S("id"), r => r.Values.S("nome")));
         foreach (var panel in domainPanels)
             panel.Summary.Text = string.Join("\n\n", new[] { "SLU", "SLV" }.Select(key => WorstSummary(SectionWorkspace.Label(key), actions[key].Count,
                 domainResults.GetValueOrDefault(panel.Prefix + key)?.Select(kv => (Name(key, kv.Key), kv.Value.Utilization, kv.Value.Status)) ?? [])));
@@ -109,15 +111,25 @@ internal sealed partial class ConcreteWorkspace
                 WorstSummary("Fessurazione", actions[key].Count, values?.Select(kv => (Name(key, kv.Key), kv.Value.CrackResult?.Ratio, kv.Value.Cracking)) ?? []);
         }));
         foreach (var panel in stressPanels.Values) panel.Summary.Text = sle;
-        string Name(string key, string id) => actions[key].FirstOrDefault(r => r.Values.S("id") == id)?.Values.S("nome") ?? id;
+        string Name(string key, string id) => names[key].GetValueOrDefault(id, id);
     }
     private static string WorstSummary(string title, int total, IEnumerable<(string Name, double? Ratio, string Status)> source)
     {
-        var rows = source.ToArray(); var valid = rows.Where(r => r.Ratio is double n && double.IsFinite(n)).OrderByDescending(r => r.Ratio).ToArray();
-        string result = title + (total == 0 ? "\nNessuna combinazione" : valid.Length == 0 ? "\nTasso non disponibile / non applicabile" : $"\nGoverna: {valid[0].Name} · η = {EngineeringFormat.Number(valid[0].Ratio)}\n{valid[0].Status}");
-        if (total > 0) result += $"\n{valid.Length}/{total} con tasso · {valid.Count(r => r.Ratio > 1)} oltre 1";
-        var missing = rows.Where(r => r.Ratio is null).ToArray();
-        if (missing.Length > 0) result += "\nSenza tasso: " + string.Join("; ", missing.Select(r => r.Name + ": " + r.Status));
+        int valid = 0, failed = 0, missing = 0;
+        (string Name, double? Ratio, string Status) worst = default;
+        var examples = new List<string>();
+        foreach (var row in source)
+        {
+            if (row.Ratio is double ratio && double.IsFinite(ratio))
+            {
+                if (valid++ == 0 || ratio > worst.Ratio) worst = row;
+                if (ratio > 1) failed++;
+            }
+            else { missing++; if (examples.Count < 5) examples.Add(row.Name + ": " + row.Status); }
+        }
+        string result = title + (total == 0 ? "\nNessuna combinazione" : valid == 0 ? "\nTasso non disponibile / non applicabile" : $"\nGoverna: {worst.Name} · η = {EngineeringFormat.Number(worst.Ratio)}\n{worst.Status}");
+        if (total > 0) result += $"\n{valid}/{total} con tasso · {failed} oltre 1";
+        if (missing > 0) result += "\nSenza tasso: " + string.Join("; ", examples) + (missing > examples.Count ? $"; … altre {missing - examples.Count} (dettagli nella tabella)" : "");
         return result;
     }
 }

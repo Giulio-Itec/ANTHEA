@@ -12,15 +12,37 @@ internal sealed partial class ConcreteWorkspace
     {
         int checks=0;
         void Assert(bool value,string name) { if(!value) throw new Exception("Workspace Checker: "+name+" · "+status.Text); checks++; }
+        var batch = new JsonRows(); int resets = 0, notifications = 0;
+        batch.CollectionChanged += (_, e) => { Assert(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset, "Import in blocco usa Reset"); resets++; };
+        using (batch.DeferRefresh())
+        {
+            using (batch.DeferRefresh()) for (int i = 0; i < 10000; i++) batch.Add(new JsonRow(J.Obj(("id", i))));
+            Assert(resets == 0, "Nessuna notifica durante il caricamento in blocco");
+        }
+        Assert(resets == 1 && batch.Count == 10000, "Un solo refresh per 10000 righe");
+        var notified = batch[0]; notified.PropertyChanged += (_, _) => notifications++;
+        using (JsonRow.DeferNotifications([notified]))
+        {
+            notified.Output("eta", 1);
+            using (JsonRow.DeferNotifications([notified])) notified.Output("esito", "OK");
+            Assert(notifications == 0, "Notifiche risultati sospese anche in scope annidati");
+        }
+        Assert(notifications == 1, "Un aggiornamento binding per riga");
+        using (JsonRow.DeferNotifications([notified])) notified.Output("eta", 1);
+        Assert(notifications == 1, "Risultati invariati senza notifiche");
         async Task Capture(string name) { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); File.WriteAllBytes(Path.Combine(directory,"ca_"+name+".png"),Ui.Snapshot(this)); }
         Assert(tabs.Items.Count==5 && sleTabs.Items.Count==3,"Schede CA e taglio");
         Assert(actions["SLE_FREQ"].Count==0 && actions["SLE_QP"].Count==0,"Nessuna combinazione inventata");
         Assert(actions["SLU"][0].Values.D("N")<0,"Compressione negativa");
         Assert(checker3D.Count==2 && checker2D.Count==2,"Domini nativi 3D e 2D");
+        var sharedSection = preparedSection?.Model.Section ?? throw new Exception("Workspace Checker: sezione condivisa non preparata");
+        checks++;
+        Assert(checker3D.Values.All(c => ReferenceEquals(c.Section.Section, sharedSection)) && checker2D.Values.All(c => ReferenceEquals(c.Section.Section, sharedSection)), "Unica sezione nativa condivisa fra i domini");
         var three=domainPanels[0]; var two=domainPanels[1];
         foreach(var mode in new[]{"SLU","SLV"})
         {
             tabs.SelectedIndex=1; three.Mode.SelectedItem=mode; three.Grid.SelectedItem=actions[mode][0];
+            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
             Assert(three.View3D!.TriangleCount>100 && three.View3D.SelectedResistance is not null,"Mesh e resistenza "+mode);
             Assert(domainResults["3D:"+mode].Values.First().Utilization is >0,"Tasso nativo "+mode);
             await Capture("dominio3d_"+mode);
@@ -34,6 +56,11 @@ internal sealed partial class ConcreteWorkspace
         Assert(actions["SLU"][0].Values.S("N")=="-2500" && Result is not null,"Digitazione non confermata conserva i risultati fino al focus/commit");
         three.Grid.Commit(); Assert(Data["combinazioni"]!["SLU"]![0]!["azioni"]![0]!.ToString()=="-2600","Salvataggio N");
         actions["SLU"][0]["N"]="-2500"; await CalculateAllAsync();
+        Assert(HasResults && exportResult is null, "Calcolo completato senza serializzare risultati");
+        var compactExport = Result!;
+        var exportedState = compactExport["tensioni"]!["SLE"]!.AsObject().First().Value!["State"]!.AsObject();
+        Assert(!exportedState.ContainsKey("FiberStresses") && !exportedState.ContainsKey("FiberStrains") && !exportedState.ContainsKey("Raster") && !exportedState.ContainsKey("Native"), "Export minimo senza array grafici o oggetti nativi");
+        Assert(exportedState.ContainsKey("Response") && exportedState.ContainsKey("tensioni_barre") && exportedState.ContainsKey("ConcreteVertices") && ReferenceEquals(compactExport, Result), "Export su richiesta memorizzato e dettagli report conservati");
         two.Form.Set("tipo","Mx–My"); two.Form.Set("N","-2500"); tabs.SelectedIndex=2;
         await RunAnalysis(t=>CalculateDomain(two,t));
         Assert(two.Plot.Segments.Length>5 && domainResults["2D:SLU"].Values.First().Utilization is >0,"Dominio 2D nativo");
@@ -61,7 +88,7 @@ internal sealed partial class ConcreteWorkspace
         Assert(stressResults["SLE"].Values.First().State?.Native.LinearElasticAnalysis==false,"Non lineare nativo");
         rare.Options.Set("modello","Lineare");
         actions["SLE"][0]["N"]="-2510";
-        Assert(Result is null && checker3D.Count==0 && stressResults.Count==0 && two.Plot.Segments.Length==0,"Invalidazione");
+        Assert(Result is null && checker3D.Count==2 && stressResults.Count==0 && domainResults.ContainsKey("3D:SLU"),"Invalidazione SLE conserva domini indipendenti");
         Assert(ParsePaste("Nome\tN\tMx\tMy\nA\t-100,5\t20\t30\n-200\t1\t2").Count==2,"Incolla");
         tendons.Rows.Add(new JsonRow(J.Obj(("id","T1"),("x","0"),("y","-100"),("area","150"),("sigma0","1000")), _=>TendonsChanged())); TendonsChanged();
         Assert(stressPanels.Values.All(p => p.Options.Editors["n_trefoli"].Visibility == Visibility.Visible) && tendonOnlyControls.All(c => c.Visibility == Visibility.Visible), "Inserire trefolo rende visibili le opzioni dedicate");
@@ -143,11 +170,21 @@ internal sealed partial class ConcreteWorkspace
         Assert(Equals(contourChoice.SelectedItem, selectedContour), "Rotella sul menu chiuso non cambia contour");
         Assert(rare.Detail.Text.Contains("FESSURAZIONE") && rare.Detail.Text.Contains("As,eff"), "Riepilogo SLE esteso");
         int untouched = actions["SLV"].Count;
+        int importedSleResets = 0, importedShearResets = 0;
+        System.Collections.Specialized.NotifyCollectionChangedEventHandler sleImportChanged = (_, e) => { Assert(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset, "Import SLE: notifica unica Reset"); importedSleResets++; };
+        System.Collections.Specialized.NotifyCollectionChangedEventHandler shearImportChanged = (_, e) => { Assert(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset, "Import taglio: notifica unica Reset"); importedShearResets++; };
+        actions["SLE_QP"].CollectionChanged += sleImportChanged;
+        shearGrid.Rows.CollectionChanged += shearImportChanged;
         ApplyImport(new SectionActionsExcel.Import([new("SLE_QP", "Da Excel", -10, 1, 2, null, null), new("Taglio", "Taglio Excel", -50, null, null, 10, 20)], 0), true);
+        actions["SLE_QP"].CollectionChanged -= sleImportChanged;
+        shearGrid.Rows.CollectionChanged -= shearImportChanged;
+        Assert(importedSleResets == 1 && importedShearResets == 1, "Un refresh per famiglia importata, incluso il taglio");
+        Assert(stressPanels["SLE_QP"].Grid.SelectedItem == actions["SLE_QP"][0] && shearGrid.SelectedItem == shearGrid.Rows[0], "Selezione valida dopo import in blocco");
         Assert(actions["SLE_QP"].Count == 1 && actions["SLE_QP"][0].Values.S("nome") == "Da Excel" && actions["SLV"].Count == untouched, "Excel sostituisce solo famiglie importate");
         Assert(shearGrid.Rows.Count == 1 && shearGrid.Rows[0].Values.D("N") == -50, "Excel carica tabella Taglio");
         await Automatic();
         Assert(Result is not null && shearResults.Count == 1 && stressResults["SLE_QP"].Count == 1, "Excel avvia il ricalcolo");
+        Assert(stressResults["SLE_QP"].Values.All(r => r.State?.IsRasterCreated != true), "Scheda SLE nascosta: nessun raster dopo import");
         tabs.SelectedIndex = 0; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
         var widthBox = (TextBox)geometry.Editors["width_mm"]; widthBox.Focus();
         string oldWidth = Input.S("width_mm"); var previousResult = Result;
@@ -162,6 +199,8 @@ internal sealed partial class ConcreteWorkspace
         Assert(Math.Abs(settings["sle"]!["SLE"].D("phi") - (15 * ec / Input.D("steel_modulus_mpa") - 1)) < 1e-10, "n armature aggiorna phi senza arrotondare");
         rare.Options.Set("n_trefoli", "12"); await Automatic();
         Assert(Math.Abs(settings["sle"]!["SLE"].D("phi_trefoli") - (12 * ec / 195000 - 1)) < 1e-10, "n trefoli aggiorna phi");
+        tabs.SelectedIndex = 3; sleTabs.SelectedIndex = 0;
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         Assert(rare.Concrete.Rows.Count == preview.Section!.Outline.Count && rare.Bars.Rows.All(r => r.Values.S("strain") != ""), "Dettagli CLS e deformazioni barre");
         Assert(!rare.View.BarValues && !rare.View.TendonValues && !rare.View.ConcreteValues, "Etichette tensionali disattivate di default");
         tabs.SelectedIndex = 2; two.Grid.SelectedItem = actions["SLU"][0]; UpdateSelection(two); await Capture("assi_centrati");
@@ -170,6 +209,8 @@ internal sealed partial class ConcreteWorkspace
         var noRecompute = Result;
         foreach (var panel in domainPanels)
         {
+            tabs.SelectedIndex = panel.ThreeD ? 1 : 2;
+            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
             panel.Options["mostra_ed"] = false; panel.Options["mostra_rd"] = false; panel.Options["mostra_linee"] = false; UpdateSelection(panel);
             Assert(panel.ThreeD ? panel.View3D!.VisibleActionCount == 0 : panel.Plot.Markers.Count == 0 && panel.Plot.VerificationSegments.Count == 0, "Livelli grafici indipendenti " + panel.Prefix);
             panel.Options["mostra_ed"] = true; panel.Options["mostra_rd"] = true; panel.Options["mostra_linee"] = true; panel.Options["colora_eta"] = true; UpdateSelection(panel);
@@ -181,7 +222,22 @@ internal sealed partial class ConcreteWorkspace
         Assert(three.Grid.Items.OfType<JsonRow>().First().Values.D("N") <= three.Grid.Items.OfType<JsonRow>().Last().Values.D("N"), "Ordinamento numerico e non lessicografico");
         var xlsx = SectionActionsExcel.Write(ExportActionRows()); File.WriteAllBytes(Path.Combine(directory, "sollecitazioni.xlsx"), xlsx); RememberExcel(Path.Combine(directory, "sollecitazioni.xlsx"));
         Assert(SectionActionsExcel.Read(xlsx).Rows.Count == actions.Values.Sum(a => a.Count) + shearGrid.Rows.Count && excelPaths.All(t => t.Text == settings.S("file_sollecitazioni")), "Excel esportazione completa e percorso condiviso");
-        ShearOptions["rami_x"] = "4"; SynchronizeStirrups(); Invalidate(); await Automatic();
+        var unchangedDomains = domainResults.ToDictionary(kv => kv.Key, kv => kv.Value);
+        var unchangedStress = stressResults.ToDictionary(kv => kv.Key, kv => kv.Value);
+        var oldShearRows = shearResults.ToDictionary(kv => kv.Key, kv => kv.Value);
+        rare.Options.Set("modello", "Non lineare"); await Automatic();
+        Assert(unchangedDomains.All(kv => ReferenceEquals(kv.Value, domainResults[kv.Key])) && oldShearRows.All(kv => ReferenceEquals(kv.Value, shearResults[kv.Key])), "Cambio modello SLE conserva verifiche SLU/SLV e taglio senza ricalcolarle");
+        Assert(unchangedStress.All(kv => !ReferenceEquals(kv.Value, stressResults[kv.Key])) && stressResults.Values.SelectMany(v => v.Values).Where(v => v.State is not null).All(v => !v.State!.Native.LinearElasticAnalysis), "Modello non lineare applicato solo alle tre famiglie SLE");
+        rare.Options.Set("modello", "Lineare");
+        stirrupForms.First(f => f.Editors.ContainsKey("rami_x")).Set("rami_x", "4");
+        await Automatic();
+        Assert(unchangedDomains.All(kv => ReferenceEquals(kv.Value, domainResults[kv.Key])) && oldShearRows.All(kv => !ReferenceEquals(kv.Value, shearResults[kv.Key])), "Modifiche SLE e staffe accodate insieme aggiornano entrambe senza domini");
+        unchangedStress = stressResults.ToDictionary(kv => kv.Key, kv => kv.Value);
+        string originalSpacing = Input.S("transverse_spacing_mm");
+        var spacingForm = stirrupForms.First(f => f.Editors.ContainsKey("transverse_spacing_mm"));
+        spacingForm.Set("transverse_spacing_mm", "125"); await Automatic();
+        Assert(unchangedDomains.All(kv => ReferenceEquals(kv.Value, domainResults[kv.Key])) && unchangedStress.All(kv => ReferenceEquals(kv.Value, stressResults[kv.Key])), "Passo staffe ricalcola solo taglio e conserva tutti i risultati flessionali/SLE");
+        spacingForm.Set("transverse_spacing_mm", originalSpacing); await Automatic();
         Assert(stirrupForms.Where(f => f.Editors.ContainsKey("rami_x")).All(f => f.Get("rami_x") == "4") && preview.Stirrups == ShearOptions && shearView.Stirrups == ShearOptions, "Staffe sincronizzate e disegnate nelle preview");
         settings["normativa"] = "DS EN 1992-1-1"; ResetCoefficients(); Invalidate(); await Automatic();
         Assert(Math.Abs(Input.D("gamma_c") - 1.4) < 1e-10 && Math.Abs(Input.D("gamma_s") - 1.2) < 1e-10 && checker3D.Count == 2, "Normativa nazionale collegata ai domini");
@@ -189,6 +245,8 @@ internal sealed partial class ConcreteWorkspace
         settings["normativa"] = "NTC 2018"; ResetCoefficients(); Invalidate(); await Automatic();
         Assert(!reinforcement.Editors.ContainsKey("transverse_bar_diameter_mm") && !reinforcement.Editors.ContainsKey("transverse_spacing_mm"), "Staffe assenti dal gruppo armature");
         Assert(SectionWorkspace.Label("SLU") == "Plastico" && SectionWorkspace.Label("SLV") == "Elastico" && three.Mode.ItemTemplate is not null, "Etichette Plastico ed Elastico senza cambiare ID archivi");
+        tabs.SelectedIndex = 1;
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         var oldDomain = checker3D["SLU"]; var oldMesh = meshes["SLU"]; var oldTwo = checker2D["SLU"];
         var oldStress = stressResults["SLE"];
         three.Form.Set("criterio", "Eccentricità costante");
@@ -220,6 +278,8 @@ internal sealed partial class ConcreteWorkspace
         Assert(ShearOptions.S("ancoraggio") == "Da verificare" && shearResults.Count == 0, "Modifica geometria richiede nuova conferma ancoraggio");
         geometry.Set("height_mm", "800"); shearForm.Set("modello", "Con staffe"); await Automatic();
         var scaleResult = Result;
+        tabs.SelectedIndex = 2;
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         two.Plot.Zoom = 1; _ = two.Plot.Png(); double halfRange = two.Plot.AxisHalfRange.X;
         two.Plot.Zoom = 1.01; _ = two.Plot.Png();
         Assert(two.Plot.AxisHalfRange.X < halfRange, "Zoom 2D continuo senza scatti da arrotondamento"); two.Plot.ResetView();

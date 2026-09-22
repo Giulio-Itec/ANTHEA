@@ -1,7 +1,7 @@
 # DLL Checker
 
 Snapshot dei binari forniti da Giulio Pacini, copiati dalla cartella
-`Checker/GPCChecker.Concrete/bin/Release/netstandard2.0` il 18 settembre 2026.
+`Checker/GPCChecker.Concrete/bin/Release/netstandard2.0` il 21 settembre 2026.
 Non sono ricompilati da ANTHEA e non dipendono da percorsi assoluti della macchina.
 
 Le DLL sono referenziate da X.Core e copiate negli output desktop/verifiche.

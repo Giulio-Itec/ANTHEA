@@ -71,7 +71,7 @@ internal sealed partial class ConcreteWorkspace
         var fields = new List<Field> { new("modello", "Modello", Choices: ["Con staffe", "Senza staffe"]), new("parametri", "Parametri geometrici", Choices: ["Automatici da sezione", "Manuali"]), new("ancoraggio", "Asl automatica efficacemente ancorata", Choices: ["Da verificare", "Confermato"]) };
         foreach (var axis in new[] {"x","y"})
             fields.AddRange([new("bw_"+axis,"bw · "+axis,"mm"),new("d_"+axis,"d utile · "+axis,"mm"),new("asl_"+axis,"Asl ancorata · "+axis,"mm²"),new("rami_"+axis,"Rami staffa · "+axis),new("alpha_"+axis,"α staffa · "+axis,"°"),new("cot_"+axis,"cot θ · "+axis+" (vuoto: auto)")]);
-        shearForm = new InputForm(options, fields, _ => { EnableFields(); RefreshAutomaticShear(); SynchronizeStirrups(); InvalidateShear(); InvalidateChecks(); }, true, true);
+        shearForm = new InputForm(options, fields, _ => { EnableFields(); RefreshAutomaticShear(); SynchronizeStirrups(); InvalidateActions("Taglio"); }, true, true);
         foreach (var axis in new[] { "x", "y" }) shearForm.GroupFields("Direzione V" + axis, new[] { "bw_", "d_", "asl_", "rami_", "alpha_", "cot_" }.Select(f => f + axis).ToArray(), true);
         EnableFields(); RefreshAutomaticShear();
         shearGrid = new JsonGrid([new("nome","Combinazione"),new("N","N [kN]"),new("Vx","Vx [kN]"),new("Vy","Vy [kN]"),new("VRdx","VRd,x [kN]",ReadOnly:true),new("VRdy","VRd,y [kN]",ReadOnly:true),new("eta_x","ηx",ReadOnly:true),new("eta_y","ηy",ReadOnly:true),new("esito","Esito",ReadOnly:true)], true);
@@ -85,10 +85,11 @@ internal sealed partial class ConcreteWorkspace
         ((DataGridTextColumn)shearGrid.Columns[^1]).ElementStyle = outputStyle;
         foreach (var row in options.Array("azioni").OfType<JsonObject>()) shearGrid.Rows.Add(ShearRow((JsonObject)row.DeepClone()));
         void Store() { options["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")))).ToArray()); }
-        var buttons = Ui.Bar(Ui.Button("+ Combinazione", () => { var row = ShearRow(J.Obj(("id",Guid.NewGuid().ToString("N")),("nome","Taglio "+(shearGrid.Rows.Count+1)),("N","0"),("Vx","0"),("Vy","0"))); shearGrid.Rows.Add(row); shearGrid.SelectedItem = row; Store(); InvalidateShear(); InvalidateChecks(); }),
-            Ui.Button("−", () => { shearGrid.Commit(); if (shearGrid.SelectedItem is JsonRow row) shearGrid.Rows.Remove(row); Store(); InvalidateShear(); InvalidateChecks(); }));
+        var buttons = Ui.Bar(Ui.Button("+ Combinazione", () => { var row = ShearRow(J.Obj(("id",Guid.NewGuid().ToString("N")),("nome","Taglio "+(shearGrid.Rows.Count+1)),("N","0"),("Vx","0"),("Vy","0"))); shearGrid.Rows.Add(row); shearGrid.SelectedItem = row; Store(); InvalidateActions("Taglio"); }),
+            Ui.Button("−", () => { shearGrid.Commit(); if (shearGrid.SelectedItem is JsonRow row) shearGrid.Rows.Remove(row); Store(); InvalidateActions("Taglio"); }));
         AttachClipboard(shearGrid, () => "Taglio", buttons);
         shearGrid.SelectionChanged += (_, _) => UpdateShearSelection();
+        shearGrid.IsVisibleChanged += (_, _) => { if (shearGrid.IsVisible) UpdateShearSelection(); };
         var notice = Notice("NTC 2018 §4.1.2.3.5 · N negativo a compressione. Inserire bw minima, d e Asl efficacemente ancorata per ogni direzione. Ø e passo staffe nei dati comuni. Esiti x/y separati: torsione, interazione biassiale, dettagli e gerarchia sismica non verificati. Per sezioni circolari il fattore 0,75 della vecchia routine richiede una schematizzazione specifica: nessun esito automatico.");
         var detailTabs = new TabControl(); Ui.Tab(detailTabs, "Dettagli combinazione", Scroller(shearDetail)); Ui.Tab(detailTabs, "Riepilogo verifiche", Scroller(shearWorst));
         var upper = Columns((new ViewportFrame("Sezione · riferimenti geometrici", shearView, shearView.ResetView), 4, 260), (detailTabs, 6, 330));
@@ -99,17 +100,21 @@ internal sealed partial class ConcreteWorkspace
     {
         if (shearGrid is null || synchronizing) return;
         ShearOptions["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")))).ToArray());
-        InvalidateShear(); InvalidateChecks();
+        InvalidateActions("Taglio");
     });
     private void InvalidateShear()
     {
+        using var notifications = JsonRow.DeferNotifications(shearGrid?.Rows.AsEnumerable() ?? Enumerable.Empty<JsonRow>());
         shearResults.Clear(); shearSummary.Text = shearDashboard.Text = shearWorst.Text = "Taglio · da calcolare";
         shearDetail.Text = "Dati modificati · aggiornamento automatico in attesa";
         if (shearGrid is not null) foreach (var row in shearGrid.Rows) foreach (var key in new[] {"VRdx","VRdy","eta_x","eta_y","esito"}) row.Output(key,"—");
     }
     private void CalculateShear()
     {
-        if (shearGrid is null) return; shearGrid.Commit(); RefreshAutomaticShear(); InvalidateShear();
+        if (shearGrid is null) return; shearGrid.Commit(); RefreshAutomaticShear();
+        using var notifications = JsonRow.DeferNotifications(shearGrid.Rows);
+        InvalidateShear();
+        ValidateStirrups();
         foreach (var row in shearGrid.Rows)
         {
             try
@@ -148,6 +153,7 @@ internal sealed partial class ConcreteWorkspace
     }
     private void UpdateShearSelection()
     {
+        if (synchronizing || shearGrid?.IsVisible != true) return;
         try { shearView.Section = new SezioneCA(Input); } catch (ArgumentException) { shearView.Section = null; }
         shearView.InvalidateVisual();
         if (shearGrid?.SelectedItem is not JsonRow row) { shearDetail.Text = "Inserire o selezionare una combinazione N–Vx–Vy."; return; }

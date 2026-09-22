@@ -45,8 +45,8 @@ internal sealed partial class ConcreteWorkspace
     }
     private UIElement BuildStirrups()
     {
-        var dimensions = new InputForm(Input, [new("transverse_bar_diameter_mm", "Ø staffe", "mm"), new("transverse_spacing_mm", "Passo", "mm")], _ => { SynchronizeStirrups(); Invalidate(); }, true);
-        var form = new InputForm(ShearOptions, [new("tipo_staffa", "Circolare", Choices: ["Staffa chiusa", "Spirale"]), new("rami_x", "Braccia resistenti a Vx"), new("rami_y", "Braccia resistenti a Vy"), new("rami_interni", "Ferri interni circolari")], _ => { SynchronizeStirrups(); Invalidate(); }, true, true);
+        var dimensions = new InputForm(Input, [new("transverse_bar_diameter_mm", "Ø staffe", "mm"), new("transverse_spacing_mm", "Passo", "mm")], key => { SynchronizeStirrups(); if (key == "transverse_bar_diameter_mm") Invalidate(); else InvalidateActions("Taglio"); }, true);
+        var form = new InputForm(ShearOptions, [new("tipo_staffa", "Circolare", Choices: ["Staffa chiusa", "Spirale"]), new("rami_x", "Braccia resistenti a Vx"), new("rami_y", "Braccia resistenti a Vy"), new("rami_interni", "Ferri interni circolari")], _ => { SynchronizeStirrups(); InvalidateActions("Taglio"); }, true, true);
         stirrupForms.Add(dimensions); stirrupForms.Add(form);
         return Ui.Stack(dimensions, form, Ui.Text("Schema indicativo, non esecutivo. Rettangolare / T: staffe a più braccia. Circolare: staffa o spirale e ferri interni; modello resistente circolare ancora da validare.", 11, color: Ui.Muted));
     }

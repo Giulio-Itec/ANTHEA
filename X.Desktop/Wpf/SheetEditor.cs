@@ -19,6 +19,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private readonly ConcreteWorkspace? concrete;
     private readonly HorizontalWorkspace? horizontal;
     internal JsonObject? Result { get => horizontal is not null ? horizontal.Result : concrete is null ? result : concrete.Result; private set => result = value; }
+    internal bool HasResults => concrete is not null ? concrete.HasResults : Result is not null;
     internal bool Busy { get => horizontal?.Busy ?? concrete?.Busy ?? busy; private set => busy = value; }
     internal event Action? Modified;
     private bool building = true, disposed;
@@ -223,12 +224,17 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         var dialog = Ui.Dialog(this, "Tabelle e dettagli", outputs, 1050, 650); dialog.Closed += (_, _) => dialog.Content = null; dialog.ShowDialog();
     }
     internal void ExportResult(string filename)
-    { if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare."); Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(Result.ToJsonString(J.Options))); }
+    {
+        if (!HasResults || Busy) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
+        var exported = Result!;
+        if (concrete is not null) exported["dati"] = Data.DeepClone();
+        Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(exported.ToJsonString(J.Options)));
+    }
     internal void ExportReport(string filename, string title, HashSet<string> options)
     {
+        if (concrete is not null) { concrete.ExportReport(filename, title, options); return; }
         if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
         if (horizontal is not null) { ReportOrizzontale.Write(filename, title, Result); return; }
-        if (concrete is not null) { concrete.ExportReport(filename, title, options); return; }
         var images = new List<ImmagineReport> { new(plot.Title, plot.Png(), "grafico_capacita") };
         if (Micro)
         {

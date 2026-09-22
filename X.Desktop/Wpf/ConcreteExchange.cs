@@ -96,6 +96,7 @@ internal sealed partial class ConcreteWorkspace
         synchronizing = true;
         try
         {
+            using var refresh = collection.DeferRefresh();
             for (int r = 0; r < matrix.Count; r++)
             {
                 JsonRow target;
@@ -106,11 +107,12 @@ internal sealed partial class ConcreteWorkspace
                     target = family == "Taglio" ? ShearRow(J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("N", "0"), ("Vx", "0"), ("Vy", "0"))) : CreateAction(family, name, "0", "0", "0");
                     collection.Add(target);
                 }
+                using var notifications = JsonRow.DeferNotifications([target]);
                 for (int c = 0; c < width; c++) target[keys[startColumn + c]] = matrix[r][c].Trim();
             }
         }
         finally { synchronizing = false; }
-        Commit(); Invalidate(false);
+        Commit(); InvalidateActions(family);
         status.Text = $"{matrix.Count} righe incollate · aggiornamento automatico in attesa…";
     }
     private void SaveActionTemplate()
@@ -159,18 +161,22 @@ internal sealed partial class ConcreteWorkspace
     private void ApplyImport(SectionActionsExcel.Import import, bool replace)
     {
         Commit(); synchronizing = true;
+        var selections = grids.ToDictionary(grid => grid, grid => grid.SelectedItem as JsonRow);
         static string Number(double? v) => v?.ToString("G17", CultureInfo.InvariantCulture) ?? "0";
         try
         {
             foreach (var group in import.Rows.GroupBy(r => r.Family))
             {
                 var collection = group.Key == "Taglio" ? shearGrid!.Rows : actions[group.Key];
+                using var refresh = collection.DeferRefresh();
                 if (replace) collection.Clear();
                 foreach (var row in group)
                     collection.Add(group.Key == "Taglio" ? ShearRow(J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", row.Name), ("N", Number(row.N)), ("Vx", Number(row.Vx)), ("Vy", Number(row.Vy)))) : CreateAction(group.Key, row.Name, Number(row.N), Number(row.Mx), Number(row.My)));
             }
+            foreach (var (grid, selected) in selections)
+                grid.SelectedItem = selected is not null && grid.Items.Contains(selected) ? selected : grid.Items.OfType<JsonRow>().FirstOrDefault();
         }
         finally { synchronizing = false; }
-        Commit(); Invalidate(false);
+        Commit(); foreach (string family in import.Rows.Select(r => r.Family).Distinct()) InvalidateActions(family);
     }
 }

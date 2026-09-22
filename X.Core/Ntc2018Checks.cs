@@ -30,7 +30,7 @@ public static class Ntc2018Checks
         {
             // NTC 4.1.2.2.4.5: these checks use the homogenized UNCRACKED section, not wk / 0.
             var uncracked = (JsonObject)options.DeepClone(); uncracked["modello"] = "Lineare"; uncracked["trazione_cls"] = "Sì";
-            var check = new CheckerSection(input, workspace, uncracked).Stress(force, "SLE_FREQ");
+            var check = new CheckerSection(engine.Model, input, workspace, uncracked).Stress(force, "SLE_FREQ");
             var stresses = check.Native.GetConcreteVerticesTension(check.Native.PsiRebar ?? 0);
             double maximum = stresses.Max(p => p.tension);
             double limit = req.Kind == "Decompressione" ? 0 : ((ConcreteMaterialEuropeanCommon)engine.Section.ConcreteMaterial).Fctm / 1.2;
