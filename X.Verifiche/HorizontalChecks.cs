@@ -68,6 +68,46 @@ public static class HorizontalChecks
         multi["generali"]!["passo"] = .025; Near(Calc(multi).D("capacita_kn"), baseline.D("capacita_kn"), "Passo diagrammi indipendente dal solutore");
         second["spessore"] = 1; var third = (JsonObject)second.DeepClone(); third["spessore"] = 3; multi["stratigrafie"]![0]!.AsArray().Add(third);
         Near(Calc(multi).D("capacita_kn"), baseline.D("capacita_kn"), "Interfaccia fittizia multistrato");
+        void AutoMode(JsonObject data, string expectedMode)
+        {
+            double? capacity = null;
+            foreach (string oldSelection in new[] { "Automatica", "Omogeneo", "Multistrato sperimentale" })
+            {
+                data["generali"]!["modalita"] = oldSelection;
+                var result = Calc(data);
+                Assert(result.S("modello_adottato") == expectedMode, "Modello automatico errato");
+                Assert(result.S("selezione_modello") == "Automatica", "Selezione non automatica");
+                Assert(result.B("sperimentale") == (expectedMode != "Omogeneo"), "Indicazione sperimentale errata");
+                Assert(PaloOrizzontale.ModelloAutomatico(data) == expectedMode, "Anteprima diversa dal calcolo");
+                Assert(result.Array("avvisi").Any(v => v!.ToString().StartsWith("MULTISTRATO SPERIMENTALE")) == (expectedMode != "Omogeneo"), "Avviso sperimentale incoerente");
+                if (capacity is double previous) Near(result.D("capacita_kn"), previous, "Scelta storica influenza capacità");
+                capacity = result.D("capacita_kn");
+            }
+        }
+        var automatic = Data(false, false, 10, 1000);
+        AutoMode(automatic, "Omogeneo");
+        var autoRows = automatic["stratigrafie"]![0]!.AsArray();
+        autoRows[0]!["spessore"] = 4; var equal = autoRows[0]!.DeepClone(); equal["spessore"] = 6;
+        autoRows.Add(equal); AutoMode(automatic, "Omogeneo");
+        equal["angolo_attrito"] = 35; AutoMode(automatic, "Multistrato sperimentale");
+        equal["angolo_attrito"] = 30; AutoMode(automatic, "Omogeneo");
+        autoRows[0]!["spessore"] = 10; autoRows.RemoveAt(1);
+        automatic["generali"]!["presenza_falda"] = true; automatic["generali"]!["profondita_falda"] = 5;
+        AutoMode(automatic, "Multistrato sperimentale");
+        foreach (double zw in new[] { 0d, 10d, 12d })
+        { automatic["generali"]!["profondita_falda"] = zw; AutoMode(automatic, "Omogeneo"); }
+        automatic["generali"]!["presenza_falda"] = false; AutoMode(automatic, "Omogeneo");
+        var clayAuto = Data(true, false, 10, 1000); clayAuto["generali"]!["presenza_falda"] = true; clayAuto["generali"]!["profondita_falda"] = 5;
+        AutoMode(clayAuto, "Omogeneo");
+        var clayRows = clayAuto["stratigrafie"]![0]!.AsArray(); clayRows[0]!["spessore"] = 4;
+        var lowerClay = clayRows[0]!.DeepClone(); lowerClay["spessore"] = 6; lowerClay["angolo_attrito"] = 25; lowerClay["peso_specifico"] = 21;
+        clayRows.Add(lowerClay); AutoMode(clayAuto, "Omogeneo"); // φ and γ do not enter the cohesive model.
+        lowerClay["coesione_non_drenata"] = 75; AutoMode(clayAuto, "Multistrato sperimentale");
+        automatic["stratigrafie"]!.AsArray().Add(clayRows.DeepClone()); AutoMode(automatic, "Multistrato sperimentale");
+        var automaticResult = Calc(automatic);
+        Assert(automaticResult.Array("sondaggi")[0].S("modello_adottato") == "Omogeneo" && automaticResult.Array("sondaggi")[1].S("modello_adottato") == "Multistrato sperimentale", "Modelli dei singoli sondaggi errati");
+        lowerClay["tipologia"] = "Granulare";
+        Assert(PaloOrizzontale.Calculate(clayAuto).S("errore").Contains("Sequenze miste"), "Automatico accetta sequenze miste");
         foreach (var bad in new Action<JsonObject>[] {
             a => a["generali"]!["lunghezza"] = "NaN", a => a["generali"]!["diametro"] = 0,
             a => a["generali"]!["passo"] = 0, a => a["generali"]!["tolleranza"] = 0,
@@ -77,13 +117,46 @@ public static class HorizontalChecks
             a => a["stratigrafie"]![0]![0]!["angolo_attrito"] = 90,
             a => { a["generali"]!["vincolo"] = "Impedita"; a["generali"]!["eccentricita"] = 1; },
             a => { var row = PaloOrizzontale.Layer(); row["tipologia"] = "Coesivo"; a["stratigrafie"]![0]![0]!["spessore"] = 1; a["stratigrafie"]![0]!.AsArray().Add(row); },
-            a => { a["verifica"]!["applica_fattori"] = true; a["verifica"]!["xi"] = .5; }
+            a => a["verifica"]!["verticali_indagate"] = "6"
         }) { var a = Data(false, false, 10, 1000); bad(a); Assert(PaloOrizzontale.Calculate(a).S("errore") != "", "Input invalido accettato"); }
         Assert(PaloOrizzontale.Calculate(Data(true, false, 1, 1000)).S("errore") != "", "Argilla L<1.5D accettata");
         var factored = Data(false, false, 2, 1000); factored["verifica"]!["applica_fattori"] = true;
         factored["verifica"]!["xi"] = 1.5; factored["verifica"]!["gamma_r"] = 1.2; factored["verifica"]!["riferimento"] = "Solo test, non normativo";
-        var fr = Calc(factored); Near(fr.D("resistenza_progetto_manuale_kn"), 60, "Fattori singola applicazione");
+        var fr = Calc(factored); Near(fr.D("resistenza_progetto_manuale_kn"), 108 / 1.7 / 1.3, "Coefficienti automatici anche su file precedenti");
+        foreach (var (verticalCount, xi) in Calcolo.Verticali)
+        {
+            factored["verifica"]!["verticali_indagate"] = verticalCount;
+            var r = Calc(factored);
+            Near(r.D("xi3"), xi.Xi3, "ξ3 condiviso con palo"); Near(r.D("xi4"), xi.Xi4, "ξ4 condiviso con palo");
+            Near(r.D("resistenza_progetto_manuale_kn"), 108 / xi.Xi3 / 1.3, "Ramo media e γR una sola volta");
+        }
+        factored["verifica"]!["verticali_indagate"] = "2";
+        factored.Array("stratigrafie").Add(factored.Array("stratigrafie")[0]!.DeepClone());
+        factored["stratigrafie"]![1]![0]!["peso_specifico"] = 36;
+        var multiple = Calc(factored);
+        Near(multiple.D("capacita_media_kn"), 162, "Media capacità sondaggi");
+        Near(multiple.D("resistenza_caratteristica_manuale_kn"), 108 / 1.55, "Ramo minimo governante");
+        Near(multiple.D("resistenza_progetto_manuale_kn"), 108 / 1.55 / 1.3, "Rd multipli sondaggi");
+        Assert(multiple.S("criterio_governante") == "Minimo / ξ4", "Criterio governante errato");
+        factored["verifica"]!.AsObject().Remove("verticali_indagate");
+        Near(Calc(factored).D("xi3"), 1.7, "File precedente usa una verticale in assenza di selezione");
         Assert(fr.S("verifica_normativa") == "Incompleta", "Conformità attribuita senza percorso normativo");
+        var efficient = Data(false, false, 2, 1000);
+        efficient["verifica"]!["efficienza_eta"] = .5;
+        Near(Calc(efficient).D("resistenza_progetto_manuale_kn"), 108 / 1.7 / 1.3 * .5, "η applicata una sola volta");
+        efficient["verifica"]!["efficienza_metodo"] = "Reese & Van Impe (foglio)";
+        foreach (string key in new[] { "interasse_anteriore", "interasse_posteriore", "interasse_sinistro", "interasse_destro" }) efficient["verifica"]![key] = 1;
+        double diagonalFront = Math.Sqrt((.7 * .7 + .64 * .64) / 2), diagonalBack = Math.Sqrt((.48 * .48 + .64 * .64) / 2);
+        Near(PaloOrizzontale.Efficiency(efficient).D("eta"), .7 * .48 * .64 * .64 * diagonalFront * diagonalFront * diagonalBack * diagonalBack, "Prodotto otto contributi foglio");
+        foreach (string key in new[] { "interasse_anteriore", "interasse_posteriore", "interasse_sinistro", "interasse_destro" }) efficient["verifica"]![key] = 100;
+        Near(PaloOrizzontale.Efficiency(efficient).D("eta"), 1, "Efficienza limitata a uno");
+        efficient["verifica"]!["interasse_anteriore"] = "";
+        Assert(PaloOrizzontale.Calculate(efficient).S("errore") != "", "Interasse mancante accettato");
+        efficient["verifica"]!["efficienza_metodo"] = "Manuale";
+        foreach (double invalidEta in new[] { 0, -1, 1.1 }) {
+            efficient["verifica"]!["efficienza_eta"] = invalidEta;
+            Assert(PaloOrizzontale.Calculate(efficient).S("errore") != "", "η invalida accettata");
+        }
         var section = Data(false, false, 10, 1000); section["generali"]!["origine_momento"] = "Sezione c.a.";
         var sec = PaloOrizzontale.Section(section); Near(sec.D("residuo_n_kn"), 0, "Equilibrio assiale sezione", 1e-6);
         Assert(sec.D("scarto_mesh") < .02, "Sezione non converge");
@@ -108,6 +181,7 @@ public static class HorizontalChecks
             string report = Path.Combine(temp, "report.docx"); ReportOrizzontale.Write(report, "Test", sr);
             using var zip = ZipFile.OpenRead(report); using var stream = zip.GetEntry("word/document.xml")!.Open();
             string xml = XDocument.Load(stream).ToString(); Assert(xml.Contains("Residui di equilibrio") && xml.Contains("Incompleta") && xml.Contains("Diagrammi tabellari"), "Relazione incompleta");
+            Assert(xml.Contains("Modello selezionato automaticamente") && !xml.Contains("Modello terreno"), "Relazione usa la selezione manuale obsoleta");
         }
         finally { Directory.Delete(temp, true); }
         return count;

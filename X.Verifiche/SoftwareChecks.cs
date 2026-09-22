@@ -46,7 +46,7 @@ public static class SoftwareChecks
             var sheets=new JsonArray();
             foreach(var module in Archivio.Moduli)
             {
-                var d=module==PaloOrizzontale.Module?PaloOrizzontale.Defaults():module=="str_palo"?SezioneCA.DefaultData():module=="geo_micropalo_verticale"?cases.First(c=>c.S("tipo")=="micropalo")!["input"]!.AsObject():data;
+                var d=module==MicropaloOrizzontale.Module?MicropaloOrizzontale.Defaults():module==PaloOrizzontale.Module?PaloOrizzontale.Defaults():module=="str_palo"?SezioneCA.DefaultData():module=="geo_micropalo_verticale"?cases.First(c=>c.S("tipo")=="micropalo")!["input"]!.AsObject():data;
                 var doc=J.Obj(("formato","X"),("versione",1),("tipo","calcolo"),("modulo_id",module),("dati",d));string file=Path.Combine(temp,module+".programma");Archivio.Scrivi(file,doc);Assert(JsonNode.DeepEquals(doc,Archivio.Leggi(file)),"Round trip "+module);
                 sheets.Add(J.Obj(("id",module),("nome",module),("modulo_id",module),("dati",d)));
             }

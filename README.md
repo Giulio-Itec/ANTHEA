@@ -80,7 +80,7 @@ Sono disponibili palo verticale, palo orizzontale, micropalo verticale e sezione
 moduli del catalogo restano predisposizioni. La migrazione WPF mantiene la
 disposizione dei pannelli geotecnici, i comandi File, il ricalcolo automatico del
 palo e del micropalo e il ricalcolo automatico delle cinque schede in c.a.; il palo
-orizzontale mantiene i propri comandi. La sezione in c.a. ha cinque schede:
+orizzontale aggiorna automaticamente capacità e momento. La sezione in c.a. ha cinque schede:
 pannello di controllo, dominio 3D, dominio 2D, tensioni e fessurazione (Rara,
 Frequente, Quasi permanente), taglio. Ogni tabella CA offre template Excel,
 reimportazione e Ctrl+C/Ctrl+V. Opzioni avanzate richiudibili, riepiloghi estesi,
@@ -101,8 +101,37 @@ Il nuovo [modulo orizzontale](docs/palo-orizzontale.md) comprende Broms omogeneo
 estensione multistrato sperimentale, momento resistente della sezione circolare,
 diagrammi, export CSV/JSON e relazione Word. L'interfaccia riprende il palo verticale
 con il pannello del momento al posto dei grafici. La verifica normativa resta
-incompleta; i fattori opzionali sono manuali e richiedono una fonte documentata.
+incompleta; ξ3 e ξ4 sono condivisi con il palo verticale e γR è fissato a 1,3.
 Un esempio riproducibile è in `esempi/palo_orizzontale.json`.
+
+Disponibile anche **Micropalo · capacità portante orizzontale**, con lo stesso
+workspace e sezione CHS da catalogo ANTHEA o dimensioni manuali. Il diametro
+geotecnico è distinto dal diametro del tubolare; il momento automatico considera
+solo l'acciaio e l'interazione lineare N–M, con controllo di classe 1.
+Ipotesi e limiti: `docs/micropalo-orizzontale.md`.
+
+Il modulo orizzontale adotta schede adattive a tre, due o una colonna,
+senza larghezza minima esterna imposta. Stratigrafia, profilo e momento possono
+essere estesi; nelle finestre basse i contenuti restano raggiungibili scorrendo.
+Le variabili sono separate in nome, simbolo, valore e unità, senza intestazioni.
+Gli strati mostrano colore e nome coerenti con il profilo, con eliminazione per
+riga e aggiunta immediatamente sotto l'ultimo strato. Sono disponibili eliminazione
+individuale delle stratigrafie (mantenendone almeno una), copia in e copia da.
+I nuovi strati dell'interfaccia partono da valori numerici nulli da completare.
+Tabelle e dettagli mostrano un decimale, colonne centrate e larghezza limitata;
+JSON e CSV mantengono la precisione del motore. I colori dell'esito riguardano
+solo il confronto con Rd ottenuta dai coefficienti di resistenza: non attestano conformità
+normativa. Le formule restano invariate. Capacità e momento si aggiornano
+automaticamente dopo 450 ms di pausa nella digitazione, senza pulsanti Calcola
+né disabilitazione degli input. I risultati di elaborazioni superate da nuove
+modifiche vengono scartati; con dati incompleti non restano esiti obsoleti.
+Il modello è selezionato automaticamente dalle proprietà attive lungo il palo:
+omogeneo per strati equivalenti, multistrato sperimentale per proprietà variabili
+o falda interna nel granulare. Le scelte manuali dei vecchi file non prevalgono
+sul profilo effettivo; le sequenze miste nello stesso sondaggio restano escluse.
+Il modello adottato compare nella verifica, nei risultati e nella relazione.
+Passo dei diagrammi e tolleranza sono in “Opzioni avanzate”, nei dati generali.
+Controllo dedicato: `dotnet run --project X.Verifiche -c Release -- --horizontal`.
 
 Su Windows, dopo la compilazione Release:
 

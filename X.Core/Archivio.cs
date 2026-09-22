@@ -5,7 +5,7 @@ namespace X.Core;
 
 public static class Archivio
 {
-    public static readonly string[] Moduli=["geo_palo_verticale","geo_palo_orizzontale","geo_micropalo_verticale","str_palo"];
+    public static readonly string[] Moduli=["geo_palo_verticale","geo_palo_orizzontale","geo_micropalo_verticale","geo_micropalo_orizzontale","str_palo"];
     public static JsonObject Leggi(string path)
     {
         var doc=JsonNode.Parse(File.ReadAllText(path,Encoding.UTF8)) as JsonObject??throw new ArgumentException("Contenuto non riconosciuto.");
@@ -21,7 +21,10 @@ public static class Archivio
             var data=sheet["dati"];if(data is null&&allowEmpty)return;
             if(data is not JsonObject)throw new ArgumentException("Dati del foglio mancanti.");
             if(sheet.S("modulo_id")=="str_palo") {if(data["input"] is not JsonObject||data.D("versione_sezione",1) is not (1 or 2))throw new ArgumentException("Dati della sezione non validi.");}
-            else if(sheet.S("modulo_id")==PaloOrizzontale.Module) PaloOrizzontale.ValidateShape(data.AsObject());
+            else if(sheet.S("modulo_id") is PaloOrizzontale.Module or MicropaloOrizzontale.Module) {
+                PaloOrizzontale.ValidateShape(data.AsObject());
+                if ((sheet.S("modulo_id") == MicropaloOrizzontale.Module) != (data.S("tipo_sezione") == "CHS")) throw new ArgumentException("Tipo di sezione incoerente con il modulo orizzontale.");
+            }
             else Calcolo.ValidaForma(data);
         }
         if(doc.S("tipo")=="calcolo"){Sheet(doc,false);return;}
@@ -54,6 +57,7 @@ public static class Archivio
     {
         if(module=="str_palo")return SezioneCA.DefaultData();
         if(module==PaloOrizzontale.Module)return PaloOrizzontale.Defaults();
+        if(module==MicropaloOrizzontale.Module)return MicropaloOrizzontale.Defaults();
         bool micro=module=="geo_micropalo_verticale";
         var g=J.Obj(("tipo_palo","Trivellato"),("sottotipo_palo_battuto","Profilato d'acciaio"),("diametro",micro?"0.25":"1"),("lunghezza",""),("peso_specifico_palo","25"),("azione_compressione",""),("azione_trazione",""),("presenza_falda",false),("considera_sottospinta",false),("profondita_falda",""),("verticali_indagate","1"),("sicurezza_laterale_compressione","1.15"),("sicurezza_laterale_trazione","1.25"),("sicurezza_base","1.35"),("peso_palo_sfavorevole","1.30"),("peso_palo_favorevole","1.00"),("metodo_nq","Parametrizzata"));
         if(micro)

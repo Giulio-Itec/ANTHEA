@@ -33,6 +33,7 @@ public static class ReportOrizzontale
         }
         P("ANTHEA — " + title, true); P("Palo singolo: capacità portante orizzontale — " + result.S("versione_motore"));
         P(result.B("sperimentale") ? "MODALITÀ MULTISTRATO SPERIMENTALE" : "Metodo omogeneo di Broms", true);
+        if (result.S("selezione_modello") == "Automatica") P("Modello selezionato automaticamente in base alle proprietà degli strati attraversati e alla falda: " + result.S("modello_adottato") + ".");
         P("Modello e fonti", true); P(result.S("fonte")); P(result.S("percorso"));
         P("z positivo verso il basso; H positiva; p [kN/m] positiva se opposta a H. V(z)=H−∫p dz; M(z)=M0+Hz−∫(z−s)p(s) ds. Compressione N positiva.");
         P("Coesivo non drenato: p=0 per z<1,5D; p=9CuD al di sotto (Viggiani p.400). Granulare drenato: p=3KpDσ′v; Kp=(1+sinφ′)/(1−sinφ′), σ′v integrata dagli strati sovrastanti; γw=9,81 kN/m³. Nessun modello c–φ o sequenza mista.");
@@ -45,13 +46,20 @@ public static class ReportOrizzontale
             P(title, true); Table(["Parametro", "Valore"], fields.Select(f => new[] { f.Label, values.S(f.Key) }));
         }
         Parameters("Geometria e azioni", g, [("diametro", "Diametro D [m]"), ("lunghezza", "Lunghezza infissa L [m]"),
-            ("eccentricita", "Quota forza sopra terreno e [m]"), ("vincolo", "Rotazione in testa"), ("modalita", "Modello terreno"),
+            ("eccentricita", "Quota forza sopra terreno e [m]"), ("vincolo", "Rotazione in testa"),
             ("azione_orizzontale", "HEd [kN]"), ("azione_assiale", "N costante [kN], compressione positiva"),
             ("presenza_falda", "Presenza falda"), ("origine_momento", "Origine del momento resistente"),
             ("passo", "Passo dei diagrammi [m]"), ("tolleranza", "Tolleranza delle radici")]);
         if (g.B("presenza_falda")) P("Profondità falda: " + g.S("profondita_falda") + " m.");
         if (g.S("origine_momento") == "Manuale")
             P("My manuale: " + g.S("momento_resistente") + " kNm. Natura/provenienza: " + g.S("provenienza_momento"));
+        else if (input.S("tipo_sezione") == "CHS")
+        {
+            Parameters("Sezione resistente CHS · solo acciaio", input["sezione"]!, [("modo_chs", "Inserimento"), ("profilo_chs", "Catalogo (solo modalità catalogo)"),
+                ("diametro_chs_mm", "Diametro manuale [mm] (solo modalità manuale)"), ("spessore_chs_mm", "Spessore manuale [mm] (solo modalità manuale)"), ("fy_chs_mpa", "fy [MPa]"), ("gamma_m0", "γM0")]);
+            if (result["sezione"] is JsonObject chs) Parameters("Proprietà CHS adottate", chs,
+                [("diametro_mm", "De [mm]"), ("spessore_mm", "t [mm]"), ("area_mm2", "A [mm²]"), ("inerzia_mm4", "I [mm⁴]"), ("wel_mm3", "Wel [mm³]"), ("wpl_mm3", "Wpl [mm³]"), ("classe", "Classe"), ("momento_knm", "My(N) [kNm]")]);
+        }
         else
         {
             var actualSection = SezioneCA.DefaultInput(); foreach (var (k, v) in input["sezione"]!.AsObject()) actualSection[k] = v?.DeepClone();
@@ -61,8 +69,18 @@ public static class ReportOrizzontale
                 ("alpha_cc", "αcc"), ("gamma_c", "γc"), ("gamma_s", "γs"), ("steel_modulus_mpa", "Es [MPa]")]);
             P("Diametro e N della sezione corrispondono ai dati generali del palo.");
         }
-        if (input["verifica"].B("applica_fattori")) Parameters("Fattori manuali", input["verifica"]!,
-            [("xi", "Divisore Hu → Rk"), ("gamma_r", "Divisore Rk → Rd"), ("riferimento", "Fonte e criterio adottato")]);
+        P($"Coefficienti: verticali indagate {result.S("verticali_indagate")}; ξ3 = {result.D("xi3"):0.00}; ξ4 = {result.D("xi4"):0.00}; γR = {result.D("gamma_r"):0.00}.");
+        if (result["efficienza"] is JsonObject efficiency)
+        {
+            P($"Efficienza: {efficiency.S("metodo")}; η = {efficiency.D("eta"):0.000}. Rd = η · Rk / γR.");
+            if (efficiency.S("metodo") != "Manuale")
+            {
+                Parameters("Interassi rispetto alla direzione di H", input["verifica"]!,
+                    [("interasse_anteriore", "Anteriore [m]"), ("interasse_posteriore", "Posteriore [m]"), ("interasse_sinistro", "Sinistro [m]"), ("interasse_destro", "Destro [m]")]);
+                foreach (var coefficient in efficiency.Where(p => p.Key is not ("metodo" or "eta")))
+                    P($"η {coefficient.Key}: {J.Number(coefficient.Value):0.000}");
+            }
+        }
         int index = 0;
         foreach (var survey in result["input"].Array("stratigrafie"))
         {
@@ -73,11 +91,13 @@ public static class ReportOrizzontale
         P($"Hu = {result.D("capacita_kn"):0.###} kN; sondaggio governante {result.D("sondaggio_governante")}; meccanismo {result.S("meccanismo")}; My adottato = {result.D("momento_resistente_knm"):0.###} kNm.");
         if (result["sezione"] is JsonObject section)
         {
-            P(section.S("modello")); P($"N={section.D("n_kn"):0.###} kN; x={section.D("asse_neutro_mm"):0.###} mm; fcd={section.D("fcd_mpa"):0.###} MPa; fyd={section.D("fyd_mpa"):0.###} MPa; As={section.D("area_acciaio_mm2"):0.###} mm²; residuo N={section.D("residuo_n_kn"):G4} kN; scarto mesh={section.D("scarto_mesh"):G4}.");
+            P(section.S("modello"));
+            if (section.S("tipo") == "CHS") P($"N={section.D("n_kn"):0.0} kN; fyd={section.D("fyd_mpa"):0.0} MPa; My(N)={section.D("momento_knm"):0.0} kNm.");
+            else P($"N={section.D("n_kn"):0.###} kN; x={section.D("asse_neutro_mm"):0.###} mm; fcd={section.D("fcd_mpa"):0.###} MPa; fyd={section.D("fyd_mpa"):0.###} MPa; As={section.D("area_acciaio_mm2"):0.###} mm²; residuo N={section.D("residuo_n_kn"):G4} kN; scarto mesh={section.D("scarto_mesh"):G4}.");
         }
         P("Verifica normativa: " + result.S("verifica_normativa"));
         if (result["resistenza_progetto_manuale_kn"] is not null)
-            P($"Fattori manuali: Rk=Hu/ξ={result.D("resistenza_caratteristica_manuale_kn"):0.###} kN; Rd=Rk/γR={result.D("resistenza_progetto_manuale_kn"):0.###} kN. HEd={result.D("azione_kn"):0.###} kN. {result.S("esito_manuale")}. Non costituisce conformità normativa automatica.");
+            P($"Rk = min(Hu,media/ξ3; Hu,min/ξ4) = min({result.D("ramo_media_kn"):0.0}; {result.D("ramo_minimo_kn"):0.0}) = {result.D("resistenza_caratteristica_manuale_kn"):0.0} kN; criterio governante: {result.S("criterio_governante")}. Rd = η · Rk/γR = {result.D("resistenza_progetto_manuale_kn"):0.0} kN. HEd = {result.D("azione_kn"):0.0} kN. {result.S("esito_manuale")}. Non costituisce conformità normativa complessiva automatica.");
         else P("Rk e Rd non determinate. Nessun esito normativo attribuito al confronto HEd/Hu.");
         P("Avvisi e limiti", true); foreach (var warning in result.Array("avvisi")) P(warning!.ToString());
         index = 0;

@@ -18,7 +18,7 @@ internal static class StratigraphyTable
     private static Binding Value(string key, bool readOnly = false) => new($"[{key}]")
     { Mode = readOnly ? BindingMode.OneWay : BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
 
-    internal static FrameworkElement Build(JsonGrid grid, IEnumerable<Field> fields, Action add, Action<JsonRow> delete, bool micro = false)
+    internal static FrameworkElement Build(JsonGrid grid, IEnumerable<Field> fields, Action add, Action<JsonRow> delete, bool micro = false, bool gammaFallback = true)
     {
         grid.Columns.Clear(); grid.FontSize = 12; grid.RowHeight = 44; grid.ColumnHeaderHeight = 54;
         if (micro) { grid.MaxWidth = 650; grid.HorizontalAlignment = HorizontalAlignment.Left; }
@@ -45,8 +45,11 @@ internal static class StratigraphyTable
         var swatch = new FrameworkElementFactory(typeof(Border)); swatch.SetValue(FrameworkElement.WidthProperty, 18.0); swatch.SetValue(FrameworkElement.HeightProperty, 12.0);
         swatch.SetValue(FrameworkElement.MarginProperty, new Thickness(8, 0, 0, 0)); swatch.SetValue(Border.BorderBrushProperty, Ui.Muted); swatch.SetValue(Border.BorderThicknessProperty, new Thickness(1));
         swatch.SetBinding(Border.BackgroundProperty, Value("__color", true)); line.AppendChild(swatch); layer.AppendChild(line);
-        var lateral = new FrameworkElementFactory(typeof(CheckBox)); lateral.SetValue(ContentControl.ContentProperty, "Laterale");
-        lateral.SetValue(FrameworkElement.MarginProperty, new Thickness(0, 2, 0, 0)); lateral.SetBinding(ToggleButton.IsCheckedProperty, Value("laterale_attiva")); layer.AppendChild(lateral);
+        if (fields.Any(f => f.Key == "laterale_attiva"))
+        {
+            var lateral = new FrameworkElementFactory(typeof(CheckBox)); lateral.SetValue(ContentControl.ContentProperty, "Laterale");
+            lateral.SetValue(FrameworkElement.MarginProperty, new Thickness(0, 2, 0, 0)); lateral.SetBinding(ToggleButton.IsCheckedProperty, Value("laterale_attiva")); layer.AppendChild(lateral);
+        }
         AddColumn("Strato", layer, 100);
 
         foreach (var field in fields.Where(f => f.Key is not ("__strato" or "laterale_attiva")))
@@ -75,7 +78,7 @@ internal static class StratigraphyTable
                 "coesione_efficace" => "Coesione efficace\nc′ [kPa]", "coesione_non_drenata" => "Coesione non drenata\nCu [kPa]",
                 "nc" => "Fattore\nNc [−]", "__tau" => "Aderenza\nτ [kPa]", _ => field.Label.Replace("Coeff. ", "Coefficiente\n").Replace("Fattore ", "Fattore\n")
             };
-            if (field.Key == "peso_specifico_saturo")
+            if (field.Key == "peso_specifico_saturo" && gammaFallback)
             {
                 // The hint is not input: keep the stored value empty so it follows γ dynamically.
                 var container = new FrameworkElementFactory(typeof(Grid));

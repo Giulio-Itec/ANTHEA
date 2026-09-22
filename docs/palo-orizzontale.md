@@ -57,7 +57,7 @@ in kPa. Leggi limite (Viggiani p.400, PDF205):
 - Estensione ANTHEA: σ′v integrata dagli strati sovrastanti, con γ sopra falda,
   γsat−9,81 sotto. σ′v continua alle interfacce; p_lim può saltare se cambia
   Kp/Cu. Non si mediano parametri e non si sommano capacità di singoli strati.
-  Falda interna nel granulare richiede modalità sperimentale.
+  Falda interna nel granulare attiva automaticamente la modalità sperimentale.
 
 Q(z)=∫₀ᶻ p_lim(s)ds; S(z)=∫₀ᶻ s p_lim(s)ds; A(z)=zQ(z)−S(z).
 Integrali analitici per tratti costanti/lineari. V=H−∫p;
@@ -141,13 +141,34 @@ per strisce orizzontali, distinta dalla mesh polare.
 
 Hu per sondaggio; minimo governante. Questo minimo non viene chiamato
 automaticamente resistenza caratteristica. HEd/Hu è un rapporto meccanico.
-Facoltativamente due divisori manuali ≥1, documentati dall'utente:
-Rk_manuale=min(Hu)/ξ; Rd_manuale=Rk_manuale/γR. Default disattivati.
-Non sono implementate combinazioni, correlazioni indagini, medie/minimi NTC
-o approcci EN1997. Occorre anche verificare la natura di My e i fattori già
+Rk = min(media(Hu)/ξ3; min(Hu)/ξ4); Rd = Rk/1,3, applicati automaticamente.
+ξ3 e ξ4 provengono da Calcolo.Verticali, come nel palo verticale; il numero
+di verticali indagate è scelto dall'utente, non dedotto dal numero di schede.
+I file precedenti senza questa selezione usano una verticale (ξ3 = ξ4 = 1,70);
+i vecchi divisori manuali e il relativo interruttore non sono più applicati.
+Le chiavi risultato con suffisso _manuale sono mantenute per compatibilità degli export.
+Non sono implementate le combinazioni delle azioni: inserire HEd di progetto.
+Occorre anche verificare la natura di My e i fattori già
 applicati ai materiali. La relazione dichiara sempre verifica normativa incompleta.
 
 ## Confronto critico con PileChecker
+
+### Efficienza della palificata
+
+Due opzioni: Manuale (0 < η ≤ 1, default 1), oppure Reese & Van Impe (foglio).
+La seconda riproduce il file SMath fornito “Portanza orizzontale palo incastrato
+in testa in terreno incoerente - [Viggiani cfr.13.2.5].sm”, revisione 37.
+Interassi anteriore, posteriore, sinistro e destro in metri, riferiti alla direzione H.
+I contributi diretti sono min(1; 0,7(s_ant/D)^0,26), min(1; 0,48(s_post/D)^0,38)
+e min(1; 0,64(s_lato/D)^0,34) sui due lati.
+Per ogni diagonale β = atan(s_lato/s_longitudinale) e il contributo è
+sqrt(η_longitudinale² cos²β + η_lato² sin²β). η è il prodotto degli otto contributi.
+Rd = η Rk / 1,3; Hu, diagrammi del palo singolo e Rk non sono ridotti.
+Lo schema implica quattro vicini allineati e quattro diagonali, non una geometria
+arbitraria. Come avverte il foglio, maglie fitte possono richiedere altri pali
+interferenti. Il programma non determina automaticamente queste interferenze.
+Le note del foglio sugli interassi non introducono ulteriori soglie nelle formule:
+si riproduce il min(1; ...) effettivamente presente nelle espressioni SMath.
 
 `externalForce` ed `eccentricity` non intervengono nel suo metodo orizzontale.
 My proviene da GPC Concrete con conversione Nmm→kNm. Le capacità lunghe sono

@@ -11,12 +11,12 @@ public static class PaloOrizzontale
     public const string Source = "Viggiani, Fondazioni, pp. 400–415 (PDF 205–212), §§13.2.2–13.2.5";
     public static JsonObject Defaults() => J.Obj(("versione_orizzontale", 1),
         ("generali", J.Obj(("diametro", "1"), ("lunghezza", "10"), ("eccentricita", "0"),
-            ("vincolo", "Libera"), ("modalita", "Omogeneo"), ("azione_orizzontale", "100"),
+            ("vincolo", "Libera"), ("modalita", "Automatica"), ("azione_orizzontale", "100"),
             ("presenza_falda", false), ("profondita_falda", "0"), ("origine_momento", "Sezione c.a."),
             ("momento_resistente", "1000"), ("provenienza_momento", ""), ("azione_assiale", "0"),
             ("passo", "0.10"), ("tolleranza", "1e-8"))),
         ("sezione", SezioneCA.DefaultInput()),
-        ("verifica", J.Obj(("applica_fattori", false), ("xi", "1"), ("gamma_r", "1"), ("riferimento", ""))),
+        ("verifica", J.Obj(("verticali_indagate", "1"), ("efficienza_metodo", "Manuale"), ("efficienza_eta", "1"))),
         ("stratigrafie", new JsonArray(new JsonArray())));
 
     public static JsonObject Layer() => J.Obj(("tipologia", "Granulare"), ("spessore", "10"),
@@ -33,13 +33,13 @@ public static class PaloOrizzontale
         foreach (var key in new[] { "generali", "sezione", "verifica" })
             if (data[key]!.AsObject().Any(p => p.Value is null or JsonObject or JsonArray))
                 throw new ArgumentException("Parametri del foglio orizzontale non validi.");
-        if (data["generali"]!["presenza_falda"] is not JsonValue f || !f.TryGetValue<bool>(out _) ||
-            data["verifica"]!["applica_fattori"] is not JsonValue v || !v.TryGetValue<bool>(out _))
-            throw new ArgumentException("Falda e applicazione fattori richiedono valori vero/falso.");
+        if (data["generali"]!["presenza_falda"] is not JsonValue f || !f.TryGetValue<bool>(out _))
+            throw new ArgumentException("Presenza falda richiede un valore vero/falso.");
     }
 
     public static JsonObject Section(JsonObject data)
     {
+        if (data.S("tipo_sezione") == "CHS") return MicropaloOrizzontale.Section(data);
         var g = data["generali"]!;
         double d = g.Required("diametro", strict: true);
         double axial = Signed(g, "azione_assiale");
@@ -150,6 +150,53 @@ public static class PaloOrizzontale
         }
     }
 
+    /// <summary>Uses the same active-depth properties and groundwater rules as the solver.</summary>
+    public static string ModelloAutomatico(JsonObject data)
+    {
+        ValidateShape(data); var g = data["generali"]!;
+        double l = g.Required("lunghezza", strict: true), d = g.Required("diametro", strict: true), tol = g.Required("tolleranza", strict: true);
+        bool water = g.B("presenza_falda"); double zw = water ? g.Required("profondita_falda") : l;
+        bool uniform = true;
+        foreach (var survey in data.Array("stratigrafie"))
+            uniform &= new Ground(survey!.AsArray(), l, d, water, zw, tol).Uniform;
+        return ModelName(uniform);
+    }
+    private static string ModelName(bool uniform) => uniform ? "Omogeneo" : "Multistrato sperimentale";
+
+    public static JsonObject Efficiency(JsonObject data)
+    {
+        var v = data["verifica"]!;
+        string method = v.S("efficienza_metodo", "Manuale");
+        if (method == "Manuale")
+        {
+            double eta = v.AsObject().ContainsKey("efficienza_eta") ? v.Required("efficienza_eta", strict: true) : 1;
+            if (eta > 1) throw new ArgumentException("Efficienza manuale ammessa: 0 < η ≤ 1.");
+            return J.Obj(("metodo", method), ("eta", eta));
+        }
+        if (method != "Reese & Van Impe (foglio)") throw new ArgumentException("Metodo di efficienza non riconosciuto.");
+        double d = data["generali"]!.Required("diametro", strict: true);
+        double Distance(string key)
+        {
+            double s = v.Required(key, strict: true);
+            if (s < d) throw new ArgumentException("Gli interassi dei pali devono essere almeno pari al diametro.");
+            return s;
+        }
+        double front = Distance("interasse_anteriore"), back = Distance("interasse_posteriore"),
+            left = Distance("interasse_sinistro"), right = Distance("interasse_destro");
+        double a = Math.Min(1, .7 * Math.Pow(front / d, .26)), p = Math.Min(1, .48 * Math.Pow(back / d, .38)),
+            sx = Math.Min(1, .64 * Math.Pow(left / d, .34)), dx = Math.Min(1, .64 * Math.Pow(right / d, .34));
+        static double Diagonal(double longitudinal, double transverse, double axialEta, double sideEta)
+        {
+            double angle = Math.Atan2(transverse, longitudinal);
+            return Math.Sqrt(Math.Pow(axialEta * Math.Cos(angle), 2) + Math.Pow(sideEta * Math.Sin(angle), 2));
+        }
+        double als = Diagonal(front, left, a, sx), ald = Diagonal(front, right, a, dx),
+            pls = Diagonal(back, left, p, sx), pld = Diagonal(back, right, p, dx);
+        return J.Obj(("metodo", method), ("eta", a * p * sx * dx * als * ald * pls * pld),
+            ("anteriore", a), ("posteriore", p), ("sinistro", sx), ("destro", dx),
+            ("anteriore_sinistro", als), ("anteriore_destro", ald), ("posteriore_sinistro", pls), ("posteriore_destro", pld));
+    }
+
     public static JsonObject Calculate(JsonObject data)
     {
         try
@@ -158,50 +205,57 @@ public static class PaloOrizzontale
             double l = g.Required("lunghezza", strict: true), d = g.Required("diametro", strict: true), e = g.Required("eccentricita");
             double ed = g.Required("azione_orizzontale"), step = g.Required("passo", strict: true), tol = g.Required("tolleranza", strict: true);
             if (tol < 1e-12 || tol > 1e-5 || l / step > 20000) throw new ArgumentException("Tolleranza ammessa 1e-12…1e-5; massimo 20.000 intervalli di diagramma.");
-            string restraint = g.S("vincolo"), mode = g.S("modalita");
-            if (restraint is not ("Libera" or "Impedita") || mode is not ("Omogeneo" or "Multistrato sperimentale")) throw new ArgumentException("Vincolo o modalità non riconosciuti.");
+            string restraint = g.S("vincolo");
+            if (restraint is not ("Libera" or "Impedita")) throw new ArgumentException("Vincolo non riconosciuto.");
             bool fixedHead = restraint == "Impedita", water = g.B("presenza_falda");
             if (fixedHead && e != 0) throw new ArgumentException("Testa impedita: il modello richiede vincolo e forza al piano campagna (e = 0).");
             if (g.AsObject().ContainsKey("momento_applicato") && Signed(g, "momento_applicato") != 0) throw new ArgumentException("Momento indipendente non supportato; il solo momento applicato è H·e.");
             double zw = water ? g.Required("profondita_falda") : l;
             _ = Signed(g, "azione_assiale");
             JsonObject? section = null; double my;
-            if (g.S("origine_momento") == "Sezione c.a.") { section = Section(data); my = section.D("momento_knm"); }
+            if (g.S("origine_momento") == (data.S("tipo_sezione") == "CHS" ? "Sezione CHS" : "Sezione c.a.")) { section = Section(data); my = section.D("momento_knm"); }
             else if (g.S("origine_momento") == "Manuale")
             {
                 my = g.Required("momento_resistente", strict: true);
                 if (string.IsNullOrWhiteSpace(g.S("provenienza_momento"))) throw new ArgumentException("Indicare natura e provenienza del momento resistente manuale.");
             }
             else throw new ArgumentException("Origine del momento resistente non riconosciuta.");
-            var results = new JsonArray();
+            var results = new JsonArray(); bool uniform = true;
             foreach (var survey in data.Array("stratigrafie"))
             {
                 var ground = new Ground(survey!.AsArray(), l, d, water, zw, tol);
-                if (mode == "Omogeneo" && !ground.Uniform) throw new ArgumentException("Parametri variabili o falda interna: selezionare Multistrato sperimentale.");
-                results.Add(Solve(ground, e, my, fixedHead, step));
+                uniform &= ground.Uniform;
+                var surveyResult = Solve(ground, e, my, fixedHead, step);
+                surveyResult["modello_adottato"] = ModelName(ground.Uniform); results.Add(surveyResult);
             }
+            string mode = ModelName(uniform); // Legacy manual selections never override the actual profile.
             double hu = results.Min(r => r.D("capacita_kn")); int governing = results.Select(r => r.D("capacita_kn")).ToList().IndexOf(hu);
-            var verification = data["verifica"]!; double? rk = null, rd = null;
-            if (verification.B("applica_fattori"))
-            {
-                double xi = verification.Required("xi", 1), gamma = verification.Required("gamma_r", 1);
-                if (string.IsNullOrWhiteSpace(verification.S("riferimento"))) throw new ArgumentException("Documentare il criterio dei fattori manuali e la natura delle azioni.");
-                rk = hu / xi; rd = rk / gamma;
-            }
+            var verification = data["verifica"]!;
+            if (!Calcolo.Verticali.TryGetValue(verification.S("verticali_indagate", "1"), out var xi))
+                throw new ArgumentException("Numero di verticali indagate non riconosciuto.");
+            double mean = results.Average(r => r.D("capacita_kn"));
+            double meanBranch = mean / xi.Xi3, minBranch = hu / xi.Xi4;
+            var efficiency = Efficiency(data);
+            double rk = Math.Min(meanBranch, minBranch), rd = rk / 1.3 * efficiency.D("eta");
             var warnings = new List<string> {
                 "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.",
-                "Verifica normativa NTC/EC2 incompleta: nessuna conformità automatica. Il confronto con fattori manuali è un'elaborazione del progettista.",
+                "Resistenza ridotta con ξ3, ξ4 e γR = 1,3. HEd deve essere un'azione di progetto. Le altre verifiche NTC/EC2 restano escluse: nessuna conformità complessiva automatica.",
                 "I diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e." };
             if (mode != "Omogeneo") warnings.Add("MULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.");
             if (results.Any(r => !r.B("coesivo"))) warnings.Add("Terreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.");
             if (section is not null) warnings.Add(section.S("modello"));
+            if (efficiency.S("metodo") != "Manuale") warnings.Add("Efficienza dal foglio SMath: schema di otto pali interferenti (quattro allineati e quattro diagonali). Verificare ulteriori interferenze nelle maglie fitte; lo schema non rappresenta una palificata arbitraria. Distanze riferite alla direzione di H.");
             return J.Obj(("errore", ""), ("versione_motore", "Broms-ANTHEA-1"), ("fonte", Source), ("input", data),
                 ("capacita_kn", hu), ("sondaggio_governante", governing + 1), ("meccanismo", results[governing].S("meccanismo")),
                 ("momento_resistente_knm", my), ("sezione", section), ("sondaggi", results), ("resistenza_caratteristica_manuale_kn", rk),
                 ("resistenza_progetto_manuale_kn", rd), ("azione_kn", ed), ("rapporto_meccanico", ed / hu),
-                ("utilizzo_manuale", rd is double resistance ? ed / resistance : null),
-                ("esito_manuale", rd is double value ? ed <= value ? "Soddisfatto con fattori manuali" : "Non soddisfatto con fattori manuali" : "Non eseguito"),
-                ("verifica_normativa", "Incompleta"), ("sperimentale", mode != "Omogeneo"),
+                ("capacita_media_kn", mean), ("xi3", xi.Xi3), ("xi4", xi.Xi4), ("gamma_r", 1.3), ("efficienza", efficiency),
+                ("verticali_indagate", verification.S("verticali_indagate", "1")),
+                ("ramo_media_kn", meanBranch), ("ramo_minimo_kn", minBranch),
+                ("criterio_governante", meanBranch <= minBranch ? "Media / ξ3" : "Minimo / ξ4"),
+                ("utilizzo_manuale", ed / rd),
+                ("esito_manuale", ed <= rd ? "Verifica soddisfatta" : "Verifica non soddisfatta"),
+                ("verifica_normativa", "Incompleta"), ("modello_adottato", mode), ("selezione_modello", "Automatica"), ("sperimentale", mode != "Omogeneo"),
                 ("percorso", "Incremento di H con e costante; M applicato = H·e; N costante"), ("avvisi", warnings));
         }
         catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or FormatException or OverflowException)

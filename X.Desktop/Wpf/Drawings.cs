@@ -197,7 +197,7 @@ internal sealed class SectionDrawing : DrawingView
     }
 }
 
-internal sealed class StratigraphyDrawing : DrawingView
+internal sealed partial class StratigraphyDrawing : DrawingView
 {
     internal static readonly string[] LayerColors = ["#F4C95D", "#DFA06E", "#A8C686", "#8FB8DE", "#C6A0D5", "#C9B79C"];
     internal JsonObject? Data { get; set; }
@@ -218,7 +218,7 @@ internal sealed class StratigraphyDrawing : DrawingView
         var colors = LayerColors;
         for (int p = 0; p < indices.Length; p++)
         {
-            int index = indices[p]; double left = p * band, x = left + 37, width = Math.Max(24, band - 96), z = 0; int i = 0;
+            int index = indices[p]; double left = p * band, x = left + 37, width = Math.Max(24, band - 96 - (HorizontalForces ? band * .36 : 0)), z = 0; int i = 0;
             double pileWidth = Math.Clamp(g.D("diametro") * scale, 8, Math.Max(8, Math.Min(24, width * .22)));
             double run = Micro ? length * Math.Sin(angle) * scale : 0;
             double textWidth = Math.Max(8, width - run - pileWidth - 22);
@@ -257,7 +257,9 @@ internal sealed class StratigraphyDrawing : DrawingView
                 double y = top + g.D("profondita_falda") * scale;
                 if (y <= top + z * scale) { dc.DrawLine(new Pen(Brushes.DodgerBlue, 2) { DashStyle = DashStyles.Dash }, new Point(x, y), new Point(x + width, y)); Text(dc, "Falda", x + 3, y - 17, 11, Brushes.DodgerBlue); }
             }
+            if (HorizontalForces) DrawHorizontalForces(dc, index, x + width - pileWidth / 2 - 7,
+                x + width + 48, left + band - 5, top, scale, length, size.Height);
         }
-        Text(dc, "Quote z [m] · positive verso il basso", 3, size.Height - 22, 11, width: size.Width - 6);
+        Text(dc, HorizontalForces ? "z [m] ↓ · Stato ultimo · ○ cerniera plastica" : "Quote z [m] · positive verso il basso", 3, size.Height - 22, 11, width: size.Width - 6);
     }
 }

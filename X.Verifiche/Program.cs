@@ -4,6 +4,7 @@ if (args.Length == 2 && args[0] == "--software") { SoftwareChecks.Run(JsonNode.P
 if (args.Length == 2 && args[0] == "--micropalo") { MicropileChecks.Run(JsonNode.Parse(File.ReadAllText(args[1]))!.AsArray()); return 0; }
 if (args.Length == 1 && args[0] == "--coesione") { CohesionChecks.Run(); return 0; }
 if (args.Length == 1 && args[0] == "--gamma-sat") { SaturatedWeightChecks.Run(); return 0; }
+if (args.Length == 1 && args[0] == "--horizontal") { Console.WriteLine($"Palo orizzontale: {HorizontalChecks.Run()} controlli superati."); HorizontalChsChecks.Run(); return 0; }
 if (args.Length == 1 && args[0] == "--checker") { SectionWorkspaceChecks.Run(); SectionExchangeChecks.Run(); ConcreteEnhancementChecks.Run(); return 0; }
 
 if(args.Length==3&&args[0]=="--calcola")
@@ -13,7 +14,7 @@ if(args.Length==3&&args[0]=="--calcola")
     {
         Console.Error.WriteLine("Il comando diagnostico --calcola usa il motore storico, con altra convenzione dei segni. Per un workspace Checker usare il calcolo e l’esportazione JSON dell’interfaccia WPF.");return 2;
     }
-    var result=module==PaloOrizzontale.Module?PaloOrizzontale.Calculate(data.AsObject()):module=="str_palo"?CalcoloSezione.Calcola(data.AsObject()):Calcolo.Calcola(data,module=="geo_micropalo_verticale");
+    var result=module is PaloOrizzontale.Module or MicropaloOrizzontale.Module?PaloOrizzontale.Calculate(data.AsObject()):module=="str_palo"?CalcoloSezione.Calcola(data.AsObject()):Calcolo.Calcola(data,module=="geo_micropalo_verticale");
     File.WriteAllText(args[2],result.ToJsonString(J.Options));return result.S("errore")==""?0:1;
 }
 Console.WriteLine("ANTHEA — verifiche C#");

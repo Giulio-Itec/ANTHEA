@@ -56,7 +56,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     {
         Module = module; Data = (JsonObject)data.DeepClone(); Background = Ui.Bg;
         calculate = Ui.Button("Calcola", async () => await CalculateAsync(), true); calculate.Width = 120; calculate.Visibility = Geo ? Visibility.Collapsed : Visibility.Visible;
-        if (module == PaloOrizzontale.Module)
+        if (module is PaloOrizzontale.Module or MicropaloOrizzontale.Module)
         {
             horizontal = new HorizontalWorkspace(Data); horizontal.Modified += () => Modified?.Invoke(); Content = horizontal; building = false; return;
         }
