@@ -27,8 +27,8 @@ internal sealed partial class ConcreteWorkspace
             else
             {
                 settings["materiale_trefolo"] = material.DeepClone();
-                foreach (var row in tendons.Rows)
-                    foreach (var key in new[] { "Ep", "fpyk", "fpk", "eps_u" }) row.Output(key, material.S(key));
+                if (tendons.SelectedItem is JsonRow selected) ApplyTendonMaterial(selected, material);
+                reloadTendonMaterials?.Invoke();
                 TendonsChanged();
             }
             Invalidate();
@@ -37,11 +37,11 @@ internal sealed partial class ConcreteWorkspace
         {
             var value = type == "Calcestruzzo" ? J.Obj(("nome", "CLS personalizzato"), ("fck_mpa", Input.S("fck_mpa")), ("cls_diagramma", Input.S("cls_diagramma", ConcreteMaterials.ConcreteDiagrams[0])))
                 : type == "Acciaio" ? J.Obj(("nome", "Acciaio personalizzato"), ("fyk_mpa", Input.S("fyk_mpa")), ("steel_modulus_mpa", Input.S("steel_modulus_mpa")), ("steel_fu_mpa", Input.S("fyk_mpa")), ("steel_eps_u", "100"), ("steel_diagramma", "Elastoplastico"))
-                : J.Obj(("nome", "Trefolo personalizzato"), ("Ep", "195000"), ("fpyk", "1670"), ("fpk", "1860"), ("eps_u", "35"));
+                : J.Obj(("nome", "Trefolo personalizzato"), ("Ep", "195000"), ("fpyk", "1670"), ("fpk", "1860"), ("eps_u", "35"), ("diagramma", "Incrudente"));
             value["tipo"] = type; value["id"] = Guid.NewGuid().ToString("N");
             Field[] fields = type == "Calcestruzzo" ? [new("nome", "Nome"), new("fck_mpa", "fck", "MPa"), new("cls_diagramma", "Diagramma", Choices: ConcreteMaterials.ConcreteDiagrams)]
                 : type == "Acciaio" ? [new("nome", "Nome"), new("steel_modulus_mpa", "Es", "MPa"), new("fyk_mpa", "fyk", "MPa"), new("steel_fu_mpa", "fu", "MPa"), new("steel_eps_u", "εu", "‰"), new("steel_diagramma", "Diagramma", Choices: ["Elastoplastico", "Incrudente"])]
-                : [new("nome", "Nome"), new("Ep", "Ep", "MPa"), new("fpyk", "fpyk", "MPa"), new("fpk", "fpk", "MPa"), new("eps_u", "εpu", "‰")];
+                : [new("nome", "Nome"), new("Ep", "Ep", "MPa"), new("fpyk", "fpyk", "MPa"), new("fpk", "fpk", "MPa"), new("eps_u", "εpu", "‰"), new("diagramma", "Diagramma", Choices: ["Elastoplastico", "Incrudente"])];
             var form = new InputForm(value, fields, _ => { }, wideChoices: true); var error = Ui.Text("", 12);
             Window? dialog = null;
             var apply = Ui.Button("Salva materiale e applica", () =>
@@ -57,11 +57,11 @@ internal sealed partial class ConcreteWorkspace
                 catch (ArgumentException ex) { error.Text = ex.Message; }
             });
             string note = type == "Calcestruzzo" ? "Moduli, deformazioni limite e resistenza a trazione sono derivati dal materiale EN1992 della DLL. Curve tabellari generiche e materiali FRC restano da implementare."
-                : type == "Trefoli" ? "Applicazione a tutti i trefoli del foglio; geometria e tensione iniziale restano invariate. Il materiale diventa anche il predefinito dei nuovi trefoli." : "Parametri e legge costitutiva passati direttamente al materiale della DLL.";
+                : type == "Trefoli" ? "Applicazione al cavo selezionato; gli altri cavi conservano il proprio materiale. Il materiale diventa anche il predefinito dei nuovi trefoli." : "Parametri e legge costitutiva passati direttamente al materiale della DLL.";
             dialog = Ui.Dialog(this, "Nuovo materiale · " + type, Ui.Paper(Ui.Stack(form, Notice(note), error, apply), 18), 560, 520); dialog.ShowDialog();
         }
         Reload();
-        var tendonMaterial = Ui.Button("+ Trefoli", () => EditMaterial("Trefoli")); tendonOnlyControls.Add(tendonMaterial);
+        var tendonMaterial = Ui.Button("+ Trefoli", () => EditMaterial("Trefoli"));
         return Ui.Stack(Ui.Bar(Ui.Button("+ CLS", () => EditMaterial("Calcestruzzo")), Ui.Button("+ Acciaio", () => EditMaterial("Acciaio")), tendonMaterial), list,
             Ui.Button("Applica materiale salvato", () => { if (list.SelectedIndex >= 0) Apply((JsonObject)settings.Array("materiali_custom")[list.SelectedIndex]!); }));
     }

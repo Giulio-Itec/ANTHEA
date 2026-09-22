@@ -88,12 +88,16 @@ internal sealed partial class ConcreteWorkspace
         panel.ForceToggle = Ui.Button(ForceLabel(), () => { panel.Options["solo_selezionata"] = !panel.Options.B("solo_selezionata"); panel.ForceToggle.Content = ForceLabel(); UpdateSelection(panel); Modified?.Invoke(); });
         panel.ForceToggle.ToolTip = "Alterna tutte le azioni visibili e la sola combinazione selezionata; i filtri della tabella restano attivi.";
         frame.Toolbar.Children.Insert(0, panel.ForceToggle); viewport = frame;
-        foreach (var (key, label) in new[] { ("mostra_ed", "Sollecitazioni"), ("mostra_rd", "Resistenze"), ("mostra_linee", "Linee di verifica"), ("colora_eta", "Colori η") })
+        foreach (var (key, label) in new[] { ("mostra_ed", "Sollecitazioni"), ("mostra_rd", "Resistenze"), ("tutte_rd", "Tutti i punti resistenti"), ("mostra_linee", "Linee di verifica"), ("colora_eta", "Colori η") })
         {
-            var check = new CheckBox { Content = label, IsChecked = panel.Options.B(key, key != "colora_eta"), Margin = new Thickness(5, 3, 5, 3), VerticalAlignment = VerticalAlignment.Center };
+            var check = new CheckBox { Content = label, IsChecked = panel.Options.B(key, key != "colora_eta" && key != "tutte_rd"), Margin = new Thickness(5, 3, 5, 3), VerticalAlignment = VerticalAlignment.Center };
             check.Click += (_, _) => { panel.Options[key] = check.IsChecked == true; UpdateSelection(panel); Modified?.Invoke(); };
             frame.Toolbar.Children.Add(check);
         }
+        var legend = new StackPanel();
+        foreach (var (value, label) in new[] { (.25, "0 ≤ η ≤ 0,50"), (.6, "0,50 < η ≤ 0,70"), (.8, "0,70 < η ≤ 0,90"), (.95, "0,90 < η ≤ 1,00"), (1.1, "η > 1,00") })
+            legend.Children.Add(Ui.Text("■  " + label, 11, color: UtilizationPalette.Brush(value)));
+        frame.Toolbar.Children.Add(new Expander { Header = "Legenda η", Content = legend, Margin = new Thickness(5) });
         string ratio = threeD ? "eta3d" : "eta2d", outcome = threeD ? "esito3d" : "esito2d";
         panel.Grid = new JsonGrid([new("visible", "Mostra", Bool: true), new("nome", "Combinazione"), new("N", "N [kN]"), new("Mx", "Mx [kNm]"), new("My", "My [kNm]"), new(ratio, "η [-]", ReadOnly: true), new(outcome, "Esito", ReadOnly: true)], true, actions[panel.Key]);
         panel.Grid.Columns[^1].Width = new DataGridLength(2, DataGridLengthUnitType.Star);
@@ -140,7 +144,7 @@ internal sealed partial class ConcreteWorkspace
         var input = preparedInput ?? (JsonObject)Input.DeepClone(); var workspace = preparedWorkspace ?? (JsonObject)settings.DeepClone(); var options = (JsonObject)panel.Options.DeepClone();
         var snapshots = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
         var computationOptions = (JsonObject)options.DeepClone();
-        foreach (string visual in new[] { "stato", "filtro", "solo_selezionata", "trasparenza", "mostra_ed", "mostra_rd", "mostra_linee", "colora_eta", "criterio", "strategia", "proietta", "scala_x", "scala_y", "scala_n", "scala_mx", "scala_my", "fit_azioni" }) computationOptions.Remove(visual);
+        foreach (string visual in new[] { "stato", "filtro", "solo_selezionata", "trasparenza", "mostra_ed", "mostra_rd", "tutte_rd", "mostra_linee", "colora_eta", "criterio", "strategia", "proietta", "scala_x", "scala_y", "scala_n", "scala_mx", "scala_my", "fit_azioni" }) computationOptions.Remove(visual);
         string signature = input.ToJsonString() + workspace.S("normativa") + workspace["coefficienti"]?.ToJsonString() + workspace["trefoli"]?.ToJsonString() + computationOptions.ToJsonString();
         var cached = domainCache.GetValueOrDefault(panel.Prefix + key);
         var calculated = await Task.Run(() =>
@@ -249,6 +253,10 @@ internal sealed partial class ConcreteWorkspace
         {
             panel.View3D!.ShowActions = panel.Options.B("mostra_ed", true); panel.View3D.ShowResistance = panel.Options.B("mostra_rd", true); panel.View3D.ShowVerificationLines = panel.Options.B("mostra_linee", true); panel.View3D.ColorByRatio = panel.Options.B("colora_eta");
             panel.View3D.Ratios = checks?.ToDictionary(kv => kv.Key, kv => kv.Value.Utilization);
+            panel.View3D.Resistances = panel.Options.B("tutte_rd") ? panel.Grid.Items.OfType<JsonRow>().Where(r => r.Values.B("visible", true))
+                .Select(r => (Id: r.Values.S("id"), Check: checks?.GetValueOrDefault(r.Values.S("id")))).Where(r => r.Check?.Resistance is not null)
+                .ToDictionary(r => r.Id, r => r.Check!.Resistance!.Value) : null;
+            panel.View3D.ToolTip = UtilizationPalette.Legend;
             panel.View3D.SetActions(visible, id, selectedCheck?.Resistance);
         }
         else
@@ -268,7 +276,11 @@ internal sealed partial class ConcreteWorkspace
                             panel.Plot.VerificationSegments.Add((p, d2 is not null ? d2.Project(resistance) : Project(resistance, nm, value)));
                     }
                 }
-                if (panel.Options.B("mostra_rd", true) && selectedCheck?.Resistance is ActionPoint r) { var p = checker2D.TryGetValue(panel.Key, out var d2) ? d2.Project(r) : Project(r, nm, value); panel.Plot.Markers.Add(new(p[0], p[1], "Rd", Ui.Brush("#A23BC4"))); }
+                if (panel.Options.B("mostra_rd", true))
+                    foreach (var item in panel.Grid.Items.OfType<JsonRow>().Where(r => r.Values.B("visible", true) && (panel.Options.B("tutte_rd") || r.Values.S("id") == id)))
+                        if (checks?.GetValueOrDefault(item.Values.S("id")) is { Resistance: ActionPoint r } check)
+                        { var p = checker2D.TryGetValue(panel.Key, out var d2) ? d2.Project(r) : Project(r, nm, value); panel.Plot.Markers.Add(new(p[0], p[1], item.Values.S("id") == id ? "Rd" : "", RatioColor(check.Utilization))); }
+                panel.Plot.ToolTip = UtilizationPalette.Legend;
             }
             catch (ArgumentException) { }
             panel.Plot.InvalidateVisual();
@@ -286,7 +298,7 @@ internal sealed partial class ConcreteWorkspace
         }
         catch (ArgumentException ex) { panel.Detail.Text = ex.Message; }
     }
-    private static Brush RatioColor(double? ratio) => ratio is null ? Ui.Muted : ratio > 1 ? Ui.Brush("#CF4446") : ratio >= .8 ? Ui.Brush("#D39628") : Ui.Brush("#247965");
+    private static Brush RatioColor(double? ratio) => UtilizationPalette.Brush(ratio);
     private static string ResponseSummary(SectionResponse? r, string title)
     {
         if (r is null) return title + "\nRiepilogo nativo non disponibile";

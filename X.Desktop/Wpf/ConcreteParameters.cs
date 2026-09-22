@@ -40,22 +40,22 @@ internal sealed partial class ConcreteWorkspace
     private void PrepareStirrups()
     {
         if (settings["taglio"] is not JsonObject) settings["taglio"] = new JsonObject();
-        foreach (var (key, value) in new[] { ("tipo_staffa", "Staffa chiusa"), ("rami_x", "2"), ("rami_y", "2"), ("rami_interni", "0") })
+        foreach (var (key, value) in new[] { ("tipo_staffa", "Staffa chiusa"), ("rami_x", "2"), ("rami_y", "2"), ("rami_interni", "0"), ("schema_interno", "Bracci paralleli"), ("rotazione_staffa", "0") })
             if (!ShearOptions.ContainsKey(key)) ShearOptions[key] = value;
     }
     private UIElement BuildStirrups()
     {
         var dimensions = new InputForm(Input, [new("transverse_bar_diameter_mm", "Ø staffe", "mm"), new("transverse_spacing_mm", "Passo", "mm")], key => { SynchronizeStirrups(); if (key == "transverse_bar_diameter_mm") Invalidate(); else InvalidateActions("Taglio"); }, true);
-        var form = new InputForm(ShearOptions, [new("tipo_staffa", "Circolare", Choices: ["Staffa chiusa", "Spirale"]), new("rami_x", "Braccia resistenti a Vx"), new("rami_y", "Braccia resistenti a Vy"), new("rami_interni", "Ferri interni circolari")], _ => { SynchronizeStirrups(); InvalidateActions("Taglio"); }, true, true);
+        var form = new InputForm(ShearOptions, [new("tipo_staffa", "Circolare", Choices: ["Staffa chiusa", "Spirale"]), new("rami_x", "Braccia resistenti a Vx"), new("rami_y", "Braccia resistenti a Vy"), new("schema_interno", "Schema interno", Choices: ["Bracci paralleli", "Staffe chiuse sovrapposte"]), new("rami_interni", "Bracci aggiunti / staffe interne"), new("rotazione_staffa", "Rotazione schema", "°")], _ => { SynchronizeStirrups(); InvalidateActions("Taglio"); }, true, true);
         stirrupForms.Add(dimensions); stirrupForms.Add(form);
-        return Ui.Stack(dimensions, form, Ui.Text("Schema indicativo, non esecutivo. Rettangolare / T: staffe a più braccia. Circolare: staffa o spirale e ferri interni; modello resistente circolare ancora da validare.", 11, color: Ui.Muted));
+        return Ui.Stack(dimensions, form, Ui.Text("Schema indicativo, non esecutivo. Rettangolare / T: staffe a più braccia. Circolare: 1/2 bracci aggiunti = 3/4 braccia nella direzione scelta; schema alternativo con staffe chiuse interne; modello resistente circolare ancora da validare.", 11, color: Ui.Muted));
     }
     private void SynchronizeStirrups()
     {
         foreach (var form in stirrupForms)
         {
             foreach (var key in form.Editors.Keys) form.Set(key, key.StartsWith("transverse_") ? Input.S(key) : ShearOptions.S(key), true);
-            form.ShowField("tipo_staffa", Input.S("shape") == "Circolare"); form.ShowField("rami_interni", Input.S("shape") == "Circolare");
+            form.ShowField("tipo_staffa", Input.S("shape") == "Circolare"); form.ShowField("rami_interni", Input.S("shape") == "Circolare"); form.ShowField("schema_interno", Input.S("shape") == "Circolare"); form.ShowField("rotazione_staffa", Input.S("shape") == "Circolare");
             foreach (var key in new[] { "rami_x", "rami_y" }) form.ShowField(key, Input.S("shape") != "Circolare");
         }
         foreach (var key in new[] { "transverse_bar_diameter_mm", "transverse_spacing_mm" }) reinforcement?.Set(key, Input.S(key), true);
@@ -64,6 +64,7 @@ internal sealed partial class ConcreteWorkspace
     }
     private void ValidateStirrups()
     {
+        if (Input.S("shape") == "Circolare") _ = SectionWorkspace.Number(ShearOptions.S("rotazione_staffa", "0"), "Rotazione staffe");
         foreach (var key in Input.S("shape") == "Circolare" ? new[] { "rami_interni" } : new[] { "rami_x", "rami_y" })
         {
             // Legacy blank values are allowed as an unfinished shear model, not as a fabricated check.

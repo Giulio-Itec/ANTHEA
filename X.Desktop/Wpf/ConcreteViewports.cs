@@ -72,7 +72,7 @@ internal sealed class ConcreteSectionViewport : DrawingView
         {
             Focus(); if (e.ClickCount == 2) { ResetView(); return; }
             var p = e.GetPosition(this); int closest = barLocations.FindIndex(q => (q - p).Length < 10);
-            if (closest >= 0) { SelectedBar = "B" + (closest + 1); BarSelected?.Invoke(closest); InvalidateVisual(); }
+            if (closest >= 0) { SelectedBar = "B" + (closest + 1).ToString("D2"); BarSelected?.Invoke(closest); InvalidateVisual(); }
             drag = p; CaptureMouse();
         };
         MouseMove += (_, e) => { if (drag is Point p) { var next = e.GetPosition(this); pan += next - p; drag = next; InvalidateVisual(); } };
@@ -125,9 +125,18 @@ internal sealed class ConcreteSectionViewport : DrawingView
             Text(dc, Contour, 12, 10, 11, Ui.Navy, plotWidth - 18, true);
             double legendHeight = Math.Max(45, size.Height - 150), lx = size.Width - 95, ly = 52;
             Text(dc, strains ? "ε [‰]" : ratios ? "η [-]" : "σ [MPa]", lx, 28, 10);
+            if (ratios)
+            {
+                var ranges = new[] { (1.1, ">1,00"), (.95, "0,90–1,00"), (.8, "0,70–0,90"), (.6, "0,50–0,70"), (.25, "0–0,50") };
+                for (int i = 0; i < ranges.Length; i++) { double y = ly + i * legendHeight / 5; dc.DrawRectangle(UtilizationPalette.Brush(ranges[i].Item1), null, new Rect(lx, y, 16, legendHeight / 5)); Text(dc, ranges[i].Item2, lx + 20, y + 3, 9, width: 80); }
+                ContourLegend = UtilizationPalette.Legend;
+            }
+            else
+            {
             for (int i = 0; i < 100; i++) dc.DrawRectangle(ContourColor(upper - (upper - lower) * i / 99, lower, upper, ratios, bands), null, new Rect(lx, ly + legendHeight * i / 100, 16, legendHeight / 100 + 1));
             foreach (double value in new[] { upper, (upper + lower) / 2, lower }.Concat(lower < 0 && upper > 0 ? new[] { 0d } : Array.Empty<double>()).Distinct())
             { double y = ly + (upper - value) / (upper - lower) * legendHeight; Text(dc, EngineeringFormat.Number(value), lx + 22, y - 6, 10, width: 73); }
+            }
         }
         else ContourLegend = "";
         DrawStirrups(dc, section, P, scale);
@@ -143,14 +152,14 @@ internal sealed class ConcreteSectionViewport : DrawingView
         for (int i = 0; i < section.Bars.Count; i++)
         {
             var bar = section.Bars[i]; var p = P(bar.X, bar.Y); barLocations.Add(p); double radius = Math.Max(3, bar.Diametro * scale / 2);
-            bool chosen = SelectedBar == "B" + (i + 1); Brush color = i < barValues.Length ? ContourColor(barValues[i], lower, upper, ratios, bands) : Ui.Navy;
+            bool chosen = SelectedBar == "B" + (i + 1).ToString("D2"); Brush color = i < barValues.Length ? ContourColor(barValues[i], lower, upper, ratios, bands) : Ui.Navy;
             dc.DrawEllipse(color, new Pen(chosen ? Brushes.Orange : Brushes.White, chosen ? 3 : 1), p, radius, radius);
-            if (BarValues && Stress is { } bs) ValueLabel(dc, p, "B" + (i + 1), bs.tensioni_barre.ElementAtOrDefault(i), bs.BarStrains.ElementAtOrDefault(i));
+            if (BarValues && Stress is { } bs) ValueLabel(dc, p, "B" + (i + 1).ToString("D2"), bs.tensioni_barre.ElementAtOrDefault(i), bs.BarStrains.ElementAtOrDefault(i));
             else if (Labels)
             {
                 double dx = bar.X < 0 ? -26 - radius : radius + 3;
                 double dy = Math.Abs(bar.Y - (ymin + ymax) / 2) > (ymax - ymin) * .3 ? bar.Y > (ymin + ymax) / 2 ? -21 - i % 2 * 10 : 8 + i % 2 * 10 : -7;
-                Text(dc, "B" + (i + 1), p.X + dx, p.Y + dy, 10, Ui.Navy);
+                Text(dc, "B" + (i + 1).ToString("D2"), p.X + dx, p.Y + dy, 10, Ui.Navy);
             }
         }
         for (int ti = 0; ti < Tendons.Count; ti++)
@@ -163,7 +172,7 @@ internal sealed class ConcreteSectionViewport : DrawingView
         }
         if (ConcreteValues && Stress is { } cs) foreach (var v in cs.ConcreteVertices) ValueLabel(dc, P(v.X, v.Y), v.Id, v.Stress, v.Strain);
         Text(dc, $"{section.Width:0.#} × {section.Height:0.#} mm  ·  Ac = {section.AreaCls / 100:0.0} cm²  ·  As = {section.AreaSteel / 100:0.0} cm²", 12, size.Height - 46, 11, width: size.Width - 24);
-        Text(dc, Stress is null ? "Assi geometrici x/y · N < 0: compressione" : Contour == "Solo geometria" ? "Nessun contouring · risultati nel riepilogo" : ratios ? "Rapporto alla resistenza · NON esito SLE" : "Blu: negativo · rosso: positivo · valori Checker", 12, size.Height - 26, 11, width: size.Width - 24);
+        Text(dc, Stress is null ? "Assi geometrici x/y · N < 0: compressione" : Contour == "Solo geometria" ? "Nessun contouring · risultati nel riepilogo" : ratios ? "Rapporto alla resistenza · NON esito SLE" : "Rosso: compressione (−) · blu: trazione (+) · valori Checker", 12, size.Height - 26, 11, width: size.Width - 24);
     }
     private static Brush ContourColor(double value, double lower, double upper, bool ratio, bool bands)
         => new SolidColorBrush(ContourRgb(value, lower, upper, ratio, bands));
@@ -171,7 +180,8 @@ internal sealed class ConcreteSectionViewport : DrawingView
     {
         double fraction = Math.Clamp(value < 0 ? value / Math.Min(-1e-12, lower) : value / Math.Max(1e-12, upper), 0, 1);
         if (bands) fraction = Math.Round(fraction * 10) / 10;
-        Color end = !ratio && value < 0 ? Color.FromRgb(35, 90, 183) : Color.FromRgb(197, 51, 48);
+        if (ratio) return UtilizationPalette.Color(value);
+        Color end = value < 0 ? Color.FromRgb(197, 51, 48) : Color.FromRgb(35, 90, 183);
         return Color.FromRgb((byte)(255 + (end.R - 255) * fraction), (byte)(255 + (end.G - 255) * fraction), (byte)(255 + (end.B - 255) * fraction));
     }
     private void ValueLabel(DrawingContext dc, Point p, string id, double stress, double strain)
@@ -194,7 +204,22 @@ internal sealed class ConcreteSectionViewport : DrawingView
             double r = section.Radius - inset; dc.DrawEllipse(null, pen, p(0, 0), r * scale, r * scale);
             if (Stirrups.S("tipo_staffa") == "Spirale") dc.DrawEllipse(null, new Pen(pen.Brush, 1) { DashStyle = DashStyles.Dash }, p(0, 0), (r - phi) * scale, (r - phi) * scale);
             int count = Math.Clamp((int)Stirrups.D("rami_interni"), 0, 100);
-            for (int i = 0; i < count; i++) { double angle = Math.PI * i / Math.Max(1, count); dc.DrawLine(pen, p(-r * Math.Cos(angle), -r * Math.Sin(angle)), p(r * Math.Cos(angle), r * Math.Sin(angle))); }
+            double angle = Stirrups.D("rotazione_staffa") * Math.PI / 180;
+            Point Rot(double x, double y) => p(x * Math.Cos(angle) - y * Math.Sin(angle), x * Math.Sin(angle) + y * Math.Cos(angle));
+            for (int i = 0; i < count; i++)
+            {
+                double x = -r + 2 * r * (i + 1) / (count + 1);
+                if (Stirrups.S("schema_interno", "Bracci paralleli") == "Staffe chiuse sovrapposte")
+                {
+                    double left = Math.Max(-.85 * r, x - .55 * r), right = Math.Min(.85 * r, x + .55 * r);
+                    double y = Math.Sqrt(r * r - Math.Pow(Math.Max(Math.Abs(left), Math.Abs(right)), 2));
+                    dc.DrawGeometry(null, pen, Path(new[] { Rot(left, -y), Rot(right, -y), Rot(right, y), Rot(left, y) }, true));
+                }
+                else
+                {
+                    double y = Math.Sqrt(r * r - x * x); dc.DrawLine(pen, Rot(x, -y), Rot(x, y));
+                }
+            }
         }
         else
         {
@@ -249,11 +274,12 @@ internal sealed class DomainViewport3D : Grid
     internal bool ShowVerificationLines { get; set; } = true;
     internal bool ColorByRatio { get; set; }
     internal IReadOnlyDictionary<string, double?>? Ratios { get; set; }
+    internal IReadOnlyDictionary<string, ActionPoint>? Resistances { get; set; }
     private Brush ActionColor(string id, bool chosen, bool pass)
     {
         if (!ColorByRatio) return chosen ? Ui.Brush("#E09620") : Ui.Blue;
         double? ratio = Ratios is null ? pass ? 0 : 2 : Ratios.GetValueOrDefault(id);
-        return ratio is null ? Ui.Muted : ratio > 1 ? Ui.Brush("#CE4C4C") : ratio >= .8 ? Ui.Brush("#D39628") : Ui.Brush("#257761");
+        return UtilizationPalette.Brush(ratio);
     }
     internal int VisibleActionCount => ShowActions ? actionPoints.Count : 0;
     internal event Action<string>? ActionSelected;
@@ -305,7 +331,7 @@ internal sealed class DomainViewport3D : Grid
     {
         userNavigated = false;
         var points = (mesh?.Vertices.Select(World) ?? []).Concat(AxisLines().SelectMany(a => new[] { a.Start, a.End })).ToList();
-        if (FitIncludesActions) { if (ShowActions) points.AddRange(actionPoints.Select(p => World(p.Force))); if (ShowResistance && SelectedResistance is ActionPoint r) points.Add(World(r)); }
+        if (FitIncludesActions) { if (ShowActions) points.AddRange(actionPoints.Select(p => World(p.Force))); if (ShowResistance && SelectedResistance is ActionPoint r) points.Add(World(r)); if (ShowResistance && Resistances is not null) points.AddRange(Resistances.Values.Select(World)); }
         target = new Point3D((points.Min(p => p.X) + points.Max(p => p.X)) / 2, (points.Min(p => p.Y) + points.Max(p => p.Y)) / 2, (points.Min(p => p.Z) + points.Max(p => p.Z)) / 2);
         double half = camera.FieldOfView * Math.PI / 360;
         double verticalHalf = Math.Atan(Math.Tan(half) / Math.Max(.1, ActualWidth / Math.Max(1, ActualHeight)));
@@ -370,6 +396,8 @@ internal sealed class DomainViewport3D : Grid
         var grid = new MeshGeometry3D();
         for (int i = -4; i <= 4; i++) { double v = i * .25; Tube(grid, new Point3D(v, 0, -1), new Point3D(v, 0, 1), .001); Tube(grid, new Point3D(-1, 0, v), new Point3D(1, 0, v), .001); }
         markings.Children.Add(Model(grid, Ui.Brush("#B9C7D4")));
+        if (ShowResistance && Resistances is not null)
+            foreach (var (id, r) in Resistances) { if (id == selected) continue; var model = Model(Sphere(World(r), .032), UtilizationPalette.Brush(Ratios?.GetValueOrDefault(id))); markings.Children.Add(model); pickTargets[model] = id; }
         foreach (var action in actionPoints)
         {
             bool chosen = action.Id == selected; var point = World(action.Force); var sphere = Sphere(point, chosen ? .045 : .024);
@@ -379,7 +407,7 @@ internal sealed class DomainViewport3D : Grid
             {
                 SelectedAction = action.Force; var vector = new MeshGeometry3D(); Tube(vector, new(), point, .006); if (ShowVerificationLines) markings.Children.Add(Model(vector, Ui.Brush("#E09620")));
                 if (resistant is ActionPoint r)
-                { var rp = World(r); if (ShowResistance) markings.Children.Add(Model(Sphere(rp, .05), Ui.Brush("#A23BC4"))); var segment = new MeshGeometry3D(); Tube(segment, point, rp, .006); if (ShowVerificationLines) markings.Children.Add(Model(segment, Ui.Brush("#A23BC4"))); }
+                { var rp = World(r); if (ShowResistance) markings.Children.Add(Model(Sphere(rp, .05), UtilizationPalette.Brush(Ratios?.GetValueOrDefault(selected ?? "")))); var segment = new MeshGeometry3D(); Tube(segment, point, rp, .006); if (ShowVerificationLines) markings.Children.Add(Model(segment, Ui.Brush("#A23BC4"))); }
             }
         }
         UpdateLabels();
@@ -413,10 +441,14 @@ internal sealed class DomainViewport3D : Grid
             if (chosen && SelectedResistance is ActionPoint r && Project(World(r)) is Point rp)
             {
                 if (ShowVerificationLines) labels.Children.Add(new System.Windows.Shapes.Line { X1 = point.X, Y1 = point.Y, X2 = rp.X, Y2 = rp.Y, Stroke = Ui.Brush("#A23BC4"), StrokeThickness = 1.5, StrokeDashArray = new DoubleCollection([4, 3]) });
-                if (ShowResistance) Marker(rp, Ui.Brush("#A23BC4"), "Rd", 6);
+                if (ShowResistance) Marker(rp, UtilizationPalette.Brush(Ratios?.GetValueOrDefault(action.Id)), "Rd", 6);
             }
             if (ShowActions) Marker(point, ActionColor(action.Id, chosen, action.Pass), chosen ? "Ed" : "", chosen ? 6 : 4);
         }
+        if (ShowResistance && Resistances is not null)
+            foreach (var (id, resistance) in Resistances)
+                if (id != selectedId && Project(World(resistance)) is Point rp)
+                { Marker(rp, UtilizationPalette.Brush(Ratios?.GetValueOrDefault(id)), "", 4); screenPoints.Add((id, rp)); }
         foreach (var (p, text) in AxisLines().Select(line => (line.LabelPoint, line.Label)))
         {
             var vector = p - camera.Position; double depth = Vector3D.DotProduct(vector, forward); if (depth <= 0) continue;

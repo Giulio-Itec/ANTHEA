@@ -46,7 +46,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private readonly Dictionary<string, Dictionary<string, StressOutcome>> stressResults = new();
     private readonly ConcreteSectionViewport preview = new();
     private readonly JsonGrid barInventory = new([new("id", "Barra", ReadOnly: true), new("x", "x [mm]", ReadOnly: true), new("y", "y [mm]", ReadOnly: true), new("phi", "Ø [mm]", ReadOnly: true)], true);
-    private readonly JsonGrid tendons = new([new("id", "ID"), new("x", "x [mm]"), new("y", "y [mm]"), new("area", "Ap [mm²]"), new("sigma0", "σp0 [MPa]"), new("Ep", "Ep [MPa]"), new("fpyk", "fpyk [MPa]"), new("fpk", "fpk [MPa]"), new("eps_u", "εpu [‰]")]);
+    private readonly JsonGrid tendons = new([new("id", "ID"), new("x", "x [mm]"), new("y", "y [mm]"), new("diametro", "Øeq cavo [mm]"), new("area", "Ap totale [mm²]"), new("materiale", "Materiale", ReadOnly: true), new("diagramma", "Diagramma", Choices: ["Elastoplastico", "Incrudente"]), new("sigma0", "σp0 [MPa]"), new("Ep", "Ep [MPa]"), new("fpyk", "fpyk [MPa]"), new("fpk", "fpk [MPa]"), new("eps_u", "εpu [‰]")]);
     private InputForm geometry = null!, materials = null!, reinforcement = null!;
     private readonly List<DomainPanel> domainPanels = [];
     private readonly Dictionary<string, StressPanel> stressPanels = new();
@@ -135,11 +135,11 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
             if (key == "n") Data["n_automatico"] = false;
             SyncCoefficientsFromInput(); Invalidate();
         }, true);
-        reinforcement = new(Input, [new("longitudinal_bar_count", "Barre circolari"), new("longitudinal_bar_diameter_mm", "Diametro", "mm"), new("top_bar_count", "Barre superiori"), new("top_bar_diameter_mm", "Ø superiori", "mm"), new("bottom_bar_count", "Barre inferiori"), new("bottom_bar_diameter_mm", "Ø inferiori", "mm"), new("side_bar_count_per_side", "Barre laterali / lato"), new("side_bar_diameter_mm", "Ø laterali", "mm")], _ => Invalidate(), true);
-        foreach (var item in settings.Array("trefoli").OfType<JsonObject>()) tendons.Rows.Add(new JsonRow((JsonObject)item.DeepClone(), _ => TendonsChanged()));
+        foreach (var (key, value) in new[] { ("flange_bottom_count", "0"), ("flange_bottom_diameter_mm", Input.S("top_bar_diameter_mm")), ("flange_bottom_offset_mm", (Input.D("cover_mm") + Input.D("transverse_bar_diameter_mm") + Input.D("top_bar_diameter_mm") / 2).ToString(System.Globalization.CultureInfo.InvariantCulture)) }) if (!Input.ContainsKey(key)) Input[key] = value;
+        reinforcement = new(Input, [new("longitudinal_bar_count", "Barre circolari"), new("longitudinal_bar_diameter_mm", "Diametro", "mm"), new("top_bar_count", "Barre superiori"), new("top_bar_diameter_mm", "Ø superiori", "mm"), new("flange_bottom_count", "Barre intradosso ala (0: assenti)"), new("flange_bottom_diameter_mm", "Ø intradosso ala", "mm"), new("flange_bottom_offset_mm", "Intradosso ala → asse barra", "mm"), new("bottom_bar_count", "Barre inferiori"), new("bottom_bar_diameter_mm", "Ø inferiori", "mm"), new("side_bar_count_per_side", "Barre laterali / lato"), new("side_bar_diameter_mm", "Ø laterali", "mm")], _ => Invalidate(), true);
+        foreach (var item in settings.Array("trefoli").OfType<JsonObject>()) tendons.Rows.Add(TendonRow((JsonObject)item.DeepClone()));
         grids.Add(tendons); tendons.Height = 165;
-        var tendonInput = Ui.Stack(Notice("Trefoli gestiti da Checker. Inserire le proprietà del materiale; σp0 è la tensione iniziale positiva del trefolo. Campi mancanti bloccano il calcolo."), WithFilters(tendons),
-            Ui.Bar(Ui.Button("+ Trefolo", () => { var m = settings["materiale_trefolo"]; tendons.Rows.Add(new JsonRow(J.Obj(("id", "T" + (tendons.Rows.Count + 1)), ("x", "0"), ("y", "0"), ("area", "150"), ("sigma0", ""), ("Ep", m.S("Ep")), ("fpyk", m.S("fpyk")), ("fpk", m.S("fpk")), ("eps_u", m.S("eps_u"))), _ => TendonsChanged())); TendonsChanged(); }), Ui.Button("−", () => { tendons.Commit(); if (tendons.SelectedItem is JsonRow r) { tendons.Rows.Remove(r); TendonsChanged(); } })));
+        var tendonInput = BuildTendonInput();
         var inputStack = Ui.Stack(norm, standardNote, Group("Geometria", geometry, true), Group("Materiali", Ui.Stack(materials, BuildCustomMaterials())), Group("Coefficienti da normativa / personalizzati", BuildCoefficients()), Group("Armature", reinforcement), Group("Staffe", BuildStirrups()), Group("Trefoli", tendonInput));
         var left = Panel("Definizione della sezione", Scroller(inputStack), "Dati comuni a tutte le verifiche · mm, MPa");
         var viewport = new ViewportFrame("Sezione geometrica", preview, preview.ResetView);
@@ -239,7 +239,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     {
         string shape = Input.S("shape");
         foreach (string key in new[] { "diameter_mm", "width_mm", "height_mm", "flange_width_mm", "web_width_mm", "flange_thickness_mm" }) geometry.ShowField(key, key switch { "diameter_mm" => shape == "Circolare", "width_mm" => shape == "Rettangolare", "height_mm" => shape != "Circolare", _ => shape == "A T" });
-        foreach (string key in reinforcement.Editors.Keys.Where(k => !k.StartsWith("transverse"))) reinforcement.ShowField(key, key.StartsWith("longitudinal") ? shape == "Circolare" : shape != "Circolare");
+        foreach (string key in reinforcement.Editors.Keys.Where(k => !k.StartsWith("transverse"))) reinforcement.ShowField(key, key.StartsWith("flange_bottom") ? shape == "A T" : key.StartsWith("longitudinal") ? shape == "Circolare" : shape != "Circolare");
         SezioneCA? engine = null;
         try
         {
@@ -262,7 +262,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         foreach (string field in SectionWorkspace.SharedSleFields) settings["sle_comuni"]![field] = settings["sle"]!["SLE"]![field]?.DeepClone();
         RefreshTendonOptions(); RefreshAutomaticShear();
         preview.InvalidateVisual(); barInventory.Rows.Clear();
-        if (engine is not null) for (int i = 0; i < engine.Bars.Count; i++) { var b = engine.Bars[i]; barInventory.Rows.Add(new JsonRow(J.Obj(("id", "B" + (i + 1)), ("x", b.X.ToString("0.00")), ("y", b.Y.ToString("0.00")), ("phi", b.Diametro.ToString("0.00"))))); }
+        if (engine is not null) for (int i = 0; i < engine.Bars.Count; i++) { var b = engine.Bars[i]; barInventory.Rows.Add(new JsonRow(J.Obj(("id", "B" + (i + 1).ToString("D2")), ("x", b.X.ToString("0.00")), ("y", b.Y.ToString("0.00")), ("phi", b.Diametro.ToString("0.00"))))); }
         foreach (var panel in stressPanels.Values) { panel.View.Section = engine; panel.View.Tendons = preview.Tendons; panel.View.Message = preview.Message; panel.View.InvalidateVisual(); }
     }
     private UIElement ActionTable(string key, JsonGrid grid, Action? onSelection = null)

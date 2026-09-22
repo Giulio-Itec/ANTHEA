@@ -9,6 +9,20 @@ internal static class ConcreteEnhancementChecks
         void Check(bool ok, string message) { if (!ok) throw new Exception("CA estensioni: " + message); count++; }
         void Reject(Action action, string message) { try { action(); } catch (ArgumentException) { count++; return; } throw new Exception("CA accetta input invalido: " + message); }
         var data = SezioneCA.DefaultData(); var settings = SectionWorkspace.Prepare(data); var input = data["input"]!.AsObject();
+        var spacing = new TensionBarSpacing();
+        var circular = new SezioneCA(input);
+        Check(Math.Abs(spacing.Maximum(circular, [0, 1, 2])!.Value - 2 * Math.PI * circular.BarRadius / circular.Bars.Count) < 1e-8, "Interasse circolare lungo arco fra adiacenti");
+        Check(spacing.Maximum(circular, [0, 2]) is null && spacing.Maximum(circular, [0]) is null, "Non collega barre non adiacenti o singola barra");
+        var tInput = (JsonObject)input.DeepClone(); tInput["shape"] = "A T";
+        var originalT = new SezioneCA(tInput);
+        tInput["flange_bottom_count"] = "4"; tInput["flange_bottom_diameter_mm"] = "20"; tInput["flange_bottom_offset_mm"] = "90";
+        var reinforcedT = new SezioneCA(tInput);
+        Check(reinforcedT.Bars.Count == originalT.Bars.Count + 4, "Fila intradosso ala aggiunge quattro barre");
+        var added = reinforcedT.Bars.Skip((int)tInput.D("top_bar_count") + (int)tInput.D("bottom_bar_count")).Take(4).ToArray();
+        Check(added.Max(b => b.X) - added.Min(b => b.X) > tInput.D("web_width_mm"), "Fila intradosso distribuita sull'intera ala");
+        Check(Math.Abs(spacing.Maximum(reinforcedT, Enumerable.Range((int)tInput.D("top_bar_count") + (int)tInput.D("bottom_bar_count"), 4).ToArray())!.Value - (added[3].X - added[0].X) / 3) < 1e-8, "Interasse fila intradosso");
+        tInput["flange_bottom_offset_mm"] = "10";
+        Reject(() => new SezioneCA(tInput), "Offset intradosso viola copriferro");
         var reportRows = JsonNode.Parse("""
             {"A":{"State":{"Response":{"CMin":-12,"CMax":1,"EcMin":-0.2,"EcMax":0.01,"SMin":-30,"SMax":100,"EsMin":-0.1,"EsMax":0.5}},"Ratio":0.7,"CrackResult":{"Ratio":0.9}},
              "B":{"State":{"Response":{"CMin":-20,"CMax":0,"EcMin":-0.4,"EcMax":0.005,"SMin":-10,"SMax":150,"EsMin":-0.05,"EsMax":0.7}},"Ratio":1.2,"CrackResult":{"Ratio":0.3}},

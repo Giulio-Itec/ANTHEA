@@ -9,8 +9,9 @@ namespace X.Core;
 /// <summary>Port of Rhino2Midas concrete checks, with documented NTC2018/Circolare2019 corrections.</summary>
 public static class Ntc2018Checks
 {
+    public static ITensionBarSpacing SpacingCalculator { get; set; } = new TensionBarSpacing();
     public static readonly string[] Exposures = ["Da scegliere", "X0", "XC1", "XC2", "XC3", "XF1", "XC4", "XD1", "XS1", "XA1", "XA2", "XF2", "XF3", "XD2", "XD3", "XS2", "XS3", "XA3", "XF4"];
-    public sealed record CrackResult(double? Width, double? Limit, double? Ratio, bool? Passed, string Status, double? EffectiveArea = null, double? EffectiveSteel = null);
+    public sealed record CrackResult(double? Width, double? Limit, double? Ratio, bool? Passed, string Status, double? EffectiveArea = null, double? EffectiveSteel = null, double? BarSpacing = null, string? SpacingSource = null);
     public static (string Kind, double? Limit) CrackRequirement(string set, string exposure, bool sensitive)
     {
         if (set == "SLE") return ("Non richiesta nella rara", null);
@@ -67,13 +68,17 @@ public static class Ntc2018Checks
         double steel = effective.Sum(r => r.Area), phi = effective.Sum(r => r.RebarSection.Diameter * r.RebarSection.Diameter) / effective.Sum(r => r.RebarSection.Diameter);
         double sigma = effective.Max(r => native.GetRebarTension(native.PsiRebar ?? 0, r));
         double c = options.S("copriferro_fessure").Trim() == "" ? input.Required("cover_mm") + input.Required("transverse_bar_diameter_mm") : options.Required("copriferro_fessure");
-        // User-specified maximum spacing avoids treating nearest-neighbour spacing as the maximum in multilayer/curved reinforcement.
-        if (options.S("spaziatura_fessure").Trim() == "") return new(null, req.Limit, null, null, "Inserire la spaziatura massima delle barre tese", aceff, steel);
-        double spacing = options.Required("spaziatura_fessure", strict: true), es = effective[0].RebarMaterial.E;
+        bool automatic = options.S("spaziatura_fessure").Trim() == "";
+        var tensileIndices = engine.Geometry.Bars.Select((b, i) => (b, i))
+            .Where(v => plane.GetStrain(new Point2d(v.b.X, v.b.Y)) > 0 && Q(new Point2d(v.b.X, v.b.Y)) >= level - 1e-8).Select(v => v.i).ToArray();
+        double? calculatedSpacing = automatic ? SpacingCalculator.Maximum(engine.Geometry, tensileIndices) : options.Required("spaziatura_fessure", strict: true);
+        if (calculatedSpacing is not double spacing || spacing <= 0)
+            return new(null, req.Limit, null, null, "Interasse automatico non determinabile: inserire un valore manuale", aceff, steel);
+        double es = effective[0].RebarMaterial.E;
         var concrete = (ConcreteMaterialEuropeanCommon)section.ConcreteMaterial;
         double width = CrackWidth(sigma, es, concrete.Ecm, concrete.Fctm, steel / aceff, phi, c, spacing, tensileDepth,
             options.S("durata", "Lunga") == "Breve", options.S("aderenza", "Migliorata") == "Migliorata", .5);
-        return new(width, req.Limit, width / req.Limit, width <= req.Limit, width <= req.Limit ? "Apertura entro limite" : "Apertura oltre limite", aceff, steel);
+        return new(width, req.Limit, width / req.Limit, width <= req.Limit, width <= req.Limit ? "Apertura entro limite" : "Apertura oltre limite", aceff, steel, spacing, automatic ? "Automatico geometrico" : "Manuale");
     }
     public static double CrackWidth(double sigmaS, double es, double ecm, double fctm, double rho, double phi, double cover, double spacing, double tensileDepth, bool shortTerm, bool ribbed, double k2)
     {

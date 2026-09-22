@@ -148,6 +148,9 @@ internal sealed partial class ConcreteWorkspace
         three.ForceToggle.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         Assert(three.View3D.VisibleActionCount == 1 && three.View3D.SelectedResistance is not null, "Sola selezionata e punto resistente");
         three.ForceToggle.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        three.Options["tutte_rd"] = true; UpdateSelection(three);
+        Assert(three.View3D.Resistances?.Count == domainResults["3D:SLU"].Values.Count(v => v.Resistance is not null), "Tutti i punti resistenti visibili");
+        three.Options["tutte_rd"] = false; UpdateSelection(three); Assert(three.View3D.Resistances is null, "Tutti i punti resistenti disattivabili");
         var export = Result;
         foreach (double opacity in new[] { 0d, .5, 1 }) { three.Transparency!.Value = 100 * (1 - opacity); Assert(Math.Abs(three.View3D.SurfaceOpacity - opacity) < 1e-12, "Trasparenza " + opacity); }
         three.Transparency!.Value = 45;
@@ -260,7 +263,12 @@ internal sealed partial class ConcreteWorkspace
         two.Form.Set("proietta", "Sì"); await Automatic();
         Assert(!Ui.Descendants<Expander>(two.Form).Any(e => Ui.Descendants<FrameworkElement>(e).Contains(two.Form.Editors["proietta"])), "Proiezione fuori dalle opzioni avanzate");
         Assert(stressPanels.Values.All(p => p.Options.Editors["n_trefoli"].Visibility == Visibility.Collapsed) && tendonOnlyControls.All(c => c.Visibility == Visibility.Collapsed), "Impostazioni trefoli nascoste senza trefoli");
+        var cachedStates = stressResults.ToDictionary(kv => kv.Key, kv => kv.Value.ToDictionary(v => v.Key, v => v.Value.State));
         rare.Options.Set("esposizione", "XC2"); await Automatic();
+        Assert(cachedStates.All(kv => kv.Value.All(v => ReferenceEquals(v.Value, stressResults[kv.Key][v.Key].State))), "Ambiente riusa identiche tensioni native");
+        rare.Options.Set("sensibilita", "Sensibile"); await Automatic();
+        Assert(cachedStates.All(kv => kv.Value.All(v => ReferenceEquals(v.Value, stressResults[kv.Key][v.Key].State))), "Sensibilita armatura non ricalcola tensioni SLE");
+        rare.Options.Set("sensibilita", "Poco sensibile"); await Automatic();
         Assert(SectionWorkspace.Sets.Skip(2).All(k => settings["sle"]![k].S("esposizione") == "XC2") && stressPanels.Values.All(p => p.Options.Get("esposizione") == "XC2"), "Opzioni SLE comuni nelle tre viste");
         rare.Options.Set("esposizione", "XC1"); await Automatic();
         Assert(three.Summary.Text.Contains("Governa:") && rare.Summary.Text.Contains("Quasi permanente") && rare.Summary.Text.Contains("η =") && shearWorst.Text.Contains("Governa:"), "Riepiloghi peggiori per dominio, SLE e taglio");

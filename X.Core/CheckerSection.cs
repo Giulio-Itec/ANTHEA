@@ -52,7 +52,7 @@ public sealed class CheckerSection
         var section = new ReinforcedConcreteSection(new Shape2d(new Polygon2d(geometry.Outline.Select(p => new Point2d(p[0], p[1])).ToArray())), concrete);
         for (int i = 0; i < geometry.Bars.Count; i++)
         {
-            var b = geometry.Bars[i]; ValidateRebarPosition(geometry, section, b.X, b.Y, b.Diametro / 2, "B" + (i + 1));
+            var b = geometry.Bars[i]; ValidateRebarPosition(geometry, section, b.X, b.Y, b.Diametro / 2, "B" + (i + 1).ToString("D2"));
             section.AddRebars([new ReinforcedConcreteRebar(new RebarSectionCircular(b.Diametro, steel), new Point2d(b.X, b.Y))]);
         }
         foreach (var t in workspace.Array("trefoli"))
@@ -60,7 +60,7 @@ public sealed class CheckerSection
             double area = t!.Required("area", strict: true), ep = t.Required("Ep", strict: true), fpy = t.Required("fpyk", strict: true), fpu = t.Required("fpk", strict: true);
             double strain = t.Required("eps_u", strict: true) / 1000, sigma = t.Required("sigma0");
             if (fpu < fpy || strain <= fpy / ep || sigma >= fpu) throw new ArgumentException("Trefolo: controllare fpk, fpyk, εpu e σp0.");
-            var material = new SteelMaterial(t.S("id"), ep, fpy, fpu, strain, SteelMaterial.StressStrainCurveType.ElasticHardening, SteelMaterial.SteelTypes.Tendon);
+            var material = new SteelMaterial(t.S("id"), ep, fpy, fpu, strain, t.S("diagramma", "Incrudente") == "Elastoplastico" ? SteelMaterial.StressStrainCurveType.ElasticPerfectPlastic : SteelMaterial.StressStrainCurveType.ElasticHardening, SteelMaterial.SteelTypes.Tendon);
             double x = SectionWorkspace.Number(t.S("x"), "x trefolo"), y = SectionWorkspace.Number(t.S("y"), "y trefolo"), radius = Math.Sqrt(area / Math.PI);
             ValidateRebarPosition(geometry, section, x, y, radius, t.S("id"));
             section.AddRebars([new ReinforcedConcreteRebar(new RebarSectionCircular(2 * radius, material), new Point2d(x, y), sigma)]);

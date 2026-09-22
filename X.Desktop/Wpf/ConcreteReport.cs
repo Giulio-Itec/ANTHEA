@@ -30,6 +30,7 @@ internal sealed partial class ConcreteWorkspace
                     foreach (var row in panel.Grid.Items.OfType<JsonRow>().Where(row => row.Values.B("visible", true) && (!panel.Options.B("solo_selezionata") || row.Values.S("id") == selected)))
                         try { points.Add((row.Values.S("id"), CheckerSection.Point(checker3D[panel.Key].Section.Force(ReadAction(row))), checks?.GetValueOrDefault(row.Values.S("id"))?.Utilization is <= 1)); } catch (ArgumentException) { /* Invalid actions remain documented in the results table. */ }
                     view.Ratios = checks?.ToDictionary(kv => kv.Key, kv => kv.Value.Utilization);
+                    view.Resistances = panel.Options.B("tutte_rd") ? panel.Grid.Items.OfType<JsonRow>().Where(r => r.Values.B("visible", true)).Select(r => (Id: r.Values.S("id"), Check: checks?.GetValueOrDefault(r.Values.S("id")))).Where(r => r.Check?.Resistance is not null).ToDictionary(r => r.Id, r => r.Check!.Resistance!.Value) : null;
                     view.SetActions(points, selected, selected is null ? null : checks?.GetValueOrDefault(selected)?.Resistance); view.SurfaceOpacity = 1 - panel.Options.D("trasparenza", 35) / 100; view.UpdateLayout();
                     images.Add(new("Dominio 3D " + SectionWorkspace.Label(panel.Key) + " in vista isometrica con filtri e livelli correnti", Ui.Snapshot(view), category));
                 }

@@ -61,6 +61,7 @@ public sealed class SezioneCA
             Input.Required("height_mm",strict:true);if(Shape=="Rettangolare")Input.Required("width_mm",strict:true);
             else
             {
+                if (Input.ContainsKey("flange_bottom_count")) { Count("flange_bottom_count", 0); if (Input.D("flange_bottom_count") == 1) throw new ArgumentException("Fila intradosso: indicare 0 oppure almeno 2 barre."); }
                 Input.Required("flange_width_mm",strict:true);Input.Required("web_width_mm",strict:true);Input.Required("flange_thickness_mm",strict:true);
                 if(V("web_width_mm")>V("flange_width_mm")||V("flange_thickness_mm")>=V("height_mm"))throw new ArgumentException("Geometria a T non valida.");
             }
@@ -118,6 +119,18 @@ public sealed class SezioneCA
         double ty=h/2-cover-transverse-tp/2-CentroidY,by=-h/2+cover+transverse+bp/2-CentroidY;
         if(ty<=by)throw new ArgumentException("Copriferro e armature non lasciano una distanza utile tra gli strati.");
         Layer((int)V("top_bar_count"),tw,ty,tp);Layer((int)V("bottom_bar_count"),bw,by,bp);
+        if (Shape == "A T" && Input.D("flange_bottom_count") > 0)
+        {
+            double number = Input.Required("flange_bottom_count", 2);
+            if (number != Math.Truncate(number) || number > 1000) throw new ArgumentException("Numero barre intradosso ala non valido.");
+            int count = (int)number;
+            double diameter = Input.Required("flange_bottom_diameter_mm", strict: true);
+            double flangeOffset = Input.Required("flange_bottom_offset_mm", strict: true);
+            if (flangeOffset < cover + transverse + diameter / 2 || flangeOffset + diameter / 2 >= V("flange_thickness_mm"))
+                throw new ArgumentException("Fila intradosso soletta: offset all’asse incompatibile con copriferro o spessore ala.");
+            Layer(count, V("flange_width_mm") / 2 - cover - transverse - diameter / 2,
+                h / 2 - V("flange_thickness_mm") + flangeOffset - CentroidY, diameter);
+        }
         int sides=(int)V("side_bar_count_per_side");if(sides==0)return;
         double phi=V("side_bar_diameter_mm"),offset=cover+transverse+phi/2,sx=halfSide-offset,low=-h/2+offset-CentroidY,high=sideTop-offset-CentroidY;
         if(sx<=0||high<=low)throw new ArgumentException("Non c'è spazio sufficiente per le barre laterali indicate.");
