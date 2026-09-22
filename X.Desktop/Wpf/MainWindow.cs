@@ -268,10 +268,15 @@ public sealed partial class MainWindow : Window
     private void ExportReport()
     {
         Commit(); if (editor?.HasResults != true || editor.Busy) { MessageBox.Show(this, editor?.Module == "str_palo" ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi." : "Completare il calcolo prima di esportare il report."); return; }
-        if (editor.Module == PaloOrizzontale.Module)
+        if (editor.Module is PaloOrizzontale.Module or MicropaloOrizzontale.Module)
         {
-            var save = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = "Relazione_palo_orizzontale.docx" };
-            if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []); return;
+            var save = new SaveFileDialog {
+                Filter = "Documento Word|*.docx",
+                FileName = editor.Module == MicropaloOrizzontale.Module
+                    ? "Relazione_micropalo_orizzontale.docx" : "Relazione_palo_orizzontale.docx"
+            };
+            if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []);
+            return;
         }
         var list = new StackPanel { Margin = new Thickness(16) }; var checks = new Dictionary<string, CheckBox>();
         var saved = editor.Data["workspace_ca"]?["report_sezioni"] as JsonArray;
