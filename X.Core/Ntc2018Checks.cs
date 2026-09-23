@@ -63,7 +63,7 @@ public static class Ntc2018Checks
             Add("σct,lim", limit, "MPa", req.Kind == "Decompressione" ? "0" : "fctm / 1,2", "σct,max ≤ σct,lim; non viene eseguita una divisione per limite nullo.");
             if (req.Kind != "Decompressione") Add("Divisore formazione", 1.2, "−", "Coefficiente usato per fctm / 1,2");
             bool ok = maximum <= limit;
-            return new(null, null, null, ok, req.Kind + (ok ? ": soddisfatta" : ": non soddisfatta") + $" · σct,max={maximum:0.000} MPa; limite={limit:0.000}") { Details = details.ToArray() };
+            return new(null, null, null, ok, req.Kind + (ok ? ": soddisfatta" : ": non soddisfatta") + $" · σct,max={maximum:0.00} MPa; limite={limit:0.00}") { Details = details.ToArray() };
         }
         var native = state.Native; var section = engine.Section;
         if (workspace.Array("trefoli").Any()) return new(null, req.Limit, null, null, "Apertura CAP: modello aderenza/decompressione da definire") { Details = details.ToArray() };

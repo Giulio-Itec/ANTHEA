@@ -232,14 +232,14 @@ public sealed class SezioneCA
         for(int i=0;i<Bars.Count;i++)for(int j=i+1;j<Bars.Count;j++)spacing=Math.Min(spacing,Hypot(Bars[i].X-Bars[j].X,Bars[i].Y-Bars[j].Y)-(Bars[i].Diametro+Bars[j].Diametro)/2);
         bool ok=Inside(curve,axial,effective),axialOk=PureTension()-1e-9<=axial&&axial<=PureCompression()+1e-9;
         var checks=new JsonArray();void Check(string name,bool pass,string detail)=>checks.Add(new JsonArray(name,pass,detail));
-        Check("Pressoflessione SLU",ok,$"eta = {ratio:F3}; lambda = "+(double.IsInfinity(factor)?"infinito":$"{factor:F3}"));Check("Campo di resistenza assiale",axialOk,$"{PureTension():F1} <= NEd <= {PureCompression():F1} kN");
+        Check("Pressoflessione SLU",ok,$"eta = {ratio:F2}; lambda = "+(double.IsInfinity(factor)?"infinito":$"{factor:F2}"));Check("Campo di resistenza assiale",axialOk,$"{PureTension():F1} <= NEd <= {PureCompression():F1} kN");
         if(Input.B("apply_pile_requirements"))
         {
-            Check("Armatura longitudinale minima palo",reinforcement+1e-12>=minRatio,$"rho = {100*reinforcement:F3}% (min {100*minRatio:F1}%)");
+            Check("Armatura longitudinale minima palo",reinforcement+1e-12>=minRatio,$"rho = {100*reinforcement:F2}% (min {100*minRatio:F1}%)");
             Check("Diametro armatura trasversale palo",V("transverse_bar_diameter_mm")>=8,$"phi_t = {V("transverse_bar_diameter_mm"):F0} mm (min 8 mm)");
             double maxSpacing=(Input.B("dissipative_zone")?6:8)*Bars.Min(b=>b.Diametro);Check("Passo armatura trasversale palo",V("transverse_spacing_mm")<=maxSpacing+1e-9,$"s = {V("transverse_spacing_mm"):F0} mm (max {maxSpacing:F0} mm)");
         }
-        else Check("Rapporto geometrico di armatura",true,$"rho = {100*reinforcement:F3}% (solo informativo)");
+        else Check("Rapporto geometrico di armatura",true,$"rho = {100*reinforcement:F2}% (solo informativo)");
         Check("Spaziatura libera indicativa",spacing>0,$"distanza libera minima = {spacing:F1} mm");
         if(Input.B("apply_pile_requirements")&&Input.B("dissipative_zone"))Check("Tensione normale media in zona dissipativa",axial*1000/AreaCls<=.45*Fcd+1e-9,$"sigma_m = {axial*1000/AreaCls:F2} MPa; 0.45 fcd = {.45*Fcd:F2} MPa");
         if(V("fck_mpa")>50)warnings.Add("Calcestruzzo ad alta resistenza: deformazioni ed esponente del diagramma adeguati automaticamente.");

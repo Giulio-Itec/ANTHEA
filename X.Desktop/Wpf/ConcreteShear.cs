@@ -157,7 +157,7 @@ internal sealed partial class ConcreteWorkspace
         try { shearView.Section = new SezioneCA(Input); } catch (ArgumentException) { shearView.Section = null; }
         shearView.InvalidateVisual();
         if (shearGrid?.SelectedItem is not JsonRow row) { shearDetail.Text = "Inserire o selezionare una combinazione N–Vx–Vy."; return; }
-        shearDetail.Text = $"{row.Values.S("nome")} · {ShearOptions.S("modello")}\nN = {row.Values.S("N")} kN (compressione negativa)\nVx / Vy = {row.Values.S("Vx")} / {row.Values.S("Vy")} kN\n\n";
+        shearDetail.Text = $"{row.Values.S("nome")} · {ShearOptions.S("modello")}\nN = {EngineeringFormat.Number(J.Number(row.Values["N"]))} kN (compressione negativa)\nVx / Vy = {EngineeringFormat.Number(J.Number(row.Values["Vx"]))} / {EngineeringFormat.Number(J.Number(row.Values["Vy"]))} kN\n\n";
         if (!shearResults.TryGetValue(row.Values.S("id"), out var checks)) { shearDetail.Text += row.Values.S("esito", "Da calcolare"); return; }
         for (int i = 0; i < checks.Length; i++)
         {

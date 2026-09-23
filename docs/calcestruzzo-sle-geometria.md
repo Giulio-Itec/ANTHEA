@@ -79,8 +79,8 @@ espliciti già presenti.
 ## Dettaglio diagnostico della fessurazione
 
 La scheda «Dettagli combinazione → Fessurazione · passaggi» e il report con
-opzione dettagli condividono un riepilogo di massimo 30 valori, a sei cifre
-significative: geometria efficace, materiali, coefficienti, deformazioni,
+opzione dettagli condividono un riepilogo di massimo 30 valori, a due decimali
+(notazione scientifica per valori molto piccoli): geometria efficace, materiali, coefficienti, deformazioni,
 distanze fra fessure, apertura e tasso di lavoro. Ogni riga comprende unità e
 una breve descrizione o formula, con riferimenti alla Circolare 2019
 § C4.1.2.2.4.5. Decompressione e formazione mostrano soltanto i valori pertinenti.
@@ -179,6 +179,13 @@ il riepilogo non costituisce una nuova validazione normativa del metodo.
   non implementate; queste conservano l'avviso esplicito.
 
 Suite numerica: `dotnet run --project X.Verifiche -c Release -- --checker`.
+
+Campi e tabelle del modulo CA mostrano al massimo due decimali per coordinate,
+geometria, materiali, tensioni e azioni. In modifica resta disponibile il valore
+completo: il solo cambio di focus non arrotonda i dati e non avvia ricalcoli.
+Calcoli, salvataggi e scambi numerici conservano la precisione originale;
+le deformazioni molto piccole restano leggibili in notazione scientifica.
+
 Test mirato WPF: `dotnet run --project X.Desktop -c Release -- --smoke-ca-features verifiche_ca_features`.
 Quest'ultimo confronta seriale/parallelo lineare e non lineare, controlla
 l'identità dei risultati al cambio ambiente, le nuove geometrie, le staffe,

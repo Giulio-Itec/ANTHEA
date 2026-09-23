@@ -72,7 +72,7 @@ public static class CrackCalculationSummary
         return selected.ToArray();
     }
 
-    public static string Number(double? value) => value?.ToString("G6", CultureInfo.GetCultureInfo("it-IT")) ?? "—";
+    public static string Number(double? value) => EngineeringFormat.Number(value);
 
     public static string Format(Ntc2018Checks.CrackResult? result, string fallback = "Fessurazione non calcolata")
     {
@@ -80,7 +80,7 @@ public static class CrackCalculationSummary
         var text = new StringBuilder();
         text.AppendLine(result.Status);
         text.AppendLine("Riepilogo essenziale · NTC 2018 e Circolare 2019 § C4.1.2.2.4.5");
-        text.AppendLine("Fino a 6 cifre significative; deformazioni adimensionali. Traccia completa nel JSON.");
+        text.AppendLine("Due decimali; notazione scientifica per valori molto piccoli. Deformazioni adimensionali. Traccia completa nel JSON.");
         text.AppendLine();
         foreach (var detail in Values(result))
             text.AppendLine($"{detail.Symbol} = {Number(detail.Value)} {detail.Unit} · {detail.Expression}");

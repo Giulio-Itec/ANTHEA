@@ -57,6 +57,7 @@ internal static class Ui
     internal static Window Dialog(DependencyObject owner, string title, UIElement body, double width = 500, double height = 400)
     {
         var dialog = new Window { Owner = Window.GetWindow(owner), Title = title, Content = body, Width = width, Height = height, WindowStartupLocation = WindowStartupLocation.CenterOwner };
+        dialog.SetValue(NumericPresentation.EnabledProperty, NumericPresentation.Enabled(owner));
         DisplayAdaptation.Attach(dialog);
         return dialog;
     }
@@ -141,6 +142,8 @@ internal sealed class InputForm : ChainedScrollViewer
     private readonly Action<string> changed;
     private bool displayOnly;
     private readonly HashSet<string> drafts = [];
+    private readonly Dictionary<string, Func<string>> rawText = new();
+    private readonly Dictionary<string, Action<string>> setRawText = new();
     internal readonly Dictionary<string, FrameworkElement> Editors = new();
     private readonly Dictionary<string, List<FrameworkElement>> rows = new();
     internal InputForm(JsonObject values, IEnumerable<Field> fields, Action<string> changed, bool compact = false, bool wideChoices = false, bool symbolColumns = false)
@@ -169,11 +172,28 @@ internal sealed class InputForm : ChainedScrollViewer
             else
             {
                 var t = new TextBox { Text = values.S(f.Key), IsReadOnly = f.ReadOnly, TextAlignment = symbolColumns ? TextAlignment.Center : TextAlignment.Right, Background = f.ReadOnly ? Ui.Brush("#EAF2FA") : Ui.Brush("#F8FAFC") };
+                string raw = t.Text;
+                bool formatting = false;
+                t.TextChanged += (_, _) => { if (!formatting) raw = t.Text; };
                 if (!f.ReadOnly)
                 {
                     t.TextChanged += (_, _) => { if (displayOnly) return; if ((bool)GetValue(CommitOnFocusLossProperty) && t.IsKeyboardFocusWithin) drafts.Add(f.Key); else Store(f.Key, t.Text); };
                     t.LostKeyboardFocus += (_, _) => { if (drafts.Remove(f.Key)) Store(f.Key, t.Text); };
                 }
+                void Present(bool edit)
+                {
+                    if (!NumericPresentation.Enabled(t)) return;
+                    bool previous = displayOnly;
+                    formatting = true; displayOnly = true;
+                    try { t.Text = edit ? raw : NumericPresentation.Format(raw, f.Key); }
+                    finally { displayOnly = previous; formatting = false; }
+                }
+                rawText[f.Key] = () => raw;
+                setRawText[f.Key] = value => { raw = value; t.Text = value; if (!t.IsKeyboardFocusWithin) Present(false); };
+                t.TextChanged += (_, _) => { if (!formatting && !t.IsKeyboardFocusWithin) Present(false); };
+                t.Loaded += (_, _) => Present(t.IsKeyboardFocusWithin);
+                t.GotKeyboardFocus += (_, _) => Present(true);
+                t.LostKeyboardFocus += (_, _) => Present(false);
                 editor = t;
             }
             editor.Margin = new Thickness(2, 3, 2, 3); editor.MinHeight = compact ? 22 : 27; editor.ToolTip = f.Label + (f.Unit != "" ? " [" + f.Unit + "]" : "");
@@ -231,13 +251,13 @@ internal sealed class InputForm : ChainedScrollViewer
     {
         foreach (var key in drafts.ToArray()) { drafts.Remove(key); if (Editors[key] is TextBox { IsReadOnly: false } text) Store(key, text.Text); }
     }
-    internal string Get(string key) => Editors[key] switch { TextBox t => t.Text, ComboBox c => c.SelectedItem?.ToString() ?? "", _ => "" };
+    internal string Get(string key) => Editors[key] switch { TextBox t => rawText.TryGetValue(key, out var raw) ? raw() : t.Text, ComboBox c => c.SelectedItem?.ToString() ?? "", _ => "" };
     internal void Set(string key, string value, bool display = false)
     {
         if (!Editors.TryGetValue(key, out var editor)) return;
         drafts.Remove(key);
         displayOnly = display;
-        try { if (editor is TextBox t) { t.Text = value; if (!display && values.S(key) != value) Store(key, value); } else if (editor is ComboBox c) c.SelectedItem = value; }
+        try { if (editor is TextBox) { setRawText[key](value); if (!display && values.S(key) != value) Store(key, value); } else if (editor is ComboBox c) c.SelectedItem = value; }
         finally { displayOnly = false; }
     }
     internal void Enable(string key, bool enabled, bool dim = false)
@@ -345,7 +365,7 @@ internal sealed class JsonGrid : DataGrid
             DataGridColumn column;
             if (f.Bool) column = new DataGridCheckBoxColumn { Binding = binding };
             else if (f.Choices is not null) column = new DataGridComboBoxColumn { ItemsSource = f.Choices.Where(v => !string.IsNullOrWhiteSpace(v)).Distinct().ToArray(), SelectedItemBinding = binding };
-            else column = new DataGridTextColumn { Binding = binding, ElementStyle = Ui.NumericTextStyle(), EditingElementStyle = Ui.NumericTextStyle(true) };
+            else column = new NumericDisplayColumn { Key = f.Key, Binding = binding, ElementStyle = Ui.NumericTextStyle(), EditingElementStyle = Ui.NumericTextStyle(true) };
             column.Header = f.Label; column.SortMemberPath = f.Key; column.IsReadOnly = f.ReadOnly; column.MinWidth = f.Bool ? 60 : 65;
             column.Width = stretch ? new DataGridLength(1, DataGridLengthUnitType.Star) : new DataGridLength(f.Choices is not null ? 140 : 112);
             Columns.Add(column);

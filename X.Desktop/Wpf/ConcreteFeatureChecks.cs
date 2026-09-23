@@ -25,6 +25,32 @@ internal sealed partial class ConcreteWorkspace
     {
         int count = 0;
         void Check(bool value, string message) { if (!value) throw new Exception(message + " · " + status.Text); count++; }
+        var numericData = J.Obj(("x", "123.456789"), ("nome", "001"));
+        int numericChanges = 0;
+        var numericForm = new InputForm(numericData, [new("x", "Posizione", "mm"), new("nome", "Nome")], _ => numericChanges++);
+        numericForm.SetValue(InputForm.CommitOnFocusLossProperty, true);
+        var numericGrid = new JsonGrid([new("x", "Posizione"), new("nome", "Nome")]);
+        numericGrid.Rows.Add(new JsonRow(numericData));
+        var leaveInput = Ui.Button("Focus", () => { });
+        var numericWindow = Ui.Dialog(this, "Verifica precisione", Ui.Stack(numericForm, leaveInput, numericGrid));
+        try
+        {
+            numericWindow.Show(); numericWindow.UpdateLayout();
+            var numericEditor = (System.Windows.Controls.TextBox)numericForm.Editors["x"];
+            string Rounded(double n) => n.ToString("0.##", System.Globalization.CultureInfo.CurrentCulture);
+            Check(numericEditor.Text == Rounded(123.46) && numericForm.Get("x") == "123.456789" && numericChanges == 0, "Input arrotondato solo nella presentazione");
+            Check(((System.Windows.Controls.TextBlock)numericGrid.Columns[0].GetCellContent(numericGrid.Rows[0])).Text == Rounded(123.46), "Coordinate tabella a due decimali");
+            Check(((System.Windows.Controls.TextBox)numericForm.Editors["nome"]).Text == "001", "Identificativi numerici non arrotondati");
+            numericEditor.Focus(); leaveInput.Focus();
+            Check(numericData.S("x") == "123.456789" && numericChanges == 0, "Cambio focus conserva precisione senza ricalcolo");
+            numericEditor.Focus(); numericEditor.Text = "124.56789"; leaveInput.Focus();
+            Check(numericData.S("x") == "124.56789" && numericEditor.Text == Rounded(124.57) && numericChanges == 1, "Modifica salva valore completo e mostra due decimali");
+            numericForm.Set("x", "124.57");
+            Check(numericForm.Get("x") == "124.57" && numericData.S("x") == "124.57", "Aggiornamento uguale al testo arrotondato non mantiene dati obsoleti");
+            Check(NumericPresentation.Format("-0.000000001", "x") == "0", "Posizione quasi nulla senza zero negativo");
+            Check(NumericPresentation.Format("0.000123456", "strain").Contains("E"), "Deformazioni piccole leggibili");
+        }
+        finally { numericWindow.Close(); }
         async Task Update()
         {
             await CalculateAllAsync();

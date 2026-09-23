@@ -55,6 +55,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     {
         Data = data; settings = SectionWorkspace.Prepare(Data); Background = Ui.Bg;
         SetValue(InputForm.CommitOnFocusLossProperty, true);
+        SetValue(NumericPresentation.EnabledProperty, true);
         PrepareCoefficients(); PrepareStirrups();
         foreach (string key in SectionWorkspace.Sets)
         {
