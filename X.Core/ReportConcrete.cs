@@ -1,5 +1,6 @@
 using System.IO.Compression;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Xml.Linq;
 
@@ -153,6 +154,17 @@ public static class ReportConcrete
             {
                 if (outcome?["State"] is not JsonObject state) continue;
                 Subheading("Dettagli " + SectionWorkspace.Label(family) + " " + Name(family, id));
+                if (outcome?["CrackResult"]?["Details"] is JsonArray crackDetails && crackDetails.Count > 0)
+                {
+                    Subheading("Fessurazione · coefficienti e passaggi");
+                    P("Riepilogo essenziale: massimo 30 valori, fino a 6 cifre significative. NTC 2018 e Circolare 2019 § C4.1.2.2.4.5. Deformazioni adimensionali; traccia completa nel JSON.");
+                    var compactCrack = outcome!["CrackResult"]!.Deserialize<Ntc2018Checks.CrackResult>()!;
+                    Table(["Parametro", "Valore / unità", "Formula / origine"], CrackCalculationSummary.Values(compactCrack).Select(v => new[] {
+                        v.Symbol,
+                        CrackCalculationSummary.Number(v.Value) + " " + v.Unit,
+                        v.Expression
+                    }));
+                }
                 P("Deformazioni native Checker incrementali, senza εp iniziale dei trefoli. n trefoli è riferito al primo Ep presente; con moduli diversi il coefficiente φp resta comune.");
                 Table(["Barra / trefolo", "σ [MPa]", "ε [‰]"], state.Array("tensioni_barre").Select((v, i) => new[] { "Armatura " + (i + 1), F(v), F(state.Array("BarStrains").ElementAtOrDefault(i)) }));
                 Table(["Vertice CLS", "x [mm]", "y [mm]", "σ [MPa]", "ε [‰]"], state.Array("ConcreteVertices").Select(v => new[] { v.S("Id"), F(v?["X"]), F(v?["Y"]), F(v?["Stress"]), F(v?["Strain"]) }));
