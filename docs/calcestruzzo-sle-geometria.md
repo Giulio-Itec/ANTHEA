@@ -76,6 +76,30 @@ L'interfaccia non aggiunge nuove verifiche CAP: apertura delle fessure con
 trefoli e identificazione SLE dei trefoli con σp0 nullo conservano i limiti
 espliciti già presenti.
 
+## Dettaglio diagnostico della fessurazione
+
+La scheda «Dettagli combinazione → Fessurazione · passaggi» e il report con
+opzione dettagli condividono un riepilogo di massimo 30 valori, a sei cifre
+significative: geometria efficace, materiali, coefficienti, deformazioni,
+distanze fra fessure, apertura e tasso di lavoro. Ogni riga comprende unità e
+una breve descrizione o formula, con riferimenti alla Circolare 2019
+§ C4.1.2.2.4.5. Decompressione e formazione mostrano soltanto i valori pertinenti.
+La selezione modifica esclusivamente la presentazione, non i calcoli.
+Il testo resta selezionabile e copiabile; nel JSON rimane la traccia completa
+non arrotondata, incluse le singole barre e i passaggi intermedi.
+
+k₂ viene selezionato per ogni combinazione considerando tutte le armature
+ordinarie, comprese quelle esterne alla fascia efficace: almeno una tensione
+negativa determina k₂ = 0,50 (flessione); in assenza di barre compresse si usa
+k₂ = 1,00 (trazione). Le barre a tensione esattamente nulla non sono compresse.
+Il riepilogo riporta il criterio; i conteggi restano nel JSON. I limiti del modello di area
+efficace per sezione interamente tesa rimangono espliciti.
+Le altre scelte restano visibili: fct,eff è assunto uguale a fctm,
+σs è il massimo sulle barre efficaci e
+αe = Es/Ecm è distinto da n dell’analisi con viscosità. Queste sono assunzioni
+del percorso implementato, da controllare nel confronto con altri calcoli;
+il riepilogo non costituisce una nuova validazione normativa del metodo.
+
 ## Verifica
 
 Suite numerica: `dotnet run --project X.Verifiche -c Release -- --checker`.
