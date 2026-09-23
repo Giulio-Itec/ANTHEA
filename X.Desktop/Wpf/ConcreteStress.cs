@@ -17,6 +17,7 @@ internal sealed partial class ConcreteWorkspace
     {
         internal readonly ConcreteSectionViewport View = new();
         internal readonly TextBlock Detail = Ui.Text("Selezionare una combinazione", 12);
+        internal readonly TextBox CrackDetail = new() { IsReadOnly = true, AcceptsReturn = true, TextWrapping = TextWrapping.Wrap, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, BorderThickness = new Thickness(0), FontSize = 12, Padding = new Thickness(8) };
         internal readonly TextBlock Summary = Ui.Text("Verifiche da calcolare", 12);
         internal readonly JsonGrid Bars = new([new("id", "Barra", ReadOnly: true), new("stress", "σs [MPa]", ReadOnly: true), new("strain", "ε [‰]", ReadOnly: true), new("type", "Stato", ReadOnly: true)], true);
         internal readonly JsonGrid Concrete = new([new("id", "Vertice", ReadOnly: true), new("x", "x [mm]", ReadOnly: true), new("y", "y [mm]", ReadOnly: true), new("stress", "σc [MPa]", ReadOnly: true), new("strain", "εc [‰]", ReadOnly: true)], true);
@@ -66,6 +67,7 @@ internal sealed partial class ConcreteWorkspace
             Ui.Tab(details, "Riepilogo", Scroller(panel.Detail));
             Ui.Tab(details, "Barre e trefoli", WithFilters(panel.Bars));
             Ui.Tab(details, "Calcestruzzo", WithFilters(panel.Concrete));
+            Ui.Tab(details, "Fessurazione · passaggi", panel.CrackDetail);
             panel.View.BarSelected += index => { if (index < panel.Bars.Rows.Count) { details.SelectedIndex = 1; panel.Bars.SelectedIndex = index; panel.Bars.ScrollIntoView(panel.Bars.SelectedItem); } };
             panel.Bars.SelectionChanged += (_, _) => { panel.View.SelectedBar = (panel.Bars.SelectedItem as JsonRow)?.Values.S("id") ?? ""; panel.View.InvalidateVisual(); };
             var verificationTabs = new TabControl(); Ui.Tab(verificationTabs, "Dettagli combinazione", details); Ui.Tab(verificationTabs, "Riepilogo verifiche", Scroller(panel.Summary));
@@ -136,6 +138,7 @@ internal sealed partial class ConcreteWorkspace
         using var barsRefresh = panel.Bars.Rows.DeferRefresh();
         using var concreteRefresh = panel.Concrete.Rows.DeferRefresh();
         var row = panel.Grid.SelectedItem as JsonRow; var outcome = row is null ? null : stressResults.GetValueOrDefault(key)?.GetValueOrDefault(row.Values.S("id"));
+        panel.CrackDetail.Text = (row is null ? "" : SectionWorkspace.Label(key) + " · " + row.Values.S("nome") + "\n\n") + CrackCalculationSummary.Format(outcome?.CrackResult, outcome?.Cracking ?? "Selezionare una combinazione calcolata.");
         panel.View.Stress = outcome?.State; panel.View.InvalidateVisual(); panel.Bars.Rows.Clear(); panel.Concrete.Rows.Clear();
         if (outcome?.State is CheckerStressState state)
         {
@@ -145,6 +148,7 @@ internal sealed partial class ConcreteWorkspace
             if (key == "SLE") limits += $"\nσs ≤ {state.SteelStressLimit:0.00} MPa (armatura ordinaria)";
             panel.Detail.Text = $"{SectionWorkspace.Label(key)} · {options.S("modello")}\n{row.Values.S("nome")} · assi {options.S("assi")}\nN = {force.N:0.00} kN\nMx / My = {force.Mx:0.00} / {force.My:0.00} kNm\n\nTENSIONI · NTC 2018\n{limits}\nησ = {outcome.Ratio?.ToString("0.00") ?? "—"}\n{outcome.Status}\n" + ResponseSummary(state.Response, "STATO ALL’AZIONE APPLICATA") +
                 $"\n\nFESSURAZIONE\n{options.S("esposizione")} · armatura {options.S("sensibilita").ToLowerInvariant()}\nCarico di durata {options.S("durata").ToLowerInvariant()}\n{outcome.Cracking}\nwk / limite = {outcome.CrackResult?.Width?.ToString("0.00") ?? "—"} / {outcome.CrackResult?.Limit?.ToString("0.00") ?? "—"} mm\nηw = {outcome.CrackResult?.Ratio?.ToString("0.00") ?? "—"}\nAc,eff = {outcome.CrackResult?.EffectiveArea?.ToString("0.00") ?? "—"} mm²\nAs,eff = {outcome.CrackResult?.EffectiveSteel?.ToString("0.00") ?? "—"} mm²";
+            panel.Detail.Text += "\nCoefficienti e formule: scheda «Fessurazione · passaggi» (testo selezionabile e copiabile).";
             panel.Detail.Text += $"\nInterasse barre tese = {EngineeringFormat.Number(outcome.CrackResult?.BarSpacing)} mm · {outcome.CrackResult?.SpacingSource}";
             int ordinary = panel.View.Section?.Bars.Count ?? 0;
             panel.Detail.Text = panel.Detail.Text.Replace("TENSIONI · NTC 2018", "TENSIONI · " + settings.S("normativa"));

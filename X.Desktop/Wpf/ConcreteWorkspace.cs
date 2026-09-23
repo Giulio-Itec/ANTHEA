@@ -195,7 +195,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         try { foreach (var row in actions.Values.SelectMany(r => r)) foreach (string key in new[] { "eta3d", "eta2d", "esito3d", "esito2d", "sigma_c", "sigma_s", "eta_sigma", "stress_status", "wk" }) row.Output(key, key.StartsWith("esito") || key == "stress_status" ? "Da calcolare" : key == "wk" ? "Da calcolare" : "—"); }
         finally { synchronizing = false; }
         foreach (var panel in domainPanels) { panel.View3D?.SetMesh(null); panel.Plot.Series = []; panel.Plot.Segments = []; panel.Plot.Markers = []; panel.Plot.VerificationSegments = []; panel.Plot.InvalidateVisual(); panel.Detail.Text = "Dati modificati · aggiornamento automatico in attesa"; }
-        foreach (var panel in stressPanels.Values) { panel.View.Stress = null; panel.View.InvalidateVisual(); panel.Detail.Text = "Nessun risultato aggiornato"; panel.Bars.Rows.Clear(); panel.Concrete.Rows.Clear(); }
+        foreach (var panel in stressPanels.Values) { panel.View.Stress = null; panel.View.InvalidateVisual(); panel.Detail.Text = "Nessun risultato aggiornato"; panel.CrackDetail.Text = "Dati modificati: passaggi in attesa di aggiornamento."; panel.Bars.Rows.Clear(); panel.Concrete.Rows.Clear(); }
         if (geometryChanged) RefreshPreview(); RefreshSummary(); status.Text = "Modifiche acquisite · aggiornamento automatico in attesa…"; Modified?.Invoke(); QueueCalculation();
     }
     private void QueueCalculation()
