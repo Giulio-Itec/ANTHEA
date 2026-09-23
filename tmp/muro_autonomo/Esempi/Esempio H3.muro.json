@@ -1,0 +1,19 @@
+{
+  "Format": "ANTHEA.Muro",
+  "Version": 1,
+  "Title": "Esempio dimostrativo \u00B7 H = 3 m",
+  "Values": {
+    "H": "3",
+    "T": "0.3",
+    "D": "0.4",
+    "Toe": "0.8",
+    "Heel": "1.9",
+    "Gc": "25",
+    "Gs": "18",
+    "Phi": "30",
+    "Q": "10",
+    "Gf": "19",
+    "Phif": "34",
+    "Delta": "26"
+  }
+}

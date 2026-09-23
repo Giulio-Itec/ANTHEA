@@ -1,0 +1,101 @@
+OK Rankine phi 30
+OK Larghezza base
+OK Peso caratteristico
+OK Spinta terre + q sul piano H+t
+OK Momento stabilizzante
+OK Momento ribaltante
+OK Momento fusto H
+OK Taglio fusto H
+OK 8 combinazioni distinte
+OK Nq phi 34
+OK C1 equilibrio momenti
+OK C1 coefficiente scorrimento
+OK C1 coefficiente ribaltamento
+OK C1 integrale pressione = N
+OK C1 integrale momento = Nx
+OK C1 flessione mensola valle
+OK C1 flessione mensola monte
+OK C2 equilibrio momenti
+OK C2 coefficiente scorrimento
+OK C2 coefficiente ribaltamento
+OK C2 integrale pressione = N
+OK C2 integrale momento = Nx
+OK C2 flessione mensola valle
+OK C2 flessione mensola monte
+OK C3 equilibrio momenti
+OK C3 coefficiente scorrimento
+OK C3 coefficiente ribaltamento
+OK C3 integrale pressione = N
+OK C3 integrale momento = Nx
+OK C3 flessione mensola valle
+OK C3 flessione mensola monte
+OK C4 equilibrio momenti
+OK C4 coefficiente scorrimento
+OK C4 coefficiente ribaltamento
+OK C4 integrale pressione = N
+OK C4 integrale momento = Nx
+OK C4 flessione mensola valle
+OK C4 flessione mensola monte
+OK C5 equilibrio momenti
+OK C5 coefficiente scorrimento
+OK C5 coefficiente ribaltamento
+OK C5 integrale pressione = N
+OK C5 integrale momento = Nx
+OK C5 flessione mensola valle
+OK C5 flessione mensola monte
+OK C6 equilibrio momenti
+OK C6 coefficiente scorrimento
+OK C6 coefficiente ribaltamento
+OK C6 integrale pressione = N
+OK C6 integrale momento = Nx
+OK C6 flessione mensola valle
+OK C6 flessione mensola monte
+OK C7 equilibrio momenti
+OK C7 coefficiente scorrimento
+OK C7 coefficiente ribaltamento
+OK C7 integrale pressione = N
+OK C7 integrale momento = Nx
+OK C7 flessione mensola valle
+OK C7 flessione mensola monte
+OK C8 equilibrio momenti
+OK C8 coefficiente scorrimento
+OK C8 coefficiente ribaltamento
+OK C8 integrale pressione = N
+OK C8 integrale momento = Nx
+OK C8 flessione mensola valle
+OK C8 flessione mensola monte
+OK Tallone teso superiormente nell’esempio
+OK Contatto x=0,1: forza
+OK Contatto x=0,1: momento
+OK Contatto x=0,8: forza
+OK Contatto x=0,8: momento
+OK Contatto x=1: forza
+OK Contatto x=1: momento
+OK Contatto x=1,5: forza
+OK Contatto x=1,5: momento
+OK Contatto x=2: forza
+OK Contatto x=2: momento
+OK Contatto x=2,2: forza
+OK Contatto x=2,2: momento
+OK Contatto x=2,9: forza
+OK Contatto x=2,9: momento
+OK Transizione nocciolo
+OK Risultante fuori valle
+OK Risultante fuori monte
+OK Dato mancante
+OK Testo
+OK NaN
+OK Infinito
+OK Quota negativa
+OK Sovraccarico negativo
+OK Attrito eccessivo
+OK Base liscia fuori campo
+OK Virgola decimale italiana
+OK Q=0 valido
+OK Aumento q aumenta spinta
+OK Instabilità non nascosta
+OK Portanza nulla con perdita di contatto
+OK Risultati instabili serializzabili
+OK Round trip input
+OK Esportazione HTML include limiti
+100 controlli superati.

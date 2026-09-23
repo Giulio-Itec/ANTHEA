@@ -10,7 +10,7 @@
     <Title>ANTHEA</Title>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
-  <ItemGroup><ProjectReference Include="../X.Core/X.Core.csproj" /></ItemGroup>
+  <ItemGroup><ProjectReference Include="../X.Core/X.Core.csproj" /><ProjectReference Include="../X.Materiali/X.Materiali.csproj" /></ItemGroup>
   <ItemGroup><Reference Include="../lib/Checker/*.dll" /></ItemGroup>
   <ItemGroup><Resource Include="Assets/*.png" /></ItemGroup>
 </Project>

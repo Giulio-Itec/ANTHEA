@@ -1,0 +1,18 @@
+System.IO.IOException: Impossibile individuare la risorsa 'assets/copriferro.png'.
+   at MS.Internal.AppModel.ResourcePart.GetStreamCore(FileMode mode, FileAccess access)
+   at System.IO.Packaging.PackagePart.GetStream(FileMode mode, FileAccess access)
+   at MS.Internal.IO.Packaging.PackagePartExtensions.GetSeekableStream(PackagePart packPart, FileMode mode, FileAccess access)
+   at System.IO.Packaging.PackWebResponse.CachedResponse.GetResponseStream()
+   at System.Windows.Media.Imaging.BitmapDecoder.SetupDecoderFromUriOrStream(Uri uri, Stream stream, BitmapCacheOption cacheOption, Guid& clsId, Boolean& isOriginalWritable, Stream& uriStream, UnmanagedMemoryStream& unmanagedMemoryStream, SafeFileHandle& safeFilehandle)
+   at System.Windows.Media.Imaging.BitmapDecoder.CreateFromUriOrStream(Uri baseUri, Uri uri, Stream stream, BitmapCreateOptions createOptions, BitmapCacheOption cacheOption, RequestCachePolicy uriCachePolicy, Boolean insertInDecoderCache)
+   at System.Windows.Media.Imaging.BitmapImage.FinalizeCreation()
+   at Materiali.MaterialWindow.BuildDetails(UIElement properties) in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Materiali\MaterialDetails.cs:line 74
+   at Materiali.MaterialWindow..ctor() in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Materiali\App.xaml.cs:line 74
+   at X.Desktop.MainWindow.OpenMaterials() in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Desktop\Wpf\MainWindow.cs:line 153
+   at X.Desktop.MainWindow.Safe(Action action) in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Desktop\Wpf\MainWindow.cs:line 40
+   at X.Desktop.MainWindow.<>c__DisplayClass27_0.<ShowModules>b__6() in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Desktop\Wpf\MainWindow.cs:line 140
+   at X.Desktop.Ui.<>c__DisplayClass5_0.<Button>b__0(Object _, RoutedEventArgs _) in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Desktop\Wpf\Ui.cs:line 24
+   at System.Windows.EventRoute.InvokeHandlersImpl(Object source, RoutedEventArgs args, Boolean reRaised)
+   at System.Windows.UIElement.RaiseEventImpl(DependencyObject sender, RoutedEventArgs args)
+   at X.Desktop.MainWindow.SmokeMaterials(String directory) in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Desktop\Wpf\MaterialsSmokeChecks.cs:line 16
+   at X.Desktop.App.<>c__DisplayClass0_0.<<OnStartup>g__RunSmoke|1>d.MoveNext() in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Desktop\Wpf\App.cs:line 33
