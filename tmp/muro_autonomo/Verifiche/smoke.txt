@@ -1,0 +1,1 @@
+OK: rendering ampio e compatto, dettagli, esempio, invalidazione immediata e campo vuoto.

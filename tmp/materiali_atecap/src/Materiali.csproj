@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
+    <AssemblyName>Materiali</AssemblyName><ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GPCModel"><HintPath>lib/GPCModel.dll</HintPath></Reference>
+    <Reference Include="GPCUtilities"><HintPath>lib/GPCUtilities.dll</HintPath></Reference>
+    <Resource Include="Assets/logo.png" />
+    <Resource Include="Assets/copriferro.png" />
+  </ItemGroup>
+</Project>

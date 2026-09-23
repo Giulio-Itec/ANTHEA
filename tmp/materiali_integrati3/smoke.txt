@@ -1,0 +1,1 @@
+OK: filtro Materiali, apertura dal catalogo, controlli numerici e UI originali, riattivazione senza duplicati e chiusura.

@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using System.Text.Json.Nodes;
 
 namespace X.Core;
@@ -32,11 +32,20 @@ public static class Archivio
         foreach(var p in projects)
         {
             if(p is not JsonObject||p["strutture"] is not JsonArray structures)throw new ArgumentException("Strutture del progetto non valide.");
-            foreach(var s in structures)
+            void Sections(JsonArray items)
             {
-                if(s is not JsonObject||s["fogli"] is not JsonArray sheets)throw new ArgumentException("Fogli della struttura non validi.");
-                foreach(var f in sheets)Sheet(f,true);
+                foreach (var s in items)
+                {
+                    if (s is not JsonObject || s["fogli"] is not JsonArray sheets) throw new ArgumentException("Fogli della struttura non validi.");
+                    foreach (var f in sheets) Sheet(f, true);
+                    if (s.AsObject().ContainsKey("strutture"))
+                    {
+                        if (s["strutture"] is not JsonArray nested) throw new ArgumentException("Sottosezioni non valide.");
+                        Sections(nested);
+                    }
+                }
             }
+            Sections(structures);
         }
     }
     public static void Scrivi(string path,JsonObject document)

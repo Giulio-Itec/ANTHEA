@@ -1,0 +1,1 @@
+OK: composizione ATECAP, esposizioni singole e combinate, aria in funzione del Dmax, input invalidi; proprietà, aderenza, copriferro NTC/EC2, tolleranze e tre colonne a 1500/1200 px.

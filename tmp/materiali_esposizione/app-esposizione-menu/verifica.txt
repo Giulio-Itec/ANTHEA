@@ -1,0 +1,1 @@
+OK: composizione automatica, aggiornamento esposizioni, acqua manuale/cemento automatico, conservazione modifiche manuali, ripristino Auto, input invalidi e fuori campo; proprietà, aderenza, copriferro NTC/EC2, tolleranze e tre colonne a 1500/1200 px.

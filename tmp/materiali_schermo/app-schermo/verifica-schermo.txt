@@ -1,0 +1,2 @@
+OK: avvio massimizzato, nessun limite massimo fisso, bordi visibili coincidenti con area utile del monitor. DPI 144/144; area 2560 × 1368 pixel.
+Manifest PerMonitorV2. Le scale Windows e i monitor fisici non sono stati modificati durante la prova.

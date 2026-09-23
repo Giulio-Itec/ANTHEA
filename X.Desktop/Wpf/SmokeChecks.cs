@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -53,8 +53,8 @@ public sealed partial class MainWindow
         first = document["progetti"]![0]!["strutture"]![0]!["fogli"]![0]!.AsObject();
         second = document["progetti"]![0]!["strutture"]![0]!["fogli"]![1]!.AsObject();
         ShowProjects(); await Capture("progetti_popolati");
-        var projectNode = (TreeViewItem)tree.Items[0]; var structureNode = (TreeViewItem)projectNode.Items[0]; ((TreeViewItem)structureNode.Items[0]).IsSelected = true;
-        editor!.SetGeometryForSmoke("1100"); ShowProjects(); ((TreeViewItem)((TreeViewItem)((TreeViewItem)tree.Items[0]).Items[0]).Items[1]).IsSelected = true;
+        var projectNode = (TreeViewItem)tree.Items[0]; var structureNode = (TreeViewItem)projectNode.Items[0]; ((TreeViewItem)structureNode.Items[0]).IsSelected = true; ShowSheet(first);
+        editor!.SetGeometryForSmoke("1100"); ShowProjects(); ((TreeViewItem)((TreeViewItem)((TreeViewItem)tree.Items[0]).Items[0]).Items[1]).IsSelected = true; Commit(); ShowSheet(second);
         if (first["dati"]?["input"].S("diameter_mm") != "1100" || currentSheet != second) throw new Exception("Cambio foglio non conserva i dati");
         Commit(); string archive = Path.Combine(directory, "progetti.programma"); Archivio.Scrivi(archive, document);
         if (!JsonNode.DeepEquals(Archivio.Leggi(archive), document)) throw new Exception("Round trip progetti WPF");
