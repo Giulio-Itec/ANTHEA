@@ -6,6 +6,7 @@
     <Reference Include="GPCChecker.Concrete"><HintPath>../lib/Checker/GPCChecker.Concrete.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="GPCGeometry"><HintPath>../lib/Checker/GPCGeometry.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="GPCModel"><HintPath>../lib/Checker/GPCModel.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="GPCModelData"><HintPath>../lib/Checker/GPCModelData.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="GPCUtilities"><HintPath>../lib/Checker/GPCUtilities.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="DelaunayMesh"><HintPath>../lib/Checker/DelaunayMesh.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="GMsh.Net"><HintPath>../lib/Checker/GMsh.Net.dll</HintPath><Private>true</Private></Reference>
