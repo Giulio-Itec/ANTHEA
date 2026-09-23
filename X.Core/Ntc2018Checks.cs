@@ -11,7 +11,10 @@ public static class Ntc2018Checks
 {
     public static ITensionBarSpacing SpacingCalculator { get; set; } = new TensionBarSpacing();
     public static readonly string[] Exposures = ["Da scegliere", "X0", "XC1", "XC2", "XC3", "XF1", "XC4", "XD1", "XS1", "XA1", "XA2", "XF2", "XF3", "XD2", "XD3", "XS2", "XS3", "XA3", "XF4"];
-    public sealed record CrackResult(double? Width, double? Limit, double? Ratio, bool? Passed, string Status, double? EffectiveArea = null, double? EffectiveSteel = null, double? BarSpacing = null, string? SpacingSource = null);
+    public sealed record CrackResult(double? Width, double? Limit, double? Ratio, bool? Passed, string Status, double? EffectiveArea = null, double? EffectiveSteel = null, double? BarSpacing = null, string? SpacingSource = null)
+    {
+        public CrackCalculationDetail[] Details { get; init; } = [];
+    }
     public static (string Kind, double? Limit) CrackRequirement(string set, string exposure, bool sensitive)
     {
         if (set == "SLE") return ("Non richiesta nella rara", null);
