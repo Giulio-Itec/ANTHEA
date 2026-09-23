@@ -18,11 +18,12 @@ internal sealed partial class ConcreteWorkspace
         internal readonly ConcreteSectionViewport View = new();
         internal readonly TextBlock Detail = Ui.Text("Selezionare una combinazione", 12);
         internal readonly TextBox CrackDetail = new() { IsReadOnly = true, AcceptsReturn = true, TextWrapping = TextWrapping.Wrap, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, BorderThickness = new Thickness(0), FontSize = 12, Padding = new Thickness(8) };
-        internal readonly TextBlock Summary = Ui.Text("Verifiche da calcolare", 12);
+        internal readonly VerificationCards Summary = new();
         internal readonly JsonGrid Bars = new([new("id", "Barra", ReadOnly: true), new("stress", "σs [MPa]", ReadOnly: true), new("strain", "ε [‰]", ReadOnly: true), new("type", "Stato", ReadOnly: true)], true);
         internal readonly JsonGrid Concrete = new([new("id", "Vertice", ReadOnly: true), new("x", "x [mm]", ReadOnly: true), new("y", "y [mm]", ReadOnly: true), new("stress", "σc [MPa]", ReadOnly: true), new("strain", "εc [‰]", ReadOnly: true)], true);
         internal InputForm Options = null!;
         internal JsonGrid Grid = null!;
+        internal TabItem CrackTab = null!;
     }
     private UIElement BuildStressTabs()
     {
@@ -67,11 +68,10 @@ internal sealed partial class ConcreteWorkspace
             Ui.Tab(details, "Riepilogo", Scroller(panel.Detail));
             Ui.Tab(details, "Barre e trefoli", WithFilters(panel.Bars));
             Ui.Tab(details, "Calcestruzzo", WithFilters(panel.Concrete));
-            Ui.Tab(details, "Fessurazione · passaggi", panel.CrackDetail);
+            panel.CrackTab = Ui.Tab(details, "Fessurazione · passaggi", panel.CrackDetail);
             panel.View.BarSelected += index => { if (index < panel.Bars.Rows.Count) { details.SelectedIndex = 1; panel.Bars.SelectedIndex = index; panel.Bars.ScrollIntoView(panel.Bars.SelectedItem); } };
             panel.Bars.SelectionChanged += (_, _) => { panel.View.SelectedBar = (panel.Bars.SelectedItem as JsonRow)?.Values.S("id") ?? ""; panel.View.InvalidateVisual(); };
-            var verificationTabs = new TabControl(); Ui.Tab(verificationTabs, "Dettagli combinazione", details); Ui.Tab(verificationTabs, "Riepilogo verifiche", Scroller(panel.Summary));
-            var upper = Columns((viewport, 6, 310), (verificationTabs, 4, 240));
+            var verificationTabs = new TabControl { SelectedIndex = 1 }; Ui.Tab(verificationTabs, "Dettagli combinazione", details); Ui.Tab(verificationTabs, "Riepilogo verifiche", Scroller(panel.Summary));
             panel.Grid = new JsonGrid([new("nome", "Combinazione"), new("N", "N [kN]"), new("Mx", "Mx [kNm]"), new("My", "My [kNm]"), new("sigma_c", "σc [MPa]", ReadOnly: true), new("sigma_s", "|σs| [MPa]", ReadOnly: true), new("eta_sigma", "ησ [-]", ReadOnly: true), new("stress_status", "Tensioni", ReadOnly: true), new("wk", "Fessurazione", ReadOnly: true)], true, actions[key]);
             panel.Grid.Columns[^2].Width = new DataGridLength(1.8, DataGridLengthUnitType.Star); panel.Grid.Columns[^1].Width = new DataGridLength(1.4, DataGridLengthUnitType.Star);
             panel.Grid.Columns[0].MinWidth = 130; panel.Grid.Columns[^2].MinWidth = 145; panel.Grid.Columns[^1].MinWidth = 125;
@@ -79,13 +79,12 @@ internal sealed partial class ConcreteWorkspace
             panel.Grid.RowHeight = double.NaN; panel.Grid.MinRowHeight = 30;
             foreach (var column in panel.Grid.Columns.TakeLast(2).Cast<DataGridTextColumn>()) column.ElementStyle = resultStyle;
             var table = Panel("Combinazioni · " + SectionWorkspace.Label(key), ActionTable(key, panel.Grid, () => UpdateStressSelection(key)));
-            var body = Columns((optionsPanel, 2.6, 260), (Rows(upper, table, 3.5, 2), 7.4, 680)); body.Margin = new Thickness(0, 8, 0, 0);
+            var body = AnalysisLayout(optionsPanel, viewport, verificationTabs, table);
             Ui.Tab(sleTabs, SectionWorkspace.Label(key), body);
             panel.View.IsVisibleChanged += (_, _) => { if (panel.View.IsVisible) UpdateStressSelection(key); };
             if (actions[key].Count > 0) panel.Grid.SelectedIndex = 0;
         }
-        var header = Ui.Text("SLE · tensioni e fessurazione", 17, true); header.Margin = new Thickness(4, 12, 4, 10);
-        return Ui.Dock(sleTabs, header);
+        return sleTabs;
     }
     private async Task CalculateStress(string key, CancellationToken token, CheckerSectionModel? prepared = null, JsonObject? preparedInput = null, JsonObject? preparedWorkspace = null)
     {
@@ -134,7 +133,11 @@ internal sealed partial class ConcreteWorkspace
     }
     private void UpdateStressSelection(string key)
     {
-        if (synchronizing || !stressPanels.TryGetValue(key, out var panel) || panel.Grid is null || !panel.View.IsVisible) return;
+        if (synchronizing || !stressPanels.TryGetValue(key, out var panel) || panel.Grid is null) return;
+        bool stressRequired = SleCheckScope.Stress(key), crackRequired = SleCheckScope.Cracking(key, settings);
+        panel.Grid.Columns[6].Visibility = panel.Grid.Columns[7].Visibility = stressRequired ? Visibility.Visible : Visibility.Collapsed;
+        panel.Grid.Columns[8].Visibility = panel.CrackTab.Visibility = crackRequired ? Visibility.Visible : Visibility.Collapsed;
+        if (!panel.View.IsVisible) return;
         using var barsRefresh = panel.Bars.Rows.DeferRefresh();
         using var concreteRefresh = panel.Concrete.Rows.DeferRefresh();
         var row = panel.Grid.SelectedItem as JsonRow; var outcome = row is null ? null : stressResults.GetValueOrDefault(key)?.GetValueOrDefault(row.Values.S("id"));
@@ -150,6 +153,12 @@ internal sealed partial class ConcreteWorkspace
                 $"\n\nFESSURAZIONE\n{options.S("esposizione")} · armatura {options.S("sensibilita").ToLowerInvariant()}\nCarico di durata {options.S("durata").ToLowerInvariant()}\n{outcome.Cracking}\nwk / limite = {outcome.CrackResult?.Width?.ToString("0.00") ?? "—"} / {outcome.CrackResult?.Limit?.ToString("0.00") ?? "—"} mm\nηw = {outcome.CrackResult?.Ratio?.ToString("0.00") ?? "—"}\nAc,eff = {outcome.CrackResult?.EffectiveArea?.ToString("0.00") ?? "—"} mm²\nAs,eff = {outcome.CrackResult?.EffectiveSteel?.ToString("0.00") ?? "—"} mm²";
             panel.Detail.Text += "\nCoefficienti e formule: scheda «Fessurazione · passaggi» (testo selezionabile e copiabile).";
             panel.Detail.Text += $"\nInterasse barre tese = {EngineeringFormat.Number(outcome.CrackResult?.BarSpacing)} mm · {outcome.CrackResult?.SpacingSource}";
+            if (!crackRequired) panel.Detail.Text = panel.Detail.Text.Split("\n\nFESSURAZIONE")[0];
+            if (!stressRequired)
+            {
+                int start = panel.Detail.Text.IndexOf("\n\nTENSIONI", StringComparison.Ordinal), end = panel.Detail.Text.IndexOf("\nSTATO ALL’AZIONE APPLICATA", StringComparison.Ordinal);
+                if (start >= 0 && end > start) panel.Detail.Text = panel.Detail.Text[..start] + "\n\nTensioni calcolate a supporto della fessurazione; verifica tensionale non richiesta.\n" + panel.Detail.Text[end..];
+            }
             int ordinary = panel.View.Section?.Bars.Count ?? 0;
             panel.Detail.Text = panel.Detail.Text.Replace("TENSIONI · NTC 2018", "TENSIONI · " + settings.S("normativa"));
             panel.Detail.Text += $"\n\nOMOGENEIZZAZIONE\nn armature = {EngineeringFormat.Number(options.D("n_armature"))} · φ = {EngineeringFormat.Number(options.D("phi"))}";

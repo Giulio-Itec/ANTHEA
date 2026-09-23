@@ -105,7 +105,7 @@ internal sealed class SectionIcon : FrameworkElement
     }
 }
 
-internal sealed record Field(string Key, string Label, string Unit = "", string[]? Choices = null, bool Bool = false, bool ReadOnly = false, string Symbol = "");
+internal sealed record Field(string Key, string Label, string Unit = "", string[]? Choices = null, bool Bool = false, bool ReadOnly = false, string Symbol = "", bool Wide = false);
 
 internal class ChainedScrollViewer : ScrollViewer
 {
@@ -187,7 +187,7 @@ internal sealed class InputForm : ChainedScrollViewer
                 if (f.Choices is not null && f.Unit == "") { Grid.SetColumnSpan(editor, 2); elements.Remove(unit); }
             }
             else if (f.Bool || f.Key == "metodo") { Grid.SetColumn(editor, 0); Grid.SetColumnSpan(editor, 3); elements = [editor]; }
-            else if (f.Choices is not null && wideChoices)
+            else if (f.Wide || f.Choices is not null && wideChoices)
             {
                 table.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                 Grid.SetColumnSpan(label, 3); Grid.SetRow(editor, row + 1); Grid.SetColumn(editor, 0); Grid.SetColumnSpan(editor, 3); elements = [label, editor];

@@ -251,9 +251,25 @@ public sealed class CheckerDomain3D(CheckerSection section, FailureDomainResult 
 {
     public CheckerSection Section { get; } = section;
     public FailureDomainResult Native { get; } = native;
-    private readonly Lazy<SectionDomainMesh> mesh = new(() => new(section.Checker.SectionCheckerOptions.FailureDomainType.ToString(), native.Domain.GetMesh(out _)));
-    public SectionDomainMesh Mesh => mesh.Value;
-    public bool IsMeshCreated => mesh.IsValueCreated;
+    private readonly Dictionary<(bool Linear, int Divisions), SectionDomainMesh> displayMeshes = new();
+    public SectionDomainMesh Mesh => DisplayMesh(Section.Options);
+    public bool IsMeshCreated => displayMeshes.Count > 0;
+    public SectionDomainMesh DisplayMesh(JsonObject options)
+    {
+        var key = (options.S("interpolazione") == "Lineare", SectionWorkspace.Subdivisions(options.S("suddivisioni_n", "50"), "Suddivisioni N (mesh)", 5, 200));
+        lock (displayMeshes)
+        {
+            if (!displayMeshes.TryGetValue(key, out var mesh))
+            {
+                // A separate native domain keeps display interpolation out of resistance searches.
+                var display = new FailureDomain(Native.Domain.DomainPoints, Native.Domain.FailureDomainAnalysisTypes)
+                { ForceLinearInterpolation = key.Item1, AxialForceSubdivision = key.Item2 };
+                mesh = new(Section.Checker.SectionCheckerOptions.FailureDomainType.ToString(), display.GetMesh(out _));
+                displayMeshes[key] = mesh;
+            }
+            return mesh;
+        }
+    }
     public void ConfigureVerification(JsonObject options)
     {
         Native.FailureAnalysisType = CheckerSection.Criterion(options.S("criterio", "N costante"));

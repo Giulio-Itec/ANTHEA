@@ -21,9 +21,9 @@ internal sealed partial class ConcreteWorkspace
                 if (!options.Contains(category)) continue;
                 if (panel.ThreeD && checker3D.TryGetValue(panel.Key, out var domain))
                 {
-                    var mesh = domain.Mesh;
+                    var mesh = domain.DisplayMesh(panel.Options);
                     // A detached viewport gives consistent image dimensions even when its tab is not active.
-                    var view = new DomainViewport3D { Width = 1200, Height = 750, ShowActions = panel.Options.B("mostra_ed", true), ShowResistance = panel.Options.B("mostra_rd", true), ShowVerificationLines = panel.Options.B("mostra_linee", true), ColorByRatio = panel.Options.B("colora_eta") };
+                    var view = new DomainViewport3D { Width = 1200, Height = 750, ShowActions = panel.Options.B("mostra_ed", true), ShowResistance = panel.Options.B("mostra_rd", true), ShowVerificationLines = panel.Options.B("mostra_linee", true), ColorByRatio = panel.Options.B("colora_eta"), ActionPointSize = panel.Options.D("dimensione_ed", 5), ResistancePointSize = panel.Options.D("dimensione_rd", 5) };
                     view.Measure(new Size(1200, 750)); view.Arrange(new Rect(0, 0, 1200, 750)); view.SetMesh(mesh);
                     var selected = (panel.Grid.SelectedItem as JsonRow)?.Values.S("id"); var checks = domainResults.GetValueOrDefault(panel.Prefix + panel.Key);
                     var points = new List<(string, ActionPoint, bool)>();
@@ -46,7 +46,7 @@ internal sealed partial class ConcreteWorkspace
                 var rows = result["tensioni"]?[key] as System.Text.Json.Nodes.JsonObject ?? new();
                 var governors = new Dictionary<string, string>();
                 foreach (bool cracking in new[] { false, true })
-                    if (ReportConcrete.Governing(rows, cracking) is { } governing)
+                    if ((cracking ? SleCheckScope.Cracking(key, settings) : SleCheckScope.Stress(key)) && ReportConcrete.Governing(rows, cracking) is { } governing)
                     {
                         string reason = cracking ? "fessurazione" : "tensioni";
                         governors[governing.Key] = governors.TryGetValue(governing.Key, out var previous) ? previous + " e " + reason : reason;

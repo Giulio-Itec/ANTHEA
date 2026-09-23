@@ -9,14 +9,36 @@ internal static class ConcreteEnhancementChecks
         void Check(bool ok, string message) { if (!ok) throw new Exception("CA estensioni: " + message); count++; }
         void Reject(Action action, string message) { try { action(); } catch (ArgumentException) { count++; return; } throw new Exception("CA accetta input invalido: " + message); }
         var data = SezioneCA.DefaultData(); var settings = SectionWorkspace.Prepare(data); var input = data["input"]!.AsObject();
+        Check(input.S("shape") == "Rettangolare" && input.D("transverse_spacing_mm") == 200 && input.S("classe_acciaio") == "B450C", "Nuovi valori predefiniti");
+        input["shape"] = "Circolare"; // This fixture explicitly tests the circular geometry, independently of UI defaults.
         var spacing = new TensionBarSpacing();
         var circular = new SezioneCA(input);
         Check(Math.Abs(spacing.Maximum(circular, [0, 1, 2])!.Value - 2 * Math.PI * circular.BarRadius / circular.Bars.Count) < 1e-8, "Interasse circolare lungo arco fra adiacenti");
         Check(spacing.Maximum(circular, [0, 2]) is null && spacing.Maximum(circular, [0]) is null, "Non collega barre non adiacenti o singola barra");
+        var layeredInput = SezioneCA.DefaultInput();
+        var firstLayer = new SezioneCA(layeredInput);
+        foreach (string layer in new[] { "top", "bottom" })
+        {
+            layeredInput["second_" + layer + "_enabled"] = true; layeredInput["second_" + layer + "_count"] = "3";
+            layeredInput["second_" + layer + "_diameter"] = "16"; layeredInput["second_" + layer + "_gap"] = "35";
+        }
+        var twoLayers = new SezioneCA(layeredInput);
+        Check(twoLayers.Bars.Count == firstLayer.Bars.Count + 6, "Secondi strati rettangolari aggiunti senza sostituire i primi");
+        _ = CheckerSection.PrepareModel(layeredInput, settings);
+        Check(SectionShearGeometry.Derive(twoLayers, false).Depth < SectionShearGeometry.Derive(firstLayer, false).Depth && SectionShearGeometry.Derive(twoLayers, false).SteelArea > SectionShearGeometry.Derive(firstLayer, false).SteelArea, "Taglio: d e Asl includono i secondi strati del wizard");
+        Check(Math.Abs(firstLayer.Bars[0].Y - twoLayers.Bars[10].Y - (20 + 16) / 2d - 35) < 1e-8, "Distanza libera secondo strato superiore");
+        layeredInput["second_top_gap"] = "900"; Reject(() => new SezioneCA(layeredInput), "Secondo strato fuori altezza utile");
+        layeredInput = (JsonObject)input.DeepClone(); layeredInput["second_inner_enabled"] = true; layeredInput["second_inner_count"] = "12";
+        layeredInput["second_inner_diameter"] = "20"; layeredInput["second_inner_gap"] = "40";
+        var twoRings = new SezioneCA(layeredInput); _ = CheckerSection.PrepareModel(layeredInput, settings);
+        Check(twoRings.Bars.Count == circular.Bars.Count + 12 && double.Hypot(twoRings.Bars[^1].X, twoRings.Bars[^1].Y) < twoRings.BarRadius, "Secondo anello interno collegato al modello Checker");
+        Check(spacing.Maximum(twoRings, Enumerable.Range(0, twoRings.Bars.Count).ToArray()) is > 0, "Interasse automatico su due anelli concentrici");
+        layeredInput["second_inner_gap"] = "900"; Reject(() => new SezioneCA(layeredInput), "Anello interno senza spazio");
         var tInput = (JsonObject)input.DeepClone(); tInput["shape"] = "A T";
         var originalT = new SezioneCA(tInput);
         tInput["flange_bottom_count"] = "4"; tInput["flange_bottom_diameter_mm"] = "20"; tInput["flange_bottom_offset_mm"] = "90";
         var reinforcedT = new SezioneCA(tInput);
+        Check(reinforcedT.Bars.TakeLast(2).All(b => b.Y > tInput.D("height_mm") / 2 - tInput.D("flange_thickness_mm") - reinforcedT.CentroidY), "Barre laterali T raggiungono la staffa interna nell'ala");
         Check(reinforcedT.Bars.Count == originalT.Bars.Count + 4, "Fila intradosso ala aggiunge quattro barre");
         var added = reinforcedT.Bars.Skip((int)tInput.D("top_bar_count") + (int)tInput.D("bottom_bar_count")).Take(4).ToArray();
         Check(added.Max(b => b.X) - added.Min(b => b.X) > tInput.D("web_width_mm"), "Fila intradosso distribuita sull'intera ala");

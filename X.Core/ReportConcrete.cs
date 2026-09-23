@@ -125,10 +125,13 @@ public static class ReportConcrete
             bool hasTendons = settings.Array("trefoli").Count > 0;
             Parameters("Opzioni di verifica", settings["sle"]![family]!, new (string Key, string Label)[] { ("modello", "Analisi"), ("n_armature", "n armature"), ("phi", "φ armature"), ("n_trefoli", "n trefoli riferimento"), ("phi_trefoli", "φ trefoli"), ("trazione_cls", "CLS teso"), ("assi", "Assi"), ("esposizione", "Esposizione"), ("durata", "Durata"), ("sensibilita", "Sensibilità"), ("aderenza", "Aderenza") }.Where(f => hasTendons || f.Key is not ("n_trefoli" or "phi_trefoli")).ToArray());
             var rows = result["tensioni"]?[family] as JsonObject ?? new();
-            var envelope = Envelope(rows, hasTendons);
-            var worstStress = Governing(rows, false); var worstCrack = Governing(rows, true);
+            bool stressRequired = SleCheckScope.Stress(family), crackRequired = SleCheckScope.Cracking(family, settings);
+            var envelope = stressRequired ? Envelope(rows, hasTendons) : [];
+            var worstStress = stressRequired ? Governing(rows, false) : null; var worstCrack = crackRequired ? Governing(rows, true) : null;
             bool all = options.Contains("sle_tutte");
             P(all ? "Stampa completa delle combinazioni." : "Inviluppo delle combinazioni calcolate: ogni estremo proviene dalla combinazione indicata. Gli estremi non costituiscono uno stato simultaneo e non sostituiscono le verifiche. Le combinazioni con esito non determinato sono riportate separatamente.");
+            if (stressRequired)
+            {
             Subheading("Tensioni · " + (all ? "tutte le combinazioni" : "combinazione governante"));
             var stressRows = all ? rows.ToArray() : worstStress is { } ws ? new[] { ws } : [];
             Table(["Combinazione", "σc,min [MPa]", "|σs|max [MPa]", "ησ [-]", "Esito tensioni"], stressRows.Select(kv => new[] { Name(family, kv.Key), F(kv.Value?["State"]?["sigma_cls"]), F(kv.Value?["State"]?["sigma_acciaio"]), F(kv.Value?["Ratio"]), kv.Value.S("Status") }));
@@ -136,13 +139,17 @@ public static class ReportConcrete
             Subheading("Inviluppo tensioni e deformazioni");
             Table(["Grandezza", "Estremo", "Combinazione di origine"], envelope.Select(v => new[] { v.Label, EngineeringFormat.Number(v.Value), Name(family, v.Id) }));
             P("Compressione negativa: min e max sono estremi algebrici. Le deformazioni sono quelle incrementali native Checker, senza la deformazione iniziale dei trefoli.");
+            }
+            if (crackRequired)
+            {
             Subheading("Fessurazione · " + (all ? "tutte le combinazioni" : "combinazione governante"));
             var crackRows = all ? rows.ToArray() : worstCrack is { } wc ? new[] { wc } : [];
             Table(["Combinazione", "wk [mm]", "Limite [mm]", "ηw [-]", "Esito fessurazione"], crackRows.Select(kv => new[] { Name(family, kv.Key), F(kv.Value?["CrackResult"]?["Width"]), F(kv.Value?["CrackResult"]?["Limit"]), F(kv.Value?["CrackResult"]?["Ratio"]), kv.Value.S("Cracking") }));
             if (!all && worstCrack is null) P("Nessuna combinazione governante per ηw determinabile: sono conservati gli esiti di decompressione, non applicabilità o calcolo non disponibile.");
+            }
             if (!all)
             {
-                var notices = rows.SelectMany(kv => new[] { (Check: "Tensioni", Ratio: J.Number(kv.Value?["Ratio"]), Status: kv.Value.S("Status")), (Check: "Fessurazione", Ratio: J.Number(kv.Value?["CrackResult"]?["Ratio"]), Status: kv.Value.S("Cracking")) }.Where(v => v.Ratio is null || !double.IsFinite(v.Ratio.Value)).Select(v => new[] { Name(family, kv.Key), v.Check, v.Status })).ToArray();
+                var notices = rows.SelectMany(kv => new[] { (Check: "Tensioni", Ratio: J.Number(kv.Value?["Ratio"]), Status: kv.Value.S("Status")), (Check: "Fessurazione", Ratio: J.Number(kv.Value?["CrackResult"]?["Ratio"]), Status: kv.Value.S("Cracking")) }.Where(v => (v.Check == "Tensioni" ? stressRequired : crackRequired) && (v.Ratio is null || !double.IsFinite(v.Ratio.Value))).Select(v => new[] { Name(family, kv.Key), v.Check, v.Status })).ToArray();
                 if (notices.Length > 0) { Subheading("Esiti senza tasso numerico / verifiche non determinate"); Table(["Combinazione", "Verifica", "Esito"], notices); }
                 var missing = data["combinazioni"]!.Array(family).Where(c => !rows.ContainsKey(c.S("id"))).Select(c => new[] { c.S("nome"), "Risultato non disponibile" }).ToArray();
                 if (missing.Length > 0) Table(["Combinazione", "Avviso"], missing);
@@ -154,7 +161,7 @@ public static class ReportConcrete
             {
                 if (outcome?["State"] is not JsonObject state) continue;
                 Subheading("Dettagli " + SectionWorkspace.Label(family) + " " + Name(family, id));
-                if (outcome?["CrackResult"]?["Details"] is JsonArray crackDetails && crackDetails.Count > 0)
+                if (crackRequired && outcome?["CrackResult"]?["Details"] is JsonArray crackDetails && crackDetails.Count > 0)
                 {
                     Subheading("Fessurazione · coefficienti e passaggi");
                     P("Riepilogo essenziale: massimo 30 valori, fino a 6 cifre significative. NTC 2018 e Circolare 2019 § C4.1.2.2.4.5. Deformazioni adimensionali; traccia completa nel JSON.");

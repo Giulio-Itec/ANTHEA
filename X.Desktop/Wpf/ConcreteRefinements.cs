@@ -55,6 +55,22 @@ internal sealed partial class ConcreteWorkspace
         }
         UpdateSelection(panel); RefreshSummary(); status.Text = "Aggiornamento punti resistenti e tassi · dominio conservato"; InvalidateChecks(panel.Prefix + "SLU", panel.Prefix + "SLV");
     }
+    private async void RefreshDisplayMesh(DomainPanel panel)
+    {
+        var options = (JsonObject)panel.Options.DeepClone();
+        string key = panel.Key; int requested = revision;
+        Modified?.Invoke();
+        if (!checker3D.TryGetValue(key, out var domain)) return; // Pending analysis uses current visual options.
+        try
+        {
+            status.Text = "Aggiornamento della sola mesh · verifiche conservate…";
+            var mesh = await Task.Run(() => domain.DisplayMesh(options));
+            if (disposed || requested != revision || key != panel.Key || options.S("interpolazione") != panel.Options.S("interpolazione") || options.S("suddivisioni_n") != panel.Options.S("suddivisioni_n")) return;
+            meshes[key] = mesh; panel.NeedsVisualRefresh = true; RefreshDomainPanel(panel);
+            status.Text = "Mesh aggiornata · punti resistenti e tassi invariati"; exportResult = null;
+        }
+        catch (ArgumentException ex) { status.Text = "Mesh non aggiornata: " + ex.Message; }
+    }
     private void AddDomainScaleControls(DomainPanel panel, ViewportFrame frame)
     {
         if (!panel.ThreeD) panel.Plot.ViewReset += () => { panel.Options["scala_x"] = 1; panel.Options["scala_y"] = 1; Modified?.Invoke(); };
@@ -100,18 +116,33 @@ internal sealed partial class ConcreteWorkspace
     }
     private void RefreshVerificationSummaries()
     {
-        var names = actions.ToDictionary(kv => kv.Key, kv => kv.Value.ToDictionary(r => r.Values.S("id"), r => r.Values.S("nome")));
-        foreach (var panel in domainPanels)
-            panel.Summary.Text = string.Join("\n\n", new[] { "SLU", "SLV" }.Select(key => WorstSummary(SectionWorkspace.Label(key), actions[key].Count,
-                domainResults.GetValueOrDefault(panel.Prefix + key)?.Select(kv => (Name(key, kv.Key), kv.Value.Utilization, kv.Value.Status)) ?? [])));
-        string sle = string.Join("\n\n", SectionWorkspace.Sets.Skip(2).Select(key =>
+        string Name(string key, string id) => actions[key].FirstOrDefault(r => r.Values.S("id") == id)?.Values.S("nome") ?? id;
+        void Domain(VerificationCards cards, string prefix, string key) => cards.AddCheck(prefix + " · " + SectionWorkspace.Label(key), actions[key].Count,
+            domainResults.GetValueOrDefault(prefix + ":" + key)?.Select(kv => (Name(key, kv.Key), kv.Value.Utilization, (bool?)null)) ?? []);
+        void Stress(VerificationCards cards, string key)
         {
             var values = stressResults.GetValueOrDefault(key);
-            return WorstSummary(SectionWorkspace.Label(key) + " · tensioni", actions[key].Count, values?.Select(kv => (Name(key, kv.Key), kv.Value.Ratio, kv.Value.Status)) ?? []) + "\n" +
-                WorstSummary("Fessurazione", actions[key].Count, values?.Select(kv => (Name(key, kv.Key), kv.Value.CrackResult?.Ratio, kv.Value.Cracking)) ?? []);
-        }));
-        foreach (var panel in stressPanels.Values) panel.Summary.Text = sle;
-        string Name(string key, string id) => names[key].GetValueOrDefault(id, id);
+            if (SleCheckScope.Stress(key)) cards.AddCheck(SectionWorkspace.Label(key) + " · tensioni", actions[key].Count, values?.Select(kv => (Name(key, kv.Key), kv.Value.Ratio, (bool?)null)) ?? []);
+            if (SleCheckScope.Cracking(key, settings)) cards.AddCheck(SectionWorkspace.Label(key) + " · fessurazione", actions[key].Count, values?.Select(kv => (Name(key, kv.Key), kv.Value.CrackResult?.Ratio, kv.Value.CrackResult?.Passed)) ?? []);
+        }
+        foreach (var (key, cards) in summaries)
+        {
+            cards.Start();
+            if (key is "SLU" or "SLV") { Domain(cards, "3D", key); Domain(cards, "2D", key); }
+            else Stress(cards, key);
+        }
+        foreach (var panel in domainPanels) { panel.Summary.Start(); foreach (string key in new[] { "SLU", "SLV" }) Domain(panel.Summary, panel.ThreeD ? "3D" : "2D", key); }
+        foreach (var panel in stressPanels.Values) { panel.Summary.Start(); foreach (string key in SectionWorkspace.Sets.Skip(2)) Stress(panel.Summary, key); }
+        foreach (var cards in new[] { shearWorst, shearDashboard })
+        {
+            cards.Start();
+            for (int axis = 0; axis < 2; axis++)
+            {
+                int index = axis;
+                cards.AddCheck(axis == 0 ? "Taglio Vx" : "Taglio Vy", shearGrid?.Rows.Count ?? 0, shearResults.Select(kv =>
+                    (shearGrid?.Rows.FirstOrDefault(r => r.Values.S("id") == kv.Key)?.Values.S("nome") ?? kv.Key, kv.Value[index].Ratio, (bool?)null)));
+            }
+        }
     }
     private static string WorstSummary(string title, int total, IEnumerable<(string Name, double? Ratio, string Status)> source)
     {

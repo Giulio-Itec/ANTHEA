@@ -40,7 +40,7 @@ internal sealed class ViewportFrame : Border
 }
 
 internal sealed record TendonPoint(string Id, double X, double Y, double Area);
-internal sealed class ConcreteSectionViewport : DrawingView
+internal sealed partial class ConcreteSectionViewport : DrawingView
 {
     internal SezioneCA? Section { get; set; }
     internal List<TendonPoint> Tendons { get; set; } = [];
@@ -87,7 +87,8 @@ internal sealed class ConcreteSectionViewport : DrawingView
         double xmin = section.Outline.Min(p => p[0]), xmax = section.Outline.Max(p => p[0]), ymin = section.Outline.Min(p => p[1]), ymax = section.Outline.Max(p => p[1]);
         bool hasLegend = Stress is not null && Contour != "Solo geometria";
         double plotWidth = size.Width - (hasLegend ? 105 : 0);
-        double scale = Math.Max(.01, Math.Min((plotWidth - 85) / (xmax - xmin), (size.Height - 105) / (ymax - ymin))) * zoom;
+        bool dimensioned = Dimensions || CoverDimensions || SpacingDimensions;
+        double scale = Math.Max(.01, Math.Min((plotWidth - (dimensioned ? 160 : 85)) / (xmax - xmin), (size.Height - (dimensioned ? 180 : 105)) / (ymax - ymin))) * zoom;
         Point P(double x, double y) => new(plotWidth / 2 + (x - (xmin + xmax) / 2) * scale + pan.X, (size.Height - 20) / 2 - (y - (ymin + ymax) / 2) * scale + pan.Y);
         var shape = Path(section.Outline.Select(p => P(p[0], p[1])), true);
         dc.DrawGeometry(Ui.Brush("#E3EAF1"), new Pen(Ui.Navy, 1.6), shape);
@@ -171,6 +172,7 @@ internal sealed class ConcreteSectionViewport : DrawingView
             else if (Labels) Text(dc, t.Id, p.X + 8, p.Y - 8, 10, Ui.Brush("#B77918"));
         }
         if (ConcreteValues && Stress is { } cs) foreach (var v in cs.ConcreteVertices) ValueLabel(dc, P(v.X, v.Y), v.Id, v.Stress, v.Strain);
+        DrawDimensions(dc, section, P);
         Text(dc, $"{section.Width:0.#} × {section.Height:0.#} mm  ·  Ac = {section.AreaCls / 100:0.0} cm²  ·  As = {section.AreaSteel / 100:0.0} cm²", 12, size.Height - 46, 11, width: size.Width - 24);
         Text(dc, Stress is null ? "Assi geometrici x/y · N < 0: compressione" : Contour == "Solo geometria" ? "Nessun contouring · risultati nel riepilogo" : ratios ? "Rapporto alla resistenza · NON esito SLE" : "Rosso: compressione (−) · blu: trazione (+) · valori Checker", 12, size.Height - 26, 11, width: size.Width - 24);
     }
@@ -244,12 +246,15 @@ internal sealed class DomainViewport3D : Grid
     private readonly PerspectiveCamera camera = new() { FieldOfView = 40, NearPlaneDistance = .01, FarPlaneDistance = 100 };
     private readonly Model3DGroup surfaces = new(), markings = new(), wire = new();
     private readonly Canvas labels = new() { IsHitTestVisible = false };
+    private readonly DomainWireOverlay wireOverlay = new() { IsHitTestVisible = false };
     private readonly TextBlock note = Ui.Text("Dominio in attesa di aggiornamento automatico", 12, color: Ui.Muted);
     private readonly Dictionary<GeometryModel3D, string> pickTargets = new();
     private readonly List<(string Id, ActionPoint Force, bool Pass)> actionPoints = [];
     private readonly List<(string Id, Point Position)> screenPoints = [];
     private string? selectedId;
     private SectionDomainMesh? mesh;
+    private MeshGeometry3D? surfaceGeometry;
+    private GeometryModel3D? surfaceModel;
     private double yaw = -40, elevation = 25, distance = 5.5;
     private double fitDistance = 5.5, scaleMx = 1, scaleN = 1, scaleMy = 1;
     internal bool FitIncludesActions { get; set; }
@@ -268,10 +273,13 @@ internal sealed class DomainViewport3D : Grid
     private bool panning;
     private bool userNavigated;
     private readonly SolidColorBrush frontBrush = new(Color.FromRgb(104, 165, 198)), backBrush = new(Color.FromRgb(163, 200, 222));
-    internal double SurfaceOpacity { get => frontBrush.Opacity; set { frontBrush.Opacity = backBrush.Opacity = Math.Clamp(value, 0, 1); } }
+    internal double SurfaceOpacity { get => frontBrush.Opacity; set { frontBrush.Opacity = backBrush.Opacity = Math.Clamp(value, 0, 1); SortSurface(); } }
     internal bool ShowActions { get; set; } = true;
+    internal bool OnlySelectedActions { get; set; }
     internal bool ShowResistance { get; set; } = true;
     internal bool ShowVerificationLines { get; set; } = true;
+    internal double ActionPointSize { get; set; } = 5;
+    internal double ResistancePointSize { get; set; } = 5;
     internal bool ColorByRatio { get; set; }
     internal IReadOnlyDictionary<string, double?>? Ratios { get; set; }
     internal IReadOnlyDictionary<string, ActionPoint>? Resistances { get; set; }
@@ -281,7 +289,7 @@ internal sealed class DomainViewport3D : Grid
         double? ratio = Ratios is null ? pass ? 0 : 2 : Ratios.GetValueOrDefault(id);
         return UtilizationPalette.Brush(ratio);
     }
-    internal int VisibleActionCount => ShowActions ? actionPoints.Count : 0;
+    internal int VisibleActionCount => ShowActions ? actionPoints.Count(p => !OnlySelectedActions || p.Id == selectedId) : 0;
     internal event Action<string>? ActionSelected;
     internal bool Wireframe { get; private set; }
     internal int TriangleCount => mesh?.Triangles.Count / 3 ?? 0;
@@ -293,7 +301,7 @@ internal sealed class DomainViewport3D : Grid
         viewport.Camera = camera;
         var world = new Model3DGroup(); world.Children.Add(new AmbientLight(Color.FromRgb(145, 155, 175))); world.Children.Add(new DirectionalLight(Colors.White, new Vector3D(-1, -2, -3)));
         world.Children.Add(surfaces); world.Children.Add(wire); world.Children.Add(markings); viewport.Children.Add(new ModelVisual3D { Content = world });
-        Children.Add(viewport); Children.Add(labels); note.VerticalAlignment = VerticalAlignment.Bottom; note.Margin = new Thickness(12); note.IsHitTestVisible = false; Children.Add(note);
+        Children.Add(viewport); Children.Add(wireOverlay); Children.Add(labels); note.VerticalAlignment = VerticalAlignment.Bottom; note.Margin = new Thickness(12); note.IsHitTestVisible = false; Children.Add(note);
         MouseWheel += (_, e) => { Zoom *= e.Delta > 0 ? 1.1 : 1 / 1.1; e.Handled = true; };
         MouseDown += (_, e) =>
         {
@@ -351,30 +359,46 @@ internal sealed class DomainViewport3D : Grid
     internal void SetMesh(SectionDomainMesh? value, bool force = false)
     {
         if (!force && ReferenceEquals(mesh, value) && value is not null) return;
-        bool first = mesh is null; mesh = value; surfaces.Children.Clear(); wire.Children.Clear(); markings.Children.Clear(); pickTargets.Clear(); actionPoints.Clear(); SelectedAction = SelectedResistance = null;
+        bool first = mesh is null; mesh = value; surfaceGeometry = null; surfaceModel = null; surfaces.Children.Clear(); wire.Children.Clear(); markings.Children.Clear(); pickTargets.Clear(); actionPoints.Clear(); SelectedAction = SelectedResistance = null;
         if (mesh is null) { note.Text = "Dominio da calcolare · nessuna mesh valida"; UpdateLabels(); return; }
         var geometry = new MeshGeometry3D { Positions = new Point3DCollection(mesh.Vertices.Select(World)), TriangleIndices = new Int32Collection(mesh.Triangles) };
+        var center = new Point3D(geometry.Positions.Average(p => p.X), geometry.Positions.Average(p => p.Y), geometry.Positions.Average(p => p.Z));
         var normals = new Vector3D[geometry.Positions.Count];
         for (int i = 0; i + 2 < mesh.Triangles.Count; i += 3)
-        { int a = mesh.Triangles[i], b = mesh.Triangles[i + 1], c = mesh.Triangles[i + 2]; var n = Vector3D.CrossProduct(geometry.Positions[b] - geometry.Positions[a], geometry.Positions[c] - geometry.Positions[a]); normals[a] += n; normals[b] += n; normals[c] += n; }
+        {
+            int a = mesh.Triangles[i], b = mesh.Triangles[i + 1], c = mesh.Triangles[i + 2];
+            var n = Vector3D.CrossProduct(geometry.Positions[b] - geometry.Positions[a], geometry.Positions[c] - geometry.Positions[a]);
+            if (Vector3D.DotProduct(n, geometry.Positions[a] - center) < 0) { geometry.TriangleIndices[i + 1] = c; geometry.TriangleIndices[i + 2] = b; n = -n; }
+            normals[a] += n; normals[b] += n; normals[c] += n;
+        }
         for (int i = 0; i < normals.Length; i++) if (normals[i].Length > 1e-12) normals[i].Normalize();
         geometry.Normals = new Vector3DCollection(normals); geometry.Freeze();
         var material = new DiffuseMaterial(frontBrush); var back = new DiffuseMaterial(backBrush);
-        surfaces.Children.Add(new GeometryModel3D(geometry, material) { BackMaterial = back });
+        surfaceGeometry = geometry; surfaceModel = new GeometryModel3D(geometry, material) { BackMaterial = back }; surfaces.Children.Add(surfaceModel); SortSurface();
         if (Wireframe) RebuildWire();
         note.Text = $"{TriangleCount:N0} triangoli · N [kN], Mx / My [kNm] · assi scalati separatamente";
         SetActions([], null, null); if (first && !userNavigated) ResetView(); else UpdateLabels();
     }
     internal void ToggleWireframe() { Wireframe = !Wireframe; RebuildWire(); }
+    private void SortSurface()
+    {
+        if (surfaceGeometry is null || surfaceModel is null) return;
+        if (SurfaceOpacity >= .999) { surfaceModel.Geometry = surfaceGeometry; return; }
+        // WPF does not depth-sort transparent mesh faces. Sort from back to front
+        // after every camera change instead of relying on the native mesh's face order.
+        var source = surfaceGeometry; var look = camera.LookDirection;
+        double Depth(int i)
+        {
+            Point3D a = source.Positions[source.TriangleIndices[i]], b = source.Positions[source.TriangleIndices[i + 1]], c = source.Positions[source.TriangleIndices[i + 2]];
+            return Vector3D.DotProduct(new Vector3D(a.X + b.X + c.X, a.Y + b.Y + c.Y, a.Z + b.Z + c.Z), look);
+        }
+        var indices = Enumerable.Range(0, source.TriangleIndices.Count / 3).Select(i => i * 3).OrderByDescending(Depth)
+            .SelectMany(i => new[] { source.TriangleIndices[i], source.TriangleIndices[i + 1], source.TriangleIndices[i + 2] });
+        var sorted = new MeshGeometry3D { Positions = source.Positions, Normals = source.Normals, TriangleIndices = new Int32Collection(indices) }; sorted.Freeze(); surfaceModel.Geometry = sorted;
+    }
     private void RebuildWire()
     {
-        wire.Children.Clear(); if (!Wireframe || mesh is null) return;
-        var lines = new MeshGeometry3D(); int stride = Math.Max(1, mesh.Triangles.Count / 3600) * 3;
-        for (int i = 0; i < mesh.Triangles.Count; i += stride)
-        {
-            for (int j = 0; j < 3; j++) Tube(lines, World(mesh.Vertices[mesh.Triangles[i + j]]), World(mesh.Vertices[mesh.Triangles[i + (j + 1) % 3]]), .0015);
-        }
-        wire.Children.Add(Model(lines, Ui.Brush("#406980")));
+        wire.Children.Clear(); UpdateLabels();
     }
     private Point3D World(ActionPoint p) => mesh is null ? new() : new Point3D(p.Mx / mesh.Scale.Mx * scaleMx, p.N / mesh.Scale.N * scaleN, p.My / mesh.Scale.My * scaleMy);
     private IEnumerable<(Point3D Start, Point3D End, Point3D LabelPoint, Brush Color, string Label)> AxisLines()
@@ -397,17 +421,17 @@ internal sealed class DomainViewport3D : Grid
         for (int i = -4; i <= 4; i++) { double v = i * .25; Tube(grid, new Point3D(v, 0, -1), new Point3D(v, 0, 1), .001); Tube(grid, new Point3D(-1, 0, v), new Point3D(1, 0, v), .001); }
         markings.Children.Add(Model(grid, Ui.Brush("#B9C7D4")));
         if (ShowResistance && Resistances is not null)
-            foreach (var (id, r) in Resistances) { if (id == selected) continue; var model = Model(Sphere(World(r), .032), UtilizationPalette.Brush(Ratios?.GetValueOrDefault(id))); markings.Children.Add(model); pickTargets[model] = id; }
+            foreach (var (id, r) in Resistances) { if (id == selected) continue; var model = Model(Sphere(World(r), .0064 * ResistancePointSize), UtilizationPalette.Brush(Ratios?.GetValueOrDefault(id))); markings.Children.Add(model); pickTargets[model] = id; }
         foreach (var action in actionPoints)
         {
-            bool chosen = action.Id == selected; var point = World(action.Force); var sphere = Sphere(point, chosen ? .045 : .024);
+            bool chosen = action.Id == selected; var point = World(action.Force); var sphere = Sphere(point, ActionPointSize * (chosen ? .009 : .0048));
             var model = Model(sphere, ActionColor(action.Id, chosen, action.Pass));
-            if (ShowActions) { markings.Children.Add(model); pickTargets[model] = action.Id; }
-            if (chosen)
+            if (ShowActions && (!OnlySelectedActions || chosen)) { markings.Children.Add(model); pickTargets[model] = action.Id; }
+            if (chosen || Resistances?.ContainsKey(action.Id) == true)
             {
-                SelectedAction = action.Force; var vector = new MeshGeometry3D(); Tube(vector, new(), point, .006); if (ShowVerificationLines) markings.Children.Add(Model(vector, Ui.Brush("#E09620")));
-                if (resistant is ActionPoint r)
-                { var rp = World(r); if (ShowResistance) markings.Children.Add(Model(Sphere(rp, .05), UtilizationPalette.Brush(Ratios?.GetValueOrDefault(selected ?? "")))); var segment = new MeshGeometry3D(); Tube(segment, point, rp, .006); if (ShowVerificationLines) markings.Children.Add(Model(segment, Ui.Brush("#A23BC4"))); }
+                if (chosen) SelectedAction = action.Force; var vector = new MeshGeometry3D(); Tube(vector, new(), point, .006); if (ShowVerificationLines) markings.Children.Add(Model(vector, Ui.Brush("#E09620")));
+                if ((chosen ? resistant : Resistances?.GetValueOrDefault(action.Id)) is ActionPoint r)
+                { var rp = World(r); if (ShowResistance && chosen) markings.Children.Add(Model(Sphere(rp, .01 * ResistancePointSize), UtilizationPalette.Brush(Ratios?.GetValueOrDefault(selected ?? "")))); var segment = new MeshGeometry3D(); Tube(segment, point, rp, .006); if (ShowVerificationLines) markings.Children.Add(Model(segment, Ui.Brush("#A23BC4"))); }
             }
         }
         UpdateLabels();
@@ -416,17 +440,30 @@ internal sealed class DomainViewport3D : Grid
     {
         double a = yaw * Math.PI / 180, b = elevation * Math.PI / 180;
         var offset = new Vector3D(distance * Math.Cos(b) * Math.Sin(a), distance * Math.Sin(b), distance * Math.Cos(b) * Math.Cos(a));
-        camera.Position = target + offset; camera.LookDirection = -offset; camera.UpDirection = new Vector3D(0, 1, 0); UpdateLabels();
+        camera.Position = target + offset; camera.LookDirection = -offset; camera.UpDirection = new Vector3D(0, 1, 0); SortSurface(); UpdateLabels();
     }
     private void UpdateLabels()
     {
-        labels.Children.Clear(); screenPoints.Clear(); if (ActualWidth < 10 || ActualHeight < 10 || mesh is null) return;
+        labels.Children.Clear(); screenPoints.Clear(); wireOverlay.Segments.Clear(); wireOverlay.InvalidateVisual(); if (ActualWidth < 10 || ActualHeight < 10 || mesh is null) return;
         var forward = camera.LookDirection; forward.Normalize(); var right = Vector3D.CrossProduct(forward, camera.UpDirection); right.Normalize(); var up = Vector3D.CrossProduct(right, forward);
         Point? Project(Point3D p)
         {
             var vector = p - camera.Position; double depth = Vector3D.DotProduct(vector, forward); if (depth <= 0) return null;
             double factor = ActualWidth / (2 * Math.Tan(camera.FieldOfView * Math.PI / 360) * depth);
             return new Point(ActualWidth / 2 + Vector3D.DotProduct(vector, right) * factor, ActualHeight / 2 - Vector3D.DotProduct(vector, up) * factor);
+        }
+        if (Wireframe && surfaceGeometry is { } surface)
+        {
+            var edges = new HashSet<(int, int)>();
+            for (int i = 0; i < surface.TriangleIndices.Count; i += 3)
+            {
+                int a = surface.TriangleIndices[i], b = surface.TriangleIndices[i + 1], c = surface.TriangleIndices[i + 2];
+                Point3D p = surface.Positions[a], q = surface.Positions[b], r = surface.Positions[c];
+                if (Vector3D.DotProduct(Vector3D.CrossProduct(q - p, r - p), p - camera.Position) >= 0) continue;
+                foreach (var (start, end) in new[] { (a, b), (b, c), (c, a) })
+                    if (edges.Add((Math.Min(start, end), Math.Max(start, end))) && Project(surface.Positions[start]) is Point p1 && Project(surface.Positions[end]) is Point p2)
+                        wireOverlay.Segments.Add((p1, p2));
+            }
         }
         void Marker(Point point, Brush color, string text, double radius = 5)
         {
@@ -436,19 +473,19 @@ internal sealed class DomainViewport3D : Grid
         }
         foreach (var action in actionPoints)
         {
-            if (Project(World(action.Force)) is not Point point) continue; if (ShowActions) screenPoints.Add((action.Id, point));
+            if (Project(World(action.Force)) is not Point point) continue; if (ShowActions && (!OnlySelectedActions || action.Id == selectedId)) screenPoints.Add((action.Id, point));
             bool chosen = action.Id == selectedId;
-            if (chosen && SelectedResistance is ActionPoint r && Project(World(r)) is Point rp)
+            if ((chosen ? SelectedResistance : Resistances?.GetValueOrDefault(action.Id)) is ActionPoint r && Project(World(r)) is Point rp)
             {
                 if (ShowVerificationLines) labels.Children.Add(new System.Windows.Shapes.Line { X1 = point.X, Y1 = point.Y, X2 = rp.X, Y2 = rp.Y, Stroke = Ui.Brush("#A23BC4"), StrokeThickness = 1.5, StrokeDashArray = new DoubleCollection([4, 3]) });
-                if (ShowResistance) Marker(rp, UtilizationPalette.Brush(Ratios?.GetValueOrDefault(action.Id)), "Rd", 6);
+                if (ShowResistance && chosen) Marker(rp, UtilizationPalette.Brush(Ratios?.GetValueOrDefault(action.Id)), "Rd", ResistancePointSize + 1);
             }
-            if (ShowActions) Marker(point, ActionColor(action.Id, chosen, action.Pass), chosen ? "Ed" : "", chosen ? 6 : 4);
+            if (ShowActions && (!OnlySelectedActions || chosen)) Marker(point, ActionColor(action.Id, chosen, action.Pass), chosen ? "Ed" : "", ActionPointSize + (chosen ? 1 : 0));
         }
         if (ShowResistance && Resistances is not null)
             foreach (var (id, resistance) in Resistances)
                 if (id != selectedId && Project(World(resistance)) is Point rp)
-                { Marker(rp, UtilizationPalette.Brush(Ratios?.GetValueOrDefault(id)), "", 4); screenPoints.Add((id, rp)); }
+                { Marker(rp, UtilizationPalette.Brush(Ratios?.GetValueOrDefault(id)), "", ResistancePointSize); screenPoints.Add((id, rp)); }
         foreach (var (p, text) in AxisLines().Select(line => (line.LabelPoint, line.Label)))
         {
             var vector = p - camera.Position; double depth = Vector3D.DotProduct(vector, forward); if (depth <= 0) continue;
@@ -470,5 +507,16 @@ internal sealed class DomainViewport3D : Grid
         int first = mesh.Positions.Count;
         for (int i = 0; i < 6; i++) { var offset = radius * (u * Math.Cos(i * Math.PI / 3) + v * Math.Sin(i * Math.PI / 3)); mesh.Positions.Add(start + offset); mesh.Positions.Add(end + offset); }
         for (int i = 0; i < 6; i++) { int a = first + 2 * i, b = first + 2 * ((i + 1) % 6); foreach (int index in new[] { a, b, a + 1, a + 1, b, b + 1 }) mesh.TriangleIndices.Add(index); }
+    }
+}
+
+// Screen-space strokes avoid depth fighting with the transparent surface at dense discretizations.
+internal sealed class DomainWireOverlay : DrawingView
+{
+    internal readonly List<(Point A, Point B)> Segments = [];
+    protected override void Render(DrawingContext dc, Size size)
+    {
+        var pen = new Pen(Ui.Brush("#708EA1"), .55);
+        foreach (var (a, b) in Segments) dc.DrawLine(pen, a, b);
     }
 }

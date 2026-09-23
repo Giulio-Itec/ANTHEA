@@ -38,15 +38,15 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private int revision;
     private readonly Dictionary<string, JsonRows> actions = new();
     private readonly List<JsonGrid> grids = [];
-    private readonly Dictionary<string, TextBlock> summaries = new();
+    private readonly Dictionary<string, VerificationCards> summaries = new();
     private readonly Dictionary<string, SectionDomainMesh> meshes = new();
     private readonly Dictionary<string, CheckerDomain3D> checker3D = new();
     private readonly Dictionary<string, CheckerDomain2D> checker2D = new();
     private readonly Dictionary<string, Dictionary<string, DomainCheck>> domainResults = new();
     private readonly Dictionary<string, Dictionary<string, StressOutcome>> stressResults = new();
     private readonly ConcreteSectionViewport preview = new();
-    private readonly JsonGrid barInventory = new([new("id", "Barra", ReadOnly: true), new("x", "x [mm]", ReadOnly: true), new("y", "y [mm]", ReadOnly: true), new("phi", "Ø [mm]", ReadOnly: true)], true);
-    private readonly JsonGrid tendons = new([new("id", "ID"), new("x", "x [mm]"), new("y", "y [mm]"), new("diametro", "Øeq cavo [mm]"), new("area", "Ap totale [mm²]"), new("materiale", "Materiale", ReadOnly: true), new("diagramma", "Diagramma", Choices: ["Elastoplastico", "Incrudente"]), new("sigma0", "σp0 [MPa]"), new("Ep", "Ep [MPa]"), new("fpyk", "fpyk [MPa]"), new("fpk", "fpk [MPa]"), new("eps_u", "εpu [‰]")]);
+    private readonly JsonGrid barInventory = new([new("id", "Barra", ReadOnly: true), new("x", "x [mm]"), new("y", "y [mm]"), new("phi", "Ø [mm]")], true);
+    private readonly JsonGrid tendons = new([new("id", "ID"), new("x", "x [mm]"), new("y", "y [mm]"), new("diametro", "Øeq cavo [mm]"), new("area", "Ap totale [mm²]"), new("materiale", "Materiale", Choices: ConcreteMaterialCatalog.Steel(true).Select(m => m.S("nome")).ToArray()), new("diagramma", "Diagramma", ReadOnly: true), new("sigma0", "σp0 [MPa]"), new("Ep", "Ep [MPa]", ReadOnly: true), new("fpyk", "fpyk [MPa]", ReadOnly: true), new("fpk", "fpk [MPa]", ReadOnly: true), new("eps_u", "εpu [‰]", ReadOnly: true)]);
     private InputForm geometry = null!, materials = null!, reinforcement = null!;
     private readonly List<DomainPanel> domainPanels = [];
     private readonly Dictionary<string, StressPanel> stressPanels = new();
@@ -119,6 +119,12 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         Grid.SetRow(split, 1); grid.Children.Add(split); Grid.SetRow(bottom, 2); grid.Children.Add(bottom); return grid;
     }
     private static ScrollViewer Scroller(UIElement content) => new ChainedScrollViewer { Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
+    private static Grid AnalysisLayout(UIElement input, UIElement viewport, UIElement details, UIElement table)
+    {
+        var upper = Columns((viewport, 6, 350), (details, 4, 230));
+        var body = Columns((input, 3, 285), (Rows(upper, table, 3.7, 2), 7, 650));
+        body.Margin = new Thickness(0, 10, 0, 0); return body;
+    }
     private static Border Notice(string text)
     {
         var border = Ui.Paper(Ui.Text(text, 11, color: Ui.Brush("#865D16")), 10); border.Background = Ui.Brush("#FFF6DD"); border.BorderBrush = Ui.Brush("#EEDCAF"); border.Margin = new Thickness(0, 8, 0, 8); return border;
@@ -127,40 +133,52 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
 
     private UIElement BuildControlPanel()
     {
-        var norm = new InputForm(settings, [new("normativa", "Normativa", Choices: ConcreteStandards.Names), new("nota", "Nota del foglio")], key => { if (key == "normativa") ResetCoefficients(); Invalidate(); });
+        var norm = new InputForm(settings, [new("normativa", "Normativa", Choices: ConcreteStandards.Names), new("nota", "Nota del foglio")], key => { if (key == "normativa") { ResetCoefficients(); RefreshStandardMaterialChoices(); } Invalidate(); });
         geometry = new(Input, [new("shape", "Sezione", Choices: ["Circolare", "Rettangolare", "A T", "Generica (da definire)"]), new("diameter_mm", "Diametro D", "mm"), new("width_mm", "Larghezza b", "mm"), new("height_mm", "Altezza h", "mm"), new("flange_width_mm", "Larghezza ala bf", "mm"), new("web_width_mm", "Larghezza anima bw", "mm"), new("flange_thickness_mm", "Spessore ala hf", "mm"), new("cover_mm", "Copriferro netto", "mm")], _ => Invalidate(), true);
-        materials = new(Input, [new("classe_cls", "Classe CLS", Choices: ["C12/15", "C16/20", "C20/25", "C25/30", "C30/37", "C35/45", "C40/50", "C45/55", "C50/60", "C55/67", "C60/75", "C70/85", "C80/95", "C90/105", "Personalizzato"]), new("fck_mpa", "fck", "MPa"), new("fyk_mpa", "fyk", "MPa"), new("steel_modulus_mpa", "Es", "MPa"), new("alpha_cc", "αcc"), new("gamma_c", "γc"), new("gamma_s", "γs"), new("gettato_sottile", "Piano gettato in opera < 50 mm", Choices: ["No", "Sì"]), new("__fcd", "fcd", "MPa", ReadOnly: true), new("__fyd", "fyd", "MPa", ReadOnly: true), new("__ecm", "Ecm", "MPa", ReadOnly: true), new("__ec2", "εc,y (diagramma)", "‰", ReadOnly: true), new("__ecu", "εc,u (diagramma)", "‰", ReadOnly: true), new("n", "Es / Ecm (riferimento)", ReadOnly: true), new("__nmode", "Viscosità", ReadOnly: true)], key =>
-        {
-            if (key == "classe_cls" && Input.S(key).StartsWith('C')) materials.Set("fck_mpa", Input.S(key)[1..].Split('/')[0]);
-            if (key == "n") Data["n_automatico"] = false;
-            SyncCoefficientsFromInput(); Invalidate();
-        }, true);
+        BuildMaterialFields();
         foreach (var (key, value) in new[] { ("flange_bottom_count", "0"), ("flange_bottom_diameter_mm", Input.S("top_bar_diameter_mm")), ("flange_bottom_offset_mm", (Input.D("cover_mm") + Input.D("transverse_bar_diameter_mm") + Input.D("top_bar_diameter_mm") / 2).ToString(System.Globalization.CultureInfo.InvariantCulture)) }) if (!Input.ContainsKey(key)) Input[key] = value;
         reinforcement = new(Input, [new("longitudinal_bar_count", "Barre circolari"), new("longitudinal_bar_diameter_mm", "Diametro", "mm"), new("top_bar_count", "Barre superiori"), new("top_bar_diameter_mm", "Ø superiori", "mm"), new("flange_bottom_count", "Barre intradosso ala (0: assenti)"), new("flange_bottom_diameter_mm", "Ø intradosso ala", "mm"), new("flange_bottom_offset_mm", "Intradosso ala → asse barra", "mm"), new("bottom_bar_count", "Barre inferiori"), new("bottom_bar_diameter_mm", "Ø inferiori", "mm"), new("side_bar_count_per_side", "Barre laterali / lato"), new("side_bar_diameter_mm", "Ø laterali", "mm")], _ => Invalidate(), true);
         foreach (var item in settings.Array("trefoli").OfType<JsonObject>()) tendons.Rows.Add(TendonRow((JsonObject)item.DeepClone()));
-        grids.Add(tendons); tendons.Height = 165;
+        grids.Add(tendons); grids.Add(barInventory);
         var tendonInput = BuildTendonInput();
-        var inputStack = Ui.Stack(norm, standardNote, Group("Geometria", geometry, true), Group("Materiali", Ui.Stack(materials, BuildCustomMaterials())), Group("Coefficienti da normativa / personalizzati", BuildCoefficients()), Group("Armature", reinforcement), Group("Staffe", BuildStirrups()), Group("Trefoli", tendonInput));
+        var materialGroups = Ui.Stack(materials, BuildCustomMaterials()); materialGroups.Margin = new Thickness(14, 0, 0, 0);
+        var inputStack = Ui.Stack(norm, standardNote, Group("Coefficienti da normativa", BuildCoefficients()), Group("Materiali", materialGroups, true), Group("Geometria", geometry, true), Group("Armature", Ui.Stack(reinforcement, BuildAdditionalLayers())), Group("Staffe", BuildStirrups()), Group("Trefoli", tendonInput));
         var left = Panel("Definizione della sezione", Scroller(inputStack), "Dati comuni a tutte le verifiche · mm, MPa");
         var viewport = new ViewportFrame("Sezione geometrica", preview, preview.ResetView);
         var axes = new CheckBox { Content = "Assi", IsChecked = true, Margin = new Thickness(7, 3, 5, 3), VerticalAlignment = VerticalAlignment.Center };
         var labels = new CheckBox { Content = "ID", IsChecked = true, Margin = new Thickness(5, 3, 5, 3), VerticalAlignment = VerticalAlignment.Center };
         axes.Click += (_, _) => { preview.Axes = axes.IsChecked == true; preview.InvalidateVisual(); }; labels.Click += (_, _) => { preview.Labels = labels.IsChecked == true; preview.InvalidateVisual(); };
         viewport.Toolbar.Children.Insert(0, axes); viewport.Toolbar.Children.Insert(1, labels);
+        viewport.Toolbar.Children.Insert(0, Ui.Button("Proprietà / report…", ShowSectionProperties));
+        foreach (var (key, label) in new[] { ("quote_dimensioni", "Dimensioni"), ("quote_copriferro", "Copriferro"), ("quote_interferro", "Interferro min.") })
+        {
+            var check = new CheckBox { Content = label, IsChecked = settings.B(key, true), Margin = new Thickness(5, 3, 5, 3) };
+            void ApplyDimension() { if (key == "quote_dimensioni") preview.Dimensions = check.IsChecked == true; else if (key == "quote_copriferro") preview.CoverDimensions = check.IsChecked == true; else preview.SpacingDimensions = check.IsChecked == true; preview.InvalidateVisual(); }
+            ApplyDimension(); check.Click += (_, _) => { settings[key] = check.IsChecked == true; ApplyDimension(); Modified?.Invoke(); }; viewport.Toolbar.Children.Add(check);
+        }
         barInventory.SelectionChanged += (_, _) => { preview.SelectedBar = (barInventory.SelectedItem as JsonRow)?.Values.S("id") ?? ""; preview.InvalidateVisual(); };
         preview.BarSelected += index => { if (index < barInventory.Rows.Count) { barInventory.SelectedIndex = index; barInventory.ScrollIntoView(barInventory.SelectedItem); } };
-        var middle = Rows(viewport, Panel("Coordinate e identificativi delle barre", WithFilters(barInventory), "x e y rispetto al baricentro · clic su una barra per identificarla"), 4, 1.6);
+        var reinforcementTabs = new TabControl();
+        Ui.Tab(reinforcementTabs, "Armature ordinarie", Ui.Dock(WithFilters(barInventory), top: Ui.Bar(Ui.Button("Ripristina barre da wizard", () => { Input.Remove("barre_manuali"); Invalidate(); }))));
+        Ui.Tab(reinforcementTabs, "Trefoli / cavi", WithFilters(tendons));
+        var middle = Rows(viewport, Panel("Armature della sezione", reinforcementTabs, "Coordinate modificabili · mm · inserimento cavi nel pannello a sinistra"), 3.7, 2);
         var summary = new StackPanel();
+        Border SummaryBlock(string title, UIElement value, Button open)
+        {
+            open.Padding = new Thickness(5, 1, 5, 1); open.MinHeight = 20; open.FontSize = 10; open.Margin = new Thickness(0);
+            var heading = new DockPanel(); DockPanel.SetDock(open, Dock.Right); heading.Children.Add(open); heading.Children.Add(Ui.Text(title, 12, true));
+            return new Border { Background = Brushes.White, BorderBrush = Ui.Brush("#DCE2E9"), BorderThickness = new Thickness(1), Padding = new Thickness(7, 4, 7, 3), Margin = new Thickness(0, 0, 0, 4), Child = Ui.Stack(heading, value) };
+        }
         foreach (string key in SectionWorkspace.Sets)
         {
-            var value = Ui.Text("Non calcolata", 12); summaries[key] = value;
+            var value = new VerificationCards(); summaries[key] = value;
             string title = key.StartsWith("SLE") ? "SLE · " + SectionWorkspace.Label(key) : SectionWorkspace.Label(key);
             var button = Ui.Button("Apri →", () => { tabs.SelectedIndex = key.StartsWith("SLE") ? 3 : 1; if (key.StartsWith("SLE")) sleTabs.SelectedIndex = Array.IndexOf(SectionWorkspace.Sets, key) - 2; else domainPanels[0].Mode.SelectedItem = key; }); button.HorizontalAlignment = HorizontalAlignment.Right;
-            var card = Panel(title, Ui.Stack(value, button)); card.Margin = new Thickness(0, 0, 0, 9); summary.Children.Add(card);
+            summary.Children.Add(SummaryBlock(title, value, button));
         }
-        summary.Children.Add(Panel("Taglio", Ui.Stack(shearDashboard, Ui.Button("Apri →", () => tabs.SelectedIndex = 4))));
-        summary.Children.Add(Notice("Motore GPC Checker · compressione negativa. Esiti distinti per ogni verifica; nessun esito globale di conformità."));
-        var page = Columns((left, 3, 285), (middle, 5.3, 380), (Scroller(summary), 2.7, 250)); page.Margin = new Thickness(0, 10, 0, 0); return page;
+        summary.Children.Add(SummaryBlock("Taglio", shearDashboard, Ui.Button("Apri →", () => tabs.SelectedIndex = 4)));
+        summary.Children.Add(Ui.Text("Colori η come nei domini · grigio: esito mancante. Ogni verifica resta distinta.", 10, color: Ui.Muted));
+        var page = Columns((left, 3, 285), (Columns((middle, 6, 350), (Scroller(summary), 4, 230)), 7, 650)); page.Margin = new Thickness(0, 10, 0, 0); return page;
     }
     private JsonRow CreateAction(string key, string name, string n, string mx, string my, string? id = null, bool visible = true)
     {
@@ -238,6 +256,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private void RefreshPreview()
     {
         string shape = Input.S("shape");
+        RefreshAdditionalLayers();
         foreach (string key in new[] { "diameter_mm", "width_mm", "height_mm", "flange_width_mm", "web_width_mm", "flange_thickness_mm" }) geometry.ShowField(key, key switch { "diameter_mm" => shape == "Circolare", "width_mm" => shape == "Rettangolare", "height_mm" => shape != "Circolare", _ => shape == "A T" });
         foreach (string key in reinforcement.Editors.Keys.Where(k => !k.StartsWith("transverse"))) reinforcement.ShowField(key, key.StartsWith("flange_bottom") ? shape == "A T" : key.StartsWith("longitudinal") ? shape == "Circolare" : shape != "Circolare");
         SezioneCA? engine = null;
@@ -261,8 +280,12 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         SynchronizeStirrups(); foreach (string key in stressPanels.Keys) SynchronizeHomogenization(key);
         foreach (string field in SectionWorkspace.SharedSleFields) settings["sle_comuni"]![field] = settings["sle"]!["SLE"]![field]?.DeepClone();
         RefreshTendonOptions(); RefreshAutomaticShear();
-        preview.InvalidateVisual(); barInventory.Rows.Clear();
-        if (engine is not null) for (int i = 0; i < engine.Bars.Count; i++) { var b = engine.Bars[i]; barInventory.Rows.Add(new JsonRow(J.Obj(("id", "B" + (i + 1).ToString("D2")), ("x", b.X.ToString("0.00")), ("y", b.Y.ToString("0.00")), ("phi", b.Diametro.ToString("0.00"))))); }
+        preview.InvalidateVisual();
+        if (Input["barre_manuali"] is not JsonArray || barInventory.Rows.Count == 0)
+        {
+            barInventory.Rows.Clear();
+            if (engine is not null) for (int i = 0; i < engine.Bars.Count; i++) { var b = engine.Bars[i]; barInventory.Rows.Add(EditableBar(J.Obj(("id", "B" + (i + 1).ToString("D2")), ("x", Exact(b.X)), ("y", Exact(b.Y)), ("phi", Exact(b.Diametro))))); }
+        }
         foreach (var panel in stressPanels.Values) { panel.View.Section = engine; panel.View.Tendons = preview.Tendons; panel.View.Message = preview.Message; panel.View.InvalidateVisual(); }
     }
     private UIElement ActionTable(string key, JsonGrid grid, Action? onSelection = null)

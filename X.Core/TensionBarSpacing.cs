@@ -15,13 +15,19 @@ public sealed class TensionBarSpacing : ITensionBarSpacing
         var distances = new List<double>();
         if (section.Shape == "Circolare")
         {
-            var ring = section.Bars.Select((b, i) => (Bar: b, Index: i, Angle: Math.Atan2(b.Y, b.X))).OrderBy(b => b.Angle).ToArray();
-            for (int i = 0; i < ring.Length; i++)
+            var radii = section.Bars.Select(b => double.Hypot(b.X, b.Y)).ToArray();
+            if (radii.Max() - radii.Min() > 1e-4 && (section.Input.ContainsKey("barre_manuali") || !section.Input.B("second_inner_enabled"))) return null;
+            // Wizard concentric rings: consider adjacent bars on each ring, never bridge between rings.
+            foreach (var group in section.Bars.Select((b, i) => (Bar: b, Index: i, Angle: Math.Atan2(b.Y, b.X))).GroupBy(b => Math.Round(radii[b.Index], 5)))
             {
-                var a = ring[i]; var b = ring[(i + 1) % ring.Length];
-                if (!selected.Contains(a.Index) || !selected.Contains(b.Index)) continue;
-                double angle = b.Angle - a.Angle; if (angle <= 0) angle += 2 * Math.PI;
-                distances.Add(section.BarRadius * angle);
+                var ring = group.OrderBy(b => b.Angle).ToArray(); double radius = group.Average(b => radii[b.Index]);
+                for (int i = 0; i < ring.Length; i++)
+                {
+                    var a = ring[i]; var b = ring[(i + 1) % ring.Length];
+                    if (!selected.Contains(a.Index) || !selected.Contains(b.Index)) continue;
+                    double angle = b.Angle - a.Angle; if (angle <= 0) angle += 2 * Math.PI;
+                    distances.Add(radius * angle);
+                }
             }
         }
         else

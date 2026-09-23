@@ -10,6 +10,12 @@
   ],
   "assemblies": [
     {
+      "file": "GPCModelData.dll",
+      "source": "Model/ModelData/bin/Release/netstandard2.0",
+      "assemblyVersion": "0.0.1.10",
+      "sha256": "B552F1A2747E570991A76AA3B43B3885B2A6100991B66178E078D98ED2A946E5"
+    },
+    {
       "file": "GPCChecker.Concrete.dll",
       "assemblyVersion": "0.0.12.1",
       "sha256": "07B33D8773594F04F0B04D29AFECE5BBB2050445254C4E215F9115FFF7324F8B"

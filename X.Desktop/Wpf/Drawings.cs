@@ -37,10 +37,13 @@ internal abstract class DrawingView : FrameworkElement
 }
 
 internal sealed record Serie(string Name, List<double[]> Points, Brush Color, bool Dashed = false, bool Highlighted = false, DashStyle? DashPattern = null);
-internal sealed record PlotMarker(double X, double Y, string Label, Brush Color, bool ProjectToAxes = false, string? XCaption = null, string? YCaption = null);
+internal sealed record PlotMarker(double X, double Y, string Label, Brush Color, bool ProjectToAxes = false, string? XCaption = null, string? YCaption = null, double Radius = 5);
 
 internal sealed class Plot : DrawingView
 {
+    internal bool VerticalLegend { get; set; }
+    internal double FitPadding { get; set; }
+    internal bool NegateAxisLabels { get; set; }
     internal List<Serie> Series { get; set; } = [];
     internal (double[] A, double[] B)[] Segments { get; set; } = [];
     internal List<PlotMarker> Markers { get; set; } = [];
@@ -91,19 +94,25 @@ internal sealed class Plot : DrawingView
         double ymin = Capacity ? 0 : points.Min(p => p[1]), ymax = Capacity && CapacityDepth > 0 ? CapacityDepth : points.Max(p => p[1]);
         if (Capacity && xmax > 0) { double power = Math.Pow(10, Math.Floor(Math.Log10(xmax))); xmax = new[] { 1d, 2d, 5d, 10d }.First(v => xmax / power <= v) * power; }
         if (xmax <= xmin) xmax = xmin + 1; if (ymax <= ymin) ymax = ymin + 1;
+        if (!CenteredAxes && !Capacity && FitPadding > 0)
+        {
+            double dx = (xmax - xmin) * FitPadding, dy = (ymax - ymin) * FitPadding;
+            if (xmin != 0) xmin -= dx; if (xmax != 0) xmax += dx;
+            if (ymin != 0) ymin -= dy; if (ymax != 0) ymax += dy;
+        }
         if (CenteredAxes)
         {
             xmax = NiceHalfRange(Math.Max(Math.Abs(xmin), Math.Abs(xmax)) * 1.05) / (zoom * Math.Clamp(ScaleX, .25, 4)); xmin = -xmax;
             ymax = NiceHalfRange(Math.Max(Math.Abs(ymin), Math.Abs(ymax)) * 1.05) / (zoom * Math.Clamp(ScaleY, .25, 4)); ymin = -ymax;
             AxisHalfRange = (xmax, ymax); offset = default;
         }
-        int legendColumns = Math.Max(1, (int)((size.Width - 24) / 170));
+        int legendColumns = VerticalLegend ? 1 : Math.Max(1, (int)((size.Width - 24) / 170));
         double legendHeight = !Capacity && Series.Count > 1 ? Math.Ceiling(Series.Count / (double)legendColumns) * 18 : 0;
         var area = new Rect(58, 47, Math.Max(20, size.Width - 77), Math.Max(20, size.Height - (Note == "" ? 105 : 130) - legendHeight));
         double viewZoom = CenteredAxes ? 1 : zoom;
         Point P(double x, double y) => new(area.Left + (x - xmin) / (xmax - xmin) * area.Width * viewZoom + offset.X,
             area.Top + (InvertY ? (y - ymin) / (ymax - ymin) : (ymax - y) / (ymax - ymin)) * area.Height * viewZoom + offset.Y);
-        string F(double v) => Math.Abs(v) >= 10000 ? (v / 1000).ToString("0.#") + "k" : v.ToString("0.##");
+        string F(double v) { if (NegateAxisLabels && v != 0) v = -v; return Math.Abs(v) >= 10000 ? (v / 1000).ToString("0.#") + "k" : v.ToString("0.##"); }
         for (int i = 0; i <= 4; i++)
         {
             double t = i / 4d, x = area.Left + t * area.Width, y = area.Top + t * area.Height;
@@ -138,7 +147,7 @@ internal sealed class Plot : DrawingView
                 var guide = new Pen(m.Color, .8);
                 dc.DrawLine(guide, p, new Point(area.Left, p.Y)); dc.DrawLine(guide, p, new Point(p.X, area.Bottom));
             }
-            dc.DrawEllipse(m.Color, new Pen(Brushes.White, 1), p, 5, 5);
+            dc.DrawEllipse(m.Color, new Pen(Brushes.White, 1), p, m.Radius, m.Radius);
             if (!m.ProjectToAxes) Text(dc, m.Label, p.X + 7, p.Y - 16, 10, m.Color);
         }
         dc.Pop();

@@ -8,6 +8,8 @@ namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
 {
     private Action? reloadTendonMaterials;
+    private IEnumerable<JsonObject> AvailableTendonMaterials() => ConcreteMaterialCatalog.Steel(true, settings.S("normativa"))
+        .Concat(settings.Array("materiali_custom").OfType<JsonObject>().Where(m => m.S("tipo") == "Trefoli"));
     private static string Exact(double value) => value.ToString("R", CultureInfo.InvariantCulture);
     private JsonRow TendonRow(JsonObject values)
     {
@@ -21,6 +23,11 @@ internal sealed partial class ConcreteWorkspace
                     row.Output(field == "area" ? "diametro" : "area", Exact(field == "area" ? Math.Sqrt(number * 4 / Math.PI) : Math.PI * number * number / 4));
                 else row.Output(field == "area" ? "diametro" : "area", "");
             }
+            if (field == "materiale")
+            {
+                var selected = AvailableTendonMaterials().FirstOrDefault(m => m.S("nome") == values.S("materiale"));
+                if (selected is not null) ApplyTendonMaterial(row!, selected);
+            }
             TendonsChanged();
         });
         return row;
@@ -32,14 +39,17 @@ internal sealed partial class ConcreteWorkspace
     }
     private UIElement BuildTendonInput()
     {
+        if (settings["materiale_trefolo"] is not JsonObject) settings["materiale_trefolo"] = AvailableTendonMaterials().First(m => m.S("nome") == "Y1860").DeepClone();
         var choice = new ComboBox { MinWidth = 160 };
         var materials = new List<JsonObject>();
         reloadTendonMaterials = () =>
         {
-            materials = settings.Array("materiali_custom").OfType<JsonObject>().Where(m => m.S("tipo") == "Trefoli").ToList();
+            materials = AvailableTendonMaterials().ToList();
             if (settings["materiale_trefolo"] is JsonObject current && !materials.Any(m => m.S("id") == current.S("id"))) materials.Add(current);
             choice.ItemsSource = materials.Select(m => m.S("nome", "Materiale trefolo")).ToArray();
-            choice.SelectedIndex = materials.Count - 1;
+            int currentIndex = materials.FindIndex(m => m.S("id") == settings["materiale_trefolo"].S("id"));
+            choice.SelectedIndex = currentIndex >= 0 ? currentIndex : 0;
+            ((DataGridComboBoxColumn)tendons.Columns.First(c => c.Header?.ToString() == "Materiale")).ItemsSource = materials.Select(m => m.S("nome")).Concat(tendons.Rows.Select(r => r.Values.S("materiale"))).Distinct().ToArray();
         };
         reloadTendonMaterials();
         var values = J.Obj(("numero", "1"), ("diametro", Exact(Math.Sqrt(150 * 4 / Math.PI))), ("x", "0"), ("y", "0"), ("sigma0", "1000"));
@@ -63,10 +73,6 @@ internal sealed partial class ConcreteWorkspace
                 }
                 catch (ArgumentException ex) { message.Text = ex.Message; }
             }), Ui.Button("−", () => { tendons.Commit(); if (tendons.SelectedItem is JsonRow row) { tendons.Rows.Remove(row); TendonsChanged(); } })),
-            Ui.Button("Applica materiale al cavo selezionato", () =>
-            {
-                if (choice.SelectedIndex < 0 || tendons.SelectedItem is not JsonRow row) { message.Text = "Selezionare materiale e cavo."; return; }
-                ApplyTendonMaterial(row, materials[choice.SelectedIndex]); TendonsChanged(); message.Text = "";
-            }), message, WithFilters(tendons));
+            message);
     }
 }

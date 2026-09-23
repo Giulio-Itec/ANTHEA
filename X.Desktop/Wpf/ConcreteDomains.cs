@@ -27,7 +27,7 @@ internal sealed partial class ConcreteWorkspace
         internal Dictionary<string, DomainCheck>? OutputChecks;
         internal readonly Plot Plot = new() { InvertY = false, CenteredAxes = true, Title = "Sezione del dominio", EmptyMessage = "Dominio in attesa di aggiornamento automatico" };
         internal readonly TextBlock Detail = Ui.Text("Selezionare una combinazione", 12);
-        internal readonly TextBlock Summary = Ui.Text("Verifiche da calcolare", 12);
+        internal readonly VerificationCards Summary = new();
         internal string Key => Options.S("stato", "SLU");
         internal string Prefix => ThreeD ? "3D:" : "2D:";
     }
@@ -44,8 +44,9 @@ internal sealed partial class ConcreteWorkspace
         {
             if (initializing) return;
             if (key is "filtro" or "stato") { AttachDomainRows(panel); RefreshDomainPanel(panel); Modified?.Invoke(); }
+            else if (key is "interpolazione" or "suddivisioni_n") RefreshDisplayMesh(panel);
             else if (key is "criterio" or "strategia" or "proietta") InvalidateDomainForces(panel);
-            else InvalidateDomainForces(panel);
+            else { panel.NeedsVisualRefresh = true; if (panel.ThreeD) panel.View3D?.SetMesh(null); else { panel.Plot.Segments = []; panel.Plot.InvalidateVisual(); } InvalidateDomainForces(panel); }
             panel.Form.Enable("theta", panel.Options.S("tipo") == "N–M"); panel.Form.Enable("N", panel.Options.S("tipo") == "Mx–My");
             foreach (var field in new[] { "origine_x", "origine_y", "rotazione" }) panel.Form.Enable(field, panel.Options.S("assi") == "Personalizzati");
         }, true, true);
@@ -67,7 +68,7 @@ internal sealed partial class ConcreteWorkspace
             catch (ArgumentException ex) { status.Text = ex.Message; }
         }));
         options.Children.Add(Notice(threeD ? "Domini plastico/elastico e punti resistenti calcolati da Checker. L’interpolazione modifica la mesh visualizzata. Gli assi scelti si riferiscono alle azioni; il grafico è negli assi locali della sezione." : "Stessa logica CheckerUI: N–M diretto nelle direzioni locali principali, altrimenti sezione del dominio tramite Checker. Con proiezione attiva si verifica l’azione proiettata, non l’intera azione 3D."));
-        options.Children.Add(Ui.Text("Arancio: azione selezionata (colori η disattivi)\nViola: punto resistente\nColori η: verde < 0,80; ambra ≤ 1; rosso > 1\nGrigio: tasso non determinato", 11, color: Ui.Muted));
+        options.Children.Add(Ui.Text(UtilizationPalette.Legend + "\nGrigio: esito incompleto o non disponibile", 11, color: Ui.Muted));
         var left = Panel("Opzioni di calcolo", Scroller(options), "N negativo a compressione · grafici negli assi locali Checker");
         UIElement viewport; ViewportFrame frame;
         if (threeD)
@@ -84,14 +85,24 @@ internal sealed partial class ConcreteWorkspace
         }
         else frame = new ViewportFrame("Sezione del dominio", panel.Plot, panel.Plot.ResetView);
         AddDomainScaleControls(panel, frame);
+        foreach (var (key, label) in new[] { ("dimensione_ed", "Punti Ed"), ("dimensione_rd", "Punti Rd") })
+            {
+                var slider = new Slider { Minimum = 2, Maximum = 14, Value = Math.Clamp(panel.Options.D(key, 5), 2, 14), Width = 70, ToolTip = label + " · raggio grafico" };
+                slider.ValueChanged += (_, _) => { panel.Options[key] = slider.Value; UpdateSelection(panel); Modified?.Invoke(); };
+                options.Children.Add(Ui.Bar(Ui.Text(label + " · dimensione", 12), slider));
+            }
         string ForceLabel() => panel.Options.B("solo_selezionata") ? "Forze: selezionata" : "Forze: tutte";
         panel.ForceToggle = Ui.Button(ForceLabel(), () => { panel.Options["solo_selezionata"] = !panel.Options.B("solo_selezionata"); panel.ForceToggle.Content = ForceLabel(); UpdateSelection(panel); Modified?.Invoke(); });
         panel.ForceToggle.ToolTip = "Alterna tutte le azioni visibili e la sola combinazione selezionata; i filtri della tabella restano attivi.";
         frame.Toolbar.Children.Insert(0, panel.ForceToggle); viewport = frame;
+        var displayChecks = new Dictionary<string, CheckBox>();
         foreach (var (key, label) in new[] { ("mostra_ed", "Sollecitazioni"), ("mostra_rd", "Resistenze"), ("tutte_rd", "Tutti i punti resistenti"), ("mostra_linee", "Linee di verifica"), ("colora_eta", "Colori η") })
         {
             var check = new CheckBox { Content = label, IsChecked = panel.Options.B(key, key != "colora_eta" && key != "tutte_rd"), Margin = new Thickness(5, 3, 5, 3), VerticalAlignment = VerticalAlignment.Center };
-            check.Click += (_, _) => { panel.Options[key] = check.IsChecked == true; UpdateSelection(panel); Modified?.Invoke(); };
+            displayChecks[key] = check;
+            check.Click += (_, _) => { panel.Options[key] = check.IsChecked == true;
+                if (key == "tutte_rd" && check.IsChecked == true) { panel.Options["mostra_linee"] = true; panel.Options["mostra_rd"] = true; displayChecks["mostra_linee"].IsChecked = true; displayChecks["mostra_rd"].IsChecked = true; }
+                UpdateSelection(panel); Modified?.Invoke(); };
             frame.Toolbar.Children.Add(check);
         }
         var legend = new StackPanel();
@@ -102,9 +113,8 @@ internal sealed partial class ConcreteWorkspace
         panel.Grid = new JsonGrid([new("visible", "Mostra", Bool: true), new("nome", "Combinazione"), new("N", "N [kN]"), new("Mx", "Mx [kNm]"), new("My", "My [kNm]"), new(ratio, "η [-]", ReadOnly: true), new(outcome, "Esito", ReadOnly: true)], true, actions[panel.Key]);
         panel.Grid.Columns[^1].Width = new DataGridLength(2, DataGridLengthUnitType.Star);
         var table = Panel("Combinazioni N–Mx–My", ActionTable(panel.Key, panel.Grid, () => UpdateSelection(panel)), "Le azioni Plastico / Elastico sono condivise fra le schede 3D e 2D");
-        var detailTabs = new TabControl(); Ui.Tab(detailTabs, "Dettagli combinazione", Scroller(panel.Detail)); Ui.Tab(detailTabs, "Riepilogo verifiche", Scroller(panel.Summary));
-        var upper = Columns((viewport, 6, 350), (detailTabs, 4, 230));
-        var body = Columns((left, 2.65, 265), (Rows(upper, table, 3.7, 2), 7.35, 640)); body.Margin = new Thickness(0, 10, 0, 0);
+        var detailTabs = new TabControl { SelectedIndex = 1 }; Ui.Tab(detailTabs, "Dettagli combinazione", Scroller(panel.Detail)); Ui.Tab(detailTabs, "Riepilogo verifiche", Scroller(panel.Summary));
+        var body = AnalysisLayout(left, viewport, detailTabs, table);
         panel.Grid.IsVisibleChanged += (_, _) => { if (panel.Grid.IsVisible && panel.NeedsVisualRefresh) RefreshDomainPanel(panel); };
         AttachDomainRows(panel); panel.Form.Enable("theta", panel.Options.S("tipo") == "N–M"); panel.Form.Enable("N", panel.Options.S("tipo") == "Mx–My");
         foreach (var field in new[] { "origine_x", "origine_y", "rotazione" }) panel.Form.Enable(field, panel.Options.S("assi") == "Personalizzati");
@@ -144,7 +154,7 @@ internal sealed partial class ConcreteWorkspace
         var input = preparedInput ?? (JsonObject)Input.DeepClone(); var workspace = preparedWorkspace ?? (JsonObject)settings.DeepClone(); var options = (JsonObject)panel.Options.DeepClone();
         var snapshots = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
         var computationOptions = (JsonObject)options.DeepClone();
-        foreach (string visual in new[] { "stato", "filtro", "solo_selezionata", "trasparenza", "mostra_ed", "mostra_rd", "tutte_rd", "mostra_linee", "colora_eta", "criterio", "strategia", "proietta", "scala_x", "scala_y", "scala_n", "scala_mx", "scala_my", "fit_azioni" }) computationOptions.Remove(visual);
+        foreach (string visual in new[] { "stato", "filtro", "solo_selezionata", "trasparenza", "mostra_ed", "mostra_rd", "tutte_rd", "mostra_linee", "colora_eta", "criterio", "strategia", "proietta", "scala_x", "scala_y", "scala_n", "scala_mx", "scala_my", "fit_azioni", "dimensione_ed", "dimensione_rd", "interpolazione", "suddivisioni_n" }) computationOptions.Remove(visual);
         string signature = input.ToJsonString() + workspace.S("normativa") + workspace["coefficienti"]?.ToJsonString() + workspace["trefoli"]?.ToJsonString() + computationOptions.ToJsonString();
         var cached = domainCache.GetValueOrDefault(panel.Prefix + key);
         var calculated = await Task.Run(() =>
@@ -204,7 +214,7 @@ internal sealed partial class ConcreteWorkspace
         if (synchronizing || !panel.NeedsVisualRefresh || !renderHidden && !panel.Grid.IsVisible) return;
         if (panel.ThreeD)
         {
-            var mesh = checker3D.GetValueOrDefault(panel.Key)?.Mesh;
+            var mesh = checker3D.GetValueOrDefault(panel.Key)?.DisplayMesh(panel.Options);
             if (mesh is not null) meshes[panel.Key] = mesh;
             panel.View3D!.SetMesh(mesh);
         }
@@ -241,7 +251,7 @@ internal sealed partial class ConcreteWorkspace
         var visible = new List<(string Id, ActionPoint Force, bool Pass)>();
         foreach (var item in panel.Grid.Items.OfType<JsonRow>())
         {
-            if (!item.Values.B("visible", true) || panel.Options.B("solo_selezionata") && item.Values.S("id") != id) continue;
+            if (!item.Values.B("visible", true) || panel.Options.B("solo_selezionata") && !panel.Options.B("tutte_rd") && item.Values.S("id") != id) continue;
             try {
                 var force = ReadAction(item);
                 if (panel.ThreeD && checker3D.TryGetValue(panel.Key, out var d3)) force = CheckerSection.Point(d3.Section.Force(force));
@@ -251,7 +261,8 @@ internal sealed partial class ConcreteWorkspace
         }
         if (panel.ThreeD)
         {
-            panel.View3D!.ShowActions = panel.Options.B("mostra_ed", true); panel.View3D.ShowResistance = panel.Options.B("mostra_rd", true); panel.View3D.ShowVerificationLines = panel.Options.B("mostra_linee", true); panel.View3D.ColorByRatio = panel.Options.B("colora_eta");
+            panel.View3D!.ActionPointSize = panel.Options.D("dimensione_ed", 5); panel.View3D.ResistancePointSize = panel.Options.D("dimensione_rd", 5);
+            panel.View3D.OnlySelectedActions = panel.Options.B("solo_selezionata"); panel.View3D.ShowActions = panel.Options.B("mostra_ed", true); panel.View3D.ShowResistance = panel.Options.B("mostra_rd", true); panel.View3D.ShowVerificationLines = panel.Options.B("mostra_linee", true); panel.View3D.ColorByRatio = panel.Options.B("colora_eta");
             panel.View3D.Ratios = checks?.ToDictionary(kv => kv.Key, kv => kv.Value.Utilization);
             panel.View3D.Resistances = panel.Options.B("tutte_rd") ? panel.Grid.Items.OfType<JsonRow>().Where(r => r.Values.B("visible", true))
                 .Select(r => (Id: r.Values.S("id"), Check: checks?.GetValueOrDefault(r.Values.S("id")))).Where(r => r.Check?.Resistance is not null)
@@ -268,18 +279,18 @@ internal sealed partial class ConcreteWorkspace
                 foreach (var action in visible)
                 {
                     var p = checker2D.TryGetValue(panel.Key, out var d2) ? d2.Project(action.Force) : Project(action.Force, nm, value);
-                    if (panel.Options.B("mostra_ed", true)) panel.Plot.Markers.Add(new(p[0], p[1], action.Id == id ? "Ed" : "", panel.Options.B("colora_eta") ? RatioColor(checks?.GetValueOrDefault(action.Id)?.Utilization) : action.Id == id ? Ui.Brush("#E09620") : Ui.Blue));
-                    if (action.Id == id && panel.Options.B("mostra_linee", true))
+                    if (panel.Options.B("mostra_ed", true) && (!panel.Options.B("solo_selezionata") || action.Id == id)) panel.Plot.Markers.Add(new(p[0], p[1], action.Id == id ? "Ed" : "", panel.Options.B("colora_eta") ? RatioColor(checks?.GetValueOrDefault(action.Id)?.Utilization) : action.Id == id ? Ui.Brush("#E09620") : Ui.Blue, Radius: panel.Options.D("dimensione_ed", 5)));
+                    if ((action.Id == id || panel.Options.B("tutte_rd")) && panel.Options.B("mostra_linee", true))
                     {
                         panel.Plot.VerificationSegments.Add((new double[] { 0, 0 }, p));
-                        if (selectedCheck?.Resistance is ActionPoint resistance)
+                        if (checks?.GetValueOrDefault(action.Id)?.Resistance is ActionPoint resistance)
                             panel.Plot.VerificationSegments.Add((p, d2 is not null ? d2.Project(resistance) : Project(resistance, nm, value)));
                     }
                 }
                 if (panel.Options.B("mostra_rd", true))
                     foreach (var item in panel.Grid.Items.OfType<JsonRow>().Where(r => r.Values.B("visible", true) && (panel.Options.B("tutte_rd") || r.Values.S("id") == id)))
                         if (checks?.GetValueOrDefault(item.Values.S("id")) is { Resistance: ActionPoint r } check)
-                        { var p = checker2D.TryGetValue(panel.Key, out var d2) ? d2.Project(r) : Project(r, nm, value); panel.Plot.Markers.Add(new(p[0], p[1], item.Values.S("id") == id ? "Rd" : "", RatioColor(check.Utilization))); }
+                        { var p = checker2D.TryGetValue(panel.Key, out var d2) ? d2.Project(r) : Project(r, nm, value); panel.Plot.Markers.Add(new(p[0], p[1], item.Values.S("id") == id ? "Rd" : "", RatioColor(check.Utilization), Radius: panel.Options.D("dimensione_rd", 5))); }
                 panel.Plot.ToolTip = UtilizationPalette.Legend;
             }
             catch (ArgumentException) { }
@@ -412,35 +423,5 @@ internal sealed partial class ConcreteWorkspace
             ["avvisi"] = J.Node(new[] { "Compressione negativa; azioni in kN e kNm", "Taglio e fessurazione: vedere esiti specifici e limiti di applicabilità" })
         };
     }
-    private void RefreshSummary()
-    {
-        RefreshVerificationSummaries();
-        foreach (var (key, text) in summaries)
-        {
-            int count = actions[key].Count;
-            if (count == 0) { text.Text = "Nessuna combinazione inserita"; text.Foreground = Ui.Muted; continue; }
-            if (key is "SLU" or "SLV")
-            {
-                string Summary(string prefix)
-                {
-                    var checks = domainResults.GetValueOrDefault(prefix + ":" + key);
-                    if (checks is null) return prefix + " · " + calculationErrors.GetValueOrDefault(prefix + ":" + key, "aggiornamento in attesa");
-                    var values = checks.Values.Where(c => c.Utilization is not null).ToArray(); int missing = count - values.Length;
-                    var worst = checks.Where(c => c.Value.Utilization is not null).OrderByDescending(c => c.Value.Utilization).FirstOrDefault();
-                    string name = actions[key].FirstOrDefault(r => r.Values.S("id") == worst.Key)?.Values.S("nome") ?? "—";
-                    return $"{prefix} · ηmax = {(values.Length == 0 ? "—" : values.Max(c => c.Utilization)!.Value.ToString("0.00"))} · {values.Count(c => c.Utilization > 1)} fuori\nGoverna: {name}" + (missing > 0 ? $"\n{prefix} · {missing} fuori piano / da controllare" : "");
-                }
-                text.Text = $"{count} combinazioni\n{Summary("3D")}\n{Summary("2D")}";
-                var all = new[] { "3D:", "2D:" }.SelectMany(prefix => domainResults.GetValueOrDefault(prefix + key)?.Values.AsEnumerable() ?? []);
-                text.Foreground = all.Any(c => c.Utilization is > 1) ? Ui.Brush("#BB4B41") : Ui.Muted;
-            }
-            else
-            {
-                var checks = stressResults.GetValueOrDefault(key); var values = checks?.Values.Where(s => s.State is not null).ToArray();
-                text.Text = values is not { Length: > 0 } ? $"{count} combinazioni · tensioni da calcolare\nFessurazione: da calcolare" : $"σc,min = {values.Min(s => s.State!.sigma_cls):0.00} MPa\n|σs|max = {values.Max(s => s.State!.sigma_acciaio):0.00} MPa\n{values.Length}/{count} analizzate · " + (values.Any(s => s.Ratio > 1) ? $"{values.Count(s => s.Ratio > 1)} oltre limiti tensionali" : values.All(s => s.Ratio is null) ? "limite non previsto" : "entro i limiti tensionali");
-                if (checks is not null) text.Text += $"\nFessurazione: {checks.Values.Count(s => s.CrackResult?.Passed == true)} entro limite, {checks.Values.Count(s => s.CrackResult?.Passed == false)} fuori, {checks.Values.Count(s => s.CrackResult?.Passed is null)} non verificate";
-                text.Foreground = values?.Any(s => s.Ratio > 1 || s.CrackResult?.Passed == false) == true ? Ui.Brush("#BB4B41") : Ui.Muted;
-            }
-        }
-    }
+    private void RefreshSummary() => RefreshVerificationSummaries();
 }

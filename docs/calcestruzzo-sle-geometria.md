@@ -102,6 +102,82 @@ il riepilogo non costituisce una nuova validazione normativa del metodo.
 
 ## Verifica
 
+### Pannello, materiali e grafici (settembre 2026)
+
+- Nuovi fogli: sezione rettangolare, staffe passo 200 mm, CLS C35/45 e barre
+  B450C dal catalogo DLL; trefoli Y1860 predefiniti per i nuovi cavi.
+  I fogli esistenti conservano i propri dati.
+- Materiali salvati e standard sono immutabili nel pannello e nella tabella
+  dei cavi. «Nuovo materiale» crea una copia modificabile, da salvare nel foglio;
+  il database condiviso non è ancora implementato. NTC propone B450A/B450C;
+  gli altri codici disponibili usano il catalogo EN 1992 (Model Code usa il suo
+  catalogo CLS). Non esistono cataloghi specifici distinti per ogni annesso.
+- Il materiale predefinito dei trefoli riguarda i nuovi cavi; il menu della
+  singola riga assegna il materiale a quel cavo senza modificare gli altri.
+- La modifica di x/y/Ø nella tabella barre salva una disposizione manuale,
+  usata anche dal motore Checker. Il wizard torna autorevole solo con
+  «Ripristina barre da wizard». Posizioni e sovrapposizioni restano validate;
+  se le barre manuali di una sezione circolare non formano più un unico anello,
+  la spaziatura automatica per arco non è applicabile: inserirla manualmente.
+- «Proprietà sezione» riporta geometria CLS, proprietà omogeneizzate della DLL
+  (sezione integra), quantità e diametri delle armature, area dei trefoli.
+  Il comando «Proprietà / report…» è disponibile anche sopra la preview;
+  la finestra consente copia del testo ed esportazione del report TXT.
+  Si può impostare φ oppure n delle armature ordinarie: n = Es(1+φ)/Ecm,
+  con φ ≥ 0. Per i trefoli è mostrato n relativo a ciascun Ep, a φ comune.
+  Le opzioni sono salvate nel foglio ma non modificano le analisi SLE.
+  Le proprietà sono calcolate dall'overload della DLL con φ, riutilizzando
+  la stessa sezione preparata per la finestra.
+- I dati del materiale dei trefoli sono campi dedicati (Ep, fpyk, fpk, εpu,
+  diagramma), in sola lettura come i materiali CLS/acciaio.
+  «Nuovo materiale» consente l'inserimento diretto di fck per il CLS oppure
+  fyk/fu e delle altre proprietà dell'acciaio; non propone un materiale di
+  partenza da selezionare. Il diagramma affiancato mostra
+  le curve caratteristiche e di progetto, campionate dalle leggi della DLL
+  usando i coefficienti effettivi del foglio; la compressione è negativa.
+  Il salvataggio conserva l'origine e la normativa del materiale.
+  Solo il grafico CLS è riflesso: compressione nel primo quadrante, con
+  etichette di entrambi gli assi negative. I dati della legge costitutiva e
+  i grafici degli acciai mantengono i segni originali.
+- La preview dispone di tre checkbox indipendenti, salvate nel foglio:
+  dimensioni, copriferro e interferro minimo. Le quote sono in mm e seguono
+  la geometria corrente, comprese anima/soletta della T e diametro circolare.
+  Il copriferro è quello netto alla staffa; l'interferro è la distanza libera
+  minima tra le superfici delle barre ordinarie (non interasse né arco).
+  Sono opzioni grafiche, senza ricalcolo strutturale.
+- I riquadri delle verifiche condividono la legenda dei punti, mantengono
+  separati 3D/2D, tensioni/fessurazione e Vx/Vy e segnalano gli esiti mancanti.
+  L'esito senza tasso non viene trasformato artificialmente in un tasso numerico.
+  I riquadri sono compatti su due righe, con combinazione governante e tasso;
+  i dettagli completi restano nel tooltip. Il pannello destro raccoglie tutte
+  le categorie nella stessa schermata alle dimensioni desktop verificate.
+- Raggi grafici Ed/Rd separati in 2D/3D; tutti i punti resistenti attivano
+  le relative linee. La scelta «Forze: selezionata» resta indipendente.
+  I due slider delle dimensioni dei punti sono visibili nel pannello sinistro.
+  La discretizzazione angolare ricostruisce il dominio nativo. Interpolazione
+  lineare/quadratica e suddivisioni N aggiornano invece soltanto la mesh,
+  usando una copia dei punti nativi: risultati, tassi e solver restano gli stessi.
+  Le facce trasparenti sono ordinate in profondità rispetto alla telecamera;
+  il reticolo usa spigoli unici sul lato visibile, tracciati sullo schermo per
+  evitare conflitti di profondità con la superficie. Test incluso a 64 direzioni.
+- Il wizard rettangolare permette una seconda fila superiore e inferiore,
+  attivabili separatamente. Il circolare permette un secondo anello interno.
+  Tutti sono spenti inizialmente; numero, Ø e distanza **libera** dalla prima
+  fila sono modificabili. Posizioni, spazio disponibile e sovrapposizioni
+  sono validati e la disposizione alimenta la DLL, non soltanto la preview.
+  Con barre manuali i comandi restano disabilitati fino al ripristino del wizard.
+  Per il taglio rettangolare automatico d e Asl includono i secondi strati;
+  il metodo di interasse circolare considera separatamente i due anelli del wizard.
+  Nella T l'ultima barra laterale raggiunge la quota interna della staffa alta.
+- Tabelle di barre e trefoli nello stesso riquadro, con sottoschede distinte.
+  Input a sinistra, viewport e dettagli affiancati, combinazioni in basso:
+  proporzioni e divisori uniformi fra dominio 3D, 2D, SLE e taglio.
+- I riepiloghi e il report non mostrano verifiche esplicitamente non richieste:
+  fessurazione rara NTC e verifica tensionale frequente. Le tensioni frequenti
+  continuano a essere calcolate per la fessurazione e consultabili nella vista.
+  Non vengono nascosti errori, verifiche applicabili mancanti o normative
+  non implementate; queste conservano l'avviso esplicito.
+
 Suite numerica: `dotnet run --project X.Verifiche -c Release -- --checker`.
 Test mirato WPF: `dotnet run --project X.Desktop -c Release -- --smoke-ca-features verifiche_ca_features`.
 Quest'ultimo confronta seriale/parallelo lineare e non lineare, controlla

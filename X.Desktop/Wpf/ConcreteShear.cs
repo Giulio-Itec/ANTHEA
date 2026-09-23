@@ -8,9 +8,9 @@ internal sealed partial class ConcreteWorkspace
 {
     private readonly Dictionary<string, Ntc2018Checks.ShearResult[]> shearResults = new();
     private readonly TextBlock shearSummary = Ui.Text("Taglio · da calcolare", 12);
-    private readonly TextBlock shearDashboard = Ui.Text("Taglio · da calcolare", 12);
+    private readonly VerificationCards shearDashboard = new();
     private readonly TextBlock shearDetail = Ui.Text("Selezionare una combinazione", 13);
-    private readonly TextBlock shearWorst = Ui.Text("Verifiche da calcolare", 12);
+    private readonly VerificationCards shearWorst = new();
     private readonly ConcreteSectionViewport shearView = new();
     private JsonGrid? shearGrid;
     private InputForm shearForm = null!;
@@ -91,10 +91,10 @@ internal sealed partial class ConcreteWorkspace
         shearGrid.SelectionChanged += (_, _) => UpdateShearSelection();
         shearGrid.IsVisibleChanged += (_, _) => { if (shearGrid.IsVisible) UpdateShearSelection(); };
         var notice = Notice("NTC 2018 §4.1.2.3.5 · N negativo a compressione. Inserire bw minima, d e Asl efficacemente ancorata per ogni direzione. Ø e passo staffe nei dati comuni. Esiti x/y separati: torsione, interazione biassiale, dettagli e gerarchia sismica non verificati. Per sezioni circolari il fattore 0,75 della vecchia routine richiede una schematizzazione specifica: nessun esito automatico.");
-        var detailTabs = new TabControl(); Ui.Tab(detailTabs, "Dettagli combinazione", Scroller(shearDetail)); Ui.Tab(detailTabs, "Riepilogo verifiche", Scroller(shearWorst));
-        var upper = Columns((new ViewportFrame("Sezione · riferimenti geometrici", shearView, shearView.ResetView), 4, 260), (detailTabs, 6, 330));
-        return Columns((Panel("Dati del modello a taglio", Scroller(Ui.Stack(Group("Staffe · dati comuni", BuildStirrups(), true), shearForm,shearAutomaticNote,notice)), "Azioni di progetto già combinate · assi locali"),3,280),
-            (Rows(upper, Panel("Combinazioni e resistenze",Ui.Dock(WithFilters(shearGrid),bottom:Ui.Stack(buttons,shearSummary))), 3, 2),7,680));
+        var detailTabs = new TabControl { SelectedIndex = 1 }; Ui.Tab(detailTabs, "Dettagli combinazione", Scroller(shearDetail)); Ui.Tab(detailTabs, "Riepilogo verifiche", Scroller(shearWorst));
+        return AnalysisLayout(Panel("Dati del modello a taglio", Scroller(Ui.Stack(Group("Staffe · dati comuni", BuildStirrups(), true), shearForm,shearAutomaticNote,notice)), "Azioni di progetto già combinate · assi locali"),
+            new ViewportFrame("Sezione · riferimenti geometrici", shearView, shearView.ResetView), detailTabs,
+            Panel("Combinazioni e resistenze",Ui.Dock(WithFilters(shearGrid),bottom:Ui.Stack(buttons,shearSummary))));
     }
     private JsonRow ShearRow(JsonObject values) => new(values, _ =>
     {

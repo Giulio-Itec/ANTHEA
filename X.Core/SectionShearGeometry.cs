@@ -15,6 +15,16 @@ public static class SectionShearGeometry
         double low = section.Bars.Min(C), high = section.Bars.Max(C);
         var negative = section.Bars.Where(b => C(b) <= low + rim && C(b) < (min + max) / 2).ToArray();
         var positive = section.Bars.Where(b => C(b) >= high - rim && C(b) > (min + max) / 2).ToArray();
+        if (!alongX && section.Shape == "Rettangolare" && !section.Input.ContainsKey("barre_manuali"))
+        {
+            int offset = (int)(section.Input.D("top_bar_count") + section.Input.D("bottom_bar_count"));
+            if (section.Input.B("second_top_enabled"))
+            {
+                int count = (int)section.Input.D("second_top_count");
+                positive = positive.Concat(section.Bars.Skip(offset).Take(count)).Distinct().ToArray(); offset += count;
+            }
+            if (section.Input.B("second_bottom_enabled")) negative = negative.Concat(section.Bars.Skip(offset).Take((int)section.Input.D("second_bottom_count"))).Distinct().ToArray();
+        }
         if (negative.Length == 0 || positive.Length == 0) throw new ArgumentException("Armature sui due lembi non determinabili: usare parametri manuali.");
         double negArea = negative.Sum(b => b.Area), posArea = positive.Sum(b => b.Area);
         double depth = Math.Min(max - negative.Sum(b => b.Area * C(b)) / negArea, positive.Sum(b => b.Area * C(b)) / posArea - min);

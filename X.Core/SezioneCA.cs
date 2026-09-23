@@ -21,14 +21,17 @@ public sealed class SezioneCA
     public List<Barra> Bars { get; } = [];
     public double NAutomatico => Es/(22000*Math.Pow((Input.D("fck_mpa")+8)/10,.3));
     public static JsonObject DefaultInput() => J.Obj(
-        ("shape","Circolare"),("diameter_mm","1000"),("width_mm","600"),("height_mm","800"),("flange_width_mm","1200"),("web_width_mm","400"),("flange_thickness_mm","250"),("cover_mm","70"),
-        ("longitudinal_bar_count","16"),("longitudinal_bar_diameter_mm","24"),("top_bar_count","4"),("top_bar_diameter_mm","20"),("bottom_bar_count","6"),("bottom_bar_diameter_mm","24"),("side_bar_count_per_side","2"),("side_bar_diameter_mm","16"),("transverse_bar_diameter_mm","10"),("transverse_spacing_mm","150"),
+        ("shape","Rettangolare"),("diameter_mm","1000"),("width_mm","600"),("height_mm","800"),("flange_width_mm","1200"),("web_width_mm","400"),("flange_thickness_mm","250"),("cover_mm","70"),
+        ("longitudinal_bar_count","16"),("longitudinal_bar_diameter_mm","24"),("top_bar_count","4"),("top_bar_diameter_mm","20"),("bottom_bar_count","6"),("bottom_bar_diameter_mm","24"),("side_bar_count_per_side","2"),("side_bar_diameter_mm","16"),("transverse_bar_diameter_mm","10"),("transverse_spacing_mm","200"),
         ("apply_pile_requirements",false),("dissipative_zone",false),("fck_mpa","35"),("fyk_mpa","450"),("alpha_cc","0.85"),("gamma_c","1.50"),("gamma_s","1.15"),("steel_modulus_mpa","200000"),
         ("axial_force_kn","2500"),("moment_x_knm","500"),("moment_y_knm","250"),("apply_minimum_eccentricity",false),("minimum_eccentricity_mm","0"),("classe_cls","C35/45"),("n",""));
     public static JsonObject DefaultData()
     {
+        var input = DefaultInput();
+        foreach (var material in new[] { ConcreteMaterialCatalog.Concrete().Single(m => m.S("nome") == "C35/45"), ConcreteMaterialCatalog.Steel(false, "NTC 2018").Single(m => m.S("nome") == "B450C") })
+            foreach (var (key, value) in material.Where(p => p.Key != "nome")) input[key] = value?.DeepClone();
         var combos=new JsonObject();foreach(var limit in new[]{"SLU","SLV","SLE"})combos[limit]=new JsonArray(J.Obj(("nome","Combo 1"),("azioni",new[]{"2500","500","250"})));
-        return J.Obj(("versione_sezione",2),("input",DefaultInput()),("n_automatico",true),("combinazioni",combos));
+        return J.Obj(("versione_sezione",2),("input",input),("n_automatico",true),("combinazioni",combos));
     }
     public static (double Ec2,double Ecu,double N) ParametriCls(double fck)
     {
@@ -69,6 +72,13 @@ public sealed class SezioneCA
             foreach(var k in new[]{"top_bar_diameter_mm","bottom_bar_diameter_mm","side_bar_diameter_mm"})Input.Required(k,strict:true);
         }
         if(V("fck_mpa")<12||V("fck_mpa")>90)throw new ArgumentException("fck deve essere compreso tra 12 e 90 MPa.");
+        foreach (string layer in Shape == "Circolare" ? new[] { "inner" } : Shape == "Rettangolare" ? new[] { "top", "bottom" } : Array.Empty<string>())
+            if (Input.B("second_" + layer + "_enabled"))
+            {
+                Count("second_" + layer + "_count", layer == "inner" ? 4 : 2);
+                Input.Required("second_" + layer + "_diameter", strict: true);
+                Input.Required("second_" + layer + "_gap", strict: true);
+            }
     }
     private void RectangleFibers(double xmin,double xmax,double ymin,double ymax,int nx,int ny,double shift=0)
     {
@@ -106,12 +116,30 @@ public sealed class SezioneCA
     }
     private void BuildBars()
     {
+        if (Input["barre_manuali"] is JsonArray manual)
+        {
+            if (manual.Count == 0) throw new ArgumentException("Inserire almeno una barra.");
+            foreach (var row in manual)
+            {
+                double x = SectionWorkspace.Number(row.S("x"), "x barra"), y = SectionWorkspace.Number(row.S("y"), "y barra"), diameter = row!.Required("phi", strict: true);
+                Bars.Add(new(x, y, Math.PI * diameter * diameter / 4, diameter));
+            }
+            return;
+        }
         double cover=V("cover_mm"),transverse=V("transverse_bar_diameter_mm");
         if(Shape=="Circolare")
         {
             double diameter=V("longitudinal_bar_diameter_mm"),area=Math.PI*diameter*diameter/4;int count=(int)V("longitudinal_bar_count");BarRadius=Radius-cover-transverse-diameter/2;
             if(BarRadius<=0)throw new ArgumentException("Copriferro e diametri delle barre non lasciano spazio all'armatura longitudinale.");
-            for(int i=0;i<count;i++)Bars.Add(new(BarRadius*Math.Cos(2*Math.PI*i/count),BarRadius*Math.Sin(2*Math.PI*i/count),area,diameter));return;
+            for(int i=0;i<count;i++)Bars.Add(new(BarRadius*Math.Cos(2*Math.PI*i/count),BarRadius*Math.Sin(2*Math.PI*i/count),area,diameter));
+            if (Input.B("second_inner_enabled"))
+            {
+                double d = V("second_inner_diameter"), r = BarRadius - (diameter + d) / 2 - V("second_inner_gap");
+                int n = (int)V("second_inner_count");
+                if (r <= d / 2) throw new ArgumentException("Secondo anello: distanza libera e diametro non lasciano spazio sufficiente.");
+                for (int i = 0; i < n; i++) Bars.Add(new(r * Math.Cos(2 * Math.PI * i / n), r * Math.Sin(2 * Math.PI * i / n), Math.PI * d * d / 4, d));
+            }
+            return;
         }
         double h=V("height_mm"),tp=V("top_bar_diameter_mm"),bp=V("bottom_bar_diameter_mm");
         double tw=(Shape=="Rettangolare"?V("width_mm"):V("flange_width_mm"))/2-cover-transverse-tp/2;
@@ -119,6 +147,18 @@ public sealed class SezioneCA
         double ty=h/2-cover-transverse-tp/2-CentroidY,by=-h/2+cover+transverse+bp/2-CentroidY;
         if(ty<=by)throw new ArgumentException("Copriferro e armature non lasciano una distanza utile tra gli strati.");
         Layer((int)V("top_bar_count"),tw,ty,tp);Layer((int)V("bottom_bar_count"),bw,by,bp);
+        if (Shape == "Rettangolare")
+        {
+            double upper = ty, lower = by;
+            foreach (string layer in new[] { "top", "bottom" }) if (Input.B("second_" + layer + "_enabled"))
+            {
+                double d = V("second_" + layer + "_diameter"), gap = V("second_" + layer + "_gap");
+                double y = layer == "top" ? ty - (tp + d) / 2 - gap : by + (bp + d) / 2 + gap;
+                if (layer == "top") upper = y - d / 2; else lower = y + d / 2;
+                if (upper <= lower) throw new ArgumentException("Secondi strati: distanza libera incompatibile con l'altezza della sezione.");
+                Layer((int)V("second_" + layer + "_count"), V("width_mm") / 2 - cover - transverse - d / 2, y, d);
+            }
+        }
         if (Shape == "A T" && Input.D("flange_bottom_count") > 0)
         {
             double number = Input.Required("flange_bottom_count", 2);
@@ -132,9 +172,9 @@ public sealed class SezioneCA
                 h / 2 - V("flange_thickness_mm") + flangeOffset - CentroidY, diameter);
         }
         int sides=(int)V("side_bar_count_per_side");if(sides==0)return;
-        double phi=V("side_bar_diameter_mm"),offset=cover+transverse+phi/2,sx=halfSide-offset,low=-h/2+offset-CentroidY,high=sideTop-offset-CentroidY;
+        double phi=V("side_bar_diameter_mm"),offset=cover+transverse+phi/2,sx=halfSide-offset,low=-h/2+offset-CentroidY,high=(Shape == "A T" ? h/2 : sideTop)-offset-CentroidY;
         if(sx<=0||high<=low)throw new ArgumentException("Non c'è spazio sufficiente per le barre laterali indicate.");
-        double sa=Math.PI*phi*phi/4;for(int i=0;i<sides;i++){double y=low+(i+1)*(high-low)/(sides+1);Bars.Add(new(-sx,y,sa,phi));Bars.Add(new(sx,y,sa,phi));}
+        double sa=Math.PI*phi*phi/4;for(int i=0;i<sides;i++){double y=low+(i+1)*(high-low)/(Shape == "A T" ? sides : sides+1);Bars.Add(new(-sx,y,sa,phi));Bars.Add(new(sx,y,sa,phi));}
     }
     public double ConcreteStress(double strain)=>strain<=0?0:strain<EpsC2?Fcd*(1-Math.Pow(1-Math.Clamp(strain/EpsC2,0,1),ParabolaN)):Fcd;
     public double SteelStress(double strain)=>Math.Clamp(Es*strain,-Fyd,Fyd);
