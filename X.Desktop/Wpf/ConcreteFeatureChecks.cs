@@ -70,10 +70,22 @@ internal sealed partial class ConcreteWorkspace
         var crackingForce = new ActionPoint(-100, 150, 0);
         var crackingState = crackingEngine.Stress(crackingForce, "SLE_QP");
         var autoCrack = Ntc2018Checks.Cracking(crackingEngine, crackingState, crackingForce, Input, settings, autoOptions, "SLE_QP");
+        Check(autoCrack.Details.Any(d => d.Symbol == "wk") && autoCrack.Details.Any(d => d.Symbol == "hc,eff") && CrackCalculationSummary.Format(autoCrack).Contains("k₂"), "Dettaglio completo della fessurazione");
         Check(autoCrack.BarSpacing > 0 && autoCrack.Width is not null && autoCrack.SpacingSource == "Automatico geometrico", "Spaziatura automatica alimenta fessurazione");
         autoOptions["spaziatura_fessure"] = Exact(autoCrack.BarSpacing!.Value);
         var manualCrack = Ntc2018Checks.Cracking(crackingEngine, crackingState, crackingForce, Input, settings, autoOptions, "SLE_QP");
         Check(manualCrack.Width == autoCrack.Width && manualCrack.SpacingSource == "Manuale", "Override manuale coerente con automatico");
+        foreach (var (field, value) in new[] { ("esposizione", "XC1"), ("sensibilita", "Poco sensibile"), ("spaziatura_fessure", "") }) panel.Options.Set(field, value);
+        var crackRow = CreateAction("SLE_QP", "Diagnostica fessure", "-100", "150", "0");
+        actions["SLE_QP"].Add(crackRow); SyncActions("SLE_QP"); InvalidateActions("SLE_QP"); await Update();
+        tabs.SelectedIndex = 3; sleTabs.SelectedIndex = 2;
+        await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+        var crackingPanel = stressPanels["SLE_QP"]; crackingPanel.Grid.SelectedItem = crackRow; UpdateStressSelection("SLE_QP");
+        Check(crackingPanel.CrackDetail.Text.Contains("hc,eff") && crackingPanel.CrackDetail.Text.Contains("Criterio k₂") && crackingPanel.CrackDetail.Text.Contains("Δsm adottata"), "Passaggi numerici presenti nella UI per la combinazione selezionata");
+        var traceTabs = Ui.Descendants<System.Windows.Controls.TabControl>(this).First(t => t.Items.OfType<System.Windows.Controls.TabItem>().Any(i => i.Header?.ToString() == "Fessurazione · passaggi"));
+        traceTabs.SelectedItem = traceTabs.Items.OfType<System.Windows.Controls.TabItem>().First(i => i.Header?.ToString() == "Fessurazione · passaggi");
+        UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, "dettaglio_fessurazione.png"), Ui.Snapshot(Window.GetWindow(this)));
+        File.WriteAllText(Path.Combine(directory, "dettaglio_fessurazione.txt"), crackingPanel.CrackDetail.Text);
         foreach (string scheme in new[] { "Bracci paralleli", "Staffe chiuse sovrapposte" })
         {
             ShearOptions["schema_interno"] = scheme; ShearOptions["rami_interni"] = "2"; SynchronizeStirrups();

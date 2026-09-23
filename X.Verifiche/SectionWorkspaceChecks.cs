@@ -72,6 +72,23 @@ internal static class SectionWorkspaceChecks
             var check=two.Check(new(-500,50*Math.Cos(t),50*Math.Sin(t)));
             Assert(check.Utilization is > 0 && check.Resistance is not null, "N-M " + angle);
         }
+        Assert(Ntc2018Checks.CrackK2([-1, 100, 200]) == .5, "k2 flessione con una barra compressa");
+        Assert(Ntc2018Checks.CrackK2([100, 150, 200]) == 1, "k2 trazione con tutte le barre tese");
+        Assert(Ntc2018Checks.CrackK2([0, 100]) == 1 && Ntc2018Checks.CrackK2([-1e-12, 100]) == .5, "k2: zero non compresso, segno negativo rispettato");
+        bool invalidK2 = false;
+        try { Ntc2018Checks.CrackK2([double.NaN]); } catch (ArgumentException) { invalidK2 = true; }
+        Assert(invalidK2, "k2 non accetta tensioni non finite");
+        var traced = Ntc2018Checks.CrackWidthWithDetails(200,200000,30000,2.6,.02,16,40,150,400,false,true,.5);
+        double Trace(string symbol) => traced.Details.Single(d => d.Symbol == symbol).Value!.Value;
+        Assert(Math.Abs(traced.Width-.19185066666666667)<1e-12, "Traccia conserva risultato lunga durata");
+        Assert(Trace("kt") == .4 && Trace("k₁") == .8 && Trace("k₂") == .5 && Trace("k₃") == 3.4 && Trace("k₄") == .425, "Coefficienti effettivi memorizzati");
+        Assert(Math.Abs(Trace("αe") - 200000d/30000) < 1e-12 && Trace("s_lim") == 240, "Omogeneizzazione e soglia interasse tracciate");
+        Assert(Math.Abs(Trace("Δε calcolata") - .0007053333333333333) < 1e-14 && Trace("Δε minima") == .0006, "Entrambi i candidati di deformazione tracciati");
+        Assert(Math.Abs(1.7 * Trace("Δsm adottata") * Trace("εsm − εcm") - traced.Width) < 1e-14, "wk ricostruibile dai passaggi senza arrotondamenti");
+        var shortTrace = Ntc2018Checks.CrackWidthWithDetails(200,200000,30000,2.6,.02,16,40,150,400,true,true,.5);
+        Assert(shortTrace.Details.Single(d => d.Symbol == "εsm − εcm").Note.Contains("minimo"), "Indicato minimo governante breve durata");
+        var farTrace = Ntc2018Checks.CrackWidthWithDetails(200,200000,30000,2.6,.02,16,40,500,400,false,true,.5);
+        Assert(farTrace.Details.Single(d => d.Symbol == "Δsm adottata").Value == 300 && farTrace.Details.Single(d => d.Symbol == "s − s_lim").Note.Contains("s > s_lim"), "Ramo distanziato ricostruibile");
         var ntcLong = Ntc2018Checks.CrackWidth(200,200000,30000,2.6,.02,16,40,150,400,false,true,.5);
         Assert(Math.Abs(ntcLong-.19185066666666667)<1e-12,"Fessure: calcolo indipendente lunga durata");
         Assert(Math.Abs(Ntc2018Checks.CrackWidth(200,200000,30000,2.6,.02,16,40,150,400,true,true,.5)-.1632)<1e-12,"Fessure: breve durata e deformazione minima");
@@ -94,7 +111,25 @@ internal static class SectionWorkspaceChecks
         sle["modello"]="Lineare"; sle["esposizione"]="XC1"; sle["spaziatura_fessure"]="200";
         var crackEngine=new CheckerSection(input,settings,sle); var crackAction=new ActionPoint(-100,50,0); var crackStress=crackEngine.Stress(crackAction,"SLE_QP");
         var crack=Ntc2018Checks.Cracking(crackEngine,crackStress,crackAction,input,settings,sle,"SLE_QP");
+        Assert(crack.Details.Any(d => d.Symbol == "hc,eff") && crack.Details.Any(d => d.Symbol == "Criterio k₂") && crack.Details.Any(d => d.Symbol.StartsWith("B") && d.Symbol.EndsWith(" · σs")), "Traccia geometria, assunzioni e tensioni delle singole barre");
+        Assert(J.Node(crack)?["Details"] is JsonArray { Count: > 30 }, "Passaggi esportati in JSON");
+        var compact = CrackCalculationSummary.Values(crack);
+        Assert(compact.Length == CrackCalculationSummary.MaxValues && compact.Select(d => d.Symbol).Distinct().Count() == compact.Length, "Riepilogo limitato a 30 valori senza duplicati");
+        Assert(compact.Single(d => d.Symbol == "wk").Value == crack.Width && compact.Single(d => d.Symbol == "ηw").Value == crack.Ratio, "Riepilogo conserva risultati non arrotondati");
+        Assert(!CrackCalculationSummary.Format(crack).Contains("B01 ·") && compact.Any(d => d.Symbol == "k₂"), "Riepilogo senza singole barre, con coefficienti normativi");
+        var restoredCrack = System.Text.Json.JsonSerializer.Deserialize<Ntc2018Checks.CrackResult>(J.Node(crack)!.ToJsonString())!;
+        Assert(CrackCalculationSummary.Values(restoredCrack).SequenceEqual(compact), "Riepilogo report identico dopo round trip JSON");
         Assert(crack.Width is >0 && crack.EffectiveArea is >0 && crack.Ratio is >0,"Fessurazione da tensioni native e mesh tagliata");
+        Assert(crack.Details.Single(d => d.Symbol == "Criterio k₂").Value == Ntc2018Checks.CrackK2(crackStress.tensioni_barre), "k2 scelto da tutte le barre del risultato nativo");
+        foreach (var force in new[] { new ActionPoint(100, 0, 0), new ActionPoint(100, 10, 0), new ActionPoint(200, 20, 0), new ActionPoint(-100, 50, 0) })
+        {
+            var nativeState = crackEngine.Stress(force, "SLE_QP");
+            var checkedCrack = Ntc2018Checks.Cracking(crackEngine, nativeState, force, input, settings, sle, "SLE_QP");
+            double expectedK2 = Ntc2018Checks.CrackK2(nativeState.tensioni_barre);
+            Assert(checkedCrack.Details.Single(d => d.Symbol == "Criterio k₂").Value == expectedK2, "Criterio k2 anche per trazione pura e pressoflessione");
+            if (checkedCrack.Width is > 0)
+                Assert(checkedCrack.Details.Single(d => d.Symbol == "k₂").Value == expectedK2, "Il coefficiente selezionato entra nella formula wk");
+        }
         var strainPlane=crackStress.Native.StrainPlane;
         double depth=crackEngine.Section.Shape.GetPoints2d().Max(p=>strainPlane.GetStrain(p))/Math.Abs(strainPlane.ChiY);
         double effectiveHeight=Math.Min(125,Math.Min(depth/3,250));
@@ -104,6 +139,9 @@ internal static class SectionWorkspaceChecks
         {
             sle["esposizione"]=exposure;sle["sensibilita"]="Sensibile";
             var result=Ntc2018Checks.Cracking(crackEngine,crackStress,crackAction,input,settings,sle,exposure=="XC4"?"SLE_QP":"SLE_FREQ");
+            Assert(result.Details.Any(d => d.Symbol == "σct,max") && result.Details.Any(d => d.Symbol == "σct,lim"), "Traccia ramo sezione integra " + exposure);
+            var compactUncracked = CrackCalculationSummary.Values(result);
+            Assert(compactUncracked.Length <= CrackCalculationSummary.MaxValues && compactUncracked.Any(d => d.Symbol == "σct,lim") && !compactUncracked.Any(d => d.Symbol == "wk"), "Riepilogo pertinente per decompressione e formazione " + exposure);
             Assert(result.Width is null && result.Ratio is null && result.Passed.HasValue,"Verifica sezione integra "+exposure);
         }
         options["assi"]="Personalizzati";options["origine_x"]="10";options["origine_y"]="20";options["rotazione"]="0";
