@@ -1,4 +1,4 @@
-namespace X.Core;
+﻿namespace X.Core;
 
 /// <summary>UI-independent contracts, mm/MPa/kN. Reusable by section and future anchorage modules.</summary>
 public enum ConcreteMemberKind { Beam, Column, Slab, Wall }
@@ -12,12 +12,13 @@ public sealed class ConcreteAnchorageCalculator : IConcreteAnchorageCalculator
     public AnchorageResult Calculate(AnchorageInput p)
     {
         if (new[] {p.Diameter,p.Fctk05,p.GammaC}.Any(v=>!double.IsFinite(v)||v<=0) ||
-            new[]{p.Stress,p.AvailableLength,p.LapClearDistance}.Any(v=>!double.IsFinite(v)||v<0) || !double.IsFinite(p.LapPercent) || p.LapPercent<0 || p.LapPercent>100)
+            new[]{p.Stress,p.AvailableLength}.Any(v=>!double.IsFinite(v)||v<0) ||
+            (p.Lap && (!double.IsFinite(p.LapClearDistance)||p.LapClearDistance<0||!double.IsFinite(p.LapPercent)||p.LapPercent<=0||p.LapPercent>100)))
             throw new ArgumentException("Ancoraggio: controllare diametro, tensione, materiali e lunghezze.");
         double eta2 = p.Diameter <= 32 ? 1 : (132-p.Diameter)/100;
         if(eta2<=0) throw new ArgumentException("Diametro fuori campo per l’aderenza.");
         double fbd=2.25*(p.GoodBond?1:.7)*eta2*p.Fctk05/p.GammaC;
-        double basic=p.Diameter*p.Stress/(4*fbd), alpha6=Math.Clamp(Math.Sqrt(p.LapPercent/25),1,1.5);
+        double basic=p.Diameter*p.Stress/(4*fbd), alpha6=p.Lap?Math.Clamp(Math.Sqrt(p.LapPercent/25),1,1.5):1;
         // Straight bars, no favourable confinement/shape reductions. NTC floor governs both modes.
         double required=p.Lap ? Math.Max(alpha6*basic,Math.Max(.3*alpha6*basic,Math.Max(20*p.Diameter,200)))
             : Math.Max(basic,Math.Max(20*p.Diameter,150));
@@ -63,7 +64,7 @@ public sealed class ConcreteDetailingCalculator : IConcreteDetailingCalculator
             }
             Min("Margine copriferro barre longitudinali",margin,0,"mm",ntc+".3 / EC2 §4.4","Minimo (copriferro geometrico della barra − copriferro richiesto), su contorno esterno e foro. Stessa classe di esposizione per tutte le superfici.");
         }
-        else Pending("Copriferro nominale",ntc+".3","Specificare cmin,dur dal progetto di durabilità (predisposto collegamento al modulo Materiali).");
+        else Pending("Copriferro nominale",ntc+".3","Completare esposizione SLE e parametri di durabilità per calcolare cmin,dur.");
         if(p.Kind==ConcreteMemberKind.Column)
         {
             Min("Diametro longitudinale",minPhi,12,"mm",ntc+".2","Ømin ≥ 12 mm");
@@ -123,7 +124,8 @@ public sealed class ConcreteDetailingCalculator : IConcreteDetailingCalculator
             Pending("Distribuzione e collegamenti fra facce","EC2 §9.6","Verificare distribuzione su entrambe le facce e legature trasversali; non descritti dalle sole barre longitudinali.");
         }
         if(p.HasStirrups&&!p.CompressionBarsRestrained)Pending("Barre trattenute dalle staffe",ntc,"Confermare la disposizione effettiva di staffe e legature sulle barre compresse.");
-        if(p.LapZone)Pending("Zona di sovrapposizione",ntc+".4","Verificare confinamento locale e armatura massima nella zona di giunzione.");
+        if(p.LapZone && p.Kind is ConcreteMemberKind.Column or ConcreteMemberKind.Wall)
+            Max("Armatura massima nella giunzione",s.AreaSteel,.08*s.AreaCls,"mm²","EC2 §§9.5.2 / 9.6.2","As ≤ 0,08 Ac. Includere nella geometria tutte le barre presenti nella giunzione, comprese quelle sovrapposte.");
         return r;
     }
 }

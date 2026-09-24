@@ -28,6 +28,11 @@ internal sealed partial class ConcreteWorkspace
     }
     private UIElement BuildStressTabs()
     {
+        // Keep the common workspace origin; select the SLE combination in the input column.
+        var presenter=new FrameworkElementFactory(typeof(ContentPresenter));
+        presenter.Name="PART_SelectedContentHost";
+        presenter.SetBinding(ContentPresenter.ContentProperty,new System.Windows.Data.Binding("SelectedContent"){RelativeSource=new System.Windows.Data.RelativeSource(System.Windows.Data.RelativeSourceMode.TemplatedParent)});
+        sleTabs.Template=new ControlTemplate(typeof(TabControl)){VisualTree=presenter};
         foreach (string key in SectionWorkspace.Sets.Skip(2))
         {
             var panel = new StressPanel(); stressPanels[key] = panel; var options = settings["sle"]![key]!.AsObject();
@@ -51,7 +56,10 @@ internal sealed partial class ConcreteWorkspace
             panel.Options.GroupFields("Avanzate · CLS teso e assi", ["trazione_cls", "assi", "origine_x", "origine_y", "rotazione"]);
             SynchronizeHomogenization(key); EnableOptions();
             var instructions = Notice("Analisi Checker lineare/non lineare. Rara: limiti CLS e acciaio; quasi permanente: limite CLS. Frequente: tensioni calcolate, nessun limite tensionale automatico. φ è il coefficiente di viscosità.");
-            var optionsPanel = Panel("Opzioni SLE comuni", Scroller(Ui.Stack(panel.Options, instructions)), "Modifiche valide per Rara, Frequente e Quasi permanente. Azioni separate, già combinate.");
+            var combinationChoice=Ui.Choice(SectionWorkspace.Sets.Skip(2).Select(SectionWorkspace.Label).ToArray(),SectionWorkspace.Label(key));
+            combinationChoice.SelectionChanged+=(_,_)=>{if(combinationChoice.SelectedIndex>=0)sleTabs.SelectedIndex=combinationChoice.SelectedIndex;};
+            sleTabs.SelectionChanged+=(_,e)=>{if(e.Source==sleTabs && sleTabs.SelectedIndex>=0)combinationChoice.SelectedIndex=sleTabs.SelectedIndex;};
+            var optionsPanel = Panel("Opzioni SLE comuni", Scroller(Ui.Stack(Ui.Text("Combinazione SLE",12,true),combinationChoice,panel.Options, instructions)), "Modifiche valide per Rara, Frequente e Quasi permanente. Azioni separate, già combinate.");
             var viewport = new ViewportFrame("Mappa tensionale della sezione", panel.View, panel.View.ResetView);
             panel.Regions.SelectionChanged += (_,_)=>{panel.View.EffectiveRegion=panel.Regions.SelectedItem as ConcreteEffectiveRegion;panel.View.InvalidateVisual();};
             panel.Regions.DisplayMemberPath="Name";
@@ -89,6 +97,7 @@ internal sealed partial class ConcreteWorkspace
             panel.View.IsVisibleChanged += (_, _) => { if (panel.View.IsVisible) UpdateStressSelection(key); };
             if (actions[key].Count > 0) panel.Grid.SelectedIndex = 0;
         }
+        sleTabs.SelectedIndex=0;
         return sleTabs;
     }
     private async Task CalculateStress(string key, CancellationToken token, CheckerSectionModel? prepared = null, JsonObject? preparedInput = null, JsonObject? preparedWorkspace = null)

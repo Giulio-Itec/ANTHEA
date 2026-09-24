@@ -4,11 +4,25 @@ using System.Windows.Media;
 using X.Core;
 
 namespace X.Desktop;
-internal sealed class VerificationCards : StackPanel
+internal sealed class VerificationCards : Grid
 {
+    private readonly int columns;
+    internal VerificationCards(int columns = 1)
+    {
+        this.columns = Math.Max(1, columns);
+        for (int i = 0; i < this.columns; i++) ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+    }
+    private void AddCard(FrameworkElement card)
+    {
+        int index = Children.Count;
+        if (index % columns == 0) RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        SetRow(card, index / columns); SetColumn(card, index % columns);
+        if (columns > 1) card.Margin = new Thickness(index % columns == 0 ? 0 : 6, 0, index % columns == columns - 1 ? 0 : 6, 6);
+        Children.Add(card);
+    }
     private string text = "";
-    internal string Text { get => text; set { text = value; Children.Clear(); Children.Add(Ui.Text(value, 12)); } }
-    internal void Start() { Children.Clear(); text = ""; }
+    internal string Text { get => text; set { Start(); text = value; var message = Ui.Text(value, 12); SetColumnSpan(message, columns); Children.Add(message); } }
+    internal void Start() { Children.Clear(); RowDefinitions.Clear(); text = ""; }
     private static Border Card(UIElement content, Brush color, string tooltip) => new()
     {
         BorderBrush = color, BorderThickness = new Thickness(5, 0, 0, 0), Background = Brushes.White,
@@ -20,7 +34,7 @@ internal sealed class VerificationCards : StackPanel
         Brush color = passed is null ? UtilizationPalette.Brush(null) : passed.Value ? Ui.Brush("#39A879") : UtilizationPalette.Brush(2);
         var body = Ui.Stack(Ui.Text(title + " · " + state, 10, true), Ui.Text(values, 12), Ui.Text(explanation, 11), Ui.Text(reference, 10, color: Ui.Muted));
         body.Margin = new Thickness(0, 3, 0, 5);
-        Children.Add(Card(body, color, state + "\n" + explanation + "\n" + reference));
+        AddCard(Card(body, color, state + "\n" + explanation + "\n" + reference));
         text += $"{title}\n{state}\n{values}\n{explanation}\n{reference}\n\n";
     }
     internal void AddCheck(string title, int total, IEnumerable<(string Name, double? Ratio, bool? Passed)> checks)
@@ -39,7 +53,7 @@ internal sealed class VerificationCards : StackPanel
         var top = new DockPanel(); DockPanel.SetDock(rate, Dock.Right); top.Children.Add(rate); top.Children.Add(heading);
         var detail = Ui.Text(governing + (missing > 0 ? $" · {missing}/{total} mancanti" : $" · {rows.Length}/{total}"), 10);
         detail.TextWrapping = TextWrapping.NoWrap; detail.TextTrimming = TextTrimming.CharacterEllipsis;
-        Children.Add(Card(Ui.Stack(top, detail), color, state + "\n" + footer + "\n" + UtilizationPalette.Legend));
+        AddCard(Card(Ui.Stack(top, detail), color, state + "\n" + footer + "\n" + UtilizationPalette.Legend));
         text += title + "\n" + state + "\n" + value + "\n" + footer + "\n";
     }
 }

@@ -1,4 +1,4 @@
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using X.Core;
@@ -23,7 +23,7 @@ internal sealed partial class ConcreteWorkspace
     }
     private void ApplyStandardMaterial(JsonObject material)
     {
-        foreach (var (key, value) in material.Where(p => p.Key != "nome"))
+        foreach (var (key, value) in material.Where(p => p.Key != "nome" && p.Key is not ("cls_diagramma" or "steel_diagramma")))
         {
             Input[key] = value?.DeepClone();
             materials.Set(key, Input.S(key), true);
@@ -61,19 +61,19 @@ internal sealed partial class ConcreteWorkspace
                 var selected = (key == "classe_cls" ? ConcreteMaterialCatalog.Concrete(settings.S("normativa")) : ConcreteMaterialCatalog.Steel(false, settings.S("normativa"))).FirstOrDefault(m => m.S("nome") == Input.S(key));
                 if (selected is not null) ApplyStandardMaterial(selected);
             }
-            else if (key is "fck_mpa" or "cls_diagramma")
+            else if (key is "fck_mpa")
             {
                 Input["classe_cls"] = "Personalizzato"; Input["materiale_cls_nome"] = "CLS personalizzato";
                 materials.Set("classe_cls", "Personalizzato", true);
             }
-            else if (key is "fyk_mpa" or "steel_modulus_mpa" or "steel_fu_mpa" or "steel_eps_u" or "steel_diagramma")
+            else if (key is "fyk_mpa" or "steel_modulus_mpa" or "steel_fu_mpa" or "steel_eps_u" )
             {
                 Input["classe_acciaio"] = "Personalizzato"; Input["materiale_acciaio_nome"] = "Acciaio personalizzato";
                 materials.Set("classe_acciaio", "Personalizzato", true);
             }
             Invalidate();
         }, true, wideChoices: true);
-        materials.Enable("cls_diagramma", false); materials.Enable("steel_diagramma", false);
+
         materials.GroupFields("Calcestruzzo", ["classe_cls", "fck_mpa", "cls_diagramma", "gettato_sottile", "__fcd", "__ecm", "__ec2", "__ecu"], true);
         materials.GroupFields("Acciaio per armature", ["classe_acciaio", "fyk_mpa", "steel_modulus_mpa", "steel_fu_mpa", "steel_eps_u", "steel_diagramma", "__fyd", "n", "__nmode"], true);
     }
@@ -116,7 +116,14 @@ internal sealed partial class ConcreteWorkspace
         standardTendon.SelectedItem = settings["materiale_trefolo"].S("nome");
         if (standardTendon.SelectedIndex < 0) standardTendon.SelectedIndex = 0;
         var tendonValues = new JsonObject();
-        var tendonProperties = new InputForm(tendonValues, [new("Ep", "Ep", "MPa", ReadOnly: true), new("fpyk", "fpyk", "MPa", ReadOnly: true), new("fpk", "fpk", "MPa", ReadOnly: true), new("eps_u", "εpu", "‰", ReadOnly: true), new("diagramma", "Diagramma", ReadOnly: true)], _ => { }, true);
+        var tendonProperties = new InputForm(tendonValues, [new("Ep", "Ep", "MPa", ReadOnly: true), new("fpyk", "fpyk", "MPa", ReadOnly: true), new("fpk", "fpk", "MPa", ReadOnly: true), new("eps_u", "εpu", "‰", ReadOnly: true), new("diagramma", "Diagramma", Choices: ["Elastoplastico","Incrudente"])], _ =>
+        {
+            if(settings["materiale_trefolo"] is not JsonObject current)return;
+            if(settings["legami_trefoli"] is not JsonObject)settings["legami_trefoli"]=new JsonObject();
+            settings["legami_trefoli"]![current.S("id")]=tendonValues.S("diagramma");
+            current["diagramma"]=tendonValues.S("diagramma");
+            refreshDefaultTendon?.Invoke();reloadTendonMaterials?.Invoke();Modified?.Invoke();
+        }, true);
         void DescribeTendon()
         {
             if (standardTendon.SelectedIndex < 0) return;

@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
 using X.Core;
@@ -73,7 +73,7 @@ internal sealed partial class ConcreteWorkspace
             var steel = ConcreteMaterials.Rebar(Input);
             Check(steel.Fyk == preset.D("fyk_mpa") && steel.Fu == preset.D("steel_fu_mpa") && Math.Abs(steel.StrainUTension * 1000 - preset.D("steel_eps_u")) < 1e-9, "Acciaio da catalogo DLL " + preset.S("nome"));
         }
-        Check(((System.Windows.Controls.TextBox)materials.Editors["fyk_mpa"]).IsReadOnly && !materials.Editors["steel_diagramma"].IsEnabled, "Proprietà materiali immutabili");
+        Check(((System.Windows.Controls.TextBox)materials.Editors["fyk_mpa"]).IsReadOnly && materials.Editors["steel_diagramma"].IsEnabled, "Proprietà di classe protette e legame modificabile");
         foreach (var preset in ConcreteMaterialCatalog.Steel(true))
         {
             var cable = new JsonRow(new JsonObject(), _ => { }); ApplyTendonMaterial(cable, preset);

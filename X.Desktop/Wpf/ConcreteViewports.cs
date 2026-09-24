@@ -299,6 +299,7 @@ internal sealed class DomainViewport3D : Grid
     internal bool OnlySelectedActions { get; set; }
     internal bool ShowResistance { get; set; } = true;
     internal bool ShowVerificationLines { get; set; } = true;
+    internal string VerificationCriterion { get; set; } = "N costante";
     internal double ActionPointSize { get; set; } = 5;
     internal double ResistancePointSize { get; set; } = 5;
     internal bool ColorByRatio { get; set; }
@@ -450,7 +451,7 @@ internal sealed class DomainViewport3D : Grid
             if (ShowActions && (!OnlySelectedActions || chosen)) { markings.Children.Add(model); pickTargets[model] = action.Id; }
             if (chosen || Resistances?.ContainsKey(action.Id) == true)
             {
-                if (chosen) SelectedAction = action.Force; var vector = new MeshGeometry3D(); Tube(vector, new(), point, .006); if (ShowVerificationLines) markings.Children.Add(Model(vector, Ui.Brush("#E09620")));
+                if (chosen) SelectedAction = action.Force; var vector = new MeshGeometry3D(); Tube(vector, World(SectionMomentResistance.VerificationOrigin(action.Force, VerificationCriterion)), point, .006); if (ShowVerificationLines) markings.Children.Add(Model(vector, Ui.Brush("#E09620")));
                 if ((chosen ? resistant : Resistances?.GetValueOrDefault(action.Id)) is ActionPoint r)
                 { var rp = World(r); if (ShowResistance && chosen) markings.Children.Add(Model(Sphere(rp, .01 * ResistancePointSize), UtilizationPalette.Brush(Ratios?.GetValueOrDefault(selected ?? "")))); var segment = new MeshGeometry3D(); Tube(segment, point, rp, .006); if (ShowVerificationLines) markings.Children.Add(Model(segment, Ui.Brush("#A23BC4"))); }
             }
@@ -496,6 +497,9 @@ internal sealed class DomainViewport3D : Grid
         {
             if (Project(World(action.Force)) is not Point point) continue; if (ShowActions && (!OnlySelectedActions || action.Id == selectedId)) screenPoints.Add((action.Id, point));
             bool chosen = action.Id == selectedId;
+            if (ShowVerificationLines && (chosen || Resistances?.ContainsKey(action.Id) == true)
+                && Project(World(SectionMomentResistance.VerificationOrigin(action.Force, VerificationCriterion))) is Point origin)
+                labels.Children.Add(new System.Windows.Shapes.Line { X1 = origin.X, Y1 = origin.Y, X2 = point.X, Y2 = point.Y, Stroke = Ui.Brush("#E09620"), StrokeThickness = 1.5 });
             if ((chosen ? SelectedResistance : Resistances?.GetValueOrDefault(action.Id)) is ActionPoint r && Project(World(r)) is Point rp)
             {
                 if (ShowVerificationLines) labels.Children.Add(new System.Windows.Shapes.Line { X1 = point.X, Y1 = point.Y, X2 = rp.X, Y2 = rp.Y, Stroke = Ui.Brush("#A23BC4"), StrokeThickness = 1.5, StrokeDashArray = new DoubleCollection([4, 3]) });

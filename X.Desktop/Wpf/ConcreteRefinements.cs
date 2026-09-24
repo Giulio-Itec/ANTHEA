@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -44,6 +44,7 @@ internal sealed partial class ConcreteWorkspace
             foreach (var row in actions[key]) foreach (string field in new[] { "sigma_c", "sigma_s", "stress_status", "eta_sigma", "wk" }) row.Output(field, "Da calcolare");
             UpdateStressSelection(key);
         }
+        RefreshDetailing();
     }
     private void InvalidateDomainForces(DomainPanel panel)
     {

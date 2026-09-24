@@ -1,4 +1,4 @@
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using X.Core;
 
 internal static class ConcreteModuleChecks
@@ -10,6 +10,25 @@ internal static class ConcreteModuleChecks
         var data=SezioneCA.DefaultData();var w=SectionWorkspace.Prepare(data);var input=data["input"]!.AsObject();
         var options=(JsonObject)w["dominio3d"]!.DeepClone();options["angoli"]="16";options["criterio"]="N costante";
         var engine=new CheckerSection(input,w,options);var domain=engine.Domain3D();var check=domain.Check(new(-500,100,50));
+        foreach(bool elasticMode in new[]{false,true})
+        {
+            var quick=SectionMomentResistance.Calculate(input,w,-500,elasticMode);
+            var comparison=elasticMode?new CheckerSection(input,w,options,"SLV").Domain3D():domain;
+            for(int direction=0;direction<4;direction++)
+            {
+                Check(quick[direction].Moment.HasValue,"Resistenza rapida "+quick[direction].Direction+": "+quick[direction].Status);
+                var directionForce=direction switch{0=>new ActionPoint(-500,1,0),1=>new ActionPoint(-500,-1,0),2=>new ActionPoint(-500,0,1),_=>new ActionPoint(-500,0,-1)};
+                var rd=comparison.Check(directionForce).Resistance!.Value;
+                Near(quick[direction].Moment!.Value,direction<2?rd.Mx:rd.My,1e-8,"Ricerca diretta coerente con verifica "+quick[direction].Direction);
+            }
+        }
+        Check(SectionMomentResistance.Calculate(input,w,-1e9,false).All(r=>r.Moment is null),"N fuori campo non produce false resistenze rapide");
+        var sampleAction=new ActionPoint(-500,100,50);
+        Check(SectionMomentResistance.VerificationOrigin(sampleAction,"N costante")==new ActionPoint(-500,0,0),"Origine verifica sull’asse N");
+        Check(SectionMomentResistance.VerificationOrigin(sampleAction,"Eccentricità costante")==new ActionPoint(0,0,0),"Origine verifica proporzionale");
+        Check(SectionMomentResistance.VerificationOrigin(sampleAction,"N e Mx costanti")==new ActionPoint(-500,100,0),"Origine conserva N e Mx");
+        Check(SectionMomentResistance.VerificationOrigin(sampleAction,"N e My costanti")==new ActionPoint(-500,0,50),"Origine conserva N e My");
+        Check(SectionMomentResistance.VerificationOrigin(sampleAction,"Mx–My costanti")==new ActionPoint(0,100,50),"Origine conserva i momenti");
         Check(check.LimitState is not null&&!check.LimitState.IsValueCreated,"Piano limite conservato senza campionamento anticipato");
         var limit=check.LimitState!.Value;
         Near(limit.Response!.EcMin!.Value,check.Response!.EcMin!.Value,1e-10,"Piano del limite identico al riepilogo");
@@ -68,6 +87,11 @@ internal static class ConcreteModuleChecks
         Check(holeCrack.Width>0&&holeCrack.Passed!=true&&holeCrack.Status.Contains("superficie del foro"),"Apertura esterna calcolata senza dichiarare verificata la superficie interna");
         var a=new ConcreteAnchorageCalculator().Calculate(new(20,400,2,1.5,true,1000,false,100,0));
         Near(a.Fbd,3,1e-12,"Aderenza 2,25 fctk/γc");Near(a.RequiredLength,2000d/3,1e-12,"Ancoraggio rettilineo analitico");
+        var anchorCalc=new ConcreteAnchorageCalculator();
+        Near(anchorCalc.Calculate(new(8,1,2,1.5,true,160,false,double.NaN,double.NaN)).RequiredLength,160,1e-12,"Minimo NTC 20Ø e dati giunzione ignorati in ancoraggio");
+        Near(anchorCalc.Calculate(new(20,400,2,1.5,true,1000,true,100,80)).RequiredLength,1000,1e-10,"Sovrapposizione 100%: α6 = 1,5");
+        Check(!anchorCalc.Calculate(new(20,400,2,1.5,true,1200,true,100,81)).Passed,"Interferro oltre 4Ø non soddisfatto");
+        Near(anchorCalc.Calculate(new(20,400,2,1.5,false,1200,false,100,0)).Fbd,2.1,1e-12,"Aderenza non buona: η1 = 0,7");
         var td=new ConcreteDetailingInput(ConcreteMemberKind.Slab,noStirrups,0,false,0,0,0,20,20,10,false,500,150,false,false,false);
         Check(new ConcreteDetailingCalculator().Calculate(td).All(r=>!r.Name.StartsWith("Staffe minime")),"Soletta senza staffatura minima da trave");
         var col=new ConcreteDetailingCalculator().Calculate(td with{Kind=ConcreteMemberKind.Column});Check(col.Any(r=>r.Name=="Diametro staffe"&&r.Passed==false),"Pilastro senza staffe non soddisfatto");

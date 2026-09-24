@@ -270,6 +270,7 @@ internal sealed partial class ConcreteWorkspace
                 .Select(r => (Id: r.Values.S("id"), Check: checks?.GetValueOrDefault(r.Values.S("id")))).Where(r => r.Check?.Resistance is not null)
                 .ToDictionary(r => r.Id, r => r.Check!.Resistance!.Value) : null;
             panel.View3D.ToolTip = UtilizationPalette.Legend;
+            panel.View3D.VerificationCriterion = panel.Options.S("criterio", "N costante");
             panel.View3D.SetActions(visible, id, selectedCheck?.Resistance);
         }
         else
@@ -421,7 +422,7 @@ internal sealed partial class ConcreteWorkspace
             ["errore"] = "", ["motore"] = "GPCChecker.Concrete.dll",
             ["normativa_riferimento"] = settings.S("normativa"), ["verifica_normativa_completa"] = false,
             ["domini"] = domains, ["tensioni"] = stresses, ["taglio"] = J.Node(shearResults),
-            ["torsione"] = J.Node(torsionResults), ["dettagli_costruttivi"] = J.Node(detailingResults), ["dettagli_esito"] = detailingText.Text,
+            ["torsione"] = J.Node(torsionResults), ["dettagli_costruttivi"] = J.Node(detailingResults), ["dettagli_esito"] = detailingText.Text + string.Join("\n",detailingTopics.Values.Select(cards=>cards.Text)),
             ["ancoraggio"] = J.Node(anchorageResult), ["ancoraggio_esito"] = anchorageText.Text, ["momento_curvatura"] = J.Node(curvatureResult),
             ["dati"] = Data.DeepClone(), ["errori_calcolo"] = J.Node(calculationErrors),
             ["avvisi"] = J.Node(new[] { "Compressione negativa; azioni in kN e kNm", "Taglio e fessurazione: vedere esiti specifici e limiti di applicabilità" })

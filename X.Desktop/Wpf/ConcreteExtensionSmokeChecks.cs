@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Threading;
@@ -25,7 +25,48 @@ internal sealed partial class ConcreteWorkspace
         async Task Updated(){while(Busy)await Task.Delay(40);await CalculateAllAsync();await Idle();}
         async Task Capture(string name){await Idle();File.WriteAllBytes(Path.Combine(directory,name+".png"),Ui.Snapshot(Window.GetWindow(this)));}
         Check(tabs.Items.Count==7,"Sette schede CA");
+        tabs.SelectedIndex=0;
+        var originalCls=Input.S("cls_diagramma");var originalSteel=Input.S("steel_diagramma");
+        var clsName=Input.S("classe_cls");var steelName=Input.S("classe_acciaio");
+        materials.Set("cls_diagramma","Bilineare");materials.Set("steel_diagramma","Incrudente");
+        Check(materials.Editors["cls_diagramma"].IsEnabled && materials.Editors["steel_diagramma"].IsEnabled,"Legami dei materiali selezionabili");
+        Check(Input.S("classe_cls")==clsName && Input.S("classe_acciaio")==steelName,"Cambio legame conserva le classi dei materiali");
+        Check(ConcreteMaterials.Rebar(Input).StressStrainCurve==GPC.Model.Materials.SteelMaterial.StressStrainCurveType.ElasticHardening,"Legame incrudente passato al materiale nativo");
+        RefreshStandardMaterialChoices();
+        Check(Input.S("cls_diagramma")=="Bilineare" && Input.S("steel_diagramma")=="Incrudente","Aggiornamento catalogo conserva i legami scelti");
+        materials.Set("cls_diagramma",originalCls);materials.Set("steel_diagramma",originalSteel);
+        await Updated();
+        foreach(var (group,ratio) in new[]{("ingressi",.32),("risultati",.62),("righe",.64)})
+        {
+            bool rows=group=="righe";SynchronizeWorkspaceSplit(group,rows,ratio);
+            Check(workspaceSplits[group].All(g=>Math.Abs((rows?g.RowDefinitions[0].Height.Value:g.ColumnDefinitions[0].Width.Value)-ratio)<1e-10),"Divisori sincronizzati: "+group);
+        }
+        SynchronizeWorkspaceSplit("ingressi",false,.3);SynchronizeWorkspaceSplit("risultati",false,.6);SynchronizeWorkspaceSplit("righe",true,3.7/5.7);
+        tabs.SelectedIndex=3;await Capture("00_allineamento_sle");
+        Check(Ui.Descendants<System.Windows.Controls.ComboBox>(sleTabs).Any(c=>c.ItemsSource is string[] choices && choices.SequenceEqual(SectionWorkspace.Sets.Skip(2).Select(SectionWorkspace.Label))),"Selettore combinazione SLE visibile nella colonna dati");
+        var sleChoice=Ui.Descendants<System.Windows.Controls.ComboBox>(sleTabs).Single(c=>c.ItemsSource is string[] choices && choices.SequenceEqual(SectionWorkspace.Sets.Skip(2).Select(SectionWorkspace.Label)));
+        sleChoice.SelectedIndex=2;await Idle();
+        Check(sleTabs.SelectedIndex==2 && stressPanels["SLE_QP"].View.IsVisible,"Selettore SLE apre Quasi permanente");
+        sleTabs.SelectedIndex=0;await Idle();
+        Check(sleChoice.SelectedIndex==0 && stressPanels["SLE"].View.IsVisible,"Navigazione SLE mantiene selettore e vista coerenti");
+        tabs.SelectedIndex=0;await Idle();
+        var tendonMaterialForm=Ui.Descendants<InputForm>(this).Single(f=>f.Editors.ContainsKey("Ep")&&f.Editors.ContainsKey("diagramma"));
+        string savedTendonDiagram=settings["materiale_trefolo"].S("diagramma"),tendonId=settings["materiale_trefolo"].S("id");
+        string changedTendonDiagram=savedTendonDiagram=="Incrudente"?"Elastoplastico":"Incrudente";
+        tendonMaterialForm.Set("diagramma",changedTendonDiagram);
+        Check(settings["materiale_trefolo"].S("diagramma")==changedTendonDiagram && AvailableTendonMaterials().Single(m=>m.S("id")==tendonId).S("diagramma")==changedTendonDiagram,"Legame trefolo predefinito aggiornato per nuovi cavi");
+        tendonMaterialForm.Set("diagramma",savedTendonDiagram);
+        await Capture("00_materiali");
+        var preservedDomain=checker3D["SLU"];
+        quickResistanceForm!.Set("N","-500");
+        await RefreshQuickResistance();
+        Check(quickResistanceText.Text.Split('\n').Length==4&&!quickResistanceText.Text.Contains("—"),"Quattro resistenze rapide plastiche: "+quickResistanceText.Text);
+        quickResistanceForm.Set("tipo","Elastico");await RefreshQuickResistance();
+        Check(quickResistanceText.Text.Split('\n').Length==4&&!quickResistanceText.Text.Contains("—"),"Quattro resistenze rapide elastiche");
+        Check(ReferenceEquals(preservedDomain,checker3D["SLU"]),"Input resistenze rapide non rigenera il dominio");
+        await Capture("00_resistenze_rapide");
         tabs.SelectedIndex=1;await Idle();var panel=domainPanels.First(p=>p.ThreeD);panel.Grid.SelectedIndex=0;
+        await Capture("00b_linea_verifica");
         panel.Inspection.Tabs.SelectedIndex=1;UpdateSectionInspection(panel);
         for(int i=0;i<200&&panel.Inspection.View.Stress is null;i++)await Task.Delay(25);
         Check(panel.Inspection.View.Stress is not null,"Mappa del punto limite: "+panel.Inspection.Message.Text);
@@ -72,8 +113,28 @@ internal sealed partial class ConcreteWorkspace
         Check(panel.Inspection.View.Stress is not null,"Mappa azione inserita: "+panel.Inspection.Message.Text);
         await Capture("02_azione");
         File.WriteAllBytes(Path.Combine(directory,"03_piano.png"),panel.Inspection.Plane.Png(800,600));
-        detailingForm!.Set("elemento","Pilastro");detailingForm.Set("cmin_dur","25");settings["ancoraggi"]!["lunghezza"]="1200";
-        tabs.SelectedIndex=5;RefreshDetailing();await Capture("04_dettagli");
+        detailingForm!.Set("elemento","Pilastro");anchorageForm.Set("lunghezza","1200");
+        tabs.SelectedIndex=5;RefreshDetailing();
+        Check(detailingResults.Any(r=>r.Name=="Diametro staffe"),"Esposizione non scelta non blocca le verifiche indipendenti");
+        stressPanels["SLE_QP"].Options.Set("esposizione","XC1");
+        double ordinary=DetailingOptions.D("cmin_dur");
+        stressPanels["SLE_QP"].Options.Set("esposizione","XS3");
+        Check(DetailingOptions.D("cmin_dur")>ordinary && coverDetailingForm.Get("esposizione_sle")=="XS3","Copriferro aggiornato automaticamente da esposizione SLE");
+        stressPanels["SLE_QP"].Options.Set("esposizione","XC1");
+        anchorageForm.Set("percentuale","");anchorageForm.Set("interferro","");
+        Check(anchorageResult is not null,"Ancoraggio rettilineo indipendente dai dati di sovrapposizione");
+        anchorageForm.Set("lunghezza","");
+        Check(anchorageResult is null && anchorageText.Text.Contains("Inserire la lunghezza"),"Lunghezza vuota invalida il risultato");
+        anchorageForm.Set("lunghezza","1200");anchorageForm.Set("tipo","Sovrapposizione rettilinea");
+        anchorageForm.Set("percentuale","100");anchorageForm.Set("interferro","1000");
+        Check(anchorageResult?.Passed==false && anchorageText.Text.Contains("Interferro della giunzione"),"Interferro giunzione verificato separatamente");
+        anchorageForm.Set("confinamento","Non conforme");
+        Check(anchorageText.Text.Contains("Non conforme"),"Riscontro esecutivo modificabile");
+        anchorageForm.Set("tipo","Ancoraggio rettilineo");anchorageForm.Set("confinamento","Da verificare");
+        await Capture("04_dettagli");
+        Check(detailingTopics["cover"].Text.Contains("Interferro minimo")&&detailingTopics["stirrups"].Text.Contains("Diametro staffe")&&detailingTopics["bars"].Text.Contains("Armatura longitudinale"),"Verifiche affiancate per argomento");
+        detailingTopics["stirrups"].BringIntoView();await Capture("04b_staffe");
+        anchorageText.BringIntoView();await Capture("04c_ancoraggi");
         Check(detailingResults.Any(r=>r.Name=="Diametro staffe"),"Controlli pilastro eseguiti");
         curvatureForm.Set("N","-500");curvatureForm.Set("passi","12");curvatureForm.Set("angoli","16");
         tabs.SelectedIndex=6;CalculateCurvature();while(curvatureRunning)await Task.Delay(40);
@@ -110,6 +171,7 @@ internal sealed partial class ConcreteWorkspace
         Commit();using var reopened=new ConcreteWorkspace(JsonNode.Parse(Data.ToJsonString())!.AsObject());
         Check(reopened.shearGrid!.Rows.Any(r=>r.Values.S("T")=="20")&&reopened.DetailingOptions.S("elemento")=="Pilastro","Persistenza di torsione e tipo elemento");
         Check(reopened.Input.D("circular_sides")==64,"Numero di lati conservato alla riapertura");
+        Check(reopened.settings["resistenze_rapide"].S("N")=="-500"&&reopened.settings["resistenze_rapide"].S("tipo")=="Elastico","Input resistenze rapide conservati alla riapertura");
         File.WriteAllText(Path.Combine(directory,"esito.txt"),count+" controlli interfaccia superati.");
     }
 }

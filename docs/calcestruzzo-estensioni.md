@@ -166,3 +166,15 @@ e `.csv`. Mediane in millisecondi, tre ripetizioni dopo il primo uso:
 Questi tempi descrivono i casi registrati su questa macchina, non prestazioni
 garantite per sezioni diverse. Le prime misure indicano la preparazione della
 circolare cava come fase prioritaria da confrontare dopo l'aggiornamento DLL.
+
+## Dettagli per argomento e resistenze rapide
+
+I dettagli costruttivi sono disposti in fasce orizzontali: interferro/copriferro, armatura, staffe, ancoraggi/appoggi. Ogni fascia affianca dati e verifiche; copriferro e staffe condividono i dati con le altre schede.
+
+Nel pannello di controllo, sopra il riepilogo delle verifiche, il riquadro delle resistenze accetta N (compressione negativa) e la scelta elastico/plastico. Calcola i quattro momenti con segno Mx+, Mx−, My+, My− negli assi locali, mediante ricerche iterative dirette a N costante. Non genera un dominio; N o direzioni non risolti restano senza valore e riportano il motivo. La modifica di questi input non rigenera i domini della sezione.
+
+Le linee di verifica 3D conservano le componenti fissate dal criterio: origine (N,0,0) a N costante; (0,0,0) a eccentricità costante; (N,Mx,0), (N,0,My), (0,Mx,My) per gli altri vincoli. Il tratto dall’origine all’azione è visibile anche sopra la superficie del dominio.
+
+Correzione ancoraggi e durabilità (24 settembre 2026): cmin,dur ora deriva dall'esposizione SLE condivisa usando Materiali.NtcCover e MinimumConcrete, con vita utile 50/100 anni e controllo qualità espliciti. Esposizione mancante lascia pendente il solo copriferro. Ancoraggio rettilineo indipendente dai dati di giunzione; lunghezza vuota non produce un esito. Sovrapposizione con esiti distinti per lunghezza e interferro; coefficienti mostrati, fctk limitato a C60/75 per l'aderenza. Conservato il minimo NTC §4.1.2.3.10 (20Ø, 150 mm). Zona di giunzione riferita ai limiti di armatura della sezione, da modellare con tutte le barre sovrapposte. Dettaglio esecutivo sostituito da riscontri manuali dichiarati (confinamento, posizione/sfalsamento, cautele Ø>32), distinti dal calcolo numerico. Verificati 78 controlli del modulo e 82 controlli interfaccia; app pubblicata in app/.
+
+Legami e allineamento delle schede: diagrammi CLS e acciaio selezionabili anche per classi predefinite, mantenendo nome e proprietà della classe. Il cambio di classe/normativa conserva il legame scelto; i materiali personalizzati applicano il proprio legame. Trefoli: legame predefinito modificabile per nuovi cavi e menu nella riga per i cavi esistenti. Divisori di ingresso, risultati e righe sincronizzati per gruppo e salvati nel foglio; rapporto iniziale verticale 30/70, risultati 60/40, righe 3,7/2. Selettore Rara/Frequente/Quasi permanente nella colonna dati, per allineare l'origine della vista SLE alle altre schede. Pubblicazione Release riuscita, 93 controlli interfaccia superati, comprese selezione legami nativi, conservazione classe, selettore SLE e materiale trefoli.
