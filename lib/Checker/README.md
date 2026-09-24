@@ -5,8 +5,11 @@ dai `bin/Release` dei singoli progetti Model, ModelData, GPCUtilities,
 GPCGeometry, DelaunayMesh e GPCChecker.Concrete. Le copie delle dipendenze
 nella build di Checker coincidono con quelle dei rispettivi progetti.
 GMsh.Net e UnsafeEx provengono da `Geometry/GMesh/bin/Release` e sono invariati.
-I percorsi di origine, le versioni e gli hash di ciascun file sono nel manifest;
-le versioni assembly da sole non distinguono questa build dalla precedente.
+I percorsi di origine, le versioni e gli hash di ciascun file sono nel manifest.
+Lo snapshot corrente usa la build del 24 settembre alle 16:10: Model 1.1.0.3,
+Checker.Concrete 0.0.12.2, Geometry 2.0.1.10, Utilities 2.0.0.6 e
+DelaunayMesh 2.0.0.4. ModelData è ricompilata con versione invariata 0.0.1.10;
+per distinguere anche questa libreria va verificato lo SHA-256.
 Non sono ricompilati da ANTHEA e non dipendono da percorsi assoluti della macchina.
 
 Le DLL sono referenziate da X.Core e copiate negli output desktop/verifiche.

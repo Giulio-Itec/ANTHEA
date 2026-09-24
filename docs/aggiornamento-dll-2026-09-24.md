@@ -51,3 +51,9 @@ La preparazione risulta più veloce in tutti i casi; alcune operazioni su sezion
 - tmp/ca_extensions/dll_update_regression.log
 - tmp/ca_extensions/dll_update_ui/esito.txt
 - tmp/ca_extensions/dll_previous: copia delle DLL precedenti e relativo manifest.
+
+## Secondo aggiornamento · build delle 16:10
+
+Importate le nuove versioni dai medesimi bin/Release: Model 1.1.0.3, Checker.Concrete 0.0.12.2, Geometry 2.0.1.10, Utilities 2.0.0.6 e DelaunayMesh 2.0.0.4. Aggiornata anche ModelData, ricompilata con versione invariata 0.0.1.10. Manifest e applicazione pubblicata aggiornati; hash verificati.
+
+Superati 346 controlli CA e 71 controlli di interfaccia. La regressione completa restituisce gli stessi 50 fallimenti storici, con valori identici al precedente aggiornamento. Report: `tmp/ca_extensions/dll_1610_regression.json`; prova UI: `tmp/ca_extensions/dll_1610_ui/esito.txt`. I benchmark sopra si riferiscono al primo aggiornamento, non a questa build.
