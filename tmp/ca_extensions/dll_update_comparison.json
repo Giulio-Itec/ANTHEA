@@ -1,0 +1,170 @@
+[
+  {
+    "Shape": "rettangolare",
+    "Operation": "preparazione",
+    "BeforeMs": 48.74,
+    "AfterMs": 8.13,
+    "Speedup": 6.0
+  },
+  {
+    "Shape": "rettangolare",
+    "Operation": "dominio_3d_32",
+    "BeforeMs": 32.62,
+    "AfterMs": 38.68,
+    "Speedup": 0.84
+  },
+  {
+    "Shape": "rettangolare",
+    "Operation": "24_verifiche",
+    "BeforeMs": 18.11,
+    "AfterMs": 27.05,
+    "Speedup": 0.67
+  },
+  {
+    "Shape": "rettangolare",
+    "Operation": "24_tensioni_non_lineari",
+    "BeforeMs": 39.79,
+    "AfterMs": 51.84,
+    "Speedup": 0.77
+  },
+  {
+    "Shape": "rettangolare",
+    "Operation": "24_tensioni_lineari_fessure",
+    "BeforeMs": 54.56,
+    "AfterMs": 32.46,
+    "Speedup": 1.68
+  },
+  {
+    "Shape": "rettangolare",
+    "Operation": "curva_30_passi",
+    "BeforeMs": 79.79,
+    "AfterMs": 114.19,
+    "Speedup": 0.7
+  },
+  {
+    "Shape": "rettangolare_cava",
+    "Operation": "preparazione",
+    "BeforeMs": 50.43,
+    "AfterMs": 2.82,
+    "Speedup": 17.89
+  },
+  {
+    "Shape": "rettangolare_cava",
+    "Operation": "dominio_3d_32",
+    "BeforeMs": 31.83,
+    "AfterMs": 70.62,
+    "Speedup": 0.45
+  },
+  {
+    "Shape": "rettangolare_cava",
+    "Operation": "24_verifiche",
+    "BeforeMs": 16.05,
+    "AfterMs": 27.85,
+    "Speedup": 0.58
+  },
+  {
+    "Shape": "rettangolare_cava",
+    "Operation": "24_tensioni_non_lineari",
+    "BeforeMs": 39.27,
+    "AfterMs": 45.59,
+    "Speedup": 0.86
+  },
+  {
+    "Shape": "rettangolare_cava",
+    "Operation": "24_tensioni_lineari_fessure",
+    "BeforeMs": 55.38,
+    "AfterMs": 27.11,
+    "Speedup": 2.04
+  },
+  {
+    "Shape": "rettangolare_cava",
+    "Operation": "curva_30_passi",
+    "BeforeMs": 84.83,
+    "AfterMs": 103.03,
+    "Speedup": 0.82
+  },
+  {
+    "Shape": "circolare",
+    "Operation": "preparazione",
+    "BeforeMs": 61.68,
+    "AfterMs": 3.35,
+    "Speedup": 18.4
+  },
+  {
+    "Shape": "circolare",
+    "Operation": "dominio_3d_32",
+    "BeforeMs": 25.92,
+    "AfterMs": 55.62,
+    "Speedup": 0.47
+  },
+  {
+    "Shape": "circolare",
+    "Operation": "24_verifiche",
+    "BeforeMs": 24.58,
+    "AfterMs": 44.69,
+    "Speedup": 0.55
+  },
+  {
+    "Shape": "circolare",
+    "Operation": "24_tensioni_non_lineari",
+    "BeforeMs": 55.29,
+    "AfterMs": 55.39,
+    "Speedup": 1.0
+  },
+  {
+    "Shape": "circolare",
+    "Operation": "24_tensioni_lineari_fessure",
+    "BeforeMs": 65.94,
+    "AfterMs": 30.5,
+    "Speedup": 2.16
+  },
+  {
+    "Shape": "circolare",
+    "Operation": "curva_30_passi",
+    "BeforeMs": 112.98,
+    "AfterMs": 143.36,
+    "Speedup": 0.79
+  },
+  {
+    "Shape": "circolare_cava",
+    "Operation": "preparazione",
+    "BeforeMs": 151.29,
+    "AfterMs": 3.23,
+    "Speedup": 46.81
+  },
+  {
+    "Shape": "circolare_cava",
+    "Operation": "dominio_3d_32",
+    "BeforeMs": 78.89,
+    "AfterMs": 33.78,
+    "Speedup": 2.34
+  },
+  {
+    "Shape": "circolare_cava",
+    "Operation": "24_verifiche",
+    "BeforeMs": 65.72,
+    "AfterMs": 33.65,
+    "Speedup": 1.95
+  },
+  {
+    "Shape": "circolare_cava",
+    "Operation": "24_tensioni_non_lineari",
+    "BeforeMs": 96.2,
+    "AfterMs": 39.77,
+    "Speedup": 2.42
+  },
+  {
+    "Shape": "circolare_cava",
+    "Operation": "24_tensioni_lineari_fessure",
+    "BeforeMs": 134.89,
+    "AfterMs": 37.89,
+    "Speedup": 3.56
+  },
+  {
+    "Shape": "circolare_cava",
+    "Operation": "curva_30_passi",
+    "BeforeMs": 228.15,
+    "AfterMs": 123.23,
+    "Speedup": 1.85
+  }
+]

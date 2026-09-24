@@ -1,6 +1,6 @@
 {
-  "snapshotDate": "2026-09-21",
-  "source": "Checker/GPCChecker.Concrete/bin/Release/netstandard2.0",
+  "snapshotDate": "2026-09-24",
+  "source": "bin/Release dei singoli progetti Model, Utilities, Geometry e Checker",
   "targetFramework": "netstandard2.0",
   "nuget": [
     {
@@ -13,40 +13,47 @@
       "file": "GPCModelData.dll",
       "source": "Model/ModelData/bin/Release/netstandard2.0",
       "assemblyVersion": "0.0.1.10",
-      "sha256": "B552F1A2747E570991A76AA3B43B3885B2A6100991B66178E078D98ED2A946E5"
+      "sha256": "743CA818F7EF2FBCA87D05CA07A7F08BDFFC6435207D03026C84EE0994779209"
     },
     {
       "file": "GPCChecker.Concrete.dll",
+      "source": "Checker/GPCChecker.Concrete/bin/Release/netstandard2.0",
       "assemblyVersion": "0.0.12.1",
-      "sha256": "07B33D8773594F04F0B04D29AFECE5BBB2050445254C4E215F9115FFF7324F8B"
+      "sha256": "E7BBC0798FF3FCD3CF63C3F54B223913E47EF69B2D4B3A8441DEF2A092FC7AF2"
     },
     {
       "file": "GPCGeometry.dll",
+      "source": "Geometry/GPCGeometry/bin/Release/netstandard2.0",
       "assemblyVersion": "2.0.1.9",
-      "sha256": "5E1B11436D334BF514559D5E1608D107DF03C32E4C85B77800E8BBEF8303FC5B"
+      "sha256": "34B100E624FF715E6D52C7FF99858CABC85784A14B84EF7B2E50EEEF15C7EBA1"
     },
     {
       "file": "GPCModel.dll",
+      "source": "Model/Model/bin/Release/netstandard2.0",
       "assemblyVersion": "1.1.0.2",
-      "sha256": "836BB2E9475187893AF98380E446F0A327E67751A3E8B26BC76FEE0711D877C2"
+      "sha256": "05370D29EE3D6E9B7A84EDB95065DFD11C0BA24F80E71DD6B79B194CDB3523B2"
     },
     {
       "file": "GPCUtilities.dll",
+      "source": "Utilities/GPCUtilities/bin/Release/netstandard2.0",
       "assemblyVersion": "2.0.0.5",
-      "sha256": "869DDCC73EF30C3328FDE6687F6123492C2706F494FF2C494CBD1F9B2BFC6348"
+      "sha256": "C0A041565A400466B79D1496D0A1EC62668B5CD71F737B95A0C88B1A3963DAA8"
     },
     {
       "file": "DelaunayMesh.dll",
+      "source": "Geometry/DelaunayMesh/bin/Release/netstandard2.0",
       "assemblyVersion": "2.0.0.3",
-      "sha256": "8786BE9CADE77E538ECBC67EE0BB67E1CDD73942DE55D6B02D1B80DE7DF76802"
+      "sha256": "766116584687C81D45134703FC8D35137FAAB3012F810063F455181ED76A7CF6"
     },
     {
       "file": "GMsh.Net.dll",
+      "source": "Geometry/GMesh/bin/Release",
       "assemblyVersion": "1.4.13.1",
       "sha256": "99F722DEE4BA39161FCCBC6A0E7A2ABE3453CEDEED2D051AEA3E2BE8A08718DD"
     },
     {
       "file": "UnsafeEx.dll",
+      "source": "Geometry/GMesh/bin/Release",
       "assemblyVersion": "1.0.0.0",
       "sha256": "F9753B51AE9FDEE7C9EEF96CD6EF08AF589C1E20F23A7D2D43AA82DAC06ACA89"
     }

@@ -1,7 +1,12 @@
 # DLL Checker
 
-Snapshot dei binari forniti da Giulio Pacini, copiati dalla cartella
-`Checker/GPCChecker.Concrete/bin/Release/netstandard2.0` il 21 settembre 2026.
+Snapshot dei binari forniti da Giulio Pacini, aggiornato il 24 settembre 2026
+dai `bin/Release` dei singoli progetti Model, ModelData, GPCUtilities,
+GPCGeometry, DelaunayMesh e GPCChecker.Concrete. Le copie delle dipendenze
+nella build di Checker coincidono con quelle dei rispettivi progetti.
+GMsh.Net e UnsafeEx provengono da `Geometry/GMesh/bin/Release` e sono invariati.
+I percorsi di origine, le versioni e gli hash di ciascun file sono nel manifest;
+le versioni assembly da sole non distinguono questa build dalla precedente.
 Non sono ricompilati da ANTHEA e non dipendono da percorsi assoluti della macchina.
 
 Le DLL sono referenziate da X.Core e copiate negli output desktop/verifiche.

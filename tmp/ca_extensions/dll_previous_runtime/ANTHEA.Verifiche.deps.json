@@ -1,0 +1,183 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "ANTHEA.Verifiche/1.0.0": {
+        "dependencies": {
+          "ANTHEA.Core": "1.0.0",
+          "ANTHEA.Core.Reference": "1.0.0.0",
+          "DelaunayMesh": "2.0.0.3",
+          "GMsh.Net": "1.4.13.1",
+          "GPCChecker.Concrete": "0.0.12.1",
+          "GPCGeometry": "2.0.1.9",
+          "GPCModel": "1.1.0.2",
+          "GPCModelData": "0.0.1.10",
+          "GPCUtilities": "2.0.0.5",
+          "UnsafeEx": "1.0.0.0"
+        },
+        "runtime": {
+          "ANTHEA.Verifiche.dll": {}
+        }
+      },
+      "MathNet.Numerics/5.0.0": {
+        "runtime": {
+          "lib/net6.0/MathNet.Numerics.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.0.0"
+          }
+        }
+      },
+      "ANTHEA.Core/1.0.0": {
+        "dependencies": {
+          "MathNet.Numerics": "5.0.0"
+        },
+        "runtime": {
+          "ANTHEA.Core.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": ""
+          }
+        }
+      },
+      "ANTHEA.Core.Reference/1.0.0.0": {
+        "runtime": {
+          "ANTHEA.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "DelaunayMesh/2.0.0.3": {
+        "runtime": {
+          "DelaunayMesh.dll": {
+            "assemblyVersion": "2.0.0.3",
+            "fileVersion": "2.0.0.3"
+          }
+        }
+      },
+      "GMsh.Net/1.4.13.1": {
+        "runtime": {
+          "GMsh.Net.dll": {
+            "assemblyVersion": "1.4.13.1",
+            "fileVersion": "1.4.13.1"
+          }
+        }
+      },
+      "GPCChecker.Concrete/0.0.12.1": {
+        "runtime": {
+          "GPCChecker.Concrete.dll": {
+            "assemblyVersion": "0.0.12.1",
+            "fileVersion": "0.0.12.1"
+          }
+        }
+      },
+      "GPCGeometry/2.0.1.9": {
+        "runtime": {
+          "GPCGeometry.dll": {
+            "assemblyVersion": "2.0.1.9",
+            "fileVersion": "2.0.1.9"
+          }
+        }
+      },
+      "GPCModel/1.1.0.2": {
+        "runtime": {
+          "GPCModel.dll": {
+            "assemblyVersion": "1.1.0.2",
+            "fileVersion": "1.1.0.2"
+          }
+        }
+      },
+      "GPCModelData/0.0.1.10": {
+        "runtime": {
+          "GPCModelData.dll": {
+            "assemblyVersion": "0.0.1.10",
+            "fileVersion": "0.0.1.10"
+          }
+        }
+      },
+      "GPCUtilities/2.0.0.5": {
+        "runtime": {
+          "GPCUtilities.dll": {
+            "assemblyVersion": "2.0.0.5",
+            "fileVersion": "2.0.0.5"
+          }
+        }
+      },
+      "UnsafeEx/1.0.0.0": {
+        "runtime": {
+          "UnsafeEx.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ANTHEA.Verifiche/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MathNet.Numerics/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pg1W2VwaEQMAiTpGK840hZgzavnqjlCMTVSbtVCXVyT+7AX4mc1o89SPv4TBlAjhgCOo9c1Y+jZ5m3ti2YgGgA==",
+      "path": "mathnet.numerics/5.0.0",
+      "hashPath": "mathnet.numerics.5.0.0.nupkg.sha512"
+    },
+    "ANTHEA.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ANTHEA.Core.Reference/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DelaunayMesh/2.0.0.3": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GMsh.Net/1.4.13.1": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GPCChecker.Concrete/0.0.12.1": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GPCGeometry/2.0.1.9": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GPCModel/1.1.0.2": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GPCModelData/0.0.1.10": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GPCUtilities/2.0.0.5": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnsafeEx/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

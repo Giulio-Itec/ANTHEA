@@ -1,0 +1,54 @@
+{
+  "snapshotDate": "2026-09-21",
+  "source": "Checker/GPCChecker.Concrete/bin/Release/netstandard2.0",
+  "targetFramework": "netstandard2.0",
+  "nuget": [
+    {
+      "name": "MathNet.Numerics",
+      "version": "5.0.0"
+    }
+  ],
+  "assemblies": [
+    {
+      "file": "GPCModelData.dll",
+      "source": "Model/ModelData/bin/Release/netstandard2.0",
+      "assemblyVersion": "0.0.1.10",
+      "sha256": "B552F1A2747E570991A76AA3B43B3885B2A6100991B66178E078D98ED2A946E5"
+    },
+    {
+      "file": "GPCChecker.Concrete.dll",
+      "assemblyVersion": "0.0.12.1",
+      "sha256": "07B33D8773594F04F0B04D29AFECE5BBB2050445254C4E215F9115FFF7324F8B"
+    },
+    {
+      "file": "GPCGeometry.dll",
+      "assemblyVersion": "2.0.1.9",
+      "sha256": "5E1B11436D334BF514559D5E1608D107DF03C32E4C85B77800E8BBEF8303FC5B"
+    },
+    {
+      "file": "GPCModel.dll",
+      "assemblyVersion": "1.1.0.2",
+      "sha256": "836BB2E9475187893AF98380E446F0A327E67751A3E8B26BC76FEE0711D877C2"
+    },
+    {
+      "file": "GPCUtilities.dll",
+      "assemblyVersion": "2.0.0.5",
+      "sha256": "869DDCC73EF30C3328FDE6687F6123492C2706F494FF2C494CBD1F9B2BFC6348"
+    },
+    {
+      "file": "DelaunayMesh.dll",
+      "assemblyVersion": "2.0.0.3",
+      "sha256": "8786BE9CADE77E538ECBC67EE0BB67E1CDD73942DE55D6B02D1B80DE7DF76802"
+    },
+    {
+      "file": "GMsh.Net.dll",
+      "assemblyVersion": "1.4.13.1",
+      "sha256": "99F722DEE4BA39161FCCBC6A0E7A2ABE3453CEDEED2D051AEA3E2BE8A08718DD"
+    },
+    {
+      "file": "UnsafeEx.dll",
+      "assemblyVersion": "1.0.0.0",
+      "sha256": "F9753B51AE9FDEE7C9EEF96CD6EF08AF589C1E20F23A7D2D43AA82DAC06ACA89"
+    }
+  ]
+}
