@@ -49,8 +49,9 @@ la geometria in ingresso nei tipi Geometry della libreria.
   chiuse interne sovrapposte, ruotabili. Nel primo schema uno/due bracci
   aggiuntivi corrispondono a tre/quattro braccia nella direzione scelta.
   Nel secondo schema il numero indica le staffe chiuse aggiuntive.
-  Il disegno è indicativo: ancoraggi, piegature e il modello resistente a
-  taglio circolare restano da validare.
+  Il disegno è indicativo; il modello resistente a taglio circolare si sceglie
+  esplicitamente nella relativa scheda. Vedere le
+  [estensioni del modulo](calcestruzzo-estensioni.md) per campo e ipotesi.
 - Rosso indica compressione negativa, blu trazione positiva.
 - Le scale di utilizzo distinguono cinque fasce: fino a 0,50; 0,50–0,70;
   0,70–0,90; 0,90–1,00; oltre 1,00. Legende verticali.

@@ -6,7 +6,18 @@ public static class SectionShearGeometry
     public sealed record Direction(double Bw, double Depth, double SteelArea);
     public static Direction Derive(SezioneCA section, bool alongX)
     {
-        if (section.Shape is not ("Rettangolare" or "A T")) throw new ArgumentException("Parametri automatici disponibili per rettangolare e T; modello circolare da validare.");
+        if (section.Shape=="Circolare")
+        {
+            double Coordinate(Barra b)=>alongX?b.X:b.Y;
+            var lowerRing=section.Bars.Where(b=>Coordinate(b)<-1e-8).ToArray();var upperRing=section.Bars.Where(b=>Coordinate(b)>1e-8).ToArray();
+            if(lowerRing.Length==0||upperRing.Length==0)throw new ArgumentException("Circolare: armatura sui due semicerchi non determinabile.");
+            double an=lowerRing.Sum(b=>b.Area),ap=upperRing.Sum(b=>b.Area);
+            double d=section.Radius+Math.Min(-lowerRing.Sum(b=>b.Area*Coordinate(b))/an,upperRing.Sum(b=>b.Area*Coordinate(b))/ap);
+            // Hollow-circle web width is the sum of the two wall thicknesses at the diameter.
+            double ringWidth=section.Input.B("foro_presente")?section.Width-section.Input.D("inner_diameter_mm"):section.Width;
+            return new(ringWidth,d,Math.Min(an,ap));
+        }
+        if (section.Shape is not ("Rettangolare" or "A T")) throw new ArgumentException("Parametri automatici disponibili per rettangolare, circolare e T.");
         int axis = alongX ? 0 : 1;
         double min = section.Outline.Min(p => p[axis]), max = section.Outline.Max(p => p[axis]);
         double C(Barra b) => alongX ? b.X : b.Y;
@@ -29,6 +40,7 @@ public static class SectionShearGeometry
         double negArea = negative.Sum(b => b.Area), posArea = positive.Sum(b => b.Area);
         double depth = Math.Min(max - negative.Sum(b => b.Area * C(b)) / negArea, positive.Sum(b => b.Area * C(b)) / posArea - min);
         double bw = section.Shape == "Rettangolare" ? alongX ? section.Height : section.Width : section.Input.Required(alongX ? "flange_thickness_mm" : "web_width_mm", strict: true);
+        if(section.Shape=="Rettangolare"&&section.Input.B("foro_presente"))bw-=section.Input.D(alongX?"inner_height_mm":"inner_width_mm");
         return new(bw, depth, Math.Min(negArea, posArea));
     }
 }

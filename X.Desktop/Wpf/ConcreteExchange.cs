@@ -31,7 +31,7 @@ internal sealed partial class ConcreteWorkspace
         {
             try
             {
-                string[] keys = family() == "Taglio" ? ["nome", "N", "Vx", "Vy"] : ["nome", "N", "Mx", "My"];
+                string[] keys = family() == "Taglio" ? ["nome", "N", "Vx", "Vy", "T"] : ["nome", "N", "Mx", "My"];
                 var selected = grid.SelectedItems.OfType<JsonRow>().ToHashSet();
                 var rows = grid.Items.OfType<JsonRow>().Where(selected.Contains).ToArray();
                 if (rows.Length == 0) return;
@@ -69,16 +69,16 @@ internal sealed partial class ConcreteWorkspace
     }
     private void PasteCells(JsonGrid grid, string family, string text, bool append = false)
     {
-        string[] keys = family == "Taglio" ? ["nome", "N", "Vx", "Vy"] : ["nome", "N", "Mx", "My"];
+        string[] keys = family == "Taglio" ? ["nome", "N", "Vx", "Vy", "T"] : ["nome", "N", "Mx", "My"];
         var matrix = text.Split('\n').Select(line => line.TrimEnd('\r')).Where(line => !string.IsNullOrWhiteSpace(line)).Select(line => line.Split('\t')).ToList();
         if (matrix.Count == 0) throw new ArgumentException("Gli appunti non contengono righe.");
         if (matrix.Count > 10000) throw new ArgumentException("Massimo 10.000 righe per incolla.");
         int width = matrix[0].Length;
-        if (width is < 1 or > 4 || matrix.Any(row => row.Length != width)) throw new ArgumentException("Usare una tabella rettangolare con 1–4 colonne, separate da tabulazioni.");
+        if (width < 1 || width > keys.Length || matrix.Any(row => row.Length != width)) throw new ArgumentException("Numero di colonne non valido per la famiglia selezionata.");
         string current = grid.CurrentCell.Column?.SortMemberPath ?? "";
         if (width < 3 && !keys.Contains(current)) throw new ArgumentException("Selezionare prima una cella di input (nome o sollecitazione). Per aggiungere righe complete usare 3 o 4 colonne.");
-        int startColumn = width == 4 ? 0 : width == 3 ? 1 : Math.Max(0, Array.IndexOf(keys, current));
-        if (startColumn + width > 4) throw new ArgumentException("La selezione supera le colonne di input. Selezionare la cella iniziale corretta.");
+        int startColumn = width >= 4 ? 0 : width == 3 ? 1 : Math.Max(0, Array.IndexOf(keys, current));
+        if (startColumn + width > keys.Length) throw new ArgumentException("La selezione supera le colonne di input. Selezionare la cella iniziale corretta.");
         bool Header(string cell, int i) => cell.Trim().Equals(keys[i], StringComparison.OrdinalIgnoreCase) || cell.Trim().StartsWith(keys[i] + " [", StringComparison.OrdinalIgnoreCase) || i == 0 && cell.Trim() == "Combinazione";
         if (matrix[0].Select((cell, i) => Header(cell, startColumn + i)).All(v => v)) matrix.RemoveAt(0);
         if (matrix.Count == 0) throw new ArgumentException("Sono presenti solo le intestazioni.");
@@ -119,7 +119,7 @@ internal sealed partial class ConcreteWorkspace
     {
         var dialog = new SaveFileDialog { Filter = "Cartella Excel|*.xlsx", FileName = "ANTHEA_Sollecitazioni.xlsx" };
         if (dialog.ShowDialog(Window.GetWindow(this)) != true) return;
-        try { Archivio.ScriviAtomico(dialog.FileName, SectionActionsExcel.Template()); RememberExcel(dialog.FileName); status.Text = "Template salvato: Importa Excel rileggerà questo file. Usare Sfoglia per cambiarlo."; }
+        try { Archivio.ScriviAtomico(dialog.FileName, SectionActionsExcel.Write([])); RememberExcel(dialog.FileName); status.Text = "Template salvato: Importa Excel rileggerà questo file. Usare Sfoglia per cambiarlo."; }
         catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message, "Template Excel"); }
     }
     private void ImportActionWorkbook()
@@ -156,7 +156,7 @@ internal sealed partial class ConcreteWorkspace
     {
         foreach (var (key, rows) in actions) foreach (var row in rows) { var p = ReadAction(row); yield return new(key, row.Values.S("nome"), p.N, p.Mx, p.My, null, null); }
         if (shearGrid is not null) foreach (var row in shearGrid.Rows)
-            yield return new("Taglio", row.Values.S("nome"), SectionWorkspace.Number(row.Values.S("N"), "N taglio"), null, null, SectionWorkspace.Number(row.Values.S("Vx"), "Vx"), SectionWorkspace.Number(row.Values.S("Vy"), "Vy"));
+            yield return new("Taglio", row.Values.S("nome"), SectionWorkspace.Number(row.Values.S("N"), "N taglio"), null, null, SectionWorkspace.Number(row.Values.S("Vx"), "Vx"), SectionWorkspace.Number(row.Values.S("Vy"), "Vy"),SectionWorkspace.Number(row.Values.S("T","0"),"T"));
     }
     private void ApplyImport(SectionActionsExcel.Import import, bool replace)
     {
@@ -171,7 +171,7 @@ internal sealed partial class ConcreteWorkspace
                 using var refresh = collection.DeferRefresh();
                 if (replace) collection.Clear();
                 foreach (var row in group)
-                    collection.Add(group.Key == "Taglio" ? ShearRow(J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", row.Name), ("N", Number(row.N)), ("Vx", Number(row.Vx)), ("Vy", Number(row.Vy)))) : CreateAction(group.Key, row.Name, Number(row.N), Number(row.Mx), Number(row.My)));
+                    collection.Add(group.Key == "Taglio" ? ShearRow(J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", row.Name), ("N", Number(row.N)), ("Vx", Number(row.Vx)), ("Vy", Number(row.Vy)),("T",Number(row.T)))) : CreateAction(group.Key, row.Name, Number(row.N), Number(row.Mx), Number(row.My)));
             }
             foreach (var (grid, selected) in selections)
                 grid.SelectedItem = selected is not null && grid.Items.Contains(selected) ? selected : grid.Items.OfType<JsonRow>().FirstOrDefault();

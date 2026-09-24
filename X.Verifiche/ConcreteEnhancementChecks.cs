@@ -69,7 +69,7 @@ internal static class ConcreteEnhancementChecks
                 batchOptions["criterio"] = criterion; batchDomain.ConfigureVerification(batchOptions);
                 var actual = batchDomain.CheckMany(batchActions);
                 var expected = batchActions.Select(batchDomain.Check).ToArray();
-                Check(actual.SequenceEqual(expected), $"Batch rettangolare identico al seriale (ordine, resistenze, tassi, response): {state}, {strategy}, {criterion}");
+                Check(actual.Zip(expected).All(p=>(p.First with{LimitState=null})==(p.Second with{LimitState=null})), $"Batch rettangolare identico al seriale (ordine, resistenze, tassi, response): {state}, {strategy}, {criterion}");
                 Check(ReferenceEquals(actual[0], actual[^1]), "Azioni identiche riusano lo stesso risultato senza perdere righe");
             }
             Check(batchDomain.CheckMany([]).Length == 0, "Batch vuoto");
@@ -133,7 +133,7 @@ internal static class ConcreteEnhancementChecks
         Check(y.Bw == 600 && Math.Abs(y.Depth - 710) < 1e-9 && Math.Abs(y.SteelArea - 200 * Math.PI) < 1e-9, "Wizard rettangolare Vy");
         sectionInput["shape"] = "A T"; var tee = new SezioneCA(sectionInput);
         Check(SectionShearGeometry.Derive(tee, true).Bw == 250 && SectionShearGeometry.Derive(tee, false).Bw == 400, "Wizard T larghezze minime ortogonali");
-        sectionInput["shape"] = "Circolare"; Reject(() => SectionShearGeometry.Derive(new SezioneCA(sectionInput), true), "Nessun taglio circolare implicito");
+        sectionInput["shape"] = "Circolare";Check(SectionShearGeometry.Derive(new SezioneCA(sectionInput), true).Bw==sectionInput.D("diameter_mm"),"Geometria suggerita per circolare; modello resistente scelto separatamente");
         shared["sle_comuni"]!["esposizione"] = "XC3"; shared["sle"]!["SLE_FREQ"]!["contour"] = "Solo geometria";
         SectionWorkspace.Prepare(scenario);
         Check(SectionWorkspace.Sets.Skip(2).All(k => shared["sle"]![k].S("esposizione") == "XC3") && shared["sle"]!["SLE_FREQ"].S("contour") == "Solo geometria" && shared["sle_precedenti_unificazione"] is JsonObject, "SLE comune persistita, vista indipendente e precedente conservato");

@@ -1,5 +1,9 @@
 # Calcestruzzo armato — collegamento Checker
 
+Le [estensioni di settembre 2026](calcestruzzo-estensioni.md) aggiungono piani
+di deformazione, dettagli costruttivi, curva M–χ, torsione, taglio circolare e
+sezioni con foro centrale; integrano le funzionalità descritte in questa guida.
+
 ## Motore e convenzioni
 
 L'interfaccia WPF usa la copia delle DLL in `lib/Checker`, non riferimenti ai progetti
@@ -219,8 +223,10 @@ circolare non ancora validato.
    analisi lineare/non lineare, viscosità φ per barre e trefoli nella lineare,
    CLS teso, assi; esposizione, sensibilità dell'armatura, durata, aderenza,
    copriferro e spaziatura massima delle barre tese.
-5. Taglio: azioni N/Vx/Vy; modello con/senza staffe; bw, d, Asl ancorata,
+5. Taglio e torsione: azioni N/Vx/Vy/T; modello con/senza staffe; bw, d, Asl ancorata,
    rami, inclinazione delle staffe, cot θ automatica o manuale per ogni asse.
+6. Dettagli costruttivi: tipo di elemento, controlli capitolo 4 / EC2, ancoraggi.
+7. Momento–curvatura: percorso configurabile, primo snervamento, limite e CSV.
    Ø e passo sono nei dati comuni. Vx agisce lungo x (d nella larghezza);
    Vy lungo y (d nell'altezza). Non è una verifica di interazione biassiale.
 
@@ -341,15 +347,16 @@ Questi controlli non costituiscono una validazione integrale del software né un
 certificazione della struttura. L'esportazione mantiene
 `verifica_normativa_completa: false`.
 
-- Taglio circolare: il fattore 0,75 della vecchia routine non è stato adottato
-  senza una schematizzazione resistente dedicata.
+- Taglio circolare: richiede la scelta esplicita del modello e dei parametri,
+  descritta nelle [estensioni del modulo](calcestruzzo-estensioni.md).
 - Taglio con precompressione: da completare, incluse le componenti dei cavi.
 - Apertura delle fessure con trefoli: da completare, incluse aderenza ed area
   efficace specifica. Decompressione/formazione hanno un controllo distinto.
-- Apertura wk: disponibile per analisi lineare fessurata di sezioni parzializzate;
+- Apertura wk: disponibile per analisi lineare fessurata, incluse le sezioni interamente tese;
   la non lineare calcola le tensioni ma non produce automaticamente wk.
-- Nessun esito globale per dettagli costruttivi, ancoraggi, duttilità, torsione,
-  interazione del taglio nelle due direzioni, gerarchia sismica, secondo ordine.
+- Dettagli, ancoraggi, momento–curvatura, torsione e interazione V–T hanno
+  controlli dedicati nelle nuove schede; valgono le ipotesi documentate nelle
+  estensioni. Gerarchia sismica e secondo ordine non sono verificati.
 - SLV elastico è il dominio elastico della libreria, non l'intera verifica sismica.
 - Per geometrie, esposizioni, materiali e carichi reali occorre una verifica
   indipendente del progettista. Le scelte fuori campo sono segnalate nella tabella.

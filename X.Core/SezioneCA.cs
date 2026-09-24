@@ -16,12 +16,14 @@ public sealed class SezioneCA
     public double Radius { get; } public double BarRadius { get; private set; } public double CentroidY { get; private set; }
     public double AreaCls { get; private set; } public double AreaSteel { get; }
     public double Width { get; } public double Height { get; }
+    public int CircularSides { get; private set; } = 32;
     public List<double[]> Outline { get; } = [];
+    public List<double[][]> Holes { get; } = [];
     public List<Fibra> Fibers { get; } = [];
     public List<Barra> Bars { get; } = [];
     public double NAutomatico => Es/(22000*Math.Pow((Input.D("fck_mpa")+8)/10,.3));
     public static JsonObject DefaultInput() => J.Obj(
-        ("shape","Rettangolare"),("diameter_mm","1000"),("width_mm","600"),("height_mm","800"),("flange_width_mm","1200"),("web_width_mm","400"),("flange_thickness_mm","250"),("cover_mm","70"),
+        ("shape","Rettangolare"),("diameter_mm","1000"),("circular_sides","32"),("width_mm","600"),("height_mm","800"),("flange_width_mm","1200"),("web_width_mm","400"),("flange_thickness_mm","250"),("cover_mm","70"),
         ("longitudinal_bar_count","16"),("longitudinal_bar_diameter_mm","24"),("top_bar_count","4"),("top_bar_diameter_mm","20"),("bottom_bar_count","6"),("bottom_bar_diameter_mm","24"),("side_bar_count_per_side","2"),("side_bar_diameter_mm","16"),("transverse_bar_diameter_mm","10"),("transverse_spacing_mm","200"),
         ("apply_pile_requirements",false),("dissipative_zone",false),("fck_mpa","35"),("fyk_mpa","450"),("alpha_cc","0.85"),("gamma_c","1.50"),("gamma_s","1.15"),("steel_modulus_mpa","200000"),
         ("axial_force_kn","2500"),("moment_x_knm","500"),("moment_y_knm","250"),("apply_minimum_eccentricity",false),("minimum_eccentricity_mm","0"),("classe_cls","C35/45"),("n",""));
@@ -38,27 +40,63 @@ public sealed class SezioneCA
         if(fck<=50)return(.002,.0035,2);double ratio=(90-fck)/100;
         return((2+.085*Math.Pow(fck-50,.53))/1000,(2.6+35*Math.Pow(ratio,4))/1000,1.4+23.4*Math.Pow(ratio,4));
     }
-    private double V(string key)=>Input.D(key);
+    private double V(string key)=>key=="transverse_bar_diameter_mm"&&Input.S("staffe_presenti","Sì")=="No"?0:Input.D(key);
     public SezioneCA(JsonObject input,int radialDivisions=28,int angularDivisions=96)
     {
         Input=DefaultInput();foreach(var (k,v) in input)Input[k]=v?.DeepClone();
         Shape=Input.S("shape").Trim().ToLowerInvariant().Replace('-',' ') switch {"circolare"=>"Circolare","rettangolare"=>"Rettangolare","a t" or "t"=>"A T",_=>Input.S("shape")};
         Validate();Fcd=V("alpha_cc")*V("fck_mpa")/V("gamma_c");Fyd=V("fyk_mpa")/V("gamma_s");Es=V("steel_modulus_mpa");
         (EpsC2,EpsCu,ParabolaN)=ParametriCls(V("fck_mpa"));Radius=Shape=="Circolare"?V("diameter_mm")/2:0;
-        Geometry(Math.Max(12,radialDivisions),Math.Max(36,angularDivisions));Width=Outline.Max(p=>p[0])-Outline.Min(p=>p[0]);Height=Outline.Max(p=>p[1])-Outline.Min(p=>p[1]);
+        Geometry(Math.Max(12,radialDivisions),Math.Max(36,angularDivisions));
+        if(Input.B("foro_presente"))BuildHole(Math.Max(12,radialDivisions),Math.Max(36,angularDivisions));
+        Width=Outline.Max(p=>p[0])-Outline.Min(p=>p[0]);Height=Outline.Max(p=>p[1])-Outline.Min(p=>p[1]);
         BuildBars();AreaSteel=J.Sum(Bars.Select(b=>b.Area));
+        if(Holes.Count>0&&Bars.Any(b=>SectionRegions.BarCover(this,b)<-1e-8))throw new ArgumentException("Una barra interseca il foro o il contorno della sezione.");
         if(AreaSteel>=AreaCls)throw new ArgumentException("L'area delle armature deve essere inferiore all'area lorda della sezione.");
         for(int i=0;i<Bars.Count;i++)for(int j=i+1;j<Bars.Count;j++)if(Hypot(Bars[i].X-Bars[j].X,Bars[i].Y-Bars[j].Y)<=(Bars[i].Diametro+Bars[j].Diametro)/2)throw new ArgumentException("La disposizione scelta provoca la sovrapposizione di due barre.");
     }
     public static double Hypot(double x,double y)=>double.Hypot(x,y);
+    private void BuildHole(int nr,int na)
+    {
+        if(Shape=="Circolare")
+        {
+            double ri=Input.Required("inner_diameter_mm",strict:true)/2;
+            if(ri>=Radius)throw new ArgumentException("Il diametro del foro deve essere minore di quello esterno.");
+            Holes.Add(Enumerable.Range(0,CircularSides).Select(i=>new[]{ri*Math.Cos(-2*Math.PI*i/CircularSides),ri*Math.Sin(-2*Math.PI*i/CircularSides)}).ToArray());
+            Fibers.Clear();
+            for(int ir=0;ir<nr;ir++)
+            {
+                double r1=ri+(Radius-ri)*ir/nr,r2=ri+(Radius-ri)*(ir+1)/nr,r=Math.Sqrt((r1*r1+r2*r2)/2),area=Math.PI*(r2*r2-r1*r1)/na;
+                for(int ia=0;ia<na;ia++){double angle=2*Math.PI*(ia+.5)/na;Fibers.Add(new(r*Math.Cos(angle),r*Math.Sin(angle),area));}
+            }
+            AreaCls=Math.PI*(Radius*Radius-ri*ri);
+        }
+        else if(Shape=="Rettangolare")
+        {
+            double bi=Input.Required("inner_width_mm",strict:true),hi=Input.Required("inner_height_mm",strict:true),b=V("width_mm"),h=V("height_mm");
+            if(bi>=b||hi>=h)throw new ArgumentException("Il foro deve essere contenuto nel rettangolo esterno.");
+            Holes.Add([[-bi/2,-hi/2],[-bi/2,hi/2],[bi/2,hi/2],[bi/2,-hi/2]]);
+            Fibers.Clear();
+            RectangleFibers(-b/2,b/2,hi/2,h/2,2*nr,Math.Max(6,na/4));RectangleFibers(-b/2,b/2,-h/2,-hi/2,2*nr,Math.Max(6,na/4));
+            RectangleFibers(-b/2,-bi/2,-hi/2,hi/2,Math.Max(6,nr/2),na/2);RectangleFibers(bi/2,b/2,-hi/2,hi/2,Math.Max(6,nr/2),na/2);
+            AreaCls=b*h-bi*hi;
+        }
+        else throw new ArgumentException("Foro centrale disponibile per sezione rettangolare o circolare.");
+    }
     private void Validate()
     {
         if(Shape.StartsWith("Generica"))throw new ArgumentException("Sezione generica: predisposizione salvabile; definizione del contorno e delle armature ancora da implementare. Calcolo non disponibile.");
         if(Shape is not ("Circolare" or "Rettangolare" or "A T"))throw new ArgumentException("Tipo di sezione non riconosciuto.");
         string[] common=["cover_mm","transverse_bar_diameter_mm","transverse_spacing_mm","fck_mpa","fyk_mpa","alpha_cc","gamma_c","gamma_s","steel_modulus_mpa","minimum_eccentricity_mm"];
-        foreach(var k in common)Input.Required(k,strict:k is not ("cover_mm" or "minimum_eccentricity_mm"));
+        foreach(var k in common)if(Input.S("staffe_presenti","Sì")!="No"||k is not("transverse_bar_diameter_mm" or "transverse_spacing_mm"))Input.Required(k,strict:k is not ("cover_mm" or "minimum_eccentricity_mm"));
         void Count(string k,int min){double value=Input.Required(k,min);if(value!=Math.Truncate(value)||value>int.MaxValue)throw new ArgumentException("Il numero delle barre deve essere intero.");}
-        if(Shape=="Circolare") {Input.Required("diameter_mm",strict:true);Count("longitudinal_bar_count",4);Input.Required("longitudinal_bar_diameter_mm",strict:true);}
+        if(Shape=="Circolare")
+        {
+            Input.Required("diameter_mm",strict:true);Count("longitudinal_bar_count",4);Input.Required("longitudinal_bar_diameter_mm",strict:true);
+            CircularSides=SectionWorkspace.Subdivisions(Input.S("circular_sides"),"Lati del contorno circolare",12,720);
+            // Keep vertices on both coordinate axes, preserving the assigned diameter in x and y.
+            if(CircularSides%4!=0)throw new ArgumentException("Lati del contorno circolare: inserire un multiplo di 4 fra 12 e 720.");
+        }
         else
         {
             Input.Required("height_mm",strict:true);if(Shape=="Rettangolare")Input.Required("width_mm",strict:true);
@@ -89,7 +127,7 @@ public sealed class SezioneCA
     {
         if(Shape=="Circolare")
         {
-            for(int i=0;i<180;i++)Outline.Add([Radius*Math.Cos(2*Math.PI*i/180),Radius*Math.Sin(2*Math.PI*i/180)]);
+            for(int i=0;i<CircularSides;i++)Outline.Add([Radius*Math.Cos(2*Math.PI*i/CircularSides),Radius*Math.Sin(2*Math.PI*i/CircularSides)]);
             for(int ir=0;ir<nr;ir++)
             {
                 double r1=Radius*ir/nr,r2=Radius*(ir+1)/nr,r=Math.Sqrt((r1*r1+r2*r2)/2),area=Math.PI*(r2*r2-r1*r1)/na;

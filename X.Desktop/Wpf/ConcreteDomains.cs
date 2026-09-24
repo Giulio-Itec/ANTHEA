@@ -28,6 +28,7 @@ internal sealed partial class ConcreteWorkspace
         internal readonly Plot Plot = new() { InvertY = false, CenteredAxes = true, Title = "Sezione del dominio", EmptyMessage = "Dominio in attesa di aggiornamento automatico" };
         internal readonly TextBlock Detail = Ui.Text("Selezionare una combinazione", 12);
         internal readonly VerificationCards Summary = new();
+        internal readonly SectionInspection Inspection = new();
         internal string Key => Options.S("stato", "SLU");
         internal string Prefix => ThreeD ? "3D:" : "2D:";
     }
@@ -114,7 +115,7 @@ internal sealed partial class ConcreteWorkspace
         panel.Grid.Columns[^1].Width = new DataGridLength(2, DataGridLengthUnitType.Star);
         var table = Panel("Combinazioni N–Mx–My", ActionTable(panel.Key, panel.Grid, () => UpdateSelection(panel)), "Le azioni Plastico / Elastico sono condivise fra le schede 3D e 2D");
         var detailTabs = new TabControl { SelectedIndex = 1 }; Ui.Tab(detailTabs, "Dettagli combinazione", Scroller(panel.Detail)); Ui.Tab(detailTabs, "Riepilogo verifiche", Scroller(panel.Summary));
-        var body = AnalysisLayout(left, viewport, detailTabs, table);
+        var body = AnalysisLayout(left, BuildSectionInspection(panel, viewport), detailTabs, table);
         panel.Grid.IsVisibleChanged += (_, _) => { if (panel.Grid.IsVisible && panel.NeedsVisualRefresh) RefreshDomainPanel(panel); };
         AttachDomainRows(panel); panel.Form.Enable("theta", panel.Options.S("tipo") == "N–M"); panel.Form.Enable("N", panel.Options.S("tipo") == "Mx–My");
         foreach (var field in new[] { "origine_x", "origine_y", "rotazione" }) panel.Form.Enable(field, panel.Options.S("assi") == "Personalizzati");
@@ -247,6 +248,7 @@ internal sealed partial class ConcreteWorkspace
         panel.NeedsVisualRefresh = true;
         if (synchronizing || panel.AttachingRows || panel.Grid is null || !renderHidden && !panel.Grid.IsVisible) return;
         panel.NeedsVisualRefresh = false;
+        UpdateSectionInspection(panel);
         var row = panel.Grid.SelectedItem as JsonRow; string? id = row?.Values.S("id"); domainResults.TryGetValue(panel.Prefix + panel.Key, out var checks); DomainCheck? selectedCheck = id is null ? null : checks?.GetValueOrDefault(id);
         var visible = new List<(string Id, ActionPoint Force, bool Pass)>();
         foreach (var item in panel.Grid.Items.OfType<JsonRow>())
@@ -419,6 +421,8 @@ internal sealed partial class ConcreteWorkspace
             ["errore"] = "", ["motore"] = "GPCChecker.Concrete.dll",
             ["normativa_riferimento"] = settings.S("normativa"), ["verifica_normativa_completa"] = false,
             ["domini"] = domains, ["tensioni"] = stresses, ["taglio"] = J.Node(shearResults),
+            ["torsione"] = J.Node(torsionResults), ["dettagli_costruttivi"] = J.Node(detailingResults), ["dettagli_esito"] = detailingText.Text,
+            ["ancoraggio"] = J.Node(anchorageResult), ["ancoraggio_esito"] = anchorageText.Text, ["momento_curvatura"] = J.Node(curvatureResult),
             ["dati"] = Data.DeepClone(), ["errori_calcolo"] = J.Node(calculationErrors),
             ["avvisi"] = J.Node(new[] { "Compressione negativa; azioni in kN e kNm", "Taglio e fessurazione: vedere esiti specifici e limiti di applicabilità" })
         };

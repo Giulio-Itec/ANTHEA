@@ -56,6 +56,12 @@ public sealed class TensionBarSpacing : ITensionBarSpacing
 
     private static bool Inside(SezioneCA section, double x, double y)
     {
+        foreach(var hole in section.Holes)
+        {
+            bool inHole=false;
+            for(int i=0,j=hole.Length-1;i<hole.Length;j=i++)if((hole[i][1]>y)!=(hole[j][1]>y)&&x<(hole[j][0]-hole[i][0])*(y-hole[i][1])/(hole[j][1]-hole[i][1])+hole[i][0])inHole=!inHole;
+            if(inHole)return false;
+        }
         bool inside = false; var outline = section.Outline;
         for (int i = 0, j = outline.Count - 1; i < outline.Count; j = i++)
         {

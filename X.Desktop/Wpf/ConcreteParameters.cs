@@ -45,18 +45,20 @@ internal sealed partial class ConcreteWorkspace
     }
     private UIElement BuildStirrups()
     {
-        var dimensions = new InputForm(Input, [new("transverse_bar_diameter_mm", "Ø staffe", "mm"), new("transverse_spacing_mm", "Passo", "mm")], key => { SynchronizeStirrups(); if (key == "transverse_bar_diameter_mm") Invalidate(); else InvalidateActions("Taglio"); }, true);
+        if(!Input.ContainsKey("staffe_presenti"))Input["staffe_presenti"]="Sì";
+        var dimensions = new InputForm(Input, [new("staffe_presenti", "Staffe presenti", Choices:["Sì","No"]),new("transverse_bar_diameter_mm", "Ø staffe", "mm"), new("transverse_spacing_mm", "Passo", "mm")], key => { if(Input.S("staffe_presenti")=="No") {ShearOptions["modello"]="Senza staffe";shearForm?.Set("modello","Senza staffe",true);} SynchronizeStirrups(); RefreshDetailing(); if (key is "transverse_bar_diameter_mm" or "staffe_presenti") Invalidate(); else InvalidateActions("Taglio"); }, true);
         var form = new InputForm(ShearOptions, [new("tipo_staffa", "Circolare", Choices: ["Staffa chiusa", "Spirale"]), new("rami_x", "Braccia resistenti a Vx"), new("rami_y", "Braccia resistenti a Vy"), new("schema_interno", "Schema interno", Choices: ["Bracci paralleli", "Staffe chiuse sovrapposte"]), new("rami_interni", "Bracci aggiunti / staffe interne"), new("rotazione_staffa", "Rotazione schema", "°")], _ => { SynchronizeStirrups(); InvalidateActions("Taglio"); }, true, true);
         stirrupForms.Add(dimensions); stirrupForms.Add(form);
-        return Ui.Stack(dimensions, form, Ui.Text("Schema indicativo, non esecutivo. Rettangolare / T: staffe a più braccia. Circolare: 1/2 bracci aggiunti = 3/4 braccia nella direzione scelta; schema alternativo con staffe chiuse interne; modello resistente circolare ancora da validare.", 11, color: Ui.Muted));
+        return Ui.Stack(dimensions, form, Ui.Text("Schema indicativo, non esecutivo. Rettangolare / T: staffe a più braccia. Circolare: bracci e staffe interne sono rappresentati secondo lo schema scelto; assegnare i rami effettivamente resistenti a Vx e Vy. Il modello di calcolo circolare si sceglie nella scheda Taglio e torsione.", 11, color: Ui.Muted));
     }
     private void SynchronizeStirrups()
     {
         foreach (var form in stirrupForms)
         {
-            foreach (var key in form.Editors.Keys) form.Set(key, key.StartsWith("transverse_") ? Input.S(key) : ShearOptions.S(key), true);
+            foreach (var key in form.Editors.Keys) form.Set(key, key.StartsWith("transverse_") || key=="staffe_presenti" ? Input.S(key) : ShearOptions.S(key), true);
+            foreach(var key in form.Editors.Keys.Where(k=>k!="staffe_presenti"))form.Enable(key,Input.S("staffe_presenti","Sì")=="Sì");
             form.ShowField("tipo_staffa", Input.S("shape") == "Circolare"); form.ShowField("rami_interni", Input.S("shape") == "Circolare"); form.ShowField("schema_interno", Input.S("shape") == "Circolare"); form.ShowField("rotazione_staffa", Input.S("shape") == "Circolare");
-            foreach (var key in new[] { "rami_x", "rami_y" }) form.ShowField(key, Input.S("shape") != "Circolare");
+            foreach (var key in new[] { "rami_x", "rami_y" }) form.ShowField(key, true);
         }
         foreach (var key in new[] { "transverse_bar_diameter_mm", "transverse_spacing_mm" }) reinforcement?.Set(key, Input.S(key), true);
         foreach (var key in new[] { "rami_x", "rami_y" }) shearForm?.Set(key, ShearOptions.S(key), true);

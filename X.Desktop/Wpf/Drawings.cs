@@ -65,6 +65,7 @@ internal sealed class Plot : DrawingView
     internal string Title { get; set; } = "Premere Calcola";
     internal string XLabel { get; set; } = "Forza assiale [kN]";
     internal string YLabel { get; set; } = "Profondità z [m]";
+    internal string? AxisNumberFormat { get; set; }
     internal string Note { get; set; } = "";
     internal bool InvertY { get; set; } = true;
     internal bool Capacity { get; set; }
@@ -112,7 +113,7 @@ internal sealed class Plot : DrawingView
         double viewZoom = CenteredAxes ? 1 : zoom;
         Point P(double x, double y) => new(area.Left + (x - xmin) / (xmax - xmin) * area.Width * viewZoom + offset.X,
             area.Top + (InvertY ? (y - ymin) / (ymax - ymin) : (ymax - y) / (ymax - ymin)) * area.Height * viewZoom + offset.Y);
-        string F(double v) { if (NegateAxisLabels && v != 0) v = -v; return Math.Abs(v) >= 10000 ? (v / 1000).ToString("0.#") + "k" : v.ToString("0.##"); }
+        string F(double v) { if (NegateAxisLabels && v != 0) v = -v; if(AxisNumberFormat is not null)return v.ToString(AxisNumberFormat);return Math.Abs(v) >= 10000 ? (v / 1000).ToString("0.#") + "k" : v.ToString("0.##"); }
         for (int i = 0; i <= 4; i++)
         {
             double t = i / 4d, x = area.Left + t * area.Width, y = area.Top + t * area.Height;

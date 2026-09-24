@@ -1,0 +1,891 @@
+PAGE 1
+È vietata a norma di legge la riproduzione, anche parziale, non autorizzata di questo documento
+Titolo:
+Validazione del calcolo delle sezioni in calcestruzzo armato
+Software ANTHEA | NTC 2018 e Circolare 2019
+Firme:
+Rev: Modifiche / Revisioni Data Redatto Controllato Approvato
+00 PRIMA EMISSIONE 24/09/2026
+Ambito:
+Validazione del software ANTHEA
+Oggetto:
+Relazione di validazione numerica
+20 casi di riferimento
+Domini 3D e 2D
+Analisi e verifiche tensionali
+Fessurazione e taglio X e Y
+Tipo documento: VALIDAZIONE Nome file: ANTHEA-VAL-CA-01
+Software: ANTHEA Elaborato: VAL-CA-01
+
+PAGE 2
+ANTHEA Validazione CA
+INDICE
+1 OGGETTO E CONCLUSIONI DELLA VALIDAZIONE .............................................. 1
+2 PROTOCOLLO E CRITERI DI ACCETTAZIONE.....................................................2
+3 GEOMETRIE MATERIALI E CONVENZIONI..........................................................3
+4 FORMULE DEI RIFERIMENTI INDIPENDENTI .......................................................4
+5 DOMINIO TRIDIMENSIONALE PLASTICO........................................................... 7
+6 DOMINIO TRIDIMENSIONALE ELASTICO ...........................................................9
+7 DOMINIO BIDIMENSIONALE PLASTICO............................................................ 11
+8 DOMINIO BIDIMENSIONALE ELASTICO ........................................................... 13
+9 CALCOLO TENSIONALE LINEARE ....................................................................15
+10 CALCOLO TENSIONALE NON LINEARE.............................................................17
+11 VERIFICA DI LIMITAZIONE DELLE TENSIONI .................................................... 19
+12 VERIFICA DI FESSURAZIONE ......................................................................... 21
+13 VERIFICA A TAGLIO IN DIREZIONE X ............................................................... 23
+14 VERIFICA A TAGLIO IN DIREZIONE Y ............................................................... 25
+15 QUADRO RIEPILOGATIVO DEGLI ESITI............................................................ 27
+16 RILIEVI E CONDIZIONI PER LA CHIUSURA .......................................................28
+17 RIPRODUCIBILITÀ E IDENTIFICAZIONE DEL SOFTWARE...................................29
+18 FONTI E RIFERIMENTI ....................................................................................30
+I casi sono identificati da un codice univoco riportato nelle schede e nel quadro 
+riepilogativo. Sono previsti due esempi per ciascuna delle dieci famiglie di verifica.
+
+PAGE 3
+ANTHEA Validazione CA
+Pagina 1 di 30
+1 OGGETTO E CONCLUSIONI DELLA VALIDAZIONE
+La presente relazione definisce ed esegue una campagna di validazione numerica del 
+modulo di calcolo delle sezioni in calcestruzzo armato di ANTHEA. Il confronto 
+comprende 20 casi: domini resistenti 3D e 2D, in modalità plastica ed elastica; analisi 
+tensionale lineare e non lineare; limitazione delle tensioni; apertura delle fessure; 
+resistenza a taglio nelle direzioni X e Y.
+La campagna fornisce 15 casi conformi ai criteri numerici adottati, 3 casi con riserva sul 
+dettaglio tensionale restituito dai domini 2D e 2 casi elastici da chiarire per scostamenti 
+superiori alla soglia. La validazione complessiva del modulo resta aperta fino alla 
+chiusura dei rilievi descritti nella relazione. Un esito strutturale negativo correttamente 
+riprodotto costituisce un test software positivo.
+1.1 ATTIVITÀ DA ESEGUIRE
+Il verificatore deve fissare versione del programma e librerie, unità, assi, materiali e 
+opzioni; ricostruire ogni riferimento senza utilizzare il risolutore da validare; immettere i 
+dati in ANTHEA; confrontare azioni resistenti, tensioni, deformazioni, ampiezza delle 
+fessure e resistenze a taglio. Gli scostamenti vanno valutati prima dell’arrotondamento 
+e registrati con il relativo esito.
+Per i domini occorre controllare sia un punto di frontiera sia punti interni ed esterni. Per i 
+risultati non lineari occorre distinguere il limite del materiale, il criterio di ricerca del punto 
+resistente e la rappresentazione grafica. Prima di approvare il rapporto devono essere 
+risolte le discrepanze e ripetuti i casi interessati.
+1.2 CAMPO DI APPLICAZIONE
+Sono considerate sezioni rettangolari, armature ordinarie aderenti, deformazioni piane, 
+aderenza perfetta, temperatura ordinaria e assenza di precompressione. Il modello è di 
+sezione: non comprende stabilità, effetti del secondo ordine, duttilità dell’elemento, 
+gerarchia delle resistenze, ancoraggi, minimi costruttivi, torsione, punzonamento o 
+verifiche globali dell’opera. Le verifiche di taglio X e Y sono separate: la loro interazione 
+non è validata.
+Riferimenti principali: NTC 2018, capitolo 4 e § 10.2 [R1]; Circolare 2019, capitolo C4 [R2]. La base normativa 
+è quella richiesta per questa campagna, con EC2 di prima generazione come supporto [R3–R4].
+
+PAGE 4
+ANTHEA Validazione CA
+Pagina 2 di 30
+2 PROTOCOLLO E CRITERI DI ACCETTAZIONE
+La verifica è stata eseguita il 24 settembre 2026 richiamando direttamente le API del 
+motore corrente: CheckerSection per domini e tensioni; Ntc2018Checks per 
+fessurazione e taglio. Il collaudo riguarda il motore e l’adattatore di ANTHEA, non le 
+operazioni manuali nell’interfaccia WPF, l’importazione dei dati o l’impaginazione dei 
+report del programma.
+I riferimenti sono calcolati da un programma indipendente in Python, senza chiamate alle 
+DLL Checker. Per le integrazioni di sezione si usa quadratura di Gauss a tratti: il 
+passaggio da 6 a 10 punti mantiene N e M entro 10⁻⁸ nelle rispettive unità. Le formule 
+chiuse e l’algoritmo di riproduzione sono riportati nel seguito.
+Grandezza Criterio adottato
+N e componenti di M Scarto relativo ≤ 1%; vicino a zero: 0,05 kN e 0,01 kNm
+Tensioni Scarto ≤ max(1% del riferimento; 0,05 MPa)
+Tasso di utilizzo η Scarto assoluto ≤ 0,01 rispetto al riferimento
+Ampiezza wk Scarto ≤ max(1%; 0,002 mm)
+Resistenza a taglio VRd Scarto ≤ max(1%; 0,05 kN)
+Punti di controllo 0,8 volte la frontiera: interno; 1,2 volte: esterno
+Queste tolleranze sono criteri tecnici della campagna, non limiti prescritti dalla 
+normativa. Non si arrotonda un tasso superiore a 1 per trasformarlo in verifica 
+soddisfatta: in prossimità della frontiera si confronta il valore numerico con la tolleranza 
+di validazione.
+Per i domini 3D si usa il criterio “Eccentricità costante”, con strategia “Iterativo”, 64 
+direzioni e azioni proporzionali (N, Mx, My). Il dominio 2D è N–M, θ = 0°, senza proiezione 
+delle azioni. Il controllo aggiuntivo a 128 direzioni restituisce gli stessi valori dei tassi per 
+tutti gli otto casi: non elimina gli scarti riscontrati e non costituisce prova di convergenza 
+della mesh interna.
+Le tre categorie di esito sono: CONFORME, se le grandezze previste rispettano la soglia; 
+CON RISERVA, se N e M rientrano ma il dettaglio tensionale associato non è coerente; DA 
+CHIARIRE, se il riferimento non è riprodotto entro la soglia. Le schede distinguono queste 
+categorie dall’esito della verifica strutturale.
+
+PAGE 5
+ANTHEA Validazione CA
+Pagina 3 di 30
+3 GEOMETRIE MATERIALI E CONVENZIONI
+Gli assi x e y giacciono nel piano della sezione, con origine al centro geometrico. N è 
+negativo in compressione. Una compressione prevalente sul lembo y positivo produce 
+Mx positivo; sul lembo x positivo produce My negativo. Tensioni e deformazioni ANTHEA
+sono negative in compressione. Le lunghezze sono in mm, le tensioni in MPa, le forze in 
+kN e i momenti in kNm.
+Parametro Sezione R Sezione W
+Dimensioni b × h 300 × 500 mm 600 × 500 mm
+Barre B1 e B2 (−100; −200), (+100; −200) (−250; −200), (+250; −200)
+Barre B3 e B4 (−100; +200), (+100; +200) (−250; +200), (+250; +200)
+Armatura longitudinale 4 Ø20; As = 1256,6371 mm² 4 Ø20; As = 1256,6371 mm²
+Copriferro netto e staffa 30 mm e Ø10 30 mm e Ø10
+Quota del centro delle barre 50 mm dal bordo 50 mm dal bordo
+Le barre sono definite mediante coordinate manuali. Il calcestruzzo spostato dalle barre 
+è sottratto con la correzione puntuale As,i·σc(xi,yi); le barre sono concentrate nei loro 
+centri. Questa convenzione deve essere mantenuta nel confronto, soprattutto quando 
+si definisce il primo snervamento.
+Materiale o coefficiente Valore
+Calcestruzzo C30/37 e acciaio B450C fck = 30 MPa; fyk = 450 MPa
+Coefficienti di progetto αcc = 0,85; γc = 1,50; γs = 1,15
+Resistenze di progetto fcd = 17,0000 MPa; fyd = 391,3043 MPa
+Moduli Es = 200000 MPa; Ecm = 32836,5680 MPa
+Trazione media del CLS fctm = 2,8965 MPa
+Deformazioni di riferimento εc2 = 2,0‰; εcu2 = 3,5‰; εyd = 1,956522‰
+Ecm = 22000·[(fck + 8)/10]^0,3; fctm = 0,30·fck^(2/3). φ viscoso = 0; CLS teso escluso; getto sottile = 
+No; acciaio elastoplastico senza incrudimento. La deformazione ultima dell’acciaio impostata a 100‰ è 
+un parametro del benchmark e non viene raggiunta. FE-01 usa i dati specifici della fonte.
+
+PAGE 6
+ANTHEA Validazione CA
+Pagina 4 di 30
+4 FORMULE DEI RIFERIMENTI INDIPENDENTI
+4.1 EQUILIBRIO DELLA SEZIONE E LEGAMI COSTITUTIVI
+Si introduce e, positiva in compressione, opposta alla deformazione restituita da 
+ANTHEA. Ogni caso definisce un piano noto e ricava le azioni equilibranti; ANTHEA deve 
+ritrovare quel punto o quello stato tensionale. Per i casi di frontiera sono imposte 
+deformazioni limite ammissibili, non un blocco di tensioni arbitrario.
+𝑒(𝑥, 𝑦) = 𝑎 + 𝑏ₑ 𝑥 + 𝑐ₑ 𝑦
+𝑠꜀(𝑒) = 0 𝑝𝑒𝑟 𝑒 ≤ 0; 𝑠꜀(𝑒) = 𝑓𝑐𝑑 [2(𝑒/𝜀𝑐2) − (𝑒/𝜀𝑐2)²] 𝑝𝑒𝑟 0 < 𝑒 < 𝜀𝑐2
+𝑠꜀(𝑒) = 𝑓𝑐𝑑 𝑝𝑒𝑟 𝜀𝑐2 ≤ 𝑒 ≤ 𝜀𝑐𝑢2; 𝑠ₛ(𝑒) = 𝑚𝑎𝑥(−𝑓𝑦𝑑, 𝑚𝑖𝑛(𝐸𝑠 𝑒, 𝑓𝑦𝑑))
+Per il calcolo lineare si sostituiscono i legami con sc = Ecm·max(e,0) e ss = Es·e. Le 
+tensioni con segno del programma sono σc = −sc e σs = −ss. Per l’integrazione sul 
+rettangolo lordo si usano le espressioni seguenti, con gli integrali in N e Nmm prima della 
+conversione delle unità.
+𝐶 = ∫ 𝐴 𝑠꜀ 𝑑𝐴 + 𝛴 𝐴𝑠, 𝑖 (𝑠ₛ, 𝑖 − 𝑠꜀, 𝑖); 𝑁 = −𝐶 / 1000
+𝑀𝑥 = [∫ 𝐴 𝑠꜀ 𝑦 𝑑𝐴 + 𝛴 𝐴𝑠, 𝑖 (𝑠ₛ, 𝑖 − 𝑠꜀, 𝑖) 𝑦𝑖] / 10⁶
+𝑀𝑦 = −[∫ 𝐴 𝑠꜀ 𝑥 𝑑𝐴 + 𝛴 𝐴𝑠, 𝑖 (𝑠ₛ, 𝑖 − 𝑠꜀, 𝑖) 𝑥𝑖] / 10⁶
+4.2 COSTRUZIONE DEI PUNTI DI FRONTIERA
+Per e = κ(px + qy − q0), si pone u = |p|b/2 + |q|h/2. Nei casi plastici κ = εcu2/(u − q0). Nei 
+casi elastici della campagna si assume il primo limite fra εc2 al vertice compresso e |εs| = 
+fyd/Es al centro delle barre. Il termine “elastico” identifica qui il dominio convenzionale di 
+primo limite: il CLS conserva il ramo parabolico. Non coincide con l’analisi tensionale 
+lineare della sezione omogeneizzata.
+𝜅𝑒𝑙 = 𝑚𝑖𝑛 { 𝜀𝑐2/(𝑢 − 𝑞0); (𝑓𝑦𝑑/𝐸𝑠)/𝑚𝑎𝑥𝑖 |𝑝 𝑥𝑖 + 𝑞 𝑦𝑖 − 𝑞0| }
+La distinzione è coerente con il criterio di curvatura di prima plasticizzazione NTC § 4.1.2.3.4.2 [R1]. La 
+corrispondenza esatta con la definizione interna di “Elastic” di Checker è oggetto dei casi E3D-02 ed E2D￾02. La sigla interna SLV non equivale alla verifica sismica completa.
+
+PAGE 7
+ANTHEA Validazione CA
+Pagina 5 di 30
+4.3 TENSIONI DI ESERCIZIO E FESSURAZIONE
+La limitazione delle tensioni si applica ai valori estremi dello stato tensionale. Con i 
+materiali del benchmark, per la combinazione rara si controllano |σc,min| ≤ 18 MPa e 
+|σs|max ≤ 360 MPa; per la quasi permanente si controlla |σc,min| ≤ 13,5 MPa. I casi VT 
+usano l’analisi lineare fessurata [R1, § 4.1.2.2.5].
+𝜂𝑟𝑎𝑟𝑎 = 𝑚𝑎𝑥(|𝜎𝑐, 𝑚𝑖𝑛|/18; |𝜎𝑠|𝑚𝑎𝑥/360); 𝜂𝑄𝑃 = |𝜎𝑐, 𝑚𝑖𝑛|/13,5
+Per la fessurazione si utilizzano la sezione parzializzata e le formule della Circolare [R2, 
+C4.1.2.2.4.5]. La grandezza Δε è la deformazione media efficace indicata εsm nella 
+Circolare. Es/Ecm nella formula di fessurazione va distinto dal rapporto di 
+omogeneizzazione comprensivo degli effetti viscosi.
+ℎ𝑐,𝑒𝑓𝑓 = 𝑚𝑖𝑛[2,5(ℎ − 𝑑); (ℎ − 𝑥ₙ)/3; ℎ/2]; 𝜌𝑒𝑓𝑓 = 𝐴𝑠,𝑒𝑓𝑓/𝐴𝑐,𝑒𝑓𝑓
+𝛥𝜀 = 𝑚𝑎𝑥{[𝜎𝑠 − 𝑘𝑡 𝑓𝑐𝑡𝑚 (1 + 𝛼𝑒 𝜌𝑒𝑓𝑓)/𝜌𝑒𝑓𝑓]/𝐸𝑠; 0,6 𝜎𝑠/𝐸𝑠}
+𝛼𝑒 = 𝐸𝑠/𝐸𝑐𝑚; 𝑤𝑘 = 1,7 𝛥𝑠𝑚 𝛥𝜀
+Con barre ad aderenza migliorata si usa k1 = 0,8; per flessione k2 = 0,5; k3 = 3,4 e k4 = 
+0,425. kt è 0,6 per carichi di breve durata e 0,4 per carichi di lunga durata. c indica il 
+ricoprimento delle barre longitudinali, quindi qui c = 30 + 10 = 40 mm.
+𝛥𝑠𝑚, 𝑣𝑖𝑐𝑖𝑛𝑜 = [3,4 𝑐 + 0,8 𝑘2 0,425 Ø/𝜌𝑒𝑓𝑓]/1,7
+𝑠 ≤ 5(𝑐 + Ø/2): 𝛥𝑠𝑚 = 𝛥𝑠𝑚, 𝑣𝑖𝑐𝑖𝑛𝑜
+𝑠 > 5(𝑐 + Ø/2): 𝛥𝑠𝑚, 𝑙𝑜𝑛𝑡𝑎𝑛𝑜 = 0,75(ℎ − 𝑥ₙ)
+Per barre distanziate si calcolano entrambe le zone e si assume l’apertura più elevata. 
+Nei casi di questa campagna le altre grandezze sono comuni alle due zone, quindi si 
+prende il maggiore dei due valori di Δsm. FE-02 adotta esposizione XC1, armatura poco 
+sensibile, combinazione quasi permanente e limite 0,30 mm.
+FE-01 riproduce un valore pubblicato mediante la sola funzione di apertura; FE-02 verifica anche tensioni, 
+area efficace e spaziatura geometrica. I due livelli di copertura non vanno confusi. Trazione uniforme, due 
+aree efficaci distinte e precompressione restano fuori da questa campagna.
+
+PAGE 8
+ANTHEA Validazione CA
+Pagina 6 di 30
+4.4 TAGLIO NELLE DUE DIREZIONI
+Si considerano azioni trasversali separate, assenza di torsione, N = −300 kN e sezione R. 
+In direzione X si adottano bw = 500 mm e d = 250 mm; in direzione Y bw = 300 mm e d = 
+450 mm. La larghezza è ortogonale alla direzione del taglio e d è misurato lungo tale 
+direzione. Per entrambe Asl = 628,3185 mm² e A = 150000 mm², da cui σcp = 2 MPa.
+Elementi senza armature resistenti a taglio
+𝑘 = 𝑚𝑖𝑛[2; 1 + √(200/𝑑)]; 𝜌𝑙 = 𝑚𝑖𝑛[0,02; 𝐴𝑠𝑙/(𝑏𝑤 𝑑)]
+𝑣𝑚𝑖𝑛 = 0,035 𝑘^(3/2) √𝑓𝑐𝑘; 𝜎𝑐𝑝 = 𝑚𝑖𝑛[−1000 𝑁/𝐴; 0,2 𝑓𝑐𝑑]
+𝑉𝑅𝑑, 𝑐 = 𝑚𝑎𝑥{[(0,18/𝛾𝑐) 𝑘 (100 𝜌𝑙 𝑓𝑐𝑘)^(1/3) + 0,15 𝜎𝑐𝑝] 𝑏𝑤 𝑑;
+(𝑣𝑚𝑖𝑛 + 0,15 𝜎𝑐𝑝) 𝑏𝑤 𝑑} / 1000
+I casi senza staffe verificano la resistenza della formula NTC § 4.1.2.3.5.1. Non 
+costituiscono una soluzione costruttiva approvata per una trave o un pilastro: le 
+prescrizioni sulle armature minime e sugli ancoraggi sono controlli ulteriori.
+Elementi con staffe verticali
+Si impiegano due bracci Ø8, Asw = 100,5310 mm², passo s = 150 mm, α = 90°, cotθ = 2 e 
+z = 0,9d. L’inclinazione θ è fissata, senza ottimizzazione automatica. Per σcp = 2 MPa < 
+0,25fcd, αc = 1 + σcp/fcd = 1,117647 [R1, § 4.1.2.3.5.2].
+𝑉𝑅𝑠𝑑 = 𝑧 (𝐴𝑠𝑤/𝑠) 𝑓𝑦𝑑 𝑐𝑜𝑡𝜃 / 1000
+𝑉𝑅𝑐𝑑 = 𝑧 𝑏𝑤 𝛼𝑐 (0,5 𝑓𝑐𝑑) 𝑐𝑜𝑡𝜃/(1 + 𝑐𝑜𝑡²𝜃) / 1000
+𝑉𝑅𝑑 = 𝑚𝑖𝑛(𝑉𝑅𝑠𝑑; 𝑉𝑅𝑐𝑑); 𝜂𝑉 = |𝑉𝐸𝑑|/𝑉𝑅𝑑
+La staffa Ø8 è l’armatura del benchmark di resistenza. Le altezze utili sono input manuali 
+fissati come sopra, senza ricalcolarle dal copriferro del caso geometrico con staffa Ø10. 
+Per il taglio Y i bracci efficaci sono quelli verticali della staffa; per X quelli orizzontali. Non 
+si sommano indiscriminatamente tutti i bracci.
+
+PAGE 9
+ANTHEA Validazione CA
+Pagina 7 di 30
+5 DOMINIO TRIDIMENSIONALE PLASTICO
+5.1 P3D01 FLESSIONE DEVIATA CON ASSE NEUTRO BARICENTRICO
+Sezione R e materiali del capitolo 3. CLS teso escluso, acciaio elastoplastico. Il punto è 
+costruito dal piano di deformazione noto sotto riportato; si integra il legame parabola–
+rettangolo e si corregge il contributo del CLS in corrispondenza delle quattro barre. 
+Fonte del procedimento: equilibrio e compatibilità [R1], riferimento analitico della 
+presente campagna.
+𝑒(𝑥, 𝑦) = 0 + (6,17647058824 × 10⁻⁶) 𝑥 + (1,02941176471 × 10⁻⁵) 𝑦
+Impostare Dominio 3D, Plastico, criterio Eccentricità costante e strategia Iterativo. 
+Inserire le azioni della colonna Riferimento. La frontiera attesa ha η = 1; i tre valori N, Mx 
+e My devono essere confrontati separatamente.
+Grandezza Riferimento ANTHEA Scarto %
+N [kN] -934,5363 -934,7574 0,024
+Mx [kNm] 219,8103 219,6879 0,056
+My [kNm] -29,3723 -29,3511 0,072
+η frontiera 1,000000 0,999806 0,019
+σc,min [MPa] -17,0000 -17,0000
+σs,max [MPa] 391,3043 391,3043
+σs,min [MPa] -391,3043 -391,3043
+Tensioni attese nelle barre B1–B4 [MPa]: 391,304; 288,235; -288,235; -391,304.
+Controlli a carico proporzionale: per 0,8·(N,Mx,My), η = 0,799845; per 1,2·(N,Mx,My), η = 
+1,199767. La classificazione interno/esterno è corretta.
+Esito CONFORME. Si raggiunge εcu2 = 3,5‰ al vertice compresso e lo snervamento in 
+due barre. I risultati rientrano nelle soglie adottate.
+
+PAGE 10
+ANTHEA Validazione CA
+Pagina 8 di 30
+5.2 P3D02 PRESSOFLESSIONE DEVIATA CON ASSE NEUTRO TRASLATO
+Sezione R e materiali del capitolo 3. CLS teso escluso, acciaio elastoplastico. Il punto è 
+costruito dal piano di deformazione noto sotto riportato; si integra il legame parabola–
+rettangolo e si corregge il contributo del CLS in corrispondenza delle quattro barre. 
+Fonte del procedimento: equilibrio e compatibilità [R1], riferimento analitico della 
+presente campagna.
+𝑒(𝑥, 𝑦) = 0,000579310344828 + (−3,37931034483 × 10⁻⁶) 𝑥
++ (9,65517241379 × 10⁻⁶) 𝑦
+Impostare Dominio 3D, Plastico, criterio Eccentricità costante e strategia Iterativo. 
+Inserire le azioni della colonna Riferimento. La frontiera attesa ha η = 1; i tre valori N, Mx 
+e My devono essere confrontati separatamente.
+Grandezza Riferimento ANTHEA Scarto %
+N [kN] -1294,1768 -1294,2858 0,008
+Mx [kNm] 231,7538 231,4815 0,118
+My [kNm] 17,6341 17,6120 0,125
+η frontiera 1,000000 0,999955 0,004
+σc,min [MPa] -17,0000 -17,0000
+σs,max [MPa] 337,9310 336,5129
+σs,min [MPa] -391,3043 -391,3043
+Tensioni attese nelle barre B1–B4 [MPa]: 202,759; 337,931; -391,304; -391,304.
+Controlli a carico proporzionale: per 0,8·(N,Mx,My), η = 0,799964; per 1,2·(N,Mx,My), η = 
+1,199946. La classificazione interno/esterno è corretta.
+Esito CONFORME. Il cambio di inclinazione dell’asse neutro inverte il segno di My. Due 
+barre compresse sono snervate; le tensioni di trazione restano inferiori a fyd. Il confronto 
+rientra nelle soglie.
+
+PAGE 11
+ANTHEA Validazione CA
+Pagina 9 di 30
+6 DOMINIO TRIDIMENSIONALE ELASTICO
+6.1 E3D01 LIMITE CONVENZIONALE DEL CALCESTRUZZO IN FLESSIONE DEVIATA
+Sezione R e materiali del capitolo 3. CLS teso escluso, acciaio elastoplastico. Il punto è 
+costruito dal piano di deformazione noto sotto riportato; si integra il legame parabola–
+rettangolo e si corregge il contributo del CLS in corrispondenza delle quattro barre. 
+Fonte del procedimento: equilibrio e compatibilità [R1], riferimento analitico della 
+presente campagna.
+𝑒(𝑥, 𝑦) = 0 + (3,52941176471 × 10⁻⁶) 𝑥 + (5,88235294118 × 10⁻⁶) 𝑦
+Impostare Dominio 3D, Elastico, criterio Eccentricità costante e strategia Iterativo. 
+Inserire le azioni della colonna Riferimento. La frontiera attesa ha η = 1; i tre valori N, Mx 
+e My devono essere confrontati separatamente.
+Grandezza Riferimento ANTHEA Scarto %
+N [kN] -709,9034 -709,0336 0,123
+Mx [kNm] 166,9205 166,5575 0,217
+My [kNm] -29,7354 -29,6732 0,209
+η frontiera 1,000000 1,001278 0,128
+σc,min [MPa] -17,0000 -17,0000
+σs,max [MPa] 305,8824 304,8013
+σs,min [MPa] -305,8824 -306,0239
+Tensioni attese nelle barre B1–B4 [MPa]: 305,882; 164,706; -164,706; -305,882.
+Controlli a carico proporzionale: per 0,8·(N,Mx,My), η = 0,801022; per 1,2·(N,Mx,My), η = 
+1,201534. La classificazione interno/esterno è corretta.
+Esito CONFORME. Governa εc2 = 2‰ al vertice compresso; la massima tensione 
+dell’acciaio è inferiore a fyd. Il piccolo superamento numerico di η = 1 rientra nella 
+tolleranza di validazione.
+
+PAGE 12
+ANTHEA Validazione CA
+Pagina 10 di 30
+6.2 E3D02 PRIMO SNERVAMENTO DI UNA BARRA IN FLESSIONE DEVIATA
+Sezione R e materiali del capitolo 3. CLS teso escluso, acciaio elastoplastico. Il punto è 
+costruito dal piano di deformazione noto sotto riportato; si integra il legame parabola–
+rettangolo e si corregge il contributo del CLS in corrispondenza delle quattro barre. 
+Fonte del procedimento: equilibrio e compatibilità [R1], riferimento analitico della 
+presente campagna.
+𝑒(𝑥, 𝑦) = −0,000661359461115 + (−1,92896509492 × 10⁻⁶) 𝑥
++ (5,51132884262 × 10⁻⁶) 𝑦
+Impostare Dominio 3D, Elastico, criterio Eccentricità costante e strategia Iterativo. 
+Inserire le azioni della colonna Riferimento. La frontiera attesa ha η = 1; i tre valori N, Mx 
+e My devono essere confrontati separatamente.
+Grandezza Riferimento ANTHEA Scarto %
+N [kN] -47,1267 -45,7943 2,827
+Mx [kNm] 98,2032 95,4022 2,852
+My [kNm] 12,5051 12,1591 2,767
+η frontiera 1,000000 1,029300 2,930
+σc,min [MPa] -12,7993 -12,5403
+σs,max [MPa] 391,3043 379,9582
+σs,min [MPa] -126,7606 -123,3424
+Tensioni attese nelle barre B1–B4 [MPa]: 314,146; 391,304; -126,761; -49,602.
+Controlli a carico proporzionale: per 0,8·(N,Mx,My), η = 0,823440; per 1,2·(N,Mx,My), η = 
+1,235160. La classificazione interno/esterno è corretta.
+Esito DA CHIARIRE. La tensione attesa al centro della barra B2 è fyd. ANTHEA restituisce 
+circa 379,96 MPa e una frontiera più interna; lo scarto di η è 2,93%. La definizione del 
+primo limite dell’acciaio e la posizione a cui è applicato devono essere chiarite.
+
+PAGE 13
+ANTHEA Validazione CA
+Pagina 11 di 30
+7 DOMINIO BIDIMENSIONALE PLASTICO
+7.1 P2D01 PRESSOFLESSIONE RETTA CON PROFONDITÀ COMPRESSA 150 MM
+Sezione R e materiali del capitolo 3. CLS teso escluso, acciaio elastoplastico. Il punto è 
+costruito dal piano di deformazione noto sotto riportato; si integra il legame parabola–
+rettangolo e si corregge il contributo del CLS in corrispondenza delle quattro barre. 
+Fonte del procedimento: equilibrio e compatibilità [R1], riferimento analitico della 
+presente campagna.
+𝑒(𝑥, 𝑦) = −0,00233333333333 + (0) 𝑥 + (2,33333333333 × 10⁻⁵) 𝑦
+Impostare Dominio 2D, N–M, θ = 0°, Plastico, con My = 0. La ricerca avviene lungo 
+l’eccentricità N/M costante. Inserire le azioni di riferimento e confrontare N, M e il tasso 
+della frontiera.
+Grandezza Riferimento ANTHEA Scarto %
+N [kN] -608,6043 -605,1076 0,575
+Mx [kNm] 212,3903 212,0785 0,147
+My [kNm] 0,0000 0,0000 zero
+η frontiera 1,000000 1,005308 0,531
+σc,min [MPa] -17,0000 -17,0000
+σs,max [MPa] 391,3043 -391,3043
+σs,min [MPa] -391,3043 -391,3043
+Tensioni attese nelle barre B1–B4 [MPa]: 391,304; 391,304; -391,304; -391,304.
+Controlli a carico proporzionale: per 0,8·(N,Mx,My), η = 0,804247; per 1,2·(N,Mx,My), η = 
+1,206370. La classificazione interno/esterno è corretta.
+Esito CON RISERVA. N e M rientrano nell’1%, ma il dettaglio restituito riporta tutta la 
+sezione quasi uniformemente compressa (εc circa −2‰ e tutte le barre compresse). 
+Questo stato non rappresenta il punto di flessione con armatura inferiore tesa: occorre 
+verificare l’associazione fra punto resistente e dettaglio.
+
+PAGE 14
+ANTHEA Validazione CA
+Pagina 12 di 30
+7.2 P2D02 PRESSOFLESSIONE RETTA CON PROFONDITÀ COMPRESSA 300 MM
+Sezione R e materiali del capitolo 3. CLS teso escluso, acciaio elastoplastico. Il punto è 
+costruito dal piano di deformazione noto sotto riportato; si integra il legame parabola–
+rettangolo e si corregge il contributo del CLS in corrispondenza delle quattro barre. 
+Fonte del procedimento: equilibrio e compatibilità [R1], riferimento analitico della 
+presente campagna.
+𝑒(𝑥, 𝑦) = 0,000583333333333 + (0) 𝑥 + (1,16666666667 × 10⁻⁵) 𝑦
+Impostare Dominio 2D, N–M, θ = 0°, Plastico, con My = 0. La ricerca avviene lungo 
+l’eccentricità N/M costante. Inserire le azioni di riferimento e confrontare N, M e il tasso 
+della frontiera.
+Grandezza Riferimento ANTHEA Scarto %
+N [kN] -1253,8423 -1249,2464 0,367
+Mx [kNm] 246,1004 245,7905 0,126
+My [kNm] 0,0000 0,0000 zero
+η frontiera 1,000000 1,003589 0,359
+σc,min [MPa] -17,0000 -17,0000
+σs,max [MPa] 350,0000 367,5803
+σs,min [MPa] -391,3043 -391,3043
+Tensioni attese nelle barre B1–B4 [MPa]: 350,000; 350,000; -391,304; -391,304.
+Controlli a carico proporzionale: per 0,8·(N,Mx,My), η = 0,802871; per 1,2·(N,Mx,My), η = 
+1,204307. La classificazione interno/esterno è corretta.
+Esito CON RISERVA. N e M rientrano nell’1%; la tensione massima di trazione nel 
+dettaglio è 367,58 MPa contro 350,00 MPa attesi. Il dettaglio del punto interpolato deve 
+essere verificato prima di chiudere il caso.
+
+PAGE 15
+ANTHEA Validazione CA
+Pagina 13 di 30
+8 DOMINIO BIDIMENSIONALE ELASTICO
+8.1 E2D01 LIMITE DEL CALCESTRUZZO
+Sezione R e materiali del capitolo 3. CLS teso escluso, acciaio elastoplastico. Il punto è 
+costruito dal piano di deformazione noto sotto riportato; si integra il legame parabola–
+rettangolo e si corregge il contributo del CLS in corrispondenza delle quattro barre. 
+Fonte del procedimento: equilibrio e compatibilità [R1], riferimento analitico della 
+presente campagna.
+𝑒(𝑥, 𝑦) = 0 + (0) 𝑥 + (8 × 10⁻⁶) 𝑦
+Impostare Dominio 2D, N–M, θ = 0°, Elastico, con My = 0. La ricerca avviene lungo 
+l’eccentricità N/M costante. Inserire le azioni di riferimento e confrontare N, M e il tasso 
+della frontiera.
+Grandezza Riferimento ANTHEA Scarto %
+N [kN] -839,7458 -835,3129 0,528
+Mx [kNm] 211,1864 210,7357 0,213
+My [kNm] 0,0000 0,0000 zero
+η frontiera 1,000000 1,005118 0,512
+σc,min [MPa] -17,0000 -17,0000
+σs,max [MPa] 320,0000 355,0963
+σs,min [MPa] -320,0000 -316,1004
+Tensioni attese nelle barre B1–B4 [MPa]: 320,000; 320,000; -320,000; -320,000.
+Controlli a carico proporzionale: per 0,8·(N,Mx,My), η = 0,804094; per 1,2·(N,Mx,My), η = 
+1,206141. La classificazione interno/esterno è corretta.
+Esito CON RISERVA. N e M rientrano nell’1%; il dettaglio restituisce 355,10 MPa di 
+trazione contro 320,00 MPa attesi. La corrispondenza fra azioni del punto interpolato e 
+piano di deformazione resta da controllare.
+
+PAGE 16
+ANTHEA Validazione CA
+Pagina 14 di 30
+8.2 E2D02 PRIMO SNERVAMENTO DELL’ARMATURA TESA
+Sezione R e materiali del capitolo 3. CLS teso escluso, acciaio elastoplastico. Il punto è 
+costruito dal piano di deformazione noto sotto riportato; si integra il legame parabola–
+rettangolo e si corregge il contributo del CLS in corrispondenza delle quattro barre. 
+Fonte del procedimento: equilibrio e compatibilità [R1], riferimento analitico della 
+presente campagna.
+𝑒(𝑥, 𝑦) = −0,000733695652174 + (0) 𝑥 + (6,11413043478 × 10⁻⁶) 𝑦
+Impostare Dominio 2D, N–M, θ = 0°, Elastico, con My = 0. La ricerca avviene lungo 
+l’eccentricità N/M costante. Inserire le azioni di riferimento e confrontare N, M e il tasso 
+della frontiera.
+Grandezza Riferimento ANTHEA Scarto %
+N [kN] -39,5998 -36,9655 6,652
+Mx [kNm] 107,4112 103,7936 3,368
+My [kNm] 0,0000 0,0000 zero
+η frontiera 1,000000 1,039016 3,902
+σc,min [MPa] -10,8272 -9,2160
+σs,max [MPa] 391,3043 379,9622
+σs,min [MPa] -97,8261 -73,7240
+Tensioni attese nelle barre B1–B4 [MPa]: 391,304; 391,304; -97,826; -97,826.
+Controlli a carico proporzionale: per 0,8·(N,Mx,My), η = 0,831213; per 1,2·(N,Mx,My), η = 
+1,246820. La classificazione interno/esterno è corretta.
+Esito DA CHIARIRE. Il riferimento raggiunge fyd al centro delle barre tese. Gli scarti di N 
+e M superano l’1% e quello di η è 3,90%; nel dettaglio la massima tensione è circa 379,96 
+MPa. Il caso resta aperto, anche dopo il controllo a 128 direzioni.
+
+PAGE 17
+ANTHEA Validazione CA
+Pagina 15 di 30
+9 CALCOLO TENSIONALE LINEARE
+9.1 TL 01 COMPRESSIONE UNIFORME DELLA SEZIONE OMOGENEIZZATA
+Sezione R. Impostare modello Lineare, CLS teso No, φ = 0, assi Locali e combinazione 
+Rara. Il piano noto genera le azioni indicate; il risolutore deve ricostruire le tensioni ai 
+vertici e nelle barre. Il riferimento è indipendente dalle DLL [R1 e capitolo 4].
+𝑒(𝑥, 𝑦) = 0,000194721149795 + (0) 𝑦
+Azioni da immettere: N = -1000,000000 kN; Mx = 0,000000 kNm; My = 0 kNm.
+La deformazione è uniforme: ε = 10⁶/[Ecm·(A − As) + Es·As]. La sezione omogeneizzata 
+ha Aeq = A + (Es/Ecm − 1)As; si ricavano σc = −10⁶/Aeq e σs = (Es/Ecm)σc. Questo caso 
+controlla unità, segno di N e sottrazione dell’area di CLS occupata dalle barre.
+Grandezza Riferimento ANTHEA
+σc,min [MPa] -6,393974 -6,393974
+|σs|max [MPa] 38,944230 38,944230
+σs B1 [MPa] -38,94423 -38,94423
+σs B3 [MPa] -38,94423 -38,94423
+η tensionale 0,355221 0,355221
+Esito CONFORME. Le grandezze confrontate rispettano le tolleranze. Esito strutturale 
+restituito: Entro limiti tensionali.
+
+PAGE 18
+ANTHEA Validazione CA
+Pagina 16 di 30
+9.2 TL 02 SEZIONE PARZIALIZZATA IN PRESSOFLESSIONE RETTA
+Sezione R. Impostare modello Lineare, CLS teso No, φ = 0, assi Locali e combinazione 
+Rara. Il piano noto genera le azioni indicate; il risolutore deve ricostruire le tensioni ai 
+vertici e nelle barre. Il riferimento è indipendente dalle DLL [R1 e capitolo 4].
+𝑒(𝑥, 𝑦) = −0,00014331224714 + (1,79140308925 × 10⁻⁶) 𝑦
+Azioni da immettere: N = -214,546514 kN; Mx = 66,422110 kNm; My = 0 kNm.
+L’asse neutro è y = 80 mm e la profondità compressa è xn = 250 − 80 = 170 mm. La 
+distribuzione del CLS è triangolare: Cc = b·xn·|σc,min|/2, applicata a y = 250 − xn/3. Si 
+aggiungono le forze delle barre e si sottrae il CLS nelle barre compresse.
+Grandezza Riferimento ANTHEA
+σc,min [MPa] -10,000000 -10,000160
+|σs|max [MPa] 100,318573 100,327233
+σs B1 [MPa] 100,31857 100,32723
+σs B3 [MPa] -42,99367 -42,99068
+η tensionale 0,555556 0,555564
+Esito CONFORME. Le grandezze confrontate rispettano le tolleranze. Esito strutturale 
+restituito: Entro limiti tensionali.
+
+PAGE 19
+ANTHEA Validazione CA
+Pagina 17 di 30
+10 CALCOLO TENSIONALE NON LINEARE
+10.1 TN 01 COMPRESSIONE UNIFORME SUL RAMO PARABOLICO
+Sezione R. Impostare modello Non lineare, CLS teso No, φ = 0, assi Locali e combinazione 
+Rara. Il piano noto genera le azioni indicate; il risolutore deve ricostruire le tensioni ai 
+vertici e nelle barre. Il riferimento è indipendente dalle DLL [R1 e capitolo 4].
+𝑒(𝑥, 𝑦) = 0,001 + (0) 𝑦
+Azioni da immettere: N = -2147,805290 kN; Mx = 0,000000 kNm; My = 0 kNm.
+Per e = 0,001, sc = 17·[2·0,5 − 0,5²] = 12,75 MPa e ss = 200 MPa. La forza è N = 
+−[12,75·(150000 − 1256,6371) + 200·1256,6371]/1000. Il risultato è una soluzione chiusa; 
+Mx e My sono nulli per simmetria.
+Grandezza Riferimento ANTHEA
+σc,min [MPa] -12,750000 -12,750000
+|σs|max [MPa] 200,000000 199,999999
+σs B1 [MPa] -200,00000 -200,00000
+σs B3 [MPa] -200,00000 -200,00000
+η tensionale 0,708333 0,708333
+La non linearità è quella del legame parabola–rettangolo di progetto scelto nel 
+benchmark. Questi risultati non validano il diverso diagramma materiale denominato 
+“Non lineare”, né un’analisi reologica nel tempo.
+Esito CONFORME. Le grandezze confrontate rispettano le tolleranze. Esito strutturale 
+restituito: Entro limiti tensionali.
+
+PAGE 20
+ANTHEA Validazione CA
+Pagina 18 di 30
+10.2 TN 02 PRESSOFLESSIONE CON CALCESTRUZZO PARZIALIZZATO
+Sezione R. Impostare modello Non lineare, CLS teso No, φ = 0, assi Locali e combinazione 
+Rara. Il piano noto genera le azioni indicate; il risolutore deve ricostruire le tensioni ai 
+vertici e nelle barre. Il riferimento è indipendente dalle DLL [R1 e capitolo 4].
+𝑒(𝑥, 𝑦) = −0,000705882352941 + (8,82352941176 × 10⁻⁶) 𝑦
+Azioni da immettere: N = -366,563435 kN; Mx = 166,103977 kNm; My = 0 kNm.
+L’asse neutro è y = 80 mm e il vertice superiore raggiunge e = 1,5‰, sul ramo parabolico. 
+Le barre inferiori hanno e = −2,470588‰ e risultano snervate. Si integrano sc(y) e 
+sc(y)·y nel solo tratto 80 ≤ y ≤ 250 mm; il limite di esercizio dell’acciaio non è soddisfatto, 
+come atteso.
+Grandezza Riferimento ANTHEA
+σc,min [MPa] -15,937500 -15,951452
+|σs|max [MPa] 391,304348 391,304348
+σs B1 [MPa] 391,30435 391,30435
+σs B3 [MPa] -211,76471 -212,51124
+η tensionale 1,086957 1,086957
+La non linearità è quella del legame parabola–rettangolo di progetto scelto nel 
+benchmark. Questi risultati non validano il diverso diagramma materiale denominato 
+“Non lineare”, né un’analisi reologica nel tempo.
+Esito CONFORME. Le grandezze confrontate rispettano le tolleranze. Esito strutturale 
+restituito: Oltre limiti tensionali.
+
+PAGE 21
+ANTHEA Validazione CA
+Pagina 19 di 30
+11 VERIFICA DI LIMITAZIONE DELLE TENSIONI
+11.1 VT01 COMBINAZIONE RARA ENTRO I LIMITI
+Sezione R. Impostare modello Lineare, CLS teso No, φ = 0, assi Locali e combinazione 
+Rara. Il piano noto genera le azioni indicate; il risolutore deve ricostruire le tensioni ai 
+vertici e nelle barre. Il riferimento è indipendente dalle DLL [R1 e capitolo 4].
+𝑒(𝑥, 𝑦) = −0,000229299595424 + (2,8662449428 × 10⁻⁶) 𝑦
+Azioni da immettere: N = -343,274423 kN; Mx = 106,275376 kNm; My = 0 kNm.
+L’asse neutro è y = 80 mm e la profondità compressa è xn = 250 − 80 = 170 mm. La 
+distribuzione del CLS è triangolare: Cc = b·xn·|σc,min|/2, applicata a y = 250 − xn/3. Si 
+aggiungono le forze delle barre e si sottrae il CLS nelle barre compresse.
+Grandezza Riferimento ANTHEA
+σc,min [MPa] -16,000000 -16,000248
+|σs|max [MPa] 160,509717 160,523262
+σs B1 [MPa] 160,50972 160,52326
+σs B3 [MPa] -68,78988 -68,78506
+η tensionale 0,888889 0,888903
+Il CLS governa: ηc = 16/18 = 0,888889; ηs = 160,5097/360 = 0,445860. La combinazione 
+rara deve essere classificata entro i limiti. La verifica è riprodotta correttamente.
+Esito CONFORME. Le grandezze confrontate rispettano le tolleranze. Esito strutturale 
+restituito: Entro limiti tensionali.
+
+PAGE 22
+ANTHEA Validazione CA
+Pagina 20 di 30
+11.2 VT02 COMBINAZIONE QUASI PERMANENTE OLTRE IL LIMITE
+Sezione R. Impostare modello Lineare, CLS teso No, φ = 0, assi Locali e combinazione 
+Quasi permanente. Il piano noto genera le azioni indicate; il risolutore deve ricostruire le 
+tensioni ai vertici e nelle barre. Il riferimento è indipendente dalle DLL [R1 e capitolo 4].
+𝑒(𝑥, 𝑦) = −0,00021496837071 + (2,68710463388 × 10⁻⁶) 𝑦
+Azioni da immettere: N = -321,819771 kN; Mx = 99,633165 kNm; My = 0 kNm.
+L’asse neutro è y = 80 mm e la profondità compressa è xn = 250 − 80 = 170 mm. La 
+distribuzione del CLS è triangolare: Cc = b·xn·|σc,min|/2, applicata a y = 250 − xn/3. Si 
+aggiungono le forze delle barre e si sottrae il CLS nelle barre compresse.
+Grandezza Riferimento ANTHEA
+σc,min [MPa] -15,000000 -15,000252
+|σs|max [MPa] 150,477859 150,491160
+σs B1 [MPa] 150,47786 150,49116
+σs B3 [MPa] -64,49051 -64,48604
+η tensionale 1,111111 1,111130
+Per la quasi permanente si ha ηc = 15/13,5 = 1,111111: il limite del calcestruzzo deve 
+risultare superato. Il programma restituisce l’esito negativo atteso. Il test non applica 
+automaticamente alla quasi permanente il limite dell’acciaio previsto per la rara.
+Esito CONFORME. Le grandezze confrontate rispettano le tolleranze. Esito strutturale 
+restituito: Oltre limiti tensionali.
+
+PAGE 23
+ANTHEA Validazione CA
+Pagina 21 di 30
+12 VERIFICA DI FESSURAZIONE
+12.1 FE01RIPRODUZIONE DEL VALORE PUBBLICATO ECPESEMPIO 7 PUNTO 3
+Fonte numerica: European Concrete Platform, Eurocode 2 Worked Examples, esempio 
+7.3, pp. 7-8 e 7-9 [R3]. La fonte considera b = 400 mm, h = 600 mm, d = 548 mm, d′ = 46 
+mm, As = 2712 mm², As′ = 452 mm², M = 300 kNm, n = 15, fctm = 2,9 MPa e carico breve. 
+Riporta xn = 237,8 mm, σs = 234 MPa e wk = 0,184 mm.
+Il caso riproduce la funzione scalare CrackWidth, fornendo direttamente i dati intermedi 
+pubblicati. Non ricalcola l’equilibrio della sezione nella DLL. Si impongono Es = 200000 
+MPa ed Ecm = Es/15 per conservare αe = 15 della fonte; questo valore non è il modulo 
+C30/37 degli altri benchmark. L’interasse di prova s = 60 mm garantisce il ramo delle 
+barre ravvicinate.
+ℎ𝑐,𝑒𝑓𝑓 = 𝑚𝑖𝑛[2,5 · 52; (600 − 237,8)/3; 300] = 120,733333 𝑚𝑚
+𝐴𝑐,𝑒𝑓𝑓 = 400 · 120,733333 = 48293,333333 𝑚𝑚²
+𝜌𝑒𝑓𝑓 = 2712/48293,333333 = 0,0561568194
+Passaggio Valore di riferimento
+Riduzione kt fctm(1+αeρ)/ρ 57,084661 MPa
+Δε efficace 0,0008845767
+Δsm per barre ravvicinate 122,737463 mm
+wk da dati pubblicati arrotondati 0,184570189 mm
+wk ANTHEA 0,184570189 mm
+wk pubblicato 0,184 mm
+Esito CONFORME. Il ricalcolo produce 0,184570 mm, con differenza di 0,000570 mm dal 
+valore pubblicato: lo scarto è compatibile con gli arrotondamenti intermedi. Il valore 
+calcolato da ANTHEA coincide con il riferimento scalare. In ipotesi XC1, armatura poco 
+sensibile e quasi permanente, sarebbe inferiore a 0,30 mm; questa classificazione è un 
+confronto aggiuntivo, non un dato della fonte.
+
+PAGE 24
+ANTHEA Validazione CA
+Pagina 22 di 30
+12.2 FE02 FLESSIONE SEMPLICE CON BARRE DISTANZIATE E CARICO DI LUNGA DURATA
+Sezione W, flessione semplice N = 0, Mx = 66,934804 kNm, My = 0. Modello Lineare, CLS 
+teso No, φ = 0; esposizione XC1, armatura poco sensibile, durata Lunga, aderenza 
+Migliorata e combinazione Quasi permanente. Copriferro e spaziatura sono ricavati 
+automaticamente dalla geometria.
+L’asse neutro si ricava dall’equilibrio N = 0 della sezione omogeneizzata, con correzione 
+n − 1 per l’armatura compressa. Si impone poi σs = 250 MPa nelle barre inferiori e si integra 
+il momento. Il riferimento è un calcolo ripercorribile della presente campagna, basato 
+sulle formule della Circolare [R2].
+Grandezza Riferimento ANTHEA
+xn [mm] 68,3571 68,3697
+As,eff [mm²] 628,3185 628,3185
+Ac,eff [mm²] 75000,0000 75006,3144
+s [mm] 500,0000 500,0000
+σs [MPa] 250,0000 250,0005
+wk [mm] 0,412758512 0,412760716
+ηw = wk/0,30 1,375862 1,375869
+hc,eff = 125 mm; ρeff = 0,008377580; s = 500 mm > 5(c + Ø/2) = 250 mm. La 
+deformazione calcolata con il tension stiffening è inferiore al minimo: governa Δε = 
+0,6·250/200000 = 0,00075.
+Δsm,vicino = 318,732415 mm; Δsm,lontano = 323,732166 mm. Governa la zona lontana 
+dalle barre e wk = 1,7·323,732166·0,00075 = 0,412759 mm.
+Esito CONFORME. La differenza di apertura è inferiore a 0,000003 mm. La verifica 
+strutturale deve risultare non soddisfatta, poiché wk > 0,30 mm; ANTHEA restituisce 
+correttamente “Apertura oltre limite”.
+
+PAGE 25
+ANTHEA Validazione CA
+Pagina 23 di 30
+13 VERIFICA A TAGLIO IN DIREZIONE X
+13.1 TX 01SEZIONE SENZA ARMATURA RESISTENTE A TAGLIO
+Sezione R; direzione X; N = −300 kN; VX = 50 kN; bw = 500 mm; d = 250 mm; Asl = 
+628,318531 mm². Le azioni nell’altra direzione sono nulle. Materiali e coefficienti sono 
+quelli del capitolo 3. Riferimento: NTC § 4.1.2.3.5 [R1].
+Impostare Asw = 0 per isolare il ramo senza armatura resistente a taglio. σcp = 
+300000/150000 = 2 MPa < 0,2·17 = 3,4 MPa. Calcolare entrambi i termini della resistenza 
+e scegliere il maggiore, come previsto dalla formula.
+𝑘 = 1 + √(200/250) = 1,894427191
+𝜌𝑙 = 628,318531/(500 · 250) = 0,005026548
+Grandezza Riferimento ANTHEA
+Termine con ρl [kN] 107,704704 107,704704
+Termine minimo [kN] 99,982092 99,982092
+VRd [kN] 107,704704 107,704704
+|VEd|/VRd 0,464232 0,464232
+Il termine con ρl è maggiore della resistenza minima e governa VRd,c. Il tasso è inferiore 
+a 1: la resistenza a taglio della singola direzione è sufficiente.
+Esito CONFORME. Le resistenze e il tasso coincidono con il calcolo indipendente entro 
+l’arrotondamento. Il controllo è eseguito sulla funzione Shear con dati geometrici 
+espliciti; non collauda il loro inserimento manuale nella WPF né le prescrizioni 
+costruttive.
+
+PAGE 26
+ANTHEA Validazione CA
+Pagina 24 di 30
+13.2 TX 02 SEZIONE CON STAFFE VERTICALI A DUE BRACCI
+Sezione R; direzione X; N = −300 kN; VX = 100 kN; bw = 500 mm; d = 250 mm; Asl = 
+628,318531 mm². Le azioni nell’altra direzione sono nulle. Materiali e coefficienti sono 
+quelli del capitolo 3. Riferimento: NTC § 4.1.2.3.5 [R1].
+Impostare staffe verticali α = 90°, due bracci Ø8, Asw = 100,530965 mm², passo 150 mm, 
+cotθ = 2 e z = 0,9d. La verifica usa le dimensioni manuali indicate. Lo sforzo normale 
+fornisce αc = 1 + 2/17 = 1,117647.
+𝑉𝑅𝑠𝑑 = (0,9 · 250) · (100,530965/150) · 391,304348 · 2/1000
+𝑉𝑅𝑐𝑑 = (0,9 · 250) · 500 · 1,117647 · 8,5 · 2/5/1000
+Grandezza Riferimento ANTHEA
+VRsd [kN] 118,014611 118,014611
+VRcd [kN] 427,500000 427,500000
+VRd [kN] 118,014611 118,014611
+|VEd|/VRd 0,847353 0,847353
+Governa la resistenza delle staffe, essendo VRsd < VRcd. Il tasso è inferiore a 1: la 
+resistenza a taglio della singola direzione è sufficiente.
+Esito CONFORME. Le resistenze e il tasso coincidono con il calcolo indipendente entro 
+l’arrotondamento. Il controllo è eseguito sulla funzione Shear con dati geometrici 
+espliciti; non collauda il loro inserimento manuale nella WPF né le prescrizioni 
+costruttive.
+
+PAGE 27
+ANTHEA Validazione CA
+Pagina 25 di 30
+14 VERIFICA A TAGLIO IN DIREZIONE Y
+14.1 TY01SEZIONE SENZA ARMATURA RESISTENTE A TAGLIO
+Sezione R; direzione Y; N = −300 kN; VY = 50 kN; bw = 300 mm; d = 450 mm; Asl = 
+628,318531 mm². Le azioni nell’altra direzione sono nulle. Materiali e coefficienti sono 
+quelli del capitolo 3. Riferimento: NTC § 4.1.2.3.5 [R1].
+Impostare Asw = 0 per isolare il ramo senza armatura resistente a taglio. σcp = 
+300000/150000 = 2 MPa < 0,2·17 = 3,4 MPa. Calcolare entrambi i termini della resistenza 
+e scegliere il maggiore, come previsto dalla formula.
+𝑘 = 1 + √(200/450) = 1,666666667
+𝜌𝑙 = 628,318531/(300 · 450) = 0,004654211
+Grandezza Riferimento ANTHEA
+Termine con ρl [kN] 105,515896 105,515896
+Termine minimo [kN] 96,184659 96,184659
+VRd [kN] 105,515896 105,515896
+|VEd|/VRd 0,473862 0,473862
+Il termine con ρl è maggiore della resistenza minima e governa VRd,c. Il tasso è inferiore 
+a 1: la resistenza a taglio della singola direzione è sufficiente.
+Esito CONFORME. Le resistenze e il tasso coincidono con il calcolo indipendente entro 
+l’arrotondamento. Il controllo è eseguito sulla funzione Shear con dati geometrici 
+espliciti; non collauda il loro inserimento manuale nella WPF né le prescrizioni 
+costruttive.
+
+PAGE 28
+ANTHEA Validazione CA
+Pagina 26 di 30
+14.2 TY02 SEZIONE CON STAFFE VERTICALI A DUE BRACCI
+Sezione R; direzione Y; N = −300 kN; VY = 180 kN; bw = 300 mm; d = 450 mm; Asl = 
+628,318531 mm². Le azioni nell’altra direzione sono nulle. Materiali e coefficienti sono 
+quelli del capitolo 3. Riferimento: NTC § 4.1.2.3.5 [R1].
+Impostare staffe verticali α = 90°, due bracci Ø8, Asw = 100,530965 mm², passo 150 mm, 
+cotθ = 2 e z = 0,9d. La verifica usa le dimensioni manuali indicate. Lo sforzo normale 
+fornisce αc = 1 + 2/17 = 1,117647.
+𝑉𝑅𝑠𝑑 = (0,9 · 450) · (100,530965/150) · 391,304348 · 2/1000
+𝑉𝑅𝑐𝑑 = (0,9 · 450) · 300 · 1,117647 · 8,5 · 2/5/1000
+Grandezza Riferimento ANTHEA
+VRsd [kN] 212,426300 212,426300
+VRcd [kN] 461,700000 461,700000
+VRd [kN] 212,426300 212,426300
+|VEd|/VRd 0,847353 0,847353
+Governa la resistenza delle staffe, essendo VRsd < VRcd. Il tasso è inferiore a 1: la 
+resistenza a taglio della singola direzione è sufficiente.
+Esito CONFORME. Le resistenze e il tasso coincidono con il calcolo indipendente entro 
+l’arrotondamento. Il controllo è eseguito sulla funzione Shear con dati geometrici 
+espliciti; non collauda il loro inserimento manuale nella WPF né le prescrizioni 
+costruttive.
+
+PAGE 29
+ANTHEA Validazione CA
+Pagina 27 di 30
+15 QUADRO RIEPILOGATIVO DEGLI ESITI
+Caso Risultato ANTHEA Esito del test
+P3D-01 η = 0,999806 CONFORME
+P3D-02 η = 0,999955 CONFORME
+E3D-01 η = 1,001278 CONFORME
+E3D-02 η = 1,029300 DA CHIARIRE
+P2D-01 η = 1,005308 CON RISERVA
+P2D-02 η = 1,003589 CON RISERVA
+E2D-01 η = 1,005118 CON RISERVA
+E2D-02 η = 1,039016 DA CHIARIRE
+TL-01 η = 0,355221 CONFORME
+TL-02 η = 0,555564 CONFORME
+TN-01 η = 0,708333 CONFORME
+TN-02 η = 1,086957 CONFORME
+VT-01 η = 0,888903 CONFORME
+VT-02 η = 1,111130 CONFORME
+FE-01 wk = 0,184570 mm CONFORME
+FE-02 wk = 0,412761 mm CONFORME
+TX-01 VRd = 107,705 kN CONFORME
+TX-02 VRd = 118,015 kN CONFORME
+TY-01 VRd = 105,516 kN CONFORME
+TY-02 VRd = 212,426 kN CONFORME
+Sono conformi 15 casi; 3 casi hanno riserva sul dettaglio tensionale del dominio 2D; 2 casi 
+elastici richiedono chiarimento della frontiera. Il valore η > 1 nei casi TN-02 e VT-02 e wk 
+> 0,30 mm in FE-02 è un risultato strutturale negativo atteso e correttamente 
+riconosciuto dal programma.
+
+PAGE 30
+ANTHEA Validazione CA
+Pagina 28 di 30
+16 RILIEVI E CONDIZIONI PER LA CHIUSURA
+16.1 PRIMO LIMITE ELASTICO DELL’ACCIAIO
+E3D-02 ed E2D-02 sono costruiti imponendo |εs| = fyd/Es al centro delle barre tese. La 
+libreria restituisce circa 379,96 MPa al centro, contro 391,30435 MPa del riferimento. Il 
+tasso di frontiera differisce rispettivamente del 2,93% e del 3,90%; nel caso 2D lo scarto 
+relativo di N è circa il 6,65%. Il raddoppio delle direzioni da 64 a 128 non modifica i risultati.
+Occorre identificare se il criterio interno opera al centro, sul contorno della barra o su una 
+deformazione convenzionale diversa. La differenza potrebbe dipendere dal modello 
+adottato e non prova, da sola, un errore di programmazione. La chiusura richiede una 
+definizione documentata del limite e un nuovo riferimento indipendente coerente, 
+oppure una correzione del motore se il limite non è quello previsto. Non si modifica il 
+riferimento solo per ottenere l’esito positivo.
+16.2 COERENZA DEI DETTAGLI DEI DOMINI BIDIMENSIONALI
+P2D-01, P2D-02 ed E2D-01 riproducono N e M entro l’1%, ma il dettaglio di tensioni e 
+deformazioni associato al punto resistente non soddisfa il controllo di coerenza. Il caso 
+più evidente è P2D-01: il dettaglio riporta una compressione quasi uniforme con 
+entrambe le file compresse, mentre il momento resistente di circa 212 kNm richiede uno 
+stato flessionale.
+Si deve verificare il legame fra punto interpolato, piano di deformazione e funzione che 
+prepara il dettaglio. Per ogni punto esportato, ricostruire N, Mx e My dalle tensioni del 
+medesimo stato e controllarne l’equilibrio. La riserva riguarda l’impiego del dettaglio a 
+corredo della resistenza; il solo accordo delle coordinate del dominio non basta a 
+chiuderla.
+16.3 ESTENSIONI NECESSARIE PER UNA VALIDAZIONE GENERALE
+I 20 casi non coprono sezioni circolari, a T o generiche, armature asimmetriche su più file, 
+torsione, pressoflessione con grandi compressioni, calcestruzzi ad alta resistenza, 
+barre incrudenti, viscosità non nulla o effetti della precompressione. Una successiva 
+campagna dovrà includere tali funzioni, se utilizzate, e il percorso completo di input, 
+salvataggio, ricaricamento ed esportazione nell’interfaccia.
+La chiusura formale richiede l’esecuzione documentata delle riprove, la registrazione 
+della build e la firma dei responsabili della redazione, del controllo e dell’approvazione. Le 
+caselle di firma del frontespizio non attestano un’approvazione già rilasciata.
+
+PAGE 31
+ANTHEA Validazione CA
+Pagina 29 di 30
+17 RIPRODUCIBILITÀ E IDENTIFICAZIONE DEL SOFTWARE
+Revisione dei sorgenti ANTHEA usata per l’esecuzione: 
+420590f130fd5713b7ce26e4498e5970766dcb27. Il motore è stato compilato in 
+configurazione Release, target .NET 8. Il codice applicativo non è stato modificato per 
+adattarlo ai risultati di riferimento. Il programma di prova è separato dai sorgenti del 
+prodotto.
+Libreria Versione SHA256 primi 16 caratteri
+GPCChecker.Concrete.dll 0.0.12.1 07b33d8773594f04
+GPCModel.dll 1.1.0.2 836bb2e947518789
+GPCGeometry.dll 2.0.1.9 5e1b11436d334bf5
+17.1 ALGORITMO DI INTEGRAZIONE INDIPENDENTE
+1. Definire il rettangolo e le quattro barre dalle coordinate del capitolo 3. Per ciascun caso 
+leggere a, be e ce dalla scheda. Calcolare e in ogni punto; tagliare l’integrazione alle rette 
+e = 0 ed e = 0,002, dove cambia il ramo del legame.
+2. Suddividere l’intervallo x nei valori in cui queste rette attraversano i bordi y = ±h/2. Per 
+ogni ascissa di integrazione, dividere l’intervallo y nei punti y = (et − a − be·x)/ce interni 
+alla sezione; et vale 0 oppure 0,002. Omettere i tagli non applicabili quando il coefficiente 
+al denominatore è nullo.
+3. Su ciascun intervallo [l,u] applicare Gauss–Legendre: coordinate (l+u)/2 + ξj(u−l)/2 e 
+pesi wj(u−l)/2. Usare i tre valori positivi e i corrispondenti negativi della tabella seguente. 
+Integrare sc, sc·y e sc·x; aggiungere per ogni barra As(ss−sc), il suo momento rispetto a 
+x e quello rispetto a y.
+|ξj| wj
+0,238619186083197 0,467913934572691
+0,661209386466265 0,360761573048139
+0,932469514203152 0,171324492379170
+4. Applicare i segni e i divisori 1000 e 10⁶ indicati nel capitolo 4. Per FE-02 determinare la 
+quota dell’asse neutro con bisezione di N = 0, poi scalare la curvatura fino a σs = 250 
+MPa. Per taglio e FE-01 sono sufficienti le formule e le sostituzioni delle rispettive schede.
+Le cifre in tabella sono arrotondate per la lettura; i confronti sono stati effettuati con i valori non 
+arrotondati. La quadratura è esatta, a precisione numerica, per i polinomi a tratti dei benchmark 
+rettangolari adottati; questa proprietà non si estende automaticamente ad altri legami e geometrie.
+
+PAGE 32
+ANTHEA Validazione CA
+Pagina 30 di 30
+18 FONTI E RIFERIMENTI
+R1. Ministero delle Infrastrutture e dei Trasporti. Decreto 17 gennaio 2018, 
+Aggiornamento delle Norme tecniche per le costruzioni. G.U. n. 42 del 20 febbraio 2018, 
+supplemento ordinario n. 8. Riferimenti utilizzati: §§ 4.1.2.1.2, 4.1.2.2.4, 4.1.2.2.5, 4.1.2.3.4, 
+4.1.2.3.5 e 10.2.
+Testo ufficiale NTC 2018 in Gazzetta Ufficiale
+R2. Consiglio Superiore dei Lavori Pubblici. Circolare 21 gennaio 2019 n. 7, Istruzioni per 
+l’applicazione dell’Aggiornamento delle Norme tecniche per le costruzioni. G.U. n. 35 del 
+11 febbraio 2019, supplemento ordinario n. 5. Per la fessurazione: § C4.1.2.2.4.5, formule 
+C4.1.5–C4.1.10, pagine stampate 87–88.
+Capitolo C4 della Circolare 2019 in Gazzetta Ufficiale
+R3. European Concrete Platform. Eurocode 2 Worked Examples, 2008. Esempio 7.3, 
+Evaluation of crack amplitude, pagine interne 7-8 e 7-9 (pagine PDF 102–103). Fonte del 
+risultato esterno utilizzato in FE-01. Le quantità intermedie sono riportate con la 
+precisione disponibile nella pubblicazione.
+European Concrete Platform Eurocode 2 Worked Examples
+R4. Biasioli F. et al., Eurocode 2 Background and Applications Design of Concrete 
+Buildings Worked Examples, JRC, EUR 26566 EN, 2014, JRC89037. Riferimento 
+metodologico complementare per la costruzione di esempi documentati agli SLU e SLE; 
+nessun risultato del presente confronto è attribuito a questo rapporto se non 
+espressamente indicato.
+Rapporto e scheda bibliografica ufficiale JRC89037
+R5. ANTHEA, sorgenti locali della revisione identificata nel capitolo precedente: 
+X.Core/CheckerSection.cs, ConcreteMaterials.cs, ConcreteStandards.cs, 
+Ntc2018Checks.cs, SectionShearGeometry.cs; documentazione docs/calcestruzzo￾interfaccia.md; inventario delle librerie lib/Checker/manifest.json. Le informazioni sul 
+comportamento del software sono separate dai riferimenti normativi.
+Fonti online consultate il 24 settembre 2026. Gli esempi costruiti per equilibrio e compatibilità sono 
+identificati come riferimenti della campagna; non sono presentati come prove sperimentali o risultati 
+pubblicati. La versione EC2 richiamata è quella di prima generazione su cui si basano gli esempi citati.
