@@ -6,6 +6,8 @@ if (args.Length == 1 && args[0] == "--coesione") { CohesionChecks.Run(); return 
 if (args.Length == 1 && args[0] == "--gamma-sat") { SaturatedWeightChecks.Run(); return 0; }
 if (args.Length == 1 && args[0] == "--horizontal") { Console.WriteLine($"Palo orizzontale: {HorizontalChecks.Run()} controlli superati."); HorizontalChsChecks.Run(); return 0; }
 if (args.Length == 1 && args[0] == "--checker") { SectionWorkspaceChecks.Run(); SectionExchangeChecks.Run(); ConcreteEnhancementChecks.Run(); return 0; }
+if (args.Length == 1 && args[0] == "--ca-module") { ConcreteModuleChecks.Run(); return 0; }
+if (args.Length == 2 && args[0] == "--ca-benchmark") { ConcreteBenchmark.Run(args[1]); return 0; }
 
 if(args.Length==3&&args[0]=="--calcola")
 {

@@ -142,6 +142,9 @@ internal sealed partial class ConcreteWorkspace
                 cards.AddCheck(axis == 0 ? "Taglio Vx" : "Taglio Vy", shearGrid?.Rows.Count ?? 0, shearResults.Select(kv =>
                     (shearGrid?.Rows.FirstOrDefault(r => r.Values.S("id") == kv.Key)?.Values.S("nome") ?? kv.Key, kv.Value[index].Ratio, (bool?)null)));
             }
+            int torques=shearGrid?.Rows.Count(r=>J.Number(r.Values["T"]) is double t&&t!=0)??0;
+            if(torques>0)cards.AddCheck("Torsione e interazione V–T",torques,torsionResults.Select(kv=>(shearGrid?.Rows.FirstOrDefault(r=>r.Values.S("id")==kv.Key)?.Values.S("nome")??kv.Key,
+                kv.Value.TorsionRatio is double et&&kv.Value.ConcreteCombinedRatio is double ec&&kv.Value.SteelCombinedRatio is double es?(double?)Math.Max(et,Math.Max(ec,es)):null,(bool?)kv.Value.Passed)));
         }
     }
     private static string WorstSummary(string title, int total, IEnumerable<(string Name, double? Ratio, string Status)> source)

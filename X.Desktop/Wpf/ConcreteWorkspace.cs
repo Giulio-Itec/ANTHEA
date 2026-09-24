@@ -48,6 +48,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private readonly JsonGrid barInventory = new([new("id", "Barra", ReadOnly: true), new("x", "x [mm]"), new("y", "y [mm]"), new("phi", "Ø [mm]")], true);
     private readonly JsonGrid tendons = new([new("id", "ID"), new("x", "x [mm]"), new("y", "y [mm]"), new("diametro", "Øeq cavo [mm]"), new("area", "Ap totale [mm²]"), new("materiale", "Materiale", Choices: ConcreteMaterialCatalog.Steel(true).Select(m => m.S("nome")).ToArray()), new("diagramma", "Diagramma", ReadOnly: true), new("sigma0", "σp0 [MPa]"), new("Ep", "Ep [MPa]", ReadOnly: true), new("fpyk", "fpyk [MPa]", ReadOnly: true), new("fpk", "fpk [MPa]", ReadOnly: true), new("eps_u", "εpu [‰]", ReadOnly: true)]);
     private InputForm geometry = null!, materials = null!, reinforcement = null!;
+    private Action? refreshHoleControls;
     private readonly List<DomainPanel> domainPanels = [];
     private readonly Dictionary<string, StressPanel> stressPanels = new();
 
@@ -81,9 +82,11 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         AddTab("02", "Dominio 3D", BuildDomainPanel(true));
         AddTab("03", "Dominio 2D", BuildDomainPanel(false));
         AddTab("04", "Tensioni e fessurazione", BuildStressTabs());
-        AddTab("05", "Taglio", BuildShearPanel());
-        tabs.SelectedIndex = Math.Clamp((int)settings.D("tab"), 0, 4);
-        tabs.SelectionChanged += (_, e) => { if (e.Source == tabs && !initializing) { Commit(); settings["tab"] = tabs.SelectedIndex; Modified?.Invoke(); } };
+        AddTab("05", "Taglio e torsione", BuildShearPanel());
+        AddTab("06", "Dettagli costruttivi", BuildDetailingPanel());
+        AddTab("07", "Momento–curvatura", BuildCurvaturePanel());
+        tabs.SelectedIndex = Math.Clamp((int)settings.D("tab"), 0, 6);
+        tabs.SelectionChanged += (_, e) => { if (e.Source == tabs && !initializing) { Commit(); RefreshDetailing(); settings["tab"] = tabs.SelectedIndex; Modified?.Invoke(); } };
         initializing = false; RefreshPreview(); RefreshSummary();
     }
     private void AddTab(string number, string title, UIElement body)
@@ -123,7 +126,11 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private static Grid AnalysisLayout(UIElement input, UIElement viewport, UIElement details, UIElement table)
     {
         var upper = Columns((viewport, 6, 350), (details, 4, 230));
-        var body = Columns((input, 3, 285), (Rows(upper, table, 3.7, 2), 7, 650));
+        return WorkspaceLayout(input, Rows(upper, table, 3.7, 2));
+    }
+    private static Grid WorkspaceLayout(UIElement input, UIElement content)
+    {
+        var body = Columns((input, 3, 285), (content, 7, 650));
         body.Margin = new Thickness(0, 10, 0, 0); return body;
     }
     private static Border Notice(string text)
@@ -135,7 +142,14 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private UIElement BuildControlPanel()
     {
         var norm = new InputForm(settings, [new("normativa", "Normativa", Choices: ConcreteStandards.Names), new("nota", "Nota del foglio")], key => { if (key == "normativa") { ResetCoefficients(); RefreshStandardMaterialChoices(); } Invalidate(); });
-        geometry = new(Input, [new("shape", "Sezione", Choices: ["Circolare", "Rettangolare", "A T", "Generica (da definire)"]), new("diameter_mm", "Diametro D", "mm"), new("width_mm", "Larghezza b", "mm"), new("height_mm", "Altezza h", "mm"), new("flange_width_mm", "Larghezza ala bf", "mm"), new("web_width_mm", "Larghezza anima bw", "mm"), new("flange_thickness_mm", "Spessore ala hf", "mm"), new("cover_mm", "Copriferro netto", "mm")], _ => Invalidate(), true);
+        geometry = new(Input, [new("shape", "Sezione", Choices: ["Circolare", "Rettangolare", "A T", "Generica (da definire)"]), new("diameter_mm", "Diametro D", "mm"), new("circular_sides", "Lati del contorno (12–720, multipli di 4)"), new("width_mm", "Larghezza b", "mm"), new("height_mm", "Altezza h", "mm"), new("flange_width_mm", "Larghezza ala bf", "mm"), new("web_width_mm", "Larghezza anima bw", "mm"), new("flange_thickness_mm", "Spessore ala hf", "mm"), new("cover_mm", "Copriferro netto", "mm")], _ => Invalidate(), true);
+        foreach(var(k,v) in new[]{("inner_diameter_mm","500"),("inner_width_mm","300"),("inner_height_mm","400")})if(!Input.ContainsKey(k))Input[k]=v;
+        var holeToggle=new CheckBox{Content="Foro centrale",IsChecked=Input.B("foro_presente"),Margin=new Thickness(4)};
+        var holeForm=new InputForm(Input,[new("inner_diameter_mm","Diametro foro","mm"),new("inner_width_mm","Larghezza foro","mm"),new("inner_height_mm","Altezza foro","mm")],_=>Invalidate(),true);
+        void UpdateHoleFields(){bool enabled=Input.B("foro_presente");holeForm.Visibility=enabled?Visibility.Visible:Visibility.Collapsed;holeForm.ShowField("inner_diameter_mm",Input.S("shape")=="Circolare");holeForm.ShowField("inner_width_mm",Input.S("shape")=="Rettangolare");holeForm.ShowField("inner_height_mm",Input.S("shape")=="Rettangolare");}
+        holeToggle.Click+=(_,_)=>{Input["foro_presente"]=holeToggle.IsChecked==true;UpdateHoleFields();Invalidate();};
+        refreshHoleControls=()=>{holeToggle.IsChecked=Input.B("foro_presente");holeToggle.IsEnabled=Input.S("shape") is "Circolare" or "Rettangolare";UpdateHoleFields();};
+        geometry.IsVisibleChanged+=(_,_)=>refreshHoleControls();UpdateHoleFields();
         BuildMaterialFields();
         foreach (var (key, value) in new[] { ("flange_bottom_count", "0"), ("flange_bottom_diameter_mm", Input.S("top_bar_diameter_mm")), ("flange_bottom_offset_mm", (Input.D("cover_mm") + Input.D("transverse_bar_diameter_mm") + Input.D("top_bar_diameter_mm") / 2).ToString(System.Globalization.CultureInfo.InvariantCulture)) }) if (!Input.ContainsKey(key)) Input[key] = value;
         reinforcement = new(Input, [new("longitudinal_bar_count", "Barre circolari"), new("longitudinal_bar_diameter_mm", "Diametro", "mm"), new("top_bar_count", "Barre superiori"), new("top_bar_diameter_mm", "Ø superiori", "mm"), new("flange_bottom_count", "Barre intradosso ala (0: assenti)"), new("flange_bottom_diameter_mm", "Ø intradosso ala", "mm"), new("flange_bottom_offset_mm", "Intradosso ala → asse barra", "mm"), new("bottom_bar_count", "Barre inferiori"), new("bottom_bar_diameter_mm", "Ø inferiori", "mm"), new("side_bar_count_per_side", "Barre laterali / lato"), new("side_bar_diameter_mm", "Ø laterali", "mm")], _ => Invalidate(), true);
@@ -143,7 +157,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         grids.Add(tendons); grids.Add(barInventory);
         var tendonInput = BuildTendonInput();
         var materialGroups = Ui.Stack(materials, BuildCustomMaterials()); materialGroups.Margin = new Thickness(14, 0, 0, 0);
-        var inputStack = Ui.Stack(norm, standardNote, Group("Coefficienti da normativa", BuildCoefficients()), Group("Materiali", materialGroups, true), Group("Geometria", geometry, true), Group("Armature", Ui.Stack(reinforcement, BuildAdditionalLayers())), Group("Staffe", BuildStirrups()), Group("Trefoli", tendonInput));
+        var inputStack = Ui.Stack(norm, standardNote, Group("Coefficienti da normativa", BuildCoefficients()), Group("Materiali", materialGroups, true), Group("Geometria", Ui.Stack(geometry,holeToggle,holeForm), true), Group("Armature", Ui.Stack(reinforcement, BuildAdditionalLayers())), Group("Staffe", BuildStirrups()), Group("Trefoli", tendonInput));
         var left = Panel("Definizione della sezione", Scroller(inputStack), "Dati comuni a tutte le verifiche · mm, MPa");
         var viewport = new ViewportFrame("Sezione geometrica", preview, preview.ResetView);
         var axes = new CheckBox { Content = "Assi", IsChecked = true, Margin = new Thickness(7, 3, 5, 3), VerticalAlignment = VerticalAlignment.Center };
@@ -179,7 +193,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         }
         summary.Children.Add(SummaryBlock("Taglio", shearDashboard, Ui.Button("Apri →", () => tabs.SelectedIndex = 4)));
         summary.Children.Add(Ui.Text("Colori η come nei domini · grigio: esito mancante. Ogni verifica resta distinta.", 10, color: Ui.Muted));
-        var page = Columns((left, 3, 285), (Columns((middle, 6, 350), (Scroller(summary), 4, 230)), 7, 650)); page.Margin = new Thickness(0, 10, 0, 0); return page;
+        return WorkspaceLayout(left, Columns((middle, 6, 350), (Scroller(summary), 4, 230)));
     }
     private JsonRow CreateAction(string key, string name, string n, string mx, string my, string? id = null, bool visible = true)
     {
@@ -201,7 +215,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     {
         foreach (var form in Ui.Descendants<InputForm>(this).ToArray()) form.Commit();
         foreach (var grid in grids) grid.Commit(); foreach (string key in actions.Keys) SyncActions(key);
-        if (shearGrid is not null) ShearOptions["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")))).ToArray());
+        if (shearGrid is not null) ShearOptions["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")),("T",r.Values.S("T","0")))).ToArray());
     }
     internal void SetGeometry(string value) => geometry.Set("diameter_mm", value);
     private void Invalidate(bool geometryChanged = true)
@@ -214,7 +228,9 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         try { foreach (var row in actions.Values.SelectMany(r => r)) foreach (string key in new[] { "eta3d", "eta2d", "esito3d", "esito2d", "sigma_c", "sigma_s", "eta_sigma", "stress_status", "wk" }) row.Output(key, key.StartsWith("esito") || key == "stress_status" ? "Da calcolare" : key == "wk" ? "Da calcolare" : "—"); }
         finally { synchronizing = false; }
         foreach (var panel in domainPanels) { panel.View3D?.SetMesh(null); panel.Plot.Series = []; panel.Plot.Segments = []; panel.Plot.Markers = []; panel.Plot.VerificationSegments = []; panel.Plot.InvalidateVisual(); panel.Detail.Text = "Dati modificati · aggiornamento automatico in attesa"; }
-        foreach (var panel in stressPanels.Values) { panel.View.Stress = null; panel.View.InvalidateVisual(); panel.Detail.Text = "Nessun risultato aggiornato"; panel.CrackDetail.Text = "Dati modificati: passaggi in attesa di aggiornamento."; panel.Bars.Rows.Clear(); panel.Concrete.Rows.Clear(); }
+        foreach (var panel in stressPanels.Values) { panel.View.Stress = null; panel.View.EffectiveRegion=null;panel.Regions.ItemsSource=null;panel.View.InvalidateVisual(); panel.Detail.Text = "Nessun risultato aggiornato"; panel.CrackDetail.Text = "Dati modificati: passaggi in attesa di aggiornamento."; panel.Bars.Rows.Clear(); panel.Concrete.Rows.Clear(); }
+        InvalidateCurvature();
+        foreach(var panel in domainPanels)UpdateSectionInspection(panel);
         if (geometryChanged) RefreshPreview(); RefreshSummary(); status.Text = "Modifiche acquisite · aggiornamento automatico in attesa…"; Modified?.Invoke(); QueueCalculation();
     }
     private void QueueCalculation()
@@ -238,6 +254,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private void InvalidateActions(string key)
     {
         if (initializing || disposed || synchronizing) return;
+        RefreshDetailing();
         if (key == "Taglio") { InvalidateShear(); InvalidateChecks("Taglio"); return; }
         using var notifications = JsonRow.DeferNotifications(actions[key]);
         if (key is "SLU" or "SLV")
@@ -257,8 +274,10 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private void RefreshPreview()
     {
         string shape = Input.S("shape");
+        if(shape is not("Rettangolare" or "Circolare"))Input["foro_presente"]=false;
+        refreshHoleControls?.Invoke();
         RefreshAdditionalLayers();
-        foreach (string key in new[] { "diameter_mm", "width_mm", "height_mm", "flange_width_mm", "web_width_mm", "flange_thickness_mm" }) geometry.ShowField(key, key switch { "diameter_mm" => shape == "Circolare", "width_mm" => shape == "Rettangolare", "height_mm" => shape != "Circolare", _ => shape == "A T" });
+        foreach (string key in new[] { "diameter_mm", "circular_sides", "width_mm", "height_mm", "flange_width_mm", "web_width_mm", "flange_thickness_mm" }) geometry.ShowField(key, key switch { "diameter_mm" or "circular_sides" => shape == "Circolare", "width_mm" => shape == "Rettangolare", "height_mm" => shape != "Circolare", _ => shape == "A T" });
         foreach (string key in reinforcement.Editors.Keys.Where(k => !k.StartsWith("transverse"))) reinforcement.ShowField(key, key.StartsWith("flange_bottom") ? shape == "A T" : key.StartsWith("longitudinal") ? shape == "Circolare" : shape != "Circolare");
         SezioneCA? engine = null;
         try
@@ -281,6 +300,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         SynchronizeStirrups(); foreach (string key in stressPanels.Keys) SynchronizeHomogenization(key);
         foreach (string field in SectionWorkspace.SharedSleFields) settings["sle_comuni"]![field] = settings["sle"]!["SLE"]![field]?.DeepClone();
         RefreshTendonOptions(); RefreshAutomaticShear();
+        RefreshDetailing();
         preview.InvalidateVisual();
         if (Input["barre_manuali"] is not JsonArray || barInventory.Rows.Count == 0)
         {
@@ -326,5 +346,5 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         if (result.Count == 0) throw new ArgumentException("Nessuna combinazione da incollare.");
         return result;
     }
-    public void Dispose() { disposed = true; calculationQueued = false; cancellation?.Cancel(); }
+    public void Dispose() { disposed = true; calculationQueued = false; cancellation?.Cancel(); curvatureCancellation?.Cancel(); }
 }

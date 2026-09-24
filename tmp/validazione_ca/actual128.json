@@ -1,0 +1,1827 @@
+[
+  {
+    "id": "P3D-01",
+    "boundary": {
+      "Utilization": 0.9998058089608144,
+      "Resistance": {
+        "N": -934.7574431144901,
+        "Mx": 219.68790091349894,
+        "My": -29.351081367810245,
+        "Length": 960.6746261056229
+      },
+      "Status": "Entro il dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -391.304347826087,
+        "SMax": 391.304347826087,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -3.5,
+        "EcMax": 3.4898318597310913,
+        "EsMin": -2.677772590840556,
+        "EsMax": 2.6676044505716465,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 524.5045091424392,
+        "NeutralDistance": 291.9716717293143,
+        "NeutralAngle": -30.934283930010363
+      }
+    },
+    "inside": {
+      "Utilization": 0.7998446471687387,
+      "Resistance": {
+        "N": -934.7574431143834,
+        "Mx": 219.68790091349604,
+        "My": -29.351081367809574,
+        "Length": 960.6746261055183
+      },
+      "Status": "Entro il dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -391.304347826087,
+        "SMax": 391.304347826087,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -3.5,
+        "EcMax": 3.4898318597314932,
+        "EsMin": -2.6777725908405077,
+        "EsMax": 2.6676044505720005,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 524.5045091424392,
+        "NeutralDistance": 291.9716717292899,
+        "NeutralAngle": -30.934283930010633
+      }
+    },
+    "outside": {
+      "Utilization": 1.199766970753124,
+      "Resistance": {
+        "N": -934.7574431143703,
+        "Mx": 219.68790091349507,
+        "My": -29.351081367810078,
+        "Length": 960.6746261055055
+      },
+      "Status": "Fuori dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -391.304347826087,
+        "SMax": 391.304347826087,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -3.5,
+        "EcMax": 3.489831859731537,
+        "EsMin": -2.677772590840501,
+        "EsMax": 2.6676044505720387,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 524.504509142439,
+        "NeutralDistance": 291.9716717292893,
+        "NeutralAngle": -30.934283930011052
+      }
+    }
+  },
+  {
+    "id": "P3D-02",
+    "boundary": {
+      "Utilization": 0.9999551089248683,
+      "Resistance": {
+        "N": -1294.2858460906568,
+        "Mx": 231.48146270498043,
+        "My": 17.61195677810914,
+        "Length": 1314.9409492400025
+      },
+      "Status": "Entro il dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -391.304347826087,
+        "SMax": 336.51293616227406,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -3.5,
+        "EcMax": 2.3333483852882346,
+        "EsMin": -2.8492162955231355,
+        "EsMax": 1.6825646808113701,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 517.3021727392995,
+        "NeutralDistance": 342.6021118774697,
+        "NeutralAngle": 19.27581976501163
+      }
+    },
+    "inside": {
+      "Utilization": 0.7999640871397996,
+      "Resistance": {
+        "N": -1294.285846090817,
+        "Mx": 231.4814627049734,
+        "My": 17.61195677810636,
+        "Length": 1314.9409492401587
+      },
+      "Status": "Entro il dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -391.304347826087,
+        "SMax": 336.5129361621951,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -3.5,
+        "EcMax": 2.3333483852877803,
+        "EsMin": -2.8492162955231946,
+        "EsMax": 1.6825646808109753,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 517.3021727392954,
+        "NeutralDistance": 342.6021118774886,
+        "NeutralAngle": 19.275819765008947
+      }
+    },
+    "outside": {
+      "Utilization": 1.199946130710181,
+      "Resistance": {
+        "N": -1294.2858460902742,
+        "Mx": 231.4814627050069,
+        "My": 17.611956778104037,
+        "Length": 1314.9409492396303
+      },
+      "Status": "Fuori dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -391.304347826087,
+        "SMax": 336.51293616246153,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -3.5,
+        "EcMax": 2.333348385289269,
+        "EsMin": -2.849216295523039,
+        "EsMax": 1.6825646808123076,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 517.3021727392902,
+        "NeutralDistance": 342.60211187739634,
+        "NeutralAngle": 19.275819765005576
+      }
+    }
+  },
+  {
+    "id": "E3D-01",
+    "boundary": {
+      "Utilization": 1.001277977820652,
+      "Resistance": {
+        "N": -709.0336041998015,
+        "Mx": 166.55751503243874,
+        "My": -29.673247639318912,
+        "Length": 728.9379667185722
+      },
+      "Status": "Fuori dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -306.02386767455386,
+        "SMax": 304.80128664746803,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -2,
+        "EcMax": 1.9938870948645708,
+        "EsMin": -1.5301193383727691,
+        "EsMax": 1.5240064332373402,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 524.4940605784063,
+        "NeutralDistance": 291.9938259623238,
+        "NeutralAngle": -30.969410466509043
+      }
+    },
+    "inside": {
+      "Utilization": 0.8010223822565186,
+      "Resistance": {
+        "N": -709.0336041998048,
+        "Mx": 166.55751503243684,
+        "My": -29.67324763932012,
+        "Length": 728.9379667185749
+      },
+      "Status": "Entro il dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -306.0238676745538,
+        "SMax": 304.80128664746405,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -2,
+        "EcMax": 1.9938870948645508,
+        "EsMin": -1.530119338372769,
+        "EsMax": 1.5240064332373202,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 524.4940605784059,
+        "NeutralDistance": 291.9938259623265,
+        "NeutralAngle": -30.969410466510297
+      }
+    },
+    "outside": {
+      "Utilization": 1.2015335733847496,
+      "Resistance": {
+        "N": -709.033604199822,
+        "Mx": 166.5575150324387,
+        "My": -29.67324763931906,
+        "Length": 728.9379667185921
+      },
+      "Status": "Fuori dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -306.02386767455505,
+        "SMax": 304.80128664745837,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -2,
+        "EcMax": 1.9938870948645167,
+        "EsMin": -1.5301193383727751,
+        "EsMax": 1.5240064332372918,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 524.4940605784061,
+        "NeutralDistance": 291.9938259623284,
+        "NeutralAngle": -30.969410466509252
+      }
+    }
+  },
+  {
+    "id": "E3D-02",
+    "boundary": {
+      "Utilization": 1.0292997947636078,
+      "Resistance": {
+        "N": -45.79429022364275,
+        "Mx": 95.4021711983461,
+        "My": 12.159074864381083,
+        "Length": 106.52011259852941
+      },
+      "Status": "Fuori dominio",
+      "Response": {
+        "CMin": -12.54027357557792,
+        "CMax": 0,
+        "SMin": -123.34239496194118,
+        "SMax": 379.958225439759,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -0.9780678248970374,
+        "EcMax": 2.261146977286126,
+        "EsMin": -0.6167119748097059,
+        "EsMax": 1.899791127198795,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 517.2850184594581,
+        "NeutralDistance": 172.40565394845623,
+        "NeutralAngle": 19.26458475563306
+      }
+    },
+    "inside": {
+      "Utilization": 0.8234398358108858,
+      "Resistance": {
+        "N": -45.79429022364286,
+        "Mx": 95.40217119834608,
+        "My": 12.159074864381118,
+        "Length": 106.52011259852944
+      },
+      "Status": "Entro il dominio",
+      "Response": {
+        "CMin": -12.540273575577924,
+        "CMax": 0,
+        "SMin": -123.3423949619413,
+        "SMax": 379.958225439759,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -0.9780678248970378,
+        "EcMax": 2.2611469772861263,
+        "EsMin": -0.6167119748097065,
+        "EsMax": 1.899791127198795,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 517.2850184594582,
+        "NeutralDistance": 172.40565394845615,
+        "NeutralAngle": 19.264584755633116
+      }
+    },
+    "outside": {
+      "Utilization": 1.2351597537163417,
+      "Resistance": {
+        "N": -45.79429022364112,
+        "Mx": 95.40217119834568,
+        "My": 12.159074864381253,
+        "Length": 106.52011259852834
+      },
+      "Status": "Fuori dominio",
+      "Response": {
+        "CMin": -12.54027357557792,
+        "CMax": 0,
+        "SMin": -123.34239496194101,
+        "SMax": 379.958225439759,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -0.9780678248970374,
+        "EcMax": 2.261146977286127,
+        "EsMin": -0.6167119748097052,
+        "EsMax": 1.899791127198795,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 517.2850184594587,
+        "NeutralDistance": 172.40565394845524,
+        "NeutralAngle": 19.264584755633386
+      }
+    }
+  },
+  {
+    "id": "P2D-01",
+    "boundary": {
+      "Utilization": 1.0053082607038792,
+      "Resistance": {
+        "N": -605.1075661881231,
+        "Mx": 212.07853539314692,
+        "My": 0,
+        "Length": 641.1961258714965
+      },
+      "Status": "Fuori dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": -16.99944048049213,
+        "SMin": -391.304347826087,
+        "SMax": -391.304347826087,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -2.000702142127524,
+        "EcMax": -1.9994733934043571,
+        "EsMin": -2.0005792672552074,
+        "EsMax": -1.9995962682766737,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460,
+        "NeutralDistance": 814121.7583409569,
+        "NeutralAngle": -180
+      }
+    },
+    "inside": {
+      "Utilization": 0.8042466085716216,
+      "Resistance": {
+        "N": -605.1075661812246,
+        "Mx": 212.07853539229754,
+        "My": 0,
+        "Length": 641.1961258647053
+      },
+      "Status": "Entro il dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": -16.999440480492126,
+        "SMin": -391.304347826087,
+        "SMax": -391.304347826087,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -2.0007021421275266,
+        "EcMax": -1.999473393404355,
+        "EsMin": -2.0005792672552096,
+        "EsMax": -1.9995962682766724,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460,
+        "NeutralDistance": 814121.7583376969,
+        "NeutralAngle": -180
+      }
+    },
+    "outside": {
+      "Utilization": 1.2063699128571386,
+      "Resistance": {
+        "N": -605.1075661813833,
+        "Mx": 212.0785353923171,
+        "My": 0,
+        "Length": 641.1961258648615
+      },
+      "Status": "Fuori dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": -16.999440480492126,
+        "SMin": -391.304347826087,
+        "SMax": -391.304347826087,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -2.0007021421275266,
+        "EcMax": -1.999473393404355,
+        "EsMin": -2.0005792672552096,
+        "EsMax": -1.9995962682766724,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460,
+        "NeutralDistance": 814121.758337772,
+        "NeutralAngle": -180
+      }
+    }
+  },
+  {
+    "id": "P2D-02",
+    "boundary": {
+      "Utilization": 1.0035889135728453,
+      "Resistance": {
+        "N": -1249.2464101484802,
+        "Mx": 245.79052028151187,
+        "My": 0,
+        "Length": 1273.1965964175058
+      },
+      "Status": "Fuori dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -391.304347826087,
+        "SMax": 367.5803402646502,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -3.5,
+        "EcMax": 2.4310018903591675,
+        "EsMin": -2.906899810964083,
+        "EsMax": 1.837901701323251,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460,
+        "NeutralDistance": 295.05976095617535,
+        "NeutralAngle": 0
+      }
+    },
+    "inside": {
+      "Utilization": 0.8028711308585306,
+      "Resistance": {
+        "N": -1249.2464101480637,
+        "Mx": 245.7905202815408,
+        "My": 0,
+        "Length": 1273.1965964171027
+      },
+      "Status": "Entro il dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -391.304347826087,
+        "SMax": 367.5803402646502,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -3.5,
+        "EcMax": 2.4310018903591675,
+        "EsMin": -2.906899810964083,
+        "EsMax": 1.837901701323251,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460,
+        "NeutralDistance": 295.05976095617535,
+        "NeutralAngle": 0
+      }
+    },
+    "outside": {
+      "Utilization": 1.2043066962867215,
+      "Resistance": {
+        "N": -1249.2464101492374,
+        "Mx": 245.7905202814593,
+        "My": 0,
+        "Length": 1273.1965964182384
+      },
+      "Status": "Fuori dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -391.304347826087,
+        "SMax": 367.5803402646502,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -3.5,
+        "EcMax": 2.4310018903591675,
+        "EsMin": -2.906899810964083,
+        "EsMax": 1.837901701323251,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460,
+        "NeutralDistance": 295.05976095617535,
+        "NeutralAngle": 0
+      }
+    }
+  },
+  {
+    "id": "E2D-01",
+    "boundary": {
+      "Utilization": 1.0051176535125625,
+      "Resistance": {
+        "N": -835.3128856318259,
+        "Mx": 210.73568860234354,
+        "My": 0,
+        "Length": 861.4854307260639
+      },
+      "Status": "Fuori dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -316.1004149286739,
+        "SMax": 355.0962656419352,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -2,
+        "EcMax": 2.1949792535663066,
+        "EsMin": -1.5805020746433693,
+        "EsMax": 1.7754813282096757,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460,
+        "NeutralDistance": 238.3802015587713,
+        "NeutralAngle": 0
+      }
+    },
+    "inside": {
+      "Utilization": 0.8040941228101701,
+      "Resistance": {
+        "N": -835.3128856316928,
+        "Mx": 210.73568860234627,
+        "My": 0,
+        "Length": 861.4854307259354
+      },
+      "Status": "Entro il dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -316.1004149286832,
+        "SMax": 355.0962656418509,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -2,
+        "EcMax": 2.194979253565838,
+        "EsMin": -1.5805020746434162,
+        "EsMax": 1.7754813282092543,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460,
+        "NeutralDistance": 238.3802015587979,
+        "NeutralAngle": 0
+      }
+    },
+    "outside": {
+      "Utilization": 1.2061411842147605,
+      "Resistance": {
+        "N": -835.3128856320589,
+        "Mx": 210.7356886023388,
+        "My": 0,
+        "Length": 861.4854307262887
+      },
+      "Status": "Fuori dominio",
+      "Response": {
+        "CMin": -17,
+        "CMax": 0,
+        "SMin": -316.1004149286577,
+        "SMax": 355.0962656420809,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -2,
+        "EcMax": 2.1949792535671158,
+        "EsMin": -1.5805020746432885,
+        "EsMax": 1.7754813282104043,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460,
+        "NeutralDistance": 238.38020155872528,
+        "NeutralAngle": 0
+      }
+    }
+  },
+  {
+    "id": "E2D-02",
+    "boundary": {
+      "Utilization": 1.03901638009228,
+      "Resistance": {
+        "N": -36.96553148711709,
+        "Mx": 103.79357067831842,
+        "My": 0,
+        "Length": 110.17965253294332
+      },
+      "Status": "Fuori dominio",
+      "Response": {
+        "CMin": -9.216032608584737,
+        "CMax": 0,
+        "SMin": -73.7240075597449,
+        "SMax": 379.96219281667646,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -0.6521739130339881,
+        "EcMax": 2.1833648393186453,
+        "EsMin": -0.3686200377987247,
+        "EsMax": 1.8998109640833822,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460,
+        "NeutralDistance": 114.9999999987449,
+        "NeutralAngle": 0
+      }
+    },
+    "inside": {
+      "Utilization": 0.8312131040764645,
+      "Resistance": {
+        "N": -36.965531486427665,
+        "Mx": 103.79357067819241,
+        "My": 0,
+        "Length": 110.17965253259332
+      },
+      "Status": "Entro il dominio",
+      "Response": {
+        "CMin": -9.216032608917493,
+        "CMax": 0,
+        "SMin": -73.72400756482023,
+        "SMax": 379.9621928165527,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -0.6521739130624592,
+        "EcMax": 2.1833648393211216,
+        "EsMin": -0.36862003782410113,
+        "EsMax": 1.8998109640827634,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460,
+        "NeutralDistance": 115.00000000251026,
+        "NeutralAngle": 0
+      }
+    },
+    "outside": {
+      "Utilization": 1.24681965612866,
+      "Resistance": {
+        "N": -36.96553148399717,
+        "Mx": 103.79357067774819,
+        "My": 0,
+        "Length": 110.17965253135941
+      },
+      "Status": "Fuori dominio",
+      "Response": {
+        "CMin": -9.216032608917493,
+        "CMax": 0,
+        "SMin": -73.72400756482023,
+        "SMax": 379.9621928165527,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -0.6521739130624592,
+        "EcMax": 2.1833648393211216,
+        "EsMin": -0.36862003782410113,
+        "EsMax": 1.8998109640827634,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460,
+        "NeutralDistance": 115.00000000251026,
+        "NeutralAngle": 0
+      }
+    }
+  },
+  {
+    "id": "TL-01",
+    "actual": {
+      "sigma_cls": -6.393974286975991,
+      "sigma_acciaio": 38.94422997815688,
+      "Ratio": 0.3552207937208884,
+      "Status": "Entro limiti tensionali",
+      "Response": {
+        "CMin": -6.393974286975991,
+        "CMax": -6.393974277796276,
+        "SMin": -38.94422997815688,
+        "SMax": -38.94422993988773,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -0.19472114993489037,
+        "EcMax": -0.1947211496553327,
+        "EsMin": -0.19472114989078443,
+        "EsMax": -0.19472114969943863,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 300.341030011471,
+        "NeutralDistance": 240151853757.11273,
+        "NeutralAngle": 84.72115160622144
+      },
+      "tensioni_barre": [
+        -38.944229972188104,
+        -38.94422993988773,
+        -38.94422997815688,
+        -38.944229945856506
+      ],
+      "ConcreteVertices": [
+        {
+          "Id": "C1",
+          "X": -150,
+          "Y": -250,
+          "Stress": -6.393974285751027,
+          "Strain": -0.19472114989758552
+        },
+        {
+          "Id": "C2",
+          "X": 150,
+          "Y": -250,
+          "Stress": -6.393974277796276,
+          "Strain": -0.1947211496553327
+        },
+        {
+          "Id": "C3",
+          "X": 150,
+          "Y": 250,
+          "Stress": -6.393974279021239,
+          "Strain": -0.19472114969263754
+        },
+        {
+          "Id": "C4",
+          "X": -150,
+          "Y": 250,
+          "Stress": -6.393974286975991,
+          "Strain": -0.19472114993489037
+        }
+      ]
+    }
+  },
+  {
+    "id": "TL-02",
+    "actual": {
+      "sigma_cls": -10.000160072999124,
+      "sigma_acciaio": 100.32723324423239,
+      "Ratio": 0.5555644484999513,
+      "Status": "Entro limiti tensionali",
+      "Response": {
+        "CMin": -10.000160072999124,
+        "CMax": 0,
+        "SMin": -42.9932883670726,
+        "SMax": 100.32723324423239,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -0.30454340001237457,
+        "EcMax": 0.5912131243981734,
+        "EsMin": -0.214966441835363,
+        "EsMax": 0.5016361662211619,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460.0091104672691,
+        "NeutralDistance": 169.99600371729798,
+        "NeutralAngle": -0.00208803378102687
+      },
+      "tensioni_barre": [
+        100.32723324423239,
+        100.32462177231879,
+        -42.99067689515903,
+        -42.9932883670726
+      ],
+      "ConcreteVertices": [
+        {
+          "Id": "C1",
+          "X": -150,
+          "Y": -250,
+          "Stress": 0,
+          "Strain": 0.5912131243981734
+        },
+        {
+          "Id": "C2",
+          "X": 150,
+          "Y": -250,
+          "Stress": 0,
+          "Strain": 0.5911935383588217
+        },
+        {
+          "Id": "C3",
+          "X": 150,
+          "Y": 250,
+          "Stress": -10.000160072999124,
+          "Strain": -0.30454340001237457
+        },
+        {
+          "Id": "C4",
+          "X": -150,
+          "Y": 250,
+          "Stress": -9.999516934685484,
+          "Strain": -0.3045238139730228
+        }
+      ]
+    }
+  },
+  {
+    "id": "TN-01",
+    "actual": {
+      "sigma_cls": -12.74999999738684,
+      "sigma_acciaio": 199.99999940119483,
+      "Ratio": 0.7083333331881578,
+      "Status": "Entro limiti tensionali",
+      "Response": {
+        "CMin": -12.74999999738684,
+        "CMax": -12.749999831162505,
+        "SMin": -199.99999940119483,
+        "SMax": -199.9999970129091,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -0.9999999997267284,
+        "EcMax": -0.9999999823437913,
+        "EsMin": -0.9999999970059742,
+        "EsMax": -0.9999999850645455,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 306.76166412779696,
+        "NeutralDistance": 20240237510.95861,
+        "NeutralAngle": 83.85120324328818
+      },
+      "tensioni_barre": [
+        -199.99999897783036,
+        -199.9999970129091,
+        -199.99999940119483,
+        -199.99999743627356
+      ],
+      "ConcreteVertices": [
+        {
+          "Id": "C1",
+          "X": -150,
+          "Y": -250,
+          "Stress": -12.749999972084197,
+          "Strain": -0.9999999970807004
+        },
+        {
+          "Id": "C2",
+          "X": 150,
+          "Y": -250,
+          "Stress": -12.749999831162505,
+          "Strain": -0.9999999823437913
+        },
+        {
+          "Id": "C3",
+          "X": 150,
+          "Y": 250,
+          "Stress": -12.749999856465147,
+          "Strain": -0.9999999849898192
+        },
+        {
+          "Id": "C4",
+          "X": -150,
+          "Y": 250,
+          "Stress": -12.74999999738684,
+          "Strain": -0.9999999997267284
+        }
+      ]
+    }
+  },
+  {
+    "id": "TN-02",
+    "actual": {
+      "sigma_cls": -15.951451865810041,
+      "sigma_acciaio": 391.304347826087,
+      "Ratio": 1.0869565217391306,
+      "Status": "Oltre limiti tensionali",
+      "Response": {
+        "CMin": -15.951451865810041,
+        "CMax": 0,
+        "SMin": -212.5296466172961,
+        "SMax": 391.304347826087,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -1.5043770559404055,
+        "EcMax": 2.912819137650288,
+        "EsMin": -1.0626482330864804,
+        "EsMax": 2.4710903147963634,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460.0130220486612,
+        "NeutralDistance": 170.29174235655924,
+        "NeutralAngle": -0.002984573638455732
+      },
+      "tensioni_barre": [
+        391.304347826087,
+        391.304347826087,
+        -212.51123962758535,
+        -212.5296466172961
+      ],
+      "ConcreteVertices": [
+        {
+          "Id": "C1",
+          "X": -150,
+          "Y": -250,
+          "Stress": 0,
+          "Strain": 2.912819137650288
+        },
+        {
+          "Id": "C2",
+          "X": 150,
+          "Y": -250,
+          "Stress": 0,
+          "Strain": 2.912681085227457
+        },
+        {
+          "Id": "C3",
+          "X": 150,
+          "Y": 250,
+          "Stress": -15.951451865810041,
+          "Strain": -1.5043770559404055
+        },
+        {
+          "Id": "C4",
+          "X": -150,
+          "Y": 250,
+          "Stress": -15.95101182371227,
+          "Strain": -1.5042390035175748
+        }
+      ]
+    }
+  },
+  {
+    "id": "VT-01",
+    "actual": {
+      "sigma_cls": -16.000247623573838,
+      "sigma_acciaio": 160.52326245676994,
+      "Ratio": 0.888902645754102,
+      "Status": "Entro limiti tensionali",
+      "Response": {
+        "CMin": -16.000247623573838,
+        "CMax": 0,
+        "SMin": -68.78924866802028,
+        "SMax": 160.52326245676994,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -0.4872691813683851,
+        "EcMax": 0.9459392503121334,
+        "EsMin": -0.3439462433401014,
+        "EsMax": 0.8026163122838498,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460.0091352608656,
+        "NeutralDistance": 169.99616169493603,
+        "NeutralAngle": -0.0020937164280583694
+      },
+      "tensioni_barre": [
+        160.52326245676994,
+        160.51907273630619,
+        -68.7850589475565,
+        -68.78924866802028
+      ],
+      "ConcreteVertices": [
+        {
+          "Id": "C1",
+          "X": -150,
+          "Y": -250,
+          "Stress": 0,
+          "Strain": 0.9459392503121334
+        },
+        {
+          "Id": "C2",
+          "X": 150,
+          "Y": -250,
+          "Stress": 0,
+          "Strain": 0.9459078274086551
+        },
+        {
+          "Id": "C3",
+          "X": 150,
+          "Y": 250,
+          "Stress": -16.000247623573838,
+          "Strain": -0.4872691813683851
+        },
+        {
+          "Id": "C4",
+          "X": -150,
+          "Y": 250,
+          "Stress": -15.99921580326603,
+          "Strain": -0.48723775846490675
+        }
+      ]
+    }
+  },
+  {
+    "id": "VT-02",
+    "actual": {
+      "sigma_cls": -15.000252450971855,
+      "sigma_acciaio": 150.49115994132552,
+      "Ratio": 1.1111298111831003,
+      "Status": "Oltre limiti tensionali",
+      "Response": {
+        "CMin": -15.000252450971855,
+        "CMax": 0,
+        "SMin": -64.48996433518691,
+        "SMax": 150.49115994132552,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -0.4568154758639656,
+        "EcMax": 0.8868214538946586,
+        "EsMin": -0.3224498216759346,
+        "EsMax": 0.7524557997066276,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460.0091225848115,
+        "NeutralDistance": 169.9958773764038,
+        "NeutralAngle": -0.0020908110994859582
+      },
+      "tensioni_barre": [
+        150.49115994132552,
+        150.48723751698824,
+        -64.48604191084965,
+        -64.48996433518691
+      ],
+      "ConcreteVertices": [
+        {
+          "Id": "C1",
+          "X": -150,
+          "Y": -250,
+          "Stress": 0,
+          "Strain": 0.8868214538946586
+        },
+        {
+          "Id": "C2",
+          "X": 150,
+          "Y": -250,
+          "Stress": 0,
+          "Strain": 0.8867920357121292
+        },
+        {
+          "Id": "C3",
+          "X": 150,
+          "Y": 250,
+          "Stress": -15.000252450971855,
+          "Strain": -0.4568154758639656
+        },
+        {
+          "Id": "C4",
+          "X": -150,
+          "Y": 250,
+          "Stress": -14.999286458819869,
+          "Strain": -0.45678605768143615
+        }
+      ]
+    }
+  },
+  {
+    "id": "FE-01",
+    "wk": 0.1845701893683487
+  },
+  {
+    "id": "FE-02",
+    "actual": {
+      "sigma_cls": -7.353173560517645,
+      "sigma_acciaio": 250.00049835801207,
+      "Ratio": 0.5446795230013071,
+      "Status": "Entro limiti tensionali",
+      "Response": {
+        "CMin": -7.353173560517645,
+        "CMax": 0,
+        "SMin": -12.032552738695887,
+        "SMax": 250.00049835801207,
+        "PMin": null,
+        "PMax": null,
+        "EcMin": -0.22393246314601647,
+        "EcMax": 1.4137721912425976,
+        "EsMin": -0.060162763693479435,
+        "EsMax": 1.2500024917900603,
+        "EpMin": null,
+        "EpMax": null,
+        "UsefulDepth": 460.0128625228482,
+        "NeutralDistance": 68.36969868626373,
+        "NeutralAngle": 0.0013399551345304327
+      },
+      "tensioni_barre": [
+        249.99283849476802,
+        250.00049835801207,
+        -12.032552738695887,
+        -12.02489287545185
+      ],
+      "ConcreteVertices": [
+        {
+          "Id": "C1",
+          "X": -300,
+          "Y": -250,
+          "Stress": 0,
+          "Strain": 1.4137262320631332
+        },
+        {
+          "Id": "C2",
+          "X": 300,
+          "Y": -250,
+          "Stress": 0,
+          "Strain": 1.4137721912425976
+        },
+        {
+          "Id": "C3",
+          "X": 300,
+          "Y": 250,
+          "Stress": -7.351664418794501,
+          "Strain": -0.22388650396655216
+        },
+        {
+          "Id": "C4",
+          "X": -300,
+          "Y": 250,
+          "Stress": -7.353173560517645,
+          "Strain": -0.22393246314601647
+        }
+      ]
+    },
+    "crack": {
+      "Width": 0.41276071638765444,
+      "Limit": 0.3,
+      "Ratio": 1.3758690546255148,
+      "Passed": false,
+      "Status": "Apertura oltre limite",
+      "EffectiveArea": 75006.3143898293,
+      "EffectiveSteel": 628.3185307179587,
+      "BarSpacing": 500,
+      "SpacingSource": "Automatico geometrico",
+      "Details": [
+        {
+          "Symbol": "Verifica",
+          "Value": null,
+          "Unit": "",
+          "Expression": "Quasi permanente \u00B7 XC1 \u00B7 Poco sensibile \u00B7 durata Lunga \u00B7 aderenza Migliorata",
+          "Note": ""
+        },
+        {
+          "Symbol": "Modello",
+          "Value": null,
+          "Unit": "",
+          "Expression": "Lineare \u00B7 CLS teso: No",
+          "Note": "Tensioni e piano di deformazione provenienti da Checker; compressione negativa."
+        },
+        {
+          "Symbol": "N",
+          "Value": -1.8189894035458565E-15,
+          "Unit": "kN",
+          "Expression": "Azione negli assi Locali",
+          "Note": ""
+        },
+        {
+          "Symbol": "Mx",
+          "Value": 66.93480444180287,
+          "Unit": "kNm",
+          "Expression": "Azione della combinazione",
+          "Note": ""
+        },
+        {
+          "Symbol": "My",
+          "Value": 0,
+          "Unit": "kNm",
+          "Expression": "Azione della combinazione",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u03C6",
+          "Value": 0,
+          "Unit": "\u2212",
+          "Expression": "Coefficiente utilizzato nell\u0027analisi tensionale",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u03B3c (input)",
+          "Value": 1.5,
+          "Unit": "\u2212",
+          "Expression": "Coefficiente di materiale della sezione",
+          "Note": "Non compare direttamente nella formula wk: qui si usa fctm, non fctd."
+        },
+        {
+          "Symbol": "\u03B3s (input)",
+          "Value": 1.15,
+          "Unit": "\u2212",
+          "Expression": "Coefficiente di materiale della sezione",
+          "Note": "Non \u00E8 applicato come divisore aggiuntivo di \u03C3s nella formula wk."
+        },
+        {
+          "Symbol": "Criterio",
+          "Value": null,
+          "Unit": "",
+          "Expression": "Apertura fessure",
+          "Note": "Criterio selezionato dal codice in funzione di famiglia SLE, esposizione e sensibilit\u00E0."
+        },
+        {
+          "Symbol": "wlim",
+          "Value": 0.3,
+          "Unit": "mm",
+          "Expression": "Limite di apertura selezionato",
+          "Note": "Confronto wk \u2264 wlim"
+        },
+        {
+          "Symbol": "Barre compresse per k\u2082",
+          "Value": 2,
+          "Unit": "\u2212",
+          "Expression": "Conteggio \u03C3s \u003C 0 su tutte le armature ordinarie, anche fuori dall\u0027area efficace",
+          "Note": ""
+        },
+        {
+          "Symbol": "Barre tese per k\u2082",
+          "Value": 2,
+          "Unit": "\u2212",
+          "Expression": "Conteggio \u03C3s \u003E 0",
+          "Note": ""
+        },
+        {
+          "Symbol": "Barre a tensione nulla per k\u2082",
+          "Value": 0,
+          "Unit": "\u2212",
+          "Expression": "Conteggio \u03C3s = 0",
+          "Note": ""
+        },
+        {
+          "Symbol": "Criterio k\u2082",
+          "Value": 0.5,
+          "Unit": "\u2212",
+          "Expression": "Flessione: almeno una armatura compressa \u2192 k\u2082 = 0,50",
+          "Note": "Selezione per la combinazione corrente, dalle tensioni Checker."
+        },
+        {
+          "Symbol": "\u03B5c,min",
+          "Value": -0.00022393246314601648,
+          "Unit": "\u2212",
+          "Expression": "min \u03B5 ai vertici, prima dei criteri di applicabilit\u00E0",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u03B5c,max",
+          "Value": 0.0014137721912425975,
+          "Unit": "\u2212",
+          "Expression": "max \u03B5 ai vertici",
+          "Note": ""
+        },
+        {
+          "Symbol": "Tolleranza compressione",
+          "Value": 1E-12,
+          "Unit": "\u2212",
+          "Expression": "Se \u03B5c,max \u2264 tolleranza, wk = 0",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u03C7x",
+          "Value": 7.659863244038515E-11,
+          "Unit": "1/mm",
+          "Expression": "Componente del gradiente di deformazione restituita da Checker",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u03C7y",
+          "Value": -3.275317390418299E-06,
+          "Unit": "1/mm",
+          "Expression": "Componente del gradiente di deformazione restituita da Checker",
+          "Note": ""
+        },
+        {
+          "Symbol": "|\u2207\u03B5|",
+          "Value": 3.275317391313991E-06,
+          "Unit": "1/mm",
+          "Expression": "sqrt(\u03C7x\u00B2 \u002B \u03C7y\u00B2)",
+          "Note": ""
+        },
+        {
+          "Symbol": "qx",
+          "Value": 2.3386628924427788E-05,
+          "Unit": "\u2212",
+          "Expression": "\u03C7x / |\u2207\u03B5|",
+          "Note": ""
+        },
+        {
+          "Symbol": "qy",
+          "Value": -0.9999999997265328,
+          "Unit": "\u2212",
+          "Expression": "\u03C7y / |\u2207\u03B5|",
+          "Note": ""
+        },
+        {
+          "Symbol": "Qmax",
+          "Value": 250.00701592031052,
+          "Unit": "mm",
+          "Expression": "max(qx\u00B7x \u002B qy\u00B7y) sui vertici",
+          "Note": ""
+        },
+        {
+          "Symbol": "Qmin",
+          "Value": -250.00701592031052,
+          "Unit": "mm",
+          "Expression": "min(qx\u00B7x \u002B qy\u00B7y) sui vertici",
+          "Note": ""
+        },
+        {
+          "Symbol": "h",
+          "Value": 500.01403184062104,
+          "Unit": "mm",
+          "Expression": "Qmax \u2212 Qmin; altezza proiettata lungo il gradiente",
+          "Note": ""
+        },
+        {
+          "Symbol": "h \u2212 x",
+          "Value": 431.64433315435747,
+          "Unit": "mm",
+          "Expression": "\u03B5c,max / |\u2207\u03B5|; profondit\u00E0 tesa",
+          "Note": ""
+        },
+        {
+          "Symbol": "x",
+          "Value": 68.36969868626358,
+          "Unit": "mm",
+          "Expression": "h \u2212 profondit\u00E0 tesa; profondit\u00E0 compressa",
+          "Note": ""
+        },
+        {
+          "Symbol": "Numero barre tese",
+          "Value": 2,
+          "Unit": "\u2212",
+          "Expression": "Barre con \u03B5 \u003E 0",
+          "Note": ""
+        },
+        {
+          "Symbol": "QG,s",
+          "Value": 199.99999994530654,
+          "Unit": "mm",
+          "Expression": "\u03A3(Qi\u00B7As,i) / \u03A3As,i sulle barre tese",
+          "Note": ""
+        },
+        {
+          "Symbol": "h \u2212 d",
+          "Value": 50.00701597500398,
+          "Unit": "mm",
+          "Expression": "Qmax \u2212 QG,s",
+          "Note": ""
+        },
+        {
+          "Symbol": "d",
+          "Value": 450.00701586561706,
+          "Unit": "mm",
+          "Expression": "h \u2212 (h \u2212 d)",
+          "Note": ""
+        },
+        {
+          "Symbol": "Candidato 1 hc,eff",
+          "Value": 125.01753993750995,
+          "Unit": "mm",
+          "Expression": "2,5\u00B7(h \u2212 d)",
+          "Note": ""
+        },
+        {
+          "Symbol": "Candidato 2 hc,eff",
+          "Value": 143.88144438478582,
+          "Unit": "mm",
+          "Expression": "(h \u2212 x) / 3",
+          "Note": ""
+        },
+        {
+          "Symbol": "Candidato 3 hc,eff",
+          "Value": 250.00701592031052,
+          "Unit": "mm",
+          "Expression": "h / 2",
+          "Note": ""
+        },
+        {
+          "Symbol": "hc,eff",
+          "Value": 125.01753993750995,
+          "Unit": "mm",
+          "Expression": "min[2,5\u00B7(h \u2212 d); (h \u2212 x)/3; h/2]",
+          "Note": ""
+        },
+        {
+          "Symbol": "Qtaglio",
+          "Value": 124.98947598280057,
+          "Unit": "mm",
+          "Expression": "Qmax \u2212 hc,eff; fascia efficace Q \u2265 Qtaglio",
+          "Note": ""
+        },
+        {
+          "Symbol": "Ac,eff",
+          "Value": 75006.3143898293,
+          "Unit": "mm\u00B2",
+          "Expression": "Somma delle aree delle facce della mesh tagliata nella fascia efficace",
+          "Note": "Integrazione geometrica sulla mesh Checker."
+        },
+        {
+          "Symbol": "Numero barre efficaci",
+          "Value": 2,
+          "Unit": "\u2212",
+          "Expression": "Barre tese con Q \u2265 Qtaglio \u2212 10\u207B\u2078 mm",
+          "Note": ""
+        },
+        {
+          "Symbol": "B01 \u00B7 \u03B5",
+          "Value": 0.0012499641924738401,
+          "Unit": "\u2212",
+          "Expression": "\u03B5(x,y) dal piano Checker",
+          "Note": "Inclusa in As,eff"
+        },
+        {
+          "Symbol": "B01 \u00B7 x",
+          "Value": -250,
+          "Unit": "mm",
+          "Expression": "Coordinata della barra",
+          "Note": ""
+        },
+        {
+          "Symbol": "B01 \u00B7 y",
+          "Value": -200,
+          "Unit": "mm",
+          "Expression": "Coordinata della barra",
+          "Note": ""
+        },
+        {
+          "Symbol": "B01 \u00B7 Q",
+          "Value": 199.99415328807544,
+          "Unit": "mm",
+          "Expression": "qx\u00B7x \u002B qy\u00B7y",
+          "Note": ""
+        },
+        {
+          "Symbol": "B01 \u00B7 \u00D8",
+          "Value": 20,
+          "Unit": "mm",
+          "Expression": "Diametro della barra",
+          "Note": ""
+        },
+        {
+          "Symbol": "B01 \u00B7 As",
+          "Value": 314.1592653589793,
+          "Unit": "mm\u00B2",
+          "Expression": "Area della barra",
+          "Note": ""
+        },
+        {
+          "Symbol": "B01 \u00B7 \u03C3s",
+          "Value": 249.99283849476802,
+          "Unit": "MPa",
+          "Expression": "Tensione nativa nella barra",
+          "Note": ""
+        },
+        {
+          "Symbol": "B02 \u00B7 \u03B5",
+          "Value": 0.0012500024917900603,
+          "Unit": "\u2212",
+          "Expression": "\u03B5(x,y) dal piano Checker",
+          "Note": "Inclusa in As,eff"
+        },
+        {
+          "Symbol": "B02 \u00B7 x",
+          "Value": 250,
+          "Unit": "mm",
+          "Expression": "Coordinata della barra",
+          "Note": ""
+        },
+        {
+          "Symbol": "B02 \u00B7 y",
+          "Value": -200,
+          "Unit": "mm",
+          "Expression": "Coordinata della barra",
+          "Note": ""
+        },
+        {
+          "Symbol": "B02 \u00B7 Q",
+          "Value": 200.00584660253764,
+          "Unit": "mm",
+          "Expression": "qx\u00B7x \u002B qy\u00B7y",
+          "Note": ""
+        },
+        {
+          "Symbol": "B02 \u00B7 \u00D8",
+          "Value": 20,
+          "Unit": "mm",
+          "Expression": "Diametro della barra",
+          "Note": ""
+        },
+        {
+          "Symbol": "B02 \u00B7 As",
+          "Value": 314.1592653589793,
+          "Unit": "mm\u00B2",
+          "Expression": "Area della barra",
+          "Note": ""
+        },
+        {
+          "Symbol": "B02 \u00B7 \u03C3s",
+          "Value": 250.00049835801207,
+          "Unit": "MPa",
+          "Expression": "Tensione nativa nella barra",
+          "Note": ""
+        },
+        {
+          "Symbol": "As,eff",
+          "Value": 628.3185307179587,
+          "Unit": "mm\u00B2",
+          "Expression": "\u03A3As,i delle barre tese incluse nella fascia efficace",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u03A3\u00D8\u00B2",
+          "Value": 800,
+          "Unit": "mm\u00B2",
+          "Expression": "Somma sulle barre efficaci",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u03A3\u00D8",
+          "Value": 40,
+          "Unit": "mm",
+          "Expression": "Somma sulle barre efficaci",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u00D8eq",
+          "Value": 20,
+          "Unit": "mm",
+          "Expression": "\u03A3\u00D8\u00B2 / \u03A3\u00D8",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u03C3s",
+          "Value": 250.00049835801207,
+          "Unit": "MPa",
+          "Expression": "max \u03C3s delle barre efficaci",
+          "Note": "Si usa il massimo, non la tensione media pesata."
+        },
+        {
+          "Symbol": "c",
+          "Value": 40,
+          "Unit": "mm",
+          "Expression": "Copriferro netto \u002B \u00D8 staffa",
+          "Note": ""
+        },
+        {
+          "Symbol": "s",
+          "Value": 500,
+          "Unit": "mm",
+          "Expression": "Interasse massimo geometrico delle barre efficaci tese",
+          "Note": ""
+        },
+        {
+          "Symbol": "Ecls analisi",
+          "Value": 32836.56803133079,
+          "Unit": "MPa",
+          "Expression": "Modulo del materiale nell\u0027analisi Checker",
+          "Note": ""
+        },
+        {
+          "Symbol": "n analisi",
+          "Value": 6.090770503457345,
+          "Unit": "\u2212",
+          "Expression": "Es\u00B7(1 \u002B \u03C6) / Ecls; distinto da \u03B1e usato nella formula di fessurazione",
+          "Note": ""
+        },
+        {
+          "Symbol": "Es",
+          "Value": 200000,
+          "Unit": "MPa",
+          "Expression": "Modulo elastico della prima barra efficace",
+          "Note": ""
+        },
+        {
+          "Symbol": "Ecm",
+          "Value": 32836.56803133079,
+          "Unit": "MPa",
+          "Expression": "Modulo medio CLS usato per \u03B1e",
+          "Note": ""
+        },
+        {
+          "Symbol": "fct,eff = fctm",
+          "Value": 2.896468153816889,
+          "Unit": "MPa",
+          "Expression": "Resistenza media a trazione del materiale",
+          "Note": "Nel codice attuale non \u00E8 applicata una riduzione per l\u0027et\u00E0 di fessurazione."
+        },
+        {
+          "Symbol": "\u03C1p,eff",
+          "Value": 0.00837687514483657,
+          "Unit": "\u2212",
+          "Expression": "As,eff / Ac,eff",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u03B1e",
+          "Value": 6.090770503457345,
+          "Unit": "\u2212",
+          "Expression": "Es / Ecm",
+          "Note": "Non coincide necessariamente con n dell\u0027analisi con viscosit\u00E0."
+        },
+        {
+          "Symbol": "kt",
+          "Value": 0.4,
+          "Unit": "\u2212",
+          "Expression": "Lunga durata \u2192 0,40",
+          "Note": ""
+        },
+        {
+          "Symbol": "k\u2081",
+          "Value": 0.8,
+          "Unit": "\u2212",
+          "Expression": "Aderenza migliorata \u2192 0,80",
+          "Note": ""
+        },
+        {
+          "Symbol": "k\u2082",
+          "Value": 0.5,
+          "Unit": "\u2212",
+          "Expression": "Coefficiente della distribuzione delle deformazioni passato dal chiamante",
+          "Note": ""
+        },
+        {
+          "Symbol": "k\u2083",
+          "Value": 3.4,
+          "Unit": "\u2212",
+          "Expression": "Coefficiente del termine di copriferro",
+          "Note": ""
+        },
+        {
+          "Symbol": "k\u2084",
+          "Value": 0.425,
+          "Unit": "\u2212",
+          "Expression": "Coefficiente del termine \u00D8eq / \u03C1p,eff",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u03B2 minimo deformazione",
+          "Value": 0.6,
+          "Unit": "\u2212",
+          "Expression": "Limite inferiore = 0,60\u00B7\u03C3s/Es",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u03B2 apertura",
+          "Value": 1.7,
+          "Unit": "\u2212",
+          "Expression": "wk = 1,70\u00B7\u0394sm\u00B7(\u03B5sm \u2212 \u03B5cm)",
+          "Note": ""
+        },
+        {
+          "Symbol": "Coefficiente regione distante",
+          "Value": 0.75,
+          "Unit": "\u2212",
+          "Expression": "\u0394sm,distante = 0,75\u00B7(h \u2212 x)",
+          "Note": ""
+        },
+        {
+          "Symbol": "Coefficiente soglia interasse",
+          "Value": 5,
+          "Unit": "\u2212",
+          "Expression": "s_lim = 5\u00B7(c \u002B \u00D8eq/2)",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u03C3s (formula)",
+          "Value": 250.00049835801207,
+          "Unit": "MPa",
+          "Expression": "Tensione delle barre adottata nel calcolo",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u00D8eq (formula)",
+          "Value": 20,
+          "Unit": "mm",
+          "Expression": "Diametro equivalente delle barre efficaci",
+          "Note": ""
+        },
+        {
+          "Symbol": "c (formula)",
+          "Value": 40,
+          "Unit": "mm",
+          "Expression": "Copriferro alla superficie della barra longitudinale",
+          "Note": ""
+        },
+        {
+          "Symbol": "s (formula)",
+          "Value": 500,
+          "Unit": "mm",
+          "Expression": "Interasse massimo adottato",
+          "Note": ""
+        },
+        {
+          "Symbol": "h \u2212 x (formula)",
+          "Value": 431.64433315435747,
+          "Unit": "mm",
+          "Expression": "Profondit\u00E0 della zona tesa",
+          "Note": ""
+        },
+        {
+          "Symbol": "1 \u002B \u03B1e\u00B7\u03C1p,eff",
+          "Value": 1.0510216240433157,
+          "Unit": "\u2212",
+          "Expression": "Fattore di interazione CLS/armatura",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u0394\u03C3 tension stiffening",
+          "Value": 145.36449978681222,
+          "Unit": "MPa",
+          "Expression": "kt\u00B7fct,eff/\u03C1p,eff\u00B7(1 \u002B \u03B1e\u00B7\u03C1p,eff)",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u0394\u03B5 calcolata",
+          "Value": 0.0005231799928559993,
+          "Unit": "\u2212",
+          "Expression": "(\u03C3s \u2212 \u0394\u03C3) / Es",
+          "Note": "(250,0004984 \u2212 145,3644998) / 200000"
+        },
+        {
+          "Symbol": "\u0394\u03B5 minima",
+          "Value": 0.0007500014950740362,
+          "Unit": "\u2212",
+          "Expression": "0,60\u00B7\u03C3s / Es",
+          "Note": "0,60 \u00D7 250,0004984 / 200000"
+        },
+        {
+          "Symbol": "\u03B5sm \u2212 \u03B5cm",
+          "Value": 0.0007500014950740362,
+          "Unit": "\u2212",
+          "Expression": "max(\u0394\u03B5 calcolata; \u0394\u03B5 minima)",
+          "Note": "Governa il minimo 0,60\u00B7\u03C3s/Es."
+        },
+        {
+          "Symbol": "Termine copriferro",
+          "Value": 136,
+          "Unit": "mm",
+          "Expression": "k\u2083\u00B7c",
+          "Note": ""
+        },
+        {
+          "Symbol": "Termine armatura",
+          "Value": 405.8792737403672,
+          "Unit": "mm",
+          "Expression": "k\u2081\u00B7k\u2082\u00B7k\u2084\u00B7\u00D8eq / \u03C1p,eff",
+          "Note": ""
+        },
+        {
+          "Symbol": "\u0394sm,vicino",
+          "Value": 318.75251396492183,
+          "Unit": "mm",
+          "Expression": "(k\u2083\u00B7c \u002B k\u2081\u00B7k\u2082\u00B7k\u2084\u00B7\u00D8eq/\u03C1p,eff) / 1,70",
+          "Note": "Il divisore 1,70 converte questo termine in distanza media nel percorso di calcolo attuale."
+        },
+        {
+          "Symbol": "s_lim",
+          "Value": 250,
+          "Unit": "mm",
+          "Expression": "5\u00B7(c \u002B \u00D8eq/2)",
+          "Note": ""
+        },
+        {
+          "Symbol": "s \u2212 s_lim",
+          "Value": 250,
+          "Unit": "mm",
+          "Expression": "Differenza usata per scegliere il ramo",
+          "Note": "s \u003E s_lim: si confrontano regione vicina e regione distante."
+        },
+        {
+          "Symbol": "\u0394sm,distante",
+          "Value": 323.73324986576813,
+          "Unit": "mm",
+          "Expression": "0,75\u00B7(h \u2212 x)",
+          "Note": "Candidato nel ramo di barre distanziate."
+        },
+        {
+          "Symbol": "\u0394sm adottata",
+          "Value": 323.73324986576813,
+          "Unit": "mm",
+          "Expression": "max(\u0394sm,vicino; \u0394sm,distante)",
+          "Note": "Governa regione distante dalle barre."
+        },
+        {
+          "Symbol": "wk",
+          "Value": 0.41276071638765444,
+          "Unit": "mm",
+          "Expression": "max[0; 1,70\u00B7\u0394sm\u00B7(\u03B5sm \u2212 \u03B5cm)]",
+          "Note": "max[0; 1,70 \u00D7 323,7332499 \u00D7 0,0007500014951]"
+        },
+        {
+          "Symbol": "\u03B7w",
+          "Value": 1.3758690546255148,
+          "Unit": "\u2212",
+          "Expression": "wk / wlim",
+          "Note": ""
+        }
+      ]
+    }
+  },
+  {
+    "id": "TX-01",
+    "actual": {
+      "VRsd": 107.70470427973652,
+      "VRcd": 99.98209208734559,
+      "VRd": 107.70470427973652,
+      "Ratio": 0.46423227596574873,
+      "CotTheta": 0,
+      "Status": "Resistenza sufficiente \u00B7 dettagli da verificare"
+    }
+  },
+  {
+    "id": "TX-02",
+    "actual": {
+      "VRsd": 118.01461098702528,
+      "VRcd": 427.5,
+      "VRd": 118.01461098702528,
+      "Ratio": 0.8473527062762946,
+      "CotTheta": 2,
+      "Status": "Resistenza sufficiente \u00B7 dettagli da verificare"
+    }
+  },
+  {
+    "id": "TY-01",
+    "actual": {
+      "VRsd": 105.51589554727231,
+      "VRcd": 96.18465901844063,
+      "VRd": 105.51589554727231,
+      "Ratio": 0.4738622530820433,
+      "CotTheta": 0,
+      "Status": "Resistenza sufficiente \u00B7 dettagli da verificare"
+    }
+  },
+  {
+    "id": "TY-02",
+    "actual": {
+      "VRsd": 212.42629977664552,
+      "VRcd": 461.7,
+      "VRd": 212.42629977664552,
+      "Ratio": 0.8473527062762946,
+      "CotTheta": 2,
+      "Status": "Resistenza sufficiente \u00B7 dettagli da verificare"
+    }
+  }
+]

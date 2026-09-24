@@ -93,7 +93,10 @@ public readonly record struct ActionPoint(double N, double Mx, double My)
     public ActionPoint Cross(ActionPoint b) => new(Mx * b.My - My * b.Mx, My * b.N - N * b.My, N * b.Mx - Mx * b.N);
     public double Length => Math.Sqrt(Dot(this));
 }
-public sealed record DomainCheck(double? Utilization, ActionPoint? Resistance, string Status, SectionResponse? Response = null);
+public sealed record DomainCheck(double? Utilization, ActionPoint? Resistance, string Status, SectionResponse? Response = null)
+{
+    [System.Text.Json.Serialization.JsonIgnore] public Lazy<CheckerStressState>? LimitState { get; init; }
+}
 public sealed record DomainSegment(ActionPoint A, ActionPoint B);
 
 /// <summary>Display-only geometry from Checker; no ANTHEA resistance algorithm.</summary>

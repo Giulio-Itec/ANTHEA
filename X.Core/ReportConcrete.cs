@@ -9,7 +9,7 @@ namespace X.Core;
 /// <summary>DOCX of the current Checker results; no analysis or rounding of stored data occurs here.</summary>
 public static class ReportConcrete
 {
-    public static readonly (string Key, string Label)[] Sections = [("geometria", "Input: geometria, armature, staffe e trefoli"), ("materiali", "Materiali"), ("coefficienti", "Coefficienti normativi e modifiche"), ("azioni", "Tutte le sollecitazioni"), ("dominio3d", "Verifiche dominio 3D"), ("dominio2d", "Verifiche dominio 2D"), ("SLE", "SLE rara"), ("SLE_FREQ", "SLE frequente"), ("SLE_QP", "SLE quasi permanente"), ("taglio", "Verifiche a taglio"), ("sle_tutte", "SLE: stampa tutte le combinazioni (anziché inviluppo)"), ("dettagli", "Dettagli tensioni e deformazioni di barre e vertici"), ("grafici", "Grafici nelle rispettive sezioni")];
+    public static readonly (string Key, string Label)[] Sections = [("geometria", "Input: geometria, armature, staffe e trefoli"), ("materiali", "Materiali"), ("coefficienti", "Coefficienti normativi e modifiche"), ("azioni", "Tutte le sollecitazioni"), ("dominio3d", "Verifiche dominio 3D"), ("dominio2d", "Verifiche dominio 2D"), ("SLE", "SLE rara"), ("SLE_FREQ", "SLE frequente"), ("SLE_QP", "SLE quasi permanente"), ("taglio", "Verifiche a taglio e torsione"), ("costruttivi", "Dettagli costruttivi e ancoraggi"), ("curvatura", "Momento–curvatura"), ("sle_tutte", "SLE: stampa tutte le combinazioni (anziché inviluppo)"), ("dettagli", "Dettagli tensioni e deformazioni di barre e vertici"), ("grafici", "Grafici nelle rispettive sezioni")];
     public sealed record EnvelopeValue(string Label, string Id, double Value);
     public static KeyValuePair<string, JsonNode?>? Governing(JsonObject rows, bool cracking)
     {
@@ -73,7 +73,7 @@ public static class ReportConcrete
         P("Normativa selezionata: " + settings.S("normativa") + ". Motore GPC Checker collegato tramite DLL. Compressione negativa; geometria in mm, tensioni in MPa, deformazioni in ‰, azioni N e V in kN, momenti in kNm. Arrotondamenti solo di presentazione.");
         P(ConcreteStandards.Note(settings.S("normativa")));
         P("Questo report non attesta una verifica normativa completa. La presenza di un dominio o di tensioni calcolate non implica la conformità delle altre verifiche. I filtri e le opzioni grafiche non escludono combinazioni dai calcoli. Leggere gli esiti non determinati, fuori piano e non implementati.");
-        P("Taglio: modello NTC per sezioni rettangolari/a T non precompresse; torsione, interazione biassiale e gerarchia sismica escluse. Circolare, spirale e generica richiedono un modello dedicato. Fessurazione: limiti di applicabilità riportati per combinazione; nessun esito sostitutivo nei casi non supportati.");
+        P("Taglio NTC nelle due direzioni; per le circolari il modello e i parametri sono espliciti. Torsione su profilo periferico rettangolare o circolare, pieno o cavo, con staffe chiuse. Per Vx+Vy+T si sommano conservativamente i contributi sul calcestruzzo. Dettagli del capitolo 4 e integrazioni EC2; gerarchia sismica e verifiche locali degli appoggi richiedono il modello dell’elemento. Fessurazione solo lineare, comprese le sezioni interamente tese; leggere i limiti per combinazione.");
         if (!string.IsNullOrWhiteSpace(settings.S("nota"))) P("Nota del foglio: " + settings.S("nota"));
         if (result["errori_calcolo"] is JsonObject errors) foreach (var (key, value) in errors) P("Calcolo non disponibile — " + key + ": " + value);
         if (!includeInputs && options.Contains("geometria")) Figures("geometria");
@@ -82,9 +82,11 @@ public static class ReportConcrete
             Heading("Input");
             Parameters("Geometria della sezione", input, new (string, string)[] { ("shape", "Forma"), ("diameter_mm", "D [mm]"), ("width_mm", "b [mm]"), ("height_mm", "h [mm]"), ("flange_width_mm", "bf [mm]"), ("web_width_mm", "bw [mm]"), ("flange_thickness_mm", "hf [mm]"), ("cover_mm", "Copriferro netto [mm]") }.Where(f => f.Item1 switch { "diameter_mm" => input.S("shape") == "Circolare", "width_mm" => input.S("shape") == "Rettangolare", "height_mm" => input.S("shape") != "Circolare", "flange_width_mm" or "web_width_mm" or "flange_thickness_mm" => input.S("shape") == "A T", _ => true }).ToArray());
             var geometry = new SezioneCA(input.AsObject());
+            if(geometry.Shape=="Circolare")P($"Discretizzazione circolare: {geometry.CircularSides} lati per contorno, compreso l’eventuale foro. Poligoni inscritti nelle circonferenze assegnate.");
+            if(input.B("foro_presente"))Parameters("Foro centrale",input,input.S("shape")=="Circolare"?[("inner_diameter_mm","Diametro interno [mm]")]:[("inner_width_mm","Larghezza interna [mm]"),("inner_height_mm","Altezza interna [mm]")]);
             Figures("geometria");
             Subheading("Armature longitudinali"); Table(["ID", "x [mm]", "y [mm]", "Ø [mm]"], geometry.Bars.Select((b, i) => new[] { "B" + (i + 1).ToString("D2"), EngineeringFormat.Number(b.X), EngineeringFormat.Number(b.Y), EngineeringFormat.Number(b.Diametro) }));
-            Parameters("Staffe", input, [("transverse_bar_diameter_mm", "Ø [mm]"), ("transverse_spacing_mm", "Passo [mm]")]);
+            Parameters("Staffe", input, [("staffe_presenti","Presenti"),("transverse_bar_diameter_mm", "Ø [mm]"), ("transverse_spacing_mm", "Passo [mm]")]);
             if (settings["taglio"] is JsonObject stirrups) Table(["Parametro", "Valore"], new[] { "tipo_staffa", "rami_x", "rami_y", "rami_interni" }.Select(k => new[] { k.Replace('_', ' '), stirrups.S(k) }));
             if (settings.Array("trefoli").Count > 0) { Subheading("Trefoli"); Table(["ID", "x [mm]", "y [mm]", "Ap [mm²]", "σp0 [MPa]"], settings.Array("trefoli").Select(t => new[] { t.S("id"), F(t?["x"]), F(t?["y"]), F(t?["area"]), F(t?["sigma0"]) })); }
         }
@@ -107,7 +109,7 @@ public static class ReportConcrete
             Heading("Sollecitazioni");
             foreach (string family in SectionWorkspace.Sets)
             { Subheading(SectionWorkspace.Label(family)); Table(["Combinazione", "N [kN]", "Mx [kNm]", "My [kNm]"], data["combinazioni"]!.Array(family).Select(c => new[] { c.S("nome"), F(c!.Array("azioni").ElementAtOrDefault(0)), F(c.Array("azioni").ElementAtOrDefault(1)), F(c.Array("azioni").ElementAtOrDefault(2)) })); }
-            Subheading("Taglio"); Table(["Combinazione", "N [kN]", "Vx [kN]", "Vy [kN]"], settings["taglio"].Array("azioni").Select(c => new[] { c.S("nome"), F(c?["N"]), F(c?["Vx"]), F(c?["Vy"]) }));
+            Subheading("Taglio e torsione"); Table(["Combinazione", "N [kN]", "Vx [kN]", "Vy [kN]", "T [kNm]"], settings["taglio"].Array("azioni").Select(c => new[] { c.S("nome"), F(c?["N"]), F(c?["Vx"]), F(c?["Vy"]), F(c?["T"]) }));
         }
         foreach (string dimension in new[] { "3D", "2D" }) if (options.Contains("dominio" + dimension.ToLowerInvariant()))
         {
@@ -192,7 +194,27 @@ public static class ReportConcrete
                 rows.Add([action.S("nome") + " · " + axis, F(action?["N"]), F(action?["V" + axis]), F(check?["VRd"]), F(check?["Ratio"]), check.S("Status", "Non calcolata / modello non supportato o dati incompleti")]);
             }
             Table(["Combinazione", "N [kN]", "VEd [kN]", "VRd [kN]", "η [-]", "Esito"], rows);
+            Parameters("Torsione e modello circolare",shear,[("modello_circolare","Modello circolare"),("parametri","Parametri geometrici"),("z_d","z/d assegnato (modello manuale)"),("cot_torsione","cot θ comune"),("as_torsione","As,l disponibile [mm²]"),("chiusura_torsione","Configurazione resistente confermata")]);
+            P("Modello pile NTC §7.9.5.2: z/d = 0,75 per piena, 0,60 per cava. Torsione: TRcd = 2 Ak t (0,5 fcd) cot θ/(1+cot²θ); TRsd = 2 Ak (Asta/s) fyd cot θ; TRld = 2 Ak (As,l/uk) fyd/cot θ. As,l aggiuntiva rispetto alla pressoflessione.");
+            Table(["Combinazione","TRd [kNm]","ηT","ηc,V+T","ηs,V+T","Esito"],shear.Array("azioni").Where(a=>J.Number(a?["T"]) is double t&&t!=0).Select(a=>{var t=result["torsione"]?[a.S("id")];return new[]{a.S("nome"),F(t?["TRd"]),F(t?["TorsionRatio"]),F(t?["ConcreteCombinedRatio"]),F(t?["SteelCombinedRatio"]),t.S("Status","Non calcolata / dati incompleti")};}));
+            foreach(var item in (result["torsione"] as JsonObject??new()))
+            {var t=item.Value;P($"{shear.Array("azioni").FirstOrDefault(a=>a.S("id")==item.Key).S("nome",item.Key)}: Ak = {F(t?["Geometry"]?["Area"])} mm²; uk = {F(t?["Geometry"]?["Perimeter"])} mm; t = {F(t?["Geometry"]?["Thickness"])} mm; As,l richiesta = {F(t?["RequiredLongitudinalArea"])} mm².");}
             Figures("taglio");
+        }
+        if(options.Contains("costruttivi"))
+        {
+            Heading("Dettagli costruttivi e ancoraggi");
+            foreach(string line in result.S("dettagli_esito","Controlli non disponibili.").Split('\n',StringSplitOptions.RemoveEmptyEntries))P(line.TrimEnd('\r'));
+            Subheading("Ancoraggi e giunzioni");
+            foreach(string line in result.S("ancoraggio_esito","Ancoraggio non calcolato.").Split('\n',StringSplitOptions.RemoveEmptyEntries))P(line.TrimEnd('\r'));
+        }
+        if(options.Contains("curvatura"))
+        {
+            Heading("Diagramma momento–curvatura");
+            if(settings["momento_curvatura"] is JsonObject curveOptions)Parameters("Percorso di carico",curveOptions,[("N","N costante [kN]"),("theta","Direzione momento [°]"),("passi","Passi"),("frazione","Frazione di MRd"),("campionamento","Campionamento"),("trazione_cls","CLS a trazione")]);
+            if(result["momento_curvatura"] is JsonObject curve)
+            {P(curve.S("Status"));P($"MRd = {F(curve["LimitMoment"])} kNm; χy = {F(curve["YieldCurvature"])} 1/m; χu = {F(curve["UltimateCurvature"])} 1/m.");Figures("curvatura");Table(["M [kNm]","χ [1/m]","ε0 [‰]","εc,comp [‰]","|εs|max [‰]"],curve.Array("Points").Select(p=>new[]{F(p?["Moment"]),F(p?["Curvature"]),F(p?["Epsilon0"]),F(p?["ConcreteCompressionStrain"]),F(p?["SteelStrain"])}));}
+            else P("Curva non calcolata con i dati correnti.");
         }
         void Figures(string category)
         {

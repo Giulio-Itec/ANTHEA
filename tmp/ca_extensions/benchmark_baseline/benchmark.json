@@ -1,0 +1,3204 @@
+{
+  "Schema": 1,
+  "Utc": "2026-09-24T12:34:18.9152043Z",
+  "Runtime": ".NET 8.0.31",
+  "OS": "Microsoft Windows 10.0.26200",
+  "Architecture": "X64",
+  "LogicalProcessors": 24,
+  "Notes": "Tempi di processo senza UI; eseguire su stessa macchina senza altri calcoli. Run 0: primo uso del caso, non processo freddo indipendente. Allocazioni complessive del processo, incluse attività native gestite. Checksum diagnostico, non validazione ingegneristica.",
+  "Libraries": [
+    {
+      "File": "ANTHEA.Core.dll",
+      "Version": "1.0.0.0",
+      "Sha256": "A0D1EF36EF797377DA2EB1B8807F3FEE4BAFFB3B98A18ABB1F8FC3A64135AF2E"
+    },
+    {
+      "File": "ANTHEA.Verifiche.dll",
+      "Version": "1.0.0.0",
+      "Sha256": "D6DF3E7E079EC5E001AD928DEF3E7A841AA815A28A6B9E73ED2F7E9F600DE3EC"
+    },
+    {
+      "File": "DelaunayMesh.dll",
+      "Version": "2.0.0.3",
+      "Sha256": "8786BE9CADE77E538ECBC67EE0BB67E1CDD73942DE55D6B02D1B80DE7DF76802"
+    },
+    {
+      "File": "GMsh.Net.dll",
+      "Version": "1.4.13.1",
+      "Sha256": "99F722DEE4BA39161FCCBC6A0E7A2ABE3453CEDEED2D051AEA3E2BE8A08718DD"
+    },
+    {
+      "File": "GPCChecker.Concrete.dll",
+      "Version": "0.0.12.1",
+      "Sha256": "07B33D8773594F04F0B04D29AFECE5BBB2050445254C4E215F9115FFF7324F8B"
+    },
+    {
+      "File": "GPCGeometry.dll",
+      "Version": "2.0.1.9",
+      "Sha256": "5E1B11436D334BF514559D5E1608D107DF03C32E4C85B77800E8BBEF8303FC5B"
+    },
+    {
+      "File": "GPCModel.dll",
+      "Version": "1.1.0.2",
+      "Sha256": "836BB2E9475187893AF98380E446F0A327E67751A3E8B26BC76FEE0711D877C2"
+    },
+    {
+      "File": "GPCModelData.dll",
+      "Version": "0.0.1.10",
+      "Sha256": "B552F1A2747E570991A76AA3B43B3885B2A6100991B66178E078D98ED2A946E5"
+    },
+    {
+      "File": "GPCUtilities.dll",
+      "Version": "2.0.0.5",
+      "Sha256": "869DDCC73EF30C3328FDE6687F6123492C2706F494FF2C494CBD1F9B2BFC6348"
+    },
+    {
+      "File": "MathNet.Numerics.dll",
+      "Version": "5.0.0.0",
+      "Sha256": "83B41A608E438409D6520D01124F52F57409E229791C0E074E315ACE7D9F4134"
+    },
+    {
+      "File": "UnsafeEx.dll",
+      "Version": "1.0.0.0",
+      "Sha256": "F9753B51AE9FDEE7C9EEF96CD6EF08AF589C1E20F23A7D2D43AA82DAC06ACA89"
+    }
+  ],
+  "Cases": {
+    "rettangolare": {
+      "input": {
+        "shape": "Rettangolare",
+        "diameter_mm": "1000",
+        "width_mm": "600",
+        "height_mm": "800",
+        "flange_width_mm": "1200",
+        "web_width_mm": "400",
+        "flange_thickness_mm": "250",
+        "cover_mm": "70",
+        "longitudinal_bar_count": "16",
+        "longitudinal_bar_diameter_mm": "24",
+        "top_bar_count": "4",
+        "top_bar_diameter_mm": "20",
+        "bottom_bar_count": "6",
+        "bottom_bar_diameter_mm": "24",
+        "side_bar_count_per_side": "2",
+        "side_bar_diameter_mm": "16",
+        "transverse_bar_diameter_mm": "10",
+        "transverse_spacing_mm": "200",
+        "apply_pile_requirements": false,
+        "dissipative_zone": false,
+        "fck_mpa": 35,
+        "fyk_mpa": 450,
+        "alpha_cc": "0.85",
+        "gamma_c": "1.50",
+        "gamma_s": "1.15",
+        "steel_modulus_mpa": 200000,
+        "axial_force_kn": "-2500",
+        "moment_x_knm": "500",
+        "moment_y_knm": "250",
+        "apply_minimum_eccentricity": false,
+        "minimum_eccentricity_mm": "0",
+        "classe_cls": "C35/45",
+        "n": "",
+        "materiale_cls_nome": "C35/45",
+        "cls_diagramma": "Parabola-rettangolo",
+        "classe_acciaio": "B450C",
+        "materiale_acciaio_nome": "B450C",
+        "steel_fu_mpa": 540,
+        "steel_eps_u": 75,
+        "steel_diagramma": "Elastoplastico",
+        "gettato_sottile": "No",
+        "foro_presente": false,
+        "inner_width_mm": "200",
+        "inner_height_mm": "300",
+        "inner_diameter_mm": "500"
+      },
+      "workspace": {
+        "versione": 2,
+        "normativa": "NTC 2018",
+        "nota": "",
+        "tab": 0,
+        "dominio3d": {
+          "stato": "SLU",
+          "angoli": "32",
+          "criterio": "N costante",
+          "filtro": "Tutte",
+          "strategia": "Iterativo",
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "proietta": "No",
+          "interpolazione": "Quadratica",
+          "suddivisioni_n": "50"
+        },
+        "dominio2d": {
+          "stato": "SLU",
+          "tipo": "Mx–My",
+          "theta": "0",
+          "N": "-1000",
+          "filtro": "Tutte",
+          "angoli": "64",
+          "strategia": "Iterativo",
+          "criterio": "N costante",
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "proietta": "No",
+          "interpolazione": "Quadratica",
+          "suddivisioni_n": "50"
+        },
+        "trefoli": [],
+        "sle": {
+          "SLE": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": "",
+            "n_armature": null,
+            "n_trefoli": null
+          },
+          "SLE_FREQ": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": "",
+            "n_armature": null,
+            "n_trefoli": null
+          },
+          "SLE_QP": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": "",
+            "n_armature": null,
+            "n_trefoli": null
+          }
+        },
+        "convenzione": "N negativo a compressione",
+        "migrazione_segni": "N convertito dalla precedente convenzione ANTHEA; momenti invariati",
+        "sle_precedenti_unificazione": {
+          "SLE": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": ""
+          },
+          "SLE_FREQ": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": ""
+          },
+          "SLE_QP": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": ""
+          }
+        },
+        "sle_comuni": {
+          "modello": "Lineare",
+          "phi": "0",
+          "phi_trefoli": "0",
+          "n_armature": null,
+          "n_trefoli": null,
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "esposizione": "Da scegliere",
+          "sensibilita": "Poco sensibile",
+          "durata": "Lunga",
+          "aderenza": "Migliorata",
+          "copriferro_fessure": "",
+          "spaziatura_fessure": ""
+        }
+      },
+      "options": {
+        "stato": "SLU",
+        "angoli": "32",
+        "criterio": "N costante",
+        "filtro": "Tutte",
+        "strategia": "Iterativo",
+        "trazione_cls": "No",
+        "assi": "Locali",
+        "origine_x": "0",
+        "origine_y": "0",
+        "rotazione": "0",
+        "proietta": "No",
+        "interpolazione": "Quadratica",
+        "suddivisioni_n": "50"
+      },
+      "actions": [
+        {
+          "N": -300,
+          "Mx": 60,
+          "My": 20,
+          "Length": 306.59419433511783
+        },
+        {
+          "N": -320,
+          "Mx": 63,
+          "My": 22,
+          "Length": 326.8837713928301
+        },
+        {
+          "N": -340,
+          "Mx": 66,
+          "My": 24,
+          "Length": 347.177188190699
+        },
+        {
+          "N": -360,
+          "Mx": 69,
+          "My": 26,
+          "Length": 367.4738085904899
+        },
+        {
+          "N": -380,
+          "Mx": 72,
+          "My": 28,
+          "Length": 387.77312954870916
+        },
+        {
+          "N": -400,
+          "Mx": 75,
+          "My": 30,
+          "Length": 408.0747480548141
+        },
+        {
+          "N": -420,
+          "Mx": 78,
+          "My": 32,
+          "Length": 428.37833745417146
+        },
+        {
+          "N": -440,
+          "Mx": 81,
+          "My": 34,
+          "Length": 448.68363018946883
+        },
+        {
+          "N": -460,
+          "Mx": 84,
+          "My": 36,
+          "Length": 468.9904050191219
+        },
+        {
+          "N": -480,
+          "Mx": 87,
+          "My": 38,
+          "Length": 489.2984774143488
+        },
+        {
+          "N": -500,
+          "Mx": 90,
+          "My": 40,
+          "Length": 509.6076922496363
+        },
+        {
+          "N": -520,
+          "Mx": 93,
+          "My": 42,
+          "Length": 529.9179181722392
+        },
+        {
+          "N": -540,
+          "Mx": 96,
+          "My": 44,
+          "Length": 550.2290432174586
+        },
+        {
+          "N": -560,
+          "Mx": 99,
+          "My": 46,
+          "Length": 570.5409713596387
+        },
+        {
+          "N": -580,
+          "Mx": 102,
+          "My": 48,
+          "Length": 590.8536197739674
+        },
+        {
+          "N": -600,
+          "Mx": 105,
+          "My": 50,
+          "Length": 611.1669166438903
+        },
+        {
+          "N": -620,
+          "Mx": 108,
+          "My": 52,
+          "Length": 631.4807993913987
+        },
+        {
+          "N": -640,
+          "Mx": 111,
+          "My": 54,
+          "Length": 651.795213238023
+        },
+        {
+          "N": -660,
+          "Mx": 114,
+          "My": 56,
+          "Length": 672.1101100266235
+        },
+        {
+          "N": -680,
+          "Mx": 117,
+          "My": 58,
+          "Length": 692.4254472504604
+        },
+        {
+          "N": -700,
+          "Mx": 120,
+          "My": 60,
+          "Length": 712.7411872482185
+        },
+        {
+          "N": -720,
+          "Mx": 123,
+          "My": 62,
+          "Length": 733.0572965328154
+        },
+        {
+          "N": -740,
+          "Mx": 126,
+          "My": 64,
+          "Length": 753.3737452287543
+        },
+        {
+          "N": -760,
+          "Mx": 129,
+          "My": 66,
+          "Length": 773.6905065980841
+        }
+      ],
+      "sleActions": [
+        {
+          "N": 200,
+          "Mx": 0,
+          "My": 0,
+          "Length": 200
+        },
+        {
+          "N": 205,
+          "Mx": 0,
+          "My": 0,
+          "Length": 205
+        },
+        {
+          "N": 210,
+          "Mx": 0,
+          "My": 0,
+          "Length": 210
+        },
+        {
+          "N": 215,
+          "Mx": 0,
+          "My": 0,
+          "Length": 215
+        },
+        {
+          "N": 220,
+          "Mx": 0,
+          "My": 0,
+          "Length": 220
+        },
+        {
+          "N": 225,
+          "Mx": 0,
+          "My": 0,
+          "Length": 225
+        },
+        {
+          "N": 230,
+          "Mx": 0,
+          "My": 0,
+          "Length": 230
+        },
+        {
+          "N": 235,
+          "Mx": 0,
+          "My": 0,
+          "Length": 235
+        },
+        {
+          "N": 240,
+          "Mx": 0,
+          "My": 0,
+          "Length": 240
+        },
+        {
+          "N": 245,
+          "Mx": 0,
+          "My": 0,
+          "Length": 245
+        },
+        {
+          "N": 250,
+          "Mx": 0,
+          "My": 0,
+          "Length": 250
+        },
+        {
+          "N": 255,
+          "Mx": 0,
+          "My": 0,
+          "Length": 255
+        },
+        {
+          "N": 260,
+          "Mx": 0,
+          "My": 0,
+          "Length": 260
+        },
+        {
+          "N": 265,
+          "Mx": 0,
+          "My": 0,
+          "Length": 265
+        },
+        {
+          "N": 270,
+          "Mx": 0,
+          "My": 0,
+          "Length": 270
+        },
+        {
+          "N": 275,
+          "Mx": 0,
+          "My": 0,
+          "Length": 275
+        },
+        {
+          "N": 280,
+          "Mx": 0,
+          "My": 0,
+          "Length": 280
+        },
+        {
+          "N": 285,
+          "Mx": 0,
+          "My": 0,
+          "Length": 285
+        },
+        {
+          "N": 290,
+          "Mx": 0,
+          "My": 0,
+          "Length": 290
+        },
+        {
+          "N": 295,
+          "Mx": 0,
+          "My": 0,
+          "Length": 295
+        },
+        {
+          "N": 300,
+          "Mx": 0,
+          "My": 0,
+          "Length": 300
+        },
+        {
+          "N": 305,
+          "Mx": 0,
+          "My": 0,
+          "Length": 305
+        },
+        {
+          "N": 310,
+          "Mx": 0,
+          "My": 0,
+          "Length": 310
+        },
+        {
+          "N": 315,
+          "Mx": 0,
+          "My": 0,
+          "Length": 315
+        }
+      ],
+      "curva": {
+        "AxialKn": -500,
+        "DirectionDegrees": 0,
+        "Steps": 30,
+        "EndFraction": 0.95,
+        "QuadraticSampling": true,
+        "AxialToleranceKn": 1,
+        "YieldRefinementSteps": 12
+      }
+    },
+    "rettangolare_cava": {
+      "input": {
+        "shape": "Rettangolare",
+        "diameter_mm": "1000",
+        "width_mm": "600",
+        "height_mm": "800",
+        "flange_width_mm": "1200",
+        "web_width_mm": "400",
+        "flange_thickness_mm": "250",
+        "cover_mm": "70",
+        "longitudinal_bar_count": "16",
+        "longitudinal_bar_diameter_mm": "24",
+        "top_bar_count": "4",
+        "top_bar_diameter_mm": "20",
+        "bottom_bar_count": "6",
+        "bottom_bar_diameter_mm": "24",
+        "side_bar_count_per_side": "2",
+        "side_bar_diameter_mm": "16",
+        "transverse_bar_diameter_mm": "10",
+        "transverse_spacing_mm": "200",
+        "apply_pile_requirements": false,
+        "dissipative_zone": false,
+        "fck_mpa": 35,
+        "fyk_mpa": 450,
+        "alpha_cc": "0.85",
+        "gamma_c": "1.50",
+        "gamma_s": "1.15",
+        "steel_modulus_mpa": 200000,
+        "axial_force_kn": "-2500",
+        "moment_x_knm": "500",
+        "moment_y_knm": "250",
+        "apply_minimum_eccentricity": false,
+        "minimum_eccentricity_mm": "0",
+        "classe_cls": "C35/45",
+        "n": "",
+        "materiale_cls_nome": "C35/45",
+        "cls_diagramma": "Parabola-rettangolo",
+        "classe_acciaio": "B450C",
+        "materiale_acciaio_nome": "B450C",
+        "steel_fu_mpa": 540,
+        "steel_eps_u": 75,
+        "steel_diagramma": "Elastoplastico",
+        "gettato_sottile": "No",
+        "foro_presente": true,
+        "inner_width_mm": "200",
+        "inner_height_mm": "300",
+        "inner_diameter_mm": "500"
+      },
+      "workspace": {
+        "versione": 2,
+        "normativa": "NTC 2018",
+        "nota": "",
+        "tab": 0,
+        "dominio3d": {
+          "stato": "SLU",
+          "angoli": "32",
+          "criterio": "N costante",
+          "filtro": "Tutte",
+          "strategia": "Iterativo",
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "proietta": "No",
+          "interpolazione": "Quadratica",
+          "suddivisioni_n": "50"
+        },
+        "dominio2d": {
+          "stato": "SLU",
+          "tipo": "Mx–My",
+          "theta": "0",
+          "N": "-1000",
+          "filtro": "Tutte",
+          "angoli": "64",
+          "strategia": "Iterativo",
+          "criterio": "N costante",
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "proietta": "No",
+          "interpolazione": "Quadratica",
+          "suddivisioni_n": "50"
+        },
+        "trefoli": [],
+        "sle": {
+          "SLE": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": "",
+            "n_armature": null,
+            "n_trefoli": null
+          },
+          "SLE_FREQ": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": "",
+            "n_armature": null,
+            "n_trefoli": null
+          },
+          "SLE_QP": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": "",
+            "n_armature": null,
+            "n_trefoli": null
+          }
+        },
+        "convenzione": "N negativo a compressione",
+        "migrazione_segni": "N convertito dalla precedente convenzione ANTHEA; momenti invariati",
+        "sle_precedenti_unificazione": {
+          "SLE": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": ""
+          },
+          "SLE_FREQ": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": ""
+          },
+          "SLE_QP": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": ""
+          }
+        },
+        "sle_comuni": {
+          "modello": "Lineare",
+          "phi": "0",
+          "phi_trefoli": "0",
+          "n_armature": null,
+          "n_trefoli": null,
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "esposizione": "Da scegliere",
+          "sensibilita": "Poco sensibile",
+          "durata": "Lunga",
+          "aderenza": "Migliorata",
+          "copriferro_fessure": "",
+          "spaziatura_fessure": ""
+        }
+      },
+      "options": {
+        "stato": "SLU",
+        "angoli": "32",
+        "criterio": "N costante",
+        "filtro": "Tutte",
+        "strategia": "Iterativo",
+        "trazione_cls": "No",
+        "assi": "Locali",
+        "origine_x": "0",
+        "origine_y": "0",
+        "rotazione": "0",
+        "proietta": "No",
+        "interpolazione": "Quadratica",
+        "suddivisioni_n": "50"
+      },
+      "actions": [
+        {
+          "N": -300,
+          "Mx": 60,
+          "My": 20,
+          "Length": 306.59419433511783
+        },
+        {
+          "N": -320,
+          "Mx": 63,
+          "My": 22,
+          "Length": 326.8837713928301
+        },
+        {
+          "N": -340,
+          "Mx": 66,
+          "My": 24,
+          "Length": 347.177188190699
+        },
+        {
+          "N": -360,
+          "Mx": 69,
+          "My": 26,
+          "Length": 367.4738085904899
+        },
+        {
+          "N": -380,
+          "Mx": 72,
+          "My": 28,
+          "Length": 387.77312954870916
+        },
+        {
+          "N": -400,
+          "Mx": 75,
+          "My": 30,
+          "Length": 408.0747480548141
+        },
+        {
+          "N": -420,
+          "Mx": 78,
+          "My": 32,
+          "Length": 428.37833745417146
+        },
+        {
+          "N": -440,
+          "Mx": 81,
+          "My": 34,
+          "Length": 448.68363018946883
+        },
+        {
+          "N": -460,
+          "Mx": 84,
+          "My": 36,
+          "Length": 468.9904050191219
+        },
+        {
+          "N": -480,
+          "Mx": 87,
+          "My": 38,
+          "Length": 489.2984774143488
+        },
+        {
+          "N": -500,
+          "Mx": 90,
+          "My": 40,
+          "Length": 509.6076922496363
+        },
+        {
+          "N": -520,
+          "Mx": 93,
+          "My": 42,
+          "Length": 529.9179181722392
+        },
+        {
+          "N": -540,
+          "Mx": 96,
+          "My": 44,
+          "Length": 550.2290432174586
+        },
+        {
+          "N": -560,
+          "Mx": 99,
+          "My": 46,
+          "Length": 570.5409713596387
+        },
+        {
+          "N": -580,
+          "Mx": 102,
+          "My": 48,
+          "Length": 590.8536197739674
+        },
+        {
+          "N": -600,
+          "Mx": 105,
+          "My": 50,
+          "Length": 611.1669166438903
+        },
+        {
+          "N": -620,
+          "Mx": 108,
+          "My": 52,
+          "Length": 631.4807993913987
+        },
+        {
+          "N": -640,
+          "Mx": 111,
+          "My": 54,
+          "Length": 651.795213238023
+        },
+        {
+          "N": -660,
+          "Mx": 114,
+          "My": 56,
+          "Length": 672.1101100266235
+        },
+        {
+          "N": -680,
+          "Mx": 117,
+          "My": 58,
+          "Length": 692.4254472504604
+        },
+        {
+          "N": -700,
+          "Mx": 120,
+          "My": 60,
+          "Length": 712.7411872482185
+        },
+        {
+          "N": -720,
+          "Mx": 123,
+          "My": 62,
+          "Length": 733.0572965328154
+        },
+        {
+          "N": -740,
+          "Mx": 126,
+          "My": 64,
+          "Length": 753.3737452287543
+        },
+        {
+          "N": -760,
+          "Mx": 129,
+          "My": 66,
+          "Length": 773.6905065980841
+        }
+      ],
+      "sleActions": [
+        {
+          "N": 200,
+          "Mx": 0,
+          "My": 0,
+          "Length": 200
+        },
+        {
+          "N": 205,
+          "Mx": 0,
+          "My": 0,
+          "Length": 205
+        },
+        {
+          "N": 210,
+          "Mx": 0,
+          "My": 0,
+          "Length": 210
+        },
+        {
+          "N": 215,
+          "Mx": 0,
+          "My": 0,
+          "Length": 215
+        },
+        {
+          "N": 220,
+          "Mx": 0,
+          "My": 0,
+          "Length": 220
+        },
+        {
+          "N": 225,
+          "Mx": 0,
+          "My": 0,
+          "Length": 225
+        },
+        {
+          "N": 230,
+          "Mx": 0,
+          "My": 0,
+          "Length": 230
+        },
+        {
+          "N": 235,
+          "Mx": 0,
+          "My": 0,
+          "Length": 235
+        },
+        {
+          "N": 240,
+          "Mx": 0,
+          "My": 0,
+          "Length": 240
+        },
+        {
+          "N": 245,
+          "Mx": 0,
+          "My": 0,
+          "Length": 245
+        },
+        {
+          "N": 250,
+          "Mx": 0,
+          "My": 0,
+          "Length": 250
+        },
+        {
+          "N": 255,
+          "Mx": 0,
+          "My": 0,
+          "Length": 255
+        },
+        {
+          "N": 260,
+          "Mx": 0,
+          "My": 0,
+          "Length": 260
+        },
+        {
+          "N": 265,
+          "Mx": 0,
+          "My": 0,
+          "Length": 265
+        },
+        {
+          "N": 270,
+          "Mx": 0,
+          "My": 0,
+          "Length": 270
+        },
+        {
+          "N": 275,
+          "Mx": 0,
+          "My": 0,
+          "Length": 275
+        },
+        {
+          "N": 280,
+          "Mx": 0,
+          "My": 0,
+          "Length": 280
+        },
+        {
+          "N": 285,
+          "Mx": 0,
+          "My": 0,
+          "Length": 285
+        },
+        {
+          "N": 290,
+          "Mx": 0,
+          "My": 0,
+          "Length": 290
+        },
+        {
+          "N": 295,
+          "Mx": 0,
+          "My": 0,
+          "Length": 295
+        },
+        {
+          "N": 300,
+          "Mx": 0,
+          "My": 0,
+          "Length": 300
+        },
+        {
+          "N": 305,
+          "Mx": 0,
+          "My": 0,
+          "Length": 305
+        },
+        {
+          "N": 310,
+          "Mx": 0,
+          "My": 0,
+          "Length": 310
+        },
+        {
+          "N": 315,
+          "Mx": 0,
+          "My": 0,
+          "Length": 315
+        }
+      ],
+      "curva": {
+        "AxialKn": -500,
+        "DirectionDegrees": 0,
+        "Steps": 30,
+        "EndFraction": 0.95,
+        "QuadraticSampling": true,
+        "AxialToleranceKn": 1,
+        "YieldRefinementSteps": 12
+      }
+    },
+    "circolare": {
+      "input": {
+        "shape": "Circolare",
+        "diameter_mm": "1000",
+        "width_mm": "600",
+        "height_mm": "800",
+        "flange_width_mm": "1200",
+        "web_width_mm": "400",
+        "flange_thickness_mm": "250",
+        "cover_mm": "70",
+        "longitudinal_bar_count": "16",
+        "longitudinal_bar_diameter_mm": "24",
+        "top_bar_count": "4",
+        "top_bar_diameter_mm": "20",
+        "bottom_bar_count": "6",
+        "bottom_bar_diameter_mm": "24",
+        "side_bar_count_per_side": "2",
+        "side_bar_diameter_mm": "16",
+        "transverse_bar_diameter_mm": "10",
+        "transverse_spacing_mm": "200",
+        "apply_pile_requirements": false,
+        "dissipative_zone": false,
+        "fck_mpa": 35,
+        "fyk_mpa": 450,
+        "alpha_cc": "0.85",
+        "gamma_c": "1.50",
+        "gamma_s": "1.15",
+        "steel_modulus_mpa": 200000,
+        "axial_force_kn": "-2500",
+        "moment_x_knm": "500",
+        "moment_y_knm": "250",
+        "apply_minimum_eccentricity": false,
+        "minimum_eccentricity_mm": "0",
+        "classe_cls": "C35/45",
+        "n": "",
+        "materiale_cls_nome": "C35/45",
+        "cls_diagramma": "Parabola-rettangolo",
+        "classe_acciaio": "B450C",
+        "materiale_acciaio_nome": "B450C",
+        "steel_fu_mpa": 540,
+        "steel_eps_u": 75,
+        "steel_diagramma": "Elastoplastico",
+        "gettato_sottile": "No",
+        "foro_presente": false,
+        "inner_width_mm": "200",
+        "inner_height_mm": "300",
+        "inner_diameter_mm": "500"
+      },
+      "workspace": {
+        "versione": 2,
+        "normativa": "NTC 2018",
+        "nota": "",
+        "tab": 0,
+        "dominio3d": {
+          "stato": "SLU",
+          "angoli": "32",
+          "criterio": "N costante",
+          "filtro": "Tutte",
+          "strategia": "Iterativo",
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "proietta": "No",
+          "interpolazione": "Quadratica",
+          "suddivisioni_n": "50"
+        },
+        "dominio2d": {
+          "stato": "SLU",
+          "tipo": "Mx–My",
+          "theta": "0",
+          "N": "-1000",
+          "filtro": "Tutte",
+          "angoli": "64",
+          "strategia": "Iterativo",
+          "criterio": "N costante",
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "proietta": "No",
+          "interpolazione": "Quadratica",
+          "suddivisioni_n": "50"
+        },
+        "trefoli": [],
+        "sle": {
+          "SLE": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": "",
+            "n_armature": null,
+            "n_trefoli": null
+          },
+          "SLE_FREQ": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": "",
+            "n_armature": null,
+            "n_trefoli": null
+          },
+          "SLE_QP": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": "",
+            "n_armature": null,
+            "n_trefoli": null
+          }
+        },
+        "convenzione": "N negativo a compressione",
+        "migrazione_segni": "N convertito dalla precedente convenzione ANTHEA; momenti invariati",
+        "sle_precedenti_unificazione": {
+          "SLE": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": ""
+          },
+          "SLE_FREQ": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": ""
+          },
+          "SLE_QP": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": ""
+          }
+        },
+        "sle_comuni": {
+          "modello": "Lineare",
+          "phi": "0",
+          "phi_trefoli": "0",
+          "n_armature": null,
+          "n_trefoli": null,
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "esposizione": "Da scegliere",
+          "sensibilita": "Poco sensibile",
+          "durata": "Lunga",
+          "aderenza": "Migliorata",
+          "copriferro_fessure": "",
+          "spaziatura_fessure": ""
+        }
+      },
+      "options": {
+        "stato": "SLU",
+        "angoli": "32",
+        "criterio": "N costante",
+        "filtro": "Tutte",
+        "strategia": "Iterativo",
+        "trazione_cls": "No",
+        "assi": "Locali",
+        "origine_x": "0",
+        "origine_y": "0",
+        "rotazione": "0",
+        "proietta": "No",
+        "interpolazione": "Quadratica",
+        "suddivisioni_n": "50"
+      },
+      "actions": [
+        {
+          "N": -300,
+          "Mx": 60,
+          "My": 20,
+          "Length": 306.59419433511783
+        },
+        {
+          "N": -320,
+          "Mx": 63,
+          "My": 22,
+          "Length": 326.8837713928301
+        },
+        {
+          "N": -340,
+          "Mx": 66,
+          "My": 24,
+          "Length": 347.177188190699
+        },
+        {
+          "N": -360,
+          "Mx": 69,
+          "My": 26,
+          "Length": 367.4738085904899
+        },
+        {
+          "N": -380,
+          "Mx": 72,
+          "My": 28,
+          "Length": 387.77312954870916
+        },
+        {
+          "N": -400,
+          "Mx": 75,
+          "My": 30,
+          "Length": 408.0747480548141
+        },
+        {
+          "N": -420,
+          "Mx": 78,
+          "My": 32,
+          "Length": 428.37833745417146
+        },
+        {
+          "N": -440,
+          "Mx": 81,
+          "My": 34,
+          "Length": 448.68363018946883
+        },
+        {
+          "N": -460,
+          "Mx": 84,
+          "My": 36,
+          "Length": 468.9904050191219
+        },
+        {
+          "N": -480,
+          "Mx": 87,
+          "My": 38,
+          "Length": 489.2984774143488
+        },
+        {
+          "N": -500,
+          "Mx": 90,
+          "My": 40,
+          "Length": 509.6076922496363
+        },
+        {
+          "N": -520,
+          "Mx": 93,
+          "My": 42,
+          "Length": 529.9179181722392
+        },
+        {
+          "N": -540,
+          "Mx": 96,
+          "My": 44,
+          "Length": 550.2290432174586
+        },
+        {
+          "N": -560,
+          "Mx": 99,
+          "My": 46,
+          "Length": 570.5409713596387
+        },
+        {
+          "N": -580,
+          "Mx": 102,
+          "My": 48,
+          "Length": 590.8536197739674
+        },
+        {
+          "N": -600,
+          "Mx": 105,
+          "My": 50,
+          "Length": 611.1669166438903
+        },
+        {
+          "N": -620,
+          "Mx": 108,
+          "My": 52,
+          "Length": 631.4807993913987
+        },
+        {
+          "N": -640,
+          "Mx": 111,
+          "My": 54,
+          "Length": 651.795213238023
+        },
+        {
+          "N": -660,
+          "Mx": 114,
+          "My": 56,
+          "Length": 672.1101100266235
+        },
+        {
+          "N": -680,
+          "Mx": 117,
+          "My": 58,
+          "Length": 692.4254472504604
+        },
+        {
+          "N": -700,
+          "Mx": 120,
+          "My": 60,
+          "Length": 712.7411872482185
+        },
+        {
+          "N": -720,
+          "Mx": 123,
+          "My": 62,
+          "Length": 733.0572965328154
+        },
+        {
+          "N": -740,
+          "Mx": 126,
+          "My": 64,
+          "Length": 753.3737452287543
+        },
+        {
+          "N": -760,
+          "Mx": 129,
+          "My": 66,
+          "Length": 773.6905065980841
+        }
+      ],
+      "sleActions": [
+        {
+          "N": 200,
+          "Mx": 0,
+          "My": 0,
+          "Length": 200
+        },
+        {
+          "N": 205,
+          "Mx": 0,
+          "My": 0,
+          "Length": 205
+        },
+        {
+          "N": 210,
+          "Mx": 0,
+          "My": 0,
+          "Length": 210
+        },
+        {
+          "N": 215,
+          "Mx": 0,
+          "My": 0,
+          "Length": 215
+        },
+        {
+          "N": 220,
+          "Mx": 0,
+          "My": 0,
+          "Length": 220
+        },
+        {
+          "N": 225,
+          "Mx": 0,
+          "My": 0,
+          "Length": 225
+        },
+        {
+          "N": 230,
+          "Mx": 0,
+          "My": 0,
+          "Length": 230
+        },
+        {
+          "N": 235,
+          "Mx": 0,
+          "My": 0,
+          "Length": 235
+        },
+        {
+          "N": 240,
+          "Mx": 0,
+          "My": 0,
+          "Length": 240
+        },
+        {
+          "N": 245,
+          "Mx": 0,
+          "My": 0,
+          "Length": 245
+        },
+        {
+          "N": 250,
+          "Mx": 0,
+          "My": 0,
+          "Length": 250
+        },
+        {
+          "N": 255,
+          "Mx": 0,
+          "My": 0,
+          "Length": 255
+        },
+        {
+          "N": 260,
+          "Mx": 0,
+          "My": 0,
+          "Length": 260
+        },
+        {
+          "N": 265,
+          "Mx": 0,
+          "My": 0,
+          "Length": 265
+        },
+        {
+          "N": 270,
+          "Mx": 0,
+          "My": 0,
+          "Length": 270
+        },
+        {
+          "N": 275,
+          "Mx": 0,
+          "My": 0,
+          "Length": 275
+        },
+        {
+          "N": 280,
+          "Mx": 0,
+          "My": 0,
+          "Length": 280
+        },
+        {
+          "N": 285,
+          "Mx": 0,
+          "My": 0,
+          "Length": 285
+        },
+        {
+          "N": 290,
+          "Mx": 0,
+          "My": 0,
+          "Length": 290
+        },
+        {
+          "N": 295,
+          "Mx": 0,
+          "My": 0,
+          "Length": 295
+        },
+        {
+          "N": 300,
+          "Mx": 0,
+          "My": 0,
+          "Length": 300
+        },
+        {
+          "N": 305,
+          "Mx": 0,
+          "My": 0,
+          "Length": 305
+        },
+        {
+          "N": 310,
+          "Mx": 0,
+          "My": 0,
+          "Length": 310
+        },
+        {
+          "N": 315,
+          "Mx": 0,
+          "My": 0,
+          "Length": 315
+        }
+      ],
+      "curva": {
+        "AxialKn": -500,
+        "DirectionDegrees": 0,
+        "Steps": 30,
+        "EndFraction": 0.95,
+        "QuadraticSampling": true,
+        "AxialToleranceKn": 1,
+        "YieldRefinementSteps": 12
+      }
+    },
+    "circolare_cava": {
+      "input": {
+        "shape": "Circolare",
+        "diameter_mm": "1000",
+        "width_mm": "600",
+        "height_mm": "800",
+        "flange_width_mm": "1200",
+        "web_width_mm": "400",
+        "flange_thickness_mm": "250",
+        "cover_mm": "70",
+        "longitudinal_bar_count": "16",
+        "longitudinal_bar_diameter_mm": "24",
+        "top_bar_count": "4",
+        "top_bar_diameter_mm": "20",
+        "bottom_bar_count": "6",
+        "bottom_bar_diameter_mm": "24",
+        "side_bar_count_per_side": "2",
+        "side_bar_diameter_mm": "16",
+        "transverse_bar_diameter_mm": "10",
+        "transverse_spacing_mm": "200",
+        "apply_pile_requirements": false,
+        "dissipative_zone": false,
+        "fck_mpa": 35,
+        "fyk_mpa": 450,
+        "alpha_cc": "0.85",
+        "gamma_c": "1.50",
+        "gamma_s": "1.15",
+        "steel_modulus_mpa": 200000,
+        "axial_force_kn": "-2500",
+        "moment_x_knm": "500",
+        "moment_y_knm": "250",
+        "apply_minimum_eccentricity": false,
+        "minimum_eccentricity_mm": "0",
+        "classe_cls": "C35/45",
+        "n": "",
+        "materiale_cls_nome": "C35/45",
+        "cls_diagramma": "Parabola-rettangolo",
+        "classe_acciaio": "B450C",
+        "materiale_acciaio_nome": "B450C",
+        "steel_fu_mpa": 540,
+        "steel_eps_u": 75,
+        "steel_diagramma": "Elastoplastico",
+        "gettato_sottile": "No",
+        "foro_presente": true,
+        "inner_width_mm": "200",
+        "inner_height_mm": "300",
+        "inner_diameter_mm": "500"
+      },
+      "workspace": {
+        "versione": 2,
+        "normativa": "NTC 2018",
+        "nota": "",
+        "tab": 0,
+        "dominio3d": {
+          "stato": "SLU",
+          "angoli": "32",
+          "criterio": "N costante",
+          "filtro": "Tutte",
+          "strategia": "Iterativo",
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "proietta": "No",
+          "interpolazione": "Quadratica",
+          "suddivisioni_n": "50"
+        },
+        "dominio2d": {
+          "stato": "SLU",
+          "tipo": "Mx–My",
+          "theta": "0",
+          "N": "-1000",
+          "filtro": "Tutte",
+          "angoli": "64",
+          "strategia": "Iterativo",
+          "criterio": "N costante",
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "proietta": "No",
+          "interpolazione": "Quadratica",
+          "suddivisioni_n": "50"
+        },
+        "trefoli": [],
+        "sle": {
+          "SLE": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": "",
+            "n_armature": null,
+            "n_trefoli": null
+          },
+          "SLE_FREQ": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": "",
+            "n_armature": null,
+            "n_trefoli": null
+          },
+          "SLE_QP": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": "",
+            "n_armature": null,
+            "n_trefoli": null
+          }
+        },
+        "convenzione": "N negativo a compressione",
+        "migrazione_segni": "N convertito dalla precedente convenzione ANTHEA; momenti invariati",
+        "sle_precedenti_unificazione": {
+          "SLE": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": ""
+          },
+          "SLE_FREQ": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": ""
+          },
+          "SLE_QP": {
+            "modello": "Lineare",
+            "sigma_c_lim": "",
+            "sigma_s_lim": "",
+            "wk_lim": "",
+            "phi": "0",
+            "phi_trefoli": "0",
+            "trazione_cls": "No",
+            "assi": "Locali",
+            "origine_x": "0",
+            "origine_y": "0",
+            "rotazione": "0",
+            "esposizione": "Da scegliere",
+            "sensibilita": "Poco sensibile",
+            "durata": "Lunga",
+            "aderenza": "Migliorata",
+            "copriferro_fessure": "",
+            "spaziatura_fessure": ""
+          }
+        },
+        "sle_comuni": {
+          "modello": "Lineare",
+          "phi": "0",
+          "phi_trefoli": "0",
+          "n_armature": null,
+          "n_trefoli": null,
+          "trazione_cls": "No",
+          "assi": "Locali",
+          "origine_x": "0",
+          "origine_y": "0",
+          "rotazione": "0",
+          "esposizione": "Da scegliere",
+          "sensibilita": "Poco sensibile",
+          "durata": "Lunga",
+          "aderenza": "Migliorata",
+          "copriferro_fessure": "",
+          "spaziatura_fessure": ""
+        }
+      },
+      "options": {
+        "stato": "SLU",
+        "angoli": "32",
+        "criterio": "N costante",
+        "filtro": "Tutte",
+        "strategia": "Iterativo",
+        "trazione_cls": "No",
+        "assi": "Locali",
+        "origine_x": "0",
+        "origine_y": "0",
+        "rotazione": "0",
+        "proietta": "No",
+        "interpolazione": "Quadratica",
+        "suddivisioni_n": "50"
+      },
+      "actions": [
+        {
+          "N": -300,
+          "Mx": 60,
+          "My": 20,
+          "Length": 306.59419433511783
+        },
+        {
+          "N": -320,
+          "Mx": 63,
+          "My": 22,
+          "Length": 326.8837713928301
+        },
+        {
+          "N": -340,
+          "Mx": 66,
+          "My": 24,
+          "Length": 347.177188190699
+        },
+        {
+          "N": -360,
+          "Mx": 69,
+          "My": 26,
+          "Length": 367.4738085904899
+        },
+        {
+          "N": -380,
+          "Mx": 72,
+          "My": 28,
+          "Length": 387.77312954870916
+        },
+        {
+          "N": -400,
+          "Mx": 75,
+          "My": 30,
+          "Length": 408.0747480548141
+        },
+        {
+          "N": -420,
+          "Mx": 78,
+          "My": 32,
+          "Length": 428.37833745417146
+        },
+        {
+          "N": -440,
+          "Mx": 81,
+          "My": 34,
+          "Length": 448.68363018946883
+        },
+        {
+          "N": -460,
+          "Mx": 84,
+          "My": 36,
+          "Length": 468.9904050191219
+        },
+        {
+          "N": -480,
+          "Mx": 87,
+          "My": 38,
+          "Length": 489.2984774143488
+        },
+        {
+          "N": -500,
+          "Mx": 90,
+          "My": 40,
+          "Length": 509.6076922496363
+        },
+        {
+          "N": -520,
+          "Mx": 93,
+          "My": 42,
+          "Length": 529.9179181722392
+        },
+        {
+          "N": -540,
+          "Mx": 96,
+          "My": 44,
+          "Length": 550.2290432174586
+        },
+        {
+          "N": -560,
+          "Mx": 99,
+          "My": 46,
+          "Length": 570.5409713596387
+        },
+        {
+          "N": -580,
+          "Mx": 102,
+          "My": 48,
+          "Length": 590.8536197739674
+        },
+        {
+          "N": -600,
+          "Mx": 105,
+          "My": 50,
+          "Length": 611.1669166438903
+        },
+        {
+          "N": -620,
+          "Mx": 108,
+          "My": 52,
+          "Length": 631.4807993913987
+        },
+        {
+          "N": -640,
+          "Mx": 111,
+          "My": 54,
+          "Length": 651.795213238023
+        },
+        {
+          "N": -660,
+          "Mx": 114,
+          "My": 56,
+          "Length": 672.1101100266235
+        },
+        {
+          "N": -680,
+          "Mx": 117,
+          "My": 58,
+          "Length": 692.4254472504604
+        },
+        {
+          "N": -700,
+          "Mx": 120,
+          "My": 60,
+          "Length": 712.7411872482185
+        },
+        {
+          "N": -720,
+          "Mx": 123,
+          "My": 62,
+          "Length": 733.0572965328154
+        },
+        {
+          "N": -740,
+          "Mx": 126,
+          "My": 64,
+          "Length": 753.3737452287543
+        },
+        {
+          "N": -760,
+          "Mx": 129,
+          "My": 66,
+          "Length": 773.6905065980841
+        }
+      ],
+      "sleActions": [
+        {
+          "N": 200,
+          "Mx": 0,
+          "My": 0,
+          "Length": 200
+        },
+        {
+          "N": 205,
+          "Mx": 0,
+          "My": 0,
+          "Length": 205
+        },
+        {
+          "N": 210,
+          "Mx": 0,
+          "My": 0,
+          "Length": 210
+        },
+        {
+          "N": 215,
+          "Mx": 0,
+          "My": 0,
+          "Length": 215
+        },
+        {
+          "N": 220,
+          "Mx": 0,
+          "My": 0,
+          "Length": 220
+        },
+        {
+          "N": 225,
+          "Mx": 0,
+          "My": 0,
+          "Length": 225
+        },
+        {
+          "N": 230,
+          "Mx": 0,
+          "My": 0,
+          "Length": 230
+        },
+        {
+          "N": 235,
+          "Mx": 0,
+          "My": 0,
+          "Length": 235
+        },
+        {
+          "N": 240,
+          "Mx": 0,
+          "My": 0,
+          "Length": 240
+        },
+        {
+          "N": 245,
+          "Mx": 0,
+          "My": 0,
+          "Length": 245
+        },
+        {
+          "N": 250,
+          "Mx": 0,
+          "My": 0,
+          "Length": 250
+        },
+        {
+          "N": 255,
+          "Mx": 0,
+          "My": 0,
+          "Length": 255
+        },
+        {
+          "N": 260,
+          "Mx": 0,
+          "My": 0,
+          "Length": 260
+        },
+        {
+          "N": 265,
+          "Mx": 0,
+          "My": 0,
+          "Length": 265
+        },
+        {
+          "N": 270,
+          "Mx": 0,
+          "My": 0,
+          "Length": 270
+        },
+        {
+          "N": 275,
+          "Mx": 0,
+          "My": 0,
+          "Length": 275
+        },
+        {
+          "N": 280,
+          "Mx": 0,
+          "My": 0,
+          "Length": 280
+        },
+        {
+          "N": 285,
+          "Mx": 0,
+          "My": 0,
+          "Length": 285
+        },
+        {
+          "N": 290,
+          "Mx": 0,
+          "My": 0,
+          "Length": 290
+        },
+        {
+          "N": 295,
+          "Mx": 0,
+          "My": 0,
+          "Length": 295
+        },
+        {
+          "N": 300,
+          "Mx": 0,
+          "My": 0,
+          "Length": 300
+        },
+        {
+          "N": 305,
+          "Mx": 0,
+          "My": 0,
+          "Length": 305
+        },
+        {
+          "N": 310,
+          "Mx": 0,
+          "My": 0,
+          "Length": 310
+        },
+        {
+          "N": 315,
+          "Mx": 0,
+          "My": 0,
+          "Length": 315
+        }
+      ],
+      "curva": {
+        "AxialKn": -500,
+        "DirectionDegrees": 0,
+        "Steps": 30,
+        "EndFraction": 0.95,
+        "QuadraticSampling": true,
+        "AxialToleranceKn": 1,
+        "YieldRefinementSteps": 12
+      }
+    }
+  },
+  "Samples": [
+    {
+      "Shape": "rettangolare",
+      "Operation": "preparazione",
+      "Run": 0,
+      "Milliseconds": 130.2635,
+      "AllocatedBytes": 37565112,
+      "Checksum": 480000
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "dominio_3d_32",
+      "Run": 0,
+      "Milliseconds": 53.2697,
+      "AllocatedBytes": 134943512,
+      "Checksum": 32
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_verifiche",
+      "Run": 0,
+      "Milliseconds": 47.832,
+      "AllocatedBytes": 178986752,
+      "Checksum": 2.927414166304742
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 0,
+      "Milliseconds": 99.8352,
+      "AllocatedBytes": 56994600,
+      "Checksum": 737.8933727588911
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 0,
+      "Milliseconds": 77.1628,
+      "AllocatedBytes": 42957336,
+      "Checksum": 1974.2876946116783
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "curva_30_passi",
+      "Run": 0,
+      "Milliseconds": 192.8067,
+      "AllocatedBytes": 121133872,
+      "Checksum": 0.04957062134211596
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "preparazione",
+      "Run": 1,
+      "Milliseconds": 45.7344,
+      "AllocatedBytes": 37414216,
+      "Checksum": 480000
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "dominio_3d_32",
+      "Run": 1,
+      "Milliseconds": 34.5756,
+      "AllocatedBytes": 134907232,
+      "Checksum": 32
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_verifiche",
+      "Run": 1,
+      "Milliseconds": 32.4236,
+      "AllocatedBytes": 179010016,
+      "Checksum": 2.927414166304742
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 1,
+      "Milliseconds": 123.355,
+      "AllocatedBytes": 56998880,
+      "Checksum": 737.8933727588911
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 1,
+      "Milliseconds": 55.9311,
+      "AllocatedBytes": 42931816,
+      "Checksum": 1974.2876946116783
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "curva_30_passi",
+      "Run": 1,
+      "Milliseconds": 81.6797,
+      "AllocatedBytes": 121132280,
+      "Checksum": 0.04957062134211596
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "preparazione",
+      "Run": 2,
+      "Milliseconds": 50.6203,
+      "AllocatedBytes": 37383712,
+      "Checksum": 480000
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "dominio_3d_32",
+      "Run": 2,
+      "Milliseconds": 20.7598,
+      "AllocatedBytes": 134913424,
+      "Checksum": 32
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_verifiche",
+      "Run": 2,
+      "Milliseconds": 18.5672,
+      "AllocatedBytes": 179022960,
+      "Checksum": 2.927414166304742
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 2,
+      "Milliseconds": 39.6217,
+      "AllocatedBytes": 56986136,
+      "Checksum": 737.8933727588911
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 2,
+      "Milliseconds": 50.8555,
+      "AllocatedBytes": 42956064,
+      "Checksum": 1974.2876946116783
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "curva_30_passi",
+      "Run": 2,
+      "Milliseconds": 76.1122,
+      "AllocatedBytes": 121132704,
+      "Checksum": 0.04957062134211596
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "preparazione",
+      "Run": 3,
+      "Milliseconds": 46.5014,
+      "AllocatedBytes": 37399176,
+      "Checksum": 480000
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "dominio_3d_32",
+      "Run": 3,
+      "Milliseconds": 36.9545,
+      "AllocatedBytes": 134898600,
+      "Checksum": 32
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_verifiche",
+      "Run": 3,
+      "Milliseconds": 19.6049,
+      "AllocatedBytes": 178992032,
+      "Checksum": 2.927414166304742
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 3,
+      "Milliseconds": 37.4694,
+      "AllocatedBytes": 57026016,
+      "Checksum": 737.8933727588911
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 3,
+      "Milliseconds": 47.5693,
+      "AllocatedBytes": 42893808,
+      "Checksum": 1974.2876946116783
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "curva_30_passi",
+      "Run": 3,
+      "Milliseconds": 77.1691,
+      "AllocatedBytes": 121131888,
+      "Checksum": 0.04957062134211596
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "preparazione",
+      "Run": 0,
+      "Milliseconds": 51.9747,
+      "AllocatedBytes": 43957352,
+      "Checksum": 420000
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "dominio_3d_32",
+      "Run": 0,
+      "Milliseconds": 18.9305,
+      "AllocatedBytes": 114998768,
+      "Checksum": 32
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_verifiche",
+      "Run": 0,
+      "Milliseconds": 17.0255,
+      "AllocatedBytes": 152200792,
+      "Checksum": 2.9272760453443483
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 0,
+      "Milliseconds": 41.1567,
+      "AllocatedBytes": 55671224,
+      "Checksum": 765.0179120067638
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 0,
+      "Milliseconds": 68.0734,
+      "AllocatedBytes": 46706464,
+      "Checksum": 1974.1553015369195
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "curva_30_passi",
+      "Run": 0,
+      "Milliseconds": 86.3327,
+      "AllocatedBytes": 119907328,
+      "Checksum": 0.04953645337432225
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "preparazione",
+      "Run": 1,
+      "Milliseconds": 53.8564,
+      "AllocatedBytes": 43841288,
+      "Checksum": 420000
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "dominio_3d_32",
+      "Run": 1,
+      "Milliseconds": 18.4612,
+      "AllocatedBytes": 115048184,
+      "Checksum": 32
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_verifiche",
+      "Run": 1,
+      "Milliseconds": 15.2755,
+      "AllocatedBytes": 152170512,
+      "Checksum": 2.9272760453443483
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 1,
+      "Milliseconds": 40.2937,
+      "AllocatedBytes": 55693760,
+      "Checksum": 765.0179120067638
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 1,
+      "Milliseconds": 53.3022,
+      "AllocatedBytes": 46710040,
+      "Checksum": 1974.1553015369195
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "curva_30_passi",
+      "Run": 1,
+      "Milliseconds": 84.6155,
+      "AllocatedBytes": 119904856,
+      "Checksum": 0.04953645337432225
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "preparazione",
+      "Run": 2,
+      "Milliseconds": 44.2188,
+      "AllocatedBytes": 43857272,
+      "Checksum": 420000
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "dominio_3d_32",
+      "Run": 2,
+      "Milliseconds": 29.9104,
+      "AllocatedBytes": 115035944,
+      "Checksum": 32
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_verifiche",
+      "Run": 2,
+      "Milliseconds": 16.1154,
+      "AllocatedBytes": 152226176,
+      "Checksum": 2.9272760453443483
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 2,
+      "Milliseconds": 35.6372,
+      "AllocatedBytes": 55643144,
+      "Checksum": 765.0179120067638
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 2,
+      "Milliseconds": 52.936,
+      "AllocatedBytes": 46761384,
+      "Checksum": 1974.1553015369195
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "curva_30_passi",
+      "Run": 2,
+      "Milliseconds": 70.197,
+      "AllocatedBytes": 119903880,
+      "Checksum": 0.04953645337432225
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "preparazione",
+      "Run": 3,
+      "Milliseconds": 42.913,
+      "AllocatedBytes": 43868992,
+      "Checksum": 420000
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "dominio_3d_32",
+      "Run": 3,
+      "Milliseconds": 83.0498,
+      "AllocatedBytes": 115044800,
+      "Checksum": 32
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_verifiche",
+      "Run": 3,
+      "Milliseconds": 15.4578,
+      "AllocatedBytes": 152182048,
+      "Checksum": 2.9272760453443483
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 3,
+      "Milliseconds": 33.7637,
+      "AllocatedBytes": 55666592,
+      "Checksum": 765.0179120067638
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 3,
+      "Milliseconds": 57.3031,
+      "AllocatedBytes": 46719168,
+      "Checksum": 1974.1553015369195
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "curva_30_passi",
+      "Run": 3,
+      "Milliseconds": 73.485,
+      "AllocatedBytes": 119913016,
+      "Checksum": 0.04953645337432225
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "preparazione",
+      "Run": 0,
+      "Milliseconds": 1149.0814,
+      "AllocatedBytes": 1813296424,
+      "Checksum": 785238.675806272
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "dominio_3d_32",
+      "Run": 0,
+      "Milliseconds": 192.6131,
+      "AllocatedBytes": 675503008,
+      "Checksum": 32
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_verifiche",
+      "Run": 0,
+      "Milliseconds": 197.901,
+      "AllocatedBytes": 1218864280,
+      "Checksum": 1.9710758741757413
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 0,
+      "Milliseconds": 323.3594,
+      "AllocatedBytes": 555876224,
+      "Checksum": 368.7931881368455
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 0,
+      "Milliseconds": 393.6167,
+      "AllocatedBytes": 500569504,
+      "Checksum": 856.029223466051
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "curva_30_passi",
+      "Run": 0,
+      "Milliseconds": 717.5427,
+      "AllocatedBytes": 1168202664,
+      "Checksum": 0.04882030918323362
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "preparazione",
+      "Run": 1,
+      "Milliseconds": 1144.0289,
+      "AllocatedBytes": 1813394368,
+      "Checksum": 785238.675806272
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "dominio_3d_32",
+      "Run": 1,
+      "Milliseconds": 141.2558,
+      "AllocatedBytes": 675399320,
+      "Checksum": 32
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_verifiche",
+      "Run": 1,
+      "Milliseconds": 187.9966,
+      "AllocatedBytes": 1218827656,
+      "Checksum": 1.9710758741757413
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 1,
+      "Milliseconds": 338.3651,
+      "AllocatedBytes": 555887048,
+      "Checksum": 368.7931881368455
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 1,
+      "Milliseconds": 353.8978,
+      "AllocatedBytes": 500574160,
+      "Checksum": 856.029223466051
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "curva_30_passi",
+      "Run": 1,
+      "Milliseconds": 798.652,
+      "AllocatedBytes": 1168205352,
+      "Checksum": 0.04882030918323362
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "preparazione",
+      "Run": 2,
+      "Milliseconds": 1270.7685,
+      "AllocatedBytes": 1813558736,
+      "Checksum": 785238.675806272
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "dominio_3d_32",
+      "Run": 2,
+      "Milliseconds": 182.7093,
+      "AllocatedBytes": 675482952,
+      "Checksum": 32
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_verifiche",
+      "Run": 2,
+      "Milliseconds": 205.1532,
+      "AllocatedBytes": 1218799472,
+      "Checksum": 1.9710758741757413
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 2,
+      "Milliseconds": 319.8567,
+      "AllocatedBytes": 555864832,
+      "Checksum": 368.7931881368455
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 2,
+      "Milliseconds": 338.7461,
+      "AllocatedBytes": 500562312,
+      "Checksum": 856.029223466051
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "curva_30_passi",
+      "Run": 2,
+      "Milliseconds": 659.8615,
+      "AllocatedBytes": 1168197704,
+      "Checksum": 0.04882030918323362
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "preparazione",
+      "Run": 3,
+      "Milliseconds": 1144.0761,
+      "AllocatedBytes": 1813612472,
+      "Checksum": 785238.675806272
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "dominio_3d_32",
+      "Run": 3,
+      "Milliseconds": 167.7887,
+      "AllocatedBytes": 675428280,
+      "Checksum": 32
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_verifiche",
+      "Run": 3,
+      "Milliseconds": 223.5444,
+      "AllocatedBytes": 1218799320,
+      "Checksum": 1.9710758741757413
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 3,
+      "Milliseconds": 327.8321,
+      "AllocatedBytes": 555896248,
+      "Checksum": 368.7931881368455
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 3,
+      "Milliseconds": 366.8288,
+      "AllocatedBytes": 500610552,
+      "Checksum": 856.029223466051
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "curva_30_passi",
+      "Run": 3,
+      "Milliseconds": 665.137,
+      "AllocatedBytes": 1168192448,
+      "Checksum": 0.04882030918323362
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "preparazione",
+      "Run": 0,
+      "Milliseconds": 5935.2601,
+      "AllocatedBytes": 9054507944,
+      "Checksum": 588929.006854704
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "dominio_3d_32",
+      "Run": 0,
+      "Milliseconds": 689.6498,
+      "AllocatedBytes": 1892853856,
+      "Checksum": 32
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_verifiche",
+      "Run": 0,
+      "Milliseconds": 852.7007,
+      "AllocatedBytes": 2903718136,
+      "Checksum": 1.9708351517127636
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 0,
+      "Milliseconds": 1353.353,
+      "AllocatedBytes": 3535536384,
+      "Checksum": 420.3046304718039
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 0,
+      "Milliseconds": 2313.9229,
+      "AllocatedBytes": 6069909384,
+      "Checksum": 856.0240907482321
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "curva_30_passi",
+      "Run": 0,
+      "Milliseconds": 2888.8779,
+      "AllocatedBytes": 7010636192,
+      "Checksum": 0.04878480654753663
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "preparazione",
+      "Run": 1,
+      "Milliseconds": 5699.2905,
+      "AllocatedBytes": 9054538520,
+      "Checksum": 588929.006854704
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "dominio_3d_32",
+      "Run": 1,
+      "Milliseconds": 717.4936,
+      "AllocatedBytes": 1892786928,
+      "Checksum": 32
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_verifiche",
+      "Run": 1,
+      "Milliseconds": 923.3939,
+      "AllocatedBytes": 2903771576,
+      "Checksum": 1.9708351517127636
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 1,
+      "Milliseconds": 1260.8716,
+      "AllocatedBytes": 3535545672,
+      "Checksum": 420.3046304718039
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 1,
+      "Milliseconds": 2271.6103,
+      "AllocatedBytes": 6069947320,
+      "Checksum": 856.0240907482321
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "curva_30_passi",
+      "Run": 1,
+      "Milliseconds": 2895.7313,
+      "AllocatedBytes": 7010637728,
+      "Checksum": 0.04878480654753663
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "preparazione",
+      "Run": 2,
+      "Milliseconds": 5975.5946,
+      "AllocatedBytes": 9054020760,
+      "Checksum": 588929.006854704
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "dominio_3d_32",
+      "Run": 2,
+      "Milliseconds": 702.4496,
+      "AllocatedBytes": 1892866592,
+      "Checksum": 32
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_verifiche",
+      "Run": 2,
+      "Milliseconds": 913.25,
+      "AllocatedBytes": 2903776648,
+      "Checksum": 1.9708351517127636
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 2,
+      "Milliseconds": 1349.7896,
+      "AllocatedBytes": 3535554608,
+      "Checksum": 420.3046304718039
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 2,
+      "Milliseconds": 2151.4574,
+      "AllocatedBytes": 6069952320,
+      "Checksum": 856.0240907482321
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "curva_30_passi",
+      "Run": 2,
+      "Milliseconds": 2951.9963,
+      "AllocatedBytes": 7010636536,
+      "Checksum": 0.04878480654753663
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "preparazione",
+      "Run": 3,
+      "Milliseconds": 5705.7674,
+      "AllocatedBytes": 9054552256,
+      "Checksum": 588929.006854704
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "dominio_3d_32",
+      "Run": 3,
+      "Milliseconds": 833.0272,
+      "AllocatedBytes": 1892762816,
+      "Checksum": 32
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_verifiche",
+      "Run": 3,
+      "Milliseconds": 926.225,
+      "AllocatedBytes": 2903727352,
+      "Checksum": 1.9708351517127636
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_tensioni_non_lineari",
+      "Run": 3,
+      "Milliseconds": 1367.6008,
+      "AllocatedBytes": 3535547000,
+      "Checksum": 420.3046304718039
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_tensioni_lineari_fessure",
+      "Run": 3,
+      "Milliseconds": 2061.9071,
+      "AllocatedBytes": 6069930536,
+      "Checksum": 856.0240907482321
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "curva_30_passi",
+      "Run": 3,
+      "Milliseconds": 2735.5058,
+      "AllocatedBytes": 7010640600,
+      "Checksum": 0.04878480654753663
+    }
+  ],
+  "WarmSummary": [
+    {
+      "Shape": "rettangolare",
+      "Operation": "preparazione",
+      "MedianMs": 46.5014,
+      "MinMs": 45.7344,
+      "MaxMs": 50.6203
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "dominio_3d_32",
+      "MedianMs": 34.5756,
+      "MinMs": 20.7598,
+      "MaxMs": 36.9545
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_verifiche",
+      "MedianMs": 19.6049,
+      "MinMs": 18.5672,
+      "MaxMs": 32.4236
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_tensioni_non_lineari",
+      "MedianMs": 39.6217,
+      "MinMs": 37.4694,
+      "MaxMs": 123.355
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "24_tensioni_lineari_fessure",
+      "MedianMs": 50.8555,
+      "MinMs": 47.5693,
+      "MaxMs": 55.9311
+    },
+    {
+      "Shape": "rettangolare",
+      "Operation": "curva_30_passi",
+      "MedianMs": 77.1691,
+      "MinMs": 76.1122,
+      "MaxMs": 81.6797
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "preparazione",
+      "MedianMs": 44.2188,
+      "MinMs": 42.913,
+      "MaxMs": 53.8564
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "dominio_3d_32",
+      "MedianMs": 29.9104,
+      "MinMs": 18.4612,
+      "MaxMs": 83.0498
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_verifiche",
+      "MedianMs": 15.4578,
+      "MinMs": 15.2755,
+      "MaxMs": 16.1154
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_tensioni_non_lineari",
+      "MedianMs": 35.6372,
+      "MinMs": 33.7637,
+      "MaxMs": 40.2937
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "24_tensioni_lineari_fessure",
+      "MedianMs": 53.3022,
+      "MinMs": 52.936,
+      "MaxMs": 57.3031
+    },
+    {
+      "Shape": "rettangolare_cava",
+      "Operation": "curva_30_passi",
+      "MedianMs": 73.485,
+      "MinMs": 70.197,
+      "MaxMs": 84.6155
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "preparazione",
+      "MedianMs": 1144.0761,
+      "MinMs": 1144.0289,
+      "MaxMs": 1270.7685
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "dominio_3d_32",
+      "MedianMs": 167.7887,
+      "MinMs": 141.2558,
+      "MaxMs": 182.7093
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_verifiche",
+      "MedianMs": 205.1532,
+      "MinMs": 187.9966,
+      "MaxMs": 223.5444
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_tensioni_non_lineari",
+      "MedianMs": 327.8321,
+      "MinMs": 319.8567,
+      "MaxMs": 338.3651
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "24_tensioni_lineari_fessure",
+      "MedianMs": 353.8978,
+      "MinMs": 338.7461,
+      "MaxMs": 366.8288
+    },
+    {
+      "Shape": "circolare",
+      "Operation": "curva_30_passi",
+      "MedianMs": 665.137,
+      "MinMs": 659.8615,
+      "MaxMs": 798.652
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "preparazione",
+      "MedianMs": 5705.7674,
+      "MinMs": 5699.2905,
+      "MaxMs": 5975.5946
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "dominio_3d_32",
+      "MedianMs": 717.4936,
+      "MinMs": 702.4496,
+      "MaxMs": 833.0272
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_verifiche",
+      "MedianMs": 923.3939,
+      "MinMs": 913.25,
+      "MaxMs": 926.225
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_tensioni_non_lineari",
+      "MedianMs": 1349.7896,
+      "MinMs": 1260.8716,
+      "MaxMs": 1367.6008
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "24_tensioni_lineari_fessure",
+      "MedianMs": 2151.4574,
+      "MinMs": 2061.9071,
+      "MaxMs": 2271.6103
+    },
+    {
+      "Shape": "circolare_cava",
+      "Operation": "curva_30_passi",
+      "MedianMs": 2895.7313,
+      "MinMs": 2735.5058,
+      "MaxMs": 2951.9963
+    }
+  ]
+}

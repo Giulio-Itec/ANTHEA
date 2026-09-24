@@ -1,0 +1,5 @@
+System.Exception: Legenda della vista selezionata
+   at X.Desktop.ConcreteWorkspace.<>c__DisplayClass48_0.<VerifyExtensions>g__Check|0(Boolean value, String text) in C:\Users\g.pacini\Documents\Repository\ANTHEA\X.Desktop\Wpf\ConcreteExtensionSmokeChecks.cs:line 23
+   at X.Desktop.ConcreteWorkspace.VerifyExtensions(String directory) in C:\Users\g.pacini\Documents\Repository\ANTHEA\X.Desktop\Wpf\ConcreteExtensionSmokeChecks.cs:line 55
+   at X.Desktop.MainWindow.SmokeConcreteExtensions(String directory) in C:\Users\g.pacini\Documents\Repository\ANTHEA\X.Desktop\Wpf\ConcreteExtensionSmokeChecks.cs:line 12
+   at X.Desktop.App.<>c__DisplayClass0_0.<<OnStartup>g__RunSmoke|1>d.MoveNext() in C:\Users\g.pacini\Documents\Repository\ANTHEA\X.Desktop\Wpf\App.cs:line 36

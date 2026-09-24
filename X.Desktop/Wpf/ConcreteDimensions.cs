@@ -33,6 +33,11 @@ internal sealed partial class ConcreteSectionViewport
         double xmin = s.Outline.Min(v => v[0]), xmax = s.Outline.Max(v => v[0]), ymin = s.Outline.Min(v => v[1]), ymax = s.Outline.Max(v => v[1]);
         if (Dimensions)
         {
+            if(s.Holes.Count>0)
+            {
+                if(s.Shape=="Circolare")Dimension(p(-s.Input.D("inner_diameter_mm")/2,0),p(s.Input.D("inner_diameter_mm")/2,0),$"Di {s.Input.D("inner_diameter_mm"):0.##} mm",-10);
+                else {double bi=s.Input.D("inner_width_mm"),hi=s.Input.D("inner_height_mm");Dimension(p(-bi/2,-hi/2),p(bi/2,-hi/2),$"bi {bi:0.##} mm",-15);Dimension(p(bi/2,-hi/2),p(bi/2,hi/2),$"hi {hi:0.##} mm",-15);}
+            }
             if (s.Shape == "Circolare") Dimension(p(xmin, 0), p(xmax, 0), $"D = {EngineeringFormat.Number(s.Width)} mm", (ymax - ymin) / 2 * (p(xmax, 0).X - p(xmin, 0).X) / s.Width + 26);
             else
             {

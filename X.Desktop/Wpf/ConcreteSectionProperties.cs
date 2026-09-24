@@ -46,11 +46,12 @@ internal sealed partial class ConcreteWorkspace
                 string report = await Task.Run(() =>
                 {
                 var section = model.Section;
-                var b = new System.Text.StringBuilder("SOLO CALCESTRUZZO · sezione lorda\n");
+                var b = new System.Text.StringBuilder(model.Geometry.Holes.Count>0?"SOLO CALCESTRUZZO · area al netto del foro, senza sottrarre le barre\n":"SOLO CALCESTRUZZO · sezione lorda\n");
                 void Value(string name, double value, string unit) => b.AppendLine($"{name} = {EngineeringFormat.Number(value)} {unit}");
                 // Width/Height are not implemented by the DLL's generic polygon section.
                 // Use the same geometric bounds that generated the native shape.
                 Value("Area", section.Area / 100, "cm²"); Value("Larghezza", model.Geometry.Width, "mm"); Value("Altezza", model.Geometry.Height, "mm");
+                if(model.Geometry.Shape=="Circolare")Value("Lati per contorno circolare",model.Geometry.CircularSides,"");
                 Value("Baricentro x", section.Centroid.X, "mm"); Value("Baricentro y", section.Centroid.Y, "mm");
                 foreach (string key in new[] { "Jxx", "Jyy", "Jxy", "Jp", "J11", "J22" }) Value(key, (double)section.GetType().GetProperty(key)!.GetValue(section)! / 1e4, "cm⁴");
                 foreach (string key in new[] { "WelXMin", "WelXMax", "WelYMin", "WelYMax" }) Value(key, (double)section.GetType().GetProperty(key)!.GetValue(section)! / 1e3, "cm³");

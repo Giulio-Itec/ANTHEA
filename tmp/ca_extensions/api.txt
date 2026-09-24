@@ -1,0 +1,281 @@
+TYPE GPC.Checker.Results.ResultType.StrainPlaneResult
+Double get_SigmaCMax()
+Double get_SigmaCMin()
+Double get_SigmaSMax()
+Double get_SigmaSSMax()
+Double get_SigmaSMin()
+Double get_SigmaPMax()
+Double get_SigmaPMin()
+Double get_SigmaSSMin()
+Double get_EpsilonCMax()
+Double get_EpsilonPMax()
+Double get_EpsilonSMax()
+Double get_EpsilonSSMax()
+Double get_EpsilonCMin()
+Double get_EpsilonSMin()
+Double get_EpsilonPMin()
+Double get_EpsilonSSMin()
+Double get_NetHeight()
+Double get_NeutralAxisDistance()
+Double get_NeutralAxisAngle()
+Boolean get_LinearAnalysis()
+Double get_PsiR()
+Double get_PsiT()
+GPC.Model.Results.ResultBeamForces get_ResultBeamForce()
+GPC.Checkers.Concrete.Results.StrainPlane get_StrainPlane()
+GPC.Checkers.Concrete.SectionSolvers.SectionSolver get_SectionSolver()
+Boolean Equals(System.Object)
+Boolean Equals(GPC.Checker.Results.ResultType.StrainPlaneResult)
+Int32 GetHashCode()
+Boolean op_Equality(GPC.Checker.Results.ResultType.StrainPlaneResult, GPC.Checker.Results.ResultType.StrainPlaneResult)
+Boolean op_Inequality(GPC.Checker.Results.ResultType.StrainPlaneResult, GPC.Checker.Results.ResultType.StrainPlaneResult)
+Double SigmaCMax
+Double SigmaCMin
+Double SigmaSMax
+Double SigmaSSMax
+Double SigmaSMin
+Double SigmaPMax
+Double SigmaPMin
+Double SigmaSSMin
+Double EpsilonCMax
+Double EpsilonPMax
+Double EpsilonSMax
+Double EpsilonSSMax
+Double EpsilonCMin
+Double EpsilonSMin
+Double EpsilonPMin
+Double EpsilonSSMin
+Double NetHeight
+Double NeutralAxisDistance
+Double NeutralAxisAngle
+Boolean LinearAnalysis
+Double PsiR
+Double PsiT
+GPC.Model.Results.ResultBeamForces ResultBeamForce
+GPC.Checkers.Concrete.Results.StrainPlane StrainPlane
+GPC.Checkers.Concrete.SectionSolvers.SectionSolver SectionSolver
+TYPE GPC.Checkers.Concrete.SectionSolvers.SectionSolver
+GPC.Model.Sections.Concrete.IConcreteSection get_ConcreteSection()
+GPC.Model.Materials.ConcreteMaterial get_ConcreteMaterial()
+GPC.Model.Standards.Standard get_StandardStructuralSteel()
+GPC.Geometry.Point2d get_IntegrationReferencePoint()
+Boolean get_ConsiderTensileConcrete()
+Int32 get_TetaDiscretization()
+Void set_TetaDiscretization(Int32)
+GPC.Checkers.Concrete.Results.FailureDomainResult GetFailureDomainResult()
+GPC.Checkers.Concrete.Results.FailureDomainResult2d GetFailureDomainResult2d()
+GPC.Checkers.Concrete.Results.FailureDomainResult GetElasticFailureDomainResult()
+GPC.Checkers.Concrete.Results.FailureDomainResult2d GetElasticFailureDomainResult2d(Double)
+GPC.Checkers.Concrete.Results.FailureDomainResult GetPlasticFailureDomainResult()
+GPC.Checkers.Concrete.Results.FailureDomainResult2d GetPlasticFailureDomainResult2d(Double)
+GPC.Checkers.Concrete.Results.StressAnalysisResult[] GetStressAnalysisResults(GPC.Model.Results.ResultBeamForces[])
+GPC.Checkers.Concrete.Results.StressAnalysisResult GetStressAnalysisResult(GPC.Model.Results.ResultBeamForces)
+GPC.Checkers.Concrete.Results.StressAnalysisResult[] GetLinearStressAnalysisResults(GPC.Model.Results.ResultBeamForces[], Double, System.Nullable`1[System.Double], SectionOptions)
+GPC.Checkers.Concrete.Results.StressAnalysisResult GetLinearStressAnalysisResult(GPC.Model.Results.ResultBeamForces, Double, System.Nullable`1[System.Double])
+FailureDomainPoint[] CalculateDomainPoint(GPC.Model.Results.ResultBeamForces[])
+Double CalculateElasticSigmaC(Double)
+Double CalculateElasticSigmaS(Double, GPC.Model.Sections.Concrete.ReinforcedConcreteRebar, Double)
+Double CalculateElasticSigmaS(Double, GPC.Model.Materials.SteelMaterial, Double, Double)
+Double CalculateElasticSigmaS(Double, GPC.Model.Sections.Steel.SteelSection, Double)
+Boolean Equals(System.Object)
+Int32 GetHashCode()
+Void GetObjectData(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+System.Collections.Generic.List`1[System.String] GetLog()
+GPC.Model.Sections.Concrete.IConcreteSection ConcreteSection
+GPC.Model.Materials.ConcreteMaterial ConcreteMaterial
+GPC.Model.Standards.Standard StandardStructuralSteel
+GPC.Geometry.Point2d IntegrationReferencePoint
+Boolean ConsiderTensileConcrete
+Int32 TetaDiscretization
+Double FROM_N_TO_KN
+Double FROM_KN_TO_N
+Double FROM_NM_TO_KNM
+Double FROM_KNM_TO_NM
+GPC.Checkers.Concrete.SectionSolvers.SectionSolver+FailureZones
+GPC.Checkers.Concrete.SectionSolvers.SectionSolver+FailureDomainTypes
+GPC.Checkers.Concrete.SectionSolvers.SectionSolver+StressAnalysisTypes
+GPC.Checkers.Concrete.SectionSolvers.SectionSolver+FailureAnalysisTypes
+GPC.Checkers.Concrete.SectionSolvers.SectionSolver+DomainPointStrategyTypes
+TYPE GPC.Checkers.Concrete.Results.StressAnalysisResult
+GPC.Model.Results.ResultBeamForces get_Force()
+GPC.Checkers.Concrete.Results.StrainPlane get_StrainPlane()
+GPC.Checkers.Concrete.SectionSolvers.SectionSolver get_SectionSolver()
+Boolean get_LinearElasticAnalysis()
+System.Nullable`1[System.Double] get_PsiRebar()
+System.Nullable`1[System.Double] get_PsiTendon()
+GPC.Checker.Results.ResultType.StrainPlaneResult CalculateStrainPlaneResult(Boolean, Double, Double)
+Double GetRebarTension(GPC.Model.Sections.Concrete.ReinforcedConcreteRebar)
+Double GetRebarTension(Double, GPC.Model.Sections.Concrete.ReinforcedConcreteRebar)
+Double GetRebarTension(GPC.Model.Materials.SteelMaterial, GPC.Geometry.Point2d, Double)
+Double GetRebarTension(Double, GPC.Model.Materials.SteelMaterial, GPC.Geometry.Point2d, Double)
+System.ValueTuple`2[GPC.Model.Sections.Concrete.ReinforcedConcreteRebar,System.Double][] GetRebarsTension()
+System.ValueTuple`2[GPC.Model.Sections.Concrete.ReinforcedConcreteRebar,System.Double][] GetRebarsTension(Double)
+System.ValueTuple`2[GPC.Model.Sections.Concrete.ReinforcedConcreteRebar,System.Double][] GetRebarsTension(Double, Double)
+Boolean GetRebarTension(GPC.Model.Sections.Concrete.ReinforcedConcreteRebar, Double ByRef)
+Boolean GetRebarTension(GPC.Model.Materials.SteelMaterial, GPC.Geometry.Point2d, Double, Double ByRef)
+Boolean GetRebarsTension(System.ValueTuple`2[GPC.Model.Sections.Concrete.ReinforcedConcreteRebar,System.Double][] ByRef)
+Boolean GetRebarTension(Double, GPC.Model.Sections.Concrete.ReinforcedConcreteRebar, Double ByRef)
+Boolean GetRebarTension(Double, GPC.Model.Materials.SteelMaterial, GPC.Geometry.Point2d, Double, Double ByRef)
+Boolean GetRebarsTension(Double, System.ValueTuple`2[GPC.Model.Sections.Concrete.ReinforcedConcreteRebar,System.Double][] ByRef)
+Boolean GetRebarsTension(Double, Double, System.ValueTuple`2[GPC.Model.Sections.Concrete.ReinforcedConcreteRebar,System.Double][] ByRef)
+System.ValueTuple`2[GPC.Model.Sections.Concrete.ReinforcedConcreteRebar,System.Double][] GetRebarsStrain()
+System.ValueTuple`2[GPC.Model.Sections.Concrete.ReinforcedConcreteRebar,System.Double][] GetRebarsStrain(Double)
+Double GetRebarStrain(GPC.Model.Sections.Concrete.ReinforcedConcreteRebar, Double)
+Double GetRebarStrain(GPC.Model.Sections.Concrete.ReinforcedConcreteRebar)
+System.ValueTuple`3[GPC.Model.Sections.Concrete.ReinforcedConcreteRebar,System.Double,System.Double][] SteelServiceabilityCharacteristicCheck()
+System.ValueTuple`3[GPC.Model.Sections.Concrete.ReinforcedConcreteRebar,System.Double,System.Double][] SteelServiceabilityCharacteristicCheck(Double)
+System.ValueTuple`3[GPC.Model.Sections.Concrete.ReinforcedConcreteRebar,System.Double,System.Double][] SteelServiceabilityCharacteristicCheck(Double, Double)
+Double GetConcreteTension(GPC.Geometry.Point2d)
+Double GetConcreteTension(Double, GPC.Geometry.Point2d)
+System.ValueTuple`2[GPC.Geometry.Point2d,System.Double][] GetConcreteVerticesTension()
+System.ValueTuple`2[GPC.Geometry.Point2d,System.Double][] GetConcreteVerticesTension(Double)
+Boolean GetConcreteTension(GPC.Geometry.Point2d, Double ByRef)
+Boolean GetConcreteVerticesTension(System.ValueTuple`2[GPC.Geometry.Point2d,System.Double][] ByRef)
+Boolean GetConcreteTension(Double, GPC.Geometry.Point2d, Double ByRef)
+Boolean GetConcreteVerticesTension(Double, System.ValueTuple`2[GPC.Geometry.Point2d,System.Double][] ByRef)
+Double[] GetVerticesStrain()
+Double GetVerticeStrain(GPC.Geometry.Point2d)
+Double GetVerticeStrain(GPC.Geometry.Point2d, Double)
+System.ValueTuple`3[GPC.Geometry.Point2d,System.Double,System.Double][] ConcreteServiceabilityQuasiPermanentCheck(Double)
+System.ValueTuple`3[GPC.Geometry.Point2d,System.Double,System.Double][] ConcreteServiceabilityQuasiPermanentCheck()
+System.ValueTuple`3[GPC.Geometry.Point2d,System.Double,System.Double][] ConcreteServiceabilityCharacteristicCheck(Double)
+System.ValueTuple`3[GPC.Geometry.Point2d,System.Double,System.Double][] ConcreteServiceabilityCharacteristicCheck()
+System.ValueTuple`2[GPC.Geometry.Point2d,System.Double][] GetStructuralSteelVerticesTension(System.Nullable`1[System.Double])
+Boolean GetStructuralSteelTension(GPC.Model.Sections.Steel.SteelSectionPosition ByRef, GPC.Geometry.Point2d ByRef, Double ByRef, System.Nullable`1[System.Double] ByRef)
+System.ValueTuple`2[GPC.Geometry.Point2d,System.Double][] GetStructuralSteelVerticesStrain(System.Nullable`1[System.Double])
+System.Collections.Generic.List`1[System.String] GetLog()
+Boolean Equals(System.Object)
+Int32 GetHashCode()
+Void GetObjectData(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+Void .ctor(GPC.Model.Sections.Concrete.IConcreteSection, GPC.Model.Results.ResultBeamForces, GPC.Checkers.Concrete.Results.StrainPlane, GPC.Checkers.Concrete.SectionSolvers.SectionSolver, GPC.Model.Standards.Standard, Boolean, System.Nullable`1[System.Double], System.Nullable`1[System.Double], Int32, GPC.Model.Standards.Standard)
+GPC.Model.Results.ResultBeamForces Force
+GPC.Checkers.Concrete.Results.StrainPlane StrainPlane
+GPC.Checkers.Concrete.SectionSolvers.SectionSolver SectionSolver
+Boolean LinearElasticAnalysis
+System.Nullable`1[System.Double] PsiRebar
+System.Nullable`1[System.Double] PsiTendon
+TYPE GPC.Checkers.Concrete.Results.StrainPlane
+GPC.Geometry.Point2d get_ReferencePoint()
+Double get_Teta()
+Double get_Chi()
+Double get_StrainReferencePoint()
+Double get_ChiX()
+Double get_ChiY()
+Double GetStrain(GPC.Geometry.Point2d)
+Double GetStrain(Double, Double)
+GPC.Geometry.Line2d GetNeutralAxisRespectReferencePoint()
+GPC.Geometry.Line2d GetNeutralAxis()
+GPC.Geometry.Line2d GetConstantStrainAxis(Double)
+GPC.Checker.Results.ResultType.StrainPlaneResult CalculateStrainPlaneResult(GPC.Model.Sections.Concrete.IConcreteSection, GPC.Model.Results.ResultBeamForces, GPC.Checkers.Concrete.SectionSolvers.SectionSolver, GPC.Model.Standards.Standard, Boolean, Double, Double, GPC.Model.Standards.Standard)
+Boolean Equals(GPC.Checkers.Concrete.Results.StrainPlane)
+Boolean Equals(System.Object)
+Int32 GetHashCode()
+Void GetObjectData(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+Void .ctor(GPC.Geometry.Point2d, Double, Double, Double, Int32, System.String)
+Void .ctor(Double, Double, GPC.Geometry.Point2d, Double, Int32, System.String)
+GPC.Geometry.Point2d ReferencePoint
+Double Teta
+Double Chi
+Double StrainReferencePoint
+Double ChiX
+Double ChiY
+TYPE GPC.Geometry.Shape2d
+GPC.Geometry.Polygon2d get_Fill2d()
+GPC.Geometry.Polygon2d[] get_Holes2d()
+GPC.Geometry.Shape2d[] get_Childs2d()
+GPC.Geometry.Shape2d Mirror2d(Double, Double, Double, Double)
+GPC.Geometry.Point2d[] GetPoints2d()
+GPC.Geometry.Shape Mirror(Double, Double, Double, Double)
+GPC.Geometry.BoundingBox2d Get2dBoundingBox()
+GPC.Geometry.Vector3d GetNormalVector(Double)
+Void Move(Double, Double)
+Void Move(Double, Double, Double)
+Void Move(GPC.Geometry.Vector3d)
+Void Move(GPC.Geometry.Vector2d)
+Void AddHole(GPC.Geometry.Polygon2d)
+Void AddHole(GPC.Geometry.Polygon3d)
+Boolean IsPointInside(GPC.Geometry.Point2d, Double)
+Boolean IsLineInside(GPC.Geometry.Line2d, Double)
+Boolean IsPolygonInside(GPC.Geometry.Polygon2d, Double)
+GPC.Geometry.Shape Scale(Double, Double)
+GPC.Geometry.Shape2d[] Union(GPC.Geometry.Shape2d[], GPC.Geometry.Shape2d[])
+GPC.Geometry.Shape2d[] Union(GPC.Geometry.Shape2d, GPC.Geometry.Shape2d)
+GPC.Geometry.Shape2d[] Difference(GPC.Geometry.Shape2d[], GPC.Geometry.Shape2d[])
+GPC.Geometry.Shape2d[] Difference(GPC.Geometry.Shape2d, GPC.Geometry.Shape2d)
+GPC.Geometry.Shape2d[] Intersection(GPC.Geometry.Shape2d[], GPC.Geometry.Shape2d[])
+GPC.Geometry.Shape2d[] Intersection(GPC.Geometry.Shape2d, GPC.Geometry.Shape2d)
+GPC.Geometry.Shape2d[] NotIntersection(GPC.Geometry.Shape2d[], GPC.Geometry.Shape2d[])
+GPC.Geometry.Shape2d[] NotIntersection(GPC.Geometry.Shape2d, GPC.Geometry.Shape2d)
+Boolean Equals(System.Object)
+Boolean Equals(GPC.Geometry.GeometryBase)
+System.Object Clone()
+Int32 GetHashCode()
+Boolean Equals(GPC.Geometry.Shape2d)
+Boolean op_Equality(GPC.Geometry.Shape2d, GPC.Geometry.Shape2d)
+Boolean op_Inequality(GPC.Geometry.Shape2d, GPC.Geometry.Shape2d)
+Void .ctor(GPC.Geometry.Shape2d, Double)
+Void .ctor(GPC.Geometry.Polygon2d, GPC.Geometry.Polygon2d[], GPC.Geometry.Shape2d[], Double)
+GPC.Geometry.Polygon2d Fill2d
+GPC.Geometry.Polygon2d[] Holes2d
+GPC.Geometry.Shape2d[] Childs2d
+TYPE GPC.Model.Materials.ConcreteMaterialEuropeanCommon
+Double get_Fck()
+Void set_Fck(Double)
+Double get_Fctk()
+Void set_Fctk(Double)
+Double get_Fctu()
+Void set_Fctu(Double)
+CementTypes get_CementType()
+Void set_CementType(CementTypes)
+Double get_Fcm()
+Double get_Fctm()
+Double get_Fctk95()
+Double get_Fctk05()
+Double get_Ecm()
+Double get_StrainYPureCompression()
+Double get_Ec()
+Double get_Rck()
+Double GetFctk05(Double)
+Double GetFctk95(Double)
+Double GetEcm(Double, Double)
+Double GetFctm(Double)
+Double GetBetaCC(Double)
+Double GetEpsilonCCInfiniteTime(Double, Double, Double, Double, Double, Double, Double)
+Double GetEpsilonCSInfiniteTime(Double, Double, Double)
+Double GetConfinedConcreteResistance(Double, Double ByRef, Double ByRef)
+Double GetConcreteServiceabilityQuasiPermanentStress(GPC.Model.Standards.StandardModelCode2010)
+Double GetConcreteServiceabilityCharacteristicStress(GPC.Model.Standards.StandardModelCode2010)
+Double CalculateDesignCompressiveStrength(GPC.Model.Standards.Standard)
+Double CalculateFcd(GPC.Model.Standards.StandardModelCode2010)
+Double CalculateDesignTensileStrength(GPC.Model.Standards.Standard)
+Double CalculateFctd(GPC.Model.Standards.StandardModelCode2010)
+Double CalculateFcdAccidental(GPC.Model.Standards.Standard)
+Double CalculateFcdAccidental(GPC.Model.Standards.StandardModelCode2010)
+Double CalculateFctdAccidental(GPC.Model.Standards.Standard)
+Double CalculateFctdAccidental(GPC.Model.Standards.StandardModelCode2010)
+Double CalculateECd(GPC.Model.Standards.Standard)
+Double CalculateECd(GPC.Model.Standards.StandardModelCode2010)
+Double CalculateDesignStressConcrete(GPC.Model.Standards.Standard, Double)
+Double CalculateDesignStressConcrete(GPC.Model.Standards.StandardModelCode2010, Double)
+Double CalculateDesignStressFromCharacteristic(GPC.Model.Standards.Standard, Double)
+Double CalculateDesignStressFromCharacteristic(GPC.Model.Standards.StandardModelCode2010, Double)
+Void GetObjectData(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+Boolean Equals(System.Object)
+Int32 GetHashCode()
+Boolean op_Equality(GPC.Model.Materials.ConcreteMaterialEuropeanCommon, GPC.Model.Materials.ConcreteMaterialEuropeanCommon)
+Boolean op_Inequality(GPC.Model.Materials.ConcreteMaterialEuropeanCommon, GPC.Model.Materials.ConcreteMaterialEuropeanCommon)
+Void .ctor(System.String, Double, CompressionStressStrainDiagrams, ConcreteTypes, Double, Double, Double, CementTypes)
+Void .ctor(System.String, Double, CompressionStressStrainDiagrams, Double, Double, Double, Double, TensionStressStrainDiagrams, ConcreteTypes, Double, Double, Double, CementTypes)
+Void .ctor(System.String, Double, Double, GPC.Model.Materials.StressStrainTable, GPC.Model.Materials.StressStrainTable, ConcreteTypes, Double, Double, Double, CementTypes)
+Double Fck
+Double Fctk
+Double Fctu
+CementTypes CementType
+Double Fcm
+Double Fctm
+Double Fctk95
+Double Fctk05
+Double Ecm
+Double StrainYPureCompression
+Double Ec
+Double Rck

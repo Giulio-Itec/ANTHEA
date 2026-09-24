@@ -31,7 +31,7 @@ internal sealed partial class ConcreteWorkspace
         using (JsonRow.DeferNotifications([notified])) notified.Output("eta", 1);
         Assert(notifications == 1, "Risultati invariati senza notifiche");
         async Task Capture(string name) { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); File.WriteAllBytes(Path.Combine(directory,"ca_"+name+".png"),Ui.Snapshot(this)); }
-        Assert(tabs.Items.Count==5 && sleTabs.Items.Count==3,"Schede CA e taglio");
+        Assert(tabs.Items.Count==7 && sleTabs.Items.Count==3,"Schede CA, dettagli e momento–curvatura");
         Assert(actions["SLE_FREQ"].Count==0 && actions["SLE_QP"].Count==0,"Nessuna combinazione inventata");
         Assert(actions["SLU"][0].Values.D("N")<0,"Compressione negativa");
         Assert(checker3D.Count==2 && checker2D.Count==2,"Domini nativi 3D e 2D");
@@ -159,7 +159,7 @@ internal sealed partial class ConcreteWorkspace
         await Capture("dominio_automatico");
         tabs.SelectedIndex = 3; sleTabs.SelectedIndex = 0;
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-        var contourChoice = Ui.Descendants<ComboBox>(this).Single(c => c.ItemsSource is string[] choices && choices.SequenceEqual(ConcreteSectionViewport.Contours));
+        var contourChoice = Ui.Descendants<ComboBox>(this).Single(c => c.IsVisible && c.ItemsSource is string[] choices && choices.SequenceEqual(ConcreteSectionViewport.Contours));
         var contourResult = Result;
         foreach (string contour in ConcreteSectionViewport.Contours)
         {

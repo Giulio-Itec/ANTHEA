@@ -22,7 +22,7 @@ public sealed class CheckerSectionModel
         => (Section, Local, Geometry) = (section, local, geometry);
 }
 
-public sealed class CheckerSection
+public sealed partial class CheckerSection
 {
     private static readonly object NativeSolverConstruction = new();
     public CheckerSectionModel Model { get; }
@@ -49,7 +49,9 @@ public sealed class CheckerSection
         var geometry = new SezioneCA(input);
         var concrete = ConcreteMaterials.Concrete(input);
         var steel = ConcreteMaterials.Rebar(input);
-        var section = new ReinforcedConcreteSection(new Shape2d(new Polygon2d(geometry.Outline.Select(p => new Point2d(p[0], p[1])).ToArray())), concrete);
+        var shape = new Shape2d(new Polygon2d(geometry.Outline.Select(p => new Point2d(p[0], p[1])).ToArray()));
+        foreach(var hole in geometry.Holes)shape.AddHole(new Polygon2d(hole.Select(p=>new Point2d(p[0],p[1])).ToArray()));
+        var section = new ReinforcedConcreteSection(shape, concrete);
         for (int i = 0; i < geometry.Bars.Count; i++)
         {
             var b = geometry.Bars[i]; ValidateRebarPosition(geometry, section, b.X, b.Y, b.Diametro / 2, "B" + (i + 1).ToString("D2"));
@@ -111,6 +113,18 @@ public sealed class CheckerSection
             distance = Math.Min(distance, Math.Sqrt(Math.Pow(x - a[0] - u * dx, 2) + Math.Pow(y - a[1] - u * dy, 2)));
         }
         if (!inside || distance < radius) throw new ArgumentException($"Armatura {id}: area esterna alla sezione di calcestruzzo.");
+        foreach(var hole in geometry.Holes)
+        {
+            bool inHole=false;double nearest=double.PositiveInfinity;
+            for(int i=0,j=hole.Length-1;i<hole.Length;j=i++)
+            {
+                var a=hole[j];var b=hole[i];
+                if((a[1]>y)!=(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])inHole=!inHole;
+                double dx=b[0]-a[0],dy=b[1]-a[1],u=Math.Clamp(((x-a[0])*dx+(y-a[1])*dy)/(dx*dx+dy*dy),0,1);
+                nearest=Math.Min(nearest,double.Hypot(x-a[0]-u*dx,y-a[1]-u*dy));
+            }
+            if(inHole||nearest<radius)throw new ArgumentException($"Armatura {id}: interseca il foro della sezione.");
+        }
         foreach (var bar in section.Rebars)
         {
             // Cross-section radii include ordinary bars and tendons already inserted.
@@ -171,6 +185,17 @@ public sealed class CheckerSection
             throw new ArgumentException("SLE trefolo con σp0 nullo: la DLL distingue il trefolo tramite la predeformazione; classificazione e limiti da completare. Nessun esito automatico.");
         // Correct public single-force overload (the old bulk-async overload has inverted linear/nonlinear branches).
         var result = Checker.GetTensionAnalysisResult(Force(action));
+        return DescribeStress(result, set);
+    }
+    public CheckerStressState LimitState(FailureDomain.FailureDomainPoint point)
+    {
+        var force = new ResultBeamForces(point.NRd, 0, 0, 0, point.MxRd, point.MyRd, Local);
+        // Sample the saved limit plane. Never solve equilibrium again at Rd.
+        var result = new StressAnalysisResult(Section, force, point.StrainPlane, Checker.SectionSolver, standard, false, null, null, 0, null);
+        return DescribeStress(result, "LIMITE");
+    }
+    private CheckerStressState DescribeStress(StressAnalysisResult result, string set)
+    {
         if (result?.StrainPlane is null || Section.Shape.GetPoints2d().Any(p => !double.IsFinite(result.StrainPlane.GetStrain(p))))
             throw new ArgumentException("Checker: analisi tensionale non convergente.");
         bool linear = result.LinearElasticAnalysis; double phi = Checker.SectionCheckerOptions.PsiCoefficientRebar, phiT = Checker.SectionCheckerOptions.PsiCoefficientTendon;
@@ -190,7 +215,7 @@ public sealed class CheckerSection
         var material = (ConcreteMaterialEuropeanCommon)Section.ConcreteMaterial;
         var response = SectionResponse.From(result.CalculateStrainPlaneResult(linear, linear ? phi : 0, linear ? phiT : 0));
         return new(concrete.Min(c => c.tension), bars.Max(b => Math.Abs(b.tension)), bars.Select(b => b.tension).ToArray(), fibers, ratio,
-            set == "SLE_FREQ" ? "Tensioni calcolate · limite non previsto" : ratio <= 1 ? "Entro limiti tensionali" : "Oltre limiti tensionali", result)
+            ratio is null ? "Stato tensionale calcolato" : ratio <= 1 ? "Entro limiti tensionali" : "Oltre limiti tensionali", result)
         {
             Response = response,
             ConcreteCompressionStrength = Math.Abs(material.CalculateFcd(standard)), ConcreteTensionStrength = Math.Abs(material.CalculateFctd(standard)),
@@ -340,7 +365,7 @@ public sealed class CheckerDomain3D(CheckerSection section, FailureDomainResult 
     }
     private DomainCheck Describe(FailureDomain.FailureDomainPoint? p, ResultBeamForces force)
         => p is null ? new(null, null, "Checker: punto resistente non trovato")
-         : Outcome(p.CalculateWorkingRatio(Native.FailureAnalysisType, force, 1e6, 1000), CheckerSection.Point(p)) with { Response = Section.Describe(p) };
+         : Outcome(p.CalculateWorkingRatio(Native.FailureAnalysisType, force, 1e6, 1000), CheckerSection.Point(p)) with { Response = Section.Describe(p), LimitState = new(() => Section.LimitState(p)) };
     internal static DomainCheck Outcome(double ratio, ActionPoint p)
         => !double.IsFinite(ratio) || ratio < 0 || !double.IsFinite(p.N + p.Mx + p.My) ? new(null, null, "Checker: resistenza non determinata")
          : new(ratio, p, ratio <= 1 ? "Entro il dominio" : "Fuori dominio");
@@ -391,7 +416,7 @@ public sealed class CheckerDomain2D
         // Use the native working-ratio calculation on collinear actions in section coordinates.
         var comparable = new ResultBeamForces(local.N * 1000, 0, 0, 0, local.Mx * 1e6, local.My * 1e6, Section.Local);
         var check = CheckerDomain3D.Outcome(point.CalculateWorkingRatio(NM ? SectionSolver.FailureAnalysisTypes.ConstantEccentricity : SectionSolver.FailureAnalysisTypes.ConstantN, comparable, 1e6, 1000), CheckerSection.Point(point));
-        check = check with { Response = Section.Describe(point) };
+        check = check with { Response = Section.Describe(point), LimitState = new(() => Section.LimitState(point)) };
         return !inPlane && project ? check with { Status = check.Status + " · azione proiettata" } : check;
     }
 }

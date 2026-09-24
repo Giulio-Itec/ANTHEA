@@ -24,6 +24,7 @@ internal sealed partial class ConcreteWorkspace
         internal InputForm Options = null!;
         internal JsonGrid Grid = null!;
         internal TabItem CrackTab = null!;
+        internal readonly ComboBox Regions = new();
     }
     private UIElement BuildStressTabs()
     {
@@ -52,6 +53,10 @@ internal sealed partial class ConcreteWorkspace
             var instructions = Notice("Analisi Checker lineare/non lineare. Rara: limiti CLS e acciaio; quasi permanente: limite CLS. Frequente: tensioni calcolate, nessun limite tensionale automatico. φ è il coefficiente di viscosità.");
             var optionsPanel = Panel("Opzioni SLE comuni", Scroller(Ui.Stack(panel.Options, instructions)), "Modifiche valide per Rara, Frequente e Quasi permanente. Azioni separate, già combinate.");
             var viewport = new ViewportFrame("Mappa tensionale della sezione", panel.View, panel.View.ResetView);
+            panel.Regions.SelectionChanged += (_,_)=>{panel.View.EffectiveRegion=panel.Regions.SelectedItem as ConcreteEffectiveRegion;panel.View.InvalidateVisual();};
+            panel.Regions.DisplayMemberPath="Name";
+            panel.Regions.ToolTip="Zona efficace per la fessurazione · barre incluse evidenziate in arancione";
+            viewport.Toolbar.Children.Add(panel.Regions);
             var contour = Ui.Choice(ConcreteSectionViewport.Contours, options.S("contour", ConcreteSectionViewport.Contours[0])); contour.Width = 205;
             panel.View.Contour = contour.SelectedItem as string ?? ConcreteSectionViewport.Contours[0];
             options["contour"] = panel.View.Contour;
@@ -142,7 +147,13 @@ internal sealed partial class ConcreteWorkspace
         using var concreteRefresh = panel.Concrete.Rows.DeferRefresh();
         var row = panel.Grid.SelectedItem as JsonRow; var outcome = row is null ? null : stressResults.GetValueOrDefault(key)?.GetValueOrDefault(row.Values.S("id"));
         panel.CrackDetail.Text = (row is null ? "" : SectionWorkspace.Label(key) + " · " + row.Values.S("nome") + "\n\n") + CrackCalculationSummary.Format(outcome?.CrackResult, outcome?.Cracking ?? "Selezionare una combinazione calcolata.");
-        panel.View.Stress = outcome?.State; panel.View.InvalidateVisual(); panel.Bars.Rows.Clear(); panel.Concrete.Rows.Clear();
+        if(outcome?.CrackResult is { } crackTrace && crackTrace.Regions.Length>0)
+            panel.CrackDetail.Text+="\n\nZONE EFFICACI\n"+string.Join("\n",crackTrace.Regions.Select(r=>$"{r.Name}: Ac,eff={r.Area:0.###} mm²; As,eff={r.SteelArea:0.###} mm²; wk={r.Width:0.######} mm · "+string.Join(", ",r.BarIndices.Select(i=>$"B{i+1:00}"))))+"\n\nPASSAGGI COMPLETI\n"+string.Join("\n\n",crackTrace.Details.Select(d=>d.Format()));
+        panel.View.Stress = outcome?.State;
+        panel.Regions.ItemsSource=outcome?.CrackResult?.Regions??[];
+        panel.Regions.SelectedIndex=panel.Regions.Items.Count>0?0:-1;
+        panel.View.EffectiveRegion=panel.Regions.SelectedItem as ConcreteEffectiveRegion;
+        panel.View.InvalidateVisual(); panel.Bars.Rows.Clear(); panel.Concrete.Rows.Clear();
         if (outcome?.State is CheckerStressState state)
         {
             panel.Detail.Text = $"{row!.Values.S("nome")}\n\nσc,min = {state.sigma_cls:0.00} MPa\n|σs|max = {state.sigma_acciaio:0.00} MPa\nησ = {outcome.Ratio?.ToString("0.00") ?? "—"}\n\n{outcome.Status}\n\n{outcome.Cracking}\nwk = {outcome.CrackResult?.Width?.ToString("0.00") ?? "—"} mm\nLimite = {outcome.CrackResult?.Limit?.ToString("0.00") ?? "—"} mm\nηw = {outcome.CrackResult?.Ratio?.ToString("0.00") ?? "—"}";

@@ -11,7 +11,7 @@ public partial class App : Application
         base.OnStartup(e);
         DispatcherUnhandledException += (_, error) =>
         {
-            if (e.Args.Length >= 2 && e.Args[0] is "--smoke" or "--smoke-horizontal" or "--smoke-display" or "--smoke-ca-features" or "--smoke-projects" or "--smoke-materials" or "--smoke-sharing" or "--smoke-steel" or "--smoke-hierarchy" or "--smoke-project-report")
+            if (e.Args.Length >= 2 && e.Args[0] is "--smoke" or "--smoke-horizontal" or "--smoke-display" or "--smoke-ca-features" or "--smoke-ca-extensions" or "--smoke-projects" or "--smoke-materials")
             {
                 Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), error.Exception.ToString());
                 error.Handled = true; Shutdown(1); return;
@@ -21,7 +21,7 @@ public partial class App : Application
         };
         var window = new MainWindow();
         MainWindow = window;
-        if (e.Args.Length == 3 && e.Args[0] == "--smoke" || e.Args.Length == 2 && e.Args[0] is "--smoke-horizontal" or "--smoke-display" or "--smoke-ca-features" or "--smoke-projects" or "--smoke-materials" or "--smoke-sharing" or "--smoke-steel" or "--smoke-hierarchy" or "--smoke-project-report")
+        if (e.Args.Length == 3 && e.Args[0] == "--smoke" || e.Args.Length == 2 && e.Args[0] is "--smoke-horizontal" or "--smoke-display" or "--smoke-ca-features" or "--smoke-ca-extensions" or "--smoke-projects" or "--smoke-materials")
         {
             window.ContentRendered += RunSmoke;
             async void RunSmoke(object? sender, EventArgs args)
@@ -37,6 +37,7 @@ public partial class App : Application
                     else if (e.Args[0] == "--smoke-materials") await window.SmokeMaterials(e.Args[1]);
                     else if (e.Args[0] == "--smoke-projects") await window.SmokeProjects(e.Args[1]);
                     else if (e.Args[0] == "--smoke-ca-features") await window.SmokeConcreteFeatures(e.Args[1]);
+                    else if (e.Args[0] == "--smoke-ca-extensions") await window.SmokeConcreteExtensions(e.Args[1]);
                     else if (e.Args[0] == "--smoke-display") await window.SmokeDisplay(e.Args[1]);
                     else if (e.Args[0] == "--smoke-horizontal") await window.SmokeHorizontal(e.Args[1]);
                     else { await window.Smoke(e.Args[1], JsonNode.Parse(File.ReadAllText(e.Args[2]))!.AsArray()); await window.SmokeHorizontal(e.Args[1]); }

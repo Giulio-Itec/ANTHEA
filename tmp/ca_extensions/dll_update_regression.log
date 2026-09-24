@@ -1,0 +1,66 @@
+ANTHEA — verifiche C#
+FAIL palo_storico_0: palo_storico_0.curve.drenante_compressione.media[1][1]: Python=17.25830632535551; C#=16.85101684299288; delta=0.4072894823626285
+FAIL palo_storico_3: palo_storico_3.curve.drenante_compressione.media[1][1]: Python=12.444463019807642; C#=12.118631433917537; delta=0.3258315858901053
+FAIL sezione_Circolare_35_2500_500: sezione_Circolare_35_2500_500.section_outline: lunghezza diversa
+FAIL elastica_Circolare_35_2500_500: elastica_Circolare_35_2500_500.sigma_cls: Python=8.12437157898777; C#=8.110736275385388; delta=0.013635303602381299
+FAIL sezione_Circolare_35_0_200: sezione_Circolare_35_0_200.section_outline: lunghezza diversa
+FAIL elastica_Circolare_35_0_200: elastica_Circolare_35_0_200.sigma_cls: Python=3.7117259853531017; C#=3.6960524605577745; delta=0.015673524795327243
+FAIL sezione_Circolare_35_-300_0: sezione_Circolare_35_-300_0.section_outline: lunghezza diversa
+FAIL sezione_Circolare_35_1000_0: sezione_Circolare_35_1000_0.section_outline: lunghezza diversa
+FAIL sezione_Circolare_35_0_0: sezione_Circolare_35_0_0.section_outline: lunghezza diversa
+FAIL sezione_Circolare_35_12000_1000: sezione_Circolare_35_12000_1000.section_outline: lunghezza diversa
+FAIL elastica_Circolare_35_12000_1000: elastica_Circolare_35_12000_1000.sigma_cls: Python=23.250707912780697; C#=23.226731133978625; delta=0.02397677880207283
+FAIL limite_Circolare_35: limite_Circolare_35.state.sigma_cls: Python=16.858618736705473; C#=16.861146634390252; delta=0.0025278976847786794
+FAIL sezione_Circolare_70_2500_500: sezione_Circolare_70_2500_500.section_outline: lunghezza diversa
+FAIL elastica_Circolare_70_2500_500: elastica_Circolare_70_2500_500.sigma_cls: Python=8.12437157898777; C#=8.110736275385388; delta=0.013635303602381299
+FAIL sezione_Circolare_70_0_200: sezione_Circolare_70_0_200.section_outline: lunghezza diversa
+FAIL elastica_Circolare_70_0_200: elastica_Circolare_70_0_200.sigma_cls: Python=3.7117259853531017; C#=3.6960524605577745; delta=0.015673524795327243
+FAIL sezione_Circolare_70_-300_0: sezione_Circolare_70_-300_0.section_outline: lunghezza diversa
+FAIL sezione_Circolare_70_1000_0: sezione_Circolare_70_1000_0.section_outline: lunghezza diversa
+FAIL sezione_Circolare_70_0_0: sezione_Circolare_70_0_0.section_outline: lunghezza diversa
+FAIL sezione_Circolare_70_12000_1000: sezione_Circolare_70_12000_1000.section_outline: lunghezza diversa
+FAIL elastica_Circolare_70_12000_1000: elastica_Circolare_70_12000_1000.sigma_cls: Python=23.250707912780697; C#=23.226731133978625; delta=0.02397677880207283
+FAIL limite_Circolare_70: limite_Circolare_70.state.sigma_cls: Python=16.858618736705473; C#=16.861146634390252; delta=0.0025278976847786794
+FAIL sezione_A T_35_2500_500: sezione_A T_35_2500_500.bars[10][1]: Python=-293.1025641025641; C#=-105.76923076923077; delta=187.33333333333331
+FAIL elastica_A T_35_2500_500: elastica_A T_35_2500_500.piano[0]: Python=4.184773209323953; C#=4.059035730735277; delta=0.12573747858867534
+FAIL sezione_A T_35_0_200: sezione_A T_35_0_200.bars[10][1]: Python=-293.1025641025641; C#=-105.76923076923077; delta=187.33333333333331
+FAIL elastica_A T_35_0_200: elastica_A T_35_0_200.piano[0]: Python=-1.50279782945631; C#=-1.7845144942969748; delta=0.2817166648406648
+FAIL sezione_A T_35_-300_0: sezione_A T_35_-300_0.bars[10][1]: Python=-293.1025641025641; C#=-105.76923076923077; delta=187.33333333333331
+FAIL elastica_A T_35_-300_0: elastica_A T_35_-300_0.piano[0]: Python=-7.118609107165482; C#=-5.700362385040241; delta=1.4182467221252413
+FAIL sezione_A T_35_1000_0: sezione_A T_35_1000_0.bars[10][1]: Python=-293.1025641025641; C#=-105.76923076923077; delta=187.33333333333331
+FAIL elastica_A T_35_1000_0: elastica_A T_35_1000_0.piano[0]: Python=1.7220439806136447; C#=1.7151898551573677; delta=0.00685412545627706
+FAIL sezione_A T_35_0_0: sezione_A T_35_0_0.bars[10][1]: Python=-293.1025641025641; C#=-105.76923076923077; delta=187.33333333333331
+FAIL sezione_A T_35_12000_1000: sezione_A T_35_12000_1000.bars[10][1]: Python=-293.1025641025641; C#=-105.76923076923077; delta=187.33333333333331
+FAIL elastica_A T_35_12000_1000: elastica_A T_35_12000_1000.piano[0]: Python=21.383310091151376; C#=21.149896596266565; delta=0.233413494884811
+FAIL limite_A T_35: limite_A T_35.moment: Python=993.1319533046733; C#=927.7078066826869; delta=65.42414662198644
+FAIL dominio_A T_35_Plastico: dominio_A T_35_Plastico.nm[1][0]: Python=411.6758143342396; C#=323.2435325012953; delta=88.43228183294428
+FAIL dominio_A T_35_Elastico: dominio_A T_35_Elastico.nm[0][0]: Python=411.73825371725695; C#=323.3397682671044; delta=88.39848545015258
+FAIL sezione_A T_70_2500_500: sezione_A T_70_2500_500.bars[10][1]: Python=-293.1025641025641; C#=-105.76923076923077; delta=187.33333333333331
+FAIL elastica_A T_70_2500_500: elastica_A T_70_2500_500.piano[0]: Python=4.184773209323953; C#=4.059035730735277; delta=0.12573747858867534
+FAIL sezione_A T_70_0_200: sezione_A T_70_0_200.bars[10][1]: Python=-293.1025641025641; C#=-105.76923076923077; delta=187.33333333333331
+FAIL elastica_A T_70_0_200: elastica_A T_70_0_200.piano[0]: Python=-1.50279782945631; C#=-1.7845144942969748; delta=0.2817166648406648
+FAIL sezione_A T_70_-300_0: sezione_A T_70_-300_0.bars[10][1]: Python=-293.1025641025641; C#=-105.76923076923077; delta=187.33333333333331
+FAIL elastica_A T_70_-300_0: elastica_A T_70_-300_0.piano[0]: Python=-7.118609107165482; C#=-5.700362385040241; delta=1.4182467221252413
+FAIL sezione_A T_70_1000_0: sezione_A T_70_1000_0.bars[10][1]: Python=-293.1025641025641; C#=-105.76923076923077; delta=187.33333333333331
+FAIL elastica_A T_70_1000_0: elastica_A T_70_1000_0.piano[0]: Python=1.7220439806136447; C#=1.7151898551573677; delta=0.00685412545627706
+FAIL sezione_A T_70_0_0: sezione_A T_70_0_0.bars[10][1]: Python=-293.1025641025641; C#=-105.76923076923077; delta=187.33333333333331
+FAIL sezione_A T_70_12000_1000: sezione_A T_70_12000_1000.bars[10][1]: Python=-293.1025641025641; C#=-105.76923076923077; delta=187.33333333333331
+FAIL elastica_A T_70_12000_1000: elastica_A T_70_12000_1000.piano[0]: Python=21.383310091151376; C#=21.149896596266565; delta=0.233413494884811
+FAIL limite_A T_70: limite_A T_70.moment: Python=993.1319533046733; C#=927.7078066826869; delta=65.42414662198644
+FAIL dominio_A T_70_Plastico: dominio_A T_70_Plastico.nm[1][0]: Python=411.6758143342396; C#=323.2435325012953; delta=88.43228183294428
+FAIL dominio_A T_70_Elastico: dominio_A T_70_Elastico.nm[0][0]: Python=411.73825371725695; C#=323.3397682671044; delta=88.39848545015258
+Controlli software, archivi e report: 1177 superati.
+Checker DLL e controlli NTC: 102 controlli superati.
+Excel azioni: 18 controlli superati.
+Estensioni CA: 174 controlli superati.
+{
+  "casi_superati": 414,
+  "controlli_software_superati": 2550,
+  "casi_falliti": 50,
+  "valori_numerici_confrontati": 966937,
+  "massimo_delta_assoluto": 187.33333333333331,
+  "massimo_delta_relativo_scalato": 0.6391391829236287,
+  "percorso_massimo_delta": "sezione_A T_35_2500_500.bars[10][1]",
+  "tolleranza_assoluta": 1E-08,
+  "tolleranza_relativa": 1E-10
+}

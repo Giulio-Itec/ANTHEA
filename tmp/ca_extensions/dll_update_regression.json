@@ -1,0 +1,11 @@
+{
+  "casi_superati": 414,
+  "controlli_software_superati": 2550,
+  "casi_falliti": 50,
+  "valori_numerici_confrontati": 966937,
+  "massimo_delta_assoluto": 187.33333333333331,
+  "massimo_delta_relativo_scalato": 0.6391391829236287,
+  "percorso_massimo_delta": "sezione_A T_35_2500_500.bars[10][1]",
+  "tolleranza_assoluta": 1E-08,
+  "tolleranza_relativa": 1E-10
+}

@@ -1,0 +1,538 @@
+Quasi permanente · Diagnostica fessure
+
+Apertura entro limite
+Riepilogo essenziale · NTC 2018 e Circolare 2019 § C4.1.2.2.4.5
+Due decimali; notazione scientifica per valori molto piccoli. Deformazioni adimensionali. Traccia completa nel JSON.
+
+h = 1000.00 mm · Altezza nella direzione della deformazione
+d = 658.08 mm · Altezza utile delle armature tese
+x = 259.56 mm · Profondità dell'asse neutro
+hc,eff = 246.81 mm · min[2,5(h−d); (h−x)/3; h/2] · Fig. C4.1.10
+Ac,eff = 150739.86 mm² · Area efficace di CLS teso · Fig. C4.1.10
+As,eff = 2261.95 mm² · Area delle barre tese nella fascia efficace
+ρp,eff = 0.02 − · As,eff / Ac,eff
+c = 80.00 mm · Copriferro adottato
+Øeq = 24.00 mm · Diametro equivalente · C4.1.8
+s = 160.22 mm · Interasse delle barre tese adottato
+Es = 200000.00 MPa · Modulo elastico dell'acciaio
+Ecm = 34077.15 MPa · Modulo elastico medio del CLS
+fct,eff = fctm = 3.21 MPa · Resistenza efficace a trazione: assunzione adottata
+σs = 56.05 MPa · Massima tensione nelle barre efficaci
+αe = 5.87 − · Es / Ecm, distinto da n dell'analisi viscosa
+kt = 0.60 − · Coefficiente di durata del carico
+k₁ = 1.60 − · Coefficiente di aderenza · C4.1.7
+k₂ = 0.50 − · Criterio k₂ adottato: barre compresse → flessione; altrimenti trazione
+k₃ = 3.40 − · Coefficiente del copriferro · C4.1.7
+k₄ = 0.43 − · Coefficiente dell'armatura · C4.1.7
+Δε calcolata = -4.18E-4 − · [σs − kt·fct,eff·(1+αe·ρp,eff)/ρp,eff] / Es
+Δε minima = 1.68E-4 − · 0,6·σs / Es
+εsm − εcm = 1.68E-4 − · max[Δε calcolata; Δε minima]
+s_lim = 460.00 mm · 5·(c + Øeq/2): soglia di interasse
+Δsm,vicino = 479.88 mm · (k₃·c + k₁·k₂·k₄·Øeq/ρp,eff) / 1,7 · C4.1.7
+Δsm,distante = 555.33 mm · 0,75·(h−x) · C4.1.10
+Δsm adottata = 479.88 mm · s ≤ s_lim: vicino; altrimenti max[vicino; distante]
+wk = 0.14 mm · 1,7·Δsm·(εsm−εcm): apertura calcolata
+wlim = 0.30 mm · Limite per ambiente e combinazione
+ηw = 0.46 − · Tasso di lavoro della verifica
+
+
+ZONE EFFICACI
+Zona tesa efficace: Ac,eff=150739.86 mm²; As,eff=2261.947 mm²; wk=0.137181 mm · B11, B12, B13, B14, B15
+
+PASSAGGI COMPLETI
+Verifica: Quasi permanente · XC1 · Poco sensibile · durata Breve · aderenza Liscia
+
+Modello: Lineare · CLS teso: No
+  Tensioni e piano di deformazione provenienti da Checker; compressione negativa.
+
+N = -100 kN
+  Azione negli assi Locali
+
+Mx = 150 kNm
+  Azione della combinazione
+
+My = 0 kNm
+  Azione della combinazione
+
+φ = 0 [−]
+  Coefficiente utilizzato nell'analisi tensionale
+
+γc (input) = 1,5 [−]
+  Coefficiente di materiale della sezione
+  Non compare direttamente nella formula wk: qui si usa fctm, non fctd.
+
+γs (input) = 1,15 [−]
+  Coefficiente di materiale della sezione
+  Non è applicato come divisore aggiuntivo di σs nella formula wk.
+
+Criterio: Apertura fessure
+  Criterio selezionato dal codice in funzione di famiglia SLE, esposizione e sensibilità.
+
+wlim = 0,3 mm
+  Limite di apertura selezionato
+  Confronto wk ≤ wlim
+
+Barre compresse per k₂ = 5 [−]
+  Conteggio σs < 0 su tutte le armature ordinarie, anche fuori dall'area efficace
+
+Barre tese per k₂ = 11 [−]
+  Conteggio σs > 0
+
+Barre a tensione nulla per k₂ = 0 [−]
+  Conteggio σs = 0
+
+Criterio k₂ = 0,5 [−]
+  Flessione: almeno una armatura compressa → k₂ = 0,50
+  Selezione per la combinazione corrente, dalle tensioni Checker.
+
+εc,min = -0,0001121829209 [−]
+  min ε ai vertici, prima dei criteri di applicabilità
+
+εc,max = 0,0003200238378 [−]
+  max ε ai vertici
+
+Tolleranza compressione = 1E-12 [−]
+  Se εc,max ≤ tolleranza, wk = 0
+
+χx = -3,604776509E-11 1/mm
+  Componente del gradiente di deformazione restituita da Checker
+
+χy = -4,322067587E-07 1/mm
+  Componente del gradiente di deformazione restituita da Checker
+
+|∇ε| = 4,322067602E-07 1/mm
+  sqrt(χx² + χy²)
+
+qx = -8,340398256E-05 [−]
+  χx / |∇ε|
+
+qy = -0,9999999965 [−]
+  χy / |∇ε|
+
+Qmax = 499,9999983 mm
+  max(qx·x + qy·y) sui vertici
+
+Qmin = -499,9999983 mm
+  min(qx·x + qy·y) sui vertici
+
+h = 999,9999965 mm
+  Qmax − Qmin; altezza proiettata lungo il gradiente
+
+h − x = 740,441537 mm
+  εc,max / |∇ε|; profondità tesa
+
+x = 259,5584595 mm
+  h − profondità tesa; profondità compressa
+
+Numero barre tese = 11 [−]
+  Barre con ε > 0
+
+QG,s = 158,0804387 mm
+  Σ(Qi·As,i) / ΣAs,i sulle barre tese
+
+h − d = 341,9195595 mm
+  Qmax − QG,s
+
+d = 658,080437 mm
+  h − (h − d)
+
+Candidato 1 hc,eff = 854,7988989 mm
+  2,5·(h − d)
+
+Candidato 2 hc,eff = 246,8138457 mm
+  (h − x) / 3
+
+Candidato 3 hc,eff = 499,9999983 mm
+  h / 2
+
+hc,eff = 246,8138457 mm
+  min[2,5·(h − d); (h − x)/3; h/2]
+
+Qtaglio = 253,1861526 mm
+  Qmax − hc,eff; fascia efficace Q ≥ Qtaglio
+
+Ac,eff = 150739,8604 mm²
+  Somma delle aree delle facce della mesh tagliata nella fascia efficace
+  Integrazione geometrica sulla mesh Checker.
+
+Numero barre efficaci = 5 [−]
+  Barre tese con Q ≥ Qtaglio − 10⁻⁸ mm
+
+B01 · ε = 0,000103905751 [−]
+  ε(x,y) dal piano Checker
+  Tesa ma esclusa da As,eff
+
+B01 · x = 408 mm
+  Coordinata della barra
+
+B01 · y = 0 mm
+  Coordinata della barra
+
+B01 · Q = -0,03402882488 mm
+  qx·x + qy·y
+
+B01 · Ø = 24 mm
+  Diametro della barra
+
+B01 · As = 452,3893421 mm²
+  Area della barra
+
+B01 · σs = 20,7811502 MPa
+  Tensione nativa nella barra
+
+B02 · ε = 3,642433724E-05 [−]
+  ε(x,y) dal piano Checker
+  Tesa ma esclusa da As,eff
+
+B02 · x = 376,9428493 mm
+  Coordinata della barra
+
+B02 · y = 156,1348404 mm
+  Coordinata della barra
+
+B02 · Q = -156,1662784 mm
+  qx·x + qy·y
+
+B02 · Ø = 24 mm
+  Diametro della barra
+
+B02 · As = 452,3893421 mm²
+  Area della barra
+
+B02 · σs = 7,284867447 MPa
+  Tensione nativa nella barra
+
+B08 · ε = 3,645151313E-05 [−]
+  ε(x,y) dal piano Checker
+  Tesa ma esclusa da As,eff
+
+B08 · x = -376,9428493 mm
+  Coordinata della barra
+
+B08 · y = 156,1348404 mm
+  Coordinata della barra
+
+B08 · Q = -156,1034013 mm
+  qx·x + qy·y
+
+B08 · Ø = 24 mm
+  Diametro della barra
+
+B08 · As = 452,3893421 mm²
+  Area della barra
+
+B08 · σs = 7,290302626 MPa
+  Tensione nativa nella barra
+
+B09 · ε = 0,000103935166 [−]
+  ε(x,y) dal piano Checker
+  Tesa ma esclusa da As,eff
+
+B09 · x = -408 mm
+  Coordinata della barra
+
+B09 · y = 4,996558941E-14 mm
+  Coordinata della barra
+
+B09 · Q = 0,03402882488 mm
+  qx·x + qy·y
+
+B09 · Ø = 24 mm
+  Diametro della barra
+
+B09 · As = 452,3893421 mm²
+  Area della barra
+
+B09 · σs = 20,78703319 MPa
+  Tensione nativa nella barra
+
+B10 · ε = 0,0001714165797 [−]
+  ε(x,y) dal piano Checker
+  Tesa ma esclusa da As,eff
+
+B10 · x = -376,9428493 mm
+  Coordinata della barra
+
+B10 · y = -156,1348404 mm
+  Coordinata della barra
+
+B10 · Q = 156,1662784 mm
+  qx·x + qy·y
+
+B10 · Ø = 24 mm
+  Diametro della barra
+
+B10 · As = 452,3893421 mm²
+  Area della barra
+
+B10 · σs = 34,28331594 MPa
+  Tensione nativa nella barra
+
+B11 · ε = 0,0002286223209 [−]
+  ε(x,y) dal piano Checker
+  Inclusa in As,eff
+
+B11 · x = -288,4995667 mm
+  Coordinata della barra
+
+B11 · y = -288,4995667 mm
+  Coordinata della barra
+
+B11 · Q = 288,5236277 mm
+  qx·x + qy·y
+
+B11 · Ø = 24 mm
+  Diametro della barra
+
+B11 · As = 452,3893421 mm²
+  Area della barra
+
+B11 · σs = 45,72446417 MPa
+  Tensione nativa nella barra
+
+B12 · ε = 0,0002668433339 [−]
+  ε(x,y) dal piano Checker
+  Inclusa in As,eff
+
+B12 · x = -156,1348404 mm
+  Coordinata della barra
+
+B12 · y = -376,9428493 mm
+  Coordinata della barra
+
+B12 · Q = 376,9558702 mm
+  qx·x + qy·y
+
+B12 · Ø = 24 mm
+  Diametro della barra
+
+B12 · As = 452,3893421 mm²
+  Area della barra
+
+B12 · σs = 53,36866677 MPa
+  Tensione nativa nella barra
+
+B13 · ε = 0,000280260816 [−]
+  ε(x,y) dal piano Checker
+  Inclusa in As,eff
+
+B13 · x = -7,494838411E-14 mm
+  Coordinata della barra
+
+B13 · y = -408 mm
+  Coordinata della barra
+
+B13 · Q = 407,9999986 mm
+  qx·x + qy·y
+
+B13 · Ø = 24 mm
+  Diametro della barra
+
+B13 · As = 452,3893421 mm²
+  Area della barra
+
+B13 · σs = 56,0521632 MPa
+  Tensione nativa nella barra
+
+B14 · ε = 0,0002668320772 [−]
+  ε(x,y) dal piano Checker
+  Inclusa in As,eff
+
+B14 · x = 156,1348404 mm
+  Coordinata della barra
+
+B14 · y = -376,9428493 mm
+  Coordinata della barra
+
+B14 · Q = 376,9298257 mm
+  qx·x + qy·y
+
+B14 · Ø = 24 mm
+  Diametro della barra
+
+B14 · As = 452,3893421 mm²
+  Area della barra
+
+B14 · σs = 53,36641545 MPa
+  Tensione nativa nella barra
+
+B15 · ε = 0,0002286015213 [−]
+  ε(x,y) dal piano Checker
+  Inclusa in As,eff
+
+B15 · x = 288,4995667 mm
+  Coordinata della barra
+
+B15 · y = -288,4995667 mm
+  Coordinata della barra
+
+B15 · Q = 288,4755037 mm
+  qx·x + qy·y
+
+B15 · Ø = 24 mm
+  Diametro della barra
+
+B15 · As = 452,3893421 mm²
+  Area della barra
+
+B15 · σs = 45,72030426 MPa
+  Tensione nativa nella barra
+
+B16 · ε = 0,0001713894038 [−]
+  ε(x,y) dal piano Checker
+  Tesa ma esclusa da As,eff
+
+B16 · x = 376,9428493 mm
+  Coordinata della barra
+
+B16 · y = -156,1348404 mm
+  Coordinata della barra
+
+B16 · Q = 156,1034013 mm
+  qx·x + qy·y
+
+B16 · Ø = 24 mm
+  Diametro della barra
+
+B16 · As = 452,3893421 mm²
+  Area della barra
+
+B16 · σs = 34,27788076 MPa
+  Tensione nativa nella barra
+
+As,eff = 2261,946711 mm²
+  ΣAs,i delle barre tese incluse nella fascia efficace
+
+ΣØ² = 2880 mm²
+  Somma sulle barre efficaci
+
+ΣØ = 120 mm
+  Somma sulle barre efficaci
+
+Øeq = 24 mm
+  ΣØ² / ΣØ
+
+σs = 56,0521632 MPa
+  max σs delle barre efficaci
+  Si usa il massimo, non la tensione media pesata.
+
+c = 80 mm
+  Copriferro netto + Ø staffa
+
+s = 160,2212253 mm
+  Interasse massimo geometrico delle barre efficaci tese
+
+Ecls analisi = 34077,1462 MPa
+  Modulo del materiale nell'analisi Checker
+
+n analisi = 5,869036064 [−]
+  Es·(1 + φ) / Ecls; distinto da αe usato nella formula di fessurazione
+
+Es = 200000 MPa
+  Modulo elastico della prima barra efficace
+
+Ecm = 34077,1462 MPa
+  Modulo medio CLS usato per αe
+
+fct,eff = fctm = 3,209962442 MPa
+  Resistenza media a trazione del materiale
+  Nel codice attuale non è applicata una riduzione per l'età di fessurazione.
+
+ρp,eff = 0,01500563092 [−]
+  As,eff / Ac,eff
+
+αe = 5,869036064 [−]
+  Es / Ecm
+  Non coincide necessariamente con n dell'analisi con viscosità.
+
+kt = 0,6 [−]
+  Breve durata → 0,60
+
+k₁ = 1,6 [−]
+  Barre lisce → 1,60
+
+k₂ = 0,5 [−]
+  Coefficiente della distribuzione delle deformazioni passato dal chiamante
+
+k₃ = 3,4 [−]
+  Coefficiente del termine di copriferro
+
+k₄ = 0,425 [−]
+  Coefficiente del termine Øeq / ρp,eff
+
+β minimo deformazione = 0,6 [−]
+  Limite inferiore = 0,60·σs/Es
+
+β apertura = 1,7 [−]
+  wk = 1,70·Δsm·(εsm − εcm)
+
+Coefficiente regione distante = 0,75 [−]
+  Δsm,distante = 0,75·(h − x)
+
+Coefficiente soglia interasse = 5 [−]
+  s_lim = 5·(c + Øeq/2)
+
+σs (formula) = 56,0521632 MPa
+  Tensione delle barre adottata nel calcolo
+
+Øeq (formula) = 24 mm
+  Diametro equivalente delle barre efficaci
+
+c (formula) = 80 mm
+  Copriferro alla superficie della barra longitudinale
+
+s (formula) = 160,2212253 mm
+  Interasse massimo adottato
+
+h − x (formula) = 740,441537 mm
+  Profondità della zona tesa
+
+1 + αe·ρp,eff = 1,088068589 [−]
+  Fattore di interazione CLS/armatura
+
+Δσ tension stiffening = 139,6539468 MPa
+  kt·fct,eff/ρp,eff·(1 + αe·ρp,eff)
+
+Δε calcolata = -0,0004180089181 [−]
+  (σs − Δσ) / Es
+  (56.0521632 − 139.6539468) / 200000
+
+Δε minima = 0,0001681564896 [−]
+  0,60·σs / Es
+  0,60 × 56.0521632 / 200000
+
+εsm − εcm = 0,0001681564896 [−]
+  max(Δε calcolata; Δε minima)
+  Governa il minimo 0,60·σs/Es.
+
+Termine copriferro = 272 mm
+  k₃·c
+
+Termine armatura = 543,7958618 mm
+  k₁·k₂·k₄·Øeq / ρp,eff
+
+Δsm,vicino = 479,8799187 mm
+  (k₃·c + k₁·k₂·k₄·Øeq/ρp,eff) / 1,70
+  Il divisore 1,70 converte questo termine in distanza media nel percorso di calcolo attuale.
+
+s_lim = 460 mm
+  5·(c + Øeq/2)
+
+s − s_lim = -299,7787747 mm
+  Differenza usata per scegliere il ramo
+  s ≤ s_lim: si usa Δsm,vicino.
+
+Δsm,distante = 555,3311528 mm
+  0,75·(h − x)
+  Calcolato per confronto, non usato nel ramo attivo.
+
+Δsm adottata = 479,8799187 mm
+  Δsm,vicino
+  Governa regione vicina alle barre.
+
+wk = 0,1371813684 mm
+  max[0; 1,70·Δsm·(εsm − εcm)]
+  max[0; 1,70 × 479.8799187 × 0.0001681564896]
+
+ηw = 0,4572712279 [−]
+  wk / wlim

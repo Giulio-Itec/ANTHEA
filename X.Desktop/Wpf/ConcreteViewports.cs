@@ -58,6 +58,7 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
     private string rasterContour = "";
     private BitmapSource? rasterImage;
     internal string SelectedBar { get; set; } = "";
+    internal ConcreteEffectiveRegion? EffectiveRegion { get; set; }
     internal string Message { get; set; } = "Inserire la geometria della sezione";
     internal event Action<int>? BarSelected;
     private readonly List<Point> barLocations = [];
@@ -90,14 +91,23 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
         bool dimensioned = Dimensions || CoverDimensions || SpacingDimensions;
         double scale = Math.Max(.01, Math.Min((plotWidth - (dimensioned ? 160 : 85)) / (xmax - xmin), (size.Height - (dimensioned ? 180 : 105)) / (ymax - ymin))) * zoom;
         Point P(double x, double y) => new(plotWidth / 2 + (x - (xmin + xmax) / 2) * scale + pan.X, (size.Height - 20) / 2 - (y - (ymin + ymax) / 2) * scale + pan.Y);
-        var shape = Path(section.Outline.Select(p => P(p[0], p[1])), true);
+        var shape = new GeometryGroup { FillRule=FillRule.EvenOdd };
+        shape.Children.Add(Path(section.Outline.Select(p => P(p[0], p[1])), true));
+        foreach(var hole in section.Holes)shape.Children.Add(Path(hole.Select(p=>P(p[0],p[1])),true));
         dc.DrawGeometry(Ui.Brush("#E3EAF1"), new Pen(Ui.Navy, 1.6), shape);
         double[] concreteValues = [], barValues = []; double lower = 0, upper = 1; bool ratios = false, bands = false;
         if (Stress is CheckerStressState stress && Contour != "Solo geometria")
         {
             bool onlyBars = Contour.StartsWith("Barre"); ratios = Contour.Contains("tasso"); bands = Contour.Contains("bande");
             bool strains = Contour.Contains("deformazioni"), fixedScale = Contour.Contains("scala resistenza");
-            if (!onlyBars) concreteValues = strains ? stress.FiberStrains : ratios ? stress.FiberStresses.Select(v => Math.Abs(v) / Math.Max(1e-12, v < 0 ? stress.ConcreteCompressionStrength : stress.ConcreteTensionStrength)).ToArray() : stress.FiberStresses;
+            if (!onlyBars)
+            {
+                // Include boundary extrema: internal samples miss the extreme strains at the edges.
+                var samples = strains
+                    ? stress.FiberStrains.Concat(stress.ConcreteVertices.Select(v => v.Strain))
+                    : stress.FiberStresses.Concat(stress.ConcreteVertices.Select(v => v.Stress));
+                concreteValues = (ratios ? samples.Select(v => Math.Abs(v) / Math.Max(1e-12, v < 0 ? stress.ConcreteCompressionStrength : stress.ConcreteTensionStrength)) : samples).ToArray();
+            }
             if (onlyBars || ratios) barValues = ratios ? stress.tensioni_barre.Select((v, i) => Math.Abs(v) / Math.Max(1e-12, stress.BarStrengths.ElementAtOrDefault(i))).ToArray() : stress.tensioni_barre;
             var values = concreteValues.Concat(barValues).ToArray();
             lower = fixedScale ? -stress.ConcreteCompressionStrength : ratios ? 0 : Math.Min(0, values.DefaultIfEmpty(0).Min());
@@ -135,12 +145,23 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
             else
             {
             for (int i = 0; i < 100; i++) dc.DrawRectangle(ContourColor(upper - (upper - lower) * i / 99, lower, upper, ratios, bands), null, new Rect(lx, ly + legendHeight * i / 100, 16, legendHeight / 100 + 1));
-            foreach (double value in new[] { upper, (upper + lower) / 2, lower }.Concat(lower < 0 && upper > 0 ? new[] { 0d } : Array.Empty<double>()).Distinct())
-            { double y = ly + (upper - value) / (upper - lower) * legendHeight; Text(dc, EngineeringFormat.Number(value), lx + 22, y - 6, 10, width: 73); }
+            var labelPositions = new List<double>();
+            foreach (double value in new[] { upper, lower }.Concat(lower < 0 && upper > 0 ? new[] { 0d } : Array.Empty<double>()).Append((upper + lower) / 2).Distinct())
+            {
+                double y = ly + (upper - value) / (upper - lower) * legendHeight;
+                if (labelPositions.Any(previous => Math.Abs(previous - y) < 14)) continue;
+                labelPositions.Add(y);
+                Text(dc, EngineeringFormat.Number(value), lx + 22, y - 6, 10, width: 73);
+            }
             }
         }
         else ContourLegend = "";
         DrawStirrups(dc, section, P, scale);
+        if(EffectiveRegion is { } region && region.Outline.Length>=3)
+        {
+            dc.PushClip(shape);dc.DrawGeometry(new SolidColorBrush(Color.FromArgb(75,230,150,30)),new Pen(Brushes.DarkOrange,2),Path(region.Outline.Select(v=>P(v[0],v[1])),true));dc.Pop();
+            foreach(int index in region.BarIndices)if(index<section.Bars.Count){var bar=section.Bars[index];dc.DrawEllipse(null,new Pen(Brushes.DarkOrange,3),P(bar.X,bar.Y),Math.Max(5,bar.Diametro*scale/2+3),Math.Max(5,bar.Diametro*scale/2+3));}
+        }
         if (Axes)
         {
             var origin = P(0, 0); double arm = Math.Min(size.Width, size.Height) * .19;
@@ -194,7 +215,7 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
     }
     private void DrawStirrups(DrawingContext dc, SezioneCA section, Func<double, double, Point> p, double scale)
     {
-        if (Stirrups is null) return;
+        if (Stirrups is null || section.Input.S("staffe_presenti","Sì")=="No") return;
         double cover = section.Input.D("cover_mm"), phi = section.Input.D("transverse_bar_diameter_mm"), inset = cover + phi / 2;
         if (!double.IsFinite(phi) || phi <= 0) return;
         // The centreline is offset by cover + Ø/2; draw the actual diameter in section units.

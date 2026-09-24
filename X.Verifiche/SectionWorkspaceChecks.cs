@@ -126,6 +126,8 @@ internal static class SectionWorkspaceChecks
             var nativeState = crackEngine.Stress(force, "SLE_QP");
             var checkedCrack = Ntc2018Checks.Cracking(crackEngine, nativeState, force, input, settings, sle, "SLE_QP");
             double expectedK2 = Ntc2018Checks.CrackK2(nativeState.tensioni_barre);
+            var eps=nativeState.ConcreteVertices.Select(v=>v.Strain).ToArray();
+            if(eps.Min()>=0&&eps.Max()>0)expectedK2=(eps.Min()+eps.Max())/(2*eps.Max());
             Assert(checkedCrack.Details.Single(d => d.Symbol == "Criterio k₂").Value == expectedK2, "Criterio k2 anche per trazione pura e pressoflessione");
             if (checkedCrack.Width is > 0)
                 Assert(checkedCrack.Details.Single(d => d.Symbol == "k₂").Value == expectedK2, "Il coefficiente selezionato entra nella formula wk");

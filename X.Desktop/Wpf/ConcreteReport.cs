@@ -11,7 +11,7 @@ internal sealed partial class ConcreteWorkspace
         Commit();
         if (Busy || !HasResults || calculationQueued) throw new InvalidOperationException("Attendere l’aggiornamento automatico e correggere i dati non validi prima di esportare il report.");
         if (!projectReport) { settings["report_sezioni"] = J.Node(options.OrderBy(k => k).ToArray()); Modified?.Invoke(); }
-        var result = Result!;
+        RefreshDetailing();var result = Result!;
         result["dati"] = Data.DeepClone();
         var images = new List<ImmagineReport>();
         if (options.Contains("grafici"))
@@ -66,6 +66,8 @@ internal sealed partial class ConcreteWorkspace
             {
                 var view = new ConcreteSectionViewport { Section = new SezioneCA(Input), Stirrups = ShearOptions };
                 images.Add(new("Schema indicativo delle staffe · diametro rappresentato in scala", view.Png(), "taglio"));
+            if (options.Contains("taglio")) images.Add(new("Schema indicativo delle staffe · diametro rappresentato in scala", shearView.Png(), "taglio"));
+            if(options.Contains("curvatura")&&curvatureResult is not null)images.Add(new("Momento–curvatura · percorso assegnato",curvaturePlot.Png(),"curvatura"));
             }
         }
         return ReportConcrete.Create(title, Data, result, options, images, !projectReport);

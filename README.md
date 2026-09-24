@@ -79,10 +79,13 @@ ospitati né dipendenze da `System.Drawing`.
 Sono disponibili palo verticale, palo orizzontale, micropalo verticale e sezione in c.a. Gli altri
 moduli del catalogo restano predisposizioni. La migrazione WPF mantiene la
 disposizione dei pannelli geotecnici, i comandi File, il ricalcolo automatico del
-palo e del micropalo e il ricalcolo automatico delle cinque schede in c.a.; il palo
-orizzontale aggiorna automaticamente capacità e momento. La sezione in c.a. ha cinque schede:
+palo e del micropalo e il ricalcolo automatico delle verifiche in c.a.; il palo
+orizzontale aggiorna automaticamente capacità e momento. La sezione in c.a. ha sette schede:
 pannello di controllo, dominio 3D, dominio 2D, tensioni e fessurazione (Rara,
-Frequente, Quasi permanente), taglio. Ogni tabella CA offre template Excel,
+Frequente, Quasi permanente), taglio e torsione, dettagli costruttivi, momento–curvatura.
+La curva M–χ si avvia con il proprio comando; le altre verifiche si aggiornano
+automaticamente. Vedere le [estensioni CA](docs/calcestruzzo-estensioni.md) per
+fori centrali, piani di deformazione, dettagli e benchmark. Ogni tabella CA offre template Excel,
 reimportazione e Ctrl+C/Ctrl+V. Opzioni avanzate richiudibili, riepiloghi estesi,
 selettore delle forze, trasparenza 3D e contouring SLE sono documentati nella guida.
 

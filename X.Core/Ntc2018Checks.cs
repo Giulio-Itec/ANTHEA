@@ -7,13 +7,14 @@ using GPC.Model.Materials;
 namespace X.Core;
 
 /// <summary>Port of Rhino2Midas concrete checks, with documented NTC2018/Circolare2019 corrections.</summary>
-public static class Ntc2018Checks
+public static partial class Ntc2018Checks
 {
     public static ITensionBarSpacing SpacingCalculator { get; set; } = new TensionBarSpacing();
     public static readonly string[] Exposures = ["Da scegliere", "X0", "XC1", "XC2", "XC3", "XF1", "XC4", "XD1", "XS1", "XA1", "XA2", "XF2", "XF3", "XD2", "XD3", "XS2", "XS3", "XA3", "XF4"];
     public sealed record CrackResult(double? Width, double? Limit, double? Ratio, bool? Passed, string Status, double? EffectiveArea = null, double? EffectiveSteel = null, double? BarSpacing = null, string? SpacingSource = null)
     {
         public CrackCalculationDetail[] Details { get; init; } = [];
+        public ConcreteEffectiveRegion[] Regions { get; init; } = [];
     }
     public static (string Kind, double? Limit) CrackRequirement(string set, string exposure, bool sensitive)
     {
@@ -84,7 +85,7 @@ public static class Ntc2018Checks
         Add("εc,max", strains.Max(), "−", "max ε ai vertici");
         Add("Tolleranza compressione", 1e-12, "−", "Se εc,max ≤ tolleranza, wk = 0");
         if (strains.Max() <= 1e-12) return new(0, req.Limit, 0, true, "Sezione interamente compressa") { Details = details.ToArray() };
-        if (strains.Min() >= 0) return new(null, req.Limit, null, null, "Sezione interamente tesa: verificare separatamente le due aree efficaci") { Details = details.ToArray() };
+        if (strains.Min() >= 0) return CrackSurfaceScope(FullyTensionedCracking(engine,state,input,options,req.Limit!.Value,details),engine.Geometry);
         double gradient = double.Hypot(plane.ChiX, plane.ChiY);
         Add("χx", plane.ChiX, "1/mm", "Componente del gradiente di deformazione restituita da Checker");
         Add("χy", plane.ChiY, "1/mm", "Componente del gradiente di deformazione restituita da Checker");
@@ -140,7 +141,7 @@ public static class Ntc2018Checks
         if (aceff <= 0 || effective.Length == 0) return new(null, req.Limit, null, null, "Armatura/area efficace assente") { Details = details.ToArray() };
         double steel = effective.Sum(r => r.Area), phi = effective.Sum(r => r.RebarSection.Diameter * r.RebarSection.Diameter) / effective.Sum(r => r.RebarSection.Diameter);
         double sigma = effective.Max(r => native.GetRebarTension(native.PsiRebar ?? 0, r));
-        double c = options.S("copriferro_fessure").Trim() == "" ? input.Required("cover_mm") + input.Required("transverse_bar_diameter_mm") : options.Required("copriferro_fessure");
+        double c = options.S("copriferro_fessure").Trim() == "" ? input.Required("cover_mm") + (input.S("staffe_presenti","Sì")=="No"?0:input.Required("transverse_bar_diameter_mm")) : options.Required("copriferro_fessure");
         Add("As,eff", steel, "mm²", "ΣAs,i delle barre tese incluse nella fascia efficace");
         Add("ΣØ²", effective.Sum(r => r.RebarSection.Diameter * r.RebarSection.Diameter), "mm²", "Somma sulle barre efficaci");
         Add("ΣØ", effective.Sum(r => r.RebarSection.Diameter), "mm", "Somma sulle barre efficaci");
@@ -161,7 +162,7 @@ public static class Ntc2018Checks
         double width = CalculateCrackWidth(sigma, es, concrete.Ecm, concrete.Fctm, steel / aceff, phi, c, spacing, tensileDepth,
             options.S("durata", "Lunga") == "Breve", options.S("aderenza", "Migliorata") == "Migliorata", k2, details);
         Add("ηw", width / req.Limit, "−", "wk / wlim");
-        return new(width, req.Limit, width / req.Limit, width <= req.Limit, width <= req.Limit ? "Apertura entro limite" : "Apertura oltre limite", aceff, steel, spacing, automatic ? "Automatico geometrico" : "Manuale") { Details = details.ToArray() };
+        return CrackSurfaceScope(new(width, req.Limit, width / req.Limit, width <= req.Limit, width <= req.Limit ? "Apertura entro limite" : "Apertura oltre limite", aceff, steel, spacing, automatic ? "Automatico geometrico" : "Manuale") { Details = details.ToArray(), Regions=[SectionRegions.Region(engine.Geometry,"Zona tesa efficace",qx,qy,level,tensileIndices,width)] },engine.Geometry);
     }
     public static double CrackWidth(double sigmaS, double es, double ecm, double fctm, double rho, double phi, double cover, double spacing, double tensileDepth, bool shortTerm, bool ribbed, double k2)
         => CalculateCrackWidth(sigmaS, es, ecm, fctm, rho, phi, cover, spacing, tensileDepth, shortTerm, ribbed, k2, null);
