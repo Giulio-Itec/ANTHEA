@@ -1,0 +1,4 @@
+System.Exception: Diametro perforazione non condiviso: 0.24 / 320
+   at X.Desktop.MainWindow.<SmokeSharing>g__Check|78_0(Boolean value, String message) in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Desktop\Wpf\ProjectSharingSmokeChecks.cs:line 14
+   at X.Desktop.MainWindow.SmokeSharing(String directory) in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Desktop\Wpf\ProjectSharingSmokeChecks.cs:line 114
+   at X.Desktop.App.<>c__DisplayClass0_0.<<OnStartup>g__RunSmoke|1>d.MoveNext() in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Desktop\Wpf\App.cs:line 33

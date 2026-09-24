@@ -1,0 +1,5 @@
+Before checks
+After checks
+Before home
+Before resume
+After resume

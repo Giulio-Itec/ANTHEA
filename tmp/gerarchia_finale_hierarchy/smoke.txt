@@ -1,0 +1,1 @@
+OK: drop su progetto e sezioni con figli; schede prima dei sottogruppi; eredità a più livelli e gruppi vuoti; precedenza superiore; CLS, acciaio, geometria, armatura; propagazione automatica; conflitti e uniformazione gerarchici; avvisi copriferro; rami/progetti separati; riordino, spostamento, salvataggio e riapertura; riferimenti ambigui non scelti automaticamente.

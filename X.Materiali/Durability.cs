@@ -1,4 +1,4 @@
-namespace Materiali;
+﻿namespace Materiali;
 
 public record Exposure(string Code, string Description, double? MaxRatio, int MinStrength, int MinCement, double MinAir, int CoverColumn);
 public record CoverInput(int Life, bool StrengthReduction, bool Slab, bool Quality, double Diameter, double Aggregate, double Deviation, bool Rough, int Abrasion, int Ground);

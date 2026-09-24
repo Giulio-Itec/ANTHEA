@@ -31,7 +31,7 @@ public static class AtecapMix
     }
 }
 
-public sealed partial class MaterialWindow
+public sealed partial class MaterialView
 {
     readonly Dictionary<string,TextBox> compositionValues=new();
     readonly TextBlock compositionSource=Text("",12),compositionAirNote=Text("",12),compositionChlorideNote=Text("Cl 0,40: proposta per armatura ordinaria dagli esempi ATECAP, pp. 43–50; non è una classe dedotta dall’esposizione e va confermata nella prescrizione.",12);

@@ -175,3 +175,12 @@ larghezza in unità WPF.
 Il controllo mirato `dotnet X.Verifiche/bin/Release/net8.0/ANTHEA.Verifiche.dll --checker`
 verifica il collegamento delle DLL, i benchmark e le correzioni NTC. I limiti e
 gli ultimi esiti sono in [verifica Checker](docs/checker-verifica.md).
+
+## Dati condivisi nei progetti
+Ogni gruppo confronta materiali, geometria e armatura dei propri fogli; i sottogruppi sono indipendenti. Le modifiche si confermano con "Conferma modifiche", salvando o lasciando il foglio. Quando esistono altri fogli compatibili si sceglie "Aggiorna tutti i fogli collegati" oppure "Solo questo foglio". Il confronto riguarda i parametri comuni, non carichi, combinazioni, terreno o impostazioni delle verifiche.
+
+L'indicatore accanto al gruppo apre il confronto dei valori e consente di riallineare le categorie selezionate a un foglio di riferimento. I nuovi fogli ricevono i dati compatibili esistenti solo nelle categorie prive di conflitti. Il riordino non cambia i dati; dopo uno spostamento in un altro gruppo il confronto usa la nuova appartenenza.
+
+Il CLS è collegato tra Materiali, sezioni in c.a. e pali orizzontali. Geometrie circolari compatibili scambiano il diametro convertendo metri e millimetri. Forme incompatibili non vengono convertite. L'armatura parametrica ordinaria è condivisa tra moduli compatibili; barre manuali e trefoli vengono condivisi tra fogli di sezione in c.a. Un fck personalizzato non rappresentabile nella scheda Materiali resta segnalato come differenza. I fogli aggiornati usano i nuovi dati e ricalcolano alla riapertura, senza riutilizzare risultati di un precedente editor.
+
+Verifiche: ANTHEA.exe --smoke-sharing <cartella-output>.

@@ -3,6 +3,7 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
  <Application.Resources>
   <Style TargetType="Window">
+   <Setter Property="Icon" Value="/ANTHEA;component/Assets/anthea.ico"/>
    <Setter Property="FontFamily" Value="Segoe UI"/>
    <Setter Property="FontSize" Value="13"/>
    <Setter Property="Foreground" Value="#0B2A4A"/>

@@ -1,11 +1,11 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Materiali;
 
-public sealed partial class MaterialWindow
+public sealed partial class MaterialView
 {
     readonly Grid sections=new() { MinWidth=1140, Margin=new Thickness(10) };
     readonly List<ScrollViewer> columnScrolls=new();

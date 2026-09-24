@@ -1,0 +1,3 @@
+System.InvalidOperationException: Sequence contains no matching element
+   at X.Desktop.MainWindow.SmokeSharing(String directory) in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Desktop\Wpf\ProjectSharingSmokeChecks.cs:line 80
+   at X.Desktop.App.<>c__DisplayClass0_0.<<OnStartup>g__RunSmoke|1>d.MoveNext() in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Desktop\Wpf\App.cs:line 33

@@ -1,0 +1,1 @@
+OK: catalogo, icone, apertura interna, benchmark originali, modifiche, ripresa, salvataggio singolo e progetti, spostamento tra sottosezioni, riapertura, conservazione input incompleti e tolleranza.

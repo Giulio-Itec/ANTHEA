@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace Materiali;
@@ -22,7 +22,7 @@ public static class MinimumConcrete
     public static string Label(int fck)=>fck switch {12=>"C12/15",25=>"C25/30",30=>"C30/37",32=>"C32/40",35=>"C35/45",_=>throw new ArgumentException("Classe minima non riconosciuta.")};
 }
 
-public sealed partial class MaterialWindow
+public sealed partial class MaterialView
 {
     readonly TextBox minimumConcreteClass=new(){IsReadOnly=true,IsReadOnlyCaretVisible=false,Background=Brush("#EDF5FF"),FontWeight=FontWeights.SemiBold};
     readonly TextBlock minimumConcreteNote=Text("",12);

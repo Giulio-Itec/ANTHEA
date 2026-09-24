@@ -1,0 +1,1 @@
+OK: scelta tutti/locale, nessuna richiesta ripetuta, CLS tra materiali e verifiche, mm/m in entrambe le direzioni, geometrie incompatibili, armatura e reset, carichi invariati, sezioni indipendenti, ereditarietà nuovi fogli, confronto e persistenza.

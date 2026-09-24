@@ -1,0 +1,1 @@
+OK: pulsanti a ogni livello, report ricorsivo di tutti i moduli, ordine gerarchico, dati comuni per proprietà e unità, parametri locali, riferimenti esterni, conflitti non uniformati, immagini e relazioni uniche, calcolo aggiornato, archivi immutati, sezioni vuote, errori espliciti e annullamento senza sovrascrittura.
