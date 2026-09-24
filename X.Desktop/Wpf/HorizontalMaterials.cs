@@ -27,6 +27,11 @@ internal sealed partial class HorizontalWorkspace
             string name = ConcreteClass(input.D("fck_mpa"));
             input["classe_cls"] = name; sectionFields.Set("classe_cls", name, true);
         }
+        else if (key is "fyk_mpa" or "steel_modulus_mpa")
+        {
+            input["classe_acciaio"] = "Personalizzato";
+            input["materiale_acciaio_nome"] = "Acciaio personalizzato";
+        }
         Changed();
     }
 

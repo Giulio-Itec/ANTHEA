@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -16,6 +16,8 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     internal JsonObject Data { get; }
     private JsonObject? result;
     private bool busy;
+    internal readonly Materiali.MaterialView? materials;
+    internal readonly RebarMaterialView? rebarMaterial;
     private readonly ConcreteWorkspace? concrete;
     private readonly HorizontalWorkspace? horizontal;
     internal JsonObject? Result { get => horizontal is not null ? horizontal.Result : concrete is null ? result : concrete.Result; private set => result = value; }
@@ -61,6 +63,15 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         {
             horizontal = new HorizontalWorkspace(Data); horizontal.Modified += () => Modified?.Invoke(); Content = horizontal; building = false; return;
         }
+        if (module == "mat_calcestruzzo")
+        {
+            materials = new Materiali.MaterialView(); materials.RestoreState(Data);
+            materials.Modified += () => Modified?.Invoke(); Content = materials; building = false; return;
+        }
+        if (module == RebarMaterial.Module)
+        {
+            rebarMaterial = new RebarMaterialView(Data); rebarMaterial.Modified += () => Modified?.Invoke(); Content = rebarMaterial; building = false; return;
+        }
         if (Section)
         {
             concrete = new ConcreteWorkspace(Data); concrete.Modified += () => Modified?.Invoke(); Content = concrete; building = false; return;
@@ -77,7 +88,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     }
     private async void TimerTick(object? sender, EventArgs args) { if (Busy) return; timer.Stop(); if (!disposed) await CalculateAsync(commitEdits: false); }
     public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= TimerTick; concrete?.Dispose(); horizontal?.Dispose(); }
-    internal void Commit() { if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
+    internal void Commit() { if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
         int index = cards.Count; var header = new DockPanel { Margin = new Thickness(0, 0, 0, 8), MinHeight = 28 };
@@ -161,6 +172,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private void QueueCalculation() { if (!Geo || building || disposed) return; timer.Stop(); timer.Start(); status.Text = "Aggiornamento automatico in attesa…"; }
     internal async Task CalculateAsync(bool commitEdits = true)
     {
+        if (materials is not null || rebarMaterial is not null) { Commit(); return; }
         if (horizontal is not null) { await horizontal.CalculateAsync(); return; }
         if (concrete is not null) { await concrete.CalculateAllAsync(); return; }
         if (Busy || disposed) return; if (commitEdits) Commit(); timer.Stop(); Busy = true; calculate.IsEnabled = false; if (!Geo) canvas.IsEnabled = false;
@@ -230,11 +242,13 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         if (concrete is not null) exported["dati"] = Data.DeepClone();
         Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(exported.ToJsonString(J.Options)));
     }
-    internal void ExportReport(string filename, string title, HashSet<string> options)
+    internal void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
+        => Archivio.ScriviAtomico(filename, BuildReport(title, options, projectReport));
+    internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false)
     {
-        if (concrete is not null) { concrete.ExportReport(filename, title, options); return; }
+        if (concrete is not null) return concrete.BuildReport(title, options, projectReport);
         if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
-        if (horizontal is not null) { ReportOrizzontale.Write(filename, title, Result); return; }
+        if (horizontal is not null) return ReportOrizzontale.Create(title, Result, !projectReport);
         var images = new List<ImmagineReport> { new(plot.Title, plot.Png(), "grafico_capacita") };
         if (Micro)
         {
@@ -256,7 +270,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         }
         bool old = stratigraphy.ShowAll; stratigraphy.ShowAll = true;
         try { images.Add(new("Profilo stratigrafico", stratigraphy.Png(), "grafico_profilo")); } finally { stratigraphy.ShowAll = old; }
-        ReportWord.Esporta(filename, title, Module, Data, Result, options, images);
+        return ReportWord.Create(title, Module, Data, Result, options, images, !projectReport);
     }
     private void SavePlot()
     { var save = new SaveFileDialog { Filter = "Immagine PNG|*.png", FileName = "capacita.png" }; if (save.ShowDialog(Window.GetWindow(this)) == true) Archivio.ScriviAtomico(save.FileName, plot.Png()); }

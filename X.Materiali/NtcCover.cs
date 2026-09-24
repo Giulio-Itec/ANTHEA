@@ -1,4 +1,4 @@
-namespace Materiali;
+﻿namespace Materiali;
 
 public record NtcCoverResult(string Environment,int Severity,double Cmin,double C0,double TableCover,double LifeExtra,double LowStrengthExtra,double QualityReduction,CoverResult Cover);
 public static class NtcCover

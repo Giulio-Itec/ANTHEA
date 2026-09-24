@@ -9,8 +9,9 @@
     <Product>ANTHEA</Product>
     <Title>ANTHEA</Title>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets/anthea.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup><ProjectReference Include="../X.Core/X.Core.csproj" /><ProjectReference Include="../X.Materiali/X.Materiali.csproj" /></ItemGroup>
   <ItemGroup><Reference Include="../lib/Checker/*.dll" /></ItemGroup>
-  <ItemGroup><Resource Include="Assets/*.png" /></ItemGroup>
+  <ItemGroup><Resource Include="Assets/*.png" /><Resource Include="Assets/anthea.ico" /></ItemGroup>
 </Project>

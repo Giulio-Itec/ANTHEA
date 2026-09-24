@@ -10,7 +10,7 @@ using GPC.Model.Materials;
 namespace Materiali;
 
 public record PropertyRow(string Nome, string Simbolo, string Valore, string Unita);
-public sealed partial class MaterialWindow : Window
+public sealed partial class MaterialView : UserControl
 {
     static readonly Brush Navy = Brush("#0B2A4A"), Blue = Brush("#0B5CAD"), Muted = Brush("#64748B");
     static readonly (string Name, double Fck)[] Classes =
@@ -35,20 +35,10 @@ public sealed partial class MaterialWindow : Window
     };
     static StackPanel Stack(params UIElement[] items) { var panel=new StackPanel(); foreach(var item in items) panel.Children.Add(item); return panel; }
 
-    public MaterialWindow()
+    public MaterialView()
     {
         Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/Materiali;component/Styles.xaml") });
-        Title="ANTHEA · Materiali · Calcestruzzo"; Width=1500; Height=850; MinWidth=740; MinHeight=500;
-        WindowStartupLocation=WindowStartupLocation.CenterScreen;
-        WindowState=WindowState.Maximized;
-        DisplayAdaptation.Attach(this);
         var root=new DockPanel { Background=Brush("#F3F5F8") };
-        var logo=new Image { Source=new BitmapImage(new Uri("pack://application:,,,/Materiali;component/Assets/logo.png")),Width=34,Height=34,Margin=new Thickness(0,0,16,0) };
-        var title=Text("ANTHEA",20,true); title.Foreground=Brushes.White;
-        var sub=Text("MATERIALI  /  CALCESTRUZZO",12); sub.Foreground=Brush("#C4D8EE");
-        var heading=new StackPanel { Orientation=Orientation.Horizontal }; heading.Children.Add(logo); heading.Children.Add(Stack(title,sub));
-        var head=new Border { Background=Navy,Padding=new Thickness(16,8,16,8),Child=heading };
-        DockPanel.SetDock(head,Dock.Top); root.Children.Add(head);
         var footer=new Border { Padding=new Thickness(24,8,24,8),Background=Brushes.White,Child=status };
         DockPanel.SetDock(footer,Dock.Bottom); root.Children.Add(footer);
         choice.ItemsSource=Classes.Select(x=>x.Name).ToArray();
@@ -75,10 +65,10 @@ public sealed partial class MaterialWindow : Window
         properties.Children.Insert(2,BuildBond());
         var outer=new ScrollViewer { Content=body, HorizontalScrollBarVisibility=ScrollBarVisibility.Auto, VerticalScrollBarVisibility=ScrollBarVisibility.Disabled };
         outer.SizeChanged+=(_,_)=>ResizeColumns(outer.ActualWidth-20);
-        ResizeColumns(Width-36);
+        ResizeColumns(1140);
         root.Children.Add(outer);
         
-        Content=root; choice.SelectedItem="C30/37";
+        Content=root; choice.SelectedItem="C30/37"; AttachStateEvents();
     }
     void ResizeColumns(double available)
     {
@@ -123,7 +113,7 @@ public sealed partial class MaterialWindow : Window
     }
     public void Check()
     {
-        WindowState=WindowState.Normal;
+
         foreach(var item in Classes)
         {
             var m=Material(item.Fck);
@@ -169,28 +159,6 @@ public sealed partial class MaterialWindow : Window
         choices["consistency"].SelectedIndex=4;
         exposureChecks["XS3"].IsChecked=false; exposureChecks["XF4"].IsChecked=false; exposureChecks["XF2"].IsChecked=true;
 
-        foreach(var width in new[]{1500,1200})
-        {
-            Width=width;
-            foreach(var scroll in columnScrolls) scroll.ScrollToTop();
-            Capture(width,0,"alto");
-            foreach(var scroll in columnScrolls) scroll.ScrollToBottom();
-            Capture(width,0,"basso");
-        }
-    }
-    void Capture(int width,int tab,string position)
-    {
-        ResizeColumns(width-36);
-        UpdateLayout();
-        var element=(FrameworkElement)Content;
-        element.Measure(new Size(width-16,760)); element.Arrange(new Rect(0,0,width-16,760)); element.UpdateLayout();
-        if(tab==0) FitTable();
-        element.UpdateLayout();
-        var bitmap=new RenderTargetBitmap((int)element.ActualWidth,(int)element.ActualHeight,96,96,PixelFormats.Pbgra32);
-        bitmap.Render(element); var encoder=new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
-        using var stream=File.Create(Path.Combine(AppContext.BaseDirectory,$"anteprima-{width}-{tab}-{position}.png")); encoder.Save(stream);
+
     }
 }
-
-
-

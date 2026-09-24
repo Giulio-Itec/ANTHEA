@@ -8,7 +8,9 @@ namespace X.Core;
 /// <summary>Self-contained DOCX with inputs, model, equilibrium diagnostics and numerical tables.</summary>
 public static class ReportOrizzontale
 {
-    public static void Write(string path, string title, JsonObject result)
+    public static void Write(string path, string title, JsonObject result, bool includeInputs = true)
+        => Archivio.ScriviAtomico(path, Create(title, result, includeInputs));
+    public static byte[] Create(string title, JsonObject result, bool includeInputs = true)
     {
         if (result.S("errore") != "" || result["input"] is not JsonObject) throw new ArgumentException("Risultato orizzontale non disponibile.");
         XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
@@ -39,12 +41,14 @@ public static class ReportOrizzontale
         P("Coesivo non drenato: p=0 per z<1,5D; p=9CuD al di sotto (Viggiani p.400). Granulare drenato: p=3KpDσ′v; Kp=(1+sinφ′)/(1−sinφ′), σ′v integrata dagli strati sovrastanti; γw=9,81 kN/m³. Nessun modello c–φ o sequenza mista.");
         P("Omogeneo: coesivo testa libera eq.13.23–13.29; impedita eq.13.30–13.36. Granulare libera eq.13.37–13.43; impedita eq.13.44–13.47. L'estensione a strati e falda interna è una scelta ANTHEA sperimentale: integrali esatti a tratti e ricerca delle radici, senza media dei parametri o somma di capacità.");
         P("Nel coesivo il tratto inferiore forma una coppia con risultante nulla. Nel granulare F è una risultante concentrata separata: il completamento sotto la cerniera è idealizzato, non univoco. I diagrammi non forniscono spostamenti o rotazioni.");
-        P("Dati di ingresso", true);
         var input = result["input"]!; var g = input["generali"]!;
         void Parameters(string title, JsonNode values, (string Key, string Label)[] fields)
         {
             P(title, true); Table(["Parametro", "Valore"], fields.Select(f => new[] { f.Label, values.S(f.Key) }));
         }
+        if (includeInputs)
+        {
+        P("Dati di ingresso", true);
         Parameters("Geometria e azioni", g, [("diametro", "Diametro D [m]"), ("lunghezza", "Lunghezza infissa L [m]"),
             ("eccentricita", "Quota forza sopra terreno e [m]"), ("vincolo", "Rotazione in testa"),
             ("azione_orizzontale", "HEd [kN]"), ("azione_assiale", "N costante [kN], compressione positiva"),
@@ -69,11 +73,12 @@ public static class ReportOrizzontale
                 ("alpha_cc", "αcc"), ("gamma_c", "γc"), ("gamma_s", "γs"), ("steel_modulus_mpa", "Es [MPa]")]);
             P("Diametro e N della sezione corrispondono ai dati generali del palo.");
         }
+        }
         P($"Coefficienti: verticali indagate {result.S("verticali_indagate")}; ξ3 = {result.D("xi3"):0.00}; ξ4 = {result.D("xi4"):0.00}; γR = {result.D("gamma_r"):0.00}.");
         if (result["efficienza"] is JsonObject efficiency)
         {
             P($"Efficienza: {efficiency.S("metodo")}; η = {efficiency.D("eta"):0.000}. Rd = η · Rk / γR.");
-            if (efficiency.S("metodo") != "Manuale")
+            if (includeInputs && efficiency.S("metodo") != "Manuale")
             {
                 Parameters("Interassi rispetto alla direzione di H", input["verifica"]!,
                     [("interasse_anteriore", "Anteriore [m]"), ("interasse_posteriore", "Posteriore [m]"), ("interasse_sinistro", "Sinistro [m]"), ("interasse_destro", "Destro [m]")]);
@@ -82,7 +87,7 @@ public static class ReportOrizzontale
             }
         }
         int index = 0;
-        foreach (var survey in result["input"].Array("stratigrafie"))
+        foreach (var survey in includeInputs ? result["input"].Array("stratigrafie") : new JsonArray())
         {
             P($"Stratigrafia {++index}", true);
             Table(["Tipo", "S [m]", "γ", "γsat", "φ′ [°]", "Cu [kPa]"], survey!.AsArray().Select(r => new[] { r.S("tipologia"), r.S("spessore"), r.S("peso_specifico"), r.S("peso_specifico_saturo"), r.S("angolo_attrito"), r.S("coesione_non_drenata") }));
@@ -121,6 +126,6 @@ public static class ReportOrizzontale
             Entry("_rels/.rels", "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"doc\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");
             Entry("word/document.xml", new XDocument(new XElement(w + "document", body)).ToString());
         }
-        Archivio.ScriviAtomico(path, memory.ToArray());
+        return memory.ToArray();
     }
 }

@@ -1,8 +1,8 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace Materiali;
-public sealed partial class MaterialWindow
+public sealed partial class MaterialView
 {
     readonly TextBlock bondValue=Text("",22,true),bondDetails=Text("",12);
     bool bondReady;

@@ -30,7 +30,11 @@ public partial class App : Application
                 int code = 0;
                 try
                 {
-                    if (e.Args[0] == "--smoke-materials") await window.SmokeMaterials(e.Args[1]);
+                    if (e.Args[0] == "--smoke-project-report") await window.SmokeProjectReport(e.Args[1]);
+                    else if (e.Args[0] == "--smoke-hierarchy") await window.SmokeHierarchy(e.Args[1]);
+                    else if (e.Args[0] == "--smoke-steel") await window.SmokeSteel(e.Args[1]);
+                    else if (e.Args[0] == "--smoke-sharing") await window.SmokeSharing(e.Args[1]);
+                    else if (e.Args[0] == "--smoke-materials") await window.SmokeMaterials(e.Args[1]);
                     else if (e.Args[0] == "--smoke-projects") await window.SmokeProjects(e.Args[1]);
                     else if (e.Args[0] == "--smoke-ca-features") await window.SmokeConcreteFeatures(e.Args[1]);
                     else if (e.Args[0] == "--smoke-ca-extensions") await window.SmokeConcreteExtensions(e.Args[1]);

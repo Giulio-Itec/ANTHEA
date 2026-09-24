@@ -5,7 +5,7 @@ namespace X.Core;
 
 public static class Archivio
 {
-    public static readonly string[] Moduli=["geo_palo_verticale","geo_palo_orizzontale","geo_micropalo_verticale","geo_micropalo_orizzontale","str_palo"];
+    public static readonly string[] Moduli=["geo_palo_verticale","geo_palo_orizzontale","geo_micropalo_verticale","geo_micropalo_orizzontale","str_palo","mat_calcestruzzo",RebarMaterial.Module];
     public static JsonObject Leggi(string path)
     {
         var doc=JsonNode.Parse(File.ReadAllText(path,Encoding.UTF8)) as JsonObject??throw new ArgumentException("Contenuto non riconosciuto.");
@@ -25,6 +25,14 @@ public static class Archivio
                 PaloOrizzontale.ValidateShape(data.AsObject());
                 if ((sheet.S("modulo_id") == MicropaloOrizzontale.Module) != (data.S("tipo_sezione") == "CHS")) throw new ArgumentException("Tipo di sezione incoerente con il modulo orizzontale.");
             }
+            else if(sheet.S("modulo_id")=="mat_calcestruzzo")
+            {
+                if(data.D("versione_materiali")!=1) throw new ArgumentException("Versione della scheda materiali non supportata.");
+                foreach(string key in new[]{"numeri","scelte","opzioni"})
+                    if(data[key] is not null && data[key] is not JsonObject) throw new ArgumentException("Dati materiali non validi: "+key);
+                if(data["esposizioni"] is not null && data["esposizioni"] is not JsonArray) throw new ArgumentException("Esposizioni non valide.");
+            }
+            else if(sheet.S("modulo_id")==RebarMaterial.Module) RebarMaterial.ValidateShape(data.AsObject());
             else Calcolo.ValidaForma(data);
         }
         if(doc.S("tipo")=="calcolo"){Sheet(doc,false);return;}
@@ -32,6 +40,11 @@ public static class Archivio
         foreach(var p in projects)
         {
             if(p is not JsonObject||p["strutture"] is not JsonArray structures)throw new ArgumentException("Strutture del progetto non valide.");
+            if (p.AsObject().ContainsKey("fogli"))
+            {
+                if (p["fogli"] is not JsonArray projectSheets) throw new ArgumentException("Fogli del progetto non validi.");
+                foreach (var sheet in projectSheets) Sheet(sheet, true);
+            }
             void Sections(JsonArray items)
             {
                 foreach (var s in items)
@@ -64,6 +77,8 @@ public static class Archivio
     }
     public static JsonObject NuovoFoglio(string module)
     {
+        if(module==RebarMaterial.Module)return RebarMaterial.Defaults();
+        if(module=="mat_calcestruzzo")return J.Obj(("versione_materiali",1));
         if(module=="str_palo")return SezioneCA.DefaultData();
         if(module==PaloOrizzontale.Module)return PaloOrizzontale.Defaults();
         if(module==MicropaloOrizzontale.Module)return MicropaloOrizzontale.Defaults();

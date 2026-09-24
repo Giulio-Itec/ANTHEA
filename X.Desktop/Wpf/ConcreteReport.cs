@@ -4,11 +4,13 @@ using X.Core;
 namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
 {
-    internal void ExportReport(string filename, string title, HashSet<string> options)
+    internal void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
+        => Archivio.ScriviAtomico(filename, BuildReport(title, options, projectReport));
+    internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false)
     {
         Commit();
         if (Busy || !HasResults || calculationQueued) throw new InvalidOperationException("Attendere l’aggiornamento automatico e correggere i dati non validi prima di esportare il report.");
-        settings["report_sezioni"] = J.Node(options.OrderBy(k => k).ToArray()); Modified?.Invoke();
+        if (!projectReport) { settings["report_sezioni"] = J.Node(options.OrderBy(k => k).ToArray()); Modified?.Invoke(); }
         RefreshDetailing();var result = Result!;
         result["dati"] = Data.DeepClone();
         var images = new List<ImmagineReport>();
@@ -60,9 +62,14 @@ internal sealed partial class ConcreteWorkspace
                     images.Add(new("SLE " + SectionWorkspace.Label(key) + " · governante " + reason + " · " + name + " · " + view.Contour, view.Png(), key));
                 }
             }
+            if (options.Contains("taglio"))
+            {
+                var view = new ConcreteSectionViewport { Section = new SezioneCA(Input), Stirrups = ShearOptions };
+                images.Add(new("Schema indicativo delle staffe · diametro rappresentato in scala", view.Png(), "taglio"));
             if (options.Contains("taglio")) images.Add(new("Schema indicativo delle staffe · diametro rappresentato in scala", shearView.Png(), "taglio"));
             if(options.Contains("curvatura")&&curvatureResult is not null)images.Add(new("Momento–curvatura · percorso assegnato",curvaturePlot.Png(),"curvatura"));
+            }
         }
-        ReportConcrete.Write(filename, title, Data, result, options, images);
+        return ReportConcrete.Create(title, Data, result, options, images, !projectReport);
     }
 }

@@ -12,7 +12,9 @@ public static class ReportWord
     private static readonly XNamespace W="http://schemas.openxmlformats.org/wordprocessingml/2006/main";
     private static readonly XNamespace R="http://schemas.openxmlformats.org/officeDocument/2006/relationships";
     public static readonly (string Key,string Label)[] Sezioni=[("generali","Dati generali"),("efficienza","Efficienza del gruppo"),("coefficienti","Coefficienti normativi"),("stratigrafia","Tabelle stratigrafiche"),("nq","Metodo Nq / abachi"),("risultati","Risultati e verifiche"),("criteri","Criteri di calcolo"),("dettagli","Dettagli ogni 0,50 m"),("grafico_profilo","Profilo stratigrafico"),("grafico_nq","Curve Nq / abachi"),("grafico_capacita","Capacità portante")];
-    public static void Esporta(string path,string title,string module,JsonObject data,JsonObject result,HashSet<string>? options=null,IReadOnlyList<ImmagineReport>? images=null)
+    public static void Esporta(string path,string title,string module,JsonObject data,JsonObject result,HashSet<string>? options=null,IReadOnlyList<ImmagineReport>? images=null,bool includeInputs=true)
+        => Archivio.ScriviAtomico(path, Create(title, module, data, result, options, images, includeInputs));
+    public static byte[] Create(string title,string module,JsonObject data,JsonObject result,HashSet<string>? options=null,IReadOnlyList<ImmagineReport>? images=null,bool includeInputs=true)
     {
         if(result.S("errore")!="")throw new ArgumentException("Calcolo non disponibile: "+result.S("errore"));
         if(module=="str_palo")throw new ArgumentException("Il report Word della sezione non è disponibile, come nel programma sorgente. Esportare i risultati JSON.");
@@ -40,7 +42,7 @@ public static class ReportWord
             body.Add(t);body.Add(P(""));
         }
         body.Add(P("ANTHEA — "+title,true));body.Add(P((micro?"Micropalo — Bustamante–Doix":"Palo — capacità portante")+" · "+DateTime.Now.ToString("dd/MM/yyyy HH:mm")));
-        if(options.Contains("generali"))
+        if(includeInputs && options.Contains("generali"))
         {
             var general=data["generali"]!.DeepClone().AsObject();
             if(general.S("tipo_palo")!="Battuto")general.Remove("sottotipo_palo_battuto");
@@ -51,7 +53,7 @@ public static class ReportWord
             }
             Table(Tabelle.Parametri("Dati generali — m, kN, kPa, gradi; p_i in MPa",general,"generali"));
         }
-        if(options.Contains("efficienza")){Table(Tabelle.Parametri("Efficienza — dati",data["efficienza"] as JsonObject??new(),"efficienza"));Table(Tabelle.Parametri("Efficienza — risultati",result["efficienza"]!.AsObject(),"efficienza"),true);}
+        if(options.Contains("efficienza")){if(includeInputs)Table(Tabelle.Parametri("Efficienza — dati",data["efficienza"] as JsonObject??new(),"efficienza"));Table(Tabelle.Parametri("Efficienza — risultati",result["efficienza"]!.AsObject(),"efficienza"),true);}
         if(options.Contains("coefficienti"))
         {
             var g=data["generali"]!;var (xi3,xi4)=Calcolo.Verticali[g.S("verticali_indagate","1")];
@@ -59,7 +61,7 @@ public static class ReportWord
             if(micro&&!g.B("considera_punta"))coefficients.Remove("γb");
             Table(Tabelle.Parametri("Coefficienti applicati",coefficients,"coefficienti"));
         }
-        if(options.Contains("stratigrafia"))for(int i=0;i<data.Array("stratigrafie").Count;i++)
+        if(includeInputs && options.Contains("stratigrafia"))for(int i=0;i<data.Array("stratigrafie").Count;i++)
         {
             for(int j=0;j<data.Array("stratigrafie")[i]!.AsArray().Count;j++)
             {
@@ -110,6 +112,6 @@ public static class ReportWord
             foreach(var rel in relationships.Elements())rel.SetAttributeValue("Type",R.NamespaceName+"/image");
             Entry("word/_rels/document.xml.rels",relationships.ToString());Entry("word/document.xml",new XDocument(new XDeclaration("1.0","utf-8","yes"),new XElement(W+"document",new XAttribute(XNamespace.Xmlns+"w",W),new XAttribute(XNamespace.Xmlns+"r",R),body)).ToString());
         }
-        Archivio.ScriviAtomico(path,memory.ToArray());
+        return memory.ToArray();
     }
 }

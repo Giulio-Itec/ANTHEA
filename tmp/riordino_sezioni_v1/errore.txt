@@ -1,0 +1,5 @@
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at X.Desktop.MainWindow.<>c__DisplayClass88_0.<<SmokeProjects>g__Reorder|7>d.MoveNext() in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Desktop\Wpf\ProjectSmokeChecks.cs:line 139
+--- End of stack trace from previous location ---
+   at X.Desktop.MainWindow.SmokeProjects(String directory) in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Desktop\Wpf\ProjectSmokeChecks.cs:line 144
+   at X.Desktop.App.<>c__DisplayClass0_0.<<OnStartup>g__RunSmoke|1>d.MoveNext() in C:\Users\g.sciarpa\Desktop\ANTHEA\X.Desktop\Wpf\App.cs:line 37

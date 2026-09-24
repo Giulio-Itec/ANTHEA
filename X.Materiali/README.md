@@ -1,10 +1,10 @@
 # Materiali integrato in ANTHEA
 
-Scheda importata da Desktop/Materiali (sorgenti della versione ATECAP del 23 settembre 2026). Accesso: Moduli singoli → Materiali → Calcestruzzo → Apri. La finestra conserva gli input finché resta aperta; il salvataggio delle schede materiali non è previsto nella versione originale.
+Scheda importata da Desktop/Materiali (sorgenti della versione ATECAP del 23 settembre 2026). Accesso: Moduli singoli → Materiali → Calcestruzzo → Apri. La scheda si apre nella finestra principale di ANTHEA, con Home e Riprendi. È disponibile anche nei Progetti, comprese sottosezioni e trascinamento. Salva e riapri conservano classe, esposizioni, dati di copriferro/aderenza, scelte e designazione del cemento, anche con campi numerici incompleti. Ogni scheda mantiene dati indipendenti. Il report Word non è ancora disponibile.
 
 Il progetto X.Materiali è una libreria WPF inclusa nella compilazione e pubblicazione di X.Desktop. Stili e immagini sono incorporati; non occorre la cartella originale sul Desktop.
 
-Verifica integrata: ANTHEA.exe --smoke-materials <cartella-output>. Include i controlli originali della scheda e apertura/riattivazione/chiusura dal catalogo.
+Verifica integrata: ANTHEA.exe --smoke-materials <cartella-output>. Include i controlli originali della scheda e catalogo, apertura interna, ripresa, modifica, salvataggio singolo e in progetto, spostamento, riapertura e input incompleti.
 
 ## Documentazione della versione importata
 

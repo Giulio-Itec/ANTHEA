@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -81,6 +81,8 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         var sectionData = data["sezione"]!.AsObject();
         if (MicroHorizontal) sectionFields = CreateChsForm(sectionData);
         else {
+        sectionData["shape"] = "Circolare";
+        sectionData["diameter_mm"] = g.D("diametro", 1) * 1000;
         sectionData["classe_cls"] = ConcreteClass(sectionData.D("fck_mpa"));
         sectionFields = new InputForm(sectionData, [
             new("classe_cls", "Classe calcestruzzo", Choices: PileConcreteClasses.Keys.Append("Personalizzato").ToArray()),
@@ -94,6 +96,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             new("longitudinal_bar_count", "Quantità barre longitudinali", Symbol: "n"),
             new("transverse_bar_diameter_mm", "Diametro staffa", "mm", Symbol: "φst", Choices: ["6", "8", "10", "12", "14", "16", "18", "20"]),
             new("cover_mm", "Copriferro netto", "mm", Symbol: "c"),
+            new("esposizione", "Esposizione", Choices: Ntc2018Checks.Exposures),
             new("steel_modulus_mpa", "Modulo elastico acciaio", "MPa", Symbol: "Es")], SectionMaterialChanged, compact: true, symbolColumns: true);
         sectionFields.GroupFields("Calcestruzzo", ["classe_cls", "fck_mpa", "alpha_cc", "gamma_c", "__fcd"], true);
         sectionFields.GroupFields("Acciaio", ["fyk_mpa", "gamma_s", "__fyd"], true);
@@ -128,7 +131,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         surveys.Items.Clear(); grids.Clear(); int index = 0;
         foreach (var node in Data.Array("stratigrafie"))
         {
-            var rows = node!.AsArray(); if (rows.Count == 0) rows.Add(NewLayer());
+            var rows = node!.AsArray();
             Field[] fields = [new("tipologia", "Terreno", Choices: ["Granulare", "Coesivo"]),
                 new("__kp", "Kp [−]", ReadOnly: true),
                 new("spessore", "Spessore [m]"), new("peso_specifico", "γ [kN/m³]"), new("peso_specifico_saturo", "γsat [kN/m³]"),

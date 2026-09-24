@@ -1,0 +1,1 @@
+OK: inserimento senza dialoghi, riordino e drop sulle righe, miniatura CA scalata, menu gruppi, creazione immediata, gerarchia visiva, rinomina inline e annullamento, miniature, ritorno al progetto, sottosezioni, selezione, drop, conservazione input, spostamenti senza duplicati, salvataggio/riapertura, validazione ricorsiva e archivi precedenti.

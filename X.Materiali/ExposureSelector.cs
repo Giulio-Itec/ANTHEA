@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace Materiali;
 
-public sealed partial class MaterialWindow
+public sealed partial class MaterialView
 {
     readonly ComboBox exposureSelector=new(){MinWidth=72,VerticalAlignment=VerticalAlignment.Top};
     readonly TextBlock exposureAggressiveness=Text("",14,true),combinedExposure=Text("",12);
@@ -73,8 +73,7 @@ public sealed partial class MaterialWindow
             RefreshDetails();
         };
         return Paper(Stack(Text("Classe di esposizione",15,true),row,exposureAggressiveness,combinedExposure,
-            Text("Descrizione ed esempi: ATECAP 2020, p. 7, prospetto 1.\nAggressività: NTC 2018, tab. 4.1.III.",11),
-            new Expander{Header="Esposizioni concomitanti",Margin=new Thickness(0,6,0,0),Content=Stack(Text("Per più esposizioni sulla stessa superficie. Una nuova scelta nel menu riparte dalla sola classe selezionata.",12),checks)}));
+            Text("Descrizione ed esempi: ATECAP 2020, p. 7, prospetto 1.\nAggressività: NTC 2018, tab. 4.1.III.",11)));
     }
     void RefreshExposureSelector(Exposure[] active)
     {
@@ -88,7 +87,9 @@ public sealed partial class MaterialWindow
             exposureAggressiveness.Text=selected is null?"Aggressività: da definire":"Aggressività: "+Aggressiveness(NtcCover.Severity(selected));
             combinedExposure.Text=active.Length>1?"Classi attive: "+string.Join(" + ",active.Select(e=>e.Code))+
                 (active.Any(e=>e.Code=="X0")?" · combinazione non valida: X0 deve essere isolata.":"\nAggressività complessiva: "+Aggressiveness(active.Max(e=>NtcCover.Severity(e.Code)))):"";
-            combinedExposure.Visibility=active.Length>1?Visibility.Visible:Visibility.Collapsed;
+            if (legacyExposures is not null && active.Length == 1)
+                combinedExposure.Text="Archivio precedente con più esposizioni: " + string.Join(" + ", legacyExposures.Select(v=>v?.ToString())) + ". Classe attiva unica: " + selected + ".";
+            combinedExposure.Visibility=active.Length>1 || legacyExposures is not null?Visibility.Visible:Visibility.Collapsed;
         }
         finally{updatingExposure=false;}
     }

@@ -1,0 +1,1 @@
+OK: catalogo e apertura interna; layout 1600/1200; 6 preset e personalizzato; fyd, unità, diagramma e validazione; input incompleti conservati; salvataggio singolo e progetti; condivisione completa CA/palo nei due sensi; modifica locale; isolamento CHS e sottosezioni; eredità e avvisi.

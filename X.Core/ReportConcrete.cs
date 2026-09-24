@@ -29,7 +29,9 @@ public static class ReportConcrete
             }
         return values;
     }
-    public static void Write(string path, string title, JsonObject data, JsonObject result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null)
+    public static void Write(string path, string title, JsonObject data, JsonObject result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null, bool includeInputs = true)
+        => Archivio.ScriviAtomico(path, Create(title, data, result, options, images, includeInputs));
+    public static byte[] Create(string title, JsonObject data, JsonObject result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null, bool includeInputs = true)
     {
         if (options.Count == 0) throw new ArgumentException("Selezionare almeno un contenuto del report.");
         if (result.S("motore") != "GPCChecker.Concrete.dll") throw new ArgumentException("Risultati Checker aggiornati non disponibili.");
@@ -74,7 +76,8 @@ public static class ReportConcrete
         P("Taglio NTC nelle due direzioni; per le circolari il modello e i parametri sono espliciti. Torsione su profilo periferico rettangolare o circolare, pieno o cavo, con staffe chiuse. Per Vx+Vy+T si sommano conservativamente i contributi sul calcestruzzo. Dettagli del capitolo 4 e integrazioni EC2; gerarchia sismica e verifiche locali degli appoggi richiedono il modello dell’elemento. Fessurazione solo lineare, comprese le sezioni interamente tese; leggere i limiti per combinazione.");
         if (!string.IsNullOrWhiteSpace(settings.S("nota"))) P("Nota del foglio: " + settings.S("nota"));
         if (result["errori_calcolo"] is JsonObject errors) foreach (var (key, value) in errors) P("Calcolo non disponibile — " + key + ": " + value);
-        if (options.Contains("geometria"))
+        if (!includeInputs && options.Contains("geometria")) Figures("geometria");
+        if (includeInputs && options.Contains("geometria"))
         {
             Heading("Input");
             Parameters("Geometria della sezione", input, new (string, string)[] { ("shape", "Forma"), ("diameter_mm", "D [mm]"), ("width_mm", "b [mm]"), ("height_mm", "h [mm]"), ("flange_width_mm", "bf [mm]"), ("web_width_mm", "bw [mm]"), ("flange_thickness_mm", "hf [mm]"), ("cover_mm", "Copriferro netto [mm]") }.Where(f => f.Item1 switch { "diameter_mm" => input.S("shape") == "Circolare", "width_mm" => input.S("shape") == "Rettangolare", "height_mm" => input.S("shape") != "Circolare", "flange_width_mm" or "web_width_mm" or "flange_thickness_mm" => input.S("shape") == "A T", _ => true }).ToArray());
@@ -87,7 +90,7 @@ public static class ReportConcrete
             if (settings["taglio"] is JsonObject stirrups) Table(["Parametro", "Valore"], new[] { "tipo_staffa", "rami_x", "rami_y", "rami_interni" }.Select(k => new[] { k.Replace('_', ' '), stirrups.S(k) }));
             if (settings.Array("trefoli").Count > 0) { Subheading("Trefoli"); Table(["ID", "x [mm]", "y [mm]", "Ap [mm²]", "σp0 [MPa]"], settings.Array("trefoli").Select(t => new[] { t.S("id"), F(t?["x"]), F(t?["y"]), F(t?["area"]), F(t?["sigma0"]) })); }
         }
-        if (options.Contains("materiali"))
+        if (includeInputs && options.Contains("materiali"))
         {
             Heading("Materiali");
             Parameters("Calcestruzzo", input, [("classe_cls", "Classe CLS"), ("materiale_cls_nome", "Materiale CLS custom"), ("cls_diagramma", "Diagramma CLS"), ("fck_mpa", "fck [MPa]"), ("gettato_sottile", "Riduzione NTC per getto sottile")]);
@@ -239,6 +242,6 @@ public static class ReportConcrete
             Entry("word/styles.xml", styles.ToString()); Entry("word/_rels/document.xml.rels", relationships.ToString());
             Entry("word/document.xml", new XDocument(new XElement(w + "document", new XAttribute(XNamespace.Xmlns + "w", w), new XAttribute(XNamespace.Xmlns + "r", r), body)).ToString());
         }
-        Archivio.ScriviAtomico(path, memory.ToArray());
+        return memory.ToArray();
     }
 }
