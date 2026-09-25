@@ -13,9 +13,11 @@ public static class ReportProject
         R = "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
         Rel = "http://schemas.openxmlformats.org/package/2006/relationships";
 
-    public static void Write(string path, ProjectReportPlan plan, IReadOnlyDictionary<JsonObject, SheetContent> reports, IReadOnlyList<string> warnings, CancellationToken cancellation = default)
+    public static void Write(string path, ProjectReportPlan plan, IReadOnlyDictionary<JsonObject, SheetContent> reports, IReadOnlyList<string> warnings, CancellationToken cancellation = default, bool materialSheet = false)
     {
         if (plan.Sheets.Length == 0) throw new ArgumentException("La sezione non contiene schede da esportare.");
+        if (materialSheet && (plan.Sheets.Length != 1 || plan.Sheets[0].S("modulo_id") is not ("mat_calcestruzzo" or RebarMaterial.Module)))
+            throw new ArgumentException("Il report materiale richiede una sola scheda materiali.");
         if (plan.Sheets.Any(s => !reports.ContainsKey(s))) throw new ArgumentException("Preparazione incompleta: manca una scheda del report.");
         var body = new XElement(W + "body");
         var relationships = new XElement(Rel + "Relationships");
@@ -34,14 +36,14 @@ public static class ReportProject
         void P(string text, string style = "Normal") => body.Add(Paragraph(text, style));
         void Heading(string text, int level) => P(text, "Heading" + Math.Clamp(level, 1, 9));
         string Text(JsonNode? value) => value is null ? "Non definito" : value is JsonValue v && v.TryGetValue<bool>(out bool b) ? b ? "Sì" : "No" :
-            J.Number(value) is double n ? n.ToString("0.########", System.Globalization.CultureInfo.GetCultureInfo("it-IT")) : value.ToString();
+            J.Number(value) is double n ? n.ToString(materialSheet ? "0.###" : "0.########", System.Globalization.CultureInfo.GetCultureInfo("it-IT")) : value.ToString();
         void Table(IEnumerable<string[]> source, params string[] headers)
         {
             var rows = source.ToArray(); if (rows.Length == 0) return;
-            int[] widths = headers.Length == 2 ? [5300, 4060] : Enumerable.Repeat(9360 / headers.Length, headers.Length).ToArray();
+            int[] widths = headers.Length == 2 ? (materialSheet ? [4400, 4960] : [5300, 4060]) : Enumerable.Repeat(9360 / headers.Length, headers.Length).ToArray();
             var table = new XElement(W + "tbl", new XElement(W + "tblPr", new XElement(W + "tblW", new XAttribute(W + "w", 9360), new XAttribute(W + "type", "dxa")),
                 new XElement(W + "tblLayout", new XAttribute(W + "type", "fixed")),
-                new XElement(W + "tblCellMar", new[] { "top", "left", "bottom", "right" }.Select(s => new XElement(W + s, new XAttribute(W + "w", 75), new XAttribute(W + "type", "dxa")))),
+                new XElement(W + "tblCellMar", new[] { "top", "left", "bottom", "right" }.Select(s => new XElement(W + s, new XAttribute(W + "w", materialSheet ? 60 : 75), new XAttribute(W + "type", "dxa")))),
                 new XElement(W + "tblBorders", new[] { "top", "bottom", "insideH" }.Select(s => new XElement(W + s, new XAttribute(W + "val", "single"), new XAttribute(W + "sz", 4), new XAttribute(W + "color", "D8E0E8"))))),
                 new XElement(W + "tblGrid", widths.Select(n => new XElement(W + "gridCol", new XAttribute(W + "w", n)))));
             foreach (var (cells, i) in new[] { headers }.Concat(rows).Select((row, i) => (row, i)))
@@ -58,17 +60,29 @@ public static class ReportProject
                 else yield return [item.Label, Text(item.Value)];
         }
         string SheetRef(JsonObject sheet) => numbers.TryGetValue(sheet, out var number) ? number + " " + sheet.S("nome") : ProjectSharedData.Location(sheet) + " › " + sheet.S("nome");
-        P("Relazione di calcolo", "Title"); P(plan.Root.S("nome", "Sezione"), "Subtitle"); P("ANTHEA · " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+        P(materialSheet ? "Scheda materiale" : "Relazione di calcolo", "Title"); P(plan.Root.S("nome", "Sezione"), "Subtitle"); P("ANTHEA · " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+        if (plan.Root["revisione"] is JsonObject revision)
+        {
+            P("Rev. " + revision.D("numero") + " · " + (DateTime.TryParse(revision.S("data"), out var date) ? date.ToString("dd/MM/yyyy HH:mm") : revision.S("data")), "Subtitle");
+            if (revision.S("nota").Length > 0) P(revision.S("nota"));
+        }
+        if (materialSheet) P("Parametri impostati e proprietà ricavate dai dati correnti della scheda. Le indicazioni di applicabilità e gli eventuali dati da completare sono riportati nel documento.");
+        else
+        {
         P($"Il documento comprende {plan.Sheets.Length} schede, organizzate secondo la struttura della sezione e delle sue sottosezioni. I dati comuni compatibili e uguali sono raccolti al livello di riferimento; azioni, parametri specifici e risultati sono riportati per ciascun foglio.");
         P("I calcoli sono stati aggiornati sui dati acquisiti all'avvio dell'esportazione. Gli esiti mancanti o non determinati e i limiti dei singoli moduli restano esplicitamente indicati.");
+        }
         var missing = reports.Where(r => r.Value.Error is not null).ToArray();
         if (plan.Conflicts.Count > 0 || missing.Length > 0) P("Attenzione: il report contiene " + plan.Conflicts.Select(c => c.Key).Distinct().Count() + " proprietà in conflitto e " + missing.Length + " schede senza risultati completi. Leggere le segnalazioni seguenti.", "Notice");
+        if (!materialSheet)
+        {
         Heading("Contenuti", 1);
         foreach (var (node, number) in numbers)
         {
             var p = new XElement(W + "p", new XElement(W + "pPr", new XElement(W + "spacing", new XAttribute(W + "after", 45)), new XElement(W + "ind", new XAttribute(W + "left", Math.Min(levels[node] - 1, 8) * 180))),
                 new XElement(W + "hyperlink", new XAttribute(W + "anchor", anchors[node]), new XElement(W + "r", new XElement(W + "t", number + " " + node.S("nome", "Sezione")))));
             body.Add(p);
+        }
         }
         if (plan.Conflicts.Count > 0)
         {
@@ -126,7 +140,7 @@ public static class ReportProject
         }
         void Chapter(JsonObject section)
         {
-            NodeHeading(section);
+            if (!materialSheet) NodeHeading(section);
             var common = plan.Common.Where(v => ReferenceEquals(v.Section, section));
             foreach (var group in common.GroupBy(v => (v.Field.Group, Origin: ProjectSharedData.Location(v.Source), Members: string.Join("; ", v.Sheets.Select(SheetRef)))))
             {
@@ -136,13 +150,13 @@ public static class ReportProject
             }
             foreach (var sheet in section.Array("fogli").OfType<JsonObject>())
             {
-                NodeHeading(sheet);
+                if (!materialSheet) NodeHeading(sheet);
                 var refs = plan.Common.Where(v => v.Sheets.Contains(sheet)).Select(v => numbers[v.Section] + " " + v.Section.S("nome") + " — " + v.Field.Group).Distinct().ToArray();
                 if (refs.Length > 0) P("Dati condivisi: vedere " + string.Join("; ", refs) + ".");
                 foreach (var group in plan.LocalInputs(sheet).GroupBy(v => v.Group))
-                { Heading(group.Key, levels[sheet] + 1); Table(Values(group), "Proprietà", "Valore"); }
+                { Heading(group.Key, materialSheet ? 1 : levels[sheet] + 1); Table(Values(group), "Proprietà", "Valore"); }
                 var content = reports[sheet];
-                if (content.Derived is { Count: > 0 }) { Heading("Proprietà di calcolo", levels[sheet] + 1); Table(Values(content.Derived), "Proprietà", "Valore"); }
+                if (content.Derived is { Count: > 0 }) { Heading("Proprietà di calcolo", materialSheet ? 1 : levels[sheet] + 1); Table(Values(content.Derived), "Proprietà", "Valore"); }
                 if (content.Error is not null) P("Risultati non disponibili: " + content.Error, "Notice");
                 if (content.Docx is not null) AppendReport(content.Docx, sheet);
             }
@@ -151,7 +165,8 @@ public static class ReportProject
         }
         void NodeHeading(JsonObject node)
         {
-            var p = Paragraph(numbers[node] + " " + node.S("nome", "Sezione"), "Heading" + Math.Min(9, levels[node]));
+            string revision = node["revisione"] is JsonObject rev ? " · Rev. " + (int)rev.D("numero") : "";
+            var p = Paragraph(numbers[node] + " " + node.S("nome", "Sezione") + revision, "Heading" + Math.Min(9, levels[node]));
             int id = ++bookmarkId;
             p.Element(W + "pPr")!.AddAfterSelf(new XElement(W + "bookmarkStart", new XAttribute(W + "id", id), new XAttribute(W + "name", anchors[node])));
             p.Add(new XElement(W + "bookmarkEnd", new XAttribute(W + "id", id))); body.Add(p);

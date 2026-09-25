@@ -10,7 +10,7 @@ public static class Archivio
     {
         var doc=JsonNode.Parse(File.ReadAllText(path,Encoding.UTF8)) as JsonObject??throw new ArgumentException("Contenuto non riconosciuto.");
         if(doc.S("formato")==Encoding.ASCII.GetString(Convert.FromHexString("414E54484541")))doc["formato"]="X";
-        Valida(doc);return doc;
+        ProjectRevisions.Unpack(doc); Valida(doc); ProjectRevisions.Validate(doc); return doc;
     }
     public static void Valida(JsonObject doc)
     {
@@ -18,6 +18,7 @@ public static class Archivio
         void Sheet(JsonNode? sheet,bool allowEmpty)
         {
             if(sheet is not JsonObject||!Moduli.Contains(sheet.S("modulo_id")))throw new ArgumentException("Modulo del foglio non disponibile.");
+            if(sheet["dati_ref"] is not null)throw new ArgumentException("Riferimento ai dati del foglio non risolto.");
             var data=sheet["dati"];if(data is null&&allowEmpty)return;
             if(data is not JsonObject)throw new ArgumentException("Dati del foglio mancanti.");
             if(sheet.S("modulo_id")=="str_palo") {if(data["input"] is not JsonObject||data.D("versione_sezione",1) is not (1 or 2))throw new ArgumentException("Dati della sezione non validi.");}
@@ -64,7 +65,7 @@ public static class Archivio
     }
     public static void Scrivi(string path,JsonObject document)
     {
-        Valida(document);ScriviAtomico(path,Encoding.UTF8.GetBytes(document.ToJsonString(J.Options)));
+        Valida(document); ProjectRevisions.Validate(document); ScriviAtomico(path,Encoding.UTF8.GetBytes(ProjectRevisions.Pack(document).ToJsonString(J.Options)));
     }
     public static void ScriviAtomico(string path,byte[] bytes)
     {

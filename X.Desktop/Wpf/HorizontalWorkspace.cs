@@ -45,8 +45,8 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             if (!data["sezione"]!.AsObject().ContainsKey(key)) data["sezione"]![key] = value?.DeepClone();
         var g = data["generali"]!.AsObject();
         g["modalita"] = "Automatica";
-        details = Ui.Button("Diagrammi e dettagli", ShowResults); details.IsEnabled = false;
-        csv = Ui.Button("Esporta CSV", ExportCsv); csv.IsEnabled = false;
+        details = Ui.Button("Diagrammi e dettagli", ShowResults, inspection: true); details.IsEnabled = false;
+        csv = Ui.Button("Esporta CSV", ExportCsv, inspection: true); csv.IsEnabled = false;
         general = new(g, [new("diametro", MicroHorizontal ? "Diametro geotecnico micropalo" : "Diametro palo", "m", Symbol: "D"), new("lunghezza", "Lunghezza infissa", "m", Symbol: "L"),
             new("eccentricita", "Eccentricità forza rispetto al terreno", "m", Symbol: "e"), new("vincolo", "Rotazione in testa", Choices: ["Libera", "Impedita"]),
             new("azione_orizzontale", "Forza orizzontale", "kN", Symbol: "HEd"), new("azione_assiale", "Forza assiale (+ compressione)", "kN", Symbol: "N"),

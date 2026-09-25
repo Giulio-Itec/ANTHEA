@@ -9,7 +9,7 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        bool smoke = e.Args.Length >= 2 && e.Args[0] is "--smoke" or "--smoke-horizontal" or "--smoke-display" or "--smoke-ca-features" or "--smoke-ca-extensions" or "--smoke-projects" or "--smoke-materials" or "--smoke-bridge" or "--smoke-project-report" or "--smoke-hierarchy" or "--smoke-steel" or "--smoke-sharing";
+        bool smoke = e.Args.Length >= 2 && e.Args[0] is "--smoke" or "--smoke-horizontal" or "--smoke-display" or "--smoke-ca-features" or "--smoke-ca-extensions" or "--smoke-projects" or "--smoke-materials" or "--smoke-bridge" or "--smoke-material-report" or "--smoke-project-workspace" or "--smoke-project-report" or "--smoke-hierarchy" or "--smoke-steel" or "--smoke-sharing";
         DispatcherUnhandledException += (_, error) =>
         {
             if (smoke)
@@ -32,6 +32,8 @@ public partial class App : Application
                 try
                 {
                     if (e.Args[0] == "--smoke-bridge") await window.SmokeBridge(e.Args[1]);
+                    else if (e.Args[0] == "--smoke-material-report") await window.SmokeProjectReport(e.Args[1], materialsOnly: true);
+                    else if (e.Args[0] == "--smoke-project-workspace") await window.SmokeProjectWorkspace(e.Args[1]);
                     else if (e.Args[0] == "--smoke-project-report") await window.SmokeProjectReport(e.Args[1]);
                     else if (e.Args[0] == "--smoke-hierarchy") await window.SmokeHierarchy(e.Args[1]);
                     else if (e.Args[0] == "--smoke-steel") await window.SmokeSteel(e.Args[1]);

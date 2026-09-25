@@ -2,6 +2,8 @@
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
  <Application.Resources>
+  <ResourceDictionary>
+  <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="Wpf/ProjectStyles.xaml"/></ResourceDictionary.MergedDictionaries>
   <Style TargetType="Window">
    <Setter Property="Icon" Value="/ANTHEA;component/Assets/anthea.ico"/>
    <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -64,5 +66,6 @@
    <Setter Property="HorizontalContentAlignment" Value="Center"/>
   </Style>
   <Style TargetType="TabItem"><Setter Property="Padding" Value="9,5"/></Style>
+  </ResourceDictionary>
  </Application.Resources>
 </Application>

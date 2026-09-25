@@ -36,6 +36,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
     internal BridgeWorkspace(JsonObject data)
     {
         Data = data; BridgeSection.ValidateShape(data); Background = Ui.Bg;
+        RevisionInspection.Allow(StageChoice); RevisionInspection.Allow(DisplayChoice);
         SetValue(InputForm.CommitOnFocusLossProperty, true);
         SetValue(NumericPresentation.EnabledProperty, true);
         BuildInputs();

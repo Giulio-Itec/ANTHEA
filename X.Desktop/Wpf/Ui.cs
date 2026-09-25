@@ -18,9 +18,10 @@ internal static class Ui
 {
     internal static readonly Brush Navy = Brush("#0B2A4A"), Blue = Brush("#0B5CAD"), Bg = Brush("#F3F5F8"), Muted = Brush("#64748B");
     internal static Brush Brush(string color) { var b = (SolidColorBrush)new BrushConverter().ConvertFromString(color)!; b.Freeze(); return b; }
-    internal static Button Button(string title, Action action, bool primary = false)
+    internal static Button Button(string title, Action action, bool primary = false, bool inspection = false)
     {
         var b = new Button { Content = title, Background = primary ? Navy : Brushes.White, Foreground = primary ? Brushes.White : Navy };
+        if (inspection) RevisionInspection.Allow(b);
         b.Click += (_, _) => action(); return b;
     }
     internal static TextBlock Text(string text, double size = 13, bool bold = false, Brush? color = null) => new()

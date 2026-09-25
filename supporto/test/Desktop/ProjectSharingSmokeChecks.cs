@@ -11,6 +11,7 @@ public sealed partial class MainWindow
     internal async Task SmokeSharing(string directory)
     {
         testing = true; Directory.CreateDirectory(directory);
+        await CheckCoverWarnings(directory);
         CheckComparisonOrder();
         void Check(bool value, string message) { if (!value) throw new Exception(message); }
         JsonObject Sheet(string module, string name) => J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("modulo_id", module), ("dati", Archivio.NuovoFoglio(module)));

@@ -52,7 +52,7 @@ internal sealed partial class SheetEditor
         AddCard("Stratigrafia", sondages, true, surveyActions); stratigraphy.Data = Data; stratigraphy.Micro = Micro; AddCard("Profilo stratigrafico", stratigraphy, true);
         capacityView.ItemsSource = Micro ? new[] { "Tutte - progetto", "Compressione", "Trazione" } : ["Tutte - progetto", "Drenante · Compressione", "Drenante · Trazione", "Non drenante · Compressione", "Non drenante · Trazione"];
         capacityView.SelectedIndex = 0; capacityView.SelectionChanged += (_, _) => { UpdateVisible(); RebuildCurveChoices(); };
-        var actions = Ui.Bar(endValues, Ui.Button("Tutte", () => SetVisible(true)), Ui.Button("Nessuna", () => SetVisible(false)));
+        var actions = Ui.Bar(endValues, Ui.Button("Tutte", () => SetVisible(true), inspection: true), Ui.Button("Nessuna", () => SetVisible(false), inspection: true));
         var footer = Ui.Stack(actions, new ScrollViewer { Content = curveChoices, MaxHeight = 110, VerticalScrollBarVisibility = ScrollBarVisibility.Auto });
         outputs.Items.Insert(0, new TabItem { Header = "Grafico", Content = Ui.Dock(plot, bottom: footer) });
         outputs.Items.Insert(2, new TabItem { Header = Micro ? "Abachi" : "Nq", Content = reference }); outputs.SelectedIndex = 0;

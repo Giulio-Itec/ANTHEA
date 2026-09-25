@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,14 +26,14 @@ public sealed partial class MainWindow
         ShowProjects();
         var pn = (TreeViewItem)tree.Items[0]; var mn = (TreeViewItem)pn.Items[0]; var sn = (TreeViewItem)mn.Items[0];
         var fn = (TreeViewItem)sn.Items[0]; fn.IsSelected = true;
-        Check(ReferenceEquals(body.Content, dashboardViewport), "La selezione apre il foglio e impedisce il trascinamento");
-        var thumbnail = ((StackPanel)fn.Header).Children.OfType<Button>().Single();
+        Check(ReferenceEquals(body.Content, projectWorkspace) && !ReferenceEquals(projectContent.Content, moduleView), "La selezione apre il foglio e impedisce il trascinamento");
+        var thumbnail = ((Panel)fn.Header).Children.OfType<Button>().Single();
         thumbnail.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         Check(ReferenceEquals(currentSheet, sheet), "Miniatura non apre il foglio");
         editor!.SetGeometryForSmoke("1.25");
         Check(backToOverview.Content.ToString() == "← Torna al progetto", "Pulsante di ritorno non contestuale");
         backToOverview.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-        Check(ReferenceEquals(body.Content, dashboardViewport) && ReferenceEquals(currentSheet, sheet), "Ritorno non conserva la scheda");
+        Check(ReferenceEquals(body.Content, projectWorkspace) && !ReferenceEquals(projectContent.Content, moduleView) && ReferenceEquals(currentSheet, sheet), "Ritorno non conserva la scheda");
 
         pn = (TreeViewItem)tree.Items[0]; mn = (TreeViewItem)pn.Items[0]; sn = (TreeViewItem)mn.Items[0];
         var destination = (TreeViewItem)sn.Items[1];
@@ -61,19 +61,44 @@ public sealed partial class MainWindow
         AddStructureTo(main); AddStructureTo(main);
         Check(main.Array("strutture").Select(p => p.S("nome")).Distinct().Count() == main.Array("strutture").Count, "Nomi sezioni duplicati");
         var projectItem = (TreeViewItem)tree.Items[0]; var mainItem = (TreeViewItem)projectItem.Items[0];
-        double Font(TreeViewItem node) => ((StackPanel)node.Header).Children.OfType<TextBlock>().Single().FontSize;
+        double Font(TreeViewItem node) => ((Panel)node.Header).Children.OfType<TextBlock>().Single().FontSize;
         Check(Font(projectItem) > Font(mainItem) && Font(mainItem) > Font((TreeViewItem)mainItem.Items[0]), "Gerarchia grafica non progressiva");
-        BeginProjectRename(mainItem);
+        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
+        void LabelClick(TextBlock label, RoutedEvent mouseEvent, int clicks)
+        {
+            var args = new MouseButtonEventArgs(Mouse.PrimaryDevice, Environment.TickCount, MouseButton.Left) { RoutedEvent = mouseEvent };
+            typeof(MouseButtonEventArgs).GetProperty(nameof(MouseButtonEventArgs.ClickCount))!.SetValue(args, clicks);
+            label.RaiseEvent(args);
+        }
+        var sectionLabel = ((Panel)mainItem.Header).Children.OfType<TextBlock>().Single();
+        LabelClick(sectionLabel, UIElement.MouseLeftButtonDownEvent, 1);
+        LabelClick(sectionLabel, UIElement.MouseLeftButtonUpEvent, 1);
+        Check(sectionLabel.IsLoaded, "Primo clic ricrea il nodo prima del doppio clic");
+        LabelClick(sectionLabel, UIElement.MouseLeftButtonDownEvent, 2);
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-        var rename = ((StackPanel)mainItem.Header).Children.OfType<TextBox>().Single();
+        var rename = ((Panel)mainItem.Header).Children.OfType<TextBox>().Single();
+        await Task.Delay((int)GetDoubleClickTime() + 50);
+        Check(((Panel)mainItem.Header).Children.Contains(rename), "Il clic singolo ritardato interrompe la rinomina");
         rename.Text = "Opera rinominata";
         rename.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(rename), 0, Key.Enter) { RoutedEvent = Keyboard.KeyDownEvent });
         Check(main.S("nome") == "Opera rinominata", "Rinomina inline non confermata");
         BeginProjectRename(mainItem);
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-        rename = ((StackPanel)mainItem.Header).Children.OfType<TextBox>().Single(); rename.Text = "Da annullare";
+        rename = ((Panel)mainItem.Header).Children.OfType<TextBox>().Single(); rename.Text = "Da annullare";
         rename.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(rename), 0, Key.Escape) { RoutedEvent = Keyboard.KeyDownEvent });
         Check(main.S("nome") == "Opera rinominata", "Escape non annulla rinomina");
+        BeginProjectRename(mainItem); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+        rename = ((Panel)mainItem.Header).Children.OfType<TextBox>().Single(); rename.Text = "Opera confermata fuori";
+        projectLayout.RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, Environment.TickCount, MouseButton.Left) { RoutedEvent = Mouse.PreviewMouseDownEvent });
+        Check(main.S("nome") == "Opera confermata fuori" && !((Panel)mainItem.Header).Children.OfType<TextBox>().Any(), "Clic su area vuota non termina la rinomina");
+        BeginProjectRename(mainItem); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+        rename = ((Panel)mainItem.Header).Children.OfType<TextBox>().Single(); rename.Text = "Opera confermata alla disattivazione";
+        OnDeactivated(EventArgs.Empty);
+        Check(main.S("nome") == "Opera confermata alla disattivazione" && !((Panel)mainItem.Header).Children.OfType<TextBox>().Any(), "Cambio finestra non termina la rinomina");
+        sectionLabel = ((Panel)mainItem.Header).Children.OfType<TextBlock>().Single();
+        LabelClick(sectionLabel, UIElement.MouseLeftButtonUpEvent, 1);
+        await Task.Delay((int)GetDoubleClickTime() + 50);
+        Check(selectedProjectId == main.S("id"), "Clic singolo non apre il riepilogo");
         Archivio.Scrivi(file, document); Check(JsonNode.DeepEquals(Archivio.Leggi(file), document), "Nomi e gerarchia non persistono");
         AddSheetTo("str_palo", other, false);
         AddSheetTo("str_palo", other, false);
@@ -84,11 +109,12 @@ public sealed partial class MainWindow
         MoveProjectSheet(ca2, other, ca1, true);
         Check(ReferenceEquals(other.Array("fogli")[2], ca2), "Riordino verso fine");
         ShowProjects(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
+        await CheckProjectDragLayout(other, sheet, ca1, directory);
         var rootItem = (TreeViewItem)tree.Items[0];
-        Check(rootItem.ContextMenu.Items.OfType<MenuItem>().Select(m => m.Header?.ToString()).SequenceEqual(new[] { "Rinomina", "Elimina" }), "Menu gruppo contiene azioni extra");
+        Check(rootItem.ContextMenu.Items.OfType<MenuItem>().Select(m => m.Header?.ToString()).SequenceEqual(new[] { "Rinomina", "Duplica", "Elimina" }), "Menu gruppo incompleto");
         var otherItem = (TreeViewItem)((TreeViewItem)rootItem.Items[0]).Items[1];
         var caItem = (TreeViewItem)otherItem.Items[1];
-        var caButton = ((StackPanel)caItem.Header).Children.OfType<Button>().Single();
+        var caButton = ((Panel)caItem.Header).Children.OfType<Button>().Single();
         Check(caButton.Content is Viewbox { Width: 36, Height: 36, ClipToBounds: true }, "Miniatura CA non scalata");
         // Exercise the row drop handler, including order within the same list.
         var rowDrop = (DragEventArgs)Activator.CreateInstance(typeof(DragEventArgs), System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic, null,

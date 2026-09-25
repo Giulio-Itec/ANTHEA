@@ -41,7 +41,7 @@ internal sealed partial class ConcreteWorkspace
             e.Column.SortDirection = state.Descending ? ListSortDirection.Descending : ListSortDirection.Ascending; ApplyTableFilter(grid);
         };
         ApplyTableFilter(grid);
-        return Ui.Dock(grid, Ui.Bar(Ui.Text("Filtra", 11), column, mode, query, order, Ui.Button("×", () => { query.Clear(); order.SelectedIndex = 0; })));
+        return Ui.Dock(grid, RevisionInspection.Allow(Ui.Bar(Ui.Text("Filtra", 11), column, mode, query, order, Ui.Button("×", () => { query.Clear(); order.SelectedIndex = 0; }))));
     }
     private void ApplyTableFilter(JsonGrid grid)
     {

@@ -25,6 +25,7 @@ internal sealed partial class ConcreteWorkspace
     {
         var s = panel.Inspection;
         var contour = Ui.Choice(ConcreteSectionViewport.Contours, ConcreteSectionViewport.Contours[0]);
+        RevisionInspection.Allow(contour); RevisionInspection.Allow(s.State);
         contour.SelectionChanged += (_, _) =>
         {
             if (contour.SelectedItem is not string selected) return;

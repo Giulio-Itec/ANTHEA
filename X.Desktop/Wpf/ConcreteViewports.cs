@@ -20,20 +20,20 @@ internal sealed class ViewportFrame : Border
     {
         Background = Brushes.White; BorderBrush = Ui.Brush("#DCE2E9"); BorderThickness = new Thickness(1); Padding = new Thickness(8);
         Host = new ContentControl { Content = viewport, HorizontalContentAlignment = HorizontalAlignment.Stretch, VerticalContentAlignment = VerticalAlignment.Stretch };
-        Toolbar.Children.Add(Ui.Button("Adatta", fit));
+        Toolbar.Children.Add(Ui.Button("Adatta", fit, inspection: true));
         Toolbar.Children.Add(Ui.Button("PNG", () =>
         {
             var dialog = new SaveFileDialog { Filter = "Immagine PNG|*.png", FileName = "ANTHEA_" + title.Replace(' ', '_') + ".png" };
             if (dialog.ShowDialog(Window.GetWindow(this)) == true) try { Archivio.ScriviAtomico(dialog.FileName, viewport is DrawingView drawing ? drawing.Png() : Ui.Snapshot(viewport)); }
             catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message, "Esportazione immagine"); }
-        }));
+        }, inspection: true));
         Toolbar.Children.Add(Ui.Button("Espandi", () =>
         {
             Host.Content = null;
             var window = Ui.Dialog(this, title, viewport, 1200, 800);
             window.Closed += (_, _) => { window.Content = null; Host.Content = viewport; };
             window.ShowDialog();
-        }));
+        }, inspection: true));
         var heading = Ui.Stack(Ui.Text(title, 15, true), Toolbar); heading.Margin = new Thickness(2, 0, 2, 6);
         Child = Ui.Dock(Host, heading);
     }

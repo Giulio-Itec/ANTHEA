@@ -45,11 +45,11 @@ internal sealed partial class ConcreteWorkspace
             try { PasteCells(grid, family(), Clipboard.GetText(), append); }
             catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message + "\nNessun dato incollato.", "Incolla sollecitazioni", MessageBoxButton.OK, MessageBoxImage.Warning); }
         }
-        buttons.Children.Add(Ui.Button("Copia", Copy));
+        buttons.Children.Add(Ui.Button("Copia", Copy, inspection: true));
         var paste = Ui.Button("Incolla", () => Paste(false)); paste.ToolTip = "Ctrl+V: dalla cella corrente. 4 colonne: Nome e azioni; 3: azioni. Le righe eccedenti vengono aggiunte."; buttons.Children.Add(paste);
-        buttons.Children.Add(Ui.Button("Template Excel", SaveActionTemplate));
+        buttons.Children.Add(Ui.Button("Template Excel", SaveActionTemplate, inspection: true));
         buttons.Children.Add(Ui.Button("Importa Excel", ImportActionWorkbook));
-        buttons.Children.Add(Ui.Button("Esporta Excel", ExportActionWorkbook));
+        buttons.Children.Add(Ui.Button("Esporta Excel", ExportActionWorkbook, inspection: true));
         var path = new TextBox { Text = settings.S("file_sollecitazioni"), Width = 210, IsReadOnly = true, ToolTip = "File da reimportare. Template ed esportazione aggiornano questo percorso; Sfoglia permette di scegliere un altro file." };
         excelPaths.Add(path); buttons.Children.Add(path); buttons.Children.Add(Ui.Button("Sfoglia…", () => ChooseExcel()));
         grid.PreviewKeyDown += (_, e) =>

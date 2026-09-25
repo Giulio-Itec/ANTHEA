@@ -53,22 +53,22 @@ internal sealed partial class BridgeWorkspace
         Drawing.MinHeight = 160;
         Viewport = new ViewportFrame("Sezione composta · geometria e tensioni", Drawing, Drawing.ResetView);
         DisplayChoice.Width = 170; Viewport.Toolbar.Children.Insert(0, DisplayChoice);
-        Viewport.Toolbar.Children.Add(Ui.Button("−", () => Drawing.ZoomBy(.85)));
-        Viewport.Toolbar.Children.Add(Ui.Button("+", () => Drawing.ZoomBy(1.15)));
+        Viewport.Toolbar.Children.Add(Ui.Button("−", () => Drawing.ZoomBy(.85), inspection: true));
+        Viewport.Toolbar.Children.Add(Ui.Button("+", () => Drawing.ZoomBy(1.15), inspection: true));
         overview.Margin = new Thickness(0, 12, 0, 10);
         warnings.Margin = new Thickness(0, 8, 0, 0);
         var summary = Panel("Riepilogo della situazione", Scroll(Ui.Stack(summaryCards, overview,
             Ui.Text("Rapporti locali σ/limite · non rappresentano la verifica completa del ponte.", 11, color: Ui.Muted), warnings,
-            Ui.Button("Dettagli sezione efficace ↓", () => Results.SelectedIndex = 2))), "Compressione − · trazione +");
+            Ui.Button("Dettagli sezione efficace ↓", () => Results.SelectedIndex = 2, inspection: true))), "Compressione − · trazione +");
         var upper = Split(Viewport, summary, "risultati", false, .7, 460, 225);
-        var resultActions = Ui.Bar(Ui.Button("Esporta CSV…", ExportCsv));
+        var resultActions = Ui.Bar(Ui.Button("Esporta CSV…", ExportCsv, inspection: true));
         var table = Panel("Risultati della sezione", Ui.Dock(Results, bottom: resultActions), "Situazione selezionata · contributi incrementali e somma · mm, MPa, kN, kNm");
         var right = Split(upper, table, "righe", true, .63, 290, 190);
         var layout = Split(left, right, "ingressi", false, .29, 285, 710);
         layout.Margin = new Thickness(12, 10, 12, 0);
         var footer = new DockPanel { Margin = new Thickness(16, 4, 16, 8) }; footer.Children.Add(status);
         var header = new DockPanel();
-        var information = Ui.Button("Info modello…", ShowModelInformation); information.Margin = new Thickness(8, 8, 16, 0);
+        var information = Ui.Button("Info modello…", ShowModelInformation, inspection: true); information.Margin = new Thickness(8, 8, 16, 0);
         information.VerticalAlignment = VerticalAlignment.Center; DockPanel.SetDock(information, Dock.Right);
         header.Children.Add(information); header.Children.Add(Pages);
         var body = Ui.Dock(layout, header, Ui.Stack(progress, footer));

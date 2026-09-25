@@ -6,12 +6,17 @@ namespace Materiali;
 /// <summary>Uses the same durability engines and input conventions as the Materiali sheet.</summary>
 public static class MaterialCover
 {
+    private static double Number(string raw) => double.TryParse(raw.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double v) && double.IsFinite(v)
+        ? v : throw new ArgumentException("Dati del copriferro incompleti o non numerici.");
+
+    // The nominal cover shown in the material sheet, using its reference bar diameter.
+    public static double Required(JsonObject state, double fck) => Required(state, fck,
+        Number(state["numeri"]?["diameter"]?.ToString() ?? "16"));
+
     public static double Required(JsonObject state, double fck, double diameter)
     {
         string Choice(string key, string fallback) => state["scelte"]?[key]?.ToString() ?? fallback;
         bool Flag(string key) => state["opzioni"]?[key]?.GetValue<bool>() == true;
-        double Number(string raw) => double.TryParse(raw.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double v) && double.IsFinite(v)
-            ? v : throw new ArgumentException("Dati del copriferro incompleti o non numerici.");
         string code = state["esposizione_principale"]?.ToString() ?? "XC1";
         var exposure = Durability.Exposures.SingleOrDefault(e => e.Code == code) ?? throw new ArgumentException("Definire la classe di esposizione.");
         string ground = Choice("ground", "Casseratura"), abrasion = Choice("abrasion", "Nessuno");

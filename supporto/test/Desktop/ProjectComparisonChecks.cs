@@ -53,7 +53,7 @@ public sealed partial class MainWindow
             Check(ProjectSharedData.Limitations(section).SequenceEqual(expectedWarnings), "Avvisi diversi dopo riordino");
             Check(CoverChecks(section).Select(c => c.Text).Order().SequenceEqual(expectedCover), "Avvisi copriferro diversi dopo riordino");
             var header = new StackPanel(); AddCoherenceBadge(header, section);
-            Check(header.Children.OfType<Button>().Single().Content.ToString()!.StartsWith("⚠ Differenze tra fogli"), "Indicatore di conflitto dipende dall'ordine");
+            Check(System.Windows.Automation.AutomationProperties.GetName(header.Children.OfType<Button>().Single()).StartsWith("⚠ Differenze tra fogli"), "Indicatore di conflitto dipende dall'ordine");
             orders++;
         }
         Permute([material, rc, horizontal, vertical], 0);
@@ -62,10 +62,10 @@ public sealed partial class MainWindow
 
         var single = new JsonObject { ["fogli"] = new JsonArray(rc.DeepClone()) };
         var singleHeader = new StackPanel(); AddCoherenceBadge(singleHeader, single);
-        Check(singleHeader.Children.OfType<Button>().Single().Content.ToString() == "⚠ 1 avviso", "Avviso copriferro assente per singolo foglio");
+        Check(System.Windows.Automation.AutomationProperties.GetName(singleHeader.Children.OfType<Button>().Single()) == "⚠ 1 avviso", "Avviso copriferro assente per singolo foglio");
         var consistent = new JsonObject { ["fogli"] = new JsonArray(rc.DeepClone(), rc.DeepClone()) };
         var consistentHeader = new StackPanel(); AddCoherenceBadge(consistentHeader, consistent);
-        Check(consistentHeader.Children.OfType<Button>().Single().Content.ToString()!.Contains("Dati comuni coerenti · ⚠"), "Dati coerenti nascondono gli avvisi");
+        Check(System.Windows.Automation.AutomationProperties.GetName(consistentHeader.Children.OfType<Button>().Single()).Contains("Dati comuni coerenti · ⚠"), "Dati coerenti nascondono gli avvisi");
 
         // Applying a valid reference resolves the same conflict in either order and keeps other fields.
         foreach (bool reverse in new[] { false, true })

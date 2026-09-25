@@ -190,10 +190,10 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         {
             var value = new VerificationCards(); summaries[key] = value;
             string title = key.StartsWith("SLE") ? "SLE · " + SectionWorkspace.Label(key) : SectionWorkspace.Label(key);
-            var button = Ui.Button("Apri →", () => { tabs.SelectedIndex = key.StartsWith("SLE") ? 3 : 1; if (key.StartsWith("SLE")) sleTabs.SelectedIndex = Array.IndexOf(SectionWorkspace.Sets, key) - 2; else domainPanels[0].Mode.SelectedItem = key; }); button.HorizontalAlignment = HorizontalAlignment.Right;
+            var button = Ui.Button("Apri →", () => { tabs.SelectedIndex = key.StartsWith("SLE") ? 3 : 1; if (key.StartsWith("SLE")) sleTabs.SelectedIndex = Array.IndexOf(SectionWorkspace.Sets, key) - 2; else domainPanels[0].Mode.SelectedItem = key; }, inspection: true); button.HorizontalAlignment = HorizontalAlignment.Right;
             summary.Children.Add(SummaryBlock(title, value, button));
         }
-        summary.Children.Add(SummaryBlock("Taglio", shearDashboard, Ui.Button("Apri →", () => tabs.SelectedIndex = 4)));
+        summary.Children.Add(SummaryBlock("Taglio", shearDashboard, Ui.Button("Apri →", () => tabs.SelectedIndex = 4, inspection: true)));
         summary.Children.Add(Ui.Text("Colori η come nei domini · grigio: esito mancante. Ogni verifica resta distinta.", 10, color: Ui.Muted));
         return WorkspaceLayout(left, ResultColumns(middle, Scroller(summary)));
     }

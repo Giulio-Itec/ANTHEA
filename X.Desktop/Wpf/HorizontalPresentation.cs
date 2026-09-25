@@ -21,7 +21,7 @@ internal sealed partial class HorizontalWorkspace
         var heading = new DockPanel { Margin = new Thickness(0, 0, 0, 8), MinHeight = 28 };
         if (expandable)
         {
-            var button = Ui.Button("Estendi", () => { expanded = expanded == index ? -1 : index; LayoutCards(); scroll.ScrollToTop(); });
+            var button = Ui.Button("Estendi", () => { expanded = expanded == index ? -1 : index; LayoutCards(); scroll.ScrollToTop(); }, inspection: true);
             button.FontSize = 11; button.Padding = new Thickness(5, 2, 5, 2);
             DockPanel.SetDock(button, Dock.Right); heading.Children.Add(button); expandButtons[index] = button;
         }

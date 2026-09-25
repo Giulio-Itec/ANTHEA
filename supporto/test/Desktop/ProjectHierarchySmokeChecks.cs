@@ -78,9 +78,9 @@ public sealed partial class MainWindow
         ShowSheet(ca); editor!.Data["input"]!["cover_mm"] = "42"; editor.Data["input"]!["fck_mpa"] = "25"; Commit();
         Check(reference["dati"]!["input"].D("cover_mm") == 65 && pile["dati"]!["sezione"].D("cover_mm") == 65 && cls["dati"].S("classe") == "C40/50", "Foglio inferiore ha comandato sui riferimenti");
         Check(ProjectSharedData.Differences(deep).Any(d => ReferenceEquals(d.First, cls) && ReferenceEquals(d.Second, ca)), "Conflitto con antenato invisibile nella sottosezione");
-        Check(sharedStatus.Text.Contains("riferimento superiore"), "Avviso gerarchico assente nella scheda");
+        Check(sharedStatus.Text.Contains("Dati diversi tra i fogli"), "Avviso gerarchico assente nella scheda");
         var badge = new StackPanel(); AddCoherenceBadge(badge, child);
-        Check(badge.Children.OfType<Button>().Single().Content.ToString()!.Contains("Differenze"), "Gruppo vuoto nasconde conflitti discendenti");
+        Check(System.Windows.Automation.AutomationProperties.GetName(badge.Children.OfType<Button>().Single()).Contains("Differenze"), "Gruppo vuoto nasconde conflitti discendenti");
         Exception? dialogError = null;
         _ = Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
         {
@@ -122,7 +122,7 @@ public sealed partial class MainWindow
         MoveProjectSheet(reference, upper, steel, false);
         Check(beforeOrder.SequenceEqual(ProjectSharedData.Differences(project).Select(d => (d.Key, d.Left, d.Right)).OrderBy(x => x.Key)), "Riordino cambia i conflitti");
         var movedBefore = pile["dati"]!.DeepClone(); Drop(other, SheetDragFormat, pile);
-        Check(JsonNode.DeepEquals(movedBefore, pile["dati"]) && !ProjectSharedData.AncestorReferences(pile, "cover_mm").Any(), "Spostamento cambia dati o conserva vecchia autorità");
+        Check(!ProjectSharedData.AncestorReferences(pile, "cover_mm").Any() && pile["dati"]!["sezione"].S("classe_acciaio") == independent["dati"]!["input"].S("classe_acciaio"), "Spostamento cambia dati o conserva vecchia autorità");
         Drop(upper, SheetDragFormat, pile); Check(ReferenceEquals(pile.Parent, upper["fogli"]), "Impossibile riportare una scheda nel gruppo superiore");
         ShowProjects(); await Capture("progetti-gerarchici");
         string archive = Path.Combine(directory, "gerarchia.programma"); Archivio.Scrivi(archive, document);
