@@ -11,11 +11,32 @@ namespace X.Desktop;
 
 public sealed partial class MainWindow
 {
-    internal async Task SmokeProjectReport(string directory)
+    internal async Task SmokeProjectReport(string directory, bool materialsOnly = false)
     {
         testing = true; Directory.CreateDirectory(directory);
         static void Check(bool condition, string message) { if (!condition) throw new Exception(message); }
         static JsonObject Sheet(string module, string name) => J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("modulo_id", module), ("dati", Archivio.NuovoFoglio(module)));
+        foreach (string module in new[] { "mat_calcestruzzo", RebarMaterial.Module })
+        {
+            using var materialEditor = new SheetEditor(module, Archivio.NuovoFoglio(module));
+            string materialPath = Path.Combine(directory, module + ".docx");
+            materialEditor.ExportReport(materialPath, module == "mat_calcestruzzo" ? "Calcestruzzo" : "Acciaio per armature", []);
+            using var package = ZipFile.OpenRead(materialPath);
+            using var input = package.GetEntry("word/document.xml")!.Open();
+            string contents = XDocument.Load(input).ToString();
+            Check(contents.Contains("Scheda materiale") && contents.Contains("Proprietà di calcolo"), "Report materiale incompleto");
+            Check(contents.Contains(module == "mat_calcestruzzo" ? "Copriferro nominale" : "Resistenza di progetto fyd"), "Proprietà materiale mancanti");
+            if (module == RebarMaterial.Module)
+            {
+                materialEditor.Data["input"]!["gamma_s"] = "0";
+                Check(materialEditor.MaterialReportContent().Error is not null, "Acciaio non valido senza avviso");
+            }
+        }
+        if (materialsOnly)
+        {
+            File.WriteAllText(Path.Combine(directory, "smoke.txt"), "OK: report singoli CLS e acciaio, proprietà correnti e segnalazione dati acciaio non validi.");
+            return;
+        }
         document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "progetti"), ("progetti", new JsonArray()));
         var project = J.Obj(("nome", "Ponte di prova"), ("strutture", new JsonArray()), ("fogli", new JsonArray())); document.Array("progetti").Add(project);
         var material = Sheet("mat_calcestruzzo", "Calcestruzzo di progetto"); project.Array("fogli").Add(material);
@@ -39,7 +60,7 @@ public sealed partial class MainWindow
         micro["dati"] = cases.First(c => c.S("tipo") == "micropalo" && !c.B("atteso_errore"))!["input"]!.DeepClone(); other.Array("fogli").Add(micro);
         var chs = Sheet(MicropaloOrizzontale.Module, "Micropalo orizzontale"); chs["dati"]!["stratigrafie"]![0]!.AsArray().Add(PaloOrizzontale.Layer()); other.Array("fogli").Add(chs);
         ShowProjects(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
-        var buttons = Ui.Descendants<Button>(tree).Where(b => b.Content?.ToString() == "Genera report").ToArray();
+        var buttons = Ui.Descendants<Button>(tree).Where(b => System.Windows.Automation.AutomationProperties.GetName(b).StartsWith("Genera report")).ToArray();
         Check(buttons.Length == ProjectSharedData.Sections(project).Count(), "Pulsante report assente su un livello");
         Check(buttons.Count(b => !b.IsEnabled) == 1, "Report vuoto non disabilitato");
         File.WriteAllBytes(Path.Combine(directory, "pulsanti-report.png"), Ui.Snapshot(this));
@@ -53,7 +74,6 @@ public sealed partial class MainWindow
         }));
         buttons[0].RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         Check(preflightShown, "Pulsante non apre il controllo dei conflitti prima del report");
-        Hide();
         var before = document.DeepClone(); var plan = new ProjectReportPlan(project);
         Check(plan.Common.Any(c => c.Field.Key == "diameter_mm" && c.Sheets.Contains(ca) && c.Sheets.Contains(vertical) && c.Sheets.Contains(horizontal)), "Diametro non accorpato tra moduli/unità diversi");
         Check(plan.Common.Any(c => c.Field.Key == "esposizione" && ReferenceEquals(c.Section, project)), "Esposizione non al livello superiore");

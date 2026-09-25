@@ -57,6 +57,7 @@ internal sealed partial class ConcreteWorkspace
             SynchronizeHomogenization(key); EnableOptions();
             var instructions = Notice("Analisi Checker lineare/non lineare. Rara: limiti CLS e acciaio; quasi permanente: limite CLS. Frequente: tensioni calcolate, nessun limite tensionale automatico. φ è il coefficiente di viscosità.");
             var combinationChoice=Ui.Choice(SectionWorkspace.Sets.Skip(2).Select(SectionWorkspace.Label).ToArray(),SectionWorkspace.Label(key));
+            RevisionInspection.Allow(combinationChoice); RevisionInspection.Allow(panel.Regions);
             combinationChoice.SelectionChanged+=(_,_)=>{if(combinationChoice.SelectedIndex>=0)sleTabs.SelectedIndex=combinationChoice.SelectedIndex;};
             sleTabs.SelectionChanged+=(_,e)=>{if(e.Source==sleTabs && sleTabs.SelectedIndex>=0)combinationChoice.SelectedIndex=sleTabs.SelectedIndex;};
             var optionsPanel = Panel("Opzioni SLE comuni", Scroller(Ui.Stack(Ui.Text("Combinazione SLE",12,true),combinationChoice,panel.Options, instructions)), "Modifiche valide per Rara, Frequente e Quasi permanente. Azioni separate, già combinate.");
@@ -66,6 +67,7 @@ internal sealed partial class ConcreteWorkspace
             panel.Regions.ToolTip="Zona efficace per la fessurazione · barre incluse evidenziate in arancione";
             viewport.Toolbar.Children.Add(panel.Regions);
             var contour = Ui.Choice(ConcreteSectionViewport.Contours, options.S("contour", ConcreteSectionViewport.Contours[0])); contour.Width = 205;
+            RevisionInspection.Allow(contour);
             panel.View.Contour = contour.SelectedItem as string ?? ConcreteSectionViewport.Contours[0];
             options["contour"] = panel.View.Contour;
             contour.SelectionChanged += (_, _) => { if (contour.SelectedItem is not string selected) return; options["contour"] = selected; panel.View.Contour = selected; panel.View.InvalidateVisual(); Modified?.Invoke(); };

@@ -22,7 +22,7 @@ internal sealed partial class ConcreteWorkspace
         if(!o.ContainsKey("tolleranza_n"))o["tolleranza_n"]="1";
         if(!o.ContainsKey("raffina_snervamento"))o["raffina_snervamento"]="12";
         curvatureForm=new InputForm(o,[new("N","N costante (− compressione)","kN"),new("theta","Direzione del momento θ","°"),new("passi","Passi di carico"),new("frazione","Frazione di MRd finale","−"),new("campionamento","Distribuzione dei passi",Choices:["Quadratico","Uniforme"]),new("trazione_cls","CLS resistente a trazione",Choices:["No","Sì"]),new("angoli","Direzioni del dominio"),new("tolleranza_n","Residuo N massimo al limite","kN"),new("raffina_snervamento","Bisezioni primo snervamento (0–30)")],_=>{InvalidateCurvature();Modified?.Invoke();},true,true);
-        var buttons=Ui.Bar(Ui.Button("Calcola curva",()=>CalculateCurvature()),Ui.Button("Interrompi",()=>curvatureCancellation?.Cancel()),Ui.Button("Esporta CSV…",ExportCurvature));
+        var buttons=Ui.Bar(Ui.Button("Calcola curva",()=>CalculateCurvature(),inspection:true),Ui.Button("Interrompi",()=>curvatureCancellation?.Cancel(),inspection:true),Ui.Button("Esporta CSV…",ExportCurvature,inspection:true));
         return WorkspaceLayout(Panel("Percorso di carico",Scroller(Ui.Stack(curvatureForm,buttons,Ui.Text("N fisso; (Mx, My) = M · (cos θ, sin θ), negli assi locali. Analisi non lineare con i materiali del pannello di controllo. Campionamento a momento crescente fino al limite plastico; χ è il modulo del gradiente di deformazione. Il primo snervamento può essere raffinato per bisezione tra due campioni successivi.",12)))),Rows(new ViewportFrame("M [kNm] · χ [1/m]",curvaturePlot,curvaturePlot.ResetView),curvatureText));
     }
     private void InvalidateCurvature()

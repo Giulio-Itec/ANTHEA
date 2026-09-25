@@ -20,6 +20,8 @@ public sealed partial class MainWindow : Window
     private readonly Grid dashboard = new();
     private readonly ScrollViewer dashboardViewport;
     private readonly DockPanel moduleView = new();
+    private readonly ContentControl sheetProjectTreeControl = new() { VerticalAlignment = VerticalAlignment.Center, Visibility = Visibility.Collapsed };
+    private readonly ContentControl sheetProjectActions = new() { VerticalAlignment = VerticalAlignment.Center };
     private readonly ContentControl dashboardBody = new() { Margin = new Thickness(42, 24, 42, 36) };
     private readonly ContentControl sheetContent = new();
     private readonly TextBlock heading = Ui.Text("", 17, true, Brushes.White);
@@ -34,8 +36,10 @@ public sealed partial class MainWindow : Window
         dashboardViewport = DisplayAdaptation.Viewport(dashboard, 1120, 680);
         var root = Ui.Dock(body, BuildMenu()); root.Background = Ui.Bg; Content = root; BuildShell(); ShowHome();
         DisplayAdaptation.Attach(this);
+        PreviewMouseDown += (_, _) => CancelProjectSectionClick();
+        Deactivated += (_, _) => CancelProjectSectionClick();
         Closing += (_, e) => { if (testing) return; e.Cancel = !ConfirmDiscard(); };
-        Closed += (_, _) => editor?.Dispose();
+        Closed += (_, _) => { CancelProjectSectionClick(); editor?.Dispose(); };
 
     }
     internal void Safe(Action action) { try { action(); } catch (Exception ex) { if (testing) throw; MessageBox.Show(this, ex.Message, "Operazione non completata", MessageBoxButton.OK, MessageBoxImage.Error); } }
@@ -68,26 +72,37 @@ public sealed partial class MainWindow : Window
         nav.Children.Add(FileCommands(false)); var footer = Ui.Text($"Moduli disponibili: {Archivio.Moduli.Length} di {Archivio.Moduli.Length + 1}", color: Ui.Muted); footer.Margin = new Thickness(20);
         var sidebar = Ui.Dock(nav, bottom: footer); sidebar.Background = Brushes.White; dashboard.Children.Add(sidebar); Grid.SetColumn(dashboardBody, 1); dashboard.Children.Add(dashboardBody);
         var top = new DockPanel { Background = Ui.Navy, MinHeight = 68, LastChildFill = true };
-        var back = backToOverview = Ui.Button("← Torna ad ANTHEA", () => Safe(() => { Commit(); if (document.S("tipo") == "progetti") ShowProjects(); else ShowHome(); }), true); back.Width = 200; back.BorderThickness = new Thickness(0); top.Children.Add(back); top.Children.Add(FileCommands(true));
-        confirmShared = Ui.Button("Conferma modifiche", () => Safe(Commit), true); confirmShared.Visibility = Visibility.Collapsed; top.Children.Add(confirmShared);
+        top.Children.Add(sheetProjectTreeControl);
+        var back = backToOverview = CommandButton("← Torna ad ANTHEA", () => Safe(() => { Commit(); if (document.S("tipo") == "progetti") ShowProjects(); else ShowHome(); })); back.Width = 200; top.Children.Add(back); top.Children.Add(FileCommands(true));
+        confirmShared = CommandButton("Conferma modifiche", () => Safe(Commit)); confirmShared.Visibility = Visibility.Collapsed; top.Children.Add(confirmShared);
+        top.Children.Add(sheetProjectActions);
         var titles = Ui.Stack(heading, Ui.Text("Scheda di calcolo · input, profilo e risultati", 12, color: Ui.Brush("#B9C8D8"))); titles.Margin = new Thickness(15, 10, 0, 0); top.Children.Add(titles);
         DockPanel.SetDock(top, System.Windows.Controls.Dock.Top); moduleView.Children.Add(top); DockPanel.SetDock(sharedStatus, Dock.Top); moduleView.Children.Add(sharedStatus); moduleView.Children.Add(sheetContent);
     }
-    private WrapPanel FileCommands(bool dark)
+    private static Button CommandButton(string title, Action action, bool dark = true)
+    {
+        var button = Ui.Button(title, action, dark);
+        button.Style = (Style)Application.Current.FindResource(dark ? "ProjectCommandButton" : "ProjectButton");
+        button.Height = 36; button.Padding = new Thickness(10, 2, 10, 2);
+        button.VerticalAlignment = VerticalAlignment.Center;
+        return button;
+    }
+    private WrapPanel FileCommands(bool dark, bool includeReport = true)
     {
         var bar = new WrapPanel { VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 6, 0, 6) };
         foreach (var (label, icon, action) in new (string, string, Action)[] { ("Apri", "📂", Open), ("Salva", "▣", () => Save(false)), ("Salva con nome", "▤", () => Save(true)), ("Report Word", "W", ExportReport) })
         {
-            if (!dark && label == "Report Word") continue;
+            if ((!dark || !includeReport) && label == "Report Word") continue;
             bool save = label is "Salva" or "Salva con nome";
-            var b = Ui.Button(save ? label : icon, () => Safe(action), dark); b.ToolTip = label; b.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, label);
-            if (!save) b.Width = 37; b.Height = 36; b.Padding = new Thickness(save ? 10 : 2, 2, save ? 10 : 2, 2); bar.Children.Add(b);
+            var b = CommandButton(save ? label : icon, () => Safe(action), dark); b.ToolTip = label; b.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, label);
+            if (!save) { b.Width = 37; b.Padding = new Thickness(2); } bar.Children.Add(b);
         }
         return bar;
     }
     private void SelectNavigation(string name)
     {
-        if (tree.Parent is Panel p) p.Children.Remove(tree);
+        ExitRevisionPreview();
+        projectContent.Content = null;
         dashboardBody.Content = null; body.Content = dashboardViewport;
         foreach (var (key, b) in navigation) { b.Background = key == name ? Ui.Navy : Brushes.White; b.Foreground = key == name ? Brushes.White : Ui.Navy; }
     }
@@ -114,7 +129,7 @@ public sealed partial class MainWindow : Window
         var filters = Ui.Stack(Ui.Text("DISCIPLINE", 13, true)); filters.Width = 185; foreach (string name in new[] { "Tutti", "Geotecnica", "Strutture", "Materiali" }) filters.Children.Add(Ui.Button(name, () => ShowModules(name), discipline == name));
         var fp = Ui.Paper(filters, 16); fp.Margin = new Thickness(0, 0, 16, 0); DockPanel.SetDock(fp, System.Windows.Controls.Dock.Left); root.Children.Add(fp);
         var list = new StackPanel();
-        var modules = new[] { ("Geotecnica", "Palo", "Capacità portante verticale", "geo_palo_verticale"), ("Geotecnica", "Palo", "Capacità portante orizzontale", "geo_palo_orizzontale"), ("Geotecnica", "Micropalo", "Capacità portante verticale", "geo_micropalo_verticale"), ("Geotecnica", "Micropalo", "Capacità portante orizzontale", MicropaloOrizzontale.Module), ("Strutture", "Sezione in c.a.", "Verifiche SLU · SLV · SLE", "str_palo"), ("Strutture", "Sezione composta", "Ponte · fasi e classe 4", BridgeSection.Module), ("Strutture", "Micropalo", "Verifiche strutturali", ""), ("Materiali", "Calcestruzzo", "Proprietà, copriferro e composizione", "mat_calcestruzzo"), ("Materiali", "Acciaio per armature", "Proprietà meccaniche e diagramma", RebarMaterial.Module) };
+        var modules = new[] { ("Geotecnica", "Palo", "Capacità portante verticale", "geo_palo_verticale"), ("Geotecnica", "Palo", "Capacità portante orizzontale", "geo_palo_orizzontale"), ("Geotecnica", "Micropalo", "Capacità portante verticale", "geo_micropalo_verticale"), ("Geotecnica", "Micropalo", "Capacità portante orizzontale", MicropaloOrizzontale.Module), ("Strutture", "Sezione in c.a.", "Verifiche SLU · SLV · SLE", "str_palo"), ("Strutture", "Sezione composta", "Ponte · fasi e classe 4", BridgeSection.Module), ("Materiali", "Calcestruzzo", "Proprietà, copriferro e composizione", "mat_calcestruzzo"), ("Materiali", "Acciaio per armature", "Proprietà meccaniche e diagramma", RebarMaterial.Module) };
         foreach (string area in new[] { "Geotecnica", "Strutture", "Materiali" }.Where(a => discipline == "Tutti" || a == discipline))
         {
             var label = Ui.Text(area, 21, true); label.Margin = new Thickness(0, 10, 0, 14); list.Children.Add(label);
@@ -138,60 +153,84 @@ public sealed partial class MainWindow : Window
     }
     private void ShowProjects()
     {
-        Commit(); SelectNavigation("Progetti"); var title = new DockPanel(); var add = Ui.Button("[+] Nuovo progetto", () => Safe(AddProject), true); DockPanel.SetDock(add, System.Windows.Controls.Dock.Right); title.Children.Add(add); title.Children.Add(Ui.Text("Progetti", 30, true));
-        var columns = new Grid(); columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) }); columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) });
-        var hierarchy = Ui.Paper(Ui.Dock(tree, Ui.Text("Struttura del progetto", 16, true), Ui.Bar(Ui.Button("+ Struttura", () => Safe(AddStructure)), Ui.Button("Rinomina", () => Safe(Rename)), Ui.Button("Elimina", () => Safe(Delete)))), 18); hierarchy.Margin = new Thickness(0, 16, 12, 0); columns.Children.Add(hierarchy);
-        var guide = Ui.Stack(Ui.Text("Schede di calcolo", 16, true), Ui.Text("Trascina i moduli sulle sezioni. Per riordinare le schede, trascinale sopra o sotto un’altra.\n\nTrascina il nome di una sezione sopra o sotto un’altra dello stesso gruppo: la linea indica dove verrà inserita, insieme alle sue schede e sottosezioni.\n\nUsa + per creare sottosezioni. Doppio clic sul nome per rinominare. Clic sulla miniatura per aprire la scheda.\nClic destro per rinominare o eliminare.", color: Ui.Muted));
-        foreach (string id in Archivio.Moduli)
-        {
-            var row = new DockPanel(); row.Children.Add(Ui.ModuleIcon(id)); row.Children.Add(Ui.Text(ModuleName(id), 15, true));
-            var card = Ui.Paper(row); card.Margin = new Thickness(0, 14, 0, 0); card.Cursor = Cursors.Hand; card.MouseLeftButtonDown += (_, e) => { if (e.ClickCount == 2) Safe(() => AddSheet(id)); }; EnableProjectDrag(card, ModuleDragFormat, id); guide.Children.Add(card);
-        }
-        var guidePane = Ui.Paper(new ScrollViewer { Content = guide, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled }, 22); guidePane.Margin = new Thickness(12, 16, 0, 0); Grid.SetColumn(guidePane, 1); columns.Children.Add(guidePane);
-        var intro = Ui.Stack(title, Ui.Text("Organizza i fogli di calcolo per struttura e conserva una gerarchia ordinata.", color: Ui.Muted)); dashboardBody.Content = Ui.Dock(columns, intro); RefreshTree();
+        Commit(); ShowProjectOverview();
     }
-    private void MarkDirty() { dirty = true; UpdateTitle(); }
-    private void UpdateTitle() => Title = "ANTHEA — " + (path is null ? "Nuovo documento" : Path.GetFileName(path)) + (dirty ? " *" : "");
+    private void MarkDirty() { if (projectReadOnly) return; dirty = true; RecordProjectHistory(); UpdateTitle(); }
+    private void UpdateTitle() => Title = "ANTHEA — " + (path is null ? "Nuovo documento" : Path.GetFileName(path)) + (dirty ? " *" : "") +
+        (displayedRevision is int rev ? $" · Rev. {rev} · sola lettura" : "");
     private void Commit()
     {
-        if (editor is null || currentSheet is null) return;
+        if (projectReadOnly || editor is null || currentSheet is null) return;
         editor.Commit();
         var proposed = (JsonObject)currentSheet.DeepClone(); proposed["dati"] = editor.Data.DeepClone();
         ConfirmSharedChanges(proposed);
         currentSheet["dati"] = editor.Data.DeepClone();
         sharedBaseline = (JsonObject)proposed.DeepClone();
-        RefreshSharedStatus();
+        RecordProjectHistory(); RefreshSharedStatus();
     }
     private void ShowSheet(JsonObject sheet)
     {
         if (editor is not null && ReferenceEquals(sheet, currentSheet)) { ResumeCalculation(); return; }
+        LoadSheetEditor(sheet);
+        if (document.S("tipo") == "progetti") ShowProjectSheet(); else { projectContent.Content = null; body.Content = moduleView; sheetContent.IsEnabled = true; }
+        RefreshSharedStatus();
+    }
+    private void LoadSheetEditor(JsonObject sheet)
+    {
         editor?.Dispose(); currentSheet = sheet; string module = sheet.S("modulo_id");
         editor = new SheetEditor(module, sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(module)); editor.Modified += MarkDirty; editor.Modified += RefreshSharedStatus;
+        if (projectReadOnly) editor.InspectRevision();
         sharedBaseline = (JsonObject)sheet.DeepClone(); sharedBaseline["dati"] = editor.Data.DeepClone();
         sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or "mat_calcestruzzo" or RebarMaterial.Module or BridgeSection.Module
             ? editor : DisplayAdaptation.Viewport(editor, 1120, 600);
-        heading.Text = sheet.S("nome", ModuleName(module)); UpdateBackButton(); body.Content = moduleView; RefreshSharedStatus();
+        heading.Text = SheetHeading(sheet); UpdateBackButton();
     }
     private void RefreshTree(JsonObject? selected = null)
     {
+        CancelProjectSectionClick(); finishProjectRename?.Invoke(true);
+        refreshingProjectTree = true;
+        foreach (var root in tree.Items.OfType<TreeViewItem>()) RememberExpansion(root);
+        var selection = selected ?? currentSheet;
+        for (var parent = selection?.Parent?.Parent as JsonObject; parent is not null; parent = parent.Parent?.Parent as JsonObject) collapsedProjectNodes.Remove(parent.S("id"));
         tree.Items.Clear();
+        TreeViewItem? selectedItem = null;
         TreeViewItem Node(JsonObject value, string fallback)
         {
-            var item = new TreeViewItem { Header = value.S("nome", fallback), Tag = value, IsExpanded = true, Padding = new Thickness(3, 5, 3, 5) };
+            var item = new TreeViewItem { Header = value.S("nome", fallback), Tag = value, IsExpanded = !collapsedProjectNodes.Contains(value.S("id")),
+                Style = (Style)FindResource("ProjectTreeItem"), BorderThickness = new Thickness(0, 0, 0, 1), BorderBrush = Ui.Brush("#EDF2F7") };
             ConfigureProjectNode(item, value);
             item.MouseRightButtonDown += (_, e) => { item.IsSelected = true; e.Handled = true; };
             var menu = new ContextMenu(); void Action(string name, Action action) { var m = new MenuItem { Header = name }; m.Click += (_, _) => Safe(action); menu.Items.Add(m); }
-            Action("Rinomina", Rename); Action("Elimina", Delete); item.ContextMenu = menu;
+            if (!projectReadOnly)
+            {
+                Action("Rinomina", () => BeginProjectRename(item));
+                if (!value.ContainsKey("modulo_id")) Action("Duplica", () => DuplicateProjectSection(value));
+                Action("Elimina", Delete); item.ContextMenu = menu;
+            }
             foreach (var sheet in value.Array("fogli").OfType<JsonObject>()) item.Items.Add(Node(sheet, ModuleName(sheet.S("modulo_id"))));
             foreach (var child in value.Array("strutture").OfType<JsonObject>()) item.Items.Add(Node(child, "Sezione"));
-            if (ReferenceEquals(value, selected ?? currentSheet)) item.IsSelected = true; return item;
+            if (ReferenceEquals(value, selection)) selectedItem = item; return item;
         }
         foreach (var p in document.Array("progetti").OfType<JsonObject>())
         {
             var pn = Node(p, "Progetto"); tree.Items.Add(pn);
-
         }
-
+        tree.UpdateLayout();
+        if (selectedItem is not null) { selectedItem.IsSelected = true; selectedItem.BringIntoView(); }
+        if (projectEmptyState is not null)
+        {
+            bool empty = tree.Items.Count == 0; projectEmptyState.Visibility = empty ? Visibility.Visible : Visibility.Collapsed;
+            var roots = document.Array("progetti").OfType<JsonObject>().ToArray();
+            int sections = roots.Sum(p => ProjectSharedData.Sections(p).Count() - 1), sheets = roots.Sum(p => ProjectSharedData.SubtreeSheets(p).Count());
+            projectTreeSummary.Text = $"{roots.Length} {(roots.Length == 1 ? "progetto" : "progetti")} · {sections} {(sections == 1 ? "sezione" : "sezioni")} · {sheets} {(sheets == 1 ? "foglio" : "fogli")}";
+            projectTreeSummary.Visibility = empty ? Visibility.Collapsed : Visibility.Visible;
+        }
+        refreshingProjectTree = false;
+    }
+    private void RememberExpansion(TreeViewItem item)
+    {
+        if (item.Tag is JsonObject node) { if (item.IsExpanded) collapsedProjectNodes.Remove(node.S("id")); else collapsedProjectNodes.Add(node.S("id")); }
+        foreach (var child in item.Items.OfType<TreeViewItem>()) RememberExpansion(child);
     }
     private bool ConfirmDiscard()
     {
@@ -200,7 +239,7 @@ public sealed partial class MainWindow : Window
         return answer != MessageBoxResult.Cancel && (answer != MessageBoxResult.Yes || Save(false));
     }
     private void NewCalculation(string module)
-    { if (!ConfirmDiscard()) return; document = Archivio.Documento(module); path = null; dirty = false; currentSheet = null; ShowSheet(document); RefreshTree(); UpdateTitle(); }
+    { if (!ConfirmDiscard()) return; ExitRevisionPreview(); document = Archivio.Documento(module); path = null; dirty = false; currentSheet = null; ShowSheet(document); RefreshTree(); UpdateTitle(); }
     private void OpenModule(string module)
     {
         if (editor?.Module == module && currentSheet is not null) ResumeCalculation();
@@ -209,26 +248,30 @@ public sealed partial class MainWindow : Window
     private void ResumeCalculation()
     {
         if (editor is null || currentSheet is null) return;
-        heading.Text = currentSheet.S("nome", ModuleName(editor.Module));
-        UpdateBackButton(); body.Content = moduleView;
+        heading.Text = SheetHeading(currentSheet);
+        UpdateBackButton(); if (document.S("tipo") == "progetti") ShowProjectSheet(); else { projectContent.Content = null; body.Content = moduleView; }
     }
     private void UpdateBackButton()
     {
         bool project = document.S("tipo") == "progetti";
+        sheetProjectTreeControl.Visibility = project ? Visibility.Visible : Visibility.Collapsed;
         backToOverview.Content = project ? "← Torna al progetto" : "← Torna ad ANTHEA";
-        confirmShared.Visibility = project ? Visibility.Visible : Visibility.Collapsed;
+        confirmShared.Visibility = project && !projectReadOnly ? Visibility.Visible : Visibility.Collapsed;
+        sheetProjectActions.Visibility = project && !projectReadOnly ? Visibility.Visible : Visibility.Collapsed;
     }
     private void NewProjects()
     {
         if (!ConfirmDiscard()) return;
+        ExitRevisionPreview();
         editor?.Dispose(); editor = null; currentSheet = null; sheetContent.Content = null;
         document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "progetti"), ("progetti", new JsonArray())); path = null; dirty = false; ShowProjects(); UpdateTitle();
     }
     private void AddProject()
     {
+        if (projectReadOnly) return;
         if (document.S("tipo") != "progetti") { NewProjects(); if (document.S("tipo") != "progetti") return; }
         string name = NextProjectName(document.Array("progetti"), "Progetto");
-        Commit(); var p = J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("strutture", new JsonArray())); document.Array("progetti").Add(p); MarkDirty(); RefreshTree(p);
+        Commit(); var p = J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("strutture", new JsonArray())); document.Array("progetti").Add(p); MarkDirty(); ShowProjectOverview(p);
     }
     private void AddStructure()
     {
@@ -244,8 +287,9 @@ public sealed partial class MainWindow : Window
     }
     private void AddStructureTo(JsonObject parent)
     {
+        if (projectReadOnly) return;
         string name = NextProjectName(parent.Array("strutture"), "Sezione");
-        Commit(); var section = CreateProjectSection(parent, name); MarkDirty(); RefreshTree(section);
+        Commit(); var section = CreateProjectSection(parent, name); MarkDirty(); ShowProjectOverview(section);
     }
     private static JsonObject CreateProjectSection(JsonObject parent, string name)
     {
@@ -256,12 +300,13 @@ public sealed partial class MainWindow : Window
     private void AddSheet(string module) => AddSheetTo(module, SelectedProjectContainer(), true);
     private void AddSheetTo(string module, JsonObject? section, bool open)
     {
+        if (projectReadOnly) return;
         if (document.S("tipo") != "progetti") { NewCalculation(module); return; }
         if (section is null || !(section.ContainsKey("fogli") || section.ContainsKey("strutture"))) { MessageBox.Show(this, "Selezionare una sezione nell'albero dei progetti."); return; }
         if (section["fogli"] is not JsonArray) section["fogli"] = new JsonArray();
         string name = NextProjectName(section.Array("fogli"), ModuleName(module));
         Commit(); var sheet = J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("modulo_id", module), ("dati", Archivio.NuovoFoglio(module)));
-        section.Array("fogli").Add(sheet); InheritSectionData(sheet, section); MarkDirty(); RefreshTree(sheet); if (open) ShowSheet(sheet);
+        section.Array("fogli").Add(sheet); InheritSectionData(sheet, section); MarkDirty(); RefreshTree(sheet); if (open) ShowSheet(sheet); else if (!ReferenceEquals(projectContent.Content, moduleView)) ShowProjectOverview(section);
     }
 
     private void Rename()
@@ -270,14 +315,20 @@ public sealed partial class MainWindow : Window
     }
     private void Delete()
     {
-        if (document.S("tipo") != "progetti" || tree.SelectedItem is not TreeViewItem { Tag: JsonObject target }) return;
+        if (projectReadOnly || document.S("tipo") != "progetti" || tree.SelectedItem is not TreeViewItem { Tag: JsonObject target }) return;
         if (MessageBox.Show(this, "Eliminare l'elemento selezionato e i suoi contenuti dal documento? Il file su disco resta invariato fino al salvataggio.", "Elimina", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes) return;
-        Commit(); if (target.Parent is JsonArray list) list.Remove(target); editor?.Dispose(); editor = null; currentSheet = null; sheetContent.Content = null; MarkDirty(); RefreshTree();
+        DeleteProjectNode(target);
+    }
+    private void DeleteProjectNode(JsonObject target)
+    {
+        if (projectReadOnly) return;
+        Commit(); var parent = target.Parent?.Parent as JsonObject; if (target.Parent is JsonArray list) list.Remove(target); editor?.Dispose(); editor = null; currentSheet = null; sheetContent.Content = null; MarkDirty(); ShowProjectOverview(parent?.ContainsKey("strutture") == true ? parent : null);
     }
     private void Open() { var d = new OpenFileDialog { Filter = "File ANTHEA|*.programma;*.anthea|Tutti i file|*.*" }; if (d.ShowDialog(this) == true) LoadFile(d.FileName); }
     internal void LoadFile(string filename)
     {
         var loaded = Archivio.Leggi(filename); if (!ConfirmDiscard()) return;
+        ExitRevisionPreview();
         editor?.Dispose(); editor = null; currentSheet = null; document = loaded; path = filename; dirty = false; sheetContent.Content = null;
         if (document.S("tipo") == "calcolo") ShowSheet(document); else ShowProjects(); RefreshTree(); UpdateTitle();
     }
@@ -285,7 +336,7 @@ public sealed partial class MainWindow : Window
     {
         Commit(); string? target = path;
         if (asNew || target is null) { var d = new SaveFileDialog { Filter = "File ANTHEA|*.programma", FileName = path is null ? "Calcolo.programma" : Path.GetFileName(path) }; if (d.ShowDialog(this) != true) return false; target = d.FileName; }
-        try { Archivio.Scrivi(target, document); path = target; dirty = false; UpdateTitle(); return true; }
+        try { Archivio.Scrivi(target, WorkingProjectDocument); path = target; dirty = false; UpdateTitle(); return true; }
         catch (Exception ex) { MessageBox.Show(this, ex.Message, "Salvataggio non riuscito", MessageBoxButton.OK, MessageBoxImage.Error); return false; }
     }
     private void ExportSheet()
@@ -301,7 +352,13 @@ public sealed partial class MainWindow : Window
     }
     private void ExportReport()
     {
-        if (editor?.Module is "mat_calcestruzzo" or RebarMaterial.Module) { MessageBox.Show(this, "Il report Word non è disponibile per la scheda materiali. Puoi salvare la scheda nel file ANTHEA."); return; }
+        if (editor?.Module is "mat_calcestruzzo" or RebarMaterial.Module)
+        {
+            Commit();
+            var save = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = editor.Module == "mat_calcestruzzo" ? "Scheda_calcestruzzo.docx" : "Scheda_acciaio_armature.docx" };
+            if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []);
+            return;
+        }
         Commit(); if (editor?.HasResults != true || editor.Busy) { MessageBox.Show(this, editor?.Module == "str_palo" ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi." : "Completare il calcolo prima di esportare il report."); return; }
         if (editor.Module is PaloOrizzontale.Module or MicropaloOrizzontale.Module)
         {

@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Nodes;
+using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using X.Core;
@@ -52,7 +52,7 @@ public sealed partial class MainWindow
         ProjectSharedData.InheritHierarchy(sheet, section);
     }
 
-    private void AddCoherenceBadge(StackPanel header, JsonObject section)
+    private void AddCoherenceBadge(Panel header, JsonObject section)
     {
         if (!ProjectSharedData.SubtreeSheets(section).Any()) return;
         var differences = ProjectSharedData.Differences(section);
@@ -62,8 +62,12 @@ public sealed partial class MainWindow
         bool hasConflicts = differences.Count > 0 || ProjectSharedData.MissingSoilLayers(section).Count > 0;
         string title = hasConflicts ? "⚠ Differenze tra fogli" : comparable ? "✓ Dati comuni coerenti" : "";
         if (warnings.Length > 0) title += (title.Length > 0 ? " · " : "") + $"⚠ {warnings.Length} {(warnings.Length == 1 ? "avviso" : "avvisi")}";
-        var badge = Ui.Button(title, () => Safe(() => ShowCoherence(section)));
-        badge.FontSize = 11;
+        var badge = ProjectButton(title, () => Safe(() => ShowCoherence(section)));
+        bool warning = hasConflicts || warnings.Length > 0;
+        badge.FontSize = 11; badge.Content = warning ? (differences.Select(d => d.Key).Distinct().Count() + ProjectSharedData.MissingSoilLayers(section).Count + warnings.Length).ToString() : "✓";
+        badge.Background = Ui.Brush(warning ? "#FFF0D8" : "#EAF5ED"); badge.BorderThickness = new Thickness(0);
+        badge.MinHeight = 24; badge.Padding = new Thickness(7, 2, 7, 2); badge.Margin = new Thickness(4, 0, 5, 0); Grid.SetColumn(badge, 2);
+        System.Windows.Automation.AutomationProperties.SetName(badge, title);
         badge.Foreground = !hasConflicts && warnings.Length == 0 ? System.Windows.Media.Brushes.DarkGreen : System.Windows.Media.Brushes.DarkOrange;
         badge.ToolTip = warnings.Length == 0 ? "Apri il confronto dei dati comuni della sezione." :
             "Apri il confronto e gli avvisi della sezione.\n\n" + string.Join("\n\n", warnings);
@@ -77,13 +81,23 @@ public sealed partial class MainWindow
     private void ShowCoherence(JsonObject section)
     {
         Commit();
+        bool fromOverview = ReferenceEquals(body.Content, projectWorkspace) && !ReferenceEquals(projectContent.Content, moduleView);
+        var selection = (tree.SelectedItem as TreeViewItem)?.Tag as JsonObject;
+        var overviewSection = selectedProjectId is null ? null : ProjectRevisions.Find(document, selectedProjectId);
+        void RefreshSharedEditor()
+        {
+            // Refresh the cached editor too, so a later Commit cannot restore outdated values.
+            if (currentSheet is not null) LoadSheetEditor(currentSheet);
+            RefreshSharedStatus();
+            RefreshTree(selection);
+        }
         var panel = new StackPanel { Margin = new Thickness(22) };
         var dialog = Ui.Dialog(this, "Confronto · " + section.S("nome"), new ScrollViewer { Background = Ui.Bg, Content = panel, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 900, 650);
         void Render()
         {
         panel.Children.Clear();
         panel.Children.Add(Ui.Text("Confronto tra fogli", 23, true));
-        panel.Children.Add(Ui.Text("I fogli dei livelli superiori guidano i dati comuni delle sottosezioni. Uniforma usando un riferimento superiore; per i dati locali scegli il foglio da mantenere. Il percorso indica la sezione di appartenenza.", 13));
+        panel.Children.Add(Ui.Text("Confronta i valori presenti nei fogli e scegli quale mantenere. Le proprietà compatibili saranno uniformate.", 13));
         var differences = ProjectSharedData.Differences(section);
         if (differences.Count == 0 && ProjectSharedData.MissingSoilLayers(section).Count == 0) panel.Children.Add(Ui.Text("Nessun conflitto tra i dati comuni dei fogli.", 13));
         int conflictNumber = 0;
@@ -105,7 +119,7 @@ public sealed partial class MainWindow
                 entry.Children.Add(Ui.Text(sheet.S("nome", ModuleName(sheet.S("modulo_id"))), 14, true));
                 entry.Children.Add(Ui.Text(ProjectSharedData.Location(sheet), 11, color: Ui.Muted));
                 var references = ProjectSharedData.AncestorReferences(sheet, conflict.Key);
-                if (references.Length > 0) entry.Children.Add(Ui.Text("Riferimento superiore: " + string.Join(", ", references.Select(s => s.S("nome"))), 11, true, Ui.Blue));
+
                 entry.Children.Add(Ui.Text(label + ": " + ProjectSharedData.Text(ProjectSharedData.Fields(sheet)[conflict.Key].Value), 13, color: Ui.Muted));
                 ComboBox? soilType = null;
                 if (conflict.Key.StartsWith("Strato · ") && conflict.Key.EndsWith("/tipologia"))
@@ -133,18 +147,14 @@ public sealed partial class MainWindow
                     if (count > 0 || sourceChanged)
                     {
                         MarkDirty();
-                        if (currentSheet is not null)
-                        {
-                            var active = currentSheet; editor?.Dispose(); editor = null; ShowSheet(active);
-                        }
-                        RefreshTree();
+                        RefreshSharedEditor();
                     }
                     Render();
                 }));
                 align.Tag = (sheet, conflict.Key);
-                align.IsEnabled = references.Length == 0;
-                if (references.Length > 0) align.Content = "Usa il riferimento superiore";
-                if (soilType is not null) soilType.IsEnabled = references.Length == 0;
+                align.IsEnabled = !projectReadOnly && references.Length == 0;
+                if (references.Length > 0) align.Content = "Dato collegato";
+                if (soilType is not null) soilType.IsEnabled = !projectReadOnly && references.Length == 0;
                 align.ToolTip = references.Length == 0 ? "Uniforma " + label + " nella sezione di questo foglio e nelle sue sottosezioni." : "Questo dato è guidato dal livello superiore. Usa il pulsante sul foglio di riferimento.";
                 align.VerticalAlignment = VerticalAlignment.Center;
                 align.Margin = new Thickness(0);
@@ -181,13 +191,12 @@ public sealed partial class MainWindow
                     if (ProjectSharedData.CopyMissingSoilLayers(sourceSheet, sourceSheet.Parent!.Parent!.AsObject(), survey, layer) > 0)
                     {
                         MarkDirty();
-                        if (currentSheet is not null) { var active = currentSheet; editor?.Dispose(); editor = null; ShowSheet(active); }
-                        RefreshTree();
+                        RefreshSharedEditor();
                     }
                     Render();
                 }));
                 copy.Tag = (sourceSheet, $"Strato mancante · {survey + 1}/{layer + 1}");
-                copy.IsEnabled = chooseType.IsEnabled = ProjectSharedData.AncestorReferences(sourceSheet, typeKey).Length == 0;
+                copy.IsEnabled = chooseType.IsEnabled = !projectReadOnly && ProjectSharedData.AncestorReferences(sourceSheet, typeKey).Length == 0;
                 copy.VerticalAlignment = VerticalAlignment.Center;
                 copy.ToolTip = "Aggiunge lo strato e gli eventuali strati precedenti mancanti, copiando i soli dati comuni. Gli strati già presenti restano invariati.";
                 row.Children.Add(copy); content.Children.Add(row);
@@ -208,7 +217,7 @@ public sealed partial class MainWindow
         panel.Children.Add(new Border { Child = notices, Background = Ui.Brush("#FFFBF2"), BorderBrush = Ui.Brush("#E7D6AE"),
             BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(5), Padding = new Thickness(16), Margin = new Thickness(0, 20, 0, 16) });
         var soilTargets = section.Array("fogli").OfType<JsonObject>().Where(ProjectSharedData.SupportsSharedSoils).Select(s => new SharedSheet(s)).ToArray();
-        if (soilTargets.Length > 1)
+        if (!projectReadOnly && soilTargets.Length > 1)
         {
             var soilPanel = new StackPanel { Margin = new Thickness(12) };
             var source = new ComboBox { ItemsSource = soilTargets, SelectedIndex = 0, Margin = new Thickness(0, 6, 0, 10) };
@@ -230,15 +239,15 @@ public sealed partial class MainWindow
                 preview.Children.Add(Ui.Bar(Ui.Button("Conferma stesso sondaggio e collega", () => confirm.DialogResult = true, true), Ui.Button("Annulla", () => confirm.DialogResult = false)));
                 if (confirm.ShowDialog() != true) return;
                 from.Sheet["dati"] = stagedSource["dati"]!.DeepClone(); to.Sheet["dati"] = stagedTarget["dati"]!.DeepClone(); MarkDirty();
-                if (currentSheet is not null) { var active = currentSheet; editor?.Dispose(); editor = null; ShowSheet(active); }
-                dialog.Close(); ShowProjects();
+                RefreshSharedEditor();
+                dialog.Close();
             })));
             panel.Children.Add(new Expander { Header = "Collegamento stratigrafie", Content = soilPanel, IsExpanded = false });
         }
         }
         Render();
         dialog.ShowDialog();
-        RefreshTree();
-        if (ReferenceEquals(body.Content, dashboardViewport)) ShowProjects();
+        if (fromOverview) ShowProjectOverview(overviewSection);
+        RefreshTree(selection);
     }
 }

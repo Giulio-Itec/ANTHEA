@@ -52,6 +52,7 @@ internal sealed partial class ConcreteWorkspace
             foreach (var field in new[] { "origine_x", "origine_y", "rotazione" }) panel.Form.Enable(field, panel.Options.S("assi") == "Personalizzati");
         }, true, true);
         panel.Mode = (ComboBox)panel.Form.Editors["stato"];
+        RevisionInspection.Allow(panel.Mode); RevisionInspection.Allow(panel.Form.Editors["filtro"]);
         var modeText = new FrameworkElementFactory(typeof(TextBlock)); modeText.SetBinding(TextBlock.TextProperty, new Binding { Converter = new DomainLabelConverter() });
         panel.Mode.ItemTemplate = new DataTemplate { VisualTree = modeText };
         panel.Form.GroupFields("Discretizzazione e interpolazione", ["angoli", "interpolazione", "suddivisioni_n"]);
@@ -75,7 +76,7 @@ internal sealed partial class ConcreteWorkspace
         if (threeD)
         {
             panel.View3D = new(); frame = new ViewportFrame("Dominio N–Mx–My", panel.View3D, panel.View3D.ResetView);
-            frame.Toolbar.Children.Insert(0, Ui.Button("Mesh", panel.View3D.ToggleWireframe));
+            frame.Toolbar.Children.Insert(0, Ui.Button("Mesh", panel.View3D.ToggleWireframe, inspection: true));
             var view = Ui.Choice(["Isometrica", "N–Mx", "N–My", "Mx–My"], "Isometrica"); view.Width = 100; view.SelectionChanged += (_, _) => panel.View3D.StandardView(view.Text); frame.Toolbar.Children.Insert(0, view);
             panel.View3D.ActionSelected += id => { panel.Grid.SelectedItem = actions[panel.Key].FirstOrDefault(r => r.Values.S("id") == id); if (panel.Grid.SelectedItem is not null) panel.Grid.ScrollIntoView(panel.Grid.SelectedItem); };
             panel.Transparency = new Slider { Minimum = 0, Maximum = 100, Value = Math.Clamp(panel.Options.D("trasparenza", 35), 0, 100), Width = 95, VerticalAlignment = VerticalAlignment.Center, ToolTip = "Trasparenza del dominio: 0% opaco, 100% trasparente", SmallChange = 5, LargeChange = 10 };
@@ -86,6 +87,7 @@ internal sealed partial class ConcreteWorkspace
         }
         else frame = new ViewportFrame("Sezione del dominio", panel.Plot, panel.Plot.ResetView);
         AddDomainScaleControls(panel, frame);
+        RevisionInspection.Allow(frame.Toolbar);
         foreach (var (key, label) in new[] { ("dimensione_ed", "Punti Ed"), ("dimensione_rd", "Punti Rd") })
             {
                 var slider = new Slider { Minimum = 2, Maximum = 14, Value = Math.Clamp(panel.Options.D(key, 5), 2, 14), Width = 70, ToolTip = label + " · raggio grafico" };

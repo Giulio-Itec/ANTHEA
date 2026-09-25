@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using X.Core;
 
 namespace X.Desktop;
 
@@ -21,6 +22,14 @@ public sealed partial class MainWindow
         if (!e.Data.GetDataPresent(SectionDragFormat)) return false;
         e.Handled = true;
         var section = e.Data.GetData(SectionDragFormat) as JsonObject;
+        double relativeY = e.GetPosition(header).Y / Math.Max(1, header.ActualHeight);
+        if (section is not null && relativeY is > .25 and < .75 && CanNestSection(section, anchor))
+        {
+            ClearProjectSectionDropIndicator(); e.Effects = DragDropEffects.Move;
+            projectDropHint.Text = "Sposta dentro: " + anchor.S("nome");
+            if (drop) { projectDropHint.Text = ""; Safe(() => NestProjectSection(section, anchor)); }
+            return true;
+        }
         e.Effects = section is not null && CanReorderProjectSection(section, anchor) ? DragDropEffects.Move : DragDropEffects.None;
         if (e.Effects == DragDropEffects.None) { ClearProjectSectionDropIndicator(); return true; }
         bool after = e.GetPosition(header).Y >= header.ActualHeight / 2;
@@ -29,20 +38,25 @@ public sealed partial class MainWindow
             ClearProjectSectionDropIndicator();
             Safe(() => MoveProjectSection(section!, anchor, after));
         }
-        else if (projectSectionDrop is not { } current || !ReferenceEquals(current.Adorner.AdornedElement, header) || current.Adorner.After != after)
-        {
-            ClearProjectSectionDropIndicator();
-            if (AdornerLayer.GetAdornerLayer(header) is AdornerLayer layer)
-            {
-                var indicator = new SectionDropAdorner(header, after);
-                layer.Add(indicator); projectSectionDrop = (layer, indicator);
-            }
-        }
+        else ShowProjectSectionDropIndicator(header, after);
+        if (!drop) projectDropHint.Text = (after ? "Dopo " : "Prima di ") + anchor.S("nome");
         return true;
+    }
+
+    private void ShowProjectSectionDropIndicator(FrameworkElement header, bool after)
+    {
+        if (projectSectionDrop is { } current && ReferenceEquals(current.Adorner.AdornedElement, header) && current.Adorner.After == after) return;
+        ClearProjectSectionDropIndicator();
+        if (AdornerLayer.GetAdornerLayer(header) is AdornerLayer layer)
+        {
+            var indicator = new SectionDropAdorner(header, after);
+            layer.Add(indicator); projectSectionDrop = (layer, indicator);
+        }
     }
 
     private void ClearProjectSectionDropIndicator()
     {
+        projectDropHint.Text = "";
         if (projectSectionDrop is not { } current) return;
         current.Layer.Remove(current.Adorner); projectSectionDrop = null;
     }

@@ -86,21 +86,8 @@ public sealed partial class MainWindow
                 await reportEditor.CalculateAsync(); reportEditor.Commit();
                 progress($"Scheda {i + 1} di {sheets.Length}: {sheet.S("nome")}\nCalcolo completato, composizione del capitolo…");
                 sheet["dati"] = reportEditor.Data.DeepClone(); cancellation.ThrowIfCancellationRequested();
-                var derived = new List<ProjectReportPlan.InputValue>();
-                if (module == RebarMaterial.Module)
-                {
-                    var values = RebarMaterial.Evaluate(reportEditor.Data["input"]!.AsObject());
-                    derived.Add(new("Acciaio", "Resistenza di progetto fyd [MPa]", JsonValue.Create(values.Fyd)));
-                    derived.Add(new("Acciaio", "Deformazione εyd [‰]", JsonValue.Create(values.EpsilonYd)));
-                    derived.Add(new("Acciaio", "Rapporto fu / fyk", JsonValue.Create(values.Ratio)));
-                    reports[sheet] = new(Derived: derived); continue;
-                }
-                if (module == "mat_calcestruzzo")
-                {
-                    foreach (var row in reportEditor.materials!.ReportProperties())
-                        derived.Add(new("Calcestruzzo", row.Nome + (row.Simbolo.Length > 0 ? " · " + row.Simbolo : "") + (row.Unita.Length > 0 ? " [" + row.Unita + "]" : ""), JsonValue.Create(row.Valore)));
-                    reports[sheet] = new(Error: derived.Any(v => v.Value?.ToString() == "Da completare") ? "Completare i dati per aderenza o copriferro; vedere i dettagli della scheda." : null, Derived: derived); continue;
-                }
+                if (module is RebarMaterial.Module or "mat_calcestruzzo")
+                { reports[sheet] = reportEditor.MaterialReportContent(); continue; }
                 if (!reportEditor.HasResults) throw new ArgumentException("Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.");
                 string? error = reportEditor.Result?["errori_calcolo"] is JsonObject errors && errors.Count > 0 ? string.Join("; ", errors.Select(p => p.Key + ": " + p.Value)) : null;
                 var options = module == BridgeSection.Module ? ReportBridge.DefaultSections() : module == "str_palo" ? ReportConcrete.Sections.Where(s => s.Key is not ("dettagli" or "sle_tutte")).Select(s => s.Key).ToHashSet() :

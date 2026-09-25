@@ -59,7 +59,8 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     internal SheetEditor(string module, JsonObject data)
     {
         Module = module; Data = (JsonObject)data.DeepClone(); Background = Ui.Bg;
-        calculate = Ui.Button("Calcola", async () => await CalculateAsync(), true); calculate.Width = 120; calculate.Visibility = Geo ? Visibility.Collapsed : Visibility.Visible;
+        calculate = Ui.Button("Calcola", async () => await CalculateAsync(), true, inspection: true); calculate.Width = 120; calculate.Visibility = Geo ? Visibility.Collapsed : Visibility.Visible;
+        RevisionInspection.Allow(tableSelect); RevisionInspection.Allow(capacityView); RevisionInspection.Allow(curveChoices);
         if (module == BridgeSection.Module)
         {
             bridge = new BridgeWorkspace(Data); bridge.Modified += () => Modified?.Invoke(); Content = bridge; building = false; return;
@@ -92,14 +93,16 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         building = false; Preview(); LayoutCards(); if (Geo) QueueCalculation();
     }
     private async void TimerTick(object? sender, EventArgs args) { if (Busy) return; timer.Stop(); if (!disposed) await CalculateAsync(commitEdits: false); }
-    public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= TimerTick; concrete?.Dispose(); horizontal?.Dispose(); bridge?.Dispose(); }
+    private Action? releaseRevisionInspection;
+    internal void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
+    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); timer.Stop(); timer.Tick -= TimerTick; concrete?.Dispose(); horizontal?.Dispose(); bridge?.Dispose(); }
     internal void Commit() { if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
         int index = cards.Count; var header = new DockPanel { Margin = new Thickness(0, 0, 0, 8), MinHeight = 28 };
         if (expandable)
         {
-            var b = Ui.Button("Estendi", () => { expanded = expanded == index ? -1 : index; LayoutCards(); }); b.FontSize = 11; b.Padding = new Thickness(5, 2, 5, 2); DockPanel.SetDock(b, System.Windows.Controls.Dock.Right); header.Children.Add(b); expandButtons[index] = b;
+            var b = Ui.Button("Estendi", () => { expanded = expanded == index ? -1 : index; LayoutCards(); }, inspection: true); b.FontSize = 11; b.Padding = new Thickness(5, 2, 5, 2); DockPanel.SetDock(b, System.Windows.Controls.Dock.Right); header.Children.Add(b); expandButtons[index] = b;
         }
         if (action is not null) { DockPanel.SetDock(action, System.Windows.Controls.Dock.Right); header.Children.Add(action); }
         header.Children.Add(Ui.Text(title, Geo && index == 3 ? 18 : 16, true)); var card = Ui.Paper(Ui.Dock(content, header), Section ? 8 : 14); card.ClipToBounds = true; cards.Add(card); canvas.Children.Add(card);
@@ -249,7 +252,39 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(exported.ToJsonString(J.Options)));
     }
     internal void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
-        => Archivio.ScriviAtomico(filename, BuildReport(title, options, projectReport));
+    {
+        if (materials is not null || rebarMaterial is not null)
+        {
+            Commit();
+            var sheet = J.Obj(("nome", title), ("modulo_id", Module), ("dati", Data.DeepClone()));
+            var section = J.Obj(("nome", title), ("fogli", new JsonArray()), ("strutture", new JsonArray()));
+            section.Array("fogli").Add(sheet);
+            ReportProject.Write(filename, new ProjectReportPlan(section), new Dictionary<JsonObject, ReportProject.SheetContent> { [sheet] = MaterialReportContent() }, [], materialSheet: true);
+            return;
+        }
+        Archivio.ScriviAtomico(filename, BuildReport(title, options, projectReport));
+    }
+    internal ReportProject.SheetContent MaterialReportContent()
+    {
+        Commit();
+        var derived = new List<ProjectReportPlan.InputValue>();
+        if (materials is not null)
+        {
+            foreach (var row in materials.ReportProperties())
+                derived.Add(new("Calcestruzzo", row.Nome + (row.Simbolo.Length > 0 ? " · " + row.Simbolo : "") + (row.Unita.Length > 0 ? " [" + row.Unita + "]" : ""), JsonValue.Create(row.Valore)));
+            return new(Error: derived.Any(v => v.Value?.ToString() == "Da completare") ? "Completare i dati per aderenza o copriferro; vedere i dettagli della scheda." : null, Derived: derived);
+        }
+        if (rebarMaterial is null) throw new InvalidOperationException("La scheda non è un materiale.");
+        try
+        {
+            var values = RebarMaterial.Evaluate(Data["input"]!.AsObject());
+            derived.Add(new("Acciaio", "Resistenza di progetto fyd [MPa]", JsonValue.Create(values.Fyd)));
+            derived.Add(new("Acciaio", "Deformazione εyd [‰]", JsonValue.Create(values.EpsilonYd)));
+            derived.Add(new("Acciaio", "Rapporto fu / fyk", JsonValue.Create(values.Ratio)));
+            return new(Derived: derived);
+        }
+        catch (ArgumentException ex) { return new(Error: ex.Message); }
+    }
     internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false)
     {
         if (bridge is not null) return bridge.BuildReport(title, options, projectReport);
