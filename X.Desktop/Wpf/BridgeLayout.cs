@@ -40,13 +40,14 @@ internal sealed partial class BridgeWorkspace
         if (Data["ui_mista"] is not JsonObject) Data["ui_mista"] = new JsonObject();
         viewSettings = Data["ui_mista"]!.AsObject();
         MigrateViewSettings();
-        foreach (var (number, title) in new[] { ("01", "Pannello di controllo"), ("02", "Fasi e omogeneizzazione"), ("03", "Tensioni e classe 4") })
+        foreach (var (number, title) in new[] { ("01", "Pannello di controllo"), ("02", "Fasi e tensioni") })
             Pages.Items.Add(new TabItem { Header = Ui.Bar(Ui.Text(number, 11, true, Ui.Muted), Ui.Text("  " + title, 14, true)), Padding = new Thickness(14, 9, 14, 9) });
 
         inputSubtitle.Margin = new Thickness(0, 5, 0, 10);
-        var selectionLabel = Ui.Text("Situazione visualizzata", 12, true); selectionLabel.Margin = new Thickness(0, 3, 0, 3);
+        var selectionLabel = Ui.Text("Risultati cumulati fino alla fase", 12, true); selectionLabel.Margin = new Thickness(0, 3, 0, 3);
         StageChoice.HorizontalAlignment = HorizontalAlignment.Stretch; StageChoice.MaxWidth = double.PositiveInfinity;
-        var inputHeading = Ui.Stack(inputTitle, inputSubtitle, selectionLabel, StageChoice); inputHeading.Margin = new Thickness(0, 0, 0, 10);
+        var inputHeading = Ui.Stack(inputTitle, inputSubtitle, selectionLabel, StageChoice,
+            Ui.Text("Grafico e risultati includono le fasi attive precedenti.", 11, color: Ui.Muted)); inputHeading.Margin = new Thickness(0, 0, 0, 10);
         var left = Ui.Paper(Ui.Dock(inputHost, inputHeading), 14);
 
         Drawing.MinHeight = 160;
@@ -58,7 +59,7 @@ internal sealed partial class BridgeWorkspace
         warnings.Margin = new Thickness(0, 8, 0, 0);
         var summary = Panel("Riepilogo della situazione", Scroll(Ui.Stack(summaryCards, overview,
             Ui.Text("Rapporti locali σ/limite · non rappresentano la verifica completa del ponte.", 11, color: Ui.Muted), warnings,
-            Ui.Button("Parametri di classe 4 →", () => { Pages.SelectedIndex = 2; Results.SelectedIndex = 2; }))), "Compressione − · trazione +");
+            Ui.Button("Dettagli sezione efficace ↓", () => Results.SelectedIndex = 2))), "Compressione − · trazione +");
         var upper = Split(Viewport, summary, "risultati", false, .7, 460, 225);
         var resultActions = Ui.Bar(Ui.Button("Esporta CSV…", ExportCsv));
         var table = Panel("Risultati della sezione", Ui.Dock(Results, bottom: resultActions), "Situazione selezionata · contributi incrementali e somma · mm, MPa, kN, kNm");
@@ -66,7 +67,11 @@ internal sealed partial class BridgeWorkspace
         var layout = Split(left, right, "ingressi", false, .29, 285, 710);
         layout.Margin = new Thickness(12, 10, 12, 0);
         var footer = new DockPanel { Margin = new Thickness(16, 4, 16, 8) }; footer.Children.Add(status);
-        var body = Ui.Dock(layout, Pages, Ui.Stack(progress, footer));
+        var header = new DockPanel();
+        var information = Ui.Button("Info modello…", ShowModelInformation); information.Margin = new Thickness(8, 8, 16, 0);
+        information.VerticalAlignment = VerticalAlignment.Center; DockPanel.SetDock(information, Dock.Right);
+        header.Children.Add(information); header.Children.Add(Pages);
+        var body = Ui.Dock(layout, header, Ui.Stack(progress, footer));
         var scroll = new ChainedScrollViewer { Content = body, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
         Content = scroll;
         void Resize()
@@ -76,34 +81,49 @@ internal sealed partial class BridgeWorkspace
         }
         scroll.SizeChanged += (_, _) => Resize();
         scroll.ScrollChanged += (_, e) => { if (e.Source == scroll && (e.ViewportWidthChange != 0 || e.ViewportHeightChange != 0)) Resize(); };
-        Pages.SelectedIndex = Math.Clamp((int)viewSettings.D("tab"), 0, 2);
+        Pages.SelectedIndex = Math.Clamp((int)viewSettings.D("tab"), 0, 1);
         SelectPage();
         Pages.SelectionChanged += (_, e) => { if (ReferenceEquals(e.Source, Pages) && !building) { Commit(); SelectPage(); Modified?.Invoke(); } };
     }
     private void MigrateViewSettings()
     {
-        if (viewSettings.D("layout_version") >= 2) return;
-        var previous = (JsonObject)viewSettings.DeepClone();
-        int selected = Math.Clamp((int)previous.D("tab"), 0, 3);
-        // The two former phase pages share one page now; retain the active one's view.
-        int[] sources = [0, selected == 2 ? 2 : 1, 3];
-        int[] resultMap = [0, 1, 2, 1, 2, 2];
-        for (int page = 0; page < sources.Length; page++)
+        if (viewSettings.D("layout_version") >= 3) return;
+        if (!viewSettings.ContainsKey("tab") && !viewSettings.ContainsKey("layout_version"))
+        { viewSettings["layout_version"] = 3; return; }
+        if (viewSettings.D("layout_version") < 2)
         {
-            int oldPage = sources[page];
-            if (previous["vista_" + oldPage] is { } view) viewSettings["vista_" + page] = view.DeepClone();
-            else viewSettings.Remove("vista_" + page);
-            int result = Math.Clamp((int)previous.D("risultato_" + oldPage, new[] { 4, 3, 1, 0 }[oldPage]), 0, 5);
-            viewSettings["risultato_" + page] = resultMap[result];
+            var previous = (JsonObject)viewSettings.DeepClone();
+            int selected = Math.Clamp((int)previous.D("tab"), 0, 3);
+            // The two former phase pages share one page now; retain the active one's view.
+            int[] sources = [0, selected == 2 ? 2 : 1, 3];
+            int[] resultMap = [0, 1, 2, 1, 2, 2];
+            for (int page = 0; page < sources.Length; page++)
+            {
+                int oldPage = sources[page];
+                if (previous["vista_" + oldPage] is { } view) viewSettings["vista_" + page] = view.DeepClone();
+                else viewSettings.Remove("vista_" + page);
+                int result = Math.Clamp((int)previous.D("risultato_" + oldPage, new[] { 4, 3, 1, 0 }[oldPage]), 0, 5);
+                viewSettings["risultato_" + page] = resultMap[result];
+            }
+            viewSettings.Remove("vista_3"); viewSettings.Remove("risultato_3");
+            viewSettings["tab"] = new[] { 0, 1, 1, 2 }[selected];
+            viewSettings["layout_version"] = 2;
         }
-        viewSettings.Remove("vista_3"); viewSettings.Remove("risultato_3");
-        viewSettings["tab"] = new[] { 0, 1, 1, 2 }[selected];
-        viewSettings["layout_version"] = 2;
+        // Merge the former phase and analysis pages, retaining the active page's view.
+        int active = Math.Clamp((int)viewSettings.D("tab"), 0, 2);
+        if (active == 2)
+        {
+            viewSettings["vista_1"] = (int)viewSettings.D("vista_2", 0);
+            viewSettings["risultato_1"] = (int)viewSettings.D("risultato_2", 0);
+        }
+        viewSettings.Remove("vista_2"); viewSettings.Remove("risultato_2");
+        viewSettings["tab"] = Math.Min(active, 1);
+        viewSettings["layout_version"] = 3;
     }
     private void SelectPage()
     {
         selectingPage = true;
-        int page = Math.Clamp(Pages.SelectedIndex, 0, 2);
+        int page = Math.Clamp(Pages.SelectedIndex, 0, 1);
         if (currentPage >= 0)
         {
             viewSettings["vista_" + currentPage] = DisplayChoice.SelectedIndex;
@@ -111,11 +131,11 @@ internal sealed partial class BridgeWorkspace
         }
         if (page == 1) BuildPhases();
         inputHost.Content = pageInputs[page]; currentPage = page; viewSettings["tab"] = page;
-        inputTitle.Text = new[] { "Definizione della sezione", "Azioni e omogeneizzazione", "Opzioni di analisi" }[page];
-        inputSubtitle.Text = new[] { "Dati comuni a tutte le situazioni · mm, MPa", "Per ogni fase: carichi incrementali e ingresso da φ oppure n", "Tensioni normali N–Mx · larghezze efficaci" }[page];
-        DisplayChoice.SelectedIndex = Math.Clamp((int)viewSettings.D("vista_" + page, new[] { 2, 1, 0 }[page]), 0, 2);
+        inputTitle.Text = new[] { "Definizione della sezione", "Fasi, omogeneizzazione e limiti" }[page];
+        inputSubtitle.Text = new[] { "Geometria e materiali comuni · risultati dipendenti dalle azioni", "Carichi incrementali · omogeneizzazione da φ oppure n" }[page];
+        DisplayChoice.SelectedIndex = Math.Clamp((int)viewSettings.D("vista_" + page, new[] { 2, 0 }[page]), 0, 2);
         Drawing.Mode = DisplayChoice.SelectedIndex; Drawing.InvalidateVisual();
-        Results.SelectedIndex = Math.Clamp((int)viewSettings.D("risultato_" + page, new[] { 2, 1, 0 }[page]), 0, 2);
+        Results.SelectedIndex = Math.Clamp((int)viewSettings.D("risultato_" + page, new[] { 2, 0 }[page]), 0, 2);
         selectingPage = false;
     }
     private void SaveView()

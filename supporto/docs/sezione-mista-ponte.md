@@ -10,18 +10,27 @@ I valori sono dimostrativi e possono essere modificati dopo l'apertura in ANTHEA
 
 ## Interfaccia
 
-Tre schede numerate, con la stessa organizzazione del modulo in calcestruzzo:
-**Pannello di controllo**, **Fasi e omogeneizzazione**, **Tensioni e classe 4**.
+Due schede numerate, con la stessa organizzazione del modulo in calcestruzzo:
+**Pannello di controllo** e **Fasi e tensioni**.
 Ogni fase raccoglie nello stesso gruppo le azioni, la sezione reagente e i parametri
 di omogeneizzazione da φ oppure n. Normativa, coefficienti, materiali, geometria e armature
-sono raccolti nei gruppi espandibili del pannello di controllo.
+sono raccolti nei gruppi espandibili del pannello di controllo. La seconda scheda
+riunisce anche la scelta dei limiti tensionali, l'attivazione della classe 4 e la
+quota di applicazione di N: ogni parametro si modifica in un solo punto.
 Ingressi a sinistra, viewport al centro, riepiloghi tensionali a destra e tre gruppi
 di risultati in basso: **Tensioni**, **Fasi e proprietà**, **Sezione efficace**.
 Le tabelle di omogeneizzazione e di equilibrio sono riunite; la sezione efficace
-comprende i parametri di classe 4, le proprietà geometriche e i dettagli del metodo
-in gruppi espandibili. I separatori regolano le dimensioni dei pannelli; disposizione,
-scheda e modalità di visualizzazione sono salvate nel foglio. Le preferenze della
-precedente disposizione a quattro schede sono migrate all'apertura.
+comprende i parametri di classe 4, le proprietà geometriche e i dati di convergenza
+in gruppi espandibili. Criteri, campo del modello, formule di omogeneizzazione e
+convenzioni sono raccolti nella finestra **Info modello…**. I rapporti modulari
+adottati compaiono soltanto nella tabella **Fasi e proprietà**.
+
+Il selettore **Risultati cumulati fino alla fase** controlla grafico, riepilogo e
+tabelle su entrambe le schede. Le tensioni e la sezione efficace dipendono dagli
+incrementi delle fasi attive fino a quella selezionata; geometria e materiali
+restano comuni. I separatori regolano le dimensioni dei pannelli; disposizione,
+scheda e modalità di visualizzazione sono salvate nel foglio. Le preferenze delle
+precedenti disposizioni a quattro o tre schede sono migrate all'apertura.
 Le unità di ingresso sono mm, MPa, kN e kNm; i risultati JSON mantengono i double.
 Le tabelle si possono scorrere e copiare. Sono disponibili esportazioni JSON complete
 e CSV delle tensioni in tutte le situazioni. **Esporta Word** produce la relazione

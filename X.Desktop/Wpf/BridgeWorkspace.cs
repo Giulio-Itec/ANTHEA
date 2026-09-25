@@ -22,7 +22,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
     internal readonly TabControl Pages = new() { Margin = new Thickness(12, 8, 12, 0), BorderThickness = new Thickness(0), Background = Ui.Bg }, Results = new();
     internal readonly ComboBox StageChoice = new() { MinWidth = 200, MaxWidth = 360, Margin = new Thickness(4) };
     internal readonly ComboBox DisplayChoice = Ui.Choice(["Tensioni totali", "Contributi delle fasi", "Geometria"], "Tensioni totali");
-    private readonly TextBlock status = Ui.Text("Preparazione della sezione…", 12), overview = Ui.Text("", 12), materialInfo = Ui.Text("", 12), homoInfo = Ui.Text("", 12);
+    private readonly TextBlock status = Ui.Text("Preparazione della sezione…", 12), overview = Ui.Text("", 12), materialInfo = Ui.Text("", 12);
     private readonly TextBlock warnings = Ui.Text("", 12, color: Ui.Brush("#8B5916"));
     private readonly ContentControl stressTable = new(), propertiesTable = new(), classTable = new(), phaseTable = new(), geometryTable = new();
     private readonly StackPanel phaseForms = new();
@@ -43,7 +43,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         Ui.Tab(Results, "Fasi e proprietà", Scroll(Ui.Stack(Block("Omogeneizzazione e proprietà per fase", propertiesTable),
             Block("Azioni ed equilibrio", phaseTable))));
         Ui.Tab(Results, "Sezione efficace", Scroll(Ui.Stack(Block("Pannelli di classe 4", classTable),
-            Group("Proprietà geometriche · lorda ed efficace", geometryTable, true), Group("Metodo, convergenza e avvisi", details))));
+            Group("Proprietà geometriche · lorda ed efficace", geometryTable, true), Group("Convergenza ed equilibrio", details))));
         BuildLayout();
         StageChoice.SelectionChanged += (_, _) => { ShowResults(); ViewChanged(); };
         DisplayChoice.SelectionChanged += (_, _) => { Drawing.Mode = DisplayChoice.SelectedIndex; Drawing.InvalidateVisual(); ViewChanged(); };
@@ -102,16 +102,12 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         pageInputs.Add(Scroll(Ui.Stack(norm,
             Ui.Text("Dati comuni a tutte le situazioni. Coefficienti modificabili per l’Appendice Nazionale applicabile.", 11, color: Ui.Muted),
             Group("Coefficienti da normativa", coefficients), Group("Materiali", materialBody), Group("Geometria", geometry, true), Group("Armature", reinforcement))));
-        pageInputs.Add(Scroll(Ui.Stack(Notice("N > 0 trazione; Mx > 0 comprime la parte superiore. Inserire contributi già combinati, senza ripetere i carichi delle fasi precedenti. Le righe disattivate sono escluse dalla somma."),
-            Form(Data, [new("y_ref", "Quota di applicazione N", "mm")]), phaseForms,
-            Ui.Button("+ Aggiungi fase", () => { if (Data.Array("fasi").Count >= 20) return; Data.Array("fasi").Add(BridgeSection.Phase()); BuildPhases(); Changed(); }),
-            Group("Relazioni e rapporti di omogeneizzazione", Ui.Stack(Ui.Text("n₀ = Ea/Ecm\nn = n₀ · (1 + ψL · φ)\nφ = (n/n₀ − 1) / ψL\nIl rapporto Es/Ea delle armature è conservato.", 12),
-                Block("Rapporti adottati", homoInfo))))));
-        pageInputs.Add(Scroll(Ui.Stack(Form(Data, [new("stato", "Limiti tensionali", Choices: ["SLU", "SLE rara", "SLE quasi permanente"]),
-            new("classe4", "Riduzioni locali · classe 4", Bool: true)]),
-            Notice("I rapporti σ/limite sono controlli tensionali locali. L’anima semitrasparente con contorno arancio indica la parte esclusa dal modello a larghezze efficaci per tensioni normali."),
-            Group("Criteri di calcolo", Ui.Text("Larghezze efficaci secondo EN 1993-1-5:2006, §4.4 e tabelle 4.1–4.2. Per ogni situazione si sommano i contributi delle fasi e si aggiorna la sezione efficace fino a convergenza.", 12), true),
-            Group("Campo del modello", Ui.Text(BridgeSection.Scope, 12), true))));
+        pageInputs.Add(Scroll(Ui.Stack(
+            Form(Data, [new("stato", "Limiti tensionali", Choices: ["SLU", "SLE rara", "SLE quasi permanente"]),
+                new("classe4", "Riduzioni locali · classe 4", Bool: true), new("y_ref", "Quota di applicazione N", "mm")]),
+            Notice("N > 0 trazione; Mx > 0 comprime la parte superiore. Inserire i soli incrementi di carico già combinati: le fasi precedenti sono sommate automaticamente."),
+            phaseForms,
+            Ui.Button("+ Aggiungi fase", () => { if (Data.Array("fasi").Count >= 20) return; Data.Array("fasi").Add(BridgeSection.Phase()); BuildPhases(); Changed(); }))));
         BuildPhases();
     }
     private void BuildPhases()
@@ -159,12 +155,8 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         {
             Drawing.Geometry = BridgeSection.Geometry(Data); var m = BridgeSection.Materials(Data);
             materialInfo.Text = $"{m.Concrete.Name}   fck = {F(Math.Abs(m.Concrete.Fck))} MPa\nEcm = {F(m.Concrete.ElasticModulusCompression)} MPa\n\n{m.Steel.Name}   fy = {F(m.Steel.Fyk)} MPa\nEa = {F(m.Steel.ElasticModulusTension)} MPa\n\n{m.Rebar.Name}   fyk = {F(m.Rebar.Fyk)} MPa\nEs = {F(m.Rebar.ElasticModulusTension)} MPa";
-            var lines = new List<string>();
-            foreach (var phase in Data.Array("fasi").OfType<JsonObject>().Where(p => p.S("tipo") == "Composta"))
-            { var h = BridgeSection.Homogenization(Data, phase); lines.Add($"{phase.S("nome")}: n₀ {F(h.N0)}  →  n {F(h.N)}; φ {F(h.Phi)}; ψLφ {F(h.PhiEffective)}"); }
-            homoInfo.Text = string.Join("\n\n", lines);
         }
-        catch (Exception ex) { Drawing.Geometry = null; materialInfo.Text = ex.Message; homoInfo.Text = ex.Message; }
+        catch (Exception ex) { Drawing.Geometry = null; materialInfo.Text = ex.Message; }
         Drawing.InvalidateVisual();
     }
     private async void Tick(object? sender, EventArgs e) { timer.Stop(); if (!Busy) await CalculateAsync(false); else timer.Start(); }
@@ -233,13 +225,8 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             new[] { "Area soletta lorda", F(g.Width * g.SlabHeight), "mm²" }, new[] { "Barre complessive", g.Bars.Length.ToString(), "n." }, new[] { "Area armature", F(g.Bars.Sum(b => b.Area)), "mm²" },
             new[] { "Altezza complessiva", F(g.Height + g.SlabHeight), "mm" }, new[] { "Asse neutro delle tensioni totali nell’acciaio", stage.SteelNeutralAxis is { } z ? F(z) : "—", "mm" }
         }.Concat(g.Bars.GroupBy(b => b.Y).Select(r => new[] { $"Fila y={F(r.Key)} mm · {r.Count()} barre Ø{F(r.First().Diameter)}", F(r.Sum(b => b.Area)), "mm²" })));
-        details.Text = $"{result.Method}\n\n{result.Scope}\n\nConvergenza: {stage.Iterations} iterazioni; variazione relativa delle larghezze = {stage.Residual:E3} (tolleranza 1E−7).\n\n" +
-            "A*, Ix* e W* sono riferiti all’acciaio strutturale. Le aree delle barre sostituiscono il corrispondente calcestruzzo; Es/Ea è mantenuto. y è misurato dall’interfaccia verso l’alto. " +
-            "Ogni ΔMx è riferito alla quota y_ref assegnata; il trasporto a G include N·(yG−y_ref).\n\n" +
-            "Checker integra le pareti sottili sulla linea media e le armature come aree concentrate: l’inerzia di integrazione può differire dall’inerzia geometrica completa. Le tabelle Fasi e proprietà riportano entrambe le informazioni e il residuo dell’equilibrio N–Mx, controllato indipendentemente (limite 1E−5).\n\n" +
-            "L’anima semitrasparente con contorno arancio è la porzione esclusa dal modello a larghezze efficaci per tensioni normali, non una deformata né una previsione di instabilità a taglio. Le piattabande sono controllate come sbalzi con la tensione più compressiva nello spessore.\n\n" +
-            "Model: cataloghi, distribuzione delle barre, SectionH e proprietà omogeneizzate. Checker: tensioni elastiche delle fasi composte. ANTHEA: tensioni acciaio/soletta esclusa, iterazione delle larghezze efficaci e sovrapposizione delle tensioni. Confronti con i test Bridge di Checker documentati in supporto/docs/sezione-mista-ponte.md.\n\n" +
-            string.Join("\n", stage.Warnings);
+        details.Text = $"Convergenza: {stage.Iterations} iterazioni.\nVariazione relativa delle larghezze: {stage.Residual:E3} · tolleranza 1E−7.\n\n" +
+            $"Residuo massimo dell’equilibrio N–Mx: {stage.Contributions.Max(c => Math.Abs(c.EquilibriumResidual)):E3} · limite 1E−5.";
     }
     private static DataGrid ResultTable(string[] headers, IEnumerable<string[]> rows)
     {
