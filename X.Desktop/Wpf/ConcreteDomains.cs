@@ -421,6 +421,7 @@ internal sealed partial class ConcreteWorkspace
         {
             ["errore"] = "", ["motore"] = "GPCChecker.Concrete.dll",
             ["normativa_riferimento"] = settings.S("normativa"), ["verifica_normativa_completa"] = false,
+            ["riepilogo_verifiche"] = J.Node(CollectVerificationSummaries()),
             ["domini"] = domains, ["tensioni"] = stresses, ["taglio"] = J.Node(shearResults),
             ["torsione"] = J.Node(torsionResults), ["dettagli_costruttivi"] = J.Node(detailingResults), ["dettagli_esito"] = detailingText.Text + string.Join("\n",detailingTopics.Values.Select(cards=>cards.Text)),
             ["ancoraggio"] = J.Node(anchorageResult), ["ancoraggio_esito"] = anchorageText.Text, ["momento_curvatura"] = J.Node(curvatureResult),

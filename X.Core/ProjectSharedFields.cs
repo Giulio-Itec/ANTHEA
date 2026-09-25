@@ -33,10 +33,21 @@ public static partial class ProjectSharedData
             Add("profondita_falda", "Terreno", "generali/profondita_falda");
         }
         if (module == "geo_micropalo_verticale") Add("CHS · profilo_chs", "Armatura", "generali/profilo_chs");
+        AddConcreteDurabilityFields(module, data, result);
     }
 
     static bool AdditionalCompatible(Field field, JsonObject source, JsonObject target)
     {
+        if (field.Key.StartsWith("Durabilità · "))
+        {
+            if (!ActiveField(source, field.Key) || !ActiveField(target, field.Key) || !SameDurabilityModel(source, target)) return false;
+            if (field.Key == "Durabilità · tolleranza [mm]" && target.S("modulo_id") == "mat_calcestruzzo")
+            {
+                double? value = J.Number(field.Value);
+                string control = target["dati"]?["scelte"].S("deviationControl", "Ordinario") ?? "Ordinario";
+                if (value is not double n || n != Math.Truncate(n) || n < 0 || n > 10 || control == "Ordinario" && n != 10 || control == "Misura copriferri" && n < 5) return false;
+            }
+        }
         if ((field.Key == "profondita_falda" || field.Key.StartsWith("Strato · ") && field.Key.EndsWith("/peso_specifico_saturo")) &&
             !WaterDataActive(source, target)) return false;
         if (field.Key == "lunghezza_micropalo" && source.S("modulo_id") != target.S("modulo_id") &&
@@ -59,7 +70,7 @@ public static partial class ProjectSharedData
         if (keys.Contains("shape")) keys.UnionWith(Geometry);
         if (keys.Any(k => k is "fyk_mpa" or "classe_acciaio" or "materiale_acciaio_nome" || k.StartsWith("steel_")))
             keys.UnionWith(current.Keys.Where(k => k is "fyk_mpa" or "classe_acciaio" or "materiale_acciaio_nome" || k.StartsWith("steel_")));
-        if (keys.Contains("Scheda CLS · scelte/deviationControl")) keys.Add("Scheda CLS · scelte/deviationValue");
+        if (keys.Contains("Scheda CLS · scelte/deviationControl")) keys.Add("Durabilità · tolleranza [mm]");
         if (keys.Contains("presenza_falda")) keys.Add("profondita_falda");
         if (keys.Contains("CHS · modo_chs")) keys.UnionWith(current.Keys.Where(k => k.StartsWith("CHS · ")));
         return keys;
@@ -76,6 +87,15 @@ public static partial class ProjectSharedData
     static bool ApplyAdditional(Field source, Field target, JsonObject data, JsonObject sheet, ref bool changed)
     {
         if (ApplySoilField(source, data)) { changed = true; return true; }
+        if (source.Key.StartsWith("Durabilità · "))
+        {
+            JsonNode? value = source.Value?.DeepClone();
+            bool material = sheet.S("modulo_id") == "mat_calcestruzzo";
+            if (source.Key == "Durabilità · qualità copriferri" && !material) value = JsonValue.Create(source.Value?.GetValue<bool>() == true ? "Sì" : "No");
+            if (material && source.Key == "Durabilità · vita utile [anni]") value = JsonValue.Create(Text(source.Value) + " anni");
+            if (material && source.Key == "Durabilità · tolleranza [mm]") value = JsonValue.Create(Text(source.Value) + " mm");
+            Put(data, target.Path, value); changed = true; return true;
+        }
         if (source.Key == "esposizione")
         {
             Put(data, target.Path, source.Value);

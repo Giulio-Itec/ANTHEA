@@ -69,20 +69,7 @@ public sealed partial class MainWindow
             "Apri il confronto e gli avvisi della sezione.\n\n" + string.Join("\n\n", warnings);
         header.Children.Add(badge);
     }
-    private static string SharedFieldLabel(string key) => key.StartsWith("Strato · ") ? ProjectSharedData.SoilFieldLabel(key) : key switch
-    {
-        "esposizione" => "Classe di esposizione", "shape" => "Forma della sezione", "diameter_mm" => "Diametro [mm]", "width_mm" => "Larghezza [mm]",
-        "height_mm" => "Altezza [mm]", "cover_mm" => "Copriferro netto [mm]", "lunghezza" => "Lunghezza [m]",
-        "longitudinal_bar_count" => "Numero barre longitudinali", "longitudinal_bar_diameter_mm" => "Diametro barre longitudinali [mm]",
-        "transverse_bar_diameter_mm" => "Diametro staffe [mm]", "transverse_spacing_mm" => "Passo staffe [mm]",
-        "barre_manuali" => "Disposizione manuale delle barre", "trefoli" => "Trefoli",
-        "fyk_mpa" => "Resistenza caratteristica acciaio [MPa]", "gamma_c" => "Coefficiente gamma c",
-        "gamma_s" => "Coefficiente gamma s", "alpha_cc" => "Coefficiente alfa cc",
-        "classe_acciaio" => "Classe dell'acciaio", "materiale_acciaio_nome" => "Nome dell'acciaio",
-        "steel_modulus_mpa" => "Modulo elastico acciaio [MPa]", "steel_fu_mpa" => "Resistenza a rottura acciaio [MPa]",
-        "steel_eps_u" => "Deformazione ultima acciaio [‰]", "steel_diagramma" => "Diagramma dell'acciaio",
-        _ => key.Replace("_", " ")
-    };
+    private static string SharedFieldLabel(string key) => ProjectReportPlan.Label(key);
     private sealed record SharedSheet(JsonObject Sheet)
     {
         public override string ToString() => Sheet.S("nome", ModuleName(Sheet.S("modulo_id")));

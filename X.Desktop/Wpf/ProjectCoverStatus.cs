@@ -30,12 +30,17 @@ public sealed partial class MainWindow
                     var mf = ProjectSharedData.Fields(material);
                     if (!ProjectSharedData.Equal(fields["esposizione"].Value, mf["esposizione"].Value) || !ProjectSharedData.Equal(fields["CLS · fck [MPa]"].Value, mf["CLS · fck [MPa]"].Value))
                         throw new ArgumentException("classe CLS o esposizione diversa da " + material.S("nome") + "; riallineare i dati oppure verificare separatamente");
+                    var durability = ProjectSharedData.ComparableFields(sheet, material).Where(p => p.Source.Key.StartsWith("Durabilità · ") && !ProjectSharedData.Equal(p.Source.Value, p.Target.Value)).ToArray();
+                    if (durability.Length > 0) throw new ArgumentException("parametri diversi da " + material.S("nome") + ": " + string.Join(", ", durability.Select(p => ProjectReportPlan.Label(p.Source.Key))));
                     var state = material["dati"]!.AsObject();
-                    double diameter = J.Number(state["numeri"]?["diameter"] ?? JsonValue.Create("16")) ?? throw new ArgumentException("diametro della barra di riferimento non valido");
+                    var input = (JsonObject)sheet["dati"]![sheet.S("modulo_id") == "str_palo" ? "input" : "sezione"]!.DeepClone();
+                    if (sheet.S("modulo_id") == PaloOrizzontale.Module)
+                    { input["shape"] = "Circolare"; input["diameter_mm"] = sheet["dati"]!["generali"].D("diametro") * 1000; }
+                    double diameter = new SezioneCA(input).Bars.Max(b => b.Diametro);
                     double required = Materiali.MaterialCover.Required(state, J.Number(fields["CLS · fck [MPa]"].Value)!.Value, diameter);
                     double adopted = J.Number(fields["cover_mm"].Value) ?? throw new ArgumentException("copriferro adottato non valido");
                     bool passed = adopted >= required;
-                    result.Add(new($"{name}: copriferro adottato {adopted:0.##} mm · minimo da Materiali {required:0.##} mm — {(passed ? "RISPETTATO" : "NON RISPETTATO")} ({material.S("nome")}, barra di riferimento Ø{diameter:0.##}; controllo riferito a questa barra).", passed));
+                    result.Add(new($"{name}: copriferro adottato {adopted:0.##} mm · minimo da Materiali {required:0.##} mm — {(passed ? "RISPETTATO" : "NON RISPETTATO")} ({material.S("nome")}, Ø massimo effettivo delle barre {diameter:0.##} mm).", passed));
                 }
                 catch (ArgumentException ex) { result.Add(new(name + ": copriferro non verificabile — " + ex.Message + ".", null)); }
             }

@@ -76,6 +76,17 @@ public static class ReportConcrete
         P("Taglio NTC nelle due direzioni; per le circolari il modello e i parametri sono espliciti. Torsione su profilo periferico rettangolare o circolare, pieno o cavo, con staffe chiuse. Per Vx+Vy+T si sommano conservativamente i contributi sul calcestruzzo. Dettagli del capitolo 4 e integrazioni EC2; gerarchia sismica e verifiche locali degli appoggi richiedono il modello dell’elemento. Fessurazione solo lineare, comprese le sezioni interamente tese; leggere i limiti per combinazione.");
         if (!string.IsNullOrWhiteSpace(settings.S("nota"))) P("Nota del foglio: " + settings.S("nota"));
         if (result["errori_calcolo"] is JsonObject errors) foreach (var (key, value) in errors) P("Calcolo non disponibile — " + key + ": " + value);
+        if (result["riepilogo_verifiche"] is JsonObject summaries)
+        {
+            string Category(string key) => key.StartsWith("3D:") ? "dominio3d" : key.StartsWith("2D:") ? "dominio2d" : key.StartsWith("Taglio:") ? "taglio" : key.Split(':')[0];
+            var selectedSummaries = summaries.Where(p => options.Contains(Category(p.Key))).ToArray();
+            if (selectedSummaries.Length > 0)
+            {
+                Heading("Riepilogo delle verifiche");
+                Table(["Verifica", "Esito", "η", "Governa", "Complete / totali"], selectedSummaries.Select(p => new[] {
+                    p.Value.S("Title"), p.Value.S("Status"), F(p.Value?["Ratio"]), p.Value.S("Governing"), p.Value.S("Completed") + " / " + p.Value.S("Total") }));
+            }
+        }
         if (!includeInputs && options.Contains("geometria")) Figures("geometria");
         if (includeInputs && options.Contains("geometria"))
         {
@@ -124,11 +135,26 @@ public static class ReportConcrete
             }
             Figures("dominio" + dimension.ToLowerInvariant());
         }
+        bool commonSle = settings["sle_comuni"] is JsonObject;
+        void SleParameters(JsonNode values)
+        {
+            bool tendonsPresent = settings.Array("trefoli").Count > 0;
+            Parameters("Opzioni di verifica SLE", values, new (string Key, string Label)[] { ("modello", "Analisi"), ("n_armature", "n armature"), ("phi", "φ armature"), ("n_trefoli", "n trefoli riferimento"), ("phi_trefoli", "φ trefoli"), ("trazione_cls", "CLS teso"), ("assi", "Assi"), ("origine_x", "Origine x [mm]"), ("origine_y", "Origine y [mm]"), ("rotazione", "Rotazione [°]"), ("esposizione", "Esposizione"), ("durata", "Durata"), ("sensibilita", "Sensibilità"), ("aderenza", "Aderenza") }
+                .Where(f => tendonsPresent || f.Key is not ("n_trefoli" or "phi_trefoli"))
+                .Where(f => values.S("assi") == "Personalizzati" || f.Key is not ("origine_x" or "origine_y" or "rotazione"))
+                .Where(f => values.S("modello") != "Non lineare" || f.Key is not ("n_armature" or "phi" or "n_trefoli" or "phi_trefoli")).ToArray());
+        }
+        if (commonSle && SectionWorkspace.Sets.Skip(2).Any(options.Contains))
+        {
+            Heading("Impostazioni comuni SLE");
+            SleParameters(settings["sle_comuni"]!);
+            P("Questi parametri sono comuni alle famiglie SLE selezionate; le azioni e gli esiti restano distinti per combinazione.");
+        }
         foreach (string family in SectionWorkspace.Sets.Skip(2)) if (options.Contains(family))
         {
             Heading("SLE " + SectionWorkspace.Label(family));
             bool hasTendons = settings.Array("trefoli").Count > 0;
-            Parameters("Opzioni di verifica", settings["sle"]![family]!, new (string Key, string Label)[] { ("modello", "Analisi"), ("n_armature", "n armature"), ("phi", "φ armature"), ("n_trefoli", "n trefoli riferimento"), ("phi_trefoli", "φ trefoli"), ("trazione_cls", "CLS teso"), ("assi", "Assi"), ("esposizione", "Esposizione"), ("durata", "Durata"), ("sensibilita", "Sensibilità"), ("aderenza", "Aderenza") }.Where(f => hasTendons || f.Key is not ("n_trefoli" or "phi_trefoli")).ToArray());
+            if (!commonSle) SleParameters(settings["sle"]![family]!);
             var rows = result["tensioni"]?[family] as JsonObject ?? new();
             bool stressRequired = SleCheckScope.Stress(family), crackRequired = SleCheckScope.Cracking(family, settings);
             var envelope = stressRequired ? Envelope(rows, hasTendons) : [];

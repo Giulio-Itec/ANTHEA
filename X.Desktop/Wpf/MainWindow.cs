@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,7 +39,7 @@ public sealed partial class MainWindow : Window
 
     }
     internal void Safe(Action action) { try { action(); } catch (Exception ex) { if (testing) throw; MessageBox.Show(this, ex.Message, "Operazione non completata", MessageBoxButton.OK, MessageBoxImage.Error); } }
-    internal static string ModuleName(string module) => module switch { "geo_palo_verticale" => "Palo · capacità portante", "geo_palo_orizzontale" => "Palo · capacità portante orizzontale", "geo_micropalo_verticale" => "Micropalo · Bustamante–Doix", MicropaloOrizzontale.Module => "Micropalo · capacità portante orizzontale", "str_palo" => "Sezione in c.a. · SLU / SLV / SLE", "mat_calcestruzzo" => "Calcestruzzo · Materiali", RebarMaterial.Module => "Acciaio per armature · Materiali", _ => module };
+    internal static string ModuleName(string module) => module switch { "geo_palo_verticale" => "Palo · capacità portante", "geo_palo_orizzontale" => "Palo · capacità portante orizzontale", "geo_micropalo_verticale" => "Micropalo · Bustamante–Doix", MicropaloOrizzontale.Module => "Micropalo · capacità portante orizzontale", "str_palo" => "Sezione in c.a. · SLU / SLV / SLE", BridgeSection.Module => "Sezione composta · ponte / classe 4", "mat_calcestruzzo" => "Calcestruzzo · Materiali", RebarMaterial.Module => "Acciaio per armature · Materiali", _ => module };
     private Menu BuildMenu()
     {
         var menu = new Menu { Background = Brushes.White }; var file = new MenuItem { Header = "_File" }; menu.Items.Add(file);
@@ -49,6 +49,7 @@ public sealed partial class MainWindow : Window
             if (key is Key k) { var command = new RoutedCommand(); CommandBindings.Add(new CommandBinding(command, (_, _) => Safe(action))); InputBindings.Add(new KeyBinding(command, k, modifiers)); item.InputGestureText = new KeyGesture(k, modifiers).GetDisplayStringForCulture(System.Globalization.CultureInfo.CurrentCulture); }
         }
         Add("Nuovo palo", () => NewCalculation("geo_palo_verticale"), Key.N); Add("Nuovo micropalo", () => NewCalculation("geo_micropalo_verticale")); Add("Nuova sezione in c.a.", () => NewCalculation("str_palo")); Add("Nuovo archivio progetti", NewProjects);
+        Add("Nuova sezione composta da ponte", () => NewCalculation(BridgeSection.Module));
         Add("Nuovo palo orizzontale", () => NewCalculation(PaloOrizzontale.Module));
         Add("Nuovo micropalo orizzontale", () => NewCalculation(MicropaloOrizzontale.Module));
         file.Items.Add(new Separator()); Add("Apri…", Open, Key.O); Add("Salva", () => Save(false), Key.S); Add("Salva con nome…", () => Save(true), Key.S, ModifierKeys.Control | ModifierKeys.Shift);
@@ -113,7 +114,7 @@ public sealed partial class MainWindow : Window
         var filters = Ui.Stack(Ui.Text("DISCIPLINE", 13, true)); filters.Width = 185; foreach (string name in new[] { "Tutti", "Geotecnica", "Strutture", "Materiali" }) filters.Children.Add(Ui.Button(name, () => ShowModules(name), discipline == name));
         var fp = Ui.Paper(filters, 16); fp.Margin = new Thickness(0, 0, 16, 0); DockPanel.SetDock(fp, System.Windows.Controls.Dock.Left); root.Children.Add(fp);
         var list = new StackPanel();
-        var modules = new[] { ("Geotecnica", "Palo", "Capacità portante verticale", "geo_palo_verticale"), ("Geotecnica", "Palo", "Capacità portante orizzontale", "geo_palo_orizzontale"), ("Geotecnica", "Micropalo", "Capacità portante verticale", "geo_micropalo_verticale"), ("Geotecnica", "Micropalo", "Capacità portante orizzontale", MicropaloOrizzontale.Module), ("Strutture", "Sezione in c.a.", "Verifiche SLU · SLV · SLE", "str_palo"), ("Strutture", "Micropalo", "Verifiche strutturali", ""), ("Materiali", "Calcestruzzo", "Proprietà, copriferro e composizione", "mat_calcestruzzo"), ("Materiali", "Acciaio per armature", "Proprietà meccaniche e diagramma", RebarMaterial.Module) };
+        var modules = new[] { ("Geotecnica", "Palo", "Capacità portante verticale", "geo_palo_verticale"), ("Geotecnica", "Palo", "Capacità portante orizzontale", "geo_palo_orizzontale"), ("Geotecnica", "Micropalo", "Capacità portante verticale", "geo_micropalo_verticale"), ("Geotecnica", "Micropalo", "Capacità portante orizzontale", MicropaloOrizzontale.Module), ("Strutture", "Sezione in c.a.", "Verifiche SLU · SLV · SLE", "str_palo"), ("Strutture", "Sezione composta", "Ponte · fasi e classe 4", BridgeSection.Module), ("Strutture", "Micropalo", "Verifiche strutturali", ""), ("Materiali", "Calcestruzzo", "Proprietà, copriferro e composizione", "mat_calcestruzzo"), ("Materiali", "Acciaio per armature", "Proprietà meccaniche e diagramma", RebarMaterial.Module) };
         foreach (string area in new[] { "Geotecnica", "Strutture", "Materiali" }.Where(a => discipline == "Tutti" || a == discipline))
         {
             var label = Ui.Text(area, 21, true); label.Margin = new Thickness(0, 10, 0, 14); list.Children.Add(label);
@@ -129,7 +130,7 @@ public sealed partial class MainWindow : Window
                     var open = Ui.Button(id == "" ? "Dettagli" : editor?.Module == id ? "Riprendi" : "Apri", () => { if (id != "") Safe(() => OpenModule(id)); else MessageBox.Show(this, "Modulo in preparazione, come nella versione originale."); }, id != ""); open.Tag = id; open.HorizontalAlignment = HorizontalAlignment.Right;
                     var card = Ui.Paper(Ui.Dock(row, bottom: open)); card.Height = 200; card.Margin = new Thickness(0, 0, 0, 8); pane.Children.Add(card);
                 }
-                pane.Margin = new Thickness(0, 0, 14, 0); Grid.SetColumn(pane, col++); groups.Children.Add(pane);
+                pane.Margin = new Thickness(0, 0, 14, 0); if (col % 2 == 0) groups.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); Grid.SetColumn(pane, col % 2); Grid.SetRow(pane, col / 2); col++; groups.Children.Add(pane);
             }
             list.Children.Add(groups);
         }
@@ -167,7 +168,7 @@ public sealed partial class MainWindow : Window
         editor?.Dispose(); currentSheet = sheet; string module = sheet.S("modulo_id");
         editor = new SheetEditor(module, sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(module)); editor.Modified += MarkDirty; editor.Modified += RefreshSharedStatus;
         sharedBaseline = (JsonObject)sheet.DeepClone(); sharedBaseline["dati"] = editor.Data.DeepClone();
-        sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or "mat_calcestruzzo" or RebarMaterial.Module
+        sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or "mat_calcestruzzo" or RebarMaterial.Module or BridgeSection.Module
             ? editor : DisplayAdaptation.Viewport(editor, 1120, 600);
         heading.Text = sheet.S("nome", ModuleName(module)); UpdateBackButton(); body.Content = moduleView; RefreshSharedStatus();
     }
@@ -313,8 +314,10 @@ public sealed partial class MainWindow : Window
             return;
         }
         var list = new StackPanel { Margin = new Thickness(16) }; var checks = new Dictionary<string, CheckBox>();
-        var saved = editor.Data["workspace_ca"]?["report_sezioni"] as JsonArray;
-        foreach (var (key, label) in editor.Module == "str_palo" ? ReportConcrete.Sections : ReportWord.Sezioni) { var check = new CheckBox { Content = label, IsChecked = saved is not null ? saved.Any(v => v?.ToString() == key) : editor.Module == "str_palo" ? key is not ("dettagli" or "sle_tutte") : !key.StartsWith("grafico"), Margin = new Thickness(4) }; checks[key] = check; list.Children.Add(check); }
+        var saved = editor.Data[editor.Module == BridgeSection.Module ? "ui_mista" : "workspace_ca"]?["report_sezioni"] as JsonArray;
+        var sections = editor.Module == BridgeSection.Module ? ReportBridge.Sections : editor.Module == "str_palo" ? ReportConcrete.Sections : ReportWord.Sezioni;
+        foreach (var (key, label) in sections) { var check = new CheckBox { Content = label, IsChecked = saved is not null ? saved.Any(v => v?.ToString() == key) : editor.Module == BridgeSection.Module || (editor.Module == "str_palo" ? key is not ("dettagli" or "sle_tutte") : !key.StartsWith("grafico")), Margin = new Thickness(4) }; checks[key] = check; list.Children.Add(check); }
+        if (editor.Module == BridgeSection.Module) list.Children.Add(Ui.Text("Stampa tutte le situazioni e i rispettivi contributi, indipendentemente dalla fase visualizzata. Ambito, riepilogo e avvisi sono sempre inclusi. I grafici riportano la geometria e la somma dei contributi di ogni situazione.", 11));
         if (editor.Module == "str_palo") list.Children.Add(Ui.Text("SLE: di default inviluppo degli estremi con combinazione di origine e casi governanti distinti per tensioni e fessurazione. Nessun esito non determinato viene escluso. In modalità completa si stampano tutte le combinazioni; i grafici SLE restano riferiti ai casi governanti. Ambito, avvisi ed errori sono sempre inclusi.", 11));
         var window = Ui.Dialog(this, "Contenuti del report Word", new ChainedScrollViewer { Content = list, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 590, 650); var ok = Ui.Button("Esporta", () => { if (checks.Any(c => c.Value.IsChecked == true && c.Key is not ("sle_tutte" or "dettagli" or "grafici"))) window.DialogResult = true; }, true); list.Children.Add(ok); if (window.ShowDialog() != true) return;
         var d = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = "Relazione.docx" }; if (d.ShowDialog(this) == true) editor.ExportReport(d.FileName, heading.Text, checks.Where(p => p.Value.IsChecked == true).Select(p => p.Key).ToHashSet());

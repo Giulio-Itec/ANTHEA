@@ -66,9 +66,8 @@ internal sealed partial class ConcreteWorkspace
             {
                 var view = new ConcreteSectionViewport { Section = new SezioneCA(Input), Stirrups = ShearOptions };
                 images.Add(new("Schema indicativo delle staffe · diametro rappresentato in scala", view.Png(), "taglio"));
-            if (options.Contains("taglio")) images.Add(new("Schema indicativo delle staffe · diametro rappresentato in scala", shearView.Png(), "taglio"));
-            if(options.Contains("curvatura")&&curvatureResult is not null)images.Add(new("Momento–curvatura · percorso assegnato",curvaturePlot.Png(),"curvatura"));
             }
+            if(options.Contains("curvatura")&&curvatureResult is not null)images.Add(new("Momento–curvatura · percorso assegnato",curvaturePlot.Png(),"curvatura"));
         }
         return ReportConcrete.Create(title, Data, result, options, images, !projectReport);
     }

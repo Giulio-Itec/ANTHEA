@@ -4,7 +4,7 @@ using System.Text.Json.Nodes;
 
 namespace X.Core;
 
-/// <summary>Broms: Viggiani, Fondazioni, pp. 400-415. Extensions and limits: docs/palo-orizzontale.md.</summary>
+/// <summary>Broms: Viggiani, Fondazioni, pp. 400-415. Extensions and limits: supporto/docs/palo-orizzontale.md.</summary>
 public static class PaloOrizzontale
 {
     public const string Module = "geo_palo_orizzontale";

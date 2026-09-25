@@ -6,6 +6,7 @@
 /app/
 /confronto_*.json
 /verifiche_*/
+/supporto/artefatti/
 /backup_*/
 *.programma
 *.anthea

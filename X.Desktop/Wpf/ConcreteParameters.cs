@@ -43,11 +43,18 @@ internal sealed partial class ConcreteWorkspace
         foreach (var (key, value) in new[] { ("tipo_staffa", "Staffa chiusa"), ("rami_x", "2"), ("rami_y", "2"), ("rami_interni", "0"), ("schema_interno", "Bracci paralleli"), ("rotazione_staffa", "0") })
             if (!ShearOptions.ContainsKey(key)) ShearOptions[key] = value;
     }
-    private UIElement BuildStirrups()
+    private UIElement BuildStirrups(bool readOnly = false)
     {
         if(!Input.ContainsKey("staffe_presenti"))Input["staffe_presenti"]="Sì";
+        if (readOnly)
+        {
+            var values = new InputForm(Input, [new("staffe_presenti", "Staffe presenti", ReadOnly: true), new("transverse_bar_diameter_mm", "Ø staffe", "mm", ReadOnly: true), new("transverse_spacing_mm", "Passo", "mm", ReadOnly: true)], _ => { }, true);
+            var scheme = new InputForm(ShearOptions, [new("tipo_staffa", "Circolare", ReadOnly: true), new("rami_x", "Braccia resistenti a Vx", ReadOnly: true), new("rami_y", "Braccia resistenti a Vy", ReadOnly: true), new("schema_interno", "Schema interno", ReadOnly: true), new("rami_interni", "Bracci aggiunti / staffe interne", ReadOnly: true), new("rotazione_staffa", "Rotazione schema", "°", ReadOnly: true)], _ => { }, true);
+            stirrupForms.Add(values); stirrupForms.Add(scheme);
+            return Ui.Stack(values, scheme, Ui.Button("Modifica staffe nel pannello di controllo →", () => tabs.SelectedIndex = 0));
+        }
         var dimensions = new InputForm(Input, [new("staffe_presenti", "Staffe presenti", Choices:["Sì","No"]),new("transverse_bar_diameter_mm", "Ø staffe", "mm"), new("transverse_spacing_mm", "Passo", "mm")], key => { if(Input.S("staffe_presenti")=="No") {ShearOptions["modello"]="Senza staffe";shearForm?.Set("modello","Senza staffe",true);} SynchronizeStirrups(); RefreshDetailing(); if (key is "transverse_bar_diameter_mm" or "staffe_presenti") Invalidate(); else InvalidateActions("Taglio"); }, true);
-        var form = new InputForm(ShearOptions, [new("tipo_staffa", "Circolare", Choices: ["Staffa chiusa", "Spirale"]), new("rami_x", "Braccia resistenti a Vx"), new("rami_y", "Braccia resistenti a Vy"), new("schema_interno", "Schema interno", Choices: ["Bracci paralleli", "Staffe chiuse sovrapposte"]), new("rami_interni", "Bracci aggiunti / staffe interne"), new("rotazione_staffa", "Rotazione schema", "°")], _ => { SynchronizeStirrups(); InvalidateActions("Taglio"); }, true, true);
+        var form = new InputForm(ShearOptions, [new("tipo_staffa", "Circolare", Choices: ["Staffa chiusa", "Spirale"]), new("rami_x", "Braccia resistenti a Vx"), new("rami_y", "Braccia resistenti a Vy"), new("schema_interno", "Schema interno", Choices: ["Bracci paralleli", "Staffe chiuse sovrapposte"]), new("rami_interni", "Bracci aggiunti / staffe interne"), new("rotazione_staffa", "Rotazione schema", "°")], _ => { SynchronizeStirrups(); RefreshDetailing(); InvalidateActions("Taglio"); }, true, true);
         stirrupForms.Add(dimensions); stirrupForms.Add(form);
         return Ui.Stack(dimensions, form, Ui.Text("Schema indicativo, non esecutivo. Rettangolare / T: staffe a più braccia. Circolare: bracci e staffe interne sono rappresentati secondo lo schema scelto; assegnare i rami effettivamente resistenti a Vx e Vy. Il modello di calcolo circolare si sceglie nella scheda Taglio e torsione.", 11, color: Ui.Muted));
     }

@@ -74,6 +74,7 @@ internal static class Ui
     internal static BitmapImage Asset(string name) => new(new Uri($"pack://application:,,,/ANTHEA;component/Assets/{name}"));
     internal static FrameworkElement ModuleIcon(string module)
     {
+        if (module == BridgeSection.Module) return new BridgeIcon { Width = 80, Height = 80 };
         if (module == RebarMaterial.Module) return new RebarIcon { Width = 80, Height = 80 };
         if (module is "mat_calcestruzzo" or "geo_micropalo_orizzontale")
             return new Image { Source = Asset(module + ".png"), Width = 80, Height = 80, Stretch = Stretch.Uniform };

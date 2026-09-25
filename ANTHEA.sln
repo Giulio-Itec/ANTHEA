@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTHEA.Core", "X.Core\X.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTHEA.Desktop", "X.Desktop\X.Desktop.csproj", "{F1AC66D5-7D08-4262-8057-85635F858179}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTHEA.Verifiche", "X.Verifiche\X.Verifiche.csproj", "{B99DCCCA-9B34-4929-B8C1-757ABB053C4A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTHEA.Verifiche", "supporto\test\X.Verifiche\X.Verifiche.csproj", "{B99DCCCA-9B34-4929-B8C1-757ABB053C4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

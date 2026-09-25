@@ -24,7 +24,7 @@ public sealed class CheckerSectionModel
 
 public sealed partial class CheckerSection
 {
-    private static readonly object NativeSolverConstruction = new();
+    internal static readonly object NativeSolverConstruction = new();
     public CheckerSectionModel Model { get; }
     public ReinforcedConcreteSection Section { get; }
     public CoordinateSystem Local { get; }

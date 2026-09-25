@@ -18,6 +18,8 @@ public static partial class ProjectSharedData
         Dictionary<string, Field> a, Dictionary<string, Field> b)
     {
         string fm = first.S("modulo_id"), sm = second.S("modulo_id"), key = field.Key;
+        if (!ActiveField(first, key) || !ActiveField(second, key)) return false;
+        if (key.StartsWith("Durabilità · ") && !SameDurabilityModel(first, second)) return false;
         if ((key == "profondita_falda" || key.StartsWith("Strato · ") && key.EndsWith("/peso_specifico_saturo")) &&
             !WaterDataActive(first, second)) return false;
         if (key == "lunghezza_micropalo" && fm != sm &&

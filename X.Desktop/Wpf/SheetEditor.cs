@@ -20,9 +20,10 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     internal readonly RebarMaterialView? rebarMaterial;
     private readonly ConcreteWorkspace? concrete;
     private readonly HorizontalWorkspace? horizontal;
-    internal JsonObject? Result { get => horizontal is not null ? horizontal.Result : concrete is null ? result : concrete.Result; private set => result = value; }
+    internal readonly BridgeWorkspace? bridge;
+    internal JsonObject? Result { get => bridge is not null ? bridge.Result : horizontal is not null ? horizontal.Result : concrete is null ? result : concrete.Result; private set => result = value; }
     internal bool HasResults => concrete is not null ? concrete.HasResults : Result is not null;
-    internal bool Busy { get => horizontal?.Busy ?? concrete?.Busy ?? busy; private set => busy = value; }
+    internal bool Busy { get => bridge?.Busy ?? horizontal?.Busy ?? concrete?.Busy ?? busy; private set => busy = value; }
     internal event Action? Modified;
     private bool building = true, disposed;
     private int revision, expanded = -1;
@@ -59,6 +60,10 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     {
         Module = module; Data = (JsonObject)data.DeepClone(); Background = Ui.Bg;
         calculate = Ui.Button("Calcola", async () => await CalculateAsync(), true); calculate.Width = 120; calculate.Visibility = Geo ? Visibility.Collapsed : Visibility.Visible;
+        if (module == BridgeSection.Module)
+        {
+            bridge = new BridgeWorkspace(Data); bridge.Modified += () => Modified?.Invoke(); Content = bridge; building = false; return;
+        }
         if (module is PaloOrizzontale.Module or MicropaloOrizzontale.Module)
         {
             horizontal = new HorizontalWorkspace(Data); horizontal.Modified += () => Modified?.Invoke(); Content = horizontal; building = false; return;
@@ -87,8 +92,8 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         building = false; Preview(); LayoutCards(); if (Geo) QueueCalculation();
     }
     private async void TimerTick(object? sender, EventArgs args) { if (Busy) return; timer.Stop(); if (!disposed) await CalculateAsync(commitEdits: false); }
-    public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= TimerTick; concrete?.Dispose(); horizontal?.Dispose(); }
-    internal void Commit() { if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
+    public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= TimerTick; concrete?.Dispose(); horizontal?.Dispose(); bridge?.Dispose(); }
+    internal void Commit() { if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
         int index = cards.Count; var header = new DockPanel { Margin = new Thickness(0, 0, 0, 8), MinHeight = 28 };
@@ -172,6 +177,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private void QueueCalculation() { if (!Geo || building || disposed) return; timer.Stop(); timer.Start(); status.Text = "Aggiornamento automatico in attesa…"; }
     internal async Task CalculateAsync(bool commitEdits = true)
     {
+        if (bridge is not null) { await bridge.CalculateAsync(commitEdits); return; }
         if (materials is not null || rebarMaterial is not null) { Commit(); return; }
         if (horizontal is not null) { await horizontal.CalculateAsync(); return; }
         if (concrete is not null) { await concrete.CalculateAllAsync(); return; }
@@ -246,6 +252,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         => Archivio.ScriviAtomico(filename, BuildReport(title, options, projectReport));
     internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false)
     {
+        if (bridge is not null) return bridge.BuildReport(title, options, projectReport);
         if (concrete is not null) return concrete.BuildReport(title, options, projectReport);
         if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
         if (horizontal is not null) return ReportOrizzontale.Create(title, Result, !projectReport);

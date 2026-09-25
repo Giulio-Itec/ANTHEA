@@ -5,7 +5,7 @@ namespace X.Core;
 
 public static class Archivio
 {
-    public static readonly string[] Moduli=["geo_palo_verticale","geo_palo_orizzontale","geo_micropalo_verticale","geo_micropalo_orizzontale","str_palo","mat_calcestruzzo",RebarMaterial.Module];
+    public static readonly string[] Moduli=["geo_palo_verticale","geo_palo_orizzontale","geo_micropalo_verticale","geo_micropalo_orizzontale","str_palo",BridgeSection.Module,"mat_calcestruzzo",RebarMaterial.Module];
     public static JsonObject Leggi(string path)
     {
         var doc=JsonNode.Parse(File.ReadAllText(path,Encoding.UTF8)) as JsonObject??throw new ArgumentException("Contenuto non riconosciuto.");
@@ -33,6 +33,7 @@ public static class Archivio
                 if(data["esposizioni"] is not null && data["esposizioni"] is not JsonArray) throw new ArgumentException("Esposizioni non valide.");
             }
             else if(sheet.S("modulo_id")==RebarMaterial.Module) RebarMaterial.ValidateShape(data.AsObject());
+            else if(sheet.S("modulo_id")==BridgeSection.Module) BridgeSection.ValidateShape(data.AsObject());
             else Calcolo.ValidaForma(data);
         }
         if(doc.S("tipo")=="calcolo"){Sheet(doc,false);return;}
@@ -77,6 +78,7 @@ public static class Archivio
     }
     public static JsonObject NuovoFoglio(string module)
     {
+        if(module==BridgeSection.Module)return BridgeSection.Defaults();
         if(module==RebarMaterial.Module)return RebarMaterial.Defaults();
         if(module=="mat_calcestruzzo")return J.Obj(("versione_materiali",1));
         if(module=="str_palo")return SezioneCA.DefaultData();

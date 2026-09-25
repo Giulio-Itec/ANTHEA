@@ -90,9 +90,11 @@ public sealed class SezioneCA
         string[] common=["cover_mm","transverse_bar_diameter_mm","transverse_spacing_mm","fck_mpa","fyk_mpa","alpha_cc","gamma_c","gamma_s","steel_modulus_mpa","minimum_eccentricity_mm"];
         foreach(var k in common)if(Input.S("staffe_presenti","Sì")!="No"||k is not("transverse_bar_diameter_mm" or "transverse_spacing_mm"))Input.Required(k,strict:k is not ("cover_mm" or "minimum_eccentricity_mm"));
         void Count(string k,int min){double value=Input.Required(k,min);if(value!=Math.Truncate(value)||value>int.MaxValue)throw new ArgumentException("Il numero delle barre deve essere intero.");}
+        bool automaticBars = Input["barre_manuali"] is not JsonArray;
         if(Shape=="Circolare")
         {
-            Input.Required("diameter_mm",strict:true);Count("longitudinal_bar_count",4);Input.Required("longitudinal_bar_diameter_mm",strict:true);
+            Input.Required("diameter_mm",strict:true);
+            if (automaticBars) { Count("longitudinal_bar_count",4);Input.Required("longitudinal_bar_diameter_mm",strict:true); }
             CircularSides=SectionWorkspace.Subdivisions(Input.S("circular_sides"),"Lati del contorno circolare",12,720);
             // Keep vertices on both coordinate axes, preserving the assigned diameter in x and y.
             if(CircularSides%4!=0)throw new ArgumentException("Lati del contorno circolare: inserire un multiplo di 4 fra 12 e 720.");
@@ -102,16 +104,20 @@ public sealed class SezioneCA
             Input.Required("height_mm",strict:true);if(Shape=="Rettangolare")Input.Required("width_mm",strict:true);
             else
             {
-                if (Input.ContainsKey("flange_bottom_count")) { Count("flange_bottom_count", 0); if (Input.D("flange_bottom_count") == 1) throw new ArgumentException("Fila intradosso: indicare 0 oppure almeno 2 barre."); }
+                if (automaticBars && Input.ContainsKey("flange_bottom_count")) { Count("flange_bottom_count", 0); if (Input.D("flange_bottom_count") == 1) throw new ArgumentException("Fila intradosso: indicare 0 oppure almeno 2 barre."); }
                 Input.Required("flange_width_mm",strict:true);Input.Required("web_width_mm",strict:true);Input.Required("flange_thickness_mm",strict:true);
                 if(V("web_width_mm")>V("flange_width_mm")||V("flange_thickness_mm")>=V("height_mm"))throw new ArgumentException("Geometria a T non valida.");
             }
-            Count("top_bar_count",2);Count("bottom_bar_count",2);Count("side_bar_count_per_side",0);
-            foreach(var k in new[]{"top_bar_diameter_mm","bottom_bar_diameter_mm","side_bar_diameter_mm"})Input.Required(k,strict:true);
+            if (automaticBars)
+            {
+                Count("top_bar_count",2);Count("bottom_bar_count",2);Count("side_bar_count_per_side",0);
+                foreach(var k in new[]{"top_bar_diameter_mm","bottom_bar_diameter_mm"})Input.Required(k,strict:true);
+                if (V("side_bar_count_per_side") > 0) Input.Required("side_bar_diameter_mm",strict:true);
+            }
         }
         if(V("fck_mpa")<12||V("fck_mpa")>90)throw new ArgumentException("fck deve essere compreso tra 12 e 90 MPa.");
         foreach (string layer in Shape == "Circolare" ? new[] { "inner" } : Shape == "Rettangolare" ? new[] { "top", "bottom" } : Array.Empty<string>())
-            if (Input.B("second_" + layer + "_enabled"))
+            if (automaticBars && Input.B("second_" + layer + "_enabled"))
             {
                 Count("second_" + layer + "_count", layer == "inner" ? 4 : 2);
                 Input.Required("second_" + layer + "_diameter", strict: true);

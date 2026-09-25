@@ -280,6 +280,8 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         if(shape is not("Rettangolare" or "Circolare"))Input["foro_presente"]=false;
         refreshHoleControls?.Invoke();
         RefreshAdditionalLayers();
+        reinforcement.IsEnabled = Input["barre_manuali"] is not JsonArray;
+        reinforcement.ToolTip = reinforcement.IsEnabled ? null : "Sono attive le coordinate delle barre. Ripristina le barre da wizard per usare questi parametri.";
         foreach (string key in new[] { "diameter_mm", "circular_sides", "width_mm", "height_mm", "flange_width_mm", "web_width_mm", "flange_thickness_mm" }) geometry.ShowField(key, key switch { "diameter_mm" or "circular_sides" => shape == "Circolare", "width_mm" => shape == "Rettangolare", "height_mm" => shape != "Circolare", _ => shape == "A T" });
         foreach (string key in reinforcement.Editors.Keys.Where(k => !k.StartsWith("transverse"))) reinforcement.ShowField(key, key.StartsWith("flange_bottom") ? shape == "A T" : key.StartsWith("longitudinal") ? shape == "Circolare" : shape != "Circolare");
         SezioneCA? engine = null;

@@ -31,7 +31,7 @@ internal sealed partial class ConcreteWorkspace
         }
         detailingForm = Form([new("elemento","Elemento",Choices:["Da scegliere","Trave","Pilastro","Soletta piena","Parete"])]);
         coverDetailingForm = Form([new("aggregato","Inerte massimo dg","mm"),new("esposizione_sle","Esposizione condivisa SLE",ReadOnly:true),new("vita_durabilita","Vita utile di progetto","anni",Choices:["50","100"]),new("qualita_copriferro","Controllo qualità dei copriferri",Choices:["No","Sì"]),new("cmin_dur","cmin,dur calcolato","mm",ReadOnly:true),new("delta_c","Tolleranza Δcdev","mm")]);
-        var cover = new InputForm(Input,[new("cover_mm","Copriferro netto","mm")],_=>{geometry.Set("cover_mm",Input.S("cover_mm"));Invalidate();},true);
+        var cover = new InputForm(Input,[new("cover_mm","Copriferro netto adottato","mm",ReadOnly:true)],_=>{},true);
         coverDetailingGeometry = cover;
         var bars = Form([new("zona_sovrapposizione","Sezione dentro una giunzione",Choices:["No","Sì"]),new("as_secondaria","As ortogonale totale / m","mm²/m"),new("passo_secondaria","Interasse barre ortogonali","mm"),new("zona_critica","Zona di massimo momento / carico concentrato",Choices:["No","Sì"])]);
         var stirrups = Form([new("barre_trattenute","Barre compresse trattenute",Choices:["Da confermare","Confermato"])]);
@@ -47,9 +47,9 @@ internal sealed partial class ConcreteWorkspace
             var checks = new VerificationCards(2); detailingTopics[key]=checks;
             rows.Children.Add(WorkspaceLayout(Panel(title,inputs),Panel("Verifiche · "+title,extra is null?checks:Ui.Stack(checks,extra))));
         }
-        Topic("cover","Interferro / copriferro",Ui.Stack(cover,coverDetailingForm,durabilityNote));
+        Topic("cover","Interferro / copriferro",Ui.Stack(cover,Ui.Button("Modifica geometria nel pannello di controllo →",()=>tabs.SelectedIndex=0),coverDetailingForm,durabilityNote));
         Topic("bars","Armatura",Ui.Stack(bars,Ui.Button("Modifica armature nel pannello di controllo →",()=>tabs.SelectedIndex=0),Ui.Text("La zona riguarda i limiti di armatura: includere anche le barre sovrapposte. Per la lunghezza scegliere sotto Sovrapposizione rettilinea. As ortogonale: totale delle due facce per metro.",11)));
-        Topic("stirrups","Staffe",Ui.Stack(BuildStirrups(),stirrups));
+        Topic("stirrups","Staffe",Ui.Stack(BuildStirrups(readOnly:true),stirrups));
         Topic("anchors","Ancoraggi / appoggi",Ui.Stack(supports,af,Ui.Button("Aggiorna verifiche ancoraggi",()=>{af.Commit();RefreshDetailing();}),Ui.Text("Riscontri sul disegno: le conferme registrano una verifica manuale della disposizione longitudinale.",11)),anchorageText);
         return Scroller(rows);
     }

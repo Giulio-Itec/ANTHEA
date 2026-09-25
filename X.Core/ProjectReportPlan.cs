@@ -53,18 +53,8 @@ public sealed class ProjectReportPlan
     private static bool Relevant(JsonObject sheet, ProjectSharedData.Field field)
     {
         if (field.Value is null || field.Value is JsonArray { Count: 0 } || field.Value.ToString() == "") return false;
+        if (!ProjectSharedData.ActiveField(sheet, field.Key)) return false;
         var data = sheet["dati"]!; string key = field.Key;
-        string shape = sheet.S("modulo_id") == "str_palo" ? data["input"].S("shape") : "Circolare";
-        if (key == "diameter_mm" && shape != "Circolare" || key == "width_mm" && shape != "Rettangolare" ||
-            key == "height_mm" && shape == "Circolare" || key is "flange_width_mm" or "web_width_mm" or "flange_thickness_mm" && shape != "A T") return false;
-        if ((key.StartsWith("top_") || key.StartsWith("bottom_") || key.StartsWith("side_")) && shape == "Circolare") return false;
-        if (key.StartsWith("flange_bottom_") && shape != "A T") return false;
-        if (key.StartsWith("second_"))
-        {
-            string layer = key.Split('_')[1];
-            var input = data[sheet.S("modulo_id") == "str_palo" ? "input" : "sezione"];
-            if (!input.B("second_" + layer + "_enabled") || layer == "inner" && shape != "Circolare" || layer != "inner" && shape == "Circolare") return false;
-        }
         if (key == "profondita_falda" && !data["generali"].B("presenza_falda")) return false;
         return true;
     }
@@ -82,6 +72,7 @@ public sealed class ProjectReportPlan
             if (consumed.Any(p => row.Path == p || row.Path.StartsWith(p + "/", StringComparison.Ordinal))) continue;
             if (row.Path.EndsWith("/shared_layer_id") || row.Path.EndsWith("/metodo_nq_precedente")) continue;
             string key = row.Path.Split('/').Last();
+            if (key.StartsWith("__") || module == "str_palo" && key == "n") continue;
             if (module is "str_palo" or PaloOrizzontale.Module && row.Path.StartsWith(module == "str_palo" ? "input/" : "sezione/") &&
                 key is "axial_force_kn" or "moment_x_knm" or "moment_y_knm" or "apply_minimum_eccentricity" or "minimum_eccentricity_mm") continue;
             if (module == PaloOrizzontale.Module && row.Path == "sezione/diameter_mm") continue;
@@ -118,6 +109,8 @@ public sealed class ProjectReportPlan
     {
         "esposizione" => "Classe di esposizione", "shape" => "Forma della sezione", "diameter_mm" => "Diametro [mm]",
         "width_mm" => "Larghezza [mm]", "height_mm" => "Altezza [mm]", "cover_mm" => "Copriferro netto [mm]",
+        "foro_presente" => "Foro centrale", "inner_diameter_mm" => "Diametro del foro [mm]", "inner_width_mm" => "Larghezza del foro [mm]", "inner_height_mm" => "Altezza del foro [mm]",
+        "circular_sides" => "Lati del contorno circolare", "staffe_presenti" => "Staffe presenti",
         "longitudinal_bar_count" => "Numero barre longitudinali", "longitudinal_bar_diameter_mm" => "Diametro barre longitudinali [mm]",
         "transverse_bar_diameter_mm" => "Diametro staffe [mm]", "transverse_spacing_mm" => "Passo staffe [mm]",
         "barre_manuali" => "Disposizione manuale delle barre", "trefoli" => "Trefoli",

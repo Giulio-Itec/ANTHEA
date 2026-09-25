@@ -8,8 +8,8 @@ public static partial class ProjectSharedData
 {
     public sealed record Field(string Key, string Group, string Path, JsonNode? Value, double Scale = 1);
     public sealed record Difference(JsonObject First, JsonObject Second, string Group, string Key, string Left, string Right);
-    static readonly string[] Geometry = ["shape", "diameter_mm", "width_mm", "height_mm", "flange_width_mm", "web_width_mm", "flange_thickness_mm"];
-    static bool IsRebar(string key) => key == "cover_mm" || key == "barre_manuali" || key.StartsWith("second_") ||
+    static readonly string[] Geometry = ["shape", "diameter_mm", "circular_sides", "width_mm", "height_mm", "flange_width_mm", "web_width_mm", "flange_thickness_mm", "foro_presente", "inner_diameter_mm", "inner_width_mm", "inner_height_mm"];
+    static bool IsRebar(string key) => key is "cover_mm" or "barre_manuali" or "staffe_presenti" || key.StartsWith("second_") ||
         key.StartsWith("longitudinal_") || key.StartsWith("top_bar_") || key.StartsWith("bottom_bar_") ||
         key.StartsWith("side_bar_") || key.StartsWith("flange_bottom_") || key.StartsWith("transverse_");
     static bool IsMaterial(string key) => key is "fyk_mpa" or "alpha_cc" or "gamma_c" or "gamma_s" or "classe_acciaio" or "cls_diagramma" or "gettato_sottile" ||
@@ -67,6 +67,15 @@ public static partial class ProjectSharedData
                 "flange_bottom_count", "flange_bottom_diameter_mm", "flange_bottom_offset_mm" })
                 if (!result.ContainsKey(key)) Add(key, "Armatura", root + "/" + key);
             Add("barre_manuali", "Armatura", root + "/barre_manuali");
+            foreach (string layer in new[] { "inner", "top", "bottom" })
+                Add("second_" + layer + "_enabled", "Armatura", root + "/second_" + layer + "_enabled", forced: JsonValue.Create(input.B("second_" + layer + "_enabled")));
+            Add("staffe_presenti", "Armatura", root + "/staffe_presenti", forced: input["staffe_presenti"] ?? JsonValue.Create("Sì"));
+            if (module == "str_palo")
+            {
+                Add("foro_presente", "Geometria", root + "/foro_presente", forced: input["foro_presente"] ?? JsonValue.Create(false));
+                foreach (string dimension in new[] { "inner_diameter_mm", "inner_width_mm", "inner_height_mm" })
+                    if (!result.ContainsKey(dimension)) Add(dimension, "Geometria", root + "/" + dimension);
+            }
             Add("esposizione", "Materiali", module == "str_palo" ? "workspace_ca/sle_comuni/esposizione" : "sezione/esposizione",
                 forced: JsonValue.Create(module == "str_palo" ? (data["workspace_ca"]?["sle_comuni"] ?? data["workspace_ca"]?["sle"]?["SLE"]).S("esposizione", "Da scegliere") : data["sezione"].S("esposizione", "Da scegliere")));
             if (module == "str_palo")
@@ -148,6 +157,8 @@ public static partial class ProjectSharedData
             effectiveTarget["dati"] = data.DeepClone();
             if (groups.Contains("Geometria") && (keys is null || keys.Contains("shape")) && source.S("modulo_id") == PaloOrizzontale.Module && target.S("modulo_id") == "str_palo")
                 effectiveTarget["dati"]!["input"]!["shape"] = "Circolare";
+            if (groups.Contains("Materiali") && (keys is null || keys.Contains("Scheda CLS · scelte/deviationControl")) && source.S("modulo_id") == "mat_calcestruzzo" && target.S("modulo_id") == "mat_calcestruzzo")
+                Put(effectiveTarget["dati"]!.AsObject(), "scelte/deviationControl", source["dati"]?["scelte"]?["deviationControl"] ?? JsonValue.Create("Ordinario"));
             var governed = authorities?.SelectMany(s => ComparableFields(s, effectiveTarget).Concat(Common(s, effectiveTarget))).Select(p => p.Source.Key).ToHashSet() ?? [];
             foreach (var (a, b) in Common(source, effectiveTarget).Where(p => groups.Contains(p.Source.Group) && (keys is null || keys.Contains(p.Source.Key)) && !governed.Contains(p.Source.Key)))
             {

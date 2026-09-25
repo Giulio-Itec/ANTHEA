@@ -70,7 +70,7 @@ internal sealed partial class ConcreteWorkspace
         }
         var fields = new List<Field> { new("modello", "Modello", Choices: ["Con staffe", "Senza staffe"]), new("parametri", "Parametri geometrici", Choices: ["Automatici da sezione", "Manuali"]), new("ancoraggio", "Asl automatica efficacemente ancorata", Choices: ["Da verificare", "Confermato"]) };
         foreach (var axis in new[] {"x","y"})
-            fields.AddRange([new("bw_"+axis,"bw · "+axis,"mm"),new("d_"+axis,"d utile · "+axis,"mm"),new("asl_"+axis,"Asl ancorata · "+axis,"mm²"),new("rami_"+axis,"Rami staffa · "+axis),new("alpha_"+axis,"α staffa · "+axis,"°"),new("cot_"+axis,"cot θ · "+axis+" (vuoto: auto)")]);
+            fields.AddRange([new("bw_"+axis,"bw · "+axis,"mm"),new("d_"+axis,"d utile · "+axis,"mm"),new("asl_"+axis,"Asl ancorata · "+axis,"mm²"),new("alpha_"+axis,"α staffa · "+axis,"°"),new("cot_"+axis,"cot θ · "+axis+" (vuoto: auto)")]);
         shearForm = new InputForm(options, fields, key => { if(key=="modello"&&options.S("modello")=="Con staffe"&&Input.S("staffe_presenti")=="No"){Input["staffe_presenti"]="Sì";Invalidate();} EnableFields(); RefreshAutomaticShear(); SynchronizeStirrups(); InvalidateActions("Taglio"); }, true, true);
         foreach (var axis in new[] { "x", "y" }) shearForm.GroupFields("Direzione V" + axis, new[] { "bw_", "d_", "asl_", "rami_", "alpha_", "cot_" }.Select(f => f + axis).ToArray(), true);
         EnableFields(); RefreshAutomaticShear();
@@ -91,7 +91,7 @@ internal sealed partial class ConcreteWorkspace
         shearGrid.SelectionChanged += (_, _) => UpdateShearSelection();
         shearGrid.IsVisibleChanged += (_, _) => { if (shearGrid.IsVisible) UpdateShearSelection(); };
         var detailTabs = new TabControl { SelectedIndex = 1 }; Ui.Tab(detailTabs, "Dettagli combinazione", Scroller(shearDetail)); Ui.Tab(detailTabs, "Riepilogo verifiche", Scroller(shearWorst));
-        return AnalysisLayout(Panel("Taglio e torsione", Scroller(Ui.Stack(Group("Staffe · dati comuni", BuildStirrups(), true), shearForm,Group("Torsione / modello circolare",BuildTorsionOptions(),true),shearAutomaticNote)), "Azioni di progetto già combinate · assi locali"),
+        return AnalysisLayout(Panel("Taglio e torsione", Scroller(Ui.Stack(Group("Staffe · dati comuni", BuildStirrups(readOnly: true)), shearForm,Group("Torsione / modello circolare",BuildTorsionOptions(),true),shearAutomaticNote)), "Azioni di progetto già combinate · assi locali"),
             new ViewportFrame("Sezione · riferimenti geometrici", shearView, shearView.ResetView), detailTabs,
             Panel("Combinazioni e resistenze",Ui.Dock(WithFilters(shearGrid),bottom:Ui.Stack(buttons,shearSummary))));
     }

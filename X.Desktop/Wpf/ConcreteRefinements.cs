@@ -115,38 +115,41 @@ internal sealed partial class ConcreteWorkspace
             Apply(); if (panel.ThreeD) panel.View3D!.FitView(); else panel.Plot.ResetView(); Modified?.Invoke();
         }));
     }
-    private void RefreshVerificationSummaries()
+    private Dictionary<string, VerificationSummary> CollectVerificationSummaries()
     {
+        var result = new Dictionary<string, VerificationSummary>();
         string Name(string key, string id) => actions[key].FirstOrDefault(r => r.Values.S("id") == id)?.Values.S("nome") ?? id;
-        void Domain(VerificationCards cards, string prefix, string key) => cards.AddCheck(prefix + " · " + SectionWorkspace.Label(key), actions[key].Count,
-            domainResults.GetValueOrDefault(prefix + ":" + key)?.Select(kv => (Name(key, kv.Key), kv.Value.Utilization, (bool?)null)) ?? []);
-        void Stress(VerificationCards cards, string key)
+        foreach (string key in new[] { "SLU", "SLV" }) foreach (string prefix in new[] { "3D", "2D" })
+            result[prefix + ":" + key] = VerificationSummary.Create(prefix + " · " + SectionWorkspace.Label(key), actions[key].Count,
+                domainResults.GetValueOrDefault(prefix + ":" + key)?.Select(kv => (Name(key, kv.Key), kv.Value.Utilization, (bool?)null)) ?? []);
+        foreach (string key in SectionWorkspace.Sets.Skip(2))
         {
             var values = stressResults.GetValueOrDefault(key);
-            if (SleCheckScope.Stress(key)) cards.AddCheck(SectionWorkspace.Label(key) + " · tensioni", actions[key].Count, values?.Select(kv => (Name(key, kv.Key), kv.Value.Ratio, (bool?)null)) ?? []);
-            if (SleCheckScope.Cracking(key, settings)) cards.AddCheck(SectionWorkspace.Label(key) + " · fessurazione", actions[key].Count, values?.Select(kv => (Name(key, kv.Key), kv.Value.CrackResult?.Ratio, kv.Value.CrackResult?.Passed)) ?? []);
+            if (SleCheckScope.Stress(key)) result[key + ":tensioni"] = VerificationSummary.Create(SectionWorkspace.Label(key) + " · tensioni", actions[key].Count, values?.Select(kv => (Name(key, kv.Key), kv.Value.Ratio, (bool?)null)) ?? []);
+            if (SleCheckScope.Cracking(key, settings)) result[key + ":fessurazione"] = VerificationSummary.Create(SectionWorkspace.Label(key) + " · fessurazione", actions[key].Count, values?.Select(kv => (Name(key, kv.Key), kv.Value.CrackResult?.Ratio, kv.Value.CrackResult?.Passed)) ?? []);
         }
+        for (int axis = 0; axis < 2; axis++)
+        {
+            int index = axis;
+            result[axis == 0 ? "Taglio:x" : "Taglio:y"] = VerificationSummary.Create(axis == 0 ? "Taglio Vx" : "Taglio Vy", shearGrid?.Rows.Count ?? 0, shearResults.Select(kv =>
+                (shearGrid?.Rows.FirstOrDefault(r => r.Values.S("id") == kv.Key)?.Values.S("nome") ?? kv.Key, kv.Value[index].Ratio, (bool?)null)));
+        }
+        int torques = shearGrid?.Rows.Count(r => J.Number(r.Values["T"]) is double t && t != 0) ?? 0;
+        if (torques > 0) result["Taglio:torsione"] = VerificationSummary.Create("Torsione e interazione V–T", torques, torsionResults.Select(kv =>
+            (shearGrid?.Rows.FirstOrDefault(r => r.Values.S("id") == kv.Key)?.Values.S("nome") ?? kv.Key,
+                kv.Value.TorsionRatio is double et && kv.Value.ConcreteCombinedRatio is double ec && kv.Value.SteelCombinedRatio is double es ? (double?)Math.Max(et, Math.Max(ec, es)) : null, (bool?)kv.Value.Passed)));
+        return result;
+    }
+    private void RefreshVerificationSummaries()
+    {
+        var results = CollectVerificationSummaries();
+        void Fill(VerificationCards cards, Func<string, bool> include)
+        { cards.Start(); foreach (var (key, summary) in results.Where(p => include(p.Key))) cards.AddSummary(summary); }
         foreach (var (key, cards) in summaries)
-        {
-            cards.Start();
-            if (key is "SLU" or "SLV") { Domain(cards, "3D", key); Domain(cards, "2D", key); }
-            else Stress(cards, key);
-        }
-        foreach (var panel in domainPanels) { panel.Summary.Start(); foreach (string key in new[] { "SLU", "SLV" }) Domain(panel.Summary, panel.ThreeD ? "3D" : "2D", key); }
-        foreach (var panel in stressPanels.Values) { panel.Summary.Start(); foreach (string key in SectionWorkspace.Sets.Skip(2)) Stress(panel.Summary, key); }
-        foreach (var cards in new[] { shearWorst, shearDashboard })
-        {
-            cards.Start();
-            for (int axis = 0; axis < 2; axis++)
-            {
-                int index = axis;
-                cards.AddCheck(axis == 0 ? "Taglio Vx" : "Taglio Vy", shearGrid?.Rows.Count ?? 0, shearResults.Select(kv =>
-                    (shearGrid?.Rows.FirstOrDefault(r => r.Values.S("id") == kv.Key)?.Values.S("nome") ?? kv.Key, kv.Value[index].Ratio, (bool?)null)));
-            }
-            int torques=shearGrid?.Rows.Count(r=>J.Number(r.Values["T"]) is double t&&t!=0)??0;
-            if(torques>0)cards.AddCheck("Torsione e interazione V–T",torques,torsionResults.Select(kv=>(shearGrid?.Rows.FirstOrDefault(r=>r.Values.S("id")==kv.Key)?.Values.S("nome")??kv.Key,
-                kv.Value.TorsionRatio is double et&&kv.Value.ConcreteCombinedRatio is double ec&&kv.Value.SteelCombinedRatio is double es?(double?)Math.Max(et,Math.Max(ec,es)):null,(bool?)kv.Value.Passed)));
-        }
+            Fill(cards, k => key is "SLU" or "SLV" ? k.EndsWith(":" + key) : k.StartsWith(key + ":"));
+        foreach (var panel in domainPanels) Fill(panel.Summary, k => k.StartsWith(panel.ThreeD ? "3D:" : "2D:"));
+        foreach (var panel in stressPanels.Values) Fill(panel.Summary, k => k.StartsWith("SLE"));
+        foreach (var cards in new[] { shearWorst, shearDashboard }) Fill(cards, k => k.StartsWith("Taglio:"));
     }
     private static string WorstSummary(string title, int total, IEnumerable<(string Name, double? Ratio, string Status)> source)
     {
