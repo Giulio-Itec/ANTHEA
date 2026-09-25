@@ -13,6 +13,9 @@ internal sealed partial class BridgeWorkspace
     private readonly TextBlock inputTitle = Ui.Text("", 15, true), inputSubtitle = Ui.Text("", 11, color: Ui.Muted);
     private readonly VerificationCards summaryCards = new();
     private readonly ProgressBar progress = new() { Height = 3, IsIndeterminate = true, Visibility = Visibility.Collapsed };
+    private readonly TextBlock resultNotice = Ui.Text("", 12, true, Ui.Brush("#8B5916"));
+    private UIElement stageControls = null!;
+    internal readonly CheckBox GeometryLabels = new() { Content = "Quote sezione", Margin = new Thickness(8, 6, 4, 4) }, RebarLabels = new() { Content = "Info armature", Margin = new Thickness(8, 6, 4, 4) };
     private JsonObject viewSettings = null!;
     internal readonly Dictionary<string, Grid> Splits = new();
     private int currentPage = -1;
@@ -39,15 +42,25 @@ internal sealed partial class BridgeWorkspace
     {
         if (Data["ui_mista"] is not JsonObject) Data["ui_mista"] = new JsonObject();
         viewSettings = Data["ui_mista"]!.AsObject();
+        followLatestStage = viewSettings.B("segui_ultima_fase", !viewSettings.ContainsKey("fase"));
         MigrateViewSettings();
+        if (viewSettings.D("layout_version") < 4)
+        {
+            foreach (string key in new[] { "risultato_0", "risultato_1" })
+                if (viewSettings.ContainsKey(key)) viewSettings[key] = new[] { 3, 1, 2 }[Math.Clamp((int)viewSettings.D(key), 0, 2)];
+            viewSettings["layout_version"] = 4;
+        }
+        BuildSectionProperties();
         foreach (var (number, title) in new[] { ("01", "Pannello di controllo"), ("02", "Fasi e tensioni") })
             Pages.Items.Add(new TabItem { Header = Ui.Bar(Ui.Text(number, 11, true, Ui.Muted), Ui.Text("  " + title, 14, true)), Padding = new Thickness(14, 9, 14, 9) });
 
         inputSubtitle.Margin = new Thickness(0, 5, 0, 10);
         var selectionLabel = Ui.Text("Risultati cumulati fino alla fase", 12, true); selectionLabel.Margin = new Thickness(0, 3, 0, 3);
         StageChoice.HorizontalAlignment = HorizontalAlignment.Stretch; StageChoice.MaxWidth = double.PositiveInfinity;
-        var inputHeading = Ui.Stack(inputTitle, inputSubtitle, selectionLabel, StageChoice,
-            Ui.Text("Grafico e risultati includono le fasi attive precedenti.", 11, color: Ui.Muted)); inputHeading.Margin = new Thickness(0, 0, 0, 10);
+        stageControls = Ui.Stack(selectionLabel, StageChoice, Ui.Button("Mostra tutte le fasi → ultima situazione", () =>
+        { followLatestStage = true; StageChoice.SelectedIndex = StageChoice.Items.Count - 1; ViewChanged(); }),
+            Ui.Text("Grafico e risultati includono le fasi attive fino alla situazione scelta.", 11, color: Ui.Muted));
+        var inputHeading = Ui.Stack(inputTitle, inputSubtitle, stageControls); inputHeading.Margin = new Thickness(0, 0, 0, 10);
         var left = Ui.Paper(Ui.Dock(inputHost, inputHeading), 14);
 
         Drawing.MinHeight = 160;
@@ -55,15 +68,24 @@ internal sealed partial class BridgeWorkspace
         DisplayChoice.Width = 170; Viewport.Toolbar.Children.Insert(0, DisplayChoice);
         Viewport.Toolbar.Children.Add(Ui.Button("−", () => Drawing.ZoomBy(.85)));
         Viewport.Toolbar.Children.Add(Ui.Button("+", () => Drawing.ZoomBy(1.15)));
+        Viewport.Toolbar.Children.Add(GeometryLabels); Viewport.Toolbar.Children.Add(RebarLabels);
+        BuildStressScaleControls(); BuildContourControls();
+        foreach (var toggle in new[] { GeometryLabels, RebarLabels })
+        {
+            toggle.Checked += (_, _) => LabelOptionsChanged(); toggle.Unchecked += (_, _) => LabelOptionsChanged();
+        }
+        resultNotice.Margin = new Thickness(10, 6, 10, 6);
         overview.Margin = new Thickness(0, 12, 0, 10);
         warnings.Margin = new Thickness(0, 8, 0, 0);
-        var summary = Panel("Riepilogo della situazione", Scroll(Ui.Stack(summaryCards, overview,
+        analysisSidebar = Panel("Riepilogo della situazione", Scroll(Ui.Stack(summaryCards, overview,
             Ui.Text("Rapporti locali σ/limite · non rappresentano la verifica completa del ponte.", 11, color: Ui.Muted), warnings,
             Ui.Button("Dettagli sezione efficace ↓", () => Results.SelectedIndex = 2))), "Compressione − · trazione +");
-        var upper = Split(Viewport, summary, "risultati", false, .7, 460, 225);
+        sidebarHost.Content = analysisSidebar;
+        var sectionWithElevation = Ui.Dock(Viewport, bottom: BuildDetailSketch());
+        var upper = Split(sectionWithElevation, sidebarHost, "risultati", false, .7, 460, 250);
         var resultActions = Ui.Bar(Ui.Button("Esporta CSV…", ExportCsv));
-        var table = Panel("Risultati della sezione", Ui.Dock(Results, bottom: resultActions), "Situazione selezionata · contributi incrementali e somma · mm, MPa, kN, kNm");
-        var right = Split(upper, table, "righe", true, .63, 290, 190);
+        var table = Panel("Sollecitazioni e risultati", Ui.Dock(Results, bottom: resultActions), "Sollecitazioni: tutte le fasi · risultati: situazione selezionata · mm, MPa, kN, kNm");
+        var right = Split(upper, table, "righe", true, .56, 290, 250);
         var layout = Split(left, right, "ingressi", false, .29, 285, 710);
         layout.Margin = new Thickness(12, 10, 12, 0);
         var footer = new DockPanel { Margin = new Thickness(16, 4, 16, 8) }; footer.Children.Add(status);
@@ -71,7 +93,7 @@ internal sealed partial class BridgeWorkspace
         var information = Ui.Button("Info modello…", ShowModelInformation); information.Margin = new Thickness(8, 8, 16, 0);
         information.VerticalAlignment = VerticalAlignment.Center; DockPanel.SetDock(information, Dock.Right);
         header.Children.Add(information); header.Children.Add(Pages);
-        var body = Ui.Dock(layout, header, Ui.Stack(progress, footer));
+        var body = Ui.Dock(layout, Ui.Stack(header, resultNotice), Ui.Stack(progress, footer));
         var scroll = new ChainedScrollViewer { Content = body, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
         Content = scroll;
         void Resize()
@@ -132,23 +154,51 @@ internal sealed partial class BridgeWorkspace
         if (page == 1) BuildPhases();
         inputHost.Content = pageInputs[page]; currentPage = page; viewSettings["tab"] = page;
         inputTitle.Text = new[] { "Definizione della sezione", "Fasi, omogeneizzazione e limiti" }[page];
-        inputSubtitle.Text = new[] { "Geometria e materiali comuni · risultati dipendenti dalle azioni", "Carichi incrementali · omogeneizzazione da φ oppure n" }[page];
-        DisplayChoice.SelectedIndex = Math.Clamp((int)viewSettings.D("vista_" + page, new[] { 2, 0 }[page]), 0, 2);
-        Drawing.Mode = DisplayChoice.SelectedIndex; Drawing.InvalidateVisual();
-        Results.SelectedIndex = Math.Clamp((int)viewSettings.D("risultato_" + page, new[] { 2, 0 }[page]), 0, 2);
+        inputSubtitle.Text = new[] { "Geometria, materiali e armature · dimensioni in mm", "Carichi incrementali · φ, ψL e n sincronizzati" }[page];
+        stageControls.Visibility = DisplayChoice.Visibility = page == 0 ? Visibility.Collapsed : Visibility.Visible;
+        DisplayChoice.SelectedIndex = page == 0 ? 2 : Math.Clamp((int)viewSettings.D("vista_1", 0), 0, 2);
+        GeometryLabels.IsChecked = viewSettings.B("quote_" + page, page == 0);
+        RebarLabels.IsChecked = viewSettings.B("armature_" + page, page == 0);
+        SetAnalysisPanels(page == 1);
+        detailExpander.Visibility = page == 0 && (Data.B("irrigidimenti") || Data.B("appoggio")) ? Visibility.Visible : Visibility.Collapsed;
+        Results.SelectedIndex = Math.Clamp((int)viewSettings.D("risultato_" + page, new[] { 2, 0 }[page]), 0, 4);
         selectingPage = false;
+        RefreshDrawing();
     }
     private void SaveView()
     {
         if (currentPage < 0) return;
         viewSettings["vista_" + currentPage] = DisplayChoice.SelectedIndex;
         viewSettings["risultato_" + currentPage] = Results.SelectedIndex;
+        viewSettings["quote_" + currentPage] = GeometryLabels.IsChecked == true;
+        viewSettings["armature_" + currentPage] = RebarLabels.IsChecked == true;
         if (StageChoice.SelectedIndex >= 0) viewSettings["fase"] = StageChoice.SelectedIndex;
+        viewSettings["segui_ultima_fase"] = followLatestStage;
     }
     private void ViewChanged()
     {
         if (building || selectingPage || Busy) return;
         SaveView(); Modified?.Invoke();
+    }
+    private void LabelOptionsChanged()
+    {
+        Drawing.ShowGeometryLabels = GeometryLabels.IsChecked == true;
+        Drawing.ShowRebarLabels = RebarLabels.IsChecked == true;
+        Drawing.InvalidateVisual(); ViewChanged();
+    }
+    private void SetAnalysisPanels(bool visible)
+    {
+        var upper = Splits["risultati"]; var right = Splits["righe"];
+        sidebarHost.Content = visible ? analysisSidebar : propertiesSidebar;
+        right.Children[1].Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        right.Children.OfType<GridSplitter>().Single().Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        upper.ColumnDefinitions[2].MinWidth = 250;
+        upper.ColumnDefinitions[1].Width = new GridLength(8);
+        SetSplit(upper, false, viewSettings.D(visible ? "split_risultati" : "split_proprieta", .7));
+        right.RowDefinitions[2].MinHeight = visible ? 250 : 0;
+        right.RowDefinitions[1].Height = new GridLength(visible ? 8 : 0);
+        if (visible) { SetSplit(upper, false, viewSettings.D("split_risultati", .7)); SetSplit(right, true, viewSettings.D("split_righe", .56)); }
+        else { right.RowDefinitions[0].Height = new(1, GridUnitType.Star); right.RowDefinitions[2].Height = new(0); }
     }
     private Grid Split(UIElement first, UIElement second, string key, bool rows, double initial, double firstMin, double secondMin)
     {
@@ -177,7 +227,7 @@ internal sealed partial class BridgeWorkspace
             double a = rows ? grid.RowDefinitions[0].ActualHeight : grid.ColumnDefinitions[0].ActualWidth;
             double b = rows ? grid.RowDefinitions[2].ActualHeight : grid.ColumnDefinitions[2].ActualWidth;
             if (a + b <= 0) return;
-            double value = Math.Clamp(a / (a + b), .15, .85); SetSplit(grid, rows, value); viewSettings["split_" + key] = value; Modified?.Invoke();
+            double value = Math.Clamp(a / (a + b), .15, .85); SetSplit(grid, rows, value); viewSettings["split_" + (key == "risultati" && currentPage == 0 ? "proprieta" : key)] = value; Modified?.Invoke();
         };
         return grid;
     }

@@ -1,6 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><AssemblyName>ANTHEA.Core</AssemblyName><Product>ANTHEA</Product><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
   <ItemGroup>
+    <!-- Until the bundled Checker DLL is updated, compile the same pure library source. -->
+    <Compile Include="../../Checker/GPCChecker.Steel/CompositeBridges/BridgeShearConnection.cs" Link="Checker/BridgeShearConnection.cs" />
+    <Compile Include="../../Checker/GPCChecker.Steel/CompositeBridges/BridgeBendingShear.cs" Link="Checker/BridgeBendingShear.cs" />
+    <Compile Include="../../Checker/GPCChecker.Steel/CompositeBridges/BridgeLocalDetails.cs" Link="Checker/BridgeLocalDetails.cs" />
     <EmbeddedResource Include="Templates/ANTHEA_Sollecitazioni.xlsx" LogicalName="ANTHEA.Sollecitazioni.xlsx" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
     <Reference Include="GPCChecker.Concrete"><HintPath>../lib/Checker/GPCChecker.Concrete.dll</HintPath><Private>true</Private></Reference>

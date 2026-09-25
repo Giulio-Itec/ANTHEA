@@ -20,7 +20,7 @@ public sealed partial class MainWindow
                 ("risultato_0", 2), ("risultato_1", 1), ("risultato_2", 0), ("fase", 1), ("split_ingressi", .34));
             using var legacy = new BridgeWorkspace(legacyData);
             if (legacy.Pages.SelectedIndex != Math.Min(oldPage, 1) || legacy.DisplayChoice.SelectedIndex != new[] { 2, 1, 0 }[oldPage] ||
-                legacy.Results.SelectedIndex != new[] { 2, 1, 0 }[oldPage] || legacyData["ui_mista"].D("fase") != 1 || legacyData["ui_mista"].D("split_ingressi") != .34)
+                legacy.Results.SelectedIndex != new[] { 2, 1, 3 }[oldPage] || legacyData["ui_mista"].D("fase") != 1 || legacyData["ui_mista"].D("split_ingressi") != .34)
                 throw new Exception("Migrazione dalle tre schede perde la vista attiva o le preferenze.");
         }
         document = Archivio.Documento(BridgeSection.Module); document["dati"]!["plate2"] = true;
@@ -35,7 +35,12 @@ public sealed partial class MainWindow
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         }
         await Wait();
-        if (bridge.Pages.Items.Count != 2 || bridge.Results.Items.Count != 3 || bridge.Pages.SelectedIndex != 1 || bridge.Results.SelectedIndex != 1 || bridge.DisplayChoice.SelectedIndex != 1)
+        await CheckBridgeGeometryView(bridge, Wait, directory);
+        await CheckBridgeStressView(bridge, Wait, directory);
+        await CheckBridgeShrinkageUi(directory);
+        await CheckBridgeShearUi(directory);
+        await CheckBridgeDetailsUi(directory);
+        if (bridge.Pages.Items.Count != 2 || bridge.Results.Items.Count != 5 || bridge.Pages.SelectedIndex != 1 || bridge.Results.SelectedIndex != 1 || bridge.DisplayChoice.SelectedIndex != 1)
             throw new Exception("Disposizione compatta o migrazione della precedente scheda Omogeneizzazione non riuscita.");
         var initialCalculation = bridge.Calculation;
         for (int input = 0; input < bridge.Pages.Items.Count; input++)
@@ -52,14 +57,23 @@ public sealed partial class MainWindow
         _ = Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
         {
             var info = Application.Current.Windows.OfType<Window>().Single(w => w.Title == "Sezione composta · informazioni sul modello");
-            info.UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, "mista_info.png"), Ui.Snapshot(info)); info.Close();
+            info.UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, "mista_info.png"), Ui.Snapshot(info));
+            var sketches = Ui.Descendants<BridgeMethodSketch>(info).ToArray();
+            if (sketches.Length != 4) throw new Exception("Schemi esplicativi del modello incompleti.");
+            foreach (var sketch in sketches)
+            {
+                sketch.BringIntoView(); info.UpdateLayout();
+                File.WriteAllBytes(Path.Combine(directory, $"modello_schema_{sketch.Kind}.png"), Ui.Snapshot(sketch));
+                File.WriteAllBytes(Path.Combine(directory, $"modello_pagina_{sketch.Kind}.png"), Ui.Snapshot(info));
+            }
+            info.Close();
         }));
         Ui.Descendants<Button>(bridge).Single(b => b.Content?.ToString() == "Info modello…").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         if (!ReferenceEquals(initialCalculation, bridge.Calculation)) throw new Exception("Le informazioni sul modello modificano il risultato.");
         var lastMoment = (TextBox)bridge.InputForms.Last(f => f.Editors.ContainsKey("Mx")).Editors["Mx"];
         var oldMoment = bridge.Data.Array("fasi").Last().D("Mx");
         lastMoment.BringIntoView(); lastMoment.Focus(); lastMoment.Text = (oldMoment + 500).ToString(System.Globalization.CultureInfo.InvariantCulture);
-        bridge.StageChoice.Focus();
+        bridge.Drawing.Focus();
         if (bridge.Calculation is not null) throw new Exception("Modifica delle azioni conserva risultati obsoleti.");
         await Wait();
         if (!initialCalculation!.Stages[0].Points.Select(p => p.Stress).SequenceEqual(bridge.Calculation!.Stages[0].Points.Select(p => p.Stress)) ||
@@ -73,12 +87,13 @@ public sealed partial class MainWindow
             throw new Exception("La scelta dei limiti deve aggiornare le verifiche mantenendo le tensioni elastiche.");
         stateChoice.SelectedItem = "SLU"; await Wait();
         lastMoment.Text = oldMoment.ToString(System.Globalization.CultureInfo.InvariantCulture); await Wait();
+        await CheckBridgeOptions(bridge, Wait, directory);
         bridge.Pages.SelectedIndex = 0;
         bridge.StageChoice.SelectedIndex = 0;
-        if (!ReferenceEquals(bridge.Drawing.Stage, bridge.Calculation!.Stages[0])) throw new Exception("Il pannello di controllo non segue la situazione selezionata.");
+        if (bridge.Drawing.Stage is not null || bridge.Drawing.Mode != 2 || bridge.StageChoice.IsVisible || bridge.DisplayChoice.IsVisible) throw new Exception("Il pannello di controllo contiene ancora la selezione o il grafico delle tensioni.");
         bridge.StageChoice.SelectedIndex = bridge.Calculation.Stages.Count - 1;
         bridge.Pages.SelectedIndex = 1;
-        bridge.Results.SelectedIndex = 0;
+        bridge.Results.SelectedIndex = 3;
         bridge.DisplayChoice.SelectedIndex = 0;
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         File.WriteAllBytes(Path.Combine(directory, "mista_fasi_tensioni.png"), Ui.Snapshot(this));
@@ -98,7 +113,7 @@ public sealed partial class MainWindow
             if (bridge.Drawing.ActualWidth > bridge.ActualWidth - 380) throw new Exception("La scheda risultati espande la viewport oltre il pannello.");
             File.WriteAllBytes(Path.Combine(directory, $"mista_risultati_{result}.png"), Ui.Snapshot(this));
         }
-        bridge.Results.SelectedIndex = 0; bridge.DisplayChoice.SelectedIndex = 1;
+        bridge.Results.SelectedIndex = 3; bridge.DisplayChoice.SelectedIndex = 1;
         for (int stage = 0; stage < bridge.Calculation!.Stages.Count; stage++)
         {
             bridge.StageChoice.SelectedIndex = stage;
@@ -118,7 +133,7 @@ public sealed partial class MainWindow
         var beforeTyping = bridge.Calculation;
         webEditor.Text = "10.123456789";
         if (bridge.Data.D("t_web") != 14 || !ReferenceEquals(beforeTyping, bridge.Calculation)) throw new Exception("Input numerico acquisito prima dell'uscita dal campo.");
-        bridge.StageChoice.Focus();
+        bridge.Drawing.Focus();
         if (bridge.Calculation is not null || bridge.Data.D("t_web") != 10.123456789) throw new Exception("Uscita dal campo non acquisisce il valore completo.");
         await Wait();
         if (bridge.Calculation!.Geometry.WebThickness != 10.123456789 || web.Get("t_web") != "10.123456789") throw new Exception("Presentazione numerica perde precisione.");
@@ -131,7 +146,7 @@ public sealed partial class MainWindow
         File.WriteAllBytes(Path.Combine(directory, "mista_classe4.png"), Ui.Snapshot(this));
         ((TextBox)web.Editors["t_web"]).Text = "invalido";
         await Task.Delay(650);
-        if (bridge.Calculation is not null || bridge.Drawing.Stage is not null || bridge.Drawing.Geometry is not null) throw new Exception("Dati invalidi lasciano risultati o geometria obsoleti.");
+        if (bridge.Calculation is not null || bridge.Drawing.Stage is null || bridge.Drawing.Geometry is null || !bridge.Drawing.IsStale) throw new Exception("Dati invalidi perdono l'ultimo risultato o lo presentano come corrente.");
         ((TextBox)web.Editors["t_web"]).Text = "10"; await Wait();
         var split = bridge.Splits["ingressi"];
         split.ColumnDefinitions[0].Width = new GridLength(.34, GridUnitType.Star); split.ColumnDefinitions[2].Width = new GridLength(.66, GridUnitType.Star); UpdateLayout();
@@ -170,7 +185,7 @@ public sealed partial class MainWindow
             using var stream = projectZip.GetEntry("word/document.xml")!.Open(); var xml = System.Xml.Linq.XDocument.Load(stream).ToString();
             if (projectZip.Entries.Count(e => e.FullName.StartsWith("word/media/")) != 4 || !xml.Contains("Situazione 3 dopo") || !xml.Contains("Geometria e armature")) throw new Exception("Report di progetto perde dati o grafici della sezione composta.");
         }
-        File.WriteAllText(Path.Combine(directory, "smoke.txt"), "OK: due schede numerate, tre gruppi di risultati, migrazione delle disposizioni precedenti, limiti e fasi nella stessa scheda, finestra informativa dedicata, aggiornamento dei risultati dopo modifica delle azioni, tre situazioni, navigazione senza invalidazione, geometria a due piastre, viewport condivisa con CA, espansione/rientro e PNG, 1600/1366/960, input a fine modifica con precisione conservata, calcolo automatico, invalidazione, dati non validi, Home/Riprendi, archivio e riapertura, persistenza scheda e separatori, export JSON, report Word completo con quattro immagini, selezione contenuti, nessuna modifica al risultato, integrazione nella relazione di progetto.");
+        File.WriteAllText(Path.Combine(directory, "smoke.txt"), "OK: due schede numerate, cinque gruppi di risultati, migrazione delle disposizioni precedenti, limiti e fasi nella stessa scheda, finestra informativa dedicata, aggiornamento dei risultati dopo modifica delle azioni, tre situazioni, navigazione senza invalidazione, geometria a due piastre, viewport condivisa con CA, espansione/rientro e PNG, 1600/1366/960, input a fine modifica con precisione conservata, calcolo automatico, invalidazione, dati non validi, Home/Riprendi, archivio e riapertura, persistenza scheda e separatori, export JSON, report Word completo con quattro immagini, selezione contenuti, nessuna modifica al risultato, integrazione nella relazione di progetto.");
         dirty = false;
     }
 }

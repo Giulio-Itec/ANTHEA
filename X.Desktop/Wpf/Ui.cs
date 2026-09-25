@@ -312,6 +312,7 @@ internal sealed class JsonRow : INotifyPropertyChanged
     private readonly Action<string>? changed;
     public event PropertyChangedEventHandler? PropertyChanged;
     internal JsonRow(JsonObject values, Action<string>? changed = null) { Values = values; this.changed = changed; }
+    internal void Refresh() => Notify();
     public object? this[string key]
     {
         get => Values[key] is JsonValue v && v.TryGetValue<bool>(out var b) ? b : Values.S(key);

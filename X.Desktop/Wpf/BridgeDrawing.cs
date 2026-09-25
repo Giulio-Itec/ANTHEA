@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -7,11 +8,22 @@ using X.Core;
 namespace X.Desktop;
 
 /// <summary>Native WPF vector viewport. Drawing coordinates and result coordinates share y=0 at the interface.</summary>
-internal sealed class BridgeDrawing : FrameworkElement
+internal sealed partial class BridgeDrawing : FrameworkElement
 {
     internal BridgeGeometry? Geometry { get; set; }
     internal BridgeStage? Stage { get; set; }
     internal int Mode { get; set; }
+    internal double? LoadY { get; set; }
+    internal Point? LoadMarker { get; private set; }
+    internal JsonObject? Input { get; set; }
+    internal bool ShowGeometryLabels { get; set; }
+    internal bool ShowRebarLabels { get; set; }
+    internal bool DetailAtSupport { get; set; }
+    internal bool IsStale { get; set; }
+    internal double ConcreteAmplification { get; set; } = 1;
+    internal BridgeLoadPoint[] LoadPoints { get; set; } = [];
+    internal List<string> VisibleTags { get; } = [];
+    internal List<Rect> TagBounds { get; } = [];
     private double zoom = 1;
     private Vector pan;
     private Point? drag;
@@ -20,7 +32,7 @@ internal sealed class BridgeDrawing : FrameworkElement
     internal BridgeDrawing()
     {
         ClipToBounds = true; Focusable = true;
-        ToolTip = "Rotella: zoom · trascina: sposta · doppio clic: adatta";
+        ToolTip = "Mirino verde: punto di applicazione N · rotella: zoom · trascina: sposta · doppio clic: adatta";
         MouseWheel += (_, e) => { ZoomBy(e.Delta > 0 ? 1.12 : .89); e.Handled = true; };
         MouseLeftButtonDown += (_, e) => { Focus(); if (e.ClickCount == 2) { ResetView(); return; } drag = e.GetPosition(this); CaptureMouse(); Cursor = Cursors.Hand; };
         MouseMove += (_, e) => { if (drag is not { } previous) return; var current = e.GetPosition(this); pan += current - previous; drag = current; InvalidateVisual(); };
@@ -31,6 +43,8 @@ internal sealed class BridgeDrawing : FrameworkElement
     internal void ResetView() { zoom = 1; pan = new(); InvalidateVisual(); }
     protected override void OnRender(DrawingContext dc)
     {
+        LoadMarker = null;
+        VisibleTags.Clear(); TagBounds.Clear(); StressLabels.Clear();
         double w = ActualWidth, h = ActualHeight; if (w < 80 || h < 80) return;
         dc.DrawRectangle(Ui.Brush("#F8FAFD"), null, new Rect(0, 0, w, h));
         void Text(string s, double x, double y, Brush? brush = null, double size = 11)
@@ -40,13 +54,17 @@ internal sealed class BridgeDrawing : FrameworkElement
         }
         if (Geometry is not { } g) { Text("Completa i dati geometrici per visualizzare la sezione.", 20, 35); return; }
         bool chart = Mode != 2 && Stage is not null;
-        double geoWidth = chart ? w * .57 : w - 30, totalH = g.Height + g.SlabHeight;
-        double scale = Math.Min((geoWidth - 100) / Math.Max(g.Width, Math.Max(g.TopWidth, g.Bottom1Width)), (h - 92) / totalH) * zoom;
-        double cx = geoWidth / 2 + pan.X, y0 = 45 + g.SlabHeight * scale + pan.Y;
+        double geoWidth = chart ? w * .45 : w - 30;
+        var loads = LoadPoints.Length > 0 ? LoadPoints : LoadY is { } reference ? [new BridgeLoadPoint(1, "N", reference, Stage?.Contributions.Sum(c => c.N) ?? 0)] : Array.Empty<BridgeLoadPoint>();
+        double topY = Math.Max(g.SlabHeight, loads.Select(p => p.Y).DefaultIfEmpty(g.SlabHeight).Max()), bottomY = Math.Min(-g.Height, loads.Select(p => p.Y).DefaultIfEmpty(-g.Height).Min()), totalH = topY - bottomY;
+        bool tags = !chart && (ShowGeometryLabels || ShowRebarLabels);
+        double tagWidth = Math.Clamp(geoWidth * .24, 150, 190), margin = tags ? 2 * (tagWidth + 25) : 100;
+        double scale = Math.Min(Math.Max(50, geoWidth - margin) / Math.Max(g.Width, Math.Max(g.TopWidth, g.Bottom1Width)), Math.Max(40, h - (chart ? 178 : 150)) / totalH) * zoom;
+        double cx = geoWidth / 2 + pan.X, y0 = (chart ? 84 : 60) + topY * scale + pan.Y;
         Point P(double x, double y) => new(cx + (x - g.Width / 2) * scale, y0 - y * scale);
         var outline = new Pen(Ui.Navy, 1);
         Rect R(double x, double y, double width, double height) => new(P(x, y + height), new Size(Math.Max(.6, width * scale), Math.Max(.6, height * scale)));
-        void Rectangle(double x, double y, double width, double height, Brush fill) => dc.DrawRectangle(fill, outline, R(x, y, width, height));
+        void Rectangle(double x, double y, double width, double height, Brush fill) => dc.DrawRectangle(SectionFill(y >= 0 ? "CLS" : "Acciaio", y, height, fill), outline, R(x, y, width, height));
         void Hatch(Rect r)
         {
             if (r.Height < .2 || r.Width < .2) return;
@@ -54,7 +72,7 @@ internal sealed class BridgeDrawing : FrameworkElement
             for (double k = r.Left - r.Height; k < r.Right; k += 7) dc.DrawLine(new Pen(Removed, 1.4), new(k, r.Bottom), new(k + r.Height, r.Top));
             dc.Pop();
         }
-        Text("SEZIONE  ·  mm", 12, 7, Ui.Muted, 10);
+        Text(IsStale ? "ULTIMO CALCOLO · DA AGGIORNARE" : "SEZIONE  ·  mm", 12, 7, IsStale ? Ui.Brush("#8B5916") : Ui.Muted, 10);
         Rectangle(0, 0, g.Width, g.SlabHeight, Concrete);
         Rectangle((g.Width - g.TopWidth) / 2, -g.TopThickness, g.TopWidth, g.TopThickness, Steel);
         double webX = (g.Width - g.WebThickness) / 2, webBottom = -g.TopThickness - g.WebHeight;
@@ -77,7 +95,7 @@ internal sealed class BridgeDrawing : FrameworkElement
             var pen = new Pen(Ui.Blue, 1) { DashStyle = DashStyles.Dash };
             dc.DrawRectangle(null, pen, R((g.Width - g.BottomEquivalentWidth) / 2, -g.Height, g.BottomEquivalentWidth, g.BottomEquivalentThickness));
         }
-        foreach (var b in g.Bars) dc.DrawEllipse(Bars, null, P(b.X, b.Y), Math.Max(1.8, b.Diameter * scale / 2), Math.Max(1.8, b.Diameter * scale / 2));
+        foreach (var b in g.Bars) dc.DrawEllipse(ContourSection && Stage is {} barStage ? new SolidColorBrush(StressColor("Armatura", barStage.Contributions.Sum(c => c.Stress("Armatura", b.Y)))) : Bars, null, P(b.X, b.Y), Math.Max(1.8, b.Diameter * scale / 2), Math.Max(1.8, b.Diameter * scale / 2));
         if (Stage is { } s)
         {
             if (missing > 1e-3)
@@ -105,52 +123,39 @@ internal sealed class BridgeDrawing : FrameworkElement
         double interfaceY = P(0, 0).Y;
         dc.DrawLine(new Pen(Ui.Muted, .7) { DashStyle = DashStyles.Dot }, new(12, interfaceY), new(geoWidth - 8, interfaceY));
         Text("y=0", 14, interfaceY + 3, Ui.Muted, 10);
-        var topLeft = P(0, g.SlabHeight); var topRight = P(g.Width, g.SlabHeight);
-        double dimY = topLeft.Y - 12;
-        dc.DrawLine(outline, new(topLeft.X, dimY), new(topRight.X, dimY));
-        foreach (double x in new[] { topLeft.X, topRight.X }) dc.DrawLine(outline, new(x, dimY - 4), new(x, dimY + 4));
-        Text($"b_eff = {BridgeWorkspace.F(g.Width)}", cx - 45, dimY - 19, Ui.Muted, 10);
-        Text($"h_w {BridgeWorkspace.F(g.WebHeight)}  ·  t_w {BridgeWorkspace.F(g.WebThickness)}", Math.Max(10, cx - 165), P(0, -g.Height).Y + 8, Ui.Muted, 10);
+        var groupedLoads = loads.GroupBy(p => Math.Round(p.Y, 6)).ToArray();
+        int loadRow = 0;
+        foreach (var group in groupedLoads)
+        {
+            // Target marks the application point; N acts normal to this section, not vertically.
+            var first = group.First(); var point = P(g.Width / 2, first.Y); LoadMarker ??= point;
+            var color = groupedLoads.Length == 1 ? Ui.Brush("#127A83") : Colors[(first.Index - 1) % Colors.Length]; var pen = new Pen(color, 1.6);
+            dc.DrawEllipse(Brushes.White, pen, point, 6, 6);
+            dc.DrawLine(pen, new(point.X - 10, point.Y), new(point.X + 10, point.Y));
+            dc.DrawLine(pen, new(point.X, point.Y - 10), new(point.X, point.Y + 10));
+            // Keep the readout outside the section so it cannot cover the neutral axis or dimensions.
+            if (loadRow < 3)
+            {
+                string label = groupedLoads.Length == 1 ? "N" : "N" + string.Join(",", group.Select(p => p.Index));
+                Text($"{label}  ·  y = {BridgeWorkspace.F(first.Y)} mm  ·  {BridgeWorkspace.F(group.Sum(p => p.Force))} kN", 12, h - 64 + loadRow * 14, color, 10);
+            }
+            loadRow++;
+        }
+        if (Stage is not null && (ContourSection || ContourDiagram))
+        {
+            Text("η = |σ|/limite", 12, 26, Ui.Navy, 10);
+            double lx = 105;
+            foreach (double u in new[] { 0d, .7, 1d, 1.01 })
+            { dc.DrawRectangle(new SolidColorBrush(UtilizationColor(u)), null, new Rect(lx, 28, 13, 10)); Text(u > 1 ? ">1" : BridgeWorkspace.F(u), lx + 16, 26, Ui.Muted, 9); lx += 43; }
+            Text("Viola: CLS teso · grigio: inattivo", 12, 42, Ui.Muted, 9);
+        }
+        DrawConnectors(dc, g, P, scale);
+        if (tags) DrawTags(dc, g, geoWidth, h, tagWidth, P);
+        if (loadRow > 3) Text("Altri punti N nella tabella Fasi e proprietà", 12, h - 19, Ui.Muted, 9);
+        else
         Text(g.Bottom2Thickness > 0 ? "Due piastre reali · contorno blu: equivalente" : "Geometria reale = geometria di calcolo", 12, h - 19, Ui.Muted, 10);
         if (!chart || Stage is not { } stage) return;
-        double left = geoWidth + 12, right = w - 20, originX = (left + right) / 2;
-        dc.DrawLine(new Pen(Ui.Brush("#E0E6EE"), 1), new(geoWidth, 8), new(geoWidth, h - 12));
-        Text(Mode == 1 ? "CONTRIBUTI  ·  MPa" : "TENSIONI TOTALI  ·  MPa", left, 7, Ui.Muted, 10);
-        double max = Math.Max(1, stage.Points.Max(p => Math.Abs(p.Stress)));
-        if (Mode == 1) max = Math.Max(max, stage.Points.SelectMany(p => p.Contributions).Select(Math.Abs).DefaultIfEmpty(1).Max());
-        double stressScale = Math.Max(1, (right - left) / 2 - 38) / max;
-        dc.DrawLine(new Pen(Ui.Muted, .7), new(originX, 30), new(originX, h - 40));
-        Text("−", left + 7, 24, Ui.Muted); Text("0", originX - 4, 24, Ui.Muted); Text("+", right - 10, 24, Ui.Muted);
-        void Curve(Func<double, double> sigma, double ya, double yb, Brush color, double thickness, bool annotate)
-        {
-            var a = new Point(originX + sigma(ya) * stressScale, P(0, ya).Y); var b = new Point(originX + sigma(yb) * stressScale, P(0, yb).Y);
-            dc.DrawLine(new Pen(color, thickness), a, b); dc.DrawEllipse(color, null, a, 2.2, 2.2); dc.DrawEllipse(color, null, b, 2.2, 2.2);
-            if (annotate)
-            {
-                Text(BridgeWorkspace.F(sigma(ya)), Math.Clamp(a.X + 5, left, right - 46), a.Y - 15, color, 10);
-                Text(BridgeWorkspace.F(sigma(yb)), Math.Clamp(b.X + 5, left, right - 46), b.Y + 2, color, 10);
-            }
-        }
-        if (Mode == 1)
-        {
-            for (int i = 0; i < stage.Contributions.Count; i++)
-            {
-                var c = stage.Contributions[i]; Brush color = Colors[i % Colors.Length];
-                Curve(c.SteelStress, 0, -g.Height, color, 1.5, false);
-                if (c.Kind == "Composta") Curve(y => c.Stress("CLS", y), g.SlabHeight, 0, color, 1.5, false);
-            }
-            // Numbers reference the editable phase order, never assume the default names.
-            int visible = Math.Min(stage.Contributions.Count, 5);
-            for (int i = 0; i < visible; i++) Text($"Δσ {i + 1}", left + i * 43, h - 35, Colors[i], 9);
-            if (stage.Contributions.Count > 5) Text("… tabella Fasi", left + 215, h - 35, Ui.Muted, 9);
-        }
-        Curve(y => stage.Contributions.Sum(c => c.SteelStress(y)), 0, -g.Height, Ui.Blue, Mode == 1 ? 1 : 2.2, Mode != 1);
-        if (stage.Contributions.Any(c => c.Kind == "Composta")) Curve(y => stage.Contributions.Sum(c => c.Stress("CLS", y)), g.SlabHeight, 0, Ui.Brush("#667085"), 2.2, Mode != 1);
-        foreach (var row in stage.Points.Where(p => p.Material == "Armatura" && p.Active))
-        {
-            var p = new Point(originX + row.Stress * stressScale, P(0, row.Y).Y); dc.DrawEllipse(Bars, null, p, 3, 3);
-        }
-        Text($"Scala ±{BridgeWorkspace.F(max)} MPa", left, h - 19, Ui.Muted, 10);
+        DrawStressDiagram(dc, g, stage, geoWidth, w, h, y => P(0, y).Y);
     }
 }
 

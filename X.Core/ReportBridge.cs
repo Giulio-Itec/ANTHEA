@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.IO.Compression;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Xml.Linq;
 
 namespace X.Core;
@@ -12,7 +13,7 @@ public static class ReportBridge
         ("normativa", "Normativa e coefficienti"), ("materiali", "Materiali e proprietà"),
         ("geometria", "Geometria e armature"), ("azioni", "Sollecitazioni e fasi"),
         ("omogeneizzazione", "Omogeneizzazione e proprietà per fase"), ("tensioni", "Tensioni totali e contributi"),
-        ("classe4", "Sezione efficace e parametri di classe 4"), ("grafici", "Geometria e diagrammi delle fasi")];
+        ("classe4", "Sezione efficace e parametri di classe 4"), ("taglio", "Taglio, irrigidimenti e pioli"), ("grafici", "Geometria e diagrammi delle fasi")];
     public static HashSet<string> DefaultSections() => Sections.Select(s => s.Key).ToHashSet();
 
     public static byte[] Create(string title, BridgeResult result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null)
@@ -30,14 +31,39 @@ public static class ReportBridge
         doc.H("Ambito e convenzioni"); doc.P(result.Scope);
         doc.P("Lunghezze in mm, tensioni in MPa, forze in kN e momenti in kNm. Compressione negativa e trazione positiva. " +
             "L’asse y ha origine all’interfaccia acciaio soletta ed è positivo verso l’alto. Mx positivo comprime la parte superiore. " +
-            "Le azioni sono incrementi già combinati. Arrotondamenti soltanto nella presentazione.");
+            "Le azioni sono incrementi già combinati e, allo SLU, già coefficientati con γF e ψ. Il modulo non moltiplica nuovamente i carichi: il selettore SLU/SLE cambia limiti e resistenze. Arrotondamenti soltanto nella presentazione.");
         doc.P("Model fornisce materiali, geometria e proprietà. Checker risolve le tensioni elastiche delle fasi composte. " +
             "ANTHEA gestisce le fasi, le larghezze efficaci e l’equilibrio delle fasi di solo acciaio o con soletta interamente esclusa.");
         doc.H("Riepilogo delle situazioni");
-        doc.Table(["Situazione", "ΣN [kN]", "ΣMx [kNm]", "η massimo", "Iterazioni"], result.Stages.Select((s, i) => new[] {
-            $"{i + 1} · Dopo {s.Name}", F(s.Contributions.Sum(c => c.N)), F(s.Contributions.Sum(c => c.Mx)), F(s.MaxUtilization), s.Iterations.ToString() }), [3.4, 1, 1.2, 1, .8]);
-        doc.P("η massimo considera soltanto i rapporti definiti. Materiali inattivi e calcestruzzo teso non ricevono un esito favorevole; leggere gli avvisi di ogni situazione.");
+        doc.Table(["Situazione", "ΣN [kN]", "ΣMx a y=0 [kNm]", "ΣV [kN]", "η max locale", "Stato locale"], result.Stages.Select((s, i) => {
+            var local = (s.Shear?.Checks ?? []).Concat(s.Studs?.Checks ?? []).ToArray();
+            double maximum = Math.Max(s.MaxUtilization, local.Where(c => c.Ratio.HasValue).Select(c => c.Ratio!.Value).DefaultIfEmpty().Max());
+            bool incomplete = local.Any(c => c.Ratio is null) || s.Points.Any(p => p.Active && p.Utilization is null);
+            return new[] { $"{i + 1} · Dopo {s.Name}", F(s.Contributions.Sum(c => c.N)), F(s.Contributions.Sum(c => c.MomentAtInterface)), F(s.Contributions.Sum(c => c.V)), F(maximum),
+                maximum > 1 ? incomplete ? "Non verificato / incompleto" : "Non verificato" : incomplete ? "Da completare" : "Entro limiti" }; }), [2.6, .9, 1.1, .8, .9, 1.6]);
+        doc.P("η max locale include tensioni, taglio e controlli accessori attivati. Un controllo mancante non riceve un esito favorevole; leggere gli avvisi e il campo delle verifiche. Non è un esito globale del ponte.");
         foreach (var warning in result.Stages.SelectMany(s => s.Warnings).Distinct()) doc.P(warning);
+
+        if (options.Contains("taglio"))
+        {
+            var accessory = (JsonObject)d.DeepClone(); BridgeSection.EnsureAccessoryDefaults(accessory);
+            doc.H("Taglio irrigidimenti e pioli");
+            doc.P("Riferimenti: NTC 2018 §§4.2.4.1.2, 4.3.4.2.2 e 4.3.4.3; EN 1993-1-5:2006 §§5, 7.1, 9; EN 1994-2:2005 §§6.2.2, 6.6 e 7.2.2. Valori modificabili: γM1 = " + F(accessory.D("gamma_m1")) + ", η = " + F(accessory.D("eta_taglio")) + ", γV = " + F(accessory.D("gamma_v")) + ".");
+            doc.P("Taglio affidato all’anima intera: VRd = min(Vpl,Rd; Vbw,Rd), Vbw,Rd = χw hw tw fy/(√3 γM1). Contributo delle flange omesso. La curva del montante terminale è non rigida salvo qualificazione positiva del terminale inserito. Gli irrigidimenti di appoggio sono verificati se attivati. Le zone inefficaci nel grafico riguardano le tensioni normali.");
+            doc.P("Irrigidimenti intermedi: " + (accessory.B("irrigidimenti") ? "presenti" : "assenti") + ". Pioli: " + (accessory.B("pioli") ? "verifica attiva" : "verifica disattivata") + ".");
+            var keys = new List<(string Key, string Name)>();
+            if (accessory.B("pioli")) keys.AddRange(new[] { ("n_pioli", "Numero per fila"), ("d_pioli", "Diametro gambo [mm]"), ("h_pioli", "Altezza saldata [mm]"), ("passo_pioli", "Passo longitudinale [mm]"), ("passo_trasv_pioli", "Passo trasversale [mm]"), ("fu_pioli", "fu [MPa]"), ("d_testa_pioli", "Diametro testa [mm]"), ("t_testa_pioli", "Spessore testa [mm]"), ("copriferro_pioli", "Copriferro minimo di progetto [mm]") });
+            if (keys.Count > 0) doc.Table(["Dato", "Valore"], keys.Select(k => new[] { k.Name, F(accessory.D(k.Key)) }), [3, 1]);
+            var detailInputs = BridgeSection.DetailInputRows(accessory).ToArray();
+            if (detailInputs.Length > 0) doc.Table(["Dato locale", "Valore", "Unità"], detailInputs, [3.6, 1.4, .7]);
+            doc.P("Irrigidimenti mono o bilaterali: sezione con striscia simmetrica di anima limitata dal materiale disponibile, baricentro ed eccentricità reali. Analisi elastica del II ordine con imperfezione equivalente Lcr/200, EN 1993-1-1 §§5.2.2(7)a e 5.3.4. Controlli di rigidezza, torsione e piatti entro classe 3. Le saldature continue, quando attivate, usano fu da Model, βw=1 e γM2=" + F(accessory.D("gamma_m2")) + ".");
+            doc.P("Appoggio: reazione R assegnata come inviluppo SLU indipendente dalle fasi, piatti a contatto e impronta interamente sottostante. Il terminale rigido è formato da due coppie bilaterali simmetriche identiche. La curva rigida è adottata soltanto dopo i controlli geometrici, di resistenza e dei collegamenti. Piastra di ripartizione e apparecchio d’appoggio esclusi.");
+            doc.P("Soletta: armature trasversali distinte dalle barre longitudinali. Superfici a–a sui due lati e b–b attorno ai gruppi di pioli, traliccio EN 1992-1-1 §6.2.4, armatura minima, interazione con flessione trasversale e ancoraggi. Cot θ limitata a 1–1,25 anche per soletta tesa. Il bordo fisico è un dato separato da b_eff.");
+            doc.P("Fatica pioli: ΔqE,2=λv φfat (qmax−qmin), ΔτE,2=ΔqE,2 p/(npioli Agambo). EN 1994-2 §§6.8.3 e 6.8.7.2: categoria 90 per i pioli; categoria 80 e interazione per flangia anche tesa. Gli intervalli sono inviluppi assegnati dal modello globale, comprensivi dei casi fessurati/non fessurati; non provengono dalle fasi costruttive. I controlli non attivati restano da verificare.");
+            doc.Figures(images, options, "dettagli");
+            doc.P("Pioli: q = Σ(Vi Si/Ii + Δqi), PEd = |q| p/npioli. NTC: proprietà della fase tensionale; EC4: CLS non fessurato con acciaio efficace. Il ritiro uniforme ha q(V)=0; gli effetti locali di estremità richiedono Δq assegnato da un modello longitudinale. PRd è il minore fra resistenza del gambo e del CLS; in combinazione SLE rara si usa 0,75 PRd. Per SLE quasi permanente non si assegna l’esito richiesto alla rara.");
+            doc.P("Interazione M–V per N=0, fy≤355 MPa e anima non tutta compressa: EN 1994-2 §6.2.2.4(3), con Mpl e Mf della sezione composta, flange efficaci e anima intera; armature omesse nelle capacità plastiche di riferimento. Negli altri casi, ad alto taglio, si adotta un inviluppo elastico cautelativo: ηnorm+(2ηV−1)²≤1, Mf=0 e CLS limitato a 0,85 fcd. Non si accredita redistribuzione plastica; il criterio può essere più gravoso della verifica con capacità plastiche ridotte per N. I controlli elastici e di classe 4 restano necessari.");
+        }
 
         if (options.Contains("normativa"))
         {
@@ -77,32 +103,55 @@ public static class ReportBridge
         }
         if (options.Contains("azioni"))
         {
-            doc.H("Sollecitazioni per fase"); doc.P("Quota di applicazione di N: y = " + Input("y_ref") + " mm. Il momento è trasportato al baricentro mediante Mx,G = Mx + N (yG − y riferimento), con unità coerenti.");
-            doc.Table(["Fase", "Sezione reagente", "Attiva", "ΔN [kN]", "ΔMx [kNm]"], d.Array("fasi").Select((p, i) => new[] {
-                $"{i + 1} · {p.S("nome")}", p.S("tipo"), p.B("attiva") ? "Sì" : "No", p.S("N"), p.S("Mx") }), [2.2, 1.7, .6, 1, 1.1]);
+            doc.H("Sollecitazioni per fase"); doc.P("Ogni fase sceglie il proprio punto N: quota comune, baricentro omogeneizzato lordo fisso o baricentro efficace aggiornato durante l’iterazione. " +
+                "La quota comune, quando selezionata, è y = " + Input("y_ref") + " mm. Il momento assegnato è riferito al punto N della fase. Mx,G = Mx + N (yG − yN); i momenti cumulati sono riportati a y=0 mediante Mx,0 = Mx − N yN, con unità coerenti.");
+            doc.Table(["Fase", "Sezione / azione", "Attiva", "ΔN [kN]", "ΔMx [kNm]", "ΔV [kN]", "Δεcs [µε]"], d.Array("fasi").Select((p, i) => new[] {
+                $"{i + 1} · {p.S("nome")}", p.S("tipo"), p.B("attiva") ? "Sì" : "No", p.S("tipo") == BridgeSection.ShrinkageKind ? "—" : p.S("N"),
+                p.S("tipo") == BridgeSection.ShrinkageKind ? "—" : p.S("Mx"), p.S("tipo") == BridgeSection.ShrinkageKind ? "—" : F(p.D("V")),
+                p.S("tipo") == BridgeSection.ShrinkageKind ? p.S("epsilon_cs") : "—" }), [2, 1.4, .6, .8, .9, .8, .9]);
             doc.P("Solo acciaio: soletta e barre non partecipano. Composta: soletta non fessurata, carpenteria e barre. Soletta esclusa: carpenteria e barre. " +
                 "Per ciascuna situazione la sezione efficace è comune ai contributi sommati. Non si simula la storia evolutiva di costruzione o la redistribuzione viscosa.");
+            if (result.Stages.Any(s => s.Contributions.Any(c => c.IsShrinkage)))
+                doc.P("Ritiro: deformazione uniforme imposta al solo calcestruzzo, negativa per accorciamento (−250 µε = −0,25‰). Ogni fase ha propri φ, ψL e n; ψL iniziale = 0,55. " +
+                    "Si usa Ac netto delle armature: Neq = Ec,eff Ac Δεcs al baricentro del CLS netto, Meq,0 = −Neq yc. Alla tensione del CLS ottenuta dal carico equivalente si aggiunge −Ec,eff Δεcs. " +
+                    "Le tensioni risultano autoequilibrate: N e M esterni della fase sono nulli. Sono inclusi gli effetti primari locali; gli effetti di vincoli esterni richiedono azioni separate. Più fasi rappresentano incrementi assegnati, senza evoluzione temporale automatica.");
         }
         if (options.Contains("omogeneizzazione"))
         {
             doc.H("Criteri di omogeneizzazione");
             doc.P("n0 = Ea/Ecm; n = n0 (1 + ψL φ); φ = (n/n0 − 1)/ψL. Il parametro passato a Model e Checker è ψL φ. Il rapporto Es/Ea è conservato.");
-            doc.Table(["Fase composta", "Ingresso", "φ assegnato", "n assegnato", "ψL"], d.Array("fasi").Where(p => p.S("tipo") == "Composta").Select(p => new[] {
-                p.S("nome"), p.S("modo"), p.S("modo") == "Da φ" ? p.S("phi") : "—", p.S("modo") == "Da n" ? p.S("n") : "—", p.S("psi") }), [2.4, 1, 1, 1, .8]);
+            doc.Table(["Fase composta", "φ", "ψL", "n di calcolo", "Stato"], d.Array("fasi").OfType<JsonObject>().Where(p => BridgeSection.HasConcrete(p.S("tipo"))).Select(p =>
+            {
+                // Recompute both representations for legacy archives too. Inactive phases may be incomplete.
+                try { var h = BridgeSection.Homogenization(d, p); return new[] { p.S("nome"), F(h.Phi), p.S("psi"), F(h.N), p.B("attiva") ? "Inclusa" : "Esclusa" }; }
+                catch (ArgumentException) { return new[] { p.S("nome"), "—", p.S("psi"), "—", "Esclusa" }; }
+            }), [2.4, 1, .8, 1, 1]);
         }
         for (int index = 0; index < result.Stages.Count; index++)
         {
             var s = result.Stages[index];
-            if (!options.Overlaps(["omogeneizzazione", "tensioni", "classe4"])) continue;
+            if (!options.Overlaps(["azioni", "omogeneizzazione", "tensioni", "classe4", "taglio"])) continue;
             doc.H($"Situazione {index + 1} dopo {s.Name}");
             foreach (string warning in s.Warnings) doc.P("Avviso: " + warning);
             doc.P($"Convergenza in {s.Iterations} iterazioni. Variazione relativa delle larghezze: {s.Residual:E3}; tolleranza 1E−7. " +
                 "Il residuo normalizzato di equilibrio di ciascun contributo deve essere non maggiore di 1E−5.");
+            if (options.Contains("azioni"))
+            {
+                doc.Table(["Contributo", "Riferimento N", "yN [mm]", "ΔN [kN]", "ΔMx al punto N [kNm]", "ΔV [kN]"], s.Contributions.Select((c, i) => new[] {
+                    $"{i + 1} · {c.Name}", c.IsShrinkage ? "Deformazione imposta" : c.LoadReference, c.IsShrinkage ? "—" : F(c.LoadY), F(c.N), F(c.Mx), F(c.V) }), [2.1, 1.9, 1, .9, 1.2, .9]);
+                if (s.Contributions.Any(c => c.IsShrinkage))
+                {
+                    doc.Sub("Ritiro · azioni equivalenti interne al calcolo");
+                    doc.Table(["Fase", "Δεcs [µε]", "Neq [kN]", "Meq,0 [kNm]", "Correzione σc [MPa]"], s.Contributions.Where(c => c.IsShrinkage).Select(c => new[] {
+                        c.Name, F(c.ShrinkageStrain * 1e6), F(c.EquivalentN), F(c.EquivalentMomentAtInterface), F(c.ConcreteStressOffset) }), [2, 1, 1.2, 1.3, 1.4]);
+                    doc.P("Neq e Meq,0 sono ausiliari e non vanno sommati ai carichi esterni. La correzione è applicata soltanto al CLS; le barre mantengono la tensione da compatibilità.");
+                }
+            }
             if (options.Contains("omogeneizzazione"))
             {
                 doc.Sub("Rapporti e proprietà per contributo");
                 doc.Table(["Contributo", "n0", "n", "φ", "ψL φ", "Ec eff [MPa]"], s.Contributions.Select((c, i) => new[] { $"{i + 1} · {c.Name}",
-                    c.Kind == "Composta" ? F(c.N0) : "—", c.Kind == "Composta" ? F(c.HomogenizationN) : "—", c.Kind == "Composta" ? F(c.Phi) : "—", c.Kind == "Composta" ? F(c.EffectivePhi) : "—", c.Kind == "Composta" ? F(m.Ea / c.HomogenizationN) : "—" }), [2.7, .8, .8, .8, .9, 1.3]);
+                    c.HasConcrete ? F(c.N0) : "—", c.HasConcrete ? F(c.HomogenizationN) : "—", c.HasConcrete ? F(c.Phi) : "—", c.HasConcrete ? F(c.EffectivePhi) : "—", c.HasConcrete ? F(m.Ea / c.HomogenizationN) : "—" }), [2.7, .8, .8, .8, .9, 1.3]);
                 doc.Table(["Contributo", "A* [mm²]", "yG [mm]", "Ix* [mm⁴]", "Ix integrazione [mm⁴]"], s.Contributions.Select((c, i) => new[] {
                     (i + 1).ToString(), F(c.Area), F(c.Centroid), F(c.Inertia), F(c.SolverInertia) }), [.8, 1.2, 1.1, 1.6, 1.9]);
                 doc.Table(["Contributo", "Wsup* [mm³]", "Winf* [mm³]", "yσ zero [mm]", "κ [1/m]", "Residuo equilibrio"], s.Contributions.Select((c, i) => new[] {
@@ -136,6 +185,25 @@ public static class ReportBridge
                     " Aeff/Alorda = " + F(s.EffectiveSteel.Area / g.SteelArea) + "; Ieff/Ilorda = " + F(s.EffectiveSteel.Inertia / g.SteelInertia) + ".");
                 doc.P("Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. " +
                     "Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.");
+            }
+            if (options.Contains("taglio") && s.Shear is { } shear)
+            {
+                doc.Sub("Taglio e connessione della situazione");
+                var web = shear.Web;
+                doc.Table(["V [kN]", "kτ", "τcr [MPa]", "λw", "χw", "Vpl,Rd [kN]", "Vbw,Rd [kN]"], [new[] {
+                    F(shear.V), F(web.KTau), F(web.TauCritical), F(web.Slenderness), F(web.Chi), F(web.PlasticResistance / 1000), F(web.BucklingResistance / 1000) }], [1, .7, 1, .7, .7, 1.2, 1.2]);
+                doc.P("τ nominale V/Av = " + F(shear.TauAverage) + " MPa; τ max elastica lorda = " + F(shear.TauMaximum) + " MPa. Beneficio irrigidimenti: " + (shear.UsesStiffeners ? "sì" : "no") + ". Montante terminale adottato: " + (shear.RigidEndPost ? "rigido verificato" : "non rigido") + ".");
+                if (s.Studs is { } studs && studs.Enabled)
+                {
+                    doc.P("q = " + F(studs.Flow) + " kN/m; PEd = " + F(studs.ForcePerStud) + " kN/piolo; PRd adottato = " + F(studs.ResistancePerStud) + " kN/piolo; qRd = " + F(studs.ResistancePerLength) + " kN/m.");
+                    doc.P("Resistenze SLU del singolo piolo: acciaio = " + F(studs.Resistance!.SteelResistance / 1000) + " kN; CLS = " + F(studs.Resistance.ConcreteResistance / 1000) + " kN; α = " + F(studs.Resistance.Alpha) + ".");
+                    doc.Table(["Fase", "S* [mm³]", "I* [mm⁴]", "q(V) [kN/m]", "Δq [kN/m]"], studs.Contributions.Select(c => new[] { c.Phase, c.StaticMoment.ToString("0.###E+0"), c.Inertia.ToString("0.###E+0"), F(c.Flow), F(c.AdditionalFlow) }), [2, 1, 1, 1, 1]);
+                }
+                var detailValues = (shear.Details ?? []).Concat(s.Studs?.Details ?? []).ToArray();
+                if (detailValues.Length > 0) doc.Table(["Parametro locale", "Valore", "Unità"], detailValues.Select(v => new[] { v.Name, F(v.Value), v.Unit }), [3.2, 1.5, .7]);
+                var checks = shear.Checks.Concat(s.Studs?.Checks ?? []).ToArray();
+                doc.Table(["Controllo", "Domanda", "Limite", "η", "Esito"], checks.Select(c => new[] { c.Name, F(c.Demand) + " " + c.Unit, F(c.Resistance) + " " + c.Unit, F(c.Ratio), c.Status }), [2.5, 1.2, 1.2, .6, 1.1]);
+                foreach (var c in checks.Where(c => c.Note.Length > 0)) doc.P(c.Name + ": " + c.Note + ".");
             }
             doc.Figures(images, options, "fase_" + index);
         }
@@ -174,7 +242,14 @@ public static class ReportBridge
             foreach (var image in (images ?? []).Where(i => i.Categoria == category))
             {
                 int id = figures.Count + 1; figures.Add(image); P(image.Titolo, "Caption");
-                long cx = 5943600, cy = 3169920; // 1200 x 640 view, fixed aspect ratio.
+                long cx = 5943600, cy = 3169920;
+                // PNG IHDR dimensions: elevation sketches have a different aspect from section diagrams.
+                if (image.Png.Length >= 24 && image.Png[0] == 137 && image.Png[1] == 80)
+                {
+                    int width = System.Buffers.Binary.BinaryPrimitives.ReadInt32BigEndian(image.Png.AsSpan(16, 4));
+                    int height = System.Buffers.Binary.BinaryPrimitives.ReadInt32BigEndian(image.Png.AsSpan(20, 4));
+                    if (width > 0 && height > 0) cy = (long)Math.Round((double)cx * height / width);
+                }
                 body.Add(new XElement(W + "p", new XElement(W + "r", new XElement(W + "drawing", new XElement(wp + "inline", new XElement(wp + "extent", new XAttribute("cx", cx), new XAttribute("cy", cy)), new XElement(wp + "docPr", new XAttribute("id", id), new XAttribute("name", image.Titolo), new XAttribute("descr", image.Titolo)),
                     new XElement(a + "graphic", new XElement(a + "graphicData", new XAttribute("uri", pic.NamespaceName), new XElement(pic + "pic", new XElement(pic + "nvPicPr", new XElement(pic + "cNvPr", new XAttribute("id", id), new XAttribute("name", "image.png")), new XElement(pic + "cNvPicPr")),
                         new XElement(pic + "blipFill", new XElement(a + "blip", new XAttribute(R + "embed", "img" + id)), new XElement(a + "stretch", new XElement(a + "fillRect"))), new XElement(pic + "spPr", new XElement(a + "xfrm", new XElement(a + "off", new XAttribute("x", 0), new XAttribute("y", 0)), new XElement(a + "ext", new XAttribute("cx", cx), new XAttribute("cy", cy))), new XElement(a + "prstGeom", new XAttribute("prst", "rect"), new XElement(a + "avLst")))))))))));
