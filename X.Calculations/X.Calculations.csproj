@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>ANTHEA.Calculations</AssemblyName><RootNamespace>Anthea.Calculations</RootNamespace>
+    <TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
+    <CheckerLibraryDirectory Condition="'$(CheckerLibraryDirectory)' == ''">$(MSBuildThisFileDirectory)../lib/Checker</CheckerLibraryDirectory>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GPCChecker.CompositeBridge"><HintPath>$(CheckerLibraryDirectory)/GPCChecker.CompositeBridge.dll</HintPath><Private>true</Private></Reference>
+    <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+    <Reference Include="GPCChecker.Concrete"><HintPath>$(CheckerLibraryDirectory)/GPCChecker.Concrete.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="GPCGeometry"><HintPath>$(CheckerLibraryDirectory)/GPCGeometry.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="GPCModel"><HintPath>$(CheckerLibraryDirectory)/GPCModel.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="GPCModelData"><HintPath>$(CheckerLibraryDirectory)/GPCModelData.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="GPCUtilities"><HintPath>$(CheckerLibraryDirectory)/GPCUtilities.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="DelaunayMesh"><HintPath>$(CheckerLibraryDirectory)/DelaunayMesh.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="GMsh.Net"><HintPath>$(CheckerLibraryDirectory)/GMsh.Net.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="UnsafeEx"><HintPath>$(CheckerLibraryDirectory)/UnsafeEx.dll</HintPath><Private>true</Private></Reference>
+  </ItemGroup>
+</Project>

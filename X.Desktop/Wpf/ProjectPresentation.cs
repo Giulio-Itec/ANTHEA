@@ -50,18 +50,11 @@ public sealed partial class MainWindow
         return new Border { Child = row, Background = Ui.Brush(warning ? "#FFF3DF" : "#EAF5ED"),
             Padding = new Thickness(10, 7, 10, 7), CornerRadius = new CornerRadius(4), Margin = new Thickness(0, 0, 7, 10) };
     }
-    private static (string Title, string Subtitle) ProjectModuleLabel(string module) => module switch
+    private static (string Title, string Subtitle) ProjectModuleLabel(string module)
     {
-        "geo_palo_verticale" => ("Palo verticale", "Capacità portante"),
-        PaloOrizzontale.Module => ("Palo orizzontale", "Capacità portante"),
-        "geo_micropalo_verticale" => ("Micropalo verticale", "Bustamante–Doix"),
-        MicropaloOrizzontale.Module => ("Micropalo orizzontale", "Capacità portante"),
-        "str_palo" => ("Sezione in c.a.", "Verifiche SLU · SLV · SLE"),
-        BridgeSection.Module => ("Sezione composta", "Ponte · Classe 4"),
-        "mat_calcestruzzo" => ("Calcestruzzo", "Proprietà e durabilità"),
-        RebarMaterial.Module => ("Acciaio per armature", "Proprietà meccaniche"),
-        _ => (ModuleName(module), "")
-    };
+        var definition = ModuleCatalog.Get(module);
+        return (definition.ProjectTitle, definition.ProjectSubtitle);
+    }
     private UIElement BuildProjectCatalog()
     {
         var title = Ui.Text("Schede da aggiungere", 21, true); title.Margin = new Thickness(0, 0, 0, 12);
@@ -77,7 +70,7 @@ public sealed partial class MainWindow
         var header = Ui.Stack(title, searchFrame, Ui.Text("Trascina una scheda nella struttura.", 12, color: Ui.Muted));
         header.Margin = new Thickness(0, 0, 0, 8);
         var catalog = new StackPanel(); var groups = new List<(Expander View, List<(Border Card, string Search)> Rows)>();
-        foreach (var group in Archivio.Moduli.GroupBy(id => id.StartsWith("geo_") ? "GEOTECNICA" : id.StartsWith("mat_") ? "MATERIALI" : "STRUTTURE"))
+        foreach (var group in Archivio.Moduli.GroupBy(id => ModuleCatalog.Get(id).Area.ToUpperInvariant()))
         {
             var cards = new StackPanel(); var rows = new List<(Border Card, string Search)>();
             foreach (string id in group)
@@ -148,7 +141,7 @@ public sealed partial class MainWindow
         var compare = ProjectButton("Confronto e avvisi", () => Safe(() => ShowCoherence(section))); compare.HorizontalAlignment = HorizontalAlignment.Stretch;
         panel.Children.Add(ProjectCard("Controlli", statuses, compare));
         var fields = ProjectSharedData.ContextSheets(section).SelectMany(s => ProjectSharedData.Fields(s).Values)
-            .Where(f => f.Group is "Materiali" or "Geometria" or "Armatura").GroupBy(f => f.Key)
+            .Where(f => f.Group is "Materiali" or "Geometria" or "Armatura" or "Normativa" or "Coefficienti").GroupBy(f => f.Key)
             .Select(g => (Key: g.Key, Label: ProjectReportPlan.Label(g.Key), Value: string.Join(" / ", g.Select(f => ProjectSharedData.Text(f.Value)).Distinct()))).ToArray();
         string[] priority = ["CLS · fck [MPa]", "classe_acciaio", "esposizione", "diameter_mm", "cover_mm", "width_mm", "height_mm", "fyk_mpa"];
         var ordered = fields.OrderBy(f => Array.IndexOf(priority, f.Key) is int i && i >= 0 ? i : priority.Length).ToArray();

@@ -27,16 +27,11 @@ internal sealed partial class ConcreteWorkspace
         if (!automatic) { shearAutomaticNote.Text = "Parametri manuali: verificare geometria, armatura tesa e ancoraggio."; return; }
         try
         {
-            string before = string.Join("|", new[] { "bw_x", "d_x", "asl_x", "bw_y", "d_y", "asl_y" }.Select(k => ShearOptions.S(k)));
-            var geometry = new SezioneCA(Input);
+            var geometry = ConcreteCalculationSettings.UpdateAutomaticShear(Input, ShearOptions);
             foreach (string axis in new[] { "x", "y" })
-            {
-                var values = SectionShearGeometry.Derive(geometry, axis == "x");
-                foreach (var (field, value) in new[] { ("bw_", values.Bw), ("d_", values.Depth), ("asl_", values.SteelArea) })
-                { ShearOptions[field + axis] = value.ToString("G17", System.Globalization.CultureInfo.InvariantCulture); shearForm.Set(field + axis, EngineeringFormat.Number(value), true); }
-            }
-            string after = string.Join("|", new[] { "bw_x", "d_x", "asl_x", "bw_y", "d_y", "asl_y" }.Select(k => ShearOptions.S(k)));
-            if (before != after) { ShearOptions["ancoraggio"] = "Da verificare"; shearForm.Set("ancoraggio", "Da verificare", true); }
+                foreach (string field in new[] { "bw_", "d_", "asl_" })
+                    shearForm.Set(field + axis, EngineeringFormat.Number(J.Number(ShearOptions[field + axis])), true);
+            shearForm.Set("ancoraggio", ShearOptions.S("ancoraggio"), true);
             shearAutomaticNote.Text = geometry.Shape=="Circolare"?"Circolare: bw = D (piena) o D−Di (cava); d dal baricentro delle barre di ciascun semicerchio, minimo fra i due versi. Asl minima dei due semicerchi. Suggerimenti geometrici: scegliere il modello e confermare la schematizzazione, oppure impostare parametri manuali.":"Automatici: bw minima (somma delle pareti per sezione cava); d dal baricentro delle barre di lembo, minimo fra i due versi; Asl minima dei due lembi. Per T: Vx usa lo spessore ala, Vy l’anima. Ancoraggio e disposizione resistente restano da verificare.";
         }
         catch (ArgumentException ex)
@@ -47,18 +42,8 @@ internal sealed partial class ConcreteWorkspace
     }
     private UIElement BuildShearPanel()
     {
-        if (settings["taglio"] is not JsonObject) settings["taglio"] = new JsonObject();
+        ConcreteCalculationSettings.Prepare(Input, settings);
         var options = ShearOptions;
-        if (!options.ContainsKey("parametri"))
-        {
-            options["parametri_precedenti"] = J.Obj(new[] { "bw_x", "d_x", "asl_x", "bw_y", "d_y", "asl_y" }.Select(k => (k, (object?)options.S(k))).ToArray());
-            options["parametri"] = "Automatici da sezione";
-        }
-        if (!options.ContainsKey("ancoraggio")) options["ancoraggio"] = "Da verificare";
-        foreach (var (key, value) in new[] { ("modello","Con staffe"), ("bw_x",""), ("d_x",""), ("asl_x",""), ("rami_x",""), ("alpha_x","90"), ("cot_x",""),
-            ("bw_y",""), ("d_y",""), ("asl_y",""), ("rami_y",""), ("alpha_y","90"), ("cot_y","") })
-            if (!options.ContainsKey(key)) options[key] = value;
-        if (options["azioni"] is not JsonArray) options["azioni"] = new JsonArray();
         void EnableFields()
         {
             bool stirrups = options.S("modello") == "Con staffe";
@@ -122,35 +107,17 @@ internal sealed partial class ConcreteWorkspace
         {
             try
             {
-                if (settings.S("normativa") != "NTC 2018") throw new ArgumentException("Selezionare NTC 2018 nel pannello di controllo");
-                bool circular=Input.S("shape")=="Circolare";
-                if(circular&&ShearOptions.S("modello_circolare","Da scegliere")=="Da scegliere")throw new ArgumentException("Scegliere esplicitamente il modello di taglio circolare.");
-                if (tendons.Rows.Count > 0) throw new ArgumentException("Taglio CAP: includere le componenti di precompressione; modello da definire");
-                var geometry = new SezioneCA(Input); double fcd=geometry.Fcd*(Input.S("gettato_sottile")=="Sì"?.8:1);
-                bool stirrups=ShearOptions.S("modello")=="Con staffe";
-                if(stirrups&&Input.S("staffe_presenti","Sì")=="No")throw new ArgumentException("Staffe assenti nella sezione: scegliere Senza staffe.");
-                double torque=SectionWorkspace.Number(row.Values.S("T","0"),"T");
-                if (!stirrups && ShearOptions.S("parametri") == "Automatici da sezione" && ShearOptions.S("ancoraggio") != "Confermato") throw new ArgumentException("Asl ricavata dalla geometria: confermare l’ancoraggio efficace prima della verifica senza staffe.");
-                double n = SectionWorkspace.Number(row.Values.S("N"),"N"), phi = stirrups?Input.Required("transverse_bar_diameter_mm",strict:true):0, spacing=stirrups?Input.Required("transverse_spacing_mm",strict:true):1;
-                var results = new List<Ntc2018Checks.ShearResult>();
-                foreach (var axis in new[] {"x","y"})
+                var calculated = ConcreteShearAnalysis.Calculate(Input, settings, ShearOptions, row.Values);
+                var results = calculated.Shear;
+                shearResults[row.Values.S("id")] = results;
+                for (int i = 0; i < results.Length; i++)
                 {
-                    double Value(string key) => SectionWorkspace.Number(ShearOptions.S(key+"_"+axis),key+" "+axis);
-                    double v=SectionWorkspace.Number(row.Values.S("V"+axis),"V"+axis);
-                    double legs=stirrups?Value("rami"):0;
-                    if (legs<0 || legs!=Math.Truncate(legs) || stirrups&&legs==0) throw new ArgumentException("Numero rami staffa non valido");
-                    double? cot=!stirrups||string.IsNullOrWhiteSpace(ShearOptions.S("cot_"+axis))?null:Value("cot");
-                    if(torque!=0)cot=ShearOptions.Required("cot_torsione");
-                    double bw=Value("bw"), d=Value("d"), asl=stirrups?0:Value("asl");
-                    if (bw > (axis=="x"?geometry.Height:geometry.Width) || d >= (axis=="x"?geometry.Width:geometry.Height) || asl > geometry.AreaSteel)
-                        throw new ArgumentException("Taglio "+axis+": bw, d o Asl superano la geometria/armatura della sezione");
-                    double lever=circular?(ShearOptions.S("modello_circolare").StartsWith("Pile")?(Input.B("foro_presente")?.60:.75):ShearOptions.Required("z_d")):.9;
-                    var check=Ntc2018Checks.Shear(n,v,geometry.AreaCls,bw,d,asl,Input.Required("fck_mpa"),fcd,geometry.Fyd,Input.Required("gamma_c"),legs*Math.PI*phi*phi/4,spacing,stirrups?Value("alpha"):90,cot,lever);
-                    results.Add(check); row.Output("VRd"+axis,check.VRd.ToString("0.00")); row.Output("eta_"+axis,check.Ratio?.ToString("0.00")??"—");
+                    string axis = i == 0 ? "x" : "y";
+                    row.Output("VRd" + axis, results[i].VRd.ToString("0.00"));
+                    row.Output("eta_" + axis, results[i].Ratio?.ToString("0.00") ?? "—");
                 }
-                shearResults[row.Values.S("id")] = results.ToArray();
-                row.Output("esito", string.Join(" · ",results.Select((r,i)=>(i==0?"x: ":"y: ")+r.Status)));
-                CalculateTorsion(row,geometry,results.ToArray(),fcd);
+                row.Output("esito", string.Join(" · ", results.Select((r, i) => (i == 0 ? "x: " : "y: ") + r.Status)));
+                ShowTorsion(row, calculated.Torsion);
             }
             catch (ArgumentException ex) { shearResults.Remove(row.Values.S("id"));torsionResults.Remove(row.Values.S("id"));foreach (var key in new[] {"VRdx","VRdy","eta_x","eta_y","eta_t","eta_vt"}) row.Output(key,"—"); row.Output("esito",ex.Message); }
         }

@@ -40,7 +40,9 @@ public sealed partial class MainWindow
         await CheckBridgeShrinkageUi(directory);
         await CheckBridgeShearUi(directory);
         await CheckBridgeDetailsUi(directory);
-        if (bridge.Pages.Items.Count != 2 || bridge.Results.Items.Count != 5 || bridge.Pages.SelectedIndex != 1 || bridge.Results.SelectedIndex != 1 || bridge.DisplayChoice.SelectedIndex != 1)
+        await CheckBridgeHistoryUi(directory);
+        await CheckBridgeResponseUi(directory);
+        if (bridge.Pages.Items.Count != 3 || bridge.Results.Items.Count != 5 || bridge.Pages.SelectedIndex != 1 || bridge.Results.SelectedIndex != 1 || bridge.DisplayChoice.SelectedIndex != 1)
             throw new Exception("Disposizione compatta o migrazione della precedente scheda Omogeneizzazione non riuscita.");
         var initialCalculation = bridge.Calculation;
         for (int input = 0; input < bridge.Pages.Items.Count; input++)
@@ -49,6 +51,7 @@ public sealed partial class MainWindow
             if (!ReferenceEquals(bridge.Calculation, initialCalculation)) throw new Exception("Navigazione nelle schede invalida il calcolo.");
             File.WriteAllBytes(Path.Combine(directory, $"mista_input_{input}.png"), Ui.Snapshot(this));
         }
+        bridge.Pages.SelectedIndex = 1; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         if (bridge.InputForms.Count(f => f.Editors.ContainsKey("stato")) != 1 || bridge.InputForms.Count(f => f.Editors.ContainsKey("classe4")) != 1 ||
             Ui.Descendants<Expander>(bridge).Any(e => (e.Header as TextBlock)?.Text is "Criteri di calcolo" or "Campo del modello"))
             throw new Exception("Opzioni duplicate o informazioni statiche ancora presenti nei pannelli operativi.");
@@ -185,7 +188,7 @@ public sealed partial class MainWindow
             using var stream = projectZip.GetEntry("word/document.xml")!.Open(); var xml = System.Xml.Linq.XDocument.Load(stream).ToString();
             if (projectZip.Entries.Count(e => e.FullName.StartsWith("word/media/")) != 4 || !xml.Contains("Situazione 3 dopo") || !xml.Contains("Geometria e armature")) throw new Exception("Report di progetto perde dati o grafici della sezione composta.");
         }
-        File.WriteAllText(Path.Combine(directory, "smoke.txt"), "OK: due schede numerate, cinque gruppi di risultati, migrazione delle disposizioni precedenti, limiti e fasi nella stessa scheda, finestra informativa dedicata, aggiornamento dei risultati dopo modifica delle azioni, tre situazioni, navigazione senza invalidazione, geometria a due piastre, viewport condivisa con CA, espansione/rientro e PNG, 1600/1366/960, input a fine modifica con precisione conservata, calcolo automatico, invalidazione, dati non validi, Home/Riprendi, archivio e riapertura, persistenza scheda e separatori, export JSON, report Word completo con quattro immagini, selezione contenuti, nessuna modifica al risultato, integrazione nella relazione di progetto.");
+        File.WriteAllText(Path.Combine(directory, "smoke.txt"), "OK: tre schede numerate, cinque gruppi di risultati, migrazione delle disposizioni precedenti, limiti e fasi nella stessa scheda, finestra informativa dedicata, aggiornamento dei risultati dopo modifica delle azioni, tre situazioni, navigazione senza invalidazione, geometria a due piastre, viewport condivisa con CA, espansione/rientro e PNG, 1600/1366/960, input a fine modifica con precisione conservata, calcolo automatico, invalidazione, dati non validi, Home/Riprendi, archivio e riapertura, persistenza scheda e separatori, export JSON, report Word completo con quattro immagini, selezione contenuti, nessuna modifica al risultato, integrazione nella relazione di progetto.");
         dirty = false;
     }
 }

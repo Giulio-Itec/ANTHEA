@@ -74,7 +74,7 @@ public static partial class ProjectSharedData
         // Establish the contour before deciding which reinforcement fields are compatible.
         // A new rectangular CA sheet can become circular from its pile reference.
         bool unresolvedShape = false;
-        foreach (string group in new[] { "Geometria", "Materiali", "Armatura", "Terreno" })
+        foreach (string group in new[] { "Normativa", "Geometria", "Materiali", "Coefficienti", "Armatura", "Terreno" })
         {
             var claimed = new HashSet<string>();
             var targetKeys = Fields(sheet).Values.Where(f => f.Group == group && (!unresolvedShape || group != "Armatura" || f.Key == "cover_mm")).Select(f => f.Key).ToHashSet();

@@ -67,8 +67,7 @@ public sealed partial class MainWindow
         MessageBox.Show(this, "Report salvato in:\n" + save.FileName + (unavailable > 0 ? $"\n\n{unavailable} schede contengono risultati mancanti o incompleti, segnalati nel documento." : ""), "ANTHEA", MessageBoxButton.OK, unavailable > 0 ? MessageBoxImage.Warning : MessageBoxImage.Information);
     }
 
-    private static string[] SectionReportWarnings(JsonObject section) => ProjectSharedData.Limitations(section)
-        .Concat(CoverChecks(section).Where(c => c.Passed != true).Select(c => c.Text)).Distinct().ToArray();
+    private static string[] SectionReportWarnings(JsonObject section) => ProjectValidation.Warnings(section);
 
     private static async Task<int> GenerateSectionReport(JsonObject snapshot, string filename, Action<string> progress, CancellationToken cancellation)
     {

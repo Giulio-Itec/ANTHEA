@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">ANTHEA app icon</title>
+  <desc id="desc">A structural capital A whose apex blooms into a three-petal Greek anthemion.</desc>
+  <rect x="32" y="32" width="960" height="960" rx="208" fill="#0B2A4A"/>
+
+  <!-- Three-petal anthemion: the name ANTHEA comes from the Greek anthos, flower. -->
+  <path fill="#C99532" d="M512 274C454 214 468 129 512 82c44 47 58 132 0 192Z"/>
+  <path fill="#C99532" d="M485 283c-76-14-126-74-130-139 65 9 126 54 157 117l-27 22Z"/>
+  <path fill="#C99532" d="M539 283c76-14 126-74 130-139-65 9-126 54-157 117l27 22Z"/>
+
+  <!-- Monogram A: a stable structural frame with a large, legible counter. -->
+  <path fill="#F3F5F1" fill-rule="evenodd" d="
+    M129 844 416 310c24-45 58-69 96-69s72 24 96 69l287 534H731L512 430 293 844H129Zm
+    M399 659h226L512 445 399 659Z"/>
+
+  <!-- Analysis beam and node. -->
+  <rect x="372" y="637" width="280" height="46" rx="23" fill="#C99532"/>
+  <circle cx="512" cy="660" r="45" fill="#C99532" stroke="#0B2A4A" stroke-width="18"/>
+</svg>

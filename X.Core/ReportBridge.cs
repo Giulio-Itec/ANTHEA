@@ -7,7 +7,7 @@ using System.Xml.Linq;
 namespace X.Core;
 
 /// <summary>Report of an existing bridge calculation. Never executes or modifies the solver.</summary>
-public static class ReportBridge
+public static partial class ReportBridge
 {
     public static readonly (string Key, string Label)[] Sections = [
         ("normativa", "Normativa e coefficienti"), ("materiali", "Materiali e proprietà"),
@@ -20,6 +20,7 @@ public static class ReportBridge
     {
         if (!Sections.Any(s => s.Key != "grafici" && options.Contains(s.Key))) throw new ArgumentException("Selezionare almeno un contenuto del report.");
         if (result.Stages.Count == 0) throw new ArgumentException("Risultati della sezione composta non disponibili.");
+        if (result.Stages.Any(s => s.GetHistory() is not null)) return CreateHistory(title, result, options, images);
         var d = result.Input; var g = result.Geometry; var m = result.Materials;
         var doc = new Document();
         string F(double? x) => x.HasValue ? EngineeringFormat.Number(x.Value) : "—";
@@ -32,8 +33,7 @@ public static class ReportBridge
         doc.P("Lunghezze in mm, tensioni in MPa, forze in kN e momenti in kNm. Compressione negativa e trazione positiva. " +
             "L’asse y ha origine all’interfaccia acciaio soletta ed è positivo verso l’alto. Mx positivo comprime la parte superiore. " +
             "Le azioni sono incrementi già combinati e, allo SLU, già coefficientati con γF e ψ. Il modulo non moltiplica nuovamente i carichi: il selettore SLU/SLE cambia limiti e resistenze. Arrotondamenti soltanto nella presentazione.");
-        doc.P("Model fornisce materiali, geometria e proprietà. Checker risolve le tensioni elastiche delle fasi composte. " +
-            "ANTHEA gestisce le fasi, le larghezze efficaci e l’equilibrio delle fasi di solo acciaio o con soletta interamente esclusa.");
+        doc.P("Model fornisce materiali e geometria. GPCChecker.CompositeBridge esegue il calcolo per fasi e le larghezze efficaci. ANTHEA gestisce ingressi e presentazione dei risultati.");
         doc.H("Riepilogo delle situazioni");
         doc.Table(["Situazione", "ΣN [kN]", "ΣMx a y=0 [kNm]", "ΣV [kN]", "η max locale", "Stato locale"], result.Stages.Select((s, i) => {
             var local = (s.Shear?.Checks ?? []).Concat(s.Studs?.Checks ?? []).ToArray();
@@ -93,7 +93,7 @@ public static class ReportBridge
                 "t equivalente = t1 + t2; b equivalente = (b1 t1 + b2 t2)/(t1 + t2). Questa sostituzione conserva area e spessore complessivo, non in generale baricentro e inerzia.");
             doc.Table(["Proprietà delle piastre inferiori", "Reale", "Equivalente"], new[] {
                 new[] { "Area [mm²]", F(g.BottomArea), F(g.BottomArea) }, new[] { "Baricentro y [mm]", F(g.BottomRealCentroid), F(-g.Height + g.BottomEquivalentThickness / 2) },
-                new[] { "Ix al proprio baricentro [mm⁴]", F(g.BottomRealInertia), F(g.BottomEquivalentWidth * Math.Pow(g.BottomEquivalentThickness, 3) / 12) } }, [2.6, 1.4, 1.4]);
+                new[] { "Ix al proprio baricentro [mm⁴]", F(g.BottomRealInertia), F(g.EquivalentBottomPlate().Ix) } }, [2.6, 1.4, 1.4]);
             doc.Table(["Fila", "Presente", "Ø [mm]", "Passo [mm]", "Faccia asse [mm]", "Barre"], new[] { "top", "bottom" }.Select(side => {
                 bool active = d.B("rebars_" + side); double y = side == "top" ? g.SlabHeight - d.D("cover_top") : d.D("cover_bottom");
                 return new[] { side == "top" ? "Superiore" : "Inferiore", active ? "Sì" : "No", active ? Input("d_" + side) : "—", active ? Input("pitch_" + side) : "—", active ? Input("cover_" + side) : "—", active ? g.Bars.Count(b => Math.Abs(b.Y - y) < 1e-6).ToString() : "0" };
@@ -151,11 +151,11 @@ public static class ReportBridge
             {
                 doc.Sub("Rapporti e proprietà per contributo");
                 doc.Table(["Contributo", "n0", "n", "φ", "ψL φ", "Ec eff [MPa]"], s.Contributions.Select((c, i) => new[] { $"{i + 1} · {c.Name}",
-                    c.HasConcrete ? F(c.N0) : "—", c.HasConcrete ? F(c.HomogenizationN) : "—", c.HasConcrete ? F(c.Phi) : "—", c.HasConcrete ? F(c.EffectivePhi) : "—", c.HasConcrete ? F(m.Ea / c.HomogenizationN) : "—" }), [2.7, .8, .8, .8, .9, 1.3]);
+                    c.HasConcrete ? F(c.N0) : "—", c.HasConcrete ? F(c.HomogenizationN) : "—", c.HasConcrete ? F(c.Phi) : "—", c.HasConcrete ? F(c.EffectivePhi) : "—", c.HasConcrete ? F(BridgeDerivedResults.EffectiveConcreteModulus(m.Ea, c.HomogenizationN)) : "—" }), [2.7, .8, .8, .8, .9, 1.3]);
                 doc.Table(["Contributo", "A* [mm²]", "yG [mm]", "Ix* [mm⁴]", "Ix integrazione [mm⁴]"], s.Contributions.Select((c, i) => new[] {
                     (i + 1).ToString(), F(c.Area), F(c.Centroid), F(c.Inertia), F(c.SolverInertia) }), [.8, 1.2, 1.1, 1.6, 1.9]);
                 doc.Table(["Contributo", "Wsup* [mm³]", "Winf* [mm³]", "yσ zero [mm]", "κ [1/m]", "Residuo equilibrio"], s.Contributions.Select((c, i) => new[] {
-                    (i + 1).ToString(), F(c.WTop), F(c.WBottom), F(c.NeutralAxis), F(-c.StressSlope / m.Ea * 1000), c.EquilibriumResidual.ToString("0.###E+0", CultureInfo.GetCultureInfo("it-IT")) }), [.8, 1.3, 1.3, 1.1, 1.2, 1.3]);
+                    (i + 1).ToString(), F(c.WTop), F(c.WBottom), F(c.NeutralAxis), F(c.Curvature(m.Ea) * 1000), c.EquilibriumResidual.ToString("0.###E+0", CultureInfo.GetCultureInfo("it-IT")) }), [.8, 1.3, 1.3, 1.1, 1.2, 1.3]);
                 doc.P("A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; " +
                     "Checker integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.");
             }

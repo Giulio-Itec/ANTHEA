@@ -67,7 +67,8 @@ internal sealed partial class BridgeWorkspace
     }
     private void AddPhase(bool shrinkage)
     {
-        if (Data.Array("fasi").Count >= 20) return;
+        if (!BridgeSection.IsHistory(Data) && Data.Array("fasi").Count >= 20)
+        { status.Text = "Il metodo cumulativo ammette 20 fasi. Selezionare un metodo con storico per aggiungerne altre."; return; }
         ActionsTable.Commit();
         var phase = shrinkage ? BridgeSection.ShrinkagePhase() : BridgeSection.Phase(reference: BridgeSection.GrossLoadReference);
         Data.Array("fasi").Add(phase); selectedPhase = phase; followLatestStage = true;
@@ -116,6 +117,7 @@ internal sealed partial class BridgeWorkspace
         loadConvention.Text = Data.S("stato") == "SLU"
             ? "SLU: inserire incrementi di progetto già combinati e coefficientati (γF e ψ). Il modulo non applica altri coefficienti ai carichi; γM0, γc e γs riducono le resistenze."
             : Data.S("stato") + ": inserire gli incrementi della corrispondente combinazione di esercizio, già con i relativi ψ. Il selettore cambia i limiti, non genera combinazioni di carico.";
+        if (BridgeSection.IsNonlinear(Data)) loadConvention.Text = "Non lineare: carichi incrementali già combinati, legami caratteristici senza γM. SLU/SLE seleziona soltanto le linee di confronto tensionali: non assegna una verifica normativa. φ/n memorizzati: vedere l’opzione di viscosità sopra.";
         }
         finally { refreshingActions = false; }
     }

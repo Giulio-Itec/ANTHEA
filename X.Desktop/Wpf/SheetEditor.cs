@@ -58,6 +58,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
 
     internal SheetEditor(string module, JsonObject data)
     {
+        _ = ModuleCatalog.Get(module);
         Module = module; Data = (JsonObject)data.DeepClone(); Background = Ui.Bg;
         calculate = Ui.Button("Calcola", async () => await CalculateAsync(), true, inspection: true); calculate.Width = 120; calculate.Visibility = Geo ? Visibility.Collapsed : Visibility.Visible;
         RevisionInspection.Allow(tableSelect); RevisionInspection.Allow(capacityView); RevisionInspection.Allow(curveChoices);
@@ -188,7 +189,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         int requested = revision; var snapshot = (JsonObject)Data.DeepClone(); status.Text = "Calcolo in corso…";
         try
         {
-            var result = await Task.Run(() => Calcolo.Calcola(snapshot, Micro));
+            var result = await Task.Run(() => CalculationService.Calculate(Module, snapshot));
             if (disposed || requested != revision) return;
             if (result.S("errore") != "") { Result = null; status.Text = "Dati da completare: " + result.S("errore"); SetWarnings(Geo ? "" : result.S("errore")); return; }
             Result = result; SetWarnings(string.Join(Environment.NewLine, result.Array("avvisi").Select(v => v!.ToString())));

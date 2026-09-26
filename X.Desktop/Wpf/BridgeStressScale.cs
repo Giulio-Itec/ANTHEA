@@ -77,7 +77,7 @@ internal sealed partial class BridgeWorkspace
         if (concreteScaleControls is null) return;
         var scale = StressScale(DisplayedCalculation, viewSettings);
         Drawing.ConcreteAmplification = scale.Factor;
-        concreteScaleControls.Visibility = currentPage == 1 && Drawing.Mode != 2 ? Visibility.Visible : Visibility.Collapsed;
+        concreteScaleControls.Visibility = (currentPage == 1 || detachedWindow is not null) && Drawing.Mode != 2 ? Visibility.Visible : Visibility.Collapsed;
         updatingStressScale = true;
         ConcreteScaleAuto.IsChecked = viewSettings.B("amplificazione_cls_auto", true);
         if (!ConcreteScaleEditor.IsKeyboardFocusWithin) { ConcreteScaleEditor.Text = F(scale.Factor); ClearScaleError(); }

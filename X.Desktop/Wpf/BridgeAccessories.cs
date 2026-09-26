@@ -33,6 +33,8 @@ internal sealed partial class BridgeWorkspace
         || kind == "Soletta esclusa" && Data.B("pioli") && !Data.S("normativa").StartsWith("NTC");
     private void ShowAccessoryResults(BridgeStage stage)
     {
+        shearResults.Content = Ui.Text("Taglio e irrigidimenti non verificati nel metodo selezionato.", 12, color: Ui.Muted);
+        studResults.Content = Ui.Text("Connessione a pioli non verificata nel metodo selezionato.", 12, color: Ui.Muted);
         if (stage.Shear is { } s)
         {
             var w = s.Web;

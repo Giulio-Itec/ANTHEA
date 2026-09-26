@@ -15,7 +15,7 @@ internal sealed partial class BridgeDrawing
         StressLabels.Clear();
         double left = divider + 16, right = w - 18, origin = (left + right) / 2;
         double amp = double.IsFinite(ConcreteAmplification) && ConcreteAmplification > 0 ? ConcreteAmplification : 1;
-        bool composite = stage.Contributions.Any(c => c.HasConcrete);
+        bool composite = stage.GetHistory() is { } historical ? historical.State.Fibers.Any(f => f.ComponentId == "Concrete" && f.Active) : stage.Contributions.Any(c => c.HasConcrete);
         double SteelSigma(double y) => stage.Contributions.Sum(c => c.SteelStress(y));
         double ConcreteSigma(double y) => stage.Contributions.Sum(c => c.Stress("CLS", y));
         double max = Math.Max(1, stage.Points.Where(p => p.Active).Select(p => Math.Abs(p.Stress) * (p.Material == "CLS" ? amp : 1)).DefaultIfEmpty(1).Max());
@@ -57,17 +57,27 @@ internal sealed partial class BridgeDrawing
             Brush fill = ContourDiagram ? ContourBrush(material, ya > yb ? a : b, ya > yb ? b : a) : color;
             dc.PushOpacity(ContourDiagram ? .75 : .16); dc.DrawGeometry(fill, null, area); dc.Pop();
             dc.PushClip(area);
-            for (double y = Math.Min(A.Y, B.Y) + 9; y < Math.Max(A.Y, B.Y); y += 12)
+            for (double y = Math.Ceiling(Math.Min(A.Y, B.Y) / 12) * 12; y < Math.Max(A.Y, B.Y); y += 12)
             {
                 double t = (y - A.Y) / (B.Y - A.Y), edge = A.X + t * (B.X - A.X);
                 dc.PushOpacity(.5); dc.DrawLine(new Pen(color, .7), new(origin, y), new(edge, y)); dc.Pop();
             }
             dc.Pop();
             dc.DrawLine(new Pen(ContourDiagram ? fill : color, 2.5), A, B);
-            dc.DrawLine(new Pen(color, 1), new(origin, A.Y), A); dc.DrawLine(new Pen(color, 1), new(origin, B.Y), B);
+            if (stage.GetHistory() is null)
+            { dc.DrawLine(new Pen(color, 1), new(origin, A.Y), A); dc.DrawLine(new Pen(color, 1), new(origin, B.Y), B); }
         }
-        Region(0, -g.Height, SteelSigma(0), SteelSigma(-g.Height), 1, "Acciaio");
-        if (composite) Region(g.SlabHeight, 0, ConcreteSigma(g.SlabHeight), ConcreteSigma(0), amp, "CLS");
+        void ProfileRegion(double top, double bottom, Func<double, double> sigma, double factor, string material)
+        {
+            int count = stage.GetHistory() is null ? 1 : 160;
+            for (int i = 0; i < count; i++)
+            {
+                double a = top + (bottom - top) * i / count, b = top + (bottom - top) * (i + 1) / count;
+                Region(a, b, sigma(a), sigma(b), factor, material);
+            }
+        }
+        ProfileRegion(0, -g.Height, SteelSigma, 1, "Acciaio");
+        if (composite) ProfileRegion(g.SlabHeight, 0, ConcreteSigma, amp, "CLS");
 
         if (ShowStressLimits)
         {
@@ -96,15 +106,21 @@ internal sealed partial class BridgeDrawing
 
         void PhaseCurve(Func<double, double> sigma, double ya, double yb, double factor, Brush color)
         {
-            dc.DrawLine(new Pen(color, 1.2) { DashStyle = DashStyles.Dash },
-                new(origin + sigma(ya) * factor * scale, Y(ya)), new(origin + sigma(yb) * factor * scale, Y(yb)));
+            int count = stage.GetHistory() is null ? 1 : 160;
+            var geometry = new StreamGeometry();
+            using (var context = geometry.Open())
+            {
+                context.BeginFigure(new(origin + sigma(ya) * factor * scale, Y(ya)), false, false);
+                for (int i = 1; i <= count; i++) { double y = ya + (yb - ya) * i / count; context.LineTo(new(origin + sigma(y) * factor * scale, Y(y)), true, false); }
+            }
+            dc.DrawGeometry(null, new Pen(color, 1.2) { DashStyle = DashStyles.Dash }, geometry);
         }
         if (Mode == 1)
             for (int i = 0; i < stage.Contributions.Count; i++)
             {
                 var c = stage.Contributions[i]; var color = Colors[i % Colors.Length];
                 PhaseCurve(c.SteelStress, 0, -g.Height, 1, color);
-                if (c.HasConcrete) PhaseCurve(y => c.Stress("CLS", y), g.SlabHeight, 0, amp, color);
+                if (c.HasConcrete || c.GetHistoryProfile() is not null) PhaseCurve(y => c.Stress("CLS", y), g.SlabHeight, 0, amp, color);
             }
 
         // Values are always physical MPa, including the amplified concrete diagram.

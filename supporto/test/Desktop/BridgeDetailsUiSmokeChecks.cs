@@ -35,7 +35,7 @@ public sealed partial class MainWindow
             }
             InputForm Form(string key) => bridge.InputForms.Single(f => f.Editors.ContainsKey(key));
             await Wait(); bridge.Pages.SelectedIndex = 0; await Layout();
-            Check(bridge.Pages.Items.Count == 2 && bridge.Results.Items.Count == 5, "Nuove schede non richieste.");
+            Check(bridge.Pages.Items.Count == 3 && bridge.Results.Items.Count == 5, "Schede ponte e nuova pagina curve.");
             Check(bridge.DetailSketch.Labels.Any(s => s.Contains("Solo sinistra")), "Prospetto intermedio non aggiornato.");
             Check(bridge.Drawing.VisibleTags.Any(s => s.Contains("SX 150×30") && s.Contains("DX assente")), "Piatti monolaterali non rappresentati.");
             Form("lati_irr").Set("lati_irr", "Bilaterali diversi"); await Wait();

@@ -126,6 +126,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             Ui.Text("Dati comuni a tutte le situazioni. Coefficienti modificabili per l’Appendice Nazionale applicabile.", 11, color: Ui.Muted),
             Group("Coefficienti da normativa", coefficients), Group("Materiali", materialBody), Group("Geometria", geometry, true), Group("Armature", reinforcement), BuildAccessories())));
         pageInputs.Add(Scroll(Ui.Stack(
+            BuildCalculationOptions(),
             Form(Data, [new("stato", "Limiti tensionali", Choices: ["SLU", "SLE rara", "SLE quasi permanente"]),
                 new("classe4", "Riduzioni locali · classe 4", Bool: true), new("y_ref", "Quota comune di N", "mm")]),
             Ui.Text("y = 0 all’interfaccia; positivo verso l’alto. La quota comune si usa solo per le fasi che la selezionano; ogni fase può applicare N al proprio baricentro.", 11, color: Ui.Muted),
@@ -175,6 +176,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         SynchronizeHomogenization();
         UpdateCommonReferenceField();
         RefreshActionsTable(); RefreshSectionProperties();
+        RefreshCalculationOptions();
     }
     private void MovePhase(int i, int delta)
     {
@@ -182,7 +184,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         var list = Data.Array("fasi"); int target = i + delta; if (target < 0 || target >= list.Count) return;
         var phase = list[i]!; list.RemoveAt(i); list.Insert(target, phase); BuildPhases(); Changed();
     }
-    internal void Commit() { ActionsTable.Commit(); slabPropertyForm?.Commit(); foreach (var f in inputForms.ToArray()) f.Commit(); SaveView(); }
+    internal void Commit() { ActionsTable.Commit(); slabPropertyForm?.Commit(); foreach (var f in inputForms.ToArray()) f.Commit(); ResponseForm?.Commit(); SaveView(); }
     private void Changed()
     {
         if (building || disposed) return;
@@ -190,6 +192,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         UpdateCommonReferenceField();
         RefreshActionsTable();
         revision++; cancellation?.Cancel(); Calculation = null;
+        InvalidateResponse();
         if (DisplayedCalculation is null) ClearResults();
         RefreshPreview(); UpdateResultNotice();
         status.Text = "Dati modificati · aggiornamento automatico in attesa…"; timer.Stop(); timer.Start(); Modified?.Invoke();
@@ -258,7 +261,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
                 !p.Active ? "Non attivo" : p.Utilization is null ? "CLS teso" : p.Utilization <= 1 ? "Entro limite locale" : "Limite superato", "σ e limite in MPa" }).Concat((stage.Shear?.Checks ?? []).Concat(stage.Studs?.Checks ?? []).Select(c => new[] { c.Name, result.Input.S("stato"), F(c.Demand) + " " + c.Unit, F(c.Resistance) + " " + c.Unit, c.Ratio is {} r ? F(r) : "—", c.Status, c.Note })));
         propertiesTable.Content = ResultTable(["Fase", "n₀", "n = Ea/Ec,eff", "φ", "ψLφ", "Ec,eff [MPa]", "A* [mm²]", "yG [mm]", "Ix* [mm⁴]", "Wsup* [mm³]", "Winf* [mm³]", "yσ=0 [mm]", "κ [1/m]"],
             stage.Contributions.Select(c => new[] { c.Name, Dash(c.N0), Dash(c.HomogenizationN), c.HasConcrete ? F(c.Phi) : "—", c.HasConcrete ? F(c.EffectivePhi) : "—",
-                c.HasConcrete ? F(result.Materials.Ea / c.HomogenizationN) : "—", F(c.Area), F(c.Centroid), E(c.Inertia), E(c.WTop), E(c.WBottom), c.NeutralAxis is { } z ? F(z) : "—", E(-c.StressSlope / result.Materials.Ea * 1000) }));
+                c.HasConcrete ? F(BridgeDerivedResults.EffectiveConcreteModulus(result.Materials.Ea, c.HomogenizationN)) : "—", F(c.Area), F(c.Centroid), E(c.Inertia), E(c.WTop), E(c.WBottom), c.NeutralAxis is { } z ? F(z) : "—", E(c.Curvature(result.Materials.Ea) * 1000) }));
         classTable.Content = ResultTable(["Pannello", "b [mm]", "t [mm]", "σ₁ [MPa]", "σ₂ [MPa]", "ψ", "kσ", "λp", "ρ", "bc [mm]", "b₁ eff [mm]", "b₂ eff [mm]"],
             new[] { ("Anima · sup → inf", stage.Effective.Web), ("Sbalzo superiore", stage.Effective.Top), ("Sbalzo inferiore eq.", stage.Effective.Bottom) }.Select(x =>
                 new[] { x.Item1, F(x.Item2.Width), F(x.Item2.Thickness), F(x.Item2.StartStress), F(x.Item2.EndStress), F(x.Item2.Psi), F(x.Item2.KSigma), F(x.Item2.Lambda), F(x.Item2.Rho), F(x.Item2.CompressedWidth), F(x.Item2.EffectiveAtStart), F(x.Item2.EffectiveAtEnd) }));
@@ -275,12 +278,13 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             new[] { "Piattabanda inferiore · b equivalente", F(g.BottomEquivalentWidth), "mm" }, new[] { "Piattabanda inferiore · t equivalente", F(g.BottomEquivalentThickness), "mm" },
             new[] { "Piastre inferiori · area reale = equivalente", F(g.BottomArea), "mm²" }, new[] { "Piastre inferiori · yG reale", F(g.BottomRealCentroid), "mm" },
             new[] { "Piastre inferiori · yG equivalente", F(-g.Height + g.BottomEquivalentThickness / 2), "mm" }, new[] { "Piastre inferiori · Ix reale al proprio G", E(g.BottomRealInertia), "mm⁴" },
-            new[] { "Piattabanda equivalente · Ix al proprio G", E(g.BottomEquivalentWidth * Math.Pow(g.BottomEquivalentThickness, 3) / 12), "mm⁴" },
+            new[] { "Piattabanda equivalente · Ix al proprio G", E(g.EquivalentBottomPlate().Ix), "mm⁴" },
             new[] { "Area soletta lorda", F(g.Width * g.SlabHeight), "mm²" }, new[] { "Barre complessive", g.Bars.Length.ToString(), "n." }, new[] { "Area armature", F(g.Bars.Sum(b => b.Area)), "mm²" },
             new[] { "Altezza complessiva", F(g.Height + g.SlabHeight), "mm" }, new[] { "Asse neutro delle tensioni totali nell’acciaio", stage.SteelNeutralAxis is { } z ? F(z) : "—", "mm" }
         }.Concat(g.Bars.GroupBy(b => b.Y).Select(r => new[] { $"Fila y={F(r.Key)} mm · {r.Count()} barre Ø{F(r.First().Diameter)}", F(r.Sum(b => b.Area)), "mm²" })));
         details.Text = $"Convergenza: {stage.Iterations} iterazioni.\nVariazione relativa delle larghezze: {stage.Residual:E3} · tolleranza 1E−7.\n\n" +
             $"Residuo massimo dell’equilibrio N–Mx: {stage.Contributions.Max(c => Math.Abs(c.EquilibriumResidual)):E3} · limite 1E−5.";
+        if (stage.GetHistory() is not null) ShowHistoryResults(result, stage);
     }
     private void UpdateCommonReferenceField()
     {
@@ -289,7 +293,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
     }
     private void RefreshDrawing()
     {
-        bool geometryPage = currentPage == 0;
+        bool geometryPage = currentPage == 0 && detachedWindow is null;
         var result = DisplayedCalculation;
         var stage = result is not null && StageChoice.SelectedIndex >= 0 && StageChoice.SelectedIndex < result.Stages.Count ? result.Stages[StageChoice.SelectedIndex] : null;
         Drawing.Geometry = geometryPage || stage is null ? previewGeometry : result!.Geometry;
@@ -306,10 +310,11 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
     }
     private void UpdateResultNotice()
     {
-        resultNotice.Text = currentPage == 0 ? (geometryError == "" ? "" : "Geometria precedente · " + geometryError)
+        bool geometryPage = currentPage == 0 && detachedWindow is null;
+        resultNotice.Text = geometryPage ? (geometryError == "" ? "" : "Geometria precedente · " + geometryError)
             : ResultsAreStale ? "DA AGGIORNARE · Grafico e verifiche dell’ultimo calcolo valido. I nuovi dati sono in acquisizione o in calcolo; le esportazioni dei risultati attendono l’aggiornamento." : "";
         resultNotice.Visibility = resultNotice.Text == "" ? Visibility.Collapsed : Visibility.Visible;
-        Drawing.IsStale = currentPage != 0 && ResultsAreStale;
+        Drawing.IsStale = !geometryPage && ResultsAreStale;
     }
     private static DataGrid ResultTable(string[] headers, IEnumerable<string[]> rows)
     {
@@ -339,7 +344,15 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         var lines = new List<string> { "Situazione;Punto;Materiale;y [mm];Sigma [MPa];Limite [MPa];Eta;Attivo" };
         string Q(string s) => "\"" + s.Replace("\"", "\"\"") + "\"";
         foreach (var s in Calculation.Stages) foreach (var p in s.Points) lines.Add(string.Join(";", Q(s.Name), Q(p.Name), Q(p.Material), p.Y.ToString("R", CultureInfo.GetCultureInfo("it-IT")), p.Stress.ToString("R", CultureInfo.GetCultureInfo("it-IT")), F(p.Limit), p.Utilization is { } u ? u.ToString("R", CultureInfo.GetCultureInfo("it-IT")) : "", p.Active));
+        if (Calculation.Stages.Any(s => s.GetHistory() is not null))
+        {
+            lines = ["Situazione;Fibra;Componente;Attiva;y [mm];Aeff [mm2];Eps totale;Eps getto;Eps imposta;Eps meccanica;Eps plastica;Sigma [MPa];Delta sigma [MPa]"];
+            string R(double x) => x.ToString("R", CultureInfo.GetCultureInfo("it-IT"));
+            foreach (var s in Calculation.Stages) foreach (var f in s.GetHistory()!.State.Fibers)
+                lines.Add(string.Join(";", Q(s.Name), Q(f.Fiber.Id), Q(f.ComponentId), f.Active, R(f.Fiber.Y), R(f.EffectiveArea), R(f.TotalStrain), R(f.ActivationStrain), R(f.ImposedStrain), R(f.MechanicalStrain),
+                    f.MaterialState is GPC.Checkers.CompositeBridge.History.HistoryPlasticState p ? R(p.PlasticStrain) : "", R(f.Stress), R(f.StressIncrement)));
+        }
         Archivio.ScriviAtomico(dialog.FileName, Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(string.Join(Environment.NewLine, lines))).ToArray());
     }
-    public void Dispose() { disposed = true; revision++; timer.Stop(); timer.Tick -= Tick; cancellation?.Cancel(); }
+    public void Dispose() { disposed = true; revision++; timer.Stop(); timer.Tick -= Tick; cancellation?.Cancel(); responseCancellation?.Cancel(); detachedWindow?.Close(); }
 }

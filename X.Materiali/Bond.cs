@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Materiali;
@@ -17,14 +17,8 @@ public sealed partial class MaterialView
             new Expander { Header="Formula e campo di applicazione",Content=Text("EN 1992-1-1:2004, §8.4.2, eq. (8.2): fbd = 2,25 η₁ η₂ fctd; fctd = αct fctk,0.05 / γc (§3.1.6). Diametro condiviso con il copriferro. η₂ = 1 per φ ≤32 mm, altrimenti (132−φ)/100. Per l'aderenza, fctk,0.05 è limitata al valore C60/75. Barre nervate, calcestruzzo normale, carichi prevalentemente statici. Le condizioni buone vanno accertate secondo figura 8.2; in altri casi η₁ = 0,7 (anche casseri scorrevoli salvo dimostrazione). αct = 1 e γc = 1,5 sono i valori iniziali per situazioni persistenti/transitorie; verificare annesso nazionale e situazione di progetto. Non è un calcolo della lunghezza di ancoraggio.",12) });
         bondReady=true; return Paper(content);
     }
-    static (double Fct,double Fctd,double Eta2,double Fbd) Bond(double fck,double diameter,double eta1,double alpha,double gamma)
-    {
-        if(!double.IsFinite(diameter)||diameter<=0||diameter>=132||!double.IsFinite(alpha)||alpha<=0||alpha>1||!double.IsFinite(gamma)||gamma<1)
-            throw new ArgumentException("Controllare φ (0 < φ < 132 mm), αct (0 < αct ≤1) e γc (≥1).");
-        double fct=Math.Abs(Material(Math.Min(fck,60)).Fctk05),eta2=diameter<=32?1:(132-diameter)/100;
-        double fctd=alpha*fct/gamma;
-        return(fct,fctd,eta2,2.25*eta1*eta2*fctd);
-    }
+    static ConcreteBond.Result Bond(double fck,double diameter,double eta1,double alpha,double gamma) =>
+        ConcreteBond.Calculate(fck,diameter,eta1,alpha,gamma);
     void RefreshBond()
     {
         if(!bondReady || choice.SelectedIndex<0) return;
@@ -46,7 +40,7 @@ public sealed partial class MaterialView
         if(Math.Abs(Bond(30,40,.7,1,1.5).Fbd-good.Fbd*.7*.92)>1e-10) throw new Exception("Coefficienti aderenza errati.");
         if(Bond(90,16,1,1,1.5).Fbd!=Bond(60,16,1,1,1.5).Fbd) throw new Exception("Limite C60/75 mancante.");
         choices["bondCondition"].SelectedIndex=0;
-        if(!bondValue.Text.Contains("3,04")) throw new Exception("Aggiornamento aderenza errato.");
+        if(!bondValue.Text.Contains(good.Fbd.ToString("0.00"))) throw new Exception("Aggiornamento aderenza errato: " + bondValue.Text + " · " + bondDetails.Text);
         numbers["bondGamma"].Text="0";
         if(bondValue.Text!="Da completare") throw new Exception("Risultato aderenza obsoleto.");
         numbers["bondGamma"].Text="1,5";

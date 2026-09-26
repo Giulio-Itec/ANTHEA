@@ -160,3 +160,5 @@ dotnet X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll --smoke-bridge supporto/a
 ## Nuovi metodi a taglio e pioli
 
 I metodi puri sono già in `Checker/GPCChecker.Steel/CompositeBridges`, temporaneamente inclusi da ANTHEA con collegamento ai sorgenti. Sono ricavati direttamente da NTC/EC, senza utilizzare il precedente metodo a taglio come oracolo. Riferimenti, difetti preesistenti non corretti e campo di validità: [revisione normativa](taglio-pioli-fonti-e-metodo.md).
+
+Aggiornamento 26 settembre 2026: i percorsi storici X.Core/BridgeSection citati nel dossier sono ora X.Calculations/BridgeSection; i metodi numerici sono in GPCChecker.CompositeBridge. Vedere migrazione-composite-bridge.md e libreria-calcolo.md per l’architettura corrente.

@@ -13,12 +13,7 @@ public record PropertyRow(string Nome, string Simbolo, string Valore, string Uni
 public sealed partial class MaterialView : UserControl
 {
     static readonly Brush Navy = Brush("#0B2A4A"), Blue = Brush("#0B5CAD"), Muted = Brush("#64748B");
-    static readonly (string Name, double Fck)[] Classes =
-    [
-        ("C12/15",12), ("C16/20",16), ("C20/25",20), ("C25/30",25), ("C28/35",28),
-        ("C30/37",30), ("C32/40",32), ("C35/45",35), ("C40/50",40), ("C45/55",45),
-        ("C50/60",50), ("C55/67",55), ("C60/75",60), ("C70/85",70), ("C80/95",80), ("C90/105",90)
-    ];
+    static readonly (string Name, double Fck)[] Classes = ConcreteMaterialCatalog.MaterialSheetClasses();
     readonly ComboBox choice = new() { MinWidth=130, Margin=new Thickness(0,4,0,6) };
     readonly TextBlock strength = Text("",32,true), modulus = Text("",32,true), tension = Text("",32,true);
     readonly TextBlock status = Text("",12);
@@ -88,7 +83,7 @@ public sealed partial class MaterialView : UserControl
         card.Margin=new Thickness(column==0?0:7,0,column==2?0:7,14);
         Grid.SetColumn(card,column); cards.Children.Add(card);
     }
-    static ConcreteMaterialEN1992 Material(double fck) => new("Calcestruzzo",fck,ConcreteMaterial.CompressionStressStrainDiagrams.ParabolaRectangle);
+    static ConcreteMaterialEN1992 Material(double fck) => ConcreteMaterialCatalog.Material(fck);
     static string Number(double value) => Math.Abs(value).ToString("N2",CultureInfo.CurrentCulture);
     void Refresh()
     {

@@ -37,39 +37,20 @@ internal sealed partial class ConcreteWorkspace
             try
             {
                 var model = await modelTask; if (closed || current != generation) return;
-                double ec = model.Section.ConcreteMaterial.E, es = input.Required("steel_modulus_mpa", strict: true);
-                double phi = options.S("metodo") == "Da n" ? SectionWorkspace.Number(options.S("n"), "n") * ec / es - 1 : SectionWorkspace.Number(options.S("phi", "0"), "φ");
-                if (!double.IsFinite(phi) || phi < -1e-12) throw new ArgumentException("Inserire φ ≥ 0 oppure n ≥ Es/Ecm.");
-                phi = Math.Max(0, phi); double n = es * (1 + phi) / ec;
-                options["phi"] = Exact(phi); options["n"] = Exact(n);
-                form?.Set("phi", EngineeringFormat.Number(phi), true); form?.Set("n", EngineeringFormat.Number(n), true); Modified?.Invoke();
-                string report = await Task.Run(() =>
+                var snapshot = (JsonObject)options.DeepClone();
+                var properties = await Task.Run(() => Anthea.Calculations.ConcreteSectionProperties.Calculate(model, input, workspace, snapshot));
+                if (closed || current != generation) return;
+                options["phi"] = Exact(properties.Phi); options["n"] = Exact(properties.N);
+                form?.Set("phi", EngineeringFormat.Number(properties.Phi), true); form?.Set("n", EngineeringFormat.Number(properties.N), true); Modified?.Invoke();
+                var b = new System.Text.StringBuilder();
+                foreach (var group in properties.Values.GroupBy(v => v.Group))
                 {
-                var section = model.Section;
-                var b = new System.Text.StringBuilder(model.Geometry.Holes.Count>0?"SOLO CALCESTRUZZO · area al netto del foro, senza sottrarre le barre\n":"SOLO CALCESTRUZZO · sezione lorda\n");
-                void Value(string name, double value, string unit) => b.AppendLine($"{name} = {EngineeringFormat.Number(value)} {unit}");
-                // Width/Height are not implemented by the DLL's generic polygon section.
-                // Use the same geometric bounds that generated the native shape.
-                Value("Area", section.Area / 100, "cm²"); Value("Larghezza", model.Geometry.Width, "mm"); Value("Altezza", model.Geometry.Height, "mm");
-                if(model.Geometry.Shape=="Circolare")Value("Lati per contorno circolare",model.Geometry.CircularSides,"");
-                Value("Baricentro x", section.Centroid.X, "mm"); Value("Baricentro y", section.Centroid.Y, "mm");
-                foreach (string key in new[] { "Jxx", "Jyy", "Jxy", "Jp", "J11", "J22" }) Value(key, (double)section.GetType().GetProperty(key)!.GetValue(section)! / 1e4, "cm⁴");
-                foreach (string key in new[] { "WelXMin", "WelXMax", "WelYMin", "WelYMax" }) Value(key, (double)section.GetType().GetProperty(key)!.GetValue(section)! / 1e3, "cm³");
-                Value("Raggio giratore x", section.Rxx, "mm"); Value("Raggio giratore y", section.Ryy, "mm");
-                b.AppendLine($"\nOMOGENEIZZATA AL CLS · sezione integra, φ = {EngineeringFormat.Number(phi)} (DLL Checker)");
-                Value("n armature", n, "");
-                foreach (var ep in workspace.Array("trefoli").Select(t => t.D("Ep")).Distinct()) Value($"n trefoli (Ep = {EngineeringFormat.Number(ep)} MPa)", ep * (1 + phi) / ec, "");
-                var h = section.GetHomogeneizedMechanicalProperties(phi);
-                Value("Area omogeneizzata", h.areaH / 100, "cm²"); Value("Baricentro x", h.centroidH.X, "mm"); Value("Baricentro y", h.centroidH.Y, "mm");
-                Value("Sx", h.SxH / 1e3, "cm³"); Value("Sy", h.SyH / 1e3, "cm³");
-                Value("Jxx", h.JxxH / 1e4, "cm⁴"); Value("Jyy", h.JyyH / 1e4, "cm⁴"); Value("Jxy", h.JxyH / 1e4, "cm⁴");
-                Value("J11", h.J11H / 1e4, "cm⁴"); Value("J22", h.J22H / 1e4, "cm⁴"); Value("Angolo principale", h.angleX * 180 / Math.PI, "°");
-                b.AppendLine("\nARMATURE ORDINARIE"); Value("Numero barre", model.Geometry.Bars.Count, ""); Value("As totale", model.Geometry.AreaSteel / 100, "cm²"); Value("As / Ac", 100 * model.Geometry.AreaSteel / section.Area, "%");
-                foreach (var group in model.Geometry.Bars.GroupBy(v => v.Diametro).OrderBy(g => g.Key)) b.AppendLine($"{group.Count()} Ø{EngineeringFormat.Number(group.Key)} · As = {EngineeringFormat.Number(group.Sum(v => v.Area) / 100)} cm²");
-                b.AppendLine("\nTREFOLI / CAVI"); Value("Numero cavi", workspace.Array("trefoli").Count, ""); Value("Ap totale", workspace.Array("trefoli").Sum(t => t.D("area")) / 100, "cm²");
-                b.AppendLine("\nSezione elastica non fessurata. n = Eacciaio(1 + φ)/Ecm, φ comune; Ep distinto per materiale. Queste opzioni non modificano le verifiche SLE del foglio.");
-                return b.ToString();
-                });
+                    b.AppendLine(group.Key.ToUpperInvariant());
+                    foreach (var value in group) b.AppendLine($"{value.Name} = {EngineeringFormat.Number(value.Value)} {value.Unit}");
+                    b.AppendLine();
+                }
+                b.AppendLine("Sezione elastica non fessurata. n = Eacciaio(1 + φ)/Ecm, φ comune; Ep distinto per materiale. Queste opzioni non modificano le verifiche SLE del foglio.");
+                string report = b.ToString();
                 if (!closed && current == generation) { text.Text = report; ready = true; }
             }
             catch (Exception ex) { if (!closed && current == generation) text.Text = "Proprietà non disponibili: " + ex.Message; }

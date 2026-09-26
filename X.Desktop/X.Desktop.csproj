@@ -11,8 +11,11 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Assets/anthea.ico</ApplicationIcon>
   </PropertyGroup>
-  <ItemGroup><ProjectReference Include="../X.Core/X.Core.csproj" /><ProjectReference Include="../X.Materiali/X.Materiali.csproj" /></ItemGroup>
-  <ItemGroup><Reference Include="../lib/Checker/*.dll" /></ItemGroup>
+  <ItemGroup><ProjectReference Include="../X.Calculations/X.Calculations.csproj" /><ProjectReference Include="../X.Core/X.Core.csproj" /><ProjectReference Include="../X.Materiali/X.Materiali.csproj" /></ItemGroup>
+  <ItemGroup>
+    <Reference Include="../lib/Checker/*.dll" Exclude="../lib/Checker/GPCChecker.CompositeBridge.dll" />
+    <Reference Include="GPCChecker.CompositeBridge"><HintPath>../lib/Checker/GPCChecker.CompositeBridge.dll</HintPath><Private>true</Private></Reference>
+  </ItemGroup>
   <ItemGroup><Resource Include="Assets/*.png" /><Resource Include="Assets/anthea.ico" /></ItemGroup>
   <ItemGroup><Compile Include="../supporto/test/Desktop/*.cs" Link="Tests/%(Filename)%(Extension)" /></ItemGroup>
 </Project>

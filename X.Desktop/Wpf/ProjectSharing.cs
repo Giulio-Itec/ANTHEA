@@ -57,7 +57,7 @@ public sealed partial class MainWindow
         if (!ProjectSharedData.SubtreeSheets(section).Any()) return;
         var differences = ProjectSharedData.Differences(section);
         bool comparable = ProjectSharedData.ComparisonPairs(section).Any(p => ProjectSharedData.ComparableFields(p.First, p.Second).Any());
-        var warnings = ProjectSharedData.Limitations(section).Concat(CoverChecks(section).Where(c => c.Passed != true).Select(c => c.Text)).Distinct().ToArray();
+        var warnings = ProjectValidation.Warnings(section);
         if (!comparable && warnings.Length == 0) return;
         bool hasConflicts = differences.Count > 0 || ProjectSharedData.MissingSoilLayers(section).Count > 0;
         string title = hasConflicts ? "⚠ Differenze tra fogli" : comparable ? "✓ Dati comuni coerenti" : "";

@@ -1,12 +1,16 @@
 # Materiali integrato in ANTHEA
 
-Scheda importata da Desktop/Materiali (sorgenti della versione ATECAP del 23 settembre 2026). Accesso: Moduli singoli → Materiali → Calcestruzzo → Apri. La scheda si apre nella finestra principale di ANTHEA, con Home e Riprendi. È disponibile anche nei Progetti, comprese sottosezioni e trascinamento. Salva e riapri conservano classe, esposizioni, dati di copriferro/aderenza, scelte e designazione del cemento, anche con campi numerici incompleti. Ogni scheda mantiene dati indipendenti. Il report Word non è ancora disponibile.
+Scheda importata da Desktop/Materiali (sorgenti della versione ATECAP del 23 settembre 2026). Accesso: Moduli singoli → Materiali → Calcestruzzo → Apri. La scheda si apre nella finestra principale di ANTHEA, con Home e Riprendi. È disponibile anche nei Progetti, comprese sottosezioni e trascinamento. Salva e riapri conservano classe, esposizioni, dati di copriferro/aderenza, scelte e designazione del cemento, anche con campi numerici incompleti. Ogni scheda mantiene dati indipendenti. Il report Word è disponibile dal foglio e dal progetto.
 
 Il progetto X.Materiali è una libreria WPF inclusa nella compilazione e pubblicazione di X.Desktop. Stili e immagini sono incorporati; non occorre la cartella originale sul Desktop.
+
+Dal riordino del 26 settembre 2026, i motori di durabilità, copriferro, classe minima e prescrizioni di miscela sono in `X.Calculations/Materials` e conservano il namespace `Materiali`. Sono condivisi con la sezione in c.a. e con i calcoli senza interfaccia. L’aderenza è unica in `X.Calculations/ConcreteBond.cs`; cataloghi e materiali provengono da GPC.Model. Le schede restano responsabili della presentazione e dello stato dei controlli. `X.Materiali` dipende direttamente dalla libreria di calcolo e non da `X.Core`.
 
 Verifica integrata: ANTHEA.exe --smoke-materials <cartella-output>. Include i controlli originali della scheda e catalogo, apertura interna, ripresa, modifica, salvataggio singolo e in progetto, spostamento, riapertura e input incompleti.
 
 ## Documentazione della versione importata
+
+Le note seguenti descrivono le versioni autonome precedenti all’integrazione; i loro percorsi di avvio e le limitazioni su salvataggio/report non riguardano la versione integrata attuale.
 
 # ANTHEA · Materiali
 Modulo autonomo Windows WPF / .NET 8 per il calcestruzzo.

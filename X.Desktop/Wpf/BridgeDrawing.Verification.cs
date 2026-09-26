@@ -41,6 +41,12 @@ internal sealed partial class BridgeDrawing
     private Brush SectionFill(string material, double bottom, double height, Brush fallback)
     {
         if (!ContourSection || Stage is not { } stage) return fallback;
+        if (stage.GetHistory() is { } history)
+        {
+            var brush = new LinearGradientBrush { StartPoint = new(0, 0), EndPoint = new(0, 1) };
+            for (int i = 0; i <= 128; i++) brush.GradientStops.Add(new(StressColor(material, history.Profile.Stress(material, bottom + height * (1 - i / 128d))), i / 128d));
+            brush.Freeze(); return brush;
+        }
         return ContourBrush(material, stage.Contributions.Sum(c => c.Stress(material, bottom + height)), stage.Contributions.Sum(c => c.Stress(material, bottom)));
     }
     private void DrawConnectors(DrawingContext dc, BridgeGeometry g, Func<double, double, Point> point, double scale)

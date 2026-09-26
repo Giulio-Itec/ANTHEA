@@ -37,12 +37,7 @@ public sealed partial class MainWindow
         timer.Start();
     }
 
-    private static string NextProjectName(JsonArray siblings, string prefix)
-    {
-        var names = siblings.Select(n => n.S("nome")).ToHashSet(StringComparer.OrdinalIgnoreCase);
-        int index = 1; while (names.Contains(prefix + " " + index)) index++;
-        return prefix + " " + index;
-    }
+    private static string NextProjectName(JsonArray siblings, string prefix) => ProjectDocuments.NextName(siblings, prefix);
 
     private void BeginProjectRename(TreeViewItem item)
     {
@@ -71,7 +66,7 @@ public sealed partial class MainWindow
             string name = input.Text.Trim();
             if (save && name.Length > 0 && name != value.S("nome"))
             {
-                value["nome"] = name; label.Text = name; MarkDirty();
+                ProjectDocuments.Rename(value, name); label.Text = value.S("nome"); MarkDirty();
                 if (ReferenceEquals(value, currentSheet)) heading.Text = SheetHeading(value);
                 if (ReferenceEquals(value, overviewSection) && overviewName is not null) overviewName.Text = name;
             }

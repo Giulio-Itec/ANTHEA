@@ -34,10 +34,13 @@ public static partial class ProjectSharedData
         }
         if (module == "geo_micropalo_verticale") Add("CHS · profilo_chs", "Armatura", "generali/profilo_chs");
         AddConcreteDurabilityFields(module, data, result);
+        AddBridgeFields(module, data, result);
+        AddCoefficientFields(module, data, result);
     }
 
     static bool AdditionalCompatible(Field field, JsonObject source, JsonObject target)
     {
+        if (!CompatibleCoefficient(field.Key, source, target)) return false;
         if (field.Key.StartsWith("Durabilità · "))
         {
             if (!ActiveField(source, field.Key) || !ActiveField(target, field.Key) || !SameDurabilityModel(source, target)) return false;
@@ -73,6 +76,9 @@ public static partial class ProjectSharedData
         if (keys.Contains("Scheda CLS · scelte/deviationControl")) keys.Add("Durabilità · tolleranza [mm]");
         if (keys.Contains("presenza_falda")) keys.Add("profondita_falda");
         if (keys.Contains("CHS · modo_chs")) keys.UnionWith(current.Keys.Where(k => k.StartsWith("CHS · ")));
+        ExpandBridgeKeys(keys);
+        if (keys.Any(k => k.StartsWith("Normativa · ")))
+            keys.UnionWith(current.Values.Where(f => f.Group == "Coefficienti").Select(f => f.Key));
         return keys;
     }
 
@@ -120,6 +126,9 @@ public static partial class ProjectSharedData
         var pairs = ComparisonPairs(section).ToArray();
         foreach (var sheet in sheets)
         {
+            if (sheet["dati"] is JsonObject stored)
+                foreach (var issue in CalculationValidation.Coefficients(sheet.S("modulo_id"), stored))
+                    result.Add(sheet.S("nome") + ": " + issue.Message);
             var related = pairs.Where(p => ReferenceEquals(p.First, sheet) || ReferenceEquals(p.Second, sheet))
                 .Select(p => ReferenceEquals(p.First, sheet) ? p.Second : p.First).ToArray();
             bool hasPile = related.Any(s => s.S("modulo_id") == PaloOrizzontale.Module);

@@ -19,6 +19,7 @@ public static partial class ProjectSharedData
     {
         string fm = first.S("modulo_id"), sm = second.S("modulo_id"), key = field.Key;
         if (!ActiveField(first, key) || !ActiveField(second, key)) return false;
+        if (!CompatibleCoefficient(key, first, second)) return false;
         if (key.StartsWith("Durabilità · ") && !SameDurabilityModel(first, second)) return false;
         if ((key == "profondita_falda" || key.StartsWith("Strato · ") && key.EndsWith("/peso_specifico_saturo")) &&
             !WaterDataActive(first, second)) return false;
@@ -27,7 +28,7 @@ public static partial class ProjectSharedData
         if (key == "CHS · profilo_chs")
             return (fm != MicropaloOrizzontale.Module || first["dati"]?["sezione"].S("modo_chs") == "Catalogo") &&
                 (sm != MicropaloOrizzontale.Module || second["dati"]?["sezione"].S("modo_chs") == "Catalogo");
-        if (fm == sm || field.Group is "Terreno" or "Materiali" || key is "perforazione_mm" or "lunghezza_micropalo") return true;
+        if (fm == sm || field.Group is "Terreno" or "Materiali" or "Coefficienti" || key is "perforazione_mm" or "lunghezza_micropalo") return true;
 
         bool rcPair = fm is "str_palo" or PaloOrizzontale.Module && sm is "str_palo" or PaloOrizzontale.Module;
         if (rcPair && key is "shape" or "cover_mm") return true;

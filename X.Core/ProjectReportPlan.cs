@@ -102,7 +102,10 @@ public sealed class ProjectReportPlan
             return $"Sondaggio {int.Parse(parts[1]) + 1} · Strato {int.Parse(parts[2]) + 1} · {Label(parts[3])}";
         return string.Join(" · ", parts.Select(p => int.TryParse(p, out int i) ? (i + 1).ToString() : Label(p)));
     }
-    public static string Label(string key) => key.StartsWith("Strato · ") ? ProjectSharedData.SoilFieldLabel(key) :
+    public static string Label(string key) => CalculationCoefficients.Label(key) is string coefficient ? coefficient :
+        key.StartsWith("Normativa · ") ? "Normativa · " + ModuleCatalog.Get(key[12..]).Name :
+        key.StartsWith("Ponte · ") ? ProjectSharedData.BridgeFieldLabel(key) :
+        key.StartsWith("Strato · ") ? ProjectSharedData.SoilFieldLabel(key) :
         key.StartsWith("Scheda CLS · ") ? ConcreteLabel(key.Split('/').Last()) :
         key.StartsWith("CHS · ") ? "CHS · " + Label(key[6..]) :
         key.StartsWith("Staffe · ") ? "Staffe · " + Label(key[9..]) : key switch

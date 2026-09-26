@@ -43,7 +43,7 @@ public sealed partial class MainWindow : Window
 
     }
     internal void Safe(Action action) { try { action(); } catch (Exception ex) { if (testing) throw; MessageBox.Show(this, ex.Message, "Operazione non completata", MessageBoxButton.OK, MessageBoxImage.Error); } }
-    internal static string ModuleName(string module) => module switch { "geo_palo_verticale" => "Palo · capacità portante", "geo_palo_orizzontale" => "Palo · capacità portante orizzontale", "geo_micropalo_verticale" => "Micropalo · Bustamante–Doix", MicropaloOrizzontale.Module => "Micropalo · capacità portante orizzontale", "str_palo" => "Sezione in c.a. · SLU / SLV / SLE", BridgeSection.Module => "Sezione composta · ponte / classe 4", "mat_calcestruzzo" => "Calcestruzzo · Materiali", RebarMaterial.Module => "Acciaio per armature · Materiali", _ => module };
+    internal static string ModuleName(string module) => ModuleCatalog.Get(module).Name;
     private Menu BuildMenu()
     {
         var menu = new Menu { Background = Brushes.White }; var file = new MenuItem { Header = "_File" }; menu.Items.Add(file);
@@ -129,7 +129,7 @@ public sealed partial class MainWindow : Window
         var filters = Ui.Stack(Ui.Text("DISCIPLINE", 13, true)); filters.Width = 185; foreach (string name in new[] { "Tutti", "Geotecnica", "Strutture", "Materiali" }) filters.Children.Add(Ui.Button(name, () => ShowModules(name), discipline == name));
         var fp = Ui.Paper(filters, 16); fp.Margin = new Thickness(0, 0, 16, 0); DockPanel.SetDock(fp, System.Windows.Controls.Dock.Left); root.Children.Add(fp);
         var list = new StackPanel();
-        var modules = new[] { ("Geotecnica", "Palo", "Capacità portante verticale", "geo_palo_verticale"), ("Geotecnica", "Palo", "Capacità portante orizzontale", "geo_palo_orizzontale"), ("Geotecnica", "Micropalo", "Capacità portante verticale", "geo_micropalo_verticale"), ("Geotecnica", "Micropalo", "Capacità portante orizzontale", MicropaloOrizzontale.Module), ("Strutture", "Sezione in c.a.", "Verifiche SLU · SLV · SLE", "str_palo"), ("Strutture", "Sezione composta", "Ponte · fasi e classe 4", BridgeSection.Module), ("Materiali", "Calcestruzzo", "Proprietà, copriferro e composizione", "mat_calcestruzzo"), ("Materiali", "Acciaio per armature", "Proprietà meccaniche e diagramma", RebarMaterial.Module) };
+        var modules = ModuleCatalog.All.Select(m => (m.Area, m.Element, m.Description, m.Id)).ToArray();
         foreach (string area in new[] { "Geotecnica", "Strutture", "Materiali" }.Where(a => discipline == "Tutti" || a == discipline))
         {
             var label = Ui.Text(area, 21, true); label.Margin = new Thickness(0, 10, 0, 14); list.Children.Add(label);
@@ -264,14 +264,14 @@ public sealed partial class MainWindow : Window
         if (!ConfirmDiscard()) return;
         ExitRevisionPreview();
         editor?.Dispose(); editor = null; currentSheet = null; sheetContent.Content = null;
-        document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "progetti"), ("progetti", new JsonArray())); path = null; dirty = false; ShowProjects(); UpdateTitle();
+        document = ProjectDocuments.CreateArchive(); path = null; dirty = false; ShowProjects(); UpdateTitle();
     }
     private void AddProject()
     {
         if (projectReadOnly) return;
         if (document.S("tipo") != "progetti") { NewProjects(); if (document.S("tipo") != "progetti") return; }
         string name = NextProjectName(document.Array("progetti"), "Progetto");
-        Commit(); var p = J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("strutture", new JsonArray())); document.Array("progetti").Add(p); MarkDirty(); ShowProjectOverview(p);
+        Commit(); var p = ProjectDocuments.AddProject(document, name); MarkDirty(); ShowProjectOverview(p);
     }
     private void AddStructure()
     {
@@ -291,22 +291,15 @@ public sealed partial class MainWindow : Window
         string name = NextProjectName(parent.Array("strutture"), "Sezione");
         Commit(); var section = CreateProjectSection(parent, name); MarkDirty(); ShowProjectOverview(section);
     }
-    private static JsonObject CreateProjectSection(JsonObject parent, string name)
-    {
-        if (parent["strutture"] is not JsonArray) parent["strutture"] = new JsonArray();
-        var section = J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("strutture", new JsonArray()), ("fogli", new JsonArray()));
-        parent.Array("strutture").Add(section); return section;
-    }
+    private static JsonObject CreateProjectSection(JsonObject parent, string name) => ProjectDocuments.AddSection(parent, name);
     private void AddSheet(string module) => AddSheetTo(module, SelectedProjectContainer(), true);
     private void AddSheetTo(string module, JsonObject? section, bool open)
     {
         if (projectReadOnly) return;
         if (document.S("tipo") != "progetti") { NewCalculation(module); return; }
         if (section is null || !(section.ContainsKey("fogli") || section.ContainsKey("strutture"))) { MessageBox.Show(this, "Selezionare una sezione nell'albero dei progetti."); return; }
-        if (section["fogli"] is not JsonArray) section["fogli"] = new JsonArray();
-        string name = NextProjectName(section.Array("fogli"), ModuleName(module));
-        Commit(); var sheet = J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("modulo_id", module), ("dati", Archivio.NuovoFoglio(module)));
-        section.Array("fogli").Add(sheet); InheritSectionData(sheet, section); MarkDirty(); RefreshTree(sheet); if (open) ShowSheet(sheet); else if (!ReferenceEquals(projectContent.Content, moduleView)) ShowProjectOverview(section);
+        Commit(); var sheet = ProjectDocuments.AddSheet(section, module);
+        MarkDirty(); RefreshTree(sheet); if (open) ShowSheet(sheet); else if (!ReferenceEquals(projectContent.Content, moduleView)) ShowProjectOverview(section);
     }
 
     private void Rename()

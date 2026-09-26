@@ -51,7 +51,7 @@ internal sealed partial class BridgeWorkspace
             viewSettings["layout_version"] = 4;
         }
         BuildSectionProperties();
-        foreach (var (number, title) in new[] { ("01", "Pannello di controllo"), ("02", "Fasi e tensioni") })
+        foreach (var (number, title) in new[] { ("01", "Pannello di controllo"), ("02", "Fasi e tensioni"), ("03", "Curve della sezione") })
             Pages.Items.Add(new TabItem { Header = Ui.Bar(Ui.Text(number, 11, true, Ui.Muted), Ui.Text("  " + title, 14, true)), Padding = new Thickness(14, 9, 14, 9) });
 
         inputSubtitle.Margin = new Thickness(0, 5, 0, 10);
@@ -70,6 +70,7 @@ internal sealed partial class BridgeWorkspace
         Viewport.Toolbar.Children.Add(Ui.Button("+", () => Drawing.ZoomBy(1.15), inspection: true));
         Viewport.Toolbar.Children.Add(GeometryLabels); Viewport.Toolbar.Children.Add(RebarLabels);
         BuildStressScaleControls(); BuildContourControls();
+        Viewport.Toolbar.Children.Add(Ui.Button("Stacca vista", DetachView, inspection: true));
         foreach (var toggle in new[] { GeometryLabels, RebarLabels })
         {
             toggle.Checked += (_, _) => LabelOptionsChanged(); toggle.Unchecked += (_, _) => LabelOptionsChanged();
@@ -81,19 +82,21 @@ internal sealed partial class BridgeWorkspace
             Ui.Text("Rapporti locali σ/limite · non rappresentano la verifica completa del ponte.", 11, color: Ui.Muted), warnings,
             Ui.Button("Dettagli sezione efficace ↓", () => Results.SelectedIndex = 2, inspection: true))), "Compressione − · trazione +");
         sidebarHost.Content = analysisSidebar;
-        var sectionWithElevation = Ui.Dock(Viewport, bottom: BuildDetailSketch());
+        viewportHost.Content = Viewport;
+        var sectionWithElevation = Ui.Dock(viewportHost, bottom: BuildDetailSketch());
         var upper = Split(sectionWithElevation, sidebarHost, "risultati", false, .7, 460, 250);
         var resultActions = Ui.Bar(Ui.Button("Esporta CSV…", ExportCsv, inspection: true));
         var table = Panel("Sollecitazioni e risultati", Ui.Dock(Results, bottom: resultActions), "Sollecitazioni: tutte le fasi · risultati: situazione selezionata · mm, MPa, kN, kNm");
         var right = Split(upper, table, "righe", true, .56, 290, 250);
         var layout = Split(left, right, "ingressi", false, .29, 285, 710);
         layout.Margin = new Thickness(12, 10, 12, 0);
+        mainWorkspace = layout; responsePage = BuildResponsePage(); workspacePage.Content = mainWorkspace;
         var footer = new DockPanel { Margin = new Thickness(16, 4, 16, 8) }; footer.Children.Add(status);
         var header = new DockPanel();
         var information = Ui.Button("Info modello…", ShowModelInformation, inspection: true); information.Margin = new Thickness(8, 8, 16, 0);
         information.VerticalAlignment = VerticalAlignment.Center; DockPanel.SetDock(information, Dock.Right);
         header.Children.Add(information); header.Children.Add(Pages);
-        var body = Ui.Dock(layout, Ui.Stack(header, resultNotice), Ui.Stack(progress, footer));
+        var body = Ui.Dock(workspacePage, Ui.Stack(header, resultNotice), Ui.Stack(progress, footer));
         var scroll = new ChainedScrollViewer { Content = body, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
         Content = scroll;
         void Resize()
@@ -103,7 +106,7 @@ internal sealed partial class BridgeWorkspace
         }
         scroll.SizeChanged += (_, _) => Resize();
         scroll.ScrollChanged += (_, e) => { if (e.Source == scroll && (e.ViewportWidthChange != 0 || e.ViewportHeightChange != 0)) Resize(); };
-        Pages.SelectedIndex = Math.Clamp((int)viewSettings.D("tab"), 0, 1);
+        Pages.SelectedIndex = Math.Clamp((int)viewSettings.D("tab"), 0, 2);
         SelectPage();
         Pages.SelectionChanged += (_, e) => { if (ReferenceEquals(e.Source, Pages) && !building) { Commit(); SelectPage(); Modified?.Invoke(); } };
     }
@@ -145,8 +148,14 @@ internal sealed partial class BridgeWorkspace
     private void SelectPage()
     {
         selectingPage = true;
+        if (Pages.SelectedIndex == 2)
+        {
+            if (currentPage is 0 or 1) { viewSettings["vista_" + currentPage] = DisplayChoice.SelectedIndex; viewSettings["risultato_" + currentPage] = Results.SelectedIndex; }
+            currentPage = 2; viewSettings["tab"] = 2; workspacePage.Content = responsePage; EnterResponsePage(); selectingPage = false; return;
+        }
+        workspacePage.Content = mainWorkspace;
         int page = Math.Clamp(Pages.SelectedIndex, 0, 1);
-        if (currentPage >= 0)
+        if (currentPage is 0 or 1)
         {
             viewSettings["vista_" + currentPage] = DisplayChoice.SelectedIndex;
             viewSettings["risultato_" + currentPage] = Results.SelectedIndex;
@@ -155,8 +164,9 @@ internal sealed partial class BridgeWorkspace
         inputHost.Content = pageInputs[page]; currentPage = page; viewSettings["tab"] = page;
         inputTitle.Text = new[] { "Definizione della sezione", "Fasi, omogeneizzazione e limiti" }[page];
         inputSubtitle.Text = new[] { "Geometria, materiali e armature · dimensioni in mm", "Carichi incrementali · φ, ψL e n sincronizzati" }[page];
-        stageControls.Visibility = DisplayChoice.Visibility = page == 0 ? Visibility.Collapsed : Visibility.Visible;
-        DisplayChoice.SelectedIndex = page == 0 ? 2 : Math.Clamp((int)viewSettings.D("vista_1", 0), 0, 2);
+        stageControls.Visibility = page == 0 ? Visibility.Collapsed : Visibility.Visible;
+        DisplayChoice.Visibility = page == 0 && detachedWindow is null ? Visibility.Collapsed : Visibility.Visible;
+        if (detachedWindow is null) DisplayChoice.SelectedIndex = page == 0 ? 2 : Math.Clamp((int)viewSettings.D("vista_1", 0), 0, 2);
         GeometryLabels.IsChecked = viewSettings.B("quote_" + page, page == 0);
         RebarLabels.IsChecked = viewSettings.B("armature_" + page, page == 0);
         SetAnalysisPanels(page == 1);
@@ -167,7 +177,7 @@ internal sealed partial class BridgeWorkspace
     }
     private void SaveView()
     {
-        if (currentPage < 0) return;
+        if (currentPage < 0 || currentPage == 2) return;
         viewSettings["vista_" + currentPage] = DisplayChoice.SelectedIndex;
         viewSettings["risultato_" + currentPage] = Results.SelectedIndex;
         viewSettings["quote_" + currentPage] = GeometryLabels.IsChecked == true;

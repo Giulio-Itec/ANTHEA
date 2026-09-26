@@ -19,6 +19,7 @@ public static class ReportProject
         if (materialSheet && (plan.Sheets.Length != 1 || plan.Sheets[0].S("modulo_id") is not ("mat_calcestruzzo" or RebarMaterial.Module)))
             throw new ArgumentException("Il report materiale richiede una sola scheda materiali.");
         if (plan.Sheets.Any(s => !reports.ContainsKey(s))) throw new ArgumentException("Preparazione incompleta: manca una scheda del report.");
+        warnings = warnings.Concat(ProjectValidation.Warnings(plan.Root)).Distinct().ToArray();
         var body = new XElement(W + "body");
         var relationships = new XElement(Rel + "Relationships");
         var media = new Dictionary<string, byte[]>(); int imageId = 0, bookmarkId = 0;
@@ -144,13 +145,14 @@ public static class ReportProject
             var common = plan.Common.Where(v => ReferenceEquals(v.Section, section));
             foreach (var group in common.GroupBy(v => (v.Field.Group, Origin: ProjectSharedData.Location(v.Source), Members: string.Join("; ", v.Sheets.Select(SheetRef)))))
             {
-                Heading(group.Key.Group switch { "Geometria" => "Geometria comune", "Armatura" => "Armature comuni", "Terreno" => "Dati comuni del terreno", _ => group.Key.Group + " comuni" }, levels[section] + 1);
+                Heading(group.Key.Group switch { "Geometria" => "Geometria comune", "Armatura" => "Armature comuni", "Normativa" => "Normativa comune", "Terreno" => "Dati comuni del terreno", _ => group.Key.Group + " comuni" }, levels[section] + 1);
                 P("Riferimento: " + group.Key.Origin + ". Utilizzati da: " + group.Key.Members + ".");
                 Table(Values(group.Select(v => new ProjectReportPlan.InputValue(v.Field.Group, ProjectReportPlan.Label(v.Field.Key), v.Field.Value))), "Proprietà", "Valore");
             }
             foreach (var sheet in section.Array("fogli").OfType<JsonObject>())
             {
                 if (!materialSheet) NodeHeading(sheet);
+                P("Modulo: " + ModuleCatalog.Get(sheet.S("modulo_id")).Name);
                 var refs = plan.Common.Where(v => v.Sheets.Contains(sheet)).Select(v => numbers[v.Section] + " " + v.Section.S("nome") + " — " + v.Field.Group).Distinct().ToArray();
                 if (refs.Length > 0) P("Dati condivisi: vedere " + string.Join("; ", refs) + ".");
                 foreach (var group in plan.LocalInputs(sheet).GroupBy(v => v.Group))

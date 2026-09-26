@@ -9,7 +9,7 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        bool smoke = e.Args.Length >= 2 && e.Args[0] is "--smoke" or "--smoke-horizontal" or "--smoke-display" or "--smoke-ca-features" or "--smoke-ca-extensions" or "--smoke-projects" or "--smoke-materials" or "--smoke-bridge" or "--smoke-material-report" or "--smoke-project-workspace" or "--smoke-project-report" or "--smoke-hierarchy" or "--smoke-steel" or "--smoke-sharing";
+        bool smoke = e.Args.Length >= 2 && e.Args[0] is "--smoke" or "--smoke-horizontal" or "--smoke-display" or "--smoke-ca-features" or "--smoke-ca-extensions" or "--smoke-projects" or "--smoke-materials" or "--smoke-bridge" or "--smoke-bridge-curves" or "--smoke-material-report" or "--smoke-project-workspace" or "--smoke-project-report" or "--smoke-hierarchy" or "--smoke-steel" or "--smoke-sharing";
         DispatcherUnhandledException += (_, error) =>
         {
             if (smoke)
@@ -21,6 +21,10 @@ public partial class App : Application
             error.Handled = true;
         };
         var window = new MainWindow();
+        // Smoke windows are repeatedly created and destroyed under the desktop pointer.
+        // Suppress tooltip popups in the harness to avoid WPF referring to an already closed HWND.
+        if (smoke) EventManager.RegisterClassHandler(typeof(FrameworkElement), System.Windows.Controls.ToolTipService.ToolTipOpeningEvent,
+            new System.Windows.Controls.ToolTipEventHandler((_, args) => args.Handled = true));
         MainWindow = window;
         if (smoke && e.Args.Length == (e.Args[0] == "--smoke" ? 3 : 2))
         {
@@ -31,7 +35,8 @@ public partial class App : Application
                 int code = 0;
                 try
                 {
-                    if (e.Args[0] == "--smoke-bridge") await window.SmokeBridge(e.Args[1]);
+                    if (e.Args[0] == "--smoke-bridge-curves") await window.SmokeBridgeResponse(e.Args[1]);
+                    else if (e.Args[0] == "--smoke-bridge") await window.SmokeBridge(e.Args[1]);
                     else if (e.Args[0] == "--smoke-material-report") await window.SmokeProjectReport(e.Args[1], materialsOnly: true);
                     else if (e.Args[0] == "--smoke-project-workspace") await window.SmokeProjectWorkspace(e.Args[1]);
                     else if (e.Args[0] == "--smoke-project-report") await window.SmokeProjectReport(e.Args[1]);

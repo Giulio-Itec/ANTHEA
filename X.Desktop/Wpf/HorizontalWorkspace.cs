@@ -180,7 +180,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             var row = grid.Rows[i].Values;
             double? phi = J.Number(row["angolo_attrito"]);
             grid.Rows[i].Output("__kp", row.S("tipologia") == "Granulare" && phi is >= 0 and < 90
-                ? ((1 + Math.Sin(phi.Value * Math.PI / 180)) / (1 - Math.Sin(phi.Value * Math.PI / 180))).ToString("F1") : "—");
+                ? PaloOrizzontale.PassivePressureCoefficient(phi.Value).ToString("F1") : "—");
         }
         profile.InvalidateVisual();
         if (!MicroHorizontal) try
@@ -224,7 +224,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         {
             var computed = await Task.Run(() =>
             {
-                var capacity = PaloOrizzontale.Calculate(snapshot);
+                var capacity = CalculationService.Calculate(MicroHorizontal ? MicropaloOrizzontale.Module : PaloOrizzontale.Module, snapshot);
                 JsonObject? section = capacity["sezione"] as JsonObject; string sectionError = "";
                 // Show a valid section moment even while the stratigraphy is still incomplete.
                 if (section is null && snapshot["generali"].S("origine_momento") is "Sezione c.a." or "Sezione CHS")

@@ -9,7 +9,7 @@ namespace X.Desktop;
 
 internal sealed partial class ConcreteWorkspace
 {
-    private readonly Dictionary<string, (string Signature, CheckerDomain3D? Three, CheckerDomain2D? Two)> domainCache = new();
+    private readonly ConcreteAnalysisSession analysisSession = new();
     private (string Signature, CheckerSectionModel Model)? preparedSection;
     private readonly Dictionary<string, string> calculationErrors = new();
     private sealed class DomainPanel
@@ -156,47 +156,11 @@ internal sealed partial class ConcreteWorkspace
         status.Text = $"Checker · {SectionWorkspace.Label(key)} · dominio {(panel.ThreeD ? "3D" : "2D")}…";
         var input = preparedInput ?? (JsonObject)Input.DeepClone(); var workspace = preparedWorkspace ?? (JsonObject)settings.DeepClone(); var options = (JsonObject)panel.Options.DeepClone();
         var snapshots = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
-        var computationOptions = (JsonObject)options.DeepClone();
-        foreach (string visual in new[] { "stato", "filtro", "solo_selezionata", "trasparenza", "mostra_ed", "mostra_rd", "tutte_rd", "mostra_linee", "colora_eta", "criterio", "strategia", "proietta", "scala_x", "scala_y", "scala_n", "scala_mx", "scala_my", "fit_azioni", "dimensione_ed", "dimensione_rd", "interpolazione", "suddivisioni_n" }) computationOptions.Remove(visual);
-        string signature = input.ToJsonString() + workspace.S("normativa") + workspace["coefficienti"]?.ToJsonString() + workspace["trefoli"]?.ToJsonString() + computationOptions.ToJsonString();
-        var cached = domainCache.GetValueOrDefault(panel.Prefix + key);
-        var calculated = await Task.Run(() =>
-        {
-            CheckerDomain3D? three = cached.Signature == signature ? cached.Three : null;
-            CheckerDomain2D? two = cached.Signature == signature ? cached.Two : null;
-            if (three is null && two is null)
-            {
-                var engine = prepared is null ? new CheckerSection(input, workspace, options, key) : new CheckerSection(prepared, input, workspace, options, key);
-                three = panel.ThreeD ? engine.Domain3D(token) : null;
-                two = panel.ThreeD ? null : engine.Domain2D(token);
-            }
-            three?.ConfigureVerification(options);
-            if (two is not null) two.Section.Options["proietta"] = options["proietta"]?.DeepClone();
-            var results = new Dictionary<string, DomainCheck>();
-            var valid = new List<(string Id, ActionPoint Force)>();
-            foreach (var snapshot in snapshots)
-            {
-                token.ThrowIfCancellationRequested();
-                try
-                {
-                    var force = ReadAction(new JsonRow(snapshot));
-                    if (three is not null) valid.Add((snapshot.S("id"), force));
-                    else results[snapshot.S("id")] = two!.Check(force);
-                }
-                catch (Exception ex) when (ex is not OperationCanceledException) { results[snapshot.S("id")] = new(null, null, "Checker: " + ex.Message); }
-            }
-            if (three is not null)
-            {
-                var checks = three.CheckMany(valid.Select(row => row.Force).ToArray(), token);
-                for (int i = 0; i < valid.Count; i++) results[valid[i].Id] = checks[i];
-            }
-            return (three, two, results);
-        }, token);
+        var calculated = await Task.Run(() => analysisSession.Domain(input, workspace, options, key, panel.ThreeD, snapshots, token, prepared), token);
         token.ThrowIfCancellationRequested();
-        domainCache[panel.Prefix + key] = (signature, calculated.three, calculated.two);
-        if (calculated.three is not null) checker3D[key] = calculated.three;
-        if (calculated.two is not null) checker2D[key] = calculated.two;
-        domainResults[panel.Prefix + key] = calculated.results;
+        if (calculated.Three is not null) checker3D[key] = calculated.Three;
+        if (calculated.Two is not null) checker2D[key] = calculated.Two;
+        domainResults[panel.Prefix + key] = calculated.Checks;
         if (key == panel.Key) { AttachDomainRows(panel); RefreshDomainPanel(panel); }
     }
     private void RefreshDomainViews() { foreach (var panel in domainPanels) RefreshDomainPanel(panel); }
@@ -401,23 +365,7 @@ internal sealed partial class ConcreteWorkspace
         if (domainResults.Count == 0 && stressResults.Count == 0 && shearResults.Count == 0) { Result = null; return; }
         var domains = new JsonObject(); foreach (var (key, rows) in domainResults) domains[key] = J.Node(rows);
         var stresses = new JsonObject();
-        foreach (var (key, rows) in stressResults)
-        {
-            var exportedRows = new JsonObject();
-            foreach (var (id, outcome) in rows)
-            {
-                var s = outcome.State;
-                // Keep engineering results and report details, never native objects,
-                // integration fibres, raster pixels or other reconstructible graphics.
-                exportedRows[id] = J.Node(new
-                {
-                    State = s is null ? null : new { s.sigma_cls, s.sigma_acciaio, s.tensioni_barre,
-                        s.Response, s.ConcreteStressLimit, s.SteelStressLimit, s.ConcreteVertices, s.BarStrains },
-                    outcome.Ratio, outcome.Status, outcome.Cracking, outcome.CrackResult
-                });
-            }
-            stresses[key] = exportedRows;
-        }
+        foreach (var (key, rows) in stressResults) stresses[key] = ConcreteAnalysisSession.ExportStress(rows);
         // Attach freshly created nodes directly: J.Obj would deep-clone them again.
         Result = new JsonObject
         {

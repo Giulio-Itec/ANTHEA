@@ -17,10 +17,7 @@ internal sealed partial class ConcreteWorkspace
     private InputForm curvatureForm=null!;
     private UIElement BuildCurvaturePanel()
     {
-        if(settings["momento_curvatura"] is not JsonObject)settings["momento_curvatura"]=J.Obj(("N","0"),("theta","0"),("passi","60"),("frazione","1"),("campionamento","Quadratico"),("trazione_cls","No"),("angoli","64"));
         var o=settings["momento_curvatura"]!.AsObject();
-        if(!o.ContainsKey("tolleranza_n"))o["tolleranza_n"]="1";
-        if(!o.ContainsKey("raffina_snervamento"))o["raffina_snervamento"]="12";
         curvatureForm=new InputForm(o,[new("N","N costante (− compressione)","kN"),new("theta","Direzione del momento θ","°"),new("passi","Passi di carico"),new("frazione","Frazione di MRd finale","−"),new("campionamento","Distribuzione dei passi",Choices:["Quadratico","Uniforme"]),new("trazione_cls","CLS resistente a trazione",Choices:["No","Sì"]),new("angoli","Direzioni del dominio"),new("tolleranza_n","Residuo N massimo al limite","kN"),new("raffina_snervamento","Bisezioni primo snervamento (0–30)")],_=>{InvalidateCurvature();Modified?.Invoke();},true,true);
         var buttons=Ui.Bar(Ui.Button("Calcola curva",()=>CalculateCurvature(),inspection:true),Ui.Button("Interrompi",()=>curvatureCancellation?.Cancel(),inspection:true),Ui.Button("Esporta CSV…",ExportCurvature,inspection:true));
         return WorkspaceLayout(Panel("Percorso di carico",Scroller(Ui.Stack(curvatureForm,buttons,Ui.Text("N fisso; (Mx, My) = M · (cos θ, sin θ), negli assi locali. Analisi non lineare con i materiali del pannello di controllo. Campionamento a momento crescente fino al limite plastico; χ è il modulo del gradiente di deformazione. Il primo snervamento può essere raffinato per bisezione tra due campioni successivi.",12)))),Rows(new ViewportFrame("M [kNm] · χ [1/m]",curvaturePlot,curvaturePlot.ResetView),curvatureText));
@@ -39,13 +36,7 @@ internal sealed partial class ConcreteWorkspace
         curvatureText.Text="Calcolo del dominio e dei punti M–χ…";
         try
         {
-            if(workspace.Array("trefoli").Count>0)throw new ArgumentException("M–χ con trefoli: definire prima il criterio di snervamento/predeformazione; disponibile per armatura ordinaria.");
-            var request=new MomentCurvatureRequest(SectionWorkspace.Number(o.S("N"),"N"),SectionWorkspace.Number(o.S("theta"),"θ"),SectionWorkspace.Subdivisions(o.S("passi"),"Passi",10,500),SectionWorkspace.Number(o.S("frazione"),"Frazione"),o.S("campionamento")=="Quadratico",SectionWorkspace.Number(o.S("tolleranza_n"),"Tolleranza N"),SectionWorkspace.Subdivisions(o.S("raffina_snervamento"),"Bisezioni",0,30));
-            o["criterio"]="N costante";o["assi"]="Locali";o["modello"]="Non lineare";o["strategia"]="Iterativo";
-            var result=await Task.Run(()=>{
-                var engine=new CheckerSection(input,workspace,o);var domain=engine.Domain3D(token);
-                return new MomentCurvatureCalculator().Calculate(request,domain.Check,a=>engine.Stress(a,"CURVA"),engine.Geometry.Fyd/engine.Geometry.Es,token);
-            },token);
+            var result=await Task.Run(()=>ConcreteCurvatureAnalysis.Calculate(input,workspace,o,token),token);
             token.ThrowIfCancellationRequested();if(disposed)return;
             curvatureResult=result;curvatureSignature=signature;
             curvaturePlot.Series=[new("M–χ",result.Points.Select(p=>new[]{p.Curvature,p.Moment}).ToList(),Ui.Blue)];curvaturePlot.InvalidateVisual();

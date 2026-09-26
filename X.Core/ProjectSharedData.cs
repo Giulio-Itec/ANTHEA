@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Text.Json.Nodes;
 
 namespace X.Core;
@@ -15,13 +15,7 @@ public static partial class ProjectSharedData
     static bool IsMaterial(string key) => key is "fyk_mpa" or "alpha_cc" or "gamma_c" or "gamma_s" or "classe_acciaio" or "cls_diagramma" or "gettato_sottile" ||
         key.StartsWith("steel_") || key == "materiale_acciaio_nome";
     public static string Text(JsonNode? value) => value is null ? "non definito" : value is JsonArray or JsonObject ? value.ToJsonString() : value.ToString();
-    static JsonNode? Normalize(JsonNode? value)
-    {
-        if (value is JsonObject o) { var result = new JsonObject(); foreach (var (k, v) in o.OrderBy(p => p.Key)) result[k] = Normalize(v); return result; }
-        if (value is JsonArray a) return new JsonArray(a.Select(Normalize).ToArray());
-        return J.Number(value) is double n ? JsonValue.Create(n) : value?.DeepClone();
-    }
-    public static bool Equal(JsonNode? a, JsonNode? b) => JsonNode.DeepEquals(Normalize(a), Normalize(b));
+    public static bool Equal(JsonNode? a, JsonNode? b) => J.Equivalent(a, b);
     public static Dictionary<string, Field> Fields(JsonObject sheet)
     {
         string module = sheet.S("modulo_id");
@@ -104,7 +98,7 @@ public static partial class ProjectSharedData
         if (!AdditionalCompatible(field, source, target)) return false;
         if (source.S("modulo_id") == target.S("modulo_id")) return true;
         if (field.Group == "Terreno" || field.Key is "CHS · profilo_chs" or "perforazione_mm" or "lunghezza_micropalo") return true;
-        if (field.Group == "Materiali") return true;
+        if (field.Group is "Materiali" or "Coefficienti") return true;
         bool rcPair = source.S("modulo_id") is "str_palo" or PaloOrizzontale.Module &&
             target.S("modulo_id") is "str_palo" or PaloOrizzontale.Module;
         if (rcPair && field.Key is "shape" or "cover_mm") return true;
@@ -155,6 +149,7 @@ public static partial class ProjectSharedData
             // Use the final shape for rebar compatibility in this same operation.
             var effectiveTarget = (JsonObject)target.DeepClone();
             effectiveTarget["dati"] = data.DeepClone();
+            PrepareCoefficientTarget(source, effectiveTarget, groups, keys);
             if (groups.Contains("Geometria") && (keys is null || keys.Contains("shape")) && source.S("modulo_id") == PaloOrizzontale.Module && target.S("modulo_id") == "str_palo")
                 effectiveTarget["dati"]!["input"]!["shape"] = "Circolare";
             if (groups.Contains("Materiali") && (keys is null || keys.Contains("Scheda CLS · scelte/deviationControl")) && source.S("modulo_id") == "mat_calcestruzzo" && target.S("modulo_id") == "mat_calcestruzzo")
@@ -188,6 +183,7 @@ public static partial class ProjectSharedData
             }
             if (changed)
             {
+                CalculationCoefficients.Synchronize(target.S("modulo_id"), data);
                 if (target.S("modulo_id") == PaloOrizzontale.Module && data["sezione"] is JsonObject pile)
                 { pile["shape"] = "Circolare"; pile["diameter_mm"] = data["generali"].D("diametro") * 1000; }
                 updates.Add((target, data));

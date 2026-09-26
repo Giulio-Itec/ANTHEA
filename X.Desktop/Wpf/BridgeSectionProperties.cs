@@ -58,7 +58,7 @@ internal sealed partial class BridgeWorkspace
             var transformed = BridgeSection.GrossPhaseProperties(Data, slabPropertyOptions, slabOnly: true);
             slabPropertyBody.Content = Ui.Stack(Block(gross.Name, PropertyValues(gross)),
                 Block("Armature", ResultTable(["Fila", "As [cm²]", "y [mm]"], g.Bars.GroupBy(b => b.Y).OrderByDescending(p => p.Key).Select(p => new[] { p.Count() + " barre", F(p.Sum(b => b.Area) / 100), F(p.Key) }))),
-                Block(transformed.Name, PropertyValues(transformed), $"n barre = {F(h.N * m.Rebar.ElasticModulusTension / m.Steel.ElasticModulusTension)} · Ec,eff = {F(m.Steel.ElasticModulusTension / h.N)} MPa"));
+                Block(transformed.Name, PropertyValues(transformed), $"n barre = {F(BridgeDerivedResults.RebarModularRatio(h.N, m.Rebar.ElasticModulusTension, m.Steel.ElasticModulusTension))} · Ec,eff = {F(BridgeDerivedResults.EffectiveConcreteModulus(m.Steel.ElasticModulusTension, h.N))} MPa"));
         }
         catch (Exception ex) { slabPropertyBody.Content = Ui.Text(ex.Message, 12, color: Ui.Muted); }
     }
@@ -72,7 +72,7 @@ internal sealed partial class BridgeWorkspace
                 Block("Carpenteria reale", PropertyValues(BridgeSection.CombineProperties("Reale", parts))),
                 ..parts.Select(p => Group(p.Name, PropertyValues(p))),
                 Group("Carpenteria equivalente di calcolo", PropertyValues(BridgeSection.CombineProperties("Equivalente", BridgeSection.SteelPartProperties(g, true))))]);
-            propertyNotice.Text = "Proprietà geometriche, indipendenti dai carichi. Le riduzioni efficaci dipendono dalle sollecitazioni e sono nella scheda Fasi e tensioni.";
+            propertyNotice.Text = BridgeSection.IsNonlinear(Data) ? "Proprietà geometriche con φ/n memorizzati. Nel non lineare istantaneo il calcolo usa φ=0; i valori adottati sono in Fasi e proprietà." : "Proprietà geometriche, indipendenti dai carichi. Le riduzioni efficaci dipendono dalle sollecitazioni e sono nella scheda Fasi e tensioni.";
         }
         catch (Exception ex) { propertyNotice.Text = "Proprietà da aggiornare: " + ex.Message; }
         RefreshSlabProperties();

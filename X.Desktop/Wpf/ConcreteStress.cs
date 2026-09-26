@@ -1,5 +1,4 @@
 using System.Text.Json.Nodes;
-using System.Collections.Concurrent;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -9,10 +8,9 @@ namespace X.Desktop;
 
 internal sealed partial class ConcreteWorkspace
 {
-    private readonly ConcurrentDictionary<string, (string Signature, CheckerSection Engine, CheckerStressState State)> stressCache = new();
-    private static readonly string[] CrackFields = ["esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure"];
+    private static readonly string[] CrackFields = ConcreteAnalysisSession.CrackFields;
     private readonly TabControl sleTabs = new() { BorderThickness = new Thickness(0), Background = Ui.Bg };
-    internal sealed record StressOutcome(CheckerStressState? State, double? Ratio, string Status, string Cracking = "Da calcolare", Ntc2018Checks.CrackResult? CrackResult = null);
+
     private sealed class StressPanel
     {
         internal readonly ConcreteSectionViewport View = new();
@@ -106,39 +104,8 @@ internal sealed partial class ConcreteWorkspace
     {
         status.Text = "Analisi tensionale · " + SectionWorkspace.Label(key) + "…"; var settingsSle = settings["sle"]![key]!;
         var input = preparedInput ?? (JsonObject)Input.DeepClone(); var workspace = preparedWorkspace ?? (JsonObject)settings.DeepClone(); var options = (JsonObject)settingsSle.DeepClone();
-        var requests = actions[key].Select(row => (Id: row.Values.S("id"), Values: (JsonObject)row.Values.DeepClone())).ToArray();
-        var activeIds = requests.Select(r => key + ":" + r.Id).ToHashSet();
-        foreach (var id in stressCache.Keys.Where(id => id.StartsWith(key + ":") && !activeIds.Contains(id))) stressCache.TryRemove(id, out _);
-        var analysisOptions = (JsonObject)options.DeepClone();
-        foreach (var field in CrackFields.Concat(new[] { "contour", "testi_barre", "testi_trefoli", "testi_cls" })) analysisOptions.Remove(field);
-        string analysisSignature = input.ToJsonString() + workspace.S("normativa") + workspace["coefficienti"]?.ToJsonString() + workspace["trefoli"]?.ToJsonString() + analysisOptions.ToJsonString();
-        var outcomes = await Task.Run(() =>
-        {
-            var results = new ConcurrentDictionary<string, StressOutcome>(); if (requests.Length == 0) return new Dictionary<string, StressOutcome>();
-            Parallel.ForEach(requests, new ParallelOptions { CancellationToken = token, MaxDegreeOfParallelism = Math.Max(1, Math.Min(2, Environment.ProcessorCount / 3)) },
-                () => (CheckerSection?)null, (request, loop, workerEngine) =>
-            {
-                token.ThrowIfCancellationRequested();
-                try {
-                    var force = ReadAction(new JsonRow(request.Values));
-                    string cacheKey = key + ":" + request.Id, signature = analysisSignature + J.Node(force)?.ToJsonString();
-                    if (!stressCache.TryGetValue(cacheKey, out var cached) || cached.Signature != signature)
-                    {
-                        workerEngine ??= prepared is null ? new CheckerSection(input, workspace, options) : new CheckerSection(prepared, input, workspace, options);
-                        var calculated = workerEngine.Stress(force, key); token.ThrowIfCancellationRequested();
-                        cached = (signature, workerEngine, calculated); stressCache[cacheKey] = cached;
-                    }
-                    var engine = cached.Engine; var state = cached.State;
-                    Ntc2018Checks.CrackResult crack;
-                    try { crack = workspace.S("normativa") == "NTC 2018" ? Ntc2018Checks.Cracking(engine, state, force, input, workspace, options, key) : new(null, null, null, null, "Fessurazione specifica " + workspace.S("normativa") + ": da implementare"); }
-                    catch (Exception ex) { crack = new(null, null, null, null, "Fessurazione non calcolata: " + ex.Message); }
-                    results[request.Id] = new(state, state.Ratio, state.Status, crack.Status, crack);
-                }
-                catch (Exception ex) when (ex is not OperationCanceledException) { results[request.Id] = new(null, null, "Checker: " + ex.Message); }
-                return workerEngine;
-            }, _ => { });
-            return results.ToDictionary(p => p.Key, p => p.Value);
-        }, token);
+        var requests = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
+        var outcomes = await Task.Run(() => analysisSession.Stress(input, workspace, options, key, requests, token, prepared), token);
         token.ThrowIfCancellationRequested(); stressResults[key] = outcomes;
         using var notifications = JsonRow.DeferNotifications(actions[key]);
         foreach (var row in actions[key])
