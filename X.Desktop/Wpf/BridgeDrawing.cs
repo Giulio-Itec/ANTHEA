@@ -92,8 +92,6 @@ internal sealed partial class BridgeDrawing : FrameworkElement
         if (g.Bottom2Thickness > 0)
         {
             Rectangle((g.Width - g.Bottom2Width) / 2, -g.Height, g.Bottom2Width, g.Bottom2Thickness, Ui.Brush("#446581"));
-            var pen = new Pen(Ui.Blue, 1) { DashStyle = DashStyles.Dash };
-            dc.DrawRectangle(null, pen, R((g.Width - g.BottomEquivalentWidth) / 2, -g.Height, g.BottomEquivalentWidth, g.BottomEquivalentThickness));
         }
         foreach (var b in g.Bars) dc.DrawEllipse(ContourSection && Stage is {} barStage ? new SolidColorBrush(StressColor("Armatura", barStage.Contributions.Sum(c => c.Stress("Armatura", b.Y)))) : Bars, null, P(b.X, b.Y), Math.Max(1.8, b.Diameter * scale / 2), Math.Max(1.8, b.Diameter * scale / 2));
         if (Stage is { } s)
@@ -112,7 +110,13 @@ internal sealed partial class BridgeDrawing : FrameworkElement
                 Hatch(R((g.Width - gross) / 2, y, excluded, t)); Hatch(R((g.Width + effective) / 2, y, excluded, t));
             }
             FlangeGap(g.TopWidth, s.Effective.TopWidth, -g.TopThickness, g.TopThickness);
-            FlangeGap(g.BottomEquivalentWidth, s.Effective.BottomWidth, -g.Height, g.BottomEquivalentThickness);
+            // two bottom plates: each real plate with its own effective width (the calculation no longer uses the equivalent rectangle)
+            if (g.Bottom2Thickness > 0)
+            {
+                FlangeGap(g.Bottom1Width, s.Effective.BottomWidth, -g.TopThickness - g.WebHeight - g.Bottom1Thickness, g.Bottom1Thickness);
+                FlangeGap(g.Bottom2Width, s.Effective.SecondBottomWidth, -g.Height, g.Bottom2Thickness);
+            }
+            else FlangeGap(g.BottomEquivalentWidth, s.Effective.BottomWidth, -g.Height, g.BottomEquivalentThickness);
             if (s.SteelNeutralAxis is { } na && na >= -g.Height && na <= g.SlabHeight)
             {
                 double y = P(0, na).Y; dc.DrawLine(new Pen(Ui.Brush("#A04761"), 1) { DashStyle = DashStyles.Dash }, new(cx - 70, y), new(cx + 70, y));
@@ -153,7 +157,7 @@ internal sealed partial class BridgeDrawing : FrameworkElement
         if (tags) DrawTags(dc, g, geoWidth, h, tagWidth, P);
         if (loadRow > 3) Text("Altri punti N nella tabella Fasi e proprietà", 12, h - 19, Ui.Muted, 9);
         else
-        Text(g.Bottom2Thickness > 0 ? "Due piastre reali · contorno blu: equivalente" : "Geometria reale = geometria di calcolo", 12, h - 19, Ui.Muted, 10);
+        Text(g.Bottom2Thickness > 0 ? "Due piastre reali = geometria di calcolo" : "Geometria reale = geometria di calcolo", 12, h - 19, Ui.Muted, 10);
         if (!chart || Stage is not { } stage) return;
         DrawStressDiagram(dc, g, stage, geoWidth, w, h, y => P(0, y).Y);
     }

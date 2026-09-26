@@ -88,10 +88,10 @@ public static partial class ReportBridge
                 new[] { "Soletta collaborante", F(g.Width), F(g.SlabHeight) }, new[] { "Anima libera", F(g.WebThickness), F(g.WebHeight) },
                 new[] { "Piattabanda superiore", F(g.TopWidth), F(g.TopThickness) }, new[] { "Piattabanda inferiore 1", F(g.Bottom1Width), F(g.Bottom1Thickness) },
                 new[] { "Piattabanda inferiore 2", g.Bottom2Thickness > 0 ? F(g.Bottom2Width) : "Assente", g.Bottom2Thickness > 0 ? F(g.Bottom2Thickness) : "—" },
-                new[] { "Piattabanda inferiore di calcolo", F(g.BottomEquivalentWidth), F(g.BottomEquivalentThickness) } }, [2.4, 1.3, 1.7]);
+                new[] { "Piattabanda inferiore equivalente (solo confronto)", F(g.BottomEquivalentWidth), F(g.BottomEquivalentThickness) } }, [2.4, 1.3, 1.7]);
             doc.P("La larghezza della soletta è la larghezza collaborante assegnata. La seconda piastra è centrata sotto la prima. " +
-                "t equivalente = t1 + t2; b equivalente = (b1 t1 + b2 t2)/(t1 + t2). Questa sostituzione conserva area e spessore complessivo, non in generale baricentro e inerzia.");
-            doc.Table(["Proprietà delle piastre inferiori", "Reale", "Equivalente"], new[] {
+                "Il calcolo usa le piastre reali. Il rettangolo equivalente (t = t1 + t2, b = (b1 t1 + b2 t2)/(t1 + t2)) conserva area e spessore complessivo, non in generale baricentro e inerzia: è riportato solo per confronto. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore.");
+            doc.Table(["Proprietà delle piastre inferiori", "Reale (calcolo)", "Equivalente (confronto)"], new[] {
                 new[] { "Area [mm²]", F(g.BottomArea), F(g.BottomArea) }, new[] { "Baricentro y [mm]", F(g.BottomRealCentroid), F(-g.Height + g.BottomEquivalentThickness / 2) },
                 new[] { "Ix al proprio baricentro [mm⁴]", F(g.BottomRealInertia), F(g.EquivalentBottomPlate().Ix) } }, [2.6, 1.4, 1.4]);
             doc.Table(["Fila", "Presente", "Ø [mm]", "Passo [mm]", "Faccia asse [mm]", "Barre"], new[] { "top", "bottom" }.Select(side => {
@@ -175,11 +175,11 @@ public static partial class ReportBridge
             if (options.Contains("classe4"))
             {
                 doc.Sub("Sezione efficace di classe 4");
-                var panels = new[] { ("Anima", s.Effective.Web), ("Sbalzo superiore", s.Effective.Top), ("Sbalzo inferiore equivalente", s.Effective.Bottom) };
+                var panels = new[] { ("Anima", s.Effective.Web), ("Sbalzo superiore", s.Effective.Top), (s.Effective.SecondBottom is null ? "Sbalzo inferiore" : "Sbalzo inferiore · piastra 1", s.Effective.Bottom) }.Concat(s.Effective.SecondBottom is { } second ? new[] { ("Sbalzo inferiore · piastra 2", second) } : []).ToArray();
                 doc.Table(["Pannello", "b [mm]", "t [mm]", "ψ", "kσ", "λp", "ρ"], panels.Select(p => new[] { p.Item1, F(p.Item2.Width), F(p.Item2.Thickness), F(p.Item2.Psi), F(p.Item2.KSigma), F(p.Item2.Lambda), F(p.Item2.Rho) }), [2.2, .9, .7, .8, .8, .8, .8]);
                 doc.Table(["Pannello", "σ1 [MPa]", "σ2 [MPa]", "bc [mm]", "b1 eff [mm]", "b2 eff [mm]"], panels.Select(p => new[] { p.Item1, F(p.Item2.StartStress), F(p.Item2.EndStress), F(p.Item2.CompressedWidth), F(p.Item2.EffectiveAtStart), F(p.Item2.EffectiveAtEnd) }), [2.2, 1, 1, 1, 1, 1]);
                 doc.Table(["Carpenteria", "Area [mm²]", "yG [mm]", "Ix [mm⁴]"], new[] {
-                    new[] { "Lorda equivalente", F(g.SteelArea), F(g.SteelCentroid), F(g.SteelInertia) }, new[] { "Efficace", F(s.EffectiveSteel.Area), F(s.EffectiveSteel.Centroid), F(s.EffectiveSteel.Inertia) } }, [2, 1.3, 1.2, 1.5]);
+                    new[] { "Lorda", F(g.SteelArea), F(g.SteelCentroid), F(g.SteelInertia) }, new[] { "Efficace", F(s.EffectiveSteel.Area), F(s.EffectiveSteel.Centroid), F(s.EffectiveSteel.Inertia) } }, [2, 1.3, 1.2, 1.5]);
                 double removed = Math.Max(0, g.WebHeight - s.Effective.WebTop - s.Effective.WebBottom);
                 doc.P("Anima inefficace: " + F(removed) + " mm" + (removed > .001 ? ", da y = " + F(-g.TopThickness - g.WebHeight + s.Effective.WebBottom) + " a y = " + F(-g.TopThickness - s.Effective.WebTop) + " mm." : ".") +
                     " Aeff/Alorda = " + F(s.EffectiveSteel.Area / g.SteelArea) + "; Ieff/Ilorda = " + F(s.EffectiveSteel.Inertia / g.SteelInertia) + ".");

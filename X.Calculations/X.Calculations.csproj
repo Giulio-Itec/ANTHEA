@@ -13,7 +13,5 @@
     <Reference Include="GPCModelData"><HintPath>$(CheckerLibraryDirectory)/GPCModelData.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="GPCUtilities"><HintPath>$(CheckerLibraryDirectory)/GPCUtilities.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="DelaunayMesh"><HintPath>$(CheckerLibraryDirectory)/DelaunayMesh.dll</HintPath><Private>true</Private></Reference>
-    <Reference Include="GMsh.Net"><HintPath>$(CheckerLibraryDirectory)/GMsh.Net.dll</HintPath><Private>true</Private></Reference>
-    <Reference Include="UnsafeEx"><HintPath>$(CheckerLibraryDirectory)/UnsafeEx.dll</HintPath><Private>true</Private></Reference>
   </ItemGroup>
 </Project>

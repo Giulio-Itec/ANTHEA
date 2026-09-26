@@ -27,7 +27,8 @@ internal sealed partial class BridgeWorkspace
         bool history = BridgeSection.IsHistory(Data), nonlinear = BridgeSection.IsNonlinear(Data);
         methodForm?.ShowField("viscosita_nl", nonlinear);
         if (meshControls is not null) meshControls.Visibility = history ? Visibility.Visible : Visibility.Collapsed;
-        foreach (var form in inputForms.Where(f => f.Editors.ContainsKey("classe4"))) form.Enable("classe4", !nonlinear, dim: true);
+        foreach (var form in inputForms.Where(f => f.Editors.ContainsKey("classe4")))
+            foreach (string key in new[] { "classe4", "instabilita_sup", "instabilita_inf", "instabilita_anima" }) form.Enable(key, !nonlinear, dim: true);
         methodNotice.Text = nonlinear
             ? "Non lineare N–Mx sulla sezione lorda, con memoria plastica dell’acciaio e inviluppo CLS Model. Legami caratteristici: verifica SLU di classe 4 e controlli accessori da completare. Dettagli in Info modello."
             : history ? "Storico lineare: deformazioni al getto, carichi e ritiri incrementali senza limite numerico di fasi. φ/n modifica i nuovi incrementi. Le fasi già concluse conservano la propria storia. Taglio e connessione da verificare separatamente."

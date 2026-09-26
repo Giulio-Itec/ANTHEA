@@ -15,6 +15,7 @@ public static partial class BridgeSection
         ("armatura_trasv", false), ("d_trasv_sup", 16), ("s_trasv_sup", 150), ("d_trasv_inf", 16), ("s_trasv_inf", 150),
         ("cot_trasv", 1), ("quota_q_sx", .5), ("As_m_trasv", 0), ("l_anc_trasv", 700), ("buona_aderenza_trasv", true),
         ("bordo_cls_sx", 500), ("bordo_cls_dx", 500), ("forcine_bordo", false), ("d_forcine", 12),
+        ("instabilita_sup", true), ("instabilita_inf", true), ("instabilita_anima", true),
         ("fatica_pioli", false), ("q_fat_min", ""), ("q_fat_max", ""), ("lambda_v", 1), ("phi_fat", 1),
         ("flangia_fat_tesa", false), ("dsigma_fat", ""), ("gamma_ff", 1), ("gamma_mf_pioli", 1.25), ("gamma_mf_flangia", 1.35));
 

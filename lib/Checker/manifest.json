@@ -12,14 +12,14 @@
     {
       "file": "GPCModelData.dll",
       "source": "Model/ModelData/bin/Release/netstandard2.0",
-      "assemblyVersion": "0.0.1.12",
-      "sha256": "A1099E7B8B3012487DE71D34EDC6AA2FE0DB6ECF68277FB5E29A5B9BCDDDF843"
+      "assemblyVersion": "0.0.1.13",
+      "sha256": "61E1EF9B16EDF744EC7AFFFB808E5171D7DDD5E34024C29ADEC0997ECF3D26C4"
     },
     {
       "file": "GPCChecker.Concrete.dll",
       "source": "Checker/GPCChecker.Concrete/bin/Release/netstandard2.0",
-      "assemblyVersion": "0.0.12.5",
-      "sha256": "E35D0FFC50D41150A26D27070FF747E9DBCF2F16EBBF6EC52A328D0559433A74"
+      "assemblyVersion": "0.0.12.6",
+      "sha256": "F0FE4A4B0920B9B2D3504A21BEFDB43E2393C28E21C7A76DE355F56B24637337"
     },
     {
       "file": "GPCGeometry.dll",
@@ -30,8 +30,8 @@
     {
       "file": "GPCModel.dll",
       "source": "Model/Model/bin/Release/netstandard2.0",
-      "assemblyVersion": "1.2.2.1",
-      "sha256": "16683B33DFBA6B3C610EA11C5525C594A070B4D0C0E3C571683D3A1892608BE2"
+      "assemblyVersion": "1.3.0.0",
+      "sha256": "D2FE73986DEA38198A53B2900621F693A1DDBE3B734587D01BD5ECF0E34E8D9A"
     },
     {
       "file": "GPCUtilities.dll",
@@ -46,23 +46,11 @@
       "sha256": "E5176BF4006F13DADF028CDFE88B8A332F8AB2EBA9944AF572D606504DDDDC06"
     },
     {
-      "file": "GMsh.Net.dll",
-      "source": "Geometry/GMesh/bin/Release",
-      "assemblyVersion": "4.15.2.1",
-      "sha256": "7C992AE563B935A2D11EF246F1D63449E3A0051355694D27D9A5D10F93EBC1E3"
-    },
-    {
-      "file": "UnsafeEx.dll",
-      "source": "Geometry/GMesh/bin/Release",
-      "assemblyVersion": "1.0.0.0",
-      "sha256": "F9753B51AE9FDEE7C9EEF96CD6EF08AF589C1E20F23A7D2D43AA82DAC06ACA89"
-    },
-    {
       "file": "GPCChecker.CompositeBridge.dll",
       "source": "Checker/GPCChecker.CompositeBridge/bin/Release/netstandard2.0",
-      "assemblyVersion": "1.0.1.0",
-      "sha256": "AFCC05BCE9DD4B96843BF6412C24D75FDF66CB7E90EDFC39A70729829CF92404"
+      "assemblyVersion": "1.2.0.0",
+      "sha256": "A2E257D3ED8EEA2E709C1CAF2D7346661AB37FA62C8C8893445F89B16BCE47C7"
     }
   ],
-  "updatedAt": "2026-09-26T02:24:21.5561850+02:00"
+  "updatedAt": "2026-09-26T11:57:52.6132588+02:00"
 }

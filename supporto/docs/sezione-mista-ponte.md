@@ -15,7 +15,9 @@ Due schede numerate, con la stessa organizzazione del modulo in calcestruzzo:
 Ogni fase raccoglie nello stesso gruppo le azioni, la sezione reagente e i parametri
 di omogeneizzazione φ, ψL e n, sempre modificabili e sincronizzati. Normativa, coefficienti, materiali, geometria e armature
 sono raccolti nei gruppi espandibili del pannello di controllo. La seconda scheda
-riunisce anche la scelta dei limiti tensionali, l'attivazione della classe 4 e la
+riunisce anche la scelta dei limiti tensionali, l'attivazione della classe 4, l'esclusione
+dell'instabilità locale di piattabanda superiore, inferiore e anima (una parte esclusa resta
+interamente efficace, ρ = 1) e la
 quota di applicazione di N. La tabella e il dettaglio modificano gli stessi oggetti fase,
 senza valori indipendenti da riallineare.
 Il **Pannello di controllo** è dedicato a geometria, materiali e armature: non
@@ -82,7 +84,7 @@ ripopolare i risultati correnti.
 Salvataggio, riapertura e Home/Riprendi conservano geometria, fasi e parametri.
 Nelle finestre più piccole le barre di scorrimento mantengono accessibili i pannelli.
 
-La viewport contiene geometria reale, armature, contorno della piattabanda equivalente,
+La viewport contiene geometria reale (anche le due piastre inferiori), armature,
 asse a tensione nulla dell'acciaio e diagrammi totali/per contributo. I mirini
 indicano i punti di applicazione di N sull'asse di simmetria, con quota y e forza
 dei contributi della situazione selezionata. Punti coincidenti sono raggruppati.
@@ -165,9 +167,10 @@ A_inf = b1*t1 + b2*t2
 b_eq = A_inf / t_eq
 ```
 
-L'equivalenza conserva area e spessore complessivo, **non in generale baricentro e
-inerzia propri** di due piastre di larghezza diversa. Le proprietà reali ed equivalenti
-sono esposte per confrontarle. La seconda piastra usa lo stesso acciaio della prima.
+Dal 26 settembre 2026 (CompositeBridge 1.1, Model `SectionHDoubleBottomFlange`) il calcolo
+usa le **due piastre reali**; il rettangolo equivalente, che conserva area e spessore ma
+non in generale baricentro e inerzia, resta esposto solo per confronto. Per l'instabilità
+locale ciascuna piastra è uno sbalzo dall'anima con il proprio spessore (a favore di sicurezza). La seconda piastra usa lo stesso acciaio della prima.
 **Sovrascrivi fy per tutta la carpenteria** sostituisce il valore di catalogo con un
 unico fy assegnato per anima e tutte le piattabande, prima dell'applicazione di γM0.
 Non modifica le armature e non corregge automaticamente fy in funzione dello spessore;
@@ -269,8 +272,13 @@ I parametri sono ψ, kσ, λp, ρ, larghezza compressa e tratti efficaci. Per ψ
 kσ e la curva di riduzione sono valutati a −3, mantenendo la larghezza compressa
 effettiva: scelta conservativa esplicitata, fuori dall'intervallo tabulato.
 
-L'iterazione usa rilassamento 0,55, tolleranza relativa 1E−7 sulle larghezze e massimo
-120 iterazioni. La mancata convergenza impedisce l'emissione di risultati utilizzabili.
+L'iterazione usa tolleranza relativa 1E−7 sulle larghezze e massimo 120 iterazioni.
+Da CompositeBridge 1.2 (`AcceleratedIteration`, predefinito) ogni situazione parte
+dalla geometria efficace convergente della precedente e il fattore di rilassamento
+segue la formula di Aitken (Irons–Tuck), partendo da 0,55 e limitato a [0,05; 1]:
+23–24 iterazioni diventano 7–9, con lo stesso punto fisso entro la tolleranza.
+Disattivando l'opzione ogni situazione riparte dalla sezione lorda con rilassamento
+fisso 0,55. La mancata convergenza impedisce l'emissione di risultati utilizzabili.
 Il rapporto è riferito a fy caratteristico, non a fy/γM0.
 Riferimento e benchmark: [JRC, Commentary and worked examples to EN 1993-1-5](https://eurocodes.jrc.ec.europa.eu/sites/default/files/2021-12/EUR22898EN.pdf),
 capitoli 4 e 17, in particolare il sottopannello d'anima b=492 mm, t=8 mm, ψ=0,406:

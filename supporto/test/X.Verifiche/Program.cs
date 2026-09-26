@@ -31,6 +31,14 @@ try
         var result = CalculationService.Calculate(module, data.AsObject());
         File.WriteAllText(args[2], result.ToJsonString(J.Options)); return result.S("errore") == "" ? 0 : 1;
     }
+    if (args.Length == 4 && args[0] == "--attesi")
+    {
+        // Results of the cases whose name contains the filter, with the same calculations of the comparison: they regenerate the expected
+        // values when a behaviour is deliberately changed (supporto/scripts/aggiorna_attesi.py merges them into casi_confronto.json).
+        var all = JsonNode.Parse(File.ReadAllText(args[1]))!.AsArray(); var output = new JsonObject();
+        foreach (var c in all.OfType<JsonObject>().Where(c => c.S("nome").Contains(args[2]))) output[c.S("nome")] = Actual(c);
+        File.WriteAllText(args[3], output.ToJsonString()); Console.WriteLine($"{output.Count} casi calcolati."); return 0;
+    }
     Console.WriteLine("ANTHEA — verifiche C#");
     if (args.Length == 0) { Console.WriteLine("Specificare il percorso del file casi_confronto.json."); return 2; }
     var cases = JsonNode.Parse(File.ReadAllText(args[0]))!.AsArray(); int count = 0, numbers = 0, failed = 0; double maxAbs = 0, maxRel = 0; string maxPath = "";
@@ -61,27 +69,7 @@ try
     {
         try
         {
-            var c = item!; JsonNode actual; string kind = c.S("tipo"); var input = c["input"]!;
-            switch (kind)
-            {
-                case "palo": case "micropalo": actual = Calcolo.Calcola(input, kind == "micropalo"); break;
-                case "efficienza": actual = Calcolo.Efficienza(input); break;
-                case "nq": actual = Nq.Dettaglio(input.D("phi"), input.D("rapporto"), input.B("grande")); break;
-                case "chs": actual = Chs.Peso(input.S("profilo"), input.D("diametro"), input.D("gamma")); break;
-                case "bd": actual = BustamanteDoix.Parametro(input.S("terreno"), input.S("iniezione"), input.D("pressione"), input.D("alpha")); break;
-                case "sezione":
-                    var engine = new SezioneCA(input["parametri"]!.AsObject(), (int)input.D("nr", 28), (int)input.D("na", 96));
-                    actual = engine.Analyze(input.D("n"), input.D("mx"), input.D("my")); break;
-                case "elastica":
-                    var e = new SezioneCA(input["parametri"]!.AsObject(), (int)input.D("nr", 28), (int)input.D("na", 96));
-                    actual = J.Node(SezioneElastica.Tensioni(e, input.D("coeff_n"), input.D("n"), input.D("mx"), input.D("my")))!; break;
-                case "resistenza_elastica":
-                    var re = new SezioneCA(input["parametri"]!.AsObject(), (int)input.D("nr", 28), (int)input.D("na", 96));
-                    var (m, st) = SezioneElastica.Resistenza(re, input.D("coeff_n"), input.D("n"), input.D("direction")); actual = J.Obj(("moment", m), ("state", st)); break;
-                case "dominio":
-                    var de = new SezioneCA(input["parametri"]!.AsObject(), 12, 36); actual = J.Obj(("nm", Domini.NM(de, input.S("mode"), input.D("coeff_n"))), ("mm", Domini.MM(de, input.S("mode"), input.D("coeff_n"), input.D("n"), 12))); break;
-                default: throw new Exception("Tipo sconosciuto: " + kind);
-            }
+            var c = item!; JsonNode actual = Actual(c);
             if (c.B("atteso_errore")) { if (actual.S("errore") == "") throw new Exception("Errore atteso, calcolo accettato."); }
             else Compare(c["atteso"], actual, c.S("nome")); count++;
         }
@@ -104,4 +92,30 @@ catch (Exception ex)
     // Emit failures explicitly instead of relying on process-wide exception handlers.
     Console.Error.WriteLine(ex);
     return 1;
+}
+
+// The C# result of a comparison case, by type
+static JsonNode Actual(JsonNode c)
+{
+    string kind = c.S("tipo"); var input = c["input"]!;
+    switch (kind)
+    {
+        case "palo": case "micropalo": return Calcolo.Calcola(input, kind == "micropalo");
+        case "efficienza": return Calcolo.Efficienza(input);
+        case "nq": return Nq.Dettaglio(input.D("phi"), input.D("rapporto"), input.B("grande"));
+        case "chs": return Chs.Peso(input.S("profilo"), input.D("diametro"), input.D("gamma"));
+        case "bd": return BustamanteDoix.Parametro(input.S("terreno"), input.S("iniezione"), input.D("pressione"), input.D("alpha"));
+        case "sezione":
+            var engine = new SezioneCA(input["parametri"]!.AsObject(), (int)input.D("nr", 28), (int)input.D("na", 96));
+            return engine.Analyze(input.D("n"), input.D("mx"), input.D("my"));
+        case "elastica":
+            var e = new SezioneCA(input["parametri"]!.AsObject(), (int)input.D("nr", 28), (int)input.D("na", 96));
+            return J.Node(SezioneElastica.Tensioni(e, input.D("coeff_n"), input.D("n"), input.D("mx"), input.D("my")))!;
+        case "resistenza_elastica":
+            var re = new SezioneCA(input["parametri"]!.AsObject(), (int)input.D("nr", 28), (int)input.D("na", 96));
+            var (m, st) = SezioneElastica.Resistenza(re, input.D("coeff_n"), input.D("n"), input.D("direction")); return J.Obj(("moment", m), ("state", st));
+        case "dominio":
+            var de = new SezioneCA(input["parametri"]!.AsObject(), 12, 36); return J.Obj(("nm", Domini.NM(de, input.S("mode"), input.D("coeff_n"))), ("mm", Domini.MM(de, input.S("mode"), input.D("coeff_n"), input.D("n"), 12)));
+        default: throw new Exception("Tipo sconosciuto: " + kind);
+    }
 }

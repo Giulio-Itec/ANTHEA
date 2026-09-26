@@ -81,7 +81,7 @@ ospitati né dipendenze da `System.Drawing`.
 ## Moduli e compatibilità
 
 In **Strutture → Sezione composta** è disponibile il [modulo da ponte N–Mx di classe 4](supporto/docs/sezione-mista-ponte.md):
-soletta su H saldato, due piattabande inferiori (risultante nel calcolo), due file di
+soletta su H saldato, due piattabande inferiori (piastre reali nel calcolo), due file di
 armature opzionali, fasi di carico e omogeneizzazione da φ oppure n. Model fornisce
 geometria/materiali/proprietà e Checker le tensioni composte; ANTHEA itera le larghezze
 efficaci. La viewport mostra geometria, tensioni e parti inefficaci, con tabelle complete,

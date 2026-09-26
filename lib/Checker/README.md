@@ -2,15 +2,18 @@
 
 **Snapshot corrente (26 settembre 2026).** Tutte le DLL provengono dai `bin/Release`
 della stessa build della catena Utilities → Geometry → Model → Checker:
-Utilities 2.0.0.7, Geometry 2.1.0.1, DelaunayMesh 2.0.0.7, Model 1.2.2.1,
-ModelData 0.0.1.12, Checker.Concrete 0.0.12.5 e CompositeBridge 1.0.1.0, compilata
+Utilities 2.0.0.7, Geometry 2.1.0.1, DelaunayMesh 2.0.0.7, Model 1.3.0.0,
+ModelData 0.0.1.13, Checker.Concrete 0.0.12.6 e CompositeBridge 1.2.0.0, compilata
 contro le stesse dipendenze (non più contro lo snapshot del 24 settembre).
-GMsh.Net passa a 4.15.2.1 (Gmsh 4.15, da `Geometry/GMesh/bin/Release`, come la
-referenzia Checker.Concrete); il runtime nativo Gmsh continua a non essere
-necessario. Model 1.2.x contiene le correzioni di calcolo delle sezioni (asse 1
-sempre principale, momenti d'inerzia di C e H con raccordi esatti, moduli
-plastici) e Checker.Concrete 0.0.12.x il nuovo mesher. Versioni e SHA-256 sono
-nel manifest; i paragrafi seguenti descrivono gli snapshot precedenti.
+**GMsh.Net e UnsafeEx sono stati rimossi**: nessuna libreria li usa (Checker.Concrete
+aveva solo un riferimento residuo del 2022, quando Gmsh fu sostituito da DelaunayMesh;
+la DLL compilata non li referenziava). Model 1.3 contiene le correzioni di calcolo
+delle sezioni (asse 1 sempre principale, momenti d'inerzia di C e H con raccordi
+esatti, moduli plastici) e la nuova `SectionHDoubleBottomFlange`; CompositeBridge 1.1
+usa le due piastre inferiori reali (non più il rettangolo equivalente), permette di
+escludere l'instabilità locale di piattabanda superiore, inferiore e anima, distingue
+Vpl,Rd NTC (hw tw) ed EC3 (η hw tw), corregge la forza negli irrigidimenti e (1.2) accelera l'iterazione delle larghezze efficaci: partenza dalla situazione precedente e rilassamento di Aitken.
+Versioni e SHA-256 sono nel manifest; i paragrafi seguenti descrivono gli snapshot precedenti.
 
 Il 25 settembre 2026 è stata aggiunta `GPCChecker.CompositeBridge.dll`, compilata
 dal nuovo progetto Checker **contro le dipendenze di questo snapshot**. Le otto

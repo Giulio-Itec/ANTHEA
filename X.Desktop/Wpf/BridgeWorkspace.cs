@@ -128,7 +128,11 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         pageInputs.Add(Scroll(Ui.Stack(
             BuildCalculationOptions(),
             Form(Data, [new("stato", "Limiti tensionali", Choices: ["SLU", "SLE rara", "SLE quasi permanente"]),
-                new("classe4", "Riduzioni locali · classe 4", Bool: true), new("y_ref", "Quota comune di N", "mm")]),
+                new("classe4", "Riduzioni locali · classe 4", Bool: true),
+                new("instabilita_sup", "Instabilità locale · piattabanda superiore", Bool: true),
+                new("instabilita_inf", "Instabilità locale · piattabanda inferiore", Bool: true),
+                new("instabilita_anima", "Instabilità locale · anima", Bool: true), new("y_ref", "Quota comune di N", "mm")]),
+            Ui.Text("Con la classe 4 attiva, una parte con instabilità esclusa resta interamente efficace (ρ = 1): giustificarlo, ad esempio con la classe 1–3 o con il vincolo della soletta connessa.", 11, color: Ui.Muted),
             Ui.Text("y = 0 all’interfaccia; positivo verso l’alto. La quota comune si usa solo per le fasi che la selezionano; ogni fase può applicare N al proprio baricentro.", 11, color: Ui.Muted),
             Notice("N > 0 trazione; Mx > 0 comprime la parte superiore. Inserire i soli incrementi di carico già combinati: le fasi precedenti sono sommate automaticamente."),
             phaseForms,
@@ -263,22 +267,22 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             stage.Contributions.Select(c => new[] { c.Name, Dash(c.N0), Dash(c.HomogenizationN), c.HasConcrete ? F(c.Phi) : "—", c.HasConcrete ? F(c.EffectivePhi) : "—",
                 c.HasConcrete ? F(BridgeDerivedResults.EffectiveConcreteModulus(result.Materials.Ea, c.HomogenizationN)) : "—", F(c.Area), F(c.Centroid), E(c.Inertia), E(c.WTop), E(c.WBottom), c.NeutralAxis is { } z ? F(z) : "—", E(c.Curvature(result.Materials.Ea) * 1000) }));
         classTable.Content = ResultTable(["Pannello", "b [mm]", "t [mm]", "σ₁ [MPa]", "σ₂ [MPa]", "ψ", "kσ", "λp", "ρ", "bc [mm]", "b₁ eff [mm]", "b₂ eff [mm]"],
-            new[] { ("Anima · sup → inf", stage.Effective.Web), ("Sbalzo superiore", stage.Effective.Top), ("Sbalzo inferiore eq.", stage.Effective.Bottom) }.Select(x =>
+            new[] { ("Anima · sup → inf", stage.Effective.Web), ("Sbalzo superiore", stage.Effective.Top), (stage.Effective.SecondBottom is null ? "Sbalzo inferiore" : "Sbalzo inferiore · piastra 1", stage.Effective.Bottom) }.Concat(stage.Effective.SecondBottom is { } second ? new[] { ("Sbalzo inferiore · piastra 2", second) } : []).Select(x =>
                 new[] { x.Item1, F(x.Item2.Width), F(x.Item2.Thickness), F(x.Item2.StartStress), F(x.Item2.EndStress), F(x.Item2.Psi), F(x.Item2.KSigma), F(x.Item2.Lambda), F(x.Item2.Rho), F(x.Item2.CompressedWidth), F(x.Item2.EffectiveAtStart), F(x.Item2.EffectiveAtEnd) }));
         phaseTable.Content = ResultTable(["Fase", "Sezione", "Riferimento N", "yN [mm]", "ΔN [kN]", "ΔMx al punto N [kNm]", "ΔV [kN]", "ΣN [kN]", "ΣMx a y=0 [kNm]", "ΣV [kN]", "Δεcs [µε]", "N eq. [kN]", "M eq. a y=0 [kNm]", "σc impedita [MPa]", "As [mm²]", "Ix* integrazione [mm⁴]", "Residuo equilibrio"],
             stage.Contributions.Select((c, i) => new[] { c.Name, c.Kind, c.LoadReference, F(c.LoadY), F(c.N), F(c.Mx), F(c.V), F(stage.Contributions.Take(i + 1).Sum(x => x.N)), F(stage.Contributions.Take(i + 1).Sum(x => x.MomentAtInterface)), F(stage.Contributions.Take(i + 1).Sum(x => x.V)),
                 c.IsShrinkage ? F(c.ShrinkageStrain * 1e6) : "—", c.IsShrinkage ? F(c.EquivalentN) : "—", c.IsShrinkage ? F(c.EquivalentMomentAtInterface) : "—", c.IsShrinkage ? F(c.ConcreteStressOffset) : "—", F(c.RebarArea), E(c.SolverInertia), E(c.EquilibriumResidual) }));
         geometryTable.Content = ResultTable(["Proprietà", "Valore", "Unità"], new[] {
-            new[] { "Area carpenteria lorda (equivalente)", F(g.SteelArea), "mm²" }, new[] { "Baricentro carpenteria lorda", F(g.SteelCentroid), "mm" }, new[] { "Ix carpenteria lorda", E(g.SteelInertia), "mm⁴" },
+            new[] { "Area carpenteria lorda", F(g.SteelArea), "mm²" }, new[] { "Baricentro carpenteria lorda", F(g.SteelCentroid), "mm" }, new[] { "Ix carpenteria lorda", E(g.SteelInertia), "mm⁴" },
             new[] { "Area carpenteria efficace", F(stage.EffectiveSteel.Area), "mm²" }, new[] { "Aeff / Alorda", F(stage.EffectiveSteel.Area / g.SteelArea), "—" },
             new[] { "Baricentro carpenteria efficace", F(stage.EffectiveSteel.Centroid), "mm" }, new[] { "Spostamento baricentro efficace − lordo", F(stage.EffectiveSteel.Centroid - g.SteelCentroid), "mm" },
             new[] { "Ix carpenteria efficace", E(stage.EffectiveSteel.Inertia), "mm⁴" }, new[] { "Ieff / Ilorda", F(stage.EffectiveSteel.Inertia / g.SteelInertia), "—" },
             new[] { "Anima inefficace · limite inferiore y", F(-g.TopThickness - g.WebHeight + stage.Effective.WebBottom), "mm" },
             new[] { "Anima inefficace · limite superiore y", F(-g.TopThickness - stage.Effective.WebTop), "mm" },
-            new[] { "Piattabanda inferiore · b equivalente", F(g.BottomEquivalentWidth), "mm" }, new[] { "Piattabanda inferiore · t equivalente", F(g.BottomEquivalentThickness), "mm" },
+            new[] { "Piattabanda inferiore · b equivalente (solo confronto)", F(g.BottomEquivalentWidth), "mm" }, new[] { "Piattabanda inferiore · t equivalente (solo confronto)", F(g.BottomEquivalentThickness), "mm" },
             new[] { "Piastre inferiori · area reale = equivalente", F(g.BottomArea), "mm²" }, new[] { "Piastre inferiori · yG reale", F(g.BottomRealCentroid), "mm" },
-            new[] { "Piastre inferiori · yG equivalente", F(-g.Height + g.BottomEquivalentThickness / 2), "mm" }, new[] { "Piastre inferiori · Ix reale al proprio G", E(g.BottomRealInertia), "mm⁴" },
-            new[] { "Piattabanda equivalente · Ix al proprio G", E(g.EquivalentBottomPlate().Ix), "mm⁴" },
+            new[] { "Piastre inferiori · yG equivalente (solo confronto)", F(-g.Height + g.BottomEquivalentThickness / 2), "mm" }, new[] { "Piastre inferiori · Ix reale al proprio G", E(g.BottomRealInertia), "mm⁴" },
+            new[] { "Piattabanda equivalente · Ix al proprio G (solo confronto)", E(g.EquivalentBottomPlate().Ix), "mm⁴" },
             new[] { "Area soletta lorda", F(g.Width * g.SlabHeight), "mm²" }, new[] { "Barre complessive", g.Bars.Length.ToString(), "n." }, new[] { "Area armature", F(g.Bars.Sum(b => b.Area)), "mm²" },
             new[] { "Altezza complessiva", F(g.Height + g.SlabHeight), "mm" }, new[] { "Asse neutro delle tensioni totali nell’acciaio", stage.SteelNeutralAxis is { } z ? F(z) : "—", "mm" }
         }.Concat(g.Bars.GroupBy(b => b.Y).Select(r => new[] { $"Fila y={F(r.Key)} mm · {r.Count()} barre Ø{F(r.First().Diameter)}", F(r.Sum(b => b.Area)), "mm²" })));

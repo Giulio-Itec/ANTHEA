@@ -34,8 +34,8 @@ public static partial class ReportBridge
             doc.H("Geometria della sezione");
             doc.Table(["Parte", "Larghezza [mm]", "Spessore o altezza [mm]"], new[] {
                 new[] { "Soletta", F(g.Width), F(g.SlabHeight) }, new[] { "Anima", F(g.WebThickness), F(g.WebHeight) },
-                new[] { "Piattabanda superiore", F(g.TopWidth), F(g.TopThickness) }, new[] { "Piattabanda inferiore equivalente", F(g.BottomEquivalentWidth), F(g.BottomEquivalentThickness) } }, [2, 1, 1.3]);
-            doc.P("CLS netto delle barre. Le due piastre inferiori, se presenti, sono sostituite dal rettangolo equivalente ad area e spessore totali uguali.");
+                new[] { "Piattabanda superiore", F(g.TopWidth), F(g.TopThickness) }, new[] { "Piattabanda inferiore 1", F(g.Bottom1Width), F(g.Bottom1Thickness) } }.Concat(g.Bottom2Thickness > 0 ? new[] { new[] { "Piattabanda inferiore 2", F(g.Bottom2Width), F(g.Bottom2Thickness) } } : []), [2, 1, 1.3]);
+            doc.P("CLS netto delle barre. Le due piastre inferiori, se presenti, sono modellate con la geometria reale.");
             doc.Table(["Fila armature", "Barre", "Diametro [mm]", "Area [mm²]"], g.Bars.GroupBy(b => b.Y).Select(row => new[] { "y = " + F(row.Key) + " mm", row.Count().ToString(), F(row.First().Diameter), F(row.Sum(b => b.Area)) }), [2, 1, 1, 1]);
             doc.Figures(images, options, "geometria");
         }
