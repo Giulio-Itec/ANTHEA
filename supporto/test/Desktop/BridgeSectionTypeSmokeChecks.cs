@@ -46,10 +46,39 @@ public sealed partial class MainWindow
         File.WriteAllBytes(Path.Combine(directory, "sezione_cassoncino_tensioni.png"), Ui.Snapshot(this));
         bridge.Pages.SelectedIndex = 0; await Layout();
 
+        // box torsion: options only for the box, ΔT editable with the checks, results, drawing unchanged and report
+        Check(bridge.BoxInputsVisible && bridge.TorqueColumnVisible, "opzioni di torsione e colonna ΔT del cassoncino nascoste.");
+        Check(bridge.Calculation!.Stages.All(s => s.Torsion is null) && !bridge.TorsionResultsVisible, "torsione calcolata senza attivarla.");
+        var torsionForm = bridge.InputForms.Single(f => f.Editors.ContainsKey("torsione_cassoncino"));
+        ((CheckBox)torsionForm.Editors["torsione_cassoncino"]).IsChecked = true; await Layout();
+        torsionForm.Set("t_controvento", "4"); torsionForm.Set("L_campata", "40000"); await Layout();
+        Check(torsionForm.Editors["passo_diaframmi"].Visibility == Visibility.Visible && torsionForm.Editors["t_diaframma"].Visibility != Visibility.Visible, "campi della distorsione.");
+        torsionForm.Set("passo_diaframmi", "5000"); torsionForm.Set("m_t_dist", "60"); torsionForm.Set("T_c_dist", "600"); await Layout();
+        Check(torsionForm.Editors["t_diaframma"].Visibility == Visibility.Visible && torsionForm.Editors["A_diagonale"].Visibility != Visibility.Visible, "campi del diaframma a piastra.");
+        var phaseForms = bridge.InputForms.Where(f => f.Editors.ContainsKey("T") && f.Editors.ContainsKey("Mx")).ToArray();
+        Check(phaseForms.Length >= 2 && phaseForms.All(f => f.Editors["T"].Visibility == Visibility.Visible), "ΔT nelle fasi del cassoncino con la torsione.");
+        phaseForms[0].Set("T", "200"); phaseForms[^1].Set("T", "1000"); await wait(); await Layout();
+        var torsion = bridge.Calculation!.Stages[^1].Torsion;
+        Check(torsion is not null && torsion.WebFlow > 0 && torsion.SlabFlow > 0 && torsion.Distortion is { Diaphragms: 7 }, "calcolo della torsione e della distorsione.");
+        Check(bridge.Calculation.Stages[0].Torsion!.Flows[0].Closed, "fase di solo acciaio chiusa dal controvento.");
+        bridge.RevealTorsion(false); await Layout(); bridge.RevealTorsion(false); await Layout();
+        File.WriteAllBytes(Path.Combine(directory, "sezione_cassoncino_torsione_ingressi.png"), Ui.Snapshot(this));
+        bridge.Pages.SelectedIndex = 1; await Layout();
+        var resultsTab = bridge.Results.SelectedIndex;
+        bridge.RevealTorsion(true); await Layout();
+        Check(bridge.TorsionResultsVisible, "risultati della torsione non mostrati.");
+        File.WriteAllBytes(Path.Combine(directory, "sezione_cassoncino_torsione.png"), Ui.Snapshot(this));
+        bridge.Results.SelectedIndex = resultsTab; bridge.Pages.SelectedIndex = 0; await Layout();
+        Check(bridge.BuildReport("Cassoncino con torsione", ReportBridge.DefaultSections()).Length > 1000, "relazione con la torsione.");
+        foreach (var phase in phaseForms) phase.Set("T", "0");
+        ((CheckBox)torsionForm.Editors["torsione_cassoncino"]).IsChecked = false; await wait(); await Layout();
+        Check(bridge.Calculation!.Stages.All(s => s.Torsion is null), "torsione disattivata.");
+
         kind.SelectedItem = BridgeSection.SectionTypes[0]; form.Set("offset_anima", "0");
         steel.Set("b_top", "500"); steel.Set("b_bottom", "700"); steel.Set("t_bottom", "30"); await wait(); await Layout();
         Check(bridge.Calculation is { } h && h.Geometry.SectionType == BridgeSteelSectionType.H && plate.Visibility == Visibility.Visible, "ritorno all'H.");
+        Check(!bridge.BoxInputsVisible && !bridge.TorqueColumnVisible, "opzioni di torsione visibili per l'H.");
         bridge.Pages.SelectedIndex = originalPage; await Layout();
-        File.WriteAllText(Path.Combine(directory, "tipo-sezione-smoke.txt"), $"OK: {count} controlli su H, H con anima inclinata e cassoncino (campi, calcolo, disegno, relazione).");
+        File.WriteAllText(Path.Combine(directory, "tipo-sezione-smoke.txt"), $"OK: {count} controlli su H, H con anima inclinata e cassoncino (campi, calcolo, disegno, torsione, relazione).");
     }
 }

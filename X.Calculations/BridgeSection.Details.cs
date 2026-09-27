@@ -4,6 +4,12 @@ public static partial class BridgeSection
 {
     public static readonly string[] StiffenerSides = ["Bilaterali simmetrici", "Solo sinistra", "Solo destra", "Bilaterali diversi"];
     public static readonly string[] SupportLocations = ["Appoggio interno", "Estremità sinistra", "Estremità destra"];
+    /// <summary>The intermediate diaphragms of the box, in the order of <see cref="BridgeDiaphragmKind"/></summary>
+    public static readonly string[] DiaphragmKinds = ["Piastra", "Controvento a X"];
+    /// <summary>Box girder: torsion, distortion and diaphragms (disabled by default; the archives without the keys have no torsion)</summary>
+    public static JsonObject BoxDefaults() => J.Obj(("torsione_cassoncino", false), ("t_controvento", 0), ("L_campata", 0), ("passo_diaframmi", 0),
+        ("tipo_diaframma", DiaphragmKinds[0]), ("t_diaframma", 12), ("A_diagonale", 3000), ("i_diagonale", 30), ("beta_diagonale", 1),
+        ("m_t_dist", 0), ("T_c_dist", 0), ("T_app", 0), ("e_appoggi", ""), ("t_diaframma_app", 0));
     public static JsonObject DetailDefaults() => J.Obj(
         ("lati_irr", StiffenerSides[0]), ("pannelli_uguali", true), ("a_irr_dx", 3000),
         ("b_irr_dx", 150), ("t_irr_dx", 15), ("x_irr", 0), ("betaL_irr", 1), ("saldature_irr", false), ("aw_irr", 6),

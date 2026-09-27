@@ -11,7 +11,7 @@ internal sealed partial class BridgeWorkspace
 {
     internal readonly JsonGrid ActionsTable = new([
         new("attiva", "Attiva", Bool: true), new("nome", "Fase"), new("tipo", "Sezione / azione", Choices: BridgeSection.PhaseKinds),
-        new("N", "ΔN [kN]"), new("Mx", "ΔMx [kNm]"), new("V", "ΔV [kN]"),
+        new("N", "ΔN [kN]"), new("Mx", "ΔMx [kNm]"), new("V", "ΔV [kN]"), new("T", "ΔT [kNm]"),
         new("riferimento_N", "Punto N / riferimento Mx", Choices: BridgeSection.LoadReferences),
         new("phi", "φ"), new("psi", "ψL"), new("n", "n = Ea/Ec,eff"), new("epsilon_cs", "Δεcs [µε]" ), new("q_conn", "Δq pioli [kN/m]")]);
     private readonly TextBlock loadConvention = Ui.Text("", 11, color: Ui.Muted);
@@ -20,7 +20,7 @@ internal sealed partial class BridgeWorkspace
     private bool refreshingActions;
     private UIElement BuildActionsTable()
     {
-        double[] widths = [60, 180, 130, 90, 100, 90, 220, 70, 70, 110, 105, 120];
+        double[] widths = [60, 180, 130, 90, 100, 90, 95, 220, 70, 70, 110, 105, 120];
         for (int i = 0; i < widths.Length; i++) ActionsTable.Columns[i].Width = widths[i];
         ActionsTable.FrozenColumnCount = 2;
         ActionsTable.MinHeight = 110;
@@ -29,7 +29,8 @@ internal sealed partial class BridgeWorkspace
         {
             var row = (JsonRow)e.Row.Item; string key = e.Column.SortMemberPath;
             bool shrinkage = row.Values.S("tipo") == BridgeSection.ShrinkageKind;
-            e.Cancel = shrinkage && key is "N" or "Mx" or "V" or "riferimento_N"
+            e.Cancel = shrinkage && key is "N" or "Mx" or "V" or "T" or "riferimento_N"
+                || key == "T" && !BridgeSection.TorsionEnabled(Data)
                 || row.Values.S("tipo") == "Solo acciaio" && key == "q_conn"
                 || !shrinkage && key == "epsilon_cs" || !PhaseHomogenizationNeeded(row.Values.S("tipo")) && key is "phi" or "psi" or "n";
         };
@@ -37,19 +38,24 @@ internal sealed partial class BridgeWorkspace
             Ui.Button("↑", () => MoveSelected(-1)), Ui.Button("↓", () => MoveSelected(1)), Ui.Button("Elimina", () =>
             { if (ActionsTable.SelectedItem is JsonRow row && Data.Array("fasi").Count > 1) { ActionsTable.Commit(); Data.Array("fasi").Remove(row.Values); BuildPhases(); Changed(); } }));
         return Ui.Dock(ActionsTable, Ui.Stack(phaseCount, loadConvention,
-            Ui.Text("Ritiro: Δεcs < 0 accorciamento, in µε (−250 = −0,25‰). φ, ψL e n sono propri della fase. Il risultato somma gli incrementi ΔV. Δq aggiunge scorrimento ai pioli (effetti locali/estremità), nullo nelle fasi di solo acciaio.", 11, color: Ui.Muted)), commands);
+            Ui.Text("Ritiro: Δεcs < 0 accorciamento, in µε (−250 = −0,25‰). φ, ψL e n sono propri della fase. Il risultato somma gli incrementi ΔV. Δq aggiunge scorrimento ai pioli (effetti locali/estremità), nullo nelle fasi di solo acciaio. " +
+                "ΔT: momento torcente del cassoncino, attivo con le verifiche a torsione.", 11, color: Ui.Muted)), commands);
     }
     private string actionStyleKey = "";
     private void ConfigureActionCells()
     {
-        string styleKey = Data.S("normativa") + Data.B("pioli");
+        // ΔT only for the box girder, editable with the torsion checks
+        bool box = Data.S("sezione", BridgeSection.SectionTypes[0]) == BridgeSection.SectionTypes[2], torsion = BridgeSection.TorsionEnabled(Data);
+        string styleKey = Data.S("normativa") + Data.B("pioli") + box + torsion;
         if (actionStyleKey == styleKey) return;
         actionStyleKey = styleKey;
         foreach (var column in ActionsTable.Columns)
         {
             string key = column.SortMemberPath;
+            if (key == "T") column.Visibility = box ? Visibility.Visible : Visibility.Collapsed;
             var inactiveKinds = BridgeSection.PhaseKinds.Where(kind =>
-                kind == BridgeSection.ShrinkageKind && key is "N" or "Mx" or "V" or "riferimento_N"
+                kind == BridgeSection.ShrinkageKind && key is "N" or "Mx" or "V" or "T" or "riferimento_N"
+                || key == "T" && !torsion
                 || kind != BridgeSection.ShrinkageKind && key == "epsilon_cs"
                 || kind == "Solo acciaio" && key == "q_conn"
                 || !PhaseHomogenizationNeeded(kind) && key is "phi" or "psi" or "n");

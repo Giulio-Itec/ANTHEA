@@ -56,7 +56,8 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         Ui.Tab(Results, "Tensioni", Ui.Dock(stressTable, Ui.Text("La trave accumula anche G1, portato dal solo acciaio. Le armature accumulano le fasi in cui partecipano; il confronto va fatto per contributo e quota, tenendo conto di Es/Ea.", 11, color: Ui.Muted)));
         Ui.Tab(Results, "Verifiche", Scroll(Ui.Stack(
             Ui.Text("Esiti locali della sezione. Leggere anche i controlli da completare: i controlli disattivati o privi di dati restano da verificare; fatica e reazione d’appoggio usano inviluppi dedicati.", 11, color: Ui.Muted),
-            verificationTable, Group("Taglio · parametri e resistenze", shearResults, true), Group("Pioli · flusso per fase e resistenze", studResults, true))));
+            verificationTable, Group("Taglio · parametri e resistenze", shearResults, true), Group("Pioli · flusso per fase e resistenze", studResults, true),
+            torsionGroup = Group("Cassoncino · torsione, distorsione e diaframmi", torsionResults, true))));
         BuildLayout();
         StageChoice.SelectionChanged += (_, _) =>
         {
@@ -117,9 +118,10 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             sectionType?.ShowField("interasse_anime", kind == BridgeSection.SectionTypes[2]);
             if (plate is not null) plate.Visibility = h ? Visibility.Visible : Visibility.Collapsed;
             if (plateNote is not null) plateNote.Visibility = h ? Visibility.Visible : Visibility.Collapsed;
+            if (boxInputs is not null) boxInputs.Visibility = kind == BridgeSection.SectionTypes[2] ? Visibility.Visible : Visibility.Collapsed;
         }
         sectionType = Form(Data, [new("sezione", "Tipo di sezione", Choices: BridgeSection.SectionTypes), new("offset_anima", "Scostamento anima al piede", "mm"),
-            new("interasse_anime", "Interasse anime in sommità", "mm")], _ => ShowSectionFields());
+            new("interasse_anime", "Interasse anime in sommità", "mm")], key => { ShowSectionFields(); if (key == "sezione") Dispatcher.BeginInvoke(BuildPhases); });
         plate = Form(Data, [new("plate2", "Seconda piattabanda inferiore", Bool: true), new("b_bottom2", "Larghezza inferiore 2", "mm"), new("t_bottom2", "Spessore inferiore 2", "mm")],
             _ => { plate?.ShowField("b_bottom2", Data.B("plate2")); plate?.ShowField("t_bottom2", Data.B("plate2")); });
         plate.ShowField("b_bottom2", Data.B("plate2")); plate.ShowField("t_bottom2", Data.B("plate2"));
@@ -140,9 +142,11 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             reinforcement.Children.Add(Block(side == "top" ? "Armatura superiore" : "Armatura inferiore", bars));
         }
         reinforcement.Children.Add(Ui.Text("Le file possono essere entrambe assenti. Le barre sono distribuite e centrate secondo il passo; la distanza inserita è all’asse, non il copriferro netto.", 11, color: Ui.Muted));
+        var accessories = BuildAccessories();
+        ShowSectionFields();
         pageInputs.Add(Scroll(Ui.Stack(norm,
             Ui.Text("Dati comuni a tutte le situazioni. Coefficienti modificabili per l’Appendice Nazionale applicabile.", 11, color: Ui.Muted),
-            Group("Coefficienti da normativa", coefficients), Group("Materiali", materialBody), Group("Geometria", geometry, true), Group("Armature", reinforcement), BuildAccessories())));
+            Group("Coefficienti da normativa", coefficients), Group("Materiali", materialBody), Group("Geometria", geometry, true), Group("Armature", reinforcement), accessories)));
         pageInputs.Add(Scroll(Ui.Stack(
             BuildCalculationOptions(),
             Form(Data, [new("stato", "Limiti tensionali", Choices: ["SLU", "SLE rara", "SLE quasi permanente"]),
@@ -168,14 +172,17 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         {
             // Old archives keep the original common application point.
             p["riferimento_N"] ??= BridgeSection.CommonLoadReference;
-            p["V"] ??= 0; p["epsilon_cs"] ??= 0; p["q_conn"] ??= 0;
+            p["V"] ??= 0; p["T"] ??= 0; p["epsilon_cs"] ??= 0; p["q_conn"] ??= 0;
             int i = index++;
             var form = Form(p, [new("nome", "Nome", Wide: true), new("attiva", "Includi nella somma", Bool: true), new("tipo", "Sezione reagente", Choices: BridgeSection.PhaseKinds),
-                new("N", "Forza assiale N", "kN"), new("Mx", "Momento Mx", "kNm"), new("V", "Taglio V", "kN"), new("q_conn", "Scorrimento aggiuntivo Δq", "kN/m"), new("epsilon_cs", "Ritiro Δεcs · negativo = accorciamento", "µε"),
+                new("N", "Forza assiale N", "kN"), new("Mx", "Momento Mx", "kNm"), new("V", "Taglio V", "kN"), new("T", "Momento torcente T · cassoncino", "kNm"),
+                new("q_conn", "Scorrimento aggiuntivo Δq", "kN/m"), new("epsilon_cs", "Ritiro Δεcs · negativo = accorciamento", "µε"),
                 new("riferimento_N", "Punto di applicazione N e riferimento Mx", Choices: BridgeSection.LoadReferences)], key =>
                 { if (key == "tipo") { if (p.S("tipo") == BridgeSection.ShrinkageKind) { p["psi"] = .55; p["modo"] = "Da φ"; } Dispatcher.BeginInvoke(BuildPhases); } });
             bool shrinkage = p.S("tipo") == BridgeSection.ShrinkageKind;
             foreach (string key in new[] { "N", "Mx", "V", "riferimento_N" }) form.ShowField(key, !shrinkage);
+            form.ShowField("T", !shrinkage && BridgeSection.TorsionEnabled(Data));
+            form.Editors["T"].ToolTip = "Incremento del momento torcente della fase nella sezione, dal modello globale. Fasi di solo acciaio: cella chiusa dal controvento superiore (t* > 0); fasi composte: cella chiusa dalla soletta.";
             form.ShowField("epsilon_cs", shrinkage);
             form.ShowField("q_conn", Data.B("pioli") && p.S("tipo") != "Solo acciaio");
             var commands = Ui.Bar(Ui.Button("↑", () => MovePhase(i, -1)), Ui.Button("↓", () => MovePhase(i, 1)), Ui.Button("Elimina", () => { if (Data.Array("fasi").Count <= 1) return; ActionsTable.Commit(); Data.Array("fasi").Remove(p); BuildPhases(); Changed(); }));
@@ -257,7 +264,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
     private void ClearResults()
     {
         Drawing.Stage = null; Drawing.InvalidateVisual(); overview.Text = "Risultati da aggiornare"; warnings.Text = "";
-        foreach (var host in new[] { stressTable, propertiesTable, classTable, phaseTable, geometryTable, verificationTable, shearResults, studResults }) host.Content = Ui.Text("Nessun risultato aggiornato", 12, color: Ui.Muted);
+        foreach (var host in new[] { stressTable, propertiesTable, classTable, phaseTable, geometryTable, verificationTable, shearResults, studResults, torsionResults }) host.Content = Ui.Text("Nessun risultato aggiornato", 12, color: Ui.Muted);
         details.Text = "";
         summaryCards.Text = "Nessun risultato aggiornato";
     }
@@ -280,7 +287,8 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             stage.Points.Select(p => new[] { p.Name, F(p.Y) }.Concat(p.Contributions.Select(F)).Append(p.Active ? F(p.Stress) : "—").ToArray()));
         verificationTable.Content = ResultTable(["Controllo", "Stato limite", "Domanda", "Limite", "η", "Esito", "Note"],
             stage.Points.Select(p => new[] { p.Name, result.Input.S("stato"), p.Active ? F(p.Stress) : "—", p.Active ? F(p.Limit) : "—", p.Utilization is { } u ? F(u) : "—",
-                !p.Active ? "Non attivo" : p.Utilization is null ? "CLS teso" : p.Utilization <= 1 ? "Entro limite locale" : "Limite superato", "σ e limite in MPa" }).Concat((stage.Shear?.Checks ?? []).Concat(stage.Studs?.Checks ?? []).Select(c => new[] { c.Name, result.Input.S("stato"), F(c.Demand) + " " + c.Unit, F(c.Resistance) + " " + c.Unit, c.Ratio is {} r ? F(r) : "—", c.Status, c.Note })));
+                !p.Active ? "Non attivo" : p.Utilization is null ? "CLS teso" : p.Utilization <= 1 ? "Entro limite locale" : "Limite superato", "σ e limite in MPa" }).Concat((stage.Shear?.Checks ?? []).Concat(stage.Studs?.Checks ?? []).Concat(stage.Torsion?.Checks ?? [])
+                .Select(c => new[] { c.Name, result.Input.S("stato"), F(c.Demand) + " " + c.Unit, F(c.Resistance) + " " + c.Unit, c.Ratio is {} r ? F(r) : "—", c.Status, c.Note })));
         propertiesTable.Content = ResultTable(["Fase", "n₀", "n = Ea/Ec,eff", "φ", "ψLφ", "Ec,eff [MPa]", "A* [mm²]", "yG [mm]", "Ix* [mm⁴]", "Wsup* [mm³]", "Winf* [mm³]", "yσ=0 [mm]", "κ [1/m]"],
             stage.Contributions.Select(c => new[] { c.Name, Dash(c.N0), Dash(c.HomogenizationN), c.HasConcrete ? F(c.Phi) : "—", c.HasConcrete ? F(c.EffectivePhi) : "—",
                 c.HasConcrete ? F(BridgeDerivedResults.EffectiveConcreteModulus(result.Materials.Ea, c.HomogenizationN)) : "—", F(c.Area), F(c.Centroid), E(c.Inertia), E(c.WTop), E(c.WBottom), c.NeutralAxis is { } z ? F(z) : "—", E(c.Curvature(result.Materials.Ea) * 1000) }));

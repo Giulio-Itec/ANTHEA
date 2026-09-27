@@ -37,6 +37,24 @@ public static partial class BridgeSection
             Add("R_app", "Appoggio · R inviluppo SLU", "kN"); Add("x_app", "Appoggio · posizione reazione x", "mm"); Add("z_app", "Appoggio · eccentricità longitudinale z", "mm");
             Add("s_app", "Appoggio · lunghezza impronta", "mm"); Add("B_app", "Appoggio · larghezza impronta", "mm");
         }
+        if (TorsionEnabled(d))
+        {
+            Add("t_controvento", "Cassoncino · controvento superiore t*", "mm");
+            Add("L_campata", "Distorsione · luce della campata", "mm");
+            if (d.D("L_campata") > 0)
+            {
+                Add("passo_diaframmi", "Distorsione · passo dei diaframmi intermedi", "mm"); Add("m_t_dist", "Distorsione · torcente distribuito m_t", "kNm/m");
+                Add("T_c_dist", "Distorsione · torcente concentrato T_c", "kNm");
+                if (d.D("passo_diaframmi") > 0)
+                {
+                    Add("tipo_diaframma", "Diaframmi intermedi · tipo");
+                    if (d.S("tipo_diaframma") == DiaphragmKinds[0]) Add("t_diaframma", "Diaframmi intermedi · spessore piastra", "mm");
+                    else { Add("A_diagonale", "Diaframmi intermedi · area diagonale", "mm²"); Add("i_diagonale", "Diaframmi intermedi · raggio d'inerzia diagonale", "mm"); Add("beta_diagonale", "Diaframmi intermedi · Lcr / L diagonale"); }
+                }
+            }
+            Add("T_app", "Diaframma d'appoggio · torcente trasferito", "kNm");
+            if (d.D("T_app") != 0) { Add("e_appoggi", "Appoggi · interasse trasversale degli apparecchi", "mm"); Add("t_diaframma_app", "Diaframma d'appoggio · spessore", "mm"); }
+        }
         if (d.B("pioli"))
         {
             Add("armatura_trasv", "Soletta · verifica armatura trasversale"); Add("fatica_pioli", "Pioli · verifica resistente a fatica");

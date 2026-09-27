@@ -1,5 +1,14 @@
 # Esito integrazione Checker — 21 settembre 2026
 
+> **Aggiornamento 28 settembre 2026 — torsione del cassoncino** (CompositeBridge 1.4.0.0).
+>
+> - Nuove verifiche di torsione, distorsione e diaframmi del cassoncino: vedere
+>   [sezione-mista-ponte.md](sezione-mista-ponte.md). L'H con anima inclinata resta in flessione retta.
+> - Controlli aggiunti: 17 test della libreria con oracoli analitici, controlli X.Verifiche `--bridge` sull'adattatore,
+>   la relazione e l'archivio, prova WPF nel `--smoke-bridge` (campi, ΔT, risultati, relazione).
+> - BridgeAudit: 302 test superati; le baseline delle sezioni H cambiano solo per testo del campo di validità, nuove chiavi di
+>   ingresso e campo `Torsion` nullo, senza differenze numeriche.
+
 > **Aggiornamento 27 settembre 2026 — tutte le suite verdi** (31: regressione, controlli X.Verifiche, libreria di calcolo,
 > BridgeDesign e le 17 smoke WPF).
 >

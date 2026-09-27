@@ -11,7 +11,8 @@ public static partial class BridgeSection
         return new HBridgeInput
         {
             Materials = new(materials.Concrete, materials.Steel, materials.Rebar),
-            Phases = d.Array("fasi").OfType<JsonObject>().Select(ToCheckerPhase).ToArray(),
+            // the torques are dormant (0) unless the box has the torsion checks: the other sections are in straight bending
+            Phases = d.Array("fasi").OfType<JsonObject>().Select(p => TorsionEnabled(d) ? ToCheckerPhase(p) : ToCheckerPhase(p) with { TorsionKNm = 0 }).ToArray(),
             Geometry = new HSectionDimensions
             {
                 SlabWidth = J.Number(d["b_cls"]) ?? double.NaN,
@@ -146,6 +147,24 @@ public static partial class BridgeSection
                 GammaMfStud = J.Number(d["gamma_mf_pioli"]) ?? double.NaN,
                 GammaMfFlange = J.Number(d["gamma_mf_flangia"]) ?? double.NaN,
             },
+            // box girder only: the option of the other sections stays dormant in the archive
+            Box = new BridgeBoxOptions
+            {
+                Enabled = TorsionEnabled(d),
+                BracingThickness = J.Number(d["t_controvento"]) ?? double.NaN,
+                SpanLength = J.Number(d["L_campata"]) ?? double.NaN,
+                DiaphragmSpacing = J.Number(d["passo_diaframmi"]) ?? double.NaN,
+                DiaphragmKind = (BridgeDiaphragmKind)Array.IndexOf(DiaphragmKinds, d.S("tipo_diaframma")),
+                DiaphragmThickness = J.Number(d["t_diaframma"]) ?? double.NaN,
+                BracingArea = J.Number(d["A_diagonale"]) ?? double.NaN,
+                BracingRadius = J.Number(d["i_diagonale"]) ?? double.NaN,
+                BracingBucklingFactor = J.Number(d["beta_diagonale"]) ?? double.NaN,
+                DistributedTorque = J.Number(d["m_t_dist"]) ?? double.NaN,
+                ConcentratedTorque = J.Number(d["T_c_dist"]) ?? double.NaN,
+                SupportTorqueKNm = J.Number(d["T_app"]) ?? double.NaN,
+                BearingSpacing = J.Number(d["e_appoggi"]) ?? double.NaN,
+                SupportDiaphragmThickness = J.Number(d["t_diaframma_app"]) ?? double.NaN,
+            },
         };
     }
     public static BridgePhase ToCheckerPhase(JsonObject p) => new()
@@ -157,6 +176,7 @@ public static partial class BridgeSection
         ForceKN = J.Number(p["N"]) ?? double.NaN,
         MomentKNm = J.Number(p["Mx"]) ?? double.NaN,
         ShearKN = p.ContainsKey("V") ? J.Number(p["V"]) ?? double.NaN : 0,
+        TorsionKNm = p.ContainsKey("T") ? J.Number(p["T"]) ?? double.NaN : 0,
         AdditionalConnectionFlow = p.ContainsKey("q_conn") ? J.Number(p["q_conn"]) ?? double.NaN : 0,
         ShrinkageMicrostrain = J.Number(p["epsilon_cs"]) ?? double.NaN,
         Phi = J.Number(p["phi"]) ?? double.NaN,

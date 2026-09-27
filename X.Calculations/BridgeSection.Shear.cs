@@ -14,6 +14,8 @@ public static partial class BridgeSection
             data[pair.Key] = pair.Value?.DeepClone();
         foreach (var pair in DetailDefaults()) if (!data.ContainsKey(pair.Key))
             data[pair.Key] = pair.Value?.DeepClone();
+        foreach (var pair in BoxDefaults()) if (!data.ContainsKey(pair.Key))
+            data[pair.Key] = pair.Value?.DeepClone();
     }
 
 }

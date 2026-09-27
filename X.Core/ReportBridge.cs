@@ -36,7 +36,7 @@ public static partial class ReportBridge
         doc.P("Model fornisce materiali e geometria. GPCChecker.CompositeBridge esegue il calcolo per fasi e le larghezze efficaci. ANTHEA gestisce ingressi e presentazione dei risultati.");
         doc.H("Riepilogo delle situazioni");
         doc.Table(["Situazione", "ΣN [kN]", "ΣMx a y=0 [kNm]", "ΣV [kN]", "η max locale", "Stato locale"], result.Stages.Select((s, i) => {
-            var local = (s.Shear?.Checks ?? []).Concat(s.Studs?.Checks ?? []).ToArray();
+            var local = (s.Shear?.Checks ?? []).Concat(s.Studs?.Checks ?? []).Concat(s.Torsion?.Checks ?? []).ToArray();
             double maximum = Math.Max(s.MaxUtilization, local.Where(c => c.Ratio.HasValue).Select(c => c.Ratio!.Value).DefaultIfEmpty().Max());
             bool incomplete = local.Any(c => c.Ratio is null) || s.Points.Any(p => p.Active && p.Utilization is null);
             return new[] { $"{i + 1} · Dopo {s.Name}", F(s.Contributions.Sum(c => c.N)), F(s.Contributions.Sum(c => c.MomentAtInterface)), F(s.Contributions.Sum(c => c.V)), F(maximum),
@@ -63,6 +63,13 @@ public static partial class ReportBridge
             doc.Figures(images, options, "dettagli");
             doc.P("Pioli: q = Σ(Vi Si/Ii + Δqi), PEd = |q| p/npioli. NTC: proprietà della fase tensionale; EC4: CLS non fessurato con acciaio efficace. Il ritiro uniforme ha q(V)=0; gli effetti locali di estremità richiedono Δq assegnato da un modello longitudinale. PRd è il minore fra resistenza del gambo e del CLS; in combinazione SLE rara si usa 0,75 PRd. Per SLE quasi permanente non si assegna l’esito richiesto alla rara.");
             doc.P("Interazione M–V per N=0, fy≤355 MPa e anima non tutta compressa: EN 1994-2 §6.2.2.4(3), con Mpl e Mf della sezione composta, flange efficaci e anima intera; armature omesse nelle capacità plastiche di riferimento. Negli altri casi, ad alto taglio, si adotta un inviluppo elastico cautelativo: ηnorm+(2ηV−1)²≤1, Mf=0 e CLS limitato a 0,85 fcd. Non si accredita redistribuzione plastica; il criterio può essere più gravoso della verifica con capacità plastiche ridotte per N. I controlli elastici e di classe 4 restano necessari.");
+            if (BridgeSection.TorsionEnabled(d))
+                doc.P("Torsione del cassoncino: cella chiusa di Bredt con q = T/(2A0), A0 tra i piani medi della soletta (fasi composte, anime prolungate) o del controvento superiore di spessore equivalente t* (fasi di solo acciaio) e del fondo. " +
+                    "J = 4A0²/Σ(ℓ/t) con la soletta hc/nG, nG = n (1+νc)/(1+νa), dimezzata se fessurata (EN 1994-2 §§5.4.2.2(11), 5.4.2.3(6)). q si somma al taglio dell'anima più caricata (V/(2 cos α) + q hw/cos α, EN 1993-1-1 §6.2.7(9)) e all'inviluppo elastico, " +
+                    "al fondo (tensione equivalente, imbozzamento e interazione EN 1993-1-5 §7.1(5)), ai pioli di una piattabanda e alle superfici a–a interne e b–b della soletta; l'armatura longitudinale della soletta richiede q cotθ (EN 1992-1-1 §6.3.2(3)). " +
+                    "Distorsione con l'analogia della trave su suolo elastico (Wright et al., 1968): modo distorsivo della cella con deformazione a taglio nulla delle pareti, ingobbamento ortogonale a N, Mx e My, rigidezza a telaio con nodi rigidi, diaframmi intermedi come molle " +
+                    "(piastra: elementi piani; controvento a X: diagonali), campata appoggiata con diaframmi d'estremità rigidi, m_t su tutta la luce e T_c nella posizione più sfavorevole. " +
+                    "Diaframma d'appoggio a taglio τ = T/(2A0 tD) e coppia T/e_b degli apparecchi sull'irrigidimento d'appoggio dell'anima più caricata.");
         }
 
         if (options.Contains("normativa"))
@@ -91,7 +98,7 @@ public static partial class ReportBridge
                 new[] { "Piattabanda inferiore equivalente (solo confronto)", F(g.BottomEquivalentWidth), F(g.BottomEquivalentThickness) } }, [2.4, 1.3, 1.7]);
             if (g.SectionType != BridgeSteelSectionType.H)
             {
-                doc.P(SectionTypeParagraph(g));
+                doc.P(SectionTypeParagraph(g, BridgeSection.TorsionEnabled(d)));
                 doc.Table(["Lamiere reali", "Larghezza o lunghezza [mm]", "Spessore [mm]"], RealPlates(g), [2.4, 1.3, 1.7]);
             }
             doc.P("La larghezza della soletta è la larghezza collaborante assegnata. La seconda piastra è centrata sotto la prima. " +
@@ -110,6 +117,12 @@ public static partial class ReportBridge
         {
             doc.H("Sollecitazioni per fase"); doc.P("Ogni fase sceglie il proprio punto N: quota comune, baricentro omogeneizzato lordo fisso o baricentro efficace aggiornato durante l’iterazione. " +
                 "La quota comune, quando selezionata, è y = " + Input("y_ref") + " mm. Il momento assegnato è riferito al punto N della fase. Mx,G = Mx + N (yG − yN); i momenti cumulati sono riportati a y=0 mediante Mx,0 = Mx − N yN, con unità coerenti.");
+            if (BridgeSection.TorsionEnabled(d))
+                doc.Table(["Fase", "Sezione / azione", "Attiva", "ΔN [kN]", "ΔMx [kNm]", "ΔV [kN]", "ΔT [kNm]", "Δεcs [µε]"], d.Array("fasi").Select((p, i) => new[] {
+                    $"{i + 1} · {p.S("nome")}", p.S("tipo"), p.B("attiva") ? "Sì" : "No", p.S("tipo") == BridgeSection.ShrinkageKind ? "—" : p.S("N"),
+                    p.S("tipo") == BridgeSection.ShrinkageKind ? "—" : p.S("Mx"), p.S("tipo") == BridgeSection.ShrinkageKind ? "—" : F(p.D("V")),
+                    p.S("tipo") == BridgeSection.ShrinkageKind ? "—" : F(p.D("T")), p.S("tipo") == BridgeSection.ShrinkageKind ? p.S("epsilon_cs") : "—" }), [2, 1.4, .6, .8, .9, .8, .8, .9]);
+            else
             doc.Table(["Fase", "Sezione / azione", "Attiva", "ΔN [kN]", "ΔMx [kNm]", "ΔV [kN]", "Δεcs [µε]"], d.Array("fasi").Select((p, i) => new[] {
                 $"{i + 1} · {p.S("nome")}", p.S("tipo"), p.B("attiva") ? "Sì" : "No", p.S("tipo") == BridgeSection.ShrinkageKind ? "—" : p.S("N"),
                 p.S("tipo") == BridgeSection.ShrinkageKind ? "—" : p.S("Mx"), p.S("tipo") == BridgeSection.ShrinkageKind ? "—" : F(p.D("V")),
@@ -209,6 +222,7 @@ public static partial class ReportBridge
                 var checks = shear.Checks.Concat(s.Studs?.Checks ?? []).ToArray();
                 doc.Table(["Controllo", "Domanda", "Limite", "η", "Esito"], checks.Select(c => new[] { c.Name, F(c.Demand) + " " + c.Unit, F(c.Resistance) + " " + c.Unit, F(c.Ratio), c.Status }), [2.5, 1.2, 1.2, .6, 1.1]);
                 foreach (var c in checks.Where(c => c.Note.Length > 0)) doc.P(c.Name + ": " + c.Note + ".");
+                if (s.Torsion is { } torsion) TorsionSection(doc, torsion, F);
             }
             doc.Figures(images, options, "fase_" + index);
         }

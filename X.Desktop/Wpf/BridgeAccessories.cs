@@ -26,7 +26,7 @@ internal sealed partial class BridgeWorkspace
         UpdateStuds();
         return Ui.Stack(BuildStiffenerInputs(), BuildSupportInputs(), Group("Connessione a pioli", Ui.Stack(studs,
             Ui.Text("File uniformi e centrate sulla piattabanda. Soletta piena, pioli Ø16–25 mm. q = Σ(V·S/I + Δq); gli effetti locali richiedono Δq assegnato per fase.", 11, color: Ui.Muted),
-            transverseInputs, fatigueInputs)));
+            transverseInputs, fatigueInputs)), boxInputs = BuildBoxInputs());
     }
 
     private bool PhaseHomogenizationNeeded(string kind) => BridgeSection.HasConcrete(kind)
@@ -60,5 +60,6 @@ internal sealed partial class BridgeWorkspace
                 p.Details is { Count: > 0 } details ? ResultTable(["Parametro", "Valore", "Unità"], details.Select(x => new[] { x.Name, F(x.Value), x.Unit })) : Ui.Text(""));
             if (p.Enabled) summaryCards.AddCheck("Pioli · controlli locali", p.Checks.Count, p.Checks.Select(c => (c.Name, c.Ratio, c.Ratio is { } r ? (bool?)(r <= 1) : null)));
         }
+        ShowTorsionResults(stage);
     }
 }

@@ -36,7 +36,9 @@ public static partial class BridgeSection
         ("fasi", new JsonArray(Phase("G1 · getto e carpenteria", "Solo acciaio", 0, 1500, 0, 1, GrossLoadReference),
             Phase("G2 · permanenti portati", "Composta", 0, 2000, 2, 1.1, GrossLoadReference), Phase("Q · variabili", "Composta", 0, 3000, 0, 1, GrossLoadReference))));
     public static JsonObject Phase(string name = "Nuova fase", string kind = "Composta", double n = 0, double m = 0, double phi = 0, double psi = 1, string reference = CommonLoadReference) =>
-        J.Obj(("nome", name), ("tipo", kind), ("attiva", true), ("N", n), ("Mx", m), ("V", 0), ("q_conn", 0), ("epsilon_cs", 0), ("modo", "Da φ"), ("phi", phi), ("psi", psi), ("n", "18"), ("riferimento_N", reference));
+        J.Obj(("nome", name), ("tipo", kind), ("attiva", true), ("N", n), ("Mx", m), ("V", 0), ("T", 0), ("q_conn", 0), ("epsilon_cs", 0), ("modo", "Da φ"), ("phi", phi), ("psi", psi), ("n", "18"), ("riferimento_N", reference));
+    /// <summary>True for the box girder with the torsion checks: the phases accept the torque T</summary>
+    public static bool TorsionEnabled(JsonObject data) => data.S("sezione", SectionTypes[0]) == SectionTypes[2] && data.B("torsione_cassoncino");
     public static JsonObject ShrinkagePhase() => Phase("Ritiro soletta", ShrinkageKind, phi: 2, psi: .55, reference: GrossLoadReference);
     public static string LoadReference(JsonObject phase) => phase.S("riferimento_N", CommonLoadReference);
     public static double GrossPhaseCentroid(JsonObject data, JsonObject phase) => HBridgeSection.GrossPhaseCentroid(GeometryInput(data), ToCheckerPhase(phase));

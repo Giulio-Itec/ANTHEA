@@ -112,6 +112,43 @@ internal static class BridgeSectionChecks
         Assert(boxResult.Stages[^1].Effective.BottomWidth <= bg.Bottom1Width * (1 + 1e-12), "fondo efficace non maggiore del lordo");
         Assert(ReportBridge.RealPlates(bg).Count() == 7 && ReportBridge.SectionTypeParagraph(bg).Contains("Cassoncino"), "relazione: lamiere reali del cassoncino");
         var badBox = (JsonObject)box.DeepClone(); badBox["interasse_anime"] = 300; Reject(badBox, "piattabande sovrapposte accettate");
+        // Box torsion: St. Venant flows of the phases by hand (cell of the steel phase closed by the bracing, composite cell by the slab)
+        var torsion = (JsonObject)box.DeepClone(); torsion["torsione_cassoncino"] = true; torsion["t_controvento"] = 4;
+        torsion.Array("fasi")[0]!["T"] = 200; torsion.Array("fasi")[1]!["T"] = 300; torsion.Array("fasi")[2]!["T"] = 1000;
+        var tr = BridgeSection.Calculate(torsion); var ts = tr.Stages[^1].Torsion;
+        Assert(ts is not null && tr.Stages.All(s => s.Torsion is not null), "torsione del cassoncino calcolata in ogni situazione");
+        double Half(double y) => 900 + (y + 25) * 250 / 1800.0;
+        double yb = -25 - 1800 - 12.5, a0s = (Half(-12.5) + Half(yb)) * (-12.5 - yb), a0c = (Half(125) + Half(yb)) * (125 - yb);
+        Near(ts!.WebFlow, 200e6 / (2 * a0s) + 1300e6 / (2 * a0c), 1e-12, "q = T/(2A0) delle fasi");
+        Near(ts.SlabFlow, 1300e6 / (2 * a0c), 1e-12, "q della soletta dalle fasi composte");
+        foreach (var (a, b) in boxResult.Stages[^1].Points.Zip(tr.Stages[^1].Points)) Near(a.Stress, b.Stress, 0, "torsione senza effetto sulle tensioni normali");
+        var web = tr.Stages[^1].Shear!.Checks.Single(c => c.Name == "Anima · resistenza a taglio");
+        Assert(web.Note.Contains("torsione") && ts.Checks.Any(c => c.Name.StartsWith("Fondo ·")), "taglio dell'anima e fondo con la torsione");
+        var dormant = (JsonObject)torsion.DeepClone(); dormant["torsione_cassoncino"] = false;
+        Assert(BridgeSection.Calculate(dormant).Stages.All(s => s.Torsion is null), "T inattivi senza le verifiche a torsione");
+        var hTorque = (JsonObject)d.DeepClone(); hTorque.Array("fasi")[2]!["T"] = 500; hTorque["torsione_cassoncino"] = true;
+        foreach (var (a, b) in result.Stages[^1].Points.Zip(BridgeSection.Calculate(hTorque).Stages[^1].Points)) Near(a.Stress, b.Stress, 0, "H in flessione retta: T ignorato");
+        Assert(BridgeSection.Calculate(hTorque).Stages.All(s => s.Torsion is null), "nessuna torsione per l'H");
+        var distortion = (JsonObject)torsion.DeepClone(); distortion["L_campata"] = 40000; distortion["passo_diaframmi"] = 5000; distortion["m_t_dist"] = 60; distortion["T_c_dist"] = 600;
+        distortion["T_app"] = 1500; distortion["e_appoggi"] = 1300; distortion["t_diaframma_app"] = 15;
+        var dr = BridgeSection.Calculate(distortion).Stages[^1].Torsion!; var dd = dr.Distortion;
+        Assert(dd is { Diaphragms: 7 } && dd.WarpingStressBottom > 0 && dr.Checks.Any(c => c.Name == "Diaframma intermedio · taglio e imbozzamento")
+            && dr.Checks.Any(c => c.Name == "Diaframma d'appoggio · taglio da torsione"), "distorsione, diaframmi intermedi e d'appoggio");
+        var braced = (JsonObject)distortion.DeepClone(); braced["tipo_diaframma"] = BridgeSection.DiaphragmKinds[1];
+        Assert(BridgeSection.Calculate(braced).Stages[^1].Torsion!.Checks.Any(c => c.Name == "Diaframma intermedio · diagonale compressa"), "controvento a X");
+        var closer = (JsonObject)distortion.DeepClone(); closer["passo_diaframmi"] = 2500;
+        Assert(BridgeSection.Calculate(closer).Stages[^1].Torsion!.Distortion!.WarpingStressBottom < dd!.WarpingStressBottom, "diaframmi più fitti riducono σdw");
+        Assert(BridgeSection.DetailInputRows(distortion).Any(r => r[0].StartsWith("Distorsione")) && ReportBridge.SectionTypeParagraph(bg, true).Contains("torsione della cella chiusa, distorsione e diaframmi sono verificati"), "relazione: ingressi e ipotesi della torsione");
+        var report = ReportBridge.Create("Torsione", BridgeSection.Calculate(distortion), ReportBridge.DefaultSections());
+        using (var zip = new System.IO.Compression.ZipArchive(new MemoryStream(report)))
+        using (var reader = new StreamReader(zip.GetEntry("word/document.xml")!.Open()))
+        {
+            string xml = reader.ReadToEnd();
+            Assert(xml.Contains("Cassoncino · torsione, distorsione e diaframmi") && xml.Contains("ΔT [kNm]") && xml.Contains("Diaframma d'appoggio · taglio da torsione"), "relazione Word della torsione");
+        }
+        Assert(BridgeSection.Calculate(distortion).Json()["Stages"]![2]!["Torsion"]!["Distortion"] is JsonObject, "export JSON della torsione");
+        var torsionArchive = Archivio.Documento(BridgeSection.Module); torsionArchive["dati"] = distortion.DeepClone(); Archivio.Valida(torsionArchive);
+        var noSpan = (JsonObject)torsion.DeepClone(); noSpan["m_t_dist"] = 10; Reject(noSpan, "distorsione senza luce accettata");
         var unknown = (JsonObject)d.DeepClone(); unknown["sezione"] = "Tubo"; Reject(unknown, "tipo di sezione sconosciuto accettato");
         var invalid = (JsonObject)d.DeepClone(); invalid["t_web"] = "abc"; Reject(invalid, "spessore invalido accettato");
         invalid = (JsonObject)d.DeepClone(); invalid["plate2"] = true; invalid["b_bottom2"] = 900; Reject(invalid, "piastra sporgente accettata");

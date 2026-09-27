@@ -216,10 +216,53 @@ lateralmente da soletta e controventi.
 - **Fondo del cassoncino**: lamiera interna tra le anime (kσ = 4 in compressione uniforme)
   più gli sbalzi esterni.
 - **Esclusi, e dichiarati negli avvisi**:
-  - torsione e distorsione della cella chiusa;
-  - diaframmi;
   - irrigidimenti longitudinali del fondo;
-  - fondo compresso come piastra irrigidita.
+  - fondo compresso come piastra irrigidita;
+  - torsione, distorsione e diaframmi quando le verifiche a torsione non sono attive.
+
+L'H con anima inclinata resta in sola flessione retta: il ΔT delle fasi è ignorato.
+
+### Cassoncino: torsione, distorsione e diaframmi
+
+Dal 28 settembre 2026 (CompositeBridge 1.4) il riquadro **Cassoncino · torsione, distorsione
+e diaframmi**, visibile solo per il cassoncino, attiva le verifiche torsionali. Con l'opzione
+attiva la tabella delle sollecitazioni e le fasi mostrano **ΔT [kNm]**, l'incremento del
+momento torcente della fase (inattivo per il ritiro).
+
+- **Torsione di St. Venant** (cella chiusa di Bredt): q = T/(2A0), indipendente dalla
+  rigidezza delle pareti.
+  - Fasi composte: A0 tra il piano medio della soletta (anime prolungate) e quello del fondo.
+    J = 4A0²/Σ(ℓ/t) con la soletta hc/nG, nG = n (1+νc)/(1+νa) con la viscosità della fase,
+    dimezzata con soletta esclusa (EN 1994-2 §§5.4.2.2(11), 5.4.2.3(6)).
+  - Fasi di solo acciaio: cella chiusa dal controvento superiore di spessore equivalente t*
+    (Kollbrunner–Basler) al piano medio delle piattabande; con t* = 0 il cassone è aperto e
+    la torsione della fase resta da verificare. Le aste del controvento non sono verificate.
+- **Dove entra q**:
+  - anima più caricata: V/(2 cos α) + q·hw/cos α nella resistenza a taglio e nell'interazione
+    M–V (EN 1993-1-1 §6.2.7(9)); q/tw nell'inviluppo elastico;
+  - fondo: tensione equivalente al nodo, imbozzamento a taglio del pannello tra i diaframmi e
+    interazione η1 + (2η3 − 1)² (EN 1993-1-5 §7.1(5));
+  - connessione: metà del flusso di flessione più q sui pioli di una piattabanda; q sommato
+    alle superfici a–a interne e b–b; armatura longitudinale della soletta q·cotθ contro la
+    compressione disponibile e la capacità residua delle barre (EN 1992-1-1 §6.3.2(3)).
+- **Distorsione** con l'analogia della trave su suolo elastico (Wright et al., 1968), se è
+  assegnata la luce della campata:
+  - modo distorsivo della cella con scorrimento nullo delle pareti, ingobbamento ortogonale a
+    N, Mx e My, I_Dw = ∫ω²t ds con la soletta a breve termine e gli sbalzi;
+  - rigidezza a telaio K con nodi rigidi; diaframmi intermedi come molle K_D (piastra: stato
+    piano con i bordi mossi dalle pareti; controvento a X: diagonali);
+  - campata appoggiata con diaframmi d'estremità rigidi, m_t su tutta la luce e T_c nella
+    posizione più sfavorevole, applicati come coppie verticali alla sommità delle anime;
+  - σdw oltre il 10% della flessione entra nelle verifiche del fondo (EN 1993-2 §6.2.7(3));
+    i nodi anima–fondo e anima–piattabanda sommano σdw, flessione trasversale del telaio e τ.
+- **Diaframmi**: intermedi a piastra (taglio con imbozzamento, tensione equivalente) o a X
+  (diagonale compressa, curva c, Lcr = β·L); d'appoggio con τ = T/(2A0 tD) e coppia T/e_b
+  degli apparecchi sommata a R/2 sull'irrigidimento d'appoggio dell'anima più caricata.
+
+Oracoli dei test della libreria: rettangolo (I_Dw = t(b+h)b²h²/96, K = 24/(b/Dh + h/Dv),
+K_D = G t b h e 2EA b²h²/L³, carico generalizzato T/2), trapezio contro Yoo et al. (SSRC 2015),
+trave su suolo elastico di Hetényi (infinita e appoggiata), flussi calcolati a mano.
+Il metodo con storico non esegue queste verifiche e lo dichiara negli avvisi.
 
 Le due file di armature sono indipendentemente disattivabili; non sono inserite barre
 fittizie quando una fila è assente. La quota richiesta è **faccia → asse barra**.
@@ -229,8 +272,8 @@ automaticamente il copriferro minimo di durabilità né l'interferro costruttivo
 
 ## Fasi e omogeneizzazione
 
-Da 1 a 20 contributi, ciascuno attivabile, rinominabile e riordinabile. I valori N, Mx e V
-sono **incrementi già combinati**; il programma non applica ulteriori γG/γQ e non genera
+Da 1 a 20 contributi, ciascuno attivabile, rinominabile e riordinabile. I valori N, Mx, V
+(e T per il cassoncino con torsione) sono **incrementi già combinati**; il programma non applica ulteriori γG/γQ e non genera
 combinazioni. Le fasi di solo acciaio devono precedere quelle composte.
 Per default: G1 su acciaio, G2 sulla composta a lungo termine, Q sulla composta a breve termine.
 

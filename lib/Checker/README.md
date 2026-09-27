@@ -1,6 +1,16 @@
 # DLL Checker
 
-**Snapshot corrente (27 settembre 2026, seconda build).**
+**Snapshot corrente (28 settembre 2026).** Cambia solo CompositeBridge 1.4.0.0; le altre DLL sono quelle del 27 settembre.
+
+- **CompositeBridge 1.4**: torsione del cassoncino.
+  - Cella chiusa di Bredt per fase (soletta o controvento superiore t*), q sommato ad anime, fondo, pioli e soletta.
+  - Distorsione con la trave su suolo elastico e diaframmi intermedi a piastra o a X.
+  - Diaframma d'appoggio e coppia degli apparecchi.
+  - `BridgePhase.TorsionKNm`, `HBridgeInput.Box` e `BridgeStage.Torsion`.
+- Per H e anima inclinata i risultati sono identici alla 1.3.1: le baseline BridgeAudit cambiano solo per il testo del campo di
+  validità, le nuove chiavi di ingresso e il campo `Torsion` nullo.
+
+**Build precedente (27 settembre 2026, seconda build).**
 
 Versioni: Utilities 2.0.0.8, Geometry 2.1.0.3, DelaunayMesh 2.0.0.8, Model 1.4.1.0, ModelData 0.0.1.16, Checker.Concrete 0.0.13.0,
 CompositeBridge 1.3.1.0.
