@@ -2,9 +2,9 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 1 del 26 settembre 2026
+Edizione 2 del 27 settembre 2026 — revisione documentale 03
 
-Questa guida descrive il comportamento dei motori di ANTHEA presenti nella versione del 26 settembre 2026. Spiega come i dati diventano geometrie, azioni, resistenze, tensioni e stime; chiarisce inoltre quali risultati appartengono a un modello semplificato e quali controlli richiedono informazioni ulteriori. Il manuale pratico separato illustra i comandi dell'interfaccia.
+Questa guida descrive il comportamento dei motori di ANTHEA documentati il 26 settembre 2026, integrando nella revisione 03 le sezioni da ponte H con anima inclinata e cassoncino disponibili il 27 settembre 2026. Spiega come i dati diventano geometrie, azioni, resistenze, tensioni e stime; chiarisce inoltre quali risultati appartengono a un modello semplificato e quali controlli richiedono informazioni ulteriori. Il manuale pratico separato illustra i comandi dell'interfaccia.
 
 La distinzione fondamentale è fra il calcolo di una grandezza e la verifica completa di un problema progettuale. Una capacità assiale del palo non comprende automaticamente i cedimenti; un dominio resistente di sezione non comprende l'instabilità dell'elemento; un costo preliminare del ponte non equivale a un computo esecutivo. Le formule che seguono descrivono il campo effettivamente implementato. Coefficienti e correlazioni vanno scelti per la situazione analizzata, senza attribuire ai valori iniziali un'approvazione automatica del progetto.
 
@@ -363,7 +363,7 @@ La curva M χ viene costruita a N fissato nella direzione assegnata, con passi u
 
 ### 7 1 Geometria e omogeneizzazione
 
-Il modello rappresenta una sezione locale composta da H saldato, soletta, fino a due piattabande inferiori e barre opzionali. Le piastre aggiunte rimangono elementi reali, con posizione e geometria proprie. La larghezza efficace beff della soletta è un dato esterno. La piena collaborazione è assunta nel calcolo N Mx; lo scorrimento non viene introdotto come un grado di libertà del solver di sezione.
+Il modello rappresenta una sezione locale composta da carpenteria, soletta e barre opzionali. La carpenteria può essere un H saldato con anima verticale, un H con anima inclinata oppure un cassoncino con due anime simmetriche, due piattabande superiori e un fondo. La seconda piattabanda inferiore è disponibile solo per l'H verticale. Le piastre restano elementi reali, con posizione e geometria proprie. La larghezza efficace beff della soletta è un dato esterno. La piena collaborazione è assunta nel calcolo N–Mx; lo scorrimento non viene introdotto come un grado di libertà del solver di sezione.
 
 Nel metodo elastico si trasforma il contributo del calcestruzzo mediante n = Ea/Ec,eff. La relazione implementata per gli effetti differiti è n = n0(1+ψLφ), con n0 = Ea/Ecm. L'inversione permette di assegnare direttamente n. È richiesto n ≥ n0.
 
@@ -373,7 +373,75 @@ $$ φ = (n/n0 − 1)/ψL
 
 Il coefficiente ψL distingue la natura dell'effetto: nel percorso documentato G2 usa 1,1 e il ritiro 0,55. Questi coefficienti non costituiscono una legge completa nel tempo. Un φ assegnato a una fase descrive la rigidezza efficace di quel contributo secondo il metodo scelto.
 
-### 7 2 Trasporto delle azioni
+### 7 2 Geometria delle anime inclinate e del cassoncino
+
+Indichiamo con hw l'altezza libera verticale, tw lo spessore normale alla lamiera e δ lo scostamento orizzontale fra sommità e piede. Per l'H inclinata δ è positivo verso destra; per il cassoncino è il rientro simmetrico di ogni anima verso l'interno. L'angolo α è misurato dalla verticale. Per evitare confusione con il coefficiente di omogeneizzazione n, il numero di anime è indicato con nw: vale uno per l'H e due per il cassoncino.
+
+$$ α = atan(δ/hw)
+$$ ℓw = √(hw² + δ²) = hw / cos α
+$$ tw,h = tw / cos α
+
+Le anime sono rappresentate come lamiere di spessore normale costante tagliate alle quote orizzontali delle flange. La loro larghezza orizzontale è tw,h, non tw. I valori immessi restano hw e tw: non si deve anticipare nell'input la trasformazione, che il motore esegue internamente. Il campo implementato impone |α| ≤ 45°, equivalente a |δ| ≤ hw. È un limite dell'implementazione geometrica, non una soglia normativa di sicurezza.
+
+Nel cassoncino s_top e s_bottom sono gli interassi fra gli assi delle anime in sommità e al piede. La larghezza bt è quella di ciascuna piattabanda superiore; bb è quella dell'intero fondo. Un valore positivo di δ restringe il fondo, mentre un valore negativo lo allarga, purché la geometria sia valida.
+
+$$ s_bottom = s_top − 2δ
+$$ b_interno = s_bottom − tw,h
+$$ b_sbalzo = (bb − s_bottom − tw,h) / 2
+
+Per la geometria accettata devono risultare s_top ≥ bt, s_bottom > tw,h e bb ≥ s_bottom + tw,h; inoltre ciascuna piattabanda deve essere più larga dello spessore orizzontale dell'anima. Queste condizioni impediscono sovrapposizione delle flange superiori, contatto delle anime e fondo insufficiente a contenerle. La larghezza interna e gli sbalzi sono netti rispetto agli ingombri delle anime. Il programma applica una piccola tolleranza numerica al controllo di contenimento, che non modifica il significato geometrico delle disuguaglianze.
+
+### 7 3 Equivalenza per sforzo normale e flessione retta
+
+La distribuzione delle tensioni normali del modello dipende soltanto dalla quota verticale y. A ogni quota dell'anima, una striscia di altezza dy ha area nw tw,h dy. Si possono quindi sostituire le anime inclinate con un'anima verticale equivalente di larghezza totale nw tw,h senza cambiare area, momento statico verticale e inerzia rispetto all'asse orizzontale. Le due flange superiori del cassoncino sono rappresentate da una larghezza complessiva 2bt alla medesima quota. Il fondo mantiene larghezza e spessore reali.
+
+$$ tw,eq = nw tw / cos α
+$$ bt,eq = nf bt
+$$ Aw = nw tw ℓw = tw,eq hw
+$$ As = nf bt tt + nw tw ℓw + bb tb
+
+nf vale uno per l'H e due per il cassoncino; tt e tb sono gli spessori delle flange superiore e inferiore. La formula di As riguarda le nuove sezioni senza seconda piastra. Per ciascuna parte i di area Ai e quota yi, con origine alla sommità dell'acciaio e y negativo verso il basso, si applicano i momenti statici e il teorema di trasporto.
+
+$$ yG = Σ(Ai yi) / ΣAi
+$$ Ix = Σ[Ixi + Ai(yi − yG)²]
+
+Per l'insieme delle anime Ixi rispetto all'asse orizzontale del loro baricentro vale Aw hw²/12. Per una flangia orizzontale vale b t³/12, con b larghezza e t spessore; per le due flange superiori si sommano i contributi. La posizione orizzontale delle parti non entra negli integrali rispetto a y. L'identità è esatta per la geometria ideale rappresentata e per la flessione retta considerata.
+
+L'identità non si estende automaticamente a Iy, Ixy, assi principali, torsione o distorsione. L'H inclinata può avere prodotto d'inerzia non nullo: un'analisi generale della carpenteria libera richiederebbe entrambe le curvature e il loro accoppiamento. Qui è assunta la curvatura nel piano verticale, con vincolo laterale da soletta e controventi. Il programma espone le proprietà della sezione reale, ma non usa Ixy per risolvere la flessione deviata. L'ipotesi va motivata anche nelle fasi precedenti alla collaborazione della soletta.
+
+### 7 4 Esempi numerici delle nuove sezioni
+
+Gli esempi riguardano esclusivamente la carpenteria lorda. Nel primo caso si usano hw = 1800 mm, tw = 14 mm, δ = 300 mm, piattabanda superiore 500 × 25 mm e inferiore 700 × 30 mm. Nel secondo caso si mantengono hw e tw, si assegnano δ = 250 mm, s_top = 1800 mm, due piattabande superiori da 450 × 25 mm e fondo 1400 × 25 mm.
+
+| Grandezza | H con anima inclinata | Cassoncino |
+| --- | --- | --- |
+| Inclinazione dalla verticale | 9,462322° | 7,907163° |
+| Lunghezza di ciascuna anima | 1824,828759 mm | 1817,278185 mm |
+| Spessore orizzontale di ciascuna anima | 14,193113 mm | 14,134386 mm |
+| Larghezza totale dell'anima equivalente | 14,193113 mm | 28,268772 mm |
+| Larghezza superiore complessiva | 500 mm | 900 mm |
+| Area dell'acciaio As | 59047,602627 mm² | 108383,789167 mm² |
+| Quota del baricentro yG | −1057,244996 mm | −1030,239447 mm |
+| Inerzia orizzontale Ix | 33857338759,972 mm⁴ | 60418964803,193 mm⁴ |
+
+Nel cassoncino s_bottom = 1800 − 2 × 250 = 1300 mm; la parte interna netta del fondo è 1285,865614 mm e ogni sbalzo misura 42,932807 mm. La somma della parte interna, dei due ingombri orizzontali delle anime e dei due sbalzi ricostruisce 1400 mm. Per l'H, invertire δ cambia il lato dell'inclinazione ma non As, yG e Ix: è un utile controllo della convenzione dei segni.
+
+Un ulteriore riferimento elastico usa N = −200 kN e M₀ = 100 kNm assegnati alla quota y = 0, sola carpenteria e classe 4 disattivata per isolare l'equivalenza lorda. Convertiti N in newton e M₀ in Nmm, il momento baricentrico e la tensione alla quota y sono:
+
+$$ Mc = M₀ + N yG
+$$ σ(y) = N / As − Mc (y − yG) / Ix
+
+Questo riferimento verifica unità, trasporto del momento e distribuzione delle tensioni; non è un caso di progetto completo. I test dell'aggiornamento lo confrontano con i tre percorsi cumulativo, storico lineare e storico non lineare mantenuti nel campo elastico, anche per δ negativo e per δ nullo. Per la fase composta vanno invece aggiunti soletta e armature con il coefficiente di omogeneizzazione pertinente.
+
+### 7 5 Campo del modello e compatibilità dei dati
+
+Le geometrie inclinate sono disponibili attraverso lo stesso ingresso dei tre metodi e delle curve di risposta; l'adozione della sezione equivalente non cambia il significato di fasi, carichi incrementali e riferimento al getto. Nei metodi storici i controlli locali di taglio, connessione e accessori restano non valutati; il metodo non lineare conserva il proprio campo istantaneo e lordo. La presenza della nuova forma non estende il campo di verifica del metodo selezionato.
+
+La chiusura superiore del cassoncino mediante soletta non attiva un modello torsionale di cella chiusa. Restano fuori dal calcolo torsione, distorsione, diaframmi, irrigidimenti longitudinali del fondo e verifica del fondo compresso come piastra irrigidita. Il fondo viene trattato come lamiera interna non irrigidita longitudinalmente, con i suoi sbalzi esterni. Instabilità globale e comportamento dell'intero ponte richiedono altri modelli.
+
+Gli archivi senza le chiavi del tipo di sezione continuano a rappresentare H saldato. Il dato di seconda piastra inferiore viene escluso dall'adattatore per H inclinata e cassoncino, anche se era salvato in un precedente H. Il risultato espone sia i parametri equivalenti sia quelli reali; i report riportano le ipotesi e una tabella delle lamiere. Non si deve usare un valore equivalente come dimensione esecutiva della singola lamiera.
+
+### 7 6 Trasporto delle azioni
 
 Il riferimento del momento deve essere coerente con il punto di applicazione di N. Il codice riporta il momento al riferimento comune attraverso la quota yN espressa in millimetri.
 
@@ -383,7 +451,7 @@ Con N = 1000 kN e una differenza di quota di 200 mm, il trasporto modifica il mo
 
 È possibile riferirsi al baricentro lordo della fase, a quello efficace aggiornato o a un riferimento comune. Nel secondo caso l'eccentricità cambia durante l'iterazione delle larghezze efficaci. La scelta fa parte del problema fisico e deve essere riportata insieme alle azioni.
 
-### 7 3 Metodo cumulativo
+### 7 7 Metodo cumulativo
 
 Ogni incremento viene analizzato con il proprio coefficiente di omogeneizzazione e la propria situazione di collaborazione. Le tensioni vengono sommate sulla configurazione efficace comune risultante dall'iterazione. Questo metodo è adatto alla sovrapposizione elastica prevista dall'implementazione, ma non conserva la stessa memoria delle deformazioni di un'analisi cronologica.
 
@@ -391,13 +459,13 @@ La riduzione locale delle piastre dipende dalle tensioni complessive, per cui ge
 
 Il cumulativo dispone dei controlli aggiuntivi di taglio, appoggi, irrigidimenti e connessione. Le azioni in ingresso sono già quelle della combinazione da verificare; la scelta SLU o SLE seleziona limiti e percorsi di controllo, senza costruire i carichi fattorizzati.
 
-### 7 4 Metodo storico lineare
+### 7 8 Metodo storico lineare
 
 Il metodo conserva il riferimento di deformazione al momento del getto e gli stati incrementali. La soletta attivata in una fase non acquisisce retroattivamente le tensioni dovute ai carichi applicati alla carpenteria prima della sua collaborazione. Il percorso cronologico diventa quindi parte dei dati del problema.
 
 φ e n si applicano ai nuovi incrementi. Cambiare il coefficiente di una fase futura non produce automaticamente il rilassamento nel tempo di tutti gli stati precedenti. Il metodo non è un integratore reologico completo con storia di età, umidità, maturazione e viscosità per ogni giorno. La riduzione locale di classe 4 è disponibile, mentre i controlli accessori di taglio e connessione non sono valutati in questo percorso.
 
-### 7 5 Metodo storico non lineare
+### 7 9 Metodo storico non lineare
 
 La sezione è discretizzata a fibre e l'equilibrio N Mx viene risolto seguendo la storia. L'acciaio adotta una legge bilineare con incrudimento isotropo, memoria plastica e scarico elastico. Il calcestruzzo usa l'inviluppo del materiale tabulato disponibile nella libreria, senza una legge completa di danno ciclico e degradazione.
 
@@ -405,7 +473,7 @@ Il calcolo è istantaneo, su sezione lorda e con proprietà caratteristiche. Non
 
 La memoria plastica comporta che due sequenze con la stessa risultante finale possano produrre stati diversi. Un ciclo carico scarico può lasciare deformazioni e tensioni residue. Ciò non implica che il modello descriva automaticamente una prova a fatica, la rottura oligociclica o il degrado del calcestruzzo confinato.
 
-### 7 6 Ritiro
+### 7 10 Ritiro
 
 Il ritiro viene assegnato come deformazione propria del calcestruzzo, negativa per accorciamento. La procedura elastica costruisce una forza equivalente Ec,eff Ac Δεcs applicata al baricentro del cls netto e una correzione di tensione propria −Ec,eff Δεcs. L'insieme riproduce l'incompatibilità locale mantenendo l'equilibrio della sezione con le risultanti esterne previste.
 
@@ -414,7 +482,11 @@ $$ Δσc,propria = −Ec,eff Δεcs
 
 Le unità vanno rese coerenti prima della conversione in kN. Il solo stato della sezione non determina le forze secondarie causate da vincoli longitudinali di una trave continua. Analogamente, gli scorrimenti concentrati presso le estremità richiedono un modello lungo l'asse del ponte o una domanda aggiuntiva assegnata.
 
-### 7 7 Larghezze efficaci e convergenza
+### 7 11 Larghezze efficaci e convergenza
+
+Per le anime inclinate la riduzione si calcola sulla lamiera di lunghezza ℓw e spessore normale tw, usando le tensioni ai due estremi. Se la fascia efficace lungo la lamiera misura beff,w, l'altezza verticale corrispondente è beff,w cos α. Associare questa altezza alla larghezza equivalente nw tw/cos α conserva l'area efficace delle nw lamiere. Non si deve calcolare la snellezza locale usando hw e tw,eq: sarebbe una piastra diversa da quella reale.
+
+Nel cassoncino ogni piattabanda superiore ha due sbalzi rispetto alla propria anima. Il fondo è suddiviso in una lamiera interna fra le anime e due sbalzi esterni. Alla lamiera interna uniformemente compressa il modello applica kσ = 4; la sua riduzione è distinta da quella degli sbalzi. Le porzioni occupate dagli ingombri orizzontali delle anime vengono ricomposte con le larghezze efficaci delle parti libere. Non viene simulato un eventuale sistema di irrigidimenti longitudinali del fondo.
 
 Per le piastre compresse si valuta il rapporto di tensione ψ, il coefficiente di instabilità kσ, la snellezza adimensionale e il fattore ρ. Le porzioni efficaci vengono poi ricollocate nella sezione e si ricalcolano proprietà e tensioni. La snellezza locale usa fy caratteristico, non fyd. Le piattabande aggiunte vengono valutate con i propri sbalzi.
 
@@ -422,7 +494,7 @@ Il significato di ρ è una riduzione della porzione resistente nella verifica e
 
 L'iterazione utilizza una tolleranza dell'ordine di 10⁻⁷ e massimo 120 passi, con rilassamento e accelerazione secondo la procedura corrente. Il rilassamento iniziale è 0,55, limitato nel campo ammesso. Si controlla anche un residuo di equilibrio relativo dell'ordine di 10⁻⁵. Un arresto al numero massimo di iterazioni non è una convergenza positiva.
 
-### 7 8 Limiti di tensione e interpretazione delle curve
+### 7 12 Limiti di tensione e interpretazione delle curve
 
 Il percorso elastico di esercizio confronta l'acciaio strutturale con fy, il cls con i limiti 0,60fck o 0,45fck secondo la situazione e l'armatura con 0,80fyk nel percorso previsto. L'esclusione della soletta tesa è una scelta del modello; l'armatura può restare attiva. Nel cumulativo non viene introdotta automaticamente una fessurazione parziale della soletta tale da risolvere ogni distribuzione tesa.
 
@@ -442,11 +514,19 @@ $$ VRd = min(Vpl,Rd; Vbw,Rd)
 
 kτ dipende dal rapporto del pannello e dalla validità degli irrigidimenti; χw segue la curva del montante terminale applicabile. Senza intermedi idonei si adotta il pannello lungo. Il montante rigido richiede la verifica positiva del dettaglio previsto, non la sola selezione del nome. I coefficienti iniziali documentati sono γM1 = 1,10, γV = 1,25 ed η = 1,20; γM0 è 1,05 per NTC e 1,00 per il percorso EC. L'utente può modificarli e deve controllare l'Appendice Nazionale pertinente.
 
+Le formule precedenti descrivono una singola anima verticale. Per H inclinata e cassoncino la resistenza e l'instabilità della singola lamiera si calcolano sostituendo alla sua altezza la lunghezza reale ℓw, mantenendo lo spessore normale tw. Il taglio immesso nelle fasi è invece la componente verticale totale V. Con ripartizione uguale fra le nw anime, la domanda nel piano di una lamiera e la resistenza verticale complessiva sono:
+
+$$ V_lamiera = V / (nw cos α)
+$$ VRd,verticale = nw cos α VRd,lamiera
+$$ τmedia = V / (nw hw tw)
+
+L'ultima formula richiede V in N e dimensioni in mm. Deriva da V_lamiera/(tw ℓw); il coseno si semplifica perché ℓw = hw/cos α. La tensione media non coincide in generale con il massimo della distribuzione V S/(I t). Nei due esempi, con V = 600 kN, la domanda per lamiera è 608,276253 kN per l'H e 302,879697 kN per il cassoncino; le tensioni medie sono 23,809524 e 11,904762 MPa. La snellezza e τcr continuano a dipendere da ℓw: l'inclinazione non può essere cancellata nella verifica di instabilità.
+
 ### 8 2 Interazione con il momento e tensioni tangenziali
 
 Oltre 0,5 VRd il taglio può ridurre il margine flessionale. Per il campo N = 0, fy ≤ 355 MPa e anima non interamente compressa, si calcolano capacità plastiche di riferimento integrando flange efficaci, anima intera e soletta compressa. La capacità Mf omette l'anima. Il cls teso è nullo e le barre sono omesse cautelativamente in queste capacità di riferimento. Le verifiche elastiche della sezione non vengono sostituite da tali integrazioni plastiche.
 
-Negli altri casi ad alto taglio viene usato un inviluppo elastico cautelativo con Mf = 0, segnalato esplicitamente. Non è un dominio plastico esatto N M V per qualunque sezione. Le tensioni tangenziali includono la media V/(hw tw) e il massimo del campo elastico V S/(I tw), con somma algebrica dei contributi di fase.
+Negli altri casi ad alto taglio viene usato un inviluppo elastico cautelativo con Mf = 0, segnalato esplicitamente. Non è un dominio plastico esatto N M V per qualunque sezione. Le tensioni tangenziali includono la media già definita e il massimo del campo elastico, trasformato nel piano dell'anima reale, con somma algebrica dei contributi di fase.
 
 L'inviluppo √(max|σ|² + 3 max|τ|²) è un controllo aggiuntivo conservativo; i due massimi possono trovarsi in punti diversi. Non sostituisce instabilità del pannello, verifiche degli appoggi o fatica.
 
@@ -455,6 +535,8 @@ L'inviluppo √(max|σ|² + 3 max|τ|²) è un controllo aggiuntivo conservativo
 Il modello ammette piatti mono o bilaterali anche differenti, pannelli adiacenti diversi, appoggi interni o terminali, eccentricità della reazione, montante rigido a due coppie e saldature continue. Le verifiche di pressoflessione elastica includono un'amplificazione del secondo ordine e imperfezioni equivalenti nel campo del metodo implementato. La lunghezza critica parte dal rapporto Lcr/L assegnato, inizialmente 1,00.
 
 Un irrigidimento insufficiente non aumenta la resistenza del pannello a taglio. Le azioni di traversi, intagli, concentrazioni locali o dettagli non inseriti non vengono ricavate dalla sola sezione trasversale. La capacità di un piatto non dimostra da sola che anima, flangia e saldature trasferiscano l'intera reazione.
+
+Con anima inclinata le dimensioni di controllo di irrigidimenti e saldature seguono la lamiera reale, non l'altezza dell'anima equivalente. Per il cassoncino l'implementazione ripartisce la reazione d'appoggio assegnata fra le due anime e usa dettagli per anima; questa ipotesi non sostituisce l'analisi di un appoggio eccentrico che solleciti in modo diverso le due pareti. Una diversa distribuzione trasversale, o la necessità di diaframmi, deve essere valutata separatamente.
 
 ### 8 4 Resistenza e domanda dei pioli
 
@@ -469,6 +551,12 @@ La prima formula dà una forza in N con dimensioni in mm e tensioni in MPa; la d
 V S/I presuppone proprietà costanti nel tratto e N costante lungo l'asse. Un'introduzione locale di N o una variazione di sezione non è descritta dal solo valore del taglio. Il ritiro uniforme della sezione non produce da solo V, mentre le sue zone di trasferimento possono richiedere un Δq specifico.
 
 Nel percorso NTC si usano le proprietà della fase tensionale, inclusa l'eventuale esclusione della soletta. Nel percorso EC4 lo scorrimento considera la soletta non fessurata e la carpenteria efficace, con il φ o n pertinente. Si tratta di una distinzione di proprietà della fase, non di un passaggio nascosto ad acciaio completamente lordo.
+
+Nel cassoncino q è il flusso totale della sezione e la ripartizione simmetrica assegna q/2 a ciascuna piattabanda superiore. Il numero npioli immesso è quello per fila di una singola piattabanda. Indicando con nf il numero di piattabande superiori, la formula generale adottata è:
+
+$$ PEd = |q| passo / (nf npioli)
+
+nf vale uno per l'H e due per il cassoncino. Per esempio q = 100 N/mm, passo = 200 mm e due pioli per fila e per piattabanda producono 5000 N, cioè 5 kN per piolo, nel cassoncino; una sola piattabanda con due pioli riceverebbe 10 kN per piolo. Il controllo del bordo usa la larghezza della singola piattabanda e i controlli della soletta trasversale usano il flusso a essa attribuito. I flussi minimo e massimo assegnati alla fatica dei pioli si riferiscono già alla piattabanda: non sono automaticamente interpretati come flussi totali da dimezzare.
 
 ### 8 5 Servizio dettagli e fatica
 
@@ -615,6 +703,10 @@ Le prove numeriche confrontano casi noti, identità di equilibrio, sensibilità 
 
 Per Bridge Design la campagna di questa integrazione comprende 5753 controlli: soluzioni analitiche di travi, 200 travi con luci diseguali, 128 combinazioni di famiglie terreni e pile, indipendenza dal listino per le grandezze fisiche, CO₂, archivi e documenti. La prova WPF esercita le otto famiglie, viste, larghezze della finestra, prezzi, Annulla, A/B e report. Le precedenti campagne degli altri moduli sono documentate separatamente: non vengono presentate qui come una nuova validazione integrale di tutti i motori.
 
+La revisione documentale 03 aggiunge una campagna mirata agli esempi di H inclinata e cassoncino. Sono stati rieseguiti 143 controlli della sezione composta e 2957 dei metodi e delle curve; sono stati aggiunti e superati 164 controlli in BridgeInclinedGuideChecks.cs. Questi ultimi confrontano area, baricentro e Ix con integrali geometrici indipendenti, tensioni elastiche con N/As e Mc/Ix nei tre metodi, segni dello scostamento, caso limite verticale, taglio medio, tensione critica della lamiera reale, fondo interno, salvataggio e limite geometrico di 45°. Le tolleranze sono numeriche e non margini di sicurezza progettuali: per esempio 0,01 mm⁴ su Ix e 0,0001 MPa sulle tensioni dei casi elastici.
+
+Il test dell'interfaccia ha superato 13 controlli specifici su scelta del tipo, visibilità dei campi, seconda piastra, calcolo, annotazioni del disegno e report. Le due schermate nella guida pratica provengono da questa esecuzione. I controlli aggiunti non sono una validazione generale di torsione, distorsione, appoggi asimmetrici, fatica o comportamento oltre il campo elastico delle nuove forme. Le esclusioni del modello rimangono quelle dichiarate nei capitoli precedenti.
+
 ## 11 Tracciabilità e riferimenti
 
 ### 11 1 Mappa dei sorgenti
@@ -630,6 +722,8 @@ Per Bridge Design la campagna di questa integrazione comprende 5753 controlli: s
 | Fessurazione | Ntc2018Checks.cs e ConcreteTensionCracking.cs in X.Calculations |
 | Taglio torsione dettagli CA | ConcreteShearAnalysis.cs, ConcreteTorsion.cs e ConcreteDetailing.cs |
 | Sezione composta | X.Calculations/BridgeSection e relativi file parziali |
+| H inclinata e cassoncino | BridgeSection.CheckerInput.cs, RealSteelSection e ReportBridge.SectionType.cs; librerie CompositeBridge e Model |
+| Esempi delle nuove sezioni | supporto/test/X.Verifiche/BridgeInclinedGuideChecks.cs e supporto/test/Desktop/BridgeSectionTypeSmokeChecks.cs |
 | Bridge Design | X.Calculations/BridgeConcept.cs e BridgeConcept.Calculation.cs |
 | Archivi revisioni report | X.Core e documentazione di progetto in supporto/docs |
 

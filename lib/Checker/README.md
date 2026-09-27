@@ -1,9 +1,26 @@
 # DLL Checker
 
-**Snapshot corrente (27 settembre 2026).**
+**Snapshot corrente (27 settembre 2026, seconda build).**
 
-Versioni: Utilities 2.0.0.7, Geometry 2.1.0.2, DelaunayMesh 2.0.0.7, Model 1.4.0.0, ModelData 0.0.1.15, Checker.Concrete 0.0.12.7,
-CompositeBridge 1.3.0.0.
+Versioni: Utilities 2.0.0.8, Geometry 2.1.0.3, DelaunayMesh 2.0.0.8, Model 1.4.1.0, ModelData 0.0.1.16, Checker.Concrete 0.0.13.0,
+CompositeBridge 1.3.1.0.
+
+- **Utilities 2.0.0.8**: costanti imperiali esatte (lbf, kip, lb, psi, ksi).
+- **Model 1.4.1**: Annessi Nazionali corretti.
+  - UNI (Annesso italiano, DM 31/7/2012): αcc = 0,85, γc accidentale = 1,0, k5 = 0,70.
+  - DS (DK NA 2024): γc = γcE = 1,45, γs = γp = 1,20, γ accidentali = 1,0.
+  - DIN: γc accidentale = 1,3.
+  - NTC 2018: γc accidentale = 1,0; trefoli in esercizio 0,8 fp(0,1)k.
+  - EN: limite dei trefoli in esercizio k5·fpk sulla resistenza a rottura (prima su fp0,1k).
+- **Checker.Concrete 0.0.13**:
+  - ricerca robusta del punto del dominio (bisezione sulla superficie di rottura) quando quella iterativa non converge;
+  - assi delle forze di qualsiasi orientamento;
+  - profilo inglobato: sottrazione lineare del calcestruzzo nel calcolo lineare e tensione di progetto fy/γM0 in quello non lineare;
+  - `StrainPlane.GetNeutralAxis` corretto.
+- ANTHEA: nessuna differenza nei risultati delle suite (assi −X, −Y, profilo sotto la soletta, preset letti dalle classi di normativa).
+
+**Build precedente dello stesso giorno:** Utilities 2.0.0.7, Geometry 2.1.0.2, DelaunayMesh 2.0.0.7, Model 1.4.0.0, ModelData 0.0.1.15,
+Checker.Concrete 0.0.12.7, CompositeBridge 1.3.0.0.
 
 - **Model 1.4**:
   - nuove sezioni `SectionHInclinedWeb` (H con anima inclinata) e `SectionSteelBox` (cassoncino);

@@ -59,7 +59,11 @@ public static class Archivio
         try
         {
             using(var stream=new FileStream(temp,FileMode.CreateNew,FileAccess.Write,FileShare.None)){stream.Write(bytes);stream.Flush(true);}
-            File.Move(temp,path,true);
+            // Office documents are copied from the temporary file instead of renamed: the ransomware protection of the behaviour monitoring
+            // (Trend Micro Security Agent, 27/09/2026) terminates an unsigned program that renames temporary files into documents (the third
+            // report of a session closed ANTHEA without errors). The archives keep the atomic rename
+            if(Path.GetExtension(path).ToLowerInvariant() is ".docx" or ".xlsx" or ".pptx" or ".pdf")File.Copy(temp,path,true);
+            else File.Move(temp,path,true);
         }
         finally{if(File.Exists(temp))File.Delete(temp);}
     }

@@ -2,9 +2,9 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 1 del 26 settembre 2026
+Edizione 2 del 27 settembre 2026 — revisione documentale 03
 
-Questa guida accompagna l'utilizzatore dalla creazione del progetto alla lettura dei risultati e alla produzione dei report. Comprende i moduli geotecnici, i materiali, le sezioni in calcestruzzo armato, la sezione composta da ponte e Bridge Design. È riferita alla versione del repository aggiornata il 26 settembre 2026. La guida teorica separata descrive le formule e le scelte di modello; le due guide vanno utilizzate insieme quando si deve motivare un risultato.
+Questa guida accompagna l'utilizzatore dalla creazione del progetto alla lettura dei risultati e alla produzione dei report. Comprende i moduli geotecnici, i materiali, le sezioni in calcestruzzo armato, la sezione composta da ponte e Bridge Design. La revisione 03 integra l'edizione del 26 settembre con H ad anima inclinata e cassoncino disponibili il 27 settembre 2026. La guida teorica separata descrive le formule e le scelte di modello; le due guide vanno utilizzate insieme quando si deve motivare un risultato.
 
 ANTHEA raccoglie strumenti con scopi diversi. Alcuni verificano una sezione o un meccanismo specifico, mentre Bridge Design produce ordini di grandezza. Il risultato di un foglio riguarda il suo modello e i dati inseriti: non equivale alla verifica completa della struttura o dell'opera. Il percorso operativo più utile consiste nel definire il problema, scegliere il foglio adatto, controllare le unità, esaminare gli avvisi e archiviare i dati insieme al report.
 
@@ -25,7 +25,7 @@ La Home consente di entrare nel catalogo, riprendere il lavoro della sessione o 
 | Palo orizzontale | Quale carico limite laterale risulta dal meccanismo di Broms | Terreno, diametro, lunghezza, vincolo e momento resistente |
 | Micropalo orizzontale | Quale capacità laterale risulta usando una sezione tubolare CHS | Diametro geotecnico, tubo, materiale, N e terreno |
 | Sezione in c a | Come risponde e si verifica una sezione assegnata | Geometria, barre, materiali e combinazioni N M V T |
-| Sezione composta | Come si ripartiscono le tensioni in una sezione da ponte attraverso le fasi | H saldato, soletta, piatti, barre, fasi e metodo |
+| Sezione composta | Come si ripartiscono le tensioni in una sezione da ponte attraverso le fasi | Tipo e geometria, soletta, barre, fasi e metodo |
 | Bridge Design | Quale configurazione preliminare, quantità, costo e CO₂ sono plausibili | Sito, campate, larghezza, famiglia, fondazioni e listino |
 | Calcestruzzo e durabilità | Quali requisiti del materiale e del copriferro derivano dalle scelte assegnate | Esposizioni, vita, materiale, diametri e condizioni esecutive |
 | Acciaio per armature | Quali proprietà e diagramma usare per l'armatura | Classe o dati personalizzati e coefficienti |
@@ -224,11 +224,56 @@ Le tabelle CA consentono copia e incolla e dispongono dei comandi di template e 
 
 ### 8 1 Definire la sezione locale
 
-Nel pannello di controllo inserire H saldato, soletta, piattabande inferiori aggiunte e armature opzionali. L'altezza dell'anima è quella netta fra le flange, secondo le etichette del modulo. Le due piattabande inferiori sono piastre reali distinte, con spessore e larghezza propri. La seconda non deve essere più larga della prima nel modello disponibile.
+Nel Pannello di controllo aprire Geometria e scegliere il Tipo di sezione: H saldato, H con anima inclinata oppure Cassoncino. Inserire soletta, carpenteria e armature opzionali. La scelta cambia la geometria, i campi visibili e l'interpretazione delle larghezze; non è una semplice variante del disegno. Queste sezioni appartengono al modulo Sezione composta da ponte, distinto dalle famiglie parametriche del predimensionamento Bridge Design.
+
+L'Altezza libera anima è la distanza verticale netta fra le flange. Lo Spessore anima è misurato perpendicolarmente alla lamiera anche quando questa è inclinata: inserire lo spessore nominale, non la sua proiezione orizzontale. Il programma calcola la lunghezza inclinata e la sezione equivalente necessaria all'analisi. Tutte queste dimensioni sono in millimetri.
+
+La Seconda piattabanda inferiore è disponibile solo per H saldato. Le due piastre sono reali e distinte, con spessore e larghezza propri; la seconda non deve essere più larga della prima. Passando all'anima inclinata o al cassoncino il riquadro viene nascosto e la seconda piastra non partecipa al calcolo, anche se un valore precedente resta nell'archivio. Tornando all'H controllare nuovamente l'opzione prima di ricalcolare.
 
 La larghezza efficace della soletta beff è un dato assegnato. Va determinata esternamente per la sezione e la situazione considerate. Il foglio non ricostruisce dalla sola geometria trasversale tutte le luci equivalenti e le condizioni longitudinali necessarie. Le quote delle barre seguono la convenzione faccia asse mostrata dal controllo: non confonderle con il copriferro esterno della staffa. Nelle fasi della sezione la compressione è negativa e la trazione positiva; le reazioni assegnate per gli appoggi hanno invece l'etichetta specifica positiva a compressione.
 
-### 8 2 Scegliere consapevolmente il metodo
+### 8 2 Compilare la sezione con anima inclinata
+
+Selezionare H con anima inclinata e compilare Scostamento anima al piede. Il valore è lo spostamento orizzontale del piede rispetto alla sommità: positivo verso destra, negativo verso sinistra. Non è un angolo in gradi. La piattabanda superiore è centrata sulla sommità dell'anima e quella inferiore sul piede. Le larghezze superiore e inferiore rimangono quelle delle rispettive piattabande.
+
+Come esempio, impostare altezza libera 1800 mm, spessore anima 14 mm, scostamento +300 mm, piattabanda superiore 500 × 25 mm e inferiore 700 × 30 mm. Il disegno deve mostrare il piede spostato a destra, lunghezza della lamiera 1824,829 mm e inclinazione 9,462° dalla verticale. Lo spessore orizzontale equivalente è 14,193 mm; questo valore è un risultato, mentre nel campo Spessore anima devono rimanere 14 mm. Cambiando lo scostamento a −300 mm si ottiene la configurazione speculare.
+
+![H con anima inclinata e scostamento positivo di 300 mm](../artefatti/guide_anthea_itec_rev03/interfaccia/sezione_anima_inclinata.png)
+
+Il programma accetta inclinazioni fino a 45° dalla verticale, comprese quelle negative: il valore assoluto dello scostamento non deve superare l'altezza libera. Questo è il campo geometrico dell'implementazione, non una verifica di stabilità della trave. Se compare un errore, correggere il dato senza confondere altezza verticale e lunghezza inclinata.
+
+### 8 3 Compilare il cassoncino
+
+Selezionare Cassoncino. La carpenteria comprende due anime simmetriche, due piattabande superiori separate e un fondo; la soletta chiude superiormente la cella nella configurazione composta. Interasse anime in sommità indica la distanza fra gli assi delle anime sotto le piattabande superiori. Scostamento anima al piede indica il rientro di ciascuna anima: un valore positivo restringe il fondo, uno negativo lo allarga. L'interasse al piede è quello superiore meno due volte lo scostamento.
+
+Larghezza superiore è la larghezza di ciascuna delle due piattabande. Larghezza inferiore 1 è la larghezza dell'intero fondo. Non inserire nella prima casella la somma delle due flange né nella seconda metà del fondo. Il numero di pioli per fila e i relativi dettagli si riferiscono a ciascuna piattabanda superiore; il modello ripartisce fra le due piattabande il flusso totale di connessione. Per i dati di fatica assegnare i flussi per piattabanda, senza dividere una seconda volta un valore già ripartito.
+
+Per riprodurre l'esempio usare altezza libera 1800 mm, spessore anima 14 mm, interasse superiore 1800 mm, scostamento 250 mm, ciascuna piattabanda superiore 450 × 25 mm e fondo 1400 × 25 mm. L'interasse al piede è 1300 mm; le due anime sono lunghe 1817,278 mm e inclinate di 7,907°. Il disegno deve indicare due piattabande da 450 mm, non una sola piattabanda da 450 mm. Nel calcolo N–Mx la larghezza superiore complessiva è 900 mm.
+
+![Cassoncino con due anime inclinate e due piattabande superiori](../artefatti/guide_anthea_itec_rev03/interfaccia/sezione_cassoncino.png)
+
+Il fondo deve contenere gli appoggi delle due anime, considerate con il loro spessore orizzontale; le anime devono restare separate e le piattabande superiori non devono sovrapporsi. Nell'esempio il fondo interno netto è 1285,866 mm e ogni sbalzo esterno è 42,933 mm. Queste larghezze dipendono dallo spessore e dall'inclinazione: non coincidono esattamente con 1300 e 50 mm. Il programma respinge le geometrie incompatibili, ma la loro accettazione non certifica saldature, montaggio o comportamento torsionale.
+
+### 8 4 Leggere le proprietà e riconoscere i limiti
+
+Nel pannello Proprietà della sezione distinguere Carpenteria asse orizzontale calcolo da Sezione reale nel piano Model. Il primo gruppo descrive il modello usato per N–Mx: area, quota del baricentro e inerzia rispetto all'asse orizzontale corrispondono alla carpenteria reale; le proprietà rispetto all'altro asse sono quelle della rappresentazione equivalente. Il secondo gruppo permette di consultare le proprietà piane della geometria effettiva, compresi prodotto d'inerzia e assi principali. Un valore Ixy nullo nel primo gruppo non dimostra che la carpenteria inclinata sia simmetrica.
+
+| Controllo dell'esempio | H inclinata di 300 mm | Cassoncino con rientro 250 mm |
+| --- | --- | --- |
+| Area della sola carpenteria | 590,476 cm² | 1083,838 cm² |
+| Quota del baricentro dalla sommità dell'acciaio | −1057,245 mm | −1030,239 mm |
+| Inerzia orizzontale baricentrica | 3385733,876 cm⁴ | 6041896,480 cm⁴ |
+| Anime e piattabande superiori | Una e una | Due e due |
+
+I valori in tabella sono geometrici e lordi: non includono soletta, armature o riduzioni di efficacia. I risultati di fase possono essere differenti perché cambiano collaborazione, omogeneizzazione e parti efficaci. Ricordare che 1 cm² equivale a 100 mm² e 1 cm⁴ a 10000 mm⁴.
+
+L'analisi assume flessione retta attorno all'asse orizzontale e un vincolo laterale fornito da soletta e controventi. Per l'H inclinata non risolve l'accoppiamento della flessione dovuto al prodotto d'inerzia della sola carpenteria. Occorre verificare separatamente che l'ipotesi sia rappresentativa, soprattutto durante getto e montaggio: selezionare una fase Solo acciaio non crea da sé un vincolo laterale reale.
+
+Per il cassoncino restano escluse torsione e distorsione della cella, diaframmi e irrigidimenti longitudinali del fondo; il fondo non viene verificato come piastra irrigidita longitudinalmente. La rappresentazione grafica chiusa e un esito positivo delle verifiche disponibili non coprono questi fenomeni. Leggere Info modello, gli avvisi e la descrizione del tipo di sezione nel report prima di utilizzare i risultati.
+
+Gli archivi precedenti privi del tipo di sezione vengono interpretati come H saldato. Dopo il cambio di tipologia salvare con un nome riconoscibile, riaprire il foglio e controllare tipo, scostamento e interasse. Il report delle nuove sezioni distingue le dimensioni equivalenti impiegate nel calcolo dalle lamiere reali; confrontare entrambe le tabelle con il disegno.
+
+### 8 5 Scegliere consapevolmente il metodo
 
 | Metodo | Impiego operativo | Aspetto da controllare |
 | --- | --- | --- |
@@ -238,7 +283,7 @@ La larghezza efficace della soletta beff è un dato assegnato. Va determinata es
 
 La scelta va fatta prima di interpretare le differenze fra due risultati. Uno storico non lineare non è semplicemente un cumulativo «più preciso» per ogni scopo: introduce fenomeni diversi e non include tutti i controlli locali del cumulativo. I controlli di taglio, connessione e accessori non vengono valutati dai due metodi storici.
 
-### 8 3 Costruire le fasi
+### 8 6 Costruire le fasi
 
 Aprire la scheda fasi e tensioni e inserire gli incrementi in ordine. Un percorso comune comprende peso della carpenteria e getto sulla sezione di acciaio, permanenti successivi sulla sezione composta a lungo termine e variabili sulla sezione composta a breve termine. Il primo carico applicato prima della maturazione non deve beneficiare della soletta che ancora non collabora.
 
@@ -248,7 +293,7 @@ Le azioni di SLU devono arrivare già combinate e fattorizzate. Il selettore SLU
 
 Per il ritiro assegnare la deformazione con il segno corretto: un accorciamento è negativo. Se l'unità è microdeformazione, −250 corrisponde a −0,25 per mille. Il modulo tratta l'effetto locale di sezione. Le azioni dovute a vincoli longitudinali dell'intero ponte devono provenire da un modello globale.
 
-### 8 4 Leggere efficacia tensioni e controlli locali
+### 8 7 Leggere efficacia tensioni e controlli locali
 
 Selezionare la situazione da visualizzare e distinguere tensioni della fase, contributi precedenti e stato cumulato. Le parti inefficaci dell'acciaio evidenziano la riduzione per instabilità locale sotto tensioni normali. L'anima resistente a taglio non viene automaticamente ridotta nello stesso modo. Leggere area, baricentro, inerzia, coefficienti di omogeneizzazione e residui di convergenza.
 
@@ -256,7 +301,9 @@ Nel metodo cumulativo aprire i controlli di taglio, irrigidimenti, appoggi e pio
 
 La colorazione principale della sezione riguarda le tensioni normali rapportate ai limiti. Non è una mappa completa di instabilità, fatica, torsione o sollevamento della soletta. Per conoscere lo stato di quelle verifiche occorre leggere le rispettive tabelle e gli avvisi.
 
-### 8 5 Curve di risposta
+Con anime inclinate il taglio V inserito nelle fasi rimane il taglio verticale totale della sezione. Non trasformarlo preventivamente nel taglio della singola lamiera: il programma applica V/cos α per l'H inclinata e V/(2 cos α) per ciascuna anima del cassoncino. Con V = 600 kN negli esempi precedenti le domande nel piano delle lamiere sono rispettivamente 608,276 kN e 302,880 kN per anima. Il risultato di resistenza globale viene riportato alla componente verticale totale.
+
+### 8 8 Curve di risposta
 
 La terza scheda permette curve M κ a N fissato oppure N ε a curvatura fissata. Si può partire da uno stato vergine oppure dalla storia di una fase ricostruita dal motore non lineare. Quando si parte da una fase caricata, il ramo di risposta conserva la memoria prevista dal modello e non riparte da zero tensioni.
 

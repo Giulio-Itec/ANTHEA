@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace X.Desktop;
 
-internal sealed class BridgeDesignDrawing : FrameworkElement
+internal sealed partial class BridgeDesignDrawing : FrameworkElement
 {
     internal BridgeConcept.Result? Result;
     internal JsonObject? Data;
@@ -44,7 +44,7 @@ internal sealed class BridgeDesignDrawing : FrameworkElement
             pts.Add(new(1000, 420)); pts.Add(new(0, 420));
             Poly(dc, pts, Ui.Brush(new[] { "#EBF0F6", "#E3EBF1", "#DCE6EA" }[band]));
         }
-        double start = 90, spanScale = 820 / r.Length, deckY = 148, ground = 285, visualHeight = ground - deckY;
+        double start = 90, spanScale = 820 / r.Length, deckY = BridgeConcept.HasUpperStructure(r.Family.Id) ? 185 : 148, ground = 285, visualHeight = ground - deckY;
         double depth = Math.Clamp(r.Depth / i.D("height") * visualHeight, 9, 58);
         double pierDepth = Math.Clamp(r.PierDepth / i.D("height") * visualHeight, depth, 70);
         bool obstacle = i.S("obstacle") != "Nessuno" && i.D("obstacle_width") > 0;
@@ -105,8 +105,9 @@ internal sealed class BridgeDesignDrawing : FrameworkElement
             }
             else Box(dc, offset, deckY, l, depth, Concrete);
             if (!i.B("continuous") && k > 0) dc.DrawLine(new Pen(Brushes.White, 3), new Point(offset, deckY), new Point(offset, deckY + depth));
-            Dimension(dc, offset, offset + l, deckY - 34, F(r.Spans[k]) + " m"); offset += l;
+            Dimension(dc, offset, offset + l, BridgeConcept.HasUpperStructure(r.Family.Id) ? 348 : deckY - 34, F(r.Spans[k]) + " m"); offset += l;
         }
+        if (r.Advanced is { } advanced) DrawUpperStructure(dc, r, advanced, start, spanScale, deckY, ground);
         dc.DrawLine(new Pen(Ink, 1.5), new Point(start - 18, deckY - 9), new Point(930, deckY - 9));
         for (int x = 75; x <= 930; x += 18) dc.DrawLine(new Pen(Line, .7), new Point(x, deckY - 9), new Point(x, deckY));
         dc.DrawLine(new Pen(Line, .7), new Point(75, deckY - 5), new Point(930, deckY - 5));
@@ -118,6 +119,7 @@ internal sealed class BridgeDesignDrawing : FrameworkElement
     }
     private static void DrawSection(DrawingContext dc, BridgeConcept.Result r, JsonNode i)
     {
+        if (r.Advanced is not null) { DrawExtendedSection(dc, r, i); return; }
         double x0 = 120, width = 760, scale = width / r.Width, top = 150;
         double verticalScale = Math.Min(95, 160 / r.Depth), d = r.Depth * verticalScale, slab = r.Slab * verticalScale;
         Dimension(dc, x0, x0 + width, 95, "W = " + F(r.Width, "0.00") + " m");
@@ -208,6 +210,22 @@ internal sealed class BridgeFamilyIcon : FrameworkElement
     protected override void OnRender(DrawingContext dc)
     {
         double w = ActualWidth, h = ActualHeight; var p = new Pen(Ink, 1.5); dc.DrawRectangle(null, p, new Rect(8, 5, w - 16, 5));
+        if (BridgeConcept.HasUpperStructure(Family))
+        {
+            dc.DrawRectangle(Ui.Bg, null, new Rect(0, 0, w, h)); double y = h - 6;
+            dc.DrawLine(p, new(8, y), new(w - 8, y));
+            if (Family == "tied_arch")
+            {
+                for (int k = 0; k < 16; k++) { double x1 = 8 + (w - 16) * k / 16, x2 = 8 + (w - 16) * (k + 1) / 16;
+                    double z1 = y - (h - 10) * 4 * k / 16 * (1 - k / 16d), z2 = y - (h - 10) * 4 * (k + 1) / 16 * (1 - (k + 1) / 16d);
+                    dc.DrawLine(p, new(x1, z1), new(x2, z2)); if (k % 3 == 0) dc.DrawLine(p, new(x1, z1), new(x1, y)); }
+            }
+            else if (Family == "truss") { dc.DrawLine(p, new(8, 6), new(w - 8, 6)); for (int k = 0; k < 6; k++) dc.DrawLine(p, new(8 + k * (w - 16) / 6, k % 2 == 0 ? 6 : y), new(8 + (k + 1) * (w - 16) / 6, k % 2 == 0 ? y : 6)); }
+            else foreach (double x in new[] { w * .25, w * .75 }) { dc.DrawLine(p, new(x, 3), new(x, y)); for (int k = -2; k <= 2; k++) dc.DrawLine(p, new(x, 3), new(x + k * w / 10, Family == "suspension" && Math.Abs(k) == 1 ? y - 7 : y)); }
+            return;
+        }
+        if (Family == "filler_beam") { dc.DrawRectangle(null, p, new Rect(8, 5, w - 16, h - 10)); for (int k = 1; k < 6; k++) { double x = 8 + k * (w - 16) / 6; dc.DrawLine(p, new(x, 9), new(x, h - 9)); dc.DrawLine(p, new(x - 4, 9), new(x + 4, 9)); dc.DrawLine(p, new(x - 4, h - 9), new(x + 4, h - 9)); } return; }
+        if (Family == "orthotropic") { for (int k = 1; k < 7; k++) { double x = 8 + k * (w - 16) / 7; dc.DrawLine(p, new(x - 4, 10), new(x - 2, 17)); dc.DrawLine(p, new(x - 2, 17), new(x + 2, 17)); dc.DrawLine(p, new(x + 2, 17), new(x + 4, 10)); } dc.DrawRectangle(null, p, new Rect(23, 10, w - 46, h - 15)); return; }
         if (Family == "slab") return;
         if (Family is "psc_box" or "fcm" or "steel_box")
         { dc.DrawLine(p, new Point(18, 10), new Point(27, h - 5)); dc.DrawLine(p, new Point(w - 18, 10), new Point(w - 27, h - 5)); dc.DrawLine(p, new Point(27, h - 5), new Point(w - 27, h - 5)); if (Family == "psc_box") dc.DrawLine(p, new Point(w / 2, 10), new Point(w / 2, h - 5)); return; }
@@ -226,6 +244,7 @@ internal sealed class BridgeConceptMomentPlot : FrameworkElement
     protected override void OnRender(DrawingContext dc)
     {
         if (Result is not { } r || ActualWidth < 100) return;
+        if (r.Stations.Length == 0) { BridgeDesignDrawing.Text(dc, "Diagrammi globali non disponibili per questa tipologia.", 12, 50, 12, Ui.Muted); BridgeDesignDrawing.Text(dc, "Consultare equilibrio, forze e quantità nei dettagli del modello.", 12, 75, 12, Ui.Muted); return; }
         double max = r.Stations.Max(s => Math.Abs(s.Moment)); if (max == 0) max = 1;
         double xs = (ActualWidth - 100) / r.Length, ys = 55 / max, axis = 80;
         dc.DrawLine(new Pen(Ui.Muted, 1), new Point(50, axis), new Point(ActualWidth - 50, axis));

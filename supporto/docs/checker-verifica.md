@@ -1,5 +1,25 @@
 # Esito integrazione Checker — 21 settembre 2026
 
+> **Aggiornamento 27 settembre 2026 — tutte le suite verdi** (31: regressione, controlli X.Verifiche, libreria di calcolo,
+> BridgeDesign e le 17 smoke WPF).
+>
+> - **Regressione 464/464.**
+>   - I 20 casi circolari erano stati calcolati dal programma Python con il contorno fisso di 180 punti. Ora il loro input
+>     dichiara `circular_sides = 180`; il default di 32 lati per i nuovi archivi non cambia. Con 180 lati tutti i valori
+>     coincidono entro 1e-10.
+>   - `palo_storico_0` e `palo_storico_3` hanno c′ = 2 kPa in uno strato granulare. ANTHEA pone c′ = 0 negli strati
+>     granulari (guida teorica), il Python lo sommava: i loro valori attesi sono rigenerati dal C#, con la nota `fonte_atteso`.
+> - **Smoke generale.** Il test non era aggiornato in cinque punti:
+>   - la sezione di default ha 14 barre, non 16;
+>   - il riepilogo usa «DA COMPLETARE»;
+>   - la fessurazione non è richiesta per la rara in XC1;
+>   - il cambio di scheda ricostruisce l'export;
+>   - γc danese = 1,45.
+> - **Arresto silenzioso durante l'export della relazione CA.** Trend Micro Security Agent (Behavior Monitoring, protezione
+>   ransomware) terminava ANTHEA.exe mentre rinominava il terzo .docx temporaneo della sessione. `Archivio.ScriviAtomico` ora
+>   copia il temporaneo per i documenti Office; gli archivi mantengono il rinomino atomico. Per l'uso normale conviene comunque
+>   chiedere all'IT l'esclusione di ANTHEA.exe dal Behavior Monitoring.
+
 Configurazione: Windows, .NET 8, Release; DLL locali registrate in
 [`lib/Checker/manifest.json`](../../lib/Checker/manifest.json).
 

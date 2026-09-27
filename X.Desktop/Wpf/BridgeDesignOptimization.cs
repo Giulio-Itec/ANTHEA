@@ -43,7 +43,7 @@ internal sealed partial class BridgeDesignWorkspace
         if (Calculation is not { } r) return;
         if (optimizationLocks["spans"].IsChecked == true) { optimizationMin.Text = optimizationMax.Text = r.Spans.Length.ToString(); return; }
         var families = optimizationLocks["family"].IsChecked == true ? new[] { r.Family } : BridgeConcept.Families;
-        var counts = Enumerable.Range(1, 30).Where(n => families.Any(f => r.Length / n >= f.MinSpan && r.Length / n <= f.MaxSpan)).ToArray();
+        var counts = Enumerable.Range(1, 30).Where(n => families.Any(f => BridgeConcept.HasTowers(f.Id) ? n == 3 && r.Length / 2 >= f.MinSpan && r.Length / 2 <= f.MaxSpan : r.Length / n >= f.MinSpan && r.Length / n <= f.MaxSpan)).ToArray();
         if (counts.Length == 0) { optimizationStatus.Text = "Nessun numero di campate tra 1 e 30 compatibile con le luci usuali. Rivedere la tipologia."; return; }
         optimizationMin.Text = counts.Min().ToString(); optimizationMax.Text = counts.Max().ToString();
         optimizationStatus.Text = "Intervallo suggerito dalle luci usuali e dalla lunghezza totale. Ostacoli e luce delle singole campate saranno controllati durante la ricerca.";
@@ -156,7 +156,7 @@ internal sealed partial class BridgeDesignWorkspace
         Row("Tipologia", result.Baseline.Family.Name, r.Family.Name);
         Numeric("Costo [€]", result.Baseline.TotalCost, r.TotalCost, "N0"); Numeric("CO₂ [t]", result.Baseline.Carbon, r.Carbon, "N1");
         Row("Luci [m]", string.Join(" + ", result.Baseline.Spans.Select(s => F(s, "N2"))), string.Join(" + ", r.Spans.Select(s => F(s, "N2"))));
-        Row("Schema pila", optimizationSource!["input"].S("pier"), c.Data["input"].S("pier")); Row("Fondazione", result.Baseline.Foundation, r.Foundation);
+        Row("Schema pila", BridgeConcept.HasTowers(result.Baseline.Family.Id) ? "Antenna · 2 fusti quadrati" : optimizationSource!["input"].S("pier"), c.Trial.Pier); Row("Fondazione", result.Baseline.Foundation, r.Foundation);
         Row("Continuità", optimizationSource["input"].B("continuous") ? "Continua" : "Indipendente", c.Data["input"].B("continuous") ? "Continua" : "Indipendente");
         var old = BridgeConcept.TechnicalSchedule(optimizationSource, result.Baseline).ToDictionary(t => (t.Component, t.Symbol, t.Unit));
         foreach (var t in BridgeConcept.TechnicalSchedule(c.Data, r))

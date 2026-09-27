@@ -50,6 +50,8 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
     internal string ContourLegend { get; private set; } = "";
     internal bool Labels { get; set; } = true;
     internal bool Axes { get; set; } = true;
+    internal bool ShowNeutralAxis { get; set; } = true;
+    internal NeutralAxisOverlay.Display? NeutralAxisDisplay { get; private set; }
     internal bool BarValues { get; set; }
     internal bool TendonValues { get; set; }
     internal bool ConcreteValues { get; set; }
@@ -83,7 +85,7 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
     internal void ResetView() { zoom = 1; pan = default; InvalidateVisual(); }
     protected override void Render(DrawingContext dc, Size size)
     {
-        dc.DrawRectangle(Ui.Brush("#F8FAFD"), null, new Rect(size)); barLocations.Clear();
+        dc.DrawRectangle(Ui.Brush("#F8FAFD"), null, new Rect(size)); barLocations.Clear(); NeutralAxisDisplay = null;
         if (Section is not SezioneCA section || size.Width < 100 || size.Height < 100) { Text(dc, Message, 18, size.Height / 2, 13, width: size.Width - 36); return; }
         double xmin = section.Outline.Min(p => p[0]), xmax = section.Outline.Max(p => p[0]), ymin = section.Outline.Min(p => p[1]), ymax = section.Outline.Max(p => p[1]);
         bool hasLegend = Stress is not null && Contour != "Solo geometria";
@@ -194,6 +196,9 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
         }
         if (ConcreteValues && Stress is { } cs) foreach (var v in cs.ConcreteVertices) ValueLabel(dc, P(v.X, v.Y), v.Id, v.Stress, v.Strain);
         DrawDimensions(dc, section, P);
+        if (ShowNeutralAxis && Stress is { } state)
+            NeutralAxisDisplay = NeutralAxisOverlay.Draw(dc, SectionNeutralAxis.Concrete(state.Native.StrainPlane), P,
+                new Rect(P(xmin, ymax), P(xmax, ymin)), new Rect(12, 28, Math.Max(30, plotWidth - 24), Math.Max(20, size.Height - 89)), 30);
         Text(dc, $"{section.Width:0.#} × {section.Height:0.#} mm  ·  Ac = {section.AreaCls / 100:0.0} cm²  ·  As = {section.AreaSteel / 100:0.0} cm²", 12, size.Height - 46, 11, width: size.Width - 24);
         Text(dc, Stress is null ? "Assi geometrici x/y · N < 0: compressione" : Contour == "Solo geometria" ? "Nessun contouring · risultati nel riepilogo" : ratios ? "Rapporto alla resistenza · NON esito SLE" : "Rosso: compressione (−) · blu: trazione (+) · valori Checker", 12, size.Height - 26, 11, width: size.Width - 24);
     }

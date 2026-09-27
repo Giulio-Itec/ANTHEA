@@ -78,7 +78,9 @@ internal sealed partial class ConcreteWorkspace
             await RunAnalysis(t=>CalculateStress(key,t));
             var check=stressResults[key].Values.First();
             Assert(check.State is not null && check.State.sigma_cls<0,"Tensioni Checker "+key);
-            Assert(panel.Bars.Rows.Count==16 && panel.View.Stress is not null,"Viewport "+key);
+            // one row per bar of the section (the default rectangular section has 4 + 6 + 2 × 2 = 14 bars: the test expected 16, those of the circular one)
+            int sectionBars = panel.View.Section?.Bars.Count ?? 0;
+            Assert(sectionBars > 0 && panel.Bars.Rows.Count==sectionBars && panel.View.Stress is not null,"Viewport "+key+$" ({panel.Bars.Rows.Count} righe per {sectionBars} barre)");
             Assert(key!="SLE_FREQ"||check.Ratio is null,"Frequente non dichiara falso pass tensionale");
             if(key=="SLE") Assert(check.CrackResult?.Passed is null,"Fessurazione rara non applicabile");
             Assert(!actions[key][0].Values.S("wk").Contains("collegare"),"Fessurazione collegata alla tabella "+key);
@@ -122,7 +124,8 @@ internal sealed partial class ConcreteWorkspace
         Assert(stressResults["SLE"].Values.First().State?.Native.Force.N == -2512000, "Ultima modifica ricalcolata senza pulsanti");
         Assert(ReferenceEquals(cachedMesh, checker3D["SLU"]), "Cambio azioni riusa il dominio nativo");
         actions["SLU"][0]["N"] = "numero incompleto"; await Automatic();
-        Assert(domainResults["3D:SLU"].Values.All(c => c.Utilization is null) && summaries["SLU"].Text.Contains("da controllare"), "Input invalido non mostra resistenze precedenti");
+        // the summary uses the common wording of VerificationSummary for missing outcomes ("DA COMPLETARE"; before, "da controllare")
+        Assert(domainResults["3D:SLU"].Values.All(c => c.Utilization is null) && summaries["SLU"].Text.Contains("DA COMPLETARE"), "Input invalido non mostra resistenze precedenti");
         actions["SLU"][0]["N"] = "-2500"; await Automatic();
         Assert(domainResults["3D:SLU"].Values.All(c => c.Utilization is > 0), "Correzione input recupera automaticamente");
         var canceled = RunAnalysis(async token => await Task.Delay(400, token));
@@ -171,7 +174,14 @@ internal sealed partial class ConcreteWorkspace
         var selectedContour = contourChoice.SelectedItem;
         contourChoice.RaiseEvent(new System.Windows.Input.MouseWheelEventArgs(System.Windows.Input.Mouse.PrimaryDevice, Environment.TickCount, -120) { RoutedEvent = System.Windows.Input.Mouse.PreviewMouseWheelEvent });
         Assert(Equals(contourChoice.SelectedItem, selectedContour), "Rotella sul menu chiuso non cambia contour");
-        Assert(rare.Detail.Text.Contains("FESSURAZIONE") && rare.Detail.Text.Contains("As,eff"), "Riepilogo SLE esteso");
+        // NTC 2018 in XC1: the crack check is not required for the rare combination (line 83) and its summary has no cracking section; the
+        // extended summary with the cracking is the one of the quasi permanent combination (the rare tab is selected again: the quasi
+        // permanent one must be hidden at the import below)
+        Assert(rare.Detail.Text.Contains("TENSIONI") && !rare.Detail.Text.Contains("\n\nFESSURAZIONE"), "Riepilogo SLE rara senza fessurazione non richiesta");
+        sleTabs.SelectedIndex = Array.IndexOf(SectionWorkspace.Sets, "SLE_QP") - 2; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
+        var quasiPermanent = stressPanels["SLE_QP"]; quasiPermanent.Grid.SelectedItem = actions["SLE_QP"][0]; UpdateStressSelection("SLE_QP");
+        Assert(quasiPermanent.Detail.Text.Contains("FESSURAZIONE") && quasiPermanent.Detail.Text.Contains("As,eff"), "Riepilogo SLE quasi permanente esteso");
+        sleTabs.SelectedIndex = 0; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         int untouched = actions["SLV"].Count;
         int importedSleResets = 0, importedShearResets = 0;
         System.Collections.Specialized.NotifyCollectionChangedEventHandler sleImportChanged = (_, e) => { Assert(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset, "Import SLE: notifica unica Reset"); importedSleResets++; };
@@ -209,16 +219,18 @@ internal sealed partial class ConcreteWorkspace
         tabs.SelectedIndex = 2; two.Grid.SelectedItem = actions["SLU"][0]; UpdateSelection(two); await Capture("assi_centrati");
         Assert(two.Plot.CenteredAxes && two.Plot.AxisHalfRange.X % 10 == 0 && two.Plot.AxisHalfRange.Y % 10 == 0, "Assi simmetrici e arrotondati");
         Assert(two.Plot.VerificationSegments.Count == 2, "Linea origine Ed Rd");
-        var noRecompute = Result;
         foreach (var panel in domainPanels)
         {
+            // the change of tab refreshes the detailing checks and rebuilds the export (ConcreteWorkspace, SelectionChanged): the reference is
+            // taken after it, so that the check concerns only the graphic switches
             tabs.SelectedIndex = panel.ThreeD ? 1 : 2;
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
+            var noRecompute = Result;
             panel.Options["mostra_ed"] = false; panel.Options["mostra_rd"] = false; panel.Options["mostra_linee"] = false; UpdateSelection(panel);
             Assert(panel.ThreeD ? panel.View3D!.VisibleActionCount == 0 : panel.Plot.Markers.Count == 0 && panel.Plot.VerificationSegments.Count == 0, "Livelli grafici indipendenti " + panel.Prefix);
             panel.Options["mostra_ed"] = true; panel.Options["mostra_rd"] = true; panel.Options["mostra_linee"] = true; panel.Options["colora_eta"] = true; UpdateSelection(panel);
+            Assert(ReferenceEquals(noRecompute, Result) && !calculationQueued, "Interruttori grafici non ricalcolano " + panel.Prefix);
         }
-        Assert(ReferenceEquals(noRecompute, Result) && !calculationQueued, "Interruttori grafici non ricalcolano");
         var filter = tableFilters[three.Grid]; filter.Query = "Aggiunta"; filter.Key = "nome"; ApplyTableFilter(three.Grid);
         Assert(three.Grid.Items.Count == 1 && actions["SLU"].Count == 2, "Filtro testuale non elimina input");
         filter.Query = ""; filter.SortKey = "N"; filter.Descending = false; ApplyTableFilter(three.Grid);
@@ -243,7 +255,7 @@ internal sealed partial class ConcreteWorkspace
         spacingForm.Set("transverse_spacing_mm", originalSpacing); await Automatic();
         Assert(stirrupForms.Where(f => f.Editors.ContainsKey("rami_x")).All(f => f.Get("rami_x") == "4") && preview.Stirrups == ShearOptions && shearView.Stirrups == ShearOptions, "Staffe sincronizzate e disegnate nelle preview");
         settings["normativa"] = "DS EN 1992-1-1"; ResetCoefficients(); Invalidate(); await Automatic();
-        Assert(Math.Abs(Input.D("gamma_c") - 1.4) < 1e-10 && Math.Abs(Input.D("gamma_s") - 1.2) < 1e-10 && checker3D.Count == 2, "Normativa nazionale collegata ai domini");
+        Assert(Math.Abs(Input.D("gamma_c") - 1.45) < 1e-10 && Math.Abs(Input.D("gamma_s") - 1.2) < 1e-10 && checker3D.Count == 2, "Normativa nazionale collegata ai domini (DK NA: γc 1,45, γs 1,20)");
         Assert(stressResults["SLE"].Values.All(s => s.Cracking.Contains("da implementare")) && shearResults.Count == 0, "Nessuna equivalenza implicita per taglio e fessurazione non NTC");
         settings["normativa"] = "NTC 2018"; ResetCoefficients(); Invalidate(); await Automatic();
         Assert(!reinforcement.Editors.ContainsKey("transverse_bar_diameter_mm") && !reinforcement.Editors.ContainsKey("transverse_spacing_mm"), "Staffe assenti dal gruppo armature");
@@ -297,10 +309,11 @@ internal sealed partial class ConcreteWorkspace
         Assert(two.Plot.AxisHalfRange.X >= 1e7, "Fit 2D può includere le azioni"); two.Plot.FitIncludesMarkers = false; two.Plot.Markers = originalMarkers;
         two.Plot.ScaleX = 2; two.Options["scala_x"] = 2; two.Plot.ResetView();
         Assert(two.Plot.ScaleX == 1 && two.Options.D("scala_x") == 1, "Fit e doppio clic 2D ripristinano anche la scala salvata");
+        scaleResult = Result; // after the change of tab, which rebuilds the export (see the graphic switches)
         three.View3D.SetAxisScale(1.4, .8, 1); three.View3D.FitView(); three.View3D.Zoom = 1.2;
         Assert(Math.Abs(three.View3D.Zoom - 1.2) < 1e-9 && ReferenceEquals(scaleResult, Result) && !calculationQueued, "Scala e zoom 3D senza calcolo");
         three.View3D.SetAxisScale(1, 1, 1); three.View3D.FitView();
-        tabs.SelectedIndex = 1; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+        tabs.SelectedIndex = 1; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); scaleResult = Result;
         var scaleFrame = Ui.Descendants<ViewportFrame>(this).First(f => ReferenceEquals(f.Host.Content, three.View3D)); bool scaleApplied = false;
         _ = Dispatcher.BeginInvoke(new Action(() =>
         {

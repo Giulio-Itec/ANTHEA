@@ -6,7 +6,11 @@ public static partial class BridgeConcept
 {
     public static Result Calculate(JsonObject data)
     {
+        if (data["input"] is JsonObject input && AdvancedSection.Any(p => !input.ContainsKey(p.Key))
+            || data["input"]?["deck_type"] is null || data["rates"]?["cables"] is null || data["assumptions"]?["concept_cable"] is null)
+            data = WithAdvancedDefaults(data);
         Validate(data);
+        if (IsExtended(data["input"].S("family"))) return CalculateAdvanced(data);
         var i = data["input"]!; var a = data["assumptions"]!; var rates = data["rates"]!;
         var family = Families.Single(f => f.Id == i.S("family")); var warnings = new List<string>();
         double length = i.D("length"), height = i.D("height");

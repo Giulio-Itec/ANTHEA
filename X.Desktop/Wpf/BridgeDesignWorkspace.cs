@@ -37,6 +37,10 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
 
     internal BridgeDesignWorkspace(JsonObject data)
     {
+        var completed = BridgeConcept.WithAdvancedDefaults(data);
+        foreach (string group in new[] { "input", "rates", "assumptions" })
+            if (data[group] is JsonObject target && completed[group] is JsonObject fields)
+                foreach (var field in fields) if (!target.ContainsKey(field.Key)) target[field.Key] = field.Value?.DeepClone();
         Data = data; previous = Clone(Data); Background = Ui.Bg;
         var title = Ui.Stack(Ui.Text("BRIDGE DESIGN", 24, true), Ui.Text("Dal sito al ponte · geometria, quantità e ordini di grandezza", 13, color: Ui.Muted));
         title.Margin = new Thickness(2, 0, 0, 10);
@@ -71,7 +75,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
         Ui.Tab(Outputs, "Dettagli del predimensionamento", detail);
         Ui.Tab(Outputs, "Confronto A / B", comparison);
         Ui.Tab(Outputs, "Prezzi unitari", Scroll(ParameterPanel("rates", BridgeConcept.Rates), 365));
-        Ui.Tab(Outputs, "Ipotesi e coefficienti", Scroll(ParameterPanel("assumptions", BridgeConcept.Assumptions), 365));
+        Ui.Tab(Outputs, "Ipotesi e coefficienti", Scroll(ParameterPanel("assumptions", BridgeConcept.Assumptions.Concat(BridgeConcept.AdvancedAssumptions)), 365));
         Ui.Tab(Outputs, "Sezioni e quote", technical);
         Outputs.MinHeight = 330;
         var bottom = Ui.Stack(Ui.Paper(Outputs, 12), advice);
@@ -112,7 +116,10 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
         layout.Children.Add(Ui.Button("Ripristina dimensioni automatiche", AutoSize));
         Ui.Tab(Inputs, "2 · Campate", Scroll(layout, 490));
         BuildSection(); Ui.Tab(Inputs, "3 · Sezione", Scroll(sectionPanel, 490));
-        var sub = new StackPanel(); Choice(sub, "pier", "Tipologia pila", BridgeConcept.Piers); Choice(sub, "foundation", "Fondazioni", BridgeConcept.Foundations);
+        var sub = new StackPanel();
+        if (BridgeConcept.HasTowers(Input.S("family"))) sub.Children.Add(Ui.Text("Antenne a due fusti quadrati: la quota sopra impalcato è nella Sezione. La dimensione pila imposta indica il lato del fusto; 0 = predimensionamento.", 12));
+        else Choice(sub, "pier", "Tipologia pila", BridgeConcept.Piers);
+        Choice(sub, "foundation", "Fondazioni", BridgeConcept.Foundations);
         foreach (var p in BridgeConcept.Substructure) sub.Children.Add(Number("input", p, true));
         sub.Children.Add(Ui.Text("0 mantiene il dimensionamento automatico. Le classi di terreno sono parametri convenzionali modificabili nelle ipotesi.", 11, color: Ui.Muted));
         Ui.Tab(Inputs, "4 · Pile", Scroll(sub, 490));
@@ -123,7 +130,12 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
         var families = new UniformGrid { Columns = 2 };
         foreach (var f in BridgeConcept.Families)
         {
-            var button = Ui.Button("", () => { Mutate(() => Input["family"] = f.Id); BuildSection(); });
+            var button = Ui.Button("", () => Mutate(() => {
+                Input["family"] = f.Id;
+                if (BridgeConcept.HasTowers(f.Id)) { Input["spans"] = 3; Input["continuous"] = true; Input["start_pier"] = false; Input["end_pier"] = false; }
+                if (f.Id is "tied_arch" or "truss") Input["continuous"] = false;
+                if (f.Id == "suspension") Input["deck_type"] = BridgeConcept.DeckTypes[1];
+            }, true));
             bool selected = Input.S("family") == f.Id;
             button.Background = selected ? Ui.Navy : Brushes.White; button.Foreground = selected ? Brushes.White : Ui.Navy;
             button.Content = Ui.Stack(Ui.Text(f.Name, 11, true, button.Foreground), new BridgeFamilyIcon { Family = f.Id, Ink = button.Foreground, Height = 32, Width = 112 }, Ui.Text($"{f.MinSpan:0}–{f.MaxSpan:0} m", 10, color: selected ? Ui.Brush("#BCCFE2") : Ui.Muted));
@@ -131,6 +143,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
         }
         sectionPanel.Children.Add(families);
         string id = Input.S("family");
+        if (BridgeConcept.HasUpperStructure(id)) Choice(sectionPanel, "deck_type", "Piano carrabile", BridgeConcept.DeckTypes);
         var active = new HashSet<string> { "depth", "fc" };
         if (id != "slab") active.Add("slab");
         if (id is "tee" or "psc_i" or "psc_u" or "steel_i") active.Add("spacing");
@@ -141,7 +154,28 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
         if (id == "steel_box") { active.Add("boxes"); active.Add("web_slope"); }
         if (id == "psc_i") active.Add("haunch");
         if (id == "psc_u") { active.Add("u_top"); active.Add("u_bottom"); }
+        if (BridgeConcept.IsExtended(id))
+        {
+            bool ortho = id == "orthotropic" || BridgeConcept.HasUpperStructure(id) && Input.S("deck_type") == BridgeConcept.DeckTypes[1];
+            active.UnionWith(new[] { "flange_mm", "web_mm" });
+            if (ortho) { active.Remove("slab"); active.Add("boxes"); }
+            else { active.Add("flange_width"); active.Add("spacing"); if (id == "filler_beam") active.Remove("slab"); }
+        }
         foreach (var p in BridgeConcept.Section.Where(p => active.Contains(p.Key))) sectionPanel.Children.Add(Number("input", p, true));
+        if (BridgeConcept.IsExtended(id))
+        {
+            var extra = new HashSet<string>();
+            if (id == "tied_arch") extra.Add("arch_rise");
+            if (BridgeConcept.HasTowers(id)) extra.Add("tower_height");
+            if (id == "suspension") extra.Add("cable_sag");
+            if (BridgeConcept.HasUpperStructure(id)) extra.Add("suspender_spacing");
+            if (id == "truss") extra.Add("truss_ratio");
+            if (id == "filler_beam") extra.Add("embedded_cover");
+            if (id == "orthotropic" || BridgeConcept.HasUpperStructure(id) && Input.S("deck_type") == BridgeConcept.DeckTypes[1])
+                extra.UnionWith(new[] { "deck_plate_mm", "rib_height", "rib_top", "rib_bottom", "rib_mm", "rib_spacing" });
+            foreach (var p in BridgeConcept.AdvancedSection.Where(p => extra.Contains(p.Key))) sectionPanel.Children.Add(Number("input", p, true));
+            sectionPanel.Children.Add(Ui.Text(BridgeConcept.HasTowers(id) ? "Tre campate simmetriche: L/4 + L/2 + L/4. Gli appoggi non vengono spostati per aggirare l’ostacolo." : "Geometria ideale di predimensionamento; parametri e tensioni di riferimento nelle Ipotesi.", 11, color: Ui.Muted));
+        }
         sectionPanel.Children.Add(Ui.Button("Sezione automatica", AutoSize));
     }
     private StackPanel ParameterPanel(string group, IEnumerable<BridgeConcept.Parameter> parameters, bool sliders = false)
@@ -183,7 +217,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
     {
         var combo = Ui.Choice(choices, Input.S(key)); combo.SetValue(AutomationProperties.NameProperty, label);
         var box = Ui.Stack(Ui.Text(label, 12), combo); box.Margin = new Thickness(4, 8, 4, 3); panel.Children.Add(box);
-        combo.SelectionChanged += (_, _) => { if (!refreshing && combo.SelectedItem is string s) Mutate(() => Input[key] = s); };
+        combo.SelectionChanged += (_, _) => { if (!refreshing && combo.SelectedItem is string s) Mutate(() => Input[key] = s, key == "deck_type"); };
     }
     private void Toggle(Panel panel, string key, string label)
     {
@@ -253,7 +287,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
     }
     private void ShowDetails(BridgeConcept.Result r)
     {
-        var panel = Ui.Stack(Ui.Text(BridgeConcept.Scope, 12, true), Ui.Text("Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico.", 12, color: Ui.Muted), new BridgeConceptMomentPlot { Result = r, Height = 180 });
+        var panel = Ui.Stack(Ui.Text(BridgeConcept.Scope, 12, true), Ui.Text(r.Stations.Length == 0 ? "Struttura superiore: equilibrio ideale e quantità. Non viene prodotto un diagramma globale da trave per archi, cavi o reticolari." : "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico.", 12, color: Ui.Muted), new BridgeConceptMomentPlot { Result = r, Height = 180 });
         panel.Children.Add(Table(["Grandezza", "Valore", "Unità", "Regola / ipotesi"], r.Details.Select(d => new[] { d.Name, F(d.Value, "N3"), d.Unit, d.Rule }), 600));
         panel.Children.Add(Table(["Appoggio", "x [m]", "Tipo", "R G+Q [kN]", "H [m]", "Plinto B×W [m]", "Pali"], r.Supports.Select(s => new[] { (s.Index + 1).ToString(), F(s.X), s.Type, F(s.Reaction), F(s.PierHeight), F(s.FootingSize) + "×" + F(s.FootingWidth), s.Piles.ToString() }), 500));
         foreach (string warning in r.Warnings) panel.Children.Add(Ui.Text("• " + warning, 12, color: Ui.Brush("#895C17")));
@@ -306,7 +340,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
         if (Input.B("low_carbon") || Input.B("recycled")) panel.Children.Add(Ui.Button("Ripristina fattori ambientali ordinari", () => Mutate(() => { Input["low_carbon"] = false; Input["recycled"] = false; })));
         advice.Content = panel;
     }
-    internal void AutoSize() => Mutate(() => { foreach (string k in new[] { "depth", "slab", "spacing", "web", "bottom", "boxes", "pier_size", "pile_count", "footing_size", "pile_length" }) Input[k] = 0; }, true);
+    internal void AutoSize() => Mutate(() => { foreach (string k in new[] { "depth", "slab", "spacing", "web", "bottom", "boxes", "pier_size", "pile_count", "footing_size", "pile_length", "tower_height" }) Input[k] = 0; }, true);
     internal void Undo() { if (!history.TryPop(out var snapshot)) return; refreshing = true; try { Data.Clear(); foreach (var pair in snapshot) Data[pair.Key] = pair.Value?.DeepClone(); previous = Clone(Data); } finally { refreshing = false; } RefreshInputs(); Recalculate(); Modified?.Invoke(); }
     private void Restore(JsonObject source)
     {
@@ -323,6 +357,13 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
             Input["length"] = Math.Round((f.MinSpan + (f.MaxSpan - f.MinSpan) * (.2 + random.NextDouble() * .45)) * (spans - .4));
             Input["height"] = Math.Max(random.Next(8, 31), Math.Ceiling(Input.D("length") / (spans - .4) / 18 + 5)); Input["lanes"] = random.Next(2, 7); Input["obstacle"] = BridgeConcept.Obstacles[random.Next(3)];
             Input["soil"] = BridgeConcept.Soils[random.Next(4)]; Input["pier"] = BridgeConcept.Piers[random.Next(4)];
+            if (BridgeConcept.HasUpperStructure(f.Id))
+            {
+                bool towers = BridgeConcept.HasTowers(f.Id); Input["spans"] = towers ? 3 : 1; Input["continuous"] = towers;
+                Input["length"] = Math.Min(1900, Math.Round((f.MinSpan + f.MaxSpan) / 2 * (towers ? 2 : 1)));
+                Input["height"] = 30; Input["obstacle"] = "Nessuno";
+                if (f.Id == "suspension") Input["deck_type"] = BridgeConcept.DeckTypes[1];
+            }
             Input["obstacle_width"] = Math.Min(20, Input.D("length") / 8); Data["scene"] = random.Next(10000);
         }, true);
     }

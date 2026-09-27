@@ -28,6 +28,7 @@ public static partial class BridgeConcept
         Add("Soletta", "t_s", r.Slab * 1000, "mm", Source(r.Family.Id == "slab" ? "depth" : "slab"), "Spessore effettivamente usato nel calcolo");
         Add("Materiali", "fc", i.D("fc"), "MPa", "Impostato", "Resistenza convenzionale del cls impalcato");
         Add("Materiali", "fc_sub", i.D("fc_sub"), "MPa", "Impostato", "Resistenza convenzionale del cls sottostrutture");
+        if (r.Advanced is { } advanced) { rows.AddRange(advanced.Dimensions); return rows.ToArray(); }
         if (r.Family.Id == "slab") return rows.ToArray();
         string component = r.Family.Id is "psc_box" or "fcm" or "steel_box" ? "Cassone" : "Trave";
         Add(component, "n", r.Girders, "n.", r.Family.Id == "steel_box" ? Source("boxes") : "Derivato", "Elementi longitudinali per sezione trasversale");
@@ -81,7 +82,7 @@ public static partial class BridgeConcept
     public static SpanGeometry[] SpanSchedule(Result r) => r.Spans.Select((l, k) =>
         new SpanGeometry(k + 1, r.Supports[k].X, r.Supports[k + 1].X, l, r.Girders, l * r.Girders)).ToArray();
 
-    public static SupportGeometry[] SupportSchedule(JsonObject data, Result r) => r.Supports.Select(s =>
+    public static SupportGeometry[] SupportSchedule(JsonObject data, Result r) => r.Advanced?.FoundationSchedule ?? r.Supports.Select(s =>
     {
         bool abutment = s.Type == "Spalla", hammer = s.Type == "Testa a martello";
         return new SupportGeometry(s.Index + 1, s.Type, s.X, s.PierHeight, abutment ? 0 : s.Columns, s.PierSize,

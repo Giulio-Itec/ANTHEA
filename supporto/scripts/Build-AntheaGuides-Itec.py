@@ -21,7 +21,8 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[2]
-ART = ROOT / 'supporto/artefatti/guide_anthea_itec'
+REVISION = '03'
+ART = ROOT / f'supporto/artefatti/guide_anthea_itec_rev{REVISION}'
 OUT = ROOT / 'supporto/documentazione/Guide_ANTHEA'
 TEMPLATE = Path('C:/Users/g.pacini/Desktop/MODELLO-RELAZIONE-ITEC-AA.docx')
 TEMPLATE_HASH = 'f6f3f04b0bafeea09e4cca1b19fa74e95fc540c264aa518f3d93dee9eebbcd92'
@@ -119,7 +120,7 @@ def build(kind):
     title, subtitle, summary, code = GUIDES[kind]
     source = ROOT / f'supporto/docs/guida-{kind}-anthea.md'
     lines = source.read_text(encoding='utf-8').splitlines()
-    filename = f'ANTHEA_Guida_{kind}_ITEC_Rev02.docx'
+    filename = f'ANTHEA_Guida_{kind}_ITEC_Rev{REVISION}.docx'
     qa = ART / kind
     qa.mkdir(parents=True, exist_ok=True)
     doc = Document(TEMPLATE)
@@ -130,17 +131,26 @@ def build(kind):
     replace_text(doc.paragraphs[4], subtitle)
     cell_text(doc.tables[0].cell(3, 0), 'Ambito:')
     cell_text(doc.tables[0].cell(5, 1), 'Documentazione software ANTHEA')
+    # The original roster table also reserves the cover's second column.
+    # Retain its geometry and replace names with actual edition metadata.
+    for row in doc.tables[1].rows:
+        for cell in row.cells:
+            cell_text(cell, '')
+    cell_text(doc.tables[1].cell(0, 1), 'Edizione')
+    for ri, values in enumerate([('Rev.', REVISION), ('Data', '27/09/2026'), ('Testi', '27/09/2026')], 1):
+        for ci, value in enumerate(values, 1):
+            cell_text(doc.tables[1].cell(ri, ci), value)
     cell_text(doc.tables[2].cell(1, 0), 'Guida pratica all’uso' if kind == 'pratica' else 'Guida teorica dei calcoli')
-    cell_text(doc.tables[2].cell(2, 0), summary + '\nContenuti al 26 settembre 2026')
+    cell_text(doc.tables[2].cell(2, 0), summary + '\nContenuti al 27 settembre 2026')
     for ri, values in enumerate([
         ['Tipo documento: MANUALE', 'Documento:', code],
-        ['Software: ANTHEA', 'Revisione:', '02 — Modello ITEC'],
+        ['Software: ANTHEA', 'Revisione:', REVISION + ' — Modello ITEC'],
     ]):
         for ci, value in enumerate(values):
             cell_text(doc.tables[3].cell(ri, ci), value)
-    for ci, value in enumerate(['02', 'ADOZIONE MODELLO ITEC', '27/09/2026', '', '', '']):
+    for ci, value in enumerate([REVISION, 'SEZIONI PONTE INCLINATE', '27/09/2026', '', '', '']):
         cell_text(doc.tables[4].cell(1, ci), value)
-    for ti, size in [(2, 11), (3, 10), (4, 8)]:
+    for ti, size in [(1, 8), (2, 11), (3, 10), (4, 8)]:
         for row in doc.tables[ti].rows:
             for cell in row.cells:
                 for p in cell.paragraphs:
@@ -150,7 +160,6 @@ def build(kind):
     body = doc._element.body
     for child in list(body)[23:]:
         body.remove(child)
-    body.remove(doc.tables[1]._tbl)
     body.append(deepcopy(sections[4]))
     if 'Title' not in doc.styles:
         s = doc.styles.add_style('Title', WD_STYLE_TYPE.PARAGRAPH)
@@ -254,8 +263,8 @@ def build(kind):
     doc.core_properties.subject = subtitle
     doc.core_properties.author = 'ANTHEA'
     doc.core_properties.last_modified_by = 'ANTHEA'
-    doc.core_properties.revision = 2
-    doc.core_properties.keywords = 'ANTHEA; ITEC; Manuale; Rev02; Contenuti 2026-09-26'
+    doc.core_properties.revision = int(REVISION)
+    doc.core_properties.keywords = f'ANTHEA; ITEC; Manuale; Rev{REVISION}; Contenuti 2026-09-27'
     authored = qa / 'authored.docx'
     doc.save(authored)
 

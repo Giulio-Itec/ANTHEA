@@ -17,8 +17,8 @@ internal sealed class BridgeOptimizationPlot : FrameworkElement
     private BridgeConcept.OptimizationSolution[] solutions = [];
     private BridgeConcept.Result? baseline;
     private readonly List<(Point Point, BridgeConcept.OptimizationTrial Trial, int Rank)> hits = new();
-    private static readonly Brush[] Palette = [Ui.Brush("#0B5CAD"), Ui.Brush("#168B94"), Ui.Brush("#8462AB"), Ui.Brush("#C26817"), Ui.Brush("#337E46"), Ui.Brush("#B44866"), Ui.Brush("#526680"), Ui.Brush("#98682D")];
-    private static readonly string[] FamilyLabels = ["Soletta", "Travi T", "Travi I c.a.p.", "Travi U", "Cassone c.a.p.", "Conci FCM", "Travi I acc.", "Cassone acc."];
+    private static readonly Brush[] Palette = [Ui.Brush("#0B5CAD"), Ui.Brush("#168B94"), Ui.Brush("#8462AB"), Ui.Brush("#C26817"), Ui.Brush("#337E46"), Ui.Brush("#B44866"), Ui.Brush("#526680"), Ui.Brush("#98682D"), Ui.Brush("#557C19"), Ui.Brush("#0082C2"), Ui.Brush("#BF3737"), Ui.Brush("#5724A3"), Ui.Brush("#BD277A"), Ui.Brush("#1D5951")];
+    private static readonly string[] FamilyLabels = ["Soletta", "Travi T", "Travi I c.a.p.", "Travi U", "Cassone c.a.p.", "Conci FCM", "Travi I acc.", "Cassone acc.", "Incorporate", "Ortotropa", "Arco", "Strallato", "Sospeso", "Reticolare"];
     internal static Brush FamilyBrush(string id) => Palette[Math.Max(0, Array.FindIndex(BridgeConcept.Families, f => f.Id == id)) % Palette.Length];
     internal int PointCount => hits.Count;
     internal IReadOnlyList<(Point Point, BridgeConcept.OptimizationTrial Trial, int Rank)> Points => hits;
@@ -47,7 +47,7 @@ internal sealed class BridgeOptimizationPlot : FrameworkElement
     private static string Value(double? value, string format = "N2") => value?.ToString(format, CultureInfo.GetCultureInfo("it-IT")) ?? "—";
     private double? Y(BridgeConcept.OptimizationTrial t) => Scatter ? t.Carbon : Variable switch {
         0 => t.Cost / 1e6, 1 => t.Carbon, 2 => t.Depth, 3 => t.Spans, 4 => t.PileLength,
-        5 => Array.FindIndex(BridgeConcept.Families, f => f.Id == t.Family), 6 => Array.IndexOf(BridgeConcept.Piers, t.Pier),
+        5 => Array.FindIndex(BridgeConcept.Families, f => f.Id == t.Family), 6 => t.Pier.StartsWith("Antenna") ? 4 : Array.IndexOf(BridgeConcept.Piers, t.Pier),
         7 => Array.IndexOf(BridgeConcept.Foundations, t.Foundation), _ => t.Continuous ? 1 : 0
     };
     protected override void OnRender(DrawingContext dc)
@@ -72,7 +72,7 @@ internal sealed class BridgeOptimizationPlot : FrameworkElement
         if (Scatter) Expand(ref xmin, ref xmax); Expand(ref ymin, ref ymax);
         Point P(double x, double y) => new(left + (x - xmin) / (xmax - xmin) * (right - left), bottom - (y - ymin) / (ymax - ymin) * (bottom - top));
         var grid = new Pen(Ui.Brush("#E3EAF1"), 1);
-        string[] labels = Variable == 5 ? FamilyLabels : Variable == 6 ? ["Telaio", "Circolare", "Setto", "Martello"] : Variable == 7 ? ["Auto", "Diretta", "Pali Ø1,0", "Pali Ø1,5"] : ["Indipendente", "Continua"];
+        string[] labels = Variable == 5 ? FamilyLabels : Variable == 6 ? ["Telaio", "Circolare", "Setto", "Martello", "Antenna"] : Variable == 7 ? ["Auto", "Diretta", "Pali Ø1,0", "Pali Ø1,5"] : ["Indipendente", "Continua"];
         if (categorical)
         {
             for (int k = (int)Math.Ceiling(ymin); k <= Math.Floor(ymax); k++)

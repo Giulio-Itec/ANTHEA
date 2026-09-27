@@ -70,6 +70,7 @@ internal sealed partial class ConcreteWorkspace
             options["contour"] = panel.View.Contour;
             contour.SelectionChanged += (_, _) => { if (contour.SelectedItem is not string selected) return; options["contour"] = selected; panel.View.Contour = selected; panel.View.InvalidateVisual(); Modified?.Invoke(); };
             viewport.Toolbar.Children.Insert(0, contour);
+            viewport.Toolbar.Children.Add(NeutralAxisToggle(panel.View, options));
             foreach (var (field, label) in new[] { ("testi_barre", "σ/ε barre"), ("testi_trefoli", "σ/ε trefoli"), ("testi_cls", "σ/ε vertici CLS") })
             {
                 var toggle = new CheckBox { Content = label, IsChecked = options.B(field), Margin = new Thickness(5, 3, 5, 3) };

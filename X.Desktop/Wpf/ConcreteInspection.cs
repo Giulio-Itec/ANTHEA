@@ -34,6 +34,7 @@ internal sealed partial class ConcreteWorkspace
         };
         var graphic = new ViewportFrame("Sezione · tensioni e deformazioni", s.View, s.View.ResetView);
         graphic.Toolbar.Children.Insert(0, contour);
+        graphic.Toolbar.Children.Add(NeutralAxisToggle(s.View, panel.Options));
         graphic.Toolbar.Children.Add(Ui.Button("Proprietà…",ShowSectionProperties));
         var values=new CheckBox{Content="Valori σ/ε sulle barre",Margin=new Thickness(5)};
         values.Click+=(_,_)=>{s.View.BarValues=values.IsChecked==true;s.View.InvalidateVisual();};graphic.Toolbar.Children.Add(values);
@@ -46,6 +47,15 @@ internal sealed partial class ConcreteWorkspace
         s.State.SelectionChanged += (_, _) => UpdateSectionInspection(panel);
         s.Tabs.SelectionChanged += (_, e) => { if (e.Source == s.Tabs) UpdateSectionInspection(panel); };
         return s.Tabs;
+    }
+    private CheckBox NeutralAxisToggle(ConcreteSectionViewport view, JsonObject options)
+    {
+        view.ShowNeutralAxis = options.B("asse_neutro", true);
+        var toggle = new CheckBox { Content = "Asse neutro", IsChecked = view.ShowNeutralAxis, Margin = new Thickness(5, 3, 5, 3),
+            ToolTip = "Linea ε = 0 del piano calcolato. Con deformazione uniforme l’asse non è univoco; non coincide necessariamente con lo zero delle tensioni nei trefoli." };
+        RevisionInspection.Allow(toggle);
+        toggle.Click += (_, _) => { options["asse_neutro"] = view.ShowNeutralAxis = toggle.IsChecked == true; view.InvalidateVisual(); Modified?.Invoke(); };
+        return toggle;
     }
     private async void UpdateSectionInspection(DomainPanel panel)
     {

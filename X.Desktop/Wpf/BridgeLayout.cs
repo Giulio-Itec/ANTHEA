@@ -16,6 +16,7 @@ internal sealed partial class BridgeWorkspace
     private readonly TextBlock resultNotice = Ui.Text("", 12, true, Ui.Brush("#8B5916"));
     private UIElement stageControls = null!;
     internal readonly CheckBox GeometryLabels = new() { Content = "Quote sezione", Margin = new Thickness(8, 6, 4, 4) }, RebarLabels = new() { Content = "Info armature", Margin = new Thickness(8, 6, 4, 4) };
+    internal readonly CheckBox NeutralAxisToggle = new() { Content = "Asse neutro", Margin = new Thickness(8, 6, 4, 4) };
     private JsonObject viewSettings = null!;
     internal readonly Dictionary<string, Grid> Splits = new();
     private int currentPage = -1;
@@ -69,6 +70,15 @@ internal sealed partial class BridgeWorkspace
         Viewport.Toolbar.Children.Add(Ui.Button("−", () => Drawing.ZoomBy(.85), inspection: true));
         Viewport.Toolbar.Children.Add(Ui.Button("+", () => Drawing.ZoomBy(1.15), inspection: true));
         Viewport.Toolbar.Children.Add(GeometryLabels); Viewport.Toolbar.Children.Add(RebarLabels);
+        NeutralAxisToggle.IsChecked = viewSettings.B("asse_neutro", true);
+        Drawing.ShowNeutralAxis = NeutralAxisToggle.IsChecked == true;
+        RevisionInspection.Allow(NeutralAxisToggle);
+        NeutralAxisToggle.Click += (_, _) =>
+        {
+            viewSettings["asse_neutro"] = Drawing.ShowNeutralAxis = NeutralAxisToggle.IsChecked == true;
+            Drawing.InvalidateVisual(); Modified?.Invoke();
+        };
+        Viewport.Toolbar.Children.Add(NeutralAxisToggle);
         BuildStressScaleControls(); BuildContourControls();
         Viewport.Toolbar.Children.Add(Ui.Button("Stacca vista", DetachView, inspection: true));
         foreach (var toggle in new[] { GeometryLabels, RebarLabels })

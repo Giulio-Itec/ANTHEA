@@ -1,4 +1,4 @@
-param([switch]$VerifyFinal)
+param([switch]$VerifyFinal, [string]$Revision = '03')
 $ErrorActionPreference = 'Stop'
 $repoPath = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $wordForGuides = $null
@@ -9,8 +9,9 @@ try {
     $wordForGuides.DisplayAlerts = 0
     $wordForGuides.AutomationSecurity = 3
     foreach ($kind in @('pratica', 'teorica')) {
-        $sourcePath = Join-Path $repoPath "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_${kind}_ITEC_Rev02.docx"
-        $artifactPath = Join-Path $repoPath "supporto/artefatti/guide_anthea_itec/$kind"
+        $sourcePath = Join-Path $repoPath "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_${kind}_ITEC_Rev${Revision}.docx"
+        $artifactFolder = if ($Revision -eq '02') { 'guide_anthea_itec' } else { "guide_anthea_itec_rev${Revision}" }
+        $artifactPath = Join-Path $repoPath "supporto/artefatti/$artifactFolder/$kind"
         $guideDoc = $wordForGuides.Documents.Open($sourcePath, $false, $false)
         $guideDoc.Fields.Update() | Out-Null
         foreach ($toc in $guideDoc.TablesOfContents) { $toc.Update() }

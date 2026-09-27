@@ -42,6 +42,7 @@ public static class BridgeConceptExport
     }
     public static byte[] Report(string title, JsonObject data, BridgeConcept.Result result, byte[]? elevation = null, byte[]? section = null)
     {
+        data = BridgeConcept.WithAdvancedDefaults(data);
         XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main", rel = "http://schemas.openxmlformats.org/package/2006/relationships",
             rns = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
         var body = new XElement(w + "body"); var images = new List<byte[]>();
@@ -97,7 +98,7 @@ public static class BridgeConceptExport
         P("Dimensioni delle sottostrutture e fondazioni", "Heading2");
         P("B longitudinale, W trasversale, t spessore. Le spalle sono equivalenti volumetrici; non è definita una carpenteria esecutiva.");
         Table(["Appoggio / fusto", "H [m]", "Pulvino W×B×t [m]", "Fondazione B×W×t [m]", "Pali n×Ø×L [m]"], BridgeConcept.SupportSchedule(data, result).Select(s => new[] {
-            s.Number + " · " + s.Type + (s.Type == "Spalla" ? " equivalente" : s.WallWidth > 0 ? " · " + F(s.Size) + "×" + F(s.WallWidth) + " m" : " · " + s.Columns + "×Ø" + F(s.Size) + " m"), F(s.Height),
+            s.Number + " · " + s.Type + (s.Type == "Spalla" ? " equivalente" : s.Type.StartsWith("Antenna") ? " · " + s.Columns + "×(" + F(s.Size) + "×" + F(s.Size) + ") m" : s.WallWidth > 0 ? " · " + F(s.Size) + "×" + F(s.WallWidth) + " m" : " · " + s.Columns + "×Ø" + F(s.Size) + " m"), F(s.Height),
             s.CapLength == 0 ? "—" : F(s.CapLength) + "×" + F(s.CapWidth) + "×" + F(s.CapThickness), F(s.FootingLength) + "×" + F(s.FootingWidth) + "×" + F(s.FootingThickness),
             s.Piles == 0 ? "Diretta" : s.Piles + "×Ø" + F(s.PileDiameter) + "×" + F(s.PileLength) }), [2500, 800, 1900, 2160, 2000]);
         P("Quantità e prezzi", "Heading1");
@@ -113,10 +114,10 @@ public static class BridgeConceptExport
         P("Avvisi del modello", "Heading1"); foreach (string warning in result.Warnings) P(warning);
         P("Input e coefficienti conservati", "Heading1");
         foreach (var (group, label, fields) in new[] {
-            ("input", "Geometria e materiali (incluse opzioni delle altre famiglie)", BridgeConcept.Site.Concat(BridgeConcept.Layout).Concat(BridgeConcept.Section).Concat(BridgeConcept.Substructure)),
-            ("rates", "Listino unitario EUR", BridgeConcept.Rates.AsEnumerable()), ("assumptions", "Ipotesi e coefficienti", BridgeConcept.Assumptions.AsEnumerable()) })
+            ("input", "Geometria e materiali (incluse opzioni delle altre famiglie)", BridgeConcept.Site.Concat(BridgeConcept.Layout).Concat(BridgeConcept.Section).Concat(BridgeConcept.AdvancedSection).Concat(BridgeConcept.Substructure)),
+            ("rates", "Listino unitario EUR", BridgeConcept.Rates.AsEnumerable()), ("assumptions", "Ipotesi e coefficienti", BridgeConcept.Assumptions.Concat(BridgeConcept.AdvancedAssumptions)) })
         { P(label, "Heading2"); Table(["Parametro", "Valore", "Unità"], fields.Select(p => new[] { p.Label, data[group]!.S(p.Key), p.Unit }), [5900, 1860, 1600]); }
-        Table(["Scelta", "Valore"], new[] { ("obstacle", "Ostacolo"), ("soil", "Terreno"), ("pier", "Pila"), ("foundation", "Fondazione richiesta"), ("continuous", "Continuità"), ("start_pier", "Inizio su pila"), ("end_pier", "Fine su pila"), ("low_carbon", "Cls ridotta CO₂"), ("recycled", "Acciaio riciclato") }.Select(p => new[] { p.Item2, data["input"]!.S(p.Item1) }));
+        Table(["Scelta", "Valore"], new[] { ("obstacle", "Ostacolo"), ("soil", "Terreno"), ("deck_type", "Piano carrabile richiesto (applicato alle strutture superiori)"), ("pier", "Pila richiesta (antenne a portale per i ponti a cavi)"), ("foundation", "Fondazione richiesta"), ("continuous", "Continuità"), ("start_pier", "Inizio su pila"), ("end_pier", "Fine su pila"), ("low_carbon", "Cls ridotta CO₂"), ("recycled", "Acciaio riciclato") }.Select(p => new[] { p.Item2, data["input"]!.S(p.Item1) }));
         if (data["alternative_a"] is JsonObject baseline)
         {
             P("Confronto con alternativa A", "Heading1");

@@ -18,6 +18,8 @@ internal sealed partial class BridgeDrawing : FrameworkElement
     internal JsonObject? Input { get; set; }
     internal bool ShowGeometryLabels { get; set; }
     internal bool ShowRebarLabels { get; set; }
+    internal bool ShowNeutralAxis { get; set; } = true;
+    internal NeutralAxisOverlay.Display? NeutralAxisDisplay { get; private set; }
     internal bool DetailAtSupport { get; set; }
     internal bool IsStale { get; set; }
     internal double ConcreteAmplification { get; set; } = 1;
@@ -43,7 +45,7 @@ internal sealed partial class BridgeDrawing : FrameworkElement
     internal void ResetView() { zoom = 1; pan = new(); InvalidateVisual(); }
     protected override void OnRender(DrawingContext dc)
     {
-        LoadMarker = null;
+        LoadMarker = null; NeutralAxisDisplay = null;
         VisibleTags.Clear(); TagBounds.Clear(); StressLabels.Clear();
         double w = ActualWidth, h = ActualHeight; if (w < 80 || h < 80) return;
         dc.DrawRectangle(Ui.Brush("#F8FAFD"), null, new Rect(0, 0, w, h));
@@ -124,11 +126,6 @@ internal sealed partial class BridgeDrawing : FrameworkElement
                 FlangeGap(g.Bottom2Width, s.Effective.SecondBottomWidth, -g.Height, g.Bottom2Thickness);
             }
             else if (!realPlates) FlangeGap(g.BottomEquivalentWidth, s.Effective.BottomWidth, -g.Height, g.BottomEquivalentThickness);
-            if (s.SteelNeutralAxis is { } na && na >= -g.Height && na <= g.SlabHeight)
-            {
-                double y = P(0, na).Y; dc.DrawLine(new Pen(Ui.Brush("#A04761"), 1) { DashStyle = DashStyles.Dash }, new(cx - 70, y), new(cx + 70, y));
-                Text("σa = 0", cx - 111, y - 8, Ui.Brush("#A04761"));
-            }
         }
         // Common reference line, dimensions, and bar row labels.
         double interfaceY = P(0, 0).Y;
@@ -165,6 +162,9 @@ internal sealed partial class BridgeDrawing : FrameworkElement
         if (loadRow > 3) Text("Altri punti N nella tabella Fasi e proprietà", 12, h - 19, Ui.Muted, 9);
         else
         Text(realPlates ? "Lamiere reali · N–Mx con H equivalente (anime tw/cos α)" : g.Bottom2Thickness > 0 ? "Due piastre reali = geometria di calcolo" : "Geometria reale = geometria di calcolo", 12, h - 19, Ui.Muted, 10);
+        if (ShowNeutralAxis && Stage is { } selectedStage)
+            NeutralAxisDisplay = NeutralAxisOverlay.Draw(dc, SectionNeutralAxis.Bridge(selectedStage), P,
+                new Rect(P(0, g.SlabHeight), P(g.Width, -g.Height)), new Rect(12, 78, Math.Max(30, geoWidth - 24), Math.Max(20, h - 150)), 57);
         if (!chart || Stage is not { } stage) return;
         DrawStressDiagram(dc, g, stage, geoWidth, w, h, y => P(0, y).Y);
     }

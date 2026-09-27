@@ -17,7 +17,13 @@ public static partial class BridgeConcept
         new("psc_box", "Cassone in c.a.p.", 35, 80, 22.22, 1.3, .25, 0, Prestressed: true),
         new("fcm", "Cassone a conci · altezza variabile", 80, 200, 45, 2, .28, 0, Prestressed: true),
         new("steel_i", "Travi a I acciaio–cls", 30, 90, 25, 1, .25, 3.2, Steel: true),
-        new("steel_box", "Cassone acciaio–cls", 40, 150, 25, 1.2, .25, 0, Steel: true)
+        new("steel_box", "Cassone acciaio–cls", 40, 150, 25, 1.2, .25, 0, Steel: true),
+        new("filler_beam", "Travi incorporate nel calcestruzzo", 8, 40, 28, .45, 0, .8, Steel: true),
+        new("orthotropic", "Cassone con piastra ortotropa", 40, 200, 30, 1.2, 0, 0, Steel: true),
+        new("tied_arch", "Arco metallico con catena", 40, 250, 120, .8, .25, 3, Steel: true),
+        new("cable_stayed", "Ponte strallato · due antenne", 100, 700, 150, 1, .25, 3, Steel: true),
+        new("suspension", "Ponte sospeso · ancoraggi a terra", 200, 1200, 200, 1.2, 0, 3, Steel: true),
+        new("truss", "Ponte reticolare metallico", 30, 150, 100, .7, .25, 3, Steel: true)
     ];
     public static readonly Parameter[] Site = [
         new("length", "Lunghezza totale", "m", 105, 10, 2000, 5),
@@ -69,7 +75,10 @@ public static partial class BridgeConcept
         new("bearing", "Apparecchio d'appoggio", "€/cad", 1600, 0, 100000, 100),
         new("joint", "Giunto di dilatazione", "€/m", 2400, 0, 50000, 100),
         new("barrier", "Barriera", "€/m", 240, 0, 10000, 10),
-        new("surfacing", "Pavimentazione", "€/m²", 32, 0, 1000, 1)
+        new("surfacing", "Pavimentazione", "€/m²", 32, 0, 1000, 1),
+        new("steel_ortho", "Carpenteria impalcato ortotropo", "€/t", 5000, 0, 50000, 50),
+        new("cables", "Cavi e pendini installati, inclusi terminali", "€/t", 12000, 0, 100000, 100),
+        new("erection_special", "Montaggio aggiuntivo strutture speciali", "€/t", 1000, 0, 50000, 50)
     ];
     public static readonly Parameter[] Assumptions = [
         new("prelims", "Oneri di cantiere", "%", 12, 0, 100, 1),
@@ -105,11 +114,12 @@ public static partial class BridgeConcept
     public static JsonObject Defaults()
     {
         JsonObject Numbers(IEnumerable<Parameter> fields) => J.Obj(fields.Select(p => (p.Key, (object?)p.Default)).ToArray());
-        var input = Numbers(Site.Concat(Layout).Concat(Section).Concat(Substructure));
+        var input = Numbers(Site.Concat(Layout).Concat(Section).Concat(AdvancedSection).Concat(Substructure));
+        input["deck_type"] = DeckTypes[0];
         input["family"] = "psc_i"; input["obstacle"] = "Fiume"; input["soil"] = "Argilla soffice";
         input["pier"] = "Setto"; input["foundation"] = "Automatica"; input["continuous"] = true;
         input["start_pier"] = false; input["end_pier"] = false; input["low_carbon"] = false; input["recycled"] = false;
-        return J.Obj(("versione_bridge_design", 1), ("input", input), ("rates", Numbers(Rates)), ("assumptions", Numbers(Assumptions)), ("scene", 1));
+        return J.Obj(("versione_bridge_design", 1), ("input", input), ("rates", Numbers(Rates)), ("assumptions", Numbers(Assumptions.Concat(AdvancedAssumptions))), ("scene", 1));
     }
     public static void ValidateShape(JsonObject data)
     {
@@ -125,7 +135,7 @@ public static partial class BridgeConcept
     private static void Validate(JsonObject data)
     {
         ValidateShape(data);
-        foreach (var (key, fields) in new[] { ("input", Site.Concat(Layout).Concat(Section).Concat(Substructure)), ("rates", Rates.AsEnumerable()), ("assumptions", Assumptions.AsEnumerable()) })
+        foreach (var (key, fields) in new[] { ("input", Site.Concat(Layout).Concat(Section).Concat(AdvancedSection).Concat(Substructure)), ("rates", Rates.AsEnumerable()), ("assumptions", Assumptions.Concat(AdvancedAssumptions)) })
             foreach (var p in fields)
             {
                 var n = J.Number(data[key]?[p.Key]);
@@ -133,6 +143,7 @@ public static partial class BridgeConcept
                     throw new ArgumentException($"{p.Label}: valore richiesto tra {p.Min} e {p.Max} {p.Unit}.");
             }
         var i = data["input"]!;
+        if (!DeckTypes.Contains(i.S("deck_type"))) throw new ArgumentException("Tipo di impalcato non riconosciuto.");
         if (!Families.Any(f => f.Id == i.S("family"))) throw new ArgumentException("Tipologia impalcato non riconosciuta.");
         foreach (var (key, choices) in new[] { ("obstacle", Obstacles), ("soil", Soils), ("pier", Piers), ("foundation", Foundations) })
             if (!choices.Contains(i.S(key))) throw new ArgumentException("Scelta non valida: " + key);
@@ -149,6 +160,7 @@ public static partial class BridgeConcept
         double Concrete, double Steel, double Rebar, double Prestress, double Inertia, double DirectCost, double TotalCost,
         double CostLow, double CostHigh, double Carbon, double Duration, Quantity[] Quantities, Detail[] Details, Station[] Stations, string[] Warnings)
     {
+        public AdvancedGeometry? Advanced { get; init; }
         public double Length => Spans.Sum();
         public double Area => Width * Length;
         public JsonObject Json() => J.Obj(("errore", ""), ("ambito", Scope), ("versione_motore", 1), ("avvisi", Warnings), ("bridge_design", this));

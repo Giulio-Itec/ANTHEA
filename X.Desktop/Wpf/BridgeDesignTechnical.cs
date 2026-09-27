@@ -22,7 +22,7 @@ internal sealed partial class BridgeDesignWorkspace
         panel.Children.Add(Ui.Text("Pile, spalle e fondazioni · un record per appoggio", 15, true));
         panel.Children.Add(Ui.Text("B = dimensione longitudinale, W = trasversale, t = spessore. I pali sono indicati con numero × diametro × lunghezza. I volumi delle spalle sono equivalenti: il modello non definisce una carpenteria completa.", 12, color: Ui.Muted));
         panel.Children.Add(Table(["Appoggio / x", "Tipo / fusto", "H [m]", "Pulvino W×B×t [m]", "Fondazione B×W×t [m]", "Pali n×Ø×L [m]"], BridgeConcept.SupportSchedule(Data, r).Select(s =>
-            new[] { $"{s.Number} · {F(s.X, "N2")} m", s.Type == "Spalla" ? "Spalla equivalente" : s.Type + (s.WallWidth > 0 ? $" · {F(s.Size, "N2")}×{F(s.WallWidth, "N2")} m" : $" · {s.Columns}×Ø{F(s.Size, "N2")} m"),
+            new[] { $"{s.Number} · {F(s.X, "N2")} m", s.Type == "Spalla" ? "Spalla equivalente" : s.Type + (s.Type.StartsWith("Antenna") ? $" · {s.Columns}×({F(s.Size, "N2")}×{F(s.Size, "N2")}) m" : s.WallWidth > 0 ? $" · {F(s.Size, "N2")}×{F(s.WallWidth, "N2")} m" : $" · {s.Columns}×Ø{F(s.Size, "N2")} m"),
                 F(s.Height, "N2"), s.CapLength == 0 ? "—" : $"{F(s.CapLength, "N2")}×{F(s.CapWidth, "N2")}×{F(s.CapThickness, "N2")}",
                 $"{F(s.FootingLength, "N2")}×{F(s.FootingWidth, "N2")}×{F(s.FootingThickness, "N2")}", s.Piles == 0 ? "Diretta" : $"{s.Piles}×Ø{F(s.PileDiameter, "N2")}×{F(s.PileLength, "N2")}" }), 400));
         panel.Children.Add(Ui.Bar(Ui.Button("Esporta sezioni e quote CSV", () => Save("Sezioni e quote CSV|*.csv", "BridgeDesign_sezioni_quote.csv", filename =>

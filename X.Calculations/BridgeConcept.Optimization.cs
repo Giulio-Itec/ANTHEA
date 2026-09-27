@@ -66,7 +66,9 @@ public static partial class BridgeConcept
         bool[] continuity = options.KeepContinuity ? [input.B("continuous")] : [true, false];
         string[] piers = options.KeepPier ? [input.S("pier")] : Piers;
         string[] foundations = options.KeepFoundation ? [baseline.Foundation] : Foundations.Skip(1).ToArray();
-        int planned = 1 + families.Sum(f => spans.Count(n => baseline.Length / n >= f.MinSpan && baseline.Length / n <= f.MaxSpan))
+        bool Eligible(Family f, int n) => HasTowers(f.Id) ? n == 3 && baseline.Length / 2 >= f.MinSpan && baseline.Length / 2 <= f.MaxSpan
+            : baseline.Length / n >= f.MinSpan && baseline.Length / n <= f.MaxSpan;
+        int planned = 1 + families.Sum(f => spans.Count(n => Eligible(f, n)))
             * continuity.Length * piers.Length * (options.KeepDepth ? 1 : depths.Length)
             * foundations.Sum(f => options.KeepFoundation || f == "Plinto diretto" ? 1 : piles.Length);
         if (planned > 50000) throw new ArgumentException($"Griglia troppo estesa ({planned:N0} tentativi): restringere gli intervalli o aumentare il passo. Limite: 50.000.");
@@ -107,7 +109,7 @@ public static partial class BridgeConcept
             }
             var ci = candidate["input"]!;
             var trial = new OptimizationTrial(evaluated, ci.S("family"), r?.Spans.Length ?? (int)ci.D("spans"), r?.Depth,
-                r?.PileLength, r?.TotalCost, r?.Carbon, ci.S("pier"), r?.Foundation ?? ci.S("foundation"), ci.B("continuous"), reasons);
+                r?.PileLength, r?.TotalCost, r?.Carbon, HasTowers(ci.S("family")) ? "Antenna · 2 fusti quadrati" : ci.S("pier"), r?.Foundation ?? ci.S("foundation"), ci.B("continuous"), reasons);
             trials.Add(trial);
             if (reasons.Length == 0 && r is not null) accepted.Add((candidate, r, trial));
             else foreach (var reason in reasons) excluded[reason] = excluded.GetValueOrDefault(reason) + 1;
@@ -120,20 +122,24 @@ public static partial class BridgeConcept
         {
             cancellation.ThrowIfCancellationRequested();
             // Necessary span-range condition; exact spans and obstacle clearance are checked after calculation.
-            if (baseline.Length / count < family.MinSpan || baseline.Length / count > family.MaxSpan) continue;
+            if (!Eligible(family, count)) continue;
+            if (options.KeepPier && HasTowers(family.Id) != HasTowers(baseline.Family.Id)) continue;
             foreach (bool continuous in continuity)
             foreach (string pier in piers)
             foreach (string foundation in foundations)
             foreach (double depthFactor in options.KeepDepth ? new[] { 1d } : depths)
             foreach (double pileFactor in options.KeepFoundation || foundation == "Plinto diretto" ? new[] { 1d } : piles)
             {
+                if (family.Id is "tied_arch" or "truss" && continuous || HasTowers(family.Id) && (!continuous || input.B("start_pier") || input.B("end_pier"))) continue;
                 var d = (JsonObject)baselineData.DeepClone(); var i = d["input"]!;
                 i["family"] = family.Id; i["spans"] = count; i["continuous"] = continuous;
                 i["depth"] = options.KeepDepth ? baseline.Depth : 0;
                 if (options.KeepSection)
                 {
-                    i["slab"] = baseline.Slab; i["spacing"] = baseline.Spacing; i["web"] = baseline.Web;
-                    i["bottom"] = baseline.Bottom; i["boxes"] = baseline.Family.Id == "steel_box" ? baseline.Girders : input.D("boxes");
+                    if (baseline.Family.Id != "filler_beam") i["slab"] = baseline.Slab;
+                    if (baseline.Advanced?.Orthotropic != true) i["spacing"] = baseline.Spacing;
+                    i["web"] = baseline.Web;
+                    i["bottom"] = baseline.Bottom; i["boxes"] = baseline.Family.Id == "steel_box" || baseline.Advanced?.Orthotropic == true ? baseline.Girders : input.D("boxes");
                 }
                 else
                 {
@@ -205,10 +211,11 @@ public static partial class BridgeConcept
     {
         var reasons = new List<string>(); var i = data["input"]!;
         if (r.Spans.Length < options.MinSpans || r.Spans.Length > options.MaxSpans) reasons.Add("Numero campate fuori dai limiti richiesti");
-        if (r.Spans.Min() < r.Family.MinSpan - 1e-8 || r.Spans.Max() > r.Family.MaxSpan + 1e-8) reasons.Add("Luci fuori dal campo usuale della tipologia");
+        double minSpan = HasTowers(r.Family.Id) ? r.Spans[1] : r.Spans.Min();
+        if (minSpan < r.Family.MinSpan - 1e-8 || r.Spans.Max() > r.Family.MaxSpan + 1e-8) reasons.Add("Luci fuori dal campo usuale della tipologia");
         if (r.Depth < options.MinDepth - 1e-8) reasons.Add("Altezza in campata inferiore al minimo richiesto");
         if (options.MaxDepth > 0 && r.PierDepth > options.MaxDepth + 1e-8) reasons.Add("Altezza massima superata (incluse le pile)");
-        double requiredDepth = Math.Max(r.Family.MinDepth, r.Spans.Max() / r.Family.Ratio * (i.B("continuous") ? .95 : 1.1));
+        double requiredDepth = ReferenceDepth(r.Family, r.Spans.Max(), i.B("continuous"));
         if (r.Depth < requiredDepth - 1e-8) reasons.Add("Altezza inferiore alla regola di predimensionamento");
         if (i.S("obstacle") != "Nessuno" && i.D("obstacle_width") > 0)
         {
@@ -220,7 +227,7 @@ public static partial class BridgeConcept
         if (DetailValue("Snellezza massima delle pile") > 100 + 1e-8) reasons.Add("Snellezza pile superiore a 100");
         if (DetailValue("Compressione media pile / fc") > .3 + 1e-8) reasons.Add("Compressione media pile superiore a 0,30 fc");
         if (r.Supports.Any(s => s.Piles > 64)) reasons.Add("Più di 64 pali per appoggio");
-        if (r.Supports.Any(s => s.Reaction < -1e-8)) reasons.Add("Reazione verso l’alto: dispositivi antisollevamento non dimensionati");
+        if (r.Family.Id != "suspension" && r.Supports.Any(s => s.Reaction < -1e-8)) reasons.Add("Reazione verso l’alto: dispositivi antisollevamento non dimensionati");
         if (r.PileDiameter > 0 && r.Supports.Any(s => s.FootingSize + .001 < (Math.Ceiling(Math.Sqrt(s.Piles)) - 1) * 3 * r.PileDiameter + 2 * r.PileDiameter)) reasons.Add("Pali non contenuti nel plinto a interasse 3Ø");
         if (r.Family.Id == "psc_u" && i.D("u_top") * r.Girders > r.Width) reasons.Add("Sovrapposizione travi a U");
         if (r.Family.Id == "steel_box")
@@ -233,7 +240,7 @@ public static partial class BridgeConcept
     }
     private static string DescribeChanges(JsonNode before, JsonNode after)
     {
-        var labels = Site.Concat(Layout).Concat(Section).Concat(Substructure).ToDictionary(p => p.Key, p => p.Label.Split('·')[0].Trim());
+        var labels = Site.Concat(Layout).Concat(Section).Concat(AdvancedSection).Concat(Substructure).ToDictionary(p => p.Key, p => p.Label.Split('·')[0].Trim());
         foreach (var pair in new[] { ("family", "Tipologia"), ("pier", "Pila"), ("foundation", "Fondazione"), ("continuous", "Continuità") }) labels[pair.Item1] = pair.Item2;
         var keys = after.AsObject().Where(p => !JsonNode.DeepEquals(before[p.Key], p.Value)).Select(p => labels.GetValueOrDefault(p.Key, p.Key)).ToArray();
         return keys.Length == 0 ? "Configurazione corrente" : string.Join(", ", keys);

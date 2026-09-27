@@ -17,6 +17,7 @@ internal sealed partial class BridgeWorkspace
             var drawing = new BridgeDrawing { Geometry = result.Geometry, Stage = stage, Input = result.Input,
                 LoadPoints = stage?.Contributions.Select((c, i) => (c, i)).Where(p => !p.c.IsShrinkage).Select(p => new BridgeLoadPoint(p.i + 1, p.c.Name, p.c.LoadY, p.c.N)).ToArray() ?? [],
                 ShowGeometryLabels = mode == 2, ShowRebarLabels = mode == 2, ConcreteAmplification = concreteScale.Factor,
+                ShowNeutralAxis = viewSettings.B("asse_neutro", true),
                 ContourSection = viewSettings.B("contour_sezione"), ContourDiagram = viewSettings.B("contour_tensioni"), ShowStressLimits = viewSettings.B("limiti_tensioni"),
                 Mode = mode, Width = 1200, Height = 640 };
             drawing.Measure(new Size(1200, 640)); drawing.Arrange(new Rect(0, 0, 1200, 640)); drawing.UpdateLayout();
