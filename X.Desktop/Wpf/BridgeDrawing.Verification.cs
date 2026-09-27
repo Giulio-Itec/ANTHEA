@@ -55,19 +55,22 @@ internal sealed partial class BridgeDrawing
         if (data.B("pioli"))
         {
             int number = Math.Clamp((int)data.D("n_pioli", 2), 1, 20);
-            double spacing = Math.Clamp(data.D("passo_trasv_pioli", 150), 0, g.TopWidth);
+            double spacing = Math.Clamp(data.D("passo_trasv_pioli", 150), 0, g.TopFlangeWidth);
             double height = Math.Clamp(data.D("h_pioli", 150), 0, g.SlabHeight * 1.2);
             var pen = new Pen(Ui.Brush("#526176"), Math.Clamp(data.D("d_pioli", 22) * scale, 1.2, 8));
+            // the studs of each top flange (two for the box)
+            foreach (var axis in WebAxes(g))
             for (int i = 0; i < number; i++)
             {
-                double x = g.Width / 2 + (i - (number - 1) / 2d) * spacing;
+                double x = axis.Top + (i - (number - 1) / 2d) * spacing;
                 dc.DrawLine(pen, point(x, 0), point(x, height));
                 double head = Math.Clamp(data.D("d_testa_pioli", 35) / 2, 1, 60);
                 dc.DrawLine(new Pen(pen.Brush, Math.Clamp(data.D("t_testa_pioli", 12) * scale, 1.5, 5)), point(x - head, height), point(x + head, height));
             }
         }
         string suffix = DetailAtSupport ? "app" : "irr";
-        if (data.B(DetailAtSupport ? "appoggio" : "irrigidimenti"))
+        // the stiffeners are drawn only beside the vertical web of the H
+        if (g.SectionType == BridgeSteelSectionType.H && data.B(DetailAtSupport ? "appoggio" : "irrigidimenti"))
         {
             (double LeftWidth, double LeftThickness, double RightWidth, double RightThickness) plates;
             try { plates = BridgeSection.StiffenerPlates(data, suffix); } catch (ArgumentException) { return; }

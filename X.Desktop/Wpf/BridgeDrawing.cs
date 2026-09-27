@@ -59,7 +59,7 @@ internal sealed partial class BridgeDrawing : FrameworkElement
         double topY = Math.Max(g.SlabHeight, loads.Select(p => p.Y).DefaultIfEmpty(g.SlabHeight).Max()), bottomY = Math.Min(-g.Height, loads.Select(p => p.Y).DefaultIfEmpty(-g.Height).Min()), totalH = topY - bottomY;
         bool tags = !chart && (ShowGeometryLabels || ShowRebarLabels);
         double tagWidth = Math.Clamp(geoWidth * .24, 150, 190), margin = tags ? 2 * (tagWidth + 25) : 100;
-        double scale = Math.Min(Math.Max(50, geoWidth - margin) / Math.Max(g.Width, Math.Max(g.TopWidth, g.Bottom1Width)), Math.Max(40, h - (chart ? 178 : 150)) / totalH) * zoom;
+        double scale = Math.Min(Math.Max(50, geoWidth - margin) / Math.Max(g.Width, SteelExtent(g)), Math.Max(40, h - (chart ? 178 : 150)) / totalH) * zoom;
         double cx = geoWidth / 2 + pan.X, y0 = (chart ? 84 : 60) + topY * scale + pan.Y;
         Point P(double x, double y) => new(cx + (x - g.Width / 2) * scale, y0 - y * scale);
         var outline = new Pen(Ui.Navy, 1);
@@ -74,9 +74,15 @@ internal sealed partial class BridgeDrawing : FrameworkElement
         }
         Text(IsStale ? "ULTIMO CALCOLO · DA AGGIORNARE" : "SEZIONE  ·  mm", 12, 7, IsStale ? Ui.Brush("#8B5916") : Ui.Muted, 10);
         Rectangle(0, 0, g.Width, g.SlabHeight, Concrete);
-        Rectangle((g.Width - g.TopWidth) / 2, -g.TopThickness, g.TopWidth, g.TopThickness, Steel);
+        // inclined web and box: the real plates; H: the plates of the calculation
+        bool realPlates = g.SectionType != BridgeSteelSectionType.H;
         double webX = (g.Width - g.WebThickness) / 2, webBottom = -g.TopThickness - g.WebHeight;
         double missing = Stage is { } webStage ? g.WebHeight - webStage.Effective.WebTop - webStage.Effective.WebBottom : 0;
+        if (realPlates)
+            DrawRealSteel(dc, g, P, outline, Hatch, R, (s, x, y) => Text(s, x, y, Ui.Brush("#AC650C")));
+        else
+        {
+        Rectangle((g.Width - g.TopWidth) / 2, -g.TopThickness, g.TopWidth, g.TopThickness, Steel);
         if (Stage is { } effectiveStage && missing > 1e-3)
         {
             var effective = effectiveStage.Effective;
@@ -93,10 +99,11 @@ internal sealed partial class BridgeDrawing : FrameworkElement
         {
             Rectangle((g.Width - g.Bottom2Width) / 2, -g.Height, g.Bottom2Width, g.Bottom2Thickness, Ui.Brush("#446581"));
         }
+        }
         foreach (var b in g.Bars) dc.DrawEllipse(ContourSection && Stage is {} barStage ? new SolidColorBrush(StressColor("Armatura", barStage.Contributions.Sum(c => c.Stress("Armatura", b.Y)))) : Bars, null, P(b.X, b.Y), Math.Max(1.8, b.Diameter * scale / 2), Math.Max(1.8, b.Diameter * scale / 2));
         if (Stage is { } s)
         {
-            if (missing > 1e-3)
+            if (!realPlates && missing > 1e-3)
             {
                 var gap = R(webX, webBottom + s.Effective.WebBottom, g.WebThickness, missing);
                 dc.PushOpacity(.6);
@@ -109,14 +116,14 @@ internal sealed partial class BridgeDrawing : FrameworkElement
                 double excluded = (gross - effective) / 2; if (excluded <= 1e-3) return;
                 Hatch(R((g.Width - gross) / 2, y, excluded, t)); Hatch(R((g.Width + effective) / 2, y, excluded, t));
             }
-            FlangeGap(g.TopWidth, s.Effective.TopWidth, -g.TopThickness, g.TopThickness);
+            if (!realPlates) FlangeGap(g.TopWidth, s.Effective.TopWidth, -g.TopThickness, g.TopThickness);
             // two bottom plates: each real plate with its own effective width (the calculation no longer uses the equivalent rectangle)
             if (g.Bottom2Thickness > 0)
             {
                 FlangeGap(g.Bottom1Width, s.Effective.BottomWidth, -g.TopThickness - g.WebHeight - g.Bottom1Thickness, g.Bottom1Thickness);
                 FlangeGap(g.Bottom2Width, s.Effective.SecondBottomWidth, -g.Height, g.Bottom2Thickness);
             }
-            else FlangeGap(g.BottomEquivalentWidth, s.Effective.BottomWidth, -g.Height, g.BottomEquivalentThickness);
+            else if (!realPlates) FlangeGap(g.BottomEquivalentWidth, s.Effective.BottomWidth, -g.Height, g.BottomEquivalentThickness);
             if (s.SteelNeutralAxis is { } na && na >= -g.Height && na <= g.SlabHeight)
             {
                 double y = P(0, na).Y; dc.DrawLine(new Pen(Ui.Brush("#A04761"), 1) { DashStyle = DashStyles.Dash }, new(cx - 70, y), new(cx + 70, y));
@@ -157,7 +164,7 @@ internal sealed partial class BridgeDrawing : FrameworkElement
         if (tags) DrawTags(dc, g, geoWidth, h, tagWidth, P);
         if (loadRow > 3) Text("Altri punti N nella tabella Fasi e proprietà", 12, h - 19, Ui.Muted, 9);
         else
-        Text(g.Bottom2Thickness > 0 ? "Due piastre reali = geometria di calcolo" : "Geometria reale = geometria di calcolo", 12, h - 19, Ui.Muted, 10);
+        Text(realPlates ? "Lamiere reali · N–Mx con H equivalente (anime tw/cos α)" : g.Bottom2Thickness > 0 ? "Due piastre reali = geometria di calcolo" : "Geometria reale = geometria di calcolo", 12, h - 19, Ui.Muted, 10);
         if (!chart || Stage is not { } stage) return;
         DrawStressDiagram(dc, g, stage, geoWidth, w, h, y => P(0, y).Y);
     }

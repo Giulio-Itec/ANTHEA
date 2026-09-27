@@ -36,6 +36,7 @@ public sealed partial class MainWindow
         }
         await Wait();
         await CheckBridgeGeometryView(bridge, Wait, directory);
+        await CheckBridgeSectionTypes(bridge, Wait, directory);
         await CheckBridgeStressView(bridge, Wait, directory);
         await CheckBridgeShrinkageUi(directory);
         await CheckBridgeShearUi(directory);

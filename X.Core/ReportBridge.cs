@@ -89,6 +89,11 @@ public static partial class ReportBridge
                 new[] { "Piattabanda superiore", F(g.TopWidth), F(g.TopThickness) }, new[] { "Piattabanda inferiore 1", F(g.Bottom1Width), F(g.Bottom1Thickness) },
                 new[] { "Piattabanda inferiore 2", g.Bottom2Thickness > 0 ? F(g.Bottom2Width) : "Assente", g.Bottom2Thickness > 0 ? F(g.Bottom2Thickness) : "—" },
                 new[] { "Piattabanda inferiore equivalente (solo confronto)", F(g.BottomEquivalentWidth), F(g.BottomEquivalentThickness) } }, [2.4, 1.3, 1.7]);
+            if (g.SectionType != BridgeSteelSectionType.H)
+            {
+                doc.P(SectionTypeParagraph(g));
+                doc.Table(["Lamiere reali", "Larghezza o lunghezza [mm]", "Spessore [mm]"], RealPlates(g), [2.4, 1.3, 1.7]);
+            }
             doc.P("La larghezza della soletta è la larghezza collaborante assegnata. La seconda piastra è centrata sotto la prima. " +
                 "Il calcolo usa le piastre reali. Il rettangolo equivalente (t = t1 + t2, b = (b1 t1 + b2 t2)/(t1 + t2)) conserva area e spessore complessivo, non in generale baricentro e inerzia: è riportato solo per confronto. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore.");
             doc.Table(["Proprietà delle piastre inferiori", "Reale (calcolo)", "Equivalente (confronto)"], new[] {

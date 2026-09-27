@@ -68,8 +68,17 @@ internal sealed partial class BridgeWorkspace
         try
         {
             var g = BridgeSection.Geometry(Data); var parts = BridgeSection.SteelPartProperties(g);
+            var real = BridgeSection.RealSteelSection(g);
+            // inclined web and box: the properties of the calculation are about the horizontal axis (equivalent H); the plane ones of the real section
+            UIElement[] plane = real is null ? [] : [Block("Sezione reale nel piano (Model)", ResultTable(["Proprietà", "Valore", "Unità"], new[] {
+                new[] { "A", F(real.Area / 100), "cm²" }, new[] { "Ix", F(real.Jxx / 1e4), "cm⁴" }, new[] { "Iy", F(real.Jyy / 1e4), "cm⁴" },
+                new[] { "Ixy", F(real.Jxy / 1e4), "cm⁴" }, new[] { "Asse principale 1 da x", F(real.AngleX1 * 180 / Math.PI), "°" } }),
+                "Il calcolo N–Mx è in flessione retta attorno all'asse orizzontale: Ixy e la rotazione degli assi principali della sola carpenteria non sono considerati.")];
             steelPropertyBody.Content = Ui.Stack([
-                Block("Carpenteria reale", PropertyValues(BridgeSection.CombineProperties("Reale", parts))),
+                real is null ? Block("Carpenteria reale", PropertyValues(BridgeSection.CombineProperties("Reale", parts)))
+                    : Block("Carpenteria · asse orizzontale (calcolo)", PropertyValues(BridgeSection.CombineProperties("Reale", parts)),
+                        "A, yG, Ix e W sono quelli della sezione reale; Iy e iy sono delle anime rese verticali (per la sezione reale vedere sotto)."),
+                ..plane,
                 ..parts.Select(p => Group(p.Name, PropertyValues(p))),
                 Group("Carpenteria equivalente di calcolo", PropertyValues(BridgeSection.CombineProperties("Equivalente", BridgeSection.SteelPartProperties(g, true))))]);
             propertyNotice.Text = BridgeSection.IsNonlinear(Data) ? "Proprietà geometriche con φ/n memorizzati. Nel non lineare istantaneo il calcolo usa φ=0; i valori adottati sono in Fasi e proprietà." : "Proprietà geometriche, indipendenti dai carichi. Le riduzioni efficaci dipendono dalle sollecitazioni e sono nella scheda Fasi e tensioni.";

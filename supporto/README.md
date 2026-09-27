@@ -2,6 +2,11 @@
 
 Questa cartella raccoglie test, documentazione, esempi, immagini di verifica e strumenti di sviluppo.
 
+Le guide complete sono [Guida pratica di ANTHEA](docs/guida-pratica-anthea.md) e
+[Guida teorica dei calcoli](docs/guida-teorica-anthea.md), con edizioni Word in `documentazione/Guide_ANTHEA`.
+Per il nuovo predimensionamento dei ponti vedere [Bridge Design](docs/bridge-design.md) e la suite
+`test/BridgeDesign.Checks`.
+
 | Cartella | Contenuto |
 | --- | --- |
 | `test/X.Verifiche` | Progetto dei controlli numerici e software, incluso nella soluzione ANTHEA |
@@ -19,8 +24,14 @@ Eseguire i comandi seguenti dalla radice del repository:
 ```powershell
 dotnet run --project supporto/test/X.Verifiche -c Release -- --checker
 dotnet run --project supporto/test/X.Verifiche -c Release -- --bridge
+dotnet run --project supporto/test/X.Verifiche -c Release -- --bridge-methods
 dotnet X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll --smoke-display supporto/artefatti/display
 ```
+
+`--bridge` include i controlli precedenti e la suite dei metodi cumulativo, storico lineare,
+storico non lineare e delle curve di risposta. `--bridge-methods` esegue soltanto la nuova
+suite. Casi, riferimenti analitici e limiti sono descritti in
+[Test dei metodi per i ponti](docs/test-metodi-ponti.md).
 
 `Verifica.cmd`, in questa cartella, esegue i confronti completi e salva il rapporto in `artefatti/confronto_numerico.json`.
 

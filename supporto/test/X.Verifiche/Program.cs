@@ -4,7 +4,8 @@ try
 {
     if (args.Length == 2 && args[0] == "--project-calculations") { ProjectCalculationChecks.Run(args[1]); return 0; }
     if (args.Length == 1 && args[0] == "--ca-data") { ConcreteDataChecks.Run(); return 0; }
-    if (args.Length == 1 && args[0] == "--bridge") { try { BridgeSectionChecks.Run(); return 0; } catch (Exception ex) { Console.Error.WriteLine(ex); return 1; } }
+    if (args.Length == 1 && args[0] == "--bridge") { try { BridgeSectionChecks.Run(); BridgeMethodChecks.Run(); return 0; } catch (Exception ex) { Console.Error.WriteLine(ex); return 1; } }
+    if (args.Length == 1 && args[0] == "--bridge-methods") { BridgeMethodChecks.Run(); return 0; }
     if (args.Length is 2 or 3 && args[0] == "--software")
     {
         Action<string> trace = message =>

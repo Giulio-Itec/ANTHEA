@@ -21,7 +21,8 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private readonly ConcreteWorkspace? concrete;
     private readonly HorizontalWorkspace? horizontal;
     internal readonly BridgeWorkspace? bridge;
-    internal JsonObject? Result { get => bridge is not null ? bridge.Result : horizontal is not null ? horizontal.Result : concrete is null ? result : concrete.Result; private set => result = value; }
+    internal readonly BridgeDesignWorkspace? bridgeDesign;
+    internal JsonObject? Result { get => bridgeDesign is not null ? bridgeDesign.Result : bridge is not null ? bridge.Result : horizontal is not null ? horizontal.Result : concrete is null ? result : concrete.Result; private set => result = value; }
     internal bool HasResults => concrete is not null ? concrete.HasResults : Result is not null;
     internal bool Busy { get => bridge?.Busy ?? horizontal?.Busy ?? concrete?.Busy ?? busy; private set => busy = value; }
     internal event Action? Modified;
@@ -62,6 +63,10 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         Module = module; Data = (JsonObject)data.DeepClone(); Background = Ui.Bg;
         calculate = Ui.Button("Calcola", async () => await CalculateAsync(), true, inspection: true); calculate.Width = 120; calculate.Visibility = Geo ? Visibility.Collapsed : Visibility.Visible;
         RevisionInspection.Allow(tableSelect); RevisionInspection.Allow(capacityView); RevisionInspection.Allow(curveChoices);
+        if (module == BridgeConcept.Module)
+        {
+            bridgeDesign = new BridgeDesignWorkspace(Data); bridgeDesign.Modified += () => Modified?.Invoke(); Content = bridgeDesign; building = false; return;
+        }
         if (module == BridgeSection.Module)
         {
             bridge = new BridgeWorkspace(Data); bridge.Modified += () => Modified?.Invoke(); Content = bridge; building = false; return;
@@ -181,6 +186,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private void QueueCalculation() { if (!Geo || building || disposed) return; timer.Stop(); timer.Start(); status.Text = "Aggiornamento automatico in attesa…"; }
     internal async Task CalculateAsync(bool commitEdits = true)
     {
+        if (bridgeDesign is not null) { bridgeDesign.Recalculate(); return; }
         if (bridge is not null) { await bridge.CalculateAsync(commitEdits); return; }
         if (materials is not null || rebarMaterial is not null) { Commit(); return; }
         if (horizontal is not null) { await horizontal.CalculateAsync(); return; }
@@ -249,6 +255,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     {
         if (!HasResults || Busy) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
         var exported = Result!;
+        if (bridgeDesign is not null) exported["dati"] = Data.DeepClone();
         if (concrete is not null) exported["dati"] = Data.DeepClone();
         Archivio.ScriviAtomico(filename, Encoding.UTF8.GetBytes(exported.ToJsonString(J.Options)));
     }
@@ -288,6 +295,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     }
     internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false)
     {
+        if (bridgeDesign is not null) return bridgeDesign.BuildReport(title);
         if (bridge is not null) return bridge.BuildReport(title, options, projectReport);
         if (concrete is not null) return concrete.BuildReport(title, options, projectReport);
         if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");

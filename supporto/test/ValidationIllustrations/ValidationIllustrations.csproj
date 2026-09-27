@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework><UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><AssemblyName>ANTHEA</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../X.Calculations/X.Calculations.csproj" />
+    <ProjectReference Include="../../../X.Core/X.Core.csproj" />
+    <ProjectReference Include="../../../X.Materiali/X.Materiali.csproj" />
+    <Reference Include="../../../lib/Checker/*.dll" />
+    <Compile Include="../../../X.Desktop/**/*.cs" Exclude="../../../X.Desktop/obj/**/*.cs;../../../X.Desktop/bin/**/*.cs;../../../X.Desktop/Wpf/App.cs" />
+    <Compile Include="../Desktop/*.cs" />
+    <ApplicationDefinition Include="../../../X.Desktop/App.xaml" Link="App.xaml" />
+    <Page Include="../../../X.Desktop/Wpf/*.xaml" Link="Wpf/%(Filename)%(Extension)" />
+    <Resource Include="../../../X.Desktop/Assets/*" Link="Assets/%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

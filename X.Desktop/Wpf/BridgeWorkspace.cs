@@ -106,12 +106,30 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         var slab = Form(Data, [new("b_cls", "Larghezza collaborante", "mm", Symbol: "b_eff"), new("h_cls", "Spessore soletta", "mm")]);
         var steel = Form(Data, [new("h_web", "Altezza libera anima", "mm"), new("t_web", "Spessore anima", "mm"),
             new("b_top", "Larghezza superiore", "mm"), new("t_top", "Spessore superiore", "mm"), new("b_bottom", "Larghezza inferiore 1", "mm"), new("t_bottom", "Spessore inferiore 1", "mm")]);
-        InputForm? plate = null;
+        InputForm? plate = null, sectionType = null;
+        TextBlock? plateNote = null;
+        // the type of section: the offset of the webs for the inclined web and the box, the spacing of the webs and no second plate for the box
+        void ShowSectionFields()
+        {
+            string kind = Data.S("sezione", BridgeSection.SectionTypes[0]);
+            bool h = kind == BridgeSection.SectionTypes[0];
+            sectionType?.ShowField("offset_anima", !h);
+            sectionType?.ShowField("interasse_anime", kind == BridgeSection.SectionTypes[2]);
+            if (plate is not null) plate.Visibility = h ? Visibility.Visible : Visibility.Collapsed;
+            if (plateNote is not null) plateNote.Visibility = h ? Visibility.Visible : Visibility.Collapsed;
+        }
+        sectionType = Form(Data, [new("sezione", "Tipo di sezione", Choices: BridgeSection.SectionTypes), new("offset_anima", "Scostamento anima al piede", "mm"),
+            new("interasse_anime", "Interasse anime in sommità", "mm")], _ => ShowSectionFields());
         plate = Form(Data, [new("plate2", "Seconda piattabanda inferiore", Bool: true), new("b_bottom2", "Larghezza inferiore 2", "mm"), new("t_bottom2", "Spessore inferiore 2", "mm")],
             _ => { plate?.ShowField("b_bottom2", Data.B("plate2")); plate?.ShowField("t_bottom2", Data.B("plate2")); });
         plate.ShowField("b_bottom2", Data.B("plate2")); plate.ShowField("t_bottom2", Data.B("plate2"));
-        var geometry = Ui.Stack(Block("Soletta", slab, "b_eff già comprensiva della larghezza collaborante adottata."), Block("Carpenteria saldata", steel), plate,
-            Ui.Text("Piastra 2 centrata sotto la piastra 1. Nel calcolo: t_eq = t₁ + t₂; b_eq = (b₁t₁ + b₂t₂) / t_eq. La vista mantiene i due rettangoli reali.", 11, color: Ui.Muted));
+        plateNote = Ui.Text("Piastra 2 centrata sotto la piastra 1. Nel calcolo: t_eq = t₁ + t₂; b_eq = (b₁t₁ + b₂t₂) / t_eq. La vista mantiene i due rettangoli reali.", 11, color: Ui.Muted);
+        ShowSectionFields();
+        var geometry = Ui.Stack(Block("Soletta", slab, "b_eff già comprensiva della larghezza collaborante adottata."), Block("Tipo di sezione", sectionType,
+            "Anima inclinata: scostamento orizzontale del piede dell'anima rispetto alla sommità (positivo verso destra). Cassoncino: due anime simmetriche, larghezza superiore di " +
+            "ciascuna piattabanda, larghezza inferiore dell'intero fondo; lo scostamento è il rientro di ciascuna anima al piede (interasse al piede = interasse − 2 × scostamento). " +
+            "Spessore anima normale alla lamiera, altezza libera verticale. Flessione retta: N–Mx con anima verticale equivalente tw/cos α, verifiche locali sulle lamiere reali."),
+            Block("Carpenteria saldata", steel), plate, plateNote);
         var reinforcement = new StackPanel();
         foreach (string side in new[] { "top", "bottom" })
         {

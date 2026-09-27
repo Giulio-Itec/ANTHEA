@@ -176,6 +176,51 @@ unico fy assegnato per anima e tutte le piattabande, prima dell'applicazione di 
 Non modifica le armature e non corregge automaticamente fy in funzione dello spessore;
 il tooltip dei campi chiarisce questi aspetti.
 
+### Tipo di sezione: H, H con anima inclinata, cassoncino
+
+Dal 27 settembre 2026 (CompositeBridge 1.3, Model `SectionHInclinedWeb` e `SectionSteelBox`)
+il riquadro **Tipo di sezione** offre tre sezioni in acciaio.
+
+- **H saldato**: la sezione precedente; unica con la seconda piastra inferiore.
+- **H con anima inclinata**: piattabande centrate sulle estremità dell'anima.
+  - *Scostamento anima al piede* è lo spostamento orizzontale del piede rispetto alla
+    sommità (positivo verso destra).
+- **Cassoncino**: due anime simmetriche, una piattabanda superiore su ciascuna e un fondo;
+  la soletta chiude la cella.
+  - *Interasse anime in sommità*: distanza tra gli assi delle anime sotto le piattabande
+    superiori.
+  - *Scostamento*: rientro di ciascuna anima al piede (interasse al piede = interasse − 2 ×
+    scostamento).
+  - *Larghezza superiore* è quella di ciascuna piattabanda; *larghezza inferiore* è
+    l'intero fondo.
+
+In tutti i casi lo spessore d'anima è normale alla lamiera e l'altezza libera è verticale.
+
+Il calcolo è in **flessione retta** attorno all'asse orizzontale, con la sezione vincolata
+lateralmente da soletta e controventi.
+
+- **Analisi N–Mx**:
+  - le anime sono verticali equivalenti di spessore complessivo n·tw/cos α, e le piattabande
+    superiori hanno la larghezza complessiva;
+  - area, baricentro e inerzia rispetto all'asse orizzontale sono quelli esatti della
+    sezione reale, verificati in Model;
+  - per l'anima inclinata il prodotto d'inerzia della sola carpenteria non è considerato. Il
+    pannello delle proprietà mostra comunque Iy, Ixy e gli assi principali della sezione
+    reale.
+- **Verifiche sulle lamiere reali**:
+  - instabilità locale dell'anima, lunga hw/cos α, con le tensioni delle estremità;
+  - taglio: V/(n cos α) nel piano di ciascuna anima, con resistenza e instabilità a taglio
+    sulla lamiera;
+  - irrigidimenti e saldature, con la lunghezza della lamiera;
+  - pioli e superfici della soletta per ciascuna piattabanda superiore.
+- **Fondo del cassoncino**: lamiera interna tra le anime (kσ = 4 in compressione uniforme)
+  più gli sbalzi esterni.
+- **Esclusi, e dichiarati negli avvisi**:
+  - torsione e distorsione della cella chiusa;
+  - diaframmi;
+  - irrigidimenti longitudinali del fondo;
+  - fondo compresso come piastra irrigidita.
+
 Le due file di armature sono indipendentemente disattivabili; non sono inserite barre
 fittizie quando una fila è assente. La quota richiesta è **faccia → asse barra**.
 Model determina il numero di barre dal passo, centrandole sulla larghezza della soletta.

@@ -54,6 +54,7 @@ public sealed partial class MainWindow : Window
         }
         Add("Nuovo palo", () => NewCalculation("geo_palo_verticale"), Key.N); Add("Nuovo micropalo", () => NewCalculation("geo_micropalo_verticale")); Add("Nuova sezione in c.a.", () => NewCalculation("str_palo")); Add("Nuovo archivio progetti", NewProjects);
         Add("Nuova sezione composta da ponte", () => NewCalculation(BridgeSection.Module));
+        Add("Nuovo Bridge Design", () => NewCalculation(BridgeConcept.Module));
         Add("Nuovo palo orizzontale", () => NewCalculation(PaloOrizzontale.Module));
         Add("Nuovo micropalo orizzontale", () => NewCalculation(MicropaloOrizzontale.Module));
         file.Items.Add(new Separator()); Add("Apri…", Open, Key.O); Add("Salva", () => Save(false), Key.S); Add("Salva con nome…", () => Save(true), Key.S, ModifierKeys.Control | ModifierKeys.Shift);
@@ -181,7 +182,7 @@ public sealed partial class MainWindow : Window
         editor = new SheetEditor(module, sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(module)); editor.Modified += MarkDirty; editor.Modified += RefreshSharedStatus;
         if (projectReadOnly) editor.InspectRevision();
         sharedBaseline = (JsonObject)sheet.DeepClone(); sharedBaseline["dati"] = editor.Data.DeepClone();
-        sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or "mat_calcestruzzo" or RebarMaterial.Module or BridgeSection.Module
+        sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or "mat_calcestruzzo" or RebarMaterial.Module or BridgeSection.Module or BridgeConcept.Module
             ? editor : DisplayAdaptation.Viewport(editor, 1120, 600);
         heading.Text = SheetHeading(sheet); UpdateBackButton();
     }
@@ -353,11 +354,11 @@ public sealed partial class MainWindow : Window
             return;
         }
         Commit(); if (editor?.HasResults != true || editor.Busy) { MessageBox.Show(this, editor?.Module == "str_palo" ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi." : "Completare il calcolo prima di esportare il report."); return; }
-        if (editor.Module is PaloOrizzontale.Module or MicropaloOrizzontale.Module)
+        if (editor.Module is PaloOrizzontale.Module or MicropaloOrizzontale.Module or BridgeConcept.Module)
         {
             var save = new SaveFileDialog {
                 Filter = "Documento Word|*.docx",
-                FileName = editor.Module == MicropaloOrizzontale.Module
+                FileName = editor.Module == BridgeConcept.Module ? "BridgeDesign.docx" : editor.Module == MicropaloOrizzontale.Module
                     ? "Relazione_micropalo_orizzontale.docx" : "Relazione_palo_orizzontale.docx"
             };
             if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []);

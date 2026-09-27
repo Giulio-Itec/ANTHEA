@@ -92,6 +92,27 @@ internal static class BridgeSectionChecks
         var archive = Archivio.Documento(BridgeSection.Module); archive["dati"] = two.DeepClone(); Archivio.Valida(archive);
         Assert(JsonNode.DeepEquals(two, JsonNode.Parse(archive.ToJsonString())!["dati"]), "roundtrip archivio");
         Assert(result.Json()["Stages"]!.AsArray().Count == 3, "export JSON completo");
+        // Types of section from the archive: the old archives without the keys are H; inclined web and box are the equivalent H for N–Mx
+        var old = (JsonObject)d.DeepClone(); old.Remove("sezione"); old.Remove("offset_anima"); old.Remove("interasse_anime");
+        foreach (var (a, b) in result.Stages[^1].Points.Zip(BridgeSection.Calculate(old).Stages[^1].Points)) Near(a.Stress, b.Stress, 0, "archivio senza tipo di sezione = H");
+        var inclined = (JsonObject)d.DeepClone(); inclined["sezione"] = BridgeSection.SectionTypes[1]; inclined["offset_anima"] = 300; inclined["classe4"] = false;
+        var ig = BridgeSection.Geometry(inclined);
+        Assert(ig.SectionType == BridgeSteelSectionType.InclinedWebH, "anima inclinata dall'archivio");
+        Near(ig.PlateLength, Math.Sqrt(1800 * 1800 + 300 * 300), 1e-12, "lunghezza anima inclinata");
+        var vertical = (JsonObject)inclined.DeepClone(); vertical["sezione"] = BridgeSection.SectionTypes[0]; vertical["t_web"] = ig.WebThickness;
+        foreach (var (a, b) in BridgeSection.Calculate(inclined).Stages[^1].Points.Zip(BridgeSection.Calculate(vertical).Stages[^1].Points))
+            Near(a.Stress, b.Stress, 1e-9, "anima inclinata = anima verticale tw/cos α");
+        Assert(BridgeSection.Calculate(inclined).Stages[^1].Warnings.Any(w => w.StartsWith("Anima inclinata")), "ipotesi anima inclinata dichiarate");
+        var box = (JsonObject)d.DeepClone(); box["sezione"] = BridgeSection.SectionTypes[2]; box["interasse_anime"] = 1800; box["offset_anima"] = 250;
+        box["b_top"] = 450; box["b_bottom"] = 1400; box["t_bottom"] = 25; box["plate2"] = true;
+        var boxResult = BridgeSection.Calculate(box); var bg = boxResult.Geometry;
+        Assert(bg.WebCount == 2 && bg.TopFlangeCount == 2 && bg.Bottom2Thickness == 0, "cassoncino: due anime, due piattabande, seconda piastra ignorata");
+        Near(bg.TopWidth, 900, 0, "piattabande superiori complessive");
+        Assert(boxResult.Stages.All(s => s.Residual < 1e-7) && boxResult.Stages[^1].Warnings.Any(w => w.StartsWith("Cassoncino")), "cassoncino convergente con ipotesi dichiarate");
+        Assert(boxResult.Stages[^1].Effective.BottomWidth <= bg.Bottom1Width * (1 + 1e-12), "fondo efficace non maggiore del lordo");
+        Assert(ReportBridge.RealPlates(bg).Count() == 7 && ReportBridge.SectionTypeParagraph(bg).Contains("Cassoncino"), "relazione: lamiere reali del cassoncino");
+        var badBox = (JsonObject)box.DeepClone(); badBox["interasse_anime"] = 300; Reject(badBox, "piattabande sovrapposte accettate");
+        var unknown = (JsonObject)d.DeepClone(); unknown["sezione"] = "Tubo"; Reject(unknown, "tipo di sezione sconosciuto accettato");
         var invalid = (JsonObject)d.DeepClone(); invalid["t_web"] = "abc"; Reject(invalid, "spessore invalido accettato");
         invalid = (JsonObject)d.DeepClone(); invalid["plate2"] = true; invalid["b_bottom2"] = 900; Reject(invalid, "piastra sporgente accettata");
         invalid = (JsonObject)d.DeepClone(); invalid.Array("fasi")[1]!["modo"] = "Da n"; invalid.Array("fasi")[1]!["n"] = 1; Reject(invalid, "n inferiore a n0 accettato");

@@ -18,6 +18,7 @@ public static class CalculationService
             "geo_micropalo_verticale" => Calcolo.Calcola(snapshot, true),
             PaloOrizzontale.Module or MicropaloOrizzontale.Module => PaloOrizzontale.Calculate(snapshot),
             BridgeSection.Module => BridgeSection.Calculate(snapshot, cancellation).Json(),
+            BridgeConcept.Module => BridgeConcept.Calculate(snapshot).Json(),
             "str_palo" => ConcreteAnalysis.Calculate(snapshot, cancellation),
             RebarMaterial.Module => J.Obj(("errore", ""), ("materiale", RebarMaterial.Evaluate(snapshot["input"]!.AsObject())),
                 ("diagramma", RebarMaterial.Curve(snapshot["input"]!.AsObject()))),

@@ -80,6 +80,14 @@ ospitati né dipendenze da `System.Drawing`.
 
 ## Moduli e compatibilità
 
+In **Strutture → Bridge Design** è disponibile il [predimensionamento dei ponti](supporto/docs/bridge-design.md):
+otto famiglie, viste di prospetto e sezione, pile e fondazioni, quantità, prezzi e coefficienti modificabili,
+stime di costo/CO₂/durata e confronto A/B. Il motore è separato dalla vista WPF e non costituisce verifica normativa.
+
+Le guide complete della versione del 26 settembre 2026 sono la [guida pratica](supporto/docs/guida-pratica-anthea.md)
+e la [guida teorica dei calcoli](supporto/docs/guida-teorica-anthea.md). Le edizioni Word sono in
+`supporto/documentazione/Guide_ANTHEA`.
+
 In **Strutture → Sezione composta** è disponibile il [modulo da ponte N–Mx di classe 4](supporto/docs/sezione-mista-ponte.md):
 soletta su H saldato, due piattabande inferiori (piastre reali nel calcolo), due file di
 armature opzionali, fasi di carico e omogeneizzazione da φ oppure n. Model fornisce
@@ -87,7 +95,8 @@ geometria/materiali/proprietà e Checker le tensioni composte; ANTHEA itera le l
 efficaci. La viewport mostra geometria, tensioni e parti inefficaci, con tabelle complete,
 archivi e export JSON/CSV. Per i limiti di applicabilità e le verifiche riproducibili vedere la guida.
 
-Sono disponibili palo verticale, palo orizzontale, micropalo verticale, sezione in c.a. e sezione composta da ponte. Gli altri
+Sono disponibili palo verticale, palo orizzontale, micropalo verticale e orizzontale, sezione in c.a., sezione composta da ponte,
+Bridge Design e le schede dei materiali calcestruzzo/durabilità e acciaio per armature. Gli altri
 moduli del catalogo restano predisposizioni. La migrazione WPF mantiene la
 disposizione dei pannelli geotecnici, i comandi File, il ricalcolo automatico del
 palo e del micropalo e il ricalcolo automatico delle verifiche in c.a.; il palo

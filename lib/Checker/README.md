@@ -1,6 +1,27 @@
 # DLL Checker
 
-**Snapshot corrente (26 settembre 2026).** Tutte le DLL provengono dai `bin/Release`
+**Snapshot corrente (27 settembre 2026).**
+
+Versioni: Utilities 2.0.0.7, Geometry 2.1.0.2, DelaunayMesh 2.0.0.7, Model 1.4.0.0, ModelData 0.0.1.15, Checker.Concrete 0.0.12.7,
+CompositeBridge 1.3.0.0.
+
+- **Model 1.4**:
+  - nuove sezioni `SectionHInclinedWeb` (H con anima inclinata) e `SectionSteelBox` (cassoncino);
+  - `Rck` con il segno di fck;
+  - dilatazione termica del calcestruzzo 10·10⁻⁶.
+- **Geometry 2.1.0.2**: corretto `Circle2d.ConvertToPolygon`.
+- **Checker.Concrete 0.0.12.7**:
+  - ricerca del punto del dominio con ripiego sulla strategia a intersezione (stress block);
+  - nessun punto con N diverso da quello richiesto nelle analisi a N costante;
+  - `FcdAccidental` corretto.
+- **CompositeBridge 1.3**:
+  - tipi di sezione H / H con anima inclinata / cassoncino (flessione retta, lamiere reali per le verifiche locali);
+  - metodo Viviani (storico e confronto);
+  - storico: tensioni ai lembi delle piastre estrapolate fino alle facce (prima quelle della fibra più esterna).
+
+Per la sezione ad H i risultati del metodo cumulativo sono identici alla versione 1.2.
+
+**Snapshot del 26 settembre 2026.** Tutte le DLL provengono dai `bin/Release`
 della stessa build della catena Utilities → Geometry → Model → Checker:
 Utilities 2.0.0.7, Geometry 2.1.0.1, DelaunayMesh 2.0.0.7, Model 1.3.0.0,
 ModelData 0.0.1.13, Checker.Concrete 0.0.12.6 e CompositeBridge 1.2.0.0, compilata

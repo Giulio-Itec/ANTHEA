@@ -16,6 +16,8 @@ public static partial class BridgeSection
     public static readonly string[] ConcreteNames = ConcreteMaterialCatalog.NativeConcrete().Select(m => m.Name).ToArray();
     public static readonly string[] SteelNames = ["S235", "S275", "S355", "S420"];
     public static readonly string[] RebarNames = ["B450A", "B450C", "B500A", "B500B", "B500C"];
+    /// <summary>The steel sections, in the order of <see cref="BridgeSteelSectionType"/></summary>
+    public static readonly string[] SectionTypes = ["H saldato", "H con anima inclinata", "Cassoncino"];
     public const string ShrinkageKind = "Ritiro";
     public static readonly string[] PhaseKinds = ["Solo acciaio", "Composta", "Soletta esclusa", ShrinkageKind];
     public static bool HasConcrete(string kind) => kind is "Composta" or ShrinkageKind;
@@ -26,7 +28,8 @@ public static partial class BridgeSection
     public static JsonObject Defaults() => J.Obj(("versione_mista", 1), ("nome", "Sezione composta da ponte"),
         ("normativa", Standards[0]), ("gamma_m0", "1.05"), ("gamma_c", "1.5"), ("alpha_cc", "0.85"), ("gamma_s", "1.15"),
         ("stato", "SLU"), ("classe4", true), ("classe_cls", "C35/45"), ("acciaio", "S355"), ("armatura", "B450C"),
-        ("fy_override", false), ("fy", "355"), ("b_cls", "3000"), ("h_cls", "250"), ("h_web", "1800"), ("t_web", "14"),
+        ("fy_override", false), ("fy", "355"), ("sezione", SectionTypes[0]), ("offset_anima", "0"), ("interasse_anime", "1800"),
+        ("b_cls", "3000"), ("h_cls", "250"), ("h_web", "1800"), ("t_web", "14"),
         ("b_top", "500"), ("t_top", "25"), ("b_bottom", "700"), ("t_bottom", "30"), ("plate2", false), ("b_bottom2", "500"), ("t_bottom2", "20"),
         ("rebars_top", true), ("d_top", "16"), ("pitch_top", "150"), ("cover_top", "45"),
         ("rebars_bottom", true), ("d_bottom", "16"), ("pitch_bottom", "150"), ("cover_bottom", "45"), ("y_ref", "0"),
@@ -59,6 +62,17 @@ public static partial class BridgeSection
         return (concrete, a, rebar);
     }
     public static BridgeGeometry Geometry(JsonObject d) => HBridgeSection.Geometry(GeometryInput(d));
+    /// <summary>The real steel section of Model for the inclined web and the box (null for the H): its plane properties (Iy, Ixy, principal axes)</summary>
+    /// <param name="g">The geometry</param>
+    /// <returns>The section, or null</returns>
+    public static GPC.Model.Sections.Section? RealSteelSection(BridgeGeometry g) => g.SectionType switch
+    {
+        BridgeSteelSectionType.InclinedWebH => new GPC.Model.Sections.SectionHInclinedWeb(g.Height, g.PlateThickness, g.TopFlangeWidth, g.TopThickness, g.Bottom1Width,
+            g.Bottom1Thickness, Math.Tan(g.WebAngle) * g.WebHeight),
+        BridgeSteelSectionType.Box => new GPC.Model.Sections.SectionSteelBox(g.Height, g.PlateThickness, g.TopFlangeWidth, g.TopThickness, g.Bottom1Width,
+            g.Bottom1Thickness, g.WebSpacingTop, g.WebSpacingBottom),
+        _ => null
+    };
     public static ReinforcedConcreteSection NativeSection(JsonObject d) => HBridgeSection.NativeSection(GeometryInput(d));
     public static (double N0, double N, double PhiEffective, double Phi) Homogenization(JsonObject data, JsonObject phase) => HBridgeSection.Homogenization(GeometryInput(data), ToCheckerPhase(phase));
 }

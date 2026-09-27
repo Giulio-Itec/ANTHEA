@@ -2,7 +2,8 @@ using System.Text.Json.Nodes;
 namespace Anthea.Calculations;
 public static partial class BridgeSection
 {
-    public static JsonObject AccessoryDefaults() => J.Obj(("gamma_m1", 1.1), ("eta_taglio", 1.2),
+    // the archives before the section types are H sections
+    public static JsonObject AccessoryDefaults() => J.Obj(("sezione", SectionTypes[0]), ("offset_anima", 0), ("interasse_anime", 1800), ("gamma_m1", 1.1), ("eta_taglio", 1.2),
         ("irrigidimenti", false), ("a_irr", 3000), ("b_irr", 150), ("t_irr", 15), ("N_irr", 0),
         ("pioli", false), ("n_pioli", 2), ("d_pioli", 22), ("h_pioli", 150), ("passo_pioli", 200),
         ("passo_trasv_pioli", 150), ("fu_pioli", 450), ("gamma_v", 1.25), ("d_testa_pioli", 35), ("t_testa_pioli", 12),

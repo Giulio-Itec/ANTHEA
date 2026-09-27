@@ -1,6 +1,6 @@
 {
-  "snapshotDate": "2026-09-26",
-  "source": "bin/Release dei singoli progetti Utilities, Geometry, Model e Checker (stessa build del 26 settembre 2026)",
+  "snapshotDate": "2026-09-27",
+  "source": "bin/Release dei singoli progetti Utilities, Geometry, Model e Checker (stessa build del 27 settembre 2026)",
   "targetFramework": "netstandard2.0",
   "nuget": [
     {
@@ -12,26 +12,26 @@
     {
       "file": "GPCModelData.dll",
       "source": "Model/ModelData/bin/Release/netstandard2.0",
-      "assemblyVersion": "0.0.1.13",
-      "sha256": "61E1EF9B16EDF744EC7AFFFB808E5171D7DDD5E34024C29ADEC0997ECF3D26C4"
+      "assemblyVersion": "0.0.1.15",
+      "sha256": "593D10BBF329F4E04BF774F95D3AA02126F8A209E829218BC9D06804E04B1BE5"
     },
     {
       "file": "GPCChecker.Concrete.dll",
       "source": "Checker/GPCChecker.Concrete/bin/Release/netstandard2.0",
-      "assemblyVersion": "0.0.12.6",
-      "sha256": "F0FE4A4B0920B9B2D3504A21BEFDB43E2393C28E21C7A76DE355F56B24637337"
+      "assemblyVersion": "0.0.12.7",
+      "sha256": "7BA3358E18F0E0BE70A15A5133FE127D700985125EF3467815CC94E72332E6DF"
     },
     {
       "file": "GPCGeometry.dll",
       "source": "Geometry/GPCGeometry/bin/Release/netstandard2.0",
-      "assemblyVersion": "2.1.0.1",
-      "sha256": "FC445DF94E4B5834E714FA5CAF045D9AC88E663B5EC5FFFC123614301989B894"
+      "assemblyVersion": "2.1.0.2",
+      "sha256": "F3CE38293F09A627C04C7B4AC5ACE8EDD26151AEAFC598ACB81418A7D2BD2373"
     },
     {
       "file": "GPCModel.dll",
       "source": "Model/Model/bin/Release/netstandard2.0",
-      "assemblyVersion": "1.3.0.0",
-      "sha256": "D2FE73986DEA38198A53B2900621F693A1DDBE3B734587D01BD5ECF0E34E8D9A"
+      "assemblyVersion": "1.4.0.0",
+      "sha256": "9606C25107098D53F42FE6C5B180AD5DCD33989459D41EED7C73D6DF81136414"
     },
     {
       "file": "GPCUtilities.dll",
@@ -43,14 +43,14 @@
       "file": "DelaunayMesh.dll",
       "source": "Geometry/DelaunayMesh/bin/Release/netstandard2.0",
       "assemblyVersion": "2.0.0.7",
-      "sha256": "E5176BF4006F13DADF028CDFE88B8A332F8AB2EBA9944AF572D606504DDDDC06"
+      "sha256": "D3577829F918FFCF45B40629C7167C75B46BCCB2CFB78845EA55AB6960EA8EED"
     },
     {
       "file": "GPCChecker.CompositeBridge.dll",
       "source": "Checker/GPCChecker.CompositeBridge/bin/Release/netstandard2.0",
-      "assemblyVersion": "1.2.0.0",
-      "sha256": "A2E257D3ED8EEA2E709C1CAF2D7346661AB37FA62C8C8893445F89B16BCE47C7"
+      "assemblyVersion": "1.3.0.0",
+      "sha256": "6CF84EFD39763546BD0DDB19522C041CB07E8B441F009A96A102E0B8F4CEDFD0"
     }
   ],
-  "updatedAt": "2026-09-26T11:57:52.6132588+02:00"
+  "updatedAt": "2026-09-27T02:05:19.0893963+02:00"
 }

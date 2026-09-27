@@ -24,7 +24,11 @@ public static partial class BridgeSection
                 BottomThickness = J.Number(d["t_bottom"]) ?? double.NaN,
                 SecondBottomWidth = J.Number(d["b_bottom2"]) ?? double.NaN,
                 SecondBottomThickness = J.Number(d["t_bottom2"]) ?? double.NaN,
-                SecondBottomEnabled = d.B("plate2"),
+                // the second bottom plate is only for the H (its fields are hidden for the other sections)
+                SecondBottomEnabled = d.B("plate2") && d.S("sezione", SectionTypes[0]) == SectionTypes[0],
+                SectionType = (BridgeSteelSectionType)Array.IndexOf(SectionTypes, d.S("sezione", SectionTypes[0])),
+                WebOffset = J.Number(d["offset_anima"]) ?? double.NaN,
+                WebSpacing = J.Number(d["interasse_anime"]) ?? double.NaN,
             },
             TopRebars = new BridgeRebarRow
             {
