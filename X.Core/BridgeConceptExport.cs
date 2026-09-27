@@ -21,6 +21,25 @@ public static class BridgeConceptExport
         rows.Add(["Ambito", BridgeConcept.Scope, "", "", "", "", ""]);
         return string.Join("\r\n", rows.Select(row => string.Join(";", row.Select(Cell)))) + "\r\n";
     }
+    public static string TechnicalCsv(JsonObject data, BridgeConcept.Result r)
+    {
+        static string Cell(string s) => "\"" + s.Replace("\"", "\"\"") + "\"";
+        var rows = new List<string[]> { new[] { "Componente", "Simbolo / grandezza", "Valore", "Unità", "Origine", "Significato" } };
+        rows.AddRange(BridgeConcept.TechnicalSchedule(data, r).Select(t => new[] { t.Component, t.Symbol, F(t.Value, "G17"), t.Unit, t.Origin, t.Note }));
+        foreach (var s in BridgeConcept.SpanSchedule(r))
+            foreach (var (label, value) in new[] { ("x iniziale", s.Start), ("x finale", s.End), ("Luce", s.Length), ("Sviluppo n × Li", s.DevelopedLength) })
+                rows.Add([$"Campata {s.Number}", label, F(value, "G17"), "m", "Derivato", $"{s.Elements} elementi longitudinali"]);
+        foreach (var s in BridgeConcept.SupportSchedule(data, r))
+        {
+            foreach (var (label, value) in new[] { ("x", s.X), ("H fusto", s.Height), ("Diametro / spessore fusto", s.Size), ("Larghezza setto", s.WallWidth),
+                ("Pulvino W", s.CapLength), ("Pulvino B", s.CapWidth), ("Pulvino t", s.CapThickness), ("Fondazione B", s.FootingLength),
+                ("Fondazione W", s.FootingWidth), ("Fondazione t", s.FootingThickness), ("Diametro palo", s.PileDiameter), ("Lunghezza palo", s.PileLength) })
+                rows.Add([$"Appoggio {s.Number} · {s.Type}", label, F(value, "G17"), "m", "Adottato", s.Type == "Spalla" ? "Spalla equivalente; il diametro / spessore fusto non descrive la spalla" : "Geometria del modello di predimensionamento"]);
+            rows.Add([$"Appoggio {s.Number}", "Pali", s.Piles.ToString(), "n.", "Adottato", "Numero per questo appoggio"]);
+            rows.Add([$"Appoggio {s.Number}", "Colonne", s.Columns.ToString(), "n.", "Adottato", "0 per spalla equivalente"]);
+        }
+        return string.Join("\r\n", rows.Select(row => string.Join(";", row.Select(Cell)))) + "\r\n";
+    }
     public static byte[] Report(string title, JsonObject data, BridgeConcept.Result result, byte[]? elevation = null, byte[]? section = null)
     {
         XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main", rel = "http://schemas.openxmlformats.org/package/2006/relationships",
@@ -68,6 +87,19 @@ public static class BridgeConceptExport
             ["CO₂ materiali + cantiere", F(result.Carbon, "N0") + " tCO₂e"], ["Durata indicativa ±25%", F(result.Duration, "0") + " mesi"]
         ]);
         Picture(elevation, "Prospetto schematico"); Picture(section, "Sezione schematica");
+        P("Sezioni e dimensioni adottate", "Heading1");
+        P("Le quote seguenti sono quelle effettivamente usate dal motore. Automatico identifica la regola di predimensionamento, impostato un dato esplicito, derivato una conseguenza geometrica. Spessori in mm, lunghezze in m. Non è una distinta esecutiva.");
+        Table(["Componente / simbolo", "Valore", "Origine", "Significato"], BridgeConcept.TechnicalSchedule(data, result).Select(t =>
+            new[] { t.Component + " · " + t.Symbol, F(t.Value) + " " + t.Unit, t.Origin, t.Note }), [2400, 1300, 1200, 4460]);
+        P("Campate e sviluppo longitudinale", "Heading2");
+        Table(["Campata", "x iniziale [m]", "x finale [m]", "Luce [m]", "Elementi", "Sviluppo [m]"], BridgeConcept.SpanSchedule(result).Select(s =>
+            new[] { s.Number.ToString(), F(s.Start), F(s.End), F(s.Length), s.Elements.ToString(), F(s.DevelopedLength) }));
+        P("Dimensioni delle sottostrutture e fondazioni", "Heading2");
+        P("B longitudinale, W trasversale, t spessore. Le spalle sono equivalenti volumetrici; non è definita una carpenteria esecutiva.");
+        Table(["Appoggio / fusto", "H [m]", "Pulvino W×B×t [m]", "Fondazione B×W×t [m]", "Pali n×Ø×L [m]"], BridgeConcept.SupportSchedule(data, result).Select(s => new[] {
+            s.Number + " · " + s.Type + (s.Type == "Spalla" ? " equivalente" : s.WallWidth > 0 ? " · " + F(s.Size) + "×" + F(s.WallWidth) + " m" : " · " + s.Columns + "×Ø" + F(s.Size) + " m"), F(s.Height),
+            s.CapLength == 0 ? "—" : F(s.CapLength) + "×" + F(s.CapWidth) + "×" + F(s.CapThickness), F(s.FootingLength) + "×" + F(s.FootingWidth) + "×" + F(s.FootingThickness),
+            s.Piles == 0 ? "Diretta" : s.Piles + "×Ø" + F(s.PileDiameter) + "×" + F(s.PileLength) }), [2500, 800, 1900, 2160, 2000]);
         P("Quantità e prezzi", "Heading1");
         foreach (var group in result.Quantities.GroupBy(q => q.Group))
         {

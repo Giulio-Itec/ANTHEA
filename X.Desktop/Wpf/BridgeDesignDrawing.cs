@@ -140,7 +140,8 @@ internal sealed class BridgeDesignDrawing : FrameworkElement
                 Box(dc, x - bw / 2, top + d - ft, bw, ft, Steel);
                 dc.DrawLine(new Pen(Steel, tw), new Point(x - bw / 2 - run, top + slab), new Point(x - bw / 2, top + d - ft));
                 dc.DrawLine(new Pen(Steel, tw), new Point(x + bw / 2 + run, top + slab), new Point(x + bw / 2, top + d - ft));
-                Box(dc, x - bw / 2 - run - 12, top + slab, 24, ft, Steel); Box(dc, x + bw / 2 + run - 12, top + slab, 24, ft, Steel);
+                double flangeWidth = i.D("flange_width") * scale;
+                Box(dc, x - bw / 2 - run - flangeWidth / 2, top + slab, flangeWidth, ft, Steel); Box(dc, x + bw / 2 + run - flangeWidth / 2, top + slab, flangeWidth, ft, Steel);
             }
         }
         else if (family != "slab")
@@ -167,7 +168,14 @@ internal sealed class BridgeDesignDrawing : FrameworkElement
         foreach (double x in i.D("median") > 0 ? new[] { x0, 500, x0 + width - 10 } : new[] { x0, x0 + width - 10 })
             Poly(dc, [new(x, top - 4), new(x + 3, top - 26), new(x + 8, top - 26), new(x + 11, top - 4)], Concrete, new Pen(Line, 1));
         Text(dc, "d = " + F(r.Depth, "0.00") + " m", 890, top + d / 2, 12, Accent, true);
-        Text(dc, "Soletta " + F(r.Slab, "0.00") + " m", 120, 337, 12, Line);
+        string dimensions = family switch {
+            "steel_i" or "steel_box" => $"Soletta {F(r.Slab * 1000, "0")} mm · bf {F(i.D("flange_width") * 1000, "0")} mm · tf {F(i.D("flange_mm"), "0.#")} mm · tw {F(i.D("web_mm"), "0.#")} mm",
+            "psc_box" or "fcm" => $"Soletta {F(r.Slab * 1000, "0")} mm · anime {F(r.Web * 1000, "0")} mm · fondo {F(r.Bottom * 1000, "0")} mm · b inf {F(r.Width * i.D("bottom_ratio"), "0.00")} m · {i.D("cells"):0} celle",
+            "psc_u" => $"Soletta {F(r.Slab * 1000, "0")} mm · anime {F(r.Web * 1000, "0")} mm · fondo {F(r.Bottom * 1000, "0")} mm · U {F(i.D("u_top"), "0.00")} / {F(i.D("u_bottom"), "0.00")} m",
+            "tee" => $"Soletta {F(r.Slab * 1000, "0")} mm · anima {F(r.Web * 1000, "0")} mm · s rif {F(r.Spacing, "0.00")} m",
+            "psc_i" => $"Soletta {F(r.Slab * 1000, "0")} mm · rialzo {F(i.D("haunch") * 1000, "0")} mm · s rif {F(r.Spacing, "0.00")} m · profilo rettangolare equivalente",
+            _ => $"Soletta piena · spessore {F(r.Slab * 1000, "0")} mm" };
+        Text(dc, dimensions, 120, 337, 12, Line);
         Text(dc, r.Family.Name, 120, 367, 17, Ink, true);
         Text(dc, $"{r.Girders} elementi longitudinali · {i.D("lanes"):0} corsie · quote geometriche indicative", 120, 393, 12, Line);
     }

@@ -119,6 +119,9 @@ public static partial class BridgeConcept
             double capVolume = width * (i.S("pier") == "Testa a martello" ? 2 * 1.8 : 1.5 * 1.4);
             double sv = pier ? columnArea * ph + capVolume : width * (ph * Math.Max(.6, ph / 7) + 3);
             double reaction = service.Reactions[k], axial = reaction + 25 * sv;
+            if (reaction < -1e-8) warnings.Add($"Appoggio {k + 1}: reazione verso l'alto; vincoli e dispositivi antisollevamento non sono dimensionati dal modello.");
+            if (axial <= 0)
+                throw new ArgumentException($"Appoggio {k + 1}: carico assiale di fondazione nullo o di sollevamento. Il modello dimensiona solo fondazioni compresse; rivedere campate e vincoli.");
             if (pier) maxPierStressRatio = Math.Max(maxPierStressRatio, axial / columnArea / 1000 / i.D("fc_sub"));
             int pileCount = pileDiameter == 0 ? 0 : (int)Auto(i, "pile_count", Math.Max(4, 2 * Math.Ceiling(axial / pileResistance / 2)));
             double baseSize = pileDiameter == 0 ? Math.Sqrt(axial / (.85 * pressure)) : (Math.Ceiling(Math.Sqrt(pileCount)) - 1) * 3 * pileDiameter + 2 * pileDiameter;

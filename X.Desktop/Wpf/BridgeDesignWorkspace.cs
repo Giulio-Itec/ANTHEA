@@ -12,13 +12,14 @@ using X.Core;
 
 namespace X.Desktop;
 
-internal sealed class BridgeDesignWorkspace : UserControl
+internal sealed partial class BridgeDesignWorkspace : UserControl
 {
     internal JsonObject Data { get; }
     internal BridgeConcept.Result? Calculation { get; private set; }
     internal JsonObject? Result => Calculation?.Json();
     internal event Action? Modified;
-    internal readonly TabControl Inputs = new(), Outputs = new();
+    internal readonly TabControl Inputs = new(), Outputs = new(), WorkspaceTabs = new();
+    internal ScrollViewer DesignScroll { get; private set; } = new();
     internal readonly Dictionary<string, TextBox> Editors = new();
     internal readonly BridgeDesignDrawing Drawing = new() { Height = 400, MinWidth = 300 };
     private readonly Grid upper = new();
@@ -49,8 +50,9 @@ internal sealed class BridgeDesignWorkspace : UserControl
             Ui.Button("Sezione", () => { Drawing.Section = true; Drawing.InvalidateVisual(); }, inspection: true),
             Ui.Button("Nuovo paesaggio", () => Mutate(() => Data["scene"] = Data.D("scene") + 1)),
             Ui.Button("Ponte casuale", Randomize),
+            Ui.Button("Ottimizza", () => WorkspaceTabs.SelectedIndex = 1, inspection: true),
             Ui.Button("Fissa A", Pin), Ui.Button("Annulla", Undo),
-            Ui.Button("Dettagli", () => { Outputs.SelectedIndex = 1; Outputs.BringIntoView(); }, inspection: true));
+            Ui.Button("Sezioni e quote", () => { Outputs.SelectedIndex = 5; Outputs.BringIntoView(); }, inspection: true));
         var exports = Ui.Bar(Ui.Button("Esporta quantità CSV", ExportCsv, inspection: true), Ui.Button("Immagine PNG", ExportPng, inspection: true),
             Ui.Button("Stampa scheda", Print, inspection: true));
         drawingCard = Ui.Paper(Ui.Stack(controls, Drawing, configuration, exports), 12);
@@ -70,11 +72,15 @@ internal sealed class BridgeDesignWorkspace : UserControl
         Ui.Tab(Outputs, "Confronto A / B", comparison);
         Ui.Tab(Outputs, "Prezzi unitari", Scroll(ParameterPanel("rates", BridgeConcept.Rates), 365));
         Ui.Tab(Outputs, "Ipotesi e coefficienti", Scroll(ParameterPanel("assumptions", BridgeConcept.Assumptions), 365));
+        Ui.Tab(Outputs, "Sezioni e quote", technical);
         Outputs.MinHeight = 330;
         var bottom = Ui.Stack(Ui.Paper(Outputs, 12), advice);
         status.Margin = new Thickness(4, 10, 4, 6);
         var stack = Ui.Stack(title, scope, upper, metrics, bottom, status); stack.Margin = new Thickness(20, 16, 20, 12);
-        Content = new ScrollViewer { Content = stack, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
+        DesignScroll = new ScrollViewer { Content = stack, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
+        Ui.Tab(WorkspaceTabs, "Progetto", DesignScroll);
+        Ui.Tab(WorkspaceTabs, "Ottimizzazione", BuildOptimizationPanel());
+        Content = WorkspaceTabs;
         SizeChanged += (_, _) =>
         {
             bool compact = ActualWidth < 1100;
@@ -217,14 +223,14 @@ internal sealed class BridgeDesignWorkspace : UserControl
             values[2].Text = F(r.Depth, "0.00") + " m"; captions[2].Text = $"L/d ≈ {F(r.Spans.Max() / r.Depth, "0")} · {r.Spans.Length} campate";
             values[3].Text = F(r.Duration, "0") + " mesi"; captions[3].Text = $"±25% · {r.Supports.Count(s => s.Type != "Spalla")} pile · {r.Supports.Count(s => s.Type == "Spalla")} spalle";
             configuration.Text = $"L {F(r.Length)} m · W {F(r.Width)} m · {r.Family.Name} · {r.Girders} elementi · {r.Foundation}" + (r.PileLength > 0 ? $" × {F(r.PileLength, "0")} m" : "");
-            ShowQuantities(r); ShowDetails(r); ShowComparison(); ShowAdvice(r);
+            ShowQuantities(r); ShowDetails(r); ShowComparison(); ShowAdvice(r); ShowTechnical(r); InvalidateOptimization();
             status.Text = BridgeConcept.Scope; status.Foreground = Ui.Muted;
         }
         catch (ArgumentException ex)
         {
             Calculation = null; Drawing.Result = null; Drawing.InvalidateVisual();
             foreach (var v in values) v.Text = "—"; foreach (var c in captions) c.Text = "Dati da completare";
-            quantities.Content = detail.Content = comparison.Content = advice.Content = null; configuration.Text = "";
+            quantities.Content = detail.Content = comparison.Content = advice.Content = technical.Content = null; configuration.Text = ""; InvalidateOptimization();
             status.Text = ex.Message; status.Foreground = Brushes.Firebrick;
         }
     }

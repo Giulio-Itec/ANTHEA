@@ -81,6 +81,10 @@ try
         Assert(text.Contains("Confronto con alternativa A")&&text.Contains("333")&&text.Contains("Predimensionamento"),"Report incompleto");
     }
     log.Add("PASS: modifica listino, CO₂, invalidazione, archivi, confronto A, CSV e struttura DOCX.");
+    int optimizationChecks = OptimizationChecks.Run(output); checks += optimizationChecks;
+    log.Add($"PASS: {optimizationChecks} controlli nuovi su ottimizzazione, vincoli e dimensioni tecniche.");
+    int explorationChecks = ExplorationChecks.Run(output); checks += explorationChecks;
+    log.Add($"PASS: {explorationChecks} controlli su esplorazione, intervalli, progress e frontiera Pareto.");
     log.Add($"TOTALE: {checks} controlli superati.");
     File.WriteAllLines(Path.Combine(output,"checks.txt"),log); Console.WriteLine(string.Join(Environment.NewLine,log));
 }

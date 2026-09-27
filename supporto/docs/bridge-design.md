@@ -12,13 +12,18 @@ La versione ANTHEA riproduce il flusso con grafica nativa WPF e viste vettoriali
 
 - `X.Calculations/BridgeConcept.cs`: schema, famiglie, valori iniziali, validazione, contratti dei risultati.
 - `X.Calculations/BridgeConcept.Calculation.cs`: dimensioni, quantità, trave continua, fondazioni, costi, CO₂ e avvisi. Nessuna dipendenza da WPF e nessuna modifica dell'input.
+- `X.Calculations/BridgeConcept.Technical.cs`: prospetti delle dimensioni adottate, campate e fondazioni.
+- `X.Calculations/BridgeConcept.Optimization.cs`: ricerca discreta vincolata per costo, CO₂ o compromesso, indipendente dalla UI.
 - `X.Desktop/Wpf/BridgeDesignWorkspace.cs`: editor, ricalcolo, confronto A/B, cronologia, suggerimenti ed esportazioni.
+- `X.Desktop/Wpf/BridgeDesignTechnical.cs` e `BridgeDesignOptimization.cs`: quote tecniche, scelta dei vincoli, graduatoria e applicazione delle alternative.
 - `X.Desktop/Wpf/BridgeDesignDrawing.cs`: prospetto e sezione schematica, diagramma del momento, immagini delle famiglie.
 - `X.Core/BridgeConceptExport.cs`: CSV e report Word, riusati dal report di progetto.
 
 I valori automatici sono richiesti con zero nei campi che lo dichiarano e restano zero nell'archivio. I risultati contengono i valori effettivamente adottati. Il confronto A conserva una copia dei dati, del listino e delle ipotesi; non contiene riferimenti mutabili allo stato B.
 
 ## Modello
+
+La [guida a sezioni tecniche e ottimizzazione](bridge-design-ottimizzazione.md) descrive la scheda principale **Ottimizzazione**, i parametri bloccabili, gli intervalli percentuali, la traccia dei tentativi, la nuvola costo–CO₂ con frontiera Pareto e la graduatoria delle prime N soluzioni. La preview segue il migliore provvisorio e consente poi di confrontare le alternative senza modificare il progetto. I report e il CSV tecnico usano gli stessi prospetti dimensionali della finestra.
 
 Le formule, i coefficienti e gli esempi sono descritti nel capitolo Bridge Design della [guida teorica](guida-teorica-anthea.md). Il capitolo corrispondente della [guida pratica](guida-pratica-anthea.md) descrive tutti i comandi.
 
@@ -32,6 +37,8 @@ dotnet build X.Desktop/X.Desktop.csproj -c Release --no-restore
 dotnet X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll --smoke-bridge-design supporto/artefatti/bridge_design/interfaccia
 ```
 
-La suite numerica controlla formule chiuse di travi appoggiate e continue, equilibrio di 200 travi diseguali, 128 combinazioni di famiglie/terreni/pile, proprietà di indipendenza del listino e del paesaggio, quantità, input invalidi, file, baseline e struttura degli export. La suite desktop esercita i quattro tab di input, le otto famiglie, cinque tab dei risultati, undo/listino, invalidazione, A/B, auto, random, PNG, archivio, Word singolo e di progetto e layout a 1600/1366/960/780 pixel.
+La suite numerica controlla formule chiuse di travi appoggiate e continue, equilibrio di 200 travi diseguali, 128 combinazioni di famiglie/terreni/pile, proprietà di indipendenza del listino e del paesaggio, quantità, input invalidi, file, baseline e struttura degli export. Sono inclusi determinismo della ricerca, rispetto dei vincoli, costo e CO₂, cancellazione, assenza di candidati, variazioni dei prezzi e ricostruzione delle quantità dalle quote tecniche. La suite desktop esercita quattro tab di input, otto famiglie, sei tab dei risultati e la scheda principale Ottimizzazione, undo/listino, invalidazione, A/B, auto, random, PNG, archivio, Word singolo e di progetto, ricerca/applicazione/annullamento e layout a 1600/1366/960/780 pixel.
+
+La campagna live di confronto con il sito è separata dai test interni: sorgenti in `supporto/test/BridgeDesign.SiteComparison`, dati e report in `supporto/artefatti/bridge_design_site_1000`. Un test interno superato non dimostra equivalenza con il sito.
 
 Gli output sono sotto `supporto/artefatti/bridge_design`. Per le guide i sorgenti mantenibili sono i due Markdown in `supporto/docs`, il builder è `supporto/scripts/Build-AntheaGuides.py` e i Word finali sono sotto `supporto/documentazione/Guide_ANTHEA`. Il file di esempio `supporto/esempi/bridge-design.anthea` contiene anche un confronto A e un prezzo modificato.
