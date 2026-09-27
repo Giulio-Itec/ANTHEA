@@ -2,6 +2,8 @@ using System.Text.Json.Nodes;
 using X.Core;
 try
 {
+    if (args.Length == 1 && args[0] == "--project-audit") { ProjectAuditChecks.Run(); return 0; }
+    if (args.Length == 2 && args[0] == "--audit-benchmark") { ProjectAuditBenchmark.Run(args[1]); return 0; }
     if (args.Length == 2 && args[0] == "--project-calculations") { ProjectCalculationChecks.Run(args[1]); return 0; }
     if (args.Length == 1 && args[0] == "--ca-data") { ConcreteDataChecks.Run(); return 0; }
     if (args.Length == 1 && args[0] == "--bridge") { try { BridgeSectionChecks.Run(); BridgeMethodChecks.Run(); BridgeInclinedGuideChecks.Run(); return 0; } catch (Exception ex) { Console.Error.WriteLine(ex); return 1; } }

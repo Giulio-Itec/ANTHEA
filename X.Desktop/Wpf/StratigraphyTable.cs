@@ -70,6 +70,8 @@ internal static class StratigraphyTable
             control.SetValue(FrameworkElement.VerticalAlignmentProperty, VerticalAlignment.Center);
             control.SetValue(FrameworkElement.MarginProperty, new Thickness(3)); control.SetValue(FrameworkElement.HeightProperty, 26.0);
             control.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, field.Label);
+            if (Anthea.Calculations.CalculationHelp.Field(field.Key) is string explanation)
+                control.SetValue(FrameworkElement.ToolTipProperty, explanation);
             if (field.Key == "__tau") control.SetValue(FrameworkElement.ToolTipProperty, "Aderenza dell’abaco (s), applicata al solo tratto aderente nel calcolo ΔRs = π ds Δl τ. Zero se la laterale è esclusa; — se i dati sono incompleti o fuori abaco.");
             string label = field.Key switch
             {

@@ -158,14 +158,17 @@ public static class HorizontalChecks
             Assert(PaloOrizzontale.Calculate(efficient).S("errore") != "", "η invalida accettata");
         }
         var section = Data(false, false, 10, 1000); section["generali"]!["origine_momento"] = "Sezione c.a.";
-        var sec = PaloOrizzontale.Section(section); Near(sec.D("residuo_n_kn"), 0, "Equilibrio assiale sezione", 1e-6);
-        Assert(sec.D("scarto_mesh") < .02, "Sezione non converge");
+        var sec = PaloOrizzontale.Section(section);
+        Assert(Math.Abs(sec.D("residuo_n_kn")) <= sec.D("tolleranza_n_kn") && sec.D("tolleranza_n_kn") == 1, "Equilibrio assiale entro la tolleranza esplicita del motore Checker");
+        Assert(sec.S("motore") == "GPCChecker.Concrete" && !sec.ContainsKey("scarto_mesh"), "Il palo non usa il motore comune del cemento armato");
         Near(sec.D("area_acciaio_mm2"), 16 * Math.PI * 24 * 24 / 4, "Area barre e unità mm");
         // Independent circular strip integration reference for the same constitutive model.
         Near(sec.D("momento_knm"), StripMoment(section), "Momento riferimento strisce", .004);
         var sr = Calc(section); Near(sr.D("momento_resistente_knm"), sec.D("momento_knm"), "Collegamento My-Broms");
         section["generali"]!["azione_assiale"] = 2500;
         Near(PaloOrizzontale.Section(section).D("momento_knm"), StripMoment(section), "Sezione con N positivo", .004);
+        section["sezione"]!["circular_sides"] = 128;
+        Near(PaloOrizzontale.Section(section).D("momento_knm"), StripMoment(section, true), "Convergenza del contorno al cerchio analitico", .004);
         section["generali"]!["azione_assiale"] = 1e8;
         Assert(PaloOrizzontale.Calculate(section).S("errore") != "", "N fuori campo accettato");
         section["generali"]!["azione_assiale"] = 0;
@@ -188,16 +191,33 @@ public static class HorizontalChecks
     }
 
     // Simpson integration by horizontal strips, independent of SezioneCA's polar mesh.
-    private static double StripMoment(JsonObject data)
+    private static double StripMoment(JsonObject data, bool exactCircle = false)
     {
         var p = data["sezione"]!; double r = data["generali"].D("diametro") * 500, rb = r - p.D("cover_mm") - p.D("transverse_bar_diameter_mm") - p.D("longitudinal_bar_diameter_mm") / 2;
         double fcd = p.D("alpha_cc") * p.D("fck_mpa") / p.D("gamma_c"), fyd = p.D("fyk_mpa") / p.D("gamma_s"), es = p.D("steel_modulus_mpa");
         double area = Math.PI * Math.Pow(p.D("longitudinal_bar_diameter_mm"), 2) / 4; int bars = (int)p.D("longitudinal_bar_count");
+        const int divisions = 16000; double dy = 2 * r / divisions;
+        int sides = (int)p.D("circular_sides", 32);
+        var polygon = Enumerable.Range(0,sides).Select(i => (X:r*Math.Cos(2*Math.PI*i/sides), Y:r*Math.Sin(2*Math.PI*i/sides))).ToArray();
+        // Independent horizontal strip integration on the actual inscribed polygon used by Checker.
+        var widths = Enumerable.Range(0,divisions+1).Select(i =>
+        {
+            double y = -r+i*dy;
+            if (exactCircle) return 2*Math.Sqrt(Math.Max(0,r*r-y*y));
+            var crossings = new List<double>();
+            for(int j=0;j<sides;j++)
+            {
+                var a=polygon[j]; var b=polygon[(j+1)%sides];
+                if(Math.Abs(b.Y-a.Y)>1e-10 && y>=Math.Min(a.Y,b.Y) && y<=Math.Max(a.Y,b.Y))
+                    crossings.Add(a.X+(b.X-a.X)*(y-a.Y)/(b.Y-a.Y));
+            }
+            return crossings.Count<2?0:crossings.Max()-crossings.Min();
+        }).ToArray();
         (double N, double M) Integrate(double x)
         {
             double C(double y) { double strain = .0035 * (y - r + x) / x; return strain <= 0 ? 0 : strain >= .002 ? fcd : fcd * (1 - Math.Pow(1 - strain / .002, 2)); }
-            double n = 0, m = 0; const int divisions = 16000; double dy = 2 * r / divisions;
-            for (int i = 0; i <= divisions; i++) { double y = -r + i * dy, force = 2 * Math.Sqrt(Math.Max(0, r * r - y * y)) * C(y) * dy / 3 * (i == 0 || i == divisions ? 1 : i % 2 == 0 ? 2 : 4); n += force; m += force * y; }
+            double n = 0, m = 0;
+            for (int i = 0; i <= divisions; i++) { double y = -r + i * dy, force = widths[i] * C(y) * dy / 3 * (i == 0 || i == divisions ? 1 : i % 2 == 0 ? 2 : 4); n += force; m += force * y; }
             for (int i = 0; i < bars; i++) { double y = rb * Math.Sin(2 * Math.PI * i / bars), force = (Math.Clamp(es * .0035 * (y - r + x) / x, -fyd, fyd) - C(y)) * area; n += force; m += force * y; }
             return (n / 1000, m / 1e6);
         }

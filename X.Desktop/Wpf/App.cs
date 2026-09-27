@@ -52,6 +52,8 @@ public partial class App : Application
                     else if (e.Args[0] == "--smoke-display") await window.SmokeDisplay(e.Args[1]);
                     else if (e.Args[0] == "--smoke-horizontal") await window.SmokeHorizontal(e.Args[1]);
                     else { await window.Smoke(e.Args[1], JsonNode.Parse(File.ReadAllText(e.Args[2]))!.AsArray()); await window.SmokeHorizontal(e.Args[1]); }
+                    Directory.CreateDirectory(e.Args[1]);
+                    File.WriteAllText(Path.Combine(e.Args[1], "esito-smoke-completo.txt"), "Completato: " + e.Args[0]);
                 }
                 catch (Exception ex)
                 {

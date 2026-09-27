@@ -162,7 +162,7 @@ internal sealed class InputForm : ChainedScrollViewer
         {
             var f = symbolColumns ? WithSymbol(original) : original;
             int row = table.RowDefinitions.Count; table.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            var label = Ui.Text(f.Label, compact ? 12 : 13); label.Margin = new Thickness(2, 3, 6, 3); label.ToolTip = f.Label;
+            var label = Ui.Text(f.Label, compact ? 12 : 13); label.Margin = new Thickness(2, 3, 6, 3); label.ToolTip = CalculationHelp.Field(f.Key) ?? f.Label;
             FrameworkElement editor;
             if (f.Bool)
             {
@@ -201,7 +201,8 @@ internal sealed class InputForm : ChainedScrollViewer
                 t.LostKeyboardFocus += (_, _) => Present(false);
                 editor = t;
             }
-            editor.Margin = new Thickness(2, 3, 2, 3); editor.MinHeight = compact ? 22 : 27; editor.ToolTip = f.Label + (f.Unit != "" ? " [" + f.Unit + "]" : "");
+            editor.Margin = new Thickness(2, 3, 2, 3); editor.MinHeight = compact ? 22 : 27; editor.ToolTip = CalculationHelp.Field(f.Key) ?? f.Label + (f.Unit != "" ? " [" + f.Unit + "]" : "");
+            ToolTipService.SetShowDuration(editor, 20000); ToolTipService.SetShowDuration(label, 20000);
             editor.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, f.Label);
             var unit = Ui.Text(f.Unit, 11, color: Ui.Muted); unit.Margin = new Thickness(4, 0, 0, 0);
             Grid.SetRow(label, row); Grid.SetRow(editor, row); Grid.SetRow(unit, row); Grid.SetColumn(editor, symbolColumns ? 2 : 1); Grid.SetColumn(unit, symbolColumns ? 3 : 2);

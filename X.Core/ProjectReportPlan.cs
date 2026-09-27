@@ -17,14 +17,14 @@ public sealed class ProjectReportPlan
     public ProjectReportPlan(JsonObject section)
     {
         Root = section; Sheets = ProjectSharedData.SubtreeSheets(section).ToArray();
-        var context = ProjectSharedData.ContextSheets(section).ToArray();
-        Fields = context.ToDictionary(s => s, s => ProjectSharedData.Fields(s).Where(p => Relevant(s, p.Value)).ToDictionary());
+        var comparison = new ProjectComparison(section);
+        var context = comparison.Fields.Keys.ToArray();
+        Fields = context.ToDictionary(s => s, s => comparison.Fields[s].Where(p => Relevant(s, p.Value)).ToDictionary());
         foreach (var sheet in Sheets) SharedKeys[sheet] = [];
-        Conflicts = ProjectSharedData.Differences(section);
+        Conflicts = comparison.Differences;
         var blocked = Conflicts.SelectMany(d => new[] { (d.First, d.Key), (d.Second, d.Key) }).ToHashSet();
         var edges = new Dictionary<(JsonObject, string), HashSet<JsonObject>>();
-        foreach (var (a, b) in ProjectSharedData.ComparisonPairs(section))
-            foreach (var (left, right) in ProjectSharedData.ComparableFields(a, b))
+        foreach (var (a, b, left, right) in comparison.Matches)
             {
                 if (!Fields[a].ContainsKey(left.Key) || !Fields[b].ContainsKey(left.Key) || blocked.Contains((a, left.Key)) || blocked.Contains((b, left.Key)) ||
                     !ProjectSharedData.Equal(left.Value, right.Value)) continue;

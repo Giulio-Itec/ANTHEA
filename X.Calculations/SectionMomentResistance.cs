@@ -2,17 +2,26 @@ using System.Text.Json.Nodes;
 
 namespace Anthea.Calculations;
 
-public sealed record PrincipalMomentResistance(string Direction, double? Moment, ActionPoint? Resistance, string Status);
+public sealed record PrincipalMomentResistance(string Direction, double? Moment, ActionPoint? Resistance, string Status)
+{
+    public SectionResponse? Section { get; init; }
+}
 
 public static class SectionMomentResistance
 {
+    public static double AxialToleranceKn(double axial) => Math.Max(1, Math.Abs(axial) * 1e-6);
     public static PrincipalMomentResistance[] Calculate(JsonObject input, JsonObject workspace, double axial, bool elastic, CancellationToken token = default)
     {
         if (!double.IsFinite(axial)) throw new ArgumentException("N deve essere finito.");
         var options = J.Obj(("criterio", "N costante"), ("assi", "Locali"), ("strategia", "Iterativo"), ("modello", "Non lineare"));
         var engine = new CheckerSection(input, workspace, options, elastic ? "SLV" : "SLU");
+        return Calculate(engine, axial, [("Mx+", 1d, 0d), ("Mx−", -1d, 0d), ("My+", 0d, 1d), ("My−", 0d, -1d)], token);
+    }
+    internal static PrincipalMomentResistance[] Calculate(CheckerSection engine, double axial,
+        (string Label, double Mx, double My)[] directions, CancellationToken token = default)
+    {
         var results = new List<PrincipalMomentResistance>();
-        foreach (var (label, mx, my) in new[] { ("Mx+", 1d, 0d), ("Mx−", -1d, 0d), ("My+", 0d, 1d), ("My−", 0d, -1d) })
+        foreach (var (label, mx, my) in directions)
         {
             token.ThrowIfCancellationRequested();
             try
@@ -22,10 +31,10 @@ public static class SectionMomentResistance
                 if (point is null) throw new ArgumentException("Punto resistente non trovato.");
                 var r = CheckerSection.Point(point);
                 double moment = mx != 0 ? r.Mx : r.My, transverse = mx != 0 ? r.My : r.Mx;
-                if (!double.IsFinite(r.N + r.Mx + r.My) || Math.Abs(r.N - axial) > Math.Max(1, Math.Abs(axial) * 1e-6)
+                if (!double.IsFinite(r.N + r.Mx + r.My) || Math.Abs(r.N - axial) > AxialToleranceKn(axial)
                     || moment * (mx + my) < 0 || Math.Abs(transverse) > Math.Max(1, Math.Abs(moment) * .001))
                     throw new ArgumentException("Soluzione non coerente con N e direzione assegnati.");
-                results.Add(new(label, moment, r, "Resistenza a N costante · assi locali"));
+                results.Add(new(label, moment, r, "Resistenza a N costante · assi locali") { Section = engine.Describe(point) });
             }
             catch (Exception ex) when (ex is not OperationCanceledException) { results.Add(new(label, null, null, ex.Message)); }
         }

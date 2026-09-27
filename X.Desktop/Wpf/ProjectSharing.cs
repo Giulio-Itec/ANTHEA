@@ -55,8 +55,9 @@ public sealed partial class MainWindow
     private void AddCoherenceBadge(Panel header, JsonObject section)
     {
         if (!ProjectSharedData.SubtreeSheets(section).Any()) return;
-        var differences = ProjectSharedData.Differences(section);
-        bool comparable = ProjectSharedData.ComparisonPairs(section).Any(p => ProjectSharedData.ComparableFields(p.First, p.Second).Any());
+        var comparison = new ProjectComparison(section);
+        var differences = comparison.Differences;
+        bool comparable = comparison.Matches.Count > 0;
         var warnings = ProjectValidation.Warnings(section);
         if (!comparable && warnings.Length == 0) return;
         bool hasConflicts = differences.Count > 0 || ProjectSharedData.MissingSoilLayers(section).Count > 0;
@@ -98,6 +99,7 @@ public sealed partial class MainWindow
         panel.Children.Clear();
         panel.Children.Add(Ui.Text("Confronto tra fogli", 23, true));
         panel.Children.Add(Ui.Text("Confronta i valori presenti nei fogli e scegli quale mantenere. Le proprietà compatibili saranno uniformate.", 13));
+        panel.Children.Add(new Expander { Header = "Come funzionano dati comuni e incongruenze", Content = Ui.Text(CalculationHelp.ProjectTheory, 12), Margin = new Thickness(0, 8, 0, 8) });
         var differences = ProjectSharedData.Differences(section);
         if (differences.Count == 0 && ProjectSharedData.MissingSoilLayers(section).Count == 0) panel.Children.Add(Ui.Text("Nessun conflitto tra i dati comuni dei fogli.", 13));
         int conflictNumber = 0;

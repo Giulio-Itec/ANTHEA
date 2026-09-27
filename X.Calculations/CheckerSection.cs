@@ -51,9 +51,10 @@ public sealed partial class CheckerSection
         var steel = ConcreteMaterials.Rebar(input);
         var shape = SectionGeometry.Shape(geometry);
         var section = new ReinforcedConcreteSection(shape, concrete);
+        var boundary = SectionGeometry.Polygon(geometry.Outline); var holes = geometry.Holes.Select(SectionGeometry.Polygon).ToArray();
         for (int i = 0; i < geometry.Bars.Count; i++)
         {
-            var b = geometry.Bars[i]; ValidateRebarPosition(geometry, section, b.X, b.Y, b.Diametro / 2, "B" + (i + 1).ToString("D2"));
+            var b = geometry.Bars[i]; ValidateRebarPosition(boundary, holes, section, b.X, b.Y, b.Diametro / 2, "B" + (i + 1).ToString("D2"));
             section.AddRebars([new ReinforcedConcreteRebar(new RebarSectionCircular(b.Diametro, steel), new Point2d(b.X, b.Y))]);
         }
         foreach (var t in workspace.Array("trefoli"))
@@ -63,7 +64,7 @@ public sealed partial class CheckerSection
             if (fpu < fpy || strain <= fpy / ep || sigma >= fpu) throw new ArgumentException("Trefolo: controllare fpk, fpyk, εpu e σp0.");
             var material = new SteelMaterial(t.S("id"), ep, fpy, fpu, strain, t.S("diagramma", "Incrudente") == "Elastoplastico" ? SteelMaterial.StressStrainCurveType.ElasticPerfectPlastic : SteelMaterial.StressStrainCurveType.ElasticHardening, SteelMaterial.SteelTypes.Tendon);
             double x = SectionWorkspace.Number(t.S("x"), "x trefolo"), y = SectionWorkspace.Number(t.S("y"), "y trefolo"), radius = Math.Sqrt(area / Math.PI);
-            ValidateRebarPosition(geometry, section, x, y, radius, t.S("id"));
+            ValidateRebarPosition(boundary, holes, section, x, y, radius, t.S("id"));
             section.AddRebars([new ReinforcedConcreteRebar(new RebarSectionCircular(2 * radius, material), new Point2d(x, y), sigma)]);
         }
         return new(section, new CoordinateSystem(section.Centroid, new Vector3d(-1, 0, 0), new Vector3d(0, -1, 0)), geometry);
@@ -100,34 +101,15 @@ public sealed partial class CheckerSection
             Checker.SetDomainPointStrategy(options.S("strategia", "Iterativo") == "Intersezione" ? SectionSolver.DomainPointStrategyTypes.Intersection : SectionSolver.DomainPointStrategyTypes.Iterative);
         }
     }
-    private static void ValidateRebarPosition(SezioneCA geometry, ReinforcedConcreteSection section, double x, double y, double radius, string id)
+    private static void ValidateRebarPosition(Polygon2d boundary, Polygon2d[] holes, ReinforcedConcreteSection section, double x, double y, double radius, string id)
     {
-        var polygon = geometry.Outline; bool inside = false; double distance = double.PositiveInfinity;
-        for (int i = 0, j = polygon.Count - 1; i < polygon.Count; j = i++)
-        {
-            var a = polygon[j]; var b = polygon[i];
-            if ((a[1] > y) != (b[1] > y) && x < (b[0] - a[0]) * (y - a[1]) / (b[1] - a[1]) + a[0]) inside = !inside;
-            double dx = b[0] - a[0], dy = b[1] - a[1], length = dx * dx + dy * dy;
-            double u = length == 0 ? 0 : Math.Clamp(((x - a[0]) * dx + (y - a[1]) * dy) / length, 0, 1);
-            distance = Math.Min(distance, Math.Sqrt(Math.Pow(x - a[0] - u * dx, 2) + Math.Pow(y - a[1] - u * dy, 2)));
-        }
-        if (!inside || distance < radius) throw new ArgumentException($"Armatura {id}: area esterna alla sezione di calcestruzzo.");
-        foreach(var hole in geometry.Holes)
-        {
-            bool inHole=false;double nearest=double.PositiveInfinity;
-            for(int i=0,j=hole.Length-1;i<hole.Length;j=i++)
-            {
-                var a=hole[j];var b=hole[i];
-                if((a[1]>y)!=(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])inHole=!inHole;
-                double dx=b[0]-a[0],dy=b[1]-a[1],u=Math.Clamp(((x-a[0])*dx+(y-a[1])*dy)/(dx*dx+dy*dy),0,1);
-                nearest=Math.Min(nearest,double.Hypot(x-a[0]-u*dx,y-a[1]-u*dy));
-            }
-            if(inHole||nearest<radius)throw new ArgumentException($"Armatura {id}: interseca il foro della sezione.");
-        }
+        var point = new Point2d(x, y);
+        if (SectionGeometry.SignedCover(boundary, holes, point, radius) < -1e-8)
+            throw new ArgumentException($"Armatura {id}: area esterna al contorno o interferente con un foro della sezione.");
         foreach (var bar in section.Rebars)
         {
             // Cross-section radii include ordinary bars and tendons already inserted.
-            if (Math.Sqrt(Math.Pow(x - bar.Position.X, 2) + Math.Pow(y - bar.Position.Y, 2)) < radius + Math.Sqrt(bar.Area / Math.PI) - 1e-8)
+            if (point.DistanceTo(new Point2d(bar.Position.X, bar.Position.Y)) < radius + ReinforcementGeometry.EquivalentDiameter(bar.Area) / 2 - 1e-8)
                 throw new ArgumentException($"Armatura {id}: sovrapposizione con un’altra armatura.");
         }
     }

@@ -9,15 +9,16 @@ public static class SectionGeometry
     public static Shape2d Shape(SezioneCA section) => new(Polygon(section.Outline), section.Holes.Select(Polygon).ToArray());
     public static double Area(IEnumerable<double[]> points) => Math.Abs(Polygon(points).GetSignedArea());
     public static double BarCover(SezioneCA section, Barra bar)
+        => SignedCover(Polygon(section.Outline), section.Holes.Select(Polygon), new Point2d(bar.X, bar.Y), bar.Diametro / 2);
+    public static double SignedCover(Polygon2d outline, IEnumerable<Polygon2d> holes, Point2d point, double radius)
     {
-        var point = new Point2d(bar.X, bar.Y); var outline = Polygon(section.Outline);
         double clearance = outline.DistanceTo(point);
         bool inside = outline.IsPointInside(point, 0);
-        foreach (var hole in section.Holes.Select(Polygon))
+        foreach (var hole in holes)
         {
             clearance = Math.Min(clearance, hole.DistanceTo(point));
             if (hole.IsPointInside(point, 0)) inside = false;
         }
-        return (inside ? clearance : -clearance) - bar.Diametro / 2;
+        return (inside ? clearance : -clearance) - radius;
     }
 }

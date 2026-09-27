@@ -98,7 +98,7 @@ public static class ReportOrizzontale
         {
             P(section.S("modello"));
             if (section.S("tipo") == "CHS") P($"N={section.D("n_kn"):0.0} kN; fyd={section.D("fyd_mpa"):0.0} MPa; My(N)={section.D("momento_knm"):0.0} kNm.");
-            else P($"N={section.D("n_kn"):0.###} kN; x={section.D("asse_neutro_mm"):0.###} mm; fcd={section.D("fcd_mpa"):0.###} MPa; fyd={section.D("fyd_mpa"):0.###} MPa; As={section.D("area_acciaio_mm2"):0.###} mm²; residuo N={section.D("residuo_n_kn"):G4} kN; scarto mesh={section.D("scarto_mesh"):G4}.");
+            else P($"N={section.D("n_kn"):0.###} kN (compressione positiva); fcd={section.D("fcd_mpa"):0.###} MPa; fyd={section.D("fyd_mpa"):0.###} MPa; As={section.D("area_acciaio_mm2"):0.###} mm²; residuo N={section.D("residuo_n_kn"):G4} kN; motore={section.S("motore", "storico")}; contorno={section.D("lati_contorno"):0} lati.");
         }
         P("Verifica normativa: " + result.S("verifica_normativa"));
         if (result["resistenza_progetto_manuale_kn"] is not null)

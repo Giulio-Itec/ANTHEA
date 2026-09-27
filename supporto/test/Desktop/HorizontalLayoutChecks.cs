@@ -98,7 +98,7 @@ internal sealed partial class HorizontalWorkspace
         await WaitForAutomatic();
         if (Result?.D("azione_kn") != 102 || !JsonNode.DeepEquals(Result, PaloOrizzontale.Calculate(Data))) throw new Exception("Risultato automatico non corrisponde agli ultimi dati");
         sectionFields.Set("fck_mpa", "40"); await WaitForAutomatic();
-        if (Result is null || Result.D("momento_resistente_knm") == initialMoment || !momentValue.Text.StartsWith("My =")) throw new Exception("Momento non ricalcolato automaticamente");
+        if (Result is null || Result.D("momento_resistente_knm") == initialMoment || !momentValue.Text.StartsWith("MRd =")) throw new Exception("Momento non ricalcolato automaticamente");
         sectionFields.Set("fck_mpa", concrete);
         general.Set("diametro", ""); await WaitForAutomatic();
         if (Result is not null || details.IsEnabled || csv.IsEnabled || !momentValue.Text.StartsWith("Momento non disponibile")) throw new Exception("Risultati obsoleti con input incompleti");
@@ -106,7 +106,7 @@ internal sealed partial class HorizontalWorkspace
         if (Result is null) throw new Exception("Ricalcolo non riparte dopo correzione");
         string thickness = grids[0].Rows[0].Values.S("spessore"); grids[0].Rows[0]["spessore"] = "0";
         await WaitForAutomatic();
-        if (Result is not null || !momentValue.Text.StartsWith("My =")) throw new Exception("Momento non aggiornato con stratigrafia incompleta");
+        if (Result is not null || !momentValue.Text.StartsWith("MRd =")) throw new Exception("Momento non aggiornato con stratigrafia incompleta");
         grids[0].Rows[0]["spessore"] = thickness; await WaitForAutomatic();
         var independent = new HorizontalWorkspace((JsonObject)Data.DeepClone());
         var pending = independent.CalculateAsync(); independent.Dispose(); await pending;

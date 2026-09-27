@@ -123,13 +123,7 @@ public static partial class ProjectSharedData
             if (fields.TryGetValue(field.Key, out var other) && Compatible(field, source, target)) yield return (field, other);
     }
     public static List<Difference> Differences(JsonObject section)
-    {
-        var result = new List<Difference>();
-        foreach (var (first, second) in ComparisonPairs(section))
-            foreach (var (a, b) in ComparableFields(first, second))
-                if (!Equal(a.Value, b.Value)) result.Add(new(first, second, a.Group, a.Key, Text(a.Value), Text(b.Value)));
-        return result;
-    }
+        => new ProjectComparison(section).Differences;
     public static HashSet<string> ChangedGroups(JsonObject before, JsonObject after)
     {
         var previous = Fields(before); var current = Fields(after);

@@ -69,6 +69,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         }
         Loaded += (_, _) => { if (!HasResults) QueueCalculation(); };
         var footer = new DockPanel { Margin = new Thickness(16, 4, 16, 8) }; footer.Children.Add(status);
+        footer.Children.Add(Ui.Button("Modello e dati comuni…", () => CalculationHelpView.Show(this, false), inspection: true));
         var workspaceBody = Ui.Dock(tabs, bottom: Ui.Stack(progress, footer));
         workspaceScroll.Content = workspaceBody; Content = workspaceScroll;
         void ResizeWorkspace()
@@ -288,9 +289,9 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         try
         {
             engine = new SezioneCA(Input); preview.Message = "";
-            var concrete = ConcreteMaterials.Concrete(Input); var steel = ConcreteMaterials.Rebar(Input); var standard = ConcreteStandards.Effective(Input, settings);
-            double reduction = settings.S("normativa") == "NTC 2018" && Input.S("gettato_sottile") == "Sì" ? .8 : 1;
-            materials.Set("__fcd", EngineeringFormat.Number(Math.Abs(concrete.CalculateFcd(standard)) * reduction), true); materials.Set("__fyd", EngineeringFormat.Number(Math.Abs(steel.CalculateFyd(standard))), true);
+            var concrete = ConcreteMaterials.Concrete(Input); var steel = ConcreteMaterials.Rebar(Input);
+            var strengths = ConcreteMaterials.DesignValues(Input, settings);
+            materials.Set("__fcd", EngineeringFormat.Number(strengths.Fcd), true); materials.Set("__fyd", EngineeringFormat.Number(strengths.Fyd), true);
             materials.Set("__ecm", EngineeringFormat.Number(concrete.E), true); materials.Set("__ec2", EngineeringFormat.Number(Math.Abs(concrete.StrainYCompression) * 1000), true); materials.Set("__ecu", EngineeringFormat.Number(Math.Abs(concrete.StrainUCompression) * 1000), true);
             materials.Set("__nmode", "φ nelle schede SLE", true);
             materials.Set("n", EngineeringFormat.Number(steel.E / concrete.E), true);

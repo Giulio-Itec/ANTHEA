@@ -7,12 +7,15 @@ namespace Anthea.Calculations;
 /// <summary>Confine JSON compatibile con gli archivi X; i numeri mantengono la precisione double.</summary>
 public static class J
 {
-    public static bool Equivalent(JsonNode? a, JsonNode? b) => JsonNode.DeepEquals(Normalize(a), Normalize(b));
-    private static JsonNode? Normalize(JsonNode? value)
+    public static bool Equivalent(JsonNode? a, JsonNode? b)
     {
-        if (value is JsonObject obj) { var result = new JsonObject(); foreach (var (key, item) in obj.OrderBy(p => p.Key)) result[key] = Normalize(item); return result; }
-        if (value is JsonArray array) return new JsonArray(array.Select(Normalize).ToArray());
-        return Number(value) is double number ? JsonValue.Create(number) : value?.DeepClone();
+        if (ReferenceEquals(a, b)) return true;
+        if (a is JsonObject ao && b is JsonObject bo)
+            return ao.Count == bo.Count && ao.All(p => bo.TryGetPropertyValue(p.Key, out var value) && Equivalent(p.Value, value));
+        if (a is JsonArray aa && b is JsonArray ba)
+            return aa.Count == ba.Count && aa.Select((v, i) => Equivalent(v, ba[i])).All(v => v);
+        if (a is JsonObject or JsonArray || b is JsonObject or JsonArray) return false;
+        return Number(a) is double x && Number(b) is double y ? x == y : JsonNode.DeepEquals(a, b);
     }
     public static readonly JsonSerializerOptions Options = new() { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
     public static JsonNode? Node(object? value) => value is JsonNode n ? n.DeepClone() : JsonSerializer.SerializeToNode(value, Options);

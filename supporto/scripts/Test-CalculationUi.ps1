@@ -16,8 +16,10 @@ foreach ($suite in $Suites) {
         if (Test-Path -LiteralPath (Join-Path $folder 'errore.txt')) { Get-Content -LiteralPath (Join-Path $folder 'errore.txt') }
         throw "UI $suite fallita (codice $($process.ExitCode))"
     }
-    $sentinel = switch ($suite) { 'ca-features' {'features.txt'} 'ca-extensions' {'esito.txt'} 'horizontal' {'orizzontale_smoke.txt'} default {'smoke.txt'} }
+    # Written by App only after the entire asynchronous suite returns, including nested tests.
+    # ExitCode 0 alone can also mean that WPF shut down when its last window closed.
+    $sentinel = 'esito-smoke-completo.txt'
     $proof = Join-Path $folder $sentinel
-    if (-not (Test-Path -LiteralPath $proof) -or -not (Select-String -LiteralPath $proof -Pattern 'OK:|superati|completato' -Quiet)) { throw "UI $suite senza attestazione finale: $sentinel" }
+    if (-not (Test-Path -LiteralPath $proof) -or -not (Select-String -LiteralPath $proof -Pattern "^Completato: --smoke-$suite$" -Quiet)) { throw "UI $suite senza attestazione finale: $sentinel" }
     Write-Output "PASS UI $suite ($([Math]::Round($elapsed.Elapsed.TotalSeconds, 1)) s)"
 }

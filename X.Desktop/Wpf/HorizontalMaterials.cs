@@ -4,13 +4,7 @@ namespace X.Desktop;
 
 internal sealed partial class HorizontalWorkspace
 {
-    private static readonly Dictionary<string, double> PileConcreteClasses = new()
-    {
-        ["C12/15"] = 12, ["C16/20"] = 16, ["C20/25"] = 20, ["C25/30"] = 25,
-        ["C28/35"] = 28, ["C30/37"] = 30, ["C32/40"] = 32, ["C35/45"] = 35,
-        ["C40/50"] = 40, ["C45/55"] = 45, ["C50/60"] = 50,
-        ["C55/67"] = 55, ["C60/75"] = 60, ["C70/85"] = 70, ["C80/95"] = 80, ["C90/105"] = 90
-    };
+    private static readonly Dictionary<string, double> PileConcreteClasses = ConcreteMaterialCatalog.MaterialSheetClasses().ToDictionary(m => m.Name, m => m.Fck);
 
     private static string ConcreteClass(double strength) => PileConcreteClasses.FirstOrDefault(p => p.Value == strength).Key ?? "Personalizzato";
 
@@ -27,7 +21,7 @@ internal sealed partial class HorizontalWorkspace
             string name = ConcreteClass(input.D("fck_mpa"));
             input["classe_cls"] = name; sectionFields.Set("classe_cls", name, true);
         }
-        else if (key is "fyk_mpa" or "steel_modulus_mpa")
+        else if (key is "fyk_mpa" or "steel_modulus_mpa" or "steel_fu_mpa" or "steel_eps_u" or "steel_diagramma")
         {
             input["classe_acciaio"] = "Personalizzato";
             input["materiale_acciaio_nome"] = "Acciaio personalizzato";
@@ -37,18 +31,13 @@ internal sealed partial class HorizontalWorkspace
 
     private void UpdateSectionMaterialValues()
     {
-        var input = Data["sezione"]!;
+        var input = Data["sezione"]!.AsObject();
         try
         {
-            double fcd = input.Required("alpha_cc", strict: true) * input.Required("fck_mpa", strict: true) / input.Required("gamma_c", strict: true);
-            sectionFields.Set("__fcd", fcd.ToString("F1"), true);
+            var strengths = ConcreteMaterials.DesignValues(input, J.Obj(("normativa", "NTC 2018")));
+            sectionFields.Set("__fcd", strengths.Fcd.ToString("F1"), true);
+            sectionFields.Set("__fyd", strengths.Fyd.ToString("F1"), true);
         }
-        catch (ArgumentException) { sectionFields.Set("__fcd", "—", true); }
-        try
-        {
-            double fyd = input.Required("fyk_mpa", strict: true) / input.Required("gamma_s", strict: true);
-            sectionFields.Set("__fyd", fyd.ToString("F1"), true);
-        }
-        catch (ArgumentException) { sectionFields.Set("__fyd", "—", true); }
+        catch (ArgumentException) { sectionFields.Set("__fcd", "—", true); sectionFields.Set("__fyd", "—", true); }
     }
 }

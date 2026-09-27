@@ -4,6 +4,13 @@ using GPC.Model.Materials;
 namespace Anthea.Calculations;
 public static class ConcreteMaterials
 {
+    public sealed record DesignStrengths(double Fcd, double Fyd);
+    public static DesignStrengths DesignValues(JsonObject input, JsonObject workspace)
+    {
+        var standard = ConcreteStandards.Effective(input, workspace);
+        double reduction = workspace.S("normativa", "NTC 2018") == "NTC 2018" && input.S("gettato_sottile", "No") == "Sì" ? .8 : 1;
+        return new(Math.Abs(Concrete(input).CalculateFcd(standard)) * reduction, Math.Abs(Rebar(input).CalculateFyd(standard)));
+    }
     public static readonly string[] ConcreteDiagrams = ["Parabola-rettangolo", "Bilineare", "Stress block", "Non lineare"];
     public static ConcreteMaterialEN1992 Concrete(JsonObject input)
     {
@@ -25,8 +32,14 @@ public static class ConcreteMaterials
         double fu = input.ContainsKey("steel_fu_mpa") ? input.Required("steel_fu_mpa", strict: true) : fy;
         double strain = input.ContainsKey("steel_eps_u") ? input.Required("steel_eps_u", strict: true) / 1000 : .1;
         if (fu < fy || strain <= fy / e) throw new ArgumentException("Acciaio: richiedere fu ≥ fyk e εu > fyk / Es.");
+        var curve = input.S("steel_diagramma", "Elastoplastico") switch
+        {
+            "Elastoplastico" => SteelMaterial.StressStrainCurveType.ElasticPerfectPlastic,
+            "Incrudente" => SteelMaterial.StressStrainCurveType.ElasticHardening,
+            _ => throw new ArgumentException("Diagramma acciaio non supportato.")
+        };
         return new SteelMaterial(input.S("materiale_acciaio_nome", "Armatura"), e, fy, fu, strain,
-            input.S("steel_diagramma") == "Incrudente" ? SteelMaterial.StressStrainCurveType.ElasticHardening : SteelMaterial.StressStrainCurveType.ElasticPerfectPlastic,
+            curve,
             SteelMaterial.SteelTypes.Rebar);
     }
 }

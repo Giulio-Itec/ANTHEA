@@ -1,6 +1,6 @@
 # ANTHEA.Calculations — separazione e trasferimento
 
-Aggiornamento: 26 settembre 2026.
+Aggiornamento: 27 settembre 2026. Audit corrente: [calcoli, dati comuni e progetti](audit-calcoli-progetti-2026-09-27.md).
 
 ## Confini
 
@@ -21,7 +21,9 @@ var result = CalculationService.Calculate("str_mista_ponte", data, cancellationT
 ```
 
 - `ModuleCatalog`: ID stabili, un solo nome e descrizione per modulo, factory indipendenti e validazione della struttura.
-- `CalculationService.Calculate`: ingresso non visuale per tutti gli otto moduli. Usa una copia dell’input; non aggiorna documenti e non converte implicitamente unità/segnali. Restano disponibili i servizi tipizzati.
+- `CalculationService.Calculate`: ingresso non visuale per tutti i nove moduli. Usa una copia dell’input; non aggiorna documenti. Restano disponibili i servizi tipizzati; gli adattatori dichiarano le conversioni di unità e segni.
+- `HorizontalConcreteSection`: resistenza c.a. del palo a N costante, tramite lo stesso Checker del modulo strutturale. N geotecnico positivo a compressione viene convertito in N negativo; sono espliciti contorno poligonale e residuo assiale.
+- `ConcreteMaterials.DesignValues`, `ReinforcementGeometry`, `CalculationHelp`: resistenze di progetto, geometria di barre/fasci e significato dei dati comuni per UI e servizi.
 - `ConcreteAnalysisSession`: cache locale alla sessione; invalidazione basata sugli input, nessuna cache globale di risultati fra progetti.
 - `ConcreteShearAnalysis`, `ConcreteDetailingAnalysis`, `ConcreteCurvatureAnalysis`, `ConcreteSectionProperties`, `ConcreteCoverAnalysis`, `ConcreteBond`: servizi richiamabili senza controlli WPF.
 - `CalculationCoefficients`: percorsi autorevoli, etichette, ambito normativo e rilevanza dei coefficienti.

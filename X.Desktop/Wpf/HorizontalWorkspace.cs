@@ -81,6 +81,9 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         var sectionData = data["sezione"]!.AsObject();
         if (MicroHorizontal) sectionFields = CreateChsForm(sectionData);
         else {
+        // Preserve the previous perfect-plastic material unless a shared material already supplies its full law.
+        RebarMaterial.CompleteLegacyInput(sectionData);
+        if (!sectionData.ContainsKey("cls_diagramma")) sectionData["cls_diagramma"] = "Parabola-rettangolo";
         sectionData["shape"] = "Circolare";
         sectionData["diameter_mm"] = g.D("diametro", 1) * 1000;
         sectionData["classe_cls"] = ConcreteClass(sectionData.D("fck_mpa"));
@@ -97,11 +100,16 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             new("transverse_bar_diameter_mm", "Diametro staffa", "mm", Symbol: "φst", Choices: ["6", "8", "10", "12", "14", "16", "18", "20"]),
             new("cover_mm", "Copriferro netto", "mm", Symbol: "c"),
             new("esposizione", "Esposizione", Choices: Ntc2018Checks.Exposures),
-            new("steel_modulus_mpa", "Modulo elastico acciaio", "MPa", Symbol: "Es")], SectionMaterialChanged, compact: true, symbolColumns: true);
+            new("steel_modulus_mpa", "Modulo elastico acciaio", "MPa", Symbol: "Es"),
+            new("cls_diagramma", "Legame calcestruzzo", Choices: ConcreteMaterials.ConcreteDiagrams),
+            new("steel_diagramma", "Legame acciaio", Choices: ["Elastoplastico", "Incrudente"]),
+            new("steel_fu_mpa", "Resistenza ultima", "MPa", Symbol: "fu"),
+            new("steel_eps_u", "Deformazione ultima", "‰", Symbol: "εu"),
+            new("circular_sides", "Lati del contorno", Choices: ["16", "32", "64", "96", "128", "256"])], SectionMaterialChanged, compact: true, symbolColumns: true);
         sectionFields.GroupFields("Calcestruzzo", ["classe_cls", "fck_mpa", "alpha_cc", "gamma_c", "__fcd"], true);
         sectionFields.GroupFields("Acciaio", ["fyk_mpa", "gamma_s", "__fyd"], true);
         sectionFields.GroupFields("Armatura", ["longitudinal_bar_diameter_mm", "longitudinal_bar_count", "transverse_bar_diameter_mm", "cover_mm"], true);
-        sectionFields.GroupFields("Opzioni avanzate", ["steel_modulus_mpa"]);
+        sectionFields.GroupFields("Opzioni avanzate · modello Checker", ["steel_modulus_mpa", "cls_diagramma", "steel_diagramma", "steel_fu_mpa", "steel_eps_u", "circular_sides"]);
         sectionFields.Editors["cover_mm"].ToolTip = "Distanza netta dal bordo del calcestruzzo alla superficie esterna della staffa, in mm.";
         }
         moment.MaxWidth = sectionFields.MaxWidth = 650;
@@ -119,7 +127,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         AddCard(MicroHorizontal ? "Sezione resistente CHS" : "Momento plastico / resistente", sectionPane, true);
         scroll.Content = layout;
         var warningPane = new Expander { Header = "Ipotesi e limiti del calcolo", Content = new ChainedScrollViewer { Content = warnings, MaxHeight = 90, VerticalScrollBarVisibility = ScrollBarVisibility.Auto } };
-        var footer = Ui.Stack(status, warningPane); footer.Margin = new Thickness(16, 3, 16, 8);
+        var footer = Ui.Stack(Ui.Bar(status, Ui.Button("Modello e dati comuni…", () => CalculationHelpView.Show(this, true), inspection: true)), warningPane); footer.Margin = new Thickness(16, 3, 16, 8);
         Content = Ui.Dock(scroll, bottom: footer);
         scroll.SizeChanged += (_, _) => LayoutCards();
         scroll.ScrollChanged += (_, e) => { if (e.Source == scroll && (e.ViewportWidthChange != 0 || e.ViewportHeightChange != 0)) LayoutCards(); };
@@ -212,7 +220,8 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
     private void DisplayMoment(JsonObject result)
     {
         if (MicroHorizontal) { momentValue.Text = $"My(N) = {result.D("momento_knm"):N1} kNm · N = {result.D("n_kn"):N1} kN\nCHS classe {result.D("classe")} · solo acciaio · interazione N–M lineare"; return; }
-        momentValue.Text = $"My = {result.D("momento_knm"):N1} kNm · N = {result.D("n_kn"):N1} kN\nx = {result.D("asse_neutro_mm"):N1} mm · scarto mesh = {100 * result.D("scarto_mesh"):0.0}%";
+        momentValue.Text = $"MRd = {result.D("momento_knm"):N1} kNm · N = {result.D("n_kn"):N1} kN\nChecker · {result.D("lati_contorno"):0} lati · residuo N = {result.D("residuo_n_kn"):G3} kN (tol. {result.D("tolleranza_n_kn"):G3})";
+        momentValue.ToolTip = result.S("modello");
     }
     internal async Task CalculateAsync(bool commitEdits = true)
     {

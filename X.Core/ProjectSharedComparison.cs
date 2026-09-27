@@ -7,8 +7,10 @@ public static partial class ProjectSharedData
     // Reading and comparing inputs is symmetric. Whether one module can accept the other
     // module's value is a separate, directional decision made by Common/Apply.
     public static IEnumerable<(Field Source, Field Target)> ComparableFields(JsonObject first, JsonObject second)
+        => ComparableFields(first, second, Fields(first), Fields(second));
+    internal static IEnumerable<(Field Source, Field Target)> ComparableFields(JsonObject first, JsonObject second,
+        Dictionary<string, Field> a, Dictionary<string, Field> b)
     {
-        var a = Fields(first); var b = Fields(second);
         foreach (var left in a.Values)
             if (b.TryGetValue(left.Key, out var right) && CanCompare(left, first, second, a, b))
                 yield return (left, right);

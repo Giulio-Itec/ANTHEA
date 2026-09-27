@@ -89,6 +89,8 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
             concrete = new ConcreteWorkspace(Data); concrete.Modified += () => Modified?.Invoke(); Content = concrete; building = false; return;
         }
         var footer = Ui.Dock(status, bottom: null); DockPanel.SetDock(calculate, System.Windows.Controls.Dock.Right); footer.Children.Insert(0, calculate); footer.Margin = new Thickness(24, 4, 24, 4);
+        var theory = Ui.Button("Modello e dati comuni…", () => CalculationHelpView.Show(this, true), inspection: true);
+        DockPanel.SetDock(theory, System.Windows.Controls.Dock.Right); footer.Children.Insert(0, theory);
         scroll.Content = canvas; Content = Ui.Dock(scroll, bottom: Ui.Stack(footer, warnings));
         tableSelect.SelectionChanged += (_, _) => ShowTable();
         Ui.Tab(outputs, "Tabelle e dettagli", Ui.Dock(tableHost, tableSelect)); Ui.Tab(outputs, "Risultati JSON", raw);

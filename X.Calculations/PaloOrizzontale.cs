@@ -47,34 +47,7 @@ public static class PaloOrizzontale
     public static JsonObject Section(JsonObject data)
     {
         if (data.S("tipo_sezione") == "CHS") return MicropaloOrizzontale.Section(data);
-        var g = data["generali"]!;
-        double d = g.Required("diametro", strict: true);
-        double axial = Signed(g, "azione_assiale");
-        var input = (JsonObject)data["sezione"]!.DeepClone();
-        input["shape"] = "Circolare"; input["diameter_mm"] = d * 1000;
-        double barCount = input.D("longitudinal_bar_count", 16);
-        if (barCount < 4 || barCount > 512 || barCount % 2 != 0)
-            throw new ArgumentException("Calcolo automatico: da 4 a 512 barre, in numero pari, per una sezione simmetrica nel piano di flessione.");
-        double Solve(int nr, int na, out double depth, out SezioneCA engine)
-        {
-            engine = new SezioneCA(input, nr, na);
-            // Restrict the strain domain to a neutral axis inside the section.
-            // This avoids extending the existing engine into the all-compressed strain domain.
-            double lo = d * .001, hi = d * 1000;
-            if (axial <= engine.Profile(lo, 0).N || axial >= engine.Profile(hi, 0).N)
-                throw new ArgumentException("N fuori dal campo del calcolo automatico (asse neutro interno). Inserire un momento resistente da analisi dedicata.");
-            for (int i = 0; i < 65; i++) { double mid = (lo + hi) / 2; if (engine.Profile(mid, 0).N < axial) lo = mid; else hi = mid; }
-            depth = (lo + hi) / 2;
-            return engine.Profile(depth, 0).M;
-        }
-        double coarse = Solve(28, 96, out _, out _), moment = Solve(56, 192, out double x, out var section);
-        double delta = Math.Abs(moment - coarse) / Math.Max(moment, 1e-9);
-        if (!(moment > 0) || delta > .02) throw new ArgumentException("Momento della sezione non convergente al raffinamento (scarto > 2%). Usare un'analisi dedicata.");
-        return J.Obj(("momento_knm", moment), ("n_kn", axial), ("asse_neutro_mm", x),
-            ("residuo_n_kn", section.Profile(x, 0).N - axial), ("scarto_mesh", delta),
-            ("fcd_mpa", section.Fcd), ("fyd_mpa", section.Fyd), ("area_acciaio_mm2", section.AreaSteel),
-            ("outline", section.Outline), ("bars", section.Bars.Select(b => new[] { b.X, b.Y, b.Area, b.Diametro })),
-            ("modello", "Sezione circolare: deformazioni piane, CLS parabola-rettangolo senza trazione, acciaio elastico-perfettamente plastico; asse neutro interno; N costante. Non verifica la duttilità della cerniera."));
+        return HorizontalConcreteSection.Calculate(data);
     }
 
     private static double Signed(JsonNode n, string key) => J.Number(n[key]) ?? throw new ArgumentException(key + ": numero finito richiesto.");

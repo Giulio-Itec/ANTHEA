@@ -138,8 +138,6 @@ public static partial class ProjectSharedData
                 var steel = new JsonObject();
                 foreach (string key in RebarMaterial.Keys) if (fields.TryGetValue(key, out var field)) steel[key] = field.Value?.DeepClone();
                 if (RebarMaterial.Error(steel) is string error) result.Add(name + ": acciaio — " + error);
-                if (sheet.S("modulo_id") == PaloOrizzontale.Module && steel.S("steel_diagramma") == "Incrudente")
-                    result.Add(name + ": il momento resistente del palo usa il modello elastoplastico; fu ed εu sono conservati, ma l'incrudimento non è utilizzato dal calcolo del palo.");
             }
             if (sheet.S("modulo_id") == "str_palo" && hasPile &&
                 (fields["shape"].Value?.ToString() != "Circolare" || (fields["barre_manuali"].Value as JsonArray)?.Count > 0 ||

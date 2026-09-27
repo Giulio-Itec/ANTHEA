@@ -76,6 +76,21 @@ try
     Near(props.Values.Single(v => v.Name == "Jxx" && v.Group.StartsWith("Solo")).Value, 600d*800*800*800/12/1e4, "Jxx GPC rettangolo [cm⁴]");
     var inverse = ConcreteSectionProperties.Calculate(model, propsInput, propsSettings, J.Obj(("metodo", "Da n"), ("n", props.N)));
     Near(inverse.Phi, 2, "Proprietà GPC aggiornate da n");
+    Near(ReinforcementGeometry.Area(20, 4), 400 * Math.PI, "Area analitica di quattro barre Ø20");
+    Near(ReinforcementGeometry.EquivalentDiameter(100 * Math.PI), 20, "Diametro da area analitica");
+    Reject(() => ReinforcementGeometry.Area(double.NaN), "Diametro non finito accettato");
+    Reject(() => ReinforcementGeometry.Area(20, 0), "Fascio vuoto accettato");
+    Reject(() => ReinforcementGeometry.EquivalentDiameter(-1), "Area negativa accettata");
+    var designInput = SezioneCA.DefaultInput();
+    var design = ConcreteMaterials.DesignValues(designInput, J.Obj(("normativa", "NTC 2018")));
+    Near(design.Fcd, designInput.D("alpha_cc") * designInput.D("fck_mpa") / designInput.D("gamma_c"), "fcd analitico comune");
+    Near(design.Fyd, designInput.D("fyk_mpa") / designInput.D("gamma_s"), "fyd analitico comune");
+    designInput["gettato_sottile"] = "Sì";
+    Near(ConcreteMaterials.DesignValues(designInput, J.Obj(("normativa", "NTC 2018"))).Fcd, .8 * design.Fcd, "Riduzione NTC getto sottile");
+    var pile = PaloOrizzontale.Defaults(); var beforePile = pile.ToJsonString();
+    var sectionPile = HorizontalConcreteSection.Calculate(pile);
+    Check(sectionPile.S("motore") == "GPCChecker.Concrete" && sectionPile.D("momento_knm") > 0, "Sezione del palo non disponibile nella libreria autonoma");
+    Check(beforePile == pile.ToJsonString(), "Calcolo sezione palo modifica gli input");
     Console.WriteLine($"Completato: {count} controlli della libreria autonoma superati.");
     return 0;
 }

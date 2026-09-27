@@ -30,13 +30,14 @@ public static partial class ProjectSharedData
     public static bool ActiveField(JsonObject sheet, string key)
     {
         string module = sheet.S("modulo_id");
+        if (key == "materiale_acciaio_nome") return false; // Description, not an independently adjustable physical property.
         if (sheet["dati"] is JsonObject data && !CalculationCoefficients.Active(module, data, key)) return false;
         if (module == BridgeSection.Module && key.StartsWith(BridgePrefix)) return ActiveBridgeField(sheet, key);
         if (key.StartsWith("Durabilità · ")) return module == "mat_calcestruzzo" || sheet["dati"]?["workspace_ca"].S("normativa", "NTC 2018") == "NTC 2018";
         if (module is not ("str_palo" or PaloOrizzontale.Module)) return true;
         var input = sheet["dati"]?[module == "str_palo" ? "input" : "sezione"];
         string shape = module == "str_palo" ? input.S("shape", "Rettangolare") : "Circolare";
-        bool manual = input?["barre_manuali"] is JsonArray { Count: > 0 };
+        bool manual = input?["barre_manuali"] is JsonArray;
         if (key is "diameter_mm" or "circular_sides") return shape == "Circolare";
         if (key == "width_mm") return shape == "Rettangolare";
         if (key == "height_mm") return shape != "Circolare";
@@ -59,6 +60,7 @@ public static partial class ProjectSharedData
         if (key.StartsWith("transverse_") || key.StartsWith("Staffe · "))
         {
             if (input.S("staffe_presenti", "Sì") == "No") return false;
+            if (key is "Staffe · rami_x" or "Staffe · rami_y") return shape != "Circolare";
             if (key is "Staffe · tipo_staffa" or "Staffe · schema_interno" or "Staffe · rami_interni" or "Staffe · rotazione_staffa") return shape == "Circolare";
         }
         return true;
