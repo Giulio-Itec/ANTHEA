@@ -24,7 +24,7 @@ internal sealed partial class ConcreteWorkspace
         var o=DetailingOptions;
         InputForm Form(Field[] fields)
         {
-            var form = new InputForm(o, fields, _ => { RefreshDetailing(); exportResult=null; Modified?.Invoke(); },true,true);
+            var form = new InputForm(o, fields, key => { RefreshDetailing(); exportResult=null; if (key == "aggregato") InvalidateActions("Taglio"); Modified?.Invoke(); },true,true);
             detailingForms.Add(form); return form;
         }
         detailingForm = Form([new("elemento","Elemento",Choices:["Da scegliere","Trave","Pilastro","Soletta piena","Parete"])]);

@@ -5,6 +5,10 @@ public static class CalculationHelp
 {
     public static string? Field(string key) => key switch
     {
+        "limite_fessure" => "Limite di apertura wlim in mm. Vuoto: tabella nazionale per EC2; Model Code richiede una scelta di progetto. Per NTC e UNI si applica il criterio italiano per esposizione e combinazione. Un limite di progetto diverso va motivato nella relazione.",
+        "eccentricita_mc_x" or "eccentricita_mc_y" => "Eccentricità Δe usata per la deformazione longitudinale MC2010 (7.3-16), in mm, positiva verso il lembo compresso. Non sommare di nuovo l’eccentricità già inclusa nel momento M della riga.",
+        "aggregato" => "Dimensione massima dell’aggregato dg in mm. Dato condiviso dai dettagli costruttivi e dal taglio: MC2010 usa dg=0 oltre C70; NS distingue dg minore di 16 mm.",
+        "cot_x" or "cot_y" => "Cotangente dell’inclinazione del puntone. Vuoto: ricerca della massima capacità nell’intervallo della norma. DIN: il limite dipende anche da V e N; NS lo riduce con trazione significativa; DS adotta il limite cautelativo 2.",
         "phi" => "Coefficiente di viscosità φ. Nel modello a modulo efficace riduce la rigidezza del calcestruzzo; non è un coefficiente delle azioni. Nel ponte interviene anche ψL: n = Es/Ec · (1 + ψL·φ).",
         "n" or "n_armature" or "n_trefoli" => "Rapporto fra modulo dell’acciaio e modulo efficace del calcestruzzo. È collegato a φ: modificare n aggiorna φ secondo il modello scelto; n non può essere inferiore al rapporto dei moduli istantanei.",
         "alpha_cc" => "Coefficiente della resistenza del calcestruzzo: fcd = αcc·fck/γc. È condiviso con le schede compatibili del progetto; non moltiplica le azioni inserite.",

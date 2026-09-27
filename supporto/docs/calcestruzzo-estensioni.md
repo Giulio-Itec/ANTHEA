@@ -33,12 +33,13 @@ software; non modificano gli esempi della relazione di validazione.
    rettangolari; per la circolare valuta fasce radiali nelle direzioni delle
    barre e del gradiente. Governa l'apertura massima, senza sommare aree di facce
    diverse. k2 = (εmax + εmin)/(2 εmax). Restano esclusi wk da analisi non lineare
-   e l'aderenza specifica dei trefoli. Nelle sezioni cave l'area del foro viene
-   sottratta dalle fasce efficaci; il modello delle fasce è riferito al contorno
-   esterno, non costituisce un controllo autonomo della superficie interna.
-   Per questo caso l'esito resta da completare anche quando wk esterno è entro
-   limite; un superamento esterno viene comunque segnalato come non soddisfatto.
-4. **Taglio e torsione**: Vx, Vy e T nella stessa combinazione; T in kNm.
+   e l'aderenza specifica dei trefoli. Dal 28 settembre le superfici dei fori
+   hanno controlli indipendenti su fasce interne di parete/anello: quando sono
+   tese e prive di armatura efficace, l'esito resta incompleto. L'inviluppo
+   comprende aperture esterne e interne; dettagli e limiti nella
+   [matrice delle normative](normative-calcestruzzo.md).
+4. **Taglio e torsione**: N, Mx, My, Vx, Vy e T nella stessa combinazione; momenti in kNm.
+   Mx/My sono conservati anche in Excel e servono al taglio MC2010 livello II.
    Il valore di default dei vecchi archivi è zero. La colonna T è disponibile
    anche nello scambio Excel, che continua ad accettare i vecchi file a sette
    colonne. As,l per torsione è la quota disponibile dopo pressoflessione, da

@@ -27,7 +27,7 @@ public static class ConcreteCalculationSettings
             ("bw_x",""), ("d_x",""), ("asl_x",""), ("alpha_x","90"), ("cot_x",""),
             ("bw_y",""), ("d_y",""), ("asl_y",""), ("alpha_y","90"), ("cot_y",""),
             ("cot_torsione","1"), ("as_torsione","0"), ("chiusura_torsione","Da confermare"),
-            ("modello_circolare","Da scegliere"), ("z_d","0.75") })
+            ("modello_circolare","Da scegliere"), ("z_d","0.75"), ("eccentricita_mc_x","0"), ("eccentricita_mc_y","0") })
             if (!o.ContainsKey(key)) o[key] = value;
         if (o["azioni"] is not JsonArray) o["azioni"] = new JsonArray();
         void Defaults(string name, params (string Key, object Value)[] values)

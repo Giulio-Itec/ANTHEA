@@ -23,6 +23,11 @@ public static class CrackCalculationSummary
     public static CrackCalculationDetail[] Values(Ntc2018Checks.CrackResult result)
     {
         var source = result.Details.GroupBy(d => d.Symbol).ToDictionary(g => g.Key, g => g.Last());
+        if (source.ContainsKey("Superficie governante") || source.TryGetValue("Normativa fessurazione", out var code) && code.Expression != "NTC 2018")
+        {
+            var keys = new[] { "hc,eff", "Ac,eff", "As,eff", "c", "Øeq", "s", "σs", "ρp,eff", "αe", "kt", "k₂", "sr,max", "Δsm adottata", "β minimo deformazione", "εsm − εcm", "wk", "wlim", "ηw" };
+            return keys.Where(source.ContainsKey).Select(k => source[k]).Where(d => d.Value.HasValue).ToArray();
+        }
         var selected = new List<CrackCalculationDetail>();
         void Add(string key, string description, string? alternate = null)
         {
@@ -79,7 +84,7 @@ public static class CrackCalculationSummary
         if (result is null) return fallback;
         var text = new StringBuilder();
         text.AppendLine(result.Status);
-        text.AppendLine("Riepilogo essenziale · NTC 2018 e Circolare 2019 § C4.1.2.2.4.5");
+        text.AppendLine("Riepilogo essenziale · " + (result.Details.FirstOrDefault(d => d.Symbol == "Normativa fessurazione")?.Expression ?? "NTC 2018 e Circolare 2019"));
         text.AppendLine("Due decimali; notazione scientifica per valori molto piccoli. Deformazioni adimensionali. Traccia completa nel JSON.");
         text.AppendLine();
         foreach (var detail in Values(result))

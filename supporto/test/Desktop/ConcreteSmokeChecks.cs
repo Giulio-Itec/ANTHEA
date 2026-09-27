@@ -188,13 +188,17 @@ internal sealed partial class ConcreteWorkspace
         System.Collections.Specialized.NotifyCollectionChangedEventHandler shearImportChanged = (_, e) => { Assert(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset, "Import taglio: notifica unica Reset"); importedShearResets++; };
         actions["SLE_QP"].CollectionChanged += sleImportChanged;
         shearGrid.Rows.CollectionChanged += shearImportChanged;
-        ApplyImport(new SectionActionsExcel.Import([new("SLE_QP", "Da Excel", -10, 1, 2, null, null), new("Taglio", "Taglio Excel", -50, null, null, 10, 20)], 0), true);
+        ApplyImport(new SectionActionsExcel.Import([new("SLE_QP", "Da Excel", -10, 1, 2, null, null), new("Taglio", "Taglio Excel", -50, 12, -18, 10, 20)], 0), true);
         actions["SLE_QP"].CollectionChanged -= sleImportChanged;
         shearGrid.Rows.CollectionChanged -= shearImportChanged;
         Assert(importedSleResets == 1 && importedShearResets == 1, "Un refresh per famiglia importata, incluso il taglio");
         Assert(stressPanels["SLE_QP"].Grid.SelectedItem == actions["SLE_QP"][0] && shearGrid.SelectedItem == shearGrid.Rows[0], "Selezione valida dopo import in blocco");
         Assert(actions["SLE_QP"].Count == 1 && actions["SLE_QP"][0].Values.S("nome") == "Da Excel" && actions["SLV"].Count == untouched, "Excel sostituisce solo famiglie importate");
         Assert(shearGrid.Rows.Count == 1 && shearGrid.Rows[0].Values.D("N") == -50, "Excel carica tabella Taglio");
+        Commit();
+        Assert(ShearOptions["azioni"]![0].D("Mx") == 12 && ShearOptions["azioni"]![0].D("My") == -18, "Commit conserva i momenti associati al taglio");
+        var shearExport = SectionActionsExcel.Read(SectionActionsExcel.Write(ExportActionRows())).Rows.Single(r => r.Family == "Taglio");
+        Assert(shearExport.Mx == 12 && shearExport.My == -18, "Esportazione conserva Mx/My del taglio");
         await Automatic();
         Assert(Result is not null && shearResults.Count == 1 && stressResults["SLE_QP"].Count == 1, "Excel avvia il ricalcolo");
         Assert(stressResults["SLE_QP"].Values.All(r => r.State?.IsRasterCreated != true), "Scheda SLE nascosta: nessun raster dopo import");
@@ -256,7 +260,17 @@ internal sealed partial class ConcreteWorkspace
         Assert(stirrupForms.Where(f => f.Editors.ContainsKey("rami_x")).All(f => f.Get("rami_x") == "4") && preview.Stirrups == ShearOptions && shearView.Stirrups == ShearOptions, "Staffe sincronizzate e disegnate nelle preview");
         settings["normativa"] = "DS EN 1992-1-1"; ResetCoefficients(); Invalidate(); await Automatic();
         Assert(Math.Abs(Input.D("gamma_c") - 1.45) < 1e-10 && Math.Abs(Input.D("gamma_s") - 1.2) < 1e-10 && checker3D.Count == 2, "Normativa nazionale collegata ai domini (DK NA: γc 1,45, γs 1,20)");
-        Assert(stressResults["SLE"].Values.All(s => s.Cracking.Contains("da implementare")) && shearResults.Count == 0, "Nessuna equivalenza implicita per taglio e fessurazione non NTC");
+        Assert(stressResults["SLE"].Values.All(s => s.Cracking.Contains("Non richiesta")) && shearResults.Count > 0, "DS: taglio nazionale e fessurazione richiesta nella QP");
+        settings["normativa"] = "Model Code 2010"; ResetCoefficients(); Invalidate(); await Automatic();
+        shearForm.Set("ancoraggio", "Confermato"); await Automatic();
+        var mcBefore = shearResults.Values.Single()[1];
+        shearGrid.Rows[0]["Mx"] = "1200"; await Automatic();
+        var mcAfter = shearResults.Values.Single()[1];
+        Assert(mcAfter.Details.Single(d => d.Symbol == "εx").Value > mcBefore.Details.Single(d => d.Symbol == "εx").Value, "MC: modifica Mx aggiorna la deformazione usata per Vy");
+        var aggregateForm = detailingForms.Single(f => f.Editors.ContainsKey("aggregato"));
+        aggregateForm.Set("aggregato", "12"); await Automatic();
+        Assert(!ReferenceEquals(mcAfter, shearResults.Values.Single()[1]), "Aggregato condiviso invalida il taglio");
+        aggregateForm.Set("aggregato", "20"); shearGrid.Rows[0]["Mx"] = "12";
         settings["normativa"] = "NTC 2018"; ResetCoefficients(); Invalidate(); await Automatic();
         Assert(!reinforcement.Editors.ContainsKey("transverse_bar_diameter_mm") && !reinforcement.Editors.ContainsKey("transverse_spacing_mm"), "Staffe assenti dal gruppo armature");
         Assert(SectionWorkspace.Label("SLU") == "Plastico" && SectionWorkspace.Label("SLV") == "Elastico" && three.Mode.ItemTemplate is not null, "Etichette Plastico ed Elastico senza cambiare ID archivi");
@@ -357,6 +371,7 @@ internal sealed partial class ConcreteWorkspace
         Assert(reopened.settings.S("file_sollecitazioni") == settings.S("file_sollecitazioni") && reopened.ShearOptions.S("rami_x") == "4" && reopened.domainPanels.All(p => p.Options.B("colora_eta")), "Riapertura delle nuove impostazioni"); reopened.Dispose();
         owner.Width = 1366; owner.Height = 850;
         for (int i = 0; i < 5; i++) { tabs.SelectedIndex = i; await Capture("automatico_1366_tab_" + (i + 1)); }
+        Assert(shearGrid.ActualHeight >= 80, "Tabella taglio leggibile anche a 1366 px con Mx/My e comandi Excel");
         tabs.SelectedIndex = 3; sleTabs.SelectedIndex = 0;
         var summaryTab = Ui.Descendants<TabControl>(this).First(t => t.Items.OfType<TabItem>().Any(i => i.Header?.ToString() == "Riepilogo verifiche"));
         summaryTab.SelectedIndex = 1; await Capture("riepilogo_verifiche");

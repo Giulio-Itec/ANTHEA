@@ -22,8 +22,10 @@ internal sealed partial class ConcreteWorkspace
         bool automatic = ShearOptions.S("parametri", "Automatici da sezione") == "Automatici da sezione";
         bool stirrups = ShearOptions.S("modello") == "Con staffe";
         foreach (string axis in new[] { "x", "y" })
-            foreach (string field in new[] { "bw_", "d_", "asl_" }) shearForm.Enable(field + axis, !automatic && (field != "asl_" || !stirrups));
-        shearForm.ShowField("ancoraggio", automatic && !stirrups);
+            foreach (string field in new[] { "bw_", "d_", "asl_" }) shearForm.Enable(field + axis, !automatic && (field != "asl_" || !stirrups || settings.S("normativa") == "Model Code 2010"));
+        bool mc = settings.S("normativa") == "Model Code 2010";
+        shearForm.ShowField("ancoraggio", automatic && (!stirrups || mc));
+        foreach (string axis in new[] { "x", "y" }) shearForm.ShowField("eccentricita_mc_" + axis, mc);
         if (!automatic) { shearAutomaticNote.Text = "Parametri manuali: verificare geometria, armatura tesa e ancoraggio."; return; }
         try
         {
@@ -49,17 +51,18 @@ internal sealed partial class ConcreteWorkspace
             bool stirrups = options.S("modello") == "Con staffe";
             foreach (var axis in new[] { "x", "y" })
             {
-                shearForm.Enable("asl_"+axis, !stirrups);
+                shearForm.Enable("asl_"+axis, !stirrups || settings.S("normativa") == "Model Code 2010");
                 foreach (var field in new[] { "rami_", "alpha_", "cot_" }) shearForm.Enable(field+axis, stirrups);
             }
         }
         var fields = new List<Field> { new("modello", "Modello", Choices: ["Con staffe", "Senza staffe"]), new("parametri", "Parametri geometrici", Choices: ["Automatici da sezione", "Manuali"]), new("ancoraggio", "Asl automatica efficacemente ancorata", Choices: ["Da verificare", "Confermato"]) };
         foreach (var axis in new[] {"x","y"})
             fields.AddRange([new("bw_"+axis,"bw · "+axis,"mm"),new("d_"+axis,"d utile · "+axis,"mm"),new("asl_"+axis,"Asl ancorata · "+axis,"mm²"),new("alpha_"+axis,"α staffa · "+axis,"°"),new("cot_"+axis,"cot θ · "+axis+" (vuoto: auto)")]);
+        fields.AddRange([new("eccentricita_mc_x", "Δe MC · Vx", "mm"), new("eccentricita_mc_y", "Δe MC · Vy", "mm")]);
         shearForm = new InputForm(options, fields, key => { if(key=="modello"&&options.S("modello")=="Con staffe"&&Input.S("staffe_presenti")=="No"){Input["staffe_presenti"]="Sì";Invalidate();} EnableFields(); RefreshAutomaticShear(); SynchronizeStirrups(); InvalidateActions("Taglio"); }, true, true);
         foreach (var axis in new[] { "x", "y" }) shearForm.GroupFields("Direzione V" + axis, new[] { "bw_", "d_", "asl_", "rami_", "alpha_", "cot_" }.Select(f => f + axis).ToArray(), true);
         EnableFields(); RefreshAutomaticShear();
-        shearGrid = new JsonGrid([new("nome","Combinazione"),new("N","N [kN]"),new("Vx","Vx [kN]"),new("Vy","Vy [kN]"),new("T","T [kNm]"),new("VRdx","VRd,x [kN]",ReadOnly:true),new("VRdy","VRd,y [kN]",ReadOnly:true),new("eta_x","ηx",ReadOnly:true),new("eta_y","ηy",ReadOnly:true),new("eta_t","ηT",ReadOnly:true),new("eta_vt","ηV+T",ReadOnly:true),new("esito","Esito",ReadOnly:true)], true);
+        shearGrid = new JsonGrid([new("nome","Combinazione"),new("N","N [kN]"),new("Mx","Mx [kNm]"),new("My","My [kNm]"),new("Vx","Vx [kN]"),new("Vy","Vy [kN]"),new("T","T [kNm]"),new("VRdx","VRd,x [kN]",ReadOnly:true),new("VRdy","VRd,y [kN]",ReadOnly:true),new("eta_x","ηx",ReadOnly:true),new("eta_y","ηy",ReadOnly:true),new("eta_t","ηT",ReadOnly:true),new("eta_vt","ηV+T",ReadOnly:true),new("esito","Esito",ReadOnly:true)], true);
         grids.Add(shearGrid);
         shearGrid.Columns[0].MinWidth = 120;
         shearGrid.RowHeight = double.NaN;
@@ -69,24 +72,24 @@ internal sealed partial class ConcreteWorkspace
         outputStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
         ((DataGridTextColumn)shearGrid.Columns[^1]).ElementStyle = outputStyle;
         foreach (var row in options.Array("azioni").OfType<JsonObject>()) shearGrid.Rows.Add(ShearRow((JsonObject)row.DeepClone()));
-        void Store() { options["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")),("T",r.Values.S("T","0")))).ToArray()); }
+        void Store() { options["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Mx",r.Values.S("Mx","0")),("My",r.Values.S("My","0")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")),("T",r.Values.S("T","0")))).ToArray()); }
         var buttons = Ui.Bar(Ui.Button("+ Combinazione", () => { var row = ShearRow(J.Obj(("id",Guid.NewGuid().ToString("N")),("nome","Taglio "+(shearGrid.Rows.Count+1)),("N","0"),("Vx","0"),("Vy","0"))); shearGrid.Rows.Add(row); shearGrid.SelectedItem = row; Store(); InvalidateActions("Taglio"); }),
             Ui.Button("−", () => { shearGrid.Commit(); if (shearGrid.SelectedItem is JsonRow row) shearGrid.Rows.Remove(row); Store(); InvalidateActions("Taglio"); }));
         AttachClipboard(shearGrid, () => "Taglio", buttons);
         shearGrid.SelectionChanged += (_, _) => UpdateShearSelection();
         shearGrid.IsVisibleChanged += (_, _) => { if (shearGrid.IsVisible) UpdateShearSelection(); };
         var detailTabs = new TabControl { SelectedIndex = 1 }; Ui.Tab(detailTabs, "Dettagli combinazione", Scroller(shearDetail)); Ui.Tab(detailTabs, "Riepilogo verifiche", Scroller(shearWorst));
-        return AnalysisLayout(Panel("Taglio e torsione", Scroller(Ui.Stack(Group("Staffe · dati comuni", BuildStirrups(readOnly: true)), shearForm,Group("Torsione / modello circolare",BuildTorsionOptions(),true),shearAutomaticNote)), "Azioni di progetto già combinate · assi locali"),
+        return AnalysisLayout(Panel("Taglio e torsione", Scroller(Ui.Stack(Group("Staffe · dati comuni", BuildStirrups(readOnly: true)), shearForm,Group("Torsione / modello circolare",BuildTorsionOptions(),true),shearAutomaticNote, Notice("Model Code 2010: Mx è associato a Vy, My a Vx. N negativo a compressione. Il diametro massimo dell’aggregato è condiviso con Dettagli → Copriferro e durabilità; modificarlo aggiorna anche il taglio. Le azioni sono già coefficientate; il modulo applica i coefficienti dei materiali alle resistenze."))), "Azioni di progetto già combinate · assi locali"),
             new ViewportFrame("Sezione · riferimenti geometrici", shearView, shearView.ResetView), detailTabs,
-            Panel("Combinazioni e resistenze",Ui.Dock(WithFilters(shearGrid),bottom:Ui.Stack(buttons,shearSummary))));
+            Panel("Combinazioni e resistenze",Ui.Dock(WithFilters(shearGrid),bottom:Ui.Stack(buttons,shearSummary))), tableMinimumHeight: 280);
     }
     private JsonRow ShearRow(JsonObject values)
     {
-        if(!values.ContainsKey("T"))values["T"]="0";
+        foreach (string key in new[] { "T", "Mx", "My" }) if(!values.ContainsKey(key)) values[key]="0";
         return new(values, _ =>
         {
         if (shearGrid is null || synchronizing) return;
-        ShearOptions["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")),("T",r.Values.S("T","0")))).ToArray());
+        ShearOptions["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Mx",r.Values.S("Mx","0")),("My",r.Values.S("My","0")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")),("T",r.Values.S("T","0")))).ToArray());
         InvalidateActions("Taglio");
         });
     }
@@ -144,6 +147,7 @@ internal sealed partial class ConcreteWorkspace
             if (ShearOptions.S("modello") == "Con staffe") shearDetail.Text += $"VRsd (staffe) = {check.VRsd:0.00} kN\nVRcd (puntone) = {check.VRcd:0.00} kN\ncot θ = {check.CotTheta:0.00}\nGoverna: {(check.VRsd <= check.VRcd ? "armatura trasversale" : "calcestruzzo compresso")}\n";
             shearDetail.Text += $"VRd = {check.VRd:0.00} kN · η = {check.Ratio?.ToString("0.00") ?? "—"}\n{check.Status}\n\n";
         }
+        foreach (var check in checks) { shearDetail.Text += check.Reference + "\n" + string.Join("\n", check.Details.Select(d => d.Format())) + "\n\n"; }
         shearDetail.Text += TorsionSummary(row);
         if(Input.S("shape")=="Circolare")shearDetail.Text+="\nTaglio circolare · "+ShearOptions.S("modello_circolare")+" · verificare la schematizzazione assegnata.";
     }

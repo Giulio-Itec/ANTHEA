@@ -31,7 +31,7 @@ internal sealed partial class ConcreteWorkspace
         {
             try
             {
-                string[] keys = family() == "Taglio" ? ["nome", "N", "Vx", "Vy", "T"] : ["nome", "N", "Mx", "My"];
+                string[] keys = family() == "Taglio" ? ["nome", "N", "Mx", "My", "Vx", "Vy", "T"] : ["nome", "N", "Mx", "My"];
                 var selected = grid.SelectedItems.OfType<JsonRow>().ToHashSet();
                 var rows = grid.Items.OfType<JsonRow>().Where(selected.Contains).ToArray();
                 if (rows.Length == 0) return;
@@ -46,7 +46,7 @@ internal sealed partial class ConcreteWorkspace
             catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message + "\nNessun dato incollato.", "Incolla sollecitazioni", MessageBoxButton.OK, MessageBoxImage.Warning); }
         }
         buttons.Children.Add(Ui.Button("Copia", Copy, inspection: true));
-        var paste = Ui.Button("Incolla", () => Paste(false)); paste.ToolTip = "Ctrl+V: dalla cella corrente. 4 colonne: Nome e azioni; 3: azioni. Le righe eccedenti vengono aggiunte."; buttons.Children.Add(paste);
+        var paste = Ui.Button("Incolla", () => Paste(false)); paste.ToolTip = "Ctrl+V: 4 colonne per N–M (nome,N,Mx,My); 7 per taglio (nome,N,Mx,My,Vx,Vy,T), 6 senza nome. Taglio storico: 4/5 colonne nome,N,Vx,Vy[,T]; 3 colonne N,Vx,Vy. Le righe eccedenti vengono aggiunte."; buttons.Children.Add(paste);
         buttons.Children.Add(Ui.Button("Template Excel", SaveActionTemplate, inspection: true));
         buttons.Children.Add(Ui.Button("Importa Excel", ImportActionWorkbook));
         buttons.Children.Add(Ui.Button("Esporta Excel", ExportActionWorkbook, inspection: true));
@@ -69,15 +69,17 @@ internal sealed partial class ConcreteWorkspace
     }
     private void PasteCells(JsonGrid grid, string family, string text, bool append = false)
     {
-        string[] keys = family == "Taglio" ? ["nome", "N", "Vx", "Vy", "T"] : ["nome", "N", "Mx", "My"];
+        string[] keys = family == "Taglio" ? ["nome", "N", "Mx", "My", "Vx", "Vy", "T"] : ["nome", "N", "Mx", "My"];
         var matrix = text.Split('\n').Select(line => line.TrimEnd('\r')).Where(line => !string.IsNullOrWhiteSpace(line)).Select(line => line.Split('\t')).ToList();
         if (matrix.Count == 0) throw new ArgumentException("Gli appunti non contengono righe.");
         if (matrix.Count > 10000) throw new ArgumentException("Massimo 10.000 righe per incolla.");
         int width = matrix[0].Length;
+        // Preserve the existing clipboard format; moments are included only in the new full-width format.
+        if (family == "Taglio" && width is >= 3 and <= 5) keys = ["nome", "N", "Vx", "Vy", "T"];
         if (width < 1 || width > keys.Length || matrix.Any(row => row.Length != width)) throw new ArgumentException("Numero di colonne non valido per la famiglia selezionata.");
         string current = grid.CurrentCell.Column?.SortMemberPath ?? "";
         if (width < 3 && !keys.Contains(current)) throw new ArgumentException("Selezionare prima una cella di input (nome o sollecitazione). Per aggiungere righe complete usare 3 o 4 colonne.");
-        int startColumn = width >= 4 ? 0 : width == 3 ? 1 : Math.Max(0, Array.IndexOf(keys, current));
+        int startColumn = width == 6 && family == "Taglio" ? 1 : width >= 4 ? 0 : width == 3 ? 1 : Math.Max(0, Array.IndexOf(keys, current));
         if (startColumn + width > keys.Length) throw new ArgumentException("La selezione supera le colonne di input. Selezionare la cella iniziale corretta.");
         bool Header(string cell, int i) => cell.Trim().Equals(keys[i], StringComparison.OrdinalIgnoreCase) || cell.Trim().StartsWith(keys[i] + " [", StringComparison.OrdinalIgnoreCase) || i == 0 && cell.Trim() == "Combinazione";
         if (matrix[0].Select((cell, i) => Header(cell, startColumn + i)).All(v => v)) matrix.RemoveAt(0);
@@ -156,7 +158,7 @@ internal sealed partial class ConcreteWorkspace
     {
         foreach (var (key, rows) in actions) foreach (var row in rows) { var p = ReadAction(row); yield return new(key, row.Values.S("nome"), p.N, p.Mx, p.My, null, null); }
         if (shearGrid is not null) foreach (var row in shearGrid.Rows)
-            yield return new("Taglio", row.Values.S("nome"), SectionWorkspace.Number(row.Values.S("N"), "N taglio"), null, null, SectionWorkspace.Number(row.Values.S("Vx"), "Vx"), SectionWorkspace.Number(row.Values.S("Vy"), "Vy"),SectionWorkspace.Number(row.Values.S("T","0"),"T"));
+            yield return new("Taglio", row.Values.S("nome"), SectionWorkspace.Number(row.Values.S("N"), "N taglio"), SectionWorkspace.Number(row.Values.S("Mx", "0"), "Mx"), SectionWorkspace.Number(row.Values.S("My", "0"), "My"), SectionWorkspace.Number(row.Values.S("Vx"), "Vx"), SectionWorkspace.Number(row.Values.S("Vy"), "Vy"),SectionWorkspace.Number(row.Values.S("T","0"),"T"));
     }
     private void ApplyImport(SectionActionsExcel.Import import, bool replace)
     {
@@ -171,7 +173,7 @@ internal sealed partial class ConcreteWorkspace
                 using var refresh = collection.DeferRefresh();
                 if (replace) collection.Clear();
                 foreach (var row in group)
-                    collection.Add(group.Key == "Taglio" ? ShearRow(J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", row.Name), ("N", Number(row.N)), ("Vx", Number(row.Vx)), ("Vy", Number(row.Vy)),("T",Number(row.T)))) : CreateAction(group.Key, row.Name, Number(row.N), Number(row.Mx), Number(row.My)));
+                    collection.Add(group.Key == "Taglio" ? ShearRow(J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", row.Name), ("N", Number(row.N)), ("Mx", Number(row.Mx)), ("My", Number(row.My)), ("Vx", Number(row.Vx)), ("Vy", Number(row.Vy)),("T",Number(row.T)))) : CreateAction(group.Key, row.Name, Number(row.N), Number(row.Mx), Number(row.My)));
             }
             foreach (var (grid, selected) in selections)
                 grid.SelectedItem = selected is not null && grid.Items.Contains(selected) ? selected : grid.Items.OfType<JsonRow>().FirstOrDefault();

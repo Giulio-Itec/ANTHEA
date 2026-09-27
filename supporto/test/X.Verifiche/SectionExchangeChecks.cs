@@ -41,7 +41,9 @@ internal static class SectionExchangeChecks
         Reject(FileFor([["SLU", "", "0", "0", "0"]]), "Nome mancante");
         Reject(FileFor([["Sconosciuta", "A", "0", "0", "0"]]), "Famiglia ignota");
         Reject(FileFor([["SLU", "A", "0", "0", "0", "5", "0"]]), "Taglio non ignorato");
-        Reject(FileFor([["Taglio", "A", "0", "5", "0", "0", "0"]]), "Momento non ignorato");
+        var shearMoment = SectionActionsExcel.Read(FileFor([["Taglio", "A", "0", "5", "-7", "20", "30"]]));
+        Assert(shearMoment.Rows[0].Mx == 5 && shearMoment.Rows[0].My == -7, "Momenti associati al taglio conservati");
+        Assert(SectionActionsExcel.Read(SectionActionsExcel.Write(shearMoment.Rows)).Rows.SequenceEqual(shearMoment.Rows), "Round trip Excel dei momenti per MC2010");
         Reject(FileFor([["SLU", "A", "0", "0", "0", "", "", "Extra"]]), "Colonna extra");
         Reject(FileFor([["SLU", "A", "0", "0", "0"]], d => d.Descendants(ns + "c").First(c => (string?)c.Attribute("r") == "C6").ReplaceWith(new XElement(ns + "c", new XAttribute("r", "C6"), new XAttribute("t", "inlineStr"), new XElement(ns + "is", new XElement(ns + "t", "N [N]"))))), "Unità diverse");
         void Formula(XDocument d, bool cache)

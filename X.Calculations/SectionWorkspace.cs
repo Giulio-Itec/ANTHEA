@@ -7,7 +7,7 @@ public static class SectionWorkspace
 {
     public static readonly string[] Sets = ["SLU", "SLV", "SLE", "SLE_FREQ", "SLE_QP"];
     public static string Label(string key) => key switch { "SLU" => "Plastico", "SLV" => "Elastico", "SLE" => "Rara", "SLE_FREQ" => "Frequente", "SLE_QP" => "Quasi permanente", _ => key };
-    public static readonly string[] SharedSleFields = ["modello", "phi", "phi_trefoli", "n_armature", "n_trefoli", "trazione_cls", "assi", "origine_x", "origine_y", "rotazione", "esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure"];
+    public static readonly string[] SharedSleFields = ["modello", "phi", "phi_trefoli", "n_armature", "n_trefoli", "trazione_cls", "assi", "origine_x", "origine_y", "rotazione", "esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure", "limite_fessure"];
     public static JsonObject Prepare(JsonObject data)
     {
         ModuleCatalog.ValidateConcreteWorkspace(data);
@@ -62,7 +62,7 @@ public static class SectionWorkspace
         {
             var o = settings["sle"]![set]!.AsObject();
             o["modello"] = o.S("modello").StartsWith("Non lineare") ? "Non lineare" : "Lineare";
-            foreach (var (k, v) in new[] { ("phi", "0"), ("phi_trefoli", "0"), ("trazione_cls", "No"), ("assi", "Locali"), ("origine_x", "0"), ("origine_y", "0"), ("rotazione", "0"), ("esposizione", "Da scegliere"), ("sensibilita", "Poco sensibile"), ("durata", "Lunga"), ("aderenza", "Migliorata"), ("copriferro_fessure", ""), ("spaziatura_fessure", "") })
+            foreach (var (k, v) in new[] { ("phi", "0"), ("phi_trefoli", "0"), ("trazione_cls", "No"), ("assi", "Locali"), ("origine_x", "0"), ("origine_y", "0"), ("rotazione", "0"), ("esposizione", "Da scegliere"), ("sensibilita", "Poco sensibile"), ("durata", "Lunga"), ("aderenza", "Migliorata"), ("copriferro_fessure", ""), ("spaziatura_fessure", ""), ("limite_fessure", "") })
                 if (!o.ContainsKey(k)) o[k] = v;
         }
         if (settings["sle_comuni"] is not JsonObject)

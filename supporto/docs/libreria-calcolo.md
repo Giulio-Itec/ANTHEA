@@ -26,6 +26,7 @@ var result = CalculationService.Calculate("str_mista_ponte", data, cancellationT
 - `ConcreteMaterials.DesignValues`, `ReinforcementGeometry`, `CalculationHelp`: resistenze di progetto, geometria di barre/fasci e significato dei dati comuni per UI e servizi.
 - `ConcreteAnalysisSession`: cache locale alla sessione; invalidazione basata sugli input, nessuna cache globale di risultati fra progetti.
 - `ConcreteShearAnalysis`, `ConcreteDetailingAnalysis`, `ConcreteCurvatureAnalysis`, `ConcreteSectionProperties`, `ConcreteCoverAnalysis`, `ConcreteBond`: servizi richiamabili senza controlli WPF.
+- `ConcreteCodeChecks`: profili NTC/EC2/UNI/DIN/DS/NS/MC2010 per taglio e fessurazione ordinaria; ingresso tipizzato `ShearInput`, formule pure e tracce numeriche. Gli adattatori di sezione conservano geometria GPC e piano Checker. [Copertura e validazione](ca-normative-validazione.md).
 - `CalculationCoefficients`: percorsi autorevoli, etichette, ambito normativo e rilevanza dei coefficienti.
 - `CalculationValidation`: coefficienti finiti positivi e normativa supportata. La validazione strutturale dell’archivio permette di salvare input incompleti; il calcolo li rifiuta o restituisce gli errori dei singoli casi secondo il contratto del motore.
 

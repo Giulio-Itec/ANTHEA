@@ -147,7 +147,7 @@ public static class SectionActionsExcel
                 double? Optional(int i) => string.IsNullOrWhiteSpace(cells.GetValueOrDefault(i)) ? null : Number(i);
                 var item = new Row(family, name, Number(3), family == "Taglio" ? Optional(4) : Number(4), family == "Taglio" ? Optional(5) : Number(5), family == "Taglio" ? Number(6) : Optional(6), family == "Taglio" ? Number(7) : Optional(7), Optional(8));
                 if(family!="Taglio"&&item.T is not(null or 0))throw new ArgumentException("Torsione ammessa solo nella famiglia Taglio.");
-                if (family == "Taglio" ? item.Mx is not (null or 0) || item.My is not (null or 0) : item.Vx is not (null or 0) || item.Vy is not (null or 0))
+                if (family != "Taglio" && (item.Vx is not (null or 0) || item.Vy is not (null or 0)))
                     throw new ArgumentException("Sollecitazioni non utilizzate dalla famiglia: separare le righe di Taglio da quelle di pressoflessione/SLE.");
                 rows.Add(item);
             }

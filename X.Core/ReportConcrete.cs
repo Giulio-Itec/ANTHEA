@@ -73,7 +73,8 @@ public static class ReportConcrete
         P("Normativa selezionata: " + settings.S("normativa") + ". Motore GPC Checker collegato tramite DLL. Compressione negativa; geometria in mm, tensioni in MPa, deformazioni in ‰, azioni N e V in kN, momenti in kNm. Arrotondamenti solo di presentazione.");
         P(ConcreteStandards.Note(settings.S("normativa")));
         P("Questo report non attesta una verifica normativa completa. La presenza di un dominio o di tensioni calcolate non implica la conformità delle altre verifiche. I filtri e le opzioni grafiche non escludono combinazioni dai calcoli. Leggere gli esiti non determinati, fuori piano e non implementati.");
-        P("Taglio NTC nelle due direzioni; per le circolari il modello e i parametri sono espliciti. Torsione su profilo periferico rettangolare o circolare, pieno o cavo, con staffe chiuse. Per Vx+Vy+T si sommano conservativamente i contributi sul calcestruzzo. Dettagli del capitolo 4 e integrazioni EC2; gerarchia sismica e verifiche locali degli appoggi richiedono il modello dell’elemento. Fessurazione solo lineare, comprese le sezioni interamente tese; leggere i limiti per combinazione.");
+        P("Taglio nelle due direzioni secondo la norma selezionata; Model Code 2010 usa il livello II con N, M, V, Asl e granulometria. Per le circolari il modello e i parametri sono espliciti. Fessurazione lineare con CLS teso escluso: inviluppo delle superfici esterne e interne, comprese le sezioni interamente tese. Le superfici prive di armatura efficace restano senza verifica conclusa. Torsione accoppiata, dettagli costruttivi e ancoraggi automatici restano nel campo NTC documentato. Gerarchia sismica, appoggi e punzonamento richiedono il modello dell’elemento.");
+        P(ConcreteStandards.Note(settings.S("normativa", "NTC 2018")));
         if (!string.IsNullOrWhiteSpace(settings.S("nota"))) P("Nota del foglio: " + settings.S("nota"));
         if (result["errori_calcolo"] is JsonObject errors) foreach (var (key, value) in errors) P("Calcolo non disponibile — " + key + ": " + value);
         if (result["riepilogo_verifiche"] is JsonObject summaries)
@@ -120,7 +121,7 @@ public static class ReportConcrete
             Heading("Sollecitazioni");
             foreach (string family in SectionWorkspace.Sets)
             { Subheading(SectionWorkspace.Label(family)); Table(["Combinazione", "N [kN]", "Mx [kNm]", "My [kNm]"], data["combinazioni"]!.Array(family).Select(c => new[] { c.S("nome"), F(c!.Array("azioni").ElementAtOrDefault(0)), F(c.Array("azioni").ElementAtOrDefault(1)), F(c.Array("azioni").ElementAtOrDefault(2)) })); }
-            Subheading("Taglio e torsione"); Table(["Combinazione", "N [kN]", "Vx [kN]", "Vy [kN]", "T [kNm]"], settings["taglio"].Array("azioni").Select(c => new[] { c.S("nome"), F(c?["N"]), F(c?["Vx"]), F(c?["Vy"]), F(c?["T"]) }));
+            Subheading("Taglio e torsione"); Table(["Combinazione", "N [kN]", "Mx [kNm]", "My [kNm]", "Vx [kN]", "Vy [kN]", "T [kNm]"], settings["taglio"].Array("azioni").Select(c => new[] { c.S("nome"), F(c?["N"]), F(c?["Mx"]), F(c?["My"]), F(c?["Vx"]), F(c?["Vy"]), F(c?["T"]) }));
         }
         foreach (string dimension in new[] { "3D", "2D" }) if (options.Contains("dominio" + dimension.ToLowerInvariant()))
         {
@@ -195,7 +196,7 @@ public static class ReportConcrete
                 if (crackRequired && outcome?["CrackResult"]?["Details"] is JsonArray crackDetails && crackDetails.Count > 0)
                 {
                     Subheading("Fessurazione · coefficienti e passaggi");
-                    P("Riepilogo essenziale: massimo 30 valori, fino a 6 cifre significative. NTC 2018 e Circolare 2019 § C4.1.2.2.4.5. Deformazioni adimensionali; traccia completa nel JSON.");
+                    P("Riepilogo essenziale: massimo 30 valori. " + settings.S("normativa") + ". Deformazioni adimensionali; formule e coefficienti della verifica, traccia completa nel JSON.");
                     var compactCrack = outcome!["CrackResult"]!.Deserialize<Ntc2018Checks.CrackResult>()!;
                     Table(["Parametro", "Valore / unità", "Formula / origine"], CrackCalculationSummary.Values(compactCrack).Select(v => new[] {
                         v.Symbol,
@@ -212,6 +213,11 @@ public static class ReportConcrete
         {
             Heading("Verifiche a taglio");
             var shear = settings["taglio"] as JsonObject ?? new();
+            P("Azioni SLU già combinate e coefficientate dal progettista: il modulo non moltiplica nuovamente N, M, V e T. I coefficienti parziali dei materiali entrano nelle resistenze. Le due direzioni di taglio sono controlli separati; non costituiscono una verifica biassiale generale.");
+            if (settings.S("normativa") is "Model Code 2010" or "NS EN 1992-1-1")
+                Parameters("Granulometria comune ai dettagli", settings["dettagli_costruttivi"] as JsonObject ?? new(), [("aggregato", "dg [mm]")]);
+            if (settings.S("normativa") == "Model Code 2010")
+                Parameters("Eccentricità della risultante MC2010", shear, [("eccentricita_mc_x", "Δe per Vx [mm]"), ("eccentricita_mc_y", "Δe per Vy [mm]")]);
             Parameters("Modello a taglio", shear, [("modello", "Modello"), ("bw_x", "bw,x [mm]"), ("d_x", "dx [mm]"), ("asl_x", "Asl,x [mm²]"), ("alpha_x", "αx [°]"), ("cot_x", "cot θx"), ("bw_y", "bw,y [mm]"), ("d_y", "dy [mm]"), ("asl_y", "Asl,y [mm²]"), ("alpha_y", "αy [°]"), ("cot_y", "cot θy")]);
             var rows = new List<string[]>();
             foreach (var action in shear.Array("azioni")) foreach (var (axis, index) in new[] { ("x", 0), ("y", 1) })
@@ -220,8 +226,16 @@ public static class ReportConcrete
                 rows.Add([action.S("nome") + " · " + axis, F(action?["N"]), F(action?["V" + axis]), F(check?["VRd"]), F(check?["Ratio"]), check.S("Status", "Non calcolata / modello non supportato o dati incompleti")]);
             }
             Table(["Combinazione", "N [kN]", "VEd [kN]", "VRd [kN]", "η [-]", "Esito"], rows);
+            if (options.Contains("dettagli"))
+                foreach (var action in shear.Array("azioni")) foreach (var (axis, index) in new[] { ("x", 0), ("y", 1) })
+                {
+                    var check = result["taglio"]?[action.S("id")]?.AsArray().ElementAtOrDefault(index);
+                    if (check is null) continue;
+                    Subheading(action.S("nome") + " · V" + axis + " · " + check.S("Reference"));
+                    Table(["Parametro", "Valore / unità", "Formula"], check.Array("Details").Select(d => new[] { d.S("Symbol"), F(d?["Value"]) + " " + d.S("Unit"), d.S("Expression") }));
+                }
             Parameters("Torsione e modello circolare",shear,[("modello_circolare","Modello circolare"),("parametri","Parametri geometrici"),("z_d","z/d assegnato (modello manuale)"),("cot_torsione","cot θ comune"),("as_torsione","As,l disponibile [mm²]"),("chiusura_torsione","Configurazione resistente confermata")]);
-            P("Modello pile NTC §7.9.5.2: z/d = 0,75 per piena, 0,60 per cava. Torsione: TRcd = 2 Ak t (0,5 fcd) cot θ/(1+cot²θ); TRsd = 2 Ak (Asta/s) fyd cot θ; TRld = 2 Ak (As,l/uk) fyd/cot θ. As,l aggiuntiva rispetto alla pressoflessione.");
+            P("Modello pile NTC §7.9.5.2: z/d = 0,75 per piena, 0,60 per cava; per altre norme scegliere parametri assegnati. Torsione solo NTC: TRcd = 2 Ak t (0,5 fcd) cot θ/(1+cot²θ); TRsd = 2 Ak (Asta/s) fyd cot θ; TRld = 2 Ak (As,l/uk) fyd/cot θ. As,l aggiuntiva rispetto alla pressoflessione.");
             Table(["Combinazione","TRd [kNm]","ηT","ηc,V+T","ηs,V+T","Esito"],shear.Array("azioni").Where(a=>J.Number(a?["T"]) is double t&&t!=0).Select(a=>{var t=result["torsione"]?[a.S("id")];return new[]{a.S("nome"),F(t?["TRd"]),F(t?["TorsionRatio"]),F(t?["ConcreteCombinedRatio"]),F(t?["SteelCombinedRatio"]),t.S("Status","Non calcolata / dati incompleti")};}));
             foreach(var item in (result["torsione"] as JsonObject??new()))
             {var t=item.Value;P($"{shear.Array("azioni").FirstOrDefault(a=>a.S("id")==item.Key).S("nome",item.Key)}: Ak = {F(t?["Geometry"]?["Area"])} mm²; uk = {F(t?["Geometry"]?["Perimeter"])} mm; t = {F(t?["Geometry"]?["Thickness"])} mm; As,l richiesta = {F(t?["RequiredLongitudinalArea"])} mm².");}

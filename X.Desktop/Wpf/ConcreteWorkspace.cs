@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -117,17 +117,17 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         }
         return grid;
     }
-    private Grid Rows(UIElement top, UIElement bottom, double topWeight = 3.7, double bottomWeight = 2)
+    private Grid Rows(UIElement top, UIElement bottom, double topWeight = 3.7, double bottomWeight = 2, double bottomMinimum = 155)
     {
-        var grid = new Grid(); grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(topWeight, GridUnitType.Star), MinHeight = 160 }); grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(8) }); grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(bottomWeight, GridUnitType.Star), MinHeight = 155 });
+        var grid = new Grid(); grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(topWeight, GridUnitType.Star), MinHeight = 160 }); grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(8) }); grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(bottomWeight, GridUnitType.Star), MinHeight = bottomMinimum });
         grid.Children.Add(top); var split = new GridSplitter { Height = 6, HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Center, Background = Ui.Bg, ResizeBehavior = GridResizeBehavior.PreviousAndNext };
         Grid.SetRow(split, 1); grid.Children.Add(split); Grid.SetRow(bottom, 2); grid.Children.Add(bottom); RegisterWorkspaceSplit(grid, "righe", true, topWeight/(topWeight+bottomWeight)); return grid;
     }
     private static ScrollViewer Scroller(UIElement content) => new ChainedScrollViewer { Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
-    private Grid AnalysisLayout(UIElement input, UIElement viewport, UIElement details, UIElement table)
+    private Grid AnalysisLayout(UIElement input, UIElement viewport, UIElement details, UIElement table, double tableMinimumHeight = 155)
     {
         var upper = ResultColumns(viewport, details);
-        return WorkspaceLayout(input, Rows(upper, table, 3.7, 2));
+        return WorkspaceLayout(input, Rows(upper, table, 3.7, 2, tableMinimumHeight));
     }
     private Grid WorkspaceLayout(UIElement input, UIElement content)
     {
@@ -143,7 +143,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
 
     private UIElement BuildControlPanel()
     {
-        var norm = new InputForm(settings, [new("normativa", "Normativa", Choices: ConcreteStandards.Names), new("nota", "Nota del foglio")], key => { if (key == "normativa") { ResetCoefficients(); RefreshStandardMaterialChoices(); } Invalidate(); });
+        var norm = new InputForm(settings, [new("normativa", "Normativa", Choices: ConcreteStandards.OrdinaryNames), new("nota", "Nota del foglio")], key => { if (key == "normativa") { ResetCoefficients(); RefreshStandardMaterialChoices(); } Invalidate(); });
         geometry = new(Input, [new("shape", "Sezione", Choices: ["Circolare", "Rettangolare", "A T", "Generica (da definire)"]), new("diameter_mm", "Diametro D", "mm"), new("circular_sides", "Lati del contorno (12–720, multipli di 4)"), new("width_mm", "Larghezza b", "mm"), new("height_mm", "Altezza h", "mm"), new("flange_width_mm", "Larghezza ala bf", "mm"), new("web_width_mm", "Larghezza anima bw", "mm"), new("flange_thickness_mm", "Spessore ala hf", "mm"), new("cover_mm", "Copriferro netto", "mm")], _ => Invalidate(), true);
         foreach(var(k,v) in new[]{("inner_diameter_mm","500"),("inner_width_mm","300"),("inner_height_mm","400")})if(!Input.ContainsKey(k))Input[k]=v;
         var holeToggle=new CheckBox{Content="Foro centrale",IsChecked=Input.B("foro_presente"),Margin=new Thickness(4)};
@@ -218,7 +218,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     {
         foreach (var form in Ui.Descendants<InputForm>(this).ToArray()) form.Commit();
         foreach (var grid in grids) grid.Commit(); foreach (string key in actions.Keys) SyncActions(key);
-        if (shearGrid is not null) ShearOptions["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")),("T",r.Values.S("T","0")))).ToArray());
+        if (shearGrid is not null) ShearOptions["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Mx",r.Values.S("Mx","0")),("My",r.Values.S("My","0")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")),("T",r.Values.S("T","0")))).ToArray());
     }
     internal void SetGeometry(string value) => geometry.Set("diameter_mm", value);
     private void Invalidate(bool geometryChanged = true)

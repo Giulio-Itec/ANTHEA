@@ -46,10 +46,13 @@ public static partial class Ntc2018Checks
         Add("φ", state.Native.PsiRebar ?? 0, "−", "Coefficiente utilizzato nell'analisi tensionale");
         Add("γc (input)", input.D("gamma_c"), "−", "Coefficiente di materiale della sezione", "Non compare direttamente nella formula wk: qui si usa fctm, non fctd.");
         Add("γs (input)", input.D("gamma_s"), "−", "Coefficiente di materiale della sezione", "Non è applicato come divisore aggiuntivo di σs nella formula wk.");
-        var req = CrackRequirement(set, options.S("esposizione"), options.S("sensibilita", "Poco sensibile") == "Sensibile");
+        var code = workspace.S("normativa", "NTC 2018");
+        options = (JsonObject)options.DeepClone(); options["__normativa_fessure"] = code;
+        var req = ConcreteCodeChecks.CrackRequirement(code, set, options);
+        Add("Normativa fessurazione", null, "", code);
         Add("Criterio", null, "", req.Kind, "Criterio selezionato dal codice in funzione di famiglia SLE, esposizione e sensibilità.");
         Add("wlim", req.Limit, "mm", "Limite di apertura selezionato", req.Limit is null ? "Nessun limite di apertura numerico per questo ramo." : "Confronto wk ≤ wlim");
-        if (set == "SLE" || req.Kind.StartsWith("Selezionare")) return new(null, null, null, null, req.Kind) { Details = details.ToArray() };
+        if (req.Kind.StartsWith("Non richiesta") || req.Kind.StartsWith("Selezionare")) return new(null, null, null, null, req.Kind) { Details = details.ToArray() };
         if (req.Kind != "Apertura fessure")
         {
             // NTC 4.1.2.2.4.5: these checks use the homogenized UNCRACKED section, not wk / 0.
@@ -85,7 +88,12 @@ public static partial class Ntc2018Checks
         Add("εc,max", strains.Max(), "−", "max ε ai vertici");
         Add("Tolleranza compressione", 1e-12, "−", "Se εc,max ≤ tolleranza, wk = 0");
         if (strains.Max() <= 1e-12) return new(0, req.Limit, 0, true, "Sezione interamente compressa") { Details = details.ToArray() };
-        if (strains.Min() >= 0) return CrackSurfaceScope(FullyTensionedCracking(engine,state,input,options,req.Limit!.Value,details),engine.Geometry);
+        if (strains.Min() >= 0) return InnerCracking(FullyTensionedCracking(engine,state,input,options,req.Limit!.Value,details),engine,state,options);
+        if (code != "NTC 2018")
+        {
+            k2 = .5; // A neutral axis crosses the section: bending, EC2 7.3.4(2).
+            Add("Criterio k₂", k2, "−", "Sezione parzialmente compressa: flessione, k₂ = 0,50");
+        }
         double gradient = double.Hypot(plane.ChiX, plane.ChiY);
         Add("χx", plane.ChiX, "1/mm", "Componente del gradiente di deformazione restituita da Checker");
         Add("χy", plane.ChiY, "1/mm", "Componente del gradiente di deformazione restituita da Checker");
@@ -105,7 +113,7 @@ public static partial class Ntc2018Checks
         var bars = section.GetRebars().Where(r => plane.GetStrain(r.Position) > 0).ToArray();
         if (bars.Length == 0) return new(null, req.Limit, null, null, "Nessuna armatura tesa") { Details = details.ToArray() };
         double centroid = bars.Sum(r => Q(r.Position) * r.Area) / bars.Sum(r => r.Area);
-        double coverToCenter = top - centroid, hc = Math.Min(2.5 * coverToCenter, Math.Min(tensileDepth / 3, height / 2));
+        double coverToCenter = top - centroid, hc = ConcreteCodeChecks.EffectiveCrackDepth(code,engine.Geometry,qx,qy,top,height,coverToCenter,tensileDepth,false);
         Add("Numero barre tese", bars.Length, "−", "Barre con ε > 0");
         Add("QG,s", centroid, "mm", "Σ(Qi·As,i) / ΣAs,i sulle barre tese");
         Add("h − d", coverToCenter, "mm", "Qmax − QG,s");
@@ -113,7 +121,7 @@ public static partial class Ntc2018Checks
         Add("Candidato 1 hc,eff", 2.5 * coverToCenter, "mm", "2,5·(h − d)");
         Add("Candidato 2 hc,eff", tensileDepth / 3, "mm", "(h − x) / 3");
         Add("Candidato 3 hc,eff", height / 2, "mm", "h / 2");
-        Add("hc,eff", hc, "mm", "min[2,5·(h − d); (h − x)/3; h/2]");
+        Add("hc,eff", hc, "mm", code.StartsWith("DS")?"Fascia con baricentro coincidente con As tesa · DK NA Fig.7.100":code.StartsWith("DIN")?"Altezza efficace secondo NCI 7.3.2(3), coefficiente dipendente da h/(h−d)":"min[2,5·(h − d); (h − x)/3; h/2]");
         if (hc <= 0) return new(null, req.Limit, null, null, "Area efficace nulla") { Details = details.ToArray() };
         double level = top - hc, half = 4 * Math.Max(height, engine.Geometry.Width);
         var start = new Point2d(qx * level - qy * half, qy * level + qx * half);
@@ -159,10 +167,10 @@ public static partial class Ntc2018Checks
         var concrete = (ConcreteMaterialEuropeanCommon)section.ConcreteMaterial;
         Add("Ecls analisi", concrete.E, "MPa", "Modulo del materiale nell'analisi Checker");
         Add("n analisi", es * (1 + (native.PsiRebar ?? 0)) / concrete.E, "−", "Es·(1 + φ) / Ecls; distinto da αe usato nella formula di fessurazione");
-        double width = CalculateCrackWidth(sigma, es, concrete.Ecm, concrete.Fctm, steel / aceff, phi, c, spacing, tensileDepth,
+        double width = ConcreteCodeChecks.CrackWidth(code, sigma, es, concrete.Ecm, concrete.Fctm, steel / aceff, phi, c, spacing, tensileDepth,
             options.S("durata", "Lunga") == "Breve", options.S("aderenza", "Migliorata") == "Migliorata", k2, details);
         Add("ηw", width / req.Limit, "−", "wk / wlim");
-        return CrackSurfaceScope(new(width, req.Limit, width / req.Limit, width <= req.Limit, width <= req.Limit ? "Apertura entro limite" : "Apertura oltre limite", aceff, steel, spacing, automatic ? "Automatico geometrico" : "Manuale") { Details = details.ToArray(), Regions=[SectionRegions.Region(engine.Geometry,"Zona tesa efficace",qx,qy,level,tensileIndices,width)] },engine.Geometry);
+        return InnerCracking(new(width, req.Limit, width / req.Limit, width <= req.Limit, width <= req.Limit ? "Apertura entro limite" : "Apertura oltre limite", aceff, steel, spacing, automatic ? "Automatico geometrico" : "Manuale") { Details = details.ToArray(), Regions=[SectionRegions.Region(engine.Geometry,"Zona tesa efficace",qx,qy,level,tensileIndices,width)] },engine,state,options);
     }
     public static double CrackWidth(double sigmaS, double es, double ecm, double fctm, double rho, double phi, double cover, double spacing, double tensileDepth, bool shortTerm, bool ribbed, double k2)
         => CalculateCrackWidth(sigmaS, es, ecm, fctm, rho, phi, cover, spacing, tensileDepth, shortTerm, ribbed, k2, null);
@@ -224,7 +232,12 @@ public static partial class Ntc2018Checks
         return width;
     }
 
-    public sealed record ShearResult(double VRsd, double VRcd, double VRd, double? Ratio, double CotTheta, string Status);
+    public sealed record ShearResult(double VRsd, double VRcd, double VRd, double? Ratio, double CotTheta, string Status)
+    {
+        public string Reference { get; init; } = "NTC 2018";
+        public string Model { get; init; } = "NTC 2018";
+        public CrackCalculationDetail[] Details { get; init; } = [];
+    }
     public static ShearResult Shear(double nKn, double vKn, double area, double bw, double d, double asl, double fck, double fcd, double fyd, double gammaC,
         double asw, double spacing, double alphaDeg, double? cotTheta = null, double leverFactor = .9)
     {

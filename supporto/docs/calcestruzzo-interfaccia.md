@@ -263,11 +263,14 @@ questo è reso esplicito nell'editor e va riesaminato nella validazione normativ
 ## Normative disponibili e report
 
 Il selettore collega NTC 2018, Model Code 2010, EN 1992-1-1, UNI, DIN, DS e NS
-EN 1992-1-1, CNR-DT 204/2006 e CS-TR34. Tutti i coefficienti esposti dalla classe
+EN 1992-1-1. CNR-DT 204/2006 e CS-TR34 restano leggibili nei vecchi archivi ma
+sono esclusi dal selettore per il calcestruzzo ordinario. I coefficienti della classe
 base sono visibili e modificabili; la scelta di una nuova normativa ripristina
 i suoi valori predefiniti. I tre input storici αcc/γc/γs sono sincronizzati.
 La cache dei domini include normativa, coefficienti e materiali. Taglio e
-fessurazione portati da Rhino2Midas restano abilitati **solo per NTC 2018**.
+fessurazione hanno formule dedicate per tutti i sette profili; il Model Code
+usa anche i momenti associati al taglio. Le verifiche dei dettagli e la torsione
+restano nel campo NTC documentato.
 Per supporto effettivo, differenze nazionali e parti mancanti vedere
 [normative-calcestruzzo.md](normative-calcestruzzo.md).
 

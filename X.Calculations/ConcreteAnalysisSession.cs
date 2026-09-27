@@ -40,7 +40,7 @@ public sealed class ConcreteAnalysisSession
     }
     private readonly ConcurrentDictionary<string, (string Signature, CheckerDomain3D? Three, CheckerDomain2D? Two)> domainCache = new();
     private readonly ConcurrentDictionary<string, (string Signature, CheckerSection Engine, CheckerStressState State)> stressCache = new();
-    public static readonly string[] CrackFields = ["esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure"];
+    public static readonly string[] CrackFields = ["esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure", "limite_fessure"];
     public static ActionPoint ReadAction(JsonObject row) => new(
         SectionWorkspace.Number(row.S("N"), "N"), SectionWorkspace.Number(row.S("Mx"), "Mx"),
         SectionWorkspace.Number(row.S("My"), "My"));
@@ -116,7 +116,7 @@ public sealed class ConcreteAnalysisSession
                 }
                 var engine = cached.Engine; var state = cached.State;
                 Ntc2018Checks.CrackResult crack;
-                try { crack = workspace.S("normativa") == "NTC 2018" ? Ntc2018Checks.Cracking(engine, state, force, input, workspace, options, key) : new(null, null, null, null, "Fessurazione specifica " + workspace.S("normativa") + ": da implementare"); }
+                try { crack = Ntc2018Checks.Cracking(engine, state, force, input, workspace, options, key); }
                 catch (Exception ex) { crack = new(null, null, null, null, "Fessurazione non calcolata: " + ex.Message); }
                 results[request.Id] = new(state, state.Ratio, state.Status, crack.Status, crack);
             }
