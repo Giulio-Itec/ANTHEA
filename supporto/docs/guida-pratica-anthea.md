@@ -2,9 +2,9 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 2 del 27 settembre 2026 — revisione documentale 03
+Edizione 2 del 28 settembre 2026 — revisione documentale 04
 
-Questa guida accompagna l'utilizzatore dalla creazione del progetto alla lettura dei risultati e alla produzione dei report. Comprende i moduli geotecnici, i materiali, le sezioni in calcestruzzo armato, la sezione composta da ponte e Bridge Design. La revisione 03 integra l'edizione del 26 settembre con H ad anima inclinata e cassoncino disponibili il 27 settembre 2026. La guida teorica separata descrive le formule e le scelte di modello; le due guide vanno utilizzate insieme quando si deve motivare un risultato.
+Questa guida accompagna l'utilizzatore dalla creazione del progetto alla lettura dei risultati e alla produzione dei report. Comprende i moduli geotecnici, i materiali, le sezioni in calcestruzzo armato, la sezione composta da ponte e Bridge Design. La revisione 03 integra l'edizione del 26 settembre con H ad anima inclinata e cassoncino disponibili il 27 settembre 2026; la revisione 04 aggiunge le verifiche a torsione, distorsione e diaframmi del cassoncino disponibili il 28 settembre 2026. La guida teorica separata descrive le formule e le scelte di modello; le due guide vanno utilizzate insieme quando si deve motivare un risultato.
 
 ANTHEA raccoglie strumenti con scopi diversi. Alcuni verificano una sezione o un meccanismo specifico, mentre Bridge Design produce ordini di grandezza. Il risultato di un foglio riguarda il suo modello e i dati inseriti: non equivale alla verifica completa della struttura o dell'opera. Il percorso operativo più utile consiste nel definire il problema, scegliere il foglio adatto, controllare le unità, esaminare gli avvisi e archiviare i dati insieme al report.
 
@@ -252,7 +252,7 @@ Per riprodurre l'esempio usare altezza libera 1800 mm, spessore anima 14 mm, int
 
 ![Cassoncino con due anime inclinate e due piattabande superiori](../artefatti/guide_anthea_itec_rev03/interfaccia/sezione_cassoncino.png)
 
-Il fondo deve contenere gli appoggi delle due anime, considerate con il loro spessore orizzontale; le anime devono restare separate e le piattabande superiori non devono sovrapporsi. Nell'esempio il fondo interno netto è 1285,866 mm e ogni sbalzo esterno è 42,933 mm. Queste larghezze dipendono dallo spessore e dall'inclinazione: non coincidono esattamente con 1300 e 50 mm. Il programma respinge le geometrie incompatibili, ma la loro accettazione non certifica saldature, montaggio o comportamento torsionale.
+Il fondo deve contenere gli appoggi delle due anime, considerate con il loro spessore orizzontale; le anime devono restare separate e le piattabande superiori non devono sovrapporsi. Nell'esempio il fondo interno netto è 1285,866 mm e ogni sbalzo esterno è 42,933 mm. Queste larghezze dipendono dallo spessore e dall'inclinazione: non coincidono esattamente con 1300 e 50 mm. Il programma respinge le geometrie incompatibili, ma la loro accettazione non certifica saldature o montaggio. Il comportamento torsionale si verifica soltanto attivando le opzioni di torsione del cassoncino descritte più avanti.
 
 ### 8 4 Leggere le proprietà e riconoscere i limiti
 
@@ -269,7 +269,7 @@ I valori in tabella sono geometrici e lordi: non includono soletta, armature o r
 
 L'analisi assume flessione retta attorno all'asse orizzontale e un vincolo laterale fornito da soletta e controventi. Per l'H inclinata non risolve l'accoppiamento della flessione dovuto al prodotto d'inerzia della sola carpenteria. Occorre verificare separatamente che l'ipotesi sia rappresentativa, soprattutto durante getto e montaggio: selezionare una fase Solo acciaio non crea da sé un vincolo laterale reale.
 
-Per il cassoncino restano escluse torsione e distorsione della cella, diaframmi e irrigidimenti longitudinali del fondo; il fondo non viene verificato come piastra irrigidita longitudinalmente. La rappresentazione grafica chiusa e un esito positivo delle verifiche disponibili non coprono questi fenomeni. Leggere Info modello, gli avvisi e la descrizione del tipo di sezione nel report prima di utilizzare i risultati.
+Per il cassoncino torsione e distorsione della cella e diaframmi sono verificati soltanto se si attivano le verifiche a torsione. Restano esclusi gli irrigidimenti longitudinali del fondo: il fondo non viene verificato come piastra irrigidita longitudinalmente. L'H con anima inclinata resta in flessione retta e un ΔT salvato nelle sue fasi non viene considerato. La rappresentazione grafica chiusa e un esito positivo delle verifiche disponibili non coprono i fenomeni esclusi. Leggere Info modello, gli avvisi e la descrizione del tipo di sezione nel report prima di utilizzare i risultati.
 
 Gli archivi precedenti privi del tipo di sezione vengono interpretati come H saldato. Dopo il cambio di tipologia salvare con un nome riconoscibile, riaprire il foglio e controllare tipo, scostamento e interasse. Il report delle nuove sezioni distingue le dimensioni equivalenti impiegate nel calcolo dalle lamiere reali; confrontare entrambe le tabelle con il disegno.
 
@@ -303,7 +303,27 @@ La colorazione principale della sezione riguarda le tensioni normali rapportate 
 
 Con anime inclinate il taglio V inserito nelle fasi rimane il taglio verticale totale della sezione. Non trasformarlo preventivamente nel taglio della singola lamiera: il programma applica V/cos α per l'H inclinata e V/(2 cos α) per ciascuna anima del cassoncino. Con V = 600 kN negli esempi precedenti le domande nel piano delle lamiere sono rispettivamente 608,276 kN e 302,880 kN per anima. Il risultato di resistenza globale viene riportato alla componente verticale totale.
 
-### 8 8 Curve di risposta
+### 8 8 Torsione distorsione e diaframmi del cassoncino
+
+Con Cassoncino selezionato, in fondo al Pannello di controllo compare il riquadro Cassoncino · torsione, distorsione e diaframmi. Attivare Verifiche a torsione del cassoncino: nella tabella Sollecitazioni diventa modificabile la colonna ΔT [kNm] e ogni scheda di fase mostra Momento torcente T. ΔT è l'incremento del momento torcente della fase nella sezione, ricavato dal modello globale e già combinato come N, Mx e V. Il ritiro non ha momento torcente. Per H saldato e H con anima inclinata la colonna non compare e un valore rimasto nell'archivio non partecipa al calcolo.
+
+Controvento superiore · spessore equivalente t* chiude la cella del cassone di acciaio nelle fasi Solo acciaio: inserire lo spessore della lamiera equivalente al controvento orizzontale posto fra le piattabande superiori. Con t* = 0 il cassone è aperto e la torsione delle fasi di solo acciaio resta da completare, perché la torsione non uniforme della sezione aperta non viene calcolata. Nelle fasi composte la cella è chiusa dalla soletta e t* non interviene. Il flusso nel controvento viene riportato, ma le sue aste vanno verificate a parte.
+
+Per la distorsione assegnare la luce della campata e, se presenti, il passo dei diaframmi intermedi e il loro tipo: Piastra con il suo spessore, oppure Controvento a X con area, raggio d'inerzia minimo e rapporto Lcr/L di una diagonale. Il torcente distribuito m_t e il torcente concentrato T_c derivano dai carichi eccentrici della combinazione esaminata, per esempio corsie caricate da un solo lato. Il programma applica m_t su tutta la luce e T_c nella posizione più sfavorevole, con lo stesso segno. Con luce nulla la distorsione non viene analizzata e resta da completare.
+
+All'appoggio assegnare il torcente trasferito agli apparecchi, l'interasse trasversale degli apparecchi e lo spessore del diaframma d'appoggio. Come la reazione R, questi dati sono inviluppi indipendenti dalle fasi. Quando la verifica dell'appoggio è attiva, la coppia T/e_b si somma a metà della reazione sull'irrigidimento dell'anima più caricata.
+
+![Riquadro delle verifiche a torsione del cassoncino](../artefatti/guide_anthea_itec_rev04/interfaccia/cassoncino_torsione_ingressi.png)
+
+Per riprodurre l'esempio della guida teorica usare il cassoncino descritto sopra con le tre fasi iniziali del foglio, t* = 4 mm e ΔT pari a 200, 300 e 1000 kNm. Nella scheda Verifiche il gruppo Cassoncino · torsione, distorsione e diaframmi riporta per la fase di solo acciaio A0 = 2,829 m² e q = 35,351 kN/m; per le due fasi composte A0 = 3,079 m² e q = 48,712 e 162,372 kN/m. Il flusso cumulato nelle anime e nel fondo è 246,435 kN/m, quello della soletta 211,083 kN/m. Le tensioni tangenziali di torsione sono 17,602 MPa nelle anime da 14 mm e 9,857 MPa nel fondo da 25 mm.
+
+![Flussi di torsione per fase nella scheda Verifiche](../artefatti/guide_anthea_itec_rev04/interfaccia/cassoncino_torsione_risultati.png)
+
+Aggiungendo luce 40000 mm, diaframmi a piastra da 12 mm ogni 5000 mm, m_t = 60 kNm/m e T_c = 600 kNm, il programma individua 7 diaframmi intermedi e calcola al fondo σdw = 14,946 MPa, pari al 20,2% della tensione di flessione: la tensione di distorsione viene quindi sommata nelle verifiche del fondo. Il diaframma intermedio più sollecitato ha τ = 8,394 MPa.
+
+Nella tabella Verifiche la riga Anima · resistenza a taglio comprende il flusso torsionale sull'anima più caricata; le righe Fondo, Soletta, Distorsione e Diaframma riportano i controlli specifici. Restano da completare i controlli privi di dati, per esempio il taglio da torsione nella soletta senza armatura trasversale attiva o la torsione del cassone aperto. I metodi con storico non eseguono queste verifiche e lo segnalano negli avvisi.
+
+### 8 9 Curve di risposta
 
 La terza scheda permette curve M κ a N fissato oppure N ε a curvatura fissata. Si può partire da uno stato vergine oppure dalla storia di una fase ricostruita dal motore non lineare. Quando si parte da una fase caricata, il ramo di risposta conserva la memoria prevista dal modello e non riparte da zero tensioni.
 

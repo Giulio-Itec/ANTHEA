@@ -57,7 +57,8 @@ public sealed partial class MainWindow
         Check(torsionForm.Editors["t_diaframma"].Visibility == Visibility.Visible && torsionForm.Editors["A_diagonale"].Visibility != Visibility.Visible, "campi del diaframma a piastra.");
         var phaseForms = bridge.InputForms.Where(f => f.Editors.ContainsKey("T") && f.Editors.ContainsKey("Mx")).ToArray();
         Check(phaseForms.Length >= 2 && phaseForms.All(f => f.Editors["T"].Visibility == Visibility.Visible), "ΔT nelle fasi del cassoncino con la torsione.");
-        phaseForms[0].Set("T", "200"); phaseForms[^1].Set("T", "1000"); await wait(); await Layout();
+        // the example of the guides: 200, 300 and 1000 kNm on the three default phases
+        phaseForms[0].Set("T", "200"); if (phaseForms.Length == 3) phaseForms[1].Set("T", "300"); phaseForms[^1].Set("T", "1000"); await wait(); await Layout();
         var torsion = bridge.Calculation!.Stages[^1].Torsion;
         Check(torsion is not null && torsion.WebFlow > 0 && torsion.SlabFlow > 0 && torsion.Distortion is { Diaphragms: 7 }, "calcolo della torsione e della distorsione.");
         Check(bridge.Calculation.Stages[0].Torsion!.Flows[0].Closed, "fase di solo acciaio chiusa dal controvento.");

@@ -21,7 +21,12 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[2]
-REVISION = '03'
+REVISION = '04'
+# edition data of the revision: date, contents and description in the revision table of the cover
+DATE = '28/09/2026'
+CONTENTS = '28 settembre 2026'
+CONTENTS_ISO = '2026-09-28'
+REVISION_NOTE = 'TORSIONE DEL CASSONCINO'
 ART = ROOT / f'supporto/artefatti/guide_anthea_itec_rev{REVISION}'
 OUT = ROOT / 'supporto/documentazione/Guide_ANTHEA'
 TEMPLATE = Path('C:/Users/g.pacini/Desktop/MODELLO-RELAZIONE-ITEC-AA.docx')
@@ -137,18 +142,18 @@ def build(kind):
         for cell in row.cells:
             cell_text(cell, '')
     cell_text(doc.tables[1].cell(0, 1), 'Edizione')
-    for ri, values in enumerate([('Rev.', REVISION), ('Data', '27/09/2026'), ('Testi', '27/09/2026')], 1):
+    for ri, values in enumerate([('Rev.', REVISION), ('Data', DATE), ('Testi', DATE)], 1):
         for ci, value in enumerate(values, 1):
             cell_text(doc.tables[1].cell(ri, ci), value)
     cell_text(doc.tables[2].cell(1, 0), 'Guida pratica all’uso' if kind == 'pratica' else 'Guida teorica dei calcoli')
-    cell_text(doc.tables[2].cell(2, 0), summary + '\nContenuti al 27 settembre 2026')
+    cell_text(doc.tables[2].cell(2, 0), summary + '\nContenuti al ' + CONTENTS)
     for ri, values in enumerate([
         ['Tipo documento: MANUALE', 'Documento:', code],
         ['Software: ANTHEA', 'Revisione:', REVISION + ' — Modello ITEC'],
     ]):
         for ci, value in enumerate(values):
             cell_text(doc.tables[3].cell(ri, ci), value)
-    for ci, value in enumerate([REVISION, 'SEZIONI PONTE INCLINATE', '27/09/2026', '', '', '']):
+    for ci, value in enumerate([REVISION, REVISION_NOTE, DATE, '', '', '']):
         cell_text(doc.tables[4].cell(1, ci), value)
     for ti, size in [(1, 8), (2, 11), (3, 10), (4, 8)]:
         for row in doc.tables[ti].rows:
@@ -264,7 +269,7 @@ def build(kind):
     doc.core_properties.author = 'ANTHEA'
     doc.core_properties.last_modified_by = 'ANTHEA'
     doc.core_properties.revision = int(REVISION)
-    doc.core_properties.keywords = f'ANTHEA; ITEC; Manuale; Rev{REVISION}; Contenuti 2026-09-27'
+    doc.core_properties.keywords = f'ANTHEA; ITEC; Manuale; Rev{REVISION}; Contenuti {CONTENTS_ISO}'
     authored = qa / 'authored.docx'
     doc.save(authored)
 

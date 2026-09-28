@@ -89,11 +89,74 @@ internal static class BridgeInclinedGuideChecks
             try { BridgeSection.Geometry(Data(false, offset)); } catch (ArgumentException) { rejected = true; }
             Check(rejected, "oltre 45 gradi respinto");
         }
+        TorsionExample(Near, Check, id => caseId = id);
         Console.WriteLine($"Esempi guide H inclinata e cassoncino: {count} controlli superati.");
         if (Environment.GetEnvironmentVariable("BRIDGE_INCLINED_OUTPUT") is { Length: > 0 } output)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(output))!);
             File.WriteAllText(output, System.Text.Json.JsonSerializer.Serialize(new { Checks = count, Rows = evidence }, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
         }
+    }
+
+    /// <summary>
+    /// The torsion example of the guides (revision 04): the box of the examples with the default slab and phases, torques 200, 300 and
+    /// 1000 kNm, bracing t* = 4 mm. Cell areas, flows, J, τ and the support diaphragm by hand; distortion as printed in the guides
+    /// </summary>
+    private static void TorsionExample(Action<double, double, double, string> near, Action<bool, string> check, Action<string> setCase)
+    {
+        setCase("TORSIONE");
+        var d = BridgeSection.Defaults();
+        d["sezione"] = BridgeSection.SectionTypes[2]; d["offset_anima"] = 250; d["interasse_anime"] = 1800;
+        d["b_top"] = 450; d["b_bottom"] = 1400; d["t_bottom"] = 25;
+        d["torsione_cassoncino"] = true; d["t_controvento"] = 4;
+        double[] torques = [200, 300, 1000];
+        for (int i = 0; i < 3; i++) d.Array("fasi")[i]!["T"] = torques[i];
+        // axis of the webs extended: half distance at the level y (0 at the top of the steel)
+        double Half(double y) => 900 + (y + 25) * 250 / 1800.0;
+        double yb = -25 - 1800 - 12.5, ys = -12.5, yc = 125;
+        double bs = 2 * Half(ys), bc = 2 * Half(yc), bb = 2 * Half(yb), hs = ys - yb, hc = yc - yb;
+        double a0s = (bs + bb) / 2 * hs, a0c = (bc + bb) / 2 * hc;
+        double ws = Math.Sqrt(Math.Pow((bs - bb) / 2, 2) + hs * hs), wc = Math.Sqrt(Math.Pow((bc - bb) / 2, 2) + hc * hc);
+        var result = BridgeSection.Calculate(d);
+        var torsion = result.Stages[^1].Torsion!;
+        double n0 = result.Materials.Ea / result.Materials.Ec;
+        double[] n = [0, n0 * (1 + 1.1 * 2) * 1.2 / 1.3, n0 * 1.2 / 1.3];
+        double[] area = [a0s, a0c, a0c];
+        for (int i = 0; i < 3; i++)
+        {
+            var f = torsion.Flows[i];
+            near(f.CellArea, area[i], 1e-6, "A0 fase " + (i + 1));
+            near(f.Flow, torques[i] * 1e6 / (2 * area[i]), 1e-9, "q = T/(2A0) fase " + (i + 1));
+            double j = i == 0 ? 4 * a0s * a0s / (bs / 4 + 2 * ws / 14 + bb / 25) : 4 * a0c * a0c / (bc / (250 / n[i]) + 2 * wc / 14 + bb / 25);
+            near(f.TorsionConstant, j, 1e-6 * j, "J fase " + (i + 1));
+        }
+        double q = torques.Select((t, i) => t * 1e6 / (2 * area[i])).Sum();
+        near(torsion.WebFlow, q, 1e-9, "q anime e fondo");
+        near(torsion.Details.Single(x => x.Name == "Torsione · τ anime").Value, q / 14, 1e-9, "τ anime");
+        near(torsion.Details.Single(x => x.Name == "Torsione · τ fondo").Value, q / 25, 1e-9, "τ fondo");
+        check(result.Stages[^1].Shear!.Checks[0].Note.Contains("torsione"), "taglio dell'anima con la torsione");
+        // distortion and support diaphragm
+        d["L_campata"] = 40000; d["passo_diaframmi"] = 5000; d["m_t_dist"] = 60; d["T_c_dist"] = 600;
+        d["T_app"] = 1500; d["e_appoggi"] = 1300; d["t_diaframma_app"] = 15;
+        var full = BridgeSection.Calculate(d).Stages[^1].Torsion!;
+        var dw = full.Distortion!;
+        near(full.Checks.Single(c => c.Name == "Diaframma d'appoggio · taglio da torsione").Demand, 1500e6 / (2 * a0s * 15), 1e-9, "τ diaframma d'appoggio");
+        near(full.Details.Single(x => x.Name == "Appoggio · coppia degli apparecchi T/e_b").Value, 1500e3 / 1300, 1e-9, "coppia degli apparecchi");
+        check(dw.Diaphragms == 7, "7 diaframmi intermedi");
+        // the values printed in the guides (rounded as printed)
+        near(dw.WarpingInertia / 1e18, .010042, 5e-7, "I_Dw della guida");
+        near(dw.FrameStiffness / 1000, 607.168, 5e-4, "K della guida");
+        near(dw.DiaphragmStiffness / 1e9, 2872.26, 5e-3, "K_D della guida");
+        near(Math.Abs(dw.TorqueLoad), .341377, 5e-7, "carico generalizzato della guida");
+        near(dw.Amplitude * 1e4, 2.762, 5e-4, "ψ massimo della guida");
+        near(dw.WarpingStressBottom, 14.946, 5e-4, "σdw della guida");
+        near(dw.BendingRatio * 100, 20.2, .05, "σdw / σ flessione della guida");
+        near(dw.CornerMomentBottom / 1000, .0434, 5e-5, "momento trasversale della guida");
+        near(full.Details.Single(x => x.Name == "Diaframma intermedio · τ").Value, 8.394, 5e-4, "τ del diaframma della guida");
+        Console.WriteLine($"Guida torsione: A0 {a0s / 1e6:F6} / {a0c / 1e6:F6} m²; q {string.Join(" / ", torsion.Flows.Select(f => f.Flow.ToString("F4")))} kN/m; " +
+            $"J {string.Join(" / ", torsion.Flows.Select(f => (f.TorsionConstant / 1e12).ToString("F6")))} m⁴; I_Dw {dw.WarpingInertia / 1e18:F6} m⁶; K {dw.FrameStiffness / 1000:F3} kN·m/m; " +
+            $"K_D {dw.DiaphragmStiffness / 1e9:F2} MN·m; carico {Math.Abs(dw.TorqueLoad):F6}; ψ {dw.Amplitude:E4}; ψD {dw.DiaphragmAmplitude:E4}; σdw {dw.WarpingStressBottom:F3} / {dw.WarpingStressTop:F3} MPa; " +
+            $"rapporto {dw.BendingRatio:F4}; m {dw.CornerMomentBottom:F3} / {dw.CornerMomentTop:F3} N·mm/mm; " +
+            $"τD {full.Details.Single(x => x.Name == "Diaframma intermedio · τ").Value:F4} MPa");
     }
 }

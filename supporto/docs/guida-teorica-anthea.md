@@ -2,9 +2,9 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 2 del 27 settembre 2026 — revisione documentale 03
+Edizione 2 del 28 settembre 2026 — revisione documentale 04
 
-Questa guida descrive il comportamento dei motori di ANTHEA documentati il 26 settembre 2026, integrando nella revisione 03 le sezioni da ponte H con anima inclinata e cassoncino disponibili il 27 settembre 2026. Spiega come i dati diventano geometrie, azioni, resistenze, tensioni e stime; chiarisce inoltre quali risultati appartengono a un modello semplificato e quali controlli richiedono informazioni ulteriori. Il manuale pratico separato illustra i comandi dell'interfaccia.
+Questa guida descrive il comportamento dei motori di ANTHEA documentati il 26 settembre 2026, integrando nella revisione 03 le sezioni da ponte H con anima inclinata e cassoncino disponibili il 27 settembre 2026 e nella revisione 04 la torsione, la distorsione e i diaframmi del cassoncino disponibili il 28 settembre 2026. Spiega come i dati diventano geometrie, azioni, resistenze, tensioni e stime; chiarisce inoltre quali risultati appartengono a un modello semplificato e quali controlli richiedono informazioni ulteriori. Il manuale pratico separato illustra i comandi dell'interfaccia.
 
 La distinzione fondamentale è fra il calcolo di una grandezza e la verifica completa di un problema progettuale. Una capacità assiale del palo non comprende automaticamente i cedimenti; un dominio resistente di sezione non comprende l'instabilità dell'elemento; un costo preliminare del ponte non equivale a un computo esecutivo. Le formule che seguono descrivono il campo effettivamente implementato. Coefficienti e correlazioni vanno scelti per la situazione analizzata, senza attribuire ai valori iniziali un'approvazione automatica del progetto.
 
@@ -407,7 +407,7 @@ $$ Ix = Σ[Ixi + Ai(yi − yG)²]
 
 Per l'insieme delle anime Ixi rispetto all'asse orizzontale del loro baricentro vale Aw hw²/12. Per una flangia orizzontale vale b t³/12, con b larghezza e t spessore; per le due flange superiori si sommano i contributi. La posizione orizzontale delle parti non entra negli integrali rispetto a y. L'identità è esatta per la geometria ideale rappresentata e per la flessione retta considerata.
 
-L'identità non si estende automaticamente a Iy, Ixy, assi principali, torsione o distorsione. L'H inclinata può avere prodotto d'inerzia non nullo: un'analisi generale della carpenteria libera richiederebbe entrambe le curvature e il loro accoppiamento. Qui è assunta la curvatura nel piano verticale, con vincolo laterale da soletta e controventi. Il programma espone le proprietà della sezione reale, ma non usa Ixy per risolvere la flessione deviata. L'ipotesi va motivata anche nelle fasi precedenti alla collaborazione della soletta.
+L'identità non si estende automaticamente a Iy, Ixy, assi principali, torsione o distorsione. L'H inclinata può avere prodotto d'inerzia non nullo: un'analisi generale della carpenteria libera richiederebbe entrambe le curvature e il loro accoppiamento. Qui è assunta la curvatura nel piano verticale, con vincolo laterale da soletta e controventi. Il programma espone le proprietà della sezione reale, ma non usa Ixy per risolvere la flessione deviata. L'ipotesi va motivata anche nelle fasi precedenti alla collaborazione della soletta. La torsione del cassoncino non passa per questa equivalenza: è trattata con il modello di cella chiusa descritto con le verifiche di taglio e connessione, mentre l'H con anima inclinata resta in flessione retta.
 
 ### 7 4 Esempi numerici delle nuove sezioni
 
@@ -437,7 +437,7 @@ Questo riferimento verifica unità, trasporto del momento e distribuzione delle 
 
 Le geometrie inclinate sono disponibili attraverso lo stesso ingresso dei tre metodi e delle curve di risposta; l'adozione della sezione equivalente non cambia il significato di fasi, carichi incrementali e riferimento al getto. Nei metodi storici i controlli locali di taglio, connessione e accessori restano non valutati; il metodo non lineare conserva il proprio campo istantaneo e lordo. La presenza della nuova forma non estende il campo di verifica del metodo selezionato.
 
-La chiusura superiore del cassoncino mediante soletta non attiva un modello torsionale di cella chiusa. Restano fuori dal calcolo torsione, distorsione, diaframmi, irrigidimenti longitudinali del fondo e verifica del fondo compresso come piastra irrigidita. Il fondo viene trattato come lamiera interna non irrigidita longitudinalmente, con i suoi sbalzi esterni. Instabilità globale e comportamento dell'intero ponte richiedono altri modelli.
+La chiusura superiore del cassoncino mediante soletta attiva il modello torsionale di cella chiusa soltanto quando si abilitano le verifiche a torsione; in tal caso sono calcolati anche distorsione e diaframmi. Restano fuori dal calcolo gli irrigidimenti longitudinali del fondo, la verifica del fondo compresso come piastra irrigidita e la torsione non uniforme del cassone aperto. Il fondo viene trattato come lamiera interna non irrigidita longitudinalmente, con i suoi sbalzi esterni. Instabilità globale e comportamento dell'intero ponte richiedono altri modelli.
 
 Gli archivi senza le chiavi del tipo di sezione continuano a rappresentare H saldato. Il dato di seconda piastra inferiore viene escluso dall'adattatore per H inclinata e cassoncino, anche se era salvato in un precedente H. Il risultato espone sia i parametri equivalenti sia quelli reali; i report riportano le ipotesi e una tabella delle lamiere. Non si deve usare un valore equivalente come dimensione esecutiva della singola lamiera.
 
@@ -536,7 +536,7 @@ Il modello ammette piatti mono o bilaterali anche differenti, pannelli adiacenti
 
 Un irrigidimento insufficiente non aumenta la resistenza del pannello a taglio. Le azioni di traversi, intagli, concentrazioni locali o dettagli non inseriti non vengono ricavate dalla sola sezione trasversale. La capacità di un piatto non dimostra da sola che anima, flangia e saldature trasferiscano l'intera reazione.
 
-Con anima inclinata le dimensioni di controllo di irrigidimenti e saldature seguono la lamiera reale, non l'altezza dell'anima equivalente. Per il cassoncino l'implementazione ripartisce la reazione d'appoggio assegnata fra le due anime e usa dettagli per anima; questa ipotesi non sostituisce l'analisi di un appoggio eccentrico che solleciti in modo diverso le due pareti. Una diversa distribuzione trasversale, o la necessità di diaframmi, deve essere valutata separatamente.
+Con anima inclinata le dimensioni di controllo di irrigidimenti e saldature seguono la lamiera reale, non l'altezza dell'anima equivalente. Per il cassoncino l'implementazione ripartisce la reazione d'appoggio assegnata fra le due anime e usa dettagli per anima; questa ipotesi non sostituisce l'analisi di un appoggio eccentrico che solleciti in modo diverso le due pareti. Con le verifiche a torsione attive il torcente trasferito agli apparecchi aggiunge la coppia T/e_b alla metà della reazione sull'anima più caricata; altre distribuzioni trasversali devono essere valutate separatamente.
 
 ### 8 4 Resistenza e domanda dei pioli
 
@@ -558,6 +558,12 @@ $$ PEd = |q| passo / (nf npioli)
 
 nf vale uno per l'H e due per il cassoncino. Per esempio q = 100 N/mm, passo = 200 mm e due pioli per fila e per piattabanda producono 5000 N, cioè 5 kN per piolo, nel cassoncino; una sola piattabanda con due pioli riceverebbe 10 kN per piolo. Il controllo del bordo usa la larghezza della singola piattabanda e i controlli della soletta trasversale usano il flusso a essa attribuito. I flussi minimo e massimo assegnati alla fatica dei pioli si riferiscono già alla piattabanda: non sono automaticamente interpretati come flussi totali da dimezzare.
 
+Con la torsione del cassoncino il flusso torsionale della soletta qT, somma delle fasi composte, si trasferisce attraverso i pioli di ciascuna piattabanda con verso opposto sulle due anime. Sulla piattabanda in cui si somma al flusso di flessione la domanda diventa:
+
+$$ PEd = (|q|/nf + |qT|) passo / npioli
+
+Con q = 100 N/mm, qT = 50 N/mm, passo 200 mm e due pioli per fila si ottengono 10 kN per piolo. Il flusso qT si aggiunge anche alla superficie a–a interna alla cella di ciascuna piattabanda e alle superfici b–b.
+
 ### 8 5 Servizio dettagli e fatica
 
 Il limite 0,75 PRd viene controllato nella situazione caratteristica di esercizio prevista; non viene trasferito automaticamente a una combinazione quasi permanente. I dettagli comprendono passi longitudinali e trasversali, bordi, testa, copriferro, posizione rispetto alle barre, rapporto fra diametro e spessore della flangia e armature trasversali.
@@ -565,6 +571,89 @@ Il limite 0,75 PRd viene controllato nella situazione caratteristica di esercizi
 I passi minimi implementati sono 5d longitudinale e 2,5d trasversale, con massimo longitudinale min(800 mm; 4hc). Le condizioni di azioni ripetute e fatica attivano il limite pertinente d ≤ 1,5tf; per il campo statico disponibile è adottato cautelativamente 2,5tf. Testa e distanze non sono dettagli ornamentali: possono governare la validità del collegamento anche con PEd basso.
 
 Sono presenti controlli dell'armatura trasversale, superfici di scorrimento, ancoraggio e fatica resistente dei pioli con interazione della flangia tesa, quando i dati necessari sono assegnati. Restano fuori campo, fra gli altri, sollevamento, splitting attraverso lo spessore, gruppi non uniformi, mensole locali e lamiere grecate. Una verifica non alimentata con le escursioni e i dati di fatica non ricava autonomamente lo spettro di traffico.
+
+### 8 6 Torsione del cassoncino
+
+Con le verifiche a torsione attive il cassoncino è una cella singola chiusa. Il momento torcente ΔT di ciascuna fase produce il flusso di St. Venant della formula di Bredt, costante lungo il perimetro e, in una cella singola, indipendente dagli spessori delle pareti. A0 è l'area racchiusa dalle linee medie. Nelle fasi composte la parete superiore è la soletta al suo piano medio, con le anime prolungate fino a esso; nelle fasi di solo acciaio è il controvento orizzontale di spessore equivalente t* al piano medio delle piattabande superiori. Con t* = 0 la cella è aperta e il flusso della fase non viene calcolato.
+
+$$ q = T / (2 A0)
+$$ A0 = (b_sup + b_inf) h0 / 2
+$$ J = 4 A0² / Σ(ℓi / ti)
+$$ nG = n (1 + νc) / (1 + νa)
+
+b_sup e b_inf sono le distanze fra gli assi delle anime prolungate ai piani delle pareti superiore e inferiore, h0 la distanza verticale fra i due piani. Nella rigidezza J la soletta ha spessore hc/nG, con νc = 0,2, νa = 0,3 e il coefficiente n della fase comprensivo della viscosità (EN 1994-2 §5.4.2.2(11)); con soletta esclusa lo spessore è dimezzato, come per la soletta fessurata della EN 1994-2 §5.4.2.3(6). J serve al modello globale e non modifica q.
+
+I flussi delle fasi si sommano con il proprio segno. Anime e fondo ricevono il flusso di tutte le fasi, soletta e connessione quello delle sole fasi composte, il controvento quello delle fasi di solo acciaio. La tensione tangenziale di torsione in una parete di spessore t è q/t. Nell'anima più caricata il taglio di flessione e quello di torsione si sommano (EN 1993-1-1 §6.2.7(9)); il risultato è riportato alla componente verticale totale per il confronto con la resistenza e per l'interazione con il momento.
+
+$$ τT = q / t
+$$ V_lamiera = V / (nw cos α) + q ℓw
+$$ Veq = nw cos α V_lamiera
+
+Nell'inviluppo elastico dell'anima q/tw si aggiunge al massimo di V S/(I t). Nel fondo si controllano la tensione equivalente al nodo con l'anima, l'imbozzamento a taglio del pannello compreso fra due diaframmi con η = 1 e l'interazione della EN 1993-1-5 §7.1(5) con Mf,Rd nullo. Il taglio di flessione del fondo usa il momento statico della sua metà interna; nell'imbozzamento si adotta il τ medio del pannello, non inferiore a metà del massimo.
+
+$$ τb = q / tb + V S_fondo / (I tb)
+$$ η1 + (2 η3 − 1)² ≤ 1
+
+Nella soletta il flusso si somma alla superficie a–a interna alla cella di ciascuna piattabanda e alle superfici b–b attorno ai pioli, con lo stesso angolo θ dei puntoni. L'armatura longitudinale deve assorbire la trazione q cotθ per unità di larghezza (EN 1992-1-1 §6.3.2(3)), confrontata con la compressione disponibile del calcestruzzo e con la capacità residua delle barre oltre la flessione; senza armatura trasversale attiva si usa cotθ = 1,25.
+
+$$ q cotθ ≤ max(0; −σc,media) hc + Σ As,i/si [fyd − max(0; σs,i)]
+
+All'appoggio il diaframma riceve il flusso perimetrale e lo porta agli apparecchi. La piastra del diaframma è in taglio puro, con A0 della cella di acciaio a favore di sicurezza; la reazione verticale degli apparecchi comprende la coppia del torcente, che si somma a R/2 sull'anima più caricata. Se gli apparecchi non sono allineati alle anime la flessione del diaframma non è verificata e viene segnalata.
+
+$$ τD = T / (2 A0 tD)
+$$ ΔR = T / e_b
+
+L'esempio riprende il cassoncino del capitolo precedente (δ = 250 mm, s_top = 1800 mm, piattabande 450 × 25 mm, fondo 1400 × 25 mm) con la soletta 3000 × 250 mm e le fasi iniziali del foglio: G1 di solo acciaio con t* = 4 mm, G2 composta con φ = 2 e ψL = 1,1, Q composta a breve termine. Per la cella composta b_sup = 1841,667 mm, b_inf = 1296,528 mm e h0 = 1962,5 mm; per la cella di acciaio b_sup = 1803,472 mm e h0 = 1825 mm.
+
+| Grandezza | G1 solo acciaio | G2 composta | Q composta |
+| --- | --- | --- | --- |
+| ΔT [kNm] | 200 | 300 | 1000 |
+| A0 [m²] | 2,828750 | 3,079353 | 3,079353 |
+| q [kN/m] | 35,3513 | 48,7115 | 162,3718 |
+| J [m⁴] | 0,041788 | 0,080873 | 0,100659 |
+
+Il flusso cumulato vale 246,4346 kN/m nelle anime e nel fondo, con τT = 17,6025 MPa nelle anime da 14 mm e 9,8574 MPa nel fondo da 25 mm; nella soletta agiscono 211,0833 kN/m. Con T = 1500 kNm all'appoggio, tD = 15 mm ed e_b = 1300 mm risultano τD = 17,6757 MPa e ΔR = 1153,846 kN. I valori sono confrontati con il calcolo del programma nei controlli dell'aggiornamento.
+
+### 8 7 Distorsione e diaframmi
+
+La distorsione è la deformazione della sezione trasversale del cassone prodotta dalla parte dei carichi eccentrici che la cella non assorbe per torsione. Il modello segue l'analogia della trave su suolo elastico di Wright, Abdel-Samad e Robinson (1968). Il modo distorsivo è il meccanismo delle quattro pareti incernierate negli spigoli con scorrimento nullo in ogni parete: gli spostamenti tangenziali Vi delle pareti di lunghezza ℓi soddisfano la condizione di chiusura, per cui i flussi di St. Venant non compiono lavoro sul modo. L'ingobbamento ω è lineare su ogni parete con pendenza Vi ed è reso ortogonale agli ingobbamenti di sforzo normale e flessione; mensole della soletta, sbalzi del fondo e piattabande superiori partecipano agli integrali, con la soletta divisa per n0. Il modo è normalizzato con la media dei valori assoluti delle variazioni degli angoli agli spigoli, che nel rettangolo coincide con la distorsione γ.
+
+$$ Σ ℓi Vi = 0
+$$ ∫ ω t ds = ∫ ω x t ds = ∫ ω y t ds = 0
+$$ IDw = ∫ ω² t ds
+
+La rigidezza a telaio K per unità di lunghezza deriva dal telaio trasversale a nodi rigidi deformato secondo il modo, con rigidezze flessionali D = E t³/[12(1 − ν²)] di anime, fondo e soletta. I diaframmi intermedi sono molle KD: per la piastra si usa l'energia dello stato piano di tensione con i bordi mossi dalle pareti, per il controvento a X l'energia delle due diagonali. Un torcente applicato come coppia verticale alla sommità delle anime produce il carico generalizzato p = T (V_dx − V_sx)/b_sup, dove V_dx e V_sx sono gli spostamenti verticali del modo agli spigoli superiori.
+
+$$ E IDw ψ'''' + K ψ = p
+$$ σdw = E ω ψ''
+$$ m = m1 ψ
+
+Per un rettangolo b × h di spessore costante t valgono le forme chiuse seguenti, usate come controllo del programma insieme a un modello a telaio indipendente e alle formule di Yoo et al. (SSRC 2015) per il trapezio. Per il controvento a X del trapezio la rigidezza coincide con quella della letteratura dopo il cambio di normalizzazione dell'angolo; per la piastra la formula semplificata a taglio uniforme è dal 5 al 10% più bassa del calcolo con i bordi mossi dalle pareti.
+
+$$ IDw = t (b + h) b² h² / 96
+$$ K = 24 / (b/Dh + h/Dv)
+$$ KD = G t b h
+$$ KD = 2 E A b² h² / L³
+
+La trave su suolo elastico è la campata semplicemente appoggiata con diaframmi d'estremità rigidi, discretizzata con elementi cubici e con le molle dei diaframmi intermedi. m_t agisce su tutta la luce e T_c nella posizione più sfavorevole, con lo stesso segno; si ricavano gli inviluppi di σdw agli spigoli e agli sbalzi, del momento trasversale agli spigoli e della distorsione ai diaframmi. Secondo la EN 1993-2 §6.2.7(3) σdw viene sommata alle verifiche del fondo quando supera il 10% della tensione di flessione. I nodi anima–fondo e anima–piattabanda superiore combinano sempre σx con σdw, la flessione trasversale σz = 6m/t² con il segno sfavorevole e τ.
+
+$$ σeq = √(σx² + σz² + |σx σz| + 3τ²)
+
+I diaframmi a piastra sono verificati a taglio con imbozzamento (EN 1993-1-5 §5 con η = 1) e a tensione equivalente; le diagonali dei controventi a X in compressione con la curva c e Lcr = β L. Aperture, collegamenti, aste del controvento superiore e accoppiamento fra distorsione e ingobbamento torsionale restano fuori dal modello, come nell'analogia originale. Gli inviluppi della distorsione non dipendono dalle fasi e sono calcolati nelle situazioni con la soletta.
+
+Nell'esempio del paragrafo precedente, con luce 40 m, diaframmi a piastra da 12 mm ogni 5 m, m_t = 60 kNm/m e T_c = 600 kNm, si ottengono i valori seguenti. σdw supera il 10% della flessione e viene sommata nelle verifiche del fondo.
+
+| Grandezza | Valore |
+| --- | --- |
+| IDw | 0,010042 m⁶ |
+| K | 607,168 kN·m/m |
+| KD della piastra | 2872,26 MN·m |
+| Carico generalizzato di un torcente unitario | 0,341377 |
+| Diaframmi intermedi | 7 |
+| ψ massimo | 2,762·10⁻⁴ rad |
+| σdw al fondo | 14,946 MPa, pari al 20,2% della flessione |
+| Momento trasversale ai nodi inferiori | 0,0434 kNm/m |
+| τ nel diaframma più sollecitato | 8,394 MPa |
 
 ## 9 Bridge Design
 
@@ -705,6 +794,8 @@ Per Bridge Design la campagna di questa integrazione comprende 5753 controlli: s
 
 La revisione documentale 03 aggiunge una campagna mirata agli esempi di H inclinata e cassoncino. Sono stati rieseguiti 143 controlli della sezione composta e 2957 dei metodi e delle curve; sono stati aggiunti e superati 164 controlli in BridgeInclinedGuideChecks.cs. Questi ultimi confrontano area, baricentro e Ix con integrali geometrici indipendenti, tensioni elastiche con N/As e Mc/Ix nei tre metodi, segni dello scostamento, caso limite verticale, taglio medio, tensione critica della lamiera reale, fondo interno, salvataggio e limite geometrico di 45°. Le tolleranze sono numeriche e non margini di sicurezza progettuali: per esempio 0,01 mm⁴ su Ix e 0,0001 MPa sulle tensioni dei casi elastici.
 
+La revisione documentale 04 aggiunge le prove della torsione del cassoncino. La libreria CompositeBridge 1.4 ha 17 test dedicati su 254: forme chiuse del rettangolo, modello a telaio indipendente e formule di Yoo et al. per il trapezio, trave su suolo elastico di Hetényi infinita e appoggiata, flussi e verifiche calcolati a mano. BridgeAudit supera 302 test, con risultati numerici identici ai precedenti per le sezioni ad H. In ANTHEA i controlli della sezione composta sono 172 e quelli degli esempi delle guide 189: i 25 nuovi ricalcolano a mano A0, q, J, τ e il diaframma d'appoggio dell'esempio e confrontano i valori della distorsione riportati nella guida. La prova dell'interfaccia controlla campi, colonna ΔT, risultati e relazione del cassoncino.
+
 Il test dell'interfaccia ha superato 13 controlli specifici su scelta del tipo, visibilità dei campi, seconda piastra, calcolo, annotazioni del disegno e report. Le due schermate nella guida pratica provengono da questa esecuzione. I controlli aggiunti non sono una validazione generale di torsione, distorsione, appoggi asimmetrici, fatica o comportamento oltre il campo elastico delle nuove forme. Le esclusioni del modello rimangono quelle dichiarate nei capitoli precedenti.
 
 ## 11 Tracciabilità e riferimenti
@@ -724,6 +815,7 @@ Il test dell'interfaccia ha superato 13 controlli specifici su scelta del tipo, 
 | Sezione composta | X.Calculations/BridgeSection e relativi file parziali |
 | H inclinata e cassoncino | BridgeSection.CheckerInput.cs, RealSteelSection e ReportBridge.SectionType.cs; librerie CompositeBridge e Model |
 | Esempi delle nuove sezioni | supporto/test/X.Verifiche/BridgeInclinedGuideChecks.cs e supporto/test/Desktop/BridgeSectionTypeSmokeChecks.cs |
+| Torsione e distorsione del cassoncino | Box/BoxDistortion.cs e HSections/HBridgeSection.Torsion.cs in CompositeBridge; X.Desktop/Wpf/BridgeTorsion.cs; esempio in BridgeInclinedGuideChecks.cs |
 | Bridge Design | X.Calculations/BridgeConcept.cs e BridgeConcept.Calculation.cs |
 | Archivi revisioni report | X.Core e documentazione di progetto in supporto/docs |
 
