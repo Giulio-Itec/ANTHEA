@@ -24,8 +24,14 @@ public sealed partial class MainWindow
         var price = workspace.Editors["rates/concrete_deck"]; price.Text = "480"; await Settle();
         Check(workspace.Calculation!.TotalCost > cost && workspace.Calculation.Carbon == co2, "Il prezzo non si propaga correttamente.");
         workspace.Undo(); await Settle();
-        Check(workspace.Editors["rates/concrete_deck"].Text == "240", "Annulla non ripristina il controllo prezzi.");
+        Check(workspace.Editors["rates/concrete_deck"].Text == "260", "Annulla non ripristina il controllo prezzi.");
         Check(Math.Abs(workspace.Calculation!.TotalCost - cost) < 1e-6, "Annulla non ripristina il calcolo.");
+        workspace.Editors["rates/rebar"].Text = "1234"; await Settle();
+        var pricePreset = Ui.Descendants<Button>(workspace).Single(b => b.Content is string label && label == "Applica valori orientativi 2026");
+        pricePreset.RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); await Settle();
+        Check(workspace.Editors["rates/rebar"].Text == "1660" && workspace.Data["rates"].D("rebar") == 1660, "Listino 2026 non aggiorna editor e dati");
+        workspace.Undo(); await Settle(); Check(workspace.Editors["rates/rebar"].Text == "1234", "Undo listino perde prezzo personale");
+        workspace.Undo(); await Settle();
         workspace.Editors["input/length"].Text = ""; Check(workspace.Calculation is null && editor.Result is null, "Risultati obsoleti con input vuoto.");
         workspace.Undo(); Check(workspace.Calculation is not null, "Ripristino da input invalido fallito.");
         for (int tab = 0; tab < 4; tab++)
@@ -43,14 +49,18 @@ public sealed partial class MainWindow
         {
             var button = Ui.Descendants<Button>(workspace).Single(b => (string)b.GetValue(System.Windows.Automation.AutomationProperties.NameProperty) == family.Name);
             button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            workspace.Editors["input/length"].Text = ((family.MinSpan + family.MaxSpan) / 2 * 4.6).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            workspace.Editors["input/length"].Text = (BridgeConcept.HasTowers(family.Id) ? 2 * Math.Min(450, (family.MinSpan + family.MaxSpan) / 2) : (family.MinSpan + family.MaxSpan) / 2 * 4.6).ToString(System.Globalization.CultureInfo.InvariantCulture);
             workspace.Editors["input/height"].Text = "40";
             await Settle(); Check(workspace.Calculation?.Family.Id == family.Id, "Cambio famiglia fallito: " + family.Id);
             File.WriteAllBytes(Path.Combine(directory, family.Id + "_prospetto.png"), workspace.Drawing.Png(false));
             File.WriteAllBytes(Path.Combine(directory, family.Id + "_sezione.png"), workspace.Drawing.Png(true));
         }
         workspace.AutoSize(); await Settle(); Check(workspace.Calculation is not null, "Dimensioni automatiche fallite.");
-        workspace.Randomize(); await Settle(); Check(workspace.Calculation is not null, "Ponte casuale non calcolabile."); workspace.Undo();
+        for (int seed = 0; seed < 100; seed++)
+        {
+            workspace.Randomize(new Random(seed)); await Settle();
+            Check(workspace.Calculation is not null, "Ponte casuale non calcolabile, seed " + seed); workspace.Undo();
+        }
         workspace.Editors["input/pile_count"].Text = "1"; await Settle(); _ = workspace.Drawing.Png(); workspace.Undo();
         workspace.Data["input"] = BridgeConcept.Defaults()["input"]!.DeepClone();
         workspace.Data["input"]!["length"] = 120; workspace.Data["input"]!["spans"] = 3;
@@ -142,6 +152,6 @@ public sealed partial class MainWindow
             Check(scroller.ScrollableWidth < 1, "Scorrimento orizzontale esterno indesiderato.");
             File.WriteAllBytes(Path.Combine(directory, $"bridge_design_{width:0}.png"), Ui.Snapshot(this));
         }
-        File.WriteAllText(Path.Combine(directory, "smoke.txt"), "PASS: catalogo, quattro schede input, otto famiglie, sei schede risultati, listino, invalidazione, undo, A/B, auto, random, PNG, archivio, report Word singolo e di progetto, Home. Ottimizzazione: scheda autonoma, ricerca asincrona, nove variabili graficabili, nuvola completa, selezione da grafico, filtro Pareto, top N senza ricalcolo, preview senza mutazioni, selezione/applicazione fuori dalla top N, invalidazione listino, risultati vuoti, range invalidi, interruzione, cambio prezzo durante il calcolo, annullamento. Layout progetto, ottimizzazione e grafici 1600/1366/960/780.");
+        File.WriteAllText(Path.Combine(directory, "smoke.txt"), "PASS: catalogo, quattro schede input, quattordici famiglie, sei schede risultati, listino, invalidazione, undo, A/B, auto, random, PNG, archivio, report Word singolo e di progetto, Home. Ottimizzazione: scheda autonoma, ricerca asincrona, nove variabili graficabili, nuvola completa, selezione da grafico, filtro Pareto, top N senza ricalcolo, preview senza mutazioni, selezione/applicazione fuori dalla top N, invalidazione listino, risultati vuoti, range invalidi, interruzione, cambio prezzo durante il calcolo, annullamento. Layout progetto, ottimizzazione e grafici 1600/1366/960/780.");
     }
 }

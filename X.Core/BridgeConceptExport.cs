@@ -101,7 +101,7 @@ public static class BridgeConceptExport
             s.Number + " · " + s.Type + (s.Type == "Spalla" ? " equivalente" : s.Type.StartsWith("Antenna") ? " · " + s.Columns + "×(" + F(s.Size) + "×" + F(s.Size) + ") m" : s.WallWidth > 0 ? " · " + F(s.Size) + "×" + F(s.WallWidth) + " m" : " · " + s.Columns + "×Ø" + F(s.Size) + " m"), F(s.Height),
             s.CapLength == 0 ? "—" : F(s.CapLength) + "×" + F(s.CapWidth) + "×" + F(s.CapThickness), F(s.FootingLength) + "×" + F(s.FootingWidth) + "×" + F(s.FootingThickness),
             s.Piles == 0 ? "Diretta" : s.Piles + "×Ø" + F(s.PileDiameter) + "×" + F(s.PileLength) }), [2500, 800, 1900, 2160, 2000]);
-        P("Quantità e prezzi", "Heading1");
+        P("Quantità e prezzi", "Heading1"); P(BridgeConcept.PriceBasis);
         foreach (var group in result.Quantities.GroupBy(q => q.Group))
         {
             P(group.Key, "Heading2"); Table(["Voce", "Quantità", "Unità", "Prezzo €", "Importo €"], group.Select(q => new[] { q.Item, F(q.Amount, "N1"), q.Unit, F(q.Rate, "N1"), F(q.Cost, "N0") }), [3500, 1300, 800, 1500, 2260]);

@@ -53,15 +53,16 @@ try
         foreach(var soil in BridgeConcept.Soils)
             foreach(var pier in BridgeConcept.Piers)
             {
-                var d=BridgeConcept.Defaults(); d["input"]!["family"]=family.Id; d["input"]!["length"]=(family.MinSpan+family.MaxSpan)/2*3;
+                var d=BridgeConcept.Defaults(); d["input"]!["family"]=family.Id; d["input"]!["length"]=BridgeConcept.HasTowers(family.Id) ? 2*Math.Min(450,(family.MinSpan+family.MaxSpan)/2) : (family.MinSpan+family.MaxSpan)/2*3;
                 d["input"]!["spans"]=3;d["input"]!["height"]=40;d["input"]!["obstacle"]="Nessuno";d["input"]!["soil"]=soil;d["input"]!["pier"]=pier;
+                d["input"]!["continuous"] = family.Id is not "tied_arch" and not "truss"; d["input"]!["spans"] = 3;
                 var result=BridgeConcept.Calculate(d);
                 Assert(double.IsFinite(result.TotalCost)&&result.TotalCost>0&&result.Carbon>0&&result.Inertia>0,"Risultato non finito / negativo");
                 Assert(result.Quantities.All(v=>v.Amount>=0&&double.IsFinite(v.Amount)),"Quantità negativa");
                 var exported=CalculationService.Calculate(BridgeConcept.Module,d); Assert(exported["bridge_design"] is JsonObject,"Dispatch del modulo");
                 if(soil==BridgeConcept.Soils[0]&&pier==BridgeConcept.Piers[0]) File.WriteAllText(Path.Combine(output,family.Id+".json"),result.Json().ToJsonString(J.Options));
             }
-    log.Add("PASS: 128 combinazioni di famiglia, terreno e pila, dispatch della libreria.");
+    log.Add("PASS: 224 combinazioni di famiglia, terreno e pila, dispatch della libreria.");
     data=BridgeConcept.Defaults(); data["input"]!["continuous"]=false; data["input"]!["spans"]=1; data["input"]!["length"]=40; data["input"]!["end_pier"]=true;
     var ends=BridgeConcept.Calculate(data); Assert(ends.Supports.Count(s=>s.Type=="Spalla")==1,"Estremo su pila");
     data=BridgeConcept.Defaults(); data["input"]!["foundation"]="Pali Ø 1,5 m"; data["input"]!["pile_count"]=1;
@@ -81,10 +82,12 @@ try
         Assert(text.Contains("Confronto con alternativa A")&&text.Contains("333")&&text.Contains("Predimensionamento"),"Report incompleto");
     }
     log.Add("PASS: modifica listino, CO₂, invalidazione, archivi, confronto A, CSV e struttura DOCX.");
+    int audit = AuditChecks.Run(output); checks += audit; log.Add($"PASS: {audit} controlli indipendenti su geometrie, fondazioni, prezzi e nuove famiglie.");
     int optimizationChecks = OptimizationChecks.Run(output); checks += optimizationChecks;
     log.Add($"PASS: {optimizationChecks} controlli nuovi su ottimizzazione, vincoli e dimensioni tecniche.");
     int explorationChecks = ExplorationChecks.Run(output); checks += explorationChecks;
     log.Add($"PASS: {explorationChecks} controlli su esplorazione, intervalli, progress e frontiera Pareto.");
+    int auditOptimization = AuditChecks.Optimization(output); checks += auditOptimization; log.Add($"PASS: {auditOptimization} controlli finali di ottimizzazione su sette tipologie e tre obiettivi.");
     log.Add($"TOTALE: {checks} controlli superati.");
     File.WriteAllLines(Path.Combine(output,"checks.txt"),log); Console.WriteLine(string.Join(Environment.NewLine,log));
 }

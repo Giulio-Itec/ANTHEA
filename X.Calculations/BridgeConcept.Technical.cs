@@ -25,7 +25,7 @@ public static partial class BridgeConcept
         Add("Impalcato", "d_pila", r.PierDepth, "m", r.Family.Id == "fcm" ? "Automatico" : "Derivato", "Altezza totale in corrispondenza delle pile");
         double equivalent = r.Family.Id == "fcm" ? r.Depth + (r.PierDepth - r.Depth) / 3 : r.Depth;
         if (r.Family.Id == "fcm") Add("Impalcato", "d_eq", equivalent, "m", "Derivato", "Altezza media usata per quantità e rigidezza: d + (d_pila − d)/3");
-        Add("Soletta", "t_s", r.Slab * 1000, "mm", Source(r.Family.Id == "slab" ? "depth" : "slab"), "Spessore effettivamente usato nel calcolo");
+        Add(r.Advanced?.Orthotropic == true ? "Lamiera di impalcato" : "Soletta", "t_s", r.Slab * 1000, "mm", Source(r.Advanced?.Orthotropic == true ? "deck_plate_mm" : r.Family.Id is "slab" or "filler_beam" ? "depth" : "slab"), "Spessore effettivamente usato nel calcolo");
         Add("Materiali", "fc", i.D("fc"), "MPa", "Impostato", "Resistenza convenzionale del cls impalcato");
         Add("Materiali", "fc_sub", i.D("fc_sub"), "MPa", "Impostato", "Resistenza convenzionale del cls sottostrutture");
         if (r.Advanced is { } advanced) { rows.AddRange(advanced.Dimensions); return rows.ToArray(); }

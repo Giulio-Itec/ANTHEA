@@ -66,8 +66,23 @@ public static partial class BridgeConcept
                 double t = Math.Sqrt(H * H + Math.Pow(q * l / 4, 2));
                 double Z(double x) => tower - 4 * rise * x / l * (1 - x / l);
                 for (int k = 0; k < 100; k++) Member("Cavo principale", side + l * k / 100, Z(l * k / 100), side + l * (k + 1) / 100, Z(l * (k + 1) / 100), 2, t, cable);
-                double back = H * Math.Sqrt(side * side + tower * tower) / side;
-                Member("Cavo di riva", 0, 0, side, tower, 2, back, cable); Member("Cavo di riva", side + l, tower, length, 0, 2, back, cable);
+                // Side spans are also suspended: sag relative to the inclined chord = f/4.
+                // Using straight unloaded backstays would omit support for the side deck.
+                double back = Math.Sqrt(H * H + Math.Pow(H * tower / side + q * side / 4, 2));
+                double SideZ(double x) => tower * x / side - rise * x / side * (1 - x / side);
+                for (int k = 0; k < 50; k++)
+                {
+                    double x1 = side * k / 50, x2 = side * (k + 1) / 50;
+                    Member("Cavo di riva", x1, SideZ(x1), x2, SideZ(x2), 2, back, cable);
+                    Member("Cavo di riva", length - x2, SideZ(x2), length - x1, SideZ(x1), 2, back, cable);
+                }
+                int sidePanels = Math.Max(2, (int)Math.Ceiling(side / i.D("suspender_spacing")));
+                for (int k = 1; k < sidePanels; k++)
+                {
+                    double x = side * k / sidePanels;
+                    Member("Pendino", x, 0, x, SideZ(x), 2, q * side / sidePanels / 2, cable);
+                    Member("Pendino", length - x, 0, length - x, SideZ(x), 2, q * side / sidePanels / 2, cable);
+                }
                 int panels = Math.Max(4, (int)Math.Ceiling(l / i.D("suspender_spacing"))); double step = l / panels;
                 for (int k = 1; k < panels; k++) Member("Pendino", side + k * step, 0, side + k * step, Z(k * step), 2, q * step / 2, cable);
             }

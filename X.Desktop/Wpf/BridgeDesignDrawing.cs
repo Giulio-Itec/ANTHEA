@@ -209,10 +209,10 @@ internal sealed class BridgeFamilyIcon : FrameworkElement
     internal Brush Ink = Ui.Navy;
     protected override void OnRender(DrawingContext dc)
     {
-        double w = ActualWidth, h = ActualHeight; var p = new Pen(Ink, 1.5); dc.DrawRectangle(null, p, new Rect(8, 5, w - 16, 5));
+        double w = ActualWidth, h = ActualHeight; var p = new Pen(Ink, 1.5); if (!BridgeConcept.HasUpperStructure(Family)) dc.DrawRectangle(null, p, new Rect(8, 5, w - 16, 5));
         if (BridgeConcept.HasUpperStructure(Family))
         {
-            dc.DrawRectangle(Ui.Bg, null, new Rect(0, 0, w, h)); double y = h - 6;
+            double y = h - 6;
             dc.DrawLine(p, new(8, y), new(w - 8, y));
             if (Family == "tied_arch")
             {

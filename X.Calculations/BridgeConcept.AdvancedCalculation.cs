@@ -68,34 +68,41 @@ public static partial class BridgeConcept
         double pileLength = diameter == 0 ? 0 : Auto(i, "pile_length", new double[] { 10, 15, 22, 30 }[soil]);
         double resistance = diameter == 0 ? 0 : Math.PI * diameter * pileLength * skin + Math.PI * diameter * diameter / 4 * tip;
         double anchorVolume = id == "suspension" ? 2 * (Math.Max(0, -factored.Item1[0]) + structure.Horizontal / a.D("anchor_friction")) / 25 : 0;
-        double subVolume = 0, towerVolume = 0, foundVolume = 0, pileMetres = 0, maxRatio = 0, maxSlenderness = 0, maxStress = 0;
+        double subVolume = 0, towerVolume = 0, foundVolume = 0, pileMetres = 0, maxRatio = 0, maxSlenderness = 0, maxStress = 0, towerStressRatio = 0;
         var supports = new List<Support>(); var supportSchedule = new List<SupportGeometry>();
+        double subForms = 0, foundationForms = 0;
         for (int k = 0; k <= count; k++)
         {
             bool tower = towers && k is 1 or 2, pier = k > 0 && k < count || k == 0 && i.B("start_pier") || k == count && i.B("end_pier");
             double ph = tower ? height - depth + structure.Tower : pier ? height - depth : Math.Min(7, height - depth);
             bool wall = !tower && i.S("pier") == "Setto";
             int columns = tower ? 2 : pier && i.S("pier") == "Telaio a colonne" ? Math.Max(2, (int)Math.Ceiling(width / 7)) : 1;
-            double automatic = tower ? Math.Max(1.5, Math.Max(Math.Sqrt(factored.Item1[k] / (2 * a.D("concept_tower") * 1000)), 2 * ph * Math.Sqrt(12) / 90))
-                : wall ? Math.Max(1, ph / 25) : Math.Max(1.2, ph / 12);
-            double size = Auto(i, "pier_size", automatic), area = tower ? 2 * size * size : wall ? size * Math.Max(1, width - 2) : Math.PI * size * size / 4 * columns;
+            double towerAvailable = 2 * a.D("concept_tower") * 1000 - a.D("gamma_g") * 25 * (2 * ph + width);
+            if (tower && towerAvailable <= 0 && i.D("pier_size") == 0) throw new ArgumentException("Antenna: tensione di riferimento insufficiente rispetto al peso proprio.");
+            double automatic = tower ? Math.Max(1.5, Math.Max(Math.Sqrt(Math.Max(0, factored.Item1[k]) / towerAvailable), 2 * ph * Math.Sqrt(12) / 90)) : 0;
+            double size = tower ? Auto(i, "pier_size", automatic) : AutoPierSize(i, ph, reactions[k], width * (i.S("pier") == "Testa a martello" ? 3.6 : 2.1), width, columns, wall), area = tower ? 2 * size * size : wall ? size * Math.Max(1, width - 2) : Math.PI * size * size / 4 * columns;
             bool hammer = !tower && i.S("pier") == "Testa a martello";
             double capB = tower ? size : hammer ? 2 : 1.5, capT = tower ? size : hammer ? 1.8 : 1.4;
             double sv = pier ? area * ph + width * capB * capT : width * (ph * Math.Max(.6, ph / 7) + 3);
+            if (tower) towerStressRatio = Math.Max(towerStressRatio, (factored.Item1[k] + a.D("gamma_g") * 25 * sv) / area / 1000 / a.D("concept_tower"));
             double av = id == "suspension" && (k == 0 || k == count) ? anchorVolume / 2 : 0;
             double axial = reactions[k] + 25 * (sv + av);
             if (axial <= 0) throw new ArgumentException($"Appoggio {k + 1}: risultante di fondazione non compressa dopo i pesi delle sottostrutture.");
             if (reactions[k] < 0 && av == 0) warnings.Add("Sollevamento non risolto: la soluzione viene esclusa dalla ricerca.");
-            int piles = diameter == 0 ? 0 : (int)Auto(i, "pile_count", Math.Max(4, 2 * Math.Ceiling(axial / resistance / 2)));
-            double required = diameter == 0 ? Math.Sqrt(axial / (.85 * pressure)) : (Math.Ceiling(Math.Sqrt(piles)) - 1) * 3 * diameter + 2 * diameter;
-            double fs = Auto(i, "footing_size", Math.Ceiling(Math.Max(required, pier ? size + 1 : 0) * 4) / 4);
-            double fw = Math.Max(fs, tower ? width + size : pier && !wall && columns == 1 ? size + 1 : width), ft = diameter == 0 ? Math.Max(.6, fs / 6) : 1.5 * diameter;
+            var foundationSize = SizeFoundation(i, axial, pressure, diameter, resistance, pier ? size + 1 : 0,
+                tower ? width + size : pier && !wall && columns == 1 ? size + 1 : width);
+            int piles = foundationSize.Piles;
+            double fs = foundationSize.Length, fw = foundationSize.Width, ft = foundationSize.Thickness;
             double fv = fs * fw * ft;
-            maxRatio = Math.Max(maxRatio, diameter == 0 ? (axial + 25 * fv) / (fs * fw * pressure) : (axial + 25 * fv) / (piles * resistance));
+            maxRatio = Math.Max(maxRatio, foundationSize.Ratio);
+            if (fs + .001 < foundationSize.Grid) warnings.Add($"Appoggio {k + 1}: plinto troppo piccolo per i pali a interasse 3Ø.");
             if (pier) { maxSlenderness = Math.Max(maxSlenderness, 2 * ph / (tower || wall ? size / Math.Sqrt(12) : size / 4)); maxStress = Math.Max(maxStress, (reactions[k] + 25 * sv) / area / 1000 / i.D("fc_sub")); }
             if (tower) towerVolume += sv; else subVolume += sv;
             foundVolume += fv; pileMetres += piles * pileLength;
             string type = tower ? "Antenna · 2 fusti quadrati" : pier ? i.S("pier") : "Spalla";
+            subForms += pier ? (tower ? 8 * size : wall ? 2 * (size + Math.Max(1, width - 2)) : columns * Math.PI * size) * ph
+                + width * capB + 2 * (width + capB) * capT : 2 * (width + Math.Max(.6, ph / 7)) * ph;
+            foundationForms += 2 * (fs + fw) * ft;
             supports.Add(new(k, positions[k], type, reactions[k], ph, size, columns, fs, fw, piles));
             supportSchedule.Add(new(k + 1, type, positions[k], ph, pier ? columns : 0, size, wall && pier ? Math.Max(1, width - 2) : 0,
                 pier ? width : 0, pier ? capB : 0, pier ? capT : 0, fs, fw, ft, piles, diameter, pileLength));
@@ -116,6 +123,8 @@ public static partial class BridgeConcept
         Add("Sottostrutture", "Calcestruzzo pile e spalle", subVolume, "m³", "concrete_sub", subVolume * cf / 1000);
         Add("Sottostrutture", "Calcestruzzo antenne e traversi", towerVolume, "m³", "concrete_sub", towerVolume * cf / 1000);
         Add("Sottostrutture", "Armatura pile, antenne e spalle", subRebar, "t", "rebar", subRebar * a.D("co2_rebar"));
+        Add("Sottostrutture", "Casseforme equivalenti pile e spalle", subForms, "m²", "formwork", 0);
+        Add("Fondazioni", "Casseforme laterali plinti", foundationForms, "m²", "formwork", 0);
         Add("Fondazioni", "Calcestruzzo plinti", foundVolume, "m³", "concrete_sub", foundVolume * cf / 1000);
         Add("Fondazioni", "Blocchi di ancoraggio a gravità", anchorVolume, "m³", "concrete_sub", anchorVolume * cf / 1000);
         Add("Fondazioni", $"Pali trivellati Ø {diameter:0.0} m", pileMetres, "m", diameter > 1 ? "pile_15" : "pile_1", pileVolume * cf / 1000);
@@ -149,6 +158,11 @@ public static partial class BridgeConcept
             details.Add(new("Momento negativo indicativo", Math.Min(0, factored.Item2.Min(s => s.Moment)), "kNm", "Trave prismatica, EI lordo costante"));
             details.Add(new("Freccia elastica indicativa", service.Item2.Max(s => Math.Abs(s.DeflectionMm)), "mm", "Sola flessione longitudinale, sezioni non fessurate"));
         }
+        if (towers)
+        {
+            details.Add(new("Compressione antenne / riferimento", towerStressRatio, "—", "Reazione amplificata e peso proprio amplificato / area dei due fusti / tensione convenzionale"));
+            if (towerStressRatio > 1 + 1e-8) warnings.Add("Antenna manuale oltre la tensione di riferimento: aumentare la sezione o rivedere il modello.");
+        }
         var dimensions = deck.Dimensions.ToList();
         void Dim(string c, string symbol, double value, string unit, string note) => dimensions.Add(new(c, symbol, value, unit, "Predimensionato", note));
         if (upper)
@@ -170,11 +184,12 @@ public static partial class BridgeConcept
         if (id == "suspension")
         {
             Dim("Ancoraggi", "V_tot", anchorVolume, "m³", "Due blocchi: (sollevamento + H/attrito)/25; stima di peso, senza verifica di ribaltamento e geotecnica");
-            warnings.Add("Sospeso: campate di riva su travi appoggiate, cavi di riva rettilinei. Blocchi di ancoraggio stimati a gravità; ribaltamento, pressioni eccentriche, stabilità globale e aerodinamica non calcolati.");
+            warnings.Add("Sospeso: tutte le campate sospese, cavi principali e di riva parabolici sotto carico uniforme. Blocchi di ancoraggio stimati a gravità; ribaltamento, pressioni eccentriche, stabilità globale e aerodinamica non calcolati.");
         }
         if (id == "filler_beam") warnings.Add("Travi incorporate: profili a I ideali, cls netto dell’acciaio; collaborazione perfetta assunta. Adesione, armatura trasversale, fasi di getto e verifica del profilo non calcolate.");
         if (ortho) warnings.Add("Piastra ortotropa: lamiera, canalette e cassone conteggiati geometricamente. La rigidezza locale ortotropa, i traversi e la fatica delle saldature richiedono un modello dedicato.");
         if (maxRatio > 1 || maxSlenderness > 100 || maxStress > .3) warnings.Add("Una o più soglie indicative di pile / fondazioni sono superate; soluzione esclusa dalla ricerca.");
+        CostWarnings(warnings, length, factored.Item1.Where(v => v > 0).Sum(), (i.B("continuous") ? count + 1 : 2 * count) * Math.Max(2, deck.Girders), rates.D("bearing"));
         warnings.Add("Costi convenzionali, montaggio speciale esplicito; CO₂ parziale materiali e cantiere, senza EPD. Durata parametrica, non cronoprogramma.");
         if (quantities.Any(t => !double.IsFinite(t.Amount) || !double.IsFinite(t.Cost)) || !double.IsFinite(deck.Inertia)) throw new ArgumentException("Risultato non finito nel predimensionamento della tipologia.");
         return new(family, width, depth, depth, deck.Slab, deck.Spacing, deck.Girders, deck.Web, deck.Bottom, spans, supports.ToArray(), foundation, diameter, pileLength,

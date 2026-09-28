@@ -181,9 +181,19 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
     private StackPanel ParameterPanel(string group, IEnumerable<BridgeConcept.Parameter> parameters, bool sliders = false)
     {
         var panel = new StackPanel { Margin = new Thickness(4) };
-        if (group == "rates") panel.Children.Add(Ui.Text("Listino EUR di partenza, indicativo. Prezzi riferiti alle voci elencate; pali comprensivi di cls e perforazione, armatura conteggiata a parte.", 12, color: Ui.Muted));
+        if (group == "rates")
+        {
+            panel.Children.Add(Ui.Text(BridgeConcept.PriceBasis, 12, color: Ui.Muted));
+            panel.Children.Add(Ui.Button("Applica valori orientativi 2026", () => Mutate(() => {
+                foreach (var rate in BridgeConcept.Rates) Data["rates"]![rate.Key] = rate.Default;
+            }, true)));
+        }
         if (group == "assumptions") panel.Children.Add(Ui.Text("Ipotesi del modello di stima. I carichi sono equivalenti uniformi; i moltiplicatori non definiscono una combinazione normativa completa.", 12, color: Ui.Muted));
-        foreach (var p in parameters) panel.Children.Add(Number(group, p, sliders));
+        foreach (var p in parameters)
+        {
+            panel.Children.Add(Number(group, p, sliders));
+            if (group == "rates" && BridgeConcept.RateNotes.TryGetValue(p.Key, out var note)) panel.Children.Add(Ui.Text(note, 11, color: Ui.Muted));
+        }
         return panel;
     }
     private FrameworkElement Number(string group, BridgeConcept.Parameter p, bool slider)
@@ -347,9 +357,10 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
         var copy = Clone(source); var pinned = Data["alternative_a"]?.DeepClone();
         Mutate(() => { Data.Clear(); foreach (var p in copy) Data[p.Key] = p.Value?.DeepClone(); if (pinned is not null) Data["alternative_a"] = pinned; }, true);
     }
-    internal void Randomize()
+    internal void Randomize() => Randomize(Random.Shared);
+    internal void Randomize(Random random)
     {
-        var random = Random.Shared; var f = BridgeConcept.Families[random.Next(BridgeConcept.Families.Length)];
+        var f = BridgeConcept.Families[random.Next(BridgeConcept.Families.Length)];
         Mutate(() =>
         {
             var defaults = BridgeConcept.Defaults()["input"]!.AsObject(); Data["input"] = defaults.DeepClone();
@@ -360,7 +371,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
             if (BridgeConcept.HasUpperStructure(f.Id))
             {
                 bool towers = BridgeConcept.HasTowers(f.Id); Input["spans"] = towers ? 3 : 1; Input["continuous"] = towers;
-                Input["length"] = Math.Min(1900, Math.Round((f.MinSpan + f.MaxSpan) / 2 * (towers ? 2 : 1)));
+                Input["length"] = Math.Round(towers ? Math.Min(450, (f.MinSpan + f.MaxSpan) / 2) * 2 : (f.MinSpan + f.MaxSpan) / 2);
                 Input["height"] = 30; Input["obstacle"] = "Nessuno";
                 if (f.Id == "suspension") Input["deck_type"] = BridgeConcept.DeckTypes[1];
             }

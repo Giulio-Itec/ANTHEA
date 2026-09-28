@@ -35,7 +35,7 @@ Bloccare lo schema di fondazione non significa congelare una distinta diversa pe
 
 La ricerca è discreta e deterministica. Con gli stessi input e vincoli produce lo stesso ordine dei risultati. Include la configurazione corrente, purché rispetti i filtri, e combina:
 
-- le otto famiglie, oppure la sola famiglia bloccata;
+- le quattordici famiglie, oppure la sola famiglia bloccata;
 - i numeri interi di campate nel campo scelto, da 1 a 30; inizialmente il massimo è 12;
 - altezza automatica e una variante aumentata del 15% nella griglia iniziale, modificabile come descritto sotto, oppure l'altezza bloccata;
 - continuità o campate indipendenti, se la continuità è libera;
@@ -146,3 +146,12 @@ dotnet run --project supporto/test/BridgeDesign.Checks -c Release -- supporto/ar
 dotnet build X.Desktop/X.Desktop.csproj -c Release --no-restore
 dotnet X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll --smoke-bridge-design supporto/artefatti/bridge_optimization_explorer/ui
 ```
+
+
+## Estensione alle strutture speciali e audit
+
+Arco con catena e reticolare usano campate indipendenti. Strallato e sospeso richiedono tre campate continue simmetriche L/4 + L/2 + L/4 e antenne dedicate. Un vincolo di continuità o schema pila può quindi escludere intere famiglie: per confrontarle occorre liberare le relative scelte. La ricerca non varia automaticamente la freccia dell'arco, la geometria dei cavi, l'altezza delle antenne o la scelta dell'impalcato cls/ortotropo: questi dati restano quelli impostati.
+
+Le fondazioni automatiche ora includono il peso dei plinti nella selezione di dimensioni e numero pali. I fusti automatici rispettano le soglie convenzionali assiali e di snellezza; sono escluse anche antenne manuali oltre la tensione di riferimento e fondazioni che non contengono il fusto. Nessuno di questi filtri sostituisce le verifiche strutturali/geotecniche.
+
+Il [report del 27 settembre 2026](bridge-design-audit-2026-09-27.md) riporta tutte le prove finali, comprese ricerche libere sulle 14 famiglie, enumerazione indipendente di griglie ristrette e il caso limite con indicatori nulli.

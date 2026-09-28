@@ -62,13 +62,19 @@ internal static class OptimizationChecks
         var uplift = BridgeConcept.Defaults(); var ui = uplift["input"]!;
         ui["family"] = "steel_i"; ui["length"] = 100; ui["height"] = 20; ui["obstacle_width"] = 45; ui["spans"] = 0;
         ui["obstacle"] = "Strada / ferrovia"; ui["soil"] = "Roccia"; ui["pier"] = "Testa a martello"; ui["end_pier"] = true; ui["fc"] = 35;
-        try { BridgeConcept.Calculate(uplift); Check(false, "Caso reale con sollevamento produce un risultato non finito"); }
-        catch (ArgumentException ex) { Check(ex.Message.Contains("sollevamento"), "Sollevamento non diagnosticato chiaramente"); }
+        var upliftResult = BridgeConcept.Calculate(uplift);
+        Check(double.IsFinite(upliftResult.TotalCost), "Il sollevamento propaga valori non finiti");
+        Check(BridgeConcept.OptimizationExclusions(uplift, upliftResult, new()).Any(x => x.Contains("sollevamento")), "Sollevamento non escluso dalla ricerca");
+        uplift["input"]!["pier_size"] = 1.2;
+        try { BridgeConcept.Calculate(uplift); Check(false, "Assiale netto negativo accettato"); }
+        catch (ArgumentException ex) { Check(ex.Message.Contains("sollevamento"), "Assiale negativo non diagnosticato"); }
+
 
         foreach (var family in BridgeConcept.Families)
         {
-            var d = Base(); d["input"]!["family"] = family.Id; d["input"]!["length"] = (family.MinSpan + family.MaxSpan) / 2 * 3; d["input"]!["height"] = 35;
-            var r = BridgeConcept.Calculate(d); var rows = BridgeConcept.TechnicalSchedule(d, r); var supports = BridgeConcept.SupportSchedule(d, r);
+            var d = Base(); d["input"]!["family"] = family.Id; d["input"]!["length"] = BridgeConcept.HasTowers(family.Id) ? 2 * Math.Min(450, (family.MinSpan + family.MaxSpan) / 2) : (family.MinSpan + family.MaxSpan) / 2 * 3; d["input"]!["height"] = 35;
+            d["input"]!["continuous"] = family.Id is not "tied_arch" and not "truss"; d["input"]!["spans"] = 3;
+                var r = BridgeConcept.Calculate(d); var rows = BridgeConcept.TechnicalSchedule(d, r); var supports = BridgeConcept.SupportSchedule(d, r);
             Near(rows.Single(x => x.Symbol == "t_s").Value, r.Slab * 1000, "Conversione spessore soletta");
             Near(BridgeConcept.SpanSchedule(r).Sum(s => s.Length), r.Length, "Somma luci esportate");
             Near(BridgeConcept.SpanSchedule(r).Sum(s => s.DevelopedLength), r.Length * r.Girders, "Sviluppo elementi longitudinali");
@@ -85,7 +91,7 @@ internal static class OptimizationChecks
             Check(csv.Contains("Campata 1") && csv.Contains("Appoggio 1") && csv.Contains("Spessore"), "CSV tecnico incompleto");
             File.WriteAllText(Path.Combine(output, family.Id + "_quote.csv"), csv);
         }
-        File.WriteAllText(Path.Combine(output, "optimization.txt"), $"PASS: {checks} controlli. Candidati valutati nel caso base: {result.Evaluated}; ammessi: {result.Admissible}. Ricerca ampliata: {free.Evaluated} / {free.Admissible}.\nVincoli, immutabilità, riproducibilità, determinismo, obiettivi, cancellazione, limiti, listini, otto famiglie, quantità ricostruite e anime inclinate.");
+        File.WriteAllText(Path.Combine(output, "optimization.txt"), $"PASS: {checks} controlli. Candidati valutati nel caso base: {result.Evaluated}; ammessi: {result.Admissible}. Ricerca ampliata: {free.Evaluated} / {free.Admissible}.\nVincoli, immutabilità, riproducibilità, determinismo, obiettivi, cancellazione, limiti, listini, quattordici famiglie, quantità ricostruite e anime inclinate.");
         return checks;
     }
 }

@@ -37,8 +37,15 @@ dotnet build X.Desktop/X.Desktop.csproj -c Release --no-restore
 dotnet X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll --smoke-bridge-design supporto/artefatti/bridge_design/interfaccia
 ```
 
-La suite numerica controlla formule chiuse di travi appoggiate e continue, equilibrio di 200 travi diseguali, 128 combinazioni di famiglie/terreni/pile, proprietà di indipendenza del listino e del paesaggio, quantità, input invalidi, file, baseline e struttura degli export. Sono inclusi determinismo della ricerca, rispetto dei vincoli, costo e CO₂, cancellazione, assenza di candidati, variazioni dei prezzi e ricostruzione delle quantità dalle quote tecniche. La suite desktop esercita quattro tab di input, otto famiglie, sei tab dei risultati e la scheda principale Ottimizzazione, undo/listino, invalidazione, A/B, auto, random, PNG, archivio, Word singolo e di progetto, ricerca/applicazione/annullamento e layout a 1600/1366/960/780 pixel.
+La suite numerica controlla formule chiuse di travi appoggiate e continue, equilibrio di 200 travi diseguali, 224 combinazioni di famiglie/terreni/pile, proprietà di indipendenza del listino e del paesaggio, quantità, input invalidi, file, baseline e struttura degli export. Sono inclusi determinismo della ricerca, rispetto dei vincoli, costo e CO₂, cancellazione, assenza di candidati, variazioni dei prezzi e ricostruzione delle quantità dalle quote tecniche. La suite desktop esercita quattro tab di input, quattordici famiglie, sei tab dei risultati e la scheda principale Ottimizzazione, undo/listino, invalidazione, A/B, auto, random, PNG, archivio, Word singolo e di progetto, ricerca/applicazione/annullamento e layout a 1600/1366/960/780 pixel.
 
 La campagna live di confronto con il sito è separata dai test interni: sorgenti in `supporto/test/BridgeDesign.SiteComparison`, dati e report in `supporto/artefatti/bridge_design_site_1000`. Un test interno superato non dimostra equivalenza con il sito.
 
 Gli output sono sotto `supporto/artefatti/bridge_design`. Per le guide i sorgenti mantenibili sono i due Markdown in `supporto/docs`, il builder è `supporto/scripts/Build-AntheaGuides.py` e i Word finali sono sotto `supporto/documentazione/Guide_ANTHEA`. Il file di esempio `supporto/esempi/bridge-design.anthea` contiene anche un confronto A e un prezzo modificato.
+
+
+## Audit e famiglie aggiuntive — 27 settembre 2026
+
+Il catalogo comprende ora 14 famiglie: alle otto iniziali si aggiungono travi incorporate, cassone ortotropo, arco metallico con catena, strallato, sospeso e reticolare. Per le strutture superiori il motore usa equilibri e aree convenzionali dedicati, non i diagrammi della trave ordinaria. I file `BridgeConcept.Advanced*.cs` ne separano schema, impalcato e struttura principale.
+
+Il [report dell'audit generale](bridge-design-audit-2026-09-27.md) documenta prezzi, formule, correzioni, limiti, 1.008 configurazioni, regressione dei 2.000 input del sito e test finali di ottimizzazione. `BridgeConcept.Foundation.cs` include il peso del plinto nell'autodimensionamento e `BridgeConcept.Pricing.cs` espone i riferimenti economici. Le nuove tariffe iniziali sono calibrate su riscontri ANAS/RER 2026; i prezzi salvati negli archivi restano invariati. La finestra dispone di un caricamento esplicito dei valori orientativi, annullabile.

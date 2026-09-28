@@ -63,25 +63,25 @@ public static partial class BridgeConcept
         new("fc_sub", "Resistenza cls sottostrutture", "MPa", 35, 20, 60, 5)
     ];
     public static readonly Parameter[] Rates = [
-        new("concrete_deck", "Cls impalcato", "€/m³", 240, 0, 10000, 5),
-        new("concrete_sub", "Cls sottostrutture e plinti", "€/m³", 200, 0, 10000, 5),
-        new("rebar", "Armatura ordinaria", "€/t", 1100, 0, 50000, 50),
+        new("concrete_deck", "Cls impalcato", "€/m³", 260, 0, 10000, 5),
+        new("concrete_sub", "Cls sottostrutture e plinti", "€/m³", 240, 0, 10000, 5),
+        new("rebar", "Armatura ordinaria", "€/t", 1660, 0, 50000, 50),
         new("prestress", "Acciaio da precompressione", "€/t", 3600, 0, 50000, 50),
         new("steel", "Carpenteria metallica", "€/t", 3500, 0, 50000, 50),
         new("steel_box", "Carpenteria cassoni", "€/t", 4000, 0, 50000, 50),
         new("formwork", "Casseforme", "€/m²", 50, 0, 1000, 5),
         new("pile_1", "Palo Ø 1,0 · esclusa armatura", "€/m", 300, 0, 10000, 10),
         new("pile_15", "Palo Ø 1,5 · esclusa armatura", "€/m", 550, 0, 10000, 10),
-        new("bearing", "Apparecchio d'appoggio", "€/cad", 1600, 0, 100000, 100),
+        new("bearing", "Apparecchio d'appoggio", "€/cad", 5000, 0, 100000, 100),
         new("joint", "Giunto di dilatazione", "€/m", 2400, 0, 50000, 100),
-        new("barrier", "Barriera", "€/m", 240, 0, 10000, 10),
+        new("barrier", "Barriera", "€/m", 360, 0, 10000, 10),
         new("surfacing", "Pavimentazione", "€/m²", 32, 0, 1000, 1),
         new("steel_ortho", "Carpenteria impalcato ortotropo", "€/t", 5000, 0, 50000, 50),
-        new("cables", "Cavi e pendini installati, inclusi terminali", "€/t", 12000, 0, 100000, 100),
+        new("cables", "Cavi e pendini installati, inclusi terminali", "€/t", 16000, 0, 100000, 100),
         new("erection_special", "Montaggio aggiuntivo strutture speciali", "€/t", 1000, 0, 50000, 50)
     ];
     public static readonly Parameter[] Assumptions = [
-        new("prelims", "Oneri di cantiere", "%", 12, 0, 100, 1),
+        new("prelims", "Oneri aggiuntivi non computati", "%", 12, 0, 100, 1),
         new("contingency", "Imprevisti", "%", 15, 0, 100, 1),
         new("uncertainty", "Intervallo indicativo costo ±", "%", 30, 0, 90, 5),
         new("co2_concrete", "CO₂ cls ordinario", "kg/m³", 320, 0, 2000, 10),

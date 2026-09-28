@@ -157,8 +157,8 @@ internal sealed partial class BridgeDesignWorkspace
         Numeric("Costo [€]", result.Baseline.TotalCost, r.TotalCost, "N0"); Numeric("CO₂ [t]", result.Baseline.Carbon, r.Carbon, "N1");
         Row("Luci [m]", string.Join(" + ", result.Baseline.Spans.Select(s => F(s, "N2"))), string.Join(" + ", r.Spans.Select(s => F(s, "N2"))));
         Row("Schema pila", BridgeConcept.HasTowers(result.Baseline.Family.Id) ? "Antenna · 2 fusti quadrati" : optimizationSource!["input"].S("pier"), c.Trial.Pier); Row("Fondazione", result.Baseline.Foundation, r.Foundation);
-        Row("Continuità", optimizationSource["input"].B("continuous") ? "Continua" : "Indipendente", c.Data["input"].B("continuous") ? "Continua" : "Indipendente");
-        var old = BridgeConcept.TechnicalSchedule(optimizationSource, result.Baseline).ToDictionary(t => (t.Component, t.Symbol, t.Unit));
+        Row("Continuità", optimizationSource!["input"].B("continuous") ? "Continua" : "Indipendente", c.Data["input"].B("continuous") ? "Continua" : "Indipendente");
+        var old = BridgeConcept.TechnicalSchedule(optimizationSource!, result.Baseline).ToDictionary(t => (t.Component, t.Symbol, t.Unit));
         foreach (var t in BridgeConcept.TechnicalSchedule(c.Data, r))
         {
             if (old.TryGetValue((t.Component, t.Symbol, t.Unit), out var b)) Numeric($"{t.Component} · {t.Symbol} [{t.Unit}]", b.Value, t.Value, t.Unit == "n." ? "N0" : t.Unit == "mm" ? "N1" : "N3");

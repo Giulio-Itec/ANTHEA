@@ -6,8 +6,9 @@ public static partial class BridgeConcept
 {
     public static Result Calculate(JsonObject data)
     {
-        if (data["input"] is JsonObject input && AdvancedSection.Any(p => !input.ContainsKey(p.Key))
-            || data["input"]?["deck_type"] is null || data["rates"]?["cables"] is null || data["assumptions"]?["concept_cable"] is null)
+        if (data["input"] is JsonObject input && (AdvancedSection.Any(p => !input.ContainsKey(p.Key)) || !input.ContainsKey("deck_type"))
+            || data["rates"] is JsonObject ratesInput && new[] { "cables", "steel_ortho", "erection_special" }.Any(k => !ratesInput.ContainsKey(k))
+            || data["assumptions"] is JsonObject assumptionsInput && AdvancedAssumptions.Any(p => !assumptionsInput.ContainsKey(p.Key)))
             data = WithAdvancedDefaults(data);
         Validate(data);
         if (IsExtended(data["input"].S("family"))) return CalculateAdvanced(data);
@@ -70,7 +71,9 @@ public static partial class BridgeConcept
             case "psc_u":
                 double ub = i.D("u_bottom"), ut = i.D("u_top");
                 if (ut * girders > width) warnings.Add("Le travi a U si sovrappongono: aumentare l'interasse o ridurre la larghezza superiore.");
-                Rect(ub, bottom, bottom / 2, girders); Rect(web, h - bottom, (h + bottom) / 2, 2 * girders);
+                Rect(ub, bottom, bottom / 2, girders);
+                double uWebLength = Math.Sqrt(Math.Pow(h - bottom, 2) + Math.Pow((ut - ub) / 2, 2));
+                parts.Add((2 * girders * web * uWebLength, (h + bottom) / 2, 2 * girders * web * uWebLength * Math.Pow(h - bottom, 2) / 12, 1));
                 girderArea = girders * (ub * bottom + 2 * web * Math.Sqrt(Math.Pow(h - bottom, 2) + Math.Pow((ut - ub) / 2, 2))); break;
             case "psc_box": case "fcm":
                 double boxWidth = width * i.D("bottom_ratio"); int webs = (int)i.D("cells") + 1;
@@ -111,33 +114,37 @@ public static partial class BridgeConcept
         double pileResistance = pileDiameter == 0 ? 0 : Math.PI * pileDiameter * pileLength * skin + Math.PI * pileDiameter * pileDiameter / 4 * tip;
         double subVolume = 0, foundVolume = 0, pilesVolume = 0, totalPileLength = 0, maxFoundationRatio = 0;
         var supports = new List<Support>(); double maxSlenderness = 0, maxPierStressRatio = 0;
+        double subForms = 0, foundationForms = 0;
         for (int k = 0; k <= count; k++)
         {
             bool pier = k > 0 && k < count || k == 0 && i.B("start_pier") || k == count && i.B("end_pier");
             double ph = pier ? height - pierDepth : Math.Min(7, height - depth);
             if (ph < 1) throw new ArgumentException("Quota dell'impalcato insufficiente per altezza della sezione e appoggi.");
             int columns = pier && i.S("pier") == "Telaio a colonne" ? Math.Max(2, (int)Math.Ceiling(width / 7)) : 1;
-            double size = Auto(i, "pier_size", i.S("pier") == "Setto" ? Math.Max(1, ph / 25) : Math.Max(1.2, ph / 12));
             bool wall = i.S("pier") == "Setto";
-            double columnArea = wall ? size * Math.Max(1, width - 2) : Math.PI * size * size / 4 * columns;
             double capVolume = width * (i.S("pier") == "Testa a martello" ? 2 * 1.8 : 1.5 * 1.4);
+            double size = AutoPierSize(i, ph, service.Reactions[k], capVolume, width, columns, wall);
+            double columnArea = wall ? size * Math.Max(1, width - 2) : Math.PI * size * size / 4 * columns;
             double sv = pier ? columnArea * ph + capVolume : width * (ph * Math.Max(.6, ph / 7) + 3);
             double reaction = service.Reactions[k], axial = reaction + 25 * sv;
             if (reaction < -1e-8) warnings.Add($"Appoggio {k + 1}: reazione verso l'alto; vincoli e dispositivi antisollevamento non sono dimensionati dal modello.");
             if (axial <= 0)
                 throw new ArgumentException($"Appoggio {k + 1}: carico assiale di fondazione nullo o di sollevamento. Il modello dimensiona solo fondazioni compresse; rivedere campate e vincoli.");
             if (pier) maxPierStressRatio = Math.Max(maxPierStressRatio, axial / columnArea / 1000 / i.D("fc_sub"));
-            int pileCount = pileDiameter == 0 ? 0 : (int)Auto(i, "pile_count", Math.Max(4, 2 * Math.Ceiling(axial / pileResistance / 2)));
-            double baseSize = pileDiameter == 0 ? Math.Sqrt(axial / (.85 * pressure)) : (Math.Ceiling(Math.Sqrt(pileCount)) - 1) * 3 * pileDiameter + 2 * pileDiameter;
-            double fs = Auto(i, "footing_size", Math.Ceiling(baseSize * 4) / 4), ft = pileDiameter == 0 ? Math.Max(.6, fs / 6) : 1.5 * pileDiameter;
-            double transverse = Math.Max(fs, pier && !wall && columns == 1 ? size + 1 : width);
-            double fv = fs * transverse * ft;
-            double ratio = pileDiameter == 0 ? (axial + fv * 25) / (fs * transverse * pressure) : (axial + fv * 25) / (pileCount * pileResistance);
+            var foundationSize = SizeFoundation(i, axial, pressure, pileDiameter, pileResistance, pier ? size + 1 : 0,
+                pier && !wall && columns == 1 ? size + 1 : width);
+            int pileCount = foundationSize.Piles;
+            double fs = foundationSize.Length, transverse = foundationSize.Width, ft = foundationSize.Thickness, baseSize = foundationSize.Grid;
+            double fv = fs * transverse * ft, ratio = foundationSize.Ratio;
             maxFoundationRatio = Math.Max(maxFoundationRatio, ratio);
             if (pileDiameter > 0 && fs + .001 < baseSize) warnings.Add($"Appoggio {k + 1}: plinto troppo piccolo per disporre {pileCount} pali a interasse 3Ø.");
             if (pileCount > 64) warnings.Add($"Appoggio {k + 1}: {pileCount} pali stimati, soluzione da rivedere.");
             if (pier) maxSlenderness = Math.Max(maxSlenderness, 2 * ph / (wall ? size / Math.Sqrt(12) : size / 4));
             subVolume += sv; foundVolume += fv; totalPileLength += pileCount * pileLength;
+            double capB = i.S("pier") == "Testa a martello" ? 2 : 1.5, capT = i.S("pier") == "Testa a martello" ? 1.8 : 1.4;
+            subForms += pier ? (wall ? 2 * (size + Math.Max(1, width - 2)) : columns * Math.PI * size) * ph
+                + width * capB + 2 * (width + capB) * capT : 2 * (width + Math.Max(.6, ph / 7)) * ph;
+            foundationForms += 2 * (fs + transverse) * ft;
             supports.Add(new(k, positions[k], pier ? i.S("pier") : "Spalla", reaction, ph, size, columns, fs, transverse, pileCount));
         }
         pilesVolume = totalPileLength * Math.PI * pileDiameter * pileDiameter / 4;
@@ -151,9 +158,11 @@ public static partial class BridgeConcept
         Add("Impalcato", "Armatura ordinaria", deckRebar, "t", "rebar", deckRebar * a.D("co2_rebar"));
         Add("Impalcato", "Precompressione", pt, "t", "prestress", pt * a.D("co2_pt"));
         Add("Impalcato", "Carpenteria metallica", massSteel, "t", family.Id == "steel_box" ? "steel_box" : "steel", massSteel * sf);
-        Add("Impalcato", "Casseforme equivalenti", family.Steel ? 0 : width * length * (family.Id == "fcm" ? 1.6 : 1), "m²", "formwork", 0);
+        Add("Impalcato", "Casseforme equivalenti", width * length * (family.Id == "fcm" ? 1.6 : 1), "m²", "formwork", 0);
         Add("Sottostrutture", "Calcestruzzo pile e spalle", subVolume, "m³", "concrete_sub", subVolume * cf / 1000);
         Add("Sottostrutture", "Armatura pile e spalle", subRebar, "t", "rebar", subRebar * a.D("co2_rebar"));
+        Add("Sottostrutture", "Casseforme equivalenti pile e spalle", subForms, "m²", "formwork", 0);
+        Add("Fondazioni", "Casseforme laterali plinti", foundationForms, "m²", "formwork", 0);
         Add("Fondazioni", "Calcestruzzo plinti", foundVolume, "m³", "concrete_sub", foundVolume * cf / 1000);
         Add("Fondazioni", $"Pali trivellati Ø {pileDiameter:0.0} m", totalPileLength, "m", pileDiameter > 1 ? "pile_15" : "pile_1", pilesVolume * cf / 1000);
         Add("Fondazioni", "Armatura plinti e pali", foundRebar, "t", "rebar", foundRebar * a.D("co2_rebar"));
@@ -171,6 +180,7 @@ public static partial class BridgeConcept
         if (maxPierStressRatio > .3) warnings.Add("Compressione media nelle pile oltre 0,30 fc: soglia orientativa del predimensionamento, richiede verifica pressoflessionale specifica.");
         if (family.Id == "fcm") warnings.Add("Cassone variabile: quantità e rigidezza ricavate con altezza media d + (d_pila − d)/3; fasi a sbalzo non analizzate.");
         if (i.S("obstacle") == "Fiume") warnings.Add("Franco idraulico ed erosione non valutati: il terreno rappresentato è schematico.");
+        CostWarnings(warnings, length, factored.Reactions.Where(v => v > 0).Sum(), bearingCount, rates.D("bearing"));
         warnings.Add("CO₂ indicativa: cls e acciai + maggiorazione trasporti/cantiere; finiture, esercizio e fine vita esclusi. Fattori non riferiti a EPD.");
         var details = new List<Detail> {
             new("Larghezza impalcato", width, "m", "corsie × larghezza + 2 banchine + spartitraffico + 2 barriere"),
