@@ -12,7 +12,7 @@ la distribuzione dipendente dal framework occorre il .NET Desktop Runtime 8.
 - `Compila.cmd`: compila e pubblica la versione corrente nella cartella `app`.
 - `supporto/Verifica.cmd`: esegue i confronti numerici e i controlli software.
 - `supporto/installer/Crea installer.cmd`: crea con NSIS il setup self-contained per Windows x64
-  (runtime .NET 8 incluso) in `supporto/artefatti/installer`; vedere [Installer](supporto/installer/README.md).
+  (runtime .NET 8 incluso) in `supporto/installer`; vedere [Installer](supporto/installer/README.md).
 
 La soluzione di Visual Studio è `ANTHEA.sln`.
 

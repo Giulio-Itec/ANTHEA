@@ -9,12 +9,9 @@ non serve installare nulla oltre al setup (Windows 10 o 11 a 64 bit).
 Requisiti: SDK .NET 8 (come per `Compila.cmd`) e NSIS 3 (`winget install NSIS.NSIS`).
 
 - `Crea installer.cmd` oppure `powershell -File supporto/installer/Crea-Installer.ps1`
-- risultato: `supporto/artefatti/installer/ANTHEA-<versione>-Setup-x64.exe`; lo script stampa
-  dimensione e SHA256.
-
-La versione è `<Version>` in `X.Desktop/X.Desktop.csproj` (formato `maggiore.minore.patch`):
-aggiornarla prima di ogni distribuzione, perché la stessa versione va nell'eseguibile, nel setup,
-nel nome del file e in «App installate».
+- risultato: `supporto/installer/ANTHEA-<versione>-Setup-x64.exe`, in questa cartella; lo script
+  stampa dimensione e SHA256. I setup sono esclusi da Git (`.gitignore`): circa 50 MB ciascuno.
+  La pubblicazione e i file intermedi restano in `supporto/artefatti/installer`.
 
 Lo script:
 
@@ -28,6 +25,21 @@ Lo script:
 
 Opzioni: `-SkipPublish` riusa la pubblicazione già presente (per modificare solo lo script NSIS),
 `-MakeNsis <percorso>` indica makensis, `-OutputDirectory <cartella>` sposta il risultato.
+
+## Versione
+
+La versione si imposta a mano in `<Version>` di `X.Desktop/X.Desktop.csproj`, formato
+`maggiore.minore.patch` (oggi `1.0.0`), e da lì passa a:
+
+- nome del setup: `ANTHEA-1.0.0-Setup-x64.exe`;
+- proprietà di `ANTHEA.exe`: versione file `1.0.0.0` e versione prodotto `1.0.0+<commit>`,
+  cioè con l'hash del commit Git da cui è stato compilato;
+- proprietà del setup e versione mostrata in «App installate».
+
+Ricompilando senza cambiare `<Version>` il setup con lo stesso nome viene sovrascritto (lo script
+lo segnala). Prima di distribuire una nuova edizione conviene aumentare la versione: `patch` per
+correzioni, `minore` per nuove funzioni, `maggiore` per cambi di formato degli archivi.
+Il setup installa sopra qualsiasi versione presente, anche più recente, senza chiedere conferma.
 
 ## Cosa fa il setup
 

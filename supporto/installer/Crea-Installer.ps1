@@ -3,17 +3,18 @@
 Crea l'installer NSIS di ANTHEA.
 
 .DESCRIPTION
-Pubblica X.Desktop self-contained per win-x64 (runtime .NET 8 incluso) in una cartella
-di lavoro separata, senza toccare bin/obj del repository; copia l'ultima revisione delle
-guide PDF, genera le immagini dell'installer dal logo e gli elenchi dei file per
-installazione e disinstallazione, poi compila ANTHEA.nsi con makensis.
-La versione e' quella di <Version> in X.Desktop/X.Desktop.csproj.
+Pubblica X.Desktop self-contained per win-x64 (runtime .NET 8 incluso) nella cartella
+di lavoro supporto/artefatti/installer, senza toccare bin/obj del repository; copia l'ultima
+revisione delle guide PDF, genera le immagini dell'installer dal logo e gli elenchi dei file
+per installazione e disinstallazione, poi compila ANTHEA.nsi con makensis.
+La versione e' quella di <Version> in X.Desktop/X.Desktop.csproj: il setup si chiama
+ANTHEA-<versione>-Setup-x64.exe e con la stessa versione viene sovrascritto.
 
 .PARAMETER MakeNsis
 Percorso di makensis.exe. Se omesso: PATH, NSIS_HOME, registro, Programmi.
 
 .PARAMETER OutputDirectory
-Cartella del setup. Predefinita: supporto/artefatti/installer.
+Cartella del setup. Predefinita: supporto/installer (questa cartella).
 
 .PARAMETER SkipPublish
 Riusa la pubblicazione gia' presente nella cartella di lavoro.
@@ -31,9 +32,10 @@ $project = Join-Path $root 'X.Desktop\X.Desktop.csproj'
 $icon = Join-Path $root 'X.Desktop\Assets\anthea.ico'
 $logo = Join-Path $root 'X.Desktop\Assets\logo.png'
 $guides = Join-Path $root 'supporto\documentazione\Guide_ANTHEA'
-if (-not $OutputDirectory) { $OutputDirectory = Join-Path $root 'supporto\artefatti\installer' }
+if (-not $OutputDirectory) { $OutputDirectory = $PSScriptRoot }
 $OutputDirectory = [string]$ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($OutputDirectory)
-$stage = Join-Path $OutputDirectory 'stage'
+$work = Join-Path $root 'supporto\artefatti\installer'
+$stage = Join-Path $work 'stage'
 $app = Join-Path $stage 'app'
 
 function Find-MakeNsis {
@@ -173,7 +175,7 @@ else {
     if ((Test-Path $stage) -and (Split-Path $stage -Leaf) -eq 'stage') { Remove-Item $stage -Recurse -Force }
     New-Item -ItemType Directory -Force $app | Out-Null
     # Separate artifacts path: the RID-specific restore must not overwrite obj of the normal build.
-    $build = Join-Path $OutputDirectory 'build'
+    $build = Join-Path $work 'build'
     & dotnet publish $project -c Release -r win-x64 --self-contained true -o $app --artifacts-path $build `
         -p:DebugType=None -p:DebugSymbols=false -p:SatelliteResourceLanguages=it
     if ($LASTEXITCODE -ne 0) { throw "dotnet publish non riuscito ($LASTEXITCODE)" }
@@ -185,7 +187,9 @@ $files = Write-FileLists
 $bytes = ($files | Measure-Object Length -Sum).Sum
 Write-Host ("  applicazione: {0} file, {1:N1} MB" -f $files.Count, ($bytes / 1MB))
 
+New-Item -ItemType Directory -Force $OutputDirectory | Out-Null
 $setup = Join-Path $OutputDirectory "ANTHEA-$version-Setup-x64.exe"
+if (Test-Path $setup) { Write-Host "  il setup della versione $version esiste gia': viene sovrascritto" }
 & $makensisPath /V3 /INPUTCHARSET UTF8 "/DVERSION=$version" "/DVERSION4=$version.0" "/DSTAGE=$stage" `
     "/DOUTFILE=$setup" "/DICON=$icon" "/DGUIDE_REV=$guideRevision" (Join-Path $PSScriptRoot 'ANTHEA.nsi')
 if ($LASTEXITCODE -ne 0) { throw "makensis non riuscito ($LASTEXITCODE)" }

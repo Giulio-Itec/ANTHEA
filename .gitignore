@@ -9,6 +9,7 @@
 /confronto_*.json
 /verifiche_*/
 /supporto/artefatti/
+/supporto/installer/*.exe
 /backup_*/
 *.programma
 *.anthea
