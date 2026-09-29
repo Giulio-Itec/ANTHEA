@@ -1,0 +1,2240 @@
+[
+  {
+    "original": "documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev02.docx",
+    "archived": "SUPERATI/documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev02.docx",
+    "sha256": "F665A2180394F35AFE835CC38529FECB3034FD56854A8C01497F0545085B53CA",
+    "reason": "Sostituita dalla corrispondente guida ITEC Rev04."
+  },
+  {
+    "original": "documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev03.docx",
+    "archived": "SUPERATI/documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev03.docx",
+    "sha256": "154A18A69FBF478A47597432025DBA37A20C9136CF218344E3CD78D8C684FF6E",
+    "reason": "Sostituita dalla corrispondente guida ITEC Rev04."
+  },
+  {
+    "original": "documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_Rev01.docx",
+    "archived": "SUPERATI/documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_Rev01.docx",
+    "sha256": "7EC7716283A55E98303D3DAE1838B04C4EAE600DEE4C166ADA1FFA76483772B0",
+    "reason": "Sostituita dalla corrispondente guida ITEC Rev04."
+  },
+  {
+    "original": "documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev02.docx",
+    "archived": "SUPERATI/documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev02.docx",
+    "sha256": "958A5C168AF42113F332C19E37C35FDA15F1CD443A0686AEB51C099E11F1B92D",
+    "reason": "Sostituita dalla corrispondente guida ITEC Rev04."
+  },
+  {
+    "original": "documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev03.docx",
+    "archived": "SUPERATI/documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev03.docx",
+    "sha256": "C017D7261D7742FE8ECADAE4765D2021075F205A51213342DC1ECA1B7E49F775",
+    "reason": "Sostituita dalla corrispondente guida ITEC Rev04."
+  },
+  {
+    "original": "documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_Rev01.docx",
+    "archived": "SUPERATI/documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_Rev01.docx",
+    "sha256": "B8ED2D7BD1670AC13698AFFF279D46C6D63C4A94A2CDCD00D6DC64961C0B246B",
+    "reason": "Sostituita dalla corrispondente guida ITEC Rev04."
+  },
+  {
+    "original": "documentazione\\Validazione_CA_ANTHEA\\ANTHEA_Validazione_Calcestruzzo_Armato_Rev01.docx",
+    "archived": "SUPERATI/documentazione\\Validazione_CA_ANTHEA\\ANTHEA_Validazione_Calcestruzzo_Armato_Rev01.docx",
+    "sha256": "A845B15784FCE32D83387AF2BCAB99071756CACB9952343F127C4C71FD3D43FD",
+    "reason": "Revisione precedente alla validazione software CA e ponti Rev03."
+  },
+  {
+    "original": "documentazione\\Validazione_CA_ANTHEA\\ANTHEA_Validazione_Calcestruzzo_Armato.docx",
+    "archived": "SUPERATI/documentazione\\Validazione_CA_ANTHEA\\ANTHEA_Validazione_Calcestruzzo_Armato.docx",
+    "sha256": "9B57F5D3D57DB568AB00B5E6C5890C2E6D28B81E72795A7FEE56A479CBB8D659",
+    "reason": "Revisione precedente alla validazione software CA e ponti Rev03."
+  },
+  {
+    "original": "documentazione\\Validazione_CA_ANTHEA\\ANTHEA_Validazione_Software_CA_e_Ponti_Rev02.docx",
+    "archived": "SUPERATI/documentazione\\Validazione_CA_ANTHEA\\ANTHEA_Validazione_Software_CA_e_Ponti_Rev02.docx",
+    "sha256": "6BA4F91E0408D2D5CF0659BDA5B5FEF80D926D1CD0AC8436B35BEF26B3E3FE11",
+    "reason": "Revisione precedente alla validazione software CA e ponti Rev03."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\01-mensola-base\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\01-mensola-base\\conci-anthea.csv",
+    "sha256": "3AD60DDBCC2769E7B2585FF36747EEF3B9DE8E5DA01C60E16D1D98360263267B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\01-mensola-base\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\01-mensola-base\\modello.anthea",
+    "sha256": "8549DDE7B73A57AEB0AFB545C72F187FAAE4D6BFFD01391FC0CFDA28E230BD6F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\01-mensola-base\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\01-mensola-base\\relazione-anthea.docx",
+    "sha256": "2130995E1BA4E80FE161E9D5579E0A23C907D897AC28B7AF005A63DFCEBF9BE6",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\01-mensola-base\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\01-mensola-base\\riproduzione.md",
+    "sha256": "5492D4E698453E2080E96D085BC6D7DC2EEACDFCCC03ADB13EFBA31B8D323F32",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\01-mensola-base\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\01-mensola-base\\risultati-anthea.json",
+    "sha256": "9D73A77F75DCE7F26FF6C5C405F5314CFC6E4FB49AAAAD6AFD4471DEEFC7A7AC",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\02-mensola-alta\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\02-mensola-alta\\conci-anthea.csv",
+    "sha256": "12EE423562730F29DE8B5DDEAF14FB7E766418C047EF37DEB763BBFBEFE9C1D4",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\02-mensola-alta\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\02-mensola-alta\\modello.anthea",
+    "sha256": "4E66F319527F5BE15C55A4E0E6FA5963016174255CE3991D95DE90C11600CC3D",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\02-mensola-alta\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\02-mensola-alta\\relazione-anthea.docx",
+    "sha256": "D41991F74FA129FD288947D6ED58FF5E07BDEC4090AF36B74263B001CFF6F752",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\02-mensola-alta\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\02-mensola-alta\\riproduzione.md",
+    "sha256": "D19978E2A1E17658F68F93ECEBE9A5732B0436B7ECECAB5A7E85BAA6759BEDB1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\02-mensola-alta\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\02-mensola-alta\\risultati-anthea.json",
+    "sha256": "1C5F01FD05F64777B8F509FB81B47EDE235D0ACB995437D12C1299385B3A1BA3",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\03-gravita\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\03-gravita\\conci-anthea.csv",
+    "sha256": "EAEB3EB2BE017E033F062BE763BA31F56B918B95F02A2EB2CA841380C3AC7CAF",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\03-gravita\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\03-gravita\\modello.anthea",
+    "sha256": "B5C56BD0D753A7C9E3448554ADC86816D447566B027FCEBFCF1CF6EB23D8B4A3",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\03-gravita\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\03-gravita\\relazione-anthea.docx",
+    "sha256": "65825BE85CFC7E08039476CCE4EF65971703DD24514E3C9EE619D04C32FE4133",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\03-gravita\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\03-gravita\\riproduzione.md",
+    "sha256": "69FC9A39883CF58756565D3C0140FB60C83A130087E74EF838EA52519FA31B33",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\03-gravita\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\03-gravita\\risultati-anthea.json",
+    "sha256": "502B989262E69B2563CA418080F4F41C9F82CA8D8DEC7ADB29A73E9578337B85",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\04-fondazione-debole\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\04-fondazione-debole\\conci-anthea.csv",
+    "sha256": "406377EFE5A2AD27AF15508080A32E569836D6070D499ED5D34AE418BD428EB6",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\04-fondazione-debole\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\04-fondazione-debole\\modello.anthea",
+    "sha256": "1D8711A7CB6410D22E2937B1000A0283D1C52FEB9D105E09EF29A82ABFF16050",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\04-fondazione-debole\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\04-fondazione-debole\\relazione-anthea.docx",
+    "sha256": "37B02DF5BBE0ACA4AF2D5844E8D896D775D79E14678B20258914F49DDF429C9B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\04-fondazione-debole\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\04-fondazione-debole\\riproduzione.md",
+    "sha256": "9160E20430D52B112BC4019EDB640F8B3ED999C0D7147ECD3FD1483164C2BF85",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\04-fondazione-debole\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\04-fondazione-debole\\risultati-anthea.json",
+    "sha256": "DC7E5777AC59FAC4229350FC5BCE9CC6CBB55BDD0A354B3AFE33F42FD3D663FC",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\05-coesione-profonda\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\05-coesione-profonda\\conci-anthea.csv",
+    "sha256": "601C810EBFF5FCD77DDF8FE618B9EF1DB4A459B85C6ABB4F90219EAA2F7BFA4F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\05-coesione-profonda\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\05-coesione-profonda\\modello.anthea",
+    "sha256": "03147E4F283F31B5CF30C4E61FDE248163D2068D557A381C028AE762A1965160",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\05-coesione-profonda\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\05-coesione-profonda\\relazione-anthea.docx",
+    "sha256": "8A66081D8F8808AF5D95564906A7F4CAB1B93E41236894722DCB2063ECC4B183",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\05-coesione-profonda\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\05-coesione-profonda\\riproduzione.md",
+    "sha256": "F0967D457224D37BD41F20D70F07926D30974FB36EDE9A0CAA6D0BE3A0D4E464",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\05-coesione-profonda\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\05-coesione-profonda\\risultati-anthea.json",
+    "sha256": "0724CC22E1E7079C65DA210A3956BACF12C9A80AFA1A8087FF0365E4FB8149DC",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\06-tre-strati\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\06-tre-strati\\conci-anthea.csv",
+    "sha256": "406377EFE5A2AD27AF15508080A32E569836D6070D499ED5D34AE418BD428EB6",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\06-tre-strati\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\06-tre-strati\\modello.anthea",
+    "sha256": "FCD6EB4C736460389F26E2F73EDE299F044726901E5E437DCB8E7A9C28DB7123",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\06-tre-strati\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\06-tre-strati\\relazione-anthea.docx",
+    "sha256": "1BECA210F554B971CFB3272D890254A6B9A413C056C0F406072D6E129A526770",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\06-tre-strati\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\06-tre-strati\\riproduzione.md",
+    "sha256": "8C890E4D7CA90D36B7FCC6AEE7A52C7D59B9865668BD36729BF49E1A4C75813C",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\06-tre-strati\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\06-tre-strati\\risultati-anthea.json",
+    "sha256": "1A27C84D6C7E02B6D2D34A713AB967A008F8DDEEE5B3C2ABD285E6CEC801D4E0",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\07-falda\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\07-falda\\conci-anthea.csv",
+    "sha256": "3AD60DDBCC2769E7B2585FF36747EEF3B9DE8E5DA01C60E16D1D98360263267B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\07-falda\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\07-falda\\modello.anthea",
+    "sha256": "75CF32C4AD47C24F871D4BB7661AEFDC0E64E8788A701CB183044AE2D16546A5",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\07-falda\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\07-falda\\relazione-anthea.docx",
+    "sha256": "B920AB4270727C378CEB5F442C51C94B94DAD0739FC9A082A2D707AB7028407B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\07-falda\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\07-falda\\riproduzione.md",
+    "sha256": "AD7B5DAA235C864E10F38936F1D233B1AFDFAF43E9CD9C41297EDA156BE36C9A",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\07-falda\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\07-falda\\risultati-anthea.json",
+    "sha256": "DE9F067EB885ADA776376757EA1060D7B9766ACECEB6FB776F4E598D4A9022FB",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\08-sisma\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\08-sisma\\conci-anthea.csv",
+    "sha256": "1B4BA58AE0CDB7F7F90E0A8000A0442935446AAE011F8B2902C0913B95904F81",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\08-sisma\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\08-sisma\\modello.anthea",
+    "sha256": "E33E71462036F594AF8AFE51D25668C47CC29F04264BACEBE8BDECB775E5F467",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\08-sisma\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\08-sisma\\relazione-anthea.docx",
+    "sha256": "7CD85B37CEA9757BFDAA193C3D49C4D3CC6CD65C76A4FCE4F4A31F55B896BC2E",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\08-sisma\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\08-sisma\\riproduzione.md",
+    "sha256": "7C349ABA0CEBC286B0036EC242CFA7AA6EC380B382A2B2F79E72161E8D50E897",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\08-sisma\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\08-sisma\\risultati-anthea.json",
+    "sha256": "23FA43356F0B0938B62CEBF56EC07CC7AE5BED81AA0D7A541E0A6A9E1FBD7FF7",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\09-urto\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\09-urto\\conci-anthea.csv",
+    "sha256": "C384D68A62FF710E92589C496AFF0186D5096F50276E9EA1C528C5F8DF2F0B38",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\09-urto\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\09-urto\\modello.anthea",
+    "sha256": "E380B2D6A4839E2D01681C9A8DE5E75BAEA4474AEFAD3121465C1E51CF7CB2C5",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\09-urto\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\09-urto\\relazione-anthea.docx",
+    "sha256": "ECB49CF0D4E49920279FE262594ED79B94BF02F8DB5DF6ADF6F264A151934D18",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\09-urto\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\09-urto\\riproduzione.md",
+    "sha256": "EF47F131DF58D2BCB6028293CB05C73F9F509162E2F4BD3FAF1D3AFA873736FA",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\09-urto\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\09-urto\\risultati-anthea.json",
+    "sha256": "957590E334C687479A6B7DF7297FB4F86E70337F44EBD1DE54A1F7094F210910",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\10-non-drenato\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\10-non-drenato\\conci-anthea.csv",
+    "sha256": "FC2695367DC58BD7ACDF87578150455431A1B140E511945F45DB4C802D3132CD",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\10-non-drenato\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\10-non-drenato\\modello.anthea",
+    "sha256": "1DA19A93C76140780CC595240C24D13513779631C2171D3EF9C97553DD140CBE",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\10-non-drenato\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\10-non-drenato\\relazione-anthea.docx",
+    "sha256": "0D63B6E01A38E2B03D3B841C4808AC0CC7B877E2F955E212DDCAA2FA0F438BE5",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\10-non-drenato\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\10-non-drenato\\riproduzione.md",
+    "sha256": "F2CAF7FE3DBE8C09468A62BDAA06EAE25602E2874BCF49837C135BFE680CC9F5",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\esempi\\10-non-drenato\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\esempi\\10-non-drenato\\risultati-anthea.json",
+    "sha256": "92AC174C47925038899998E535302E6C799F36033C614ED3947A521699A7ABF2",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\controlli-numerici.txt",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\controlli-numerici.txt",
+    "sha256": "533BF608F68E1CE2EA8366A827D6B18CCF9D258E5A2212BB30B0755A92F92121",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\impronte-sha256.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\impronte-sha256.json",
+    "sha256": "2CE4A3F0977E4A1D3A4682D6E0C94E147811D3B31FF76EE21E2117AC0C88D216",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\indice-confronti.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\indice-confronti.json",
+    "sha256": "DF0E8BF829DBE3C8F756EDB57E1448DA2DF60468B31A33390BF812953FCBF6BC",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\Rapporto-controllo-stabilita-globale.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\Rapporto-controllo-stabilita-globale.docx",
+    "sha256": "925280085099100CC381AF9981EA7CDCCC8E8CBBE8AC252B3E93AC7C3F3D6340",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\Rapporto-controllo-stabilita-globale.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\Rapporto-controllo-stabilita-globale.pdf",
+    "sha256": "C5251CDC3137087A8A422DEFBA5A70710D7ADB6EB5EE9B59F99A73042FEDBA49",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\README.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\README.md",
+    "sha256": "EAA87644892D6EF6B2F78DF160B511A4496A6669043A6F0E9AFBAF0F47BD6627",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\stato-esecuzione.txt",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\stato-esecuzione.txt",
+    "sha256": "261F89009B0505C3D3D3115A475F095101CBF06111DB18739993E5BFD212C386",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\stato-max.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\stato-max.json",
+    "sha256": "FC989DE482B5E35AF2F06AF5EC6C6BC2C39EA7DBC1542C5BD19D0C9B15396818",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\01-mensola-base\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\01-mensola-base\\conci-anthea.csv",
+    "sha256": "3AD60DDBCC2769E7B2585FF36747EEF3B9DE8E5DA01C60E16D1D98360263267B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\01-mensola-base\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\01-mensola-base\\modello.anthea",
+    "sha256": "DDFC0A1D8C1AAE9191843D0E32BB85B3374A5D2775B05CA3A30E31E7341A7472",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\01-mensola-base\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\01-mensola-base\\relazione-anthea.docx",
+    "sha256": "939A7C3F8AA7C23FE70508A6CB23023159E3E8416CE1061FB852547AC2245B06",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\01-mensola-base\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\01-mensola-base\\riproduzione.md",
+    "sha256": "6E36D910E41CA24680E806E36F55F9586467252701D2500DF35845ECE4A80201",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\01-mensola-base\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\01-mensola-base\\risultati-anthea.json",
+    "sha256": "9360C51A3EDD36FD4A9A4DD216A72A6E7981BAB5B2ADD978D7A84350C1AFC02F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\02-mensola-alta\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\02-mensola-alta\\conci-anthea.csv",
+    "sha256": "12EE423562730F29DE8B5DDEAF14FB7E766418C047EF37DEB763BBFBEFE9C1D4",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\02-mensola-alta\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\02-mensola-alta\\modello.anthea",
+    "sha256": "490ED2540537AAFD096939B76613728FDDC3AFBC65EC84207FD416246A14B771",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\02-mensola-alta\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\02-mensola-alta\\relazione-anthea.docx",
+    "sha256": "6A005255607F57E20A5EFF45794A8B3B9AA16B191628317C82ABD54F3F361E6C",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\02-mensola-alta\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\02-mensola-alta\\riproduzione.md",
+    "sha256": "BB3E4B205BA1AF286979EDE1997C03CB7660A62E351FD40597DA8FCC49020BFE",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\02-mensola-alta\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\02-mensola-alta\\risultati-anthea.json",
+    "sha256": "1F8CFD8B4A609DEFA5F30D0CC239200CF33DF67F9F5124DAE115B2EC381F11C4",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\03-gravita\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\03-gravita\\conci-anthea.csv",
+    "sha256": "EAEB3EB2BE017E033F062BE763BA31F56B918B95F02A2EB2CA841380C3AC7CAF",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\03-gravita\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\03-gravita\\modello.anthea",
+    "sha256": "86EA97729E5AFC5DD246BF5F7537EC8F03E4F7633ED8BFD1974197B12D4263BF",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\03-gravita\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\03-gravita\\relazione-anthea.docx",
+    "sha256": "70FEF41FEA93CE79D6A92A6B9FB64CC84A093085419B53842AA620CC7D12F647",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\03-gravita\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\03-gravita\\riproduzione.md",
+    "sha256": "1E9CD3EF64A64325139CC369C8D36DF057F3A6962BB030A6E4B1FD4698BF5B78",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\03-gravita\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\03-gravita\\risultati-anthea.json",
+    "sha256": "15505025B31AB19A149B9B8B0DEF7C79422EA4553BE16853B6587091F2DCDD93",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\04-fondazione-debole\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\04-fondazione-debole\\conci-anthea.csv",
+    "sha256": "406377EFE5A2AD27AF15508080A32E569836D6070D499ED5D34AE418BD428EB6",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\04-fondazione-debole\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\04-fondazione-debole\\modello.anthea",
+    "sha256": "ADB93EB75637AA0CF2514813A58E34D41BAA61DEFF1727220925644C9F2A4A0B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\04-fondazione-debole\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\04-fondazione-debole\\relazione-anthea.docx",
+    "sha256": "CE33010B38FBF894CCB4727151992C83CB57101CA2AFE06E64EC277A5342F650",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\04-fondazione-debole\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\04-fondazione-debole\\riproduzione.md",
+    "sha256": "8CBD83BABD668E11FDC81AD89E8DC05A5958231E5DF5EE18D6C0B65CA97F2C52",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\04-fondazione-debole\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\04-fondazione-debole\\risultati-anthea.json",
+    "sha256": "B91ADD2B59DD1607B73D1A26EF53C8B65861BA66A2AB4A59AF0918E6B3DA33A9",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\05-coesione-profonda\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\05-coesione-profonda\\conci-anthea.csv",
+    "sha256": "601C810EBFF5FCD77DDF8FE618B9EF1DB4A459B85C6ABB4F90219EAA2F7BFA4F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\05-coesione-profonda\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\05-coesione-profonda\\modello.anthea",
+    "sha256": "9E9CDA543A89D32B0E1A7E480DDDDCC26D84AD97C92014AB46A70EFFFEBE73EF",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\05-coesione-profonda\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\05-coesione-profonda\\relazione-anthea.docx",
+    "sha256": "7F1B0BAFEA02ACAE698890D45618EF16FFBA1AD3DFC6D90442FAD29D0528301D",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\05-coesione-profonda\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\05-coesione-profonda\\riproduzione.md",
+    "sha256": "36F7352AD9451FDAAF3212566A9AB55E86F476941FCE80794CDCEDBBDA9F09BE",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\05-coesione-profonda\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\05-coesione-profonda\\risultati-anthea.json",
+    "sha256": "5F3DA64F390E7E87286E67B442380D95F4812B6BFDDD996526D3B71835C4415B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\06-tre-strati\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\06-tre-strati\\conci-anthea.csv",
+    "sha256": "406377EFE5A2AD27AF15508080A32E569836D6070D499ED5D34AE418BD428EB6",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\06-tre-strati\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\06-tre-strati\\modello.anthea",
+    "sha256": "F65B49628FAC04644E3CF25F6CAF0A33372F2C109F1FC3ED43C8E4B95CC4BCA0",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\06-tre-strati\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\06-tre-strati\\relazione-anthea.docx",
+    "sha256": "1EB55C419DEF150D8C812CC7B6824E42E5CE93E1136BE48D1A486868673AC74C",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\06-tre-strati\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\06-tre-strati\\riproduzione.md",
+    "sha256": "1EE13E9F72EF213F986B195462B36E373E5FDE502F1FE26312EEB198A92F2465",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\06-tre-strati\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\06-tre-strati\\risultati-anthea.json",
+    "sha256": "40B17468C743CEB0AD411ABA7996BD76A9AE65BCFD43A991BBD7B31FE4C05454",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\07-falda\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\07-falda\\conci-anthea.csv",
+    "sha256": "46EBECBB40350F44299D8AE63E32B9A89AC28194F46EF00D77D081C86E49B21D",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\07-falda\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\07-falda\\modello.anthea",
+    "sha256": "91E1848E18377C5771925F16E19A35BD70D0E8D5CDAEA8627ABDD7A175E5C122",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\07-falda\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\07-falda\\relazione-anthea.docx",
+    "sha256": "9A9D973E91AAD64A00EE98948B3AAFE8A7A87770EB536C8963CCA310B3363153",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\07-falda\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\07-falda\\riproduzione.md",
+    "sha256": "6DF91F94465D47C32169B67D747F077B378BBF19F198E2395E47A6D46D56CAE4",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\07-falda\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\07-falda\\risultati-anthea.json",
+    "sha256": "05D8D579C65351BA9B39DFA8E62FE5FD2E617CF49CB32FB3D7D6215071437DBB",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\08-sisma\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\08-sisma\\conci-anthea.csv",
+    "sha256": "1B4BA58AE0CDB7F7F90E0A8000A0442935446AAE011F8B2902C0913B95904F81",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\08-sisma\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\08-sisma\\modello.anthea",
+    "sha256": "B2C11341656E194891A15890B7E06836098B40957F7136CC95CCAFFFA65718D7",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\08-sisma\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\08-sisma\\relazione-anthea.docx",
+    "sha256": "7FF307D4FBAECCEB4CB3F37E71182D996E59A9F33EBE088F49C902456D39C404",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\08-sisma\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\08-sisma\\riproduzione.md",
+    "sha256": "78DB6664183C2029E0767AA741C56A5C0F901083C9888F71B096E7C00DDFFE3F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\08-sisma\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\08-sisma\\risultati-anthea.json",
+    "sha256": "959AB64B614D53038B7C07A9EFCCF5E0B9B6C4D798DAEC8F42A2E1619E46BB56",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\09-urto\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\09-urto\\conci-anthea.csv",
+    "sha256": "C384D68A62FF710E92589C496AFF0186D5096F50276E9EA1C528C5F8DF2F0B38",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\09-urto\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\09-urto\\modello.anthea",
+    "sha256": "D2E240AAA0ACAC986DB49BCBAFE9BFFD6520E775C07CC682DFE24640B7AD9F4B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\09-urto\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\09-urto\\relazione-anthea.docx",
+    "sha256": "95D74EB52FE116FEF7778B7B6BB30D5BBFBC2BB3E78A66E37CEE64D770F91381",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\09-urto\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\09-urto\\riproduzione.md",
+    "sha256": "93DBAA999163645DCB1E9E16B762E7E42B9B3FBFA5D37EC5E9069CD7A9EF442F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\09-urto\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\09-urto\\risultati-anthea.json",
+    "sha256": "EE101545FEE1F6B1239F23AF1AA2E356260C9FFEB0369738092D789350D63D65",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\10-non-drenato\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\10-non-drenato\\conci-anthea.csv",
+    "sha256": "FC2695367DC58BD7ACDF87578150455431A1B140E511945F45DB4C802D3132CD",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\10-non-drenato\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\10-non-drenato\\modello.anthea",
+    "sha256": "B4E3F4E6F5A200EB75B5572DBDC01EB942B96F52F214800C7E24E36A0F36AFA9",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\10-non-drenato\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\10-non-drenato\\relazione-anthea.docx",
+    "sha256": "EB1F05F68E8968F3FAE639BF0B3E5CA501EB169E079129287A7DDF75787CE828",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\10-non-drenato\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\10-non-drenato\\riproduzione.md",
+    "sha256": "274E752606E27C382A48190D9AA74E68DF24E7A0EB123188BD2E429367262B64",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-20260929\\esempi\\10-non-drenato\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-20260929\\esempi\\10-non-drenato\\risultati-anthea.json",
+    "sha256": "CC8DF5EBB0577BF771680563DB9663E73FF71B563F787D5EBAF39E05E524A353",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\controlli-numerici.txt",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\controlli-numerici.txt",
+    "sha256": "176208CC6AB187527C993D83FE8162C159BA42C7BC71DB5F58571312D56F3F79",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\impronte-sha256.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\impronte-sha256.json",
+    "sha256": "663947F5129CBFE8DE57B51D2DA21889233BB7628BA7AFC6C87BDE3A4DF5C18E",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\indice-confronti.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\indice-confronti.json",
+    "sha256": "B7F014790A0362494D249BF88100E1487FDBE762875F4B7D73BB19BC5409E67E",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\Rapporto-controllo-stabilita-globale.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\Rapporto-controllo-stabilita-globale.docx",
+    "sha256": "1D520EA768A9F75C48D013DE511BF2BDB1583580A3967A857C9EF7AC0B228196",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\stato-esecuzione.txt",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\stato-esecuzione.txt",
+    "sha256": "D4552A70338458185A0A73A68B48FF731A8D4CBE80BA572DC81BA0B2B7ED6136",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\01-mensola-base\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\01-mensola-base\\conci-anthea.csv",
+    "sha256": "3AD60DDBCC2769E7B2585FF36747EEF3B9DE8E5DA01C60E16D1D98360263267B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\01-mensola-base\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\01-mensola-base\\modello.anthea",
+    "sha256": "B4EE5FC5CE81261B01404F5F621150CB52DB995B063F1F0F4287133DD36523FF",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\01-mensola-base\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\01-mensola-base\\relazione-anthea.docx",
+    "sha256": "B6B41EDAC0365CA12B07D0ACAD0C6772863AEA99E3BC39AAD1F7335BC1F856C1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\01-mensola-base\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\01-mensola-base\\riproduzione.md",
+    "sha256": "68D007E246870D83634E5F94C0282C0308BE761DFF6AC090CA6A0AF886B49494",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\01-mensola-base\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\01-mensola-base\\risultati-anthea.json",
+    "sha256": "36617344C7A05572C83EFB4685ECDA285BA61A3578BCA825EC6CCA4DA433A706",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\02-mensola-alta\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\02-mensola-alta\\conci-anthea.csv",
+    "sha256": "12EE423562730F29DE8B5DDEAF14FB7E766418C047EF37DEB763BBFBEFE9C1D4",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\02-mensola-alta\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\02-mensola-alta\\modello.anthea",
+    "sha256": "A1FDB7466B48DD84B566E07CA053A7597DEF2288454DBB06FAAB80953CC44461",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\02-mensola-alta\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\02-mensola-alta\\relazione-anthea.docx",
+    "sha256": "7729564D2C0793CB6629512DA3520DFAE1F651DB4DF8A765E560055051D9088F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\02-mensola-alta\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\02-mensola-alta\\riproduzione.md",
+    "sha256": "41A4980F97C635E26DE21D3C8025C86BC6930A5647FF9DA42AC34678DB9F57F7",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\02-mensola-alta\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\02-mensola-alta\\risultati-anthea.json",
+    "sha256": "6D29993213374CA4AFD5B06356CBFCCB9316922BCA93B520D4FF6A8610CB5D22",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\03-gravita\\.x_274a4dc6ad454fc293d153efdc86b4a6.tmp",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\03-gravita\\.x_274a4dc6ad454fc293d153efdc86b4a6.tmp",
+    "sha256": "0C214B93E04B0600E216F91EE6A354C887414835939A2CCB01CCF057D0CA9DB1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\03-gravita\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\03-gravita\\conci-anthea.csv",
+    "sha256": "EAEB3EB2BE017E033F062BE763BA31F56B918B95F02A2EB2CA841380C3AC7CAF",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\03-gravita\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\03-gravita\\modello.anthea",
+    "sha256": "F5A9E2C53B76F4FB20F6DC746EF8288AA8A69288B61E22B06DFFE14E87F88A2A",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\03-gravita\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\03-gravita\\relazione-anthea.docx",
+    "sha256": "0C214B93E04B0600E216F91EE6A354C887414835939A2CCB01CCF057D0CA9DB1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\03-gravita\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\03-gravita\\riproduzione.md",
+    "sha256": "4EA1FBB46E6CFDE8E000A1B4A9A09B5AFA5407B114F0B57CCA82338EFCF9BB96",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\03-gravita\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\03-gravita\\risultati-anthea.json",
+    "sha256": "5A371DD4DA9D6C3FE2E5D42C6EAC3768533AE6418AB7EC5C09E8750D58BE18ED",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\04-fondazione-debole\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\04-fondazione-debole\\conci-anthea.csv",
+    "sha256": "406377EFE5A2AD27AF15508080A32E569836D6070D499ED5D34AE418BD428EB6",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\04-fondazione-debole\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\04-fondazione-debole\\modello.anthea",
+    "sha256": "123854F9799D5064B1E4E48D49A4BE3C98A677B1B94DCBB11436E60BB2C331E0",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\04-fondazione-debole\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\04-fondazione-debole\\relazione-anthea.docx",
+    "sha256": "D2AF1D58896CCECE58349238B75D36102004F872372F5539B42CAE1099BD2D0C",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\04-fondazione-debole\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\04-fondazione-debole\\riproduzione.md",
+    "sha256": "9849AE45A1B749468D5150FD4EC1B71904BD8E7DC6F4BDEB1C7F861BC44B3E0A",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\04-fondazione-debole\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\04-fondazione-debole\\risultati-anthea.json",
+    "sha256": "2D81E5D1E040FAF2A7CF03448E7A23033093AB0D2FA59BCA886991F9C099F89F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\05-coesione-profonda\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\05-coesione-profonda\\conci-anthea.csv",
+    "sha256": "601C810EBFF5FCD77DDF8FE618B9EF1DB4A459B85C6ABB4F90219EAA2F7BFA4F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\05-coesione-profonda\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\05-coesione-profonda\\modello.anthea",
+    "sha256": "A226DEA2AEFC309F29CFE0FAA7BC8413927690680E786101DAF42B3684B5CCCD",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\05-coesione-profonda\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\05-coesione-profonda\\relazione-anthea.docx",
+    "sha256": "8202227EDDF816ADA44514EC695FA0B81DCB31666C10347543F00F2870A326E2",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\05-coesione-profonda\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\05-coesione-profonda\\riproduzione.md",
+    "sha256": "CC66E42360F6C6BFA17BA590E79859B97EF7F7B9FA62C751BAD8CA8EA1FF5E5D",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\05-coesione-profonda\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\05-coesione-profonda\\risultati-anthea.json",
+    "sha256": "48DE5FD55590400F10424EB60D31EF793E2015C9CA5CE1E0F23140ED83C831AD",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\06-tre-strati\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\06-tre-strati\\conci-anthea.csv",
+    "sha256": "406377EFE5A2AD27AF15508080A32E569836D6070D499ED5D34AE418BD428EB6",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\06-tre-strati\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\06-tre-strati\\modello.anthea",
+    "sha256": "6CA0D49BEB58C2D037A7C92D666DD7F6565AD6A4963110BA5EA95433B640042E",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\06-tre-strati\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\06-tre-strati\\relazione-anthea.docx",
+    "sha256": "2FC5D31FF74975696DE4429E325AC92B63A3F151D28636020B0E7A76630B3075",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\06-tre-strati\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\06-tre-strati\\riproduzione.md",
+    "sha256": "6316F2CD09FFB7E5130D68AA88E13606CB3DEF8DCBEDD91AE8CB5670703189DA",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\06-tre-strati\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\06-tre-strati\\risultati-anthea.json",
+    "sha256": "1AA6825CECD5566D6C74369DD90B371533D34E9A63364D7E1501FEA8F365C35F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\07-falda\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\07-falda\\conci-anthea.csv",
+    "sha256": "46EBECBB40350F44299D8AE63E32B9A89AC28194F46EF00D77D081C86E49B21D",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\07-falda\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\07-falda\\modello.anthea",
+    "sha256": "0FD9C78466EBA0281ED4A86E9F15ABAF6986F4D87CF3896513C614D40FD7DD49",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\07-falda\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\07-falda\\relazione-anthea.docx",
+    "sha256": "5C7B6925AB8610EE851F876CCA581E741A9C766F38FFD7824A484807C5905E01",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\07-falda\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\07-falda\\riproduzione.md",
+    "sha256": "8A6C66728C4767D28D5E5FA2A6D045FA72E7D6AD06EE9A4BDD219C62123C4D51",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\07-falda\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\07-falda\\risultati-anthea.json",
+    "sha256": "F26761F66F8558099CB535C2FCD3CA5A0761E5B481C2B2D443B94356D22D76F3",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\08-sisma\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\08-sisma\\conci-anthea.csv",
+    "sha256": "1B4BA58AE0CDB7F7F90E0A8000A0442935446AAE011F8B2902C0913B95904F81",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\08-sisma\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\08-sisma\\modello.anthea",
+    "sha256": "9CA27DD1B9B9C2A7C0FB2B6C9F560CF5AC2E5B3798E2465C154DE36CD57B4A22",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\08-sisma\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\08-sisma\\relazione-anthea.docx",
+    "sha256": "1DDBD209FE9F847D8921D01E3C0BFBFA43DFE8F01B8BB4C3FF2D9667FB7303D7",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\08-sisma\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\08-sisma\\riproduzione.md",
+    "sha256": "CE1AD5951ABAAC872104FAFA106687ED0C92D57838F34C64C28F3A6624E1D057",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\08-sisma\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\08-sisma\\risultati-anthea.json",
+    "sha256": "693F96E945C3EB765883387E9D0CEFF8907AD02C16C2B52848DA405963FAD921",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\09-urto\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\09-urto\\conci-anthea.csv",
+    "sha256": "C384D68A62FF710E92589C496AFF0186D5096F50276E9EA1C528C5F8DF2F0B38",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\09-urto\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\09-urto\\modello.anthea",
+    "sha256": "50D03227896369D4BB1588A138B4AD14291D2208810AC6B6915AB6845B380BAD",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\09-urto\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\09-urto\\relazione-anthea.docx",
+    "sha256": "670818B85B5BEE68DD3937D9C7C5AAC0E2462C9486E68D5E134EDE5BC537C8FC",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\09-urto\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\09-urto\\riproduzione.md",
+    "sha256": "A020E3669A3061B3C6BD45ABB11AA863F4C1FD642C78F682F8AD69A9C11AA66B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\09-urto\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\09-urto\\risultati-anthea.json",
+    "sha256": "D146C7D6B69D443F95C3668C8BDD182408ADF35634A7A6ACB829E6199E3207D1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\10-non-drenato\\conci-anthea.csv",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\10-non-drenato\\conci-anthea.csv",
+    "sha256": "FC2695367DC58BD7ACDF87578150455431A1B140E511945F45DB4C802D3132CD",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\10-non-drenato\\modello.anthea",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\10-non-drenato\\modello.anthea",
+    "sha256": "2E9AD7F826479DF61247811966D50486872D51DEB6862555F57D4BB379973A61",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\10-non-drenato\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\10-non-drenato\\relazione-anthea.docx",
+    "sha256": "924C2BEAC127BC0F219A98FAA3154789A709E83FCEEA06E8A22BA69645A845E4",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\10-non-drenato\\riproduzione.md",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\10-non-drenato\\riproduzione.md",
+    "sha256": "21404D39C5F5B7AB148E1B56D08CC8B9E90474CCEF2413542E8CFEE28E2189B7",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\validazione-finale\\esempi\\10-non-drenato\\risultati-anthea.json",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\validazione-finale\\esempi\\10-non-drenato\\risultati-anthea.json",
+    "sha256": "9D83699FFA54286D357293C55C2B0B5B85008CA3FEBED3F3645680155976A5AD",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\01-mensola-base.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\01-mensola-base.pdf",
+    "sha256": "08E96114EF0DD862095101A191D490D50F2EAC903D2B8789F64200E278653AED",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\02-mensola-alta.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\02-mensola-alta.pdf",
+    "sha256": "E521183F89BE31A7EEE115663164C19E9E079BC2C2474D5C7CBAA397E7D268CF",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\03-gravita.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\03-gravita.pdf",
+    "sha256": "6AFEE8A35FFFC4E0738757CC2CCA6F317F5043601A2D3384C3E1116AE852E684",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\04-fondazione-debole.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\04-fondazione-debole.pdf",
+    "sha256": "41872805E83A0C81F35F8A8D575405936BF8BD607866B006B04B27374D89403B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\05-coesione-profonda.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\05-coesione-profonda.pdf",
+    "sha256": "A848E7C39170A93E65D70A63BDFE7DE0DB37128A7E673706E83B800DE0FC937A",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\06-tre-strati.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\06-tre-strati.pdf",
+    "sha256": "505171AC99DBB8B3BB2C7CF4D9B49898D77F55D6B30841CDE0679919753C36FF",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\07-falda.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\07-falda.pdf",
+    "sha256": "6271953AE78E47D864DC3A71B479D5A1F688C618A249E1A4CDFD609DA08E29A4",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\08-sisma.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\08-sisma.pdf",
+    "sha256": "E8355EBE469F31F6776ACB0156B4ECC4163DDDCDF81929462DCAFD4BD415FA1E",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\09-urto.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\09-urto.pdf",
+    "sha256": "E92F668AC3F7C089D4ADFBDF2A26675C426BCACCBAD38258147CD444C492AFB8",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\10-non-drenato.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\10-non-drenato.pdf",
+    "sha256": "BC35C2AD91CBC7B980351BBF37118A622EF198CABE463AA99CC6F976DF090257",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\Rapporto-controllo-stabilita-globale.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\Rapporto-controllo-stabilita-globale.pdf",
+    "sha256": "C5251CDC3137087A8A422DEFBA5A70710D7ADB6EB5EE9B59F99A73042FEDBA49",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\rapporto\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\rapporto\\page-1.png",
+    "sha256": "A1B1B64D8F5FAC5CC9B828E0CDB9596B1920703938875D423451763A25C28209",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\rapporto\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\rapporto\\page-2.png",
+    "sha256": "12A5ADC27344339FBD4FA0F62C70F6056F092952AE0CAFDC24A14856F7201876",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\rapporto\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\rapporto\\page-3.png",
+    "sha256": "69A0E0C291E271B429B53AF13CDD5935D270E0EF12767D4DFBEA3F44BFA85D4F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\rapporto\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\rapporto\\page-4.png",
+    "sha256": "18C0B575234E248CD53248DF02408804EAC6FFB65AC297F34B61CF2967556BDD",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\rapporto-a4\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\rapporto-a4\\page-1.png",
+    "sha256": "F0B171F5818B9516DE2732E70E413FC9EA59D3699054604D24F19BAA37124654",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\rapporto-a4\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\rapporto-a4\\page-2.png",
+    "sha256": "4FD6F09186FC87055F44626B0121391364647B027A26A4C43B3CD64053B4A29E",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\rapporto-a4\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\rapporto-a4\\page-3.png",
+    "sha256": "5E98CC1A7C9F66B12C340671B7182213C584AE2D81CC29A698096FC6B16D84D2",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\rapporto-v2\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\rapporto-v2\\page-1.png",
+    "sha256": "CBDF410671AE8B59F626B4EEC7A6D4B55C078E316BE694BB83D891ADB1D73E34",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\rapporto-v2\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\rapporto-v2\\page-2.png",
+    "sha256": "6F62FFBD146FFCB304DF66FABEA9E15A3B97EC6817536861BCE4ACB27D2ADAAC",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\rapporto-v2\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\rapporto-v2\\page-3.png",
+    "sha256": "201BE7E72473200D02C50C504820C765D4C4276DFB7F5CAFD83D900C90BDF800",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-20260929\\rapporto-v2\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-20260929\\rapporto-v2\\page-4.png",
+    "sha256": "18C0B575234E248CD53248DF02408804EAC6FFB65AC297F34B61CF2967556BDD",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base-overview-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base-overview-1.png",
+    "sha256": "D8E0390B542E3B0C4D477B6CADB3B08B9BE9897E01D0E87FEFF9E8FCFE7A9BE2",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base-overview-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base-overview-2.png",
+    "sha256": "DE4EF3823524803C228BDCD243D9CAF77038A9F3AE6B5B3A04756A8CD4DDF87D",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base.pdf",
+    "sha256": "B6712777B9142B0A329F1A0B2140D79A0128B8EC4FF4ADA5B2603E4D9E7ED4FE",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta-overview-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta-overview-1.png",
+    "sha256": "B53E8D757AA25AFF30F3CE03135AE9C38DDFFCB63FF60D738AAE30870F41D559",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta-overview-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta-overview-2.png",
+    "sha256": "0770AEB493FA6B16252B6E491E47197DF85F2649A07EA8B4151DD45ACCF6D7DB",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta.pdf",
+    "sha256": "790D2FC589C79E8B2E13680915C23B0102CB488518A910B05DF254F48A7EFE74",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\03-gravita-overview-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\03-gravita-overview-1.png",
+    "sha256": "61C39617F3E6DF9AA1759D7FDA37805CF878C32ABB071151228E563D57E4EB08",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\03-gravita-overview-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\03-gravita-overview-2.png",
+    "sha256": "487B05EAAF4E24A7E5387249D2399C8F72F4F5B0AF6A75FB80B24F3AF3464369",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\03-gravita.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\03-gravita.pdf",
+    "sha256": "4436DBAB9122658836EB56E74FC2997E4E5793E29AA20FA00B2BF43D00D340FE",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole-overview-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole-overview-1.png",
+    "sha256": "AA8A96933B8F1F5E693D3E2707E28225C65E8E0DD2A2B3FA0335823A227BD9B4",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole-overview-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole-overview-2.png",
+    "sha256": "D41DF0365DB1997340312280D2E3CB3C71E26AFE54F5924968E76B14319E268B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole.pdf",
+    "sha256": "542FD1236DD91BD720BC728120CB4348437687AFAF5F14AF8ECE8BAC537691C5",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda-overview-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda-overview-1.png",
+    "sha256": "A5392A186808FC7B5C335C22D115E2DA5770353DE24C1D5D9AA1B8D5D52F8638",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda-overview-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda-overview-2.png",
+    "sha256": "1F75BABA0E106D012C3E50EED61D7A97ADC86AA87CAE946468B6BBC6C020929D",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda.pdf",
+    "sha256": "B2B05A91425CE1AA7AC27673A30140267C4148B142E1241B842CE2CB61610C86",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati-overview-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati-overview-1.png",
+    "sha256": "DC27F30A7DC71D4A1E327073F2EC7CF508BB272B034A14520BFE813060FF8728",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati-overview-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati-overview-2.png",
+    "sha256": "845CD6E66386A1D2DCF7BA3B728DC0F49804051993A2CEBE4F6FCB5A3B6E2666",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati.pdf",
+    "sha256": "36A81A9527E59ED0277C62E019900A474BD1E13CE3386B664CE82430B3FF03D8",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda-overview-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda-overview-1.png",
+    "sha256": "F0F32E0CFCA451B8254423A3A669C5E5975269626833ADB0DDECE7DEC88EE1D1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda-overview-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda-overview-2.png",
+    "sha256": "71C23DE41DBABCCA0176F032F032F4FE2D1856C13A29DB915463DDF019A26264",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda.pdf",
+    "sha256": "9D7752E3F70891AF3F1145D6AC44AFC1B6BF1F6B9B6D717DE2B94C41704E5711",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma-overview-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma-overview-1.png",
+    "sha256": "72C564F563D7D2DBCE8921571C7FAEADF1625892FB9379FFC4B371ACB740BA8E",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma-overview-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma-overview-2.png",
+    "sha256": "9C351BACF5D4FFEA36EA4AA7677C9A3E5A08E435E6B540D2F519C4B8B71727F2",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma.pdf",
+    "sha256": "70701B93100F5D96E9568F0C9E92381C2AE8886107FF2FA2436DFD1EBEE06932",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto-overview-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto-overview-1.png",
+    "sha256": "793762C33D3505E0B2AAEC75F49DEF6DA8C8F873650C520A2361DD58E3E02BA8",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto-overview-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto-overview-2.png",
+    "sha256": "262EFD389D937E7AA02B967EDF3C18BC4FCADDFBD8693DCBAE1A91E18C3C2BBB",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto.pdf",
+    "sha256": "602B5E9637A5B662FA550C9935A6749D61387C297671C01571C87F68AF2A9F86",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\10-non-drenato-overview-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\10-non-drenato-overview-1.png",
+    "sha256": "0EC9616209CFD66D2E83475E4304F173B0C028AF90F55AD58B513590BF2604BD",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\10-non-drenato-overview-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\10-non-drenato-overview-2.png",
+    "sha256": "967334CD4F89A0ED9601060A33DF4CADBE15C7F369F8E8C7EA642CD8F4252119",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\10-non-drenato.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\10-non-drenato.pdf",
+    "sha256": "1A0E99F1C910F2B2AA6D6A90BC64362B88825666899E0EE6017D5091757AAB96",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\globale-autonoma-overview-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\globale-autonoma-overview-1.png",
+    "sha256": "F28D33542127E00D53FC6B60D7CBFD04B3699C2A675A518C37C4449593BE0DA6",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\globale-autonoma.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\globale-autonoma.pdf",
+    "sha256": "8812F955FBBAA0CF66732941B863F1478305FA1089F8174FC69B8BD3E9402A73",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\Rapporto-controllo-stabilita-globale-overview-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\Rapporto-controllo-stabilita-globale-overview-1.png",
+    "sha256": "CC9D1FF636F13B8718591CD2F0672F5D4B51B8AB9F4C754A2031D3D49EF9B3FA",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\Rapporto-controllo-stabilita-globale.pdf",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\Rapporto-controllo-stabilita-globale.pdf",
+    "sha256": "2612CF725DA2D6B01EBC9EF8CCAAEB7442816455D78162DA17085B79880D085F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-1.png",
+    "sha256": "53ED39EFCE982854F44421BB33696E6D7870347176F12950BCCED83390B3810E",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-10.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-10.png",
+    "sha256": "F18D8CF655EF2C2429D4F99A992749E7E929F0D88B1F770B6988159144130712",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-11.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-11.png",
+    "sha256": "E157E1DBE1AC5F6D1AAF8E7EB4B366E51E8BEDC4C1C13CEAE9D87DA64B809DD0",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-12.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-12.png",
+    "sha256": "B6E8D7FAE2EC2CA499EAA57D29CFED365751CB6D0F747972911AFD195E561F23",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-2.png",
+    "sha256": "C4F37F0B8EF456A2EFFB2C76D6F936D00FE5C207F85EFB917A02F9E407D96604",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-3.png",
+    "sha256": "43D0C24BFE90D709E5B3AEE0525023D976CA2B2AC8EFB2FDBF8EDF96199E7FCA",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-4.png",
+    "sha256": "C42B2AC3D843244AB32137E5985677E768D02AD2A9E4C621120504F1EF621020",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-5.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-5.png",
+    "sha256": "787F6798CD737A2C2C538CB43F3D75BC0B6E1AA4AC713A94D8700806725F38F1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-6.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-6.png",
+    "sha256": "568688AF086E95C43E4D521194670EF594115ACE53B7DD23F12E04BC3F433C78",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-7.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-7.png",
+    "sha256": "0D7255B3EAC989E6C0ABB933886BCFD9C2103DA548EA52962FAA4F6E8D6E8C84",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-8.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-8.png",
+    "sha256": "A0453EFAAEEC9E25DA9BAA136B792376BD885D52DE1CFD5D983527533CEEDE97",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-9.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\01-mensola-base\\page-9.png",
+    "sha256": "ABF9B71AAB252AAC50ABCDE674E0B6AED709EE4E721A6D80873139E062CA53B1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-1.png",
+    "sha256": "F6673F45CC417DD3C44BBD5568FDCBB942875758D4EF4B05B350249CFE9962E7",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-10.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-10.png",
+    "sha256": "4B21D1C67D5E68305DFC89AFFBD270CE1277F1A2E2EFF64D40BC9DC83F110EC3",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-11.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-11.png",
+    "sha256": "2E83921BED68E49AB78EDF35A211DC8428F7E108C95D4DD5D40076B30120FD13",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-12.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-12.png",
+    "sha256": "E3C2BF6CDB0AFD2EB71B38C63DD28BB01FEC7CE886354CE1807897933A3EAF5C",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-2.png",
+    "sha256": "8F4E76838BE1CB480D780A6A7A2038A317D74FDB934E39FC491A757DBDB71D6C",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-3.png",
+    "sha256": "D2068AFA4DCA5825FEBE01F8B541F1BBA1E8072BBDF7C101F02348EFC1A13AF2",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-4.png",
+    "sha256": "C42B2AC3D843244AB32137E5985677E768D02AD2A9E4C621120504F1EF621020",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-5.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-5.png",
+    "sha256": "66702A2EA622E99515BF9B3BA2F9ACEB76F2A77DAB55AC5204A40BD75AA67D11",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-6.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-6.png",
+    "sha256": "47CED1D55F8F0161ED907B91B303BCE2D014A3032189D3CEAE330722F6C60365",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-7.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-7.png",
+    "sha256": "0569EBC5DCAA0BEE688D8F84E82645A1C684CB6940E248EEDD84B2160D5B1B25",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-8.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-8.png",
+    "sha256": "A645CD44E4321BEA719354B4156DE8144ED4DA160EFBF2FF139ADE7B8D35605C",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-9.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\02-mensola-alta\\page-9.png",
+    "sha256": "4D7C1CD45E6E93498A5EB2F71195B6BAA048184E48E5FED70270B59F5566B7B2",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-1.png",
+    "sha256": "527141B96663BA1DFE7A4B684DA59441A6BD96DC228B0EC55EFB3EC962BC8B98",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-10.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-10.png",
+    "sha256": "5A0F69459BFB3F90B09732F8E647BF20A9F2086EDE6161B3714D977A308CBED8",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-11.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-11.png",
+    "sha256": "71942153AA18D471CCF6C46684B6F495C85A1F5015DD14BA732143C92F301A38",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-2.png",
+    "sha256": "925C431E69EDC04C891D7956EA992F45161DA430C44F5FAA6A4A32B9A8768935",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-3.png",
+    "sha256": "9EE8041E8BF45A350AE87CA406A6BCA3F39BDDFA36FC5B07CDBD07BD57E407DA",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-4.png",
+    "sha256": "C14D5B76EBD49A1652E3D69133090A4FC1072768B90EA97E31E6A2732559EFD0",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-5.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-5.png",
+    "sha256": "841BBC0D30268A92D6493B5764051BFF70363C1502AD38D6FF0E140209A1135F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-6.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-6.png",
+    "sha256": "42CD286DED4342BB38049883F723D63181A9CA8A90450465C1089B6A021BB0B7",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-7.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-7.png",
+    "sha256": "1E371A946E6DF39BE25186FF04B390FB51817EC31A1B40BB40A18C8206061720",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-8.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-8.png",
+    "sha256": "6B72B9423F432BBDB915A3EE7A82F03E5F3BC2706A6B8AFD7B3E0A116F487CB3",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-9.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\03-gravita\\page-9.png",
+    "sha256": "B0B4D31DCE2C8D5CC8555B0758934DB3B3E8B55D9F82E8A77B8617B8E3E4B40B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-1.png",
+    "sha256": "E9310FBA1083661F4B34BC6A6BE605F5DA56BA1C9A952073E7D28589EE13B3B5",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-10.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-10.png",
+    "sha256": "CE404BF2A39C8AA0CDFBD20A0ECD4C08C136868B4C172376A881963CEEB1B1ED",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-11.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-11.png",
+    "sha256": "3AB4E354ADD46A54D15B675F8DEBD5D22452DFE68CBBCCDD8BEEC5AE6B6812BE",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-12.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-12.png",
+    "sha256": "B4285BEA566CBCDA09A508E16E47943F79716AA11712AD37F4FFA78B13BA7406",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-2.png",
+    "sha256": "B74C5BB1F55A763F449721BE63608BBC29483B86AC1E7C0868488D823316E9B1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-3.png",
+    "sha256": "43D0C24BFE90D709E5B3AEE0525023D976CA2B2AC8EFB2FDBF8EDF96199E7FCA",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-4.png",
+    "sha256": "C42B2AC3D843244AB32137E5985677E768D02AD2A9E4C621120504F1EF621020",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-5.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-5.png",
+    "sha256": "787F6798CD737A2C2C538CB43F3D75BC0B6E1AA4AC713A94D8700806725F38F1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-6.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-6.png",
+    "sha256": "568688AF086E95C43E4D521194670EF594115ACE53B7DD23F12E04BC3F433C78",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-7.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-7.png",
+    "sha256": "0D7255B3EAC989E6C0ABB933886BCFD9C2103DA548EA52962FAA4F6E8D6E8C84",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-8.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-8.png",
+    "sha256": "B33B6DE1EC35142747F146145054561D02FC37A924AD916E3C679677D79BFC32",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-9.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\04-fondazione-debole\\page-9.png",
+    "sha256": "A61B9AADC101185709470F09AA6D3F95F3402C9A530EEFC00BE6999765543942",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-1.png",
+    "sha256": "3E8B25BC526F33EAC8446CB2BC9F70473F9E3512FF6EB693F71507AD4082514F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-10.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-10.png",
+    "sha256": "608D6827F0297499B18A8282A06D952375D0CA3DD9EED132DEC881348B5788E8",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-11.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-11.png",
+    "sha256": "EBAF51A4FF6FEC5D22CEB78CB0760DDAA839BB575E86C12936D1A7526E65FCBD",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-2.png",
+    "sha256": "EB240C447D42F5062D21C811DEE8E8E2081BE9F9AAFC18A82C0D0EC8EE0D0EFE",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-3.png",
+    "sha256": "43D0C24BFE90D709E5B3AEE0525023D976CA2B2AC8EFB2FDBF8EDF96199E7FCA",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-4.png",
+    "sha256": "C42B2AC3D843244AB32137E5985677E768D02AD2A9E4C621120504F1EF621020",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-5.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-5.png",
+    "sha256": "787F6798CD737A2C2C538CB43F3D75BC0B6E1AA4AC713A94D8700806725F38F1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-6.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-6.png",
+    "sha256": "568688AF086E95C43E4D521194670EF594115ACE53B7DD23F12E04BC3F433C78",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-7.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-7.png",
+    "sha256": "0D7255B3EAC989E6C0ABB933886BCFD9C2103DA548EA52962FAA4F6E8D6E8C84",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-8.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-8.png",
+    "sha256": "1449D5907D665856FB7FF34B4C812722CDEACCF3C882928EDD8BAECC9A142565",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-9.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\05-coesione-profonda\\page-9.png",
+    "sha256": "52BFE5954196F07567F45C398671F185E61F4AF5059CA6B204B4328496068E0A",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-1.png",
+    "sha256": "F864DD4E999D213D5B2F1534E35D6994EFC233C7F97505303157E27346C873D9",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-10.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-10.png",
+    "sha256": "025DAD185E97A61F0A1C8D5E2700DA5D589C45F2CC7E6FE9BCDE53EDACBB42E0",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-11.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-11.png",
+    "sha256": "B6FB1C7EB2B1BE484C7D6096584008F1D9AD21CA509894A306B0FA919D0C5E41",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-12.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-12.png",
+    "sha256": "9F53AC30B33A1DAFF84D5C2517AC497F341A2DAEB2473A3A30BBD0B6C06AA1C3",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-2.png",
+    "sha256": "B74C5BB1F55A763F449721BE63608BBC29483B86AC1E7C0868488D823316E9B1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-3.png",
+    "sha256": "43D0C24BFE90D709E5B3AEE0525023D976CA2B2AC8EFB2FDBF8EDF96199E7FCA",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-4.png",
+    "sha256": "C42B2AC3D843244AB32137E5985677E768D02AD2A9E4C621120504F1EF621020",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-5.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-5.png",
+    "sha256": "787F6798CD737A2C2C538CB43F3D75BC0B6E1AA4AC713A94D8700806725F38F1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-6.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-6.png",
+    "sha256": "568688AF086E95C43E4D521194670EF594115ACE53B7DD23F12E04BC3F433C78",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-7.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-7.png",
+    "sha256": "0D7255B3EAC989E6C0ABB933886BCFD9C2103DA548EA52962FAA4F6E8D6E8C84",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-8.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-8.png",
+    "sha256": "CCEFA2C1AFFB8D472B7116C98D008CE49D331AAEC8F36031717F438BB9E3F9CE",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-9.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\06-tre-strati\\page-9.png",
+    "sha256": "280B8A92FBEC98BBCDAC6523CBF54E1E016CDA5831203ED03FAC8F03261C2E27",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-1.png",
+    "sha256": "BE79FDC2306ED49A3A6969EDB70187BEA4A271D9844BAC35524488ECBC9E633E",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-10.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-10.png",
+    "sha256": "578C8AC27BD1A17398E134BD170D93A98E06A3BFD62BAEB8A64ADC728506F1E3",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-11.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-11.png",
+    "sha256": "78C6355980B57C9CDEFE4686910A7D59AD10BA6438E0BAA17FE473CDEB30E33A",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-12.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-12.png",
+    "sha256": "1C0DC8F1C37331ADCDAF02EC2BC097A2EC8D177837BBFC83BF261437ECBB2737",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-2.png",
+    "sha256": "9DB81D33D6D951A6CA3470EB0E741473BCEDD80D3520B24DF63067B28816C653",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-3.png",
+    "sha256": "43D0C24BFE90D709E5B3AEE0525023D976CA2B2AC8EFB2FDBF8EDF96199E7FCA",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-4.png",
+    "sha256": "C42B2AC3D843244AB32137E5985677E768D02AD2A9E4C621120504F1EF621020",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-5.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-5.png",
+    "sha256": "787F6798CD737A2C2C538CB43F3D75BC0B6E1AA4AC713A94D8700806725F38F1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-6.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-6.png",
+    "sha256": "568688AF086E95C43E4D521194670EF594115ACE53B7DD23F12E04BC3F433C78",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-7.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-7.png",
+    "sha256": "0D7255B3EAC989E6C0ABB933886BCFD9C2103DA548EA52962FAA4F6E8D6E8C84",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-8.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-8.png",
+    "sha256": "193DB517DE23C839D39E7EFB3C726CEB29BCEF4B0FF458415F313168A14C1E1E",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-9.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\07-falda\\page-9.png",
+    "sha256": "E3435303C1B2ECADA0153509A8852A77E51936ACA7385FCEE52AC0ECE1E25385",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-1.png",
+    "sha256": "D801DA801AB6F7269F748326AF8FBF7A40CE076D9AC7C692CCD1C27B9942EBC4",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-10.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-10.png",
+    "sha256": "DB5BC258FE0700AAEDBF9ADD56244881297228A42528108EF236F071EF9FA52F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-11.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-11.png",
+    "sha256": "8BF42EFD28289199DA2472CF631B3DA54C1206442E2BD281168E603956B0328E",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-12.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-12.png",
+    "sha256": "F18D8CF655EF2C2429D4F99A992749E7E929F0D88B1F770B6988159144130712",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-13.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-13.png",
+    "sha256": "E157E1DBE1AC5F6D1AAF8E7EB4B366E51E8BEDC4C1C13CEAE9D87DA64B809DD0",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-14.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-14.png",
+    "sha256": "B6E8D7FAE2EC2CA499EAA57D29CFED365751CB6D0F747972911AFD195E561F23",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-2.png",
+    "sha256": "657CFBCB63599AE9E8D09A307CC836C4F76038653762E702686AF24CDA8F9C0E",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-3.png",
+    "sha256": "CC25DBFDCF8892860F9E0138A87E074CC602AC109F65E11CA9CA4C15949FCC03",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-4.png",
+    "sha256": "65310539FF065C959ECB8E3C38448C619AE3A99D4268C6444C6BDB2951670AC1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-5.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-5.png",
+    "sha256": "9A027A7C308808BDC3F7C62A0B00737174BB6966AC3BD5A0631B2F66FB0A3637",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-6.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-6.png",
+    "sha256": "8276B6E75086D2A0D46B689D869361407A24F5E385E9DD677F8C96D1F52E7C0C",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-7.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-7.png",
+    "sha256": "E97D77BB81E4E794D793240848F390BCC96B5E389B89F1A6B7CB7EDFA1FBAC7B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-8.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-8.png",
+    "sha256": "A20D097004F134F1FBC879E38CEF237E114F498E7A4BCE0D9328771A1DD4B090",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-9.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\08-sisma\\page-9.png",
+    "sha256": "453B3B57286806A470A49E94572799685E986EB32B9CD0CAE54BEF3A3521BEC3",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-1.png",
+    "sha256": "3519C00903DB1AE456683DAE2445F4FEF26E9F48297E029E4CFBB20F5319CED6",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-10.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-10.png",
+    "sha256": "502BB57E7912DFDB199E021B8324CE2001BDCD80E75C0746473038F866AF0113",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-11.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-11.png",
+    "sha256": "E7A3179EA15E929F9B75F3FE06B1BAF151B37DC7881FFB4D45C38DD2A4DF5634",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-12.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-12.png",
+    "sha256": "2319CEB2F18A1AEF2DA1833A75BE1548938373C9E82C4553FE80AB4E13FEAFAC",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-13.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-13.png",
+    "sha256": "E7D9B00EC225FF943472A4AF912605EA5F2833B30F1529131A827474E9FB524B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-2.png",
+    "sha256": "B89669666D9217D2B95FA9954E93633AFB41BB3D866731B88F04879AAEBC3823",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-3.png",
+    "sha256": "33902DF9BBCE425BD55B613B31DDF5FD0C1DF59DFFBB549B2FB45DFD832DC512",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-4.png",
+    "sha256": "46598BE3A6E53757E9BF983B802528C7C884A266D8EDC85E748EB01E90709D7A",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-5.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-5.png",
+    "sha256": "D823DB21B75CCD2F485B199D2B17183B36C3A382E85231E858AA9F45E3D1ED09",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-6.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-6.png",
+    "sha256": "36AC8A44D18BBC1398DF717139855CA558B3C30706821DF2227962460D63ECE9",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-7.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-7.png",
+    "sha256": "BBCEB94B96A5930640AE2F8D42C4F253CC791EE594ED4EAB9346F1E642F84E7C",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-8.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-8.png",
+    "sha256": "78E5F6499B9C6099A0B772571B31DFDBF3463E21BA68CDFD8D72D938D6CA4A5C",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-9.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\09-urto\\page-9.png",
+    "sha256": "FE8FAAAB17C5E359D321088C1F895D497D2E48C46DB3014071A1A85BC0C2EB1A",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-1.png",
+    "sha256": "C18912B6936B501B2042F26752D51D3C4B818E368E736BF59B070647241D9C5B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-10.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-10.png",
+    "sha256": "81237AC481F1047B1C3CAEBE2CCC57EA08B8798C53FC94DB9B467FF8A292195F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-11.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-11.png",
+    "sha256": "E7D9B00EC225FF943472A4AF912605EA5F2833B30F1529131A827474E9FB524B",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-2.png",
+    "sha256": "7DA9148961132B4A1F1546490454EAA5A20AE57B486515F50F4FA86AF559D5CE",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-3.png",
+    "sha256": "43D0C24BFE90D709E5B3AEE0525023D976CA2B2AC8EFB2FDBF8EDF96199E7FCA",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-4.png",
+    "sha256": "C42B2AC3D843244AB32137E5985677E768D02AD2A9E4C621120504F1EF621020",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-5.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-5.png",
+    "sha256": "787F6798CD737A2C2C538CB43F3D75BC0B6E1AA4AC713A94D8700806725F38F1",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-6.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-6.png",
+    "sha256": "568688AF086E95C43E4D521194670EF594115ACE53B7DD23F12E04BC3F433C78",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-7.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-7.png",
+    "sha256": "0D7255B3EAC989E6C0ABB933886BCFD9C2103DA548EA52962FAA4F6E8D6E8C84",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-8.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-8.png",
+    "sha256": "79200C6CF2CBB1674BCB60186BF3ACD814E3CB1327307FCA849EC8E98A9B8679",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-9.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\10-non-drenato\\page-9.png",
+    "sha256": "32C0908BDD09FA92C454EED97252427ADDFE39F0A430696941C67AB120B762AA",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\globale-autonoma\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\globale-autonoma\\page-1.png",
+    "sha256": "AA97E263FB540AC6A0349681E437C0B8CE03AFFFA25DD40A9B2BF66B6F718B7A",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\globale-autonoma\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\globale-autonoma\\page-2.png",
+    "sha256": "CBE2F0496119AF0D334C7A8797AE36FF4CBCB62B13799AEA8E32EC0112EF8590",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\globale-autonoma\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\globale-autonoma\\page-3.png",
+    "sha256": "1CBCDC43A692F19F13B9801AFADDC286AB6902F0C38BF7AD2752B4464C8D18BC",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\globale-autonoma\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\globale-autonoma\\page-4.png",
+    "sha256": "28AD86D330DF31609E7A45A0D23300CDAF3AAF48C83519114C0EAA0E37EB9060",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\globale-autonoma\\page-5.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\globale-autonoma\\page-5.png",
+    "sha256": "4F11432CBE5DA7B2A6707B59577F493F9BD771E6446C518E5AE6FE58473A201C",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\rapporto\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\rapporto\\page-1.png",
+    "sha256": "76177C8A5B77D24CE492EC56EDFCC216B313A22CCAE59DDC219B7DEC1388887F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\rapporto\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\rapporto\\page-2.png",
+    "sha256": "525827A18484B5C84172820CF66842F678B40C1713A5988D5814ECD1621A4CED",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\rapporto\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\rapporto\\page-3.png",
+    "sha256": "301E8DF63865AAD6B446BA0DF11E646361F9BB692D0E71F7DC6ADBA2FDD68E7D",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\rapporto\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\rapporto\\page-4.png",
+    "sha256": "15E4EA8C1B66351FC40AA74C605583272C6CC0E9D21928F856A495932C09C884",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\Rapporto-controllo-stabilita-globale\\page-1.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\Rapporto-controllo-stabilita-globale\\page-1.png",
+    "sha256": "76177C8A5B77D24CE492EC56EDFCC216B313A22CCAE59DDC219B7DEC1388887F",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\Rapporto-controllo-stabilita-globale\\page-2.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\Rapporto-controllo-stabilita-globale\\page-2.png",
+    "sha256": "525827A18484B5C84172820CF66842F678B40C1713A5988D5814ECD1621A4CED",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\Rapporto-controllo-stabilita-globale\\page-3.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\Rapporto-controllo-stabilita-globale\\page-3.png",
+    "sha256": "301E8DF63865AAD6B446BA0DF11E646361F9BB692D0E71F7DC6ADBA2FDD68E7D",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\qa-finali\\Rapporto-controllo-stabilita-globale\\page-4.png",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\qa-finali\\Rapporto-controllo-stabilita-globale\\page-4.png",
+    "sha256": "15E4EA8C1B66351FC40AA74C605583272C6CC0E9D21928F856A495932C09C884",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\10-esempi-anthea-controllo-interno.zip",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\10-esempi-anthea-controllo-interno.zip",
+    "sha256": "0C66BEC204434CF2C6B519F63E77B687F064225F432E3B7593C0B89B017E75DC",
+    "reason": "Raccolta o PDF anteriori alla correzione dei cerchi tangenti. Riferimenti correnti: regressione-tangenti-max e confronti-max/SOMMARIO-PARZIALE."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\confronti-max\\01-mensola-asciutta\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\confronti-max\\01-mensola-asciutta\\relazione-anthea.docx",
+    "sha256": "C400BBA6FB92F2EEFDA4E7DDD009D3392F4EFA55296C5BD4A04EE24E57205C33",
+    "reason": "Relazione generata prima della correzione dei cerchi tangenti. Nuova relazione della serie MAX ancora da rigenerare alla ripresa dei test."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\confronti-max\\02-mensola-alta\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\confronti-max\\02-mensola-alta\\relazione-anthea.docx",
+    "sha256": "06449AE8FFFBFF2C1F98B695005B53654B5274D302653A90A2EC72132B20CF20",
+    "reason": "Relazione generata prima della correzione dei cerchi tangenti. Nuova relazione della serie MAX ancora da rigenerare alla ripresa dei test."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\confronti-max\\03-gravita-rettangolare\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\confronti-max\\03-gravita-rettangolare\\relazione-anthea.docx",
+    "sha256": "A827D94D7E9A7AB87C9293597D5FCADFB7E09A7082433C97E06DA2D41090466C",
+    "reason": "Relazione generata prima della correzione dei cerchi tangenti. Nuova relazione della serie MAX ancora da rigenerare alla ripresa dei test."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\confronti-max\\04-attrito-22\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\confronti-max\\04-attrito-22\\relazione-anthea.docx",
+    "sha256": "1FADE38CFDEC6E7FAA8D233FFB56D708421A9A597162589974E261020A3AA0E9",
+    "reason": "Relazione generata prima della correzione dei cerchi tangenti. Nuova relazione della serie MAX ancora da rigenerare alla ripresa dei test."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\confronti-max\\05-coesione-10\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\confronti-max\\05-coesione-10\\relazione-anthea.docx",
+    "sha256": "ACC9FDCC0312CDD450211B304FF659451BD6C359780BFDE6BCBF14861438A62C",
+    "reason": "Relazione generata prima della correzione dei cerchi tangenti. Nuova relazione della serie MAX ancora da rigenerare alla ripresa dei test."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\confronti-max\\06-attrito-38\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\confronti-max\\06-attrito-38\\relazione-anthea.docx",
+    "sha256": "D898E4E102D686450CB67843CDEDCB6BF01C0EE0D92FD6148D707C57832DF570",
+    "reason": "Relazione generata prima della correzione dei cerchi tangenti. Nuova relazione della serie MAX ancora da rigenerare alla ripresa dei test."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\confronti-max\\07-peso-terreno-20\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\confronti-max\\07-peso-terreno-20\\relazione-anthea.docx",
+    "sha256": "C7BEB237B7F68FE918F88302D0D17763ABB319BB6C6FCBFBCE24B512E450C3A6",
+    "reason": "Relazione generata prima della correzione dei cerchi tangenti. Nuova relazione della serie MAX ancora da rigenerare alla ripresa dei test."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\confronti-max\\08-paramento-50\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\confronti-max\\08-paramento-50\\relazione-anthea.docx",
+    "sha256": "AF95A17B961722D456FA0EA59B55602F17E215DF0CFC8A762CBA73CEDBDDE901",
+    "reason": "Relazione generata prima della correzione dei cerchi tangenti. Nuova relazione della serie MAX ancora da rigenerare alla ripresa dei test."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\confronti-max\\09-mensola-bassa\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\confronti-max\\09-mensola-bassa\\relazione-anthea.docx",
+    "sha256": "8CD90357ED02AB5CE5B04A17D1BEA76AFF5E8716B02E54D0F63BF9CA8CF67A66",
+    "reason": "Relazione generata prima della correzione dei cerchi tangenti. Nuova relazione della serie MAX ancora da rigenerare alla ripresa dei test."
+  },
+  {
+    "original": "artefatti\\stabilita-globale\\confronti-max\\10-coesione-20\\relazione-anthea.docx",
+    "archived": "SUPERATI/artefatti\\stabilita-globale\\confronti-max\\10-coesione-20\\relazione-anthea.docx",
+    "sha256": "0EA517F3BCB178109D12616296D9AE7845096FDA955D2DBD252A2908ACD88E26",
+    "reason": "Relazione generata prima della correzione dei cerchi tangenti. Nuova relazione della serie MAX ancora da rigenerare alla ripresa dei test."
+  }
+]

@@ -1,0 +1,53 @@
+OK Bishop caso analitico senza coesione F=tanφ/tanα (0,9999999997; atteso 1)
+OK γR applicato una sola volta (1,1; atteso 1,1)
+OK Bishop φ=0: F=Σcl/ΣWsinα (0,2309401077; atteso 0,2309401077)
+OK Pressione interstiziale riduce F
+OK Momento esterno destabilizzante riduce F
+OK Equilibrio verticale indipendente del concio (100; atteso 100)
+OK Equilibrio dei momenti indipendente (50,00000001; atteso 50)
+OK Cerchio passa per uscita (-8,881784197E-16; atteso 0)
+OK Cerchio passa per ingresso (3,45; atteso 3,45)
+OK Cerchio con profondità assegnata (-3; atteso -3)
+OK Area triangolo via GPC.Geometry (9; atteso 9)
+OK Baricentro GPC x (1; atteso 1)
+OK Baricentro GPC y (2; atteso 2)
+OK Calcolo globale puro: input invariato
+OK Caso base: ogni combinazione trova una superficie
+OK Massa del muro integrata una volta (58,125; atteso 58,125)
+OK Combinazione senza variabile: nessun sovraccarico (0; atteso 0)
+OK Momenti equilibrati sulla superficie reale (118,4955427; atteso 118,4955426)
+OK Preset globale A2 M2 R2
+OK Ricerca più densa: variazione F inferiore al 3%
+OK Profilo non confermato rifiutato
+OK Nessuna estrapolazione sotto gli strati indagati
+OK Geometria modificata richiede allineamento profilo
+OK cu mancante rifiutata in non drenato
+OK Acqua esterna non supportata non ignorata
+OK Cambio γR non modifica F (1,235741751; atteso 1,235741751)
+OK Matrice globale personalizzata applicata (1,213845854; atteso 1,213845854)
+OK Matrice globale obsoleta rifiutata
+OK Ricerca cancellabile
+OK SLV βs indipendente dalle spinte (0,1064; atteso 0,1064)
+OK γR=1,2 globale SLV (1,2; atteso 1,2)
+OK Wood non sostituisce βs con βm (0,1064; atteso 0,1064)
+OK Archivio ripercorribile 01-mensola-base
+OK Integrazione calcolo locale/globale 01-mensola-base
+OK Archivio ripercorribile 02-mensola-alta
+OK Integrazione calcolo locale/globale 02-mensola-alta
+OK Archivio ripercorribile 03-gravita
+OK Integrazione calcolo locale/globale 03-gravita
+OK Archivio ripercorribile 04-fondazione-debole
+OK Integrazione calcolo locale/globale 04-fondazione-debole
+OK Archivio ripercorribile 05-coesione-profonda
+OK Integrazione calcolo locale/globale 05-coesione-profonda
+OK Archivio ripercorribile 06-tre-strati
+OK Integrazione calcolo locale/globale 06-tre-strati
+OK Archivio ripercorribile 07-falda
+OK Integrazione calcolo locale/globale 07-falda
+OK Archivio ripercorribile 08-sisma
+OK Integrazione calcolo locale/globale 08-sisma
+OK Archivio ripercorribile 09-urto
+OK Integrazione calcolo locale/globale 09-urto
+OK Archivio ripercorribile 10-non-drenato
+OK Integrazione calcolo locale/globale 10-non-drenato
+PASS 52 controlli; 10 esempi ANTHEA; confronti MAX non eseguiti.

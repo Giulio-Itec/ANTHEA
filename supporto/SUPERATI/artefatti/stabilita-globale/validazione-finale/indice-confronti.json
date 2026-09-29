@@ -1,0 +1,256 @@
+[
+  {
+    "Id": "01-mensola-base",
+    "Description": "Mensola H=3 m, terreno granulare asciutto φ=30°, q=10 kPa.",
+    "MAX": "Non eseguito: controllo app Windows non disponibile",
+    "Cases": [
+      {
+        "Name": "Globale A2–M2–R2 1",
+        "F": 1.2357417505453263,
+        "Eta": 0.8901536259615538,
+        "Status": "Soddisfatta nel dominio esplorato",
+        "NumericalFailures": 0,
+        "Boundary": false
+      },
+      {
+        "Name": "Globale A2–M2–R2 2",
+        "F": 1.1276527719549543,
+        "Eta": 0.9754775826010572,
+        "Status": "Soddisfatta nel dominio esplorato",
+        "NumericalFailures": 0,
+        "Boundary": false
+      }
+    ]
+  },
+  {
+    "Id": "02-mensola-alta",
+    "Description": "Mensola H=5 m; effetto dell’altezza con profilo riallineato.",
+    "MAX": "Non eseguito: controllo app Windows non disponibile",
+    "Cases": [
+      {
+        "Name": "Globale A2–M2–R2 1",
+        "F": 1.0407499220043546,
+        "Eta": 1.056930177694885,
+        "Status": "Non soddisfatta",
+        "NumericalFailures": 0,
+        "Boundary": false
+      },
+      {
+        "Name": "Globale A2–M2–R2 2",
+        "F": 0.987589202945826,
+        "Eta": 1.11382343662615,
+        "Status": "Non soddisfatta",
+        "NumericalFailures": 0,
+        "Boundary": false
+      }
+    ]
+  },
+  {
+    "Id": "03-gravita",
+    "Description": "Muro a gravità, sezione trapezia; peso reale del corpo rigido.",
+    "MAX": "Non eseguito: controllo app Windows non disponibile",
+    "Cases": [
+      {
+        "Name": "Globale A2–M2–R2 1",
+        "F": 1.1639171074100347,
+        "Eta": 0.9450844849662328,
+        "Status": "Soddisfatta nel dominio esplorato",
+        "NumericalFailures": 0,
+        "Boundary": false
+      },
+      {
+        "Name": "Globale A2–M2–R2 2",
+        "F": 1.0616243331895374,
+        "Eta": 1.0361480663269718,
+        "Status": "Non soddisfatta",
+        "NumericalFailures": 0,
+        "Boundary": false
+      }
+    ]
+  },
+  {
+    "Id": "04-fondazione-debole",
+    "Description": "φ=30° nel riempimento; φ=22° sotto il piano di posa.",
+    "MAX": "Non eseguito: controllo app Windows non disponibile",
+    "Cases": [
+      {
+        "Name": "Globale A2–M2–R2 1",
+        "F": 0.9516968108007204,
+        "Eta": 1.1558302891385157,
+        "Status": "Non soddisfatta",
+        "NumericalFailures": 0,
+        "Boundary": false
+      },
+      {
+        "Name": "Globale A2–M2–R2 2",
+        "F": 0.8767030620273055,
+        "Eta": 1.2547007620303485,
+        "Status": "Non soddisfatta",
+        "NumericalFailures": 0,
+        "Boundary": false
+      }
+    ]
+  },
+  {
+    "Id": "05-coesione-profonda",
+    "Description": "Come 04, c′=10 kPa nello strato di fondazione; drenato.",
+    "MAX": "Non eseguito: controllo app Windows non disponibile",
+    "Cases": [
+      {
+        "Name": "Globale A2–M2–R2 1",
+        "F": 1.4340252917247023,
+        "Eta": 0.7670715477249568,
+        "Status": "Soddisfatta nel dominio esplorato",
+        "NumericalFailures": 0,
+        "Boundary": false
+      },
+      {
+        "Name": "Globale A2–M2–R2 2",
+        "F": 1.2739241636535747,
+        "Eta": 0.86347369127942,
+        "Status": "Soddisfatta nel dominio esplorato",
+        "NumericalFailures": 0,
+        "Boundary": false
+      }
+    ]
+  },
+  {
+    "Id": "06-tre-strati",
+    "Description": "Riempimento, strato debole fino a −2 m e substrato φ=38°.",
+    "MAX": "Non eseguito: controllo app Windows non disponibile",
+    "Cases": [
+      {
+        "Name": "Globale A2–M2–R2 1",
+        "F": 0.9516968108007204,
+        "Eta": 1.1558302891385157,
+        "Status": "Non soddisfatta",
+        "NumericalFailures": 0,
+        "Boundary": false
+      },
+      {
+        "Name": "Globale A2–M2–R2 2",
+        "F": 0.8767030620273055,
+        "Eta": 1.2547007620303485,
+        "Status": "Non soddisfatta",
+        "NumericalFailures": 0,
+        "Boundary": false
+      }
+    ]
+  },
+  {
+    "Id": "07-falda",
+    "Description": "Falda da y=−0,10 m a valle a y=1,50 m al tallone e a monte; pesi saturi e pressioni interstiziali.",
+    "MAX": "Non eseguito: controllo app Windows non disponibile",
+    "Cases": [
+      {
+        "Name": "Globale A2–M2–R2 1",
+        "F": 0.95055433340106,
+        "Eta": 1.1572194890367047,
+        "Status": "Non soddisfatta",
+        "NumericalFailures": 0,
+        "Boundary": false
+      },
+      {
+        "Name": "Globale A2–M2–R2 2",
+        "F": 0.8954925543608763,
+        "Eta": 1.2283742557581434,
+        "Status": "Non soddisfatta",
+        "NumericalFailures": 0,
+        "Boundary": false
+      }
+    ]
+  },
+  {
+    "Id": "08-sisma",
+    "Description": "SLV: ag/g=0,20, F0=2,5, categoria C, St=1; kh=0,1064 e kv=±0,0532.",
+    "MAX": "Non eseguito: controllo app Windows non disponibile",
+    "Cases": [
+      {
+        "Name": "Globale A2–M2–R2 1",
+        "F": 1.2357417505453263,
+        "Eta": 0.8901536259615538,
+        "Status": "Soddisfatta nel dominio esplorato",
+        "NumericalFailures": 0,
+        "Boundary": false
+      },
+      {
+        "Name": "Globale A2–M2–R2 2",
+        "F": 1.1276527719549543,
+        "Eta": 0.9754775826010572,
+        "Status": "Soddisfatta nel dominio esplorato",
+        "NumericalFailures": 0,
+        "Boundary": false
+      },
+      {
+        "Name": "Globale SLV kv− 3",
+        "F": 1.2682397431718377,
+        "Eta": 0.9461933411728828,
+        "Status": "Soddisfatta nel dominio esplorato",
+        "NumericalFailures": 0,
+        "Boundary": false
+      },
+      {
+        "Name": "Globale SLV kv+ 4",
+        "F": 1.243005495621709,
+        "Eta": 0.9654020068509841,
+        "Status": "Soddisfatta nel dominio esplorato",
+        "NumericalFailures": 0,
+        "Boundary": false
+      }
+    ]
+  },
+  {
+    "Id": "09-urto",
+    "Description": "Urto equivalente H=50 kN/m in testa; combinazione eccezionale separata.",
+    "MAX": "Non eseguito: controllo app Windows non disponibile",
+    "Cases": [
+      {
+        "Name": "Globale A2–M2–R2 1",
+        "F": 1.2357417505453263,
+        "Eta": 0.8901536259615538,
+        "Status": "Soddisfatta nel dominio esplorato",
+        "NumericalFailures": 0,
+        "Boundary": false
+      },
+      {
+        "Name": "Globale A2–M2–R2 2",
+        "F": 1.1276527719549543,
+        "Eta": 0.9754775826010572,
+        "Status": "Soddisfatta nel dominio esplorato",
+        "NumericalFailures": 0,
+        "Boundary": false
+      },
+      {
+        "Name": "Globale eccezionale 3",
+        "F": 1.3019588408756075,
+        "Eta": 0.7680734356605844,
+        "Status": "Soddisfatta nel dominio esplorato",
+        "NumericalFailures": 0,
+        "Boundary": false
+      }
+    ]
+  },
+  {
+    "Id": "10-non-drenato",
+    "Description": "cu=50 kPa, φu=0; analisi globale a tensioni totali. Conci in trazione segnalati, nessun taglio automatico.",
+    "MAX": "Non eseguito: controllo app Windows non disponibile",
+    "Cases": [
+      {
+        "Name": "Globale A2–M2–R2 1",
+        "F": 3.06658981838826,
+        "Eta": 0.3587046410328652,
+        "Status": "Discretizzazione non convergente: aumentare i conci.",
+        "NumericalFailures": 1647,
+        "Boundary": false
+      },
+      {
+        "Name": "Globale A2–M2–R2 2",
+        "F": 2.4893534337646432,
+        "Eta": 0.4418818095815638,
+        "Status": "Discretizzazione non convergente: aumentare i conci.",
+        "NumericalFailures": 1589,
+        "Boundary": false
+      }
+    ]
+  }
+]
