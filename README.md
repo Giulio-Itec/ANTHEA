@@ -80,6 +80,13 @@ ospitati né dipendenze da `System.Drawing`.
 
 ## Moduli e compatibilità
 
+In **Geotecnica → Muri di sostegno** è disponibile il [modulo per mensola in c.a. e gravità](supporto/docs/muri-sostegno.md):
+geometria, strati granulari, falda e sottospinta, combinazioni, verifiche locali geotecniche,
+sezioni in c.a. con GPC, diagrammi, archivi e relazione Word. Le altre tipologie sono previste
+senza calcolo. La stabilità globale dispone di un motore Bishop separato, profilo esteso,
+strati profondi, falda, combinazioni proprie e relazione dedicata. Cedimenti e portanza
+sismica restano esclusi. Vedere la guida per il campo completo e lo stato della validazione.
+
 In **Strutture → Bridge Design** è disponibile il [predimensionamento dei ponti](supporto/docs/bridge-design.md):
 otto famiglie, viste di prospetto e sezione, pile e fondazioni, quantità, prezzi e coefficienti modificabili,
 stime di costo/CO₂/durata e confronto A/B. Il motore è separato dalla vista WPF e non costituisce verifica normativa.

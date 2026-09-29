@@ -3,7 +3,10 @@
 Questa cartella raccoglie test, documentazione, esempi, immagini di verifica e strumenti di sviluppo.
 
 Le guide complete sono [Guida pratica di ANTHEA](docs/guida-pratica-anthea.md) e
-[Guida teorica dei calcoli](docs/guida-teorica-anthea.md), con edizioni Word in `documentazione/Guide_ANTHEA`.
+[Guida teorica dei calcoli](docs/guida-teorica-anthea.md), con edizioni Word e PDF Rev04 in `documentazione/Guide_ANTHEA`.
+Le revisioni precedenti e le raccolte superate sono conservate in [SUPERATI](SUPERATI/README.md).
+Ogni nuova guida, esempio documentato e rapporto per l'utente deve includere il PDF accanto al sorgente.
+Per la stabilità globale, il punto di accesso aggiornato è [Documenti ed esempi correnti](artefatti/stabilita-globale/DOCUMENTI-CORRENTI.md).
 Per il nuovo predimensionamento dei ponti vedere [Bridge Design](docs/bridge-design.md) e la suite
 `test/BridgeDesign.Checks`.
 
@@ -17,6 +20,7 @@ Per il nuovo predimensionamento dei ponti vedere [Bridge Design](docs/bridge-des
 | `esempi` | Esempi di input |
 | `scripts` | Strumenti per icone e revisione dei report |
 | `artefatti` | Risultati delle verifiche, schermate e log; esclusi da Git |
+| `SUPERATI` | Revisioni precedenti e documenti sostituiti, con registro degli spostamenti |
 | `tmp` | Materiale di lavoro e verifiche storiche conservati |
 
 Eseguire i comandi seguenti dalla radice del repository:

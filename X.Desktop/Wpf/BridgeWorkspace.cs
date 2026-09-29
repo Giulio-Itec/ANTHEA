@@ -104,7 +104,9 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             "Sostituisce il valore di catalogo con un unico fy per anima e piattabande. Inserire la tensione di snervamento in MPa, prima di γM0. Non modifica le armature e non applica correzioni automatiche in funzione dello spessore.";
         var materialBody = Ui.Stack(materials, Block("Proprietà adottate", materialInfo),
             Ui.Text("Se attivo, il valore assegnato sostituisce fy di catalogo per anima e tutte le piattabande.", 11, color: Ui.Muted));
-        var slab = Form(Data, [new("b_cls", "Larghezza collaborante", "mm", Symbol: "b_eff"), new("h_cls", "Spessore soletta", "mm")]);
+        var slab = Form(Data, [new("b_cls", "Larghezza collaborante", "mm", Symbol: "b_eff"), new("h_cls", "Spessore totale soletta", "mm")]);
+        slab.Editors["h_cls"].ToolTip = "Spessore complessivo, predalle inclusa. La predalle non aumenta questa dimensione.";
+        var predalle = BuildPredalleInputs();
         var steel = Form(Data, [new("h_web", "Altezza libera anima", "mm"), new("t_web", "Spessore anima", "mm"),
             new("b_top", "Larghezza superiore", "mm"), new("t_top", "Spessore superiore", "mm"), new("b_bottom", "Larghezza inferiore 1", "mm"), new("t_bottom", "Spessore inferiore 1", "mm")]);
         InputForm? plate = null, sectionType = null;
@@ -127,7 +129,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         plate.ShowField("b_bottom2", Data.B("plate2")); plate.ShowField("t_bottom2", Data.B("plate2"));
         plateNote = Ui.Text("Piastra 2 centrata sotto la piastra 1. Nel calcolo: t_eq = t₁ + t₂; b_eq = (b₁t₁ + b₂t₂) / t_eq. La vista mantiene i due rettangoli reali.", 11, color: Ui.Muted);
         ShowSectionFields();
-        var geometry = Ui.Stack(Block("Soletta", slab, "b_eff già comprensiva della larghezza collaborante adottata."), Block("Tipo di sezione", sectionType,
+        var geometry = Ui.Stack(Block("Soletta", slab, "b_eff già comprensiva della larghezza collaborante adottata."), Block("Predalle · geometria", predalle), Block("Tipo di sezione", sectionType,
             "Anima inclinata: scostamento orizzontale del piede dell'anima rispetto alla sommità (positivo verso destra). Cassoncino: due anime simmetriche, larghezza superiore di " +
             "ciascuna piattabanda, larghezza inferiore dell'intero fondo; lo scostamento è il rientro di ciascuna anima al piede (interasse al piede = interasse − 2 × scostamento). " +
             "Spessore anima normale alla lamiera, altezza libera verticale. Flessione retta: N–Mx con anima verticale equivalente tw/cos α, verifiche locali sulle lamiere reali."),
@@ -136,9 +138,11 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         foreach (string side in new[] { "top", "bottom" })
         {
             InputForm? bars = null;
-            bars = Form(Data, [new("rebars_" + side, "Fila presente", Bool: true), new("d_" + side, "Diametro barre", "mm"), new("pitch_" + side, "Passo", "mm"), new("cover_" + side, "Faccia → asse barra", "mm")],
+            bars = Form(Data, [new("rebars_" + side, "Fila presente", Bool: true), new("d_" + side, "Diametro barre", "mm"), new("pitch_" + side, "Passo", "mm"), new("cover_" + side, side == "top" ? "Estradosso → asse barra" : "Riferimento → asse barra", "mm")],
                 _ => { foreach (string k in new[] { "d_", "pitch_", "cover_" }) bars?.ShowField(k + side, Data.B("rebars_" + side)); });
             foreach (string k in new[] { "d_", "pitch_", "cover_" }) bars.ShowField(k + side, Data.B("rebars_" + side));
+            bars.Editors["cover_" + side].ToolTip = side == "top" ? "Distanza dall'estradosso della soletta all'asse dei ferri superiori, diretta verso il basso." :
+                "Distanza verso l'alto all'asse dei ferri inferiori. Con predalle attiva il riferimento si sceglie in Geometria → Predalle; altrimenti è l'intradosso soletta. Non è il copriferro netto.";
             reinforcement.Children.Add(Block(side == "top" ? "Armatura superiore" : "Armatura inferiore", bars));
         }
         reinforcement.Children.Add(Ui.Text("Le file possono essere entrambe assenti. Le barre sono distribuite e centrate secondo il passo; la distanza inserita è all’asse, non il copriferro netto.", 11, color: Ui.Muted));
@@ -228,6 +232,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
     }
     private void RefreshPreview()
     {
+        RefreshSlabLayout();
         try
         {
             previewGeometry = BridgeSection.Geometry(Data); previewInput = (JsonObject)Data.DeepClone(); geometryError = ""; var m = BridgeSection.Materials(Data);

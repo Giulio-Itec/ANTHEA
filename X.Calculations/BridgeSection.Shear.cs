@@ -10,6 +10,9 @@ public static partial class BridgeSection
         ("pioli_fatica", true), ("copriferro_pioli", 35));
     public static void EnsureAccessoryDefaults(JsonObject data)
     {
+        if (!data.ContainsKey("predalle")) data["predalle"] = false;
+        if (!data.ContainsKey("h_predalle")) data["h_predalle"] = "60";
+        if (!data.ContainsKey("rif_ferri_inf")) data["rif_ferri_inf"] = PredalleTopReference;
         foreach (var pair in AccessoryDefaults()) if (!data.ContainsKey(pair.Key))
             data[pair.Key] = pair.Value?.DeepClone();
         foreach (var pair in DetailDefaults()) if (!data.ContainsKey(pair.Key))

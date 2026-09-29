@@ -82,7 +82,7 @@ public static partial class ProjectSharedData
                 Add("diameter_mm", "Geometria", "generali/diametro", 1000);
             }
         }
-        if (module.StartsWith("geo_"))
+        if (module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module)
         {
             Add(module.Contains("micropalo") ? "perforazione_mm" : "diameter_mm", "Geometria", "generali/diametro", 1000);
             Add(module.Contains("micropalo") ? "lunghezza_micropalo" : "lunghezza", "Geometria", "generali/lunghezza");

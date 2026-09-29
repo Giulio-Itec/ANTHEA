@@ -17,6 +17,8 @@ internal sealed partial class BridgeDrawing
         if (ShowGeometryLabels)
         {
             tags.Add(new("Soletta collaborante", $"{F(g.Width)} × {F(g.SlabHeight)} mm", point(0, g.SlabHeight / 2), true, Ui.Navy));
+            if (Input is { } slabInput && BridgeSection.SlabLayout(slabInput) is { HasPredalle: true } slab)
+                tags.Add(new("Predalle · geometria", $"t = {F(slab.PredalleThickness)} mm · inclusa in h", point(0, slab.PredalleThickness / 2), true, Ui.Brush("#506B7E")));
             if (g.SectionType == BridgeSteelSectionType.H)
             {
             tags.Add(new("Piattabanda superiore", $"{F(g.TopWidth)} × {F(g.TopThickness)} mm", point((g.Width + g.TopWidth) / 2, -g.TopThickness / 2), false, Steel));
@@ -52,11 +54,12 @@ internal sealed partial class BridgeDrawing
             foreach (string side in new[] { "top", "bottom" })
             {
                 if (Input is null || !Input.B("rebars_" + side)) continue;
-                double cover = Input.D("cover_" + side), y = side == "top" ? g.SlabHeight - cover : cover;
+                var layout = BridgeSection.SlabLayout(Input);
+                double y = side == "top" ? layout.TopAxisY : layout.BottomAxisY;
                 var bars = g.Bars.Where(b => Math.Abs(b.Y - y) < 1e-6).OrderBy(b => b.X).ToArray();
                 if (bars.Length == 0) continue;
                 tags.Add(new(side == "top" ? "Armatura superiore" : "Armatura inferiore",
-                    $"Ø{F(Input.D("d_" + side))} / {F(Input.D("pitch_" + side))} mm\n{bars.Length} barre · asse {F(cover)} mm", point(bars[0].X, y), true, Bars));
+                    $"Ø{F(Input.D("d_" + side))} / {F(Input.D("pitch_" + side))} mm\n{bars.Length} barre · y = {F(y)} mm", point(bars[0].X, y), true, Bars));
             }
         }
         foreach (bool left in new[] { true, false })

@@ -16,6 +16,7 @@ internal sealed partial class BridgeDrawing : FrameworkElement
     internal double? LoadY { get; set; }
     internal Point? LoadMarker { get; private set; }
     internal JsonObject? Input { get; set; }
+    internal Rect? PredalleBounds { get; private set; }
     internal bool ShowGeometryLabels { get; set; }
     internal bool ShowRebarLabels { get; set; }
     internal bool ShowNeutralAxis { get; set; } = true;
@@ -45,7 +46,7 @@ internal sealed partial class BridgeDrawing : FrameworkElement
     internal void ResetView() { zoom = 1; pan = new(); InvalidateVisual(); }
     protected override void OnRender(DrawingContext dc)
     {
-        LoadMarker = null; NeutralAxisDisplay = null;
+        LoadMarker = null; NeutralAxisDisplay = null; PredalleBounds = null;
         VisibleTags.Clear(); TagBounds.Clear(); StressLabels.Clear();
         double w = ActualWidth, h = ActualHeight; if (w < 80 || h < 80) return;
         dc.DrawRectangle(Ui.Brush("#F8FAFD"), null, new Rect(0, 0, w, h));
@@ -76,6 +77,13 @@ internal sealed partial class BridgeDrawing : FrameworkElement
         }
         Text(IsStale ? "ULTIMO CALCOLO · DA AGGIORNARE" : "SEZIONE  ·  mm", 12, 7, IsStale ? Ui.Brush("#8B5916") : Ui.Muted, 10);
         Rectangle(0, 0, g.Width, g.SlabHeight, Concrete);
+        if (Input is { } slabInput && BridgeSection.SlabLayout(slabInput) is { HasPredalle: true } slabLayout)
+        {
+            var band = R(0, 0, g.Width, slabLayout.PredalleThickness); PredalleBounds = band;
+            // Keep the stress contour visible; the dashed boundary is a geometric reference only.
+            if (!ContourSection || Stage is null) dc.DrawRectangle(Ui.Brush("#B7C9D6"), null, band);
+            dc.DrawLine(new Pen(Ui.Brush("#506B7E"), 1) { DashStyle = DashStyles.Dash }, P(0, slabLayout.PredalleThickness), P(g.Width, slabLayout.PredalleThickness));
+        }
         // inclined web and box: the real plates; H: the plates of the calculation
         bool realPlates = g.SectionType != BridgeSteelSectionType.H;
         double webX = (g.Width - g.WebThickness) / 2, webBottom = -g.TopThickness - g.WebHeight;

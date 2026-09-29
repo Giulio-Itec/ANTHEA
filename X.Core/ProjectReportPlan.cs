@@ -66,7 +66,7 @@ public sealed class ProjectReportPlan
             yield return new(field.Group, Label(field.Key), field.Value);
         string module = sheet.S("modulo_id"); var data = sheet["dati"]!.AsObject();
         string[] roots = module == "str_palo" ? ["input"] : module == "mat_calcestruzzo" ? ["classe", "numeri", "scelte", "opzioni"] :
-            module == RebarMaterial.Module ? ["input", "riferimento"] : module == BridgeConcept.Module ? [] : ["generali", "sezione", "verifica", "efficienza", "stratigrafie"];
+            module == RebarMaterial.Module ? ["input", "riferimento"] : module == RetainingWall.Module ? [] : module == BridgeConcept.Module ? [] : ["generali", "sezione", "verifica", "efficienza", "stratigrafie"];
         foreach (string root in roots) foreach (var row in Walk(data[root], root))
         {
             if (consumed.Any(p => row.Path == p || row.Path.StartsWith(p + "/", StringComparison.Ordinal))) continue;

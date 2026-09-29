@@ -10,6 +10,7 @@ public static partial class ProjectSharedData
         // An activation also carries the dormant values selected by the user.
         foreach (var group in new[] {
             new[] { "plate2", "b_bottom2", "t_bottom2" },
+            new[] { "predalle", "h_predalle", "rif_ferri_inf", "cover_bottom" },
             new[] { "rebars_top", "d_top", "pitch_top", "cover_top" },
             new[] { "rebars_bottom", "d_bottom", "pitch_bottom", "cover_bottom" },
             new[] { "fy_override", "fy" } })
@@ -27,7 +28,7 @@ public static partial class ProjectSharedData
         // The bridge catalog is distinct from ordinary RC/custom material laws: do not infer conversions.
         Add("Materiali", "classe_cls", "acciaio", "armatura", "fy_override", "fy");
         Add("Geometria", "b_cls", "h_cls", "h_web", "t_web", "b_top", "t_top", "b_bottom", "t_bottom",
-            "plate2", "b_bottom2", "t_bottom2");
+            "plate2", "b_bottom2", "t_bottom2", "predalle", "h_predalle", "rif_ferri_inf");
         Add("Armatura", "rebars_top", "d_top", "pitch_top", "cover_top", "rebars_bottom", "d_bottom", "pitch_bottom", "cover_bottom");
     }
     private static bool ActiveBridgeField(JsonObject sheet, string key)
@@ -36,6 +37,8 @@ public static partial class ProjectSharedData
         return key[BridgePrefix.Length..] switch
         {
             "fy" => d.B("fy_override"),
+            "h_predalle" => d.B("predalle"),
+            "rif_ferri_inf" => d.B("predalle") && d.B("rebars_bottom", true),
             "b_bottom2" or "t_bottom2" => d.B("plate2"),
             "d_top" or "pitch_top" or "cover_top" => d.B("rebars_top", true),
             "d_bottom" or "pitch_bottom" or "cover_bottom" => d.B("rebars_bottom", true),
@@ -50,7 +53,10 @@ public static partial class ProjectSharedData
         "fy_override" => "Sovrascrivi fy",
         "fy" => "fy assegnato [MPa]",
         "b_cls" => "Larghezza soletta [mm]",
-        "h_cls" => "Spessore soletta [mm]",
+        "h_cls" => "Spessore totale soletta [mm]",
+        "predalle" => "Predalle presente · solo geometria",
+        "h_predalle" => "Spessore predalle [mm]",
+        "rif_ferri_inf" => "Riferimento ferri inferiori",
         "h_web" => "Altezza anima [mm]",
         "t_web" => "Spessore anima [mm]",
         "b_top" => "Larghezza piattabanda superiore [mm]",
@@ -67,7 +73,7 @@ public static partial class ProjectSharedData
         "pitch_top" => "Passo barre superiori [mm]",
         "pitch_bottom" => "Passo barre inferiori [mm]",
         "cover_top" => "Estradosso soletta → asse barre [mm]",
-        "cover_bottom" => "Intradosso soletta → asse barre [mm]",
+        "cover_bottom" => "Riferimento inferiore → asse barre [mm]",
         _ => key[BridgePrefix.Length..].Replace('_', ' ')
     });
 }

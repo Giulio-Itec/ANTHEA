@@ -29,7 +29,7 @@ public static partial class BridgeSection
         ("normativa", Standards[0]), ("gamma_m0", "1.05"), ("gamma_c", "1.5"), ("alpha_cc", "0.85"), ("gamma_s", "1.15"),
         ("stato", "SLU"), ("classe4", true), ("classe_cls", "C35/45"), ("acciaio", "S355"), ("armatura", "B450C"),
         ("fy_override", false), ("fy", "355"), ("sezione", SectionTypes[0]), ("offset_anima", "0"), ("interasse_anime", "1800"),
-        ("b_cls", "3000"), ("h_cls", "250"), ("h_web", "1800"), ("t_web", "14"),
+        ("b_cls", "3000"), ("h_cls", "250"), ("predalle", false), ("h_predalle", "60"), ("rif_ferri_inf", PredalleTopReference), ("h_web", "1800"), ("t_web", "14"),
         ("b_top", "500"), ("t_top", "25"), ("b_bottom", "700"), ("t_bottom", "30"), ("plate2", false), ("b_bottom2", "500"), ("t_bottom2", "20"),
         ("rebars_top", true), ("d_top", "16"), ("pitch_top", "150"), ("cover_top", "45"),
         ("rebars_bottom", true), ("d_bottom", "16"), ("pitch_bottom", "150"), ("cover_bottom", "45"), ("y_ref", "0"),

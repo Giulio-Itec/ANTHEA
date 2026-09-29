@@ -56,9 +56,12 @@ internal sealed partial class BridgeWorkspace
             var g = BridgeSection.Geometry(Data); var m = BridgeSection.Materials(Data);
             var gross = BridgeSection.RectangleProperties("Solo calcestruzzo · lordo", g.Width, g.SlabHeight, 0, g.Width / 2);
             var transformed = BridgeSection.GrossPhaseProperties(Data, slabPropertyOptions, slabOnly: true);
-            slabPropertyBody.Content = Ui.Stack(Block(gross.Name, PropertyValues(gross)),
+            var layout = BridgeSection.SlabLayout(Data);
+            UIElement[] layers = layout.HasPredalle ? [Block("Quote predalle · solo geometria", ResultTable(["Riferimento", "y [mm]"], new[] {
+                new[] { "Intradosso soletta", "0" }, new[] { "Estradosso predalle", F(layout.PredalleThickness) }, new[] { "Estradosso soletta", F(layout.Height) } }), BridgeSection.PredalleScope)] : [];
+            slabPropertyBody.Content = Ui.Stack([..layers, Block(gross.Name, PropertyValues(gross)),
                 Block("Armature", ResultTable(["Fila", "As [cm²]", "y [mm]"], g.Bars.GroupBy(b => b.Y).OrderByDescending(p => p.Key).Select(p => new[] { p.Count() + " barre", F(p.Sum(b => b.Area) / 100), F(p.Key) }))),
-                Block(transformed.Name, PropertyValues(transformed), $"n barre = {F(BridgeDerivedResults.RebarModularRatio(h.N, m.Rebar.ElasticModulusTension, m.Steel.ElasticModulusTension))} · Ec,eff = {F(BridgeDerivedResults.EffectiveConcreteModulus(m.Steel.ElasticModulusTension, h.N))} MPa"));
+                Block(transformed.Name, PropertyValues(transformed), $"n barre = {F(BridgeDerivedResults.RebarModularRatio(h.N, m.Rebar.ElasticModulusTension, m.Steel.ElasticModulusTension))} · Ec,eff = {F(BridgeDerivedResults.EffectiveConcreteModulus(m.Steel.ElasticModulusTension, h.N))} MPa")]);
         }
         catch (Exception ex) { slabPropertyBody.Content = Ui.Text(ex.Message, 12, color: Ui.Muted); }
     }

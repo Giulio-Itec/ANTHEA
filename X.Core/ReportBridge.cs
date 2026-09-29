@@ -106,9 +106,11 @@ public static partial class ReportBridge
             doc.Table(["Proprietà delle piastre inferiori", "Reale (calcolo)", "Equivalente (confronto)"], new[] {
                 new[] { "Area [mm²]", F(g.BottomArea), F(g.BottomArea) }, new[] { "Baricentro y [mm]", F(g.BottomRealCentroid), F(-g.Height + g.BottomEquivalentThickness / 2) },
                 new[] { "Ix al proprio baricentro [mm⁴]", F(g.BottomRealInertia), F(g.EquivalentBottomPlate().Ix) } }, [2.6, 1.4, 1.4]);
-            doc.Table(["Fila", "Presente", "Ø [mm]", "Passo [mm]", "Faccia asse [mm]", "Barre"], new[] { "top", "bottom" }.Select(side => {
-                bool active = d.B("rebars_" + side); double y = side == "top" ? g.SlabHeight - d.D("cover_top") : d.D("cover_bottom");
-                return new[] { side == "top" ? "Superiore" : "Inferiore", active ? "Sì" : "No", active ? Input("d_" + side) : "—", active ? Input("pitch_" + side) : "—", active ? Input("cover_" + side) : "—", active ? g.Bars.Count(b => Math.Abs(b.Y - y) < 1e-6).ToString() : "0" };
+            SlabLayoutReport(doc, result);
+            var slab = BridgeSection.SlabLayout(d);
+            doc.Table(["Fila", "Presente", "Ø [mm]", "Passo [mm]", "y asse [mm]", "Barre"], new[] { "top", "bottom" }.Select(side => {
+                bool active = d.B("rebars_" + side); double y = side == "top" ? slab.TopAxisY : slab.BottomAxisY;
+                return new[] { side == "top" ? "Superiore" : "Inferiore", active ? "Sì" : "No", active ? Input("d_" + side) : "—", active ? Input("pitch_" + side) : "—", active ? F(y) : "—", active ? g.Bars.Count(b => Math.Abs(b.Y - y) < 1e-6).ToString() : "0" };
             }), [1.2, .7, .8, 1, 1.4, .7]);
             doc.P("La distanza inserita è misurata fino all’asse della barra. Le barre sono distribuite e centrate da Model; entrambe le file possono essere assenti. Area totale delle armature: " + F(g.Bars.Sum(b => b.Area)) + " mm².");
             doc.Figures(images, options, "geometria");

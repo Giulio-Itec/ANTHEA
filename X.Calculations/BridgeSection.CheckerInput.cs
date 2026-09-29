@@ -8,6 +8,7 @@ public static partial class BridgeSection
         ValidateShape(data);
         var d = (JsonObject)data.DeepClone(); EnsureAccessoryDefaults(d);
         var materials = Materials(d);
+        var slab = SlabLayout(d);
         return new HBridgeInput
         {
             Materials = new(materials.Concrete, materials.Steel, materials.Rebar),
@@ -43,7 +44,7 @@ public static partial class BridgeSection
                 Enabled = d.B("rebars_bottom"),
                 Diameter = J.Number(d["d_bottom"]) ?? double.NaN,
                 Pitch = J.Number(d["pitch_bottom"]) ?? double.NaN,
-                AxisDistance = J.Number(d["cover_bottom"]) ?? double.NaN,
+                AxisDistance = slab.BottomAxisY,
             },
             Options = new BridgeAnalysisOptions
             {

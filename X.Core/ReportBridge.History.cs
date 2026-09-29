@@ -36,6 +36,7 @@ public static partial class ReportBridge
                 new[] { "Soletta", F(g.Width), F(g.SlabHeight) }, new[] { "Anima", F(g.WebThickness), F(g.WebHeight) },
                 new[] { "Piattabanda superiore", F(g.TopWidth), F(g.TopThickness) }, new[] { "Piattabanda inferiore 1", F(g.Bottom1Width), F(g.Bottom1Thickness) } }.Concat(g.Bottom2Thickness > 0 ? new[] { new[] { "Piattabanda inferiore 2", F(g.Bottom2Width), F(g.Bottom2Thickness) } } : []), [2, 1, 1.3]);
             doc.P("CLS netto delle barre. Le due piastre inferiori, se presenti, sono modellate con la geometria reale.");
+            SlabLayoutReport(doc, result);
             if (g.SectionType != BridgeSteelSectionType.H)
             {
                 doc.P(SectionTypeParagraph(g));

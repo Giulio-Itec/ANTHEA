@@ -25,7 +25,7 @@ public static partial class ProjectSharedData
                 Add("Scheda CLS · opzioni/" + flag, "Materiali", "opzioni/" + flag, JsonValue.Create(false));
         }
         AddSoilFields(module, data, result);
-        if (module.StartsWith("geo_"))
+        if (module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module)
             Add("verticali_indagate", "Terreno", (module.EndsWith("_orizzontale") ? "verifica/" : "generali/") + "verticali_indagate", JsonValue.Create("1"));
         if (module is "geo_palo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module)
         {

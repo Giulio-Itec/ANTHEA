@@ -17,6 +17,7 @@ public static class CalculationService
             "geo_palo_verticale" => Calcolo.Calcola(snapshot),
             "geo_micropalo_verticale" => Calcolo.Calcola(snapshot, true),
             PaloOrizzontale.Module or MicropaloOrizzontale.Module => PaloOrizzontale.Calculate(snapshot),
+            RetainingWall.Module => RetainingWall.Calculate(snapshot, cancellation).Json(),
             BridgeSection.Module => BridgeSection.Calculate(snapshot, cancellation).Json(),
             BridgeConcept.Module => BridgeConcept.Calculate(snapshot).Json(),
             "str_palo" => ConcreteAnalysis.Calculate(snapshot, cancellation),

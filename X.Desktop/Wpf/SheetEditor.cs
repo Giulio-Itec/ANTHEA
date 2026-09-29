@@ -22,10 +22,15 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private readonly HorizontalWorkspace? horizontal;
     internal readonly BridgeWorkspace? bridge;
     internal readonly BridgeDesignWorkspace? bridgeDesign;
-    internal JsonObject? Result { get => bridgeDesign is not null ? bridgeDesign.Result : bridge is not null ? bridge.Result : horizontal is not null ? horizontal.Result : concrete is null ? result : concrete.Result; private set => result = value; }
+    internal readonly RetainingWallWorkspace? retainingWall;
+    internal JsonObject? Result { get => retainingWall is not null ? retainingWall.Result : bridgeDesign is not null ? bridgeDesign.Result : bridge is not null ? bridge.Result : horizontal is not null ? horizontal.Result : concrete is null ? result : concrete.Result; private set => result = value; }
     internal bool HasResults => concrete is not null ? concrete.HasResults : Result is not null;
-    internal bool Busy { get => bridge?.Busy ?? horizontal?.Busy ?? concrete?.Busy ?? busy; private set => busy = value; }
+    internal bool Busy { get => retainingWall?.Busy ?? bridge?.Busy ?? horizontal?.Busy ?? concrete?.Busy ?? busy; private set => busy = value; }
     internal event Action? Modified;
+    internal event Action<JsonObject, string>? ConcreteSectionRequested;
+    internal event Action? ReportRequested;
+    internal event Action<string, JsonObject, string>? ModuleCopyRequested;
+    internal event Action<JsonObject>? SoilReplacementRequested;
     private bool building = true, disposed;
     private int revision, expanded = -1;
     private bool Micro => Module == "geo_micropalo_verticale";
@@ -63,6 +68,14 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         Module = module; Data = (JsonObject)data.DeepClone(); Background = Ui.Bg;
         calculate = Ui.Button("Calcola", async () => await CalculateAsync(), true, inspection: true); calculate.Width = 120; calculate.Visibility = Geo ? Visibility.Collapsed : Visibility.Visible;
         RevisionInspection.Allow(tableSelect); RevisionInspection.Allow(capacityView); RevisionInspection.Allow(curveChoices);
+        if (module == RetainingWall.Module)
+        {
+            retainingWall = new RetainingWallWorkspace(Data); retainingWall.Modified += () => Modified?.Invoke();
+            retainingWall.SectionRequested += (section, name) => ConcreteSectionRequested?.Invoke(section, name);
+            retainingWall.ReportRequested += () => ReportRequested?.Invoke();
+            retainingWall.SoilTransferRequested += OpenSoilTransfer;
+            Content = retainingWall; building = false; return;
+        }
         if (module == BridgeConcept.Module)
         {
             bridgeDesign = new BridgeDesignWorkspace(Data); bridgeDesign.Modified += () => Modified?.Invoke(); Content = bridgeDesign; building = false; return;
@@ -73,7 +86,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         }
         if (module is PaloOrizzontale.Module or MicropaloOrizzontale.Module)
         {
-            horizontal = new HorizontalWorkspace(Data); horizontal.Modified += () => Modified?.Invoke(); Content = horizontal; building = false; return;
+            horizontal = new HorizontalWorkspace(Data); horizontal.Modified += () => Modified?.Invoke(); Content = Ui.Dock(horizontal, Ui.Bar(Ui.Button("Invia / carica terreno…", OpenSoilTransfer))); building = false; return;
         }
         if (module == "mat_calcestruzzo")
         {
@@ -91,6 +104,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         var footer = Ui.Dock(status, bottom: null); DockPanel.SetDock(calculate, System.Windows.Controls.Dock.Right); footer.Children.Insert(0, calculate); footer.Margin = new Thickness(24, 4, 24, 4);
         var theory = Ui.Button("Modello e dati comuni…", () => CalculationHelpView.Show(this, true), inspection: true);
         DockPanel.SetDock(theory, System.Windows.Controls.Dock.Right); footer.Children.Insert(0, theory);
+        if (Pile) { var soil = Ui.Button("Invia / carica terreno…", OpenSoilTransfer); DockPanel.SetDock(soil, System.Windows.Controls.Dock.Right); footer.Children.Insert(0, soil); }
         scroll.Content = canvas; Content = Ui.Dock(scroll, bottom: Ui.Stack(footer, warnings));
         tableSelect.SelectionChanged += (_, _) => ShowTable();
         Ui.Tab(outputs, "Tabelle e dettagli", Ui.Dock(tableHost, tableSelect)); Ui.Tab(outputs, "Risultati JSON", raw);
@@ -101,10 +115,17 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         building = false; Preview(); LayoutCards(); if (Geo) QueueCalculation();
     }
     private async void TimerTick(object? sender, EventArgs args) { if (Busy) return; timer.Stop(); if (!disposed) await CalculateAsync(commitEdits: false); }
+    internal void OpenSoilTransfer()
+    {
+        Commit(); var dialog = new SoilTransferDialog(Window.GetWindow(this), Module, Data);
+        if (dialog.ShowDialog() != true || dialog.Output is null) return;
+        if (dialog.Replace) SoilReplacementRequested?.Invoke(dialog.Output);
+        else if (dialog.DestinationModule is string target) ModuleCopyRequested?.Invoke(target, dialog.Output, "Terreno da " + ModuleCatalog.Get(Module).Element);
+    }
     private Action? releaseRevisionInspection;
     internal void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
-    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); timer.Stop(); timer.Tick -= TimerTick; concrete?.Dispose(); horizontal?.Dispose(); bridge?.Dispose(); }
-    internal void Commit() { if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
+    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); timer.Stop(); timer.Tick -= TimerTick; concrete?.Dispose(); horizontal?.Dispose(); bridge?.Dispose(); retainingWall?.Dispose(); }
+    internal void Commit() { if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
         int index = cards.Count; var header = new DockPanel { Margin = new Thickness(0, 0, 0, 8), MinHeight = 28 };
@@ -188,6 +209,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private void QueueCalculation() { if (!Geo || building || disposed) return; timer.Stop(); timer.Start(); status.Text = "Aggiornamento automatico in attesa…"; }
     internal async Task CalculateAsync(bool commitEdits = true)
     {
+        if (retainingWall is not null) { await retainingWall.CalculateAsync(); return; }
         if (bridgeDesign is not null) { bridgeDesign.Recalculate(); return; }
         if (bridge is not null) { await bridge.CalculateAsync(commitEdits); return; }
         if (materials is not null || rebarMaterial is not null) { Commit(); return; }
@@ -297,6 +319,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     }
     internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false)
     {
+        if (retainingWall is not null) return retainingWall.BuildReport(title);
         if (bridgeDesign is not null) return bridgeDesign.BuildReport(title);
         if (bridge is not null) return bridge.BuildReport(title, options, projectReport);
         if (concrete is not null) return concrete.BuildReport(title, options, projectReport);

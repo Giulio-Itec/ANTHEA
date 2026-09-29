@@ -10,6 +10,46 @@ I valori sono dimostrativi e possono essere modificati dopo l'apertura in ANTHEA
 
 ## Interfaccia
 
+### Predalle: riferimento geometrico
+
+Nel **Pannello di controllo → Geometria → Predalle** si possono attivare la predalle,
+indicarne lo spessore e scegliere il riferimento della fila inferiore. Lo spessore
+totale della soletta **include** la predalle; non viene aumentato automaticamente.
+La predalle occupa la fascia tra y=0 e y=t_predalle. Per i ferri inferiori:
+
+- **Estradosso predalle** (scelta iniziale quando si attiva): y=t_predalle+distanza all'asse.
+- **Intradosso soletta**: y=distanza all'asse, come nei file precedenti.
+
+La fila superiore resta a y=h_soletta−distanza dall'estradosso. Le distanze sono
+all'asse della barra, non copriferri netti. Cambiare riferimento conserva il numero
+inserito e quindi può spostare la fila; la quota risultante è esplicita nella UI,
+nelle etichette della sezione, nelle proprietà e nei report di tutti i metodi.
+Con h=250 mm, predalle=60 mm e distanza inferiore=45 mm, la fila inferiore è a
+y=105 mm dal fondo (oppure a 45 mm se si sceglie l'intradosso); la fila superiore
+con distanza 45 mm è a y=205 mm.
+
+La predalle è **solo una suddivisione geometrica** della soletta omogenea esistente:
+non ha materiale o armature proprie, peso aggiunto, fasi o verifiche dedicate.
+Le proprietà globali e le tensioni cambiano soltanto se cambia la posizione dei
+ferri. Il disegno usa una fascia distinta e un bordo tratteggiato; il contour
+conserva la propria scala e campitura. Le annotazioni si disattivano con le normali
+opzioni delle informazioni geometriche e delle armature.
+
+I file precedenti hanno la predalle disattivata. Spessore e riferimento restano
+memorizzati quando si disattiva l'opzione. Ogni fila può essere assente. Sono
+respinti spessori non positivi o maggiori/uguali all'altezza totale, ferri a cavallo
+dell'estradosso quando questo è il riferimento scelto, file sovrapposte o barre
+fuori soletta. Le quote effettive sono inviate alle API esistenti di Checker/Model;
+non è introdotto alcun nuovo metodo di analisi.
+
+Test dedicati: `dotnet run --project supporto/test/X.Verifiche -c Release -- --bridge-predalle`.
+Controllo UI: `supporto/scripts/Test-CalculationUi.ps1 -Suites bridge-predalle`.
+I test comprendono quote numeriche note, equivalenza con le stesse barre impostate
+manualmente per H, H inclinata e cassoncino nei tre metodi, report, eredità nel
+progetto, input invalidi, aggiornamenti UI e persistenza.
+
+### Organizzazione delle schede
+
 Due schede numerate, con la stessa organizzazione del modulo in calcestruzzo:
 **Pannello di controllo** e **Fasi e tensioni**.
 Ogni fase raccoglie nello stesso gruppo le azioni, la sezione reagente e i parametri
