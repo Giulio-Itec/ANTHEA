@@ -19,6 +19,7 @@ Per il nuovo predimensionamento dei ponti vedere [Bridge Design](docs/bridge-des
 | `documentazione` | Documenti Word, immagini e fonti di riferimento |
 | `esempi` | Esempi di input |
 | `scripts` | Strumenti per icone e revisione dei report |
+| `installer` | Script NSIS e build del setup di ANTHEA ([Installer](installer/README.md)) |
 | `artefatti` | Risultati delle verifiche, schermate e log; esclusi da Git |
 | `SUPERATI` | Revisioni precedenti e documenti sostituiti, con registro degli spostamenti |
 | `tmp` | Materiale di lavoro e verifiche storiche conservati |
