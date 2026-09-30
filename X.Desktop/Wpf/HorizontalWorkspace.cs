@@ -44,6 +44,8 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         foreach (var (key, value) in MicroHorizontal ? new JsonObject() : SezioneCA.DefaultInput())
             if (!data["sezione"]!.AsObject().ContainsKey(key)) data["sezione"]![key] = value?.DeepClone();
         var g = data["generali"]!.AsObject();
+        if (!g.ContainsKey("metodo_calcolo")) g["metodo_calcolo"] = PaloOrizzontale.BromsMethod;
+        g["metodo_calcolo"] = PaloOrizzontale.NormalizeMethod(g.S("metodo_calcolo"));
         g["modalita"] = "Automatica";
         details = Ui.Button("Diagrammi e dettagli", ShowResults, inspection: true); details.IsEnabled = false;
         csv = Ui.Button("Esporta CSV", ExportCsv, inspection: true); csv.IsEnabled = false;
@@ -51,7 +53,9 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             new("eccentricita", "Eccentricità forza rispetto al terreno", "m", Symbol: "e"), new("vincolo", "Rotazione in testa", Choices: ["Libera", "Impedita"]),
             new("azione_orizzontale", "Forza orizzontale", "kN", Symbol: "HEd"), new("azione_assiale", "Forza assiale (+ compressione)", "kN", Symbol: "N"),
             new("presenza_falda", "Presenza falda", Bool: true), new("profondita_falda", "Profondità falda", "m")], _ => Changed(), compact: true, symbolColumns: true);
-        model = new(g, [new("passo", "Passo diagrammi", "m", Symbol: "Δz"), new("tolleranza", "Tolleranza radici", Symbol: "ε")], _ => Changed(), compact: true, symbolColumns: true);
+        model = new(g, [new("metodo_calcolo", "Metodo di calcolo", Choices: [PaloOrizzontale.BromsMethod, PaloOrizzontale.StratifiedMethod]),
+            new("passo", "Passo diagrammi", "m", Symbol: "Δz"), new("tolleranza", "Tolleranza radici", Symbol: "ε")], _ => Changed(), compact: true, symbolColumns: true);
+        ((Grid)model.Content).ColumnDefinitions[2].Width = new GridLength(150);
         advanced.Content = model; advanced.Expanded += (_, _) => LayoutCards(); advanced.Collapsed += (_, _) => LayoutCards();
         var coefficients = data["verifica"]!.AsObject();
         if (!coefficients.ContainsKey("verticali_indagate")) coefficients["verticali_indagate"] = "1";
@@ -154,7 +158,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             void AddLayer() { grid.Commit(); var row = NewLayer(); rows.Add(row); grid.Rows.Add(Bind(row)); Changed(); }
             void DeleteLayer(JsonRow row) { grid.Commit(); int i = grid.Rows.IndexOf(row); if (i < 0) return; rows.RemoveAt(i); grid.Rows.RemoveAt(i); Changed(); }
             var table = StratigraphyTable.Build(grid, fields, AddLayer, DeleteLayer, gammaFallback: false);
-            var tab = Ui.Tab(surveys, $"{++index}", Ui.Dock(table, bottom: Ui.Text("Granulare: φ′, γ, γsat; c′ = 0. Coesivo non drenato: Cu.\nSequenze miste non supportate. Ogni stratigrafia deve coprire L.", 11, color: Ui.Muted)));
+            var tab = Ui.Tab(surveys, $"{++index}", Ui.Dock(table, bottom: Ui.Text("Granulare: φ′, γ, γsat; c′ = 0. Coesivo: Cu; nei profili misti anche γ e γsat.\nPer alternanze coesivo/granulare scegliere Stratificato nelle opzioni avanzate. Coprire tutta L.", 11, color: Ui.Muted)));
             var remove = Ui.Button("[−]", () => DeleteSurvey(rows)); remove.FontSize = 11; remove.Padding = new Thickness(3, 0, 3, 0); remove.MinHeight = 20;
             remove.ToolTip = $"Elimina stratigrafia {index}";
             tab.Header = Ui.Bar(Ui.Text($"{index}", 12), remove);
@@ -251,7 +255,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             if (result["sezione"] is JsonObject section) DisplayMoment(section);
             else momentValue.Text = $"My adottato manualmente = {result.D("momento_resistente_knm"):N1} kNm";
             summary.Text = $"{result.S("meccanismo")} · stratigrafia {result.D("sondaggio_governante")}\nMy = {result.D("momento_resistente_knm"):N1} kNm\nHEd / Hu = {100 * result.D("rapporto_meccanico"):0.0}%\nVerifica normativa incompleta." +
-                (result.B("sperimentale") ? "\nMULTISTRATO SPERIMENTALE" : "");
+                (result.B("sperimentale") ? "\nMODELLO SPERIMENTALE" : "");
             UpdateVerification();
             warnings.Text = string.Join("\n", result.Array("avvisi").Select(v => v!.ToString()));
             status.Text = "Calcolo completato · diagrammi alla capacità ultima"; details.IsEnabled = csv.IsEnabled = true;
@@ -266,13 +270,13 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         {
             var panel = new TabControl();
             bool truncated = StratigraphyDrawing.ReactionLimit(result!) is not null;
-            var diagram = StratigraphyDrawing.PhysicalDiagram(result!);
-            foreach (var (key, title, unit) in new[] { ("p_kn_m", "Reazione resistente p", "kN/m"), ("v_kn", "Taglio V", "kN"), ("m_knm", "Momento M", "kNm") })
-            {
-                var plot = new Plot { Title = title + " alla capacità ultima", XLabel = $"{title} [{unit}]", Note = truncated ? "Diagramma fino alla cerniera interna. Completamento idealizzato sottostante escluso; p positiva opposta a H." : "p positiva opposta a H; risultante concentrata F indicata nel riepilogo." };
-                plot.Series = [new(title, diagram.Select(r => new[] { r.D(key), r.D("z") }).ToList(), Ui.Brush(key switch { "p_kn_m" => "#16703C", "v_kn" => "#0284C7", _ => "#7E22CE" }))];
-                Ui.Tab(panel, title, plot);
-            }
+            var diagram = result!.Array("diagrammi");
+            Ui.Tab(panel, "Terreno e tensioni", new ScrollViewer { Content = new HorizontalDiagrams(Result!, index, true) { MinWidth = 1000, MinHeight = 620 }, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto });
+            Ui.Tab(panel, "Equilibrio del palo", new ScrollViewer { Content = new HorizontalDiagrams(Result!, index, false) { MinWidth = 1000, MinHeight = 620 }, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto });
+            var terrainRows = result.Array("diagramma_terreno").Select(r => new[] { r.D("z").ToString("0.000"), r.S("lato"), r.D("strato").ToString("0"),
+                r!["sigma_v_kpa"] is null ? "—" : r.D("sigma_v_kpa").ToString("0.00"), r.D("u_kpa").ToString("0.00"),
+                r["sigma_eff_kpa"] is null ? "—" : r.D("sigma_eff_kpa").ToString("0.00"), r.D("q_lim_kpa").ToString("0.00"), r.D("p_lim_kn_m").ToString("0.00"), r.D("q_integrale_kn").ToString("0.00") });
+            Ui.Tab(panel, "Tabella terreno", CenteredTable(["z [m]", "Lato", "Strato", "σv [kPa]", "u [kPa]", "σ′v [kPa]", "q_lim [kPa]", "p_lim [kN/m]", "Q [kN]"], terrainRows));
             var rows = diagram.Select(r => new[] { r.D("z").ToString("0.0"), r.S("lato"), r.D("p_kn_m").ToString("0.0"), r.D("v_kn").ToString("0.0"), r.D("m_knm").ToString("0.0") });
             Ui.Tab(panel, "Tabella", CenteredTable(["z [m]", "Lato", "p [kN/m]", "V [kN]", "M [kNm]"], rows));
             var candidates = CenteredTable(["Meccanismo", "H [kN]", "Stato"], result.Array("candidati").Select(r => new[] { r.S("meccanismo"), r!["capacita_kn"] is null ? "—" : r.D("capacita_kn").ToString("N1"), r.S("stato") }));
@@ -280,14 +284,15 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             var hinges = string.Join("; ", result.Array("cerniere_m").Select(v => (J.Number(v) ?? 0).ToString("0.0")));
             var info = Ui.Text($"{result.S("meccanismo")} · Hu {result.D("capacita_kn"):N1} kN · |M|max {result.D("momento_massimo_knm"):N1} kNm a z={result.D("quota_momento_massimo_m"):0.0} m\n" +
                 $"Residui: H {result.D("residuo_forza_kn"):0.0} kN · M {result.D("residuo_momento_knm"):0.0} kNm · {result.S("convergenza")}\n" +
-                $"Cerniere z [m]: {hinges} · " + (truncated ? "Tratto sotto cerniera non rappresentato. JSON/CSV conservano il completamento idealizzato del motore, non una distribuzione fisica determinata." : $"F concentrata {result.D("risultante_concentrata_kn"):N1} kN a z={result.D("quota_risultante_m"):0.0} m"), 12);
+                $"Cerniere z [m]: {hinges} · " + (truncated ? "Tratto sotto cerniera mostrato tratteggiato: completamento idealizzato dell'equilibrio." : $"F concentrata {result.D("risultante_concentrata_kn"):N1} kN a z={result.D("quota_risultante_m"):0.0} m"), 12);
             info.Margin = new Thickness(12);
             Ui.Tab(tabs, $"Sondaggio {++index}", Ui.Dock(panel, info));
         }
+        Ui.Tab(tabs, "Riferimenti", ReferencesPanel());
         Ui.Tab(tabs, "JSON", new TextBox { Text = Result!.ToJsonString(J.Options), IsReadOnly = true, AcceptsReturn = true, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto });
         return tabs;
     }
-    private void ShowResults() { if (Result is not null) Ui.Dialog(this, "Palo orizzontale · risultati", ResultsTabs(), 1120, 760).ShowDialog(); }
+    private void ShowResults() { if (Result is not null) Ui.Dialog(this, "Palo orizzontale · risultati", ResultsTabs(), 1280, 900).ShowDialog(); }
     private void ExportCsv()
     {
         if (Result is null) return;
@@ -298,6 +303,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
     }
     internal async Task Smoke(string directory)
     {
+        await VerifyStratified(directory);
         await VerifyAutomatic(); if (Result is null) throw new Exception("Orizzontale WPF: calcolo non disponibile");
         await VerifyEditing(directory);
         string previous = general.Get("diametro"); general.Set("diametro", "1.01");

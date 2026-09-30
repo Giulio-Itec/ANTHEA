@@ -34,7 +34,7 @@ public static class ReportConcrete
     public static byte[] Create(string title, JsonObject data, JsonObject result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null, bool includeInputs = true)
     {
         if (options.Count == 0) throw new ArgumentException("Selezionare almeno un contenuto del report.");
-        if (result.S("motore") != "GPCChecker.Concrete.dll") throw new ArgumentException("Risultati Checker aggiornati non disponibili.");
+        if (result.S("motore") != "GPCChecker.Concrete.dll") throw new ArgumentException("Risultati GPC Engine aggiornati non disponibili.");
         XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main", r = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
         var body = new XElement(w + "body"); var input = data["input"]!; var settings = data["workspace_ca"]!;
         var selected = options.Contains("grafici") ? (images ?? []).Where(i => options.Contains(i.Categoria)).ToArray() : [];
@@ -69,8 +69,9 @@ public static class ReportConcrete
             family => data["combinazioni"]!.Array(family).GroupBy(row => row.S("id")).ToDictionary(g => g.Key, g => g.First().S("nome", g.Key)));
         string Name(string family, string id) => names[family].GetValueOrDefault(id, id);
         P("Relazione della sezione in calcestruzzo armato", "Title"); P(title, "Subtitle"); P("ANTHEA · " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+        P("Motore di calcolo: GPC Engine · libreria GPCChecker.Concrete.");
         Heading("Ambito e limiti");
-        P("Normativa selezionata: " + settings.S("normativa") + ". Motore GPC Checker collegato tramite DLL. Compressione negativa; geometria in mm, tensioni in MPa, deformazioni in ‰, azioni N e V in kN, momenti in kNm. Arrotondamenti solo di presentazione.");
+        P("Normativa selezionata: " + settings.S("normativa") + ". Compressione negativa; geometria in mm, tensioni in MPa, deformazioni in ‰, azioni N e V in kN, momenti in kNm. Arrotondamenti solo di presentazione.");
         P(ConcreteStandards.Note(settings.S("normativa")));
         P("Questo report non attesta una verifica normativa completa. La presenza di un dominio o di tensioni calcolate non implica la conformità delle altre verifiche. I filtri e le opzioni grafiche non escludono combinazioni dai calcoli. Leggere gli esiti non determinati, fuori piano e non implementati.");
         P("Taglio nelle due direzioni secondo la norma selezionata; Model Code 2010 usa il livello II con N, M, V, Asl e granulometria. Per le circolari il modello e i parametri sono espliciti. Fessurazione lineare con CLS teso escluso: inviluppo delle superfici esterne e interne, comprese le sezioni interamente tese. Le superfici prive di armatura efficace restano senza verifica conclusa. Torsione accoppiata, dettagli costruttivi e ancoraggi automatici restano nel campo NTC documentato. Gerarchia sismica, appoggi e punzonamento richiedono il modello dell’elemento.");
@@ -170,7 +171,7 @@ public static class ReportConcrete
             if (!all && worstStress is null) P("Nessuna combinazione governante tensionale determinabile: consultare gli esiti sotto riportati.");
             Subheading("Inviluppo tensioni e deformazioni");
             Table(["Grandezza", "Estremo", "Combinazione di origine"], envelope.Select(v => new[] { v.Label, EngineeringFormat.Number(v.Value), Name(family, v.Id) }));
-            P("Compressione negativa: min e max sono estremi algebrici. Le deformazioni sono quelle incrementali native Checker, senza la deformazione iniziale dei trefoli.");
+            P("Compressione negativa: min e max sono estremi algebrici. Le deformazioni sono quelle incrementali native di GPC Engine, senza la deformazione iniziale dei trefoli.");
             }
             if (crackRequired)
             {
@@ -204,7 +205,7 @@ public static class ReportConcrete
                         v.Expression
                     }));
                 }
-                P("Deformazioni native Checker incrementali, senza εp iniziale dei trefoli. n trefoli è riferito al primo Ep presente; con moduli diversi il coefficiente φp resta comune.");
+                P("Deformazioni native incrementali di GPC Engine, senza εp iniziale dei trefoli. n trefoli è riferito al primo Ep presente; con moduli diversi il coefficiente φp resta comune.");
                 Table(["Barra / trefolo", "σ [MPa]", "ε [‰]"], state.Array("tensioni_barre").Select((v, i) => new[] { "Armatura " + (i + 1), F(v), F(state.Array("BarStrains").ElementAtOrDefault(i)) }));
                 Table(["Vertice CLS", "x [mm]", "y [mm]", "σ [MPa]", "ε [‰]"], state.Array("ConcreteVertices").Select(v => new[] { v.S("Id"), F(v?["X"]), F(v?["Y"]), F(v?["Stress"]), F(v?["Strain"]) }));
             }

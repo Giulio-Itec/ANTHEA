@@ -56,7 +56,7 @@ internal sealed partial class ConcreteWorkspace
         var values = J.Obj(("numero", "1"), ("diametro", Exact(ReinforcementGeometry.EquivalentDiameter(150))), ("x", "0"), ("y", "0"), ("sigma0", "1000"));
         var form = new InputForm(values, [new("numero", "Numero trefoli nel cavo"), new("diametro", "Ø equivalente singolo trefolo", "mm"), new("x", "x cavo", "mm"), new("y", "y cavo", "mm"), new("sigma0", "Tensione iniziale σp0", "MPa")], _ => { }, true);
         var message = Ui.Text("", 11);
-        return Ui.Stack(Notice("Come CheckerUI: un cavo di n trefoli è modellato con Øeq = Ø√n e area totale n·πØ²/4. Usare il diametro equivalente all’area metallica, non quello nominale esterno. Materiale e σp0 sono distinti per ogni cavo."),
+        return Ui.Stack(Notice("In GPC Engine un cavo di n trefoli è modellato con Øeq = Ø√n e area totale n·πØ²/4. Usare il diametro equivalente all’area metallica, non quello nominale esterno. Materiale e σp0 sono distinti per ogni cavo."),
             form, choice, Ui.Bar(Ui.Button("+ Cavo / trefolo", () =>
             {
                 try

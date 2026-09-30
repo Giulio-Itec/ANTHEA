@@ -27,13 +27,14 @@ public static partial class ReportBridge
         string Input(string key) => J.Number(d[key]) is double value ? F(value) : d.S(key);
         doc.P("Relazione della sezione composta da ponte", "Title"); doc.P(title, "Subtitle");
         doc.P("ANTHEA · " + DateTime.Now.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture));
+        doc.P("Motore di calcolo: GPC Engine · libreria GPCChecker.CompositeBridge.");
         doc.P("Analisi delle tensioni normali di una soletta in calcestruzzo collegata a una trave in acciaio. " +
             "La relazione riporta i dati e i risultati delle situazioni calcolate, senza eseguire un nuovo calcolo. I rapporti tensionali sono controlli locali della sezione.");
         doc.H("Ambito e convenzioni"); doc.P(result.Scope);
         doc.P("Lunghezze in mm, tensioni in MPa, forze in kN e momenti in kNm. Compressione negativa e trazione positiva. " +
             "L’asse y ha origine all’interfaccia acciaio soletta ed è positivo verso l’alto. Mx positivo comprime la parte superiore. " +
             "Le azioni sono incrementi già combinati e, allo SLU, già coefficientati con γF e ψ. Il modulo non moltiplica nuovamente i carichi: il selettore SLU/SLE cambia limiti e resistenze. Arrotondamenti soltanto nella presentazione.");
-        doc.P("Model fornisce materiali e geometria. GPCChecker.CompositeBridge esegue il calcolo per fasi e le larghezze efficaci. ANTHEA gestisce ingressi e presentazione dei risultati.");
+        doc.P("Model fornisce materiali e geometria. GPC Engine esegue il calcolo per fasi e le larghezze efficaci. ANTHEA gestisce ingressi e presentazione dei risultati.");
         doc.H("Riepilogo delle situazioni");
         doc.Table(["Situazione", "ΣN [kN]", "ΣMx a y=0 [kNm]", "ΣV [kN]", "η max locale", "Stato locale"], result.Stages.Select((s, i) => {
             var local = (s.Shear?.Checks ?? []).Concat(s.Studs?.Checks ?? []).Concat(s.Torsion?.Checks ?? []).ToArray();
@@ -139,7 +140,7 @@ public static partial class ReportBridge
         if (options.Contains("omogeneizzazione"))
         {
             doc.H("Criteri di omogeneizzazione");
-            doc.P("n0 = Ea/Ecm; n = n0 (1 + ψL φ); φ = (n/n0 − 1)/ψL. Il parametro passato a Model e Checker è ψL φ. Il rapporto Es/Ea è conservato.");
+            doc.P("n0 = Ea/Ecm; n = n0 (1 + ψL φ); φ = (n/n0 − 1)/ψL. Il parametro passato a Model e GPC Engine è ψL φ. Il rapporto Es/Ea è conservato.");
             doc.Table(["Fase composta", "φ", "ψL", "n di calcolo", "Stato"], d.Array("fasi").OfType<JsonObject>().Where(p => BridgeSection.HasConcrete(p.S("tipo"))).Select(p =>
             {
                 // Recompute both representations for legacy archives too. Inactive phases may be incomplete.
@@ -177,7 +178,7 @@ public static partial class ReportBridge
                 doc.Table(["Contributo", "Wsup* [mm³]", "Winf* [mm³]", "yσ zero [mm]", "κ [1/m]", "Residuo equilibrio"], s.Contributions.Select((c, i) => new[] {
                     (i + 1).ToString(), F(c.WTop), F(c.WBottom), F(c.NeutralAxis), F(c.Curvature(m.Ea) * 1000), c.EquilibriumResidual.ToString("0.###E+0", CultureInfo.GetCultureInfo("it-IT")) }), [.8, 1.3, 1.3, 1.1, 1.2, 1.3]);
                 doc.P("A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; " +
-                    "Checker integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.");
+                    "GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.");
             }
             if (options.Contains("tensioni"))
             {

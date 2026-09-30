@@ -1,4 +1,4 @@
-using GPC.Geometry;
+﻿using GPC.Geometry;
 
 namespace Anthea.Calculations.Geotechnics;
 
@@ -72,7 +72,8 @@ public static class SlopeGeometry
         var x = Enumerable.Range(0, count + 1).Select(i => circle.Left + (circle.Right - circle.Left) * i / count)
             .Concat(section.Surface.Select(p => p.X)).Concat(section.Water.Select(p => p.X))
             .Concat(section.Bodies.SelectMany(b => b.Polygon.Select(p => p.X)))
-            .Concat(section.Soils.SelectMany(s => Crossings(circle, s.Bottom)))
+            .Concat(section.SoilColumns.SelectMany(l => l).SelectMany(s => Crossings(circle, s.Bottom)))
+            .Concat(section.ValleySoils.Length > 0 ? new[] { section.SoilSplitX } : Array.Empty<double>())
             .Concat(section.Loads.Where(l => l.Distributed).SelectMany(l => new[] { l.Left, l.Right }))
             .Where(v => v >= circle.Left && v <= circle.Right).Order().ToArray();
         return x.Aggregate(new List<double>(), (a, v) => { if (a.Count == 0 || v - a[^1] > 1e-7) a.Add(v); return a; }).ToArray();
@@ -80,7 +81,7 @@ public static class SlopeGeometry
 
     public static bool Admissible(SlopeSection section, SlipCircle circle)
     {
-        if (circle.Left >= section.RequiredLeft || circle.Right <= section.RequiredRight || circle.Y - circle.Radius < section.Soils[^1].Bottom) return false;
+        if (circle.Left >= section.RequiredLeft || circle.Right <= section.RequiredRight || circle.Y - circle.Radius < section.CoveredBottom) return false;
         // Difference between a line and the convex lower circular arc is concave: minima are at segment ends.
         foreach (var p in section.Surface.Where(p => p.X > circle.Left && p.X < circle.Right)) if (circle.Base(p.X) > p.Y - 1e-7) return false;
         foreach (var body in section.Bodies)

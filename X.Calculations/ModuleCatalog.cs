@@ -52,7 +52,7 @@ public static class ModuleCatalog
         if (data["workspace_ca"] is JsonObject workspace)
         {
             if (workspace.D("versione", 1) is not (1 or 2)) throw new ArgumentException("Versione dell’interfaccia CA non supportata.");
-            foreach (string key in new[] { "dominio3d", "dominio2d", "coefficienti", "sle", "sle_comuni", "taglio", "momento_curvatura", "dettagli_costruttivi", "ancoraggi" })
+            foreach (string key in new[] { "dominio3d", "dominio2d", "coefficienti", "sle", "sle_comuni", "taglio", "momento_curvatura", "dettagli_costruttivi", "ancoraggi", "calcola_armature", "proposta_armature_applicata" })
                 if (workspace[key] is not null && workspace[key] is not JsonObject)
                     throw new ArgumentException("Impostazioni CA non valide: " + key);
             foreach (string set in SectionWorkspace.Sets.Skip(2))

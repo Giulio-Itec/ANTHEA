@@ -95,6 +95,8 @@ try
     File.WriteAllText(Path.Combine(directory, "gravita.json"), gravity.Json().ToJsonString(J.Options));
     count += ActionsChecks.Run(directory);
     count += SeismicSoilChecks.Run(directory);
+    count += DualSoilChecks.Run(directory);
+    count += AdvancedChecks.Run(directory);
     log.Add($"PASS {count} controlli"); Console.WriteLine(log.Last());
 }
 finally { File.WriteAllLines(Path.Combine(directory, "test.txt"), log); }

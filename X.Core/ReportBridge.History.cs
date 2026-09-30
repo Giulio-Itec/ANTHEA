@@ -11,6 +11,7 @@ public static partial class ReportBridge
         string E(double x) => x.ToString("0.#####E+0", System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
         doc.P("Analisi della sezione composta con storico", "Title"); doc.P(title, "Subtitle");
         doc.P("ANTHEA · " + result.Method);
+        doc.P("Motore di calcolo: GPC Engine · libreria GPCChecker.CompositeBridge.");
         doc.P("Il report descrive gli stati successivi della sezione, conservando deformazioni al getto, deformazioni imposte e memoria plastica dell’acciaio. Le risultanti sono equilibrate a ogni fase. L’analisi non assegna un esito globale di verifica del ponte.");
         doc.H("Modello e campo di applicazione"); doc.P(result.Scope);
         doc.P("N positivo in trazione; M positivo comprime le fibre superiori. y=0 all’interfaccia, positivo verso la soletta. ε(y)=ε₀−κy. N e V in kN, M in kNm; tensioni in MPa. Gli ingressi sono incrementi già combinati e coefficientati. Nessun ulteriore γF è applicato.");

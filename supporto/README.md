@@ -2,11 +2,16 @@
 
 Questa cartella raccoglie test, documentazione, esempi, immagini di verifica e strumenti di sviluppo.
 
+Per il palo orizzontale in terreni anche coesivi/granulari alternati vedere
+[Metodo stratificato](docs/palo-stratificato.md), con PDF omonimo,
+equazioni, limiti e comando dei test.
+
 Le guide complete sono [Guida pratica di ANTHEA](docs/guida-pratica-anthea.md) e
-[Guida teorica dei calcoli](docs/guida-teorica-anthea.md), con edizioni Word e PDF Rev04 in `documentazione/Guide_ANTHEA`.
+[Guida teorica dei calcoli](docs/guida-teorica-anthea.md), con edizioni Word e PDF Rev07 in `documentazione/Guide_ANTHEA`.
 Le revisioni precedenti e le raccolte superate sono conservate in [SUPERATI](SUPERATI/README.md).
 Ogni nuova guida, esempio documentato e rapporto per l'utente deve includere il PDF accanto al sorgente.
-Per la stabilità globale, il punto di accesso aggiornato è [Documenti ed esempi correnti](artefatti/stabilita-globale/DOCUMENTI-CORRENTI.md).
+Per l’input e la lettura degli esiti vedere [Stabilità globale: guida rapida illustrata](docs/stabilita-globale-guida-rapida.md), anche in PDF.
+Per la stabilità globale, il punto di accesso alle evidenze è [Documenti ed esempi correnti](artefatti/stabilita-globale/DOCUMENTI-CORRENTI.md).
 Per il nuovo predimensionamento dei ponti vedere [Bridge Design](docs/bridge-design.md) e la suite
 `test/BridgeDesign.Checks`.
 
@@ -48,3 +53,7 @@ formato del file; gli altri casi restano identici). Così sono stati rigenerati 
 a T: l'ultima coppia di barre laterali è agli angoli superiori della staffa d'anima, nell'ala.
 I nuovi output di test vanno salvati in `supporto/artefatti/` per mantenere pulita la radice.
 Le immagini utilizzate dall'applicazione rimangono in `X.Desktop/Assets`.
+
+Muri con due colonne e attriti: [guida](docs/muri-sostegno.md), PDF omonimo e [controllo della revisione](artefatti/muri-due-colonne-20260930/CONTROLLO.md), anche in PDF. Revisioni precedenti e registro in `SUPERATI/`.
+
+Portanza sismica, cedimenti, Newmark e armature: [rapporto aggiornamento](artefatti/muri-completamento-20260930/CONTROLLO.md), anche PDF; [esempio salvato](artefatti/muri-completamento-20260930/interfaccia-finale/esempio-completo.anthea), relazione Word e PDF nella stessa cartella. Nessuna nuova prova MAX.

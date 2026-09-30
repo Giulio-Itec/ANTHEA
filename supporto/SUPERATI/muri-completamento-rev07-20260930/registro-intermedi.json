@@ -1,0 +1,93 @@
+[
+  {
+    "original": "supporto\\artefatti\\muri-completamento-20260930\\regressione\\avanzate-report.docx",
+    "archived": "supporto\\SUPERATI\\muri-completamento-rev07-20260930\\artefatti\\muri-completamento-20260930\\regressione\\avanzate-report.docx",
+    "sha256": "f876c616a5c68139638f11606dc29308c6a8aab348cdf46d7bc3bed0ba3f9a58",
+    "reason": "Rapporto interno intermedio sostituito dopo i controlli su curvature e fessurazione",
+    "replacement": "supporto\\artefatti\\muri-completamento-20260930\\numerica\\avanzate-report.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-completamento-20260930\\regressione\\azioni.docx",
+    "archived": "supporto\\SUPERATI\\muri-completamento-rev07-20260930\\artefatti\\muri-completamento-20260930\\regressione\\azioni.docx",
+    "sha256": "edba876647d4b4c0391c87c5c71b79caf8660ebb85126966d52aeaad8094c851",
+    "reason": "Rapporto interno intermedio sostituito dopo i controlli su curvature e fessurazione",
+    "replacement": "supporto\\artefatti\\muri-completamento-20260930\\numerica\\azioni.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-completamento-20260930\\regressione\\due-colonne-globale.docx",
+    "archived": "supporto\\SUPERATI\\muri-completamento-rev07-20260930\\artefatti\\muri-completamento-20260930\\regressione\\due-colonne-globale.docx",
+    "sha256": "437a38fd9baceb206efbf150fe507547a23ac1b51ac185e680d4c5b217cc9d8b",
+    "reason": "Rapporto interno intermedio sostituito dopo i controlli su curvature e fessurazione",
+    "replacement": "supporto\\artefatti\\muri-completamento-20260930\\numerica\\due-colonne-globale.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-completamento-20260930\\regressione\\due-colonne.docx",
+    "archived": "supporto\\SUPERATI\\muri-completamento-rev07-20260930\\artefatti\\muri-completamento-20260930\\regressione\\due-colonne.docx",
+    "sha256": "3bfabb5ecba515c7ee5c49787dff4428f6b9de34d66a12aa8675b79aacbb1675",
+    "reason": "Rapporto interno intermedio sostituito dopo i controlli su curvature e fessurazione",
+    "replacement": "supporto\\artefatti\\muri-completamento-20260930\\numerica\\due-colonne.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-completamento-20260930\\regressione\\progetto.docx",
+    "archived": "supporto\\SUPERATI\\muri-completamento-rev07-20260930\\artefatti\\muri-completamento-20260930\\regressione\\progetto.docx",
+    "sha256": "b1ac7b75eaf5f036ccef4d544c4e5947ac53337645ae9f07b0fbc139ba6ea5b5",
+    "reason": "Rapporto interno intermedio sostituito dopo i controlli su curvature e fessurazione",
+    "replacement": "supporto\\artefatti\\muri-completamento-20260930\\numerica\\progetto.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-completamento-20260930\\regressione\\sisma-sito.docx",
+    "archived": "supporto\\SUPERATI\\muri-completamento-rev07-20260930\\artefatti\\muri-completamento-20260930\\regressione\\sisma-sito.docx",
+    "sha256": "d4390f4058e44665c14415f02d87badb17e24ed5d2a0e94219245b5629bfa457",
+    "reason": "Rapporto interno intermedio sostituito dopo i controlli su curvature e fessurazione",
+    "replacement": "supporto\\artefatti\\muri-completamento-20260930\\numerica\\sisma-sito.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-completamento-20260930\\finale\\avanzate-report.docx",
+    "archived": "supporto\\SUPERATI\\muri-completamento-rev07-20260930\\artefatti\\muri-completamento-20260930\\finale\\avanzate-report.docx",
+    "sha256": "2da424f152ffcf60ddcce585d86b329cc4a5cb52971fca24c189c230766b68c9",
+    "reason": "Rapporto interno intermedio sostituito dopo i controlli su curvature e fessurazione",
+    "replacement": "supporto\\artefatti\\muri-completamento-20260930\\numerica\\avanzate-report.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-completamento-20260930\\finale\\azioni.docx",
+    "archived": "supporto\\SUPERATI\\muri-completamento-rev07-20260930\\artefatti\\muri-completamento-20260930\\finale\\azioni.docx",
+    "sha256": "b47c749ced8c2bcc3914faec59da9e5401fa1b8fab30bbb2d78623c359f02c58",
+    "reason": "Rapporto interno intermedio sostituito dopo i controlli su curvature e fessurazione",
+    "replacement": "supporto\\artefatti\\muri-completamento-20260930\\numerica\\azioni.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-completamento-20260930\\finale\\due-colonne-globale.docx",
+    "archived": "supporto\\SUPERATI\\muri-completamento-rev07-20260930\\artefatti\\muri-completamento-20260930\\finale\\due-colonne-globale.docx",
+    "sha256": "07999505a704e2c308f4757bffd62daa3e74dbae1ac995a4688fc2ddc95ee6ee",
+    "reason": "Rapporto interno intermedio sostituito dopo i controlli su curvature e fessurazione",
+    "replacement": "supporto\\artefatti\\muri-completamento-20260930\\numerica\\due-colonne-globale.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-completamento-20260930\\finale\\due-colonne.docx",
+    "archived": "supporto\\SUPERATI\\muri-completamento-rev07-20260930\\artefatti\\muri-completamento-20260930\\finale\\due-colonne.docx",
+    "sha256": "477dbf679841866f2ac2cedeffa39226b3c0d91888a0504892168f4c99f9fd31",
+    "reason": "Rapporto interno intermedio sostituito dopo i controlli su curvature e fessurazione",
+    "replacement": "supporto\\artefatti\\muri-completamento-20260930\\numerica\\due-colonne.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-completamento-20260930\\finale\\progetto.docx",
+    "archived": "supporto\\SUPERATI\\muri-completamento-rev07-20260930\\artefatti\\muri-completamento-20260930\\finale\\progetto.docx",
+    "sha256": "0508b2d2e7236242ddf20eadffa8ca29a72c3405acf8181c3ca056c23ed00b9f",
+    "reason": "Rapporto interno intermedio sostituito dopo i controlli su curvature e fessurazione",
+    "replacement": "supporto\\artefatti\\muri-completamento-20260930\\numerica\\progetto.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-completamento-20260930\\finale\\sisma-sito.docx",
+    "archived": "supporto\\SUPERATI\\muri-completamento-rev07-20260930\\artefatti\\muri-completamento-20260930\\finale\\sisma-sito.docx",
+    "sha256": "ccb0df78e276d24d6e8e97f5dd3307465d91c37f89b1a9f72410bd9b83d00b03",
+    "reason": "Rapporto interno intermedio sostituito dopo i controlli su curvature e fessurazione",
+    "replacement": "supporto\\artefatti\\muri-completamento-20260930\\numerica\\sisma-sito.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-completamento-20260930\\interfaccia\\esempio-completo.docx",
+    "archived": "supporto\\SUPERATI\\muri-completamento-rev07-20260930\\artefatti\\muri-completamento-20260930\\interfaccia\\esempio-completo.docx",
+    "sha256": "715bea0b85c21ef8be86b92887e8e2656100faf3776fb51b31137e1a86067922",
+    "reason": "Rapporto interno intermedio sostituito dopo i controlli su curvature e fessurazione",
+    "replacement": "supporto\\artefatti\\muri-completamento-20260930\\interfaccia-finale\\esempio-completo.docx"
+  }
+]

@@ -1,0 +1,53 @@
+# Materiale di supporto ANTHEA
+
+Questa cartella raccoglie test, documentazione, esempi, immagini di verifica e strumenti di sviluppo.
+
+Le guide complete sono [Guida pratica di ANTHEA](docs/guida-pratica-anthea.md) e
+[Guida teorica dei calcoli](docs/guida-teorica-anthea.md), con edizioni Word e PDF Rev06 in `documentazione/Guide_ANTHEA`.
+Le revisioni precedenti e le raccolte superate sono conservate in [SUPERATI](SUPERATI/README.md).
+Ogni nuova guida, esempio documentato e rapporto per l'utente deve includere il PDF accanto al sorgente.
+Per l’input e la lettura degli esiti vedere [Stabilità globale: guida rapida illustrata](docs/stabilita-globale-guida-rapida.md), anche in PDF.
+Per la stabilità globale, il punto di accesso alle evidenze è [Documenti ed esempi correnti](artefatti/stabilita-globale/DOCUMENTI-CORRENTI.md).
+Per il nuovo predimensionamento dei ponti vedere [Bridge Design](docs/bridge-design.md) e la suite
+`test/BridgeDesign.Checks`.
+
+| Cartella | Contenuto |
+| --- | --- |
+| `test/X.Verifiche` | Progetto dei controlli numerici e software, incluso nella soluzione ANTHEA |
+| `test/Desktop` | Controlli WPF, compilati nel progetto desktop tramite collegamento |
+| `test/casi_confronto.json` | Dati dei confronti numerici |
+| `docs` | Documentazione tecnica dei moduli e rapporti di audit |
+| `documentazione` | Documenti Word, immagini e fonti di riferimento |
+| `esempi` | Esempi di input |
+| `scripts` | Strumenti per icone e revisione dei report |
+| `installer` | Script NSIS e build del setup di ANTHEA ([Installer](installer/README.md)) |
+| `artefatti` | Risultati delle verifiche, schermate e log; esclusi da Git |
+| `SUPERATI` | Revisioni precedenti e documenti sostituiti, con registro degli spostamenti |
+| `tmp` | Materiale di lavoro e verifiche storiche conservati |
+
+Eseguire i comandi seguenti dalla radice del repository:
+
+```powershell
+dotnet run --project supporto/test/X.Verifiche -c Release -- --checker
+dotnet run --project supporto/test/X.Verifiche -c Release -- --bridge
+dotnet run --project supporto/test/X.Verifiche -c Release -- --bridge-methods
+dotnet X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll --smoke-display supporto/artefatti/display
+```
+
+`--bridge` include i controlli precedenti e la suite dei metodi cumulativo, storico lineare,
+storico non lineare e delle curve di risposta. `--bridge-methods` esegue soltanto la nuova
+suite. Casi, riferimenti analitici e limiti sono descritti in
+[Test dei metodi per i ponti](docs/test-metodi-ponti.md).
+
+`Verifica.cmd`, in questa cartella, esegue i confronti completi e salva il rapporto in `artefatti/confronto_numerico.json`.
+
+I valori attesi provengono dal programma Python originale. Quando ANTHEA se ne discosta per scelta, i casi interessati si
+rigenerano dal C# e restano marcati dal campo `fonte_atteso`:
+`dotnet run --project test/X.Verifiche -c Release -- --attesi test/casi_confronto.json "<filtro sul nome>" <risultati.json>`,
+poi `python scripts/aggiorna_attesi.py test/casi_confronto.json <risultati.json> "<motivazione>"` (conserva la struttura e il
+formato del file; gli altri casi restano identici). Così sono stati rigenerati il 26 settembre 2026 i 30 casi delle sezioni
+a T: l'ultima coppia di barre laterali è agli angoli superiori della staffa d'anima, nell'ala.
+I nuovi output di test vanno salvati in `supporto/artefatti/` per mantenere pulita la radice.
+Le immagini utilizzate dall'applicazione rimangono in `X.Desktop/Assets`.
+
+Muri con due colonne e attriti: [guida](docs/muri-sostegno.md), PDF omonimo e [controllo della revisione](artefatti/muri-due-colonne-20260930/CONTROLLO.md), anche in PDF. Revisioni precedenti e registro in `SUPERATI/`.

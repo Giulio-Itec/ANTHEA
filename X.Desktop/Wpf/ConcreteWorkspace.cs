@@ -70,7 +70,9 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         Loaded += (_, _) => { if (!HasResults) QueueCalculation(); };
         var footer = new DockPanel { Margin = new Thickness(16, 4, 16, 8) }; footer.Children.Add(status);
         footer.Children.Add(Ui.Button("Modello e dati comuni…", () => CalculationHelpView.Show(this, false), inspection: true));
-        var workspaceBody = Ui.Dock(tabs, bottom: Ui.Stack(progress, footer));
+        var engineReference = Ui.Text("Motore di calcolo: GPC Engine", 12, true, Ui.Muted);
+        engineReference.Margin = new Thickness(16, 8, 16, 0); engineReference.HorizontalAlignment = HorizontalAlignment.Right;
+        var workspaceBody = Ui.Dock(tabs, top: engineReference, bottom: Ui.Stack(progress, footer));
         workspaceScroll.Content = workspaceBody; Content = workspaceScroll;
         void ResizeWorkspace()
         {
@@ -86,7 +88,8 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         AddTab("05", "Taglio e torsione", BuildShearPanel());
         AddTab("06", "Dettagli costruttivi", BuildDetailingPanel());
         AddTab("07", "Momento–curvatura", BuildCurvaturePanel());
-        tabs.SelectedIndex = Math.Clamp((int)settings.D("tab"), 0, 6);
+        AddTab("08", "Calcola armature", BuildDesignPanel());
+        tabs.SelectedIndex = Math.Clamp((int)settings.D("tab"), 0, 7);
         tabs.SelectionChanged += (_, e) => { if (e.Source == tabs && !initializing) { Commit(); RefreshDetailing(); settings["tab"] = tabs.SelectedIndex; Modified?.Invoke(); } };
         initializing = false; RefreshPreview(); RefreshSummary();
     }
@@ -353,5 +356,5 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         if (result.Count == 0) throw new ArgumentException("Nessuna combinazione da incollare.");
         return result;
     }
-    public void Dispose() { disposed = true; calculationQueued = false; cancellation?.Cancel(); curvatureCancellation?.Cancel(); }
+    public void Dispose() { disposed = true; calculationQueued = false; cancellation?.Cancel(); curvatureCancellation?.Cancel(); designCancellation?.Cancel(); }
 }

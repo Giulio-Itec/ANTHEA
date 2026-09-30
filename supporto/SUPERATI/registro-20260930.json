@@ -1,0 +1,317 @@
+[
+  {
+    "original": "supporto/docs/muri-sostegno.md",
+    "archived": "supporto\\SUPERATI\\docs\\muri-sostegno.md",
+    "sha256": "6D34FFD2EF1B4C34E2546A21FD7422F71EB95AD64FC2BDF4D97A826DE92125E9",
+    "reason": "Revisione 30/09/2026: due stratigrafie, terreno di valle, attriti, audit e verifiche aggiornate",
+    "replacement": "supporto/docs/muri-sostegno.md"
+  },
+  {
+    "original": "supporto/docs/muri-sostegno.pdf",
+    "archived": "supporto\\SUPERATI\\docs\\muri-sostegno.pdf",
+    "sha256": "8EF472B0F7BD49BFBCF83CD21FBCEDF59EFFF52C187B182786BA0189C3A8D712",
+    "reason": "Revisione 30/09/2026: due stratigrafie, terreno di valle, attriti, audit e verifiche aggiornate",
+    "replacement": "supporto/docs/muri-sostegno.pdf"
+  },
+  {
+    "original": "supporto/docs/guida-pratica-anthea.md",
+    "archived": "supporto\\SUPERATI\\docs\\guida-pratica-anthea.md",
+    "sha256": "371654021A2DA3C904523D347F53E20B30BBDDB376198258F2FB1249B10EE6B2",
+    "reason": "Revisione 30/09/2026: due stratigrafie, terreno di valle, attriti, audit e verifiche aggiornate",
+    "replacement": "supporto/docs/guida-pratica-anthea.md"
+  },
+  {
+    "original": "supporto/docs/guida-teorica-anthea.md",
+    "archived": "supporto\\SUPERATI\\docs\\guida-teorica-anthea.md",
+    "sha256": "510BB25946C9C41AB939CC29C283A2BBA1D5A20D71071562DB94F873D355E907",
+    "reason": "Revisione 30/09/2026: due stratigrafie, terreno di valle, attriti, audit e verifiche aggiornate",
+    "replacement": "supporto/docs/guida-teorica-anthea.md"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev04.docx",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev04.docx",
+    "sha256": "09C847E78EEB035CA93075F7EE3E93AD18764F3A9AFCADB41167CF3C5FD9A48A",
+    "reason": "Revisione 30/09/2026: due stratigrafie, terreno di valle, attriti, audit e verifiche aggiornate",
+    "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev05.docx"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev04.pdf",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev04.pdf",
+    "sha256": "039BF519D791A8C6C9526F606F0AC682132351F1E06E3905E3E8F263E5A6D427",
+    "reason": "Revisione 30/09/2026: due stratigrafie, terreno di valle, attriti, audit e verifiche aggiornate",
+    "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev05.pdf"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev04.docx",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev04.docx",
+    "sha256": "05C8F84EA1EC9E0C51783D320CC76FE4E922DD81ED0274E8A44C6B53E87D47E4",
+    "reason": "Revisione 30/09/2026: due stratigrafie, terreno di valle, attriti, audit e verifiche aggiornate",
+    "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev05.docx"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev04.pdf",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev04.pdf",
+    "sha256": "024D45B7264E36AE46483A9DCB49DC8707F7EB31435A0A6FF77BA7792A6371CD",
+    "reason": "Revisione 30/09/2026: due stratigrafie, terreno di valle, attriti, audit e verifiche aggiornate",
+    "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev05.pdf"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\01-mensola-base\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\01-mensola-base\\relazione-anthea.docx",
+    "sha256": "A99A400020A2C63119EA05DE211F71FDC48B3F4A40B3647A3D527A03E2373D54",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\02-mensola-alta\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\02-mensola-alta\\relazione-anthea.docx",
+    "sha256": "48A84067A99D76441E5342CCAF82CB498031A22F425FC7F437D5E25AA7E4B738",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\03-gravita\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\03-gravita\\relazione-anthea.docx",
+    "sha256": "E59A82C2FB4B7152A32F49F6546300202553A8363A8CA3B3FAFD7BF83F700A63",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\04-fondazione-debole\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\04-fondazione-debole\\relazione-anthea.docx",
+    "sha256": "5E595388E0D96A02E9980A727673D3D7B9BB55986092B0F88F4CF692192BE843",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\05-coesione-profonda\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\05-coesione-profonda\\relazione-anthea.docx",
+    "sha256": "4007A7DEAB549B420F9CD9E8C3CF6D656C074BFECB3A7B0795DEFAAE767459ED",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\06-tre-strati\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\06-tre-strati\\relazione-anthea.docx",
+    "sha256": "C4A3A36D0E28D8085F4F398969B9BB9BFEFB8B3DC0DF7205FDD4095AEC66F14F",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\07-falda\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\07-falda\\relazione-anthea.docx",
+    "sha256": "D1E70516B55024FB230C6BF376D0807ED7540BBB4BC3574D9F2B06AD9E66C814",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\08-sisma\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\08-sisma\\relazione-anthea.docx",
+    "sha256": "77A663DDFB4CA0180E4ECD3011A3F2233C1D9A6C80A80901A25D7EB6B78792A2",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\09-urto\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale\\esempi\\09-urto\\relazione-anthea.docx",
+    "sha256": "F04B63DBAC45C43B837362D796415753E2F5DA226715217504F494D767C6C027",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\01-mensola-base\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\01-mensola-base\\relazione-anthea.docx",
+    "sha256": "536EE62B73592CB29C43889A15D496173F9E77D69218DF455835D090800BF376",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\02-mensola-alta\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\02-mensola-alta\\relazione-anthea.docx",
+    "sha256": "DB35B0FB448765E27C4AE9E2A8BB5F9024D77490F2B853D7F2314A04EB858452",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\03-gravita\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\03-gravita\\relazione-anthea.docx",
+    "sha256": "EAE48BFA8894BF1577CAEFB0D725388A753543F1EC942B990A73574634D6B18D",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\04-fondazione-debole\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\04-fondazione-debole\\relazione-anthea.docx",
+    "sha256": "852F3B24A3D16C7B44D7FCD263D7D0CDA6690DE83F0AA90315C48A349C285669",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\05-coesione-profonda\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\05-coesione-profonda\\relazione-anthea.docx",
+    "sha256": "B0A927A10B8E04E4CE265F551FE9F9094957B2E1D5866D1BEBC62BF2CEFBB7A9",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\06-tre-strati\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\06-tre-strati\\relazione-anthea.docx",
+    "sha256": "87B516FC530A2D5CDE5623F98A7F6246635C2E6DA7E4483E6027C4EEE3A3509F",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\07-falda\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\07-falda\\relazione-anthea.docx",
+    "sha256": "CE82D3EF3174118AB3E8AFE1B35199021F94607E243B406A6B2B0E4A3305F1BA",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\08-sisma\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\08-sisma\\relazione-anthea.docx",
+    "sha256": "7FA54890B1AD879051ED52EB77693C07D1BCCC70BFEFFB2BA6FE1F289182F766",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\09-urto\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\09-urto\\relazione-anthea.docx",
+    "sha256": "31DAF65CC2B29D7BF84F04B9D282E82962DAE8A8071B10B83B4EB2BDF3D7DAC3",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\10-non-drenato\\relazione-anthea.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\globale-finale\\esempi\\10-non-drenato\\relazione-anthea.docx",
+    "sha256": "BDE424A1C507A9AD2011C9693EBEE01A3B3F1939B9E572B1E4E9BA8C52797E4B",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\numerica\\azioni.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\numerica\\azioni.docx",
+    "sha256": "265C567AA4701849F921ECE389F7FD2503F1242336CFDB283BB79094AC1A5355",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\numerica\\progetto.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\numerica\\progetto.docx",
+    "sha256": "0833D30972780F0D67CC8F74B9E63E5B00DF9CB479E43628E17F92BEBDDD1C2A",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\numerica\\sisma-sito.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\numerica\\sisma-sito.docx",
+    "sha256": "047073296D43D2458248384E490DA345DE4009F4E65E245291FF12FBAE13EE2C",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\numerica-finale\\azioni.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\numerica-finale\\azioni.docx",
+    "sha256": "9FF1B015E43458F55113ED9423C7FCA9FF36A606C08FAD0C89044B55713A6AEF",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\numerica-finale\\due-colonne.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\numerica-finale\\due-colonne.docx",
+    "sha256": "5F0941728ECC1E73298EAD1AA86AFEFC4634B7CBAEF7F1C2E48350CE9559B57A",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\numerica-finale\\progetto.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\numerica-finale\\progetto.docx",
+    "sha256": "D95A00366640C7F27AB80146440F8B153F81CB9DB8F698C4B404301626B134FC",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\numerica-finale\\sisma-sito.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\numerica-finale\\sisma-sito.docx",
+    "sha256": "114E0A6282D360E8FE9D0F275C3C75E10940530928017AB89B62A9C9F3007BB7",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\ui-finale\\global-stability\\globale-autonoma.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\ui-finale\\global-stability\\globale-autonoma.docx",
+    "sha256": "417EF4E93E42BE67CB489771513AB52EEF6394D05D47B05EF3F89DC60C8B1B81",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\ui-finale\\global-stability\\muro-con-globale.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\ui-finale\\global-stability\\muro-con-globale.docx",
+    "sha256": "B2670C6314B1BCEB8AC832A29D8A41AEF06F6E7A641F12D1A0798E98CEFFE7CF",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\ui-finale\\retaining-wall\\gravita.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\ui-finale\\retaining-wall\\gravita.docx",
+    "sha256": "EB57725DC1AB51E8A6DC48EA416ABEDBC17BDECFF353B12FF85EEA081D47D853",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\ui-finale\\retaining-wall\\mensola.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\ui-finale\\retaining-wall\\mensola.docx",
+    "sha256": "EA0807997D8460DA8856E1AE0ECDA49C42B65829B65D71468C8BF6CCE8FAC15D",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\ui-finale\\retaining-wall\\sisma-sito.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\ui-finale\\retaining-wall\\sisma-sito.docx",
+    "sha256": "74BD46F1743D70C41D3DFDA1A3375F61A41E144A910D547C619C72495471DEEA",
+    "reason": "Output intermedio sostituito dai controlli finali della revisione",
+    "replacement": "supporto/artefatti/muri-due-colonne-20260930/rilascio"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui\\retaining-wall\\gravita.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui\\retaining-wall\\gravita.docx",
+    "sha256": "296A7180303F797EFC741EB61F1356AAA07A5F152E91FF53DCFD4574CFBA6E5B",
+    "reason": "Relazione con figura sostituita dalla verifica grafica definitiva",
+    "replacement": "supporto\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui-ultima\\retaining-wall\\gravita.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui\\retaining-wall\\gravita.pdf",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui\\retaining-wall\\gravita.pdf",
+    "sha256": "63405262C2649AA467BAEA1EBBC82716548D393486D647FD275B58BDD4800A1A",
+    "reason": "Relazione con figura sostituita dalla verifica grafica definitiva",
+    "replacement": "supporto\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui-ultima\\retaining-wall\\gravita.pdf"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui\\retaining-wall\\mensola.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui\\retaining-wall\\mensola.docx",
+    "sha256": "E5E901BC65CB9F70107A7892E3A36B03A8A7C0BE92C0A3A37AF17A795BC0BCA2",
+    "reason": "Relazione con figura sostituita dalla verifica grafica definitiva",
+    "replacement": "supporto\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui-ultima\\retaining-wall\\mensola.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui\\retaining-wall\\mensola.pdf",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui\\retaining-wall\\mensola.pdf",
+    "sha256": "93CFA576A69A1AA5E595C6269EE11B124D64FD13D731474F41E26542C2013453",
+    "reason": "Relazione con figura sostituita dalla verifica grafica definitiva",
+    "replacement": "supporto\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui-ultima\\retaining-wall\\mensola.pdf"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui\\retaining-wall\\sisma-sito.docx",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui\\retaining-wall\\sisma-sito.docx",
+    "sha256": "E318FB501CCFE800142DA01A12CDA4AF819CB750530B00B0EF5C51F7A2A09125",
+    "reason": "Relazione con figura sostituita dalla verifica grafica definitiva",
+    "replacement": "supporto\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui-ultima\\retaining-wall\\sisma-sito.docx"
+  },
+  {
+    "original": "supporto\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui\\retaining-wall\\sisma-sito.pdf",
+    "archived": "supporto\\SUPERATI\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui\\retaining-wall\\sisma-sito.pdf",
+    "sha256": "26126D535C9ED2C7362B6F753DEB8C14CABD0C9D090AD17B4F96237F909F6724",
+    "reason": "Relazione con figura sostituita dalla verifica grafica definitiva",
+    "replacement": "supporto\\artefatti\\muri-due-colonne-20260930\\rilascio\\ui-ultima\\retaining-wall\\sisma-sito.pdf"
+  }
+]

@@ -30,9 +30,11 @@ public static partial class RetainingWall
         }
         var sle = ws["sle_comuni"]!.AsObject(); var mat = result.Input["materials"]!;
         sle["modello"] = "Lineare"; sle["trazione_cls"] = "No"; sle["phi"] = mat["creep"]!.DeepClone(); sle["esposizione"] = mat["exposure"]!.DeepClone(); sle["sensibilita"] = "Non sensibile"; sle["aderenza"] = "Migliorata"; sle["durata"] = "Lunga";
-        sle["copriferro_fessure"] = mat["cover"]!.DeepClone(); sle["spaziatura_fessure"] = (1000 - 2 * mat.D("cover") - input.D("top_bar_diameter_mm")) / (input.D("top_bar_count") - 1);
+        sle["copriferro_fessure"] = mat["cover"]!.DeepClone(); sle["spaziatura_fessure"] = new[] { "top", "bottom" }.Max(face => (1000 - 2 * mat.D("cover") - input.D(face + "_bar_diameter_mm")) / (input.D(face + "_bar_count") - 1));
         ws["dominio2d"]!["N"] = -force.N;
         d["origine_muro"] = J.Obj(("elemento", member), ("posizione", position), ("combinazione", selectedCombination), ("zona_armatura", zone), ("stato", selected.State), ("taglio_selezionato", force.V));
+        d["origine_muro"]!["dettagli_armatura"] = result.Input["reinforcement"]![zone]!.DeepClone();
+        ws["nota"] = ws.S("nota") + " Armature delle facce indipendenti conservate; ancoraggi e sovrapposizioni rimangono nel modulo muro e sono allegati ai dati di origine.";
         SectionWorkspace.Prepare(d); ModuleCatalog.ValidateData("str_palo", d); return d;
     }
 }

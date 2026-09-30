@@ -1,4 +1,4 @@
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 
 namespace Anthea.Calculations;
 
@@ -6,9 +6,9 @@ namespace Anthea.Calculations;
 public static partial class RetainingWall
 {
     public const string Module = "geo_muri_sostegno";
-    public const string Scope = "Sezione piana per metro di sviluppo. Paramento di monte verticale, riempimento orizzontale granulare (c′ = 0), spinta attiva oppure a riposo nel modello Wood. Fondazione nastriforme superficiale su terreno omogeneo drenato, senza terreno a valle né resistenza passiva. Muro a mensola in c.a. o a gravità con sezione trapezia.";
-    public const string Limits = "La stabilità globale è un’analisi Bishop separata, da attivare con profilo esteso e stratigrafia profonda. Cedimenti, spostamenti, liquefazione, verifiche idrauliche, ancoraggi e dettagli esecutivi richiedono analisi dedicate. Non viene emesso un esito di verifica complessiva dell’opera. Le spinte sismiche locali richiedono terreno omogeneo asciutto; l’analisi globale usa il proprio profilo stratificato e la propria falda, senza degradazione ciclica o pressioni idrodinamiche.";
-    public const string Method = "Statica: Rankine per strati (K₀ nel modello Wood), pressioni efficaci e acqua separate. Preset SLU A1+M1+R3: inviluppo γG,muro e γG,terra = 1 / 1,3; γQ = 0 / 1,5; γG,acqua = 1 / 1,3, correlato a spinta e sottospinta. γR scorrimento 1,1, ribaltamento 1,15, portanza 1,4. Portanza: EN 1997-1, allegato D, fondazione nastriforme c′=0, D=0, Nγ=2(Nq−1)tanφ, iγ=(1−H/V)³; base ruvida δ≥φ/2. Contatto elastico senza trazione; B′=B−2|e|. Oltre |e|=B/3 la portanza è fuori campo. Nessuna resistenza passiva.";
+    public const string Scope = "Sezione piana per metro di sviluppo. Paramento di monte verticale, riempimento orizzontale granulare (c′ = 0), spinta attiva oppure a riposo nel modello Wood. Fondazione nastriforme superficiale su terreno omogeneo drenato, con due stratigrafie e terreno a valle. Muro a mensola in c.a. o a gravità con sezione trapezia.";
+    public const string Limits = "Bishop, cedimenti edometrici e spostamenti sono verifiche separate da attivare con i dati richiesti. Portanza sismica: EN 1998-5 allegato F, base ruvida e terreno granulare asciutto. Newmark: accelerogrammi e soglia di scorrimento assegnati, solo muro libero. Gravità: resistenze assegnate oppure CLS/muratura nel dominio senza trazione; fuori campo occorre analisi non lineare. Il disegno delle armature è un predimensionamento, da completare con dettagli esecutivi. Liquefazione, verifiche idrauliche e degradazione ciclica non incluse. Nessun esito complessivo dell’opera.";
+    public const string Method = "Statica: Rankine per strati (K₀ nel modello Wood), pressioni efficaci e acqua separate. Preset SLU A1+M1+R3: inviluppo γG,muro e γG,terra = 1 / 1,3; γQ = 0 / 1,5; γG,acqua = 1 / 1,3, correlato a spinta e sottospinta. γR scorrimento 1,1, ribaltamento 1,15, portanza 1,4. Portanza: EN 1997-1, allegato D, fondazione nastriforme c′=0, q′ di ricoprimento da valle, Nγ=2(Nq−1)tanφ, iγ=(1−H/V)³; base ruvida δ≥φ/2. Contatto elastico senza trazione; B′=B−2|e|. Oltre |e|=B/3 la portanza è fuori campo. Passiva Rankine opzionale e parzializzabile, esclusa nel sisma.";
     public sealed record Family(string Id, string Name, bool Available);
     public static readonly Family[] Families = [new("cantilever", "Mensola in c.a.", true), new("gravity", "Gravità", true),
         new("semigravity", "Semigravità", false), new("gabions", "Gabbioni", false), new("counterforts", "Contrafforti", false),
@@ -81,7 +81,7 @@ public static partial class RetainingWall
         Fields("materials", MaterialFields.Where(f => f.Key == "gamma" || (d.S("family") == "gravity" ? f.Key.EndsWith("_rd") : !f.Key.EndsWith("_rd"))));
         var g = d["geometry"]!; double h = g.D("height"), t = g.D("slab");
         if (g.D("stem_top") > g.D("stem_base")) throw new ArgumentException("Lo spessore in testa deve essere ≤ quello al piede.");
-        if (d["foundation"].D("delta") < d["foundation"].D("phi") / 2 || d["foundation"].D("delta") > d["foundation"].D("phi")) throw new ArgumentException("Base ruvida: φ′f/2 ≤ δb ≤ φ′f.");
+        ValidateSoils(d);
         if (d.D("version") == 1 && d["loads"].D("psi2") > d["loads"].D("psi1")) throw new ArgumentException("Deve risultare ψ₂ ≤ ψ₁.");
         if (d.S("family") == "cantilever" && !Ntc2018Checks.Exposures.Skip(1).Contains(matExposure(d))) throw new ArgumentException("Selezionare la classe di esposizione del calcestruzzo.");
         foreach (var l in d.Array("layers"))
@@ -94,7 +94,7 @@ public static partial class RetainingWall
         if (d["water"].B("enabled"))
         {
             double z = d["water"]!.Required("depth"), front = d["water"]!.Required("front_head");
-            if (z > h + t || front > t || front > h + t - z) throw new ArgumentException("Falda: 0 ≤ profondità ≤ H+t; battente a valle ≤ t e ≤ battente a monte.");
+            if (z > h + t || front > Math.Max(t, ValleyHeight(d)) || front > h + t - z) throw new ArgumentException("Falda: 0≤profondità≤H+t; battente a valle ≤max(t,Dv) e ≤battente a monte.");
         }
         if (d["seismic"].B("enabled"))
         {
@@ -122,14 +122,23 @@ public static partial class RetainingWall
         public JsonObject? Factors { get; init; }
         public List<PressureDetail> PressureDetails { get; init; } = [];
         public List<AppliedAction> Actions { get; init; } = [];
+        public JsonObject SoilAudit { get; init; } = new();
+        public List<PressureSegment> StemPressures { get; init; } = [];
+        public List<PressureSegment> ValleyPressures { get; init; } = [];
+        public List<PressureDetail> StemPressureDetails { get; init; } = [];
+        public Geotechnics.ShallowFoundationSeismic.Result? SeismicBearing { get; init; }
+        public string? SeismicBearingError { get; init; }
+        public List<CurvaturePoint> Curvatures { get; init; } = [];
     }
     public sealed record Result(JsonObject Input, double Width, double Area, double Volume, double SteelKg, List<LoadCase> Cases, List<Check> Checks, List<Check> Structural, List<string> Notes)
     {
         public Geotechnics.SlopeResult? GlobalStability { get; init; }
         public string? GlobalError { get; init; }
+        public ServiceResult? Serviceability { get; init; }
+        public ReinforcementDetails? Detailing { get; init; }
         public JsonObject Json() => J.Obj(("errore", ""), ("motore", "ANTHEA.Muri/1"), ("input", Input), ("larghezza", Width), ("area", Area),
             ("volume_m3_m", Volume), ("acciaio_kg_m", SteelKg), ("combinazioni", Cases), ("verifiche_geotecniche", Checks), ("verifiche_strutturali", Structural),
-            ("avvisi", Notes), ("campo", Scope), ("limiti", Limits), ("metodo", Method), ("verifica_completa", false), ("stabilita_globale", GlobalStability), ("errore_stabilita_globale", GlobalError));
+            ("avvisi", Notes), ("campo", Scope), ("limiti", Limits), ("metodo", Method), ("verifica_completa", false), ("stabilita_globale", GlobalStability), ("errore_stabilita_globale", GlobalError), ("esercizio", Serviceability), ("dettagli_armature", Detailing));
     }
 }
 

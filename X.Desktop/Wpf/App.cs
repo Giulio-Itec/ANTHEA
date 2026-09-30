@@ -9,6 +9,19 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+        if (e.Args.Length == 2 && e.Args[0] is "--check-global-guidance-offscreen" or "--check-wall-advanced-offscreen")
+        {
+            // No native window or input focus: render controls directly to bitmaps.
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Dispatcher.BeginInvoke(new Action(async () =>
+            {
+                int code = 0;
+                try { if (e.Args[0] == "--check-wall-advanced-offscreen") await WallAdvancedChecks.Run(e.Args[1]); else await GlobalGuidanceChecks.Run(e.Args[1]); }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), ex.ToString()); code = 1; }
+                finally { Shutdown(code); }
+            }));
+            return;
+        }
         bool smoke = e.Args.Length >= 2 && e.Args[0] is "--smoke" or "--smoke-neutral-axis" or "--smoke-horizontal" or "--smoke-display" or "--smoke-ca-features" or "--smoke-ca-extensions" or "--smoke-projects" or "--smoke-materials" or "--smoke-bridge" or "--smoke-bridge-predalle" or "--smoke-bridge-curves" or "--smoke-material-report" or "--smoke-project-workspace" or "--smoke-project-report" or "--smoke-hierarchy" or "--smoke-steel" or "--smoke-sharing" or "--smoke-bridge-design" or "--smoke-retaining-wall" or "--smoke-global-stability";
         DispatcherUnhandledException += (_, error) =>
         {

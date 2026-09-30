@@ -21,12 +21,12 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[2]
-REVISION = '04'
+REVISION = '07'
 # edition data of the revision: date, contents and description in the revision table of the cover
-DATE = '28/09/2026'
-CONTENTS = '28 settembre 2026'
-CONTENTS_ISO = '2026-09-28'
-REVISION_NOTE = 'TORSIONE DEL CASSONCINO'
+DATE = '30/09/2026'
+CONTENTS = '30 settembre 2026'
+CONTENTS_ISO = '2026-09-30'
+REVISION_NOTE = 'MURI SISMA SLE E ARMATURE'
 ART = ROOT / f'supporto/artefatti/guide_anthea_itec_rev{REVISION}'
 OUT = ROOT / 'supporto/documentazione/Guide_ANTHEA'
 TEMPLATE = Path('C:/Users/g.pacini/Desktop/MODELLO-RELAZIONE-ITEC-AA.docx')

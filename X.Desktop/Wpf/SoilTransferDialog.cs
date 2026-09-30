@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -26,7 +26,7 @@ internal sealed class SoilTransferDialog : Window
     {
         Owner = owner; Title = "Terreno · invio e riutilizzo"; Width = 940; Height = 660; MinWidth = 720; MinHeight = 520;
         WindowStartupLocation = WindowStartupLocation.CenterOwner; Background = Ui.Bg; this.module = module; original = (JsonObject)data.DeepClone();
-        survey = Ui.Choice(Enumerable.Range(1, SoilProfileTransfer.SurveyCount(module, data)).Select(i => "Profilo " + i), "Profilo 1");
+        survey = Ui.Choice(module == RetainingWall.Module ? new[] { "Monte", "Valle" } : Enumerable.Range(1, SoilProfileTransfer.SurveyCount(module, data)).Select(i => "Profilo " + i), module == RetainingWall.Module ? "Monte" : "Profilo 1");
         Destination = new ComboBox { MinWidth = 300, SelectedValuePath = "Tag" };
         foreach (var target in SoilProfileTransfer.Modules) { var info = ModuleCatalog.Get(target); Destination.Items.Add(new ComboBoxItem { Content = info.Element + " · " + info.Description, Tag = target }); }
         Destination.SelectedValue = module == "geo_palo_verticale" ? RetainingWall.Module : "geo_palo_verticale";

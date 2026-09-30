@@ -1,4 +1,4 @@
-param([switch]$VerifyFinal, [string]$Revision = '04')
+param([switch]$VerifyFinal, [string]$Revision = '06')
 $ErrorActionPreference = 'Stop'
 $repoPath = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $wordForGuides = $null
@@ -24,6 +24,12 @@ try {
         }
         $pdfName = if ($VerifyFinal) { 'final_verified.pdf' } else { 'fields_updated.pdf' }
         $guideDoc.ExportAsFixedFormat([string](Join-Path $artifactPath $pdfName), 17)
+        if ($VerifyFinal) {
+            $verifiedPdf = Join-Path $artifactPath $pdfName
+            Copy-Item -LiteralPath $verifiedPdf -Destination ([IO.Path]::ChangeExtension($sourcePath, '.pdf')) -Force
+            # La stessa impaginazione con immagini e formule accompagna anche il sorgente Markdown.
+            Copy-Item -LiteralPath $verifiedPdf -Destination (Join-Path $repoPath "supporto/docs/guida-${kind}-anthea.pdf") -Force
+        }
         Write-Output ("${kind}: " + $guideDoc.ComputeStatistics(2) + ' pagine')
         $guideDoc.Close(0)
         [Runtime.InteropServices.Marshal]::ReleaseComObject($guideDoc) | Out-Null

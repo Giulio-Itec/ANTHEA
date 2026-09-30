@@ -8,7 +8,7 @@ import re
 import sys
 from html import escape
 from reportlab.pdfgen.canvas import Canvas
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, LongTable, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, LongTable, TableStyle, Image, KeepTogether, PageBreak
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
@@ -32,6 +32,9 @@ def inline(text):
     text = text.replace('\u2011','-').replace('\u2013','-').replace('\u2014','-')
     text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', lambda m: m.group(1)+' ('+m.group(2)+')', text)
     text = escape(text)
+    # Arial does not contain all Unicode subscript digits: use its ordinary glyphs.
+    for digit, subscript in enumerate('₀₁₂₃₄₅₆₇₈₉'):
+        text = text.replace(subscript, f'<sub>{digit}</sub>')
     text = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', text)
     text = re.sub(r'`([^`]+)`',r'<font name="GuideMono">\1</font>',text)
     return text
@@ -57,6 +60,13 @@ def build(source, output=None):
     while i<len(lines):
         line=lines[i].strip(); i+=1
         if not line: continue
+        if line == '<!-- pagebreak -->':
+            story.append(PageBreak()); continue
+        picture = re.fullmatch(r'!\[([^\]]*)\]\(([^)]+)\)', line)
+        if picture:
+            path = (source.parent / picture[2]).resolve()
+            graphic = Image(str(path)); graphic._restrictSize(width, 305)
+            story.append(KeepTogether([graphic, Spacer(1,5), Paragraph(inline(picture[1]),styles['CellGuide']), Spacer(1,8)])); continue
         if line.startswith('```'):
             while i<len(lines) and not lines[i].strip().startswith('```'):
                 story.append(Paragraph(escape(lines[i]).replace(' ','&#160;'),styles['CodeGuide'])); i+=1
@@ -81,7 +91,7 @@ def build(source, output=None):
         if line.startswith('- '):
             story.append(Paragraph(inline(line[2:]),styles['BodyGuide'],bulletText='\u2022')); continue
         paragraph=[line]
-        while i<len(lines) and lines[i].strip() and not re.match(r'^(#|\||- |```)',lines[i].strip()):
+        while i<len(lines) and lines[i].strip() and not re.match(r'^(#|\||- |```|!\[|<!--)',lines[i].strip()):
             paragraph.append(lines[i].strip()); i+=1
         story.append(Paragraph(inline(' '.join(paragraph)),styles['BodyGuide']))
     output.parent.mkdir(parents=True,exist_ok=True)

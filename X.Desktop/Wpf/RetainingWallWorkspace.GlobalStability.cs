@@ -13,7 +13,7 @@ internal sealed partial class RetainingWallWorkspace
     internal JsonGrid GlobalLayers = null!, GlobalMatrix = null!;
     private readonly ContentControl globalMatrixHost = new();
     private readonly TextBlock globalMessage = Ui.Text("", 11);
-    private GlobalStabilityDrawing? globalPreview;
+    internal GlobalStabilityDrawing? globalPreview;
     private SlopeResult? independentGlobal;
     private JsonObject? independentGlobalInput;
     private string? independentGlobalError;
@@ -23,36 +23,57 @@ internal sealed partial class RetainingWallWorkspace
 
     internal void PrepareGlobal()
     {
-        Commit(); RetainingWall.PrepareGlobalProfile(Data); BuildInputs(); UpdateFields(); Changed();
-        Cards["Stabilità globale"].IsExpanded = true; Cards["Stabilità globale"].BringIntoView();
+        Commit(); RetainingWall.PrepareGlobalProfile(Data); Data["global_stability"]!["enabled"] = true; BuildInputs(); UpdateFields(); Changed();
+        Cards["Stabilità globale"].IsExpanded = true; ScrollGlobalSetup();
     }
     private FrameworkElement BuildGlobalCard()
     {
-        foreach (FrameworkElement shared in new FrameworkElement[] { globalMatrixHost, globalMessage }) if (shared.Parent is Panel parent) parent.Children.Remove(shared);
+        foreach (FrameworkElement shared in new FrameworkElement[] { globalMatrixHost, globalMessage, globalReadiness, globalSearchSummary }) if (shared.Parent is Panel parent) parent.Children.Remove(shared);
         var g = Data["global_stability"]!.AsObject();
-        var form = Form("global", [new("enabled", "Calcola stabilità globale", Bool: true), new("condition", "Resistenza del terreno", Choices: ["Drenata", "Non drenata"]),
-            new("profile_confirmed", "Profilo e strati controllati per il sito", Bool: true), new("water_enabled", "Usa linea di falda globale", Bool: true),
-            new("seismic", "Includi sisma globale SLV", Bool: true), new("seismic_source", "Coefficienti globali", Choices: ["Da sito · βs=0,38", "kh e kv assegnati"]),
-            new("kh", "Coefficiente orizzontale globale", "−"), new("kv", "Modulo coefficiente verticale globale", "−")], g);
+        g["valley_layers"] ??= new JsonArray(); g["soil_mode"] ??= "Profilo unico";
+        g["soil_split_x"] ??= Data["geometry"].D("toe") + Data["geometry"].D("stem_base");
+        // Existing documents retain their exact search limits until the user chooses automatic mode.
+        g["search_mode"] ??= "Assegnata";
+        var form = Form("global", [new("enabled", "Attiva la verifica globale", Bool: true),
+            new("condition", "Condizione del terreno", Choices: ["Drenata", "Non drenata"]),
+            new("profile_confirmed", "Ho controllato profilo, strati e falda del sito", Bool: true),
+            new("water_enabled", "Considera la falda", Bool: true), new("seismic", "Includi il sisma SLV", Bool: true),
+            new("seismic_source", "Coefficienti sismici", Choices: ["Da sito · βs=0,38", "kh e kv assegnati"]),
+            new("kh", "Coefficiente orizzontale", "−"), new("kv", "Modulo coefficiente verticale", "−"),
+            new("soil_mode", "Stratigrafia globale", Choices: ["Profilo unico", "Due colonne"]), new("soil_split_x", "Confine valle / monte", "m")], g,
+            key => { if (key != "profile_confirmed" && key != "enabled") InvalidateGlobalConfirmation(); });
+        form.GroupFields("Falda e sisma · ripresi dal muro, modificabili", ["water_enabled", "seismic", "seismic_source", "kh", "kv"], g.B("water_enabled") || g.B("seismic"));
+        form.GroupFields("Modello del terreno · dettagli", ["soil_mode", "soil_split_x"], false);
         FrameworkElement Points(string key, string title)
         {
-            var array = g.Array(key); var grid = GridFor([new("x", "x [m]"), new("y", "y [m]")], array, height: 120);
-            return Group(title, Ui.Stack(grid, Ui.Bar(Ui.Button("+ Punto", () => { AddRow(grid, array, J.Obj(("x", ""), ("y", ""))); Changed(); }),
-                Ui.Button("− Punto", () => { if (grid.SelectedItem is not JsonRow row) return; array.Remove(row.Values); grid.Rows.Remove(row); Changed(); }))), false);
+            var array = g.Array(key); var grid = GridFor([new("x", "x [m]"), new("y", "y [m]")], array, _ => { InvalidateGlobalConfirmation(); RefreshGlobalLayerDisplays(); }, height: 120);
+            return Group(title, Ui.Stack(grid, Ui.Bar(Ui.Button("+ Punto", () => { AddRow(grid, array, J.Obj(("x", ""), ("y", "")), _ => { InvalidateGlobalConfirmation(); RefreshGlobalLayerDisplays(); }); InvalidateGlobalConfirmation(); Changed(); }),
+                Ui.Button("− Punto", () => { if (grid.SelectedItem is not JsonRow row) return; array.Remove(row.Values); grid.Rows.Remove(row); InvalidateGlobalConfirmation(); Changed(); }))), false);
         }
-        GlobalLayers = GridFor([new("name", "Terreno"), new("bottom", "Quota fondo\n[m]"), new("gamma", "γ\n[kN/m³]"), new("gamma_sat", "γsat\n[kN/m³]"), new("phi", "φ′k\n[°]"), new("c", "c′k\n[kPa]"), new("cu", "cu,k\n[kPa]")], g.Array("layers"), height: 170);
-        var deepLayers = Ui.Stack(Ui.Text("Quote y dal piano di posa, positive verso l’alto. Fondi degli strati in ordine decrescente. L’ultimo fondo limita la profondità indagata; il primo strato arriva al terreno. Stratigrafia globale indipendente dalla scheda delle spinte.", 11, color: Ui.Muted), GlobalLayers,
-            Ui.Bar(Ui.Button("+ Strato profondo", () => { AddRow(GlobalLayers, g.Array("layers"), J.Obj(("name", "Nuovo terreno"), ("bottom", ""), ("gamma", ""), ("gamma_sat", ""), ("phi", ""), ("c", ""), ("cu", ""))); Changed(); }),
-            Ui.Button("− Strato", () => { if (GlobalLayers.SelectedItem is not JsonRow row) return; g.Array("layers").Remove(row.Values); GlobalLayers.Rows.Remove(row); Changed(); })));
+        var rearEditor = BuildGlobalSoilEditor(false); var valleyEditor = BuildGlobalSoilEditor(true);
+        var searchMode = Form("global_search_mode", [new("search_mode", "Area di ricerca", Choices: ["Automatica", "Assegnata"])], g);
         var search = Form("global_search", [new("exit_min", "Uscita a valle · x minima", "m"), new("exit_max", "Uscita a valle · x massima", "m"), new("entry_min", "Ingresso a monte · x minima", "m"), new("entry_max", "Ingresso a monte · x massima", "m"),
-            new("depth_min", "Profondità minima sotto y=0", "m"), new("depth_max", "Profondità massima sotto y=0", "m"), new("grid", "Nodi per direzione (n³ superfici)"), new("slices", "Conci iniziali"), new("refinements", "Raffinamenti locali")], g);
-        globalPreview = new() { Data = Data, Height = 240, FocusCritical = false };
+            new("depth_min", "Profondità minima sotto la fondazione", "m"), new("depth_max", "Profondità massima sotto la fondazione", "m"), new("grid", "Nodi per direzione"), new("slices", "Conci iniziali"), new("refinements", "Raffinamenti locali")], g);
+        globalPreview = new() { Data = Data, Height = 320, FocusCritical = false, ShowSearch = true };
         BuildGlobalMatrix();
-        return Ui.Stack(Ui.Text(RetainingWall.GlobalHelp, 11), form, Ui.Bar(Ui.Button("Precompila da muro e terreno", PrepareGlobal), Ui.Button("Calcola solo globale", async () => await CalculateGlobalAsync(), inspection: true), Ui.Button("Word globale", ExportGlobalWord, inspection: true)),
-            Ui.Text("La precompilazione propone un profilo piano da adattare al rilievo. x=0 al bordo di valle della fondazione; y=0 al piano di posa. Dopo modifiche alla geometria aggiornare gli estremi del profilo. Nessuna estensione automatica degli strati in profondità.", 11, color: Ui.Muted), globalPreview,
-            Points("valley", "Profilo a valle · da sinistra fino a (0;0)"), Points("uphill", "Profilo a monte · da (a+s₀;H+t) verso destra"),
-            Group("Strati e resistenze della stabilità globale", deepLayers), Points("water", "Linea di falda · quote piezometriche da sinistra a destra"), Group("Dominio di ricerca e precisione", search, false),
-            Group("Combinazioni globali · indipendenti dalle verifiche locali", Ui.Stack(Ui.Bar(Ui.Button("Genera globali", GenerateGlobalMatrix), Ui.Button("Conferma matrice globale", () => { Commit(); g["combination_mode"] = "Personalizzate"; g["combination_signature"] = RetainingWall.GlobalSignature(Data); Changed(); })), globalMessage, globalMatrixHost), false));
+        var valleyCard = Group("Colonna di VALLE", valleyEditor); Cards["Strati globali valle"] = valleyCard;
+        return Ui.Stack(Ui.Text("Verifica il possibile scivolamento del muro insieme al terreno sottostante.", 12), globalReadiness,
+            Ui.Bar(Ui.Button("Prepara dal muro", PrepareGlobal), Ui.Button("Calcola globale", async () => await CalculateGlobalAsync(), inspection: true)),
+            Ui.Text("Prepara dal muro sostituisce la proposta con i dati locali. Non aggiunge terreni profondi non conosciuti.", 10, color: Ui.Muted),
+            form, globalPreview,
+            Ui.Text("1 · Controlla gli strati, anche sotto la fondazione", 13, true),
+            Ui.Text("Inserisci gli spessori dall’alto verso il basso. Il fondo y si calcola da solo: 0 = piano di posa; −5 = 5 m sotto. Seleziona uno strato per modificarne le proprietà.", 11, color: Ui.Muted),
+            Group("Colonna di MONTE / profilo unico", rearEditor), valleyCard,
+            Group("2 · Rilievo e falda · modifica se diversi dalla proposta", Ui.Stack(
+                Ui.Text("Origine (0;0) al bordo di valle del piano di posa. x cresce verso monte, y verso l’alto. Il profilo proposto è orizzontale sui due lati; adattarlo al rilievo.", 11),
+                Points("valley", "Superficie a valle · punti x, y"), Points("uphill", "Superficie a monte · punti x, y"), Points("water", "Linea di falda · quote y, non profondità")), false),
+            Ui.Text("3 · Ricerca delle superfici", 13, true), searchMode, globalSearchSummary,
+            Group("Limiti e precisione · dettagli modificabili", Ui.Stack(
+                Ui.Text("In Automatica i limiti seguono il profilo e gli strati noti, fino a 2(H+t). Passa ad Assegnata per modificarli. Il minimo sul bordo richiede una ricerca più ampia, sempre coperta dalle indagini.", 11, color: Ui.Muted), search), false),
+            Group("Combinazioni globali · A2–M2–R2 in statica", Ui.Stack(Ui.Bar(Ui.Button("Genera globali", GenerateGlobalMatrix), Ui.Button("Conferma matrice globale", () => { Commit(); g["combination_mode"] = "Personalizzate"; g["combination_signature"] = RetainingWall.GlobalSignature(Data); Changed(); })), globalMessage, globalMatrixHost), false),
+            Ui.Text("Dopo il controllo, spunta la conferma dei dati in alto e calcola. Il risultato si apre in Verifiche → Stabilità globale.", 11),
+            Ui.Bar(Ui.Button("Calcola globale", async () => await CalculateGlobalAsync(), inspection: true), Ui.Button("Word globale", ExportGlobalWord, inspection: true)),
+            Group("Metodo e coefficienti utilizzati", Ui.Text(RetainingWall.GlobalHelp, 11), false));
     }
     internal void GenerateGlobalMatrix()
     {
@@ -82,10 +103,15 @@ internal sealed partial class RetainingWallWorkspace
     }
     private void RefreshGlobal()
     {
+        RefreshGlobalSearch();
+        RefreshGlobalGuidance();
+        RefreshGlobalSoilDetails();
+        if (Cards.TryGetValue("Strati globali valle", out var valleyCard)) valleyCard.Visibility = Data["global_stability"].S("soil_mode") == "Due colonne" ? Visibility.Visible : Visibility.Collapsed;
         GlobalDrawing.Data = Data; GlobalDrawing.Result = GlobalResult; GlobalDrawing.Case = GlobalCase; GlobalDrawing.InvalidateVisual();
         if (globalPreview is not null) { globalPreview.Data = Data; globalPreview.Result = GlobalResult; globalPreview.Case = GlobalCase; globalPreview.InvalidateVisual(); }
         if (Forms.TryGetValue("global", out var form))
         {
+            form.ShowField("soil_split_x", Data["global_stability"].S("soil_mode") == "Due colonne");
             bool manual = Data["global_stability"].B("seismic") && Data["global_stability"].S("seismic_source") == "kh e kv assegnati";
             form.ShowField("seismic_source", Data["global_stability"].B("seismic")); form.ShowField("kh", manual); form.ShowField("kv", manual);
         }
@@ -95,7 +121,7 @@ internal sealed partial class RetainingWallWorkspace
         if (GlobalResult is not { } result) return Ui.Text(independentGlobalError ?? Calculation?.GlobalError ?? "Attivare la stabilità globale in Input → Terreno e completare profilo, strati e ricerca.", 13);
         var table = Table(["Caso", "F", "γR", "η=γR/F", "xc [m]", "yc [m]", "R [m]", "Risolte / provate", "Esito"], result.Cases.Select(c => new[] { c.Factors.Name, c.Critical is { } s ? F(s.Factor) : "—", F(c.Factors.R), c.Critical is { } q ? q.Ratio.ToString("0.000", It) : "—", c.Critical is { } a ? F(a.Circle.X) : "—", c.Critical is { } b ? F(b.Circle.Y) : "—", c.Critical is { } e ? F(e.Circle.Radius) : "—", $"{c.Solved}/{c.Tried}", c.Status }));
         table.Height = 155; table.SelectionChanged += (_, _) => { if (table.SelectedIndex >= 0) GlobalCombination.SelectedItem = result.Cases[table.SelectedIndex].Factors.Name; };
-        var panel = Ui.Stack(Ui.Text(RetainingWall.GlobalHelp, 11), table, Ui.Text(BishopSolver.Formula, 11));
+        var panel = Ui.Stack(Ui.Text(GlobalResultExplanation, 12), Ui.Button("Modifica profilo, strati e ricerca", ShowGlobalSetup, inspection: true), table, Ui.Text(BishopSolver.Formula, 11));
         if (GlobalCase?.Critical is { } critical)
         {
             var c = GlobalCase;
@@ -120,7 +146,7 @@ internal sealed partial class RetainingWallWorkspace
                 var result = await Task.Run(() => RetainingWall.CalculateGlobal(snapshot, token));
                 if (disposed || request != revision) return;
                 independentGlobal = result; independentGlobalInput = snapshot;
-                GlobalCombination.ItemsSource = result.Cases.Select(c => c.Factors.Name).ToArray(); GlobalCombination.SelectedItem = result.Cases.OrderBy(c => c.Critical?.Factor ?? double.PositiveInfinity).First().Factors.Name;
+                GlobalCombination.ItemsSource = result.Cases.Select(c => c.Factors.Name).ToArray(); GlobalCombination.SelectedItem = result.Cases.OrderByDescending(c => c.Critical?.Ratio ?? double.PositiveInfinity).First().Factors.Name;
                 ViewMode.SelectedItem = "Stabilità globale"; CheckFilter.SelectedItem = "Stabilità globale"; Pages.SelectedIndex = 1; RefreshGlobal(); ShowCheckTable();
                 status.Text = "Stabilità globale aggiornata · " + result.Cases.Length + " combinazioni. Le verifiche locali hanno un calcolo indipendente.";
             }

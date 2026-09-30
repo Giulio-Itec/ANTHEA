@@ -23,7 +23,8 @@ try
     if (args.Length == 2 && args[0] == "--micropalo") { MicropileChecks.Run(JsonNode.Parse(File.ReadAllText(args[1]))!.AsArray()); return 0; }
     if (args.Length == 1 && args[0] == "--coesione") { CohesionChecks.Run(); return 0; }
     if (args.Length == 1 && args[0] == "--gamma-sat") { SaturatedWeightChecks.Run(); return 0; }
-    if (args.Length == 1 && args[0] == "--horizontal") { Console.WriteLine($"Palo orizzontale: {HorizontalChecks.Run()} controlli superati."); HorizontalChsChecks.Run(); return 0; }
+    if (args.Length == 1 && args[0] == "--horizontal-stratified") { HorizontalStratifiedChecks.Run(); return 0; }
+    if (args.Length == 1 && args[0] == "--horizontal") { Console.WriteLine($"Palo orizzontale: {HorizontalChecks.Run()} controlli superati."); HorizontalChsChecks.Run(); HorizontalStratifiedChecks.Run(); return 0; }
     if (args.Length == 1 && args[0] == "--checker") { SectionWorkspaceChecks.Run(); SectionExchangeChecks.Run(); ConcreteEnhancementChecks.Run(); ConcreteDataChecks.Run(); return 0; }
     if (args.Length == 1 && args[0] == "--ca-module") { ConcreteModuleChecks.Run(); return 0; }
     if (args.Length == 2 && args[0] == "--ca-benchmark") { ConcreteBenchmark.Run(args[1]); return 0; }
@@ -88,6 +89,7 @@ try
         try { softwareChecks += SectionExchangeChecks.Run(); } catch (Exception ex) { failed++; Console.WriteLine("FAIL Excel azioni: " + ex); }
         try { softwareChecks += ConcreteEnhancementChecks.Run(); } catch (Exception ex) { failed++; Console.WriteLine("FAIL estensioni CA: " + ex); }
         try { softwareChecks += HorizontalChecks.Run(); } catch (Exception ex) { failed++; Console.WriteLine("FAIL palo orizzontale: " + ex); }
+        try { softwareChecks += HorizontalStratifiedChecks.Run(); } catch (Exception ex) { failed++; Console.WriteLine("FAIL palo stratificato: " + ex); }
     }
     var report = J.Obj(("casi_superati", count), ("controlli_software_superati", softwareChecks), ("casi_falliti", failed), ("valori_numerici_confrontati", numbers), ("massimo_delta_assoluto", maxAbs), ("massimo_delta_relativo_scalato", maxRel), ("percorso_massimo_delta", maxPath), ("tolleranza_assoluta", 1e-8), ("tolleranza_relativa", 1e-10));
     Console.WriteLine(report.ToJsonString(J.Options)); if (args.Length > 1) File.WriteAllText(args[1], report.ToJsonString(J.Options)); return failed == 0 ? 0 : 1;

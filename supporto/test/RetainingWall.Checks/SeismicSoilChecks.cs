@@ -37,7 +37,7 @@ internal static class SeismicSoilChecks
         Check(cases.All(c => c.Factors.D("rslide") == 1 && c.Factors.D("rover") == 1 && c.Factors.D("rbearing") == 1.2), "Coefficienti SLV tabella 7.11.III");
         Check(result.Checks.Where(c => c.Name == "Ribaltamento" && cases.Any(sc => sc.Name == c.Combination)).All(c => c.Combination.Contains("Ribaltamento")), "Verifica ribaltamento usa i casi dedicati");
         Check(result.Structural.All(c => !c.Combination.Contains("Ribaltamento")), "Casi di ribaltamento separati dalle verifiche strutturali");
-        Check(cases.All(c => c.BearingResistance is null), "Portanza sismica resta esplicitamente indisponibile");
+        Check(cases.All(c => c.SeismicBearing is not null && c.BearingResistance is >= 0), "Portanza sismica con inerzia del terreno e interazione N–V–M");
         var custom = (JsonObject)result.Input.DeepClone(); custom["combination_mode"] = "Personalizzate"; custom["combination_signature"] = RetainingWall.CombinationSignature(custom);
         custom["seismic"]!["ag_g"] = .25; Reject(() => RetainingWall.Calculate(custom), "Variazione del sito invalida la matrice personalizzata");
         byte[] report = ReportRetainingWall.Create("Sisma da parametri del sito", result); File.WriteAllBytes(Path.Combine(directory, "sisma-sito.docx"), report);

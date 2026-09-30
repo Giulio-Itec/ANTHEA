@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -23,7 +23,7 @@ public sealed partial class MainWindow
             ((CheckBox)w.Forms["global"].Editors["enabled"]).IsChecked = true;
             await w.CalculateAsync();
             Check(w.Calculation!.GlobalError!.Contains("confermare") && w.Calculation.Cases.Count > 0, "Profilo da confermare: mantiene i risultati locali e segnala la globale");
-            ((CheckBox)w.Forms["global"].Editors["profile_confirmed"]).IsChecked = true; w.Forms["global_search"].Set("depth_min", "0.1");
+            ((CheckBox)w.Forms["global"].Editors["profile_confirmed"]).IsChecked = true; w.Forms["global_search_mode"].Set("search_mode", "Assegnata"); w.Forms["global_search"].Set("depth_min", "0.1");
             await w.CalculateAsync();
             Check(w.GlobalResult is { Cases.Length: > 0 } && w.Calculation!.GlobalError is null, "Calcolo globale dalla UI");
             Check(w.Calculation!.Checks.Any(c => c.Name.Contains("Bishop")), "Verifica globale nel riepilogo completo");
@@ -41,7 +41,7 @@ public sealed partial class MainWindow
             editor.ExportReport(Path.Combine(directory, "muro-con-globale.docx"), "Muro con stabilità globale", []);
             using (var zip = System.IO.Compression.ZipFile.OpenRead(Path.Combine(directory, "muro-con-globale.docx")))
                 Check(zip.Entries.Count(e => e.FullName.StartsWith("word/media/")) == 5, "Relazione completa include la figura globale");
-            w.Forms["foundation"].Set("delta", "1"); await w.CalculateAsync(); Check(w.Calculation is null, "Input locale fuori campo invalida solo il calcolo ordinario");
+            w.Forms["foundation"].Set("delta", "40"); await w.CalculateAsync(); Check(w.Calculation is null, "Input locale fuori campo invalida solo il calcolo ordinario");
             await w.CalculateGlobalAsync(); Check(w.GlobalResult is not null && w.Calculation is null, "Calcola solo globale indipendente dalle verifiche locali");
             File.WriteAllBytes(Path.Combine(directory, "globale-autonoma.docx"), ReportRetainingWall.CreateGlobal(w.Data, w.GlobalResult!, new("Superficie critica", Ui.Snapshot(w.GlobalDrawing), w.GlobalDrawing.ActualWidth / w.GlobalDrawing.ActualHeight)));
             File.WriteAllText(Path.Combine(directory, "globale-conci.csv"), ReportRetainingWall.GlobalCsv(w.GlobalResult!));

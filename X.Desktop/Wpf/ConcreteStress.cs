@@ -53,7 +53,7 @@ internal sealed partial class ConcreteWorkspace
             panel.Options.GroupFields("Fessurazione · disposizione delle barre", ["copriferro_fessure", "spaziatura_fessure"]);
             panel.Options.GroupFields("Avanzate · CLS teso e assi", ["trazione_cls", "assi", "origine_x", "origine_y", "rotazione"]);
             SynchronizeHomogenization(key); EnableOptions();
-            var instructions = Notice("Analisi Checker lineare/non lineare. Rara: limiti CLS e acciaio; quasi permanente: limite CLS. Frequente: nessun limite tensionale automatico. φ è il coefficiente di viscosità. Fessurazione: NTC/UNI frequente e quasi permanente; altri EC2 quasi permanente, salvo NS XD3/XS3 frequente. Model Code richiede wlim di progetto. Il limite assegnato sostituisce quello EC2 (tranne UNI) e va motivato nel progetto. L’apertura richiede analisi lineare con CLS teso escluso.");
+            var instructions = Notice("Analisi GPC Engine lineare/non lineare. Rara: limiti CLS e acciaio; quasi permanente: limite CLS. Frequente: nessun limite tensionale automatico. φ è il coefficiente di viscosità. Fessurazione: NTC/UNI frequente e quasi permanente; altri EC2 quasi permanente, salvo NS XD3/XS3 frequente. Model Code richiede wlim di progetto. Il limite assegnato sostituisce quello EC2 (tranne UNI) e va motivato nel progetto. L’apertura richiede analisi lineare con CLS teso escluso.");
             var combinationChoice=Ui.Choice(SectionWorkspace.Sets.Skip(2).Select(SectionWorkspace.Label).ToArray(),SectionWorkspace.Label(key));
             RevisionInspection.Allow(combinationChoice); RevisionInspection.Allow(panel.Regions);
             combinationChoice.SelectionChanged+=(_,_)=>{if(combinationChoice.SelectedIndex>=0)sleTabs.SelectedIndex=combinationChoice.SelectedIndex;};
@@ -153,7 +153,7 @@ internal sealed partial class ConcreteWorkspace
             panel.Detail.Text = panel.Detail.Text.Replace("TENSIONI · NTC 2018", "TENSIONI · " + settings.S("normativa"));
             panel.Detail.Text += $"\n\nOMOGENEIZZAZIONE\nn armature = {EngineeringFormat.Number(options.D("n_armature"))} · φ = {EngineeringFormat.Number(options.D("phi"))}";
             if (tendons.Rows.Count > 0) panel.Detail.Text += $"\nn trefoli = {EngineeringFormat.Number(options.D("n_trefoli"))} · φp = {EngineeringFormat.Number(options.D("phi_trefoli"))}\nCon Ep diversi, n trefoli è riferito al primo materiale; φp è comune.";
-            panel.Detail.Text += "\nn = Eacciaio (1 + φ) / Ec. Deformazioni incrementali dalle API Checker.";
+            panel.Detail.Text += "\nn = Eacciaio (1 + φ) / Ec. Deformazioni incrementali da GPC Engine.";
             for (int i = 0; i < state.tensioni_barre.Length; i++)
             {
                 double stress = state.tensioni_barre[i]; string id = i < ordinary ? "B" + (i + 1).ToString("D2") : settings.Array("trefoli").ElementAtOrDefault(i - ordinary).S("id", "T" + (i - ordinary + 1));

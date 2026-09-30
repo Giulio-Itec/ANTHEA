@@ -1,4 +1,4 @@
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using GpcCase = GPC.Model.LoadCases.LoadCase;
 using GpcCombination = GPC.Model.Combinations.Combination;
 
@@ -7,7 +7,7 @@ namespace Anthea.Calculations;
 public static partial class RetainingWall
 {
     public const string ApproachHelp = "A modifica le azioni; M riduce i parametri del terreno (tan φd = tan φk / γMφ); R divide le resistenze. Per i muri NTC 2018 §6.5.3.1.1 il preset locale è Approccio 2: A1+M1+R3, con γR = 1,10 scorrimento, 1,15 ribaltamento, 1,40 portanza. A1+M1+R1 appartiene alla combinazione 1 dell’Approccio 1 e non sostituisce la verifica A2+M2+R2. La stabilità globale A2+M2+R2 richiede un’analisi dedicata. Nella matrice ogni riga espone i fattori realmente usati: modificarli produce una combinazione personalizzata, non una certificazione dell’approccio.";
-    public const string SeismicHelp = "Mononobe–Okabe: muro capace di mobilitare lo stato attivo, paramento liscio verticale e riempimento orizzontale. Wood semplificato: muro rigido non cedevole, K₀ = 1−sin φ, ΔP = kh·γ·Ht², incremento uniforme con risultante a Ht/2 (idealizzazione adottata, non soluzione elastica completa di Wood). Per entrambi: terreno omogeneo asciutto. kh e ±kv assegnati oppure ricavati dai parametri del sito allo SLV: βm=0,38 per muro libero (MO), βm=1 per muro vincolato (Wood), βm maggiorato per il ribaltamento. La riduzione presuppone spostamenti compatibili con l’opera. Per Wood il sovraccarico conserva la sola componente statica K₀q. Le verifiche sismiche restano locali, con portanza sismica e spostamenti da completare.";
+    public const string SeismicHelp = "Mononobe–Okabe: muro capace di mobilitare lo stato attivo, piano verticale e riempimento orizzontale; attrito sul paramento reale, nullo sul piano virtuale con mensola. Wood semplificato: muro rigido non cedevole, K₀ = 1−sin φ, ΔP = kh·γ·Ht², incremento uniforme con risultante a Ht/2 (idealizzazione adottata, non soluzione elastica completa di Wood). Per entrambi: terreno omogeneo asciutto. kh e ±kv assegnati oppure ricavati dai parametri del sito allo SLV: βm=0,38 per muro libero (MO), βm=1 per muro vincolato (Wood), βm maggiorato per il ribaltamento. La riduzione presuppone spostamenti compatibili con l’opera. Per Wood il sovraccarico conserva la sola componente statica K₀q. Le verifiche sismiche restano locali, con portanza sismica e spostamenti da completare.";
     public static readonly string[] ActionTypes = ["Sovraccarico uniforme", "Forza orizzontale", "Forza verticale", "Momento", "Pressione laterale", "Urto"];
     public static readonly string[] ActionCategories = ["G1", "G2", "Q", "A"];
     public static readonly string[] States = ["SLU", "SLE", "SLE_FREQ", "SLE_QP", "SISMA", "ECCEZIONALE"];
@@ -21,6 +21,8 @@ public static partial class RetainingWall
     {
         CompleteSeismicInput(d);
         CompleteGlobalInput(d);
+        CompleteSoilInput(d);
+        CompleteAdvancedInput(d);
         if (d.D("version") >= 2) return;
         var actions = new JsonArray(); var l = d["loads"]!;
         foreach (var (key, type) in new[] { ("surcharge", ActionTypes[0]), ("horizontal", ActionTypes[1]), ("vertical", ActionTypes[2]) })
@@ -49,16 +51,20 @@ public static partial class RetainingWall
         var result = new JsonArray(); var seen = new HashSet<string>();
         void Add(string state, string label, double wall, double soil, double water, Dictionary<string, double> factors, double kh = 0, double kv = 0, string purpose = "")
         {
+            foreach (double valleyFactor in state == "SLU" && ValleyHeight(d) > 0 ? new[] { 1d, 1.3 } : new[] { 1d }) AddRow(state, label, wall, soil, water, factors, kh, kv, purpose, valleyFactor);
+        }
+        void AddRow(string state, string label, double wall, double soil, double water, Dictionary<string, double> factors, double kh, double kv, string purpose, double valleyFactor)
+        {
             // GPC Model owns the load-case/coefficient association; the wall adapter enumerates
             // independent favourable/unfavourable G effects, per-action psi and accidental events.
             var combination = new GpcCombination(label);
             foreach (var a in actions) combination.AddLoadCaseCoefficient(native[a.S("id")], factors.GetValueOrDefault(a.S("id")));
             var coefficients = new JsonObject(); foreach (var a in d.Array("actions")) coefficients[a.S("id")] = a.B("enabled") ? combination.GetLoadCaseCoefficient(native[a.S("id")]) : 0;
-            string fingerprint = $"{state}/{purpose}/{wall}/{soil}/{water}/{kh}/{kv}/" + coefficients.ToJsonString(); if (!seen.Add(fingerprint)) return;
+            string fingerprint = $"{state}/{purpose}/{wall}/{soil}/{water}/{kh}/{kv}/{valleyFactor}/" + coefficients.ToJsonString(); if (!seen.Add(fingerprint)) return;
             if (result.Count >= 4096) throw new ArgumentException("Oltre 4096 combinazioni: raggruppare le azioni correlate o predisporre una matrice personalizzata.");
             bool design = state is "SLU" or "SISMA";
             result.Add(J.Obj(("enabled", true), ("name", label + " " + (result.Count + 1)), ("state", state), ("approach", design ? "A1+M1+R3" : state == "ECCEZIONALE" ? "Eccezionale · M1/R=1" : "SLE"),
-                ("wall", wall), ("soil", soil), ("water", water), ("mphi", 1), ("rslide", design ? 1.1 : 1), ("rover", design ? 1.15 : 1), ("rbearing", design ? 1.4 : 1), ("kh", kh), ("kv", kv), ("coefficients", coefficients)));
+                ("wall", wall), ("soil", soil), ("valley_soil", valleyFactor), ("water", water), ("mphi", 1), ("rslide", design ? 1.1 : 1), ("rover", design ? 1.15 : 1), ("rbearing", design ? 1.4 : 1), ("kh", kh), ("kv", kv), ("coefficients", coefficients)));
             if (state == "SISMA") result[^1]!["approach"] = "Sismica · M1/R3";
             if (purpose != "")
             {
@@ -134,6 +140,7 @@ public static partial class RetainingWall
             if (!c.B("enabled")) continue; any = true;
             if (string.IsNullOrWhiteSpace(c.S("name")) || !names.Add(c.S("name")) || !States.Contains(c.S("state"))) throw new ArgumentException("Combinazioni: nome univoco e stato limite valido obbligatori.");
             if (c.S("purpose") is not ("" or "Generale" or "Ribaltamento") || c.S("purpose") != "" && c.S("state") != "SISMA") throw new ArgumentException("Destinazione della combinazione sismica non valida.");
+            if (c["valley_soil"] is not null && c.Required("valley_soil") > 5) throw new ArgumentException("Coefficiente terreno valle fuori campo.");
             foreach (string key in new[] { "wall", "soil", "water", "mphi", "rslide", "rover", "rbearing", "kh" }) if (c.Required(key, minimum: key is "mphi" or "rslide" or "rover" or "rbearing" ? .1 : 0) > (key == "kh" ? .4 : 5)) throw new ArgumentException("Coefficiente fuori campo: " + key);
             if (J.Number(c["kv"]) is not double kv || Math.Abs(kv) > .2) throw new ArgumentException("kv deve essere compreso fra −0,2 e +0,2.");
             if ((c.D("kh") != 0 || kv != 0) && (c.S("state") != "SISMA" || !d["seismic"].B("enabled"))) throw new ArgumentException("kh/kv ammessi soltanto in combinazioni SISMA con sisma abilitato.");

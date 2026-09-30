@@ -1,4 +1,4 @@
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using Anthea.Calculations.Geotechnics;
 using GpcCase = GPC.Model.LoadCases.LoadCase;
 using GpcCombination = GPC.Model.Combinations.Combination;
@@ -19,14 +19,15 @@ public static partial class RetainingWall
             ("seismic_source", "Da sito · βs=0,38"), ("kh", ""), ("kv", ""), ("profile_confirmed", false),
             ("valley", new JsonArray()), ("uphill", new JsonArray()), ("layers", new JsonArray()), ("water", new JsonArray()),
             ("exit_min", ""), ("exit_max", ""), ("entry_min", ""), ("entry_max", ""), ("depth_min", .5), ("depth_max", ""),
-            ("grid", 9), ("slices", 60), ("refinements", 4), ("combination_mode", "Automatiche"), ("combinations", new JsonArray()));
+            ("grid", 9), ("slices", 60), ("refinements", 4), ("search_mode", "Automatica"), ("combination_mode", "Automatiche"), ("combinations", new JsonArray()));
     }
     public static void PrepareGlobalProfile(JsonObject d)
     {
         CompleteGlobalInput(d); var global = d["global_stability"]!.AsObject(); var g = d["geometry"]!;
         double height = g.D("height") + g.D("slab"), back = g.D("toe") + g.D("stem_base"), width = back + g.D("heel"), span = Math.Max(10, height * 4);
         JsonObject Point(double x, double y) => J.Obj(("x", x), ("y", y));
-        global["valley"] = new JsonArray(Point(-span, 0), Point(0, 0));
+        double dv = ValleyHeight(d);
+        global["valley"] = new JsonArray(Point(-span, dv), Point(0, dv));
         global["uphill"] = new JsonArray(Point(back, height), Point(width + span, height));
         double bottom = height; var layers = new JsonArray();
         foreach (var layer in d.Array("layers"))
@@ -34,13 +35,35 @@ public static partial class RetainingWall
             bottom -= layer.D("thickness"); layers.Add(J.Obj(("name", layer.S("name")), ("bottom", bottom), ("gamma", layer.D("gamma")), ("gamma_sat", layer.D("gamma_sat")), ("phi", layer.D("phi")), ("c", 0), ("cu", "")));
         }
         global["layers"] = layers; global["profile_confirmed"] = false;
+        double valleyBottom = dv; var valleyLayers = new JsonArray();
+        foreach (var layer in ValleyLayers(d)) { valleyBottom -= layer.D("thickness"); valleyLayers.Add(J.Obj(("name", layer.S("name")), ("bottom", valleyBottom), ("gamma", layer.D("gamma")), ("gamma_sat", layer.D("gamma_sat")), ("phi", layer.D("phi")), ("c", 0), ("cu", ""))); }
+        global["valley_layers"] = valleyLayers; global["soil_mode"] = "Due colonne"; global["soil_split_x"] = back;
+        bottom = Math.Max(bottom, valleyBottom);
         global["water_enabled"] = d["water"].B("enabled");
         double ywater = height - d["water"].D("depth");
-        global["water"] = new JsonArray(Point(-span, Math.Min(0, ywater)), Point(0, Math.Min(0, ywater)), Point(back, ywater), Point(width + span, ywater));
+        global["water"] = new JsonArray(Point(-span, d["water"].D("front_head")), Point(0, d["water"].D("front_head")), Point(back, ywater), Point(width + span, ywater));
         global["exit_min"] = -span; global["exit_max"] = -.1; global["entry_min"] = width + .1; global["entry_max"] = width + span;
         global["depth_max"] = bottom < -.6 ? Math.Min(-bottom, height * 2) : JsonValue.Create("");
         global["seismic"] = d["seismic"].B("enabled");
         global["combination_mode"] = "Automatiche";
+        global["search_mode"] = "Automatica";
+        ProposeGlobalSearch(d);
+    }
+    /// <summary>UI proposal only: uses the surveyed extent and the shallower known soil column; never extends geology.</summary>
+    public static void ProposeGlobalSearch(JsonObject d)
+    {
+        var g = d["global_stability"]!; var geometry = d["geometry"]!;
+        double width = geometry.D("toe") + geometry.D("stem_base") + geometry.D("heel");
+        JsonNode NumberOrBlank(double value) => double.IsFinite(value) ? JsonValue.Create(value)! : JsonValue.Create("")!;
+        double End(JsonArray points, string key, bool minimum) => points.Count > 0 && points.All(p => J.Number(p?[key]) is double n && double.IsFinite(n))
+            ? minimum ? points.Min(p => p.D(key)) : points.Max(p => p.D(key)) : double.NaN;
+        g["exit_min"] = NumberOrBlank(End(g.Array("valley"), "x", true)); g["exit_max"] = -.1;
+        g["entry_min"] = width + .1; g["entry_max"] = NumberOrBlank(End(g.Array("uphill"), "x", false));
+        var columns = g.S("soil_mode") == "Due colonne" ? new[] { g.Array("layers"), g.Array("valley_layers") } : new[] { g.Array("layers") };
+        double bottom = columns.All(c => c.Count > 0 && J.Number(c[^1]?["bottom"]) is double n && double.IsFinite(n))
+            ? columns.Max(c => c[^1].D("bottom")) : double.NaN;
+        double depth = Math.Min(-bottom, 2 * (geometry.D("height") + geometry.D("slab")));
+        g["depth_min"] = .1; g["depth_max"] = NumberOrBlank(depth > .1 ? depth : double.NaN);
     }
     public static string GlobalSignature(JsonObject d) => CombinationSignature(d) + "|global/" + string.Join("/", new[] { "seismic", "seismic_source", "kh", "kv" }.Select(k => d["global_stability"].S(k)));
     public static JsonArray GenerateGlobalCombinations(JsonObject input)
@@ -99,15 +122,17 @@ public static partial class RetainingWall
         var valley = Points("valley"); var uphill = Points("uphill"); var geometry = d["geometry"]!;
         double h = GlobalNumber(geometry, "height", .2, 15), t = GlobalNumber(geometry, "slab", .15, 4), a = GlobalNumber(geometry, "toe", 0, 12), stem = GlobalNumber(geometry, "stem_base", .15, 8), back = a + stem, width = back + GlobalNumber(geometry, "heel", 0, 12);
         _ = GlobalNumber(geometry, "stem_top", .15, stem);
-        if (valley.Length < 2 || uphill.Length < 2 || Math.Abs(valley[^1].X) > 1e-8 || Math.Abs(valley[^1].Y) > 1e-8 || Math.Abs(uphill[0].X - back) > 1e-8 || Math.Abs(uphill[0].Y - h - t) > 1e-8 || uphill[1].X < width) throw new ArgumentException("Profilo globale: valle termina in (0;0), monte inizia in (a+s₀;H+t); il punto successivo deve superare la fondazione. Aggiornare il profilo dopo modifiche geometriche.");
+        if (valley.Length < 2 || uphill.Length < 2 || Math.Abs(valley[^1].X) > 1e-8 || Math.Abs(valley[^1].Y - ValleyHeight(d)) > 1e-8 || Math.Abs(uphill[0].X - back) > 1e-8 || Math.Abs(uphill[0].Y - h - t) > 1e-8 || uphill[1].X < width) throw new ArgumentException("Profilo globale: valle termina in (0;Dv), monte inizia in (a+s₀;H+t); il punto successivo deve superare la fondazione. Aggiornare il profilo dopo modifiche geometriche.");
         if (!Families.Any(f => f.Id == d.S("family") && f.Available) || d["extensions"]!.AsObject().Count != 0) throw new ArgumentException("Stabilità globale: tipologia o componenti del muro non supportati.");
         var bodyPoints = Outline(d).Select(p => new SlopePoint(p[0], p[1])).ToArray();
         var body = new SlopeBody("Muro · " + d.S("family"), bodyPoints, GlobalNumber(d["materials"]!, "gamma", 12, 30));
         var props = SlopeGeometry.Properties(bodyPoints);
         if (props.Area <= 0 || geometry.D("stem_top") > stem) throw new ArgumentException("Geometria del muro non valida.");
-        var surface = valley.Concat(new[] { new SlopePoint(0, t), new SlopePoint(a, t), new SlopePoint(back - geometry.D("stem_top"), h + t) }).Concat(uphill).Distinct().ToArray();
+        var surface = GlobalSurface(d, valley, uphill);
         if (uphill.Any(p => p.Y < h + t - 1e-8 && p.X <= width)) throw new ArgumentException("Il profilo globale non può scendere attraverso il riempimento sopra la fondazione.");
-        var soils = g.Array("layers").Select(l => new SlopeSoil(l.S("name"), GlobalNumber(l!, "bottom"), GlobalNumber(l!, "gamma"), GlobalNumber(l!, "gamma_sat"), GlobalNumber(l!, "phi", 0, 50), GlobalNumber(l!, "c", 0), g.S("condition") == "Non drenata" ? GlobalNumber(l!, "cu", .001) : J.Number(l!["cu"]) ?? 0)).ToArray();
+        SlopeSoil[] ReadSoils(string key) => g.Array(key).Select(l => new SlopeSoil(l.S("name"), GlobalNumber(l!, "bottom"), GlobalNumber(l!, "gamma"), GlobalNumber(l!, "gamma_sat"), GlobalNumber(l!, "phi", 0, 50), GlobalNumber(l!, "c", 0), g.S("condition") == "Non drenata" ? GlobalNumber(l!, "cu", .001) : J.Number(l!["cu"]) ?? 0)).ToArray();
+        var soils = ReadSoils("layers");
+        if (g.S("soil_mode", "Profilo unico") is not ("Profilo unico" or "Due colonne")) throw new ArgumentException("Modalità stratigrafia globale non valida.");
         var loads = d.Array("actions").Where(l => l.B("enabled")).Select(l => l.S("type") switch
         {
             "Sovraccarico uniforme" => new SlopeLoad(l.S("id"), back, uphill[^1].X, h + t, l.D("value"), 0, 0, true),
@@ -134,7 +159,9 @@ public static partial class RetainingWall
         }).ToArray();
         int Integer(string key) { double v = GlobalNumber(g, key); if (v % 1 != 0) throw new ArgumentException("Valore intero richiesto: " + key); return (int)v; }
         var search = new SlopeSearch(GlobalNumber(g, "exit_min"), GlobalNumber(g, "exit_max"), GlobalNumber(g, "entry_min"), GlobalNumber(g, "entry_max"), GlobalNumber(g, "depth_min"), GlobalNumber(g, "depth_max"), Integer("grid"), Integer("slices"), Integer("refinements"));
-        var section = new SlopeSection(surface, soils, g.B("water_enabled") ? Points("water") : [], [body], loads, 0, width);
+        var section = new SlopeSection(surface, soils, g.B("water_enabled") ? Points("water") : [], [body], loads, 0, width)
+        { ValleySoils = g.S("soil_mode") == "Due colonne" ? ReadSoils("valley_layers") : [], SoilSplitX = g.S("soil_mode") == "Due colonne" ? GlobalNumber(g, "soil_split_x", 0, width) : 0 };
+        if (g.S("soil_mode") == "Due colonne" && section.ValleySoils.Length == 0) throw new ArgumentException("Completare gli strati globali di valle.");
         var result = SlopeStability.Calculate(section, search, factors, token);
         return result with { Notes = result.Notes.Concat(new[] { GlobalHelp, $"Muro: area GPC {props.Area:0.####} m²; baricentro ({props.Centroid.X:0.####}; {props.Centroid.Y:0.####}) m; γ={body.Gamma:0.###} kN/m³. Materiali del muro condivisi con le verifiche locali GPC; parametri geotecnici del profilo globale indipendenti e dichiarati." }).ToArray() };
     }

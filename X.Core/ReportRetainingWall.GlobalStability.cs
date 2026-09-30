@@ -1,4 +1,4 @@
-using Anthea.Calculations.Geotechnics;
+﻿using Anthea.Calculations.Geotechnics;
 using System.Text.Json.Nodes;
 
 namespace X.Core;
@@ -22,6 +22,11 @@ public static partial class ReportRetainingWall
         doc.P("Modello della sezione globale · coordinate in metri dal piede di valle", true);
         doc.Table(["Punto profilo", "x [m]", "y [m]"], result.Section.Surface.Select((p, i) => new[] { (i + 1).ToString(), F(p.X), F(p.Y) }), [2, 1, 1]);
         doc.Table(["Terreno", "Fondo y [m]", "γ / γsat [kN/m³]", "φ′k [°]", "c′ / cu [kPa]"], result.Section.Soils.Select(s => new[] { s.Name, F(s.Bottom), F(s.Gamma) + " / " + F(s.GammaSat), F(s.Phi), F(s.Cohesion) + " / " + F(s.Cu) }), [2, 1, 1.5, 1, 1.2]);
+        if (result.Section.ValleySoils.Length > 0)
+        {
+            doc.P($"Due colonne: valle per x<{F(result.Section.SoilSplitX)} m; monte per x≥{F(result.Section.SoilSplitX)} m. Confine verticale assegnato; le quote degli interstrati sono indipendenti.");
+            doc.Table(["Terreno valle", "Fondo y [m]", "γ / γsat [kN/m³]", "φ′k [°]", "c′ / cu [kPa]"], result.Section.ValleySoils.Select(s => new[] { s.Name, F(s.Bottom), F(s.Gamma) + " / " + F(s.GammaSat), F(s.Phi), F(s.Cohesion) + " / " + F(s.Cu) }), [2, 1, 1.5, 1, 1.2]);
+        }
         if (result.Section.Water.Length > 0) doc.Table(["Punto falda", "x [m]", "y [m]"], result.Section.Water.Select((p, i) => new[] { (i + 1).ToString(), F(p.X), F(p.Y) }), [2, 1, 1]); else doc.P("Falda globale assente.");
         var q = result.Search;
         doc.P($"Ricerca: uscita x={F(q.ExitMin)}…{F(q.ExitMax)} m; ingresso x={F(q.EntryMin)}…{F(q.EntryMax)} m; profondità sotto y=0: {F(q.DepthMin)}…{F(q.DepthMax)} m. Griglia {q.Grid}³, {q.Refinements} raffinamenti, {q.Slices} conci iniziali e controllo a {2 * q.Slices} sulla superficie minima.");

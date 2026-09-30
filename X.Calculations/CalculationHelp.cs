@@ -5,6 +5,7 @@ public static class CalculationHelp
 {
     public static string? Field(string key) => key switch
     {
+        "metodo_calcolo" => "Broms: terreni della stessa famiglia, con risultante concentrata al piede nel granulare. Stratificato: estensione sperimentale con reazioni distribuite ed equilibrio globale, anche per alternanze coesivo/granulare. Nei granulari corti e intermedi i due modelli possono dare capacità diverse.",
         "limite_fessure" => "Limite di apertura wlim in mm. Vuoto: tabella nazionale per EC2; Model Code richiede una scelta di progetto. Per NTC e UNI si applica il criterio italiano per esposizione e combinazione. Un limite di progetto diverso va motivato nella relazione.",
         "eccentricita_mc_x" or "eccentricita_mc_y" => "Eccentricità Δe usata per la deformazione longitudinale MC2010 (7.3-16), in mm, positiva verso il lembo compresso. Non sommare di nuovo l’eccentricità già inclusa nel momento M della riga.",
         "aggregato" => "Dimensione massima dell’aggregato dg in mm. Dato condiviso dai dettagli costruttivi e dal taglio: MC2010 usa dg=0 oltre C70; NS distingue dg minore di 16 mm.",
@@ -47,6 +48,7 @@ public static class CalculationHelp
     public const string PileTheory = "Palo verticale: la resistenza laterale è integrata per strato e combinata con la resistenza di punta; " +
         "falda, condizioni drenate/non drenate, correlazione delle indagini e coefficienti di resistenza restano distinti. " +
         "Palo orizzontale: Broms equilibra la reazione limite del terreno con H e il momento H·e, individuando il meccanismo corto, intermedio o lungo. " +
+        "Il metodo Stratificato, selezionabile nelle opzioni avanzate, ammette anche alternanze coesivo/granulare e chiude l'equilibrio con reazioni distribuite; nel granulare corto/intermedio differisce dalla forza concentrata di Broms. " +
         "Il momento resistente della sezione c.a. viene da Checker a N costante, con lo stesso modello del modulo strutturale e prendendo il minore dei due versi Mx. " +
         "Il residuo assiale è mostrato con la tolleranza di accettazione, senza confonderlo con un confronto fra mesh. " +
         "Broms è un modello di capacità ultima: spostamenti SLE, ciclicità, secondo ordine e duttilità delle cerniere richiedono verifiche dedicate. " +

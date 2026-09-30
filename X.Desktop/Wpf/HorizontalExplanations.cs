@@ -15,7 +15,8 @@ internal sealed partial class HorizontalWorkspace
             "• Lungo: cerniera interna e, con testa impedita, anche in testa.\n\n" +
             "Testa libera: confronto corto/lungo. Testa impedita: corto/intermedio/lungo. La scelta non dipende dal solo rapporto L/D.\n\n" +
             "Rk = min(Hu,media/ξ3; Hu,min/ξ4).\nRd = η · Rk/1,3. Verifica soddisfatta se HEd ≤ Rd.\n\n" +
-            "I grafici rappresentano lo stato ultimo. Per pali lunghi il tratto sotto la cerniera interna non è rappresentato: ciò non implica reazioni nulle. Il multistrato resta un’estensione sperimentale; le altre verifiche strutturali e di esercizio sono escluse.",
+            "In Opzioni avanzate, Stratificato abilita anche alternanze coesivo/granulare con equilibrio globale e reazioni distribuite. Nei granulari corti/intermedi differisce dalla chiusura concentrata di Broms.\n\n" +
+            "Diagrammi e dettagli mostra tensioni verticali, pressioni laterali, reazioni, taglio, momento e risultante limite su tutta la profondità. Il tratto sotto la cerniera interna è tratteggiato perché idealizzato; l'anteprima compatta mostra solo il ramo superiore. Riferimenti: Viggiani, Broms, Wood/NZGS (Broms Modified) e FHWA GEC 9, consultabili nei risultati. I grafici sono alla capacità Hu, senza spostamenti o rotazioni; l’estensione stratificata resta sperimentale.",
             12, color: Ui.Muted));
         content.Margin = new Thickness(0, 14, 0, 8);
         content.Tag = "horizontal-calculation-description";

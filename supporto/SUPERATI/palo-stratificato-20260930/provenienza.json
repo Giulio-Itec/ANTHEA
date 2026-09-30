@@ -1,0 +1,12 @@
+[
+  {
+    "motivo": "Versione precedente al metodo Stratificato (PileChecker)",
+    "sostituzione": "supporto/docs/palo-orizzontale.md e supporto/docs/palo-stratificato-pilechecker.md",
+    "origine": "supporto/docs/palo-orizzontale.md"
+  },
+  {
+    "motivo": "Indice precedente al collegamento della nuova guida",
+    "sostituzione": "supporto/README.md",
+    "origine": "supporto/README.md"
+  }
+]

@@ -1,11 +1,30 @@
 # Palo singolo: capacità portante orizzontale
 
+Dal 30 settembre 2026 è disponibile anche **Stratificato** nelle
+opzioni avanzate: diagrammi locali, equilibrio globale e reazioni distribuite,
+anche con alternanze coesivo/granulare. Equazioni, differenze rispetto a Broms,
+limiti e test sono nella [guida del metodo stratificato](palo-stratificato.md),
+con PDF omonimo. Le sezioni seguenti descrivono il metodo **Broms** mantenuto
+per compatibilità; le esclusioni delle sequenze miste si riferiscono a tale metodo.
+
 ## Stato e campo di applicazione
 
-Modulo `geo_palo_orizzontale`, motore `Broms-ANTHEA-1`, C#/.NET 8 senza DLL GPC.
+Modulo `geo_palo_orizzontale`, motore `Broms-ANTHEA-1`, C#/.NET 8.
+La resistenza della sezione c.a. è calcolata tramite GPCChecker.Concrete.
 La schermata riprende i sette pannelli del palo verticale: dati, modello,
 coefficienti, verifica, stratigrafie, profilo, momento plastico/resistente.
 I diagrammi sono accessibili da **Diagrammi e dettagli**.
+
+La revisione del 30 settembre 2026 aggiunge le viste coordinate **Terreno e
+tensioni** ed **Equilibrio del palo**: sigma_v, u, sigma'_v, pressioni laterali
+equivalenti q=p/D, reazioni p, taglio V, momento M con limiti My e risultante
+limite Q. Strati, falda e quote caratteristiche condividono la stessa scala.
+Si rappresenta tutta L, con il completamento sotto la cerniera interna
+tratteggiato su fondo grigio; l'anteprima compatta conserva il solo ramo superiore.
+Si tratta dello stato alla capacità Hu, non delle tensioni sotto HEd.
+Le figure vengono incluse nella relazione Word su pagine orizzontali; il CSV
+include anche la diagnostica del terreno. Le tensioni locali non sono ridotte
+con i coefficienti globali xi e gamma_R.
 
 Implementati e confrontati con soluzioni analitiche: terreno omogeneo granulare
 drenato o coesivo non drenato; testa libera/impedita; corto, intermedio e lungo
@@ -22,19 +41,29 @@ incompleto; nessuna conformità automatica.
 
 | Materiale | Uso effettivo |
 | --- | --- |
-| Viggiani, *Fondazioni*, PDF fornito, 274 pagine a due facciate | Fonte principale: pp. stampate 400–415, PDF205–212 (conteggio da 1); formule controllate visivamente. |
-| Lancellotta, *Geotecnica*, seconda edizione, PDF fornito, 270 pagine | Consultazione indice e ricerca nel testo OCR; non individuata una trattazione operativa di Broms equivalente a Viggiani. Nessuna formula implementata attribuita a questo testo. |
-| PileChecker, `Checker/PileCalculator.cs`, righe 256–385 e 610–678 | Algoritmo orizzontale e ricerca della profondità analizzati criticamente. |
-| PileChecker, `Test/PileHorizontalBearingCapacityTest.cs` | Otto casi omogenei, senza fonte indipendente dei valori attesi. Nessun test multistrato. |
+| Viggiani, Fondazioni, PDF fornito, 274 pagine a due facciate | Fonte principale: pp. stampate 400–415, PDF205–212 (conteggio da 1); formule controllate visivamente. |
+| Lancellotta, Geotecnica, seconda edizione, PDF fornito, 270 pagine | Consultazione indice e ricerca nel testo OCR; non individuata una trattazione operativa di Broms equivalente a Viggiani. Nessuna formula implementata attribuita a questo testo. |
+| Codice originario dell'utente, `Checker/PileCalculator.cs`, righe 256–385 e 610–678 | Algoritmo orizzontale e ricerca della profondità analizzati criticamente. |
+| Codice originario dell'utente, `Test/PileHorizontalBearingCapacityTest.cs` | Otto casi omogenei, senza fonte indipendente dei valori attesi. Nessun test multistrato. |
 | NTC, Circolare, EN1997 | Testi non allegati: nessun coefficiente attribuito automaticamente a tali norme. |
 
 I libri restano su X:. Le scansioni locali di verifica non vengono distribuite.
 Viggiani non ha restituito testo ricercabile con l'estrattore disponibile: la
 trascrizione è stata controllata mediante lettura visiva, non presentata come OCR.
-Riferimenti originali identificati: Broms (1964), *Lateral Resistance of Piles in
-Cohesive Soils*, DOI 10.1061/JSFEAQ.0000611, e *Lateral Resistance of Piles in
-Cohesionless Soils*, DOI 10.1061/JSFEAQ.0000614. Implementazione riferita alle
+Riferimenti originali identificati: Broms (1964), Lateral Resistance of Piles in
+Cohesive Soils, DOI 10.1061/JSFEAQ.0000611, e Lateral Resistance of Piles in
+Cohesionless Soils, DOI 10.1061/JSFEAQ.0000614. Implementazione riferita alle
 equazioni di Viggiani sotto elencate.
+
+Ulteriori riferimenti consultabili nella scheda **Riferimenti** dei risultati
+e riportati nella relazione: J. Wood (2021), Cantilever Pole Retaining Walls,
+New Zealand Geotechnical Society, Geomechanics News 101,
+https://www.nzgs.org/libraries/cantilever-pole-retaining-walls/ (§§2.2-2.3,
+Broms semplice e modificato); FHWA (2018), Geotechnical Engineering Circular
+No. 9, FHWA-HIF-18-031, https://www.fhwa.dot.gov/engineering/geotech/pubs/hif18031.pdf
+(§§6.3 e 6.5, p-y e campo applicativo di Broms).
+L'attribuzione delle ipotesi e i limiti dell'estensione sono dettagliati nella
+guida stratificata. Consultazione online: 30 settembre 2026.
 
 ## Specifica meccanica e convenzioni
 
@@ -106,8 +135,10 @@ Le alternative che superano il primo limite non vengono dichiarate
 contemporaneamente ammissibili. Si controllano t≤L, |M|max≤My, equilibrio
 finale di forze e momenti. Nessuna soluzione apparentemente valida in caso di errore.
 
-Bisezione con massimo 100 iterazioni, tolleranza sulla coordinata scalata con
-max(1,L), default 1e−8; intervallo ammesso 1e−12…1e−5. Controlli finali di
+Bisezione con massimo 100 iterazioni, tolleranza richiesta default 1e−8,
+intervallo ammesso 1e−12…1e−5. Il motore affina la tolleranza a min(richiesta, 1e−12)
+per max(1, ampiezza iniziale dell'intervallo). L'inversione di Q è analitica per tratto.
+Controlli finali di
 equilibrio 1e−5 sulle scale max(1,Q(L)) e max(1,My,Q(L)L). Diagrammi fino a
 20.000 intervalli, con nodi aggiunti a strati, falda, cerniere, inversioni ed
 estremi. Il passo grafico non cambia la capacità. φ′<60° è un controllo d'input
@@ -121,21 +152,17 @@ N assegnata deve essere coerente con la fonte manuale. Il numero di barre nel
 calcolo automatico deve essere pari (4–512), per mantenere la simmetria nel
 piano di flessione senza introdurre un momento ortogonale non richiesto.
 
-Calcolo automatico: leggi materiali di `SezioneCA`, sezione circolare, armature
-uniformi. Diametro e N provengono dai dati del palo. Raggio barre:
-D/2−copriferro esterno staffa−diametro staffa−diametro barra/2.
-fcd=αcc fck/γc; fyd=fyk/γs, coefficienti espliciti. Unità mm/N/MPa, uscita kN/kNm.
-Piano di flessione Mx, barre orientate come nel disegno; nessuna ricerca della
-direzione più debole. Nessuna verifica della duttilità dedotta dal solo My.
+Calcolo automatico: `HorizontalConcreteSection` usa il motore comune
+GPCChecker.Concrete, come il modulo cemento armato. Diametro e N provengono
+dai dati del palo; la compressione geotecnica positiva è convertita in N negativa
+per Checker. Si valuta la resistenza a N costante nei due versi Mx e si prende
+il minimo dei valori assoluti. Il contorno circolare è discretizzato in un
+poligono inscritto; geometria, armature, legami e coefficienti sono quelli inseriti.
 
-ε(y)=εcu(y−R+x)/x; CLS parabola-rettangolo senza trazione; acciaio elastico
-perfettamente plastico. Sottrazione del CLS sostituito dalle barre. Si risolve
-ΣF=N e si calcola ΣFy. Campo ristretto all'asse neutro interno (0<x<D), per
-evitare l'estensione impropria al dominio tutto compresso; fuori campo serve My
-manuale. Mesh polari 28×96 e 56×192, adottata la seconda; scarto esposto e
-risultato rifiutato oltre 2%. Questa è una soglia numerica, non di sicurezza.
-Equilibrio assiale con 65 bisezioni. Test indipendente con quadratura Simpson
-per strisce orizzontali, distinta dalla mesh polare.
+Il risultato espone motore, direzioni, momento adottato e residuo assiale con
+la relativa tolleranza di accettazione. Non si usa più il precedente confronto
+tra mesh polari. Il test indipendente per strisce resta come confronto su casi
+specifici. La duttilità delle cerniere non è dedotta dal solo momento resistente.
 
 ## Capacità e normativa
 
@@ -151,7 +178,7 @@ Non sono implementate le combinazioni delle azioni: inserire HEd di progetto.
 Occorre anche verificare la natura di My e i fattori già
 applicati ai materiali. La relazione dichiara sempre verifica normativa incompleta.
 
-## Confronto critico con PileChecker
+## Confronto critico con il codice originario
 
 ### Efficienza della palificata
 

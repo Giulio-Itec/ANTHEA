@@ -1,4 +1,4 @@
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using X.Core;
@@ -32,7 +32,7 @@ internal sealed partial class RetainingWallWorkspace
     private void BuildMatrix()
     {
         if (MatrixGrid is not null) grids.Remove(MatrixGrid);
-        var fields = new List<Field> { new("enabled", "Usa", Bool: true), new("name", "Combinazione"), new("state", "Stato", Choices: RetainingWall.States), new("approach", "A / M / R", ReadOnly: true), new("wall", "γ muro"), new("soil", "γ terra"), new("water", "γ acqua") };
+        var fields = new List<Field> { new("enabled", "Usa", Bool: true), new("name", "Combinazione"), new("state", "Stato", Choices: RetainingWall.States), new("approach", "A / M / R", ReadOnly: true), new("wall", "γ muro"), new("soil", "γ monte"), new("valley_soil", "γ valle"), new("water", "γ acqua") };
         foreach (var (a, i) in Data.Array("actions").Select((a, i) => (a, i))) fields.Add(new("a_" + a.S("id"), $"{i + 1} · {a.S("name")}\nγ × ψ"));
         fields.AddRange([new("mphi", "γMφ"), new("rslide", "γR\nscorr."), new("rover", "γR\nribalt."), new("rbearing", "γR\nport."), new("kh", "kh"), new("kv", "kv")]);
         if (Data.Array("combinations").Any(c => c.S("purpose") != "")) fields.Add(new("purpose", "Uso sisma", Choices: ["", "Generale", "Ribaltamento"]));
@@ -65,7 +65,7 @@ internal sealed partial class RetainingWallWorkspace
             try { Data["global_stability"]!["combinations"] = RetainingWall.GenerateGlobalCombinations(Data); BuildGlobalMatrix(); } catch (ArgumentException ex) { globalMessage.Text = ex.Message; }
         }
         GlobalCombination.ItemsSource = r.GlobalStability?.Cases.Select(c => c.Factors.Name).ToArray();
-        GlobalCombination.SelectedItem = r.GlobalStability?.Cases.FirstOrDefault(c => c.Factors.Name == globalName)?.Factors.Name ?? r.GlobalStability?.Cases.OrderBy(c => c.Critical?.Factor ?? double.PositiveInfinity).FirstOrDefault()?.Factors.Name;
+        GlobalCombination.SelectedItem = r.GlobalStability?.Cases.FirstOrDefault(c => c.Factors.Name == globalName)?.Factors.Name ?? r.GlobalStability?.Cases.OrderByDescending(c => c.Critical?.Ratio ?? double.PositiveInfinity).FirstOrDefault()?.Factors.Name;
         if (Data.S("combination_mode") == "Automatiche")
         {
             Data["combinations"] = r.Input["combinations"]!.DeepClone(); Data["combination_signature"] = RetainingWall.CombinationSignature(Data); BuildMatrix();
@@ -79,7 +79,7 @@ internal sealed partial class RetainingWallWorkspace
     {
         if (Calculation is not { } r || Combination.SelectedItem is not string name) return; var c = r.Cases.FirstOrDefault(c => c.Name == name); if (c is null) return;
         foreach (var draw in new[] { Drawing, Diagrams }) { draw.Data = Data; draw.Calculation = r; draw.Case = c; }
-        summary.Text = $"B {F(r.Width)} m · cls {F(r.Volume)} m³/m" + (Data.S("family") == "cantilever" ? $" · acciaio principale {F(r.SteelKg)} kg/m" : "") + $"\nH {F(c.Horizontal)} kN/m · V′ {F(c.Vertical)} kN/m · e {F(c.Eccentricity)} m";
+        summary.Text = $"B {F(r.Width)} m · cls {F(r.Volume)} m³/m" + (Data.S("family") == "cantilever" ? $" · acciaio stimato {F(r.SteelKg)} kg/m" : "") + $"\nH {F(c.Horizontal)} kN/m · V′ {F(c.Vertical)} kN/m · e {F(c.Eccentricity)} m";
         pressures.Content = PressurePanel(c);
         ShowCheckTable(); RefreshViews();
     }
@@ -91,9 +91,12 @@ internal sealed partial class RetainingWallWorkspace
         table.SelectionChanged += (_, _) => { Drawing.SelectedPressure = table.SelectedIndex; Drawing.InvalidateVisual(); };
         bool wood = Data["seismic"].B("enabled") && Data["seismic"].S("method") == "Wood semplificato";
         var thrust = RetainingWall.Integrate(c.Pressures, 0, Data["geometry"].D("height") + Data["geometry"].D("slab"), Data["geometry"].D("height") + Data["geometry"].D("slab"));
-        string formula = wood ? "K₀=1−sinφd; Δp=kh·γ·Ht (Wood semplificato, uniforme); p=K₀σ′v+K₀Σ(fᵢqᵢ)+u+Δp." : "Ka=tan²(45°−φd/2); θ=atan[kh/(1−kv)]; Kae=cos²(φd−θ)/{cos²θ·[1+√(sinφd·sin(φd−θ)/cosθ)]²}. Δp=(Kae−Ka)(1−kv)γHt/2; pq=Kae(1−kv)Σ(fᵢqᵢ) in sisma, KaΣ(fᵢqᵢ) in statica.";
+        string formula = wood ? "K₀=1−sinφd; Δp=kh·γ·Ht (Wood semplificato, uniforme); p=K₀σ′v+K₀Σ(fᵢqᵢ)+u+Δp." : "Coulomb/MO: Kh=cos²(φd−θ)cosδd/{cosθ cos(δd+θ)[1+√(sin(φd+δd)sin(φd−θ)/cos(δd+θ))]²}; θ=atan[kh/(1−kv)]. Con δ=θ=0: Rankine. Δp=(Ke−K)(1−kv)γHt/2. Piano virtuale con mensola: δ=0; fusto: δ muro.";
+        var stem = Table(["Fusto z₀–z₁ [m]", "φd [°]", "K", "Ke", "p₀–p₁ [kPa]"], c.StemPressureDetails.Select(p => new[] { F(p.Z0) + "–" + F(p.Z1), F(p.PhiDesign), p.K.ToString("0.0000", It), p.Ke.ToString("0.0000", It), F(p.Total0) + "–" + F(p.Total1) })); stem.Height = 130;
+        var valley = Table(["Valle z₀–z₁ [m]", "Pressione usata p₀–p₁ [kPa]"], c.ValleyPressures.Select(p => new[] { F(p.Z0) + "–" + F(p.Z1), F(p.P0) + "–" + F(p.P1) })); valley.Height = 110;
         return Ui.Stack(Ui.Text(formula, 11), Ui.Text($"{c.Name} · kh={c.Kh:0.###}, kv={c.Kv:0.###}; θ={Math.Atan2(c.Kh, 1 - c.Kv) * 180 / Math.PI:0.###}°. σ′v incorpora γG e (1−kv). Tutte le pressioni in kPa. Azioni dirette trattate separatamente.", 11), table,
-            Ui.Text($"Integrale delle pressioni (incluse pressioni laterali aggiunte): P={F(thrust.Force)} kN/m; momento al piano di posa={F(-thrust.Moment)} kNm/m; quota risultante={(thrust.Force > 0 ? F(-thrust.Moment / thrust.Force) : "—")} m.", 11));
+            Group("Fusto · coefficienti con attrito al paramento", stem, false), Group("Valle · passiva mobilitata (z dalla sommità muro)", valley, false),
+            Ui.Text($"Integrale netto delle pressioni (monte + azioni laterali − passiva): P={F(thrust.Force)} kN/m; momento al piano di posa={F(-thrust.Moment)} kNm/m; quota risultante={(thrust.Force > 0 ? F(-thrust.Moment / thrust.Force) : "—")} m.", 11));
     }
     private void RefreshViews()
     {
@@ -104,6 +107,7 @@ internal sealed partial class RetainingWallWorkspace
         Diagrams.Mode = ViewMode.SelectedItem as string ?? "Geometria e carichi"; Diagrams.Diagrams = Diagrams.Mode == "Sollecitazioni"; Diagrams.Member = Member.SelectedItem as string ?? "Fusto";
         Diagrams.ShowRebar = Diagrams.Mode is "Armature" or "Geometria e carichi"; Member.Visibility = Diagrams.Diagrams ? Visibility.Visible : Visibility.Collapsed;
         Diagrams.ShowLoads = Diagrams.Mode != "Armature"; Diagrams.MaxWidth = Diagrams.Diagrams ? double.PositiveInfinity : 1050;
+        if (Diagrams.Mode == "Armature") CheckFilter.SelectedItem = "Dettagli armature";
         Drawing.InvalidateVisual(); Diagrams.InvalidateVisual();
     }
     private void ShowCheckTable()
@@ -111,6 +115,7 @@ internal sealed partial class RetainingWallWorkspace
         SelectSection(null); SelectedResultsGrid = null;
         if ((string?)CheckFilter.SelectedItem == "Stabilità globale") { checks.Content = GlobalResultsPanel(); return; }
         if (Calculation is not { } r || Combination.SelectedItem is not string name) return; var c = r.Cases.FirstOrDefault(c => c.Name == name); if (c is null) return;
+        if ((string)CheckFilter.SelectedItem is "Portanza sismica" or "Cedimenti e spostamenti" or "Dettagli armature") { checks.Content = AdvancedResults((string)CheckFilter.SelectedItem, r, c); return; }
         if ((string)CheckFilter.SelectedItem == "Calcolo delle spinte") { checks.Content = PressurePanel(c); return; }
         if ((string)CheckFilter.SelectedItem == "Sollecitazioni numeriche")
         {

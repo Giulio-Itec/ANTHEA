@@ -1,4 +1,4 @@
-namespace Anthea.Calculations.Geotechnics;
+﻿namespace Anthea.Calculations.Geotechnics;
 
 /// <summary>Slice preparation and bounded, reproducible search. Geometry lives in SlopeGeometry.</summary>
 public static class SlopeStability
@@ -12,7 +12,7 @@ public static class SlopeStability
         for (int i = 1; i < cuts.Length; i++)
         {
             double l = cuts[i - 1], r = cuts[i], x = (l + r) / 2, b = r - l, y = circle.Base(x), top = SlopeGeometry.Height(section.Surface, x);
-            var soil = section.Soils.First(s => y >= s.Bottom - 1e-9);
+            var soil = section.SoilsAt(x).First(s => y >= s.Bottom - 1e-9);
             double soilW = 0, bodyW = 0, wx = 0, wy = 0;
             for (int j = 0; j < 4; j++)
             {
@@ -27,7 +27,7 @@ public static class SlopeStability
                     if (rigid) bodyW += w; else soilW += w;
                     wx += w * gx; wy += w * (high + low) / 2;
                 }
-                foreach (var layer in section.Soils)
+                foreach (var layer in section.SoilsAt(gx))
                 {
                     double low = Math.Max(bottom, layer.Bottom), high = upper;
                     foreach (bool wet in new[] { false, true })
@@ -148,13 +148,17 @@ public static class SlopeStability
             for (int i = 1; i < points.Length; i++) if (points[i].X < points[i - 1].X || !vertical && points[i].X == points[i - 1].X) throw new ArgumentException(name + ": ascisse in ordine crescente.");
         }
         Line(s.Surface, "Profilo", true);
-        if (s.Soils.Length is < 1 or > 50) throw new ArgumentException("Stabilità globale: inserire gli strati profondi.");
+        foreach (var column in s.SoilColumns)
+        {
+        if (column.Length is < 1 or > 50) throw new ArgumentException("Stabilità globale: inserire gli strati profondi.");
         double top = double.PositiveInfinity;
-        foreach (var soil in s.Soils)
+        foreach (var soil in column)
         {
             if (!new[] { soil.Bottom, soil.Gamma, soil.GammaSat, soil.Phi, soil.Cohesion, soil.Cu }.All(double.IsFinite) || soil.Bottom >= top || soil.Gamma < 10 || soil.GammaSat < soil.Gamma || soil.GammaSat > 30 || soil.Phi < 0 || soil.Phi > 50 || soil.Cohesion < 0 || soil.Cu < 0) throw new ArgumentException("Strati globali: quote inferiori decrescenti, 10≤γ≤γsat≤30, 0≤φ≤50°, c′ e cu≥0.");
             top = soil.Bottom;
         }
+        }
+        if (!double.IsFinite(s.SoilSplitX)) throw new ArgumentException("Confine delle colonne non valido.");
         if (s.Water.Length > 0)
         {
             Line(s.Water, "Falda");
@@ -162,13 +166,13 @@ public static class SlopeStability
             foreach (double x in s.Surface.Select(p => p.X).Concat(s.Water.Select(p => p.X)).Where(x => x >= s.Surface[0].X && x <= s.Surface[^1].X))
                 if (SlopeGeometry.Height(s.Water, x) > SlopeGeometry.Height(s.Surface, x) + 1e-6) throw new ArgumentException("Falda sopra il terreno: acqua esterna non supportata dalla stabilità globale.");
         }
-        if (!new[] { q.ExitMin, q.ExitMax, q.EntryMin, q.EntryMax, q.DepthMin, q.DepthMax }.All(double.IsFinite) || q.ExitMin >= q.ExitMax || q.EntryMin >= q.EntryMax || q.DepthMin <= 0 || q.DepthMin >= q.DepthMax || q.ExitMin < s.Surface[0].X || q.ExitMax >= s.RequiredLeft || q.EntryMin <= s.RequiredRight || q.EntryMax > s.Surface[^1].X || -q.DepthMax < s.Soils[^1].Bottom) throw new ArgumentException("Dominio di ricerca: uscite a valle del muro, ingressi a monte, profondità positive coperte dagli strati e dal profilo.");
+        if (!new[] { q.ExitMin, q.ExitMax, q.EntryMin, q.EntryMax, q.DepthMin, q.DepthMax }.All(double.IsFinite) || q.ExitMin >= q.ExitMax || q.EntryMin >= q.EntryMax || q.DepthMin <= 0 || q.DepthMin >= q.DepthMax || q.ExitMin < s.Surface[0].X || q.ExitMax >= s.RequiredLeft || q.EntryMin <= s.RequiredRight || q.EntryMax > s.Surface[^1].X || -q.DepthMax < s.CoveredBottom) throw new ArgumentException("Dominio di ricerca: uscite a valle del muro, ingressi a monte, profondità positive coperte dagli strati e dal profilo.");
         if (q.Grid < 3 || q.Grid > 21 || q.Slices < 20 || q.Slices > 200 || q.Refinements < 0 || q.Refinements > 4) throw new ArgumentException("Ricerca: 3–21 nodi per direzione, 20–200 conci, 0–4 raffinamenti.");
         if (cases.Length is < 1 or > 256) throw new ArgumentException("Da 1 a 256 combinazioni globali.");
         foreach (var c in cases)
         {
             if (!new[] { c.Soil, c.Body, c.MPhi, c.MC, c.MCu, c.R, c.Kh, c.Kv }.All(double.IsFinite) || c.Soil <= 0 || c.Body <= 0 || c.MPhi <= 0 || c.MC <= 0 || c.MCu <= 0 || c.R <= 0 || Math.Abs(c.Kh) > .5 || Math.Abs(c.Kv) > .5) throw new ArgumentException("Coefficienti globali non validi.");
-            if (c.Undrained && s.Soils.Any(x => x.Cu <= 0)) throw new ArgumentException("Analisi non drenata: cu>0 obbligatoria per tutti gli strati.");
+            if (c.Undrained && s.SoilColumns.SelectMany(l => l).Any(x => x.Cu <= 0)) throw new ArgumentException("Analisi non drenata: cu>0 obbligatoria per tutti gli strati.");
         }
     }
 }

@@ -1,10 +1,10 @@
 # Documenti e raccolte superati
 
-Questo archivio conserva le revisioni sostituite senza eliminazioni definitive. I percorsi sotto questa cartella riproducono quelli originali relativi a `supporto`. Il registro `registro-20260929.json` riporta per ogni file origine, destinazione, motivo e impronta SHA256.
+Questo archivio conserva le revisioni sostituite senza eliminazioni definitive. I percorsi sotto questa cartella riproducono quelli originali relativi a `supporto`. I registri `registro-20260929.json` e `registro-20260930.json` riportano per ogni file origine, destinazione, motivo e impronta SHA256.
 
 ## Guide e rapporti generali
 
-Le guide pratica e teorica Rev01, Rev02 e Rev03 sono sostituite dalle edizioni ITEC Rev04 in `supporto/documentazione/Guide_ANTHEA`, ora affiancate dai PDF. Le precedenti relazioni di validazione del calcestruzzo e dei ponti sono sostituite dalla relazione software CA e ponti Rev03.
+Le guide pratica e teorica Rev01, Rev02, Rev03, Rev04 e Rev05 sono sostituite dalle edizioni ITEC Rev06 in `supporto/documentazione/Guide_ANTHEA`, ora affiancate dai PDF. Le precedenti relazioni di validazione del calcestruzzo e dei ponti sono sostituite dalla relazione software CA e ponti Rev03.
 
 ## Stabilità globale
 
@@ -17,3 +17,21 @@ Anche le dieci relazioni Word della serie `confronti-max` erano state generate p
 Consultare `supporto/artefatti/stabilita-globale/DOCUMENTI-CORRENTI.md` oppure il PDF omonimo. Il sommario MAX documenta due confronti completati, un terzo calcolato ma ancora da consolidare e sette confronti non eseguiti. La raccolta interna `regressione-tangenti-max` comprende dieci esempi ANTHEA e non equivale a dieci confronti MAX completati.
 
 I test MAX restano sospesi. L'archiviazione e la produzione dei PDF non hanno eseguito nuovi calcoli.
+
+## Revisione dei muri del 30 settembre 2026
+
+La guida dei muri precedente e le guide generali Rev04 sono sostituite dalla documentazione sulle due colonne, gli attriti e il riepilogo dei valori di calcolo. I report intermedi della stessa attività sono conservati con i loro percorsi originali; le evidenze e i modelli rimangono disponibili. Gli esiti della revisione corrente sono in `supporto/artefatti/muri-due-colonne-20260930/CONTROLLO.md`, anche in PDF. Le prove interne della revisione sono state eseguite; non sono stati ripresi i confronti manuali MAX.
+
+
+## Percorso guidato della stabilità globale
+
+La revisione immediatamente precedente della guida dei muri e degli indici è conservata in `globale-guidata-20260930`, mantenendo sotto questa cartella i percorsi originali relativi a `supporto`. `globale-guidata-20260930/registro.json` riporta origine, motivo, sostituzione e SHA256. Il nuovo documento operativo è `supporto/docs/stabilita-globale-guida-rapida.md` e PDF; il rapporto corrente dell’interfaccia è `supporto/artefatti/globale-guidata-20260930/CONTROLLO.md` e PDF. Modelli ed evidenze dei confronti MAX restano nelle cartelle originali.
+
+
+## Allineamento delle guide generali Rev06
+
+Le guide pratica e teorica Rev05, i corrispondenti sorgenti e PDF, la guida dei muri e gli indici sostituiti sono conservati in guide-anthea-rev06-20260930. I percorsi relativi a supporto sono mantenuti; registro.json contiene origine, motivo, SHA256 e revisione sostitutiva. Le guide generali di quella revisione erano ANTHEA_Guida_pratica_ITEC_Rev06 e ANTHEA_Guida_teorica_ITEC_Rev06, ora sostituite dalla Rev07 e conservate nell’archivio indicato sotto. Nessun modello o risultato storico MAX è stato spostato.
+
+## Completamento muri Rev07
+
+Le guide generali Rev06 e i documenti sostituiti sono conservati in muri-completamento-rev07-20260930, con struttura relativa e registro.json. La revisione corrente è Rev07, su portanza sismica, cedimenti, spostamenti e armature. I modelli e le evidenze MAX non sono stati spostati.

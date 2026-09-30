@@ -120,13 +120,15 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
     {
         if (Calculation is null || Busy) throw new InvalidOperationException("Attendere il calcolo del muro.");
         var figures = new List<ReportRetainingWall.Figure>(); var c = Drawing.Case ?? Calculation.Cases[0];
-        foreach (var member in new[] { "Geometria", "Fusto", "Valle", "Monte" })
+        foreach (var member in new[] { "Geometria", "Fusto", "Valle", "Monte", "Armature" })
         {
+            if (member == "Armature" && Calculation.Input.S("family") != "cantilever") continue;
             if (member is "Valle" or "Monte" && (!c.Contact.Valid || !c.Sections.Any(s => s.Name == member))) continue;
-            var view = new RetainingWallDrawing { Data = Calculation.Input, Calculation = Calculation, Case = c, Width = 1100, Height = 480,
-                Diagrams = member != "Geometria", Member = member, CombinedLoads = false };
-            view.Measure(new Size(1100, 480)); view.Arrange(new Rect(0, 0, 1100, 480)); view.UpdateLayout();
-            figures.Add(new(member == "Geometria" ? "Sezione, terreno e armature · carichi caratteristici; spinte: " + c.Name : "Diagrammi " + member + " · " + c.Name, Ui.Snapshot(view), 1100d / 480));
+            double figureWidth = member == "Armature" ? 760 : 1100, figureHeight = member == "Armature" ? 560 : 480;
+            var view = new RetainingWallDrawing { Data = Calculation.Input, Calculation = Calculation, Case = c, Width = figureWidth, Height = figureHeight,
+                Diagrams = member is not ("Geometria" or "Armature"), Mode = member == "Armature" ? "Armature" : "Geometria e carichi", Member = member, CombinedLoads = false };
+            view.Measure(new Size(figureWidth, figureHeight)); view.Arrange(new Rect(0, 0, figureWidth, figureHeight)); view.UpdateLayout();
+            figures.Add(new(member == "Geometria" ? "Sezione, terreno e armature · carichi caratteristici; spinte: " + c.Name : member == "Armature" ? "Sezione armata con pieghe e sovrapposizioni" : "Diagrammi " + member + " · " + c.Name, Ui.Snapshot(view), figureWidth / figureHeight));
         }
         if (Calculation.GlobalStability is { } global)
         {

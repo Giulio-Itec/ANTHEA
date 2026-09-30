@@ -1,0 +1,17 @@
+{
+  "motivo": "Rimozione della denominazione precedente dalle diciture pubbliche, su richiesta dell’utente.",
+  "documenti": [
+    {
+      "origine": "docs\\palo-stratificato-pilechecker.md",
+      "revisione_sostitutiva": "docs\\palo-stratificato.md"
+    },
+    {
+      "origine": "docs\\palo-orizzontale.md",
+      "revisione_sostitutiva": "docs\\palo-orizzontale.md"
+    },
+    {
+      "origine": "README.md",
+      "revisione_sostitutiva": "README.md"
+    }
+  ]
+}

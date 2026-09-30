@@ -1,4 +1,4 @@
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 
 namespace X.Core;
 
@@ -8,13 +8,14 @@ public static class SoilProfileTransfer
     public static readonly string[] Modules = [RetainingWall.Module, "geo_palo_verticale", PaloOrizzontale.Module, MicropaloOrizzontale.Module];
     private static readonly string[] Properties = ["name", "spessore", "tipologia", "peso_specifico", "peso_specifico_saturo", "angolo_attrito", "coesione_efficace", "coesione_non_drenata"];
     public static bool Supports(string module) => Modules.Contains(module);
-    public static int SurveyCount(string module, JsonObject data) => module == RetainingWall.Module ? 1 : data.Array("stratigrafie").Count;
+    public static int SurveyCount(string module, JsonObject data) => module == RetainingWall.Module ? 2 : data.Array("stratigrafie").Count;
     public static JsonObject Extract(string module, JsonObject data, int survey = 0)
     {
         if (!Supports(module)) throw new ArgumentException("Modulo non compatibile con il profilo terreno comune.");
         var rows = new JsonArray();
         bool wall = module == RetainingWall.Module;
-        if (wall) foreach (var row in data.Array("layers").OfType<JsonObject>())
+        if (wall && survey is not (0 or 1)) throw new ArgumentException("Selezionare Monte o Valle.");
+        if (wall) foreach (var row in (survey == 0 ? data.Array("layers") : RetainingWall.ValleyLayers(data)).OfType<JsonObject>())
             rows.Add(J.Obj(("name", row.S("name")), ("spessore", row["thickness"]?.DeepClone()), ("tipologia", "Granulare"),
                 ("peso_specifico", row["gamma"]?.DeepClone()), ("peso_specifico_saturo", row["gamma_sat"]?.DeepClone()), ("angolo_attrito", row["phi"]?.DeepClone()),
                 ("coesione_efficace", 0), ("coesione_non_drenata", "")));
@@ -28,9 +29,9 @@ public static class SoilProfileTransfer
             }
         }
         var profile = J.Obj(("formato", "ANTHEA.Terreno"), ("versione", 1), ("source_module", module), ("source_survey", survey + 1),
-            ("datum", wall ? "z=0: sommità del terreno a monte del muro" : "z=0: superficie del terreno / testa del palo"), ("layers", rows),
-            ("water", J.Obj(("enabled", wall ? data["water"].B("enabled") : data["generali"].B("presenza_falda")),
-                ("depth", (wall ? data["water"]?["depth"] : data["generali"]?["profondita_falda"])?.DeepClone()))));
+            ("datum", wall ? survey == 0 ? "z=0: sommità del terreno a monte del muro" : "z=0: superficie del terreno a valle del muro" : "z=0: superficie del terreno / testa del palo"), ("layers", rows),
+            ("water", J.Obj(("enabled", wall ? data["water"].B("enabled") && (survey == 0 || data["water"].D("front_head") > 0) : data["generali"].B("presenza_falda")),
+                ("depth", (wall ? survey == 0 ? data["water"]?["depth"] : JsonValue.Create(Math.Max(0, RetainingWall.ValleyHeight(data) - data["water"].D("front_head"))) : data["generali"]?["profondita_falda"])?.DeepClone()))));
         Validate(profile); return profile;
     }
     public static void Validate(JsonObject profile)
@@ -65,7 +66,17 @@ public static class SoilProfileTransfer
                 rows.Add(J.Obj(("name", string.IsNullOrWhiteSpace(row.S("name")) ? "Strato " + i : row.S("name")), ("thickness", row["spessore"]?.DeepClone()),
                     ("gamma", gamma), ("gamma_sat", sat), ("phi", phi)));
             }
-            data["layers"] = rows; data["water"]!["enabled"] = water.B("enabled"); data["water"]!["depth"] = water["depth"]?.DeepClone();
+            RetainingWall.CompleteSoilInput(data);
+            if (survey == 0) { data["layers"] = rows; data["water"]!["enabled"] = water.B("enabled"); data["water"]!["depth"] = water["depth"]?.DeepClone(); }
+            else if (survey == 1)
+            {
+                double dv = RetainingWall.ValleyHeight(data);
+                if (water.B("enabled") && water.D("depth") > dv) throw new ArgumentException("Falda di valle sotto il piano di posa: completare un modello idraulico dedicato; importazione non applicata.");
+                data["valley"]!["layers"] = rows; data["water"]!["front_head"] = water.B("enabled") ? dv - water.D("depth") : 0;
+                if (water.B("enabled")) data["water"]!["enabled"] = true;
+            }
+            else throw new ArgumentException("Selezionare Monte o Valle.");
+            if (data["valley"].B("linked")) RetainingWall.CopySoilColumn(data, survey == 1);
             // The front water level and foundation soil are separate physical inputs, not part of the retained profile.
         }
         else
@@ -86,6 +97,6 @@ public static class SoilProfileTransfer
     }
     public static JsonObject Create(string module, JsonObject profile) => Apply(module, ModuleCatalog.CreateData(module), profile);
     public static string Guidance(string module) => "Copia indipendente di un profilo; profondità e falda mantengono lo stesso z=0. Nessuna traslazione automatica di quota. "
-        + (module == RetainingWall.Module ? "Controllare terreno di fondazione, battente a valle e copertura H+t; sono separati dal terreno a monte. Il calcolo dei muri ammette solo strati granulari con c′=0."
+        + (module == RetainingWall.Module ? "Selezionare Monte o Valle. Controllare terreno di fondazione, battenti e copertura fino al piano di posa; il collegamento copia i materiali, non le falde. Il calcolo dei muri ammette solo strati granulari con c′=0."
         : "Completare geometria e azioni del palo, addensamento e parametri specifici del metodo. Controllare che l’indagine raggiunga la punta: il profilo non viene prolungato. Cu resta da assegnare dove richiesto; nessuna correlazione automatica da φ′.");
 }

@@ -1,10 +1,11 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
 using Anthea.Calculations.Geotechnics;
 using X.Core;
 
 string directory = Path.GetFullPath(args.FirstOrDefault() ?? "supporto/artefatti/stabilita-globale"); Directory.CreateDirectory(directory);
+bool writeReports = !args.Contains("--checks-only");
 File.WriteAllText(Path.Combine(directory, "stato-esecuzione.txt"), "In corso " + DateTimeOffset.Now.ToString("O"));
 var log = new List<string>(); int checks = 0;
 void Check(bool value, string message) { if (!value) throw new Exception(message); log.Add("OK " + message); checks++; }
@@ -13,12 +14,25 @@ void Reject(Action action, string message) { try { action(); } catch (ArgumentEx
 JsonObject Model(string family = "cantilever")
 {
     var d = RetainingWall.Example(family); d["layers"]![0]!["thickness"] = 25;
-    RetainingWall.PrepareGlobalProfile(d); var g = d["global_stability"]!; g["enabled"] = true; g["profile_confirmed"] = true;
-    g["grid"] = 9; g["slices"] = 60; g["refinements"] = 4; g["depth_min"] = .1; g["depth_max"] = 10;
+    RetainingWall.PrepareGlobalProfile(d); d["global_stability"]!["soil_mode"] = "Profilo unico"; // Historical benchmarks use one deep geological column.
+    var g = d["global_stability"]!; g["enabled"] = true; g["profile_confirmed"] = true;
+    g["grid"] = 9; g["slices"] = 60; g["refinements"] = 4; g["depth_min"] = .1; g["depth_max"] = 10; g["search_mode"] = "Assegnata";
     return d;
 }
 try
 {
+    var proposal = RetainingWall.Example("cantilever"); RetainingWall.PrepareGlobalProfile(proposal); var pg = proposal["global_stability"]!;
+    pg.Array("layers")[0]!["bottom"] = -8; pg.Array("valley_layers")[0]!["bottom"] = -2;
+    pg.Array("valley")[0]!["x"] = -30; pg.Array("uphill")[1]!["x"] = 22;
+    string soilBefore = pg.Array("layers").ToJsonString() + pg.Array("valley_layers").ToJsonString();
+    RetainingWall.ProposeGlobalSearch(proposal);
+    Near(pg.D("depth_max"), 2, "Proposta automatica limitata dalla colonna indagata meno profonda");
+    Near(pg.D("exit_min"), -30, "Proposta delle uscite entro il rilievo"); Near(pg.D("entry_max"), 22, "Proposta degli ingressi entro il rilievo");
+    Check(soilBefore == pg.Array("layers").ToJsonString() + pg.Array("valley_layers").ToJsonString(), "Proposta di ricerca non modifica né estende le indagini");
+    pg.Array("valley_layers")[0]!["bottom"] = ""; RetainingWall.ProposeGlobalSearch(proposal);
+    Check(pg.S("depth_max") == "", "Indagine incompleta non genera una profondità fittizia");
+    pg["soil_mode"] = "Profilo unico"; RetainingWall.ProposeGlobalSearch(proposal);
+    Near(pg.D("depth_max"), 6.9, "Profilo unico: proposta fino a 2(H+t) entro gli strati noti");
     var circle = new SlipCircle(0, 10, 10, -3, 6);
     SlopeSlice Slice(double phi, double cohesion, double u = 0) => new(1, 0, 1, 0, 1, 30, "Analitico", 100, 0, 5, 1, 0, 0, u, phi, cohesion, 100, 50, 0, 0, 0, 0);
     var friction = BishopSolver.Solve(circle, [Slice(30, 0)], 1.1)!;
@@ -94,10 +108,10 @@ try
         var result = RetainingWall.Calculate(example.Data); Check(result.GlobalStability is not null, "Integrazione calcolo locale/globale " + example.Id);
         File.WriteAllText(Path.Combine(folder, "risultati-anthea.json"), result.Json().ToJsonString(J.Options));
         File.WriteAllText(Path.Combine(folder, "conci-anthea.csv"), ReportRetainingWall.GlobalCsv(result.GlobalStability!));
-        Archivio.ScriviAtomico(Path.Combine(folder, "relazione-anthea.docx"), ReportRetainingWall.Create(example.Id, result));
+        if (writeReports) Archivio.ScriviAtomico(Path.Combine(folder, "relazione-anthea.docx"), ReportRetainingWall.Create(example.Id, result));
         var guide = $"# {example.Id}\n\n{example.Description}\n\nAprire modello.anthea, Terreno → Stabilità globale. I parametri, le combinazioni e il dominio di ricerca sono salvati nel file. Vista Verifiche → Stabilità globale.\n\n## Confronto MAX 16\n\nQuesta procedura genera soltanto i risultati ANTHEA. I risultati indipendenti MAX e il loro stato sono documentati separatamente nel rapporto di confronto.\n\nPer confrontare: impostare Bishop, terreno, falda, carichi e fattori identici a risultati-anthea.json. Confrontare prima il medesimo cerchio (xc, yc, R), quindi la ricerca con il medesimo dominio; documentare conci, esclusioni, fattori e versione MAX. Non confrontare F caratteristico con F su parametri M2 ridotti.\n\n";
         guide += string.Join("\n", result.GlobalStability!.Cases.Select(c => $"- {c.Factors.Name}: F={c.Critical?.Factor:G10}; η={c.Critical?.Ratio:G10}; {c.Status}; risolte {c.Solved}/{c.Tried}."));
-        File.WriteAllText(Path.Combine(folder, "riproduzione.md"), guide);
+        if (writeReports) File.WriteAllText(Path.Combine(folder, "riproduzione.md"), guide);
         summary.Add(new { example.Id, example.Description, MAX = "Confronto indipendente documentato separatamente; questa procedura genera solo ANTHEA", Cases = result.GlobalStability.Cases.Select(c => new { c.Factors.Name, F = c.Critical?.Factor, Eta = c.Critical?.Ratio, c.Status, c.NumericalFailures, c.Boundary }) });
         Console.WriteLine(example.Id + " " + string.Join(" | ", result.GlobalStability.Cases.Select(c => $"F={c.Critical?.Factor:0.0000} {c.Status}")));
     }

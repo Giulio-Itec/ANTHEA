@@ -106,7 +106,9 @@ internal sealed partial class BridgeWorkspace
         var information = Ui.Button("Info modello…", ShowModelInformation, inspection: true); information.Margin = new Thickness(8, 8, 16, 0);
         information.VerticalAlignment = VerticalAlignment.Center; DockPanel.SetDock(information, Dock.Right);
         header.Children.Add(information); header.Children.Add(Pages);
-        var body = Ui.Dock(workspacePage, Ui.Stack(header, resultNotice), Ui.Stack(progress, footer));
+        var engineReference = Ui.Text("Motore di calcolo: GPC Engine", 12, true, Ui.Muted);
+        engineReference.Margin = new Thickness(16, 8, 16, 0); engineReference.HorizontalAlignment = HorizontalAlignment.Right;
+        var body = Ui.Dock(workspacePage, Ui.Stack(engineReference, header, resultNotice), Ui.Stack(progress, footer));
         var scroll = new ChainedScrollViewer { Content = body, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
         Content = scroll;
         void Resize()

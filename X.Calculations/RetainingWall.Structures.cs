@@ -16,7 +16,9 @@ public static partial class RetainingWall
         var input = SezioneCA.DefaultInput();
         input["width_mm"] = 1000; input["height_mm"] = thickness * 1000; input["cover_mm"] = cover;
         input["staffe_presenti"] = "No"; input["transverse_bar_diameter_mm"] = 0; input["side_bar_count_per_side"] = 0;
-        input["top_bar_count"] = count; input["bottom_bar_count"] = count; input["top_bar_diameter_mm"] = dia; input["bottom_bar_diameter_mm"] = dia;
+        double otherCount = r.B("symmetric", true) ? count : r.Required("opposite_count", 2), otherDia = r.B("symmetric", true) ? dia : r.Required("opposite_diameter", 6);
+        if (otherCount % 1 != 0 || otherCount > 30 || otherDia > 40 || 2 * cover + dia + otherDia >= thickness * 1000) throw new ArgumentException("Armatura della faccia opposta incompatibile con la sezione.");
+        input["top_bar_count"] = otherCount; input["bottom_bar_count"] = count; input["top_bar_diameter_mm"] = otherDia; input["bottom_bar_diameter_mm"] = dia;
         input["fck_mpa"] = m.D("fck"); input["fyk_mpa"] = m.D("fyk"); input["axial_force_kn"] = 0; input["moment_x_knm"] = 0; input["moment_y_knm"] = 0;
         input["materiale_cls_nome"] = "Calcestruzzo muro";
         return input;
@@ -27,6 +29,7 @@ public static partial class RetainingWall
         void Stamp(int start, SectionForce force) { for (int i = start; i < result.Count; i++) result[i] = result[i] with { Member = force.Name, Position = force.Position }; }
         if (d.S("family") == "gravity")
         {
+            if (d["gravity_design"].S("type") != "Resistenze assegnate") return GravityChecks(d, cases);
             foreach (var c in cases.Where(c => c.State is "SLU" or "SISMA" or "ECCEZIONALE")) foreach (var f in c.Sections)
             {
                 int firstCheck = result.Count;
@@ -48,10 +51,12 @@ public static partial class RetainingWall
         {
             if (length == 0) continue;
             var arm = d["reinforcement"]![key]!;
-            steelKg += 2 * arm.D("count") * Math.PI * Math.Pow(arm.D("diameter"), 2) / 4 * 1e-6 * length * 7850;
+            double other = arm.B("symmetric", true) ? arm.D("count") * Math.Pow(arm.D("diameter"), 2) : arm.D("opposite_count") * Math.Pow(arm.D("opposite_diameter"), 2);
+            steelKg += (arm.D("count") * Math.Pow(arm.D("diameter"), 2) + other) * Math.PI / 4 * 1e-6 * length * 7850;
         }
         var cache = new Dictionary<(string, double), (JsonObject Input, JsonObject Ws, CheckerSection Ultimate, CheckerSection Service, JsonObject Options)>();
         var moments = new Dictionary<(string, double, double, int), double?>();
+        var uncracked = new Dictionary<(string, double), CheckerSection>();
         foreach (var c in cases) foreach (var f in c.Sections.Where(s => s.Position > 0 || s.N != 0 || s.V != 0 || s.M != 0))
         {
             int firstCheck = result.Count;
@@ -60,7 +65,8 @@ public static partial class RetainingWall
             if (f.Name != "Fusto" && !c.Contact.Valid) { result.Add(CheckValue(label + " · resistenza", c.Name, 0, null, "kNm/m", "Reazioni non disponibili: perdita di equilibrio")); continue; }
             // Input errors propagate. Native convergence failures produce an explicit missing verification.
             var input = SectionInput(d, f.Name, f.Thickness, f.Position); string memberKey = ReinforcementKey(d, f.Name, f.Position);
-            double dia = input.D("top_bar_diameter_mm"), asFace = input.D("top_bar_count") * Math.PI * dia * dia / 4;
+            string tension = f.M >= 0 ? "bottom" : "top";
+            double dia = input.D(tension + "_bar_diameter_mm"), asFace = input.D(tension + "_bar_count") * Math.PI * dia * dia / 4;
             double eff = f.Thickness * 1000 - m.D("cover") - dia / 2;
             if (!cache.TryGetValue((memberKey, f.Thickness), out var engines))
             {
@@ -68,13 +74,16 @@ public static partial class RetainingWall
                 var ws = SectionWorkspace.Prepare(def);
                 var opt = ws["sle"]!["SLE_QP"]!.AsObject(); opt["modello"] = "Lineare"; opt["trazione_cls"] = "No"; opt["phi"] = m.D("creep");
                 opt["esposizione"] = m.S("exposure"); opt["sensibilita"] = "Non sensibile"; opt["aderenza"] = "Migliorata"; opt["durata"] = "Lunga";
-                opt["spaziatura_fessure"] = (1000 - 2 * m.D("cover") - dia) / (input.D("top_bar_count") - 1); opt["copriferro_fessure"] = m.D("cover");
+                opt["spaziatura_fessure"] = new[] { "top", "bottom" }.Max(face => (1000 - 2 * m.D("cover") - input.D(face + "_bar_diameter_mm")) / (input.D(face + "_bar_count") - 1)); opt["copriferro_fessure"] = m.D("cover");
                 engines = (input, ws, new CheckerSection(input, ws, J.Obj(("criterio", "N costante"), ("modello", "Non lineare"))), new CheckerSection(input, ws, opt), opt);
                 cache[(memberKey, f.Thickness)] = engines;
-                double minimum = Math.Max(.26 * .3 * Math.Pow(m.D("fck"), 2d / 3) / m.D("fyk"), .0013) * 1000 * eff;
+                double minimumDepth = f.Thickness * 1000 - m.D("cover") - Math.Min(input.D("top_bar_diameter_mm"), input.D("bottom_bar_diameter_mm")) / 2;
+                double minimum = Math.Max(.26 * .3 * Math.Pow(m.D("fck"), 2d / 3) / m.D("fyk"), .0013) * 1000 * minimumDepth;
                 if (f.Name == "Fusto") minimum = Math.Max(minimum, .001 * 1000 * f.Thickness * 1000);
-                result.Add(CheckValue(label + " · armatura minima per faccia", "Dettagli", minimum, asFace, "mm²/m"));
-                result.Add(CheckValue(label + " · armatura massima", "Dettagli", 2 * asFace, .04 * 1000 * f.Thickness * 1000, "mm²/m"));
+                double topAs = input.D("top_bar_count") * Math.PI * Math.Pow(input.D("top_bar_diameter_mm"), 2) / 4;
+                double bottomAs = input.D("bottom_bar_count") * Math.PI * Math.Pow(input.D("bottom_bar_diameter_mm"), 2) / 4;
+                result.Add(CheckValue(label + " · armatura minima per faccia", "Dettagli", minimum, Math.Min(topAs, bottomAs), "mm²/m"));
+                result.Add(CheckValue(label + " · armatura massima", "Dettagli", topAs + bottomAs, .04 * 1000 * f.Thickness * 1000, "mm²/m"));
             }
             try
             {
@@ -94,11 +103,32 @@ public static partial class RetainingWall
                 else
                 {
                     var action = new ActionPoint(-f.N, f.M, 0); var state = engines.Service.Stress(action, c.State);
+                    // GPC stores strain gradients: Mx bends across Y, hence ChiY (not ChiX).
+                    if (f.Name == "Fusto") c.Curvatures.Add(new(d["geometry"].D("height") - f.Position, Math.Sign(f.M) * Math.Abs(state.Native.StrainPlane.ChiY) * 1000));
                     if (state.ConcreteStressLimit is double limit) result.Add(CheckValue(label + " · tensione CLS", c.Name, Math.Max(0, -state.sigma_cls), limit, "MPa"));
                     if (c.State == "SLE") result.Add(CheckValue(label + " · tensione acciaio", c.Name, state.sigma_acciaio, state.SteelStressLimit, "MPa"));
                     if (c.State != "SLE")
                     {
                         var crack = Ntc2018Checks.Cracking(engines.Service, state, action, input, engines.Ws, engines.Options, c.State);
+                        // In weakly stressed sections the no-tension solution may have no tensile
+                        // reinforcement in the effective zone. Establish absence of cracking with
+                        // a separate GPC uncracked analysis, never turn arbitrary missing checks into passes.
+                        if (crack.Width is null && crack.Status is "Nessuna armatura tesa" or "Armatura/area efficace assente")
+                        {
+                            if (!uncracked.TryGetValue((memberKey, f.Thickness), out var elastic))
+                            {
+                                var elasticOptions = (JsonObject)engines.Options.DeepClone(); elasticOptions["trazione_cls"] = "Sì";
+                                elastic = new CheckerSection(input, engines.Ws, elasticOptions); uncracked[(memberKey, f.Thickness)] = elastic;
+                            }
+                            var elasticState = elastic.Stress(action, c.State);
+                            double tensile = elasticState.Native.GetConcreteVerticesTension(m.D("creep")).Max(x => x.tension);
+                            double fctk = ConcreteMaterials.Concrete(input).Fctk05;
+                            if (tensile <= fctk)
+                            {
+                                result.Add(CheckValue(label + " · fessurazione", c.Name, 0, crack.Limit, "mm") with { Status = $"Non fessurata: σt,el={tensile:0.###} ≤ fctk,0.05={fctk:0.###} MPa (GPC)" });
+                                Stamp(firstCheck, f); continue;
+                            }
+                        }
                         result.Add(crack.Width is double wk ? CheckValue(label + " · fessurazione", c.Name, wk, crack.Limit, "mm", crack.Status) : CheckValue(label + " · fessurazione", c.Name, 0, null, "mm", crack.Status));
                     }
                 }

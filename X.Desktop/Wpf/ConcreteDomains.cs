@@ -69,9 +69,9 @@ internal sealed partial class ConcreteWorkspace
             }
             catch (ArgumentException ex) { status.Text = ex.Message; }
         }));
-        options.Children.Add(Notice(threeD ? "Domini plastico/elastico e punti resistenti calcolati da Checker. L’interpolazione modifica la mesh visualizzata. Gli assi scelti si riferiscono alle azioni; il grafico è negli assi locali della sezione." : "Stessa logica CheckerUI: N–M diretto nelle direzioni locali principali, altrimenti sezione del dominio tramite Checker. Con proiezione attiva si verifica l’azione proiettata, non l’intera azione 3D."));
+        options.Children.Add(Notice(threeD ? "Domini plastico/elastico e punti resistenti calcolati da GPC Engine. L’interpolazione modifica la mesh visualizzata. Gli assi scelti si riferiscono alle azioni; il grafico è negli assi locali della sezione." : "GPC Engine: N–M diretto nelle direzioni locali principali, altrimenti sezione del dominio tramite GPC Engine. Con proiezione attiva si verifica l’azione proiettata, non l’intera azione 3D."));
         options.Children.Add(Ui.Text(UtilizationPalette.Legend + "\nGrigio: esito incompleto o non disponibile", 11, color: Ui.Muted));
-        var left = Panel("Opzioni di calcolo", Scroller(options), "N negativo a compressione · grafici negli assi locali Checker");
+        var left = Panel("Opzioni di calcolo", Scroller(options), "N negativo a compressione · grafici negli assi locali di GPC Engine");
         UIElement viewport; ViewportFrame frame;
         if (threeD)
         {
@@ -153,7 +153,7 @@ internal sealed partial class ConcreteWorkspace
     private async Task CalculateDomain(DomainPanel panel, CancellationToken token, string? requestedKey = null, CheckerSectionModel? prepared = null, JsonObject? preparedInput = null, JsonObject? preparedWorkspace = null)
     {
         string key = requestedKey ?? panel.Key;
-        status.Text = $"Checker · {SectionWorkspace.Label(key)} · dominio {(panel.ThreeD ? "3D" : "2D")}…";
+        status.Text = $"GPC Engine · {SectionWorkspace.Label(key)} · dominio {(panel.ThreeD ? "3D" : "2D")}…";
         var input = preparedInput ?? (JsonObject)Input.DeepClone(); var workspace = preparedWorkspace ?? (JsonObject)settings.DeepClone(); var options = (JsonObject)panel.Options.DeepClone();
         var snapshots = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
         var calculated = await Task.Run(() => analysisSession.Domain(input, workspace, options, key, panel.ThreeD, snapshots, token, prepared), token);
@@ -198,7 +198,7 @@ internal sealed partial class ConcreteWorkspace
                     panel.Plot.Segments = segments;
                     panel.Plot.Title = $"{SectionWorkspace.Label(panel.Key)} · " + (nm ? $"N–M, θ = {value * 180 / Math.PI:0.00}°" : $"Mx–My, N = {value:0.00} kN");
                     panel.Plot.XLabel = nm ? "Mθ [kNm]" : "Mx [kNm]"; panel.Plot.YLabel = nm ? "N [kN]" : "My [kNm]";
-                    panel.Plot.Note = "Sezione calcolata da Checker · azioni fuori piano escluse salvo proiezione esplicita";
+                    panel.Plot.Note = "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita";
                     panel.Plot.EmptyMessage = "Nessuna intersezione del dominio con il piano selezionato";
                 }
                 catch (ArgumentException ex) { panel.Plot.Segments = []; panel.Plot.EmptyMessage = ex.Message; }
@@ -285,7 +285,7 @@ internal sealed partial class ConcreteWorkspace
         static string V(double? v) => EngineeringFormat.Number(v);
         string s = $"\n{title}\nσc min / max: {V(r.CMin)} / {V(r.CMax)} MPa\nσs min / max: {V(r.SMin)} / {V(r.SMax)} MPa\nεc min / max: {V(r.EcMin)} / {V(r.EcMax)} ‰\nεs min / max: {V(r.EsMin)} / {V(r.EsMax)} ‰";
         if (r.PMin is not null) s += $"\nσp min / max: {V(r.PMin)} / {V(r.PMax)} MPa\nεp min / max: {V(r.EpMin)} / {V(r.EpMax)} ‰";
-        return s + $"\n\nd utile: {V(r.UsefulDepth)} mm\nDistanza asse neutro dal lembo (Checker): {V(r.NeutralDistance)} mm\nInclinazione asse neutro: {V(r.NeutralAngle)}°\n— indica dato non disponibile (es. deformazione uniforme).";
+        return s + $"\n\nd utile: {V(r.UsefulDepth)} mm\nDistanza asse neutro dal lembo (GPC Engine): {V(r.NeutralDistance)} mm\nInclinazione asse neutro: {V(r.NeutralAngle)}°\n— indica dato non disponibile (es. deformazione uniforme).";
     }
     private async Task RunAnalysis(Func<CancellationToken, Task> work)
     {
@@ -324,7 +324,7 @@ internal sealed partial class ConcreteWorkspace
                 token.ThrowIfCancellationRequested();
                 calculationErrors.Remove(name);
                 activeSteps.Add(name);
-                void Progress() => status.Text = "Checker · in corso: " + string.Join(" · ", activeSteps);
+                void Progress() => status.Text = "GPC Engine · in corso: " + string.Join(" · ", activeSteps);
                 try { var task = action(); Progress(); await task; }
                 catch (Exception ex) when (ex is not OperationCanceledException) { calculationErrors[name] = ex.Message; }
                 finally
@@ -345,7 +345,7 @@ internal sealed partial class ConcreteWorkspace
             if (preparedSection is { } cached && cached.Signature == sectionSignature) prepared = cached.Model;
             else
             {
-                status.Text = "Checker · preparazione unica della sezione…";
+                status.Text = "GPC Engine · preparazione unica della sezione…";
                 prepared = await Task.Run(() => CheckerSection.PrepareModel(input, workspace), token);
                 token.ThrowIfCancellationRequested(); preparedSection = (sectionSignature, prepared);
             }

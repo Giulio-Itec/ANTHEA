@@ -39,6 +39,11 @@ internal sealed class VerificationCards : Grid
     }
     internal void AddCheck(string title, int total, IEnumerable<(string Name, double? Ratio, bool? Passed)> checks)
         => AddSummary(VerificationSummary.Create(title, total, checks));
+    internal void AddValue(string title, string value, string explanation)
+    {
+        AddCard(Card(Ui.Stack(Ui.Text(title, 10, true), Ui.Text(value, 13, true), Ui.Text(explanation, 11)), Ui.Blue, explanation));
+        text += $"{title}\n{value}\n{explanation}\n\n";
+    }
     internal void AddSummary(VerificationSummary summary)
     {
         string title = summary.Title, state = summary.Status;

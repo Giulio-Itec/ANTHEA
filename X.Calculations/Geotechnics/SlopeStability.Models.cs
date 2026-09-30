@@ -1,4 +1,4 @@
-namespace Anthea.Calculations.Geotechnics;
+﻿namespace Anthea.Calculations.Geotechnics;
 
 // SI-derived engineering units throughout: m, kN, kPa, degrees; per metre out of plane.
 // No JSON, UI, retaining-wall or normative dependencies in these transport types.
@@ -7,7 +7,14 @@ public sealed record SlopeSoil(string Name, double Bottom, double Gamma, double 
 public sealed record SlopeBody(string Name, SlopePoint[] Polygon, double Gamma);
 public sealed record SlopeLoad(string Id, double Left, double Right, double Y, double Vertical, double Horizontal, double Moment, bool Distributed);
 public sealed record SlopeSection(SlopePoint[] Surface, SlopeSoil[] Soils, SlopePoint[] Water, SlopeBody[] Bodies,
-    SlopeLoad[] Loads, double RequiredLeft, double RequiredRight);
+    SlopeLoad[] Loads, double RequiredLeft, double RequiredRight)
+{
+    public SlopeSoil[] ValleySoils { get; init; } = [];
+    public double SoilSplitX { get; init; }
+    public SlopeSoil[] SoilsAt(double x) => ValleySoils.Length > 0 && x < SoilSplitX ? ValleySoils : Soils;
+    public IEnumerable<SlopeSoil[]> SoilColumns => ValleySoils.Length > 0 ? new[] { ValleySoils, Soils } : new[] { Soils };
+    public double CoveredBottom => SoilColumns.Max(l => l[^1].Bottom);
+}
 public sealed record SlopeFactors(string Name, double Soil, double Body, double MPhi, double MC, double MCu,
     double R, double Kh, double Kv, bool Undrained, IReadOnlyDictionary<string, double> Loads);
 public sealed record SlopeSearch(double ExitMin, double ExitMax, double EntryMin, double EntryMax,

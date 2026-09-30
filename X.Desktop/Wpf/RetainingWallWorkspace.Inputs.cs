@@ -1,4 +1,4 @@
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -11,10 +11,10 @@ internal sealed partial class RetainingWallWorkspace
 {
     internal JsonGrid LayerGrid = null!, ActionGrid = null!, MatrixGrid = null!;
     internal readonly ComboBox ViewMode = Ui.Choice(["Geometria e carichi", "Sollecitazioni", "Forze resistenti", "Tassi di lavoro", "Armature", "Stabilità globale"], "Geometria e carichi");
-    internal readonly ComboBox CheckFilter = Ui.Choice(["Riepilogo completo", "Combinazione selezionata", "Tutti i controlli", "Sollecitazioni numeriche", "Calcolo delle spinte", "Stabilità globale"], "Riepilogo completo");
+    internal readonly ComboBox CheckFilter = Ui.Choice(["Riepilogo completo", "Combinazione selezionata", "Tutti i controlli", "Sollecitazioni numeriche", "Calcolo delle spinte", "Stabilità globale", "Portanza sismica", "Cedimenti e spostamenti", "Dettagli armature"], "Riepilogo completo");
     internal readonly ComboBox Member = Ui.Choice(["Fusto", "Valle", "Monte"], "Fusto");
     internal readonly Dictionary<string, Expander> Cards = [];
-    internal readonly Button SeismicButton;
+    internal readonly Button SeismicButton, GlobalSetupButton;
     private readonly ContentControl inputHost = new();
     private readonly TextBlock matrixStatus = Ui.Text("", 11), layerStatus = Ui.Text("", 11), probe = Ui.Text("Passare sul disegno per leggere i dati; clic per selezionare un carico.", 11, color: Ui.Muted);
     private JsonObject? selectedAction;
@@ -27,6 +27,7 @@ internal sealed partial class RetainingWallWorkspace
         Family.SelectedItem = Family.Items.Cast<ComboBoxItem>().Single(i => (string)i.Tag == Data.S("family")); Family.MinWidth = 180;
         Family.SelectionChanged += (_, _) => { if (building || Family.SelectedItem is not ComboBoxItem item) return; Data["family"] = (string)item.Tag; UpdateFields(); Changed(); };
         SeismicButton = Ui.Button("Sisma: non attivo", ShowSeismic, inspection: true);
+        GlobalSetupButton = Ui.Button("Stabilità globale · imposta", ShowGlobalSetup, inspection: true);
         BuildInputs();
         Combination.MinWidth = 210; Combination.MaxWidth = 380; Combination.SelectionChanged += (_, _) => ShowCombination();
         foreach (var c in new[] { Combination, ViewMode, CheckFilter, Member }) RevisionInspection.Allow(c);
@@ -57,10 +58,10 @@ internal sealed partial class RetainingWallWorkspace
         var resultPage = Ui.Stack(resultGraphic, checksPane, Group("Ipotesi, approcci e tipologie previste", Ui.Stack(Ui.Text(RetainingWall.Scope, 12), Ui.Text(RetainingWall.Limits, 12), Ui.Text(RetainingWall.ApproachHelp, 12), Ui.Text(RetainingWall.SeismicHelp, 12), Ui.Text("Tipologie predisposte: " + string.Join(", ", RetainingWall.Families.Where(f => !f.Available).Select(f => f.Name)) + ". Calcolo attivo soltanto per mensola e gravità.", 12)), false));
         Ui.Tab(Pages, "Input", Scroll(inputPage)); Ui.Tab(Pages, "Verifiche", Scroll(resultPage)); Pages.Margin = new Thickness(12, 4, 12, 6);
         var header = Ui.Bar(Ui.Text("Muri di sostegno", 19, true), Family, Ui.Button("Mensola esempio", () => Example("cantilever")), Ui.Button("Gravità esempio", () => Example("gravity")), Ui.Button("Ricalcola", async () => await CalculateAsync(), inspection: true), Ui.Button("Relazione Word", () => ReportRequested?.Invoke(), inspection: true), Ui.Button("CSV", ExportCsv, inspection: true)); header.Margin = new Thickness(14, 8, 14, 4);
-        var comboBar = Ui.Bar(Ui.Text("Combinazione visualizzata", 12), Combination, SeismicButton); comboBar.Margin = new Thickness(14, 0, 14, 4);
+        var comboBar = Ui.Bar(Ui.Text("Combinazione visualizzata", 12), Combination, SeismicButton, GlobalSetupButton, Ui.Button("Valori di calcolo…", ShowCalculationParameters, inspection: true)); comboBar.Margin = new Thickness(14, 0, 14, 4);
         status.Margin = new Thickness(15, 4, 15, 8);
         Content = Ui.Dock(Pages, Ui.Stack(header, comboBar), status);
-        SizeChanged += (_, _) => { bool narrow = ActualWidth < 1120; inputLayout.ColumnDefinitions[0].Width = new GridLength(1.05, GridUnitType.Star); inputLayout.ColumnDefinitions[1].Width = narrow ? new GridLength(0) : new GridLength(1, GridUnitType.Star); Grid.SetColumn(inputView, narrow ? 0 : 1); Grid.SetRow(inputView, narrow ? 1 : 0); inputView.Margin = narrow ? new Thickness(0, 10, 0, 0) : new Thickness(10, 0, 0, 0); };
+        SizeChanged += (_, _) => { bool narrow = ActualWidth < 1450; inputLayout.ColumnDefinitions[0].Width = new GridLength(1.05, GridUnitType.Star); inputLayout.ColumnDefinitions[1].Width = narrow ? new GridLength(0) : new GridLength(1, GridUnitType.Star); Grid.SetColumn(inputView, narrow ? 0 : 1); Grid.SetRow(inputView, narrow ? 1 : 0); inputView.Margin = narrow ? new Thickness(0, 10, 0, 0) : new Thickness(10, 0, 0, 0); };
         if (Data.Array("combinations").Count > 0) BuildMatrix();
         timer.Tick += Tick; building = false; UpdateFields(); Preview(); timer.Start();
     }
@@ -97,30 +98,22 @@ internal sealed partial class RetainingWallWorkspace
         Cards.TryGetValue("Combinazioni", out var matrixCard);
         Forms.Clear(); grids.Clear(); Cards.Clear(); if (matrixCard is not null) Cards["Combinazioni"] = matrixCard; var cards = Ui.Stack();
         void Card(string title, UIElement body) { var group = Group(title, body); Cards[title] = group; var paper = Ui.Paper(group, 10); paper.Margin = new Thickness(0, 0, 0, 8); cards.Children.Add(paper); }
-        LayerGrid = GridFor([new("__index", "Strato", ReadOnly: true), new("name", "Descrizione"), new("thickness", "Δz\n[m]"), new("__from", "Da z\n[m]", ReadOnly: true), new("__to", "A z\n[m]", ReadOnly: true), new("gamma", "γ\n[kN/m³]"), new("gamma_sat", "γsat\n[kN/m³]"), new("phi", "φ′\n[°]")], Data.Array("layers"), _ => UpdateLayerDepths(), 180);
-        double[] layerWidths = [56, 145, 70, 65, 65, 78, 78, 65]; for (int i = 0; i < layerWidths.Length; i++) LayerGrid.Columns[i].Width = layerWidths[i];
-        LayerGrid.LoadingRow += (_, e) => { e.Row.BorderBrush = Ui.Brush(RetainingWallDrawing.LayerColors[e.Row.GetIndex() % RetainingWallDrawing.LayerColors.Length]); e.Row.BorderThickness = new Thickness(6, 0, 0, 0); };
-        LayerGrid.SelectionChanged += (_, _) => { Drawing.SelectedLayer = LayerGrid.SelectedIndex; Drawing.InvalidateVisual(); };
-        var water = Form("water", [new("enabled", "Presenza falda", Bool: true), new("depth", "Profondità da sommità", "m", Symbol: "zf"), new("front_head", "Battente a valle dal piano di posa", "m", Symbol: "hw,v")]);
-        SoilButton = Ui.Button("Invia / carica terreno…", () => SoilTransferRequested?.Invoke());
-        Card("Terreno", Ui.Stack(Ui.Bar(SoilButton), Ui.Text("Strati dall’alto verso il basso · profondità z dalla sommità · c′ = 0", 11, color: Ui.Muted), LayerGrid,
-            Ui.Bar(Ui.Button("+ Strato", () => { if (Data.Array("layers").Count >= 50) return; var l = RetainingWall.Layer(); l["thickness"] = 1; AddRow(LayerGrid, Data.Array("layers"), l, _ => UpdateLayerDepths()); UpdateLayerDepths(); Changed(); }), Ui.Button("− Strato", () => RemoveLayer()), Ui.Button("↑", () => MoveLayer(-1)), Ui.Button("↓", () => MoveLayer(1))), layerStatus,
-            Group("Terreno di fondazione", Form("foundation", Fields(RetainingWall.FoundationFields)), false), Group("Falda e sottospinta", water, false), GlobalCard()));
+        Card("Terreno", Ui.Stack(BuildSoilColumns(), BuildAdvancedSoil()));
         var materials = Form("materials", Fields(RetainingWall.MaterialFields).Concat([new Field("exposure", "Classe di esposizione", Choices: Ntc2018Checks.Exposures.Skip(1).ToArray())]));
-        Card("Materiali", materials);
+        Card("Materiali", Ui.Stack(materials, BuildGravityMaterial()));
         var reinforcement = Ui.Stack(Form("zones", [new("two_zones", "Due zone verticali di armatura", Bool: true), new("lower_height", "Altezza zona inferiore dal piede del fusto", "m", Symbol: "h₁")], Data["reinforcement"]!.AsObject()));
         foreach (var (key, label) in new[] { ("stem", "Fusto · zona inferiore / intera altezza"), ("stem_upper", "Fusto · zona superiore"), ("toe", "Mensola a valle"), ("heel", "Mensola a monte") })
         {
-            var arm = Form("rebar_" + key, [new("diameter", "Diametro per faccia", "mm", Symbol: "Ø"), new("count", "Barre per metro e per faccia", "−", Symbol: "n")], Data["reinforcement"]![key]!.AsObject());
+            var arm = Form("rebar_" + key, RebarFields, Data["reinforcement"]![key]!.AsObject());
             var group = Group(label, arm, false); Cards["rebar_" + key] = group; reinforcement.Children.Add(group);
         }
-        Card("Geometria", Ui.Stack(Form("geometry", Fields(RetainingWall.GeometryFields)), Group("Armature inserite", reinforcement), Ui.Text("Le due facce hanno la stessa armatura. La quota h₁ separa la zona inferiore dalla superiore; entrambe sono verificate anche in prossimità del cambio. Quantità prive di sovrapposizioni e ancoraggi.", 11, color: Ui.Muted)));
+        Card("Geometria", Ui.Stack(Form("geometry", Fields(RetainingWall.GeometryFields)), Group("Armature inserite", reinforcement), BuildDetailing(), Ui.Text("Facce simmetriche oppure indipendenti. h₁ separa le due zone del fusto; la vista Armature mostra ancoraggi e sovrapposizioni. La distinta è un predimensionamento, da completare con il disegno esecutivo.", 11, color: Ui.Muted)));
         ActionGrid = GridFor([new("enabled", "Calcola", Bool: true), new("visible", "Disegna", Bool: true), new("name", "Azione"), new("type", "Tipo", ReadOnly: true), new("category", "Natura", ReadOnly: true), new("value", "Valore", ReadOnly: true)], Data.Array("actions"), height: 145);
         ActionGrid.Columns[2].Width = 140; ActionGrid.Columns[3].Width = 160; ActionGrid.Columns[4].Width = 65; ActionGrid.Columns[5].Width = 70;
         ActionGrid.SelectionChanged += (_, _) => EditAction();
         var type = Ui.Choice(RetainingWall.ActionTypes, RetainingWall.ActionTypes[0]); type.Width = 190;
         Cards["Sisma"] = BuildSeismicCard();
-        Card("Azioni", Ui.Stack(Cards["Sisma"], Ui.Text("Valori per metro di muro. Calcola include/esclude l’azione; Disegna modifica soltanto la vista. G1: permanente strutturale, G2: permanente non strutturale, Q: variabile, A: eccezionale.", 11, color: Ui.Muted), ActionGrid,
+        Card("Azioni", Ui.Stack(Cards["Sisma"], BuildHistories(), Ui.Text("Valori per metro di muro. Calcola include/esclude l’azione; Disegna modifica soltanto la vista. G1: permanente strutturale, G2: permanente non strutturale, Q: variabile, A: eccezionale.", 11, color: Ui.Muted), ActionGrid,
             Ui.Bar(type, Ui.Button("+ Azione", () => AddAction((string)type.SelectedItem)), Ui.Button("− Azione", RemoveAction)), actionDetails));
         inputHost.Content = new ChainedScrollViewer { Content = cards, MaxHeight = 605, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
         UpdateLayerDepths(); ActionGrid.SelectedIndex = ActionGrid.Rows.Count > 0 ? 0 : -1;
@@ -131,13 +124,10 @@ internal sealed partial class RetainingWallWorkspace
     }
     private void UpdateLayerDepths()
     {
-        double z = 0; int i = 0;
-        foreach (var row in LayerGrid.Rows) { row.Output("__index", ++i); row.Output("__from", F(z)); z += row.Values.D("thickness"); row.Output("__to", F(z)); }
-        LayerGrid.Height = Math.Min(200, 63 + 31 * LayerGrid.Rows.Count);
-        double ht = Data["geometry"].D("height") + Data["geometry"].D("slab"); layerStatus.Text = $"Copertura {F(z)} m · richiesta fino al piano di posa {F(ht)} m"; layerStatus.Foreground = z + 1e-9 < ht ? Brushes.Firebrick : Ui.Muted;
+        UpdateColumnDepths();
     }
-    private void RemoveLayer() { if (LayerGrid.Rows.Count <= 1 || LayerGrid.SelectedItem is not JsonRow row) return; Data.Array("layers").Remove(row.Values); LayerGrid.Rows.Remove(row); UpdateLayerDepths(); Changed(); }
-    private void MoveLayer(int step) { int i = LayerGrid.SelectedIndex, j = i + step; if (i < 0 || j < 0 || j >= LayerGrid.Rows.Count) return; var a = Data.Array("layers"); var node = a[i]; a.RemoveAt(i); a.Insert(j, node); LayerGrid.Rows.Move(i, j); LayerGrid.SelectedIndex = j; UpdateLayerDepths(); Changed(); }
+    private void RemoveLayer() => RemoveSoilLayer(false);
+    private void MoveLayer(int step) => MoveSoilLayer(false, step);
     internal void AddAction(string type) { if (ActionGrid.Rows.Count >= 30) return; var a = RetainingWall.NewAction(Data, type); AddRow(ActionGrid, Data.Array("actions"), a); Changed(); }
     private void RemoveAction() { if (ActionGrid.SelectedItem is not JsonRow row) return; Data.Array("actions").Remove(row.Values); ActionGrid.Rows.Remove(row); ActionGrid.SelectedIndex = ActionGrid.Rows.Count - 1; Changed(); }
     private void EditAction()
@@ -157,9 +147,18 @@ internal sealed partial class RetainingWallWorkspace
         bool rc = Data.S("family") == "cantilever";
         foreach (var f in RetainingWall.MaterialFields) material.ShowField(f.Key, f.Key == "gamma" || (rc ? !f.Key.EndsWith("_rd") : f.Key.EndsWith("_rd")));
         material.ShowField("exposure", rc);
+        if (!rc && Data["gravity_design"].S("type") == "Calcestruzzo non armato") { material.ShowField("fck", true); material.ShowField("creep", true); }
+        if (!rc && Data["gravity_design"].S("type") == "Muratura") material.ShowField("creep", true);
+        if (Forms.TryGetValue("gravity_design", out var gravity)) gravity.Visibility = rc ? Visibility.Collapsed : Visibility.Visible;
+        if (Forms.TryGetValue("detailing", out var detail)) detail.Visibility = rc ? Visibility.Visible : Visibility.Collapsed;
+        if (DesignButton is not null) DesignButton.IsEnabled = rc && !Busy;
+        foreach (string key in new[] { "stem", "stem_upper", "toe", "heel" })
+            if (Forms.TryGetValue("rebar_" + key, out var arm)) { arm.ShowField("opposite_diameter", !Data["reinforcement"]![key].B("symmetric", true)); arm.ShowField("opposite_count", !Data["reinforcement"]![key].B("symmetric", true)); arm.ShowField("lap_length", key.StartsWith("stem") && Data["reinforcement"].B("two_zones")); arm.ShowField("bend_diameter", key == "stem"); }
+        if (Forms.TryGetValue("bearing_seismic", out var bearing)) { bearing.ShowField("ground_kh", Data["bearing_seismic"].S("source") == "Assegnata"); bearing.ShowField("ground_kv", Data["bearing_seismic"].S("source") == "Assegnata"); }
         foreach (var (key, card) in Cards.Where(f => f.Key.StartsWith("rebar_"))) card.Visibility = rc && (key != "rebar_stem_upper" || Data["reinforcement"].B("two_zones")) ? Visibility.Visible : Visibility.Collapsed;
         if (Forms.TryGetValue("zones", out var zones)) { zones.Visibility = rc ? Visibility.Visible : Visibility.Collapsed; zones.ShowField("lower_height", Data["reinforcement"].B("two_zones")); }
         if (Forms.TryGetValue("water", out var water)) foreach (string key in new[] { "depth", "front_head" }) water.Enable(key, Data["water"].B("enabled"), true);
+        UpdateSoilFields();
         UpdateSeismicFields();
         RefreshGlobal();
         UpdateSeismicStatus();
