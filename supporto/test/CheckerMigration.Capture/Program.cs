@@ -77,6 +77,7 @@ Console.WriteLine($"{cases.Count} casi di taglio -> {Path.Combine(output, "shear
 StressCapture.Run(output, commit, sha);
 TorsionCapture.Run(output, commit, sha);
 CrackCapture.Run(output, commit, sha);
+DetailingCapture.Run(output, commit, sha);
 
 // Serviceability stresses (CheckerSection.Stress): sections saved with the Model archive, effective standard coefficients,
 // actions already transformed to the local axes passed to the native checker, legacy results.
@@ -378,5 +379,138 @@ internal static class CrackCapture
                         }
         File.WriteAllText(Path.Combine(output, "crack-scalar-legacy.csv"), scalar.ToString(), new UTF8Encoding(false));
         Console.WriteLine("nuclei scalari della fessurazione -> " + Path.Combine(output, "crack-scalar-legacy.csv"));
+    }
+}
+
+// Detailing (ConcreteAnchorageCalculator, ConcreteBond, ConcreteDetailingCalculator for beams and columns) and the moment-curvature
+// response (ConcreteCurvatureAnalysis). Sections saved with the Model archive; curves with the forces passed to the native checker.
+internal static class DetailingCapture
+{
+    static string F(double? v) => v is double d ? d.ToString("R", CultureInfo.InvariantCulture) : "";
+    static string Clean(string s) => s.Replace(";", ",").Replace("\n", " ").Replace("|", "/");
+    internal static void Run(string output, string commit, string sha)
+    {
+        string header = "ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha;
+        // A. Anchorage and laps: grid and seeded random cases.
+        var anchorage = new StringBuilder();
+        anchorage.AppendLine("# ConcreteAnchorageCalculator / ConcreteBond.Strength legacy outputs; " + header);
+        anchorage.AppendLine("# Units mm, MPa. Columns: id;diameter;stress;fctk05;gammaC;goodBond;available;lap;percent;clear;outcome;fbd;basic;required;passed;eta1;eta2;alpha6;maxClear;lengthPassed;clearPassed");
+        var calculator = new ConcreteAnchorageCalculator(); var random = new Random(20261004); int aid = 0;
+        double U(double a, double b) => a + (b - a) * random.NextDouble();
+        void Anchor(AnchorageInput input)
+        {
+            string head = string.Join(";", aid++, F(input.Diameter), F(input.Stress), F(input.Fctk05), F(input.GammaC), input.GoodBond, F(input.AvailableLength), input.Lap,
+                F(input.LapPercent), F(input.LapClearDistance));
+            try
+            {
+                var r = calculator.Calculate(input);
+                anchorage.AppendLine(string.Join(";", head, "ok", F(r.Fbd), F(r.BasicLength), F(r.RequiredLength), r.Passed, F(r.Eta1), F(r.Eta2), F(r.Alpha6), F(r.MaximumLapClearDistance),
+                    r.LengthPassed, r.LapClearDistancePassed));
+            }
+            catch (Exception ex) { anchorage.AppendLine(string.Join(";", head, "error:" + ex.GetType().Name, "", "", "", "", "", "", "", "", "", "")); }
+        }
+        foreach (double d in new[] { 8.0, 16, 26, 32, 36, 40 })
+            foreach (double stress in new[] { 0.0, 250, 391.3 })
+                foreach (bool good in new[] { true, false })
+                    foreach (bool lap in new[] { false, true })
+                        foreach (double percent in lap ? new[] { 25.0, 50, 100 } : new[] { 100.0 })
+                            Anchor(new AnchorageInput(d, stress, 1.8, 1.5, good, 800, lap, percent, lap ? 2 * d : 0));
+        Anchor(new AnchorageInput(0, 391.3, 1.8, 1.5, true, 800, false, 100, 0)); Anchor(new AnchorageInput(16, -1, 1.8, 1.5, true, 800, false, 100, 0));
+        Anchor(new AnchorageInput(16, 391.3, 1.8, 1.5, true, 800, true, 0, 0)); Anchor(new AnchorageInput(16, 391.3, 1.8, 1.5, true, 800, true, 50, -1));
+        Anchor(new AnchorageInput(140, 391.3, 1.8, 1.5, true, 800, false, 100, 0)); Anchor(new AnchorageInput(16, 391.3, 1.8, 1.5, true, 800, true, 50, 80));
+        for (int i = 0; i < 300; i++)
+            Anchor(new AnchorageInput(new[] { 8.0, 10, 12, 14, 16, 20, 24, 26, 28, 32, 36, 40 }[random.Next(12)], U(0, 450), U(1.1, 3.1), new[] { 1.5, 1.45, 1.4 }[random.Next(3)],
+                random.NextDouble() < .7, U(0, 2000), random.NextDouble() < .4, U(5, 100), U(0, 200)));
+        foreach (double fct in new[] { 1.2, 1.8, 2.7 })
+            foreach (double d in new[] { 12.0, 32, 40 })
+                foreach (double eta1 in new[] { 1.0, .7 })
+                    anchorage.AppendLine(string.Join(";", "B" + aid++, F(d), "", F(fct), "1.5", eta1 == 1, "", "", "", "", "bond", F(ConcreteBond.Strength(fct, d, eta1, 1, 1.5))));
+        File.WriteAllText(Path.Combine(output, "anchorage-legacy.csv"), anchorage.ToString(), new UTF8Encoding(false));
+
+        // B. Detailing of beams and columns on sections saved with the Model archive.
+        var sections = new List<(string Name, Action<System.Text.Json.Nodes.JsonObject> Edit)>
+        {
+            ("R300x500", i => { i["width_mm"] = "300"; i["height_mm"] = "500"; i["top_bar_count"] = "2"; i["bottom_bar_count"] = "3"; i["side_bar_count_per_side"] = "0";
+                i["top_bar_diameter_mm"] = "16"; i["bottom_bar_diameter_mm"] = "20"; i["cover_mm"] = "30"; i["transverse_bar_diameter_mm"] = "8"; i["fck_mpa"] = "30"; }),
+            ("T1200x800", i => { i["shape"] = "A T"; i["fck_mpa"] = "35"; }),
+            ("R400x400", i => { i["width_mm"] = "400"; i["height_mm"] = "400"; i["top_bar_count"] = "3"; i["bottom_bar_count"] = "3"; i["side_bar_count_per_side"] = "1";
+                i["top_bar_diameter_mm"] = "16"; i["bottom_bar_diameter_mm"] = "16"; i["side_bar_diameter_mm"] = "16"; i["cover_mm"] = "35"; i["fck_mpa"] = "25"; }),
+            ("C400", i => { i["shape"] = "Circolare"; i["diameter_mm"] = "400"; i["longitudinal_bar_count"] = "8"; i["longitudinal_bar_diameter_mm"] = "16"; i["cover_mm"] = "40";
+                i["transverse_bar_diameter_mm"] = "8"; i["fck_mpa"] = "32"; }),
+            ("R250x250", i => { i["width_mm"] = "250"; i["height_mm"] = "250"; i["top_bar_count"] = "2"; i["bottom_bar_count"] = "2"; i["side_bar_count_per_side"] = "0";
+                i["top_bar_diameter_mm"] = "10"; i["bottom_bar_diameter_mm"] = "10"; i["cover_mm"] = "25"; i["transverse_bar_diameter_mm"] = "6"; i["fck_mpa"] = "20"; }),
+            ("R600x800H", i => { i["foro_presente"] = true; i["inner_width_mm"] = "300"; i["inner_height_mm"] = "400"; i["side_bar_count_per_side"] = "0"; i["fck_mpa"] = "28"; })
+        };
+        var model = new GPC.Model.Models.Model("Sezioni dettagli congelate");
+        var detailing = new StringBuilder();
+        detailing.AppendLine("# ConcreteDetailingCalculator legacy outputs (beams and columns); " + header);
+        detailing.AppendLine("# Sections in detailing-sections.xml. Lengths mm, areas mm2, NEd N (compression positive), checks: name:actual:limit:unit:passed separated by '|'.");
+        detailing.AppendLine("id;section;kind;fck;fyk;fyd;areaCls;width;height;topWidth;bottomWidth;webWidth;nominalCover;compression;stirrups;stirrupDiameter;stirrupSpacing;legs;aggregate;durabilityCover;deviation;lap;restrained;endAnchorage;outcome;checks");
+        int did = 0, variant = 0;
+        foreach (var (name, edit) in sections)
+        {
+            var input = SezioneCA.DefaultInput(); edit(input);
+            var s = new SezioneCA(input);
+            var settings = SectionWorkspace.Prepare(SezioneCA.DefaultData());
+            var prepared = CheckerSection.PrepareModel(input, settings); prepared.Section.Name = name; model.AddProperty(prepared.Section);
+            double top = s.Shape == "A T" ? s.Input.D("flange_width_mm") : s.Width, bottom = s.Shape == "A T" ? s.Input.D("web_width_mm") : s.Width;
+            foreach (var kind in new[] { ConcreteMemberKind.Beam, ConcreteMemberKind.Column })
+                foreach (double nEd in kind == ConcreteMemberKind.Column ? new[] { 0.0, 1500, 4000 } : new[] { 0.0 })
+                    for (int k = 0; k < 6; k++)
+                    {
+                        int v = variant++;
+                        bool stirrups = v % 7 != 3; double sd = new[] { 6.0, 8, 10 }[v % 3], sp = new[] { 100.0, 200, 300 }[(v / 3) % 3]; int legs = v % 2 == 0 ? 2 : 4;
+                        double aggregate = new[] { 16.0, 20, 40 }[(v / 2) % 3], durability = new[] { double.NaN, 25, 45 }[v % 3], deviation = v % 2 == 0 ? 10 : 5;
+                        bool lap = v % 5 == 1, restrained = v % 4 != 2, end = v % 3 != 1;
+                        var request = new ConcreteDetailingInput(kind, s, nEd, stirrups, sd, sp, legs, aggregate, durability, deviation, lap, 0, 0, false, restrained, end);
+                        string head = string.Join(";", did++, name, kind, F(s.Input.D("fck_mpa")), F(s.Input.D("fyk_mpa")), F(s.Fyd), F(s.AreaCls), F(s.Width), F(s.Height), F(top), F(bottom),
+                            F(s.Shape == "A T" ? s.Input.D("web_width_mm") : s.Width), F(s.Input.D("cover_mm")), F(nEd * 1000), stirrups, F(sd), F(sp), legs, F(aggregate), F(durability), F(deviation),
+                            lap, restrained, end);
+                        try
+                        {
+                            var checks = new ConcreteDetailingCalculator().Calculate(request);
+                            detailing.AppendLine(string.Join(";", head, "ok", string.Join("|", checks.Select(c => string.Join(":", Clean(c.Name), F(c.Actual), F(c.Limit), c.Unit, c.Passed?.ToString() ?? "")))));
+                        }
+                        catch (Exception ex) { detailing.AppendLine(string.Join(";", head, "error:" + ex.GetType().Name, Clean(ex.Message))); }
+                    }
+        }
+        using (var stream = File.Create(Path.Combine(output, "detailing-sections.xml"))) GPC.Model.Persistence.ModelArchive.Save(model, stream);
+        File.WriteAllText(Path.Combine(output, "detailing-legacy.csv"), detailing.ToString(), new UTF8Encoding(false));
+
+        // C. Moment-curvature curves: limit point at constant N on the 3D domain, nonlinear stress responses.
+        var curves = new StringBuilder();
+        curves.AppendLine("# ConcreteCurvatureAnalysis legacy outputs; " + header);
+        curves.AppendLine("# Sections in detailing-sections.xml. Moments kNm, curvatures 1/m, strains per mille; force columns: N, M1, M2 (N, Nmm) passed to the native checker in its local axes.");
+        curves.AppendLine("id;section;standard;coefficients;origin;v1;v2;yieldStrain;N_kN;theta;steps;fraction;quadratic;tolerance;refine;outcome;limitMoment;yield;ultimate;limitN;residual;points");
+        int cid = 0;
+        foreach (var (name, n, theta, standard) in new[] { ("R300x500", -200.0, 0.0, "NTC 2018"), ("R300x500", 0.0, 180.0, "EN 1992-1-1"), ("R400x400", -1200.0, 30.0, "NTC 2018"),
+            ("C400", -500.0, 45.0, "Model Code 2010"), ("T1200x800", 0.0, 0.0, "NTC 2018") })
+        {
+            var input = SezioneCA.DefaultInput(); sections.Single(x => x.Name == name).Edit(input);
+            var data = SezioneCA.DefaultData(); var settings = SectionWorkspace.Prepare(data); settings["normativa"] = standard;
+            var options = new System.Text.Json.Nodes.JsonObject { ["N"] = F(n), ["theta"] = F(theta), ["passi"] = "40", ["frazione"] = "1", ["campionamento"] = "Quadratico",
+                ["tolleranza_n"] = "1", ["raffina_snervamento"] = "12", ["angoli"] = "32", ["phi"] = "0" };
+            var probe = new CheckerSection(input, settings, options); var axes = probe.Force(new ActionPoint(n, 1, 0)).CoordinateSystem;
+            var effective = ConcreteStandards.Effective(input, settings);
+            string coefficients = string.Join(",", ConcreteStandards.Coefficients.Select(c => c.Key + "=" + F((double)typeof(GPC.Model.Standards.StandardModelCode2010).GetProperty(c.Key)!.GetValue(effective)!)));
+            string head = string.Join(";", cid++, name, standard, coefficients, F(axes.Origin.X) + "," + F(axes.Origin.Y) + "," + F(axes.Origin.Z),
+                F(axes.V1.X) + "," + F(axes.V1.Y) + "," + F(axes.V1.Z), F(axes.V2.X) + "," + F(axes.V2.Y) + "," + F(axes.V2.Z), F(probe.Geometry.Fyd / probe.Geometry.Es),
+                F(n), F(theta), 40, 1, true, 1, 12);
+            try
+            {
+                var r = ConcreteCurvatureAnalysis.Calculate(input, settings, options);
+                var engine = probe;
+                string points = string.Join("|", r.Points.Select(p =>
+                {
+                    var force = engine.Force(new ActionPoint(n, p.Mx, p.My));
+                    return string.Join(":", F(p.Moment), F(p.Curvature), F(p.GradientX), F(p.GradientY), F(p.Epsilon0), F(p.ConcreteCompressionStrain), F(p.SteelStrain), p.Yielded, p.Limit,
+                        F(force.N), F(force.M1), F(force.M2));
+                }));
+                curves.AppendLine(string.Join(";", head, "ok", F(r.LimitMoment), F(r.YieldCurvature), F(r.UltimateCurvature), F(r.LimitAxialKn), F(r.AxialResidualKn), points));
+            }
+            catch (Exception ex) { curves.AppendLine(string.Join(";", head, "error:" + ex.GetType().Name, Clean(ex.Message))); }
+        }
+        File.WriteAllText(Path.Combine(output, "curvature-legacy.csv"), curves.ToString(), new UTF8Encoding(false));
+        Console.WriteLine($"{aid} ancoraggi, {did} dettagli, {cid} curve M-χ -> {output}");
     }
 }
