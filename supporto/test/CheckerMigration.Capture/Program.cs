@@ -76,6 +76,7 @@ File.WriteAllText(Path.Combine(output, "shear-legacy.csv"), csv.ToString(), new 
 Console.WriteLine($"{cases.Count} casi di taglio -> {Path.Combine(output, "shear-legacy.csv")}");
 StressCapture.Run(output, commit, sha);
 TorsionCapture.Run(output, commit, sha);
+CrackCapture.Run(output, commit, sha);
 
 // Serviceability stresses (CheckerSection.Stress): sections saved with the Model archive, effective standard coefficients,
 // actions already transformed to the local axes passed to the native checker, legacy results.
@@ -254,5 +255,128 @@ internal static class TorsionCapture
         }
         File.WriteAllText(Path.Combine(output, "torsion-legacy.csv"), csv.ToString(), new UTF8Encoding(false));
         Console.WriteLine($"{gid} geometrie e {cases.Count} casi di torsione -> {Path.Combine(output, "torsion-legacy.csv")}");
+    }
+}
+
+// Cracking (Ntc2018Checks.Cracking with ConcreteCodeChecks, ConcreteTensionCracking, ConcreteInnerCracking): sections saved with the Model
+// archive, actions in the local axes passed to the native checker, crack options rotated over the states, legacy result and regions.
+internal static class CrackCapture
+{
+    static string F(double? v) => v is double d ? d.ToString("R", CultureInfo.InvariantCulture) : "";
+    static string Clean(string s) => s.Replace(";", ",").Replace("\n", " ").Replace("|", "/");
+    static readonly string[] Symbols = ["Criterio k₂", "hc,eff", "Ac,eff", "As,eff", "Øeq", "σs", "c", "s", "sr,max", "wk", "εsm − εcm", "Δsm adottata", "σct,max", "σct,lim", "h − x", "Qtaglio"];
+    internal static void Run(string output, string commit, string sha)
+    {
+        var sections = new List<(string Name, Action<System.Text.Json.Nodes.JsonObject> Edit)>
+        {
+            ("R300x500", i => { i["shape"] = "Rettangolare"; i["width_mm"] = "300"; i["height_mm"] = "500"; i["top_bar_count"] = "2"; i["bottom_bar_count"] = "3";
+                i["side_bar_count_per_side"] = "0"; i["top_bar_diameter_mm"] = "16"; i["bottom_bar_diameter_mm"] = "20"; i["cover_mm"] = "30"; i["fck_mpa"] = "30"; }),
+            ("T1200x800", i => { i["shape"] = "A T"; i["fck_mpa"] = "35"; }),
+            ("C1000", i => { i["shape"] = "Circolare"; i["fck_mpa"] = "40"; }),
+            ("R600x800H", i => { i["shape"] = "Rettangolare"; i["width_mm"] = "600"; i["height_mm"] = "800"; i["foro_presente"] = true; i["inner_width_mm"] = "300";
+                i["inner_height_mm"] = "400"; i["side_bar_count_per_side"] = "0"; i["fck_mpa"] = "28"; }),
+            ("C1000H", i => { i["shape"] = "Circolare"; i["foro_presente"] = true; i["inner_diameter_mm"] = "500"; i["second_inner_enabled"] = true;
+                i["second_inner_diameter"] = "16"; i["second_inner_count"] = "12"; i["second_inner_gap"] = "88"; i["fck_mpa"] = "32"; }),
+            ("R400x400", i => { i["shape"] = "Rettangolare"; i["width_mm"] = "400"; i["height_mm"] = "400"; i["top_bar_count"] = "4"; i["bottom_bar_count"] = "4";
+                i["side_bar_count_per_side"] = "1"; i["top_bar_diameter_mm"] = "20"; i["bottom_bar_diameter_mm"] = "20"; i["side_bar_diameter_mm"] = "20"; i["cover_mm"] = "35"; i["fck_mpa"] = "25"; })
+        };
+        var variants = new (string Exposure, string Sensitivity, string Duration, string Bond, string Cover, string Spacing, string Limit)[]
+        {
+            ("XC3", "Poco sensibile", "Lunga", "Migliorata", "", "", ""), ("XD1", "Sensibile", "Lunga", "Migliorata", "", "", ""),
+            ("XS3", "Poco sensibile", "Breve", "Migliorata", "", "", ""), ("XC1", "Sensibile", "Breve", "Liscia", "", "", ""),
+            ("XD3", "Poco sensibile", "Lunga", "Migliorata", "45", "180", ""), ("XC2", "Poco sensibile", "Lunga", "Migliorata", "", "", "0.25"),
+            ("Da scegliere", "Poco sensibile", "Lunga", "Migliorata", "", "", ""), ("XA1", "Poco sensibile", "Breve", "Migliorata", "", "", "")
+        };
+        var actions = new[] { new ActionPoint(-500, 50, 0), new ActionPoint(-200, 150, 40), new ActionPoint(0, 120, 0), new ActionPoint(100, 30, 0), new ActionPoint(-1500, 0, 0),
+            new ActionPoint(-800, -60, 90), new ActionPoint(300, 0, 0), new ActionPoint(400, 20, 15), new ActionPoint(50, -90, 60),
+            new ActionPoint(-100, 80, 0), new ActionPoint(0, 60, 40), new ActionPoint(-50, 260, 0), new ActionPoint(20, -150, 10) };
+        int skipped = 0;
+        var model = new GPC.Model.Models.Model("Sezioni fessurazione congelate");
+        var csv = new StringBuilder();
+        csv.AppendLine("# Ntc2018Checks.Cracking legacy outputs; ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
+        csv.AppendLine("# Sections in crack-sections.xml (Model archive, properties by name). Forces N, Nmm in the local axes passed to the checker; widths mm, areas mm2, stresses MPa.");
+        csv.AppendLine("# regions: name:area:steel:width:bar indices (0-based, '/' separated); details: symbol=value of the selected trace entries.");
+        csv.AppendLine("id;section;standard;coefficients;linear;psi;tension;divisions;origin;v1;v2;N;V1;V2;T;M1;M2;set;exposure;sensitivity;duration;bond;cover;spacing;limit;outcome;width;wlim;ratio;passed;status;aceff;aseff;barSpacing;spacingSource;regions;details");
+        int id = 0, variant = 0;
+        foreach (var (name, edit) in sections)
+        {
+            var data = SezioneCA.DefaultData(); var settings = SectionWorkspace.Prepare(data); var input = data["input"]!.AsObject(); edit(input);
+            var prepared = CheckerSection.PrepareModel(input, settings);
+            prepared.Section.Name = name; model.AddProperty(prepared.Section);
+            foreach (var standard in ConcreteStandards.OrdinaryNames)
+                foreach (var action in actions)
+                    foreach (var set in new[] { "SLE", "SLE_FREQ", "SLE_QP" })
+                    {
+                        var v = variants[variant++ % variants.Length];
+                        bool linear = id % 11 != 5, tension = id % 13 == 7; string psi = id % 2 == 0 ? "0" : "15";
+                        settings["normativa"] = standard; input["gettato_sottile"] = "No";
+                        var options = (System.Text.Json.Nodes.JsonObject)settings["sle"]![set]!.DeepClone();
+                        options["modello"] = linear ? "Lineare" : "Non lineare"; options["phi"] = psi; options["trazione_cls"] = tension ? "Sì" : "No"; options["angoli"] = "32";
+                        options["esposizione"] = v.Exposure; options["sensibilita"] = v.Sensitivity; options["durata"] = v.Duration; options["aderenza"] = v.Bond;
+                        options["copriferro_fessure"] = v.Cover; options["spaziatura_fessure"] = v.Spacing; options["limite_fessure"] = v.Limit;
+                        // Model Code 2010 has no default limit: a design wlim in three states out of four.
+                        if (standard == "Model Code 2010" && v.Limit == "" && variant % 4 != 0) options["limite_fessure"] = "0.3";
+                        // Keep one state out of four where the standard does not require the check for this combination.
+                        if (ConcreteCodeChecks.CrackRequirement(standard, set, options).Kind.StartsWith("Non richiesta") && skipped++ % 4 != 0) continue;
+                        var effective = ConcreteStandards.Effective(input, settings);
+                        string coefficients = string.Join(",", ConcreteStandards.Coefficients.Select(c => c.Key + "=" + F((double)typeof(GPC.Model.Standards.StandardModelCode2010).GetProperty(c.Key)!.GetValue(effective)!)));
+                        CheckerSection engine;
+                        try { engine = new CheckerSection(prepared, input, settings, options); }
+                        catch (Exception ex) { csv.AppendLine(string.Join(";", id++, name, standard, "", "", "", "", "", "", "", "", "", "", "", "", "", "", set, "", "", "", "", "", "", "", "error:" + ex.GetType().Name, "", "", "", "", Clean(ex.Message), "", "", "", "", "", "")); continue; }
+                        var force = engine.Force(action); var cs = force.CoordinateSystem;
+                        string head = string.Join(";", id++, name, standard, coefficients, linear, psi, tension, 32,
+                            F(cs.Origin.X) + "," + F(cs.Origin.Y) + "," + F(cs.Origin.Z), F(cs.V1.X) + "," + F(cs.V1.Y) + "," + F(cs.V1.Z), F(cs.V2.X) + "," + F(cs.V2.Y) + "," + F(cs.V2.Z),
+                            F(force.N), F(force.V1), F(force.V2), F(force.T), F(force.M1), F(force.M2), set, v.Exposure, v.Sensitivity, v.Duration, v.Bond, v.Cover, v.Spacing,
+                            options.S("limite_fessure"));
+                        try
+                        {
+                            var state = engine.Stress(action, set);
+                            var r = Ntc2018Checks.Cracking(engine, state, action, input, settings, options, set);
+                            string regions = string.Join("|", r.Regions.Select(g => string.Join(":", Clean(g.Name), F(g.Area), F(g.SteelArea), F(g.Width), string.Join("/", g.BarIndices))));
+                            string details = string.Join("|", r.Details.Where(d => d.Value is double && Symbols.Any(s => d.Symbol == s || d.Symbol.EndsWith(" · " + s)))
+                                .Select(d => Clean(d.Symbol) + "=" + F(d.Value)));
+                            csv.AppendLine(string.Join(";", head, "ok", F(r.Width), F(r.Limit), F(r.Ratio), r.Passed?.ToString() ?? "", Clean(r.Status), F(r.EffectiveArea), F(r.EffectiveSteel),
+                                F(r.BarSpacing), r.SpacingSource ?? "", regions, details));
+                        }
+                        catch (Exception ex) { csv.AppendLine(string.Join(";", head, "error:" + ex.GetType().Name, "", "", "", "", Clean(ex.Message), "", "", "", "", "", "")); }
+                    }
+        }
+        using (var stream = File.Create(Path.Combine(output, "crack-sections.xml"))) GPC.Model.Persistence.ModelArchive.Save(model, stream);
+        File.WriteAllText(Path.Combine(output, "crack-legacy.csv"), csv.ToString(), new UTF8Encoding(false));
+        Console.WriteLine($"{id} stati di fessurazione -> {Path.Combine(output, "crack-legacy.csv")}");
+
+        // Scalar cores on seeded random inputs: crack width of every ordinary standard and the requirement table.
+        var scalar = new StringBuilder();
+        scalar.AppendLine("# ConcreteCodeChecks.CrackWidth / CrackRequirement legacy outputs; ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
+        scalar.AppendLine("# width: standard;sigma;es;ecm;fct;rho;phi;cover;spacing;tensileDepth;short;ribbed;k2;outcome;wk|sr|strain  requirement: standard;set;exposure;sensitive;limit;kind;wlim");
+        var random = new Random(20261003);
+        double U(double a, double b) => a + (b - a) * random.NextDouble();
+        for (int i = 0; i < 1400; i++)
+        {
+            string standard = ConcreteStandards.OrdinaryNames[i % ConcreteStandards.OrdinaryNames.Length];
+            double sigma = i % 97 == 0 ? 0 : U(0, 450), es = 200000, ecm = U(26000, 42000), fct = U(1.8, 4.8), rho = U(.002, .08), phi = U(8, 32);
+            double cover = i % 89 == 0 ? 0 : U(15, 80), spacing = U(50, 450), depth = U(40, 900); bool shortTerm = random.NextDouble() < .4, ribbed = random.NextDouble() < .85;
+            double k2 = random.NextDouble() < .5 ? .5 : random.NextDouble() < .5 ? 1 : U(.5, 1);
+            string head = string.Join(";", "W" + i, standard, F(sigma), F(es), F(ecm), F(fct), F(rho), F(phi), F(cover), F(spacing), F(depth), shortTerm, ribbed, F(k2));
+            try
+            {
+                var trace = new List<CrackCalculationDetail>();
+                double w = ConcreteCodeChecks.CrackWidth(standard, sigma, es, ecm, fct, rho, phi, cover, spacing, depth, shortTerm, ribbed, k2, trace);
+                scalar.AppendLine(string.Join(";", head, "ok", F(w)));
+            }
+            catch (Exception ex) { scalar.AppendLine(string.Join(";", head, "error:" + ex.GetType().Name, "")); }
+        }
+        foreach (var standard in ConcreteStandards.OrdinaryNames)
+            foreach (var set in new[] { "SLE", "SLE_FREQ", "SLE_QP" })
+                foreach (var exposure in Ntc2018Checks.Exposures)
+                    foreach (var sensitive in new[] { false, true })
+                        foreach (var limit in new[] { "", "0.25" })
+                        {
+                            var o = new System.Text.Json.Nodes.JsonObject { ["esposizione"] = exposure, ["sensibilita"] = sensitive ? "Sensibile" : "Poco sensibile", ["limite_fessure"] = limit };
+                            var req = ConcreteCodeChecks.CrackRequirement(standard, set, o);
+                            scalar.AppendLine(string.Join(";", "R", standard, set, exposure, sensitive, limit, Clean(req.Kind), F(req.Limit)));
+                        }
+        File.WriteAllText(Path.Combine(output, "crack-scalar-legacy.csv"), scalar.ToString(), new UTF8Encoding(false));
+        Console.WriteLine("nuclei scalari della fessurazione -> " + Path.Combine(output, "crack-scalar-legacy.csv"));
     }
 }
