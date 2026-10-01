@@ -74,3 +74,68 @@ for (int i = 0; i < cases.Count; i++)
 }
 File.WriteAllText(Path.Combine(output, "shear-legacy.csv"), csv.ToString(), new UTF8Encoding(false));
 Console.WriteLine($"{cases.Count} casi di taglio -> {Path.Combine(output, "shear-legacy.csv")}");
+StressCapture.Run(output, commit, sha);
+
+// Serviceability stresses (CheckerSection.Stress): sections saved with the Model archive, effective standard coefficients,
+// actions already transformed to the local axes passed to the native checker, legacy results.
+internal static class StressCapture
+{
+    static string F(double? v) => v is double d ? d.ToString("R", CultureInfo.InvariantCulture) : "";
+    internal static void Run(string output, string commit, string sha)
+    {
+        var sections = new List<(string Name, Action<System.Text.Json.Nodes.JsonObject> Edit)>
+        {
+            ("R300x500", i => { i["shape"] = "Rettangolare"; i["width_mm"] = "300"; i["height_mm"] = "500"; i["top_bar_count"] = "2"; i["bottom_bar_count"] = "3";
+                i["side_bar_count_per_side"] = "0"; i["top_bar_diameter_mm"] = "16"; i["bottom_bar_diameter_mm"] = "20"; i["cover_mm"] = "30"; i["fck_mpa"] = "30"; }),
+            ("T1200x800", i => { i["shape"] = "A T"; i["fck_mpa"] = "35"; }),
+            ("C1000", i => { i["shape"] = "Circolare"; i["fck_mpa"] = "40"; }),
+            ("R600x800H", i => { i["shape"] = "Rettangolare"; i["width_mm"] = "600"; i["height_mm"] = "800"; i["foro_presente"] = true; i["inner_width_mm"] = "300";
+                i["inner_height_mm"] = "400"; i["side_bar_count_per_side"] = "0"; i["fck_mpa"] = "28"; })
+        };
+        var model = new GPC.Model.Models.Model("Sezioni SLE congelate");
+        var csv = new StringBuilder();
+        csv.AppendLine("# CheckerSection.Stress legacy outputs; ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
+        csv.AppendLine("# Sections in stress-sections.xml (Model archive, properties by name). Forces N, Nmm in the local axes passed to the checker; stresses MPa.");
+        csv.AppendLine("id;section;standard;coefficients;linear;psi;tension;divisions;reduction;origin;v1;v2;N;V1;V2;T;M1;M2;set;outcome;sigmaC;sigmaS;ratio;limitC;limitS;status");
+        var actions = new[] { new ActionPoint(-500, 50, 0), new ActionPoint(-200, 150, 40), new ActionPoint(0, 120, 0), new ActionPoint(100, 30, 0), new ActionPoint(-1500, 0, 0), new ActionPoint(-800, -60, 90) };
+        int id = 0;
+        foreach (var (name, edit) in sections)
+        {
+            var data = SezioneCA.DefaultData(); var settings = SectionWorkspace.Prepare(data); var input = data["input"]!.AsObject(); edit(input);
+            var prepared = CheckerSection.PrepareModel(input, settings);
+            prepared.Section.Name = name; model.AddProperty(prepared.Section);
+            foreach (var standard in ConcreteStandards.Names)
+                foreach (var (linear, psi, tension, thin) in new[] { (false, "0", "No", false), (true, "2", "No", false), (true, "0", "Sì", false), (true, "2", "No", true) })
+                {
+                    if (thin && standard != "NTC 2018") continue;
+                    settings["normativa"] = standard; input["gettato_sottile"] = thin ? "Sì" : "No";
+                    var options = (System.Text.Json.Nodes.JsonObject)settings["sle"]!["SLE"]!.DeepClone();
+                    options["modello"] = linear ? "Lineare" : "Non lineare"; options["phi"] = psi; options["trazione_cls"] = tension; options["angoli"] = "32";
+                    CheckerSection engine;
+                    try { engine = new CheckerSection(prepared, input, settings, options); }
+                    catch (Exception ex) { csv.AppendLine(string.Join(";", id++, name, standard, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "error:" + ex.GetType().Name, "", "", "", "", "", ex.Message.Replace(";", ","))); continue; }
+                    var effective = ConcreteStandards.Effective(input, settings); double reduction = standard == "NTC 2018" && thin ? .8 : 1; effective.AlphaCC *= reduction;
+                    string coefficients = string.Join(",", ConcreteStandards.Coefficients.Select(c => c.Key + "=" + F((double)typeof(GPC.Model.Standards.StandardModelCode2010).GetProperty(c.Key)!.GetValue(effective)!)));
+                    foreach (var action in actions)
+                    {
+                        var force = engine.Force(action); var cs = force.CoordinateSystem;
+                        string head = string.Join(";", id++, name, standard, coefficients, linear, psi, tension == "Sì", 32, F(reduction),
+                            F(cs.Origin.X) + "," + F(cs.Origin.Y) + "," + F(cs.Origin.Z), F(cs.V1.X) + "," + F(cs.V1.Y) + "," + F(cs.V1.Z), F(cs.V2.X) + "," + F(cs.V2.Y) + "," + F(cs.V2.Z),
+                            F(force.N), F(force.V1), F(force.V2), F(force.T), F(force.M1), F(force.M2));
+                        foreach (var set in new[] { "SLE", "SLE_QP", "SLE_FREQ" })
+                        {
+                            try
+                            {
+                                var s = engine.Stress(action, set);
+                                csv.AppendLine(string.Join(";", head, set, "ok", F(s.sigma_cls), F(s.sigma_acciaio), F(s.Ratio), F(s.ConcreteStressLimit), F(s.SteelStressLimit), s.Status));
+                            }
+                            catch (Exception ex) { csv.AppendLine(string.Join(";", head, set, "error:" + ex.GetType().Name, "", "", "", "", "", ex.Message.Replace(";", ",").Replace("\n", " "))); }
+                        }
+                    }
+                }
+        }
+        using (var stream = File.Create(Path.Combine(output, "stress-sections.xml"))) GPC.Model.Persistence.ModelArchive.Save(model, stream);
+        File.WriteAllText(Path.Combine(output, "stress-legacy.csv"), csv.ToString(), new UTF8Encoding(false));
+        Console.WriteLine($"{id} stati tensionali -> {Path.Combine(output, "stress-legacy.csv")}");
+    }
+}
