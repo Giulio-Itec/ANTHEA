@@ -78,6 +78,7 @@ StressCapture.Run(output, commit, sha);
 TorsionCapture.Run(output, commit, sha);
 CrackCapture.Run(output, commit, sha);
 DetailingCapture.Run(output, commit, sha);
+DurabilityCapture.Run(output, commit, sha);
 
 // Serviceability stresses (CheckerSection.Stress): sections saved with the Model archive, effective standard coefficients,
 // actions already transformed to the local axes passed to the native checker, legacy results.
@@ -512,5 +513,63 @@ internal static class DetailingCapture
         }
         File.WriteAllText(Path.Combine(output, "curvature-legacy.csv"), curves.ToString(), new UTF8Encoding(false));
         Console.WriteLine($"{aid} ancoraggi, {did} dettagli, {cid} curve M-χ -> {output}");
+    }
+}
+
+// Durability (Materiali: Durability.Cover EC2 4.4N with structural classes, NtcCover.Calculate, MinimumConcrete, AtecapMix) on a grid of exposures,
+// strengths and options, single and combined exposures.
+internal static class DurabilityCapture
+{
+    static string F(double? v) => v is double d ? d.ToString("R", CultureInfo.InvariantCulture) : "";
+    static string Clean(string s) => s.Replace(";", ",").Replace("\n", " ").Replace("|", "/");
+    internal static void Run(string output, string commit, string sha)
+    {
+        var csv = new StringBuilder();
+        csv.AppendLine("# Materiali.Durability / NtcCover / MinimumConcrete / AtecapMix legacy outputs; ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
+        csv.AppendLine("# Lengths mm, strengths MPa. method;exposures;fck;life;strengthReduction;slab;quality;diameter;aggregate;deviation;rough;abrasion;ground;plate;ntcQuality;outcome;bond;durability;minimum;nominal;lines|...");
+        var exposures = Materiali.Durability.Exposures;
+        var sets = exposures.Select(e => new[] { e }).Concat(new[] { new[] { "XC4", "XF2" }, new[] { "XC4", "XS3", "XF4" }, new[] { "XD1", "XA2" }, new[] { "XF1", "XF3" }, new[] { "X0", "XC1" }, new[] { "XF4" } }
+            .Select(c => c.Select(code => exposures.Single(e => e.Code == code)).ToArray())).ToArray();
+        int n = 0;
+        foreach (var set in sets)
+            foreach (double fck in new[] { 20.0, 25, 30, 35, 40, 45, 50 })
+                for (int k = 0; k < 6; k++)
+                {
+                    int v = n++;
+                    var p = new Materiali.CoverInput(v % 4 == 3 ? 100 : 50, v % 3 == 1, v % 5 == 2, v % 7 == 4, new[] { 12.0, 16, 20, 32 }[v % 4], new[] { 16.0, 20, 40 }[v % 3],
+                        new[] { 10.0, 5, 0 }[v % 3], v % 6 == 5, new[] { 0, 5, 10, 15 }[v % 4], new[] { 0, 40, 75 }[(v / 3) % 3]);
+                    string codes = string.Join("+", set.Select(e => e.Code));
+                    string head = string.Join(";", codes, F(fck), p.Life, p.StrengthReduction, p.Slab, p.Quality, F(p.Diameter), F(p.Aggregate), F(p.Deviation), p.Rough, p.Abrasion, p.Ground);
+                    try
+                    {
+                        var r = Materiali.Durability.Cover(set, fck, p);
+                        csv.AppendLine(string.Join(";", "EC2", head, "", "", "ok", F(r.Bond), F(r.Durability), F(r.Minimum), F(r.Nominal), string.Join("|", r.Lines.Select(l => l.Exposure + ":" + l.StructuralClass + ":" + F(l.Durability)))));
+                    }
+                    catch (Exception ex) { csv.AppendLine(string.Join(";", "EC2", head, "", "", "error:" + ex.GetType().Name, "", "", "", "", Clean(ex.Message))); }
+                    foreach (bool plate in new[] { false, true })
+                    {
+                        bool quality = v % 2 == 1; int? pertinent = null;
+                        try
+                        {
+                            if (v % 5 == 3) pertinent = Materiali.MinimumConcrete.Required(set);
+                            var r = Materiali.NtcCover.Calculate(set, fck, p, plate, quality, pertinent);
+                            csv.AppendLine(string.Join(";", "NTC", head, plate, quality + (pertinent is int c ? ":" + c : ""), "ok", F(r.Cover.Bond), F(r.Cover.Durability), F(r.Cover.Minimum), F(r.Cover.Nominal),
+                                string.Join("|", r.Environment, r.Severity, F(r.Cmin), F(r.C0), F(r.TableCover), F(r.LifeExtra), F(r.LowStrengthExtra), F(r.QualityReduction))));
+                        }
+                        catch (Exception ex) { csv.AppendLine(string.Join(";", "NTC", head, plate, quality + (pertinent is int c ? ":" + c : ""), "error:" + ex.GetType().Name, "", "", "", "", Clean(ex.Message))); }
+                    }
+                }
+        foreach (var set in sets)
+        {
+            try
+            {
+                var mix = Materiali.AtecapMix.Required(set);
+                csv.AppendLine(string.Join(";", "MIX", string.Join("+", set.Select(e => e.Code)), F(Materiali.MinimumConcrete.Required(set)), F(mix.Ratio), mix.Cement?.ToString() ?? "",
+                    F(Materiali.AtecapMix.Air(set, 16)), F(Materiali.AtecapMix.Air(set, 32)), F(Materiali.AtecapMix.Air(set, 8))));
+            }
+            catch (Exception ex) { csv.AppendLine(string.Join(";", "MIX", string.Join("+", set.Select(e => e.Code)), "error:" + ex.GetType().Name, "", "", "", "", Clean(ex.Message))); }
+        }
+        File.WriteAllText(Path.Combine(output, "durability-legacy.csv"), csv.ToString(), new UTF8Encoding(false));
+        Console.WriteLine($"{n} combinazioni di durabilità -> {Path.Combine(output, "durability-legacy.csv")}");
     }
 }
