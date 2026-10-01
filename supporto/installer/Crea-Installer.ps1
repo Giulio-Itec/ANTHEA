@@ -5,7 +5,7 @@ Crea l'installer NSIS di ANTHEA.
 .DESCRIPTION
 Pubblica X.Desktop self-contained per win-x64 (runtime .NET 8 incluso) nella cartella
 di lavoro supporto/artefatti/installer, senza toccare bin/obj del repository; copia l'ultima
-revisione delle guide PDF, genera le immagini dell'installer dal logo e gli elenchi dei file
+revisione delle guide generali e tutti i PDF del catalogo Guide.json, genera le immagini e gli elenchi dei file
 per installazione e disinstallazione, poi compila ANTHEA.nsi con makensis.
 La versione e' quella di <Version> in X.Desktop/X.Desktop.csproj: il setup si chiama
 ANTHEA-<versione>-Setup-x64.exe e con la stessa versione viene sovrascritto.
@@ -31,7 +31,7 @@ $root = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 $project = Join-Path $root 'X.Desktop\X.Desktop.csproj'
 $icon = Join-Path $root 'X.Desktop\Assets\anthea.ico'
 $logo = Join-Path $root 'X.Desktop\Assets\logo.png'
-$guides = Join-Path $root 'supporto\documentazione\Guide_ANTHEA'
+. (Join-Path $PSScriptRoot 'Documentazione.ps1')
 if (-not $OutputDirectory) { $OutputDirectory = $PSScriptRoot }
 $OutputDirectory = [string]$ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($OutputDirectory)
 $work = Join-Path $root 'supporto\artefatti\installer'
@@ -77,6 +77,16 @@ function Write-Utf8Lines([string]$path, [string[]]$lines) {
     [System.IO.File]::WriteAllLines($path, $lines, (New-Object System.Text.UTF8Encoding $true))
 }
 
+function Remove-StageDirectory([string]$path) {
+    if (-not (Test-Path -LiteralPath $path)) { return }
+    $resolved = (Resolve-Path -LiteralPath $path).Path
+    $expected = [IO.Path]::GetFullPath((Join-Path $root 'supporto\artefatti\installer\stage'))
+    if ($resolved -ne $expected -and -not $resolved.StartsWith($expected + '\', [StringComparison]::OrdinalIgnoreCase)) {
+        throw "Pulizia rifiutata fuori dalla cartella di staging: $resolved"
+    }
+    Remove-Item -LiteralPath $resolved -Recurse -Force
+}
+
 function Write-FileLists {
     $files = @(Get-ChildItem $app -Recurse -File | Sort-Object DirectoryName, Name)
     if (-not (Test-Path (Join-Path $app 'ANTHEA.exe'))) { throw "ANTHEA.exe mancante in $app" }
@@ -100,21 +110,6 @@ function Write-FileLists {
     Write-Utf8Lines (Join-Path $stage 'install-files.nsh') $install.ToArray()
     Write-Utf8Lines (Join-Path $stage 'uninstall-files.nsh') $uninstall.ToArray()
     return $files
-}
-
-function Copy-LatestGuides {
-    $target = Join-Path $stage 'guide'
-    New-Item -ItemType Directory -Force $target | Out-Null
-    $revisions = @()
-    foreach ($kind in 'pratica', 'teorica') {
-        $pdf = Get-ChildItem $guides -Filter "ANTHEA_Guida_${kind}_*Rev*.pdf" |
-            Sort-Object { [int]([regex]::Match($_.BaseName, 'Rev(\d+)').Groups[1].Value) } | Select-Object -Last 1
-        if (-not $pdf) { throw "Guida $kind in PDF non trovata in $guides" }
-        Copy-Item $pdf.FullName (Join-Path $target "Guida $kind ANTHEA.pdf") -Force
-        $revisions += [regex]::Match($pdf.BaseName, 'Rev(\d+)').Groups[1].Value
-        Write-Host "  guida $kind`: $($pdf.Name)"
-    }
-    return ($revisions | Sort-Object -Unique) -join '/'
 }
 
 # MUI bitmaps at their native size (welcome 164x314, header 150x57), drawn from the app logo.
@@ -164,15 +159,17 @@ function New-InstallerImages {
 
 $makensisPath = Find-MakeNsis
 $version = Get-ProjectVersion
+# Validate the complete documentation before publishing or replacing an existing setup.
+$guideCatalog = Get-InstallerGuides $root
 Write-Host "ANTHEA $version - makensis: $makensisPath"
 
 if ($SkipPublish) {
     if (-not (Test-Path (Join-Path $app 'ANTHEA.exe'))) { throw "Nessuna pubblicazione in $app" }
     Get-ChildItem $stage -File | Remove-Item -Force
-    if (Test-Path (Join-Path $stage 'guide')) { Remove-Item (Join-Path $stage 'guide') -Recurse -Force }
+    Remove-StageDirectory (Join-Path $stage 'guide')
 }
 else {
-    if ((Test-Path $stage) -and (Split-Path $stage -Leaf) -eq 'stage') { Remove-Item $stage -Recurse -Force }
+    Remove-StageDirectory $stage
     New-Item -ItemType Directory -Force $app | Out-Null
     # Separate artifacts path: the RID-specific restore must not overwrite obj of the normal build.
     $build = Join-Path $work 'build'
@@ -181,7 +178,7 @@ else {
     if ($LASTEXITCODE -ne 0) { throw "dotnet publish non riuscito ($LASTEXITCODE)" }
 }
 
-$guideRevision = Copy-LatestGuides
+Write-InstallerGuides $guideCatalog $stage
 New-InstallerImages
 $files = Write-FileLists
 $bytes = ($files | Measure-Object Length -Sum).Sum
@@ -191,7 +188,7 @@ New-Item -ItemType Directory -Force $OutputDirectory | Out-Null
 $setup = Join-Path $OutputDirectory "ANTHEA-$version-Setup-x64.exe"
 if (Test-Path $setup) { Write-Host "  il setup della versione $version esiste gia': viene sovrascritto" }
 & $makensisPath /V3 /INPUTCHARSET UTF8 "/DVERSION=$version" "/DVERSION4=$version.0" "/DSTAGE=$stage" `
-    "/DOUTFILE=$setup" "/DICON=$icon" "/DGUIDE_REV=$guideRevision" (Join-Path $PSScriptRoot 'ANTHEA.nsi')
+    "/DOUTFILE=$setup" "/DICON=$icon" "/DGUIDE_REV=$($guideCatalog.Revision)" (Join-Path $PSScriptRoot 'ANTHEA.nsi')
 if ($LASTEXITCODE -ne 0) { throw "makensis non riuscito ($LASTEXITCODE)" }
 
 $hash = (Get-FileHash $setup -Algorithm SHA256).Hash

@@ -32,8 +32,6 @@ SetCompressorDictSize 64
 !define PROGID "ANTHEA.Archivio"
 !define APPKEY "Software\ITEC\ANTHEA"
 !define UNINSTKEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\ANTHEA"
-!define GUIDE_PRATICA "Guida pratica ANTHEA.pdf"
-!define GUIDE_TEORICA "Guida teorica ANTHEA.pdf"
 
 Name "${APP}"
 OutFile "${OUTFILE}"
@@ -233,17 +231,15 @@ Section "${APP}" SecApp
   CreateShortcut "$SMPROGRAMS\${APP}\${APP}.lnk" "$INSTDIR\${EXE}"
 SectionEnd
 
-Section "Guide in PDF" SecGuides
+Section "Documentazione e guide in PDF" SecGuides
+  SectionIn RO
   ClearErrors
-  SetOutPath "$INSTDIR\Guide"
-  File "${STAGE}\guide\${GUIDE_PRATICA}"
-  File "${STAGE}\guide\${GUIDE_TEORICA}"
+  !include "${STAGE}\install-guides.nsh"
   ${If} ${Errors}
     Abort "Le guide non sono state scritte in $INSTDIR\Guide: installazione incompleta."
   ${EndIf}
-  CreateDirectory "$SMPROGRAMS\${APP}"
-  CreateShortcut "$SMPROGRAMS\${APP}\Guida pratica.lnk" "$INSTDIR\Guide\${GUIDE_PRATICA}"
-  CreateShortcut "$SMPROGRAMS\${APP}\Guida teorica.lnk" "$INSTDIR\Guide\${GUIDE_TEORICA}"
+  !include "${STAGE}\guide-shortcuts.nsh"
+  SetOutPath "$INSTDIR"
 SectionEnd
 
 Section "Collegamento sul desktop" SecDesktop
@@ -267,7 +263,7 @@ SectionEnd
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SecApp} "Programma ${APP} ${VERSION} con il runtime .NET 8 incluso."
-  !insertmacro MUI_DESCRIPTION_TEXT ${SecGuides} "Guida pratica e guida teorica dei calcoli (Rev${GUIDE_REV}), con collegamenti nel menu Start."
+  !insertmacro MUI_DESCRIPTION_TEXT ${SecGuides} "Documentazione inclusa: uso e teoria di tutti i moduli documentati (Rev${GUIDE_REV}), approfondimenti e indice. Consultabile offline dal menu Start."
   !insertmacro MUI_DESCRIPTION_TEXT ${SecDesktop} "Collegamento ad ${APP} sul desktop."
   !insertmacro MUI_DESCRIPTION_TEXT ${SecAssociations} "Apre gli archivi .anthea e .programma con un doppio clic."
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
@@ -275,15 +271,12 @@ SectionEnd
 Section "Uninstall"
   Call un.CheckNotRunning
   !include "${STAGE}\uninstall-files.nsh"
-  Delete "$INSTDIR\Guide\${GUIDE_PRATICA}"
-  Delete "$INSTDIR\Guide\${GUIDE_TEORICA}"
-  RMDir "$INSTDIR\Guide"
+  !include "${STAGE}\uninstall-guides.nsh"
   Delete "$INSTDIR\Uninstall.exe"
   RMDir "$INSTDIR"
 
   Delete "$SMPROGRAMS\${APP}\${APP}.lnk"
-  Delete "$SMPROGRAMS\${APP}\Guida pratica.lnk"
-  Delete "$SMPROGRAMS\${APP}\Guida teorica.lnk"
+  !include "${STAGE}\uninstall-guide-shortcuts.nsh"
   RMDir "$SMPROGRAMS\${APP}"
   Delete "$DESKTOP\${APP}.lnk"
 

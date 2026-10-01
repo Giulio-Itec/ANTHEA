@@ -162,7 +162,9 @@ public static partial class BridgeConcept
                 }
                 if (!options.KeepDepth && depthFactor != 1)
                 {
-                    try { i["depth"] = Math.Ceiling(Calculate(d).Depth * depthFactor * 20) / 20; }
+                    // Span coordinates can put an exact 5 cm step a few ulps
+                    // above its boundary; do not add an unintended extra step.
+                    try { i["depth"] = Math.Ceiling(Calculate(d).Depth * depthFactor * 20 - 1e-10) / 20; }
                     catch (ArgumentException) { /* Add records the invalid candidate and its reason. */ }
                 }
                 Add(d);

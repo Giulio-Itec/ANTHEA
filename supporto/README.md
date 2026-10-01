@@ -15,6 +15,11 @@ Per la stabilità globale, il punto di accesso alle evidenze è [Documenti ed es
 Per il nuovo predimensionamento dei ponti vedere [Bridge Design](docs/bridge-design.md) e la suite
 `test/BridgeDesign.Checks`.
 
+Per l'ottimizzazione vedere [Teoria e validazione di Bridge Design](documentazione/Bridge_Design/ANTHEA_Bridge_Design_Teoria_ITEC_Rev01.docx)
+e [Guida pratica di Bridge Design](documentazione/Bridge_Design/ANTHEA_Bridge_Design_Pratica_ITEC_Rev01.docx),
+con PDF e sorgenti Markdown omonimi. La verifica indipendente dal sito è in `test/BridgeDesign.IndependentChecks`:
+secondo solutore FEM, computo autonomo e confronto dell'intera graduatoria di un caso controllato.
+
 | Cartella | Contenuto |
 | --- | --- |
 | `test/X.Verifiche` | Progetto dei controlli numerici e software, incluso nella soluzione ANTHEA |

@@ -1,0 +1,27 @@
+[
+  {
+    "source": "supporto/installer/Indice-guide.pdf",
+    "target": "Indice-guide.pdf",
+    "shortcut": "Indice delle guide"
+  },
+  {
+    "source": "supporto/docs/palo-orizzontale.pdf",
+    "target": "palo-orizzontale.pdf",
+    "shortcut": "Guide dei moduli/Palo orizzontale - Broms"
+  },
+  {
+    "source": "supporto/docs/palo-stratificato.pdf",
+    "target": "palo-stratificato.pdf",
+    "shortcut": "Guide dei moduli/Pali e micropali - Metodo stratificato"
+  },
+  {
+    "source": "supporto/docs/muri-sostegno.pdf",
+    "target": "muri-sostegno.pdf",
+    "shortcut": "Guide dei moduli/Muri di sostegno"
+  },
+  {
+    "source": "supporto/docs/stabilita-globale-guida-rapida.pdf",
+    "target": "stabilita-globale-guida-rapida.pdf",
+    "shortcut": "Guide dei moduli/Stabilita globale - Guida rapida"
+  }
+]
