@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using Anthea.Calculations;
+using Anthea.Calculations.Geotechnics;
 
 // Freezes the legacy outputs of the calculation cores before they are moved to Checker (migration step M2).
 // Usage: dotnet CheckerMigration.Capture.dll <output directory> <ANTHEA commit>
@@ -79,6 +80,7 @@ TorsionCapture.Run(output, commit, sha);
 CrackCapture.Run(output, commit, sha);
 DetailingCapture.Run(output, commit, sha);
 DurabilityCapture.Run(output, commit, sha);
+GeotechnicsCapture.Run(output, commit, sha);
 
 // Serviceability stresses (CheckerSection.Stress): sections saved with the Model archive, effective standard coefficients,
 // actions already transformed to the local axes passed to the native checker, legacy results.
@@ -571,5 +573,350 @@ internal static class DurabilityCapture
         }
         File.WriteAllText(Path.Combine(output, "durability-legacy.csv"), csv.ToString(), new UTF8Encoding(false));
         Console.WriteLine($"{n} combinazioni di durabilità -> {Path.Combine(output, "durability-legacy.csv")}");
+    }
+}
+
+// General geotechnics (Anthea.Calculations.Geotechnics): Bishop on assigned slices, slope geometry, slices and searches on sections, oedometric
+// settlement under a strip, Newmark rigid block, EN 1998-5 Annex F bearing capacity. Legacy units: m, kN, kN/m, kPa, kN/m³, degrees, g, s.
+// Every input is written in the files so that the Checker tests rebuild it after the unit conversion.
+internal static class GeotechnicsCapture
+{
+    static string F(double? v) => v is double d ? d.ToString("R", CultureInfo.InvariantCulture) : "";
+    static string Clean(string s) => s.Replace(";", ",").Replace("\n", " ").Replace("|", "/");
+    static string Points(IEnumerable<SlopePoint> p) => string.Join("/", p.Select(q => F(q.X) + ":" + F(q.Y)));
+    static string Circle(SlipCircle? c) => c is null ? "null" : string.Join(":", F(c.X), F(c.Y), F(c.Radius), F(c.Left), F(c.Right));
+    static string Slice(SlopeSlice s) => string.Join(":", s.Index, F(s.Left), F(s.Right), F(s.BaseY), F(s.TopY), F(s.Alpha), s.Soil.Replace(":", " "), F(s.SoilWeight),
+        F(s.BodyWeight), F(s.WeightX), F(s.WeightY), F(s.VerticalLoad), F(s.HorizontalLoad), F(s.U), F(s.Phi), F(s.Cohesion), F(s.Vertical), F(s.Driving), F(s.NormalEffective),
+        F(s.Resistance), F(s.Mobilized), F(s.MAlpha));
+    static string Soils(IEnumerable<SlopeSoil> soils) => string.Join("|", soils.Select(s => string.Join(":", s.Name, F(s.Bottom), F(s.Gamma), F(s.GammaSat), F(s.Phi), F(s.Cohesion), F(s.Cu))));
+    static string Factors(SlopeFactors f) => string.Join(":", f.Name, F(f.Soil), F(f.Body), F(f.MPhi), F(f.MC), F(f.MCu), F(f.R), F(f.Kh), F(f.Kv), f.Undrained,
+        string.Join("/", f.Loads.OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => p.Key + "=" + F(p.Value))));
+
+    internal static void Run(string output, string commit, string sha)
+    {
+        string header = "ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha;
+        Bishop(output, header); Slopes(output, header); Settlement(output, header); Newmark(output, header); Seismic(output, header);
+    }
+
+    static void Bishop(string output, string header)
+    {
+        var csv = new StringBuilder();
+        csv.AppendLine("# BishopSolver.Solve legacy outputs; " + header);
+        csv.AppendLine("# Units m, kN/m, kPa, degrees. id;gammaR;slices alpha:phi:c:u:b:V:D|...;outcome;F;ratio;iterations;residual;driving;resistance;slices N':R:Rmob:malpha|...");
+        var random = new Random(20261002);
+        double U(double a, double b) => a + (b - a) * random.NextDouble();
+        SlopeSlice Make(int i, double left, double b, double alpha, double phi, double c, double u, double v, double d)
+            => new(i, left, left + b, 0, 1, alpha, "S", v, 0, left + b / 2, .5, 0, 0, u, phi, c, v, d, 0, 0, 0, 0);
+        var cases = new List<(double GammaR, SlopeSlice[] Slices)>
+        {
+            (1.1, new[] { Make(1, 0, 1, 30, 30, 0, 0, 100, 50) }), (1, new[] { Make(1, 0, 1, 30, 0, 10, 0, 100, 50) }),
+            (1, new[] { Make(1, 0, 1, 30, 30, 0, 10, 100, 50) }), (1, new[] { Make(1, 0, 1, 30, 30, 0, 0, 100, 0) }),
+            (1, new[] { Make(1, 0, 1, 30, 30, 0, 0, 100, -20) }), (1, new[] { Make(1, 0, 1, -40, 35, 50, 0, 10, 1), Make(2, 1, 1, 60, 35, 0, 0, 100, 80) }),
+            (0, new[] { Make(1, 0, 1, 30, 30, 0, 0, 100, 50) }), (double.NaN, new[] { Make(1, 0, 1, 30, 30, 0, 0, 100, 50) }), (1, Array.Empty<SlopeSlice>()),
+            (1, new[] { Make(1, 0, 1, 30, 30, 0, 500, 100, 50) }), (1, new[] { Make(1, 0, 1, 0, 30, 0, 0, 100, 30) }), (1, new[] { Make(1, 0, 1, 80, 45, 0, 0, 100, 98) }),
+            (1, new[] { Make(1, 0, 1, -60, 45, 0, 0, 100, 1), Make(2, 1, 1, 30, 0, 1, 0, 100, 50) }), (1, new[] { Make(1, 0, 1, 30, 30, 0, 0, 100, 1e-10) })
+        };
+        for (int k = 0; k < 400; k++)
+        {
+            int n = 1 + random.Next(40); var slices = new SlopeSlice[n]; double x = 0;
+            for (int i = 0; i < n; i++)
+            {
+                double b = U(.2, 2), alpha = U(-25, 60), v = U(5, 400);
+                slices[i] = Make(i + 1, x, b, alpha, random.NextDouble() < .15 ? 0 : U(0, 45), random.NextDouble() < .3 ? 0 : U(0, 40), random.NextDouble() < .6 ? 0 : U(0, .4 * v / b),
+                    v, v * Math.Sin(alpha * Math.PI / 180) * U(.7, 1.3));
+                x += b;
+            }
+            cases.Add((new[] { 1, 1.1, 1.2, 1.3 }[random.Next(4)], slices));
+        }
+        var circle = new SlipCircle(0, 10, 10, -3, 6); int ok = 0, none = 0, errors = 0;
+        for (int id = 0; id < cases.Count; id++)
+        {
+            var (gammaR, slices) = cases[id];
+            string head = string.Join(";", id, F(gammaR), string.Join("|", slices.Select(s => string.Join(":", F(s.Alpha), F(s.Phi), F(s.Cohesion), F(s.U), F(s.Right - s.Left), F(s.Vertical), F(s.Driving)))));
+            try
+            {
+                var r = BishopSolver.Solve(circle, slices, gammaR);
+                if (r is null) { csv.AppendLine(head + ";null"); none++; continue; }
+                csv.AppendLine(string.Join(";", head, "ok", F(r.Factor), F(r.Ratio), r.Iterations, F(r.Residual), F(r.Driving), F(r.Resistance),
+                    string.Join("|", r.Slices.Select(s => string.Join(":", F(s.NormalEffective), F(s.Resistance), F(s.Mobilized), F(s.MAlpha)))))); ok++;
+            }
+            catch (Exception ex) { csv.AppendLine(head + ";error:" + ex.GetType().Name + ";" + Clean(ex.Message)); errors++; }
+        }
+        File.WriteAllText(Path.Combine(output, "geotechnics-bishop.csv"), csv.ToString(), new UTF8Encoding(false));
+        Console.WriteLine($"Bishop: {ok} risolti, {none} senza soluzione, {errors} rifiuti");
+    }
+
+    static void Slopes(string output, string header)
+    {
+        var csv = new StringBuilder();
+        csv.AppendLine("# SlopeGeometry and SlopeStability legacy outputs; " + header);
+        csv.AppendLine("# Units m, kN/m, kPa, kN/m³, degrees. Rows: SECTION, SEARCH, CASE (search result and slices of the critical circle), SLICES (assigned circle), GEO, ERROR.");
+        csv.AppendLine("# SECTION;id;surface x:y/...;soils name:bottom:gamma:gammaSat:phi:c:cu|...;valleySoils;split;water;bodies name~gamma~points|...;loads id:left:right:y:V:H:M:distributed|...;requiredLeft;requiredRight");
+        csv.AppendLine("# CASE;section;search;factors name:soil:body:mphi:mc:mcu:r:kh:kv:undrained:loads;outcome;circle x:y:R:left:right;F;ratio;iterations;residual;driving;resistance;tried;valid;solved;failures;boundary;status;slices");
+        var sections = new Dictionary<string, SlopeSection>(StringComparer.Ordinal);
+        var s1 = new SlopeSection(new SlopePoint[] { new(-30, 0), new(0, 0), new(12, 6), new(40, 6) }, new[] { new SlopeSoil("Limo", -20, 19, 20, 30, 5, 0) },
+            Array.Empty<SlopePoint>(), Array.Empty<SlopeBody>(), Array.Empty<SlopeLoad>(), 0, 12);
+        var wall = new SlopeBody("Muro", new SlopePoint[] { new(0, -1), new(3, -1), new(3, -.4), new(.6, -.4), new(.6, 5), new(0, 5) }, 25);
+        var s2 = new SlopeSection(new SlopePoint[] { new(-20, 0), new(0, 0), new(0, 5), new(25, 5) },
+            new[] { new SlopeSoil("Riporto", -3, 18, 20, 32, 0, 0), new SlopeSoil("Argilla", -25, 19, 20.5, 26, 10, 60) },
+            new SlopePoint[] { new(-20, -2), new(25, 1) }, new[] { wall },
+            new[] { new SlopeLoad("Q1", 3, 25, 5, 15, 0, 0, true), new SlopeLoad("P1", 1.5, 1.5, 5, 50, 0, 0, false), new SlopeLoad("M1", 3, 3, 2, 0, 0, 20, false),
+                new SlopeLoad("H1", 3, 3, 3, 0, 30, 0, false) }, 0, 3);
+        var s3 = new SlopeSection(new SlopePoint[] { new(-20, 0), new(0, 0), new(8, 4), new(30, 4) }, new[] { new SlopeSoil("Argilla molle", -15, 17, 18, 22, 5, 25) },
+            new SlopePoint[] { new(-20, -2), new(30, 1.5) }, Array.Empty<SlopeBody>(), new[] { new SlopeLoad("Q", 10, 30, 4, 20, 0, 0, true) }, 0, 8);
+        var s4 = new SlopeSection(new SlopePoint[] { new(-25, 0), new(0, 0), new(10, 5), new(35, 5) },
+            new[] { new SlopeSoil("Sabbia", -6, 18, 19, 34, 0, 0), new SlopeSoil("Marna", -30, 21, 22, 28, 25, 0) }, Array.Empty<SlopePoint>(), Array.Empty<SlopeBody>(),
+            Array.Empty<SlopeLoad>(), 0, 10)
+        { ValleySoils = new[] { new SlopeSoil("Alluvione", -4, 17.5, 19, 30, 0, 0), new SlopeSoil("Marna", -30, 21, 22, 28, 25, 0) }, SoilSplitX = 2 };
+        sections["S1"] = s1; sections["S2"] = s2; sections["S3"] = s3; sections["S4"] = s4;
+        foreach (var (id, s) in sections)
+            csv.AppendLine(string.Join(";", "SECTION", id, Points(s.Surface), Soils(s.Soils), Soils(s.ValleySoils), F(s.SoilSplitX), Points(s.Water),
+                string.Join("|", s.Bodies.Select(b => b.Name + "~" + F(b.Gamma) + "~" + Points(b.Polygon))),
+                string.Join("|", s.Loads.Select(l => string.Join(":", l.Id, F(l.Left), F(l.Right), F(l.Y), F(l.Vertical), F(l.Horizontal), F(l.Moment), l.Distributed))),
+                F(s.RequiredLeft), F(s.RequiredRight)));
+        var searches = new Dictionary<string, SlopeSearch>(StringComparer.Ordinal)
+        {
+            ["Q1"] = new(-15, -.5, 12.5, 30, .5, 12, 5, 30, 2), ["Q2"] = new(-12, -.3, 3.5, 20, 1.5, 15, 5, 40, 2), ["Q2N"] = new(-12, -.3, 3.5, 20, .2, .9, 3, 20, 0),
+            ["Q3"] = new(-14, -.5, 8.5, 25, .5, 10, 5, 30, 1), ["Q4"] = new(-15, -.5, 10.5, 30, 1, 14, 4, 30, 2), ["Q1F"] = new(-15, -.5, 12.5, 30, .5, 12, 3, 20, 0)
+        };
+        foreach (var (id, q) in searches)
+            csv.AppendLine(string.Join(";", "SEARCH", id, F(q.ExitMin), F(q.ExitMax), F(q.EntryMin), F(q.EntryMax), F(q.DepthMin), F(q.DepthMax), q.Grid, q.Slices, q.Refinements));
+        var none = new Dictionary<string, double>();
+        SlopeFactors Static(string name, IReadOnlyDictionary<string, double> loads, bool undrained = false) => new(name, 1, 1, 1.25, 1.25, 1.4, 1.1, 0, 0, undrained, loads);
+        SlopeFactors Quake(string name, double kh, double kv, IReadOnlyDictionary<string, double> loads, bool undrained = false) => new(name, 1, 1, 1, 1, 1, 1.2, kh, kv, undrained, loads);
+        var runs = new List<(string Section, string Search, SlopeFactors[] Cases)>
+        {
+            ("S1", "Q1", new[] { Static("A2+M2+R2", none), Quake("SISMA kv+", .12, .06, none), Quake("SISMA kv-", .12, -.06, none), new SlopeFactors("Pesi 1.3", 1.3, 1, 1, 1, 1, 1, 0, 0, false, none) }),
+            ("S1", "Q1F", new[] { Static("A2+M2+R2 senza raffinamento", none) }),
+            ("S2", "Q2", new[] { Static("A2+M2+R2", new Dictionary<string, double> { ["Q1"] = 1.3, ["P1"] = 1, ["M1"] = 1, ["H1"] = 1.3 }),
+                Quake("SISMA", .1, .05, new Dictionary<string, double> { ["Q1"] = .3, ["P1"] = 1, ["M1"] = 1, ["H1"] = 0 }), Static("Senza carichi", none),
+                new SlopeFactors("Muro 1.3", 1, 1.3, 1.25, 1.25, 1.4, 1.1, 0, 0, false, new Dictionary<string, double> { ["Q1"] = 1.5 }) }),
+            ("S2", "Q2N", new[] { Static("Dominio sopra la fondazione", none) }),
+            ("S3", "Q3", new[] { Static("Non drenata", new Dictionary<string, double> { ["Q"] = 1.3 }, true), Quake("Non drenata sisma", .08, .04, new Dictionary<string, double> { ["Q"] = .3 }, true),
+                Static("Drenata", new Dictionary<string, double> { ["Q"] = 1.3 }) }),
+            ("S4", "Q4", new[] { Static("A2+M2+R2", none), Quake("SISMA", .15, -.075, none) })
+        };
+        int count = 0;
+        foreach (var (sectionId, searchId, cases) in runs)
+        {
+            var result = SlopeStability.Calculate(sections[sectionId], searches[searchId], cases);
+            if (count == 0) csv.AppendLine("NOTES;" + result.Notes.Length + ";" + Clean(result.Notes[0]));
+            foreach (var c in result.Cases)
+            {
+                var b = c.Critical;
+                csv.AppendLine(string.Join(";", "CASE", sectionId, searchId, Factors(c.Factors), b is null ? "null" : "ok", Circle(b?.Circle), F(b?.Factor), F(b?.Ratio), b?.Iterations.ToString() ?? "",
+                    F(b?.Residual), F(b?.Driving), F(b?.Resistance), c.Tried, c.GeometricallyValid, c.Solved, c.NumericalFailures, c.Boundary, Clean(c.Status),
+                    b is null ? "" : string.Join("|", b.Slices.Select(Slice))));
+                count++;
+            }
+        }
+        // Slices of assigned circles (geometry, weights, water, bodies and loads without the search).
+        var fixedCircles = new List<(string Section, SlipCircle? Circle, SlopeFactors Factors, int Count)>
+        {
+            ("S1", SlopeGeometry.Through(new(-6, 0), new(16, 6), -3), Static("A2+M2+R2", none), 30),
+            ("S2", SlopeGeometry.Through(new(-8, 0), new(10, 5), -4), Static("A2+M2+R2", new Dictionary<string, double> { ["Q1"] = 1.3, ["P1"] = 1, ["M1"] = 1, ["H1"] = 1.3 }), 40),
+            ("S2", SlopeGeometry.Through(new(-4, 0), new(9, 5), -2), Quake("SISMA", .1, .05, new Dictionary<string, double> { ["Q1"] = .3, ["P1"] = 1 }), 25),
+            ("S2", SlopeGeometry.TangentAtEntry(new(-4, 0), new(6, 5)), Static("Tangente", none), 30),
+            ("S3", SlopeGeometry.Through(new(-5, 0), new(12, 4), -2.5), Static("Non drenata", new Dictionary<string, double> { ["Q"] = 1.3 }, true), 30),
+            ("S4", SlopeGeometry.Through(new(-8, 0), new(18, 5), -6), Static("A2+M2+R2", none), 50)
+        };
+        if (fixedCircles.Any(c => c.Circle is null)) throw new InvalidOperationException("Assigned circle not constructible.");
+        foreach (var (sectionId, circle, factors, n) in fixedCircles)
+        {
+            var slices = SlopeStability.Slices(sections[sectionId], circle!, factors, n);
+            var solved = BishopSolver.Solve(circle!, slices, factors.R);
+            csv.AppendLine(string.Join(";", "SLICES", sectionId, Factors(factors), n, Circle(circle), SlopeGeometry.Admissible(sections[sectionId], circle!), F(solved?.Factor),
+                string.Join("|", slices.Select(Slice))));
+        }
+        // Geometry functions.
+        foreach (var (a, b, bottom) in new[] { (new SlopePoint(-4, 0), new SlopePoint(12, 3.45), -3.0), (new SlopePoint(-2, 0), new SlopePoint(4, 3.5), -3.0),
+            (new SlopePoint(0, 0), new SlopePoint(10, 0), -1.0), (new SlopePoint(0, 0), new SlopePoint(10, 5), 0.0), (new SlopePoint(5, 0), new SlopePoint(1, 2), -2.0),
+            (new SlopePoint(0, 0), new SlopePoint(1, 8), -.5), (new SlopePoint(-30, 0), new SlopePoint(40, 6), -20.0), (new SlopePoint(0, 1), new SlopePoint(2, 1), .999) })
+            csv.AppendLine(string.Join(";", "GEO", "THROUGH", Points(new[] { a, b }), F(bottom), Circle(SlopeGeometry.Through(a, b, bottom))));
+        foreach (var (a, b) in new[] { (new SlopePoint(-2, 0), new SlopePoint(4, 3.5)), (new SlopePoint(0, 0), new SlopePoint(10, 0)), (new SlopePoint(0, 0), new SlopePoint(3, 3)),
+            (new SlopePoint(0, 0), new SlopePoint(3, -1)), (new SlopePoint(1, 0), new SlopePoint(0, 1)), (new SlopePoint(-6, 0), new SlopePoint(9, 5)) })
+            csv.AppendLine(string.Join(";", "GEO", "TANGENT", Points(new[] { a, b }), "", Circle(SlopeGeometry.TangentAtEntry(a, b))));
+        var probe = new SlipCircle(2, 8, 10, -6, 9);
+        foreach (double y in new[] { -2.0, -1.9, 0, 5, 8, 8.1, -3 })
+            csv.AppendLine(string.Join(";", "GEO", "CROSSINGS", Circle(probe), F(y), string.Join("/", SlopeGeometry.Crossings(probe, y).Select(v => F(v)))));
+        var polygons = new[] { wall.Polygon, new SlopePoint[] { new(0, 0), new(3, 0), new(0, 6) }, new SlopePoint[] { new(0, 0), new(4, 0), new(4, 1), new(2, .5), new(0, 1) } };
+        foreach (var polygon in polygons)
+        {
+            var props = SlopeGeometry.Properties(polygon);
+            csv.AppendLine(string.Join(";", "GEO", "PROPERTIES", Points(polygon), "", F(props.Area) + ":" + F(props.Centroid.X) + ":" + F(props.Centroid.Y)));
+            foreach (double x in new[] { -1, 0, .3, .6, 1, 2, 2.5, 3, 3.5 })
+            {
+                string value;
+                try { var v = SlopeGeometry.VerticalInterval(polygon, x); value = v is null ? "null" : F(v.Value.Bottom) + ":" + F(v.Value.Top); }
+                catch (Exception ex) { value = "error:" + ex.GetType().Name; }
+                csv.AppendLine(string.Join(";", "GEO", "INTERVAL", Points(polygon), F(x), value));
+            }
+        }
+        foreach (double x in new[] { -30, -30.000000001, -12, 0, 6, 12, 12.5, 40, 40.1 })
+        {
+            string value; try { value = F(SlopeGeometry.Height(s1.Surface, x)); } catch (Exception ex) { value = "error:" + ex.GetType().Name; }
+            csv.AppendLine(string.Join(";", "GEO", "HEIGHT", Points(s1.Surface), F(x), value));
+        }
+        foreach (double x in new[] { 0, 0.0000001, 2, 25 })
+            csv.AppendLine(string.Join(";", "GEO", "HEIGHT", Points(s2.Surface), F(x), F(SlopeGeometry.Height(s2.Surface, x))));
+        foreach (var (sectionId, circle) in new[] { ("S2", SlopeGeometry.Through(new(-8, 0), new(10, 5), -4)), ("S2", SlopeGeometry.Through(new(-3, 0), new(6, 5), -.8)),
+            ("S1", SlopeGeometry.Through(new(-6, 0), new(16, 6), -3)), ("S1", SlopeGeometry.Through(new(2, 1), new(16, 6), -3)), ("S1", SlopeGeometry.Through(new(-6, 0), new(16, 6), -25)) })
+        {
+            csv.AppendLine(string.Join(";", "GEO", "ADMISSIBLE", sectionId, Circle(circle), circle is null ? "" : SlopeGeometry.Admissible(sections[sectionId], circle).ToString()));
+            if (circle is not null) csv.AppendLine(string.Join(";", "GEO", "DIVISIONS", sectionId, Circle(circle), string.Join("/", SlopeGeometry.Divisions(sections[sectionId], circle, 12).Select(v => F(v)))));
+        }
+        // Rejected inputs.
+        var invalid = new List<(string Name, Action Run)>
+        {
+            ("Uscite oltre il muro", () => SlopeStability.Calculate(s1, new(-15, .5, 12.5, 30, .5, 12, 5, 30, 2), new[] { Static("x", none) })),
+            ("Ingressi prima del muro", () => SlopeStability.Calculate(s1, new(-15, -.5, 11, 30, .5, 12, 5, 30, 2), new[] { Static("x", none) })),
+            ("Profondità non coperta", () => SlopeStability.Calculate(s1, new(-15, -.5, 12.5, 30, .5, 21, 5, 30, 2), new[] { Static("x", none) })),
+            ("Griglia 2", () => SlopeStability.Calculate(s1, new(-15, -.5, 12.5, 30, .5, 12, 2, 30, 2), new[] { Static("x", none) })),
+            ("Conci 19", () => SlopeStability.Calculate(s1, new(-15, -.5, 12.5, 30, .5, 12, 5, 19, 2), new[] { Static("x", none) })),
+            ("Raffinamenti 5", () => SlopeStability.Calculate(s1, new(-15, -.5, 12.5, 30, .5, 12, 5, 30, 5), new[] { Static("x", none) })),
+            ("Nessuna combinazione", () => SlopeStability.Calculate(s1, searches["Q1"], Array.Empty<SlopeFactors>())),
+            ("Gamma 9", () => SlopeStability.Calculate(s1 with { Soils = new[] { new SlopeSoil("L", -20, 9, 20, 30, 5, 0) } }, searches["Q1"], new[] { Static("x", none) })),
+            ("Gamma sat 31", () => SlopeStability.Calculate(s1 with { Soils = new[] { new SlopeSoil("L", -20, 19, 31, 30, 5, 0) } }, searches["Q1"], new[] { Static("x", none) })),
+            ("Phi 51", () => SlopeStability.Calculate(s1 with { Soils = new[] { new SlopeSoil("L", -20, 19, 20, 51, 5, 0) } }, searches["Q1"], new[] { Static("x", none) })),
+            ("Strati non decrescenti", () => SlopeStability.Calculate(s1 with { Soils = new[] { new SlopeSoil("A", -5, 19, 20, 30, 5, 0), new SlopeSoil("B", -5, 19, 20, 30, 5, 0) } }, searches["Q1"], new[] { Static("x", none) })),
+            ("Non drenata senza cu", () => SlopeStability.Calculate(s1, searches["Q1"], new[] { Static("x", none, true) })),
+            ("Falda sopra il terreno", () => SlopeStability.Calculate(s1 with { Water = new SlopePoint[] { new(-30, 1), new(40, 7) } }, searches["Q1"], new[] { Static("x", none) })),
+            ("Falda corta", () => SlopeStability.Calculate(s1 with { Water = new SlopePoint[] { new(-20, -1), new(40, 2) } }, searches["Q1"], new[] { Static("x", none) })),
+            ("Profilo decrescente", () => SlopeStability.Calculate(s1 with { Surface = new SlopePoint[] { new(-30, 0), new(0, 0), new(-1, 6), new(40, 6) } }, searches["Q1"], new[] { Static("x", none) })),
+            ("kh 0.6", () => SlopeStability.Calculate(s1, searches["Q1"], new[] { Quake("x", .6, 0, none) })),
+            ("R 0", () => SlopeStability.Calculate(s1, searches["Q1"], new[] { new SlopeFactors("x", 1, 1, 1, 1, 1, 0, 0, 0, false, none) })),
+            ("Profilo con un punto", () => SlopeStability.Calculate(s1 with { Surface = new SlopePoint[] { new(0, 0) } }, searches["Q1"], new[] { Static("x", none) })),
+            ("Confine non finito", () => SlopeStability.Calculate(s4 with { SoilSplitX = double.NaN }, searches["Q4"], new[] { Static("x", none) })),
+            ("Corpo non semplice", () => SlopeStability.Slices(s2 with { Bodies = new[] { new SlopeBody("Z", new SlopePoint[] { new(0, 0), new(3, 0), new(3, 3), new(0, 3), new(0, 2), new(2, 1.5), new(0, 1) }, 25) } },
+                SlopeGeometry.Through(new(-8, 0), new(10, 5), -4)!, Static("x", none), 30))
+        };
+        foreach (var (name, run) in invalid)
+        {
+            string outcome; try { run(); outcome = "accepted"; } catch (Exception ex) { outcome = "error:" + ex.GetType().Name + ";" + Clean(ex.Message); }
+            csv.AppendLine(string.Join(";", "ERROR", name, outcome));
+        }
+        File.WriteAllText(Path.Combine(output, "geotechnics-slope.csv"), csv.ToString(), new UTF8Encoding(false));
+        Console.WriteLine($"Pendii: {count} casi di ricerca, {fixedCircles.Count} cerchi assegnati, {invalid.Count} rifiuti");
+    }
+
+    static void Settlement(string output, string header)
+    {
+        var csv = new StringBuilder();
+        csv.AppendLine("# FoundationSettlement legacy outputs; " + header);
+        csv.AppendLine("# Units m, kPa, mm. STRESS;x;z;left;right;pLeft;pRight;value. CALC;layers name:thickness:modulus|...;x;left;right;pLeft;pRight;removed;width;subdivisions;outcome;settlement;bottomStress;slices soil:top:bottom:stress:modulus:settlement|...");
+        foreach (var (left, right, pl, pr) in new[] { (0.0, 2.0, 100.0, 100.0), (-1.0, 3.0, 50.0, 150.0), (0.0, 4.0, 200.0, 0.0), (0.0, 2.0, 0.0, 0.0) })
+            foreach (double x in new[] { -2.0, 0, 1, 2.5, 6 })
+                foreach (double z in new[] { .2, 1, 3, 10, 0, -1 })
+                {
+                    string value; try { value = F(FoundationSettlement.Stress(x, z, left, right, pl, pr)); } catch (Exception ex) { value = "error:" + ex.GetType().Name; }
+                    csv.AppendLine(string.Join(";", "STRESS", F(x), F(z), F(left), F(right), F(pl), F(pr), value));
+                }
+        csv.AppendLine(string.Join(";", "STRESS", "1", "1", "2", "2", "100", "100", Try(() => FoundationSettlement.Stress(1, 1, 2, 2, 100, 100))));
+        var sets = new[]
+        {
+            new[] { new FoundationSettlement.Layer("Sabbia", 3, 15000), new FoundationSettlement.Layer("Argilla", 6, 4000), new FoundationSettlement.Layer("Ghiaia", 10, 50000) },
+            new[] { new FoundationSettlement.Layer("Limo", 8, 8000) },
+            new[] { new FoundationSettlement.Layer("Torba", .5, 500), new FoundationSettlement.Layer("Argilla", 2.5, 3000) }
+        };
+        int n = 0;
+        foreach (var layers in sets)
+            foreach (var (x, left, right, pl, pr, removed, width) in new[] { (1.0, 0.0, 2.0, 150.0, 150.0, 0.0, 2.0), (0.0, 0.0, 2.0, 150.0, 150.0, 20.0, 2.0), (2.5, -.5, 3.5, 80.0, 220.0, 30.0, 3.0),
+                (1.5, 0.0, 3.0, 250.0, 50.0, 0.0, 3.0), (1.0, 0.0, 2.0, 15.0, 15.0, 20.0, 2.0), (6.0, 0.0, 2.0, 150.0, 150.0, 0.0, 2.0) })
+                foreach (int subdivisions in new[] { 10, 40 })
+                {
+                    string head = string.Join(";", "CALC", string.Join("|", layers.Select(l => l.Name + ":" + F(l.Thickness) + ":" + F(l.Modulus))), F(x), F(left), F(right), F(pl), F(pr), F(removed), F(width), subdivisions);
+                    try
+                    {
+                        var r = FoundationSettlement.Calculate(layers, x, left, right, pl, pr, removed, width, subdivisions);
+                        csv.AppendLine(string.Join(";", head, "ok", F(r.SettlementMm), F(r.BottomStress), string.Join("|", r.Slices.Select(s => string.Join(":", s.Soil, F(s.Top), F(s.Bottom), F(s.Stress), F(s.Modulus), F(s.SettlementMm))))));
+                    }
+                    catch (Exception ex) { csv.AppendLine(head + ";error:" + ex.GetType().Name + ";;;" + Clean(ex.Message)); }
+                    n++;
+                }
+        foreach (var (name, layers, width, subdivisions) in new[] { ("Nessuno strato", Array.Empty<FoundationSettlement.Layer>(), 2.0, 40), ("Modulo nullo", new[] { new FoundationSettlement.Layer("A", 2, 0) }, 2.0, 40),
+            ("Spessore nullo", new[] { new FoundationSettlement.Layer("A", 0, 1000) }, 2.0, 40), ("Larghezza nulla", sets[1], 0.0, 40), ("Suddivisioni 9", sets[1], 2.0, 9),
+            ("Suddivisioni 1001", sets[1], 2.0, 1001), ("Discretizzazione eccessiva", new[] { new FoundationSettlement.Layer("A", 2000, 1000) }, .1, 1000) })
+            csv.AppendLine(string.Join(";", "ERROR", name, Try(() => FoundationSettlement.Calculate(layers, 1, 0, 2, 100, 100, 0, width, subdivisions).SettlementMm)));
+        File.WriteAllText(Path.Combine(output, "geotechnics-settlement.csv"), csv.ToString(), new UTF8Encoding(false));
+        Console.WriteLine($"Cedimenti: {n} calcoli");
+    }
+
+    static string Try(Func<double> run) { try { return F(run()); } catch (Exception ex) { return "error:" + ex.GetType().Name + ":" + Clean(ex.Message); } }
+
+    static void Newmark(string output, string header)
+    {
+        var csv = new StringBuilder();
+        csv.AppendLine("# NewmarkSliding legacy outputs; " + header);
+        csv.AppendLine("# Units s, g, m/s, mm. RECORD;id;t:a|...  RUN;record;yieldG;scale;outcome;displacement;peakVelocity;pga;points t:a:v:d|...");
+        var records = new Dictionary<string, List<NewmarkSliding.Sample>>(StringComparer.Ordinal);
+        records["sine"] = Enumerable.Range(0, 101).Select(i => new NewmarkSliding.Sample(i * .01, .3 * Math.Sin(2 * Math.PI * i * .01 / .5))).ToList();
+        records["triangle"] = new() { new(0, 0), new(.2, .4), new(.4, 0), new(.5, 0) };
+        records["plateau"] = new() { new(0, 0), new(.1, .3), new(.6, .3) };
+        records["late"] = new() { new(.5, 0), new(.6, -.2), new(.8, .25), new(1.0, -.1), new(1.3, .15) };
+        var random = new Random(20261003); double a = 0;
+        records["random"] = Enumerable.Range(0, 1500).Select(i => { a = .85 * a + .15 * (random.NextDouble() * 2 - 1) * .9; return new NewmarkSliding.Sample(i * .01, a); }).ToList();
+        foreach (var (id, record) in records) csv.AppendLine(string.Join(";", "RECORD", id, string.Join("|", record.Select(s => F(s.Time) + ":" + F(s.AccelerationG)))));
+        int n = 0;
+        foreach (var (id, record) in records)
+            foreach (double yieldG in new[] { .02, .05, .1, .2, .5 })
+                foreach (double scale in new[] { 1, 1.5 })
+                {
+                    string head = string.Join(";", "RUN", id, F(yieldG), F(scale));
+                    try
+                    {
+                        var r = NewmarkSliding.Calculate(record, yieldG, scale);
+                        csv.AppendLine(string.Join(";", head, "ok", F(r.DisplacementMm), F(r.PeakVelocity), F(r.PgaG), string.Join("|", r.Points.Select(p => string.Join(":", F(p.Time), F(p.AccelerationG), F(p.Velocity), F(p.DisplacementMm))))));
+                    }
+                    catch (Exception ex) { csv.AppendLine(head + ";error:" + ex.GetType().Name + ";" + Clean(ex.Message)); }
+                    n++;
+                }
+        foreach (var (name, record, yieldG, scale) in new[] { ("Un campione", new List<NewmarkSliding.Sample> { new(0, .1) }, .1, 1.0), ("Tempi non crescenti", new() { new(0, 0), new(.1, .2), new(.1, .3) }, .1, 1.0),
+            ("Tempo negativo", new() { new(-.1, 0), new(.1, .2) }, .1, 1.0), ("Soglia nulla", records["sine"], 0.0, 1.0), ("Scala nulla", records["sine"], .1, 0.0),
+            ("Accelerazione non finita", new() { new(0, 0), new(.1, double.NaN) }, .1, 1.0) })
+            csv.AppendLine(string.Join(";", "ERROR", name, Try(() => NewmarkSliding.Calculate(record, yieldG, scale).DisplacementMm)));
+        File.WriteAllText(Path.Combine(output, "geotechnics-newmark.csv"), csv.ToString(), new UTF8Encoding(false));
+        Console.WriteLine($"Newmark: {n} integrazioni");
+    }
+
+    static void Seismic(string output, string header)
+    {
+        var csv = new StringBuilder();
+        csv.AppendLine("# ShallowFoundationSeismic legacy outputs (EN 1998-5 Annex F); " + header);
+        csv.AppendLine("# Units per metre: m, kN/m³, degrees, kN/m, kNm/m. width;gamma;phi;N;V;M;kh;kv;modelFactor;resistanceFactor;outcome;capacity;ratio;Nmax;F;Nbar;Vbar;Mbar;limit;interaction;status");
+        int n = 0;
+        foreach (double width in new[] { 1.5, 3 })
+            foreach (double gamma in new[] { 18.0, 20 })
+                foreach (double phi in new[] { 28.0, 34, 40 })
+                    foreach (double nEd in new[] { 100.0, 400, 1200 })
+                        foreach (var (v, m) in new[] { (0.0, 0.0), (50.0, 0.0), (0.0, 40.0), (50.0, 40.0), (150.0, 150.0), (-60.0, -30.0) })
+                            foreach (double kh in new[] { 0, .1, .25 })
+                                foreach (double kv in new[] { -.05, .05 })
+                                    foreach (var (model, resistance) in new[] { (1.0, 1.0), (1.15, 1.0), (1.0, 1.8) })
+                                    {
+                                        string head = string.Join(";", F(width), F(gamma), F(phi), F(nEd), F(v), F(m), F(kh), F(kv), F(model), F(resistance));
+                                        try
+                                        {
+                                            var r = ShallowFoundationSeismic.Calculate(width, gamma, phi, nEd, v, m, kh, kv, model, resistance);
+                                            csv.AppendLine(string.Join(";", head, "ok", F(r.Capacity), F(r.Ratio), F(r.NMax), F(r.SoilInertia), F(r.NBar), F(r.VBar), F(r.MBar), F(r.VerticalLimit), F(r.Interaction), Clean(r.Status)));
+                                        }
+                                        catch (Exception ex) { csv.AppendLine(head + ";error:" + ex.GetType().Name + ";;;;;;;;;;" + Clean(ex.Message)); }
+                                        n++;
+                                    }
+        foreach (var p in new[] { new[] { 2.0, 19, 46, 300, 20, 10, .1, 0, 1, 1 }, new[] { 2.0, 19, 0, 300, 20, 10, .1, 0, 1, 1 }, new[] { 2.0, 19, 34, 0, 20, 10, .1, 0, 1, 1 },
+            new[] { 2.0, 19, 34, 300, 20, 10, -.1, 0, 1, 1 }, new[] { 2.0, 19, 34, 300, 20, 10, .1, 1, 1, 1 }, new[] { 2.0, 19, 34, 300, 20, 10, .1, 0, .9, 1 },
+            new[] { 2.0, 19, 34, 300, 20, 10, .1, 0, 1, .9 }, new[] { 0, 19, 34, 300, 20, 10, .1, 0, 1, 1 }, new[] { 2.0, 19, 34, 300, 20, 10, 1.2, 0, 1, 1 },
+            new[] { 2.0, 19, 34, 300, 20, 10, .6, 0, 1, 1 }, new[] { 2.0, 19, 34, 5000, 0, 0, .1, 0, 1, 1 }, new[] { 2.0, 19, 45, 300, 20, 10, .1, 0, 1, 1 } })
+        {
+            string head = string.Join(";", p.Select(x => F(x)));
+            try
+            {
+                var r = ShallowFoundationSeismic.Calculate(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9]);
+                csv.AppendLine(string.Join(";", head, "ok", F(r.Capacity), F(r.Ratio), F(r.NMax), F(r.SoilInertia), F(r.NBar), F(r.VBar), F(r.MBar), F(r.VerticalLimit), F(r.Interaction), Clean(r.Status)));
+            }
+            catch (Exception ex) { csv.AppendLine(head + ";error:" + ex.GetType().Name + ";;;;;;;;;;" + Clean(ex.Message)); }
+            n++;
+        }
+        File.WriteAllText(Path.Combine(output, "geotechnics-seismic-bearing.csv"), csv.ToString(), new UTF8Encoding(false));
+        Console.WriteLine($"Portanza sismica: {n} casi");
     }
 }
