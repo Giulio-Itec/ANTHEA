@@ -1,6 +1,27 @@
 # DLL Checker
 
-**Snapshot corrente (28 settembre 2026).** Cambia solo CompositeBridge 1.4.0.0; le altre DLL sono quelle del 27 settembre.
+**Snapshot corrente (1 ottobre 2026).** Model master ca76e6d1, Checker develop 23bc2d15. Utilities, Geometry e DelaunayMesh
+sono invariate (hash identici).
+
+- **Model 1.5.0.0, ModelData 0.0.2.0**: sezioni.
+  - Cataloghi dei profilati EN e AISC in ModelData.
+  - Torsione e ingobbamento numerici (elementi finiti) per le sezioni generiche; disponibilità esplicita delle proprietà
+    (`Section.GetAvailability`).
+  - Sezioni composte acciaio–calcestruzzo: sovrapposizione esatta, profili specchiabili, metodi statici di costruzione.
+  - Sezioni parametriche, saldate, sagomate a freddo e variabili.
+  - `ReinforcedConcreteSection.Shape` rinominata `ConcreteShape` (`Shape` resta solo come implementazione esplicita di
+    `ISectionShape`): aggiornati `CheckerSection`, `Ntc2018Checks` e `SectionWorkspaceChecks`.
+- **Checker.Concrete 0.0.13.1, CompositeBridge 1.4.0.1**: solo ricompilate contro Model 1.5, nessuna modifica del codice.
+- ANTHEA: tutte le suite di X.Verifiche, i progetti `*.Checks` e le 20 prove WPF eseguiti prima e dopo l'aggiornamento con gli
+  stessi esiti. Regressione numerica, `software`, checksum del benchmark CA, archivi `.programma`/`.anthea`/JSON e testo delle
+  relazioni Word identici (a meno di identificativi, date e tempi). Gli esiti non nulli erano già presenti con lo snapshot del
+  28 settembre e non dipendono dalle DLL: `--project-calculations` (default di `geo_muri_sostegno` diversi tra progetto e
+  foglio) e sei prove WPF (`smoke`, `smoke-bridge`, `smoke-ca-extensions`, `smoke-global-stability`, `smoke-project-workspace`,
+  `smoke-retaining-wall`).
+- BridgeAudit (Checker): risultati identici; gli 8 casi `MigrationPreservesEveryResult` falliscono già dal 29 settembre perché
+  l'ingresso del ponte contiene tre nuove chiavi (`predalle`, `h_predalle`, `rif_ferri_inf`) non presenti nelle baseline.
+
+**Snapshot precedente (28 settembre 2026).** Cambia solo CompositeBridge 1.4.0.0; le altre DLL sono quelle del 27 settembre.
 
 - **CompositeBridge 1.4**: torsione del cassoncino.
   - Cella chiusa di Bredt per fase (soletta o controvento superiore t*), q sommato ad anime, fondo, pioli e soletta.

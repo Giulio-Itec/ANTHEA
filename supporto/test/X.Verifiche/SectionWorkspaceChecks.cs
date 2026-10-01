@@ -133,7 +133,7 @@ internal static class SectionWorkspaceChecks
                 Assert(checkedCrack.Details.Single(d => d.Symbol == "k₂").Value == expectedK2, "Il coefficiente selezionato entra nella formula wk");
         }
         var strainPlane=crackStress.Native.StrainPlane;
-        double depth=crackEngine.Section.Shape.GetPoints2d().Max(p=>strainPlane.GetStrain(p))/Math.Abs(strainPlane.ChiY);
+        double depth=crackEngine.Section.ConcreteShape.GetPoints2d().Max(p=>strainPlane.GetStrain(p))/Math.Abs(strainPlane.ChiY);
         double effectiveHeight=Math.Min(125,Math.Min(depth/3,250));
         Assert(Math.Abs(crack.EffectiveArea!.Value-300*effectiveHeight)/(300*effectiveHeight)<.01,"Ac,eff rettangolare confronto analitico");
         Assert(Math.Abs(crack.EffectiveSteel!.Value-2*Math.PI*81)<1e-6,"As,eff solo barre tese nella fascia");

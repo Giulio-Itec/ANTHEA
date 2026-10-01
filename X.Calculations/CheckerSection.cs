@@ -177,7 +177,7 @@ public sealed partial class CheckerSection
     }
     private CheckerStressState DescribeStress(StressAnalysisResult result, string set)
     {
-        if (result?.StrainPlane is null || Section.Shape.GetPoints2d().Any(p => !double.IsFinite(result.StrainPlane.GetStrain(p))))
+        if (result?.StrainPlane is null || Section.ConcreteShape.GetPoints2d().Any(p => !double.IsFinite(result.StrainPlane.GetStrain(p))))
             throw new ArgumentException("Checker: analisi tensionale non convergente.");
         bool linear = result.LinearElasticAnalysis; double phi = Checker.SectionCheckerOptions.PsiCoefficientRebar, phiT = Checker.SectionCheckerOptions.PsiCoefficientTendon;
         var bars = linear ? result.GetRebarsTension(phi, phiT) : result.GetRebarsTension();

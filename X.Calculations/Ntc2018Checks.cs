@@ -82,7 +82,7 @@ public static partial class Ntc2018Checks
         Add("Criterio k₂", k2, "−", compressedBars > 0 ? "Flessione: almeno una armatura compressa → k₂ = 0,50" : "Trazione: nessuna armatura compressa → k₂ = 1,00",
             zeroBars > 0 ? "Le barre a tensione esattamente nulla non sono considerate compresse." : "Selezione per la combinazione corrente, dalle tensioni Checker.");
         var plane = native.StrainPlane;
-        var points = section.Shape.GetPoints2d();
+        var points = section.ConcreteShape.GetPoints2d();
         var strains = points.Select(plane.GetStrain).ToArray();
         Add("εc,min", strains.Min(), "−", "min ε ai vertici, prima dei criteri di applicabilità");
         Add("εc,max", strains.Max(), "−", "max ε ai vertici");
