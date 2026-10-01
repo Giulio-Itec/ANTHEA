@@ -75,6 +75,7 @@ for (int i = 0; i < cases.Count; i++)
 File.WriteAllText(Path.Combine(output, "shear-legacy.csv"), csv.ToString(), new UTF8Encoding(false));
 Console.WriteLine($"{cases.Count} casi di taglio -> {Path.Combine(output, "shear-legacy.csv")}");
 StressCapture.Run(output, commit, sha);
+TorsionCapture.Run(output, commit, sha);
 
 // Serviceability stresses (CheckerSection.Stress): sections saved with the Model archive, effective standard coefficients,
 // actions already transformed to the local axes passed to the native checker, legacy results.
@@ -137,5 +138,121 @@ internal static class StressCapture
         using (var stream = File.Create(Path.Combine(output, "stress-sections.xml"))) GPC.Model.Persistence.ModelArchive.Save(model, stream);
         File.WriteAllText(Path.Combine(output, "stress-legacy.csv"), csv.ToString(), new UTF8Encoding(false));
         Console.WriteLine($"{id} stati tensionali -> {Path.Combine(output, "stress-legacy.csv")}");
+    }
+}
+
+// NTC 2018 torsion (ConcreteTorsionCalculator): resisting geometry from the outline and resistances with the shear interaction.
+// Shear results are synthetic values with the same cot θ (and some mismatches) as ConcreteShearAnalysis passes them.
+internal static class TorsionCapture
+{
+    static string F(double? v) => v is double d ? d.ToString("R", CultureInfo.InvariantCulture) : "";
+    static string Clean(string s) => s.Replace(";", ",").Replace("\n", " ");
+    internal static void Run(string output, string commit, string sha)
+    {
+        var geometry = new StringBuilder();
+        geometry.AppendLine("# ConcreteTorsionCalculator.Geometry legacy outputs; ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
+        geometry.AppendLine("# Lengths mm, areas mm2. axis = cover + stirrup diameter + largest bar diameter / 2.");
+        geometry.AppendLine("id;name;shape;width;height;areaCls;axis;hollow;innerWidth;innerHeight;innerDiameter;outcome;A;P;t;message");
+        var outlines = new List<(string Name, Action<System.Text.Json.Nodes.JsonObject> Edit)>
+        {
+            ("R300x500", i => { i["width_mm"] = "300"; i["height_mm"] = "500"; i["top_bar_count"] = "2"; i["bottom_bar_count"] = "3"; i["side_bar_count_per_side"] = "0";
+                i["top_bar_diameter_mm"] = "16"; i["bottom_bar_diameter_mm"] = "20"; i["cover_mm"] = "30"; i["transverse_bar_diameter_mm"] = "8"; }),
+            ("R600x800", i => { }),
+            ("R200x200", i => { i["width_mm"] = "200"; i["height_mm"] = "200"; i["top_bar_count"] = "2"; i["bottom_bar_count"] = "2"; i["side_bar_count_per_side"] = "0";
+                i["top_bar_diameter_mm"] = "16"; i["bottom_bar_diameter_mm"] = "16"; i["cover_mm"] = "30"; i["transverse_bar_diameter_mm"] = "8"; }),
+            ("R160x160", i => { i["width_mm"] = "160"; i["height_mm"] = "160"; i["top_bar_count"] = "2"; i["bottom_bar_count"] = "2"; i["side_bar_count_per_side"] = "0";
+                i["top_bar_diameter_mm"] = "12"; i["bottom_bar_diameter_mm"] = "12"; i["cover_mm"] = "40"; i["transverse_bar_diameter_mm"] = "8"; }),
+            ("C1000", i => { i["shape"] = "Circolare"; }),
+            ("C400", i => { i["shape"] = "Circolare"; i["diameter_mm"] = "400"; i["longitudinal_bar_count"] = "8"; i["longitudinal_bar_diameter_mm"] = "16";
+                i["cover_mm"] = "40"; i["transverse_bar_diameter_mm"] = "8"; }),
+            ("R600x800H", i => { i["foro_presente"] = true; i["inner_width_mm"] = "300"; i["inner_height_mm"] = "400"; i["side_bar_count_per_side"] = "0"; }),
+            ("R1200x1000H", i => { i["width_mm"] = "1200"; i["height_mm"] = "1000"; i["foro_presente"] = true; i["inner_width_mm"] = "700"; i["inner_height_mm"] = "500";
+                i["side_bar_count_per_side"] = "0"; i["cover_mm"] = "40"; i["top_bar_diameter_mm"] = "20"; i["bottom_bar_diameter_mm"] = "20"; }),
+            ("C1000H", i => { i["shape"] = "Circolare"; i["foro_presente"] = true; i["inner_diameter_mm"] = "500"; }),
+            ("T1200x800", i => { i["shape"] = "A T"; })
+        };
+        int gid = 0;
+        foreach (var (name, edit) in outlines)
+        {
+            var input = SezioneCA.DefaultInput(); edit(input);
+            SezioneCA s;
+            try { s = new SezioneCA(input); }
+            catch (Exception ex) { geometry.AppendLine(string.Join(";", gid++, name, "", "", "", "", "", "", "", "", "", "section-error:" + ex.GetType().Name, "", "", "", Clean(ex.Message))); continue; }
+            double axis = s.Input.D("cover_mm") + s.Input.D("transverse_bar_diameter_mm") + s.Bars.Max(b => b.Diametro) / 2;
+            bool hollow = s.Input.B("foro_presente");
+            string head = string.Join(";", gid++, name, s.Shape, F(s.Width), F(s.Height), F(s.AreaCls), F(axis), hollow,
+                hollow && s.Shape == "Rettangolare" ? F(s.Input.D("inner_width_mm")) : "", hollow && s.Shape == "Rettangolare" ? F(s.Input.D("inner_height_mm")) : "",
+                hollow && s.Shape == "Circolare" ? F(s.Input.D("inner_diameter_mm")) : "");
+            try
+            {
+                var g = ConcreteTorsionCalculator.Geometry(s);
+                geometry.AppendLine(string.Join(";", head, "ok", F(g.Area), F(g.Perimeter), F(g.Thickness), ""));
+            }
+            catch (Exception ex) { geometry.AppendLine(string.Join(";", head, "error:" + ex.GetType().Name, "", "", "", Clean(ex.Message))); }
+        }
+        File.WriteAllText(Path.Combine(output, "torsion-geometry-legacy.csv"), geometry.ToString(), new UTF8Encoding(false));
+
+        var cases = new List<TorsionInput>();
+        static Ntc2018Checks.ShearResult Shear(double rsd, double rcd, double cot) => new(rsd, rcd, Math.Min(rsd, rcd), null, cot, "synthetic");
+        var shapes = new[] { new TorsionGeometry(82416, 1216, 96), new TorsionGeometry(256256, 2064, 184), new TorsionGeometry(Math.PI * 375 * 375, Math.PI * 750, 250) };
+        int k = 0;
+        // A. Grid: geometry, torque (sign), stirrups, spacing, longitudinal bars, cot θ, concomitant shear.
+        foreach (var g in shapes)
+            foreach (double t in new[] { 0.0, 25, -60, 180 })
+                foreach (double leg in new[] { 50.27, 113.1 })
+                    foreach (double s in new[] { 100.0, 250 })
+                        foreach (double al in new[] { 0.0, 1200 })
+                            foreach (double cot in new[] { 1, 1.8, 2.5 })
+                                foreach (var (vx, vy) in new[] { (0.0, 0.0), (120.0, -80.0) })
+                                {
+                                    double fcd = k++ % 2 == 0 ? .85 * 25 / 1.5 : .85 * 45 / 1.5;
+                                    cases.Add(new(t, g, fcd, 391.3, leg, s, al, cot, vx, vy, Shear(400, 900, cot), Shear(250, 700, cot)));
+                                }
+        // B. Limits and rejected data.
+        var g0 = shapes[0];
+        cases.Add(new(40, g0, 14.17, 391.3, 50.27, 150, 800, .9, 0, 0, Shear(400, 900, .9), Shear(250, 700, .9)));
+        cases.Add(new(40, g0, 14.17, 391.3, 50.27, 150, 800, 2.6, 0, 0, Shear(400, 900, 2.6), Shear(250, 700, 2.6)));
+        cases.Add(new(40, g0, 14.17, 391.3, 50.27, 150, 800, 1.5, 100, 0, Shear(400, 900, 2), Shear(250, 700, 1.5)));
+        cases.Add(new(40, g0, 14.17, 391.3, 50.27, 150, 800, 1.5, 0, 100, Shear(400, 900, 1.5), Shear(250, 700, 2)));
+        cases.Add(new(40, g0, 14.17, 391.3, 50.27, 150, 800, 1.5, 0, 0, Shear(400, 900, 2), Shear(250, 700, 2)));
+        cases.Add(new(40, g0, 14.17, 391.3, 0, 150, 800, 1.5, 0, 0, Shear(400, 900, 1.5), Shear(250, 700, 1.5)));
+        cases.Add(new(40, g0, 14.17, 391.3, 50.27, 0, 800, 1.5, 0, 0, Shear(400, 900, 1.5), Shear(250, 700, 1.5)));
+        cases.Add(new(40, g0, 14.17, 391.3, 50.27, 150, -1, 1.5, 0, 0, Shear(400, 900, 1.5), Shear(250, 700, 1.5)));
+        cases.Add(new(40, g0, 14.17, 391.3, 50.27, 150, 800, 1.5, 100, 0, Shear(400, 0, 1.5), Shear(250, 700, 1.5)));
+        cases.Add(new(40, g0, 14.17, 391.3, 50.27, 150, 800, 1.5, 0, 100, Shear(0, 700, 1.5), Shear(0, 700, 1.5)));
+        // C. Seeded random cases.
+        var random = new Random(20261002);
+        double U(double a, double b) => a + (b - a) * random.NextDouble();
+        for (int i = 0; i < 400; i++)
+        {
+            double area = U(2e4, 2e6), t = U(40, 400), cot = U(1, 2.5);
+            double cx = random.NextDouble() < .1 ? U(1, 2.5) : cot, cy = random.NextDouble() < .1 ? U(1, 2.5) : cot;
+            double vx = random.NextDouble() < .3 ? 0 : U(-800, 800), vy = random.NextDouble() < .3 ? 0 : U(-800, 800);
+            cases.Add(new(random.NextDouble() < .1 ? 0 : U(-400, 400), new TorsionGeometry(area, 4 * Math.Sqrt(area) * U(1, 1.5), t), U(8, 40), new[] { 391.3, 450 / 1.15, 500 / 1.15 }[random.Next(3)],
+                U(28, 314), U(50, 300), random.NextDouble() < .1 ? 0 : U(0, 6000), cot, vx, vy,
+                Shear(U(0, 1500), random.NextDouble() < .05 ? 0 : U(100, 2500), cx), Shear(U(0, 1500), U(100, 2500), cy)));
+        }
+
+        var csv = new StringBuilder();
+        csv.AppendLine("# ConcreteTorsionCalculator.Calculate legacy outputs (NTC 2018); ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
+        csv.AppendLine("# Units: T_kNm (kNm), Vx/Vy and shear resistances kN, lengths mm, areas mm2, stresses MPa; torsional resistances kNm. Shear results synthetic.");
+        csv.AppendLine("id;T_kNm;A;P;t;fcd;fyd;leg;s;Al;cot;Vx_kN;Vy_kN;xVRsd;xVRcd;xCot;yVRsd;yVRcd;yCot;outcome;TRcd;TRsd;TRld;TRd;torsionRatio;concrete;steel;requiredAl;passed;status");
+        var calculator = new ConcreteTorsionCalculator();
+        for (int i = 0; i < cases.Count; i++)
+        {
+            var c = cases[i];
+            string head = string.Join(";", i, F(c.TorqueKnM), F(c.Geometry.Area), F(c.Geometry.Perimeter), F(c.Geometry.Thickness), F(c.Fcd), F(c.Fyd), F(c.StirrupLegArea),
+                F(c.Spacing), F(c.AvailableLongitudinalArea), F(c.CotTheta), F(c.VxKn), F(c.VyKn), F(c.ShearX.VRsd), F(c.ShearX.VRcd), F(c.ShearX.CotTheta),
+                F(c.ShearY.VRsd), F(c.ShearY.VRcd), F(c.ShearY.CotTheta));
+            try
+            {
+                var r = calculator.Calculate(c);
+                csv.AppendLine(string.Join(";", head, "ok", F(r.TRcd), F(r.TRsd), F(r.TRld), F(r.TRd), F(r.TorsionRatio), F(r.ConcreteCombinedRatio), F(r.SteelCombinedRatio),
+                    F(r.RequiredLongitudinalArea), r.Passed, Clean(r.Status)));
+            }
+            catch (Exception ex) { csv.AppendLine(string.Join(";", head, "error:" + ex.GetType().Name, "", "", "", "", "", "", "", "", "", Clean(ex.Message))); }
+        }
+        File.WriteAllText(Path.Combine(output, "torsion-legacy.csv"), csv.ToString(), new UTF8Encoding(false));
+        Console.WriteLine($"{gid} geometrie e {cases.Count} casi di torsione -> {Path.Combine(output, "torsion-legacy.csv")}");
     }
 }
