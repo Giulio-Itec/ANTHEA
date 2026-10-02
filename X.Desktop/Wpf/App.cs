@@ -9,6 +9,18 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+        if (e.Args.Length == 2 && e.Args[0] == "--check-wiki-offscreen")
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Dispatcher.BeginInvoke(new Action(async () =>
+            {
+                int code = 0;
+                try { await WikiChecks.Run(e.Args[1]); }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), ex.ToString()); code = 1; }
+                finally { File.WriteAllText(Path.Combine(e.Args[1], "exit-code.txt"), code.ToString()); Shutdown(code); }
+            }));
+            return;
+        }
         if (e.Args.Length == 2 && e.Args[0] is "--check-global-guidance-offscreen" or "--check-wall-advanced-offscreen")
         {
             // No native window or input focus: render controls directly to bitmaps.
@@ -80,6 +92,8 @@ public partial class App : Application
                 finally { window.FinishSmoke(); Shutdown(code); }
             }
         }
+        else if (e.Args.Length == 2 && e.Args[0] == "--wiki")
+            window.Loaded += (_, _) => window.Safe(() => window.ShowWiki(e.Args[1]));
         else if (e.Args.FirstOrDefault(a => !a.StartsWith("--")) is string path)
             window.Loaded += (_, _) => window.Safe(() => window.LoadFile(path));
         window.Show();

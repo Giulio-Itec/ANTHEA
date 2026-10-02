@@ -76,6 +76,8 @@ public sealed partial class MainWindow
         projectHistoryActions = Ui.Bar(undoProjectButton, redoProjectButton);
         DockPanel.SetDock(projectHistoryHost, Dock.Right); actions.Children.Add(projectHistoryHost);
         var files = FileCommands(true, includeReport: false); DockPanel.SetDock(files, Dock.Right); actions.Children.Add(files);
+        var guide = CommandButton("Guida progetti", () => Safe(() => { if (WikiCatalog.Articles.FirstOrDefault(a => a.Type == "guide" && a.Area == "Progetti") is { } page) ShowWiki(page.Id); }));
+        DockPanel.SetDock(guide, Dock.Right); actions.Children.Add(guide);
         DockPanel.SetDock(back, Dock.Right); actions.Children.Add(back);
         var title = Ui.Text("ANTHEA   |   Progetti", 21, true, System.Windows.Media.Brushes.White); title.Margin = new Thickness(20, 10, 20, 10); actions.Children.Add(title);
         projectTreeToggle = CommandButton("▸", () => SetProjectSheetTreeVisible(!projectSheetTreeVisible));

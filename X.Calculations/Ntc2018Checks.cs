@@ -111,7 +111,16 @@ public static partial class Ntc2018Checks
         Add("h − x", tensileDepth, "mm", "εc,max / |∇ε|; profondità tesa");
         Add("x", height - tensileDepth, "mm", "h − profondità tesa; profondità compressa");
         var bars = section.GetRebars().Where(r => plane.GetStrain(r.Position) > 0).ToArray();
-        if (bars.Length == 0) return new(null, req.Limit, null, null, "Nessuna armatura tesa") { Details = details.ToArray() };
+        if (bars.Length == 0)
+        {
+            // Asse neutro nel copriferro del lembo teso: le armature di quel lembo (entro h/2, limite superiore di hc,eff) sono compresse, σs ≤ 0 e wk = 0.
+            // Senza barre da quel lato la zona tesa non è armata: nessun esito.
+            var rebars = section.GetRebars().ToArray();
+            double nearest = rebars.Length == 0 ? double.PositiveInfinity : top - rebars.Max(r => Q(r.Position));
+            if (!(nearest < height / 2)) return new(null, req.Limit, null, null, "Nessuna armatura tesa") { Details = details.ToArray() };
+            Add("h − d,min", nearest, "mm", "Qmax − Q della barra più vicina al lembo teso", "Maggiore di h − x: nessuna barra tesa, wk = 0.");
+            return InnerCracking(new(0, req.Limit, 0, true, "Asse neutro nel copriferro: nessuna barra tesa, wk = 0") { Details = details.ToArray() }, engine, state, options);
+        }
         double centroid = bars.Sum(r => Q(r.Position) * r.Area) / bars.Sum(r => r.Area);
         double coverToCenter = top - centroid, hc = ConcreteCodeChecks.EffectiveCrackDepth(code,engine.Geometry,qx,qy,top,height,coverToCenter,tensileDepth,false);
         Add("Numero barre tese", bars.Length, "−", "Barre con ε > 0");
@@ -146,7 +155,21 @@ public static partial class Ntc2018Checks
             Add(id + " · As", bar.Area, "mm²", "Area della barra");
             Add(id + " · σs", native.GetRebarTension(native.PsiRebar ?? 0, bar), "MPa", "Tensione nativa nella barra");
         }
-        if (aceff <= 0 || effective.Length == 0) return new(null, req.Limit, null, null, "Armatura/area efficace assente") { Details = details.ToArray() };
+        if (effective.Length == 0)
+        {
+            // Barre tese più profonde di hc,eff (asse neutro vicino alle barre): nessuna barra aderente in Ac,eff, limite superiore EC2 7.3.4(4) con le barre tese.
+            double sigmaT = bars.Max(r => native.GetRebarTension(native.PsiRebar ?? 0, r));
+            double phiT = bars.Sum(r => r.RebarSection.Diameter * r.RebarSection.Diameter) / bars.Sum(r => r.RebarSection.Diameter);
+            Add("Øeq", phiT, "mm", "ΣØ² / ΣØ delle barre tese", "Nessuna barra tesa nella fascia efficace.");
+            Add("σs", sigmaT, "MPa", "max σs delle barre tese, nessuna in Ac,eff");
+            var concreteT = (ConcreteMaterialEuropeanCommon)section.ConcreteMaterial;
+            double bound = ConcreteCodeChecks.UnbondedCrackWidthBound(code, sigmaT, bars[0].RebarMaterial.E, concreteT.Fctm, phiT, tensileDepth,
+                options.S("durata", "Lunga") == "Breve", options.S("aderenza", "Migliorata") == "Migliorata", details);
+            Add("ηw", bound / req.Limit, "−", "wk / wlim");
+            return InnerCracking(new(bound, req.Limit, bound / req.Limit, bound <= req.Limit, "Nessuna barra in Ac,eff: limite superiore con sr,max da (h − x) · "
+                + (bound <= req.Limit ? "apertura entro limite" : "apertura oltre limite"), aceff, 0) { Details = details.ToArray(), Regions=[SectionRegions.Region(engine.Geometry,"Zona tesa efficace",qx,qy,level,[],bound)] },engine,state,options);
+        }
+        if (aceff <= 0) return new(null, req.Limit, null, null, "Armatura/area efficace assente") { Details = details.ToArray() };
         double steel = effective.Sum(r => r.Area), phi = effective.Sum(r => r.RebarSection.Diameter * r.RebarSection.Diameter) / effective.Sum(r => r.RebarSection.Diameter);
         double sigma = effective.Max(r => native.GetRebarTension(native.PsiRebar ?? 0, r));
         double c = options.S("copriferro_fessure").Trim() == "" ? input.Required("cover_mm") + (input.S("staffe_presenti","Sì")=="No"?0:input.Required("transverse_bar_diameter_mm")) : options.Required("copriferro_fessure");

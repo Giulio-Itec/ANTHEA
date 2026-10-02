@@ -1,0 +1,102 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\wiki-formule-rev10-20261002\\docs\\guida-teorica-anthea.md",
+    "motivo": "Revisione delle formule LaTeX e della resa editoriale",
+    "sostituzione": "Guide globali Rev10",
+    "sha256": "50652f86743e6b22fc07031b08eceff6d7ce3896a39f0807edf1544e41d96329",
+    "nota": "Soli percorsi delle figure adeguati per la consultazione della copia archiviata."
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\wiki-formule-rev10-20261002\\docs\\guida-pratica-anthea.md",
+    "motivo": "Revisione delle formule LaTeX e della resa editoriale",
+    "sostituzione": "Guide globali Rev10",
+    "sha256": "bb5e711c3c8566a0d21b1b236668341f3a0b3a2472355c440675bc419ac410ac",
+    "nota": "Soli percorsi delle figure adeguati per la consultazione della copia archiviata."
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-formule-rev10-20261002\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Revisione delle formule LaTeX e della resa editoriale",
+    "sostituzione": "Guide globali Rev10",
+    "sha256": "be764ba631caeb422838520fda9d8f8d418ac4f47058ab040275cabd21f0d812"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-formule-rev10-20261002\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Revisione delle formule LaTeX e della resa editoriale",
+    "sostituzione": "Guide globali Rev10",
+    "sha256": "e7a5d0bcd2e0b290c1a0ade4de895c8bf9b6c9eb2da5f10bfc5a06b1cebfbac0"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\wiki-formule-rev10-20261002\\installer\\Indice-guide.md",
+    "motivo": "Revisione delle formule LaTeX e della resa editoriale",
+    "sostituzione": "Guide globali Rev10",
+    "sha256": "e608679358d25a00e6921d732f347bbdf123b0b4c2bcc48dc4d78fdaa9dfba84"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-formule-rev10-20261002\\installer\\Indice-guide.pdf",
+    "motivo": "Revisione delle formule LaTeX e della resa editoriale",
+    "sostituzione": "Guide globali Rev10",
+    "sha256": "4314a3c831eeda132260c445c67e74d8f50447e65f39a53dce5befe9fa99b344"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\wiki-formule-rev10-20261002\\README.md",
+    "motivo": "Revisione delle formule LaTeX e della resa editoriale",
+    "sostituzione": "Guide globali Rev10",
+    "sha256": "a55233c41c902dc18980ba94b1cf81ab5e3959a126208909c850bd2be29faa87"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-formule-rev10-20261002\\README.pdf",
+    "motivo": "Revisione delle formule LaTeX e della resa editoriale",
+    "sostituzione": "Guide globali Rev10",
+    "sha256": "99b1054e98f1980fdedaec346aa01cd5ea9e9e7263f07576f38a079f704696b5"
+  },
+  {
+    "origine": "supporto\\installer\\README.md",
+    "archivio": "supporto\\SUPERATI\\wiki-formule-rev10-20261002\\installer\\README.md",
+    "motivo": "Revisione delle formule LaTeX e della resa editoriale",
+    "sostituzione": "Guide globali Rev10",
+    "sha256": "c0f9e6e3ed011ff04a0afcf04f9fc1ae7042b8348ff522743bf9778f8f16b928"
+  },
+  {
+    "origine": "supporto\\installer\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-formule-rev10-20261002\\installer\\README.pdf",
+    "motivo": "Revisione delle formule LaTeX e della resa editoriale",
+    "sostituzione": "Guide globali Rev10",
+    "sha256": "563c8e2553b7df1709da3ce752875d29de4e313c4563ad3abf43677e8abe35b3"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev09.docx",
+    "archivio": "supporto\\SUPERATI\\wiki-formule-rev10-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev09.docx",
+    "motivo": "Revisione delle formule LaTeX e della resa editoriale",
+    "sostituzione": "Guide globali Rev10",
+    "sha256": "fca87899318a5817ab2376c5e0839e7c750c8a681e57fa70c26867de632a49b2"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev09.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-formule-rev10-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev09.pdf",
+    "motivo": "Revisione delle formule LaTeX e della resa editoriale",
+    "sostituzione": "Guide globali Rev10",
+    "sha256": "e7a5d0bcd2e0b290c1a0ade4de895c8bf9b6c9eb2da5f10bfc5a06b1cebfbac0"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev09.docx",
+    "archivio": "supporto\\SUPERATI\\wiki-formule-rev10-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev09.docx",
+    "motivo": "Revisione delle formule LaTeX e della resa editoriale",
+    "sostituzione": "Guide globali Rev10",
+    "sha256": "769905bcb15b5da943fd1ca7c596e0deaa2f134e30e297d2686f609f438fc288"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev09.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-formule-rev10-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev09.pdf",
+    "motivo": "Revisione delle formule LaTeX e della resa editoriale",
+    "sostituzione": "Guide globali Rev10",
+    "sha256": "be764ba631caeb422838520fda9d8f8d418ac4f47058ab040275cabd21f0d812"
+  }
+]

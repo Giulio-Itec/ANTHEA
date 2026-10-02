@@ -1,0 +1,665 @@
+{
+  "guide:1 Avvio e scelta del modulo": {
+    "area": "Primi passi",
+    "id": "/wiki/guide/primi-passi/avvio-e-scelta-del-modulo",
+    "modules": [],
+    "related": [
+      "/wiki/guide/introduzione/wiki-e-centro-della-conoscenza",
+      "/wiki/guide/workflow/percorso-completo-per-un-primo-progetto"
+    ]
+  },
+  "guide:10 Salvataggio e report": {
+    "area": "Esportazione",
+    "id": "/wiki/guide/esportazione/salvataggio-e-report",
+    "modules": [],
+    "related": [
+      "/wiki/guide/progetti/progetti-e-revisioni"
+    ]
+  },
+  "guide:11 Percorso completo per un primo progetto": {
+    "area": "Workflow",
+    "id": "/wiki/guide/workflow/percorso-completo-per-un-primo-progetto",
+    "modules": [],
+    "related": [
+      "/wiki/guide/primi-passi/avvio-e-scelta-del-modulo",
+      "/wiki/guide/progetti/progetti-e-gestione-del-lavoro"
+    ]
+  },
+  "guide:12 Problemi frequenti e controlli finali": {
+    "area": "FAQ e troubleshooting",
+    "id": "/wiki/guide/faq-e-troubleshooting/problemi-frequenti-e-controlli-finali",
+    "modules": [],
+    "related": [
+      "/wiki/guide/interpretazione-risultati/interpretazione-dei-risultati-e-controlli-indipendenti"
+    ]
+  },
+  "guide:13 Muri di sostegno con stratigrafie di monte e valle": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli-singoli/muri-di-sostegno-con-stratigrafie-di-monte-e-valle",
+    "modules": [
+      "geo_muri_sostegno"
+    ],
+    "related": [
+      "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale"
+    ]
+  },
+  "guide:2 Progetti e gestione del lavoro": {
+    "area": "Progetti",
+    "id": "/wiki/guide/progetti/progetti-e-gestione-del-lavoro",
+    "modules": [],
+    "related": [
+      "/wiki/guide/workflow/percorso-completo-per-un-primo-progetto",
+      "/wiki/guide/progetti/gerarchia-dei-fogli-nei-progetti",
+      "/wiki/guide/progetti/progetti-e-revisioni"
+    ]
+  },
+  "guide:3 Materiali e durabilità": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli-singoli/materiali-e-durabilita",
+    "modules": [
+      "mat_calcestruzzo",
+      "mat_acciaio_armatura"
+    ],
+    "related": [
+      "/wiki/manuale/calcestruzzo-armato/calcestruzzo-armature-e-copriferro",
+      "/wiki/manuale/acciaio/teorica-a01-scheda-acciaio-per-armature"
+    ]
+  },
+  "guide:4 Palo verticale": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli-singoli/palo-verticale",
+    "modules": [
+      "geo_palo_verticale"
+    ],
+    "related": [
+      "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale"
+    ]
+  },
+  "guide:5 Micropalo verticale": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli-singoli/micropalo-verticale",
+    "modules": [
+      "geo_micropalo_verticale"
+    ],
+    "related": [
+      "/wiki/manuale/fondazioni-e-geotecnica/micropalo-verticale"
+    ]
+  },
+  "guide:6 Pali e micropali caricati orizzontalmente": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli-singoli/pali-e-micropali-caricati-orizzontalmente",
+    "modules": [
+      "geo_palo_orizzontale",
+      "geo_micropalo_orizzontale"
+    ],
+    "related": [
+      "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
+      "/wiki/manuale/fondazioni-e-geotecnica/teorica-a19-palo-orizzontale-in-terreno-stratificato"
+    ]
+  },
+  "guide:7 Sezione in calcestruzzo armato": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli-singoli/sezione-in-calcestruzzo-armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato"
+    ]
+  },
+  "guide:8 Sezione composta da ponte": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
+    "modules": [
+      "str_mista_ponte"
+    ],
+    "related": [
+      "/wiki/manuale/ponti/teorica-a23-sezione-composta-da-ponte"
+    ]
+  },
+  "guide:9 Bridge Design": {
+    "area": "Ponti",
+    "id": "/wiki/guide/moduli-singoli/bridge-design",
+    "modules": [
+      "str_bridge_design"
+    ],
+    "related": [
+      "/wiki/manuale/ponti/teorica-a08-bridge-design"
+    ]
+  },
+  "guide:Approfondimenti integrati": {
+    "area": "Calcestruzzo armato",
+    "id": "/wiki/guide/moduli-singoli/approfondimenti-integrati",
+    "modules": [],
+    "related": []
+  },
+  "guide:Interpretazione dei risultati e controlli indipendenti": {
+    "area": "Interpretazione risultati",
+    "id": "/wiki/guide/interpretazione-risultati/interpretazione-dei-risultati-e-controlli-indipendenti",
+    "modules": [],
+    "related": [
+      "/wiki/guide/tutorial/tutorial-dal-modello-beam-alla-verifica-di-sezione",
+      "/wiki/guide/faq-e-troubleshooting/problemi-frequenti-e-controlli-finali"
+    ]
+  },
+  "guide:Modulo Sezione in c.a.": {
+    "area": "Moduli singoli",
+    "example": "beam-ca",
+    "id": "/wiki/guide/moduli/sezione-ca",
+    "keywords": [
+      "calcestruzzo",
+      "rc",
+      "concrete",
+      "flessione",
+      "pressoflessione",
+      "dominio"
+    ],
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+      "/wiki/manuale/fem/elementi-beam",
+      "/wiki/manuale/calcestruzzo-armato/calcestruzzo-armature-e-copriferro",
+      "/wiki/guide/tutorial/tutorial-dal-modello-beam-alla-verifica-di-sezione"
+    ],
+    "summary": "Dalla geometria ai risultati: input, unità, combinazioni, domini resistenti e un esempio applicabile direttamente in Anthea.",
+    "type": "guide"
+  },
+  "guide:PRATICA A01 — Calcestruzzo armato — collegamento Checker": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli-singoli/calcestruzzo-armato-collegamento-checker",
+    "modules": [
+      "str_palo"
+    ],
+    "related": []
+  },
+  "guide:PRATICA A02 — Gerarchia dei fogli nei progetti": {
+    "area": "Progetti",
+    "id": "/wiki/guide/progetti/gerarchia-dei-fogli-nei-progetti",
+    "modules": [],
+    "related": [
+      "/wiki/guide/progetti/progetti-e-gestione-del-lavoro"
+    ]
+  },
+  "guide:PRATICA A03 — Micropalo orizzontale con CHS": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli-singoli/micropalo-orizzontale-con-chs",
+    "modules": [
+      "geo_micropalo_orizzontale"
+    ],
+    "related": [
+      "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms"
+    ]
+  },
+  "guide:PRATICA A04 — Progetti e revisioni": {
+    "area": "Progetti",
+    "id": "/wiki/guide/progetti/progetti-e-revisioni",
+    "modules": [],
+    "related": [
+      "/wiki/guide/progetti/progetti-e-gestione-del-lavoro",
+      "/wiki/guide/esportazione/salvataggio-e-report"
+    ]
+  },
+  "guide:PRATICA A05 — Stabilità globale: guida rapida": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli-singoli/stabilita-globale-guida-rapida",
+    "modules": [
+      "geo_muri_sostegno"
+    ],
+    "related": [
+      "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale"
+    ]
+  },
+  "guide:PRATICA A06 — Guida pratica di Bridge Design": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli-singoli/guida-pratica-di-bridge-design",
+    "modules": [
+      "str_bridge_design"
+    ],
+    "related": [
+      "/wiki/manuale/ponti/teorica-a08-bridge-design"
+    ]
+  },
+  "guide:Portanza sismica cedimenti spostamenti e armature Rev07": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli-singoli/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+    "modules": [],
+    "related": []
+  },
+  "guide:Tutorial dal modello Beam alla verifica di sezione": {
+    "area": "Tutorial",
+    "id": "/wiki/guide/tutorial/tutorial-dal-modello-beam-alla-verifica-di-sezione",
+    "modules": [],
+    "related": [
+      "/wiki/guide/moduli/sezione-ca",
+      "/wiki/manuale/fem/elementi-beam",
+      "/wiki/guide/interpretazione-risultati/interpretazione-dei-risultati-e-controlli-indipendenti"
+    ]
+  },
+  "guide:Wiki e centro della conoscenza": {
+    "area": "Introduzione",
+    "id": "/wiki/guide/introduzione/wiki-e-centro-della-conoscenza",
+    "modules": [],
+    "related": [
+      "/wiki/guide/primi-passi/avvio-e-scelta-del-modulo"
+    ]
+  },
+  "theory:1 Architettura del calcolo e convenzioni": {
+    "area": "Fondamenti di ingegneria strutturale",
+    "id": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+    "modules": [],
+    "related": []
+  },
+  "theory:10 Esempi trasversali e lettura critica": {
+    "area": "Calcestruzzo armato",
+    "id": "/wiki/manuale/calcestruzzo-armato/esempi-trasversali-e-lettura-critica",
+    "modules": [],
+    "related": []
+  },
+  "theory:11 Tracciabilità e riferimenti": {
+    "area": "Normativa e riferimenti",
+    "id": "/wiki/manuale/calcestruzzo-armato/tracciabilita-e-riferimenti",
+    "modules": [],
+    "related": []
+  },
+  "theory:2 Calcestruzzo armature e copriferro": {
+    "area": "Calcestruzzo armato",
+    "id": "/wiki/manuale/calcestruzzo-armato/calcestruzzo-armature-e-copriferro",
+    "modules": [
+      "mat_calcestruzzo",
+      "mat_acciaio_armatura"
+    ],
+    "related": [
+      "/wiki/guide/moduli-singoli/materiali-e-durabilita",
+      "/wiki/guide/moduli/sezione-ca"
+    ]
+  },
+  "theory:3 Palo verticale": {
+    "area": "Fondazioni e geotecnica",
+    "id": "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
+    "modules": [
+      "geo_palo_verticale"
+    ],
+    "related": [
+      "/wiki/guide/moduli-singoli/palo-verticale"
+    ]
+  },
+  "theory:4 Micropalo verticale": {
+    "area": "Fondazioni e geotecnica",
+    "id": "/wiki/manuale/fondazioni-e-geotecnica/micropalo-verticale",
+    "modules": [
+      "geo_micropalo_verticale"
+    ],
+    "related": [
+      "/wiki/guide/moduli-singoli/micropalo-verticale"
+    ]
+  },
+  "theory:5 Capacità orizzontale con Broms": {
+    "area": "Fondazioni e geotecnica",
+    "id": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
+    "modules": [
+      "geo_palo_orizzontale",
+      "geo_micropalo_orizzontale"
+    ],
+    "related": [
+      "/wiki/guide/moduli-singoli/pali-e-micropali-caricati-orizzontalmente",
+      "/wiki/guide/moduli-singoli/micropalo-orizzontale-con-chs"
+    ]
+  },
+  "theory:6 Sezione in calcestruzzo armato": {
+    "area": "Calcestruzzo armato",
+    "id": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "/wiki/guide/moduli-singoli/sezione-in-calcestruzzo-armato",
+      "/wiki/guide/moduli/sezione-ca",
+      "/wiki/manuale/calcestruzzo-armato/teorica-a03-asse-neutro-nelle-viste-di-sezione"
+    ]
+  },
+  "theory:7 Sezione composta da ponte": {
+    "area": "Ponti",
+    "id": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+    "modules": [
+      "str_mista_ponte"
+    ],
+    "related": []
+  },
+  "theory:8 Taglio irrigidimenti e connessione della sezione composta": {
+    "area": "Ponti",
+    "id": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
+    "modules": [
+      "str_mista_ponte"
+    ],
+    "related": [
+      "/wiki/manuale/ponti/teorica-a23-sezione-composta-da-ponte"
+    ]
+  },
+  "theory:9 Bridge Design": {
+    "area": "Ponti",
+    "id": "/wiki/manuale/ponti/bridge-design",
+    "modules": [
+      "str_bridge_design"
+    ],
+    "related": [
+      "/wiki/manuale/ponti/teorica-a08-bridge-design"
+    ]
+  },
+  "theory:Approfondimenti integrati": {
+    "area": "Calcestruzzo armato",
+    "id": "/wiki/manuale/calcestruzzo-armato/approfondimenti-integrati",
+    "modules": [],
+    "related": []
+  },
+  "theory:Azioni e combinazioni del modello": {
+    "area": "Azioni e combinazioni",
+    "id": "/wiki/manuale/azioni-e-combinazioni/azioni-e-combinazioni-del-modello",
+    "modules": [],
+    "related": [
+      "/wiki/manuale/fondamenti-di-ingegneria-strutturale/fondamenti-del-percorso-dei-carichi",
+      "/wiki/manuale/dinamica-e-sisma/dinamica-e-sisma-del-modello"
+    ]
+  },
+  "theory:Dinamica e sisma del modello": {
+    "area": "Dinamica e sisma",
+    "id": "/wiki/manuale/dinamica-e-sisma/dinamica-e-sisma-del-modello",
+    "modules": [],
+    "related": [
+      "/wiki/manuale/azioni-e-combinazioni/azioni-e-combinazioni-del-modello"
+    ]
+  },
+  "theory:Elementi Beam": {
+    "area": "FEM e modellazione",
+    "example": "beam-ca",
+    "id": "/wiki/manuale/fem/elementi-beam",
+    "keywords": [
+      "beam",
+      "trave",
+      "FEM",
+      "finite element",
+      "Euler-Bernoulli",
+      "Timoshenko",
+      "releases"
+    ],
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "/wiki/guide/moduli/sezione-ca",
+      "/wiki/guide/tutorial/tutorial-dal-modello-beam-alla-verifica-di-sezione",
+      "/wiki/manuale/fem-e-modellazione/elementi-shell",
+      "/wiki/manuale/fem-e-modellazione/releases-e-connettivita"
+    ],
+    "summary": "Comprendi la cinematica della trave, scegli le rigidezze, controlla il modello e trasferisci le azioni alla verifica della sezione.",
+    "type": "theory"
+  },
+  "theory:Elementi Shell": {
+    "area": "FEM e modellazione",
+    "id": "/wiki/manuale/fem-e-modellazione/elementi-shell",
+    "modules": [],
+    "related": [
+      "/wiki/manuale/fem/elementi-beam",
+      "/wiki/manuale/fem-e-modellazione/releases-e-connettivita"
+    ]
+  },
+  "theory:Fasi costruttive e percorso dei carichi": {
+    "area": "Metodi costruttivi",
+    "id": "/wiki/manuale/metodi-costruttivi/fasi-costruttive-e-percorso-dei-carichi",
+    "modules": [],
+    "related": [
+      "/wiki/manuale/fondamenti-di-ingegneria-strutturale/fondamenti-del-percorso-dei-carichi"
+    ]
+  },
+  "theory:Fondamenti del percorso dei carichi": {
+    "area": "Fondamenti di ingegneria strutturale",
+    "id": "/wiki/manuale/fondamenti-di-ingegneria-strutturale/fondamenti-del-percorso-dei-carichi",
+    "modules": [],
+    "related": [
+      "/wiki/manuale/acciaio/instabilita-delle-aste-compresse",
+      "/wiki/manuale/azioni-e-combinazioni/azioni-e-combinazioni-del-modello",
+      "/wiki/manuale/metodi-costruttivi/fasi-costruttive-e-percorso-dei-carichi"
+    ]
+  },
+  "theory:Instabilità delle aste compresse": {
+    "area": "Acciaio",
+    "id": "/wiki/manuale/acciaio/instabilita-delle-aste-compresse",
+    "modules": [],
+    "related": [
+      "/wiki/manuale/fem-e-modellazione/releases-e-connettivita",
+      "/wiki/manuale/fondamenti-di-ingegneria-strutturale/fondamenti-del-percorso-dei-carichi"
+    ]
+  },
+  "theory:Muri di sostegno e stabilità globale": {
+    "area": "Fondazioni e geotecnica",
+    "id": "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
+    "modules": [
+      "geo_muri_sostegno"
+    ],
+    "related": [
+      "/wiki/guide/moduli-singoli/muri-di-sostegno-con-stratigrafie-di-monte-e-valle",
+      "/wiki/guide/moduli-singoli/stabilita-globale-guida-rapida"
+    ]
+  },
+  "theory:Portanza sismica cedimenti spostamenti e armature Rev07": {
+    "area": "Fondazioni e geotecnica",
+    "id": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+    "modules": [],
+    "related": []
+  },
+  "theory:Releases e connettività": {
+    "area": "FEM e modellazione",
+    "id": "/wiki/manuale/fem-e-modellazione/releases-e-connettivita",
+    "modules": [],
+    "related": [
+      "/wiki/manuale/fem/elementi-beam",
+      "/wiki/manuale/fem-e-modellazione/elementi-shell",
+      "/wiki/manuale/acciaio/instabilita-delle-aste-compresse"
+    ]
+  },
+  "theory:TEORICA A01 — Scheda acciaio per armature": {
+    "area": "Calcestruzzo armato",
+    "id": "/wiki/manuale/acciaio/teorica-a01-scheda-acciaio-per-armature",
+    "modules": [
+      "mat_acciaio_armatura"
+    ],
+    "related": [
+      "/wiki/guide/moduli-singoli/materiali-e-durabilita"
+    ]
+  },
+  "theory:TEORICA A02 — Aggiornamento librerie · 24 settembre 2026": {
+    "area": "Normativa e riferimenti",
+    "id": "/wiki/manuale/calcestruzzo-armato/teorica-a02-aggiornamento-librerie-24-settembre-2026",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A03 — Asse neutro nelle viste di sezione": {
+    "area": "Calcestruzzo armato",
+    "id": "/wiki/manuale/calcestruzzo-armato/teorica-a03-asse-neutro-nelle-viste-di-sezione",
+    "modules": [],
+    "related": [
+      "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato"
+    ]
+  },
+  "theory:TEORICA A04 — Audit ANTHEA: calcoli, dati comuni e progetti": {
+    "area": "Normativa e riferimenti",
+    "id": "/wiki/manuale/normativa-e-riferimenti/teorica-a04-audit-anthea-calcoli-dati-comuni-e-progetti",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A05 — Dati e risultati del modulo in cemento armato": {
+    "area": "Calcestruzzo armato",
+    "id": "/wiki/manuale/calcestruzzo-armato/teorica-a05-dati-e-risultati-del-modulo-in-cemento-armato",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A06 — ANTHEA — Audit generale di Bridge Design": {
+    "area": "Normativa e riferimenti",
+    "id": "/wiki/manuale/normativa-e-riferimenti/teorica-a06-anthea-audit-generale-di-bridge-design",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A07 — Bridge Design — sezioni tecniche e ottimizzazione": {
+    "area": "Ponti",
+    "id": "/wiki/manuale/ponti/teorica-a07-bridge-design-sezioni-tecniche-e-ottimizzazione",
+    "modules": [
+      "str_bridge_design"
+    ],
+    "related": []
+  },
+  "theory:TEORICA A08 — Bridge Design": {
+    "area": "Ponti",
+    "id": "/wiki/manuale/ponti/teorica-a08-bridge-design",
+    "modules": [
+      "str_bridge_design"
+    ],
+    "related": [
+      "/wiki/manuale/ponti/bridge-design",
+      "/wiki/guide/moduli-singoli/guida-pratica-di-bridge-design"
+    ]
+  },
+  "theory:TEORICA A09 — Validazione — taglio e fessurazione CA": {
+    "area": "Normativa e riferimenti",
+    "id": "/wiki/manuale/normativa-e-riferimenti/teorica-a09-validazione-taglio-e-fessurazione-ca",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A10 — Estensioni del modulo CA · settembre 2026": {
+    "area": "Calcestruzzo armato",
+    "id": "/wiki/manuale/calcestruzzo-armato/teorica-a10-estensioni-del-modulo-ca-settembre-2026",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A11 — Aggiornamento SLE, geometria e trefoli": {
+    "area": "Calcestruzzo armato",
+    "id": "/wiki/manuale/calcestruzzo-armato/teorica-a11-aggiornamento-sle-geometria-e-trefoli",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A12 — Esito integrazione Checker — 21 settembre 2026": {
+    "area": "Normativa e riferimenti",
+    "id": "/wiki/manuale/calcestruzzo-armato/teorica-a12-esito-integrazione-checker-21-settembre-2026",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A13 — Sezione da ponte: irrigidimenti, appoggi e connessione": {
+    "area": "Ponti",
+    "id": "/wiki/manuale/ponti/teorica-a13-sezione-da-ponte-irrigidimenti-appoggi-e-connessione",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A14 — ANTHEA.Calculations — separazione e trasferimento": {
+    "area": "Normativa e riferimenti",
+    "id": "/wiki/manuale/calcestruzzo-armato/teorica-a14-anthea-calculations-separazione-e-trasferimento",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A15 — Migrazione del calcolo ponte in Checker — 25 settembre 2026": {
+    "area": "Ponti",
+    "id": "/wiki/manuale/ponti/teorica-a15-migrazione-del-calcolo-ponte-in-checker-25-settembre-2026",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A16 — Muri di sostegno": {
+    "area": "Fondazioni e geotecnica",
+    "id": "/wiki/manuale/fondazioni-e-geotecnica/teorica-a16-muri-di-sostegno",
+    "modules": [
+      "geo_muri_sostegno"
+    ],
+    "related": []
+  },
+  "theory:TEORICA A17 — Calcestruzzo ordinario — normative e verifiche di sezione": {
+    "area": "Normativa e riferimenti",
+    "id": "/wiki/manuale/normativa-e-riferimenti/teorica-a17-calcestruzzo-ordinario-normative-e-verifiche-di-sezione",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A18 — Palo singolo: capacità portante orizzontale": {
+    "area": "Fondazioni e geotecnica",
+    "id": "/wiki/manuale/fondazioni-e-geotecnica/teorica-a18-palo-singolo-capacita-portante-orizzontale",
+    "modules": [
+      "geo_palo_orizzontale"
+    ],
+    "related": []
+  },
+  "theory:TEORICA A19 — Palo orizzontale in terreno stratificato": {
+    "area": "Fondazioni e geotecnica",
+    "id": "/wiki/manuale/fondazioni-e-geotecnica/teorica-a19-palo-orizzontale-in-terreno-stratificato",
+    "modules": [
+      "geo_palo_orizzontale"
+    ],
+    "related": [
+      "/wiki/guide/moduli-singoli/pali-e-micropali-caricati-orizzontalmente"
+    ]
+  },
+  "theory:TEORICA A20 — Curve della sezione composta": {
+    "area": "Ponti",
+    "id": "/wiki/manuale/calcestruzzo-armato/teorica-a20-curve-della-sezione-composta",
+    "modules": [
+      "str_mista_ponte"
+    ],
+    "related": []
+  },
+  "theory:TEORICA A21 — Sezione da ponte con storico lineare e non lineare": {
+    "area": "Ponti",
+    "id": "/wiki/manuale/ponti/teorica-a21-sezione-da-ponte-con-storico-lineare-e-non-lineare",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A22 — Metodo della sezione da ponte da rivedere per Checker": {
+    "area": "Ponti",
+    "id": "/wiki/manuale/ponti/teorica-a22-metodo-della-sezione-da-ponte-da-rivedere-per-checker",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A23 — Sezione composta da ponte": {
+    "area": "Ponti",
+    "id": "/wiki/manuale/ponti/teorica-a23-sezione-composta-da-ponte",
+    "modules": [
+      "str_mista_ponte"
+    ],
+    "related": [
+      "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
+      "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta"
+    ]
+  },
+  "theory:TEORICA A24 — Studio della condivisione dati tra i fogli ANTHEA": {
+    "area": "Normativa e riferimenti",
+    "id": "/wiki/manuale/calcestruzzo-armato/teorica-a24-studio-della-condivisione-dati-tra-i-fogli-anthea",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A25 — Sezione da ponte — taglio, irrigidimenti e connessione": {
+    "area": "Ponti",
+    "id": "/wiki/manuale/ponti/teorica-a25-sezione-da-ponte-taglio-irrigidimenti-e-connessione",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A26 — Test dei metodi per i ponti": {
+    "area": "Normativa e riferimenti",
+    "id": "/wiki/manuale/normativa-e-riferimenti/teorica-a26-test-dei-metodi-per-i-ponti",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A27 — Unificazione dei calcoli e controllo dei progetti": {
+    "area": "Normativa e riferimenti",
+    "id": "/wiki/manuale/calcestruzzo-armato/teorica-a27-unificazione-dei-calcoli-e-controllo-dei-progetti",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A28 — Validazione della separazione della libreria di calcolo": {
+    "area": "Normativa e riferimenti",
+    "id": "/wiki/manuale/normativa-e-riferimenti/teorica-a28-validazione-della-separazione-della-libreria-di-calcolo",
+    "modules": [],
+    "related": []
+  },
+  "theory:TEORICA A29 — Teoria e validazione di Bridge Design": {
+    "area": "Normativa e riferimenti",
+    "id": "/wiki/manuale/normativa-e-riferimenti/teorica-a29-teoria-e-validazione-di-bridge-design",
+    "modules": [
+      "str_bridge_design"
+    ],
+    "related": []
+  }
+}

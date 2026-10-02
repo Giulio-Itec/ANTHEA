@@ -152,7 +152,7 @@ internal sealed class InputForm : ChainedScrollViewer
     private readonly Dictionary<string, Action<string>> setRawText = new();
     internal readonly Dictionary<string, FrameworkElement> Editors = new();
     private readonly Dictionary<string, List<FrameworkElement>> rows = new();
-    internal InputForm(JsonObject values, IEnumerable<Field> fields, Action<string> changed, bool compact = false, bool wideChoices = false, bool symbolColumns = false)
+    internal InputForm(JsonObject values, IEnumerable<Field> fields, Action<string> changed, bool compact = false, bool wideChoices = false, bool symbolColumns = false, string? wikiModule = null)
     {
         this.values = values; this.changed = changed;
         VerticalScrollBarVisibility = ScrollBarVisibility.Auto; HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled; Content = table;
@@ -164,6 +164,7 @@ internal sealed class InputForm : ChainedScrollViewer
             var f = symbolColumns ? WithSymbol(original) : original;
             int row = table.RowDefinitions.Count; table.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             var label = Ui.Text(f.Label, compact ? 12 : 13); label.Margin = new Thickness(2, 3, 6, 3); label.ToolTip = CalculationHelp.Field(f.Key) ?? f.Label;
+            var labelHost = WikiContextHelp.Label(label, f.Key, wikiModule);
             FrameworkElement editor;
             if (f.Bool)
             {
@@ -202,12 +203,12 @@ internal sealed class InputForm : ChainedScrollViewer
                 t.LostKeyboardFocus += (_, _) => Present(false);
                 editor = t;
             }
-            editor.Margin = new Thickness(2, 3, 2, 3); editor.MinHeight = compact ? 22 : 27; editor.ToolTip = CalculationHelp.Field(f.Key) ?? f.Label + (f.Unit != "" ? " [" + f.Unit + "]" : "");
+            editor.Margin = new Thickness(2, 3, 2, 3); editor.MinHeight = compact ? 22 : 27; editor.ToolTip = WikiContextHelp.Description(f.Key, wikiModule) ?? CalculationHelp.Field(f.Key) ?? f.Label + (f.Unit != "" ? " [" + f.Unit + "]" : "");
             ToolTipService.SetShowDuration(editor, 20000); ToolTipService.SetShowDuration(label, 20000);
             editor.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, f.Label);
             var unit = Ui.Text(f.Unit, 11, color: Ui.Muted); unit.Margin = new Thickness(4, 0, 0, 0);
-            Grid.SetRow(label, row); Grid.SetRow(editor, row); Grid.SetRow(unit, row); Grid.SetColumn(editor, symbolColumns ? 2 : 1); Grid.SetColumn(unit, symbolColumns ? 3 : 2);
-            var elements = new List<FrameworkElement> { label, editor, unit };
+            Grid.SetRow(labelHost, row); Grid.SetRow(editor, row); Grid.SetRow(unit, row); Grid.SetColumn(editor, symbolColumns ? 2 : 1); Grid.SetColumn(unit, symbolColumns ? 3 : 2);
+            var elements = new List<FrameworkElement> { labelHost, editor, unit };
             if (symbolColumns)
             {
                 var symbol = Ui.Text(f.Symbol, 12); symbol.TextAlignment = TextAlignment.Center; Grid.SetRow(symbol, row); Grid.SetColumn(symbol, 1); elements.Add(symbol);
@@ -217,9 +218,9 @@ internal sealed class InputForm : ChainedScrollViewer
             else if (f.Wide || f.Choices is not null && wideChoices)
             {
                 table.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                Grid.SetColumnSpan(label, 3); Grid.SetRow(editor, row + 1); Grid.SetColumn(editor, 0); Grid.SetColumnSpan(editor, 3); elements = [label, editor];
+                Grid.SetColumnSpan(labelHost, 3); Grid.SetRow(editor, row + 1); Grid.SetColumn(editor, 0); Grid.SetColumnSpan(editor, 3); elements = [labelHost, editor];
             }
-            else if (f.Choices is not null && f.Unit == "" && !compact) { Grid.SetColumnSpan(editor, 2); elements = [label, editor]; }
+            else if (f.Choices is not null && f.Unit == "" && !compact) { Grid.SetColumnSpan(editor, 2); elements = [labelHost, editor]; }
             foreach (var element in elements) table.Children.Add(element);
             Editors[f.Key] = editor; rows[f.Key] = elements;
         }

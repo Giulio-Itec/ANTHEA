@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 3 del 2 ottobre 2026 — revisione documentale 08
+Edizione 3 del 2 ottobre 2026 — revisione documentale 10
 
 Questa edizione unifica la documentazione di ANTHEA in due volumi globali. Il volume pratico comprende uso, interfaccia e procedure; quello teorico comprende modelli, formule, ipotesi, limiti e approfondimenti di tutti i moduli. I capitoli di approfondimento conservano integralmente i contenuti delle precedenti schede. Audit, migrazioni e studi conservano la loro data e il loro ambito storico: non descrivono automaticamente lo stato attuale del programma.
 
@@ -47,9 +47,11 @@ I risultati precedenti eventualmente conservati a video sono marcati da aggiorna
 
 Per il calcestruzzo il passaggio dalla resistenza caratteristica a quella di progetto segue il coefficiente αcc e il parziale γc selezionati. Per l'armatura la resistenza di progetto deriva da fy e γs. I diagrammi possono essere di catalogo o personalizzati; l'uso di una classe nominale non autorizza a ignorare il diagramma effettivamente selezionato.
 
-$$ fcd = αcc fck / γc
-$$ fyd = fyk / γs
-$$ εyd = fyd / Es
+```math
+f_{cd} = \frac{\alpha_{cc} f_{ck}}{\gamma_c}
+f_{yd} = \frac{f_{yk}}{\gamma_s}
+\varepsilon_{yd} = \frac{f_{yd}}{E_s}
+```
 
 Con fck = 30 MPa, αcc = 0,85 e γc = 1,50 si ottiene fcd = 17 MPa. Con fyk = 450 MPa e γs = 1,15 si ottiene fyd = 391,30 MPa. Assumendo Es = 200000 MPa, la deformazione elastica a fyd è 0,0019565, cioè 1,9565 per mille. Sono esempi dei passaggi algebrici, non una scelta universale dei coefficienti.
 
@@ -83,8 +85,10 @@ L'aria inglobata per XF2, XF3 e XF4 dipende anche dalla dimensione dell'aggregat
 
 Il minimo deve soddisfare aderenza, durabilità e condizioni aggiuntive. Il nominale comprende il margine esecutivo e gli eventuali limiti per la superficie di getto. Nel ramo implementato, il requisito di aderenza parte dal diametro e aumenta di 5 mm quando l'aggregato supera 32 mm. Rugosità e abrasione aggiungono i contributi assegnati.
 
-$$ cmin = max(10; cbond; cdur) + crugosità + cabrasione
-$$ cnom = max(cmin + Δcdev; ccontroterra)
+```math
+c_{\min} = \max(10; c_{bond}; c_{dur}) + c_{rugosita} + c_{abrasione}
+c_{nom} = \max(c_{\min}+\Delta c_{dev}; c_{controterra})
+```
 
 Il ramo EC2 determina la classe strutturale secondo esposizione, vita e opzioni ammesse, poi consulta la tabella di durabilità. Le esposizioni che non definiscono da sole quel requisito richiedono un'associazione pertinente, anziché essere trasformate in una classe equivalente arbitraria.
 
@@ -98,10 +102,12 @@ Come esempio del ramo NTC, XF2, fck = 30 MPa, elemento non a piastra, vita 50 an
 
 Per un palo circolare di diametro D si usano area di base Ab e perimetro u. La stratigrafia è integrata per tratte; la falda può suddividere una stessa tratta in una parte asciutta e una immersa. Sotto falda la tensione efficace cresce con il peso sommerso, mentre la tensione totale continua a usare il peso saturo.
 
-$$ Ab = π D² / 4
-$$ u = π D
-$$ γ′ = max(0; γsat − 9,81)
-$$ σ′v(z) = ∫ γ′(z) dz
+```math
+A_b = \frac{\pi D^2}{4}
+u = \pi D
+\gamma' = \max(0; \gamma_{sat}-9{,}81)
+\sigma'_v(z) = \int \gamma'(z)\,dz
+```
 
 La media della tensione efficace in una tratta è ottenuta integrando il profilo effettivo, compreso il cambio di pendenza in corrispondenza della falda. Usare la sola tensione al centro dello strato può dare un valore diverso se il tratto attraversa quella discontinuità. Il peso del terreno di uno strato continua a influire sugli strati sottostanti anche quando la sua resistenza laterale viene esclusa.
 
@@ -109,8 +115,10 @@ La media della tensione efficace in una tratta è ottenuta integrando il profilo
 
 La tensione tangenziale limite drenata è espressa in funzione di coesione efficace, coefficiente K, attrito palo terreno μ e tensione verticale efficace media. Negli strati granulari il termine c′ viene posto a zero. Negli strati coesivi rimane disponibile nel ramo drenato.
 
-$$ τs = c′ + K μ σ′v
-$$ Rs = Σ π D Lj τsj
+```math
+\tau_s = c' + K\mu\sigma'_v
+R_s = \sum_j \pi D L_j\tau_{sj}
+```
 
 | Tecnologia | K sciolto | K denso | μ adottato |
 | --- | --- | --- | --- |
@@ -133,12 +141,16 @@ I tratti sopra falda che non soddisfano le condizioni del ramo non drenato riuti
 
 Nel ramo drenato la base utilizza Ab σ′v Nq. Nel ramo non drenato coesivo sotto falda si usa una formulazione lorda Ab (Nc Cu + σv), con tensione verticale totale. Il contributo di sovraccarico non va quindi sottratto di nuovo senza considerare come sono state definite le azioni.
 
-$$ Rb drenata = Ab σ′v Nq
-$$ Rb non drenata = Ab (Nc Cu + σv)
+```math
+R_{b,\mathrm{drenata}} = A_b\sigma'_v N_q
+R_{b,\mathrm{non\ drenata}} = A_b(N_c C_u+\sigma_v)
+```
 
 Nq proviene dall'abaco parametrizzato NQ 2026 09 09 e non dalla sola formula esponenziale classica della capacità portante. Per D ≤ 0,8 m sono disponibili le curve z/D = 5, 10, 20 e 50. Ciascuna è descritta dalle coppie di angoli alle quali Nq vale 10 e 100: (23; 35,6), (24,6; 37), (25,8; 37,8), (27,5; 38,8) gradi.
 
-$$ log10(Nq) = 1 + (φ − φ10) / (φ100 − φ10)
+```math
+\log_{10}(N_q) = 1+\frac{\varphi-\varphi_{10}}{\varphi_{100}-\varphi_{10}}
+```
 
 Fra le curve si interpola nella scala logaritmica del rapporto z/D e di Nq. Per D > 0,8 m si usano le curve per z/D = 4 e 32, definite da polinomi cubici raccordati, con interpolazione aritmetica fra esse e φ limitato al campo 26–42°. I valori esterni vengono ricondotti al bordo e segnalati; non costituiscono un'estrapolazione validata.
 
@@ -146,9 +158,10 @@ Fra le curve si interpola nella scala logaritmica del rapporto z/D e di Nq. Per 
 
 Si calcolano media e minimo separati di laterale e punta alla quota considerata. Il minimo della somma delle componenti non è necessariamente la somma dei minimi: ANTHEA adotta la seconda costruzione nel ramo definito dalle componenti minime. Questa scelta va distinta dal risultato di un singolo sondaggio.
 
-$$ Rd,C = ηC min[(Rs,medio/γs + Rb,medio/γb)/ξ3;
-$$                    (Rs,min/γs + Rb,min/γb)/ξ4]
-$$ Rd,T = ηT min[Rs,medio/(ξ3 γt); Rs,min/(ξ4 γt)]
+```math
+R_{d,C} = \eta_C\min\left[\frac{R_{s,medio}/\gamma_s+R_{b,medio}/\gamma_b}{\xi_3}; \frac{R_{s,\min}/\gamma_s+R_{b,\min}/\gamma_b}{\xi_4}\right]
+R_{d,T} = \eta_T\min\left[\frac{R_{s,medio}}{\xi_3\gamma_t};\frac{R_{s,\min}}{\xi_4\gamma_t}\right]
+```
 
 | Numero di indagini selezionato | ξ3 | ξ4 |
 | --- | --- | --- |
@@ -162,15 +175,18 @@ $$ Rd,T = ηT min[Rs,medio/(ξ3 γt); Rs,min/(ξ4 γt)]
 
 L'azione di compressione comprende il peso proprio sfavorevole e quella di trazione è ridotta dal peso favorevole, con i coefficienti specificati. L'opzione di sottospinta modifica il peso secondo la parte immersa del palo, separatamente dal calcolo delle tensioni del terreno.
 
-$$ Ed,C = NC + γG,sfav W
-$$ Ed,T = max(0; NT − γG,fav W)
+```math
+E_{d,C} = N_C+\gamma_{G,sfav}W
+E_{d,T} = \max(0; N_T-\gamma_{G,fav}W)
+```
 
 ### 3 6 Efficienza di gruppo e limiti
 
 Converse Labarre usa la geometria del reticolo nelle due direzioni. Gli angoli della seguente espressione sono in gradi; ciascun termine è nullo quando in quella direzione esiste un solo palo.
 
-$$ η = 1 − [atan(D/sx)/90] (nx−1)/nx
-$$         − [atan(D/sy)/90] (ny−1)/ny
+```math
+\eta = 1-\frac{\arctan(D/s_x)}{90}\frac{n_x-1}{n_x} -\frac{\arctan(D/s_y)}{90}\frac{n_y-1}{n_y}
+```
 
 Feld conta le coppie adiacenti ortogonali e diagonali: P = (nx−1)ny + nx(ny−1) + 2(nx−1)(ny−1), poi η = 1 − 2P/(16 nx ny). Per questi due metodi la versione corrente applica la stessa efficienza a compressione e trazione. L'opzione manuale permette valori distinti. Un risultato non positivo viene rifiutato.
 
@@ -184,8 +200,10 @@ La resistenza laterale usa curve digitalizzate Bustamante Doix documentate nel m
 
 Il diametro del bulbo viene stimato come Ds = α D, dove D è il diametro di perforazione. La resistenza di ogni tratta attiva vale π Ds Lj τj. α rappresenta l'espansione convenzionale e va scelto in relazione a terreno e iniezione; non è un incremento di resistenza indipendente dalla geometria.
 
-$$ Ds = α D
-$$ Rs = Σ π Ds Lj τj
+```math
+D_s = \alpha D
+R_s = \sum_j\pi D_s L_j\tau_j
+```
 
 Per esempio, D = 0,20 m, α = 1,30, lunghezza attiva 8 m e τ = 150 kPa producono Ds = 0,26 m e Rs = 980,18 kN prima dei coefficienti. Aumentare α del 10% aumenta linearmente la superficie resistente, a parità delle altre ipotesi. Il risultato resta condizionato alla validità della correlazione e della realizzazione del bulbo.
 
@@ -195,9 +213,11 @@ Per un'inclinazione θ dalla verticale, una differenza di quota Δz corrisponde 
 
 La punta opzionale è una frazione assegnata del laterale; non deriva da una capacità portante indipendente. Per il peso si separano area del tubo e area di boiacca. Il diametro del tubo è distinto da quello del bulbo. La componente adottata nella procedura segue il fattore cos θ previsto dal modello.
 
-$$ As,tubo = π (De² − Di²) / 4
-$$ q = 9,81 × 7850 As,tubo / 1000 + γboiacca Aboiacca
-$$ W = q s cos θ
+```math
+A_{s,tubo} = \frac{\pi(D_e^2-D_i^2)}{4}
+q = \frac{9{,}81\cdot7850 A_{s,tubo}}{1000}+\gamma_{boiacca}A_{boiacca}
+W = q s\cos\theta
+```
 
 Diametri e aree devono essere riportati in metri e metri quadrati nella formula del peso. Media, minimi, ξ, γ ed efficienze seguono la struttura del calcolo verticale. Instabilità del tubo, flessione, sfilamento del collegamento e trasferimento locale fra tubo e boiacca restano verifiche distinte.
 
@@ -209,17 +229,21 @@ Il palo viene analizzato attraverso meccanismi limite compatibili con la resiste
 
 Nei coesivi la resistenza laterale per unità di lunghezza è nulla nei primi 1,5D dal piano campagna e vale poi 9CuD. Il tratto escluso non ricomincia a ogni cambio di strato. Nei granulari la resistenza è 3KpDσ′v. Le unità di p sono kN/m.
 
-$$ p(z) = 9 Cu D per z ≥ 1,5D nei coesivi
-$$ p(z) = 3 Kp D σ′v(z) nei granulari
-$$ Kp = (1 + sin φ) / (1 − sin φ)
+```math
+p(z) = 9 C_u D\quad\mathrm{per}\ z\geq1{,}5D\ \mathrm{nei\ coesivi}
+p(z) = 3 K_p D\sigma'_v(z)\quad\mathrm{nei\ granulari}
+K_p = \frac{1+\sin\varphi}{1-\sin\varphi}
+```
 
 Si definiscono Q come integrale delle forze, S come integrale dei momenti rispetto al piano campagna e A come momento rispetto alla sezione alla profondità z. Queste funzioni permettono di formulare in modo uniforme equilibrio e criteri limite.
 
-$$ Q(z) = ∫₀ᶻ p(s) ds
-$$ S(z) = ∫₀ᶻ s p(s) ds
-$$ A(z) = z Q(z) − S(z)
-$$ V(z) = H − Q(z)
-$$ M(z) = M0 + H z − A(z)
+```math
+Q(z) = \int_0^z p(s)\,ds
+S(z) = \int_0^z s p(s)\,ds
+A(z) = z Q(z)-S(z)
+V(z) = H-Q(z)
+M(z) = M_0+H z-A(z)
+```
 
 Con testa libera M0 = He. La profondità zf del massimo momento soddisfa Q(zf) = H. Per il terreno coesivo omogeneo zf = 1,5D + H/(9CuD). I rami vengono confrontati in base a equilibrio e capacità, non soltanto mediante una soglia geometrica L/D.
 
@@ -243,8 +267,10 @@ La ricerca numerica usa bisezione e verifiche dell'equilibrio. La tolleranza del
 
 Le capacità dei sondaggi vengono combinate tramite media e minimo e i fattori ξ selezionati. La riduzione di gruppo e il coefficiente di resistenza vengono applicati successivamente. Nel percorso implementato il parziale di resistenza laterale vale 1,3.
 
-$$ Rk = min(Hu,medio/ξ3; Hu,min/ξ4)
-$$ Rd = η Rk / 1,3
+```math
+R_k = \min\left(\frac{H_{u,medio}}{\xi_3};\frac{H_{u,\min}}{\xi_4}\right)
+R_d = \frac{\eta R_k}{1{,}3}
+```
 
 HEd è già un'azione di progetto assegnata. Il motore non genera l'intero percorso delle combinazioni normative. L'efficienza di gruppo basata su Reese e Van Impe usa fattori direzionali: davanti min[1; 0,7(s/D)^0,26], dietro min[1; 0,48(s/D)^0,38], lateralmente min[1; 0,64(s/D)^0,34]. I contributi diagonali combinano i fattori longitudinali e laterali secondo l'angolo; il prodotto dei vicini attivi dà η. Questa riduzione agisce su Rd, senza ridisegnare il meccanismo Hu del singolo palo.
 
@@ -260,13 +286,15 @@ Due integrazioni, 28 × 96 e 56 × 192, vengono confrontate. Se lo scarto supera
 
 La sezione resistente è il solo tubo; la boiacca non contribuisce. Le formule geometriche sono esatte per l'anello, con De e Di in millimetri. Il diametro geotecnico usato in p(z) resta un parametro separato.
 
-$$ A = π (De² − Di²) / 4
-$$ I = π (De⁴ − Di⁴) / 64
-$$ Wel = 2I / De
-$$ Wpl = (De³ − Di³) / 6
-$$ Npl = A fy / γM0
-$$ Mpl = Wpl fy / γM0
-$$ My(N) = Mpl [1 − |N|/Npl]
+```math
+A = \frac{\pi(D_e^2-D_i^2)}{4}
+I = \frac{\pi(D_e^4-D_i^4)}{64}
+W_{el} = \frac{2I}{D_e}
+W_{pl} = \frac{D_e^3-D_i^3}{6}
+N_{pl} = \frac{A f_y}{\gamma_{M0}}
+M_{pl} = \frac{W_{pl}f_y}{\gamma_{M0}}
+M_y(N) = M_{pl}\left(1-\frac{|N|}{N_{pl}}\right)
+```
 
 L'ultimo rapporto va valutato con N e Npl nelle stesse unità; i risultati di forza e momento sono convertiti in kN e kNm. Il ramo automatico richiede classe 1 secondo De/t ≤ 50ε², con ε² = 235/fy. Le soglie 70ε² e 90ε² identificano i campi successivi, senza abilitarli come sezione plastica automatica. La relazione lineare N M è la semplificazione adottata; non verifica instabilità globale, fatica o ovalizzazione locale.
 
@@ -278,8 +306,10 @@ Sono disponibili sezioni rettangolari, circolari e a T, con fori centrali per le
 
 L'ipotesi cinematica è una distribuzione piana delle deformazioni. Indicando con ε0 la deformazione al riferimento e con kx e ky i gradienti, la deformazione in un punto è una funzione affine delle coordinate. Le convenzioni dei gradienti e dei momenti sono trasformate nel sistema di riferimento esposto dal foglio.
 
-$$ ε(x,y) = ε0 + kx x + ky y
-$$ N = ∫Ac σc dA + Σ As σs + Σ Ap σp
+```math
+\varepsilon(x,y) = \varepsilon_0+k_x x+k_y y
+N = \int_{A_c}\sigma_c\,dA+\sum A_s\sigma_s+\sum A_p\sigma_p
+```
 
 I momenti derivano dagli integrali delle tensioni moltiplicate per i rispettivi bracci, nel verso degli assi del solver. Le barre e i tendini sono contributi discreti; il calcestruzzo è integrato sulla regione resistente. Il piano di deformazione richiesto dalle azioni e il piano al limite resistente sono risultati differenti e vengono esposti separatamente.
 
@@ -303,19 +333,23 @@ Le verifiche di tensione di esercizio utilizzano le combinazioni già assegnate 
 
 La formula implementata parte da tensione delle barre efficaci, modulo dell'acciaio, Ecm, resistenza media a trazione e rapporto fra armatura e area efficace di calcestruzzo. αe usa Es/Ecm e può differire dal coefficiente di omogeneizzazione con viscosità impiegato per l'analisi tensionale. Nel codice attuale fct,eff coincide con fctm, senza riduzione automatica per l'età di fessurazione.
 
-$$ ρeff = As,eff / Ac,eff
-$$ αe = Es / Ecm
-$$ Δσ = kt fctm (1 + αe ρeff) / ρeff
-$$ Δε = max[(σs − Δσ)/Es; 0,60 σs/Es]
+```math
+\rho_{eff} = \frac{A_{s,eff}}{A_{c,eff}}
+\alpha_e = \frac{E_s}{E_{cm}}
+\Delta\sigma = \frac{k_t f_{ctm}(1+\alpha_e\rho_{eff})}{\rho_{eff}}
+\Delta\varepsilon = \max\left[\frac{\sigma_s-\Delta\sigma}{E_s};\frac{0{,}60\sigma_s}{E_s}\right]
+```
 
 kt vale 0,60 per breve durata e 0,40 per lunga durata. k1 vale 0,80 per barre ad aderenza migliorata e 1,60 per barre lisce. Nel ramo ordinario k2 vale 0,50 quando almeno una barra ordinaria è compressa, altrimenti 1,00; una barra a tensione esattamente nulla non è compressa. Nel ramo di sezione interamente tesa si impiega invece la distribuzione di deformazioni: k2 = (εmax + εmin)/(2εmax), limitato fra 0,5 e 1.
 
 Il codice conserva una rappresentazione tramite distanza media Δsm e fattore finale 1,70. Per le barre ravvicinate questo conduce allo stesso prodotto scritto direttamente con il termine 3,4c + 0,425 k1 k2 φeq/ρeff. Per le barre distanziate viene confrontata anche la regione distante dalle armature.
 
-$$ Δsm,vicino = [3,4c + 0,425 k1 k2 φeq/ρeff] / 1,70
-$$ slim = 5(c + φeq/2)
-$$ Δsm,distante = 0,75(h − x)
-$$ wk = max[0; 1,70 Δsm Δε]
+```math
+\Delta s_{m,vicino} = \frac{3{,}4c+0{,}425 k_1 k_2\varphi_{eq}/\rho_{eff}}{1{,}70}
+s_{lim} = 5(c+\varphi_{eq}/2)
+\Delta s_{m,distante} = 0{,}75(h-x)
+w_k = \max(0;1{,}70\Delta s_m\Delta\varepsilon)
+```
 
 Se s ≤ slim si usa Δsm,vicino; altrimenti si usa il massimo fra le due distanze. Questo dettaglio è rilevante: sostituire il ramo distante con un coefficiente arrotondato ricordato da un'altra formulazione non riproduce esattamente il codice. σs è il massimo delle barre efficaci, non la media delle tensioni di tutte le barre.
 
@@ -331,17 +365,20 @@ Il termine vicino vale (102 + 136)/1,7 = 140 mm. La soglia di interasse è 190 m
 
 Senza armatura trasversale, e nel campo ammesso, il motore confronta il termine proporzionale alla radice cubica di 100ρfck con il minimo basato su √fck. k è limitato a 2, ρ a 0,02 e la compressione media a 0,2fcd. La compressione media è positiva benché N nel foglio sia negativo a compressione.
 
-$$ k = min[2; 1 + √(200/d)]
-$$ ρ = min[0,02; Asl/(bw d)]
-$$ σcp = min[−1000N/Ac; 0,2fcd]
-$$ VRd = max[0,18 k ∛(100ρfck)/γc + 0,15σcp;
-$$                0,035 k^1,5 √fck + 0,15σcp] bw d /1000
+```math
+k = \min\left[2;1+\sqrt{\frac{200}{d}}\right]
+\rho = \min\left[0{,}02;\frac{A_{sl}}{b_w d}\right]
+\sigma_{cp} = \min\left[-\frac{1000N}{A_c};0{,}2f_{cd}\right]
+V_{Rd} = \max\left[\frac{0{,}18k\sqrt[3]{100\rho f_{ck}}}{\gamma_c}+0{,}15\sigma_{cp}; 0{,}035 k^{1{,}5}\sqrt{f_{ck}}+0{,}15\sigma_{cp}\right]\frac{b_w d}{1000}
+```
 
 Per N di trazione il ramo senza staffe non fornisce automaticamente una resistenza favorevole. Con staffe il modello a traliccio confronta resistenza dell'armatura e del puntone; cot θ è compreso fra 1 e 2,5 e può essere assegnato o determinato dalla procedura automatica.
 
-$$ VRsd = z (Asw/s) fyd (cot α + cot θ) sin α /1000
-$$ VRcd = z bw αc 0,5fcd (cot α + cot θ)/(1+cot²θ) /1000
-$$ VRd = min(VRsd; VRcd)
+```math
+V_{Rsd} = \frac{z(A_{sw}/s)f_{yd}(\cot\alpha+\cot\theta)\sin\alpha}{1000}
+V_{Rcd} = \frac{z b_w\alpha_c\,0{,}5f_{cd}(\cot\alpha+\cot\theta)}{(1+\cot^2\theta)1000}
+V_{Rd} = \min(V_{Rsd};V_{Rcd})
+```
 
 αc dipende dalla compressione: 1 + σcp/fcd fino a 0,25fcd, 1,25 fino a 0,50fcd e max[0; 2,5(1−σcp/fcd)] oltre tale soglia. Il braccio z deriva dal fattore della geometria. Per il ramo circolare dei pali si adottano 0,75d nella sezione piena e 0,60d nella cava, con bw e d ricavati dalla geometria e dalle barre. Si tratta del ramo specifico documentato, non di un'estensione indistinta a qualunque elemento circolare.
 
@@ -349,10 +386,12 @@ $$ VRd = min(VRsd; VRcd)
 
 La sezione resistente a torsione è un circuito periferico chiuso con area Ak, perimetro uk e spessore efficace t. La geometria automatica è disponibile per rettangolo e cerchio, pieni o con foro compatibile. Sono richieste staffe chiuse e armatura periferica adeguata; lo spessore deve contenerne gli assi.
 
-$$ TRcd = 2 Ak t 0,5fcd cot θ/(1+cot²θ) /10⁶
-$$ TRsd = 2 Ak (Asw/s) fyd cot θ /10⁶
-$$ TRld = 2 Ak (Asl,disp/uk) fyd/cot θ /10⁶
-$$ TRd = min(TRcd; TRsd; TRld)
+```math
+T_{Rcd} = \frac{2A_k t\,0{,}5 f_{cd}\cot\theta}{(1+\cot^2\theta)10^6}
+T_{Rsd} = \frac{2A_k(A_{sw}/s)f_{yd}\cot\theta}{10^6}
+T_{Rld} = \frac{2A_k(A_{sl,disp}/u_k)f_{yd}}{\cot\theta\,10^6}
+T_{Rd} = \min(T_{Rcd};T_{Rsd};T_{Rld})
+```
 
 Asl,disp è l'armatura longitudinale disponibile per la torsione dopo la flessione, da assegnare consapevolmente. Taglio e torsione devono usare lo stesso cot θ. Il programma controlla anche la somma |T|/TRcd + |Vx|/VRcd,x + |Vy|/VRcd,y per il calcestruzzo e |T|/TRsd + max(|Vx|/VRsd,x; |Vy|/VRsd,y) per le staffe. L'estensione a due componenti di taglio è una combinazione conservativa del modello, non un dominio normativo generale ricostruito in ogni dettaglio.
 
@@ -370,9 +409,11 @@ Il modello rappresenta una sezione locale composta da carpenteria, soletta e bar
 
 Nel metodo elastico si trasforma il contributo del calcestruzzo mediante n = Ea/Ec,eff. La relazione implementata per gli effetti differiti è n = n0(1+ψLφ), con n0 = Ea/Ecm. L'inversione permette di assegnare direttamente n. È richiesto n ≥ n0.
 
-$$ n0 = Ea / Ecm
-$$ n = n0 (1 + ψL φ)
-$$ φ = (n/n0 − 1)/ψL
+```math
+n_0 = \frac{E_a}{E_{cm}}
+n = n_0(1+\psi_L\varphi)
+\varphi = \frac{n/n_0-1}{\psi_L}
+```
 
 Il coefficiente ψL distingue la natura dell'effetto: nel percorso documentato G2 usa 1,1 e il ritiro 0,55. Questi coefficienti non costituiscono una legge completa nel tempo. Un φ assegnato a una fase descrive la rigidezza efficace di quel contributo secondo il metodo scelto.
 
@@ -380,17 +421,21 @@ Il coefficiente ψL distingue la natura dell'effetto: nel percorso documentato G
 
 Indichiamo con hw l'altezza libera verticale, tw lo spessore normale alla lamiera e δ lo scostamento orizzontale fra sommità e piede. Per l'H inclinata δ è positivo verso destra; per il cassoncino è il rientro simmetrico di ogni anima verso l'interno. L'angolo α è misurato dalla verticale. Per evitare confusione con il coefficiente di omogeneizzazione n, il numero di anime è indicato con nw: vale uno per l'H e due per il cassoncino.
 
-$$ α = atan(δ/hw)
-$$ ℓw = √(hw² + δ²) = hw / cos α
-$$ tw,h = tw / cos α
+```math
+\alpha = \arctan\left(\frac{\delta}{h_w}\right)
+\ell_w = \sqrt{h_w^2+\delta^2} = \frac{h_w}{\cos\alpha}
+t_{w,h} = \frac{t_w}{\cos\alpha}
+```
 
 Le anime sono rappresentate come lamiere di spessore normale costante tagliate alle quote orizzontali delle flange. La loro larghezza orizzontale è tw,h, non tw. I valori immessi restano hw e tw: non si deve anticipare nell'input la trasformazione, che il motore esegue internamente. Il campo implementato impone |α| ≤ 45°, equivalente a |δ| ≤ hw. È un limite dell'implementazione geometrica, non una soglia normativa di sicurezza.
 
 Nel cassoncino s_top e s_bottom sono gli interassi fra gli assi delle anime in sommità e al piede. La larghezza bt è quella di ciascuna piattabanda superiore; bb è quella dell'intero fondo. Un valore positivo di δ restringe il fondo, mentre un valore negativo lo allarga, purché la geometria sia valida.
 
-$$ s_bottom = s_top − 2δ
-$$ b_interno = s_bottom − tw,h
-$$ b_sbalzo = (bb − s_bottom − tw,h) / 2
+```math
+s_{bottom} = s_{top}-2\delta
+b_{interno} = s_{bottom}-t_{w,h}
+b_{sbalzo} = \frac{b_b-s_{bottom}-t_{w,h}}{2}
+```
 
 Per la geometria accettata devono risultare s_top ≥ bt, s_bottom > tw,h e bb ≥ s_bottom + tw,h; inoltre ciascuna piattabanda deve essere più larga dello spessore orizzontale dell'anima. Queste condizioni impediscono sovrapposizione delle flange superiori, contatto delle anime e fondo insufficiente a contenerle. La larghezza interna e gli sbalzi sono netti rispetto agli ingombri delle anime. Il programma applica una piccola tolleranza numerica al controllo di contenimento, che non modifica il significato geometrico delle disuguaglianze.
 
@@ -398,15 +443,19 @@ Per la geometria accettata devono risultare s_top ≥ bt, s_bottom > tw,h e bb �
 
 La distribuzione delle tensioni normali del modello dipende soltanto dalla quota verticale y. A ogni quota dell'anima, una striscia di altezza dy ha area nw tw,h dy. Si possono quindi sostituire le anime inclinate con un'anima verticale equivalente di larghezza totale nw tw,h senza cambiare area, momento statico verticale e inerzia rispetto all'asse orizzontale. Le due flange superiori del cassoncino sono rappresentate da una larghezza complessiva 2bt alla medesima quota. Il fondo mantiene larghezza e spessore reali.
 
-$$ tw,eq = nw tw / cos α
-$$ bt,eq = nf bt
-$$ Aw = nw tw ℓw = tw,eq hw
-$$ As = nf bt tt + nw tw ℓw + bb tb
+```math
+t_{w,eq} = \frac{n_w t_w}{\cos\alpha}
+b_{t,eq} = n_f b_t
+A_w = n_w t_w\ell_w = t_{w,eq}h_w
+A_s = n_f b_t t_t+n_w t_w\ell_w+b_b t_b
+```
 
 nf vale uno per l'H e due per il cassoncino; tt e tb sono gli spessori delle flange superiore e inferiore. La formula di As riguarda le nuove sezioni senza seconda piastra. Per ciascuna parte i di area Ai e quota yi, con origine alla sommità dell'acciaio e y negativo verso il basso, si applicano i momenti statici e il teorema di trasporto.
 
-$$ yG = Σ(Ai yi) / ΣAi
-$$ Ix = Σ[Ixi + Ai(yi − yG)²]
+```math
+y_G = \frac{\sum_i A_i y_i}{\sum_i A_i}
+I_x = \sum_i\left[I_{xi}+A_i(y_i-y_G)^2\right]
+```
 
 Per l'insieme delle anime Ixi rispetto all'asse orizzontale del loro baricentro vale Aw hw²/12. Per una flangia orizzontale vale b t³/12, con b larghezza e t spessore; per le due flange superiori si sommano i contributi. La posizione orizzontale delle parti non entra negli integrali rispetto a y. L'identità è esatta per la geometria ideale rappresentata e per la flessione retta considerata.
 
@@ -431,8 +480,10 @@ Nel cassoncino s_bottom = 1800 − 2 × 250 = 1300 mm; la parte interna netta de
 
 Un ulteriore riferimento elastico usa N = −200 kN e M₀ = 100 kNm assegnati alla quota y = 0, sola carpenteria e classe 4 disattivata per isolare l'equivalenza lorda. Convertiti N in newton e M₀ in Nmm, il momento baricentrico e la tensione alla quota y sono:
 
-$$ Mc = M₀ + N yG
-$$ σ(y) = N / As − Mc (y − yG) / Ix
+```math
+M_c = M_0+N y_G
+\sigma(y) = \frac{N}{A_s}-\frac{M_c(y-y_G)}{I_x}
+```
 
 Questo riferimento verifica unità, trasporto del momento e distribuzione delle tensioni; non è un caso di progetto completo. I test dell'aggiornamento lo confrontano con i tre percorsi cumulativo, storico lineare e storico non lineare mantenuti nel campo elastico, anche per δ negativo e per δ nullo. Per la fase composta vanno invece aggiunti soletta e armature con il coefficiente di omogeneizzazione pertinente.
 
@@ -448,7 +499,9 @@ Gli archivi senza le chiavi del tipo di sezione continuano a rappresentare H sal
 
 Il riferimento del momento deve essere coerente con il punto di applicazione di N. Il codice riporta il momento al riferimento comune attraverso la quota yN espressa in millimetri.
 
-$$ Mx0 = Mx − N yN /1000
+```math
+M_{x0} = M_x-\frac{N y_N}{1000}
+```
 
 Con N = 1000 kN e una differenza di quota di 200 mm, il trasporto modifica il momento di 200 kNm con il segno stabilito dalla formula. Trascurare questa operazione può spiegare differenze rilevanti fra due calcoli che hanno la stessa sezione e gli stessi valori nominali di N e M.
 
@@ -480,8 +533,10 @@ La memoria plastica comporta che due sequenze con la stessa risultante finale po
 
 Il ritiro viene assegnato come deformazione propria del calcestruzzo, negativa per accorciamento. La procedura elastica costruisce una forza equivalente Ec,eff Ac Δεcs applicata al baricentro del cls netto e una correzione di tensione propria −Ec,eff Δεcs. L'insieme riproduce l'incompatibilità locale mantenendo l'equilibrio della sezione con le risultanti esterne previste.
 
-$$ Neq = Ec,eff Ac Δεcs
-$$ Δσc,propria = −Ec,eff Δεcs
+```math
+N_{eq} = E_{c,eff}A_c\Delta\varepsilon_{cs}
+\Delta\sigma_{c,propria} = -E_{c,eff}\Delta\varepsilon_{cs}
+```
 
 Le unità vanno rese coerenti prima della conversione in kN. Il solo stato della sezione non determina le forze secondarie causate da vincoli longitudinali di una trave continua. Analogamente, gli scorrimenti concentrati presso le estremità richiedono un modello lungo l'asse del ponte o una domanda aggiuntiva assegnata.
 
@@ -509,19 +564,23 @@ Le curve M κ a N costante e N ε a curvatura costante possono partire da stato 
 
 Questi controlli sono attivi nel percorso cumulativo e adottano le edizioni identificate dall'interfaccia: NTC 2018 e norme EN richiamate nella documentazione del modulo. L'anima intera partecipa al taglio, senza includere un contributo resistente della soletta. L'area plastica assunta cautelativamente è hw tw. Il contributo favorevole delle flange alla resistenza per instabilità a taglio viene omesso.
 
-$$ τcr = kτ π² E [tw/hw]² / [12(1−ν²)]
-$$ λw = √[fy/(√3 τcr)]
-$$ Vpl,Rd = hw tw fy / (√3 γM0)
-$$ Vbw,Rd = χw hw tw fy / (√3 γM1)
-$$ VRd = min(Vpl,Rd; Vbw,Rd)
+```math
+\tau_{cr} = \frac{k_{\tau}\pi^2 E}{12(1-\nu^2)}\left(\frac{t_w}{h_w}\right)^2
+\lambda_w = \sqrt{\frac{f_y}{\sqrt{3}\tau_{cr}}}
+V_{pl,Rd} = \frac{h_w t_w f_y}{\sqrt{3}\gamma_{M0}}
+V_{bw,Rd} = \frac{\chi_w h_w t_w f_y}{\sqrt{3}\gamma_{M1}}
+V_{Rd} = \min(V_{pl,Rd};V_{bw,Rd})
+```
 
 kτ dipende dal rapporto del pannello e dalla validità degli irrigidimenti; χw segue la curva del montante terminale applicabile. Senza intermedi idonei si adotta il pannello lungo. Il montante rigido richiede la verifica positiva del dettaglio previsto, non la sola selezione del nome. I coefficienti iniziali documentati sono γM1 = 1,10, γV = 1,25 ed η = 1,20; γM0 è 1,05 per NTC e 1,00 per il percorso EC. L'utente può modificarli e deve controllare l'Appendice Nazionale pertinente.
 
 Le formule precedenti descrivono una singola anima verticale. Per H inclinata e cassoncino la resistenza e l'instabilità della singola lamiera si calcolano sostituendo alla sua altezza la lunghezza reale ℓw, mantenendo lo spessore normale tw. Il taglio immesso nelle fasi è invece la componente verticale totale V. Con ripartizione uguale fra le nw anime, la domanda nel piano di una lamiera e la resistenza verticale complessiva sono:
 
-$$ V_lamiera = V / (nw cos α)
-$$ VRd,verticale = nw cos α VRd,lamiera
-$$ τmedia = V / (nw hw tw)
+```math
+V_{lamiera} = \frac{V}{n_w\cos\alpha}
+V_{Rd,verticale} = n_w\cos\alpha\,V_{Rd,lamiera}
+\tau_{media} = \frac{V}{n_w h_w t_w}
+```
 
 L'ultima formula richiede V in N e dimensioni in mm. Deriva da V_lamiera/(tw ℓw); il coseno si semplifica perché ℓw = hw/cos α. La tensione media non coincide in generale con il massimo della distribuzione V S/(I t). Nei due esempi, con V = 600 kN, la domanda per lamiera è 608,276253 kN per l'H e 302,879697 kN per il cassoncino; le tensioni medie sono 23,809524 e 11,904762 MPa. La snellezza e τcr continuano a dipendere da ℓw: l'inclinazione non può essere cancellata nella verifica di instabilità.
 
@@ -545,9 +604,11 @@ Con anima inclinata le dimensioni di controllo di irrigidimenti e saldature segu
 
 Il ramo disponibile considera pioli a testa saldata, distribuzione uniforme, soletta piena ordinaria C20/25–C60/75, diametro 16–25 mm e altezza almeno 3d. La resistenza è il minore dei due meccanismi, acciaio e calcestruzzo, con fu limitato a 500 MPa. Il fattore α dipende da h/d nel campo previsto.
 
-$$ PRd = min[0,8 fu πd²/4; 0,29 α d² √(fck Ecm)] / γV
-$$ q = Σ (Vi Si/Ii + Δqi)
-$$ PEd = |q| passo / npioli
+```math
+P_{Rd} = \frac{\min\left[0{,}8f_u\pi d^2/4;0{,}29\alpha d^2\sqrt{f_{ck}E_{cm}}\right]}{\gamma_V}
+q = \sum_i\left(\frac{V_i S_i}{I_i}+\Delta q_i\right)
+P_{Ed} = \frac{|q|\,passo}{n_{pioli}}
+```
 
 La prima formula dà una forza in N con dimensioni in mm e tensioni in MPa; la domanda deve essere convertita coerentemente. q è il flusso longitudinale, passo la distanza fra file e npioli il numero per fila. Le fasi prima della collaborazione del cls non caricano la connessione nel modello. Δq consente di introdurre contributi longitudinali ottenuti da altra analisi.
 
@@ -557,13 +618,17 @@ Nel percorso NTC si usano le proprietà della fase tensionale, inclusa l'eventua
 
 Nel cassoncino q è il flusso totale della sezione e la ripartizione simmetrica assegna q/2 a ciascuna piattabanda superiore. Il numero npioli immesso è quello per fila di una singola piattabanda. Indicando con nf il numero di piattabande superiori, la formula generale adottata è:
 
-$$ PEd = |q| passo / (nf npioli)
+```math
+P_{Ed} = \frac{|q|\,passo}{n_f n_{pioli}}
+```
 
 nf vale uno per l'H e due per il cassoncino. Per esempio q = 100 N/mm, passo = 200 mm e due pioli per fila e per piattabanda producono 5000 N, cioè 5 kN per piolo, nel cassoncino; una sola piattabanda con due pioli riceverebbe 10 kN per piolo. Il controllo del bordo usa la larghezza della singola piattabanda e i controlli della soletta trasversale usano il flusso a essa attribuito. I flussi minimo e massimo assegnati alla fatica dei pioli si riferiscono già alla piattabanda: non sono automaticamente interpretati come flussi totali da dimezzare.
 
 Con la torsione del cassoncino il flusso torsionale della soletta qT, somma delle fasi composte, si trasferisce attraverso i pioli di ciascuna piattabanda con verso opposto sulle due anime. Sulla piattabanda in cui si somma al flusso di flessione la domanda diventa:
 
-$$ PEd = (|q|/nf + |qT|) passo / npioli
+```math
+P_{Ed} = \frac{(|q|/n_f+|q_T|)\,passo}{n_{pioli}}
+```
 
 Con q = 100 N/mm, qT = 50 N/mm, passo 200 mm e due pioli per fila si ottengono 10 kN per piolo. Il flusso qT si aggiunge anche alla superficie a–a interna alla cella di ciascuna piattabanda e alle superfici b–b.
 
@@ -579,32 +644,42 @@ Sono presenti controlli dell'armatura trasversale, superfici di scorrimento, anc
 
 Con le verifiche a torsione attive il cassoncino è una cella singola chiusa. Il momento torcente ΔT di ciascuna fase produce il flusso di St. Venant della formula di Bredt, costante lungo il perimetro e, in una cella singola, indipendente dagli spessori delle pareti. A0 è l'area racchiusa dalle linee medie. Nelle fasi composte la parete superiore è la soletta al suo piano medio, con le anime prolungate fino a esso; nelle fasi di solo acciaio è il controvento orizzontale di spessore equivalente t* al piano medio delle piattabande superiori. Con t* = 0 la cella è aperta e il flusso della fase non viene calcolato.
 
-$$ q = T / (2 A0)
-$$ A0 = (b_sup + b_inf) h0 / 2
-$$ J = 4 A0² / Σ(ℓi / ti)
-$$ nG = n (1 + νc) / (1 + νa)
+```math
+q = \frac{T}{2A_0}
+A_0 = \frac{(b_{sup}+b_{inf})h_0}{2}
+J = \frac{4A_0^2}{\sum_i(\ell_i/t_i)}
+n_G = \frac{n(1+\nu_c)}{1+\nu_a}
+```
 
 b_sup e b_inf sono le distanze fra gli assi delle anime prolungate ai piani delle pareti superiore e inferiore, h0 la distanza verticale fra i due piani. Nella rigidezza J la soletta ha spessore hc/nG, con νc = 0,2, νa = 0,3 e il coefficiente n della fase comprensivo della viscosità (EN 1994-2 §5.4.2.2(11)); con soletta esclusa lo spessore è dimezzato, come per la soletta fessurata della EN 1994-2 §5.4.2.3(6). J serve al modello globale e non modifica q.
 
 I flussi delle fasi si sommano con il proprio segno. Anime e fondo ricevono il flusso di tutte le fasi, soletta e connessione quello delle sole fasi composte, il controvento quello delle fasi di solo acciaio. La tensione tangenziale di torsione in una parete di spessore t è q/t. Nell'anima più caricata il taglio di flessione e quello di torsione si sommano (EN 1993-1-1 §6.2.7(9)); il risultato è riportato alla componente verticale totale per il confronto con la resistenza e per l'interazione con il momento.
 
-$$ τT = q / t
-$$ V_lamiera = V / (nw cos α) + q ℓw
-$$ Veq = nw cos α V_lamiera
+```math
+\tau_T = \frac{q}{t}
+V_{lamiera} = \frac{V}{n_w\cos\alpha}+q\ell_w
+V_{eq} = n_w\cos\alpha\,V_{lamiera}
+```
 
 Nell'inviluppo elastico dell'anima q/tw si aggiunge al massimo di V S/(I t). Nel fondo si controllano la tensione equivalente al nodo con l'anima, l'imbozzamento a taglio del pannello compreso fra due diaframmi con η = 1 e l'interazione della EN 1993-1-5 §7.1(5) con Mf,Rd nullo. Il taglio di flessione del fondo usa il momento statico della sua metà interna; nell'imbozzamento si adotta il τ medio del pannello, non inferiore a metà del massimo.
 
-$$ τb = q / tb + V S_fondo / (I tb)
-$$ η1 + (2 η3 − 1)² ≤ 1
+```math
+\tau_b = \frac{q}{t_b}+\frac{V S_{fondo}}{I t_b}
+\eta_1+(2\eta_3-1)^2\leq1
+```
 
 Nella soletta il flusso si somma alla superficie a–a interna alla cella di ciascuna piattabanda e alle superfici b–b attorno ai pioli, con lo stesso angolo θ dei puntoni. L'armatura longitudinale deve assorbire la trazione q cotθ per unità di larghezza (EN 1992-1-1 §6.3.2(3)), confrontata con la compressione disponibile del calcestruzzo e con la capacità residua delle barre oltre la flessione; senza armatura trasversale attiva si usa cotθ = 1,25.
 
-$$ q cotθ ≤ max(0; −σc,media) hc + Σ As,i/si [fyd − max(0; σs,i)]
+```math
+q\cot\theta\leq\max(0;-\sigma_{c,media})h_c+\sum_i\frac{A_{s,i}}{s_i}\left[f_{yd}-\max(0;\sigma_{s,i})\right]
+```
 
 All'appoggio il diaframma riceve il flusso perimetrale e lo porta agli apparecchi. La piastra del diaframma è in taglio puro, con A0 della cella di acciaio a favore di sicurezza; la reazione verticale degli apparecchi comprende la coppia del torcente, che si somma a R/2 sull'anima più caricata. Se gli apparecchi non sono allineati alle anime la flessione del diaframma non è verificata e viene segnalata.
 
-$$ τD = T / (2 A0 tD)
-$$ ΔR = T / e_b
+```math
+\tau_D = \frac{T}{2A_0 t_D}
+\Delta R = \frac{T}{e_b}
+```
 
 L'esempio riprende il cassoncino del capitolo precedente (δ = 250 mm, s_top = 1800 mm, piattabande 450 × 25 mm, fondo 1400 × 25 mm) con la soletta 3000 × 250 mm e le fasi iniziali del foglio: G1 di solo acciaio con t* = 4 mm, G2 composta con φ = 2 e ψL = 1,1, Q composta a breve termine. Per la cella composta b_sup = 1841,667 mm, b_inf = 1296,528 mm e h0 = 1962,5 mm; per la cella di acciaio b_sup = 1803,472 mm e h0 = 1825 mm.
 
@@ -621,26 +696,34 @@ Il flusso cumulato vale 246,4346 kN/m nelle anime e nel fondo, con τT = 17,6025
 
 La distorsione è la deformazione della sezione trasversale del cassone prodotta dalla parte dei carichi eccentrici che la cella non assorbe per torsione. Il modello segue l'analogia della trave su suolo elastico di Wright, Abdel-Samad e Robinson (1968). Il modo distorsivo è il meccanismo delle quattro pareti incernierate negli spigoli con scorrimento nullo in ogni parete: gli spostamenti tangenziali Vi delle pareti di lunghezza ℓi soddisfano la condizione di chiusura, per cui i flussi di St. Venant non compiono lavoro sul modo. L'ingobbamento ω è lineare su ogni parete con pendenza Vi ed è reso ortogonale agli ingobbamenti di sforzo normale e flessione; mensole della soletta, sbalzi del fondo e piattabande superiori partecipano agli integrali, con la soletta divisa per n0. Il modo è normalizzato con la media dei valori assoluti delle variazioni degli angoli agli spigoli, che nel rettangolo coincide con la distorsione γ.
 
-$$ Σ ℓi Vi = 0
-$$ ∫ ω t ds = ∫ ω x t ds = ∫ ω y t ds = 0
-$$ IDw = ∫ ω² t ds
+```math
+\sum_i\ell_i V_i = 0
+\int\omega t\,ds = \int\omega x t\,ds = \int\omega y t\,ds = 0
+I_{Dw} = \int\omega^2 t\,ds
+```
 
 La rigidezza a telaio K per unità di lunghezza deriva dal telaio trasversale a nodi rigidi deformato secondo il modo, con rigidezze flessionali D = E t³/[12(1 − ν²)] di anime, fondo e soletta. I diaframmi intermedi sono molle KD: per la piastra si usa l'energia dello stato piano di tensione con i bordi mossi dalle pareti, per il controvento a X l'energia delle due diagonali. Un torcente applicato come coppia verticale alla sommità delle anime produce il carico generalizzato p = T (V_dx − V_sx)/b_sup, dove V_dx e V_sx sono gli spostamenti verticali del modo agli spigoli superiori.
 
-$$ E IDw ψ'''' + K ψ = p
-$$ σdw = E ω ψ''
-$$ m = m1 ψ
+```math
+E I_{Dw}\psi''''+K\psi = p
+\sigma_{dw} = E\omega\psi''
+m = m_1\psi
+```
 
 Per un rettangolo b × h di spessore costante t valgono le forme chiuse seguenti, usate come controllo del programma insieme a un modello a telaio indipendente e alle formule di Yoo et al. (SSRC 2015) per il trapezio. Per il controvento a X del trapezio la rigidezza coincide con quella della letteratura dopo il cambio di normalizzazione dell'angolo; per la piastra la formula semplificata a taglio uniforme è dal 5 al 10% più bassa del calcolo con i bordi mossi dalle pareti.
 
-$$ IDw = t (b + h) b² h² / 96
-$$ K = 24 / (b/Dh + h/Dv)
-$$ KD = G t b h
-$$ KD = 2 E A b² h² / L³
+```math
+I_{Dw} = \frac{t(b+h)b^2 h^2}{96}
+K = \frac{24}{b/D_h+h/D_v}
+K_D = G t b h
+K_D = \frac{2E A b^2 h^2}{L^3}
+```
 
 La trave su suolo elastico è la campata semplicemente appoggiata con diaframmi d'estremità rigidi, discretizzata con elementi cubici e con le molle dei diaframmi intermedi. m_t agisce su tutta la luce e T_c nella posizione più sfavorevole, con lo stesso segno; si ricavano gli inviluppi di σdw agli spigoli e agli sbalzi, del momento trasversale agli spigoli e della distorsione ai diaframmi. Secondo la EN 1993-2 §6.2.7(3) σdw viene sommata alle verifiche del fondo quando supera il 10% della tensione di flessione. I nodi anima–fondo e anima–piattabanda superiore combinano sempre σx con σdw, la flessione trasversale σz = 6m/t² con il segno sfavorevole e τ.
 
-$$ σeq = √(σx² + σz² + |σx σz| + 3τ²)
+```math
+\sigma_{eq} = \sqrt{\sigma_x^2+\sigma_z^2+|\sigma_x\sigma_z|+3\tau^2}
+```
 
 I diaframmi a piastra sono verificati a taglio con imbozzamento (EN 1993-1-5 §5 con η = 1) e a tensione equivalente; le diagonali dei controventi a X in compressione con la curva c e Lcr = β L. Aperture, collegamenti, aste del controvento superiore e accoppiamento fra distorsione e ingobbamento torsionale restano fuori dal modello, come nell'analogia originale. Gli inviluppi della distorsione non dipendono dalle fasi e sono calcolati nelle situazioni con la soletta.
 
@@ -670,7 +753,9 @@ Il modulo separa le scelte geometriche dalle ipotesi di costo e ambientali. Per 
 
 La larghezza totale W comprende tutte le corsie, le due banchine, lo spartitraffico e le due fasce delle barriere. Non è la sola superficie caricabile dalle corsie normative.
 
-$$ W = nc bc + 2 banchina + spartitraffico + 2 barriera
+```math
+W = n_c b_c+2\,banchina+spartitraffico+2\,barriera
+```
 
 Con più di due campate continue i pesi delle estremità sono 0,8 e quelli delle interne 1. Per n campate la campata interna iniziale vale L/(n−0,4); le due estreme valgono 0,8 volte tale valore. Con campate semplicemente appoggiate o un numero non superiore a due, la ripartizione iniziale è uniforme. L'automatismo tenta poi di spostare eventuali pile interferenti verso i bordi dell'ostacolo, con un margine di un metro e senza produrre campate inferiori a due metri.
 
@@ -689,7 +774,9 @@ Se lo spostamento non è risolvibile si mantiene una segnalazione. L'ottimizzazi
 | Travi a I acciaio cls | 30–90 | 25 | 1,00 | 0,25 |
 | Cassone acciaio cls | 40–150 | 25 | 1,20 | 0,25 |
 
-$$ d = max[dmin; (Lmax/r) k]
+```math
+d = \max\left[d_{\min};\frac{L_{\max}}{r}k\right]
+```
 
 k vale 0,95 per continuità e 1,10 per campate appoggiate. Un'altezza positiva inserita dall'utente sostituisce la formula. Nel cassone variabile l'altezza sulla pila è max(d; Lmax/18), mentre quantità e rigidezza sono valutate con altezza media d + (dpila−d)/3. Il modello non analizza le fasi costruttive a sbalzo.
 
@@ -701,10 +788,12 @@ Le sezioni sono composte da rettangoli ideali. La soletta occupa W per il propri
 
 Le travi metalliche utilizzano spessori in millimetri convertiti in metri, piattabande e anime. Nei cassoni metallici l'inclinazione delle anime è espressa come H per 4V e incide sulla lunghezza reale della lamiera. La massa della carpenteria è aumentata del 15% per rappresentare diaframmi, irrigidimenti e connessioni; tale maggiorazione non viene applicata all'inerzia flessionale.
 
-$$ Ec = 22000 [(fc + 8)/10]^0,3 MPa
-$$ n = 200000 / Ec
-$$ yG = Σ(ni Ai yi) / Σ(ni Ai)
-$$ Ieq = Σ ni [Ii + Ai(yi−yG)²]
+```math
+E_c = 22000\left(\frac{f_c+8}{10}\right)^{0{,}3}\ \mathrm{MPa}
+n = \frac{200000}{E_c}
+y_G = \frac{\sum_i n_i A_i y_i}{\sum_i n_i A_i}
+I_{eq} = \sum_i n_i\left[I_i+A_i(y_i-y_G)^2\right]
+```
 
 ni vale 1 per il cls e n per l'acciaio. Ieq è lordo e non fessurato, senza scorrimento. Per i cassoni variabili è riferito alla sezione media, non a una trave con EI variabile lungo l'asse. Le incidenze di armatura e precompressione sono quantità parametriche e non modificano l'inerzia attraverso una disposizione reale di barre e cavi.
 
@@ -712,22 +801,27 @@ ni vale 1 per il cls e n per l'acciaio. Ieq è lordo e non fessurato, senza scor
 
 Il permanente comprende peso del cls a 25 kN/m³, peso della carpenteria, permanenti portati per superficie e 8 kN/m per ogni linea di barriera, due oppure tre se esiste spartitraffico. Il traffico è un carico uniforme equivalente esteso a tutta la larghezza. Le azioni si riferiscono all'intero impalcato.
 
-$$ g = 25 Acls + 9,81 macciaio/L + g2 W + 8 nbarriere
-$$ qservizio = g + qtraffico W
-$$ qfattorizzato = γG g + γQ qtraffico W
+```math
+g = 25A_{cls}+\frac{9{,}81m_{acciaio}}{L}+g_2 W+8n_{barriere}
+q_{servizio} = g+q_{traffico}W
+q_{fattorizzato} = \gamma_G g+\gamma_Q q_{traffico}W
+```
 
 I valori iniziali sono g2 = 2,5 kN/m², traffico = 9 kN/m², γG = 1,35 e γQ = 1,50. Sono coefficienti di un modello equivalente e non identificano una combinazione normativa completa. In particolare il carico simultaneo su tutte le campate non produce l'inviluppo peggiore di traffico alternato e non rappresenta gli assi mobili.
 
 Per continuità si risolve il sistema tridiagonale dei tre momenti con EI costante e momenti nulli alle estremità. Per campate appoggiate tutti i momenti agli appoggi sono nulli. Per due luci adiacenti L₁ e L₂, con tre momenti agli appoggi M₀, M₁ e M₂, l'equazione interna è la seguente.
 
-$$ L₁ M₀ + 2(L₁+L₂) M₁ + L₂ M₂
-$$       = −q (L₁³ + L₂³)/4
+```math
+L_1 M_0+2(L_1+L_2)M_1+L_2 M_2 = -\frac{q(L_1^3+L_2^3)}{4}
+```
 
 In ogni campata, con ascissa locale x e momenti estremi ML e MR, la reazione sinistra del tratto, il momento e il taglio derivano direttamente dall'equilibrio. Le reazioni dei tratti adiacenti vengono sommate sull'appoggio comune.
 
-$$ RL = qL/2 + (MR−ML)/L
-$$ M(x) = ML + RL x − qx²/2
-$$ V(x) = RL − qx
+```math
+R_L = \frac{qL}{2}+\frac{M_R-M_L}{L}
+M(x) = M_L+R_L x-\frac{qx^2}{2}
+V(x) = R_L-qx
+```
 
 La freccia deriva dalla doppia integrazione M/EI con spostamento nullo agli estremi della campata. Si campionano 41 stazioni per tratto e si aggiunge il punto di massimo momento positivo quando interno. Il massimo di freccia riportato è quindi campionato; non è ricercato con una radice analitica per ogni campata. Si usa Ec in kN/m² e I in m⁴, convertendo infine la freccia in millimetri.
 
@@ -752,7 +846,9 @@ La snellezza indicativa è 2H/r, con r = D/4 per la colonna circolare e t/√12 
 
 Le fondazioni automatiche sono dirette su roccia e sul terreno denso per altezza inferiore a 15 m; negli altri casi sono pali da 1 m. La tabella può essere sostituita da valori positivi nelle Ipotesi. Sono riferimenti convenzionali già ridotti per il modello di stima, non parametri dedotti da un'indagine o resistenze calcolate dal modulo Palo verticale.
 
-$$ Rpalo = π D L qs + π D² qb/4
+```math
+R_{palo} = \pi D L q_s+\frac{\pi D^2 q_b}{4}
+```
 
 Il numero automatico dei pali è almeno quattro, arrotondato al numero pari superiore richiesto dall'assiale. La disposizione usa interasse indicativo 3D. Un numero manuale o un plinto manuale può risultare insufficiente: vengono controllati rapporto assiale e ingombro della disposizione. Il lato longitudinale del plinto è arrotondato al quarto di metro, mentre la larghezza trasversale accoglie la sottostruttura.
 
@@ -762,14 +858,18 @@ Nel rapporto di fondazione si includono reazione G+Q, peso della sottostruttura 
 
 Il costo diretto è la somma dei prodotti fra quantità e prezzi. Le armature derivano da incidenze in kg/m³. Il costo dei pali è al metro e comprende cls e perforazione, mentre l'armatura è separata: il cls dei pali entra nel volume complessivo e nelle emissioni, ma non viene addebitato nuovamente come calcestruzzo di plinto.
 
-$$ Cdiretto = Σ Qi pi
-$$ Ctotale = Cdiretto (1+oneri/100)(1+imprevisti/100)
+```math
+C_{diretto} = \sum_i Q_i p_i
+C_{totale} = C_{diretto}(1+oneri/100)(1+imprevisti/100)
+```
 
 Il listino iniziale è in euro ed è puramente indicativo. L'intervallo basso alto usa la percentuale ± assegnata; non proviene da una distribuzione probabilistica. Appoggi e giunti dipendono anche dalla continuità, quindi cambiare schema può modificare le finiture oltre alle sollecitazioni.
 
 La CO₂ somma cls, carpenteria, armature e precompressione, poi applica la maggiorazione per trasporti e cantiere. I fattori del cls sono in kg/m³; quelli degli acciai in kg/kg. Una massa espressa in tonnellate moltiplicata per kg/kg dà numericamente tonnellate di CO₂. Le opzioni a ridotta CO₂ e riciclato moltiplicano rispettivamente il fattore del cls e quello della carpenteria.
 
-$$ CO₂ = [Vcls fcls/1000 + Σ macciaio facciaio] (1+cantiere/100)
+```math
+CO_2 = \left[\frac{V_{cls}f_{cls}}{1000}+\sum m_{acciaio}f_{acciaio}\right](1+cantiere/100)
+```
 
 Finiture, esercizio e fine vita non sono quantificati. I fattori iniziali non sono riferiti a EPD specifiche. Il confronto è utile solo mantenendo coerenti perimetro, unità e qualità delle ipotesi delle alternative.
 
@@ -859,7 +959,9 @@ La precompilazione copia i terreni locali senza estenderne lo spessore conosciut
 
 L’interfaccia acquisisce gli spessori e conserva nell’archivio i fondi a quota assoluta. Ogni colonna parte dalla superficie del rilievo presso il muro, inizialmente H+t a monte e Dv a valle. Con y positivo verso l’alto e spessori h_i positivi:
 
-$$ y_fondo,i = y_superficie − Σ(j=1…i) h_j
+```math
+y_{fondo,i} = y_{superficie}-\sum_{j=1}^i h_j
+```
 
 Un fondo negativo è sotto il piano di posa. Le superfici degli strati restano orizzontali e decrescenti entro ogni colonna; Due colonne usa un confine verticale assegnato, inizialmente x=a+s₀. Il disegno e l’editor usano lo stesso riferimento. Nomi uguali condividono il colore, senza imporre uguaglianza delle proprietà o collegamento dei dati.
 
@@ -881,7 +983,9 @@ Le combinazioni globali sono indipendenti dalle verifiche locali. Il preset stat
 
 F è calcolato sui parametri e sulle azioni di progetto della combinazione. Il confronto con il fattore di resistenza si esprime con:
 
-$$ η = γR / F
+```math
+\eta = \frac{\gamma_R}{F}
+```
 
 Nel dominio analizzato la verifica è soddisfatta se F≥γR, equivalente a η≤1, e i controlli numerici e di ricerca sono conclusi favorevolmente. Un F superiore a 1 non basta quando γR è maggiore di 1. Con γR diversi fra combinazioni, il massimo tasso non coincide necessariamente con il minimo F: la vista iniziale usa il tasso più alto e dà priorità ai casi privi di una superficie valida.
 
@@ -4659,7 +4763,9 @@ La configurazione corrente viene aggiunta come riferimento prima della griglia, 
 
 Indicando con nc il numero delle corsie, bc la larghezza della corsia, b la banchina per lato, m lo spartitraffico e bb l’ingombro della barriera per lato, la larghezza complessiva W è:
 
-$$ W = nc × bc + 2b + m + 2bb
+```math
+W = n_c\cdot b_c+2b+m+2b_b
+```
 
 Per le famiglie ordinarie, n campate semplicemente appoggiate sono uguali. Se l’impalcato è continuo e n è maggiore di 2, le due campate terminali hanno peso 0,8 e le interne peso 1. La lunghezza di ciascuna campata è la lunghezza totale moltiplicata per il proprio peso e divisa per la somma dei pesi. I ponti con antenne adottano invece L/4, L/2, L/4. Arco con catena e reticolare hanno campate indipendenti.
 
@@ -4669,7 +4775,9 @@ L’ostacolo è centrato sulla lunghezza del ponte e viene ampliato di 1 m per l
 
 Per le famiglie senza struttura superiore l’altezza automatica d è il maggiore fra un minimo e Lmax/r moltiplicato per 0,95 in continuità o 1,10 con campate indipendenti. Per arco, reticolare, strallato e sospeso il moltiplicatore è 1. Per strallato e sospeso Lmax indica la luce centrale. Sono regole convenzionali interne, non risultati di una verifica resistente né rapporti prescritti universalmente dalle norme.
 
-$$ d = max(dmin ; k × Lmax / r)
+```math
+d = \max\left(d_{\min};\frac{k L_{\max}}{r}\right)
+```
 
 | Tipologia | Campo luce m | Rapporto r | Minimo d m |
 | --- | --- | --- | --- |
@@ -4698,18 +4806,24 @@ La soletta piena ha area Wd. Le travi a T sommano soletta e anime rettangolari. 
 
 Per una trave metallica a I, tf e tw sono gli spessori di piattabanda e anima, bf è la larghezza delle piattabande e h l’altezza sotto soletta. L’area per trave è:
 
-$$ Aa = 2bf × tf + tw × (h − 2tf)
+```math
+A_a = 2b_f t_f+t_w(h-2t_f)
+```
 
 Per il cassone metallico ordinario il fondo per cassone vale 0,40W/ng; le due piattabande superiori e le due anime sono conteggiate separatamente. Se s è il parametro H per 4V, lo scarto orizzontale di ogni anima è hw × s/4. Lo sviluppo reale dell’anima inclinata è:
 
-$$ lw = √(hw² + (hw × s/4)²)
+```math
+\ell_w = \sqrt{h_w^2+(h_w s/4)^2}
+```
 
 L’area delle anime è 2ng tw lw. L’inerzia verticale locale delle anime sottili usa A hw²/12: lo sviluppo reale determina l’area, mentre la proiezione verticale determina la distribuzione delle quote. Il medesimo criterio è usato per le anime delle U, con scarto orizzontale pari a metà della differenza fra larghezza superiore e inferiore. Non si aggiunge l’inerzia microscopica nello spessore della parete: resta una schematizzazione a parete sottile.
 
 Il calcestruzzo usa Ec = 22.000((fc + 8)/10)^0,3 MPa, senza viscosità. L’acciaio usa Es = 200.000 MPa. Il baricentro e l’inerzia sono omogeneizzati a calcestruzzo, con rapporto nj = Ej/Ec. Per ogni componente si somma l’inerzia locale e il termine di trasporto. La rigidezza per l’analisi longitudinale è Ec × 1.000 × I, in kN m².
 
-$$ yG = Σ(nj Aj yj) / Σ(nj Aj)
-$$ Ieq = Σ[nj × (Ij + Aj × (yj − yG)²)]
+```math
+y_G = \frac{\sum_j n_j A_j y_j}{\sum_j n_j A_j}
+I_{eq} = \sum_j n_j\left[I_j+A_j(y_j-y_G)^2\right]
+```
 
 Per le travi incorporate, Ac = Wd − Aa: il volume d’acciaio sostituisce calcestruzzo. L’inerzia usa il rettangolo lordo in cls più l’apporto dell’acciaio con coefficiente Es/Ec − 1, evitando di conteggiare due volte la stessa area. Si assume collaborazione perfetta; adesione, fasi di getto e verifiche dei profili non sono risolte.
 
@@ -4723,10 +4837,12 @@ Le armature sono stimate per incidenza: 140 kg/m³ per impalcati in c.a., 110 pe
 
 Indicando con ma la massa totale di carpenteria dell’impalcato in t, con g2 il carico permanente portato in kN/m² e con nb il numero convenzionale di barriere, i carichi sull’intera larghezza sono:
 
-$$ G = 25Ac + 9,81ma/L + g2W + 8nb
-$$ Q = qtraffico × W
-$$ qs = G + Q
-$$ qd = γG G + γQ Q
+```math
+G = 25A_c+\frac{9{,}81m_a}{L}+g_2 W+8n_b
+Q = q_{traffico}\cdot W
+q_s = G+Q
+q_d = \gamma_G G+\gamma_Q Q
+```
 
 I valori iniziali sono g2 = 2,5 kN/m², qtraffico = 9 kN/m², γG = 1,35 e γQ = 1,50. nb vale 2, oppure 3 in presenza di spartitraffico. Il traffico è uniforme e contemporaneo su tutte le campate: non è un inviluppo di assi mobili né un modello di corsie caricate alternativamente. L’impalcato è rappresentato come un’unica trave equivalente per tutta la larghezza.
 
@@ -4734,13 +4850,17 @@ I valori iniziali sono g2 = 2,5 kN/m², qtraffico = 9 kN/m², γG = 1,35 e γQ =
 
 Per le famiglie senza struttura superiore, ANTHEA risolve una trave di Euler Bernoulli con EI costante, appoggi verticali e rotazioni libere alle estremità. Nella continuità i momenti sugli appoggi interni sono ottenuti con il teorema dei tre momenti. Per due campate adiacenti a e b, con momenti Ml, Mi e Mr e carico uniforme q:
 
-$$ Ml a + 2Mi(a + b) + Mr b = −q(a³ + b³)/4
+```math
+M_l a+2M_i(a+b)+M_r b = -\frac{q(a^3+b^3)}{4}
+```
 
 Una volta noti i momenti agli estremi della campata di lunghezza l, la reazione locale sinistra, il taglio e il momento sono:
 
-$$ Rl = ql/2 + (Mr − Ml)/l
-$$ V(x) = Rl − qx
-$$ M(x) = Ml + Rl x − qx²/2
+```math
+R_l = \frac{ql}{2}+\frac{M_r-M_l}{l}
+V(x) = R_l-qx
+M(x) = M_l+R_l x-\frac{qx^2}{2}
+```
 
 La freccia è ricavata integrando M/EI due volte e imponendo spostamento nullo ai due appoggi. Il motore campiona 41 punti per campata e aggiunge il punto di taglio nullo per individuare l’estremo del momento. L’estremo della freccia resta campionato: il valore visualizzato non è sempre il massimo analitico esatto. I diagrammi delle azioni usano qd; la freccia indicativa e le reazioni usate nel dimensionamento ordinario delle fondazioni sono riferite a qs.
 
@@ -4756,7 +4876,9 @@ Il pulvino ordinario vale W × 1,5 × 1,4 m³; la testa a martello W × 2 × 1,8
 
 Il dimensionamento automatico della pila ordinaria soddisfa una snellezza convenzionale non maggiore di 90 e una compressione media non maggiore di 0,30fc,sub. Considerando il peso proprio del fusto, l’area minima si ricava da:
 
-$$ Areq = max(0 ; R + 25Vpulvino) / (300fc,sub − 25H)
+```math
+A_{req} = \frac{\max(0;R+25V_{pulvino})}{300f_{c,sub}-25H}
+```
 
 R è la reazione di servizio in kN e fc,sub è in MPa. Per colonne circolari il diametro è almeno max(1,2; 8H/90; √(4Areq/(πnc))) m; per il setto lo spessore è almeno max(1; 2H√12/90; Areq/max(1; W − 2)). La misura automatica è arrotondata verso l’alto a 0,05 m. La snellezza diagnostica è 2H/r, con r = D/4 per la colonna o t/√12 per il setto. La ricerca esclude valori maggiori di 100: la soglia 90 è un margine della regola automatica, 100 è la soglia di esclusione.
 
@@ -4771,7 +4893,9 @@ La fondazione Automatica delle otto famiglie ordinarie sceglie il plinto in rocc
 
 Per un palo di diametro D e lunghezza Lp, la resistenza assiale di riferimento è:
 
-$$ Rpal = π D Lp qs,palo + πD² qb/4
+```math
+R_{pal} = \pi D L_p q_{s,palo}+\frac{\pi D^2 q_b}{4}
+```
 
 L’azione comprende reazione dell’impalcato, peso della sottostruttura e peso del plinto. Nel plinto diretto il rapporto indicativo è N/(B T p); su pali è N/(np Rpal). B e T sono i lati della fondazione, p la pressione di riferimento e np il numero dei pali. Il peso del plinto viene aggiornato durante il dimensionamento; non è trascurato nel numeratore.
 
@@ -4783,7 +4907,9 @@ Il ciclo di fondazione ha un limite di 1.024 aggiornamenti e rifiuta casi non co
 
 Le strutture superiori sono predimensionate con equilibri ideali e aree pari alla forza assiale divisa per una tensione di riferimento. I valori iniziali sono 180 MPa per elementi tesi di carpenteria, 100 MPa per archi e aste compresse, 600 MPa per cavi e 6 MPa per antenne in cls. Non sono resistenze di progetto derivanti da una verifica completa. La carpenteria superiore riceve un’aggiunta iniziale del 20% per collegamenti; cavi e pendini sono conteggiati a parte.
 
-$$ A = max(0,00001 ; |N|/σrif)
+```math
+A = \max\left(0{,}00001;\frac{|N|}{\sigma_{rif}}\right)
+```
 
 N e σrif devono essere in unità coerenti: nel codice σrif in MPa viene moltiplicata per 1.000 per ottenere kN/m². La massa superiore aumenta il peso proprio; il motore aggiorna massa e carico fino a variazione relativa non maggiore di 10⁻⁸, con massimo 80 iterazioni. Un mancato equilibrio del ciclo produce un rifiuto esplicito. Queste sono iterazioni interne di un singolo candidato, diverse dai tentativi dell’ottimizzazione.
 
@@ -4803,8 +4929,10 @@ Le antenne sono due fusti quadrati con traverso. La loro area tiene conto della 
 
 Il costo diretto è la somma delle quantità per i prezzi. Al risultato vengono applicati in successione oneri aggiuntivi e imprevisti. Con i valori iniziali 12% e 15%, il fattore complessivo è 1,288, non 1,27. L’intervallo iniziale ±30% è una fascia convenzionale scelta dall’utente, non un intervallo statistico di confidenza e non un vincolo dell’ottimizzazione.
 
-$$ Cdiretto = Σ(Qj pj)
-$$ Ctotale = Cdiretto × (1 + oneri/100) × (1 + imprevisti/100)
+```math
+C_{diretto} = \sum_j Q_j p_j
+C_{totale} = C_{diretto}(1+oneri/100)(1+imprevisti/100)
+```
 
 I valori correnti sono stati confrontati con ANAS NC MP 2026 Rev 1 [R1] e con Emilia Romagna 2026 [R2]. Le tariffe ANTHEA sono aggregate e arrotondate: si devono leggere inclusioni, esclusioni e unità. Il confronto non rende automatico l’adeguamento alla classe del calcestruzzo, all’esposizione, al varo o alla corsa degli appoggi.
 
@@ -4832,7 +4960,9 @@ Il listino ANAS dichiara spese generali 15% e utile 10% già inclusi e tratta la
 
 La CO₂ somma cls e acciai e applica una maggiorazione convenzionale di trasporti e cantiere. Con masse in tonnellate e fattori dell’acciaio in kg/kg, il prodotto restituisce tonnellate di CO₂ equivalente. Il cls usa kg/m³ e richiede divisione per 1.000. I fattori iniziali sono 320 kg/m³ per cls, 1,4 kg/kg per armatura, 2 per carpenteria, 2,5 per precompressione e cavi; il cantiere aggiunge 15%.
 
-$$ ECO2 = (Vcls fcls/1000 + Σ(ms fs)) × (1 + cantiere/100)
+```math
+E_{CO2} = \left(\frac{V_{cls}f_{cls}}{1000}+\sum_s m_s f_s\right)(1+cantiere/100)
+```
 
 Le opzioni cls a ridotta CO₂ e acciaio riciclato moltiplicano rispettivamente il fattore del cls per 0,60 e quello della carpenteria per 0,35. Non riducono automaticamente armature, cavi o prezzi. I fattori non provengono da EPD specifiche; finiture, manutenzione, esercizio e fine vita restano esclusi. Una scelta a CO₂ minima è quindi minima per questo indicatore parziale, non per un’analisi completa del ciclo di vita.
 
@@ -4855,7 +4985,9 @@ I controlli applicano piccole tolleranze numeriche ai confronti. Non sono filtri
 
 Con Costo minimo il punteggio coincide con C; con CO₂ minima coincide con E. Il compromesso usa i minimi Cmin ed Emin delle soluzioni ammesse della stessa ricerca:
 
-$$ S = 0,5 C/max(1 ; Cmin) + 0,5 E/max(10⁻⁹ ; Emin)
+```math
+S = \frac{0{,}5C}{\max(1;C_{\min})}+\frac{0{,}5E}{\max(10^{-9};E_{\min})}
+```
 
 Il punteggio di compromesso è adimensionale e va minimizzato. I denominatori sono limitati inferiormente per gestire anche indicatori nulli. Non è una monetizzazione della CO₂ e non attribuisce un prezzo in euro a una tonnellata emessa. Il punteggio non va confrontato direttamente fra ricerche con minimi diversi. A parità di punteggio non arrotondato, l’ordinamento usa costo, CO₂, identificativo della famiglia e numero di campate; l’enumerazione è deterministica.
 
@@ -4959,3 +5091,337 @@ I file sorgente, i risultati e le versioni dei documenti sono identificati nel m
 [R5] TU Delft, Computational Modelling, Euler Bernoulli beam elements, capitolo 4.1. Riferimento della formulazione per rigidezze e funzioni di Hermite del verificatore indipendente. https://teachbooks.tudelft.nl/computational-modelling/structural_linear/euler_bernouilli.html
 
 [R6] Decreto 17 gennaio 2018, Aggiornamento delle Norme tecniche per le costruzioni, pubblicazione in GU 20 febbraio 2018. Riferimento del quadro normativo, non certificazione del predimensionamento. https://www.gazzettaufficiale.it/eli/id/2018/2/20/18A00716/sg
+
+## Elementi Beam
+
+Una trave reale occupa un volume; un elemento beam descrive invece come si muove una linea e come ruotano le sezioni lungo quella linea. Questa riduzione rende leggibile il percorso dei carichi e permette di analizzare telai con molti elementi, purché le dimensioni trasversali e i fenomeni locali non governino la risposta cercata. Il capitolo accompagna la scelta del modello, la lettura dei risultati e il trasferimento delle azioni alla verifica della sezione in Anthea.
+
+### Cos'è un elemento beam
+
+Il beam è un elemento finito monodimensionale con una sezione associata. L'asse geometrico collega due nodi, mentre area, inerzie e rigidezza torsionale rappresentano la parte trasversale. Il calcolo cerca spostamenti e rotazioni compatibili con equilibrio, vincoli e legame costitutivo. Le tensioni tridimensionali complete non sono tutte incognite indipendenti: si ricostruiscono a partire dalle ipotesi di trave.
+
+Una trave trasferisce un carico trasversale agli appoggi soprattutto mediante flessione e taglio. La flessione produce una coppia di risultanti di trazione e compressione. Allontanare queste risultanti aumenta il braccio della coppia: per questo una sezione alta può essere molto più rigida di una bassa con la stessa area. Una forza allineata all'asse produce invece sforzo normale; un carico eccentrico rispetto al centro di taglio può introdurre torsione.
+
+### Idealizzazione della struttura reale
+
+Scegliere la linea d'asse significa decidere dove si trasferiscono le azioni. In una trave omogenea spesso si usa il baricentro; in sezioni composte o con eccentricità bisogna dichiarare il riferimento effettivo. Larghezza dell'appoggio, nodi estesi e zone di collegamento non scompaiono fisicamente: sono condensati in vincoli, offset o legami. Un modello è adeguato se restituisce le grandezze necessarie alla decisione, non perché assomiglia al disegno architettonico.
+
+Confronta prima un modello semplice con equilibrio manuale e poi aggiungi dettagli. Per un telaio, controlla quali nodi sono realmente rigidi, quali consentono rotazione e quali impediscono traslazione. Una connessione bullonata non è automaticamente una cerniera ideale; una connessione gettata non è automaticamente infinitamente rigida.
+
+### Nodi e asse dell'elemento
+
+I nodi iniziale e finale definiscono lunghezza e verso dell'asse locale x. Due punti con coordinate uguali non sono necessariamente lo stesso nodo: se i rispettivi gradi di libertà non sono condivisi o collegati, gli elementi restano scollegati. Nei modelli importati controlla la connettività numerica, oltre alla coincidenza visiva.
+
+![Fig. 6.1 Elemento beam tra i nodi i e j con asse locale x e direzioni trasversali y e z.](../../X.Desktop/Assets/Wiki/beam-axes.png)
+
+La linea del beam rappresenta un riferimento strutturale. Non usare la sola linea inferiore del disegno come asse senza verificare l'eccentricità rispetto alla sezione. Cambiare il verso i-j richiede controllare assi, carichi locali e convenzioni dei risultati.
+
+### Sistema locale e globale
+
+Il sistema globale permette di assemblare elementi orientati diversamente. Il sistema locale permette di descrivere la risposta assiale e le due flessioni della singola trave. La trasformazione tra i due è una rotazione delle componenti, non una modifica del fenomeno fisico. Le inerzie Iy e Iz devono corrispondere alla sezione orientata nei rispettivi assi locali.
+
+Definisci sempre una terna destrorsa. L'asse x coincide normalmente con i-j; gli altri due assi dipendono dalla regola di orientamento adottata dal solutore. Una trave verticale richiede particolare attenzione: una regola basata su un vettore parallelo alla trave può diventare indeterminata. Visualizza la terna e controllala su un elemento rappresentativo prima di assegnare carichi locali a un gruppo.
+
+### Gradi di libertà
+
+Nel beam spaziale classico ogni nodo ha tre traslazioni e tre rotazioni. Le dodici componenti dell'elemento descrivono movimento assiale, due flessioni e torsione. Un modello piano ne conserva normalmente tre per nodo: due traslazioni e una rotazione. Formulazioni con ingobbamento possono aggiungere altre incognite: non assumere che tutti i beam abbiano esattamente gli stessi gradi di libertà.
+
+![Fig. 6.2 Traslazioni e rotazioni nodali nel piano; deformata amplificata a solo scopo illustrativo.](../../X.Desktop/Assets/Wiki/beam-dof.png)
+
+Una rotazione nodale è un'incognita cinematica. Non equivale sempre alla pendenza della linea deformata: questa uguaglianza vale nella cinematica Euler-Bernoulli, mentre nel modello Timoshenko la differenza rappresenta la deformazione a taglio.
+
+### Rigidezza assiale
+
+```math
+k_a = \frac{EA}{L}
+\delta = \frac{NL}{EA}
+```
+
+E è il modulo elastico, A l'area resistente e L la lunghezza; N è uno sforzo assiale costante. Con E in N/mm², A in mm² e L in mm, kₐ è in N/mm e δ in mm. La seconda espressione vale per un'asta prismatica elastica con forza costante. Raddoppiare la lunghezza dimezza la rigidezza e raddoppia l'allungamento, a parità di N, E e A.
+
+Un'area sovrastimata irrigidisce il percorso assiale e può attirare carico da elementi paralleli. In un sistema iperstatico non basta che la verifica della singola sezione sia soddisfatta: la distribuzione delle azioni dipende dalle rigidezze relative.
+
+### Flessione
+
+```math
+\kappa = \frac{M}{EI}
+\sigma = \frac{M}{W}
+```
+
+κ è la curvatura elastica, M il momento e I l'inerzia rispetto all'asse di flessione. W è il modulo resistente elastico relativo alla fibra considerata. Con M in Nmm e EI in Nmm², κ è in 1/mm; σ risulta in N/mm². La formula della tensione descrive una sezione omogenea in regime elastico e non sostituisce la verifica non lineare di una sezione in c.a.
+
+Le componenti della matrice flessionale contengono termini proporzionali a EI/L³, EI/L² ed EI/L: traslazioni e rotazioni hanno unità differenti. Non confrontare direttamente i numeri di due termini senza considerare le relative incognite. Nei telai, la rigidezza flessionale governa anche la ripartizione dei momenti fra travi e pilastri.
+
+### Taglio
+
+Il taglio è la risultante delle tensioni tangenziali sulla sezione. Nel modello Timoshenko la rigidezza trasversale è rappresentata da GAs, dove G è il modulo a taglio e As un'area efficace dipendente dalla formulazione e dalla forma della sezione. L'area efficace non coincide necessariamente con l'area geometrica totale.
+
+```math
+\gamma = \frac{V}{GA_s}
+```
+
+V è la forza di taglio e γ la deformazione angolare, adimensionale. Trascurare questa deformazione può sottostimare gli spostamenti di travi corte, sezioni con anima deformabile o materiali con basso modulo a taglio. La presenza di un risultato V nel solutore non dimostra che la deformabilità a taglio sia stata inclusa: anche un beam Euler-Bernoulli fornisce il taglio per equilibrio.
+
+### Torsione
+
+```math
+\theta = \frac{TL}{GJ}
+```
+
+Per una barra prismatica in torsione uniforme di Saint-Venant, T è il momento torcente e J la costante torsionale; con unità coerenti θ è una rotazione in radianti. J non coincide generalmente con il momento polare d'inerzia: l'identificazione è corretta per sezioni circolari, ma può essere gravemente errata per sezioni aperte sottili.
+
+Il beam ordinario non descrive automaticamente bimomento, torsione non uniforme e ingobbamento impedito. Vicino a un incastro o a un diaframma può essere necessario un modello con ingobbamento oppure una modellazione locale shell. Se il carico non passa per il centro di taglio, controlla la torsione generata dall'eccentricità.
+
+### Euler-Bernoulli e Timoshenko
+
+Euler-Bernoulli assume che le sezioni restino piane e ortogonali all'asse deformato, trascurando la deformazione a taglio. Timoshenko mantiene una rotazione di sezione indipendente dalla pendenza della linea d'asse e include il contributo a taglio. La scelta dipende dalla precisione richiesta e dal rapporto fra contributi deformativi; non esiste un unico rapporto L/h che renda corretto ogni modello.
+
+| Aspetto | Euler-Bernoulli | Timoshenko |
+| --- | --- | --- |
+| Cinematica | Rotazione legata alla pendenza | Rotazione indipendente |
+| Taglio deformabile | Trascurato | Incluso mediante area efficace |
+| Controllo | Adeguatezza della snellezza e delle ipotesi | Parametri di taglio e possibili fenomeni di locking |
+
+Un elemento numerico mal formulato può diventare artificialmente rigido nel limite di trave snella: è il locking a taglio. Raffinare la mesh senza comprendere il fenomeno non è sempre sufficiente. Verifica il benchmark della formulazione e confronta una soluzione analitica coerente con le stesse ipotesi.
+
+### Proprietà della sezione
+
+L'area governa la risposta assiale; Iy e Iz governano le flessioni; J governa la torsione di Saint-Venant; le aree efficaci governano il taglio deformabile. Il baricentro e il centro di taglio descrivono riferimenti differenti. Per sezioni non simmetriche occorre considerare anche il prodotto d'inerzia o usare assi principali.
+
+Nel c.a. l'inerzia geometrica integra non è automaticamente la rigidezza efficace di esercizio di una sezione fessurata. Per sezioni composte, la rigidezza dipende da materiali, omogeneizzazione, collaborazione e fasi. Specifica la rigidezza adottata nel modello globale e non scambiarla con la resistenza ultima calcolata separatamente.
+
+### Orientamento
+
+Ruotare una sezione rettangolare di 90° scambia i ruoli delle due inerzie. Nel caso di una sezione b × h, l'inerzia rispetto all'asse parallelo alla base è bh³/12: il cubo dell'altezza rende l'orientamento decisivo. Il disegno della sezione e la freccia del carico devono essere coerenti con gli assi usati per i risultati.
+
+Controlla il segno dei momenti dopo ogni cambio di orientamento. Nella sezione in c.a. Anthea, il piano della sezione è x-y e Mx è associato alla coordinata y; non coincide automaticamente con la terna x-y-z di un beam, il cui x è longitudinale. Il trasferimento richiede una mappatura esplicita.
+
+### Offset ed eccentricità
+
+Un offset collega il nodo alla sezione terminale tramite un tratto rigido o una trasformazione cinematica. Non equivale a spostare soltanto il disegno. Trasferisce anche momenti quando la risultante di forza agisce fuori dal riferimento. Una forza F con eccentricità e introduce una coppia di modulo Fe nel caso piano.
+
+![Fig. 6.3 Offset tra asse del beam e punto di applicazione della forza; la coppia aggiuntiva dipende dal braccio e.](../../X.Desktop/Assets/Wiki/beam-offset.png)
+
+Usare contemporaneamente un offset rigido e una coppia già inclusa nei carichi può contare due volte l'eccentricità. Controlla il punto rispetto al quale sono fornite le azioni. Non modellare come rigidissimo un collegamento realmente deformabile solo per risolvere un problema di connettività.
+
+### Releases
+
+Una release elimina il trasferimento di una specifica azione terminale rendendo libero il grado di libertà coniugato. Una cerniera flessionale non elimina per forza taglio, sforzo normale e torsione. In un modello spaziale occorre dire quale rotazione è rilasciata e rispetto a quale asse.
+
+Rilasciare la stessa rotazione su tutti gli elementi di un nodo senza un controllo dei vincoli può creare un meccanismo. Il messaggio di matrice singolare è una conseguenza del modello: non va eliminato aggiungendo molle arbitrarie. Disegna la cinematica consentita e controlla che non esista uno spostamento rigido senza energia.
+
+### Discretizzazione
+
+Inserisci nodi dove cambiano carico, sezione, connessione o vincolo. Per carichi uniformi usa il vettore di carico coerente previsto dall'elemento, anziché sostituire il carico con forze concentrate senza verificarne l'equivalenza. Una mesh più fitta migliora alcune approssimazioni, ma non corregge un vincolo sbagliato o un'ipotesi costitutiva inadatta.
+
+Confronta almeno due discretizzazioni e osserva la stabilizzazione delle grandezze decisive: freccia, reazioni, momenti critici. Il numero di elementi necessario dipende dall'interpolazione e dal risultato cercato. Una soluzione nodale esatta in un caso particolare non garantisce la ricostruzione esatta di tutto il diagramma interno.
+
+### Risultati FEM
+
+Prima delle tensioni controlla deformata e reazioni. Le reazioni devono equilibrare le azioni esterne; la deformata deve rispettare i vincoli; il percorso dei carichi deve essere plausibile. Poi leggi N, Vy, Vz, T, My e Mz nel sistema dichiarato dal solutore.
+
+Le azioni terminali, le azioni sulle facce di una sezione e le risultanti interne possono usare segni diversi. Un salto del diagramma di taglio può essere fisico in corrispondenza di una forza concentrata. Una discontinuità di momento senza coppia applicata richiede invece controllare la ricostruzione, il verso e la connettività.
+
+### Convenzioni di segno
+
+Indica su uno schizzo un momento positivo e le fibre che comprime. Definisci il verso positivo dello sforzo normale. Nell'interfaccia corrente della sezione in c.a. Anthea usa N negativo a compressione; gli archivi precedenti con compressione positiva vengono migrati dal workspace. Il motore legacy può adottare una convenzione diversa da quella esposta nella UI. Confronta il riferimento del solutore FEM e quello della scheda, converti il segno una volta nel passaggio dei dati e mantieni traccia del riferimento originale.
+
+Le verifiche biassiali richiedono conservare l'accoppiamento fra N, Mx e My della stessa combinazione. Non comporre una terna prendendo separatamente i massimi assoluti da combinazioni diverse senza dichiarare la scelta conservativa e controllarne il significato fisico.
+
+### Limiti del modello
+
+Un beam non risolve automaticamente concentrazioni di tensione, diffusione su appoggi, instabilità locale di piastre, ovalizzazione o dettagli delle saldature. Un modello elastico del primo ordine non include da solo plasticità, fessurazione evolutiva, grandi rotazioni e instabilità geometrica. Ogni estensione richiede una formulazione e parametri coerenti.
+
+Quando una zona locale governa, usa un modello dedicato e condizioni al contorno derivate dal modello globale. Il passaggio beam-shell-solid richiede compatibilità del trasferimento di forza e momento: collegare un solo nodo può non rappresentare il comportamento del giunto reale.
+
+### Errori comuni
+
+> ERRORI COMUNI
+> Nodi coincidenti ma scollegati; elementi duplicati che raddoppiano la rigidezza; inerzie scambiate; J sostituito dal momento polare; release che generano un meccanismo; metri mescolati a millimetri; carico locale applicato nel verso globale; offset ed eccentricità conteggiati due volte.
+
+Per trovare un errore riduci il modello al percorso coinvolto. Applica un carico unitario, visualizza la deformata e confronta le reazioni con l'equilibrio. Un risultato numerico convergente può essere perfettamente coerente con un modello fisicamente sbagliato.
+
+### Regole pratiche
+
+> REGOLA PRATICA
+> Prima verifica equilibrio, connettività e assi; poi raffina la mesh. Usa una trave appoggiata o una mensola come controllo della catena unità-carichi-rigidezza. Queste sono procedure di controllo del modello e non verifiche normative.
+
+Per la trave appoggiata prismatica elastica, il momento massimo cresce con L² e la freccia flessionale con L⁴ a carico lineare costante. Piccole modifiche della luce possono quindi influenzare gli spostamenti più dei momenti. Questo ordine di grandezza aiuta a individuare errori di scala, ma non sostituisce il calcolo del sistema effettivo.
+
+### Esempio concettuale
+
+Considera una trave semplicemente appoggiata di luce L = 8 m con carico uniforme q = 25 kN/m. Per questo esempio q è già un'azione di progetto assegnata: non stiamo ricavando una combinazione normativa. Le reazioni sono ciascuna qL/2 = 100 kN; la somma 200 kN equilibra il carico totale.
+
+```math
+M_{\max} = \frac{qL^2}{8} = \frac{25\cdot8^2}{8} = 200\ \mathrm{kN\,m}
+V_{app} = \frac{qL}{2} = 100\ \mathrm{kN}
+```
+
+![Fig. 6.4 Trave appoggiata con carico uniforme; diagramma qualitativo del momento positivo massimo in mezzeria.](../../X.Desktop/Assets/Wiki/beam-load.png)
+
+Per una sezione rettangolare integra b = 600 mm e h = 800 mm, $I = \frac{bh^3}{12} = 25{,}6\cdot10^9\ \mathrm{mm^4}$. Se si assume, solo per il controllo elastico del modello, E = 30.000 N/mm², la freccia flessionale è $v_{\max} = \frac{5qL^4}{384EI} \simeq 1{,}74\ \mathrm{mm}$, usando q = 25 N/mm e L = 8.000 mm. È la freccia del modello omogeneo non fessurato: non è una verifica SLE del c.a.
+
+Confronta la reazione e il momento analitico con il modello beam. Poi trasferisci la terna N = 0, Mx = 200 kNm, My = 0 a una sezione in c.a. la cui altezza è lungo y. Il valore 200 kNm deve essere associato all'asse della sezione che produce compressione e trazione lungo l'altezza. Il segno definisce quale bordo è compresso.
+
+### Interazione con Anthea
+
+Il pulsante Apri esempio crea una Sezione in c.a. con geometria rettangolare 600 × 800 mm, materiale C35/45 e armature iniziali del modulo: 4Ø20 superiori, 6Ø24 inferiori, 2Ø16 per lato, staffe Ø10/200 e copriferro netto 70 mm. La sola combinazione plastica contiene N = 0, Mx = 200 kNm, My = 0. Le altre famiglie restano vuote, perché non sono state definite azioni di esercizio o accidentali.
+
+Questi valori costituiscono un esempio didattico, non una proposta esecutiva. Modifica l'altezza mantenendo luce e azione assegnata; osserva come cambiano dominio resistente e deformazioni di sezione. Modifica poi il segno di Mx per vedere il ruolo delle diverse armature ai due bordi. Il modulo verifica sezioni, non risolve la trave generale FEM né determina automaticamente il carico q.
+
+[Guida del modulo Sezione in c.a.](/wiki/guide/moduli/sezione-ca)
+
+### Riepilogo
+
+Un beam concentra il comportamento di una struttura allungata in una linea con proprietà di sezione. La qualità del risultato dipende da cinematica, collegamenti, orientamento, rigidezze e unità. Verifica prima il comportamento globale; trasferisci poi azioni e convenzioni a una verifica locale appropriata. Raffinare una discretizzazione corretta e scegliere una formulazione adeguata sono due controlli distinti.
+
+### Argomenti correlati
+
+[Elementi Shell](/wiki/manuale/fem-e-modellazione/elementi-shell)
+
+[Releases e connettività](/wiki/manuale/fem-e-modellazione/releases-e-connettivita)
+
+[Instabilità delle aste compresse](/wiki/manuale/acciaio/instabilita-delle-aste-compresse)
+
+### Riferimenti
+
+- TU Delft, Computational Modelling, Euler-Bernoulli beam elements: derivazione della cinematica e dell'interpolazione. https://teachbooks.tudelft.nl/computational-modelling/structural_linear/euler_bernouilli.html
+- OpenSees, documentazione Elastic Beam Column Element: esempio verificabile delle proprietà richieste da una formulazione beam. https://opensees.berkeley.edu/wiki/index.php/Elastic_Beam_Column_Element
+- Il capitolo spiega un modello meccanico e non introduce coefficienti di verifica normativa. Le prescrizioni dei materiali e gli stati limite si consultano nella guida teorica globale, nelle sezioni dei moduli corrispondenti.
+
+## Elementi Shell
+
+Una shell descrive una superficie strutturale con comportamento membranale e flessionale. È utile per solette, pareti e piastre quando lo spessore è piccolo rispetto alle dimensioni nel piano e quando la variazione delle azioni nella superficie è decisiva. L'asse medio sostituisce il volume, mentre lo spessore partecipa alle rigidezze di membrana e flessione in modo differente.
+
+### Membrana e flessione
+
+Le risultanti membranali sono forze per unità di lunghezza; le risultanti flessionali sono momenti per unità di lunghezza. Non importare un momento di piastra espresso in kNm/m come momento totale di una trave. Occorre dichiarare la striscia resistente e integrare il risultato sul tratto interessato. La somma delle azioni sulle strisce deve restare coerente con equilibrio e percorso del carico.
+
+### Assi e connessioni
+
+La normale locale distingue le facce superiore e inferiore. Normali invertite possono cambiare la lettura dei segni senza cambiare la fisica. Controlla la continuità della mesh, le connessioni con beam e la rappresentazione degli appoggi. Un bordo vincolato su tutte le rotazioni può irrigidire artificialmente una soletta appoggiata.
+
+### Errori e limiti
+
+Un carico puntuale o un vincolo puntuale possono generare picchi che crescono al raffinarsi della mesh. La convergenza della reazione globale non garantisce la convergenza della tensione puntuale. Rappresenta la superficie di contatto reale quando la verifica locale lo richiede. Una shell non sostituisce automaticamente un modello tridimensionale dei nodi massicci.
+
+### Riepilogo
+
+Scegli la shell quando devi descrivere distribuzioni nella superficie; mantieni espliciti assi, spessore, unità delle risultanti e trasferimento ai dettagli. Anthea non dispone di un solutore shell generale: questa pagina aiuta a interpretare dati provenienti da un modello esterno.
+
+## Releases e connettività
+
+La connettività stabilisce quali incognite sono condivise fra elementi; una release stabilisce quali azioni non vengono trasmesse a un'estremità. Queste due decisioni determinano il percorso dei carichi prima ancora di assegnare una rigidezza.
+
+### Controllare un nodo
+
+Individua sul disegno le traslazioni e rotazioni possibili, quindi verifica se il modello permette proprio quei movimenti. Una cerniera ideale nel piano trasmette due forze e non trasmette il momento coniugato alla rotazione libera. Un link elastico trasmette una forza proporzionale allo spostamento relativo: una rigidezza enorme è un'approssimazione che può peggiorare il condizionamento numerico.
+
+### Meccanismi e collegamenti rigidi
+
+Se una parte può muoversi rigidamente senza deformare nessun elemento, il modello ha un meccanismo. Non correggerlo con una molla casuale. Verifica prima i vincoli fisici e le release. Al contrario, troppe connessioni rigide possono impedire deformazioni reali e generare azioni spurie. Un collegamento rigido deve trasferire anche i momenti prodotti dal braccio geometrico.
+
+### Riepilogo
+
+Confronta il modello numerico con uno schizzo cinematico. Usa un carico unitario per verificare il movimento consentito e la distribuzione delle reazioni. Conserva una descrizione delle ipotesi del nodo accanto ai risultati.
+
+## Instabilità delle aste compresse
+
+Un'asta compressa può perdere stabilità senza che tutta la sezione raggiunga la resistenza del materiale. Una piccola deviazione laterale produce un momento aggiuntivo dovuto alla forza assiale; il momento aumenta la deviazione, che a sua volta amplifica il momento. La rigidezza flessionale contrasta questa retroazione.
+
+### Modello di Eulero
+
+```math
+N_{cr} = \frac{\pi^2 EI}{L_0^2}
+```
+
+E è il modulo elastico, I l'inerzia nel piano della deformata e L₀ la lunghezza efficace. Con E in N/mm², I in mm⁴ e L₀ in mm, Ncr è in N. La formula descrive una biforcazione elastica di un'asta ideale; non è direttamente la resistenza di progetto di un'asta reale imperfetta. Raddoppiare L₀ riduce il carico critico a un quarto.
+
+### Lunghezza libera di inflessione
+
+L₀ rappresenta il vincolo efficace nel modo di instabilità considerato, non semplicemente la lunghezza disegnata. Per un'asta ideale isolata incernierata a entrambe le estremità coincide con la lunghezza fra cerniere. Per telai e vincoli elastici dipende dal comportamento del sistema. Un ritegno è efficace solo se ha rigidezza, resistenza e percorso del carico adeguati.
+
+### Errori comuni
+
+> ATTENZIONE
+> Il carico critico elastico non include automaticamente imperfezioni, tensioni residue, plasticità e instabilità locale. La verifica normativa richiede il metodo applicabile al materiale e al sistema. La presente versione di Anthea non contiene un modulo autonomo Instabilità dell'acciaio.
+
+### Riepilogo
+
+Controlla il piano debole, i ritegni reali e il modo di instabilità. L'area da sola non descrive la vulnerabilità: due aste con la stessa area possono avere inerzie e capacità di stabilità molto differenti. Cerca anche i termini buckling, snellezza ed Euler nella Wiki per trovare i riferimenti presenti nelle guide globali.
+
+## Fondamenti del percorso dei carichi
+
+Il primo controllo di un modello strutturale è il percorso del carico dalla sua applicazione fino ai vincoli. Una soletta trasferisce il carico alle travi; le travi a pilastri o pareti; questi alle fondazioni e al terreno. Ogni passaggio richiede equilibrio e compatibilità delle deformazioni.
+
+### Equilibrio e rigidezza
+
+Le reazioni equilibrano risultanti e momenti dei carichi esterni. Nei sistemi isostatici l'equilibrio determina le reazioni; nei sistemi iperstatici intervengono anche rigidezze e compatibilità. Irrigidire un elemento può aumentare la quota di carico che gli compete, anche se il carico totale non cambia. Una verifica locale non dimostra quindi da sola la correttezza della ripartizione globale.
+
+### Modello e verifica
+
+Il modello calcola azioni e spostamenti nel quadro delle proprie ipotesi. La verifica confronta domande e capacità per specifici meccanismi e stati limite. Dichiarare materiale, geometria, vincoli, carichi, unità e convenzioni permette di controllare il trasferimento fra i due. Mantieni separati risultati elastici, predimensionamento e verifica di resistenza.
+
+### Riepilogo
+
+Prima di leggere un coefficiente di utilizzo, controlla dove passa il carico e quale meccanismo rappresenta il calcolo. Confronta sempre un equilibrio globale e un ordine di grandezza indipendente con i risultati del software.
+
+## Azioni e combinazioni del modello
+
+Una combinazione raccoglie azioni che possono agire insieme nel contesto dello stato limite considerato. Il valore di un carico assegnato non dice da solo se sia caratteristico, rappresentativo o di progetto. Prima di inserire N, M e V nel modulo, annota la provenienza della combinazione e i fattori già applicati.
+
+### Percorso dal carico alla domanda
+
+Il peso proprio dipende dalla geometria e dal peso per unità di volume. Un carico di superficie va trasformato in carico lineare dichiarando la larghezza tributaria. La trasformazione di unità non applica coefficienti di sicurezza: passare da kN/m a N/mm conserva lo stesso valore numerico, mentre passare da kNm a Nmm moltiplica per un milione.
+
+La terna N-Mx-My deve provenire dalla stessa sezione e dalla stessa combinazione. Un inviluppo può essere utile per individuare sezioni critiche, ma gli estremi di componenti diverse non sono necessariamente simultanei. Conserva l'identificativo della combinazione originale per poter ricostruire il risultato.
+
+### Stati limite distinti
+
+Resistenza, deformazione, fessurazione e fatica rispondono a domande differenti. Una combinazione di progetto per resistenza non è automaticamente una combinazione di esercizio. Le famiglie di azione disponibili nel modulo vanno compilate solo quando sono state definite nel modello: non duplicare una terna in ogni famiglia per riempire le tabelle.
+
+### Errori comuni e riferimenti
+
+> ERRORI COMUNI
+> Moltiplicare nuovamente un'azione già fattorizzata; includere due volte il peso proprio; confondere carico superficiale e lineare; usare un inviluppo di massimi indipendenti come se fosse una combinazione reale.
+
+Per la definizione delle combinazioni usa il quadro normativo applicabile, i parametri nazionali e la destinazione d'uso. Questo capitolo non assegna coefficienti normativi. Il riferimento italiano di base è il DM 17 gennaio 2018; le opzioni e i limiti della singola verifica sono descritti nei capitoli dei moduli della guida globale.
+
+## Dinamica e sisma del modello
+
+La risposta dinamica dipende da come massa e rigidezza sono distribuite e da come l'azione varia nel tempo. Un modello corretto per un carico statico può essere incompleto per un'analisi dinamica se mancano masse, collegamenti o gradi di libertà rilevanti.
+
+### Massa rigidezza e modi
+
+Una forma modale descrive un movimento possibile del sistema linearizzato; la frequenza associata dipende da rigidezza e massa. Nel singolo oscillatore elastico non smorzato, T = 2π√(m/k), con unità coerenti. Raddoppiare la massa aumenta il periodo di un fattore √2, mentre raddoppiare la rigidezza lo riduce dello stesso fattore. In un sistema con molti gradi di libertà bisogna considerare i modi che partecipano alla direzione del carico.
+
+La deformata modale è scalata convenzionalmente: la sua ampiezza grafica non è uno spostamento sismico di progetto. Controlla le masse effettivamente assegnate, le direzioni dei modi e l'effetto dei vincoli. Una rotazione locale inattesa può rivelare una release o una connessione non coerente.
+
+### Azione e risposta
+
+Uno spettro collega la risposta di oscillatori alla loro frequenza e allo smorzamento assunto. Un accelerogramma descrive invece una storia temporale: passo, unità, durata e trattamento del segnale influenzano l'analisi. Lo smorzamento non va aggiunto soltanto per ridurre un picco indesiderato; deve rappresentare un'ipotesi motivata del modello.
+
+### Limiti e applicazione
+
+Un'analisi modale elastica non dimostra capacità dissipativa, duttilità dei dettagli o stabilità durante grandi spostamenti. Anthea non espone un solutore dinamico generale; eventuali procedure sismiche o Newmark dei muri hanno campo e input specifici, documentati nei relativi capitoli. Per spettro, combinazioni e verifiche usa la normativa applicabile, senza trasferire coefficienti da un meccanismo all'altro.
+
+## Fasi costruttive e percorso dei carichi
+
+La struttura durante il montaggio può lavorare in modo diverso dalla struttura completata. Un puntello, un getto successivo o la collaborazione di una soletta modificano i vincoli e le rigidezze disponibili quando il carico viene applicato. Per questo l'ordine delle fasi fa parte del modello, non soltanto del programma dei lavori.
+
+### Carichi e sezioni attive
+
+In una trave composta, il peso del calcestruzzo fresco può essere portato dall'acciaio prima che la soletta collabori. I carichi successivi agiscono su una sezione diversa. Sommare tutti i carichi e applicarli direttamente alla sezione finale può sottostimare tensioni accumulate nella parte inizialmente resistente.
+
+Dichiara per ciascuna fase elementi attivi, vincoli, materiali, carichi introdotti e carichi rimossi. Il disarmo e la rimozione di un appoggio provvisorio producono ridistribuzioni. La deformazione già maturata non è necessariamente cancellata dalla modifica del sistema.
+
+### Fenomeni differiti
+
+Ritiro e viscosità dipendono dal tempo e dalla storia di carico; nella sezione composta possono produrre tensioni interne anche senza aumentare la risultante esterna. Un coefficiente di omogeneizzazione unico non descrive automaticamente tutte le fasi. Controlla età, durata e metodo previsto dal modulo.
+
+### Controlli e riepilogo
+
+> REGOLA PRATICA
+> Scrivi una tabella delle fasi prima di compilare il modello. Per ogni carico identifica la sezione che lo porta al momento dell'applicazione e il percorso fino agli appoggi disponibili.
+
+Il modulo Sezione composta da ponte di Anthea documenta l'analisi per fasi nella guida globale. I dettagli costruttivi, i vincoli provvisori e le verifiche del montaggio richiedono comunque i dati del progetto reale. Una verifica favorevole della configurazione finale non implica che ogni fase intermedia sia sicura.

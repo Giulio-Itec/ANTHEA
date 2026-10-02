@@ -1,4 +1,4 @@
-param([switch]$VerifyFinal, [string]$Revision = '06')
+param([switch]$VerifyFinal, [string]$Revision = '10')
 $ErrorActionPreference = 'Stop'
 $repoPath = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $wordForGuides = $null

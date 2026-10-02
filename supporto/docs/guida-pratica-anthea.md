@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 3 del 2 ottobre 2026 — revisione documentale 08
+Edizione 3 del 2 ottobre 2026 — revisione documentale 10
 
 Questa edizione unifica la documentazione di ANTHEA in due volumi globali. Il volume pratico comprende uso, interfaccia e procedure; quello teorico comprende modelli, formule, ipotesi, limiti e approfondimenti di tutti i moduli. I capitoli di approfondimento conservano integralmente i contenuti delle precedenti schede. Audit, migrazioni e studi conservano la loro data e il loro ambito storico: non descrivono automaticamente lo stato attuale del programma.
 
@@ -1371,3 +1371,142 @@ La revisione documentata ha superato 44.259 asserzioni della suite generale. Una
 Questi riscontri aumentano la fiducia nella correttezza delle equazioni implementate e della ricerca discreta. Non validano automaticamente le incidenze convenzionali, i costi consuntivi o la sicurezza di un ponte reale. I 1.000 casi storici del sito avevano invece mostrato differenze e non dimostrano equivalenza fra i due programmi. Il rapporto teorico della stessa revisione contiene numeri, metodi e percorsi delle evidenze.
 
 Prima di scegliere definitivamente verifica che la configurazione sia fisicamente costruibile, che il modello strutturale dedicato confermi le sezioni e che la valutazione geotecnica confermi le fondazioni. Aggiorna poi quantità e prezzi con le informazioni nuove e ripeti il confronto. Questo passaggio permette al predimensionamento di accompagnare il progetto senza attribuirgli prestazioni che non calcola.
+
+## Wiki e centro della conoscenza
+
+Wiki è il terzo ambiente di Anthea insieme a Progetti e Moduli singoli. Raccoglie il Manuale di ingegneria e le Guide Anthea in una navigazione e una ricerca comuni. I contenuti sono ricavati dalle due guide globali, evitando una seconda documentazione indipendente.
+
+### Cercare e scegliere un percorso
+
+Apri Wiki dalla navigazione principale o dalla Home. La ricerca considera titoli, testo, formule, categorie e sinonimi italiano-inglese; per esempio buckling trova contenuti sull'instabilità. Ogni risultato indica se appartiene al manuale teorico o alla guida applicativa. Le macroaree con contenuti aprono un elenco di capitoli; le aree ancora prive di pagine sono dichiarate in preparazione.
+
+### Leggere e riprendere
+
+L'indice laterale raccoglie le sezioni della pagina. Seleziona una voce per raggiungerla; la sezione corrente è evidenziata durante lo scorrimento. Copia collegamento produce un indirizzo Wiki interno leggibile. Segna sezione letta registra una scelta esplicita: la posizione di lettura non equivale a un apprendimento verificato.
+
+Continua a leggere mostra le ultime pagine e la posizione approssimativa; riaprendo una pagina viene ripristinata la sezione visitata. Il progresso è memorizzato localmente nel profilo Windows, separato dai documenti di calcolo. Su finestre strette i pulsanti Indice del manuale e delle guide e In questa pagina mostrano i menu laterali. Non occorre una connessione per consultare i contenuti incorporati; i riferimenti web aprono il browser.
+
+### Passare dalla teoria al calcolo
+
+Prova in Anthea apre un modulo esistente oppure crea un foglio con i dati dell'esempio. Il documento corrente segue il normale controllo di salvataggio. Aprire il modulo senza esempio riprende la scheda già attiva, quando disponibile. Il comando Come funziona nella barra del modulo apre la guida pertinente e permette di tornare al calcolo con i dati conservati.
+
+I pulsanti ? accanto a copriferro e azioni della sezione offrono una definizione breve e aprono la sezione specifica della Wiki. Guida progetti nella barra dei progetti apre le procedure della gestione del lavoro. Il precedente comando Modello e dati comuni raggiunge ora la teoria pertinente nella stessa Wiki.
+
+Per gli elementi Beam, il percorso consigliato è leggere il modello, confrontare reazioni e momento con l'esempio manuale, aprire la Sezione in c.a. e modificare altezza o verso del momento. La Wiki distingue l'analisi della trave dalla verifica della sezione: non introduce un nuovo solutore FEM generale.
+
+### Progetti e problemi frequenti
+
+Le procedure di creazione, rinomina, duplicazione e revisioni restano nei capitoli Progetti della stessa guida globale e sono indicizzate nella Wiki. Per un calcolo usa sempre Salva o Salva con nome: il progresso della Wiki non salva i dati del modulo. Se una ricerca non trova il termine, prova un sinonimo o una parte della parola; le guide storiche integrate mantengono le loro date e il proprio campo di validità.
+
+## Modulo Sezione in c.a.
+
+Questo modulo verifica una sezione in calcestruzzo armato a partire da geometria, materiali, armature e azioni assegnate. Permette di esplorare domini resistenti, stati tensionali e deformativi, taglio, torsione e dettagli nei limiti indicati dalle rispettive schede. Non determina le azioni di un telaio completo e non sostituisce l'analisi globale della struttura.
+
+### A cosa serve e quando usarlo
+
+Usalo quando disponi delle terne N, Mx e My per le combinazioni rilevanti e vuoi confrontarle con la risposta della sezione. È adatto anche al controllo di sensibilità: mantenendo le azioni, modifica una dimensione o l'armatura e osserva il dominio. Per un elemento lungo e compresso la verifica della sezione non esaurisce l'eventuale problema di instabilità del sistema.
+
+[Teoria del modello Beam e trasferimento delle azioni](/wiki/manuale/fem/elementi-beam)
+
+### Input geometria e unità
+
+| Dato | Unità | Significato e controllo |
+| --- | --- | --- |
+| Sezione | scelta | Circolare, Rettangolare, A T; la sezione generica richiede un contorno definito |
+| b e h | mm | Larghezza e altezza positive della sezione rettangolare |
+| D | mm | Diametro positivo della sezione circolare |
+| bf, bw, hf | mm | Ala, anima e spessore ala della T; bw non supera bf e hf è inferiore a h |
+| Copriferro netto | mm | Distanza dal bordo alla staffa; non è la distanza al centro della barra longitudinale |
+| Discretizzazione circolare | numero | Da 12 a 720 lati, multipli di 4 |
+
+Le dimensioni sono in millimetri anche se le azioni provengono da un modello in metri. Controlla nel disegno che il contorno e tutte le barre restino nella posizione attesa. Un foro o una forma generica devono avere geometria compatibile con le opzioni realmente abilitate, non semplicemente un nome selezionato.
+
+### Input materiali armature e default
+
+Il nuovo foglio rettangolare parte da b = 600 mm, h = 800 mm, copriferro netto 70 mm, calcestruzzo C35/45 e acciaio B450C. L'armatura iniziale è 4Ø20 superiori, 6Ø24 inferiori e 2Ø16 per lato; le staffe sono Ø10 a passo 200 mm. Sono valori iniziali modificabili, non dimensioni minime normative né una proposta esecutiva.
+
+Le resistenze dei materiali sono in MPa, equivalenti a N/mm². La selezione dal catalogo trasferisce i parametri effettivi della voce scelta; controlla il riepilogo dopo una selezione. Numero e diametro delle barre devono descrivere l'armatura presente; le barre devono rimanere nel contorno con copriferro e spaziatura coerenti. Le opzioni specifiche per pali o zone dissipative richiedono il contesto corrispondente.
+
+Scegli la normativa prima di personalizzare i coefficienti. Cambiarla ripristina i coefficienti della nuova classe normativa: ricontrolla eventuali modifiche manuali. I default non attestano l'applicabilità della norma al caso concreto. Le funzionalità predisposte nei coefficienti non implicano che ogni meccanismo sia implementato.
+
+### Input azioni e convenzioni
+
+N è in kN; Mx e My in kNm. Nell'interfaccia corrente N è negativo a compressione. Il workspace migra gli archivi precedenti con compressione positiva; l'importazione delle azioni da un modello esterno richiede invece il controllo esplicito dei segni. Nel piano della sezione, Mx è associato alla coordinata y e My alla coordinata x con la convenzione indicata dal modulo. Mantieni la terna della stessa combinazione e documenta la trasformazione dagli assi del modello esterno.
+
+Il foglio ordinario iniziale mostra N = -2500 kN, Mx = 500 kNm e My = 250 kNm nelle famiglie iniziali, dopo la preparazione del workspace. Il pulsante Apri esempio della Wiki sostituisce questi valori con la combinazione didattica descritta sotto e lascia vuote le altre famiglie. Non interpretare una tabella vuota come una verifica superata.
+
+### Descrizione del calcolo
+
+La sezione integra il contributo del calcestruzzo e delle barre con i legami costitutivi previsti dal metodo selezionato. I domini confrontano le terne di azione con la capacità resistente. Le analisi di esercizio usano invece le proprie ipotesi per tensioni, fessurazione e omogeneizzazione. Non trasferire un coefficiente di utilizzo di un dominio a un controllo di taglio o di fessurazione.
+
+I ricalcoli e le viste dipendono dalla scheda attiva. Aspetta la conclusione del calcolo e controlla warning e combinazione selezionata prima di esportare. Un input visivamente corretto ma non ancora calcolato non rende corrente un risultato precedente.
+
+### Output e lettura dei risultati
+
+| Output | Interpretazione | Controllo dell'utente |
+| --- | --- | --- |
+| Dominio 3D | Capacità nello spazio N-Mx-My | Assi, segni e posizione della terna di azione |
+| Dominio 2D | Sezione del dominio per la scelta attiva | Non confonderla con ogni direzione possibile |
+| Tensioni e deformazioni | Risposta delle fibre e delle barre | Fibra compressa, regime e ipotesi costitutive |
+| Fessurazione | Risultato della combinazione SLE attiva | Azioni SLE, esposizione e parametri effettivi |
+| Taglio e torsione | Controlli dedicati della scheda | Staffe presenti, braccia resistenti e modello |
+
+Leggi il nome della combinazione e il metodo prima del colore o del rapporto. Un esito favorevole riguarda quel controllo con quegli input. Guarda anche la deformata di sezione e il bordo più sollecitato: un segno sbagliato può produrre un risultato plausibile ma riferito all'armatura opposta.
+
+### Warning e problemi frequenti
+
+> ATTENZIONE
+> La sezione non verifica da sola instabilità globale, dettagli del nodo, aderenza in ogni possibile giunto o azioni mai assegnate. I limiti delle schede e le funzioni predisposte restano quelli documentati nella guida teorica globale.
+
+Se il contorno non è valido controlla dimensioni, fori e geometria della T. Se le barre non sono dove previsto controlla copriferro netto, diametro staffa e diametro longitudinale. Se le azioni sembrano invertite confronta la terna degli assi e N negativo a compressione. Se un risultato SLE manca verifica che la famiglia abbia combinazioni assegnate. Se un ricalcolo non termina, conserva il file e annota messaggio, input e scheda, senza considerare corrente l'ultimo grafico disponibile.
+
+### Esempio completo dalla Wiki
+
+La trave appoggiata del capitolo Beam ha L = 8 m e q = 25 kN/m, assunto già come azione di progetto. Il momento massimo è qL²/8 = 200 kNm. Apri esempio crea una sezione rettangolare 600 × 800 mm, C35/45, B450C, con le armature iniziali sopra descritte e una sola terna plastica N = 0, Mx = 200 kNm, My = 0.
+
+1. Apri l'esempio e verifica geometria, copriferro e armature nel disegno.
+2. Controlla che la combinazione Wiki contenga esattamente la terna 0, 200, 0.
+3. Esegui l'analisi del dominio prevista dalla scheda e leggi il punto di domanda rispetto alla capacità.
+4. Modifica h mantenendo b e le azioni: confronta il dominio e la posizione delle armature.
+5. Inverti Mx e osserva il diverso ruolo dei due bordi armati.
+6. Salva il foglio con nome; assegna separatamente combinazioni di esercizio se vuoi studiare fessurazione o tensioni SLE.
+
+Il taglio di appoggio è 100 kN ma non è il taglio della stessa sezione di mezzeria a momento massimo. La Wiki non inserisce una terna simultanea artificiale di massimi provenienti da sezioni diverse. Per il controllo di taglio usa una sezione e una combinazione coerenti, inserendo i dati nella scheda dedicata.
+
+### Teoria collegata e riepilogo
+
+[Elementi Beam](/wiki/manuale/fem/elementi-beam) spiega come ottenere e trasferire le azioni. I capitoli Sezione in c.a. e Calcestruzzo armato della guida teorica descrivono i modelli costitutivi e i limiti del motore. Il comando Apri modulo nella Wiki raggiunge lo stesso strumento disponibile in Moduli singoli; Come funziona nella barra del modulo torna a questa guida.
+
+Il percorso completo richiede un modello globale plausibile, azioni coerenti, una sezione fisicamente realizzabile e verifiche appropriate ai diversi stati limite. Un esempio numerico aiuta a imparare il metodo; la verifica del progetto richiede i dati reali e tutti i meccanismi rilevanti.
+
+## Interpretazione dei risultati e controlli indipendenti
+
+Un risultato è utilizzabile quando sono chiari input, stato limite, metodo e combinazione. Comincia dal titolo della scheda e dagli avvisi, poi confronta il dato decisivo con un controllo semplice. La precisione delle cifre mostrate non misura la precisione del modello.
+
+### Dalla domanda alla capacità
+
+Un rapporto fra domanda e capacità ha significato solo se le due grandezze descrivono lo stesso meccanismo. Non confrontare un momento elastico, una capacità plastica e un limite di fessurazione come se fossero tre versioni dello stesso controllo. Un esito verde riguarda il controllo indicato nella scheda e non l'intera opera.
+
+### Controllo numerico e fisico
+
+Controlla unità e segni con un valore manuale. Per la trave appoggiata dell'esempio Beam, la somma delle reazioni è qL e il momento di mezzeria è qL²/8. Per una sezione osserva quale bordo è compresso. Per un problema geotecnico confronta quote, strati attraversati e verso dell'azione. Se il risultato cambia radicalmente per una piccola modifica, verifica se hai attraversato un limite fisico o una scelta discreta del modello.
+
+### Archiviazione
+
+Conserva il documento modificabile insieme al report e alla revisione degli input. Se un warning dichiara una parte fuori campo, documenta quale controllo aggiuntivo serve. Una tabella vuota o un risultato non aggiornato non costituiscono una verifica favorevole.
+
+## Tutorial dal modello Beam alla verifica di sezione
+
+Questo percorso unisce teoria, controllo manuale e utilizzo del software senza confondere analisi globale e verifica locale. Richiede circa venti minuti e usa solo strumenti presenti in Anthea.
+
+### Capisci e controlla
+
+Apri [Elementi Beam](/wiki/manuale/fem/elementi-beam#esempio-concettuale). Disegna la trave appoggiata, indica L = 8 m e q = 25 kN/m e calcola due reazioni da 100 kN e un momento di 200 kNm. Il carico è già assegnato come azione di progetto dell'esempio. Controlla separatamente che 25 kN/m equivalga a 25 N/mm.
+
+### Calcola e modifica
+
+Usa Apri esempio in Anthea. Nella Sezione in c.a. verifica la terna 0, 200, 0 e le dimensioni 600 × 800 mm. Leggi il dominio della combinazione attiva, poi modifica l'altezza e ripeti l'analisi. Conserva le azioni per isolare l'effetto della geometria. Inverti il segno del momento per osservare il ruolo delle armature superiori e inferiori.
+
+### Osserva e archivia
+
+Confronta i due risultati descrivendo quale ipotesi è cambiata e quale è rimasta assegnata. Non usare il controllo di resistenza per concludere sulla freccia o sulla fessurazione: richiedono analisi e combinazioni proprie. Salva il documento modificabile e annota il riferimento alla pagina Wiki. La [guida Sezione in c.a.](/wiki/guide/moduli/sezione-ca) descrive input, default e problemi frequenti.

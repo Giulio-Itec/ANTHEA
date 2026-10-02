@@ -121,9 +121,16 @@ def finalize(kind):
         start = next(i for i, line in enumerate(source_lines) if line.startswith('Edizione ')) + 1
         required = []
         formulas = []
+        formula_block = False
         for line in source_lines[start:]:
             line = line.strip()
+            if line.startswith('```'):
+                formula_block = line in ('```formula', '```math', '```latex') if not formula_block else False
+                continue
             if not line or line.startswith(('<!--', '```')):
+                continue
+            if formula_block:
+                formulas.append(line)
                 continue
             if line.startswith('##'):
                 required.append(re.sub(r'^\d+\s+(?:\d+\s+)?', '', line.lstrip('#').strip()))
@@ -136,11 +143,18 @@ def finalize(kind):
             elif line.startswith('!['):
                 required.append(re.fullmatch(r'!\[(.*?)\]\((.*?)\)', line).group(1))
             else:
+                formulas.extend(re.findall(r'\$([^$]+)\$', line))
                 required.append(B.display_text(line))
         missing = [t for t in required if t not in doc_text]
         assert not missing, missing
-        result_formulas = [''.join(n.xpath('.//m:t/text()', namespaces=NS)) for n in final.findall('.//m:oMath', NS)]
-        assert result_formulas == formulas, (len(result_formulas), len(formulas))
+        result_formulas = final.findall('.//m:oMath', NS)
+        expected_formulas = [B.office_math(f) for f in formulas]
+        assert len(result_formulas) == len(expected_formulas), (len(result_formulas), len(formulas))
+        # Word adds run properties; compare the mathematical tree, not its formatting.
+        def math_shape(node):
+            if E.QName(node).localname in ('rPr', 'ctrlPr'): return None
+            return [node.tag, sorted(node.attrib.items()), node.text, [v for child in node if (v := math_shape(child)) is not None]]
+        assert [math_shape(n) for n in result_formulas] == [math_shape(n) for n in expected_formulas], 'Struttura delle formule LaTeX alterata'
         for placeholder in ('lorem ipsum', 'CIG: 916', 'R.Vallarino', 'QUESTO FILE È UN MODELLO', 'Committente progetto'):
             assert placeholder not in doc_text
         headings = final.xpath('//w:p[w:pPr/w:pStyle[@w:val="Titolo1" or @w:val="Titolo2"]]', namespaces=NS)

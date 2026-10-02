@@ -7,6 +7,7 @@ namespace X.Desktop;
 internal sealed partial class BridgeWorkspace
 {
     private readonly TextBlock slabLayoutInfo = Ui.Text("", 11, color: Ui.Muted);
+    private TextBlock? steelHeightInfo;
     private InputForm? predalleForm;
 
     private UIElement BuildPredalleInputs()
@@ -31,5 +32,18 @@ internal sealed partial class BridgeWorkspace
             slabLayoutInfo.Text = (slab.HasPredalle ? $"Predalle: y = 0…{F(slab.PredalleThickness)} mm; getto sovrastante: {F(slab.Height - slab.PredalleThickness)} mm.\n" : "y = 0 all'intradosso della soletta.\n") + lower;
         }
         catch (ArgumentException ex) { slabLayoutInfo.Text = ex.Message; }
+    }
+
+    private void RefreshSteelHeight()
+    {
+        if (steelHeightInfo is null) return;
+        try
+        {
+            double clear = BridgeSection.ClearWebHeight(Data);
+            Data["h_web"] = clear.ToString("G17", System.Globalization.CultureInfo.InvariantCulture);
+            double second = Data.B("plate2") && Data.S("sezione", BridgeSection.SectionTypes[0]) == BridgeSection.SectionTypes[0] ? Data.D("t_bottom2") : 0;
+            steelHeightInfo.Text = $"H = {F(Data.D("h_trave"))} mm · h anima = H − t sup − t inf{(second > 0 ? " − t inf.2" : "")} = {F(clear)} mm.";
+        }
+        catch (ArgumentException ex) { steelHeightInfo.Text = ex.Message; }
     }
 }

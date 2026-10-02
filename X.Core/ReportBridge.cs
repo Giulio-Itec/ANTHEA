@@ -93,7 +93,8 @@ public static partial class ReportBridge
         {
             doc.H("Geometria e armature");
             doc.Table(["Componente", "Larghezza [mm]", "Altezza o spessore [mm]"], new[] {
-                new[] { "Soletta collaborante", F(g.Width), F(g.SlabHeight) }, new[] { "Anima libera", F(g.WebThickness), F(g.WebHeight) },
+                new[] { "Soletta collaborante", F(g.Width), F(g.SlabHeight) }, new[] { "Trave d'acciaio totale H", "—", F(g.Height) },
+                new[] { "Anima libera ricavata", F(g.WebThickness), F(g.WebHeight) },
                 new[] { "Piattabanda superiore", F(g.TopWidth), F(g.TopThickness) }, new[] { "Piattabanda inferiore 1", F(g.Bottom1Width), F(g.Bottom1Thickness) },
                 new[] { "Piattabanda inferiore 2", g.Bottom2Thickness > 0 ? F(g.Bottom2Width) : "Assente", g.Bottom2Thickness > 0 ? F(g.Bottom2Thickness) : "—" },
                 new[] { "Piattabanda inferiore equivalente (solo confronto)", F(g.BottomEquivalentWidth), F(g.BottomEquivalentThickness) } }, [2.4, 1.3, 1.7]);

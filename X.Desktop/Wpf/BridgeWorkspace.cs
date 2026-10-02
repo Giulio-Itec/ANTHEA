@@ -107,8 +107,11 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         var slab = Form(Data, [new("b_cls", "Larghezza collaborante", "mm", Symbol: "b_eff"), new("h_cls", "Spessore totale soletta", "mm")]);
         slab.Editors["h_cls"].ToolTip = "Spessore complessivo, predalle inclusa. La predalle non aumenta questa dimensione.";
         var predalle = BuildPredalleInputs();
-        var steel = Form(Data, [new("h_web", "Altezza libera anima", "mm"), new("t_web", "Spessore anima", "mm"),
-            new("b_top", "Larghezza superiore", "mm"), new("t_top", "Spessore superiore", "mm"), new("b_bottom", "Larghezza inferiore 1", "mm"), new("t_bottom", "Spessore inferiore 1", "mm")]);
+        var steel = Form(Data, [new("h_trave", "Altezza totale H trave", "mm"), new("t_web", "Spessore anima", "mm"),
+            new("b_top", "Larghezza superiore", "mm"), new("t_top", "Spessore superiore", "mm"), new("b_bottom", "Larghezza inferiore 1", "mm"), new("t_bottom", "Spessore inferiore 1", "mm")],
+            _ => RefreshSteelHeight());
+        steel.Editors["h_trave"].ToolTip = "Altezza esterna totale della trave d'acciaio H, fra le facce esterne delle piattabande. Il programma ricava l'altezza libera sottraendo gli spessori delle piattabande.";
+        steelHeightInfo = Ui.Text("", 11, color: Ui.Muted);
         InputForm? plate = null, sectionType = null;
         TextBlock? plateNote = null;
         // the type of section: the offset of the webs for the inclined web and the box, the spacing of the webs and no second plate for the box
@@ -123,17 +126,17 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             if (boxInputs is not null) boxInputs.Visibility = kind == BridgeSection.SectionTypes[2] ? Visibility.Visible : Visibility.Collapsed;
         }
         sectionType = Form(Data, [new("sezione", "Tipo di sezione", Choices: BridgeSection.SectionTypes), new("offset_anima", "Scostamento anima al piede", "mm"),
-            new("interasse_anime", "Interasse anime in sommità", "mm")], key => { ShowSectionFields(); if (key == "sezione") Dispatcher.BeginInvoke(BuildPhases); });
+            new("interasse_anime", "Interasse anime in sommità", "mm")], key => { ShowSectionFields(); RefreshSteelHeight(); if (key == "sezione") Dispatcher.BeginInvoke(BuildPhases); });
         plate = Form(Data, [new("plate2", "Seconda piattabanda inferiore", Bool: true), new("b_bottom2", "Larghezza inferiore 2", "mm"), new("t_bottom2", "Spessore inferiore 2", "mm")],
-            _ => { plate?.ShowField("b_bottom2", Data.B("plate2")); plate?.ShowField("t_bottom2", Data.B("plate2")); });
+            _ => { plate?.ShowField("b_bottom2", Data.B("plate2")); plate?.ShowField("t_bottom2", Data.B("plate2")); RefreshSteelHeight(); });
         plate.ShowField("b_bottom2", Data.B("plate2")); plate.ShowField("t_bottom2", Data.B("plate2"));
         plateNote = Ui.Text("Piastra 2 centrata sotto la piastra 1. Nel calcolo: t_eq = t₁ + t₂; b_eq = (b₁t₁ + b₂t₂) / t_eq. La vista mantiene i due rettangoli reali.", 11, color: Ui.Muted);
         ShowSectionFields();
         var geometry = Ui.Stack(Block("Soletta", slab, "b_eff già comprensiva della larghezza collaborante adottata."), Block("Predalle · geometria", predalle), Block("Tipo di sezione", sectionType,
             "Anima inclinata: scostamento orizzontale del piede dell'anima rispetto alla sommità (positivo verso destra). Cassoncino: due anime simmetriche, larghezza superiore di " +
             "ciascuna piattabanda, larghezza inferiore dell'intero fondo; lo scostamento è il rientro di ciascuna anima al piede (interasse al piede = interasse − 2 × scostamento). " +
-            "Spessore anima normale alla lamiera, altezza libera verticale. Flessione retta: N–Mx con anima verticale equivalente tw/cos α, verifiche locali sulle lamiere reali."),
-            Block("Carpenteria saldata", steel), plate, plateNote);
+            "Altezza totale H misurata fuori tutto. Il programma ricava h anima = H − t sup − t inf; con la seconda piattabanda inferiore attiva sottrae anche il relativo spessore. Per l'anima inclinata h anima è la distanza verticale libera. Lo spessore anima è normale alla lamiera. Flessione retta: N–Mx con anima verticale equivalente tw/cos α, verifiche locali sulle lamiere reali."),
+            Block("Carpenteria saldata", Ui.Stack(steel, steelHeightInfo)), plate, plateNote);
         var reinforcement = new StackPanel();
         foreach (string side in new[] { "top", "bottom" })
         {
@@ -232,6 +235,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
     }
     private void RefreshPreview()
     {
+        RefreshSteelHeight();
         RefreshSlabLayout();
         try
         {
@@ -308,6 +312,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             new[] { "Area carpenteria efficace", F(stage.EffectiveSteel.Area), "mm²" }, new[] { "Aeff / Alorda", F(stage.EffectiveSteel.Area / g.SteelArea), "—" },
             new[] { "Baricentro carpenteria efficace", F(stage.EffectiveSteel.Centroid), "mm" }, new[] { "Spostamento baricentro efficace − lordo", F(stage.EffectiveSteel.Centroid - g.SteelCentroid), "mm" },
             new[] { "Ix carpenteria efficace", E(stage.EffectiveSteel.Inertia), "mm⁴" }, new[] { "Ieff / Ilorda", F(stage.EffectiveSteel.Inertia / g.SteelInertia), "—" },
+            new[] { "Altezza totale trave H", F(g.Height), "mm" }, new[] { "Altezza libera anima ricavata", F(g.WebHeight), "mm" },
             new[] { "Anima inefficace · limite inferiore y", F(-g.TopThickness - g.WebHeight + stage.Effective.WebBottom), "mm" },
             new[] { "Anima inefficace · limite superiore y", F(-g.TopThickness - stage.Effective.WebTop), "mm" },
             new[] { "Piattabanda inferiore · b equivalente (solo confronto)", F(g.BottomEquivalentWidth), "mm" }, new[] { "Piattabanda inferiore · t equivalente (solo confronto)", F(g.BottomEquivalentThickness), "mm" },

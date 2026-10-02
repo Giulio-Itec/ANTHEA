@@ -1,15 +1,10 @@
-# ANTHEA — Indice della guida globale
+# ANTHEA Indice delle guide globali
 
-ITEC Engineering · Revisione 08 · 2 ottobre 2026
+ITEC Engineering · Revisione 10 · 2 ottobre 2026
 
-Un manuale globale articolato in due volumi, consultabili offline dal menu Start → ANTHEA.
+Due volumi globali consultabili anche nella Wiki integrata. La Wiki collega teoria, guide operative ed esempi nei moduli disponibili. Le appendici storiche mantengono data e campo di validità.
 
-- **Guida pratica ANTHEA.pdf**: uso, UI, procedure, dati, risultati e relazioni di tutti i moduli.
-- **Guida teorica ANTHEA.pdf**: modelli, formule, ipotesi, limiti e approfondimenti di tutti i moduli.
-
-Sono inclusi materiali e durabilità, progetti e revisioni, pali e micropali verticali e orizzontali, Broms e metodo stratificato, sezioni CA, sezioni composte, connessioni e appoggi, Bridge Design, muri di sostegno e stabilità globale. Le appendici tecniche conservano audit e studi datati, distinguendoli dalle istruzioni correnti.
-
-## Volume pratica: capitoli e approfondimenti
+## Guida pratica ANTHEA
 
 - 1 Avvio e scelta del modulo
 - 2 Progetti e gestione del lavoro
@@ -31,8 +26,12 @@ Sono inclusi materiali e durabilità, progetti e revisioni, pali e micropali ver
 - PRATICA A04 — Progetti e revisioni
 - PRATICA A05 — Stabilità globale: guida rapida
 - PRATICA A06 — Guida pratica di Bridge Design
+- Wiki e centro della conoscenza
+- Modulo Sezione in c.a.
+- Interpretazione dei risultati e controlli indipendenti
+- Tutorial dal modello Beam alla verifica di sezione
 
-## Volume teorica: capitoli e approfondimenti
+## Guida teorica ANTHEA
 
 - 1 Architettura del calcolo e convenzioni
 - 2 Calcestruzzo armature e copriferro
@@ -76,3 +75,11 @@ Sono inclusi materiali e durabilità, progetti e revisioni, pali e micropali ver
 - TEORICA A27 — Unificazione dei calcoli e controllo dei progetti
 - TEORICA A28 — Validazione della separazione della libreria di calcolo
 - TEORICA A29 — Teoria e validazione di Bridge Design
+- Elementi Beam
+- Elementi Shell
+- Releases e connettività
+- Instabilità delle aste compresse
+- Fondamenti del percorso dei carichi
+- Azioni e combinazioni del modello
+- Dinamica e sisma del modello
+- Fasi costruttive e percorso dei carichi

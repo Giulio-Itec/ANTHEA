@@ -7,6 +7,7 @@ internal static class CalculationHelpView
 {
     internal static void Show(FrameworkElement owner, bool pile)
     {
+        if (Window.GetWindow(owner) is MainWindow main) { main.Safe(main.ShowContextualWikiTheory); return; }
         var text = new TextBox { Text = (pile ? CalculationHelp.PileTheory : CalculationHelp.ConcreteTheory) + "\n\nDATI DEL PROGETTO\n\n" + CalculationHelp.ProjectTheory,
             IsReadOnly = true, TextWrapping = TextWrapping.Wrap, FontSize = 14, BorderThickness = new Thickness(0), Padding = new Thickness(20),
             VerticalScrollBarVisibility = ScrollBarVisibility.Auto };

@@ -20,14 +20,15 @@ public static partial class ProjectSharedData
     {
         if (module != BridgeSection.Module) return;
         var defaults = BridgeSection.Defaults();
+        var migrated = (JsonObject)data.DeepClone(); BridgeSection.EnsureAccessoryDefaults(migrated);
         void Add(string group, params string[] keys)
         {
             foreach (string key in keys)
-                fields[BridgePrefix + key] = new(BridgePrefix + key, group, key, (data[key] ?? defaults[key])?.DeepClone());
+                fields[BridgePrefix + key] = new(BridgePrefix + key, group, key, (data[key] ?? migrated[key] ?? defaults[key])?.DeepClone());
         }
         // The bridge catalog is distinct from ordinary RC/custom material laws: do not infer conversions.
         Add("Materiali", "classe_cls", "acciaio", "armatura", "fy_override", "fy");
-        Add("Geometria", "b_cls", "h_cls", "h_web", "t_web", "b_top", "t_top", "b_bottom", "t_bottom",
+        Add("Geometria", "b_cls", "h_cls", "h_trave", "t_web", "b_top", "t_top", "b_bottom", "t_bottom",
             "plate2", "b_bottom2", "t_bottom2", "predalle", "h_predalle", "rif_ferri_inf");
         Add("Armatura", "rebars_top", "d_top", "pitch_top", "cover_top", "rebars_bottom", "d_bottom", "pitch_bottom", "cover_bottom");
     }
@@ -57,7 +58,7 @@ public static partial class ProjectSharedData
         "predalle" => "Predalle presente · solo geometria",
         "h_predalle" => "Spessore predalle [mm]",
         "rif_ferri_inf" => "Riferimento ferri inferiori",
-        "h_web" => "Altezza anima [mm]",
+        "h_trave" => "Altezza totale H trave [mm]",
         "t_web" => "Spessore anima [mm]",
         "b_top" => "Larghezza piattabanda superiore [mm]",
         "t_top" => "Spessore piattabanda superiore [mm]",

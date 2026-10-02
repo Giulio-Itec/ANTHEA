@@ -10,6 +10,9 @@ from zipfile import ZipFile, ZIP_DEFLATED
 import json
 import re
 import shutil
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent / 'wiki'))
+from latex_omml import office_math
 
 from lxml import etree as E
 from docx import Document
@@ -21,12 +24,12 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[2]
-REVISION = '08'
+REVISION = '10'
 # edition data of the revision: date, contents and description in the revision table of the cover
 DATE = '02/10/2026'
 CONTENTS = '2 ottobre 2026'
 CONTENTS_ISO = '2026-10-02'
-REVISION_NOTE = 'GUIDE GLOBALI UNIFICATE'
+REVISION_NOTE = 'FORMULE LATEX E REVISIONE EDITORIALE WIKI'
 ART = ROOT / f'supporto/artefatti/guide_anthea_itec_rev{REVISION}'
 OUT = ROOT / 'supporto/documentazione/Guide_ANTHEA'
 TEMPLATE = Path('C:/Users/g.pacini/Desktop/MODELLO-RELAZIONE-ITEC-AA.docx')
@@ -39,12 +42,17 @@ GUIDES = {
 }
 
 def display_text(value):
+    if value.startswith('> '): value = value[2:]
     value = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1 (\2)', value)
+    value = re.sub(r'\$([^$]+)\$', lambda m: ''.join(office_math(m[1]).itertext()), value)
     return value.replace('**', '').replace('`', '')
 
 def add_inline(paragraph, value):
     value = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1 (\2)', value)
-    for token in re.split(r'(\*\*.*?\*\*|`[^`]*`)', value):
+    for token in re.split(r'(\*\*.*?\*\*|`[^`]*`|\$[^$]+\$)', value):
+        if token.startswith('$') and token.endswith('$'):
+            paragraph._p.append(office_math(token[1:-1]))
+            continue
         bold = len(token) >= 4 and token.startswith('**') and token.endswith('**')
         mono = len(token) >= 2 and token.startswith('`') and token.endswith('`')
         run = paragraph.add_run(token[2:-2] if bold else token[1:-1] if mono else token.replace('**', '').replace('`', ''))
@@ -215,6 +223,7 @@ def build(kind):
     # is preserved, including the opening context preceding chapter one.
     start = next(i for i, line in enumerate(lines) if line.startswith('Edizione ')) + 1
     i = start
+    formula_block = False
     while i < len(lines):
         line = lines[i].strip()
         i += 1
@@ -224,7 +233,10 @@ def build(kind):
             if line == '<!-- pagebreak -->': doc.add_page_break()
             continue
         if line.startswith('```'):
+            formula_block = line in ('```formula', '```math', '```latex') if not formula_block else False
             continue
+        if formula_block:
+            line = '$$ ' + line
         if line.startswith('## ') or line.startswith('### '):
             level = 2 if line.startswith('### ') else 1
             text = re.sub(r'^\d+\s+(?:\d+\s+)?', '', line[level + 2:])
@@ -245,24 +257,8 @@ def build(kind):
             p.paragraph_format.left_indent = Cm(.45)
             p.paragraph_format.space_before = Pt(3)
             p.paragraph_format.space_after = Pt(4)
-            p.paragraph_format.keep_with_next = i < len(lines) and lines[i].startswith('$$ ')
-            math = OxmlElement('m:oMath')
-            r = OxmlElement('m:r')
-            props = OxmlElement('m:rPr')
-            style = OxmlElement('m:sty')
-            style.set(qn('m:val'), 'p')
-            props.append(style)
-            r.append(props)
-            wprops = OxmlElement('w:rPr')
-            size = OxmlElement('w:sz')
-            size.set(qn('w:val'), '21')
-            wprops.append(size)
-            r.append(wprops)
-            t = OxmlElement('m:t')
-            t.set(qn('xml:space'), 'preserve')
-            t.text = line[3:]
-            r.append(t)
-            math.append(r)
+            p.paragraph_format.keep_with_next = formula_block or i < len(lines) and lines[i].startswith('$$ ')
+            math = office_math(line[3:])
             p._p.append(math)
         elif line.startswith('!['):
             match = re.fullmatch(r'!\[(.*?)\]\((.*?)\)', line)
@@ -272,6 +268,9 @@ def build(kind):
             pic._inline.docPr.set('descr', match.group(1))
             doc.add_paragraph(match.group(1), style='Caption')
         else:
+            if line.startswith('> '):
+                line = line[2:]
+                p.paragraph_format.keep_with_next = True
             if re.match(r'^\d+\. ', line):
                 p.paragraph_format.left_indent = Cm(.5)
                 p.paragraph_format.first_line_indent = Cm(-.5)

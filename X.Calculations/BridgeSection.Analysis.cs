@@ -9,13 +9,15 @@ public static partial class BridgeSection
     {
         var input = ToCheckerInput(data);
         string method = data.S("metodo_analisi", CalculationMethods[0]);
+        if (method == LegacyCumulativeMethod) method = CumulativeLinearMethod;
         if (!CalculationMethods.Contains(method)) throw new ArgumentException("Metodo di analisi sconosciuto.");
         var result = method == CalculationMethods[0] ? HBridgeSection.Calculate(input, cancellation) :
             HBridgeHistoryResults.Calculate(method == CalculationMethods[2] ? input with { Options = input.Options with { Class4 = false } } : input,
                 HistoryOptions(data), cancellation);
-        return new(result.Method, result.Scope, (JsonObject)data.DeepClone(), result.Geometry, result.Materials, result.Stages);
+        return new(method, result.Scope, (JsonObject)data.DeepClone(), result.Geometry, result.Materials, result.Stages);
     }
-    public static readonly string[] CalculationMethods = ["Cumulativo · metodo precedente", "Storico lineare", "Storico non lineare"];
+    public const string LegacyCumulativeMethod = "Cumulativo · metodo precedente", CumulativeLinearMethod = "Cumulativo lineare";
+    public static readonly string[] CalculationMethods = [CumulativeLinearMethod, "Storico lineare", "Storico non lineare"];
     public static readonly string[] NonlinearCreepModes = ["Istantaneo · φ = 0 nel calcolo", "Richiedi φ = 0 negli ingressi"];
     public static bool IsNonlinear(JsonObject data) => data.S("metodo_analisi") == CalculationMethods[2];
     public static bool IsHistory(JsonObject data) => data.S("metodo_analisi", CalculationMethods[0]) != CalculationMethods[0];

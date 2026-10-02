@@ -3,6 +3,10 @@
 Applicazione desktop Windows per strumenti di calcolo strutturale e geotecnico.
 L'interfaccia è **WPF su .NET 8**; il motore di calcolo e gli archivi sono indipendenti dalla presentazione.
 
+La navigazione principale comprende **Progetti, Moduli singoli e Wiki**. La Wiki integra il manuale di ingegneria e le guide operative, con ricerca comune, glossario, indice di pagina, progresso locale e collegamenti ai moduli. L'esempio Beam apre la Sezione in c.a. con i dati assegnati; gli aiuti contestuali raggiungono sezioni specifiche.
+
+I contenuti provengono dalle sole due guide globali in `supporto/docs`. Dopo una modifica editoriale, eseguire `supporto/scripts/wiki/build-wiki-index.py` con Python: aggiorna metadata, indice di ricerca, riferimenti alle figure e hash dei sorgenti. La build rifiuta indici obsoleti. I metadata editoriali in `X.Desktop/Wiki/editorial.json` assegnano esplicitamente categorie, route stabili, correlati, sinonimi, moduli ed esempi; le chiavi distinguono guide e teoria, anche quando i capitoli hanno lo stesso titolo; i corpi dei capitoli vengono letti su richiesta. Ogni esempio è un file separato in `X.Desktop/Wiki/Examples`: parte dai default del modulo, applica i propri input e sostituisce integralmente le combinazioni assegnate, passando dalla validazione del catalogo. I controlli WPF senza finestre si eseguono con `dotnet X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll --check-wiki-offscreen supporto/artefatti/wiki`. Per un collegamento diretto usare `ANTHEA.exe --wiki /wiki/manuale/fem/elementi-beam`.
+
 ## Avvio e compilazione
 
 È necessario un SDK .NET 8 o successivo con supporto desktop Windows; per eseguire
@@ -216,3 +220,5 @@ L'indicatore accanto al gruppo apre il confronto dei valori e consente di rialli
 Il CLS è collegato tra Materiali, sezioni in c.a. e pali orizzontali. Geometrie circolari compatibili scambiano il diametro convertendo metri e millimetri. Forme incompatibili non vengono convertite. L'armatura parametrica ordinaria è condivisa tra moduli compatibili; barre manuali e trefoli vengono condivisi tra fogli di sezione in c.a. Un fck personalizzato non rappresentabile nella scheda Materiali resta segnalato come differenza. I fogli aggiornati usano i nuovi dati e ricalcolano alla riapertura, senza riutilizzare risultati di un precedente editor.
 
 Verifiche: ANTHEA.exe --smoke-sharing <cartella-output>.
+
+Le formule Wiki usano blocchi Markdown `math` con sorgente LaTeX e formule inline fra `$`. WPF-Math 2.1.0 compone le equazioni nell’interfaccia; il comando Copia LaTeX restituisce il sorgente. La generazione Word usa latex2mathml 3.81.1 (MIT, copia in `supporto/scripts/wiki/vendor`) e la trasformazione MathML di Office per ottenere equazioni native editabili, mantenute anche nei PDF.

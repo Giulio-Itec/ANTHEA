@@ -67,7 +67,7 @@ public sealed partial class MainWindow : Window
         dashboard.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(250) }); dashboard.ColumnDefinitions.Add(new ColumnDefinition());
         var nav = new StackPanel { Margin = new Thickness(20, 22, 20, 22) }; var logo = Ui.Logo(150); logo.Margin = new Thickness(0, 0, 0, 16); nav.Children.Add(logo);
         nav.Children.Add(Ui.Text("Strumenti di calcolo", color: Ui.Muted));
-        foreach (var (title, action) in new (string, Action)[] { ("Home", ShowHome), ("Moduli singoli", () => ShowModules()), ("Progetti", ShowProjects) })
+        foreach (var (title, action) in new (string, Action)[] { ("Home", ShowHome), ("Progetti", ShowProjects), ("Moduli singoli", () => ShowModules()), ("Wiki", () => ShowWiki()) })
         {
             var b = Ui.Button(title, () => Safe(() => { Commit(); action(); })); b.Height = 45; b.HorizontalContentAlignment = HorizontalAlignment.Left; b.FontWeight = FontWeights.SemiBold; nav.Children.Add(b); navigation[title] = b;
         }
@@ -78,6 +78,8 @@ public sealed partial class MainWindow : Window
         var back = backToOverview = CommandButton("← Torna ad ANTHEA", () => Safe(() => { Commit(); if (document.S("tipo") == "progetti") ShowProjects(); else ShowHome(); })); back.Width = 200; top.Children.Add(back); top.Children.Add(FileCommands(true));
         confirmShared = CommandButton("Conferma modifiche", () => Safe(Commit)); confirmShared.Visibility = Visibility.Collapsed; top.Children.Add(confirmShared);
         top.Children.Add(sheetProjectActions);
+        wikiHelp = CommandButton("Come funziona?", () => Safe(() => { if (editor is not null && WikiCatalog.ForModule(editor.Module) is { } guide) ShowWiki(guide.Id); }));
+        wikiHelp.ToolTip = "Apri la guida del modulo nella Wiki"; top.Children.Add(wikiHelp);
         var titles = Ui.Stack(heading, Ui.Text("Scheda di calcolo · input, profilo e risultati", 12, color: Ui.Brush("#B9C8D8"))); titles.Margin = new Thickness(15, 10, 0, 0); top.Children.Add(titles);
         DockPanel.SetDock(top, System.Windows.Controls.Dock.Top); moduleView.Children.Add(top); DockPanel.SetDock(sharedStatus, Dock.Top); moduleView.Children.Add(sharedStatus); moduleView.Children.Add(sheetContent);
     }
@@ -105,17 +107,25 @@ public sealed partial class MainWindow : Window
     {
         ExitRevisionPreview();
         projectContent.Content = null;
-        dashboardBody.Content = null; body.Content = dashboardViewport;
+        dashboardBody.Margin = new Thickness(42, 24, 42, 36);
+        dashboardBody.Content = null;
+        if (dashboardViewport.Content is null)
+        {
+            body.Content = null; dashboardViewport.Content = dashboard;
+            dashboard.Width = Math.Max(1120, dashboardViewport.ViewportWidth);
+            dashboard.Height = Math.Max(680, dashboardViewport.ViewportHeight);
+        }
+        body.Content = dashboardViewport;
         foreach (var (key, b) in navigation) { b.Background = key == name ? Ui.Navy : Brushes.White; b.Foreground = key == name ? Brushes.White : Ui.Navy; }
     }
     private void ShowHome()
     {
         SelectNavigation("Home"); var layout = new Grid(); layout.RowDefinitions.Add(new RowDefinition { Height = new GridLength(250) }); layout.RowDefinitions.Add(new RowDefinition());
         var hero = new DockPanel { Background = Ui.Navy, Margin = new Thickness(0, 0, 0, 10) }; var logo = Ui.Logo(220); logo.Margin = new Thickness(24, 8, 20, 8); hero.Children.Add(logo);
-        var copy = Ui.Stack(Ui.Text("Strumenti di calcolo per l'ingegneria", 30, true, Brushes.White), Ui.Text("Apri un modulo indipendente oppure organizza più verifiche all'interno di un progetto.", 15, color: Ui.Brush("#B9C8D8"))); copy.VerticalAlignment = VerticalAlignment.Center; copy.Margin = new Thickness(20); hero.Children.Add(copy); layout.Children.Add(hero);
+        var copy = Ui.Stack(Ui.Text("Strumenti di calcolo per l'ingegneria", 30, true, Brushes.White), Ui.Text("Organizza i progetti, apri un modulo o approfondisci teoria ed esempi nella Wiki.", 15, color: Ui.Brush("#B9C8D8"))); copy.VerticalAlignment = VerticalAlignment.Center; copy.Margin = new Thickness(20); hero.Children.Add(copy); layout.Children.Add(hero);
         if (editor is not null && currentSheet is not null)
             copy.Children.Add(Ui.Button("Riprendi · " + currentSheet.S("nome", ModuleName(editor.Module)), () => ResumeCalculation(), true));
-        var cards = new Grid { Margin = new Thickness(0, 10, 0, 0) }; cards.ColumnDefinitions.Add(new ColumnDefinition()); cards.ColumnDefinitions.Add(new ColumnDefinition()); Grid.SetRow(cards, 1); layout.Children.Add(cards);
+        var cards = new Grid { Margin = new Thickness(0, 10, 0, 0) }; cards.ColumnDefinitions.Add(new ColumnDefinition()); cards.ColumnDefinitions.Add(new ColumnDefinition()); cards.ColumnDefinitions.Add(new ColumnDefinition()); Grid.SetRow(cards, 1); layout.Children.Add(cards);
         void Card(int col, string title, string description, string badge, string button, Action action)
         {
             var t = Ui.Text(title, 30, true); t.Margin = new Thickness(0, 0, 0, 24); var d = Ui.Text(description, 16, color: Ui.Muted); d.Margin = new Thickness(0, 0, 0, 25);
@@ -123,7 +133,8 @@ public sealed partial class MainWindow : Window
             var pane = Ui.Paper(Ui.Dock(Ui.Stack(t, d, Ui.Text(badge, 13, true)), bottom: b), 34); pane.Margin = new Thickness(col == 0 ? 0 : 12, 0, col == 0 ? 12 : 0, 0); Grid.SetColumn(pane, col); cards.Children.Add(pane);
         }
         Card(0, "Moduli singoli", "Usa un modulo direttamente, senza creare un progetto.", $"{Archivio.Moduli.Length} moduli disponibili", "Apri i moduli", () => ShowModules());
-        Card(1, "Progetti", "Raggruppa i fogli per opera, spalla, pila o altra struttura.", "Struttura gerarchica libera", "Gestisci i progetti", ShowProjects); dashboardBody.Content = layout;
+        Card(1, "Progetti", "Raggruppa i fogli per opera, spalla, pila o altra struttura.", "Struttura gerarchica libera", "Gestisci i progetti", ShowProjects);
+        Card(2, "Wiki", "Comprendi il comportamento, consulta le guide e prova gli esempi nei moduli.", "Manuale di ingegneria · Guide Anthea", "Esplora la Wiki", () => ShowWiki()); dashboardBody.Content = layout;
     }
     private void ShowModules(string discipline = "Tutti")
     {
@@ -190,6 +201,7 @@ public sealed partial class MainWindow : Window
         sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or RetainingWall.Module or "mat_calcestruzzo" or RebarMaterial.Module or BridgeSection.Module or BridgeConcept.Module
             ? editor : DisplayAdaptation.Viewport(editor, 1120, 600);
         heading.Text = SheetHeading(sheet); UpdateBackButton();
+        wikiHelp.Visibility = WikiCatalog.ForModule(module) is null ? Visibility.Collapsed : Visibility.Visible;
     }
     private void RefreshTree(JsonObject? selected = null)
     {

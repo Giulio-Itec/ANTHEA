@@ -1,0 +1,177 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\docs\\guida-pratica-anthea.md",
+    "motivo": "Edizione precedente alla Wiki Rev09",
+    "sostituzione": "Guide globali Rev09 del 2 ottobre 2026",
+    "sha256": "f0f216a720b1a0cc7d26d4150f75d91d2f1a8f618d048854a07bd78198f8e65e"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Edizione precedente alla Wiki Rev09",
+    "sostituzione": "Guide globali Rev09 del 2 ottobre 2026",
+    "sha256": "545997f315202dbf2595d748393da56204c3c4acd589e686fb08f6c6778be182"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\docs\\guida-teorica-anthea.md",
+    "motivo": "Edizione precedente alla Wiki Rev09",
+    "sostituzione": "Guide globali Rev09 del 2 ottobre 2026",
+    "sha256": "c0719334305e0bf49769eef35a29dce2da70a9394354f9bc5fd9108050f8793b"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Edizione precedente alla Wiki Rev09",
+    "sostituzione": "Guide globali Rev09 del 2 ottobre 2026",
+    "sha256": "a0172f51cb5960591bf8e25ad38015f1b6d1fb0b86be6012a0666d87d9aea075"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev08.docx",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev08.docx",
+    "motivo": "Edizione precedente alla Wiki Rev09",
+    "sostituzione": "Guide globali Rev09 del 2 ottobre 2026",
+    "sha256": "4810280ef06c84ca6422512209dff1c1c652f5803478f862101c3afc02d5f247"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev08.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev08.pdf",
+    "motivo": "Edizione precedente alla Wiki Rev09",
+    "sostituzione": "Guide globali Rev09 del 2 ottobre 2026",
+    "sha256": "545997f315202dbf2595d748393da56204c3c4acd589e686fb08f6c6778be182"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev08.docx",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev08.docx",
+    "motivo": "Edizione precedente alla Wiki Rev09",
+    "sostituzione": "Guide globali Rev09 del 2 ottobre 2026",
+    "sha256": "2ae88e9eb7415e81a14adfc70eb3676a6a28d9c407c9d168fb0c6d849bf9b699"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev08.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev08.pdf",
+    "motivo": "Edizione precedente alla Wiki Rev09",
+    "sostituzione": "Guide globali Rev09 del 2 ottobre 2026",
+    "sha256": "a0172f51cb5960591bf8e25ad38015f1b6d1fb0b86be6012a0666d87d9aea075"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\README.md",
+    "motivo": "Edizione precedente alla Wiki Rev09",
+    "sostituzione": "Guide globali Rev09 del 2 ottobre 2026",
+    "sha256": "cd744b750d2b0aaf66aed1892db7a527dee8743b285b4ac683a338689cab98bf"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\README.pdf",
+    "motivo": "Edizione precedente alla Wiki Rev09",
+    "sostituzione": "Guide globali Rev09 del 2 ottobre 2026",
+    "sha256": "6cbf50875d3dba8a93f361c23ab9c10e194e55386b29d62a3e5222924b5e2766"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\installer\\Indice-guide.md",
+    "motivo": "Edizione precedente alla Wiki Rev09",
+    "sostituzione": "Guide globali Rev09 del 2 ottobre 2026",
+    "sha256": "b473986e77161eada8ce5ff2e7001c0d19c0075fb6d161674e56ece8c8a36f05"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\installer\\Indice-guide.pdf",
+    "motivo": "Edizione precedente alla Wiki Rev09",
+    "sostituzione": "Guide globali Rev09 del 2 ottobre 2026",
+    "sha256": "93445596070d1721b43e429beadd775850b3b4fa01f77873e768e3b1a594cd75"
+  },
+  {
+    "origine": "supporto\\installer\\README.md",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\installer\\README.md",
+    "motivo": "Edizione precedente alla Wiki Rev09",
+    "sostituzione": "Guide globali Rev09 del 2 ottobre 2026",
+    "sha256": "5a5f8c14535ed5904a11c0330c0787a3587733e7dc55d25a9e8a050c37a9c0b2"
+  },
+  {
+    "origine": "supporto\\installer\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\installer\\README.pdf",
+    "motivo": "Edizione precedente alla Wiki Rev09",
+    "sostituzione": "Guide globali Rev09 del 2 ottobre 2026",
+    "sha256": "7b86246939700eddec3f956bb93672be6a09e34909e1c1b17286d4b1554b42f9"
+  },
+  {
+    "origine": "supporto\\artefatti\\guide_anthea_itec_rev03\\interfaccia\\sezione_anima_inclinata.png",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\artefatti\\guide_anthea_itec_rev03\\interfaccia\\sezione_anima_inclinata.png",
+    "motivo": "Figura necessaria alla consultazione della precedente edizione; originale ancora in uso",
+    "sostituzione": "Guide Rev09",
+    "sha256": "74ecad3be9ea091e80d576b48e5a8879f350db826a731b995e21b98848468ad3"
+  },
+  {
+    "origine": "supporto\\artefatti\\guide_anthea_itec_rev03\\interfaccia\\sezione_cassoncino.png",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\artefatti\\guide_anthea_itec_rev03\\interfaccia\\sezione_cassoncino.png",
+    "motivo": "Figura necessaria alla consultazione della precedente edizione; originale ancora in uso",
+    "sostituzione": "Guide Rev09",
+    "sha256": "890238f72fad2f1e73810dca13400b98e62fd78652ea5ab309c667dfa66168b0"
+  },
+  {
+    "origine": "supporto\\artefatti\\guide_anthea_itec_rev04\\interfaccia\\cassoncino_torsione_ingressi.png",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\artefatti\\guide_anthea_itec_rev04\\interfaccia\\cassoncino_torsione_ingressi.png",
+    "motivo": "Figura necessaria alla consultazione della precedente edizione; originale ancora in uso",
+    "sostituzione": "Guide Rev09",
+    "sha256": "0e6dd4c3c031b409389f3eeecec546ab98c19ebe763080b5f63fc485038d9ead"
+  },
+  {
+    "origine": "supporto\\artefatti\\guide_anthea_itec_rev04\\interfaccia\\cassoncino_torsione_risultati.png",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\artefatti\\guide_anthea_itec_rev04\\interfaccia\\cassoncino_torsione_risultati.png",
+    "motivo": "Figura necessaria alla consultazione della precedente edizione; originale ancora in uso",
+    "sostituzione": "Guide Rev09",
+    "sha256": "45d8a850a58ee714c374c6ca9a7bc77f6c4811a7cb5aee08aa0d1feba0d84a2d"
+  },
+  {
+    "origine": "supporto\\artefatti\\bridge_design\\interfaccia_v2\\bridge_design_1600.png",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\artefatti\\bridge_design\\interfaccia_v2\\bridge_design_1600.png",
+    "motivo": "Figura necessaria alla consultazione della precedente edizione; originale ancora in uso",
+    "sostituzione": "Guide Rev09",
+    "sha256": "f24ea97a6a1855905e0aa086af7d926c8739f2e91755972c7be1ad0d877e92e3"
+  },
+  {
+    "origine": "supporto\\artefatti\\globale-guidata-20260930\\offscreen-rilascio\\esempio-stratificato-profilo.png",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\artefatti\\globale-guidata-20260930\\offscreen-rilascio\\esempio-stratificato-profilo.png",
+    "motivo": "Figura necessaria alla consultazione della precedente edizione; originale ancora in uso",
+    "sostituzione": "Guide Rev09",
+    "sha256": "2a90a978783c0c58eaa29ec7535e6bbed1438000e3386f579465f01419e49f94"
+  },
+  {
+    "origine": "supporto\\artefatti\\globale-guidata-20260930\\offscreen-rilascio\\esempio-stratificato-editor.png",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\artefatti\\globale-guidata-20260930\\offscreen-rilascio\\esempio-stratificato-editor.png",
+    "motivo": "Figura necessaria alla consultazione della precedente edizione; originale ancora in uso",
+    "sostituzione": "Guide Rev09",
+    "sha256": "911b86ab0c660d88432f8c98dc75a4c3d5ae7a19351f212940d4b74d99291e1f"
+  },
+  {
+    "origine": "supporto\\artefatti\\globale-guidata-20260930\\offscreen-rilascio\\esempio-stratificato-esito.png",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\artefatti\\globale-guidata-20260930\\offscreen-rilascio\\esempio-stratificato-esito.png",
+    "motivo": "Figura necessaria alla consultazione della precedente edizione; originale ancora in uso",
+    "sostituzione": "Guide Rev09",
+    "sha256": "e94dba16c5ee202529057ba12f620e4405d57d9cf5e0dff37c5c0141439f633a"
+  },
+  {
+    "origine": "supporto\\documentazione\\Bridge_Design\\figure\\costo-co2.png",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\documentazione\\Bridge_Design\\figure\\costo-co2.png",
+    "motivo": "Figura necessaria alla consultazione della precedente edizione; originale ancora in uso",
+    "sostituzione": "Guide Rev09",
+    "sha256": "efe89e3d67255eedd8c6fdf58d6241f488bc3ce3bb52c006e1cef28d603228fe"
+  },
+  {
+    "origine": "supporto\\documentazione\\Bridge_Design\\figure\\traccia.png",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\documentazione\\Bridge_Design\\figure\\traccia.png",
+    "motivo": "Figura necessaria alla consultazione della precedente edizione; originale ancora in uso",
+    "sostituzione": "Guide Rev09",
+    "sha256": "6cf95cc0e8dbaaabda3c34122477631ea18b5256a435df9ff3230b656a89c6fc"
+  },
+  {
+    "origine": "supporto\\documentazione\\Bridge_Design\\figure\\scenari.png",
+    "archivio": "supporto\\SUPERATI\\wiki-rev09-20261002\\documentazione\\Bridge_Design\\figure\\scenari.png",
+    "motivo": "Figura necessaria alla consultazione della precedente edizione; originale ancora in uso",
+    "sostituzione": "Guide Rev09",
+    "sha256": "5d91c781acad5a82bc14c13181443cc2b3fe5a2288ecb02690e330a914ce5868"
+  }
+]

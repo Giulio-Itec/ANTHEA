@@ -18,7 +18,7 @@ public static partial class BridgeSection
             {
                 SlabWidth = J.Number(d["b_cls"]) ?? double.NaN,
                 SlabHeight = J.Number(d["h_cls"]) ?? double.NaN,
-                WebHeight = J.Number(d["h_web"]) ?? double.NaN,
+                WebHeight = ClearWebHeight(d),
                 WebThickness = J.Number(d["t_web"]) ?? double.NaN,
                 TopWidth = J.Number(d["b_top"]) ?? double.NaN,
                 TopThickness = J.Number(d["t_top"]) ?? double.NaN,
