@@ -44,22 +44,6 @@ public static partial class RetainingWall
         if (fromValley) d["layers"] = d["valley"]!["layers"]!.DeepClone();
         else d["valley"]!["layers"] = d["layers"]!.DeepClone();
     }
-    public static double InterfaceDelta(JsonObject d, bool wall, double mphi = 1)
-    {
-        var i = d["interfaces"]; string mode = i.S(wall ? "wall_mode" : "base_mode", "Assegnato");
-        double phi = i.D(wall ? "wall_phi_cv" : "base_phi_cv");
-        if (mode == "Assegnato") return Math.Atan(Math.Tan((wall ? i.D("wall_delta") : d["foundation"].D("delta")) * Rad) / mphi) / Rad;
-        double k = mode switch { "Gettato in opera" => 1, "Prefabbricato liscio" => 2d / 3, "Liscio" => 0, _ => throw new ArgumentException("Modalità di attrito non valida.") };
-        return k * Math.Atan(Math.Tan(phi * Rad) / mphi) / Rad;
-    }
-    /// <summary>Horizontal Coulomb / Mononobe–Okabe coefficient, vertical back and horizontal fill.</summary>
-    public static double ActiveHorizontal(double phi, double delta, double kh = 0, double kv = 0)
-    {
-        double p = phi * Rad, de = delta * Rad, theta = Math.Atan2(kh, 1 - kv);
-        if (theta >= p || delta < 0 || delta > phi || de + theta >= Math.PI / 2) throw new ArgumentException("Coulomb/Mononobe–Okabe: 0≤δd≤φd e θ<φd richiesti.");
-        return Math.Pow(Math.Cos(p - theta), 2) * Math.Cos(de) / (Math.Cos(theta) * Math.Cos(de + theta)
-            * Math.Pow(1 + Math.Sqrt(Math.Sin(p + de) * Math.Sin(p - theta) / Math.Cos(de + theta)), 2));
-    }
     private static void ValidateSoils(JsonObject d)
     {
         if (d["valley"] is not JsonObject v || d["interfaces"] is not JsonObject f) throw new ArgumentException("Dati delle due colonne o degli attriti non validi.");
@@ -87,22 +71,6 @@ public static partial class RetainingWall
             if (InterfaceDelta(d, wall) > limit) throw new ArgumentException("L’attrito di interfaccia non può superare φ′ del terreno.");
         }
     }
+    /// <summary>A band of the soil in front of the wall (m above the base, kN/m³, degrees, σ′v in kPa), from the library.</summary>
     public sealed record ValleyBand(double Top, double Bottom, double Gamma, double Effective, double Phi, double SigmaTop, double SigmaBottom);
-    public static List<ValleyBand> ValleyBands(JsonObject d)
-    {
-        double height = ValleyHeight(d), top = height, sigma = 0, water = d["water"].B("enabled") ? d["water"].D("front_head") : double.NegativeInfinity;
-        var result = new List<ValleyBand>();
-        foreach (var layer in ValleyLayers(d))
-        {
-            double bottom = Math.Max(0, top - layer.D("thickness"));
-            var cuts = new[] { top, bottom, water, d["geometry"].D("slab") }.Where(y => y >= bottom && y <= top).Distinct().OrderDescending().ToArray();
-            for (int n = 1; n < cuts.Length; n++)
-            {
-                double hi = cuts[n - 1], lo = cuts[n], gamma = (hi + lo) / 2 < water ? layer.D("gamma_sat") : layer.D("gamma"), effective = gamma - ((hi + lo) / 2 < water ? Gw : 0), next = sigma + effective * (hi - lo);
-                result.Add(new(hi, lo, gamma, effective, layer.D("phi"), sigma, next)); sigma = next;
-            }
-            top = bottom; if (top <= 0) break;
-        }
-        return result;
-    }
 }

@@ -84,7 +84,9 @@ TorsionCapture.Run(output, commit, sha);
 CrackCapture.Run(output, commit, sha);
 DetailingCapture.Run(output, commit, sha);
 DurabilityCapture.Run(output, commit, sha);
+#if LEGACY_GEOTECHNICS
 GeotechnicsCapture.Run(output, commit, sha);
+#endif
 PilesCapture.Run(output, commit, sha);
 WallCapture.Run(output, commit, sha);
 
@@ -582,6 +584,9 @@ internal static class DurabilityCapture
     }
 }
 
+// The legacy cores of the general geotechnics moved to GPCChecker.Geotechnics (outputs frozen at ANTHEA dadea50 in GPCChecker.Test.Geotechnics/Fixtures):
+// this capture compiles only with them (define LEGACY_GEOTECHNICS on a checkout up to that commit).
+#if LEGACY_GEOTECHNICS
 // General geotechnics (Anthea.Calculations.Geotechnics): Bishop on assigned slices, slope geometry, slices and searches on sections, oedometric
 // settlement under a strip, Newmark rigid block, EN 1998-5 Annex F bearing capacity. Legacy units: m, kN, kN/m, kPa, kN/m³, degrees, g, s.
 // Every input is written in the files so that the Checker tests rebuild it after the unit conversion.
@@ -926,6 +931,7 @@ internal static class GeotechnicsCapture
         Console.WriteLine($"Portanza sismica: {n} casi");
     }
 }
+#endif
 
 // Piles and micropiles (Nq, BustamanteDoix, Chs, MicropaloOrizzontale, PaloOrizzontale with the stratified extension and the diagnostics).
 // JSON lines: one object per case with the legacy input and the legacy output (or the error), units of the legacy API (m, kN, kPa, degrees).

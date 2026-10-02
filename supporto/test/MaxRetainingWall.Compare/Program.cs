@@ -4,6 +4,7 @@ using System.Text.Json.Nodes;
 using Anthea.Calculations;
 using Anthea.Calculations.Geotechnics;
 using X.Core;
+using Gpc = GPC.Checkers.Geotechnics.Slopes;
 
 // A reference is entered only after it has been read from MAX. No generated MAX values.
 if (args.Length != 2) throw new ArgumentException("Indicare il JSON del confronto e la cartella di output.");
@@ -35,7 +36,9 @@ var circle = new SlipCircle(Number(source, "x") + dx, Number(source, "y") + dy, 
 if (circle.Radius <= 0 || circle.Right <= circle.Left || Math.Max(Math.Abs(circle.Left - circle.X), Math.Abs(circle.Right - circle.X)) >= circle.Radius) throw new ArgumentException("Cerchio assegnato non valido.");
 // The reference endpoints must belong to the actual surface in the ANTHEA model.
 foreach (double x in new[] { circle.Left, circle.Right })
-    if (Math.Abs(circle.Base(x) - SlopeGeometry.Height(global.Section.Surface, x)) > .005) throw new ArgumentException("Estremo del cerchio non allineato al profilo (tolleranza 5 mm per letture arrotondate).");
+    if (Math.Abs(circle.Base(x) - Slope.Height(global.Section.Surface, x)) > .005) throw new ArgumentException("Estremo del cerchio non allineato al profilo (tolleranza 5 mm per letture arrotondate).");
+// The same circle is evaluated by GPCChecker.Geotechnics on the section of the calculation (mm, N/mm, MPa, rad).
+var library = global.Source!; var libraryFactors = library.Cases.Single(c => c.Factors.Name == selected.Factors.Name).Factors; var libraryCircle = Slope.Circle(circle);
 double maxValue = Number(reference, "max_value");
 if (maxValue <= 0) throw new ArgumentException("Fattore MAX non positivo.");
 string kind = reference.S("max_value_kind");
@@ -50,18 +53,21 @@ if (reference["native_printed_slices"] is JsonArray nativeRows)
 {
     var nativeSlices = nativeRows.Select((row, i) =>
     {
-        double w = Number(row!, "weight"), v = w + Number(row!, "vertical"), a = Number(row!, "alpha"), b = Number(row!, "width");
-        return new SlopeSlice(i + 1, 0, b, 0, 1, a, "Concio stampato MAX", w, 0, 0, 0, v - w, 0,
-            Number(row!, "u"), Number(row!, "phi"), Number(row!, "cohesion"), v, v * Math.Sin(a * Math.PI / 180), 0, 0, 0, 0);
+        // Printed values in kN/m, m, degrees and kPa: forces N/mm, width mm, angles rad, pressures MPa for the library.
+        double w = Number(row!, "weight"), v = w + Number(row!, "vertical"), a = Number(row!, "alpha") * Math.PI / 180, b = Number(row!, "width") * Slope.Mm;
+        return new Gpc.SlopeSlice(i + 1, 0, b, 0, 1, a, "Concio stampato MAX", w, 0, 0, 0, v - w, 0,
+            Number(row!, "u") * Slope.KPa, Number(row!, "phi") * Math.PI / 180, Number(row!, "cohesion") * Slope.KPa, v, v * Math.Sin(a));
     }).ToArray();
-    var nativeCheck = BishopSolver.Solve(circle, nativeSlices, selected.Factors.R);
+    var nativeLibrary = Gpc.BishopSolver.Solve(libraryCircle, nativeSlices, selected.Factors.R);
+    var nativeCheck = nativeLibrary is null ? null : Slope.Surface(nativeLibrary);
     File.WriteAllText(Path.Combine(output, "equilibrio-conci-max.json"), JsonSerializer.Serialize(new { Source = evidencePath, Note = "Solver ANTHEA applicato ai conci stampati da MAX: geometria esclusa, precisione limitata dagli arrotondamenti della relazione.", MAX = maxValue, ANTHEA = nativeCheck?.Factor, DifferencePercent = (nativeCheck?.Factor / maxValue - 1) * 100, Result = nativeCheck }, J.Options));
     Console.WriteLine($"Equilibrio sui conci MAX stampati: F={nativeCheck?.Factor:G10}; Δ={(nativeCheck?.Factor / maxValue - 1) * 100:G6}%");
 }
 foreach (int count in new[] { maxSlices, 60, 120, 200 }.Distinct())
 {
-    var slices = SlopeStability.Slices(global.Section, circle, selected.Factors, count);
-    var result = BishopSolver.Solve(circle, slices, selected.Factors.R);
+    var slices = Gpc.SlopeStability.Slices(library.Section, libraryCircle, libraryFactors, count);
+    var solved = Gpc.BishopSolver.Solve(libraryCircle, slices, selected.Factors.R);
+    var result = solved is null ? null : Slope.Surface(solved);
     double? compared = result is null ? null : kind switch { "F" => result.Factor, "F/gammaR" => result.Factor / selected.Factors.R, _ => result.Ratio };
     double? delta = compared - maxValue, percent = delta / maxValue * 100;
     string status = result is null ? "Equilibrio non ammissibile o non convergente" : "Confronto numerico; interpretare discretizzazione e ipotesi";

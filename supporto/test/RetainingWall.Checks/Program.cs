@@ -20,9 +20,11 @@ try
     Near(c.Overturning, 18 * Math.Pow(3.4, 3) / 18 + 10 * 3.4 * 3.4 / 6, "Momenti delle spinte indipendenti");
     Near(c.Sections.Single(s => s.Name == "Fusto" && s.Position == 3).M, 18 * 27 / 18 + 10 * 9 / 6, "Momento del fusto alla radice");
     double slope = (c.Contact.Heel - c.Contact.Toe) / 3;
-    Near(c.Sections.Single(s => s.Name == "Valle").M, (c.Contact.Toe - 10) * .8 * .8 / 2 + slope * .8 * .8 * .8 / 6, "Momento mensola a valle da integrazione indipendente");
+    // Version 1 documents are calculated as version 2 by GPCChecker.Geotechnics: 21 cuts on the toe and on the heel, the root is the last one.
+    Check(c.Sections.Count(s => s.Name == "Valle") == 21 && c.Sections.Count(s => s.Name == "Monte") == 21, "Mensole con 21 sezioni anche nei documenti versione 1");
+    Near(c.Sections.Single(s => s.Name == "Valle" && s.Position == .8).M, (c.Contact.Toe - 10) * .8 * .8 / 2 + slope * .8 * .8 * .8 / 6, "Momento mensola a valle da integrazione indipendente");
     double heelPressure = c.Contact.Toe + slope * 1.1 - 10 - 54 - 10;
-    Near(c.Sections.Single(s => s.Name == "Monte").M, heelPressure * 1.9 * 1.9 / 2 + slope * 1.9 * 1.9 * 1.9 / 3, "Momento mensola a monte da integrazione indipendente");
+    Near(c.Sections.Single(s => s.Name == "Monte" && s.Position == 1.9).M, heelPressure * 1.9 * 1.9 / 2 + slope * 1.9 * 1.9 * 1.9 / 3, "Momento mensola a monte da integrazione indipendente");
     Near(result.Area, 2.1, "Area muro via GPC");
     Check(result.Cases.Count == 11, "Otto SLU e tre SLE");
     double phi = 34 * Math.PI / 180, nqf = Math.Exp(Math.PI * Math.Tan(phi)) * Math.Pow(Math.Tan(Math.PI / 4 + phi / 2), 2);
@@ -97,6 +99,7 @@ try
     count += SeismicSoilChecks.Run(directory);
     count += DualSoilChecks.Run(directory);
     count += AdvancedChecks.Run(directory);
+    count += LibraryAdapterChecks.Run(directory);
     log.Add($"PASS {count} controlli"); Console.WriteLine(log.Last());
 }
 finally { File.WriteAllLines(Path.Combine(directory, "test.txt"), log); }

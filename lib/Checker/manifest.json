@@ -1,6 +1,6 @@
 {
-  "snapshotDate": "2026-10-01",
-  "source": "bin/Release dei singoli progetti Utilities, Geometry, Model (master ca76e6d1) e Checker (develop 23bc2d15), build del 1 ottobre 2026",
+  "snapshotDate": "2026-10-02",
+  "source": "bin/Release dei singoli progetti Utilities, Geometry, Model (master c07e99ac) e Checker (develop 79268a9e), build del 2 ottobre 2026",
   "targetFramework": "netstandard2.0",
   "nuget": [
     {
@@ -12,14 +12,14 @@
     {
       "file": "GPCModelData.dll",
       "source": "Model/ModelData/bin/Release/netstandard2.0",
-      "assemblyVersion": "0.0.2.0",
-      "sha256": "6C3EA08D9D66EE019B06A0AF510DD203A1A8E9FAFD2002EFFFB066C1915326FB"
+      "assemblyVersion": "0.0.2.1",
+      "sha256": "FBBEE3CB239AF84BF49C7EB3F0DEF722A305B1B9636F194BFCA5CD79A0D0F004"
     },
     {
       "file": "GPCChecker.Concrete.dll",
       "source": "Checker/GPCChecker.Concrete/bin/Release/netstandard2.0",
-      "assemblyVersion": "0.0.13.1",
-      "sha256": "18832F2CA1FDAEE14151F5B2B42CCF6D8CF86F5865A0F8D817104202B5FBC505"
+      "assemblyVersion": "0.0.14.0",
+      "sha256": "D9E1BF0B3D184E215590A0595A656923EF7E8FC66053BB967E0AB5F8E46D6C64"
     },
     {
       "file": "GPCGeometry.dll",
@@ -30,8 +30,8 @@
     {
       "file": "GPCModel.dll",
       "source": "Model/Model/bin/Release/netstandard2.0",
-      "assemblyVersion": "1.5.0.0",
-      "sha256": "A246C5017DD1BD13E26EC88906A3480EAA7DF02FC85178C863F6C49E14F291DC"
+      "assemblyVersion": "1.6.0.0",
+      "sha256": "0EAC9B131123E62CEE0E9AE9577D915DCEF69894EB647A60E98FBF48C66579BE"
     },
     {
       "file": "GPCUtilities.dll",
@@ -48,9 +48,15 @@
     {
       "file": "GPCChecker.CompositeBridge.dll",
       "source": "Checker/GPCChecker.CompositeBridge/bin/Release/netstandard2.0",
-      "assemblyVersion": "1.4.0.1",
-      "sha256": "14F4135D8ECA86AD9373626B83506FDC9F0E50A6189B821500CFF79F229A9907"
+      "assemblyVersion": "1.4.0.2",
+      "sha256": "DA88B7226B2F7995AD86DC7F9AC5D5C20CC86EDD3D229351EEF28CB14B2AB369"
+    },
+    {
+      "file": "GPCChecker.Geotechnics.dll",
+      "source": "Checker/GPCChecker.Geotechnics/bin/Release/netstandard2.0",
+      "assemblyVersion": "0.1.0.0",
+      "sha256": "24C41900F905AD46BB463989FEEDFF2C6CC257E7852A5587CBF6B88FBF81FA38"
     }
   ],
-  "updatedAt": "2026-10-01T12:32:33.8250960+02:00"
+  "updatedAt": "2026-10-02T13:21:06.5872731+02:00"
 }

@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Media;
@@ -66,7 +66,7 @@ internal sealed class GlobalStabilityDrawing : FrameworkElement
                 dc.DrawRectangle(Ui.Brush(RetainingWallDrawing.GlobalLayerColor(Data, layer)), new Pen(selected ? Ui.Blue : Brushes.White, selected ? 2 : .8), rect);
                 hits.Add((rect, $"{layer.S("name")} · fondo y={lower:0.###} m\nγ={layer.D("gamma"):0.##}; γsat={layer.D("gamma_sat"):0.##} kN/m³; φ′={layer.D("phi"):0.##}°; c′={layer.D("c"):0.##}; cu={layer.S("cu")} kPa"));
                 double labelX = Math.Max(column.Left, xmin) + .25;
-                double labelTop = Math.Min(upper, SlopeGeometry.Height(surface, labelX));
+                double labelTop = Math.Min(upper, Slope.Height(surface, labelX));
                 double labelBottom = Math.Max(lower, ymin);
                 double availableWidth = P(Math.Min(column.Right, xmax), 0).X - P(labelX, 0).X - 8;
                 if ((labelTop - labelBottom) * scale > 26 && availableWidth > 70)
@@ -90,8 +90,8 @@ internal sealed class GlobalStabilityDrawing : FrameworkElement
             {
                 double start = Math.Max(xmin, g.D(range.Item1)), end = Math.Min(xmax, g.D(range.Item2));
                 if (end <= start) continue;
-                for (int i = 0; i < 50; i++) { double x0 = start + (end - start) * i / 50, x1 = start + (end - start) * (i + 1) / 50; dc.DrawLine(pen, P(x0, SlopeGeometry.Height(surface, x0)), P(x1, SlopeGeometry.Height(surface, x1))); }
-                var middle = P((start + end) / 2, SlopeGeometry.Height(surface, (start + end) / 2));
+                for (int i = 0; i < 50; i++) { double x0 = start + (end - start) * i / 50, x1 = start + (end - start) * (i + 1) / 50; dc.DrawLine(pen, P(x0, Slope.Height(surface, x0)), P(x1, Slope.Height(surface, x1))); }
+                var middle = P((start + end) / 2, Slope.Height(surface, (start + end) / 2));
                 Text(range.Item3, middle.X - 34, middle.Y - 17, Ui.Blue, 10);
             }
             double depth = g.D("depth_max");
@@ -113,7 +113,7 @@ internal sealed class GlobalStabilityDrawing : FrameworkElement
             foreach (var s in critical.Slices)
             {
                 var rect = new Rect(P(s.Left, s.TopY), P(s.Right, s.BaseY));
-                dc.DrawLine(new Pen(s.Index - 1 == SelectedSlice ? Ui.Blue : Ui.Brush("#667788"), s.Index - 1 == SelectedSlice ? 2 : .5), P(s.Left, c.Base(s.Left)), P(s.Left, SlopeGeometry.Height(surface, s.Left)));
+                dc.DrawLine(new Pen(s.Index - 1 == SelectedSlice ? Ui.Blue : Ui.Brush("#667788"), s.Index - 1 == SelectedSlice ? 2 : .5), P(s.Left, c.Base(s.Left)), P(s.Left, Slope.Height(surface, s.Left)));
                 hits.Add((rect, $"Concio {s.Index} · {s.Soil}\nWterra={s.SoilWeight:0.###}; Wmuro={s.BodyWeight:0.###} kN/m\nu={s.U:0.###} kPa; α={s.Alpha:0.###}°\nN′={s.NormalEffective:0.###}; R={s.Resistance:0.###}; T={s.Mobilized:0.###} kN/m"));
             }
             Text($"{chosen.Factors.Name} · F={critical.Factor:0.000} · γR={chosen.Factors.R:0.00} · η={critical.Ratio:0.000}", 12, 6, color, 12);

@@ -111,7 +111,11 @@ public static partial class RetainingWall
         public string? Member { get; init; }
         public double? Position { get; init; }
     }
-    public sealed record Contact(double Start, double End, double Toe, double Heel, double Peak, bool Valid);
+    public sealed record Contact(double Start, double End, double Toe, double Heel, double Peak, bool Valid)
+    {
+        /// <summary>The contact law of the library (mm, MPa) behind the values in m and kPa.</summary>
+        [System.Text.Json.Serialization.JsonIgnore] public GPC.Checkers.Geotechnics.Walls.WallContact? Law { get; init; }
+    }
     public sealed record PressureSegment(double Z0, double Z1, double P0, double P1);
     public sealed record SectionForce(string Name, double Position, double Thickness, double N, double M, double V);
     public sealed record LoadCase(string Name, string State, double WallFactor, double SoilFactor, double LiveFactor, double WaterFactor,
@@ -126,7 +130,7 @@ public static partial class RetainingWall
         public List<PressureSegment> StemPressures { get; init; } = [];
         public List<PressureSegment> ValleyPressures { get; init; } = [];
         public List<PressureDetail> StemPressureDetails { get; init; } = [];
-        public Geotechnics.ShallowFoundationSeismic.Result? SeismicBearing { get; init; }
+        public Geotechnics.SeismicBearing? SeismicBearing { get; init; }
         public string? SeismicBearingError { get; init; }
         public List<CurvaturePoint> Curvatures { get; init; } = [];
     }

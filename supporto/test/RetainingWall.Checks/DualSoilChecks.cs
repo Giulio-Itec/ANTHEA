@@ -1,7 +1,7 @@
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
-using Anthea.Calculations.Geotechnics;
 using X.Core;
+using Slopes = GPC.Checkers.Geotechnics.Slopes;
 
 internal static class DualSoilChecks
 {
@@ -41,7 +41,7 @@ internal static class DualSoilChecks
         d["valley"]!["free_height"] = .1; d["valley"]!["mobilization"] = 1;
         var limited = RetainingWall.Calculate(d).Cases[0]; Near(limited.Horizontal, 0, "Passiva limitata senza invertire la spinta netta");
         var wedge = Base(); wedge["geometry"]!["stem_top"] = .2; wedge["valley"]!["height_mode"] = "Assegnato"; wedge["valley"]!["free_height"] = 2;
-        var mass = RetainingWall.FrontSoilMass(wedge, RetainingWall.ValleyBands(wedge), wedgeOnly: true);
+        var mass = RetainingWall.FrontSoilMass(wedge, wedgeOnly: true);
         Near(mass.Weight, 18 * .5 * (.2 / 3), "Cuneo sopra paramento inclinato: area triangolare GPC");
         Near(mass.MomentX / mass.Weight, .8 + (.2 / 3) / 3, "Baricentro orizzontale indipendente del cuneo");
         Near(mass.MomentY / mass.Weight, .45 + 2d / 3, "Baricentro verticale indipendente del cuneo");
@@ -73,14 +73,15 @@ internal static class DualSoilChecks
         Near(profile["layers"]![0].D("angolo_attrito"), 27, "Trasferimento usa materiali valle");
         Check(SoilProfileTransfer.SurveyCount(RetainingWall.Module, linked) == 2, "Due profili trasferibili");
         var applied = SoilProfileTransfer.Apply(RetainingWall.Module, linked, profile, 0); Near(applied["layers"]![0].D("phi"), 27, "Importazione nella colonna selezionata");
-        // Independent analytic volume under a circular arc, two different densities.
-        var section = new SlopeSection([new(-4, 2), new(4, 2)], [new("Monte", -20, 18, 20, 30, 0, 0)], [], [], [], -.1, .1)
-            { ValleySoils = [new("Valle", -20, 24, 25, 25, 0, 0)], SoilSplitX = 0 };
-        var factors = new SlopeFactors("test", 1, 1, 1, 1, 1, 1, 0, 0, false, new Dictionary<string, double>());
-        var slices = SlopeStability.Slices(section, new(0, 5, 5, -4, 4), factors, 100);
+        // Independent analytic volume under a circular arc, two different densities, with the slices of GPCChecker.Geotechnics (mm, N/mm³).
+        double deg = Math.PI / 180;
+        var section = new Slopes.SlopeSection([new(-4000, 2000), new(4000, 2000)], [new(new GPC.Model.Geotechnics.Soil("Monte", 18e-6, 20e-6, 30 * deg, 0, "prova"), -20000)], null, null, null, -100, 100,
+            [new(new GPC.Model.Geotechnics.Soil("Valle", 24e-6, 25e-6, 25 * deg, 0, "prova"), -20000)], 0);
+        var factors = new Slopes.SlopeFactors("test", 1, 1, 1, 1, 1, 1, 0, 0, false);
+        var slices = Slopes.SlopeStability.Slices(section, new(0, 5000, 5000, -4000, 4000), factors, 100);
         double area = -12 + 25 * Math.Asin(.8);
         Near(slices.Sum(x => x.SoilWeight), area * 21, "Massa delle due colonne Bishop da integrale analitico", 1e-6);
-        Check(slices.Where(x => x.Right <= 0).All(x => x.Soil == "Valle" && x.Phi == 25) && slices.Where(x => x.Left >= 0).All(x => x.Soil == "Monte"), "Resistenza alla base dei conci dalla colonna corretta");
+        Check(slices.Where(x => x.Right <= 0).All(x => x.Soil == "Valle" && Math.Abs(x.FrictionAngle - 25 * deg) < 1e-15) && slices.Where(x => x.Left >= 0).All(x => x.Soil == "Monte"), "Resistenza alla base dei conci dalla colonna corretta");
         RetainingWall.PrepareGlobalProfile(wedge); var global = wedge["global_stability"]!;
         Near(global["valley"]![1].D("y"), 1.45, "Profilo globale raccordato alla quota di valle");
         Check(global.S("soil_mode") == "Due colonne" && global.Array("valley_layers").Count == 1, "Precompilazione globale conserva le due colonne");
@@ -90,7 +91,8 @@ internal static class DualSoilChecks
         var both = RetainingWall.Calculate(wedge);
         Check(both.GlobalError is null && both.GlobalStability is { Cases.Length: > 0 }, "Calcolo completo con valle rialzata e due colonne globali");
         Check(both.GlobalStability!.Cases.All(x => x.Critical is not null), "Ricerca Bishop risolta con due colonne");
-        Check(both.GlobalStability.Section.Soils[0].Phi == 30 && both.GlobalStability.Section.ValleySoils[0].Phi == 24, "Parametri profondi indipendenti conservati nel risultato");
+        // The section of the result comes from the library (rad): the angles are back in degrees up to the rounding of the conversion.
+        Check(Math.Abs(both.GlobalStability.Section.Soils[0].Phi - 30) < 1e-12 && Math.Abs(both.GlobalStability.Section.ValleySoils[0].Phi - 24) < 1e-12, "Parametri profondi indipendenti conservati nel risultato");
         var twoSave = Archivio.Documento(RetainingWall.Module); twoSave["dati"] = both.Input.DeepClone(); Archivio.Scrivi(Path.Combine(directory, "due-colonne-globale.anthea"), twoSave);
         File.WriteAllText(Path.Combine(directory, "due-colonne-globale.json"), both.Json().ToJsonString(J.Options));
         File.WriteAllBytes(Path.Combine(directory, "due-colonne-globale.docx"), ReportRetainingWall.Create("Due colonne e stabilità globale", both));

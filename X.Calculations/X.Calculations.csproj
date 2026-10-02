@@ -13,5 +13,10 @@
     <Reference Include="GPCModelData"><HintPath>$(CheckerLibraryDirectory)/GPCModelData.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="GPCUtilities"><HintPath>$(CheckerLibraryDirectory)/GPCUtilities.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="DelaunayMesh"><HintPath>$(CheckerLibraryDirectory)/DelaunayMesh.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="GPCChecker.Geotechnics"><HintPath>$(CheckerLibraryDirectory)/GPCChecker.Geotechnics.dll</HintPath><Private>true</Private></Reference>
+  </ItemGroup>
+  <!-- Legacy geotechnical cores replaced by GPCChecker.Geotechnics (slopes, settlement, Newmark, Annex F): not compiled, to be deleted. -->
+  <ItemGroup>
+    <Compile Remove="Geotechnics/BishopSolver.cs;Geotechnics/FoundationSettlement.cs;Geotechnics/NewmarkSliding.cs;Geotechnics/ShallowFoundationSeismic.cs;Geotechnics/SlopeGeometry.cs;Geotechnics/SlopeStability.cs" />
   </ItemGroup>
 </Project>

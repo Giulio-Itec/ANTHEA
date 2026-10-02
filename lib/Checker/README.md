@@ -1,6 +1,21 @@
 # DLL Checker
 
-**Snapshot corrente (1 ottobre 2026).** Model master ca76e6d1, Checker develop 23bc2d15. Utilities, Geometry e DelaunayMesh
+**Snapshot corrente (2 ottobre 2026).** Model master c07e99ac, Checker develop 79268a9e. Utilities, Geometry e DelaunayMesh
+sono invariate (hash identici).
+
+- **Nuova `GPCChecker.Geotechnics.dll` 0.1.0.0**: i nuclei geotecnici spostati da ANTHEA (stabilità dei pendii con Bishop,
+  cedimenti edometrici, Newmark, portanza sismica EN 1998-5 allegato F, amplificazione NTC del sito, pali e micropali, muri di
+  sostegno con combinazioni, esercizio e stabilità globale). Unità di Model: N, mm, MPa, N/mm³, rad.
+- **Model 1.6.0.0, ModelData 0.0.2.1**: terreni, stratigrafie e normative geotecniche (`GPC.Model.Geotechnics`), densità dei
+  materiali in t/mm³ (`Material.GetUnitWeight`), catalogo CHS Celsius (Tata Steel).
+- **Checker.Concrete 0.0.14.0, CompositeBridge 1.4.0.2**: verifiche di taglio, tensioni SLE, torsione, fessurazione, dettagli,
+  durabilità e copriferri spostate da ANTHEA (nuovi spazi dei nomi, API precedenti invariate).
+- ANTHEA: il muro di sostegno usa la libreria (`RetainingWall.Library.cs` è l’adattatore m, kN ↔ mm, N); i nuclei
+  `X.Calculations/Geotechnics` di Bishop, cedimenti, Newmark e portanza sismica non sono più compilati. Con le sole DLL nuove,
+  e il codice precedente, la cattura dei muri coincide con quella congelata; con l’adattatore le differenze sono quelle
+  dichiarate nel registro della migrazione (Checker/docs/migrazione-anthea).
+
+**Snapshot precedente (1 ottobre 2026).** Model master ca76e6d1, Checker develop 23bc2d15. Utilities, Geometry e DelaunayMesh
 sono invariate (hash identici).
 
 - **Model 1.5.0.0, ModelData 0.0.2.0**: sezioni.

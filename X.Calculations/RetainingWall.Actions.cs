@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Nodes;
-using GpcCase = GPC.Model.LoadCases.LoadCase;
-using GpcCombination = GPC.Model.Combinations.Combination;
+using GPC.Checkers.Geotechnics.Walls;
 
 namespace Anthea.Calculations;
 
@@ -39,72 +38,16 @@ public static partial class RetainingWall
     public static JsonObject Defaults() { var d = LegacyDefaults(); Upgrade(d); d["seismic"]!["source"] = SeismicSite; return d; }
     public static string CombinationSignature(JsonObject d) => string.Join("|", d.Array("actions").Select(a => string.Join("/", new[] { "id", "category", "enabled", "psi0", "psi1", "psi2", "group" }.Select(k => a.S(k)))))
         + (d["seismic"].S("source", SeismicManual) == SeismicSite ? "|sito/" + string.Join("/", new[] { "enabled", "method", "ag_g", "f0", "soil_class", "ss_mode", "ss", "st_mode", "st", "topography", "slope", "relief_height", "site_height" }.Select(k => d["seismic"].S(k))) : "");
+    /// <summary>
+    /// The automatic combinations of the wall (NTC 2018 §6.5.3.1.1 Approach 2, seismic and accidental) from GPCChecker.Geotechnics
+    /// (WallCombinations.Generate), as rows of the document with the factor of every action.
+    /// </summary>
     public static JsonArray GenerateCombinations(JsonObject d)
     {
         ValidateActions(d, false);
-        var actions = d.Array("actions").OfType<JsonObject>().Where(a => a.B("enabled")).ToArray();
-        var groups = actions.GroupBy(a => a.S("group") is { Length: > 0 } group ? group : a.S("id")).ToArray();
-        var vars = groups.Where(g => g.First().S("category") == "Q").ToArray();
-        var permanent = groups.Where(g => g.First().S("category") is "G1" or "G2").ToArray();
-        var native = actions.ToDictionary(a => a.S("id"), a => new GpcCase(a.S("id"), a.S("category") switch {
-            "G1" => GpcCase.LoadCaseTypes.SelfWeight, "G2" => GpcCase.LoadCaseTypes.SuperImposedDeadLoad, _ => GpcCase.LoadCaseTypes.LiveLoad }));
-        var result = new JsonArray(); var seen = new HashSet<string>();
-        void Add(string state, string label, double wall, double soil, double water, Dictionary<string, double> factors, double kh = 0, double kv = 0, string purpose = "")
-        {
-            foreach (double valleyFactor in state == "SLU" && ValleyHeight(d) > 0 ? new[] { 1d, 1.3 } : new[] { 1d }) AddRow(state, label, wall, soil, water, factors, kh, kv, purpose, valleyFactor);
-        }
-        void AddRow(string state, string label, double wall, double soil, double water, Dictionary<string, double> factors, double kh, double kv, string purpose, double valleyFactor)
-        {
-            // GPC Model owns the load-case/coefficient association; the wall adapter enumerates
-            // independent favourable/unfavourable G effects, per-action psi and accidental events.
-            var combination = new GpcCombination(label);
-            foreach (var a in actions) combination.AddLoadCaseCoefficient(native[a.S("id")], factors.GetValueOrDefault(a.S("id")));
-            var coefficients = new JsonObject(); foreach (var a in d.Array("actions")) coefficients[a.S("id")] = a.B("enabled") ? combination.GetLoadCaseCoefficient(native[a.S("id")]) : 0;
-            string fingerprint = $"{state}/{purpose}/{wall}/{soil}/{water}/{kh}/{kv}/{valleyFactor}/" + coefficients.ToJsonString(); if (!seen.Add(fingerprint)) return;
-            if (result.Count >= 4096) throw new ArgumentException("Oltre 4096 combinazioni: raggruppare le azioni correlate o predisporre una matrice personalizzata.");
-            bool design = state is "SLU" or "SISMA";
-            result.Add(J.Obj(("enabled", true), ("name", label + " " + (result.Count + 1)), ("state", state), ("approach", design ? "A1+M1+R3" : state == "ECCEZIONALE" ? "Eccezionale · M1/R=1" : "SLE"),
-                ("wall", wall), ("soil", soil), ("valley_soil", valleyFactor), ("water", water), ("mphi", 1), ("rslide", design ? 1.1 : 1), ("rover", design ? 1.15 : 1), ("rbearing", design ? 1.4 : 1), ("kh", kh), ("kv", kv), ("coefficients", coefficients)));
-            if (state == "SISMA") result[^1]!["approach"] = "Sismica · M1/R3";
-            if (purpose != "")
-            {
-                result[^1]!["purpose"] = purpose; result[^1]!["approach"] = "SLV · NTC 7.11.III";
-                result[^1]!["rslide"] = 1; result[^1]!["rover"] = 1; result[^1]!["rbearing"] = 1.2;
-            }
-        }
-        Dictionary<string,double> Service(string state, string? lead = null) => actions.ToDictionary(a => a.S("id"), a => a.S("category") switch {
-            "G1" or "G2" => 1d, "A" => 0d, _ => state == "SLE_QP" ? a.D("psi2") : (a.S("group") is { Length: > 0 } gr ? gr : a.S("id")) == lead ? state == "SLE" ? 1 : a.D("psi1") : a.D(state == "SLE" ? "psi0" : "psi2") });
-        foreach (string state in new[] { "SLE", "SLE_FREQ" }) foreach (string? lead in vars.Length == 0 ? new string?[] { null } : vars.Select(v => (string?)v.Key)) Add(state, state, 1, 1, 1, Service(state, lead));
-        Add("SLE_QP", "Quasi permanente", 1, 1, 1, Service("SLE_QP"));
-        int bits = vars.Length + permanent.Length + 2 + (d["water"].B("enabled") ? 1 : 0);
-        if (bits > 12 || (1L << bits) * Math.Max(1, vars.Length) > 4090) throw new ArgumentException("Generazione troppo estesa: massimo 4096 combinazioni. Raggruppare i carichi correlati.");
-        for (int mask = 0; mask < (1 << bits); mask++)
-        {
-            double wall = (mask & 1) == 0 ? 1 : 1.3, soil = (mask & 2) == 0 ? 1 : 1.3;
-            int baseBit = 2; double water = 1;
-            if (d["water"].B("enabled")) { water = (mask & (1 << baseBit++)) == 0 ? 1 : 1.3; }
-            var f = actions.ToDictionary(a => a.S("id"), _ => 0d);
-            foreach (var p in permanent) { bool high = (mask & (1 << baseBit++)) != 0; foreach (var a in p) f[a.S("id")] = a.S("category") == "G1" ? high ? 1.3 : 1 : high ? 1.5 : 0; }
-            var active = vars.Where((_, i) => (mask & (1 << (baseBit + i))) != 0).ToArray();
-            if (active.Length == 0) Add("SLU", "SLU", wall, soil, water, f);
-            foreach (var lead in active)
-            {
-                foreach (var v in active) foreach (var a in v) f[a.S("id")] = 1.5 * (v.Key == lead.Key ? 1 : a.D("psi0"));
-                Add("SLU", "SLU", wall, soil, water, f);
-            }
-        }
-        if (d["seismic"].B("enabled"))
-        {
-            var seismic = DeriveSeismic(d);
-            if (seismic is null) foreach (double kv in new[] { -d["seismic"].D("kv"), d["seismic"].D("kv") }.Distinct()) Add("SISMA", kv < 0 ? "Sisma kv−" : "Sisma kv+", 1, 1, 1, Service("SLE_QP"), d["seismic"].D("kh"), kv);
-            else foreach (var (purpose, kh, magnitude) in new[] { ("Generale", seismic.Kh, seismic.Kv), ("Ribaltamento", seismic.KhOverturning, seismic.KvOverturning) })
-            {
-                if (kh > .4 || magnitude > .2) throw new ArgumentException($"Sisma {purpose}: kh={kh:0.###}, |kv|={magnitude:0.###} fuori dal campo del motore (kh≤0,4; |kv|≤0,2). I coefficienti non vengono troncati.");
-                foreach (double kv in new[] { -magnitude, magnitude }.Distinct()) Add("SISMA", $"SLV {purpose} kv{(kv < 0 ? "−" : "+")}", 1, 1, 1, Service("SLE_QP"), kh, kv, purpose);
-            }
-        }
-        foreach (var accident in groups.Where(g => g.First().S("category") == "A")) { var f = Service("SLE_QP"); foreach (var a in accident) f[a.S("id")] = 1; Add("ECCEZIONALE", "Eccezionale " + accident.First().S("name"), 1, 1, 1, f); }
-        return result;
+        var rows = new JsonArray();
+        foreach (var c in WallCombinations.Generate(ToWallInput(d))) rows.Add(ToRow(d, c));
+        return rows;
     }
     public static void ValidateActions(JsonObject d, bool matrix = true)
     {

@@ -121,7 +121,7 @@ internal sealed partial class RetainingWallWorkspace
         if (GlobalResult is not { } result) return Ui.Text(independentGlobalError ?? Calculation?.GlobalError ?? "Attivare la stabilità globale in Input → Terreno e completare profilo, strati e ricerca.", 13);
         var table = Table(["Caso", "F", "γR", "η=γR/F", "xc [m]", "yc [m]", "R [m]", "Risolte / provate", "Esito"], result.Cases.Select(c => new[] { c.Factors.Name, c.Critical is { } s ? F(s.Factor) : "—", F(c.Factors.R), c.Critical is { } q ? q.Ratio.ToString("0.000", It) : "—", c.Critical is { } a ? F(a.Circle.X) : "—", c.Critical is { } b ? F(b.Circle.Y) : "—", c.Critical is { } e ? F(e.Circle.Radius) : "—", $"{c.Solved}/{c.Tried}", c.Status }));
         table.Height = 155; table.SelectionChanged += (_, _) => { if (table.SelectedIndex >= 0) GlobalCombination.SelectedItem = result.Cases[table.SelectedIndex].Factors.Name; };
-        var panel = Ui.Stack(Ui.Text(GlobalResultExplanation, 12), Ui.Button("Modifica profilo, strati e ricerca", ShowGlobalSetup, inspection: true), table, Ui.Text(BishopSolver.Formula, 11));
+        var panel = Ui.Stack(Ui.Text(GlobalResultExplanation, 12), Ui.Button("Modifica profilo, strati e ricerca", ShowGlobalSetup, inspection: true), table, Ui.Text(Slope.Formula, 11));
         if (GlobalCase?.Critical is { } critical)
         {
             var c = GlobalCase;
