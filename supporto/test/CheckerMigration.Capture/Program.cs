@@ -1349,7 +1349,7 @@ internal static class WallCapture
             {
                 string before = data.ToJsonString(); JsonObject result;
                 var watch = System.Diagnostics.Stopwatch.StartNew();
-                try { result = RetainingWall.Calculate(data).Json(); result.Remove("input"); }
+                try { result = Full(RetainingWall.Calculate(data)); }
                 catch (Exception ex) { result = Error(ex); }
                 if (before != data.ToJsonString()) throw new InvalidOperationException("Input modified: " + name);
                 Write(w, new JsonObject { ["name"] = name, ["input"] = data, ["result"] = result }); documents++;
@@ -1358,6 +1358,15 @@ internal static class WallCapture
         }
         Console.WriteLine($"Muri: {functions} funzioni, {combinations} generazioni di combinazioni, {documents} documenti");
     }
+
+    // The fields of Result.Json() (without the input), serialized with the infinite values allowed (Result.Json() throws on them).
+    static JsonObject Full(RetainingWall.Result r) => new()
+    {
+        ["motore"] = "ANTHEA.Muri/1", ["larghezza"] = r.Width, ["area"] = r.Area, ["volume_m3_m"] = r.Volume, ["acciaio_kg_m"] = r.SteelKg, ["combinazioni"] = Node(r.Cases),
+        ["verifiche_geotecniche"] = Node(r.Checks), ["verifiche_strutturali"] = Node(r.Structural), ["avvisi"] = Node(r.Notes), ["verifica_completa"] = false,
+        ["stabilita_globale"] = Node(r.GlobalStability), ["errore_stabilita_globale"] = r.GlobalError, ["esercizio"] = Node(r.Serviceability), ["dettagli_armature"] = Node(r.Detailing),
+        ["combinazioni_usate"] = r.Input["combinations"]?.DeepClone()
+    };
 
     static JsonObject Seismic(string method, double ag, double f0, string soil) => new()
     {
