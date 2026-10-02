@@ -154,4 +154,4 @@ Arco con catena e reticolare usano campate indipendenti. Strallato e sospeso ric
 
 Le fondazioni automatiche ora includono il peso dei plinti nella selezione di dimensioni e numero pali. I fusti automatici rispettano le soglie convenzionali assiali e di snellezza; sono escluse anche antenne manuali oltre la tensione di riferimento e fondazioni che non contengono il fusto. Nessuno di questi filtri sostituisce le verifiche strutturali/geotecniche.
 
-Il [report del 27 settembre 2026](bridge-design-audit-2026-09-27.md) riporta tutte le prove finali, comprese ricerche libere sulle 14 famiglie, enumerazione indipendente di griglie ristrette e il caso limite con indicatori nulli.
+Il [report del 27 settembre 2026](guida-teorica-anthea.md) riporta tutte le prove finali, comprese ricerche libere sulle 14 famiglie, enumerazione indipendente di griglie ristrette e il caso limite con indicatori nulli.

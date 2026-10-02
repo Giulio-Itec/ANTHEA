@@ -1,24 +1,13 @@
 # Materiale di supporto ANTHEA
 
-Questa cartella raccoglie test, documentazione, esempi, immagini di verifica e strumenti di sviluppo.
+La documentazione utente è raccolta in due guide globali Rev08 del 2 ottobre 2026:
 
-Per il palo orizzontale in terreni anche coesivi/granulari alternati vedere
-[Metodo stratificato](docs/palo-stratificato.md), con PDF omonimo,
-equazioni, limiti e comando dei test.
+- [Guida pratica e UI](docs/guida-pratica-anthea.md): procedure e interfaccia di tutti i moduli.
+- [Guida teorica](docs/guida-teorica-anthea.md): modelli, formule, ipotesi, limiti, approfondimenti e appendici tecniche di tutti i moduli.
 
-Le guide complete sono [Guida pratica di ANTHEA](docs/guida-pratica-anthea.md) e
-[Guida teorica dei calcoli](docs/guida-teorica-anthea.md), con edizioni Word e PDF Rev07 in `documentazione/Guide_ANTHEA`.
-Le revisioni precedenti e le raccolte superate sono conservate in [SUPERATI](SUPERATI/README.md).
-Ogni nuova guida, esempio documentato e rapporto per l'utente deve includere il PDF accanto al sorgente.
-Per l’input e la lettura degli esiti vedere [Stabilità globale: guida rapida illustrata](docs/stabilita-globale-guida-rapida.md), anche in PDF.
-Per la stabilità globale, il punto di accesso alle evidenze è [Documenti ed esempi correnti](artefatti/stabilita-globale/DOCUMENTI-CORRENTI.md).
-Per il nuovo predimensionamento dei ponti vedere [Bridge Design](docs/bridge-design.md) e la suite
-`test/BridgeDesign.Checks`.
+Edizioni Word e PDF in `documentazione/Guide_ANTHEA`, PDF omonimi accanto ai Markdown. Gli approfondimenti di Bridge Design, pali, sezioni, muri e stabilità globale sono inclusi nei due volumi. Le fonti precedenti sono conservate in `SUPERATI/guide-unificate-rev08-20261002`, con registro di origine e sostituzione.
 
-Per l'ottimizzazione vedere [Teoria e validazione di Bridge Design](documentazione/Bridge_Design/ANTHEA_Bridge_Design_Teoria_ITEC_Rev01.docx)
-e [Guida pratica di Bridge Design](documentazione/Bridge_Design/ANTHEA_Bridge_Design_Pratica_ITEC_Rev01.docx),
-con PDF e sorgenti Markdown omonimi. La verifica indipendente dal sito è in `test/BridgeDesign.IndependentChecks`:
-secondo solutore FEM, computo autonomo e confronto dell'intera graduatoria di un caso controllato.
+Ogni nuovo argomento va integrato nelle due guide; per casi particolari chiedere all’utente prima di introdurre una diversa organizzazione. Modelli, esempi di calcolo ed evidenze restano nelle loro cartelle.
 
 | Cartella | Contenuto |
 | --- | --- |
@@ -46,7 +35,7 @@ dotnet X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll --smoke-display supporto/
 `--bridge` include i controlli precedenti e la suite dei metodi cumulativo, storico lineare,
 storico non lineare e delle curve di risposta. `--bridge-methods` esegue soltanto la nuova
 suite. Casi, riferimenti analitici e limiti sono descritti in
-[Test dei metodi per i ponti](docs/test-metodi-ponti.md).
+[Test dei metodi per i ponti](docs/guida-teorica-anthea.md).
 
 `Verifica.cmd`, in questa cartella, esegue i confronti completi e salva il rapporto in `artefatti/confronto_numerico.json`.
 
@@ -59,6 +48,6 @@ a T: l'ultima coppia di barre laterali è agli angoli superiori della staffa d'a
 I nuovi output di test vanno salvati in `supporto/artefatti/` per mantenere pulita la radice.
 Le immagini utilizzate dall'applicazione rimangono in `X.Desktop/Assets`.
 
-Muri con due colonne e attriti: [guida](docs/muri-sostegno.md), PDF omonimo e [controllo della revisione](artefatti/muri-due-colonne-20260930/CONTROLLO.md), anche in PDF. Revisioni precedenti e registro in `SUPERATI/`.
+Muri con due colonne e attriti: [guida](docs/guida-teorica-anthea.md), PDF omonimo e [controllo della revisione](artefatti/muri-due-colonne-20260930/CONTROLLO.md), anche in PDF. Revisioni precedenti e registro in `SUPERATI/`.
 
 Portanza sismica, cedimenti, Newmark e armature: [rapporto aggiornamento](artefatti/muri-completamento-20260930/CONTROLLO.md), anche PDF; [esempio salvato](artefatti/muri-completamento-20260930/interfaccia-finale/esempio-completo.anthea), relazione Word e PDF nella stessa cartella. Nessuna nuova prova MAX.

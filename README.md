@@ -82,22 +82,22 @@ ospitati né dipendenze da `System.Drawing`.
 
 ## Moduli e compatibilità
 
-In **Geotecnica → Muri di sostegno** è disponibile il [modulo per mensola in c.a. e gravità](supporto/docs/muri-sostegno.md):
+In **Geotecnica → Muri di sostegno** è disponibile il [modulo per mensola in c.a. e gravità](supporto/docs/guida-teorica-anthea.md):
 geometria, strati granulari, falda e sottospinta, combinazioni, verifiche locali geotecniche,
 sezioni in c.a. con GPC, diagrammi, archivi e relazione Word. Le altre tipologie sono previste
 senza calcolo. La stabilità globale dispone di un motore Bishop separato, profilo esteso,
 strati profondi, falda, combinazioni proprie e relazione dedicata. Cedimenti e portanza
 sismica restano esclusi. Vedere la guida per il campo completo e lo stato della validazione.
 
-In **Strutture → Bridge Design** è disponibile il [predimensionamento dei ponti](supporto/docs/bridge-design.md):
+In **Strutture → Bridge Design** è disponibile il [predimensionamento dei ponti](supporto/docs/guida-teorica-anthea.md):
 otto famiglie, viste di prospetto e sezione, pile e fondazioni, quantità, prezzi e coefficienti modificabili,
 stime di costo/CO₂/durata e confronto A/B. Il motore è separato dalla vista WPF e non costituisce verifica normativa.
 
-Le guide complete della versione del 26 settembre 2026 sono la [guida pratica](supporto/docs/guida-pratica-anthea.md)
+Le due guide globali complete Rev08 del 2 ottobre 2026 sono la [guida pratica](supporto/docs/guida-pratica-anthea.md)
 e la [guida teorica dei calcoli](supporto/docs/guida-teorica-anthea.md). Le edizioni Word sono in
 `supporto/documentazione/Guide_ANTHEA`.
 
-In **Strutture → Sezione composta** è disponibile il [modulo da ponte N–Mx di classe 4](supporto/docs/sezione-mista-ponte.md):
+In **Strutture → Sezione composta** è disponibile il [modulo da ponte N–Mx di classe 4](supporto/docs/guida-teorica-anthea.md):
 soletta su H saldato, due piattabande inferiori (piastre reali nel calcolo), due file di
 armature opzionali, fasi di carico e omogeneizzazione da φ oppure n. Model fornisce
 geometria/materiali/proprietà e Checker le tensioni composte; ANTHEA itera le larghezze
@@ -113,7 +113,7 @@ orizzontale aggiorna automaticamente capacità e momento. La sezione in c.a. ha 
 pannello di controllo, dominio 3D, dominio 2D, tensioni e fessurazione (Rara,
 Frequente, Quasi permanente), taglio e torsione, dettagli costruttivi, momento–curvatura.
 La curva M–χ si avvia con il proprio comando; le altre verifiche si aggiornano
-automaticamente. Vedere le [estensioni CA](supporto/docs/calcestruzzo-estensioni.md) per
+automaticamente. Vedere le [estensioni CA](supporto/docs/guida-teorica-anthea.md) per
 fori centrali, piani di deformazione, dettagli e benchmark. Ogni tabella CA offre template Excel,
 reimportazione e Ctrl+C/Ctrl+V. Opzioni avanzate richiudibili, riepiloghi estesi,
 selettore delle forze, trasparenza 3D e contouring SLE sono documentati nella guida.
@@ -124,12 +124,12 @@ DLL Checker versionate in `lib/Checker`, con compressione negativa. I vecchi
 workspace sono migrati una sola volta alla nuova convenzione di N. Domini,
 resistenze e tensioni sono calcolati da Checker; taglio e fessurazione integrano
 la logica Rhino2Midas con le correzioni NTC 2018 documentate.
-Vedere [interfaccia del calcestruzzo](supporto/docs/calcestruzzo-interfaccia.md) per funzionalità,
+Vedere [interfaccia del calcestruzzo](supporto/docs/guida-pratica-anthea.md) per funzionalità,
 limiti di applicabilità, API collegate e formato dei dati.
 
 ## Controllo automatico dell'interfaccia
 
-Il nuovo [modulo orizzontale](supporto/docs/palo-orizzontale.md) comprende Broms omogeneo,
+Il nuovo [modulo orizzontale](supporto/docs/guida-teorica-anthea.md) comprende Broms omogeneo,
 estensione multistrato sperimentale, momento resistente della sezione circolare,
 diagrammi, export CSV/JSON e relazione Word. L'interfaccia riprende il palo verticale
 con il pannello del momento al posto dei grafici. La verifica normativa resta
@@ -206,7 +206,7 @@ larghezza in unità WPF.
 
 Il controllo mirato `dotnet supporto/test/X.Verifiche/bin/Release/net8.0/ANTHEA.Verifiche.dll --checker`
 verifica il collegamento delle DLL, i benchmark e le correzioni NTC. I limiti e
-gli ultimi esiti sono in [verifica Checker](supporto/docs/checker-verifica.md).
+gli ultimi esiti sono in [verifica Checker](supporto/docs/guida-teorica-anthea.md).
 
 ## Dati condivisi nei progetti
 Ogni gruppo confronta materiali, geometria e armatura dei propri fogli; i sottogruppi sono indipendenti. Le modifiche si confermano con "Conferma modifiche", salvando o lasciando il foglio. Quando esistono altri fogli compatibili si sceglie "Aggiorna tutti i fogli collegati" oppure "Solo questo foglio". Il confronto riguarda i parametri comuni, non carichi, combinazioni, terreno o impostazioni delle verifiche.

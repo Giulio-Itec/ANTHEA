@@ -1,6 +1,6 @@
 # Validazione della separazione della libreria di calcolo
 
-> Documento storico del 26 settembre. Per la verifica corrente del 27 settembre vedere [Audit calcoli e progetti](audit-calcoli-progetti-2026-09-27.md): i 464 riferimenti attuali e le suite complete dei report risultano superati. Gli esiti seguenti sono conservati per tracciabilità.
+> Documento storico del 26 settembre. Per la verifica corrente del 27 settembre vedere [Audit calcoli e progetti](guida-teorica-anthea.md): i 464 riferimenti attuali e le suite complete dei report risultano superati. Gli esiti seguenti sono conservati per tracciabilità.
 
 Data: 26 settembre 2026. Ambito: `X.Calculations`, progetti, coefficienti condivisi e collegamenti a interfaccia e report. Questa revisione verifica la separazione e la conservazione del comportamento; non costituisce una certificazione generale delle formulazioni ingegneristiche.
 

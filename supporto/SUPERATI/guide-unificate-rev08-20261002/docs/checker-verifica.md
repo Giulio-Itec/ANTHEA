@@ -3,7 +3,7 @@
 > **Aggiornamento 28 settembre 2026 — torsione del cassoncino** (CompositeBridge 1.4.0.0).
 >
 > - Nuove verifiche di torsione, distorsione e diaframmi del cassoncino: vedere
->   [sezione-mista-ponte.md](sezione-mista-ponte.md). L'H con anima inclinata resta in flessione retta.
+>   [sezione-mista-ponte.md](guida-teorica-anthea.md). L'H con anima inclinata resta in flessione retta.
 > - Controlli aggiunti: 17 test della libreria con oracoli analitici, controlli X.Verifiche `--bridge` sull'adattatore,
 >   la relazione e l'archivio, prova WPF nel `--smoke-bridge` (campi, ΔT, risultati, relazione).
 > - BridgeAudit: 302 test superati; le baseline delle sezioni H cambiano solo per testo del campo di validità, nuove chiavi di
@@ -173,6 +173,6 @@ Nessuna certificazione globale: prima dell'uso progettuale occorrono ulteriori
 benchmark concordati con il progettista, specialmente per precompressione,
 sezioni complesse, fessurazione e taglio combinati. I casi esclusi restano senza
 esito automatico. Correzioni, fonti normative e limiti operativi sono documentati
-in [calcestruzzo-interfaccia.md](calcestruzzo-interfaccia.md). La copertura delle
+in [calcestruzzo-interfaccia.md](guida-pratica-anthea.md). La copertura delle
 classi normative e il lavoro futuro sono in
-[normative-calcestruzzo.md](normative-calcestruzzo.md).
+[normative-calcestruzzo.md](guida-teorica-anthea.md).

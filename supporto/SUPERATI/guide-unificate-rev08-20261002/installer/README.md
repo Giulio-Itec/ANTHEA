@@ -47,16 +47,27 @@ Il setup sostituisce anche una versione installata più recente, senza conferma.
 
 ## Documentazione distribuita
 
-La cartella `Guide` accanto ad `ANTHEA.exe` contiene tre PDF:
+La cartella `Guide` accanto ad `ANTHEA.exe` contiene sette PDF:
 
-- `Indice-guide.pdf`: indice dei due volumi globali;
-- `Guida pratica ANTHEA.pdf`: uso e UI di tutti i moduli;
-- `Guida teorica ANTHEA.pdf`: teoria, formule, ipotesi e limiti di tutti i moduli.
+- `Indice-guide.pdf`: mappa dei capitoli per ciascun modulo e degli approfondimenti;
+- `Guida pratica ANTHEA.pdf`: uso di tutto il software documentato, dall'avvio alle relazioni;
+- `Guida teorica ANTHEA.pdf`: teoria, equazioni e limiti dei moduli documentati;
+- `palo-orizzontale.pdf`: capacità orizzontale con Broms;
+- `palo-stratificato.pdf`: metodo stratificato per pali e micropali orizzontali;
+- `muri-sostegno.pdf`: guida del modulo muri e delle verifiche;
+- `stabilita-globale-guida-rapida.pdf`: percorso operativo illustrato.
 
-Tutti gli approfondimenti sono incorporati nelle due guide globali Rev08. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
+Le guide generali comprendono materiali, pali e micropali verticali e orizzontali, sezioni in c.a.,
+sezioni composte da ponte, Bridge Design, muri e stabilità globale. Per ciascun modulo l'indice
+indica dove trovare uso e teoria. I PDF sono consultabili offline con il lettore PDF del computer.
 
-Per i nuovi argomenti aggiornare i due volumi, i PDF corrispondenti e l’indice. Per casi particolari chiedere all’utente prima di creare un documento autonomo. `Guide.json` contiene soltanto l’indice; i due manuali sono selezionati automaticamente alla revisione più recente.
+Nel menu **Start → ANTHEA** compaiono **Indice delle guide**, **Guida pratica**, **Guida teorica**,
+**Documentazione** (apre la cartella) e la sottocartella **Guide dei moduli**.
+La documentazione è obbligatoria anche nelle installazioni silenziose.
 
+Per aggiungere una guida specifica, conservare sorgente modificabile e PDF omonimo in `supporto/docs`,
+aggiungere il PDF a `Guide.json` e aggiornare `Indice-guide.md` e `Indice-guide.pdf`.
+Il catalogo esplicito evita di distribuire audit interni, evidenze di test o revisioni superate.
 `Documentazione.ps1` usa lo stesso catalogo per copia, collegamenti e disinstallazione;
 la rimozione elimina solo i file elencati e le cartelle rimaste vuote.
 

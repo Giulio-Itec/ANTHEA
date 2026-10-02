@@ -88,4 +88,4 @@ Il modulo non costituisce una verifica normativa completa. Restano esclusi:
 - normative di seconda generazione e FRC.
 
 Per fonti, confronti indipendenti e comandi vedere
-[validazione delle normative CA](ca-normative-validazione.md).
+[validazione delle normative CA](guida-teorica-anthea.md).

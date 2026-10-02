@@ -1,68 +1,78 @@
-# ANTHEA - Indice delle guide
+# ANTHEA — Indice della guida globale
 
-ITEC Engineering · Documentazione inclusa nell'installazione · 30 settembre 2026
+ITEC Engineering · Revisione 08 · 2 ottobre 2026
 
-Le guide sono disponibili anche senza connessione a Internet. Dal menu **Start → ANTHEA**
-aprire **Guida pratica**, **Guida teorica** oppure **Guide dei moduli**. Il collegamento
-**Documentazione** apre la cartella con tutti i PDF, accanto al programma.
+Un manuale globale articolato in due volumi, consultabili offline dal menu Start → ANTHEA.
 
-## Da dove iniziare
+- **Guida pratica ANTHEA.pdf**: uso, UI, procedure, dati, risultati e relazioni di tutti i moduli.
+- **Guida teorica ANTHEA.pdf**: modelli, formule, ipotesi, limiti e approfondimenti di tutti i moduli.
 
-- **Guida pratica ANTHEA.pdf**: utilizzo del software, compilazione dei dati, comandi, lettura dei risultati, progetti, salvataggio e relazioni.
-- **Guida teorica ANTHEA.pdf**: modelli di calcolo, equazioni, convenzioni, ipotesi, limiti e riferimenti dei moduli per cui la teoria è stata sviluppata.
+Sono inclusi materiali e durabilità, progetti e revisioni, pali e micropali verticali e orizzontali, Broms e metodo stratificato, sezioni CA, sezioni composte, connessioni e appoggi, Bridge Design, muri di sostegno e stabilità globale. Le appendici tecniche conservano audit e studi datati, distinguendoli dalle istruzioni correnti.
 
-Le due guide generali contengono capitoli dedicati ai singoli moduli. La tabella indica
-il capitolo da consultare in ciascuna guida. Gli approfondimenti della pagina successiva
-completano i manuali generali, anche per le funzioni più recenti.
+## Volume pratica: capitoli e approfondimenti
 
-| Modulo o attività | Guida pratica | Guida teorica |
-| --- | --- | --- |
-| Avvio, campi e scelta del modulo | Capitolo 1 | Capitolo 1: convenzioni |
-| Progetti, dati comuni e revisioni | Capitolo 2 | Capitolo 1: modello e dati |
-| Materiali, armature e durabilità | Capitolo 3 | Capitolo 2 |
-| Palo verticale | Capitolo 4 | Capitolo 3 |
-| Micropalo verticale | Capitolo 5 | Capitolo 4 |
-| Pali e micropali orizzontali | Capitolo 6 | Capitolo 5 |
-| Sezione in calcestruzzo armato | Capitolo 7 | Capitolo 6 |
-| Sezione composta da ponte | Capitolo 8 | Capitoli 7 e 8 |
-| Bridge Design | Capitolo 9 | Capitolo 9 |
-| Salvataggio, relazioni e primo progetto | Capitoli 10 e 11 | Capitolo 10: esempi |
-| Problemi frequenti e riferimenti | Capitolo 12 | Capitolo 11 |
-| Muri di sostegno e stabilità globale | Capitolo 13 e integrazione Rev07 | Sezioni finali sui muri e integrazione Rev07 |
+- 1 Avvio e scelta del modulo
+- 2 Progetti e gestione del lavoro
+- 3 Materiali e durabilità
+- 4 Palo verticale
+- 5 Micropalo verticale
+- 6 Pali e micropali caricati orizzontalmente
+- 7 Sezione in calcestruzzo armato
+- 8 Sezione composta da ponte
+- 9 Bridge Design
+- 10 Salvataggio e report
+- 11 Percorso completo per un primo progetto
+- 12 Problemi frequenti e controlli finali
+- 13 Muri di sostegno con stratigrafie di monte e valle
+- Portanza sismica cedimenti spostamenti e armature Rev07
+- PRATICA A01 — Calcestruzzo armato — collegamento Checker
+- PRATICA A02 — Gerarchia dei fogli nei progetti
+- PRATICA A03 — Micropalo orizzontale con CHS
+- PRATICA A04 — Progetti e revisioni
+- PRATICA A05 — Stabilità globale: guida rapida
+- PRATICA A06 — Guida pratica di Bridge Design
 
-<!-- pagebreak -->
+## Volume teorica: capitoli e approfondimenti
 
-## Approfondimenti dei moduli
-
-**Palo orizzontale - Broms** · `palo-orizzontale.pdf`
-
-Guida del palo singolo con carico orizzontale: dati, terreno, sezione resistente,
-meccanismi di Broms, coefficienti e lettura dei risultati. Per il metodo Stratificato
-consultare anche il documento seguente.
-
-**Pali e micropali - Metodo stratificato** · `palo-stratificato.pdf`
-
-Equazioni, diagrammi, equilibrio e limiti dell'approccio stratificato, utilizzabile
-per pali e micropali orizzontali anche con alternanze di terreni coesivi e granulari.
-La guida esplicita il carattere sperimentale del metodo.
-
-**Muri di sostegno** · `muri-sostegno.pdf`
-
-Interfaccia, stratigrafie di monte e valle, azioni e combinazioni, verifiche locali
-e globali, portanza sismica, cedimenti, spostamenti e armature.
-
-**Stabilità globale - Guida rapida** · `stabilita-globale-guida-rapida.pdf`
-
-Percorso illustrato per preparare il profilo, inserire gli strati profondi,
-controllare falda e sisma, avviare la ricerca e interpretare la superficie critica.
-
-## Consultazione e aggiornamenti
-
-I nomi dei file sopra riportati corrispondono ai PDF nella cartella **Guide**
-dell'installazione. Aprirli con il lettore PDF del computer; la ricerca nel documento
-permette di trovare rapidamente il nome del modulo o dell'argomento.
-
-Le guide generali installate sono l'ultima revisione disponibile al momento della
-creazione del setup. Un aggiornamento del software sostituisce anche le guide incluse.
-Gli eventuali richiami a sorgenti, prove o evidenze nel repository descrivono materiale
-di sviluppo: per l'uso del programma consultare i manuali e gli approfondimenti elencati qui.
+- 1 Architettura del calcolo e convenzioni
+- 2 Calcestruzzo armature e copriferro
+- 3 Palo verticale
+- 4 Micropalo verticale
+- 5 Capacità orizzontale con Broms
+- 6 Sezione in calcestruzzo armato
+- 7 Sezione composta da ponte
+- 8 Taglio irrigidimenti e connessione della sezione composta
+- 9 Bridge Design
+- 10 Esempi trasversali e lettura critica
+- 11 Tracciabilità e riferimenti
+- Muri di sostegno e stabilità globale
+- Portanza sismica cedimenti spostamenti e armature Rev07
+- TEORICA A01 — Scheda acciaio per armature
+- TEORICA A02 — Aggiornamento librerie · 24 settembre 2026
+- TEORICA A03 — Asse neutro nelle viste di sezione
+- TEORICA A04 — Audit ANTHEA: calcoli, dati comuni e progetti
+- TEORICA A05 — Dati e risultati del modulo in cemento armato
+- TEORICA A06 — ANTHEA — Audit generale di Bridge Design
+- TEORICA A07 — Bridge Design — sezioni tecniche e ottimizzazione
+- TEORICA A08 — Bridge Design
+- TEORICA A09 — Validazione — taglio e fessurazione CA
+- TEORICA A10 — Estensioni del modulo CA · settembre 2026
+- TEORICA A11 — Aggiornamento SLE, geometria e trefoli
+- TEORICA A12 — Esito integrazione Checker — 21 settembre 2026
+- TEORICA A13 — Sezione da ponte: irrigidimenti, appoggi e connessione
+- TEORICA A14 — ANTHEA.Calculations — separazione e trasferimento
+- TEORICA A15 — Migrazione del calcolo ponte in Checker — 25 settembre 2026
+- TEORICA A16 — Muri di sostegno
+- TEORICA A17 — Calcestruzzo ordinario — normative e verifiche di sezione
+- TEORICA A18 — Palo singolo: capacità portante orizzontale
+- TEORICA A19 — Palo orizzontale in terreno stratificato
+- TEORICA A20 — Curve della sezione composta
+- TEORICA A21 — Sezione da ponte con storico lineare e non lineare
+- TEORICA A22 — Metodo della sezione da ponte da rivedere per Checker
+- TEORICA A23 — Sezione composta da ponte
+- TEORICA A24 — Studio della condivisione dati tra i fogli ANTHEA
+- TEORICA A25 — Sezione da ponte — taglio, irrigidimenti e connessione
+- TEORICA A26 — Test dei metodi per i ponti
+- TEORICA A27 — Unificazione dei calcoli e controllo dei progetti
+- TEORICA A28 — Validazione della separazione della libreria di calcolo
+- TEORICA A29 — Teoria e validazione di Bridge Design

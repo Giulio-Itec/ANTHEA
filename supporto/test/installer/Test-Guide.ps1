@@ -23,7 +23,7 @@ function Fixture-Pdf([string]$path) {
 }
 
 $catalog = Get-InstallerGuides $root
-Check ($catalog.Entries.Count -eq 7) 'Sette PDF: due guide generali, quattro approfondimenti e indice'
+Check ($catalog.Entries.Count -eq 3) 'Tre PDF: due guide globali complete e indice'
 $stage = Join-Path $work 'stage'
 Write-InstallerGuides $catalog $stage
 foreach ($entry in $catalog.Entries) {

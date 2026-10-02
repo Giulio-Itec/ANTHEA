@@ -1,7 +1,7 @@
 # Validazione — taglio e fessurazione CA
 
 Data: 28 settembre 2026. Sette profili normativi, cinque geometrie del catalogo.
-[Matrice di copertura e parti ancora mancanti](normative-calcestruzzo.md).
+[Matrice di copertura e parti ancora mancanti](guida-teorica-anthea.md).
 
 ## Confronti indipendenti
 

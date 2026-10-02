@@ -1,6 +1,6 @@
 # Metodo della sezione da ponte da rivedere per Checker
 
-Aggiornamento dettagli locali: [irrigidimenti, appoggi e connessione](irrigidimenti-appoggi-connessione.md).
+Aggiornamento dettagli locali: [irrigidimenti, appoggi e connessione](guida-teorica-anthea.md).
 I punti 1–3 sono aggiunti a valle dei risultati; in questa revisione il ciclo delle
 fasi descritto qui rimane invariato. I nuovi metodi puri e i loro test sono già in Checker.
 
@@ -159,6 +159,6 @@ dotnet X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll --smoke-bridge supporto/a
 
 ## Nuovi metodi a taglio e pioli
 
-I metodi puri sono già in `Checker/GPCChecker.Steel/CompositeBridges`, temporaneamente inclusi da ANTHEA con collegamento ai sorgenti. Sono ricavati direttamente da NTC/EC, senza utilizzare il precedente metodo a taglio come oracolo. Riferimenti, difetti preesistenti non corretti e campo di validità: [revisione normativa](taglio-pioli-fonti-e-metodo.md).
+I metodi puri sono già in `Checker/GPCChecker.Steel/CompositeBridges`, temporaneamente inclusi da ANTHEA con collegamento ai sorgenti. Sono ricavati direttamente da NTC/EC, senza utilizzare il precedente metodo a taglio come oracolo. Riferimenti, difetti preesistenti non corretti e campo di validità: [revisione normativa](guida-teorica-anthea.md).
 
 Aggiornamento 26 settembre 2026: i percorsi storici X.Core/BridgeSection citati nel dossier sono ora X.Calculations/BridgeSection; i metodi numerici sono in GPCChecker.CompositeBridge. Vedere migrazione-composite-bridge.md e libreria-calcolo.md per l’architettura corrente.

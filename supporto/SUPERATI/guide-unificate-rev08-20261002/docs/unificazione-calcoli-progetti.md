@@ -119,6 +119,6 @@ Per l’aggregatore archivi/report usare il controllo esterno di completamento:
 
 ## Aggiornamento del 26 settembre 2026
 
-I servizi numerici descritti sopra sono stati trasferiti da X.Core a X.Calculations, assembly ANTHEA.Calculations, senza dipendenze dalla UI o dalla gestione degli archivi. Il resoconto aggiornato è in [validazione-libreria-calcolo.md](validazione-libreria-calcolo.md); architettura e trasferimento in [libreria-calcolo.md](libreria-calcolo.md).
+I servizi numerici descritti sopra sono stati trasferiti da X.Core a X.Calculations, assembly ANTHEA.Calculations, senza dipendenze dalla UI o dalla gestione degli archivi. Il resoconto aggiornato è in [validazione-libreria-calcolo.md](guida-teorica-anthea.md); architettura e trasferimento in [libreria-calcolo.md](guida-teorica-anthea.md).
 
 La nuova prova del report ricorsivo di progetto è **incompleta**: il processo termina prima dell’attestazione finale. Il solo codice zero e il file di avanzamento non autorizzano a considerare la suite superata. Il nuovo runner controlla espressamente l’attestazione finale. Restano documentate anche le 50 differenze storiche dei riferimenti Python e l’interruzione del report micropalo.

@@ -1,6 +1,6 @@
 # Calcestruzzo armato — collegamento Checker
 
-Le [estensioni di settembre 2026](calcestruzzo-estensioni.md) aggiungono piani
+Le [estensioni di settembre 2026](guida-teorica-anthea.md) aggiungono piani
 di deformazione, dettagli costruttivi, curva M–χ, torsione, taglio circolare e
 sezioni con foro centrale; integrano le funzionalità descritte in questa guida.
 
@@ -272,7 +272,7 @@ fessurazione hanno formule dedicate per tutti i sette profili; il Model Code
 usa anche i momenti associati al taglio. Le verifiche dei dettagli e la torsione
 restano nel campo NTC documentato.
 Per supporto effettivo, differenze nazionali e parti mancanti vedere
-[normative-calcestruzzo.md](normative-calcestruzzo.md).
+[normative-calcestruzzo.md](guida-teorica-anthea.md).
 
 Dal menu **Report Word** si selezionano geometria, materiali, coefficienti,
 azioni, domini, ogni SLE, taglio, dettagli di barre/vertici e grafici. Le scelte
@@ -351,7 +351,7 @@ certificazione della struttura. L'esportazione mantiene
 `verifica_normativa_completa: false`.
 
 - Taglio circolare: richiede la scelta esplicita del modello e dei parametri,
-  descritta nelle [estensioni del modulo](calcestruzzo-estensioni.md).
+  descritta nelle [estensioni del modulo](guida-teorica-anthea.md).
 - Taglio con precompressione: da completare, incluse le componenti dei cavi.
 - Apertura delle fessure con trefoli: da completare, incluse aderenza ed area
   efficace specifica. Decompressione/formazione hanno un controllo distinto.
@@ -402,4 +402,4 @@ pubblicati arrotondati, non una tolleranza generale di progetto.
 Sono presenti risultati analitici indipendenti per taglio, apertura delle
 fessure e area efficace rettangolare. La prova WPF verifica tabelle, mappe,
 invalidazione, filtri, salvataggi e viewport. Vedere anche
-[esito dell'integrazione](checker-verifica.md).
+[esito dell'integrazione](guida-teorica-anthea.md).

@@ -86,4 +86,4 @@ Le tabelle dei conci sono in `esempio-stratificato-conci.csv`, accanto al modell
 
 Per l’organizzazione dell’input sono stati consultati il manuale installato di MAX 16 (`manualeMAX.pdf`, §§6.5, 6.6, 6.8 e 16.7) e la [pagina ufficiale MAX](https://www.aztec.it/max-muri-di-sostegno/). L’impostazione per spessori, colori e dettagli ha ispirato l’interfaccia; ANTHEA conserva il proprio motore Bishop e la ricerca per ingresso, uscita e profondità.
 
-Metodo, coefficienti e limiti completi: [guida del modulo](muri-sostegno.md), disponibile anche in PDF. La stabilità globale non comprende cedimenti, liquefazione o una verifica complessiva dell’opera.
+Metodo, coefficienti e limiti completi: [guida del modulo](guida-teorica-anthea.md), disponibile anche in PDF. La stabilità globale non comprende cedimenti, liquefazione o una verifica complessiva dell’opera.

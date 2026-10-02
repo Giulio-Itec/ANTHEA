@@ -34,8 +34,4 @@ Le guide pratica e teorica Rev05, i corrispondenti sorgenti e PDF, la guida dei 
 
 ## Completamento muri Rev07
 
-Le guide generali Rev06 e i documenti sostituiti sono conservati in muri-completamento-rev07-20260930, con struttura relativa e registro.json. La revisione 07 riguarda portanza sismica, cedimenti, spostamenti e armature. I modelli e le evidenze MAX non sono stati spostati.
-
-## Guide globali Rev08 — 2 ottobre 2026
-
-La revisione corrente delle due guide globali è Rev08. Le guide autonome, i 35 sorgenti integrati, le edizioni Rev07 e gli indici sostituiti sono conservati in `guide-unificate-rev08-20261002`, con la struttura relativa originale. `registro.json` riporta origine, motivo, sostituzione e SHA-256. I documenti correnti sono `supporto/docs/guida-pratica-anthea.md` e `supporto/docs/guida-teorica-anthea.md`, con PDF omonimi ed edizioni Word/PDF in `supporto/documentazione/Guide_ANTHEA`. Modelli ed evidenze di calcolo restano nelle loro cartelle.
+Le guide generali Rev06 e i documenti sostituiti sono conservati in muri-completamento-rev07-20260930, con struttura relativa e registro.json. La revisione corrente è Rev07, su portanza sismica, cedimenti, spostamenti e armature. I modelli e le evidenze MAX non sono stati spostati.

@@ -88,7 +88,7 @@ Il 25 settembre 2026 è stata aggiunta `GPCChecker.CompositeBridge.dll`, compila
 dal nuovo progetto Checker **contro le dipendenze di questo snapshot**. Le otto
 DLL native elencate sotto sono rimaste identiche (hash verificati). La nuova
 libreria contiene il calcolo ponte trasferito da ANTHEA; non viene compilata
-dall'app. Vedere [migrazione](../../supporto/docs/migrazione-composite-bridge.md).
+dall'app. Vedere [migrazione](../../supporto/docs/guida-teorica-anthea.md).
 
 Snapshot dei binari forniti da Giulio Pacini, aggiornato il 24 settembre 2026
 dai `bin/Release` dei singoli progetti Model, ModelData, GPCUtilities,

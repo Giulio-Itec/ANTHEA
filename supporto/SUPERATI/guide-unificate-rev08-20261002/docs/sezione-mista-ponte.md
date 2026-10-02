@@ -86,7 +86,7 @@ sono attenuati e non modificabili. I pulsanti aggiungono, spostano o eliminano l
 la selezione della situazione cumulata non limita le righe di ingresso visibili.
 Le verifiche comprendono limiti tensionali SLU/SLE, taglio, interazione N–M–V e,
 quando attivi, irrigidimenti, appoggi e connessione. Campo e ipotesi dei dettagli
-sono descritti in [irrigidimenti, appoggi e connessione](irrigidimenti-appoggi-connessione.md).
+sono descritti in [irrigidimenti, appoggi e connessione](guida-teorica-anthea.md).
 Le tabelle di omogeneizzazione e di equilibrio sono riunite; la sezione efficace
 comprende i parametri di classe 4, le proprietà geometriche e i dati di convergenza
 in gruppi espandibili. Criteri, campo del modello, formule di omogeneizzazione e
@@ -432,7 +432,7 @@ taglio, interazione N–M–V e dettagli opzionali di irrigidimenti, appoggi e c
 inclusa la fatica dei pioli. Restano esclusi torsione, instabilità globale, fatica
 generale della carpenteria, fessurazione e shear lag. I rapporti locali non attestano
 la verifica completa del ponte. Ipotesi e limiti sono nel documento
-[dettagli locali](irrigidimenti-appoggi-connessione.md).
+[dettagli locali](guida-teorica-anthea.md).
 
 ## Verifiche riproducibili
 
@@ -476,12 +476,12 @@ trasporto N–Mx, punto lordo fisso, punto efficace iterativo, riferimenti misti
 persistenza e compatibilità degli archivi precedenti.
 
 Il codice da rivedere prima del trasferimento in Checker è descritto in
-[Preparazione del metodo per Checker](porting-checker-sezione-ponte.md).
+[Preparazione del metodo per Checker](guida-teorica-anthea.md).
 
 
 ## Taglio, pioli e aggiornamento delle fasi
 
-Il taglio ora ha verifiche dedicate dell’anima e degli irrigidimenti trasversali intermedi opzionali. Sono disponibili input, resistenze e flussi per i pioli uniformi. Formule, fonti primarie, differenze NTC/EC e limiti sono raccolti in [Fonti e metodo di taglio e connessione](taglio-pioli-fonti-e-metodo.md).
+Il taglio ora ha verifiche dedicate dell’anima e degli irrigidimenti trasversali intermedi opzionali. Sono disponibili input, resistenze e flussi per i pioli uniformi. Formule, fonti primarie, differenze NTC/EC e limiti sono raccolti in [Fonti e metodo di taglio e connessione](guida-teorica-anthea.md).
 
 La tabella conserva tutte le righe durante le modifiche. Aggiungendo una fase si segue l’ultima situazione cumulativa; scegliendo esplicitamente una fase precedente la scelta resta conservata. Il comando “Mostra tutte le fasi” riattiva il seguito dell’ultima situazione.
 

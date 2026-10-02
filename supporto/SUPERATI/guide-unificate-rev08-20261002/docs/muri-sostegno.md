@@ -1,6 +1,6 @@
 # Muri di sostegno
 
-Revisione del 30 settembre 2026, allineata alle guide generali Rev07. Due colonne di terreno, attriti, input guidato e terreno sotto la fondazione visibile. Guida operativa illustrata: [Stabilità globale, guida rapida](stabilita-globale-guida-rapida.md), anche in PDF.
+Revisione del 30 settembre 2026, allineata alle guide generali Rev07. Due colonne di terreno, attriti, input guidato e terreno sotto la fondazione visibile. Guida operativa illustrata: [Stabilità globale, guida rapida](guida-pratica-anthea.md), anche in PDF.
 
 Il modulo **Geotecnica → Muri di sostegno** calcola mensola in c.a. e gravità per metro di sviluppo. Le altre tipologie sono predisposte nello schema e restano senza calcolo. Il riferimento funzionale è [MAX di Aztec](https://www.aztec.it/max-muri-di-sostegno/); non viene dichiarata equivalenza numerica.
 

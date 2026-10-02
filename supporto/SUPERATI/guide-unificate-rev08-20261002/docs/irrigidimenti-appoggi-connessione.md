@@ -2,7 +2,7 @@
 
 Revisione 25 settembre 2026. Perimetro concordato: completare i dettagli locali,
 l’interazione N–M–V e la connessione, lasciando invariato il calcolo delle fasi.
-Questo documento integra [taglio e pioli](taglio-pioli-fonti-e-metodo.md).
+Questo documento integra [taglio e pioli](guida-teorica-anthea.md).
 
 ## Interfaccia e dati
 

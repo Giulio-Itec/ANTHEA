@@ -123,20 +123,20 @@ def finalize(kind):
         formulas = []
         for line in source_lines[start:]:
             line = line.strip()
-            if not line:
+            if not line or line.startswith(('<!--', '```')):
                 continue
             if line.startswith('##'):
                 required.append(re.sub(r'^\d+\s+(?:\d+\s+)?', '', line.lstrip('#').strip()))
             elif line.startswith('|'):
                 cells = [c.strip() for c in line.strip('|').split('|')]
                 if not all(re.fullmatch(r'[:\- ]+', c) for c in cells):
-                    required.extend(cells)
+                    required.extend(B.display_text(c) for c in cells)
             elif line.startswith('$$ '):
                 formulas.append(line[3:])
             elif line.startswith('!['):
                 required.append(re.fullmatch(r'!\[(.*?)\]\((.*?)\)', line).group(1))
             else:
-                required.append(line)
+                required.append(B.display_text(line))
         missing = [t for t in required if t not in doc_text]
         assert not missing, missing
         result_formulas = [''.join(n.xpath('.//m:t/text()', namespaces=NS)) for n in final.findall('.//m:oMath', NS)]

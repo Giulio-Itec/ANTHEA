@@ -37,7 +37,7 @@ software; non modificano gli esempi della relazione di validazione.
    hanno controlli indipendenti su fasce interne di parete/anello: quando sono
    tese e prive di armatura efficace, l'esito resta incompleto. L'inviluppo
    comprende aperture esterne e interne; dettagli e limiti nella
-   [matrice delle normative](normative-calcestruzzo.md).
+   [matrice delle normative](guida-teorica-anthea.md).
 4. **Taglio e torsione**: N, Mx, My, Vx, Vy e T nella stessa combinazione; momenti in kNm.
    Mx/My sono conservati anche in Excel e servono al taglio MC2010 livello II.
    Il valore di default dei vecchi archivi è zero. La colonna T è disponibile

@@ -3,7 +3,7 @@
 Dal 30 settembre 2026 è disponibile anche **Stratificato** nelle
 opzioni avanzate: diagrammi locali, equilibrio globale e reazioni distribuite,
 anche con alternanze coesivo/granulare. Equazioni, differenze rispetto a Broms,
-limiti e test sono nella [guida del metodo stratificato](palo-stratificato.md),
+limiti e test sono nella [guida del metodo stratificato](guida-teorica-anthea.md),
 con PDF omonimo. Le sezioni seguenti descrivono il metodo **Broms** mantenuto
 per compatibilità; le esclusioni delle sequenze miste si riferiscono a tale metodo.
 

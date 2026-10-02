@@ -21,12 +21,12 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[2]
-REVISION = '07'
+REVISION = '08'
 # edition data of the revision: date, contents and description in the revision table of the cover
-DATE = '30/09/2026'
-CONTENTS = '30 settembre 2026'
-CONTENTS_ISO = '2026-09-30'
-REVISION_NOTE = 'MURI SISMA SLE E ARMATURE'
+DATE = '02/10/2026'
+CONTENTS = '2 ottobre 2026'
+CONTENTS_ISO = '2026-10-02'
+REVISION_NOTE = 'GUIDE GLOBALI UNIFICATE'
 ART = ROOT / f'supporto/artefatti/guide_anthea_itec_rev{REVISION}'
 OUT = ROOT / 'supporto/documentazione/Guide_ANTHEA'
 TEMPLATE = Path('C:/Users/g.pacini/Desktop/MODELLO-RELAZIONE-ITEC-AA.docx')
@@ -37,6 +37,19 @@ GUIDES = {
     'teorica': ('Guida teorica dei calcoli di ANTHEA', 'Modelli formule ipotesi ed esempi dei moduli disponibili',
                 'Geotecnica e materiali\nSezioni in calcestruzzo e composte\nBridge Design e modelli di calcolo', 'ANTHEA-GT-02'),
 }
+
+def display_text(value):
+    value = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1 (\2)', value)
+    return value.replace('**', '').replace('`', '')
+
+def add_inline(paragraph, value):
+    value = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1 (\2)', value)
+    for token in re.split(r'(\*\*.*?\*\*|`[^`]*`)', value):
+        bold = len(token) >= 4 and token.startswith('**') and token.endswith('**')
+        mono = len(token) >= 2 and token.startswith('`') and token.endswith('`')
+        run = paragraph.add_run(token[2:-2] if bold else token[1:-1] if mono else token.replace('**', '').replace('`', ''))
+        if bold: run.bold = True
+        if mono: run.font.name = 'Consolas'
 
 def replace_text(p, value):
     if p.runs:
@@ -58,7 +71,7 @@ def write_table(doc, lines):
     rows = [[c.strip() for c in line.strip().strip('|').split('|')] for line in lines]
     rows = [r for r in rows if not all(re.fullmatch(r'[:\- ]+', c) for c in r)]
     count = len(rows[0])
-    widths = {2: [5.3, 11.7], 3: [4.2, 6.0, 6.8], 4: [7.0, 3.2, 3.2, 3.6], 5: [5.0, 3.0, 3.0, 3.0, 3.0]}[count]
+    widths = {2: [5.3, 11.7], 3: [4.2, 6.0, 6.8], 4: [7.0, 3.2, 3.2, 3.6], 5: [5.0, 3.0, 3.0, 3.0, 3.0]}.get(count, [17 / count] * count)
     if rows[0][0] == 'Ambito':
         widths = [3.4, 3.0, 3.2, 2.4, 5.0]
     if rows[0][0] == 'Numero di indagini selezionato':
@@ -101,9 +114,10 @@ def write_table(doc, lines):
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             p.paragraph_format.space_before = Pt(1)
             p.paragraph_format.space_after = Pt(1)
-            r = p.add_run(value)
-            r.font.size = Pt(10.5)
-            r.bold = ri == 0
+            add_inline(p, value)
+            for r in p.runs:
+                r.font.size = Pt(10.5)
+                if ri == 0: r.bold = True
     doc.add_paragraph().paragraph_format.space_after = Pt(0)
 
 def patch_footer(data, filename):
@@ -206,6 +220,11 @@ def build(kind):
         i += 1
         if not line:
             continue
+        if line.startswith('<!--'):
+            if line == '<!-- pagebreak -->': doc.add_page_break()
+            continue
+        if line.startswith('```'):
+            continue
         if line.startswith('## ') or line.startswith('### '):
             level = 2 if line.startswith('### ') else 1
             text = re.sub(r'^\d+\s+(?:\d+\s+)?', '', line[level + 2:])
@@ -256,7 +275,7 @@ def build(kind):
             if re.match(r'^\d+\. ', line):
                 p.paragraph_format.left_indent = Cm(.5)
                 p.paragraph_format.first_line_indent = Cm(-.5)
-            p.add_run(line)
+            add_inline(p, line)
 
     settings = doc.settings.element
     for el in settings.findall(qn('w:updateFields')):

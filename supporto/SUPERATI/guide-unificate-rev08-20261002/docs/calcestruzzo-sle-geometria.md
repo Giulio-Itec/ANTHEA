@@ -51,7 +51,7 @@ la geometria in ingresso nei tipi Geometry della libreria.
   Nel secondo schema il numero indica le staffe chiuse aggiuntive.
   Il disegno è indicativo; il modello resistente a taglio circolare si sceglie
   esplicitamente nella relativa scheda. Vedere le
-  [estensioni del modulo](calcestruzzo-estensioni.md) per campo e ipotesi.
+  [estensioni del modulo](guida-teorica-anthea.md) per campo e ipotesi.
 - Rosso indica compressione negativa, blu trazione positiva.
 - Le scale di utilizzo distinguono cinque fasce: fino a 0,50; 0,50–0,70;
   0,70–0,90; 0,90–1,00; oltre 1,00. Legende verticali.

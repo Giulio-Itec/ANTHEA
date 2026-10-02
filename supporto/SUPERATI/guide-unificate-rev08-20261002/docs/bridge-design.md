@@ -23,7 +23,7 @@ I valori automatici sono richiesti con zero nei campi che lo dichiarano e restan
 
 ## Modello
 
-La [guida a sezioni tecniche e ottimizzazione](bridge-design-ottimizzazione.md) descrive la scheda principale **Ottimizzazione**, i parametri bloccabili, gli intervalli percentuali, la traccia dei tentativi, la nuvola costo–CO₂ con frontiera Pareto e la graduatoria delle prime N soluzioni. La preview segue il migliore provvisorio e consente poi di confrontare le alternative senza modificare il progetto. I report e il CSV tecnico usano gli stessi prospetti dimensionali della finestra.
+La [guida a sezioni tecniche e ottimizzazione](guida-teorica-anthea.md) descrive la scheda principale **Ottimizzazione**, i parametri bloccabili, gli intervalli percentuali, la traccia dei tentativi, la nuvola costo–CO₂ con frontiera Pareto e la graduatoria delle prime N soluzioni. La preview segue il migliore provvisorio e consente poi di confrontare le alternative senza modificare il progetto. I report e il CSV tecnico usano gli stessi prospetti dimensionali della finestra.
 
 Le formule, i coefficienti e gli esempi sono descritti nel capitolo Bridge Design della [guida teorica](guida-teorica-anthea.md). Il capitolo corrispondente della [guida pratica](guida-pratica-anthea.md) descrive tutti i comandi.
 
@@ -48,4 +48,4 @@ Gli output sono sotto `supporto/artefatti/bridge_design`. Per le guide i sorgent
 
 Il catalogo comprende ora 14 famiglie: alle otto iniziali si aggiungono travi incorporate, cassone ortotropo, arco metallico con catena, strallato, sospeso e reticolare. Per le strutture superiori il motore usa equilibri e aree convenzionali dedicati, non i diagrammi della trave ordinaria. I file `BridgeConcept.Advanced*.cs` ne separano schema, impalcato e struttura principale.
 
-Il [report dell'audit generale](bridge-design-audit-2026-09-27.md) documenta prezzi, formule, correzioni, limiti, 1.008 configurazioni, regressione dei 2.000 input del sito e test finali di ottimizzazione. `BridgeConcept.Foundation.cs` include il peso del plinto nell'autodimensionamento e `BridgeConcept.Pricing.cs` espone i riferimenti economici. Le nuove tariffe iniziali sono calibrate su riscontri ANAS/RER 2026; i prezzi salvati negli archivi restano invariati. La finestra dispone di un caricamento esplicito dei valori orientativi, annullabile.
+Il [report dell'audit generale](guida-teorica-anthea.md) documenta prezzi, formule, correzioni, limiti, 1.008 configurazioni, regressione dei 2.000 input del sito e test finali di ottimizzazione. `BridgeConcept.Foundation.cs` include il peso del plinto nell'autodimensionamento e `BridgeConcept.Pricing.cs` espone i riferimenti economici. Le nuove tariffe iniziali sono calibrate su riscontri ANAS/RER 2026; i prezzi salvati negli archivi restano invariati. La finestra dispone di un caricamento esplicito dei valori orientativi, annullabile.

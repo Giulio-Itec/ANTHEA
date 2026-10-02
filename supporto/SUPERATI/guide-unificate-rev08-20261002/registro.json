@@ -1,0 +1,408 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\guida-pratica-anthea.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "b54604709005cb7f941ca917a4dc7daf27fb1b4697e2659570e8c3c7acfd0a29"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "6b3e9081fca340bc362987dff5527aa49cae321fbd5d9a9ed00895623c7587bd"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\guida-teorica-anthea.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "9a5fae8177d5fd91d2fad2cdb17b334bbc354a665e0c95a08d47274feab4eb9c"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "ef1fd63045184357b8ebb57bc39b2ce383bfd8bfa548bd7a22634e3daedb9b7a"
+  },
+  {
+    "origine": "supporto\\docs\\calcestruzzo-interfaccia.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\calcestruzzo-interfaccia.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "4d4d99fc2629c26b8760958540cee569b93a493f8f296ca88ca5a7e7504cc0bc"
+  },
+  {
+    "origine": "supporto\\docs\\gerarchia-progetti.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\gerarchia-progetti.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "e2d0b2cd385169410bb63a9be7071caffe794cd9204a3de640137fa441d02265"
+  },
+  {
+    "origine": "supporto\\docs\\micropalo-orizzontale.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\micropalo-orizzontale.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "494941f256ee0f8cb6c31582d5222a3cfdfb91c961d45ee7a03f9c52258e307b"
+  },
+  {
+    "origine": "supporto\\docs\\progetti-revisioni.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\progetti-revisioni.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "2a55d5e0daa9d7d99d16f7933f4ddb56a3529b394b5bad5256291a3287939eb2"
+  },
+  {
+    "origine": "supporto\\docs\\stabilita-globale-guida-rapida.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\stabilita-globale-guida-rapida.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "1dc92d9e2621fd53bb2e505a95480fee97339505bb21404a5dfb3d33d7d395be"
+  },
+  {
+    "origine": "supporto\\docs\\stabilita-globale-guida-rapida.pdf",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\stabilita-globale-guida-rapida.pdf",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "20fdc5fa90127c6a6d4156e154f29b82cb8f96e6e4bb3067e517c541e3aa2f5c"
+  },
+  {
+    "origine": "supporto\\documentazione\\Bridge_Design\\ANTHEA_Bridge_Design_Pratica_ITEC_Rev01.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\documentazione\\Bridge_Design\\ANTHEA_Bridge_Design_Pratica_ITEC_Rev01.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "944dcbe041745eca372549a9e0da098cbd8665b6f7a09448b16b64ec9cb2c6d5"
+  },
+  {
+    "origine": "supporto\\documentazione\\Bridge_Design\\ANTHEA_Bridge_Design_Pratica_ITEC_Rev01.pdf",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\documentazione\\Bridge_Design\\ANTHEA_Bridge_Design_Pratica_ITEC_Rev01.pdf",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "6ffc56ed8a70933932f38746f950219b75cc057a12d10fcb1f3b5aacd65027d1"
+  },
+  {
+    "origine": "supporto\\documentazione\\Bridge_Design\\ANTHEA_Bridge_Design_Pratica_ITEC_Rev01.docx",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\documentazione\\Bridge_Design\\ANTHEA_Bridge_Design_Pratica_ITEC_Rev01.docx",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "b62323c7f830b55c65b39a0e82e3578a098256d2bfa8cc72d5f0e81c9c36dc74"
+  },
+  {
+    "origine": "supporto\\docs\\acciaio-armature.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\acciaio-armature.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "aec979380a3fbc8abe431f69165c1c30545518341eb57d5d538a7199ffea188c"
+  },
+  {
+    "origine": "supporto\\docs\\aggiornamento-dll-2026-09-24.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\aggiornamento-dll-2026-09-24.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "18e98784e64d29fa55749f9cd83933c785263475ef11700f947ba5bc811b5ea3"
+  },
+  {
+    "origine": "supporto\\docs\\asse-neutro-sezioni.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\asse-neutro-sezioni.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "b05d72b3802c6e90ddf0962aeda5453a4571fd5e7befb91e7c0589d9c0fd9900"
+  },
+  {
+    "origine": "supporto\\docs\\audit-calcoli-progetti-2026-09-27.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\audit-calcoli-progetti-2026-09-27.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "f0bc8806855f7ec94799683164d5af0f5a1390a52c5bb317bf94e1e51a6fe485"
+  },
+  {
+    "origine": "supporto\\docs\\audit-dati-ca.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\audit-dati-ca.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "c3e271dbf4c84e388e7bbce07b509e834534ccb773768d635732a1c0d5ebad62"
+  },
+  {
+    "origine": "supporto\\docs\\bridge-design-audit-2026-09-27.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\bridge-design-audit-2026-09-27.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "f62b6318b4f3607ffbd05cebb85b876d039c5e7c6f7d57a95d4378fca3b21127"
+  },
+  {
+    "origine": "supporto\\docs\\bridge-design-ottimizzazione.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\bridge-design-ottimizzazione.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "4b2148279b969899fd92e68ac2e9e0de60ac727c756eaf32893707ace7dc74f2"
+  },
+  {
+    "origine": "supporto\\docs\\bridge-design.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\bridge-design.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "37ee626debef0e406947e245b4514fa669d7eb0af75e2be6f13f907903289e4c"
+  },
+  {
+    "origine": "supporto\\docs\\ca-normative-validazione.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\ca-normative-validazione.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "82bc52ef2ab362e6ccacbbcad87c07c4d101964d78f12ce03ea2b598291e069d"
+  },
+  {
+    "origine": "supporto\\docs\\calcestruzzo-estensioni.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\calcestruzzo-estensioni.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "6ed67500c7b508474bfdf24fc6d5ea7f3050a7221d2ba107a4a40ed75b5901b7"
+  },
+  {
+    "origine": "supporto\\docs\\calcestruzzo-sle-geometria.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\calcestruzzo-sle-geometria.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "41345513534c3fa20f1e92ca077847349acee54269a5d2ab189cbeb22b876197"
+  },
+  {
+    "origine": "supporto\\docs\\checker-verifica.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\checker-verifica.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "a58fd4bd28fc7bf75a3e12ad535c91c1d5b59afa52712d34015bdca2434617b5"
+  },
+  {
+    "origine": "supporto\\docs\\irrigidimenti-appoggi-connessione.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\irrigidimenti-appoggi-connessione.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "d2198729729d557edd7d1050054a8a53a4dded375b10dd0868bc278b04be550e"
+  },
+  {
+    "origine": "supporto\\docs\\libreria-calcolo.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\libreria-calcolo.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "c37c5ca84390dafb50a82b5b92b319cb3d544d71fb8372af6a06fc50c97e64ee"
+  },
+  {
+    "origine": "supporto\\docs\\migrazione-composite-bridge.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\migrazione-composite-bridge.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "0e3a8a8c5de52e378c2e05c72b59c839e66076dbb40c7c1d5aadb245c91f7c70"
+  },
+  {
+    "origine": "supporto\\docs\\muri-sostegno.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\muri-sostegno.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "700f95984284f90f116840e34045061d3fb22a2876645a4962365c593f6f3e92"
+  },
+  {
+    "origine": "supporto\\docs\\muri-sostegno.pdf",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\muri-sostegno.pdf",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "22baab09cd79708b14fe7223c9543b8e3638cddefc21c004c69977269d32d77e"
+  },
+  {
+    "origine": "supporto\\docs\\normative-calcestruzzo.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\normative-calcestruzzo.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "4e4bc4eab349c21e71ff3a357f967e5168fb7d168b1ec33d32fee1642a377aa1"
+  },
+  {
+    "origine": "supporto\\docs\\palo-orizzontale.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\palo-orizzontale.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "91a3aff01896aa1c62066c9e36cfb94a95dff86e112a5afa7950aad929079a3d"
+  },
+  {
+    "origine": "supporto\\docs\\palo-orizzontale.pdf",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\palo-orizzontale.pdf",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "4295c4630522d9507c1cae75e351fde20ff2ebc71fa65ebe8cedd430d56fa2b7"
+  },
+  {
+    "origine": "supporto\\docs\\palo-stratificato.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\palo-stratificato.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "13a7a78d3abcda79b9262799c497f1d710ad8bb721bb67a753c9207f9d589191"
+  },
+  {
+    "origine": "supporto\\docs\\palo-stratificato.pdf",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\palo-stratificato.pdf",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "c1802e6944d3c11d78f8ba31f6b59a77694db2504d0ebae4aea356e0387eefcc"
+  },
+  {
+    "origine": "supporto\\docs\\ponte-curve-sezione.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\ponte-curve-sezione.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "b025b4a45a70011b5d1d161a3fc3eb31ec408c0813ff695669410e2cb55a683b"
+  },
+  {
+    "origine": "supporto\\docs\\ponte-storico-non-lineare.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\ponte-storico-non-lineare.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "921174f4b5157208e735a902db78bdcbcb1d46c82d47fcd9f0931b3365626f35"
+  },
+  {
+    "origine": "supporto\\docs\\porting-checker-sezione-ponte.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\porting-checker-sezione-ponte.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "46409cfb0162e28249b845145e79c09240a589630532a4caf500b41ba42e90ec"
+  },
+  {
+    "origine": "supporto\\docs\\sezione-mista-ponte.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\sezione-mista-ponte.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "c4930bf9590ba4d1cfddde725bb4509fd9cdc88031c89026ba1799f3be5e6404"
+  },
+  {
+    "origine": "supporto\\docs\\studio-condivisione-dati.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\studio-condivisione-dati.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "4c0be6372fa28c7339f855e05474707582cf4949797715595952c05cf800d8a0"
+  },
+  {
+    "origine": "supporto\\docs\\taglio-pioli-fonti-e-metodo.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\taglio-pioli-fonti-e-metodo.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "9b155a0ba49fec05de985f179cb0dac6ec455c4259e5c279b9b4af81b5940b26"
+  },
+  {
+    "origine": "supporto\\docs\\test-metodi-ponti.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\test-metodi-ponti.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "01f4bd12b64fea7dd3457ccb030d5eb1c7196f188ca0ccc7ff6f9f69cf2520c2"
+  },
+  {
+    "origine": "supporto\\docs\\unificazione-calcoli-progetti.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\unificazione-calcoli-progetti.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "48789416933bf3ef64bec23637fbd0ebbe0f677acc672b02b1ac34be735fcde1"
+  },
+  {
+    "origine": "supporto\\docs\\validazione-libreria-calcolo.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\docs\\validazione-libreria-calcolo.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "d844f064b0d71e10d2d41471db3aa5e5ee1b20e571187f8da492ccdc91732e8e"
+  },
+  {
+    "origine": "supporto\\documentazione\\Bridge_Design\\ANTHEA_Bridge_Design_Teoria_ITEC_Rev01.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\documentazione\\Bridge_Design\\ANTHEA_Bridge_Design_Teoria_ITEC_Rev01.md",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "23341b7156b8f510a8c720424853fbd933e68603dcf808976565b67d164412ac"
+  },
+  {
+    "origine": "supporto\\documentazione\\Bridge_Design\\ANTHEA_Bridge_Design_Teoria_ITEC_Rev01.pdf",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\documentazione\\Bridge_Design\\ANTHEA_Bridge_Design_Teoria_ITEC_Rev01.pdf",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "60bd1354bf51a8948b39257e3a68e9163cd4b61d8a7d58d0f1eb44fd7f532e3f"
+  },
+  {
+    "origine": "supporto\\documentazione\\Bridge_Design\\ANTHEA_Bridge_Design_Teoria_ITEC_Rev01.docx",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\documentazione\\Bridge_Design\\ANTHEA_Bridge_Design_Teoria_ITEC_Rev01.docx",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "54a889b3e6cf16aeb6eaae23596187983922a9103fa60baf66dde766970b8068"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev07.docx",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev07.docx",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev08.docx",
+    "sha256": "c1c26a06c42887ef575a17c620d4922e279693b81746452112bf9ac02eb8b2b9"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev07.pdf",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev07.pdf",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev08.pdf",
+    "sha256": "6b3e9081fca340bc362987dff5527aa49cae321fbd5d9a9ed00895623c7587bd"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev07.docx",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev07.docx",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev08.docx",
+    "sha256": "9df1919c5f14d4296cda18e53162a2eb014d647ca9c52d329a2ceb93985ac9fb"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev07.pdf",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev07.pdf",
+    "motivo": "Contenuti incorporati nelle guide globali Rev08",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev08.pdf",
+    "sha256": "ef1fd63045184357b8ebb57bc39b2ce383bfd8bfa548bd7a22634e3daedb9b7a"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\README.pdf",
+    "motivo": "Indice aggiornato alle due guide globali Rev08",
+    "sostituzione": "supporto\\README.pdf",
+    "sha256": "b936d4bf9b5bdf1a07202ce36ec6a1f1d059fceb04a9a55afc63ed2666ed350f"
+  },
+  {
+    "origine": "supporto\\installer\\README.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\installer\\README.md",
+    "motivo": "Indice aggiornato alle due guide globali Rev08",
+    "sostituzione": "supporto\\installer\\README.md",
+    "sha256": "e3bcfd478ee036e686c6248f078ed8e2d527a258c11649eabe0961eda53df611"
+  },
+  {
+    "origine": "supporto\\installer\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\installer\\README.pdf",
+    "motivo": "Indice aggiornato alle due guide globali Rev08",
+    "sostituzione": "supporto\\installer\\README.pdf",
+    "sha256": "6f55968d3546063a30a02ae3030d1ed0a64d340579b24ddbac4cc68790e280de"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\installer\\Indice-guide.md",
+    "motivo": "Indice aggiornato alle due guide globali Rev08",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "0345c8dc39fbcfdf530a6e911653690ee757a240af90be86070769d607aad823"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\installer\\Indice-guide.pdf",
+    "motivo": "Indice aggiornato alle due guide globali Rev08",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "962a9042fd38de5f9504f554c26093b231e20548e7461e7c3118cf612bc45513"
+  },
+  {
+    "origine": "supporto\\SUPERATI\\README.md",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\SUPERATI\\README.md",
+    "motivo": "Indice archivio aggiornato alla Rev08",
+    "sostituzione": "supporto\\SUPERATI\\README.md",
+    "sha256": "712b4b88c31b67923f8cc1a4925ff18f71cd4033530ce6ab32d5ccafdb6bf2b8"
+  },
+  {
+    "origine": "supporto\\SUPERATI\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\guide-unificate-rev08-20261002\\SUPERATI\\README.pdf",
+    "motivo": "Indice archivio aggiornato alla Rev08",
+    "sostituzione": "supporto\\SUPERATI\\README.pdf",
+    "sha256": "23544f3266a6811100c8f8f2cd3957a372a9d2a834516658ed8850b1ceb58ed2"
+  }
+]
