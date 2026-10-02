@@ -1,6 +1,8 @@
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Anthea.Calculations;
 using Anthea.Calculations.Geotechnics;
 
@@ -81,6 +83,7 @@ CrackCapture.Run(output, commit, sha);
 DetailingCapture.Run(output, commit, sha);
 DurabilityCapture.Run(output, commit, sha);
 GeotechnicsCapture.Run(output, commit, sha);
+PilesCapture.Run(output, commit, sha);
 
 // Serviceability stresses (CheckerSection.Stress): sections saved with the Model archive, effective standard coefficients,
 // actions already transformed to the local axes passed to the native checker, legacy results.
@@ -918,5 +921,325 @@ internal static class GeotechnicsCapture
         }
         File.WriteAllText(Path.Combine(output, "geotechnics-seismic-bearing.csv"), csv.ToString(), new UTF8Encoding(false));
         Console.WriteLine($"Portanza sismica: {n} casi");
+    }
+}
+
+// Piles and micropiles (Nq, BustamanteDoix, Chs, MicropaloOrizzontale, PaloOrizzontale with the stratified extension and the diagnostics).
+// JSON lines: one object per case with the legacy input and the legacy output (or the error), units of the legacy API (m, kN, kPa, degrees).
+internal static class PilesCapture
+{
+    static readonly JsonSerializerOptions Options = new() { WriteIndented = false };
+    static JsonNode? Error(Exception ex) => new JsonObject { ["error"] = ex.GetType().Name, ["message"] = ex.Message };
+    static void Write(StreamWriter w, JsonObject line) => w.WriteLine(line.ToJsonString(Options));
+
+    internal static void Run(string output, string commit, string sha)
+    {
+        string header = "ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha;
+        int nq = 0, bd = 0, chs = 0, section = 0, lateral = 0;
+        using (var w = new StreamWriter(Path.Combine(output, "piles-nq.jsonl"), false, new UTF8Encoding(false)))
+        {
+            Write(w, new JsonObject { ["header"] = "Nq.Dettaglio and Nq.Curva " + Nq.Versione + "; " + header });
+            foreach (bool large in new[] { false, true })
+                foreach (double phi in new[] { 0.0, 20, 23, 23.4, 24, 25, 26, 27.5, 28, 30, 32, 34, 34.5, 35, 36, 37.9, 38, 38.1, 38.8, 40, 41, 41.6, 42, 45, 60 })
+                    foreach (double ratio in new[] { 0.5, 3, 4, 4.5, 5, 7, 10, 12.3, 15, 20, 30, 32, 35, 50, 60, 200 })
+                    {
+                        var line = new JsonObject { ["kind"] = "detail", ["phi"] = phi, ["ratio"] = ratio, ["large"] = large };
+                        try { line["result"] = Nq.Dettaglio(phi, ratio, large); } catch (Exception ex) { line["result"] = Error(ex); }
+                        Write(w, line); nq++;
+                    }
+            foreach (var (phi, ratio) in new[] { (double.NaN, 10.0), (30.0, 0.0), (30.0, -5.0), (30.0, double.PositiveInfinity), (double.PositiveInfinity, 10.0) })
+            {
+                var line = new JsonObject { ["kind"] = "detail", ["phi"] = double.IsFinite(phi) ? phi : null, ["phiText"] = phi.ToString(CultureInfo.InvariantCulture),
+                    ["ratio"] = double.IsFinite(ratio) ? ratio : null, ["ratioText"] = ratio.ToString(CultureInfo.InvariantCulture), ["large"] = false };
+                try { line["result"] = Nq.Dettaglio(phi, ratio, false); } catch (Exception ex) { line["result"] = Error(ex); }
+                Write(w, line); nq++;
+            }
+            for (int index = 0; index < 4; index++)
+                for (double phi = 20; phi <= 45.0001; phi += .25)
+                    { Write(w, new JsonObject { ["kind"] = "curve", ["phi"] = phi, ["index"] = index, ["large"] = false, ["value"] = Nq.Curva(phi, index, false) }); nq++; }
+            for (int index = 0; index < 2; index++)
+                for (double phi = 24; phi <= 44.0001; phi += .25)
+                    { Write(w, new JsonObject { ["kind"] = "curve", ["phi"] = phi, ["index"] = index, ["large"] = true, ["value"] = Nq.Curva(phi, index, true) }); nq++; }
+        }
+        using (var w = new StreamWriter(Path.Combine(output, "piles-bustamante-doix.jsonl"), false, new UTF8Encoding(false)))
+        {
+            Write(w, new JsonObject { ["header"] = "BustamanteDoix " + BustamanteDoix.Versione + " (" + BustamanteDoix.Fonte + "); " + header });
+            foreach (var soil in BustamanteDoix.Terreni.Keys.Concat(new[] { "Torba" }))
+                foreach (var injection in new[] { "IGU", "IRS", "IGX" })
+                {
+                    var line = new JsonObject { ["kind"] = "range", ["soil"] = soil, ["injection"] = injection };
+                    try { line["result"] = new JsonArray(BustamanteDoix.IntervalloAlpha(soil, injection).Select(v => (JsonNode)v).ToArray()); } catch (Exception ex) { line["result"] = Error(ex); }
+                    Write(w, line); bd++;
+                    foreach (double pressure in new[] { 0.2, 0.25, 0.3, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.4, 2.5, 3, 4.2, 6.7, 6.71, 8, 9.4, 10, double.NaN })
+                        foreach (double alpha in new[] { 1.2, 0.0 })
+                        {
+                            var p = new JsonObject { ["kind"] = "parameter", ["soil"] = soil, ["injection"] = injection, ["pressure"] = double.IsFinite(pressure) ? pressure : null, ["alpha"] = alpha };
+                            try { p["result"] = BustamanteDoix.Parametro(soil, injection, pressure, alpha); } catch (Exception ex) { p["result"] = Error(ex); }
+                            Write(w, p); bd++;
+                        }
+                }
+            // Shaft segments of layered micropiles: tip depth, start of the grouting, diameter, injection and pressure; inactive layers.
+            JsonObject Values(string soil, double alpha, bool active = true) => new() { ["terreno"] = soil, ["alpha"] = alpha, ["laterale_attiva"] = active };
+            var profiles = new (string Name, (double Top, double Bottom, JsonObject Values)[] Layers)[]
+            {
+                ("sabbie", new[] { (0.0, 3.0, Values("Sabbia media", 1.4)), (3.0, 8.0, Values("Ghiaia sabbiosa", 1.6)), (8.0, 20.0, Values("Sabbia limosa", 1.45)) }),
+                ("argille", new[] { (0.0, 2.5, Values("Limo", 1.4, false)), (2.5, 9.0, Values("Argilla", 1.8)), (9.0, 15.0, Values("Marne", 1.8)) }),
+                ("roccia", new[] { (0.0, 4.0, Values("Ghiaia", 1.8)), (4.0, 30.0, Values("Roccia alterata e/o fratturata", 1.2)) }),
+                ("inclinato", new[] { (0.0, 3.0 / Math.Cos(15 * Math.PI / 180), Values("Sabbia fine", 1.5)), (3.0 / Math.Cos(15 * Math.PI / 180), 12.0 / Math.Cos(15 * Math.PI / 180), Values("Calcari marnosi", 1.8)) })
+            };
+            foreach (var (name, layers) in profiles)
+                foreach (string injection in new[] { "IGU", "IRS" })
+                    foreach (double pressure in new[] { 1.0, 2.0, 2.4 })
+                        foreach (var (tip, start) in new[] { (10.0, 0.0), (10.0, 2.0), (6.0, 3.5), (25.0, 0.0), (2.0, 0.5) })
+                        {
+                            var list = layers.Select(l => new Strato(l.Values, l.Top, l.Bottom)).ToList();
+                            var line = new JsonObject { ["kind"] = "segments", ["profile"] = name, ["layers"] = new JsonArray(layers.Select(l => (JsonNode)new JsonObject { ["top"] = l.Top, ["bottom"] = l.Bottom, ["values"] = l.Values.DeepClone() }).ToArray()),
+                                ["tip"] = tip, ["start"] = start, ["diameter"] = 0.25, ["injection"] = injection, ["pressure"] = pressure };
+                            try { line["result"] = new JsonArray(BustamanteDoix.Tratti(list, tip, start, 0.25, injection, pressure).Select(s => (JsonNode)s).ToArray()); } catch (Exception ex) { line["result"] = Error(ex); }
+                            Write(w, line); bd++;
+                        }
+            foreach (var theta in new[] { 0.0, 10, 30, 45, 89.9, 90, -1, double.NaN })
+            {
+                var line = new JsonObject { ["kind"] = "cosine", ["theta"] = double.IsFinite(theta) ? theta : null };
+                try { line["result"] = GeometriaMicropalo.Coseno(theta); } catch (Exception ex) { line["result"] = Error(ex); }
+                Write(w, line); bd++;
+            }
+        }
+        using (var w = new StreamWriter(Path.Combine(output, "piles-chs.jsonl"), false, new UTF8Encoding(false)))
+        {
+            Write(w, new JsonObject { ["header"] = "Chs.Peso and MicropaloOrizzontale.Properties/Section; " + header });
+            foreach (var profile in Chs.Catalogo.Keys)
+                foreach (double diameter in new[] { 0.15, 0.25, 0.4 })
+                    foreach (double gamma in new[] { 25.0, 22 })
+                    {
+                        var line = new JsonObject { ["kind"] = "weight", ["profile"] = profile, ["D"] = Chs.Catalogo[profile].Diameter, ["t"] = Chs.Catalogo[profile].Thickness, ["diameter"] = diameter, ["gamma"] = gamma };
+                        try { line["result"] = Chs.Peso(profile, diameter, gamma); } catch (Exception ex) { line["result"] = Error(ex); }
+                        Write(w, line); chs++;
+                    }
+            foreach (var (profile, diameter, gamma) in new[] { ("CHS 999 × 9", .3, 25.0), ("CHS 139.7 × 8", 0.0, 25.0), ("CHS 139.7 × 8", .3, 0.0), ("CHS 139.7 × 8", double.NaN, 25.0) })
+            {
+                var line = new JsonObject { ["kind"] = "weight", ["profile"] = profile, ["diameter"] = double.IsFinite(diameter) ? diameter : null, ["gamma"] = gamma };
+                try { line["result"] = Chs.Peso(profile, diameter, gamma); } catch (Exception ex) { line["result"] = Error(ex); }
+                Write(w, line); chs++;
+            }
+            // Horizontal micropile section: class from D/t and fy, Npl, Mpl and the linear N-M reduction.
+            var cases = new List<(string Mode, string Profile, double D, double T, double Fy, double GammaM0, double Axial, double Drill)>();
+            foreach (var profile in new[] { "CHS 60.3 × 3.2", "CHS 88.9 × 10", "CHS 139.7 × 8", "CHS 168.3 × 5", "CHS 273 × 5", "CHS 273 × 17.5", "CHS 219.1 × 14.2" })
+                foreach (double fy in new[] { 235.0, 355, 460, 552 })
+                    foreach (double axial in new[] { 0.0, 150, -300, 900 })
+                        cases.Add(("Catalogo", profile, 0, 0, fy, 1.05, axial, .3));
+            foreach (var (d, t, fy, axial, drill) in new[] { (139.7, 10.0, 355.0, 0.0, .24), (200.0, 4.0, 355.0, 0.0, .3), (200.0, 3.0, 355.0, 100.0, .3), (100.0, 50.0, 355.0, 0.0, .3), (250.0, 6.0, 355.0, 0.0, .24),
+                (114.3, 6.3, 355.0, 5000.0, .24), (114.3, 6.3, 355.0, -2700.0, .24), (139.7, 8.0, 355.0, double.NaN, .24) })
+                cases.Add(("Manuale", "", d, t, fy, 1.0, axial, drill));
+            cases.Add(("Catalogo", "CHS 999 × 9", 0, 0, 355, 1.05, 0, .3)); cases.Add(("Altro", "", 139.7, 8, 355, 1.05, 0, .3)); cases.Add(("Catalogo", "CHS 139.7 × 8", 0, 0, 355, .9, 0, .3));
+            foreach (var c in cases)
+            {
+                var data = MicropaloOrizzontale.Defaults(); var s = data["sezione"]!.AsObject(); var g = data["generali"]!.AsObject();
+                s["modo_chs"] = c.Mode; s["profilo_chs"] = c.Profile; s["diametro_chs_mm"] = c.D; s["spessore_chs_mm"] = c.T; s["fy_chs_mpa"] = c.Fy; s["gamma_m0"] = c.GammaM0;
+                g["diametro"] = c.Drill; g["azione_assiale"] = double.IsFinite(c.Axial) ? c.Axial : "x";
+                var line = new JsonObject { ["kind"] = "section", ["mode"] = c.Mode, ["profile"] = c.Profile, ["D"] = c.D, ["t"] = c.T, ["fy"] = c.Fy, ["gammaM0"] = c.GammaM0,
+                    ["axial"] = double.IsFinite(c.Axial) ? c.Axial : null, ["drill"] = c.Drill };
+                try { line["properties"] = MicropaloOrizzontale.Properties(data); } catch (Exception ex) { line["properties"] = Error(ex); }
+                try { line["result"] = MicropaloOrizzontale.Section(data); } catch (Exception ex) { line["result"] = Error(ex); }
+                Write(w, line); section++;
+            }
+        }
+        using (var w = new StreamWriter(Path.Combine(output, "piles-lateral.jsonl"), false, new UTF8Encoding(false)))
+        {
+            Write(w, new JsonObject { ["header"] = "PaloOrizzontale.Calculate (Broms, stratified extension, diagnostics, verification); " + header });
+            JsonObject Layer(string kind, double thickness, double gamma = 18, double sat = 20, double phi = 30, double cu = 50, double c = 0)
+                => new() { ["tipologia"] = kind, ["spessore"] = thickness, ["peso_specifico"] = gamma, ["peso_specifico_saturo"] = sat, ["angolo_attrito"] = phi, ["coesione_non_drenata"] = cu, ["coesione_efficace"] = c };
+            JsonObject Case(double d, double l, double e, bool fixedHead, double my, JsonObject[][] surveys, string method = "Broms", double? water = null, string profiles = "1",
+                JsonObject? efficiency = null, double step = .25, double tolerance = 1e-8, double h = 100)
+            {
+                var data = PaloOrizzontale.Defaults(); var g = data["generali"]!.AsObject();
+                g["diametro"] = d; g["lunghezza"] = l; g["eccentricita"] = e; g["vincolo"] = fixedHead ? "Impedita" : "Libera"; g["metodo_calcolo"] = method; g["azione_orizzontale"] = h;
+                g["presenza_falda"] = water.HasValue; g["profondita_falda"] = water ?? 0; g["origine_momento"] = "Manuale"; g["momento_resistente"] = my; g["provenienza_momento"] = "capture";
+                g["passo"] = step; g["tolleranza"] = tolerance;
+                var v = data["verifica"]!.AsObject(); v["verticali_indagate"] = profiles;
+                if (efficiency != null) foreach (var p in efficiency) v[p.Key] = p.Value?.DeepClone();
+                data["stratigrafie"] = new JsonArray(surveys.Select(s => (JsonNode)new JsonArray(s.Select(x => (JsonNode)x.DeepClone()).ToArray())).ToArray());
+                return data;
+            }
+            var all = new List<(string Name, JsonObject Data)>();
+            // A. Homogeneous clay: short, intermediate and long mechanisms with free and fixed head.
+            foreach (double cu in new[] { 30.0, 80 })
+                foreach (double l in new[] { 4.0, 12 })
+                    foreach (var (fixedHead, e) in new[] { (false, 0.0), (false, 1.0), (true, 0.0) })
+                        foreach (double my in new[] { 150.0, 800, 4000 })
+                            all.Add(($"argilla cu{cu} L{l} {(fixedHead ? "impedita" : "libera")} e{e} My{my}", Case(cu > 50 ? 1.2 : .6, l, e, fixedHead, my, new[] { new[] { Layer("Coesivo", 30, cu: cu) } })));
+            // B. Homogeneous sand, with and without water.
+            foreach (double phi in new[] { 28.0, 35 })
+                foreach (double? water in new double?[] { null, 2 })
+                    foreach (double l in new[] { 6.0, 15 })
+                        foreach (var (fixedHead, e) in new[] { (false, 0.0), (false, .8), (true, 0.0) })
+                            foreach (double my in new[] { 300.0, 2000 })
+                                all.Add(($"sabbia phi{phi} falda{water} L{l} {(fixedHead ? "impedita" : "libera")} e{e} My{my}", Case(phi > 30 ? 1.0 : .6, l, e, fixedHead, my, new[] { new[] { Layer("Granulare", 30, 18, 20, phi) } }, water: water)));
+            // C. Multilayer granular (Broms) and D. mixed or layered with the stratified extension.
+            var granular = new[] { Layer("Granulare", 3, 17, 19, 30), Layer("Granulare", 30, 19, 21, 38) };
+            var mixed = new[] { Layer("Coesivo", 2, 18, 19, 0, 40), Layer("Granulare", 30, 19, 20.5, 32) };
+            var clays = new[] { Layer("Coesivo", 1.5, 18, 19, 0, 25), Layer("Coesivo", 30, 19, 20, 0, 90) };
+            foreach (var (fixedHead, e) in new[] { (false, 0.0), (false, .5), (true, 0.0) })
+                foreach (double my in new[] { 250.0, 1500 })
+                {
+                    all.Add(($"multistrato granulare {fixedHead} e{e} My{my}", Case(.8, 10, e, fixedHead, my, new[] { granular }, water: 1.5)));
+                    all.Add(($"misto stratificato {fixedHead} e{e} My{my}", Case(.8, 10, e, fixedHead, my, new[] { mixed }, "Stratificato", 3)));
+                    all.Add(($"misto PileChecker {fixedHead} e{e} My{my}", Case(.8, 10, e, fixedHead, my, new[] { mixed }, "Stratificato (PileChecker)")));
+                    all.Add(($"argille stratificato {fixedHead} e{e} My{my}", Case(.8, 10, e, fixedHead, my, new[] { clays }, "Stratificato")));
+                    all.Add(($"sabbia stratificato {fixedHead} e{e} My{my}", Case(.8, 10, e, fixedHead, my, new[] { granular }, "Stratificato", 1.5)));
+                }
+            // E. Several surveys, correlation factors and group efficiency.
+            var reese = new JsonObject { ["efficienza_metodo"] = "Reese & Van Impe (foglio)", ["interasse_anteriore"] = 3, ["interasse_posteriore"] = 2.4, ["interasse_sinistro"] = 2, ["interasse_destro"] = 4.5 };
+            foreach (string profiles in new[] { "1", "2", "3", "5", "≥10" })
+                all.Add(($"due sondaggi {profiles}", Case(.8, 10, .3, false, 600, new[] { new[] { Layer("Granulare", 30, 18, 20, 31) }, new[] { Layer("Granulare", 30, 18, 20, 34) } }, profiles: profiles, efficiency: reese)));
+            all.Add(("efficienza manuale 0.8", Case(.8, 10, 0, false, 600, new[] { granular }, efficiency: new JsonObject { ["efficienza_metodo"] = "Manuale", ["efficienza_eta"] = .8 })));
+            all.Add(("efficienza larga", Case(.8, 10, 0, false, 600, new[] { granular }, efficiency: new JsonObject { ["efficienza_metodo"] = "Reese & Van Impe (foglio)", ["interasse_anteriore"] = 10, ["interasse_posteriore"] = 10, ["interasse_sinistro"] = 10, ["interasse_destro"] = 10 })));
+            all.Add(("passo fine e tolleranza grossa", Case(1.0, 8, 0, false, 900, new[] { new[] { Layer("Granulare", 30, 18, 20, 33) } }, step: .05, tolerance: 1e-5)));
+            all.Add(("falda a piano campagna", Case(1.0, 8, 0, false, 900, new[] { new[] { Layer("Granulare", 30, 18, 20, 33) } }, water: 0)));
+            all.Add(("falda sotto la punta", Case(1.0, 8, 0, false, 900, new[] { new[] { Layer("Granulare", 30, 18, 20, 33) } }, water: 12)));
+            // F. Rejected inputs.
+            all.Add(("tolleranza 1e-4", Case(1, 8, 0, false, 900, new[] { granular }, tolerance: 1e-4)));
+            all.Add(("passo troppo fine", Case(1, 8, 0, false, 900, new[] { granular }, step: 1e-4)));
+            all.Add(("testa impedita con e", Case(1, 8, .5, true, 900, new[] { granular })));
+            all.Add(("misto con Broms", Case(.8, 10, 0, false, 600, new[] { mixed })));
+            all.Add(("argilla corta L<1.5D", Case(1, 1, 0, false, 600, new[] { new[] { Layer("Coesivo", 30, cu: 50) } })));
+            all.Add(("phi 60", Case(1, 8, 0, false, 900, new[] { new[] { Layer("Granulare", 30, 18, 20, 60) } })));
+            all.Add(("c' non nulla", Case(1, 8, 0, false, 900, new[] { new[] { Layer("Granulare", 30, 18, 20, 30, 50, 5) } })));
+            all.Add(("copertura insufficiente", Case(1, 8, 0, false, 900, new[] { new[] { Layer("Granulare", 5, 18, 20, 30) } })));
+            all.Add(("gamma sat sotto acqua", Case(1, 8, 0, false, 900, new[] { new[] { Layer("Granulare", 30, 18, 9.5, 30) } }, water: 2)));
+            all.Add(("tipologia ignota", Case(1, 8, 0, false, 900, new[] { new[] { Layer("Roccia", 30) } })));
+            all.Add(("metodo ignoto", Case(1, 8, 0, false, 900, new[] { granular }, "Altro")));
+            all.Add(("verticali ignote", Case(1, 8, 0, false, 900, new[] { granular }, profiles: "6")));
+            all.Add(("eta 1.2", Case(1, 8, 0, false, 900, new[] { granular }, efficiency: new JsonObject { ["efficienza_metodo"] = "Manuale", ["efficienza_eta"] = 1.2 })));
+            all.Add(("interasse minore di D", Case(1, 8, 0, false, 900, new[] { granular }, efficiency: new JsonObject { ["efficienza_metodo"] = "Reese & Van Impe (foglio)", ["interasse_anteriore"] = .8, ["interasse_posteriore"] = 3, ["interasse_sinistro"] = 3, ["interasse_destro"] = 3 })));
+            all.Add(("momento nullo", Case(1, 8, 0, false, 0, new[] { granular })));
+            var noProvenance = Case(1, 8, 0, false, 900, new[] { granular }); noProvenance["generali"]!["provenienza_momento"] = ""; all.Add(("manuale senza provenienza", noProvenance));
+            var inactive = Case(1, 8, 0, false, 900, new[] { granular }); inactive["stratigrafie"]![0]![0]!["laterale_attiva"] = false; all.Add(("strato disattivato", inactive));
+            var restraint = Case(1, 8, 0, false, 900, new[] { granular }); restraint["generali"]!["vincolo"] = "Incastro"; all.Add(("vincolo ignoto", restraint));
+            var applied = Case(1, 8, 0, false, 900, new[] { granular }); applied["generali"]!["momento_applicato"] = 10; all.Add(("momento applicato", applied));
+            // G. Micropile with the CHS section as resisting moment.
+            foreach (double axial in new[] { 0.0, 300 })
+            {
+                var micro = MicropaloOrizzontale.Defaults(); micro["generali"]!["lunghezza"] = 9; micro["generali"]!["azione_assiale"] = axial; micro["generali"]!["passo"] = .25;
+                micro["stratigrafie"] = new JsonArray(new JsonArray(Layer("Granulare", 4, 18, 20, 30), Layer("Granulare", 10, 19, 20, 36)));
+                all.Add(($"micropalo CHS N{axial}", micro));
+            }
+            foreach (var (name, data) in all)
+            {
+                string before = data.ToJsonString();
+                JsonObject result;
+                try { result = PaloOrizzontale.Calculate(data); } catch (Exception ex) { result = new JsonObject { ["errore"] = "eccezione " + ex.GetType().Name + ": " + ex.Message }; }
+                if (before != data.ToJsonString()) throw new InvalidOperationException("Input modified: " + name);
+                result.Remove("input");
+                Write(w, new JsonObject { ["name"] = name, ["input"] = data, ["result"] = result }); lateral++;
+            }
+        }
+        int vertical = Vertical(output, header);
+        Console.WriteLine($"Pali: {nq} Nq, {bd} Bustamante-Doix, {chs} pesi CHS, {section} sezioni CHS, {lateral} pali orizzontali, {vertical} pali verticali");
+    }
+
+    // Vertical capacity of piles and micropiles (Calcolo.Calcola): curves at every depth, actions and, to keep the file small, the details of
+    // one depth in ten plus the last one.
+    static int Vertical(string output, string header)
+    {
+        int count = 0;
+        using var w = new StreamWriter(Path.Combine(output, "piles-vertical.jsonl"), false, new UTF8Encoding(false));
+        Write(w, new JsonObject { ["header"] = "Calcolo.Calcola (vertical piles and micropiles); " + header });
+        JsonObject Layer(double thickness, string kind, string density, double gamma, double sat, double phi, double c = 0, double cu = 0, double nc = 9, bool active = true)
+            => new() { ["spessore"] = thickness, ["tipologia"] = kind, ["addensamento"] = density, ["peso_specifico"] = gamma, ["peso_specifico_saturo"] = sat, ["angolo_attrito"] = phi,
+                ["coesione_efficace"] = c, ["coesione_non_drenata"] = cu, ["nc"] = nc, ["laterale_attiva"] = active };
+        JsonObject Micro(double thickness, string soil, double alpha, bool active = true) => new() { ["spessore"] = thickness, ["terreno"] = soil, ["alpha"] = alpha, ["laterale_attiva"] = active };
+        var granular = new[] { Layer(4, "Granulare", "Sciolto", 17, 19, 28), Layer(20, "Granulare", "Denso", 19, 20.5, 35) };
+        var granular2 = new[] { Layer(2, "Granulare", "Sciolto", 18, 19.5, 30), Layer(6, "Granulare", "Denso", 19, 20, 33), Layer(16, "Granulare", "Denso", 20, 21, 38) };
+        var mixed = new[] { Layer(3, "Coesivo", "Sciolto", 18, 19, 24, 5, 40), Layer(5, "Coesivo", "Denso", 19, 20, 26, 10, 90, 9), Layer(16, "Granulare", "Denso", 19, 20.5, 34) };
+        var clay = new[] { Layer(6, "Coesivo", "Sciolto", 18, 19, 22, 0, 30, 9), Layer(18, "Coesivo", "Denso", 19, 20, 25, 8, 110, 7.5) };
+        var off = new[] { Layer(2, "Granulare", "Sciolto", 17, 19, 28, active: false), Layer(22, "Granulare", "Denso", 19, 20.5, 35) };
+        JsonObject Pile(JsonObject[][] surveys, double d, double l, string type = "Trivellato", string subtype = "Profilato d'acciaio", double? water = null, bool buoyancy = false,
+            string profiles = "1", JsonObject? efficiency = null, double? compression = 2500, double? tension = 600)
+        {
+            var data = CalculationDefaults.Vertical(false); var g = data["generali"]!.AsObject();
+            g["tipo_palo"] = type; g["sottotipo_palo_battuto"] = subtype; g["diametro"] = d; g["lunghezza"] = l; g["presenza_falda"] = water.HasValue; g["profondita_falda"] = water ?? 0;
+            g["considera_sottospinta"] = buoyancy; g["verticali_indagate"] = profiles; g["azione_compressione"] = compression?.ToString(CultureInfo.InvariantCulture) ?? "";
+            g["azione_trazione"] = tension?.ToString(CultureInfo.InvariantCulture) ?? "";
+            if (efficiency != null) data["efficienza"] = efficiency;
+            data["stratigrafie"] = new JsonArray(surveys.Select(s => (JsonNode)new JsonArray(s.Select(x => (JsonNode)x.DeepClone()).ToArray())).ToArray());
+            return data;
+        }
+        JsonObject Micropile(JsonObject[][] surveys, double l, string injection = "IGU", double pressure = 2, string profile = "CHS 139.7 × 8", double theta = 0, double start = 0,
+            double? tip = null, double d = .25, double? compression = 600, double? tension = 300)
+        {
+            var data = CalculationDefaults.Vertical(true); var g = data["generali"]!.AsObject();
+            g["diametro"] = d; g["lunghezza"] = l; g["tipo_iniezione"] = injection; g["pressione_iniezione"] = pressure; g["profilo_chs"] = profile; g["inclinazione"] = theta; g["inizio_aderenza"] = start;
+            g["considera_punta"] = tip.HasValue; g["percentuale_punta"] = tip ?? 0;
+            g["azione_compressione"] = compression?.ToString(CultureInfo.InvariantCulture) ?? ""; g["azione_trazione"] = tension?.ToString(CultureInfo.InvariantCulture) ?? "";
+            data["stratigrafie"] = new JsonArray(surveys.Select(s => (JsonNode)new JsonArray(s.Select(x => (JsonNode)x.DeepClone()).ToArray())).ToArray());
+            return data;
+        }
+        var all = new List<(string Name, JsonObject Data, bool Micro)>();
+        foreach (var (type, subtype) in new[] { ("Trivellato", ""), ("Elica continua", ""), ("Battuto", "Profilato d'acciaio"), ("Battuto", "Tubo d'acciaio chiuso"), ("Battuto", "Calcestruzzo prefabbricato"), ("Battuto", "Calcestruzzo gettato in opera") })
+            all.Add(($"granulare {type} {subtype}", Pile(new[] { granular }, .6, 12.3, type, subtype), false));
+        foreach (double d in new[] { .6, .8, 1.0, 1.2 })
+            all.Add(($"granulare falda D{d}", Pile(new[] { granular2 }, d, 15, water: 3, buoyancy: d > .9), false));
+        all.Add(("misto falda", Pile(new[] { mixed }, 1.0, 14, water: 2.5, buoyancy: true), false));
+        all.Add(("misto falda battuto", Pile(new[] { mixed }, .5, 14, "Battuto", "Calcestruzzo prefabbricato", water: 4), false));
+        all.Add(("argilla falda", Pile(new[] { clay }, .8, 16, water: 1), false));
+        all.Add(("argilla senza falda", Pile(new[] { clay }, .8, 16), false));
+        all.Add(("misto senza falda", Pile(new[] { mixed }, 1.0, 14), false));
+        all.Add(("strato disattivato", Pile(new[] { off }, .6, 12), false));
+        all.Add(("falda nello strato", Pile(new[] { granular }, .6, 12, water: 2.2), false));
+        foreach (var profiles in new[] { "2", "3", "≥10" })
+            all.Add(($"due sondaggi {profiles}", Pile(new[] { granular, granular2 }, .8, 12, water: 3, profiles: profiles), false));
+        all.Add(("Converse-Labarre", Pile(new[] { granular }, .6, 12, efficiency: new JsonObject { ["metodo"] = "Converse-Labarre", ["numero_pali_x"] = 3, ["numero_pali_y"] = 2, ["interasse_x"] = 1.8, ["interasse_y"] = 2.4 }), false));
+        all.Add(("Feld", Pile(new[] { granular }, .6, 12, efficiency: new JsonObject { ["metodo"] = "Feld", ["numero_pali_x"] = 3, ["numero_pali_y"] = 3 }), false));
+        all.Add(("utente", Pile(new[] { granular }, .6, 12, efficiency: new JsonObject { ["metodo"] = "Definita dall'utente", ["eta_compressione"] = .9, ["eta_trazione"] = .8 }), false));
+        all.Add(("senza azioni", Pile(new[] { granular }, .6, 12, compression: null, tension: null), false));
+        all.Add(("palo più lungo della stratigrafia", Pile(new[] { granular }, .6, 30), false));
+        // Rejected inputs.
+        var bad = Pile(new[] { new[] { Layer(10, "Roccia", "Denso", 19, 20, 30) } }, .6, 8); all.Add(("tipologia ignota", bad, false));
+        all.Add(("addensamento mancante", Pile(new[] { new[] { Layer(10, "Granulare", "", 19, 20, 30) } }, .6, 8), false));
+        all.Add(("phi 90", Pile(new[] { new[] { Layer(10, "Granulare", "Denso", 19, 20, 90) } }, .6, 8), false));
+        var nocu = Pile(new[] { clay }, .8, 16, water: 1); nocu["stratigrafie"]![0]![1]!["coesione_non_drenata"] = ""; all.Add(("cu mancante sotto falda", nocu, false));
+        all.Add(("verticali ignote", Pile(new[] { granular }, .6, 8, profiles: "6"), false));
+        all.Add(("efficienza ignota", Pile(new[] { granular }, .6, 8, efficiency: new JsonObject { ["metodo"] = "Altro" }), false));
+        all.Add(("Converse-Labarre negativo", Pile(new[] { granular }, .6, 8, efficiency: new JsonObject { ["metodo"] = "Converse-Labarre", ["numero_pali_x"] = 10, ["numero_pali_y"] = 10, ["interasse_x"] = .3, ["interasse_y"] = .3 }), false));
+        all.Add(("pali non interi", Pile(new[] { granular }, .6, 8, efficiency: new JsonObject { ["metodo"] = "Feld", ["numero_pali_x"] = 2.5, ["numero_pali_y"] = 2 }), false));
+        all.Add(("nessuna stratigrafia", Pile(new JsonObject[0][], .6, 8), false));
+        var nqmethod = Pile(new[] { granular }, .6, 8); nqmethod["generali"]!["metodo_nq"] = "Altro"; all.Add(("metodo Nq ignoto", nqmethod, false));
+        var diameter = Pile(new[] { granular }, .6, 8); diameter["generali"]!["diametro"] = 0; all.Add(("diametro nullo", diameter, false));
+        // Micropiles.
+        var mSand = new[] { Micro(3, "Sabbia media", 1.4), Micro(5, "Ghiaia sabbiosa", 1.6), Micro(20, "Sabbia limosa", 1.45) };
+        var mClay = new[] { Micro(2.5, "Limo", 1.4, false), Micro(6.5, "Argilla", 1.8), Micro(20, "Marne", 1.8) };
+        var mRock = new[] { Micro(4, "Ghiaia", 1.8), Micro(30, "Roccia alterata e/o fratturata", 1.2) };
+        foreach (string injection in new[] { "IGU", "IRS" })
+            foreach (double pressure in new[] { 1.0, 2.4 })
+            {
+                all.Add(($"micropalo sabbie {injection} p{pressure}", Micropile(new[] { mSand }, 10, injection, pressure), true));
+                all.Add(($"micropalo argille {injection} p{pressure}", Micropile(new[] { mClay }, 14, injection, pressure, "CHS 168.3 × 10", start: 2), true));
+            }
+        all.Add(("micropalo roccia inclinato punta", Micropile(new[] { mRock }, 12, "IRS", 2, "CHS 114.3 × 8", 15, 1, 10), true));
+        all.Add(("micropalo due sondaggi", Micropile(new[] { mSand, mClay }, 12, "IGU", 2), true));
+        all.Add(("micropalo zona corta", Micropile(new[] { mSand }, 5, "IRS", 2, start: 2), true));
+        all.Add(("micropalo punta 15", Micropile(new[] { mSand }, 10, tip: 15), true));
+        all.Add(("micropalo punta 16", Micropile(new[] { mSand }, 10, tip: 16), true));
+        all.Add(("micropalo inizio oltre la punta", Micropile(new[] { mSand }, 10, start: 10), true));
+        all.Add(("micropalo pressione fuori abaco", Micropile(new[] { mSand }, 10, "IGU", 8), true));
+        all.Add(("micropalo CHS troppo grande", Micropile(new[] { mSand }, 10, profile: "CHS 273 × 10"), true));
+        all.Add(("micropalo inclinazione 90", Micropile(new[] { mSand }, 10, theta: 90), true));
+        var old = Micropile(new[] { mSand }, 10); old["generali"]!["metodo_micropalo"] = "FHWA"; all.Add(("micropalo metodo precedente", old, true));
+        var noalpha = Micropile(new[] { new[] { new JsonObject { ["spessore"] = 20, ["terreno"] = "Sabbia media", ["laterale_attiva"] = true } } }, 10); all.Add(("micropalo senza alpha", noalpha, true));
+        foreach (var (name, data, micro) in all)
+        {
+            string before = data.ToJsonString(); JsonObject result;
+            try { result = Calcolo.Calcola(data, micro); } catch (Exception ex) { result = new JsonObject { ["errore"] = "eccezione " + ex.GetType().Name + ": " + ex.Message }; }
+            if (before != data.ToJsonString()) throw new InvalidOperationException("Input modified: " + name);
+            if (result["dettagli"] is JsonArray details)
+            {
+                var kept = new JsonArray();
+                for (int i = 0; i < details.Count; i++) if (i % 10 == 0 || i == details.Count - 1) kept.Add(new JsonObject { ["indice"] = i, ["dettaglio"] = details[i]!.DeepClone() });
+                result["dettagli"] = kept; result["numero_dettagli"] = details.Count;
+            }
+            Write(w, new JsonObject { ["name"] = name, ["micro"] = micro, ["input"] = data, ["result"] = result }); count++;
+        }
+        return count;
     }
 }
