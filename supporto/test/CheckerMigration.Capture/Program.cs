@@ -15,6 +15,8 @@ Directory.CreateDirectory(output);
 static string F(double? v) => v is double d ? d.ToString("R", CultureInfo.InvariantCulture) : "";
 string assembly = typeof(ConcreteCodeChecks).Assembly.Location;
 string sha = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(assembly)));
+// Optional third argument "muri": only the retaining walls.
+if (args.Length > 2 && args[2] == "muri") { WallCapture.Run(output, commit, sha); return; }
 
 var cases = new List<ConcreteCodeChecks.ShearInput>();
 string[] standards = ConcreteStandards.OrdinaryNames;
@@ -84,6 +86,7 @@ DetailingCapture.Run(output, commit, sha);
 DurabilityCapture.Run(output, commit, sha);
 GeotechnicsCapture.Run(output, commit, sha);
 PilesCapture.Run(output, commit, sha);
+WallCapture.Run(output, commit, sha);
 
 // Serviceability stresses (CheckerSection.Stress): sections saved with the Model archive, effective standard coefficients,
 // actions already transformed to the local axes passed to the native checker, legacy results.
@@ -1241,5 +1244,294 @@ internal static class PilesCapture
             Write(w, new JsonObject { ["name"] = name, ["micro"] = micro, ["input"] = data, ["result"] = result }); count++;
         }
         return count;
+    }
+}
+
+// Retaining walls (RetainingWall.*): the helper laws, the combination generators and complete calculations of documents varied on every input
+// group (geometry, two soil columns, water, interfaces, actions, matrices, seismic action, gravity walls, serviceability, global stability,
+// detailing) and rejected documents. The documents are compressed (gzip): every result is the complete legacy output (Result.Json()).
+internal static class WallCapture
+{
+    static readonly JsonSerializerOptions Options = new() { WriteIndented = false, NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals };
+    static JsonObject Error(Exception ex) => new() { ["error"] = ex.GetType().Name, ["message"] = ex.Message };
+    static void Write(TextWriter w, JsonObject line) => w.WriteLine(line.ToJsonString(Options));
+    static JsonNode? Node(object? value) => value is JsonNode n ? n.DeepClone() : JsonSerializer.SerializeToNode(value, Options);
+
+    internal static void Run(string output, string commit, string sha)
+    {
+        string header = "ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha;
+        int functions = 0, combinations = 0, documents = 0;
+        using (var w = new StreamWriter(Path.Combine(output, "walls-functions.jsonl"), false, new UTF8Encoding(false)))
+        {
+            Write(w, new JsonObject { ["header"] = "RetainingWall Ka, SeismicKa, ActiveHorizontal, ContactLaw, Pressure, Integrate, IntegrateCurvature, DeriveSeismic; " + header });
+            void Line(string kind, JsonObject args, Func<object?> run)
+            {
+                var line = new JsonObject { ["kind"] = kind, ["args"] = args };
+                try { line["result"] = Node(run()); } catch (Exception ex) { line["result"] = Error(ex); }
+                Write(w, line); functions++;
+            }
+            for (double phi = 10; phi <= 45.0001; phi += 2.5) { double p = phi; Line("Ka", new() { ["phi"] = p }, () => RetainingWall.Ka(p)); }
+            foreach (double phi in new[] { 15.0, 25, 30, 36, 45 })
+                foreach (double kh in new[] { 0.0, .05, .1, .2, .3, .4 })
+                    foreach (double kv in new[] { -.2, -.05, 0, .05, .2 })
+                        Line("SeismicKa", new() { ["phi"] = phi, ["kh"] = kh, ["kv"] = kv }, () => RetainingWall.SeismicKa(phi, kh, kv));
+            foreach (double phi in new[] { 20.0, 30, 38 })
+                foreach (double delta in new[] { -1.0, 0, 10, 2 * phi / 3, phi, phi + 1 })
+                    foreach (double kh in new[] { 0.0, .1, .25 })
+                        foreach (double kv in new[] { -.1, 0, .1 })
+                            Line("ActiveHorizontal", new() { ["phi"] = phi, ["delta"] = delta, ["kh"] = kh, ["kv"] = kv }, () => RetainingWall.ActiveHorizontal(phi, delta, kh, kv));
+            foreach (double width in new[] { 2.0, 3.5 })
+                foreach (double n in new[] { -10.0, 0, 150 })
+                    foreach (double x in new[] { -.1, 0, .2, width / 3, width / 2 - .1, width / 2, width * 2 / 3, width - .2, width, width + .1 })
+                    {
+                        Line("ContactLaw", new() { ["width"] = width, ["n"] = n, ["x"] = x }, () => RetainingWall.ContactLaw(width, n, x));
+                        var c = RetainingWall.ContactLaw(width, n, x);
+                        foreach (double at in new[] { 0.0, width / 4, width / 2, width })
+                            Line("Pressure", new() { ["width"] = width, ["n"] = n, ["x"] = x, ["at"] = at }, () => RetainingWall.Pressure(c, at));
+                    }
+            var pieces = new List<RetainingWall.PressureSegment> { new(0, 1.2, 0, 8), new(1.2, 2, 8, 15), new(2, 3.5, 20, 31), new(3.5, 3.5, 0, 0) };
+            foreach (var (left, right, root) in new[] { (0.0, 3.5, 3.5), (0.5, 2.5, 2.5), (0.0, 1.0, 0.0), (1.2, 1.2, 1.2), (2.0, 0.5, 1.0), (-1.0, 5.0, 2.0) })
+                Line("Integrate", new() { ["left"] = left, ["right"] = right, ["root"] = root, ["pieces"] = Node(pieces) }, () => { var r = RetainingWall.Integrate(pieces, left, right, root); return new { r.Force, r.Moment }; });
+            var curvatures = new[]
+            {
+                new[] { new RetainingWall.CurvaturePoint(0, 2e-4), new(1.5, 1e-4), new(3, 0) },
+                new[] { new RetainingWall.CurvaturePoint(3, 0), new(0, 3e-4), new(1, -1e-4), new(2, 5e-5) },
+                new[] { new RetainingWall.CurvaturePoint(0, 1e-4), new(2, 2e-5) },
+                new[] { new RetainingWall.CurvaturePoint(.1, 1e-4), new(3, 0) },
+                new[] { new RetainingWall.CurvaturePoint(0, 1e-4) },
+                new[] { new RetainingWall.CurvaturePoint(0, double.NaN), new(3, 0) }
+            };
+            for (int i = 0; i < curvatures.Length; i++) { var set = curvatures[i]; Line("IntegrateCurvature", new() { ["points"] = Node(set.Select(p => new { p.Y, Curvature = double.IsFinite(p.Curvature) ? (double?)p.Curvature : null })), ["height"] = 3 }, () => RetainingWall.IntegrateCurvature(set, 3)); }
+            // NTC site derivation: soil classes, F0, ag, topography, assigned amplifications and both methods.
+            foreach (string method in new[] { "Mononobe–Okabe", "Wood semplificato" })
+                foreach (string soil in new[] { "A", "B", "C", "D", "E", "Da scegliere" })
+                    foreach (double ag in new[] { 0.0, .05, .15, .3 })
+                        foreach (double f0 in new[] { 2.2, 2.6, 3.0 })
+                        {
+                            var s = Seismic(method, ag, f0, soil); Line("DeriveSeismic", new() { ["seismic"] = s.DeepClone() }, () => RetainingWall.DeriveSeismic(new JsonObject { ["seismic"] = s }));
+                        }
+            foreach (var (topography, slope, height, site) in new[] { ("Pianeggiante", 0.0, 0.0, 0.0), ("Pendio", 10.0, 50.0, 20.0), ("Pendio", 20.0, 50.0, 25.0), ("Pendio", 20.0, 25.0, 20.0),
+                ("Rilievo a cresta stretta", 25.0, 60.0, 60.0), ("Rilievo a cresta stretta", 35.0, 60.0, 45.0), ("Rilievo a cresta stretta", 35.0, 60.0, 70.0), ("Altro", 20.0, 50.0, 20.0) })
+            {
+                var s = Seismic("Mononobe–Okabe", .2, 2.5, "C"); s["topography"] = topography; s["slope"] = slope; s["relief_height"] = height; s["site_height"] = site;
+                Line("DeriveSeismic", new() { ["seismic"] = s.DeepClone() }, () => RetainingWall.DeriveSeismic(new JsonObject { ["seismic"] = s }));
+            }
+            foreach (var (ssMode, ss, stMode, st) in new[] { ("Assegnato", "1.35", "Assegnato", "1.1"), ("Assegnato", "6", "Calcolato", ""), ("Calcolato", "", "Assegnato", "0.9"), ("Altro", "", "Calcolato", ""), ("Calcolato", "", "Altro", "") })
+            {
+                var s = Seismic("Mononobe–Okabe", .2, 2.5, "B"); s["ss_mode"] = ssMode; s["ss"] = ss; s["st_mode"] = stMode; s["st"] = st;
+                Line("DeriveSeismic", new() { ["seismic"] = s.DeepClone() }, () => RetainingWall.DeriveSeismic(new JsonObject { ["seismic"] = s }));
+            }
+            foreach (var source in new[] { RetainingWall.SeismicManual, "Altro" })
+            {
+                var s = Seismic("Mononobe–Okabe", .2, 2.5, "B"); s["source"] = source;
+                Line("DeriveSeismic", new() { ["seismic"] = s.DeepClone() }, () => RetainingWall.DeriveSeismic(new JsonObject { ["seismic"] = s }));
+            }
+        }
+
+        var all = Documents();
+        using (var w = new StreamWriter(Path.Combine(output, "walls-combinations.jsonl"), false, new UTF8Encoding(false)))
+        {
+            Write(w, new JsonObject { ["header"] = "RetainingWall.GenerateCombinations and GenerateGlobalCombinations; " + header });
+            foreach (var (name, data) in all)
+            {
+                var d = (JsonObject)data.DeepClone(); var line = new JsonObject { ["name"] = name };
+                try { RetainingWall.Upgrade(d); line["input"] = d.DeepClone(); line["ordinary"] = RetainingWall.GenerateCombinations(d); } catch (Exception ex) { line["ordinary"] = Error(ex); }
+                try { line["global"] = RetainingWall.GenerateGlobalCombinations(data); } catch (Exception ex) { line["global"] = Error(ex); }
+                Write(w, line); combinations++;
+            }
+        }
+        using (var file = File.Create(Path.Combine(output, "walls-documents.jsonl.gz")))
+        using (var zip = new System.IO.Compression.GZipStream(file, System.IO.Compression.CompressionLevel.SmallestSize))
+        using (var w = new StreamWriter(zip, new UTF8Encoding(false)))
+        {
+            Write(w, new JsonObject { ["header"] = "RetainingWall.Calculate (Result.Json()); " + header });
+            foreach (var (name, data) in all)
+            {
+                string before = data.ToJsonString(); JsonObject result;
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+                try { result = RetainingWall.Calculate(data).Json(); result.Remove("input"); }
+                catch (Exception ex) { result = Error(ex); }
+                if (before != data.ToJsonString()) throw new InvalidOperationException("Input modified: " + name);
+                Write(w, new JsonObject { ["name"] = name, ["input"] = data, ["result"] = result }); documents++;
+                Console.WriteLine($"  muro {documents}/{all.Count} {name}: {watch.Elapsed.TotalSeconds:0.0} s");
+            }
+        }
+        Console.WriteLine($"Muri: {functions} funzioni, {combinations} generazioni di combinazioni, {documents} documenti");
+    }
+
+    static JsonObject Seismic(string method, double ag, double f0, string soil) => new()
+    {
+        ["enabled"] = true, ["method"] = method, ["kh"] = .1, ["kv"] = .05, ["source"] = RetainingWall.SeismicSite, ["ag_g"] = ag, ["f0"] = f0, ["soil_class"] = soil,
+        ["ss_mode"] = RetainingWall.AmplificationCalculated, ["ss"] = "", ["st_mode"] = RetainingWall.AmplificationCalculated, ["st"] = "", ["topography"] = RetainingWall.TopographyFlat,
+        ["slope"] = "", ["relief_height"] = "", ["site_height"] = ""
+    };
+
+    // Deterministic identifiers of the actions (NewAction uses a new Guid).
+    static JsonObject Ids(JsonObject d)
+    {
+        RetainingWall.Upgrade(d); int n = 0;
+        foreach (var a in d.Array("actions")) a!["id"] = "a" + ++n;
+        return d;
+    }
+
+    static JsonObject Action(JsonObject d, string type, double value, double? z = null, double? z0 = null, double? x = null, string? category = null, string group = "",
+        double psi0 = .7, double psi1 = .5, double psi2 = .3)
+    {
+        var a = RetainingWall.NewAction(d, type); a["id"] = "a" + (d.Array("actions").Count + 1); a["name"] = type + " " + (d.Array("actions").Count + 1);
+        a["value"] = value; if (z.HasValue) a["z"] = z; if (z0.HasValue) a["z0"] = z0; if (x.HasValue) a["x"] = x; if (category != null) a["category"] = category;
+        a["group"] = group; a["psi0"] = psi0; a["psi1"] = psi1; a["psi2"] = psi2;
+        d.Array("actions").Add(a); return a;
+    }
+
+    static JsonObject Layer(double thickness, double gamma, double sat, double phi, string name = "Strato") => new() { ["name"] = name, ["thickness"] = thickness, ["gamma"] = gamma, ["gamma_sat"] = sat, ["phi"] = phi };
+
+    static void Custom(JsonObject d, Action<JsonObject> edit, Func<JsonObject, bool>? select = null)
+    {
+        Ids(d); var rows = RetainingWall.GenerateCombinations(d);
+        var kept = new JsonArray(rows.OfType<JsonObject>().Where(r => select?.Invoke(r) ?? true).Select(r => { var c = (JsonObject)r.DeepClone(); edit(c); return (JsonNode)c; }).ToArray());
+        d["combinations"] = kept; d["combination_mode"] = "Personalizzate"; d["combination_signature"] = RetainingWall.CombinationSignature(d);
+    }
+
+    static List<(string Name, JsonObject Data)> Documents()
+    {
+        var all = new List<(string, JsonObject)>();
+        JsonObject D() => Ids(RetainingWall.Defaults());
+        JsonObject G() => Ids(RetainingWall.Example("gravity"));
+        void Add(string name, JsonObject d) => all.Add((name, d));
+        // A. References: defaults v2 and v1, gravity example, the documents of the ANTHEA checks.
+        Add("predefinito v2", D());
+        Add("predefinito v1", RetainingWall.LegacyDefaults());
+        var v1 = RetainingWall.LegacyDefaults(); v1["loads"]!["horizontal"] = 7; v1["loads"]!["vertical"] = 12; v1["water"]!["enabled"] = true; v1["water"]!["depth"] = 1.4; Add("v1 carichi e falda", v1);
+        var bench = RetainingWall.LegacyDefaults(); bench["geometry"]!["stem_base"] = .3; bench["geometry"]!["stem_top"] = .3; bench["geometry"]!["slab"] = .4; bench["geometry"]!["heel"] = 1.9; Add("v1 benchmark ANTHEA", bench);
+        var v1s = (JsonObject)bench.DeepClone(); v1s["seismic"]!["enabled"] = true; Add("v1 sisma", v1s);
+        Add("gravità esempio", G());
+        var failing = RetainingWall.Example("gravity"); failing["version"] = 1; failing["loads"]!["horizontal"] = 1000; Add("gravità v1 perdita di equilibrio", failing);
+        var topLoad = RetainingWall.Example("gravity"); topLoad["version"] = 1; topLoad["geometry"]!["stem_base"] = 8; topLoad["geometry"]!["stem_top"] = .15; topLoad["geometry"]!["height"] = 1; topLoad["loads"]!["vertical"] = 2000; Add("gravità v1 carico in testa", topLoad);
+        // B. Geometry.
+        foreach (double h in new[] { 2.0, 4.5, 8 })
+            foreach (double heel in new[] { 0.0, 1.8, 3.2 })
+                foreach (double toe in new[] { 0.0, .8 })
+                {
+                    var d = D(); var g = d["geometry"]!; g["height"] = h; g["heel"] = heel; g["toe"] = toe;
+                    if (h >= 4.5) { g["stem_base"] = .5; g["stem_top"] = .3; g["slab"] = .6; }
+                    Add($"geometria H{h} b{heel} a{toe}", d);
+                }
+        // C. Water: depth and head in front of the wall.
+        foreach (var (depth, front) in new[] { (0.0, 0.0), (1.5, 0.0), (1.5, .3), (3.45, 0.0), (2.5, .45) })
+        { var d = D(); d["water"]!["enabled"] = true; d["water"]!["depth"] = depth; d["water"]!["front_head"] = front; Add($"falda z{depth} valle{front}", d); }
+        // D. Layered backfill.
+        var layered = D(); layered["layers"] = new JsonArray(Layer(1.2, 17, 19, 28), Layer(2, 19, 21, 33), Layer(10, 20, 21, 36)); Add("tre strati", layered);
+        var layeredWet = (JsonObject)layered.DeepClone(); layeredWet["water"]!["enabled"] = true; layeredWet["water"]!["depth"] = 1.0; Add("tre strati con falda", layeredWet);
+        // E. Valley column, passive resistance and front water.
+        foreach (var (linked, passive, eta, front) in new[] { (false, false, 0.0, 0.0), (false, true, .5, 0.0), (true, true, 1.0, 0.0), (false, true, 1.0, .8) })
+        {
+            var d = D(); var v = d["valley"]!; v["height_mode"] = "Assegnato"; v["free_height"] = 2.45; v["linked"] = linked; v["passive"] = passive; v["mobilization"] = eta;
+            v["layers"] = new JsonArray(Layer(.6, 18, 20, 30), Layer(5, 19, 21, 34));
+            if (front > 0) { d["water"]!["enabled"] = true; d["water"]!["depth"] = 1.5; d["water"]!["front_head"] = front; }
+            Add($"valle Dv1 collegata{linked} passiva{passive} eta{eta} falda{front}", d);
+        }
+        var shallow = D(); shallow["valley"]!["height_mode"] = "Assegnato"; shallow["valley"]!["free_height"] = 3.2; shallow["valley"]!["passive"] = true; shallow["valley"]!["mobilization"] = 1; Add("valle sotto la soletta", shallow);
+        // F. Interfaces of the wall and of the base.
+        foreach (string wall in RetainingWall.FrictionModes)
+            foreach (string baseMode in new[] { "Assegnato", "Gettato in opera" })
+            {
+                var d = D(); var i = d["interfaces"]!; i["wall_mode"] = wall; i["wall_delta"] = 20; i["wall_phi_cv"] = 28; i["base_mode"] = baseMode; i["base_phi_cv"] = 32;
+                Add($"attrito muro {wall} base {baseMode}", d);
+                if (wall != "Assegnato") continue;
+                var heel0 = (JsonObject)d.DeepClone(); heel0["geometry"]!["heel"] = 0; heel0["geometry"]!["toe"] = 1.6; Add($"attrito muro {wall} base {baseMode} senza mensola a monte", heel0);
+            }
+        // G. Actions of every type, natures and groups.
+        var actions = D(); double ht = 3.45;
+        Action(actions, "Forza orizzontale", 10, 1.45); Action(actions, "Forza verticale", 50, ht, x: 1.075, category: "G2"); Action(actions, "Momento", 8, ht);
+        Action(actions, "Pressione laterale", 4, 2.45, .45); Action(actions, "Urto", 40, 2, category: "A"); Action(actions, "Urto", 25, ht, category: "A");
+        Action(actions, "Sovraccarico uniforme", 15, category: "G2"); Action(actions, "Sovraccarico uniforme", 5, category: "G1");
+        Add("azioni di ogni tipo", actions);
+        var grouped = D(); Action(grouped, "Sovraccarico uniforme", 20, psi0: .8, psi1: .6); Action(grouped, "Forza orizzontale", 6, 3.0, group: "vento", psi0: .6, psi1: .2, psi2: 0);
+        Action(grouped, "Momento", 4, ht, group: "vento", psi0: .6, psi1: .2, psi2: 0); Add("azioni correlate e due variabili", grouped);
+        var gravityActions = G(); Action(gravityActions, "Forza orizzontale", 10, 1.45); Action(gravityActions, "Momento", 8, ht); Action(gravityActions, "Pressione laterale", 4, 2.45, .45);
+        Add("gravità con azioni dirette", gravityActions);
+        // H. Assigned matrices.
+        var matrix = D(); Custom(matrix, c => { c["mphi"] = 1.25; c["rslide"] = 1.7; c["valley_soil"] = 1.1; }); Add("matrice personalizzata γM 1,25 γR 1,7", matrix);
+        var single = D(); Custom(single, c => { c["state"] = "SLU"; c["wall"] = 1.3; c["soil"] = 1.3; c["water"] = 1.3; }, c => c.S("state") == "SLE"); Add("matrice SLE resa SLU", single);
+        // I. Assigned seismic coefficients: Mononobe-Okabe and Wood.
+        foreach (var (method, kh, kv, heel) in new[] { ("Mononobe–Okabe", .1, .05, 1.8), ("Mononobe–Okabe", .1, .05, 0.0), ("Mononobe–Okabe", .25, 0.0, 1.8), ("Wood semplificato", .15, 0.0, 1.8), ("Wood semplificato", .1, .05, 1.8) })
+        {
+            var d = D(); var s = d["seismic"]!; s["enabled"] = true; s["source"] = RetainingWall.SeismicManual; s["method"] = method; s["kh"] = kh; s["kv"] = kv;
+            d["geometry"]!["heel"] = heel; if (heel == 0) d["geometry"]!["toe"] = 1.8;
+            d["bearing_seismic"]!["source"] = "Assegnata"; d["bearing_seismic"]!["ground_kh"] = .25; d["bearing_seismic"]!["ground_kv"] = .12;
+            Add($"sisma assegnato {method} kh{kh} kv{kv} b{heel}", d);
+        }
+        // J. Seismic action from the site (SLV): soil classes, topography, both methods, bearing from the site.
+        foreach (string soil in new[] { "A", "B", "C", "D", "E" })
+        { var d = D(); d["seismic"] = Seismic("Mononobe–Okabe", .15, 2.5, soil); Add($"sisma da sito categoria {soil}", d); }
+        var ridge = D(); ridge["seismic"] = Seismic("Mononobe–Okabe", .12, 2.4, "B"); ridge["seismic"]!["topography"] = "Rilievo a cresta stretta"; ridge["seismic"]!["slope"] = 35; ridge["seismic"]!["relief_height"] = 60; ridge["seismic"]!["site_height"] = 45; Add("sisma da sito cresta T4", ridge);
+        var wood = D(); wood["seismic"] = Seismic("Wood semplificato", .1, 2.5, "B"); Add("sisma da sito Wood", wood);
+        var woodHigh = D(); woodHigh["seismic"] = Seismic("Wood semplificato", .3, 2.6, "D"); Add("sisma da sito Wood fuori campo", woodHigh);
+        var siteGravity = G(); siteGravity["seismic"] = Seismic("Mononobe–Okabe", .15, 2.5, "C"); Add("gravità sisma da sito", siteGravity);
+        // K. Gravity walls: assigned strengths, plain concrete, masonry.
+        foreach (string type in new[] { "Resistenze assegnate", "Calcestruzzo non armato", "Muratura" })
+        {
+            var d = G(); var p = d["gravity_design"]!; p["type"] = type; p["fk"] = 6; p["fvk0"] = .2; p["fvk_limit"] = 1.5; p["gamma_m"] = 2.5; p["confidence"] = 1.2; p["eccentricity"] = 20; p["elastic_modulus"] = 4000;
+            Add($"gravità {type}", d);
+            var e = (JsonObject)d.DeepClone(); e["gravity_design"]!["effective_height"] = 9; e["water"]!["enabled"] = true; e["water"]!["depth"] = 2; Add($"gravità {type} con falda e lunghezza efficace", e);
+        }
+        var gravitySeismic = G(); gravitySeismic["gravity_design"]!["type"] = "Calcestruzzo non armato"; gravitySeismic["seismic"]!["enabled"] = true; gravitySeismic["seismic"]!["source"] = RetainingWall.SeismicManual; Add("gravità cls sisma assegnato", gravitySeismic);
+        // L. Serviceability: settlements, displacements, Newmark.
+        JsonObject Service(JsonObject d, bool displacement)
+        {
+            var s = d["serviceability"]!; s["settlement"] = true; s["displacement"] = displacement; s["removed_pressure"] = 20; s["horizontal_stiffness"] = 50000;
+            s["layers"] = new JsonArray(new JsonObject { ["name"] = "Limo", ["thickness"] = 4, ["modulus"] = 15000 }, new JsonObject { ["name"] = "Ghiaia", ["thickness"] = 12, ["modulus"] = 60000 });
+            s["histories"] = new JsonArray(new JsonObject { ["enabled"] = true, ["name"] = "Acc1", ["state"] = "SLV", ["compatible"] = true, ["yield_g"] = .08, ["scale"] = 1, ["limit_mm"] = 50,
+                ["samples"] = new JsonArray(Enumerable.Range(0, 41).Select(i => (JsonNode)new JsonObject { ["t"] = i * .05, ["a_g"] = .25 * Math.Sin(i * .05 * 2 * Math.PI * 1.5) }).ToArray()) },
+                new JsonObject { ["enabled"] = true, ["name"] = "Acc2", ["state"] = "SLD", ["compatible"] = false, ["yield_g"] = .08, ["scale"] = 1, ["limit_mm"] = 50, ["samples"] = new JsonArray() });
+            return d;
+        }
+        Add("esercizio mensola", Service(D(), true));
+        Add("esercizio mensola solo cedimenti", Service(D(), false));
+        var gService = Service(G(), true); gService["gravity_design"]!["type"] = "Calcestruzzo non armato"; Add("esercizio gravità cls", gService);
+        Add("esercizio gravità resistenze assegnate", Service(G(), true));
+        var shallowService = Service(D(), true); shallowService["serviceability"]!["layers"]![1]!["thickness"] = 1; Add("esercizio profilo insufficiente", shallowService);
+        var rigid = (JsonObject)shallowService.DeepClone(); rigid["serviceability"]!["rigid_base"] = true; Add("esercizio base rigida", rigid);
+        // M. Global stability (Bishop) with the prepared profile, static and from the site.
+        JsonObject Global(JsonObject d, bool seismic)
+        {
+            RetainingWall.PrepareGlobalProfile(d); var g = d["global_stability"]!;
+            g["enabled"] = true; g["profile_confirmed"] = true; g["grid"] = 5; g["slices"] = 30; g["refinements"] = 2; g["seismic"] = seismic;
+            return d;
+        }
+        Add("globale statica", Global(D(), false));
+        var siteGlobal = D(); siteGlobal["seismic"] = Seismic("Mononobe–Okabe", .15, 2.5, "C"); Add("globale sismica da sito", Global(siteGlobal, true));
+        var unconfirmed = D(); RetainingWall.PrepareGlobalProfile(unconfirmed); unconfirmed["global_stability"]!["enabled"] = true; Add("globale non confermata", unconfirmed);
+        var undrained = Global(D(), false); undrained["global_stability"]!["condition"] = "Non drenata"; foreach (var l in undrained["global_stability"]!.Array("layers").Concat(undrained["global_stability"]!.Array("valley_layers"))) l!["cu"] = 60; Add("globale non drenata", undrained);
+        // N. Detailing of the reinforcement, one and two stem zones.
+        var detail = D(); detail["detailing"]!["enabled"] = true; Add("dettagli armature", detail);
+        var two = D(); two["geometry"]!["stem_top"] = .4; var r = two["reinforcement"]!; r["two_zones"] = true; r["lower_height"] = 1.2; r["stem_upper"]!["diameter"] = 12; two["detailing"]!["enabled"] = true; Add("dettagli due zone", two);
+        var asym = D(); asym["reinforcement"]!["stem"]!["symmetric"] = false; asym["reinforcement"]!["stem"]!["opposite_diameter"] = 12; asym["reinforcement"]!["stem"]!["opposite_count"] = 5; Add("armatura asimmetrica", asym);
+        // O. Rejected documents.
+        void Bad(string name, Action<JsonObject> edit, bool gravity = false) { var d = gravity ? G() : D(); edit(d); Add("errore " + name, d); }
+        Bad("altezza 20", d => d["geometry"]!["height"] = 20);
+        Bad("fusto rovescio", d => d["geometry"]!["stem_top"] = .5);
+        Bad("stratigrafia corta", d => d["layers"]![0]!["thickness"] = 2);
+        Bad("esposizione mancante", d => d["materials"]!["exposure"] = "");
+        Bad("falda oltre il piano di posa", d => { d["water"]!["enabled"] = true; d["water"]!["depth"] = 5; });
+        Bad("sisma con falda", d => { d["water"]!["enabled"] = true; d["seismic"]!["enabled"] = true; d["seismic"]!["source"] = RetainingWall.SeismicManual; });
+        Bad("tipologia futura", d => d["family"] = "piles");
+        Bad("estensioni", d => d["extensions"]!["anchors"] = new JsonArray());
+        Bad("quota azione", d => Action(d, "Forza orizzontale", 10, 9));
+        Bad("forza verticale fuori dal fusto", d => Action(d, "Forza verticale", 10, 3.45, x: 3));
+        Bad("psi incoerenti", d => Action(d, "Sovraccarico uniforme", 10, psi0: .3, psi1: .5, psi2: .6));
+        Bad("urto variabile", d => Action(d, "Urto", 10, 2, category: "Q"));
+        Bad("altezza libera", d => { d["valley"]!["height_mode"] = "Assegnato"; d["valley"]!["free_height"] = 4; });
+        Bad("phi cv oltre phi", d => { d["interfaces"]!["wall_mode"] = "Gettato in opera"; d["interfaces"]!["wall_phi_cv"] = 35; });
+        Bad("matrice obsoleta", d => { Custom(d, c => { }); d.Array("actions")[0]!["psi0"] = .9; });
+        Bad("sisma senza categoria", d => d["seismic"] = Seismic("Mononobe–Okabe", .15, 2.5, "Da scegliere"));
+        Bad("phi 50", d => d["layers"]![0]!["phi"] = 50);
+        Bad("terreno di posa gamma sat", d => d["foundation"]!["gamma_sat"] = 15);
+        Bad("versione 3", d => d["version"] = 3);
+        Bad("mononobe oltre phi", d => { d["layers"]![0]!["phi"] = 12; d["seismic"]!["enabled"] = true; d["seismic"]!["source"] = RetainingWall.SeismicManual; d["seismic"]!["kh"] = .3; });
+        Bad("gravità lunghezza efficace corta", d => { d["gravity_design"]!["type"] = "Calcestruzzo non armato"; d["gravity_design"]!["effective_height"] = 2; }, true);
+        Bad("gravità muratura senza fk", d => d["gravity_design"]!["type"] = "Muratura", true);
+        Bad("armatura 40 barre", d => d["reinforcement"]!["stem"]!["count"] = 40);
+        return all;
     }
 }
