@@ -1,87 +1,99 @@
 using System.Text.Json.Nodes;
+using GPC.Checkers.Geotechnics.Piles;
+using GPC.Model.Materials;
+using GPC.Model.Sections;
+using GPC.Model.Data.Sections;
+using Bd = GPC.Checkers.Geotechnics.Piles.BustamanteDoix;
 
 namespace Anthea.Calculations;
 
-/// <summary>Viggiani §13.1.6, pp.392–396; abachi digitalizzati dalla fonte Python. Pressione MPa, aderenza kPa.</summary>
+/// <summary>
+/// Bustamante–Doix in GPCChecker.Geotechnics (Viggiani §13.1.6, pp. 392–396): tabelle e abachi della libreria; qui i nomi del foglio, le unità
+/// (m, kN, kPa ↔ mm, N, MPa) e i messaggi. Pressione MPa, aderenza kPa.
+/// </summary>
 public static class BustamanteDoix
 {
-    public const string Versione = "BD-VIGGIANI-2026-09-10";
-    public const string Fonte = "C. Viggiani, Fondazioni, §13.1.6, pp. 392–396; eq. 13.21, tab. 13.12–13.13, fig. 13.16–13.19";
-    public static readonly Dictionary<string,(string Family,double[] IRS,double[] IGU)> Terreni = new()
+    public const string Versione = Bd.Version;
+    public const string Fonte = Bd.Source;
+    /// <summary>Terreni della tabella 13.12: famiglia degli abachi e intervalli di α IRS e IGU, dalla libreria.</summary>
+    public static readonly Dictionary<string,(string Family,double[] IRS,double[] IGU)> Terreni = Enum.GetValues<BustamanteDoixSoil>().ToDictionary(Bd.Label,
+        s => (Bd.Family(s), Range(s, MicropileInjection.IRS), Range(s, MicropileInjection.IGU)));
+    /// <summary>Abachi digitalizzati (p_l MPa, s MPa) della libreria: SG, AL, MC, R; 1 = IRS, 2 = IGU.</summary>
+    public static readonly Dictionary<string,(double X,double Y)[]> Curve = new[] { "SG", "AL", "MC", "R" }.SelectMany(f => new[] { f + "1", f + "2" })
+        .ToDictionary(c => c, c => Bd.Chart(c).Select(p => (p.LimitPressure, p.UnitResistance)).ToArray());
+    static double[] Range(BustamanteDoixSoil soil, MicropileInjection injection) { var r = Bd.AlphaRange(soil, injection); return [r.Min, r.Max]; }
+    internal static BustamanteDoixSoil Soil(string terreno) => Enum.GetValues<BustamanteDoixSoil>().Where(s => Bd.Label(s) == terreno).Select(s => (BustamanteDoixSoil?)s).FirstOrDefault()
+        ?? throw new ArgumentException("Scegliere un terreno della tabella Viggiani 13.12.");
+    internal static MicropileInjection Injection(string iniezione) => iniezione switch
     {
-        ["Ghiaia"]=("SG",[1.8,1.8],[1.3,1.4]),["Ghiaia sabbiosa"]=("SG",[1.6,1.8],[1.2,1.4]),["Sabbia ghiaiosa"]=("SG",[1.5,1.6],[1.2,1.3]),
-        ["Sabbia grossa"]=("SG",[1.4,1.5],[1.1,1.2]),["Sabbia media"]=("SG",[1.4,1.5],[1.1,1.2]),["Sabbia fine"]=("SG",[1.4,1.5],[1.1,1.2]),["Sabbia limosa"]=("SG",[1.4,1.5],[1.1,1.2]),
-        ["Limo"]=("AL",[1.4,1.6],[1.1,1.2]),["Argilla"]=("AL",[1.8,2],[1.2,1.2]),["Marne"]=("MC",[1.8,1.8],[1.1,1.2]),["Calcari marnosi"]=("MC",[1.8,1.8],[1.1,1.2]),["Calcari alterati o fratturati"]=("MC",[1.8,1.8],[1.1,1.2]),["Roccia alterata e/o fratturata"]=("R",[1.2,1.2],[1.1,1.1])
+        "IGU" => MicropileInjection.IGU, "IRS" => MicropileInjection.IRS, _ => throw new ArgumentException("Scegliere il tipo di iniezione IGU o IRS.")
     };
-    public static readonly Dictionary<string,(double X,double Y)[]> Curve = new()
-    {
-        ["SG1"]=[(.25,.075),(1,.15),(2,.25),(3,.35),(4,.45),(5,.55),(6,.65),(6.7,.72)],
-        ["SG2"]=[(.25,.025),(1,.10),(2,.20),(3,.30),(4,.40),(5,.50),(6,.60),(6.7,.67)],
-        ["AL1"]=[(.30,.085),(.50,.125),(.75,.155),(1,.180),(1.5,.220),(2,.260),(2.4,.295)],
-        ["AL2"]=[(.30,.040),(.50,.065),(.75,.083),(1,.100),(1.5,.130),(2,.160),(2.4,.184)],
-        ["MC1"]=[(1,.20),(2,.27),(3,.34),(4,.41),(5,.48),(6,.55),(7,.62),(8,.69)],
-        ["MC2"]=[(1,.15),(2,.20),(3,.25),(4,.30),(5,.35),(6,.40),(7,.45),(8,.50)],
-        ["R1"]=[(1.3,.20),(2,.30),(3,.43),(4,.55),(5,.68),(6,.81),(7,.94),(8,1.07),(9,1.20),(9.4,1.25)],
-        ["R2"]=[(1.3,.17),(2,.25),(3,.34),(4,.44),(5,.54),(6,.64),(7,.74),(8,.85),(9,.95),(9.4,.99)]
-    };
-    public static double[] IntervalloAlpha(string terreno,string iniezione)
-    {
-        if (!Terreni.TryGetValue(terreno,out var t)) throw new ArgumentException("Scegliere un terreno della tabella Viggiani 13.12.");
-        if (iniezione is not ("IGU" or "IRS")) throw new ArgumentException("Scegliere il tipo di iniezione IGU o IRS.");
-        return iniezione=="IGU" ? t.IGU : t.IRS;
-    }
+    public static double[] IntervalloAlpha(string terreno,string iniezione) => Range(Soil(terreno), Injection(iniezione));
+    /// <summary>Aderenza unitaria dall'abaco della libreria, con i controlli del foglio: α positivo, p_l entro l'abaco.</summary>
     public static JsonObject Parametro(string terreno,string iniezione,double pressione,double alpha)
     {
-        var interval=IntervalloAlpha(terreno,iniezione);
+        var soil = Soil(terreno); var injection = Injection(iniezione);
         if (!double.IsFinite(alpha) || alpha<=0) throw new ArgumentException($"α {iniezione}: inserire un valore maggiore di zero.");
-        var code=Terreni[terreno].Family+(iniezione=="IGU"?"2":"1"); var points=Curve[code];
-        if (!double.IsFinite(pressione) || pressione<points[0].X || pressione>points[^1].X) throw new ArgumentException($"p_l fuori abaco {code}: usare {points[0].X:g}–{points[^1].X:g} MPa; nessuna estrapolazione.");
-        for (int i=1;i<points.Length;i++) if (pressione<=points[i].X)
-        {
-            var (x1,y1)=points[i-1];var (x2,y2)=points[i];double s=y1+(y2-y1)*(pressione-x1)/(x2-x1);
-            return J.Obj(("curva",code),("pl",pressione),("alpha",alpha),("alpha_consigliato",interval),("s",1000*s),("iniezione",iniezione));
-        }
-        throw new ArgumentException("Abaco non valutabile.");
+        string code = Bd.Family(soil) + (injection == MicropileInjection.IGU ? "2" : "1"); var points = Bd.Chart(code);
+        if (!double.IsFinite(pressione) || pressione<points[0].LimitPressure || pressione>points[^1].LimitPressure)
+            throw new ArgumentException($"p_l fuori abaco {code}: usare {points[0].LimitPressure:g}–{points[^1].LimitPressure:g} MPa; nessuna estrapolazione.");
+        return Json(Bd.UnitShaftResistance(soil, injection, pressione, alpha));
     }
+    static JsonObject Json(BustamanteDoixShaft s) => J.Obj(("curva",s.Curve),("pl",s.LimitPressure),("alpha",s.Alpha),("alpha_consigliato",new[] { s.RecommendedAlpha.Min, s.RecommendedAlpha.Max }),
+        ("s",1000*s.UnitResistance),("iniezione",s.Injection.ToString()));
+    /// <summary>
+    /// Tratti di aderenza fra l'inizio dell'iniezione e la quota (m lungo l'asse), con il diametro di perforazione (m): segmenti della libreria
+    /// (Ds = α D, π Ds L s) nelle unità del foglio. I dati degli strati attivi sono controllati prima, con i messaggi del foglio.
+    /// </summary>
     public static List<JsonObject> Tratti(List<Strato> strati,double quota,double inizio,double diametro,string iniezione,double pressione)
     {
-        var output=new List<JsonObject>();
+        var injection = Injection(iniezione); var layers = new List<MicropileLayer>();
         for(int i=0;i<strati.Count;i++)
         {
-            var st=strati[i]; double top=Math.Max(st.Cielo,inizio),bottom=Math.Min(st.Fondo,quota);
-            if(bottom<=top) continue;
-            if(!st.Valori.B("laterale_attiva",true))
-            {
-                output.Add(J.Obj(("strato",i+1),("cielo",top),("fondo",bottom),("iniezione",iniezione),("alpha",null),("ds",null),("pl",null),("s",0.0),("curva",null),("laterale",0.0),("laterale_attiva",false)));continue;
-            }
-            JsonObject p;
-            try { p=Parametro(st.Valori.S("terreno"),iniezione,pressione,st.Valori.Required("alpha",strict:true)); }
-            catch(ArgumentException ex) { throw new ArgumentException($"Strato {i+1}: {ex.Message}"); }
-            double ds=diametro*p.D("alpha");p["strato"]=i+1;p["cielo"]=top;p["fondo"]=bottom;p["ds"]=ds;p["laterale"]=Math.PI*ds*(bottom-top)*p.D("s");output.Add(p);
+            var st=strati[i]; bool active=st.Valori.B("laterale_attiva",true); var soil=BustamanteDoixSoil.Gravel; double alpha=double.NaN;
+            if(active && Math.Min(st.Fondo,quota)>Math.Max(st.Cielo,inizio))
+                try { alpha=st.Valori.Required("alpha",strict:true); _=Parametro(st.Valori.S("terreno"),iniezione,pressione,alpha); soil=Soil(st.Valori.S("terreno")); }
+                catch(ArgumentException ex) { throw new ArgumentException($"Strato {i+1}: {ex.Message}"); }
+            layers.Add(new MicropileLayer(st.Cielo*1000,st.Fondo*1000,soil,alpha,active));
         }
-        return output;
+        return Bd.Segments(layers,quota*1000,inizio*1000,diametro*1000,injection,pressione).Select(s =>
+        {
+            if(s.Shaft is null) return J.Obj(("strato",s.Layer),("cielo",s.Top/1000),("fondo",s.Bottom/1000),("iniezione",iniezione),("alpha",null),("ds",null),("pl",null),("s",0.0),("curva",null),("laterale",0.0),("laterale_attiva",false));
+            var p=Json(s.Shaft); p["strato"]=s.Layer; p["cielo"]=s.Top/1000; p["fondo"]=s.Bottom/1000; p["ds"]=s.DrillDiameter!.Value/1000; p["laterale"]=s.Lateral/1000; return p;
+        }).ToList();
     }
 }
 
+/// <summary>Tubi CHS del micropalo: profili di ModelData (EN 10210, Celsius) e peso della libreria (MicropileTube.Weight).</summary>
 public static class Chs
 {
+    // Taglie proposte nel foglio; dimensioni e sezione dai cataloghi di ModelData.
+    static readonly Dictionary<double,double[]> Taglie=new() { [60.3]=[3.2,3.6,4,5,6.3,8],[76.1]=[3.2,3.6,4,5,6.3,8],[88.9]=[3.2,3.6,4,5,6.3,8,10],[114.3]=[3.6,4,5,6.3,8,10],[139.7]=[3.6,4,5,6.3,8],[168.3]=[5,6.3,8,10,12.5],[193.7]=[5,6.3,8,10,12.5,14.2,16],[219.1]=[5,6.3,8,10,12.5,14.2,16],[244.5]=[5,6.3,8,10,12.5,14.2,16],[273]=[5,6.3,8,10,12.5,14.2,16,17.5] };
     public static readonly Dictionary<string,(double Diameter,double Thickness)> Catalogo = Build();
+    /// <summary>Acciaio del tubo: della sezione serve la densità di Model (7850 kg/m³).</summary>
+    internal static readonly SteelMaterial Acciaio = new("S355", 210000, 355, 510);
     private static Dictionary<string,(double,double)> Build()
     {
-        var dimensions=new Dictionary<double,double[]> { [60.3]=[3.2,3.6,4,5,6.3,8],[76.1]=[3.2,3.6,4,5,6.3,8],[88.9]=[3.2,3.6,4,5,6.3,8,10],[114.3]=[3.6,4,5,6.3,8,10],[139.7]=[3.6,4,5,6.3,8],[168.3]=[5,6.3,8,10,12.5],[193.7]=[5,6.3,8,10,12.5,14.2,16],[219.1]=[5,6.3,8,10,12.5,14.2,16],[244.5]=[5,6.3,8,10,12.5,14.2,16],[273]=[5,6.3,8,10,12.5,14.2,16,17.5] };
         var result=new Dictionary<string,(double,double)>();
-        foreach(var (d,tt) in dimensions) foreach(var t in tt) result[FormattableString.Invariant($"CHS {d:g} × {t:g}")]=(d,t);
+        foreach(var (d,tt) in Taglie) foreach(var t in tt)
+        {
+            string name=FormattableString.Invariant($"CHS {d:g} × {t:g}"); var tube=Sezione(name);
+            result[name]=(tube.Diameter,tube.Thickness);
+        }
         return result;
     }
+    /// <summary>La sezione CHS di ModelData della designazione.</summary>
+    public static SectionCHS Sezione(string profilo) => SectionMappings.CreateSection(profilo) as SectionCHS ?? throw new ArgumentException("Profilo CHS non presente nei cataloghi di ModelData: " + profilo);
     public static JsonObject Peso(string profilo,double diametro,double gamma=25)
     {
         if(!Catalogo.TryGetValue(profilo,out var v))throw new ArgumentException("Selezionare il profilo CHS dal catalogo.");
         if(!double.IsFinite(diametro)||diametro<=0)throw new ArgumentException("Diametro di perforazione non valido.");
         if(!double.IsFinite(gamma)||gamma<=0)throw new ArgumentException("Peso specifico del calcestruzzo non valido.");
-        const double MmToM=.001; double de=v.Diameter*MmToM,sp=v.Thickness*MmToM;
-        if(de>=diametro)throw new ArgumentException("Il diametro esterno CHS deve essere minore del diametro di perforazione.");
-        double steel=Math.PI*(de*de-Math.Pow(de-2*sp,2))/4,cls=Math.PI*diametro*diametro/4-steel,mass=7850*steel,qs=mass*9.81/1000,qc=gamma*cls;
-        return J.Obj(("profilo",profilo),("diametro_chs_mm",v.Diameter),("spessore_mm",v.Thickness),("area_acciaio",steel),("area_cls",cls),("massa_acciaio",mass),("q_acciaio",qs),("q_cls",qc),("q_totale",qs+qc),("gamma_cls",gamma));
+        if(v.Diameter>=diametro*1000)throw new ArgumentException("Il diametro esterno CHS deve essere minore del diametro di perforazione.");
+        var w=MicropileTube.Weight(Sezione(profilo),Acciaio,diametro*1000,gamma*1e-6);
+        // Aree m², massa kg/m dalla densità del materiale di Model (t/mm³), pesi kN/m (= N/mm).
+        return J.Obj(("profilo",profilo),("diametro_chs_mm",v.Diameter),("spessore_mm",v.Thickness),("area_acciaio",w.SteelArea/1e6),("area_cls",w.GroutArea/1e6),("massa_acciaio",Acciaio.Density*w.SteelArea*1e6),
+            ("q_acciaio",w.Steel),("q_cls",w.Grout),("q_totale",w.Total),("gamma_cls",gamma));
     }
 }
 
@@ -90,6 +102,6 @@ public static class GeometriaMicropalo
     public static double Coseno(double theta)
     {
         if(!double.IsFinite(theta)||theta<0||theta>=90)throw new ArgumentException("Inclinazione θ: deve essere compresa tra 0° incluso e 90° escluso.");
-        return Math.Cos(theta*Math.PI/180);
+        return MicropileTube.AxisCosine(theta*Math.PI/180);
     }
 }

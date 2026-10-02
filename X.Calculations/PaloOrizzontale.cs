@@ -1,21 +1,29 @@
 using System.Globalization;
 using System.Text;
 using System.Text.Json.Nodes;
+using GPC.Checkers.Geotechnics.Piles;
+using GPC.Model.Geotechnics;
+using GPC.Model.Standards;
 
 namespace Anthea.Calculations;
 
-/// <summary>Broms: Viggiani, Fondazioni, pp. 400-415. Extensions and limits: supporto/docs/palo-orizzontale.md.</summary>
+/// <summary>
+/// Foglio del palo sotto azione orizzontale (Broms, Viggiani pp. 400-415, ed estensione stratificata): il documento (m, kN, kPa, kN/m³, gradi) è
+/// letto e controllato qui, la capacità è GPCChecker.Geotechnics (LateralPileCapacity, mm, N, MPa) con i terreni e i fattori di Model (NTC 2018
+/// Tab. 6.4.IV e 6.4.VI); i risultati sono riportati nel formato del foglio. Limiti: supporto/docs/palo-orizzontale.md.
+/// </summary>
 public static partial class PaloOrizzontale
 {
     public const string Module = "geo_palo_orizzontale";
+    const double M = 1000, KPa = 1e-3, KN3 = 1e-6, Deg = Math.PI / 180, Gw = 9.81;
+    static readonly StandardNTC2018Geotechnics Ntc = new();
     public static double PassivePressureCoefficient(double phiDegrees)
     {
         if (!double.IsFinite(phiDegrees) || phiDegrees < 0 || phiDegrees >= 90)
             throw new ArgumentException("Angolo di attrito: atteso un valore finito fra 0° incluso e 90° escluso.");
-        double sine = Math.Sin(phiDegrees * Math.PI / 180);
-        return (1 + sine) / (1 - sine);
+        return LateralPileCapacity.PassivePressureCoefficient(phiDegrees * Deg);
     }
-    public const string Source = "Viggiani, Fondazioni, pp. 400–415 (PDF 205–212), §§13.2.2–13.2.5";
+    public const string Source = LateralPileCapacity.Source;
     public static JsonObject Defaults() => J.Obj(("versione_orizzontale", 1),
         ("generali", J.Obj(("diametro", "1"), ("lunghezza", "10"), ("eccentricita", "0"),
             ("vincolo", "Libera"), ("modalita", "Automatica"), ("metodo_calcolo", BromsMethod), ("azione_orizzontale", "100"),
@@ -51,22 +59,87 @@ public static partial class PaloOrizzontale
     }
 
     private static double Signed(JsonNode n, string key) => J.Number(n[key]) ?? throw new ArgumentException(key + ": numero finito richiesto.");
+
+    // Messaggi della libreria nelle parole del foglio.
+    static readonly Dictionary<string, string> Messages = new()
+    {
+        ["Mixed sequences: select the stratified model with distributed reactions."] = "Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite.",
+        ["No finite lateral resistance can be mobilised (cohesive soils need L > 1.5D)."] = "Nessuna resistenza laterale finita mobilitabile (per coesivi occorre L > 1,5D).",
+        ["Root not bracketed: inadmissible mechanism."] = "Radice non delimitata: meccanismo non ammissibile.",
+        ["Non finite solution."] = "Soluzione non finita.",
+        ["More than 100 iterations."] = "Superato il limite di 100 iterazioni.",
+        ["Zero or infinite capacity."] = "Capacità nulla o non finita.",
+        ["Equilibrium or moment limit not satisfied: inadmissible solution."] = "Equilibrio o limite di momento non soddisfatto: soluzione non ammissibile.",
+        ["Resultant outside the limit diagram."] = "Risultante fuori dal diagramma limite.",
+        ["The layers must cover the whole embedded length."] = "La stratigrafia deve coprire tutta la lunghezza infissa.",
+        ["Resisting moment: a positive finite value is required."] = "Momento resistente: valore finito positivo richiesto."
+    };
+    static T Library<T>(Func<T> calculation)
+    {
+        try { return calculation(); }
+        catch (ArgumentException ex) when (Messages.TryGetValue(ex.Message, out var message)) { throw new ArgumentException(message, ex); }
+    }
+
+    /// <summary>
+    /// Una verticale del foglio come profilo di Model, con i controlli e i messaggi del foglio. Sono letti gli strati fino alla lunghezza infissa.
+    /// Nel profilo interamente coesivo i pesi di volume non entrano nel modello e possono mancare; Weights dice se sono completi per le tensioni.
+    /// </summary>
+    private static (LateralPileSurvey Survey, bool Weights) Verticale(JsonArray rows, double l, bool water, double zw, bool distributed)
+    {
+        if (rows.Count == 0) throw new ArgumentException("Inserire almeno uno strato.");
+        var layers = new List<(JsonNode Row, double Top, double Thickness, double End)>(); double top = 0;
+        foreach (var row in rows)
+        {
+            if (top >= l) break;
+            double thickness = row.Required("spessore", strict: true), bottom = top + thickness;
+            if (!double.IsFinite(bottom)) throw new ArgumentException("Spessore complessivo non finito.");
+            // Only absorb accumulated floating-point addition error, not a real gap.
+            if (Math.Abs(bottom - l) <= 16 * 2.2204460492503131e-16 * rows.Count * Math.Max(1, l)) bottom = l;
+            if (row.S("tipologia") is not ("Coesivo" or "Granulare")) throw new ArgumentException("Tipologia del terreno non valida.");
+            if (!row.B("laterale_attiva", true)) throw new ArgumentException("Strati disattivati non supportati dal modello orizzontale.");
+            layers.Add((row!, top, thickness, Math.Min(bottom, l))); top = bottom;
+        }
+        if (top < l) throw new ArgumentException("La stratigrafia deve coprire tutta la lunghezza infissa.");
+        bool clay = layers.All(s => s.Row.S("tipologia") == "Coesivo"), mixed = !clay && layers.Any(s => s.Row.S("tipologia") == "Coesivo");
+        if (mixed && !distributed) throw new ArgumentException("Sequenze miste: selezionare Stratificato per il modello a reazioni distribuite.");
+        var list = new List<SoilLayer>(); var kinds = new List<SoilBehaviour>(); bool weights = true; double depth = 0;
+        foreach (var (row, a0, thickness, end) in layers)
+        {
+            bool cohesive = row.S("tipologia") == "Coesivo";
+            double? cu = cohesive ? row.Required("coesione_non_drenata", strict: true) : null;
+            double phi = cohesive ? 0 : row.Required("angolo_attrito");
+            if (phi >= 60) throw new ArgumentException("Angolo d'attrito fuori dal campo ammesso [0, 60°). Il limite è un controllo d'input, non una soglia di Broms.");
+            if (!cohesive && row.Required("coesione_efficace") != 0) throw new ArgumentException("Terreno c–φ non supportato: c′ deve essere zero.");
+            bool wet = water && zw < end;
+            if (!clay)
+            {
+                row.Required("peso_specifico", strict: true);
+                if (wet && row.Required("peso_specifico_saturo", strict: true) <= Gw) throw new ArgumentException("γsat deve essere maggiore di γw = 9,81 kN/m³.");
+            }
+            double gamma = J.Number(row["peso_specifico"]) ?? double.NaN, saturated = wet ? J.Number(row["peso_specifico_saturo"]) ?? double.NaN : gamma;
+            if (!clay && wet && saturated < gamma) throw new ArgumentException("γsat deve essere almeno pari a γ (terreno di Model).");
+            weights &= double.IsFinite(gamma) && gamma > 0 && double.IsFinite(saturated) && (!wet || saturated > Gw);
+            // Profilo interamente coesivo senza pesi: pesi di riferimento, non usati dal modello; le tensioni non sono riportate.
+            double g = gamma > 0 ? gamma : 18, gs = wet ? (saturated >= g ? saturated : g) : J.Number(row["peso_specifico_saturo"]) is double s && s >= g ? s : g;
+            list.Add(new SoilLayer(new Soil("Strato " + (list.Count + 1), g * KN3, gs * KN3, phi * Deg, 0, "ANTHEA", undrainedShearStrength: cu * KPa), -depth * M, -(depth + thickness) * M));
+            kinds.Add(cohesive ? SoilBehaviour.Cohesive : SoilBehaviour.Granular); depth += thickness;
+        }
+        return (new LateralPileSurvey(new SoilProfile("Verticale", list, "ANTHEA", water ? -zw * M : null), kinds), weights);
+    }
+
     /// <summary>Uses the same active-depth properties and groundwater rules as the solver.</summary>
     public static string ModelloAutomatico(JsonObject data)
     {
         ValidateShape(data); var g = data["generali"]!;
-        double l = g.Required("lunghezza", strict: true), d = g.Required("diametro", strict: true), tol = g.Required("tolleranza", strict: true);
+        double l = g.Required("lunghezza", strict: true), d = g.Required("diametro", strict: true); g.Required("tolleranza", strict: true);
         bool water = g.B("presenza_falda"); double zw = water ? g.Required("profondita_falda") : l;
-        bool uniform = true, distributed = DistributedMethod(g);
-        foreach (var survey in data.Array("stratigrafie"))
-            uniform &= new Ground(survey!.AsArray(), l, d, water, zw, tol, distributed).Uniform;
-        return ModelName(uniform, distributed);
+        bool distributed = DistributedMethod(g);
+        var surveys = data.Array("stratigrafie").Select(s => Verticale(s!.AsArray(), l, water, zw, distributed).Survey).ToArray();
+        return Library(() => LateralPileCapacity.ModelName(surveys, l * M, d * M, distributed ? LateralPileMethod.Stratified : LateralPileMethod.Broms));
     }
-    private static string ModelName(bool uniform, bool distributed = false) => distributed
-        ? "Diagramma stratificato · " + (uniform ? "terreno omogeneo" : "terreno multistrato")
-        : uniform ? "Omogeneo" : "Multistrato sperimentale";
 
-    public static JsonObject Efficiency(JsonObject data)
+    /// <summary>Efficienza del gruppo dal foglio con la libreria (LateralGroupEfficiency): assegnata 0 &lt; η ≤ 1, o Reese e Van Impe (otto pali).</summary>
+    private static (JsonObject Json, LateralGroupEfficiency Efficiency) Gruppo(JsonObject data)
     {
         var v = data["verifica"]!;
         string method = v.S("efficienza_metodo", "Manuale");
@@ -74,7 +147,8 @@ public static partial class PaloOrizzontale
         {
             double eta = v.AsObject().ContainsKey("efficienza_eta") ? v.Required("efficienza_eta", strict: true) : 1;
             if (eta > 1) throw new ArgumentException("Efficienza manuale ammessa: 0 < η ≤ 1.");
-            return J.Obj(("metodo", method), ("eta", eta));
+            var manual = LateralGroupEfficiency.Manual(eta);
+            return (J.Obj(("metodo", method), ("eta", manual.Eta)), manual);
         }
         if (method != "Reese & Van Impe (foglio)") throw new ArgumentException("Metodo di efficienza non riconosciuto.");
         double d = data["generali"]!.Required("diametro", strict: true);
@@ -84,20 +158,41 @@ public static partial class PaloOrizzontale
             if (s < d) throw new ArgumentException("Gli interassi dei pali devono essere almeno pari al diametro.");
             return s;
         }
-        double front = Distance("interasse_anteriore"), back = Distance("interasse_posteriore"),
-            left = Distance("interasse_sinistro"), right = Distance("interasse_destro");
-        double a = Math.Min(1, .7 * Math.Pow(front / d, .26)), p = Math.Min(1, .48 * Math.Pow(back / d, .38)),
-            sx = Math.Min(1, .64 * Math.Pow(left / d, .34)), dx = Math.Min(1, .64 * Math.Pow(right / d, .34));
-        static double Diagonal(double longitudinal, double transverse, double axialEta, double sideEta)
-        {
-            double angle = Math.Atan2(transverse, longitudinal);
-            return Math.Sqrt(Math.Pow(axialEta * Math.Cos(angle), 2) + Math.Pow(sideEta * Math.Sin(angle), 2));
-        }
-        double als = Diagonal(front, left, a, sx), ald = Diagonal(front, right, a, dx),
-            pls = Diagonal(back, left, p, sx), pld = Diagonal(back, right, p, dx);
-        return J.Obj(("metodo", method), ("eta", a * p * sx * dx * als * ald * pls * pld),
-            ("anteriore", a), ("posteriore", p), ("sinistro", sx), ("destro", dx),
-            ("anteriore_sinistro", als), ("anteriore_destro", ald), ("posteriore_sinistro", pls), ("posteriore_destro", pld));
+        double front = Distance("interasse_anteriore"), back = Distance("interasse_posteriore"), left = Distance("interasse_sinistro"), right = Distance("interasse_destro");
+        var e = LateralGroupEfficiency.ReeseVanImpeEfficiency(d * M, front * M, back * M, left * M, right * M);
+        return (J.Obj(("metodo", method), ("eta", e.Eta), ("anteriore", e.Front), ("posteriore", e.Back), ("sinistro", e.Left), ("destro", e.Right),
+            ("anteriore_sinistro", e.FrontLeft), ("anteriore_destro", e.FrontRight), ("posteriore_sinistro", e.BackLeft), ("posteriore_destro", e.BackRight)), e);
+    }
+    public static JsonObject Efficiency(JsonObject data) => Gruppo(data).Json;
+
+    static readonly string[] Mechanisms = ["Corto", "Intermedio", "Lungo"];
+    static readonly string[] Sides = ["prima", "dopo", "nodo"];
+
+    /// <summary>Una verticale del risultato nel formato del foglio: m, kN, kN/m, kN/m², kNm, kPa.</summary>
+    private static JsonObject Verticale(LateralSurveyResult r, double d, bool weights)
+    {
+        string mechanism = Mechanisms[(int)r.Mechanism];
+        var limit = new JsonArray(r.LimitDiagram.Select(s => (JsonNode)J.Obj(("strato", s.Layer), ("tipologia", s.Behaviour == SoilBehaviour.Cohesive ? "Coesivo" : "Granulare"),
+            ("da_m", s.Top / M), ("a_m", s.Bottom / M), ("sigma_eff_iniziale_kpa", weights ? s.EffectiveStressAtTop / KPa : null), ("p_iniziale_kn_m", s.InitialReaction),
+            ("pendenza_kn_m2", s.Slope * M), ("risultante_kn", s.Resultant / 1000), ("momento_primo_knm", s.FirstMoment / 1e6))).ToArray());
+        var candidates = new JsonArray(r.Candidates.Select(c => (JsonNode)J.Obj(("meccanismo", Mechanisms[(int)c.Mechanism]), ("capacita_kn", c.Capacity / 1000), ("governante", c.Governing),
+            ("stato", c.Governing ? "Ammissibile, governante" : c.Capacity.HasValue ? "Candidato non governante; limite precedente già raggiunto" : "Meccanismo non attivabile nel campo di lunghezza"))).ToArray());
+        var diagram = new JsonArray(r.Diagram.Select(x => (JsonNode)J.Obj(("z", x.Depth / M), ("lato", Sides[(int)x.Side]), ("p_kn_m", x.Reaction), ("v_kn", x.Shear / 1000), ("m_knm", x.Moment / 1e6),
+            ("q_kpa", x.Pressure / KPa))).ToArray());
+        var ground = new JsonArray(r.Ground.Select(x => (JsonNode)J.Obj(("z", x.Depth / M), ("lato", Sides[(int)x.Side]), ("strato", x.Layer), ("sigma_v_kpa", weights ? x.TotalStress / KPa : null),
+            ("u_kpa", x.PorePressure / KPa), ("sigma_eff_kpa", weights ? x.EffectiveStress / KPa : null), ("q_lim_kpa", x.LimitPressure / KPa), ("p_lim_kn_m", x.LimitReaction),
+            ("q_integrale_kn", x.IntegratedReaction / 1000))).ToArray());
+        bool available = weights && r.StressesAvailable;
+        return J.Obj(("capacita_kn", r.Capacity / 1000), ("meccanismo", mechanism), ("coesivo", r.Cohesive), ("misto", r.Mixed),
+            ("chiusura_equilibrio", r.DistributedClosure ? "Distribuita" : "Concentrata"), ("diagramma_limite", limit), ("candidati", candidates),
+            ("momento_testa_knm", r.HeadMoment / 1e6), ("momento_massimo_knm", r.MaximumMoment / 1e6), ("quota_momento_massimo_m", r.MaximumMomentDepth / M),
+            ("quota_taglio_nullo_m", r.ZeroShearDepth / M), ("cerniere_m", r.Hinges.Select(h => h / M).ToArray()), ("fine_reazioni_m", r.ReactionEnd / M),
+            ("risultante_concentrata_kn", r.ConcentratedResultant / 1000), ("quota_risultante_m", r.ReactionEnd / M), ("inversione_reazioni_m", r.ReversalDepth / M),
+            ("residuo_forza_kn", r.ResidualForce / 1000), ("residuo_momento_knm", r.ResidualMoment / 1e6), ("convergenza", "Raggiunta"), ("diagrammi", diagram),
+            ("tensioni_disponibili", available), ("nota_tensioni", available
+                ? "σv e σ′v da peso proprio; u idrostatica, senza suzione. q_lim=p_lim/D; q=p/D è una pressione laterale equivalente. Nessuna riduzione locale con ξ o γR."
+                : "σv e σ′v non disponibili: completare i pesi di volume. Nel profilo interamente coesivo la capacità dipende da Cu, non da questi pesi."),
+            ("diagramma_terreno", ground), ("modello_adottato", r.ModelName));
     }
 
     public static JsonObject Calculate(JsonObject data)
@@ -121,133 +216,43 @@ public static partial class PaloOrizzontale
             if (g.AsObject().ContainsKey("momento_applicato") && Signed(g, "momento_applicato") != 0) throw new ArgumentException("Momento indipendente non supportato; il solo momento applicato è H·e.");
             double zw = water ? g.Required("profondita_falda") : l;
             _ = Signed(g, "azione_assiale");
-            JsonObject? section = null; double my;
-            if (g.S("origine_momento") == (data.S("tipo_sezione") == "CHS" ? "Sezione CHS" : "Sezione c.a.")) { section = Section(data); my = section.D("momento_knm"); }
+            JsonObject? section = null; double my; string source;
+            if (g.S("origine_momento") == (data.S("tipo_sezione") == "CHS" ? "Sezione CHS" : "Sezione c.a.")) { section = Section(data); my = section.D("momento_knm"); source = g.S("origine_momento"); }
             else if (g.S("origine_momento") == "Manuale")
             {
-                my = g.Required("momento_resistente", strict: true);
-                if (string.IsNullOrWhiteSpace(g.S("provenienza_momento"))) throw new ArgumentException("Indicare natura e provenienza del momento resistente manuale.");
+                my = g.Required("momento_resistente", strict: true); source = g.S("provenienza_momento");
+                if (string.IsNullOrWhiteSpace(source)) throw new ArgumentException("Indicare natura e provenienza del momento resistente manuale.");
             }
             else throw new ArgumentException("Origine del momento resistente non riconosciuta.");
-            var results = new JsonArray(); bool uniform = true, distributed = DistributedMethod(g);
-            foreach (var survey in data.Array("stratigrafie"))
-            {
-                var ground = new Ground(survey!.AsArray(), l, d, water, zw, tol, distributed);
-                uniform &= ground.Uniform;
-                var surveyResult = Solve(ground, e, my, fixedHead, step);
-                AddGroundDiagnostics(surveyResult, survey.AsArray(), g, ground, d);
-                surveyResult["modello_adottato"] = ModelName(ground.Uniform, distributed); results.Add(surveyResult);
-            }
-            string mode = ModelName(uniform, distributed); // Legacy manual selections never override the actual profile.
-            double hu = results.Min(r => r.D("capacita_kn")); int governing = results.Select(r => r.D("capacita_kn")).ToList().IndexOf(hu);
+            bool distributed = DistributedMethod(g);
+            var verticals = data.Array("stratigrafie").Select(s => Verticale(s!.AsArray(), l, water, zw, distributed)).ToArray();
             var verification = data["verifica"]!;
-            if (!Calcolo.Verticali.TryGetValue(verification.S("verticali_indagate", "1"), out var xi))
+            if (!Calcolo.Verticali.ContainsKey(verification.S("verticali_indagate", "1")))
                 throw new ArgumentException("Numero di verticali indagate non riconosciuto.");
-            double mean = results.Average(r => r.D("capacita_kn"));
-            double meanBranch = mean / xi.Xi3, minBranch = hu / xi.Xi4;
-            var efficiency = Efficiency(data);
-            double rk = Math.Min(meanBranch, minBranch), rd = rk / 1.3 * efficiency.D("eta");
-            var warnings = new List<string> {
-                "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.",
-                "Resistenza ridotta con ξ3, ξ4 e γR = 1,3. HEd deve essere un'azione di progetto. Le altre verifiche NTC/EC2 restano escluse: nessuna conformità complessiva automatica.",
-                "I diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e." };
-            if (distributed) warnings.Add("MODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms.");
-            else if (!uniform) warnings.Add("MULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.");
-            if (results.Any(r => r.S("chiusura_equilibrio") == "Concentrata")) warnings.Add("Terreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.");
-            if (section is not null) warnings.Add(section.S("modello"));
-            if (efficiency.S("metodo") != "Manuale") warnings.Add("Efficienza dal foglio SMath: schema di otto pali interferenti (quattro allineati e quattro diagonali). Verificare ulteriori interferenze nelle maglie fitte; lo schema non rappresenta una palificata arbitraria. Distanze riferite alla direzione di H.");
-            return J.Obj(("errore", ""), ("versione_motore", distributed ? "Stratificato-ANTHEA-1" : "Broms-ANTHEA-1"),
-                ("metodo_calcolo", distributed ? StratifiedMethod : BromsMethod), ("fonte", distributed ? StratifiedSource + " Leggi locali: " + Source : Source), ("riferimenti", References()), ("input", data),
-                ("capacita_kn", hu), ("sondaggio_governante", governing + 1), ("meccanismo", results[governing].S("meccanismo")),
-                ("momento_resistente_knm", my), ("sezione", section), ("sondaggi", results), ("resistenza_caratteristica_manuale_kn", rk),
-                ("resistenza_progetto_manuale_kn", rd), ("azione_kn", ed), ("rapporto_meccanico", ed / hu),
-                ("capacita_media_kn", mean), ("xi3", xi.Xi3), ("xi4", xi.Xi4), ("gamma_r", 1.3), ("efficienza", efficiency),
+            var factors = LateralPileFactors.FromStandard(Ntc, verification.S("verticali_indagate", "1") is "≥10" ? 10 : int.Parse(verification.S("verticali_indagate", "1"), CultureInfo.InvariantCulture));
+            var (efficiencyJson, efficiency) = Gruppo(data);
+            var pile = new LateralPile(d * M, l * M, e * M, fixedHead, my * 1e6, source, distributed ? LateralPileMethod.Stratified : LateralPileMethod.Broms, ed * 1000, step * M, tol);
+            var r = Library(() => LateralPileCapacity.Calculate(pile, verticals.Select(v => v.Survey).ToArray(), factors, efficiency));
+            var results = new JsonArray(r.Surveys.Select((s, i) => (JsonNode)Verticale(s, d, verticals[i].Weights)).ToArray());
+            var warnings = r.Warnings.ToList();
+            // La sezione è del foglio: il suo modello precede l'avviso dell'efficienza.
+            if (section is not null) warnings.Insert(efficiency.ReeseVanImpe ? warnings.Count - 1 : warnings.Count, section.S("modello"));
+            return J.Obj(("errore", ""), ("versione_motore", r.EngineVersion),
+                ("metodo_calcolo", distributed ? StratifiedMethod : BromsMethod), ("fonte", r.Source), ("riferimenti", References()), ("input", data),
+                ("capacita_kn", r.Capacity / 1000), ("sondaggio_governante", r.GoverningSurvey), ("meccanismo", Mechanisms[(int)r.Mechanism]),
+                ("momento_resistente_knm", my), ("sezione", section), ("sondaggi", results), ("resistenza_caratteristica_manuale_kn", r.CharacteristicResistance / 1000),
+                ("resistenza_progetto_manuale_kn", r.DesignResistance / 1000), ("azione_kn", ed), ("rapporto_meccanico", r.MechanicalRatio),
+                ("capacita_media_kn", r.MeanCapacity / 1000), ("xi3", r.Factors.Xi3), ("xi4", r.Factors.Xi4), ("gamma_r", r.Factors.ResistanceFactor), ("efficienza", efficiencyJson),
                 ("verticali_indagate", verification.S("verticali_indagate", "1")),
-                ("ramo_media_kn", meanBranch), ("ramo_minimo_kn", minBranch),
-                ("criterio_governante", meanBranch <= minBranch ? "Media / ξ3" : "Minimo / ξ4"),
-                ("utilizzo_manuale", ed / rd),
-                ("esito_manuale", ed <= rd ? "Verifica soddisfatta" : "Verifica non soddisfatta"),
-                ("verifica_normativa", "Incompleta"), ("modello_adottato", mode), ("selezione_modello", "Automatica"), ("sperimentale", distributed || !uniform),
+                ("ramo_media_kn", r.MeanBranch / 1000), ("ramo_minimo_kn", r.MinimumBranch / 1000),
+                ("criterio_governante", r.MeanGoverns ? "Media / ξ3" : "Minimo / ξ4"),
+                ("utilizzo_manuale", r.Utilization),
+                ("esito_manuale", r.Satisfied ? "Verifica soddisfatta" : "Verifica non soddisfatta"),
+                ("verifica_normativa", "Incompleta"), ("modello_adottato", r.ModelName), ("selezione_modello", "Automatica"), ("sperimentale", r.Experimental),
                 ("percorso", "Incremento di H con e costante; M applicato = H·e; N costante"), ("avvisi", warnings));
         }
         catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or FormatException or OverflowException)
         { return J.Error(ex.Message); }
-    }
-
-    private static JsonObject Solve(Ground soil, double e, double my, bool fixedHead, double step)
-    {
-        double l = soil.L, q = soil.Q(l), hShort, hIntermediate = double.PositiveInfinity;
-        double Peak(double h) { double z = soil.Depth(h); return h * e + soil.S(z); }
-        if (soil.Distributed)
-        {
-            double Balance(double h, double m0) { double z = soil.Depth(h); return m0 + h * e + soil.S(z) - soil.Tail(z, l).Couple; }
-            hShort = fixedHead ? q : soil.Root(h => Balance(h, 0), 0, q);
-            if (fixedHead && soil.S(l) > my) hIntermediate = soil.Root(h => Balance(h, -my), 0, q);
-        }
-        else
-        {
-            hShort = fixedHead ? q : soil.A(l) / (l + e);
-            if (fixedHead && soil.S(l) > my) hIntermediate = (my + soil.A(l)) / l;
-        }
-        double target = fixedHead ? 2 * my : my;
-        double hLong = Peak(q) > target ? soil.Root(h => Peak(h) - target, 0, q) : double.PositiveInfinity;
-        double h = Math.Min(hShort, Math.Min(hIntermediate, hLong));
-        if (!(h > 0) || !double.IsFinite(h)) throw new ArgumentException("Capacità nulla o non finita.");
-        string mechanism = h == hShort ? "Corto" : h == hIntermediate ? "Intermedio" : "Lungo";
-        double m0 = fixedHead ? mechanism == "Corto" ? -soil.S(l) : -my : h * e;
-        double zMax = soil.Depth(h), end = l, change = l, tip = 0;
-        if (soil.Distributed)
-        {
-            if (mechanism != "Corto" || !fixedHead)
-            {
-                double peak = m0 + soil.S(zMax);
-                if (mechanism == "Lungo") end = soil.Root(t => soil.Tail(zMax, t).Couple - peak, zMax, l);
-                change = soil.Tail(zMax, end).Switch;
-            }
-        }
-        else
-        {
-            if (mechanism == "Lungo") end = soil.Root(z => m0 + h * z - soil.A(z), zMax, l);
-            tip = soil.Q(end) - h;
-        }
-        (double P, double V, double M) State(double z, bool after = false, bool before = false)
-        {
-            if (z > end || (z == end && after)) return (0, 0, 0);
-            if (!soil.Distributed) return (soil.P(z, before), h - soil.Q(z), m0 + h * z - soil.A(z));
-            double qr = z <= change ? soil.Q(z) : 2 * soil.Q(change) - soil.Q(z);
-            double sr = z <= change ? soil.S(z) : 2 * soil.S(change) - soil.S(z);
-            return ((z < change || before && z == change ? 1 : -1) * soil.P(z, before), h - qr, m0 + h * z - z * qr + sr);
-        }
-        var final = State(end); double residualForce = final.V + tip, residualMoment = final.M;
-        double maxMoment = Math.Max(Math.Abs(m0), Math.Abs(State(zMax).M));
-        double residualScale = Math.Max(1, Math.Max(my, q * l));
-        if (Math.Abs(residualForce) > 1e-5 * Math.Max(1, q) || Math.Abs(residualMoment) > 1e-5 * residualScale || maxMoment > my * (1 + 1e-5))
-            throw new ArgumentException("Equilibrio o limite di momento non soddisfatto: soluzione non ammissibile.");
-        var depths = new SortedSet<double> { 0, l, zMax, end, change };
-        foreach (var s in soil.Segments) { depths.Add(s.Top); depths.Add(s.Bottom); }
-        for (int i = 1; i < Math.Ceiling(l / step); i++) depths.Add(i * step);
-        var diagram = new JsonArray();
-        foreach (double z in depths)
-        {
-            // Preserve two sides only at actual jumps, not at each plotting sample.
-            var before = State(z, before: true);
-            var current = State(z, z == end);
-            bool jump = z > 0 && (Math.Abs(before.P - current.P) > 1e-7 * Math.Max(1, Math.Abs(before.P)) || Math.Abs(before.V - current.V) > 1e-7 * Math.Max(1, q));
-            if (jump) diagram.Add(J.Obj(("z", z), ("lato", "prima"), ("p_kn_m", before.P), ("v_kn", before.V), ("m_knm", before.M)));
-            diagram.Add(J.Obj(("z", z), ("lato", jump ? "dopo" : "nodo"), ("p_kn_m", current.P), ("v_kn", current.V), ("m_knm", current.M)));
-        }
-        var candidates = new JsonArray();
-        void Candidate(string name, double value) => candidates.Add(J.Obj(("meccanismo", name),
-            ("capacita_kn", double.IsFinite(value) ? value : null), ("governante", name == mechanism),
-            ("stato", name == mechanism ? "Ammissibile, governante" : double.IsFinite(value) ? "Candidato non governante; limite precedente già raggiunto" : "Meccanismo non attivabile nel campo di lunghezza")));
-        Candidate("Corto", hShort); if (fixedHead) Candidate("Intermedio", hIntermediate); Candidate("Lungo", hLong);
-        var hinges = new JsonArray(); if (fixedHead && mechanism != "Corto") hinges.Add(0); if (mechanism == "Lungo") hinges.Add(zMax);
-        return J.Obj(("capacita_kn", h), ("meccanismo", mechanism), ("coesivo", soil.Clay), ("misto", soil.Mixed),
-            ("chiusura_equilibrio", soil.Distributed ? "Distribuita" : "Concentrata"), ("diagramma_limite", soil.LimitDiagram()), ("candidati", candidates),
-            ("momento_testa_knm", m0), ("momento_massimo_knm", maxMoment), ("quota_momento_massimo_m", Math.Abs(m0) >= Math.Abs(State(zMax).M) ? 0 : zMax),
-            ("quota_taglio_nullo_m", zMax), ("cerniere_m", hinges), ("fine_reazioni_m", end),
-            ("risultante_concentrata_kn", tip), ("quota_risultante_m", end), ("inversione_reazioni_m", soil.Distributed ? change : null),
-            ("residuo_forza_kn", residualForce), ("residuo_momento_knm", residualMoment), ("convergenza", "Raggiunta"), ("diagrammi", diagram));
     }
 
     public static string Csv(JsonObject result)

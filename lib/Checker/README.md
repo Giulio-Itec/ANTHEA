@@ -14,6 +14,10 @@ sono invariate (hash identici).
   `X.Calculations/Geotechnics` di Bishop, cedimenti, Newmark e portanza sismica non sono più compilati. Con le sole DLL nuove,
   e il codice precedente, la cattura dei muri coincide con quella congelata; con l’adattatore le differenze sono quelle
   dichiarate nel registro della migrazione (Checker/docs/migrazione-anthea).
+- Pali e micropali (`Calcolo`, `Nq`, `Micropali`, `PaloOrizzontale`, `MicropaloOrizzontale`) sono adattatori della libreria:
+  cattura riprodotta entro 1e-14, regressione numerica invariata (464 casi; i 6 casi con cu = 0 sotto falda sono ora errori
+  perché i terreni di Model richiedono cu > 0). GPCChecker.Geotechnics di questo snapshot aggiunge `LateralPileCapacity.ModelName`
+  (Checker 40ca3008); le altre DLL sono quelle di 79268a9e.
 
 **Snapshot precedente (1 ottobre 2026).** Model master ca76e6d1, Checker develop 23bc2d15. Utilities, Geometry e DelaunayMesh
 sono invariate (hash identici).

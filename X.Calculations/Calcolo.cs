@@ -1,27 +1,49 @@
+using System.Globalization;
 using System.Text.Json.Nodes;
+using GPC.Checkers.Geotechnics.Piles;
+using GPC.Model.Geotechnics;
+using GPC.Model.Standards;
 
 namespace Anthea.Calculations;
 
 public sealed record Strato(JsonObject Valori,double Cielo,double Fondo);
 
-/// <summary>Porting di calcolo.py/core.py. Unità: m, kN, kPa, kN/m³, gradi. Nessuna dipendenza dalla GUI.</summary>
+/// <summary>
+/// Foglio della portanza assiale di pali e micropali. Il documento (m, kN, kPa, kN/m³, gradi) è letto e controllato qui; la portanza lungo la
+/// profondità è GPCChecker.Geotechnics (AxialPileCapacity, mm, N, MPa), con i terreni e i fattori ξ di Model (NTC 2018 Tab. 6.4.IV). I risultati
+/// sono riportati nel formato del foglio. Nessuna dipendenza dalla GUI.
+/// </summary>
 public static class Calcolo
 {
-    public static readonly Dictionary<string,(double Xi3,double Xi4)> Verticali = new() { ["1"]=(1.70,1.70),["2"]=(1.65,1.55),["3"]=(1.60,1.48),["4"]=(1.55,1.42),["5"]=(1.50,1.34),["7"]=(1.45,1.28),["≥10"]=(1.40,1.21) };
-    public static readonly Dictionary<string,(double Sciolto,double Denso,string Mu)> Parametri = new()
+    const double M = 1000, KPa = 1e-3, KN3 = 1e-6, Deg = Math.PI / 180;
+    static readonly StandardNTC2018Geotechnics Ntc = new();
+    static readonly string[] Indagate = ["1","2","3","4","5","7","≥10"];
+    static int Profili(string verticali) => verticali == "≥10" ? 10 : int.Parse(verticali, CultureInfo.InvariantCulture);
+    /// <summary>ξ3, ξ4 per numero di verticali indagate, da Model (StandardNTC2018Geotechnics.PileCorrelationFactors).</summary>
+    public static readonly Dictionary<string,(double Xi3,double Xi4)> Verticali = Indagate.ToDictionary(k => k, k => { var x = Ntc.PileCorrelationFactors(Profili(k)); return (x.Item1, x.Item2); });
+    static readonly Dictionary<string,PileInstallation> Tipi = new()
     {
-        ["Profilato d'acciaio"]=(.7,1,"tan20"),["Tubo d'acciaio chiuso"]=(1,2,"tan20"),["Calcestruzzo prefabbricato"]=(1,2,"tan3phi4"),["Calcestruzzo gettato in opera"]=(1,3,"tanphi"),["Trivellato"]=(.5,.4,"tanphi"),["Elica continua"]=(.7,.9,"tanphi")
+        ["Profilato d'acciaio"]=PileInstallation.DrivenSteelSection,["Tubo d'acciaio chiuso"]=PileInstallation.DrivenClosedSteelTube,["Calcestruzzo prefabbricato"]=PileInstallation.DrivenPrecastConcrete,
+        ["Calcestruzzo gettato in opera"]=PileInstallation.DrivenCastInPlace,["Trivellato"]=PileInstallation.Bored,["Elica continua"]=PileInstallation.ContinuousFlightAuger
     };
-    public static (double? K,double? Mu) CoefficientiLaterali(JsonNode g,JsonNode v)
+    /// <summary>K sciolto e denso e regola di μ per tecnologia (Viggiani Tab. 13.2), dalla libreria.</summary>
+    public static readonly Dictionary<string,(double Sciolto,double Denso,string Mu)> Parametri = Tipi.ToDictionary(p => p.Key, p => AxialPileCapacity.ShaftCoefficients(p.Value));
+    static PileInstallation? Tecnologia(JsonNode g)
     {
         string tipo=g.S("tipo_palo","Trivellato");if(tipo=="Battuto")tipo=g.S("sottotipo_palo_battuto","Profilato d'acciaio");
-        if(!Parametri.TryGetValue(tipo,out var p))return(null,null);
-        double? k=v.S("addensamento")=="Sciolto"?p.Sciolto:v.S("addensamento")=="Denso"?p.Denso:null;
+        return Tipi.TryGetValue(tipo,out var t)?t:null;
+    }
+    public static (double? K,double? Mu) CoefficientiLaterali(JsonNode g,JsonNode v)
+    {
+        if(Tecnologia(g) is not PileInstallation tipo)return(null,null);
+        var p=AxialPileCapacity.ShaftCoefficients(tipo);
+        double? k=v.S("addensamento")=="Sciolto"?p.Loose:v.S("addensamento")=="Denso"?p.Dense:null;
         double? phi=J.Number(v["angolo_attrito"]);
-        double? mu=p.Mu=="tan20"?Math.Tan(20*Math.PI/180):phi is null?null:Math.Tan((p.Mu=="tan3phi4"?3*phi.Value/4:phi.Value)*Math.PI/180);
+        double? mu=p.Mu=="tan20"||phi is not null?AxialPileCapacity.LateralCoefficients(tipo,SoilDensity.Loose,(phi??0)*Deg).Mu:null;
         return(k,mu);
     }
-    public static double CoefficienteAlfa(JsonNode g,double cu)=>g.S("tipo_palo","Trivellato")=="Battuto"?(cu<=25?1:cu<70?1-.0111*(cu-25):.5):(cu<=25?.7:cu<70?.7-.008*(cu-25):.35);
+    /// <summary>α(cu) dell'aderenza non drenata (cu in kPa), Viggiani Tab. 13.3, dalla libreria.</summary>
+    public static double CoefficienteAlfa(JsonNode g,double cu)=>AxialPileCapacity.Alpha(g.S("tipo_palo","Trivellato")=="Battuto"?PileInstallation.DrivenSteelSection:PileInstallation.Bored,cu*KPa);
     public static void ValidaForma(JsonNode? dati)
     {
         if(dati is not JsonObject)throw new ArgumentException("I dati del foglio devono essere un oggetto.");
@@ -42,30 +64,35 @@ public static class Calcolo
             foreach(var k in new[]{"presenza_falda","considera_sottospinta","considera_punta"})if(g.ContainsKey(k)&&!(g[k] is JsonValue v&&v.TryGetValue<bool>(out _)))throw new ArgumentException($"{k}: atteso vero/falso.");
         }
     }
+    /// <summary>Efficienza del gruppo dal foglio, con la libreria (PileGroupEfficiency): Converse-Labarre, Feld, assegnata o nessuna.</summary>
+    static (string Metodo,PileGroupEfficiency Efficienza) Gruppo(JsonNode dati)
+    {
+        var eff=dati["efficienza"];string method=eff.S("metodo","Nessuna riduzione");
+        int nx=1,ny=1;
+        if(method is "Converse-Labarre" or "Feld")
+        {
+            int Count(string key) { double? x=eff?[key] is null?1:J.Number(eff[key]);if(x is null||x<1||Math.Abs(x.Value-Math.Round(x.Value))>Math.Max(1e-9,1e-9*Math.Abs(x.Value))||x>int.MaxValue)throw new ArgumentException($"{key} deve essere un intero maggiore o uguale a 1.");return (int)Math.Round(x.Value); }
+            nx=Count("numero_pali_x");ny=Count("numero_pali_y");
+        }
+        if(method=="Converse-Labarre")
+        {
+            double d=dati["generali"].D("diametro");if((nx>1||ny>1)&&d<=0)throw new ArgumentException("Inserire un diametro D maggiore di zero.");
+            double sx=nx>1?eff.Required("interasse_x",strict:true):double.NaN,sy=ny>1?eff.Required("interasse_y",strict:true):double.NaN;
+            return (method,Positive(()=>PileGroupEfficiency.ConverseLabarre(nx,ny,sx*M,sy*M,d*M)));
+        }
+        if(method=="Feld")return (method,Positive(()=>PileGroupEfficiency.Feld(nx,ny)));
+        if(method=="Definita dall'utente")return (method,PileGroupEfficiency.UserDefined(eff?["eta_compressione"] is null?1:eff.Required("eta_compressione",strict:true),eff?["eta_trazione"] is null?1:eff.Required("eta_trazione",strict:true)));
+        if(method=="Nessuna riduzione")return (method,PileGroupEfficiency.None());
+        throw new ArgumentException("Metodo di efficienza non riconosciuto.");
+    }
+    static PileGroupEfficiency Positive(Func<PileGroupEfficiency> efficiency)
+    {
+        try { return efficiency(); }
+        catch(ArgumentException) { throw new ArgumentException("Il metodo selezionato produce ηg non positivo."); }
+    }
     public static JsonObject Efficienza(JsonNode dati)
     {
-        try
-        {
-            var eff=dati["efficienza"];string method=eff.S("metodo","Nessuna riduzione");
-            double ec=1,et=1;int nx=1,ny=1;
-            if(method is "Converse-Labarre" or "Feld")
-            {
-                int Count(string key) { double? x=eff?[key] is null?1:J.Number(eff[key]);if(x is null||x<1||Math.Abs(x.Value-Math.Round(x.Value))>Math.Max(1e-9,1e-9*Math.Abs(x.Value))||x>int.MaxValue)throw new ArgumentException($"{key} deve essere un intero maggiore o uguale a 1.");return (int)Math.Round(x.Value); }
-                nx=Count("numero_pali_x");ny=Count("numero_pali_y");
-            }
-            if(method=="Converse-Labarre")
-            {
-                double d=dati["generali"].D("diametro");if((nx>1||ny>1)&&d<=0)throw new ArgumentException("Inserire un diametro D maggiore di zero.");
-                double tx=nx>1?Math.Atan(d/eff.Required("interasse_x",strict:true))*180/Math.PI/90*(nx-1)/nx:0;
-                double ty=ny>1?Math.Atan(d/eff.Required("interasse_y",strict:true))*180/Math.PI/90*(ny-1)/ny:0;
-                ec=1-tx-ty;et=ec;
-            }
-            else if(method=="Feld") { double pairs=(nx-1.0)*ny+nx*(ny-1.0)+2*(nx-1.0)*(ny-1.0);ec=1-(2*pairs/(nx*(double)ny))/16;et=ec; }
-            else if(method=="Definita dall'utente") { ec=eff?["eta_compressione"] is null?1:eff.Required("eta_compressione",strict:true);et=eff?["eta_trazione"] is null?1:eff.Required("eta_trazione",strict:true); }
-            else if(method!="Nessuna riduzione")throw new ArgumentException("Metodo di efficienza non riconosciuto.");
-            if(ec<=0)throw new ArgumentException("Il metodo selezionato produce ηg non positivo.");
-            return J.Obj(("errore",""),("metodo",method),("eta_compressione",ec),("eta_trazione",et),("numero_pali",nx*(double)ny));
-        }
+        try { var (method,e)=Gruppo(dati); return J.Obj(("errore",""),("metodo",method),("eta_compressione",e.Compression),("eta_trazione",e.Tension),("numero_pali",(double)e.Piles)); }
         catch(ArgumentException ex) { return J.Error(ex.Message); }
     }
     public static JsonObject Calcola(JsonNode dati,bool micropalo=false)
@@ -100,6 +127,7 @@ public static class Calcolo
                 if(sb>=l)throw new ArgumentException("La zona di aderenza deve iniziare prima della punta.");
                 pct=g.B("considera_punta")?g.Required("percentuale_punta"):0;if(pct>15)throw new ArgumentException("Il contributo di punta deve essere compreso tra 0% e 15% della resistenza laterale.");
             }
+            else if(Tecnologia(g) is null)throw new ArgumentException("Tipo di palo non riconosciuto.");
             foreach(var rows in dati.Array("stratigrafie"))
             {
                 double bottom=0;
@@ -113,88 +141,73 @@ public static class Calcolo
                     }
                     if(r.S("tipologia") is not ("Granulare" or "Coesivo"))throw new ArgumentException("Strato: scegliere la tipologia.");
                     if(r.S("addensamento") is not ("Sciolto" or "Denso"))throw new ArgumentException("Strato: scegliere l’addensamento.");
-                    r.Required("peso_specifico");if(r.Required("angolo_attrito")>=90)throw new ArgumentException("φ deve essere inferiore a 90°.");
+                    // Terreni di Model: γ > 0, γsat ≥ γ dove la falda lo usa, cu > 0 dove serve il calcolo non drenato.
+                    double gamma=r.Required("peso_specifico",strict:true);if(r.Required("angolo_attrito")>=90)throw new ArgumentException("φ deve essere inferiore a 90°.");
                     foreach(var k in new[]{"peso_specifico_saturo","coesione_efficace","coesione_non_drenata","nc"})if(!string.IsNullOrWhiteSpace(r.S(k)))r.Required(k);
+                    if(falda&&bottom>zf&&bottom-r.D("spessore")<l&&r.D("peso_specifico_saturo",gamma)<gamma)throw new ArgumentException("γsat deve essere almeno pari a γ sotto falda.");
                     if(r.S("tipologia")=="Coesivo"&&falda&&Math.Min(bottom,l)>zf&&string.IsNullOrWhiteSpace(r.S("coesione_non_drenata")))throw new ArgumentException("Inserire Cu per il calcolo non drenato.");
+                    if(r.S("tipologia")=="Coesivo"&&falda&&Math.Min(bottom,l)>zf&&r.D("coesione_non_drenata")<=0)throw new ArgumentException("Cu deve essere positiva per il calcolo non drenato.");
                 }
             }
         }
-        private double Peso(double z,double area)
+        /// <summary>Profilo di Model di una stratigrafia (spessori verticali dal piano campagna a quota 0), falda alla profondità indicata.</summary>
+        private static SoilProfile Profilo(JsonArray rows,int index,double? falda,Func<JsonNode,int,Soil> terreno)
         {
-            if(micro)return pesoChs!.D("q_totale")*z*cos;
-            double weight=g.D("peso_specifico_palo",25)*area*z;
-            if(falda&&g.B("considera_sottospinta"))weight-=9.81*area*Math.Max(0,z-zf);
-            return Math.Max(weight,0);
-        }
-        private double Incremento(JsonNode v,double top,double bottom)
-        {
-            double gamma=v.D("peso_specifico"),sat=v.D("peso_specifico_saturo",gamma);
-            if(!falda)return gamma*(bottom-top);
-            return gamma*Math.Max(0,Math.Min(bottom,zf)-top)+Math.Max(sat-9.81,0)*Math.Max(0,bottom-Math.Max(top,zf));
-        }
-        private (double? K,double? Mu) KMu(JsonNode v)
-        {
-            return CoefficientiLaterali(g,v);
-        }
-        private double Alfa(double cu)
-        {
-            return CoefficienteAlfa(g,cu);
-        }
-        private JsonObject Resistenze(List<Strato> strata,double z,double area,double perimeter)
-        {
-            double effective=0,total=0,ld=0,lu=0;var tip=strata[0];var segments=new List<JsonObject>();
-            foreach(var st in strata)
+            var list=new List<SoilLayer>();double top=0;
+            for(int i=0;i<rows.Count;i++)
             {
-                if(st.Cielo>=z)break;var v=st.Valori;double bottom=Math.Min(st.Fondo,z),length=bottom-st.Cielo;if(length<=0)continue;
-                double sigmaTop=effective,increment=Incremento(v,st.Cielo,bottom),mean=effective+increment/2;
-                if(falda&&st.Cielo<zf&&zf<bottom)
-                {
-                    double ds1=Incremento(v,st.Cielo,zf),ds2=Incremento(v,zf,bottom);
-                    mean=effective+(ds1/2*(zf-st.Cielo)+(ds1+ds2/2)*(bottom-zf))/length;
-                }
-                effective+=increment;
-                double gamma=v.D("peso_specifico"),sat=v.D("peso_specifico_saturo",gamma),wet=falda?Math.Max(0,bottom-Math.Max(st.Cielo,zf)):0;
-                total+=gamma*(length-wet)+sat*wet;tip=st;
-                // In drained granular soil the effective-cohesion contribution is zero.
-                var (k,mu)=KMu(v);double cohesion=v.S("tipologia")=="Coesivo"?v.D("coesione_efficace"):0,friction=k is not null&&mu is not null?k.Value*mu.Value*mean:0;
-                bool active=v.B("laterale_attiva",true);double td=active?cohesion+friction:0,tu;double? alfa=null;ld+=perimeter*length*td;
-                if(v.S("tipologia")=="Coesivo")
-                {
-                    double cu=v.D("coesione_non_drenata");alfa=Alfa(cu);tu=alfa.Value*cu;
-                    double dryBottom=Math.Min(bottom,Math.Max(st.Cielo,falda?zf:bottom)),dryLength=dryBottom-st.Cielo;
-                    if(dryLength==length)tu=td;
-                    else if(dryLength>0)
-                    {
-                        double dryMean=sigmaTop+Incremento(v,st.Cielo,dryBottom)/2;
-                        double dryTau=cohesion+(k is not null&&mu is not null?k.Value*mu.Value*dryMean:0);
-                        tu=(dryTau*dryLength+tu*(length-dryLength))/length;
-                    }
-                }
-                else tu=td;
-                if(!active)tu=0;lu+=perimeter*length*tu;
-                var segment=J.Obj(("cielo",st.Cielo),("fondo",bottom),("sigma_media",mean),("sigma_fondo",effective),("k",k),("mu",mu),("tau_d",td),("tau_u",tu),("alfa",alfa),("laterale_d",perimeter*length*td),("laterale_u",perimeter*length*tu));
-                if(!active)segment["laterale_attiva"]=false;segments.Add(segment);if(bottom>=z)break;
+                double bottom=top+rows[i].D("spessore");Soil soil;
+                try { soil=terreno(rows[i]!,i); }
+                catch(ArgumentException ex) { throw new ArgumentException($"Stratigrafia {index+1}, strato {i+1}: {ex.Message}"); }
+                list.Add(new SoilLayer(soil,-top*M,-bottom*M));top=bottom;
             }
-            var vp=tip.Valori;double? phi=J.Number(vp["angolo_attrito"]);JsonObject? nq=z>0&&phi is not null?Nq.Dettaglio(phi.Value,z/d,d>.8):null;
-            double bd=area*effective*(nq?.D("nq")??0),bu=bd;double? nc=null;
-            if(vp.S("tipologia")=="Coesivo")
-            {
-                nc=vp.D("nc",9);
-                // Formulazione lorda autorizzata 16/09/2026: sigma totale, distinta dalla sottospinta sulle azioni.
-                bu=area*(nc.Value*vp.D("coesione_non_drenata")+total);
-                if(!falda||z<=zf)bu=bd;
-            }
-            var result=J.Obj(("tratti",segments),("sigma_punta",effective),("phi_punta",phi),("sigma_totale_punta",total),("nq",nq?["nq"]),("nc",nc),("drenante",J.Obj(("base",bd),("laterale",ld))),("non_drenante",J.Obj(("base",bu),("laterale",lu))));
-            if(nq is not null)result["dettaglio_nq"]=nq;return result;
+            return new SoilProfile("Stratigrafia "+(index+1),list,"ANTHEA",falda.HasValue?-falda.Value*M:null);
         }
-        private static JsonObject Componenti(double lm,double bm,double lmin,double bmin,double xi3,double xi4,double gs,double gb,double eta)
+        /// <summary>Terreno di Model di uno strato del palo: γ, γsat (γ se vuoto o non usato sopra falda), φ′, c′, cu (assente se nullo).</summary>
+        private static Soil Terreno(JsonNode v,int i)
         {
-            JsonObject Branch(double lateral,double basal,double xi)=>J.Obj(("calc",new[]{lateral,basal}),("k",new[]{lateral/xi,basal/xi}),("d",new[]{eta*lateral/(xi*gs),eta*basal/(xi*gb)}));
-            return J.Obj(("Media",Branch(lm,bm,xi3)),("Minimo",Branch(lmin,bmin,xi4)));
+            double gamma=v.D("peso_specifico"),saturated=v.D("peso_specifico_saturo",gamma),cu=v.D("coesione_non_drenata");
+            return new Soil("Strato "+(i+1),gamma*KN3,Math.Max(saturated,gamma)*KN3,v.D("angolo_attrito")*Deg,v.D("coesione_efficace")*KPa,"ANTHEA",undrainedShearStrength:cu>0?cu*KPa:null);
+        }
+        private static JsonArray Punti(IEnumerable<(double Depth,double Value)> points)=>new(points.Select(p=>(JsonNode)new JsonArray(p.Depth/M,p.Value/1000)).ToArray());
+        private static JsonObject Ramo(AxialComponentBranch b)=>J.Obj(("calc",new[]{b.Shaft/1000,b.Base/1000}),("k",new[]{b.CharacteristicShaft/1000,b.CharacteristicBase/1000}),("d",new[]{b.DesignShaft/1000,b.DesignBase/1000}));
+        private static JsonObject Componenti(AxialComponents c)=>J.Obj(("Media",Ramo(c.Mean)),("Minimo",Ramo(c.Minimum)));
+        private static JsonObject Tratto(AxialShaftSegment s)
+        {
+            var o=J.Obj(("cielo",s.Top/M),("fondo",s.Bottom/M),("sigma_media",s.MeanStress/KPa),("sigma_fondo",s.BottomStress/KPa),("k",s.K),("mu",s.Mu),("tau_d",s.DrainedShear/KPa),("tau_u",s.UndrainedShear/KPa),
+                ("alfa",s.Alpha),("laterale_d",s.DrainedLateral/1000),("laterale_u",s.UndrainedLateral/1000));
+            if(!s.ShaftActive)o["laterale_attiva"]=false;return o;
+        }
+        private static JsonObject Sondaggio(AxialSurveyResistance a)
+        {
+            var o=J.Obj(("tratti",a.Segments.Select(Tratto).ToList()),("sigma_punta",a.TipEffectiveStress/KPa),("phi_punta",a.TipFrictionAngle/Deg),("sigma_totale_punta",a.TipTotalStress/KPa),("nq",a.Nq?.Nq),("nc",a.Nc),
+                ("drenante",J.Obj(("base",a.DrainedBase/1000),("laterale",a.DrainedShaft/1000))),("non_drenante",J.Obj(("base",a.UndrainedBase/1000),("laterale",a.UndrainedShaft/1000))));
+            if(a.Nq is not null)o["dettaglio_nq"]=Nq.Json(a.Nq);return o;
+        }
+        /// <summary>Curve, dettagli e azioni del risultato della libreria nel formato del foglio (z in m, resistenze e azioni in kN).</summary>
+        private JsonObject Risultato<T>(AxialCapacityResult<T> r,Func<T,JsonObject> sondaggio,string metodo)
+        {
+            var keys=micro?new[]{("compressione",AxialCondition.Drained,true),("trazione",AxialCondition.Drained,false)}
+                :new[]{("drenante_compressione",AxialCondition.Drained,true),("drenante_trazione",AxialCondition.Drained,false),("non_drenante_compressione",AxialCondition.Undrained,true),("non_drenante_trazione",AxialCondition.Undrained,false)};
+            var curves=new JsonObject();
+            foreach(var (key,c,dir) in keys){var curve=r.Curves[(c,dir)];curves[key]=J.Obj(("media",Punti(curve.Mean)),("minima",Punti(curve.Minimum)),("progetto",Punti(curve.Design)));}
+            var parts=micro?new[]{("compressione",AxialCondition.Drained,true),("trazione",AxialCondition.Drained,false)}
+                :new[]{("drenante",AxialCondition.Drained,true),("drenante_trazione",AxialCondition.Drained,false),("non_drenante",AxialCondition.Undrained,true),("non_drenante_trazione",AxialCondition.Undrained,false)};
+            var details=r.Depths.Select(x=>
+            {
+                var components=new JsonObject();foreach(var (key,c,dir) in parts)components[key]=Componenti(x.Components[(c,dir)]);
+                return J.Obj(("z",x.Depth/M),("sondaggi",x.Surveys.Select(sondaggio).ToList()),("peso",x.Weight/1000),("componenti",components));
+            }).ToList();
+            var actions=J.Obj(("compressione",Punti(r.CompressionActions)),("trazione",Punti(r.TensionActions)));
+            var e=r.Efficiency;
+            return J.Obj(("errore",""),("curve",curves),("dettagli",details),("azioni",actions),("profondita_massima",r.MaximumDepth/M),("lunghezza_palo",r.PileLength/M),("copertura_completa",r.FullCoverage),
+                ("numero_stratigrafie",r.SurveyCount),("efficienza",J.Obj(("errore",""),("metodo",metodo),("eta_compressione",e.Compression),("eta_trazione",e.Tension),("numero_pali",(double)e.Piles))));
         }
         public JsonObject Esegui()
         {
-            Validate();var eff=Efficienza(dati);if(eff.S("errore")!="")throw new ArgumentException("Efficienza: "+eff.S("errore"));
+            Validate();
+            (string Metodo,PileGroupEfficiency Efficienza) gruppo;
+            try { gruppo=Gruppo(dati); } catch(ArgumentException ex) { throw new ArgumentException("Efficienza: "+ex.Message); }
             var strata=new List<List<Strato>>();
             foreach(var rows in dati.Array("stratigrafie"))
             {
@@ -205,73 +218,47 @@ public static class Calcolo
                 strata.Add(list);
             }
             if(strata.Count==0)throw new ArgumentException("Aggiungere almeno una stratigrafia.");
-            double max=Math.Min(l,strata.Min(s=>s[^1].Fondo));var depths=new SortedSet<double>(Enumerable.Range(0,101).Select(i=>max*i/100));
-            foreach(var list in strata)foreach(var s in list)if(s.Fondo<=max)depths.Add(s.Fondo);
-            if(falda&&zf<=max)depths.Add(zf);for(int i=0;i<=(int)(max*2);i++)depths.Add(i/2.0);if(micro&&sb<=max)depths.Add(sb);
-            double area=Math.PI*d*d/4,perimeter=Math.PI*d;var (xi3,xi4)=Verticali[g.S("verticali_indagate","1")];
-            double gs=g.D("sicurezza_laterale_compressione",1.15),gt=g.D("sicurezza_laterale_trazione",1.25),gb=g.D("sicurezza_base",1.35),ggc=g.D("peso_palo_sfavorevole",1.30),ggt=g.D("peso_palo_favorevole",1),etaC=eff.D("eta_compressione"),etaT=eff.D("eta_trazione");
-            var curves=new JsonObject();var actions=J.Obj(("compressione",new JsonArray()),("trazione",new JsonArray()));var details=new List<JsonObject>();
-            string[] conditions=micro?["compressione"]:["drenante","non_drenante"];
-            foreach(var c in conditions)foreach(var dir in new[]{"compressione","trazione"})curves[micro?dir:c+"_"+dir]=J.Obj(("media",new JsonArray()),("minima",new JsonArray()),("progetto",new JsonArray()));
-            foreach(double z in depths)
-            {
-                var surveys=new List<JsonObject>();
-                foreach(var list in strata)
-                {
-                    if(!micro)surveys.Add(Resistenze(list,z,area,perimeter));
-                    else
-                    {
-                        // La fonte ricava Db dal perimetro/pi anche in questo passaggio.
-                        var segments=BustamanteDoix.Tratti(list,z,sb,perimeter/Math.PI,g.S("tipo_iniezione"),pi);double lateral=J.Sum(segments.Select(s=>s.D("laterale")));
-                        surveys.Add(J.Obj(("compressione",J.Obj(("laterale",lateral),("base",lateral*pct/100))),("tratti",segments)));
-                    }
-                }
-                double weight=Peso(z,area);var components=new JsonObject();
-                details.Add(J.Obj(("z",z),("sondaggi",surveys),("peso",weight),("componenti",components)));
-                components=details[^1]["componenti"]!.AsObject();
-                foreach(var c in conditions)
-                {
-                    double[] bases=surveys.Select(s=>s[c].D("base")).ToArray(),sides=surveys.Select(s=>s[c].D("laterale")).ToArray();
-                    double bm=J.Sum(bases)/bases.Length,lm=J.Sum(sides)/sides.Length,bmin=bases.Min(),lmin=sides.Min();
-                    // Micropalo: la fonte deriva le basi dopo la media delle laterali.
-                    if(micro){bm=lm*pct/100;bmin=lmin*pct/100;}
-                    components[c]=Componenti(lm,bm,lmin,bmin,xi3,xi4,gs,gb,etaC);
-                    components[micro ? "trazione" : c + "_trazione"] = Componenti(lm,0,lmin,0,xi3,xi4,gt,gb,etaT);
-                    foreach(var dir in new[]{"compressione","trazione"})
-                    {
-                        bool compression=dir=="compressione";double mean,min;
-                        if(compression){mean=micro?(lm/gs+bm/gb)/xi3:bm/(xi3*gb)+lm/(xi3*gs);min=micro?(lmin/gs+bmin/gb)/xi4:bmin/(xi4*gb)+lmin/(xi4*gs);mean*=etaC;min*=etaC;}
-                        else {mean=lm/(xi3*gt)*etaT;min=lmin/(xi4*gt)*etaT;}
-                        var curve=curves[micro?dir:c+"_"+dir]!;
-                        curve["media"]!.AsArray().Add(new JsonArray(z,mean));curve["minima"]!.AsArray().Add(new JsonArray(z,min));curve["progetto"]!.AsArray().Add(new JsonArray(z,Math.Min(mean,min)));
-                    }
-                }
-                if(J.Number(g["azione_compressione"]) is double nc)actions["compressione"]!.AsArray().Add(new JsonArray(z,nc+ggc*weight));
-                if(J.Number(g["azione_trazione"]) is double nt)actions["trazione"]!.AsArray().Add(new JsonArray(z,Math.Max(0,nt-ggt*weight)));
-            }
-            var result=J.Obj(("errore",""),("curve",curves),("dettagli",details),("azioni",actions),("profondita_massima",max),("lunghezza_palo",l),("copertura_completa",max>=l-1e-9),("numero_stratigrafie",strata.Count),("efficienza",eff));
-            var warnings=new List<string>();if(eff.S("metodo") is "Feld" or "Converse-Labarre")warnings.Add("Scelta progettuale 2026-09-15: efficienza geometrica applicata sia a compressione sia a trazione.");
+            var (xi3,xi4)=Verticali[g.S("verticali_indagate","1")];
+            var factors=new PileResistanceFactors(g.D("sicurezza_laterale_compressione",1.15),g.D("sicurezza_laterale_trazione",1.25),g.D("sicurezza_base",1.35),g.D("peso_palo_sfavorevole",1.30),
+                g.D("peso_palo_favorevole",1),xi3,xi4);
+            double? compression=J.Number(g["azione_compressione"])*1000,tension=J.Number(g["azione_trazione"])*1000;
+            var rowsList=dati.Array("stratigrafie").Select(s=>s!.AsArray()).ToList();
+            JsonObject result;var warnings=new List<string>();
             if(!micro)
             {
+                var surveys=rowsList.Select((rows,i)=>new AxialPileSurvey(Profilo(rows,i,falda?zf:null,Terreno),rows.Select(v=>new AxialPileLayer(v.S("tipologia")=="Coesivo"?SoilBehaviour.Cohesive:SoilBehaviour.Granular,
+                    v.S("addensamento")=="Sciolto"?SoilDensity.Loose:SoilDensity.Dense,v.D("nc",9),v.B("laterale_attiva",true))))).ToArray();
+                var pile=new AxialPile(Tecnologia(g)!.Value,d*M,l*M,g.D("peso_specifico_palo",25)*KN3,g.B("considera_sottospinta"),compression,tension);
+                var r=AxialPileCapacity.Calculate(pile,surveys,factors,gruppo.Efficienza);
+                result=Risultato(r,Sondaggio,gruppo.Metodo);
+                warnings.AddRange(r.Warnings);
+                // Dopo l'avviso dell'efficienza: il foglio convertito da un metodo Nq precedente.
+                var previous=Nq.MetodoPrecedente(g);if(previous!="")warnings.Insert(gruppo.Efficienza.Method is PileGroupMethod.Feld or PileGroupMethod.ConverseLabarre?1:0,"Foglio convertito da Nq "+previous+" a Parametrizzata: i risultati precedenti possono cambiare.");
                 result["metodo_nq"]="Parametrizzata";result["diametro_nq"]=d;result["descrizione_nq"]=Nq.Descrizione;
-                var previous=Nq.MetodoPrecedente(g);if(previous!="")warnings.Add("Foglio convertito da Nq "+previous+" a Parametrizzata: i risultati precedenti possono cambiare.");
-                warnings.Add("Ipotesi progettuale 2026-09-15: nella verifica non drenata la porzione sopra falda è drenata; senza falda le due verifiche coincidono.");
-                warnings.Add("Nq: Parametrizzata NQ-2026-09-09; "+(d>.8?"Nq* per D > 0,80 m.":"Nq per D ≤ 0,80 m.")+" φ non ridotto.");
-                var traces=details.SelectMany(dt=>dt.Array("sondaggi")).Select(s=>s?["dettaglio_nq"]).Where(t=>t is not null).ToArray();
-                if(traces.Any(t=>t.B("limite_phi")))warnings.Add("ATTENZIONE Nq: φ fuori dal tratto visibile di almeno una curva; adottato il bordo. Vedere le φ adottate nel dettaglio export.");
-                if(traces.Any(t=>t.B("limite_rapporto")))warnings.Add("ATTENZIONE Nq: alcune quote hanno z/D fuori dall'intervallo "+(d>.8?"4–32":"5–50")+"; adottata la curva di bordo, senza estrapolare.");
             }
             else
             {
-                result["inizio_aderenza"]=sb;result["inclinazione"]=g.D("inclinazione");result["profondita_punta"]=l*cos;result["coordinata_curve"]="Lungo asse s [m]";result["peso_sezione"]=pesoChs!.DeepClone();result["metodo_micropalo"]=BustamanteDoix.Versione;result["pressione_iniezione"]=pi;result["ipotesi_pressione"]="p_l = p_i";
-                warnings.Add("Strati orizzontali; θ dalla verticale. L, sb e coordinate delle curve sono lungo l'asse; z = s cos θ. Azioni inserite assiali; peso proprio proiettato sull'asse. Verifiche trasversali non comprese.");
-                warnings.Add(BustamanteDoix.Fonte+". Abachi digitalizzati dalla scansione: letture approssimate, senza estrapolazione.");
-                if(sb==0&&g.S("tipo_iniezione")=="IRS")warnings.Add("Scelta di progetto: IRS applicato anche nei primi 5 m, in deroga alla raccomandazione IGU superficiale di Viggiani p. 396.");
-                if(l-sb<4)warnings.Add("ATTENZIONE: zona iniettata inferiore ai 4 m raccomandati.");
-                warnings.Add("Ipotesi progettuale autorizzata: p_l = p_i. La pressione di iniezione generale alimenta gli abachi di tutti gli strati; non è una misura Ménard del terreno.");
-                warnings.Add("Verificare le condizioni esecutive di p. 392 e i volumi minimi di miscela della tabella 13.12; il programma non li certifica.");
+                var injection=BustamanteDoix.Injection(g.S("tipo_iniezione"));
+                BustamanteDoixSoil Bd(JsonNode v){try{return BustamanteDoix.Soil(v.S("terreno"));}catch(ArgumentException){return BustamanteDoixSoil.Gravel;}}
+                // Le stratigrafie del micropalo hanno solo spessori e parametri di Bustamante–Doix: terreno di Model di riferimento per le quote.
+                var surveys=rowsList.Select((rows,i)=>new MicropileSurvey(Profilo(rows,i,null,(v,k)=>new Soil(v.S("terreno") is {Length:>0} n?n:"Strato "+(k+1),18*KN3,20*KN3,0,0,"ANTHEA, solo quote")),
+                    rows.Select(v=>(Bd(v!),J.Number(v!["alpha"])??double.NaN,v.B("laterale_attiva",true))))).ToArray();
+                var pile=new Micropile(d*M,l*M,(J.Number(g["inclinazione"])??0)*Deg,injection,pi,sb*M,g.B("considera_punta")?pct:null,Chs.Sezione(g.S("profilo_chs")),Chs.Acciaio,
+                    g.D("peso_specifico_palo",25)*KN3,compression,tension);
+                var r=AxialPileCapacity.Calculate(pile,surveys,factors,gruppo.Efficienza);
+                result=Risultato(r,s=>J.Obj(("compressione",J.Obj(("laterale",s.Shaft/1000),("base",s.Base/1000))),("tratti",s.Segments.Select(t=>Tratto(t,g.S("tipo_iniezione"))).ToList())),gruppo.Metodo);
+                warnings.AddRange(r.Warnings);
+                result["inizio_aderenza"]=sb;result["inclinazione"]=g.D("inclinazione");result["profondita_punta"]=r.PileLength*cos/M;result["coordinata_curve"]="Lungo asse s [m]";result["peso_sezione"]=pesoChs!.DeepClone();
+                result["metodo_micropalo"]=BustamanteDoix.Versione;result["pressione_iniezione"]=pi;result["ipotesi_pressione"]="p_l = p_i";
             }
             result["avvisi"]=J.Node(warnings);return result;
+        }
+        /// <summary>Tratto di aderenza del micropalo nel formato del foglio (m, kPa, kN).</summary>
+        private static JsonObject Tratto(MicropileShaftSegment s,string iniezione)
+        {
+            if(s.Shaft is null)return J.Obj(("strato",s.Layer),("cielo",s.Top/M),("fondo",s.Bottom/M),("iniezione",iniezione),("alpha",null),("ds",null),("pl",null),("s",0.0),("curva",null),("laterale",0.0),("laterale_attiva",false));
+            return J.Obj(("curva",s.Shaft.Curve),("pl",s.Shaft.LimitPressure),("alpha",s.Shaft.Alpha),("alpha_consigliato",new[]{s.Shaft.RecommendedAlpha.Min,s.Shaft.RecommendedAlpha.Max}),("s",1000*s.UnitResistance),
+                ("iniezione",iniezione),("strato",s.Layer),("cielo",s.Top/M),("fondo",s.Bottom/M),("ds",s.DrillDiameter!.Value/M),("laterale",s.Lateral/1000));
         }
     }
 }

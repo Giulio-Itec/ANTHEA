@@ -1,6 +1,6 @@
 {
   "snapshotDate": "2026-10-02",
-  "source": "bin/Release dei singoli progetti Utilities, Geometry, Model (master c07e99ac) e Checker (develop 79268a9e), build del 2 ottobre 2026",
+  "source": "bin/Release dei singoli progetti Utilities, Geometry, Model (master c07e99ac) e Checker (develop 40ca3008 per Geotechnics, 79268a9e per le altre), build del 2 ottobre 2026",
   "targetFramework": "netstandard2.0",
   "nuget": [
     {
@@ -55,8 +55,8 @@
       "file": "GPCChecker.Geotechnics.dll",
       "source": "Checker/GPCChecker.Geotechnics/bin/Release/netstandard2.0",
       "assemblyVersion": "0.1.0.0",
-      "sha256": "24C41900F905AD46BB463989FEEDFF2C6CC257E7852A5587CBF6B88FBF81FA38"
+      "sha256": "8F8642E09D0829B8275E20080E08A4128B34A227205A8F19861B4C184713C5B6"
     }
   ],
-  "updatedAt": "2026-10-02T13:21:06.5872731+02:00"
+  "updatedAt": "2026-10-02T17:33:40.0301546+02:00"
 }

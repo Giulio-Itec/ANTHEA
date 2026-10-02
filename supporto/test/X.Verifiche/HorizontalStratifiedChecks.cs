@@ -16,6 +16,8 @@ internal static class HorizontalStratifiedChecks
         {
             var layer = PaloOrizzontale.Layer(); layer["tipologia"] = kind; layer["spessore"] = thickness;
             layer["coesione_non_drenata"] = cu; layer["angolo_attrito"] = phi; layer["peso_specifico"] = gamma;
+            // The soils of Model have γsat ≥ γ (20 kN/m³ of the default layer, or γ when heavier).
+            layer["peso_specifico_saturo"] = Math.Max(20, gamma);
             return layer;
         }
         JsonObject Data(bool fixedHead, double moment, params JsonObject[] layers)

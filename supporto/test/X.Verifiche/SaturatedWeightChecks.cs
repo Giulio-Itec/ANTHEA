@@ -35,8 +35,13 @@ internal static class SaturatedWeightChecks
             {
                 layer["peso_specifico_saturo"] = explicitValue;
                 var actual = Calcolo.Calcola(data);
-                Assert(actual.S("errore") == "", "Valore esplicito non calcolabile");
-                Assert(JsonNode.DeepEquals(expected, actual) == !water, "γsat esplicito non rispettato");
+                // The soils of Model have γsat ≥ γ: an explicit lower value is an error where the water table uses it, never replaced.
+                if (water && explicitValue == "0") Assert(actual.S("errore").StartsWith("γsat deve essere almeno pari a γ"), "γsat esplicito minore di γ sotto falda rifiutato");
+                else
+                {
+                    Assert(actual.S("errore") == "", "Valore esplicito non calcolabile");
+                    Assert(JsonNode.DeepEquals(expected, actual) == !water, "γsat esplicito non rispettato");
+                }
                 Assert(layer.S("peso_specifico_saturo") == explicitValue, "Valore esplicito modificato");
             }
         }

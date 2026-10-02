@@ -1,7 +1,15 @@
 using System.Text.Json.Nodes;
+using GPC.Checkers.Geotechnics.Piles;
+using GPC.Model.Materials;
+using GPC.Model.Sections;
+using GPC.Model.Standards;
 
 namespace Anthea.Calculations;
 
+/// <summary>
+/// Micropalo sotto azione orizzontale: tubo CHS di Model (catalogo di ModelData o D, t assegnati), proprietà della sezione di Model e momento
+/// resistente della libreria (MicropileTube.LateralResistance, classe 1, interazione lineare N–M). Unità del foglio: mm, MPa, kN, kNm.
+/// </summary>
 public static class MicropaloOrizzontale
 {
     public const string Module = "geo_micropalo_orizzontale";
@@ -14,26 +22,31 @@ public static class MicropaloOrizzontale
         return data;
     }
 
-    public static JsonObject Properties(JsonObject data)
+    /// <summary>Il tubo, l'acciaio (fy) e γM0 della sezione del foglio, con i controlli del foglio.</summary>
+    private static (SectionCHS Tube, SteelMaterial Steel, StandardNTC2018Steel Standard) Tubo(JsonObject data)
     {
-        var s = data["sezione"]!; double d, t;
+        var s = data["sezione"]!; double d, t; SectionCHS? catalog = null;
         if (s.S("modo_chs") == "Catalogo")
         {
             if (!Chs.Catalogo.TryGetValue(s.S("profilo_chs"), out var profile)) throw new ArgumentException("Selezionare un CHS dal catalogo ANTHEA.");
-            (d, t) = profile;
+            (d, t) = profile; catalog = Chs.Sezione(s.S("profilo_chs"));
         }
         else if (s.S("modo_chs") == "Manuale") { d = s.Required("diametro_chs_mm", strict: true); t = s.Required("spessore_chs_mm", strict: true); }
         else throw new ArgumentException("Modalità CHS non riconosciuta.");
         if (2 * t >= d) throw new ArgumentException("CHS: lo spessore deve essere minore di metà diametro.");
         if (d >= data["generali"]!.Required("diametro", strict: true) * 1000) throw new ArgumentException("Il diametro CHS deve essere minore del diametro geotecnico.");
-        double inner = d - 2 * t, a = Math.PI / 4 * (d * d - inner * inner), inertia = Math.PI / 64 * (Math.Pow(d, 4) - Math.Pow(inner, 4));
-        double fy = s.Required("fy_chs_mpa", strict: true), gamma = s.Required("gamma_m0", 1), fyd = fy / gamma;
-        double wel = 2 * inertia / d, wpl = (Math.Pow(d, 3) - Math.Pow(inner, 3)) / 6;
-        double slenderness = d / t / (235 / fy);
-        int cls = slenderness <= 50 ? 1 : slenderness <= 70 ? 2 : slenderness <= 90 ? 3 : 4;
-        return J.Obj(("diametro_mm", d), ("spessore_mm", t), ("diametro_interno_mm", inner), ("area_mm2", a),
-            ("inerzia_mm4", inertia), ("wel_mm3", wel), ("wpl_mm3", wpl), ("massa_kg_m", a * .00785),
-            ("fyd_mpa", fyd), ("classe", cls), ("npl_kn", a * fyd / 1000), ("mpl_knm", wpl * fyd / 1e6));
+        double fy = s.Required("fy_chs_mpa", strict: true), gamma = s.Required("gamma_m0", 1);
+        return (catalog ?? new SectionCHS(d, t), new SteelMaterial("CHS", 210000, fy, fy), new StandardNTC2018Steel { GammaM0 = gamma });
+    }
+
+    public static JsonObject Properties(JsonObject data)
+    {
+        var (tube, steel, standard) = Tubo(data);
+        double fyd = steel.CalculateFyd(standard), a = tube.Area;
+        // Proprietà di Model (SectionCHS), classe della libreria; massa dalla densità di Model (7850 kg/m³).
+        return J.Obj(("diametro_mm", tube.Diameter), ("spessore_mm", tube.Thickness), ("diametro_interno_mm", tube.DiameterInternal), ("area_mm2", a),
+            ("inerzia_mm4", tube.J11), ("wel_mm3", tube.Wel1), ("wpl_mm3", tube.Wpl1), ("massa_kg_m", Chs.Acciaio.Density * a * 1e6),
+            ("fyd_mpa", fyd), ("classe", MicropileTube.SectionClass(tube, steel.Fyk)), ("npl_kn", a * fyd / 1000), ("mpl_knm", tube.Wpl1 * fyd / 1e6));
     }
 
     public static JsonObject Section(JsonObject data)
@@ -42,12 +55,12 @@ public static class MicropaloOrizzontale
         if (p.D("classe") != 1) throw new ArgumentException("CHS non di classe 1: momento automatico per il meccanismo plastico non disponibile. Occorre una valutazione specifica; non viene attribuita automaticamente duttilità.");
         double? axial = J.Number(data["generali"]!["azione_assiale"]);
         if (axial is null || !double.IsFinite(axial.Value)) throw new ArgumentException("Forza assiale non valida.");
-        double ratio = Math.Abs(axial.Value) / p.D("npl_kn");
-        if (ratio >= 1) throw new ArgumentException("La forza assiale raggiunge o supera la resistenza del CHS.");
-        // Conservative linear N-M interaction (no beneficial resistance from grout).
-        p["momento_knm"] = p.D("mpl_knm") * (1 - ratio); p["n_kn"] = axial.Value;
+        if (Math.Abs(axial.Value) / p.D("npl_kn") >= 1) throw new ArgumentException("La forza assiale raggiunge o supera la resistenza del CHS.");
+        var (tube, steel, standard) = Tubo(data);
+        var r = MicropileTube.LateralResistance(tube, steel, standard, axial.Value * 1000, data["generali"]!.Required("diametro", strict: true) * 1000);
+        p["momento_knm"] = r.ResistingMoment / 1e6; p["n_kn"] = axial.Value;
         p["tipo"] = "CHS";
-        p["modello"] = "Solo acciaio CHS, classe 1 secondo limiti D/t con ε²=235/fy. My = Wpl·fy/γM0·(1−|N|/Npl). Interazione lineare conservativa N–M; riempimento escluso. Non verifica instabilità globale, taglio, giunti, corrosione o capacità di rotazione delle connessioni. fy deve essere appropriato a materiale e spessore.";
+        p["modello"] = MicropileTubeResistance.Model;
         return p;
     }
 }

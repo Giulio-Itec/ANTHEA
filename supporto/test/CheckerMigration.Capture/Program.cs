@@ -17,6 +17,8 @@ string assembly = typeof(ConcreteCodeChecks).Assembly.Location;
 string sha = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(assembly)));
 // Optional third argument "muri": only the retaining walls.
 if (args.Length > 2 && args[2] == "muri") { WallCapture.Run(output, commit, sha); return; }
+// Optional third argument "pali": only piles and micropiles.
+if (args.Length > 2 && args[2] == "pali") { PilesCapture.Run(output, commit, sha); return; }
 
 var cases = new List<ConcreteCodeChecks.ShearInput>();
 string[] standards = ConcreteStandards.OrdinaryNames;
