@@ -14,6 +14,7 @@ public sealed record ModuleDefinition(string Id, string Area, string Name, strin
 public static class ModuleCatalog
 {
     public static IReadOnlyList<ModuleDefinition> All { get; } = Array.AsReadOnly(new ModuleDefinition[] {
+        new(HorizontalPileGroup.Module, "Geotecnica", "Palificata orizzontale", "Effetto di gruppo · sei teorie", HorizontalPileGroup.Defaults, HorizontalPileGroup.ValidateShape),
         new("geo_palo_verticale", "Geotecnica", "Palo verticale", "Capacità portante", () => CalculationDefaults.Vertical(false), Calcolo.ValidaForma),
         new(PaloOrizzontale.Module, "Geotecnica", "Palo orizzontale", "Capacità portante", PaloOrizzontale.Defaults, d => ValidateHorizontal(d, false)),
         new("geo_micropalo_verticale", "Geotecnica", "Micropalo verticale", "Capacità portante · Bustamante–Doix", () => CalculationDefaults.Vertical(true), Calcolo.ValidaForma),

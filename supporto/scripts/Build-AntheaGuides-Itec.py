@@ -24,12 +24,12 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[2]
-REVISION = '10'
+REVISION = '15'
 # edition data of the revision: date, contents and description in the revision table of the cover
-DATE = '02/10/2026'
-CONTENTS = '2 ottobre 2026'
-CONTENTS_ISO = '2026-10-02'
-REVISION_NOTE = 'FORMULE LATEX E REVISIONE EDITORIALE WIKI'
+DATE = '04/10/2026'
+CONTENTS = '4 ottobre 2026'
+CONTENTS_ISO = '2026-10-04'
+REVISION_NOTE = 'INTEGRAZIONE DEI CONTENUTI NEL HANDBOOK'
 ART = ROOT / f'supporto/artefatti/guide_anthea_itec_rev{REVISION}'
 OUT = ROOT / 'supporto/documentazione/Guide_ANTHEA'
 TEMPLATE = Path('C:/Users/g.pacini/Desktop/MODELLO-RELAZIONE-ITEC-AA.docx')
@@ -41,22 +41,37 @@ GUIDES = {
                 'Geotecnica e materiali\nSezioni in calcestruzzo e composte\nBridge Design e modelli di calcolo', 'ANTHEA-GT-02'),
 }
 
+def printed_links(value):
+    """Internal routes are UI addresses, not useful printed references."""
+    catalog=json.loads((ROOT/'X.Desktop/Wiki/index.json').read_text(encoding='utf-8'))
+    aliases=json.loads((ROOT/'X.Desktop/Wiki/aliases.json').read_text(encoding='utf-8'))
+    def label(match):
+        text,uri=match.groups()
+        if uri.startswith(('wiki:','/wiki/')):
+            path=uri.removeprefix('wiki:');path=aliases.get(path,path).split('#')[0];path=aliases.get(path,path)
+            article=next((a for a in catalog if path in (a['id'],a['key'])),None)
+            return text+' (Wiki: '+article['title']+')' if article and text.casefold()!=article['title'].casefold() else text+' (Wiki)'
+        return text+' ('+uri+')'
+    return re.sub(r'\[([^\]]+)\]\(([^)]+)\)',label,value)
+
 def display_text(value):
     if value.startswith('> '): value = value[2:]
-    value = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1 (\2)', value)
+    value = printed_links(value)
     value = re.sub(r'\$([^$]+)\$', lambda m: ''.join(office_math(m[1]).itertext()), value)
-    return value.replace('**', '').replace('`', '')
+    return re.sub(r'\*([^*]+)\*',r'\1',value.replace('**', '').replace('`', ''))
 
 def add_inline(paragraph, value):
-    value = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1 (\2)', value)
-    for token in re.split(r'(\*\*.*?\*\*|`[^`]*`|\$[^$]+\$)', value):
+    value = printed_links(value)
+    for token in re.split(r'(\*\*.*?\*\*|\*[^*]+\*|`[^`]*`|\$[^$]+\$)', value):
         if token.startswith('$') and token.endswith('$'):
             paragraph._p.append(office_math(token[1:-1]))
             continue
         bold = len(token) >= 4 and token.startswith('**') and token.endswith('**')
+        italic = not bold and len(token) >= 3 and token.startswith('*') and token.endswith('*')
         mono = len(token) >= 2 and token.startswith('`') and token.endswith('`')
-        run = paragraph.add_run(token[2:-2] if bold else token[1:-1] if mono else token.replace('**', '').replace('`', ''))
+        run = paragraph.add_run(token[2:-2] if bold else token[1:-1] if mono or italic else token.replace('**', '').replace('`', ''))
         if bold: run.bold = True
+        if italic: run.italic = True
         if mono: run.font.name = 'Consolas'
 
 def replace_text(p, value):
@@ -263,6 +278,7 @@ def build(kind):
         elif line.startswith('!['):
             match = re.fullmatch(r'!\[(.*?)\]\((.*?)\)', line)
             image_path = (source.parent / match.group(2)).resolve()
+            if image_path.suffix.lower() == '.svg': image_path = image_path.with_suffix('.png')
             p.paragraph_format.keep_with_next = True
             pic = p.add_run().add_picture(str(image_path), width=Cm(17))
             pic._inline.docPr.set('descr', match.group(1))

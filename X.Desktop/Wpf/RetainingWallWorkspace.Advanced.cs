@@ -52,9 +52,8 @@ internal sealed partial class RetainingWallWorkspace
         designPreview.Content = null;
         DesignButton = Ui.Button("Calcola armature", async () => await DesignRebarAsync());
         return Ui.Stack(Group("Ancoraggi, sovrapposizioni e predimensionamento", Ui.Stack(
-            Form("detailing", [new("enabled", "Verifica i dettagli delle armature", Bool: true), new("aggregate", "Diametro massimo aggregato", "mm"),
-                new("good_bond", "Condizioni di buona aderenza documentate", Bool: true), new("life", "Vita nominale per copriferro (50 / 100)", "anni"),
-                new("cover_deviation", "Tolleranza del copriferro", "mm"), new("lap_percent", "Percentuale barre giuntate (schema: 100%)", "%"),
+            Form("detailing", [new("enabled", "Verifica i dettagli delle armature", Bool: true),
+                new("good_bond", "Condizioni di buona aderenza documentate", Bool: true), new("lap_percent", "Percentuale barre giuntate (schema: 100%)", "%"),
                 new("lap_clear", "Distanza libera fra barre giuntate", "mm"), new("tie_diameter", "Ø collegamenti della giunzione", "mm"),
                 new("tie_spacing", "Passo collegamenti della giunzione", "mm"), new("max_diameter", "Ø massimo nel predimensionamento", "mm"),
                 new("max_count", "Numero massimo barre per metro", "−"), new("target_ratio", "Tasso massimo ricercato", "−")]),

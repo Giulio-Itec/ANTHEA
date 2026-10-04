@@ -63,7 +63,7 @@ internal static class BridgeSectionChecks
 
         // The section used by Checker MixedSectionTest.TensionCheck03 (Bridge).
         var benchmark = BridgeSection.Defaults(); benchmark["b_cls"] = 1200; benchmark["h_cls"] = 200; benchmark["classe_cls"] = "C40/50";
-        benchmark["h_web"] = 600 - 2 * 32.4; benchmark["t_web"] = 21.6; benchmark["b_top"] = 215; benchmark["b_bottom"] = 215;
+        benchmark["h_trave"] = 600; benchmark["h_web"] = 600 - 2 * 32.4; benchmark["t_web"] = 21.6; benchmark["b_top"] = 215; benchmark["b_bottom"] = 215;
         benchmark["t_top"] = 32.4; benchmark["t_bottom"] = 32.4; benchmark["d_top"] = 12; benchmark["pitch_top"] = 150; benchmark["cover_top"] = 60;
         benchmark["rebars_bottom"] = false; benchmark["classe4"] = false;
         benchmark["fasi"] = new JsonArray(BridgeSection.Phase("Checker Bridge", "Composta", 0, 2000));
@@ -104,7 +104,7 @@ internal static class BridgeSectionChecks
             Near(a.Stress, b.Stress, 1e-9, "anima inclinata = anima verticale tw/cos α");
         Assert(BridgeSection.Calculate(inclined).Stages[^1].Warnings.Any(w => w.StartsWith("Anima inclinata")), "ipotesi anima inclinata dichiarate");
         var box = (JsonObject)d.DeepClone(); box["sezione"] = BridgeSection.SectionTypes[2]; box["interasse_anime"] = 1800; box["offset_anima"] = 250;
-        box["b_top"] = 450; box["b_bottom"] = 1400; box["t_bottom"] = 25; box["plate2"] = true;
+        box["b_top"] = 450; box["b_bottom"] = 1400; box["t_bottom"] = 25; box["h_trave"] = 1850; box["plate2"] = true;
         var boxResult = BridgeSection.Calculate(box); var bg = boxResult.Geometry;
         Assert(bg.WebCount == 2 && bg.TopFlangeCount == 2 && bg.Bottom2Thickness == 0, "cassoncino: due anime, due piattabande, seconda piastra ignorata");
         Near(bg.TopWidth, 900, 0, "piattabande superiori complessive");

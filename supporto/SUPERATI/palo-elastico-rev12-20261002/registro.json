@@ -1,0 +1,100 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-elastico-rev12-20261002\\docs\\guida-pratica-anthea.md",
+    "motivo": "Revisione 12: risposta elastica del palo e UI palificate",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "df202cc416aa1354d13c31dd43d978819793209ea20873627a63038af13561d5"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-elastico-rev12-20261002\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Revisione 12: risposta elastica del palo e UI palificate",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "4456effd955b733894a5fa0c283e1ce63aa0225833142eba2b536b05a69a843a"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-elastico-rev12-20261002\\docs\\guida-teorica-anthea.md",
+    "motivo": "Revisione 12: risposta elastica del palo e UI palificate",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "70eefc2a882da3065f1e80ebe52b779240bceecba12456911d83f941cd5c37d1"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-elastico-rev12-20261002\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Revisione 12: risposta elastica del palo e UI palificate",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "15d5a59c33f45c739c5cf9404d098b9f9f1167b4e3a204fa6c70ab9853c13b7d"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev11.docx",
+    "archivio": "supporto\\SUPERATI\\palo-elastico-rev12-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev11.docx",
+    "motivo": "Revisione 12: risposta elastica del palo e UI palificate",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev12.docx",
+    "sha256": "52a46ce3775b32d13437778bbaa1a2c0717134c56c312d15f355fc8cc189590b"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev11.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-elastico-rev12-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev11.pdf",
+    "motivo": "Revisione 12: risposta elastica del palo e UI palificate",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev12.pdf",
+    "sha256": "4456effd955b733894a5fa0c283e1ce63aa0225833142eba2b536b05a69a843a"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev11.docx",
+    "archivio": "supporto\\SUPERATI\\palo-elastico-rev12-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev11.docx",
+    "motivo": "Revisione 12: risposta elastica del palo e UI palificate",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev12.docx",
+    "sha256": "11b89cfbc479002020ba39d2245ff15597f4463391856d03fc38778bc3308d85"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev11.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-elastico-rev12-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev11.pdf",
+    "motivo": "Revisione 12: risposta elastica del palo e UI palificate",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev12.pdf",
+    "sha256": "15d5a59c33f45c739c5cf9404d098b9f9f1167b4e3a204fa6c70ab9853c13b7d"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\palo-elastico-rev12-20261002\\installer\\Indice-guide.md",
+    "motivo": "Revisione 12: risposta elastica del palo e UI palificate",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "8a0ac1f06445446156140e79d6db41ccac994f2cb6ddd94e0c53cba81d4390e9"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-elastico-rev12-20261002\\installer\\Indice-guide.pdf",
+    "motivo": "Revisione 12: risposta elastica del palo e UI palificate",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "9fdd56858060216937d64b88fe1d6459b14625352170afc69fc448057047937f"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\palo-elastico-rev12-20261002\\README.md",
+    "motivo": "Revisione 12: risposta elastica del palo e UI palificate",
+    "sostituzione": "supporto\\README.md",
+    "sha256": "e46d15a984b6a9e6bd993b1e8ffa54e51c6e4bea5a54b6ad5bc1ec259baedb79"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-elastico-rev12-20261002\\README.pdf",
+    "motivo": "Revisione 12: risposta elastica del palo e UI palificate",
+    "sostituzione": "supporto\\README.pdf",
+    "sha256": "62d40e0b55948a419a225560dbde728573045f52124e44b132049d7c3c28d0f5"
+  },
+  {
+    "origine": "supporto\\installer\\README.md",
+    "archivio": "supporto\\SUPERATI\\palo-elastico-rev12-20261002\\installer\\README.md",
+    "motivo": "Revisione 12: risposta elastica del palo e UI palificate",
+    "sostituzione": "supporto\\installer\\README.md",
+    "sha256": "c2cc3c77bd20e6f5bb9000957b7801c117749c9bac6ff9c205309f2fc0f2d6bf"
+  },
+  {
+    "origine": "supporto\\installer\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-elastico-rev12-20261002\\installer\\README.pdf",
+    "motivo": "Revisione 12: risposta elastica del palo e UI palificate",
+    "sostituzione": "supporto\\installer\\README.pdf",
+    "sha256": "bb8d435eeb1bbecddb22dac860d6d6e0693dcf3e27de41d115b8042ea338c763"
+  }
+]

@@ -97,7 +97,7 @@ public static partial class ProjectSharedData
         {
             JsonNode? value = source.Value?.DeepClone();
             bool material = sheet.S("modulo_id") == "mat_calcestruzzo";
-            if (source.Key == "Durabilità · qualità copriferri" && !material) value = JsonValue.Create(source.Value?.GetValue<bool>() == true ? "Sì" : "No");
+            if (source.Key == "Durabilità · qualità copriferri" && !material && sheet.S("modulo_id") != RetainingWall.Module) value = JsonValue.Create(source.Value?.GetValue<bool>() == true ? "Sì" : "No");
             if (material && source.Key == "Durabilità · vita utile [anni]") value = JsonValue.Create(Text(source.Value) + " anni");
             if (material && source.Key == "Durabilità · tolleranza [mm]") value = JsonValue.Create(Text(source.Value) + " mm");
             Put(data, target.Path, value); changed = true; return true;
@@ -133,7 +133,7 @@ public static partial class ProjectSharedData
                 .Select(p => ReferenceEquals(p.First, sheet) ? p.Second : p.First).ToArray();
             bool hasPile = related.Any(s => s.S("modulo_id") == PaloOrizzontale.Module);
             string name = sheet.S("nome"); var fields = Fields(sheet);
-            if (sheet.S("modulo_id") is RebarMaterial.Module or "str_palo" or PaloOrizzontale.Module)
+            if (sheet.S("modulo_id") is RebarMaterial.Module or "str_palo" or PaloOrizzontale.Module || sheet.S("modulo_id") == RetainingWall.Module && sheet["dati"].S("family") == "cantilever")
             {
                 var steel = new JsonObject();
                 foreach (string key in RebarMaterial.Keys) if (fields.TryGetValue(key, out var field)) steel[key] = field.Value?.DeepClone();

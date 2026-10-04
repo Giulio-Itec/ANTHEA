@@ -77,7 +77,7 @@ try
     Archivio.Valida(incomplete); Check(true, "Calcolo incompleto archiviabile");
     var service = CalculationService.Calculate(RetainingWall.Module, data);
     Check(J.Equivalent(service, result.Json()), "Servizio comune e motore restituiscono gli stessi risultati");
-    Check(ProjectSharedData.Fields(doc).Count == 0, "Il muro non eredita dati di pali");
+    Check(!ProjectSharedData.Fields(doc).Values.Any(f => f.Group is "Geometria" or "Terreno" || f.Group == "Armatura" && f.Key != "cover_mm"), "Il muro condivide materiali e copriferro, non geometria o barre dei pali");
     byte[] report = ReportRetainingWall.Create("Benchmark muro", result);
     using (var zip = new System.IO.Compression.ZipArchive(new MemoryStream(report)))
     {
@@ -100,7 +100,7 @@ try
     count += DualSoilChecks.Run(directory);
     count += AdvancedChecks.Run(directory);
     count += LibraryAdapterChecks.Run(directory);
+    count += MaterialSharingChecks.Run(directory);
     log.Add($"PASS {count} controlli"); Console.WriteLine(log.Last());
 }
 finally { File.WriteAllLines(Path.Combine(directory, "test.txt"), log); }
-

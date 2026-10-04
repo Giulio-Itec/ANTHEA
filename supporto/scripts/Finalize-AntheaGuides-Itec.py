@@ -138,6 +138,8 @@ def finalize(kind):
                 cells = [c.strip() for c in line.strip('|').split('|')]
                 if not all(re.fullmatch(r'[:\- ]+', c) for c in cells):
                     required.extend(B.display_text(c) for c in cells)
+                    for cell in cells:
+                        formulas.extend(re.findall(r'\$([^$]+)\$', cell))
             elif line.startswith('$$ '):
                 formulas.append(line[3:])
             elif line.startswith('!['):

@@ -90,18 +90,22 @@ public static partial class ProjectSharedData
         }
         if (module == MicropaloOrizzontale.Module && data["sezione"] is JsonObject chs)
             foreach (var (key, _) in chs) Add("CHS · " + key, key is "fy_chs_mpa" or "gamma_m0" ? "Materiali" : "Armatura", "sezione/" + key);
+        AddWallFields(module, data, result);
         AddAdditionalFields(module, data, result);
         return result;
     }
     static bool Compatible(Field field, JsonObject source, JsonObject target)
     {
         if (!AdditionalCompatible(field, source, target)) return false;
+        if ((source.S("modulo_id") == RetainingWall.Module || target.S("modulo_id") == RetainingWall.Module) &&
+            field.Key != "materiale_acciaio_nome" && (!ActiveField(source, field.Key) || !ActiveField(target, field.Key))) return false;
         if (source.S("modulo_id") == target.S("modulo_id")) return true;
         if (field.Group == "Terreno" || field.Key is "CHS · profilo_chs" or "perforazione_mm" or "lunghezza_micropalo") return true;
         if (field.Group is "Materiali" or "Coefficienti") return true;
         bool rcPair = source.S("modulo_id") is "str_palo" or PaloOrizzontale.Module &&
             target.S("modulo_id") is "str_palo" or PaloOrizzontale.Module;
-        if (rcPair && field.Key is "shape" or "cover_mm") return true;
+        if (field.Key == "cover_mm" && (rcPair || source.S("modulo_id") == RetainingWall.Module || target.S("modulo_id") == RetainingWall.Module)) return true;
+        if (rcPair && field.Key == "shape") return true;
         if (source.S("modulo_id") == PaloOrizzontale.Module && target.S("modulo_id") == "str_palo" &&
             field.Group == "Geometria") return field.Key is "shape" or "diameter_mm";
         // Different module families share geometry/rebar only for a circular, ordinary section.
@@ -139,6 +143,7 @@ public static partial class ProjectSharedData
         foreach (var target in targets.Where(s => !ReferenceEquals(s, source)).Distinct())
         {
             var data = (JsonObject)(target["dati"] as JsonObject ?? Archivio.NuovoFoglio(target.S("modulo_id"))).DeepClone();
+            if (target.S("modulo_id") == RetainingWall.Module) RetainingWall.Upgrade(data);
             bool changed = false;
             // Use the final shape for rebar compatibility in this same operation.
             var effectiveTarget = (JsonObject)target.DeepClone();
@@ -164,7 +169,7 @@ public static partial class ProjectSharedData
                         if (standard is null) continue; // A custom fck cannot be represented by a standard-only selector.
                         data["classe"] = standard.S("nome"); changed = true; continue;
                     }
-                    string root = target.S("modulo_id") == "str_palo" ? "input" : "sezione";
+                    string root = target.S("modulo_id") == RetainingWall.Module ? "materials" : target.S("modulo_id") == "str_palo" ? "input" : "sezione";
                     data[root]!["classe_cls"] = standard?.S("nome") ?? "Personalizzato";
                     data[root]!["materiale_cls_nome"] = standard?.S("nome") ?? "Personalizzato";
                 }

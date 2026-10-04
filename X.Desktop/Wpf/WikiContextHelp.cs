@@ -7,10 +7,10 @@ internal static class WikiContextHelp
 {
     private static readonly Dictionary<string, (string Text, string Uri)> Topics = new()
     {
-        ["cover_mm"] = ("Copriferro netto: distanza dal bordo alla staffa. La distanza al centro della barra include anche i diametri.", "/wiki/guide/moduli/sezione-ca#input-geometria-e-unita"),
-        ["moment_x_knm"] = ("Momento della sezione in kNm. Controlla la conversione degli assi del modello e il bordo compresso.", "/wiki/manuale/fem/elementi-beam#convenzioni-di-segno"),
-        ["moment_y_knm"] = ("Momento biassiale: conserva la terna N-Mx-My della stessa combinazione.", "/wiki/manuale/fem/elementi-beam#convenzioni-di-segno"),
-        ["axial_force_kn"] = ("Sforzo normale in kN; nell'interfaccia della Sezione in c.a. la compressione è negativa.", "/wiki/guide/moduli/sezione-ca#input-azioni-e-convenzioni")
+        ["cover_mm"] = ("Copriferro netto: distanza dal bordo alla staffa. La distanza al centro della barra include anche i diametri.", "guida-sezione-ca#input-geometria-e-unita"),
+        ["moment_x_knm"] = ("Momento della sezione in kNm. Controlla la conversione degli assi del modello e il bordo compresso.", "beam#convenzioni-di-segno"),
+        ["moment_y_knm"] = ("Momento biassiale: conserva la terna N-Mx-My della stessa combinazione.", "beam#convenzioni-di-segno"),
+        ["axial_force_kn"] = ("Sforzo normale in kN; nell'interfaccia della Sezione in c.a. la compressione è negativa.", "guida-sezione-ca#input-azioni-e-convenzioni")
     };
     internal static FrameworkElement Label(TextBlock label, string key, string? module)
     {

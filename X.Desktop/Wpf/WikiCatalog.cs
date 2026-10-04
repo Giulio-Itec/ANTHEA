@@ -9,7 +9,12 @@ namespace X.Desktop;
 
 internal sealed record WikiArticle(string Id, string Type, string Area, string Title, string Summary,
     string Source, long Offset, int Length, int Order, int ReadingTime, string[] Keywords,
-    string[] Related, string[] Modules, string? Example, string[] Sections);
+    string[] Related, string[] Modules, string? Example, string[] Sections,
+    string Key = "", string ChapterId = "", string Level = "intermediate", string Status = "existing",
+    string[]? Prerequisites = null, string[]? References = null);
+
+internal sealed record WikiChapter(string Id, int Number, string Title, string Description, string Introduction);
+internal sealed record WikiReference(string Id, string Title, string Url, string Kind);
 
 /// <summary>Metadata only in memory; chapter bodies are read on demand from the two canonical manuals.</summary>
 internal static class WikiCatalog
@@ -18,6 +23,11 @@ internal static class WikiCatalog
     internal static Stream Resource(string name) => Assembly.GetManifestResourceStream("Wiki." + name)
         ?? throw new InvalidOperationException("Contenuto Wiki mancante: " + name);
     internal static readonly WikiArticle[] Articles = Read<WikiArticle[]>("index.json");
+    internal static readonly WikiChapter[] Chapters = Read<WikiChapter[]>("chapters.json");
+    internal static readonly WikiReference[] References = Read<WikiReference[]>("references.json");
+    internal static readonly Dictionary<string, string> Aliases = Read<Dictionary<string, string>>("aliases.json");
+    internal static WikiChapter Chapter(WikiArticle a) => Chapters.Single(c => c.Id == a.ChapterId);
+    internal static WikiArticle[] InChapter(string id) => Articles.Where(a => a.ChapterId == id && a.Status != "historical").OrderBy(a => a.Order).ToArray();
     private static readonly Lazy<Dictionary<string, int[]>> SearchIndex = new(() => Read<Dictionary<string, int[]>>("search.json"));
     private static readonly Lazy<Dictionary<string, string>> Assets = new(() => Read<Dictionary<string, string>>("assets.json"));
     internal static string? AssetFor(string path) => Assets.Value.GetValueOrDefault(path);
@@ -52,7 +62,18 @@ internal static class WikiCatalog
             .ThenBy(i => Articles[i].Order).Take(60).Select(i => Articles[i]).ToArray();
     }
     internal static WikiArticle? ForModule(string module) => Articles.FirstOrDefault(a => a.Type == "guide" && a.Modules.Contains(module));
-    internal static WikiArticle? Resolve(string uri) => Articles.FirstOrDefault(a => a.Id == uri.Split('#')[0].TrimEnd('/'));
+    internal static WikiArticle? Resolve(string uri)
+    {
+        var key = CanonicalUri(uri).Split('#')[0].TrimEnd('/');
+        return Articles.FirstOrDefault(a => a.Id == key || a.Key == key);
+    }
+    internal static string CanonicalUri(string uri)
+    {
+        if (uri.StartsWith("wiki:")) uri = uri[5..];
+        if (Aliases.TryGetValue(uri, out var full)) return full;
+        var parts = uri.Split('#', 2); var path = parts[0].TrimEnd('/');
+        return Aliases.GetValueOrDefault(path, path) + (parts.Length == 2 ? "#" + parts[1] : "");
+    }
 }
 
 internal sealed class WikiProgress

@@ -9,9 +9,9 @@ public static partial class RetainingWall
         var p = d["gravity_design"]!; var m = d["materials"]!;
         if (p.S("type") == "Calcestruzzo non armato")
         {
-            var i = SezioneCA.DefaultInput(); i["fck_mpa"] = m.D("fck");
+            var i = MaterialSectionInput(d);
             var mat = ConcreteMaterials.Concrete(i); var strengths = ConcreteMaterials.DesignValues(i, SectionWorkspace.Prepare(SezioneCA.DefaultData()));
-            return (strengths.Fcd, .85 * mat.Fctk05 / 1.5, mat.Ecm / (1 + m.D("creep")), 0, 0, 1.5);
+            return (strengths.Fcd, .85 * mat.Fctk05 / i.D("gamma_c"), mat.Ecm / (1 + m.D("creep")), 0, 0, i.D("gamma_c"));
         }
         if (p.S("type") == "Muratura")
         {

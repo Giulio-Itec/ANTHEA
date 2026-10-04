@@ -14,6 +14,7 @@ public static class CalculationService
         var snapshot = (JsonObject)data.DeepClone();
         var result = module switch
         {
+            HorizontalPileGroup.Module => HorizontalPileGroup.Calculate(snapshot),
             "geo_palo_verticale" => Calcolo.Calcola(snapshot),
             "geo_micropalo_verticale" => Calcolo.Calcola(snapshot, true),
             PaloOrizzontale.Module or MicropaloOrizzontale.Module => PaloOrizzontale.Calculate(snapshot),

@@ -1,0 +1,100 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\efficienza-orizzontale-rev11-20261002\\docs\\guida-pratica-anthea.md",
+    "motivo": "Sostituita dalla revisione 11 con efficienza orizzontale delle palificate",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "3c01ca20668a76638e82c5c76053145284cc9e6a76dbaebfc5000b40450d7031"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\efficienza-orizzontale-rev11-20261002\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Sostituita dalla revisione 11 con efficienza orizzontale delle palificate",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "d6f616aeb663f6bc6318b263ac68db34a6c6561bfb359657e6379b898efd4734"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\efficienza-orizzontale-rev11-20261002\\docs\\guida-teorica-anthea.md",
+    "motivo": "Sostituita dalla revisione 11 con efficienza orizzontale delle palificate",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "b965fb6dfdcf4ba345d75bddcd31e4bbc27ebdd89111bd4eaaf5d61ba03173da"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\efficienza-orizzontale-rev11-20261002\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Sostituita dalla revisione 11 con efficienza orizzontale delle palificate",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "4ce3102083cd1e05dd110c3c6b853fe6b513af049e70ecca993eccfd13bba602"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev10.docx",
+    "archivio": "supporto\\SUPERATI\\efficienza-orizzontale-rev11-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev10.docx",
+    "motivo": "Sostituita dalla revisione 11 con efficienza orizzontale delle palificate",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev11.docx",
+    "sha256": "96b0eb64c94b0fe30e43a7b9310cef811091c841faba036fd97e663f4e25fd20"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev10.pdf",
+    "archivio": "supporto\\SUPERATI\\efficienza-orizzontale-rev11-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev10.pdf",
+    "motivo": "Sostituita dalla revisione 11 con efficienza orizzontale delle palificate",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev11.pdf",
+    "sha256": "d6f616aeb663f6bc6318b263ac68db34a6c6561bfb359657e6379b898efd4734"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev10.docx",
+    "archivio": "supporto\\SUPERATI\\efficienza-orizzontale-rev11-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev10.docx",
+    "motivo": "Sostituita dalla revisione 11 con efficienza orizzontale delle palificate",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev11.docx",
+    "sha256": "02cb6fb736a0c118db68e7bbce3e857a5077f546ab5b27139c97aee0c7eeda6d"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev10.pdf",
+    "archivio": "supporto\\SUPERATI\\efficienza-orizzontale-rev11-20261002\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev10.pdf",
+    "motivo": "Sostituita dalla revisione 11 con efficienza orizzontale delle palificate",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev11.pdf",
+    "sha256": "4ce3102083cd1e05dd110c3c6b853fe6b513af049e70ecca993eccfd13bba602"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\efficienza-orizzontale-rev11-20261002\\installer\\Indice-guide.md",
+    "motivo": "Sostituita dalla revisione 11 con efficienza orizzontale delle palificate",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "4d9fc821860d224896db131c8d8047745d337d05bc2ea25407bcffc85e4a8f38"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\efficienza-orizzontale-rev11-20261002\\installer\\Indice-guide.pdf",
+    "motivo": "Sostituita dalla revisione 11 con efficienza orizzontale delle palificate",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "c9306e0120e940b1df91628972c43897d533a06e1cff180524fa836b586c198e"
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/efficienza-orizzontale-rev11-20261002/README.md",
+    "motivo": "Indice aggiornato alla revisione 11 delle due guide globali",
+    "sostituzione": "supporto/README.md",
+    "sha256": "9483FFD02F9811F4627247445058762D1311620566F6021F6A069D34F3F9B1C8"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/efficienza-orizzontale-rev11-20261002/README.pdf",
+    "motivo": "Indice aggiornato alla revisione 11 delle due guide globali",
+    "sostituzione": "supporto/README.pdf",
+    "sha256": "97AC1CCC4174B6029D870AE4E14564CDD4BCD197BEF1640187FB883A7D157088"
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "archivio": "supporto/SUPERATI/efficienza-orizzontale-rev11-20261002/installer/README.md",
+    "motivo": "Indice aggiornato alla revisione 11 delle due guide globali",
+    "sostituzione": "supporto/installer/README.md",
+    "sha256": "42B71A0AE40F7E1A9B927706655ED448CA6E1FA91814CDB7EE8A0776DB782964"
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "archivio": "supporto/SUPERATI/efficienza-orizzontale-rev11-20261002/installer/README.pdf",
+    "motivo": "Indice aggiornato alla revisione 11 delle due guide globali",
+    "sostituzione": "supporto/installer/README.pdf",
+    "sha256": "20AACA90B74E68A1F859FA71A6BC6C21B6DAB4F9D381504114B282B4E475DFE8"
+  }
+]

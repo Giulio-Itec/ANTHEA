@@ -1,0 +1,86 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\wiki-handbook-rev14-20261003\\docs\\guida-pratica-anthea.md",
+    "motivo": "Refactoring editoriale Wiki; copia integrale prima della revisione",
+    "sostituzione": "Guide globali Rev14",
+    "sha256": "9d1cdc385cf3420e266f06ae3f945a03b9b342b2d6ee0a9faea53c6e52605a78"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-handbook-rev14-20261003\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Refactoring editoriale Wiki; copia integrale prima della revisione",
+    "sostituzione": "Guide globali Rev14",
+    "sha256": "70ccb59a4d044db4a662142ec60319c5865c0f0fa595082546d0e1318b43d14b"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\wiki-handbook-rev14-20261003\\docs\\guida-teorica-anthea.md",
+    "motivo": "Refactoring editoriale Wiki; copia integrale prima della revisione",
+    "sostituzione": "Guide globali Rev14",
+    "sha256": "c9f68542263baad054f3aa86782c565ee9b7757fd341ea90c3bad8c0f1d84964"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-handbook-rev14-20261003\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Refactoring editoriale Wiki; copia integrale prima della revisione",
+    "sostituzione": "Guide globali Rev14",
+    "sha256": "3993b2f4e8bee3096cde764722c58919fba697706070875f5c014c34d1c9644b"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev13.docx",
+    "archivio": "supporto\\SUPERATI\\wiki-handbook-rev14-20261003\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev13.docx",
+    "motivo": "Refactoring editoriale Wiki; copia integrale prima della revisione",
+    "sostituzione": "Guide globali Rev14",
+    "sha256": "7c0aca79b45a4c97b133b3457f8f86a166320174d3ef37ceff068ad1d5f708db"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev13.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-handbook-rev14-20261003\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev13.pdf",
+    "motivo": "Refactoring editoriale Wiki; copia integrale prima della revisione",
+    "sostituzione": "Guide globali Rev14",
+    "sha256": "70ccb59a4d044db4a662142ec60319c5865c0f0fa595082546d0e1318b43d14b"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev13.docx",
+    "archivio": "supporto\\SUPERATI\\wiki-handbook-rev14-20261003\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev13.docx",
+    "motivo": "Refactoring editoriale Wiki; copia integrale prima della revisione",
+    "sostituzione": "Guide globali Rev14",
+    "sha256": "f1c950bd61be405a8d54f8a48d2079b6d1dce90a86f300e91489cea661d75e7a"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev13.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-handbook-rev14-20261003\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev13.pdf",
+    "motivo": "Refactoring editoriale Wiki; copia integrale prima della revisione",
+    "sostituzione": "Guide globali Rev14",
+    "sha256": "3993b2f4e8bee3096cde764722c58919fba697706070875f5c014c34d1c9644b"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\wiki-handbook-rev14-20261003\\installer\\Indice-guide.md",
+    "motivo": "Refactoring editoriale Wiki; copia integrale prima della revisione",
+    "sostituzione": "Guide globali Rev14",
+    "sha256": "fe23a039c211f5449cbbe3cbfeada97f8fab236a82a11dcd8d2ab52999e42dc3"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-handbook-rev14-20261003\\installer\\Indice-guide.pdf",
+    "motivo": "Refactoring editoriale Wiki; copia integrale prima della revisione",
+    "sostituzione": "Guide globali Rev14",
+    "sha256": "f2252f6637e5988022187fc08ea0d88ded13d4f833a507ddf2fadb9abca090b5"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\wiki-handbook-rev14-20261003\\README.md",
+    "motivo": "Indice aggiornato alla Rev14",
+    "sostituzione": "supporto\\README.md",
+    "sha256": "c33d393ec83538aed4ae3df00e2e7b415e4acd43afd6e983f41c7f796707c6b1"
+  },
+  {
+    "origine": "supporto\\installer\\README.md",
+    "archivio": "supporto\\SUPERATI\\wiki-handbook-rev14-20261003\\installer\\README.md",
+    "motivo": "Indice aggiornato alla Rev14",
+    "sostituzione": "supporto\\installer\\README.md",
+    "sha256": "100e86ed26091a248ec2319b1ef138e956d25d0147bcb7bf5f663329241ea1cc"
+  }
+]

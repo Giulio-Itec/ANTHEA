@@ -1,0 +1,86 @@
+[
+  {
+    "id": "fondamenti",
+    "number": 1,
+    "title": "Fondamenti",
+    "description": "Equilibrio, unità, azioni e affidabilità",
+    "introduction": "Parti dal percorso dei carichi. Dichiara i riferimenti delle azioni e separa domanda, capacità e criteri di esercizio prima di scegliere un modello."
+  },
+  {
+    "id": "meccanica",
+    "number": 2,
+    "title": "Scienza e tecnica delle costruzioni",
+    "description": "Cinematica, rigidezza e stabilità",
+    "introduction": "Una struttura deve soddisfare equilibrio, compatibilità e legge costitutiva. La stabilità aggiunge una domanda diversa: la configurazione di equilibrio resiste a una perturbazione?"
+  },
+  {
+    "id": "materiali",
+    "number": 3,
+    "title": "Materiali",
+    "description": "Legami costitutivi e durabilità",
+    "introduction": "Una resistenza non descrive da sola un materiale. Modulo elastico, deformazioni differite, aderenza e ambiente influenzano modello e dettagli; conserva fonte e unità dei parametri."
+  },
+  {
+    "id": "calcestruzzo",
+    "number": 4,
+    "title": "Calcestruzzo armato",
+    "description": "Sezioni, fessurazione e dettagli",
+    "introduction": "Acciaio e calcestruzzo collaborano mediante aderenza. Distingui lo stato limite ultimo dalle verifiche di esercizio e collega il risultato alla disposizione effettiva delle armature."
+  },
+  {
+    "id": "acciaio",
+    "number": 5,
+    "title": "Acciaio",
+    "description": "Aste compresse e fenomeni di instabilità",
+    "introduction": "Sezione, asta e sistema possono avere modi di crisi differenti. Leggi prima il modello ideale di Euler, poi distingui instabilità flessionale, flesso-torsionale e locale."
+  },
+  {
+    "id": "geotecnica",
+    "number": 6,
+    "title": "Geotecnica",
+    "description": "Fondazioni, pali e opere di sostegno",
+    "introduction": "Il drenaggio e il livello di deformazione governano la scelta dei parametri. Parti dal problema fisico, poi confronta resistenza, spostamenti e interazione con la struttura."
+  },
+  {
+    "id": "ponti",
+    "number": 7,
+    "title": "Ponti e infrastrutture",
+    "description": "Anatomia, sistemi e costruzione",
+    "introduction": "Segui le azioni dall’impalcato alle fondazioni. Schema degli appoggi, sequenza costruttiva e manutenzione determinano la risposta tanto quanto la sezione trasversale."
+  },
+  {
+    "id": "sismica",
+    "number": 8,
+    "title": "Ingegneria sismica",
+    "description": "Masse, modi e risposta dinamica",
+    "introduction": "Il periodo dipende da massa e rigidezza; la domanda sismica richiede anche smorzamento e spettro. Le combinazioni modali non restituiscono una storia temporale con segni simultanei."
+  },
+  {
+    "id": "fem",
+    "number": 9,
+    "title": "FEM e modellazione numerica",
+    "description": "Idealizzazione, elementi e risultati",
+    "introduction": "Scegli i gradi di libertà necessari al fenomeno. Verifica connettività, vincoli, equilibrio e convergenza prima di interpretare picchi di tensione o coefficienti di utilizzo."
+  },
+  {
+    "id": "bim",
+    "number": 10,
+    "title": "BIM",
+    "description": "Informazione e interoperabilità",
+    "introduction": "Un modello informativo collega geometria, identità e proprietà. Prima dello scambio definisci quale informazione deve arrivare, in quale riferimento e con quali controlli."
+  },
+  {
+    "id": "computational",
+    "number": 11,
+    "title": "Computational Design",
+    "description": "Parametri, dipendenze e automazione",
+    "introduction": "Un processo parametrico rende esplicite dipendenze e vincoli. Mantieni distinguibili generazione geometrica, analisi, verifica e scelta progettuale."
+  },
+  {
+    "id": "anthea",
+    "number": 12,
+    "title": "Anthea",
+    "description": "Moduli, progetti e procedure",
+    "introduction": "Le guide operative seguono i moduli realmente presenti. Ogni risultato va letto con combinazione, metodo, unità e limiti; la Wiki apre il modulo senza duplicarne il motore."
+  }
+]

@@ -1,0 +1,487 @@
+{
+  "guida-avvio-e-scelta-del-modulo": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Procedure confrontate con catalogo, archivio, gerarchia, revisioni, report e prove WPF. Corrette citazioni a documenti separati. Verificata immutabilità degli archivi storici e distinzione fra revisione dei dati e versione del motore.",
+    "evidence": [
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Desktop/Wpf/ProjectReport.cs",
+      "supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+      "supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+      "supporto/test/Desktop/ProjectReportSmokeChecks.cs"
+    ],
+    "openPoints": []
+  },
+  "guida-progetti-e-gestione-del-lavoro": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Procedure confrontate con catalogo, archivio, gerarchia, revisioni, report e prove WPF. Corrette citazioni a documenti separati. Verificata immutabilità degli archivi storici e distinzione fra revisione dei dati e versione del motore.",
+    "evidence": [
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Desktop/Wpf/ProjectReport.cs",
+      "supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+      "supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+      "supporto/test/Desktop/ProjectReportSmokeChecks.cs"
+    ],
+    "openPoints": []
+  },
+  "guida-salvataggio-e-report": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Procedure confrontate con catalogo, archivio, gerarchia, revisioni, report e prove WPF. Corrette citazioni a documenti separati. Verificata immutabilità degli archivi storici e distinzione fra revisione dei dati e versione del motore.",
+    "evidence": [
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Desktop/Wpf/ProjectReport.cs",
+      "supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+      "supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+      "supporto/test/Desktop/ProjectReportSmokeChecks.cs"
+    ],
+    "openPoints": []
+  },
+  "guida-percorso-completo-per-un-primo-progetto": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Procedure confrontate con catalogo, archivio, gerarchia, revisioni, report e prove WPF. Corrette citazioni a documenti separati. Verificata immutabilità degli archivi storici e distinzione fra revisione dei dati e versione del motore.",
+    "evidence": [
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Desktop/Wpf/ProjectReport.cs",
+      "supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+      "supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+      "supporto/test/Desktop/ProjectReportSmokeChecks.cs"
+    ],
+    "openPoints": []
+  },
+  "guida-problemi-frequenti-e-controlli-finali": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Procedure confrontate con catalogo, archivio, gerarchia, revisioni, report e prove WPF. Corrette citazioni a documenti separati. Verificata immutabilità degli archivi storici e distinzione fra revisione dei dati e versione del motore.",
+    "evidence": [
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Desktop/Wpf/ProjectReport.cs",
+      "supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+      "supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+      "supporto/test/Desktop/ProjectReportSmokeChecks.cs"
+    ],
+    "openPoints": []
+  },
+  "guida-wiki-e-centro-della-conoscenza": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.",
+    "evidence": [
+      "supporto/test/Desktop/WikiChecks.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Desktop/Wpf/WikiCatalog.cs"
+    ],
+    "openPoints": []
+  },
+  "guida-tutorial-dal-modello-beam-alla-verifica-di-sezione": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.",
+    "evidence": [
+      "supporto/test/Desktop/WikiChecks.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Desktop/Wpf/WikiCatalog.cs"
+    ],
+    "openPoints": []
+  },
+  "guida-interpretazione-dei-risultati-e-controlli-indipendenti": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.",
+    "evidence": [
+      "supporto/test/Desktop/WikiChecks.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Desktop/Wpf/WikiCatalog.cs"
+    ],
+    "openPoints": []
+  },
+  "tracciabilita-e-riferimenti": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.",
+    "evidence": [
+      "supporto/test/Desktop/WikiChecks.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Desktop/Wpf/WikiCatalog.cs"
+    ],
+    "openPoints": []
+  },
+  "architettura-del-calcolo-e-convenzioni": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Riviste convenzioni, conversioni dimensionali, equilibrio, simultaneità delle azioni e confini dei motori. Esempi aritmetici controllati; nessun coefficiente normativo assegnato universalmente.",
+    "evidence": [
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Calculations/ModuleCatalog.cs",
+      "X.Core/SectionActionsExcel.cs"
+    ],
+    "openPoints": []
+  },
+  "esempi-trasversali-e-lettura-critica": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Riviste convenzioni, conversioni dimensionali, equilibrio, simultaneità delle azioni e confini dei motori. Esempi aritmetici controllati; nessun coefficiente normativo assegnato universalmente.",
+    "evidence": [
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Calculations/ModuleCatalog.cs",
+      "X.Core/SectionActionsExcel.cs"
+    ],
+    "openPoints": []
+  },
+  "load-path": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Riviste convenzioni, conversioni dimensionali, equilibrio, simultaneità delle azioni e confini dei motori. Esempi aritmetici controllati; nessun coefficiente normativo assegnato universalmente.",
+    "evidence": [
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Calculations/ModuleCatalog.cs",
+      "X.Core/SectionActionsExcel.cs"
+    ],
+    "openPoints": []
+  },
+  "azioni-e-combinazioni-del-modello": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Riviste convenzioni, conversioni dimensionali, equilibrio, simultaneità delle azioni e confini dei motori. Esempi aritmetici controllati; nessun coefficiente normativo assegnato universalmente.",
+    "evidence": [
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Calculations/ModuleCatalog.cs",
+      "X.Core/SectionActionsExcel.cs"
+    ],
+    "openPoints": []
+  },
+  "elementi-shell": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Revisione dei modelli didattici, unità delle risultanti, nodi, singolarità, oscillatore e fasi. Corretto superficie media; aggiunti esempi dimensionali e fonti primarie. Non attribuiti solutori generali ad Anthea.",
+    "evidence": [
+      "https://www.scia.net/en/support/faq/scia-engineer/results/calculation-1d-and-2d-results",
+      "https://doc.comsol.com/6.4/doc/com.comsol.help.sme/sme_ug_modeling.05.071.html",
+      "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/space_frame.html",
+      "https://ocw.mit.edu/courses/16-20-structural-mechanics-fall-2002/609687cf29516e13e864ff310af328a7_unit20.pdf",
+      "https://steelconstruction.info/topics/design/composite-construction/"
+    ],
+    "openPoints": []
+  },
+  "releases-e-connettivita": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Revisione dei modelli didattici, unità delle risultanti, nodi, singolarità, oscillatore e fasi. Corretto superficie media; aggiunti esempi dimensionali e fonti primarie. Non attribuiti solutori generali ad Anthea.",
+    "evidence": [
+      "https://www.scia.net/en/support/faq/scia-engineer/results/calculation-1d-and-2d-results",
+      "https://doc.comsol.com/6.4/doc/com.comsol.help.sme/sme_ug_modeling.05.071.html",
+      "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/space_frame.html",
+      "https://ocw.mit.edu/courses/16-20-structural-mechanics-fall-2002/609687cf29516e13e864ff310af328a7_unit20.pdf",
+      "https://steelconstruction.info/topics/design/composite-construction/"
+    ],
+    "openPoints": []
+  },
+  "dinamica-e-sisma-del-modello": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Revisione dei modelli didattici, unità delle risultanti, nodi, singolarità, oscillatore e fasi. Corretto superficie media; aggiunti esempi dimensionali e fonti primarie. Non attribuiti solutori generali ad Anthea.",
+    "evidence": [
+      "https://www.scia.net/en/support/faq/scia-engineer/results/calculation-1d-and-2d-results",
+      "https://doc.comsol.com/6.4/doc/com.comsol.help.sme/sme_ug_modeling.05.071.html",
+      "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/space_frame.html",
+      "https://ocw.mit.edu/courses/16-20-structural-mechanics-fall-2002/609687cf29516e13e864ff310af328a7_unit20.pdf",
+      "https://steelconstruction.info/topics/design/composite-construction/"
+    ],
+    "openPoints": []
+  },
+  "fasi-costruttive-e-percorso-dei-carichi": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Revisione dei modelli didattici, unità delle risultanti, nodi, singolarità, oscillatore e fasi. Corretto superficie media; aggiunti esempi dimensionali e fonti primarie. Non attribuiti solutori generali ad Anthea.",
+    "evidence": [
+      "https://www.scia.net/en/support/faq/scia-engineer/results/calculation-1d-and-2d-results",
+      "https://doc.comsol.com/6.4/doc/com.comsol.help.sme/sme_ug_modeling.05.071.html",
+      "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/space_frame.html",
+      "https://ocw.mit.edu/courses/16-20-structural-mechanics-fall-2002/609687cf29516e13e864ff310af328a7_unit20.pdf",
+      "https://steelconstruction.info/topics/design/composite-construction/"
+    ],
+    "openPoints": []
+  },
+  "guida-materiali-e-durabilita": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Riscontrati formule di progetto, copriferro e cataloghi implementati, combinazione delle esposizioni e proprietà condivise. Prove materiali WPF, libreria autonoma e ConcreteCode. I prospetti storici dichiarati non sono presentati come aggiornamento automatico delle norme.",
+    "evidence": [
+      "supporto/test/Desktop/MaterialsSmokeChecks.cs",
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "X.Calculations/Materials/NtcCover.cs",
+      "X.Materiali/MixAutomation.cs"
+    ],
+    "openPoints": []
+  },
+  "calcestruzzo-armature-e-copriferro": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Riscontrati formule di progetto, copriferro e cataloghi implementati, combinazione delle esposizioni e proprietà condivise. Prove materiali WPF, libreria autonoma e ConcreteCode. I prospetti storici dichiarati non sono presentati come aggiornamento automatico delle norme.",
+    "evidence": [
+      "supporto/test/Desktop/MaterialsSmokeChecks.cs",
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "X.Calculations/Materials/NtcCover.cs",
+      "X.Materiali/MixAutomation.cs"
+    ],
+    "openPoints": []
+  },
+  "guida-palo-verticale": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Riscontrati input, unità, falda, rami drenato/non drenato, abaco parametrico e limiti. Confrontati casi salvati e controllati indipendentemente superficie laterale, peso e conversioni. Le correlazioni sono descritte come modelli implementati, non come parametri misurati o prescrizioni universali.",
+    "evidence": [
+      "X.Calculations/Calcolo.cs",
+      "X.Calculations/Nq.cs",
+      "supporto/test/casi_confronto.json",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "openPoints": []
+  },
+  "guida-micropalo-verticale": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Riscontrati input, unità, falda, rami drenato/non drenato, abaco parametrico e limiti. Confrontati casi salvati e controllati indipendentemente superficie laterale, peso e conversioni. Le correlazioni sono descritte come modelli implementati, non come parametri misurati o prescrizioni universali.",
+    "evidence": [
+      "X.Calculations/Calcolo.cs",
+      "X.Calculations/Nq.cs",
+      "supporto/test/casi_confronto.json",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "openPoints": []
+  },
+  "palo-verticale": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Riscontrati input, unità, falda, rami drenato/non drenato, abaco parametrico e limiti. Confrontati casi salvati e controllati indipendentemente superficie laterale, peso e conversioni. Le correlazioni sono descritte come modelli implementati, non come parametri misurati o prescrizioni universali.",
+    "evidence": [
+      "X.Calculations/Calcolo.cs",
+      "X.Calculations/Nq.cs",
+      "supporto/test/casi_confronto.json",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "openPoints": []
+  },
+  "micropalo-verticale": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Riscontrati input, unità, falda, rami drenato/non drenato, abaco parametrico e limiti. Confrontati casi salvati e controllati indipendentemente superficie laterale, peso e conversioni. Le correlazioni sono descritte come modelli implementati, non come parametri misurati o prescrizioni universali.",
+    "evidence": [
+      "X.Calculations/Calcolo.cs",
+      "X.Calculations/Nq.cs",
+      "supporto/test/casi_confronto.json",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "openPoints": []
+  },
+  "guida-pali-e-micropali-caricati-orizzontalmente": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Rivisti equilibri dei meccanismi, pressioni per unità di lunghezza, segni, campo del momento automatico, anello CHS e interazione N–M. Superati 1080 controlli Broms, controlli CHS e 1645 stratificati; dichiarata natura sperimentale delle estensioni.",
+    "evidence": [
+      "X.Calculations/PaloOrizzontale.cs",
+      "X.Calculations/MicropaloOrizzontale.cs",
+      "supporto/test/X.Verifiche/HorizontalChecks.cs",
+      "supporto/test/X.Verifiche/HorizontalStratifiedChecks.cs"
+    ],
+    "openPoints": []
+  },
+  "capacita-orizzontale-con-broms": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Rivisti equilibri dei meccanismi, pressioni per unità di lunghezza, segni, campo del momento automatico, anello CHS e interazione N–M. Superati 1080 controlli Broms, controlli CHS e 1645 stratificati; dichiarata natura sperimentale delle estensioni.",
+    "evidence": [
+      "X.Calculations/PaloOrizzontale.cs",
+      "X.Calculations/MicropaloOrizzontale.cs",
+      "supporto/test/X.Verifiche/HorizontalChecks.cs",
+      "supporto/test/X.Verifiche/HorizontalStratifiedChecks.cs"
+    ],
+    "openPoints": []
+  },
+  "guida-palificata-orizzontale": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Procedura verificata rispetto a geometria, proiezioni, interassi rappresentativi e risultati. Superati 94 controlli numerici/UI. Il fattore Davisson resta distinto dalla media p-multiplier; le attribuzioni della teoria hanno un riscontro aperto separato.",
+    "evidence": [
+      "X.Desktop/Wpf/HorizontalPileGroupWorkspace.cs",
+      "X.Calculations/HorizontalPileGroup.cs",
+      "supporto/test/HorizontalPileGroup.Checks/Program.cs"
+    ],
+    "openPoints": []
+  },
+  "palificata-orizzontale": {
+    "date": "2026-10-04",
+    "status": "qualified",
+    "scope": "Formule implementate ed esempi numerici controllati; mantenuti distinti significato fisico, estrapolazioni e attribuzioni bibliografiche.",
+    "evidence": [
+      "supporto/test/HorizontalPileGroup.Checks/Program.cs",
+      "X.Calculations/HorizontalPileGroup.cs"
+    ],
+    "openPoints": [
+      "La tabella attribuita a Davisson proviene dalla specifica utente: resta da riscontrare direttamente nel lavoro originale. Le formule Rollins/FEMA richiedono completamento della verifica dei testi originali. I 94 controlli non dimostrano tale attribuzione."
+    ]
+  },
+  "guida-palo-elastico": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Verificate dimensioni di kh, nh e k, segni, condizioni al contorno, integrazione Hermite, recupero equilibrato e convergenza. Superati 101 controlli, con riferimenti analitici e tabellati. L’edizione non identificabile della scansione Viggiani e la mancata consultazione degli articoli originali rimangono dichiarate, senza nuove attribuzioni.",
+    "evidence": [
+      "X.Calculations/ElasticHorizontalPile.cs",
+      "X.Desktop/Wpf/ElasticPileWorkspace.cs",
+      "supporto/test/ElasticPile.Checks/Program.cs"
+    ],
+    "openPoints": []
+  },
+  "palo-elastico": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Verificate dimensioni di kh, nh e k, segni, condizioni al contorno, integrazione Hermite, recupero equilibrato e convergenza. Superati 101 controlli, con riferimenti analitici e tabellati. L’edizione non identificabile della scansione Viggiani e la mancata consultazione degli articoli originali rimangono dichiarate, senza nuove attribuzioni.",
+    "evidence": [
+      "X.Calculations/ElasticHorizontalPile.cs",
+      "X.Desktop/Wpf/ElasticPileWorkspace.cs",
+      "supporto/test/ElasticPile.Checks/Program.cs"
+    ],
+    "openPoints": []
+  },
+  "sezione-in-calcestruzzo-armato": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Rivisti piano delle deformazioni, domini, segni, rami fessurazione/taglio/torsione, fori, tendini e limiti. Esempio fessurazione ricalcolato; 434 controlli dei profili e 73 della libreria. Attribuzioni nazionali incerte restano nella matrice qualificata.",
+    "evidence": [
+      "supporto/test/ConcreteCode.Checks/Program.cs",
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "openPoints": []
+  },
+  "guida-sezione-composta-da-ponte": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Corretto l’ingresso Altezza totale H: 1855 mm per H inclinata e 1850 mm per cassoncino negli esempi con hw=1800 mm. Ricalcolati geometria, tensioni, torsione e distorsione con riferimenti indipendenti: 172+2957+189+191 controlli superati. Rivisti fasi, proprietà equivalenti, unità, limiti e distinzione fra comportamento implementato e prescrizione.",
+    "evidence": [
+      "X.Calculations/BridgeSection.Shear.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/X.Verifiche/BridgeSectionChecks.cs",
+      "supporto/test/X.Verifiche/BridgeMethodChecks.cs",
+      "supporto/test/X.Verifiche/BridgeInclinedGuideChecks.cs",
+      "supporto/test/X.Verifiche/BridgePredalleChecks.cs"
+    ],
+    "openPoints": []
+  },
+  "sezione-composta-da-ponte": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Corretto l’ingresso Altezza totale H: 1855 mm per H inclinata e 1850 mm per cassoncino negli esempi con hw=1800 mm. Ricalcolati geometria, tensioni, torsione e distorsione con riferimenti indipendenti: 172+2957+189+191 controlli superati. Rivisti fasi, proprietà equivalenti, unità, limiti e distinzione fra comportamento implementato e prescrizione.",
+    "evidence": [
+      "X.Calculations/BridgeSection.Shear.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/X.Verifiche/BridgeSectionChecks.cs",
+      "supporto/test/X.Verifiche/BridgeMethodChecks.cs",
+      "supporto/test/X.Verifiche/BridgeInclinedGuideChecks.cs",
+      "supporto/test/X.Verifiche/BridgePredalleChecks.cs"
+    ],
+    "openPoints": []
+  },
+  "taglio-irrigidimenti-e-connessione-della-sezione-composta": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Corretto l’ingresso Altezza totale H: 1855 mm per H inclinata e 1850 mm per cassoncino negli esempi con hw=1800 mm. Ricalcolati geometria, tensioni, torsione e distorsione con riferimenti indipendenti: 172+2957+189+191 controlli superati. Rivisti fasi, proprietà equivalenti, unità, limiti e distinzione fra comportamento implementato e prescrizione.",
+    "evidence": [
+      "X.Calculations/BridgeSection.Shear.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/X.Verifiche/BridgeSectionChecks.cs",
+      "supporto/test/X.Verifiche/BridgeMethodChecks.cs",
+      "supporto/test/X.Verifiche/BridgeInclinedGuideChecks.cs",
+      "supporto/test/X.Verifiche/BridgePredalleChecks.cs"
+    ],
+    "openPoints": []
+  },
+  "guida-bridge-design": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Rivisti input/output, famiglie, grandezze, analisi equivalente, griglia discreta, costi e CO2. Confronto indipendente: 100 travi e 26 alternative, 80133 confronti. Le regole geometriche empiriche e il predimensionamento non sono presentati come verifica completa del ponte.",
+    "evidence": [
+      "X.Calculations/BridgeConcept.Calculation.cs",
+      "X.Calculations/BridgeConcept.Optimization.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/Program.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/verify.py"
+    ],
+    "openPoints": []
+  },
+  "bridge-design": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Rivisti input/output, famiglie, grandezze, analisi equivalente, griglia discreta, costi e CO2. Confronto indipendente: 100 travi e 26 alternative, 80133 confronti. Le regole geometriche empiriche e il predimensionamento non sono presentati come verifica completa del ponte.",
+    "evidence": [
+      "X.Calculations/BridgeConcept.Calculation.cs",
+      "X.Calculations/BridgeConcept.Optimization.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/Program.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/verify.py"
+    ],
+    "openPoints": []
+  },
+  "guida-muri-di-sostegno-con-stratigrafie-di-monte-e-valle": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Rivisti riferimenti geometrici, combinazioni, modelli separati, fattori F e gammaR, unità e segni degli spostamenti. Recuperato caso con esito sfavorevole. Superati 345 controlli dei muri. Distinte prove numeriche, applicabilità delle ipotesi e confronto MAX non disponibile.",
+    "evidence": [
+      "X.Calculations/RetainingWall.Actions.cs",
+      "X.Calculations/RetainingWall.Serviceability.cs",
+      "supporto/test/RetainingWall.Checks/Program.cs",
+      "supporto/test/RetainingWall.Checks/SeismicSoilChecks.cs",
+      "supporto/test/RetainingWall.Checks/MaterialSharingChecks.cs"
+    ],
+    "openPoints": []
+  },
+  "guida-portanza-sismica-cedimenti-spostamenti-e-armature-rev07": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Rivisti riferimenti geometrici, combinazioni, modelli separati, fattori F e gammaR, unità e segni degli spostamenti. Recuperato caso con esito sfavorevole. Superati 345 controlli dei muri. Distinte prove numeriche, applicabilità delle ipotesi e confronto MAX non disponibile.",
+    "evidence": [
+      "X.Calculations/RetainingWall.Actions.cs",
+      "X.Calculations/RetainingWall.Serviceability.cs",
+      "supporto/test/RetainingWall.Checks/Program.cs",
+      "supporto/test/RetainingWall.Checks/SeismicSoilChecks.cs",
+      "supporto/test/RetainingWall.Checks/MaterialSharingChecks.cs"
+    ],
+    "openPoints": []
+  },
+  "muri-di-sostegno-e-stabilita-globale": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Rivisti riferimenti geometrici, combinazioni, modelli separati, fattori F e gammaR, unità e segni degli spostamenti. Recuperato caso con esito sfavorevole. Superati 345 controlli dei muri. Distinte prove numeriche, applicabilità delle ipotesi e confronto MAX non disponibile.",
+    "evidence": [
+      "X.Calculations/RetainingWall.Actions.cs",
+      "X.Calculations/RetainingWall.Serviceability.cs",
+      "supporto/test/RetainingWall.Checks/Program.cs",
+      "supporto/test/RetainingWall.Checks/SeismicSoilChecks.cs",
+      "supporto/test/RetainingWall.Checks/MaterialSharingChecks.cs"
+    ],
+    "openPoints": []
+  },
+  "portanza-sismica-cedimenti-spostamenti-e-armature-rev07": {
+    "date": "2026-10-04",
+    "status": "reviewed",
+    "scope": "Rivisti riferimenti geometrici, combinazioni, modelli separati, fattori F e gammaR, unità e segni degli spostamenti. Recuperato caso con esito sfavorevole. Superati 345 controlli dei muri. Distinte prove numeriche, applicabilità delle ipotesi e confronto MAX non disponibile.",
+    "evidence": [
+      "X.Calculations/RetainingWall.Actions.cs",
+      "X.Calculations/RetainingWall.Serviceability.cs",
+      "supporto/test/RetainingWall.Checks/Program.cs",
+      "supporto/test/RetainingWall.Checks/SeismicSoilChecks.cs",
+      "supporto/test/RetainingWall.Checks/MaterialSharingChecks.cs"
+    ],
+    "openPoints": []
+  }
+}

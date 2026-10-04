@@ -18,7 +18,7 @@ public static partial class RetainingWall
     /// </summary>
     public static Result Calculate(JsonObject data, CancellationToken token = default)
     {
-        ValidateShape(data); var d = (JsonObject)data.DeepClone(); CompleteSoilInput(d); CompleteAdvancedInput(d); ResolveSeismic(d); Validate(d);
+        ValidateShape(data); var d = (JsonObject)data.DeepClone(); CompleteSoilInput(d); CompleteAdvancedInput(d); CompleteMaterialInput(d); ResolveSeismic(d); Validate(d);
         bool modern = d.D("version") >= 2;
         JsonArray? definitions = modern ? d.S("combination_mode") == "Automatiche" ? GenerateCombinations(d) : d.Array("combinations") : null;
         if (modern) d["combinations"] = definitions!.DeepClone();

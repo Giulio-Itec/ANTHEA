@@ -17,6 +17,10 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
     private bool MicroHorizontal => Data.S("tipo_sezione") == "CHS";
     private readonly ChsDrawing chsDrawing = new() { Width = 400, Height = 400 };
     internal JsonObject? Result { get; private set; }
+    private readonly ElasticPileWorkspace elastic;
+    private readonly TabControl analyses = new();
+    internal JsonObject? ActiveResult => analyses.SelectedIndex == 1 ? elastic.Result : Result;
+    internal Task CalculateActiveAsync() => analyses.SelectedIndex == 1 ? elastic.CalculateAsync() : CalculateAsync();
     internal bool Busy { get; private set; }
     internal event Action? Modified;
     private bool disposed, building = true;
@@ -132,7 +136,12 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         scroll.Content = layout;
         var warningPane = new Expander { Header = "Ipotesi e limiti del calcolo", Content = new ChainedScrollViewer { Content = warnings, MaxHeight = 90, VerticalScrollBarVisibility = ScrollBarVisibility.Auto } };
         var footer = Ui.Stack(Ui.Bar(status, Ui.Button("Modello e dati comuni…", () => CalculationHelpView.Show(this, true), inspection: true)), warningPane); footer.Margin = new Thickness(16, 3, 16, 8);
-        Content = Ui.Dock(scroll, bottom: footer);
+        elastic = new ElasticPileWorkspace(data); elastic.Modified += () => Modified?.Invoke();
+        Ui.Tab(analyses, "Capacità laterale · Broms / stratificato", Ui.Dock(scroll, bottom: footer));
+        Ui.Tab(analyses, "Risposta elastica · trave su molle", elastic);
+        analyses.SelectedIndex = data.S("vista_orizzontale") == "elastico" ? 1 : 0;
+        analyses.SelectionChanged += (_, e) => { if(e.Source != analyses || building) return; Commit(); data["vista_orizzontale"] = analyses.SelectedIndex == 1 ? "elastico" : "capacita"; if(analyses.SelectedIndex == 1) timer.Stop(); else { LayoutCards(); if(Result is null) QueueCalculation(); } Modified?.Invoke(); };
+        Content = analyses;
         scroll.SizeChanged += (_, _) => LayoutCards();
         scroll.ScrollChanged += (_, e) => { if (e.Source == scroll && (e.ViewportWidthChange != 0 || e.ViewportHeightChange != 0)) LayoutCards(); };
         timer.Tick += TimerTick;
@@ -210,10 +219,10 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         revision++; Result = null; summary.Text = "Dati modificati · aggiornamento automatico"; momentValue.Text = "Aggiornamento automatico del momento…";
         details.IsEnabled = csv.IsEnabled = false; warnings.Text = ""; Preview(); UpdateVerification(); QueueCalculation(); Modified?.Invoke();
     }
-    internal void Commit() { general.Commit(); model.Commit(); factors.Commit(); efficiency.Commit(); moment.Commit(); sectionFields.Commit(); foreach (var grid in grids) grid.Commit(); }
+    internal void Commit() { general.Commit(); model.Commit(); factors.Commit(); efficiency.Commit(); moment.Commit(); sectionFields.Commit(); foreach (var grid in grids) grid.Commit(); elastic?.Commit(); }
     private void QueueCalculation()
     {
-        if (building || disposed) return;
+        if (building || disposed || analyses.SelectedIndex == 1) return;
         timer.Stop(); timer.Start(); status.Text = "Aggiornamento automatico in attesa…";
     }
     private async void TimerTick(object? sender, EventArgs args)
@@ -232,6 +241,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         if (Busy || disposed) return;
         if (commitEdits) Commit(); timer.Stop();
         var snapshot = (JsonObject)Data.DeepClone(); int requested = revision; Busy = true;
+        snapshot.Remove("vista_orizzontale");
         status.Text = "Calcolo di sezione ed equilibri in corso…";
         try
         {
@@ -323,5 +333,5 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         File.WriteAllBytes(Path.Combine(directory, "orizzontale_sezione.png"), Ui.Snapshot(this));
     }
-    public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= TimerTick; }
+    public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= TimerTick; elastic.Dispose(); }
 }

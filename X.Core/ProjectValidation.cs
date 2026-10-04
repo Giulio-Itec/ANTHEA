@@ -13,7 +13,8 @@ public static class ProjectValidation
     {
         var sheets = ProjectSharedData.SubtreeSheets(section).ToArray();
         var result = new List<CoverStatus>();
-        foreach (var sheet in sheets.Where(s => (only is null || ReferenceEquals(s, only)) && s.S("modulo_id") is "str_palo" or PaloOrizzontale.Module))
+        foreach (var sheet in sheets.Where(s => (only is null || ReferenceEquals(s, only)) &&
+            (s.S("modulo_id") is "str_palo" or PaloOrizzontale.Module || s.S("modulo_id") == RetainingWall.Module && s["dati"].S("family") == "cantilever")))
         {
             string name = sheet.S("nome"); var fields = ProjectSharedData.Fields(sheet);
             var owner = sheet.Parent?.Parent as JsonObject ?? section;
@@ -28,16 +29,24 @@ public static class ProjectValidation
                     var mf = ProjectSharedData.Fields(material);
                     var issues = new List<string>();
                     var conflicts = ProjectSharedData.ComparableFields(sheet, material).Where(p =>
-                        (p.Source.Key is "esposizione" or "CLS · fck [MPa]" || p.Source.Key.StartsWith("Durabilità · ")) &&
+                        (p.Source.Key is "esposizione" or "CLS · fck [MPa]" || p.Source.Key.StartsWith("Durabilità · ") || sheet.S("modulo_id") == RetainingWall.Module && p.Source.Key.StartsWith("Scheda CLS · ")) &&
                         !ProjectSharedData.Equal(p.Source.Value, p.Target.Value)).ToArray();
                     if (conflicts.Length > 0) issues.Add("Dati diversi da " + material.S("nome") + ": " +
                         string.Join(", ", conflicts.Select(p => ProjectReportPlan.Label(p.Source.Key))) + "; uniformare per completare la verifica");
                     var state = material["dati"]!.AsObject();
                     double fck = J.Number(mf["CLS · fck [MPa]"].Value) ?? throw new ArgumentException("classe CLS di Materiali non valida");
-                    var input = (JsonObject)sheet["dati"]![sheet.S("modulo_id") == "str_palo" ? "input" : "sezione"]!.DeepClone();
+                    bool wall = sheet.S("modulo_id") == RetainingWall.Module;
+                    var input = wall ? RetainingWall.MaterialSectionInput(sheet["dati"]!.AsObject()) : (JsonObject)sheet["dati"]![sheet.S("modulo_id") == "str_palo" ? "input" : "sezione"]!.DeepClone();
                     if (sheet.S("modulo_id") == PaloOrizzontale.Module)
                     { input["shape"] = "Circolare"; input["diameter_mm"] = sheet["dati"]!["generali"].D("diametro") * 1000; }
-                    var check = ConcreteCoverAnalysis.Calculate(input, state, fck);
+                    ConcreteCoverResult check;
+                    if (wall)
+                    {
+                        var wallData = (JsonObject)sheet["dati"]!.DeepClone(); RetainingWall.Upgrade(wallData);
+                        double wallBarDiameter = RetainingWall.MaximumBarDiameter(wallData), minimum = Materiali.MaterialCover.Required(state, fck);
+                        check = new(input.Required("cover_mm"), minimum, Math.Max(minimum, Materiali.MaterialCover.Required(state, fck, wallBarDiameter)), wallBarDiameter, null);
+                    }
+                    else check = ConcreteCoverAnalysis.Calculate(input, state, fck);
                     double materialRequired = check.MaterialMinimum, adopted = check.Adopted;
                     string barDetail = check.MaximumBarDiameter is double diameter ? $", Ø massimo effettivo delle barre {diameter:0.##} mm" : "";
                     if (check.Required > check.MaterialMinimum) barDetail += $", minimo per le barre effettive {check.Required:0.##} mm";

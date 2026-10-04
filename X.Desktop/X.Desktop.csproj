@@ -28,6 +28,7 @@
   <ItemGroup>
     <Content Include="Wiki/Licenses/*.txt"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><TargetPath>Licenses/%(Filename)%(Extension)</TargetPath></Content>
     <Resource Include="Assets/Wiki/*.png" />
+    <EmbeddedResource Include="Assets/Wiki/*.svg"><LogicalName>Wiki.figures.%(Filename)%(Extension)</LogicalName></EmbeddedResource>
     <EmbeddedResource Include="Wiki/*.json"><LogicalName>Wiki.%(Filename)%(Extension)</LogicalName></EmbeddedResource>
     <EmbeddedResource Include="Wiki/Examples/*.json"><LogicalName>Wiki.examples.%(Filename)%(Extension)</LogicalName></EmbeddedResource>
     <EmbeddedResource Include="../supporto/docs/guida-pratica-anthea.md"><LogicalName>Wiki.pratica.md</LogicalName></EmbeddedResource>

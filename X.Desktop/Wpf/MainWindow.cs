@@ -57,6 +57,7 @@ public sealed partial class MainWindow : Window
         Add("Nuovo Bridge Design", () => NewCalculation(BridgeConcept.Module));
         Add("Nuovo muro di sostegno", () => NewCalculation(RetainingWall.Module));
         Add("Nuovo palo orizzontale", () => NewCalculation(PaloOrizzontale.Module));
+        Add("Nuova palificata orizzontale", () => NewCalculation(HorizontalPileGroup.Module));
         Add("Nuovo micropalo orizzontale", () => NewCalculation(MicropaloOrizzontale.Module));
         file.Items.Add(new Separator()); Add("Apri…", Open, Key.O); Add("Salva", () => Save(false), Key.S); Add("Salva con nome…", () => Save(true), Key.S, ModifierKeys.Control | ModifierKeys.Shift);
         Add("Esporta foglio selezionato…", ExportSheet); file.Items.Add(new Separator()); Add("Report Word…", ExportReport); Add("Risultati JSON…", ExportJson); Add("Esci", Close);
@@ -371,11 +372,11 @@ public sealed partial class MainWindow : Window
             return;
         }
         Commit(); if (editor?.HasResults != true || editor.Busy) { MessageBox.Show(this, editor?.Module == "str_palo" ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi." : "Completare il calcolo prima di esportare il report."); return; }
-        if (editor.Module is PaloOrizzontale.Module or MicropaloOrizzontale.Module or BridgeConcept.Module or RetainingWall.Module)
+        if (editor.Module is HorizontalPileGroup.Module or PaloOrizzontale.Module or MicropaloOrizzontale.Module or BridgeConcept.Module or RetainingWall.Module)
         {
             var save = new SaveFileDialog {
                 Filter = "Documento Word|*.docx",
-                FileName = editor.Module == RetainingWall.Module ? "Relazione_muro_sostegno.docx" : editor.Module == BridgeConcept.Module ? "BridgeDesign.docx" : editor.Module == MicropaloOrizzontale.Module
+                FileName = editor.Module == HorizontalPileGroup.Module ? "Relazione_palificata_orizzontale.docx" : editor.Module == RetainingWall.Module ? "Relazione_muro_sostegno.docx" : editor.Module == BridgeConcept.Module ? "BridgeDesign.docx" : editor.Module == MicropaloOrizzontale.Module
                     ? "Relazione_micropalo_orizzontale.docx" : "Relazione_palo_orizzontale.docx"
             };
             if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []);

@@ -27,7 +27,7 @@ public static partial class RetainingWall
         new("vertical", "Forza variabile in testa (centrata)", "Nk", "kN/m", 0, 0, 2000),
         new("psi1", "Coefficiente frequente del carico", "ψ₁", "−", .5, 0, 1), new("psi2", "Coefficiente quasi permanente", "ψ₂", "−", .3, 0, 1)];
     public static readonly Parameter[] MaterialFields = [new("gamma", "Peso specifico muro", "γm", "kN/m³", 25, 12, 30),
-        new("fck", "Resistenza calcestruzzo", "fck", "MPa", 30, 12, 50), new("fyk", "Snervamento armature", "fyk", "MPa", 450, 400, 600),
+        new("fck", "Resistenza calcestruzzo", "fck", "MPa", 30, 12, 90), new("fyk", "Snervamento armature", "fyk", "MPa", 450, 1, 2000),
         new("cover", "Copriferro netto barre", "c", "mm", 40, 15, 150),
         new("compression_rd", "Resistenza di progetto a compressione", "σRd", "MPa", 5, .1, 30),
         new("shear_rd", "Resistenza di progetto a taglio", "τRd", "MPa", .2, .01, 5),
@@ -79,6 +79,13 @@ public static partial class RetainingWall
         }
         Fields("geometry", GeometryFields); Fields("foundation", FoundationFields); if (d.D("version") == 1) Fields("loads", LoadFields);
         Fields("materials", MaterialFields.Where(f => f.Key == "gamma" || (d.S("family") == "gravity" ? f.Key.EndsWith("_rd") : !f.Key.EndsWith("_rd"))));
+        if (UsesConcrete(d))
+        {
+            var materialInput = MaterialSectionInput(d);
+            _ = ConcreteMaterials.Concrete(materialInput);
+            if (d.S("family") == "cantilever") _ = RebarMaterial.Evaluate(materialInput);
+            _ = ConcreteMaterials.DesignValues(materialInput, J.Obj(("normativa", "NTC 2018")));
+        }
         var g = d["geometry"]!; double h = g.D("height"), t = g.D("slab");
         if (g.D("stem_top") > g.D("stem_base")) throw new ArgumentException("Lo spessore in testa deve essere ≤ quello al piede.");
         ValidateSoils(d);

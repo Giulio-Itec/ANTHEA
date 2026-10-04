@@ -25,6 +25,7 @@ internal sealed class WikiView : UserControl
     private WikiArticle? article;
     private bool restoring, navExpanded, tocExpanded;
     private string? activeSection;
+    private Action refreshPage = () => { };
     internal string? CurrentId => article?.Id;
     internal WikiView(Action<string, string?> openModule, WikiProgress? progress = null, Action? returnToWork = null)
     {
@@ -42,8 +43,9 @@ internal sealed class WikiView : UserControl
         Grid.SetColumn(reader, 1); Grid.SetColumn(tocHost, 2);
         var searchBar = Ui.Dock(search, top: Ui.Text("Cerca nel manuale e nelle guide", 12, color: Ui.Muted));
         searchBar.Margin = new Thickness(0, 0, 0, 14);
-        var commands = Ui.Bar(Ui.Button("Wiki", Home), Ui.Button("Indice", () => { navExpanded = !navExpanded; Adapt(); }),
-            Ui.Button("In questa pagina", () => { tocExpanded = !tocExpanded; Adapt(); }),
+        var commands = Ui.Bar(Ui.Button("Handbook", Home), Ui.Button("Indice", () => { navExpanded = !navExpanded; tocExpanded = false; Adapt(); }),
+            Ui.Button("In questa pagina", () => { tocExpanded = !tocExpanded; navExpanded = false; Adapt(); }),
+            Ui.Button("Chiaro / scuro", () => SetDark(!WikiPalette.Dark)),
             Ui.Button("Apri collegamento", () => { if (Ui.Ask(Window.GetWindow(this), "Apri collegamento Wiki", "/wiki/") is { } uri) Navigate(uri); }));
         if (returnToWork is not null) commands.Children.Insert(0, Ui.Button("← Torna al lavoro", returnToWork));
         Content = Ui.Dock(columns, top: Ui.Stack(commands, searchBar));
@@ -69,25 +71,14 @@ internal sealed class WikiView : UserControl
     }
     private void BuildNavigation()
     {
-        using var stream = WikiCatalog.Resource("areas.json");
-        var areas = JsonSerializer.Deserialize<Dictionary<string, string[]>>(stream)!;
-        foreach (var type in new[] { "theory", "guide" })
+        navigation.Children.Clear();
+        navigation.Children.Add(Ui.Text("ANTHEA · HANDBOOK", 12, true));
+        foreach (var chapter in WikiCatalog.Chapters)
         {
-            navigation.Children.Add(Ui.Text(type == "theory" ? "MANUALE DI INGEGNERIA" : "GUIDE ANTHEA", 12, true));
-            foreach (var area in areas[type])
-            {
-                var pages = Ui.Stack();
-                var expander = new Expander { Header = Ui.Text(area, 13, true), Content = pages, Margin = new Thickness(0, 6, 0, 6) };
-                expander.Expanded += (_, _) =>
-                {
-                    if (pages.Children.Count > 0) return;
-                    foreach (var a in WikiCatalog.Articles.Where(a => a.Type == type && a.Area == area))
-                    { var link = Link(a.Title, () => Navigate(a.Id)); link.ToolTip = a.Summary; pages.Children.Add(link); }
-                    if (pages.Children.Count == 0) pages.Children.Add(Ui.Text("Area predisposta: capitoli in preparazione.", 12, color: Ui.Muted));
-                };
-                navigation.Children.Add(expander);
-            }
+            navigation.Children.Add(Link($"{chapter.Number:00}  {chapter.Title}", () => Chapter(chapter)));
         }
+        navigation.Children.Add(Link("Glossario e acronimi", Glossary));
+        navigation.Children.Add(Link("Fonti e archivio", () => Navigate("tracciabilita-e-riferimenti")));
     }
     internal static Button Link(string title, Action action)
     {
@@ -102,10 +93,13 @@ internal sealed class WikiView : UserControl
     }
     internal void Home()
     {
+        refreshPage = Home;
         Reset(); var pane = new StackPanel();
-        pane.Children.Add(PageTitle("Wiki", 34));
-        pane.Children.Add(Ui.Text("Tutta la conoscenza tecnica e operativa di Anthea, organizzata per concetti.", 19));
-        pane.Children.Add(Ui.Text("Dal comportamento strutturale al modello, dalla verifica all'esempio nel software. Cerca un concetto oppure scegli un percorso di lettura.", 15, color: Ui.Muted));
+        pane.Children.Add(Ui.Text("ANTHEA / CONOSCENZA, METODI E STRUMENTI", 12, true, Ui.Blue));
+        pane.Children.Add(PageTitle("Engineering Handbook", 34));
+        pane.Children.Add(Ui.Text("Dal percorso dei carichi alla scelta del modello.", 21));
+        pane.Children.Add(Ui.Text("Un manuale da leggere per capitoli e consultare durante il lavoro: ipotesi, schemi, formule ed esempi collegati ai moduli Anthea.", 15, color: Ui.Muted));
+        pane.Children.Add(WikiEditorial.Figure(new WikiVector("bridge-notebook.svg"), "Dall'opera al modello: impalcato, appoggi, pile e fondazioni formano un unico percorso resistente."));
         var recent = progress.Entries.OrderByDescending(p => p.Value.Visited).Take(4).ToArray();
         if (recent.Length > 0)
         {
@@ -118,22 +112,16 @@ internal sealed class WikiView : UserControl
                     pane.Children.Add(new ProgressBar { Minimum = 0, Maximum = Math.Max(1, a.Sections.Length), Value = read, Height = 5, Foreground = Ui.Blue, Margin = new Thickness(5, 0, 5, 10), ToolTip = "Avanzamento delle sezioni segnate come lette" });
                 }
         }
-        foreach (var (type, label) in new[] { ("theory", "Manuale di ingegneria"), ("guide", "Guide Anthea") })
+        pane.Children.Add(Title("Indice del manuale"));
+        foreach (var chapter in WikiCatalog.Chapters)
         {
-            pane.Children.Add(Title(label));
-            var cards = new WrapPanel();
-            using var stream = WikiCatalog.Resource("areas.json"); var areas = JsonSerializer.Deserialize<Dictionary<string, string[]>>(stream)!;
-            foreach (var area in areas[type])
-            {
-                var matches = WikiCatalog.Articles.Where(a => a.Type == type && a.Area == area).ToArray();
-                var stack = Ui.Stack(Ui.Text(area, 17, true), Ui.Text(matches.Length == 0 ? "Percorso in preparazione" : $"{matches.Length} capitoli · teoria, esempi e riferimenti", 12, color: Ui.Muted));
-                if (matches.Length > 0) stack.Children.Add(Link("Esplora →", () => Browse(type, area)));
-                var card = Ui.Paper(stack, 16); card.Width = 270; card.MinHeight = 135; card.Margin = new Thickness(0, 0, 12, 12); cards.Children.Add(card);
-            }
-            pane.Children.Add(cards);
+            var link = Link($"{chapter.Number:00}   {chapter.Title}   →", () => Chapter(chapter));
+            ((TextBlock)link.Content).FontSize = 20;
+            pane.Children.Add(new Border { Child = Ui.Stack(link, Ui.Text(chapter.Description, 14, color: Ui.Muted)),
+                BorderBrush = Ui.Brush("#D8E0EB"), BorderThickness = new Thickness(0, 0, 0, 1), Padding = new Thickness(0, 10, 0, 14) });
         }
         pane.Children.Add(Title("Percorso consigliato · capisci e applica"));
-        pane.Children.Add(Link("Elementi Beam → esempio di trave → verifica della Sezione in c.a.", () => Navigate("/wiki/manuale/fem/elementi-beam")));
+        pane.Children.Add(Link("Elementi Beam → esempio di trave → verifica della Sezione in c.a.", () => Navigate("beam")));
         pane.Children.Add(Link("Glossario tecnico", Glossary));
         SetContent(pane); Adapt();
     }
@@ -143,10 +131,55 @@ internal sealed class WikiView : UserControl
     {
         pane.MaxWidth = article is null ? 960 : 760;
         pane.HorizontalAlignment = HorizontalAlignment.Center;
-        pane.Margin = new Thickness(28, 24, 28, 40); content.Content = pane;
+        pane.Margin = new Thickness(24, 24, 24, 40); content.Content = pane;
+        ApplyPalette();
+    }
+    internal void SetDark(bool dark)
+    {
+        WikiPalette.Dark = dark; BuildNavigation(); refreshPage(); ApplyPalette();
+    }
+    private void ApplyPalette()
+    {
+        Background = WikiPalette.Surface; reader.Background = WikiPalette.Paper;
+        foreach (var item in LogicalElements(this))
+        {
+            if (item is TextBlock text) text.Foreground = WikiPalette.Ink;
+            if (item is Border border) border.Background = WikiPalette.Paper;
+            if (item is Control control)
+            { control.Foreground = WikiPalette.Ink; if (control is Button or TextBox or Expander) control.Background = WikiPalette.Paper; }
+        }
+    }
+    private static IEnumerable<DependencyObject> LogicalElements(DependencyObject root)
+    {
+        foreach (var child in LogicalTreeHelper.GetChildren(root).OfType<DependencyObject>())
+        { yield return child; foreach (var descendant in LogicalElements(child)) yield return descendant; }
+    }
+    private void Chapter(WikiChapter chapter)
+    {
+        refreshPage = () => Chapter(chapter); Reset();
+        var pane = Ui.Stack(Link("← Indice del manuale", Home), Ui.Text($"CAPITOLO {chapter.Number:00}", 12, true),
+            PageTitle(chapter.Title), Ui.Text(chapter.Description, 19), Ui.Text(chapter.Introduction, 16));
+        pane.Children.Add(Title("Percorso di lettura"));
+        int n = 1;
+        foreach (var a in WikiCatalog.InChapter(chapter.Id))
+        {
+            pane.Children.Add(Link($"{chapter.Number:00}.{n++:00}  {a.Title}", () => Navigate(a.Key)));
+            pane.Children.Add(Ui.Text(a.Summary, 14, color: Ui.Muted));
+            pane.Children.Add(Ui.Text($"{Level(a)} · {a.ReadingTime} min", 12, color: Ui.Muted));
+        }
+        SetContent(pane); navExpanded = tocExpanded = false; Adapt();
+    }
+    private static string Level(WikiArticle a) => a.Level switch { "introductory" => "Introduzione", "advanced" => "Approfondimento tecnico", _ => "Metodo e applicazione" };
+    private void Historical()
+    {
+        refreshPage = Historical; Reset();
+        var pane = Ui.Stack(PageTitle("Documentazione preesistente"), Ui.Text("Audit e appendici conservati per tracciabilità. Le date e i limiti dichiarati nel testo restano parte del documento; questi contenuti non sono i capitoli pilota revisionati.", 16));
+        foreach (var a in WikiCatalog.Articles.Where(a => a.Status == "historical")) pane.Children.Add(Card(a));
+        SetContent(pane); Adapt();
     }
     private void Browse(string type, string area)
     {
+        refreshPage = () => Browse(type, area);
         Reset(); var pane = Ui.Stack(PageTitle(area == "" ? (type == "theory" ? "Manuale di ingegneria" : "Guide Anthea") : area));
         foreach (var a in WikiCatalog.Articles.Where(a => a.Type == type && (area == "" || a.Area == area))) pane.Children.Add(Card(a));
         SetContent(pane); Adapt();
@@ -154,11 +187,12 @@ internal sealed class WikiView : UserControl
     private Border Card(WikiArticle a)
     {
         var p = Ui.Paper(Ui.Stack(Ui.Text(a.Type == "theory" ? "MANUALE · " + a.Area : "GUIDA ANTHEA · " + a.Area, 11, true, Ui.Muted),
-            Link(a.Title, () => Navigate(a.Id)), Ui.Text(a.Summary, 14), Ui.Text($"Circa {a.ReadingTime} min", 12, color: Ui.Muted)), 18);
+            Link(a.Title, () => Navigate(a.Id)), Ui.Text(a.Summary, 14), Ui.Text($"Circa {a.ReadingTime} min" + (a.Status == "historical" ? " · Appendice preesistente" : ""), 12, color: Ui.Muted)), 18);
         p.Margin = new Thickness(0, 0, 0, 12); return p;
     }
     private void Results(string query)
     {
+        refreshPage = () => Results(query);
         Reset(); var results = WikiCatalog.Search(query); var pane = Ui.Stack(PageTitle($"Ricerca · {query}"), Ui.Text($"{results.Length} risultati (massimo 60) · manuale e guide", color: Ui.Muted));
         if (results.Length == 0) pane.Children.Add(Ui.Text("Nessun risultato. Prova un termine più breve o un sinonimo italiano/inglese."));
         foreach (var a in results) pane.Children.Add(Card(a)); SetContent(pane); Adapt();
@@ -175,14 +209,26 @@ internal sealed class WikiView : UserControl
             var area = WikiCatalog.Articles.FirstOrDefault(a => a.Type == type && (WikiCatalog.Slug(a.Area) == parts[2] || parts[2] == "fem" && a.Area == "FEM e modellazione"))?.Area;
             if (area is not null) { Browse(type, area); return; }
         }
+        uri = WikiCatalog.CanonicalUri(uri);
         var target = WikiCatalog.Resolve(uri);
         if (target is null) { MessageBox.Show("Pagina Wiki non disponibile: " + uri, "ANTHEA"); return; }
-        Reset(); article = target; var pane = new StackPanel();
+        refreshPage = () => Navigate(target.Key); Reset(); article = target; var pane = new StackPanel();
         progress.Update(target.Id, progress.Entries.GetValueOrDefault(target.Id)?.Section ?? "", progress.Entries.GetValueOrDefault(target.Id)?.Fraction ?? 0);
-        pane.Children.Add(Link($"Wiki / {(target.Type == "theory" ? "Manuale" : "Guide Anthea")} / {target.Area}", () => Browse(target.Type, target.Area)));
+        var chapter = WikiCatalog.Chapter(target);
+        pane.Children.Add(Link($"Handbook / {chapter.Number:00} {chapter.Title}", () => Chapter(chapter)));
+        var chapterPages = WikiCatalog.InChapter(chapter.Id);
+        var chapterPosition = Array.IndexOf(chapterPages, target);
+        if (chapterPosition >= 0) pane.Children.Add(Ui.Text($"{chapter.Number:00}.{chapterPosition + 1:00} / {Level(target).ToUpperInvariant()}", 12, true, WikiPalette.Accent));
         pane.Children.Add(PageTitle(target.Title)); pane.Children.Add(Ui.Text(target.Summary, 16, color: Ui.Muted));
-        var metadata = Ui.Text($"{(target.Type == "theory" ? "Manuale di ingegneria" : "Guida Anthea")} · {target.ReadingTime} min di lettura", 12, color: Ui.Muted);
+        var status = target.Status switch { "integrated" => " · Contenuto integrato", "qualified" => " · Riscontri sulle fonti da completare", "historical" => " · Documento preesistente", _ => "" };
+        var metadata = Ui.Text($"{Level(target)} · {target.ReadingTime} min di lettura" + status, 12, color: Ui.Muted);
         metadata.Margin = new Thickness(0, 12, 0, 8); pane.Children.Add(metadata);
+        if (target.Prerequisites is { Length: > 0 })
+        {
+            pane.Children.Add(Ui.Text("Prima di leggere", 12, true));
+            foreach (var id in target.Prerequisites)
+                if (WikiCatalog.Resolve(id) is { } prerequisite) pane.Children.Add(Link(prerequisite.Title, () => Navigate(prerequisite.Key)));
+        }
         toc.Children.Add(Ui.Text("IN QUESTA PAGINA", 11, true, Ui.Muted));
         WikiEditorial.Render(pane, WikiCatalog.Body(target), Navigate, (id, label, level) =>
         {
@@ -202,14 +248,25 @@ internal sealed class WikiView : UserControl
             row.Children.Add(actions); row.Children.Add(head);
             return row;
         });
+        if (target.References is { Length: > 0 })
+        {
+            pane.Children.Add(Title("Fonti e natura delle relazioni"));
+            foreach (var id in target.References)
+            {
+                var reference = WikiCatalog.References.Single(r => r.Id == id);
+                pane.Children.Add(Ui.Text(reference.Kind + " · " + reference.Title, 14));
+                pane.Children.Add(Link("Consulta la fonte ↗", () => System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(reference.Url) { UseShellExecute = true })));
+            }
+        }
         if (target.Modules.Length > 0) pane.Children.Add(WikiEditorial.TryInAnthea(target, openModule));
         if (target.Related.Length > 0) pane.Children.Add(Title("Argomenti correlati"));
         foreach (var related in target.Related)
             if (WikiCatalog.Resolve(related) is { } a) pane.Children.Add(Link((a.Type == "theory" ? "Teoria · " : "Guida · ") + a.Title, () => Navigate(a.Id)));
-        var siblings = WikiCatalog.Articles.Where(a => a.Type == target.Type && a.Area == target.Area).OrderBy(a => a.Order).ToArray();
+        var siblings = WikiCatalog.InChapter(target.ChapterId);
         var index = Array.IndexOf(siblings, target);
         if (index > 0) pane.Children.Add(Link("← " + siblings[index - 1].Title, () => Navigate(siblings[index - 1].Id)));
-        if (index < siblings.Length - 1) pane.Children.Add(Link(siblings[index + 1].Title + " →", () => Navigate(siblings[index + 1].Id)));
+        pane.Children.Add(Link("Indice del capitolo", () => Chapter(chapter)));
+        if (index >= 0 && index < siblings.Length - 1) pane.Children.Add(Link(siblings[index + 1].Title + " →", () => Navigate(siblings[index + 1].Id)));
         SetContent(pane); Adapt();
         navExpanded = false; tocExpanded = false; Adapt();
         var requested = uri.Contains('#') ? uri.Split('#', 2)[1] : progress.Entries.GetValueOrDefault(target.Id)?.Section;
@@ -232,16 +289,21 @@ internal sealed class WikiView : UserControl
         var current = sections.LastOrDefault(s => s.Heading.TranslatePoint(new Point(), content).Y <= reader.VerticalOffset + 45);
         if (current.Heading is null) current = sections[0];
         activeSection = current.Id;
-        foreach (var s in sections) { s.Link.Background = s.Id == activeSection ? Ui.Bg : Brushes.White; s.Link.FontWeight = s.Id == activeSection ? FontWeights.Bold : FontWeights.Normal; }
+        foreach (var s in sections) { s.Link.Background = s.Id == activeSection ? WikiPalette.Surface : WikiPalette.Paper; ((TextBlock)s.Link.Content).FontWeight = s.Id == activeSection ? FontWeights.Bold : FontWeights.Normal; }
         progress.Update(article.Id, activeSection, reader.ScrollableHeight <= 0 ? 1 : reader.VerticalOffset / reader.ScrollableHeight);
         save.Stop(); save.Start();
     }
     private void Glossary()
     {
+        refreshPage = Glossary;
         Reset(); var pane = Ui.Stack(PageTitle("Glossario tecnico"));
         using var stream = WikiCatalog.Resource("glossary.json");
         var terms = JsonSerializer.Deserialize<Dictionary<string, string[]>>(stream)!;
-        foreach (var (term, values) in terms.OrderBy(p => p.Key)) pane.Children.Add(Ui.Paper(Ui.Stack(Title(term), Ui.Text(values[0], 15), Link("Approfondisci →", () => Navigate(values[1]))), 18));
+        foreach (var (term, values) in terms.OrderBy(p => p.Key))
+        {
+            pane.Children.Add(Title(term)); pane.Children.Add(Ui.Text(values[0], 15));
+            if (WikiCatalog.Resolve(values[1]) is { } target) pane.Children.Add(Link(target.Title + " →", () => Navigate(values[1])));
+        }
         SetContent(pane); Adapt();
     }
 }

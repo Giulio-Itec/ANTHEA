@@ -40,18 +40,16 @@ public static partial class RetainingWall
                 double spacing = (1000 - 2 * cover - dia) / (count - 1), area = count * Math.PI * dia * dia / 4;
                 Min(label + " · interferro", spacing - dia, Math.Max(20, Math.Max(dia, aggregate + 5)));
                 Max(label + " · interasse principale", spacing, stem ? Math.Min(3 * g.D("stem_top") * 1000, 400) : Math.Min(2 * t * 1000, 250));
-                var exposure = Durability.Exposures.Single(e => e.Code == m.S("exposure"));
                 int life = (int)AdvancedNumber(opt, "life", 50, 100); if (life is not (50 or 100)) throw new ArgumentException("Vita per il copriferro: 50 o 100 anni.");
-                var durability = NtcCover.Calculate([exposure], m.D("fck"), new(life, false, false, false, dia, aggregate, AdvancedNumber(opt, "cover_deviation", 0, 30), false, 0, 0), true, false);
-                Min(label + " · copriferro", cover, durability.Cover.Nominal);
-                var dev = bond.Calculate(new(dia, strengths.Fyd, concrete.Fctk05, 1.5, opt.B("good_bond"), 0, false, percent, clearLap));
-                var lap = bond.Calculate(new(dia, strengths.Fyd, concrete.Fctk05, 1.5, opt.B("good_bond"), 0, true, percent, clearLap));
+                Min(label + " · copriferro", cover, MaterialCover.Required(CoverMaterialState(d), m.D("fck"), Math.Max(dia, secondaryDia)));
+                var dev = bond.Calculate(new(dia, strengths.Fyd, concrete.Fctk05, section.D("gamma_c"), opt.B("good_bond"), 0, false, percent, clearLap));
+                var lap = bond.Calculate(new(dia, strengths.Fyd, concrete.Fctk05, section.D("gamma_c"), opt.B("good_bond"), 0, true, percent, clearLap));
                 double lapUsed = stem && two ? (arm.D("lap_length") == 0 ? Math.Ceiling(lap.RequiredLength / 10) * 10 : AdvancedNumber(arm, "lap_length", 0, 10000)) : 0;
                 if (stem && two)
                 {
                     var twin = r[upper ? "stem" : "stem_upper"]!;
                     double twinDia = twin.D(face == 0 || twin.B("symmetric", true) ? "diameter" : "opposite_diameter");
-                    double twinRequired = bond.Calculate(new(twinDia, strengths.Fyd, concrete.Fctk05, 1.5, opt.B("good_bond"), 0, true, percent, clearLap)).RequiredLength;
+                    double twinRequired = bond.Calculate(new(twinDia, strengths.Fyd, concrete.Fctk05, section.D("gamma_c"), opt.B("good_bond"), 0, true, percent, clearLap)).RequiredLength;
                     double commonRequired = Math.Max(lap.RequiredLength, twinRequired);
                     if (arm.D("lap_length") == 0) lapUsed = Math.Ceiling(commonRequired / 10) * 10;
                     double twinLength = twin.D("lap_length") == 0 ? Math.Ceiling(commonRequired / 10) * 10 : AdvancedNumber(twin, "lap_length", 0, 10000);
@@ -142,7 +140,7 @@ public static partial class RetainingWall
             {
                 token.ThrowIfCancellationRequested();
                 double area = count * Math.PI * dia * dia / 4;
-                if (selected.SelectMany(c => c.Sections).Any(f => Math.Abs(f.M) * 1e6 > area * d["materials"].D("fyk") / 1.15 * f.Thickness * 1000)) continue;
+                if (selected.SelectMany(c => c.Sections).Any(f => Math.Abs(f.M) * 1e6 > area * d["materials"].D("fyk") / MaterialSectionInput(d).D("gamma_s") * f.Thickness * 1000)) continue;
                 var arm = d["reinforcement"]![key]!; arm["diameter"] = dia; arm["count"] = count; arm["symmetric"] = true;
                 List<Check> values;
                 try { values = StructuralChecks(d, selected, token, out _); } catch (ArgumentException) { continue; }

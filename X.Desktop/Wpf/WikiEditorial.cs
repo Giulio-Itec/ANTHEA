@@ -12,10 +12,13 @@ namespace X.Desktop;
 internal static class WikiEditorial
 {
     // Equivalent spacing supported by WPF-Math; preserve the original LaTeX for copying.
-    private static string RenderLatex(string value) => value.Replace(@"\ ", @"\,").Replace(@"\quad", @"\;\;\;");
+    private static string RenderLatex(string value) => value.Replace(@"\ ", @"\,").Replace(@"\qquad", @"\;\;\;\;\;\;").Replace(@"\quad", @"\;\;\;");
     internal static void Render(StackPanel pane, string markdown, Action<string> navigate,
         Func<string, string, int, FrameworkElement> heading)
     {
+        markdown = Regex.Replace(markdown, @"(?ms)^\$\$\s*\r?\n(.*?)^\$\$[ \t]*$", m => "```math\n" + m.Groups[1].Value.Trim() + "\n```");
+        markdown = Regex.Replace(markdown, @"\\\((.*?)\\\)", m => "$" + m.Groups[1].Value + "$", RegexOptions.Singleline);
+        markdown = Regex.Replace(markdown, @"\\\[(.*?)\\\]", m => "\n```math\n" + m.Groups[1].Value.Trim() + "\n```\n", RegexOptions.Singleline);
         var lines = markdown.Replace("\r", "").Split('\n'); var ids = new HashSet<string>();
         for (int i = 1; i < lines.Length; i++)
         {
@@ -43,7 +46,9 @@ internal static class WikiEditorial
                 // Packaged assets only. Documentation paths resolve to a known asset name.
                 var name = WikiCatalog.AssetFor(image.Groups[2].Value);
                 if (name is null) { pane.Children.Add(Note("FIGURA", image.Groups[1].Value, Ui.Bg)); continue; }
-                var graphic = new Image { Source = Ui.Asset("Wiki/" + name), MaxHeight = 320, Stretch = Stretch.Uniform };
+                FrameworkElement graphic = name.EndsWith(".svg", StringComparison.OrdinalIgnoreCase)
+                    ? new WikiVector(name)
+                    : new Image { Source = Ui.Asset("Wiki/" + name), MaxHeight = 320, Stretch = Stretch.Uniform };
                 System.Windows.Automation.AutomationProperties.SetName(graphic, image.Groups[1].Value);
                 pane.Children.Add(Figure(graphic, image.Groups[1].Value)); continue;
             }
@@ -52,7 +57,9 @@ internal static class WikiEditorial
                 var texts = new List<string> { line.TrimStart('>', ' ') };
                 while (i + 1 < lines.Length && lines[i + 1].TrimStart().StartsWith('>')) texts.Add(lines[++i].TrimStart('>', ' '));
                 var first = texts[0]; var warning = first.Contains("ERRORE") || first.Contains("ATTENZIONE");
-                pane.Children.Add(Note(first, string.Join("\n", texts.Skip(1)), warning ? Ui.Brush("#FFFAEB") : Ui.Bg)); continue;
+                var note = Note(first, "", WikiPalette.Surface);
+                ((StackPanel)note.Child).Children.Add(Text(string.Join("\n", texts.Skip(1)), navigate));
+                pane.Children.Add(note); continue;
             }
             if (line.StartsWith('|'))
             {
@@ -67,13 +74,13 @@ internal static class WikiEditorial
             }
             var paragraph = line;
             if (!Regex.IsMatch(line, @"^[-*]\s|^\d+[.)]\s"))
-                while (i + 1 < lines.Length && !string.IsNullOrWhiteSpace(lines[i + 1]) && !Regex.IsMatch(lines[i + 1], @"^(#|>|\||!|```|[-*] |\d+[.)] |<!--)")) paragraph += " " + lines[++i].Trim();
+                while (i + 1 < lines.Length && !string.IsNullOrWhiteSpace(lines[i + 1]) && !Regex.IsMatch(lines[i + 1], @"^(#|>|\||!|```|\$\$ |[-*] |\d+[.)] |<!--)")) paragraph += " " + lines[++i].Trim();
             pane.Children.Add(Text(paragraph, navigate));
         }
     }
     private static TextBlock Text(string value, Action<string> navigate)
     {
-        var text = Ui.Text("", 15.5, color: Ui.Brush("#25364B")); text.LineHeight = 26; text.Margin = new Thickness(0, 5, 0, 12);
+        var text = Ui.Text("", 15.5, color: WikiPalette.Ink); text.LineHeight = 26; text.Margin = new Thickness(0, 5, 0, 12);
         var tokens = Regex.Matches(value, @"\*\*([^*]+)\*\*|`([^`]+)`|\[([^\]]+)\]\(([^)]+)\)|(https?://[^\s)]+)|\$([^$]+)\$"); int position = 0;
         foreach (Match token in tokens)
         {
@@ -91,12 +98,14 @@ internal static class WikiEditorial
             {
                 var url = token.Groups[5].Success ? token.Groups[5].Value : token.Groups[4].Value;
                 var label = token.Groups[5].Success ? url : token.Groups[3].Value;
-                if (!url.StartsWith("/wiki/") && !(Uri.TryCreate(url, UriKind.Absolute, out var destination) && destination.Scheme is "https" or "http"))
+                bool internalLink = url.StartsWith("/wiki/") || url.StartsWith("wiki:");
+                if (internalLink && WikiCatalog.Resolve(url) is { } article) label = article.Title;
+                if (!internalLink && !(Uri.TryCreate(url, UriKind.Absolute, out var destination) && destination.Scheme is "https" or "http"))
                 { text.Inlines.Add(new Run(label + " (" + url + ")")); continue; }
-                var link = new Hyperlink(new Run(label));
+                var link = new Hyperlink(new Run(label)) { Foreground = WikiPalette.Accent };
                 link.Click += (_, _) =>
                 {
-                    if (url.StartsWith("/wiki/")) navigate(url);
+                    if (internalLink) navigate(url);
                     else if (Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.Scheme is "https" or "http")
                         Process.Start(new ProcessStartInfo(uri.AbsoluteUri) { UseShellExecute = true });
                 };
@@ -112,7 +121,7 @@ internal static class WikiEditorial
         var formulas = new StackPanel { HorizontalAlignment = HorizontalAlignment.Center };
         foreach (var line in equation.Split('\n', StringSplitOptions.RemoveEmptyEntries))
         {
-            var math = new FormulaControl { Formula = RenderLatex(line.Trim()), Scale = 23, Foreground = Ui.Navy,
+            var math = new FormulaControl { Formula = RenderLatex(line.Trim()), Scale = 23, Foreground = WikiPalette.Ink,
                 SystemTextFontName = "Segoe UI", Margin = new Thickness(8, 9, 8, 9) };
             System.Windows.Automation.AutomationProperties.SetName(math, line.Trim());
             if (math.HasError) throw new InvalidOperationException("Formula LaTeX non valida: " + line + " · " + string.Join("; ", math.Errors.Select(e => e.Message)));
@@ -123,7 +132,7 @@ internal static class WikiEditorial
         var scroll = new ScrollViewer { Content = formulas, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
             VerticalScrollBarVisibility = ScrollBarVisibility.Disabled, Padding = new Thickness(8) };
         var card = Ui.Paper(Ui.Stack(scroll, copy), 12);
-        card.Background = Ui.Brush("#F8FAFC"); card.BorderThickness = new Thickness(0);
+        card.Background = WikiPalette.Surface; card.BorderThickness = new Thickness(0);
         card.Margin = new Thickness(0, 14, 0, 18); return card;
     }
     internal static Border Note(string label, string body, Brush background)
@@ -150,7 +159,10 @@ internal static class WikiEditorial
                 Grid.SetRow(cell, r); Grid.SetColumn(cell, c); grid.Children.Add(cell);
             }
         }
-        return grid;
+        grid.MinWidth = 440; grid.Width = 720;
+        var scroll = new ScrollViewer { Content = grid, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Disabled };
+        scroll.SizeChanged += (_, e) => grid.Width = Math.Max(440, e.NewSize.Width);
+        return scroll;
     }
     internal static Border TryInAnthea(WikiArticle article, Action<string, string?> openModule)
     {

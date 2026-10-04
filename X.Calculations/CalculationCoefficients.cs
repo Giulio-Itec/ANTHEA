@@ -23,6 +23,7 @@ public static class CalculationCoefficients
         };
     }
     public static string Standard(string module, JsonObject data) => module switch {
+        HorizontalPileGroup.Module => "Modelli di effetto di gruppo · fonti specifiche per metodo",
         "str_palo" => data["workspace_ca"].S("normativa", "NTC 2018"),
         BridgeSection.Module => data.S("normativa", BridgeSection.Standards[0]).StartsWith("NTC 2018") ? "NTC 2018" : data.S("normativa"),
         RebarMaterial.Module => "Assegnato", _ => "NTC 2018"
@@ -37,9 +38,9 @@ public static class CalculationCoefficients
             foreach (string segment in path.Split('/')) value = (value as JsonObject)?[segment];
             result.Add(new(key, label, path, (value ?? fallback)?.DeepClone(), scope ?? standard));
         }
-        if (module is "str_palo" or PaloOrizzontale.Module or BridgeSection.Module)
+        if (module is "str_palo" or PaloOrizzontale.Module or BridgeSection.Module or RetainingWall.Module)
         {
-            string prefix = module == "str_palo" ? "input/" : module == PaloOrizzontale.Module ? "sezione/" : "";
+            string prefix = module == "str_palo" ? "input/" : module == PaloOrizzontale.Module ? "sezione/" : module == RetainingWall.Module ? "materials/" : "";
             var defaults = module == BridgeSection.Module ? BridgeSection.Defaults() : SezioneCA.DefaultInput();
             foreach (var (key, label) in new[] { ("alpha_cc", "αcc · resistenza del calcestruzzo a compressione"),
                 ("gamma_c", "γc · resistenza del calcestruzzo"), ("gamma_s", "γs · resistenza delle armature") })

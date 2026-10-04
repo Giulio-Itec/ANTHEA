@@ -1,0 +1,163 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "3f9f5d8335f0853e4108401614d8ebd257a87b97e28437b3e711d86660910621",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "f28978053756d79a6c970cad599fa6a5d5138836d0315ca022be9c22ce3922ae",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "692cf8ad0446a6d332dfb827ad699fae42722d18148faff0354f645fb6c192d6",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "b29762422425fe3db0bed1080e1f69fb159e1223c8df5816d16b17f6f2a8fefc",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev14.docx",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev14.docx",
+    "sha256": "0d1a0fe97a44e6991a1675744f4df134e784096979b1b4c28510c0ee8c4aaaa0",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev14.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev14.pdf",
+    "sha256": "f28978053756d79a6c970cad599fa6a5d5138836d0315ca022be9c22ce3922ae",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev14.docx",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev14.docx",
+    "sha256": "10901a02f974f5d8c20bde80429d4f70b480abf0d8c72cfa6f64a2cab84b088a",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev14.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev14.pdf",
+    "sha256": "b29762422425fe3db0bed1080e1f69fb159e1223c8df5816d16b17f6f2a8fefc",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\supporto\\installer\\Indice-guide.md",
+    "sha256": "ddb547ec56829c46af16816b9140a5e1d80e2c99ba15e0a1e187bc849b7b6b81",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\supporto\\installer\\Indice-guide.pdf",
+    "sha256": "2389d2a87dbee3d80912f25baa7cf915067460401331f68b21fce1e1313c1564",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\supporto\\README.md",
+    "sha256": "db059a16ebd484eb6cf4e79dbf278c8d4f9ed3914b41abff71f6c6f9909a5451",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\supporto\\README.pdf",
+    "sha256": "7ab7e27437b2309243a914c4ef5d143941188f8646f3b5c85731171602df318b",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "supporto\\installer\\README.md",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\supporto\\installer\\README.md",
+    "sha256": "5392cbb9f8e4633e97e7df22dfa93e3e1326ad6361813cda2d686f0b50e3f0f4",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "supporto\\installer\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\supporto\\installer\\README.pdf",
+    "sha256": "fca2b61dba726f5953d1ca43a30335381466afff4129ae747b8d59ed440bda51",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "X.Desktop\\Wiki\\areas.json",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\X.Desktop\\Wiki\\areas.json",
+    "sha256": "ed8bed395e46e9d60b60a58cb866b44610abb1a6c8dea52a7e1a928fe0c82896",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "X.Desktop\\Wiki\\assets.json",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\X.Desktop\\Wiki\\assets.json",
+    "sha256": "5eebc3623c227f75aa5cd1331ebfd571c9c259b31a82ed573fbd4fecc3364221",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "X.Desktop\\Wiki\\chapters.json",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\X.Desktop\\Wiki\\chapters.json",
+    "sha256": "a87e69a280c63280816aa5edbb7c12ba28aa2795a842ff037b0ce09fa617b40b",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "X.Desktop\\Wiki\\editorial.json",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\X.Desktop\\Wiki\\editorial.json",
+    "sha256": "962fa87020431a29bdedcee1748f953319454724121a4d6a04a3a8310747eee8",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "X.Desktop\\Wiki\\glossary.json",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\X.Desktop\\Wiki\\glossary.json",
+    "sha256": "54fa74b6cd1e819862f242c1893319ba9819b7c7c827b50d582b679770b5884f",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "X.Desktop\\Wiki\\index.json",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\X.Desktop\\Wiki\\index.json",
+    "sha256": "4dbdf8ee5ce93e1ad285e48098b81dd1ecec9df6714204c2ff1980d0e69d1ca0",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "X.Desktop\\Wiki\\references.json",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\X.Desktop\\Wiki\\references.json",
+    "sha256": "a2beb3319c35fb3b22a70ac6fb9636b774ba79d92efa74eb59d67020ee1d0088",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "X.Desktop\\Wiki\\search.json",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\X.Desktop\\Wiki\\search.json",
+    "sha256": "4514cbb23ecb29741677729f7bac71729ccbd7e2d81c4221120fa3f66f21484f",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  },
+  {
+    "origine": "X.Desktop\\Wiki\\sources.props",
+    "archivio": "supporto\\SUPERATI\\wiki-integrazione-rev15-20261004\\X.Desktop\\Wiki\\sources.props",
+    "sha256": "4b3b197b41d235dd9819a6ba15bfbf29f26dd5df2748b5f960c05cfbb3188d30",
+    "motivo": "Integrazione dei contenuti preesistenti nel Handbook",
+    "sostituzione": "Guide globali Rev15 e catalogo corrente"
+  }
+]

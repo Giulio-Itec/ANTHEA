@@ -33,7 +33,8 @@ public static partial class ProjectSharedData
         if (fm == sm || field.Group is "Terreno" or "Materiali" or "Coefficienti" || key is "perforazione_mm" or "lunghezza_micropalo") return true;
 
         bool rcPair = fm is "str_palo" or PaloOrizzontale.Module && sm is "str_palo" or PaloOrizzontale.Module;
-        if (rcPair && key is "shape" or "cover_mm") return true;
+        if (key == "cover_mm" && (rcPair || fm == RetainingWall.Module || sm == RetainingWall.Module)) return true;
+        if (rcPair && key == "shape") return true;
         if (!a.TryGetValue("shape", out var shapeA) || !b.TryGetValue("shape", out var shapeB) ||
             Text(shapeA.Value) != "Circolare" || Text(shapeB.Value) != "Circolare") return false;
         if (key == "shape") return false;

@@ -1,11 +1,11 @@
 # Materiale di supporto ANTHEA
 
-La documentazione utente è raccolta in due guide globali Rev10 del 2 ottobre 2026:
+La documentazione utente è raccolta in due guide globali Rev15 del 4 ottobre 2026:
 
 - [Guida pratica e UI](docs/guida-pratica-anthea.md): procedure e interfaccia di tutti i moduli.
 - [Guida teorica](docs/guida-teorica-anthea.md): modelli, formule, ipotesi, limiti, approfondimenti e appendici tecniche di tutti i moduli.
 
-Edizioni Word e PDF in `documentazione/Guide_ANTHEA`, PDF omonimi accanto ai Markdown. Gli approfondimenti di Bridge Design, pali, sezioni, muri e stabilità globale sono inclusi nei due volumi. La Rev10 compone le formule da sorgenti LaTeX, conserva equazioni Word strutturate e aggiorna la leggibilità della Wiki. La Rev09 ha aggiunto la Wiki integrata, il capitolo Elementi Beam, la guida Sezione in c.a. e un percorso applicativo con esempio precompilato. Le fonti precedenti sono conservate in `SUPERATI/guide-unificate-rev08-20261002`, `SUPERATI/wiki-rev09-20261002` e `SUPERATI/wiki-formule-rev10-20261002`, con registro di origine e sostituzione.
+Edizioni Word e PDF in `documentazione/Guide_ANTHEA`, PDF omonimi accanto ai Markdown. Gli approfondimenti di Bridge Design, pali, sezioni, muri e stabilità globale sono inclusi nei due volumi. La Rev11 ha integrato il modulo di efficienza orizzontale delle palificate, con sei teorie, limiti e fonti; le revisioni sostituite sono in `SUPERATI/efficienza-orizzontale-rev11-20261002`. La Rev10 compone le formule da sorgenti LaTeX, conserva equazioni Word strutturate e aggiorna la leggibilità della Wiki. La Rev09 ha aggiunto la Wiki integrata, il capitolo Elementi Beam, la guida Sezione in c.a. e un percorso applicativo con esempio precompilato. Le fonti precedenti sono conservate in `SUPERATI/guide-unificate-rev08-20261002`, `SUPERATI/wiki-rev09-20261002` e `SUPERATI/wiki-formule-rev10-20261002`, con registro di origine e sostituzione.
 
 Ogni nuovo argomento va integrato nelle due guide; per casi particolari chiedere all’utente prima di introdurre una diversa organizzazione. Modelli, esempi di calcolo ed evidenze restano nelle loro cartelle.
 

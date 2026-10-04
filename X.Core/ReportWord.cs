@@ -16,6 +16,8 @@ public static class ReportWord
         => Archivio.ScriviAtomico(path, Create(title, module, data, result, options, images, includeInputs));
     public static byte[] Create(string title,string module,JsonObject data,JsonObject result,HashSet<string>? options=null,IReadOnlyList<ImmagineReport>? images=null,bool includeInputs=true)
     {
+        if(result.S("tipo_risultato") == "palo_elastico") return ReportElasticPile.Create(title,result);
+        if (module == HorizontalPileGroup.Module) return ReportPileGroup.Create(title, result);
         if(result.S("errore")!="")throw new ArgumentException("Calcolo non disponibile: "+result.S("errore"));
         if(module=="str_palo")throw new ArgumentException("Il report Word della sezione non è disponibile, come nel programma sorgente. Esportare i risultati JSON.");
         options??=Sezioni.Where(s=>!s.Key.StartsWith("grafico_")||s.Key=="grafico_nq").Select(s=>s.Key).ToHashSet();if(options.Count==0)throw new ArgumentException("Selezionare almeno un contenuto per il report.");

@@ -25,12 +25,15 @@ public static partial class ProjectSharedData
         }
     }
     private static bool SameDurabilityModel(JsonObject first, JsonObject second) => first.S("modulo_id") == second.S("modulo_id") ||
-        new[] { first, second }.Where(s => s.S("modulo_id") == "mat_calcestruzzo").All(s => s["dati"]?["scelte"].S("coverMethod", "NTC + Circ. 2019") != "EC2 2004");
+        new[] { first, second }.All(s => s.S("modulo_id") is "mat_calcestruzzo" or RetainingWall.Module) ||
+        new[] { first, second }.All(s => s.S("modulo_id") == "mat_calcestruzzo" ? s["dati"]?["scelte"].S("coverMethod", "NTC + Circ. 2019") != "EC2 2004" :
+            s.S("modulo_id") != RetainingWall.Module || s["dati"]?["detailing"].S("cover_method", "NTC + Circ. 2019") != "EC2 2004");
     /// <summary>Shared relevance rules for comparison and report inputs; dormant values stay saved.</summary>
     public static bool ActiveField(JsonObject sheet, string key)
     {
         string module = sheet.S("modulo_id");
         if (key == "materiale_acciaio_nome") return false; // Description, not an independently adjustable physical property.
+        if (module == RetainingWall.Module) return ActiveWallField(sheet, key);
         if (sheet["dati"] is JsonObject data && !CalculationCoefficients.Active(module, data, key)) return false;
         if (module == BridgeSection.Module && key.StartsWith(BridgePrefix)) return ActiveBridgeField(sheet, key);
         if (key.StartsWith("Durabilità · ")) return module == "mat_calcestruzzo" || sheet["dati"]?["workspace_ca"].S("normativa", "NTC 2018") == "NTC 2018";

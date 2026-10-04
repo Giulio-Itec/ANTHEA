@@ -72,9 +72,12 @@ public sealed partial class MainWindow
         File.WriteAllBytes(Path.Combine(directory, "revisione-0-foglio.png"), Ui.Snapshot(this));
         var archivedDocument = document.DeepClone(); var liveBefore = working.DeepClone();
         ShowSheet(ProjectRevisions.Find(document, caId)!); await Layout();
-        var tabs = Ui.Descendants<TabControl>(sheetContent).First(t => t.Items.Count == 7);
-        tabs.SelectedIndex = 4; await Layout();
-        Check(tabs.IsEnabled && tabs.SelectedIndex == 4, "Impossibile consultare Taglio nella revisione precedente");
+        bool IsShear(TabItem item) => item.Header is DependencyObject header &&
+            Ui.Descendants<TextBlock>(header).Any(text => text.Text.Trim() == "Taglio e torsione");
+        var tabs = Ui.Descendants<TabControl>(sheetContent).Single(t => t.Items.OfType<TabItem>().Any(IsShear));
+        var shearTab = tabs.Items.OfType<TabItem>().Single(IsShear);
+        tabs.SelectedItem = shearTab; await Layout();
+        Check(tabs.IsEnabled && ReferenceEquals(tabs.SelectedItem, shearTab), "Impossibile consultare Taglio nella revisione precedente");
         Check(Ui.Descendants<DataGrid>(sheetContent).Where(g => g.IsVisible).All(g => g.IsReadOnly && !g.CanUserAddRows && !g.CanUserDeleteRows), "Tabelle storiche modificabili");
         File.WriteAllBytes(Path.Combine(directory, "revisione-0-taglio.png"), Ui.Snapshot(this));
         Commit(); Check(JsonNode.DeepEquals(liveBefore, working) && JsonNode.DeepEquals(archivedDocument, document), "La navigazione modifica i dati archiviati o attuali");

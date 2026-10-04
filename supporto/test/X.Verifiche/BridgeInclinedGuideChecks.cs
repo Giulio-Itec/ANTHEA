@@ -23,6 +23,7 @@ internal static class BridgeInclinedGuideChecks
             d["offset_anima"] = offset; d["interasse_anime"] = 1800;
             d["b_top"] = box ? 450 : 500; d["b_bottom"] = box ? 1400 : 700;
             d["t_bottom"] = box ? 25 : 30; d["classe4"] = false;
+            d["h_trave"] = box ? 1850 : 1855;
             d["rebars_top"] = false; d["rebars_bottom"] = false;
             d["fibre_anima"] = 32; d["fibre_flange"] = 4; d["fibre_cls"] = 16; d["sottopassi"] = 4;
             return d;
@@ -107,7 +108,7 @@ internal static class BridgeInclinedGuideChecks
         setCase("TORSIONE");
         var d = BridgeSection.Defaults();
         d["sezione"] = BridgeSection.SectionTypes[2]; d["offset_anima"] = 250; d["interasse_anime"] = 1800;
-        d["b_top"] = 450; d["b_bottom"] = 1400; d["t_bottom"] = 25;
+        d["b_top"] = 450; d["b_bottom"] = 1400; d["t_bottom"] = 25; d["h_trave"] = 1850;
         d["torsione_cassoncino"] = true; d["t_controvento"] = 4;
         double[] torques = [200, 300, 1000];
         for (int i = 0; i < 3; i++) d.Array("fasi")[i]!["T"] = torques[i];

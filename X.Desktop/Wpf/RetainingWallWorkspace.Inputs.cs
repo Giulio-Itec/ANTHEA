@@ -99,8 +99,7 @@ internal sealed partial class RetainingWallWorkspace
         Forms.Clear(); grids.Clear(); Cards.Clear(); if (matrixCard is not null) Cards["Combinazioni"] = matrixCard; var cards = Ui.Stack();
         void Card(string title, UIElement body) { var group = Group(title, body); Cards[title] = group; var paper = Ui.Paper(group, 10); paper.Margin = new Thickness(0, 0, 0, 8); cards.Children.Add(paper); }
         Card("Terreno", Ui.Stack(BuildSoilColumns(), BuildAdvancedSoil()));
-        var materials = Form("materials", Fields(RetainingWall.MaterialFields).Concat([new Field("exposure", "Classe di esposizione", Choices: Ntc2018Checks.Exposures.Skip(1).ToArray())]));
-        Card("Materiali", Ui.Stack(materials, BuildGravityMaterial()));
+        Card("Materiali", BuildWallMaterials());
         var reinforcement = Ui.Stack(Form("zones", [new("two_zones", "Due zone verticali di armatura", Bool: true), new("lower_height", "Altezza zona inferiore dal piede del fusto", "m", Symbol: "h₁")], Data["reinforcement"]!.AsObject()));
         foreach (var (key, label) in new[] { ("stem", "Fusto · zona inferiore / intera altezza"), ("stem_upper", "Fusto · zona superiore"), ("toe", "Mensola a valle"), ("heel", "Mensola a monte") })
         {
@@ -149,6 +148,7 @@ internal sealed partial class RetainingWallWorkspace
         material.ShowField("exposure", rc);
         if (!rc && Data["gravity_design"].S("type") == "Calcestruzzo non armato") { material.ShowField("fck", true); material.ShowField("creep", true); }
         if (!rc && Data["gravity_design"].S("type") == "Muratura") material.ShowField("creep", true);
+        UpdateWallMaterials();
         if (Forms.TryGetValue("gravity_design", out var gravity)) gravity.Visibility = rc ? Visibility.Collapsed : Visibility.Visible;
         if (Forms.TryGetValue("detailing", out var detail)) detail.Visibility = rc ? Visibility.Visible : Visibility.Collapsed;
         if (DesignButton is not null) DesignButton.IsEnabled = rc && !Busy;

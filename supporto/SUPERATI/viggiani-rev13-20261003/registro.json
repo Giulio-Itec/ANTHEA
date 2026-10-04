@@ -1,0 +1,100 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\viggiani-rev13-20261003\\docs\\guida-pratica-anthea.md",
+    "motivo": "Rev13: fonte Viggiani verificata, falda e direzioni negative",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "6a17f9ae1e1249717bc5042b5b0aefa438aa4d9de269ead56b0469d3be2a8f32"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\viggiani-rev13-20261003\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Rev13: fonte Viggiani verificata, falda e direzioni negative",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "cf3fa3d5ae3ae4f984cc22bb83209d2ae06b9e4896257eb4af51eaacf97cac04"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\viggiani-rev13-20261003\\docs\\guida-teorica-anthea.md",
+    "motivo": "Rev13: fonte Viggiani verificata, falda e direzioni negative",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "182fe59d80b565a388f4254869a3b7ccd60d24516c52257b7db4a755bb28ddc7"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\viggiani-rev13-20261003\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Rev13: fonte Viggiani verificata, falda e direzioni negative",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "3dd013ba26e2aad1da7ebaa02974854e9d9489008b2d749056130abf6fd1bb74"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev12.docx",
+    "archivio": "supporto\\SUPERATI\\viggiani-rev13-20261003\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev12.docx",
+    "motivo": "Rev13: fonte Viggiani verificata, falda e direzioni negative",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev13.docx",
+    "sha256": "6237effafde5fd23adc5da4d66c1321abfea4b7490652e93f5ae176708bdf413"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev12.pdf",
+    "archivio": "supporto\\SUPERATI\\viggiani-rev13-20261003\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev12.pdf",
+    "motivo": "Rev13: fonte Viggiani verificata, falda e direzioni negative",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev13.pdf",
+    "sha256": "cf3fa3d5ae3ae4f984cc22bb83209d2ae06b9e4896257eb4af51eaacf97cac04"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev12.docx",
+    "archivio": "supporto\\SUPERATI\\viggiani-rev13-20261003\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev12.docx",
+    "motivo": "Rev13: fonte Viggiani verificata, falda e direzioni negative",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev13.docx",
+    "sha256": "0ed37ee2e8a74b4736f4cf70728027040e31a5ebf4a60176a72c337385d3b2d4"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev12.pdf",
+    "archivio": "supporto\\SUPERATI\\viggiani-rev13-20261003\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev12.pdf",
+    "motivo": "Rev13: fonte Viggiani verificata, falda e direzioni negative",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev13.pdf",
+    "sha256": "3dd013ba26e2aad1da7ebaa02974854e9d9489008b2d749056130abf6fd1bb74"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\viggiani-rev13-20261003\\installer\\Indice-guide.md",
+    "motivo": "Rev13: fonte Viggiani verificata, falda e direzioni negative",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "67bfffcd22a78bb94a6e94677835d15ee3a868f4d280b7e7dfffba339c4dc081"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\viggiani-rev13-20261003\\installer\\Indice-guide.pdf",
+    "motivo": "Rev13: fonte Viggiani verificata, falda e direzioni negative",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "00975795f0ea5da0a9b565350e04a7d406c161ab7879869cd540c1799a31ba5f"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\viggiani-rev13-20261003\\README.md",
+    "motivo": "Rev13: fonte Viggiani verificata, falda e direzioni negative",
+    "sostituzione": "supporto\\README.md",
+    "sha256": "21825b35b8e8a364ddc124c0ef0b6e9db3fbd1a79bf410020d0e2898255c97bd"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\viggiani-rev13-20261003\\README.pdf",
+    "motivo": "Rev13: fonte Viggiani verificata, falda e direzioni negative",
+    "sostituzione": "supporto\\README.pdf",
+    "sha256": "559331f5009ea99711b5e6e758b8ff2be675baa77bf6b13008b1f0f905483912"
+  },
+  {
+    "origine": "supporto\\installer\\README.md",
+    "archivio": "supporto\\SUPERATI\\viggiani-rev13-20261003\\installer\\README.md",
+    "motivo": "Rev13: fonte Viggiani verificata, falda e direzioni negative",
+    "sostituzione": "supporto\\installer\\README.md",
+    "sha256": "245af51d4467e8eed224b83e17c781fae08cacd3e0d93617ed771a2f555b1e2e"
+  },
+  {
+    "origine": "supporto\\installer\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\viggiani-rev13-20261003\\installer\\README.pdf",
+    "motivo": "Rev13: fonte Viggiani verificata, falda e direzioni negative",
+    "sostituzione": "supporto\\installer\\README.pdf",
+    "sha256": "8609df981d62ef0c368905061898ca02d5e43c353ef782d0eddcd750e70753b9"
+  }
+]

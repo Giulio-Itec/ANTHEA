@@ -1,0 +1,1572 @@
+[
+  {
+    "key": "guida-sezione-ca",
+    "title": "Modulo Sezione in c.a.",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli/sezione-ca",
+    "action": "conservato e integrato",
+    "originalStatus": "reviewed",
+    "currentStatus": "reviewed",
+    "sourceSha256": "520c7a562504ecff9c181924f494233db2609a5ecad933c776df8b2da0da5a68",
+    "evidence": [
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectReportPlan.cs",
+      "X.Desktop/Wpf/ProjectWorkspace.cs",
+      "X.Core/SectionActionsExcel.cs",
+      "X.Desktop/Wpf/ConcreteLayout.cs",
+      "X.Desktop/Wpf/WikiView.cs"
+    ],
+    "reviewScope": "Coerenza editoriale e percorsi; formule conservate nel campo dichiarato. Le verifiche indipendenti sono registrate nei test, non dedotte dallo stato di catalogo.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-avvio-e-scelta-del-modulo",
+    "title": "Avvio e scelta del modulo",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/primi-passi/avvio-e-scelta-del-modulo",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "b4e4608cd5a4b10948cd7f5f19e0a532cc3622a7e7eaa5eff7f72d2fe0a37d94",
+    "evidence": [
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Desktop/Wpf/ProjectReport.cs",
+      "supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+      "supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+      "supporto/test/Desktop/ProjectReportSmokeChecks.cs"
+    ],
+    "reviewScope": "Procedure confrontate con catalogo, archivio, gerarchia, revisioni, report e prove WPF. Corrette citazioni a documenti separati. Verificata immutabilità degli archivi storici e distinzione fra revisione dei dati e versione del motore.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-progetti-e-gestione-del-lavoro",
+    "title": "Progetti e gestione del lavoro",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/progetti/progetti-e-gestione-del-lavoro",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "0db0a650cfe075d453d06a917011fa2023d20188dafc7636c35cf6d084747453",
+    "evidence": [
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Desktop/Wpf/ProjectReport.cs",
+      "supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+      "supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+      "supporto/test/Desktop/ProjectReportSmokeChecks.cs"
+    ],
+    "reviewScope": "Procedure confrontate con catalogo, archivio, gerarchia, revisioni, report e prove WPF. Corrette citazioni a documenti separati. Verificata immutabilità degli archivi storici e distinzione fra revisione dei dati e versione del motore.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-materiali-e-durabilita",
+    "title": "Materiali e durabilità",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli-singoli/materiali-e-durabilita",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "03ba7f8e57bcc77596a1218f083066c03c5be2bba40d0aa996b5d1a7f9bb0d09",
+    "evidence": [
+      "supporto/test/Desktop/MaterialsSmokeChecks.cs",
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "X.Calculations/Materials/NtcCover.cs",
+      "X.Materiali/MixAutomation.cs"
+    ],
+    "reviewScope": "Riscontrati formule di progetto, copriferro e cataloghi implementati, combinazione delle esposizioni e proprietà condivise. Prove materiali WPF, libreria autonoma e ConcreteCode. I prospetti storici dichiarati non sono presentati come aggiornamento automatico delle norme.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-palo-verticale",
+    "title": "Palo verticale",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli-singoli/palo-verticale",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "d7d589264eb8297ff5a081a662487969ec238f6abd2bb54dc149608b4d2cd66d",
+    "evidence": [
+      "X.Calculations/Calcolo.cs",
+      "X.Calculations/Nq.cs",
+      "supporto/test/casi_confronto.json",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "reviewScope": "Riscontrati input, unità, falda, rami drenato/non drenato, abaco parametrico e limiti. Confrontati casi salvati e controllati indipendentemente superficie laterale, peso e conversioni. Le correlazioni sono descritte come modelli implementati, non come parametri misurati o prescrizioni universali.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-micropalo-verticale",
+    "title": "Micropalo verticale",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli-singoli/micropalo-verticale",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "ecdb0efc2f0f5b545ed914647b8b77bf986c4dbb14a185f4dff68549a7187522",
+    "evidence": [
+      "X.Calculations/Calcolo.cs",
+      "X.Calculations/Nq.cs",
+      "supporto/test/casi_confronto.json",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "reviewScope": "Riscontrati input, unità, falda, rami drenato/non drenato, abaco parametrico e limiti. Confrontati casi salvati e controllati indipendentemente superficie laterale, peso e conversioni. Le correlazioni sono descritte come modelli implementati, non come parametri misurati o prescrizioni universali.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-pali-e-micropali-caricati-orizzontalmente",
+    "title": "Pali e micropali caricati orizzontalmente",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli-singoli/pali-e-micropali-caricati-orizzontalmente",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "c475e797ea148e3e1bb68f2173281c7940675247894417a20ca887b6dcecbb45",
+    "evidence": [
+      "X.Calculations/PaloOrizzontale.cs",
+      "X.Calculations/MicropaloOrizzontale.cs",
+      "supporto/test/X.Verifiche/HorizontalChecks.cs",
+      "supporto/test/X.Verifiche/HorizontalStratifiedChecks.cs"
+    ],
+    "reviewScope": "Rivisti equilibri dei meccanismi, pressioni per unità di lunghezza, segni, campo del momento automatico, anello CHS e interazione N–M. Superati 1080 controlli Broms, controlli CHS e 1645 stratificati; dichiarata natura sperimentale delle estensioni.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-sezione-in-calcestruzzo-armato",
+    "title": "Sezione in calcestruzzo armato",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli/sezione-ca",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "1e3725d0b36707662d36c15937f79d9642f54c343a88e37f864ce25682ae7199",
+    "evidence": [
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectReportPlan.cs",
+      "X.Desktop/Wpf/ProjectWorkspace.cs",
+      "X.Core/SectionActionsExcel.cs",
+      "X.Desktop/Wpf/ConcreteLayout.cs",
+      "X.Desktop/Wpf/WikiView.cs"
+    ],
+    "reviewScope": "Coerenza editoriale e percorsi; formule conservate nel campo dichiarato. Le verifiche indipendenti sono registrate nei test, non dedotte dallo stato di catalogo.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-sezione-composta-da-ponte",
+    "title": "Sezione composta da ponte",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli-singoli/sezione-composta-da-ponte",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "c0baf7bec00ff0262c0f3e37ea3dd4e8f092d1e6601ba3df3f41659112afca48",
+    "evidence": [
+      "X.Calculations/BridgeSection.Shear.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/X.Verifiche/BridgeSectionChecks.cs",
+      "supporto/test/X.Verifiche/BridgeMethodChecks.cs",
+      "supporto/test/X.Verifiche/BridgeInclinedGuideChecks.cs",
+      "supporto/test/X.Verifiche/BridgePredalleChecks.cs"
+    ],
+    "reviewScope": "Corretto l’ingresso Altezza totale H: 1855 mm per H inclinata e 1850 mm per cassoncino negli esempi con hw=1800 mm. Ricalcolati geometria, tensioni, torsione e distorsione con riferimenti indipendenti: 172+2957+189+191 controlli superati. Rivisti fasi, proprietà equivalenti, unità, limiti e distinzione fra comportamento implementato e prescrizione.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-bridge-design",
+    "title": "Bridge Design",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli-singoli/bridge-design",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "60b663faa5407448bc708b39d487fd0a1943824567b25390f3955f082e17d721",
+    "evidence": [
+      "X.Calculations/BridgeConcept.Calculation.cs",
+      "X.Calculations/BridgeConcept.Optimization.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/Program.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/verify.py"
+    ],
+    "reviewScope": "Rivisti input/output, famiglie, grandezze, analisi equivalente, griglia discreta, costi e CO2. Confronto indipendente: 100 travi e 26 alternative, 80133 confronti. Le regole geometriche empiriche e il predimensionamento non sono presentati come verifica completa del ponte.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-salvataggio-e-report",
+    "title": "Salvataggio e report",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/esportazione/salvataggio-e-report",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "f03005ca7d08f0c2347e4a3e54ed54ed99fb69751af3400f0652d9e81b68959d",
+    "evidence": [
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Desktop/Wpf/ProjectReport.cs",
+      "supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+      "supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+      "supporto/test/Desktop/ProjectReportSmokeChecks.cs"
+    ],
+    "reviewScope": "Procedure confrontate con catalogo, archivio, gerarchia, revisioni, report e prove WPF. Corrette citazioni a documenti separati. Verificata immutabilità degli archivi storici e distinzione fra revisione dei dati e versione del motore.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-percorso-completo-per-un-primo-progetto",
+    "title": "Percorso completo per un primo progetto",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/workflow/percorso-completo-per-un-primo-progetto",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "d0c5764a056cf741665e6d839563cad542341b5c1b654b8eb15010710e83c094",
+    "evidence": [
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Desktop/Wpf/ProjectReport.cs",
+      "supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+      "supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+      "supporto/test/Desktop/ProjectReportSmokeChecks.cs"
+    ],
+    "reviewScope": "Procedure confrontate con catalogo, archivio, gerarchia, revisioni, report e prove WPF. Corrette citazioni a documenti separati. Verificata immutabilità degli archivi storici e distinzione fra revisione dei dati e versione del motore.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-problemi-frequenti-e-controlli-finali",
+    "title": "Problemi frequenti e controlli finali",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/faq-e-troubleshooting/problemi-frequenti-e-controlli-finali",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "5bd8e9ba408cf255748a8f41cda1f52af4bfd20c3f4c20f145e7fc03903bb5fc",
+    "evidence": [
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Desktop/Wpf/ProjectReport.cs",
+      "supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+      "supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+      "supporto/test/Desktop/ProjectReportSmokeChecks.cs"
+    ],
+    "reviewScope": "Procedure confrontate con catalogo, archivio, gerarchia, revisioni, report e prove WPF. Corrette citazioni a documenti separati. Verificata immutabilità degli archivi storici e distinzione fra revisione dei dati e versione del motore.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-muri-di-sostegno-con-stratigrafie-di-monte-e-valle",
+    "title": "Muri di sostegno con stratigrafie di monte e valle",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli-singoli/muri-di-sostegno-con-stratigrafie-di-monte-e-valle",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "38aba6045b5d2bb4af42cd7e47a40dc42684acb1131e11289a2fd138420b17d3",
+    "evidence": [
+      "X.Calculations/RetainingWall.Actions.cs",
+      "X.Calculations/RetainingWall.Serviceability.cs",
+      "supporto/test/RetainingWall.Checks/Program.cs",
+      "supporto/test/RetainingWall.Checks/SeismicSoilChecks.cs",
+      "supporto/test/RetainingWall.Checks/MaterialSharingChecks.cs"
+    ],
+    "reviewScope": "Rivisti riferimenti geometrici, combinazioni, modelli separati, fattori F e gammaR, unità e segni degli spostamenti. Recuperato caso con esito sfavorevole. Superati 345 controlli dei muri. Distinte prove numeriche, applicabilità delle ipotesi e confronto MAX non disponibile.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+    "title": "Portanza sismica cedimenti spostamenti e armature Rev07",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli-singoli/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "fb48c1370c6daee6df9de94e199636a3ea6a1245b629b838a0358f8eff47276b",
+    "evidence": [
+      "X.Calculations/RetainingWall.Actions.cs",
+      "X.Calculations/RetainingWall.Serviceability.cs",
+      "supporto/test/RetainingWall.Checks/Program.cs",
+      "supporto/test/RetainingWall.Checks/SeismicSoilChecks.cs",
+      "supporto/test/RetainingWall.Checks/MaterialSharingChecks.cs"
+    ],
+    "reviewScope": "Rivisti riferimenti geometrici, combinazioni, modelli separati, fattori F e gammaR, unità e segni degli spostamenti. Recuperato caso con esito sfavorevole. Superati 345 controlli dei muri. Distinte prove numeriche, applicabilità delle ipotesi e confronto MAX non disponibile.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-palificata-orizzontale",
+    "title": "Efficienza orizzontale della palificata",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/palificata-orizzontale",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "421e1076b278fb9e59a5169f3bd23319ba8584684fd809f41494f680ec215cae",
+    "evidence": [
+      "X.Desktop/Wpf/HorizontalPileGroupWorkspace.cs",
+      "X.Calculations/HorizontalPileGroup.cs",
+      "supporto/test/HorizontalPileGroup.Checks/Program.cs"
+    ],
+    "reviewScope": "Procedura verificata rispetto a geometria, proiezioni, interassi rappresentativi e risultati. Superati 94 controlli numerici/UI. Il fattore Davisson resta distinto dalla media p-multiplier; le attribuzioni della teoria hanno un riscontro aperto separato.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-palo-elastico",
+    "title": "Risposta elastica del palo orizzontale",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/palo-elastico",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "3065df41c0954b44467606154e7d5f952a92104e687649dad8d012884f0ab8d8",
+    "evidence": [
+      "X.Calculations/ElasticHorizontalPile.cs",
+      "X.Desktop/Wpf/ElasticPileWorkspace.cs",
+      "supporto/test/ElasticPile.Checks/Program.cs"
+    ],
+    "reviewScope": "Verificate dimensioni di kh, nh e k, segni, condizioni al contorno, integrazione Hermite, recupero equilibrato e convergenza. Superati 101 controlli, con riferimenti analitici e tabellati. L’edizione non identificabile della scansione Viggiani e la mancata consultazione degli articoli originali rimangono dichiarate, senza nuove attribuzioni.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-approfondimenti-integrati",
+    "title": "Approfondimenti integrati",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/introduzione/wiki-e-centro-della-conoscenza",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "05829342fa7c908fb74725cebb3e58a7449d039d2db9164d2a51bc719ab2c2e6",
+    "evidence": [
+      "supporto/test/Desktop/WikiChecks.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Desktop/Wpf/WikiCatalog.cs"
+    ],
+    "reviewScope": "Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-calcestruzzo-armato-collegamento-checker",
+    "title": "Calcestruzzo armato — collegamento Checker",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli/sezione-ca",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "f351d552af7257509c6b9d381118eb3b08b79aba56b1ad48b81cfa305ab2423f",
+    "evidence": [
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectReportPlan.cs",
+      "X.Desktop/Wpf/ProjectWorkspace.cs",
+      "X.Core/SectionActionsExcel.cs",
+      "X.Desktop/Wpf/ConcreteLayout.cs",
+      "X.Desktop/Wpf/WikiView.cs"
+    ],
+    "reviewScope": "Coerenza editoriale e percorsi; formule conservate nel campo dichiarato. Le verifiche indipendenti sono registrate nei test, non dedotte dallo stato di catalogo.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-gerarchia-dei-fogli-nei-progetti",
+    "title": "Gerarchia dei fogli nei progetti",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/progetti/progetti-e-gestione-del-lavoro",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "45bc281f02d78cb5d05f50737850b494351d11c018613684b855222914e63a1e",
+    "evidence": [
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Desktop/Wpf/ProjectReport.cs",
+      "supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+      "supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+      "supporto/test/Desktop/ProjectReportSmokeChecks.cs"
+    ],
+    "reviewScope": "Procedure confrontate con catalogo, archivio, gerarchia, revisioni, report e prove WPF. Corrette citazioni a documenti separati. Verificata immutabilità degli archivi storici e distinzione fra revisione dei dati e versione del motore.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-micropalo-orizzontale-con-chs",
+    "title": "Micropalo orizzontale con CHS",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli-singoli/pali-e-micropali-caricati-orizzontalmente",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "1b93cc603a581d413fb6261adcede371bcf1c67dfef9a8e1d36072e6c20451a2",
+    "evidence": [
+      "X.Calculations/PaloOrizzontale.cs",
+      "X.Calculations/MicropaloOrizzontale.cs",
+      "supporto/test/X.Verifiche/HorizontalChecks.cs",
+      "supporto/test/X.Verifiche/HorizontalStratifiedChecks.cs"
+    ],
+    "reviewScope": "Rivisti equilibri dei meccanismi, pressioni per unità di lunghezza, segni, campo del momento automatico, anello CHS e interazione N–M. Superati 1080 controlli Broms, controlli CHS e 1645 stratificati; dichiarata natura sperimentale delle estensioni.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-progetti-e-revisioni",
+    "title": "Progetti e revisioni",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/progetti/progetti-e-gestione-del-lavoro",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "7d27539727293acdfa5782676d528b89fd3efc825b81d2b4fb9ef88c41a5c770",
+    "evidence": [
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Desktop/Wpf/ProjectReport.cs",
+      "supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+      "supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+      "supporto/test/Desktop/ProjectReportSmokeChecks.cs"
+    ],
+    "reviewScope": "Procedure confrontate con catalogo, archivio, gerarchia, revisioni, report e prove WPF. Corrette citazioni a documenti separati. Verificata immutabilità degli archivi storici e distinzione fra revisione dei dati e versione del motore.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-stabilita-globale-guida-rapida",
+    "title": "Stabilità globale: guida rapida",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli-singoli/muri-di-sostegno-con-stratigrafie-di-monte-e-valle",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "ac7dfb7b27c0bc68be5bf76acd2f1bd8c3fe0d0e3954aa977046e3de9a9fd380",
+    "evidence": [
+      "X.Calculations/RetainingWall.Actions.cs",
+      "X.Calculations/RetainingWall.Serviceability.cs",
+      "supporto/test/RetainingWall.Checks/Program.cs",
+      "supporto/test/RetainingWall.Checks/SeismicSoilChecks.cs",
+      "supporto/test/RetainingWall.Checks/MaterialSharingChecks.cs"
+    ],
+    "reviewScope": "Rivisti riferimenti geometrici, combinazioni, modelli separati, fattori F e gammaR, unità e segni degli spostamenti. Recuperato caso con esito sfavorevole. Superati 345 controlli dei muri. Distinte prove numeriche, applicabilità delle ipotesi e confronto MAX non disponibile.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-guida-pratica-di-bridge-design",
+    "title": "Guida pratica di Bridge Design",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli-singoli/bridge-design",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "79c01f3f0585f05db92002f5d5a4306ffb0fcbb8827b0a42964f1c90a413beeb",
+    "evidence": [
+      "X.Calculations/BridgeConcept.Calculation.cs",
+      "X.Calculations/BridgeConcept.Optimization.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/Program.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/verify.py"
+    ],
+    "reviewScope": "Rivisti input/output, famiglie, grandezze, analisi equivalente, griglia discreta, costi e CO2. Confronto indipendente: 100 travi e 26 alternative, 80133 confronti. Le regole geometriche empiriche e il predimensionamento non sono presentati come verifica completa del ponte.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-wiki-e-centro-della-conoscenza",
+    "title": "Wiki e centro della conoscenza",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/introduzione/wiki-e-centro-della-conoscenza",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "ecc7543435e595da395aef118342931c7078d634b6a3f5583be2c9f186505ce7",
+    "evidence": [
+      "supporto/test/Desktop/WikiChecks.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Desktop/Wpf/WikiCatalog.cs"
+    ],
+    "reviewScope": "Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-interpretazione-dei-risultati-e-controlli-indipendenti",
+    "title": "Interpretazione dei risultati e controlli indipendenti",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/interpretazione-risultati/interpretazione-dei-risultati-e-controlli-indipendenti",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "31acbfffe3c91e9cab96308208c3e44834bf3247e074ee7c655a03675ca713f6",
+    "evidence": [
+      "supporto/test/Desktop/WikiChecks.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Desktop/Wpf/WikiCatalog.cs"
+    ],
+    "reviewScope": "Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.",
+    "openPoints": []
+  },
+  {
+    "key": "guida-tutorial-dal-modello-beam-alla-verifica-di-sezione",
+    "title": "Tutorial dal modello Beam alla verifica di sezione",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/tutorial/tutorial-dal-modello-beam-alla-verifica-di-sezione",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "be3604469aba99b1669a997e2b2ac7046fda3c4f0ca1b5b5d69b84be3b4d61de",
+    "evidence": [
+      "supporto/test/Desktop/WikiChecks.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Desktop/Wpf/WikiCatalog.cs"
+    ],
+    "reviewScope": "Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.",
+    "openPoints": []
+  },
+  {
+    "key": "architettura-del-calcolo-e-convenzioni",
+    "title": "Architettura del calcolo e convenzioni",
+    "chapter": "fondamenti",
+    "destination": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "e1098629c9c27655e47be72ab83f3e872d736a55cbbc23c4c4bc8645f93bb28a",
+    "evidence": [
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Calculations/ModuleCatalog.cs",
+      "X.Core/SectionActionsExcel.cs"
+    ],
+    "reviewScope": "Riviste convenzioni, conversioni dimensionali, equilibrio, simultaneità delle azioni e confini dei motori. Esempi aritmetici controllati; nessun coefficiente normativo assegnato universalmente.",
+    "openPoints": []
+  },
+  {
+    "key": "calcestruzzo-armature-e-copriferro",
+    "title": "Calcestruzzo armature e copriferro",
+    "chapter": "materiali",
+    "destination": "/wiki/manuale/calcestruzzo-armato/calcestruzzo-armature-e-copriferro",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "3d8ee1c9bb9f8acc2b65778b4aa5526d5d59fb9e6852a4c5011a69bbb35f8fe6",
+    "evidence": [
+      "supporto/test/Desktop/MaterialsSmokeChecks.cs",
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "X.Calculations/Materials/NtcCover.cs",
+      "X.Materiali/MixAutomation.cs"
+    ],
+    "reviewScope": "Riscontrati formule di progetto, copriferro e cataloghi implementati, combinazione delle esposizioni e proprietà condivise. Prove materiali WPF, libreria autonoma e ConcreteCode. I prospetti storici dichiarati non sono presentati come aggiornamento automatico delle norme.",
+    "openPoints": []
+  },
+  {
+    "key": "palo-verticale",
+    "title": "Palo verticale",
+    "chapter": "geotecnica",
+    "destination": "/wiki/manuale/fondazioni-e-geotecnica/palo-verticale",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "eeaf1b3ebf412c34da6dd49da667afbae9b52f890b0076e0363c8b0b86e0e2a2",
+    "evidence": [
+      "X.Calculations/Calcolo.cs",
+      "X.Calculations/Nq.cs",
+      "supporto/test/casi_confronto.json",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "reviewScope": "Riscontrati input, unità, falda, rami drenato/non drenato, abaco parametrico e limiti. Confrontati casi salvati e controllati indipendentemente superficie laterale, peso e conversioni. Le correlazioni sono descritte come modelli implementati, non come parametri misurati o prescrizioni universali.",
+    "openPoints": []
+  },
+  {
+    "key": "micropalo-verticale",
+    "title": "Micropalo verticale",
+    "chapter": "geotecnica",
+    "destination": "/wiki/manuale/fondazioni-e-geotecnica/micropalo-verticale",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "22e05e93334c24f2696e9677344e25de48af5f35ba29c0276d059ce4b38894b5",
+    "evidence": [
+      "X.Calculations/Calcolo.cs",
+      "X.Calculations/Nq.cs",
+      "supporto/test/casi_confronto.json",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "reviewScope": "Riscontrati input, unità, falda, rami drenato/non drenato, abaco parametrico e limiti. Confrontati casi salvati e controllati indipendentemente superficie laterale, peso e conversioni. Le correlazioni sono descritte come modelli implementati, non come parametri misurati o prescrizioni universali.",
+    "openPoints": []
+  },
+  {
+    "key": "capacita-orizzontale-con-broms",
+    "title": "Capacità orizzontale con Broms",
+    "chapter": "geotecnica",
+    "destination": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "043e5189e2402dacafc24ef2de883f448658282393729c85a7d5d9a05b90af4b",
+    "evidence": [
+      "X.Calculations/PaloOrizzontale.cs",
+      "X.Calculations/MicropaloOrizzontale.cs",
+      "supporto/test/X.Verifiche/HorizontalChecks.cs",
+      "supporto/test/X.Verifiche/HorizontalStratifiedChecks.cs"
+    ],
+    "reviewScope": "Rivisti equilibri dei meccanismi, pressioni per unità di lunghezza, segni, campo del momento automatico, anello CHS e interazione N–M. Superati 1080 controlli Broms, controlli CHS e 1645 stratificati; dichiarata natura sperimentale delle estensioni.",
+    "openPoints": []
+  },
+  {
+    "key": "sezione-in-calcestruzzo-armato",
+    "title": "Sezione in calcestruzzo armato",
+    "chapter": "calcestruzzo",
+    "destination": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "72f13d417f51d1db39238f33aee4f7b3dd44f37fd8716e26f4da5c4823449dae",
+    "evidence": [
+      "supporto/test/ConcreteCode.Checks/Program.cs",
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "reviewScope": "Rivisti piano delle deformazioni, domini, segni, rami fessurazione/taglio/torsione, fori, tendini e limiti. Esempio fessurazione ricalcolato; 434 controlli dei profili e 73 della libreria. Attribuzioni nazionali incerte restano nella matrice qualificata.",
+    "openPoints": []
+  },
+  {
+    "key": "sezione-composta-da-ponte",
+    "title": "Sezione composta da ponte",
+    "chapter": "ponti",
+    "destination": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "94306fe5369c700ae87e325d73b8fddffab44a028a7ff667e7f95584dd113e1e",
+    "evidence": [
+      "X.Calculations/BridgeSection.Shear.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/X.Verifiche/BridgeSectionChecks.cs",
+      "supporto/test/X.Verifiche/BridgeMethodChecks.cs",
+      "supporto/test/X.Verifiche/BridgeInclinedGuideChecks.cs",
+      "supporto/test/X.Verifiche/BridgePredalleChecks.cs"
+    ],
+    "reviewScope": "Corretto l’ingresso Altezza totale H: 1855 mm per H inclinata e 1850 mm per cassoncino negli esempi con hw=1800 mm. Ricalcolati geometria, tensioni, torsione e distorsione con riferimenti indipendenti: 172+2957+189+191 controlli superati. Rivisti fasi, proprietà equivalenti, unità, limiti e distinzione fra comportamento implementato e prescrizione.",
+    "openPoints": []
+  },
+  {
+    "key": "taglio-irrigidimenti-e-connessione-della-sezione-composta",
+    "title": "Taglio irrigidimenti e connessione della sezione composta",
+    "chapter": "ponti",
+    "destination": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "a4dac936fcec438d5b27a1cd6bff9c17db1a1c1c89596f23c579045b5010bbd8",
+    "evidence": [
+      "X.Calculations/BridgeSection.Shear.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/X.Verifiche/BridgeSectionChecks.cs",
+      "supporto/test/X.Verifiche/BridgeMethodChecks.cs",
+      "supporto/test/X.Verifiche/BridgeInclinedGuideChecks.cs",
+      "supporto/test/X.Verifiche/BridgePredalleChecks.cs"
+    ],
+    "reviewScope": "Corretto l’ingresso Altezza totale H: 1855 mm per H inclinata e 1850 mm per cassoncino negli esempi con hw=1800 mm. Ricalcolati geometria, tensioni, torsione e distorsione con riferimenti indipendenti: 172+2957+189+191 controlli superati. Rivisti fasi, proprietà equivalenti, unità, limiti e distinzione fra comportamento implementato e prescrizione.",
+    "openPoints": []
+  },
+  {
+    "key": "bridge-design",
+    "title": "Bridge Design",
+    "chapter": "ponti",
+    "destination": "/wiki/manuale/ponti/bridge-design",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "5e9cae68f1fdd86cb3f1a2f1609277493b68b2a3072f18234a75759da957136e",
+    "evidence": [
+      "X.Calculations/BridgeConcept.Calculation.cs",
+      "X.Calculations/BridgeConcept.Optimization.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/Program.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/verify.py"
+    ],
+    "reviewScope": "Rivisti input/output, famiglie, grandezze, analisi equivalente, griglia discreta, costi e CO2. Confronto indipendente: 100 travi e 26 alternative, 80133 confronti. Le regole geometriche empiriche e il predimensionamento non sono presentati come verifica completa del ponte.",
+    "openPoints": []
+  },
+  {
+    "key": "esempi-trasversali-e-lettura-critica",
+    "title": "Esempi trasversali e lettura critica",
+    "chapter": "fondamenti",
+    "destination": "/wiki/manuale/calcestruzzo-armato/esempi-trasversali-e-lettura-critica",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "07986386c12ecf26472c2f4637c9f7acd55ad42f7a9b42ae18a58e9e32a1ee13",
+    "evidence": [
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Calculations/ModuleCatalog.cs",
+      "X.Core/SectionActionsExcel.cs"
+    ],
+    "reviewScope": "Riviste convenzioni, conversioni dimensionali, equilibrio, simultaneità delle azioni e confini dei motori. Esempi aritmetici controllati; nessun coefficiente normativo assegnato universalmente.",
+    "openPoints": []
+  },
+  {
+    "key": "tracciabilita-e-riferimenti",
+    "title": "Tracciabilità e riferimenti",
+    "chapter": "anthea",
+    "destination": "/wiki/manuale/calcestruzzo-armato/tracciabilita-e-riferimenti",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "9881756b2d68d53880cf018bc3951850a64e270f709fd1add4fc62374356b1be",
+    "evidence": [
+      "supporto/test/Desktop/WikiChecks.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Desktop/Wpf/WikiCatalog.cs"
+    ],
+    "reviewScope": "Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.",
+    "openPoints": []
+  },
+  {
+    "key": "muri-di-sostegno-e-stabilita-globale",
+    "title": "Muri di sostegno e stabilità globale",
+    "chapter": "geotecnica",
+    "destination": "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "f047c33539f5dec23743e5f166e5b3331705dfc18fbb93dd919c00c733038f7c",
+    "evidence": [
+      "X.Calculations/RetainingWall.Actions.cs",
+      "X.Calculations/RetainingWall.Serviceability.cs",
+      "supporto/test/RetainingWall.Checks/Program.cs",
+      "supporto/test/RetainingWall.Checks/SeismicSoilChecks.cs",
+      "supporto/test/RetainingWall.Checks/MaterialSharingChecks.cs"
+    ],
+    "reviewScope": "Rivisti riferimenti geometrici, combinazioni, modelli separati, fattori F e gammaR, unità e segni degli spostamenti. Recuperato caso con esito sfavorevole. Superati 345 controlli dei muri. Distinte prove numeriche, applicabilità delle ipotesi e confronto MAX non disponibile.",
+    "openPoints": []
+  },
+  {
+    "key": "portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+    "title": "Portanza sismica cedimenti spostamenti e armature Rev07",
+    "chapter": "geotecnica",
+    "destination": "/wiki/manuale/calcestruzzo-armato/portanza-sismica-cedimenti-spostamenti-e-armature-rev07",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "fb48c1370c6daee6df9de94e199636a3ea6a1245b629b838a0358f8eff47276b",
+    "evidence": [
+      "X.Calculations/RetainingWall.Actions.cs",
+      "X.Calculations/RetainingWall.Serviceability.cs",
+      "supporto/test/RetainingWall.Checks/Program.cs",
+      "supporto/test/RetainingWall.Checks/SeismicSoilChecks.cs",
+      "supporto/test/RetainingWall.Checks/MaterialSharingChecks.cs"
+    ],
+    "reviewScope": "Rivisti riferimenti geometrici, combinazioni, modelli separati, fattori F e gammaR, unità e segni degli spostamenti. Recuperato caso con esito sfavorevole. Superati 345 controlli dei muri. Distinte prove numeriche, applicabilità delle ipotesi e confronto MAX non disponibile.",
+    "openPoints": []
+  },
+  {
+    "key": "palificata-orizzontale",
+    "title": "Efficienza orizzontale della palificata",
+    "chapter": "geotecnica",
+    "destination": "/wiki/theory/palificata-orizzontale",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "qualified",
+    "sourceSha256": "c66fec6bfdf995c8ac874cbe7868b754370d07cee3c08f9efca2fe9639933e17",
+    "evidence": [
+      "supporto/test/HorizontalPileGroup.Checks/Program.cs",
+      "X.Calculations/HorizontalPileGroup.cs"
+    ],
+    "reviewScope": "Formule implementate ed esempi numerici controllati; mantenuti distinti significato fisico, estrapolazioni e attribuzioni bibliografiche.",
+    "openPoints": [
+      "La tabella attribuita a Davisson proviene dalla specifica utente: resta da riscontrare direttamente nel lavoro originale. Le formule Rollins/FEMA richiedono completamento della verifica dei testi originali. I 94 controlli non dimostrano tale attribuzione."
+    ]
+  },
+  {
+    "key": "palo-elastico",
+    "title": "Risposta elastica del palo orizzontale",
+    "chapter": "geotecnica",
+    "destination": "/wiki/theory/palo-elastico",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "0a5c6b49b994c3c54765c42c6d72f5ecfcf54f3b33114fb04e7d2c21720f87f4",
+    "evidence": [
+      "X.Calculations/ElasticHorizontalPile.cs",
+      "X.Desktop/Wpf/ElasticPileWorkspace.cs",
+      "supporto/test/ElasticPile.Checks/Program.cs"
+    ],
+    "reviewScope": "Verificate dimensioni di kh, nh e k, segni, condizioni al contorno, integrazione Hermite, recupero equilibrato e convergenza. Superati 101 controlli, con riferimenti analitici e tabellati. L’edizione non identificabile della scansione Viggiani e la mancata consultazione degli articoli originali rimangono dichiarate, senza nuove attribuzioni.",
+    "openPoints": []
+  },
+  {
+    "key": "approfondimenti-integrati",
+    "title": "Approfondimenti integrati",
+    "chapter": "anthea",
+    "destination": "/wiki/manuale/calcestruzzo-armato/tracciabilita-e-riferimenti",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "843b069142be5846eb21bd0b5b922b9360fa274d48985e57422c71a52936c632",
+    "evidence": [
+      "supporto/test/Desktop/WikiChecks.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Desktop/Wpf/WikiCatalog.cs"
+    ],
+    "reviewScope": "Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a01-scheda-acciaio-per-armature",
+    "title": "Scheda acciaio per armature",
+    "chapter": "materiali",
+    "destination": "/wiki/manuale/materiali/acciaio-armature",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "f210868deb4cac54b10d7bb3d7fa53b598bda60162994e480029f7ec7a90de3c",
+    "evidence": [
+      "X.Calculations/RebarMaterial.cs",
+      "X.Calculations/ConcreteMaterials.cs",
+      "X.Calculations/Materials/NtcCover.cs"
+    ],
+    "reviewScope": "Coerenza editoriale e percorsi; formule conservate nel campo dichiarato. Le verifiche indipendenti sono registrate nei test, non dedotte dallo stato di catalogo.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a02-aggiornamento-librerie-24-settembre-2026",
+    "title": "Aggiornamento librerie · 24 settembre 2026",
+    "chapter": "anthea",
+    "destination": "/wiki/manuale/calcestruzzo-armato/tracciabilita-e-riferimenti",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "e7e783e513a4a52a743c176c675c7db5b1bc454e2883ca08fd7e37b040d565b3",
+    "evidence": [
+      "supporto/test/Desktop/WikiChecks.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Desktop/Wpf/WikiCatalog.cs"
+    ],
+    "reviewScope": "Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a03-asse-neutro-nelle-viste-di-sezione",
+    "title": "Asse neutro nelle viste di sezione",
+    "chapter": "calcestruzzo",
+    "destination": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "5749fcc9ded6add14f412fdedaff135b4cddcbede89ef0b43abf15c990b667a3",
+    "evidence": [
+      "supporto/test/ConcreteCode.Checks/Program.cs",
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "reviewScope": "Rivisti piano delle deformazioni, domini, segni, rami fessurazione/taglio/torsione, fori, tendini e limiti. Esempio fessurazione ricalcolato; 434 controlli dei profili e 73 della libreria. Attribuzioni nazionali incerte restano nella matrice qualificata.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a04-audit-anthea-calcoli-dati-comuni-e-progetti",
+    "title": "Audit ANTHEA: calcoli, dati comuni e progetti",
+    "chapter": "fondamenti",
+    "destination": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "29bcb36d3db16f4beea5ae947d235a2bbf8143fa2b9b21bcb07eb9da02ccf27f",
+    "evidence": [
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Calculations/ModuleCatalog.cs",
+      "X.Core/SectionActionsExcel.cs"
+    ],
+    "reviewScope": "Riviste convenzioni, conversioni dimensionali, equilibrio, simultaneità delle azioni e confini dei motori. Esempi aritmetici controllati; nessun coefficiente normativo assegnato universalmente.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a05-dati-e-risultati-del-modulo-in-cemento-armato",
+    "title": "Dati e risultati del modulo in cemento armato",
+    "chapter": "calcestruzzo",
+    "destination": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "5ea79f548000088cf601c769c4266e5af8de4987cbb6b3d1bc62cada5ae3b13d",
+    "evidence": [
+      "supporto/test/ConcreteCode.Checks/Program.cs",
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "reviewScope": "Rivisti piano delle deformazioni, domini, segni, rami fessurazione/taglio/torsione, fori, tendini e limiti. Esempio fessurazione ricalcolato; 434 controlli dei profili e 73 della libreria. Attribuzioni nazionali incerte restano nella matrice qualificata.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a06-anthea-audit-generale-di-bridge-design",
+    "title": "ANTHEA — Audit generale di Bridge Design",
+    "chapter": "ponti",
+    "destination": "/wiki/manuale/ponti/bridge-design",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "5ecd258071c5bef045f43f32b6aff177647a219e3ec192157d095aa018d71842",
+    "evidence": [
+      "X.Calculations/BridgeConcept.Calculation.cs",
+      "X.Calculations/BridgeConcept.Optimization.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/Program.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/verify.py"
+    ],
+    "reviewScope": "Rivisti input/output, famiglie, grandezze, analisi equivalente, griglia discreta, costi e CO2. Confronto indipendente: 100 travi e 26 alternative, 80133 confronti. Le regole geometriche empiriche e il predimensionamento non sono presentati come verifica completa del ponte.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a07-bridge-design-sezioni-tecniche-e-ottimizzazione",
+    "title": "Bridge Design — sezioni tecniche e ottimizzazione",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli-singoli/bridge-design",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "3ff89eb91711965316379ca5dcb3c2f491ca022b0c2b13acadda9838ff5682b5",
+    "evidence": [
+      "X.Calculations/BridgeConcept.Calculation.cs",
+      "X.Calculations/BridgeConcept.Optimization.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/Program.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/verify.py"
+    ],
+    "reviewScope": "Rivisti input/output, famiglie, grandezze, analisi equivalente, griglia discreta, costi e CO2. Confronto indipendente: 100 travi e 26 alternative, 80133 confronti. Le regole geometriche empiriche e il predimensionamento non sono presentati come verifica completa del ponte.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a08-bridge-design",
+    "title": "Bridge Design",
+    "chapter": "ponti",
+    "destination": "/wiki/manuale/ponti/bridge-design",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "596a9100a462232df2b7de766c7e5ed57745791e1c2858a4a58df19123e74e7c",
+    "evidence": [
+      "X.Calculations/BridgeConcept.Calculation.cs",
+      "X.Calculations/BridgeConcept.Optimization.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/Program.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/verify.py"
+    ],
+    "reviewScope": "Rivisti input/output, famiglie, grandezze, analisi equivalente, griglia discreta, costi e CO2. Confronto indipendente: 100 travi e 26 alternative, 80133 confronti. Le regole geometriche empiriche e il predimensionamento non sono presentati come verifica completa del ponte.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a09-validazione-taglio-e-fessurazione-ca",
+    "title": "Validazione — taglio e fessurazione CA",
+    "chapter": "calcestruzzo",
+    "destination": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "575372a7c81101030346b91446052c28b19cc281f38c17b45f64b4b74a0d1071",
+    "evidence": [
+      "supporto/test/ConcreteCode.Checks/Program.cs",
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "reviewScope": "Rivisti piano delle deformazioni, domini, segni, rami fessurazione/taglio/torsione, fori, tendini e limiti. Esempio fessurazione ricalcolato; 434 controlli dei profili e 73 della libreria. Attribuzioni nazionali incerte restano nella matrice qualificata.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a10-estensioni-del-modulo-ca-settembre-2026",
+    "title": "Estensioni del modulo CA · settembre 2026",
+    "chapter": "calcestruzzo",
+    "destination": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "0a9d0eea7bccaf5c8f2b291c9d8d99990861ea0f338d7edd4d185071876e984b",
+    "evidence": [
+      "supporto/test/ConcreteCode.Checks/Program.cs",
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "reviewScope": "Rivisti piano delle deformazioni, domini, segni, rami fessurazione/taglio/torsione, fori, tendini e limiti. Esempio fessurazione ricalcolato; 434 controlli dei profili e 73 della libreria. Attribuzioni nazionali incerte restano nella matrice qualificata.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a11-aggiornamento-sle-geometria-e-trefoli",
+    "title": "Aggiornamento SLE, geometria e trefoli",
+    "chapter": "calcestruzzo",
+    "destination": "/wiki/manuale/calcestruzzo-armato/sezione-in-calcestruzzo-armato",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "d3922cc33391acaacbb74eaaaf62156d4c8254049d239b70d8ff5ee4e3264414",
+    "evidence": [
+      "supporto/test/ConcreteCode.Checks/Program.cs",
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "reviewScope": "Rivisti piano delle deformazioni, domini, segni, rami fessurazione/taglio/torsione, fori, tendini e limiti. Esempio fessurazione ricalcolato; 434 controlli dei profili e 73 della libreria. Attribuzioni nazionali incerte restano nella matrice qualificata.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a12-esito-integrazione-checker-21-settembre-2026",
+    "title": "Esito integrazione Checker — 21 settembre 2026",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/moduli/sezione-ca",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "957fa274d29c862dcfbcf8bfe0562b8c81a49acd78cd71d681838492730acc76",
+    "evidence": [
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectReportPlan.cs",
+      "X.Desktop/Wpf/ProjectWorkspace.cs",
+      "X.Core/SectionActionsExcel.cs",
+      "X.Desktop/Wpf/ConcreteLayout.cs",
+      "X.Desktop/Wpf/WikiView.cs"
+    ],
+    "reviewScope": "Coerenza editoriale e percorsi; formule conservate nel campo dichiarato. Le verifiche indipendenti sono registrate nei test, non dedotte dallo stato di catalogo.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a13-sezione-da-ponte-irrigidimenti-appoggi-e-connessione",
+    "title": "Sezione da ponte: irrigidimenti, appoggi e connessione",
+    "chapter": "ponti",
+    "destination": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "acd33c2578ec6d69d6b5a056dceda1722121bbf703fc68ff0afce6c9c6508cb0",
+    "evidence": [
+      "X.Calculations/BridgeSection.Shear.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/X.Verifiche/BridgeSectionChecks.cs",
+      "supporto/test/X.Verifiche/BridgeMethodChecks.cs",
+      "supporto/test/X.Verifiche/BridgeInclinedGuideChecks.cs",
+      "supporto/test/X.Verifiche/BridgePredalleChecks.cs"
+    ],
+    "reviewScope": "Corretto l’ingresso Altezza totale H: 1855 mm per H inclinata e 1850 mm per cassoncino negli esempi con hw=1800 mm. Ricalcolati geometria, tensioni, torsione e distorsione con riferimenti indipendenti: 172+2957+189+191 controlli superati. Rivisti fasi, proprietà equivalenti, unità, limiti e distinzione fra comportamento implementato e prescrizione.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a14-anthea-calculations-separazione-e-trasferimento",
+    "title": "ANTHEA.Calculations — separazione e trasferimento",
+    "chapter": "fondamenti",
+    "destination": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "f953af0302e9c0a5633c3530ef5dfce7cee6d63a74ef14b544a7f29ffb21dff6",
+    "evidence": [
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Calculations/ModuleCatalog.cs",
+      "X.Core/SectionActionsExcel.cs"
+    ],
+    "reviewScope": "Riviste convenzioni, conversioni dimensionali, equilibrio, simultaneità delle azioni e confini dei motori. Esempi aritmetici controllati; nessun coefficiente normativo assegnato universalmente.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a15-migrazione-del-calcolo-ponte-in-checker-25-settembre-2026",
+    "title": "Migrazione del calcolo ponte in Checker — 25 settembre 2026",
+    "chapter": "anthea",
+    "destination": "/wiki/manuale/calcestruzzo-armato/tracciabilita-e-riferimenti",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "9391beb7e45d22b9f4fac6b55563b6d924ca2442d2840420693eb4bbf9627995",
+    "evidence": [
+      "supporto/test/Desktop/WikiChecks.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Desktop/Wpf/WikiCatalog.cs"
+    ],
+    "reviewScope": "Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a16-muri-di-sostegno",
+    "title": "Muri di sostegno",
+    "chapter": "geotecnica",
+    "destination": "/wiki/manuale/fondazioni-e-geotecnica/muri-di-sostegno-e-stabilita-globale",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "40f05cd1b3b0f71edfcfb8dbd33eed19f04ef61424545efe3923f58a8810014d",
+    "evidence": [
+      "X.Calculations/RetainingWall.Actions.cs",
+      "X.Calculations/RetainingWall.Serviceability.cs",
+      "supporto/test/RetainingWall.Checks/Program.cs",
+      "supporto/test/RetainingWall.Checks/SeismicSoilChecks.cs",
+      "supporto/test/RetainingWall.Checks/MaterialSharingChecks.cs"
+    ],
+    "reviewScope": "Rivisti riferimenti geometrici, combinazioni, modelli separati, fattori F e gammaR, unità e segni degli spostamenti. Recuperato caso con esito sfavorevole. Superati 345 controlli dei muri. Distinte prove numeriche, applicabilità delle ipotesi e confronto MAX non disponibile.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a17-calcestruzzo-ordinario-normative-e-verifiche-di-sezione",
+    "title": "Calcestruzzo ordinario — normative e verifiche di sezione",
+    "chapter": "calcestruzzo",
+    "destination": "/wiki/manuale/calcestruzzo/profili-calcestruzzo",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "qualified",
+    "sourceSha256": "6455aa44a6b27a048a6caf27e39f9b8a10fa7a6394cce2b5f16ec92494f4b44d",
+    "evidence": [
+      "X.Calculations/ConcreteAnalysis.cs",
+      "X.Calculations/Ntc2018Checks.cs",
+      "X.Calculations/ConcreteInnerCracking.cs",
+      "X.Calculations/ConcreteTensionCracking.cs",
+      "X.Calculations/ConcreteStandards.cs",
+      "X.Calculations/ConcreteShearAnalysis.cs",
+      "X.Calculations/ConcreteTorsion.cs"
+    ],
+    "reviewScope": "Coerenza editoriale e percorsi; formule conservate nel campo dichiarato. Le verifiche indipendenti sono registrate nei test, non dedotte dallo stato di catalogo.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a18-palo-singolo-capacita-portante-orizzontale",
+    "title": "Palo singolo: capacità portante orizzontale",
+    "chapter": "geotecnica",
+    "destination": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "2729e1084fdb9eb9f9efee1f60d373aeb8100c992979eb557a92180820f88287",
+    "evidence": [
+      "X.Calculations/PaloOrizzontale.cs",
+      "X.Calculations/MicropaloOrizzontale.cs",
+      "supporto/test/X.Verifiche/HorizontalChecks.cs",
+      "supporto/test/X.Verifiche/HorizontalStratifiedChecks.cs"
+    ],
+    "reviewScope": "Rivisti equilibri dei meccanismi, pressioni per unità di lunghezza, segni, campo del momento automatico, anello CHS e interazione N–M. Superati 1080 controlli Broms, controlli CHS e 1645 stratificati; dichiarata natura sperimentale delle estensioni.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a19-palo-orizzontale-in-terreno-stratificato",
+    "title": "Palo orizzontale in terreno stratificato",
+    "chapter": "geotecnica",
+    "destination": "/wiki/manuale/calcestruzzo-armato/capacita-orizzontale-con-broms",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "8a95f1f8876bf36a6f0d201c0dc9617faca93f62398667b293b3b65f2da622bd",
+    "evidence": [
+      "X.Calculations/PaloOrizzontale.cs",
+      "X.Calculations/MicropaloOrizzontale.cs",
+      "supporto/test/X.Verifiche/HorizontalChecks.cs",
+      "supporto/test/X.Verifiche/HorizontalStratifiedChecks.cs"
+    ],
+    "reviewScope": "Rivisti equilibri dei meccanismi, pressioni per unità di lunghezza, segni, campo del momento automatico, anello CHS e interazione N–M. Superati 1080 controlli Broms, controlli CHS e 1645 stratificati; dichiarata natura sperimentale delle estensioni.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a20-curve-della-sezione-composta",
+    "title": "Curve della sezione composta",
+    "chapter": "ponti",
+    "destination": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "79c44d5c7b3192fa73f7dc920d7fcc6d273d73ebec1ae3c3f376d821929284ca",
+    "evidence": [
+      "X.Calculations/BridgeSection.Shear.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/X.Verifiche/BridgeSectionChecks.cs",
+      "supporto/test/X.Verifiche/BridgeMethodChecks.cs",
+      "supporto/test/X.Verifiche/BridgeInclinedGuideChecks.cs",
+      "supporto/test/X.Verifiche/BridgePredalleChecks.cs"
+    ],
+    "reviewScope": "Corretto l’ingresso Altezza totale H: 1855 mm per H inclinata e 1850 mm per cassoncino negli esempi con hw=1800 mm. Ricalcolati geometria, tensioni, torsione e distorsione con riferimenti indipendenti: 172+2957+189+191 controlli superati. Rivisti fasi, proprietà equivalenti, unità, limiti e distinzione fra comportamento implementato e prescrizione.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a21-sezione-da-ponte-con-storico-lineare-e-non-lineare",
+    "title": "Sezione da ponte con storico lineare e non lineare",
+    "chapter": "ponti",
+    "destination": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "57dd00b113c8aeea7d71d9451cdb0b5e418dd9629cc3f88d64147cbf5487ac74",
+    "evidence": [
+      "X.Calculations/BridgeSection.Shear.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/X.Verifiche/BridgeSectionChecks.cs",
+      "supporto/test/X.Verifiche/BridgeMethodChecks.cs",
+      "supporto/test/X.Verifiche/BridgeInclinedGuideChecks.cs",
+      "supporto/test/X.Verifiche/BridgePredalleChecks.cs"
+    ],
+    "reviewScope": "Corretto l’ingresso Altezza totale H: 1855 mm per H inclinata e 1850 mm per cassoncino negli esempi con hw=1800 mm. Ricalcolati geometria, tensioni, torsione e distorsione con riferimenti indipendenti: 172+2957+189+191 controlli superati. Rivisti fasi, proprietà equivalenti, unità, limiti e distinzione fra comportamento implementato e prescrizione.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a22-metodo-della-sezione-da-ponte-da-rivedere-per-checker",
+    "title": "Metodo della sezione da ponte da rivedere per Checker",
+    "chapter": "ponti",
+    "destination": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "89130b780d78e7090c49484278614118f8faae37e42698fe4005e1c8a7ee4c10",
+    "evidence": [
+      "X.Calculations/BridgeSection.Shear.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/X.Verifiche/BridgeSectionChecks.cs",
+      "supporto/test/X.Verifiche/BridgeMethodChecks.cs",
+      "supporto/test/X.Verifiche/BridgeInclinedGuideChecks.cs",
+      "supporto/test/X.Verifiche/BridgePredalleChecks.cs"
+    ],
+    "reviewScope": "Corretto l’ingresso Altezza totale H: 1855 mm per H inclinata e 1850 mm per cassoncino negli esempi con hw=1800 mm. Ricalcolati geometria, tensioni, torsione e distorsione con riferimenti indipendenti: 172+2957+189+191 controlli superati. Rivisti fasi, proprietà equivalenti, unità, limiti e distinzione fra comportamento implementato e prescrizione.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a23-sezione-composta-da-ponte",
+    "title": "Sezione composta da ponte",
+    "chapter": "ponti",
+    "destination": "/wiki/manuale/ponti/sezione-composta-da-ponte",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "859711a9f0c0e39b412a8e0aeb0564ad3f4c5724db27ac88c37aac8ba6ccd1ac",
+    "evidence": [
+      "X.Calculations/BridgeSection.Shear.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/X.Verifiche/BridgeSectionChecks.cs",
+      "supporto/test/X.Verifiche/BridgeMethodChecks.cs",
+      "supporto/test/X.Verifiche/BridgeInclinedGuideChecks.cs",
+      "supporto/test/X.Verifiche/BridgePredalleChecks.cs"
+    ],
+    "reviewScope": "Corretto l’ingresso Altezza totale H: 1855 mm per H inclinata e 1850 mm per cassoncino negli esempi con hw=1800 mm. Ricalcolati geometria, tensioni, torsione e distorsione con riferimenti indipendenti: 172+2957+189+191 controlli superati. Rivisti fasi, proprietà equivalenti, unità, limiti e distinzione fra comportamento implementato e prescrizione.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a24-studio-della-condivisione-dati-tra-i-fogli-anthea",
+    "title": "Studio della condivisione dati tra i fogli ANTHEA",
+    "chapter": "anthea",
+    "destination": "/wiki/guide/progetti/progetti-e-gestione-del-lavoro",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "387363ad0c763052ba47820b2c61cd7064b2e7d059927ee9301dcd480d5d11cf",
+    "evidence": [
+      "X.Core/ProjectRevisions.cs",
+      "X.Core/ProjectSharedHierarchy.cs",
+      "X.Desktop/Wpf/ProjectReport.cs",
+      "supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs",
+      "supporto/test/Desktop/ProjectHierarchySmokeChecks.cs",
+      "supporto/test/Desktop/ProjectReportSmokeChecks.cs"
+    ],
+    "reviewScope": "Procedure confrontate con catalogo, archivio, gerarchia, revisioni, report e prove WPF. Corrette citazioni a documenti separati. Verificata immutabilità degli archivi storici e distinzione fra revisione dei dati e versione del motore.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a25-sezione-da-ponte-taglio-irrigidimenti-e-connessione",
+    "title": "Sezione da ponte — taglio, irrigidimenti e connessione",
+    "chapter": "ponti",
+    "destination": "/wiki/manuale/ponti/taglio-irrigidimenti-e-connessione-della-sezione-composta",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "7952fb033a81ac18b61131a2350a29588ec3f1ed82c39f3e0c77de602daae4b9",
+    "evidence": [
+      "X.Calculations/BridgeSection.Shear.cs",
+      "X.Calculations/SectionNeutralAxis.cs",
+      "supporto/test/X.Verifiche/BridgeSectionChecks.cs",
+      "supporto/test/X.Verifiche/BridgeMethodChecks.cs",
+      "supporto/test/X.Verifiche/BridgeInclinedGuideChecks.cs",
+      "supporto/test/X.Verifiche/BridgePredalleChecks.cs"
+    ],
+    "reviewScope": "Corretto l’ingresso Altezza totale H: 1855 mm per H inclinata e 1850 mm per cassoncino negli esempi con hw=1800 mm. Ricalcolati geometria, tensioni, torsione e distorsione con riferimenti indipendenti: 172+2957+189+191 controlli superati. Rivisti fasi, proprietà equivalenti, unità, limiti e distinzione fra comportamento implementato e prescrizione.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a26-test-dei-metodi-per-i-ponti",
+    "title": "Test dei metodi per i ponti",
+    "chapter": "anthea",
+    "destination": "/wiki/manuale/calcestruzzo-armato/tracciabilita-e-riferimenti",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "2ce6111a1a8614574f70188d919d896bf3768228f958ba92729bd940bb43d643",
+    "evidence": [
+      "supporto/test/Desktop/WikiChecks.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Desktop/Wpf/WikiCatalog.cs"
+    ],
+    "reviewScope": "Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a27-unificazione-dei-calcoli-e-controllo-dei-progetti",
+    "title": "Unificazione dei calcoli e controllo dei progetti",
+    "chapter": "fondamenti",
+    "destination": "/wiki/manuale/calcestruzzo-armato/architettura-del-calcolo-e-convenzioni",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "77575051fd15c61c233210ad5e82a71e22c07e0bf4ef8f119d8476951dd1c96e",
+    "evidence": [
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Calculations/ModuleCatalog.cs",
+      "X.Core/SectionActionsExcel.cs"
+    ],
+    "reviewScope": "Riviste convenzioni, conversioni dimensionali, equilibrio, simultaneità delle azioni e confini dei motori. Esempi aritmetici controllati; nessun coefficiente normativo assegnato universalmente.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a28-validazione-della-separazione-della-libreria-di-calcolo",
+    "title": "Validazione della separazione della libreria di calcolo",
+    "chapter": "anthea",
+    "destination": "/wiki/manuale/calcestruzzo-armato/tracciabilita-e-riferimenti",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "3ffc632f154fd7d5d9dafe98c357dc7925f338799ed04ac1320700cd173a2a53",
+    "evidence": [
+      "supporto/test/Desktop/WikiChecks.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Desktop/Wpf/WikiCatalog.cs"
+    ],
+    "reviewScope": "Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.",
+    "openPoints": []
+  },
+  {
+    "key": "teorica-a29-teoria-e-validazione-di-bridge-design",
+    "title": "Teoria e validazione di Bridge Design",
+    "chapter": "ponti",
+    "destination": "/wiki/manuale/ponti/bridge-design",
+    "action": "accorpato; originale archiviato",
+    "originalStatus": "historical",
+    "currentStatus": "reviewed",
+    "sourceSha256": "8b013043edb40b1620870dab8bc13adf06d788b89861d4158d64bb4b3b963e9e",
+    "evidence": [
+      "X.Calculations/BridgeConcept.Calculation.cs",
+      "X.Calculations/BridgeConcept.Optimization.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/Program.cs",
+      "supporto/test/BridgeDesign.IndependentChecks/verify.py"
+    ],
+    "reviewScope": "Rivisti input/output, famiglie, grandezze, analisi equivalente, griglia discreta, costi e CO2. Confronto indipendente: 100 travi e 26 alternative, 80133 confronti. Le regole geometriche empiriche e il predimensionamento non sono presentati come verifica completa del ponte.",
+    "openPoints": []
+  },
+  {
+    "key": "beam",
+    "title": "Elementi Beam",
+    "chapter": "fem",
+    "destination": "/wiki/manuale/fem/elementi-beam",
+    "action": "conservato e integrato",
+    "originalStatus": "reviewed",
+    "currentStatus": "reviewed",
+    "sourceSha256": "39f74a919b81f2f87e0dce0b7a003426cc1774c895d168947b46dc7ee081098b",
+    "evidence": [
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "reviewScope": "Coerenza editoriale e percorsi; formule conservate nel campo dichiarato. Le verifiche indipendenti sono registrate nei test, non dedotte dallo stato di catalogo.",
+    "openPoints": []
+  },
+  {
+    "key": "elementi-shell",
+    "title": "Elementi Shell",
+    "chapter": "fem",
+    "destination": "/wiki/manuale/fem-e-modellazione/elementi-shell",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "8bfa1c3af5c844e6b37cf86ff5e998ba5ef0cbb3ec51f55242861735aab0fc8f",
+    "evidence": [
+      "https://www.scia.net/en/support/faq/scia-engineer/results/calculation-1d-and-2d-results",
+      "https://doc.comsol.com/6.4/doc/com.comsol.help.sme/sme_ug_modeling.05.071.html",
+      "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/space_frame.html",
+      "https://ocw.mit.edu/courses/16-20-structural-mechanics-fall-2002/609687cf29516e13e864ff310af328a7_unit20.pdf",
+      "https://steelconstruction.info/topics/design/composite-construction/"
+    ],
+    "reviewScope": "Revisione dei modelli didattici, unità delle risultanti, nodi, singolarità, oscillatore e fasi. Corretto superficie media; aggiunti esempi dimensionali e fonti primarie. Non attribuiti solutori generali ad Anthea.",
+    "openPoints": []
+  },
+  {
+    "key": "releases-e-connettivita",
+    "title": "Releases e connettività",
+    "chapter": "meccanica",
+    "destination": "/wiki/manuale/fem-e-modellazione/releases-e-connettivita",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "6de8fee37a3bcbc467278331bf30153bacd85089b13f214c6fe8a2402a96a5eb",
+    "evidence": [
+      "https://www.scia.net/en/support/faq/scia-engineer/results/calculation-1d-and-2d-results",
+      "https://doc.comsol.com/6.4/doc/com.comsol.help.sme/sme_ug_modeling.05.071.html",
+      "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/space_frame.html",
+      "https://ocw.mit.edu/courses/16-20-structural-mechanics-fall-2002/609687cf29516e13e864ff310af328a7_unit20.pdf",
+      "https://steelconstruction.info/topics/design/composite-construction/"
+    ],
+    "reviewScope": "Revisione dei modelli didattici, unità delle risultanti, nodi, singolarità, oscillatore e fasi. Corretto superficie media; aggiunti esempi dimensionali e fonti primarie. Non attribuiti solutori generali ad Anthea.",
+    "openPoints": []
+  },
+  {
+    "key": "euler",
+    "title": "Instabilità delle aste compresse",
+    "chapter": "acciaio",
+    "destination": "/wiki/manuale/acciaio/instabilita-delle-aste-compresse",
+    "action": "conservato e integrato",
+    "originalStatus": "reviewed",
+    "currentStatus": "reviewed",
+    "sourceSha256": "53e9fd5c1ed6c0f29e10c0684124ea7e22990fe1a277ac81e5dcc5c9670ed459",
+    "evidence": [
+      "supporto/test/wiki-handbook-checks.py"
+    ],
+    "reviewScope": "Coerenza editoriale e percorsi; formule conservate nel campo dichiarato. Le verifiche indipendenti sono registrate nei test, non dedotte dallo stato di catalogo.",
+    "openPoints": []
+  },
+  {
+    "key": "load-path",
+    "title": "Fondamenti del percorso dei carichi",
+    "chapter": "fondamenti",
+    "destination": "/wiki/manuale/fondamenti-di-ingegneria-strutturale/fondamenti-del-percorso-dei-carichi",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "104cb7af5f9d0b7ade98da9b26a272ecaec9ed13ca62cabe51a0f4cd287d0408",
+    "evidence": [
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Calculations/ModuleCatalog.cs",
+      "X.Core/SectionActionsExcel.cs"
+    ],
+    "reviewScope": "Riviste convenzioni, conversioni dimensionali, equilibrio, simultaneità delle azioni e confini dei motori. Esempi aritmetici controllati; nessun coefficiente normativo assegnato universalmente.",
+    "openPoints": []
+  },
+  {
+    "key": "azioni-e-combinazioni-del-modello",
+    "title": "Azioni e combinazioni del modello",
+    "chapter": "fondamenti",
+    "destination": "/wiki/manuale/azioni-e-combinazioni/azioni-e-combinazioni-del-modello",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "889898a7e736424274011e67035a396c36a58104f986c4c182a2d38c682adfea",
+    "evidence": [
+      "supporto/test/CalculationLibrary.Checks/Program.cs",
+      "supporto/test/wiki-handbook-checks.py",
+      "X.Calculations/ModuleCatalog.cs",
+      "X.Core/SectionActionsExcel.cs"
+    ],
+    "reviewScope": "Riviste convenzioni, conversioni dimensionali, equilibrio, simultaneità delle azioni e confini dei motori. Esempi aritmetici controllati; nessun coefficiente normativo assegnato universalmente.",
+    "openPoints": []
+  },
+  {
+    "key": "dinamica-e-sisma-del-modello",
+    "title": "Dinamica e sisma del modello",
+    "chapter": "sismica",
+    "destination": "/wiki/manuale/dinamica-e-sisma/dinamica-e-sisma-del-modello",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "72b7fc7663cfda46ca266a2fd5c9714a74566d1fddc2739132732e50f3718cac",
+    "evidence": [
+      "https://www.scia.net/en/support/faq/scia-engineer/results/calculation-1d-and-2d-results",
+      "https://doc.comsol.com/6.4/doc/com.comsol.help.sme/sme_ug_modeling.05.071.html",
+      "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/space_frame.html",
+      "https://ocw.mit.edu/courses/16-20-structural-mechanics-fall-2002/609687cf29516e13e864ff310af328a7_unit20.pdf",
+      "https://steelconstruction.info/topics/design/composite-construction/"
+    ],
+    "reviewScope": "Revisione dei modelli didattici, unità delle risultanti, nodi, singolarità, oscillatore e fasi. Corretto superficie media; aggiunti esempi dimensionali e fonti primarie. Non attribuiti solutori generali ad Anthea.",
+    "openPoints": []
+  },
+  {
+    "key": "fasi-costruttive-e-percorso-dei-carichi",
+    "title": "Fasi costruttive e percorso dei carichi",
+    "chapter": "ponti",
+    "destination": "/wiki/manuale/metodi-costruttivi/fasi-costruttive-e-percorso-dei-carichi",
+    "action": "conservato e integrato",
+    "originalStatus": "existing",
+    "currentStatus": "reviewed",
+    "sourceSha256": "5353c8f1311f85aa283170acf907f1c6400c86ca801c565aed0a067fbbd61453",
+    "evidence": [
+      "https://www.scia.net/en/support/faq/scia-engineer/results/calculation-1d-and-2d-results",
+      "https://doc.comsol.com/6.4/doc/com.comsol.help.sme/sme_ug_modeling.05.071.html",
+      "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/space_frame.html",
+      "https://ocw.mit.edu/courses/16-20-structural-mechanics-fall-2002/609687cf29516e13e864ff310af328a7_unit20.pdf",
+      "https://steelconstruction.info/topics/design/composite-construction/"
+    ],
+    "reviewScope": "Revisione dei modelli didattici, unità delle risultanti, nodi, singolarità, oscillatore e fasi. Corretto superficie media; aggiunti esempi dimensionali e fonti primarie. Non attribuiti solutori generali ad Anthea.",
+    "openPoints": []
+  },
+  {
+    "key": "bridge",
+    "title": "Cos'è un ponte?",
+    "chapter": "ponti",
+    "destination": "/wiki/manuale/ponti/bridge",
+    "action": "conservato e integrato",
+    "originalStatus": "reviewed",
+    "currentStatus": "reviewed",
+    "sourceSha256": "0b10ab39abaf522de65d5bf91a90a870fd1b326f0f668dfbe9cce76afdcd6714",
+    "evidence": [
+      "X.Calculations/BridgeConcept.Calculation.cs",
+      "X.Calculations/BridgeConcept.AdvancedCalculation.cs",
+      "X.Calculations/BridgeConcept.Optimization.cs",
+      "X.Calculations/BridgeSection.Analysis.cs",
+      "X.Calculations/BridgeSection.Shear.cs",
+      "X.Calculations/SectionNeutralAxis.cs"
+    ],
+    "reviewScope": "Coerenza editoriale e percorsi; formule conservate nel campo dichiarato. Le verifiche indipendenti sono registrate nei test, non dedotte dallo stato di catalogo.",
+    "openPoints": []
+  },
+  {
+    "key": "cracking",
+    "title": "Fessurazione del calcestruzzo armato",
+    "chapter": "calcestruzzo",
+    "destination": "/wiki/manuale/calcestruzzo/cracking",
+    "action": "conservato e integrato",
+    "originalStatus": "reviewed",
+    "currentStatus": "reviewed",
+    "sourceSha256": "2215d46a2f025e04fec19eb3920e8e0ea2d8e56f06d5dcaa767213e9a128dfe7",
+    "evidence": [
+      "X.Calculations/ConcreteAnalysis.cs",
+      "X.Calculations/Ntc2018Checks.cs",
+      "X.Calculations/ConcreteInnerCracking.cs",
+      "X.Calculations/ConcreteTensionCracking.cs",
+      "X.Calculations/ConcreteStandards.cs",
+      "X.Calculations/ConcreteShearAnalysis.cs",
+      "X.Calculations/ConcreteTorsion.cs"
+    ],
+    "reviewScope": "Coerenza editoriale e percorsi; formule conservate nel campo dichiarato. Le verifiche indipendenti sono registrate nei test, non dedotte dallo stato di catalogo.",
+    "openPoints": []
+  },
+  {
+    "key": "bearing-capacity",
+    "title": "Capacità portante delle fondazioni superficiali",
+    "chapter": "geotecnica",
+    "destination": "/wiki/manuale/geotecnica/bearing-capacity",
+    "action": "conservato e integrato",
+    "originalStatus": "reviewed",
+    "currentStatus": "reviewed",
+    "sourceSha256": "7156db1d7add9cc4bfb9d00406936489464033c0368e80d93203b4ed9563170f",
+    "evidence": [
+      "X.Calculations/PaloOrizzontale.cs",
+      "X.Calculations/MicropaloOrizzontale.cs",
+      "X.Calculations/ElasticHorizontalPile.cs",
+      "X.Calculations/HorizontalPileGroup.cs",
+      "X.Calculations/RetainingWall.GlobalStability.cs",
+      "X.Calculations/RetainingWall.Actions.cs"
+    ],
+    "reviewScope": "Coerenza editoriale e percorsi; formule conservate nel campo dichiarato. Le verifiche indipendenti sono registrate nei test, non dedotte dallo stato di catalogo.",
+    "openPoints": []
+  },
+  {
+    "key": "bim",
+    "title": "BIM e controllo dello scambio informativo",
+    "chapter": "bim",
+    "destination": "/wiki/manuale/bim/bim",
+    "action": "conservato e integrato",
+    "originalStatus": "reviewed",
+    "currentStatus": "reviewed",
+    "sourceSha256": "42745e29e0b88156a42ee7816a637c2202d80661f20974438ee35d2650aadeb2",
+    "evidence": [
+      "X.Desktop/Wiki/references.json"
+    ],
+    "reviewScope": "Coerenza editoriale e percorsi; formule conservate nel campo dichiarato. Le verifiche indipendenti sono registrate nei test, non dedotte dallo stato di catalogo.",
+    "openPoints": []
+  },
+  {
+    "key": "parametric",
+    "title": "Progettazione parametrica e controllo delle dipendenze",
+    "chapter": "computational",
+    "destination": "/wiki/manuale/computational/parametric",
+    "action": "conservato e integrato",
+    "originalStatus": "reviewed",
+    "currentStatus": "reviewed",
+    "sourceSha256": "42b4e46ab6be30904af859d11cbf71947f1d6c5f3e9e014458264db3655a944f",
+    "evidence": [
+      "X.Desktop/Wiki/references.json"
+    ],
+    "reviewScope": "Coerenza editoriale e percorsi; formule conservate nel campo dichiarato. Le verifiche indipendenti sono registrate nei test, non dedotte dallo stato di catalogo.",
+    "openPoints": []
+  }
+]

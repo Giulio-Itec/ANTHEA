@@ -32,7 +32,7 @@ internal sealed partial class HorizontalWorkspace
 
     private void LayoutCards()
     {
-        if (building || cards.Count != 7) return;
+        if (building || cards.Count != 7 || analyses.SelectedIndex == 1) return;
         double w = Math.Max(320, (scroll.ViewportWidth > 0 ? scroll.ViewportWidth : ActualWidth) - 4);
         double h = Math.Max(280, (scroll.ViewportHeight > 0 ? scroll.ViewportHeight : ActualHeight) - 4);
         const double margin = 12, gap = 12;

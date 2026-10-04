@@ -14,15 +14,22 @@ internal static class WikiChecks
     {
         Directory.CreateDirectory(directory); var checks = new List<string>();
         void Check(bool condition, string label) { if (!condition) throw new InvalidOperationException(label); checks.Add(label); }
-        Check(WikiCatalog.Articles.Length >= 60, "Documentazione globale indicizzata senza sorgenti duplicati");
+        foreach (var pilot in new[] { "bridge", "euler", "cracking", "bearing-capacity", "beam", "guida-sezione-ca" })
+            Check(WikiCatalog.Resolve(pilot)?.Status == "reviewed", "Pilota revisionato · " + pilot);
         Check(WikiCatalog.Articles.Select(a => a.Id).Distinct().Count() == WikiCatalog.Articles.Length, "Route univoche");
         void CheckLink(string uri)
         {
+            uri = WikiCatalog.CanonicalUri(uri);
             var target = WikiCatalog.Resolve(uri);
             Check(target is not null, "Destinazione valida · " + uri);
             if (uri.Contains('#'))
                 Check(Regex.Matches(WikiCatalog.Body(target!), @"^#{3,4} (.+)", RegexOptions.Multiline)
                     .Any(m => WikiCatalog.Slug(m.Groups[1].Value.Trim()) == uri.Split('#', 2)[1]), "Sezione di destinazione esistente · " + uri);
+        }
+        foreach (var alias in WikiCatalog.Aliases)
+        {
+            Check(!WikiCatalog.Aliases.ContainsKey(alias.Value), "Alias diretto senza catene · " + alias.Key);
+            CheckLink(alias.Key);
         }
         var formulaErrors = new List<string>();
         foreach (var a in WikiCatalog.Articles)
@@ -39,19 +46,30 @@ internal static class WikiChecks
                     }
                     catch (Exception ex) { formulaErrors.Add(ex.Message); }
                 }
+            foreach (Match formula in Regex.Matches(body, @"^\$\$ (.+)$", RegexOptions.Multiline))
+                try { WikiEditorial.Formula(formula.Groups[1].Value); } catch (Exception ex) { formulaErrors.Add(ex.Message); }
             Check(body.StartsWith("## ") && !body.Contains('\ufffd'), "Offset UTF8 valido · " + a.Id);
+            var allBlocks = new StackPanel();
+            WikiEditorial.Render(allBlocks, body, _ => { }, (_, label, _) => Ui.Text(label));
+            allBlocks.Measure(new Size(760, double.PositiveInfinity));
+            Check(allBlocks.DesiredSize.Height > 0, "Tutti i blocchi e le formule inline renderizzati · " + a.Key);
             foreach (var m in a.Modules) Check(ModuleCatalog.Get(m) is not null, "Modulo esistente · " + m);
             Check(a.Related.Distinct().Count() == a.Related.Length && !a.Related.Contains(a.Id), "Correlati senza duplicati o autoriferimenti · " + a.Title);
             foreach (var related in a.Related) CheckLink(related);
-            foreach (Match link in Regex.Matches(body, @"\]\((/wiki/[^)]+)\)")) CheckLink(link.Groups[1].Value);
+            foreach (Match link in Regex.Matches(body, @"\]\(((?:/wiki/|wiki:)[^)]+)\)")) CheckLink(link.Groups[1].Value);
+            foreach (var prerequisite in a.Prerequisites ?? []) CheckLink(prerequisite);
+            Check(WikiCatalog.Chapters.Any(c => c.Id == a.ChapterId), "Capitolo esistente · " + a.Key);
         }
         Check(formulaErrors.Count == 0, string.Join("\n", formulaErrors));
+        var delimiterProbe = new StackPanel();
+        WikiEditorial.Render(delimiterProbe, "## Test\n\\(E\\)\n\n\\[\\frac{N}{A}\\]\n\n$$\n\\frac{M}{W}\n$$", _ => { }, (_, label, _) => Ui.Text(label));
+        Check(delimiterProbe.Children.Count == 3, "Delimitatori LaTeX inline, display e doppio dollaro");
         using (var glossary = WikiCatalog.Resource("glossary.json"))
             foreach (var entry in JsonSerializer.Deserialize<Dictionary<string, string[]>>(glossary)!) CheckLink(entry.Value[1]);
         var instability = WikiCatalog.Articles.Single(a => a.Title == "Instabilità delle aste compresse");
         Check(!instability.Related.Select(WikiCatalog.Resolve).Any(a => a!.Title.Contains("acciaio per armature")), "Instabilità: nessun collegamento improprio alla scheda armature");
         var materialGuide = WikiCatalog.Articles.Single(a => a.Type == "guide" && a.Title == "Materiali e durabilità");
-        Check(materialGuide.Related.All(id => WikiCatalog.Resolve(id)!.Title is "Calcestruzzo armature e copriferro" or "Scheda acciaio per armature"), "Materiali: correlati pertinenti al contenuto");
+        Check(materialGuide.Related.All(id => WikiCatalog.Resolve(id)!.Title is "Calcestruzzo armature e copriferro" or "Acciaio per armature: proprietà e diagrammi"), "Materiali: correlati pertinenti al contenuto");
         Check(WikiCatalog.Articles.Single(a => a.Title == "Capacità orizzontale con Broms").Area == "Fondazioni e geotecnica", "Broms nella geotecnica");
         Check(WikiContextHelp.Description("axial_force_kn", "geo_palo_verticale") is null, "Convenzione N della sezione CA esclusa dall'aiuto dei pali");
         var beam = WikiCatalog.Resolve("/wiki/manuale/fem/elementi-beam")!;
@@ -63,6 +81,8 @@ internal static class WikiChecks
         Check(WikiCatalog.Search("copriferro").Any(a => a.Type == "guide") && WikiCatalog.Search("copriferro").Any(a => a.Type == "theory"), "Ricerca condivisa fra teoria e software");
         Check(WikiCatalog.Search("FEM beam").Contains(beam), "Ricerca AND su parole e sinonimi");
         Check(WikiCatalog.Search("π").Any(a => a.Title.Contains("Instabilità")), "Ricerca di simboli matematici e concetti associati");
+        Check(WikiCatalog.Search("LTB").Any(a => a.Key == "euler"), "Ricerca acronimo LTB e distinzione da Euler");
+        Check(WikiCatalog.Search("pressoflessione").Any(a => a.Key == "guida-sezione-ca"), "Ricerca glossario dominio M-N");
         var data = MainWindow.WikiExamples.Create("str_palo", "beam-ca"); ModuleCatalog.ValidateData("str_palo", data);
         Check(data["combinazioni"]?["SLU"]?[0]?["azioni"]?[1]?.ToString() == "200", "Momento numerico dell'esempio: 25 × 8² / 8 = 200 kNm");
         Check(SectionWorkspace.Sets.Skip(1).All(s => data["combinazioni"]![s]!.AsArray().Count == 0), "Nessuna combinazione di fabbrica residua nell'esempio");
@@ -83,6 +103,23 @@ internal static class WikiChecks
             File.WriteAllText(Path.Combine(directory, "render-stage.txt"), name + " · completato");
         }
         await Render("home-1400", 1400, 900);
+        foreach (var dark in new[] { false, true })
+        {
+            wiki.SetDark(dark);
+            foreach (var id in new[] { "bridge", "euler", "cracking", "bearing-capacity", "beam", "guida-sezione-ca" })
+            {
+                wiki.Navigate(id); await Render($"pilot-{id}-{(dark ? "dark" : "light")}", 1400, 900);
+            }
+            wiki.Navigate("cracking#esempio-numerico"); await Render($"cracking-480-{dark}", 480, 800);
+            wiki.Navigate("euler#snellezza-e-tensione-critica"); await Render($"euler-chart-{dark}", 1400, 900);
+            foreach (var id in new[] { "guida-progetti-e-gestione-del-lavoro", "bridge-design", "profili-calcestruzzo", "acciaio-armature", "guida-muri-di-sostegno-con-stratigrafie-di-monte-e-valle" })
+            {
+                wiki.Navigate(id); await Render($"integrated-{id}-{dark}", 1400, 900);
+            }
+            wiki.Navigate("guida-sezione-ca#importare-ed-esportare-le-azioni"); await Render($"import-480-{dark}", 480, 800);
+            wiki.Home(); await Render($"cover-480-{dark}", 480, 800);
+        }
+        wiki.SetDark(false);
         wiki.Navigate(beam.Id); await Render("beam-1400", 1400, 900);
         Check(Ui.Descendants<Button>(wiki).Any(b => b.Content as string == "Apri esempio · trave 8 m, momento 200 kNm"), "CTA esempio renderizzata");
         wiki.Navigate(beam.Id + "#esempio-concettuale"); await Render("beam-example-1400", 1400, 900);
@@ -94,7 +131,12 @@ internal static class WikiChecks
         wiki.Home(); await Render("home-compact-480", 480, 800);
         using var assetStream = WikiCatalog.Resource("assets.json");
         foreach (var (source, name) in JsonSerializer.Deserialize<Dictionary<string, string>>(assetStream)!)
-            Check(Ui.Asset("Wiki/" + name).PixelWidth > 0, "Figura incorporata · " + source);
+            if (name.EndsWith(".svg"))
+            {
+                var vector = new WikiVector(name);vector.Measure(new Size(720, 400));
+                Check(vector.DesiredSize.Width > 0, "Figura vettoriale incorporata · " + source);
+            }
+            else Check(Ui.Asset("Wiki/" + name).PixelWidth > 0, "Figura incorporata · " + source);
         File.WriteAllText(Path.Combine(directory, "integration-stage.txt"), "Prima del costruttore MainWindow");
         var main = new MainWindow();
         File.WriteAllText(Path.Combine(directory, "integration-stage.txt"), "Prima delle verifiche di integrazione");

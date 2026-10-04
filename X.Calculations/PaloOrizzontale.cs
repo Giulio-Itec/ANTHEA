@@ -199,6 +199,7 @@ public static partial class PaloOrizzontale
     {
         try
         {
+            if(data.S("vista_orizzontale") == "elastico") return ElasticHorizontalPile.Calculate(data["elastico"]?.AsObject() ?? throw new ArgumentException("Completare i dati della risposta elastica."));
             ValidateShape(data);
             if (data["generali"].S("metodo_calcolo") == LegacyStratifiedMethod)
             {

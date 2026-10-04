@@ -13,14 +13,13 @@ public static partial class RetainingWall
         if (count % 1 != 0 || count > 30 || dia > 40) throw new ArgumentException("Armature: da 2 a 30 barre per metro e per faccia; diametro da 6 a 40 mm.");
         double cover = m.D("cover");
         if (2 * (cover + dia) >= thickness * 1000) throw new ArgumentException(member + ": spessore insufficiente per due facce di armatura e copriferro.");
-        var input = SezioneCA.DefaultInput();
+        var input = MaterialSectionInput(d);
         input["width_mm"] = 1000; input["height_mm"] = thickness * 1000; input["cover_mm"] = cover;
         input["staffe_presenti"] = "No"; input["transverse_bar_diameter_mm"] = 0; input["side_bar_count_per_side"] = 0;
         double otherCount = r.B("symmetric", true) ? count : r.Required("opposite_count", 2), otherDia = r.B("symmetric", true) ? dia : r.Required("opposite_diameter", 6);
         if (otherCount % 1 != 0 || otherCount > 30 || otherDia > 40 || 2 * cover + dia + otherDia >= thickness * 1000) throw new ArgumentException("Armatura della faccia opposta incompatibile con la sezione.");
         input["top_bar_count"] = otherCount; input["bottom_bar_count"] = count; input["top_bar_diameter_mm"] = otherDia; input["bottom_bar_diameter_mm"] = dia;
         input["fck_mpa"] = m.D("fck"); input["fyk_mpa"] = m.D("fyk"); input["axial_force_kn"] = 0; input["moment_x_knm"] = 0; input["moment_y_knm"] = 0;
-        input["materiale_cls_nome"] = "Calcestruzzo muro";
         return input;
     }
     private static List<Check> StructuralChecks(JsonObject d, List<LoadCase> cases, CancellationToken token, out double steelKg)
@@ -78,7 +77,7 @@ public static partial class RetainingWall
                 engines = (input, ws, new CheckerSection(input, ws, J.Obj(("criterio", "N costante"), ("modello", "Non lineare"))), new CheckerSection(input, ws, opt), opt);
                 cache[(memberKey, f.Thickness)] = engines;
                 double minimumDepth = f.Thickness * 1000 - m.D("cover") - Math.Min(input.D("top_bar_diameter_mm"), input.D("bottom_bar_diameter_mm")) / 2;
-                double minimum = Math.Max(.26 * .3 * Math.Pow(m.D("fck"), 2d / 3) / m.D("fyk"), .0013) * 1000 * minimumDepth;
+                double minimum = Math.Max(.26 * ConcreteMaterials.Concrete(input).Fctm / m.D("fyk"), .0013) * 1000 * minimumDepth;
                 if (f.Name == "Fusto") minimum = Math.Max(minimum, .001 * 1000 * f.Thickness * 1000);
                 double topAs = input.D("top_bar_count") * Math.PI * Math.Pow(input.D("top_bar_diameter_mm"), 2) / 4;
                 double bottomAs = input.D("bottom_bar_count") * Math.PI * Math.Pow(input.D("bottom_bar_diameter_mm"), 2) / 4;
@@ -97,7 +96,7 @@ public static partial class RetainingWall
                     }
                     result.Add(CheckValue(label + " · N–M GPC", c.Name, Math.Abs(f.M), resistance, "kNm/m", "GPC: resistenza non convergente o N fuori dominio"));
                     double k = Math.Min(2, 1 + Math.Sqrt(200 / eff)), rho = Math.Min(.02, asFace / (1000 * eff));
-                    double vrd = Math.Max(.12 * k * Math.Pow(100 * rho * m.D("fck"), 1d / 3), .035 * Math.Pow(k, 1.5) * Math.Sqrt(m.D("fck"))) * 1000 * eff / 1000;
+                    double vrd = Math.Max(.18 / input.D("gamma_c") * k * Math.Pow(100 * rho * m.D("fck"), 1d / 3), .035 * Math.Pow(k, 1.5) * Math.Sqrt(m.D("fck"))) * 1000 * eff / 1000;
                     result.Add(CheckValue(label + " · taglio senza staffe", c.Name, Math.Abs(f.V), vrd, "kN/m"));
                 }
                 else

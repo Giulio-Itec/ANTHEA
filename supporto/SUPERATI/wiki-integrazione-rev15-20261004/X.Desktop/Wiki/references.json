@@ -1,0 +1,44 @@
+[
+  {
+    "id": "mit-buckling",
+    "title": "MIT OpenCourseWare · Buckling of Beams · 16.001 · 2021",
+    "kind": "Modello teorico",
+    "url": "https://ocw.mit.edu/courses/16-001-unified-engineering-materials-and-structures-fall-2021/mit16_001_f21_lec33lec34lec35.pdf"
+  },
+  {
+    "id": "delft-beam",
+    "title": "TU Delft · Computational Modelling · Euler-Bernoulli beam elements",
+    "kind": "Formulazione FEM",
+    "url": "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/euler_bernouilli.html"
+  },
+  {
+    "id": "jrc-cracking",
+    "title": "J.C. Walraven · Eurocode 2 · JRC · 2008 · apertura delle fessure",
+    "kind": "Formulazione normativa classica; verificare edizione di progetto",
+    "url": "https://eurocodes.jrc.ec.europa.eu/sites/default/files/2022-06/EN1992_1_Walraven.pdf"
+  },
+  {
+    "id": "fhwa-foundations",
+    "title": "FHWA · GEC No. 6 · Shallow Foundations",
+    "kind": "Modello geotecnico; non prescrizione italiana",
+    "url": "https://www.fhwa.dot.gov/engineering/geotech/pubs/010943.pdf"
+  },
+  {
+    "id": "fhwa-bridge",
+    "title": "FHWA · Bridge Inspector’s Reference Manual e materiali di ispezione",
+    "kind": "Terminologia e componenti",
+    "url": "https://www.fhwa.dot.gov/bridge/inspection/index.cfm"
+  },
+  {
+    "id": "ifc",
+    "title": "buildingSMART · IFC 4.3 · Documentazione dello schema",
+    "kind": "Schema informativo",
+    "url": "https://ifc43-docs.standards.buildingsmart.org/"
+  },
+  {
+    "id": "grasshopper",
+    "title": "McNeel · Grasshopper data trees and Python",
+    "kind": "Documentazione software",
+    "url": "https://developer.rhino3d.com/guides/rhinopython/grasshopper-datatrees-and-python/"
+  }
+]

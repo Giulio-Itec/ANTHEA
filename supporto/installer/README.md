@@ -53,7 +53,7 @@ La cartella `Guide` accanto ad `ANTHEA.exe` contiene tre PDF:
 - `Guida pratica ANTHEA.pdf`: uso e UI di tutti i moduli;
 - `Guida teorica ANTHEA.pdf`: teoria, formule, ipotesi e limiti di tutti i moduli.
 
-Tutti gli approfondimenti sono incorporati nelle due guide globali Rev10. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
+Tutti gli approfondimenti sono incorporati nelle due guide globali Rev15. Nel menu Start sono presenti Indice delle guide, Guida pratica, Guida teorica e Documentazione. La documentazione è obbligatoria anche nelle installazioni silenziose.
 
 Per i nuovi argomenti aggiornare i due volumi, i PDF corrispondenti e l’indice. Per casi particolari chiedere all’utente prima di creare un documento autonomo. `Guide.json` contiene soltanto l’indice; i due manuali sono selezionati automaticamente alla revisione più recente.
 

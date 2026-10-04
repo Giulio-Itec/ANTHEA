@@ -97,7 +97,7 @@ In **Strutture → Bridge Design** è disponibile il [predimensionamento dei pon
 otto famiglie, viste di prospetto e sezione, pile e fondazioni, quantità, prezzi e coefficienti modificabili,
 stime di costo/CO₂/durata e confronto A/B. Il motore è separato dalla vista WPF e non costituisce verifica normativa.
 
-Le due guide globali complete Rev08 del 2 ottobre 2026 sono la [guida pratica](supporto/docs/guida-pratica-anthea.md)
+Le due guide globali complete Rev13 del 3 ottobre 2026 sono la [guida pratica](supporto/docs/guida-pratica-anthea.md)
 e la [guida teorica dei calcoli](supporto/docs/guida-teorica-anthea.md). Le edizioni Word sono in
 `supporto/documentazione/Guide_ANTHEA`.
 

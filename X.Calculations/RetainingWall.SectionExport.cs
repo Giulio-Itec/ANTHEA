@@ -15,7 +15,6 @@ public static partial class RetainingWall
         d["combinazioni"] = new JsonObject();
         // Establish the native, compression-negative convention before adding the wall actions.
         var ws = SectionWorkspace.Prepare(d); input["axial_force_kn"] = -force.N; input["moment_x_knm"] = force.M; input["moment_y_knm"] = 0;
-        input["classe_cls"] = "Personalizzato";
         string zone = ReinforcementKey(result.Input, member, position);
         ws["nota"] = $"Da Muri di sostegno · {member} · z/l={position:G9} m · zona {zone}. Fascia di 1 m. Combinazione selezionata: {selectedCombination}. N convertito a compressione negativa; Mx associato a Vy. Copia indipendente, senza sincronizzazione col muro. SISMA ed ECCEZIONALE sono trasferite nel gruppo Plastico (SLU), conservando lo stato nel nome. Eventuali mensole prive di equilibrio sono escluse e annotate.";
         foreach (string set in SectionWorkspace.Sets) d["combinazioni"]![set] = new JsonArray();
@@ -29,6 +28,9 @@ public static partial class RetainingWall
             if (!c.State.StartsWith("SLE")) shear.Array("azioni").Add(J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("N", -f.N), ("Mx", f.M), ("My", 0), ("Vx", 0), ("Vy", f.V), ("T", 0)));
         }
         var sle = ws["sle_comuni"]!.AsObject(); var mat = result.Input["materials"]!;
+        var details = ws["dettagli_costruttivi"]!.AsObject(); var wallDetails = result.Input["detailing"]!;
+        foreach (var (target, source) in new[] { ("aggregato", "aggregate"), ("vita_durabilita", "life"), ("delta_c", "cover_deviation") }) details[target] = wallDetails[source]?.DeepClone();
+        details["qualita_copriferro"] = wallDetails.B("cover_quality") ? "Sì" : "No";
         sle["modello"] = "Lineare"; sle["trazione_cls"] = "No"; sle["phi"] = mat["creep"]!.DeepClone(); sle["esposizione"] = mat["exposure"]!.DeepClone(); sle["sensibilita"] = "Non sensibile"; sle["aderenza"] = "Migliorata"; sle["durata"] = "Lunga";
         sle["copriferro_fessure"] = mat["cover"]!.DeepClone(); sle["spaziatura_fessure"] = new[] { "top", "bottom" }.Max(face => (1000 - 2 * mat.D("cover") - input.D(face + "_bar_diameter_mm")) / (input.D(face + "_bar_count") - 1));
         ws["dominio2d"]!["N"] = -force.N;

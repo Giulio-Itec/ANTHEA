@@ -13,6 +13,7 @@ public static class ReportOrizzontale
         => Archivio.ScriviAtomico(path, Create(title, result, includeInputs));
     public static byte[] Create(string title, JsonObject result, bool includeInputs = true, IReadOnlyList<Figure>? figures = null)
     {
+        if(result.S("tipo_risultato") == "palo_elastico") return ReportElasticPile.Create(title,result);
         if (result.S("errore") != "" || result["input"] is not JsonObject) throw new ArgumentException("Risultato orizzontale non disponibile.");
         XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         var body = new XElement(w + "body");

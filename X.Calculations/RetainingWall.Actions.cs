@@ -22,6 +22,7 @@ public static partial class RetainingWall
         CompleteGlobalInput(d);
         CompleteSoilInput(d);
         CompleteAdvancedInput(d);
+        CompleteMaterialInput(d);
         if (d.D("version") >= 2) return;
         var actions = new JsonArray(); var l = d["loads"]!;
         foreach (var (key, type) in new[] { ("surcharge", ActionTypes[0]), ("horizontal", ActionTypes[1]), ("vertical", ActionTypes[2]) })
@@ -35,7 +36,7 @@ public static partial class RetainingWall
         d["reinforcement"]!["two_zones"] = false; d["reinforcement"]!["lower_height"] = d["geometry"].D("height") / 2;
         d["reinforcement"]!["stem_upper"] = d["reinforcement"]!["stem"]!.DeepClone(); d["version"] = 2;
     }
-    public static JsonObject Defaults() { var d = LegacyDefaults(); Upgrade(d); d["seismic"]!["source"] = SeismicSite; return d; }
+    public static JsonObject Defaults() { var d = LegacyDefaults(); Upgrade(d); ApplyMaterialPreset(d, ConcreteMaterialCatalog.Steel(false, "NTC 2018").Single(m => m.S("nome") == "B450C")); d["seismic"]!["source"] = SeismicSite; return d; }
     public static string CombinationSignature(JsonObject d) => string.Join("|", d.Array("actions").Select(a => string.Join("/", new[] { "id", "category", "enabled", "psi0", "psi1", "psi2", "group" }.Select(k => a.S(k)))))
         + (d["seismic"].S("source", SeismicManual) == SeismicSite ? "|sito/" + string.Join("/", new[] { "enabled", "method", "ag_g", "f0", "soil_class", "ss_mode", "ss", "st_mode", "st", "topography", "slope", "relief_height", "site_height" }.Select(k => d["seismic"].S(k))) : "");
     /// <summary>

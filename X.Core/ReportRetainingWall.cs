@@ -32,6 +32,23 @@ public static partial class ReportRetainingWall
         doc.P("Geometria e dati di ingresso", true);
         foreach (var (group, fields) in new[] { ("geometry", RetainingWall.GeometryFields), ("foundation", RetainingWall.FoundationFields), ("loads", RetainingWall.LoadFields), ("materials", RetainingWall.MaterialFields) }.Where(x => x.Item1 != "loads" || d.D("version") == 1))
             doc.Table(["Parametro", "Valore", "Unità"], fields.Where(f => group != "materials" || f.Key == "gamma" || (d.S("family") == "gravity" ? f.Key.EndsWith("_rd") : !f.Key.EndsWith("_rd"))).Select(f => new[] { f.Label + " · " + f.Symbol, d[group].S(f.Key), f.Unit }), [5, 1, 1]);
+        if (RetainingWall.UsesConcrete(d))
+        {
+            var material = RetainingWall.MaterialSectionInput(d);
+            doc.P("Materiali del verificatore delle sezioni in calcestruzzo", true);
+            doc.P("Cataloghi e legami GPC condivisi con il verificatore c.a. Le proprietà qui riportate sono quelle effettivamente usate dal muro e conservate nell’invio della sezione.");
+            var keys = new[] { ("materiale_cls_nome", "Calcestruzzo"), ("cls_diagramma", "Diagramma CLS"), ("alpha_cc", "αcc"), ("gamma_c", "γc"),
+                ("materiale_acciaio_nome", "Acciaio per armature"), ("steel_modulus_mpa", "Es [MPa]"), ("steel_fu_mpa", "fu [MPa]"), ("steel_eps_u", "εu [‰]"), ("steel_diagramma", "Diagramma acciaio"), ("gamma_s", "γs") };
+            doc.Table(["Proprietà", "Valore"], keys.Take(d.S("family") == "cantilever" ? keys.Length : 4).Select(p => new[] { p.Item2, material.S(p.Item1) }), [4, 3]);
+            if (d.S("family") == "cantilever")
+            {
+                doc.P("Durabilità e copriferro", true);
+                var state = RetainingWall.CoverMaterialState(d);
+                doc.Table(["Parametro", "Valore"], new[] { new[] { "Esposizione", d["materials"].S("exposure") }, new[] { "Copriferro adottato [mm]", d["materials"].S("cover") }, new[] { "Aggregato [mm]", d["detailing"].S("aggregate") }, new[] { "Vita utile [anni]", d["detailing"].S("life") }, new[] { "Tolleranza [mm]", d["detailing"].S("cover_deviation") } }
+                    .Concat(state["scelte"]!.AsObject().Select(p => new[] { p.Key, p.Value?.ToString() ?? "" }))
+                    .Concat(state["opzioni"]!.AsObject().Select(p => new[] { p.Key, p.Value?.ToString() ?? "" })), [4, 3]);
+            }
+        }
         if (d.D("version") >= 2)
         {
             doc.P("Azioni assegnate per metro di sviluppo", true);
