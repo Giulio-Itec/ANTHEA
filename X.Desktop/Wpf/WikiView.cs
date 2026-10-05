@@ -9,7 +9,7 @@ using System.Windows.Threading;
 
 namespace X.Desktop;
 
-internal sealed class WikiView : UserControl
+internal sealed partial class WikiView : UserControl
 {
     private readonly Action<string, string?> openModule;
     private readonly WikiProgress progress;
@@ -26,6 +26,8 @@ internal sealed class WikiView : UserControl
     private bool restoring, navExpanded, tocExpanded;
     private string? activeSection;
     private Action refreshPage = () => { };
+    private bool bookCover;
+    private string? chapterFocus;
     internal string? CurrentId => article?.Id;
     internal WikiView(Action<string, string?> openModule, WikiProgress? progress = null, Action? returnToWork = null)
     {
@@ -61,7 +63,7 @@ internal sealed class WikiView : UserControl
     private void Adapt()
     {
         bool small = ActualWidth < 1000;
-        navHost.Visibility = !small || navExpanded ? Visibility.Visible : Visibility.Collapsed;
+        navHost.Visibility = (!small && !bookCover) || navExpanded ? Visibility.Visible : Visibility.Collapsed;
         tocHost.Visibility = (!small || tocExpanded) && article is not null ? Visibility.Visible : Visibility.Collapsed;
         columns.ColumnDefinitions[0].Width = new GridLength(navHost.Visibility == Visibility.Visible ? (small ? 170 : 210) : 0);
         columns.ColumnDefinitions[2].Width = new GridLength(tocHost.Visibility == Visibility.Visible ? (small ? 160 : 205) : 0);
@@ -76,6 +78,15 @@ internal sealed class WikiView : UserControl
         foreach (var chapter in WikiCatalog.Chapters)
         {
             navigation.Children.Add(Link($"{chapter.Number:00}  {chapter.Title}", () => Chapter(chapter)));
+            if (chapter.Id == chapterFocus)
+                foreach (var page in WikiCatalog.InChapter(chapter.Id))
+                {
+                    var entry = Link(page.Title, () => Navigate(page.Key));
+                    entry.Margin = new Thickness(12, 0, 0, 0);
+                    ((TextBlock)entry.Content).FontSize = 12;
+                    if (page.Id == article?.Id) ((TextBlock)entry.Content).FontWeight = FontWeights.Bold;
+                    navigation.Children.Add(entry);
+                }
         }
         navigation.Children.Add(Link("Glossario e acronimi", Glossary));
         navigation.Children.Add(Link("Fonti e archivio", () => Navigate("tracciabilita-e-riferimenti")));
@@ -83,53 +94,26 @@ internal sealed class WikiView : UserControl
     internal static Button Link(string title, Action action)
     {
         var b = Ui.Button(title, action); b.Content = Ui.Text(title, 13, color: Ui.Blue);
+        b.Tag = "book-link";
         b.Style = (Style)Application.Current.FindResource("ProjectButton");
         b.HorizontalContentAlignment = HorizontalAlignment.Left; b.BorderThickness = new Thickness(0); b.Padding = new Thickness(5, 6, 5, 6);
         AutomationProperties.SetName(b, title); return b;
     }
     private void Reset()
     {
-        progress.Save(); article = null; restoring = false; activeSection = null; sections.Clear(); toc.Children.Clear(); reader.ScrollToTop();
+        progress.Save(); article = null; bookCover = false; chapterFocus = null; restoring = false; activeSection = null; sections.Clear(); toc.Children.Clear(); reader.ScrollToTop();
     }
     internal void Home()
     {
         refreshPage = Home;
-        Reset(); var pane = new StackPanel();
-        pane.Children.Add(Ui.Text("ANTHEA / CONOSCENZA, METODI E STRUMENTI", 12, true, Ui.Blue));
-        pane.Children.Add(PageTitle("Engineering Handbook", 34));
-        pane.Children.Add(Ui.Text("Dal percorso dei carichi alla scelta del modello.", 21));
-        pane.Children.Add(Ui.Text("Un manuale da leggere per capitoli e consultare durante il lavoro: ipotesi, schemi, formule ed esempi collegati ai moduli Anthea.", 15, color: Ui.Muted));
-        pane.Children.Add(WikiEditorial.Figure(new WikiVector("bridge-notebook.svg"), "Dall'opera al modello: impalcato, appoggi, pile e fondazioni formano un unico percorso resistente."));
-        var recent = progress.Entries.OrderByDescending(p => p.Value.Visited).Take(4).ToArray();
-        if (recent.Length > 0)
-        {
-            pane.Children.Add(Title("Continua a leggere"));
-            foreach (var (id, state) in recent)
-                if (WikiCatalog.Resolve(id) is { } a)
-                {
-                    var read = a.Sections.Count(s => state.Read.Contains(s));
-                    pane.Children.Add(Link($"{a.Title} · posizione {state.Fraction:P0} · lette {read}/{a.Sections.Length} sezioni", () => Navigate(id)));
-                    pane.Children.Add(new ProgressBar { Minimum = 0, Maximum = Math.Max(1, a.Sections.Length), Value = read, Height = 5, Foreground = Ui.Blue, Margin = new Thickness(5, 0, 5, 10), ToolTip = "Avanzamento delle sezioni segnate come lette" });
-                }
-        }
-        pane.Children.Add(Title("Indice del manuale"));
-        foreach (var chapter in WikiCatalog.Chapters)
-        {
-            var link = Link($"{chapter.Number:00}   {chapter.Title}   →", () => Chapter(chapter));
-            ((TextBlock)link.Content).FontSize = 20;
-            pane.Children.Add(new Border { Child = Ui.Stack(link, Ui.Text(chapter.Description, 14, color: Ui.Muted)),
-                BorderBrush = Ui.Brush("#D8E0EB"), BorderThickness = new Thickness(0, 0, 0, 1), Padding = new Thickness(0, 10, 0, 14) });
-        }
-        pane.Children.Add(Title("Percorso consigliato · capisci e applica"));
-        pane.Children.Add(Link("Elementi Beam → esempio di trave → verifica della Sezione in c.a.", () => Navigate("beam")));
-        pane.Children.Add(Link("Glossario tecnico", Glossary));
-        SetContent(pane); Adapt();
+        Reset(); bookCover = true; navExpanded = false; BuildNavigation();
+        SetContent(BookCover()); Adapt();
     }
     private static TextBlock Title(string text) { var t = Ui.Text(text, 22, true); t.Margin = new Thickness(0, 26, 0, 12); AutomationProperties.SetHeadingLevel(t, AutomationHeadingLevel.Level2); return t; }
     private static TextBlock PageTitle(string text, double size = 30) { var t = Ui.Text(text, size, true); AutomationProperties.SetHeadingLevel(t, AutomationHeadingLevel.Level1); return t; }
     private void SetContent(StackPanel pane)
     {
-        pane.MaxWidth = article is null ? 960 : 760;
+        pane.MaxWidth = article is null ? 1160 : 780;
         pane.HorizontalAlignment = HorizontalAlignment.Center;
         pane.Margin = new Thickness(24, 24, 24, 40); content.Content = pane;
         ApplyPalette();
@@ -143,10 +127,10 @@ internal sealed class WikiView : UserControl
         Background = WikiPalette.Surface; reader.Background = WikiPalette.Paper;
         foreach (var item in LogicalElements(this))
         {
-            if (item is TextBlock text) text.Foreground = WikiPalette.Ink;
-            if (item is Border border) border.Background = WikiPalette.Paper;
+            if (item is TextBlock text) text.Foreground = text.Tag as string == "book-accent" ? WikiPalette.Accent : WikiPalette.Ink;
+            if (item is Border border) border.Background = border.Tag as string == "book-surface" ? WikiPalette.Surface : WikiPalette.Paper;
             if (item is Control control)
-            { control.Foreground = WikiPalette.Ink; if (control is Button or TextBox or Expander) control.Background = WikiPalette.Paper; }
+            { control.Foreground = WikiPalette.Ink; if (control is Button or TextBox or Expander) control.Background = control.Tag as string == "book-link" ? Brushes.Transparent : WikiPalette.Paper; }
         }
     }
     private static IEnumerable<DependencyObject> LogicalElements(DependencyObject root)
@@ -156,17 +140,8 @@ internal sealed class WikiView : UserControl
     }
     private void Chapter(WikiChapter chapter)
     {
-        refreshPage = () => Chapter(chapter); Reset();
-        var pane = Ui.Stack(Link("← Indice del manuale", Home), Ui.Text($"CAPITOLO {chapter.Number:00}", 12, true),
-            PageTitle(chapter.Title), Ui.Text(chapter.Description, 19), Ui.Text(chapter.Introduction, 16));
-        pane.Children.Add(Title("Percorso di lettura"));
-        int n = 1;
-        foreach (var a in WikiCatalog.InChapter(chapter.Id))
-        {
-            pane.Children.Add(Link($"{chapter.Number:00}.{n++:00}  {a.Title}", () => Navigate(a.Key)));
-            pane.Children.Add(Ui.Text(a.Summary, 14, color: Ui.Muted));
-            pane.Children.Add(Ui.Text($"{Level(a)} · {a.ReadingTime} min", 12, color: Ui.Muted));
-        }
+        refreshPage = () => Chapter(chapter); Reset(); chapterFocus = chapter.Id; BuildNavigation();
+        var pane = BookChapter(chapter);
         SetContent(pane); navExpanded = tocExpanded = false; Adapt();
     }
     private static string Level(WikiArticle a) => a.Level switch { "introductory" => "Introduzione", "advanced" => "Approfondimento tecnico", _ => "Metodo e applicazione" };
@@ -215,14 +190,19 @@ internal sealed class WikiView : UserControl
         refreshPage = () => Navigate(target.Key); Reset(); article = target; var pane = new StackPanel();
         progress.Update(target.Id, progress.Entries.GetValueOrDefault(target.Id)?.Section ?? "", progress.Entries.GetValueOrDefault(target.Id)?.Fraction ?? 0);
         var chapter = WikiCatalog.Chapter(target);
+        chapterFocus = chapter.Id; BuildNavigation();
         pane.Children.Add(Link($"Handbook / {chapter.Number:00} {chapter.Title}", () => Chapter(chapter)));
         var chapterPages = WikiCatalog.InChapter(chapter.Id);
         var chapterPosition = Array.IndexOf(chapterPages, target);
         if (chapterPosition >= 0) pane.Children.Add(Ui.Text($"{chapter.Number:00}.{chapterPosition + 1:00} / {Level(target).ToUpperInvariant()}", 12, true, WikiPalette.Accent));
-        pane.Children.Add(PageTitle(target.Title)); pane.Children.Add(Ui.Text(target.Summary, 16, color: Ui.Muted));
+        var articleTitle = PageTitle(target.Title, 36);
+        articleTitle.FontFamily = new FontFamily("Georgia");
+        articleTitle.Margin = new Thickness(0, 10, 0, 16);
+        pane.Children.Add(articleTitle); pane.Children.Add(Ui.Text(target.Summary, 18, color: Ui.Muted));
         var status = target.Status switch { "integrated" => " · Contenuto integrato", "qualified" => " · Riscontri sulle fonti da completare", "historical" => " · Documento preesistente", _ => "" };
         var metadata = Ui.Text($"{Level(target)} · {target.ReadingTime} min di lettura" + status, 12, color: Ui.Muted);
         metadata.Margin = new Thickness(0, 12, 0, 8); pane.Children.Add(metadata);
+        pane.Children.Add(BookRule());
         if (target.Prerequisites is { Length: > 0 })
         {
             pane.Children.Add(Ui.Text("Prima di leggere", 12, true));

@@ -1,0 +1,26 @@
+[
+  {
+    "origin": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "5767a08f1a56d9ae8792e273745327f849b1e2beb1682a05f27ed4f17b54b92b",
+    "reason": "Descrizione della Wiki prima del rinnovo visivo di copertina, capitoli e navigazione",
+    "replacement": "supporto/docs/guida-pratica-anthea.md"
+  },
+  {
+    "origin": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "e1a175a63beb62841626149f8b7225a1f9dbd23ffd9833f8284ee57c1b587ba8",
+    "reason": "Descrizione della Wiki prima del rinnovo visivo di copertina, capitoli e navigazione",
+    "replacement": "supporto/docs/guida-pratica-anthea.pdf"
+  },
+  {
+    "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev15.docx",
+    "sha256": "c32aa2045e905035cd14efe3c2717dfea6653a360d5311432142ab0b1f0f381f",
+    "reason": "Descrizione della Wiki prima del rinnovo visivo di copertina, capitoli e navigazione",
+    "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev15.docx"
+  },
+  {
+    "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev15.pdf",
+    "sha256": "e1a175a63beb62841626149f8b7225a1f9dbd23ffd9833f8284ee57c1b587ba8",
+    "reason": "Descrizione della Wiki prima del rinnovo visivo di copertina, capitoli e navigazione",
+    "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev15.pdf"
+  }
+]

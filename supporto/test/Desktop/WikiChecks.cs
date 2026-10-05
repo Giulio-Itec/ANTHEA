@@ -103,6 +103,14 @@ internal static class WikiChecks
             File.WriteAllText(Path.Combine(directory, "render-stage.txt"), name + " · completato");
         }
         await Render("home-1400", 1400, 900);
+        var chapterEntry = Ui.Descendants<Button>(wiki).Single(b => b.Content is TextBlock t && t.Text == "Fondamenti →");
+        chapterEntry.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        await Render("chapter-1400", 1400, 900);
+        Check(Ui.Descendants<TextBlock>(wiki).Any(t => t.Text == "PERCORSO DI LETTURA"), "Copertina apre il percorso del capitolo");
+        var chapterArticle = WikiCatalog.InChapter("fondamenti")[0];
+        Ui.Descendants<Button>(wiki).First(b => b.Content is TextBlock t && t.Text == chapterArticle.Title + " →").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        Check(wiki.CurrentId == chapterArticle.Id, "Percorso del capitolo apre l'articolo corretto");
+        wiki.Home();
         foreach (var dark in new[] { false, true })
         {
             wiki.SetDark(dark);

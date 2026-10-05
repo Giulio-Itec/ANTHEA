@@ -12,7 +12,7 @@ aliases = json.loads((ROOT/'X.Desktop/Wiki/aliases.json').read_text(encoding='ut
 states = Counter(a['status'] for a in articles)
 actions = Counter(a['action'] for a in inventory)
 pages={k:len(PdfReader(ROOT/f'supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_{k}_ITEC_Rev15.pdf').pages) for k in ['pratica','teorica']}
-wiki_result=(OUT/'ui-revisionata/completato.txt').read_text(encoding='utf-8')
+wiki_result=(ROOT/'supporto/artefatti/wiki-layout-editoriale/finale/completato.txt').read_text(encoding='utf-8')
 text = f'''# Integrazione ANTHEA Engineering Handbook — Rev15
 
 4 ottobre 2026
@@ -24,6 +24,8 @@ Le 85 voci iniziali sono mappate su {len(articles)} articoli correnti in 12 capi
 L'integrazione editoriale comprende gestione dei progetti, materiali, pali e micropali, sezione composta, Bridge Design, muri e fondazioni, sezione in c.a., modellazione e percorsi operativi. I resoconti di sviluppo sono conservati nell'archivio; procedure, limiti ed esempi ancora utili sono stati recuperati nelle pagine pertinenti. Acciaio per armature e profili del calcestruzzo hanno ora pagine autonome nel catalogo corrente.
 
 Correzioni specifiche: conversione MPa/kPa; importazione Excel a otto colonne con torsione e risultati delle formule già memorizzati; distinzione fra deformazione e tensione iniziale nella lettura dell'asse neutro; geometrie con fori e campi ammessi; diametro geotecnico e diametro del tubo CHS; istruzioni di avvio; flusso attuale di Bridge Design; esempio stratificato dei muri, compresi gli esiti non soddisfatti. La Wiki distingue implementazione, modello e attribuzione normativa.
+
+La presentazione della Wiki è stata aggiornata anche nell'app: copertina con schede dei capitoli e anteprime degli articoli, percorsi numerati, titoli editoriali e indice laterale che espande il capitolo corrente. Le schermate definitive e i controlli dei nuovi collegamenti sono in supporto/artefatti/wiki-layout-editoriale/finale.
 
 ## Tracciabilità delle azioni
 

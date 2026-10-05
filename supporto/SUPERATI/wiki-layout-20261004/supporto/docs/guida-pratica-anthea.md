@@ -769,7 +769,7 @@ La soluzione non comprende plasticità, distacco, curve p-y, effetti della forza
 
 ### Engineering Handbook
 
-La copertina presenta dodici capitoli numerati: Fondamenti, Scienza e tecnica delle costruzioni, Materiali, Calcestruzzo armato, Acciaio, Geotecnica, Ponti e infrastrutture, Ingegneria sismica, FEM, BIM, Computational Design e Anthea. Le schede mostrano anteprime degli articoli e il collegamento Esplora il capitolo; si dispongono su una, due o tre colonne secondo lo spazio. Inizia dai fondamenti apre il primo percorso. Ogni capitolo presenta introduzione e articoli numerati con livello e tempo di lettura. Le pagine distinguono introduzione, metodo e approfondimento tecnico; i sei piloti revisionati sono Cos'è un ponte, Instabilità di Euler, Fessurazione, Capacità portante, Elementi Beam e guida della Sezione in c.a.
+La copertina presenta dodici capitoli numerati: Fondamenti, Scienza e tecnica delle costruzioni, Materiali, Calcestruzzo armato, Acciaio, Geotecnica, Ponti e infrastrutture, Ingegneria sismica, FEM, BIM, Computational Design e Anthea. Ogni capitolo apre un'introduzione con un percorso di lettura. Le pagine distinguono introduzione, metodo e approfondimento tecnico; i sei piloti revisionati sono Cos'è un ponte, Instabilità di Euler, Fessurazione, Capacità portante, Elementi Beam e guida della Sezione in c.a.
 
 Le pagine correnti consolidano istruzioni e teoria; i resoconti originali di audit e sviluppo sono conservati nell’archivio Rev14. Fonti e archivio spiega la provenienza. I vecchi collegamenti aprono la destinazione corrente pertinente. Contenuto integrato indica una revisione editoriale; Riscontri sulle fonti da completare segnala attribuzioni normative o bibliografiche non ancora confermate sui testi primari.
 
@@ -785,9 +785,9 @@ Apri Wiki dalla navigazione principale o dalla Home. La ricerca considera titoli
 
 ### Leggere e riprendere
 
-Nella copertina il menu laterale è raccolto nel pulsante Indice. Durante la lettura, il menu a sinistra espande gli articoli del capitolo corrente; quello a destra raccoglie le sezioni della pagina. Seleziona una voce per raggiungerla; la sezione corrente è evidenziata durante lo scorrimento. Copia collegamento produce un indirizzo Wiki interno leggibile. Segna sezione letta registra una scelta esplicita: la posizione di lettura non equivale a un apprendimento verificato.
+L'indice laterale raccoglie le sezioni della pagina. Seleziona una voce per raggiungerla; la sezione corrente è evidenziata durante lo scorrimento. Copia collegamento produce un indirizzo Wiki interno leggibile. Segna sezione letta registra una scelta esplicita: la posizione di lettura non equivale a un apprendimento verificato.
 
-Riprendi la lettura mostra le ultime tre pagine; riaprendo una pagina viene ripristinata la sezione visitata. Il progresso è memorizzato localmente nel profilo Windows, separato dai documenti di calcolo. Su finestre strette i pulsanti Indice e In questa pagina mostrano i menu laterali. Non occorre una connessione per consultare i contenuti incorporati; i riferimenti web aprono il browser.
+Continua a leggere mostra le ultime pagine e la posizione approssimativa; riaprendo una pagina viene ripristinata la sezione visitata. Il progresso è memorizzato localmente nel profilo Windows, separato dai documenti di calcolo. Su finestre strette i pulsanti Indice e In questa pagina mostrano i menu laterali. Non occorre una connessione per consultare i contenuti incorporati; i riferimenti web aprono il browser.
 
 ### Passare dalla teoria al calcolo
 
