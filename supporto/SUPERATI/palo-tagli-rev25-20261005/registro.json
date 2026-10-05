@@ -1,0 +1,114 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\docs\\guida-pratica-anthea.md",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "6c019eca5e2ab5335426904f1d7f4dfb13b4f1bfdce6ea13c8e43f3200e43e28"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "40c83b23e4e55c2676f08d43b3587b165e34757e6c4503172ba05c504096c4f2"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\docs\\guida-teorica-anthea.md",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "66cf7b620278286a182e45310b4d822f38e846117b61affe20cd070038ddc0f2"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "852e5bcb1a3d54a0664f02b7d39702157ca27de2fde02e0692cdbde8e66ecdcd"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev24.docx",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev24.docx",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev25.docx",
+    "sha256": "a40ceefc9ecaa3c61608e02e8530a988d1a5787035967ac2bb33b1efcdfa8276"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev24.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev24.pdf",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev25.pdf",
+    "sha256": "40c83b23e4e55c2676f08d43b3587b165e34757e6c4503172ba05c504096c4f2"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev24.docx",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev24.docx",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev25.docx",
+    "sha256": "109811ca8d83255cc7fce40ae5ca5db1ead9352752fa9c90151a64e9e12eff56"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev24.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev24.pdf",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev25.pdf",
+    "sha256": "852e5bcb1a3d54a0664f02b7d39702157ca27de2fde02e0692cdbde8e66ecdcd"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\README.md",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\README.md",
+    "sha256": "671da98915cd3f6f3c7dabd3a056f7ed4a58f685918527cd9e1d372073c23914"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\README.pdf",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\README.pdf",
+    "sha256": "fa462342a7b7b48af82c5c6722caf5a86add9a01e899654e87754345d848d73b"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\installer\\Indice-guide.md",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "5af37266bb98505a1262eba9bd9413a7c57038148f2f1b06bac32a63715c397b"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\installer\\Indice-guide.pdf",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "e3c7c7caecced1a3e59dfcd4ac12c6022ad4be882973ceacb087bfbddbc5cfd8"
+  },
+  {
+    "origine": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.md",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.md",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.md",
+    "sha256": "2bf95687d523a518dbe3c3d049863ef66312ecf02ddf1a08626cdaa6e206c5f9"
+  },
+  {
+    "origine": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.pdf",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.pdf",
+    "sha256": "24b8899195810fecf875edc166ea2cbdbb4d8c2d9d975d918d049c845a332bdf"
+  },
+  {
+    "origine": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.png",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.png",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.png",
+    "sha256": "2f552b76ae9eff41464afdfb1ef1d993bd516b89c4cb7aa4f3a2ffa51c303023"
+  },
+  {
+    "origine": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.programma",
+    "archivio": "supporto\\SUPERATI\\palo-tagli-rev25-20261005\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.programma",
+    "motivo": "Sostituita su richiesta utente la continuità automatica con gruppi delimitati dai tratti e giunto entrante",
+    "sostituzione": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.programma",
+    "sha256": "0651eddcf10fc2f13d66b8109f985abb2ca2b98360b3d067856feb07c4c5ec7b"
+  }
+]

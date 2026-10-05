@@ -26,7 +26,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     internal event Action? Modified;
     private readonly JsonObject settings;
     private JsonObject Input => Data["input"]!.AsObject();
-    private readonly TabControl tabs = new() { Margin = new Thickness(12, 8, 12, 0), BorderThickness = new Thickness(0), Background = Ui.Bg };
+    private readonly TabControl tabs = new() { Margin = new Thickness(12, 8, 12, 0), BorderThickness = new Thickness(0), Background = Appearance.Surface };
     private readonly ScrollViewer workspaceScroll = new ChainedScrollViewer { HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
     private readonly TextBlock status = Ui.Text("Dati della sezione · selezionare una scheda per iniziare", 12);
     private readonly ProgressBar progress = new() { Height = 3, IsIndeterminate = true, Visibility = Visibility.Collapsed };
@@ -54,7 +54,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
 
     internal ConcreteWorkspace(JsonObject data)
     {
-        Data = data; settings = SectionWorkspace.Prepare(Data); Background = Ui.Bg;
+        Data = data; settings = SectionWorkspace.Prepare(Data); Background = Appearance.Surface;
         SetValue(InputForm.CommitOnFocusLossProperty, true);
         SetValue(NumericPresentation.EnabledProperty, true);
         PrepareCoefficients(); PrepareStirrups();
@@ -112,7 +112,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
             if (i > 0)
             {
                 grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(8) });
-                var splitter = new GridSplitter { Width = 6, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Stretch, Background = Ui.Bg, ResizeBehavior = GridResizeBehavior.PreviousAndNext };
+                var splitter = new GridSplitter { Width = 6, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Stretch, Background = Appearance.Surface, ResizeBehavior = GridResizeBehavior.PreviousAndNext };
                 Grid.SetColumn(splitter, grid.ColumnDefinitions.Count - 1); grid.Children.Add(splitter);
             }
             var item = elements[i]; grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(item.Weight, GridUnitType.Star), MinWidth = item.Min });
@@ -123,7 +123,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private Grid Rows(UIElement top, UIElement bottom, double topWeight = 3.7, double bottomWeight = 2, double bottomMinimum = 155)
     {
         var grid = new Grid(); grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(topWeight, GridUnitType.Star), MinHeight = 160 }); grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(8) }); grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(bottomWeight, GridUnitType.Star), MinHeight = bottomMinimum });
-        grid.Children.Add(top); var split = new GridSplitter { Height = 6, HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Center, Background = Ui.Bg, ResizeBehavior = GridResizeBehavior.PreviousAndNext };
+        grid.Children.Add(top); var split = new GridSplitter { Height = 6, HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Center, Background = Appearance.Surface, ResizeBehavior = GridResizeBehavior.PreviousAndNext };
         Grid.SetRow(split, 1); grid.Children.Add(split); Grid.SetRow(bottom, 2); grid.Children.Add(bottom); RegisterWorkspaceSplit(grid, "righe", true, topWeight/(topWeight+bottomWeight)); return grid;
     }
     private static ScrollViewer Scroller(UIElement content) => new ChainedScrollViewer { Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
@@ -140,7 +140,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     }
     private static Border Notice(string text)
     {
-        var border = Ui.Paper(Ui.Text(text, 11, color: Ui.Brush("#865D16")), 10); border.Background = Ui.Brush("#FFF6DD"); border.BorderBrush = Ui.Brush("#EEDCAF"); border.Margin = new Thickness(0, 8, 0, 8); return border;
+        var border = Ui.Paper(Ui.Text(text, 11, color: Ui.Brush("#865D16")), 10); border.Background = Appearance.Background("#FFF6DD"); border.BorderBrush = Ui.Brush("#EEDCAF"); border.Margin = new Thickness(0, 8, 0, 8); return border;
     }
     private static Expander Group(string title, UIElement body, bool expanded = false) => new() { Header = Ui.Text(title, 14, true), Content = body, IsExpanded = expanded, Padding = new Thickness(0, 8, 0, 10), Margin = new Thickness(0, 4, 0, 4) };
 
@@ -188,7 +188,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         {
             open.Padding = new Thickness(5, 1, 5, 1); open.MinHeight = 20; open.FontSize = 10; open.Margin = new Thickness(0);
             var heading = new DockPanel(); DockPanel.SetDock(open, Dock.Right); heading.Children.Add(open); heading.Children.Add(Ui.Text(title, 12, true));
-            return new Border { Background = Brushes.White, BorderBrush = Ui.Brush("#DCE2E9"), BorderThickness = new Thickness(1), Padding = new Thickness(7, 4, 7, 3), Margin = new Thickness(0, 0, 0, 4), Child = Ui.Stack(heading, value) };
+            return new Border { Background = Appearance.Paper, BorderBrush = Ui.Brush("#DCE2E9"), BorderThickness = new Thickness(1), Padding = new Thickness(7, 4, 7, 3), Margin = new Thickness(0, 0, 0, 4), Child = Ui.Stack(heading, value) };
         }
         foreach (string key in SectionWorkspace.Sets)
         {

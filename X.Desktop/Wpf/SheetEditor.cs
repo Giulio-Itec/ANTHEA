@@ -43,7 +43,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private readonly List<Border> cards = [];
     private readonly Dictionary<int, Button> expandButtons = new();
     private readonly TextBlock status = Ui.Text("Dati da verificare · premere Calcola", color: Ui.Muted);
-    private readonly TextBox warnings = new() { IsReadOnly = true, TextWrapping = TextWrapping.Wrap, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Background = Ui.Brush("#FFFAEB"), MaxHeight = 62, Visibility = Visibility.Collapsed };
+    private readonly TextBox warnings = new() { IsReadOnly = true, TextWrapping = TextWrapping.Wrap, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Background = Appearance.Background("#FFFAEB"), MaxHeight = 62, Visibility = Visibility.Collapsed };
     private readonly Button calculate;
     private readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(450) };
     private readonly Plot plot = new() { Capacity = true }, reference = new() { InvertY = false };
@@ -66,7 +66,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     internal SheetEditor(string module, JsonObject data)
     {
         _ = ModuleCatalog.Get(module);
-        Module = module; Data = (JsonObject)data.DeepClone(); Background = Ui.Bg;
+        Module = module; Data = (JsonObject)data.DeepClone(); Background = Appearance.Surface;
         calculate = Ui.Button("Calcola", async () => await CalculateAsync(), true, inspection: true); calculate.Width = 120; calculate.Visibility = Geo ? Visibility.Collapsed : Visibility.Visible;
         RevisionInspection.Allow(tableSelect); RevisionInspection.Allow(capacityView); RevisionInspection.Allow(curveChoices);
         if (module == HorizontalPileGroup.Module) { pileGroup = new HorizontalPileGroupWorkspace(Data); pileGroup.Modified += () => Modified?.Invoke(); Content = pileGroup; building = false; return; }

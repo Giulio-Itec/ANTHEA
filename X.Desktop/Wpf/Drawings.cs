@@ -176,6 +176,10 @@ internal sealed class Plot : DrawingView
 
 internal sealed class SectionDrawing : DrawingView
 {
+    internal string? Caption { get; set; }
+    internal double CircularLinkRadius { get; set; }
+    internal double LinkDiameter { get; set; }
+    internal bool ShowAxes { get; set; }
     internal List<double[]> Outline { get; set; } = [];
     internal List<Barra> Bars { get; set; } = [];
     internal double[]? Plane { get; set; }
@@ -198,12 +202,21 @@ internal sealed class SectionDrawing : DrawingView
             if (clipped.Count >= 3) dc.DrawGeometry(Ui.Brush("#FCA5A5"), null, Path(clipped.Select(p => P(p[0], p[1])), true));
         }
         dc.DrawGeometry(null, new Pen(Ui.Navy, 1.5), shape);
+        if(CircularLinkRadius>0)
+        {
+            var color=Brushes.DarkGreen;double radius=CircularLinkRadius*scale;
+            dc.DrawEllipse(null,new Pen(color,Math.Max(1,LinkDiameter*scale)),P(0,0),radius,radius);
+            var point=P(CircularLinkRadius*.707,CircularLinkRadius*.707);
+            dc.DrawLine(new Pen(color,1),point,new Point(size.Width-28,18));
+            Text(dc,$"Staffa φ{LinkDiameter:0.#}",size.Width/2,2,10,color,width:size.Width/2-4);
+        }
+        if(ShowAxes){var pen=new Pen(Ui.Muted,.6){DashStyle=DashStyles.Dash};dc.DrawLine(pen,P(xmin*.7,0),P(xmax*.7,0));dc.DrawLine(pen,P(0,ymin*.7),P(0,ymax*.7));Text(dc,"u",P(xmax*.6,0).X,P(xmax*.6,0).Y,9);Text(dc,"v",P(0,ymax*.6).X+3,P(0,ymax*.6).Y,9);}
         foreach (var b in Bars)
         {
             bool tension = Plane is { Length: 3 } p && p[0] + p[1] * b.Y - p[2] * b.X < 0;
             double r = Math.Max(2, b.Diametro * scale / 2); dc.DrawEllipse(tension ? Brushes.RoyalBlue : Ui.Navy, new Pen(Brushes.White, 1), P(b.X, b.Y), r, r);
         }
-        Text(dc, Plane is null ? "Geometria della sezione · nessun risultato di verifica" : "Sezione [mm] · CLS compresso · barre blu: tese", 8, size.Height - 32, 11, width: size.Width - 16);
+        Text(dc, Caption ?? (Plane is null ? "Geometria della sezione · nessun risultato di verifica" : "Sezione [mm] · CLS compresso · barre blu: tese"), 8, size.Height - 32, 11, width: size.Width - 16);
     }
 }
 

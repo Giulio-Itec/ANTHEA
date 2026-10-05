@@ -1,0 +1,86 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-condiviso-rev16-20261005\\docs\\guida-pratica-anthea.md",
+    "motivo": "Rev16: palo elastico con dati condivisi, EJ e valori iniziali tracciati",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "9267b91b0c4b3c27fa2e17e2470b549ad32c7990e48c10f7d23a184b7a30eb2a"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-condiviso-rev16-20261005\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Rev16: palo elastico con dati condivisi, EJ e valori iniziali tracciati",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "c2be9ac89e1560621c19b8ac0fa2389ffb262eb5627883bde6540e2b9a0ece0c"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-condiviso-rev16-20261005\\docs\\guida-teorica-anthea.md",
+    "motivo": "Rev16: palo elastico con dati condivisi, EJ e valori iniziali tracciati",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "01cf8883b6f830b19f87334c906a57811a4c1aa9f27a3f4611173c0620408d08"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-condiviso-rev16-20261005\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Rev16: palo elastico con dati condivisi, EJ e valori iniziali tracciati",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "cbd018a40df6c98701a0daf5e4d45a2a20baf59d7db40186d5de8ca07d112ab4"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev15.docx",
+    "archivio": "supporto\\SUPERATI\\palo-condiviso-rev16-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev15.docx",
+    "motivo": "Rev16: palo elastico con dati condivisi, EJ e valori iniziali tracciati",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev16.docx",
+    "sha256": "a6e9b692c5a123e18af734574366966a1e18c5da1aac79f0a05280cb96618dee"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev15.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-condiviso-rev16-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev15.pdf",
+    "motivo": "Rev16: palo elastico con dati condivisi, EJ e valori iniziali tracciati",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev16.pdf",
+    "sha256": "c2be9ac89e1560621c19b8ac0fa2389ffb262eb5627883bde6540e2b9a0ece0c"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev15.docx",
+    "archivio": "supporto\\SUPERATI\\palo-condiviso-rev16-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev15.docx",
+    "motivo": "Rev16: palo elastico con dati condivisi, EJ e valori iniziali tracciati",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev16.docx",
+    "sha256": "4690a1eca499fd27dd8a004592d55ccb53ed102a2a840cac01fe16f21e1690fc"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev15.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-condiviso-rev16-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev15.pdf",
+    "motivo": "Rev16: palo elastico con dati condivisi, EJ e valori iniziali tracciati",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev16.pdf",
+    "sha256": "cbd018a40df6c98701a0daf5e4d45a2a20baf59d7db40186d5de8ca07d112ab4"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\palo-condiviso-rev16-20261005\\README.md",
+    "motivo": "Rev16: palo elastico con dati condivisi, EJ e valori iniziali tracciati",
+    "sostituzione": "supporto\\README.md",
+    "sha256": "91e82c5e136aa7b92412bba73cc06abb8f18454816fdb7bb9a9ac089e43df718"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-condiviso-rev16-20261005\\README.pdf",
+    "motivo": "Rev16: palo elastico con dati condivisi, EJ e valori iniziali tracciati",
+    "sostituzione": "supporto\\README.pdf",
+    "sha256": "ee553473db293a4825a0b0f1b8540a84900395640edce97972ed2d5359286491"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\palo-condiviso-rev16-20261005\\installer\\Indice-guide.md",
+    "motivo": "Rev16: palo elastico con dati condivisi, EJ e valori iniziali tracciati",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "41c9a784cf99393afeab25d346da357d8fc8416ce4308f5e59bd4283c9aa0aa1"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-condiviso-rev16-20261005\\installer\\Indice-guide.pdf",
+    "motivo": "Rev16: palo elastico con dati condivisi, EJ e valori iniziali tracciati",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "db7a0969c81a10f9085565bb84c6f691d828f2230a363185f22be2680ebcddfb"
+  }
+]

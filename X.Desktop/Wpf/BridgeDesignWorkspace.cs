@@ -41,7 +41,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
         foreach (string group in new[] { "input", "rates", "assumptions" })
             if (data[group] is JsonObject target && completed[group] is JsonObject fields)
                 foreach (var field in fields) if (!target.ContainsKey(field.Key)) target[field.Key] = field.Value?.DeepClone();
-        Data = data; previous = Clone(Data); Background = Ui.Bg;
+        Data = data; previous = Clone(Data); Background = Appearance.Surface;
         var title = Ui.Stack(Ui.Text("BRIDGE DESIGN", 24, true), Ui.Text("Dal sito al ponte · geometria, quantità e ordini di grandezza", 13, color: Ui.Muted));
         title.Margin = new Thickness(2, 0, 0, 10);
         var scope = Ui.Text("PREDIMENSIONAMENTO   ·   Prezzi e coefficienti modificabili   ·   Importi in EUR, IVA esclusa", 11, true, Ui.Blue);

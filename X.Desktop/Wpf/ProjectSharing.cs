@@ -34,7 +34,7 @@ public sealed partial class MainWindow
                     .Where(p => keys.Contains(p.Source.Key) && !ProjectSharedData.Equal(p.Source.Value, p.Target.Value))
                     .Select(p => "• " + SharedFieldLabel(p.Source.Key) + ": " + ProjectSharedData.Text(p.Target.Value) + " → " + ProjectSharedData.Text(p.Source.Value))))), 14));
             content.Margin = new Thickness(18);
-            var dialog = Ui.Dialog(this, "Dati condivisi della sezione", new ScrollViewer { Background = Ui.Bg, Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 670, 440);
+            var dialog = Ui.Dialog(this, "Dati condivisi della sezione", new ScrollViewer { Background = Appearance.Surface, Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 670, 440);
             var all = Ui.Button("Aggiorna tutti i fogli collegati", () => dialog.DialogResult = true, true);
             var local = Ui.Button("Solo questo foglio", () => dialog.DialogResult = false); local.IsCancel = true;
             content.Children.Add(Ui.Bar(all, local));
@@ -93,7 +93,7 @@ public sealed partial class MainWindow
             RefreshTree(selection);
         }
         var panel = new StackPanel { Margin = new Thickness(22) };
-        var dialog = Ui.Dialog(this, "Confronto · " + section.S("nome"), new ScrollViewer { Background = Ui.Bg, Content = panel, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 900, 650);
+        var dialog = Ui.Dialog(this, "Confronto · " + section.S("nome"), new ScrollViewer { Background = Appearance.Surface, Content = panel, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 900, 650);
         void Render()
         {
         panel.Children.Clear();
@@ -112,7 +112,7 @@ public sealed partial class MainWindow
             Grid.SetIsSharedSizeScope(block, true);
             string label = SharedFieldLabel(conflict.Key);
             var title = Ui.Text($"Conflitto {++conflictNumber}: {label}", 16, true);
-            block.Children.Add(new Border { Background = Ui.Brush("#EDF3F9"), Padding = new Thickness(16, 12, 16, 12),
+            block.Children.Add(new Border { Background = Appearance.Background("#EDF3F9"), Padding = new Thickness(16, 12, 16, 12),
                 BorderBrush = Ui.Brush("#D8E0EB"), BorderThickness = new Thickness(0, 0, 0, 1), Child = title });
             // Keep project order and show each participating sheet once, even when several pairs disagree.
             foreach (var sheet in ProjectSharedData.ContextSheets(section).Where(participants.Contains))
@@ -216,7 +216,7 @@ public sealed partial class MainWindow
         foreach (var check in CoverChecks(section))
             notices.Children.Add(Ui.Text("• " + check.Text, 13, color: check.Passed == true ? System.Windows.Media.Brushes.DarkGreen : System.Windows.Media.Brushes.DarkOrange));
         if (notices.Children.Count == 1) notices.Children.Add(Ui.Text("Nessun avviso.", 13));
-        panel.Children.Add(new Border { Child = notices, Background = Ui.Brush("#FFFBF2"), BorderBrush = Ui.Brush("#E7D6AE"),
+        panel.Children.Add(new Border { Child = notices, Background = Appearance.Background("#FFFBF2"), BorderBrush = Ui.Brush("#E7D6AE"),
             BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(5), Padding = new Thickness(16), Margin = new Thickness(0, 20, 0, 16) });
         var soilTargets = section.Array("fogli").OfType<JsonObject>().Where(ProjectSharedData.SupportsSharedSoils).Select(s => new SharedSheet(s)).ToArray();
         if (!projectReadOnly && soilTargets.Length > 1)
@@ -237,7 +237,7 @@ public sealed partial class MainWindow
                     Ui.Text("Conferma che i sondaggi corrispondano, nello stesso ordine e con la stessa origine delle quote. Saranno collegati gli strati e copiati i parametri fisici indicati sotto. I parametri specifici del metodo restano nel destinatario.", 13),
                     Ui.Text(stagedTarget["dati"]!["stratigrafie"]!.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }), 12));
                 preview.Margin = new Thickness(18);
-                var confirm = Ui.Dialog(dialog, "Collegamento dei sondaggi", new ScrollViewer { Content = preview, Background = Ui.Bg, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 760, 600);
+                var confirm = Ui.Dialog(dialog, "Collegamento dei sondaggi", new ScrollViewer { Content = preview, Background = Appearance.Surface, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 760, 600);
                 preview.Children.Add(Ui.Bar(Ui.Button("Conferma stesso sondaggio e collega", () => confirm.DialogResult = true, true), Ui.Button("Annulla", () => confirm.DialogResult = false)));
                 if (confirm.ShowDialog() != true) return;
                 from.Sheet["dati"] = stagedSource["dati"]!.DeepClone(); to.Sheet["dati"] = stagedTarget["dati"]!.DeepClone(); MarkDirty();

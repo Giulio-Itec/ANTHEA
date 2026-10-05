@@ -1,12 +1,12 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · Revisione 15 · 4 ottobre 2026
+ITEC Engineering · Revisione 25 · 5 ottobre 2026
 
 Engineering Handbook: 49 articoli consolidati in 12 capitoli. I resoconti precedenti sono conservati nell’archivio Rev14; i vecchi indirizzi Wiki raggiungono le pagine correnti. Lo stato editoriale non equivale a una certificazione normativa.
 
 ## Guida pratica ANTHEA
 
-[Word Rev15](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev15.docx) · [PDF Rev15](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev15.pdf)
+[Word Rev25](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev25.docx) · [PDF Rev25](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev25.pdf)
 
 - Avvio e scelta del modulo
 - Progetti e gestione del lavoro
@@ -30,7 +30,7 @@ Engineering Handbook: 49 articoli consolidati in 12 capitoli. I resoconti preced
 
 ## Guida teorica ANTHEA
 
-[Word Rev15](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev15.docx) · [PDF Rev15](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev15.pdf)
+[Word Rev25](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev25.docx) · [PDF Rev25](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev25.pdf)
 
 - Architettura del calcolo e convenzioni
 - Calcestruzzo armature e copriferro
@@ -62,3 +62,5 @@ Engineering Handbook: 49 articoli consolidati in 12 capitoli. I resoconti preced
 - Progettazione parametrica e controllo delle dipendenze
 - Acciaio per armature: proprietà e diagrammi
 - Profili di calcolo del calcestruzzo
+
+- Esempio aggiornato: [palo 20 m, tratti 0–12 / 12–18 / 18–20](../esempi/palo-orizzontale-armature/palo-20m-tagli-12-18-20.programma), con [dati e tagli in PDF](../esempi/palo-orizzontale-armature/palo-20m-tagli-12-18-20.pdf).

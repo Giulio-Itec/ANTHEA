@@ -27,11 +27,16 @@ public sealed class SezioneCA
         ("longitudinal_bar_count","16"),("longitudinal_bar_diameter_mm","24"),("top_bar_count","4"),("top_bar_diameter_mm","20"),("bottom_bar_count","6"),("bottom_bar_diameter_mm","24"),("side_bar_count_per_side","2"),("side_bar_diameter_mm","16"),("transverse_bar_diameter_mm","10"),("transverse_spacing_mm","200"),
         ("apply_pile_requirements",false),("dissipative_zone",false),("fck_mpa","35"),("fyk_mpa","450"),("alpha_cc","0.85"),("gamma_c","1.50"),("gamma_s","1.15"),("steel_modulus_mpa","200000"),
         ("axial_force_kn","2500"),("moment_x_knm","500"),("moment_y_knm","250"),("apply_minimum_eccentricity",false),("minimum_eccentricity_mm","0"),("classe_cls","C35/45"),("n",""));
-    public static JsonObject DefaultData()
+    public static JsonObject DefaultCatalogInput()
     {
         var input = DefaultInput();
         foreach (var material in new[] { ConcreteMaterialCatalog.Concrete().Single(m => m.S("nome") == "C35/45"), ConcreteMaterialCatalog.Steel(false, "NTC 2018").Single(m => m.S("nome") == "B450C") })
             foreach (var (key, value) in material.Where(p => p.Key != "nome")) input[key] = value?.DeepClone();
+        return input;
+    }
+    public static JsonObject DefaultData()
+    {
+        var input = DefaultCatalogInput();
         var combos=new JsonObject();foreach(var limit in new[]{"SLU","SLV","SLE"})combos[limit]=new JsonArray(J.Obj(("nome","Combo 1"),("azioni",new[]{"2500","500","250"})));
         return J.Obj(("versione_sezione",2),("input",input),("n_automatico",true),("combinazioni",combos));
     }

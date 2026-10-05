@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -27,13 +27,15 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
     private int revision;
     private readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(450) };
     private readonly List<JsonGrid> grids = [];
+    private readonly List<HorizontalSoilEditor> soilEditors = [];
+    private readonly InputForm ejForm;
     private readonly TabControl surveys = new();
     private readonly Grid sectionLayout = new();
     private readonly Viewbox sectionPreview = new() { Stretch = Stretch.Uniform, Margin = new Thickness(8, 0, 0, 0) };
     private readonly StratigraphyDrawing profile = new() { ShowAll = false, HorizontalForces = true };
     private readonly SectionDrawing sectionDrawing = new();
     private readonly TextBlock summary = Ui.Text("Completare i dati · calcolo automatico", 14);
-    private readonly TextBlock momentValue = Ui.Text("Momento da calcolare", 14, true);
+    private readonly TextBlock momentValue = Ui.Text("Momento da calcolare", 12, true);
     private readonly TextBlock status = Ui.Text("Dati da verificare", 12, color: Ui.Muted);
     private readonly TextBlock warnings = Ui.Text("", 12, color: Ui.Muted);
     private readonly Canvas layout = new();
@@ -44,7 +46,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
 
     internal HorizontalWorkspace(JsonObject data)
     {
-        PaloOrizzontale.ValidateShape(data); Data = data; profile.Data = data;
+        PaloOrizzontale.ValidateShape(data); ElasticHorizontalPile.PrepareShared(data); Data = data; profile.Data = data; SetValue(InputForm.CommitOnFocusLossProperty, false);
         foreach (var (key, value) in MicroHorizontal ? new JsonObject() : SezioneCA.DefaultInput())
             if (!data["sezione"]!.AsObject().ContainsKey(key)) data["sezione"]![key] = value?.DeepClone();
         var g = data["generali"]!.AsObject();
@@ -54,9 +56,10 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         details = Ui.Button("Diagrammi e dettagli", ShowResults, inspection: true); details.IsEnabled = false;
         csv = Ui.Button("Esporta CSV", ExportCsv, inspection: true); csv.IsEnabled = false;
         general = new(g, [new("diametro", MicroHorizontal ? "Diametro geotecnico micropalo" : "Diametro palo", "m", Symbol: "D"), new("lunghezza", "Lunghezza infissa", "m", Symbol: "L"),
-            new("eccentricita", "Eccentricità forza rispetto al terreno", "m", Symbol: "e"), new("vincolo", "Rotazione in testa", Choices: ["Libera", "Impedita"]),
+            new("eccentricita", "Eccentricità forza sopra il piano campagna", "m", Symbol: "e"), new("tratto_libero", "Tratto libero sopra il terreno", "m"), new("vincolo", "Rotazione in testa", Choices: ["Libera", "Impedita"]),
             new("azione_orizzontale", "Forza orizzontale", "kN", Symbol: "HEd"), new("azione_assiale", "Forza assiale (+ compressione)", "kN", Symbol: "N"),
-            new("presenza_falda", "Presenza falda", Bool: true), new("profondita_falda", "Profondità falda", "m")], _ => Changed(), compact: true, symbolColumns: true);
+            new("presenza_falda", "Presenza falda", Bool: true), new("profondita_falda", "Profondità falda", "m"), new("gamma_acqua", "Peso unitario acqua", "kN/m³")], _ => Changed(), compact: true, symbolColumns: true);
+        general.GroupFields("Dati opzionali · peso acqua",["gamma_acqua"]);
         model = new(g, [new("metodo_calcolo", "Metodo di calcolo", Choices: [PaloOrizzontale.BromsMethod, PaloOrizzontale.StratifiedMethod]),
             new("passo", "Passo diagrammi", "m", Symbol: "Δz"), new("tolleranza", "Tolleranza radici", Symbol: "ε")], _ => Changed(), compact: true, symbolColumns: true);
         ((Grid)model.Content).ColumnDefinitions[2].Width = new GridLength(150);
@@ -95,29 +98,35 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         sectionData["shape"] = "Circolare";
         sectionData["diameter_mm"] = g.D("diametro", 1) * 1000;
         sectionData["classe_cls"] = ConcreteClass(sectionData.D("fck_mpa"));
+        if(sectionData["coefficienti_unitari"]==null)sectionData["coefficienti_unitari"]=false;
         sectionFields = new InputForm(sectionData, [
-            new("classe_cls", "Classe calcestruzzo", Choices: PileConcreteClasses.Keys.Append("Personalizzato").ToArray()),
-            new("fck_mpa", "Resistenza caratteristica a compressione", "MPa", Symbol: "fck"),
-            new("alpha_cc", "Coefficiente lungo termine", Symbol: "αcc"), new("gamma_c", "Coefficiente parziale di sicurezza", Symbol: "γc"),
+            new("classe_cls", "Calcestruzzo", Choices: ConcreteMaterialCatalog.Concrete().Select(m=>m.S("nome")).Append(sectionData.S("classe_cls")).Append("Personalizzato").Distinct().ToArray()),
+            new("fck_mpa", "fck del materiale", "MPa", ReadOnly:true),
+            new("alpha_cc", "αcc archivio",ReadOnly:true), new("gamma_c", "γc archivio",ReadOnly:true),
             new("__fcd", "Resistenza di progetto a compressione", "MPa", Symbol: "fcd", ReadOnly: true),
-            new("fyk_mpa", "Resistenza caratteristica a snervamento", "MPa", Symbol: "fyk"),
-            new("gamma_s", "Coefficiente parziale di sicurezza", Symbol: "γs"),
+            new("classe_acciaio","Acciaio", Choices:ConcreteMaterialCatalog.Steel(false,"NTC 2018").Select(m=>m.S("nome")).Append(sectionData.S("classe_acciaio")).Append("Personalizzato").Distinct().ToArray()),
+            new("fyk_mpa", "fyk del materiale", "MPa", ReadOnly:true),
+            new("gamma_s", "γs archivio",ReadOnly:true),
+            new("coefficienti_unitari","Coefficienti unitari",Bool:true),
             new("__fyd", "Resistenza a snervamento di progetto", "MPa", Symbol: "fyd", ReadOnly: true),
-            new("longitudinal_bar_diameter_mm", "Diametro barre longitudinali", "mm", Symbol: "φL", Choices: ["8", "10", "12", "14", "16", "18", "20", "22", "24", "25", "26", "28", "30", "32", "36", "40"]),
-            new("longitudinal_bar_count", "Quantità barre longitudinali", Symbol: "n"),
+            new("longitudinal_bar_diameter_mm", "Diametro barre", "mm", Symbol: "φL", Choices: ["8", "10", "12", "14", "16", "18", "20", "22", "24", "25", "26", "28", "30", "32", "36", "40"]),
+            new("longitudinal_bar_count", "Numero barre", Symbol: "n"),
             new("transverse_bar_diameter_mm", "Diametro staffa", "mm", Symbol: "φst", Choices: ["6", "8", "10", "12", "14", "16", "18", "20"]),
+            new("transverse_spacing_mm", "Passo staffe", "mm"),
+            new("gamma_ca", "Peso unitario c.a. adottato (acciaio incluso)", "kN/m³"),
             new("cover_mm", "Copriferro netto", "mm", Symbol: "c"),
             new("esposizione", "Esposizione", Choices: Ntc2018Checks.Exposures),
+            new("vita_durabilita", "Vita utile per durabilità", "anni", Choices:["50","100"]),
+            new("qualita_copriferro", "Controllo qualità copriferro confermato", Bool:true),
             new("steel_modulus_mpa", "Modulo elastico acciaio", "MPa", Symbol: "Es"),
             new("cls_diagramma", "Legame calcestruzzo", Choices: ConcreteMaterials.ConcreteDiagrams),
             new("steel_diagramma", "Legame acciaio", Choices: ["Elastoplastico", "Incrudente"]),
             new("steel_fu_mpa", "Resistenza ultima", "MPa", Symbol: "fu"),
             new("steel_eps_u", "Deformazione ultima", "‰", Symbol: "εu"),
             new("circular_sides", "Lati del contorno", Choices: ["16", "32", "64", "96", "128", "256"])], SectionMaterialChanged, compact: true, symbolColumns: true);
-        sectionFields.GroupFields("Calcestruzzo", ["classe_cls", "fck_mpa", "alpha_cc", "gamma_c", "__fcd"], true);
-        sectionFields.GroupFields("Acciaio", ["fyk_mpa", "gamma_s", "__fyd"], true);
-        sectionFields.GroupFields("Armatura", ["longitudinal_bar_diameter_mm", "longitudinal_bar_count", "transverse_bar_diameter_mm", "cover_mm"], true);
-        sectionFields.GroupFields("Opzioni avanzate · modello Checker", ["steel_modulus_mpa", "cls_diagramma", "steel_diagramma", "steel_fu_mpa", "steel_eps_u", "circular_sides"]);
+        sectionFields.GroupFields("Dati opzionali e proprietà materiali", ["fck_mpa","fyk_mpa","__fcd","__fyd","gamma_ca","esposizione","vita_durabilita","qualita_copriferro","steel_modulus_mpa","steel_fu_mpa","steel_eps_u","cls_diagramma","steel_diagramma","circular_sides"]);
+        foreach(string key in new[]{"alpha_cc","gamma_c","gamma_s"})sectionFields.ShowField(key,false);
+        sectionFields.Editors["coefficienti_unitari"].ToolTip="Disattivato: coefficienti NTC/archivio. Attivato: normativa custom di sezione con tutti i gamma e alpha_cc pari a 1; non modifica i coefficienti geotecnici di Broms. I valori ordinari restano conservati.";
         sectionFields.Editors["cover_mm"].ToolTip = "Distanza netta dal bordo del calcestruzzo alla superficie esterna della staffa, in mm.";
         }
         moment.MaxWidth = sectionFields.MaxWidth = 650;
@@ -127,8 +136,11 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         sectionDrawing.Width = 400; sectionDrawing.Height = 400;
         sectionPreview.Child = MicroHorizontal ? chsDrawing : sectionDrawing;
         Grid.SetColumn(sectionPreview, 1);
-        sectionLayout.Children.Add(sectionFields); sectionLayout.Children.Add(sectionPreview);
-        var sectionPane = Ui.Dock(sectionLayout, moment, momentValue);
+        var materialScroll=new ChainedScrollViewer{Content=sectionFields,VerticalScrollBarVisibility=ScrollBarVisibility.Auto};
+        var sectionAndResults=Ui.Dock(sectionPreview,bottom:momentValue);Grid.SetColumn(sectionAndResults,1);
+        sectionLayout.Children.Add(materialScroll); sectionLayout.Children.Add(sectionAndResults);
+        ejForm = new InputForm(sectionData, [new("ej_override", "EJ manuale motivato", Bool:true),new("ej_assegnato", "EJ assegnato", "kN m²"),new("ej_motivo", "Motivazione EJ", Wide:true)], _ => Changed(), compact:true);
+        var sectionPane = Ui.Dock(sectionLayout, bottom:new Expander{Header="Opzioni avanzate · resistenza manuale ed EJ",Content=Ui.Stack(moment,ejForm)});
         AlignSurveyToolbar(surveyButtons);
         AddCard("Stratigrafia", surveys, true);
         AddCard("Profilo stratigrafico", profile, true);
@@ -136,12 +148,14 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         scroll.Content = layout;
         var warningPane = new Expander { Header = "Ipotesi e limiti del calcolo", Content = new ChainedScrollViewer { Content = warnings, MaxHeight = 90, VerticalScrollBarVisibility = ScrollBarVisibility.Auto } };
         var footer = Ui.Stack(Ui.Bar(status, Ui.Button("Modello e dati comuni…", () => CalculationHelpView.Show(this, true), inspection: true)), warningPane); footer.Margin = new Thickness(16, 3, 16, 8);
-        elastic = new ElasticPileWorkspace(data); elastic.Modified += () => Modified?.Invoke();
-        Ui.Tab(analyses, "Capacità laterale · Broms / stratificato", Ui.Dock(scroll, bottom: footer));
+        elastic = new ElasticPileWorkspace(data, () => { analyses.SelectedIndex=0; expanded=4; LayoutCards(); }, RefreshAfterMigration); elastic.Modified += () => Modified?.Invoke();
+        Ui.Tab(analyses, "Dati comuni e capacità · Broms / stratificato", Ui.Dock(scroll, bottom: footer));
         Ui.Tab(analyses, "Risposta elastica · trave su molle", elastic);
         analyses.SelectedIndex = data.S("vista_orizzontale") == "elastico" ? 1 : 0;
         analyses.SelectionChanged += (_, e) => { if(e.Source != analyses || building) return; Commit(); data["vista_orizzontale"] = analyses.SelectedIndex == 1 ? "elastico" : "capacita"; if(analyses.SelectedIndex == 1) timer.Stop(); else { LayoutCards(); if(Result is null) QueueCalculation(); } Modified?.Invoke(); };
-        Content = analyses;
+        var engineReference = Ui.Text("Motore di calcolo: GPC Engine", 12, true, Ui.Muted);
+        engineReference.Margin = new Thickness(16, 8, 16, 0); engineReference.HorizontalAlignment = HorizontalAlignment.Right;
+        Content = Ui.Dock(analyses, top: engineReference);
         scroll.SizeChanged += (_, _) => LayoutCards();
         scroll.ScrollChanged += (_, e) => { if (e.Source == scroll && (e.ViewportWidthChange != 0 || e.ViewportHeightChange != 0)) LayoutCards(); };
         timer.Tick += TimerTick;
@@ -149,7 +163,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
     }
     private void RebuildSurveys(int selected = 0)
     {
-        surveys.Items.Clear(); grids.Clear(); int index = 0;
+        surveys.Items.Clear(); grids.Clear(); soilEditors.Clear(); int index = 0;
         foreach (var node in Data.Array("stratigrafie"))
         {
             var rows = node!.AsArray();
@@ -161,18 +175,26 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             JsonRow Bind(JsonObject data)
             {
                 var display = (JsonObject)data.DeepClone();
-                return new(display, key => { data[key] = display[key]?.DeepClone(); Changed(); });
+                return new(display, key => { data[key] = display[key]?.DeepClone();Changed();grid.Rows.FirstOrDefault(r=>ReferenceEquals((r.Context as SoilRowContext)?.Layer,data))?.Refresh(); }){Context=new SoilRowContext(data,Changed)};
             }
             foreach (var row in rows.OfType<JsonObject>()) grid.Rows.Add(Bind(row));
             void AddLayer() { grid.Commit(); var row = NewLayer(); rows.Add(row); grid.Rows.Add(Bind(row)); Changed(); }
             void DeleteLayer(JsonRow row) { grid.Commit(); int i = grid.Rows.IndexOf(row); if (i < 0) return; rows.RemoveAt(i); grid.Rows.RemoveAt(i); Changed(); }
             var table = StratigraphyTable.Build(grid, fields, AddLayer, DeleteLayer, gammaFallback: false);
-            var tab = Ui.Tab(surveys, $"{++index}", Ui.Dock(table, bottom: Ui.Text("Granulare: φ′, γ, γsat; c′ = 0. Coesivo: Cu; nei profili misti anche γ e γsat.\nPer alternanze coesivo/granulare scegliere Stratificato nelle opzioni avanzate. Coprire tutta L.", 11, color: Ui.Muted)));
+            grid.FrozenColumnCount=2;grid.EnableColumnVirtualization=false;
+            grid.Columns.Insert(2,new DataGridTemplateColumn{Header=HorizontalSoilEditor.Header(),Width=HorizontalSoilEditor.Widths.Sum(),CellTemplate=new DataTemplate{VisualTree=new FrameworkElementFactory(typeof(HorizontalSoilEditor))}});
+            var tab = Ui.Tab(surveys, $"{++index}", table);
             var remove = Ui.Button("[−]", () => DeleteSurvey(rows)); remove.FontSize = 11; remove.Padding = new Thickness(3, 0, 3, 0); remove.MinHeight = 20;
             remove.ToolTip = $"Elimina stratigrafia {index}";
             tab.Header = Ui.Bar(Ui.Text($"{index}", 12), remove);
         }
         surveys.SelectedIndex = Math.Clamp(selected, 0, surveys.Items.Count - 1); profile.SelectedIndex = surveys.SelectedIndex;
+    }
+    private void RefreshAfterMigration()
+    {
+        building=true;
+        try{foreach(var form in new[]{general,sectionFields,ejForm}){var source=ReferenceEquals(form,general)?Data["generali"]!:Data["sezione"]!;foreach(string key in form.Editors.Keys.ToArray()){if(form.Editors[key] is CheckBox box)box.IsChecked=source.B(key);else form.Set(key,source.S(key),true);}}RebuildSurveys();}
+        finally{building=false;}Changed();
     }
     private void Preview()
     {
@@ -181,10 +203,10 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         catch (ArgumentException ex) { modelLabel.Text = "Modello automatico · dati da completare"; modelLabel.ToolTip = ex.Message; }
         var g = Data["generali"]!; general.Enable("profondita_falda", g.B("presenza_falda"), dim: true);
         // Keep a legacy nonzero eccentricity editable so it can be corrected, never silently overwrite it.
-        general.Enable("eccentricita", g.S("vincolo") != "Impedita" || g.D("eccentricita") != 0, dim: true);
+        general.Enable("eccentricita", true);
         bool manual = g.S("origine_momento") == "Manuale";
         moment.Enable("momento_resistente", manual, dim: true); moment.Enable("provenienza_momento", manual, dim: true);
-        sectionFields.IsEnabled = !manual; sectionFields.Opacity = manual ? .4 : 1;
+        sectionFields.IsEnabled = true; sectionFields.Opacity = 1; ejForm?.ShowField("ej_assegnato",Data["sezione"].B("ej_override")); ejForm?.ShowField("ej_motivo",Data["sezione"].B("ej_override"));
         if (Calcolo.Verticali.TryGetValue(Data["verifica"].S("verticali_indagate", "1"), out var xi))
         { factors.Set("__xi3", xi.Xi3.ToString("F2"), true); factors.Set("__xi4", xi.Xi4.ToString("F2"), true); }
         factors.Set("__gamma_r", "1,30", true);
@@ -208,18 +230,18 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         {
             var input = (JsonObject)Data["sezione"]!.DeepClone(); input["shape"] = "Circolare"; input["diameter_mm"] = g.Required("diametro", strict: true) * 1000;
             if (input.D("longitudinal_bar_count") > 512) throw new ArgumentException("Numero barre fuori campo");
-            var section = new SezioneCA(input, 12, 36); sectionDrawing.Outline = section.Outline; sectionDrawing.Bars = section.Bars;
+            var section = new SezioneCA(input, 12, 36); sectionDrawing.Outline = section.Outline; sectionDrawing.Bars = section.Bars;sectionDrawing.CircularLinkRadius=GPC.Checkers.Concrete.Piles.PileReinforcement.CircularLinkRadius(input.D("diameter_mm"),input.D("cover_mm"),input.D("transverse_bar_diameter_mm"));sectionDrawing.LinkDiameter=input.D("transverse_bar_diameter_mm");sectionDrawing.ShowAxes=true;sectionDrawing.Caption="Sezione principale · staffa verde";
         }
-        catch (ArgumentException) { sectionDrawing.Outline = []; sectionDrawing.Bars = []; }
+        catch (ArgumentException) { sectionDrawing.Outline = []; sectionDrawing.Bars = [];sectionDrawing.CircularLinkRadius=0; }
         sectionDrawing.InvalidateVisual();
     }
     private void Changed()
     {
         if (building || disposed) return;
         revision++; Result = null; summary.Text = "Dati modificati · aggiornamento automatico"; momentValue.Text = "Aggiornamento automatico del momento…";
-        details.IsEnabled = csv.IsEnabled = false; warnings.Text = ""; Preview(); UpdateVerification(); QueueCalculation(); Modified?.Invoke();
+        details.IsEnabled = csv.IsEnabled = false; warnings.Text = ""; elastic?.InvalidateShared(); Preview(); UpdateVerification(); QueueCalculation(); Modified?.Invoke();
     }
-    internal void Commit() { general.Commit(); model.Commit(); factors.Commit(); efficiency.Commit(); moment.Commit(); sectionFields.Commit(); foreach (var grid in grids) grid.Commit(); elastic?.Commit(); }
+    internal void Commit() { general.Commit(); model.Commit(); factors.Commit(); efficiency.Commit(); moment.Commit(); sectionFields.Commit(); ejForm?.Commit(); foreach(var editor in soilEditors)editor.Commit(); foreach (var grid in grids) grid.Commit(); elastic?.Commit(); }
     private void QueueCalculation()
     {
         if (building || disposed || analyses.SelectedIndex == 1) return;
@@ -234,7 +256,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
     {
         if (MicroHorizontal) { momentValue.Text = $"My(N) = {result.D("momento_knm"):N1} kNm · N = {result.D("n_kn"):N1} kN\nCHS classe {result.D("classe")} · solo acciaio · interazione N–M lineare"; return; }
         momentValue.Text = $"MRd = {result.D("momento_knm"):N1} kNm · N = {result.D("n_kn"):N1} kN\nChecker · {result.D("lati_contorno"):0} lati · residuo N = {result.D("residuo_n_kn"):G3} kN (tol. {result.D("tolleranza_n_kn"):G3})";
-        momentValue.ToolTip = result.S("modello");
+        momentValue.Text+="\n"+result.S("normativa","NTC 2018");momentValue.ToolTip = result.S("modello");
     }
     internal async Task CalculateAsync(bool commitEdits = true)
     {

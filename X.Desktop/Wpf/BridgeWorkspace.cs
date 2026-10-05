@@ -21,7 +21,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
     internal bool Busy { get; private set; }
     internal event Action? Modified;
     internal readonly BridgeDrawing Drawing = new();
-    internal readonly TabControl Pages = new() { Margin = new Thickness(12, 8, 12, 0), BorderThickness = new Thickness(0), Background = Ui.Bg }, Results = new();
+    internal readonly TabControl Pages = new() { Margin = new Thickness(12, 8, 12, 0), BorderThickness = new Thickness(0), Background = Appearance.Surface }, Results = new();
     internal readonly ComboBox StageChoice = new() { MinWidth = 200, MaxWidth = 360, Margin = new Thickness(4) };
     internal readonly ComboBox DisplayChoice = Ui.Choice(["Tensioni totali", "Contributi delle fasi", "Geometria"], "Tensioni totali");
     private readonly TextBlock status = Ui.Text("Preparazione della sezione…", 12), overview = Ui.Text("", 12), materialInfo = Ui.Text("", 12);
@@ -43,7 +43,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
     private string geometryError = "";
     internal BridgeWorkspace(JsonObject data)
     {
-        Data = data; BridgeSection.ValidateShape(data); BridgeSection.EnsureAccessoryDefaults(data); Background = Ui.Bg;
+        Data = data; BridgeSection.ValidateShape(data); BridgeSection.EnsureAccessoryDefaults(data); Background = Appearance.Surface;
         RevisionInspection.Allow(StageChoice); RevisionInspection.Allow(DisplayChoice);
         SetValue(InputForm.CommitOnFocusLossProperty, true);
         SetValue(NumericPresentation.EnabledProperty, true);

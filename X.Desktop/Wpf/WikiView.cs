@@ -47,7 +47,7 @@ internal sealed partial class WikiView : UserControl
         searchBar.Margin = new Thickness(0, 0, 0, 14);
         var commands = Ui.Bar(Ui.Button("Handbook", Home), Ui.Button("Indice", () => { navExpanded = !navExpanded; tocExpanded = false; Adapt(); }),
             Ui.Button("In questa pagina", () => { tocExpanded = !tocExpanded; navExpanded = false; Adapt(); }),
-            Ui.Button("Chiaro / scuro", () => SetDark(!WikiPalette.Dark)),
+            Appearance.Selector(),
             Ui.Button("Apri collegamento", () => { if (Ui.Ask(Window.GetWindow(this), "Apri collegamento Wiki", "/wiki/") is { } uri) Navigate(uri); }));
         if (returnToWork is not null) commands.Children.Insert(0, Ui.Button("← Torna al lavoro", returnToWork));
         Content = Ui.Dock(columns, top: Ui.Stack(commands, searchBar));
@@ -59,7 +59,10 @@ internal sealed partial class WikiView : UserControl
         SizeChanged += (_, _) => Adapt();
         Unloaded += (_, _) => { debounce.Stop(); save.Stop(); this.progress.Save(); };
         Home();
+        Loaded += (_, _) => { Appearance.Changed += RefreshAppearance; RefreshAppearance(); };
+        Unloaded += (_, _) => Appearance.Changed -= RefreshAppearance;
     }
+    private void RefreshAppearance() { ApplyPalette(); foreach (var vector in Ui.Descendants<WikiVector>(this)) vector.InvalidateVisual(); }
     private void Adapt()
     {
         bool small = ActualWidth < 1000;

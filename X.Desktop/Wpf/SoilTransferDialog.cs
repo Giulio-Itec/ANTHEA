@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -25,7 +25,7 @@ internal sealed class SoilTransferDialog : Window
     internal SoilTransferDialog(Window owner, string module, JsonObject data)
     {
         Owner = owner; Title = "Terreno · invio e riutilizzo"; Width = 940; Height = 660; MinWidth = 720; MinHeight = 520;
-        WindowStartupLocation = WindowStartupLocation.CenterOwner; Background = Ui.Bg; this.module = module; original = (JsonObject)data.DeepClone();
+        WindowStartupLocation = WindowStartupLocation.CenterOwner; Background = Appearance.Surface; this.module = module; original = (JsonObject)data.DeepClone();
         survey = Ui.Choice(module == RetainingWall.Module ? new[] { "Monte", "Valle" } : Enumerable.Range(1, SoilProfileTransfer.SurveyCount(module, data)).Select(i => "Profilo " + i), module == RetainingWall.Module ? "Monte" : "Profilo 1");
         Destination = new ComboBox { MinWidth = 300, SelectedValuePath = "Tag" };
         foreach (var target in SoilProfileTransfer.Modules) { var info = ModuleCatalog.Get(target); Destination.Items.Add(new ComboBoxItem { Content = info.Element + " · " + info.Description, Tag = target }); }
@@ -66,7 +66,7 @@ internal sealed class SoilTransferDialog : Window
         var body = Ui.Stack(Ui.Text("Terreno condivisibile fra i moduli", 19, true), Ui.Bar(survey, Ui.Button("Usa il profilo corrente", Current), load, save), description, preview,
             Ui.Text("Invio a un nuovo foglio / una nuova finestra", 14, true), Ui.Bar(Destination, SendButton), guidance,
             Ui.Text("Importazione nel foglio corrente", 14, true), apply, status);
-        body.Margin = new Thickness(20); Content = new ScrollViewer { Content = body, Background = Ui.Bg, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
+        body.Margin = new Thickness(20); Content = new ScrollViewer { Content = body, Background = Appearance.Surface, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
         Current(); Target();
     }
     private void Try(Action action)

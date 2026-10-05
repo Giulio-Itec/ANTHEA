@@ -1,6 +1,6 @@
 {
-  "snapshotDate": "2026-10-03",
-  "source": "bin/Release dei singoli progetti Utilities, Geometry, Model (master c07e99ac) e Checker (develop 40ca3008 per Geotechnics, 79268a9e per le altre), build del 2 ottobre 2026; Geotechnics ricompilata da working tree con LateralPileGroup (sei metodi di efficienza orizzontale), 2 ottobre 2026; Geotechnics da working tree con ElasticPile, ViggianiHorizontalSoil e PileGroupLayout, 3 ottobre 2026",
+  "snapshotDate": "2026-10-05",
+  "source": "bin/Release dei singoli progetti Utilities, Geometry, Model (master c07e99ac) e Checker (develop 40ca3008 per Geotechnics, 79268a9e per le altre), build del 2 ottobre 2026; Geotechnics ricompilata da working tree con LateralPileGroup (sei metodi di efficienza orizzontale), 2 ottobre 2026; Geotechnics da working tree con ElasticPile, ViggianiHorizontalSoil e PileGroupLayout, 3 ottobre 2026; Geotechnics da working tree con ElasticPileSection, medie iniziali e risultati per sezione, 5 ottobre 2026; Concrete e Geotechnics da working tree con N, PileSegments e PileReinforcement (sezioni, taglio, sviluppo barre e distinta preliminare), 5 ottobre 2026; Concrete da working tree con MRd parallelo, dettagli costruttivi e cataloghi tratti, 5 ottobre 2026; dettagli pilastro, proposta Mmax/2, avanzamento e categorie catalogo, 5 ottobre 2026; Concrete da working tree con continuità delle singole barre, interruzioni ancorate e giunti univoci al cambio armatura, 5 ottobre 2026; Concrete da working tree con tagli fissati dai tratti, sovrapposizione entrante unica e spezzatura commerciale interna, 5 ottobre 2026",
   "targetFramework": "netstandard2.0",
   "nuget": [
     {
@@ -19,7 +19,7 @@
       "file": "GPCChecker.Concrete.dll",
       "source": "Checker/GPCChecker.Concrete/bin/Release/netstandard2.0",
       "assemblyVersion": "0.0.14.0",
-      "sha256": "D9E1BF0B3D184E215590A0595A656923EF7E8FC66053BB967E0AB5F8E46D6C64"
+      "sha256": "DF24F0E691EE246CDFC8D91556F6B9573330B52BF55EA8674DE968552DA3AC6D"
     },
     {
       "file": "GPCGeometry.dll",
@@ -55,8 +55,8 @@
       "file": "GPCChecker.Geotechnics.dll",
       "source": "Checker/GPCChecker.Geotechnics/bin/Release/netstandard2.0",
       "assemblyVersion": "0.1.0.0",
-      "sha256": "9A6F5D7224CB101EE16B5BCBA2B55B0974D837C48D2D785D415FAB94D92C2AEA"
+      "sha256": "B4002EE3962C81EA5EDBB15170DD12FE487B7B925623FACDDC8024894F55149C"
     }
   ],
-  "updatedAt": "2026-10-02T18:45:55.1481438+02:00"
+  "updatedAt": "2026-10-05T16:08:48.1822716+02:00"
 }

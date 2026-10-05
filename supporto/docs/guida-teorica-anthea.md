@@ -2,13 +2,19 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 5 del 4 ottobre 2026 — revisione documentale 15
+Edizione 5 aggiornata il 5 ottobre 2026 — revisione documentale 25
 
 Questa edizione integra i contenuti precedenti nel percorso dell'Engineering Handbook. Le procedure correnti e la teoria sono separate dai resoconti di sviluppo. Le fonti integrali e le evidenze storiche restano nell'archivio Rev14; gli indirizzi precedenti della Wiki raggiungono le pagine consolidate. Lo stato editoriale distingue contenuti integrati, pagine revisionate e profili che richiedono ulteriori riscontri normativi.
 
 ## Architettura del calcolo e convenzioni
 
 ### Separazione fra modello e interfaccia
+
+La tavola delle armature è una proiezione dei pezzi longitudinali, delle zone di staffatura e delle sezioni restituiti da Checker. Marche e coordinate grafiche non alterano quantità, quote o resistenze. Il modello attuale fornisce barre longitudinali rettilinee e posizioni nominali delle staffe: il disegno non aggiunge ganci o sagomature non calcolati. Le lunghezze di taglio delle staffe restano da definire e i dettagli costruttivi non completati sono segnalati. Le sezioni trasversali rappresentano l’armatura nominale del tratto, senza attribuire resistenza aggiuntiva alle barre sovrapposte.
+
+I nuovi fogli del palo inizializzano l’acciaio B450C dal catalogo comune alla sezione in c.a., includendo l’intero legame costitutivo. La riapertura di archivi precedenti conserva invece i parametri salvati: la sola resistenza fyk di 450 MPa non identifica automaticamente tutte le proprietà di B450C.
+
+Il riferimento GPC Engine nel palo orizzontale identifica il motore delle librerie di calcolo; la presentazione dei materiali usa i nomi Calcestruzzo e Acciaio. Formulazioni, parametri e risultati rimangono quelli descritti nelle sezioni teoriche del modulo.
 
 X.Calculations contiene i motori e le funzioni di calcolo indipendenti da WPF. X.Core gestisce archivi, integrazioni e report. X.Desktop presenta editor e grafici; X.Materiali presenta le schede dei materiali. I motori di sezione CA e composta utilizzano anche le librerie Model e Checker distribuite con il progetto. Il disegno non è il modello resistente: la discretizzazione della vista può essere diversa da quella usata per l'equilibrio.
 
@@ -1369,7 +1375,7 @@ Si definisce kh come pressione orizzontale divisa per spostamento: unità F/L³.
 
 $$ k = D k_h,\quad q=-k y
 
-La rigidezza distribuita k ha unità F/L². Se l'utente assegna direttamente k, il diametro non viene moltiplicato una seconda volta. In tabella si mostra anche kh equivalente = k/D. Per una discretizzazione a molle concentrate sarebbe K_i = integrale di k sulla lunghezza tributaria, con unità F/L. Tale procedura non è impiegata qui: non si fornisce un fittizio K nodale scalare al posto della matrice consistente.
+La rigidezza distribuita k ha unità F/L². Se l'utente assegna direttamente k, il diametro non viene moltiplicato una seconda volta. In tabella si mostra anche kh equivalente = k/D. Per una discretizzazione a molle concentrate sarebbe K_i = integrale di k sulla lunghezza tributaria, con unità F/L. Qui si calcola K* esclusivamente per la rappresentazione e la tabella dei nodi: il solutore continua a usare la matrice consistente. La lunghezza tributaria va dai punti medi dei due elementi adiacenti; agli estremi è una sola mezza lunghezza. Checker integra k su questi tratti, separatamente sui due lati di eventuali discontinuità. Non si assegnano molle scalari al posto della matrice FEM.
 
 Sono disponibili kh costante manuale, nh manuale nella legge Reese–Matlock, selezione assistita di nh nelle tabelle 14.5 e 14.6, correlazione A γ/1,35 e k distribuito manuale. Viggiani scrive p = kh y, P = p d ed Es = kh d; il nostro k corrisponde a Es. p e P nel testo sono le intensità resistenti; la reazione sul palo qui ha il segno q = −k y.
 
@@ -1393,9 +1399,9 @@ Per la correlazione, equazione 14.25:
 
 $$ n_h=\frac{A\gamma}{1,35},\quad \gamma'=\gamma_{sat}-\gamma_w
 
-Con γ in kN/m³ si ottiene nh in kN/m³. Sotto falda si usa γ′. A deve essere scelto esplicitamente entro l'intervallo del relativo addensamento; il valore consigliato viene mostrato ma non assegnato silenziosamente. La modalità correlazione è distinta dalla selezione dei valori di nh tabellati: ad esempio A=600 e γ=18 danno nh=8000 kN/m³, mentre la riga Medio non immerso della tabella dà 7500 kN/m³. Con γsat=20 e γw=9,81, la correlazione dà nh=4528,888889 kN/m³ sotto falda.
+Con γ in kN/m³ si ottiene nh in kN/m³. Sotto falda si usa γ′. A è inizializzato alla media aritmetica dell’intervallo della singola riga, per preferenza esplicita dell’utente: 200, 650 o 2000. Il valore consigliato rimane distinto: 200, 600 o 1500. La media iniziale è una convenzione del software, non un valore consigliato da Viggiani. L’utente può modificarla e il ricalcolo conserva la scelta. La modalità correlazione è distinta dalla selezione dei valori di nh tabellati: ad esempio A=600 e γ=18 danno nh=8000 kN/m³, mentre la riga Medio non immerso della tabella dà 7500 kN/m³. Con γsat=20 e γw=9,81, la correlazione dà nh=4528,888889 kN/m³ sotto falda.
 
-La tabella 14.6 conserva separatamente tutte le righe e gli autori come stampati nel libro. I valori sono orientativi e non intercambiabili fra fonti. Per un intervallo l'utente deve scegliere il valore: non viene adottata la media.
+La tabella 14.6 conserva separatamente tutte le righe e gli autori come stampati nel libro. I valori sono orientativi e non intercambiabili fra fonti. Per ogni intervallo si adotta inizialmente la sua media aritmetica, modificabile. Una riga a valore unico conserva quel valore. Intervallo, media iniziale, valore adottato e autore sono distinti; non si mediano righe o autori diversi. Cambiando fonte, la scelta precedente deve essere mantenuta o sostituita esplicitamente.
 
 | Terreno | nh [N/cm³] | Fonte indicata nella tabella 14.6 |
 | --- | --- | --- |
@@ -1415,17 +1421,109 @@ La formulazione di riferimento del libro è riferita a terreno uniforme. Nell'es
 
 ### Modello e condizioni al contorno
 
-x cresce dalla testa verso la punta; z = x − Llibero. Ltotale > Llibero ≥ 0. Il tratto libero ha k = 0; gli strati coprono almeno tutta la lunghezza immersa. Si assume EI positivo e costante, assegnato con origine esplicita. Piccoli spostamenti, sezioni piane, deformabilità a taglio trascurata e molle bilaterali lineari; nessuna forza assiale nel modello.
+x cresce dalla testa verso la punta; z = x − Llibero. Ltotale > Llibero ≥ 0. Il tratto libero ha k = 0; gli strati coprono almeno tutta la lunghezza immersa. Si assume EJ positivo e costante, calcolato in Checker dai dati comuni della sezione e del materiale, con origine esplicita. Piccoli spostamenti, sezioni piane, deformabilità a taglio trascurata e molle bilaterali lineari; nessun accoppiamento assiale nel FEM laterale. N è ricavato separatamente dall'equilibrio assiale.
 
 La convenzione adottata è H e y positivi verso destra, θ = y′, C positivo nel verso della rotazione nodale, M = EI y″, V = M′ e q = −k y. Ne consegue:
 
 $$ EI y^{(4)} + k y = 0,\quad V'=q,\quad M'=V
 
-H agisce sulla traslazione della testa; il carico generalizzato rotazionale è C, assegnato direttamente oppure ottenuto da H e. Inserire contemporaneamente C ed e non nulli è vietato. La lunghezza libera produce già il proprio braccio interno: e rappresenta solo un eventuale momento equivalente ulteriore rispetto alla testa.
+H agisce sulla traslazione della testa. Nel solutore generale C può essere assegnato oppure ottenuto da un’eccentricità riferita alla testa, senza sommare i due input. Nell’interfaccia con dati condivisi l’eccentricità esistente e è invece la quota della forza sopra il piano campagna. Checker adatta tale convenzione con C = H (Llibero − e); la lunghezza totale è Linfissa + Llibero. Il momento interno al piano campagna dovuto a H è quindi H e, indipendentemente dalla ripartizione del braccio. La migrazione conserva esplicitamente la convenzione dei vecchi modelli separati.
 
 Testa libera: spostamento e rotazione incogniti. Testa con rotazione impedita: θ = 0, traslazione libera e reazione rotazionale calcolata. Punta libera: nessun vincolo cinematico e azioni terminali nulle; cerniera: y = 0; incastro: y = θ = 0. Nessun incastro viene aggiunto per eliminare una labilità. In assenza di terreno il modello è stabile con punta incastrata, oppure con cerniera alla punta e rotazione impedita in testa; negli altri casi viene rifiutato. La fattorizzazione controlla inoltre singolarità e cattivo condizionamento.
 
 Alla testa M = −C − Rθ e V = H. Alla punta i segni delle azioni interne sono coerenti con le reazioni esterne. Tutte le reazioni restituite sono azioni esercitate sul palo. Un carico negativo inverte i segni dell'intera risposta elastica.
+
+### Rigidezza della sezione e dati condivisi
+
+ElasticPileSection in Checker riutilizza ConcreteMaterialEN1992.Ecm e le inerzie SectionCircular e SectionCHS di Model. Per la sezione circolare in calcestruzzo:
+
+$$ E_{cm}=22000\left(\frac{f_{ck}+8}{10}\right)^{0.3},\quad J=\frac{\pi D^4}{64}
+
+Ecm è in MPa; con D in mm, J è in mm⁴. Si usa la sezione integra lorda in calcestruzzo, senza aggiungere il contributo delle armature. Fessurazione e viscosità non sono introdotte automaticamente. Per CHS, J = π (De⁴ − Di⁴)/64 ed E è il modulo dell’acciaio assegnato nell’editor iniziale; il contributo della malta è escluso. Non è attiva un’ipotesi di collaborazione composta implicita.
+
+$$ EJ\,[\mathrm{kNm^2}]=\frac{E\,[\mathrm{MPa}]\,J\,[\mathrm{mm^4}]}{10^9}
+
+L’override avanzato richiede un valore positivo e una motivazione. I risultati conservano EJ di base, EJ adottato, E, J, geometria e riferimento della sezione. È una rigidezza assegnata del modello elastico: My della capacità laterale è una grandezza diversa.
+
+Geometria, carichi e strati sono unici nell’archivio ANTHEA. La risposta memorizza riferimenti e un’istantanea dei dati effettivamente risolti per consentire esportazioni verificabili; tale istantanea non è una seconda sorgente modificabile. La selezione della stratigrafia è esplicita. Un archivio legacy conserva i valori originali fino alla scelta dell’utente e archivia lo stato precedente alla migrazione.
+
+Checker restituisce SectionDemands per ascissa e lato, con N, V e M concomitanti, riferimento a geometria e materiale e riferimenti agli estremi. Questi dati alimentano i verificatori di sezione descritti di seguito.
+
+### Sforzo normale e verifica per ascissa
+
+Checker aggiunge N ai risultati FEM e alle azioni strutturate per sezione. Con x dalla testa verso la punta e compressione positiva:
+
+$$ N(x)=N_0+\int_0^x w(s)\,ds=N_0+w x
+
+Il modello corrente ha geometria e materiali comuni lungo il palo e peso w costante. Per c.a. w=γca πD²/4; γca include l'armatura, che non viene sommata nuovamente. Per il CHS, Ast=πt(De−t) e w=γs Ast+γiniezione(πDgeo²/4−Ast), dopo conversione in metri. Il valore zero del peso dell'iniezione la esclude esplicitamente. I componenti del peso non vengono dedotti da EJ. Non sono introdotti resistenza assiale del terreno, spinta idrostatica o rigidezza geometrica.
+
+PileSegments valida la copertura completa, gli identificativi univoci e le quote crescenti. I confini entrano nella mesh senza spostare interfacce o azzerare la profondità geotecnica. La sezione iniziale è un riferimento ai dati comuni; un tratto personalizzato contiene soltanto le differenze di armatura.
+
+PileReinforcement, in GPCChecker.Concrete, orchestra SectionSolver a N costante, SectionShearCalculator e AnchorageCalculator. N positivo del palo viene convertito nel segno negativo e nei newton del solutore di sezione; M da kNm a Nmm. MRd è cercato nei due versi a ciascun N effettivo. Una soluzione con residuo assiale eccessivo, verso errato o momento trasversale non trascurabile non produce una resistenza valida. I rapporti usano azioni concomitanti e tutti i campioni disponibili, inclusi gli estremi FEM; non si combinano massimi indipendenti.
+
+Per il taglio si conserva il verificatore NTC esistente. L'adattamento circolare esplicito usa bw=D e d dal baricentro delle barre del semicerchio teso; si adotta il minore d dei due versi. Staffe chiuse a 90° hanno due bracci; z/d è assegnato e deve essere confermato dall'utente. Non si trasferiscono automaticamente ai pali le riduzioni specifiche delle pile da ponte. Il risultato soddisfatto N–M–V attesta soltanto il perimetro dichiarato; SLE, instabilità, sisma, duttilità e dettagli completi sono separati.
+
+### Tagli dei tratti e sovrapposizione entrante
+
+Le lunghezze di ancoraggio e sovrapposizione richiamano il motore Checker già validato, con barre ad aderenza migliorata, σsd=fyd e nessuna riduzione favorevole di forma o confinamento (α1…α5=1). La resistenza a trazione usata per l'aderenza è limitata a C60/75. Buona aderenza è una scelta esplicita. I risultati conservano lbd, l0, percentuale assegnata e controllo della distanza libera. La lunghezza iniziale 60φ, arrotondata per eccesso a 0,10 m, è una preferenza dell'utente, distinta dalla lunghezza richiesta dal verificatore.
+
+La partizione determina i tagli fisici. Per un tratto [a_i,b_i], il primo gruppo occupa [0,b_1]; ogni gruppo successivo occupa [max(0,a_i−l0_i),b_i]. La lunghezza adottata l0_i è il massimo delle lunghezze iniziali e richieste delle due armature collegate. La quota b_i rimane invariata. Questa è una convenzione geometrica richiesta dall'utente, non una prescrizione normativa: non dimostra da sola il pieno sviluppo dell'armatura alla quota di cambio. Non si sommano lbd o traslazioni alla lunghezza fisica, non si fondono gruppi identici e non si estendono automaticamente le barre oltre testa, punta o fine tratto. Un giunto privo dello spazio disponibile viene segnalato.
+
+Lo sviluppo richiesto per usare la resistenza conserva lbd+a_l, con a_l=z cotθ/2 per staffe ortogonali (EN1992-1-1 §9.2.1.3, presentazione JRC Arrieta 2011, diapositiva 33). Se il taglio non è confermato si usa il limite superiore cotθ=2,5 a fini preliminari. Questo controllo non modifica le quote scelte: può lasciare tratti non verificati. Le formule del motore di aderenza sono invariate; la nuova regola riguarda esclusivamente i tagli e la costruzione della distinta.
+
+La finestra del giunto è l'intersezione fisica dei due gruppi e termina al confine dei tratti. Si conservano l0 iniziale, richiesta, adottata ed effettiva. Il calcolo assume il 100% delle giunzioni alla stessa quota; una percentuale richiesta inferiore rimane da realizzare mediante sfalsamento esplicito. Si associano soltanto barre sulla stessa direzione radiale nominale e si indicano coppie allineate e coppie previste. Per 20Ø20 e 12Ø16 su corone regolari con lo stesso orientamento coincidono quattro direzioni su dodici richieste: le altre non vengono considerate automaticamente giuntate. La distanza trasversale, le interferenze tra finestre e la lunghezza disponibile partecipano allo stato del dettaglio. Il disegno non certifica piegature, accostamento o confinamento.
+
+Il motore riutilizza i tagli commerciali soltanto se il gruppo eccede una barra disponibile. Conserva gli estremi assegnati e introduce giunti interni; ogni lunghezza reale è conteggiata una sola volta. Con tratti 0–12, 12–18 e 18–20 m, l0=1,20 m e venti barre per gruppo si hanno 20×(12+7,20+3,20)=448 m. La lunghezza commerciale scelta può superare quella di taglio; la differenza è uno sfrido, non una modifica del gruppo. La proposta a passo 0,5 m riserva una sola sovrapposizione entrante dopo il primo tratto, mantenendo lunghezza minima 3 m e catalogo commerciale assegnato.
+
+Le regressioni indipendenti controllano quote esatte, quantità, mancata fusione di armature identiche, cambio di diametro e quantità, tagli interni, spazio insufficiente, interferenza dei giunti e conservazione delle quote rispetto ai vecchi sviluppi esterni archiviati. L'esempio 20 m riproduce la configurazione 20Ø20 / 12Ø16 / 12Ø16 e distingue giunti geometricamente definiti dai dettagli ancora da verificare.
+
+Per non accreditare capacità a barre insufficientemente sviluppate, Checker separa MRd nominale e utilizzabile. La disponibilità è limitata, cautelativamente, alle quote comprese fra inizio fisico+lbd+a_l e fine fisica−lbd−a_l di ciascun gruppo necessario alla sezione, usando gli sviluppi pertinenti ai due estremi. Fuori da questi intervalli MRd utilizzabile è nullo, il grafico si interrompe e il controllo resta parziale. Questo filtro richiede il pieno sviluppo a trazione anche nei punti dove potrebbe non occorrere: non è un modello di resistenza ridotta per aderenza e non certifica giunti o nodi speciali.
+
+Il controllo opzionale dei minimi pali è limitato a NTC 2018 §7.2.5, testo della Gazzetta Ufficiale del 20 febbraio 2018, p.213 (pagina 7 del PDF del capitolo 7): As≥0,003Ac, φst≥8 mm e s≤8φL. Le ulteriori prescrizioni per zone dissipative e duttilità non sono attivate da questo controllo. La proposta automatica adotta la griglia, i limiti e il criterio descritti nella sezione sulla suddivisione costruttiva; resta una scelta software dichiarata. La lunghezza commerciale dei tagli è assegnata separatamente. La ricerca discreta delle armature richiama gli stessi verificatori per ogni candidato e per tutte le ascisse, con quantità, diametri longitudinali, diametri delle staffe e passi forniti dall'utente.
+
+### Dettagli dei pali e comportamento adottato
+
+Fonte consultata: D.M. 17 gennaio 2018, Gazzetta Ufficiale n. 42, supplemento ordinario n. 8, §7.2.5, pagina PDF 217, pagina stampata 213, disponibile sul portale ufficiale: https://www.gazzettaufficiale.it/eli/gu/2018/02/20/42/so/8/sg/pdf.
+
+Il paragrafo distingue i pali dalle fondazioni superficiali. Per i pali in calcestruzzo richiede lungo il fusto As almeno 0,3% Ac, diametro trasversale almeno 8 mm e passo non oltre 8 diametri longitudinali. Sono i tre controlli specifici disponibili. In presenza delle condizioni dissipative indicate dal testo, sono richiesti ulteriori dettagli e controlli: estensione delle zone, armatura longitudinale almeno 1%, staffe singole a passo massimo 6 diametri, duttilità e condizioni aggiuntive sulle azioni. Questi ultimi non vengono dedotti dall'analisi elastica e restano esplicitamente esclusi. Non si dichiara quindi completa la verifica sismica del palo.
+
+Il default Pilastro aggiunge, per scelta dell'utente, le regole del verificatore esistente per diametri, interassi, armatura minima e massima, staffe e trattenimento delle barre. La compressione per il minimo longitudinale è la massima positiva del tratto, convertita da kN a N. Se si sceglie Solo controlli comuni, l'esclusione delle regole dell'elemento resta nell'elenco dei controlli da completare. Il controllo della durabilità richiama CoverRequirements di Checker, con esposizione e fck condivisi, vita 50/100 anni e qualità dichiarata; nessuna correlazione è duplicata nell'interfaccia.
+
+### Criterio di cambio sezione e tempi delle verifiche
+
+Il passo iniziale predefinito della discretizzazione FEM è 0,50 m. Le discontinuità e i confini dei tratti introducono nodi aggiuntivi; il confronto di convergenza conserva il raffinamento interno. Il passo è un parametro numerico, indipendente dalla griglia costruttiva della proposta dei tratti, anch'essa di 0,50 m.
+
+La ricerca costruttiva conserva griglia 0,5 m, lunghezza minima e vincoli commerciali già descritti. Quando disponibile, individua il primo attraversamento discendente di |M|max/2 dopo l'ultimo massimo assoluto e lo interpola fra le ascisse calcolate. Fra le partizioni ammissibili sceglie un confine vicino a tale quota; in parità usa il costo costruttivo. La ricerca controlla sia la parte precedente sia la successiva, senza creare un ultimo tratto troppo corto. Non equivale a dimezzare l'armatura: la sezione successiva deve essere dimensionata sulle azioni N-V-M concomitanti.
+
+Il progresso MRd conta coppie di resistenze completate, una per ciascun N esatto distinto, compresi i valori recuperati dalla cache. I tempi esportati separano preparazione della sezione, costruzione dei solutori indipendenti, calcolo parallelo delle resistenze, verifiche N-M-V e dettagli. Modificare il solo passo delle staffe aggiorna taglio e dettagli riutilizzando il dominio N-M; cambiare diametro delle staffe può spostare le barre e invalida invece le resistenze. Le misure riproducibili sono raccolte in supporto/artefatti/palo-chiarezza.
+
+La configurazione custom Coefficienti unitari modifica un'istanza della normativa GPC, impostando a 1 ogni proprietà gamma disponibile e alpha_cc. Materiali, geometria e azioni restano quelli assegnati; la modalità è tracciata. Non è una verifica con i coefficienti ordinari NTC e non altera EJ lordo né il peso unitario adottato.
+
+### Calcolo parallelo e dipendenze dei risultati
+
+La risposta FEM dipende da geometria, EJ, terreno, vincoli, carichi, peso e discretizzazione. Con EJ lordo e peso unitario complessivo del c.a. già adottati, cambiare l'armatura non cambia N–V–M. Le verifiche sono un secondo stadio. Il codice confronta una firma degli input fisici prima di riutilizzare la risposta e blocca le esportazioni fino al completamento delle nuove verifiche. Le quote dei tratti appartengono alla discretizzazione e possono richiedere il ricalcolo FEM.
+
+Per ogni sezione sono raccolti gli N distinti esatti, senza arrotondamenti né interpolazioni del dominio. Ogni worker usa un'istanza indipendente del solutore di sezione; la costruzione delle mesh avviene in sequenza, poi le ricerche MRd nei due versi sono parallele. Un batch viene pubblicato soltanto se completato e ancora valido. I valori già calcolati sono riutilizzati soltanto con la medesima configurazione di sezione/materiali/solutore. Cancellazione e controllo di revisione impediscono la pubblicazione di risultati superati. Il numero di worker è limitato alle CPU disponibili, lasciandone una libera quando possibile.
+
+### Sovrapposizioni iniziali e suddivisione costruttiva
+
+La convenzione software autorizzata dall'utente è l0,iniziale = arrotondamento superiore a 0,10 m di 60φ, con φ convertito in metri. Il fattore è modificabile e registrato. La lunghezza adottata è max(l0,iniziale; l0,richiesta dal motore di aderenza); il default non sostituisce la verifica normativa. I risultati conservano separatamente le tre grandezze e lbd. Le regole del motore di aderenza, il trattamento della percentuale di barre sovrapposte e lo spostamento a_l già descritti restano invariati.
+
+La proposta dei tratti è una ricerca discreta su quote multiple di 0,5 m, oltre alla punta esatta. Ogni tratto misura almeno max(3 m; minimo assegnato). La lunghezza del primo tratto, e quella dei successivi aumentata della sola sovrapposizione entrante, devono entrare in una delle barre 6/8/10/12 m consentite dal limite assegnato. Il criterio penalizza sfridi e variazioni interne della domanda, oltre al numero di tratti. Si tratta di una convenzione esecutiva preliminare del software, non di una prescrizione della fonte. L'assenza di soluzione viene segnalata senza ridurre il minimo.
+
+La distinta mantiene distinti i gruppi dei tratti anche con identica disposizione. I pezzi preferiscono lunghezze commerciali 6/8/10/12 m e vengono tagliati alle quote richieste; un gruppo eccedente il massimo viene spezzato internamente conservandone gli estremi. Gli sfridi non aggiungono capacità. I giunti sono raggruppati e restano da completare per sfalsamento e confinamento. Le posizioni delle staffe hanno intervalli uniformi non maggiori del passo assegnato; il confine interno appartiene al tratto successivo e solo l'ultimo comprende la punta. La distinta conserva quantità e quote, senza inventare sviluppi dei ganci: la sagomatura esecutiva delle staffe resta da completare.
+
+Interferro e copriferro richiamano le regole comuni di MemberDetailingCalculator. Le regole dei pilastri sono il default modificabile richiesto dall’utente, distinto dai minimi specifici dei pali. L'interferro minimo è max(20 mm, φmax, dg+5 mm); la distanza effettiva viene calcolata su tutte le coppie di barre. Copriferro nominale e margine geometrico richiedono cmin,dur e Δcdev. I minimi pali già documentati rimangono distinti, con conferma del campo applicabile. Il loro mancato rispetto o l'interferro insufficiente impediscono l'accettazione del candidato nel dimensionamento. Le verifiche di sezione, le prescrizioni costruttive e gli esiti pendenti sono presentati separatamente.
+
+I test in supporto/test/ElasticPile.Checks e ElasticPile.UiChecks confrontano MRd seriale/parallelo, conservazione del FEM al cambio armatura, cancellazione, conversione dei segni nel foglio c.a., azioni personali persistenti, arrotondamento di 60φ, griglia e lunghezze minime, sovrapposizioni fisiche e interferro con riferimento indipendente sulla corda di una corona circolare. Le misure riproducibili seriale/parallelo/cache sono in ElasticPile.Performance; evidenze in supporto/artefatti/palo-parallelo.
+
+### Fonti e validazione dell'estensione strutturale
+
+Fonti consultate il 5 ottobre 2026: DM 17 gennaio 2018, NTC, Gazzetta Ufficiale, capitolo 4 (§4.1.2.3.5, §4.1.6.1.4) e capitolo 7 (§7.2.5); José M. Arrieta, Eurocode 2 Background and Applications, workshop JRC Bruxelles 20–21 ottobre 2011, diapositive 7–8, 16 e 33. Il materiale JRC è un supporto formativo, non una nuova edizione della norma. Le fonti Viggiani e le distinzioni PDF/pagina stampata riportate sopra restano invariate.
+
+[NTC nella Gazzetta Ufficiale](https://www.gazzettaufficiale.it/eli/id/2018/02/20/18A00716/sg) · [Materiale formativo JRC](https://eurocodes.jrc.ec.europa.eu/sites/default/files/2022-06/05_EC2WS_Arrieta_Detailing.pdf)
+
+I test diretti dell'estensione controllano pesi su aree disgiunte, carico assiale nullo e invertito, azioni concomitanti, confini esatti della mesh, continuità dei tratti, MRd nei due versi e dipendenza da N, rifiuto dei casi fuori dominio, minimi selezionati, ancoraggi, sovrapposizioni e distinta. Riferimento indipendente per l'aderenza: φ16, σsd=400 MPa, fctk05=2 MPa, γc=1,5 e buona aderenza danno fbd=3 MPa, lbd=533,333 mm e l0=800 mm con tutte le barre sovrapposte. Restano attivi i confronti analitici FEM e Viggiani già documentati. Evidenze in supporto/artefatti/palo-armature.
 
 ### Discretizzazione e recupero delle sollecitazioni
 
@@ -1468,7 +1566,7 @@ Il primo massimo di M è a x = π/(4β). Con rotazione impedita in testa ytesta 
 
 Fra 0,50 e 0,25 m le variazioni relative sono 1,2075×10⁻⁵ per y e 3,8612×10⁻⁶ per M; V resta H entro l'errore numerico. Il confronto analitico richiede errori relativi 2×10⁻⁶ per y e θ, 2×10⁻⁵ per Mmax e 10⁻⁴ per la sua profondità; la forma del taglio è controllata sull'intero tratto attivo con errore normalizzato a H inferiore a 10⁻⁶. Le prove di equilibrio impongono residui inferiori a 10⁻⁷ kN e 10⁻⁶ kNm sul benchmark. La conversione N/mm rispetto a kN/m è controllata con tolleranza relativa 10⁻⁸.
 
-I sorgenti supporto/test/ElasticPile.Checks referenziano direttamente il progetto Checker. Coprono anche carico nullo, linearità, inversione, tratto libero, discontinuità degli strati, equivalenza di sottostrati identici, conversione kh–k, origine globale z, unità, vincoli, dati invalidi e labilità. supporto/test/ElasticPile.UiChecks verifica instradamento, invalidazione, interfaccia ed esportazioni. Le evidenze sono in supporto/artefatti/palo-elastico. I test preesistenti Checker filtrati sulle classi Pile sono stati eseguiti: 32 superati, zero fallimenti. Si tratta di validazione numerica del modello elastico dichiarato; non di taratura sperimentale delle leggi del terreno.
+I sorgenti supporto/test/ElasticPile.Checks referenziano direttamente il progetto Checker. Coprono anche carico nullo, linearità, inversione, tratto libero, discontinuità degli strati, equivalenza di sottostrati identici, conversione kh–k, origine globale z, unità, vincoli, dati invalidi e labilità. supporto/test/ElasticPile.UiChecks verifica instradamento, invalidazione, interfaccia ed esportazioni. Le evidenze originarie sono in supporto/artefatti/palo-elastico; la revisione con dati comuni usa supporto/artefatti/palo-condiviso. I nuovi controlli verificano medie distinte dai valori consigliati, provenienza e override, EJ circolare e tubolare rispetto a riferimenti analitici, conversioni, lunghezze tributarie, risultati per sezione e assenza di doppio conteggio dell’eccentricità. Le prove ANTHEA coprono dati comuni, migrazione con confronto della risposta legacy, ricalcolo, invalidazione, visibilità ed esportazioni; le regressioni esistenti comprendono 1080 controlli del palo orizzontale, CHS e 1645 controlli stratificati. I test preesistenti Checker filtrati sulle classi Pile sono stati eseguiti: 32 superati, zero fallimenti. Si tratta di validazione numerica del modello elastico dichiarato; non di taratura sperimentale delle leggi del terreno.
 
 ### Confronto con le soluzioni di Reese e Matlock riportate nel libro
 
@@ -1484,7 +1582,7 @@ Per L/λ < 2, il riferimento rigido con solo H è y0=18H/(nh L²), |θ0|=24H/(nh
 | 0,25 | 0,0274769497 | 200,317875 | 100 |
 | 0,125 | 0,0274769590 | 200,317872 | 100 |
 
-La tabella usa lo stesso palo lungo con H=100 kN e C=−100 kNm. Le variazioni relative fra le due mesh più fini sono 3,38×10⁻⁷ per ytesta, 1,33×10⁻⁸ per M e meno di 10⁻¹⁰ per V. I controlli diretti Checker comprendono 101 asserzioni: cataloghi, conversione, correlazione e falda, equivalenza manuale/assistita, origine globale di z, discontinuità, equilibrio, riferimenti analitici, mesh, unità, vincoli e labilità. Restano distinti i 32 test preesistenti delle classi Pile, inclusi Broms e capacità stratificata. Le prove non costituiscono una taratura sperimentale delle rigidezze.
+La tabella usa lo stesso palo lungo con H=100 kN e C=−100 kNm. Le variazioni relative fra le due mesh più fini sono 3,38×10⁻⁷ per ytesta, 1,33×10⁻⁸ per M e meno di 10⁻¹⁰ per V. Il nucleo di test FEM, Viggiani e dati condivisi comprende 124 asserzioni, oltre ai controlli aggiunti per N, sezioni e dettagli delle armature: cataloghi, conversione, correlazione e falda, equivalenza manuale/assistita, origine globale di z, discontinuità, equilibrio, riferimenti analitici, mesh, unità, vincoli e labilità. Restano distinti i 32 test preesistenti delle classi Pile, inclusi Broms e capacità stratificata. Le prove non costituiscono una taratura sperimentale delle rigidezze.
 
 ## Elementi Beam
 

@@ -9,7 +9,7 @@ namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
 {
     private static readonly string[] CrackFields = ConcreteAnalysisSession.CrackFields;
-    private readonly TabControl sleTabs = new() { BorderThickness = new Thickness(0), Background = Ui.Bg };
+    private readonly TabControl sleTabs = new() { BorderThickness = new Thickness(0), Background = Appearance.Surface };
 
     private sealed class StressPanel
     {
@@ -78,7 +78,7 @@ internal sealed partial class ConcreteWorkspace
                 void ShowValues() { panel.View.BarValues = options.B("testi_barre"); panel.View.TendonValues = options.B("testi_trefoli"); panel.View.ConcreteValues = options.B("testi_cls"); panel.View.InvalidateVisual(); }
                 toggle.Click += (_, _) => { options[field] = toggle.IsChecked == true; ShowValues(); Modified?.Invoke(); }; ShowValues(); viewport.Toolbar.Children.Add(toggle);
             }
-            var details = new TabControl { BorderThickness = new Thickness(0), Background = Brushes.White };
+            var details = new TabControl { BorderThickness = new Thickness(0), Background = Appearance.Paper };
             Ui.Tab(details, "Riepilogo", Scroller(panel.Detail));
             Ui.Tab(details, "Barre e trefoli", WithFilters(panel.Bars));
             Ui.Tab(details, "Calcestruzzo", WithFilters(panel.Concrete));

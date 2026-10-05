@@ -1,0 +1,86 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-armature-rev17-20261005\\docs\\guida-pratica-anthea.md",
+    "motivo": "Rev17: parametri per riga, N e verifiche lungo il palo, armature e distinta preliminare",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "09a644bf28fdd446af784c9920aebb6f3a798717050ad37c465470001ef0d0be"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-armature-rev17-20261005\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Rev17: parametri per riga, N e verifiche lungo il palo, armature e distinta preliminare",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "be41370b58c9836fecffb53c0ac5ad78157c33787182d4d0c44077d8f4382dd0"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-armature-rev17-20261005\\docs\\guida-teorica-anthea.md",
+    "motivo": "Rev17: parametri per riga, N e verifiche lungo il palo, armature e distinta preliminare",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "2a5f7f6d95fb0d54784c043489178a21e6787b3d56241a84a567fe21c0ea642e"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-armature-rev17-20261005\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Rev17: parametri per riga, N e verifiche lungo il palo, armature e distinta preliminare",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "43011e4b3d020e494ca08cc2cb2f2b9769a0faff462d2b6d4b0e52eea7bdb0aa"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev16.docx",
+    "archivio": "supporto\\SUPERATI\\palo-armature-rev17-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev16.docx",
+    "motivo": "Rev17: parametri per riga, N e verifiche lungo il palo, armature e distinta preliminare",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev17.docx",
+    "sha256": "a30b9ac50cd49f985de6cfcfb7f71b01a0360e48bdf603674e1c8ca5d9f98eed"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev16.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-armature-rev17-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev16.pdf",
+    "motivo": "Rev17: parametri per riga, N e verifiche lungo il palo, armature e distinta preliminare",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev17.pdf",
+    "sha256": "be41370b58c9836fecffb53c0ac5ad78157c33787182d4d0c44077d8f4382dd0"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev16.docx",
+    "archivio": "supporto\\SUPERATI\\palo-armature-rev17-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev16.docx",
+    "motivo": "Rev17: parametri per riga, N e verifiche lungo il palo, armature e distinta preliminare",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev17.docx",
+    "sha256": "c893ef7e66c7f8dc46a3ce4690f58811e515ee697adfb977e03fcdf17658e27a"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev16.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-armature-rev17-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev16.pdf",
+    "motivo": "Rev17: parametri per riga, N e verifiche lungo il palo, armature e distinta preliminare",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev17.pdf",
+    "sha256": "43011e4b3d020e494ca08cc2cb2f2b9769a0faff462d2b6d4b0e52eea7bdb0aa"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\palo-armature-rev17-20261005\\README.md",
+    "motivo": "Rev17: parametri per riga, N e verifiche lungo il palo, armature e distinta preliminare",
+    "sostituzione": "supporto\\README.md",
+    "sha256": "d6968c1a645f5e6dddd698925afc2f719fddc17924215843cda851e32c7fb7ec"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-armature-rev17-20261005\\README.pdf",
+    "motivo": "Rev17: parametri per riga, N e verifiche lungo il palo, armature e distinta preliminare",
+    "sostituzione": "supporto\\README.pdf",
+    "sha256": "b3969aeb6ea64cad2ca66f06d664c6f0be33586f0f902c4fb0e194dc2fdb94c5"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\palo-armature-rev17-20261005\\installer\\Indice-guide.md",
+    "motivo": "Rev17: parametri per riga, N e verifiche lungo il palo, armature e distinta preliminare",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "f8e5ca7369ffcfe12fa04f64827e53cf8c40a18c4e69492341babb6def0a11ca"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-armature-rev17-20261005\\installer\\Indice-guide.pdf",
+    "motivo": "Rev17: parametri per riga, N e verifiche lungo il palo, armature e distinta preliminare",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "e0619fd4c3a8ae1f9a9097b9093a2151742f314fe14654559d05f2557163020b"
+  }
+]

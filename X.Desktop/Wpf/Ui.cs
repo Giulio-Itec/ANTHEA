@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
@@ -27,7 +27,7 @@ internal static class Ui
     internal static TextBlock Text(string text, double size = 13, bool bold = false, Brush? color = null) => new()
     {
         Text = text, FontSize = size, FontWeight = bold ? FontWeights.SemiBold : FontWeights.Normal,
-        Foreground = color ?? Navy, TextWrapping = TextWrapping.Wrap, VerticalAlignment = VerticalAlignment.Center
+        Foreground = Appearance.Foreground(color ?? Navy), TextWrapping = TextWrapping.Wrap, VerticalAlignment = VerticalAlignment.Center
     };
     internal static StackPanel Stack(params UIElement[] items) { var s = new StackPanel(); foreach (var i in items) s.Children.Add(i); return s; }
     internal static WrapPanel Bar(params UIElement[] items) { var p = new WrapPanel(); foreach (var i in items) p.Children.Add(i); return p; }
@@ -39,9 +39,9 @@ internal static class Ui
         p.Children.Add(body); return p;
     }
     internal static Border Paper(UIElement body, double padding = 12) => new()
-    { Child = body, Background = Brushes.White, BorderBrush = Brush("#D8E0EB"), BorderThickness = new Thickness(1), Padding = new Thickness(padding) };
+    { Child = body, Background = Appearance.Paper, BorderBrush = Brush("#D8E0EB"), BorderThickness = new Thickness(1), Padding = new Thickness(padding) };
     internal static TabItem Tab(TabControl tabs, string title, UIElement body)
-    { var t = new TabItem { Header = title, Content = body, Background = Brushes.White }; tabs.Items.Add(t); return t; }
+    { var t = new TabItem { Header = title, Content = body, Background = Appearance.Paper }; tabs.Items.Add(t); return t; }
     internal static ComboBox Choice(IEnumerable<string> choices, string? value = null)
     {
         var c = new ComboBox { ItemsSource = choices.Where(v => !string.IsNullOrWhiteSpace(v)).Distinct().ToArray(), Margin = new Thickness(2) }; c.SelectedItem = value;
@@ -60,6 +60,7 @@ internal static class Ui
         var dialog = new Window { Owner = Window.GetWindow(owner), Title = title, Content = body, Width = width, Height = height, WindowStartupLocation = WindowStartupLocation.CenterOwner };
         dialog.SetValue(NumericPresentation.EnabledProperty, NumericPresentation.Enabled(owner));
         DisplayAdaptation.Attach(dialog);
+        Appearance.Watch(dialog);
         return dialog;
     }
     internal static string? Ask(Window owner, string title, string initial)
@@ -294,6 +295,7 @@ internal sealed class InputForm : ChainedScrollViewer
 // A small binding adapter keeps the existing JSON file format and unparsed user input.
 internal sealed class JsonRow : INotifyPropertyChanged
 {
+    internal object? Context { get; set; }
     private int notificationDepth;
     private bool notificationPending;
     internal static IDisposable DeferNotifications(IEnumerable<JsonRow> rows)

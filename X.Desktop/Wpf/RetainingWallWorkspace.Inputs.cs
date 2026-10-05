@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Nodes;
+using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -21,7 +21,7 @@ internal sealed partial class RetainingWallWorkspace
     private readonly Grid inputLayout = new();
     internal RetainingWallWorkspace(JsonObject data)
     {
-        RetainingWall.Upgrade(data); Data = data; Background = Ui.Bg;
+        RetainingWall.Upgrade(data); Data = data; Background = Appearance.Surface;
         SetValue(NumericPresentation.EnabledProperty, true);
         foreach (var f in RetainingWall.Families) Family.Items.Add(new ComboBoxItem { Content = f.Name + (f.Available ? "" : " · previsto"), Tag = f.Id, IsEnabled = f.Available });
         Family.SelectedItem = Family.Items.Cast<ComboBoxItem>().Single(i => (string)i.Tag == Data.S("family")); Family.MinWidth = 180;

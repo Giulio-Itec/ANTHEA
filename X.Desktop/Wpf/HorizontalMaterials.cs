@@ -11,10 +11,11 @@ internal sealed partial class HorizontalWorkspace
     private void SectionMaterialChanged(string key)
     {
         var input = Data["sezione"]!;
-        if (key == "classe_cls" && PileConcreteClasses.TryGetValue(input.S(key), out double strength))
+        if(key is "classe_cls" or "classe_acciaio")
         {
-            input["fck_mpa"] = strength.ToString(System.Globalization.CultureInfo.InvariantCulture);
-            sectionFields.Set("fck_mpa", input.S("fck_mpa"), true);
+            var catalog=key=="classe_cls"?ConcreteMaterialCatalog.Concrete():ConcreteMaterialCatalog.Steel(false,"NTC 2018");
+            var material=catalog.FirstOrDefault(m=>m.S("nome")==input.S(key));
+            if(material!=null)foreach(var (field,value) in material.Where(v=>v.Key!="nome")){input[field]=value?.DeepClone();sectionFields.Set(field,input.S(field),true);}
         }
         else if (key == "fck_mpa")
         {
@@ -34,7 +35,7 @@ internal sealed partial class HorizontalWorkspace
         var input = Data["sezione"]!.AsObject();
         try
         {
-            var strengths = ConcreteMaterials.DesignValues(input, J.Obj(("normativa", "NTC 2018")));
+            var strengths = ConcreteMaterials.DesignValues(input, ConcreteStandards.PileWorkspace(input));
             sectionFields.Set("__fcd", strengths.Fcd.ToString("F1"), true);
             sectionFields.Set("__fyd", strengths.Fyd.ToString("F1"), true);
         }

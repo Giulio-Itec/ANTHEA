@@ -30,7 +30,7 @@ public static partial class PaloOrizzontale
             ("presenza_falda", false), ("profondita_falda", "0"), ("origine_momento", "Sezione c.a."),
             ("momento_resistente", "1000"), ("provenienza_momento", ""), ("azione_assiale", "0"),
             ("passo", "0.10"), ("tolleranza", "1e-8"))),
-        ("sezione", SezioneCA.DefaultInput()),
+        ("sezione", SezioneCA.DefaultCatalogInput()),
         ("verifica", J.Obj(("verticali_indagate", "1"), ("efficienza_metodo", "Manuale"), ("efficienza_eta", "1"))),
         ("stratigrafie", new JsonArray(new JsonArray())));
 
@@ -199,7 +199,7 @@ public static partial class PaloOrizzontale
     {
         try
         {
-            if(data.S("vista_orizzontale") == "elastico") return ElasticHorizontalPile.Calculate(data["elastico"]?.AsObject() ?? throw new ArgumentException("Completare i dati della risposta elastica."));
+            if(data.S("vista_orizzontale") == "elastico") return ElasticHorizontalPile.CalculateShared(data);
             ValidateShape(data);
             if (data["generali"].S("metodo_calcolo") == LegacyStratifiedMethod)
             {

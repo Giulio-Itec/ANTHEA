@@ -18,7 +18,7 @@ internal sealed class ViewportFrame : Border
     internal readonly WrapPanel Toolbar = new();
     internal ViewportFrame(string title, FrameworkElement viewport, Action fit)
     {
-        Background = Brushes.White; BorderBrush = Ui.Brush("#DCE2E9"); BorderThickness = new Thickness(1); Padding = new Thickness(8);
+        Background = Appearance.Paper; BorderBrush = Ui.Brush("#DCE2E9"); BorderThickness = new Thickness(1); Padding = new Thickness(8);
         Host = new ContentControl { Content = viewport, HorizontalContentAlignment = HorizontalAlignment.Stretch, VerticalContentAlignment = VerticalAlignment.Stretch };
         Toolbar.Children.Add(Ui.Button("Adatta", fit, inspection: true));
         Toolbar.Children.Add(Ui.Button("PNG", () =>
@@ -324,7 +324,7 @@ internal sealed class DomainViewport3D : Grid
     internal ActionPoint? SelectedResistance { get; private set; }
     internal DomainViewport3D()
     {
-        Background = Ui.Brush("#F8FAFD"); ClipToBounds = true; MinHeight = 180;
+        Background = Appearance.Background("#F8FAFD"); ClipToBounds = true; MinHeight = 180;
         viewport.Camera = camera;
         var world = new Model3DGroup(); world.Children.Add(new AmbientLight(Color.FromRgb(145, 155, 175))); world.Children.Add(new DirectionalLight(Colors.White, new Vector3D(-1, -2, -3)));
         world.Children.Add(surfaces); world.Children.Add(wire); world.Children.Add(markings); viewport.Children.Add(new ModelVisual3D { Content = world });
@@ -496,7 +496,7 @@ internal sealed class DomainViewport3D : Grid
         {
             var dot = new System.Windows.Shapes.Ellipse { Width = 2 * radius, Height = 2 * radius, Fill = color, Stroke = Brushes.White, StrokeThickness = 1.5 };
             Canvas.SetLeft(dot, point.X - radius); Canvas.SetTop(dot, point.Y - radius); labels.Children.Add(dot);
-            if (text != "") { var label = Ui.Text(text, 11, true, color); label.Background = Brushes.White; Canvas.SetLeft(label, point.X + 9); Canvas.SetTop(label, point.Y - 17); labels.Children.Add(label); }
+            if (text != "") { var label = Ui.Text(text, 11, true, color); label.Background = Appearance.Paper; Canvas.SetLeft(label, point.X + 9); Canvas.SetTop(label, point.Y - 17); labels.Children.Add(label); }
         }
         foreach (var action in actionPoints)
         {

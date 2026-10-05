@@ -113,9 +113,9 @@ public sealed partial class MainWindow
         instruction.TextWrapping = TextWrapping.NoWrap; instruction.TextTrimming = TextTrimming.CharacterEllipsis;
         instructionLine.Children.Add(instruction); instructionLine.Children.Add(projectDropHint); treeHeader.Children.Add(instructionLine);
         projectTreePane = ProjectPanel(left, 14); grid.Children.Add(projectTreePane);
-        projectColumnSplitter = new GridSplitter { Width = 4, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Stretch, Background = Ui.Brush("#E6ECF3"), ResizeDirection = GridResizeDirection.Columns, ResizeBehavior = GridResizeBehavior.PreviousAndNext };
+        projectColumnSplitter = new GridSplitter { Width = 4, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Stretch, Background = Appearance.Background("#E6ECF3"), ResizeDirection = GridResizeDirection.Columns, ResizeBehavior = GridResizeBehavior.PreviousAndNext };
         Grid.SetColumn(projectColumnSplitter, 1); grid.Children.Add(projectColumnSplitter);
-        projectCatalogSplitter = new GridSplitter { Width = 4, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Stretch, Background = Ui.Brush("#E6ECF3"), ResizeDirection = GridResizeDirection.Columns, ResizeBehavior = GridResizeBehavior.PreviousAndNext };
+        projectCatalogSplitter = new GridSplitter { Width = 4, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Stretch, Background = Appearance.Background("#E6ECF3"), ResizeDirection = GridResizeDirection.Columns, ResizeBehavior = GridResizeBehavior.PreviousAndNext };
         Grid.SetColumn(projectCatalogSplitter, 3); grid.Children.Add(projectCatalogSplitter);
         projectDetailPane = ProjectPanel(projectContent, 14); grid.Children.Add(projectDetailPane);
         projectCatalogPane = ProjectPanel(BuildProjectCatalog(), 14);
@@ -232,7 +232,7 @@ public sealed partial class MainWindow
     private void ShowProjectRevisions(JsonObject section)
     {
         Commit(); var panel = new StackPanel { Margin = new Thickness(18) };
-        var dialog = Ui.Dialog(this, "Revisioni · " + section.S("nome"), new ScrollViewer { Content = panel, Background = Ui.Bg, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 820, 620);
+        var dialog = Ui.Dialog(this, "Revisioni · " + section.S("nome"), new ScrollViewer { Content = panel, Background = Appearance.Surface, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 820, 620);
         var current = section["revisione"]!.AsObject();
         panel.Children.Add(Ui.Text($"Rev. {(int)current.D("numero")} · corrente · {RevisionDate(current)}", 20, true));
         if (current.S("nota").Length > 0) panel.Children.Add(Ui.Text(current.S("nota"), 14));

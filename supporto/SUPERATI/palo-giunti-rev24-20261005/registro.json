@@ -1,0 +1,114 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\docs\\guida-pratica-anthea.md",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "7ba1776ca9985e56d82482fbd68b5449b5fda5b030f42eb4277ddaed64031a89"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "bc235a71557fe2788810ae2e2065e8d660bf5fb694ba64832b37ec1eaeb746dd"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\docs\\guida-teorica-anthea.md",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "b5887a63e506781fc3c7a8ac8bb9afe8ee233904de3a1aaf0248820bd41759e0"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "b4e3cc501104bd5e937e3c1baf5d46d6a4a9d1d9576f24dc0dfb425350497c3e"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev23.docx",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev23.docx",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev24.docx",
+    "sha256": "0255d99df8d80103314a6f7f23d6412854b07c92b90330d31e35058800102a48"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev23.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev23.pdf",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev24.pdf",
+    "sha256": "bc235a71557fe2788810ae2e2065e8d660bf5fb694ba64832b37ec1eaeb746dd"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev23.docx",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev23.docx",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev24.docx",
+    "sha256": "01af65f7e80b52d0af2db34015298676a23e61a75bff757df899eb9f2ccebd1b"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev23.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev23.pdf",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev24.pdf",
+    "sha256": "b4e3cc501104bd5e937e3c1baf5d46d6a4a9d1d9576f24dc0dfb425350497c3e"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\README.md",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\README.md",
+    "sha256": "922a24855b95f86d82c09069a8126e8d38665c8bfada503d4e0a559b3d8e270a"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\README.pdf",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\README.pdf",
+    "sha256": "eb15e88ed2133bae45967965009fa8b39a39616b01f303d5e4e3656df9022914"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\installer\\Indice-guide.md",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "e7d36b4a3d24182944bff9ef2969f6b41756d659b0a51f71b6bf11ff829b8b69"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\installer\\Indice-guide.pdf",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "11f4a60e15989e16142ed0b083ec6ecf917a5f6f8ad6a6987ae43f807656bfc0"
+  },
+  {
+    "origine": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.md",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.md",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.md",
+    "sha256": "ce1f7951df73a950090b5acd17259cdd61d58402a46cbc5052d34713ee1efaad"
+  },
+  {
+    "origine": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.pdf",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.pdf",
+    "sha256": "e12021f43df99ac8f06939994274e333ea357cd990ccbb91b95336e55922b9ef"
+  },
+  {
+    "origine": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.png",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.png",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.png",
+    "sha256": "4330e6570a0da2033a827d4ccc9a4503474c29f85ba5c05a2a9d38663ccf350c"
+  },
+  {
+    "origine": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.programma",
+    "archivio": "supporto\\SUPERATI\\palo-giunti-rev24-20261005\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.programma",
+    "motivo": "Superata dalla gestione per singola barra e dai giunti univoci al cambio di armatura",
+    "sostituzione": "supporto\\esempi\\palo-orizzontale-armature\\palo-12m-quattro-tratti.programma",
+    "sha256": "0651eddcf10fc2f13d66b8109f985abb2ca2b98360b3d067856feb07c4c5ec7b"
+  }
+]

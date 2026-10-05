@@ -144,7 +144,7 @@ public sealed partial class MainWindow
             var icon = new Viewbox { Child = Ui.ModuleIcon(value.S("modulo_id")), Width = 36, Height = 36, Stretch = System.Windows.Media.Stretch.Uniform, ClipToBounds = true };
             var open = ProjectButton("", () => Safe(() => { Commit(); ShowSheet(value); }));
             open.Content = icon; open.Padding = new Thickness(3); open.Margin = new Thickness(0, 0, 10, 0);
-            open.BorderBrush = Ui.Brush("#B6CBE0"); open.Background = Ui.Brush("#F5F9FD");
+            open.BorderBrush = Ui.Brush("#B6CBE0"); open.Background = Appearance.Background("#F5F9FD");
             open.ToolTip = "Apri scheda · " + value.S("nome", ModuleName(value.S("modulo_id")));
             System.Windows.Automation.AutomationProperties.SetName(open, "Apri scheda " + value.S("nome"));
             header.Children.Add(open); header.Children.Add(label);
@@ -185,7 +185,7 @@ public sealed partial class MainWindow
             if (HandleProjectSectionDrag(header, value, e, false)) return;
             ClearProjectSectionDropIndicator();
             e.Effects = Effect(e.Data); e.Handled = true;
-            if (e.Effects != DragDropEffects.None) { item.IsExpanded = true; projectDropHint.Text = "Inserisci in: " + value.S("nome"); header.Background = Ui.Brush("#D4E6F7"); }
+            if (e.Effects != DragDropEffects.None) { item.IsExpanded = true; projectDropHint.Text = "Inserisci in: " + value.S("nome"); header.Background = Appearance.Background("#D4E6F7"); }
         };
         item.DragLeave += (_, e) => { ClearProjectSectionDropIndicator(); header.Background = null; projectDropHint.Text = ""; e.Handled = true; };
         item.Drop += (_, e) =>

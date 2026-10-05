@@ -37,7 +37,7 @@ internal sealed partial class BridgeWorkspace
     private static Border Notice(string text)
     {
         var border = Ui.Paper(Ui.Text(text, 11, color: Ui.Brush("#865D16")), 10);
-        border.Background = Ui.Brush("#FFF6DD"); border.BorderBrush = Ui.Brush("#EEDCAF"); border.Margin = new Thickness(0, 8, 0, 8); return border;
+        border.Background = Appearance.Background("#FFF6DD"); border.BorderBrush = Ui.Brush("#EEDCAF"); border.Margin = new Thickness(0, 8, 0, 8); return border;
     }
     private void BuildLayout()
     {
@@ -236,7 +236,7 @@ internal sealed partial class BridgeWorkspace
             Grid.SetColumn(second, 2);
         }
         grid.Children.Add(first); grid.Children.Add(second);
-        var splitter = new GridSplitter { Background = Ui.Bg, ResizeBehavior = GridResizeBehavior.PreviousAndNext,
+        var splitter = new GridSplitter { Background = Appearance.Surface, ResizeBehavior = GridResizeBehavior.PreviousAndNext,
             HorizontalAlignment = rows ? HorizontalAlignment.Stretch : HorizontalAlignment.Center,
             VerticalAlignment = rows ? VerticalAlignment.Center : VerticalAlignment.Stretch };
         if (rows) { splitter.Height = 6; Grid.SetRow(splitter, 1); } else { splitter.Width = 6; Grid.SetColumn(splitter, 1); }

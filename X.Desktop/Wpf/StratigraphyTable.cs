@@ -65,7 +65,7 @@ internal static class StratigraphyTable
             {
                 control = new FrameworkElementFactory(typeof(TextBox)); control.SetBinding(TextBox.TextProperty, Value(field.Key, field.ReadOnly));
                 control.SetValue(TextBox.IsReadOnlyProperty, field.ReadOnly); control.SetValue(TextBox.TextAlignmentProperty, TextAlignment.Center);
-                control.SetValue(Control.BackgroundProperty, field.ReadOnly ? Ui.Brush("#EAF2FA") : Brushes.White);
+                control.SetValue(Control.BackgroundProperty, field.ReadOnly ? Appearance.Background("#EAF2FA") : Appearance.Paper);
             }
             control.SetValue(FrameworkElement.VerticalAlignmentProperty, VerticalAlignment.Center);
             control.SetValue(FrameworkElement.MarginProperty, new Thickness(3)); control.SetValue(FrameworkElement.HeightProperty, 26.0);

@@ -27,7 +27,7 @@ internal sealed partial class BridgeWorkspace
             Ui.Button("Riaggancia vista", () => detachedWindow?.Close(), inspection: true));
         detachedHost = new ContentControl { Content = Viewport };
         var window = new Window { Title = "ANTHEA · Sezione da ponte · sollecitazioni e tensioni", Owner = Window.GetWindow(this),
-            Width = 1400, Height = 900, MinWidth = 880, MinHeight = 550, Background = Ui.Bg, WindowStartupLocation = WindowStartupLocation.CenterOwner };
+            Width = 1400, Height = 900, MinWidth = 880, MinHeight = 550, Background = Appearance.Surface, WindowStartupLocation = WindowStartupLocation.CenterOwner };
         detachedWindow = window;
         WindowState previousState = WindowState.Normal;
         void FullScreen()
@@ -36,7 +36,7 @@ internal sealed partial class BridgeWorkspace
             { window.WindowStyle = WindowStyle.SingleBorderWindow; window.ResizeMode = ResizeMode.CanResize; window.WindowState = previousState; }
             else { previousState = window.WindowState; window.WindowState = WindowState.Normal; window.WindowStyle = WindowStyle.None; window.ResizeMode = ResizeMode.NoResize; window.WindowState = WindowState.Maximized; }
         }
-        window.Content = new Border { Background = Ui.Bg, Child = Ui.Dock(detachedHost, Ui.Stack(Ui.Bar(Ui.Text("Situazione", 12, true), phase,
+        window.Content = new Border { Background = Appearance.Surface, Child = Ui.Dock(detachedHost, Ui.Stack(Ui.Bar(Ui.Text("Situazione", 12, true), phase,
             Ui.Button("Schermo intero · F11", FullScreen, inspection: true), Ui.Button("Riaggancia", window.Close, inspection: true)), notice)) };
         window.PreviewKeyDown += (_, e) =>
         {

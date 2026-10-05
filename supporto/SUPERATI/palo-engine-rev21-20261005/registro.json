@@ -1,0 +1,86 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-engine-rev21-20261005\\docs\\guida-pratica-anthea.md",
+    "motivo": "Etichette materiali e rimando GPC Engine nel palo orizzontale",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "034188a45e4f5aadf3272ed2bdc7fcc5f02f2b76fb597955e2c48c74aae097b6"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-engine-rev21-20261005\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Etichette materiali e rimando GPC Engine nel palo orizzontale",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "5227496d3abe966440aafc13a24c47bf167bf1c56fb9a337ba90307558d7b652"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-engine-rev21-20261005\\docs\\guida-teorica-anthea.md",
+    "motivo": "Etichette materiali e rimando GPC Engine nel palo orizzontale",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "2b30c8bf6659bc873679886955e41ee07af02aa39d9904ecfb58eb6d5334b4ab"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-engine-rev21-20261005\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Etichette materiali e rimando GPC Engine nel palo orizzontale",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "35849c28e91cd1592e89f1b2e3305564ce08711d1d5563a32797212a55b881de"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev20.docx",
+    "archivio": "supporto\\SUPERATI\\palo-engine-rev21-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev20.docx",
+    "motivo": "Etichette materiali e rimando GPC Engine nel palo orizzontale",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev21.docx",
+    "sha256": "ee08a3157360f9034063f034601005c77f931d5eab688c35708959ff8302ff4a"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev20.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-engine-rev21-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev20.pdf",
+    "motivo": "Etichette materiali e rimando GPC Engine nel palo orizzontale",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev21.pdf",
+    "sha256": "5227496d3abe966440aafc13a24c47bf167bf1c56fb9a337ba90307558d7b652"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev20.docx",
+    "archivio": "supporto\\SUPERATI\\palo-engine-rev21-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev20.docx",
+    "motivo": "Etichette materiali e rimando GPC Engine nel palo orizzontale",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev21.docx",
+    "sha256": "20450cfaaf2a3297d6c501b507bc7c39047243d061bdf901c65a6434f5773701"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev20.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-engine-rev21-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev20.pdf",
+    "motivo": "Etichette materiali e rimando GPC Engine nel palo orizzontale",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev21.pdf",
+    "sha256": "35849c28e91cd1592e89f1b2e3305564ce08711d1d5563a32797212a55b881de"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\palo-engine-rev21-20261005\\README.md",
+    "motivo": "Etichette materiali e rimando GPC Engine nel palo orizzontale",
+    "sostituzione": "supporto\\README.md",
+    "sha256": "9c6d22d81b3f47a5dd1b8ccf616b934d6306dbdec5426a90b9792e059dc1d093"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-engine-rev21-20261005\\README.pdf",
+    "motivo": "Etichette materiali e rimando GPC Engine nel palo orizzontale",
+    "sostituzione": "supporto\\README.pdf",
+    "sha256": "138c85635452ee87223e72a23e766dd69f5c66fbe7edc785cf4be15d9c91db7e"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\palo-engine-rev21-20261005\\installer\\Indice-guide.md",
+    "motivo": "Etichette materiali e rimando GPC Engine nel palo orizzontale",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "69a477c8f40db88f74625648f7f6303d898597dffc43ed80c72991508e242d39"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-engine-rev21-20261005\\installer\\Indice-guide.pdf",
+    "motivo": "Etichette materiali e rimando GPC Engine nel palo orizzontale",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "accbaafddc290e61d1ea0e1de140390707cbe06af7b11f21f35c419a15250f0f"
+  }
+]

@@ -1,6 +1,6 @@
 # Materiale di supporto ANTHEA
 
-La documentazione utente è raccolta in due guide globali Rev15 del 4 ottobre 2026:
+La documentazione utente è raccolta in due guide globali Rev25 del 5 ottobre 2026:
 
 - [Guida pratica e UI](docs/guida-pratica-anthea.md): procedure e interfaccia di tutti i moduli.
 - [Guida teorica](docs/guida-teorica-anthea.md): modelli, formule, ipotesi, limiti, approfondimenti e appendici tecniche di tutti i moduli.
@@ -51,3 +51,5 @@ Le immagini utilizzate dall'applicazione rimangono in `X.Desktop/Assets`.
 Muri con due colonne e attriti: [guida](docs/guida-teorica-anthea.md), PDF omonimo e [controllo della revisione](artefatti/muri-due-colonne-20260930/CONTROLLO.md), anche in PDF. Revisioni precedenti e registro in `SUPERATI/`.
 
 Portanza sismica, cedimenti, Newmark e armature: [rapporto aggiornamento](artefatti/muri-completamento-20260930/CONTROLLO.md), anche PDF; [esempio salvato](artefatti/muri-completamento-20260930/interfaccia-finale/esempio-completo.anthea), relazione Word e PDF nella stessa cartella. Nessuna nuova prova MAX.
+
+- Esempio aggiornato: [palo 20 m, tratti 0–12 / 12–18 / 18–20](esempi/palo-orizzontale-armature/palo-20m-tagli-12-18-20.programma), con [dati e tagli in PDF](esempi/palo-orizzontale-armature/palo-20m-tagli-12-18-20.pdf).

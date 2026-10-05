@@ -25,7 +25,7 @@ internal sealed class VerificationCards : Grid
     internal void Start() { Children.Clear(); RowDefinitions.Clear(); text = ""; }
     private static Border Card(UIElement content, Brush color, string tooltip) => new()
     {
-        BorderBrush = color, BorderThickness = new Thickness(5, 0, 0, 0), Background = Brushes.White,
+        BorderBrush = color, BorderThickness = new Thickness(5, 0, 0, 0), Background = Appearance.Paper,
         Padding = new Thickness(5, 2, 4, 2), Margin = new Thickness(0, 0, 0, 3), Child = content, ToolTip = tooltip
     };
     internal void AddDetail(string title, bool? passed, string values, string explanation, string reference)

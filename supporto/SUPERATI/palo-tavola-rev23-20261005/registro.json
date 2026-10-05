@@ -1,0 +1,86 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-tavola-rev23-20261005\\docs\\guida-pratica-anthea.md",
+    "motivo": "Tavola armature in elevazione con barre laterali quotate",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "6331f0911925307d4bee89b88bad5a47a4ced79a61cb69dc5d1f8b8d766aa40e"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tavola-rev23-20261005\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Tavola armature in elevazione con barre laterali quotate",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "7a45235412d8a5b8fd53c069264dc63c234257d0d82e329f960c771f0e9a0ba1"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-tavola-rev23-20261005\\docs\\guida-teorica-anthea.md",
+    "motivo": "Tavola armature in elevazione con barre laterali quotate",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "d9d7f5d31618ad241415ae32982d9a0755f57cf1a38c445b41dfc41ff8bea0ab"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tavola-rev23-20261005\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Tavola armature in elevazione con barre laterali quotate",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "30e26b2a972145333af81841df5d2ee9f1cb6ed563e902419b37d28401fcbb92"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev22.docx",
+    "archivio": "supporto\\SUPERATI\\palo-tavola-rev23-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev22.docx",
+    "motivo": "Tavola armature in elevazione con barre laterali quotate",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev23.docx",
+    "sha256": "f0166a0028a33577eb0dcde318fdf0f2270f755080036776777e82f42923ad7f"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev22.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tavola-rev23-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev22.pdf",
+    "motivo": "Tavola armature in elevazione con barre laterali quotate",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev23.pdf",
+    "sha256": "7a45235412d8a5b8fd53c069264dc63c234257d0d82e329f960c771f0e9a0ba1"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev22.docx",
+    "archivio": "supporto\\SUPERATI\\palo-tavola-rev23-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev22.docx",
+    "motivo": "Tavola armature in elevazione con barre laterali quotate",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev23.docx",
+    "sha256": "a5d08ab18fbd3753f69fdd6f6609550fa72952e082c74268a87921fcdda77a82"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev22.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tavola-rev23-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev22.pdf",
+    "motivo": "Tavola armature in elevazione con barre laterali quotate",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev23.pdf",
+    "sha256": "30e26b2a972145333af81841df5d2ee9f1cb6ed563e902419b37d28401fcbb92"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\palo-tavola-rev23-20261005\\README.md",
+    "motivo": "Tavola armature in elevazione con barre laterali quotate",
+    "sostituzione": "supporto\\README.md",
+    "sha256": "ff0b14609887b0fabb065092adfe757bc538eeebdadab342a555ea5346bd094d"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tavola-rev23-20261005\\README.pdf",
+    "motivo": "Tavola armature in elevazione con barre laterali quotate",
+    "sostituzione": "supporto\\README.pdf",
+    "sha256": "9a87bf39668d27c314d4afb055d486b20c3bd3bf291c15aafbe20ec869ae3a0c"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\palo-tavola-rev23-20261005\\installer\\Indice-guide.md",
+    "motivo": "Tavola armature in elevazione con barre laterali quotate",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "b6608307ce9295f3a33d002bcf33f9275a3b032809d7cbf214ea6044c7b2d002"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tavola-rev23-20261005\\installer\\Indice-guide.pdf",
+    "motivo": "Tavola armature in elevazione con barre laterali quotate",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "1a606424d24ee810474b2fcaa5d30eed8be0fc23b58328ffe9ebaaa29f0c92e5"
+  }
+]

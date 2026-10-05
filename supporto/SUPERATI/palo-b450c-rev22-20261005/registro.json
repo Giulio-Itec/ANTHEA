@@ -1,0 +1,86 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-b450c-rev22-20261005\\docs\\guida-pratica-anthea.md",
+    "motivo": "Acciaio B450C predefinito e distinta ferri visibile nel palo",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "989dcf1c63f97164de538f4a504e61066f0bca6939cf83c416a01663be9e8c5b"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-b450c-rev22-20261005\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Acciaio B450C predefinito e distinta ferri visibile nel palo",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "10c1c751407fc3066653de41e6cc97cb69dcda63ef53689e423a5fb251cebbf4"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-b450c-rev22-20261005\\docs\\guida-teorica-anthea.md",
+    "motivo": "Acciaio B450C predefinito e distinta ferri visibile nel palo",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "0c67e9f1800af19e318138400921c36e3b70d9d25927dacbdb1fd4c4c0517dfb"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-b450c-rev22-20261005\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Acciaio B450C predefinito e distinta ferri visibile nel palo",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "548838c5d06b829906ca2a3ef22141ad6f33b5977253c12e07836bb85e91a656"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev21.docx",
+    "archivio": "supporto\\SUPERATI\\palo-b450c-rev22-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev21.docx",
+    "motivo": "Acciaio B450C predefinito e distinta ferri visibile nel palo",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev22.docx",
+    "sha256": "1d243dda9b33ea8c8a64eeffb400c006de2075cf773c6799bd20e433299996bf"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev21.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-b450c-rev22-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev21.pdf",
+    "motivo": "Acciaio B450C predefinito e distinta ferri visibile nel palo",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev22.pdf",
+    "sha256": "10c1c751407fc3066653de41e6cc97cb69dcda63ef53689e423a5fb251cebbf4"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev21.docx",
+    "archivio": "supporto\\SUPERATI\\palo-b450c-rev22-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev21.docx",
+    "motivo": "Acciaio B450C predefinito e distinta ferri visibile nel palo",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev22.docx",
+    "sha256": "f9f8aae91959929a3234aab84083de0615d05e1f3d82c6249aa9b20a86b01403"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev21.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-b450c-rev22-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev21.pdf",
+    "motivo": "Acciaio B450C predefinito e distinta ferri visibile nel palo",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev22.pdf",
+    "sha256": "548838c5d06b829906ca2a3ef22141ad6f33b5977253c12e07836bb85e91a656"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\palo-b450c-rev22-20261005\\README.md",
+    "motivo": "Acciaio B450C predefinito e distinta ferri visibile nel palo",
+    "sostituzione": "supporto\\README.md",
+    "sha256": "5d7d77d85ddb1e16220006d19aa933e7ba5ce638ebc13ca2913d34cccef1e3e4"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-b450c-rev22-20261005\\README.pdf",
+    "motivo": "Acciaio B450C predefinito e distinta ferri visibile nel palo",
+    "sostituzione": "supporto\\README.pdf",
+    "sha256": "9c3162447d922523379d6ca2162e6b01c19bb966229ae9ecb836b1f882397f74"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\palo-b450c-rev22-20261005\\installer\\Indice-guide.md",
+    "motivo": "Acciaio B450C predefinito e distinta ferri visibile nel palo",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "3d91c3a922af382079c7fb87e8f7b6d978b43089869fcbb7b26624bc20bc56a1"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-b450c-rev22-20261005\\installer\\Indice-guide.pdf",
+    "motivo": "Acciaio B450C predefinito e distinta ferri visibile nel palo",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "130bb20a080f86e1d2242cf0893d4ad15f1fe8a043ca7f1db078162fdaa632fa"
+  }
+]

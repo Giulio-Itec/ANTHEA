@@ -52,7 +52,7 @@ internal sealed class RebarMaterialView : UserControl
             Space(Ui.Text("fyd = fyk / γs   ·   εyd = fyd / Es\nValori aggiornati automaticamente.", 11, color: Ui.Muted)),
             Space(Ui.Paper(Status, 9))));
         Add(2, "Diagramma del materiale", Ui.Stack(diagram, Ui.Text("Curva caratteristica in trazione. Il coefficiente γs è riportato nelle proprietà di calcolo.", 11, color: Ui.Muted)));
-        Content = new ScrollViewer { Content = grid, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Background = Ui.Bg };
+        Content = new ScrollViewer { Content = grid, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Background = Appearance.Surface };
         Selection.SelectionChanged += (_, _) =>
         {
             if (refreshing || Selection.SelectedItem is not string name) return;

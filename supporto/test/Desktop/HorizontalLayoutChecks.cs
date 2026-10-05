@@ -137,6 +137,8 @@ internal sealed partial class HorizontalWorkspace
         }
         expanded = -1; LayoutCards(); scroll.ScrollToTop();
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); Check();
+        if(Math.Abs(Window.GetWindow(this).ActualWidth-int.Parse(size))>2)throw new Exception($"Smoke viewport not resized: requested {size}, actual {Window.GetWindow(this).ActualWidth}");
+        if(size=="1920"&&scroll.ExtentHeight>scroll.ViewportHeight+1)throw new Exception($"Full HD main page scrolls vertically: {scroll.ExtentHeight}/{scroll.ViewportHeight}");
         if (cards.Count != 7 || model.Editors.ContainsKey("modalita")) throw new Exception("Numero schede o modello errato");
         if (!Ui.Descendants<TextBlock>(cards[1]).Any(t => t.Text == "Efficienza") ||
             !Ui.Descendants<TextBlock>(cards[2]).Any(t => t.Text == "Coefficienti normativa") || factors.Editors.ContainsKey("efficienza_metodo"))
@@ -181,7 +183,7 @@ internal sealed partial class HorizontalWorkspace
         if (!input.IsKeyboardFocused || input.Text != thickness + " " || row.Values.S("spessore") != input.Text) throw new Exception("Digitazione interrotta");
         input.Text = thickness; await WaitForAutomatic();
         if (row.Values.S("__color") != StratigraphyDrawing.LayerColors[0] || row.Values.S("__strato") != "A") throw new Exception("Colore/nome strato errato");
-        if (Ui.Descendants<CheckBox>(grid).Any()) throw new Exception("Opzione laterale non applicabile al modulo orizzontale");
+        if (Ui.Descendants<CheckBox>(grid).Any(b=>Equals(b.Content,"Laterale"))) throw new Exception("Opzione laterale non applicabile al modulo orizzontale");
         int count = grid.Rows.Count;
         var add = Ui.Descendants<Button>(surveys).First(b => Equals(b.Content, "Aggiungi strato"));
         add.RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); add.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
@@ -199,6 +201,9 @@ internal sealed partial class HorizontalWorkspace
         if (!JsonNode.DeepEquals(all[0], all[1])) throw new Exception("Copia tra stratigrafie fallita");
         var keep = all[1]; DeleteSurvey(all[0]!.AsArray(), false);
         if (all.Count != 1 || !ReferenceEquals(all[0], keep)) throw new Exception("Eliminazione stratigrafia errata");
+        if (Data["elastico"].D("stratigrafia") != -1) throw new Exception("La modifica delle stratigrafie non richiede una nuova selezione elastica");
+        // Restore the explicit analysis selection together with the test's original surveys.
+        Data["elastico"]!["stratigrafia"] = JsonNode.Parse(original)!["elastico"]!["stratigrafia"]!.DeepClone();
         Data["stratigrafie"] = backup; RebuildSurveys(); Preview(); expanded = -1; LayoutCards();
         if (Data.ToJsonString() != original) throw new Exception("Metadati di presentazione salvati nei dati");
         await WaitForAutomatic();

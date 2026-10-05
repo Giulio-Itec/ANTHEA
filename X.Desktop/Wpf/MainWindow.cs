@@ -26,7 +26,7 @@ public sealed partial class MainWindow : Window
     private readonly ContentControl sheetContent = new();
     private readonly TextBlock heading = Ui.Text("", 17, true, Brushes.White);
     private Button backToOverview = null!;
-    private readonly TreeView tree = new() { BorderThickness = new Thickness(0), Background = Brushes.White };
+    private readonly TreeView tree = new() { BorderThickness = new Thickness(0), Background = Appearance.Paper };
     private readonly Dictionary<string, Button> navigation = new();
 
     public MainWindow()
@@ -34,8 +34,9 @@ public sealed partial class MainWindow : Window
         Style = (Style)Application.Current.FindResource(typeof(Window));
         Title = "ANTHEA"; Width = 1600; Height = 990; MinWidth = 760; MinHeight = 480; WindowStartupLocation = WindowStartupLocation.CenterScreen;
         dashboardViewport = DisplayAdaptation.Viewport(dashboard, 1120, 680);
-        var root = Ui.Dock(body, BuildMenu()); root.Background = Ui.Bg; Content = root; BuildShell(); ShowHome();
+        var root = Ui.Dock(body, BuildMenu()); root.Background = Appearance.Surface; Content = root; BuildShell(); ShowHome();
         DisplayAdaptation.Attach(this);
+        Appearance.Watch(this);
         PreviewMouseDown += (_, _) => CancelProjectSectionClick();
         Deactivated += (_, _) => CancelProjectSectionClick();
         Closing += (_, e) => { if (testing) return; e.Cancel = !ConfirmDiscard(); };
@@ -46,7 +47,7 @@ public sealed partial class MainWindow : Window
     internal static string ModuleName(string module) => ModuleCatalog.Get(module).Name;
     private Menu BuildMenu()
     {
-        var menu = new Menu { Background = Brushes.White }; var file = new MenuItem { Header = "_File" }; menu.Items.Add(file);
+        var menu = new Menu { Background = Appearance.Paper }; var file = new MenuItem { Header = "_File" }; menu.Items.Add(file);
         void Add(string title, Action action, Key? key = null, ModifierKeys modifiers = ModifierKeys.Control)
         {
             var item = new MenuItem { Header = title }; item.Click += (_, _) => Safe(action); file.Items.Add(item);
@@ -61,6 +62,19 @@ public sealed partial class MainWindow : Window
         Add("Nuovo micropalo orizzontale", () => NewCalculation(MicropaloOrizzontale.Module));
         file.Items.Add(new Separator()); Add("Apri…", Open, Key.O); Add("Salva", () => Save(false), Key.S); Add("Salva con nome…", () => Save(true), Key.S, ModifierKeys.Control | ModifierKeys.Shift);
         Add("Esporta foglio selezionato…", ExportSheet); file.Items.Add(new Separator()); Add("Report Word…", ExportReport); Add("Risultati JSON…", ExportJson); Add("Esci", Close);
+        var appearanceMenu = new MenuItem { Header = "_Aspetto" };
+        foreach (var (label, mode) in new[] { ("Chiaro", AppAppearance.Light), ("Scuro", AppAppearance.Dark), ("Molto scuro", AppAppearance.VeryDark) })
+        {
+            var option = new MenuItem { Header = label, IsCheckable = true, IsChecked = Appearance.Current == mode };
+            option.Click += (_, _) => Safe(() =>
+            {
+                Appearance.Set(mode);
+                foreach (var sibling in appearanceMenu.Items.OfType<MenuItem>()) sibling.IsChecked = ReferenceEquals(sibling, option);
+            });
+            appearanceMenu.SubmenuOpened += (_, _) => option.IsChecked = Appearance.Current == mode;
+            appearanceMenu.Items.Add(option);
+        }
+        menu.Items.Add(appearanceMenu);
         return menu;
     }
     private void BuildShell()
@@ -73,7 +87,7 @@ public sealed partial class MainWindow : Window
             var b = Ui.Button(title, () => Safe(() => { Commit(); action(); })); b.Height = 45; b.HorizontalContentAlignment = HorizontalAlignment.Left; b.FontWeight = FontWeights.SemiBold; nav.Children.Add(b); navigation[title] = b;
         }
         nav.Children.Add(FileCommands(false)); var footer = Ui.Text($"Moduli disponibili: {Archivio.Moduli.Length} di {Archivio.Moduli.Length + 1}", color: Ui.Muted); footer.Margin = new Thickness(20);
-        var sidebar = Ui.Dock(nav, bottom: footer); sidebar.Background = Brushes.White; dashboard.Children.Add(sidebar); Grid.SetColumn(dashboardBody, 1); dashboard.Children.Add(dashboardBody);
+        var sidebar = Ui.Dock(nav, bottom: footer); sidebar.Background = Appearance.Paper; dashboard.Children.Add(sidebar); Grid.SetColumn(dashboardBody, 1); dashboard.Children.Add(dashboardBody);
         var top = new DockPanel { Background = Ui.Navy, MinHeight = 68, LastChildFill = true };
         top.Children.Add(sheetProjectTreeControl);
         var back = backToOverview = CommandButton("← Torna ad ANTHEA", () => Safe(() => { Commit(); if (document.S("tipo") == "progetti") ShowProjects(); else ShowHome(); })); back.Width = 200; top.Children.Add(back); top.Children.Add(FileCommands(true));

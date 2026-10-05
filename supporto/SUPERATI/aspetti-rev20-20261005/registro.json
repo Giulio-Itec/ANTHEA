@@ -1,0 +1,74 @@
+[
+  {
+    "origin": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "cab0a37c179292ce2cd54070eb6c85a0d62c50419058e96f00cf0d62887693d1",
+    "reason": "Rev20: tre aspetti globali e preferenza persistente",
+    "replacement": "supporto\\docs\\guida-pratica-anthea.md"
+  },
+  {
+    "origin": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "faadb162acff85632ed99d95656c6c5ecffc6c29c086936ce933549935035406",
+    "reason": "Rev20: tre aspetti globali e preferenza persistente",
+    "replacement": "supporto\\docs\\guida-pratica-anthea.pdf"
+  },
+  {
+    "origin": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "a6e90577cd4afaace3f5f8c3da321f923efa5113005b3a9fc4cdc5ffc3c962e0",
+    "reason": "Rev20: tre aspetti globali e preferenza persistente",
+    "replacement": "supporto\\docs\\guida-teorica-anthea.md"
+  },
+  {
+    "origin": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "e90b6132020664325aa9da72b343fe1b953e0dccfae965bf55605502b46d7fd8",
+    "reason": "Rev20: tre aspetti globali e preferenza persistente",
+    "replacement": "supporto\\docs\\guida-teorica-anthea.pdf"
+  },
+  {
+    "origin": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev19.docx",
+    "sha256": "24f81023ef009f51affc960505fc85a5aa8ee74f0298cd38745f707841462526",
+    "reason": "Rev20: tre aspetti globali e preferenza persistente",
+    "replacement": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev20.docx"
+  },
+  {
+    "origin": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev19.pdf",
+    "sha256": "faadb162acff85632ed99d95656c6c5ecffc6c29c086936ce933549935035406",
+    "reason": "Rev20: tre aspetti globali e preferenza persistente",
+    "replacement": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev20.pdf"
+  },
+  {
+    "origin": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev19.docx",
+    "sha256": "74d03834c86fa1c9986116cf8191851ca7399b60c797b45dee847b82f2207907",
+    "reason": "Rev20: tre aspetti globali e preferenza persistente",
+    "replacement": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev20.docx"
+  },
+  {
+    "origin": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev19.pdf",
+    "sha256": "e90b6132020664325aa9da72b343fe1b953e0dccfae965bf55605502b46d7fd8",
+    "reason": "Rev20: tre aspetti globali e preferenza persistente",
+    "replacement": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev20.pdf"
+  },
+  {
+    "origin": "supporto\\README.md",
+    "sha256": "9dc84dd9d2b798f29410ef4bbc0d43e9dcc81be2ac2a4ffcae5500a28c092bca",
+    "reason": "Rev20: tre aspetti globali e preferenza persistente",
+    "replacement": "supporto\\README.md"
+  },
+  {
+    "origin": "supporto\\README.pdf",
+    "sha256": "cd8ceeb8f6eba63ce3c2401b45c744d950b2acf38d22995b7744b38ffc82774d",
+    "reason": "Rev20: tre aspetti globali e preferenza persistente",
+    "replacement": "supporto\\README.pdf"
+  },
+  {
+    "origin": "supporto\\installer\\Indice-guide.md",
+    "sha256": "d380c782c8214c311f7000e98c7b95e045256d59150c33f3fabd68a366a61c16",
+    "reason": "Rev20: tre aspetti globali e preferenza persistente",
+    "replacement": "supporto\\installer\\Indice-guide.md"
+  },
+  {
+    "origin": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "74d54a3fb5af0086b4882dcd4dd2ad716a03d9accc39b6f64059f6f767fc7804",
+    "reason": "Rev20: tre aspetti globali e preferenza persistente",
+    "replacement": "supporto\\installer\\Indice-guide.pdf"
+  }
+]

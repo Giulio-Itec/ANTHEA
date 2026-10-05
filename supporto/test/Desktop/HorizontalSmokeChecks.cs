@@ -1,5 +1,6 @@
 using System.IO;
 using System.Text.Json.Nodes;
+using System.Windows;
 using System.Windows.Threading;
 using X.Core;
 
@@ -9,7 +10,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeHorizontal(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory);
+        testing = true; Directory.CreateDirectory(directory); WindowState = WindowState.Normal;
         var data = PaloOrizzontale.Defaults(); data["stratigrafie"]![0]!.AsArray().Add(PaloOrizzontale.Layer());
         document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", PaloOrizzontale.Module), ("dati", data));
         dirty = false; currentSheet = null; ShowSheet(document); await editor!.WaitForHorizontalAutomatic();
@@ -18,7 +19,7 @@ public sealed partial class MainWindow
         File.WriteAllBytes(Path.Combine(directory, "orizzontale.png"), Ui.Snapshot(this));
         await editor.VerifyHorizontal(directory);
         double width = Width, height = Height;
-        foreach (var size in new[] { (1600, 990), (1280, 720), (960, 640), (760, 480) })
+        foreach (var size in new[] { (1920,1080), (1600, 990), (1280, 720), (960, 640), (760, 480) })
         {
             Width = size.Item1; Height = size.Item2;
             await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
@@ -36,7 +37,7 @@ public sealed partial class MainWindow
         if (!JsonNode.DeepEquals(editor.Result, PaloOrizzontale.Calculate(editor.Data))) throw new Exception("WPF/Core orizzontale discordanti");
         dirty = false; LoadFile(Path.Combine(directory, "orizzontale.programma")); await editor.WaitForHorizontalAutomatic();
         if (editor.Result is null) throw new Exception("Riapertura orizzontale fallita");
-        File.WriteAllText(Path.Combine(directory, "orizzontale_smoke.txt"), "Layout 1600/1280/960/760, espansione, scorrimento, modifica/copia/eliminazione strati e stratigrafie, colori/esiti, Home, calcolo automatico all'apertura e alle modifiche, focus continuo, risultati obsoleti scartati, dati incompleti, Dispose, momento automatico, diagrammi, salvataggio/riapertura, JSON, CSV, DOCX: OK");
+        File.WriteAllText(Path.Combine(directory, "orizzontale_smoke.txt"), "Layout 1920/1600/1280/960/760, espansione, scorrimento, modifica/copia/eliminazione strati e stratigrafie, colori/esiti, Home, calcolo automatico all'apertura e alle modifiche, focus continuo, risultati obsoleti scartati, dati incompleti, Dispose, momento automatico, diagrammi, salvataggio/riapertura, JSON, CSV, DOCX: OK");
         dirty = false;
         await SmokeMicroHorizontal(Path.Combine(directory, "micropalo"));
     }
@@ -48,7 +49,7 @@ public sealed partial class MainWindow
         document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", MicropaloOrizzontale.Module), ("dati", data));
         dirty = false; currentSheet = null; ShowSheet(document); await editor!.WaitForHorizontalAutomatic();
         await editor.VerifyChs();
-        foreach (var size in new[] { (1600, 990), (960, 640), (760, 480) }) {
+        foreach (var size in new[] { (1920,1080), (1600, 990), (960, 640), (760, 480) }) {
             Width = size.Item1; Height = size.Item2; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
             await editor.VerifyHorizontalLayout(directory, size.Item1.ToString());
         }

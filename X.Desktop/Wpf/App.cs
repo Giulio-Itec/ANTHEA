@@ -9,6 +9,19 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+        Appearance.Initialize(!e.Args.Any(a => a.StartsWith("--check") || a.StartsWith("--smoke")));
+        if (e.Args.Length == 2 && e.Args[0] == "--check-appearance")
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Dispatcher.BeginInvoke(new Action(async () =>
+            {
+                int code = 0; MainWindow? testWindow = null;
+                try { testWindow = new MainWindow(); await testWindow.CheckAppearance(e.Args[1]); }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), ex.ToString()); code = 1; }
+                finally { testWindow?.FinishSmoke(); testWindow?.Close(); Shutdown(code); }
+            }));
+            return;
+        }
         if (e.Args.Length == 2 && e.Args[0] == "--check-wiki-offscreen")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;

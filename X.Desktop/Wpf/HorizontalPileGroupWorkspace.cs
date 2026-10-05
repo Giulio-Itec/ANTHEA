@@ -68,7 +68,7 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
     static void Heading(Panel parent, string text) { var title = Ui.Text(text, 16, true); title.Margin = new Thickness(0, 12, 0, 8); parent.Children.Add(title); }
     internal HorizontalPileGroupWorkspace(JsonObject data)
     {
-        this.data = data; HorizontalPileGroup.Upgrade(data); Background = Ui.Bg;
+        this.data = data; HorizontalPileGroup.Upgrade(data); Background = Appearance.Surface;
         var input = new StackPanel { Margin = new Thickness(14) };
         Heading(input, "Disposizione dei pali");
         var shape = new ComboBox { ItemsSource = HorizontalPileGroup.LayoutNames, SelectedItem = data["generatore"].S("tipo"), Margin = new Thickness(0, 0, 0, 8), Tag = "geometria" };
@@ -102,7 +102,7 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
         var output = new StackPanel { Margin = new Thickness(12) };
         var overview = new StackPanel(); overview.Children.Add(title); overview.Children.Add(state);
         var stats = new UniformGrid { Columns = 4, Margin = new Thickness(0, 10, 0, 8) };
-        foreach (var (name, value) in new[] { ("MINIMO", minValue), ("MEDIA", meanValue), ("MASSIMO", maxValue), ("RIDUZIONE MEDIA", reduction) }) stats.Children.Add(new Border { Background = Ui.Bg, CornerRadius = new CornerRadius(3), Padding = new Thickness(10, 7, 10, 7), Margin = new Thickness(0, 0, 8, 0), Child = Ui.Stack(Ui.Text(name, 11, true, Ui.Muted), value) });
+        foreach (var (name, value) in new[] { ("MINIMO", minValue), ("MEDIA", meanValue), ("MASSIMO", maxValue), ("RIDUZIONE MEDIA", reduction) }) stats.Children.Add(new Border { Background = Appearance.Surface, CornerRadius = new CornerRadius(3), Padding = new Thickness(10, 7, 10, 7), Margin = new Thickness(0, 0, 8, 0), Child = Ui.Stack(Ui.Text(name, 11, true, Ui.Muted), value) });
         overview.Children.Add(stats); overview.Children.Add(plan); overview.Children.Add(geometry); output.Children.Add(Ui.Paper(overview, 14));
         var comparisonPanel = new StackPanel(); Heading(comparisonPanel, "Confronto · seleziona un risultato per visualizzarlo");
         comparisonPanel.Children.Add(Ui.Text("Rg riduce kh/nh; Pm riduce la reazione p. Non sono verifiche della capacità del gruppo.", 11, color: Ui.Muted));
@@ -114,7 +114,7 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
         foreach (var (header, key, width) in new[] { ("Palo", "Palo", 75d), ("Fila", "Fila", 60d), ("q ∥ [m]", "Q", 100d), ("t ⊥ [m]", "T", 100d), ("β", "Beta", 85d), ("α", "Alfa", 85d), ("Coefficiente", "Coefficiente", 100d), ("Riduzione", "Riduzione", 100d) }) Column(details, header, key, width);
         detailPanel.Children.Add(details); var detailPaper = Ui.Paper(detailPanel, 14); detailPaper.Margin = new Thickness(0, 12, 0, 0); output.Children.Add(detailPaper);
         var columns = new Grid(); columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(355) }); columns.ColumnDefinitions.Add(new ColumnDefinition());
-        columns.Children.Add(new ScrollViewer { Content = input, Background = Brushes.White, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled });
+        columns.Children.Add(new ScrollViewer { Content = input, Background = Appearance.Paper, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled });
         var right = new ScrollViewer { Content = output, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled }; Grid.SetColumn(right, 1); columns.Children.Add(right); Content = columns;
         timer.Tick += Tick; loading = false; TryCalculate();
     }

@@ -15,7 +15,7 @@ public static class HorizontalConcreteSection
         double bars = input.D("longitudinal_bar_count", 16);
         if (bars < 4 || bars > 512 || bars % 2 != 0 || input["barre_manuali"] is JsonArray { Count: > 0 })
             throw new ArgumentException("Calcolo automatico Broms: usare da 4 a 512 barre circolari, in numero pari. Per armature manuali assegnare una resistenza da analisi dedicata.");
-        var workspace = J.Obj(("normativa", "NTC 2018"), ("trefoli", new JsonArray()));
+        var workspace = ConcreteStandards.PileWorkspace(input);
         var options = J.Obj(("criterio", "N costante"), ("assi", "Locali"), ("strategia", "Iterativo"), ("modello", "Non lineare"));
         var engine = new CheckerSection(input, workspace, options);
         // Broms may form hinges of opposite signs: use the smaller resistance of the two directions.
@@ -31,7 +31,7 @@ public static class HorizontalConcreteSection
             ("tolleranza_n_kn", SectionMomentResistance.AxialToleranceKn(axial)),
             ("fcd_mpa", material.Fcd), ("fyd_mpa", material.Fyd), ("area_acciaio_mm2", engine.Geometry.AreaSteel),
             ("outline", engine.Geometry.Outline), ("bars", engine.Geometry.Bars.Select(b => new[] { b.X, b.Y, b.Area, b.Diametro })),
-            ("motore", "GPCChecker.Concrete"), ("direzioni", directions), ("lati_contorno", engine.Geometry.CircularSides),
+            ("normativa", workspace.S("normativa_custom", "NTC 2018")), ("coefficienti_unitari",input.B("coefficienti_unitari")), ("motore", "GPCChecker.Concrete"), ("direzioni", directions), ("lati_contorno", engine.Geometry.CircularSides),
             ("modello", "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."));
     }
 }

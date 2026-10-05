@@ -62,10 +62,10 @@ internal sealed class WikiVector : FrameworkElement
 
 internal static class WikiPalette
 {
-    internal static bool Dark { get; set; }
-    internal static Brush Ink => Dark ? Ui.Brush("#E5EDF7") : Ui.Navy;
-    internal static Brush Accent => Dark ? Ui.Brush("#8EC5FF") : Ui.Blue;
-    internal static Brush Paper => Dark ? Ui.Brush("#142337") : Brushes.White;
-    internal static Brush Surface => Dark ? Ui.Brush("#1D3047") : Ui.Bg;
-    internal static Brush Muted => Dark ? Ui.Brush("#B9C9DD") : Ui.Muted;
+    internal static bool Dark { get => Appearance.Current != AppAppearance.Light; set => Appearance.Set(value ? AppAppearance.Dark : AppAppearance.Light, false); }
+    internal static Brush Ink => Appearance.Ink;
+    internal static Brush Accent => Appearance.Accent;
+    internal static Brush Paper => Appearance.Paper;
+    internal static Brush Surface => Appearance.Surface;
+    internal static Brush Muted => Appearance.Ink;
 }

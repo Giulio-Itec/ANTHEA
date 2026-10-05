@@ -34,5 +34,5 @@ input=Input();input.Step=1;var c=ElasticPile.Calculate(input);var m=ElasticPile.
 foreach(string key in new[]{"y","M","V"}){double A(ElasticPileResult z)=>key=="y"?z.HeadDisplacement:z.Extrema[key].AbsoluteMaximum;double err=Math.Abs(A(f)-A(m))/Math.Max(1e-12,Math.Abs(A(f)));Check(err<.001,"mesh convergence "+key+$" relative={err:G6}; coarse={A(c):G9}, medium={A(m):G9}, fine={A(f):G9}");}
 input=Input();input.Layers[0].Value=0;Invalid(input,"mechanism free tip");input.Tip=ElasticPileTip.Pinned;Invalid(input,"mechanism pinned tip free head");input.FixedHeadRotation=true;Check(double.IsFinite(ElasticPile.Calculate(input).HeadDisplacement),"pinned tip with restrained head stable");
 input=Input();input.HeadMoment=1;input.Eccentricity=1;Invalid(input,"double counted moment");input=Input();input.EI=double.NaN;Invalid(input,"invalid EI");input=Input();input.Layers[0].Thickness=1;Invalid(input,"insufficient stratigraphy");input=Input();input.Layers[0].Value=-1;Invalid(input,"negative stiffness");input=Input();input.Step=0;Invalid(input,"zero mesh step");
-count+=ViggianiChecks.Run();
+count+=ViggianiChecks.Run(); count+=SharedChecks.Run();count+=ReinforcementChecks.Run();count+=BarTransitionChecks.Run();
 Console.WriteLine($"TOTAL {count} passed");

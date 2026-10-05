@@ -1,0 +1,86 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-chiarezza-rev19-20261005\\docs\\guida-pratica-anthea.md",
+    "motivo": "Rev19: fonti per strato, dettagli espliciti, materiali e avanzamento",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "f05894888dbd70339e111b57a84e9ea8a1b3e7d9afd709f06e6484f4048f653f"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-chiarezza-rev19-20261005\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Rev19: fonti per strato, dettagli espliciti, materiali e avanzamento",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "cdbfcecb64fd293115ff46813c89f166bda6bd63db48d5404913c69d5af3defc"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-chiarezza-rev19-20261005\\docs\\guida-teorica-anthea.md",
+    "motivo": "Rev19: fonti per strato, dettagli espliciti, materiali e avanzamento",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "cee51fe741011431fafafd81009d0bca0fccd37ed97cef5e384452be645813d3"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-chiarezza-rev19-20261005\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Rev19: fonti per strato, dettagli espliciti, materiali e avanzamento",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "34be9e88ce68b86d31642bcb284af0cecd0935717c6d8fc094d6d6c96cbec1b8"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev18.docx",
+    "archivio": "supporto\\SUPERATI\\palo-chiarezza-rev19-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev18.docx",
+    "motivo": "Rev19: fonti per strato, dettagli espliciti, materiali e avanzamento",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev19.docx",
+    "sha256": "7b7f808351c19a4c61a6d17c6b8e66da9c226b5b95863e1abbedc76f6a8d6ba0"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev18.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-chiarezza-rev19-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev18.pdf",
+    "motivo": "Rev19: fonti per strato, dettagli espliciti, materiali e avanzamento",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev19.pdf",
+    "sha256": "cdbfcecb64fd293115ff46813c89f166bda6bd63db48d5404913c69d5af3defc"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev18.docx",
+    "archivio": "supporto\\SUPERATI\\palo-chiarezza-rev19-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev18.docx",
+    "motivo": "Rev19: fonti per strato, dettagli espliciti, materiali e avanzamento",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev19.docx",
+    "sha256": "960e19a10bbcbd8e6b062b9a2122a18ffeadf18db95a0f4c3894fe97dea9dacf"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev18.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-chiarezza-rev19-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev18.pdf",
+    "motivo": "Rev19: fonti per strato, dettagli espliciti, materiali e avanzamento",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev19.pdf",
+    "sha256": "34be9e88ce68b86d31642bcb284af0cecd0935717c6d8fc094d6d6c96cbec1b8"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\palo-chiarezza-rev19-20261005\\README.md",
+    "motivo": "Rev19: fonti per strato, dettagli espliciti, materiali e avanzamento",
+    "sostituzione": "supporto\\README.md",
+    "sha256": "050b7f21073c0920c3b4f7119b0ae273c9d3ba8f64a8019fdd53deabf6787bbc"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-chiarezza-rev19-20261005\\README.pdf",
+    "motivo": "Rev19: fonti per strato, dettagli espliciti, materiali e avanzamento",
+    "sostituzione": "supporto\\README.pdf",
+    "sha256": "e78a8d89e0d1f09a8f60173190108db23eae6e1818e061b6e40f313510e3a30c"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\palo-chiarezza-rev19-20261005\\installer\\Indice-guide.md",
+    "motivo": "Rev19: fonti per strato, dettagli espliciti, materiali e avanzamento",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "c61282ebc8d92f7d2e0c21ea81c0dbd7cbca6eb0eddd2f78fa24454b546e9aa2"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-chiarezza-rev19-20261005\\installer\\Indice-guide.pdf",
+    "motivo": "Rev19: fonti per strato, dettagli espliciti, materiali e avanzamento",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "c9ee936f4ce224d2ce8da282d1a169333fe918573e8015b3fbf8642236a85140"
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-tratti-rev18-20261005\\docs\\guida-pratica-anthea.md",
+    "motivo": "Rev18: MRd parallelo, FEM indipendente e gestione costruttiva dei tratti",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "efa6757b672cc07fe33a59e25e1d514c12ef24b05f590b886424ca41170cdc72"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tratti-rev18-20261005\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Rev18: MRd parallelo, FEM indipendente e gestione costruttiva dei tratti",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "5c2b1bf065e1b8dc9b1484825a4dd7d117b4daa938bf276716c59ed2440edf37"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-tratti-rev18-20261005\\docs\\guida-teorica-anthea.md",
+    "motivo": "Rev18: MRd parallelo, FEM indipendente e gestione costruttiva dei tratti",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "9bad0e372d50e12900d2918ff21615faa7edf29ef24102734f0f9442ed297259"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tratti-rev18-20261005\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Rev18: MRd parallelo, FEM indipendente e gestione costruttiva dei tratti",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "cb4db62503c947ead8443c20a6ac0f8e62826b6391f6e17559c82a953a1a6851"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev17.docx",
+    "archivio": "supporto\\SUPERATI\\palo-tratti-rev18-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev17.docx",
+    "motivo": "Rev18: MRd parallelo, FEM indipendente e gestione costruttiva dei tratti",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev18.docx",
+    "sha256": "688fe4e21d21bfb52e16bef6495db3ed155e6891f6425f61286bd8745050592e"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev17.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tratti-rev18-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev17.pdf",
+    "motivo": "Rev18: MRd parallelo, FEM indipendente e gestione costruttiva dei tratti",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev18.pdf",
+    "sha256": "5c2b1bf065e1b8dc9b1484825a4dd7d117b4daa938bf276716c59ed2440edf37"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev17.docx",
+    "archivio": "supporto\\SUPERATI\\palo-tratti-rev18-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev17.docx",
+    "motivo": "Rev18: MRd parallelo, FEM indipendente e gestione costruttiva dei tratti",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev18.docx",
+    "sha256": "9829628404bb456d1ee468ed75a0ea8ad34c190b281650bb1c0cfd962da8bd01"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev17.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tratti-rev18-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev17.pdf",
+    "motivo": "Rev18: MRd parallelo, FEM indipendente e gestione costruttiva dei tratti",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev18.pdf",
+    "sha256": "cb4db62503c947ead8443c20a6ac0f8e62826b6391f6e17559c82a953a1a6851"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\palo-tratti-rev18-20261005\\README.md",
+    "motivo": "Rev18: MRd parallelo, FEM indipendente e gestione costruttiva dei tratti",
+    "sostituzione": "supporto\\README.md",
+    "sha256": "040b94a16c502378f26a403a42faa48cb0afcd340400a8f3d7e239034e5d1fe0"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tratti-rev18-20261005\\README.pdf",
+    "motivo": "Rev18: MRd parallelo, FEM indipendente e gestione costruttiva dei tratti",
+    "sostituzione": "supporto\\README.pdf",
+    "sha256": "8a48478cdb41c7db163226ab3961b475206cee44f0ea45ade02b4c09510a06d4"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\palo-tratti-rev18-20261005\\installer\\Indice-guide.md",
+    "motivo": "Rev18: MRd parallelo, FEM indipendente e gestione costruttiva dei tratti",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "3c6277a8e4aad9d213e1859027004df71ea9715fe593eaaa76b5cdfc526ed1f5"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-tratti-rev18-20261005\\installer\\Indice-guide.pdf",
+    "motivo": "Rev18: MRd parallelo, FEM indipendente e gestione costruttiva dei tratti",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "ac675ce96a2fb6c673980ddbf740173221379b7997ebff5970f3ddcd7dc90464"
+  }
+]

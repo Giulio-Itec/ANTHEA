@@ -49,7 +49,19 @@ public static class ConcreteStandards
         standard.AlphaCC = input.Required("alpha_cc", strict: true);
         standard.GammaC = input.Required("gamma_c", strict: true);
         standard.GammaS = input.Required("gamma_s", strict: true);
+        if(input.B("coefficienti_unitari"))
+            foreach(var property in typeof(StandardModelCode2010).GetProperties().Where(p=>p.CanWrite&&p.PropertyType==typeof(double)&&(p.Name.StartsWith("Gamma")||p.Name=="AlphaCC")))property.SetValue(standard,1d);
         return standard;
+    }
+    public static JsonObject PileWorkspace(JsonObject input)
+    {
+        var workspace=J.Obj(("normativa","NTC 2018"),("trefoli",new JsonArray()));
+        if(input.B("coefficienti_unitari"))
+        {
+            var coefficients=Defaults("NTC 2018");foreach(var key in coefficients.Select(p=>p.Key).Where(k=>k.StartsWith("Gamma")||k=="AlphaCC").ToArray())coefficients[key]="1";
+            workspace["coefficienti"]=coefficients;workspace["normativa_custom"]="NTC 2018 base · coefficienti unitari (tutti i gamma e alpha_cc = 1)";
+        }
+        return workspace;
     }
     public static string Note(string name) => name switch
     {

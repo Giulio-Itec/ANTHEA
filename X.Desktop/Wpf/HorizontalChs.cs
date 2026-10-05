@@ -36,6 +36,9 @@ internal sealed partial class HorizontalWorkspace
             new("diametro_chs_mm", "Diametro esterno manuale", "mm", Symbol: "De"),
             new("spessore_chs_mm", "Spessore manuale", "mm", Symbol: "t"),
             new("fy_chs_mpa", "Snervamento acciaio", "MPa", Symbol: "fy"),
+            new("modulo_chs_mpa", "Modulo elastico acciaio", "MPa", Symbol: "Es"),
+            new("gamma_acciaio", "Peso unitario acciaio adottato", "kN/m³"),
+            new("gamma_iniezione", "Peso unitario iniezione (0 = esclusa)", "kN/m³"),
             new("gamma_m0", "Sicurezza resistenza", Symbol: "γM0"),
             new("__fyd", "Resistenza di progetto", "MPa", Symbol: "fyd", ReadOnly: true),
             new("__diametro_mm", "Diametro adottato", "mm", Symbol: "De", ReadOnly: true),
@@ -50,7 +53,7 @@ internal sealed partial class HorizontalWorkspace
             new("__mpl_knm", "Momento plastico N=0", "kNm", Symbol: "Mpl", ReadOnly: true)
         ], _ => Changed(), compact: true, symbolColumns: true);
         form.GroupFields("Tubolare CHS", ["modo_chs", "profilo_chs", "diametro_chs_mm", "spessore_chs_mm"], true);
-        form.GroupFields("Acciaio", ["fy_chs_mpa", "gamma_m0", "__fyd"], true);
+        form.GroupFields("Acciaio", ["fy_chs_mpa", "modulo_chs_mpa", "gamma_m0", "__fyd"], true);
         form.GroupFields("Proprietà della sezione", ["__diametro_mm", "__spessore_mm", "__area_mm2", "__inerzia_mm4", "__wel_mm3", "__wpl_mm3", "__massa_kg_m", "__classe", "__npl_kn", "__mpl_knm"], true);
         return form;
     }

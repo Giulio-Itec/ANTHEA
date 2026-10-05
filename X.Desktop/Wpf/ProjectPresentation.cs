@@ -19,7 +19,7 @@ public sealed partial class MainWindow
 
     private static Border ProjectPanel(UIElement content, double padding = 14) => new()
     {
-        Child = content, Background = Brushes.White, BorderBrush = Ui.Brush("#DCE5EF"), BorderThickness = new Thickness(1),
+        Child = content, Background = Appearance.Paper, BorderBrush = Ui.Brush("#DCE5EF"), BorderThickness = new Thickness(1),
         CornerRadius = new CornerRadius(6), Padding = new Thickness(padding)
     };
     private static Button ProjectButton(string title, Action action, bool primary = false)
@@ -83,8 +83,8 @@ public sealed partial class MainWindow
                 var grip = new ProjectGlyph("grip") { Width = 10, Height = 20, VerticalAlignment = VerticalAlignment.Center }; Grid.SetColumn(grip, 2); row.Children.Add(grip);
                 var card = ProjectPanel(row, 10); card.MinHeight = 59; card.Margin = new Thickness(0, 0, 0, 6); card.Cursor = Cursors.Hand;
                 card.ToolTip = "Trascina nella sezione oppure fai doppio clic per aggiungere.";
-                card.MouseEnter += (_, _) => { card.Background = Ui.Brush("#F0F6FC"); card.BorderBrush = Ui.Brush("#A8C6E3"); };
-                card.MouseLeave += (_, _) => { card.Background = Brushes.White; card.BorderBrush = Ui.Brush("#DCE5EF"); };
+                card.MouseEnter += (_, _) => { card.Background = Appearance.Background("#F0F6FC"); card.BorderBrush = Ui.Brush("#A8C6E3"); };
+                card.MouseLeave += (_, _) => { card.Background = Appearance.Paper; card.BorderBrush = Ui.Brush("#DCE5EF"); };
                 card.MouseLeftButtonDown += (_, e) => { if (e.ClickCount == 2) { e.Handled = true; Safe(() => AddSheet(id)); } };
                 EnableProjectDrag(card, ModuleDragFormat, id); cards.Children.Add(card); projectCatalogCards.Add((id, card));
                 rows.Add((card, group.Key + " " + name + " " + subtitle + " " + ModuleName(id)));

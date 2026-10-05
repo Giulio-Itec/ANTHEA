@@ -49,13 +49,14 @@ internal sealed partial class HorizontalWorkspace
             Place(expanded, margin, margin, w - 2 * margin, expandedHeight);
             layout.Width = w; layout.Height = expandedHeight + 2 * margin;
         }
-        else if (w >= widths.Sum() + 2 * margin + 3 * gap)
+        else if (w >= 1350)
         {
-            widths[3] = w - widths.Take(3).Sum() - 2 * margin - 3 * gap;
+            double availableTop=w-2*margin-3*gap; widths=[availableTop*.31,availableTop*.20,availableTop*.18,availableTop*.31];
+            top=Math.Max(395,general.UnwrappedSize().Height+80)+(advanced.IsExpanded?model.UnwrappedSize().Height:0);
             double x = margin;
             for (int i = 0; i < 4; i++) { Place(i, x, margin, widths[i], top); x += widths[i] + gap; }
-            double y = margin + top + gap, lower = Math.Max(490, h - y - margin), available = w - 2 * margin - 2 * gap;
-            x = margin; double[] proportions = [.43, .20, .37];
+            double y = margin + top + gap, lower = Math.Max(360, h - y - margin), available = w - 2 * margin - 2 * gap;
+            x = margin; double[] proportions = [.38, .16, .46];
             for (int i = 0; i < 3; i++) { double cw = available * proportions[i]; Place(i + 4, x, y, cw, lower); x += cw + gap; }
             layout.Width = w; layout.Height = y + lower + margin;
         }

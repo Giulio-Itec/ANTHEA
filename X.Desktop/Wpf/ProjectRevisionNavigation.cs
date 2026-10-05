@@ -13,7 +13,7 @@ public sealed partial class MainWindow
     private string? revisionScopeId, revisionNavigationSheetId;
     private int? displayedRevision;
     private bool switchingProjectRevision;
-    private readonly Border projectRevisionHost = new() { Background = Brushes.White, BorderBrush = Ui.Brush("#DCE5EF"), BorderThickness = new Thickness(0, 0, 0, 1), Visibility = Visibility.Collapsed };
+    private readonly Border projectRevisionHost = new() { Background = Appearance.Paper, BorderBrush = Ui.Brush("#DCE5EF"), BorderThickness = new Thickness(0, 0, 0, 1), Visibility = Visibility.Collapsed };
     private JsonObject WorkingProjectDocument => revisionWorkingDocument ?? document;
 
     private JsonObject? RevisionScope(JsonObject? node)

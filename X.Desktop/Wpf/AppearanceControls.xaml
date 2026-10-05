@@ -1,0 +1,45 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ <!-- Only the dark styles opt into these templates; the original light controls stay native. -->
+ <ControlTemplate x:Key="AppearanceComboBoxTemplate" TargetType="ComboBox">
+  <Grid>
+   <ToggleButton x:Name="DropDownToggle" Focusable="False" ClickMode="Press"
+    IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+    Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+    <ToggleButton.Template><ControlTemplate TargetType="ToggleButton">
+     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+      <Path Data="M 0 0 L 4 4 L 8 0" Stroke="{DynamicResource AppearanceInk}" StrokeThickness="1.5"
+       HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,7,0"/>
+     </Border>
+    </ControlTemplate></ToggleButton.Template>
+   </ToggleButton>
+   <ContentPresenter x:Name="Selection" Content="{TemplateBinding SelectionBoxItem}"
+    ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+    Margin="5,2,24,2" VerticalAlignment="Center" IsHitTestVisible="False"/>
+   <TextBox x:Name="PART_EditableTextBox" Visibility="Collapsed" Margin="3,1,23,1"
+    Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" BorderThickness="0" IsReadOnly="{TemplateBinding IsReadOnly}"/>
+   <Popup x:Name="PART_Popup" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" AllowsTransparency="True" Focusable="False">
+    <Border Background="{DynamicResource AppearancePaper}" BorderBrush="{DynamicResource AppearanceBorder}" BorderThickness="1"
+     MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+     <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+      <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+     </ScrollViewer>
+    </Border>
+   </Popup>
+  </Grid>
+  <ControlTemplate.Triggers>
+   <Trigger Property="IsEditable" Value="True"><Setter TargetName="Selection" Property="Visibility" Value="Collapsed"/><Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/></Trigger>
+   <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.5"/></Trigger>
+  </ControlTemplate.Triggers>
+ </ControlTemplate>
+ <ControlTemplate x:Key="AppearanceTabItemTemplate" TargetType="TabItem">
+  <Border x:Name="Frame" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Padding="{TemplateBinding Padding}">
+   <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </Border>
+  <ControlTemplate.Triggers>
+   <Trigger Property="IsSelected" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource AppearanceSurface}"/><Setter TargetName="Frame" Property="BorderThickness" Value="1,1,1,3"/></Trigger>
+   <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource AppearanceInk}"/></Trigger>
+   <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.5"/></Trigger>
+  </ControlTemplate.Triggers>
+ </ControlTemplate>
+</ResourceDictionary>
