@@ -620,7 +620,7 @@ Soddisfatta nel dominio esplorato richiede η≤1 e controlli della ricerca supe
 
 La scala comune è 0–0,50 blu, 0,50–0,70 verde, 0,70–0,90 giallo, 0,90–1,00 arancio, oltre 1,00 rosso; grigio per controlli incompleti. Nel disegno le linee verticali individuano i conci della superficie critica. La selezione nella tabella permette di leggere pesi, pressioni interstiziali, parametri ridotti, resistenze e azioni.
 
-Per riprodurre il caso illustrato aprire supporto/artefatti/globale-guidata-20260930/offscreen-rilascio/esempio-stratificato.anthea e premere Calcola globale, senza ripreparare i dati locali. Le proprietà e il dominio completi sono riportati nell’esempio seguente. Il secondo caso statico ha F=1,075737 e η=1,022555: l’esito non soddisfatto è conservato nell’esempio. È un controllo interno ANTHEA; non è un nuovo confronto numerico MAX.
+Per riprodurre il caso illustrato aprire supporto/artefatti/globale-guidata-20260930/offscreen-rilascio/esempio-stratificato.anthea e premere Calcola globale, senza ripreparare i dati locali. Le proprietà e il dominio completi sono riportati nell’esempio seguente. Il secondo caso statico ha F=1,075737 e η=1,022555: l’esito non soddisfatto è conservato nell’esempio. È un controllo interno ANTHEA.
 
 ### Esempio salvato e risultati ripercorribili
 
@@ -637,7 +637,7 @@ Ricerca: uscite x=−13,80/−0,10 m, ingressi x=3,10/16,80 m, profondità 0,10/
 
 ![Superficie della seconda combinazione: il tasso supera 1 e il cerchio è rosso. L’esempio conserva l’esito sfavorevole per mostrare la lettura della verifica.](../artefatti/globale-guidata-20260930/offscreen-rilascio/esempio-stratificato-esito.png)
 
-Le tabelle dei conci sono in `esempio-stratificato-conci.csv`, accanto al modello. Questo è un controllo interno ANTHEA, non un confronto numerico MAX. Cambiando precisione o dominio possono cambiare leggermente la superficie critica e i valori.
+Le tabelle dei conci sono in `esempio-stratificato-conci.csv`, accanto al modello. Questo è un controllo interno ANTHEA. Cambiando precisione o dominio possono cambiare leggermente la superficie critica e i valori.
 
 ## Portanza, cedimenti e armature dei muri: procedura
 
@@ -701,7 +701,7 @@ Le barre oltre la lunghezza commerciale sono segnalate: il programma non introdu
 
 ![Esempio di distinta del muro con due zone di armatura e tratto di quattro metri](../artefatti/muri-materiali-distinta-20261005/interfaccia/distinta-due-zone-1.png)
 
-Esempio riapribile: supporto/artefatti/muri-materiali-distinta-20261005/interfaccia/distinta-due-zone.anthea. Il muro ha H=3 m, due zone con cambio a 1,5 m e un tratto lungo 4 m. La distinta mostra 23 pezzi per ciascuna marca principale e segnala lo sviluppo mancante dei collegamenti C1. I PDF e i Word della stessa cartella consentono di ripercorrere la lettura. L'esempio illustra input e computo, non costituisce un muro esecutivo verificato. Il riferimento grafico richiesto dall'utente è la tavola SIM-CAD di Madosoft; non è utilizzato come validazione numerica.
+Esempio riapribile: supporto/artefatti/muri-materiali-distinta-20261005/interfaccia/distinta-due-zone.anthea. Il muro ha H=3 m, due zone con cambio a 1,5 m e un tratto lungo 4 m. La distinta mostra 23 pezzi per ciascuna marca principale e segnala lo sviluppo mancante dei collegamenti C1. I PDF e i Word della stessa cartella consentono di ripercorrere la lettura. L'esempio illustra input e computo, non costituisce un muro esecutivo verificato.
 
 
 ## Efficienza orizzontale della palificata
@@ -878,7 +878,7 @@ La consultazione conserva il foglio di lavoro: il comando Torna al lavoro riport
 
 ### Consultare la nuova biblioteca tecnica
 
-La [biblioteca tecnica](wiki:biblioteca-tecnica) raccoglie lezioni con esempi, adattamenti attribuiti e percorsi di lettura esterni. Cercare un termine come taglio, copriferro, consolidazione, MASW o cassoni. Le schede delle fonti distinguono testo adattato, risorsa audiovisiva e materiale esterno; le immagini collegate richiedono accesso al sito originale. La data di consultazione non significa aggiornamento normativo automatico del contenuto.
+La [biblioteca tecnica](wiki:biblioteca-tecnica) raccoglie le lezioni di ANTHEA con esempi numerici svolti su geotecnica, calcestruzzo armato e ponti. Cercare un termine come taglio, copriferro, consolidazione, MASW o cassoni. Ogni lezione dichiara ipotesi, unità e limiti; la data di revisione non significa aggiornamento normativo automatico del contenuto.
 
 
 ### Engineering Handbook

@@ -1,4 +1,7 @@
 """Read public articles into a provenance cache; no application documents are changed."""
+import sys as _sys
+# W0.5: the external corpus (adapted articles, reading lists, links) was removed on 6/10/2026.
+_sys.exit('Script di migrazione superato, non rieseguire: rigenererebbe contenuti esterni eliminati il 6/10/2026.')
 from pathlib import Path
 from urllib.request import Request, urlopen
 from urllib.parse import urljoin, urlsplit

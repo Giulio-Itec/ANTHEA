@@ -5,9 +5,12 @@ Single runner for the ANTHEA verifications (refactoring, phase F0).
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile standard        # everything except the WPF smokes
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile full -Tag run0  # standard + WPF smokes (needs the desktop)
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Stage ui -Only 'smoke-bridge'
+  powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile baseline -Tag B1 -BaselineRef supporto\artefatti\baseline\F0-B0\headless
 
-Stages: build, fast, regression, wiki, ui, word (word needs Microsoft Word, never in a profile).
-Profiles: quick = build fast wiki; standard = quick + regression; full = standard + ui.
+Stages: build, fast, regression, wiki, baseline, ui, word (word needs Microsoft Word, never in a profile).
+Profiles: quick = build fast wiki; standard = quick + regression; baseline = standard + baseline; full = standard + ui.
+Stage baseline: headless capture of the corpus with tests\ANTHEA.Testing (results, engines, report text, archives, fallbacks);
+with -BaselineRef <capture folder> also its comparison with that reference capture (tests\ANTHEA.Testing\tolerances.json).
 The WPF checks (--smoke-*, --check-*) exist only in the UiTests configuration (refactoring F1.2): the build stage
 compiles X.Desktop with -c UiTests and the ui stage runs X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe.
 Every outcome is classified against build/known-failures.json: PASS, KNOWN, NEW-FAIL, FIXED, BLOCKED, NOT-RUN.
@@ -16,14 +19,15 @@ Outputs: supporto/artefatti/ci/<yyyyMMdd-HHmmss>-<Tag>/ (summary.json, summary.t
 #>
 [CmdletBinding()]
 param(
-    [ValidateSet('quick', 'standard', 'full')] [string] $Profile = 'quick',
-    [ValidateSet('build', 'fast', 'regression', 'wiki', 'ui', 'word')] [string[]] $Stage,
+    [ValidateSet('quick', 'standard', 'baseline', 'full')] [string] $Profile = 'quick',
+    [ValidateSet('build', 'fast', 'regression', 'wiki', 'baseline', 'ui', 'word')] [string[]] $Stage,
     [string] $Tag = 'run',
     [string] $Output,
     [switch] $NoBuild,
     [string] $GpcLibDir,
     [string] $CompareTo,
-    [string] $Only
+    [string] $Only,
+    [string] $BaselineRef
 )
 $ErrorActionPreference = 'Stop'
 $Root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
@@ -33,6 +37,7 @@ if (-not $Stage) {
     $Stage = switch ($Profile) {
         'quick' { @('build', 'fast', 'wiki') }
         'standard' { @('build', 'fast', 'regression', 'wiki') }
+        'baseline' { @('build', 'fast', 'regression', 'wiki', 'baseline') }
         'full' { @('build', 'fast', 'regression', 'wiki', 'ui') }
     }
 }
@@ -59,7 +64,7 @@ $Verifiche = 'supporto\test\X.Verifiche\X.Verifiche.csproj'
 function TestProject([string] $name) { "supporto\test\$name\$name.csproj" }
 
 # ---------------------------------------------------------------- suite registry
-# Kind: run (dotnet run --no-build of Project), smoke/check (flags of the UiTests ANTHEA.exe), python,
+# Kind: run (dotnet exec of the built Project assembly), smoke/check (flags of the UiTests ANTHEA.exe), python,
 # powershell (Script with Args), build (build only). Builds: extra @{ Project; Configuration } for the build stage.
 # Args placeholders: {cases}, {out} (the suite folder). Proof: file + regex that must exist after the run.
 $Suites = New-Object System.Collections.ArrayList
@@ -89,6 +94,16 @@ foreach ($name in 'BridgeDesign.Checks', 'BridgeDesign.IndependentChecks', 'Glob
 
 Add-Suite @{ Name = 'wiki/indice'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\scripts\wiki\build-wiki-index.py'; Args = @('--check') }
 Add-Suite @{ Name = 'wiki/manuale'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\test\wiki-handbook-checks.py'; Args = @() }
+
+# Placeholders of the baseline suites: {root} repository, {output} run folder, {tag}, {commit}.
+$Testing = 'tests\ANTHEA.Testing\ANTHEA.Testing.csproj'
+Add-Suite @{ Name = 'baseline/cattura'; Stage = 'baseline'; Kind = 'run'; Project = $Testing; Timeout = 3600
+    Args = @('capture', '{out}\cattura', '--root', '{root}', '--tag', '{tag}', '--commit', '{commit}')
+    Proof = @{ File = '{out}\cattura\manifest.json'; Pattern = '"strumento": "ANTHEA.Testing"' } }
+if ($BaselineRef) {
+    Add-Suite @{ Name = 'baseline/confronto'; Stage = 'baseline'; Kind = 'run'; Project = $Testing; Timeout = 1800
+        Args = @('compare', $(if ([IO.Path]::IsPathRooted($BaselineRef)) { $BaselineRef } else { Join-Path $Root $BaselineRef }), '{output}\baseline_cattura\cattura', '--report', '{out}\confronto.json') }
+}
 
 $smokes = 'smoke', 'smoke-bridge', 'smoke-bridge-curves', 'smoke-bridge-design', 'smoke-bridge-predalle', 'smoke-ca-extensions', 'smoke-ca-features',
     'smoke-display', 'smoke-global-stability', 'smoke-hierarchy', 'smoke-horizontal', 'smoke-material-report', 'smoke-materials', 'smoke-neutral-axis',
@@ -124,8 +139,16 @@ $NotRun = @(
 )
 
 # ---------------------------------------------------------------- helpers
-function Expand([string] $text, [string] $out) { $text.Replace('{cases}', $Cases).Replace('{out}', $out) }
+function Expand([string] $text, [string] $out) {
+    $text.Replace('{cases}', $Cases).Replace('{out}', $out).Replace('{output}', $Output).Replace('{root}', $Root).Replace('{tag}', $Tag).Replace('{commit}', $commit)
+}
 function Quote([string] $a) { if ($a -match '[\s"]') { '"' + $a.Replace('"', '\"') + '"' } else { $a } }
+
+# Suites run with dotnet exec of the built assembly, not dotnet run: the apphost .exe changes hash at every commit
+# (SourceLink version resources) and the antivirus on this machine can refuse to start it (Win32Exception 5, 6/10/2026).
+function Target-Path([string] $project) {
+    (& dotnet msbuild (Join-Path $Root $project) -getProperty:TargetPath -p:Configuration=Release -nologo | Select-Object -Last 1).Trim()
+}
 
 function Invoke-Process([string] $file, [string[]] $arguments, [string] $logBase, [int] $timeout, [switch] $Window) {
     $argLine = ($arguments | ForEach-Object { Quote $_ }) -join ' '
@@ -185,6 +208,7 @@ if ($Stage -contains 'build') {
     }
     if ($selected | Where-Object { $_.Kind -in 'smoke', 'check' }) { Add-Build $Desktop 'UiTests' }
     foreach ($s in $selected) { foreach ($b in @($s.Builds)) { if ($b) { Add-Build $b.Project $b.Configuration } } }
+    # Build-only suites compile their own project (and record the result) in the suite loop.
     foreach ($s in $selected) { if ($s.Project -and $s.Kind -ne 'build') { Add-Build $s.Project 'Release' } }
     $buildDir = Join-Path $Output 'build'
     New-Item -ItemType Directory -Force -Path $buildDir | Out-Null
@@ -227,15 +251,15 @@ foreach ($s in $selected) {
         $arguments = @($s.Args | ForEach-Object { Expand $_ $out })
         $prepared = $true
         if ($s.Before) {
-            # Preparation step (dotnet run of Before.Project): its failure is the failure of the suite.
-            $before = Invoke-Process 'dotnet' (@('run', '--project', (Join-Path $Root $s.Before.Project), '-c', 'Release', '--no-build', '--') + @($s.Before.Args | ForEach-Object { Expand $_ $out })) (Join-Path $out 'before') $timeout
+            # Preparation step (dotnet exec of Before.Project): its failure is the failure of the suite.
+            $before = Invoke-Process 'dotnet' (@('exec', (Target-Path $s.Before.Project)) + @($s.Before.Args | ForEach-Object { Expand $_ $out })) (Join-Path $out 'before') $timeout
             $prepared = $before.ExitCode -eq 0
         }
         if (-not $prepared) {
             $r = [pscustomobject]@{ ExitCode = $before.ExitCode; TimedOut = $before.TimedOut; Seconds = $before.Seconds }
             $note = 'preparazione fallita: ' + [IO.Path]::GetFileNameWithoutExtension($s.Before.Project)
         } elseif ($s.Kind -eq 'run') {
-            $r = Invoke-Process 'dotnet' (@('run', '--project', (Join-Path $Root $s.Project), '-c', 'Release', '--no-build', '--') + $arguments) (Join-Path $out 'run') $timeout
+            $r = Invoke-Process 'dotnet' (@('exec', (Target-Path $s.Project)) + $arguments) (Join-Path $out 'run') $timeout
         } elseif ($s.Kind -eq 'python') {
             $r = Invoke-Process 'py' (@('-3', (Join-Path $Root $s.Script)) + $arguments) (Join-Path $out 'run') $timeout
         } elseif ($s.Kind -eq 'powershell') {
@@ -293,8 +317,9 @@ if ($CompareTo) {
         $old = $previous | Where-Object { $_.Suite -eq $r.Suite } | Select-Object -First 1
         if (-not $old) { continue }
         if ($old.Status -in 'PASS', 'FIXED' -and $r.Status -notin 'PASS', 'FIXED') { [void] $warnings.Add("$($r.Suite): era $($old.Status), ora $($r.Status)") }
-        # Durations (4.40s, 12.5 s) are not counts: they change at every run.
-        $oldCounts = [regex]::Replace((@($old.Counts) -join "`n"), '\d+(?:[.,]\d+)?\s?s\b', '#s'); $newCounts = [regex]::Replace((@($r.Counts) -join "`n"), '\d+(?:[.,]\d+)?\s?s\b', '#s')
+        # Durations ('5.08s', '12,3 s') change from run to run: mask them before comparing the count lines.
+        $mask = { param($lines) (@($lines) | ForEach-Object { [regex]::Replace([string] $_, '\d+([.,]\d+)?\s?(ms|s)\b', '<t>') }) -join "`n" }
+        $oldCounts = & $mask $old.Counts; $newCounts = & $mask $r.Counts
         if ($oldCounts -ne $newCounts) { [void] $warnings.Add("$($r.Suite): righe di conteggio cambiate") }
     }
 }

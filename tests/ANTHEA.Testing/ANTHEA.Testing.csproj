@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Single capture, normalisation and comparison toolkit of the refactoring (F0.4 and following phases).
+    GPC libraries come from Directory.Build.targets (GpcLibraries = all for executables): no direct reference to lib\Checker.
+    TieredCompilation is off so that the caller recorded by the fallback trace does not depend on the JIT tier.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>ANTHEA.Testing</AssemblyName>
+    <RootNamespace>Anthea.Testing</RootNamespace>
+    <TieredCompilation>false</TieredCompilation>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../X.Core/X.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tolerances.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

@@ -41,7 +41,9 @@ storico non lineare e delle curve di risposta. `--bridge-methods` esegue soltant
 suite. Casi, riferimenti analitici e limiti sono descritti in
 [Test dei metodi per i ponti](docs/guida-teorica-anthea.md).
 
-`Verifica.cmd`, in questa cartella, esegue i confronti completi e salva il rapporto in `artefatti/confronto_numerico.json`.
+`Verifica.cmd`, in questa cartella, esegue il profilo `standard` del runner `build/ci.ps1` (tutte le verifiche
+tranne le prove WPF) e ne restituisce l'esito; i risultati sono in `artefatti/ci/<data>-verifica/`
+(`summary.txt`, `summary.json` e il confronto numerico in `verifiche_regressione/confronto_numerico.json`).
 
 I valori attesi provengono dal programma Python originale. Quando ANTHEA se ne discosta per scelta, i casi interessati si
 rigenerano dal C# e restano marcati dal campo `fonte_atteso`:

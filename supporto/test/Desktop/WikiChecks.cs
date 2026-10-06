@@ -17,6 +17,9 @@ internal static class WikiChecks
         foreach (var pilot in new[] { "bridge", "euler", "cracking", "bearing-capacity", "beam", "guida-sezione-ca" })
             Check(WikiCatalog.Resolve(pilot)?.Status == "reviewed", "Pilota revisionato · " + pilot);
         Check(WikiCatalog.Articles.Select(a => a.Id).Distinct().Count() == WikiCatalog.Articles.Length, "Route univoche");
+        // Only content written for ANTHEA (decision of 6/10/2026): no adapted articles, reading lists or external links.
+        string[] external = ["Approfondimento ·", "Letture tecniche", "De Pisapia", "CC BY-NC", "marcodepisapia", "geostru", "simonecaffe", "amazon.", "Madosoft", "MAX 16", "TheBridgeEng", "http://", "https://"];
+        Check(WikiCatalog.Articles.All(a => !a.Key.StartsWith("mdp-") && !a.Key.StartsWith("letture-")), "Nessun articolo del corpus esterno");
         void CheckLink(string uri)
         {
             uri = WikiCatalog.CanonicalUri(uri);
@@ -59,6 +62,7 @@ internal static class WikiChecks
             foreach (Match formula in Regex.Matches(body, @"^\$\$ (.+)$", RegexOptions.Multiline))
                 try { WikiEditorial.Formula(formula.Groups[1].Value); } catch (Exception ex) { formulaErrors.Add(ex.Message); }
             Check(body.StartsWith("## ") && !body.Contains('\ufffd'), "Offset UTF8 valido · " + a.Id);
+            Check(!external.Any(term => (a.Title + "\n" + a.Summary + "\n" + body).Contains(term, StringComparison.OrdinalIgnoreCase)), "Solo contenuti ANTHEA, senza rimandi esterni · " + a.Key);
             var allBlocks = new StackPanel();
             WikiEditorial.Render(allBlocks, body, _ => { }, (_, label, _) => Ui.Text(label));
             allBlocks.Measure(new Size(760, double.PositiveInfinity));
@@ -130,9 +134,18 @@ internal static class WikiChecks
             }
             wiki.Navigate("cracking#esempio-numerico"); await Render($"cracking-480-{dark}", 480, 800);
             wiki.Navigate("euler#snellezza-e-tensione-critica"); await Render($"euler-chart-{dark}", 1400, 900);
-            foreach (var id in new[] { "biblioteca-tecnica", "taglio-traliccio", "taglio-traliccio#esempio-numerico-con-due-quantita-di-staffe", "muri-metodi-perimetro", "mdp-89", "mdp-265" })
+            foreach (var id in new[] { "biblioteca-tecnica", "taglio-traliccio", "taglio-traliccio#esempio-numerico-con-due-quantita-di-staffe", "muri-metodi-perimetro", "esempi-controlli-indipendenti" })
             {
                 wiki.Navigate(id); await Render($"technical-{id.Replace('#', '-')}-{dark}", 1400, 900);
+                Check(wiki.CurrentId == WikiCatalog.Resolve(id)?.Id && wiki.MissingRoute is null, "Lezione tecnica aperta · " + id);
+            }
+            // Removed external corpus (6/10/2026): old routes and keys open the Handbook cover with a notice, never an error.
+            foreach (var id in new[] { "mdp-89", "/wiki/manuale/calcestruzzo/mdp-265", "letture-geotecnica", "/wiki/manuale/fondamenti/letture-fondamenti#geostru", "wiki:pagina-inesistente" })
+            {
+                wiki.Navigate(id); await Render($"removed-{WikiCatalog.Slug(id)}-{dark}", 1400, 900);
+                Check(wiki.CurrentId is null && wiki.MissingRoute is not null
+                    && Ui.Descendants<TextBlock>(wiki).Any(t => t.Text == "PAGINA NON DISPONIBILE")
+                    && Ui.Descendants<Button>(wiki).Any(b => b.Content is TextBlock t && t.Text == "Fondamenti →"), "Route eliminata apre la copertina con un avviso · " + id);
             }
             foreach (var id in new[] { "guida-progetti-e-gestione-del-lavoro", "bridge-design", "profili-calcestruzzo", "acciaio-armature", "guida-muri-di-sostegno-con-stratigrafie-di-monte-e-valle" })
             {

@@ -69,6 +69,27 @@ Regole, verificate in automatico man mano che le fasi le rendono possibili:
   contenuti nostri. Restano le citazioni normative (NTC, Circolare, Eurocodici) e la
   bibliografia tecnica che documenta i metodi implementati.
 
+## Decisioni sugli scostamenti tecnici (6 ottobre 2026, sera)
+
+Schede ed effetti in `scostamenti.md`; stato delle voci in `registro-differenze.json`. Correzioni
+sempre in due commit (collegamento con opzione legacy identico, poi cambio con effetto atteso).
+
+- **(a) Fessurazione, barre distanziate**: "correggi se è sbagliato, controlla EC, NTC, annessi e
+  Model Code". Esito della ricerca (`supporto/artefatti/refactoring/ricerca-a/rapporto.md`): il ramo
+  NTC è corretto (Circolare 2019 [C4.1.10], 0,75(h − x)); corretti anche EN, UNI, CNR-DT 200, DS, NS.
+  Da correggere: MC2010 a lunga durata (τbms = 1,8 fctm in fessurazione stabilizzata, Tab. 7.6-2) e
+  DIN (kt = 0,6/0,4 secondo la durata invece di 0,4 fisso); citazioni "7.3.4(4)" → "7.3.4(3), eq. (7.14)".
+- **(b) k2 nel ramo NTC**: da discutere con l'utente.
+- **(c) EN 1998-5 Annesso F**: seguire la norma (γRd non applicato a F̄).
+- **(d) γb dei pali**: seguire la norma (Tab. 6.4.II per tecnologia).
+- **(e) Durabilità**: l'utente chiede entrambi i riferimenti con scelta dell'utente. La revisione
+  tecnica ha poi trovato che C30/37 è il valore di UNI 11104:2016 (e della 2025) e C28/35 quello
+  dell'edizione 2004: da confermare con l'utente prima di implementare la scelta.
+- **(f) Bridge Design**: cercare il metodo semplificato più vicino al reale. Esito della ricerca
+  (`supporto/artefatti/refactoring/ricerca-f/rapporto.md`): nessun carico uniforme resta
+  cautelativo entro il 10%; raccomandato lo Schema 1 NTC con linee di influenza e γQ = 1,35, in GPC.Design.
+- **(g) Metodo nei report del ponte**: ripristinare metodo, norma e versione della libreria.
+
 ## Dipendenze esterne previste
 
 Da approvare una volta; ogni variazione si aggiunge qui.

@@ -10,7 +10,7 @@ namespace Anthea.Calculations;
 /// <summary>
 /// Foglio del palo sotto azione orizzontale (Broms, Viggiani pp. 400-415, ed estensione stratificata): il documento (m, kN, kPa, kN/m³, gradi) è
 /// letto e controllato qui, la capacità è GPCChecker.Geotechnics (LateralPileCapacity, mm, N, MPa) con i terreni e i fattori di Model (NTC 2018
-/// Tab. 6.4.IV e 6.4.VI); i risultati sono riportati nel formato del foglio. Limiti: supporto/docs/palo-orizzontale.md.
+/// Tab. 6.4.IV e 6.4.VI); i risultati sono riportati nel formato del foglio. Limiti: guida teorica, capitolo del palo orizzontale.
 /// </summary>
 public static partial class PaloOrizzontale
 {

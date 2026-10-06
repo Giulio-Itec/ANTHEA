@@ -3,10 +3,9 @@ using X.Core;
 
 internal static class ProjectCoefficientChecks
 {
-    public static int Run()
+    public static void Run(CheckLog log)
     {
-        int count = 0;
-        void Check(bool value, string message) { if (!value) throw new Exception(message); count++; }
+        void Check(bool value, string message) => log.Check(value, message);
         var archive = ProjectDocuments.CreateArchive(); var root = ProjectDocuments.AddProject(archive);
         var source = ProjectDocuments.AddSheet(root, "str_palo");
         var sourceData = source["dati"]!.AsObject(); var settings = SectionWorkspace.Prepare(sourceData);
@@ -50,8 +49,7 @@ internal static class ProjectCoefficientChecks
         foreach (var m in ModuleCatalog.All) Check(m.Name == m.ProjectTitle && m.Name == m.Element && m.Description == m.ProjectSubtitle, "Nomi divergenti: " + m.Id);
         ProjectDocuments.Rename(child, "   Impalcato   "); Check(child.S("nome") == "Impalcato", "Rinomina non normalizzata");
         before = child.ToJsonString();
-        try { ProjectDocuments.Rename(child, "  "); throw new Exception("Nome vuoto accettato"); } catch (ArgumentException) { count++; }
+        log.Reject(() => ProjectDocuments.Rename(child, "  "), "Nome vuoto accettato");
         Check(child.ToJsonString() == before, "Rinomina rifiutata modifica il nodo");
-        return count;
     }
 }
