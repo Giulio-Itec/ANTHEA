@@ -44,10 +44,28 @@ class HandbookChecks(unittest.TestCase):
                 with self.assertRaises(ValueError):self.run_validation()
     def test_invalid_content_rejected(self):
         key=self.articles[0]['id'];original=self.bodies[key]
-        for invalid in ['[link](wiki:missing)','[link](wiki:beam#missing)','![](../../X.Desktop/Assets/Wiki/footing.svg)','![figure](missing.svg)']:
+        for invalid in ['[link](wiki:missing)','[link](wiki:beam#missing)','![](../../X.Desktop/Assets/Wiki/footing.svg)','![figure](missing.svg)','[sito](https://example.com/articolo)','Fonte: http://example.com']:
             with self.subTest(content=invalid):
                 self.bodies[key]=original+'\n'+invalid
                 with self.assertRaises(ValueError):self.run_validation()
+    def test_reference_links_rejected(self):
+        self.references=copy.deepcopy(self.references);self.references[0]['url']='https://example.com'
+        with self.assertRaises(ValueError):self.run_validation()
+    def test_only_own_content(self):
+        # Decision of 6/10/2026: guides and Wiki keep only content written for ANTHEA; norms and bibliography stay as citations.
+        terms=['Approfondimento ·','Letture tecniche','De Pisapia','CC BY-NC','marcodepisapia','geostru','simonecaffe','amazon.','Madosoft','MAX 16','TheBridgeEng']
+        docs=[ROOT/'supporto/docs/guida-pratica-anthea.md',ROOT/'supporto/docs/guida-teorica-anthea.md',ROOT/'supporto/docs/wiki-riscontri.json',*sorted(W.glob('*.json'))]
+        for path in docs+sorted((ROOT/'X.Desktop/Wpf').glob('Wiki*.cs')):
+            text=path.read_text(encoding='utf-8').lower()
+            for term in terms:self.assertNotIn(term.lower(),text,f'{path.name}: {term}')
+        for path in docs:self.assertNotRegex(path.read_text(encoding='utf-8'),r'https?://',path.name)
+        self.assertFalse([r for r in self.references if 'url' in r])
+        keys={a['key'] for a in self.articles}|{a['id'] for a in self.articles}
+        self.assertFalse([k for k in keys if k.rsplit('/',1)[-1].startswith(('mdp-','letture-'))])
+        self.assertFalse([k for k,v in self.aliases.items() if v.split('#')[0].rsplit('/',1)[-1].startswith(('mdp-','letture-'))])
+        hub=next(a for a in self.articles if a['key']=='biblioteca-tecnica')
+        self.assertEqual(len(hub['related']),13)
+        for key in hub['related']:self.assertIn(key,{a['key'] for a in self.articles})
     def test_independent_examples(self):
         e,i,l,a=210000,8e6,4000,4000
         n=math.pi**2*e*i/l**2
