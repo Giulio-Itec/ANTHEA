@@ -2,7 +2,8 @@ param([string[]] $Suites = @('projects', 'project-workspace', 'hierarchy', 'shar
 $ErrorActionPreference = 'Stop'
 $repository = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 if (-not $OutputDirectory) { $OutputDirectory = Join-Path $repository ('supporto/artefatti/calculation-library/ui-' + (Get-Date -Format 'yyyyMMdd-HHmmss')) }
-if (-not $Executable) { $Executable = Join-Path $repository 'X.Desktop/bin/Release/net8.0-windows/ANTHEA.exe' }
+# The --smoke-* checks exist only in the UiTests build: dotnet build X.Desktop/X.Desktop.csproj -c UiTests
+if (-not $Executable) { $Executable = Join-Path $repository 'X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.exe' }
 foreach ($suite in $Suites) {
     $folder = Join-Path ([IO.Path]::GetFullPath($OutputDirectory)) $suite
     if ((Test-Path -LiteralPath $folder) -and (Get-ChildItem -LiteralPath $folder -Force | Select-Object -First 1)) { throw "Usare una cartella nuova per UI ${suite}: output precedenti presenti." }

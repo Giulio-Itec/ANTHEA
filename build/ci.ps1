@@ -8,6 +8,8 @@ Single runner for the ANTHEA verifications (refactoring, phase F0).
 
 Stages: build, fast, regression, wiki, ui, word (word needs Microsoft Word, never in a profile).
 Profiles: quick = build fast wiki; standard = quick + regression; full = standard + ui.
+The WPF checks (--smoke-*, --check-*) exist only in the UiTests configuration (refactoring F1.2): the build stage
+compiles X.Desktop with -c UiTests and the ui stage runs X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe.
 Every outcome is classified against build/known-failures.json: PASS, KNOWN, NEW-FAIL, FIXED, BLOCKED, NOT-RUN.
 Exit code 0 only without NEW-FAIL and without tracked files modified by the suites.
 Outputs: supporto/artefatti/ci/<yyyyMMdd-HHmmss>-<Tag>/ (summary.json, summary.txt, one folder and log per suite).
@@ -51,15 +53,21 @@ if ((Test-Path -LiteralPath $Output) -and (Get-ChildItem -LiteralPath $Output -F
 New-Item -ItemType Directory -Force -Path $Output | Out-Null
 
 $Cases = Join-Path $Root 'supporto\test\casi_confronto.json'
-$Exe = Join-Path $Root 'X.Desktop\bin\Release\net8.0-windows\ANTHEA.exe'
+$Exe = Join-Path $Root 'X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe'
+$Desktop = 'X.Desktop\X.Desktop.csproj'
 $Verifiche = 'supporto\test\X.Verifiche\X.Verifiche.csproj'
 function TestProject([string] $name) { "supporto\test\$name\$name.csproj" }
 
 # ---------------------------------------------------------------- suite registry
-# Kind: run (dotnet run --no-build of Project), smoke/check (ANTHEA.exe flags), python, build (build only).
+# Kind: run (dotnet run --no-build of Project), smoke/check (flags of the UiTests ANTHEA.exe), python,
+# powershell (Script with Args), build (build only). Builds: extra @{ Project; Configuration } for the build stage.
 # Args placeholders: {cases}, {out} (the suite folder). Proof: file + regex that must exist after the run.
 $Suites = New-Object System.Collections.ArrayList
 function Add-Suite([hashtable] $s) { [void] $Suites.Add($s) }
+
+# The shipped assemblies (Release) must not contain the WPF checks of the UiTests configuration.
+Add-Suite @{ Name = 'qa/no-test-code'; Stage = 'fast'; Kind = 'powershell'; Script = 'tools\qa\Assert-NoTestCode.ps1'; Args = @('-Path', 'X.Desktop\bin\Release\net8.0-windows')
+    Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }
 
 foreach ($flag in 'checker', 'bridge', 'horizontal', 'coesione', 'gamma-sat', 'ca-module', 'ca-data') {
     Add-Suite @{ Name = "verifiche/$flag"; Stage = 'fast'; Kind = 'run'; Project = $Verifiche; Args = @("--$flag") }
@@ -92,6 +100,7 @@ foreach ($s in $smokes) {
 foreach ($c in 'check-appearance', 'check-global-guidance-offscreen', 'check-wall-advanced-offscreen', 'check-wall-materials-offscreen') {
     Add-Suite @{ Name = "ui/$c"; Stage = 'ui'; Kind = 'check'; Args = @("--$c", '{out}'); Timeout = 600 }
 }
+Add-Suite @{ Name = 'ui/check-error-log-offscreen'; Stage = 'ui'; Kind = 'check'; Args = @('--check-error-log-offscreen', '{out}'); Timeout = 300; Proof = @{ File = '{out}\test.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-wiki-offscreen'; Stage = 'ui'; Kind = 'check'; Args = @('--check-wiki-offscreen', '{out}'); Timeout = 600; Proof = @{ File = '{out}\exit-code.txt'; Pattern = '^0\s*$' } }
 foreach ($name in 'HorizontalPileGroup.Checks', 'ElasticPile.UiChecks', 'ConcreteShort.UiChecks') {
     Add-Suite @{ Name = $name; Stage = 'ui'; Kind = 'run'; Project = (TestProject $name); Args = @('{out}'); Timeout = 900 }
@@ -164,27 +173,34 @@ function Say([string] $text) { Write-Host $text; Add-Content -LiteralPath (Join-
 Say ("ANTHEA ci  profilo {0}  stadi {1}  tag {2}" -f $Profile, ($Stage -join ','), $Tag)
 Say ("commit {0}  output {1}" -f $commit, $Output)
 
-# Build stage: every project needed by the selected suites, X.Desktop first.
+# Build stage: every project needed by the selected suites, X.Desktop first. The WPF checks need the UiTests
+# configuration of X.Desktop; every other project is built in Release (build/<name> or build/<name>.<configuration>).
 $buildFailed = @{}
+function Build-Key([string] $project, [string] $configuration) { "$project|$configuration" }
 if ($Stage -contains 'build') {
-    $projects = New-Object System.Collections.ArrayList
-    if ($selected | Where-Object { $_.Kind -in 'smoke', 'check' }) { [void] $projects.Add('X.Desktop\X.Desktop.csproj') }
-    foreach ($s in $selected) { if ($s.Project -and -not $projects.Contains($s.Project)) { [void] $projects.Add($s.Project) } }
+    $builds = New-Object System.Collections.ArrayList
+    function Add-Build([string] $project, [string] $configuration) {
+        if (-not ($builds | Where-Object { $_.Project -eq $project -and $_.Configuration -eq $configuration })) { [void] $builds.Add([pscustomobject]@{ Project = $project; Configuration = $configuration }) }
+    }
+    if ($selected | Where-Object { $_.Kind -in 'smoke', 'check' }) { Add-Build $Desktop 'UiTests' }
+    foreach ($s in $selected) { foreach ($b in @($s.Builds)) { if ($b) { Add-Build $b.Project $b.Configuration } } }
+    foreach ($s in $selected) { if ($s.Project -and $s.Kind -ne 'build') { Add-Build $s.Project 'Release' } }
     $buildDir = Join-Path $Output 'build'
     New-Item -ItemType Directory -Force -Path $buildDir | Out-Null
-    foreach ($p in $projects) {
-        $name = [IO.Path]::GetFileNameWithoutExtension($p)
-        $arguments = @('build', (Join-Path $Root $p), '-c', 'Release', '-nologo', '-v:minimal')
+    foreach ($b in $builds) {
+        $p = $b.Project
+        $name = [IO.Path]::GetFileNameWithoutExtension($p) + $(if ($b.Configuration -ne 'Release') { '.' + $b.Configuration } else { '' })
+        $arguments = @('build', (Join-Path $Root $p), '-c', $b.Configuration, '-nologo', '-v:minimal')
         if ($GpcLibDir) { $arguments += "-p:GpcLibDir=$GpcLibDir" }
         $r = Invoke-Process 'dotnet' $arguments (Join-Path $buildDir $name) 1800
         $note = ''
         if ($r.ExitCode -ne 0) {
-            $buildFailed[$p] = $true
+            $buildFailed[(Build-Key $p $b.Configuration)] = $true
             $note = (Select-String -LiteralPath (Join-Path $buildDir "$name.out.log") -Pattern 'error [A-Z]+\d+' | Select-Object -First 1 | ForEach-Object { $_.Line.Trim() })
         }
         [void] $results.Add([pscustomobject]@{ Suite = "build/$name"; Stage = 'build'; Raw = $(if ($r.ExitCode -eq 0) { 'PASS' } else { 'FAIL' }); ExitCode = $r.ExitCode; Seconds = $r.Seconds; Note = [string] $note; Counts = @() })
         Say ("{0,-46} {1,-4} {2,7:F1} s {3}" -f "build/$name", $(if ($r.ExitCode -eq 0) { 'ok' } else { 'FAIL' }), $r.Seconds, $note)
-        if ($r.ExitCode -ne 0 -and ($p -like 'X.Desktop*' -or $p -eq $Verifiche) -and -not (Known-Entry "build/$name")) {
+        if ($r.ExitCode -ne 0 -and ($p -eq $Desktop -or $p -eq $Verifiche) -and -not (Known-Entry "build/$name")) {
             Say "Build di $name fallita: le suite non vengono eseguite."
             $selected = @()
             break
@@ -202,7 +218,9 @@ foreach ($s in $selected) {
         $r = Invoke-Process 'dotnet' @('build', (Join-Path $Root $s.Project), '-c', 'Release', '-nologo', '-v:minimal') (Join-Path $out 'build') 1800
         $code = $r.ExitCode; $seconds = $r.Seconds
         if ($code -ne 0) { $raw = 'FAIL'; $note = (Select-String -LiteralPath (Join-Path $out 'build.out.log') -Pattern 'error [A-Z]+\d+' | Select-Object -First 1 | ForEach-Object { $_.Line.Trim() }) }
-    } elseif ($s.Project -and $buildFailed.ContainsKey($s.Project)) {
+    } elseif (($s.Project -and $buildFailed.ContainsKey((Build-Key $s.Project 'Release'))) -or
+        ($s.Kind -in 'smoke', 'check' -and $buildFailed.ContainsKey((Build-Key $Desktop 'UiTests'))) -or
+        @($s.Builds | Where-Object { $_ -and $buildFailed.ContainsKey((Build-Key $_.Project $_.Configuration)) }).Count -gt 0) {
         $raw = 'BLOCKED'; $note = 'build del progetto fallita'
     } else {
         $arguments = @($s.Args | ForEach-Object { Expand $_ $out })
@@ -210,6 +228,8 @@ foreach ($s in $selected) {
             $r = Invoke-Process 'dotnet' (@('run', '--project', (Join-Path $Root $s.Project), '-c', 'Release', '--no-build', '--') + $arguments) (Join-Path $out 'run') $timeout
         } elseif ($s.Kind -eq 'python') {
             $r = Invoke-Process 'py' (@('-3', (Join-Path $Root $s.Script)) + $arguments) (Join-Path $out 'run') $timeout
+        } elseif ($s.Kind -eq 'powershell') {
+            $r = Invoke-Process 'powershell' (@('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', (Join-Path $Root $s.Script)) + $arguments) (Join-Path $out 'run') $timeout
         } else {
             $r = Invoke-Process $Exe $arguments (Join-Path $out 'run') $timeout -Window
         }
@@ -263,7 +283,8 @@ if ($CompareTo) {
         $old = $previous | Where-Object { $_.Suite -eq $r.Suite } | Select-Object -First 1
         if (-not $old) { continue }
         if ($old.Status -in 'PASS', 'FIXED' -and $r.Status -notin 'PASS', 'FIXED') { [void] $warnings.Add("$($r.Suite): era $($old.Status), ora $($r.Status)") }
-        $oldCounts = @($old.Counts) -join "`n"; $newCounts = @($r.Counts) -join "`n"
+        # Durations (4.40s, 12.5 s) are not counts: they change at every run.
+        $oldCounts = [regex]::Replace((@($old.Counts) -join "`n"), '\d+(?:[.,]\d+)?\s?s\b', '#s'); $newCounts = [regex]::Replace((@($r.Counts) -join "`n"), '\d+(?:[.,]\d+)?\s?s\b', '#s')
         if ($oldCounts -ne $newCounts) { [void] $warnings.Add("$($r.Suite): righe di conteggio cambiate") }
     }
 }

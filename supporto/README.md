@@ -12,7 +12,7 @@ Ogni nuovo argomento va integrato nelle due guide; per casi particolari chiedere
 | Cartella | Contenuto |
 | --- | --- |
 | `test/X.Verifiche` | Progetto dei controlli numerici e software, incluso nella soluzione ANTHEA |
-| `test/Desktop` | Controlli WPF, compilati nel progetto desktop tramite collegamento |
+| `test/Desktop` | Controlli WPF, compilati nel progetto desktop solo nella configurazione `UiTests` |
 | `test/casi_confronto.json` | Dati dei confronti numerici |
 | `docs` | Documentazione tecnica dei moduli e rapporti di audit |
 | `documentazione` | Documenti Word, immagini e fonti di riferimento |
@@ -29,8 +29,12 @@ Eseguire i comandi seguenti dalla radice del repository:
 dotnet run --project supporto/test/X.Verifiche -c Release -- --checker
 dotnet run --project supporto/test/X.Verifiche -c Release -- --bridge
 dotnet run --project supporto/test/X.Verifiche -c Release -- --bridge-methods
-dotnet X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll --smoke-display supporto/artefatti/display
+dotnet build X.Desktop/X.Desktop.csproj -c UiTests
+dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --smoke-display supporto/artefatti/display
 ```
+
+Le prove WPF esistono solo nella configurazione `UiTests` di `X.Desktop`; l'eseguibile Release non
+accetta `--smoke-*` né `--check-*` e `tools/qa/Assert-NoTestCode.ps1` lo verifica a ogni corsa del runner.
 
 `--bridge` include i controlli precedenti e la suite dei metodi cumulativo, storico lineare,
 storico non lineare e delle curve di risposta. `--bridge-methods` esegue soltanto la nuova

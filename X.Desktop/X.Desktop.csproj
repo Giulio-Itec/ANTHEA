@@ -31,7 +31,8 @@
     <EmbeddedResource Include="../supporto/docs/guida-pratica-anthea.md"><LogicalName>Wiki.pratica.md</LogicalName></EmbeddedResource>
     <EmbeddedResource Include="../supporto/docs/guida-teorica-anthea.md"><LogicalName>Wiki.teorica.md</LogicalName></EmbeddedResource>
   </ItemGroup>
-  <ItemGroup><Compile Include="../supporto/test/Desktop/*.cs" Link="Tests/%(Filename)%(Extension)" /></ItemGroup>
+  <!-- WPF checks and their command line (AppHarness.cs) only in the UiTests configuration, never in Release. -->
+  <ItemGroup Condition="'$(Configuration)' == 'UiTests'"><Compile Include="../supporto/test/Desktop/*.cs" Link="Tests/%(Filename)%(Extension)" /></ItemGroup>
   <ItemGroup>
     <PackageReference Include="WpfMath" Version="2.1.0" />
   </ItemGroup>
