@@ -22,6 +22,7 @@ redirects=json.loads((OUT/'aliases.json').read_text(encoding='utf-8'))
 glossary=json.loads((OUT/'glossary.json').read_text(encoding='utf-8'))
 for kind, source in [('guide','pratica'),('theory','teorica')]:
     data=(ROOT/f'supporto/docs/guida-{source}-anthea.md').read_bytes()
+    assert data.count(b'\n')==data.count(b'\r\n'),f'guida-{source}-anthea.md deve avere fine riga CRLF (offset e hash dipendono dai byte; vedi .gitattributes)'
     hashes[source]=hashlib.sha256(data).hexdigest().upper()
     for path in re.findall(r'^!\[[^\]]*\]\(([^)]+)\)',data.decode('utf-8'),re.M):
         original=(ROOT/'supporto/docs'/path).resolve()
@@ -82,10 +83,10 @@ postings={word:sorted({positions[uri] for uri in ids}) for word,ids in postings.
 for name,obj in [('index.json',articles),('search.json',postings),('areas.json',dict(theory=AREAS,guide=GUIDES)),('assets.json',assets)]:
     text=json.dumps(obj,ensure_ascii=False,separators=(',',':'),sort_keys=True)+'\n'; path=OUT/name
     if '--check' in sys.argv: assert path.read_text(encoding='utf-8')==text,f'Indice obsoleto: {path}'
-    else: path.write_text(text,encoding='utf-8')
+    else: path.write_text(text,encoding='utf-8',newline='\r\n')
 tracked=['editorial.json','chapters.json','references.json','glossary.json','aliases.json','index.json','search.json','assets.json','areas.json']
 tracked+=['../Assets/Wiki/'+name for name in sorted(set(assets.values()))]
 props='<Project><ItemGroup>'+''.join(f'<WikiSource Include="$(MSBuildThisFileDirectory)../../supporto/docs/guida-{kind}-anthea.md"><ExpectedHash>{value}</ExpectedHash></WikiSource>' for kind,value in hashes.items())+''.join(f'<WikiSource Include="$(MSBuildThisFileDirectory){name}"><ExpectedHash>{hashlib.sha256((OUT/name).read_bytes()).hexdigest().upper()}</ExpectedHash></WikiSource>' for name in tracked)+'</ItemGroup></Project>\n'
 if '--check' in sys.argv: assert (OUT/'sources.props').read_text(encoding='utf-8')==props,'Hash sorgenti obsoleti'
-else: (OUT/'sources.props').write_text(props,encoding='utf-8')
+else: (OUT/'sources.props').write_text(props,encoding='utf-8',newline='\r\n')
 print(f'{len(articles)} capitoli, {len(postings)} termini indicizzati')
