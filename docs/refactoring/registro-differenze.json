@@ -438,6 +438,7 @@
       "codice": [ "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:164", "Checker/GPCChecker.Concrete/Torsion/TorsionProfiles.cs:81" ],
       "segno": "NON cautelativo",
       "effetto_quantificato": { "sintesi": "resistenza a taglio +38,8 % nell'esempio S5 della pagina ca.taglio", "evidenze": ["supporto/artefatti/refactoring/metodi/esempi.txt"] },
+      "effetto_anthea": "Verificato il 7/10: ANTHEA offre il profilo «Model Code 2010» (X.Calculations/ConcreteStandards.cs:10) e il suo codice legacy del taglio con staffe usa lo stesso θmin = 20° (X.Calculations/ConcreteCodeChecks.cs:107, maxCot = cot 20°). Il profilo NTC predefinito non è coinvolto.",
       "raccomandazione": "riscontrare il testo e correggere con opzione legacy; a sfavore di sicurezza, priorità alta",
       "decisione": null,
       "data": "2026-10-07",
