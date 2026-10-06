@@ -20,11 +20,12 @@ param(
         'Smoke', 'WikiChecks', 'GlobalGuidanceChecks', 'WallAdvancedChecks', 'WallMaterialChecks', 'CheckAppearance', 'CheckWikiIntegration',
         'RunTestHarness', 'CheckErrorLog', 'VerifyChs', 'VerifyHorizontal', 'WaitForAutomatic', 'BoxInputsVisible', 'TorsionResultsVisible',
         'TorqueColumnVisible', 'RevealTorsion', 'CheckBond', 'CheckAutomaticMix', 'CheckExposureSelector', 'DurabilityReferenceChecks',
-        'CheckDurability', 'CheckNtcCover', 'ForTest', 'TestServices', 'ScriptedConfirmations', 'RethrowingMessages'),
+        'CheckDurability', 'CheckNtcCover', 'ForTest', 'TestServices', 'ScriptedConfirmations', 'RethrowingMessages', 'ValidationCapture',
+        'StartConcreteDesign'),
     # Names that contain a marker but belong to the framework (System.Windows.Media.Brushes.WhiteSmoke).
     [string[]] $AllowedIdentifier = @('WhiteSmoke', 'get_WhiteSmoke'),
     # Regular expressions on the string literals of the #US heap.
-    [string[]] $Literal = @('^--smoke', '^--check', 'esito-smoke-completo')
+    [string[]] $Literal = @('^--smoke', '^--check', '^--capture', 'esito-smoke-completo')
 )
 $ErrorActionPreference = 'Stop'
 $DefaultAssemblies = 'ANTHEA.dll', 'ANTHEA.Core.dll', 'ANTHEA.Calculations.dll', 'Materiali.dll'

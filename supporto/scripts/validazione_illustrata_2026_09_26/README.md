@@ -8,10 +8,12 @@ attraverso il foglio XSLT di Microsoft Office.
 Gli output della lavorazione sono in
 `supporto/artefatti/validazione_illustrata_2026_09_26/`.
 `prepare_captures.py` genera gli ingressi delle 114 viste.
-Il progetto `supporto/test/ValidationIllustrations` compila i controlli WPF
-di produzione in un eseguibile di supporto e acquisisce le viste mediante
-il metodo Snapshot del prodotto. Riceve due argomenti: JSON degli ingressi
-e cartella di destinazione. Nessun risultato numerico viene iniettato nelle
+Le viste si acquisiscono con l'ANTHEA.exe della configurazione `UiTests`
+(`dotnet build X.Desktop/X.Desktop.csproj -c UiTests`), con
+`--capture-validation <ingressi.json> <cartella>`: usa i controlli WPF di
+produzione e il metodo Snapshot del prodotto. Fino al 6 ottobre 2026 lo faceva
+il progetto `supporto/test/ValidationIllustrations`, ora in
+`supporto/SUPERATI/test`. Nessun risultato numerico viene iniettato nelle
 schermate. Le didascalie dichiarano i casi solo illustrativi e le differenze
 fra funzione scalare e interfaccia.
 

@@ -46,9 +46,9 @@ ogni commit: `[x]` fatto, `[~]` in corso, `[ ]` da fare.
 - [x] F1.1 Rompere la dipendenza produzione → test (`HorizontalWorkspace.Smoke`, `HorizontalChs.VerifyChs`, sonde di `BridgeTorsion`) (429e4c0).
 - [x] F1.2 Configurazione `UiTests` con harness e flag; exe pubblicato pulito; installer che blocca codice di test; log degli errori non gestiti (d11af03).
 - [x] F1.3 Autotest fuori da X.Materiali e dal motore (e805280).
-- [~] F1.4 [CP] `IConfirmationService` e `IMessageService` al posto degli agganci di test; 4 scenari verificati a mano. Codice fatto; mancano le prove WPF a schermo e i 4 scenari manuali.
-- [ ] F1.5 `tests/ANTHEA.Desktop.UiTests` con le prove offscreen; le altre suite migrano modulo per modulo in F5.
-- [ ] F1.6 [CP] Tabella "destino dei progetti di test".
+- [~] F1.4 [CP] `IConfirmationService` e `IMessageService` al posto degli agganci di test; 4 scenari verificati a mano. Codice fatto (6468b7d); mancano le prove WPF a schermo e i 4 scenari manuali.
+- [x] F1.5 `tests/ANTHEA.Desktop.UiTests` non creato: `--check-wiki-offscreen` usa 16 membri privati di MainWindow; resta la configurazione `UiTests` e le suite migrano modulo per modulo in F5 (motivi in [progetti-di-test.md](progetti-di-test.md)).
+- [~] F1.6 [CP] Tabella "destino dei progetti di test" in [progetti-di-test.md](progetti-di-test.md), da approvare; ConcreteDesign.DesktopChecks e ValidationIllustrations portati nella configurazione `UiTests` e spostati in `supporto/SUPERATI/test`.
 - [ ] F1.7 Chiusura: stessi esiti di B1.
 
 Tra F1 e F2: regressione in MSTest (464 casi singoli) e `casi_confronto.json` diviso per caso [CP]; GitHub Actions per gli stadi non UI (facoltativo) [CP].

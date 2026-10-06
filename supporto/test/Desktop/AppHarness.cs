@@ -2,6 +2,8 @@ using System.IO;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Threading;
+using X.Core;
 
 namespace X.Desktop;
 
@@ -16,7 +18,7 @@ public partial class App
 
     partial void RunTestHarness(StartupEventArgs e, ref bool handled)
     {
-        if (!e.Args.Any(a => a.StartsWith("--check") || a.StartsWith("--smoke"))) return;
+        if (!e.Args.Any(a => a.StartsWith("--check") || a.StartsWith("--smoke") || a == "--capture-validation")) return;
         // Every check runs with the light theme; the later production call is ignored (Initialize is idempotent).
         Appearance.Initialize(false);
         handled = true;
@@ -63,6 +65,8 @@ public partial class App
             }));
             return;
         }
+        if (e.Args.Length == 2 && e.Args[0] == "--check-concrete-design") { StartConcreteDesign(e.Args[1]); return; }
+        if (e.Args.Length == 3 && e.Args[0] == "--capture-validation") { StartValidationCapture(e.Args[1], e.Args[2]); return; }
         if (e.Args.Length >= 2 && SmokeFlags.Contains(e.Args[0])) { StartSmoke(e); return; }
         // Any other use of --check*/--smoke*: normal start, still with the light theme, as before.
         handled = false;
@@ -125,6 +129,88 @@ public partial class App
         else if (e.Args.FirstOrDefault(a => !a.StartsWith("--")) is string path)
             window.Loaded += (_, _) => window.Safe(() => window.LoadFile(path));
         window.Show();
+    }
+
+    /// <summary>
+    /// --check-concrete-design &lt;cartella&gt;: reinforcement search in a real window, on the ui-fixture.json written in the same
+    /// folder by supporto/test/ConcreteDesign.Checks. Formerly the App of ConcreteDesign.DesktopChecks; failures now go
+    /// to errore.txt (was ui-error.txt), success still writes ui-pass.txt.
+    /// </summary>
+    private void StartConcreteDesign(string folder)
+    {
+        ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        Directory.CreateDirectory(folder);
+        File.WriteAllText(Path.Combine(folder, "ui-start.json"), System.Text.Json.JsonSerializer.Serialize(new { started = DateTimeOffset.Now,
+            assembly = typeof(App).Assembly.Location, revision = typeof(App).Assembly.ManifestModule.ModuleVersionId }));
+        DispatcherUnhandledException += (_, err) => { File.WriteAllText(Path.Combine(folder, "errore.txt"), err.Exception.ToString()); err.Handled = true; Shutdown(1); };
+        Dispatcher.InvokeAsync(async () =>
+        {
+            try
+            {
+                var data = JsonNode.Parse(File.ReadAllText(Path.Combine(folder, "ui-fixture.json")))!.AsObject();
+                using var view = new ConcreteWorkspace(data); view.PrepareDesignSmoke();
+                var window = new Window { Title = "ANTHEA · Calcola armature", Width = 1500, Height = 1000, Content = view, ShowActivated = false };
+                window.Show(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                await view.RunDesignSmoke(window, folder);
+                window.Close(); File.WriteAllText(Path.Combine(folder, "ui-pass.txt"), "PASS: eight tabs; alternatives/selection; apply; persistence; stale rejection; full/limited search; parallelism; timing diagnostics; large and compact layout.");
+                Shutdown(0);
+            }
+            catch (Exception ex) { File.WriteAllText(Path.Combine(folder, "errore.txt"), ex.ToString()); Shutdown(1); }
+        });
+    }
+
+    /// <summary>
+    /// --capture-validation &lt;ingressi.json&gt; &lt;cartella&gt;: screenshots of the illustrated validation (formerly the App of
+    /// ValidationIllustrations, unchanged): one PNG, input and result per case, capture-manifest.json, fatal.txt on unhandled errors.
+    /// </summary>
+    private void StartValidationCapture(string path, string output)
+    {
+        ShutdownMode=ShutdownMode.OnExplicitShutdown;
+        Directory.CreateDirectory(output);
+        DispatcherUnhandledException+=(_,err)=>{File.AppendAllText(Path.Combine(output,"fatal.txt"),err.Exception.ToString());err.Handled=true;Shutdown(1);};
+        EventManager.RegisterClassHandler(typeof(FrameworkElement),System.Windows.Controls.ToolTipService.ToolTipOpeningEvent,new System.Windows.Controls.ToolTipEventHandler((_,a)=>a.Handled=true));
+        Dispatcher.InvokeAsync(async ()=> {
+            var manifest=new JsonArray();
+            foreach(var c in JsonNode.Parse(File.ReadAllText(path))!.AsArray().OfType<JsonObject>())
+            {
+                string id=c.S("id"); Window? win=null; IDisposable? content=null;
+                try
+                {
+                    File.AppendAllText(Path.Combine(output,"progress.log"),id+" start\n");
+                    if(File.Exists(Path.Combine(output,id+".png")))continue;
+                    var data=(JsonObject)c["data"]!.DeepClone();
+                    FrameworkElement view;
+                    if(c.S("module")=="bridge")
+                    {
+                        var full=BridgeSection.Defaults();foreach(var (key,value) in data)full[key]=value?.DeepClone();data=full;
+                        data["metodo_analisi"]=BridgeSection.CalculationMethods[(int)data.D("methodIndex")];
+                        if(data["curve_sezione"] is JsonObject q){q["origine"]=BridgeSection.ResponseOrigins[(int)q.D("originIndex")];q["tipo"]=BridgeSection.ResponseModes[(int)q.D("typeIndex")];}
+                        view=new BridgeWorkspace(data);
+                    }
+                    else {var caView=new ConcreteWorkspace(data);caView.PrepareValidationCapture(c);view=caView;}
+                    content=(IDisposable)view;
+                    win=new Window{Title="ANTHEA · Validazione · "+id,Width=1500,Height=950,Content=view,Background=Ui.Bg,ShowActivated=false};
+                    win.Show();await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    if(view is ConcreteWorkspace ca)await ca.ValidationCapture(c,output,id);
+                    else if(view is BridgeWorkspace b)
+                    {
+                        await b.CalculateAsync();
+                        if(c.B("curve")){b.Pages.SelectedIndex=2;await b.CalculateResponseAsync();b.ResponsePoint.Value=b.ResponseCalculation?.Points.Count-1??0;}
+                        else{b.Pages.SelectedIndex=1;b.StageChoice.SelectedIndex=b.StageChoice.Items.Count-1;b.DisplayChoice.SelectedIndex=0;b.Results.SelectedIndex=(int)c.D("resultTab",3);}
+                        await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);win.UpdateLayout();
+                        File.WriteAllBytes(Path.Combine(output,id+".png"),Ui.Snapshot(win));
+                        File.WriteAllText(Path.Combine(output,id+"-actual.json"),(b.Result??new JsonObject()).ToJsonString());
+                    }
+                    File.WriteAllText(Path.Combine(output,id+"-input.json"),data.ToJsonString());
+                    manifest.Add(J.Obj(("id",id),("ok",true),("note",c.S("note"))));
+                    File.AppendAllText(Path.Combine(output,"progress.log"),id+" OK\n");
+                }
+                catch(Exception ex){File.WriteAllText(Path.Combine(output,id+"-error.txt"),ex.ToString());manifest.Add(J.Obj(("id",id),("ok",false)));}
+                finally{content?.Dispose();win?.Close();}
+                File.WriteAllText(Path.Combine(output,"capture-manifest.json"),manifest.ToJsonString());
+            }
+            Shutdown();
+        });
     }
 
     /// <summary>--check-error-log-offscreen: the production log of the unhandled errors (ErrorLog), on a file of the output folder.</summary>

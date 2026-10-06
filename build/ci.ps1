@@ -105,9 +105,10 @@ Add-Suite @{ Name = 'ui/check-wiki-offscreen'; Stage = 'ui'; Kind = 'check'; Arg
 foreach ($name in 'HorizontalPileGroup.Checks', 'ElasticPile.UiChecks', 'ConcreteShort.UiChecks') {
     Add-Suite @{ Name = $name; Stage = 'ui'; Kind = 'run'; Project = (TestProject $name); Args = @('{out}'); Timeout = 900 }
 }
-foreach ($name in 'ConcreteDesign.DesktopChecks', 'ValidationIllustrations') {
-    Add-Suite @{ Name = "build/$name"; Stage = 'ui'; Kind = 'build'; Project = (TestProject $name) }
-}
+# Formerly ConcreteDesign.DesktopChecks (moved to supporto/SUPERATI/test in F1.6): ConcreteDesign.Checks writes ui-fixture.json first.
+Add-Suite @{ Name = 'ui/check-concrete-design'; Stage = 'ui'; Kind = 'check'; Args = @('--check-concrete-design', '{out}'); Timeout = 900
+    Before = @{ Project = (TestProject 'ConcreteDesign.Checks'); Args = @('{out}') }; Builds = @(@{ Project = (TestProject 'ConcreteDesign.Checks'); Configuration = 'Release' })
+    Proof = @{ File = '{out}\ui-pass.txt'; Pattern = '^PASS' } }
 Add-Suite @{ Name = 'ConcreteShort.Checks'; Stage = 'word'; Kind = 'run'; Project = (TestProject 'ConcreteShort.Checks'); Args = @('{out}'); Timeout = 900 }
 
 $NotRun = @(
@@ -224,7 +225,16 @@ foreach ($s in $selected) {
         $raw = 'BLOCKED'; $note = 'build del progetto fallita'
     } else {
         $arguments = @($s.Args | ForEach-Object { Expand $_ $out })
-        if ($s.Kind -eq 'run') {
+        $prepared = $true
+        if ($s.Before) {
+            # Preparation step (dotnet run of Before.Project): its failure is the failure of the suite.
+            $before = Invoke-Process 'dotnet' (@('run', '--project', (Join-Path $Root $s.Before.Project), '-c', 'Release', '--no-build', '--') + @($s.Before.Args | ForEach-Object { Expand $_ $out })) (Join-Path $out 'before') $timeout
+            $prepared = $before.ExitCode -eq 0
+        }
+        if (-not $prepared) {
+            $r = [pscustomobject]@{ ExitCode = $before.ExitCode; TimedOut = $before.TimedOut; Seconds = $before.Seconds }
+            $note = 'preparazione fallita: ' + [IO.Path]::GetFileNameWithoutExtension($s.Before.Project)
+        } elseif ($s.Kind -eq 'run') {
             $r = Invoke-Process 'dotnet' (@('run', '--project', (Join-Path $Root $s.Project), '-c', 'Release', '--no-build', '--') + $arguments) (Join-Path $out 'run') $timeout
         } elseif ($s.Kind -eq 'python') {
             $r = Invoke-Process 'py' (@('-3', (Join-Path $Root $s.Script)) + $arguments) (Join-Path $out 'run') $timeout
