@@ -1,5 +1,26 @@
 # DLL Checker
 
+**Snapshot riproducibile da commit (7 ottobre 2026, refactoring F0.8-F0.9).** Prima ricostruzione con
+`tools/libs/Update-Snapshot.ps1`: ogni DLL viene da un commit con albero pulito, registrato in `manifest.json`
+(repository, ramo, commit, push, SDK, versione, SHA-256); `manifest.props` permette alla build di verificare gli
+hash (Directory.Build.targets). Commit locali, non ancora pushati: Utilities df3b3e7, Geometry 75182cc (binari
+committati), Model 5ba61a04, Checker b994e188; SDK 9.0.318 fissato da global.json in ogni libreria.
+
+- Le versioni distribuite in precedenza da working tree con lo stesso numero (Concrete 0.0.14.0 e Geotechnics
+  0.1.0.0 ricompilate più volte tra il 2 e il 6/10; GPCGeometry 2.1.0.3 senza la modifica di CoordinateSystem
+  6590b90; GPCModel 1.6.0.0 senza i commit successivi) diventano: GPCGeometry 2.1.0.4, DelaunayMesh 2.0.0.11
+  (stesso sorgente, ricompilata), GPCModel 1.6.1.0, GPCModelData 0.0.2.2, Concrete 0.0.15.0, Geotechnics 0.1.1.0,
+  CompositeBridge 1.4.0.3. GPCUtilities 2.0.0.8 invariata.
+- ANTHEA: tutte le suite del runner come prima; cattura headless identica alla baseline B0 a tolleranza zero;
+  griglie dense di CheckerMigration.Capture identiche (a meno degli identificativi casuali); impronta delle 80 mesh
+  identica bit per bit. Ricompilazioni complete dagli stessi commit identiche bit per bit.
+- Librerie: Concrete 500/500 (CrackMigrationTests a 1e-9 compreso), CompositeBridge 254/254, Geotechnics 98/98,
+  Model 892 superati e 2 ignorati, ModelChecker 105/106 e Geometry 852/853 per due aspettative superate dei test,
+  corrette in Model d6631635 e Geometry 6a0d1c1, Steel con i soli 17 fallimenti storici. Rapporto in
+  supporto/artefatti/refactoring/test-librerie-S1.
+- SourceLink scrive lo SHA del commit nel PDB e quindi nella DLL: per riprodurre una DLL si compila il commit
+  registrato nel manifest, non uno successivo.
+
 **Aggiornamento DelaunayMesh 2.0.0.10 (6 ottobre 2026).** Geometry master 296d05d; le altre DLL sono invariate.
 
 - Raffinamento: il controllo dei segmenti di bordo invasi dal circocentro usa una griglia (prima confrontava ogni triangolo con
