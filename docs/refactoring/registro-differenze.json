@@ -1,0 +1,358 @@
+{
+  "schema": 1,
+  "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
+  "aggiornato": "2026-10-06",
+  "riferimenti_codice": {
+    "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso",
+    "Checker": "5cc315f2 (develop); percorsi con prefisso Checker/",
+    "Model": "c85b70a6 (master); percorsi con prefisso Model/",
+    "lib/Checker": "manifest del 2026-10-06: GPCChecker.Concrete 0.0.14.0, GPCChecker.Geotechnics 0.1.0.0, GPCChecker.CompositeBridge 1.4.0.2, GPCModel 1.6.0.0"
+  },
+  "categorie": {
+    "convenzione": "il codice segue alla lettera un testo normativo diverso da un altro testo applicabile",
+    "intenzionale": "scelta dichiarata nel codice, nei commenti o nei test",
+    "difetto-legacy": "comportamento non voluto del codice esistente",
+    "scostamento-normativo": "il codice si discosta dal testo della norma del profilo"
+  },
+  "stati": ["da-decidere", "dichiarato", "da-correggere", "corretto"],
+  "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
+  "voci": [
+    {
+      "id": "D7-a",
+      "titolo": "Fessurazione NTC con barre distanziate: 1,7 · 0,75 (h − x) e massimo fra zona vicina e distante",
+      "famiglia": "calcestruzzo/fessurazione",
+      "categoria": "convenzione",
+      "stato": "da-decidere",
+      "descrizione": "Nel ramo NTC, con interasse s > 5 (c + Ø/2), wk = 1,7 · max(Δsm,vicino; 0,75 (h − x)) (εsm − εcm), cioè sr = max(3,4 c + k1 k2 0,425 Ø/ρ; 1,275 (h − x)); senza barre aderenti in Ac,eff il limite superiore usa sr = 1,7 · 0,75 (h − x). La EN 1992-1-1 (7.14) usa 1,3 (h − x) in sostituzione della (7.11). Lo stesso ramo vale per il profilo CNR-DT 200 della libreria.",
+      "riferimento_normativo": [
+        { "fonte": "Circolare 21/01/2019 n. 7", "punto": "C4.1.2.2.4.5, eq. [C4.1.5], [C4.1.7], [C4.1.10], Fig. C4.1.11", "riscontro": "testo della G.U. S.O. n. 5 alla n. 35 dell'11/02/2019, pp. 87-88: il codice coincide alla lettera" },
+        { "fonte": "EN 1992-1-1:2004", "punto": "§7.3.4(3), eq. (7.14)", "riscontro": "testo consultato: sr,max = 1,3 (h − x) con spaziatura > 5 (c + φ/2) o senza armatura aderente" }
+      ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:58-62",
+        "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:108",
+        "Checker/GPCChecker.Concrete/Cracking/CrackProfiles.cs:57",
+        "X.Calculations/Ntc2018Checks.cs:217-222",
+        "X.Calculations/ConcreteCodeChecks.cs:224"
+      ],
+      "segno": "rispetto alla Circolare nessuno; rispetto alla EN 1992-1-1 (7.14) non cautelativo (−1,92 % su wk) dove governa la zona distante e cautelativo dove il termine vicino supera 1,3 (h − x)",
+      "effetto_quantificato": {
+        "sintesi": "Variante A1 (1,3 con il massimo): +1,96 % su wk dove governa la zona distante. Fixture scalare: 79 righe con barre distanziate su 200 (50 zona distante, 29 termine vicino > 1,3 (h − x)). Griglia mirata: 98 376 stati con barre distanziate su 222 696, 77 592 con zona distante; esiti che cambiano con A1 337 (0,15 %), con la regola EC2 completa 4 581 (337 peggiorano, 4 244 migliorano). Limite senza barre aderenti: +1,96 % esatto, 216 stati, nessun esito.",
+        "fixture_scalare": { "righe_ntc": 200, "barre_distanziate": 79, "zona_distante": 50, "vicino_oltre_1_3": 29, "delta_A1_pct": [0, 1.96], "delta_A2_pct": [-95.1, 1.96] },
+        "fixture_sezioni": { "stati_ntc": 177, "parzializzati_analizzati": 34, "barre_distanziate": 0 },
+        "griglia": { "stati": 222696, "barre_distanziate": 98376, "zona_distante": 77592, "esiti_cambiati_A1": 337, "esiti_cambiati_A2": 4581, "esiti_peggiorati_A2": 337, "esiti_migliorati_A2": 4244, "delta_A2_min_pct": -67.4 },
+        "limite_senza_barre_aderenti": { "delta_pct": 1.96, "stati_griglia": 216, "esiti_cambiati": 0 },
+        "evidenze": ["out/a-fixture-scalare.csv", "out/a-b-fixture-sezioni.csv", "out/a-b-griglia.csv", "out/a-b-fessurazione.txt"]
+      },
+      "opzioni": [
+        { "id": "a1", "descrizione": "coefficiente 1,3 (h − x) mantenendo il massimo fra le due zone" },
+        { "id": "a2", "descrizione": "regola EC2 completa: sr = 1,3 (h − x) con barre distanziate" },
+        { "id": "a3", "descrizione": "dichiarare il ramo della Circolare" },
+        { "id": "a4", "descrizione": "solo limite superiore senza barre aderenti: 1,3 (h − x), con opzione legacy" }
+      ],
+      "raccomandazione": "a3 per il ramo delle barre distanziate (segue la Circolare alla lettera; a2 non è cautelativa quando governa la zona vicina) e a4 per il limite senza barre aderenti, trattato solo dalla EN 1992-1-1; correggere il rimando «7.3.4(4)» dei commenti",
+      "decisione": null,
+      "data": "2026-10-06",
+      "fase": "F2.3 (libreria), F2.7 (collegamento)",
+      "test": [
+        "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs:228 (crack-scalar-legacy.csv)",
+        "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs:74 (crack-legacy.csv)",
+        "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs:210",
+        "supporto/test/X.Verifiche/SectionWorkspaceChecks.cs:90-96"
+      ],
+      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:343 (Apertura delle fessure)", "supporto/docs/guida-teorica-anthea.md:2187 (Limiti e confronto con il software)"] },
+      "scheda": "docs/refactoring/scostamenti.md#d7-a-fessurazione-ntc-con-barre-distanziate"
+    },
+    {
+      "id": "D7-b",
+      "titolo": "k2 = 1,0 nel ramo NTC con sezione parzializzata senza barre compresse",
+      "famiglia": "calcestruzzo/fessurazione",
+      "categoria": "scostamento-normativo",
+      "stato": "da-decidere",
+      "descrizione": "Nel ramo NTC k2 vale 0,5 solo se almeno una barra ordinaria è compressa, altrimenti 1,0, anche quando l'asse neutro taglia la sezione (flessione). La Circolare e la EN 1992-1-1 danno 0,5 in flessione; il ramo Eurocodice dello stesso codice usa 0,5.",
+      "riferimento_normativo": [
+        { "fonte": "Circolare 21/01/2019 n. 7", "punto": "C4.1.2.2.4.5, k2 e eq. [C4.1.9]", "riscontro": "testo della G.U., p. 88" },
+        { "fonte": "EN 1992-1-1:2004", "punto": "§7.3.4(3), eq. (7.13)", "riscontro": "testo consultato" }
+      ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:163",
+        "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:173-174",
+        "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:116-122",
+        "X.Calculations/Ntc2018Checks.cs:30-36",
+        "X.Calculations/Ntc2018Checks.cs:77",
+        "X.Calculations/Ntc2018Checks.cs:92-96"
+      ],
+      "segno": "cautelativo",
+      "effetto_quantificato": {
+        "sintesi": "Con k2 = 0,5 l'apertura diminuisce del 24 % in media (fino al 44 %) nelle sezioni a semplice armatura e del 36 % in media (fino al 48 %) in tensoflessione; nulla dove governa la zona distante. Griglia: 37 128 stati con k2 = 1 su 222 696, 9 282 esiti passano da non soddisfatto a soddisfatto. Fixture di sezione: 1 stato su 34, −40,8 %, esito invariato.",
+        "griglia": {
+          "stati_k2_uno": 37128,
+          "esiti_cambiati": 9282,
+          "semplice_armatura_flessione": { "stati": 8640, "delta_medio_pct": -24.2, "delta_min_pct": -44.2, "esiti_cambiati": 1877 },
+          "soletta_flessione": { "stati": 48, "su": 5544, "delta_medio_pct": -37.8, "delta_min_pct": -39.0, "esiti_cambiati": 24 },
+          "trave_tensoflessione": { "stati": 16200, "su": 144000, "delta_medio_pct": -35.5, "delta_min_pct": -48.0, "esiti_cambiati": 2623 },
+          "soletta_tensoflessione": { "stati": 12240, "su": 28800, "delta_medio_pct": -36.0, "delta_min_pct": -47.2, "esiti_cambiati": 4758 }
+        },
+        "fixture_sezioni": { "stati_k2_uno": 1, "delta_pct": -40.8, "esiti_cambiati": 0 },
+        "evidenze": ["out/a-b-fixture-sezioni.csv", "out/a-b-griglia.csv", "out/a-b-fessurazione.txt"]
+      },
+      "opzioni": [
+        { "id": "b1", "descrizione": "k2 = 0,5 per ogni sezione parzializzata, con opzione legacy per le fixture" },
+        { "id": "b2", "descrizione": "dichiarare" }
+      ],
+      "raccomandazione": "b1, in due commit (collegamento con l'opzione legacy, poi cambio del predefinito)",
+      "decisione": null,
+      "data": "2026-10-06",
+      "fase": "F2.3 (libreria), F2.7 (collegamento)",
+      "test": [
+        "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs:277",
+        "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs:74 (crack-legacy.csv)",
+        "supporto/test/X.Verifiche/SectionWorkspaceChecks.cs:75-77",
+        "supporto/test/X.Verifiche/SectionWorkspaceChecks.cs:123-128"
+      ],
+      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:354 (regola di k2)", "supporto/docs/guida-teorica-anthea.md:2171 (Procedura per un caso ordinario)"] },
+      "scheda": "docs/refactoring/scostamenti.md#d7-b-k2-del-ramo-ntc-senza-barre-compresse"
+    },
+    {
+      "id": "D7-c",
+      "titolo": "Portanza sismica dei muri (EN 1998-5 Annesso F): γRd applicato anche all'inerzia del terreno F̄",
+      "famiglia": "geotecnica/muri",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "ANTHEA imposta RetainingWall.ModelFactorOnSoilInertia = true: F̄ = γRd · ag S/(g tan φ'd). Nella (F.7) F̄ non contiene γRd, che compare solo in N̄, V̄ e M̄. La libreria segue la norma per difetto e conserva l'opzione per riprodurre ANTHEA.",
+      "riferimento_normativo": [
+        { "fonte": "EN 1998-5:2004", "punto": "Annesso F (informativo), eq. (F.7) e Tab. F.2", "riscontro": "testo non presente nei repository; riscontro del port in Checker/docs/migrazione-anthea/MIGRAZIONE_ANTHEA.txt:358-362" }
+      ],
+      "codice": [
+        "X.Calculations/RetainingWall.Library.cs:19-20",
+        "X.Calculations/RetainingWall.Library.cs:132-135",
+        "Checker/GPCChecker.Geotechnics/Foundations/ShallowFoundationSeismic.cs:57",
+        "Checker/GPCChecker.Geotechnics/Foundations/ShallowFoundationSeismic.cs:67",
+        "Checker/GPCChecker.Geotechnics/Walls/WallModels.cs:170-175",
+        "Checker/GPCChecker.Geotechnics/Walls/RetainingWallAnalysis.cs:303"
+      ],
+      "segno": "cautelativo",
+      "effetto_quantificato": {
+        "sintesi": "F̄ aumenta di γRd (15 % con 1,15). Esempio 4 dei muri: η 0,79114 contro 0,76031 (+4,06 %). Documenti dei muri: 15 con portanza sismica, 46 combinazioni; Δη +1,7 … +7,0 % (media +3,8 %) con η(EN) ≤ 1,5, fino a +40 % fuori campo; 3 esiti cambiano in 3 documenti. Nullo con γRd = 1,00.",
+        "esempio_4": { "eta_anthea": 0.79114, "eta_en": 0.76031, "delta_pct": 4.06 },
+        "documenti": { "totale": 112, "con_sisma": 20, "rifiutati": 3, "con_portanza": 15, "combinazioni": 46, "gamma_rd": 1.15, "delta_pct_eta_en_fino_1_5": [1.7, 7.0], "delta_medio_pct": 3.8, "delta_max_fuori_campo_pct": 40.5, "esiti_cambiati": 3 },
+        "evidenze": ["out/c-muri.csv", "out/c-muri.txt"]
+      },
+      "opzioni": [
+        { "id": "c1", "descrizione": "ANTHEA adotta il predefinito della libreria (false); l'opzione legacy resta per le fixture" },
+        { "id": "c2", "descrizione": "dichiarare" }
+      ],
+      "raccomandazione": "c1, in due commit con il collegamento dei muri",
+      "decisione": null,
+      "data": "2026-10-06",
+      "fase": "F4.9",
+      "test": [
+        "supporto/test/RetainingWall.Checks/LibraryAdapterChecks.cs:91-92",
+        "supporto/test/RetainingWall.Checks/AdvancedChecks.cs:38-40",
+        "Checker/GPCChecker.Test.Geotechnics/WallExamplesTests.cs:109-112",
+        "Checker/GPCChecker.Test.Geotechnics/FoundationSeismicEdgeCaseTests.cs:215",
+        "Checker/GPCChecker.Test.Geotechnics/GeneralGeotechnicsMigrationTests.cs:256-259 (geotechnics-seismic-bearing.csv)",
+        "Checker/GPCChecker.Test.Geotechnics/Fixtures/walls-documents.jsonl.gz"
+      ],
+      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:1203 (Portanza sismica)"] },
+      "scheda": "docs/refactoring/scostamenti.md#d7-c-portanza-sismica-dei-muri-secondo-en-1998-5-annesso-f"
+    },
+    {
+      "id": "D7-d",
+      "titolo": "γb = 1,35 per ogni tecnologia di palo",
+      "famiglia": "geotecnica/pali",
+      "categoria": "scostamento-normativo",
+      "stato": "da-decidere",
+      "descrizione": "Il foglio del palo verticale propone e usa γb = 1,35 per ogni tecnologia (valore modificabile e memorizzato negli archivi). La Tab. 6.4.II dà 1,15 per i pali infissi, 1,35 per i trivellati e 1,30 per l'elica continua; StandardNTC2018Geotechnics.PileExecution di Model li contiene ma ANTHEA non lo usa.",
+      "riferimento_normativo": [
+        { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "§6.4.3.1.1, Tab. 6.4.II (R3)", "riscontro": "testo della G.U. consultato" }
+      ],
+      "codice": [
+        "X.Calculations/Calcolo.cs:221-223",
+        "X.Calculations/CalculationDefaults.cs:7",
+        "Model/Model/Standards/StandardNTC2018Geotechnics.cs:49-50",
+        "Model/Model/Standards/StandardNTC2018Geotechnics.cs:68-70",
+        "Checker/GPCChecker.Geotechnics/Piles/PileModels.cs:61-73",
+        "Checker/GPCChecker.Geotechnics/Piles/AxialPileModels.cs:8"
+      ],
+      "corrispondenza_proposta": {
+        "Bored": "Bored (1,35)",
+        "ContinuousFlightAuger": "ContinuousFlightAuger (1,30)",
+        "DrivenSteelSection": "Driven (1,15)",
+        "DrivenClosedSteelTube": "Driven (1,15)",
+        "DrivenPrecastConcrete": "Driven (1,15)",
+        "DrivenCastInPlace": "Driven (1,15)",
+        "Micropile": "Bored (1,35)"
+      },
+      "segno": "cautelativo per pali infissi ed elica continua; nessun effetto per trivellati e micropali",
+      "effetto_quantificato": {
+        "sintesi": "Casi di casi_confronto.json: 85 calcolati (9 rifiuti attesi). Rc,d drenata alla profondità massima: infissi +4,3 … +7,0 % (12 casi, media +6,0 %), elica +1,0 … +1,2 % (8 casi); non drenata +3,3 … +4,6 % e +0,7 … +1,0 %; trivellati (31) e micropali (34) invariati. Verifica metamorfica (Rb,d · 1,35/γb, Rs,d invariata) superata in 85 casi. Nessun esito Ed ≤ Rc,d cambia.",
+        "per_tecnologia": {
+          "battuto": { "casi": 12, "delta_drenato_pct": [4.28, 6.97], "delta_drenato_medio_pct": 6.0, "delta_non_drenato_pct": [3.35, 4.63] },
+          "elica_continua": { "casi": 8, "delta_drenato_pct": [1.02, 1.22], "delta_non_drenato_pct": [0.68, 1.01] },
+          "trivellato": { "casi": 31, "delta_pct": 0 },
+          "micropalo": { "casi": 34, "delta_pct": 0 }
+        },
+        "metamorfica_superata": "85/85",
+        "esiti_cambiati": 0,
+        "evidenze": ["out/d-pali.csv", "out/d-pali.txt"]
+      },
+      "opzioni": [
+        { "id": "d1", "descrizione": "predefinito per tecnologia da PileExecution per i fogli nuovi e al cambio di tecnologia; gli archivi conservano il valore memorizzato" },
+        { "id": "d2", "descrizione": "d1 più migrazione degli archivi con 1,35 e tecnologia infissa o a elica" },
+        { "id": "d3", "descrizione": "dichiarare 1,35 come valore cautelativo unico" }
+      ],
+      "raccomandazione": "d1 con avviso quando γb differisce da quello della tecnologia, in due commit (equivalenza con l'override 1,35, poi predefinito per tecnologia); i nuovi attesi dei 20 casi infissi ed elica si affiancano a quelli Python",
+      "decisione": null,
+      "data": "2026-10-06",
+      "fase": "F4.5",
+      "test": [
+        "supporto/test/casi_confronto.json (20 casi infissi ed elica con attesi a γb 1,35)",
+        "Checker/GPCChecker.Test.Geotechnics/PileCapacityMigrationTests.cs:177 (piles-vertical.jsonl)",
+        "Checker/GPCChecker.Test.Geotechnics/PileEdgeCaseTests.cs:344-345",
+        "Model/UnitTest/GeotechnicsTest.cs:77-79"
+      ],
+      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:158 (Più indagini e coefficienti)"] },
+      "scheda": "docs/refactoring/scostamenti.md#d7-d-coefficiente-di-base-dei-pali-uguale-per-ogni-tecnologia"
+    },
+    {
+      "id": "D7-e",
+      "titolo": "Classe minima C30/37 per XC3, XD1, XF4 e XA1 contro C28/35 della UNI 11104",
+      "famiglia": "calcestruzzo/durabilita",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "La classe minima per esposizione del profilo NTC (dichiarata come UNI 11104 tramite ATECAP 2020) vale C30/37 per XC3, XD1, XF4 e XA1; la UNI 11104 dà C28/35. I valori del codice coincidono con il prospetto F.1 della EN 206. La classe minima regola l'avviso della scheda Materiali e la maggiorazione di 5 mm del copriferro NTC.",
+      "riferimento_normativo": [
+        { "fonte": "UNI 11104", "punto": "prospetto 4 secondo il piano (il codice cita il prospetto 5 tramite ATECAP 2020)", "riscontro": "testo non disponibile: valori e numero del prospetto da riscontrare" },
+        { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "§11.2.11; Tab. 4.1.I e nota sulle classi C28/35 e C32/40", "riscontro": "testo della G.U. consultato" },
+        { "fonte": "Circolare 21/01/2019 n. 7", "punto": "C4.1.6.1.3, Tab. C4.1.IV", "riscontro": "testo della G.U., p. 90" },
+        { "fonte": "UNI EN 206-1:2006", "punto": "prospetto F.1 (informativo)", "riscontro": "testo consultato: C30/37 per XC3, XD1, XF4, XA1" }
+      ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:11-13",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:61",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:63",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:72-73",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:107",
+        "X.Calculations/Materials/MinimumConcrete.cs:5-13",
+        "X.Calculations/Materials/MinimumConcrete.cs:19",
+        "X.Calculations/Materials/NtcCover.cs:24",
+        "X.Calculations/Materials/NtcCover.cs:27"
+      ],
+      "segno": "cautelativo",
+      "effetto_quantificato": {
+        "sintesi": "Classe minima diversa in 46 combinazioni di esposizione su 520. Nel catalogo della scheda Materiali cambia solo C28/35: oggi segnalata come inferiore al minimo in quelle 46 combinazioni. Copriferro nominale NTC: +5 mm in 184 casi su 17 646, tutti con fck fra 28 e 30 MPa. ANTHEA e libreria coincidono. Manca l'etichetta C28/35 in MinimumConcrete.Label.",
+        "combinazioni": { "totale": 520, "cambiate": 46, "singole": 4, "doppie": 18, "triple": 24 },
+        "catalogo": { "classi": 16, "classi_che_cambiano": ["C28/35"], "avvisi_cambiati": 46 },
+        "copriferro": { "casi": 17646, "cambiati": 184, "delta_mm": 5 },
+        "evidenze": ["out/e-durabilita.txt", "out/e-copriferri.csv"]
+      },
+      "opzioni": [
+        { "id": "e1", "descrizione": "riscontrare la UNI 11104 (2016) e, se confermato, adottare C28/35 nel profilo NTC con la relativa etichetta" },
+        { "id": "e2", "descrizione": "dichiarare i valori del prospetto F.1 della EN 206" }
+      ],
+      "raccomandazione": "e1 dopo il riscontro del testo; fino ad allora riquadro dichiarato; decisione prima di F2.9",
+      "decisione": null,
+      "data": "2026-10-06",
+      "fase": "F2.3 (libreria), F2.9 (collegamento)",
+      "test": [
+        "Checker/GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122-125",
+        "Checker/GPCChecker.Test.Concrete/DurabilityMigrationTests.cs (durability-legacy.csv, righe MIX)",
+        "X.Materiali/ExposureSelector.cs:102",
+        "X.Materiali/ExposureSelector.cs:109"
+      ],
+      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:61 (Esposizioni e requisiti del materiale)", "supporto/docs/guida-teorica-anthea.md:85 (Copriferro minimo e nominale)"] },
+      "scheda": "docs/refactoring/scostamenti.md#d7-e-classe-minima-per-xc3-xd1-xf4-e-xa1"
+    },
+    {
+      "id": "D7-f",
+      "titolo": "Bridge Design: γQ = 1,50 sul traffico e carico uniforme di 9 kN/m² sull'intera larghezza senza tandem",
+      "famiglia": "ponti/bridge-design",
+      "categoria": "scostamento-normativo",
+      "stato": "da-decidere",
+      "descrizione": "Il predimensionamento applica γQ = 1,50 al traffico (Tab. 5.1.V: 1,35) e un carico uniforme di 9 kN/m² sull'intera larghezza dell'impalcato, senza i tandem dello Schema 1; γG = 1,35 vale anche per i permanenti portati (Tab. 5.1.V: 1,50 se non ben definiti). Le ipotesi sono modificabili e memorizzate negli archivi; il modulo dichiara di non costituire verifica NTC.",
+      "componenti": [
+        { "id": "f1", "oggetto": "γQ 1,50 contro 1,35", "categoria": "scostamento-normativo", "segno": "cautelativo (+11,1 % sulla parte da traffico)" },
+        { "id": "f2", "oggetto": "9 kN/m² sull'intera larghezza, senza tandem", "categoria": "intenzionale", "segno": "non cautelativo per luci sotto 20 m, cautelativo per luci maggiori" },
+        { "id": "f3", "oggetto": "γG 1,35 sui permanenti portati", "categoria": "intenzionale", "segno": "non cautelativo rispetto a 1,50 se non ben definiti" }
+      ],
+      "riferimento_normativo": [
+        { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "Tab. 5.1.V (colonna A1) e nota 2", "riscontro": "testo della G.U. consultato" },
+        { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "§5.1.3.3.5, Tab. 5.1.II (Schema di carico 1)", "riscontro": "testo della G.U. consultato" }
+      ],
+      "codice": [
+        "X.Calculations/BridgeConcept.cs:9",
+        "X.Calculations/BridgeConcept.cs:99-102",
+        "X.Calculations/BridgeConcept.Calculation.cs:102-105",
+        "X.Calculations/BridgeConcept.AdvancedCalculation.cs:43-61"
+      ],
+      "segno": "γQ cautelativo; carico equivalente misto (non cautelativo sotto 20 m di luce); γG2 non cautelativo",
+      "effetto_quantificato": {
+        "sintesi": "γQ 1,35 su 225 casi (predefinito e 224 combinazioni di BridgeDesign.Checks): momento positivo −2,5 … −5,5 %; costo invariato per le 10 famiglie a trave; −1,4 … −1,8 % strallati, −3,3 … −3,6 % archi, −3,3 … −3,9 % reticolari, −4,2 … −5,2 % sospesi; pali diversi in 21 casi; ottimizzazione del caso predefinito invariata. Carico equivalente contro Schema 1 sul caso predefinito: rapporto dei momenti 0,65 a 10 m, 1,01 a 20 m, 1,45 a 40 m, 2,29 a 200 m. γG2: qd −2,6 % con γG2 1,50 e γQ 1,35.",
+        "gamma_q": { "casi": 225, "delta_momento_pct": [-5.5, -2.5], "delta_costo_pct": { "cable_stayed": [-1.84, -1.43], "tied_arch": [-3.64, -3.28], "truss": [-3.95, -3.30], "suspension": [-5.21, -4.15], "famiglie_a_trave": 0 }, "delta_acciaio_pct": [-4.4, -1.9], "casi_pali_diversi": 21, "esclusioni_ottimizzazione_diverse": 0, "ottimizzazione_predefinito_invariata": true },
+        "carico_equivalente": { "larghezza_m": 20.2, "q_codice_kN_m": 181.8, "q_schema1_kN_m": 67.5, "rapporto_momento": { "10": 0.652, "15": 0.847, "20": 1.008, "25": 1.144, "30": 1.260, "40": 1.446, "60": 1.704, "100": 1.993, "200": 2.289 } },
+        "gamma_g2": { "g_kN_m": 257.8, "g2_kN_m": 74.5, "qd_codice_kN_m": 620.7, "qd_ntc_kN_m": 604.6, "delta_pct": -2.6 },
+        "evidenze": ["out/f-bridge.csv", "out/f-lm1.csv", "out/f-bridge.txt"]
+      },
+      "opzioni": [
+        { "id": "f1", "descrizione": "γQ 1,35 come predefinito dei documenti nuovi; gli archivi conservano il proprio valore" },
+        { "id": "f1'", "descrizione": "dichiarare 1,50 come margine del predimensionamento" },
+        { "id": "f2", "descrizione": "dichiarare il carico uniforme equivalente con avviso per campate sotto 20 m, oppure introdurre il tandem dello Schema 1" },
+        { "id": "f3", "descrizione": "γG2 1,50 sui permanenti portati, oppure dichiararli ben definiti" }
+      ],
+      "raccomandazione": "f1; f2 come dichiarazione con avviso, valutando il tandem quando BridgeConcept passa in GPC.Design; f3 come dichiarazione",
+      "decisione": null,
+      "data": "2026-10-06",
+      "fase": "F4.11",
+      "test": [
+        "nessun test fissa γQ; supporto/test/BridgeDesign.Checks e supporto/test/BridgeDesign.IndependentChecks usano il predefinito 1,5",
+        "supporto/esempi/bridge-design.anthea (gamma_q memorizzato)"
+      ],
+      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:892 (Acciai e carichi equivalenti)"] },
+      "scheda": "docs/refactoring/scostamenti.md#d7-f-bridge-design-coefficiente-e-carico-da-traffico"
+    },
+    {
+      "id": "D7-g",
+      "titolo": "Testo del metodo nei report della sezione composta da ponte",
+      "famiglia": "ponti/sezione-composta",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Dal commit ANTHEA 0a63315 il risultato della sezione composta porta l'etichetta breve della scelta («Cumulativo lineare») al posto del metodo della libreria («Sezione composta N–Mx · larghezze efficaci EN 1993-1-5:2006 · v1»): i report non citano più norma ed edizione. Solo testo, numeri invariati. Voce aggiunta in F0.6, fuori dai sei scostamenti originari di D7.",
+      "riferimento_normativo": [],
+      "codice": [
+        "X.Calculations/BridgeSection.Analysis.cs:12",
+        "X.Calculations/BridgeSection.Analysis.cs:17",
+        "X.Calculations/BridgeSection.Analysis.cs:19-20",
+        "X.Calculations/BridgeSection.cs:14",
+        "X.Core/ReportBridge.cs:80",
+        "X.Core/ReportBridge.History.cs:13",
+        "X.Desktop/Wpf/BridgeHistory.cs:60"
+      ],
+      "segno": "nessun effetto numerico",
+      "effetto_quantificato": {
+        "sintesi": "Su BridgeSection.Defaults() e supporto/esempi/sezione_mista_ponte.json, con i tre metodi, il report scrive l'etichetta della scelta invece del metodo della libreria; le 8 baseline BridgeAudit registrano il metodo della libreria.",
+        "testi": {
+          "Cumulativo lineare": "Sezione composta N–Mx · larghezze efficaci EN 1993-1-5:2006 · v1",
+          "Storico lineare": "Storico lineare · deformazioni e ritiro incrementali",
+          "Storico non lineare": "Storico non lineare · fibre e plasticità dell’acciaio"
+        },
+        "evidenze": ["out/g-metodo.txt"]
+      },
+      "opzioni": [
+        { "id": "g1", "descrizione": "il risultato porta l'etichetta della scelta e il metodo della libreria; il report li scrive entrambi" },
+        { "id": "g2", "descrizione": "ripristinare result.Method" },
+        { "id": "g3", "descrizione": "dichiarare" }
+      ],
+      "raccomandazione": "g1, numeri invariati; il campo Method torna al metodo della libreria e le baseline BridgeAudit non si riscrivono",
+      "decisione": null,
+      "data": "2026-10-06",
+      "fase": "F0.10 o F3.12",
+      "test": [
+        "Checker/GPCChecker.Test.BridgeAudit/Baselines/bridge-0.json … bridge-7.json (campo Method)",
+        "Checker/GPCChecker.Test.BridgeAudit/BridgeMigrationSnapshotTests.cs:38"
+      ],
+      "riquadro_wiki": { "stato": "non-richiesto", "posizioni": ["nota sul report nella guida pratica della sezione composta"] },
+      "scheda": "docs/refactoring/scostamenti.md#d7-g-testo-del-metodo-nei-report-della-sezione-composta"
+    }
+  ]
+}
