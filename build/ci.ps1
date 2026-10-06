@@ -5,7 +5,7 @@ Single runner for the ANTHEA verifications (refactoring, phase F0).
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile standard        # everything except the WPF smokes
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile full -Tag run0  # standard + WPF smokes (needs the desktop)
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Stage ui -Only 'smoke-bridge'
-  powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile baseline -Tag B1 -BaselineRef supporto\artefatti\baseline\F0-B0
+  powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile baseline -Tag B1 -BaselineRef supporto\artefatti\baseline\F0-B0\headless
 
 Stages: build, fast, regression, wiki, baseline, ui, word (word needs Microsoft Word, never in a profile).
 Profiles: quick = build fast wiki; standard = quick + regression; baseline = standard + baseline; full = standard + ui.
