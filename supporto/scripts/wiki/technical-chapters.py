@@ -1,4 +1,7 @@
 """Original technical chapters, kept here as reproducible inputs to the global manual."""
+import sys as _sys
+# W0.5: the external corpus (adapted articles, reading lists, links) was removed on 6/10/2026.
+_sys.exit('Script di migrazione superato, non rieseguire: rigenererebbe contenuti esterni eliminati il 6/10/2026.')
 CHAPTERS=[]
 def add(key,title,chapter,area,modules,related,body):
     CHAPTERS.append(dict(key=key,title=title,chapterId=chapter,area=area,modules=modules,related=related,status='reviewed',body='## '+title+'\n\n'+body.strip()+'\n'))

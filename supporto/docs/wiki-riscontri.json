@@ -166,11 +166,9 @@
     "status": "reviewed",
     "scope": "Revisione dei modelli didattici, unità delle risultanti, nodi, singolarità, oscillatore e fasi. Corretto superficie media; aggiunti esempi dimensionali e fonti primarie. Non attribuiti solutori generali ad Anthea.",
     "evidence": [
-      "https://www.scia.net/en/support/faq/scia-engineer/results/calculation-1d-and-2d-results",
-      "https://doc.comsol.com/6.4/doc/com.comsol.help.sme/sme_ug_modeling.05.071.html",
-      "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/space_frame.html",
-      "https://ocw.mit.edu/courses/16-20-structural-mechanics-fall-2002/609687cf29516e13e864ff310af328a7_unit20.pdf",
-      "https://steelconstruction.info/topics/design/composite-construction/"
+      "TU Delft, Computational Modelling, 2D frame analysis",
+      "MIT 16.20 Structural Mechanics, Unit 20",
+      "SCI, Composite construction"
     ],
     "openPoints": []
   },
@@ -179,11 +177,9 @@
     "status": "reviewed",
     "scope": "Revisione dei modelli didattici, unità delle risultanti, nodi, singolarità, oscillatore e fasi. Corretto superficie media; aggiunti esempi dimensionali e fonti primarie. Non attribuiti solutori generali ad Anthea.",
     "evidence": [
-      "https://www.scia.net/en/support/faq/scia-engineer/results/calculation-1d-and-2d-results",
-      "https://doc.comsol.com/6.4/doc/com.comsol.help.sme/sme_ug_modeling.05.071.html",
-      "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/space_frame.html",
-      "https://ocw.mit.edu/courses/16-20-structural-mechanics-fall-2002/609687cf29516e13e864ff310af328a7_unit20.pdf",
-      "https://steelconstruction.info/topics/design/composite-construction/"
+      "TU Delft, Computational Modelling, 2D frame analysis",
+      "MIT 16.20 Structural Mechanics, Unit 20",
+      "SCI, Composite construction"
     ],
     "openPoints": []
   },
@@ -192,11 +188,9 @@
     "status": "reviewed",
     "scope": "Revisione dei modelli didattici, unità delle risultanti, nodi, singolarità, oscillatore e fasi. Corretto superficie media; aggiunti esempi dimensionali e fonti primarie. Non attribuiti solutori generali ad Anthea.",
     "evidence": [
-      "https://www.scia.net/en/support/faq/scia-engineer/results/calculation-1d-and-2d-results",
-      "https://doc.comsol.com/6.4/doc/com.comsol.help.sme/sme_ug_modeling.05.071.html",
-      "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/space_frame.html",
-      "https://ocw.mit.edu/courses/16-20-structural-mechanics-fall-2002/609687cf29516e13e864ff310af328a7_unit20.pdf",
-      "https://steelconstruction.info/topics/design/composite-construction/"
+      "TU Delft, Computational Modelling, 2D frame analysis",
+      "MIT 16.20 Structural Mechanics, Unit 20",
+      "SCI, Composite construction"
     ],
     "openPoints": []
   },
@@ -205,11 +199,9 @@
     "status": "reviewed",
     "scope": "Revisione dei modelli didattici, unità delle risultanti, nodi, singolarità, oscillatore e fasi. Corretto superficie media; aggiunti esempi dimensionali e fonti primarie. Non attribuiti solutori generali ad Anthea.",
     "evidence": [
-      "https://www.scia.net/en/support/faq/scia-engineer/results/calculation-1d-and-2d-results",
-      "https://doc.comsol.com/6.4/doc/com.comsol.help.sme/sme_ug_modeling.05.071.html",
-      "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/space_frame.html",
-      "https://ocw.mit.edu/courses/16-20-structural-mechanics-fall-2002/609687cf29516e13e864ff310af328a7_unit20.pdf",
-      "https://steelconstruction.info/topics/design/composite-construction/"
+      "TU Delft, Computational Modelling, 2D frame analysis",
+      "MIT 16.20 Structural Mechanics, Unit 20",
+      "SCI, Composite construction"
     ],
     "openPoints": []
   },

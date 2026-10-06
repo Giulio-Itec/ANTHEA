@@ -1,4 +1,7 @@
 """One-time Rev15 consolidation. All original sources remain in the revision archive."""
+import sys as _sys
+# W0.5: the external corpus (adapted articles, reading lists, links) was removed on 6/10/2026.
+_sys.exit('Script di migrazione superato, non rieseguire: rigenererebbe contenuti esterni eliminati il 6/10/2026.')
 from pathlib import Path
 import json,re,shutil,hashlib,unicodedata,sys
 sys.stdout.reconfigure(encoding='utf-8')

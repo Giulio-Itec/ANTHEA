@@ -11,15 +11,6 @@
       "since": "2026-09-29",
       "phase": "F3.3"
     },
-    {
-      "suite": "wiki/manuale",
-      "kind": "exit",
-      "match": "test_migration_coverage",
-      "reason": "L'ancora /wiki/guide/palo-elastico#compilazione-dei-dati non esiste più nella guida e manca l'alias. Già presente in 2cdf9fd.",
-      "source": "supporto/test/wiki-handbook-checks.py",
-      "since": "2026-10-06",
-      "phase": "W0"
-    },
     { "suite": "ui/smoke", "kind": "exit", "match": "", "reason": "Prova WPF principale fallita già con lo snapshot del 28/9.", "source": "lib/Checker/README.md:50", "since": "2026-09-28", "phase": "F0.5" },
     { "suite": "ui/smoke-bridge", "kind": "exit", "match": "", "reason": "Prova WPF del ponte fallita già con lo snapshot del 28/9.", "source": "lib/Checker/README.md:50", "since": "2026-09-28", "phase": "F0.5" },
     { "suite": "ui/smoke-ca-extensions", "kind": "exit", "match": "", "reason": "Prova WPF delle estensioni c.a. fallita già con lo snapshot del 28/9.", "source": "lib/Checker/README.md:50", "since": "2026-09-28", "phase": "F0.5" },

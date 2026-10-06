@@ -1,7 +1,6 @@
 """Structural integrity gate, shared by the index builder and negative regression tests."""
 import re
 from pathlib import Path
-from urllib.parse import urlsplit
 import xml.etree.ElementTree as ET
 
 def validate(articles, chapters, references, glossary, bodies, root, aliases=None):
@@ -29,8 +28,9 @@ def validate(articles, chapters, references, glossary, bodies, root, aliases=Non
         path,_,anchor=canonical(uri).partition('#');a=resolve(path)
         require(a is not None,f'{owner}: broken internal link {uri}')
         if a and anchor:require(anchor in a['sections'],f'{owner}: unknown anchor {uri}')
+    # Only our content: references are citations (norms, technical bibliography) without external links.
     for r in references:
-        uri=urlsplit(r.get('url',''));require(uri.scheme=='https' and bool(uri.netloc) and bool(r.get('title')) and bool(r.get('kind')),f'invalid reference {r["id"]}')
+        require(bool(r.get('title')) and bool(r.get('kind')) and 'url' not in r,f'invalid reference {r["id"]}')
     for old,new in aliases.items():
         require(new not in aliases,'alias chain or cycle: '+old)
         require(old!=new,'self alias: '+old)
@@ -58,6 +58,7 @@ def validate(articles, chapters, references, glossary, bodies, root, aliases=Non
                 require(all(x.tag.split('}')[-1] in ['svg','title','line','polyline','polygon','circle','rect','text'] for x in svg.iter()),owner+': unsupported SVG primitive')
                 require(asset.with_suffix('.png').is_file(),owner+': missing document figure rendition')
         require(not re.search(r'Lorem ipsum|TODO: aggiungere|Inserire grafico qui',body,re.I),owner+': placeholder')
+        require(not re.search(r'https?://',body,re.I),owner+': external link')
     for term,data in glossary.items():
         require(len(data)>=2 and bool(data[0]),'invalid glossary '+term)
         if len(data)>=2:link(data[1],'glossary '+term)
