@@ -4,7 +4,7 @@ Manuale operativo dei moduli disponibili
 
 Edizione 5 aggiornata il 6 ottobre 2026 — revisione documentale 30
 
-Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
+Questa edizione integra i contenuti precedenti nel percorso dell'Engineering Handbook. Le procedure correnti e la teoria sono separate dai resoconti di sviluppo. Le fonti integrali e le evidenze storiche restano nell'archivio Rev14; gli indirizzi precedenti della Wiki raggiungono le pagine consolidate. Lo stato editoriale distingue contenuti integrati, pagine revisionate e profili che richiedono ulteriori riscontri normativi.
 
 ## Avvio e scelta del modulo
 
@@ -251,7 +251,7 @@ L'analisi assume flessione retta attorno all'asse orizzontale e un vincolo later
 
 Per il cassoncino torsione e distorsione della cella e diaframmi sono verificati soltanto se si attivano le verifiche a torsione. Restano esclusi gli irrigidimenti longitudinali del fondo: il fondo non viene verificato come piastra irrigidita longitudinalmente. L'H con anima inclinata resta in flessione retta e un ΔT salvato nelle sue fasi non viene considerato. La rappresentazione grafica chiusa e un esito positivo delle verifiche disponibili non coprono i fenomeni esclusi. Leggere Info modello, gli avvisi e la descrizione del tipo di sezione nel report prima di utilizzare i risultati.
 
-Gli archivi precedenti privi del tipo di sezione vengono interpretati come H saldato. Dopo il cambio di tipologia salvare con un nome riconoscibile, riaprire il foglio e controllare tipo, scostamento e interasse. Il report delle sezioni con anima inclinata e del cassoncino distingue le dimensioni equivalenti impiegate nel calcolo dalle lamiere reali; confrontare entrambe le tabelle con il disegno.
+Gli archivi precedenti privi del tipo di sezione vengono interpretati come H saldato. Dopo il cambio di tipologia salvare con un nome riconoscibile, riaprire il foglio e controllare tipo, scostamento e interasse. Il report delle nuove sezioni distingue le dimensioni equivalenti impiegate nel calcolo dalle lamiere reali; confrontare entrambe le tabelle con il disegno.
 
 ### Scegliere consapevolmente il metodo
 
@@ -411,7 +411,7 @@ Il grafico qui riportato è generato dai dati della ricerca descritta nel capito
 
 ### Esempio guidato da centoventi metri
 
-Costruisci un riferimento con i valori seguenti. Mantieni gli altri parametri ai valori iniziali della revisione documentata: un archivio precedente potrebbe avere un listino diverso.
+Costruisci un riferimento con i valori seguenti. Mantieni gli altri parametri ai valori iniziali della revisione documentata: un archivio precedente potrebbe avere un listino diverso. L’esempio numerico è anche conservato in input-riferimento.json nelle evidenze dell’attività.
 
 | Campo | Valore |
 | --- | --- |
@@ -494,9 +494,9 @@ Accompagna ogni alternativa con obiettivo, dati del sito, blocchi attivati, grig
 
 ### Quanto fidarsi dei risultati
 
-La revisione documentata ha superato 44.259 asserzioni della suite generale. Una verifica indipendente, senza librerie ANTHEA nel calcolo dei valori attesi, ha controllato 100 travi con un secondo solutore FEM e quantità, costi e graduatoria di 26 geometrie di un caso imposto, con 80.133 confronti numerici.
+La revisione documentata ha superato 44.259 asserzioni della suite generale. Una nuova verifica indipendente, senza sito e senza librerie ANTHEA nel calcolo dei valori attesi, ha controllato 100 travi con un secondo solutore FEM e quantità, costi e graduatoria di 26 geometrie di un caso imposto. Sono stati eseguiti 80.133 confronti numerici e corretto un difetto di arrotondamento che poteva aggiungere 5 cm a un’altezza esatta.
 
-Questi riscontri aumentano la fiducia nella correttezza delle equazioni implementate e della ricerca discreta. Non validano automaticamente le incidenze convenzionali, i costi consuntivi o la sicurezza di un ponte reale.
+Questi riscontri aumentano la fiducia nella correttezza delle equazioni implementate e della ricerca discreta. Non validano automaticamente le incidenze convenzionali, i costi consuntivi o la sicurezza di un ponte reale. I 1.000 casi storici del sito avevano invece mostrato differenze e non dimostrano equivalenza fra i due programmi. Il rapporto teorico della stessa revisione contiene numeri, metodi e percorsi delle evidenze.
 
 Prima di scegliere definitivamente verifica che la configurazione sia fisicamente costruibile, che il modello strutturale dedicato confermi le sezioni e che la valutazione geotecnica confermi le fondazioni. Aggiorna poi quantità e prezzi con le informazioni nuove e ripeti il confronto. Questo passaggio permette al predimensionamento di accompagnare il progetto senza attribuirgli prestazioni che non calcola.
 
@@ -552,7 +552,7 @@ Prima di usare un risultato, verificare che il nome del foglio e la revisione si
 
 ### Riferimenti per approfondire
 
-La [guida teorica](wiki:architettura-del-calcolo-e-convenzioni) descrive i calcoli della stessa edizione. Prosegui con [Sezione in c.a.](wiki:sezione-in-calcestruzzo-armato), [Sezione composta](wiki:sezione-composta-da-ponte), [Bridge Design](wiki:bridge-design) o [Broms](wiki:capacita-orizzontale-con-broms). Fonti e criteri di tracciabilità sono descritti in [Fonti e archivio](wiki:tracciabilita-e-riferimenti). I riferimenti normativi vanno letti nelle edizioni identificate dal modulo, insieme alle relative condizioni di applicabilità.
+La [guida teorica](wiki:architettura-del-calcolo-e-convenzioni) descrive i calcoli della stessa edizione. Prosegui con [Sezione in c.a.](wiki:sezione-in-calcestruzzo-armato), [Sezione composta](wiki:sezione-composta-da-ponte), [Bridge Design](wiki:bridge-design) o [Broms](wiki:capacita-orizzontale-con-broms). Le evidenze e le revisioni precedenti sono descritte in [Fonti e archivio](wiki:tracciabilita-e-riferimenti). I riferimenti normativi vanno letti nelle edizioni identificate dal modulo, insieme alle relative condizioni di applicabilità.
 
 ## Muri di sostegno con stratigrafie di monte e valle
 
@@ -749,7 +749,7 @@ Il modulo Palo orizzontale comprende la scheda Risposta elastica · trave su mol
 
 ### Dati iniziali condivisi
 
-Compilare geometria, materiale, carico, falda e stratigrafie nella scheda iniziale. Ogni dato ha un solo punto di modifica. Nella scheda elastica rimangono la scelta esplicita della stratigrafia analizzata, il passo FEM e il vincolo alla punta. Modifica dati e strati richiama l'editor iniziale.
+Compilare geometria, materiale, carico, falda e stratigrafie nella scheda iniziale. Ogni dato ha un solo punto di modifica. Nella scheda elastica rimangono la scelta esplicita della stratigrafia analizzata, il passo FEM e il vincolo alla punta. Modifica dati e strati richiama l'editor iniziale. Il comando di copia dalla capacità è stato eliminato.
 
 La lunghezza del campo principale rimane la lunghezza infissa. Il tratto libero è una quantità aggiuntiva: la lunghezza totale del modello è infissa più libera. L'eccentricità condivisa indica la quota della forza sopra il piano campagna, come nel modulo precedente. Checker ricava il momento equivalente alla testa C = H (Llibero − e_da_pc), nella convenzione con θ = dy/dx: il braccio del tratto libero non viene contato due volte. Con tratto libero nullo ed eccentricità positiva il momento interno al piano campagna è H e. Non è presente un secondo campo modificabile C nella scheda elastica.
 
@@ -759,7 +759,7 @@ La testa può ruotare liberamente oppure avere rotazione impedita; lo spostament
 
 ### Parametri nella riga dello strato
 
-La tabella iniziale contiene anche i parametri della risposta orizzontale. Strato e terreno rimangono riconoscibili durante lo scorrimento orizzontale interno. Nella stessa riga si scelgono addensamento o categoria, determinazione e autore; minimo e massimo della fonte sono in sola lettura, il valore adottato è modificabile. Info della riga riporta origine, condizioni, bibliografia e motivazione dell'eventuale override.
+La tabella iniziale contiene anche i parametri della risposta orizzontale. Strato e terreno rimangono riconoscibili durante lo scorrimento orizzontale interno. Nella stessa riga si scelgono addensamento o categoria, determinazione e autore; minimo e massimo della fonte sono in sola lettura, il valore adottato è modificabile. Info della riga riporta origine, condizioni, bibliografia e motivazione dell'eventuale override. Non esiste più il pannello di modifica sotto la stratigrafia.
 
 Per un nuovo terreno granulare la modalità iniziale è A γ/1,35. Sciolto usa A 100–300, media 200; Medio 300–1000, media 650; Denso 1000–3000, media 2000. A è adimensionale. I valori consigliati nel libro restano separati: 200, 600 e 1500. La modalità nh direttamente da tabella 14.5 mostra nella riga i valori non immerso / immerso e usa la falda condivisa; nh* abilita un override esplicito in kN/m³ con motivazione. Il valore adottato da una tabella in N/cm³ viene convertito in Checker.
 
@@ -801,7 +801,7 @@ Dimensiona espone quattro cataloghi modificabili: quantità di barre, diametri l
 
 Proponi suddivisione usa quote su griglia di 0,5 m, mantenendo esatta la punta, e non genera tratti inferiori a 3 m. Considera domanda, sviluppo delle barre e lunghezze commerciali preferite 6/8/10/12 m, comprensive della sovrapposizione. Se i vincoli sono incompatibili presenta una spiegazione, senza introdurre tratti corti. La proposta deve essere applicata esplicitamente e conserva nell'archivio i tratti sostituiti. Le quote e il numero dei tratti restano modificabili.
 
-La sovrapposizione iniziale è 60φ, arrotondata per eccesso al decimetro, per convenzione di ANTHEA; non è attribuita a una norma. Il riquadro distingue lunghezza iniziale, richiesta dal verificatore, adottata ed effettiva. Per ogni giunto si adotta il massimo fra lunghezze iniziali e richieste delle armature collegate. La barra entrante risale di questa lunghezza; la barra superiore termina alla fine del suo tratto. φ24 dà 1,44 m, arrotondati a 1,50 m. Il pulsante Distinta ferri di ogni tratto apre la distinta e la seleziona nel riepilogo a destra. Barre e staffe sono visibili inizialmente; la scelta di richiudere il pannello viene conservata durante il ricalcolo. I testi si aggiornano anche mantenendo il cursore in un campo. Quando la distinta non può essere prodotta, la vista delle armature e il tratto mostrano il motivo specifico, senza un riquadro bianco o un’attesa permanente. La distinta di ciascun tratto indica il proprio gruppo, quantità, diametro, quote fisiche, lunghezza di taglio, barra commerciale e sovrapposizione. Ogni pezzo è conteggiato una sola volta; i giunti richiamano i pezzi collegati senza aggiungere altre quantità. Le staffe riportano diametro, passo massimo, quantità e quote nominali, assegnando il confine al tratto successivo senza doppi conteggi; forma di chiusura, sviluppo e distinta esecutiva delle staffe restano da definire.
+La sovrapposizione iniziale è 60φ, arrotondata per eccesso al decimetro, per preferenza dell'utente; non è attribuita a una norma. Il riquadro distingue lunghezza iniziale, richiesta dal verificatore, adottata ed effettiva. Per ogni giunto si adotta il massimo fra lunghezze iniziali e richieste delle armature collegate. La barra entrante risale di questa lunghezza; la barra superiore termina alla fine del suo tratto. φ24 dà 1,44 m, arrotondati a 1,50 m. Il pulsante Distinta ferri di ogni tratto apre la distinta e la seleziona nel riepilogo a destra. Barre e staffe sono visibili inizialmente; la scelta di richiudere il pannello viene conservata durante il ricalcolo. I testi si aggiornano anche mantenendo il cursore in un campo. Quando la distinta non può essere prodotta, la vista delle armature e il tratto mostrano il motivo specifico, senza un riquadro bianco o un’attesa permanente. La distinta di ciascun tratto indica il proprio gruppo, quantità, diametro, quote fisiche, lunghezza di taglio, barra commerciale e sovrapposizione. Ogni pezzo è conteggiato una sola volta; i giunti richiamano i pezzi collegati senza aggiungere altre quantità. Le staffe riportano diametro, passo massimo, quantità e quote nominali, assegnando il confine al tratto successivo senza doppi conteggi; forma di chiusura, sviluppo e distinta esecutiva delle staffe restano da definire.
 
 ### Approvazione delle ipotesi ed esito delle armature
 
@@ -859,7 +859,7 @@ La vista finale deriva dai risultati e rimane preliminare quando mancano dettagl
 
 L’esempio [Palo 12 m con quattro tratti](../esempi/palo-orizzontale-armature/palo-12m-quattro-tratti.programma) mostra quattro gruppi distinti; il [riepilogo](../esempi/palo-orizzontale-armature/palo-12m-quattro-tratti.pdf) descrive input e limiti. L’esempio [Palo 20 m, tagli 12–18–20](../esempi/palo-orizzontale-armature/palo-20m-tagli-12-18-20.programma) usa 20Ø20 nel primo tratto e 12Ø16 negli altri: le sovrapposizioni adottate sono rispettivamente 1,20 e 1,00 m. Le barre risultano 0–12, 10,80–18 e 17–20 m. Il [riepilogo degli input](../esempi/palo-orizzontale-armature/palo-20m-tagli-12-18-20.pdf) esplicita anche le coppie da sistemare al cambio 20→12.
 
-Salvataggio, JSON, CSV e report conservano parametri e origine, modello di N, azioni concomitanti, collegamenti, verifiche, resistenze, sviluppi e distinta preliminare. Un cambiamento invalida subito risultati e armature, bloccando l'esportazione fino al ricalcolo.
+Salvataggio, JSON, CSV e report conservano parametri e origine, modello di N, azioni concomitanti, collegamenti, verifiche, resistenze, sviluppi e distinta preliminare. Un cambiamento invalida subito risultati e armature, bloccando l'esportazione fino al ricalcolo. Le prove dirette e di interfaccia sono in supporto/test/ElasticPile.Checks e ElasticPile.UiChecks; le evidenze della revisione sono in supporto/artefatti/palo-armature.
 
 ### Esempio riproducibile e limiti
 
@@ -885,17 +885,17 @@ La [biblioteca tecnica](wiki:biblioteca-tecnica) raccoglie le lezioni di ANTHEA 
 
 La copertina presenta dodici capitoli numerati: Fondamenti, Scienza e tecnica delle costruzioni, Materiali, Calcestruzzo armato, Acciaio, Geotecnica, Ponti e infrastrutture, Ingegneria sismica, FEM, BIM, Computational Design e Anthea. Le schede mostrano anteprime degli articoli e il collegamento Esplora il capitolo; si dispongono su una, due o tre colonne secondo lo spazio. Inizia dai fondamenti apre il primo percorso. Ogni capitolo presenta introduzione e articoli numerati con livello e tempo di lettura. Le pagine distinguono introduzione, metodo e approfondimento tecnico; i sei piloti revisionati sono Cos'è un ponte, Instabilità di Euler, Fessurazione, Capacità portante, Elementi Beam e guida della Sezione in c.a.
 
-Le pagine correnti consolidano istruzioni e teoria; Fonti e archivio spiega la provenienza. I vecchi collegamenti aprono la destinazione corrente pertinente. Contenuto integrato indica una revisione editoriale; Riscontri sulle fonti da completare segnala attribuzioni normative o bibliografiche non ancora confermate sui testi primari.
+Le pagine correnti consolidano istruzioni e teoria; i resoconti originali di audit e sviluppo sono conservati nell’archivio Rev14. Fonti e archivio spiega la provenienza. I vecchi collegamenti aprono la destinazione corrente pertinente. Contenuto integrato indica una revisione editoriale; Riscontri sulle fonti da completare segnala attribuzioni normative o bibliografiche non ancora confermate sui testi primari.
 
 Usa la tendina Chiaro, Scuro o Molto scuro per cambiare l’aspetto globale di Anthea, condiviso con il menu Aspetto. Formule e nuovi schemi vettoriali seguono il tema; le immagini storiche conservano la propria tavola chiara. A finestra stretta Indice e In questa pagina sono pannelli alternativi; formule e tabelle larghe scorrono orizzontalmente. Il glossario raccoglie anche SLU, SLE, FEM, DOF, MPC, SRSS, CQC, LTB, p-y e M-N. Gli acronimi alimentano la ricerca; una definizione può rimandare a una sezione che ne spiega i limiti, senza simulare un modulo di calcolo assente.
 
-I prerequisiti precedono il testo; fonti, correlati e navigazione precedente/indice/successivo chiudono la lettura. I collegamenti usano identificativi centrali: titolo e destinazione vengono risolti dal catalogo. La validazione controlla identità, categorie, capitoli, sezioni, figure e riferimenti; le prove WPF verificano formule e pagine in entrambi i temi.
+I prerequisiti precedono il testo; fonti, correlati e navigazione precedente/indice/successivo chiudono la lettura. I nuovi collegamenti usano identificativi centrali: titolo e destinazione vengono risolti dal catalogo. La validazione controlla identità, categorie, capitoli, sezioni, figure e riferimenti; le prove WPF verificano formule e pagine in entrambi i temi.
 
 Wiki è il terzo ambiente di Anthea insieme a Progetti e Moduli singoli. Raccoglie il Manuale di ingegneria e le Guide Anthea in una navigazione e una ricerca comuni. I contenuti sono ricavati dalle due guide globali, evitando una seconda documentazione indipendente.
 
 ### Cercare e scegliere un percorso
 
-Apri Wiki dalla navigazione principale o dalla Home. La ricerca considera titoli, testo, formule, categorie e sinonimi italiano-inglese; per esempio buckling trova contenuti sull'instabilità. Ogni risultato indica se appartiene al manuale teorico o alla guida applicativa. I dodici capitoli aprono indici ordinati delle voci disponibili.
+Apri Wiki dalla navigazione principale o dalla Home. La ricerca considera titoli, testo, formule, categorie e sinonimi italiano-inglese; per esempio buckling trova contenuti sull'instabilità. Ogni risultato indica se appartiene al manuale teorico o alla guida applicativa. I dodici capitoli aprono indici ordinati delle voci disponibili; i contenuti storici utili sono integrati nelle pagine correnti e gli originali restano nell’archivio documentale.
 
 ### Leggere e riprendere
 
@@ -907,13 +907,13 @@ Riprendi la lettura mostra le ultime tre pagine; riaprendo una pagina viene ripr
 
 Prova in Anthea apre un modulo esistente oppure crea un foglio con i dati dell'esempio. Il documento corrente segue il normale controllo di salvataggio. Aprire il modulo senza esempio riprende la scheda già attiva, quando disponibile. Il comando Come funziona nella barra del modulo apre la guida pertinente e permette di tornare al calcolo con i dati conservati.
 
-I pulsanti ? accanto a copriferro e azioni della sezione offrono una definizione breve e aprono la sezione specifica della Wiki. Guida progetti nella barra dei progetti apre le procedure della gestione del lavoro. Il comando Modello e dati comuni raggiunge la teoria pertinente nella stessa Wiki.
+I pulsanti ? accanto a copriferro e azioni della sezione offrono una definizione breve e aprono la sezione specifica della Wiki. Guida progetti nella barra dei progetti apre le procedure della gestione del lavoro. Il precedente comando Modello e dati comuni raggiunge ora la teoria pertinente nella stessa Wiki.
 
 Per gli elementi Beam, il percorso consigliato è leggere il modello, confrontare reazioni e momento con l'esempio manuale, aprire la Sezione in c.a. e modificare altezza o verso del momento. La Wiki distingue l'analisi della trave dalla verifica della sezione: non introduce un nuovo solutore FEM generale.
 
 ### Progetti e problemi frequenti
 
-Le procedure di creazione, rinomina, duplicazione e revisioni restano nei capitoli Progetti della stessa guida globale e sono indicizzate nella Wiki. Per un calcolo usa sempre Salva o Salva con nome: il progresso della Wiki non salva i dati del modulo. Se una ricerca non trova il termine, prova un sinonimo o una parte della parola; il campo di validità è dichiarato nelle pagine correnti.
+Le procedure di creazione, rinomina, duplicazione e revisioni restano nei capitoli Progetti della stessa guida globale e sono indicizzate nella Wiki. Per un calcolo usa sempre Salva o Salva con nome: il progresso della Wiki non salva i dati del modulo. Se una ricerca non trova il termine, prova un sinonimo o una parte della parola; il campo di validità è dichiarato nelle pagine correnti; date e revisioni originarie si trovano nell’archivio documentale.
 
 ## Modulo Sezione in c.a.
 
