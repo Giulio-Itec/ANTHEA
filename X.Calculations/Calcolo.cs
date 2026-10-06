@@ -33,6 +33,21 @@ public static class Calcolo
         string tipo=g.S("tipo_palo","Trivellato");if(tipo=="Battuto")tipo=g.S("sottotipo_palo_battuto","Profilato d'acciaio");
         return Tipi.TryGetValue(tipo,out var t)?t:null;
     }
+    /// <summary>
+    /// γb della Tab. 6.4.II (R3) per la tecnologia del foglio, da Model (StandardNTC2018Geotechnics.PileExecution) tramite
+    /// PileResistanceFactors.FromStandard: 1,15 per i pali infissi, 1,35 per i trivellati, 1,30 per l'elica continua. I micropali, perforati
+    /// e iniettati, non hanno valori propri nella norma e usano quelli dei trivellati (scheda D7-d).
+    /// </summary>
+    public static double SicurezzaBaseNormativa(JsonNode g)
+    {
+        var execution=g["metodo_micropalo"] is not null?PileExecution.Bored:Tecnologia(g) switch
+        {
+            PileInstallation.ContinuousFlightAuger=>PileExecution.ContinuousFlightAuger,
+            PileInstallation.Bored or null=>PileExecution.Bored,
+            _=>PileExecution.Driven
+        };
+        return PileResistanceFactors.FromStandard(new StandardNTC2018Geotechnics{PileExecution=execution},1).Base;
+    }
     public static (double? K,double? Mu) CoefficientiLaterali(JsonNode g,JsonNode v)
     {
         if(Tecnologia(g) is not PileInstallation tipo)return(null,null);

@@ -23,6 +23,7 @@ try
     if (args.Length == 2 && args[0] == "--micropalo") { MicropileChecks.Run(JsonNode.Parse(File.ReadAllText(args[1]))!.AsArray()); return 0; }
     if (args.Length == 1 && args[0] == "--coesione") { CohesionChecks.Run(); return 0; }
     if (args.Length == 1 && args[0] == "--gamma-sat") { SaturatedWeightChecks.Run(); return 0; }
+    if (args.Length == 1 && args[0] == "--pile-factors") { PileFactorChecks.Run(); return 0; }
     if (args.Length == 1 && args[0] == "--horizontal-stratified") { HorizontalStratifiedChecks.Run(); return 0; }
     if (args.Length == 1 && args[0] == "--horizontal") { Console.WriteLine($"Palo orizzontale: {HorizontalChecks.Run()} controlli superati."); HorizontalChsChecks.Run(); HorizontalStratifiedChecks.Run(); return 0; }
     if (args.Length == 1 && args[0] == "--checker") { SectionWorkspaceChecks.Run(); SectionExchangeChecks.Run(); ConcreteEnhancementChecks.Run(); ConcreteDataChecks.Run(); return 0; }

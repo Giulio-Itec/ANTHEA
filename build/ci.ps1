@@ -74,7 +74,7 @@ function Add-Suite([hashtable] $s) { [void] $Suites.Add($s) }
 Add-Suite @{ Name = 'qa/no-test-code'; Stage = 'fast'; Kind = 'powershell'; Script = 'tools\qa\Assert-NoTestCode.ps1'; Args = @('-Path', 'X.Desktop\bin\Release\net8.0-windows')
     Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }
 
-foreach ($flag in 'checker', 'bridge', 'horizontal', 'coesione', 'gamma-sat', 'ca-module', 'ca-data') {
+foreach ($flag in 'checker', 'bridge', 'horizontal', 'coesione', 'gamma-sat', 'pile-factors', 'ca-module', 'ca-data') {
     Add-Suite @{ Name = "verifiche/$flag"; Stage = 'fast'; Kind = 'run'; Project = $Verifiche; Args = @("--$flag") }
 }
 Add-Suite @{ Name = 'verifiche/micropalo'; Stage = 'fast'; Kind = 'run'; Project = $Verifiche; Args = @('--micropalo', '{cases}') }
