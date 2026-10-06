@@ -18,5 +18,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tolerances.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="f2-classificazione.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

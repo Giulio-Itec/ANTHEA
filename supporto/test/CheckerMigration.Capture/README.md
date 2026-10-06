@@ -74,3 +74,12 @@ sostituito gli identificativi. Le uscite della modalità `mesh` sono identiche b
 
 Il riferimento B0 delle griglie dense e delle mesh è in `supporto/artefatti/baseline/F0-B0/dense`
 (cartella non versionata), con il manifest di ogni modalità e l'esito della doppia corsa.
+
+Dal passo F2.1 (`docs/refactoring/f2.1-banco.md`):
+
+- `tools/banco/Invoke-DenseCapture.ps1 -Output <cartella>` compila lo strumento e cattura le
+  quattro modalità con `--manifest`, con un log per modalità;
+- `ANTHEA.Testing compare-dense` confronta due catture, o una cattura con le fixture di Checker,
+  con le regole sopra (righe `#` e `header` escluse, identificativi casuali sostituiti) e la
+  classificazione versionata `tests/ANTHEA.Testing/f2-classificazione.json`;
+- il riferimento pre-M4 del c.a. è `supporto/artefatti/baseline/F2-pre-m4/a` (commit 75e4626).

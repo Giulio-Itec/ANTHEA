@@ -8,6 +8,8 @@ using Anthea.Testing.Normalization;
 // ANTHEA.Testing: the single capture, normalisation and comparison toolkit of the refactoring (docs/refactoring/piano.md, F0.4).
 //   capture <out> [--root <repo>] [--tag <name>] [--commit <sha>] [--only <regex>] [--no-trace] [--culture it-IT]
 //   compare <a> <b> [--tolerances <file>] [--report <file.json>] [--max <n>]      exit 0 = equal within the tolerances
+//   compare-dense <riferimento> <candidato> --confronto <nome> [--classificazione <file>] [--tolerances <file>] [--report <file.json>] [--max <n>]
+//                                                                                 dense captures of CheckerMigration.Capture (F2.1): exit 0 = every difference admitted or classified
 //   normalize <in> <out>                                                          DOCX, JSON, text, PNG of WPF tests and reports
 // Exit codes: 0 success, 1 differences or failure, 2 wrong arguments.
 Console.OutputEncoding = Encoding.UTF8;
@@ -47,6 +49,16 @@ try
             BaselineComparer.Print(report, int.Parse(named.GetValueOrDefault("max", "40"), CultureInfo.InvariantCulture));
             return comparer.NotAdmitted == 0 ? 0 : 1;
         }
+        case "compare-dense":
+        {
+            if (positional.Count != 2 || !named.TryGetValue("confronto", out var setName)) return Usage();
+            foreach (var folder in positional) if (!Directory.Exists(folder)) { Console.Error.WriteLine("Cartella non trovata: " + folder); return 2; }
+            var comparer = new DenseComparer(Tolerances.Load(named.GetValueOrDefault("tolerances")), DenseClassification.Load(named.GetValueOrDefault("classificazione")), setName);
+            var report = comparer.Compare(positional[0], positional[1]);
+            if (named.TryGetValue("report", out var path)) DenseComparer.Write(report, path);
+            DenseComparer.Print(report, int.Parse(named.GetValueOrDefault("max", "40"), CultureInfo.InvariantCulture));
+            return comparer.Passed ? 0 : 1;
+        }
         case "normalize":
         {
             if (positional.Count != 2) return Usage();
@@ -59,7 +71,7 @@ try
             return Usage();
     }
 }
-catch (Exception ex) when (ex is ArgumentException or IOException or UnauthorizedAccessException or System.Text.Json.JsonException)
+catch (Exception ex) when (ex is ArgumentException or IOException or UnauthorizedAccessException or System.Text.Json.JsonException or InvalidOperationException)
 {
     Console.Error.WriteLine("ERRORE " + ex.GetType().Name + ": " + ex.Message);
     return 1;
@@ -70,6 +82,7 @@ static int Usage()
     Console.Error.WriteLine("""
         ANTHEA.Testing capture <out> [--root <repo>] [--tag <nome>] [--commit <sha>] [--only <regex modulo/caso>] [--no-trace] [--culture it-IT]
         ANTHEA.Testing compare <a> <b> [--tolerances <file>] [--report <file.json>] [--max <n>]
+        ANTHEA.Testing compare-dense <riferimento> <candidato> --confronto <nome> [--classificazione <file>] [--tolerances <file>] [--report <file.json>] [--max <n>]
         ANTHEA.Testing normalize <in> <out>
         """);
     return 2;
