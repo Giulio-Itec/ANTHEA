@@ -3,8 +3,9 @@
 Congela le uscite dei nuclei di calcolo di `X.Calculations` su griglie dense e l'impronta delle mesh
 delle sezioni in c.a. Serve come riferimento prima di spostare codice o di cambiare le DLL di
 `lib/Checker`. Formato dei numeri: `R` invariante. Ogni file riporta nella prima riga il commit
-passato e lo SHA-256 di `ANTHEA.Calculations.dll`, che dipende anche dal percorso del checkout:
-nei confronti si escludono le righe `#` e le righe `header`.
+passato e lo SHA-256 di `ANTHEA.Calculations.dll`, che cambia con il commit di compilazione (la
+versione informativa contiene lo SHA di git) e con il percorso del checkout: nei confronti si
+escludono le righe `#` e le righe `header`.
 
 ## Comandi
 
@@ -55,13 +56,21 @@ $new = Get-Content <nuova>\mesh-fingerprint.csv | Where-Object { $_ -notmatch '^
 Compare-Object $old $new   # nessuna riga: mesh invariate
 ```
 
-Confronto di due corse complete con il manifest:
+Confronto di due corse con il manifest (segnala anche i file con identificativi casuali, vedi sotto):
 
 ```powershell
 $a = (Get-Content <a>\capture-manifest.json -Raw | ConvertFrom-Json).outputs
 $b = (Get-Content <b>\capture-manifest.json -Raw | ConvertFrom-Json).outputs
 Compare-Object $a $b -Property file, sha256
 ```
+
+## Riproducibilità
+
+Due corse sullo stesso binario danno file identici byte per byte, salvo identificativi casuali che
+non entrano nei calcoli: i GUID degli archivi del Model (`stress-`, `crack-`, `detailing-sections.xml`)
+e gli id delle azioni creati dall'aggiornamento dei documenti dei muri in versione 1 (6 righe di
+`walls-combinations.jsonl`, 2 di `walls-documents.jsonl.gz`). Questi file si confrontano dopo aver
+sostituito gli identificativi. Le uscite della modalità `mesh` sono identiche byte per byte.
 
 Il riferimento B0 delle griglie dense e delle mesh è in `supporto/artefatti/baseline/F0-B0/dense`
 (cartella non versionata), con il manifest di ogni modalità e l'esito della doppia corsa.
