@@ -128,7 +128,7 @@
       "titolo": "Portanza sismica dei muri (EN 1998-5 Annesso F): γRd applicato anche all'inerzia del terreno F̄",
       "famiglia": "geotecnica/muri",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
+      "stato": "corretto",
       "descrizione": "ANTHEA imposta RetainingWall.ModelFactorOnSoilInertia = true: F̄ = γRd · ag S/(g tan φ'd). Nella (F.7) F̄ non contiene γRd, che compare solo in N̄, V̄ e M̄. La libreria segue la norma per difetto e conserva l'opzione per riprodurre ANTHEA.",
       "riferimento_normativo": [
         { "fonte": "EN 1998-5:2004", "punto": "Annesso F (informativo), eq. (F.7) e Tab. F.2", "riscontro": "testo non presente nei repository; riscontro del port in Checker/docs/migrazione-anthea/MIGRAZIONE_ANTHEA.txt:358-362" }
@@ -154,6 +154,7 @@
       ],
       "raccomandazione": "c1, in due commit con il collegamento dei muri",
       "decisione": { "data": "2026-10-06", "utente": "seguire la norma", "opzione": "c1", "esito": "γRd non applicato a F̄; l'opzione legacy resta nella libreria per le fixture" },
+      "attuazione": { "data": "2026-10-07", "branch": "refactoring/d7-norma-muri-pali", "commit": ["d2cf2f7"], "verifica": "profilo standard PASS 32, KNOWN 1; cattura headless contro B1: cambia solo la riga della formula in 5 relazioni dei muri (il corpus non ha muri con portanza sismica calcolata); effetto numerico quello della scheda" },
       "data": "2026-10-06",
       "fase": "F4.9",
       "test": [
@@ -172,7 +173,7 @@
       "titolo": "γb = 1,35 per ogni tecnologia di palo",
       "famiglia": "geotecnica/pali",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "corretto",
       "descrizione": "Il foglio del palo verticale propone e usa γb = 1,35 per ogni tecnologia (valore modificabile e memorizzato negli archivi). La Tab. 6.4.II dà 1,15 per i pali infissi, 1,35 per i trivellati e 1,30 per l'elica continua; StandardNTC2018Geotechnics.PileExecution di Model li contiene ma ANTHEA non lo usa.",
       "riferimento_normativo": [
         { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "§6.4.3.1.1, Tab. 6.4.II (R3)", "riscontro": "testo della G.U. consultato" }
@@ -214,6 +215,7 @@
       ],
       "raccomandazione": "d1 con avviso quando γb differisce da quello della tecnologia, in due commit (equivalenza con l'override 1,35, poi predefinito per tecnologia); i nuovi attesi dei 20 casi infissi ed elica si affiancano a quelli Python",
       "decisione": { "data": "2026-10-06", "utente": "seguire la norma", "opzione": "d1", "esito": "γb della Tab. 6.4.II per tecnologia come predefinito dei fogli nuovi e al cambio di tecnologia, con la corrispondenza della tabella; gli archivi conservano il valore memorizzato dall'utente (d2, migrazione degli archivi, non scelta: da confermare con l'utente)" },
+      "attuazione": { "data": "2026-10-07", "branch": "refactoring/d7-norma-muri-pali", "commit": ["7c96c04", "e05a05b"], "verifica": "γb da Model (StandardNTC2018Geotechnics.PileExecution); proposto al cambio di tecnologia e dal Reset; avviso nel calcolo se diverso; verifiche/pile-factors 13 controlli; smoke WPF del display; regressione 464/464 con i soli avvisi attesi aggiunti ai 20 casi battuti ed elica (valori numerici invariati); cattura headless contro B1: 20 risultati con l'avviso in più, nessun numero cambiato" },
       "data": "2026-10-06",
       "fase": "F4.5",
       "test": [
