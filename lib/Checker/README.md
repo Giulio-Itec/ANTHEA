@@ -1,5 +1,17 @@
 # DLL Checker
 
+**Aggiornamento DelaunayMesh 2.0.0.10 (6 ottobre 2026).** Geometry master 296d05d; le altre DLL sono invariate.
+
+- Raffinamento: il controllo dei segmenti di bordo invasi dal circocentro usa una griglia (prima confrontava ogni triangolo con
+  tutti i segmenti, tempo quadratico); con più di 1000 punti di bordo l'inserimento è in ordine casuale (prima il numero di
+  scambi cresceva col quadrato dei punti). Fino a 1000 punti di bordo le mesh sono identiche alla 2.0.0.8; mesh a triangoli
+  oltre 50 000 elementi da 2 a 5 volte più veloci.
+- Corretta la classificazione dentro/fuori con segmenti comuni a due contorni (foro con un lato sul contorno, fori adiacenti,
+  figlio uguale al proprio foro): prima il risultato dipendeva dal percorso e poteva includere triangoli esterni.
+- ANTHEA: `--checker`, `--bridge` e confronto numerico completo identici alla 2.0.0.8 (stesso albero di lavoro, sostituita
+  solo la DLL). Model 861 test, Checker.Test.Concrete 500 test superati; Checker.Test.Steel con gli stessi 17 errori della
+  2.0.0.8. Prova WPF non eseguita.
+
 **Snapshot corrente (2 ottobre 2026).** Model master c07e99ac, Checker develop 79268a9e. Utilities, Geometry e DelaunayMesh
 sono invariate (hash identici).
 

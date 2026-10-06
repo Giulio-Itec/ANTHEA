@@ -42,8 +42,8 @@
     {
       "file": "DelaunayMesh.dll",
       "source": "Geometry/DelaunayMesh/bin/Release/netstandard2.0",
-      "assemblyVersion": "2.0.0.8",
-      "sha256": "4000DF8C3F73396D991C79C6A223ECEB27642BB33833367264164155777D4053"
+      "assemblyVersion": "2.0.0.10",
+      "sha256": "DD360CA9DF315B7B4EEADF9A6EE5FE2C3E40CD072846A3CD1EA84AC1F88D3EB2"
     },
     {
       "file": "GPCChecker.CompositeBridge.dll",
