@@ -10,8 +10,6 @@
       "source": "supporto/test/X.Verifiche/ProjectCalculationChecks.cs:51",
       "since": "2026-09-29",
       "phase": "F3.3"
-    },
-    { "suite": "build/ConcreteDesign.DesktopChecks", "kind": "build", "match": "WpfMath", "reason": "Ricompila i sorgenti di X.Desktop senza il pacchetto WpfMath (usato dalla Wiki dal 2/10).", "source": "build/ci.ps1 run0-full", "since": "2026-10-02", "phase": "F1.6" },
-    { "suite": "build/ValidationIllustrations", "kind": "build", "match": "WpfMath", "reason": "Ricompila i sorgenti di X.Desktop senza il pacchetto WpfMath (usato dalla Wiki dal 2/10).", "source": "build/ci.ps1 run0-full", "since": "2026-10-02", "phase": "F1.6" }
+    }
   ]
 }
