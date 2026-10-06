@@ -67,10 +67,12 @@ internal sealed partial class BridgeDrawing
         {
             var lane = tags.Where(t => t.Left == left).OrderBy(t => t.Anchor.Y).ToArray();
             var positions = new double[lane.Length]; var heights = lane.Select(t => t.Value.Contains('\n') ? 70d : 54d).ToArray();
+            // Tags span 26 … height − 78: narrow the 10 px gaps only when a full lane would not fit, instead of overlapping.
+            double gap = lane.Length > 1 ? Math.Clamp((height - 78 - 26 - heights.Sum()) / (lane.Length - 1), 0, 10) : 10;
             double next = 40;
-            for (int i = 0; i < lane.Length; i++) { positions[i] = Math.Max(next, lane[i].Anchor.Y - heights[i] / 2); next = positions[i] + heights[i] + 10; }
+            for (int i = 0; i < lane.Length; i++) { positions[i] = Math.Max(next, lane[i].Anchor.Y - heights[i] / 2); next = positions[i] + heights[i] + gap; }
             double bottom = height - 78;
-            for (int i = lane.Length - 1; i >= 0; i--) { positions[i] = Math.Min(positions[i], bottom - heights[i]); bottom = positions[i] - 10; }
+            for (int i = lane.Length - 1; i >= 0; i--) { positions[i] = Math.Min(positions[i], bottom - heights[i]); bottom = positions[i] - gap; }
             for (int i = 0; i < lane.Length; i++)
             {
                 var tag = lane[i]; double x = left ? 12 : width - tagWidth - 12;
