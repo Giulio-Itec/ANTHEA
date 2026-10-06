@@ -36,7 +36,7 @@ ogni commit: `[x]` fatto, `[~]` in corso, `[ ]` da fare.
 - [ ] F0.5 [CP] Diagnosi dei fallimenti noti (6 prove WPF, `--project-calculations` che si ferma al primo errore e maschera i controlli successivi, 8 casi BridgeAudit, ancora Wiki).
 - [ ] F0.6 [CP] Schede degli scostamenti (a)–(f) con effetto quantificato; decisione dell'utente.
 - [x] F0.7 Build: proprietà `GpcLibDir`, elenco esplicito delle DLL, verifica SHA-256 (5 harness di nuovo eseguibili) e `.gitattributes` (controllo Wiki valido anche su checkout LF). Anticipato prima di F0.4.
-- [ ] F0.8 [CP] `tools/libs/Update-Snapshot.ps1`, global.json nelle librerie, snapshot da commit pushati.
+- [~] F0.8 [CP] `tools/libs/Update-Snapshot.ps1`, global.json nelle librerie, snapshot da commit. Fatti: global.json (SDK 9.0.318) e versioni nuove nelle librerie (commit locali non pushati), snapshot S1 in staging, build deterministiche verificate. Da fare: verifica contro baseline e installazione.
 - [ ] F0.9 [CP] Installazione dello snapshot e confronto con B0, griglie dense, `--bridge`, BridgeAudit.
 - [ ] F0.10 Correzioni a costo zero (puntatori rotti, README).
 - [ ] F0.11 [CP] Baseline B1, tag, merge e push su autorizzazione.

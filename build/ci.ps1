@@ -169,7 +169,8 @@ $buildFailed = @{}
 if ($Stage -contains 'build') {
     $projects = New-Object System.Collections.ArrayList
     if ($selected | Where-Object { $_.Kind -in 'smoke', 'check' }) { [void] $projects.Add('X.Desktop\X.Desktop.csproj') }
-    foreach ($s in $selected) { if ($s.Project -and -not $projects.Contains($s.Project)) { [void] $projects.Add($s.Project) } }
+    # Build-only suites compile their own project (and record the result) in the suite loop.
+    foreach ($s in $selected) { if ($s.Project -and $s.Kind -ne 'build' -and -not $projects.Contains($s.Project)) { [void] $projects.Add($s.Project) } }
     $buildDir = Join-Path $Output 'build'
     New-Item -ItemType Directory -Force -Path $buildDir | Out-Null
     foreach ($p in $projects) {
