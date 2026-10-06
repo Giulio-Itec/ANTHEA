@@ -264,7 +264,9 @@ if ($CompareTo) {
         $old = $previous | Where-Object { $_.Suite -eq $r.Suite } | Select-Object -First 1
         if (-not $old) { continue }
         if ($old.Status -in 'PASS', 'FIXED' -and $r.Status -notin 'PASS', 'FIXED') { [void] $warnings.Add("$($r.Suite): era $($old.Status), ora $($r.Status)") }
-        $oldCounts = @($old.Counts) -join "`n"; $newCounts = @($r.Counts) -join "`n"
+        # Durations ('5.08s', '12,3 s') change from run to run: mask them before comparing the count lines.
+        $mask = { param($lines) (@($lines) | ForEach-Object { [regex]::Replace([string] $_, '\d+([.,]\d+)?\s?(ms|s)\b', '<t>') }) -join "`n" }
+        $oldCounts = & $mask $old.Counts; $newCounts = & $mask $r.Counts
         if ($oldCounts -ne $newCounts) { [void] $warnings.Add("$($r.Suite): righe di conteggio cambiate") }
     }
 }
