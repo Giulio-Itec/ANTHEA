@@ -91,7 +91,7 @@ public static partial class Ntc2018Checks
         if (strains.Min() >= 0) return InnerCracking(FullyTensionedCracking(engine,state,input,options,req.Limit!.Value,details),engine,state,options);
         if (code != "NTC 2018")
         {
-            k2 = .5; // A neutral axis crosses the section: bending, EC2 7.3.4(2).
+            k2 = .5; // A neutral axis crosses the section: bending, EC2 7.3.4(3) (k2 of (7.11)).
             Add("Criterio k₂", k2, "−", "Sezione parzialmente compressa: flessione, k₂ = 0,50");
         }
         double gradient = double.Hypot(plane.ChiX, plane.ChiY);
@@ -157,7 +157,7 @@ public static partial class Ntc2018Checks
         }
         if (effective.Length == 0)
         {
-            // Barre tese più profonde di hc,eff (asse neutro vicino alle barre): nessuna barra aderente in Ac,eff, limite superiore EC2 7.3.4(4) con le barre tese.
+            // Barre tese più profonde di hc,eff (asse neutro vicino alle barre): nessuna barra aderente in Ac,eff, limite superiore EC2 7.3.4(3), eq. (7.14) con le barre tese.
             double sigmaT = bars.Max(r => native.GetRebarTension(native.PsiRebar ?? 0, r));
             double phiT = bars.Sum(r => r.RebarSection.Diameter * r.RebarSection.Diameter) / bars.Sum(r => r.RebarSection.Diameter);
             Add("Øeq", phiT, "mm", "ΣØ² / ΣØ delle barre tese", "Nessuna barra tesa nella fascia efficace.");
