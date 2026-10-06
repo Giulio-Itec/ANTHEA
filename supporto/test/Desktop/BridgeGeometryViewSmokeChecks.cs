@@ -20,7 +20,9 @@ public sealed partial class MainWindow
             "Pannello di controllo non dedicato alla geometria.");
         Check(ReferenceEquals(bridge.Calculation, originalCalculation), "Cambio pagina ricalcola.");
         Check(bridge.Drawing.VisibleTags.Count == 7, "Devono comparire soletta, tre piastre, anima e due file.");
-        Check(bridge.Drawing.VisibleTags.Any(t => t.Contains("Anima") && t.Contains("1800 × 14")), "Tag anima non corrisponde all'ingresso.");
+        // Since 0a63315 the input is the total steel height H (default 1855 mm) and the clear web is derived:
+        // with the second bottom plate active, h = 1855 − 25 − 30 − 20 = 1780 mm.
+        Check(bridge.Data.D("h_trave") == 1855 && bridge.Drawing.VisibleTags.Any(t => t.Contains("Anima") && t.Contains("1780 × 14") && t.Contains("H 1855")), "Tag anima non corrisponde all'ingresso.");
         Check(bridge.Drawing.VisibleTags.Any(t => t.Contains("inferiore 2") && t.Contains("500 × 20")), "Tag seconda piastra non corrisponde all'ingresso.");
         Check(bridge.Drawing.VisibleTags.Count(t => t.Contains("Ø16 / 150") && t.Contains("20 barre")) == 2, "Informazioni delle file incomplete.");
         foreach (var size in new[] { (1600d, 990d), (1366d, 768d) })
