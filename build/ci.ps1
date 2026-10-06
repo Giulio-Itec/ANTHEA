@@ -61,7 +61,7 @@ $Verifiche = 'supporto\test\X.Verifiche\X.Verifiche.csproj'
 function TestProject([string] $name) { "supporto\test\$name\$name.csproj" }
 
 # ---------------------------------------------------------------- suite registry
-# Kind: run (dotnet run --no-build of Project), smoke/check (ANTHEA.exe flags), python, build (build only).
+# Kind: run (dotnet exec of the built Project assembly), smoke/check (ANTHEA.exe flags), python, build (build only).
 # Args placeholders: {cases}, {out} (the suite folder). Proof: file + regex that must exist after the run.
 $Suites = New-Object System.Collections.ArrayList
 function Add-Suite([hashtable] $s) { [void] $Suites.Add($s) }
@@ -225,7 +225,10 @@ foreach ($s in $selected) {
     } else {
         $arguments = @($s.Args | ForEach-Object { Expand $_ $out })
         if ($s.Kind -eq 'run') {
-            $r = Invoke-Process 'dotnet' (@('run', '--project', (Join-Path $Root $s.Project), '-c', 'Release', '--no-build', '--') + $arguments) (Join-Path $out 'run') $timeout
+            # dotnet exec of the built assembly, not dotnet run: the apphost .exe changes hash at every commit (SourceLink
+            # version resources) and the antivirus on this machine can refuse to start it (Win32Exception 5, 6/10/2026).
+            $targetPath = (& dotnet msbuild (Join-Path $Root $s.Project) -getProperty:TargetPath -p:Configuration=Release -nologo | Select-Object -Last 1).Trim()
+            $r = Invoke-Process 'dotnet' (@('exec', $targetPath) + $arguments) (Join-Path $out 'run') $timeout
         } elseif ($s.Kind -eq 'python') {
             $r = Invoke-Process 'py' (@('-3', (Join-Path $Root $s.Script)) + $arguments) (Join-Path $out 'run') $timeout
         } else {
