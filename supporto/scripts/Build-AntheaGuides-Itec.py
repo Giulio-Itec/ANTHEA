@@ -62,11 +62,12 @@ def display_text(value):
 
 # Manrope, the body font of the ITEC template, draws η, ν and χ with the outlines of n, v and x and has no
 # combining marks (N̄), primes (φ′), superscript minus, ₐ or ℓ: Word shows "η" as "n" and takes the missing
-# marks from Times New Roman. In running text these characters go in runs set in Calibri, the template's
-# theme font (minorHAnsi), which has distinct Greek letters and composes the marks; the rest of the text
-# keeps the template styles. Formulas are OMML (Cambria Math) and are not affected.
+# marks from Times New Roman; its "<" and ">" are small chevrons that read as "‹" and "›". In running text
+# these characters go in runs set in Calibri, the template's theme font (minorHAnsi), which has distinct
+# Greek letters, composes the marks and draws full comparison signs; the rest of the text keeps the
+# template styles. Formulas are OMML (Cambria Math) and code in backticks stays in Consolas.
 SYMBOL_FONT = 'Calibri'
-SYMBOLS = re.compile('(?:[Ͱ-Ͽἀ-῿]|[^\\s][̀-ͯ]+|[′″⁻ₐℓ])+')
+SYMBOLS = re.compile('(?:[Ͱ-Ͽἀ-῿]|[^\\s][̀-ͯ]+|[′″⁻ₐℓ<>])+')
 
 def add_text(paragraph, text, bold=False, italic=False, mono=False):
     pieces = [(text, False)]
