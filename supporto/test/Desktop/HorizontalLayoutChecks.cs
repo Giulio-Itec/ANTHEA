@@ -22,6 +22,29 @@ internal sealed partial class HorizontalWorkspace
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
     }
 
+    internal async Task Smoke(string directory)
+    {
+        await VerifyStratified(directory);
+        await VerifyAutomatic(); if (Result is null) throw new Exception("Orizzontale WPF: calcolo non disponibile");
+        await VerifyEditing(directory);
+        string previous = general.Get("diametro"); general.Set("diametro", "1.01");
+        if (Result is not null || details.IsEnabled) throw new Exception("Orizzontale: risultati obsoleti non invalidati");
+        general.Set("diametro", previous); await WaitForAutomatic();
+        var resultTabs = ResultsTabs(); var dialog = Ui.Dialog(this, "Verifica diagrammi", resultTabs, 1120, 760); dialog.Show();
+        await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+        File.WriteAllBytes(Path.Combine(directory, "orizzontale_diagrammi.png"), Ui.Snapshot(dialog));
+        var resultPanel = Ui.Descendants<TabControl>(resultTabs).First(); resultPanel.SelectedIndex = 3; dialog.Width = 1400;
+        await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+        var displayedTable = Ui.Descendants<DataGrid>(resultPanel).Single();
+        if (displayedTable.ActualWidth > 921) throw new Exception("Tabella orizzontale troppo larga");
+        foreach (var tableRow in displayedTable.Items.Cast<string[]>())
+            foreach (int column in new[] { 0, 2, 3, 4 })
+                if (!System.Text.RegularExpressions.Regex.IsMatch(tableRow[column], @"^-?\d+[.,]\d$")) throw new Exception("Valori non a un decimale");
+        File.WriteAllBytes(Path.Combine(directory, "orizzontale_tabella.png"), Ui.Snapshot(dialog)); dialog.Close();
+        await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+        File.WriteAllBytes(Path.Combine(directory, "orizzontale_sezione.png"), Ui.Snapshot(this));
+    }
+
     private async Task VerifyAutomatic()
     {
         await WaitForAutomatic();
