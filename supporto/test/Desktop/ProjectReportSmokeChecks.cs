@@ -13,7 +13,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeProjectReport(string directory, bool materialsOnly = false)
     {
-        testing = true; Directory.CreateDirectory(directory);
+        Directory.CreateDirectory(directory);
         static void Check(bool condition, string message) { if (!condition) throw new Exception(message); }
         static JsonObject Sheet(string module, string name) => J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("modulo_id", module), ("dati", Archivio.NuovoFoglio(module)));
         foreach (string module in new[] { "mat_calcestruzzo", RebarMaterial.Module })

@@ -20,7 +20,7 @@ param(
         'Smoke', 'WikiChecks', 'GlobalGuidanceChecks', 'WallAdvancedChecks', 'WallMaterialChecks', 'CheckAppearance', 'CheckWikiIntegration',
         'RunTestHarness', 'CheckErrorLog', 'VerifyChs', 'VerifyHorizontal', 'WaitForAutomatic', 'BoxInputsVisible', 'TorsionResultsVisible',
         'TorqueColumnVisible', 'RevealTorsion', 'CheckBond', 'CheckAutomaticMix', 'CheckExposureSelector', 'DurabilityReferenceChecks',
-        'CheckDurability', 'CheckNtcCover'),
+        'CheckDurability', 'CheckNtcCover', 'ForTest', 'TestServices', 'ScriptedConfirmations', 'RethrowingMessages'),
     # Names that contain a marker but belong to the framework (System.Windows.Media.Brushes.WhiteSmoke).
     [string[]] $AllowedIdentifier = @('WhiteSmoke', 'get_WhiteSmoke'),
     # Regular expressions on the string literals of the #US heap.

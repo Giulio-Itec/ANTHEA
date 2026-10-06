@@ -160,7 +160,7 @@ internal static class WikiChecks
             }
             else Check(Ui.Asset("Wiki/" + name).PixelWidth > 0, "Figura incorporata · " + source);
         File.WriteAllText(Path.Combine(directory, "integration-stage.txt"), "Prima del costruttore MainWindow");
-        var main = new MainWindow();
+        var main = new MainWindow(TestServices.Create);
         File.WriteAllText(Path.Combine(directory, "integration-stage.txt"), "Prima delle verifiche di integrazione");
         try { main.CheckWikiIntegration(checks, directory); }
         finally { main.FinishSmoke(); main.Close(); }
@@ -174,7 +174,6 @@ public sealed partial class MainWindow
 {
     internal void CheckWikiIntegration(List<string> checks, string directory)
     {
-        testing = true;
         wiki = new WikiView((module, example) => OpenWikiModule(module, example), new WikiProgress(persist: false), ResumeCalculation);
         void Check(bool condition, string label) { if (!condition) throw new InvalidOperationException(label); checks.Add(label); }
         void RenderRoot(string name)

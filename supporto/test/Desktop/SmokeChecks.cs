@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,10 +9,11 @@ namespace X.Desktop;
 
 public sealed partial class MainWindow
 {
-    internal void FinishSmoke() { testing = true; dirty = false; editor?.Dispose(); }
+    // A window created with the production services (ConcreteShort.UiChecks) also closes without questions.
+    internal void FinishSmoke() { services = TestServices.Create(this); dirty = false; editor?.Dispose(); }
     internal async Task Smoke(string directory, JsonArray cases)
     {
-        testing = true; Directory.CreateDirectory(directory); var log = new List<string>();
+        Directory.CreateDirectory(directory); var log = new List<string>();
         async Task Capture(string name) { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, name + ".png"), Ui.Snapshot(this)); }
         ShowHome(); await Capture("home"); ShowModules(); await Capture("moduli"); ShowProjects(); await Capture("progetti");
         document = Archivio.Documento("geo_palo_verticale"); ShowSheet(document); await Capture("palo_vuoto"); await editor!.WaitForAutomatic();

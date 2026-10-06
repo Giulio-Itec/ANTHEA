@@ -12,7 +12,7 @@ public sealed partial class MainWindow
 {
     internal async Task CheckAppearance(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory); int count = 0;
+        Directory.CreateDirectory(directory); int count = 0;
         wiki = new WikiView((_, _) => { }, new WikiProgress(persist: false));
         void Check(bool ok, string message) { if (!ok) throw new InvalidOperationException(message); count++; }
         async Task Capture(string name)

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Threading;
@@ -8,7 +8,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeConcreteExtensions(string directory)
     {
-        testing=true;Directory.CreateDirectory(directory);document=Archivio.Documento("str_palo");currentSheet=null;ShowSheet(document);
+        Directory.CreateDirectory(directory);document=Archivio.Documento("str_palo");currentSheet=null;ShowSheet(document);
         await editor!.CalculateAsync();await editor.VerifyConcreteExtensions(directory);dirty=false;
     }
 }

@@ -8,7 +8,7 @@ namespace X.Desktop;
 public sealed partial class MainWindow
 {
     internal async Task SmokeBridgeResponse(string directory)
-    { testing = true; Directory.CreateDirectory(directory); await CheckBridgeResponseUi(directory); File.WriteAllText(Path.Combine(directory, "smoke.txt"), "Curve della sezione: completato"); }
+    { Directory.CreateDirectory(directory); await CheckBridgeResponseUi(directory); File.WriteAllText(Path.Combine(directory, "smoke.txt"), "Curve della sezione: completato"); }
     private async Task CheckBridgeResponseUi(string directory)
     {
         var data = BridgeSection.Defaults();

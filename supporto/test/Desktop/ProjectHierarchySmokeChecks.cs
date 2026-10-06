@@ -12,7 +12,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeHierarchy(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory);
+        Directory.CreateDirectory(directory);
         static void Check(bool value, string message) { if (!value) throw new Exception(message); }
         static JsonObject Sheet(string module, string name) => J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("modulo_id", module), ("dati", Archivio.NuovoFoglio(module)));
         async Task Capture(string name) { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, name + ".png"), Ui.Snapshot(this)); }
@@ -64,7 +64,7 @@ public sealed partial class MainWindow
 
         // Editing the parent automatically propagates through all depths, including an empty group.
         ShowSheet(cls); var material = editor!.materials!.CaptureState(); material["classe"] = "C40/50";
-        editor.materials.RestoreState(material); sharedChoiceForTest = () => throw new Exception("Richiesta conferma sulla propagazione del riferimento superiore"); Commit();
+        editor.materials.RestoreState(material); Scripted.SharedUpdate = () => throw new Exception("Richiesta conferma sulla propagazione del riferimento superiore"); Commit();
         foreach (var target in new[] { reference, ca, pile, independent }) Check(ProjectSharedData.Fields(target)["CLS · fck [MPa]"].Value!.GetValue<double>() == 40 || ProjectSharedData.Text(ProjectSharedData.Fields(target)["CLS · fck [MPa]"].Value) == "40", "CLS non propagato a " + target.S("nome"));
         Check(JsonNode.DeepEquals(untouchedBefore, untouched), "Aggiornamento oltre il progetto");
         ShowSheet(steel); editor!.rebarMaterial!.Selection.SelectedItem = "B450A"; Commit();
@@ -73,7 +73,7 @@ public sealed partial class MainWindow
         editor.Data["input"]!["longitudinal_bar_count"] = "20"; Commit();
         Check(pile["dati"]!["generali"].D("diametro") == 1.4 && ca["dati"]!["input"].D("cover_mm") == 65 && ca["dati"]!["input"].D("longitudinal_bar_count") == 20, "Geometria/armatura non propagate");
         Check(independent["dati"]!["input"].D("cover_mm") == 70, "Propagazione invasa sezione sorella");
-        sharedChoiceForTest = null;
+        Scripted.SharedUpdate = null;
         // A lower edit cannot rewrite or broadcast over its ancestor's reference.
         ShowSheet(ca); editor!.Data["input"]!["cover_mm"] = "42"; editor.Data["input"]!["fck_mpa"] = "25"; Commit();
         Check(reference["dati"]!["input"].D("cover_mm") == 65 && pile["dati"]!["sezione"].D("cover_mm") == 65 && cls["dati"].S("classe") == "C40/50", "Foglio inferiore ha comandato sui riferimenti");

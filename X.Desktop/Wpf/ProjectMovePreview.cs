@@ -1,13 +1,10 @@
 using System.Text.Json.Nodes;
-using System.Windows;
-using System.Windows.Controls;
 using X.Core;
 
 namespace X.Desktop;
 
 public sealed partial class MainWindow
 {
-    private Func<string[], bool>? projectMoveChoiceForTest;
     // Build the destination first, without touching live sheets or their data.
     private JsonObject? PreviewProjectMove(JsonObject node, JsonObject destination)
     {
@@ -27,21 +24,7 @@ public sealed partial class MainWindow
             foreach (var key in before.Keys.Intersect(after.Keys).Where(k => !ProjectSharedData.Equal(before[k].Value, after[k].Value)))
                 changes.Add(sheet.S("nome") + " · " + ProjectReportPlan.Label(key) + ": " + ProjectSharedData.Text(before[key].Value) + " → " + ProjectSharedData.Text(after[key].Value));
         }
-        if (changes.Count > 0)
-        {
-            bool accepted;
-            if (projectMoveChoiceForTest is not null) accepted = projectMoveChoiceForTest(changes.ToArray());
-            else if (testing) accepted = true;
-            else
-            {
-                var panel = Ui.Stack(Ui.Text("Destinazione: " + destination.S("nome"), 18, true),
-                    Ui.Text("Lo spostamento aggiorna questi dati comuni:", 14), Ui.Text(string.Join("\n\n", changes), 13)); panel.Margin = new Thickness(18);
-                var dialog = Ui.Dialog(this, "Conferma spostamento", new ScrollViewer { Content = panel, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 730, 550);
-                panel.Children.Add(Ui.Bar(Ui.Button("Sposta e aggiorna", () => dialog.DialogResult = true, true), Ui.Button("Annulla", () => dialog.DialogResult = false)));
-                accepted = dialog.ShowDialog() == true;
-            }
-            if (!accepted) return null;
-        }
+        if (changes.Count > 0 && !services.Confirmations.ConfirmProjectMove(destination.S("nome"), changes)) return null;
         return proposed;
     }
     private void ReloadMovedEditor(JsonObject node)

@@ -11,7 +11,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeSteel(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory);
+        Directory.CreateDirectory(directory);
         static void Check(bool value, string message) { if (!value) throw new Exception(message); }
         static JsonObject Sheet(string module, string name) => J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", name), ("modulo_id", module), ("dati", Archivio.NuovoFoglio(module)));
         async Task Capture(string name) { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); File.WriteAllBytes(Path.Combine(directory, name + ".png"), Ui.Snapshot(this)); }
@@ -65,7 +65,7 @@ public sealed partial class MainWindow
         var chs = Sheet(MicropaloOrizzontale.Module, "Micropalo CHS"); var other = Sheet("str_palo", "Indipendente");
         foreach (var s in new[] { steel, rc, pile, chs }) section.Array("fogli").Add(s); elsewhere.Array("fogli").Add(other);
         var chsBefore = chs.DeepClone(); var otherBefore = other.DeepClone(); var rcBefore = rc["dati"]!.DeepClone();
-        ShowSheet(steel); sharedChoiceForTest = () => true;
+        ShowSheet(steel); Scripted.SharedUpdate = () => true;
         editor!.rebarMaterial!.Selection.SelectedItem = "B450A"; Commit();
         foreach (var target in new[] { rc, pile })
         {
@@ -76,9 +76,9 @@ public sealed partial class MainWindow
         Check(JsonNode.DeepEquals(chsBefore, chs) && JsonNode.DeepEquals(otherBefore, other), "Acciaio trasferito a CHS o altra sezione");
         var pileEngine = new SezioneCA(pile["dati"]!["sezione"]!.AsObject());
         Check(Math.Abs(pileEngine.Fyd - RebarMaterial.Evaluate(steel["dati"]!["input"]!.AsObject()).Fyd) < 1e-9, "fyd nel palo non allineato");
-        sharedChoiceForTest = () => false; editor.rebarMaterial.Selection.SelectedItem = "B450C"; Commit();
+        Scripted.SharedUpdate = () => false; editor.rebarMaterial.Selection.SelectedItem = "B450C"; Commit();
         Check(rc["dati"]!["input"].S("classe_acciaio") == "B450A" && ProjectSharedData.Differences(section).Any(d => d.Key == "classe_acciaio"), "Modifica locale non produce conflitto");
-        sharedChoiceForTest = null;
+        Scripted.SharedUpdate = null;
         // Reverse update from the checking sheet, preserving the module's local reference.
         steel["dati"]!["riferimento"] = "Certificato di prova";
         ProjectSharedData.Apply(rc, section, new HashSet<string> { "Materiali" }, steel, RebarMaterial.Keys.ToHashSet());

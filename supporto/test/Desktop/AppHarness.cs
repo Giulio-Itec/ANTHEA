@@ -26,7 +26,7 @@ public partial class App
             Dispatcher.BeginInvoke(new Action(async () =>
             {
                 int code = 0; MainWindow? testWindow = null;
-                try { testWindow = new MainWindow(); await testWindow.CheckAppearance(e.Args[1]); }
+                try { testWindow = new MainWindow(TestServices.Create); await testWindow.CheckAppearance(e.Args[1]); }
                 catch (Exception ex) { Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), ex.ToString()); code = 1; }
                 finally { testWindow?.FinishSmoke(); testWindow?.Close(); Shutdown(code); }
             }));
@@ -75,7 +75,7 @@ public partial class App
             Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), error.Exception.ToString());
             error.Handled = true; Shutdown(1);
         };
-        var window = new MainWindow();
+        var window = new MainWindow(TestServices.Create);
         // Smoke windows are repeatedly created and destroyed under the desktop pointer.
         // Suppress tooltip popups in the harness to avoid WPF referring to an already closed HWND.
         EventManager.RegisterClassHandler(typeof(FrameworkElement), System.Windows.Controls.ToolTipService.ToolTipOpeningEvent,

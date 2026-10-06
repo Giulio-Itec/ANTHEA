@@ -2,6 +2,7 @@ using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using X.Core;
+using X.Desktop.Services;
 
 namespace X.Desktop;
 
@@ -9,7 +10,6 @@ public sealed partial class MainWindow
 {
     private JsonObject? sharedBaseline;
     private Button confirmShared = null!;
-    private Func<bool>? sharedChoiceForTest;
 
     private void ConfirmSharedChanges(JsonObject proposed)
     {
@@ -22,24 +22,10 @@ public sealed partial class MainWindow
         var targets = ProjectSharedData.SubtreeSheets(section).Where(s => !ReferenceEquals(s, currentSheet) &&
             ProjectSharedData.Common(proposed, s).Any(p => keys.Contains(p.Source.Key) && !ProjectSharedData.Equal(p.Source.Value, p.Target.Value))).ToArray();
         if (targets.Length == 0) return;
-        bool update;
-        if (controlsDescendants) update = true;
-        else if (sharedChoiceForTest is not null) update = sharedChoiceForTest();
-        else if (testing) update = false;
-        else
-        {
-            var content = Ui.Stack(Ui.Text("Hai modificato: " + string.Join(", ", groups), 17, true),
-                Ui.Text("Sezione: " + section.S("nome") + "\nAggiorna i parametri compatibili nei seguenti fogli, oppure mantieni la modifica solo qui. Carichi e combinazioni restano specifici di ciascun foglio.", 14),
-                Ui.Text(string.Join("\n\n", targets.Select(s => s.S("nome", ModuleName(s.S("modulo_id"))) + "\n" + string.Join("\n", ProjectSharedData.Common(proposed, s)
-                    .Where(p => keys.Contains(p.Source.Key) && !ProjectSharedData.Equal(p.Source.Value, p.Target.Value))
-                    .Select(p => "• " + SharedFieldLabel(p.Source.Key) + ": " + ProjectSharedData.Text(p.Target.Value) + " → " + ProjectSharedData.Text(p.Source.Value))))), 14));
-            content.Margin = new Thickness(18);
-            var dialog = Ui.Dialog(this, "Dati condivisi della sezione", new ScrollViewer { Background = Appearance.Surface, Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 670, 440);
-            var all = Ui.Button("Aggiorna tutti i fogli collegati", () => dialog.DialogResult = true, true);
-            var local = Ui.Button("Solo questo foglio", () => dialog.DialogResult = false); local.IsCancel = true;
-            content.Children.Add(Ui.Bar(all, local));
-            update = dialog.ShowDialog() == true;
-        }
+        bool update = controlsDescendants || services.Confirmations.ConfirmSharedUpdate(new SharedUpdatePrompt(groups.ToList(), section.S("nome"),
+            targets.Select(s => new SharedUpdateTarget(s.S("nome", ModuleName(s.S("modulo_id"))), ProjectSharedData.Common(proposed, s)
+                .Where(p => keys.Contains(p.Source.Key) && !ProjectSharedData.Equal(p.Source.Value, p.Target.Value))
+                .Select(p => SharedFieldLabel(p.Source.Key) + ": " + ProjectSharedData.Text(p.Target.Value) + " → " + ProjectSharedData.Text(p.Source.Value)).ToList())).ToList()));
         if (!update) return;
         var before = currentSheet["dati"]?.DeepClone();
         currentSheet["dati"] = proposed["dati"]!.DeepClone();
