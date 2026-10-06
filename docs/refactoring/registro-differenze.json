@@ -1,11 +1,11 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-06",
+  "aggiornato": "2026-10-07",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso",
-    "Checker": "5cc315f2 (develop); percorsi con prefisso Checker/",
-    "Model": "c85b70a6 (master); percorsi con prefisso Model/",
+    "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R della revisione dei metodi; percorsi con prefisso Checker/",
+    "Model": "c85b70a6 (master) per le voci D7; d6631635 (master, locale) per le voci R; percorsi con prefisso Model/",
     "lib/Checker": "manifest del 2026-10-06: GPCChecker.Concrete 0.0.14.0, GPCChecker.Geotechnics 0.1.0.0, GPCChecker.CompositeBridge 1.4.0.2, GPCModel 1.6.0.0"
   },
   "categorie": {
@@ -15,6 +15,7 @@
     "scostamento-normativo": "il codice si discosta dal testo della norma del profilo"
   },
   "stati": ["da-decidere", "dichiarato", "da-correggere", "corretto"],
+  "nota_voci_r": "Le voci R1-R14 vengono dalla ricerca normativa sulla fessurazione (supporto/artefatti/refactoring/ricerca-a/rapporto.md) e dalla revisione dei metodi c.a. per le pagine docs/metodi di Checker (branch locali anthea-metodi-ca-1 e anthea-metodi-ca-2, harness in supporto/artefatti/refactoring/metodi e metodi2). Il segno è riferito al testo della norma del profilo; dove il testo primario non è stato letto il grado di certezza è indicato nel campo riscontro.",
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
@@ -22,7 +23,7 @@
       "titolo": "Fessurazione NTC con barre distanziate: 1,7 · 0,75 (h − x) e massimo fra zona vicina e distante",
       "famiglia": "calcestruzzo/fessurazione",
       "categoria": "convenzione",
-      "stato": "da-decidere",
+      "stato": "dichiarato",
       "descrizione": "Nel ramo NTC, con interasse s > 5 (c + Ø/2), wk = 1,7 · max(Δsm,vicino; 0,75 (h − x)) (εsm − εcm), cioè sr = max(3,4 c + k1 k2 0,425 Ø/ρ; 1,275 (h − x)); senza barre aderenti in Ac,eff il limite superiore usa sr = 1,7 · 0,75 (h − x). La EN 1992-1-1 (7.14) usa 1,3 (h − x) in sostituzione della (7.11). Lo stesso ramo vale per il profilo CNR-DT 200 della libreria.",
       "riferimento_normativo": [
         { "fonte": "Circolare 21/01/2019 n. 7", "punto": "C4.1.2.2.4.5, eq. [C4.1.5], [C4.1.7], [C4.1.10], Fig. C4.1.11", "riscontro": "testo della G.U. S.O. n. 5 alla n. 35 dell'11/02/2019, pp. 87-88: il codice coincide alla lettera" },
@@ -51,7 +52,12 @@
         { "id": "a4", "descrizione": "solo limite superiore senza barre aderenti: 1,3 (h − x), con opzione legacy" }
       ],
       "raccomandazione": "a3 per il ramo delle barre distanziate (segue la Circolare alla lettera; a2 non è cautelativa quando governa la zona vicina) e a4 per il limite senza barre aderenti, trattato solo dalla EN 1992-1-1; correggere il rimando «7.3.4(4)» dei commenti",
-      "decisione": null,
+      "decisione": {
+        "data": "2026-10-06",
+        "utente": "correggere se è sbagliato, dopo un controllo accurato di EC2, NTC, annessi nazionali e Model Code",
+        "esito": "a3: il ramo NTC riproduce alla lettera la Circolare 2019 [C4.1.7] e [C4.1.10] (0,75 = 1,3/1,7 arrotondato; la Circolare 617/2009 usava 1,3 (h − x) nella forma wd = εsm Δsmax); non si cambia. Corretti alla lettera anche EN, UNI, CNR-DT 200 e DS; NS probabile. Il limite senza barre aderenti (a4) è un'analogia accettabile, da proporre come opzione. Le correzioni trovate negli altri profili sono le voci R1 (MC2010), R2 (DIN kt) e R3 (citazioni).",
+        "fonte_esito": "supporto/artefatti/refactoring/ricerca-a/rapporto.md"
+      },
       "data": "2026-10-06",
       "fase": "F2.3 (libreria), F2.7 (collegamento)",
       "test": [
@@ -101,7 +107,11 @@
         { "id": "b2", "descrizione": "dichiarare" }
       ],
       "raccomandazione": "b1, in due commit (collegamento con l'opzione legacy, poi cambio del predefinito)",
-      "decisione": null,
+      "decisione": {
+        "data": "2026-10-06",
+        "utente": "per solo armature tese k2 = 1, per flessione 0,5: il comportamento non è corretto? da vedere insieme",
+        "esito": "da discutere. Nota per la discussione: la regola dell'utente coincide con la norma; il codice però riconosce la flessione dalla presenza di una barra compressa e non dallo stato di deformazione. In una trave a semplice armatura inflessa (asse neutro dentro la sezione, nessuna barra compressa) il codice usa k2 = 1,0 mentre la Circolare e la EN danno 0,5; lo stesso in tensoflessione con asse neutro interno. Esempio della ricerca: trave a semplice armatura 0,510 mm contro 0,443 mm."
+      },
       "data": "2026-10-06",
       "fase": "F2.3 (libreria), F2.7 (collegamento)",
       "test": [
@@ -118,7 +128,7 @@
       "titolo": "Portanza sismica dei muri (EN 1998-5 Annesso F): γRd applicato anche all'inerzia del terreno F̄",
       "famiglia": "geotecnica/muri",
       "categoria": "intenzionale",
-      "stato": "da-decidere",
+      "stato": "da-correggere",
       "descrizione": "ANTHEA imposta RetainingWall.ModelFactorOnSoilInertia = true: F̄ = γRd · ag S/(g tan φ'd). Nella (F.7) F̄ non contiene γRd, che compare solo in N̄, V̄ e M̄. La libreria segue la norma per difetto e conserva l'opzione per riprodurre ANTHEA.",
       "riferimento_normativo": [
         { "fonte": "EN 1998-5:2004", "punto": "Annesso F (informativo), eq. (F.7) e Tab. F.2", "riscontro": "testo non presente nei repository; riscontro del port in Checker/docs/migrazione-anthea/MIGRAZIONE_ANTHEA.txt:358-362" }
@@ -143,7 +153,7 @@
         { "id": "c2", "descrizione": "dichiarare" }
       ],
       "raccomandazione": "c1, in due commit con il collegamento dei muri",
-      "decisione": null,
+      "decisione": { "data": "2026-10-06", "utente": "seguire la norma", "opzione": "c1", "esito": "γRd non applicato a F̄; l'opzione legacy resta nella libreria per le fixture" },
       "data": "2026-10-06",
       "fase": "F4.9",
       "test": [
@@ -162,7 +172,7 @@
       "titolo": "γb = 1,35 per ogni tecnologia di palo",
       "famiglia": "geotecnica/pali",
       "categoria": "scostamento-normativo",
-      "stato": "da-decidere",
+      "stato": "da-correggere",
       "descrizione": "Il foglio del palo verticale propone e usa γb = 1,35 per ogni tecnologia (valore modificabile e memorizzato negli archivi). La Tab. 6.4.II dà 1,15 per i pali infissi, 1,35 per i trivellati e 1,30 per l'elica continua; StandardNTC2018Geotechnics.PileExecution di Model li contiene ma ANTHEA non lo usa.",
       "riferimento_normativo": [
         { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "§6.4.3.1.1, Tab. 6.4.II (R3)", "riscontro": "testo della G.U. consultato" }
@@ -203,7 +213,7 @@
         { "id": "d3", "descrizione": "dichiarare 1,35 come valore cautelativo unico" }
       ],
       "raccomandazione": "d1 con avviso quando γb differisce da quello della tecnologia, in due commit (equivalenza con l'override 1,35, poi predefinito per tecnologia); i nuovi attesi dei 20 casi infissi ed elica si affiancano a quelli Python",
-      "decisione": null,
+      "decisione": { "data": "2026-10-06", "utente": "seguire la norma", "opzione": "d1", "esito": "γb della Tab. 6.4.II per tecnologia come predefinito dei fogli nuovi e al cambio di tecnologia, con la corrispondenza della tabella; gli archivi conservano il valore memorizzato dall'utente (d2, migrazione degli archivi, non scelta: da confermare con l'utente)" },
       "data": "2026-10-06",
       "fase": "F4.5",
       "test": [
@@ -249,10 +259,17 @@
       },
       "opzioni": [
         { "id": "e1", "descrizione": "riscontrare la UNI 11104 (2016) e, se confermato, adottare C28/35 nel profilo NTC con la relativa etichetta" },
-        { "id": "e2", "descrizione": "dichiarare i valori del prospetto F.1 della EN 206" }
+        { "id": "e2", "descrizione": "dichiarare i valori del prospetto F.1 della EN 206" },
+        { "id": "e3", "descrizione": "tenere entrambi i riferimenti e lasciare la scelta all'utente nel foglio, con il predefinito sul riferimento in vigore" }
       ],
       "raccomandazione": "e1 dopo il riscontro del testo; fino ad allora riquadro dichiarato; decisione prima di F2.9",
-      "decisione": null,
+      "decisione": {
+        "data": "2026-10-06",
+        "utente": "lasciare entrambi i riferimenti e la possibilità di scelta all'utente",
+        "opzione": "e3",
+        "revisione": "Dopo la decisione la revisione dei metodi (pagina ca.durabilita-copriferri) ha trovato che C30/37 per XC3, XD1, XF4 e XA1 è il valore di UNI 11104:2016 (ATECAP 2020 e una seconda fonte secondaria concordi) e, da estratto, della UNI 11104:2025 (prospetto 6, in vigore dal 24/07/2025); C28/35 è dell'edizione 2004 (prospetto 4). Il codice segue quindi l'edizione in vigore e il prospetto F.1 della EN 206. Nessun testo UNI primario consultato.",
+        "esito": "da confermare con l'utente: la scelta diventa fra UNI 11104:2016/2025 ed EN 206 F.1 (C30/37, predefinito) e UNI 11104:2004 (C28/35, edizione ritirata). Da correggere comunque l'etichetta «UNI 11104 prospetto 5» (il numero dipende dall'edizione) e MinimumConcrete.Label(28) se la scelta resta."
+      },
       "data": "2026-10-06",
       "fase": "F2.3 (libreria), F2.9 (collegamento)",
       "test": [
@@ -269,7 +286,7 @@
       "titolo": "Bridge Design: γQ = 1,50 sul traffico e carico uniforme di 9 kN/m² sull'intera larghezza senza tandem",
       "famiglia": "ponti/bridge-design",
       "categoria": "scostamento-normativo",
-      "stato": "da-decidere",
+      "stato": "da-correggere",
       "descrizione": "Il predimensionamento applica γQ = 1,50 al traffico (Tab. 5.1.V: 1,35) e un carico uniforme di 9 kN/m² sull'intera larghezza dell'impalcato, senza i tandem dello Schema 1; γG = 1,35 vale anche per i permanenti portati (Tab. 5.1.V: 1,50 se non ben definiti). Le ipotesi sono modificabili e memorizzate negli archivi; il modulo dichiara di non costituire verifica NTC.",
       "componenti": [
         { "id": "f1", "oggetto": "γQ 1,50 contro 1,35", "categoria": "scostamento-normativo", "segno": "cautelativo (+11,1 % sulla parte da traffico)" },
@@ -301,7 +318,12 @@
         { "id": "f3", "descrizione": "γG2 1,50 sui permanenti portati, oppure dichiararli ben definiti" }
       ],
       "raccomandazione": "f1; f2 come dichiarazione con avviso, valutando il tandem quando BridgeConcept passa in GPC.Design; f3 come dichiarazione",
-      "decisione": null,
+      "decisione": {
+        "data": "2026-10-06",
+        "utente": "cercare la soluzione più simile al caso reale: 9 kN/m² + tandem, 20 kN/m², un altro metodo semplificato oppure il tandem ripartito come carico distribuito maggiore",
+        "esito": "Ricerca completata (supporto/artefatti/refactoring/ricerca-f/rapporto.md, calcolo Python indipendente e sonda sul motore attuale). Il metodo attuale si scosta dallo Schema 1 fra −82 % e +142 % secondo la grandezza (a sfavore sulle luci corte e sulle carreggiate strette). Nessun carico uniforme resta entro il 10 % sulle travi continue: 9 kN/m² × W + tandem da +1 % a +158 %; 20 kN/m² da −59 % a +438 %; tandem ripartito q_U + 2T/L (1 − 0,6/L)² esatto solo per M+ della campata appoggiata. Scelta: Schema 1 NTC (tandem per corsia e carichi distribuiti sulle sole parti sfavorevoli) con linee di influenza in forma chiusa e γQ 1,35; tandem ripartito solo per archi, reticolari, strallati e sospesi, più il tandem locale per pendini e stralli; modello legacy (uniforme) per gli archivi senza il campo nuovo. f3 (γG2 1,50 sui permanenti non strutturali, Tab. 5.1.V) confermata dalla ricerca. Costo totale dei casi tipo fra −7,5 % e +6,5 %.",
+        "attuazione": "F4.11 in GPC.Design, in due commit (modello legacy identico, poi Schema 1 come predefinito dei documenti nuovi); proposta da confermare con l'utente prima dell'attuazione"
+      },
       "data": "2026-10-06",
       "fase": "F4.11",
       "test": [
@@ -316,7 +338,7 @@
       "titolo": "Testo del metodo nei report della sezione composta da ponte",
       "famiglia": "ponti/sezione-composta",
       "categoria": "difetto-legacy",
-      "stato": "da-decidere",
+      "stato": "corretto",
       "descrizione": "Dal commit ANTHEA 0a63315 il risultato della sezione composta porta l'etichetta breve della scelta («Cumulativo lineare») al posto del metodo della libreria («Sezione composta N–Mx · larghezze efficaci EN 1993-1-5:2006 · v1»): i report non citano più norma ed edizione. Solo testo, numeri invariati. Voce aggiunta in F0.6, fuori dai sei scostamenti originari di D7.",
       "riferimento_normativo": [],
       "codice": [
@@ -344,7 +366,7 @@
         { "id": "g3", "descrizione": "dichiarare" }
       ],
       "raccomandazione": "g1, numeri invariati; il campo Method torna al metodo della libreria e le baseline BridgeAudit non si riscrivono",
-      "decisione": null,
+      "decisione": { "data": "2026-10-06", "utente": "ripristinare", "opzione": "g2", "esito": "corretto nel commit ANTHEA 0d861de: il risultato riporta di nuovo result.Method della libreria; l'etichetta scelta resta in data[\"metodo_analisi\"]. Confronto con la baseline B0: cambiano solo le righe del metodo nei report e nei risultati di str_mista_ponte (4 file)." },
       "data": "2026-10-06",
       "fase": "F0.10 o F3.12",
       "test": [
@@ -353,6 +375,217 @@
       ],
       "riquadro_wiki": { "stato": "non-richiesto", "posizioni": ["nota sul report nella guida pratica della sezione composta"] },
       "scheda": "docs/refactoring/scostamenti.md#d7-g-testo-del-metodo-nei-report-della-sezione-composta"
+    },
+    {
+      "id": "R1",
+      "titolo": "MC2010, fessurazione stabilizzata a lunga durata: τbms = 1,35 fctm e β = 0,4",
+      "famiglia": "calcestruzzo/fessurazione",
+      "categoria": "scostamento-normativo",
+      "stato": "da-correggere",
+      "descrizione": "Il profilo fib Model Code 2010 usa τbms/fctm = 1,8 a breve durata e 1,35 a lunga durata, con βmin = 1 − kt. La Tab. 7.6-2 dà τbms = 1,8 fctm nella fessurazione stabilizzata a ogni durata (β 0,6 breve, 0,4 lunga); 1,35 fctm vale solo nella formazione della singola fessura a lunga durata, con β = 0,6. Il profilo MC2010 non ha regole per barre distanziate; il limite 1,3 (h − x) senza barre aderenti non ha base nel Model Code.",
+      "riferimento_normativo": [ { "fonte": "fib Model Code 2010", "punto": "§7.6.4.4, Tab. 7.6-2", "riscontro": "probabile-alto: fonti secondarie concordi (tesi PoliTo Tab. 2.3, articolo CTU 2022 p. 129); testo originale da riscontrare prima dell'attuazione" } ],
+      "codice": [ "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:74-79" ],
+      "segno": "cautelativo (τbms minore dà sr maggiore)",
+      "effetto_quantificato": { "sintesi": "+28 % e +50 % sull'apertura negli esempi della ricerca (a lunga durata)", "evidenze": ["supporto/artefatti/refactoring/ricerca-a/rapporto.md §1, §2.9, §6"] },
+      "raccomandazione": "correggere τbms e β per stadio (formazione / stabilizzata) con opzione legacy, dopo il riscontro sul testo della Tab. 7.6-2",
+      "decisione": { "data": "2026-10-06", "utente": "decisione (a): correggere se è sbagliato", "esito": "da correggere dopo il riscontro del testo" },
+      "data": "2026-10-07",
+      "fase": "F2.3",
+      "test": [ "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs (righe MC2010 delle fixture)" ]
+    },
+    {
+      "id": "R2",
+      "titolo": "DIN EN 1992-1-1/NA: kt = 0,4 per ogni durata",
+      "famiglia": "calcestruzzo/fessurazione",
+      "categoria": "scostamento-normativo",
+      "stato": "da-correggere",
+      "descrizione": "Il profilo DIN usa kt = 0,4 anche a breve durata (valore fisso della DIN 1045-1, eq. 136). Il NA conserva kt = 0,6 breve / 0,4 lunga come la EN; la bozza 2010-02 contiene una NCI «di regola kt = 0,4» la cui presenza nel testo finale è incerta. sr,max del profilo DIN (k1 k2 = 1, k3 = 0, k4 = 1/3,6, tetto σs φ/(3,6 fct,eff)) è corretto.",
+      "riferimento_normativo": [ { "fonte": "DIN EN 1992-1-1/NA:2013-04", "punto": "NDP e NCI a 7.3.4(2)-(3)", "riscontro": "probabile: testo finale a pagamento non letto; bozza 2010-02 (rapporto DIBt, Anhang C) e manuali di calcolo concordi su 0,6/0,4" } ],
+      "codice": [ "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs", "Checker/GPCChecker.Concrete/Cracking/CrackProfiles.cs" ],
+      "segno": "cautelativo",
+      "effetto_quantificato": { "sintesi": "≤ 1 % sull'apertura negli esempi (−0,5 %)" },
+      "raccomandazione": "kt secondo la durata come la EN, con opzione legacy; riscontrare il testo finale per la NCI «di regola 0,4»",
+      "decisione": { "data": "2026-10-06", "utente": "decisione (a): correggere se è sbagliato", "esito": "da correggere" },
+      "data": "2026-10-07",
+      "fase": "F2.3"
+    },
+    {
+      "id": "R3",
+      "titolo": "Citazione «EC2 7.3.4(4)» per il limite superiore 1,3 (h − x)",
+      "famiglia": "calcestruzzo/fessurazione",
+      "categoria": "difetto-legacy",
+      "stato": "da-correggere",
+      "descrizione": "I commenti citano «EC2 7.3.4(4)»; nel testo del 2004 la (7.14) è al punto 7.3.4(3). Solo testo.",
+      "riferimento_normativo": [ { "fonte": "EN 1992-1-1:2004", "punto": "§7.3.4(3), eq. (7.14)", "riscontro": "certo" } ],
+      "codice": [ "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:95", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:123", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:207", "X.Calculations/ConcreteCodeChecks.cs:213" ],
+      "segno": "nessun effetto numerico",
+      "raccomandazione": "correggere il testo in Checker e in ANTHEA",
+      "decisione": { "data": "2026-10-06", "utente": "decisione (a)", "esito": "da correggere (solo testo)" },
+      "data": "2026-10-07",
+      "fase": "F2.3"
+    },
+    {
+      "id": "R4",
+      "titolo": "MC2010, taglio e torsione: θmin fisso a 20°",
+      "famiglia": "calcestruzzo/taglio",
+      "categoria": "scostamento-normativo",
+      "stato": "da-decidere",
+      "descrizione": "Il profilo MC2010 usa θmin = 20° in ogni caso; MC2010 §7.3.3.3 (livelli di approssimazione II e III) dà θmin = 20° + 10 000 εx.",
+      "riferimento_normativo": [ { "fonte": "fib Model Code 2010", "punto": "§7.3.3.3", "riscontro": "da riscontrare sul testo" } ],
+      "codice": [ "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:164", "Checker/GPCChecker.Concrete/Torsion/TorsionProfiles.cs:81" ],
+      "segno": "NON cautelativo",
+      "effetto_quantificato": { "sintesi": "resistenza a taglio +38,8 % nell'esempio S5 della pagina ca.taglio", "evidenze": ["supporto/artefatti/refactoring/metodi/esempi.txt"] },
+      "raccomandazione": "riscontrare il testo e correggere con opzione legacy; a sfavore di sicurezza, priorità alta",
+      "decisione": null,
+      "data": "2026-10-07",
+      "fase": "F2.3"
+    },
+    {
+      "id": "R5",
+      "titolo": "SLE tensioni con analisi non lineare: leggi di progetto e nessun avviso",
+      "famiglia": "calcestruzzo/sle",
+      "categoria": "scostamento-normativo",
+      "stato": "da-decidere",
+      "descrizione": "Con il solutore non lineare le tensioni di esercizio si calcolano con le leggi di progetto (σc · αcc/γc, fyd) invece delle leggi di esercizio; StressLimitCheck accetta il risultato senza avviso.",
+      "riferimento_normativo": [ { "fonte": "EN 1992-1-1:2004 / NTC 2018", "punto": "§7.2 / §4.1.2.2.5", "riscontro": "interpretazione: le verifiche di esercizio usano le proprietà medie o caratteristiche dei materiali" } ],
+      "codice": [ "Checker/GPCChecker.Concrete/SectionSolvers/SectionSolverModelCode2010.cs:110-129", "Model/Model/Materials/Concrete/ConcreteMaterialEuropeanCommon.cs:706-740", "Checker/GPCChecker.Concrete/Serviceability/StressLimitCheck.cs:85-88" ],
+      "segno": "NON cautelativo sul calcestruzzo",
+      "effetto_quantificato": { "sintesi": "σc −31 % a 80 kNm; a 150 kNm rapporto 0,83 contro 1,14 dell'analisi lineare (sezione 300×500 dell'esempio)" },
+      "raccomandazione": "leggi di esercizio nell'analisi non lineare oppure rifiuto con avviso; a sfavore di sicurezza, priorità alta",
+      "decisione": null,
+      "data": "2026-10-07",
+      "fase": "F2.3"
+    },
+    {
+      "id": "R6",
+      "titolo": "DIN, k5 delle tensioni nei trefoli 0,75 invece di 0,65",
+      "famiglia": "calcestruzzo/sle",
+      "categoria": "scostamento-normativo",
+      "stato": "da-decidere",
+      "descrizione": "Il profilo DIN eredita k5 = 0,75 (Model StandardModelCode2010); secondo una fonte secondaria il NA dà 0,65.",
+      "riferimento_normativo": [ { "fonte": "DIN EN 1992-1-1/NA", "punto": "NDP 7.2(5)", "riscontro": "fonte secondaria; da confermare" } ],
+      "codice": [ "Model/Model/Standards/StandardModelCode2010.cs:176" ],
+      "segno": "NON cautelativo se confermato",
+      "raccomandazione": "riscontrare il NA; se confermato correggere in Model",
+      "decisione": null,
+      "data": "2026-10-07",
+      "fase": "F2.3"
+    },
+    {
+      "id": "R7",
+      "titolo": "Interpretazioni cautelative di taglio, torsione, SLE e fessurazione",
+      "famiglia": "calcestruzzo",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "NTC torsione: cot θ ≥ 1 anche in torsione pura (la norma ammette 0,4 ≤ cot θ; fino a −25 % nell'esempio). Interazione delle bielle: somma dei tagli nelle due direzioni. SLE: limite k3 applicato a |σ| anche delle barre compresse; k1 fck in ogni classe di esposizione; k2 fck trattato come limite e non come soglia del creep non lineare. NS: wmax senza il fattore kc = cnom/cmin,dur ≤ 1,3 della Tab. NA.7.1N. DS: cot θ ≤ 2 (già dichiarato). Interpretazioni dichiarate: wk = 0 con asse neutro nel copriferro; 1,3 (h − x) con barre tese fuori da Ac,eff.",
+      "codice": [ "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:153-154", "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:111-113", "Checker/GPCChecker.Concrete/Serviceability/StressLimitCheck.cs:100-120", "Checker/GPCChecker.Concrete/Cracking/CrackRequirements.cs:70-78", "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:176", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:183-193", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:205-215" ],
+      "segno": "cautelativo",
+      "raccomandazione": "dichiarare nelle pagine dei metodi (già fatto nei riquadri delle pagine) e nella guida teorica",
+      "decisione": null,
+      "data": "2026-10-07",
+      "fase": "F2.2 (pagine), W1.2 (riquadri)"
+    },
+    {
+      "id": "R8",
+      "titolo": "Punti da riscontrare: MC2010 fessurazione senza ritiro, coefficiente DIN di hc,ef, EN Tab. 7.1N per XD3",
+      "famiglia": "calcestruzzo/fessurazione",
+      "categoria": "scostamento-normativo",
+      "stato": "da-decidere",
+      "descrizione": "MC2010: apertura senza la deformazione di ritiro εcs e con il minimo (1 − kt) σs/Es. DIN: coefficiente di hc,ef (Bild 7.1DE) concorde con una fonte secondaria, mentre un esempio svolto di un'altra fonte legge 3,25 per h/(h − d) = 25 dove il codice dà 4,5. EN: wmax 0,3 mm assegnato a XD3, da controllare sulla tabella base.",
+      "codice": [ "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:74-79", "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs:198", "Checker/GPCChecker.Concrete/Cracking/CrackRequirements.cs:84" ],
+      "segno": "da stabilire",
+      "raccomandazione": "riscontrare sui testi primari prima di F2.3",
+      "decisione": null,
+      "data": "2026-10-07",
+      "fase": "F2.3"
+    },
+    {
+      "id": "R9",
+      "titolo": "Limiti non controllati: EC2 6.2.2(6), nota 2 di 6.2.3(3), staffe di classe A (DK)",
+      "famiglia": "calcestruzzo/taglio",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Il calcolo non controlla VEd ≤ 0,5 bw d ν fcd (EN 6.2.2(6)), non usa ν1 = 0,6 della nota 2 di 6.2.3(3) e non distingue la regola danese per le staffe di classe A.",
+      "codice": [ "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs" ],
+      "segno": "6.2.2(6) non controllato: NON cautelativo per carichi vicini agli appoggi",
+      "raccomandazione": "aggiungere il controllo 6.2.2(6); dichiarare gli altri due limiti",
+      "decisione": null,
+      "data": "2026-10-07",
+      "fase": "F2.3"
+    },
+    {
+      "id": "R10",
+      "titolo": "Ancoraggi: fctk,0,05 non limitato alla classe C60/75",
+      "famiglia": "calcestruzzo/dettagli",
+      "categoria": "scostamento-normativo",
+      "stato": "da-decidere",
+      "descrizione": "Il metodo di ancoraggio non applica il limite di fctk,0,05 alla classe C60/75 (EN 8.4.2(2); per la NTC da riscontrare) e lo lascia al chiamante.",
+      "riferimento_normativo": [ { "fonte": "EN 1992-1-1:2004", "punto": "§8.4.2(2)", "riscontro": "testo consultato" } ],
+      "codice": [ "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:7-8", "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:90" ],
+      "segno": "NON cautelativo oltre C60/75",
+      "effetto_quantificato": { "sintesi": "lb,rqd −11 % con C90/105" },
+      "raccomandazione": "applicare il limite nella libreria, con opzione legacy; verificare se i chiamanti ANTHEA lo applicano già",
+      "decisione": null,
+      "data": "2026-10-07",
+      "fase": "F2.3"
+    },
+    {
+      "id": "R11",
+      "titolo": "Copriferro NTC: Cmin di default uguale al valore di tabella",
+      "famiglia": "calcestruzzo/durabilita",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Nel profilo NTC, se il chiamante non passa la classe minima pertinente, Cmin vale il valore di tabella invece della classe minima dell'esposizione; la maggiorazione di 5 mm per fck < Cmin può allora mancare.",
+      "codice": [ "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:155" ],
+      "segno": "NON cautelativo (fino a −5 mm sul copriferro)",
+      "effetto_quantificato": { "sintesi": "esempio XC3 C28/35 trave: cnom 35 mm con il default contro 40 mm con Cmin della UNI 11104 in libreria", "evidenze": ["supporto/artefatti/refactoring/metodi2/out-durability.txt"] },
+      "raccomandazione": "default = classe minima pertinente della tabella di durabilità; ANTHEA passa già il valore (controllare tutti i chiamanti)",
+      "decisione": null,
+      "data": "2026-10-07",
+      "fase": "F2.3"
+    },
+    {
+      "id": "R12",
+      "titolo": "Pilastri NTC: interasse delle barre misurato attraverso il nucleo",
+      "famiglia": "calcestruzzo/dettagli",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Il controllo dell'interasse massimo delle barre longitudinali dei pilastri NTC misura la distanza fra barre consecutive anche attraverso il nucleo invece che lungo le facce.",
+      "codice": [ "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:152-154", "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs:145-161" ],
+      "segno": "cautelativo (esito non soddisfatto indebito)",
+      "effetto_quantificato": { "sintesi": "pilastro 600×600 con 8Ø20: 498 mm calcolati contro 249 mm lungo le facce, limite 300 mm: non soddisfatto indebito", "evidenze": ["supporto/artefatti/refactoring/metodi2/out-spacing.txt"] },
+      "raccomandazione": "correggere (misura lungo il perimetro), con opzione legacy",
+      "decisione": null,
+      "data": "2026-10-07",
+      "fase": "F2.3"
+    },
+    {
+      "id": "R13",
+      "titolo": "Dettagli: interpretazioni cautelative",
+      "famiglia": "calcestruzzo/dettagli",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Riduzione 0,6 dell'interasse delle staffe nelle sovrapposizioni dei pilastri EC anche con Ømax ≤ 14 mm (EN 9.5.3(4)(ii): con 8Ø14 il limite scende a 168 mm invece di 280); sovrapposizione NTC minima 200 mm invece di 150 (§4.1.2.3.10); limite 0,08 Ac nelle giunzioni applicato anche al profilo NTC; nota 2 del prospetto 4.3N (aria inglobata oltre il 4 %) non implementata.",
+      "codice": [ "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:169", "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:97", "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:140", "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:135-139" ],
+      "segno": "cautelativo",
+      "raccomandazione": "correggere la riduzione 0,6 (esito indebito); dichiarare gli altri tre",
+      "decisione": null,
+      "data": "2026-10-07",
+      "fase": "F2.3"
+    },
+    {
+      "id": "R14",
+      "titolo": "Dettagli e momento-curvatura: regole sostituite, definizioni e citazioni",
+      "famiglia": "calcestruzzo",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Travi EC: la regola dei 15Ø per le barre compresse (EN 9.2.1.2(3), anche NTC §4.1.6.1.1) è sostituita da una conferma. Momento-curvatura: χu al punto limite e χy al primo snervamento di una barra, senza bilineare equivalente e senza φ(M85 %) della Circolare (Fig. C4.1.12). Citazioni: NTC MinimumTension cita EC2 §9.3.1.1 invece di 9.2.1.1; riferimenti NTC «§4.1.6.1 .3» con uno spazio; equazioni As,min NTC 2018 [4.1.45]-[4.1.46] (non 4.1.43-4.1.44); «UNI 11104 prospetto 5» dipende dall'edizione.",
+      "codice": [ "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:220", "Checker/GPCChecker.Concrete/Response/MomentCurvatureAnalysis.cs:142-164", "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:200", "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:112-117", "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:107" ],
+      "segno": "15Ø: da stabilire (la conferma dipende dall'utente); citazioni senza effetto",
+      "raccomandazione": "implementare la regola dei 15Ø come controllo; dichiarare le definizioni del momento-curvatura e aggiungere la bilineare come opzione; correggere le citazioni",
+      "decisione": null,
+      "data": "2026-10-07",
+      "fase": "F2.3"
     }
   ]
 }
