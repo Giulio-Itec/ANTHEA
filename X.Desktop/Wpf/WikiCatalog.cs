@@ -14,7 +14,7 @@ internal sealed record WikiArticle(string Id, string Type, string Area, string T
     string[]? Prerequisites = null, string[]? References = null);
 
 internal sealed record WikiChapter(string Id, int Number, string Title, string Description, string Introduction);
-internal sealed record WikiReference(string Id, string Title, string Url, string Kind);
+internal sealed record WikiReference(string Id, string Title, string Kind);
 
 /// <summary>Metadata only in memory; chapter bodies are read on demand from the two canonical manuals.</summary>
 internal static class WikiCatalog

@@ -928,5 +928,10 @@
   "parametric#separare-quattro-passaggi": "/wiki/manuale/computational/parametric#separare-quattro-passaggi",
   "parametric#un-esempio-di-dipendenza": "/wiki/manuale/computational/parametric#un-esempio-di-dipendenza",
   "parametric#dati-strutturati-e-identita": "/wiki/manuale/computational/parametric#dati-strutturati-e-identita",
-  "parametric#riproducibilita-e-limiti": "/wiki/manuale/computational/parametric#riproducibilita-e-limiti"
+  "parametric#riproducibilita-e-limiti": "/wiki/manuale/computational/parametric#riproducibilita-e-limiti",
+  "/wiki/guide/palo-elastico#compilazione-dei-dati": "/wiki/guide/palo-elastico#dati-iniziali-condivisi",
+  "/wiki/guide/palo-elastico#assegnazione-delle-rigidezze": "/wiki/guide/palo-elastico#parametri-nella-riga-dello-strato",
+  "/wiki/guide/palo-elastico#lettura-e-conservazione-dei-risultati": "/wiki/guide/palo-elastico#sforzo-normale-e-lettura-dei-diagrammi",
+  "esempi-caffe-lettura": "/wiki/manuale/meccanica/esempi-controlli-indipendenti",
+  "/wiki/manuale/meccanica/esempi-caffe-lettura": "/wiki/manuale/meccanica/esempi-controlli-indipendenti"
 }

@@ -5,20 +5,11 @@
     {
       "suite": "verifiche/project-calculations",
       "kind": "exit",
-      "match": "",
-      "reason": "Default di geo_muri_sostegno diversi tra progetto e foglio. La suite si ferma al primo errore (ProjectCalculationChecks.cs:10, :27), quindi i controlli successivi non vengono eseguiti.",
-      "source": "lib/Checker/README.md:49",
-      "since": "2026-09-28",
-      "phase": "F0.5"
-    },
-    {
-      "suite": "wiki/manuale",
-      "kind": "exit",
-      "match": "test_migration_coverage",
-      "reason": "L'ancora /wiki/guide/palo-elastico#compilazione-dei-dati non esiste più nella guida e manca l'alias. Già presente in 2cdf9fd.",
-      "source": "supporto/test/wiki-handbook-checks.py",
-      "since": "2026-10-06",
-      "phase": "W0"
+      "match": "^FAIL: Default progetto e foglio diversi: geo_muri_sostegno$",
+      "reason": "Unico controllo non superato su 123 (F0.5a: la suite ora raccoglie i fallimenti e prosegue). Il confronto DeepEquals dei default di progetto e foglio differisce solo in actions[0].id, un Guid generato a ogni CreateData (RetainingWall.Defaults -> Upgrade -> NewAction, X.Calculations/RetainingWall.Actions.cs:14 e :39). Nessun effetto numerico: i risultati del calcolo coincidono a id normalizzato. Difetto del test, che confronta anche un identificatore casuale; da decidere se normalizzare gli id nel test o rendere deterministici i default dei muri.",
+      "source": "supporto/test/X.Verifiche/ProjectCalculationChecks.cs:51",
+      "since": "2026-09-29",
+      "phase": "F3.3"
     },
     { "suite": "build/ConcreteDesign.DesktopChecks", "kind": "build", "match": "WpfMath", "reason": "Ricompila i sorgenti di X.Desktop senza il pacchetto WpfMath (usato dalla Wiki dal 2/10).", "source": "build/ci.ps1 run0-full", "since": "2026-10-02", "phase": "F1.6" },
     { "suite": "build/ValidationIllustrations", "kind": "build", "match": "WpfMath", "reason": "Ricompila i sorgenti di X.Desktop senza il pacchetto WpfMath (usato dalla Wiki dal 2/10).", "source": "build/ci.ps1 run0-full", "since": "2026-10-02", "phase": "F1.6" }

@@ -14,7 +14,9 @@ public static partial class BridgeSection
         var result = method == CalculationMethods[0] ? HBridgeSection.Calculate(input, cancellation) :
             HBridgeHistoryResults.Calculate(method == CalculationMethods[2] ? input with { Options = input.Options with { Class4 = false } } : input,
                 HistoryOptions(data), cancellation);
-        return new(method, result.Scope, (JsonObject)data.DeepClone(), result.Geometry, result.Materials, result.Stages);
+        // The result carries the library method (model, standard and version) for reports and audits; the short label
+        // chosen in the sheet stays in data["metodo_analisi"].
+        return new(result.Method, result.Scope, (JsonObject)data.DeepClone(), result.Geometry, result.Materials, result.Stages);
     }
     public const string LegacyCumulativeMethod = "Cumulativo · metodo precedente", CumulativeLinearMethod = "Cumulativo lineare";
     public static readonly string[] CalculationMethods = [CumulativeLinearMethod, "Storico lineare", "Storico non lineare"];
