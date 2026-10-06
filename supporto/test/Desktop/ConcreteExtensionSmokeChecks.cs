@@ -18,13 +18,16 @@ internal sealed partial class SheetEditor
 }
 internal sealed partial class ConcreteWorkspace
 {
+    // Tab headers are built by AddTab as "number" + "  title" text blocks.
+    private string TabTitle(int index)=>((System.Windows.Controls.Panel)((System.Windows.Controls.TabItem)tabs.Items[index]).Header).Children.OfType<System.Windows.Controls.TextBlock>().Last().Text.Trim();
     internal async Task VerifyExtensions(string directory)
     {
         int count=0;void Check(bool value,string text){if(!value)throw new Exception(text);count++;}
         async Task Idle(){await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);UpdateLayout();}
         async Task Updated(){while(Busy)await Task.Delay(40);await CalculateAllAsync();await Idle();}
         async Task Capture(string name){await Idle();File.WriteAllBytes(Path.Combine(directory,name+".png"),Ui.Snapshot(Window.GetWindow(this)));}
-        Check(tabs.Items.Count==7,"Sette schede CA");
+        // The eighth tab (reinforcement design, 895bf31) follows the seven checked here: their indices do not change.
+        Check(tabs.Items.Count==8 && TabTitle(6)=="Momento–curvatura" && TabTitle(7)=="Calcola armature","Otto schede CA, l'ultima per il calcolo armature");
         tabs.SelectedIndex=0;
         var originalCls=Input.S("cls_diagramma");var originalSteel=Input.S("steel_diagramma");
         var clsName=Input.S("classe_cls");var steelName=Input.S("classe_acciaio");

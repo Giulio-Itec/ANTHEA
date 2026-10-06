@@ -22,7 +22,6 @@
     },
     { "suite": "ui/smoke", "kind": "exit", "match": "", "reason": "Prova WPF principale fallita già con lo snapshot del 28/9.", "source": "lib/Checker/README.md:50", "since": "2026-09-28", "phase": "F0.5" },
     { "suite": "ui/smoke-bridge", "kind": "exit", "match": "", "reason": "Prova WPF del ponte fallita già con lo snapshot del 28/9.", "source": "lib/Checker/README.md:50", "since": "2026-09-28", "phase": "F0.5" },
-    { "suite": "ui/smoke-ca-extensions", "kind": "exit", "match": "", "reason": "Prova WPF delle estensioni c.a. fallita già con lo snapshot del 28/9.", "source": "lib/Checker/README.md:50", "since": "2026-09-28", "phase": "F0.5" },
     { "suite": "ui/smoke-global-stability", "kind": "exit", "match": "", "reason": "Prova WPF della stabilità globale fallita già con lo snapshot del 28/9.", "source": "lib/Checker/README.md:50", "since": "2026-09-28", "phase": "F0.5" },
     { "suite": "ui/smoke-retaining-wall", "kind": "exit", "match": "", "reason": "Prova WPF dei muri fallita già con lo snapshot del 28/9.", "source": "lib/Checker/README.md:50", "since": "2026-09-28", "phase": "F0.5" },
     { "suite": "build/ConcreteDesign.DesktopChecks", "kind": "build", "match": "WpfMath", "reason": "Ricompila i sorgenti di X.Desktop senza il pacchetto WpfMath (usato dalla Wiki dal 2/10).", "source": "build/ci.ps1 run0-full", "since": "2026-10-02", "phase": "F1.6" },
