@@ -32,7 +32,8 @@ ogni commit: `[x]` fatto, `[~]` in corso, `[ ]` da fare.
 - [x] F0.1 node_modules e `supporto/tmp` fuori dall'indice, junction tolta, esempi versionati (9708530).
 - [x] F0.2 [CP] Decisioni di avvio, `docs/refactoring`, prima revisione di AGENTS.md (in attesa di approvazione).
 - [x] F0.3 Runner `build/ci.ps1` (profili quick, standard, full), `build/known-failures.json`, `Verifica.cmd` non interattiva. La prima corsa ha scoperto 5 harness fermi per DelaunayMesh 2.0.0.8 e un alias Wiki rotto.
-- [ ] F0.4 Baseline B0: catture headless degli 11 moduli e dei motori non coperti dal servizio, griglie dense di CheckerMigration.Capture, testo dei report, impronta delle mesh, registro dei default silenziosi; doppia corsa.
+- [~] F0.4 Baseline B0: catture headless degli 11 moduli e dei motori non coperti dal servizio, griglie dense di CheckerMigration.Capture, testo dei report, impronta delle mesh, registro dei default silenziosi; doppia corsa.
+  F0.4a fatto: toolkit unico `tests/ANTHEA.Testing` (capture, compare, normalize; tolleranze per grandezza in `tolerances.json`, default 0), B0 headless in `supporto/artefatti/baseline/F0-B0` (moduli, motori fuori dal servizio, testo dei report, archivi, registro dei ripieghi di `J.S/D/B`), doppia corsa uguale a meno dei tempi `tempi_ms`; stadio e profilo `baseline` in `build/ci.ps1`. Restano (F0.4b) griglie dense, uscite normalizzate delle prove WPF e impronta delle mesh.
 - [ ] F0.5 [CP] Diagnosi dei fallimenti noti (6 prove WPF, `--project-calculations` che si ferma al primo errore e maschera i controlli successivi, 8 casi BridgeAudit, ancora Wiki).
 - [ ] F0.6 [CP] Schede degli scostamenti (a)–(f) con effetto quantificato; decisione dell'utente.
 - [~] F0.7 Build: proprietà `GpcLibDir`, elenco esplicito delle DLL e verifica SHA-256 fatti (5 harness di nuovo eseguibili); resta `.gitattributes`. Anticipato prima di F0.4.
