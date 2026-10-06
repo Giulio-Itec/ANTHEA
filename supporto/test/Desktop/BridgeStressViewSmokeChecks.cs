@@ -89,7 +89,10 @@ public sealed partial class MainWindow
         bridge.Pages.SelectedIndex = 0; await Layout();
         Check(!bridge.ConcreteScaleEditor.IsVisible, "Controllo tensioni presente nel pannello geometrico.");
         var materialForm = bridge.InputForms.Single(f => f.Editors.ContainsKey("fy_override"));
-        Check(((CheckBox)materialForm.Editors["fy_override"]).Content?.ToString() == "Sovrascrivi fy per tutta la carpenteria" &&
+        // Since 2cdf9fd the check box content is the label with its Wiki help button, not a plain string.
+        var fyOverride = (CheckBox)materialForm.Editors["fy_override"];
+        string? fyLabel = fyOverride.Content as string ?? (fyOverride.Content as Panel)?.Children.OfType<TextBlock>().SingleOrDefault()?.Text;
+        Check(fyLabel == "Sovrascrivi fy per tutta la carpenteria" &&
             materialForm.Editors["fy_override"].ToolTip?.ToString()?.Contains("Non modifica le armature") == true, "Dicitura o tooltip fy poco chiari.");
         // Exercise the renderer with exact stress fields, independently of the solver.
         IEnumerable<GeometryDrawing> Areas(Drawing drawing)

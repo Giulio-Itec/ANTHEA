@@ -1,6 +1,8 @@
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.Json.Nodes;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Threading;
 using X.Core;
 
@@ -8,7 +10,37 @@ namespace X.Desktop;
 
 public sealed partial class MainWindow
 {
+    // The layout sizes start at Full HD (1920 × 1080 DIP), larger than what Windows lets a window track on smaller
+    // or scaled screens (2560 px at 150 % stops at 1724 DIP). Raise the Win32 maximum tracking size while the smoke runs,
+    // so every requested size is really reached and checked on any screen.
+    private Action AllowWindowBeyondScreen()
+    {
+        var source = (HwndSource)PresentationSource.FromVisual(this)!;
+        HwndSourceHook hook = (IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled) =>
+        {
+            // WM_GETMINMAXINFO: hooks added later run first, before WPF reads the system limits.
+            if (message == 0x0024)
+            {
+                var info = Marshal.PtrToStructure<MinMaxInfo>(lParam);
+                info.MaxTrackWidth = Math.Max(info.MaxTrackWidth, 16384); info.MaxTrackHeight = Math.Max(info.MaxTrackHeight, 16384);
+                Marshal.StructureToPtr(info, lParam, false);
+            }
+            return IntPtr.Zero;
+        };
+        source.AddHook(hook);
+        return () => source.RemoveHook(hook);
+    }
+    [StructLayout(LayoutKind.Sequential)]
+    private struct MinMaxInfo { public int ReservedX, ReservedY, MaxWidth, MaxHeight, MaxLeft, MaxTop, MinTrackWidth, MinTrackHeight, MaxTrackWidth, MaxTrackHeight; }
+
     internal async Task SmokeHorizontal(string directory)
+    {
+        var restoreScreenLimit = AllowWindowBeyondScreen();
+        try { await SmokeHorizontalLayouts(directory); }
+        finally { restoreScreenLimit(); }
+    }
+
+    private async Task SmokeHorizontalLayouts(string directory)
     {
         Directory.CreateDirectory(directory); WindowState = WindowState.Normal;
         var data = PaloOrizzontale.Defaults(); data["stratigrafie"]![0]!.AsArray().Add(PaloOrizzontale.Layer());

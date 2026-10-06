@@ -131,8 +131,8 @@ public sealed partial class MainWindow
         Commit(); string file = Path.Combine(directory, "mensola.anthea"); Archivio.Scrivi(file, document); var loaded = Archivio.Leggi(file);
         Check(loaded["dati"]!["actions"]![0].D("value") == 35, "Salvataggio dal workspace");
         editor.ExportReport(Path.Combine(directory, "mensola.docx"), "Muro a mensola", []);
-        using (var reportZip = System.IO.Compression.ZipFile.OpenRead(Path.Combine(directory, "mensola.docx")))
-            Check(reportZip.Entries.Count(e => e.FullName.StartsWith("word/media/")) == 4, "Relazione Word con sezione e tre diagrammi incorporati");
+        var reportCaptions = WallAdvancedChecks.ReportFigureCaptions(w, global: false);
+        Check(WallAdvancedChecks.ReportHasFigures(File.ReadAllBytes(Path.Combine(directory, "mensola.docx")), reportCaptions), "Relazione Word con sezione, tre diagrammi, sezione armata e tavole della distinta: " + string.Join(" | ", reportCaptions));
         editor.ExportResult(Path.Combine(directory, "mensola.json"));
         var sameEditor = editor; ShowHome(); ResumeCalculation(); Check(ReferenceEquals(sameEditor, editor), "Riprendi conserva il workspace");
         await Settle();
