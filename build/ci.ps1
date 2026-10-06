@@ -5,23 +5,27 @@ Single runner for the ANTHEA verifications (refactoring, phase F0).
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile standard        # everything except the WPF smokes
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile full -Tag run0  # standard + WPF smokes (needs the desktop)
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Stage ui -Only 'smoke-bridge'
+  powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile baseline -Tag B1 -BaselineRef supporto\artefatti\baseline\F0-B0\headless
 
-Stages: build, fast, regression, wiki, ui, word (word needs Microsoft Word, never in a profile).
-Profiles: quick = build fast wiki; standard = quick + regression; full = standard + ui.
+Stages: build, fast, regression, wiki, baseline, ui, word (word needs Microsoft Word, never in a profile).
+Profiles: quick = build fast wiki; standard = quick + regression; baseline = standard + baseline; full = standard + ui.
+Stage baseline: headless capture of the corpus with tests\ANTHEA.Testing (results, engines, report text, archives, fallbacks);
+with -BaselineRef <capture folder> also its comparison with that reference capture (tests\ANTHEA.Testing\tolerances.json).
 Every outcome is classified against build/known-failures.json: PASS, KNOWN, NEW-FAIL, FIXED, BLOCKED, NOT-RUN.
 Exit code 0 only without NEW-FAIL and without tracked files modified by the suites.
 Outputs: supporto/artefatti/ci/<yyyyMMdd-HHmmss>-<Tag>/ (summary.json, summary.txt, one folder and log per suite).
 #>
 [CmdletBinding()]
 param(
-    [ValidateSet('quick', 'standard', 'full')] [string] $Profile = 'quick',
-    [ValidateSet('build', 'fast', 'regression', 'wiki', 'ui', 'word')] [string[]] $Stage,
+    [ValidateSet('quick', 'standard', 'baseline', 'full')] [string] $Profile = 'quick',
+    [ValidateSet('build', 'fast', 'regression', 'wiki', 'baseline', 'ui', 'word')] [string[]] $Stage,
     [string] $Tag = 'run',
     [string] $Output,
     [switch] $NoBuild,
     [string] $GpcLibDir,
     [string] $CompareTo,
-    [string] $Only
+    [string] $Only,
+    [string] $BaselineRef
 )
 $ErrorActionPreference = 'Stop'
 $Root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
@@ -31,6 +35,7 @@ if (-not $Stage) {
     $Stage = switch ($Profile) {
         'quick' { @('build', 'fast', 'wiki') }
         'standard' { @('build', 'fast', 'regression', 'wiki') }
+        'baseline' { @('build', 'fast', 'regression', 'wiki', 'baseline') }
         'full' { @('build', 'fast', 'regression', 'wiki', 'ui') }
     }
 }
@@ -82,6 +87,16 @@ foreach ($name in 'BridgeDesign.Checks', 'BridgeDesign.IndependentChecks', 'Glob
 Add-Suite @{ Name = 'wiki/indice'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\scripts\wiki\build-wiki-index.py'; Args = @('--check') }
 Add-Suite @{ Name = 'wiki/manuale'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\test\wiki-handbook-checks.py'; Args = @() }
 
+# Placeholders of the baseline suites: {root} repository, {output} run folder, {tag}, {commit}.
+$Testing = 'tests\ANTHEA.Testing\ANTHEA.Testing.csproj'
+Add-Suite @{ Name = 'baseline/cattura'; Stage = 'baseline'; Kind = 'run'; Project = $Testing; Timeout = 3600
+    Args = @('capture', '{out}\cattura', '--root', '{root}', '--tag', '{tag}', '--commit', '{commit}')
+    Proof = @{ File = '{out}\cattura\manifest.json'; Pattern = '"strumento": "ANTHEA.Testing"' } }
+if ($BaselineRef) {
+    Add-Suite @{ Name = 'baseline/confronto'; Stage = 'baseline'; Kind = 'run'; Project = $Testing; Timeout = 1800
+        Args = @('compare', $(if ([IO.Path]::IsPathRooted($BaselineRef)) { $BaselineRef } else { Join-Path $Root $BaselineRef }), '{output}\baseline_cattura\cattura', '--report', '{out}\confronto.json') }
+}
+
 $smokes = 'smoke', 'smoke-bridge', 'smoke-bridge-curves', 'smoke-bridge-design', 'smoke-bridge-predalle', 'smoke-ca-extensions', 'smoke-ca-features',
     'smoke-display', 'smoke-global-stability', 'smoke-hierarchy', 'smoke-horizontal', 'smoke-material-report', 'smoke-materials', 'smoke-neutral-axis',
     'smoke-project-report', 'smoke-projects', 'smoke-project-workspace', 'smoke-retaining-wall', 'smoke-sharing', 'smoke-steel'
@@ -114,7 +129,9 @@ $NotRun = @(
 )
 
 # ---------------------------------------------------------------- helpers
-function Expand([string] $text, [string] $out) { $text.Replace('{cases}', $Cases).Replace('{out}', $out) }
+function Expand([string] $text, [string] $out) {
+    $text.Replace('{cases}', $Cases).Replace('{out}', $out).Replace('{output}', $Output).Replace('{root}', $Root).Replace('{tag}', $Tag).Replace('{commit}', $commit)
+}
 function Quote([string] $a) { if ($a -match '[\s"]') { '"' + $a.Replace('"', '\"') + '"' } else { $a } }
 
 function Invoke-Process([string] $file, [string[]] $arguments, [string] $logBase, [int] $timeout, [switch] $Window) {
