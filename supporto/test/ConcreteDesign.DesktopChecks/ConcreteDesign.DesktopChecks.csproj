@@ -7,7 +7,6 @@
     <ProjectReference Include="../../../X.Calculations/X.Calculations.csproj" />
     <ProjectReference Include="../../../X.Core/X.Core.csproj" />
     <ProjectReference Include="../../../X.Materiali/X.Materiali.csproj" />
-    <Reference Include="../../../lib/Checker/*.dll" />
     <Compile Include="../../../X.Desktop/**/*.cs" Exclude="../../../X.Desktop/obj/**/*.cs;../../../X.Desktop/bin/**/*.cs;../../../X.Desktop/Wpf/App.cs" />
     <Compile Include="../Desktop/*.cs" />
     <ApplicationDefinition Include="../../../X.Desktop/App.xaml" Link="App.xaml" />

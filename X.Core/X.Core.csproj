@@ -1,9 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup><AssemblyName>ANTHEA.Core</AssemblyName><Product>ANTHEA</Product><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+  <PropertyGroup><AssemblyName>ANTHEA.Core</AssemblyName><Product>ANTHEA</Product><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><GpcLibraries>GPCChecker.CompositeBridge;GPCModel</GpcLibraries></PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../X.Calculations/X.Calculations.csproj" />
-    <Reference Include="GPCChecker.CompositeBridge"><HintPath>../lib/Checker/GPCChecker.CompositeBridge.dll</HintPath></Reference>
-    <Reference Include="GPCModel"><HintPath>../lib/Checker/GPCModel.dll</HintPath></Reference>
     <EmbeddedResource Include="Templates/ANTHEA_Sollecitazioni.xlsx" LogicalName="ANTHEA.Sollecitazioni.xlsx" />
   </ItemGroup>
 </Project>

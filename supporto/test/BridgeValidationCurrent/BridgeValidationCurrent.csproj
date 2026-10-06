@@ -7,7 +7,6 @@
     <ProjectReference Include="../../../X.Calculations/X.Calculations.csproj" />
     <Compile Include="../../../../Checker/GPCChecker.Test.CompositeBridge/*.cs" Link="%(Filename)%(Extension)" />
     <None Include="../../../../Checker/GPCChecker.Test.CompositeBridge/Validation/*.json" Link="Validation/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <Reference Include="../../../lib/Checker/*.dll" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.6.4" />
     <PackageReference Include="MSTest.TestFramework" Version="3.6.4" />

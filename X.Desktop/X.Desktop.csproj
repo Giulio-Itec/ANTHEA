@@ -20,10 +20,7 @@
     <ApplicationIcon>Assets/anthea.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup><ProjectReference Include="../X.Calculations/X.Calculations.csproj" /><ProjectReference Include="../X.Core/X.Core.csproj" /><ProjectReference Include="../X.Materiali/X.Materiali.csproj" /></ItemGroup>
-  <ItemGroup>
-    <Reference Include="../lib/Checker/*.dll" Exclude="../lib/Checker/GPCChecker.CompositeBridge.dll" />
-    <Reference Include="GPCChecker.CompositeBridge"><HintPath>../lib/Checker/GPCChecker.CompositeBridge.dll</HintPath><Private>true</Private></Reference>
-  </ItemGroup>
+  <PropertyGroup><GpcLibraries>all</GpcLibraries></PropertyGroup>
   <ItemGroup><Resource Include="Assets/*.png" /><Resource Include="Assets/anthea.ico" /></ItemGroup>
   <ItemGroup>
     <Content Include="Wiki/Licenses/*.txt"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><TargetPath>Licenses/%(Filename)%(Extension)</TargetPath></Content>

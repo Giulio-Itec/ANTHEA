@@ -2,11 +2,10 @@
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework><UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><AssemblyName>Materiali</AssemblyName>
+    <GpcLibraries>GPCModel;GPCUtilities</GpcLibraries>
   </PropertyGroup>
   <ItemGroup><ProjectReference Include="../X.Calculations/X.Calculations.csproj" /></ItemGroup>
   <ItemGroup>
-    <Reference Include="GPCModel"><HintPath>../lib/Checker/GPCModel.dll</HintPath></Reference>
-    <Reference Include="GPCUtilities"><HintPath>../lib/Checker/GPCUtilities.dll</HintPath></Reference>
     <Resource Include="Assets/*.png" />
   </ItemGroup>
 </Project>
