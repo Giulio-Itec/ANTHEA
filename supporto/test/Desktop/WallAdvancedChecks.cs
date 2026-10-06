@@ -9,6 +9,32 @@ namespace X.Desktop;
 
 internal static class WallAdvancedChecks
 {
+    // Figures of the full wall report, in order: section, stem/toe/heel diagrams, the reinforced section (cantilever, 895bf31),
+    // the global stability surface when calculated, then every page of the bar schedule (cantilever, 2cdf9fd).
+    internal static string[] ReportFigureCaptions(RetainingWallWorkspace w, bool global)
+    {
+        var captions = new List<string> { "Sezione, terreno e armature", "Diagrammi Fusto", "Diagrammi Valle", "Diagrammi Monte", "Sezione armata con pieghe e sovrapposizioni" };
+        if (global) captions.Add("Stabilità globale · superficie critica");
+        int pages = w.CreateBarDrawing().PageCount;
+        for (int page = 1; page <= pages; page++) captions.Add("Tavola armature e distinta ferri · " + page);
+        return captions.ToArray();
+    }
+
+    // One embedded image per expected figure and every caption present in the expected order.
+    internal static bool ReportHasFigures(byte[] docx, IReadOnlyList<string> captions)
+    {
+        using var zip = new ZipArchive(new MemoryStream(docx));
+        using var read = new StreamReader(zip.GetEntry("word/document.xml")!.Open());
+        string xml = read.ReadToEnd(); int position = 0;
+        foreach (var caption in captions)
+        {
+            position = xml.IndexOf(caption, position, StringComparison.Ordinal);
+            if (position < 0) return false;
+            position += caption.Length;
+        }
+        return captions.Count > 0 && zip.Entries.Count(e => e.FullName.StartsWith("word/media/")) == captions.Count;
+    }
+
     internal static async Task Run(string directory)
     {
         Directory.CreateDirectory(directory); var log = new List<string>();
@@ -55,8 +81,10 @@ internal static class WallAdvancedChecks
             {
                 var xml = read.ReadToEnd();
                 Check(xml.Contains("Distinta di predimensionamento") && xml.Contains("Newmark") && xml.Contains("Portanza sismica con inerzia"), "Relazione Word con nuovi capitoli");
-                Check(zip.Entries.Count(e => e.FullName.EndsWith(".png")) == 5, "Relazione con quinta figura delle armature");
+                Check(zip.Entries.Count(e => e.FullName.EndsWith(".png")) == zip.Entries.Count(e => e.FullName.StartsWith("word/media/")), "Figure della relazione in PNG");
             }
+            var captions = ReportFigureCaptions(w, global: false);
+            Check(captions.Length >= 7 && ReportHasFigures(bytes, captions), "Relazione con quinta figura delle armature e tavole della distinta: " + string.Join(" | ", captions));
             var doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = w.Data.DeepClone();
             Archivio.Scrivi(Path.Combine(directory, "esempio-completo.anthea"), doc);
             Check(J.Equivalent(Archivio.Leggi(Path.Combine(directory, "esempio-completo.anthea"))["dati"], w.Data), "Modello ripercorribile con accelerogramma");
