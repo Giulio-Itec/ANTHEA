@@ -1,0 +1,44 @@
+[
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev30.docx",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev30.docx",
+    "sha256": "6F23E2F11E5170CC2DE6F10AC201D60504EA0DFD6D114ED6362925864B00263F",
+    "reason": "Revisione 07/10/2026: guide con soli contenuti propri (W0.5 e W0.4), portanza sismica dei muri secondo EN 1998-5 e γb dei pali per tecnologia",
+    "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev31.docx"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev30.pdf",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev30.pdf",
+    "sha256": "84061680212AADF98C620D85E91BA83A6CB7B40C45D8E3544B04C3DB32B20EF1",
+    "reason": "Revisione 07/10/2026: guide con soli contenuti propri (W0.5 e W0.4), portanza sismica dei muri secondo EN 1998-5 e γb dei pali per tecnologia",
+    "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev31.pdf"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev30.docx",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev30.docx",
+    "sha256": "5C107523A7557A4835F6D0D9AEF4DE2B0ACFA3E4C9D078887092E53E2578CC8B",
+    "reason": "Revisione 07/10/2026: guide con soli contenuti propri (W0.5 e W0.4), portanza sismica dei muri secondo EN 1998-5 e γb dei pali per tecnologia; la Rev30 contiene ancora il corpus esterno tolto con W0.5",
+    "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev31.docx"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev30.pdf",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev30.pdf",
+    "sha256": "B613AC17212596B966CEF41BC50D2B8C53907F8AA27A1D9F567681086FB5A3C6",
+    "reason": "Revisione 07/10/2026: guide con soli contenuti propri (W0.5 e W0.4), portanza sismica dei muri secondo EN 1998-5 e γb dei pali per tecnologia; la Rev30 contiene ancora il corpus esterno tolto con W0.5",
+    "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev31.pdf"
+  },
+  {
+    "original": "supporto/docs/guida-pratica-anthea.pdf",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev30.pdf",
+    "sha256": "84061680212AADF98C620D85E91BA83A6CB7B40C45D8E3544B04C3DB32B20EF1",
+    "reason": "Copia identica del PDF Rev30 accanto al sorgente Markdown, sostituita dal PDF Rev31; non archiviata una seconda volta",
+    "replacement": "supporto/docs/guida-pratica-anthea.pdf"
+  },
+  {
+    "original": "supporto/docs/guida-teorica-anthea.pdf",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev30.pdf",
+    "sha256": "B613AC17212596B966CEF41BC50D2B8C53907F8AA27A1D9F567681086FB5A3C6",
+    "reason": "Copia identica del PDF Rev30 accanto al sorgente Markdown, sostituita dal PDF Rev31; non archiviata una seconda volta",
+    "replacement": "supporto/docs/guida-teorica-anthea.pdf"
+  }
+]

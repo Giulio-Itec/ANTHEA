@@ -1,6 +1,6 @@
 # Materiale di supporto ANTHEA
 
-La documentazione utente è raccolta in due guide globali Rev30 del 6 ottobre 2026:
+La documentazione utente è raccolta in due guide globali Rev31 del 7 ottobre 2026:
 
 - [Guida pratica e UI](docs/guida-pratica-anthea.md): procedure e interfaccia di tutti i moduli.
 - [Guida teorica](docs/guida-teorica-anthea.md): modelli, formule, ipotesi, limiti, approfondimenti e appendici tecniche di tutti i moduli.
@@ -62,6 +62,8 @@ Portanza sismica, cedimenti, Newmark e armature: [rapporto aggiornamento](artefa
 
 - Revisione 26: controlli sismici di testa del palo secondo NTC 2018 §7.2.5, con fonte, campo di applicazione ed esiti nel verificatore.
 
-- Revisione 30: materiali dei muri condivisi con sezioni e schede Materiali; distinta ferri del tratto con tavole, sviluppi, quantità ed esportazioni PDF, Word e CSV.
+- Revisione 27: materiali dei muri condivisi con sezioni e schede Materiali; distinta ferri del tratto con tavole, sviluppi, quantità ed esportazioni PDF, Word e CSV.
 
 - Revisione 30: approvazione delle ipotesi del palo, esiti distinti, fonte NTC interna e rappresentazione di staffe e spirali.
+
+- Revisione 31: guide con soli contenuti propri, senza corpus esterno, diario di sviluppo, strumenti di IA, programmi concorrenti e paragrafi duplicati; portanza sismica dei muri secondo EN 1998-5 Annesso F senza γRD sull'inerzia del terreno; γb della punta dei pali secondo la tecnologia (NTC 2018 Tab. 6.4.II). Le edizioni Rev30 sono in `SUPERATI/documentazione/Guide_ANTHEA`, con `SUPERATI/registro-20261007.json`.

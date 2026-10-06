@@ -2,9 +2,9 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 5 aggiornata il 6 ottobre 2026 — revisione documentale 30
+Edizione 5 aggiornata il 7 ottobre 2026 — revisione documentale 31
 
-Questa edizione integra i contenuti precedenti nel percorso dell'Engineering Handbook. Le procedure correnti e la teoria sono separate dai resoconti di sviluppo. Le fonti integrali e le evidenze storiche restano nell'archivio Rev14; gli indirizzi precedenti della Wiki raggiungono le pagine consolidate. Lo stato editoriale distingue contenuti integrati, pagine revisionate e profili che richiedono ulteriori riscontri normativi.
+Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
 ## Architettura del calcolo e convenzioni
 
@@ -200,7 +200,7 @@ Converse Labarre usa la geometria del reticolo nelle due direzioni. Gli angoli d
 \eta = 1-\frac{\arctan(D/s_x)}{90}\frac{n_x-1}{n_x} -\frac{\arctan(D/s_y)}{90}\frac{n_y-1}{n_y}
 ```
 
-Feld conta le coppie adiacenti ortogonali e diagonali: P = (nx−1)ny + nx(ny−1) + 2(nx−1)(ny−1), poi η = 1 − 2P/(16 nx ny). Per questi due metodi la versione corrente applica la stessa efficienza a compressione e trazione. L'opzione manuale permette valori distinti. Un risultato non positivo viene rifiutato.
+Feld conta le coppie adiacenti ortogonali e diagonali: P = (nx−1)ny + nx(ny−1) + 2(nx−1)(ny−1), poi η = 1 − 2P/(16 nx ny). Per questi due metodi il modulo applica la stessa efficienza a compressione e trazione. L'opzione manuale permette valori distinti. Un risultato non positivo viene rifiutato.
 
 La profondità analizzabile deve essere coperta dalle stratigrafie necessarie. Sono fuori dal modello automatico cedimenti, attrito negativo, resistenza del blocco di gruppo e interazione completa terreno struttura. Il rapporto Ed/Rd riguarda la resistenza assiale considerata e non esprime da solo la prestazione di esercizio.
 
@@ -208,7 +208,7 @@ La profondità analizzabile deve essere coperta dalle stratigrafie necessarie. S
 
 ### Correlazione del bulbo
 
-La resistenza laterale usa curve digitalizzate Bustamante Doix documentate nel materiale di riferimento di Viggiani, sezione 13.1.6. Le famiglie SG, AL, MC e R e le curve 1 IRS e 2 IGU individuano la correlazione applicabile. La grandezza p_l, in MPa, viene interpolata linearmente fra i punti della curva; l'ordinata viene convertita in kPa. Il codice rifiuta valori esterni al campo disponibile. Il campo storico dell'interfaccia è «Pressione p_i = p_l»: l'uguaglianza è un'assunzione dell'integrazione e non dimostra che la pressione della pompa coincida fisicamente con il parametro geotecnico dell'abaco.
+La resistenza laterale usa curve digitalizzate Bustamante Doix documentate nel materiale di riferimento di Viggiani, sezione 13.1.6. Le famiglie SG, AL, MC e R e le curve 1 IRS e 2 IGU individuano la correlazione applicabile. La grandezza p_l, in MPa, viene interpolata linearmente fra i punti della curva; l'ordinata viene convertita in kPa. Il codice rifiuta valori esterni al campo disponibile. Il campo dell'interfaccia è «Pressione p_i = p_l»: l'uguaglianza è un'assunzione del modulo e non dimostra che la pressione della pompa coincida fisicamente con il parametro geotecnico dell'abaco.
 
 Il diametro del bulbo viene stimato come Ds = α D, dove D è il diametro di perforazione. La resistenza di ogni tratta attiva vale π Ds Lj τj. α rappresenta l'espansione convenzionale e va scelto in relazione a terreno e iniezione; non è un incremento di resistenza indipendente dalla geometria.
 
@@ -457,7 +457,7 @@ Indichiamo con hw l'altezza libera verticale, tw lo spessore normale alla lamier
 t_{w,h} = \frac{t_w}{\cos\alpha}
 ```
 
-Le anime sono rappresentate come lamiere di spessore normale costante tagliate alle quote orizzontali delle flange. La loro larghezza orizzontale è tw,h, non tw. Il campo attuale Altezza totale H comprende le piattabande: hw è ricavata sottraendo gli spessori superiore, inferiore e, per H verticale, dell’eventuale seconda piastra. Nell’input si assegnano H e tw; non si deve anticipare la trasformazione dello spessore, che il motore esegue internamente. Il campo implementato impone |α| ≤ 45°, equivalente a |δ| ≤ hw. È un limite dell'implementazione geometrica, non una soglia normativa di sicurezza.
+Le anime sono rappresentate come lamiere di spessore normale costante tagliate alle quote orizzontali delle flange. La loro larghezza orizzontale è tw,h, non tw. Il campo Altezza totale H comprende le piattabande: hw è ricavata sottraendo gli spessori superiore, inferiore e, per H verticale, dell’eventuale seconda piastra. Nell’input si assegnano H e tw; non si deve anticipare la trasformazione dello spessore, che il motore esegue internamente. Il campo implementato impone |α| ≤ 45°, equivalente a |δ| ≤ hw. È un limite dell'implementazione geometrica, non una soglia normativa di sicurezza.
 
 Nel cassoncino s_top e s_bottom sono gli interassi fra gli assi delle anime in sommità e al piede. La larghezza bt è quella di ciascuna piattabanda superiore; bb è quella dell'intero fondo. Un valore positivo di δ restringe il fondo, mentre un valore negativo lo allarga, purché la geometria sia valida.
 
@@ -480,7 +480,7 @@ A_w = n_w t_w\ell_w = t_{w,eq}h_w
 A_s = n_f b_t t_t+n_w t_w\ell_w+b_b t_b
 ```
 
-nf vale uno per l'H e due per il cassoncino; tt e tb sono gli spessori delle flange superiore e inferiore. La formula di As riguarda le nuove sezioni senza seconda piastra. Per ciascuna parte i di area Ai e quota yi, con origine alla sommità dell'acciaio e y negativo verso il basso, si applicano i momenti statici e il teorema di trasporto.
+nf vale uno per l'H e due per il cassoncino; tt e tb sono gli spessori delle flange superiore e inferiore. La formula di As riguarda le sezioni senza seconda piastra. Per ciascuna parte i di area Ai e quota yi, con origine alla sommità dell'acciaio e y negativo verso il basso, si applicano i momenti statici e il teorema di trasporto.
 
 ```math
 y_G = \frac{\sum_i A_i y_i}{\sum_i A_i}
@@ -515,11 +515,11 @@ M_c = M_0+N y_G
 \sigma(y) = \frac{N}{A_s}-\frac{M_c(y-y_G)}{I_x}
 ```
 
-Questo riferimento verifica unità, trasporto del momento e distribuzione delle tensioni; non è un caso di progetto completo. I test dell'aggiornamento lo confrontano con i tre percorsi cumulativo, storico lineare e storico non lineare mantenuti nel campo elastico, anche per δ negativo e per δ nullo. Per la fase composta vanno invece aggiunti soletta e armature con il coefficiente di omogeneizzazione pertinente.
+Questo riferimento verifica unità, trasporto del momento e distribuzione delle tensioni; non è un caso di progetto completo. I test lo confrontano con i tre percorsi cumulativo, storico lineare e storico non lineare mantenuti nel campo elastico, anche per δ negativo e per δ nullo. Per la fase composta vanno invece aggiunti soletta e armature con il coefficiente di omogeneizzazione pertinente.
 
 ### Campo del modello e compatibilità dei dati
 
-Le geometrie inclinate sono disponibili attraverso lo stesso ingresso dei tre metodi e delle curve di risposta; l'adozione della sezione equivalente non cambia il significato di fasi, carichi incrementali e riferimento al getto. Nei metodi storici i controlli locali di taglio, connessione e accessori restano non valutati; il metodo non lineare conserva il proprio campo istantaneo e lordo. La presenza della nuova forma non estende il campo di verifica del metodo selezionato.
+Le geometrie inclinate sono disponibili attraverso lo stesso ingresso dei tre metodi e delle curve di risposta; l'adozione della sezione equivalente non cambia il significato di fasi, carichi incrementali e riferimento al getto. Nei metodi storici i controlli locali di taglio, connessione e accessori restano non valutati; il metodo non lineare conserva il proprio campo istantaneo e lordo. Le forme inclinata e a cassoncino non estendono il campo di verifica del metodo selezionato.
 
 La chiusura superiore del cassoncino mediante soletta attiva il modello torsionale di cella chiusa soltanto quando si abilitano le verifiche a torsione; in tal caso sono calcolati anche distorsione e diaframmi. Restano fuori dal calcolo gli irrigidimenti longitudinali del fondo, la verifica del fondo compresso come piastra irrigidita e la torsione non uniforme del cassone aperto. Il fondo viene trattato come lamiera interna non irrigidita longitudinalmente, con i suoi sbalzi esterni. Instabilità globale e comportamento dell'intero ponte richiedono altri modelli.
 
@@ -728,7 +728,7 @@ L'esempio riprende il cassoncino del capitolo precedente (δ = 250 mm, s_top = 1
 | q [kN/m] | 35,3513 | 48,7115 | 162,3718 |
 | J [m⁴] | 0,041788 | 0,080873 | 0,100659 |
 
-Il flusso cumulato vale 246,4346 kN/m nelle anime e nel fondo, con τT = 17,6025 MPa nelle anime da 14 mm e 9,8574 MPa nel fondo da 25 mm; nella soletta agiscono 211,0833 kN/m. Con T = 1500 kNm all'appoggio, tD = 15 mm ed e_b = 1300 mm risultano τD = 17,6757 MPa e ΔR = 1153,846 kN. I valori sono confrontati con il calcolo del programma nei controlli dell'aggiornamento.
+Il flusso cumulato vale 246,4346 kN/m nelle anime e nel fondo, con τT = 17,6025 MPa nelle anime da 14 mm e 9,8574 MPa nel fondo da 25 mm; nella soletta agiscono 211,0833 kN/m. Con T = 1500 kNm all'appoggio, tD = 15 mm ed e_b = 1300 mm risultano τD = 17,6757 MPa e ΔR = 1153,846 kN. I valori sono confrontati con il calcolo del programma.
 
 ### Distorsione e diaframmi
 
@@ -787,13 +787,13 @@ Il modello costruisce e confronta alternative parametriche. La graduatoria rigua
 
 Bridge Design usa il motore parametrico BridgeConcept di ANTHEA. I moduli Sezione in c.a. e Sezione composta da ponte impiegano invece le librerie indicate nell’interfaccia come GPC Engine. L’ottimizzazione di Bridge Design non richiama automaticamente quelle verifiche di sezione. La presenza delle librerie GPC non trasforma il predimensionamento in una verifica strutturale completa.
 
-L’ottimizzatore è una ricerca discreta deterministica: genera combinazioni, calcola ciascuna, applica filtri e ordina quelle rimaste. Non usa apprendimento automatico, un modello addestrato sui risultati del sito, un algoritmo genetico o una ricerca continua per gradiente. A parità di dati, opzioni e versione del motore produce gli stessi risultati. Non promette di trovare una soluzione compresa fra due valori della griglia o appartenente a una tipologia non modellata.
+L’ottimizzatore è una ricerca discreta deterministica: genera combinazioni, calcola ciascuna, applica filtri e ordina quelle rimaste. Non usa apprendimento automatico, un algoritmo genetico o una ricerca continua per gradiente. A parità di dati, opzioni e versione del motore produce gli stessi risultati. Non promette di trovare una soluzione compresa fra due valori della griglia o appartenente a una tipologia non modellata.
 
 La soluzione ammissibile è una soluzione che supera i filtri interni elencati nel seguito. Il termine non equivale a verificata secondo NTC, Eurocodici o AASHTO. Nel modello non esiste un filtro generale che confronti il momento flettente con la resistenza dell’impalcato, né un limite automatico di freccia per tutte le tipologie. Una graduatoria economica può quindi favorire una sezione che richiederà un aumento di materiale nel progetto strutturale.
 
 ### Dati esterni e loro ingresso nel calcolo
 
-I dati esterni entrano attraverso i campi del progetto e il listino. Durante la ricerca non vengono interrogati il sito, ANAS, un servizio geologico o una banca dati di ponti. I valori iniziali sono contenuti nel codice e restano modificabili; un archivio riaperto conserva i propri prezzi e coefficienti. L’utente deve aggiornare consapevolmente le ipotesi quando cambia sito, anno economico, fornitore o prestazione richiesta.
+I dati esterni entrano attraverso i campi del progetto e il listino. Durante la ricerca non vengono interrogati servizi esterni, come prezzari, servizi geologici o banche dati di ponti. I valori iniziali sono contenuti nel codice e restano modificabili; un archivio riaperto conserva i propri prezzi e coefficienti. L’utente deve aggiornare consapevolmente le ipotesi quando cambia sito, anno economico, fornitore o prestazione richiesta.
 
 | Dato | Origine prevista | Effetto nel modello |
 | --- | --- | --- |
@@ -898,7 +898,7 @@ I_{eq} = \sum_j n_j\left[I_j+A_j(y_j-y_G)^2\right]
 
 Per le travi incorporate, Ac = Wd − Aa: il volume d’acciaio sostituisce calcestruzzo. L’inerzia usa il rettangolo lordo in cls più l’apporto dell’acciaio con coefficiente Es/Ec − 1, evitando di conteggiare due volte la stessa area. Si assume collaborazione perfetta; adesione, fasi di getto e verifiche dei profili non sono risolte.
 
-La piastra ortotropa somma lamiera superiore, canalette, fondi e due anime verticali per cassone. La lunghezza dei lati inclinati delle canalette è calcolata geometricamente. Il numero delle canalette deriva dalla parte intera di W/interasse e il prospetto espone l’interasse adottato W/n. La massa riceve un’aggiunta per traversi e accessori, ma il modello non esegue una verifica locale ortotropa o delle saldature. Il manuale FHWA [R4] documenta la necessità di trattare distintamente flessione locale, distorsione e fatica; citarlo non significa che queste verifiche siano implementate.
+La piastra ortotropa somma lamiera superiore, canalette, fondi e due anime verticali per cassone. La lunghezza dei lati inclinati delle canalette è calcolata geometricamente. Il numero delle canalette deriva dalla parte intera di W/interasse e il prospetto espone l’interasse adottato W/n. La massa riceve un’aggiunta per traversi e accessori, ma il modello non esegue una verifica locale ortotropa o delle saldature. Il manuale FHWA [R3] documenta la necessità di trattare distintamente flessione locale, distorsione e fatica; citarlo non significa che queste verifiche siano implementate.
 
 ### Acciai e carichi equivalenti
 
@@ -935,7 +935,7 @@ M(x) = M_l+R_l x-\frac{qx^2}{2}
 
 La freccia è ricavata integrando M/EI due volte e imponendo spostamento nullo ai due appoggi. Il motore campiona 41 punti per campata e aggiunge il punto di taglio nullo per individuare l’estremo del momento. L’estremo della freccia resta campionato: il valore visualizzato non è sempre il massimo analitico esatto. I diagrammi delle azioni usano qd; la freccia indicativa e le reazioni usate nel dimensionamento ordinario delle fondazioni sono riferite a qs.
 
-Per una campata appoggiata valgono R = ql/2, Mmax = ql²/8 e vmax = 5ql⁴/(384EI). Per due campate uguali continue, il momento centrale è −ql²/8, la reazione esterna 3ql/8, quella centrale 5ql/4 e il massimo positivo 9ql²/128. Questi casi sono controllati direttamente dalla suite. La formulazione FEM adottata nella nuova verifica indipendente è documentata da TU Delft [R5].
+Per una campata appoggiata valgono R = ql/2, Mmax = ql²/8 e vmax = 5ql⁴/(384EI). Per due campate uguali continue, il momento centrale è −ql²/8, la reazione esterna 3ql/8, quella centrale 5ql/4 e il massimo positivo 9ql²/128. Questi casi sono controllati direttamente dalla suite. La formulazione FEM adottata nella verifica indipendente è documentata da TU Delft [R4].
 
 Il modello trascura deformazione a taglio, fessurazione, viscosità, ritiro, effetti reali della precompressione, rigidezza variabile, cedimenti degli appoggi e fasi costruttive. La buona concordanza fra due solutori con queste ipotesi dimostra la corretta soluzione del problema ideale, non la validità delle ipotesi per qualsiasi ponte.
 
@@ -972,7 +972,7 @@ L’azione comprende reazione dell’impalcato, peso della sottostruttura e peso
 
 Per il plinto diretto si parte da una dimensione basata su √(N/(0,85p)), con minimo geometrico e arrotondamento a 0,25 m; lo spessore è max(0,60; B/6). La dimensione viene aumentata a passi di 0,25 m finché il rapporto è non maggiore di 1. Per i pali il numero automatico è pari e non inferiore a 4; aumenta di almeno due unità quando necessario. Il plinto su pali ha spessore 1,5D e deve contenere una griglia a interasse 3D con ingombro minimo [ceil(√np) − 1]3D + 2D. Il lato trasversale tiene conto anche della larghezza della sottostruttura.
 
-Il ciclo di fondazione ha un limite di 1.024 aggiornamenti e rifiuta casi non convergenti. Quote e numeri imposti dall’utente vengono rispettati, esponendo l’eventuale superamento del rapporto. Restano esclusi eccentricità, pressoflessione dei pali, carichi orizzontali, effetto di gruppo, cedimenti, attrito negativo, liquefazione e scalzamento. Il quadro delle verifiche reali è distinto da queste formule e va ricondotto alle norme applicabili [R6].
+Il ciclo di fondazione ha un limite di 1.024 aggiornamenti e rifiuta casi non convergenti. Quote e numeri imposti dall’utente vengono rispettati, esponendo l’eventuale superamento del rapporto. Restano esclusi eccentricità, pressoflessione dei pali, carichi orizzontali, effetto di gruppo, cedimenti, attrito negativo, liquefazione e scalzamento. Il quadro delle verifiche reali è distinto da queste formule e va ricondotto alle norme applicabili [R5].
 
 ### Archi reticolari stralli e sospensioni
 
@@ -1068,7 +1068,7 @@ Il motore conserva l’elenco completo delle soluzioni distinte e una selezione 
 
 ### Cosa rimane da validare prima dell’uso progettuale
 
-Non sono disponibili, in questa attività, confronti sperimentali, consuntivi economici di ponti costruiti, una calibrazione statistica dei rapporti luce altezza, verifiche normative complete di tutte le alternative o una validazione indipendente completa delle strutture speciali. I test delle famiglie speciali controllano geometrie, equilibri ideali, masse, filtri e riproducibilità, ma non sostituiscono un’analisi strutturale dedicata.
+Non sono disponibili confronti sperimentali, consuntivi economici di ponti costruiti, una calibrazione statistica dei rapporti luce altezza, verifiche normative complete di tutte le alternative o una validazione indipendente completa delle strutture speciali. I test delle famiglie speciali controllano geometrie, equilibri ideali, masse, filtri e riproducibilità, ma non sostituiscono un’analisi strutturale dedicata.
 
 Per portare un’alternativa allo studio di fattibilità occorre almeno definire il reale schema statico e costruttivo, l’inviluppo di traffico, i materiali, i dettagli di impalcato, il modello geotecnico, i vincoli territoriali e le lavorazioni mancanti. I controlli di sezioni, fasi, fatica, stabilità, fondazioni e appoggi devono essere eseguiti con modelli adeguati. Se queste verifiche aumentano le quantità, vanno riportate nel computo e nel confronto delle alternative.
 
@@ -1133,9 +1133,7 @@ Le pagine distinguono queste fonti. Il riferimento a una norma identifica un'edi
 
 ### Ritrovare i contenuti precedenti
 
-Le appendici di sviluppo, migrazione e audit sono state consolidate nelle pagine per argomento. I vecchi indirizzi della Wiki portano alla pagina corrente pertinente, senza creare duplicati nella ricerca. I risultati storici restano evidenze della versione e del caso originari, non risultati appena rieseguiti.
-
-Le due guide Rev14 complete, i relativi Word/PDF e il catalogo precedente sono conservati in `supporto/SUPERATI/wiki-integrazione-rev15-20261004/`. Il registro riporta origine, impronta SHA-256 e revisione sostitutiva. L'inventario di integrazione associa ogni vecchia voce alla destinazione e alle fonti del codice. Modelli di esempio e risultati usati dalle attività rimangono nelle loro cartelle.
+I vecchi indirizzi della Wiki portano alla pagina corrente pertinente, senza creare duplicati nella ricerca. I risultati storici restano evidenze della versione e del caso originari, non risultati appena rieseguiti.
 
 ### Controlli indipendenti
 
@@ -1149,13 +1147,7 @@ Il DM 17 gennaio 2018 e la Circolare 21 gennaio 2019 n. 7 sono i riferimenti ita
 
 ## Muri di sostegno e stabilità globale
 
-Il modulo tratta muri a mensola e a gravità. Le verifiche locali e la stabilità globale hanno modelli e combinazioni distinti. La [guida ai muri](wiki:guida-muri-di-sostegno-con-stratigrafie-di-monte-e-valle) descrive il percorso Input e Verifiche; [portanza, cedimenti e armature](wiki:portanza-sismica-cedimenti-spostamenti-e-armature-rev07) approfondisce i modelli aggiuntivi.
-
-Le stratigrafie di monte e valle sono affiancate, indipendenti o collegate per spessori e proprietà; le profondità partono dalle rispettive superfici. Hlib è la distanza dalla sommità al terreno di valle: Dv=H+t−Hlib. Il terreno davanti al muro entra nei pesi, nei momenti, nelle sollecitazioni della mensola e nel ricoprimento efficace della portanza. La passiva richiede attivazione e frazione mobilitata; è esclusa nel sisma. Gli attriti del muro e della fondazione sono assegnabili oppure ricavati da φcv,k e tipo di interfaccia. Il valore a volume costante va caratterizzato, senza sostituirlo automaticamente con quello di picco.
-
-Valori di calcolo consente di interrogare e modificare gli input e leggere coefficienti effettivi per combinazione, pesi, attriti, pressioni e sollecitazioni. Le forze risultanti dipendono dagli input e non si possono forzare. Le combinazioni sono modificabili: il preset locale è A1+M1+R3, quello globale A2+M2+R2. Azioni eccezionali e sisma Mononobe–Okabe o Wood semplificato sono espliciti. Il terreno del lato selezionato può essere trasferito ai moduli dei pali; la sezione selezionata può essere inviata al modulo c.a.
-
-La stabilità globale Bishop ha un motore separato e un proprio profilo esteso, anche con due colonne profonde e confine verticale assegnato. Il pulsante Stabilità globale apre il percorso; al primo accesso a un profilo vuoto ne prepara i dati e attiva la verifica. Gli strati si inseriscono per spessore, con quota del fondo calcolata automaticamente. La precompilazione non prolunga le indagini: rilievo, terreni profondi e falda del sito vanno controllati e confermati. Il disegno rappresenta anche il terreno sotto il piano di posa. Parametri, dominio e combinazioni restano interrogabili e modificabili.
+Il modulo tratta muri a mensola e a gravità. Le verifiche locali e la stabilità globale hanno modelli e combinazioni distinti. La [guida ai muri](wiki:guida-muri-di-sostegno-con-stratigrafie-di-monte-e-valle) descrive il percorso Input e Verifiche, le stratigrafie di monte e valle, gli attriti, i valori di calcolo e la preparazione del profilo globale; [portanza, cedimenti e armature](wiki:portanza-sismica-cedimenti-spostamenti-e-armature-rev07) approfondisce i modelli aggiuntivi.
 
 L’attrito automatico usa δd=k·atan(tanφcv,k/γMφ), con k=1 per gettato in opera e 2/3 per prefabbricato liscio. L’assegnazione usa tanδd=tanδk/γMφ. Coulomb/MO sul fusto tiene conto di δ muro; l’equilibrio del blocco muro e terreno sulla mensola usa il piano virtuale a δ=0, evitando il doppio conteggio delle forze interne. La portanza drenata include q′B′Nq iq e 0,5γ′B′²Nγ iγ; rimane fuori campo con base non ruvida, eccentricità eccessiva o inerzia sismica del terreno di fondazione. Lo scorrimento usa V′tanδb,d/γR.
 
@@ -1201,7 +1193,7 @@ Le tabelle espongono geometria della superficie, numero di superfici risolte/pro
 
 ### Riscontro ripercorribile e limiti
 
-Il caso stratificato della guida rapida ha H=3 m, t=0,45 m, strati profondi fino a y=−10 m e ricerca automatica fino a 6,90 m. Il modello completo è salvato in supporto/artefatti/globale-guidata-20260930/offscreen-rilascio/esempio-stratificato.anthea; i valori di riferimento dei due casi statici sono F=1,176315 e F=1,075737, con γR=1,10. Il secondo tasso è 1,022555 e non soddisfa il confronto.
+Il caso stratificato della guida pratica ha H=3 m, t=0,45 m, strati profondi fino a y=−10 m e ricerca automatica fino a 6,90 m. Il modello completo è salvato in supporto/artefatti/globale-guidata-20260930/offscreen-rilascio/esempio-stratificato.anthea; i valori di riferimento dei due casi statici sono F=1,176315 e F=1,075737, con γR=1,10. Il secondo tasso è 1,022555 e non soddisfa il confronto.
 
 Nel motore Bishop restano esclusi i meccanismi non circolari e la liquefazione. La ricerca circolare nel dominio assegnato non esaurisce la stabilità generale del versante.
 
@@ -1247,7 +1239,7 @@ Le secondarie sono rettilinee lungo il muro, con lunghezza L−2ce/1000; sono di
 
 Per ogni marca, peso=N·Ltaglio·(πφ²/4)·0,00785 kg, con φ in mm e Ltaglio in m. Lo sviluppo oltre la barra commerciale produce una nota, senza aggiungere giunti o frammenti non verificati. Quantità, sviluppi e pesi sono preliminari: sfridi, giunti di costruzione, estremità, interferenze e sagomature esecutive richiedono completamento.
 
-Riscontro indipendente: H=4 m, soletta 0,60 m, copriferro 50 mm, φ16 e mandrino 160 mm danno r=88 mm. Con ancoraggio assegnato di 1 m, A=3,942 m, B=0,454 m, arco=0,138230077 m e coda=0,407769923 m; Ltaglio=4,942 m. Sei barre forniscono 46,800823495 kg. Con tratto di 3 m e copriferro di estremità 50 mm, il numero sale a 18. Le prove verificano anche due zone, collegamenti incompleti, limiti commerciali e salvataggio. Sorgenti in supporto/test/RetainingWall.Checks/BarScheduleChecks.cs; evidenze in supporto/artefatti/muri-materiali-distinta-20261005.
+Riscontro indipendente: H=4 m, soletta 0,60 m, copriferro 50 mm, φ16 e mandrino 160 mm danno r=88 mm. Con ancoraggio assegnato di 1 m, A=3,942 m, B=0,454 m, arco=0,138230077 m e coda=0,407769923 m; Ltaglio=4,942 m. Sei barre forniscono 46,800823495 kg. Con tratto di 3 m e copriferro di estremità 50 mm, il numero sale a 18. Le prove verificano anche due zone, collegamenti incompleti, limiti commerciali e salvataggio.
 
 ### Gravità in calcestruzzo o muratura
 
@@ -1261,7 +1253,7 @@ La modalità Resistenze assegnate conserva la compatibilità con i file preceden
 
 Aprire supporto/artefatti/muri-completamento-20260930/interfaccia-finale/esempio-completo.anthea. Il modello dimostrativo ha H=3 m, B=3 m, due zone di armatura, terreno deformabile di spessore 25 m con M=30000 kPa, sisma da sito e una storia triangolare sintetica. Questi dati servono a riprodurre il test e non descrivono un sito reale. La storia sintetica non è un accelerogramma normativamente qualificato.
 
-Nella stessa cartella sono presenti relazione Word e PDF, figure della sezione e risultati JSON. Il rapporto CONTROLLO.md e PDF nella cartella principale dell’attività descrive test, correzioni e limiti.
+Nella stessa cartella sono presenti relazione Word e PDF, figure della sezione e risultati JSON.
 
 Fonti: JRC, Eurocode 8 Worked Examples, §4.8; JRC, Eurocode 2 Detailing (J. M. Arrieta, workshop 2011); USGS, SIR 2007-5196 sul metodo di Newmark; NTC 2018 §§4.1.11 e 7.8.2.2.3; USACE EM 1110-1-1905, 2025.
 
@@ -1318,7 +1310,7 @@ $$ R_g=0.15\frac{S_{\parallel}}{D}-0.20\quad\text{per }3\leq\frac{S_{\parallel}}
 
 La riduzione del modulo è cento volte uno meno Rg, in percentuale. Sotto 3D il calcolo è indisponibile per default; l'opzione di estrapolazione usa la stessa retta, con limite zero–uno e avviso. L'interazione trasversale può essere trascurata nella schematizzazione citata per S trasversale almeno 2.5D. Sotto tale soglia il calcolo rimane non disponibile: non viene inventato un secondo fattore da moltiplicare. In assenza di file successive si assume assenza di riduzione longitudinale, sempre subordinata alla condizione trasversale.
 
-Rg non coincide automaticamente con eta H. Una futura integrazione con il solutore del palo singolo dovrà ricalcolare il comportamento usando kh o nh ridotti, a parità di EI, lunghezza, vincolo, stratigrafia e criterio di capacità o spostamento. Solo il rapporto fra le capacità ricalcolate potrà essere chiamato efficienza di capacità. Nessuna potenza o conversione empirica di Rg viene utilizzata.
+Rg non coincide automaticamente con eta H. L'efficienza di capacità richiede di ricalcolare il palo singolo con kh o nh ridotti, a parità di EI, lunghezza, vincolo, stratigrafia e criterio di capacità o spostamento; il modulo non esegue questo ricalcolo. Solo il rapporto fra le capacità ricalcolate può essere chiamato efficienza di capacità. Nessuna potenza o conversione empirica di Rg viene utilizzata.
 
 ### AASHTO e FHWA
 
@@ -1385,26 +1377,26 @@ L'interasse è misurato nella direzione del carico; per interassi fra file non u
 
 ### Fonti e verifica
 
-Il testo allegato dall'utente è la specifica delle formule e delle tabelle implementate. Il collegamento condiviso ChatGPT non era recuperabile durante l'implementazione. Le fonti ufficiali consultabili sono indicate per consentire il controllo dell'edizione: l'applicabilità resta distinta dal semplice corretto calcolo numerico.
+Formule e tabelle implementate seguono una specifica interna di ANTHEA. Le fonti ufficiali consultabili sono indicate per consentire il controllo dell'edizione: l'applicabilità resta distinta dal semplice corretto calcolo numerico.
 
-- Davisson M T, 1970, Lateral Load Capacity of Piles, Highway Research Record 333, pagine 104–112. La tabella di riduzione è quella ripresa nella specifica allegata; non si afferma una verifica diretta della sua presenza nel lavoro originale.
+- Davisson M T, 1970, Lateral Load Capacity of Piles, Highway Research Record 333, pagine 104–112. La tabella di riduzione è quella ripresa nella specifica interna; non si afferma una verifica diretta della sua presenza nel lavoro originale.
 - Davisson M T e Salley J R, 1970, Model Study of Laterally Loaded Piles, ASCE, volume 96, numero 5, pagine 1605–1627.
 - FHWA GEC 12 volume I, 2016, Design and Construction of Driven Pile Foundations, FHWA-NHI-16-009: valori AASHTO 2014.
 - FHWA GEC 10, 2018, Drilled Shafts Construction Procedures and Design Methods, FHWA-NHI-18-024: tabella 10-41 dei p-multiplier.
-- Rollins et al., 2006; FEMA P-751, 2012: relazioni logaritmiche nella specifica allegata.
+- Rollins et al., 2006; FEMA P-751, 2012: relazioni logaritmiche riprese nella specifica interna.
 - Caltrans, California Amendments ad AASHTO LRFD, settembre 2025, paragrafo 10.7.2.4, equazioni 1–6 e tabella 10.7.2.4-2: interazioni palo-palo e modifica Caltrans.
 
-La validazione automatica verifica nodi e interpolazioni, esempi numerici, leading e trailing, soglie, palo isolato, geometrie irregolari, simmetria per inversione del carico, invarianza per traslazione e rotazione congiunta di geometria e carico, archiviazione e rappresentazione WPF. I test sono conservati in supporto/test/HorizontalPileGroup.Checks e le evidenze in supporto/artefatti/efficienza-orizzontale.
+La validazione automatica verifica nodi e interpolazioni, esempi numerici, leading e trailing, soglie, palo isolato, geometrie irregolari, simmetria per inversione del carico, invarianza per traslazione e rotazione congiunta di geometria e carico, archiviazione e rappresentazione WPF.
 
 ## Risposta elastica del palo orizzontale
 
-Il motore ElasticPile in GPCChecker.Geotechnics risolve una trave di Euler–Bernoulli su fondazione elastica di Winkler sotto azioni assegnate. L'esame del metodo stratificato esistente ha accertato che esso costruisce diagrammi limite ed equilibri di capacità, senza un solutore elastico riutilizzabile. Rimane quindi invariato; non è stato creato un secondo motore per la stessa formulazione. ANTHEA gestisce soltanto archivio, presentazione e adattamento degli input.
+Il motore ElasticPile in GPCChecker.Geotechnics risolve una trave di Euler–Bernoulli su fondazione elastica di Winkler sotto azioni assegnate. Il metodo stratificato della capacità costruisce diagrammi limite ed equilibri di capacità e non contiene un solutore elastico: le due analisi restano distinte. ANTHEA gestisce soltanto archivio, presentazione e adattamento degli input.
 
 ### Fonti consultate e attribuzione
 
 La formulazione FEM di riferimento consultata il 2 ottobre 2026 è TU Delft, Computational Modelling, capitolo 4.1 Euler–Bernoulli beam elements, pagina web senza numerazione di pagina. Sono state consultate la relazione cinematica, l'ipotesi di trascurare le deformazioni da taglio e la discretizzazione Hermite con spostamento e rotazione nodali. La convenzione dei segni qui dichiarata viene usata coerentemente nell'implementazione.
 
-Carlo Viggiani, Fondazioni, scansione locale fornita dall'utente: pagina PDF 237, pp. stampate 464–465 (§14.4.1); PDF 238, pp. 466–467; PDF 244, pp. 478–479 (equazione 14.25 e tabelle 14.5–14.6). Sono state lette visivamente anche le pagine adiacenti PDF 243 e 245, pp. 476–477 e 480–481. L'edizione non è identificabile nella scansione: la prima pagina contiene la fine della prefazione, datata dicembre 1998, senza frontespizio o colophon. Tale data non viene usata per dedurre l'edizione. La trattazione è di Viggiani; le correlazioni sono attribuite agli autori indicati nel libro. Gli articoli originali non sono stati consultati.
+Carlo Viggiani, Fondazioni: pp. 464–465 (§14.4.1), pp. 466–467 e pp. 478–479 (equazione 14.25 e tabelle 14.5–14.6), con le pagine adiacenti 476–477 e 480–481. L'edizione della copia consultata non è identificabile: mancano frontespizio e colophon e la prefazione è datata dicembre 1998; tale data non viene usata per dedurre l'edizione. La trattazione è di Viggiani; le correlazioni sono attribuite agli autori indicati nel libro. Gli articoli originali non sono stati consultati.
 
 ### Modulo di reazione e conversioni
 
@@ -1436,7 +1428,7 @@ Per la correlazione, equazione 14.25:
 
 $$ n_h=\frac{A\gamma}{1,35},\quad \gamma'=\gamma_{sat}-\gamma_w
 
-Con γ in kN/m³ si ottiene nh in kN/m³. Sotto falda si usa γ′. A è inizializzato alla media aritmetica dell’intervallo della singola riga, per preferenza esplicita dell’utente: 200, 650 o 2000. Il valore consigliato rimane distinto: 200, 600 o 1500. La media iniziale è una convenzione del software, non un valore consigliato da Viggiani. L’utente può modificarla e il ricalcolo conserva la scelta. La modalità correlazione è distinta dalla selezione dei valori di nh tabellati: ad esempio A=600 e γ=18 danno nh=8000 kN/m³, mentre la riga Medio non immerso della tabella dà 7500 kN/m³. Con γsat=20 e γw=9,81, la correlazione dà nh=4528,888889 kN/m³ sotto falda.
+Con γ in kN/m³ si ottiene nh in kN/m³. Sotto falda si usa γ′. A è inizializzato alla media aritmetica dell’intervallo della singola riga: 200, 650 o 2000. Il valore consigliato rimane distinto: 200, 600 o 1500. La media iniziale è una convenzione del software, non un valore consigliato da Viggiani. L’utente può modificarla e il ricalcolo conserva la scelta. La modalità correlazione è distinta dalla selezione dei valori di nh tabellati: ad esempio A=600 e γ=18 danno nh=8000 kN/m³, mentre la riga Medio non immerso della tabella dà 7500 kN/m³. Con γsat=20 e γw=9,81, la correlazione dà nh=4528,888889 kN/m³ sotto falda.
 
 La tabella 14.6 conserva separatamente tutte le righe e gli autori come stampati nel libro. I valori sono orientativi e non intercambiabili fra fonti. Per ogni intervallo si adotta inizialmente la sua media aritmetica, modificabile. Una riga a valore unico conserva quel valore. Intervallo, media iniziale, valore adottato e autore sono distinti; non si mediano righe o autori diversi. Cambiando fonte, la scelta precedente deve essere mantenuta o sostituita esplicitamente.
 
@@ -1502,11 +1494,11 @@ Per il taglio si conserva il verificatore NTC esistente. L'adattamento circolare
 
 ### Tagli dei tratti e sovrapposizione entrante
 
-Le lunghezze di ancoraggio e sovrapposizione richiamano il motore Checker già validato, con barre ad aderenza migliorata, σsd=fyd e nessuna riduzione favorevole di forma o confinamento (α1…α5=1). La resistenza a trazione usata per l'aderenza è limitata a C60/75. Buona aderenza è una scelta esplicita. I risultati conservano lbd, l0, percentuale assegnata e controllo della distanza libera. La lunghezza iniziale 60φ, arrotondata per eccesso a 0,10 m, è una preferenza dell'utente, distinta dalla lunghezza richiesta dal verificatore.
+Le lunghezze di ancoraggio e sovrapposizione richiamano il motore Checker già validato, con barre ad aderenza migliorata, σsd=fyd e nessuna riduzione favorevole di forma o confinamento (α1…α5=1). La resistenza a trazione usata per l'aderenza è limitata a C60/75. Buona aderenza è una scelta esplicita. I risultati conservano lbd, l0, percentuale assegnata e controllo della distanza libera. La lunghezza iniziale 60φ, arrotondata per eccesso a 0,10 m, è una convenzione di ANTHEA, distinta dalla lunghezza richiesta dal verificatore.
 
-La partizione determina i tagli fisici. Per un tratto [a_i,b_i], il primo gruppo occupa [0,b_1]; ogni gruppo successivo occupa [max(0,a_i−l0_i),b_i]. La lunghezza adottata l0_i è il massimo delle lunghezze iniziali e richieste delle due armature collegate. La quota b_i rimane invariata. Questa è una convenzione geometrica richiesta dall'utente, non una prescrizione normativa: non dimostra da sola il pieno sviluppo dell'armatura alla quota di cambio. Non si sommano lbd o traslazioni alla lunghezza fisica, non si fondono gruppi identici e non si estendono automaticamente le barre oltre testa, punta o fine tratto. Un giunto privo dello spazio disponibile viene segnalato.
+La partizione determina i tagli fisici. Per un tratto [a_i,b_i], il primo gruppo occupa [0,b_1]; ogni gruppo successivo occupa [max(0,a_i−l0_i),b_i]. La lunghezza adottata l0_i è il massimo delle lunghezze iniziali e richieste delle due armature collegate. La quota b_i rimane invariata. Questa è una convenzione geometrica di ANTHEA, non una prescrizione normativa: non dimostra da sola il pieno sviluppo dell'armatura alla quota di cambio. Non si sommano lbd o traslazioni alla lunghezza fisica, non si fondono gruppi identici e non si estendono automaticamente le barre oltre testa, punta o fine tratto. Un giunto privo dello spazio disponibile viene segnalato.
 
-Lo sviluppo richiesto per usare la resistenza conserva lbd+a_l, con a_l=z cotθ/2 per staffe ortogonali (EN1992-1-1 §9.2.1.3, presentazione JRC Arrieta 2011, diapositiva 33). Se il taglio non è confermato si usa il limite superiore cotθ=2,5 a fini preliminari. Questo controllo non modifica le quote scelte: può lasciare tratti non verificati. Le formule del motore di aderenza sono invariate; la nuova regola riguarda esclusivamente i tagli e la costruzione della distinta.
+Lo sviluppo richiesto per usare la resistenza conserva lbd+a_l, con a_l=z cotθ/2 per staffe ortogonali (EN1992-1-1 §9.2.1.3, presentazione JRC Arrieta 2011, diapositiva 33). Se il taglio non è confermato si usa il limite superiore cotθ=2,5 a fini preliminari. Questo controllo non modifica le quote scelte: può lasciare tratti non verificati. La regola riguarda esclusivamente i tagli e la costruzione della distinta, non le formule del motore di aderenza.
 
 La finestra del giunto è l'intersezione fisica dei due gruppi e termina al confine dei tratti. Si conservano l0 iniziale, richiesta, adottata ed effettiva. Il calcolo assume il 100% delle giunzioni alla stessa quota; una percentuale richiesta inferiore rimane da realizzare mediante sfalsamento esplicito. Si associano soltanto barre sulla stessa direzione radiale nominale e si indicano coppie allineate e coppie previste. Per 20Ø20 e 12Ø16 su corone regolari con lo stesso orientamento coincidono quattro direzioni su dodici richieste: le altre non vengono considerate automaticamente giuntate. La distanza trasversale, le interferenze tra finestre e la lunghezza disponibile partecipano allo stato del dettaglio. Il disegno non certifica piegature, accostamento o confinamento.
 
@@ -1522,9 +1514,9 @@ Il controllo opzionale dei minimi pali è limitato a NTC 2018 §7.2.5, testo del
 
 Fonte consultata: D.M. 17 gennaio 2018, Gazzetta Ufficiale n. 42, supplemento ordinario n. 8, §7.2.5, pagina PDF 217, pagina stampata 213.
 
-Il paragrafo distingue i pali dalle fondazioni superficiali. Per i pali in calcestruzzo richiede lungo il fusto As almeno 0,3% Ac, diametro trasversale almeno 8 mm e passo non oltre 8 diametri longitudinali. Sono i tre minimi ordinari, distinti dalla modalità sismica di testa. In presenza delle condizioni dissipative indicate dal testo, sono richiesti ulteriori dettagli e controlli: estensione delle zone, armatura longitudinale almeno 1%, staffe singole a passo massimo 6 diametri, duttilità e condizioni aggiuntive sulle azioni. I dettagli di testa e le condizioni semplificate sono ora disponibili in una modalità esplicita descritta di seguito; l'analisi non genera le azioni sismiche e non esegue una valutazione specifica della duttilità. Non si dichiara quindi completa la verifica sismica del palo.
+Il paragrafo distingue i pali dalle fondazioni superficiali. Per i pali in calcestruzzo richiede lungo il fusto As almeno 0,3% Ac, diametro trasversale almeno 8 mm e passo non oltre 8 diametri longitudinali. Sono i tre minimi ordinari, distinti dalla modalità sismica di testa. In presenza delle condizioni dissipative indicate dal testo, sono richiesti ulteriori dettagli e controlli: estensione delle zone, armatura longitudinale almeno 1%, staffe singole a passo massimo 6 diametri, duttilità e condizioni aggiuntive sulle azioni. I dettagli di testa e le condizioni semplificate sono disponibili in una modalità esplicita descritta di seguito; l'analisi non genera le azioni sismiche e non esegue una valutazione specifica della duttilità. Non si dichiara quindi completa la verifica sismica del palo.
 
-Il default Pilastro aggiunge, per scelta dell'utente, le regole del verificatore esistente per diametri, interassi, armatura minima e massima, staffe e trattenimento delle barre. La compressione per il minimo longitudinale è la massima positiva del tratto, convertita da kN a N. Se si sceglie Solo controlli comuni, l'esclusione delle regole dell'elemento resta nell'elenco dei controlli da completare. Il controllo della durabilità richiama CoverRequirements di Checker, con esposizione e fck condivisi, vita 50/100 anni e qualità dichiarata; nessuna correlazione è duplicata nell'interfaccia.
+Il default Pilastro, convenzione di ANTHEA, aggiunge le regole del verificatore esistente per diametri, interassi, armatura minima e massima, staffe e trattenimento delle barre. La compressione per il minimo longitudinale è la massima positiva del tratto, convertita da kN a N. Se si sceglie Solo controlli comuni, l'esclusione delle regole dell'elemento resta nell'elenco dei controlli da completare. Il controllo della durabilità richiama CoverRequirements di Checker, con esposizione e fck condivisi, vita 50/100 anni e qualità dichiarata; nessuna correlazione è duplicata nell'interfaccia.
 
 ### Geometria delle staffe e delle spirali e significato delle approvazioni
 
@@ -1538,7 +1530,7 @@ Approva tutto è un'operazione sugli input dichiarativi: conferma le ipotesi ind
 
 ### Zona dissipativa di testa secondo NTC 2018
 
-Fonte verificata: D.M. 17 gennaio 2018, §7.2.5, sottoparagrafo Fondazioni su pali, G.U. 20 febbraio 2018, S.O. n.8, pagina stampata 213 / PDF 217. Testo e pagina sono stati letti anche visivamente sul PDF ufficiale della Gazzetta Ufficiale. È stato consultato anche il D.M. 9 marzo 2023 pubblicato nella G.U. 22 marzo 2023: le modifiche esaminate riguardano disposizioni transitorie e i punti 11.4.2 e 11.5.2, non i dettagli qui implementati. Non sono attribuite alla Circolare prescrizioni non consultate.
+Fonte verificata: D.M. 17 gennaio 2018, §7.2.5, sottoparagrafo Fondazioni su pali, G.U. 20 febbraio 2018, S.O. n.8, pagina stampata 213 / PDF 217. È stato consultato anche il D.M. 9 marzo 2023 pubblicato nella G.U. 22 marzo 2023: le modifiche esaminate riguardano disposizioni transitorie e i punti 11.4.2 e 11.5.2, non i dettagli qui implementati. Non sono attribuite alla Circolare prescrizioni non consultate.
 
 La modalità riguarda il caso in cui non sia escluso il raggiungimento della capacità presso la testa. L'estensione minima nominale è 10D, con D diametro della sezione circolare piena. La coordinata x parte dalla testa fisica verso la punta: la presenza di tratto libero non sposta l'origine al piano campagna. Per un palo più corto di 10D si controlla l'intera lunghezza, dichiarando la convenzione numerica. Una lunghezza assegnata inferiore a min(10D,L) produce un esito non soddisfatto; una maggiore è ammessa. Il contatto profondo tra strati e la relativa zona di almeno 5D sono richiamati nelle informazioni, ma non sono dedotti né verificati da questa modalità di testa.
 
@@ -1558,7 +1550,7 @@ L'implementazione richiama le resistenze del verificatore esistente. La geometri
 
 I coefficienti effettivi gamma e alpha_cc vengono confrontati in Checker con il profilo NTC 2018; un profilo custom o unitario lascia i controlli di conformità da completare. Gli archivi precedenti non attivano implicitamente la modalità. Il dimensionamento discreto filtra i candidati con i minimi della zona e, dopo il calcolo delle resistenze, con i confronti sismici: non introduce un secondo motore.
 
-Riferimenti indipendenti dei test: per D=1 m, Ac=785398,1634 mm² e As,min in testa=7853,9816 mm². 24Ø24 forniscono 10857,3442 mm² e passo limite 144 mm; 20Ø20 forniscono 6283,1853 mm² e non soddisfano il minimo di testa. Con fcd=20 MPa il limite di compressione è 9 MPa; N=1000 kN dà 1,2732395 MPa. V=100 kN richiede VRd almeno 130 kN. Con MRd positivo 200 e negativo −150 kNm, i limiti elastici nominali sono 300 e 225 kNm nei rispettivi versi, con uguaglianza non ammessa. Le prove coprono anche zona estesa su più tratti, palo corto, spirale, azioni mancanti, coefficienti custom, resistenze non disponibili e salvataggio. Evidenze in supporto/artefatti/palo-sisma-testa; sorgenti in supporto/test/ElasticPile.Checks e ElasticPile.UiChecks.
+Riferimenti indipendenti dei test: per D=1 m, Ac=785398,1634 mm² e As,min in testa=7853,9816 mm². 24Ø24 forniscono 10857,3442 mm² e passo limite 144 mm; 20Ø20 forniscono 6283,1853 mm² e non soddisfano il minimo di testa. Con fcd=20 MPa il limite di compressione è 9 MPa; N=1000 kN dà 1,2732395 MPa. V=100 kN richiede VRd almeno 130 kN. Con MRd positivo 200 e negativo −150 kNm, i limiti elastici nominali sono 300 e 225 kNm nei rispettivi versi, con uguaglianza non ammessa. Le prove coprono anche zona estesa su più tratti, palo corto, spirale, azioni mancanti, coefficienti custom, resistenze non disponibili e salvataggio.
 
 ### Criterio di cambio sezione e tempi delle verifiche
 
@@ -1566,7 +1558,7 @@ Il passo iniziale predefinito della discretizzazione FEM è 0,50 m. Le discontin
 
 La ricerca costruttiva conserva griglia 0,5 m, lunghezza minima e vincoli commerciali già descritti. Quando disponibile, individua il primo attraversamento discendente di |M|max/2 dopo l'ultimo massimo assoluto e lo interpola fra le ascisse calcolate. Fra le partizioni ammissibili sceglie un confine vicino a tale quota; in parità usa il costo costruttivo. La ricerca controlla sia la parte precedente sia la successiva, senza creare un ultimo tratto troppo corto. Non equivale a dimezzare l'armatura: la sezione successiva deve essere dimensionata sulle azioni N-V-M concomitanti.
 
-Il progresso MRd conta coppie di resistenze completate, una per ciascun N esatto distinto, compresi i valori recuperati dalla cache. I tempi esportati separano preparazione della sezione, costruzione dei solutori indipendenti, calcolo parallelo delle resistenze, verifiche N-M-V e dettagli. Modificare il solo passo delle staffe aggiorna taglio e dettagli riutilizzando il dominio N-M; cambiare diametro delle staffe può spostare le barre e invalida invece le resistenze. Le misure riproducibili sono raccolte in supporto/artefatti/palo-chiarezza.
+Il progresso MRd conta coppie di resistenze completate, una per ciascun N esatto distinto, compresi i valori recuperati dalla cache. I tempi esportati separano preparazione della sezione, costruzione dei solutori indipendenti, calcolo parallelo delle resistenze, verifiche N-M-V e dettagli. Modificare il solo passo delle staffe aggiorna taglio e dettagli riutilizzando il dominio N-M; cambiare diametro delle staffe può spostare le barre e invalida invece le resistenze.
 
 La configurazione custom Coefficienti unitari modifica un'istanza della normativa GPC, impostando a 1 ogni proprietà gamma disponibile e alpha_cc. Materiali, geometria e azioni restano quelli assegnati; la modalità è tracciata. Non è una verifica con i coefficienti ordinari NTC e non altera EJ lordo né il peso unitario adottato.
 
@@ -1578,21 +1570,21 @@ Per ogni sezione sono raccolti gli N distinti esatti, senza arrotondamenti né i
 
 ### Sovrapposizioni iniziali e suddivisione costruttiva
 
-La convenzione software autorizzata dall'utente è l0,iniziale = arrotondamento superiore a 0,10 m di 60φ, con φ convertito in metri. Il fattore è modificabile e registrato. La lunghezza adottata è max(l0,iniziale; l0,richiesta dal motore di aderenza); il default non sostituisce la verifica normativa. I risultati conservano separatamente le tre grandezze e lbd. Le regole del motore di aderenza, il trattamento della percentuale di barre sovrapposte e lo spostamento a_l già descritti restano invariati.
+La convenzione di ANTHEA è l0,iniziale = arrotondamento superiore a 0,10 m di 60φ, con φ convertito in metri. Il fattore è modificabile e registrato. La lunghezza adottata è max(l0,iniziale; l0,richiesta dal motore di aderenza); il default non sostituisce la verifica normativa. I risultati conservano separatamente le tre grandezze e lbd. Si applicano le regole del motore di aderenza, il trattamento della percentuale di barre sovrapposte e lo spostamento a_l già descritti.
 
 La proposta dei tratti è una ricerca discreta su quote multiple di 0,5 m, oltre alla punta esatta. Ogni tratto misura almeno max(3 m; minimo assegnato). La lunghezza del primo tratto, e quella dei successivi aumentata della sola sovrapposizione entrante, devono entrare in una delle barre 6/8/10/12 m consentite dal limite assegnato. Il criterio penalizza sfridi e variazioni interne della domanda, oltre al numero di tratti. Si tratta di una convenzione esecutiva preliminare del software, non di una prescrizione della fonte. L'assenza di soluzione viene segnalata senza ridurre il minimo.
 
 La distinta mantiene distinti i gruppi dei tratti anche con identica disposizione. I pezzi preferiscono lunghezze commerciali 6/8/10/12 m e vengono tagliati alle quote richieste; un gruppo eccedente il massimo viene spezzato internamente conservandone gli estremi. Gli sfridi non aggiungono capacità. I giunti sono raggruppati e restano da completare per sfalsamento e confinamento. Le posizioni delle staffe hanno intervalli uniformi non maggiori del passo assegnato; il confine interno appartiene al tratto successivo e solo l'ultimo comprende la punta. La distinta conserva quantità e quote, senza inventare sviluppi dei ganci: la sagomatura esecutiva delle staffe resta da completare.
 
-Interferro e copriferro richiamano le regole comuni di MemberDetailingCalculator. Le regole dei pilastri sono il default modificabile richiesto dall’utente, distinto dai minimi specifici dei pali. L'interferro minimo è max(20 mm, φmax, dg+5 mm); la distanza effettiva viene calcolata su tutte le coppie di barre. Copriferro nominale e margine geometrico richiedono cmin,dur e Δcdev. I minimi pali già documentati rimangono distinti, con conferma del campo applicabile. Il loro mancato rispetto o l'interferro insufficiente impediscono l'accettazione del candidato nel dimensionamento. Le verifiche di sezione, le prescrizioni costruttive e gli esiti pendenti sono presentati separatamente.
+Interferro e copriferro richiamano le regole comuni di MemberDetailingCalculator. Le regole dei pilastri sono il default modificabile, distinto dai minimi specifici dei pali. L'interferro minimo è max(20 mm, φmax, dg+5 mm); la distanza effettiva viene calcolata su tutte le coppie di barre. Copriferro nominale e margine geometrico richiedono cmin,dur e Δcdev. I minimi pali già documentati rimangono distinti, con conferma del campo applicabile. Il loro mancato rispetto o l'interferro insufficiente impediscono l'accettazione del candidato nel dimensionamento. Le verifiche di sezione, le prescrizioni costruttive e gli esiti pendenti sono presentati separatamente.
 
-I test in supporto/test/ElasticPile.Checks e ElasticPile.UiChecks confrontano MRd seriale/parallelo, conservazione del FEM al cambio armatura, cancellazione, conversione dei segni nel foglio c.a., azioni personali persistenti, arrotondamento di 60φ, griglia e lunghezze minime, sovrapposizioni fisiche e interferro con riferimento indipendente sulla corda di una corona circolare. Le misure riproducibili seriale/parallelo/cache sono in ElasticPile.Performance; evidenze in supporto/artefatti/palo-parallelo.
+Le prove automatiche confrontano MRd seriale/parallelo, conservazione del FEM al cambio armatura, cancellazione, conversione dei segni nel foglio c.a., azioni personali persistenti, arrotondamento di 60φ, griglia e lunghezze minime, sovrapposizioni fisiche e interferro con riferimento indipendente sulla corda di una corona circolare.
 
 ### Fonti e validazione dell'estensione strutturale
 
-Fonti consultate il 6 ottobre 2026: DM 17 gennaio 2018, NTC, Gazzetta Ufficiale, capitolo 4 (§4.1.2.3.5, §4.1.6.1.4) e capitolo 7 (§7.2.5); José M. Arrieta, Eurocode 2 Background and Applications, workshop JRC Bruxelles 20–21 ottobre 2011, diapositive 7–8, 16 e 33. Il materiale JRC è un supporto formativo, non una nuova edizione della norma. Le fonti Viggiani e le distinzioni PDF/pagina stampata riportate sopra restano invariate.
+Fonti consultate il 6 ottobre 2026: DM 17 gennaio 2018, NTC, Gazzetta Ufficiale, capitolo 4 (§4.1.2.3.5, §4.1.6.1.4) e capitolo 7 (§7.2.5); José M. Arrieta, Eurocode 2 Background and Applications, workshop JRC Bruxelles 20–21 ottobre 2011, diapositive 7–8, 16 e 33. Il materiale JRC è un supporto formativo, non una nuova edizione della norma.
 
-I test diretti dell'estensione controllano pesi su aree disgiunte, carico assiale nullo e invertito, azioni concomitanti, confini esatti della mesh, continuità dei tratti, MRd nei due versi e dipendenza da N, rifiuto dei casi fuori dominio, minimi selezionati, ancoraggi, sovrapposizioni e distinta. Riferimento indipendente per l'aderenza: φ16, σsd=400 MPa, fctk05=2 MPa, γc=1,5 e buona aderenza danno fbd=3 MPa, lbd=533,333 mm e l0=800 mm con tutte le barre sovrapposte. Restano attivi i confronti analitici FEM e Viggiani già documentati. Evidenze in supporto/artefatti/palo-armature.
+I test diretti dell'estensione controllano pesi su aree disgiunte, carico assiale nullo e invertito, azioni concomitanti, confini esatti della mesh, continuità dei tratti, MRd nei due versi e dipendenza da N, rifiuto dei casi fuori dominio, minimi selezionati, ancoraggi, sovrapposizioni e distinta. Riferimento indipendente per l'aderenza: φ16, σsd=400 MPa, fctk05=2 MPa, γc=1,5 e buona aderenza danno fbd=3 MPa, lbd=533,333 mm e l0=800 mm con tutte le barre sovrapposte. Restano attivi i confronti analitici FEM e Viggiani già documentati.
 
 ### Discretizzazione e recupero delle sollecitazioni
 
@@ -1635,11 +1627,11 @@ Il primo massimo di M è a x = π/(4β). Con rotazione impedita in testa ytesta 
 
 Fra 0,50 e 0,25 m le variazioni relative sono 1,2075×10⁻⁵ per y e 3,8612×10⁻⁶ per M; V resta H entro l'errore numerico. Il confronto analitico richiede errori relativi 2×10⁻⁶ per y e θ, 2×10⁻⁵ per Mmax e 10⁻⁴ per la sua profondità; la forma del taglio è controllata sull'intero tratto attivo con errore normalizzato a H inferiore a 10⁻⁶. Le prove di equilibrio impongono residui inferiori a 10⁻⁷ kN e 10⁻⁶ kNm sul benchmark. La conversione N/mm rispetto a kN/m è controllata con tolleranza relativa 10⁻⁸.
 
-I sorgenti supporto/test/ElasticPile.Checks referenziano direttamente il progetto Checker. Coprono anche carico nullo, linearità, inversione, tratto libero, discontinuità degli strati, equivalenza di sottostrati identici, conversione kh–k, origine globale z, unità, vincoli, dati invalidi e labilità. supporto/test/ElasticPile.UiChecks verifica instradamento, invalidazione, interfaccia ed esportazioni. Le evidenze originarie sono in supporto/artefatti/palo-elastico; la revisione con dati comuni usa supporto/artefatti/palo-condiviso. I nuovi controlli verificano medie distinte dai valori consigliati, provenienza e override, EJ circolare e tubolare rispetto a riferimenti analitici, conversioni, lunghezze tributarie, risultati per sezione e assenza di doppio conteggio dell’eccentricità. Le prove ANTHEA coprono dati comuni, migrazione con confronto della risposta legacy, ricalcolo, invalidazione, visibilità ed esportazioni; le regressioni esistenti comprendono 1080 controlli del palo orizzontale, CHS e 1645 controlli stratificati. I test preesistenti Checker filtrati sulle classi Pile sono stati eseguiti: 32 superati, zero fallimenti. Si tratta di validazione numerica del modello elastico dichiarato; non di taratura sperimentale delle leggi del terreno.
+Le prove del modello richiamano direttamente Checker e coprono anche carico nullo, linearità, inversione, tratto libero, discontinuità degli strati, equivalenza di sottostrati identici, conversione kh–k, origine globale z, unità, vincoli, dati invalidi e labilità. Le prove di interfaccia verificano instradamento, invalidazione, interfaccia ed esportazioni. I controlli verificano inoltre medie distinte dai valori consigliati, provenienza e override, EJ circolare e tubolare rispetto a riferimenti analitici, conversioni, lunghezze tributarie, risultati per sezione e assenza di doppio conteggio dell’eccentricità. Le prove ANTHEA coprono dati comuni, migrazione con confronto della risposta legacy, ricalcolo, invalidazione, visibilità ed esportazioni; le regressioni comprendono 1080 controlli del palo orizzontale, CHS e 1645 controlli stratificati. Si tratta di validazione numerica del modello elastico dichiarato; non di taratura sperimentale delle leggi del terreno.
 
 ### Confronto con le soluzioni di Reese e Matlock riportate nel libro
 
-Alle pp. stampate 466–467 (PDF 238) la lunghezza caratteristica è λ=(EI/nh)^(1/5). Per L/λ > 4, testa libera e solo H, il testo riporta y0=2,40 H/(nh^0,6 EI^0,4) e |θ0|=1,60 H/(nh^0,4 EI^0,6). Per testa con rotazione impedita il coefficiente di y0 è 0,93. Il segno della rotazione del testo viene adattato alla convenzione θ=y′ adottata qui. Le soluzioni pubblicate usano coefficienti approssimati e costituiscono un riferimento distinto dal test di convergenza.
+Alle pp. 466–467 la lunghezza caratteristica è λ=(EI/nh)^(1/5). Per L/λ > 4, testa libera e solo H, il testo riporta y0=2,40 H/(nh^0,6 EI^0,4) e |θ0|=1,60 H/(nh^0,4 EI^0,6). Per testa con rotazione impedita il coefficiente di y0 è 0,93. Il segno della rotazione del testo viene adattato alla convenzione θ=y′ adottata qui. Le soluzioni pubblicate usano coefficienti approssimati e costituiscono un riferimento distinto dal test di convergenza.
 
 Il test usa EI=50000 kNm², nh=5000 kN/m³, L=30 m, H=100 kN e punta libera. Si ottengono ytesta=0,0193414613 m contro 0,0191091442 m della formula (scarto 1,216%); |θtesta|=0,00813548843 rad contro 0,00803803658 rad (1,212%). La tolleranza dichiarata è 2%. A testa bloccata ytesta=0,00738777995 m contro 0,00740479337 m (0,230%, tolleranza 1%). Il test con solo momento verifica anche i coefficienti 1,60 e 1,74: scarti 1,212% e 0,389%, tolleranza 2%. Questi scarti non sono errori di mesh.
 
@@ -1651,7 +1643,7 @@ Per L/λ < 2, il riferimento rigido con solo H è y0=18H/(nh L²), |θ0|=24H/(nh
 | 0,25 | 0,0274769497 | 200,317875 | 100 |
 | 0,125 | 0,0274769590 | 200,317872 | 100 |
 
-La tabella usa lo stesso palo lungo con H=100 kN e C=−100 kNm. Le variazioni relative fra le due mesh più fini sono 3,38×10⁻⁷ per ytesta, 1,33×10⁻⁸ per M e meno di 10⁻¹⁰ per V. Il nucleo di test FEM, Viggiani e dati condivisi comprende 124 asserzioni, oltre ai controlli aggiunti per N, sezioni e dettagli delle armature: cataloghi, conversione, correlazione e falda, equivalenza manuale/assistita, origine globale di z, discontinuità, equilibrio, riferimenti analitici, mesh, unità, vincoli e labilità. Restano distinti i 32 test preesistenti delle classi Pile, inclusi Broms e capacità stratificata. Le prove non costituiscono una taratura sperimentale delle rigidezze.
+La tabella usa lo stesso palo lungo con H=100 kN e C=−100 kNm. Le variazioni relative fra le due mesh più fini sono 3,38×10⁻⁷ per ytesta, 1,33×10⁻⁸ per M e meno di 10⁻¹⁰ per V. Il nucleo di test FEM, Viggiani e dati condivisi comprende 124 asserzioni, oltre ai controlli per N, sezioni e dettagli delle armature: cataloghi, conversione, correlazione e falda, equivalenza manuale/assistita, origine globale di z, discontinuità, equilibrio, riferimenti analitici, mesh, unità, vincoli e labilità. Restano distinti i 32 test delle classi Pile, inclusi Broms e capacità stratificata. Le prove non costituiscono una taratura sperimentale delle rigidezze.
 
 ## Elementi Beam
 
@@ -2361,8 +2353,8 @@ non fanno parte del modello di calcestruzzo ordinario qui descritto.
 
 Le classi GPC.Model.Standards restano la sorgente dei coefficienti. Domini,
 tensioni e piani di deformazione usano GPC Checker; geometrie e baricentri
-usano GPC Geometry. Le nuove formule sono in ANTHEA.Calculations, indipendente
- da WPF ed esportabile con il progetto già predisposto.
+usano GPC Geometry. Le formule specifiche dei profili sono in ANTHEA.Calculations, indipendente
+ da WPF.
 
 | Profilo | Taglio senza / con staffe | Apertura delle fessure |
 | --- | --- | --- |
@@ -2374,14 +2366,14 @@ usano GPC Geometry. Le nuove formule sono in ANTHEA.Calculations, indipendente
 | NS EN 1992-1-1 | NA:2010: granulometria, trazione assiale, limite C60 a taglio | XD3/XS3 in frequente; kc=1 senza incremento favorevole |
 | Model Code 2010 | Livello II: εx da N–M–V, Asl e granulometria | Lunghezza di trasferimento; durata breve/lunga; wlim assegnato |
 
-DIN usa i parametri di prima generazione riscontrati nella documentazione NA:2011
-e nel benchmark SOFiSTiK; il materiale GPC dichiara NA:2013-04. Questa distinzione
+DIN usa i parametri di prima generazione riscontrati nella documentazione NA:2011;
+il materiale GPC dichiara NA:2013-04. Questa distinzione
 è intenzionale: non è un'attestazione di copertura di ogni aggiornamento
  dell'annesso. NS è NA:2010. Non sono implementati EC2:2023, Model Code 2020
  o il progetto di aggiornamento delle appendici italiane.
 
-Predefiniti corretti nell'adattatore: UNI αcc=0,85; DIN αct=0,85;
-NS αct=0,85 e εud/εuk=0,4. DS usa γc=1,45 e γs=1,20 della DLL corrente.
+Predefiniti impostati nell'adattatore: UNI αcc=0,85; DIN αct=0,85;
+NS αct=0,85 e εud/εuk=0,4. DS usa γc=1,45 e γs=1,20 della libreria GPC.
 I coefficienti salvati restano assegnazioni dell'utente: consultare il confronto
 con i predefiniti e usare il ripristino per aggiornare un vecchio foglio.
 
@@ -2441,7 +2433,7 @@ Il modulo non costituisce una verifica normativa completa. Restano esclusi:
 
 Per usare il modulo consulta [Sezione in c.a.](wiki:guida-sezione-ca); per le formule implementate consulta [Teoria della sezione](wiki:sezione-in-calcestruzzo-armato).
 
-Le edizioni indicate identificano il codice implementato. La scelta dell’edizione e dell’annesso nazionale applicabili all’opera resta un passaggio distinto. Le attribuzioni DIN/DK/NS provenienti dalla documentazione precedente richiedono riscontro sull’annesso applicabile prima dell’uso progettuale: questa integrazione verifica il comportamento del codice, non completa una validazione indipendente di tutti gli annessi.
+Le edizioni indicate identificano il codice implementato. La scelta dell’edizione e dell’annesso nazionale applicabili all’opera resta un passaggio distinto. Le attribuzioni DIN/DK/NS richiedono riscontro sull’annesso applicabile prima dell’uso progettuale: questa pagina descrive il comportamento del codice, non una validazione indipendente di tutti gli annessi.
 
 
 ## Dalle indagini geotecniche ai parametri del modello
@@ -2572,7 +2564,7 @@ Il Newmark implementato richiede accelerogrammi e soglia di scorrimento assegnat
 | Esecutivi DXF e DWG | Non disponibili; tavola e distinta attuali sono un predimensionamento con esportazioni documentali e immagine |
 | Documentazione di progetto e manutenzione | Report e distinta presenti; mancano relazioni specialistiche complete e piano di manutenzione |
 
-La tabella descrive il campo del codice corrente. I metodi indicati come non disponibili non sono stati aggiunti ai calcoli con questa revisione documentale. Il campo è dichiarato nei modelli RetainingWall; leggere anche gli avvisi del foglio corrente.
+La tabella descrive il campo del codice corrente. Il campo è dichiarato nei modelli RetainingWall; leggere anche gli avvisi del foglio corrente.
 
 ### Proseguire nella Wiki
 
