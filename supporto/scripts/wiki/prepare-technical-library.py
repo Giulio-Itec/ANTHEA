@@ -3,6 +3,9 @@
 No application files are written here. Publication into the two canonical guides is separate.
 Third-party images and image-only equations stay linked to their original source.
 """
+import sys as _sys
+# W0.5: the external corpus (adapted articles, reading lists, links) was removed on 6/10/2026.
+_sys.exit('Script di migrazione superato, non rieseguire: rigenererebbe contenuti esterni eliminati il 6/10/2026.')
 from pathlib import Path
 from urllib.parse import urljoin, urlsplit, quote
 from lxml import html
