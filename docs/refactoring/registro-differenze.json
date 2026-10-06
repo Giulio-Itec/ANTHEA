@@ -527,7 +527,8 @@
       "codice": [ "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:7-8", "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:90" ],
       "segno": "NON cautelativo oltre C60/75",
       "effetto_quantificato": { "sintesi": "lb,rqd −11 % con C90/105" },
-      "raccomandazione": "applicare il limite nella libreria, con opzione legacy; verificare se i chiamanti ANTHEA lo applicano già",
+      "effetto_anthea": "Verificato il 7/10: la sezione c.a. limita fck a 60 prima di ricavare fctk (X.Calculations/ConcreteDetailingAnalysis.cs:60-61) e il palo elastico passa fctk della classe limitata (ElasticHorizontalPile.Reinforcement.cs:204); le armature dei muri passano fctk,0,05 senza limite (X.Calculations/RetainingWall.Reinforcement.cs:45-46 e :52): ancoraggi e sovrapposizioni dei muri più corti del dovuto solo con classi oltre C60/75.",
+      "raccomandazione": "applicare il limite nella libreria, con opzione legacy; intanto i muri vanno allineati agli altri chiamanti",
       "decisione": null,
       "data": "2026-10-07",
       "fase": "F2.3"
@@ -542,7 +543,8 @@
       "codice": [ "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:155" ],
       "segno": "NON cautelativo (fino a −5 mm sul copriferro)",
       "effetto_quantificato": { "sintesi": "esempio XC3 C28/35 trave: cnom 35 mm con il default contro 40 mm con Cmin della UNI 11104 in libreria", "evidenze": ["supporto/artefatti/refactoring/metodi2/out-durability.txt"] },
-      "raccomandazione": "default = classe minima pertinente della tabella di durabilità; ANTHEA passa già il valore (controllare tutti i chiamanti)",
+      "effetto_anthea": "Verificato il 7/10: nessuno. Tutti i chiamanti di ANTHEA passano la classe minima pertinente (X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Calculations/Materials/MaterialCover.cs:31, X.Materiali/MaterialDetails.cs:173 con MinimumConcrete.Required; ElasticHorizontalPile.Reinforcement.cs:155 con ExposureClasses.Uni11104MinimumStrength). Il default riguarda solo gli altri utenti della libreria.",
+      "raccomandazione": "default = classe minima pertinente dell'esposizione dalla tabella di durabilità (oggi 25 + 5 · severità, cioè i Cmin per ambiente della Tab. C4.1.IV, che la Circolare riferisce alla classe di esposizione pertinente)",
       "decisione": null,
       "data": "2026-10-07",
       "fase": "F2.3"
