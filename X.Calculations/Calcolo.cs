@@ -266,6 +266,13 @@ public static class Calcolo
                 result["inizio_aderenza"]=sb;result["inclinazione"]=g.D("inclinazione");result["profondita_punta"]=r.PileLength*cos/M;result["coordinata_curve"]="Lungo asse s [m]";result["peso_sezione"]=pesoChs!.DeepClone();
                 result["metodo_micropalo"]=BustamanteDoix.Versione;result["pressione_iniezione"]=pi;result["ipotesi_pressione"]="p_l = p_i";
             }
+            // D7-d: il foglio conserva il γb scelto o memorizzato; se differisce da quello della tecnologia lo dichiara.
+            double gammaB=g.D("sicurezza_base",1.35),normative=SicurezzaBaseNormativa(g);
+            if((!micro||g.B("considera_punta"))&&Math.Abs(gammaB-normative)>1e-9)
+            {
+                var it=CultureInfo.GetCultureInfo("it-IT");
+                warnings.Add($"γb = {gammaB.ToString("0.00",it)} diverso dal valore della NTC 2018 Tab. 6.4.II per la tecnologia del palo ({normative.ToString("0.00",it)}): il calcolo usa il valore del foglio.");
+            }
             result["avvisi"]=J.Node(warnings);return result;
         }
         /// <summary>Tratto di aderenza del micropalo nel formato del foglio (m, kPa, kN).</summary>

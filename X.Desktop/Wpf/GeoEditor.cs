@@ -29,13 +29,19 @@ internal sealed partial class SheetEditor
             fields[fields.FindIndex(f => f.Key == "peso_specifico_palo")] = new("__peso_lineare", "Peso al metro del micropalo", "kN/m", ReadOnly: true, Symbol: "qk");
             order[Array.IndexOf(order, "peso_specifico_palo")] = "__peso_lineare";
         }
-        generalForm = new(g, fields.OrderBy(f => Array.IndexOf(order, f.Key)), key => { if (Micro && key == "tipo_iniezione") ResetAlphas(); Changed(); }, symbolColumns: true);
+        generalForm = new(g, fields.OrderBy(f => Array.IndexOf(order, f.Key)), key =>
+        {
+            if (Micro && key == "tipo_iniezione") ResetAlphas();
+            // D7-d: a new technology brings its γb of NTC Tab. 6.4.II; a value typed afterwards is kept (and declared by the calculation).
+            if (key is "tipo_palo" or "sottotipo_palo_battuto") normativeForm.Set("sicurezza_base", NormativeBase(g));
+            Changed();
+        }, symbolColumns: true);
         generalForm.ShowField(Micro ? "metodo_micropalo" : "metodo_nq", false); AddCard("Dati generali", generalForm);
         efficiencyForm = new(Data["efficienza"]!.AsObject(), [new("metodo", "Metodo", Choices: ["Nessuna riduzione", "Converse-Labarre", "Feld", "Definita dall'utente"]), new("numero_pali_x", "Pali in X"), new("numero_pali_y", "Pali in Y"), new("interasse_x", "Interasse X", "m"), new("interasse_y", "Interasse Y", "m"), new("eta_compressione", "ηg,c manuale"), new("eta_trazione", "ηg,t manuale")], _ => Changed(), true, symbolColumns: true);
         AddCard("Efficienza", Ui.Dock(efficiencyForm, bottom: effLabel));
         Field[] norm = [new("verticali_indagate", "Verticali indagate", Choices: Calcolo.Verticali.Keys.ToArray()), new("__xi3", "Correlazione ξ3", ReadOnly: true), new("__xi4", "Correlazione ξ4", ReadOnly: true), new("sicurezza_laterale_compressione", "Sicurezza laterale — Compressione γs"), new("sicurezza_laterale_trazione", "Sicurezza laterale — Trazione γt"), new("sicurezza_base", "Sicurezza di base γb"), new("peso_palo_sfavorevole", "Peso proprio palo — Sfavorevole γG"), new("peso_palo_favorevole", "Peso proprio palo — Favorevole γG")];
         normativeForm = new(g, norm, _ => Changed(), true, symbolColumns: true);
-        AddCard("Coefficienti normativa", normativeForm, action: Ui.Button("Reset", () => { foreach (var f in norm.Where(f => !f.ReadOnly)) normativeForm.Set(f.Key, defaults["generali"].S(f.Key)); }));
+        AddCard("Coefficienti normativa", normativeForm, action: Ui.Button("Reset", () => { foreach (var f in norm.Where(f => !f.ReadOnly)) normativeForm.Set(f.Key, f.Key == "sicurezza_base" ? NormativeBase(g) : defaults["generali"].S(f.Key)); }));
         AddCard("Verifica", Ui.Dock(verification, bottom: Ui.Text("Valori in kN · Util. = NEd / Rd", 13, color: Ui.Muted)));
         if (Data["stratigrafie"] is not JsonArray) Data["stratigrafie"] = new JsonArray(); RebuildSondages();
         sondages.SelectionChanged += (_, e) => { if (e.Source == sondages) { UpdateProfile(); BuildReferencePlot(); } };
@@ -59,6 +65,8 @@ internal sealed partial class SheetEditor
         var context = new ContextMenu(); var fit = new MenuItem { Header = "Adatta" }; fit.Click += (_, _) => plot.ResetView(); var save = new MenuItem { Header = "Salva PNG…" }; save.Click += (_, _) => SavePlot(); context.Items.Add(fit); context.Items.Add(save); plot.ContextMenu = context;
         AddCard("Grafici capacità portante", Ui.Dock(outputs, capacityView), true); UpdateVerification();
     }
+    /// <summary>γb of NTC Tab. 6.4.II for the technology of the sheet, in the invariant format of the stored coefficients.</summary>
+    private static string NormativeBase(JsonNode g) => Calcolo.SicurezzaBaseNormativa(g).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
     private void ResetAlphas()
     {
         foreach (var rows in Data.Array("stratigrafie")) foreach (var row in rows!.AsArray())
