@@ -1200,7 +1200,7 @@ Il modulo distingue portanza sismica, cedimenti, spostamenti permanenti e verifi
 
 ### Portanza sismica
 
-Si applica EN 1998-5:2004 allegato F alla fondazione nastriforme su terreno granulare asciutto, omogeneo e con base ruvida. Nmax=0,5γ(1−av/g)B²Nγ, con Nγ=2(Nq−1)tanφd. Si trascura il contributo favorevole del ricoprimento. N, V e M sono normalizzati con γRD·γR; F=γRD·ah/(g tanφd). Il γR della combinazione è applicato separatamente e dichiarato nella relazione.
+Si applica EN 1998-5:2004 allegato F alla fondazione nastriforme su terreno granulare asciutto, omogeneo e con base ruvida. Nmax=0,5γ(1−av/g)B²Nγ, con Nγ=2(Nq−1)tanφd. Si trascura il contributo favorevole del ricoprimento. N, V e M sono normalizzati con γRD·γR; l'inerzia del terreno F=ah/(g tanφd) non contiene γRD, come nella (F.7). Fino al 6/10/2026 ANTHEA applicava γRD anche a F, con un'inerzia maggiore del 15 % per γRD = 1,15 e una portanza minore (η +1,7 … +7,0 % sui casi di prova). Il γR della combinazione è applicato separatamente e dichiarato nella relazione.
 
 Il dominio usa a=c=0,92; b=d=1,25; e=0,41; f=0,32; m=0,96; k=1; k′=0,39; cT=1,14; cM=c′M=1,01; β=2,90; γ=2,80. La somma dei termini di interazione deve essere ≤1, con 0<N̄<(1−0,96F)^0,39. La capacità è cercata lungo il raggio N,V,M: il tasso η è l’inverso del moltiplicatore limite, non il valore della funzione di interazione. Non si applicano una seconda volta larghezza efficace e fattori di inclinazione.
 
