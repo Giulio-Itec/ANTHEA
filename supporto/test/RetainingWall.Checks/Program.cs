@@ -2,6 +2,12 @@ using System.Text.Json.Nodes;
 using Anthea.Calculations;
 using X.Core;
 
+if (args is ["--bar-schedule", var scheduleDirectory])
+{
+    Directory.CreateDirectory(scheduleDirectory);
+    Console.WriteLine($"PASS {BarScheduleChecks.Run(scheduleDirectory)} controlli distinta");
+    return;
+}
 var directory = Path.GetFullPath(args.FirstOrDefault() ?? "supporto/artefatti/muri_sostegno/numerica");
 Directory.CreateDirectory(directory);
 var log = new List<string>(); int count = 0;
@@ -101,6 +107,7 @@ try
     count += AdvancedChecks.Run(directory);
     count += LibraryAdapterChecks.Run(directory);
     count += MaterialSharingChecks.Run(directory);
+    count += BarScheduleChecks.Run(directory);
     log.Add($"PASS {count} controlli"); Console.WriteLine(log.Last());
 }
 finally { File.WriteAllLines(Path.Combine(directory, "test.txt"), log); }

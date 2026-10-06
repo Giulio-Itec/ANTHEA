@@ -1,0 +1,86 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-sisma-rev26-20261005\\docs\\guida-pratica-anthea.md",
+    "motivo": "Aggiornamento dei controlli sismici di testa NTC §7.2.5",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "b76eeb637f207cfb11fb718c18b29a7b00d50c39361e9b7910fdd540d29cc969"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-sisma-rev26-20261005\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Aggiornamento dei controlli sismici di testa NTC §7.2.5",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "3636e2e486b4457559af8efbc28c3479d5962f84bfb1447f81366aac2eb49812"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\palo-sisma-rev26-20261005\\docs\\guida-teorica-anthea.md",
+    "motivo": "Aggiornamento dei controlli sismici di testa NTC §7.2.5",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "3ce7bdbf4f247318c7ccb44a20a5d56afdaf5b706c61e196fd6cbfb6d0045518"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-sisma-rev26-20261005\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Aggiornamento dei controlli sismici di testa NTC §7.2.5",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "299a62acb50c0e9c6090fa0ed8a97dbcbbe6f71fb8a5e3bce4d193a10742014d"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev25.docx",
+    "archivio": "supporto\\SUPERATI\\palo-sisma-rev26-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev25.docx",
+    "motivo": "Aggiornamento dei controlli sismici di testa NTC §7.2.5",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev26.docx",
+    "sha256": "b40a71f46f4462a1e61fbc660d64a696603a3fd5edc7f8299ac19ef6d7a61311"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev25.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-sisma-rev26-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev25.pdf",
+    "motivo": "Aggiornamento dei controlli sismici di testa NTC §7.2.5",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev26.pdf",
+    "sha256": "3636e2e486b4457559af8efbc28c3479d5962f84bfb1447f81366aac2eb49812"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev25.docx",
+    "archivio": "supporto\\SUPERATI\\palo-sisma-rev26-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev25.docx",
+    "motivo": "Aggiornamento dei controlli sismici di testa NTC §7.2.5",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev26.docx",
+    "sha256": "241afa5a30291394a1044cc1a0d91f22db8ef73631be847c57be4205cfa6c1ab"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev25.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-sisma-rev26-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev25.pdf",
+    "motivo": "Aggiornamento dei controlli sismici di testa NTC §7.2.5",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev26.pdf",
+    "sha256": "299a62acb50c0e9c6090fa0ed8a97dbcbbe6f71fb8a5e3bce4d193a10742014d"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\palo-sisma-rev26-20261005\\README.md",
+    "motivo": "Aggiornamento dei controlli sismici di testa NTC §7.2.5",
+    "sostituzione": "supporto\\README.md",
+    "sha256": "295957dca82300ad55ca432ff67eceb920821ed17e93c09618a32ce462cf24c3"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-sisma-rev26-20261005\\README.pdf",
+    "motivo": "Aggiornamento dei controlli sismici di testa NTC §7.2.5",
+    "sostituzione": "supporto\\README.pdf",
+    "sha256": "ffbc7d70fcd6519f67d922d98911fc235e1a94f96896a6a325b36ca2721e3ab7"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\palo-sisma-rev26-20261005\\installer\\Indice-guide.md",
+    "motivo": "Aggiornamento dei controlli sismici di testa NTC §7.2.5",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "df8dea0b684d1889e861f13e108e5c42187888f7a23251cc7be87a5fd56ff7ca"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\palo-sisma-rev26-20261005\\installer\\Indice-guide.pdf",
+    "motivo": "Aggiornamento dei controlli sismici di testa NTC §7.2.5",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "dd6cb9f381dd93a8b819e606bcf944debcf4f93ee2cf45e9da26aa836fcdefb9"
+  }
+]

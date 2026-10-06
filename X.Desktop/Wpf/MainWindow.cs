@@ -61,7 +61,7 @@ public sealed partial class MainWindow : Window
         Add("Nuova palificata orizzontale", () => NewCalculation(HorizontalPileGroup.Module));
         Add("Nuovo micropalo orizzontale", () => NewCalculation(MicropaloOrizzontale.Module));
         file.Items.Add(new Separator()); Add("Apri…", Open, Key.O); Add("Salva", () => Save(false), Key.S); Add("Salva con nome…", () => Save(true), Key.S, ModifierKeys.Control | ModifierKeys.Shift);
-        Add("Esporta foglio selezionato…", ExportSheet); file.Items.Add(new Separator()); Add("Report Word…", ExportReport); Add("Risultati JSON…", ExportJson); Add("Esci", Close);
+        Add("Esporta foglio selezionato…", ExportSheet); file.Items.Add(new Separator()); Add("Report Word…", ExportReport); Add("Report short CLS…", () => _ = ExportShortReport()); Add("Risultati JSON…", ExportJson); Add("Esci", Close);
         var appearanceMenu = new MenuItem { Header = "_Aspetto" };
         foreach (var (label, mode) in new[] { ("Chiaro", AppAppearance.Light), ("Scuro", AppAppearance.Dark), ("Molto scuro", AppAppearance.VeryDark) })
         {
@@ -93,8 +93,11 @@ public sealed partial class MainWindow : Window
         var back = backToOverview = CommandButton("← Torna ad ANTHEA", () => Safe(() => { Commit(); if (document.S("tipo") == "progetti") ShowProjects(); else ShowHome(); })); back.Width = 200; top.Children.Add(back); top.Children.Add(FileCommands(true));
         confirmShared = CommandButton("Conferma modifiche", () => Safe(Commit)); confirmShared.Visibility = Visibility.Collapsed; top.Children.Add(confirmShared);
         top.Children.Add(sheetProjectActions);
-        wikiHelp = CommandButton("Come funziona?", () => Safe(() => { if (editor is not null && WikiCatalog.ForModule(editor.Module) is { } guide) ShowWiki(guide.Id); }));
+        wikiHelp = CommandButton("Wiki del modulo", () => Safe(() => { if (editor is not null && WikiCatalog.ForModule(editor.Module) is { } guide) ShowWiki(guide.Id); }));
         wikiHelp.ToolTip = "Apri la guida del modulo nella Wiki"; top.Children.Add(wikiHelp);
+        wikiTopics = CommandButton("Approfondimenti ▾", () => Safe(ShowModuleWikiTopics));
+        wikiTopics.ToolTip = "Teoria, parametri, dettagli costruttivi ed esempi del modulo";
+        top.Children.Add(wikiTopics);
         var titles = Ui.Stack(heading, Ui.Text("Scheda di calcolo · input, profilo e risultati", 12, color: Ui.Brush("#B9C8D8"))); titles.Margin = new Thickness(15, 10, 0, 0); top.Children.Add(titles);
         DockPanel.SetDock(top, System.Windows.Controls.Dock.Top); moduleView.Children.Add(top); DockPanel.SetDock(sharedStatus, Dock.Top); moduleView.Children.Add(sharedStatus); moduleView.Children.Add(sheetContent);
     }
@@ -115,6 +118,13 @@ public sealed partial class MainWindow : Window
             bool save = label is "Salva" or "Salva con nome";
             var b = CommandButton(save ? label : icon, () => Safe(action), dark); b.ToolTip = label; b.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, label);
             if (!save) { b.Width = 37; b.Padding = new Thickness(2); } bar.Children.Add(b);
+        }
+        if(dark && includeReport)
+        {
+            var shortButton=CommandButton("Report short",()=>_ = ExportShortReport(),dark);
+            shortButton.ToolTip="Sezioni CLS · sette verifiche governanti · Word e PDF · massimo due pagine";
+            shortButton.Visibility=editor?.Module=="str_palo"?Visibility.Visible:Visibility.Collapsed;
+            shortReportButtons.Add(shortButton);bar.Children.Add(shortButton);
         }
         return bar;
     }
@@ -207,6 +217,7 @@ public sealed partial class MainWindow : Window
     {
         editor?.Dispose(); currentSheet = sheet; string module = sheet.S("modulo_id");
         editor = new SheetEditor(module, sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(module)); editor.Modified += MarkDirty; editor.Modified += RefreshSharedStatus;
+        foreach(var button in shortReportButtons)button.Visibility=module=="str_palo"?Visibility.Visible:Visibility.Collapsed;
         editor.ConcreteSectionRequested += (data, name) => Safe(() => OpenWallConcreteSection(data, name));
         editor.ReportRequested += () => Safe(ExportReport);
         editor.ModuleCopyRequested += (module, data, name) => Safe(() => OpenModuleCopy(module, data, name));

@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 5 aggiornata il 5 ottobre 2026 — revisione documentale 25
+Edizione 5 aggiornata il 6 ottobre 2026 — revisione documentale 30
 
 Questa edizione integra i contenuti precedenti nel percorso dell'Engineering Handbook. Le procedure correnti e la teoria sono separate dai resoconti di sviluppo. Le fonti integrali e le evidenze storiche restano nell'archivio Rev14; gli indirizzi precedenti della Wiki raggiungono le pagine consolidate. Lo stato editoriale distingue contenuti integrati, pagine revisionate e profili che richiedono ulteriori riscontri normativi.
 
@@ -566,6 +566,14 @@ La stabilità globale Bishop ha un motore separato e un proprio profilo esteso, 
 
 Conserva nel report le due stratigrafie e i coefficienti effettivi. Per le verifiche aggiuntive consulta [Portanza, cedimenti e armature](wiki:guida-portanza-sismica-cedimenti-spostamenti-e-armature-rev07).
 
+### Materiali e copriferro del muro
+
+La scheda Materiali del muro usa gli stessi cataloghi GPC del verificatore delle sezioni in calcestruzzo. Selezionare la classe del CLS e dell'acciaio; le proprietà di catalogo sono protette. Personalizzato consente di assegnare resistenze, modulo dell'acciaio, deformazione ultima e nome. Il diagramma costitutivo e i coefficienti αcc, γc e γs sono interrogabili; fcd, fyd ed Ecm mostrano i valori effettivi. Il trasferimento Apri sezione in c.a. conserva questi dati.
+
+Nei progetti, le schede Calcestruzzo e Acciaio del ramo forniscono i materiali al muro secondo le normali regole di ereditarietà. Il confronto dei dati comuni include esposizione, aggregato, vita utile, tolleranza e scelte di durabilità. Il copriferro adottato è condivisibile con le sezioni e viene confrontato con il minimo della scheda Materiali, usando il diametro massimo effettivamente presente nel muro. Adotta copriferro minimo applica esplicitamente la proposta. Il controllo non aumenta silenziosamente il copriferro e non modifica geometria, carichi o quantità di barre.
+
+Gli archivi precedenti mantengono le resistenze e il legame dell'acciaio con cui erano stati calcolati; l'apertura non li riclassifica automaticamente come B450C. Nei muri a gravità le proprietà del CLS sono attive quando si sceglie Calcestruzzo non armato; la muratura non eredita proprietà meccaniche del CLS o dell'armatura non utilizzate.
+
 ### Avviare la verifica globale
 
 La verifica globale riguarda il possibile scivolamento del muro insieme al terreno sottostante. I soli parametri del terreno di fondazione utilizzati per la portanza non definiscono la stratigrafia necessaria per questa analisi.
@@ -681,6 +689,21 @@ Calcola armature cerca diametri e numeri interi di barre entro i limiti impostat
 
 In Vista dei risultati scegliere Armature: si vedono i percorsi delle barre, le pieghe, la fascia di sovrapposizione e le marche. Le barre giuntate sono affiancate lungo lo sviluppo del muro; le proiezioni sono leggermente distanziate sul disegno per leggibilità. Dettagli armature riporta la distinta, fbd, lunghezze richieste e usate, mandrini, quantità e tutti i controlli. I pesi sono stime per metro comprensive di ancoraggi, giunzioni e secondarie. Restano da definire il disegno esecutivo, i giunti di costruzione, i bordi lungo il muro, le interferenze tridimensionali e gli sfridi: la vista non è una distinta di officina.
 
+### Tavola delle armature e distinta ferri del muro
+
+In Input, sotto le armature, aprire Distinta ferri del tratto di muro. Inserire la lunghezza reale del tratto, il copriferro alle sue estremità e la lunghezza commerciale delle barre. La lunghezza del tratto cambia soltanto il computo: le verifiche strutturali rimangono riferite a una striscia di 1 m. Con due zone, indicare anche i collegamenti per fila e per metro. Lo sviluppo di un collegamento comprende tutti i tratti e i ganci della sagoma scelta; zero significa da definire e produce un peso parziale.
+
+Dopo il ricalcolo, premere Tavola armature e distinta ferri nel riquadro di input oppure Distinta ferri in Verifiche. La finestra ha selezione della pagina e zoom. La prima tavola presenta la sezione quotata con le marche delle principali e la tabella dei pezzi del tratto. Le pagine successive separano le sagome e riportano diametro, faccia, tratti A/B/C, arco, mandrino, sviluppo totale, passo e sovrapposizione. P identifica le principali, S le secondarie lungo muro e C i collegamenti. Le due zone del fusto mantengono marche distinte.
+
+PDF completo esporta tutte le tavole in A3 orizzontale. Word completo aggiunge tabelle modificabili; CSV distinta conserva quantità, impostazioni e note; PNG pagina esporta la pagina visualizzata. Anche la relazione Word del muro contiene la distinta del tratto e le tavole. Se si modificano i dati occorre attendere il nuovo calcolo prima di esportare.
+
+Le barre oltre la lunghezza commerciale sono segnalate: il programma non introduce giunti automatici. Le secondarie sono conteggiate come barre rettilinee lungo muro; estremità, raccordi, ganci e disposizione degli strati richiedono il dettaglio esecutivo. Un computo completo non equivale a verifiche soddisfatte: gli esiti mancanti o sfavorevoli restano indicati nella tavola delle note.
+
+![Esempio di distinta del muro con due zone di armatura e tratto di quattro metri](../artefatti/muri-materiali-distinta-20261005/interfaccia/distinta-due-zone-1.png)
+
+Esempio riapribile: supporto/artefatti/muri-materiali-distinta-20261005/interfaccia/distinta-due-zone.anthea. Il muro ha H=3 m, due zone con cambio a 1,5 m e un tratto lungo 4 m. La distinta mostra 23 pezzi per ciascuna marca principale e segnala lo sviluppo mancante dei collegamenti C1. I PDF e i Word della stessa cartella consentono di ripercorrere la lettura. L'esempio illustra input e computo, non costituisce un muro esecutivo verificato. Il riferimento grafico richiesto dall'utente è la tavola SIM-CAD di Madosoft; non è utilizzato come validazione numerica.
+
+
 ## Efficienza orizzontale della palificata
 
 Il modulo Palificata orizzontale confronta sei modelli di effetto di gruppo a partire da un'unica geometria di pali identici e da una direzione dell'azione orizzontale. Il risultato è un fattore di riduzione: per Davisson riguarda il modulo di reazione kh o nh; per gli altri metodi è il p-multiplier medio. La scheda non esegue un'analisi laterale completa e non fornisce direttamente la resistenza della palificata.
@@ -780,6 +803,32 @@ Proponi suddivisione usa quote su griglia di 0,5 m, mantenendo esatta la punta, 
 
 La sovrapposizione iniziale è 60φ, arrotondata per eccesso al decimetro, per preferenza dell'utente; non è attribuita a una norma. Il riquadro distingue lunghezza iniziale, richiesta dal verificatore, adottata ed effettiva. Per ogni giunto si adotta il massimo fra lunghezze iniziali e richieste delle armature collegate. La barra entrante risale di questa lunghezza; la barra superiore termina alla fine del suo tratto. φ24 dà 1,44 m, arrotondati a 1,50 m. Il pulsante Distinta ferri di ogni tratto apre la distinta e la seleziona nel riepilogo a destra. Barre e staffe sono visibili inizialmente; la scelta di richiudere il pannello viene conservata durante il ricalcolo. I testi si aggiornano anche mantenendo il cursore in un campo. Quando la distinta non può essere prodotta, la vista delle armature e il tratto mostrano il motivo specifico, senza un riquadro bianco o un’attesa permanente. La distinta di ciascun tratto indica il proprio gruppo, quantità, diametro, quote fisiche, lunghezza di taglio, barra commerciale e sovrapposizione. Ogni pezzo è conteggiato una sola volta; i giunti richiamano i pezzi collegati senza aggiungere altre quantità. Le staffe riportano diametro, passo massimo, quantità e quote nominali, assegnando il confine al tratto successivo senza doppi conteggi; forma di chiusura, sviluppo e distinta esecutiva delle staffe restano da definire.
 
+### Approvazione delle ipotesi ed esito delle armature
+
+In Tratti di armatura, Approva tutto · ipotesi conferma in un solo passaggio azioni di progetto, modello di taglio circolare, trattenimento delle barre compresse, dettagli delle estremità e buona aderenza. I valori numerici, le armature, i coefficienti e i vincoli della proposta restano quelli assegnati. Il pulsante Approva tutto · sisma, disponibile quando la modalità sismica è attiva, conferma anche le ipotesi ordinarie, la provenienza sismica di N e V e il momento elastico non ridotto con N concomitante. Le singole conferme rimangono modificabili. Il comando registra una scelta dell'utente e avvia il ricalcolo delle verifiche; non sostituisce un esito negativo con uno positivo.
+
+Il riepilogo a destra indica quanti tratti sono non verificati, incompleti o hanno tutti i controlli eseguiti soddisfatti. Selezionando un tratto, il riquadro rosso segnala controlli non soddisfatti; quello ambra indica dati o verifiche da completare; quello verde vale esclusivamente per i controlli eseguiti. Le verifiche fuori dal perimetro sono elencate separatamente. Ancoraggi insufficienti, giunti non utilizzabili, resistenze mancanti e controlli sismici non soddisfatti restano riconoscibili anche dopo Approva tutto. Cambiare un input invalida subito gli esiti; la risposta FEM viene riutilizzata quando i dati fisici non cambiano.
+
+NTC §7.2.5 apre una finestra interna ad ANTHEA con la sintesi dei criteri e una seconda scheda contenente la pagina originale consultata, PDF 217 / stampata 213. Zoom e scorrimento consentono di leggerla anche senza Internet. Non viene aperto un browser.
+
+L'Armatura trasversale principale può essere Staffe singole, Spirale oppure Da definire. I tratti collegati ereditano la scelta; i tratti personalizzati possono scegliere una tipologia diversa nella propria riga. Gli archivi conservano le scelte precedenti; per nuovi dati il tipo iniziale è Staffe singole. Diametro e passo rimangono quelli della sezione o del tratto. La spirale è rappresentata in elevazione e nella vista laterale; la distinta riporta la marca SP, il numero di spire, il passo effettivo e la lunghezza geometrica. Le staffe hanno marca S e quantità di anelli. Le note riportano anche i diametri, il passo massimo e le quote.
+
+La lunghezza geometrica non comprende ganci, chiusure, ancoraggi, giunti o sfridi e non è una lunghezza di taglio esecutiva. Il verificatore attuale del taglio usa staffe singole: selezionando Spirale il taglio resta non verificato e il dimensionamento resistente automatico non viene eseguito. Nella zona dissipativa di testa il controllo NTC delle staffe singole non è soddisfatto da una spirale. Disegno, verifica e dettagli costruttivi rimangono distinti.
+
+### Controlli sismici della testa del palo
+
+Nella Risposta elastica, aprire Tratti di armatura → Sisma · testa del palo · NTC §7.2.5. Attivare il controllo quando si considera una zona dissipativa presso la testa, perché non è escluso il raggiungimento della capacità. Gli archivi precedenti mantengono la modalità disattivata: non si attribuisce automaticamente natura sismica al carico esistente.
+
+Lasciando vuota l'estensione, Checker usa 10D dalla testa fisica del palo, comprendendo l'eventuale tratto libero. È possibile assegnare una zona più lunga; una più corta non supera il controllo di estensione. Se il palo è più corto di 10D, il programma controlla tutta la lunghezza e dichiara questa convenzione. Il confine della zona entra nella mesh. Ogni tratto che la interseca viene controllato con la propria armatura uniforme; per differenziare la staffatura, dividere il tratto alla quota voluta. L'attivazione non cambia automaticamente barre, passi o quote di taglio.
+
+Scegliere Da definire, Staffe singole oppure Spirale. In zona dissipativa una spirale non soddisfa la prescrizione delle staffe singole. Le conferme della combinazione sismica per N e V e del momento elastico non ridotto, con N concomitante, sono separate. Un modello FEM elastico non dimostra da solo che i carichi derivino da un'analisi sismica con q=1. Senza tali conferme restano disponibili i controlli geometrici, mentre quelli sulle azioni sono indicati come da completare.
+
+Nel riepilogo a destra selezionare Sisma · testa palo. Sono mostrati estensione, minimo longitudinale, diametro e passo delle staffe, tipologia trasversale, margine a taglio, compressione media e momento elastico, con valore, limite, quota critica e criterio. Dentro la zona valgono As almeno 1% Ac e passo massimo 6φL; fuori valgono 0,3% e 8φL. Il diametro trasversale minimo è 8 mm. La modalità sismica applica questi minimi anche se il controllo ordinario dei minimi pali è disattivato. I coefficienti unitari/custom non possono dare un esito di conformità NTC.
+
+Dimensiona usa anche i controlli sismici attivi per selezionare i candidati; richiede le conferme necessarie. Barre, ancoraggi e giunti rimangono da verificare nella disposizione reale. Modificare armature o conferme riutilizza la risposta FEM quando gli input fisici restano invariati; modificare il confine della zona aggiorna la discretizzazione. Sul profilo palo-terreno e su tutti i diagrammi la zona è evidenziata con una fascia viola, il contorno presso il palo e una linea orizzontale alla quota minima 10D. La legenda superiore indica 10D in metri. Se la zona assegnata è più lunga, sono distinti il limite minimo e la fine assegnata; le quote vicine hanno richiami separati per evitare sovrapposizioni. Il controllo Zona sismica 10D permette di nascondere solo la rappresentazione. La fascia è disponibile già con i risultati FEM, prima del completamento di MRd. La tavola armature conserva il contorno arancione della zona. Archivio, JSON, CSV e report conservano impostazioni, fonte ed esiti.
+
+Il controllo riguarda le prescrizioni di testa e le condizioni semplificate in assenza di una valutazione specifica di duttilità. Non genera combinazioni sismiche, azioni cinematiche, zone dissipative profonde, verifiche del nodo palo-plinto o dettagli esecutivi. I relativi limiti sono elencati nel riepilogo. Il pulsante NTC apre la finestra interna con sintesi e pagina originale: NTC 2018 §7.2.5, Gazzetta Ufficiale, pagina PDF 217, stampata 213.
+
 ### Ricalcolo delle sollecitazioni e delle resistenze
 
 Il FEM viene reso disponibile prima delle verifiche resistenti. Modificare solo barre o staffe conserva N, V, M, spostamenti e mesh, ricalcolando MRd e i dettagli. Modificare terreni, carichi, geometria, EJ o quote di partizione aggiorna anche il FEM. Le quote di partizione sono nodi del modello numerico. Le verifiche e le esportazioni complete vengono invalidate immediatamente; un calcolo superato non può sostituire quello corrente. MRd usa calcoli paralleli con solutori indipendenti e conserva i risultati già disponibili per la stessa sezione e gli stessi valori esatti di N.
@@ -820,6 +869,17 @@ Il modello esclude plasticità, distacco, curve p-y, trasferimento assiale al te
 
 
 ## Wiki e centro della conoscenza
+
+### Wiki del modulo e aiuti sui singoli dati
+
+Ogni modulo dispone del pulsante Wiki del modulo. Il comando Approfondimenti apre una scelta di argomenti e sezioni pertinenti. Accanto ai dati per cui esiste una spiegazione specifica, il pulsante ? raggiunge il punto della Wiki: per esempio copriferro nominale, copriferro per fessurazione, materiali, rigidezza del palo, armature e sisma. F1 nell’editor apre l’aiuto del dato, quando disponibile, oppure la guida del modulo.
+
+La consultazione conserva il foglio di lavoro: il comando Torna al lavoro riporta ai dati correnti. Anche le revisioni in sola lettura consentono di consultare gli aiuti. I collegamenti riguardano il tema del dato, non avviano una modifica dei parametri o un diverso metodo di verifica.
+
+### Consultare la nuova biblioteca tecnica
+
+La [biblioteca tecnica](wiki:biblioteca-tecnica) raccoglie lezioni con esempi, adattamenti attribuiti e percorsi di lettura esterni. Cercare un termine come taglio, copriferro, consolidazione, MASW o cassoni. Le schede delle fonti distinguono testo adattato, risorsa audiovisiva e materiale esterno; le immagini collegate richiedono accesso al sito originale. La data di consultazione non significa aggiornamento normativo automatico del contenuto.
+
 
 ### Engineering Handbook
 
@@ -977,6 +1037,16 @@ Nella famiglia Taglio sono richiesti N, Vx e Vy; Mx e My possono accompagnarli, 
 L'importazione controlla tutte le righe prima di modificare il foglio. Si possono aggiungere le righe o sostituire le famiglie presenti. Sono ammessi fino a 10.000 combinazioni e file fino a 20 MB. Le formule Excel non vengono eseguite: servono risultati già calcolati e salvati, oppure valori. Errori di cella e formule prive di risultato memorizzato impediscono l'importazione.
 
 Filtri e ordinamenti cambiano la vista, non eliminano le azioni dal calcolo. Dopo l'importazione verifica numero di combinazioni, unità, segni e corrispondenza dei nomi. Non importare un inviluppo di massimi come se fosse una terna simultanea.
+
+### Report short della sezione in calcestruzzo armato
+
+Accanto a Report Word, il pulsante Report short esporta il foglio corrente in Word e PDF omonimi, entro due pagine. Attendere il completamento del calcolo automatico. Il comando richiede Microsoft Word installato: lo usa in background per verificare la paginazione e produrre il PDF. Il report completo rimane disponibile dal pulsante precedente.
+
+La prima pagina raccoglie geometria, coordinate delle armature o definizione degli anelli regolari, staffe, materiali, coefficienti e opzioni di calcolo. La seconda contiene una combinazione governante per ciascuna verifica: SLU N–Mx–My, SLV N–Mx–My, taglio, tensioni rara, fessurazione frequente, tensioni quasi permanente e fessurazione quasi permanente. Azioni, resistenze o limiti, tasso ed esito sono racchiusi in due tabelle.
+
+La scelta considera tutte le combinazioni inserite, comprese quelle nascoste nei grafici. Tensioni e fessurazione possono avere combinazioni governanti diverse. Per il taglio sono riportate entrambe le direzioni della stessa combinazione. Una famiglia senza azioni è indicata come non richiesta; risultati mancanti o privi di tasso numerico producono un esito incompleto. I criteri senza rapporto numerico, come la decompressione, richiedono il report completo.
+
+Il report short non comprende torsione e interazioni, dettagli costruttivi, ancoraggi, domini 2D e momento–curvatura. Se dati geometrici molto estesi o nomi lunghi impediscono di rispettare due pagine, l'esportazione viene fermata senza tagliare dati: abbreviare i nomi o utilizzare il report completo. Il file di calcolo resta il riferimento riapribile.
 
 ### Leggere asse neutro, mappe e report
 

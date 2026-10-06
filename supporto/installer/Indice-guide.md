@@ -1,12 +1,12 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · Revisione 25 · 5 ottobre 2026
+ITEC Engineering · Revisione 30 · 6 ottobre 2026
 
-Engineering Handbook: 49 articoli consolidati in 12 capitoli. I resoconti precedenti sono conservati nell’archivio Rev14; i vecchi indirizzi Wiki raggiungono le pagine correnti. Lo stato editoriale non equivale a una certificazione normativa.
+Engineering Handbook: 251 articoli e percorsi in 12 capitoli. I resoconti precedenti sono conservati nell’archivio Rev14; i vecchi indirizzi Wiki raggiungono le pagine correnti. Lo stato editoriale non equivale a una certificazione normativa.
 
 ## Guida pratica ANTHEA
 
-[Word Rev25](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev25.docx) · [PDF Rev25](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev25.pdf)
+[Word Rev30](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev30.docx) · [PDF Rev30](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev30.pdf)
 
 - Avvio e scelta del modulo
 - Progetti e gestione del lavoro
@@ -30,7 +30,7 @@ Engineering Handbook: 49 articoli consolidati in 12 capitoli. I resoconti preced
 
 ## Guida teorica ANTHEA
 
-[Word Rev25](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev25.docx) · [PDF Rev25](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev25.pdf)
+[Word Rev30](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev30.docx) · [PDF Rev30](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev30.pdf)
 
 - Architettura del calcolo e convenzioni
 - Calcestruzzo armature e copriferro
@@ -64,3 +64,14 @@ Engineering Handbook: 49 articoli consolidati in 12 capitoli. I resoconti preced
 - Profili di calcolo del calcestruzzo
 
 - Esempio aggiornato: [palo 20 m, tratti 0–12 / 12–18 / 18–20](../esempi/palo-orizzontale-armature/palo-20m-tagli-12-18-20.programma), con [dati e tagli in PDF](../esempi/palo-orizzontale-armature/palo-20m-tagli-12-18-20.pdf).
+
+- Revisione 26: controlli sismici di testa del palo secondo NTC 2018 §7.2.5, con fonte, campo di applicazione ed esiti nel verificatore.
+
+- Revisione 30: materiali dei muri condivisi con sezioni e schede Materiali; distinta ferri del tratto con tavole, sviluppi, quantità ed esportazioni PDF, Word e CSV.
+
+
+## Biblioteca tecnica Rev30
+
+13 lezioni originali con esempi; 179 contributi attribuiti di Marco De Pisapia; 174 letture esterne selezionate GeoStru e Simone Caffè. I contributi riprodotti conservano la licenza non commerciale indicata. Figure esterne e video non sono inclusi offline.
+
+- Revisione 30: approvazione delle ipotesi del palo, esiti distinti, fonte NTC interna e rappresentazione di staffe e spirali.

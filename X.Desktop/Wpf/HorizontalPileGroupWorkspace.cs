@@ -55,7 +55,7 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
     TextBox Field(Panel parent, string label, JsonObject owner, string key, bool optional = false)
     {
         var row = new Grid { Margin = new Thickness(0, 3, 0, 4) }; row.ColumnDefinitions.Add(new ColumnDefinition()); row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(94) });
-        row.Children.Add(Ui.Text(label, 12));
+        row.Children.Add(WikiContextHelp.Label(Ui.Text(label, 12), key, HorizontalPileGroup.Module));
         var box = new TextBox { Text = owner[key]?.ToString() ?? "", Margin = new Thickness(8, 0, 0, 0), Tag = key, VerticalAlignment = VerticalAlignment.Center, HorizontalContentAlignment = HorizontalAlignment.Right };
         box.TextChanged += (_, _) => { if (optional && string.IsNullOrWhiteSpace(box.Text)) owner.Remove(key); else owner[key] = Value(box.Text); Queue(); };
         Grid.SetColumn(box, 1); row.Children.Add(box); parent.Children.Add(row); return box;

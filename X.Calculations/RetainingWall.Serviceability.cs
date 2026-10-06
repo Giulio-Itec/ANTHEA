@@ -26,6 +26,8 @@ public static partial class RetainingWall
             else foreach (var p in defaults) if (d[key]![p.Key] is null) d[key]![p.Key] = p.Value?.DeepClone();
         }
         Add("bearing_seismic", J.Obj(("source", "Da sito"), ("ground_kh", ""), ("ground_kv", ""), ("model_factor", 1.15)));
+        Add("bar_schedule", J.Obj(("panel_length", 1), ("end_cover", d["materials"].D("cover", 40)),
+            ("stock_length", 12), ("ties_per_m", 2), ("tie_cut_length", 0)));
         Add("serviceability", J.Obj(("settlement", false), ("displacement", false), ("removed_pressure", ""),
             ("settlement_limit", 25), ("rotation_limit", .002), ("head_limit", 20), ("horizontal_stiffness", ""),
             ("rigid_base", false), ("layers", new JsonArray()), ("histories", new JsonArray())));

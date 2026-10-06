@@ -68,12 +68,20 @@ public static class ReportElasticPile
             foreach(var t in reinforcement.Array("tratti"))
             {
                 var s=t!["sezione"]!;P($"{t.S("id")}: x={F(t,"inizio")}–{F(t,"fine")} m. "+(t.B("collegato")?"Collegato alla sezione principale":"Armatura personalizzata")+$". {t.S("stato")} {t.S("errore")}");
-                P($"Armatura: {F(s,"longitudinal_bar_count")} φ{F(s,"longitudinal_bar_diameter_mm")}; staffe chiuse φ{F(s,"transverse_bar_diameter_mm")}/{F(s,"transverse_spacing_mm")} mm; copriferro {F(s,"cover_mm")} mm.");
+                P($"Armatura: {F(s,"longitudinal_bar_count")} φ{F(s,"longitudinal_bar_diameter_mm")}; {s.S("tipo_trasversale","Staffe singole")} φ{F(s,"transverse_bar_diameter_mm")}/{F(s,"transverse_spacing_mm")} mm; copriferro {F(s,"cover_mm")} mm.");
                 P("Normativa: "+t.S("normativa")+". Dettagli: "+t.S("comportamento_dettagli")+".");
                 if(t["durabilita"] is JsonNode durability)P($"Durabilità: esposizione {(string.IsNullOrWhiteSpace(durability.S("esposizione"))?"non assegnata":durability.S("esposizione"))}; cmin,dur {(durability["cmin_dur"]==null?"da determinare":F(durability,"cmin_dur")+" mm")}. {durability.S("origine")}. {durability.S("fonte")}");
-                foreach(var pending in t.Array("da_completare"))P(pending?.ToString()??"");
+                if(t["riepilogo"] is JsonNode summary){P(summary.S("stato"));foreach(var (key,label) in new[]{("non_soddisfatti","Non soddisfatti"),("da_completare","Da completare"),("esclusi","Fuori dal perimetro")})if(summary.Array(key).Count>0){P(label);foreach(var issue in summary.Array(key))P(issue!.ToString());}}
+                else foreach(var pending in t.Array("da_completare"))P(pending?.ToString()??"");
                 Table(["Controllo costruttivo","Valore","Limite","Unità","Esito"],t.Array("controlli_costruttivi").Select(c=>new[]{ElasticHorizontalPile.ConstructionLabel(c.S("Key")),F(c,"Actual"),F(c,"Limit"),c.S("Unit"),c?["Passed"]==null?"Da completare":c.B("Passed")?"Soddisfatto":"Non soddisfatto"}));
-                var links=t["distinta_staffe"];if(links!=null)P($"Distinta staffe: {F(links,"quantita")} φ{F(links,"diametro_mm")} mm, passo non maggiore di {F(links,"passo_massimo_mm")} mm. {links.S("stato")}");
+                if(t["sisma_testa"] is JsonNode seismic&&seismic.B("Active"))
+                {
+                    P($"Sisma · testa palo · NTC §7.2.5: zona x=0–{F(seismic,"HeadEnd")} m, 10D={F(seismic,"RequiredHeadLength")} m. {seismic.S("Status")}. {seismic.S("Scope")}");
+                    Table(["Controllo sismico","x [m]","Valore","Limite","Unità","Esito"],seismic.Array("Checks").Select(c=>new[]{c.S("Title"),F(c,"Depth"),F(c,"Actual"),F(c,"Limit"),c.S("Unit"),c?["Passed"]==null?"Da completare":c.B("Passed")?"Soddisfatto":"Non soddisfatto"}));
+                    foreach(var rule in seismic.Array("Checks"))P(rule.S("Title")+": "+rule.S("Criterion"));
+                    P(seismic.S("Reference")+"; "+seismic.S("SourceUrl"));
+                }
+                var links=t["distinta_staffe"];if(links!=null)P($"Distinta {links.S("tipo","Staffe singole")}: {F(links,"quantita")} φ{F(links,"diametro_mm")} mm, passo non maggiore di {F(links,"passo_massimo_mm")} mm; passo effettivo {F(links,"passo_effettivo_mm")} mm; spire {F(links,"spire")}; lunghezza geometrica totale {F(links,"lunghezza_geometrica_m")} m. {links.S("stato")}");
                 var c=t["critica"];var a=c?["Action"];P($"Sezione critica x={F(a,"Depth")} m: N={F(a,"N")} kN, V={F(a,"V")} kN, M={F(a,"M")} kNm. MRd nominale +={F(c,"MRdPositive")}, MRd−={F(c,"MRdNegative")} kNm; VRd={F(c,"VRd")} kN. {c.S("Message")}");
                 P("Lato: sup. = superiore, inf. = inferiore, int. = interno all'elemento.");
                 Table(["x [m] / lato","N [kN]","M [kNm]","MRd+ util. [kNm]","MRd− util. [kNm]","V / VRd [kN]","Esito"],t.Array("verifiche").Select(v=>new[]{C(v?["Action"],"Depth")+" "+Side(v?["Action"]),F(v?["Action"],"N"),F(v?["Action"],"M"),F(v,"UsableMRdPositive"),F(v,"UsableMRdNegative"),F(v?["Action"],"V")+" / "+F(v,"VRd"),v.S("Status")}));

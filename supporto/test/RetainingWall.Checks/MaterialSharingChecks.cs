@@ -57,11 +57,11 @@ internal static class MaterialSharingChecks
         var section = ProjectDocuments.AddSheet(branch,"str_palo");
         Near(section["dati"]!["input"].D("cover_mm"),d["materials"].D("cover"),"Copriferro muro condiviso con la sezione");
         d=sheet["dati"]!.AsObject();
+        File.WriteAllText(Path.Combine(directory,"materiali-progetto.anthea"),archive.ToJsonString(J.Options));
         d["family"]="gravity"; d["gravity_design"]!["type"]="Muratura";
         Check(!ProjectSharedData.Common(cls,sheet).Any() &&
             !ProjectSharedData.Common(steel,sheet).Any(p => p.Source.Key != "materiale_acciaio_nome"),
             "Muratura non eredita proprietà meccaniche CLS o armature dormienti; il nome può restare archiviato");
-        File.WriteAllText(Path.Combine(directory,"materiali-progetto.anthea"),archive.ToJsonString(J.Options));
         File.WriteAllBytes(Path.Combine(directory,"materiali-report.docx"),ReportRetainingWall.Create("Materiali del muro e verificatore sezioni",result));
         File.WriteAllLines(Path.Combine(directory,"materiali-test.txt"),log.Append($"PASS {log.Count} controlli materiali")); return log.Count;
     }

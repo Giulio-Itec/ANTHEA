@@ -1,4 +1,4 @@
-﻿param([switch]$VerifyFinal, [string]$Revision = '25')
+﻿param([switch]$VerifyFinal, [string]$Revision = '30')
 $ErrorActionPreference = 'Stop'
 $repoPath = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $wordForGuides = $null
@@ -15,10 +15,15 @@ try {
         # COM paths as plain strings: in Windows PowerShell 5.1 the output of Join-Path reaches Word wrapped in a PSObject and
         # SaveAs2 waited on an invisible dialog (28/09/2026); with [string] the two guides take seconds
         $guideDoc = $wordForGuides.Documents.Open([string]$sourcePath, $false, $false)
-        $guideDoc.Fields.Update() | Out-Null
-        foreach ($toc in $guideDoc.TablesOfContents) { $toc.Update() }
+        Write-Output "${kind}: documento aperto"
+        # Update fields in one native call (including the TOC), without a second
+        # TOC.Update or per-field repagination. Final verification uses audited caches.
+        if (-not $VerifyFinal) {
+            $guideDoc.Fields.Update() | Out-Null
+            Write-Output "${kind}: indice aggiornato"
+        }
         $guideDoc.Repaginate()
-        foreach ($toc in $guideDoc.TablesOfContents) { $toc.UpdatePageNumbers() }
+        if (-not $VerifyFinal) { foreach ($toc in $guideDoc.TablesOfContents) { $toc.UpdatePageNumbers() } }
         if (-not $VerifyFinal) {
             $guideDoc.SaveAs2([string](Join-Path $artifactPath 'word_updated.docx'), 16)
         }

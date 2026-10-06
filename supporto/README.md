@@ -1,6 +1,6 @@
 # Materiale di supporto ANTHEA
 
-La documentazione utente è raccolta in due guide globali Rev25 del 5 ottobre 2026:
+La documentazione utente è raccolta in due guide globali Rev30 del 6 ottobre 2026:
 
 - [Guida pratica e UI](docs/guida-pratica-anthea.md): procedure e interfaccia di tutti i moduli.
 - [Guida teorica](docs/guida-teorica-anthea.md): modelli, formule, ipotesi, limiti, approfondimenti e appendici tecniche di tutti i moduli.
@@ -53,3 +53,9 @@ Muri con due colonne e attriti: [guida](docs/guida-teorica-anthea.md), PDF omoni
 Portanza sismica, cedimenti, Newmark e armature: [rapporto aggiornamento](artefatti/muri-completamento-20260930/CONTROLLO.md), anche PDF; [esempio salvato](artefatti/muri-completamento-20260930/interfaccia-finale/esempio-completo.anthea), relazione Word e PDF nella stessa cartella. Nessuna nuova prova MAX.
 
 - Esempio aggiornato: [palo 20 m, tratti 0–12 / 12–18 / 18–20](esempi/palo-orizzontale-armature/palo-20m-tagli-12-18-20.programma), con [dati e tagli in PDF](esempi/palo-orizzontale-armature/palo-20m-tagli-12-18-20.pdf).
+
+- Revisione 26: controlli sismici di testa del palo secondo NTC 2018 §7.2.5, con fonte, campo di applicazione ed esiti nel verificatore.
+
+- Revisione 30: materiali dei muri condivisi con sezioni e schede Materiali; distinta ferri del tratto con tavole, sviluppi, quantità ed esportazioni PDF, Word e CSV.
+
+- Revisione 30: approvazione delle ipotesi del palo, esiti distinti, fonte NTC interna e rappresentazione di staffe e spirali.

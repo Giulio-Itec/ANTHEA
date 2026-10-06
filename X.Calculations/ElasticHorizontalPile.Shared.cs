@@ -2,6 +2,7 @@ using System.Text.Json.Nodes;
 using System.Security.Cryptography;
 using System.Text;
 using GPC.Checkers.Geotechnics.Piles;
+using GPC.Checkers.Concrete.Piles;
 namespace Anthea.Calculations;
 public static partial class ElasticHorizontalPile
 {
@@ -133,7 +134,13 @@ public static partial class ElasticHorizontalPile
         var input=SharedInput(root);var stiffness=SectionStiffness(root);var g=root["generali"]!;var section=root["sezione"]!;
         input["N"]=g["azione_assiale"]?.DeepClone()??JsonValue.Create(0);
         input["peso_lineare"]=root.S("tipo_sezione")=="CHS"?PileSegments.TubeWeight(g.Required("diametro",strict:true),stiffness.DiameterMm,stiffness.ThicknessMm,section.Required("gamma_acciaio"),section.Required("gamma_iniezione")):PileSegments.ConcreteWeight(g.Required("diametro",strict:true),section.Required("gamma_ca"));
-        var segments=ReadSegments(root);PileSegments.Validate(segments,input.D("lunghezza"));input["quote_verifica"]=J.Node(segments.Select(s=>s.End).ToArray());
+        var segments=ReadSegments(root);PileSegments.Validate(segments,input.D("lunghezza"));var depths=segments.Select(s=>s.End).ToList();
+        if(root.S("tipo_sezione")!="CHS"&&root["elastico"]!["dettagli"].B("sisma_testa"))
+        {
+            var zone=PileReinforcement.DescribeSeismicHead(g.Required("diametro",strict:true)*1000,input.D("lunghezza"),SeismicSettings(root).HeadLength);
+            input["zona_sismica"]=System.Text.Json.JsonSerializer.SerializeToNode(zone);depths.Add(zone.MinimumEnd);depths.Add(zone.AdoptedEnd);
+        }
+        input["quote_verifica"]=J.Node(depths.Distinct().OrderBy(x=>x).ToArray());
         return input;
     }
     static string InputKey(JsonObject input)=>Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(input.ToJsonString())));

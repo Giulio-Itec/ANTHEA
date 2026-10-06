@@ -1,0 +1,107 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "bf56e1de67ea7d39a1d918034af68ce5b15d85d3252fe10a8d0b0dcce9641490",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "37f2771c5391a90cbdb6d4682befae2c997cdf9076ebfe46113adf3692af9d68",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "047067540c042e4d94ad5ae71c23c713b2fc9190ae91dbab028f9932b0ff5648",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "16c20f2c593e029736f3843b6f806028faf30b6651ec624aa2a6186ad4f4fae8",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\supporto\\README.md",
+    "sha256": "75db4305bef8e9a77e3abe8b5dfd458815c3942c97b7ff92423d3efc4a30c074",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\supporto\\README.pdf",
+    "sha256": "d21c0fe324b2b36daca3848a4e77dc773e952129047988520b46f0d838b2296a",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\supporto\\installer\\Indice-guide.md",
+    "sha256": "8cb6b3f60beb75c00dc6ac2925935f290330fe623e63e32e0ff171c86ab23319",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\supporto\\installer\\Indice-guide.pdf",
+    "sha256": "f4620c209fbc76469702d797ad1c0ab6c4e1c98447220a78514ce19a78be13b5",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev28.docx",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev28.docx",
+    "sha256": "77e31aa5a6191cf1ae4ed189ab3cc77ddd388443e2ac64d6551d9768312a6283",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev28.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev28.pdf",
+    "sha256": "37f2771c5391a90cbdb6d4682befae2c997cdf9076ebfe46113adf3692af9d68",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev28.docx",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev28.docx",
+    "sha256": "3955451702629352ec025eb93246d60d5790b4dadf64d200386e9dfd1f99ca4d",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev28.pdf",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev28.pdf",
+    "sha256": "16c20f2c593e029736f3843b6f806028faf30b6651ec624aa2a6186ad4f4fae8",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  },
+  {
+    "origine": "X.Desktop\\Wiki\\editorial.json",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\X.Desktop\\Wiki\\editorial.json",
+    "sha256": "5c6c27129f5d207330739edf4d565b434b4c4bce9d28e30533b0bff237203b7f",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  },
+  {
+    "origine": "X.Desktop\\Wiki\\references.json",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\X.Desktop\\Wiki\\references.json",
+    "sha256": "5da8a22aab92eb7b9ddd15e384dff262eca8b340a1db99bcb137abecff5b3484",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  },
+  {
+    "origine": "X.Desktop\\Wiki\\index.json",
+    "archivio": "supporto\\SUPERATI\\wiki-tecnica-rev29-20261006\\X.Desktop\\Wiki\\index.json",
+    "sha256": "9c73b0ba18bcfeecb5cecb8058e85456972db55475f0665241db66d7aa5a7afe",
+    "motivo": "Sostituzione con biblioteca tecnica e aiuti contestuali",
+    "revisione_sostitutiva": "29"
+  }
+]

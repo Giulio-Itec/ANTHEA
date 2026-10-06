@@ -8,7 +8,8 @@ namespace X.Desktop;
 internal sealed class ElasticPileDrawing : FrameworkElement
 {
     internal static double NiceStep(double value){if(!double.IsFinite(value)||value<=0)return 1;double decade=Math.Pow(10,Math.Floor(Math.Log10(value))),scaled=value/decade;return (scaled<=1?1:scaled<=2?2:scaled<=5?5:10)*decade;}
-    JsonObject? result;JsonNode? selected;double retainedMomentMaximum;const double Top=65,Profile=310;
+    JsonObject? result;JsonNode? selected;double retainedMomentMaximum;const double Profile=310;
+    double Top=>result?["input"]?["zona_sismica"]!=null&&On("sisma")?112:65;
     internal JsonObject Options{get;set;}=new();
     internal event Action<JsonNode?>? Selected;
     bool On(string key)=>Options[key]==null?key!="molle":Options.B(key);
@@ -24,7 +25,16 @@ internal sealed class ElasticPileDrawing : FrameworkElement
         base.OnRender(dc);dc.DrawRectangle(Brushes.White,null,new Rect(0,0,ActualWidth,ActualHeight));if(result==null)return;
         var input=result["input"]!;var response=result["risposta"]!;var rows=response.Array("Points");double length=input.D("lunghezza"),free=input.D("libero"),bottom=ActualHeight-35;
         double Y(double x)=>Top+(bottom-Top)*x/length;
-        void Text(string s,double x,double y,int size=11,double width=240)=>dc.DrawText(new FormattedText(s,CultureInfo.CurrentCulture,FlowDirection.LeftToRight,new Typeface("Segoe UI"),size,Ui.Navy,VisualTreeHelper.GetDpi(this).PixelsPerDip){MaxTextWidth=width},new Point(x,y));
+        void Text(string s,double x,double y,int size=11,double width=240,Brush? brush=null)=>dc.DrawText(new FormattedText(s,CultureInfo.CurrentCulture,FlowDirection.LeftToRight,new Typeface("Segoe UI"),size,brush??Ui.Navy,VisualTreeHelper.GetDpi(this).PixelsPerDip){MaxTextWidth=width},new Point(x,y));
+        var seismic=On("sisma")?input["zona_sismica"]:null;var seismicBrush=Ui.Brush("#6D28D9");
+        if(seismic!=null)
+        {
+            double zoneEnd=seismic.D("AdoptedEnd");
+            dc.DrawRectangle(new SolidColorBrush(Color.FromArgb(20,124,58,237)),null,new Rect(36,Y(0),Math.Max(1,ActualWidth-36),Y(zoneEnd)-Y(0)));
+            dc.DrawRectangle(Ui.Brush("#F3E8FF"),null,new Rect(36,63,Math.Max(1,ActualWidth-44),26));
+            string extra=seismic.D("NominalLength")>length?" · palo più corto: zona su tutta la lunghezza":Math.Abs(zoneEnd-seismic.D("MinimumEnd"))>1e-9?$" · zona assegnata 0–{zoneEnd:0.00} m":"";
+            Text($"ZONA SISMICA DI TESTA · 10D = {seismic.D("NominalLength"):0.00} m{extra}"+(seismic.B("MeetsMinimum")?"":" · ESTENSIONE INSUFFICIENTE"),46,67,13,Math.Max(1,ActualWidth-70),seismicBrush);
+        }
         Text("x dalla testa [m] ↓",0,30);double depth=free;
         foreach(var (layer,i) in input.Array("strati").Select((p,i)=>(p!,i)))
         {
@@ -78,6 +88,23 @@ internal sealed class ElasticPileDrawing : FrameworkElement
             }
         }
         if(On("tratti")){double left=Profile+w*diagrams.Length;Text("Tratti di verifica",left+8,5,12,w-12);foreach(var (s,i) in segments.Select((s,i)=>(s!,i))){double a=Y(s.D("inizio")),b=Y(s.D("fine"));if(b<=a)continue;var brush=PileReinforcementEditor.SegmentColor(i);dc.DrawRectangle(brush,new Pen(Ui.Muted,.8),new Rect(left+8,a,w-16,b-a));if(b-a>32)Text(s.S("id")+" · "+(s.B("collegato")?"principale":"personalizzata")+"\n"+s.S("stato"),left+12,a+5,10,w-24);dc.DrawLine(new Pen(Ui.Muted,.5){DashStyle=DashStyles.Dash},new Point(Profile,a),new Point(ActualWidth,a));}}
+        if(seismic!=null)
+        {
+            double minimumY=Y(seismic.D("MinimumEnd")),adoptedY=Y(seismic.D("AdoptedEnd"));
+            dc.DrawRectangle(null,new Pen(seismicBrush,2.5),new Rect(61,Y(0),30,adoptedY-Y(0)));
+            void Marker(double y,string label,DashStyle style)
+            {
+                dc.DrawLine(new Pen(seismicBrush,2){DashStyle=style},new Point(36,y),new Point(ActualWidth,y));
+                double left=Math.Max(Profile+8,ActualWidth-310);dc.DrawRectangle(Brushes.White,new Pen(seismicBrush,.7),new Rect(left,y-20,295,20));Text(label,left+5,y-18,11,285,seismicBrush);
+            }
+            Marker(minimumY,$"Limite minimo 10D · x={seismic.D("MinimumEnd"):0.00} m"+(seismic.D("NominalLength")>length?" (punta)":""),DashStyles.Dash);
+            if(Math.Abs(seismic.D("AdoptedEnd")-seismic.D("MinimumEnd"))>1e-9)
+            {
+                // Nearby limits share one caption, while both exact horizontal lines remain visible.
+                if(Math.Abs(adoptedY-minimumY)<25){dc.DrawLine(new Pen(seismicBrush,1.5){DashStyle=DashStyles.Dot},new Point(36,adoptedY),new Point(ActualWidth,adoptedY));Text($"Zona assegnata: x={seismic.D("AdoptedEnd"):0.00} m",Profile+10,minimumY+4,11,280,seismicBrush);}
+                else Marker(adoptedY,$"Fine zona assegnata · x={seismic.D("AdoptedEnd"):0.00} m",DashStyles.Dot);
+            }
+        }
         if(selected!=null)
         {
             double y=Y(selected.D("Depth"));dc.DrawLine(new Pen(Brushes.DarkOrange,1.5){DashStyle=DashStyles.Dash},new Point(35,y),new Point(ActualWidth,y));

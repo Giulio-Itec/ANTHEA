@@ -24,12 +24,12 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[2]
-REVISION = '25'
+REVISION = '30'
 # edition data of the revision: date, contents and description in the revision table of the cover
-DATE = '05/10/2026'
-CONTENTS = '5 ottobre 2026'
-CONTENTS_ISO = '2026-10-05'
-REVISION_NOTE = 'TAGLI DEI TRATTI E SOVRAPPOSIZIONI DEL PALO'
+DATE = '06/10/2026'
+CONTENTS = '6 ottobre 2026'
+CONTENTS_ISO = '2026-10-06'
+REVISION_NOTE = 'IPOTESI ESITI E ARMATURE TRASVERSALI DEL PALO'
 ART = ROOT / f'supporto/artefatti/guide_anthea_itec_rev{REVISION}'
 OUT = ROOT / 'supporto/documentazione/Guide_ANTHEA'
 TEMPLATE = Path('C:/Users/g.pacini/Desktop/MODELLO-RELAZIONE-ITEC-AA.docx')
@@ -215,7 +215,10 @@ def build(kind):
     body.insert(len(body) - 1, index_title)
     toc = doc.add_paragraph()
     fld = OxmlElement('w:fldSimple')
-    fld.set(qn('w:instr'), 'TOC \\o "1-2" \\h \\z \\u')
+    # The expanded theory library has thousands of subheadings; its printed
+    # index lists articles, while Word's navigation retains the full hierarchy.
+    toc_depth = '1-1' if kind == 'teorica' and source.read_text(encoding='utf-8').count('\n## ') > 100 else '1-2'
+    fld.set(qn('w:instr'), f'TOC \\o "{toc_depth}" \\h \\z \\u')
     toc._p.append(fld)
     idxsect = deepcopy(sections[3])
     idxsect.find(qn('w:type')).set(qn('w:val'), 'continuous')
@@ -268,6 +271,8 @@ def build(kind):
             continue
         p = doc.add_paragraph()
         p.paragraph_format.space_after = Pt(7)
+        if 'https://' in line or 'http://' in line:
+            p.alignment = WD_ALIGN_PARAGRAPH.LEFT
         if line.startswith('$$ '):
             p.paragraph_format.left_indent = Cm(.45)
             p.paragraph_format.space_before = Pt(3)

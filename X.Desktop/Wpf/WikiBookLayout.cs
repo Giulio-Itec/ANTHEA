@@ -52,6 +52,12 @@ internal sealed partial class WikiView
         pane.Children.Add(title);
         pane.Children.Add(Ui.Text("Comprendere la struttura. Costruire il modello. Verificare il progetto.", 21));
         pane.Children.Add(BookRule());
+        pane.Children.Add(BookLabel("APPROFONDIMENTI TECNICI  /  FORMULE, ESEMPI E FONTI"));
+        pane.Children.Add(Link("Esplora la nuova biblioteca tecnica →", () => Navigate("biblioteca-tecnica")));
+        pane.Children.Add(Ui.Text("Taglio e dettagli del calcestruzzo, impalcati da ponte, indagini e fondazioni. Contributi attribuiti e letture di Marco De Pisapia, GeoStru e Simone Caffè.", 16));
+        pane.Children.Add(Ui.Bar(Link("Taglio e inclinazione dei puntoni", () => Navigate("taglio-traliccio")),
+            Link("Muri: metodi e funzioni disponibili", () => Navigate("muri-metodi-perimetro"))));
+        pane.Children.Add(BookRule());
         var intro = Ui.Stack(BookLabel("IL FILO DEL MANUALE"),
             Ui.Text("Dall’opera al calcolo", 26, true),
             Ui.Text("Segui il percorso dei carichi, scegli le ipotesi e confronta il modello con un esempio. Ogni capitolo riunisce principi, metodi e applicazioni in Anthea.", 16),

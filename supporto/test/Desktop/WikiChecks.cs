@@ -31,6 +31,16 @@ internal static class WikiChecks
             Check(!WikiCatalog.Aliases.ContainsKey(alias.Value), "Alias diretto senza catene · " + alias.Key);
             CheckLink(alias.Key);
         }
+        foreach (var module in ModuleCatalog.All)
+        {
+            Check(WikiCatalog.ForModule(module.Id) is not null, "Guida per ogni modulo · " + module.Id);
+            Check(WikiContextHelp.ArticlesFor(module.Id).Any(a => a.Type == "theory"), "Approfondimenti tecnici · " + module.Id);
+        }
+        foreach (var topic in WikiContextHelp.Topics) CheckLink(topic.Uri);
+        Check(WikiContextHelp.ForField("cover_mm", "str_palo")?.Uri.EndsWith("#copriferro-minimo-e-nominale") == true, "Copriferro rinvia alla durabilità");
+        Check(WikiContextHelp.ForField("copriferro_fessure", "str_palo")?.Uri.EndsWith("#apertura-delle-fessure") == true, "Copriferro SLE distinto dal nominale");
+        Check(WikiContextHelp.ForField("N", "geo_palo_orizzontale") is null, "N del palo non eredita la convenzione della sezione CA");
+        Check(WikiContextHelp.ForField("spessore_chs_mm", "geo_micropalo_orizzontale") is not null, "Aiuto sulla sezione CHS");
         var formulaErrors = new List<string>();
         foreach (var a in WikiCatalog.Articles)
         {
@@ -120,6 +130,10 @@ internal static class WikiChecks
             }
             wiki.Navigate("cracking#esempio-numerico"); await Render($"cracking-480-{dark}", 480, 800);
             wiki.Navigate("euler#snellezza-e-tensione-critica"); await Render($"euler-chart-{dark}", 1400, 900);
+            foreach (var id in new[] { "biblioteca-tecnica", "taglio-traliccio", "taglio-traliccio#esempio-numerico-con-due-quantita-di-staffe", "muri-metodi-perimetro", "mdp-89", "mdp-265" })
+            {
+                wiki.Navigate(id); await Render($"technical-{id.Replace('#', '-')}-{dark}", 1400, 900);
+            }
             foreach (var id in new[] { "guida-progetti-e-gestione-del-lavoro", "bridge-design", "profili-calcestruzzo", "acciaio-armature", "guida-muri-di-sostegno-con-stratigrafie-di-monte-e-valle" })
             {
                 wiki.Navigate(id); await Render($"integrated-{id}-{dark}", 1400, 900);
@@ -179,7 +193,19 @@ public sealed partial class MainWindow
         dirty = false; OpenWikiModule("str_palo", "beam-ca");
         RenderRoot("shell-example-1600");
         Check(editor!.Data["input"]!["moment_x_knm"]!.ToString() == "200" && dirty && path is null, "Esempio aperto come nuovo documento da salvare");
-        Check(Ui.Descendants<Button>(editor).Any(b => b.Content as string == "?"), "Help contestuale degli input disponibile");
+        Check(Ui.Descendants<Button>(editor).Any(b => b.Content as string == "?" && b.Visibility == Visibility.Visible), "Help contestuale visibile dopo il collegamento all'editor");
+        var helpRow = WikiContextHelp.Label(Ui.Text("Copriferro di prova"), "cover_mm", null);
+        var probe = new StackPanel(); probe.SetValue(WikiContextHelp.ModuleProperty, "str_palo"); probe.Children.Add(helpRow);
+        helpRow.RaiseEvent(new RoutedEventArgs(FrameworkElement.LoadedEvent));
+        var helpButton = Ui.Descendants<Button>(helpRow).Single();
+        Check(helpButton.Visibility == Visibility.Visible, "Contesto Wiki ereditato dalle schede");
+        var release = RevisionInspection.Protect(probe);
+        Check(helpButton.IsEnabled, "Wiki consultabile nelle revisioni in sola lettura"); release();
+        var exampleEditor = editor;
+        wikiHelp.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        Check(ReferenceEquals(body.Content, dashboard) && ReferenceEquals(editor, exampleEditor)
+            && editor!.Data["input"]!["moment_x_knm"]!.ToString() == "200", "Pulsante Wiki apre la guida e conserva editor e azioni dell'esempio");
+        ResumeCalculation();
         dirty = false; NewProjects(); AddProject(); var project = document;
         ShowWiki(); ShowProjects();
         Check(ReferenceEquals(document, project) && document.Array("progetti").Count == 1, "Progetti conservati nel passaggio alla Wiki");

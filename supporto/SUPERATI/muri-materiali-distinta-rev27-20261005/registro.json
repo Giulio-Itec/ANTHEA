@@ -1,0 +1,86 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\muri-materiali-distinta-rev27-20261005\\docs\\guida-pratica-anthea.md",
+    "motivo": "Materiali condivisi e distinta ferri dei muri",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "c8e799ef9bb72177afb05f5052fb132777d3227dbfd0a68b8e84afef69919a39"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\muri-materiali-distinta-rev27-20261005\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Materiali condivisi e distinta ferri dei muri",
+    "sostituzione": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "4bba5addfce2bfb3920fd7f247348d58de76cadc6ca2d209061903f1c2d4950f"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\muri-materiali-distinta-rev27-20261005\\docs\\guida-teorica-anthea.md",
+    "motivo": "Materiali condivisi e distinta ferri dei muri",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "1a1d3c7d46a05b9f1a87ef98b2040f98a0971f36b36f803c047ad2f544f74ede"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\muri-materiali-distinta-rev27-20261005\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Materiali condivisi e distinta ferri dei muri",
+    "sostituzione": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "ee1f5d11cc3215f5b8f161d8ff1e07b1614b7bb0dc38395b7c0cb28de7fb14aa"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev26.docx",
+    "archivio": "supporto\\SUPERATI\\muri-materiali-distinta-rev27-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev26.docx",
+    "motivo": "Materiali condivisi e distinta ferri dei muri",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev27.docx",
+    "sha256": "454b46cd033455131ea37551240eeb7f47b41f8a84a19c56745be1bd901c6a77"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev26.pdf",
+    "archivio": "supporto\\SUPERATI\\muri-materiali-distinta-rev27-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev26.pdf",
+    "motivo": "Materiali condivisi e distinta ferri dei muri",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev27.pdf",
+    "sha256": "4bba5addfce2bfb3920fd7f247348d58de76cadc6ca2d209061903f1c2d4950f"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev26.docx",
+    "archivio": "supporto\\SUPERATI\\muri-materiali-distinta-rev27-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev26.docx",
+    "motivo": "Materiali condivisi e distinta ferri dei muri",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev27.docx",
+    "sha256": "72d9085ac3b30c12e979204f220c6bc5811e587406cbfdd926cfd60cc99242d7"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev26.pdf",
+    "archivio": "supporto\\SUPERATI\\muri-materiali-distinta-rev27-20261005\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev26.pdf",
+    "motivo": "Materiali condivisi e distinta ferri dei muri",
+    "sostituzione": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev27.pdf",
+    "sha256": "ee1f5d11cc3215f5b8f161d8ff1e07b1614b7bb0dc38395b7c0cb28de7fb14aa"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\muri-materiali-distinta-rev27-20261005\\README.md",
+    "motivo": "Materiali condivisi e distinta ferri dei muri",
+    "sostituzione": "supporto\\README.md",
+    "sha256": "25c4575eb6b24e01f823fe2432ee75c9ac5012ed739c2073c7eb61a6f56a8956"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\muri-materiali-distinta-rev27-20261005\\README.pdf",
+    "motivo": "Materiali condivisi e distinta ferri dei muri",
+    "sostituzione": "supporto\\README.pdf",
+    "sha256": "e41362de969fedd1371d2938a857262574af757452bd3fb684c58220e94e72f0"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\muri-materiali-distinta-rev27-20261005\\installer\\Indice-guide.md",
+    "motivo": "Materiali condivisi e distinta ferri dei muri",
+    "sostituzione": "supporto\\installer\\Indice-guide.md",
+    "sha256": "2e4a5f03731d94fa4a973fbe29929c6b5f4ddf670caebc726c2c7c916f995ca9"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\muri-materiali-distinta-rev27-20261005\\installer\\Indice-guide.pdf",
+    "motivo": "Materiali condivisi e distinta ferri dei muri",
+    "sostituzione": "supporto\\installer\\Indice-guide.pdf",
+    "sha256": "7f4beb8245672f9486dffc3480c16b5232c6c5de922c33b6258d19e3d7fcc127"
+  }
+]

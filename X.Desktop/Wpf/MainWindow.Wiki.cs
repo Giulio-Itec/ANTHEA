@@ -9,6 +9,34 @@ public sealed partial class MainWindow
 {
     private WikiView? wiki;
     private Button wikiHelp = null!;
+    private Button wikiTopics = null!;
+    private void ShowModuleWikiTopics()
+    {
+        if (editor is null) return;
+        var menu = new ContextMenu { PlacementTarget = wikiTopics };
+        MenuItem Link(string title, string uri)
+        {
+            var item = new MenuItem { Header = title };
+            item.Click += (_, e) => { e.Handled = true; Safe(() => ShowWiki(uri)); };
+            return item;
+        }
+        foreach (var topic in WikiContextHelp.Topics.Where(t => t.Modules.Contains(editor.Module)).DistinctBy(t => t.Uri))
+            menu.Items.Add(Link(topic.Title, topic.Uri));
+        if (menu.Items.Count > 0) menu.Items.Add(new Separator());
+        foreach (var article in WikiContextHelp.ArticlesFor(editor.Module))
+        {
+            var item = new MenuItem { Header = (article.Type == "guide" ? "Guida · " : "Teoria · ") + article.Title };
+            item.Items.Add(Link("Apri l'articolo", article.Id));
+            var headings = System.Text.RegularExpressions.Regex.Matches(WikiCatalog.Body(article), @"^#{3,4} (.+)", System.Text.RegularExpressions.RegexOptions.Multiline);
+            for (int i = 0; i < headings.Count; i++)
+            {
+                var title = headings[i].Groups[1].Value.Trim();
+                item.Items.Add(Link(title, article.Id + "#" + article.Sections[i]));
+            }
+            menu.Items.Add(item);
+        }
+        menu.IsOpen = true;
+    }
     internal void ShowContextualWikiTheory()
     {
         if (editor is null) return;

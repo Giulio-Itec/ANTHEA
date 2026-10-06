@@ -230,7 +230,8 @@
       "geo_muri_sostegno"
     ],
     "related": [
-      "muri-di-sostegno-e-stabilita-globale"
+      "muri-di-sostegno-e-stabilita-globale",
+      "muri-metodi-perimetro"
     ],
     "key": "guida-muri-di-sostegno-con-stratigrafie-di-monte-e-valle",
     "chapterId": "anthea",
@@ -529,7 +530,8 @@
       "str_palo"
     ],
     "related": [
-      "guida-sezione-ca"
+      "guida-sezione-ca",
+      "taglio-traliccio"
     ],
     "key": "sezione-in-calcestruzzo-armato",
     "chapterId": "calcestruzzo",
@@ -553,7 +555,9 @@
       "str_mista_ponte"
     ],
     "related": [
-      "guida-sezione-composta-da-ponte"
+      "guida-sezione-composta-da-ponte",
+      "ponti-acciaio-fasi",
+      "ponti-deformazioni"
     ],
     "key": "sezione-composta-da-ponte",
     "chapterId": "ponti",
@@ -724,7 +728,8 @@
       "geo_micropalo_orizzontale"
     ],
     "related": [
-      "guida-palo-elastico"
+      "guida-palo-elastico",
+      "geotecnica-gruppi"
     ],
     "keywords": [
       "Winkler",
@@ -947,7 +952,11 @@
     "status": "reviewed",
     "related": [
       "load-path",
-      "beam"
+      "beam",
+      "ponti-solette",
+      "ponti-precompressione",
+      "ponti-cassoni",
+      "ponti-stralli"
     ],
     "prerequisites": [],
     "references": [
@@ -992,7 +1001,9 @@
     "level": "advanced",
     "status": "reviewed",
     "related": [
-      "load-path"
+      "load-path",
+      "geotecnica-parametri",
+      "cedimenti-consolidazione"
     ],
     "prerequisites": [
       "load-path"
@@ -1096,5 +1107,3958 @@
     "title": "Profili di calcolo del calcestruzzo",
     "order": 48,
     "summary": "Matrice delle implementazioni NTC, EC2 e Model Code: geometrie ammesse, dati richiesti e limiti."
+  },
+  "theory:Dalle indagini geotecniche ai parametri del modello": {
+    "key": "geotecnica-parametri",
+    "title": "Dalle indagini geotecniche ai parametri del modello",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [
+      "geo_palo_verticale",
+      "geo_micropalo_verticale",
+      "geo_palo_orizzontale",
+      "geo_muri_sostegno"
+    ],
+    "related": [
+      "bearing-capacity",
+      "mdp-89",
+      "mdp-194",
+      "mdp-201"
+    ],
+    "status": "reviewed",
+    "id": "/wiki/manuale/geotecnica/geotecnica-parametri",
+    "level": "advanced",
+    "prerequisites": [],
+    "references": [],
+    "order": 200,
+    "summary": "Un parametro geotecnico è significativo soltanto insieme a stato tensionale, drenaggio, deformazione e volume di terreno rappresentato. Una correlazione può dare un numero plausibile senza rappresentare il mecc…"
+  },
+  "theory:Cedimenti edometrici tempi di consolidazione e drenaggi": {
+    "key": "cedimenti-consolidazione",
+    "title": "Cedimenti edometrici tempi di consolidazione e drenaggi",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [
+      "geo_muri_sostegno"
+    ],
+    "related": [
+      "geotecnica-parametri",
+      "bearing-capacity"
+    ],
+    "status": "reviewed",
+    "id": "/wiki/manuale/geotecnica/cedimenti-consolidazione",
+    "level": "advanced",
+    "prerequisites": [],
+    "references": [],
+    "order": 201,
+    "summary": "La verifica di resistenza non determina il cedimento. Il cedimento dipende da distribuzione dell’incremento di tensione, compressibilità, storia di carico e tempo. La prova edometrica riproduce una compressione…"
+  },
+  "theory:Profilo di velocità risposta locale e liquefazione": {
+    "key": "geofisica-liquefazione",
+    "title": "Profilo di velocità risposta locale e liquefazione",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello",
+      "mdp-193",
+      "mdp-152"
+    ],
+    "status": "reviewed",
+    "id": "/wiki/manuale/geotecnica/geofisica-liquefazione",
+    "level": "advanced",
+    "prerequisites": [],
+    "references": [],
+    "order": 202,
+    "summary": "Una misura geofisica vincola un modello del sottosuolo, ma raramente ne identifica uno solo. Un profilo di Vs compatibile con la dispersione delle onde superficiali non è automaticamente l’unica stratigrafia po…"
+  },
+  "theory:Pali in gruppo interazione e rigidezza della fondazione": {
+    "key": "geotecnica-gruppi",
+    "title": "Pali in gruppo interazione e rigidezza della fondazione",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [
+      "geo_palo_verticale",
+      "geo_palo_orizzontale",
+      "geo_efficienza_orizzontale"
+    ],
+    "related": [
+      "palo-elastico",
+      "guida-palificata-orizzontale"
+    ],
+    "status": "reviewed",
+    "id": "/wiki/manuale/geotecnica/geotecnica-gruppi",
+    "level": "advanced",
+    "prerequisites": [],
+    "references": [],
+    "order": 203,
+    "summary": "Il comportamento di una palificata non si ricava moltiplicando ogni risultato del palo singolo per il numero di pali. Capacità ultima, cedimenti, rigidezza orizzontale e ripartizione delle azioni sono problemi …"
+  },
+  "theory:Muri di sostegno metodi disponibili e confronto funzionale": {
+    "key": "muri-metodi-perimetro",
+    "title": "Muri di sostegno metodi disponibili e confronto funzionale",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [
+      "geo_muri_sostegno"
+    ],
+    "related": [
+      "guida-muri-di-sostegno-con-stratigrafie-di-monte-e-valle",
+      "geotecnica-parametri",
+      "cedimenti-consolidazione"
+    ],
+    "status": "reviewed",
+    "id": "/wiki/manuale/geotecnica/muri-metodi-perimetro",
+    "level": "advanced",
+    "prerequisites": [],
+    "references": [],
+    "order": 204,
+    "summary": "Nel modulo muri di ANTHEA le verifiche locali, la stabilità globale, le resistenze strutturali e gli spostamenti sono valutazioni separate. Un esito favorevole allo scorrimento non dimostra l’assenza di una sup…"
+  },
+  "theory:Come ripercorrere gli esempi strutturali di Simone Caffè": {
+    "key": "esempi-caffe-lettura",
+    "title": "Come ripercorrere gli esempi strutturali di Simone Caffè",
+    "chapterId": "meccanica",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "beam",
+      "euler",
+      "sezione-composta-da-ponte"
+    ],
+    "status": "reviewed",
+    "id": "/wiki/manuale/meccanica/esempi-caffe-lettura",
+    "level": "advanced",
+    "prerequisites": [],
+    "references": [],
+    "order": 205,
+    "summary": "La raccolta di Simone Caffè comprende esempi e dispense utili per ricostruire un calcolo completo. Nella Wiki le risorse sono distribuite per argomento e collegate ai capitoli pertinenti; i PDF originali restan…"
+  },
+  "theory:Taglio nel calcestruzzo armato e scelta del traliccio": {
+    "key": "taglio-traliccio",
+    "title": "Taglio nel calcestruzzo armato e scelta del traliccio",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo",
+      "geo_palo_orizzontale",
+      "geo_muri_sostegno"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato",
+      "mdp-265",
+      "mdp-202"
+    ],
+    "status": "reviewed",
+    "id": "/wiki/manuale/calcestruzzo/taglio-traliccio",
+    "level": "advanced",
+    "prerequisites": [],
+    "references": [],
+    "order": 206,
+    "summary": "L’inclinazione del puntone cambia contemporaneamente la forza nelle staffe e la compressione nel calcestruzzo. Aumentare cot θ aiuta il ramo delle staffe, ma riduce quello del puntone: il valore più favorevole …"
+  },
+  "theory:Solette da ponte e percorso locale delle azioni": {
+    "key": "ponti-solette",
+    "title": "Solette da ponte e percorso locale delle azioni",
+    "chapterId": "ponti",
+    "area": "Ponti",
+    "modules": [
+      "str_palo",
+      "str_bridge_design"
+    ],
+    "related": [
+      "bridge",
+      "taglio-traliccio"
+    ],
+    "status": "reviewed",
+    "id": "/wiki/manuale/ponti/ponti-solette",
+    "level": "advanced",
+    "prerequisites": [],
+    "references": [],
+    "order": 207,
+    "summary": "La soletta distribuisce le azioni delle ruote e trasferisce le reazioni alle travi. Il suo comportamento locale non coincide con quello della trave principale: direzione dell’armatura, interasse degli appoggi, …"
+  },
+  "theory:Travi metalliche da ponte fra montaggio fatica e sezione composta": {
+    "key": "ponti-acciaio-fasi",
+    "title": "Travi metalliche da ponte fra montaggio fatica e sezione composta",
+    "chapterId": "ponti",
+    "area": "Ponti",
+    "modules": [
+      "str_mista_ponte",
+      "str_bridge_design"
+    ],
+    "related": [
+      "sezione-composta-da-ponte",
+      "euler"
+    ],
+    "status": "reviewed",
+    "id": "/wiki/manuale/ponti/ponti-acciaio-fasi",
+    "level": "advanced",
+    "prerequisites": [],
+    "references": [],
+    "order": 208,
+    "summary": "Una trave metallica da ponte attraversa più sistemi resistenti durante la costruzione. Prima della maturazione della soletta porta carichi con la sola sezione in acciaio; dopo l’attivazione della connessione pu…"
+  },
+  "theory:Precompressione delle travi da ponte e perdite nel tempo": {
+    "key": "ponti-precompressione",
+    "title": "Precompressione delle travi da ponte e perdite nel tempo",
+    "chapterId": "ponti",
+    "area": "Ponti",
+    "modules": [],
+    "related": [
+      "bridge",
+      "calcestruzzo-armature-e-copriferro"
+    ],
+    "status": "reviewed",
+    "id": "/wiki/manuale/ponti/ponti-precompressione",
+    "level": "advanced",
+    "prerequisites": [],
+    "references": [],
+    "order": 209,
+    "summary": "La precompressione introduce una forza e, quando il cavo è eccentrico, un momento che modifica lo stato tensionale prima dell’arrivo di una parte dei carichi esterni. La forza iniziale non coincide con quella a…"
+  },
+  "theory:Cassoni sottili torsione uniforme e distorsione": {
+    "key": "ponti-cassoni",
+    "title": "Cassoni sottili torsione uniforme e distorsione",
+    "chapterId": "ponti",
+    "area": "Ponti",
+    "modules": [],
+    "related": [
+      "bridge",
+      "beam"
+    ],
+    "status": "reviewed",
+    "id": "/wiki/manuale/ponti/ponti-cassoni",
+    "level": "advanced",
+    "prerequisites": [],
+    "references": [],
+    "order": 210,
+    "summary": "Una sezione chiusa è efficiente nel trasmettere torsione perché può sviluppare un flusso tangenziale continuo lungo il contorno. Questa proprietà non elimina distorsione, instabilità locale delle lamiere o effe…"
+  },
+  "theory:Stralli equilibrio rigidezza geometrica e vibrazioni": {
+    "key": "ponti-stralli",
+    "title": "Stralli equilibrio rigidezza geometrica e vibrazioni",
+    "chapterId": "ponti",
+    "area": "Ponti",
+    "modules": [],
+    "related": [
+      "bridge",
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "reviewed",
+    "id": "/wiki/manuale/ponti/ponti-stralli",
+    "level": "advanced",
+    "prerequisites": [],
+    "references": [],
+    "order": 211,
+    "summary": "Uno strallo trasmette trazione lungo il proprio asse e introduce simultaneamente forze verticali e orizzontali. La geometria decide quanto sforzo serve per sostenere una data componente verticale e quanta compr…"
+  },
+  "theory:Freccia controfreccia temperatura e appoggi dei ponti": {
+    "key": "ponti-deformazioni",
+    "title": "Freccia controfreccia temperatura e appoggi dei ponti",
+    "chapterId": "ponti",
+    "area": "Ponti",
+    "modules": [
+      "str_mista_ponte",
+      "str_bridge_design"
+    ],
+    "related": [
+      "bridge",
+      "ponti-acciaio-fasi"
+    ],
+    "status": "reviewed",
+    "id": "/wiki/manuale/ponti/ponti-deformazioni",
+    "level": "advanced",
+    "prerequisites": [],
+    "references": [],
+    "order": 212,
+    "summary": "La deformabilità influenza comfort, quote della pavimentazione, pendenze di drenaggio, giunti e funzionamento degli appoggi. Il superamento di una resistenza e l’incompatibilità di uno spostamento sono problemi…"
+  },
+  "theory:Biblioteca tecnica fonti e percorsi di approfondimento": {
+    "key": "biblioteca-tecnica",
+    "title": "Biblioteca tecnica fonti e percorsi di approfondimento",
+    "chapterId": "fondamenti",
+    "area": "Normativa e riferimenti",
+    "modules": [],
+    "related": [
+      "geotecnica-parametri",
+      "cedimenti-consolidazione",
+      "geofisica-liquefazione",
+      "geotecnica-gruppi",
+      "muri-metodi-perimetro",
+      "esempi-caffe-lettura",
+      "taglio-traliccio",
+      "ponti-solette",
+      "ponti-acciaio-fasi",
+      "ponti-precompressione",
+      "ponti-cassoni",
+      "ponti-stralli",
+      "ponti-deformazioni"
+    ],
+    "status": "reviewed",
+    "id": "/wiki/manuale/fondamenti/biblioteca-tecnica",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "order": 213,
+    "summary": "La biblioteca collega la teoria di ANTHEA a contributi tecnici, esempi numerici e dispense. Le nuove pagine sui ponti seguono i temi suggeriti dal libro online TheBridgeEng: solette, travi metalliche, precompre…"
+  },
+  "theory:Letture tecniche · Fondamenti": {
+    "key": "letture-fondamenti",
+    "title": "Letture tecniche · Fondamenti",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/letture-fondamenti",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "order": 214,
+    "summary": "Percorso di letture esterne selezionate da GeoStru e Simone Caffè, consultato il 6 ottobre 2026. Gli articoli e i PDF restano presso gli autori; questi rimandi non indicano che i procedimenti siano tutti implem…"
+  },
+  "theory:Letture tecniche · Scienza e tecnica delle costruzioni": {
+    "key": "letture-meccanica",
+    "title": "Letture tecniche · Scienza e tecnica delle costruzioni",
+    "chapterId": "meccanica",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "beam",
+      "esempi-caffe-lettura"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/meccanica/letture-meccanica",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "order": 215,
+    "summary": "Percorso di letture esterne selezionate da GeoStru e Simone Caffè, consultato il 6 ottobre 2026. Gli articoli e i PDF restano presso gli autori; questi rimandi non indicano che i procedimenti siano tutti implem…"
+  },
+  "theory:Letture tecniche · Materiali": {
+    "key": "letture-materiali",
+    "title": "Letture tecniche · Materiali",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/letture-materiali",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "order": 216,
+    "summary": "Percorso di letture esterne selezionate da GeoStru e Simone Caffè, consultato il 6 ottobre 2026. Gli articoli e i PDF restano presso gli autori; questi rimandi non indicano che i procedimenti siano tutti implem…"
+  },
+  "theory:Letture tecniche · Calcestruzzo armato": {
+    "key": "letture-calcestruzzo",
+    "title": "Letture tecniche · Calcestruzzo armato",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato",
+      "taglio-traliccio"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/letture-calcestruzzo",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "order": 217,
+    "summary": "Percorso di letture esterne selezionate da GeoStru e Simone Caffè, consultato il 6 ottobre 2026. Gli articoli e i PDF restano presso gli autori; questi rimandi non indicano che i procedimenti siano tutti implem…"
+  },
+  "theory:Letture tecniche · Acciaio": {
+    "key": "letture-acciaio",
+    "title": "Letture tecniche · Acciaio",
+    "chapterId": "acciaio",
+    "area": "Acciaio",
+    "modules": [],
+    "related": [
+      "euler"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/acciaio/letture-acciaio",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "order": 218,
+    "summary": "Percorso di letture esterne selezionate da GeoStru e Simone Caffè, consultato il 6 ottobre 2026. Gli articoli e i PDF restano presso gli autori; questi rimandi non indicano che i procedimenti siano tutti implem…"
+  },
+  "theory:Letture tecniche · Geotecnica": {
+    "key": "letture-geotecnica",
+    "title": "Letture tecniche · Geotecnica",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [
+      "geo_palo_verticale",
+      "geo_palo_orizzontale",
+      "geo_efficienza_orizzontale",
+      "geo_muri_sostegno",
+      "geo_micropalo_verticale",
+      "geo_micropalo_orizzontale"
+    ],
+    "related": [
+      "bearing-capacity",
+      "load-path",
+      "geotecnica-parametri",
+      "cedimenti-consolidazione",
+      "geofisica-liquefazione",
+      "geotecnica-gruppi",
+      "muri-metodi-perimetro"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/letture-geotecnica",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "order": 219,
+    "summary": "Percorso di letture esterne selezionate da GeoStru e Simone Caffè, consultato il 6 ottobre 2026. Gli articoli e i PDF restano presso gli autori; questi rimandi non indicano che i procedimenti siano tutti implem…"
+  },
+  "theory:Letture tecniche · Ponti e infrastrutture": {
+    "key": "letture-ponti",
+    "title": "Letture tecniche · Ponti e infrastrutture",
+    "chapterId": "ponti",
+    "area": "Ponti",
+    "modules": [
+      "str_mista_ponte"
+    ],
+    "related": [
+      "sezione-composta-da-ponte",
+      "ponti-solette",
+      "ponti-acciaio-fasi",
+      "ponti-precompressione",
+      "ponti-cassoni",
+      "ponti-stralli",
+      "ponti-deformazioni"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/ponti/letture-ponti",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "order": 220,
+    "summary": "Percorso di letture esterne selezionate da GeoStru e Simone Caffè, consultato il 6 ottobre 2026. Gli articoli e i PDF restano presso gli autori; questi rimandi non indicano che i procedimenti siano tutti implem…"
+  },
+  "theory:Letture tecniche · Ingegneria sismica": {
+    "key": "letture-sismica",
+    "title": "Letture tecniche · Ingegneria sismica",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/letture-sismica",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "order": 221,
+    "summary": "Percorso di letture esterne selezionate da GeoStru e Simone Caffè, consultato il 6 ottobre 2026. Gli articoli e i PDF restano presso gli autori; questi rimandi non indicano che i procedimenti siano tutti implem…"
+  },
+  "theory:Letture tecniche · BIM": {
+    "key": "letture-bim",
+    "title": "Letture tecniche · BIM",
+    "chapterId": "bim",
+    "area": "BIM",
+    "modules": [],
+    "related": [
+      "bim"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/bim/letture-bim",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "order": 222,
+    "summary": "Percorso di letture esterne selezionate da GeoStru e Simone Caffè, consultato il 6 ottobre 2026. Gli articoli e i PDF restano presso gli autori; questi rimandi non indicano che i procedimenti siano tutti implem…"
+  },
+  "theory:Approfondimento · 10 libri sul calcolo strutturale da leggere assolutamente": {
+    "key": "mdp-5",
+    "title": "Approfondimento · 10 libri sul calcolo strutturale da leggere assolutamente",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-5",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-5-source"
+    ],
+    "order": 223,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. 10 libri sul calcolo strutturale da leggere assolutamente"
+  },
+  "theory:Approfondimento · 3 dettagli costruttivi fondamentali in caso di sisma per le strutture in cemento armato": {
+    "key": "mdp-7",
+    "title": "Approfondimento · 3 dettagli costruttivi fondamentali in caso di sisma per le strutture in cemento armato",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-7",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-7-source"
+    ],
+    "order": 224,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. 3 dettagli costruttivi fondamentali in caso di sisma per le strutture in cemento armato"
+  },
+  "theory:Approfondimento · 32 combinazioni sismiche: 3 fattori chiave per generarle": {
+    "key": "mdp-8",
+    "title": "Approfondimento · 32 combinazioni sismiche: 3 fattori chiave per generarle",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-8",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-8-source"
+    ],
+    "order": 225,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. 32 combinazioni sismiche: 3 fattori chiave per generarle"
+  },
+  "theory:Approfondimento · 5 trucchi per un foglio elettronico efficace e funzionale": {
+    "key": "mdp-9",
+    "title": "Approfondimento · 5 trucchi per un foglio elettronico efficace e funzionale",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-9",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-9-source"
+    ],
+    "order": 226,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. 5 trucchi per un foglio elettronico efficace e funzionale"
+  },
+  "theory:Approfondimento · Abaco di Berezantzev: interpolazione automatica": {
+    "key": "mdp-12",
+    "title": "Approfondimento · Abaco di Berezantzev: interpolazione automatica",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [],
+    "related": [
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-12",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-12-source"
+    ],
+    "order": 227,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Abaco di Berezantzev: interpolazione automatica"
+  },
+  "theory:Approfondimento · Aggregato edilizio: come individuarlo e analizzarlo [NTC2018 e Circ. 2019]": {
+    "key": "mdp-15",
+    "title": "Approfondimento · Aggregato edilizio: come individuarlo e analizzarlo [NTC2018 e Circ. 2019]",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-15",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-15-source"
+    ],
+    "order": 228,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Aggregato edilizio: come individuarlo e analizzarlo [NTC2018 e Circ. 2019]"
+  },
+  "theory:Approfondimento · Analisi dei carichi di solai e tamponature: come eseguirla nel modo giusto": {
+    "key": "mdp-16",
+    "title": "Approfondimento · Analisi dei carichi di solai e tamponature: come eseguirla nel modo giusto",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-16",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-16-source"
+    ],
+    "order": 229,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Analisi dei carichi di solai e tamponature: come eseguirla nel modo giusto"
+  },
+  "theory:Approfondimento · Analisi modale con spettro di risposta: come si calcolano le sollecitazioni": {
+    "key": "mdp-17",
+    "title": "Approfondimento · Analisi modale con spettro di risposta: come si calcolano le sollecitazioni",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-17",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-17-source"
+    ],
+    "order": 230,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Analisi modale con spettro di risposta: come si calcolano le sollecitazioni"
+  },
+  "theory:Approfondimento · Analisi modale con spettro di risposta: tutti i dettagli del calcolo": {
+    "key": "mdp-18",
+    "title": "Approfondimento · Analisi modale con spettro di risposta: tutti i dettagli del calcolo",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-18",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-18-source"
+    ],
+    "order": 231,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Analisi modale con spettro di risposta: tutti i dettagli del calcolo"
+  },
+  "theory:Approfondimento · Analisi modale: come capirla in 6 minuti (con un esperimento pratico)": {
+    "key": "mdp-19",
+    "title": "Approfondimento · Analisi modale: come capirla in 6 minuti (con un esperimento pratico)",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-19",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-19-source"
+    ],
+    "order": 232,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Analisi modale: come capirla in 6 minuti (con un esperimento pratico)"
+  },
+  "theory:Approfondimento · Analisi pushover: ecco come funziona (analisi statica non lineare ai sensi delle NTC2018)": {
+    "key": "mdp-20",
+    "title": "Approfondimento · Analisi pushover: ecco come funziona (analisi statica non lineare ai sensi delle NTC2018)",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-20",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-20-source"
+    ],
+    "order": 233,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Analisi pushover: ecco come funziona (analisi statica non lineare ai sensi delle NTC2018)"
+  },
+  "theory:Approfondimento · Apertura di una nuova porta in un muro di cemento armato: come eseguire il calcolo strutturale e la verifica [+caso studio su modello FEM]": {
+    "key": "mdp-23",
+    "title": "Approfondimento · Apertura di una nuova porta in un muro di cemento armato: come eseguire il calcolo strutturale e la verifica [+caso studio su modello FEM]",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [
+      "geo_muri_sostegno"
+    ],
+    "related": [
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-23",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-23-source"
+    ],
+    "order": 234,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Apertura di una nuova porta in un muro di cemento armato: come eseguire il calcolo strutturale e la verifica [+caso studio su modello FEM]"
+  },
+  "theory:Approfondimento · Apertura foro in un solaio in laterocemento: progetto, calcolo e verifica": {
+    "key": "mdp-24",
+    "title": "Approfondimento · Apertura foro in un solaio in laterocemento: progetto, calcolo e verifica",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-24",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-24-source"
+    ],
+    "order": 235,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Apertura foro in un solaio in laterocemento: progetto, calcolo e verifica"
+  },
+  "theory:Approfondimento · Apertura vano in muratura portante: è sempre corretto inserire un telaio di cerchiatura?": {
+    "key": "mdp-25",
+    "title": "Approfondimento · Apertura vano in muratura portante: è sempre corretto inserire un telaio di cerchiatura?",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-25",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-25-source"
+    ],
+    "order": 236,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Apertura vano in muratura portante: è sempre corretto inserire un telaio di cerchiatura?"
+  },
+  "theory:Approfondimento · Apertura vano in muratura portante: progetto e calcolo dell'intervento [NTC2018 e C.M.2019] +xls di Excel": {
+    "key": "mdp-26",
+    "title": "Approfondimento · Apertura vano in muratura portante: progetto e calcolo dell'intervento [NTC2018 e C.M.2019] +xls di Excel",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-26",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-26-source"
+    ],
+    "order": 237,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Apertura vano in muratura portante: progetto e calcolo dell'intervento [NTC2018 e C.M.2019] +xls di Excel"
+  },
+  "theory:Approfondimento · Archi in muratura e funicolare dei carichi: una lezione magistrale di Antoni Gaudì": {
+    "key": "mdp-30",
+    "title": "Approfondimento · Archi in muratura e funicolare dei carichi: una lezione magistrale di Antoni Gaudì",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-30",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-30-source"
+    ],
+    "order": 238,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Archi in muratura e funicolare dei carichi: una lezione magistrale di Antoni Gaudì"
+  },
+  "theory:Approfondimento · Armatura minima per travi e pilastri in cemento armato: tutti i limiti delle NTC2018": {
+    "key": "mdp-32",
+    "title": "Approfondimento · Armatura minima per travi e pilastri in cemento armato: tutti i limiti delle NTC2018",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-32",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-32-source"
+    ],
+    "order": 239,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Armatura minima per travi e pilastri in cemento armato: tutti i limiti delle NTC2018"
+  },
+  "theory:Approfondimento · Aumenta la resistenza a taglio grazie ai tessuti in FRP": {
+    "key": "mdp-34",
+    "title": "Approfondimento · Aumenta la resistenza a taglio grazie ai tessuti in FRP",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-34",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-34-source"
+    ],
+    "order": 240,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Aumenta la resistenza a taglio grazie ai tessuti in FRP"
+  },
+  "theory:Approfondimento · Autocad: come ridurre in scala i tuoi disegni senza commettere errori (per ingegneri, architetti e geometri)": {
+    "key": "mdp-35",
+    "title": "Approfondimento · Autocad: come ridurre in scala i tuoi disegni senza commettere errori (per ingegneri, architetti e geometri)",
+    "chapterId": "bim",
+    "area": "BIM",
+    "modules": [],
+    "related": [
+      "bim"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/bim/mdp-35",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-35-source"
+    ],
+    "order": 241,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Autocad: come ridurre in scala i tuoi disegni senza commettere errori (per ingegneri, architetti e geometri)"
+  },
+  "theory:Approfondimento · Azione del vento su cartelloni pubblicitari: metodi di calcolo per insegne e tabelloni": {
+    "key": "mdp-36",
+    "title": "Approfondimento · Azione del vento su cartelloni pubblicitari: metodi di calcolo per insegne e tabelloni",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-36",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-36-source"
+    ],
+    "order": 242,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Azione del vento su cartelloni pubblicitari: metodi di calcolo per insegne e tabelloni"
+  },
+  "theory:Approfondimento · Azione del vento su costruzioni a pianta circolare (serbatoi, silos, gasometri) e su coperture sferiche": {
+    "key": "mdp-37",
+    "title": "Approfondimento · Azione del vento su costruzioni a pianta circolare (serbatoi, silos, gasometri) e su coperture sferiche",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-37",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-37-source"
+    ],
+    "order": 243,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Azione del vento su costruzioni a pianta circolare (serbatoi, silos, gasometri) e su coperture sferiche"
+  },
+  "theory:Approfondimento · Azione del vento su tettoie e pensiline: come calcolarla secondo le NTC2018 e la Circolare 2019 (+foglio di calcolo Excel *.xls e *.xlsm)": {
+    "key": "mdp-38",
+    "title": "Approfondimento · Azione del vento su tettoie e pensiline: come calcolarla secondo le NTC2018 e la Circolare 2019 (+foglio di calcolo Excel *.xls e *.xlsm)",
+    "chapterId": "computational",
+    "area": "Computational Design",
+    "modules": [],
+    "related": [
+      "parametric"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/computational/mdp-38",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-38-source"
+    ],
+    "order": 244,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Azione del vento su tettoie e pensiline: come calcolarla secondo le NTC2018 e la Circolare 2019 (+foglio di calcolo Excel *.xls e *.xlsm)"
+  },
+  "theory:Approfondimento · Azione del vento sulle costruzioni: come calcolarla ai sensi delle NTC2018 e Circolare 2019": {
+    "key": "mdp-39",
+    "title": "Approfondimento · Azione del vento sulle costruzioni: come calcolarla ai sensi delle NTC2018 e Circolare 2019",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-39",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-39-source"
+    ],
+    "order": 245,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Azione del vento sulle costruzioni: come calcolarla ai sensi delle NTC2018 e Circolare 2019"
+  },
+  "theory:Approfondimento · Azione sismica: come calcolarla secondo le NTC2018 (e un foglio Excel)": {
+    "key": "mdp-40",
+    "title": "Approfondimento · Azione sismica: come calcolarla secondo le NTC2018 (e un foglio Excel)",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-40",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-40-source"
+    ],
+    "order": 246,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Azione sismica: come calcolarla secondo le NTC2018 (e un foglio Excel)"
+  },
+  "theory:Approfondimento · Azione sismica: come ottenere 32 combinazioni di carico": {
+    "key": "mdp-41",
+    "title": "Approfondimento · Azione sismica: come ottenere 32 combinazioni di carico",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-41",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-41-source"
+    ],
+    "order": 247,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Azione sismica: come ottenere 32 combinazioni di carico"
+  },
+  "theory:Approfondimento · Baricentro delle masse e delle rigidezze: come ottimizzare una struttura in presenza di sisma": {
+    "key": "mdp-42",
+    "title": "Approfondimento · Baricentro delle masse e delle rigidezze: come ottimizzare una struttura in presenza di sisma",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-42",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-42-source"
+    ],
+    "order": 248,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Baricentro delle masse e delle rigidezze: come ottimizzare una struttura in presenza di sisma"
+  },
+  "theory:Approfondimento · Burj Khalifa: sul tetto del mondo a 828 metri di altezza": {
+    "key": "mdp-44",
+    "title": "Approfondimento · Burj Khalifa: sul tetto del mondo a 828 metri di altezza",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-44",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-44-source"
+    ],
+    "order": 249,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Burj Khalifa: sul tetto del mondo a 828 metri di altezza"
+  },
+  "theory:Approfondimento · Calcestruzzo confinato: come realizzarlo utilizzando staffe chiuse e legature interne [NTC2018]": {
+    "key": "mdp-51",
+    "title": "Approfondimento · Calcestruzzo confinato: come realizzarlo utilizzando staffe chiuse e legature interne [NTC2018]",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-51",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-51-source"
+    ],
+    "order": 250,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Calcestruzzo confinato: come realizzarlo utilizzando staffe chiuse e legature interne [NTC2018]"
+  },
+  "theory:Approfondimento · Calcestruzzo fibrorinforzato: progetta in modo nuovo [novità NTC2018]": {
+    "key": "mdp-52",
+    "title": "Approfondimento · Calcestruzzo fibrorinforzato: progetta in modo nuovo [novità NTC2018]",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-52",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-52-source"
+    ],
+    "order": 251,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Calcestruzzo fibrorinforzato: progetta in modo nuovo [novità NTC2018]"
+  },
+  "theory:Approfondimento · Calcolo automatico delle strutture: come si ottiene la soluzione del problema statico (in 5 passaggi)": {
+    "key": "mdp-54",
+    "title": "Approfondimento · Calcolo automatico delle strutture: come si ottiene la soluzione del problema statico (in 5 passaggi)",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-54",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-54-source"
+    ],
+    "order": 252,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Calcolo automatico delle strutture: come si ottiene la soluzione del problema statico (in 5 passaggi)"
+  },
+  "theory:Approfondimento · Calcolo capriata in legno: esempio numerico e verifica statica ai sensi delle NTC2018 [+Foglio Excel gratuito *.xls]": {
+    "key": "mdp-56",
+    "title": "Approfondimento · Calcolo capriata in legno: esempio numerico e verifica statica ai sensi delle NTC2018 [+Foglio Excel gratuito *.xls]",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-56",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-56-source"
+    ],
+    "order": 253,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Calcolo capriata in legno: esempio numerico e verifica statica ai sensi delle NTC2018 [+Foglio Excel gratuito *.xls]"
+  },
+  "theory:Approfondimento · Calcolo statico architrave: dalla Porta di Micene al triangolo di scarico": {
+    "key": "mdp-57",
+    "title": "Approfondimento · Calcolo statico architrave: dalla Porta di Micene al triangolo di scarico",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-57",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-57-source"
+    ],
+    "order": 254,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Calcolo statico architrave: dalla Porta di Micene al triangolo di scarico"
+  },
+  "theory:Approfondimento · Calcolo strutturale: come esprimere il giudizio motivato di accettabilità dei risultati [NTC2018]": {
+    "key": "mdp-58",
+    "title": "Approfondimento · Calcolo strutturale: come esprimere il giudizio motivato di accettabilità dei risultati [NTC2018]",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-58",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-58-source"
+    ],
+    "order": 255,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Calcolo strutturale: come esprimere il giudizio motivato di accettabilità dei risultati [NTC2018]"
+  },
+  "theory:Approfondimento · Capriate in legno: tipologie, dimensionamento e verifica strutturale (+App Excel per il calcolo)": {
+    "key": "mdp-60",
+    "title": "Approfondimento · Capriate in legno: tipologie, dimensionamento e verifica strutturale (+App Excel per il calcolo)",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-60",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-60-source"
+    ],
+    "order": 256,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Capriate in legno: tipologie, dimensionamento e verifica strutturale (+App Excel per il calcolo)"
+  },
+  "theory:Approfondimento · Carico di punta delle aste in acciaio: snellezza e instabilità Euleriana (l'esperimento dello spaghetto)": {
+    "key": "mdp-61",
+    "title": "Approfondimento · Carico di punta delle aste in acciaio: snellezza e instabilità Euleriana (l'esperimento dello spaghetto)",
+    "chapterId": "acciaio",
+    "area": "Acciaio",
+    "modules": [],
+    "related": [
+      "euler"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/acciaio/mdp-61",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-61-source"
+    ],
+    "order": 257,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Carico di punta delle aste in acciaio: snellezza e instabilità Euleriana (l'esperimento dello spaghetto)"
+  },
+  "theory:Approfondimento · Carroponte: progetto, verifica e combinazioni di carico per il calcolo strutturale": {
+    "key": "mdp-62",
+    "title": "Approfondimento · Carroponte: progetto, verifica e combinazioni di carico per il calcolo strutturale",
+    "chapterId": "ponti",
+    "area": "Ponti",
+    "modules": [
+      "str_mista_ponte"
+    ],
+    "related": [
+      "bridge"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/ponti/mdp-62",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-62-source"
+    ],
+    "order": 258,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Carroponte: progetto, verifica e combinazioni di carico per il calcolo strutturale"
+  },
+  "theory:Approfondimento · Casa baraccata dei Borbone: l'ingegneria antisismica duecento anni fa": {
+    "key": "mdp-63",
+    "title": "Approfondimento · Casa baraccata dei Borbone: l'ingegneria antisismica duecento anni fa",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-63",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-63-source"
+    ],
+    "order": 259,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Casa baraccata dei Borbone: l'ingegneria antisismica duecento anni fa"
+  },
+  "theory:Approfondimento · Catene negli edifici in muratura: come consolidare le pareti per ribaltamento fuori piano": {
+    "key": "mdp-64",
+    "title": "Approfondimento · Catene negli edifici in muratura: come consolidare le pareti per ribaltamento fuori piano",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-64",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-64-source"
+    ],
+    "order": 260,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Catene negli edifici in muratura: come consolidare le pareti per ribaltamento fuori piano"
+  },
+  "theory:Approfondimento · Cedimenti delle fondazioni superficiali: come calcolarli (in terreni a grana fine e a grana grossa)": {
+    "key": "mdp-65",
+    "title": "Approfondimento · Cedimenti delle fondazioni superficiali: come calcolarli (in terreni a grana fine e a grana grossa)",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [],
+    "related": [
+      "cedimenti-consolidazione",
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-65",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-65-source"
+    ],
+    "order": 261,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Cedimenti delle fondazioni superficiali: come calcolarli (in terreni a grana fine e a grana grossa)"
+  },
+  "theory:Approfondimento · Cerchiatura: come calcolarla per l'intervento di apertura vano in una parete in muratura [+file xls di Excel]": {
+    "key": "mdp-66",
+    "title": "Approfondimento · Cerchiatura: come calcolarla per l'intervento di apertura vano in una parete in muratura [+file xls di Excel]",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-66",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-66-source"
+    ],
+    "order": 262,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Cerchiatura: come calcolarla per l'intervento di apertura vano in una parete in muratura [+file xls di Excel]"
+  },
+  "theory:Approfondimento · Cerchio di Mohr: come costruirlo e a cosa serve": {
+    "key": "mdp-67",
+    "title": "Approfondimento · Cerchio di Mohr: come costruirlo e a cosa serve",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-67",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-67-source"
+    ],
+    "order": 263,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Cerchio di Mohr: come costruirlo e a cosa serve"
+  },
+  "theory:Approfondimento · Classe delle sezioni in acciaio: il metodo di classificazione delle NTC2018": {
+    "key": "mdp-69",
+    "title": "Approfondimento · Classe delle sezioni in acciaio: il metodo di classificazione delle NTC2018",
+    "chapterId": "acciaio",
+    "area": "Acciaio",
+    "modules": [],
+    "related": [
+      "euler"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/acciaio/mdp-69",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-69-source"
+    ],
+    "order": 264,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Classe delle sezioni in acciaio: il metodo di classificazione delle NTC2018"
+  },
+  "theory:Approfondimento · Classe di duttilità alta (CD\"A\") o media (CD\"B\")? Scopri cosa cambia": {
+    "key": "mdp-70",
+    "title": "Approfondimento · Classe di duttilità alta (CD\"A\") o media (CD\"B\")? Scopri cosa cambia",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-70",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-70-source"
+    ],
+    "order": 265,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Classe di duttilità alta (CD\"A\") o media (CD\"B\")? Scopri cosa cambia"
+  },
+  "theory:Approfondimento · Classificazione del rischio sismico degli edifici: come calcolare gli indici PAM e ISV (App Excel)": {
+    "key": "mdp-71",
+    "title": "Approfondimento · Classificazione del rischio sismico degli edifici: come calcolare gli indici PAM e ISV (App Excel)",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-71",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-71-source"
+    ],
+    "order": 266,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Classificazione del rischio sismico degli edifici: come calcolare gli indici PAM e ISV (App Excel)"
+  },
+  "theory:Approfondimento · Com'è nato il cemento armato (grazie a dei vasi da fiore)": {
+    "key": "mdp-73",
+    "title": "Approfondimento · Com'è nato il cemento armato (grazie a dei vasi da fiore)",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-73",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-73-source"
+    ],
+    "order": 267,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Com'è nato il cemento armato (grazie a dei vasi da fiore)"
+  },
+  "theory:Approfondimento · Combinazioni di carico allo SLU: come ottenerne 606": {
+    "key": "mdp-74",
+    "title": "Approfondimento · Combinazioni di carico allo SLU: come ottenerne 606",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-74",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-74-source"
+    ],
+    "order": 268,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Combinazioni di carico allo SLU: come ottenerne 606"
+  },
+  "theory:Approfondimento · Come funziona un sismografo: dalle palle dei draghi ai dati digitali": {
+    "key": "mdp-77",
+    "title": "Approfondimento · Come funziona un sismografo: dalle palle dei draghi ai dati digitali",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-77",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-77-source"
+    ],
+    "order": 269,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Come funziona un sismografo: dalle palle dei draghi ai dati digitali"
+  },
+  "theory:Approfondimento · Come preparare un ottimo caffè grazie alla legge di Darcy": {
+    "key": "mdp-80",
+    "title": "Approfondimento · Come preparare un ottimo caffè grazie alla legge di Darcy",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [],
+    "related": [
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-80",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-80-source"
+    ],
+    "order": 270,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Come preparare un ottimo caffè grazie alla legge di Darcy"
+  },
+  "theory:Approfondimento · Come progettare una struttura con il Metodo ReC (Ruota e Conta)": {
+    "key": "mdp-81",
+    "title": "Approfondimento · Come progettare una struttura con il Metodo ReC (Ruota e Conta)",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-81",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-81-source"
+    ],
+    "order": 271,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Come progettare una struttura con il Metodo ReC (Ruota e Conta)"
+  },
+  "theory:Approfondimento · Come ricavare formule da un abaco stampato utilizzando Excel": {
+    "key": "mdp-83",
+    "title": "Approfondimento · Come ricavare formule da un abaco stampato utilizzando Excel",
+    "chapterId": "computational",
+    "area": "Computational Design",
+    "modules": [],
+    "related": [
+      "parametric"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/computational/mdp-83",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-83-source"
+    ],
+    "order": 272,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Come ricavare formule da un abaco stampato utilizzando Excel"
+  },
+  "theory:Approfondimento · Come rinforzare un pilastro a pressoflessione con gli FRP": {
+    "key": "mdp-84",
+    "title": "Approfondimento · Come rinforzare un pilastro a pressoflessione con gli FRP",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-84",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-84-source"
+    ],
+    "order": 273,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Come rinforzare un pilastro a pressoflessione con gli FRP"
+  },
+  "theory:Approfondimento · Come rinforzare una trave a flessione utilizzando gli FRP": {
+    "key": "mdp-85",
+    "title": "Approfondimento · Come rinforzare una trave a flessione utilizzando gli FRP",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-85",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-85-source"
+    ],
+    "order": 274,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Come rinforzare una trave a flessione utilizzando gli FRP"
+  },
+  "theory:Approfondimento · Come smorzare una massa usando una massa grazie ad un Tuned Mass Damper": {
+    "key": "mdp-86",
+    "title": "Approfondimento · Come smorzare una massa usando una massa grazie ad un Tuned Mass Damper",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-86",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-86-source"
+    ],
+    "order": 275,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Come smorzare una massa usando una massa grazie ad un Tuned Mass Damper"
+  },
+  "theory:Approfondimento · Comportamento scatolare degli edifici in muratura: 16 scenari possibili": {
+    "key": "mdp-87",
+    "title": "Approfondimento · Comportamento scatolare degli edifici in muratura: 16 scenari possibili",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-87",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-87-source"
+    ],
+    "order": 276,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Comportamento scatolare degli edifici in muratura: 16 scenari possibili"
+  },
+  "theory:Approfondimento · Comportamento strutturale non dissipativo: il calcolo elastico torna alla ribalta [NTC2018]": {
+    "key": "mdp-88",
+    "title": "Approfondimento · Comportamento strutturale non dissipativo: il calcolo elastico torna alla ribalta [NTC2018]",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-88",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-88-source"
+    ],
+    "order": 277,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Comportamento strutturale non dissipativo: il calcolo elastico torna alla ribalta [NTC2018]"
+  },
+  "theory:Approfondimento · Condizioni drenate e non drenate: come influiscono sulla verifica geotecnica dei terreni": {
+    "key": "mdp-89",
+    "title": "Approfondimento · Condizioni drenate e non drenate: come influiscono sulla verifica geotecnica dei terreni",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [],
+    "related": [
+      "geotecnica-parametri",
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-89",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-89-source"
+    ],
+    "order": 278,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Condizioni drenate e non drenate: come influiscono sulla verifica geotecnica dei terreni"
+  },
+  "theory:Approfondimento · Confinamento del calcestruzzo: come rinforzare a compressione i pilastri": {
+    "key": "mdp-90",
+    "title": "Approfondimento · Confinamento del calcestruzzo: come rinforzare a compressione i pilastri",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-90",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-90-source"
+    ],
+    "order": 279,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Confinamento del calcestruzzo: come rinforzare a compressione i pilastri"
+  },
+  "theory:Approfondimento · Controllo di accettazione del calcestruzzo: come eseguire il controllo di tipo A e B [NTC2018]": {
+    "key": "mdp-95",
+    "title": "Approfondimento · Controllo di accettazione del calcestruzzo: come eseguire il controllo di tipo A e B [NTC2018]",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-95",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-95-source"
+    ],
+    "order": 280,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Controllo di accettazione del calcestruzzo: come eseguire il controllo di tipo A e B [NTC2018]"
+  },
+  "theory:Approfondimento · Convertire planimetrie PDF in DWG senza perdere tempo (per ingegneri, architetti e geometri)": {
+    "key": "mdp-96",
+    "title": "Approfondimento · Convertire planimetrie PDF in DWG senza perdere tempo (per ingegneri, architetti e geometri)",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-96",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-96-source"
+    ],
+    "order": 281,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Convertire planimetrie PDF in DWG senza perdere tempo (per ingegneri, architetti e geometri)"
+  },
+  "theory:Approfondimento · Cordolo sommitale e di interpiano per edifici in muratura: a cosa serve e come dimensionarlo": {
+    "key": "mdp-97",
+    "title": "Approfondimento · Cordolo sommitale e di interpiano per edifici in muratura: a cosa serve e come dimensionarlo",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-97",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-97-source"
+    ],
+    "order": 282,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Cordolo sommitale e di interpiano per edifici in muratura: a cosa serve e come dimensionarlo"
+  },
+  "theory:Approfondimento · Costruzioni esistenti in cemento armato: come pianificare la campagna di indagini [NTC2018]": {
+    "key": "mdp-98",
+    "title": "Approfondimento · Costruzioni esistenti in cemento armato: come pianificare la campagna di indagini [NTC2018]",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-98",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-98-source"
+    ],
+    "order": 283,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Costruzioni esistenti in cemento armato: come pianificare la campagna di indagini [NTC2018]"
+  },
+  "theory:Approfondimento · Curvatura della deformata di una trave: la formula analitica spiegata in tre click (grazie ad una simulazione interattiva)": {
+    "key": "mdp-100",
+    "title": "Approfondimento · Curvatura della deformata di una trave: la formula analitica spiegata in tre click (grazie ad una simulazione interattiva)",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-100",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-100-source"
+    ],
+    "order": 284,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Curvatura della deformata di una trave: la formula analitica spiegata in tre click (grazie ad una simulazione interattiva)"
+  },
+  "theory:Approfondimento · Dal D.M.96 alle NTC2018: ecco cosa cambia per la verifica a flessione": {
+    "key": "mdp-101",
+    "title": "Approfondimento · Dal D.M.96 alle NTC2018: ecco cosa cambia per la verifica a flessione",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-101",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-101-source"
+    ],
+    "order": 285,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Dal D.M.96 alle NTC2018: ecco cosa cambia per la verifica a flessione"
+  },
+  "theory:Approfondimento · Diagramma momento-curvatura di sezioni in calcestruzzo armato: esempi numerici in Microsoft Excel (.xls)": {
+    "key": "mdp-104",
+    "title": "Approfondimento · Diagramma momento-curvatura di sezioni in calcestruzzo armato: esempi numerici in Microsoft Excel (.xls)",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-104",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-104-source"
+    ],
+    "order": 286,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Diagramma momento-curvatura di sezioni in calcestruzzo armato: esempi numerici in Microsoft Excel (.xls)"
+  },
+  "theory:Approfondimento · Duttilità di curvatura per travi e pilastri in calcestruzzo armato: come eseguire la verifica ai sensi delle NTC2018": {
+    "key": "mdp-105",
+    "title": "Approfondimento · Duttilità di curvatura per travi e pilastri in calcestruzzo armato: come eseguire la verifica ai sensi delle NTC2018",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-105",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-105-source"
+    ],
+    "order": 287,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Duttilità di curvatura per travi e pilastri in calcestruzzo armato: come eseguire la verifica ai sensi delle NTC2018"
+  },
+  "theory:Approfondimento · Eccentricità fra travi e pilastri: come modellarla correttamente con i link rigidi": {
+    "key": "mdp-106",
+    "title": "Approfondimento · Eccentricità fra travi e pilastri: come modellarla correttamente con i link rigidi",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-106",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-106-source"
+    ],
+    "order": 288,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Eccentricità fra travi e pilastri: come modellarla correttamente con i link rigidi"
+  },
+  "theory:Approfondimento · Edifici esistenti in muratura: livelli di conoscenza e fattori di confidenza [NTC2018 e Circolare 2019]": {
+    "key": "mdp-107",
+    "title": "Approfondimento · Edifici esistenti in muratura: livelli di conoscenza e fattori di confidenza [NTC2018 e Circolare 2019]",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-107",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-107-source"
+    ],
+    "order": 289,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Edifici esistenti in muratura: livelli di conoscenza e fattori di confidenza [NTC2018 e Circolare 2019]"
+  },
+  "theory:Approfondimento · Effetti del secondo ordine: come calcolarli senza eseguire analisi complesse": {
+    "key": "mdp-108",
+    "title": "Approfondimento · Effetti del secondo ordine: come calcolarli senza eseguire analisi complesse",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-108",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-108-source"
+    ],
+    "order": 290,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Effetti del secondo ordine: come calcolarli senza eseguire analisi complesse"
+  },
+  "theory:Approfondimento · Elementi shell: come creare una mesh accurata (senza rallentare il calcolo)": {
+    "key": "mdp-109",
+    "title": "Approfondimento · Elementi shell: come creare una mesh accurata (senza rallentare il calcolo)",
+    "chapterId": "fem",
+    "area": "FEM e modellazione",
+    "modules": [],
+    "related": [
+      "beam"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fem/mdp-109",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-109-source"
+    ],
+    "order": 291,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Elementi shell: come creare una mesh accurata (senza rallentare il calcolo)"
+  },
+  "theory:Approfondimento · Espulsione delle tamponature e ribaltamento fuori piano: come eseguire la verifica sismica [NTC2018 e Circolare 2019]": {
+    "key": "mdp-113",
+    "title": "Approfondimento · Espulsione delle tamponature e ribaltamento fuori piano: come eseguire la verifica sismica [NTC2018 e Circolare 2019]",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-113",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-113-source"
+    ],
+    "order": 292,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Espulsione delle tamponature e ribaltamento fuori piano: come eseguire la verifica sismica [NTC2018 e Circolare 2019]"
+  },
+  "theory:Approfondimento · Fondazioni: le superfici di rottura riprodotte in un esperimento pratico": {
+    "key": "mdp-115",
+    "title": "Approfondimento · Fondazioni: le superfici di rottura riprodotte in un esperimento pratico",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [],
+    "related": [
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-115",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-115-source"
+    ],
+    "order": 293,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Fondazioni: le superfici di rottura riprodotte in un esperimento pratico"
+  },
+  "theory:Approfondimento · Funivie: 3 concetti fondamentali di ingegneria strutturale applicati agli impianti a fune": {
+    "key": "mdp-116",
+    "title": "Approfondimento · Funivie: 3 concetti fondamentali di ingegneria strutturale applicati agli impianti a fune",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-116",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-116-source"
+    ],
+    "order": 294,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Funivie: 3 concetti fondamentali di ingegneria strutturale applicati agli impianti a fune"
+  },
+  "theory:Approfondimento · Gerarchia delle resistenze: qual è il suo scopo (e perché manda in crisi i pilastri piatti)": {
+    "key": "mdp-118",
+    "title": "Approfondimento · Gerarchia delle resistenze: qual è il suo scopo (e perché manda in crisi i pilastri piatti)",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-118",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-118-source"
+    ],
+    "order": 295,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Gerarchia delle resistenze: qual è il suo scopo (e perché manda in crisi i pilastri piatti)"
+  },
+  "theory:Approfondimento · Giunto strutturale: come progettarlo per evitare il martellamento [NTC2018]": {
+    "key": "mdp-119",
+    "title": "Approfondimento · Giunto strutturale: come progettarlo per evitare il martellamento [NTC2018]",
+    "chapterId": "acciaio",
+    "area": "Acciaio",
+    "modules": [],
+    "related": [
+      "euler"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/acciaio/mdp-119",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-119-source"
+    ],
+    "order": 296,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Giunto strutturale: come progettarlo per evitare il martellamento [NTC2018]"
+  },
+  "theory:Approfondimento · Il cemento armato ai tempi di sua maestà: il Regio Decreto del '39": {
+    "key": "mdp-122",
+    "title": "Approfondimento · Il cemento armato ai tempi di sua maestà: il Regio Decreto del '39",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-122",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-122-source"
+    ],
+    "order": 297,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Il cemento armato ai tempi di sua maestà: il Regio Decreto del '39"
+  },
+  "theory:Approfondimento · Il fattore di comportamento q (ex fattore di struttura): un piccolo numero dal grande significato": {
+    "key": "mdp-124",
+    "title": "Approfondimento · Il fattore di comportamento q (ex fattore di struttura): un piccolo numero dal grande significato",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-124",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-124-source"
+    ],
+    "order": 298,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Il fattore di comportamento q (ex fattore di struttura): un piccolo numero dal grande significato"
+  },
+  "theory:Approfondimento · Impalcato rigido: come verificarlo senza eseguire calcoli manuali": {
+    "key": "mdp-125",
+    "title": "Approfondimento · Impalcato rigido: come verificarlo senza eseguire calcoli manuali",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-125",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-125-source"
+    ],
+    "order": 299,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Impalcato rigido: come verificarlo senza eseguire calcoli manuali"
+  },
+  "theory:Approfondimento · Ingobbamento da taglio: cos'è e perché si verifica": {
+    "key": "mdp-127",
+    "title": "Approfondimento · Ingobbamento da taglio: cos'è e perché si verifica",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-127",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-127-source"
+    ],
+    "order": 300,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Ingobbamento da taglio: cos'è e perché si verifica"
+  },
+  "theory:Approfondimento · Ingranamento verticale dei blocchi nelle murature storiche: l'effetto sulla resistenza a taglio": {
+    "key": "mdp-128",
+    "title": "Approfondimento · Ingranamento verticale dei blocchi nelle murature storiche: l'effetto sulla resistenza a taglio",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-128",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-128-source"
+    ],
+    "order": 301,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Ingranamento verticale dei blocchi nelle murature storiche: l'effetto sulla resistenza a taglio"
+  },
+  "theory:Approfondimento · Instabilità flesso-torsionale dei profili in acciaio: l’esperimento del righello (verifica in Excel secondo NTC2018)": {
+    "key": "mdp-130",
+    "title": "Approfondimento · Instabilità flesso-torsionale dei profili in acciaio: l’esperimento del righello (verifica in Excel secondo NTC2018)",
+    "chapterId": "acciaio",
+    "area": "Acciaio",
+    "modules": [],
+    "related": [
+      "euler"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/acciaio/mdp-130",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-130-source"
+    ],
+    "order": 302,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Instabilità flesso-torsionale dei profili in acciaio: l’esperimento del righello (verifica in Excel secondo NTC2018)"
+  },
+  "theory:Approfondimento · Interazione fondazione-terreno: 3 metodi di calcolo di una platea": {
+    "key": "mdp-131",
+    "title": "Approfondimento · Interazione fondazione-terreno: 3 metodi di calcolo di una platea",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [],
+    "related": [
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-131",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-131-source"
+    ],
+    "order": 303,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Interazione fondazione-terreno: 3 metodi di calcolo di una platea"
+  },
+  "theory:Approfondimento · Intervento locale, miglioramento sismico o adeguamento sismico? La sicurezza delle costruzioni esistenti [NTC2018]": {
+    "key": "mdp-132",
+    "title": "Approfondimento · Intervento locale, miglioramento sismico o adeguamento sismico? La sicurezza delle costruzioni esistenti [NTC2018]",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-132",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-132-source"
+    ],
+    "order": 304,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Intervento locale, miglioramento sismico o adeguamento sismico? La sicurezza delle costruzioni esistenti [NTC2018]"
+  },
+  "theory:Approfondimento · Ipotesi di piccoli spostamenti: perché è importante per il calcolo strutturale (e per l'equazione della linea elastica)": {
+    "key": "mdp-133",
+    "title": "Approfondimento · Ipotesi di piccoli spostamenti: perché è importante per il calcolo strutturale (e per l'equazione della linea elastica)",
+    "chapterId": "fem",
+    "area": "FEM e modellazione",
+    "modules": [],
+    "related": [
+      "beam"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fem/mdp-133",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-133-source"
+    ],
+    "order": 305,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Ipotesi di piccoli spostamenti: perché è importante per il calcolo strutturale (e per l'equazione della linea elastica)"
+  },
+  "theory:Approfondimento · Isolamento sismico: caso studio e valutazione dei costi": {
+    "key": "mdp-136",
+    "title": "Approfondimento · Isolamento sismico: caso studio e valutazione dei costi",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-136",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-136-source"
+    ],
+    "order": 306,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Isolamento sismico: caso studio e valutazione dei costi"
+  },
+  "theory:Approfondimento · L'analisi modale spiegata in 4 minuti": {
+    "key": "mdp-137",
+    "title": "Approfondimento · L'analisi modale spiegata in 4 minuti",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-137",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-137-source"
+    ],
+    "order": 307,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. L'analisi modale spiegata in 4 minuti"
+  },
+  "theory:Approfondimento · L'oscillatore semplice come non l'hai mai visto": {
+    "key": "mdp-139",
+    "title": "Approfondimento · L'oscillatore semplice come non l'hai mai visto",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-139",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-139-source"
+    ],
+    "order": 308,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. L'oscillatore semplice come non l'hai mai visto"
+  },
+  "theory:Approfondimento · La discontinuità degli spettri: l'effetto dell'isolamento sismico": {
+    "key": "mdp-140",
+    "title": "Approfondimento · La discontinuità degli spettri: l'effetto dell'isolamento sismico",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-140",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-140-source"
+    ],
+    "order": 309,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. La discontinuità degli spettri: l'effetto dell'isolamento sismico"
+  },
+  "theory:Approfondimento · La formula di Terzaghi: carico limite di fondazioni superficiali": {
+    "key": "mdp-141",
+    "title": "Approfondimento · La formula di Terzaghi: carico limite di fondazioni superficiali",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [],
+    "related": [
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-141",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-141-source"
+    ],
+    "order": 310,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. La formula di Terzaghi: carico limite di fondazioni superficiali"
+  },
+  "theory:Approfondimento · La serie di Taylor e la storia del fabbro operoso": {
+    "key": "mdp-142",
+    "title": "Approfondimento · La serie di Taylor e la storia del fabbro operoso",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-142",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-142-source"
+    ],
+    "order": 311,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. La serie di Taylor e la storia del fabbro operoso"
+  },
+  "theory:Approfondimento · Layout AutoCad: come crearli e utilizzarli  (per ingegneri, architetti e geometri)": {
+    "key": "mdp-145",
+    "title": "Approfondimento · Layout AutoCad: come crearli e utilizzarli  (per ingegneri, architetti e geometri)",
+    "chapterId": "bim",
+    "area": "BIM",
+    "modules": [],
+    "related": [
+      "bim"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/bim/mdp-145",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-145-source"
+    ],
+    "order": 312,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Layout AutoCad: come crearli e utilizzarli  (per ingegneri, architetti e geometri)"
+  },
+  "theory:Approfondimento · Layout AutoCad: velocizza la stampa delle tue tavole grafiche": {
+    "key": "mdp-146",
+    "title": "Approfondimento · Layout AutoCad: velocizza la stampa delle tue tavole grafiche",
+    "chapterId": "bim",
+    "area": "BIM",
+    "modules": [],
+    "related": [
+      "bim"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/bim/mdp-146",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-146-source"
+    ],
+    "order": 313,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Layout AutoCad: velocizza la stampa delle tue tavole grafiche"
+  },
+  "theory:Approfondimento · Legno lamellare e massiccio: come determinare i parametri di resistenza (tabelle da scaricare)": {
+    "key": "mdp-149",
+    "title": "Approfondimento · Legno lamellare e massiccio: come determinare i parametri di resistenza (tabelle da scaricare)",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-149",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-149-source"
+    ],
+    "order": 314,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Legno lamellare e massiccio: come determinare i parametri di resistenza (tabelle da scaricare)"
+  },
+  "theory:Approfondimento · Legno lamellare per uso strutturale: tecnica di produzione e vantaggi rispetto al legno massiccio": {
+    "key": "mdp-150",
+    "title": "Approfondimento · Legno lamellare per uso strutturale: tecnica di produzione e vantaggi rispetto al legno massiccio",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-150",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-150-source"
+    ],
+    "order": 315,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Legno lamellare per uso strutturale: tecnica di produzione e vantaggi rispetto al legno massiccio"
+  },
+  "theory:Approfondimento · Legno strutturale esistente: quali indagini e prove eseguire per definire il livello di conoscenza": {
+    "key": "mdp-151",
+    "title": "Approfondimento · Legno strutturale esistente: quali indagini e prove eseguire per definire il livello di conoscenza",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-151",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-151-source"
+    ],
+    "order": 316,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Legno strutturale esistente: quali indagini e prove eseguire per definire il livello di conoscenza"
+  },
+  "theory:Approfondimento · Liquefazione del terreno di fondazione: come eseguire la verifica di resistenza geotecnica": {
+    "key": "mdp-152",
+    "title": "Approfondimento · Liquefazione del terreno di fondazione: come eseguire la verifica di resistenza geotecnica",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [],
+    "related": [
+      "geofisica-liquefazione",
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-152",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-152-source"
+    ],
+    "order": 317,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Liquefazione del terreno di fondazione: come eseguire la verifica di resistenza geotecnica"
+  },
+  "theory:Approfondimento · London Eye: la reinvenzione della ruota": {
+    "key": "mdp-154",
+    "title": "Approfondimento · London Eye: la reinvenzione della ruota",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-154",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-154-source"
+    ],
+    "order": 318,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. London Eye: la reinvenzione della ruota"
+  },
+  "theory:Approfondimento · Martellamento strutturale: come vincerlo utilizzando delle campane [caso studio]": {
+    "key": "mdp-155",
+    "title": "Approfondimento · Martellamento strutturale: come vincerlo utilizzando delle campane [caso studio]",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-155",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-155-source"
+    ],
+    "order": 319,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Martellamento strutturale: come vincerlo utilizzando delle campane [caso studio]"
+  },
+  "theory:Approfondimento · Massa partecipante e fattore di partecipazione modale: la guida completa": {
+    "key": "mdp-156",
+    "title": "Approfondimento · Massa partecipante e fattore di partecipazione modale: la guida completa",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-156",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-156-source"
+    ],
+    "order": 320,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Massa partecipante e fattore di partecipazione modale: la guida completa"
+  },
+  "theory:Approfondimento · Metodi di analisi strutturale: come scegliere fra analisi lineare o non lineare, dinamica o statica": {
+    "key": "mdp-159",
+    "title": "Approfondimento · Metodi di analisi strutturale: come scegliere fra analisi lineare o non lineare, dinamica o statica",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-159",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-159-source"
+    ],
+    "order": 321,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Metodi di analisi strutturale: come scegliere fra analisi lineare o non lineare, dinamica o statica"
+  },
+  "theory:Approfondimento · Metodo semiprobabilistico agli Stati Limite Ultimi: come eseguire le verifiche di resistenza": {
+    "key": "mdp-160",
+    "title": "Approfondimento · Metodo semiprobabilistico agli Stati Limite Ultimi: come eseguire le verifiche di resistenza",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-160",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-160-source"
+    ],
+    "order": 322,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Metodo semiprobabilistico agli Stati Limite Ultimi: come eseguire le verifiche di resistenza"
+  },
+  "theory:Approfondimento · Modellazione degli impalcati: quando rimuovere l’ipotesi di infinita rigidezza nel piano": {
+    "key": "mdp-162",
+    "title": "Approfondimento · Modellazione degli impalcati: quando rimuovere l’ipotesi di infinita rigidezza nel piano",
+    "chapterId": "fem",
+    "area": "FEM e modellazione",
+    "modules": [],
+    "related": [
+      "beam"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fem/mdp-162",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-162-source"
+    ],
+    "order": 323,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Modellazione degli impalcati: quando rimuovere l’ipotesi di infinita rigidezza nel piano"
+  },
+  "theory:Approfondimento · Modi di vibrare: un esperimento illuminante (con delle palle da baseball)": {
+    "key": "mdp-163",
+    "title": "Approfondimento · Modi di vibrare: un esperimento illuminante (con delle palle da baseball)",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-163",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-163-source"
+    ],
+    "order": 324,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Modi di vibrare: un esperimento illuminante (con delle palle da baseball)"
+  },
+  "theory:Approfondimento · Modulo di resistenza a flessione delle sezioni in acciaio: come calcolare il modulo elastico e il modulo plastico (senza eseguire calcoli manuali)": {
+    "key": "mdp-164",
+    "title": "Approfondimento · Modulo di resistenza a flessione delle sezioni in acciaio: come calcolare il modulo elastico e il modulo plastico (senza eseguire calcoli manuali)",
+    "chapterId": "acciaio",
+    "area": "Acciaio",
+    "modules": [],
+    "related": [
+      "euler"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/acciaio/mdp-164",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-164-source"
+    ],
+    "order": 325,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Modulo di resistenza a flessione delle sezioni in acciaio: come calcolare il modulo elastico e il modulo plastico (senza eseguire calcoli manuali)"
+  },
+  "theory:Approfondimento · Momento torcente parassita: la sollecitazione che non ti aspetti": {
+    "key": "mdp-165",
+    "title": "Approfondimento · Momento torcente parassita: la sollecitazione che non ti aspetti",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-165",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-165-source"
+    ],
+    "order": 326,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Momento torcente parassita: la sollecitazione che non ti aspetti"
+  },
+  "theory:Approfondimento · Mose di Venezia: la spinta di Archimede batte l'acqua alta. Ecco come funziona": {
+    "key": "mdp-166",
+    "title": "Approfondimento · Mose di Venezia: la spinta di Archimede batte l'acqua alta. Ecco come funziona",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-166",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-166-source"
+    ],
+    "order": 327,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Mose di Venezia: la spinta di Archimede batte l'acqua alta. Ecco come funziona"
+  },
+  "theory:Approfondimento · Nodo trave-pilastro in cemento armato: come verificarlo ai sensi delle NTC2018 e Circolare 2019": {
+    "key": "mdp-168",
+    "title": "Approfondimento · Nodo trave-pilastro in cemento armato: come verificarlo ai sensi delle NTC2018 e Circolare 2019",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-168",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-168-source"
+    ],
+    "order": 328,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Nodo trave-pilastro in cemento armato: come verificarlo ai sensi delle NTC2018 e Circolare 2019"
+  },
+  "theory:Approfondimento · Non linearità geometriche: quando devi tenerne conto [risorsa + caso studio]": {
+    "key": "mdp-169",
+    "title": "Approfondimento · Non linearità geometriche: quando devi tenerne conto [risorsa + caso studio]",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-169",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-169-source"
+    ],
+    "order": 329,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Non linearità geometriche: quando devi tenerne conto [risorsa + caso studio]"
+  },
+  "theory:Approfondimento · Norme Tecniche per le Costruzioni: l'evoluzione storica dal 1600 ad oggi": {
+    "key": "mdp-170",
+    "title": "Approfondimento · Norme Tecniche per le Costruzioni: l'evoluzione storica dal 1600 ad oggi",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-170",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-170-source"
+    ],
+    "order": 330,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Norme Tecniche per le Costruzioni: l'evoluzione storica dal 1600 ad oggi"
+  },
+  "theory:Approfondimento · Nuova apertura in parete portante: come calcolarla": {
+    "key": "mdp-171",
+    "title": "Approfondimento · Nuova apertura in parete portante: come calcolarla",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-171",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-171-source"
+    ],
+    "order": 331,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Nuova apertura in parete portante: come calcolarla"
+  },
+  "theory:Approfondimento · Oscillatore semplice (sistema massa-molla-smorzatore): l'analisi sismica inizia da qui": {
+    "key": "mdp-172",
+    "title": "Approfondimento · Oscillatore semplice (sistema massa-molla-smorzatore): l'analisi sismica inizia da qui",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-172",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-172-source"
+    ],
+    "order": 332,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Oscillatore semplice (sistema massa-molla-smorzatore): l'analisi sismica inizia da qui"
+  },
+  "theory:Approfondimento · Parcheggio interrato: come realizzare la struttura partendo dall'alto (in 9 fasi costruttive)": {
+    "key": "mdp-176",
+    "title": "Approfondimento · Parcheggio interrato: come realizzare la struttura partendo dall'alto (in 9 fasi costruttive)",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-176",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-176-source"
+    ],
+    "order": 333,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Parcheggio interrato: come realizzare la struttura partendo dall'alto (in 9 fasi costruttive)"
+  },
+  "theory:Approfondimento · Pareti in cemento armato: cosa sono e quando conviene usarle": {
+    "key": "mdp-177",
+    "title": "Approfondimento · Pareti in cemento armato: cosa sono e quando conviene usarle",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-177",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-177-source"
+    ],
+    "order": 334,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Pareti in cemento armato: cosa sono e quando conviene usarle"
+  },
+  "theory:Approfondimento · Pianta dei fili fissi: a cosa serve e come progettarla": {
+    "key": "mdp-180",
+    "title": "Approfondimento · Pianta dei fili fissi: a cosa serve e come progettarla",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-180",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-180-source"
+    ],
+    "order": 335,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Pianta dei fili fissi: a cosa serve e come progettarla"
+  },
+  "theory:Approfondimento · Pilastri: come posizionarli in pianta e ruotarli nel modo giusto": {
+    "key": "mdp-181",
+    "title": "Approfondimento · Pilastri: come posizionarli in pianta e ruotarli nel modo giusto",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-181",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-181-source"
+    ],
+    "order": 336,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Pilastri: come posizionarli in pianta e ruotarli nel modo giusto"
+  },
+  "theory:Approfondimento · Piscina su terrazzo: come valutare la sicurezza strutturale del solaio": {
+    "key": "mdp-182",
+    "title": "Approfondimento · Piscina su terrazzo: come valutare la sicurezza strutturale del solaio",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-182",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-182-source"
+    ],
+    "order": 337,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Piscina su terrazzo: come valutare la sicurezza strutturale del solaio"
+  },
+  "theory:Approfondimento · Placcaggio di una trave in FRP: 3 errori da non fare [video-tutorial]": {
+    "key": "mdp-183",
+    "title": "Approfondimento · Placcaggio di una trave in FRP: 3 errori da non fare [video-tutorial]",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-183",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-183-source"
+    ],
+    "order": 338,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Placcaggio di una trave in FRP: 3 errori da non fare [video-tutorial]"
+  },
+  "theory:Approfondimento · Ponte Dom Luís I: l'arco in ferro divenuto icona di una città": {
+    "key": "mdp-186",
+    "title": "Approfondimento · Ponte Dom Luís I: l'arco in ferro divenuto icona di una città",
+    "chapterId": "ponti",
+    "area": "Ponti",
+    "modules": [
+      "str_mista_ponte"
+    ],
+    "related": [
+      "bridge"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/ponti/mdp-186",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-186-source"
+    ],
+    "order": 339,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Ponte Dom Luís I: l'arco in ferro divenuto icona di una città"
+  },
+  "theory:Approfondimento · Ponteggi metallici: quando occorre il calcolo strutturale e come eseguirlo (La guida completa + foglio di calcolo Excel)": {
+    "key": "mdp-187",
+    "title": "Approfondimento · Ponteggi metallici: quando occorre il calcolo strutturale e come eseguirlo (La guida completa + foglio di calcolo Excel)",
+    "chapterId": "ponti",
+    "area": "Ponti",
+    "modules": [
+      "str_mista_ponte"
+    ],
+    "related": [
+      "bridge"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/ponti/mdp-187",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-187-source"
+    ],
+    "order": 340,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Ponteggi metallici: quando occorre il calcolo strutturale e come eseguirlo (La guida completa + foglio di calcolo Excel)"
+  },
+  "theory:Approfondimento · Predimensionamento strutturale: come progettare solai, travi e pilastri in cemento armato": {
+    "key": "mdp-188",
+    "title": "Approfondimento · Predimensionamento strutturale: come progettare solai, travi e pilastri in cemento armato",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-188",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-188-source"
+    ],
+    "order": 341,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Predimensionamento strutturale: come progettare solai, travi e pilastri in cemento armato"
+  },
+  "theory:Approfondimento · Profilati in acciaio: come scegliere la giusta sezione dai sagomari (il caso pratico di un cancello)": {
+    "key": "mdp-189",
+    "title": "Approfondimento · Profilati in acciaio: come scegliere la giusta sezione dai sagomari (il caso pratico di un cancello)",
+    "chapterId": "acciaio",
+    "area": "Acciaio",
+    "modules": [],
+    "related": [
+      "euler"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/acciaio/mdp-189",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-189-source"
+    ],
+    "order": 342,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Profilati in acciaio: come scegliere la giusta sezione dai sagomari (il caso pratico di un cancello)"
+  },
+  "theory:Approfondimento · Proprietà annotativa in AutoCAD: la guida definitiva [per ingegneri, architetti e geometri]": {
+    "key": "mdp-192",
+    "title": "Approfondimento · Proprietà annotativa in AutoCAD: la guida definitiva [per ingegneri, architetti e geometri]",
+    "chapterId": "bim",
+    "area": "BIM",
+    "modules": [],
+    "related": [
+      "bim"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/bim/mdp-192",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-192-source"
+    ],
+    "order": 343,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Proprietà annotativa in AutoCAD: la guida definitiva [per ingegneri, architetti e geometri]"
+  },
+  "theory:Approfondimento · Prova MASW: come individuare la categoria di sottosuolo per il calcolo dell'azione sismica": {
+    "key": "mdp-193",
+    "title": "Approfondimento · Prova MASW: come individuare la categoria di sottosuolo per il calcolo dell'azione sismica",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [],
+    "related": [
+      "geofisica-liquefazione",
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-193",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-193-source"
+    ],
+    "order": 344,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Prova MASW: come individuare la categoria di sottosuolo per il calcolo dell'azione sismica"
+  },
+  "theory:Approfondimento · Prove penetrometriche statiche e dinamiche: come interpretare i risultati (prove SPT, CPT, DP)": {
+    "key": "mdp-194",
+    "title": "Approfondimento · Prove penetrometriche statiche e dinamiche: come interpretare i risultati (prove SPT, CPT, DP)",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [],
+    "related": [
+      "geotecnica-parametri",
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-194",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-194-source"
+    ],
+    "order": 345,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Prove penetrometriche statiche e dinamiche: come interpretare i risultati (prove SPT, CPT, DP)"
+  },
+  "theory:Approfondimento · Pseudo-accelerazione sismica: la sottile differenza da tenere a mente": {
+    "key": "mdp-195",
+    "title": "Approfondimento · Pseudo-accelerazione sismica: la sottile differenza da tenere a mente",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-195",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-195-source"
+    ],
+    "order": 346,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Pseudo-accelerazione sismica: la sottile differenza da tenere a mente"
+  },
+  "theory:Approfondimento · Quanto può essere alta una struttura? Si alzi chi può!": {
+    "key": "mdp-196",
+    "title": "Approfondimento · Quanto può essere alta una struttura? Si alzi chi può!",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-196",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-196-source"
+    ],
+    "order": 347,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Quanto può essere alta una struttura? Si alzi chi può!"
+  },
+  "theory:Approfondimento · Regolarità in altezza: cosa richiedono le NTC2018 (e perché non puoi accertarla a priori)": {
+    "key": "mdp-198",
+    "title": "Approfondimento · Regolarità in altezza: cosa richiedono le NTC2018 (e perché non puoi accertarla a priori)",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-198",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-198-source"
+    ],
+    "order": 348,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Regolarità in altezza: cosa richiedono le NTC2018 (e perché non puoi accertarla a priori)"
+  },
+  "theory:Approfondimento · Regolarità in pianta: come evitare un errore del 13% (i tre requisiti delle NTC2018)": {
+    "key": "mdp-199",
+    "title": "Approfondimento · Regolarità in pianta: come evitare un errore del 13% (i tre requisiti delle NTC2018)",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-199",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-199-source"
+    ],
+    "order": 349,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Regolarità in pianta: come evitare un errore del 13% (i tre requisiti delle NTC2018)"
+  },
+  "theory:Approfondimento · Relazione di calcolo strutturale: i contenuti che non possono mancare (ai sensi delle NTC2018)": {
+    "key": "mdp-200",
+    "title": "Approfondimento · Relazione di calcolo strutturale: i contenuti che non possono mancare (ai sensi delle NTC2018)",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-200",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-200-source"
+    ],
+    "order": 350,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Relazione di calcolo strutturale: i contenuti che non possono mancare (ai sensi delle NTC2018)"
+  },
+  "theory:Approfondimento · Relazione geotecnica: come definire il modello geotecnico del sottosuolo": {
+    "key": "mdp-201",
+    "title": "Approfondimento · Relazione geotecnica: come definire il modello geotecnico del sottosuolo",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [],
+    "related": [
+      "geotecnica-parametri",
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-201",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-201-source"
+    ],
+    "order": 351,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Relazione geotecnica: come definire il modello geotecnico del sottosuolo"
+  },
+  "theory:Approfondimento · Resistenza a taglio del calcestruzzo in assenza di staffe: il meccanismo a pettine": {
+    "key": "mdp-202",
+    "title": "Approfondimento · Resistenza a taglio del calcestruzzo in assenza di staffe: il meccanismo a pettine",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "taglio-traliccio",
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-202",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-202-source"
+    ],
+    "order": 352,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Resistenza a taglio del calcestruzzo in assenza di staffe: il meccanismo a pettine"
+  },
+  "theory:Approfondimento · Resistenza a taglio della muratura: meccanismi di rottura per azioni nel piano [NTC2018 e Circ. 2019]": {
+    "key": "mdp-203",
+    "title": "Approfondimento · Resistenza a taglio della muratura: meccanismi di rottura per azioni nel piano [NTC2018 e Circ. 2019]",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-203",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-203-source"
+    ],
+    "order": 353,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Resistenza a taglio della muratura: meccanismi di rottura per azioni nel piano [NTC2018 e Circ. 2019]"
+  },
+  "theory:Approfondimento · Resistenza sismica delle pagode giapponesi: il segreto strutturale dello \"shinbashira\"": {
+    "key": "mdp-204",
+    "title": "Approfondimento · Resistenza sismica delle pagode giapponesi: il segreto strutturale dello \"shinbashira\"",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-204",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-204-source"
+    ],
+    "order": 354,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Resistenza sismica delle pagode giapponesi: il segreto strutturale dello \"shinbashira\""
+  },
+  "theory:Approfondimento · Rigidezza assiale dei pilastri in calcestruzzo armato: perché amplificarla nel modello di calcolo": {
+    "key": "mdp-205",
+    "title": "Approfondimento · Rigidezza assiale dei pilastri in calcestruzzo armato: perché amplificarla nel modello di calcolo",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-205",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-205-source"
+    ],
+    "order": 355,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Rigidezza assiale dei pilastri in calcestruzzo armato: perché amplificarla nel modello di calcolo"
+  },
+  "theory:Approfondimento · Rigidezza torsionale dei profili sottili: come calcolare la tensione tangenziale massima da torsione": {
+    "key": "mdp-206",
+    "title": "Approfondimento · Rigidezza torsionale dei profili sottili: come calcolare la tensione tangenziale massima da torsione",
+    "chapterId": "acciaio",
+    "area": "Acciaio",
+    "modules": [],
+    "related": [
+      "euler"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/acciaio/mdp-206",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-206-source"
+    ],
+    "order": 356,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Rigidezza torsionale dei profili sottili: come calcolare la tensione tangenziale massima da torsione"
+  },
+  "theory:Approfondimento · Rinforzo dei pilastri in cemento armato: come aumentare l'efficacia del confinamento in FRP": {
+    "key": "mdp-207",
+    "title": "Approfondimento · Rinforzo dei pilastri in cemento armato: come aumentare l'efficacia del confinamento in FRP",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-207",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-207-source"
+    ],
+    "order": 357,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Rinforzo dei pilastri in cemento armato: come aumentare l'efficacia del confinamento in FRP"
+  },
+  "theory:Approfondimento · Risonanza: conoscerla per evitarla": {
+    "key": "mdp-208",
+    "title": "Approfondimento · Risonanza: conoscerla per evitarla",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-208",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-208-source"
+    ],
+    "order": 358,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Risonanza: conoscerla per evitarla"
+  },
+  "theory:Approfondimento · Risonanza: ecco come danneggia le strutture (e come prevenirla)": {
+    "key": "mdp-209",
+    "title": "Approfondimento · Risonanza: ecco come danneggia le strutture (e come prevenirla)",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-209",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-209-source"
+    ],
+    "order": 359,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Risonanza: ecco come danneggia le strutture (e come prevenirla)"
+  },
+  "theory:Approfondimento · Sbalzi laterali e sbalzi d'angolo: come eseguire il calcolo strutturale dei balconi in calcestruzzo armato": {
+    "key": "mdp-213",
+    "title": "Approfondimento · Sbalzi laterali e sbalzi d'angolo: come eseguire il calcolo strutturale dei balconi in calcestruzzo armato",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-213",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-213-source"
+    ],
+    "order": 360,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Sbalzi laterali e sbalzi d'angolo: come eseguire il calcolo strutturale dei balconi in calcestruzzo armato"
+  },
+  "theory:Approfondimento · Scala in cemento armato: come posizionarla in pianta per le costruzioni in zona sismica": {
+    "key": "mdp-214",
+    "title": "Approfondimento · Scala in cemento armato: come posizionarla in pianta per le costruzioni in zona sismica",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-214",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-214-source"
+    ],
+    "order": 361,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Scala in cemento armato: come posizionarla in pianta per le costruzioni in zona sismica"
+  },
+  "theory:Approfondimento · Scale in calcestruzzo armato: trave a ginocchio o soletta rampante. Come eseguire il calcolo strutturale": {
+    "key": "mdp-215",
+    "title": "Approfondimento · Scale in calcestruzzo armato: trave a ginocchio o soletta rampante. Come eseguire il calcolo strutturale",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-215",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-215-source"
+    ],
+    "order": 362,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Scale in calcestruzzo armato: trave a ginocchio o soletta rampante. Come eseguire il calcolo strutturale"
+  },
+  "theory:Approfondimento · Scavare il tunnel più lungo al mondo grazie ad un verme marino": {
+    "key": "mdp-216",
+    "title": "Approfondimento · Scavare il tunnel più lungo al mondo grazie ad un verme marino",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-216",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-216-source"
+    ],
+    "order": 363,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Scavare il tunnel più lungo al mondo grazie ad un verme marino"
+  },
+  "theory:Approfondimento · Schemi statici piani: quando utilizzarli per un calcolo strutturale completo (o per il predimensionamento)": {
+    "key": "mdp-217",
+    "title": "Approfondimento · Schemi statici piani: quando utilizzarli per un calcolo strutturale completo (o per il predimensionamento)",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-217",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-217-source"
+    ],
+    "order": 364,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Schemi statici piani: quando utilizzarli per un calcolo strutturale completo (o per il predimensionamento)"
+  },
+  "theory:Approfondimento · Snellezza e stabilità: il pericolo delle aste in acciaio": {
+    "key": "mdp-220",
+    "title": "Approfondimento · Snellezza e stabilità: il pericolo delle aste in acciaio",
+    "chapterId": "acciaio",
+    "area": "Acciaio",
+    "modules": [],
+    "related": [
+      "euler"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/acciaio/mdp-220",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-220-source"
+    ],
+    "order": 365,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Snellezza e stabilità: il pericolo delle aste in acciaio"
+  },
+  "theory:Approfondimento · Solaio in laterocemento: calcolo e verifica con combinazioni di carico a scacchiera": {
+    "key": "mdp-222",
+    "title": "Approfondimento · Solaio in laterocemento: calcolo e verifica con combinazioni di carico a scacchiera",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-222",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-222-source"
+    ],
+    "order": 366,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Solaio in laterocemento: calcolo e verifica con combinazioni di carico a scacchiera"
+  },
+  "theory:Approfondimento · Sollecitazioni interne: cos'è il momento e il taglio": {
+    "key": "mdp-223",
+    "title": "Approfondimento · Sollecitazioni interne: cos'è il momento e il taglio",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-223",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-223-source"
+    ],
+    "order": 367,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Sollecitazioni interne: cos'è il momento e il taglio"
+  },
+  "theory:Approfondimento · Sopraelevazione di un edificio esistente: quando è necessaria la verifica sismica dell'intero fabbricato": {
+    "key": "mdp-224",
+    "title": "Approfondimento · Sopraelevazione di un edificio esistente: quando è necessaria la verifica sismica dell'intero fabbricato",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-224",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-224-source"
+    ],
+    "order": 368,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Sopraelevazione di un edificio esistente: quando è necessaria la verifica sismica dell'intero fabbricato"
+  },
+  "theory:Approfondimento · Spettri di risposta elastici: come sono stati ottenuti grazie a un lollipop (in 4 step)": {
+    "key": "mdp-225",
+    "title": "Approfondimento · Spettri di risposta elastici: come sono stati ottenuti grazie a un lollipop (in 4 step)",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-225",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-225-source"
+    ],
+    "order": 369,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Spettri di risposta elastici: come sono stati ottenuti grazie a un lollipop (in 4 step)"
+  },
+  "theory:Approfondimento · Spettri di risposta: accelerazione sismica allo SLV minore dell'accelerazione sismica allo SLD, scopri perché": {
+    "key": "mdp-226",
+    "title": "Approfondimento · Spettri di risposta: accelerazione sismica allo SLV minore dell'accelerazione sismica allo SLD, scopri perché",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-226",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-226-source"
+    ],
+    "order": 370,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Spettri di risposta: accelerazione sismica allo SLV minore dell'accelerazione sismica allo SLD, scopri perché"
+  },
+  "theory:Approfondimento · Spettri elastici: il laborioso processo che li ha generati": {
+    "key": "mdp-227",
+    "title": "Approfondimento · Spettri elastici: il laborioso processo che li ha generati",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-227",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-227-source"
+    ],
+    "order": 371,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Spettri elastici: il laborioso processo che li ha generati"
+  },
+  "theory:Approfondimento · Stati Limite di Esercizio (SLE) per costruzioni in acciaio: come eseguire la verifica di spostamento": {
+    "key": "mdp-228",
+    "title": "Approfondimento · Stati Limite di Esercizio (SLE) per costruzioni in acciaio: come eseguire la verifica di spostamento",
+    "chapterId": "acciaio",
+    "area": "Acciaio",
+    "modules": [],
+    "related": [
+      "euler"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/acciaio/mdp-228",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-228-source"
+    ],
+    "order": 372,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Stati Limite di Esercizio (SLE) per costruzioni in acciaio: come eseguire la verifica di spostamento"
+  },
+  "theory:Approfondimento · Stati Limite di Esercizio (SLE): come eseguire le verifiche per le strutture in calcestruzzo armato": {
+    "key": "mdp-229",
+    "title": "Approfondimento · Stati Limite di Esercizio (SLE): come eseguire le verifiche per le strutture in calcestruzzo armato",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-229",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-229-source"
+    ],
+    "order": 373,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Stati Limite di Esercizio (SLE): come eseguire le verifiche per le strutture in calcestruzzo armato"
+  },
+  "theory:Approfondimento · Stato Limite di Danno (SLD) e di Operatività (SLO): tutte le verifiche richieste in presenza dell'azione sismica": {
+    "key": "mdp-230",
+    "title": "Approfondimento · Stato Limite di Danno (SLD) e di Operatività (SLO): tutte le verifiche richieste in presenza dell'azione sismica",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-230",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-230-source"
+    ],
+    "order": 374,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Stato Limite di Danno (SLD) e di Operatività (SLO): tutte le verifiche richieste in presenza dell'azione sismica"
+  },
+  "theory:Approfondimento · Strutture esistenti in acciaio: quali prove eseguire per i diversi livelli di conoscenza": {
+    "key": "mdp-231",
+    "title": "Approfondimento · Strutture esistenti in acciaio: quali prove eseguire per i diversi livelli di conoscenza",
+    "chapterId": "acciaio",
+    "area": "Acciaio",
+    "modules": [],
+    "related": [
+      "euler"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/acciaio/mdp-231",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-231-source"
+    ],
+    "order": 375,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Strutture esistenti in acciaio: quali prove eseguire per i diversi livelli di conoscenza"
+  },
+  "theory:Approfondimento · Strutture in muratura: come analizzarle per accedere al Sisma Bonus (telaio equivalente, metodo POR, PORflex)": {
+    "key": "mdp-232",
+    "title": "Approfondimento · Strutture in muratura: come analizzarle per accedere al Sisma Bonus (telaio equivalente, metodo POR, PORflex)",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-232",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-232-source"
+    ],
+    "order": 376,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Strutture in muratura: come analizzarle per accedere al Sisma Bonus (telaio equivalente, metodo POR, PORflex)"
+  },
+  "theory:Approfondimento · Suolo alla Winkler e rigidezza relativa fondazione/terreno: come calcolare le travi su suolo elastico": {
+    "key": "mdp-234",
+    "title": "Approfondimento · Suolo alla Winkler e rigidezza relativa fondazione/terreno: come calcolare le travi su suolo elastico",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [
+      "geo_palo_orizzontale"
+    ],
+    "related": [
+      "palo-elastico",
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-234",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-234-source"
+    ],
+    "order": 377,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Suolo alla Winkler e rigidezza relativa fondazione/terreno: come calcolare le travi su suolo elastico"
+  },
+  "theory:Approfondimento · Tacoma Bridge: la curiosa storia del ponte durato 129 giorni": {
+    "key": "mdp-235",
+    "title": "Approfondimento · Tacoma Bridge: la curiosa storia del ponte durato 129 giorni",
+    "chapterId": "ponti",
+    "area": "Ponti",
+    "modules": [
+      "str_mista_ponte"
+    ],
+    "related": [
+      "bridge"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/ponti/mdp-235",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-235-source"
+    ],
+    "order": 378,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Tacoma Bridge: la curiosa storia del ponte durato 129 giorni"
+  },
+  "theory:Approfondimento · Taipei 101: una sfera d'acciaio per proteggersi dal sisma [Tuned mass damper]": {
+    "key": "mdp-236",
+    "title": "Approfondimento · Taipei 101: una sfera d'acciaio per proteggersi dal sisma [Tuned mass damper]",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-236",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-236-source"
+    ],
+    "order": 379,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Taipei 101: una sfera d'acciaio per proteggersi dal sisma [Tuned mass damper]"
+  },
+  "theory:Approfondimento · Tamponature: come crearle nel tuo modello di calcolo (ai sensi delle NTC2018)": {
+    "key": "mdp-237",
+    "title": "Approfondimento · Tamponature: come crearle nel tuo modello di calcolo (ai sensi delle NTC2018)",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-237",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-237-source"
+    ],
+    "order": 380,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Tamponature: come crearle nel tuo modello di calcolo (ai sensi delle NTC2018)"
+  },
+  "theory:Approfondimento · Telaio di cerchiatura: come scegliere fra calcestruzzo armato e acciaio (+7 consigli utili)": {
+    "key": "mdp-239",
+    "title": "Approfondimento · Telaio di cerchiatura: come scegliere fra calcestruzzo armato e acciaio (+7 consigli utili)",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-239",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-239-source"
+    ],
+    "order": 381,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Telaio di cerchiatura: come scegliere fra calcestruzzo armato e acciaio (+7 consigli utili)"
+  },
+  "theory:Approfondimento · Tensioni Ammissibili e Stato Limite Ultimo (SLU): confronto fra Metodo n e analisi plastica della sezione": {
+    "key": "mdp-241",
+    "title": "Approfondimento · Tensioni Ammissibili e Stato Limite Ultimo (SLU): confronto fra Metodo n e analisi plastica della sezione",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-241",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-241-source"
+    ],
+    "order": 382,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Tensioni Ammissibili e Stato Limite Ultimo (SLU): confronto fra Metodo n e analisi plastica della sezione"
+  },
+  "theory:Approfondimento · Teoria di Jourawsky: come applicarla senza perdersi in formule": {
+    "key": "mdp-242",
+    "title": "Approfondimento · Teoria di Jourawsky: come applicarla senza perdersi in formule",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-242",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-242-source"
+    ],
+    "order": 383,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Teoria di Jourawsky: come applicarla senza perdersi in formule"
+  },
+  "theory:Approfondimento · Tetto spingente: come identificare lo schema statico per il calcolo della spinta": {
+    "key": "mdp-243",
+    "title": "Approfondimento · Tetto spingente: come identificare lo schema statico per il calcolo della spinta",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-243",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-243-source"
+    ],
+    "order": 384,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Tetto spingente: come identificare lo schema statico per il calcolo della spinta"
+  },
+  "theory:Approfondimento · Timoshenko ed Eulero-Bernoulli: modelli a confronto (teoria tecnica della trave)": {
+    "key": "mdp-244",
+    "title": "Approfondimento · Timoshenko ed Eulero-Bernoulli: modelli a confronto (teoria tecnica della trave)",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-244",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-244-source"
+    ],
+    "order": 385,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Timoshenko ed Eulero-Bernoulli: modelli a confronto (teoria tecnica della trave)"
+  },
+  "theory:Approfondimento · Tipologie di muratura esistente: le tabelle della Circolare 2019": {
+    "key": "mdp-245",
+    "title": "Approfondimento · Tipologie di muratura esistente: le tabelle della Circolare 2019",
+    "chapterId": "materiali",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/materiali/mdp-245",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-245-source"
+    ],
+    "order": 386,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Tipologie di muratura esistente: le tabelle della Circolare 2019"
+  },
+  "theory:Approfondimento · Tipologie strutturali per edifici in cemento armato: come individuarle ai sensi delle NTC2018": {
+    "key": "mdp-246",
+    "title": "Approfondimento · Tipologie strutturali per edifici in cemento armato: come individuarle ai sensi delle NTC2018",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-246",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-246-source"
+    ],
+    "order": 387,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Tipologie strutturali per edifici in cemento armato: come individuarle ai sensi delle NTC2018"
+  },
+  "theory:Approfondimento · Tiranti in acciaio: come modellarli senza errori nel tuo software di calcolo (in 5 passi)": {
+    "key": "mdp-247",
+    "title": "Approfondimento · Tiranti in acciaio: come modellarli senza errori nel tuo software di calcolo (in 5 passi)",
+    "chapterId": "acciaio",
+    "area": "Acciaio",
+    "modules": [],
+    "related": [
+      "euler"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/acciaio/mdp-247",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-247-source"
+    ],
+    "order": 388,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Tiranti in acciaio: come modellarli senza errori nel tuo software di calcolo (in 5 passi)"
+  },
+  "theory:Approfondimento · Traslazione del momento flettente: l'effetto collaterale del taglio": {
+    "key": "mdp-248",
+    "title": "Approfondimento · Traslazione del momento flettente: l'effetto collaterale del taglio",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-248",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-248-source"
+    ],
+    "order": 389,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Traslazione del momento flettente: l'effetto collaterale del taglio"
+  },
+  "theory:Approfondimento · Travi reticolari in acciaio: quale schema statico scegliere (Mohniè, Howe, Pratt, Neville, Parabolica)": {
+    "key": "mdp-255",
+    "title": "Approfondimento · Travi reticolari in acciaio: quale schema statico scegliere (Mohniè, Howe, Pratt, Neville, Parabolica)",
+    "chapterId": "acciaio",
+    "area": "Acciaio",
+    "modules": [],
+    "related": [
+      "euler"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/acciaio/mdp-255",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-255-source"
+    ],
+    "order": 390,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Travi reticolari in acciaio: quale schema statico scegliere (Mohniè, Howe, Pratt, Neville, Parabolica)"
+  },
+  "theory:Approfondimento · Vento su tettoie e pensiline: quale distribuzione di pressioni applicare al modello di calcolo strutturale": {
+    "key": "mdp-260",
+    "title": "Approfondimento · Vento su tettoie e pensiline: quale distribuzione di pressioni applicare al modello di calcolo strutturale",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-260",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-260-source"
+    ],
+    "order": 391,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Vento su tettoie e pensiline: quale distribuzione di pressioni applicare al modello di calcolo strutturale"
+  },
+  "theory:Approfondimento · Vento sulle costruzioni: tutti i coefficienti di pressione esterna ed interna e le combinazioni di carico": {
+    "key": "mdp-261",
+    "title": "Approfondimento · Vento sulle costruzioni: tutti i coefficienti di pressione esterna ed interna e le combinazioni di carico",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-261",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-261-source"
+    ],
+    "order": 392,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Vento sulle costruzioni: tutti i coefficienti di pressione esterna ed interna e le combinazioni di carico"
+  },
+  "theory:Approfondimento · Verifica a punzonamento di solette e platee di fondazione in calcestruzzo armato: come progettare l'armatura a punzonamento": {
+    "key": "mdp-264",
+    "title": "Approfondimento · Verifica a punzonamento di solette e platee di fondazione in calcestruzzo armato: come progettare l'armatura a punzonamento",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [],
+    "related": [
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-264",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-264-source"
+    ],
+    "order": 393,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Verifica a punzonamento di solette e platee di fondazione in calcestruzzo armato: come progettare l'armatura a punzonamento"
+  },
+  "theory:Approfondimento · Verifica a taglio di travi in cemento armato: quale inclinazione θ usare per i puntoni compressi?": {
+    "key": "mdp-265",
+    "title": "Approfondimento · Verifica a taglio di travi in cemento armato: quale inclinazione θ usare per i puntoni compressi?",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "taglio-traliccio",
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-265",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-265-source"
+    ],
+    "order": 394,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Verifica a taglio di travi in cemento armato: quale inclinazione θ usare per i puntoni compressi?"
+  },
+  "theory:Approfondimento · Verifica a torsione di travi e pilastri in cemento armato: quando è davvero necessaria (secondo le NTC2018)": {
+    "key": "mdp-266",
+    "title": "Approfondimento · Verifica a torsione di travi e pilastri in cemento armato: quando è davvero necessaria (secondo le NTC2018)",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-266",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-266-source"
+    ],
+    "order": 395,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Verifica a torsione di travi e pilastri in cemento armato: quando è davvero necessaria (secondo le NTC2018)"
+  },
+  "theory:Approfondimento · Verifica di resistenza al fuoco per strutture in calcestruzzo armato (esempio di calcolo con metodo tabellare)": {
+    "key": "mdp-267",
+    "title": "Approfondimento · Verifica di resistenza al fuoco per strutture in calcestruzzo armato (esempio di calcolo con metodo tabellare)",
+    "chapterId": "calcestruzzo",
+    "area": "Calcestruzzo armato",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "sezione-in-calcestruzzo-armato"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/calcestruzzo/mdp-267",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-267-source"
+    ],
+    "order": 396,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Verifica di resistenza al fuoco per strutture in calcestruzzo armato (esempio di calcolo con metodo tabellare)"
+  },
+  "theory:Approfondimento · Verifica di stabilità per carico di punta: come correggere l'errore che il 90% dei software di calcolo commette": {
+    "key": "mdp-268",
+    "title": "Approfondimento · Verifica di stabilità per carico di punta: come correggere l'errore che il 90% dei software di calcolo commette",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-268",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-268-source"
+    ],
+    "order": 397,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Verifica di stabilità per carico di punta: come correggere l'errore che il 90% dei software di calcolo commette"
+  },
+  "theory:Approfondimento · Verifica geotecnica fondazioni: approccio 1 o 2? Quale scegliere": {
+    "key": "mdp-269",
+    "title": "Approfondimento · Verifica geotecnica fondazioni: approccio 1 o 2? Quale scegliere",
+    "chapterId": "geotecnica",
+    "area": "Fondazioni e geotecnica",
+    "modules": [],
+    "related": [
+      "bearing-capacity"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/geotecnica/mdp-269",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-269-source"
+    ],
+    "order": 398,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Verifica geotecnica fondazioni: approccio 1 o 2? Quale scegliere"
+  },
+  "theory:Approfondimento · Verifica statica dell'arco: metodo grafico di Mèry e curva delle pressioni": {
+    "key": "mdp-270",
+    "title": "Approfondimento · Verifica statica dell'arco: metodo grafico di Mèry e curva delle pressioni",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-270",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-270-source"
+    ],
+    "order": 399,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Verifica statica dell'arco: metodo grafico di Mèry e curva delle pressioni"
+  },
+  "theory:Approfondimento · Vulnerabilità sismica delle strutture esistenti in cemento armato: come valutarla (tutte le possibili analisi)": {
+    "key": "mdp-272",
+    "title": "Approfondimento · Vulnerabilità sismica delle strutture esistenti in cemento armato: come valutarla (tutte le possibili analisi)",
+    "chapterId": "sismica",
+    "area": "Dinamica e sisma",
+    "modules": [],
+    "related": [
+      "dinamica-e-sisma-del-modello"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/sismica/mdp-272",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-272-source"
+    ],
+    "order": 400,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Vulnerabilità sismica delle strutture esistenti in cemento armato: come valutarla (tutte le possibili analisi)"
+  },
+  "theory:Approfondimento · Zavorre per pannelli fotovoltaici: verifica a ribaltamento per effetto del vento e verifica statica del solaio": {
+    "key": "mdp-275",
+    "title": "Approfondimento · Zavorre per pannelli fotovoltaici: verifica a ribaltamento per effetto del vento e verifica statica del solaio",
+    "chapterId": "fondamenti",
+    "area": "Fondamenti di ingegneria strutturale",
+    "modules": [],
+    "related": [
+      "load-path"
+    ],
+    "status": "qualified",
+    "id": "/wiki/manuale/fondamenti/mdp-275",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "mdp-275-source"
+    ],
+    "order": 401,
+    "summary": "Marco De Pisapia · adattamento tecnico con fonte e licenza CC BY-NC 3.0 Italia. Zavorre per pannelli fotovoltaici: verifica a ribaltamento per effetto del vento e verifica statica del solaio"
   }
 }

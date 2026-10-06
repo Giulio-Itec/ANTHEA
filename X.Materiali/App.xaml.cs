@@ -30,8 +30,11 @@ public sealed partial class MaterialView : UserControl
     };
     static StackPanel Stack(params UIElement[] items) { var panel=new StackPanel(); foreach(var item in items) panel.Children.Add(item); return panel; }
 
-    public MaterialView()
+    private readonly Func<TextBlock, string, FrameworkElement>? wikiLabel;
+    public MaterialView() : this(null) { }
+    public MaterialView(Func<TextBlock, string, FrameworkElement>? wikiLabel)
     {
+        this.wikiLabel = wikiLabel;
         Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/Materiali;component/Styles.xaml") });
         var root=new DockPanel { Background=Brush("#F3F5F8") };
         var footer=new Border { Padding=new Thickness(24,8,24,8),Background=Brushes.White,Child=status };

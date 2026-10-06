@@ -51,7 +51,13 @@ internal sealed partial class RetainingWallWorkspace
         if (designPreview.Parent is Panel parent) parent.Children.Remove(designPreview);
         designPreview.Content = null;
         DesignButton = Ui.Button("Calcola armature", async () => await DesignRebarAsync());
-        return Ui.Stack(Group("Ancoraggi, sovrapposizioni e predimensionamento", Ui.Stack(
+        return Ui.Stack(Group("Distinta ferri del tratto di muro", Ui.Stack(
+            Form("bar_schedule", [new("panel_length", "Lunghezza del tratto da armare", "m"),
+                new("end_cover", "Copriferro alle estremità del tratto", "mm"), new("stock_length", "Lunghezza barra commerciale", "m"),
+                new("ties_per_m", "Collegamenti per fila e per metro di muro", "−"), new("tie_cut_length", "Sviluppo collegamento (0 = da definire)", "mm")]),
+            Ui.Text("La lunghezza serve al conteggio dei pezzi; il calcolo strutturale resta per metro. Per i collegamenti delle due zone assegnare lo sviluppo dopo aver definito sagoma e ganci.", 11),
+            Ui.Bar(Ui.Button("Tavola armature e distinta ferri…", ShowBarSchedule, inspection: true))), false),
+            Group("Ancoraggi, sovrapposizioni e predimensionamento", Ui.Stack(
             Form("detailing", [new("enabled", "Verifica i dettagli delle armature", Bool: true),
                 new("good_bond", "Condizioni di buona aderenza documentate", Bool: true), new("lap_percent", "Percentuale barre giuntate (schema: 100%)", "%"),
                 new("lap_clear", "Distanza libera fra barre giuntate", "mm"), new("tie_diameter", "Ø collegamenti della giunzione", "mm"),

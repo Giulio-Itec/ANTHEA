@@ -30,6 +30,8 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     internal event Action? Modified;
     internal event Action<JsonObject, string>? ConcreteSectionRequested;
     internal event Action? ReportRequested;
+    internal byte[] BuildShortReport(string title) => concrete?.BuildShortReport(title)
+        ?? throw new InvalidOperationException("Il report short è disponibile per le sezioni in calcestruzzo armato.");
     internal event Action<string, JsonObject, string>? ModuleCopyRequested;
     internal event Action<JsonObject>? SoilReplacementRequested;
     private bool building = true, disposed;
@@ -67,6 +69,12 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     {
         _ = ModuleCatalog.Get(module);
         Module = module; Data = (JsonObject)data.DeepClone(); Background = Appearance.Surface;
+        SetValue(WikiContextHelp.ModuleProperty, module);
+        KeyDown += (_, e) =>
+        {
+            if (e.Key == System.Windows.Input.Key.F1 && WikiCatalog.ForModule(Module) is { } guide)
+            { e.Handled = true; WikiContextHelp.Open(this, guide.Id); }
+        };
         calculate = Ui.Button("Calcola", async () => await CalculateAsync(), true, inspection: true); calculate.Width = 120; calculate.Visibility = Geo ? Visibility.Collapsed : Visibility.Visible;
         RevisionInspection.Allow(tableSelect); RevisionInspection.Allow(capacityView); RevisionInspection.Allow(curveChoices);
         if (module == HorizontalPileGroup.Module) { pileGroup = new HorizontalPileGroupWorkspace(Data); pileGroup.Modified += () => Modified?.Invoke(); Content = pileGroup; building = false; return; }
@@ -92,7 +100,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         }
         if (module == "mat_calcestruzzo")
         {
-            materials = new Materiali.MaterialView(); materials.RestoreState(Data);
+            materials = new Materiali.MaterialView((label, key) => WikiContextHelp.Label(label, key, "mat_calcestruzzo")); materials.RestoreState(Data);
             materials.Modified += () => Modified?.Invoke(); Content = materials; building = false; return;
         }
         if (module == RebarMaterial.Module)

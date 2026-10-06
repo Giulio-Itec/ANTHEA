@@ -136,6 +136,11 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
             view.Measure(new Size(1100, 460)); view.Arrange(new Rect(0, 0, 1100, 460)); view.UpdateLayout();
             figures.Add(new("Stabilità globale · superficie critica della combinazione visualizzata", Ui.Snapshot(view), 1100d / 460));
         }
+        if (Calculation.Input.S("family") == "cantilever")
+        {
+            try { figures.AddRange(BarFigures(CreateBarDrawing())); }
+            catch (ArgumentException) { /* The report records the invalid schedule inputs beside its tables. */ }
+        }
         return ReportRetainingWall.Create(title, Calculation, figures);
     }
     public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= Tick; cancellation?.Cancel(); }

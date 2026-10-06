@@ -103,6 +103,8 @@ public static partial class RetainingWall
                     Max(label + " · ingombro ancoraggio", anchor, Math.Max(0, key == "toe" ? b - c - root : root - c) * 1000);
                 }
                 double length = path.Zip(path.Skip(1), (p, q) => double.Hypot(p.X - q.X, p.Y - q.Y)).Sum();
+                // The sampled arc is only for drawing; cut length uses its exact centre-line development.
+                if (mandrel > 0) length += (mandrel + dia) / 2000 * (Math.PI / 2 - 24 * Math.Sin(Math.PI / 48));
                 bars.Add(new("P" + (bars.Count + 1), key, label.Split(" · ")[1], dia, count, spacing, area, length, upper ? 0 : dev.RequiredLength, anchor, stem && two ? lap.RequiredLength : 0, lapUsed, mandrel, dev.Fbd, path));
                 kg += area * 1e-6 * length * 7850;
                 double regionLength = stem ? (upper ? h - split : split) : key == "toe" ? a + s / 2 : g.D("heel") + s / 2;

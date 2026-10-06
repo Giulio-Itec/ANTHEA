@@ -33,7 +33,7 @@ internal sealed class PileReinforcementDrawing : DrawingView
             EmptyMessage = "Distinta non disponibile\n" + (reasons.Length > 0 ? string.Join("\n", reasons) : value["armature"].S("stato", "Completare i dati della sezione e dei tratti."));
         }
         bodyHeight = Math.Max(680, segments.Length * 170 + 40);
-        SheetSize = Pieces.Count == 0 ? new(1140, 320) : new(Math.Max(1140, 670 + Pieces.Count * 125), 190 + bodyHeight + 165 + (Pieces.Count + segments.Length) * 28 + runs.Length * 65 + joints.Length * 55);
+        SheetSize = Pieces.Count == 0 ? new(1140, 320) : new(Math.Max(1140, 670 + Pieces.Count * 125), 190 + bodyHeight + 165 + (Pieces.Count + segments.Length) * 28 + segments.Length * 48 + runs.Length * 65 + joints.Length * 55);
         MinWidth = SheetSize.Width; Height = SheetSize.Height; InvalidateMeasure(); InvalidateVisual();
     }
 
@@ -53,7 +53,10 @@ internal sealed class PileReinforcementDrawing : DrawingView
         Text(dc, "ARMATURE DEL PALO", 22, 16, 20, Ui.Navy, bold: true);
         Text(dc, "Elevazione · barre sviluppate lateralmente · sezioni trasversali · distinta", 22, 45, 13);
         Text(dc, "PRELIMINARE · Quote x dalla testa e lunghezze in m; diametri, passi e copriferro in mm.", 22, 70, 12, Brushes.DarkRed);
-        Text(dc, "Palo e zone di staffatura", 65, 108, 13, Ui.Navy, 230, true);
+        var seismic=segments.Select(s=>s["sisma_testa"]).FirstOrDefault(s=>s.B("Active"));
+        if(seismic!=null)Text(dc,$"Zona dissipativa di testa: 0–{seismic.D("HeadEnd"):0.00} m · NTC §7.2.5 · vedere gli esiti per tratto",22,88,11,Brushes.DarkOrange);
+        Text(dc, "Palo e armatura trasversale", 65, 108, 13, Ui.Navy, 245, true);
+        Text(dc, "S = staffe · SP = spirale", 200, 129, 10, Ui.Muted, 140);
         Text(dc, "Barre longitudinali e lunghezze di taglio", 320, 108, 13, Ui.Navy, sectionsX - 340, true);
         Text(dc, "Sezioni nominali del tratto", sectionsX, 108, 13, Ui.Navy, 205, true);
         foreach (double x in segments.Select(s => s.D("inizio")).Append(length).Distinct())
@@ -66,17 +69,11 @@ internal sealed class PileReinforcementDrawing : DrawingView
             var segment = segments[i]; var section = segment["sezione"]!;
             double a = Y(segment.D("inizio")), b = Y(segment.D("fine"));
             dc.DrawRectangle(PileReinforcementEditor.SegmentColor(i), null, new Rect(pileX - half, a, half * 2, b - a));
-            double last = double.NegativeInfinity;
-            foreach (var station in segment["distinta_staffe"]?.Array("quote_m") ?? new JsonArray())
-            {
-                double y = Y(J.Number(station) ?? 0);
-                if (y - last < 2) continue; // Thin only the display, retaining actual station coordinates.
-                dc.DrawLine(new Pen(Ui.Brush("#64748B"), .6), new(pileX - half + 7, y), new(pileX + half - 7, y)); last = y;
-            }
-            Dimension(dc, 242, a, b, $"S{i + 1:00} · Ø{section.D("transverse_bar_diameter_mm"):0}/ {section.D("transverse_spacing_mm"):0}", dimension);
+            Dimension(dc, 291, a, b, $"{LinkMark(segment,i)} · Ø{section.D("transverse_bar_diameter_mm"):0}/ {section.D("transverse_spacing_mm"):0}", dimension);
             Text(dc, segment.S("id"), pileX - 85, (a + b) / 2 - 10, 11, Ui.Navy, 60, true);
         }
         dc.DrawRectangle(null, new Pen(Ui.Navy, 1.3), new Rect(pileX - half, Y(0), half * 2, Y(length) - Y(0)));
+        if(seismic!=null)dc.DrawRectangle(null,new Pen(Brushes.DarkOrange,2){DashStyle=DashStyles.Dash},new Rect(pileX-half-4,Y(0),half*2+8,Y(seismic.D("HeadEnd"))-Y(0)));
         dc.DrawLine(new Pen(Ui.Muted, .7) { DashStyle = DashStyles.DashDot }, new(pileX, top - 15), new(pileX, bottom + 15));
         Dimension(dc, 40, Y(0), Y(length), $"L = {length:0.00} m", dimension);
         Text(dc, $"D = {diameter:0} mm", pileX - 55, bottom + 30, 12, dimension, 150);
@@ -110,6 +107,35 @@ internal sealed class PileReinforcementDrawing : DrawingView
             Dimension(dc, x + 32, a, b, $"{bar.D("CuttingLength"):0.00} m", dimension);
             Text(dc, $"x {Coordinate(bar.D("Start"))} → {Coordinate(bar.D("End"))}", x - 24, b + 8, 10, Ui.Muted, 120);
         }
+        // Draw on top of longitudinal bars, also as a separate lateral detail.
+        for(int i=0;i<segments.Length;i++)
+        {
+            var segment=segments[i];var transverse=segment["armatura_trasversale"];var shade=Color(i);
+            foreach(double center in new[]{pileX,244d})
+            {
+                double factor=(center==pileX?2*half:46)/diameter;
+                if(segment["sezione"].S("tipo_trasversale","Staffe singole")=="Spirale")
+                {
+                    var points=transverse.Array("Projection");
+                    for(int j=1;j<points.Count;j++)
+                    {
+                        var point=points[j]!;var previous=points[j-1]!;
+                        var pen=new Pen(shade,point.B("Front")?1.25:.65);if(!point.B("Front"))pen.DashStyle=DashStyles.Dot;
+                        dc.DrawLine(pen,new(center+previous.D("X")*factor,Y(previous.D("Depth"))),new(center+point.D("X")*factor,Y(point.D("Depth"))));
+                    }
+                }
+                else if(segment["sezione"].S("tipo_trasversale","Staffe singole")=="Staffe singole")
+                {
+                    double last=double.NegativeInfinity;double radius=segment.D("staffa_raggio_mm")*factor;
+                    foreach(var station in segment["distinta_staffe"].Array("quote_m"))
+                    {
+                        double y=Y(J.Number(station)??0);if(y-last<2)continue;
+                        dc.DrawEllipse(null,new Pen(shade,1.1),new(center,y),radius,1.5);last=y;
+                    }
+                }
+                else Text(dc,"?",center-6,Y(segment.D("inizio"))+12,18,Brushes.DarkRed,20,true);
+            }
+        }
         // Keep section callouts readable even for very short adjacent segments.
         var centers = segments.Select(s => Y((s.D("inizio") + s.D("fine")) / 2)).ToArray();
         for (int i = 0; i < centers.Length; i++) centers[i] = Math.Max(centers[i], i == 0 ? top + 55 : centers[i - 1] + 165);
@@ -122,7 +148,7 @@ internal sealed class PileReinforcementDrawing : DrawingView
             var s = segment["sezione"]!;
             Text(dc, $"{segment.S("id")} · x={at:0.00} m", sectionsX + 3, c - 73, 12, Ui.Navy, 205, true);
             Text(dc, $"{s.D("longitudinal_bar_count"):0} Ø{s.D("longitudinal_bar_diameter_mm"):0}", sectionsX + 126, c - 14, 13, Ui.Navy, 85, true);
-            Text(dc, $"S{i + 1:00} · Ø{s.D("transverse_bar_diameter_mm"):0} / {s.D("transverse_spacing_mm"):0}\nc = {s.D("cover_mm"):0} mm", sectionsX + 3, c + 54, 11, Ui.Muted, 210);
+            Text(dc, $"{LinkMark(segment,i)} · {s.S("tipo_trasversale","Staffe singole")}\nØ{s.D("transverse_bar_diameter_mm"):0} / {s.D("transverse_spacing_mm"):0} mm · c = {s.D("cover_mm"):0} mm", sectionsX + 3, c + 54, 11, Ui.Muted, 210);
         }
 
         double tableY = bottom + 75;
@@ -150,9 +176,13 @@ internal sealed class PileReinforcementDrawing : DrawingView
         for (int i = 0; i < segments.Length; i++)
         {
             var s = segments[i]; var links = s["distinta_staffe"];
-            Row([$"S{i + 1:00}", s.S("id"), links == null ? "—" : $"{links.D("quantita"):0} × {links.D("diametro_mm"):0}", $"{s.D("inizio"):0.00}", $"{s.D("fine"):0.00}", "da definire", "—", "—", links == null ? "Non disponibile" : $"Staffe / {links.D("passo_massimo_mm"):0} mm"], shade: PileReinforcementEditor.SegmentColor(i));
+            Row([LinkMark(s,i), s.S("id"), links == null ? "—" : $"{links.D("quantita"):0} × {links.D("diametro_mm"):0}", $"{s.D("inizio"):0.00}", $"{s.D("fine"):0.00}", "da definire", "—", "—", links == null ? "Non disponibile" : $"{links.S("tipo","Staffe")} / {links.D("passo_massimo_mm"):0} mm"], shade: PileReinforcementEditor.SegmentColor(i));
         }
         rowY += 15;
+        foreach(var (s,i) in segments.Select((s,i)=>(s,i)))
+        {
+            var l=s["distinta_staffe"];Text(dc,$"{LinkMark(s,i)} · {l.S("tipo","Staffe singole")} · φ{l.D("diametro_mm"):0} mm · passo massimo {l.D("passo_massimo_mm"):0} / effettivo {l.D("passo_effettivo_mm"):0.#} mm"+(l.S("tipo")=="Spirale"?$" · {l.D("spire"):0} spire":"")+$" · L geometrica totale {l.D("lunghezza_geometrica_m"):0.00} m\nL geometrica all'asse, esclusi ganci, chiusure, ancoraggi e giunti; taglio esecutivo da definire.",22,rowY,11,Color(i),width-44);rowY+=48;
+        }
         foreach (var run in runs)
         {
             Text(dc, $"{run.S("Id")} · {run.D("Count"):0} Ø{run.D("Diameter"):0} · {run.S("StartKind")} → {run.S("EndKind")} · lbd {run.D("Anchorage"):0.00} m · aₗ {run.D("Shift"):0.00} m\n{run.S("Status")}", 22, rowY, 11, Brushes.DarkRed, width - 44); rowY += 60;
@@ -166,6 +196,7 @@ internal sealed class PileReinforcementDrawing : DrawingView
     }
 
     static string Coordinate(double x) => (Math.Abs(x)<.0005?0:x).ToString("0.00",CultureInfo.GetCultureInfo("it-IT"));
+    static string LinkMark(JsonNode segment,int index)=>(segment["sezione"].S("tipo_trasversale")=="Spirale"?"SP":"S")+$"{index+1:00}";
 
     static void Dimension(DrawingContext dc, double x, double a, double b, string text, Brush color)
     {

@@ -50,7 +50,7 @@ internal sealed partial class RetainingWallWorkspace
         GlobalCombination.SelectionChanged += (_, _) => { RefreshGlobal(); if ((string?)CheckFilter.SelectedItem == "Stabilità globale") ShowCheckTable(); };
         RevisionInspection.Allow(GlobalCombination);
         globalFullProfile = Toggle("Intero profilo", false, v => { GlobalDrawing.FocusCritical = !v; GlobalDrawing.InvalidateVisual(); });
-        var resultGraphic = Ui.Paper(Ui.Stack(Ui.Bar(Ui.Text("Vista dei risultati", 15, true), ViewMode, Member, GlobalCombination, globalFullProfile), Diagrams, GlobalDrawing));
+        var resultGraphic = Ui.Paper(Ui.Stack(Ui.Bar(Ui.Text("Vista dei risultati", 15, true), ViewMode, Member, GlobalCombination, globalFullProfile, Ui.Button("Distinta ferri…", ShowBarSchedule, inspection: true)), Diagrams, GlobalDrawing));
         GlobalCombination.Visibility = GlobalDrawing.Visibility = globalFullProfile.Visibility = Visibility.Collapsed;
         SendSectionButton = Ui.Button("Apri sezione in c.a.", SendSelectedSection); SendSectionButton.IsEnabled = false;
         SendSectionButton.ToolTip = "Copia geometria, materiali, armatura effettiva e combinazioni N/M/V della sezione selezionata nel modulo c.a. Il muro conserva i suoi dati.";

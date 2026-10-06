@@ -132,6 +132,7 @@ public static partial class ReportRetainingWall
             new XElement(W + "r", new XElement(W + "rPr", new XElement(W + "rFonts", new XAttribute(W + "ascii", "Calibri"), new XAttribute(W + "hAnsi", "Calibri")), new XElement(W + "sz", new XAttribute(W + "val", heading ? 25 : 19)), heading ? new XElement(W + "b") : null),
                 text.Split('\n').SelectMany((line, i) => i == 0 ? new[] { new XElement(W + "t", line) } : new[] { new XElement(W + "br"), new XElement(W + "t", line) })));
         internal void P(string text, bool heading = false) => body.Add(Paragraph(text, heading));
+        internal void PageBreak() => body.Add(new XElement(W + "p", new XElement(W + "r", new XElement(W + "br", new XAttribute(W + "type", "page")))));
         internal void Image(Figure figure)
         {
             images.Add(figure.Png); int id = images.Count; long cx = 5943600, cy = (long)(cx / figure.AspectRatio);

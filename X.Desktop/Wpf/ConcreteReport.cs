@@ -4,6 +4,12 @@ using X.Core;
 namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
 {
+    internal byte[] BuildShortReport(string title)
+    {
+        Commit();
+        if (Busy || !HasResults || calculationQueued) throw new InvalidOperationException("Attendere l’aggiornamento delle verifiche prima di esportare.");
+        return ReportConcreteShort.Create(title, Data, Result!);
+    }
     internal void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
         => Archivio.ScriviAtomico(filename, BuildReport(title, options, projectReport));
     internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false)

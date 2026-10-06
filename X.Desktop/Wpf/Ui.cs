@@ -169,7 +169,7 @@ internal sealed class InputForm : ChainedScrollViewer
             FrameworkElement editor;
             if (f.Bool)
             {
-                var c = new CheckBox { Content = symbolColumns ? null : f.Label, IsChecked = values.B(f.Key), VerticalContentAlignment = VerticalAlignment.Center };
+                var c = new CheckBox { Content = symbolColumns ? null : WikiContextHelp.Label(Ui.Text(f.Label, compact ? 12 : 13), f.Key, wikiModule), IsChecked = values.B(f.Key), VerticalContentAlignment = VerticalAlignment.Center };
                 c.Checked += (_, _) => Store(f.Key, true); c.Unchecked += (_, _) => Store(f.Key, false); editor = c;
             }
             else if (f.Choices is not null)
@@ -207,6 +207,14 @@ internal sealed class InputForm : ChainedScrollViewer
             editor.Margin = new Thickness(2, 3, 2, 3); editor.MinHeight = compact ? 22 : 27; editor.ToolTip = WikiContextHelp.Description(f.Key, wikiModule) ?? CalculationHelp.Field(f.Key) ?? f.Label + (f.Unit != "" ? " [" + f.Unit + "]" : "");
             ToolTipService.SetShowDuration(editor, 20000); ToolTipService.SetShowDuration(label, 20000);
             editor.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, f.Label);
+            editor.KeyDown += (_, e) =>
+            {
+                if (e.Key != System.Windows.Input.Key.F1) return;
+                var module = wikiModule ?? GetValue(WikiContextHelp.ModuleProperty) as string;
+                var uri = WikiContextHelp.ForField(f.Key, module)?.Uri ?? (module is null ? null : WikiCatalog.ForModule(module)?.Id);
+                if (uri is null) return;
+                e.Handled = true; WikiContextHelp.Open(editor, uri);
+            };
             var unit = Ui.Text(f.Unit, 11, color: Ui.Muted); unit.Margin = new Thickness(4, 0, 0, 0);
             Grid.SetRow(labelHost, row); Grid.SetRow(editor, row); Grid.SetRow(unit, row); Grid.SetColumn(editor, symbolColumns ? 2 : 1); Grid.SetColumn(unit, symbolColumns ? 3 : 2);
             var elements = new List<FrameworkElement> { labelHost, editor, unit };

@@ -46,6 +46,8 @@ static partial class Program
         try
         {
             if(args.Contains("--drawing-only"))return DrawingChecks(dir);
+            if(args.Contains("--clarity-only"))return ClarityChecks(dir);
+            if(args.Contains("--seismic-only"))return SeismicUiChecks(dir);
             if(args.Contains("--cuts-example-only"))return PileExample(dir,true);
             if(args.Contains("--example-only"))return PileExample(dir);
             if(args.Contains("--visual-only"))
@@ -166,7 +168,7 @@ static partial class Program
             var billText=(TextBlock)billPanels[0].Content;editorType.GetMethod("InvalidateResults",flags)!.Invoke(editor,null);
             Check(billText.Text.Contains("aggiornamento"),"old bill cleared immediately during recalculation");
             editorType.GetMethod("UpdateResults",flags)!.Invoke(editor,null);
-            Check(ReferenceEquals(billText,billPanels[0].Content)&&billText.Text.Contains("φ")&&billText.Text.Contains("Staffe:"),"new bill refreshes existing labels without rebuilding focused inputs");
+            Check(ReferenceEquals(billText,billPanels[0].Content)&&billText.Text.Contains("φ")&&billText.Text.Contains("Staffe singole:"),"new bill refreshes existing labels without rebuilding focused inputs");
             billPanels[0].IsExpanded=false;editorType.GetMethod("Refresh",flags)!.Invoke(editor,null);Snapshot(editor,Path.Combine(dir,"distinta-refresh.png"),1500,1500);
             Check(!Descendants<Expander>(editor).First(e=>e.Header?.ToString()?.StartsWith("Distinta ferri")==true).IsExpanded,"bill expansion choice survives refresh");
             Descendants<Button>(editor).First(b=>b.Content?.ToString()=="Distinta ferri").RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
@@ -178,7 +180,8 @@ static partial class Program
             var billDrawingType=typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.PileReinforcementDrawing")!;var billDrawing=(FrameworkElement)Activator.CreateInstance(billDrawingType,true)!;
             billDrawingType.GetMethod("Set",flags)!.Invoke(billDrawing,[shown,null]);
             Check(((string)billDrawingType.GetProperty("EmptyMessage",flags)!.GetValue(billDrawing)!).Contains("Lunghezza commerciale insufficiente"),"empty reinforcement view reports segment failure");
-            bool previousCapture=capture;capture=true;Snapshot(billDrawing,Path.Combine(dir,"distinta-errore.png"),1100,250);
+            // Raster artefacts are optional (--images); the drawing and clarity suites render them separately.
+            bool previousCapture=capture;Snapshot(billDrawing,Path.Combine(dir,"distinta-errore.png"),1100,250);
             billDrawingType.GetMethod("Set",flags)!.Invoke(billDrawing,[null,"Distinta non disponibile: diametro non valido."]);
             Check(((string)billDrawingType.GetProperty("EmptyMessage",flags)!.GetValue(billDrawing)!).Contains("diametro non valido"),"empty reinforcement view reports global calculation failure");
             shown=inherited;editorType.GetMethod("UpdateResults",flags)!.Invoke(editor,null);Snapshot(editor,Path.Combine(dir,"distinta-visibile.png"),1500,1500);

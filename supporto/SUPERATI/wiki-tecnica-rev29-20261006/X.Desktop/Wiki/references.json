@@ -1,0 +1,86 @@
+[
+  {
+    "id": "mit-buckling",
+    "title": "MIT OpenCourseWare · Buckling of Beams · 16.001 · 2021",
+    "kind": "Modello teorico",
+    "url": "https://ocw.mit.edu/courses/16-001-unified-engineering-materials-and-structures-fall-2021/mit16_001_f21_lec33lec34lec35.pdf"
+  },
+  {
+    "id": "delft-beam",
+    "title": "TU Delft · Computational Modelling · Euler-Bernoulli beam elements",
+    "kind": "Formulazione FEM",
+    "url": "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/euler_bernouilli.html"
+  },
+  {
+    "id": "jrc-cracking",
+    "title": "J.C. Walraven · Eurocode 2 · JRC · 2008 · apertura delle fessure",
+    "kind": "Formulazione normativa classica; verificare edizione di progetto",
+    "url": "https://eurocodes.jrc.ec.europa.eu/sites/default/files/2022-06/EN1992_1_Walraven.pdf"
+  },
+  {
+    "id": "fhwa-foundations",
+    "title": "FHWA · GEC No. 6 · Shallow Foundations",
+    "kind": "Modello geotecnico; non prescrizione italiana",
+    "url": "https://www.fhwa.dot.gov/engineering/geotech/pubs/010943.pdf"
+  },
+  {
+    "id": "fhwa-bridge",
+    "title": "FHWA · Bridge Inspector’s Reference Manual e materiali di ispezione",
+    "kind": "Terminologia e componenti",
+    "url": "https://www.fhwa.dot.gov/bridge/inspection/index.cfm"
+  },
+  {
+    "id": "ifc",
+    "title": "buildingSMART · IFC 4.3 · Documentazione dello schema",
+    "kind": "Schema informativo",
+    "url": "https://ifc43-docs.standards.buildingsmart.org/"
+  },
+  {
+    "id": "grasshopper",
+    "title": "McNeel · Grasshopper data trees and Python",
+    "kind": "Documentazione software",
+    "url": "https://developer.rhino3d.com/guides/rhinopython/grasshopper-datatrees-and-python/"
+  },
+  {
+    "id": "ntc2018",
+    "title": "DM 17 gennaio 2018 — NTC 2018",
+    "url": "https://www.gazzettaufficiale.it/eli/id/2018/02/20/18A00716/sg",
+    "kind": "normative"
+  },
+  {
+    "id": "circolare2019",
+    "title": "Circolare 21 gennaio 2019 n. 7",
+    "url": "https://www.gazzettaufficiale.it/eli/id/2019/02/11/19A00855/sg",
+    "kind": "normative"
+  },
+  {
+    "id": "mit-dynamics",
+    "title": "MIT · Structural Mechanics · Unit 20 · 2002",
+    "url": "https://ocw.mit.edu/courses/16-20-structural-mechanics-fall-2002/609687cf29516e13e864ff310af328a7_unit20.pdf",
+    "kind": "Riferimento del modello; non certificazione di ANTHEA"
+  },
+  {
+    "id": "delft-frames",
+    "title": "TU Delft · 2D frame analysis",
+    "url": "https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/space_frame.html",
+    "kind": "Riferimento del modello; non certificazione di ANTHEA"
+  },
+  {
+    "id": "comsol-singular",
+    "title": "COMSOL 6.4 · Singular Loads",
+    "url": "https://doc.comsol.com/6.4/doc/com.comsol.help.sme/sme_ug_modeling.05.071.html",
+    "kind": "Riferimento del modello; non certificazione di ANTHEA"
+  },
+  {
+    "id": "scia-resultants",
+    "title": "SCIA · Calculation of 1D and 2D results",
+    "url": "https://www.scia.net/en/support/faq/scia-engineer/results/calculation-1d-and-2d-results",
+    "kind": "Riferimento del modello; non certificazione di ANTHEA"
+  },
+  {
+    "id": "sci-composite",
+    "title": "SCI · Composite construction",
+    "url": "https://steelconstruction.info/topics/design/composite-construction/",
+    "kind": "Riferimento del modello; non certificazione di ANTHEA"
+  }
+]

@@ -24,23 +24,23 @@ public sealed partial class MaterialView
     int lastDeviationControl=-1;
     bool detailsReady;
     static ScrollViewer Scroller(UIElement element)=>new(){Content=element,VerticalScrollBarVisibility=ScrollBarVisibility.Auto,HorizontalScrollBarVisibility=ScrollBarVisibility.Disabled};
-    UIElement Field(string label,FrameworkElement control,string unit="")
+    UIElement Field(string label,FrameworkElement control,string unit="",string key="")
     {
         var g=new Grid { Margin=new Thickness(0,2,0,2) };
         g.ColumnDefinitions.Add(new ColumnDefinition { Width=new GridLength(1,GridUnitType.Star) });
         g.ColumnDefinitions.Add(new ColumnDefinition { Width=new GridLength(136) });
         g.ColumnDefinitions.Add(new ColumnDefinition { Width=new GridLength(44) });
-        var t=Text(label,12); t.Margin=new Thickness(0,0,12,0); g.Children.Add(t);
+        var t=Text(label,12); t.Margin=new Thickness(0,0,12,0); g.Children.Add(wikiLabel?.Invoke(t,key) ?? t);
         control.Margin=new Thickness(0,0,8,0); control.MinHeight=25; Grid.SetColumn(control,1); g.Children.Add(control);
         var u=Text(unit,12); Grid.SetColumn(u,2); g.Children.Add(u); return g;
     }
     UIElement Numeric(string key,string label,string value,string unit)
     {
-        var box=new TextBox { Text=value }; numbers.Add(key,box); box.TextChanged+=(_,_)=>RefreshDetails(); return Field(label,box,unit);
+        var box=new TextBox { Text=value }; numbers.Add(key,box); box.TextChanged+=(_,_)=>RefreshDetails(); return Field(label,box,unit,key);
     }
     UIElement Select(string key,string label,string[] values,int selected=0)
     {
-        var box=new ComboBox {ItemsSource=values,SelectedIndex=selected}; choices.Add(key,box); box.SelectionChanged+=(_,_)=>RefreshDetails(); return Field(label,box);
+        var box=new ComboBox {ItemsSource=values,SelectedIndex=selected}; choices.Add(key,box); box.SelectionChanged+=(_,_)=>RefreshDetails(); return Field(label,box,key:key);
     }
     UIElement BuildDetails(UIElement properties)
     {

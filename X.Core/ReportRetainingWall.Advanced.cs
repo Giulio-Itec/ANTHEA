@@ -28,6 +28,9 @@ public static partial class ReportRetainingWall
         }
         if (result.Detailing is { } detail)
         {
+            doc.P("Distinta ferri del tratto di muro", true);
+            try { ScheduleTables(doc, d, RetainingWall.CalculateBarSchedule(result)); }
+            catch (ArgumentException ex) { doc.P("Distinta da completare: " + ex.Message); }
             doc.P("Distinta di predimensionamento delle armature", true);
             doc.P(detail.Note + " Dettagli inclusi nel riepilogo: " + d["detailing"].B("enabled") + ". Principale fusto: monte/valle; solette: inferiore/superiore. Barre principali e secondarie disposte sulle due facce.");
             doc.Table(["Marca / zona / faccia", "n Ø / As [mm²/m]", "L [m]", "lbd richiesto/usato [mm]", "l0 richiesto/usato [mm]"], detail.Bars.Select(b => new[] { b.Mark + " / " + RetainingWall.RebarZoneName(b.Zone) + " / " + b.Face, $"{b.Count} Ø{b.Diameter} / {F(b.Area)}", F(b.Length), F(b.RequiredAnchor) + " / " + F(b.Anchor), F(b.RequiredLap) + " / " + F(b.Lap) }), [2.5, 1.6, .8, 1.8, 1.8]);
