@@ -1,12 +1,12 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · Revisione 30 · 6 ottobre 2026
+ITEC Engineering · Revisione 31 · 7 ottobre 2026
 
-Engineering Handbook: 251 articoli e percorsi in 12 capitoli. I resoconti precedenti sono conservati nell’archivio Rev14; i vecchi indirizzi Wiki raggiungono le pagine correnti. Lo stato editoriale non equivale a una certificazione normativa.
+Engineering Handbook: 63 articoli e percorsi in 12 capitoli, ricavati dalle due guide globali. I vecchi indirizzi Wiki raggiungono le pagine correnti. Lo stato editoriale non equivale a una certificazione normativa.
 
 ## Guida pratica ANTHEA
 
-[Word Rev30](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev30.docx) · [PDF Rev30](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev30.pdf)
+[Word Rev31](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev31.docx) · [PDF Rev31](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev31.pdf)
 
 - Avvio e scelta del modulo
 - Progetti e gestione del lavoro
@@ -30,7 +30,7 @@ Engineering Handbook: 251 articoli e percorsi in 12 capitoli. I resoconti preced
 
 ## Guida teorica ANTHEA
 
-[Word Rev30](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev30.docx) · [PDF Rev30](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev30.pdf)
+[Word Rev31](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev31.docx) · [PDF Rev31](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev31.pdf)
 
 - Architettura del calcolo e convenzioni
 - Calcestruzzo armature e copriferro
@@ -67,11 +67,27 @@ Engineering Handbook: 251 articoli e percorsi in 12 capitoli. I resoconti preced
 
 - Revisione 26: controlli sismici di testa del palo secondo NTC 2018 §7.2.5, con fonte, campo di applicazione ed esiti nel verificatore.
 
-- Revisione 30: materiali dei muri condivisi con sezioni e schede Materiali; distinta ferri del tratto con tavole, sviluppi, quantità ed esportazioni PDF, Word e CSV.
+- Revisione 27: materiali dei muri condivisi con sezioni e schede Materiali; distinta ferri del tratto con tavole, sviluppi, quantità ed esportazioni PDF, Word e CSV.
 
 
-## Biblioteca tecnica Rev30
+## Biblioteca tecnica
 
-13 lezioni originali con esempi; 179 contributi attribuiti di Marco De Pisapia; 174 letture esterne selezionate GeoStru e Simone Caffè. I contributi riprodotti conservano la licenza non commerciale indicata. Figure esterne e video non sono inclusi offline.
+13 lezioni originali di ANTHEA con esempi numerici svolti su geotecnica, calcestruzzo armato e ponti, raccolte nella guida teorica sotto «Biblioteca tecnica lezioni con esempi svolti»:
+
+- Dalle indagini geotecniche ai parametri del modello
+- Cedimenti edometrici tempi di consolidazione e drenaggi
+- Profilo di velocità risposta locale e liquefazione
+- Pali in gruppo interazione e rigidezza della fondazione
+- Muri di sostegno metodi disponibili e perimetro del modello
+- Ripercorrere un esempio strutturale con controlli indipendenti
+- Taglio nel calcestruzzo armato e scelta del traliccio
+- Solette da ponte e percorso locale delle azioni
+- Travi metalliche da ponte fra montaggio fatica e sezione composta
+- Precompressione delle travi da ponte e perdite nel tempo
+- Cassoni sottili torsione uniforme e distorsione
+- Stralli equilibrio rigidezza geometrica e vibrazioni
+- Freccia controfreccia temperatura e appoggi dei ponti
 
 - Revisione 30: approvazione delle ipotesi del palo, esiti distinti, fonte NTC interna e rappresentazione di staffe e spirali.
+
+- Revisione 31: guide con soli contenuti propri, senza corpus esterno, diario di sviluppo, strumenti di IA, programmi concorrenti e paragrafi duplicati; portanza sismica dei muri secondo EN 1998-5 Annesso F senza γRD sull'inerzia del terreno; γb della punta dei pali secondo la tecnologia (NTC 2018 Tab. 6.4.II).
