@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -108,55 +108,5 @@ public sealed partial class MaterialView : UserControl
         };
         status.Text=selected.Name+"  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006";
         RefreshDetails();
-    }
-    public void Check()
-    {
-
-        foreach(var item in Classes)
-        {
-            var m=Material(item.Fck);
-            if(!double.IsFinite(m.Ecm) || m.Ecm<=0 || Math.Abs(Math.Abs(m.Fck)-item.Fck)>1e-9)
-                throw new Exception("Proprietà non valide: "+item.Name);
-        }
-        var baseline=Material(30);
-        if(Math.Abs(Math.Abs(baseline.Fcm)-38)>1e-6 || Math.Abs(baseline.Ecm-32836.568)>1 ||
-           Math.Abs(Math.Abs(baseline.Fctm)-2.896468)>1e-5 ||
-           Math.Abs(Math.Abs(baseline.StrainUCompression)-.0035)>1e-8)
-            throw new Exception("Valori C30/37 inattesi.");
-        choice.SelectedItem="C50/60";
-        if(strength.Text!=Number(50)) throw new Exception("Aggiornamento classe non riuscito.");
-        choice.SelectedItem="C30/37";
-        Durability.Check();
-        CheckBond();
-        NtcCover.Check();
-        CheckAutomaticMix();
-        CheckExposureSelector();
-        exposureChecks["XC1"].IsChecked=false; exposureChecks["XF2"].IsChecked=true;
-        if(!coverHeadline.Text.Contains("45")) throw new Exception("XF2 NTC trave errato.");
-        choices["deviationControl"].SelectedIndex=1;
-        choices["deviationValue"].SelectedItem="5 mm";
-        if(!coverHeadline.Text.Contains("40")) throw new Exception("Tolleranza ridotta errata.");
-        choices["deviationControl"].SelectedIndex=2;
-        choices["deviationValue"].SelectedItem="0 mm";
-        if(!coverHeadline.Text.Contains("35")) throw new Exception("Tolleranza zero errata.");
-        choices["deviationControl"].SelectedIndex=0;
-        if(Selected("deviationValue")!="10 mm" || choices["deviationValue"].Items.Count!=1 || !coverHeadline.Text.Contains("45"))
-            throw new Exception("Ripristino tolleranza ordinaria errato.");
-        choices["ntcElement"].SelectedIndex=1;
-        if(!coverHeadline.Text.Contains("40")) throw new Exception("XF2 NTC piastra errato.");
-        choices["coverMethod"].SelectedIndex=1;
-        if(coverHeadline.Text!="Da completare") throw new Exception("XF2 EC2 non invalidato.");
-        choices["coverMethod"].SelectedIndex=0; choices["ntcElement"].SelectedIndex=0;
-        exposureChecks["XF2"].IsChecked=false;
-
-        exposureChecks["XC1"].IsChecked=false; exposureChecks["XS3"].IsChecked=true; exposureChecks["XF4"].IsChecked=true;
-        if(!coverHeadline.Text.Contains("60")) throw new Exception("Combinazione esposizioni non aggiornata.");
-        numbers["diameter"].Text="NaN";
-        if(coverHeadline.Text!="Da completare") throw new Exception("Copriferro obsoleto con input non valido.");
-        numbers["diameter"].Text="16";
-        choices["consistency"].SelectedIndex=4;
-        exposureChecks["XS3"].IsChecked=false; exposureChecks["XF4"].IsChecked=false; exposureChecks["XF2"].IsChecked=true;
-
-
     }
 }

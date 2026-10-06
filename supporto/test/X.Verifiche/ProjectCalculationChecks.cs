@@ -122,7 +122,7 @@ internal static class ProjectCalculationChecks
 
         var exposure = new[] { Materiali.Durability.Exposures.Single(e => e.Code == "XF2") };
         Check(Materiali.NtcCover.Calculate(exposure, 30, new(50, false, false, false, 16, 20, 10, false, 0, 0), false, false).Cover.Nominal == 45, "Copriferro trasferito: riferimento 45 mm");
-        Materiali.Durability.Check(); Materiali.NtcCover.Check(); count += 2;
+        Materiali.DurabilityReferenceChecks.CheckDurability(); Materiali.DurabilityReferenceChecks.CheckNtcCover(); count += 2;
         Check(Math.Abs(ConcreteBond.Strength(2, 20, .7, 1, 1.5) - 2.1) < 1e-12, "Aderenza: atteso 2,1 MPa");
         var anchor = new ConcreteAnchorageCalculator().Calculate(new(20, 300, 2, 1.5, false, 1000, false, 100, 0));
         Check(Math.Abs(anchor.Fbd - 2.1) < 1e-12, "Ancoraggio usa aderenza diversa");

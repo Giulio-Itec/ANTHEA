@@ -44,8 +44,8 @@ ogni commit: `[x]` fatto, `[~]` in corso, `[ ]` da fare.
 ## Fase 1: test fuori dall'eseguibile
 
 - [x] F1.1 Rompere la dipendenza produzione → test (`HorizontalWorkspace.Smoke`, `HorizontalChs.VerifyChs`, sonde di `BridgeTorsion`) (429e4c0).
-- [x] F1.2 Configurazione `UiTests` con harness e flag; exe pubblicato pulito; installer che blocca codice di test; log degli errori non gestiti.
-- [ ] F1.3 Autotest fuori da X.Materiali e dal motore.
+- [x] F1.2 Configurazione `UiTests` con harness e flag; exe pubblicato pulito; installer che blocca codice di test; log degli errori non gestiti (d11af03).
+- [x] F1.3 Autotest fuori da X.Materiali e dal motore.
 - [ ] F1.4 [CP] `IConfirmationService` e `IMessageService` al posto degli agganci di test; 4 scenari verificati a mano.
 - [ ] F1.5 `tests/ANTHEA.Desktop.UiTests` con le prove offscreen; le altre suite migrano modulo per modulo in F5.
 - [ ] F1.6 [CP] Tabella "destino dei progetti di test".

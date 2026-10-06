@@ -8,4 +8,9 @@
   <ItemGroup>
     <Resource Include="Assets/*.png" />
   </ItemGroup>
+  <!-- Self-checks of the sheet (MaterialView.Check, used by the materials smoke check) only in the UiTests configuration. -->
+  <ItemGroup Condition="'$(Configuration)' == 'UiTests'">
+    <Compile Include="../supporto/test/Materiali/*.cs" Link="Tests/%(Filename)%(Extension)" />
+    <Compile Include="../supporto/test/Shared/DurabilityReferenceChecks.cs" Link="Tests/DurabilityReferenceChecks.cs" />
+  </ItemGroup>
 </Project>

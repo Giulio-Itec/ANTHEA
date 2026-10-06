@@ -72,22 +72,4 @@ public sealed partial class MaterialView
         }
         catch(ArgumentException ex){compositionSource.Text+="\n\n"+ex.Message;}
     }
-    void CheckAutomaticMix()
-    {
-        void Expect(string key,string expected){if(compositionValues[key].Text!=expected)throw new Exception($"ATECAP {key}: {compositionValues[key].Text}, atteso {expected}");}
-        numbers["aggregate"].Text="32";
-        foreach(var (code,ratio,cement) in new[]{("X0","Non prescritto","Non prescritto"),("XC1","0,60","300"),("XC2","0,60","300"),("XC3","0,55","320"),("XC4","0,50","340"),("XS1","0,50","340"),("XS2","0,45","360"),("XS3","0,45","360"),("XD1","0,55","320"),("XD2","0,50","340"),("XD3","0,45","360"),("XA1","0,55","320"),("XA2","0,50","340"),("XA3","0,45","360"),("XF1","0,50","320"),("XF2","0,50","340"),("XF4","0,45","360"),("XF3","0,50","340")})
-        {exposureSelector.SelectedItem=code;Expect("ratio",ratio);Expect("cement",cement);}
-        Expect("air","4,0");numbers["aggregate"].Text="16";Expect("air","5,0");
-        foreach(var d in new[]{"20","18","8"}){numbers["aggregate"].Text=d;Expect("air","Da definire");}
-        numbers["aggregate"].Text="NaN";Expect("dmax","Da definire");Expect("air","Da definire");
-        numbers["aggregate"].Text="32";exposureChecks["XS3"].IsChecked=true;Expect("ratio","0,45");Expect("cement","360");Expect("air","4,0");
-        exposureSelector.SelectedItem="X0";Expect("ratio","Non prescritto");Expect("cement","Non prescritto");Expect("air","Non prescritto");
-        exposureChecks["XC4"].IsChecked=true;Expect("ratio","Da definire");Expect("cement","Da definire");
-        exposureSelector.SelectedItem="XC4";choices["life"].SelectedIndex=1;
-        if(!compositionSource.Text.Contains("100 anni"))throw new Exception("Nota vita utile assente.");
-        choices["cement"].SelectedIndex=1;Expect("cement","340");Expect("chloride","Cl 0,40");
-        if(compositionValues.Values.Any(x=>!x.IsReadOnly))throw new Exception("Campo automatico modificabile.");
-        choices["cement"].SelectedIndex=0;choices["life"].SelectedIndex=0;numbers["aggregate"].Text="20";exposureSelector.SelectedItem="XC1";
-    }
 }

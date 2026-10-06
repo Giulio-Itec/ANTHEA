@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Materiali;
@@ -92,22 +92,6 @@ public sealed partial class MaterialView
             combinedExposure.Visibility=active.Length>1 || legacyExposures is not null?Visibility.Visible:Visibility.Collapsed;
         }
         finally{updatingExposure=false;}
-    }
-    void CheckExposureSelector()
-    {
-        foreach(var (codes,expected) in new[]{("X0 XC1 XC2 XC3 XF1","ordinaria"),("XC4 XD1 XS1 XA1 XA2 XF2 XF3","aggressiva"),("XD2 XD3 XS2 XS3 XA3 XF4","molto aggressiva")})
-            foreach(var code in codes.Split(' '))
-            {
-                exposureSelector.SelectedItem=code;
-                if(!minimumConcreteClass.IsReadOnly || minimumConcreteClass.Text!=MinimumConcrete.Label(MinimumConcrete.Fck(code))) throw new Exception("Classe minima non aggiornata: "+code);
-                if(Active().Length!=1||Active()[0].Code!=code||exposureDetails.Text!=ExposureDescriptions[code]||exposureExamples.Text!=ExposureExamples[code]||string.IsNullOrWhiteSpace(exposureExamples.Text)||exposureAggressiveness.Text!="Aggressività: "+expected)
-                    throw new Exception("Menu/descrizione/aggressività non aggiornati: "+code);
-            }
-        exposureSelector.SelectedItem="XC1";exposureChecks["XS3"].IsChecked=true;
-        if(!combinedExposure.Text.Contains("molto aggressiva")||minimumConcreteClass.Text!="C35/45")throw new Exception("Combinazione non aggiornata.");
-        exposureSelector.SelectedItem="XC4";
-        if(Active().Length!=1||minimumConcreteClass.Text!="C32/40")throw new Exception("Cambio menu non propagato al calcolo.");
-        exposureSelector.SelectedItem="XC1";
     }
 }
 
