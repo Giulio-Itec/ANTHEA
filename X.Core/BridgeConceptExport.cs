@@ -78,7 +78,7 @@ public static class BridgeConceptExport
         }
         P("ANTHEA · " + title, "Title"); P("Bridge Design · " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"), "Subtitle");
         P("Ambito e limiti", "Heading1"); P(BridgeConcept.Scope);
-        P("Modello parametrico ANTHEA v1. Riferimento funzionale: thebridgeeng.com/design, esplorato il 26/09/2026. Regole proprie esplicitate; risultati non equivalenti al suo Detailed check AASHTO.");
+        P("Modello parametrico ANTHEA v1 di predimensionamento con regole proprie esplicitate; non costituisce verifica normativa.");
         P("Esclusi: inviluppi di traffico mobile, fasi costruttive, sisma, vento, urti, fatica, instabilità, precompressione nelle deformazioni, viscosità, fessurazione, collegamenti e verifiche geotecniche complete.");
         P("Riepilogo", "Heading1");
         Table(["Indicatore", "Valore"], [

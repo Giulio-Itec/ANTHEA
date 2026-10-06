@@ -185,4 +185,4 @@ La provenienza sopra descrive lo snapshot nativo; il nuovo sorgente CompositeBri
 
 `GPCChecker.CompositeBridge.dll` include ora `History`: deformazioni al getto, ritiri incrementali, memoria plastica, analisi N–Mx lineare e non lineare. ANTHEA usa `HBridgeHistoryResults.Calculate` per i nuovi selettori e conserva il metodo cumulativo precedente. Il manifest contiene il nuovo hash; tutte le altre DLL native rimangono quelle dello snapshot originario. OpenSees viene usato soltanto nei test, senza dipendenze aggiuntive nell'applicazione.
 
-Validazione e limiti: `supporto/docs/ponte-storico-non-lineare.md`; riferimenti esterni congelati in `Checker/GPCChecker.Test.CompositeBridge/Validation`.
+Validazione e limiti: guida teorica di ANTHEA (sezione composta da ponte); riferimenti congelati in `Checker/GPCChecker.Test.CompositeBridge/Validation`.
