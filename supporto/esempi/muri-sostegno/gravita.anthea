@@ -1,0 +1,77 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "geo_muri_sostegno",
+  "dati": {
+    "version": 1,
+    "family": "gravity",
+    "geometry": {
+      "height": 3,
+      "stem_base": 2.2,
+      "stem_top": 0.55,
+      "slab": 0.45,
+      "toe": 0.25,
+      "heel": 0.25
+    },
+    "foundation": {
+      "phi": 34,
+      "gamma": 19,
+      "gamma_sat": 21,
+      "delta": 26
+    },
+    "loads": {
+      "surcharge": 10,
+      "horizontal": 0,
+      "vertical": 0,
+      "psi1": 0.5,
+      "psi2": 0.3
+    },
+    "materials": {
+      "gamma": 25,
+      "fck": 30,
+      "fyk": 450,
+      "cover": 40,
+      "compression_rd": 5,
+      "shear_rd": 0.2,
+      "tension_rd": 0.3,
+      "creep": 2,
+      "exposure": "XC2"
+    },
+    "layers": [
+      {
+        "name": "Terreno granulare",
+        "thickness": 10,
+        "gamma": 18,
+        "gamma_sat": 20,
+        "phi": 30
+      }
+    ],
+    "water": {
+      "enabled": false,
+      "depth": 2,
+      "front_head": 0
+    },
+    "seismic": {
+      "enabled": false,
+      "kh": 0.1,
+      "kv": 0.05
+    },
+    "reinforcement": {
+      "stem": {
+        "diameter": 16,
+        "count": 6
+      },
+      "toe": {
+        "diameter": 16,
+        "count": 6
+      },
+      "heel": {
+        "diameter": 16,
+        "count": 6
+      }
+    },
+    "extensions": {}
+  },
+  "nome": "Esempio muro a gravità"
+}

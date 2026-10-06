@@ -1,1 +1,0 @@
-137 controlli superati: parallelo/seriale, cache SLE, geometria, staffe, materiali trefoli, salvataggio.

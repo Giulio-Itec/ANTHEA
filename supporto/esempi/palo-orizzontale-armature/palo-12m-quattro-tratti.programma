@@ -1,0 +1,186 @@
+{
+  "formato": "X",
+  "versione": 1,
+  "tipo": "calcolo",
+  "modulo_id": "geo_palo_orizzontale",
+  "dati": {
+    "versione_orizzontale": 1,
+    "generali": {
+      "diametro": 1,
+      "lunghezza": 12,
+      "eccentricita": 0,
+      "vincolo": "Libera",
+      "modalita": "Automatica",
+      "metodo_calcolo": "Broms",
+      "azione_orizzontale": 100,
+      "presenza_falda": true,
+      "profondita_falda": 4,
+      "origine_momento": "Sezione c.a.",
+      "momento_resistente": "1000",
+      "provenienza_momento": "",
+      "azione_assiale": 600,
+      "passo": "0.10",
+      "tolleranza": "1e-8",
+      "tratto_libero": 0,
+      "gamma_acqua": 9.81
+    },
+    "sezione": {
+      "shape": "Rettangolare",
+      "diameter_mm": "1000",
+      "circular_sides": "32",
+      "width_mm": "600",
+      "height_mm": "800",
+      "flange_width_mm": "1200",
+      "web_width_mm": "400",
+      "flange_thickness_mm": "250",
+      "cover_mm": "70",
+      "longitudinal_bar_count": "16",
+      "longitudinal_bar_diameter_mm": "24",
+      "top_bar_count": "4",
+      "top_bar_diameter_mm": "20",
+      "bottom_bar_count": "6",
+      "bottom_bar_diameter_mm": "24",
+      "side_bar_count_per_side": "2",
+      "side_bar_diameter_mm": "16",
+      "transverse_bar_diameter_mm": "10",
+      "transverse_spacing_mm": 150,
+      "apply_pile_requirements": false,
+      "dissipative_zone": false,
+      "fck_mpa": 35,
+      "fyk_mpa": 450,
+      "alpha_cc": "0.85",
+      "gamma_c": "1.50",
+      "gamma_s": "1.15",
+      "steel_modulus_mpa": 200000,
+      "axial_force_kn": "2500",
+      "moment_x_knm": "500",
+      "moment_y_knm": "250",
+      "apply_minimum_eccentricity": false,
+      "minimum_eccentricity_mm": "0",
+      "classe_cls": "C35/45",
+      "n": "",
+      "materiale_cls_nome": "C35/45",
+      "cls_diagramma": "Parabola-rettangolo",
+      "classe_acciaio": "B450C",
+      "materiale_acciaio_nome": "B450C",
+      "steel_fu_mpa": 540,
+      "steel_eps_u": 75,
+      "steel_diagramma": "Elastoplastico",
+      "modulo_chs_mpa": 210000,
+      "vita_durabilita": 50,
+      "gamma_ca": 25,
+      "gamma_acciaio": 78.5,
+      "gamma_iniezione": 0,
+      "esposizione": "XC2"
+    },
+    "verifica": {
+      "verticali_indagate": "1",
+      "efficienza_metodo": "Manuale",
+      "efficienza_eta": "1"
+    },
+    "stratigrafie": [
+      [
+        {
+          "tipologia": "Granulare",
+          "spessore": 4,
+          "peso_specifico": "18",
+          "peso_specifico_saturo": "20",
+          "angolo_attrito": "30",
+          "coesione_non_drenata": "50",
+          "coesione_efficace": "0",
+          "nome": "Sabbia sciolta · esempio",
+          "reazione_orizzontale": {
+            "legge": "nh = A·γ/1,35 · incoerenti",
+            "densita": "Sciolto",
+            "riga_146": "clay-reese-1956",
+            "fonte": "Viggiani, parametri orientativi; verificare condizioni di impiego",
+            "A": 200,
+            "origine_scelta": "Media iniziale del software",
+            "scelta_per": "nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956",
+            "media_iniziale": 200,
+            "categoria": "Argilla n.c. o lievemente o.c."
+          }
+        },
+        {
+          "tipologia": "Granulare",
+          "spessore": 8,
+          "peso_specifico": "18",
+          "peso_specifico_saturo": "20",
+          "angolo_attrito": 34,
+          "coesione_non_drenata": "50",
+          "coesione_efficace": "0",
+          "nome": "Sabbia media · esempio",
+          "reazione_orizzontale": {
+            "legge": "nh = A·γ/1,35 · incoerenti",
+            "densita": "Medio",
+            "riga_146": "clay-reese-1956",
+            "fonte": "Viggiani, parametri orientativi; verificare condizioni di impiego",
+            "A": 650,
+            "origine_scelta": "Media iniziale del software",
+            "scelta_per": "nh = A·γ/1,35 · incoerenti|Medio|clay-reese-1956",
+            "media_iniziale": 650,
+            "categoria": "Argilla n.c. o lievemente o.c."
+          }
+        }
+      ]
+    ],
+    "elastico": {
+      "versione": 2,
+      "stratigrafia": 0,
+      "punta": "Libera",
+      "passo": 0.5,
+      "visualizzazione": {},
+      "tratti": [
+        {
+          "id": "T1",
+          "fine": 3,
+          "collegato": true
+        },
+        {
+          "id": "T2",
+          "fine": 6,
+          "collegato": true
+        },
+        {
+          "id": "T3",
+          "fine": 9,
+          "collegato": false,
+          "longitudinal_bar_count": 8,
+          "longitudinal_bar_diameter_mm": "24",
+          "transverse_bar_diameter_mm": "10",
+          "transverse_spacing_mm": 150
+        },
+        {
+          "id": "T4",
+          "fine": null,
+          "collegato": false,
+          "longitudinal_bar_count": 8,
+          "longitudinal_bar_diameter_mm": "24",
+          "transverse_bar_diameter_mm": "10",
+          "transverse_spacing_mm": 150
+        }
+      ],
+      "dettagli": {
+        "azioni_progetto": true,
+        "taglio_confermato": true,
+        "z_d": 0.9,
+        "aderenza_buona": true,
+        "percentuale_sovrapposta": 100,
+        "distanza_barre": 0,
+        "ancoraggio_testa": 0,
+        "ancoraggio_punta": 0,
+        "lunghezza_gabbia": 12,
+        "lunghezza_minima": 3,
+        "lunghezza_barra": 12,
+        "fattore_sovrapposizione": 60,
+        "aggregato": 20,
+        "delta_c": 10,
+        "elemento": "Pilastro",
+        "copriferro_override": false,
+        "minimi_pali": true
+      }
+    },
+    "vista_orizzontale": "elastico"
+  },
+  "nome": "Esempio · palo 12 m con quattro tratti di armatura"
+}
