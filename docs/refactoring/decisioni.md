@@ -1,0 +1,86 @@
+# Refactoring di ANTHEA: decisioni
+
+Registro delle decisioni prese con l'utente. Il piano operativo per fasi è in
+[piano.md](piano.md); le differenze numeriche e gli scostamenti tecnici vanno nel
+registro unico `registro-differenze.json` di questa cartella (creato alla prima voce).
+
+## Obiettivo (6 ottobre 2026)
+
+- ANTHEA è solo interfaccia. Calcoli, formule e coefficienti normativi stanno nelle
+  librerie GPC (Utilities, Geometry, Model, Checker e la nuova GPC.Design).
+- Il codice non grafico specifico di ANTHEA (formato dei documenti, migrazioni, progetti,
+  adattatori verso le librerie, report) diventa un insieme di librerie senza WPF nello
+  stesso repository: ANTHEA.Application, ANTHEA.Reports, ANTHEA.Wiki.
+- La Wiki contiene solo contenuti tecnici e precisi, scritti da noi.
+
+## Architettura approvata
+
+| Livello | Contenuto | Può dipendere da |
+| --- | --- | --- |
+| L1 | Utilities, Geometry, Model, ModelData: unità, sezioni, materiali, terreni, norme tipizzate | — |
+| L2 | GPCChecker.Concrete, .Geotechnics, .CompositeBridge: tutte le verifiche | L1 |
+| L3 | GPC.Design (nuova): predimensionamento, ottimizzazioni, distinte | L1, L2 |
+| L4 | ANTHEA.Application, ANTHEA.Reports, ANTHEA.Wiki (net8, senza WPF) | L1–L3 |
+| L5 | ANTHEA.Desktop (WPF, MVVM) | L4 |
+
+Regole, verificate in automatico man mano che le fasi le rendono possibili:
+
+1. Nessuna formula né coefficiente normativo in L4 e L5.
+2. La norma diventa un tipo al confine dell'adattatore; nessun ripiego silenzioso su NTC 2018.
+3. Unità dichiarate nelle firme; conversioni solo negli adattatori, con costanti nominate.
+4. Esito comune (esecuzione, completezza dei dati, esito ingegneristico); i testi solo in report e interfaccia.
+5. Librerie solo da commit versionati, senza wildcard.
+6. Nessun codice di test nell'eseguibile.
+
+## Decisioni D1–D8 (6 ottobre 2026)
+
+- **D1** Confine "solo UI": ANTHEA.Desktop solo interfaccia; librerie non grafiche di ANTHEA nello stesso repository.
+- **D2** Codice di progetto non di verifica (BridgeConcept, progetto delle armature, distinte) nella nuova libreria GPC.Design. Collocazione precisa decisa in F4.
+- **D3** Ordine: F0 messa in sicurezza, F1 test fuori dall'eseguibile, F2 chiusura del c.a., F3 strato applicativo, F4 calcoli residui nelle librerie, F5 interfaccia MVVM. Wiki e infrastruttura in parallelo.
+- **D4** Subito uno snapshot `lib/Checker` riproducibile da commit; più avanti feed NuGet con uno switch verso i progetti delle librerie.
+- **D5** Corpus esterno della Wiki eliminato (vedi sotto).
+- **D6** Teoria per metodo accanto alla libreria che lo implementa, distribuita con le DLL; guida d'uso per modulo in ANTHEA; le due guide globali diventano documenti generati dalle stesse fonti.
+- **D7** Sei scostamenti tecnici (a)–(f): per ciascuno l'utente decide se correggere o dichiarare, dopo una scheda con l'effetto quantificato (passo F0.6).
+- **D8** `supporto/tmp` e `SUPERATI` fuori dall'indice; PDF e DOCX generati invece che versionati.
+
+## Decisioni di avvio (6 ottobre 2026)
+
+- **node_modules nel commit 2cdf9fd**: opzione B. Il commit F0.1 lo toglie dall'indice; la
+  riscrittura della storia remota si fa più avanti, in modo coordinato. L'utente è l'unico a
+  lavorare sul repository.
+- **Branch**: un branch per fase (`refactoring/<fase>-<nome>`), merge su main a fine fase con
+  l'approvazione dell'utente. Tag locali `pre-refactoring` (2cdf9fd), `pre-<fase>`,
+  `post-<fase>`, `pre-lib-<versione>`. Per tornare indietro si usa `git revert`, mai un
+  checkout di commit vecchi. Push solo su richiesta esplicita.
+- **Layout**: `src/` (produzione), `tests/` (test), `tools/` (strumenti e script), `build/`
+  (runner e configurazione di build), `docs/` (documentazione di sviluppo). I file nuovi
+  nascono lì; i progetti esistenti si spostano in una finestra concordata tra F2 e F3.
+- **Commit di riferimento delle librerie** per lo snapshot: l'ultimo commit dei rami
+  locali scelti dall'utente. Al 6/10: Utilities master 91574c1, Geometry master 296d05d,
+  Model master c85b70a6, Checker develop 5cc315f2.
+- **SDK**: ANTHEA resta su .NET SDK 8 (global.json esistente). Le librerie si fissano con un
+  global.json sull'SDK 9.0.318 (rollForward latestPatch), lo stesso con cui sono state
+  compilate le DLL in uso: così la ricostruzione cambia il meno possibile. L'SDK usato è
+  registrato nel manifest di `lib/Checker`.
+- **Esempi e template**: gli esempi `.anthea` e `.programma` di `supporto/esempi` e il
+  template Word ITEC si possono versionare (dati sintetici).
+- **Wiki**: eliminare tutti i contenuti e i riferimenti esterni (articoli adattati, letture
+  tecniche, rimandi a blog e siti, riferimenti a programmi concorrenti) e tenere solo i
+  contenuti nostri. Restano le citazioni normative (NTC, Circolare, Eurocodici) e la
+  bibliografia tecnica che documenta i metodi implementati.
+
+## Dipendenze esterne previste
+
+Da approvare una volta; ogni variazione si aggiunge qui.
+
+| Pacchetto o strumento | Licenza | Uso | Fase |
+| --- | --- | --- | --- |
+| MSTest.TestFramework, MSTest.TestAdapter, Microsoft.NET.Test.Sdk | MIT | test automatici | INF (dopo F1) |
+| Nerdbank.GitVersioning | MIT | versione derivata da git (non richiede git nel PATH) | INF |
+| Microsoft.CodeAnalysis.CSharp | MIT | test di architettura (regole L4–L5) | F3–F4 |
+| CommunityToolkit.Mvvm | MIT | ViewModel | F5 |
+| Microsoft.Extensions.DependencyInjection | MIT | composizione dell'applicazione | F5 |
+| Microsoft.VisualStudio.Threading.Analyzers | MIT | analisi di async void e attese | F5 |
+| Markdig, YamlDotNet | BSD-2, MIT | fonti della Wiki con front-matter | W2 |
+| DocumentFormat.OpenXml oppure Pandoc | MIT / GPL (strumento esterno) | guide Word e PDF dalle stesse fonti | W2.5 |
+| python-docx, lxml, pypdf, pypdfium2, Pillow, reportlab | varie (MIT, BSD, Apache) | pipeline attuale delle guide, fino a W2.5 | W0 |

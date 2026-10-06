@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "note": "Fallimenti ammessi temporaneamente da build/ci.ps1. Ogni voce ha suite, tipo, motivo, fonte, data e fase che la chiude. 'match' (facoltativo) è un'espressione regolare sul primo messaggio d'errore: se non corrisponde l'esito è NEW-FAIL.",
+  "entries": [
+    {
+      "suite": "verifiche/project-calculations",
+      "kind": "exit",
+      "match": "",
+      "reason": "Default di geo_muri_sostegno diversi tra progetto e foglio. La suite si ferma al primo errore (ProjectCalculationChecks.cs:10, :27), quindi i controlli successivi non vengono eseguiti.",
+      "source": "lib/Checker/README.md:49",
+      "since": "2026-09-28",
+      "phase": "F0.5"
+    },
+    {
+      "suite": "CalculationLibrary.Checks",
+      "kind": "exit",
+      "match": "DelaunayMesh, Version=2\\.0\\.0\\.8",
+      "reason": "Il 6/10 in lib/Checker è stata sostituita solo DelaunayMesh.dll (2.0.0.8 -> 2.0.0.10); le altre DLL sono compilate contro la 2.0.0.8. I progetti che referenziano solo X.Calculations non copiano più la DLL. Scoperto nella prima corsa del runner.",
+      "source": "lib/Checker/manifest.json, commit 78b32f8",
+      "since": "2026-10-06",
+      "phase": "F0.7"
+    },
+    {
+      "suite": "ConcreteCode.Checks",
+      "kind": "exit",
+      "match": "DelaunayMesh, Version=2\\.0\\.0\\.8",
+      "reason": "Stessa causa di CalculationLibrary.Checks: snapshot lib/Checker non coerente dopo la sostituzione della sola DelaunayMesh.dll.",
+      "source": "lib/Checker/manifest.json, commit 78b32f8",
+      "since": "2026-10-06",
+      "phase": "F0.7"
+    },
+    {
+      "suite": "ConcreteDesign.Checks",
+      "kind": "exit",
+      "match": "DelaunayMesh, Version=2\\.0\\.0\\.8",
+      "reason": "Stessa causa di CalculationLibrary.Checks: snapshot lib/Checker non coerente dopo la sostituzione della sola DelaunayMesh.dll.",
+      "source": "lib/Checker/manifest.json, commit 78b32f8",
+      "since": "2026-10-06",
+      "phase": "F0.7"
+    },
+    {
+      "suite": "GlobalStability.Checks",
+      "kind": "exit",
+      "match": "DelaunayMesh, Version=2\\.0\\.0\\.8",
+      "reason": "Stessa causa di CalculationLibrary.Checks: snapshot lib/Checker non coerente dopo la sostituzione della sola DelaunayMesh.dll.",
+      "source": "lib/Checker/manifest.json, commit 78b32f8",
+      "since": "2026-10-06",
+      "phase": "F0.7"
+    },
+    {
+      "suite": "RetainingWall.Checks",
+      "kind": "exit",
+      "match": "DelaunayMesh, Version=2\\.0\\.0\\.8",
+      "reason": "Stessa causa di CalculationLibrary.Checks: snapshot lib/Checker non coerente dopo la sostituzione della sola DelaunayMesh.dll.",
+      "source": "lib/Checker/manifest.json, commit 78b32f8",
+      "since": "2026-10-06",
+      "phase": "F0.7"
+    },
+    {
+      "suite": "wiki/manuale",
+      "kind": "exit",
+      "match": "test_migration_coverage",
+      "reason": "L'ancora /wiki/guide/palo-elastico#compilazione-dei-dati non esiste più nella guida e manca l'alias. Già presente in 2cdf9fd.",
+      "source": "supporto/test/wiki-handbook-checks.py",
+      "since": "2026-10-06",
+      "phase": "W0"
+    },
+    { "suite": "ui/smoke", "kind": "exit", "match": "", "reason": "Prova WPF principale fallita già con lo snapshot del 28/9.", "source": "lib/Checker/README.md:50", "since": "2026-09-28", "phase": "F0.5" },
+    { "suite": "ui/smoke-bridge", "kind": "exit", "match": "", "reason": "Prova WPF del ponte fallita già con lo snapshot del 28/9.", "source": "lib/Checker/README.md:50", "since": "2026-09-28", "phase": "F0.5" },
+    { "suite": "ui/smoke-ca-extensions", "kind": "exit", "match": "", "reason": "Prova WPF delle estensioni c.a. fallita già con lo snapshot del 28/9.", "source": "lib/Checker/README.md:50", "since": "2026-09-28", "phase": "F0.5" },
+    { "suite": "ui/smoke-global-stability", "kind": "exit", "match": "", "reason": "Prova WPF della stabilità globale fallita già con lo snapshot del 28/9.", "source": "lib/Checker/README.md:50", "since": "2026-09-28", "phase": "F0.5" },
+    { "suite": "ui/smoke-project-workspace", "kind": "exit", "match": "", "reason": "Prova WPF dell'area progetti fallita già con lo snapshot del 28/9.", "source": "lib/Checker/README.md:50", "since": "2026-09-28", "phase": "F0.5" },
+    { "suite": "ui/smoke-retaining-wall", "kind": "exit", "match": "", "reason": "Prova WPF dei muri fallita già con lo snapshot del 28/9.", "source": "lib/Checker/README.md:50", "since": "2026-09-28", "phase": "F0.5" }
+  ]
+}
