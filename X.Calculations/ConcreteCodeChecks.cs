@@ -210,7 +210,7 @@ public static class ConcreteCodeChecks
         return sr * strain;
     }
 
-    /// <summary>Limite superiore di wk senza barre aderenti in Ac,eff (EC2 7.3.4(4), Circolare C4.1.2.2.4.5): limite ρ → 0 di <see cref="CrackWidth"/>.
+    /// <summary>Limite superiore di wk senza barre aderenti in Ac,eff (EC2 7.3.4(3), eq. (7.14); per NTC analogia con la Circolare C4.1.2.2.4.5 [C4.1.10], che non tratta questo caso): limite ρ → 0 di <see cref="CrackWidth"/>.
     /// εsm − εcm = βmin σs/Es; sr,max = 1,3 (h − x), NTC 1,7 · 0,75 (h − x) come per barre distanziate, DIN anche ≤ σs Ø/(3,6 fct).</summary>
     public static double UnbondedCrackWidthBound(string standard, double sigma, double es, double fct, double phi, double tensileDepth, bool shortTerm,
         bool ribbed, List<CrackCalculationDetail>? details = null)
@@ -222,7 +222,7 @@ public static class ConcreteCodeChecks
         if ((mc || din) && !ribbed) throw new ArgumentException("Modello di fessurazione MC/DIN implementato per barre ad aderenza migliorata.");
         double lower = mc ? 1 - (shortTerm ? .6 : .4) : .6, strain = lower * sigma / es;
         double sr = ntc ? 1.7 * .75 * tensileDepth : 1.3 * tensileDepth;
-        string formula = ntc ? "1,7 · 0,75 (h − x), nessuna barra aderente in Ac,eff" : "1,3 (h − x), nessuna barra aderente in Ac,eff · EC2 7.3.4(4)";
+        string formula = ntc ? "1,7 · 0,75 (h − x), nessuna barra aderente in Ac,eff" : "1,3 (h − x), nessuna barra aderente in Ac,eff · EC2 7.3.4(3), eq. (7.14)";
         if (din) { sr = Math.Min(sr, sigma * phi / (3.6 * fct)); formula = "min[1,3 (h − x); σs Ø/(3,6 fctm)], nessuna barra aderente in Ac,eff · DIN"; }
         void Add(string key, double value, string unit, string expression) => details?.Add(new(key, value, unit, expression));
         Add("εsm − εcm", strain, "−", "βmin σs/Es (ρp,eff → 0)"); Add("β minimo deformazione", lower, "−", mc ? "1 − kt" : "0,6");

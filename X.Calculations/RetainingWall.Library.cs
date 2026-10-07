@@ -16,8 +16,11 @@ namespace Anthea.Calculations;
 public static partial class RetainingWall
 {
     private const double Mm = Slope.Mm, KPa = Slope.KPa, KN3 = Slope.KN3, Deg = Slope.Deg;
-    /// <summary>ANTHEA keeps γRd also on the soil inertia F̄ of EN 1998-5 Annex F (the library defaults to the EN text without it).</summary>
-    public const bool ModelFactorOnSoilInertia = true;
+    /// <summary>
+    /// γRd on the soil inertia F̄ of EN 1998-5 Annex F: false, as in (F.7), where γRd enters only N̄, V̄ and M̄ (decision D7-c of 6/10/2026;
+    /// until then ANTHEA applied it also to F̄, and the library keeps that option for its fixtures).
+    /// </summary>
+    public const bool ModelFactorOnSoilInertia = false;
 
     static double Need(JsonNode? n, string key) => J.Number(n?[key]) ?? throw new ArgumentException("Dato mancante: " + key);
     static double Value(JsonNode? n, string key) => J.Number(n?[key]) ?? double.NaN;

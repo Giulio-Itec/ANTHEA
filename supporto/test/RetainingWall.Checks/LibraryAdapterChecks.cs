@@ -81,15 +81,15 @@ internal static class LibraryAdapterChecks
         Same(RetainingWall.InterfaceDelta(d, false), d["foundation"].D("delta"), "Attrito di base assegnato in gradi");
         Check(!result.Json().ToJsonString().Contains("\"Law\""), "La legge della libreria non entra nel JSON del risultato");
 
-        // 5. Seismic: site coefficients and the soil inertia of Annex F with γRd as before.
+        // 5. Seismic: site coefficients and the soil inertia of Annex F, (F.7) without γRd (D7-c).
         var s = RetainingWall.Defaults(); var sd = s["seismic"]!; sd["enabled"] = true; sd["ag_g"] = .2; sd["f0"] = 2.5; sd["soil_class"] = "C";
         var site = RetainingWall.DeriveSeismic(s)!;
         Same(site.Ss, 1.4, "Ss categoria C"); Same(site.AmaxG, .28, "amax/g"); Same(site.Kh, .38 * .28, "kh = βm amax/g"); Same(site.KhOverturning, .57 * .28, "kh ribaltamento con βm,rib = 0,57");
         Check(site.Description.Contains("Categoria C"), "Formula di Ss nella descrizione");
         var seismic = RetainingWall.Calculate(s);
         var bearing = seismic.Cases.First(c => c.State == "SISMA" && c.SeismicBearing is not null).SeismicBearing!;
-        Same(bearing.SoilInertia, 1.15 * .28 / Math.Tan(34 * deg), "F̄ con γRd come nel calcolo precedente (RetainingWall.ModelFactorOnSoilInertia)");
-        Check(RetainingWall.ModelFactorOnSoilInertia, "Opzione di ANTHEA dichiarata");
+        Same(bearing.SoilInertia, .28 / Math.Tan(34 * deg), "F̄ = ag S/(g tan φ′d) senza γRd, EN 1998-5 (F.7)");
+        Check(!RetainingWall.ModelFactorOnSoilInertia, "γRd non applicato a F̄ (D7-c)");
         Check(seismic.Cases.Count(c => c.State == "SISMA") == 4 && seismic.Cases.Where(c => c.State == "SISMA").All(c => c.Factors.S("purpose") is "Generale" or "Ribaltamento"), "Sisma dal sito: generale e ribaltamento ±kv");
 
         // 6. Serviceability: results of the library, data errors as in the legacy calculation.

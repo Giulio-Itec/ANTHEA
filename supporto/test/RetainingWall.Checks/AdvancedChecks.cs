@@ -35,13 +35,13 @@ internal static class AdvancedChecks
             Check(triangle.Displacement > 0 && triangle.Points.Zip(triangle.Points.Skip(1)).All(p => p.Second.Displacement >= p.First.Displacement), "Newmark arresti e irreversibilità");
             Near(NewmarkSliding.Calculate([new(0, 0), new(.5, .1), new(1, .2), new(1.5, .1), new(2, 0)], .1).Displacement, triangle.Displacement, "Newmark indipendente da suddivisione lineare");
             Reject(() => NewmarkSliding.Calculate([new(0, 0), new(0, .2)], .1), "Tempi duplicati rifiutati");
-            // ANTHEA keeps γRd also on the soil inertia (RetainingWall.ModelFactorOnSoilInertia).
+            // Soil inertia F̄ of (F.7) without γRd, as ANTHEA calls the library (RetainingWall.ModelFactorOnSoilInertia, D7-c).
             double phi = 34 * Math.PI / 180, gamma = 19e-6, nq = Math.Exp(Math.PI * Math.Tan(phi)) * Math.Pow(Math.Tan(Math.PI / 4 + phi / 2), 2);
             SeismicBearingResult Bearing(double n, double v, double m, double kh, double kv, double model, double r) => ShallowFoundationSeismic.Calculate(3000, gamma, phi, n, v, m * 1000, kh, kv, model, r, RetainingWall.ModelFactorOnSoilInertia);
             var capacity = Bearing(100, 0, 0, 0, 0, 1, 1);
             Near(capacity.Capacity, 19 * 9 * (nq - 1) * Math.Tan(phi), "Portanza Annex F limite verticale statico");
             var seismic = Bearing(100, 0, 0, .2, 0, 1.15, 1.2);
-            Near(seismic.Capacity, capacity.NMax * Math.Pow(1 - .96 * 1.15 * .2 / Math.Tan(phi), .39) / (1.15 * 1.2), "Portanza sismica pura verifica chiusa");
+            Near(seismic.Capacity, capacity.NMax * Math.Pow(1 - .96 * .2 / Math.Tan(phi), .39) / (1.15 * 1.2), "Portanza sismica pura verifica chiusa");
             var interaction = Bearing(200, 40, 30, .2, .1, 1.15, 1.2);
             var atLimit = Bearing(interaction.Capacity, 40 * interaction.Capacity / 200, 30 * interaction.Capacity / 200, .2, .1, 1.15, 1.2);
             Near(atLimit.Interaction!.Value, 1, "Portanza sul confine N-V-M");

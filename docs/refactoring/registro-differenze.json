@@ -128,7 +128,7 @@
       "titolo": "Portanza sismica dei muri (EN 1998-5 Annesso F): γRd applicato anche all'inerzia del terreno F̄",
       "famiglia": "geotecnica/muri",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
+      "stato": "corretto",
       "descrizione": "ANTHEA imposta RetainingWall.ModelFactorOnSoilInertia = true: F̄ = γRd · ag S/(g tan φ'd). Nella (F.7) F̄ non contiene γRd, che compare solo in N̄, V̄ e M̄. La libreria segue la norma per difetto e conserva l'opzione per riprodurre ANTHEA.",
       "riferimento_normativo": [
         { "fonte": "EN 1998-5:2004", "punto": "Annesso F (informativo), eq. (F.7) e Tab. F.2", "riscontro": "testo non presente nei repository; riscontro del port in Checker/docs/migrazione-anthea/MIGRAZIONE_ANTHEA.txt:358-362" }
@@ -154,6 +154,7 @@
       ],
       "raccomandazione": "c1, in due commit con il collegamento dei muri",
       "decisione": { "data": "2026-10-06", "utente": "seguire la norma", "opzione": "c1", "esito": "γRd non applicato a F̄; l'opzione legacy resta nella libreria per le fixture" },
+      "attuazione": { "data": "2026-10-07", "branch": "refactoring/d7-norma-muri-pali", "commit": ["d2cf2f7"], "verifica": "profilo standard PASS 32, KNOWN 1; cattura headless contro B1: cambia solo la riga della formula in 5 relazioni dei muri (il corpus non ha muri con portanza sismica calcolata); effetto numerico quello della scheda" },
       "data": "2026-10-06",
       "fase": "F4.9",
       "test": [
@@ -172,7 +173,7 @@
       "titolo": "γb = 1,35 per ogni tecnologia di palo",
       "famiglia": "geotecnica/pali",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "corretto",
       "descrizione": "Il foglio del palo verticale propone e usa γb = 1,35 per ogni tecnologia (valore modificabile e memorizzato negli archivi). La Tab. 6.4.II dà 1,15 per i pali infissi, 1,35 per i trivellati e 1,30 per l'elica continua; StandardNTC2018Geotechnics.PileExecution di Model li contiene ma ANTHEA non lo usa.",
       "riferimento_normativo": [
         { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "§6.4.3.1.1, Tab. 6.4.II (R3)", "riscontro": "testo della G.U. consultato" }
@@ -214,6 +215,7 @@
       ],
       "raccomandazione": "d1 con avviso quando γb differisce da quello della tecnologia, in due commit (equivalenza con l'override 1,35, poi predefinito per tecnologia); i nuovi attesi dei 20 casi infissi ed elica si affiancano a quelli Python",
       "decisione": { "data": "2026-10-06", "utente": "seguire la norma", "opzione": "d1", "esito": "γb della Tab. 6.4.II per tecnologia come predefinito dei fogli nuovi e al cambio di tecnologia, con la corrispondenza della tabella; gli archivi conservano il valore memorizzato dall'utente (d2, migrazione degli archivi, non scelta: da confermare con l'utente)" },
+      "attuazione": { "data": "2026-10-07", "branch": "refactoring/d7-norma-muri-pali", "commit": ["7c96c04", "e05a05b"], "verifica": "γb da Model (StandardNTC2018Geotechnics.PileExecution); proposto al cambio di tecnologia e dal Reset; avviso nel calcolo se diverso; verifiche/pile-factors 13 controlli; smoke WPF del display; regressione 464/464 con i soli avvisi attesi aggiunti ai 20 casi battuti ed elica (valori numerici invariati); cattura headless contro B1: 20 risultati con l'avviso in più, nessun numero cambiato" },
       "data": "2026-10-06",
       "fase": "F4.5",
       "test": [
@@ -414,13 +416,14 @@
       "titolo": "Citazione «EC2 7.3.4(4)» per il limite superiore 1,3 (h − x)",
       "famiglia": "calcestruzzo/fessurazione",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
-      "descrizione": "I commenti citano «EC2 7.3.4(4)»; nel testo del 2004 la (7.14) è al punto 7.3.4(3). Solo testo.",
+      "stato": "corretto",
+      "descrizione": "I commenti e il testo della formula nelle tracce del ramo EN citano «EC2 7.3.4(4)»; nel testo del 2004 la (7.14) è al punto 7.3.4(3). Anche k2 della (7.11) era citato al 7.3.4(2). Solo testo.",
       "riferimento_normativo": [ { "fonte": "EN 1992-1-1:2004", "punto": "§7.3.4(3), eq. (7.14)", "riscontro": "certo" } ],
       "codice": [ "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:95", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:123", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:207", "X.Calculations/ConcreteCodeChecks.cs:213" ],
       "segno": "nessun effetto numerico",
       "raccomandazione": "correggere il testo in Checker e in ANTHEA",
       "decisione": { "data": "2026-10-06", "utente": "decisione (a)", "esito": "da correggere (solo testo)" },
+      "attuazione": { "data": "2026-10-07", "commit": ["Checker 7c15cf4f (develop, locale; entra in ANTHEA con il prossimo rilascio di lib/Checker)", "ANTHEA, branch refactoring/d7-norma-muri-pali"], "verifica": "GPCChecker.Test.Concrete 500/500; cattura headless contro B1 senza differenze dovute alla correzione" },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -435,6 +438,7 @@
       "codice": [ "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:164", "Checker/GPCChecker.Concrete/Torsion/TorsionProfiles.cs:81" ],
       "segno": "NON cautelativo",
       "effetto_quantificato": { "sintesi": "resistenza a taglio +38,8 % nell'esempio S5 della pagina ca.taglio", "evidenze": ["supporto/artefatti/refactoring/metodi/esempi.txt"] },
+      "effetto_anthea": "Verificato il 7/10: ANTHEA offre il profilo «Model Code 2010» (X.Calculations/ConcreteStandards.cs:10) e il suo codice legacy del taglio con staffe usa lo stesso θmin = 20° (X.Calculations/ConcreteCodeChecks.cs:107, maxCot = cot 20°). Il profilo NTC predefinito non è coinvolto.",
       "raccomandazione": "riscontrare il testo e correggere con opzione legacy; a sfavore di sicurezza, priorità alta",
       "decisione": null,
       "data": "2026-10-07",
@@ -451,6 +455,7 @@
       "codice": [ "Checker/GPCChecker.Concrete/SectionSolvers/SectionSolverModelCode2010.cs:110-129", "Model/Model/Materials/Concrete/ConcreteMaterialEuropeanCommon.cs:706-740", "Checker/GPCChecker.Concrete/Serviceability/StressLimitCheck.cs:85-88" ],
       "segno": "NON cautelativo sul calcestruzzo",
       "effetto_quantificato": { "sintesi": "σc −31 % a 80 kNm; a 150 kNm rapporto 0,83 contro 1,14 dell'analisi lineare (sezione 300×500 dell'esempio)" },
+      "effetto_anthea": "Verificato il 7/10: per default le tensioni SLE della sezione c.a. sono lineari (il predefinito «Lineare · sezione fessurata» è ricondotto a «Lineare» in X.Calculations/SectionWorkspace.cs:64). Se l'utente sceglie «Non lineare» nella scheda Tensioni (X.Desktop/Wpf/ConcreteStress.cs), CheckerSection passa StressAnalysisTypes.NonLinear (X.Calculations/CheckerSection.cs:94) e le tensioni di esercizio usano le leggi di progetto senza avviso; la relazione riporta «Modello: Non lineare» (Ntc2018Checks.cs:42).",
       "raccomandazione": "leggi di esercizio nell'analisi non lineare oppure rifiuto con avviso; a sfavore di sicurezza, priorità alta",
       "decisione": null,
       "data": "2026-10-07",
@@ -524,7 +529,8 @@
       "codice": [ "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:7-8", "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:90" ],
       "segno": "NON cautelativo oltre C60/75",
       "effetto_quantificato": { "sintesi": "lb,rqd −11 % con C90/105" },
-      "raccomandazione": "applicare il limite nella libreria, con opzione legacy; verificare se i chiamanti ANTHEA lo applicano già",
+      "effetto_anthea": "Verificato il 7/10: la sezione c.a. limita fck a 60 prima di ricavare fctk (X.Calculations/ConcreteDetailingAnalysis.cs:60-61) e il palo elastico passa fctk della classe limitata (ElasticHorizontalPile.Reinforcement.cs:204); le armature dei muri passano fctk,0,05 senza limite (X.Calculations/RetainingWall.Reinforcement.cs:45-46 e :52): ancoraggi e sovrapposizioni dei muri più corti del dovuto solo con classi oltre C60/75.",
+      "raccomandazione": "applicare il limite nella libreria, con opzione legacy; intanto i muri vanno allineati agli altri chiamanti",
       "decisione": null,
       "data": "2026-10-07",
       "fase": "F2.3"
@@ -539,7 +545,8 @@
       "codice": [ "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:155" ],
       "segno": "NON cautelativo (fino a −5 mm sul copriferro)",
       "effetto_quantificato": { "sintesi": "esempio XC3 C28/35 trave: cnom 35 mm con il default contro 40 mm con Cmin della UNI 11104 in libreria", "evidenze": ["supporto/artefatti/refactoring/metodi2/out-durability.txt"] },
-      "raccomandazione": "default = classe minima pertinente della tabella di durabilità; ANTHEA passa già il valore (controllare tutti i chiamanti)",
+      "effetto_anthea": "Verificato il 7/10: nessuno. Tutti i chiamanti di ANTHEA passano la classe minima pertinente (X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Calculations/Materials/MaterialCover.cs:31, X.Materiali/MaterialDetails.cs:173 con MinimumConcrete.Required; ElasticHorizontalPile.Reinforcement.cs:155 con ExposureClasses.Uni11104MinimumStrength). Il default riguarda solo gli altri utenti della libreria.",
+      "raccomandazione": "default = classe minima pertinente dell'esposizione dalla tabella di durabilità (oggi 25 + 5 · severità, cioè i Cmin per ambiente della Tab. C4.1.IV, che la Circolare riferisce alla classe di esposizione pertinente)",
       "decisione": null,
       "data": "2026-10-07",
       "fase": "F2.3"

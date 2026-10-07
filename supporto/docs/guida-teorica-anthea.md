@@ -174,6 +174,17 @@ R_{d,T} = \eta_T\min\left[\frac{R_{s,medio}}{\xi_3\gamma_t};\frac{R_{s,\min}}{\x
 | 7 | 1,45 | 1,28 |
 | Almeno 10 | 1,40 | 1,21 |
 
+I coefficienti parziali sono quelli della NTC 2018 Tab. 6.4.II (R3): γs = 1,15 per la laterale in compressione e γt = 1,25 per la laterale in trazione per ogni tecnologia; γb della punta dipende dalla tecnologia.
+
+| Tecnologia | γb |
+| --- | --- |
+| Battuto (profilato d'acciaio, tubo d'acciaio chiuso, calcestruzzo prefabbricato o gettato in opera) | 1,15 |
+| Trivellato | 1,35 |
+| Elica continua | 1,30 |
+| Micropalo (perforato e iniettato, senza valori propri nella norma) | 1,35 |
+
+Il foglio nuovo parte dal palo trivellato con γb = 1,35. Quando si cambia la tecnologia il foglio propone il γb della tabella. Il valore resta modificabile, e i fogli salvati conservano quello memorizzato. Se γb differisce da quello della tecnologia, il calcolo lo usa e lo dichiara negli avvisi. Fino al 6/10/2026 il foglio proponeva 1,35 per ogni tecnologia. Sui casi di prova, con il γb della tabella la resistenza di progetto drenata alla profondità massima aumenta del 4,3–7,0 % per i pali battuti e dell'1,0–1,2 % per l'elica continua.
+
 L'azione di compressione comprende il peso proprio sfavorevole e quella di trazione è ridotta dal peso favorevole, con i coefficienti specificati. L'opzione di sottospinta modifica il peso secondo la parte immersa del palo, separatamente dal calcolo delle tensioni del terreno.
 
 ```math
@@ -1200,7 +1211,7 @@ Il modulo distingue portanza sismica, cedimenti, spostamenti permanenti e verifi
 
 ### Portanza sismica
 
-Si applica EN 1998-5:2004 allegato F alla fondazione nastriforme su terreno granulare asciutto, omogeneo e con base ruvida. Nmax=0,5γ(1−av/g)B²Nγ, con Nγ=2(Nq−1)tanφd. Si trascura il contributo favorevole del ricoprimento. N, V e M sono normalizzati con γRD·γR; F=γRD·ah/(g tanφd). Il γR della combinazione è applicato separatamente e dichiarato nella relazione.
+Si applica EN 1998-5:2004 allegato F alla fondazione nastriforme su terreno granulare asciutto, omogeneo e con base ruvida. Nmax=0,5γ(1−av/g)B²Nγ, con Nγ=2(Nq−1)tanφd. Si trascura il contributo favorevole del ricoprimento. N, V e M sono normalizzati con γRD·γR; l'inerzia del terreno F=ah/(g tanφd) non contiene γRD, come nella (F.7). Fino al 6/10/2026 ANTHEA applicava γRD anche a F, con un'inerzia maggiore del 15 % per γRD = 1,15 e una portanza minore (η +1,7 … +7,0 % sui casi di prova). Il γR della combinazione è applicato separatamente e dichiarato nella relazione.
 
 Il dominio usa a=c=0,92; b=d=1,25; e=0,41; f=0,32; m=0,96; k=1; k′=0,39; cT=1,14; cM=c′M=1,01; β=2,90; γ=2,80. La somma dei termini di interazione deve essere ≤1, con 0<N̄<(1−0,96F)^0,39. La capacità è cercata lungo il raggio N,V,M: il tasso η è l’inverso del moltiplicatore limite, non il valore della funzione di interazione. Non si applicano una seconda volta larghezza efficace e fattori di inclinazione.
 

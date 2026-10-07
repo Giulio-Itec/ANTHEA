@@ -234,6 +234,14 @@ internal sealed partial class SheetEditor
             satInput.Text = ""; await WaitForAutomatic();
             if (hint.Visibility != Visibility.Visible || layer.Values.S("peso_specifico_saturo") != "") throw new Exception("Ricalcolo perde γsat automatico");
             layer["peso_specifico"] = gamma; satInput.Text = sat; await WaitForAutomatic();
+            // D7-d: choosing a technology proposes its γb of NTC Tab. 6.4.II; the original choice and value are restored afterwards.
+            var technology = (ComboBox)generalForm.Editors["tipo_palo"]; object? oldTechnology = technology.SelectedItem; string oldBase = normativeForm.Get("sicurezza_base");
+            foreach (var (choice, expected) in new[] { ("Battuto", "1.15"), ("Elica continua", "1.30"), ("Trivellato", "1.35") })
+            {
+                technology.SelectedItem = choice; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                if (Data["generali"].S("tipo_palo") != choice || Data["generali"].S("sicurezza_base") != expected) throw new Exception("γb non aggiornato al cambio di tecnologia: " + choice);
+            }
+            technology.SelectedItem = oldTechnology; normativeForm.Set("sicurezza_base", oldBase); await WaitForAutomatic();
         }
         int count = grid.Rows.Count;
         var add = Ui.Descendants<Button>(sondages).First(b => Equals(b.Content, "Aggiungi strato"));

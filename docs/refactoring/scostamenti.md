@@ -625,13 +625,13 @@ con la data e porta lo stato a `dichiarato` o `da-correggere`.
 | --- | --- | --- | --- |
 | D7-a | correggere se è sbagliato, controllando EC2, NTC, annessi e Model Code | il ramo NTC è la Circolare 2019 alla lettera ([C4.1.10]); corretti anche EN, UNI, CNR-DT 200, DS. Da correggere MC2010 (R1), DIN kt (R2) e le citazioni (R3) | dichiarato |
 | D7-b | per sole armature tese 1, per flessione 0,5: da vedere insieme | la regola dell'utente è quella della norma; il codice riconosce la flessione dalla barra compressa e non dall'asse neutro, quindi usa 1,0 nelle travi a semplice armatura inflesse | da decidere |
-| D7-c | seguire la norma | c1 | da correggere (F4.9) |
-| D7-d | seguire la norma | d1, archivi invariati | da correggere (F4.5) |
+| D7-c | seguire la norma | c1 | corretto (d2cf2f7, anticipato da F4.9) |
+| D7-d | seguire la norma | d1, archivi invariati con avviso | corretto (7c96c04, e05a05b, anticipato da F4.5) |
 | D7-e | entrambi i riferimenti, scelta dell'utente | C30/37 è di UNI 11104:2016 e 2025 (ed EN 206 F.1), C28/35 dell'edizione 2004: scelta da confermare | da decidere |
 | D7-f | cercare il metodo semplificato più vicino al reale | nessun carico uniforme regge entro il 10 % sulle travi continue; Schema 1 con linee di influenza e γQ 1,35 in GPC.Design, modello legacy per gli archivi ([ricerca](../../supporto/artefatti/refactoring/ricerca-f/rapporto.md), non versionata) | da correggere (F4.11) |
 | D7-g | ripristinare | commit 0d861de | corretto |
 
-Le ricerche hanno trovato altre quattordici voci (R1-R14 del registro). Sono a sfavore di
+Le ricerche hanno trovato altre quattordici voci (R1-R14 del registro). Queste sono a sfavore di
 sicurezza, da decidere con priorità:
 
 - R4: MC2010, θmin fisso a 20° (+38,8 % sul taglio resistente nell'esempio);
