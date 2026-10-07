@@ -143,12 +143,27 @@ sempre in due commit (collegamento con opzione legacy identico, poi cambio con e
 ## Decisioni del 7 ottobre 2026, pomeriggio: F1.6
 
 - **Destino dei progetti di test**: la tabella di [progetti-di-test.md](progetti-di-test.md) era da approvare;
-  l'utente ha delegato la decisione ("esegui tutto te"). Si archiviano in `supporto/SUPERATI/test/<nome>`, con
-  `git mv` e contenuto invariato, i progetti che dipendono da servizi o programmi di terzi, gli strumenti una
-  tantum e quello che non compila: BridgeDesign.SiteComparison, MaxRetainingWall.Cases,
-  MaxRetainingWall.Compare, ConcreteStressDiagnosis, ValidazioneCA20260925, ElasticPile.Performance e
-  ProgrammaAnthea (`qa.py`). Nessuno era nel runner. Gli altri progetti mantengono la destinazione già scritta
-  in tabella. Origine, motivo e sostituzione di ogni file sono in `supporto/SUPERATI/registro-20261007-test.json`.
+  l'utente ha delegato la decisione ("esegui tutto te"); decisa dal coordinatore su delega, da ratificare. Si
+  archiviano in `supporto/SUPERATI/test/<nome>`, con `git mv` e contenuto invariato, i progetti che dipendono
+  da servizi o programmi di terzi, gli strumenti una tantum e quello che non compila:
+  BridgeDesign.SiteComparison, MaxRetainingWall.Cases, MaxRetainingWall.Compare, ConcreteStressDiagnosis,
+  ValidazioneCA20260925, ElasticPile.Performance (riportato in `supporto/test`, vedi sotto) e ProgrammaAnthea
+  (`qa.py`). Nessuno era nel runner. Gli altri progetti mantengono la destinazione già scritta in tabella.
+  Origine, motivo e sostituzione di ogni file sono in `supporto/SUPERATI/registro-20261007-test.json`.
+- **Seguito di F1.6 dopo la verifica dell'integrazione 2** (decise dal coordinatore su delega, da ratificare):
+  - si archivia anche `supporto/script/validazione_ca_2026_09_25`, generatore una tantum della relazione del
+    25/9 che importa `reference_base.py` e `reference_extra.py` di ValidazioneCA20260925, in
+    `supporto/SUPERATI/script/validazione_ca_2026_09_25`, con voci nel registro di SUPERATI. `build_document.py`
+    torna al testo di prima di F1.6: l'import da `SUPERATI/test` era rotto, perché `reference_base.py` calcola
+    la cartella degli artefatti della campagna dalla propria posizione (`parents[2]`);
+  - ElasticPile.Performance torna in `supporto/test` con `git mv` e nell'elenco delle suite non eseguite di
+    `build/ci.ps1`: la tabella gli assegnava "Archiviare dopo F5, o spostare in `tools/`", destinazione che
+    resta invariata, e la decisione sopra conserva le destinazioni già scritte;
+  - MaxRetainingWall.Cases e .Compare, per cui la tabella rimandava la scelta all'utente, restano archiviati: la
+    scelta è reversibile con `git mv` ed è documentata in [progetti-di-test.md](progetti-di-test.md) e nel
+    README di SUPERATI;
+  - le cartelle `bin` e `obj` ignorate rimaste nelle vecchie posizioni dei progetti non si cancellano; le
+    segnala il coordinatore all'utente.
 
 ## Decisioni del 7 ottobre 2026, pomeriggio: D7-e
 

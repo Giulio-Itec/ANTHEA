@@ -1,8 +1,8 @@
 # Destino dei progetti di test
 
-Tabella del passo F1.6 [CP]. Stato al 6 ottobre 2026, ramo `refactoring/f1-test-fuori-exe`; destinazioni decise il
-7 ottobre 2026 su delega dell'utente ([decisioni.md](decisioni.md)), archiviazioni eseguite sul ramo
-`refactoring/f1-6-archivio`.
+Tabella del passo F1.6 [CP]. Rilevazione del 6 ottobre 2026 sul ramo `refactoring/f1-test-fuori-exe`; destinazioni
+decise il 7 ottobre 2026 dal coordinatore su delega dell'utente, da ratificare ([decisioni.md](decisioni.md));
+archiviazioni eseguite sul ramo `refactoring/f1-6-archivio` e corrette sul ramo `refactoring/integrazione-2`.
 Le voci "Nel runner" si riferiscono a `build/ci.ps1` (stadi `fast`, `regression`, `wiki`, `ui`, `word`);
 "Compila" è l'esito di `dotnet build -c Release` nel worktree di F1.
 
@@ -54,14 +54,14 @@ riscrittura MVVM del suo modulo; a fine F5 la configurazione UiTests e `supporto
 | ConcreteShort.UiChecks | Pulsante "Report short" della barra di MainWindow, per riflessione | `dotnet run ... -- <cartella>` | Sì, `ui` | Sì; da F1.2 contro X.Desktop UiTests (usa `FinishSmoke`) | Archiviare dopo F5 | La vista viene riscritta in F5 |
 | ConcreteStressDiagnosis | Diagnosi delle tensioni di un file del 2 ottobre | `dotnet run ... -- <file.anthea> [--original]` | No (strumento) | Sì | Archiviato in supporto/SUPERATI/test (F1.6) | Strumento una tantum |
 | ElasticPile.Checks | Palo elastico in GPCChecker.Geotechnics: soluzioni esatte, Viggiani, armature, sisma | `dotnet run` con Checker in `../Checker` | No | Solo con il repository Checker accanto (nel worktree di F1: no) | Spostare nei test di libreria (INF.10) | Compila i progetti di Checker |
-| ElasticPile.Performance | Misura dei tempi del palo elastico (diagnostica) | `dotnet run ... -- [input.json] [misure.json]` | No (input in `supporto/artefatti`) | Sì | Archiviato in supporto/SUPERATI/test (F1.6) | Non è una verifica |
+| ElasticPile.Performance | Misura dei tempi del palo elastico (diagnostica) | `dotnet run ... -- [input.json] [misure.json]` | No (input in `supporto/artefatti`) | Sì | Archiviare dopo F5, o spostare in `tools/` | Non è una verifica |
 | ElasticPile.UiChecks | Palo elastico in WPF per riflessione; stili da `X.Desktop/App.xaml` letto dalla cartella corrente | `dotnet run ... -- <cartella>` dalla radice | Sì, `ui` | Sì (contro X.Desktop Release) | Archiviare dopo F5 | Citata per percorso nelle guide; la vista cambia in F5 |
 | HorizontalPileGroup.Checks | Palificata orizzontale: motore e UI per riflessione | `dotnet run ... -- <cartella>` dalla radice | Sì, `ui` | Sì (contro X.Desktop Release) | Calcolo nei test di GPCChecker.Geotechnics; UI archiviata dopo F5.4 | Modulo pilota di F5 |
 | GlobalStability.Checks | Stabilità globale (Bishop GPC) e relazioni | `dotnet run ... -- <cartella>` | Sì, `regression` | Sì | Metodo nei test di libreria, adattatore nei test di ANTHEA.Application (F3) | Il metodo è già in GPCChecker.Geotechnics |
 | RetainingWall.Checks | Muri: azioni, modelli avanzati, distinta, due terreni, adattatore, materiali condivisi, sisma | `dotnet run ... -- <cartella>` | Sì, `regression` | Sì | Spostare con i muri in Concrete/Walls (F4.7–F4.9) e ANTHEA.Application | I muri passano in libreria |
 | MaxRetainingWall.Cases | Preparazione dei casi di confronto con il programma MAX | `dotnet run ... -- <cartella>` | No (input esterni) | Sì | Archiviato in supporto/SUPERATI/test (F1.6) | Confronto con un programma di terzi |
 | MaxRetainingWall.Compare | Ripetizione di un cerchio rilevato in MAX con il solutore Bishop | `README.md` del progetto | No (input esterni) | Sì | Archiviato in supporto/SUPERATI/test (F1.6) | Come sopra |
-| ValidazioneCA20260925 | Campagna di validazione c.a. del 25/9 con riferimenti Python | `dotnet run ... -- <casi.json>` | No | No: `Extra.cs` non risolve `Ntc2018Checks`, già prima di F1 | Archiviato in supporto/SUPERATI/test (F1.6) | I casi utili confluiscono nella regressione MSTest |
+| ValidazioneCA20260925 | Campagna di validazione c.a. del 25/9 con riferimenti Python | `dotnet run ... -- <casi.json> <risultati.json>` | No | No: `Extra.cs` non risolve `Ntc2018Checks`, già prima di F1 | Archiviato in supporto/SUPERATI/test (F1.6) | I casi utili confluiscono nella regressione MSTest |
 | Desktop (`supporto/test/Desktop`) | 20 prove `--smoke-*`, 6 `--check-*`, `--check-concrete-design`, `--capture-validation`, servizi di prova | ANTHEA.exe di UiTests; `build/ci.ps1 -Profile full` | Sì, `ui` | Sì, solo in UiTests | Tenere fino a F5, poi `tests/ANTHEA.Desktop.UiTests` modulo per modulo | Decisione (c): nessun allargamento di visibilità prima di F5 |
 | Materiali (`supporto/test/Materiali`) | Autotest della scheda Materiali (`MaterialView.Check`), da F1.3 | Con `--smoke-materials` | Sì, `ui` (dentro smoke-materials) | Sì, solo in UiTests | Con la scheda Materiali in F3.9/F5.5 | La scheda viene accorpata e riscritta |
 | Shared (`supporto/test/Shared`) | `DurabilityReferenceChecks`: durabilità e copriferro NTC, da F1.3 | In CalculationLibrary.Checks, X.Verifiche e smoke-materials | Sì, `fast` | Sì | Test di libreria con durabilità e copriferri (F2.9) | Saranno la prova di equivalenza dello spostamento |
@@ -81,18 +81,35 @@ riscrittura MVVM del suo modulo; a fine F5 la configurazione UiTests e `supporto
 | MaxRetainingWall.Cases | Preparazione dei casi di confronto con il programma MAX; input esterni, fuori dal runner. | In `supporto/SUPERATI/test/MaxRetainingWall.Cases`, invariato. I confronti MAX sono sospesi; muri e stabilità globale restano verificati da RetainingWall.Checks e GlobalStability.Checks. |
 | MaxRetainingWall.Compare | Ripetizione con il solutore Bishop di un cerchio rilevato in MAX; input esterni, fuori dal runner. | In `supporto/SUPERATI/test/MaxRetainingWall.Compare`, invariato. Il solutore Bishop resta verificato da GlobalStability.Checks. |
 | ConcreteStressDiagnosis | Diagnosi una tantum delle tensioni di un file del 2/10; fuori dal runner. | In `supporto/SUPERATI/test/ConcreteStressDiagnosis`, invariato. Nessuna sostituzione. |
-| ValidazioneCA20260925 | Campagna c.a. del 25/9 con riferimenti Python; non compilava (`Extra.cs` non risolve `Ntc2018Checks`). | In `supporto/SUPERATI/test/ValidazioneCA20260925`, invariato. `supporto/script/validazione_ca_2026_09_25/build_document.py` importa da lì `reference_base.py` e `reference_extra.py`. I casi utili entrano nella regressione MSTest. |
-| ElasticPile.Performance | Misura dei tempi del palo elastico (diagnostica), input in `supporto/artefatti`; fuori dal runner. | In `supporto/SUPERATI/test/ElasticPile.Performance`, invariato. Nessuna sostituzione; il palo elastico resta verificato da ElasticPile.Checks ed ElasticPile.UiChecks. |
+| ValidazioneCA20260925 | Campagna c.a. del 25/9 con riferimenti Python; non compilava (`Extra.cs` non risolve `Ntc2018Checks`). | In `supporto/SUPERATI/test/ValidazioneCA20260925`, invariato, insieme allo script della relazione (riga seguente). I casi utili entrano nella regressione MSTest. |
+| Script `validazione_ca_2026_09_25` (`supporto/script`) | Generatore una tantum della relazione `ANTHEA_Validazione_Calcestruzzo_Armato_Rev01` del 25/9, archiviata il 29/9; `build_document.py` importa `reference_base.py` e `reference_extra.py` di ValidazioneCA20260925. | In `supporto/SUPERATI/script/validazione_ca_2026_09_25`, invariato: `build_document.py` ha il testo di prima di F1.6. La relazione è confluita nella Rev02 e nella Rev03 corrente (`supporto/documentazione/Validazione_CA_ANTHEA`). `supporto/script` non esiste più. |
 | ProgrammaAnthea (`qa.py`) | Controllo del documento "Programma ANTHEA" del 6/10 (xlsx e PDF). | In `supporto/SUPERATI/test/ProgrammaAnthea/qa.py`, invariato. Il generatore del documento resta in `supporto/scripts/programma-anthea`. |
+
+ElasticPile.Performance, archiviato con gli altri in 4ff5026, è tornato in `supporto/test` (cb9b750): resta la
+destinazione della tabella, "Archiviare dopo F5, o spostare in `tools/`".
 
 Nessun progetto del repository ricompila più l'intero X.Desktop. Resta il collegamento di un solo sorgente
 (`ShortReportExport.cs`) in ConcreteShort.Checks, da togliere con F3.4.
 
-I progetti archiviati conservano i percorsi relativi della posizione originale (riferimenti `../../../X.*`, comandi
-dei README, radice calcolata da `qa.py`): da `supporto/SUPERATI/test` non si compilano né si eseguono; per riusarne
-uno lo si riporta in `supporto/test` con `git mv`. Origine, motivo, SHA-256 e sostituzione di ogni file sono in
-`supporto/SUPERATI/registro-20261007-test.json`, con una sezione in `supporto/SUPERATI/README.md`. `build/ci.ps1` non
-li elenca più tra le suite non eseguite.
+I progetti archiviati e lo script conservano i percorsi interni della posizione originale:
+
+- riferimenti `../../../X.*` dei csproj e `../Desktop/*.cs` di ConcreteDesign.DesktopChecks e ValidationIllustrations;
+- comandi con `supporto/test/<progetto>` dei README di BridgeDesign.SiteComparison e MaxRetainingWall.Compare e del
+  testo scritto da `compare.py`;
+- radice del repository, calcolata come `parents[3]` del proprio file da `qa.py`, `compare.py`, `check_campaign.py`,
+  `build_document.py`, `check_final.py` e `finalize.py`, e come `../../..` della propria cartella da `render_word.ps1`;
+- `ROOT` di `reference_base.py`, `parents[2]/'artefatti/validazione_ca_2026_09_25'`, che è
+  `supporto/artefatti/validazione_ca_2026_09_25` solo da `supporto/test` (la usa anche `reference_extra.py`);
+- `supporto/test/ValidazioneCA20260925` aggiunta a `sys.path` da `build_document.py`;
+- il comando `dotnet run --project supporto/test/ValidazioneCA20260925 ...` e le cartelle del capitolo
+  "Riproducibilità della campagna" della relazione, ripresi nella Rev03 corrente, che non è stata modificata.
+
+Per compilarli o eseguirli li si riporta nella posizione originale con `git mv` (per la campagna del 25/9 entrambe le
+cartelle). L'archiviazione è reversibile anche per BridgeDesign.SiteComparison e i due progetti MAX, per i quali la
+tabella rimandava la scelta all'utente. Origine, motivo, SHA-256 e sostituzione di ogni file sono in
+`supporto/SUPERATI/registro-20261007-test.json`, con una sezione in `supporto/SUPERATI/README.md` che elenca gli stessi
+percorsi. `build/ci.ps1` non elenca più i progetti archiviati tra le suite non eseguite; vi restano ElasticPile.Checks,
+BridgeValidationCurrent ed ElasticPile.Performance.
 
 ## Progetti in `supporto/tmp` (non versionati, solo elencati)
 
