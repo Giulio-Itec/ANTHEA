@@ -14,7 +14,9 @@ internal sealed partial class SheetEditor
         var defaults = Archivio.NuovoFoglio(Module); if (Data["generali"] is not JsonObject) Data["generali"] = new JsonObject(); var g = Data["generali"]!.AsObject();
         string previous = Micro ? "" : Nq.MetodoPrecedente(g);
         if (Micro) g.Remove("peso_lineare_micropalo"); // Superseded manual input; weight is always derived from geometry.
-        foreach (var (k, v) in defaults["generali"]!.AsObject()) if (!g.ContainsKey(k) && k != "metodo_micropalo") g[k] = v?.DeepClone();
+        Calcolo.AggiornaFoglio(Data); // D7-d (d2): one-off migration of γb of the sheets saved before version 2.
+        // A missing γb is completed with the effective value of the calculation (that of the technology), not with the default of the bored pile.
+        foreach (var (k, v) in defaults["generali"]!.AsObject()) if (!g.ContainsKey(k) && k != "metodo_micropalo") g[k] = k == "sicurezza_base" ? Calcolo.SicurezzaBaseTesto(Data) : v?.DeepClone();
         if (!Micro) { g["metodo_nq"] = "Parametrizzata"; if (previous != "") g["metodo_nq_precedente"] = previous; }
         if (Data["efficienza"] is not JsonObject) Data["efficienza"] = defaults["efficienza"]!.DeepClone();
         var fields = new List<Field>();

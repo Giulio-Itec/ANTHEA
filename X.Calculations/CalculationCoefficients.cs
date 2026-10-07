@@ -36,6 +36,10 @@ public static class CalculationCoefficients
         {
             JsonNode? value = data;
             foreach (string segment in path.Split('/')) value = (value as JsonObject)?[segment];
+            // D7-d: γb of the vertical piles is read with the rule of the calculation (Calcolo.SicurezzaBase), as after Calcolo.AggiornaFoglio;
+            // a stored value that is not a number stays visible to the validation.
+            if (path == "generali/sicurezza_base" && (value is null || J.Number(value) is double stored && stored != Calcolo.SicurezzaBase(data)))
+                value = JsonValue.Create(Calcolo.SicurezzaBaseTesto(data));
             result.Add(new(key, label, path, (value ?? fallback)?.DeepClone(), scope ?? standard));
         }
         if (module is "str_palo" or PaloOrizzontale.Module or BridgeSection.Module or RetainingWall.Module)

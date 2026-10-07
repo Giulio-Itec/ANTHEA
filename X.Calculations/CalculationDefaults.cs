@@ -10,7 +10,10 @@ public static class CalculationDefaults
             g["diametro"]="0.24";
             foreach(var (k,v) in J.Obj(("metodo_micropalo",BustamanteDoix.Versione),("tipo_iniezione","IGU"),("profilo_chs",""),("pressione_iniezione",""),("inclinazione","0"),("inizio_aderenza","0"),("considera_punta",false),("percentuale_punta","0")))g[k]=v?.DeepClone();
         }
-        return J.Obj(("generali",g),("efficienza",J.Obj(("metodo","Nessuna riduzione"),("numero_pali_x","1"),("numero_pali_y","1"),("interasse_x",""),("interasse_y",""),("eta_compressione","1"),("eta_trazione","1"))),("stratigrafie",new JsonArray(new JsonArray(micro ? NuovoStratoMicropalo() : NuovoStratoPalo()))),("visibilita_grafici",new JsonObject()));
+        var sheet=J.Obj(("generali",g),("efficienza",J.Obj(("metodo","Nessuna riduzione"),("numero_pali_x","1"),("numero_pali_y","1"),("interasse_x",""),("interasse_y",""),("eta_compressione","1"),("eta_trazione","1"))),("stratigrafie",new JsonArray(new JsonArray(micro ? NuovoStratoMicropalo() : NuovoStratoPalo()))),("visibilita_grafici",new JsonObject()));
+        // D7-d (d2): the new sheets carry the version, so the migration of Calcolo.AggiornaFoglio never applies to them.
+        if(Calcolo.RegolaD2)sheet["versione"]=Calcolo.VersioneFoglio;
+        return sheet;
     }
     public static JsonObject NuovoStratoMicropalo() => J.Obj(("spessore", "0"), ("terreno", ""), ("alpha", "0"), ("laterale_attiva", true));
     public static JsonObject NuovoStratoPalo() => J.Obj(("spessore", "0"), ("tipologia", ""), ("addensamento", ""),

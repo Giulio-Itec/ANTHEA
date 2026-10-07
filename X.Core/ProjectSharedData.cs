@@ -144,6 +144,8 @@ public static partial class ProjectSharedData
         {
             var data = (JsonObject)(target["dati"] as JsonObject ?? Archivio.NuovoFoglio(target.S("modulo_id"))).DeepClone();
             if (target.S("modulo_id") == RetainingWall.Module) RetainingWall.Upgrade(data);
+            // D7-d (d2): a pre-d2 vertical pile is migrated before a shared value is written, so a γb of 1,35 received now stays 1,35.
+            if (target.S("modulo_id") is "geo_palo_verticale" or "geo_micropalo_verticale") Calcolo.AggiornaFoglio(data);
             bool changed = false;
             // Use the final shape for rebar compatibility in this same operation.
             var effectiveTarget = (JsonObject)target.DeepClone();
