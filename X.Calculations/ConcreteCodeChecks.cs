@@ -202,7 +202,7 @@ public static class ConcreteCodeChecks
         else if (spacing > 5 * (cover + phi / 2)) { sr = 1.3 * tensileDepth; formula = "1,3(h−x), barre distanziate · EC2 (7.14)"; }
         void Add(string key, double value, string unit, string expression) => details?.Add(new(key, value, unit, expression));
         Add("ρp,eff", rho, "−", "As,eff / Ac,eff"); Add("αe", es/ecm, "−", "Es/Ecm");
-        Add("kt", kt, "−", "Coefficiente della durata / normativa"); Add("k₂", k2, "−", "Distribuzione delle deformazioni");
+        Add("kt", kt, "−", "Coefficiente della durata / normativa"); Add("k₂", k2, "−", mc || din ? "Distribuzione delle deformazioni; non entra in sr,max di " + standard : "Distribuzione delle deformazioni");
         Add("σs", sigma, "MPa", "Massima tensione nelle barre efficaci"); Add("c", cover, "mm", "Copriferro delle barre efficaci");
         Add("Øeq", phi, "mm", "Diametro equivalente"); Add("s", spacing, "mm", "Interasse massimo adottato");
         Add("sr,max", sr, "mm", formula); Add("εsm − εcm", strain, "−", "max[(σs−kt fctm/ρeff (1+αe ρeff))/Es; βmin σs/Es]");

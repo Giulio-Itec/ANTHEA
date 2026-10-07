@@ -26,7 +26,11 @@ public static class CrackCalculationSummary
         if (source.ContainsKey("Superficie governante") || source.TryGetValue("Normativa fessurazione", out var code) && code.Expression != "NTC 2018")
         {
             var keys = new[] { "hc,eff", "Ac,eff", "As,eff", "c", "Øeq", "s", "σs", "ρp,eff", "αe", "kt", "k₂", "sr,max", "Δsm adottata", "β minimo deformazione", "εsm − εcm", "wk", "wlim", "ηw" };
-            return keys.Where(source.ContainsKey).Select(k => source[k]).Where(d => d.Value.HasValue).ToArray();
+            var values = keys.Where(source.ContainsKey).Select(k => source[k]).Where(d => d.Value.HasValue);
+            // An inner band of a hole governs: its k₂ comes from the local strain distribution, not from the Criterio k₂ of the section.
+            if (source.TryGetValue("k₂ della fascia", out var band))
+                values = values.Select(d => d.Symbol == "k₂" ? d with { Expression = "k₂ della fascia: " + band.Expression } : d);
+            return values.ToArray();
         }
         var selected = new List<CrackCalculationDetail>();
         void Add(string key, string description, string? alternate = null)
@@ -61,8 +65,9 @@ public static class CrackCalculationSummary
             Add("kt", "Coefficiente di durata del carico");
             Add("k₁", "Coefficiente di aderenza · C4.1.7");
             bool barRule = Ntc2018Checks.NtcK2FromCompressedBars;
+            // Without the k₂ of the formula (wk = 0 or upper bound without bars in Ac,eff) the new rule shows no k₂: it does not enter wk.
             Add("k₂", source.ContainsKey("k₂ · interamente tesa")?"Trazione: (εmax+εmin)/(2 εmax); uniforme = 1"
-                : barRule ? "Criterio k₂ adottato: barre compresse → flessione; altrimenti trazione" : "Asse neutro interno alla sezione: flessione, k₂ = 0,50 · C4.1.2.2.4.5", "Criterio k₂");
+                : barRule ? "Criterio k₂ adottato: barre compresse → flessione; altrimenti trazione" : "Asse neutro interno alla sezione: flessione, k₂ = 0,50 · C4.1.2.2.4.5", barRule ? "Criterio k₂" : null);
             Add("k₃", "Coefficiente del copriferro · C4.1.7");
             Add("k₄", "Coefficiente dell'armatura · C4.1.7");
             Add("Δε calcolata", "[σs − kt·fct,eff·(1+αe·ρp,eff)/ρp,eff] / Es");

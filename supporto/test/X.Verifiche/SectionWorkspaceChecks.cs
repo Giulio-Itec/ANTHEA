@@ -271,6 +271,12 @@ internal static class CrackK2Checks
             var (r, _, _) = Crack(code, single, 0, sign * 100);
             Assert(Bending(r) && r.Width is > 0, code + ": wk calcolato in flessione");
             FlexureK2(r, code);
+            // Model Code 2010 and DIN: sr,max without k₂, declared in the criterion and in the formula trace.
+            string note = r.Details.Single(d => d.Symbol == "Criterio k₂").Note, formula = r.Details.Last(d => d.Symbol == "k₂").Expression;
+            if (code is "Model Code 2010" || code.StartsWith("DIN"))
+                Assert(note == $"Con {code} sr,max non contiene k₂: valore solo informativo." && formula.EndsWith("non entra in sr,max di " + code), code + ": k₂ dichiarato senza effetto su sr,max");
+            else
+                Assert(note.StartsWith("Entra in wk solo con il termine k₁·k₂·k₄·Øeq/ρp,eff di sr,max") && !formula.Contains("non entra"), code + ": nota del criterio sui rami in cui k₂ non entra");
             if (code is "EN 1992-1-1" or "UNI EN 1992-1-1" or "NS EN 1992-1-1")
             {
                 double c = V(r, "c"), phi = V(r, "Øeq"), rho = V(r, "ρp,eff"), s = V(r, "s");
@@ -278,6 +284,43 @@ internal static class CrackK2Checks
                 if (s <= 5 * (c + phi / 2)) Assert(Math.Abs(V(r, "sr,max") - (3.4 * c + .8 * .5 * .425 * phi / rho)) < 1e-9, code + ": sr,max = 3,4c + k₁k₂k₄Ø/ρ con k₂ = 0,50");
                 Assert(Math.Abs(r.Width!.Value - V(r, "sr,max") * V(r, "εsm − εcm")) < 1e-12, code + ": wk = sr,max (εsm − εcm)");
             }
+        }
+
+        // (f) Tensile bars all outside Ac,eff (singly reinforced, the unreinforced face in tension): k₂ written once, does not enter wk;
+        // the summary shows no k₂.
+        {
+            var (r, _, _) = Crack("NTC 2018", single, 0, -sign * 100);
+            Assert(Bending(r) && r.Status.StartsWith("Nessuna barra in Ac,eff") && r.Width is > 0, "(f) limite superiore senza barre tese in Ac,eff");
+            FlexureK2(r, "(f)");
+            Assert(r.Details.Single(d => d.Symbol == "Criterio k₂").Note.Contains("se non ci sono barre tese in Ac,eff") && !r.Details.Any(d => d.Symbol == "k₂"), "(f) k₂ non entra nel limite superiore, dichiarato nel criterio");
+            Assert(!CrackCalculationSummary.Values(r).Any(d => d.Symbol == "k₂") && !CrackCalculationSummary.Format(r).Contains("k₂"), "(f) riepilogo senza k₂");
+        }
+
+        // (g) Box section in bending, inner wall governing: the band of the hole keeps the k₂ of its own strain distribution
+        // (EN 1992-1-1 7.3.4(3), local areas), declared in the trace and in the summary; the section criterion stays 0,50.
+        {
+            var box = (JsonObject)input.DeepClone(); box["width_mm"] = "1000"; box["height_mm"] = "1000"; box["foro_presente"] = true; box["inner_width_mm"] = "600"; box["inner_height_mm"] = "600";
+            var boxBars = new List<(double X, double Y, double Phi)>();
+            foreach (var x in new[] { -400d, -200, 0, 200, 400 }) { boxBars.Add((x, -440, 20)); boxBars.Add((x, 440, 20)); }
+            foreach (var x in new[] { -250d, 0, 250 }) { boxBars.Add((x, -340, 12)); boxBars.Add((x, 340, 12)); }
+            foreach (var y in new[] { -200d, 0, 200 }) { boxBars.Add((-440, y, 16)); boxBars.Add((440, y, 16)); boxBars.Add((-340, y, 12)); boxBars.Add((340, y, 12)); }
+            box["barre_manuali"] = Bars(boxBars.ToArray());
+            var w = (JsonObject)settings.DeepClone(); w["normativa"] = "NTC 2018";
+            var engine = new CheckerSection(box, w, sle); var action = new ActionPoint(0, sign * 600, 0); var state = engine.Stress(action, "SLE_QP");
+            var r = Ntc2018Checks.Cracking(engine, state, action, box, w, sle, "SLE_QP");
+            Assert(Bending(r), "(g) cassone: asse neutro interno");
+            FlexureK2(r, "(g)");
+            Assert(r.Details.Single(d => d.Symbol == "Criterio k₂").Note.EndsWith("Le fasce interne dei fori usano il k₂ della propria distribuzione di deformazioni («k₂ della fascia»)."), "(g) criterio della sezione rimanda al k₂ delle fasce");
+            Assert(r.Details.Single(d => d.Symbol == "Superficie governante").Expression == "Parete interna −y", "(g) governa la parete interna tesa");
+            // Hand check: the band of the bottom wall goes from the hole (y = −300) to −300 − hc,eff and is entirely in tension.
+            double hc = V(r, "Parete interna −y · hc,eff");
+            var corners = new[] { (-300d, -300d), (300d, -300d), (-300d, -300 - hc), (300d, -300 - hc) }.Select(p => state.Native.StrainPlane.GetStrain(p.Item1, p.Item2)).ToArray();
+            double bandK2 = (corners.Min() + corners.Max()) / (2 * corners.Max());
+            Assert(corners.Min() > 0 && Math.Abs(V(r, "k₂ della fascia") - bandK2) < 1e-12 && bandK2 > .5, $"(g) k₂ della fascia = (εmax + εmin)/(2 εmax) ai vertici della fascia = {bandK2:R} (traccia {V(r, "k₂ della fascia"):R})");
+            Assert(V(r, "k₂") == V(r, "k₂ della fascia") && Math.Abs(r.Width!.Value - NtcWidth(r, bandK2)) <= 1e-12 * r.Width.Value, "(g) wk della parete con il k₂ della fascia, calcolo a mano");
+            var summaryK2 = CrackCalculationSummary.Values(r).Single(d => d.Symbol == "k₂");
+            Assert(summaryK2.Value == bandK2 && summaryK2.Expression.StartsWith("k₂ della fascia: "), "(g) riepilogo: k₂ della fascia dichiarato");
+            Console.WriteLine($"(g) cassone NTC, M = 600 kNm: governa la parete interna −y, k₂ della fascia = {bandK2:0.0000}, wk = {r.Width:0.0000} mm");
         }
         Console.WriteLine($"k2 D7-b: {passed} controlli superati."); return passed;
     }

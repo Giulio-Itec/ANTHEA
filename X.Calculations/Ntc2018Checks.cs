@@ -117,8 +117,13 @@ public static partial class Ntc2018Checks
         if (!barRule)
         {
             k2 = .5;
-            Add("Criterio k₂", k2, "−", "Asse neutro interno alla sezione: flessione, k₂ = 0,50 (Circolare 2019 C4.1.2.2.4.5; EN 1992-1-1 7.3.4(3))",
-                "Non entra in wk se l'asse neutro è nel copriferro senza barre tese o se nessuna barra tesa è in Ac,eff.");
+            // Model Code 2010 and DIN: sr,max has no k₂ term (ConcreteCodeChecks.CrackWidth).
+            string k2Note = code == "Model Code 2010" || code.StartsWith("DIN")
+                ? $"Con {code} sr,max non contiene k₂: valore solo informativo."
+                : "Entra in wk solo con il termine k₁·k₂·k₄·Øeq/ρp,eff di sr,max (NTC: Δsm,vicino): non entra se l'asse neutro è nel copriferro senza barre tese, "
+                  + "se non ci sono barre tese in Ac,eff o, con barre distanziate, se governa il termine in (h − x).";
+            if (engine.Geometry.Holes.Count > 0) k2Note += " Le fasce interne dei fori usano il k₂ della propria distribuzione di deformazioni («k₂ della fascia»).";
+            Add("Criterio k₂", k2, "−", "Asse neutro interno alla sezione: flessione, k₂ = 0,50 (Circolare 2019 C4.1.2.2.4.5; EN 1992-1-1 7.3.4(3))", k2Note);
         }
         else if (code != "NTC 2018")
         {
