@@ -24,7 +24,8 @@ public static partial class Ntc2018Checks
         // Tensile depth h − x of a band (EN 1992-1-1 7.3.4(3), eq. (7.14); NTC Δsm,distante; R15): h − x = min[εmax/|∇ε|; h of the
         // section along the gradient]. εmax/|∇ε| is measured from the neutral axis; with the neutral axis inside the section it does not
         // exceed the height along the gradient (the min only guards rounding, the rule before R15 is unchanged there); with the neutral
-        // axis outside x = 0 and h − x is that height, as for the outer faces of a fully tensioned section. A gradient negligible against the
+        // axis outside (x = 0) the bound acts where εmax/|∇ε| exceeds that height, that is for the bands far from the neutral axis and for
+        // every band close to uniform tension; a band near the less tensioned side keeps εmax/|∇ε|. A gradient negligible against the
         // strain (|∇ε|·h ≤ 1e-4 εmax: solver noise, ≈ 1e-15…1e-12 1/mm, has no direction) is uniform tension: the whole band is tensile,
         // k₂ = 1 and h − x = h of the section normal to the face (diameter for the ring).
         // Continuity: where the neutral axis enters the section εmax/|∇ε| tends to the height along the gradient, so h − x and wk of the
