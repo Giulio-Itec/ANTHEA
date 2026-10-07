@@ -398,8 +398,19 @@ ratificare. Nessun push da parte dei workflow.
 - 16:01-17:14, F2.4 sul branch `refactoring/f2-4-snapshot-s2` (worktree Temp\aw-s2): candidato S2 f6b6fdf, compilato
   da Checker develop 1fbaea61 locale, verificato e unito nell'integrazione 2 alle 16:42 (0c87141). Poi S2 ricompilata
   dai commit pushati con `Update-Snapshot.ps1 -FromUpstream` (8d6a8ec, edc4fce; documenti decd371): profilo standard
-  33 PASS e baseline 39 PASS, 1 KNOWN, 0 NEW-FAIL, esiti uguali al candidato; manca il profilo full a schermo. Da unire
-  nell'integrazione.
+  33 PASS e baseline 39 PASS, 1 KNOWN, 0 NEW-FAIL, esiti uguali al candidato; manca il profilo full a schermo. Unita
+  nell'integrazione 2 alle 17:40 (b818b20, secondo merge del branch).
+- 17:41-17:49, integrazione 2 dopo il secondo merge di F2.4 (b818b20, lib/Checker uguale a edc4fce, manifest
+  5489C912…), senza `-GpcLibDir`, con `-CompareTo` le corse `s2u` del branch F2.4: profilo standard
+  (`20261007-174117-int2-std`) 33 PASS, 1 KNOWN (`verifiche/project-calculations`), 0 NEW-FAIL; profilo baseline
+  (`20261007-174409-int2-base`, `-BaselineRef <F2-B2>\headless`, `-DenseRef <F2-pre-m4-v2>\a\tutte`) 39 PASS, 1 KNOWN,
+  0 NEW-FAIL. Nessun avviso, quindi esiti e righe di conteggio uguali a S2; nessun file tracciato modificato. Cattura
+  headless uguale a F2-B2 su 432 file con i soli 21 tempi volatili; `banco-ca` 27 698 righe, 26 462 identiche, 1236
+  con soli identificativi casuali; `banco-denso` 32 564 righe, 31 320 identiche, 1244; nessuna differenza. Le DLL GPC
+  negli output usati dalle suite hanno lo SHA-256 di lib/Checker. Prove conservate nel checkout principale in
+  `supporto/artefatti/refactoring/integrazione-2`: corse del runner dell'integrazione (`ci`) e uscite della console
+  (`console`); corse, staging e catture `mesh` di S2 dal worktree Temp\aw-s2 (`s2/ci`, `s2/lib-staging`,
+  `s2/refactoring`).
 - 15:09-17:18, F2.5 e F2.6 sul branch `refactoring/f2-taglio-torsione` (worktree Temp\aw-f2tt): in correzione dopo le
   verifiche avversarie. Il primo interruttore (7176c0c) collegava alla libreria il solo taglio del modulo; torsione del
   modulo attraverso l'adattatore (f5b5f50); baseline B3 catturata con il legacy su dcde952; interruttore sulla libreria
