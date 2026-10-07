@@ -320,3 +320,40 @@ sugli scostamenti (a)-(g).
   Uscite in `supporto/artefatti/ci` e `supporto/artefatti/refactoring/s2` del worktree.
 - Restano: push di Checker develop 1fbaea61 e poi `pushed: true` nel manifest (senza ricompilare), profilo full a
   schermo, approvazione dell'utente e merge su main.
+
+### 7/10 tardo pomeriggio: S2 dai commit pushati (`Update-Snapshot.ps1 -FromUpstream`)
+
+- Problema: AGENTS.md vuole lib/Checker da commit pushati, ma `Update-Snapshot.ps1` compilava il HEAD locale dei
+  repository fratelli; con SourceLink anche un commit di sola documentazione (Checker 1fbaea61) dà DLL diverse, e un
+  merge concorrente durante la build sbaglia il commit del manifest (incidente della prima build di S2). Durante questo
+  lavoro Checker develop locale è passato da 1fbaea61 a e41a803a (altri merge e commit delle pagine dei metodi), senza
+  effetti sulla build.
+- 8d6a8ec: opzione `-FromUpstream`. Per Utilities, Geometry, Model e Checker lo script risolve `@{u}` del ramo estratto,
+  crea worktree staccati in `<TEMP>\gpc-snapshot\<Repo>` (fratelli, quindi HintPath e ProjectReference funzionano),
+  compila come prima, controlla che nessun worktree differisca dal suo commit, registra commit e ramo remoti con
+  `pushed: true`, `fromUpstream` e `buildRoot`, e alla fine rimuove i soli worktree creati (`git worktree remove
+  --force`, `git worktree prune`) e la radice, anche dopo un errore. Opzioni nuove `-Repos` e `-Lib` per lanciarlo da un
+  worktree di ANTHEA; `GPCChecker.Geotechnics.xml` copiato dall'uscita della build.
+- Radice fissa per necessità: la DLL contiene il percorso completo del PDB, quindi lo stesso commit compilato altrove
+  cambia SHA-256 (GPCModel da Model 5ad56681: 936FDE1A… nel checkout principale, 3C6D5788… nella radice temporanea).
+  Quattro corse `-FromUpstream` (una partita da una radice lasciata da una corsa interrotta, riconosciuta dal file
+  marcatore e rimossa) hanno dato DLL, xml e manifest identici bit per bit; una cartella `gpc-snapshot` senza marcatore
+  ferma lo script. Modo predefinito invariato: su cloni locali degli stessi commit lo script originale e quello nuovo
+  danno DLL, manifest.json e manifest.props identici (in più solo lo xml). Il percorso più lungo versionato in Geometry
+  è di 142 caratteri: un primo clone di prova nella cartella di scratch, più profonda, falliva per percorsi troppo lunghi;
+  nella radice temporanea il margine è di circa 60 caratteri, e il controllo dello stato dei worktree dopo la build
+  coglierebbe un checkout troncato.
+- edc4fce: S2 ricompilata con `-FromUpstream -Install` (staging `lib-staging/S2-upstream`, controllo di versione contro
+  il manifest S1 di main 17b6c98, ripristinato per la corsa nel worktree) da Utilities df3b3e7, Geometry 6a0d1c1, Model
+  5ad56681 e Checker 0d7ba50b, tutti in origin. Versioni invariate rispetto al candidato; SHA-256 nuovi: GPCModel
+  3C6D5788…, GPCModelData EA40DB14…, Concrete E724B959…, Geotechnics A72C43FC…, CompositeBridge F9A59096…; Utilities,
+  Geometry e DelaunayMesh come S1. Lo xml aggiunge `PileSegments` e `PileSegments.TubeWeight`.
+- Verifiche su edc4fce, senza `-GpcLibDir`, con `-CompareTo` le corse del candidato: profilo standard (`20261007-170249-
+  s2u`) 33 PASS, 1 KNOWN, 0 NEW-FAIL; profilo baseline (`20261007-170533-s2u-baseline`, stessi riferimenti F2-B2 e
+  F2-pre-m4-v2) 39 PASS, 1 KNOWN, 0 NEW-FAIL; nessun avviso, quindi esiti e righe di conteggio uguali al candidato.
+  Cattura headless uguale a F2-B2 su 432 file (21 tempi volatili), banco c.a. e banco denso con gli stessi totali del
+  candidato e nessuna differenza; cattura densa `mesh`: 80 impronte identiche a B0 e a F2-pre-m4-v2 (uscite in
+  `supporto/artefatti/refactoring/s2u` del worktree). Test delle librerie non ripetuti: binari dello stesso sorgente,
+  diversi solo per il percorso del PDB.
+- Stato: S2 da commit pushati, verificata senza interfaccia; manca il profilo full con le prove WPF a schermo, poi
+  approvazione dell'utente e merge su main. Il push di Checker develop 1fbaea61 non serve più per S2.
