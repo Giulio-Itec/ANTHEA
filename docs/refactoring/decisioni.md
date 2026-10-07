@@ -140,6 +140,23 @@ sempre in due commit (collegamento con opzione legacy identico, poi cambio con e
   report di lavori, test, committa e continua con il refactoring". Profilo full con prove WPF eseguito durante
   la pausa sulla punta dell'integrazione.
 
+## Decisioni del 7 ottobre 2026, pomeriggio (coordinatore, da ratificare)
+
+Decise dal coordinatore dei workflow su delega dell'utente, durante la verifica avversaria di F2.5-F2.6 (branch
+`refactoring/f2-taglio-torsione`); valgono fino alla ratifica dell'utente. Voci F2-2…F2-4 del registro.
+
+- **F2-3, torsione senza staffe chiuse**: resta un dato non valido, rifiutato con il messaggio di oggi; l'adattatore lo
+  controlla prima della libreria, che darebbe invece una verifica non soddisfatta con resistenza nulla.
+- **F2-4, limiti propri della libreria non raggiungibili dal modulo** (torsione oltre C90/105, componenti di taglio
+  negative o non finite, spessore del profilo circolare confrontato con il diametro, norme CNR-DT rifiutate dalla
+  mappatura): accettati, nessuna azione.
+- **F2-2, traccia NTC della libreria**: non esposta nel JSON 'taglio' né nelle relazioni, come oggi; si riprende con le
+  tracce in italiano per i report (F2.3).
+- **Baseline B3**: il corpus della cattura headless di B2 non contiene fogli c.a. con taglio e torsione. Si aggiungono
+  casi scritti per la cattura (`tests/ANTHEA.Testing/corpus`: rettangolare, circolare e circolare cava NTC con torsione,
+  rettangolare DIN con cot θ assegnato e rifiuti) e si cattura la baseline B3 con il motore legacy, prima
+  dell'interruttore (`supporto/artefatti/baseline/F2-B3`, commit dcde952). Riferimento headless dei passi F2.6-F2.9.
+
 ## Dipendenze esterne previste
 
 Da approvare una volta; ogni variazione si aggiunge qui.

@@ -290,3 +290,36 @@ sugli scostamenti (a)-(g).
   ca0cc10) e confermato k2 = (7.13) delle fasce. Testo della regola in sezione interamente tesa reso preciso (2d40a95,
   d71054ce) e guide rigenerate.
 - Profilo full con prove WPF a schermo durante la pausa dell'utente (punta 348f967): 67 PASS, 1 KNOWN, 0 NEW-FAIL.
+
+## Pomeriggio del 7 ottobre 2026: F2.5 e F2.6 (taglio e torsione verso la libreria)
+
+Branch `refactoring/f2-taglio-torsione` (worktree Temp\aw-f2tt, da main 17b6c98), non su main, non pushato.
+
+- F2.5 (2583225): strato di mappatura `ConcreteLibraryMapping` (unità con nome, norme, testi italiani del legacy) e
+  adattatore `ConcreteShearTorsionAdapter` con l'interruttore `Default` sul legacy; prove `tests/ConcreteLibraryAdapter.Checks`.
+- Primo interruttore (7176c0c). La verifica avversaria ha trovato che collegava alla libreria il solo taglio del modulo:
+  `ConcreteShearAnalysis` calcolava ancora profilo resistente e torsione con il legacy diretto, e le prove 3d/3e
+  confrontavano per la torsione il legacy con se stesso; inoltre tolleranze nel commit dell'interruttore, controllo delle
+  costanti cieco ai letterali con il punto iniziale (.85), attesi indipendenti solo sul legacy diretto, SHA mancanti nel
+  piano e nel registro, nessun caso con taglio e torsione nel corpus headless di B2. Messaggio di 7176c0c e prime righe di
+  piano, matrice e registro descrivevano un collegamento che non esisteva: corretti nei documenti, senza riscrivere la storia.
+- Correzione, prima corsa (f5b5f50, 8f991b4, 85314a6, 0111a1f): torsione e profilo resistente del modulo attraverso
+  l'adattatore; prova 3f (torsione del modulo uguale bit per bit all'adattatore del motore richiesto, 70 casi su 120 con
+  uscite diverse fra i motori); prova 4 (reference.json in sola lettura, benchmark DIN, DS, UNI, NS, torsione NTC in forma
+  chiusa, con entrambi i motori); regex delle costanti con il caso sintetico .85; tolleranze dense in un commit dedicato;
+  interruttore sulla libreria.
+- Correzione, seconda corsa (coordinatore: la baseline B3 si cattura con il legacy prima dell'interruttore): 8c95d9b
+  interruttore di nuovo sul legacy, 3f anche contro il legacy diretto, 3e con la torsione del calcolo headless uguale
+  all'adattatore del motore predefinito (riga T7); 256714d corpus headless con tre sezioni c.a. con taglio e torsione;
+  una prova con la libreria a mano ha mostrato che senza `foro_presente` il registro dei ripieghi cambia chiamante
+  (TorsionGeometryOf invece di ConcreteTorsionCalculator.Geometry, stesso valore), quindi dcde952 dichiara la chiave e
+  aggiunge la sezione circolare cava; B3 catturata su dcde952 (runner PASS 40, KNOWN 1, NEW-FAIL 0; densa identica a
+  F2-pre-m4-v2 con il confronto esatto; headless uguale a B2 sui 432 file comuni salvo le voci dei casi nuovi; doppia
+  corsa con soli tempi volatili). ea6e0ac tolleranze headless dedicate; ca6530d interruttore sulla libreria.
+- Misure su ca6530d: runner baseline contro B3 e F2-pre-m4-v2 PASS 41, KNOWN 1, NEW-FAIL 0 (headless: 5 numeri su 276
+  di 'taglio' e 'torsione' entro 1e-9, massimo relativo 2,0e-16, relazioni identiche; densa: 1083 righe entro 1e-9, nessuna
+  non classificata); profilo standard PASS 35, KNOWN 1; prove negative della 3e e della 3f. Registro F2-1…F2-4, piano,
+  matrice, decisioni del coordinatore da ratificare (F2-3 rifiuto senza staffe chiuse, F2-4 limiti della libreria
+  accettati, traccia NTC non esposta, B3).
+- Una corsa del runner si è interrotta dopo l'ultima suite perché `summary.txt` era letto da fuori durante la scrittura
+  (Add-Content): ripetuta; le corse non vanno osservate leggendo i file del runner.
