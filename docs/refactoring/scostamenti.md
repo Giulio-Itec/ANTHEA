@@ -643,19 +643,26 @@ sicurezza, da decidere con priorità:
 
 R15 (7/10/2026, corretto): nelle fasce interne dei fori h − x era εmax/|∇ε| anche con il gradiente
 di rumore della trazione quasi uniforme (h − x ≈ 1e12 mm, wk ≈ 1e9 mm con barre distanziate).
-Ora, con la sezione interamente tesa (x = 0), h − x ≤ h della sezione normale alla faccia della
-fascia (diametro per l'anello), come per le facce esterne e, con |∇ε| h ≤ 1e-4 εmax, trazione
-uniforme: k2 = 1 e h − x = la stessa h, senza salto alla soglia anche nelle sezioni non quadrate
-(la prima versione limitava all'altezza lungo il gradiente: cassone 400×600, fasce ±x da 600 a
-400 mm alla soglia). Nessun effetto con l'asse neutro interno; nel banco c.a. cambiano 4 stati
-C1000H in sola trazione (+2,8e-8 relativo, esiti invariati), nessuno per la regola continua.
+Regola adottata per **decisione dell'utente del 7/10** ("Altezza lungo il gradiente"): h − x =
+min[εmax/|∇ε|; h della sezione lungo il gradiente] (x ≥ 0) e, con |∇ε| h ≤ 1e-4 εmax, trazione
+uniforme: k2 = 1 e h − x = h della sezione normale alla faccia (diametro per l'anello). Con l'asse
+neutro interno nulla cambia rispetto a prima della correzione; k2 della fascia con l'asse neutro
+che taglia la sezione resta la (7.13) della propria distribuzione (decisione confermata). Nel banco
+c.a. cambiano 4 stati C1000H in sola trazione (+2,8e-8 relativo, esiti invariati).
 
-La regola continua sposta però la discontinuità delle fasce dalla soglia della trazione uniforme
-(un'eccentricità trascurabile) al punto in cui l'asse neutro entra nella sezione, dove prima non
-c'era (d2d3225 limitava all'altezza lungo il gradiente da entrambi i lati, 733a77c non limitava):
-appena fuori h − x = min[εmax/|∇ε|; h normale alla faccia], appena dentro εmax/|∇ε|. Il salto c'è
-anche nelle sezioni quadrate in flessione deviata e può decidere l'esito: cassone 1000×1000 con
-foro 600×600, N = 3000 kN, momento lungo (0,6; 0,8), ingresso a M = 485,44 kNm: fascia +x
-1000 → 1183,68 mm, wk della sezione 3,9279 → 4,6494 mm NTC (4,0049 → 4,7406 mm EN, +18,4 %).
-Nell'anello non c'è (le due altezze sono il diametro). **Da decidere**: tenere questa regola oppure
-scegliere un limite continuo sia alla soglia sia all'ingresso dell'asse neutro.
+Continuità: quando l'asse neutro entra nella sezione εmax/|∇ε| tende all'altezza lungo il
+gradiente, quindi h − x e wk delle fasce sono continui, in flessione retta e deviata, nei cassoni
+quadrati e non (X.Verifiche (k), piani prescritti a ±1e-6 mm dall'ingresso: differenze ≤ 2,2e-8).
+Resta un salto alla soglia della trazione uniforme (un'eccentricità trascurabile) dove l'altezza
+normale alla faccia e quella lungo il gradiente differiscono, cioè nei cassoni non quadrati e con
+il gradiente obliquo: cassone 1000×1400 con foro 600×1000, N = 1500 kN, momento intorno a x:
+fasce ±x da 1000 a 1400 mm, wk della fascia +40 %; intorno a y: fasce ±y da 1400 a 1000 mm, wk
+della sezione 1,1538 → 0,8242 mm NTC; cassone 1000×1000 con foro 600×600, N = 3000 kN, momento
+lungo (0,6; 0,8): tutte le fasce da 1000 a 1372,5 mm, wk della sezione 2,0114 → 2,7608 mm NTC
+(+37 %). Nell'anello solo l'effetto del poligono che approssima il cerchio.
+
+La regola intermedia (ANTHEA 76a2062, Checker d2f81329; commenti f2e3830 e 984cf849), con il
+limite all'altezza normale alla faccia nella sezione interamente tesa, era continua alla soglia ma
+saltava all'ingresso dell'asse neutro (stesso cassone 1000×1000 obliquo, M = 485,44 kNm: fascia
++x 1000 → 1183,68 mm, wk della sezione 3,9279 → 4,6494 mm NTC, +18,4 %): è stata ritirata con
+ANTHEA 08c6dcc e Checker 12547700. Con la regola adottata la fascia +x vale 1183,68 mm ai due lati.
