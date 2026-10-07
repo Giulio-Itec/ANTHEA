@@ -136,6 +136,15 @@
         { "file": "^walls-(combinations|documents)\\.jsonl", "forma": "hex32", "motivo": "id delle azioni creati da RetainingWall.Upgrade per i documenti dei muri in versione 1 (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" }
       ],
       "differenze_attese": []
+    },
+    "f2-libreria": {
+      "descrizione": "Dal passo F2.6: cattura densa con taglio e torsione calcolati da GPCChecker.Concrete tramite ConcreteShearTorsionAdapter (CheckerMigration.Capture con '--motore libreria', o senza opzione dopo l'interruttore di F2.6 sulla libreria) contro la cattura pre-M4 v2 (supporto/artefatti/baseline/F2-pre-m4-v2/a, legacy), una modalità per volta. Come pre-m4, ma le grandezze numeriche di shear-legacy.csv, torsion-legacy.csv e torsion-geometry-legacy.csv ammettono 1e-9 (regole 'f2-libreria/' di tolerances.json, come le fixture di Checker): differenze nelle ultime cifre fra l'aritmetica della libreria e quella del legacy (Math.Pow(x, 1/3) contro Math.Cbrt, unità N e N·mm, ordine delle somme dei tassi), categoria convenzione, registro F2-1. Testi, stati, esiti, rifiuti e messaggi esatti (mappatura sui testi del legacy, registro F2-2); ogni altro file esatto. Con '--motore legacy' la cattura resta confrontabile con pre-m4.",
+      "prefisso_tolleranze": "f2-libreria",
+      "identificativi_casuali": [
+        { "file": "-sections\\.xml$", "forma": "guid", "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" },
+        { "file": "^walls-(combinations|documents)\\.jsonl", "forma": "hex32", "motivo": "id delle azioni creati da RetainingWall.Upgrade per i documenti dei muri in versione 1 (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" }
+      ],
+      "differenze_attese": []
     }
   }
 }
