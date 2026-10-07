@@ -103,7 +103,9 @@ sempre in due commit (collegamento con opzione legacy identico, poi cambio con e
 - **(e) Durabilità**: "confermo la norma più aggiornata". Si tiene la UNI 11104 nell'edizione in vigore (2025,
   che per XC3, XD1, XF4 e XA1 conferma C30/37 come la 2016); niente scelta del riferimento 2004. Da fare:
   riscontrare sul testo della 2025 le classi minime di tutte le esposizioni e aggiornare le citazioni
-  («UNI 11104 prospetto 5» dipende dall'edizione).
+  («UNI 11104 prospetto 5» dipende dall'edizione). Esito del 7/10 pomeriggio: il codice segue la 2016
+  (prospetto 5); secondo un estratto la 2025 (prospetto 6) differisce per XF1 (C30/37, a/c 0,55) e per il
+  cemento minimo. Vedi D7-e: opzione e4 in F2.9, dopo il riscontro su una copia con licenza.
 - **(f) Bridge Design**: "se fattibile come costo computazionale (deve essere rapido) prendiamo in
   considerazione il tandem, linee di influenza, γQ 1,35". Schema 1 con tandem e linee di influenza in forma
   chiusa e γQ = 1,35 in GPC.Design (F4.11), con il vincolo di un costo di calcolo che non rallenti in modo

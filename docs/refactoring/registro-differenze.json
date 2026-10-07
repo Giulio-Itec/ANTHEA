@@ -286,7 +286,7 @@
         "data": "2026-10-06",
         "utente": "lasciare entrambi i riferimenti e la possibilità di scelta all'utente",
         "opzione": "e3",
-        "revisione": "Dopo la decisione la revisione dei metodi (pagina ca.durabilita-copriferri) ha trovato che C30/37 per XC3, XD1, XF4 e XA1 è il valore di UNI 11104:2016 (ATECAP 2020 e una seconda fonte secondaria concordi) e, da estratto, della UNI 11104:2025 (prospetto 6, in vigore dal 24/07/2025); C28/35 è dell'edizione 2004 (prospetto 4). Il codice segue quindi l'edizione in vigore e il prospetto F.1 della EN 206. Nessun testo UNI primario consultato.",
+        "revisione": "Dopo la decisione la revisione dei metodi (pagina ca.durabilita-copriferri) ha trovato che C30/37 per XC3, XD1, XF4 e XA1 è il valore di UNI 11104:2016 (ATECAP 2020 e una seconda fonte secondaria concordi) e, da estratto, della UNI 11104:2025 (prospetto 6, in vigore dal 24/07/2025); C28/35 è dell'edizione 2004 (prospetto 4). Per queste quattro classi il codice coincide quindi con l'edizione in vigore e con il prospetto F.1 della EN 206; nel complesso segue la UNI 11104:2016 (prospetto 5), da cui la 2025 differisce, secondo l'estratto, per XF1 e per il cemento minimo (vedi seguito). Nessun testo UNI primario consultato.",
         "esito": "da confermare con l'utente: la scelta diventa fra UNI 11104:2016/2025 ed EN 206 F.1 (C30/37, predefinito) e UNI 11104:2004 (C28/35, edizione ritirata). Da correggere comunque l'etichetta «UNI 11104 prospetto 5» (il numero dipende dall'edizione) e MinimumConcrete.Label(28) se la scelta resta."
       },
       "attuazione": {
