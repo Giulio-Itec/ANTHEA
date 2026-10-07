@@ -4,10 +4,11 @@ namespace Anthea.Calculations;
 
 public sealed record ConcreteShearResult(Ntc2018Checks.ShearResult[] Shear, TorsionResult? Torsion);
 
-/// <summary>Shared section adapter for the ordinary-concrete code profiles; no WPF dependencies.</summary>
+/// <summary>Shared section adapter for the ordinary-concrete code profiles; no WPF dependencies. Shear and torsion are computed by
+/// <see cref="ConcreteShearTorsionAdapter"/>: the argument engine = null uses its default engine (refactoring F2.5-F2.6).</summary>
 public static class ConcreteShearAnalysis
 {
-    public static ConcreteShearResult Calculate(JsonObject input, JsonObject settings, JsonObject options, JsonObject row)
+    public static ConcreteShearResult Calculate(JsonObject input, JsonObject settings, JsonObject options, JsonObject row, ShearTorsionEngine? engine = null)
     {
         ConcreteCalculationSettings.ValidateStirrups(input, options);
         // Derived geometry cannot depend on a WPF panel having been visited.
@@ -49,19 +50,19 @@ public static class ConcreteShearAnalysis
                 lever = Math.Min(lever, Math.Max(d - cv - 30, d - 2*cv) / d);
             }
             double moment = code == "Model Code 2010" ? SectionWorkspace.Number(row.S(axis == "x" ? "My" : "Mx"), "Momento per taglio MC2010") : 0;
-            var check = ConcreteCodeChecks.Shear(new(code, n, v, moment, geometry.AreaCls, bw, d, asl,
+            var check = ConcreteShearTorsionAdapter.Shear(new(code, n, v, moment, geometry.AreaCls, bw, d, asl,
                 input.Required("fck_mpa"), fcd, materials.Fyd, input.Required("gamma_c"), geometry.Es,
                 stirrups ? legs * ReinforcementGeometry.Area(phi) : 0, spacing, stirrups ? Value("alpha") : 90, cot, lever,
                 code == "Model Code 2010" || code.StartsWith("NS") ? settings["dettagli_costruttivi"]!.AsObject().Required("aggregato") : 20,
-                code == "Model Code 2010" ? options.Required("eccentricita_mc_" + axis) : 0));
+                code == "Model Code 2010" ? options.Required("eccentricita_mc_" + axis) : 0), engine);
             results.Add(check);
         }
 
         if (torque != 0 && code != "NTC 2018") throw new ArgumentException("Torsione accoppiata: il modello attuale è NTC 2018; separare il caso T = 0 per il controllo di taglio " + code + ".");
-        return new(results.ToArray(), Torsion(input, options, row, geometry, results.ToArray(), fcd));
+        return new(results.ToArray(), Torsion(input, options, row, geometry, results.ToArray(), fcd, engine));
     }
     private static TorsionResult? Torsion(JsonObject input, JsonObject options, JsonObject row,
-        SezioneCA geometry, Ntc2018Checks.ShearResult[] shear, double fcd)
+        SezioneCA geometry, Ntc2018Checks.ShearResult[] shear, double fcd, ShearTorsionEngine? engine)
     {
         double torque = SectionWorkspace.Number(row.S("T", "0"), "T");
         if (torque == 0) return null;

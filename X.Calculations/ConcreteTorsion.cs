@@ -1,15 +1,6 @@
 namespace Anthea.Calculations;
 
-public sealed record TorsionGeometry(double Area, double Perimeter, double Thickness);
-public sealed record TorsionInput(double TorqueKnM, TorsionGeometry Geometry, double Fcd, double Fyd,
-    double StirrupLegArea, double Spacing, double AvailableLongitudinalArea, double CotTheta,
-    double VxKn, double VyKn, Ntc2018Checks.ShearResult ShearX, Ntc2018Checks.ShearResult ShearY);
-public sealed record TorsionResult(double TRcd, double TRsd, double TRld, double TRd, double? TorsionRatio,
-    double? ConcreteCombinedRatio, double? SteelCombinedRatio, double RequiredLongitudinalArea, bool Passed, string Status)
-{
-    public TorsionGeometry? Geometry { get; init; }
-    public double CotTheta { get; init; }
-}
+// Motore legacy della torsione NTC 2018. I DTO sono in ConcreteTorsionContracts.cs; ANTHEA lo chiama tramite ConcreteShearTorsionAdapter.
 public interface IConcreteTorsionCalculator { TorsionResult Calculate(TorsionInput input); }
 public sealed class ConcreteTorsionCalculator : IConcreteTorsionCalculator
 {

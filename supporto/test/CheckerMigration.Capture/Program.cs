@@ -7,8 +7,10 @@ using Anthea.Calculations;
 using Anthea.Calculations.Geotechnics;
 
 // Freezes the legacy outputs of the calculation cores before they are moved to Checker (migration step M2).
-// Usage: dotnet CheckerMigration.Capture.dll <output directory> <ANTHEA commit> [tutte|muri|pali|mesh] [--manifest] (see README.md)
+// Usage: dotnet CheckerMigration.Capture.dll <output directory> <ANTHEA commit> [tutte|muri|pali|mesh] [--manifest] [--motore legacy|libreria] (see README.md)
 // Output: shear-legacy.csv (ConcreteCodeChecks.Shear). Units as in the legacy API: kN, kNm, mm, MPa.
+// Shear and torsion go through ConcreteShearTorsionAdapter (refactoring F2.5-F2.6): '--motore legacy' captures the legacy cores,
+// '--motore libreria' GPCChecker.Concrete through the mapping layer; without the option the default engine of the adapter.
 string output = Path.GetFullPath(args.Length > 0 ? args[0] : Path.Combine("supporto", "artefatti", "migrazione-checker"));
 string commit = args.Length > 1 ? args[1] : "unknown";
 Directory.CreateDirectory(output);
@@ -19,6 +21,11 @@ string sha = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(assembly)));
 var started = DateTimeOffset.Now;
 string mode = args.Length > 2 && args[2] is "muri" or "pali" or "mesh" ? args[2] : "tutte";
 void Finish() { if (args.Skip(3).Contains("--manifest")) CaptureManifest.Write(output, mode, commit, args, started); }
+var shearTorsionEngine = args.SkipWhile(a => a != "--motore").Skip(1).FirstOrDefault() switch
+{
+    null => ConcreteShearTorsionAdapter.Default, "legacy" => ShearTorsionEngine.Legacy, "libreria" => ShearTorsionEngine.Library,
+    var other => throw new ArgumentException("--motore: legacy o libreria, non " + other)
+};
 // Optional third argument "muri": only the retaining walls.
 if (args.Length > 2 && args[2] == "muri") { WallCapture.Run(output, commit, sha); Finish(); return; }
 // Optional third argument "pali": only piles and micropiles.
@@ -69,7 +76,7 @@ for (int i = 0; i < 700; i++)
 }
 
 var csv = new StringBuilder();
-csv.AppendLine("# ConcreteCodeChecks.Shear legacy outputs; ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
+csv.AppendLine("# ConcreteCodeChecks.Shear legacy outputs (engine " + shearTorsionEngine + " of ConcreteShearTorsionAdapter); ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
 csv.AppendLine("# Units: N_kN, V_kN (kN), M_kNm (kNm), lengths mm, areas mm2, stresses MPa; resistances kN. Compression negative.");
 csv.AppendLine("id;standard;N_kN;V_kN;M_kNm;area;bw;d;asl;fck;fcd;fyd;gammaC;es;asw;spacing;alpha;cot;lever;aggregate;ecc;outcome;VRsd_kN;VRcd_kN;VRd_kN;ratio;cotTheta;status;details");
 for (int i = 0; i < cases.Count; i++)
@@ -79,7 +86,7 @@ for (int i = 0; i < cases.Count; i++)
         F(c.Asw), F(c.Spacing), F(c.Alpha), F(c.CotTheta), F(c.LeverFactor), F(c.Aggregate), F(c.AxialEccentricity));
     try
     {
-        var r = ConcreteCodeChecks.Shear(c);
+        var r = ConcreteShearTorsionAdapter.Shear(c, shearTorsionEngine);
         string details = string.Join("|", r.Details.Select(x => x.Symbol + "=" + F(x.Value) + "=" + x.Unit));
         csv.AppendLine(string.Join(";", head, "ok", F(r.VRsd), F(r.VRcd), F(r.VRd), F(r.Ratio), F(r.CotTheta), r.Status.Replace(";", ","), details));
     }
@@ -88,7 +95,7 @@ for (int i = 0; i < cases.Count; i++)
 File.WriteAllText(Path.Combine(output, "shear-legacy.csv"), csv.ToString(), new UTF8Encoding(false));
 Console.WriteLine($"{cases.Count} casi di taglio -> {Path.Combine(output, "shear-legacy.csv")}");
 StressCapture.Run(output, commit, sha);
-TorsionCapture.Run(output, commit, sha);
+TorsionCapture.Run(output, commit, sha, shearTorsionEngine);
 CrackCapture.Run(output, commit, sha);
 DetailingCapture.Run(output, commit, sha);
 DurabilityCapture.Run(output, commit, sha);
@@ -169,10 +176,10 @@ internal static class TorsionCapture
 {
     static string F(double? v) => v is double d ? d.ToString("R", CultureInfo.InvariantCulture) : "";
     static string Clean(string s) => s.Replace(";", ",").Replace("\n", " ");
-    internal static void Run(string output, string commit, string sha)
+    internal static void Run(string output, string commit, string sha, ShearTorsionEngine engine)
     {
         var geometry = new StringBuilder();
-        geometry.AppendLine("# ConcreteTorsionCalculator.Geometry legacy outputs; ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
+        geometry.AppendLine("# ConcreteTorsionCalculator.Geometry legacy outputs (engine " + engine + " of ConcreteShearTorsionAdapter); ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
         geometry.AppendLine("# Lengths mm, areas mm2. axis = cover + stirrup diameter + largest bar diameter / 2.");
         geometry.AppendLine("id;name;shape;width;height;areaCls;axis;hollow;innerWidth;innerHeight;innerDiameter;outcome;A;P;t;message");
         var outlines = new List<(string Name, Action<System.Text.Json.Nodes.JsonObject> Edit)>
@@ -207,7 +214,7 @@ internal static class TorsionCapture
                 hollow && s.Shape == "Circolare" ? F(s.Input.D("inner_diameter_mm")) : "");
             try
             {
-                var g = ConcreteTorsionCalculator.Geometry(s);
+                var g = ConcreteShearTorsionAdapter.TorsionGeometryOf(s, engine);
                 geometry.AppendLine(string.Join(";", head, "ok", F(g.Area), F(g.Perimeter), F(g.Thickness), ""));
             }
             catch (Exception ex) { geometry.AppendLine(string.Join(";", head, "error:" + ex.GetType().Name, "", "", "", Clean(ex.Message))); }
@@ -256,10 +263,9 @@ internal static class TorsionCapture
         }
 
         var csv = new StringBuilder();
-        csv.AppendLine("# ConcreteTorsionCalculator.Calculate legacy outputs (NTC 2018); ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
+        csv.AppendLine("# ConcreteTorsionCalculator.Calculate legacy outputs (NTC 2018; engine " + engine + " of ConcreteShearTorsionAdapter, library with fck 30 MPa and γc 1,5 as TorsionMigrationTests: they do not enter the NTC resistances); ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
         csv.AppendLine("# Units: T_kNm (kNm), Vx/Vy and shear resistances kN, lengths mm, areas mm2, stresses MPa; torsional resistances kNm. Shear results synthetic.");
         csv.AppendLine("id;T_kNm;A;P;t;fcd;fyd;leg;s;Al;cot;Vx_kN;Vy_kN;xVRsd;xVRcd;xCot;yVRsd;yVRcd;yCot;outcome;TRcd;TRsd;TRld;TRd;torsionRatio;concrete;steel;requiredAl;passed;status");
-        var calculator = new ConcreteTorsionCalculator();
         for (int i = 0; i < cases.Count; i++)
         {
             var c = cases[i];
@@ -268,7 +274,7 @@ internal static class TorsionCapture
                 F(c.ShearY.VRsd), F(c.ShearY.VRcd), F(c.ShearY.CotTheta));
             try
             {
-                var r = calculator.Calculate(c);
+                var r = ConcreteShearTorsionAdapter.Torsion(c, 30, 1.5, engine);
                 csv.AppendLine(string.Join(";", head, "ok", F(r.TRcd), F(r.TRsd), F(r.TRld), F(r.TRd), F(r.TorsionRatio), F(r.ConcreteCombinedRatio), F(r.SteelCombinedRatio),
                     F(r.RequiredLongitudinalArea), r.Passed, Clean(r.Status)));
             }

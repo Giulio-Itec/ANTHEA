@@ -49,6 +49,11 @@ staffe" nella cattura densa dei muri; fase F4.7).
 
 Chiamanti in produzione: gli stessi del taglio (`ConcreteShearAnalysis.Calculate` → `Torsion`).
 
+Collegamento (F2.5-F2.6, [piano](piano.md)): `ConcreteShearAnalysis` e la cattura densa chiamano
+`ConcreteShearTorsionAdapter` (`X.Calculations/ConcreteShearTorsionAdapter.cs`), che sceglie il motore legacy o la
+libreria con l'interruttore `Default`; unità, norme e testi passano da `X.Calculations/ConcreteLibraryMapping.cs`.
+Esiti diversi per scelta della libreria riportati al legacy e testi: registro F2-1…F2-4.
+
 ## Tensioni SLE
 
 | Legacy | Libreria | Adattatore ANTHEA | Copertura | Buchi e note |
