@@ -27,7 +27,8 @@ dopo 75182cc Geometry cambia solo un test), Model master 5ad56681, Checker devel
 - ANTHEA, sul commit dell'installazione e senza `-GpcLibDir`: profilo standard 33 PASS, 1 KNOWN
   (`verifiche/project-calculations`), 0 NEW-FAIL; profilo baseline 39 PASS, 1 KNOWN, 0 NEW-FAIL, esiti e righe di
   conteggio uguali a quelli di S1 sullo stesso codice (17b6c98). Cattura headless uguale alla baseline F2-B2 su 432 file
-  (solo i 21 tempi volatili; nel manifest cambiano commit, hash di questo manifest e le cinque DLL). Banco c.a. contro le
+  (solo i 21 tempi volatili; nel manifest cambiano commit, hash di questo manifest, le cinque DLL e, come già con S1 su
+  17b6c98, ANTHEA.Calculations, ANTHEA.Core e ANTHEA.Testing, perché F2-B2 è catturata da a88b177). Banco c.a. contro le
   fixture di Checker: 27 698 righe, 26 462 identiche, 1236 con soli identificativi casuali; contro F2-pre-m4-v2: 32 564
   righe, 31 320 identiche, 1244 con soli identificativi casuali; nessuna differenza. Impronta delle 80 mesh identica a
   B0 e a F2-pre-m4-v2 bit per bit.
