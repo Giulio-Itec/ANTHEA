@@ -628,20 +628,24 @@
         "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:221-222",
         "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:103-114",
         "X.Calculations/ConcreteLibraryMapping.cs:20-26",
-        "X.Calculations/ConcreteShearTorsionAdapter.cs:23-36, :43-66"
+        "X.Calculations/ConcreteShearTorsionAdapter.cs:24-38, :44-65"
       ],
       "segno": "nessuno: scarti relativi dell'ordine di 1e-16 (ultima cifra), in entrambi i versi",
       "effetto_quantificato": {
-        "sintesi": "Prove dell'adattatore (griglie della cattura densa, cultura it-IT e invariante, calcoli del modulo): taglio 1853 risultati e 203 rifiuti uguali, 1059 numeri diversi su 19 032, scarto relativo massimo 9,19e-16; torsione 1070 risultati e 58 rifiuti uguali, 801 numeri diversi su 12 539, massimo 3,18e-16; profilo resistente 11 risultati e 5 rifiuti, identico; modulo (ConcreteShearAnalysis, 7 norme, 5 forme, con e senza staffe, torsione NTC) 215 risultati e 67 rifiuti uguali, 258 numeri diversi su 4510, massimo 5,43e-16. Nessun esito, stato, testo o rifiuto diverso.",
+        "sintesi": "Prove dell'adattatore (griglie della cattura densa, cultura it-IT e invariante, calcoli del modulo): taglio 1853 risultati e 203 rifiuti uguali, 1059 numeri diversi su 19 032, scarto relativo massimo 9,19e-16; torsione 1070 risultati e 58 rifiuti uguali, 801 numeri diversi su 12 539, massimo 3,18e-16; profilo resistente 11 risultati e 5 rifiuti, identico; modulo (ConcreteShearAnalysis, 7 norme, 5 forme, con e senza staffe, torsione NTC) 215 risultati e 67 rifiuti uguali, 258 numeri diversi su 4510, massimo 5,43e-16; calcolo headless (ConcreteAnalysis, 5 norme) 21 numeri diversi su 1049, massimo 3,95e-16, relazioni completa e sintetica identiche. Cattura densa F2.6 (motore predefinito Library) contro F2-pre-m4-v2, confronto esatto: shear-legacy.csv 2016 righe, 589 con numeri diversi (VRsd 165 celle, VRcd 89, VRd 164, ratio 401, cotTheta 16, details 166), scarto relativo massimo 9,19e-16 (riga 1369, DIN, VRcd 4946,0569613109374 → 4946,0569613109419 kN), assoluto massimo 4,5e-12 kN; torsion-legacy.csv 986 righe, 494 con numeri diversi (torsionRatio 169, concrete 268, steel 244; resistenze TRcd, TRsd, TRld, TRd e ΣAsl richiesta identiche), massimo 3,18e-16; torsion-geometry-legacy.csv identico. Rifiuti: 176 di taglio, 50 di torsione e 2 di profilo, gli stessi con lo stesso messaggio. Nessun esito, stato, testo o rifiuto diverso; tutte le differenze entro 1e-9 (confronti f2-libreria e fixture-checker superati).",
         "evidenze": [
-          "supporto/artefatti/refactoring/f2-taglio-torsione/f2.5/adattatore/misura.json"
+          "supporto/artefatti/refactoring/f2-taglio-torsione/f2.5/adattatore/misura.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/f2.6/adattatore/misura.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/f2.6/denso/confronti/libreria-esatto-pre-m4.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/f2.6/denso/confronti/misura-scarti.json"
         ]
       },
+      "attuazione": { "data": "2026-10-07", "commit": ["ANTHEA 2583225 (F2.5, motore legacy, risultati identici)", "ANTHEA F2.6 (interruttore sulla libreria; branch refactoring/f2-taglio-torsione)"], "verifica": "tests/ConcreteLibraryAdapter.Checks (stadio fast); confronti densi f2-libreria (F2-pre-m4-v2) e fixture-checker (Checker 06d97733): 1083 righe entro 1e-9, nessuna differenza non ammessa; con --motore legacy la cattura resta identica a F2-pre-m4-v2 (confronto esatto pre-m4); runner -Profile baseline: PASS 41, KNOWN 1, NEW-FAIL 0" },
       "raccomandazione": "accettare: tolleranza 1e-9 relativa dei MigrationTests e del banco (tests/ANTHEA.Testing/tolerances.json)",
       "data": "2026-10-07",
       "fase": "F2.5, F2.6",
       "test": [
-        "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 3a-3d)",
+        "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 3a-3e)",
         "Checker/GPCChecker.Test.Concrete/ShearMigrationTests.cs:41-84",
         "Checker/GPCChecker.Test.Concrete/TorsionMigrationTests.cs:29-93"
       ]
@@ -660,13 +664,13 @@
       ],
       "segno": "nessuno: testi identici al legacy; la traccia NTC della libreria resta disponibile per le relazioni future (punto aperto 4 di f2-matrice-api.md)",
       "effetto_quantificato": {
-        "sintesi": "Testi, stati, riferimenti, modelli, unità e messaggi identici al legacy in tutte le prove dell'adattatore e nelle catture dense (shear-legacy.csv: colonne status e details; torsion-legacy.csv: status e messaggi)."
+        "sintesi": "Testi, stati, riferimenti, modelli, unità e messaggi identici al legacy in tutte le prove dell'adattatore, nelle catture dense (shear-legacy.csv: colonne status e details; torsion-legacy.csv: status e messaggi), nel JSON 'taglio', 'torsione' ed 'errori_calcolo' del calcolo headless e nel testo delle relazioni completa e sintetica (X.Core ReportConcrete e ReportConcreteShort, 5 norme, con torsione NTC e rifiuti)."
       },
       "raccomandazione": "mantenere finché le relazioni non useranno tracce localizzate della libreria (F2.3, tracce per i report)",
       "data": "2026-10-07",
       "fase": "F2.5",
       "test": [
-        "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 1, 3a-3d)"
+        "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 1, 3a-3e)"
       ]
     },
     {
@@ -677,7 +681,7 @@
       "stato": "dichiarato",
       "descrizione": "Con area del ramo di staffa nulla il legacy rifiuta il calcolo (\"Torsione: controllare geometria, armature, materiali e 1 ≤ cot θ ≤ 2,5.\"), la libreria dà una verifica non soddisfatta con resistenza nulla (\"No closed links: zero torsional resistance\"; TorsionMigrationTests.cs:45-51). L'adattatore conserva il comportamento di oggi: rifiuto con lo stesso messaggio, controllato prima della libreria, quindi anche quando il cot θ del taglio è diverso. Nel modulo il caso non arriva all'adattatore: ConcreteShearAnalysis rifiuta prima la torsione senza staffe chiuse (\"Torsione: occorrono staffe resistenti chiuse.\").",
       "codice": [
-        "X.Calculations/ConcreteShearTorsionAdapter.cs:43-62 (controllo a :48)",
+        "X.Calculations/ConcreteShearTorsionAdapter.cs:44-61 (controllo a :49)",
         "X.Calculations/ConcreteShearAnalysis.cs:69",
         "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:112, :136"
       ],

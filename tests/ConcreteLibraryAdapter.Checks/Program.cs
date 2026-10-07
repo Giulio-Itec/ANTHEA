@@ -15,7 +15,7 @@ using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 //    calcoli del modulo: stessi esiti, stessi rifiuti con lo stesso messaggio, stessi testi (stati, riferimenti, modelli, tracce),
 //    numeri entro 1e-9 (|a − b| ≤ 1e-9 + 1e-9 · max(|a|, |b|), come le grandezze ca_fixture_* di tests/ANTHEA.Testing/tolerances.json).
 // Uscita 0 con la riga "PASS · …"; 1 con il primo controllo fallito.
-const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Legacy; // F2.5: legacy; F2.6: libreria
+const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Library; // F2.5: legacy; F2.6: libreria
 const double Tolerance = 1e-9;
 
 int count = 0;
@@ -162,19 +162,88 @@ try
     }
     Check(moduleStats.Results > 100 && moduleStats.Rejected > 10, $"modulo: {moduleStats.Results} calcoli, {moduleStats.Rejected} rifiuti");
 
-    var lines = new[] { shearStats, torsionStats, geometryStats, moduleStats }.Select(s => s.Line()).ToArray();
+    // ---------------------------------------------------------------- 3e. calcolo headless del modulo e relazioni
+    // ConcreteAnalysis (motore predefinito) contro lo stesso risultato con 'taglio', 'torsione' ed errori del motore legacy:
+    // JSON entro la tolleranza con testi identici; testo delle relazioni completa e sintetica (X.Core) identico.
+    int reports = 0; var analysisStats = new Stats("calcolo headless");
+    foreach (var norm in new[] { "NTC 2018", "EN 1992-1-1", "Model Code 2010", "DIN EN 1992-1-1", "NS EN 1992-1-1" })
+    {
+        var data = SezioneCA.DefaultData(); var input = data["input"]!.AsObject(); var settings = SectionWorkspace.Prepare(data);
+        settings["normativa"] = norm; settings["coefficienti"] = ConcreteStandards.Defaults(norm);
+        foreach (var (k, v) in ConcreteCalculationSettings.CommonCoefficients) input[k] = settings["coefficienti"]![v]!.DeepClone();
+        ConcreteCalculationSettings.Prepare(input, settings);
+        var shear = settings["taglio"]!.AsObject(); ConcreteCalculationSettings.UpdateAutomaticShear(input, shear);
+        shear["ancoraggio"] = "Confermato"; shear["chiusura_torsione"] = "Confermato"; shear["as_torsione"] = "1000";
+        var actions = new JsonArray();
+        foreach (var (id, n, mx, my, vx, vy, t) in new[] { ("T1", "-300", "60", "25", "50", "80", "0"), ("T2", "-900", "150", "-80", "400", "-260", "0"), ("T3", "200", "-40", "10", "-120", "35", "0"),
+            ("T4", "-300", "60", "25", "50", "80", norm == "NTC 2018" ? "15" : "0"), ("T5", "-300", "60", "25", "900", "700", norm == "NTC 2018" ? "40" : "0"), ("T6", "-300", "60", "25", "50", "80", norm == "NTC 2018" ? "0" : "10") })
+            actions.Add(J.Obj(("id", id), ("nome", "Azione " + id), ("N", n), ("Mx", mx), ("My", my), ("Vx", vx), ("Vy", vy), ("T", t)));
+        shear["azioni"] = actions;
+        var library = ConcreteAnalysis.Calculate(data);
+        // Stesse righe con il motore legacy, sui dati preparati come in ConcreteAnalysis.
+        var prepared = (JsonObject)data.DeepClone(); var preparedSettings = SectionWorkspace.Prepare(prepared); var preparedInput = prepared["input"]!.AsObject();
+        var legacy = (JsonObject)library.DeepClone(); var legacyShear = legacy["taglio"]!.AsObject(); var legacyTorsion = legacy["torsione"]!.AsObject(); var legacyErrors = legacy["errori_calcolo"]!.AsObject();
+        foreach (var row in preparedSettings["taglio"]!.Array("azioni").OfType<JsonObject>())
+        {
+            string id = row.S("id"); legacyShear.Remove(id); legacyTorsion.Remove(id); legacyErrors.Remove("Taglio/" + id);
+            try
+            {
+                var r = ConcreteShearAnalysis.Calculate(preparedInput, preparedSettings, preparedSettings["taglio"]!.AsObject(), row, ShearTorsionEngine.Legacy);
+                legacyShear[id] = J.Node(r.Shear); if (r.Torsion is not null) legacyTorsion[id] = J.Node(r.Torsion);
+            }
+            catch (ArgumentException e) { legacyErrors["Taglio/" + id] = e.Message; }
+        }
+        var errors = new List<string>();
+        Json.Compare(legacy, library, "analisi " + norm, analysisStats, errors, Tolerance); analysisStats.Results++;
+        Check(errors.Count == 0, string.Join(Environment.NewLine, errors.Take(5)));
+        // NTC: due righe con torsione; altre norme: la riga con T diverso da zero è rifiutata (torsione accoppiata solo NTC).
+        Check(library["taglio"]!.AsObject().Count >= 5 && (norm == "NTC 2018" ? library["torsione"]!.AsObject().Count == 2 : library["errori_calcolo"]!.AsObject().Any(p => p.Key.StartsWith("Taglio/"))),
+            norm + ": casi del calcolo headless non rappresentativi: " + library["taglio"]!.ToJsonString().Length + " " + string.Join(",", library["torsione"]!.AsObject().Select(p => p.Key)) + " " + library["errori_calcolo"]!.ToJsonString());
+        var complete = X.Core.ReportConcrete.Sections.Select(s => s.Key).ToHashSet();
+        foreach (var (kind, make) in new (string, Func<JsonObject, byte[]>)[]
+        {
+            ("completa", r => X.Core.ReportConcrete.Create("Prova adattatore", (JsonObject)r["dati"]!.DeepClone(), (JsonObject)r.DeepClone(), complete, null, true)),
+            ("sintetica", r => X.Core.ReportConcreteShort.Create("Prova adattatore", (JsonObject)r["dati"]!.DeepClone(), (JsonObject)r.DeepClone()))
+        })
+        {
+            string a = DocxText(make(legacy)), b = DocxText(make(library));
+            Check(a.Contains("Taglio") && a == b, $"{norm}: relazione {kind} diversa fra legacy e libreria: " + FirstDifference(a, b));
+            reports++;
+        }
+    }
+    Check(reports == 10, "relazioni confrontate: " + reports);
+
+    var lines = new[] { shearStats, torsionStats, geometryStats, moduleStats, analysisStats }.Select(s => s.Line()).Append($"relazioni: {reports} testi identici (completa e sintetica, 5 norme)").ToArray();
     foreach (var line in lines) Console.WriteLine(line);
     if (args.Length > 0)
     {
         Directory.CreateDirectory(args[0]);
         var report = new JsonObject { ["strumento"] = "ConcreteLibraryAdapter.Checks", ["motore_predefinito"] = ExpectedDefault.ToString(), ["tolleranza"] = Tolerance, ["controlli"] = count };
-        foreach (var s in new[] { shearStats, torsionStats, geometryStats, moduleStats }) report[s.Name] = s.Json();
+        foreach (var s in new[] { shearStats, torsionStats, geometryStats, moduleStats, analysisStats }) report[s.Name] = s.Json();
+        report["relazioni"] = reports;
         File.WriteAllText(Path.Combine(args[0], "misura.json"), report.ToJsonString(J.Options), new UTF8Encoding(false));
     }
     Console.WriteLine($"PASS · {count} controlli dell'adattatore di taglio e torsione (motore predefinito {ExpectedDefault}).");
     return 0;
 }
 catch (Exception ex) { Console.Error.WriteLine("FAIL: " + ex.Message); Console.Error.WriteLine(ex); return 1; }
+
+// Testo di un DOCX: un paragrafo per riga, dalle sequenze w:t di word/document.xml.
+static string DocxText(byte[] docx)
+{
+    using var zip = new System.IO.Compression.ZipArchive(new MemoryStream(docx), System.IO.Compression.ZipArchiveMode.Read);
+    using var stream = zip.GetEntry("word/document.xml")!.Open();
+    var xml = System.Xml.Linq.XDocument.Load(stream);
+    System.Xml.Linq.XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+    return string.Join("\n", xml.Descendants(w + "p").Select(p => string.Concat(p.Descendants(w + "t").Select(t => t.Value))));
+}
+
+static string FirstDifference(string a, string b)
+{
+    var x = a.Split('\n'); var y = b.Split('\n');
+    for (int i = 0; i < Math.Min(x.Length, y.Length); i++) if (x[i] != y[i]) return $"riga {i + 1}: «{x[i]}» / «{y[i]}»";
+    return $"righe {x.Length} / {y.Length}";
+}
 
 static string Root()
 {
