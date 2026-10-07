@@ -3,8 +3,36 @@ from pathlib import Path
 import sys,json,copy,math,unittest
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'supporto/scripts/wiki'))
 from validate_wiki import validate
+import re
 W=ROOT/'X.Desktop/Wiki'
+GUIDES=[ROOT/'supporto/docs/guida-pratica-anthea.md',ROOT/'supporto/docs/guida-teorica-anthea.md']
 def read(n):return json.loads((W/n).read_text(encoding='utf-8'))
+# W0.4 (7/10/2026): no development diary, AI tools, competing programs or sites. Normative citations
+# (NTC, Circolare, Eurocodici, UNI, CNR, fib) and the bibliography of the implemented methods stay.
+# Example models still kept in supporto/artefatti until W0.2 moves them into versioned examples.
+ARTIFACT_EXAMPLES=('globale-guidata-20260930/offscreen-rilascio/esempio-stratificato.anthea','muri-completamento-20260930/interfaccia-finale/esempio-completo.anthea','muri-materiali-distinta-20261005/interfaccia/distinta-due-zone.anthea')
+FORBIDDEN_EVERYWHERE=[  # guides, Wiki metadata, review registry and Wiki code
+    (r'(?i)\b(?:chatgpt|codex|openai|copilot|gemini|claude)\b','strumento di IA'),
+    (r'(?i)\b(?:sofistik|madosoft|sim-cad|thebridgeeng|comsol|opensees|grasshopper|mcneel|geostru|midas|straus7|sap2000|etabs|csibridge|plaxis)\b','programma concorrente'),
+    (r'\bSCIA\b|\bMAX 16\b','programma concorrente'),
+    (r'(?i)thebridgeeng|\bwww\.','sito'),
+]
+FORBIDDEN_IN_GUIDES=[
+    (r'\b[\w-]+\.(?:com|net|org|io)\b','sito'),
+    (r'\bRev\.?\s?\d{2}\b|archivio Rev','revisione intermedia'),
+    (r"(?i)resoconti (?:originali )?di (?:audit e )?sviluppo|appendici di sviluppo|in questa attività|questa revisione documentale|documentazione precedente|(?:controlli|test) dell['’]aggiornamento|futura integrazione|nuova verifica indipendente",'diario di sviluppo'),
+    (r"(?i)\b(?:abbiamo|ho) (?:aggiunto|corretto|modificato|eliminato|introdotto)\b|\b(?:è stat[oa]|sono stat[ie]) (?:aggiunt|corrett|eliminat|introdott|rimoss)",'diario di sviluppo'),
+    (r"(?i)preferenza (?:esplicita )?dell['’]utente|(?:richiest|autorizzat|allegat)[aoie] dall['’]utente|per scelta dell['’]utente|scansione locale|lett[ei] (?:anche )?visivamente",'diario di sviluppo'),
+    (r'supporto/(?:test|scripts|SUPERATI)/|CONTROLLO\.md|\b\w+\.(?:cs|csproj)\b','percorso di sviluppo'),
+    (r'supporto/artefatti/(?!'+'|'.join(map(re.escape,ARTIFACT_EXAMPLES))+')','percorso di sviluppo'),
+]
+def diary_violations(text,guide=True):
+    """Forbidden expressions as (category, match); guide=False applies only the checks valid for metadata and code."""
+    rules=FORBIDDEN_EVERYWHERE+(FORBIDDEN_IN_GUIDES if guide else [])
+    return [(label,m.group(0)) for pattern,label in rules for m in re.finditer(pattern,text)]
+def prose(text):
+    """Paragraphs over 80 characters, excluding headings, tables, figures, formulas and link lists."""
+    return {l.strip() for l in text.splitlines() if len(l.strip())>80 and not l.lstrip().startswith(('#','|','!','```','$$','- ','>','<!--'))}
 class HandbookChecks(unittest.TestCase):
     def setUp(self):
         self.articles=read('index.json');self.chapters=read('chapters.json');self.references=read('references.json');self.glossary=read('glossary.json')
@@ -66,6 +94,29 @@ class HandbookChecks(unittest.TestCase):
         hub=next(a for a in self.articles if a['key']=='biblioteca-tecnica')
         self.assertEqual(len(hub['related']),13)
         for key in hub['related']:self.assertIn(key,{a['key'] for a in self.articles})
+    def test_no_development_diary(self):
+        # W0.4: the guides and the Wiki texts derived from them keep no development diary, AI tools, competitors or sites.
+        for path in GUIDES:self.assertEqual(diary_violations(path.read_text(encoding='utf-8')),[],path.name)
+        for name in ['editorial.json','chapters.json','glossary.json','references.json']:
+            self.assertEqual(diary_violations((W/name).read_text(encoding='utf-8')),[],name)
+        for path in [ROOT/'supporto/docs/wiki-riscontri.json',*sorted(W.glob('*.json')),*sorted((ROOT/'X.Desktop/Wpf').glob('Wiki*.cs'))]:
+            self.assertEqual(diary_violations(path.read_text(encoding='utf-8'),guide=False),[],path.name)
+    def test_diary_lint_rejects_and_accepts(self):
+        for text in ['Il collegamento condiviso ChatGPT non era recuperabile.','Generato con Codex.','Confronto con SOFiSTiK.','Fonte: thebridgeeng.com/design',
+                     'Evidenze in supporto/artefatti/palo-armature.','I test sono in supporto/test/ElasticPile.Checks.','Vedi BarScheduleChecks.cs.',
+                     "Le fonti restano nell'archivio Rev14.",'Valore iniziale per preferenza dell’utente.','Il comando è stato eliminato.']:
+            with self.subTest(text=text):self.assertTrue(diary_violations(text),text)
+        allowed=['NTC 2018 §7.2.5, G.U. 20 febbraio 2018, S.O. n. 8; Circolare 21 gennaio 2019 n. 7, C4.1.10.',
+                 'EN 1998-5:2004 allegato F (F.7); EN 1992-1-1 §7.3.4(3); UNI 11104:2016; CNR-DT 200; fib Model Code 2010, Tab. 7.6-2.',
+                 'Viggiani, Fondazioni; Bustamante e Doix; Reese e Matlock (1956); Broms; ANAS, Elenco prezzi 2026 Rev 1.',
+                 'Fino al 6/10/2026 ANTHEA applicava γRD anche a F.','Aprire supporto/artefatti/'+ARTIFACT_EXAMPLES[0]+'.',
+                 'Quote e numeri imposti dall’utente vengono rispettati; Rev. 0 diventa Rev. 1.']
+        for text in allowed:
+            with self.subTest(text=text):self.assertEqual(diary_violations(text),[])
+    def test_no_paragraphs_duplicated_between_guides(self):
+        practical,theory=(prose(p.read_text(encoding='utf-8')) for p in GUIDES)
+        self.assertEqual(sorted(practical&theory),[])
+        sample=next(iter(theory));self.assertTrue(prose(sample)&theory)
     def test_independent_examples(self):
         e,i,l,a=210000,8e6,4000,4000
         n=math.pi**2*e*i/l**2

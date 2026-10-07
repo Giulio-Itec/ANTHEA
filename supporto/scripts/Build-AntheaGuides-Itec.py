@@ -24,12 +24,12 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[2]
-REVISION = '30'
+REVISION = '31'
 # edition data of the revision: date, contents and description in the revision table of the cover
-DATE = '06/10/2026'
-CONTENTS = '6 ottobre 2026'
-CONTENTS_ISO = '2026-10-06'
-REVISION_NOTE = 'IPOTESI ESITI E ARMATURE TRASVERSALI DEL PALO'
+DATE = '07/10/2026'
+CONTENTS = '7 ottobre 2026'
+CONTENTS_ISO = '2026-10-07'
+REVISION_NOTE = 'SOLO CONTENUTI PROPRI, MURI SECONDO EN 1998-5 E COEFFICIENTI DEI PALI'
 ART = ROOT / f'supporto/artefatti/guide_anthea_itec_rev{REVISION}'
 OUT = ROOT / 'supporto/documentazione/Guide_ANTHEA'
 TEMPLATE = Path('C:/Users/g.pacini/Desktop/MODELLO-RELAZIONE-ITEC-AA.docx')
@@ -60,6 +60,35 @@ def display_text(value):
     value = re.sub(r'\$([^$]+)\$', lambda m: ''.join(office_math(m[1]).itertext()), value)
     return re.sub(r'\*([^*]+)\*',r'\1',value.replace('**', '').replace('`', ''))
 
+# Manrope, the body font of the ITEC template, draws η, ν and χ with the outlines of n, v and x and has no
+# combining marks (N̄), primes (φ′), superscript minus, ₐ or ℓ: Word shows "η" as "n" and takes the missing
+# marks from Times New Roman; its "<" and ">" are small chevrons that read as "‹" and "›". In running text
+# these characters go in runs set in Calibri, the template's theme font (minorHAnsi), which has distinct
+# Greek letters, composes the marks and draws full comparison signs; the rest of the text keeps the
+# template styles. Formulas are OMML (Cambria Math) and code in backticks stays in Consolas.
+SYMBOL_FONT = 'Calibri'
+SYMBOLS = re.compile('(?:[Ͱ-Ͽἀ-῿]|[^\\s][̀-ͯ]+|[′″⁻ₐℓ<>])+')
+
+def add_text(paragraph, text, bold=False, italic=False, mono=False):
+    pieces = [(text, False)]
+    if not mono:
+        pieces, position = [], 0
+        for match in SYMBOLS.finditer(text):
+            pieces += [(text[position:match.start()], False), (match.group(0), True)]
+            position = match.end()
+        pieces.append((text[position:], False))
+    for piece, symbol in pieces:
+        if not piece:
+            continue
+        run = paragraph.add_run(piece)
+        if bold: run.bold = True
+        if italic: run.italic = True
+        if mono: run.font.name = 'Consolas'
+        if symbol:
+            fonts = run._r.get_or_add_rPr().get_or_add_rFonts()
+            for attribute in ('ascii', 'hAnsi', 'eastAsia', 'cs'):
+                fonts.set(qn('w:' + attribute), SYMBOL_FONT)
+
 def add_inline(paragraph, value):
     value = printed_links(value)
     for token in re.split(r'(\*\*.*?\*\*|\*[^*]+\*|`[^`]*`|\$[^$]+\$)', value):
@@ -69,10 +98,7 @@ def add_inline(paragraph, value):
         bold = len(token) >= 4 and token.startswith('**') and token.endswith('**')
         italic = not bold and len(token) >= 3 and token.startswith('*') and token.endswith('*')
         mono = len(token) >= 2 and token.startswith('`') and token.endswith('`')
-        run = paragraph.add_run(token[2:-2] if bold else token[1:-1] if mono or italic else token.replace('**', '').replace('`', ''))
-        if bold: run.bold = True
-        if italic: run.italic = True
-        if mono: run.font.name = 'Consolas'
+        add_text(paragraph, token[2:-2] if bold else token[1:-1] if mono or italic else token.replace('**', '').replace('`', ''), bold, italic, mono)
 
 def replace_text(p, value):
     if p.runs:

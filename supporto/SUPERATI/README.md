@@ -39,3 +39,9 @@ Le guide generali Rev06 e i documenti sostituiti sono conservati in muri-complet
 ## Guide globali Rev08 — 2 ottobre 2026
 
 La revisione corrente delle due guide globali è Rev08. Le guide autonome, i 35 sorgenti integrati, le edizioni Rev07 e gli indici sostituiti sono conservati in `guide-unificate-rev08-20261002`, con la struttura relativa originale. `registro.json` riporta origine, motivo, sostituzione e SHA-256. I documenti correnti sono `supporto/docs/guida-pratica-anthea.md` e `supporto/docs/guida-teorica-anthea.md`, con PDF omonimi ed edizioni Word/PDF in `supporto/documentazione/Guide_ANTHEA`. Modelli ed evidenze di calcolo restano nelle loro cartelle.
+
+Le edizioni successive, fino alla Rev29, sono conservate nelle cartelle `<attività>-rev<NN>-<data>`, dove NN è la revisione che le ha sostituite; ogni cartella ha il proprio `registro.json`.
+
+## Guide globali Rev31 — 7 ottobre 2026
+
+Le edizioni Word e PDF Rev30 delle due guide globali sono conservate in `documentazione/Guide_ANTHEA` di questa cartella, con il percorso originale relativo a `supporto`. `registro-20261007.json` riporta origine, motivo, SHA-256 e revisione sostitutiva. La Rev31 contiene solo contenuti propri: corpus esterno tolto con W0.5, diario di sviluppo, strumenti di IA, concorrenti e paragrafi duplicati tolti con W0.4 (elenco in `docs/refactoring/w0.4-pulizia-guide.md`). La Rev30 della guida teorica contiene ancora il corpus esterno, come le altre copie di questa cartella. I PDF accanto ai sorgenti Markdown erano copie identiche della Rev30 e non sono stati archiviati una seconda volta.
