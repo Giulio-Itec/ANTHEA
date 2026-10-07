@@ -108,7 +108,12 @@ sempre in due commit (collegamento con opzione legacy identico, poi cambio con e
   considerazione il tandem, linee di influenza, γQ 1,35". Schema 1 con tandem e linee di influenza in forma
   chiusa e γQ = 1,35 in GPC.Design (F4.11), con il vincolo di un costo di calcolo che non rallenti in modo
   percepibile esplorazione e ottimizzazione (da misurare contro il tempo attuale).
-- **(d) γb dei pali**: l'utente chiede quali archivi toccherebbe la migrazione d2; resta d1 fino alla risposta.
+- **(d) γb dei pali**: "in questo momento non ci sono ancora file salvati di anthea. quindi puoi effettuare
+  direttamente d2. non è ancora attivo come salvataggio per gli utenti". Opzione d2: il valore della tecnologia
+  diventa anche il valore di riserva (foglio senza γb) in calcolo, relazione ed editor, e i fogli salvati prima
+  di d2 con palo battuto o a elica e γb 1,35 lo prendono con una migrazione una tantum (marcatore nel foglio,
+  così un 1,35 scelto dopo resta). I casi di regressione dichiarano 1,35 nell'input, ipotesi dei loro attesi
+  Python, che non cambiano. Branch `refactoring/d7d-d2-coefficienti-pali`.
 - **Voci sfavorevoli R4-R14**: "le guardiamo a fine refactoring. segna di ridiscuterne". Restano da decidere,
   con discussione fissata alla chiusura del refactoring (dopo F5).
 - **Guide**: "ok" ai default dichiarati come «convenzione di ANTHEA» e alla Rev30 lasciata in SUPERATI.
@@ -116,6 +121,9 @@ sempre in due commit (collegamento con opzione legacy identico, poi cambio con e
   dietro". Le fixture congelate il 1/10 dal legacy di ANTHEA si ricatturano dal comportamento attuale dopo la
   verifica di D7-b; spariscono le classificazioni FC-1…FC-8 e i casi speciali dei test di migrazione; le
   fixture precedenti restano nella storia di git.
+- **Fotografie a fine lavoro**: "a fine lavoro ricattura tutte le foto di anthea refactorata". Alla chiusura
+  del refactoring si ricatturano tutti i riferimenti presi da ANTHEA: fixture c.a. e geotecniche di Checker,
+  baseline headless e catture dense.
 
 ## Dipendenze esterne previste
 
