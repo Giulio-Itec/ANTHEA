@@ -45,3 +45,12 @@ Le edizioni successive, fino alla Rev29, sono conservate nelle cartelle `<attivi
 ## Guide globali Rev31 — 7 ottobre 2026
 
 Le edizioni Word e PDF Rev30 delle due guide globali sono conservate in `documentazione/Guide_ANTHEA` di questa cartella, con il percorso originale relativo a `supporto`. `registro-20261007.json` riporta origine, motivo, SHA-256 e revisione sostitutiva. La Rev31 contiene solo contenuti propri: corpus esterno tolto con W0.5, diario di sviluppo, strumenti di IA, concorrenti e paragrafi duplicati tolti con W0.4 (elenco in `docs/refactoring/w0.4-pulizia-guide.md`). La Rev30 della guida teorica contiene ancora il corpus esterno, come le altre copie di questa cartella. I PDF accanto ai sorgenti Markdown erano copie identiche della Rev30 e non sono stati archiviati una seconda volta.
+
+## Progetti di test — 7 ottobre 2026 (F1.6)
+
+La cartella `test` conserva nove progetti tolti da `supporto/test` durante il passo F1.6 del refactoring, con il percorso originale relativo a `supporto`. `registro-20261007-test.json` riporta per ogni file origine, destinazione, SHA-256, motivo e sostituzione; la tabella completa è in `docs/refactoring/progetti-di-test.md`.
+
+- `ConcreteDesign.DesktopChecks` e `ValidationIllustrations` ricompilavano X.Desktop con un proprio App e non compilavano più. Il loro codice è passato nell'exe di prova UiTests: `supporto/test/Desktop/ConcreteDesignDesktopChecks.cs` e `ValidationCaptureChecks.cs`.
+- `BridgeDesign.SiteComparison`, `MaxRetainingWall.Cases` e `MaxRetainingWall.Compare` dipendevano da un sito web esterno o dal programma MAX; `ConcreteStressDiagnosis`, `ElasticPile.Performance` e `ProgrammaAnthea` (`qa.py`) erano strumenti una tantum; `ValidazioneCA20260925` non compilava. Nessuno era eseguito dal runner `build/ci.ps1` e non hanno una revisione sostitutiva diretta: le verifiche correnti degli stessi calcoli sono indicate nel registro.
+
+I file sono invariati. I percorsi relativi interni (riferimenti `../../../X.*` dei csproj, comandi dei README, radice del repository calcolata da `qa.py`) valgono solo nella posizione originale: per rieseguire un progetto riportarlo in `supporto/test` con `git mv`. Nessuno di questi progetti è in `ANTHEA.sln`.
