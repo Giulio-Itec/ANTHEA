@@ -290,3 +290,33 @@ sugli scostamenti (a)-(g).
   ca0cc10) e confermato k2 = (7.13) delle fasce. Testo della regola in sezione interamente tesa reso preciso (2d40a95,
   d71054ce) e guide rigenerate.
 - Profilo full con prove WPF a schermo durante la pausa dell'utente (punta 348f967): 67 PASS, 1 KNOWN, 0 NEW-FAIL.
+
+### 7/10 pomeriggio: release S2 di lib/Checker (F2.4)
+
+- Versioni nelle librerie, a sorgente invariato, perché SourceLink cambia lo SHA-256 di ogni DLL ricompilata da un
+  commit nuovo: Model 5ad56681 (GPCModel 1.6.1.1, GPCModelData 0.0.2.3), Checker 0d7ba50b (Geotechnics 0.1.1.1,
+  CompositeBridge 1.4.0.4), risultano pushati (origin aggiornato alle 15:24 e 15:25). Test delle librerie sulle DLL ricompilate da questi
+  commit: Concrete 510/510, Geotechnics 98/98, CompositeBridge 254/254, Model 892 superati e 2 ignorati, ModelChecker
+  106/106; Steel e BridgeAudit non eseguiti (Steel fuori dallo snapshot con 17 fallimenti storici, BridgeAudit compila
+  ANTHEA/X.Core).
+- Branch `refactoring/f2-4-snapshot-s2` (da main 17b6c98, worktree Temp\aw-s2). `Update-Snapshot.ps1` lanciato dal
+  checkout principale senza `-Install`, staging nel worktree. Incidente: la prima build è partita mentre su Checker
+  develop entravano i merge delle pagine dei metodi (`anthea-metodi-ca-1` e `-2`, 15:57, solo `docs/metodi`); il
+  manifest registrava 0d7ba50b per DLL compilate da 1fbaea61. Staging scartato
+  (`lib-staging/S2-annullato-merge-concorrente`) e build rifatta a merge concluso: Checker 1fbaea61, locale, da pushare.
+  Ricompilazione completa (`--no-incremental`) identica bit per bit. Controllo di versione superato per le 8 DLL;
+  Utilities, Geometry e DelaunayMesh con lo stesso SHA-256 di S1.
+- f6b6fdf: S2 installata in lib/Checker (Concrete 0.0.17.0 con D7-b e R15; revisioni nuove delle altre quattro DLL
+  ricompilate).
+- Verifiche sul commit f6b6fdf, senza `-GpcLibDir`, con le DLL di S2 negli output (SHA-256 controllati):
+  - profilo standard (corsa `20261007-160200-s2`): 33 PASS, 1 KNOWN (`verifiche/project-calculations`), 0 NEW-FAIL;
+  - profilo baseline (corsa `20261007-160459-s2-baseline`, `-BaselineRef <F2-B2>\headless`, `-DenseRef
+    <F2-pre-m4-v2>\a\tutte`, `-CompareTo` la corsa baseline `prima` di 17b6c98 con S1): 39 PASS, 1 KNOWN, 0 NEW-FAIL,
+    nessun avviso (esiti e righe di conteggio uguali a S1); cattura headless uguale a F2-B2 su 432 file con i soli 21
+    tempi volatili; `banco-ca` 27 698 righe, 26 462 identiche, 1236 con soli identificativi casuali; `banco-denso`
+    32 564 righe, 31 320 identiche, 1244 con soli identificativi casuali; nessuna differenza. La fessurazione della
+    libreria ora coincide con quella di ANTHEA, ma il banco cattura i nuclei di ANTHEA e non cambia;
+  - cattura densa `mesh`: 80 impronte identiche a B0 e a F2-pre-m4-v2 (DelaunayMesh 2.0.0.11 invariata).
+  Uscite in `supporto/artefatti/ci` e `supporto/artefatti/refactoring/s2` del worktree.
+- Restano: push di Checker develop 1fbaea61 e poi `pushed: true` nel manifest (senza ricompilare), profilo full a
+  schermo, approvazione dell'utente e merge su main.
