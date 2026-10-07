@@ -20,7 +20,7 @@ using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 //    con il motore predefinito.
 // 4. Attesi indipendenti (reference.json, benchmark e forme chiuse di taglio e torsione) sul percorso dell'adattatore, con entrambi i motori.
 // Uscita 0 con la riga "PASS · …"; 1 con il primo controllo fallito.
-const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Legacy; // F2.5 e cattura di B3: legacy; F2.6: libreria
+const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Library; // F2.5 e cattura di B3: legacy; F2.6: libreria
 const double Tolerance = 1e-9;
 
 int count = 0;

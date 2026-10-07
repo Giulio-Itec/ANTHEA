@@ -16,10 +16,10 @@ public enum ShearTorsionEngine { Legacy, Library }
 /// </summary>
 public static class ConcreteShearTorsionAdapter
 {
-    /// <summary>Interruttore del motore usato da ANTHEA quando il chiamante non ne indica uno: legacy, risultati identici bit per
-    /// bit a prima di F2.5, finché la baseline headless B3 (corpus con taglio e torsione della sezione c.a.) non è catturata con
-    /// questo motore; poi la libreria (F2.6, registro F2-1).</summary>
-    public static ShearTorsionEngine Default => ShearTorsionEngine.Legacy;
+    /// <summary>Interruttore del motore usato da ANTHEA quando il chiamante non ne indica uno: la libreria dal passo F2.6 per
+    /// taglio, profilo resistente e torsione (equivalenza misurata nel registro F2-1 contro F2-pre-m4-v2 e la baseline headless B3,
+    /// catturate con il legacy); il legacy resta raggiungibile con <see cref="ShearTorsionEngine.Legacy"/>.</summary>
+    public static ShearTorsionEngine Default => ShearTorsionEngine.Library;
 
     /// <summary>Taglio di una direzione, come ConcreteCodeChecks.Shear.</summary>
     public static Ntc2018Checks.ShearResult Shear(ConcreteCodeChecks.ShearInput p, ShearTorsionEngine? engine = null)
