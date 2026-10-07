@@ -22,21 +22,18 @@ check(abs((1000e3/(80e9*(4*8**2/(12/.02))))*30*180/math.pi-.0503576)<1e-6,'Rotaz
 check(abs(5*30000*30**4/(384*210e9*.3)*1000-5.022321)<1e-5,'Freccia impalcato')
 check(abs(.848*2**2/1e-7/86400-392.5926)<.001,'Tempo di consolidazione')
 index=json.loads((ROOT/'X.Desktop/Wiki/index.json').read_text(encoding='utf-8'))
-mdp=[x for x in index if x['key'].startswith('mdp-')]
-check(len(mdp)==179,'179 contributi attribuiti')
-theory=(ROOT/'supporto/docs/guida-teorica-anthea.md').read_bytes()
-for article in mdp:
-    body=theory[article['offset']:article['offset']+article['length']].decode('utf-8')
-    check('CC BY-NC 3.0 Italia' in body and 'Marco De Pisapia' in body,article['key']+' attribuzione')
-    check('marcodepisapia-store' not in body,article['key']+' nessun link allo store')
-    check(article['status']=='qualified',article['key']+' stato editoriale distinto')
+# External corpus removed on 6/10/2026 (W0.5): only content written for ANTHEA.
+check(not [x for x in index if x['key'].startswith(('mdp-','letture-'))],'Nessun contributo esterno nel catalogo')
+theory=(ROOT/'supporto/docs/guida-teorica-anthea.md').read_text(encoding='utf-8').lower()
+for term in ['Approfondimento ·','Letture tecniche','De Pisapia','CC BY-NC','marcodepisapia','geostru','simonecaffe','http://','https://']:
+    check(term.lower() not in theory,'Guida teorica senza '+term)
 reports=[]
 for kind in ['pratica','teorica']:
     folder=OUT/kind/'visual';folder.mkdir(parents=True,exist_ok=True)
     pdfpath=ROOT/f'supporto/docs/guida-{kind}-anthea.pdf'
     doc=pdfium.PdfDocument(pdfpath)
     images=[];empties=[];topics={};risky=[]
-    needles=['Taglio nel calcestruzzo armato e scelta','Due meccanismi che devono','Esempio numerico con due quantità','Dalle indagini geotecniche ai parametri','Confronto con il prodotto Madosoft','Adattamento testuale per uso non commerciale','Wiki del modulo e aiuti','Cassoni sottili torsione','Precompressione delle travi','Stralli equilibrio','Letture tecniche','Biblioteca tecnica fonti']
+    needles=['Taglio nel calcestruzzo armato e scelta','Due meccanismi che devono','Esempio numerico con due quantità','Dalle indagini geotecniche ai parametri','Funzioni disponibili e limiti del modulo','Wiki del modulo e aiuti','Cassoni sottili torsione','Precompressione delle travi','Stralli equilibrio','Biblioteca tecnica lezioni']
     for i in range(len(doc)):
         page=doc[i];textpage=page.get_textpage();text=textpage.get_text_range()
         if i<25:check(not re.search(r"Errore\. (?:L.intervallo|Il segnalibro|L.origine)|Error!|No table of contents",text,re.I),kind+' indice senza errori pagina '+str(i+1))

@@ -32,7 +32,8 @@ internal sealed partial class BridgeDrawing
                 string count = g.WebCount > 1 ? "2 × " : "", angle = F(Math.Abs(g.WebAngle) * 180 / Math.PI);
                 double bottomCentre = g.SectionType == BridgeSteelSectionType.Box ? g.Width / 2 : axes[0].Bottom;
                 tags.Add(new(g.WebCount > 1 ? "Piattabande superiori" : "Piattabanda superiore", $"{count}{F(g.TopFlangeWidth)} × {F(g.TopThickness)} mm", point(right.Top + g.TopFlangeWidth / 2, -g.TopThickness / 2), false, Steel));
-                tags.Add(new(g.WebCount > 1 ? "Anime · lunghezza × t" : "Anima · h libera × t", $"{count}{F(g.PlateLength)} × {F(g.PlateThickness)} mm · h={F(g.WebHeight)} · H {F(g.Height)} mm · α {angle}°", point((right.Top + right.Bottom) / 2 + g.WebHorizontalThickness / 2, -g.TopThickness - g.WebHeight / 2), false, Steel));
+                // The value starts with the plate length in its plane: the title names it, h follows as "h=".
+                tags.Add(new(g.WebCount > 1 ? "Anime · lunghezza × t" : "Anima · lunghezza × t", $"{count}{F(g.PlateLength)} × {F(g.PlateThickness)} mm · h={F(g.WebHeight)} · H {F(g.Height)} mm · α {angle}°", point((right.Top + right.Bottom) / 2 + g.WebHorizontalThickness / 2, -g.TopThickness - g.WebHeight / 2), false, Steel));
                 tags.Add(new("Piattabanda inferiore", $"{F(g.Bottom1Width)} × {F(g.Bottom1Thickness)} mm", point(bottomCentre + g.Bottom1Width / 2, -g.Height + g.Bottom1Thickness / 2), false, Steel));
             }
             if (g.Bottom2Thickness > 0) tags.Add(new("Piattabanda inferiore 2", $"{F(g.Bottom2Width)} × {F(g.Bottom2Thickness)} mm", point((g.Width + g.Bottom2Width) / 2, -g.Height + g.Bottom2Thickness / 2), false, Steel));
@@ -66,10 +67,12 @@ internal sealed partial class BridgeDrawing
         {
             var lane = tags.Where(t => t.Left == left).OrderBy(t => t.Anchor.Y).ToArray();
             var positions = new double[lane.Length]; var heights = lane.Select(t => t.Value.Contains('\n') ? 70d : 54d).ToArray();
+            // Tags span 26 … height − 78: narrow the 10 px gaps only when a full lane would not fit, instead of overlapping.
+            double gap = lane.Length > 1 ? Math.Clamp((height - 78 - 26 - heights.Sum()) / (lane.Length - 1), 0, 10) : 10;
             double next = 40;
-            for (int i = 0; i < lane.Length; i++) { positions[i] = Math.Max(next, lane[i].Anchor.Y - heights[i] / 2); next = positions[i] + heights[i] + 10; }
+            for (int i = 0; i < lane.Length; i++) { positions[i] = Math.Max(next, lane[i].Anchor.Y - heights[i] / 2); next = positions[i] + heights[i] + gap; }
             double bottom = height - 78;
-            for (int i = lane.Length - 1; i >= 0; i--) { positions[i] = Math.Min(positions[i], bottom - heights[i]); bottom = positions[i] - 10; }
+            for (int i = lane.Length - 1; i >= 0; i--) { positions[i] = Math.Min(positions[i], bottom - heights[i]); bottom = positions[i] - gap; }
             for (int i = 0; i < lane.Length; i++)
             {
                 var tag = lane[i]; double x = left ? 12 : width - tagWidth - 12;

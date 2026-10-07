@@ -13,3 +13,10 @@
 /backup_*/
 *.programma
 *.anthea
+!/supporto/esempi/**/*.programma
+!/supporto/esempi/**/*.anthea
+node_modules/
+/supporto/tmp/
+*.bak
+TestResults/
+.dotnet/

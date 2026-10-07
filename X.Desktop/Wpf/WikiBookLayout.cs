@@ -52,9 +52,9 @@ internal sealed partial class WikiView
         pane.Children.Add(title);
         pane.Children.Add(Ui.Text("Comprendere la struttura. Costruire il modello. Verificare il progetto.", 21));
         pane.Children.Add(BookRule());
-        pane.Children.Add(BookLabel("APPROFONDIMENTI TECNICI  /  FORMULE, ESEMPI E FONTI"));
-        pane.Children.Add(Link("Esplora la nuova biblioteca tecnica →", () => Navigate("biblioteca-tecnica")));
-        pane.Children.Add(Ui.Text("Taglio e dettagli del calcestruzzo, impalcati da ponte, indagini e fondazioni. Contributi attribuiti e letture di Marco De Pisapia, GeoStru e Simone Caffè.", 16));
+        pane.Children.Add(BookLabel("LEZIONI TECNICHE  /  FORMULE, ESEMPI E LIMITI"));
+        pane.Children.Add(Link("Esplora la biblioteca tecnica →", () => Navigate("biblioteca-tecnica")));
+        pane.Children.Add(Ui.Text("Taglio e dettagli del calcestruzzo, impalcati da ponte, indagini e fondazioni: lezioni di ANTHEA con esempi numerici svolti, ipotesi e limiti dichiarati.", 16));
         pane.Children.Add(Ui.Bar(Link("Taglio e inclinazione dei puntoni", () => Navigate("taglio-traliccio")),
             Link("Muri: metodi e funzioni disponibili", () => Navigate("muri-metodi-perimetro"))));
         pane.Children.Add(BookRule());

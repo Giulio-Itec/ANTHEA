@@ -104,13 +104,23 @@ internal sealed partial class WikiView : UserControl
     }
     private void Reset()
     {
-        progress.Save(); article = null; bookCover = false; chapterFocus = null; restoring = false; activeSection = null; sections.Clear(); toc.Children.Clear(); reader.ScrollToTop();
+        progress.Save(); article = null; bookCover = false; chapterFocus = null; restoring = false; activeSection = null; MissingRoute = null; sections.Clear(); toc.Children.Clear(); reader.ScrollToTop();
     }
     internal void Home()
     {
         refreshPage = Home;
         Reset(); bookCover = true; navExpanded = false; BuildNavigation();
         SetContent(BookCover()); Adapt();
+    }
+    /// <summary>Route no longer in the catalog (bookmark, saved link, removed article): Handbook cover with a notice, no modal error.</summary>
+    internal string? MissingRoute { get; private set; }
+    private void MissingPage(string uri)
+    {
+        Home();
+        MissingRoute = uri;
+        var notice = WikiEditorial.Note("PAGINA NON DISPONIBILE", $"La pagina {uri} non fa più parte della Wiki. Usa l’indice dei capitoli o la ricerca per ritrovare l’argomento.", WikiPalette.Surface);
+        if (content.Content is StackPanel pane) pane.Children.Insert(0, notice);
+        ApplyPalette();
     }
     private static TextBlock Title(string text) { var t = Ui.Text(text, 22, true); t.Margin = new Thickness(0, 26, 0, 12); AutomationProperties.SetHeadingLevel(t, AutomationHeadingLevel.Level2); return t; }
     private static TextBlock PageTitle(string text, double size = 30) { var t = Ui.Text(text, size, true); AutomationProperties.SetHeadingLevel(t, AutomationHeadingLevel.Level1); return t; }
@@ -189,7 +199,7 @@ internal sealed partial class WikiView : UserControl
         }
         uri = WikiCatalog.CanonicalUri(uri);
         var target = WikiCatalog.Resolve(uri);
-        if (target is null) { MessageBox.Show("Pagina Wiki non disponibile: " + uri, "ANTHEA"); return; }
+        if (target is null) { MissingPage(uri); return; }
         refreshPage = () => Navigate(target.Key); Reset(); article = target; var pane = new StackPanel();
         progress.Update(target.Id, progress.Entries.GetValueOrDefault(target.Id)?.Section ?? "", progress.Entries.GetValueOrDefault(target.Id)?.Fraction ?? 0);
         var chapter = WikiCatalog.Chapter(target);
@@ -231,15 +241,12 @@ internal sealed partial class WikiView : UserControl
             row.Children.Add(actions); row.Children.Add(head);
             return row;
         });
-        if (target.References is { Length: > 0 })
+        // Citations only (norms and technical bibliography): the Wiki carries no external links.
+        var references = (target.References ?? []).Select(id => WikiCatalog.References.FirstOrDefault(r => r.Id == id)).OfType<WikiReference>().ToArray();
+        if (references.Length > 0)
         {
             pane.Children.Add(Title("Fonti e natura delle relazioni"));
-            foreach (var id in target.References)
-            {
-                var reference = WikiCatalog.References.Single(r => r.Id == id);
-                pane.Children.Add(Ui.Text(reference.Kind + " · " + reference.Title, 14));
-                pane.Children.Add(Link("Consulta la fonte ↗", () => System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(reference.Url) { UseShellExecute = true })));
-            }
+            foreach (var reference in references) pane.Children.Add(Ui.Text(reference.Kind + " · " + reference.Title, 14));
         }
         if (target.Modules.Length > 0) pane.Children.Add(WikiEditorial.TryInAnthea(target, openModule));
         if (target.Related.Length > 0) pane.Children.Add(Title("Argomenti correlati"));

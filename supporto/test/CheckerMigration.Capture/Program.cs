@@ -7,7 +7,7 @@ using Anthea.Calculations;
 using Anthea.Calculations.Geotechnics;
 
 // Freezes the legacy outputs of the calculation cores before they are moved to Checker (migration step M2).
-// Usage: dotnet CheckerMigration.Capture.dll <output directory> <ANTHEA commit>
+// Usage: dotnet CheckerMigration.Capture.dll <output directory> <ANTHEA commit> [tutte|muri|pali|mesh] [--manifest] (see README.md)
 // Output: shear-legacy.csv (ConcreteCodeChecks.Shear). Units as in the legacy API: kN, kNm, mm, MPa.
 string output = Path.GetFullPath(args.Length > 0 ? args[0] : Path.Combine("supporto", "artefatti", "migrazione-checker"));
 string commit = args.Length > 1 ? args[1] : "unknown";
@@ -15,10 +15,16 @@ Directory.CreateDirectory(output);
 static string F(double? v) => v is double d ? d.ToString("R", CultureInfo.InvariantCulture) : "";
 string assembly = typeof(ConcreteCodeChecks).Assembly.Location;
 string sha = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(assembly)));
+// Optional "--manifest" after the mode: capture-manifest.json at the end (CaptureManifest); without it the outputs are unchanged.
+var started = DateTimeOffset.Now;
+string mode = args.Length > 2 && args[2] is "muri" or "pali" or "mesh" ? args[2] : "tutte";
+void Finish() { if (args.Skip(3).Contains("--manifest")) CaptureManifest.Write(output, mode, commit, args, started); }
 // Optional third argument "muri": only the retaining walls.
-if (args.Length > 2 && args[2] == "muri") { WallCapture.Run(output, commit, sha); return; }
+if (args.Length > 2 && args[2] == "muri") { WallCapture.Run(output, commit, sha); Finish(); return; }
 // Optional third argument "pali": only piles and micropiles.
-if (args.Length > 2 && args[2] == "pali") { PilesCapture.Run(output, commit, sha); return; }
+if (args.Length > 2 && args[2] == "pali") { PilesCapture.Run(output, commit, sha); Finish(); return; }
+// Optional third argument "mesh": only the fingerprints of the section meshes (MeshCapture).
+if (args.Length > 2 && args[2] == "mesh") { MeshCapture.Run(output, commit, sha); Finish(); return; }
 
 var cases = new List<ConcreteCodeChecks.ShearInput>();
 string[] standards = ConcreteStandards.OrdinaryNames;
@@ -91,6 +97,7 @@ GeotechnicsCapture.Run(output, commit, sha);
 #endif
 PilesCapture.Run(output, commit, sha);
 WallCapture.Run(output, commit, sha);
+Finish();
 
 // Serviceability stresses (CheckerSection.Stress): sections saved with the Model archive, effective standard coefficients,
 // actions already transformed to the local axes passed to the native checker, legacy results.

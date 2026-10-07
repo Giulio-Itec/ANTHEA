@@ -14,7 +14,9 @@ la distribuzione dipendente dal framework occorre il .NET Desktop Runtime 8.
 
 - `Avvia ANTHEA.cmd`: avvia `app/ANTHEA.exe`, se presente, oppure compila e avvia il progetto.
 - `Compila.cmd`: compila e pubblica la versione corrente nella cartella `app`.
-- `supporto/Verifica.cmd`: esegue i confronti numerici e i controlli software.
+- `supporto/Verifica.cmd`: esegue tutte le verifiche tranne le prove WPF (profilo `standard` di `build/ci.ps1`).
+- `build/ci.ps1`: runner unico delle verifiche, con i profili `quick`, `standard`, `baseline` e `full`; i fallimenti
+  ammessi sono in `build/known-failures.json`. Il refactoring in corso è descritto in `docs/refactoring/`.
 - `supporto/installer/Crea installer.cmd`: crea con NSIS il setup self-contained per Windows x64
   (runtime .NET 8 incluso) in `supporto/installer`; vedere [Installer](supporto/installer/README.md).
 
@@ -97,7 +99,7 @@ In **Strutture → Bridge Design** è disponibile il [predimensionamento dei pon
 otto famiglie, viste di prospetto e sezione, pile e fondazioni, quantità, prezzi e coefficienti modificabili,
 stime di costo/CO₂/durata e confronto A/B. Il motore è separato dalla vista WPF e non costituisce verifica normativa.
 
-Le due guide globali complete Rev13 del 3 ottobre 2026 sono la [guida pratica](supporto/docs/guida-pratica-anthea.md)
+Le due guide globali sono la [guida pratica](supporto/docs/guida-pratica-anthea.md)
 e la [guida teorica dei calcoli](supporto/docs/guida-teorica-anthea.md). Le edizioni Word sono in
 `supporto/documentazione/Guide_ANTHEA`.
 
@@ -144,7 +146,7 @@ Disponibile anche **Micropalo · capacità portante orizzontale**, con lo stesso
 workspace e sezione CHS da catalogo ANTHEA o dimensioni manuali. Il diametro
 geotecnico è distinto dal diametro del tubolare; il momento automatico considera
 solo l'acciaio e l'interazione lineare N–M, con controllo di classe 1.
-Ipotesi e limiti: `supporto/docs/micropalo-orizzontale.md`.
+Ipotesi e limiti: [guida teorica](supporto/docs/guida-teorica-anthea.md), capitolo del micropalo orizzontale.
 
 Il modulo orizzontale adotta schede adattive a tre, due o una colonna,
 senza larghezza minima esterna imposta. Stratigrafia, profilo e momento possono

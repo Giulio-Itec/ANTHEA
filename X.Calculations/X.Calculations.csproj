@@ -2,18 +2,10 @@
   <PropertyGroup>
     <AssemblyName>ANTHEA.Calculations</AssemblyName><RootNamespace>Anthea.Calculations</RootNamespace>
     <TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
-    <CheckerLibraryDirectory Condition="'$(CheckerLibraryDirectory)' == ''">$(MSBuildThisFileDirectory)../lib/Checker</CheckerLibraryDirectory>
+    <GpcLibraries>all</GpcLibraries>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GPCChecker.CompositeBridge"><HintPath>$(CheckerLibraryDirectory)/GPCChecker.CompositeBridge.dll</HintPath><Private>true</Private></Reference>
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-    <Reference Include="GPCChecker.Concrete"><HintPath>$(CheckerLibraryDirectory)/GPCChecker.Concrete.dll</HintPath><Private>true</Private></Reference>
-    <Reference Include="GPCGeometry"><HintPath>$(CheckerLibraryDirectory)/GPCGeometry.dll</HintPath><Private>true</Private></Reference>
-    <Reference Include="GPCModel"><HintPath>$(CheckerLibraryDirectory)/GPCModel.dll</HintPath><Private>true</Private></Reference>
-    <Reference Include="GPCModelData"><HintPath>$(CheckerLibraryDirectory)/GPCModelData.dll</HintPath><Private>true</Private></Reference>
-    <Reference Include="GPCUtilities"><HintPath>$(CheckerLibraryDirectory)/GPCUtilities.dll</HintPath><Private>true</Private></Reference>
-    <Reference Include="DelaunayMesh"><HintPath>$(CheckerLibraryDirectory)/DelaunayMesh.dll</HintPath><Private>true</Private></Reference>
-    <Reference Include="GPCChecker.Geotechnics"><HintPath>$(CheckerLibraryDirectory)/GPCChecker.Geotechnics.dll</HintPath><Private>true</Private></Reference>
   </ItemGroup>
   <!-- Legacy geotechnical cores replaced by GPCChecker.Geotechnics (slopes, settlement, Newmark, Annex F): not compiled, to be deleted. -->
   <ItemGroup>

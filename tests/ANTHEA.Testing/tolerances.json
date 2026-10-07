@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "nota": "Politica unica di tolleranza del refactoring (docs/refactoring/piano.md, F0.4). Un numero JSON passa se |a − b| ≤ abs + rel · max(|a|, |b|), con abs nella scala fisica della grandezza: mai max(1, |x|). Default 0 (uguaglianza esatta) per i refactoring puri; una fase che ammette differenze cambia qui solo le grandezze interessate, con motivo, in un commit dedicato. Testi dei report, celle CSV e stringhe: scheletro del testo identico, interi uguali, decimali entro metà dell'ultima cifra stampata di ciascuno dei due valori più la tolleranza della grandezza (Comparison/NumberText.cs). Regole: la prima che corrisponde al nome della proprietà o della colonna ('chiave') e, se indicato, al percorso 'file:$.percorso' ('percorso'); senza regola vale 'esatta'.",
+  "grandezze": {
+    "esatta": { "abs": 0, "rel": 0, "unita": "", "nota": "uguaglianza esatta: valori senza regola, esiti discreti, conteggi" },
+    "lunghezza_m": { "abs": 0, "rel": 0, "unita": "m", "nota": "quote, lunghezze, spostamenti in m; scala di riferimento 1e-9 m" },
+    "lunghezza_mm": { "abs": 0, "rel": 0, "unita": "mm", "nota": "dimensioni di sezione, diametri, copriferri; scala di riferimento 1e-6 mm" },
+    "area_mm2": { "abs": 0, "rel": 0, "unita": "mm²", "nota": "aree di armatura e di sezione" },
+    "forza_kN": { "abs": 0, "rel": 0, "unita": "kN", "nota": "N, V, H, reazioni; scala di riferimento 1e-9 kN" },
+    "forza_N": { "abs": 0, "rel": 0, "unita": "N", "nota": "forze delle librerie in N" },
+    "momento_kNm": { "abs": 0, "rel": 0, "unita": "kNm", "nota": "momenti flettenti e torcenti" },
+    "momento_Nmm": { "abs": 0, "rel": 0, "unita": "N·mm", "nota": "momenti delle librerie in N·mm" },
+    "tensione_MPa": { "abs": 0, "rel": 0, "unita": "MPa", "nota": "tensioni e resistenze dei materiali" },
+    "pressione_kPa": { "abs": 0, "rel": 0, "unita": "kPa", "nota": "pressioni del terreno, sovraccarichi" },
+    "deformazione": { "abs": 0, "rel": 0, "unita": "−", "nota": "deformazioni adimensionali; scala di riferimento 1e-9 (con acciaio snervato confrontare M, N, χ e il residuo, non allargare ε)" },
+    "curvatura_1_mm": { "abs": 0, "rel": 0, "unita": "1/mm", "nota": "curvature; scala di riferimento 1e-12 1/mm" },
+    "rotazione_rad": { "abs": 0, "rel": 0, "unita": "rad", "nota": "rotazioni" },
+    "rapporto": { "abs": 0, "rel": 0, "unita": "−", "nota": "tassi di utilizzo η e coefficienti di sicurezza; un cambio di esito con |η − 1| entro la tolleranza va comunque rivisto" },
+    "peso_kg": { "abs": 0, "rel": 0, "unita": "kg", "nota": "pesi di armatura e distinte" },
+    "costo_euro": { "abs": 0, "rel": 0, "unita": "€", "nota": "costi di Bridge Design" },
+    "co2_kg": { "abs": 0, "rel": 0, "unita": "kg CO₂e", "nota": "emissioni di Bridge Design" }
+  },
+  "regole": [
+    { "chiave": "(?i)(^|_)(curvatura|curvature|kappa|chi)(_|$)|^Curvature$|curvatura_1_mm", "grandezza": "curvatura_1_mm" },
+    { "chiave": "(?i)^(epsilon|eps)(_|$)|Strain$|^E[csp](Min|Max)$", "grandezza": "deformazione" },
+    { "chiave": "(?i)(^|_)(ratio|rapporto|eta|utilization|utilizzo|governingratio|bendingratio)$|Ratio$", "grandezza": "rapporto" },
+    { "chiave": "(?i)_knm$|^(M|Mx|My|T|Moment|HeadMoment|MRd|MEd)$", "grandezza": "momento_kNm" },
+    { "chiave": "(?i)_nmm$|^M0_Nmm$|^Mriferimento_Nmm$", "grandezza": "momento_Nmm" },
+    { "chiave": "(?i)_kn$|^(N|V|H|Vx|Vy|AxialForce|Shear|Force|Demand|Resistance)$", "grandezza": "forza_kN" },
+    { "chiave": "(?i)(^|_)N_N$|_N$", "grandezza": "forza_N" },
+    { "chiave": "(?i)_mpa$|^(sigma|fck|fyk|fyd|fcd|fctm|fbd)(_|$)|Stress$", "grandezza": "tensione_MPa" },
+    { "chiave": "(?i)_kpa$", "grandezza": "pressione_kPa" },
+    { "chiave": "(?i)_mm2$|^(area|As|Asw|Asl)$", "grandezza": "area_mm2" },
+    { "chiave": "(?i)_mm$|^(diameter|diametro|cover|copriferro)(_|$)", "grandezza": "lunghezza_mm" },
+    { "chiave": "(?i)(^|_)(rotazione|theta)$|^Rotation$", "grandezza": "rotazione_rad" },
+    { "chiave": "(?i)_m$|^(z|x|y|Depth|GroundDepth|Displacement|HeadDisplacement|lunghezza|length)$", "grandezza": "lunghezza_m" },
+    { "chiave": "(?i)(^|_)(kg|peso|weight|steelkg)(_|$)|_kg_m$|Weight$", "grandezza": "peso_kg" },
+    { "chiave": "(?i)(^|_)(cost|costo|costi|prezzo)(_|$)|Cost$", "grandezza": "costo_euro" },
+    { "chiave": "(?i)(^|_)co2(_|$)|^Carbon$", "grandezza": "co2_kg" }
+  ],
+  "volatili": [
+    { "chiave": "^tempi_ms$", "motivo": "tempi di esecuzione misurati con Stopwatch nelle armature del palo elastico (X.Calculations/ElasticHorizontalPile.Reinforcement.cs:52)" }
+  ],
+  "file_esclusi": [
+    "^manifest\\.json$",
+    "^log\\.txt$",
+    "^raw/",
+    "^confronto[^/]*\\.json$"
+  ]
+}

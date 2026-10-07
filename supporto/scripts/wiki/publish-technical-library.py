@@ -1,4 +1,7 @@
 """Publish prepared content into the two canonical guides, with a recoverable revision archive."""
+import sys as _sys
+# W0.5: the external corpus (adapted articles, reading lists, links) was removed on 6/10/2026.
+_sys.exit('Script di migrazione superato, non rieseguire: rigenererebbe contenuti esterni eliminati il 6/10/2026.')
 from pathlib import Path
 from hashlib import sha256
 import json, re, shutil, sys, importlib.util

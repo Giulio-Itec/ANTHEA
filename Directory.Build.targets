@@ -1,0 +1,45 @@
+<Project>
+  <!--
+    GPC libraries from the snapshot in $(GpcLibDir): explicit names (no wildcards) and SHA-256 check
+    against $(GpcManifestProps), generated from lib\Checker\manifest.json by tools\libs\Write-ManifestProps.ps1.
+
+    GpcLibraries: 'all', 'none' or a list of assembly names (for example GPCModel;GPCUtilities).
+    Executables and test projects default to 'all': at run time they need the whole coherent set, including
+    the DLLs used only by their dependencies (DelaunayMesh, used by GPCChecker.Concrete, is never referenced by
+    ANTHEA code and was therefore not copied to the projects that reference only X.Calculations).
+    Projects under supporto\tmp, supporto\artefatti and supporto\SUPERATI are left untouched.
+    -p:GpcVerifyHashes=false disables the check (only for diagnosis, never in a commit).
+  -->
+  <PropertyGroup>
+    <_GpcProjectExcluded Condition="$(MSBuildProjectDirectory.Contains('\supporto\tmp')) or $(MSBuildProjectDirectory.Contains('\supporto\artefatti')) or $(MSBuildProjectDirectory.Contains('\supporto\SUPERATI'))">true</_GpcProjectExcluded>
+    <GpcLibraries Condition="'$(GpcLibraries)' == '' and '$(_GpcProjectExcluded)' != 'true' and ('$(OutputType)' == 'Exe' or '$(OutputType)' == 'WinExe' or '$(IsTestProject)' == 'true')">all</GpcLibraries>
+    <GpcLibraries Condition="'$(GpcLibraries)' == 'all'">GPCUtilities;GPCGeometry;DelaunayMesh;GPCModel;GPCModelData;GPCChecker.Concrete;GPCChecker.Geotechnics;GPCChecker.CompositeBridge</GpcLibraries>
+    <_GpcEnabled Condition="'$(GpcLibraries)' != '' and '$(GpcLibraries)' != 'none'">true</_GpcEnabled>
+    <GpcVerifyHashes Condition="'$(GpcVerifyHashes)' == ''">true</GpcVerifyHashes>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(_GpcEnabled)' == 'true'">
+    <_GpcLibraryName Include="$(GpcLibraries)" />
+    <Reference Include="@(_GpcLibraryName)" HintPath="$(GpcLibDir)%(Identity).dll" Private="true" />
+  </ItemGroup>
+
+  <Import Project="$(GpcManifestProps)" Condition="'$(_GpcEnabled)' == 'true' and Exists('$(GpcManifestProps)')" />
+
+  <Target Name="VerifyGpcLibraries" BeforeTargets="ResolveAssemblyReferences" Condition="'$(_GpcEnabled)' == 'true' and '$(GpcVerifyHashes)' == 'true'">
+    <Error Condition="!Exists('$(GpcManifestProps)')" Text="Manca $(GpcManifestProps): rigenerarlo con tools\libs\Write-ManifestProps.ps1." />
+    <Error Condition="!Exists('%(GpcLibraryFile.Identity)')" Text="DLL GPC mancante: %(GpcLibraryFile.Identity)" />
+    <GetFileHash Files="@(GpcLibraryFile)" Algorithm="SHA256">
+      <Output TaskParameter="Items" ItemName="_GpcHashed" />
+    </GetFileHash>
+    <Error Condition="'%(_GpcHashed.FileHash)' != '%(_GpcHashed.Sha256)'" Text="DLL GPC diversa dal manifest: %(_GpcHashed.Filename)%(_GpcHashed.Extension) in $(GpcLibDir)" />
+    <ItemGroup>
+      <_GpcDllOnDisk Include="$(GpcLibDir)*.dll" />
+      <_GpcDllOnDiskName Include="@(_GpcDllOnDisk->'%(Filename)')" />
+      <_GpcDllOnDiskName Remove="@(GpcLibraryFile->'%(Filename)')" />
+      <_GpcDllRequiredName Include="@(_GpcLibraryName)" />
+      <_GpcDllRequiredName Remove="@(GpcLibraryFile->'%(Filename)')" />
+    </ItemGroup>
+    <Error Condition="'@(_GpcDllOnDiskName)' != ''" Text="DLL non elencate nel manifest in $(GpcLibDir): @(_GpcDllOnDiskName)" />
+    <Error Condition="'@(_GpcDllRequiredName)' != ''" Text="Librerie GPC richieste ma assenti dal manifest: @(_GpcDllRequiredName)" />
+  </Target>
+</Project>

@@ -1,0 +1,18 @@
+<Project>
+  <!--
+    Common properties of every ANTHEA project. Keep this file free of global compiler settings
+    (Nullable, LangVersion, Deterministic...): they would change the binaries without a review.
+
+    GpcLibDir: folder of the GPC DLL snapshot (default lib\Checker). Override it from the command line
+    (-p:GpcLibDir=<folder>\) to build against another set, for example a staging snapshot.
+    CheckerLibraryDirectory is the former name and is still accepted.
+  -->
+  <PropertyGroup>
+    <AntheaRoot>$(MSBuildThisFileDirectory)</AntheaRoot>
+    <GpcLibDir Condition="'$(GpcLibDir)' == '' and '$(CheckerLibraryDirectory)' != ''">$(CheckerLibraryDirectory)</GpcLibDir>
+    <GpcLibDir Condition="'$(GpcLibDir)' == ''">$(MSBuildThisFileDirectory)lib\Checker\</GpcLibDir>
+    <GpcLibDir Condition="!HasTrailingSlash('$(GpcLibDir)')">$(GpcLibDir)\</GpcLibDir>
+    <CheckerLibraryDirectory>$(GpcLibDir)</CheckerLibraryDirectory>
+    <GpcManifestProps Condition="'$(GpcManifestProps)' == ''">$(GpcLibDir)manifest.props</GpcManifestProps>
+  </PropertyGroup>
+</Project>

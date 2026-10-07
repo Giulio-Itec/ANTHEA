@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "note": "Fallimenti ammessi temporaneamente da build/ci.ps1. Ogni voce ha suite, tipo, motivo, fonte, data e fase che la chiude. 'match' (facoltativo) è un'espressione regolare sul primo messaggio d'errore: se non corrisponde l'esito è NEW-FAIL.",
+  "entries": [
+    {
+      "suite": "verifiche/project-calculations",
+      "kind": "exit",
+      "match": "^FAIL: Default progetto e foglio diversi: geo_muri_sostegno$",
+      "reason": "Unico controllo non superato su 123 (F0.5a: la suite ora raccoglie i fallimenti e prosegue). Il confronto DeepEquals dei default di progetto e foglio differisce solo in actions[0].id, un Guid generato a ogni CreateData (RetainingWall.Defaults -> Upgrade -> NewAction, X.Calculations/RetainingWall.Actions.cs:14 e :39). Nessun effetto numerico: i risultati del calcolo coincidono a id normalizzato. Difetto del test, che confronta anche un identificatore casuale; da decidere se normalizzare gli id nel test o rendere deterministici i default dei muri.",
+      "source": "supporto/test/X.Verifiche/ProjectCalculationChecks.cs:51",
+      "since": "2026-09-29",
+      "phase": "F3.3"
+    },
+    { "suite": "build/ConcreteDesign.DesktopChecks", "kind": "build", "match": "WpfMath", "reason": "Ricompila i sorgenti di X.Desktop senza il pacchetto WpfMath (usato dalla Wiki dal 2/10).", "source": "build/ci.ps1 run0-full", "since": "2026-10-02", "phase": "F1.6" },
+    { "suite": "build/ValidationIllustrations", "kind": "build", "match": "WpfMath", "reason": "Ricompila i sorgenti di X.Desktop senza il pacchetto WpfMath (usato dalla Wiki dal 2/10).", "source": "build/ci.ps1 run0-full", "since": "2026-10-02", "phase": "F1.6" }
+  ]
+}
