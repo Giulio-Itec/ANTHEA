@@ -6,18 +6,19 @@ Single runner for the ANTHEA verifications (refactoring, phase F0).
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile full -Tag run0  # standard + WPF smokes (needs the desktop)
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Stage ui -Only 'smoke-bridge'
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile baseline -Tag B1 -BaselineRef supporto\artefatti\baseline\F0-B0\headless
-  powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile baseline -Only '^baseline/banco' -DenseRef <F2-pre-m4>\a\tutte
+  powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile baseline -Only '^baseline/banco' -DenseRef <F2-pre-m4-v2>\a\tutte
 
 Stages: build, fast, regression, wiki, baseline, ui, word (word needs Microsoft Word, never in a profile).
 Profiles: quick = build fast wiki; standard = quick + regression; baseline = standard + baseline; full = standard + ui.
 Stage baseline: headless capture of the corpus with tests\ANTHEA.Testing (results, engines, report text, archives, fallbacks);
 with -BaselineRef <capture folder> also its comparison with that reference capture (tests\ANTHEA.Testing\tolerances.json).
 Bench of the concrete migration (F2.1, docs\refactoring\f2.1-banco.md), also in the stage baseline: dense capture of
-supporto\test\CheckerMigration.Capture (mode tutte) compared with the legacy fixtures frozen in Checker on 1/10/2026
-(compare-dense, comparison 'fixture-checker' of tests\ANTHEA.Testing\f2-classificazione.json). The fixtures folder is
--CheckerFixtures, by default ..\Checker\GPCChecker.Test.Concrete\Fixtures next to this checkout or next to the main working tree
-of a git worktree; without it the suite is listed as not run. With -DenseRef <dense 'tutte' folder> a second dense capture is
-compared with that reference (comparison -DenseSet, default 'pre-m4').
+supporto\test\CheckerMigration.Capture (mode tutte) compared with the concrete fixtures of Checker, recaptured on 7/10/2026 from
+the dense capture F2-pre-m4-v2 (compare-dense, comparison 'fixture-checker' of tests\ANTHEA.Testing\f2-classificazione.json, no
+expected difference). The fixtures folder is -CheckerFixtures, by default ..\Checker\GPCChecker.Test.Concrete\Fixtures next to this
+checkout or next to the main working tree of a git worktree; without it the suite is listed as not run. With -DenseRef <dense
+'tutte' folder> a second dense capture is compared with that reference (comparison -DenseSet, default 'pre-m4', whose reference is
+supporto\artefatti\baseline\F2-pre-m4-v2\a\tutte of the main repository).
 The WPF checks (--smoke-*, --check-*) exist only in the UiTests configuration (refactoring F1.2): the build stage
 compiles X.Desktop with -c UiTests and the ui stage runs X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe.
 Every outcome is classified against build/known-failures.json: PASS, KNOWN, NEW-FAIL, FIXED, BLOCKED, NOT-RUN.

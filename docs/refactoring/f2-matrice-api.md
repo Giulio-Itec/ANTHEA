@@ -17,7 +17,9 @@ Riferimenti dei numeri di riga, tutti verificati sui file:
 - Fixture: `Checker/GPCChecker.Test.Concrete/Fixtures`, ultimo commit ddfe7edf (1/10/2026),
   catturate con `supporto/test/CheckerMigration.Capture` dagli ANTHEA fe4652c, b5f2222,
   4bb8815, e5efa45 e dc8415a (sorgenti di calcolo invariati da fe4652c). Righe = righe di dati,
-  senza commenti e intestazione.
+  senza commenti e intestazione. Dal 7/10/2026 le fixture sono ricatturate da ANTHEA
+  `refactoring/integrazione-d7b-d2` d2d3225 (Checker 06d97733, [f2.1-banco.md](f2.1-banco.md)):
+  stesse righe; le righe dei test citate qui si riferiscono a Checker 7c15cf4f.
 
 Tolleranze dei MigrationTests: 1e-9 · max(1, |atteso|) per taglio, SLE, torsione,
 fessurazione, ancoraggi e dettagli; 1e-7 per M-χ (deformazioni dei punti snervati 1e-3);
