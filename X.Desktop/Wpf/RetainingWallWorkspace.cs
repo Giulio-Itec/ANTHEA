@@ -128,13 +128,13 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
             var view = new RetainingWallDrawing { Data = Calculation.Input, Calculation = Calculation, Case = c, Width = figureWidth, Height = figureHeight,
                 Diagrams = member is not ("Geometria" or "Armature"), Mode = member == "Armature" ? "Armature" : "Geometria e carichi", Member = member, CombinedLoads = false };
             view.Measure(new Size(figureWidth, figureHeight)); view.Arrange(new Rect(0, 0, figureWidth, figureHeight)); view.UpdateLayout();
-            figures.Add(new(member == "Geometria" ? "Sezione, terreno e armature · carichi caratteristici; spinte: " + c.Name : member == "Armature" ? "Sezione armata con pieghe e sovrapposizioni" : "Diagrammi " + member + " · " + c.Name, Ui.Snapshot(view), figureWidth / figureHeight));
+            figures.Add(new(member == "Geometria" ? "Sezione, terreno e armature · carichi caratteristici; spinte: " + c.Name : member == "Armature" ? "Sezione armata con pieghe e sovrapposizioni" : "Diagrammi " + member + " · " + c.Name, Ui.DocumentSnapshot(view), figureWidth / figureHeight));
         }
         if (Calculation.GlobalStability is { } global)
         {
             var view = new GlobalStabilityDrawing { Data = Calculation.Input, Result = global, Case = GlobalCase, Width = 1100, Height = 460 };
             view.Measure(new Size(1100, 460)); view.Arrange(new Rect(0, 0, 1100, 460)); view.UpdateLayout();
-            figures.Add(new("Stabilità globale · superficie critica della combinazione visualizzata", Ui.Snapshot(view), 1100d / 460));
+            figures.Add(new("Stabilità globale · superficie critica della combinazione visualizzata", Ui.DocumentSnapshot(view), 1100d / 460));
         }
         if (Calculation.Input.S("family") == "cantilever")
         {

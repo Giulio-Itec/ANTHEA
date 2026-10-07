@@ -11,7 +11,8 @@ namespace X.Desktop;
 
 // --check-report-appearance-offscreen <cartella>: the images of the calculation documents do not depend on the appearance of
 // ANTHEA (Appearance.cs). The same reports are built in Light, Dark and Very dark, with the views created in each mode and
-// without any native window; every image (word/media of each .docx) must be identical, byte for byte, to the Light one.
+// without any native window; every image (word/media of each .docx, the PNG of the 3D view and the Bridge Design printed page)
+// must be identical, byte for byte, to the Light one, while the view on screen keeps the appearance.
 // confronto.txt lists every comparison, the images are kept under <cartella>/<aspetto>/<report>/ for inspection.
 internal static class ReportAppearanceChecks
 {
@@ -28,7 +29,7 @@ internal static class ReportAppearanceChecks
                 Appearance.Set(mode, false);
                 var paper = ((SolidColorBrush)Appearance.Paper).Color;
                 Check((paper == Colors.White) == (mode == AppAppearance.Light), "Palette dell'applicazione in " + mode + ": " + paper);
-                var images = await Images(Path.Combine(directory, mode.ToString()), Check);
+                var images = await Images(Path.Combine(directory, mode.ToString()), Check, log.Add);
                 Check(((SolidColorBrush)Appearance.Paper).Color == paper, "Palette dell'applicazione ripristinata dopo i report in " + mode);
                 if (light is null) { light = images; log.Add($"Light: {images.Count} immagini"); continue; }
                 foreach (var (key, bytes) in light)
@@ -47,7 +48,7 @@ internal static class ReportAppearanceChecks
     }
 
     // Every report with figures of X.Desktop, from the documents of a new sheet (or the test cases already used by the smoke).
-    private static async Task<Dictionary<string, byte[]>> Images(string directory, Action<bool, string> check)
+    private static async Task<Dictionary<string, byte[]>> Images(string directory, Action<bool, string> check, Action<string> note)
     {
         var images = new Dictionary<string, byte[]>();
         void Add(string report, byte[] docx)
@@ -71,6 +72,22 @@ internal static class ReportAppearanceChecks
             var docx = editor.BuildReport("Sezione c.a. · aspetto", ["geometria", "materiali", "coefficienti", "azioni", "dominio3d", "dominio2d", "SLE", "SLE_FREQ", "SLE_QP", "taglio", "grafici"]);
             check(DocumentXml(docx).Contains("Dominio 3D "), "Sezione c.a.: figura del dominio 3D presente");
             Add("sezione-ca", docx);
+            // PNG button of the 3D view (ViewportFrame): the view lies in the editor, themed as a window of the current appearance.
+            editor.Width = 1600; editor.Height = 1000; editor.Measure(new Size(1600, 1000)); editor.Arrange(new Rect(0, 0, 1600, 1000)); editor.UpdateLayout();
+            var view = editor.ShowDomain3DForChecks(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); editor.UpdateLayout();
+            bool dark = Appearance.Current != AppAppearance.Light; Appearance.SetDark(editor, dark); Appearance.ApplyTree(editor); editor.UpdateLayout();
+            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); editor.UpdateLayout();
+            // The camera was fitted at the earlier size of the view: "Adatta" at the fixed size, as before an export.
+            view.FitView(); editor.UpdateLayout();
+            check(view.ActualWidth > 300 && view.TriangleCount > 100, $"Vista 3D a schermo con il dominio ({view.ActualWidth:0}×{view.ActualHeight:0}, {view.TriangleCount} triangoli)");
+            var screen = Ui.Snapshot(view); var exported = Ui.DocumentSnapshot(view);
+            check(Appearance.GetDark(view) == dark && Ui.Snapshot(view).AsSpan().SequenceEqual(screen), "Vista 3D a schermo invariata dopo l'esportazione");
+            check(screen.AsSpan().SequenceEqual(exported) != dark, "Vista 3D a schermo " + (dark ? "nell'aspetto scuro" : "uguale all'esportazione in Chiaro"));
+            // Cost of the scope of every image (DrawingView.Png, Ui.DocumentSnapshot) with a themed editor open.
+            var watch = System.Diagnostics.Stopwatch.StartNew(); for (int i = 0; i < 50; i++) using (Appearance.Document()) { }
+            note($"Appearance.Document in {Appearance.Current}: {watch.Elapsed.TotalMilliseconds / 50:0.00} ms per immagine");
+            Directory.CreateDirectory(Path.Combine(directory, "esportazioni")); File.WriteAllBytes(Path.Combine(directory, "esportazioni", "vista-3d-schermo.png"), screen);
+            images["esportazioni/vista-3d.png"] = exported; File.WriteAllBytes(Path.Combine(directory, "esportazioni", "vista-3d.png"), exported);
         }
         using (var editor = new SheetEditor(BridgeSection.Module, Archivio.NuovoFoglio(BridgeSection.Module)))
         {
@@ -81,6 +98,11 @@ internal static class ReportAppearanceChecks
         {
             await editor.CalculateAsync();
             Add("bridge-design", editor.BuildReport("Bridge Design · aspetto", []));
+            // Printed page (Print → PrintVisual inside Appearance.Document), on a Letter printable area.
+            var printed = editor.bridgeDesign!.PrintPage(816, 1056); var page = Ui.DocumentSnapshot(printed);
+            check(Ui.Snapshot(printed).AsSpan().SequenceEqual(page) == (Appearance.Current == AppAppearance.Light), "Pagina di stampa: senza Appearance.Document seguirebbe l'aspetto");
+            Directory.CreateDirectory(Path.Combine(directory, "esportazioni"));
+            images["esportazioni/stampa-bridge-design.png"] = page; File.WriteAllBytes(Path.Combine(directory, "esportazioni", "stampa-bridge-design.png"), page);
         }
         using (var editor = new SheetEditor(RetainingWall.Module, RetainingWall.Defaults()))
         {
@@ -115,5 +137,22 @@ internal sealed partial class SheetEditor
     {
         for (int i = 0; i < 1200 && (Busy || !HasResults); i++) { await Task.Delay(50); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); }
         if (Busy || !HasResults) throw new Exception("Verifiche c.a. non completate");
+    }
+    internal DomainViewport3D ShowDomain3DForChecks() => concrete!.ShowDomain3DForChecks();
+}
+
+internal sealed partial class ConcreteWorkspace
+{
+    internal DomainViewport3D ShowDomain3DForChecks()
+    {
+        // Without a window IsVisible stays false: fill the view as BuildReport does for hidden panels.
+        tabs.SelectedIndex = 1; UpdateLayout();
+        var panel = domainPanels.First(p => p.ThreeD); RefreshDomainPanel(panel, renderHidden: true);
+        // The PNG has the size of the view on screen, which follows the window layout (the dark templates of tabs and
+        // choices are a few pixels taller): a fixed size compares only the colours. At the origin of its frame, as when
+        // it stretches over it: RenderTargetBitmap draws the element at its offset in the parent.
+        panel.View3D!.Width = 620; panel.View3D.Height = 360;
+        panel.View3D.HorizontalAlignment = HorizontalAlignment.Left; panel.View3D.VerticalAlignment = VerticalAlignment.Top;
+        return panel.View3D;
     }
 }

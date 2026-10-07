@@ -14,7 +14,7 @@ internal sealed partial class BridgeDesignDrawing : FrameworkElement
     internal byte[] Png(bool? section = null)
     {
         var drawing = new BridgeDesignDrawing { Data = Data, Result = Result, Section = section ?? Section, Width = 1200, Height = 480 };
-        drawing.Measure(new Size(1200, 480)); drawing.Arrange(new Rect(0, 0, 1200, 480)); return Ui.Snapshot(drawing);
+        drawing.Measure(new Size(1200, 480)); drawing.Arrange(new Rect(0, 0, 1200, 480)); return Ui.DocumentSnapshot(drawing);
     }
     protected override void OnRender(DrawingContext dc)
     {

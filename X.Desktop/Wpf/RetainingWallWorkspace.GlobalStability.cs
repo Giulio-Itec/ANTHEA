@@ -163,6 +163,6 @@ internal sealed partial class RetainingWallWorkspace
         var input = independentGlobalInput ?? Calculation!.Input;
         var drawing = new GlobalStabilityDrawing { Data = input, Result = result, Case = GlobalCase, Width = 1100, Height = 460 };
         drawing.Measure(new Size(1100, 460)); drawing.Arrange(new Rect(0, 0, 1100, 460)); drawing.UpdateLayout();
-        X.Core.Archivio.ScriviAtomico(dialog.FileName, X.Core.ReportRetainingWall.CreateGlobal(input, result, new("Stabilità globale · superficie visualizzata", Ui.Snapshot(drawing), 1100d / 460)));
+        X.Core.Archivio.ScriviAtomico(dialog.FileName, X.Core.ReportRetainingWall.CreateGlobal(input, result, new("Stabilità globale · superficie visualizzata", Ui.DocumentSnapshot(drawing), 1100d / 460)));
     }
 }

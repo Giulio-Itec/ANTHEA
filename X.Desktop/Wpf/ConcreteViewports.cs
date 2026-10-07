@@ -24,7 +24,7 @@ internal sealed class ViewportFrame : Border
         Toolbar.Children.Add(Ui.Button("PNG", () =>
         {
             var dialog = new SaveFileDialog { Filter = "Immagine PNG|*.png", FileName = "ANTHEA_" + title.Replace(' ', '_') + ".png" };
-            if (dialog.ShowDialog(Window.GetWindow(this)) == true) try { Archivio.ScriviAtomico(dialog.FileName, viewport is DrawingView drawing ? drawing.Png() : Ui.Snapshot(viewport)); }
+            if (dialog.ShowDialog(Window.GetWindow(this)) == true) try { Archivio.ScriviAtomico(dialog.FileName, viewport is DrawingView drawing ? drawing.Png() : Ui.DocumentSnapshot(viewport)); }
             catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message, "Esportazione immagine"); }
         }, inspection: true));
         Toolbar.Children.Add(Ui.Button("Espandi", () =>

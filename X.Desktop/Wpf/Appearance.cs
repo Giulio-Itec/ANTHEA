@@ -94,13 +94,33 @@ internal static class Appearance
         if (!Enum.IsDefined(mode)) throw new ArgumentOutOfRangeException(nameof(mode));
         // Write first so a failed save is visible to the caller, without claiming persistence.
         if (persist) SavePreference(PreferencePath, mode);
-        Current = mode;
-        foreach (var (key, brush) in brushes) origins.GetValue(brush, _ => throw new InvalidOperationException()).Value = Transform(key.Item1, key.Item2);
+        Current = mode; Repaint();
         if (Application.Current is { } app)
         {
             foreach (Window window in app.Windows) { SetDark(window, mode != AppAppearance.Light); ApplyTree(window); }
         }
         Changed?.Invoke();
+    }
+    private static void Repaint()
+    {
+        foreach (var (key, brush) in brushes) origins.GetValue(brush, _ => throw new InvalidOperationException()).Value = Transform(key.Item1, key.Item2);
+    }
+    /// <summary>Images and printouts of calculation documents keep the Light colours whatever the appearance. Until the scope
+    /// is disposed the palette brushes take their Light colours, and <paramref name="root"/>, when it lies in a dark window,
+    /// leaves the dark styles. Render synchronously inside the scope: everything returns to the current appearance before
+    /// WPF draws the windows again, the open views are not re-themed and <see cref="Changed"/> is not raised.
+    /// In Light the scope does nothing.</summary>
+    internal static IDisposable Document(DependencyObject? root = null)
+    {
+        if (Current == AppAppearance.Light) return new UpdateScope(() => { });
+        var mode = Current; var dark = root?.ReadLocalValue(DarkProperty);
+        Current = AppAppearance.Light; Repaint();
+        if (root is not null && GetDark(root)) SetDark(root, false);
+        return new UpdateScope(() =>
+        {
+            if (root is not null) { if (dark == DependencyProperty.UnsetValue) root.ClearValue(DarkProperty); else root.SetValue(DarkProperty, dark); }
+            Current = mode; Repaint();
+        });
     }
     internal static ComboBox Selector()
     {

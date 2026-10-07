@@ -98,6 +98,12 @@ internal static class Ui
         element.UpdateLayout(); var bitmap = new RenderTargetBitmap(Math.Max(1, (int)Math.Ceiling(element.ActualWidth)), Math.Max(1, (int)Math.Ceiling(element.ActualHeight)), 96, 96, PixelFormats.Pbgra32);
         bitmap.Render(element); var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap)); using var stream = new MemoryStream(); encoder.Save(stream); return stream.ToArray();
     }
+    /// <summary>Image for a calculation document (report figure, exported view): Light colours whatever the appearance.
+    /// <see cref="Snapshot"/> keeps the appearance, as the screenshots of the interface.</summary>
+    internal static byte[] DocumentSnapshot(FrameworkElement element)
+    {
+        using (Appearance.Document(element)) return Snapshot(element);
+    }
     internal static DataGrid Table(string[] headers, IEnumerable<string[]> rows)
     {
         var grid = new DataGrid { IsReadOnly = true };
