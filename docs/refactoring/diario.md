@@ -348,9 +348,10 @@ sugli scostamenti (a)-(g).
   5ad56681 e Checker 0d7ba50b, tutti in origin. Versioni invariate rispetto al candidato; SHA-256 nuovi: GPCModel
   3C6D5788…, GPCModelData EA40DB14…, Concrete E724B959…, Geotechnics A72C43FC…, CompositeBridge F9A59096…; Utilities,
   Geometry e DelaunayMesh come S1. Lo xml aggiunge `PileSegments` e `PileSegments.TubeWeight`.
-- Verifiche su edc4fce, senza `-GpcLibDir`, con `-CompareTo` le corse del candidato: profilo standard (`20261007-170249-
-  s2u`) 33 PASS, 1 KNOWN, 0 NEW-FAIL; profilo baseline (`20261007-170533-s2u-baseline`, stessi riferimenti F2-B2 e
-  F2-pre-m4-v2) 39 PASS, 1 KNOWN, 0 NEW-FAIL; nessun avviso, quindi esiti e righe di conteggio uguali al candidato.
+- Verifiche su edc4fce, senza `-GpcLibDir`, con `-CompareTo` le corse del candidato: profilo standard
+  (`20261007-170249-s2u`) 33 PASS, 1 KNOWN, 0 NEW-FAIL; profilo baseline (`20261007-170533-s2u-baseline`, stessi
+  riferimenti F2-B2 e F2-pre-m4-v2) 39 PASS, 1 KNOWN, 0 NEW-FAIL; nessun avviso, quindi esiti e righe di conteggio
+  uguali al candidato.
   Cattura headless uguale a F2-B2 su 432 file (21 tempi volatili), banco c.a. e banco denso con gli stessi totali del
   candidato e nessuna differenza; cattura densa `mesh`: 80 impronte identiche a B0 e a F2-pre-m4-v2 (uscite in
   `supporto/artefatti/refactoring/s2u` del worktree). Test delle librerie non ripetuti: binari dello stesso sorgente,
