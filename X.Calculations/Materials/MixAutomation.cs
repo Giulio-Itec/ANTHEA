@@ -2,6 +2,9 @@ namespace Materiali;
 
 public static class AtecapMix
 {
+    // A/C massimo e dosaggio minimo di cemento: UNI 11104:2016, prospetto 5 (riportato in ATECAP 2020, p. 19), celle unite trascritte
+    // per ogni esposizione. Il prospetto 6 della UNI 11104:2025 in vigore ha dosaggi minimi inferiori in tutte le classi e per XF1
+    // A/C 0,55 e 300 kg/m³: i valori qui sono più restrittivi (registro D7-e, da decidere).
     public static (double? Ratio,int? Cement) Limits(string code)=>code switch
     {
         "X0" => (null,null),

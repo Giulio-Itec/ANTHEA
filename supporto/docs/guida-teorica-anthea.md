@@ -60,9 +60,9 @@ Il catalogo delle armature comprende classi attuali e storiche. I dati nominali 
 
 ### Esposizioni e requisiti del materiale
 
-Il catalogo della durabilità comprende 18 esposizioni. Le prescrizioni combinate vengono ricavate assumendo il massimo dei requisiti minimi di resistenza, il minimo dei rapporti acqua cemento massimi e il massimo dei contenuti minimi di cemento pertinenti. Le tabelle di composizione implementate fanno riferimento al prospetto documentato nel repository, derivato dal materiale ATECAP 2020 relativo a UNI 11104; non costituiscono una selezione automatica delle edizioni normative eventualmente successive.
+Il catalogo della durabilità comprende 18 esposizioni. Le prescrizioni combinate vengono ricavate assumendo il massimo dei requisiti minimi di resistenza, il minimo dei rapporti acqua cemento massimi e il massimo dei contenuti minimi di cemento pertinenti. Le classi minime seguono il prospetto 6 della UNI 11104:2025, in vigore dal 24 luglio 2025, con una sola eccezione: per XF1 resta C32/40 del prospetto 5 dell'edizione 2016, più cautelativo del C30/37 dell'edizione in vigore. Rapporti acqua cemento massimi e contenuti minimi di cemento sono quelli del prospetto 5 della UNI 11104:2016, riportato nel vademecum ATECAP 2020 (p. 19). Il prospetto 6 dell'edizione 2025 ha contenuti minimi di cemento inferiori in tutte le classi e per XF1 un rapporto acqua cemento massimo di 0,55: i limiti implementati sono quindi più restrittivi dell'edizione in vigore.
 
-| Esposizione | Classe minima nel prospetto implementato |
+| Esposizione | Classe minima implementata |
 | --- | --- |
 | X0 | C12/15 |
 | XC1 e XC2 | C25/30 |
@@ -73,7 +73,7 @@ Il catalogo della durabilità comprende 18 esposizioni. Le prescrizioni combinat
 | XD3 | C35/45 |
 | XS1 | C32/40 |
 | XS2 e XS3 | C35/45 |
-| XF1 | C32/40 |
+| XF1 | C32/40 (UNI 11104:2025: C30/37) |
 | XF2 e XF3 | C25/30 |
 | XF4 | C30/37 |
 | XA1 | C30/37 |
