@@ -23,11 +23,11 @@ internal static class StratigraphyTable
         grid.Columns.Clear(); grid.FontSize = 12; grid.RowHeight = 44; grid.ColumnHeaderHeight = 54;
         if (micro) { grid.MaxWidth = 650; grid.HorizontalAlignment = HorizontalAlignment.Left; }
         grid.GridLinesVisibility = DataGridGridLinesVisibility.All;
-        grid.VerticalGridLinesBrush = Ui.Brush("#DCE2E9");
-        grid.RowBackground = Brushes.White; grid.AlternatingRowBackground = Ui.Brush("#F8FAFC");
+        grid.VerticalGridLinesBrush = Appearance.Outline("#DCE2E9");
+        grid.RowBackground = Appearance.Paper; grid.AlternatingRowBackground = Appearance.Background("#F8FAFC");
         var headerStyle = new Style(typeof(DataGridColumnHeader), (Style)Application.Current.FindResource(typeof(DataGridColumnHeader)));
-        headerStyle.Setters.Add(new Setter(Control.BackgroundProperty, Ui.Navy));
-        headerStyle.Setters.Add(new Setter(Control.ForegroundProperty, Brushes.White));
+        headerStyle.Setters.Add(new Setter(Control.BackgroundProperty, Appearance.Background("#0B2A4A")));
+        headerStyle.Setters.Add(new Setter(Control.ForegroundProperty, Appearance.Foreground(Brushes.White)));
         headerStyle.Setters.Add(new Setter(Control.FontSizeProperty, 12.0));
         headerStyle.Setters.Add(new Setter(Control.PaddingProperty, new Thickness(4)));
         grid.ColumnHeaderStyle = headerStyle;
@@ -90,7 +90,7 @@ internal static class StratigraphyTable
                 hint.SetBinding(TextBlock.TextProperty, Value("peso_specifico", true));
                 var visibility = Value(field.Key, true); visibility.Converter = new EmptyVisibility();
                 hint.SetBinding(UIElement.VisibilityProperty, visibility);
-                hint.SetValue(TextBlock.ForegroundProperty, Brushes.Gray);
+                hint.SetValue(TextBlock.ForegroundProperty, Appearance.Foreground(Brushes.Gray));
                 hint.SetValue(TextBlock.TextAlignmentProperty, TextAlignment.Center);
                 hint.SetValue(FrameworkElement.VerticalAlignmentProperty, VerticalAlignment.Center);
                 hint.SetValue(UIElement.IsHitTestVisibleProperty, false);

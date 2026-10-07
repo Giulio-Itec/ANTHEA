@@ -28,7 +28,7 @@ public sealed partial class MainWindow
         if (messages.Count == 0) return;
         sharedStatus.Text = string.Join("\n", messages);
         sharedStatus.ToolTip = string.Join("\n", properties.Concat(checks.Select(c => c.Text)));
-        sharedStatus.Foreground = conflicts.Length == 0 && checks.All(c => c.Passed == true) ? Brushes.DarkGreen : Brushes.DarkOrange;
+        sharedStatus.Foreground = Appearance.Foreground(conflicts.Length == 0 && checks.All(c => c.Passed == true) ? Brushes.DarkGreen : Brushes.DarkOrange);
         sharedStatus.Margin = new Thickness(12, 5, 12, 5); sharedStatus.Visibility = Visibility.Visible;
     }
 }

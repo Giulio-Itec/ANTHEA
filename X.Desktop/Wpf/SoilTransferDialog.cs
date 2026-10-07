@@ -72,7 +72,7 @@ internal sealed class SoilTransferDialog : Window
     }
     private void Try(Action action)
     {
-        try { status.Foreground = Ui.Navy; action(); }
-        catch (Exception ex) { status.Text = ex.Message; status.Foreground = Brushes.Firebrick; }
+        try { status.Foreground = Appearance.Ink; action(); }
+        catch (Exception ex) { status.Text = ex.Message; status.Foreground = Appearance.Foreground(Brushes.Firebrick); }
     }
 }

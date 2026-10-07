@@ -70,7 +70,7 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
                 var all = result.Checks.Concat(result.Structural).ToArray();
                 int failed = all.Count(c => c.Ratio > 1 || c.Status.StartsWith("Non soddisfatta") || c.Status == "Perdita di equilibrio"), missing = all.Count(c => c.Ratio is null && !c.Status.StartsWith("Non soddisfatta"));
                 status.Text = $"Calcolo aggiornato · {result.Cases.Count} combinazioni · {failed} controlli non soddisfatti · {missing} non disponibili";
-                status.Foreground = failed > 0 ? Brushes.Firebrick : missing > 0 ? Brushes.DarkGoldenrod : Ui.Navy;
+                status.Foreground = Appearance.Foreground(failed > 0 ? Brushes.Firebrick : missing > 0 ? Brushes.DarkGoldenrod : Ui.Navy);
             }
             catch (OperationCanceledException) { }
             catch (Exception ex) { if (!disposed && request == revision) { Calculation = null; status.Text = "Dati da correggere: " + ex.Message; } }

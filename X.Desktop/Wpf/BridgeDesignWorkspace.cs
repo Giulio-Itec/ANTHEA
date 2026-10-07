@@ -217,7 +217,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
             if (refreshing) return;
             Data[group]![p.Key] = edit.Text;
             double? v = J.Number(Data[group]![p.Key]);
-            edit.BorderBrush = v is null || v < p.Min || v > p.Max ? Brushes.IndianRed : Ui.Brush("#DCE2E9");
+            edit.BorderBrush = Appearance.Outline(v is null || v < p.Min || v > p.Max ? "#CD5C5C" : "#DCE2E9");
             if (range is not null && v.HasValue) { sync = true; range.Value = v.Value; sync = false; }
             Changed();
         };
@@ -268,14 +268,14 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
             values[3].Text = F(r.Duration, "0") + " mesi"; captions[3].Text = $"±25% · {r.Supports.Count(s => s.Type != "Spalla")} pile · {r.Supports.Count(s => s.Type == "Spalla")} spalle";
             configuration.Text = $"L {F(r.Length)} m · W {F(r.Width)} m · {r.Family.Name} · {r.Girders} elementi · {r.Foundation}" + (r.PileLength > 0 ? $" × {F(r.PileLength, "0")} m" : "");
             ShowQuantities(r); ShowDetails(r); ShowComparison(); ShowAdvice(r); ShowTechnical(r); InvalidateOptimization();
-            status.Text = BridgeConcept.Scope; status.Foreground = Ui.Muted;
+            status.Text = BridgeConcept.Scope; status.Foreground = Appearance.Foreground(Ui.Muted);
         }
         catch (ArgumentException ex)
         {
             Calculation = null; Drawing.Result = null; Drawing.InvalidateVisual();
             foreach (var v in values) v.Text = "—"; foreach (var c in captions) c.Text = "Dati da completare";
             quantities.Content = detail.Content = comparison.Content = advice.Content = technical.Content = null; configuration.Text = ""; InvalidateOptimization();
-            status.Text = ex.Message; status.Foreground = Brushes.Firebrick;
+            status.Text = ex.Message; status.Foreground = Appearance.Foreground(Brushes.Firebrick);
         }
     }
     private static DataGrid Table(string[] headers, IEnumerable<string[]> rows, double height = 300)

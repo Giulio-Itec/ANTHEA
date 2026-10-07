@@ -42,6 +42,7 @@ internal static class Appearance
     internal static Brush Accent => Colour((Color)ColorConverter.ConvertFromString("#0B5CAD"), "foreground");
     internal static Brush Background(string hex) => Colour((Color)ColorConverter.ConvertFromString(hex), "background");
     internal static Brush Foreground(Brush brush) => Map(brush, "foreground");
+    internal static Brush Outline(string hex) => Colour((Color)ColorConverter.ConvertFromString(hex), "border");
 
     internal static AppAppearance ReadPreference(string path)
     {
@@ -163,10 +164,15 @@ internal static class Appearance
             if (tinted) return Color.FromArgb(c.A, (byte)(c.R * .19 + 12), (byte)(c.G * .19 + 12), (byte)(c.B * .19 + 12));
             return Hex(l > .985 ? "#142337" : "#1D3047");
         }
-        if (role == "border") return Hex(Current == AppAppearance.VeryDark ? "#454C55" : "#596B7E");
+        int chroma = Math.Max(c.R, Math.Max(c.G, c.B)) - Math.Min(c.R, Math.Min(c.G, c.B));
+        if (role == "border")
+        {
+            // Saturated lines carry a meaning (selection, validation, soil layer colours) and keep their hue.
+            if (chroma > 55 && l < .7) return c;
+            return Hex(Current == AppAppearance.VeryDark ? "#454C55" : "#596B7E");
+        }
         if (l > .78) return c;
         // Preserve status hues, with enough luminance for dark surfaces.
-        int chroma = Math.Max(c.R, Math.Max(c.G, c.B)) - Math.Min(c.R, Math.Min(c.G, c.B));
         if (chroma > 55 && (c.G > c.B * 1.2 || c.R > c.B * 1.3))
             return Color.FromArgb(c.A, (byte)(c.R * .45 + 140), (byte)(c.G * .45 + 140), (byte)(c.B * .45 + 140));
         return Hex(Current == AppAppearance.VeryDark ? (l < .3 ? "#E8E9EB" : "#BFC2C7") : (l < .3 ? "#E5EDF7" : "#B9C9DD"));
