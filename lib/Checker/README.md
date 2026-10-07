@@ -1,5 +1,41 @@
 # DLL Checker
 
+**Release S2 (7 ottobre 2026, refactoring F2.4).** Ricostruita con `tools/libs/Update-Snapshot.ps1` da alberi
+puliti, senza `-Install` (staging in `supporto/artefatti/lib-staging/S2`, poi copiati DLL, `manifest.json` e
+`manifest.props`). Commit sorgente: Utilities df3b3e7 e Geometry 6a0d1c1 (binari committati, gli stessi di S1:
+dopo 75182cc Geometry cambia solo un test), Model master 5ad56681, Checker develop 1fbaea61; SDK 9.0.318.
+
+- Versioni: GPCChecker.Concrete 0.0.15.0 → 0.0.17.0, GPCModel 1.6.1.0 → 1.6.1.1, GPCModelData 0.0.2.2 → 0.0.2.3,
+  GPCChecker.Geotechnics 0.1.1.0 → 0.1.1.1, GPCChecker.CompositeBridge 1.4.0.3 → 1.4.0.4. GPCUtilities 2.0.0.8,
+  GPCGeometry 2.1.0.4 e DelaunayMesh 2.0.0.11 invariate (stesso SHA-256).
+- Concrete 0.0.17.0 porta nella libreria le regole di fessurazione già applicate da ANTHEA: D7-b (k2 = 0,5 con l'asse
+  neutro interno alla sezione, nessun k2 nella sezione interamente compressa; opzione legacy `NtcK2FromCompressedBars`),
+  R15 (h − x delle fasce interne dei fori = min[εmax/|∇ε|; altezza della sezione lungo il gradiente]) e le citazioni
+  R3 (EN 1992-1-1 7.3.4(3), eq. (7.14)).
+- GPCModel, GPCModelData, Geotechnics e CompositeBridge hanno sorgente invariato rispetto a S1 (Model 5ba61a04,
+  Checker b994e188): SourceLink scrive il commit nella DLL, quindi ogni commit nuovo cambia lo SHA-256 e richiede una
+  versione più alta; è stata alzata la revisione (ultima cifra, convenzione dei repository). Cambiano anche i
+  riferimenti nei metadati: GPCModelData, Concrete, Geotechnics e CompositeBridge referenziano GPCModel 1.6.1.1,
+  CompositeBridge referenzia Concrete 0.0.17.0.
+- Push: Model 5ad56681 era pushato al momento della build (`pushed: true`). Checker 1fbaea61 è locale: è il merge delle
+  pagine dei metodi c.a. (F2.2, solo `docs/metodi`) sopra 0d7ba50b, già pushato. Il commit da pushare è develop
+  1fbaea61; dopo il push il campo `pushed` delle tre DLL di Checker passa a `true` senza ricompilare (DLL e SHA-256
+  invariati).
+- Riproducibilità: una ricompilazione completa (`--no-incremental`) dagli stessi commit dà DLL identiche bit per bit.
+  Una prima build è stata scartata: era partita mentre su Checker develop entravano i merge delle pagine dei metodi, e
+  il manifest registrava 0d7ba50b per DLL compilate da 1fbaea61.
+- ANTHEA, sul commit dell'installazione e senza `-GpcLibDir`: profilo standard 33 PASS, 1 KNOWN
+  (`verifiche/project-calculations`), 0 NEW-FAIL; profilo baseline 39 PASS, 1 KNOWN, 0 NEW-FAIL, esiti e righe di
+  conteggio uguali a quelli di S1 sullo stesso codice (17b6c98). Cattura headless uguale alla baseline F2-B2 su 432 file
+  (solo i 21 tempi volatili; nel manifest cambiano commit, hash di questo manifest e le cinque DLL). Banco c.a. contro le
+  fixture di Checker: 27 698 righe, 26 462 identiche, 1236 con soli identificativi casuali; contro F2-pre-m4-v2: 32 564
+  righe, 31 320 identiche, 1244 con soli identificativi casuali; nessuna differenza. Impronta delle 80 mesh identica a
+  B0 e a F2-pre-m4-v2 bit per bit.
+- Librerie, sulle DLL compilate da Model 5ad56681 e Checker 0d7ba50b (stesso sorgente di 1fbaea61): Concrete 510/510,
+  Geotechnics 98/98, CompositeBridge 254/254, Model 892 superati e 2 ignorati, ModelChecker 106/106. Steel (non nello
+  snapshot, 17 fallimenti storici) e BridgeAudit (compila ANTHEA/X.Core) non eseguiti.
+- Manca il profilo full con le prove WPF a schermo.
+
 **Snapshot riproducibile da commit (7 ottobre 2026, refactoring F0.8-F0.9).** Prima ricostruzione con
 `tools/libs/Update-Snapshot.ps1`: ogni DLL viene da un commit con albero pulito, registrato in `manifest.json`
 (repository, ramo, commit, push, SDK, versione, SHA-256); `manifest.props` permette alla build di verificare gli
