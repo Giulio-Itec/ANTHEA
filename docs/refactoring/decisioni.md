@@ -125,6 +125,21 @@ sempre in due commit (collegamento con opzione legacy identico, poi cambio con e
   del refactoring si ricatturano tutti i riferimenti presi da ANTHEA: fixture c.a. e geotecniche di Checker,
   baseline headless e catture dense.
 
+## Decisioni del 7 ottobre 2026, giorno
+
+- **Push e prosecuzione**: "fai push su main, poi continua il refactoring. quando hai finito, aggiornami e fammi
+  una tabella di recap. se hai finito e tutto funziona, test, commit e push". Main pushato (ebcab0e).
+- **R15, fasce interne dei fori** (h − x senza limite in trazione quasi uniforme, wk fino a 10⁹ mm): scelta fra
+  due limiti, nessuno continuo ovunque. Decisione: "Altezza lungo il gradiente" — h − x non supera l'altezza
+  della sezione lungo il gradiente; continua quando l'asse neutro entra nella sezione, salto residuo solo alla
+  soglia della trazione uniforme dove l'altezza normale alla faccia e quella lungo il gradiente differiscono.
+  La regola alternativa (altezza normale alla faccia in sezione interamente tesa) è ritirata.
+- **k2 delle fasce interne dei fori** con l'asse neutro che taglia la sezione: "(7.13) della fascia" — ogni
+  fascia usa k2 = (ε1 + ε2)/(2 ε1) della propria distribuzione, non 0,5.
+- **Prove WPF**: "Esegui ora il full"; poi "sto andando a pranzo. ti lascio mezz'ora di schermo. a fine lavori
+  report di lavori, test, committa e continua con il refactoring". Profilo full con prove WPF eseguito durante
+  la pausa sulla punta dell'integrazione.
+
 ## Dipendenze esterne previste
 
 Da approvare una volta; ogni variazione si aggiunge qui.

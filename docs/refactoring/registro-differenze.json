@@ -74,7 +74,7 @@
       "titolo": "k2 = 1,0 nel ramo NTC con sezione parzializzata senza barre compresse",
       "famiglia": "calcestruzzo/fessurazione",
       "categoria": "scostamento-normativo",
-      "stato": "da-correggere",
+      "stato": "corretto",
       "descrizione": "Nel ramo NTC k2 vale 0,5 solo se almeno una barra ordinaria è compressa, altrimenti 1,0, anche quando l'asse neutro taglia la sezione (flessione). La Circolare e la EN 1992-1-1 danno 0,5 in flessione; il ramo Eurocodice dello stesso codice usa 0,5.",
       "riferimento_normativo": [
         { "fonte": "Circolare 21/01/2019 n. 7", "punto": "C4.1.2.2.4.5, k2 e eq. [C4.1.9]", "riscontro": "testo della G.U., p. 88" },
@@ -108,6 +108,7 @@
       ],
       "raccomandazione": "b1, in due commit (collegamento con l'opzione legacy, poi cambio del predefinito)",
       "decisione_finale": { "data": "2026-10-07", "utente": "per il punto b hai ragione. fallo come lo hai previsto. se l'asse neutro taglia la sezione. occhio però che non si cada nel caso di pura compressione", "opzione": "b1", "esito": "k2 = 0,5 quando l'asse neutro taglia la sezione, per ogni normativa; sezione interamente compressa con wk = 0 prima di ogni uso di k2; opzione legacy solo per le fixture congelate. Attuazione sui branch refactoring/d7b-k2-flessione (ANTHEA) e anthea-d7b-k2 (Checker)." },
+      "attuazione": { "data": "2026-10-07", "commit": ["ANTHEA 1ae68bc (opzione legacy, risultati identici)", "ANTHEA bdea165 (regola nuova)", "ANTHEA 008e237, 708a786, 8b2c239, ec2d836 (revisioni: fasce interne dei fori, traccia, pura compressione)", "Checker 8e65715f, 56ea03ca, 59fc2e0e (0.0.16.0), 499245e6", "fixture c.a. di Checker ricatturate dal comportamento attuale: Checker 06d97733, banco ANTHEA 34e6d58"], "verifica": "pura compressione con wk = 0 e nessun k2 in traccia; libreria e ANTHEA con lo stesso k2, wk ed esito sui 936 stati delle fixture (322 con asse neutro interno, k2 = 0,5); X.Verifiche --checker con le prove dedicate di k2; GPCChecker.Test.Concrete verde; nessuna differenza nel corpus headless (nessuna sezione c.a. con k2 nella traccia); profilo full con prove WPF 67 PASS, 1 KNOWN, 0 NEW-FAIL. Fasce interne dei fori: k2 = (ε1 + ε2)/(2 ε1) della propria distribuzione, confermato dall'utente il 7/10. L'opzione legacy resta solo per i test dedicati e i confronti storici." },
       "decisione": {
         "data": "2026-10-06",
         "utente": "per solo armature tese k2 = 1, per flessione 0,5: il comportamento non è corretto? da vedere insieme",
@@ -217,6 +218,8 @@
       "raccomandazione": "d1 con avviso quando γb differisce da quello della tecnologia, in due commit (equivalenza con l'override 1,35, poi predefinito per tecnologia); i nuovi attesi dei 20 casi infissi ed elica si affiancano a quelli Python",
       "decisione": { "data": "2026-10-06", "utente": "seguire la norma", "opzione": "d1", "esito": "γb della Tab. 6.4.II per tecnologia come predefinito dei fogli nuovi e al cambio di tecnologia, con la corrispondenza della tabella; gli archivi conservano il valore memorizzato dall'utente (d2, migrazione degli archivi, non scelta: da confermare con l'utente)" },
       "attuazione": { "data": "2026-10-07", "branch": "refactoring/d7-norma-muri-pali", "commit": ["7c96c04", "e05a05b"], "verifica": "γb da Model (StandardNTC2018Geotechnics.PileExecution); proposto al cambio di tecnologia e dal Reset; avviso nel calcolo se diverso; verifiche/pile-factors 13 controlli; smoke WPF del display; regressione 464/464 con i soli avvisi attesi aggiunti ai 20 casi battuti ed elica (valori numerici invariati); cattura headless contro B1: 20 risultati con l'avviso in più, nessun numero cambiato" },
+      "decisione_finale": { "data": "2026-10-07", "utente": "in questo momento non ci sono ancora file salvati di anthea. quindi puoi effettuare direttamente d2. non è ancora attivo come salvataggio per gli utenti", "opzione": "d2", "esito": "γb della tecnologia anche come valore di riserva (foglio senza γb) in calcolo, relazione, coefficienti dei progetti ed editor; migrazione una tantum dei fogli senza versione con palo battuto o a elica e γb 1,35 (o assente) al valore della tabella, con la versione del foglio 2 come marcatore." },
+      "attuazione_d2": { "data": "2026-10-07", "commit": ["ANTHEA 241b467 (regola spenta, risultati identici)", "ANTHEA b8e07d8 (regola accesa)", "ANTHEA ac81b74 (micropalo riconosciuto dal modulo, γb confrontato per esecuzione, regola in una funzione)"], "verifica": "verifiche/pile-factors con le prove della regola e della migrazione; regressione 464/464 con gli stessi scarti: i 24 casi battuti ed elica dichiarano nell'input sicurezza_base 1.35 e versione 2, ipotesi dei loro attesi Python, che non cambiano; cattura headless: nessun risultato cambiato nel corpus (versione 2 nei fogli nuovi, riga sicurezza_base nelle relazioni dei 20 casi); effetto sui casi senza γb: Rc,d drenata +4,3 … +7,0 % battuti, +1,0 … +1,2 % elica; profilo full con prove WPF verde." },
       "data": "2026-10-06",
       "fase": "F4.5",
       "test": [

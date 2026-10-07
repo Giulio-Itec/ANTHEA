@@ -59,8 +59,8 @@ Tra F1 e F2: regressione in MSTest (464 casi singoli) e `casi_confronto.json` di
 
 - [~] F2.1 Cattura pre-M4 del legacy attuale; matrice delle API; casi vicini alla soglia; test con sezioni in forma chiusa. Fatti (branch `refactoring/f2-banco-confronto`, [f2.1-banco.md](f2.1-banco.md), [f2-matrice-api.md](f2-matrice-api.md)): cattura pre-M4 doppia in `supporto/artefatti/baseline/F2-pre-m4` (identica a meno degli identificativi casuali; contro B0 solo D7-c e D7-d), comando `compare-dense` con classificazione versionata, suite `baseline/banco-ca` (fixture di Checker del 1/10: 27 698 righe, 110 differenze tutte classificate). Fixture ricatturate il 7/10 (decisione B) dalla nuova cattura doppia `F2-pre-m4-v2` (d2d3225, con D7-b, D7-d d2 e R15; mesh identiche a B0): Checker 06d97733, test di migrazione senza casi speciali, banco con zero differenze e riferimento denso `F2-pre-m4-v2/a/tutte`. Restano: casi vicini alla soglia, test con sezioni in forma chiusa.
 - [~] F2.2 [CP] Pagine dei metodi c.a. (revisione tecnica). Scritte in Checker (branch locali `anthea-metodi-ca-1` e `anthea-metodi-ca-2`, worktree Temp\cw-metodi1 e cw-metodi2): taglio, torsione, SLE, fessurazione, ancoraggi, dettagli, M-χ, durabilità e copriferri, con esempi a mano uguali alla libreria; in attesa della revisione dell'utente.
-- [ ] F2.3 [CP] GPCChecker.Concrete: dettagli di solette e pareti; mesh sicure in parallelo al posto del lock; tracce per i report; opzioni degli scostamenti.
-- [ ] F2.4 [CP] Rilascio `lib/Checker` con codice ANTHEA invariato.
+- [~] F2.3 [CP] GPCChecker.Concrete: dettagli di solette e pareti; mesh sicure in parallelo al posto del lock; tracce per i report; opzioni degli scostamenti. Fatti il 7/10 (Checker develop): D7-b con opzione legacy (0.0.16.0), R3, R15 della fascia interna (0.0.17.0), fixture c.a. ricatturate; restano solette e pareti, mesh senza lock, tracce in italiano per i report, R1 e R2 dopo il riscontro dei testi.
+- [ ] F2.4 [CP] Rilascio `lib/Checker` con codice ANTHEA invariato. Nota del 7/10: GPCChecker.Concrete 0.0.17.0 è pronta ma non distribuita; ricompilando dai commit nuovi cambiano per SourceLink anche gli SHA-256 di GPCModel, GPCModelData, Geotechnics e CompositeBridge a sorgente invariato, e `tools/libs/Update-Snapshot.ps1` rifiuta uno SHA diverso senza versione più alta: servono versioni nuove (o una regola dello script per i componenti a sorgente invariato) e il profilo full a schermo.
 - [ ] F2.5 Strato di mappatura con contratto JSON invariato.
 - [ ] F2.6 Taglio e torsione → libreria.
 - [ ] F2.7 Fessurazione e SLE, senza stato statico.
@@ -89,11 +89,11 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
 - [ ] F4.2 Regole automatiche estese.
 - [ ] F4.3 [CP] Collocazione di GPC.Design, Concrete/Walls, muratura, σcp, CRd,c/k1/vmin, esiti dei pali.
 - [ ] F4.4 Esito comune tipizzato in pali e muri.
-- [ ] F4.5 Coefficienti dalle norme (γ dei pali da PileExecution); scostamento (d) in due commit.
+- [~] F4.5 Coefficienti dalle norme (γ dei pali da PileExecution); scostamento (d) in due commit. Anticipato il 7/10: D7-d opzioni d1 e d2 (γb da Model per tecnologia, valore di riserva e migrazione una tantum dei fogli).
 - [ ] F4.6 Inventario delle soglie dipendenti dalle unità; palo elastico in N e mm.
 - [ ] F4.7 Muri in c.a. in `Concrete/Walls` (tre passi).
 - [ ] F4.8 Muri a gravità e dettagli.
-- [ ] F4.9 [CP] Collegamento dei muri e rilascio `lib/Checker`.
+- [ ] F4.9 [CP] Collegamento dei muri e rilascio `lib/Checker`. Anticipato il 7/10 lo scostamento D7-c (γRd non applicato a F̄).
 - [ ] F4.10 GPC.Design: armature e distinta dei muri, tratti dei pali.
 - [ ] F4.11 GPC.Design: BridgeConcept con listini e CO₂ come dati versionati.
 - [ ] F4.12 GPC.Design: ricerca delle armature di sezione.

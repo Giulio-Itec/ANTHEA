@@ -268,3 +268,25 @@ sugli scostamenti (a)-(g).
 - 7bdd260: W0.5 chiuso nel piano. 97bec94: merge del branch delle guide nel branch F2, che diventa la punta integrata.
 - Verifica finale sulla punta integrata: profilo baseline contro B1 (solo le 25 differenze volute di D7-c e D7-d; banco c.a.
   con FC-1…FC-8 ritrovate) e profilo full a schermo 67 PASS, 1 KNOWN, 0 NEW-FAIL.
+
+## Giorno del 7 ottobre 2026
+
+- Mattina: risposte dell'utente al resoconto. Approvate F0, F1, D7-c/D7-d/R3 e W0; merge su main in locale; push delle
+  librerie (Utilities df3b3e7, Geometry 6a0d1c1, Model d6631635, Checker develop 7c15cf4f); campo pushed del manifest di
+  lib/Checker aggiornato. Decisioni su D7-b (k2 = 0,5 con asse neutro interno, pura compressione esclusa), D7-e (UNI 11104
+  in vigore), D7-f (Schema 1 con tandem e linee di influenza se rapido), voci R4-R14 rinviate a fine refactoring (F5.15),
+  fixture di Checker da rifotografare (B), d2 per γb dei pali, ricattura di tutte le fotografie a fine refactoring.
+- Workflow D7-b (Checker anthea-d7b-k2 e ANTHEA refactoring/d7b-k2-flessione) con verifica avversaria: pura compressione con
+  wk = 0 e nessun k2; libreria e ANTHEA con lo stesso k2, wk ed esito sui 936 stati. Workflow d2 (refactoring/d7d-d2-
+  coefficienti-pali): γb della tecnologia come riserva e migrazione una tantum; 24 casi della regressione con 1,35 e
+  versione 2 negli input, attesi Python intatti. Un agente si è interrotto per un errore della rete ed è stato ripreso.
+- Push di main ANTHEA (2cdf9fd..ebcab0e) su richiesta dell'utente.
+- Integrazione (branch refactoring/integrazione-d7b-d2): merge di D7-b e d2; Model ce23e8b5/559dda08 (versione del motore);
+  difetto preesistente R15 delle fasce interne dei fori (h − x illimitata, wk fino a 10⁹ mm) corretto in ANTHEA e nella
+  libreria; fixture c.a. di Checker ricatturate (06d97733) e banco F2.1 con zero differenze (34e6d58, riferimento
+  F2-pre-m4-v2); guide Rev31 rigenerate; nuova baseline headless F2-B2.
+- R15: una prima rifinitura (altezza normale alla faccia) spostava il salto all'ingresso dell'asse neutro (+18 % sulla wk
+  governante nel cassone quadrato); l'utente ha scelto l'altezza lungo il gradiente (Checker 12547700, ANTHEA 08c6dcc,
+  ca0cc10) e confermato k2 = (7.13) delle fasce. Testo della regola in sezione interamente tesa reso preciso (2d40a95,
+  d71054ce) e guide rigenerate.
+- Profilo full con prove WPF a schermo durante la pausa dell'utente (punta 348f967): 67 PASS, 1 KNOWN, 0 NEW-FAIL.
