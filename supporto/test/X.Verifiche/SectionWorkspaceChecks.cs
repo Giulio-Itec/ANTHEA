@@ -72,7 +72,8 @@ internal static class SectionWorkspaceChecks
             var check=two.Check(new(-500,50*Math.Cos(t),50*Math.Sin(t)));
             Assert(check.Utilization is > 0 && check.Resistance is not null, "N-M " + angle);
         }
-        // Legacy rule of Ntc2018Checks.NtcK2FromCompressedBars (until 7/10/2026), kept for the fixtures: k2 from the bar stresses.
+        // Legacy rule of Ntc2018Checks.NtcK2FromCompressedBars (until 7/10/2026), kept for these checks and the historical comparisons
+        // (the concrete fixtures of Checker are captures of the current behaviour since 06d97733): k2 from the bar stresses.
         Assert(!Ntc2018Checks.NtcK2FromCompressedBars, "D7-b: k2 dall'asse neutro come predefinito");
         Assert(Ntc2018Checks.CrackK2([-1, 100, 200]) == .5, "k2 legacy: flessione con una barra compressa");
         Assert(Ntc2018Checks.CrackK2([100, 150, 200]) == 1, "k2 legacy: trazione con tutte le barre tese");
