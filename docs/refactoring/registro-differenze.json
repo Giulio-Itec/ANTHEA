@@ -628,24 +628,25 @@
         "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:221-222",
         "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:103-114",
         "X.Calculations/ConcreteLibraryMapping.cs:20-26",
-        "X.Calculations/ConcreteShearTorsionAdapter.cs:24-38, :44-65"
+        "X.Calculations/ConcreteShearTorsionAdapter.cs:24-38, :44-65",
+        "X.Calculations/ConcreteShearAnalysis.cs:53-57, :74-77"
       ],
       "segno": "nessuno: scarti relativi dell'ordine di 1e-16 (ultima cifra), in entrambi i versi",
       "effetto_quantificato": {
-        "sintesi": "Prove dell'adattatore (griglie della cattura densa, cultura it-IT e invariante, calcoli del modulo): taglio 1853 risultati e 203 rifiuti uguali, 1059 numeri diversi su 19 032, scarto relativo massimo 9,19e-16; torsione 1070 risultati e 58 rifiuti uguali, 801 numeri diversi su 12 539, massimo 3,18e-16; profilo resistente 11 risultati e 5 rifiuti, identico; modulo (ConcreteShearAnalysis, 7 norme, 5 forme, con e senza staffe, torsione NTC) 215 risultati e 67 rifiuti uguali, 258 numeri diversi su 4510, massimo 5,43e-16; calcolo headless (ConcreteAnalysis, 5 norme) 21 numeri diversi su 1049, massimo 3,95e-16, relazioni completa e sintetica identiche. Cattura densa F2.6 (motore predefinito Library) contro F2-pre-m4-v2, confronto esatto: shear-legacy.csv 2016 righe, 589 con numeri diversi (VRsd 165 celle, VRcd 89, VRd 164, ratio 401, cotTheta 16, details 166), scarto relativo massimo 9,19e-16 (riga 1369, DIN, VRcd 4946,0569613109374 → 4946,0569613109419 kN), assoluto massimo 4,5e-12 kN; torsion-legacy.csv 986 righe, 494 con numeri diversi (torsionRatio 169, concrete 268, steel 244; resistenze TRcd, TRsd, TRld, TRd e ΣAsl richiesta identiche), massimo 3,18e-16; torsion-geometry-legacy.csv identico. Rifiuti: 176 di taglio, 50 di torsione e 2 di profilo, gli stessi con lo stesso messaggio. Nessun esito, stato, testo o rifiuto diverso; tutte le differenze entro 1e-9 (confronti f2-libreria e fixture-checker superati).",
+        "sintesi": "Prove dell'adattatore dopo la correzione di F2.5 (griglie della cattura densa, cultura it-IT e invariante, calcoli del modulo): taglio 1853 risultati e 203 rifiuti uguali, 1059 numeri diversi su 19 032, scarto relativo massimo 9,19e-16; torsione 1070 risultati e 58 rifiuti uguali, 801 numeri diversi su 12 539, massimo 3,18e-16; profilo resistente 11 risultati e 5 rifiuti, identico; modulo (ConcreteShearAnalysis, 7 norme, 5 forme, con e senza staffe, torsione NTC; taglio, profilo resistente e torsione dall'adattatore) 215 risultati e 67 rifiuti uguali, 263 numeri diversi su 4510, massimo 5,43e-16; torsione del modulo (prova 3f: NTC, 5 forme, 5 azioni, cot θ 1, 1,5 e 2,5) 60 risultati e 15 rifiuti del profilo uguali, 39 numeri diversi su 720, massimo 2,32e-16. In 7176c0c (ritirato) il calcolo headless e le relazioni erano confrontati con profilo resistente e torsione del modulo ancora legacy: misura da rifare con l'interruttore. Cattura densa con il motore della libreria (CheckerMigration.Capture chiama l'adattatore direttamente; misura di 7176c0c, valida perché l'adattatore non è cambiato) contro F2-pre-m4-v2, confronto esatto: shear-legacy.csv 2016 righe, 589 con numeri diversi (VRsd 165 celle, VRcd 89, VRd 164, ratio 401, cotTheta 16, details 166), scarto relativo massimo 9,19e-16 (riga 1369, DIN, VRcd 4946,0569613109374 → 4946,0569613109419 kN), assoluto massimo 4,5e-12 kN; torsion-legacy.csv 986 righe, 494 con numeri diversi (torsionRatio 169, concrete 268, steel 244; resistenze TRcd, TRsd, TRld, TRd e ΣAsl richiesta identiche), massimo 3,18e-16; torsion-geometry-legacy.csv identico. Rifiuti: 176 di taglio, 50 di torsione e 2 di profilo, gli stessi con lo stesso messaggio. Nessun esito, stato, testo o rifiuto diverso; tutte le differenze entro 1e-9 (confronti f2-libreria e fixture-checker superati).",
         "evidenze": [
           "supporto/artefatti/refactoring/f2-taglio-torsione/f2.5/adattatore/misura.json",
-          "supporto/artefatti/refactoring/f2-taglio-torsione/f2.6/adattatore/misura.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/correzione/adattatore/misura.json",
           "supporto/artefatti/refactoring/f2-taglio-torsione/f2.6/denso/confronti/libreria-esatto-pre-m4.json",
           "supporto/artefatti/refactoring/f2-taglio-torsione/f2.6/denso/confronti/misura-scarti.json"
         ]
       },
-      "attuazione": { "data": "2026-10-07", "commit": ["ANTHEA 2583225 (F2.5, motore legacy, risultati identici)", "ANTHEA F2.6 (interruttore sulla libreria; branch refactoring/f2-taglio-torsione)"], "verifica": "tests/ConcreteLibraryAdapter.Checks (stadio fast); confronti densi f2-libreria (F2-pre-m4-v2) e fixture-checker (Checker 06d97733): 1083 righe entro 1e-9, nessuna differenza non ammessa; con --motore legacy la cattura resta identica a F2-pre-m4-v2 (confronto esatto pre-m4); runner -Profile baseline: PASS 41, KNOWN 1, NEW-FAIL 0" },
+      "attuazione": { "data": "2026-10-07", "commit": ["ANTHEA 2583225 (F2.5, motore legacy, risultati identici; profilo resistente e torsione del modulo non ancora collegati)", "ANTHEA 7176c0c (F2.6, ritirato: con la libreria il modulo cambiava solo il taglio)", "ANTHEA correzione di F2.5, commit successivo a 7176c0c (torsione del modulo attraverso l'adattatore, interruttore sul legacy; branch refactoring/f2-taglio-torsione)"], "verifica": "tests/ConcreteLibraryAdapter.Checks (stadio fast, prove 3a-3f e 4); cattura densa del 7176c0c con il motore della libreria: confronti f2-libreria (F2-pre-m4-v2) e fixture-checker (Checker 06d97733) con 1083 righe entro 1e-9, nessuna differenza non ammessa; con --motore legacy identica a F2-pre-m4-v2 (confronto esatto pre-m4). Interruttore e misura del modulo: passo F2.6" },
       "raccomandazione": "accettare: tolleranza 1e-9 relativa dei MigrationTests e del banco (tests/ANTHEA.Testing/tolerances.json)",
       "data": "2026-10-07",
       "fase": "F2.5, F2.6",
       "test": [
-        "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 3a-3e)",
+        "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 3a-3f, 4)",
         "Checker/GPCChecker.Test.Concrete/ShearMigrationTests.cs:41-84",
         "Checker/GPCChecker.Test.Concrete/TorsionMigrationTests.cs:29-93"
       ]
@@ -670,7 +671,7 @@
       "data": "2026-10-07",
       "fase": "F2.5",
       "test": [
-        "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 1, 3a-3e)"
+        "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 1, 3a-3f)"
       ]
     },
     {
@@ -679,7 +680,7 @@
       "famiglia": "calcestruzzo/torsione",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Con area del ramo di staffa nulla il legacy rifiuta il calcolo (\"Torsione: controllare geometria, armature, materiali e 1 ≤ cot θ ≤ 2,5.\"), la libreria dà una verifica non soddisfatta con resistenza nulla (\"No closed links: zero torsional resistance\"; TorsionMigrationTests.cs:45-51). L'adattatore conserva il comportamento di oggi: rifiuto con lo stesso messaggio, controllato prima della libreria, quindi anche quando il cot θ del taglio è diverso. Nel modulo il caso non arriva all'adattatore: ConcreteShearAnalysis rifiuta prima la torsione senza staffe chiuse (\"Torsione: occorrono staffe resistenti chiuse.\").",
+      "descrizione": "Con area del ramo di staffa nulla il legacy rifiuta il calcolo (\"Torsione: controllare geometria, armature, materiali e 1 ≤ cot θ ≤ 2,5.\"), la libreria dà una verifica non soddisfatta con resistenza nulla (\"No closed links: zero torsional resistance\"; TorsionMigrationTests.cs:45-51). L'adattatore conserva il comportamento di oggi: rifiuto con lo stesso messaggio, controllato prima della libreria, quindi anche quando il cot θ del taglio è diverso. Nel modulo, che dalla correzione di F2.5 (commit successivo a 7176c0c) calcola profilo resistente e torsione attraverso l'adattatore, il caso non arriva all'adattatore: ConcreteShearAnalysis rifiuta prima la torsione senza staffe chiuse (\"Torsione: occorrono staffe resistenti chiuse.\").",
       "codice": [
         "X.Calculations/ConcreteShearTorsionAdapter.cs:44-61 (controllo a :49)",
         "X.Calculations/ConcreteShearAnalysis.cs:69",
@@ -703,7 +704,7 @@
       "famiglia": "calcestruzzo/taglio-torsione",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "(a) La torsione della libreria rifiuta fck > 90 MPa (\"Torsione: calcestruzzo oltre C90/105 fuori dal campo implementato.\", testo nuovo della mappatura); il legacy della torsione non riceve fck, ma nel modulo il taglio della stessa sezione rifiuta prima con il proprio messaggio. (b) TorsionShearComponent rifiuta resistenze a taglio negative o non finite (mappate sul messaggio dei dati non validi della torsione), dove il legacy darebbe tassi infiniti: le resistenze del taglio del modulo sono sempre finite e non negative. (c) Profilo resistente circolare: la libreria confronta lo spessore con il diametro, il legacy con il minimo fra larghezza e altezza del poligono del contorno; diverso solo con lo spessore compreso fra le due (spessore pari al diametro). (d) La libreria accetterebbe CNR-DT 204 e CNR-DT 200: la mappatura li rifiuta con il messaggio del legacy (F2-2). fck e γc passati alla libreria per la torsione NTC non entrano nelle resistenze.",
+      "descrizione": "(a) La torsione della libreria rifiuta fck > 90 MPa (\"Torsione: calcestruzzo oltre C90/105 fuori dal campo implementato.\", testo nuovo della mappatura); il legacy della torsione non riceve fck, ma nel modulo (torsione attraverso l'adattatore dalla correzione di F2.5) il taglio della stessa sezione rifiuta prima con il proprio messaggio. (b) TorsionShearComponent rifiuta resistenze a taglio negative o non finite (mappate sul messaggio dei dati non validi della torsione), dove il legacy darebbe tassi infiniti: le resistenze del taglio del modulo sono sempre finite e non negative. (c) Profilo resistente circolare: la libreria confronta lo spessore con il diametro, il legacy con il minimo fra larghezza e altezza del poligono del contorno; diverso solo con lo spessore compreso fra le due (spessore pari al diametro). (d) La libreria accetterebbe CNR-DT 204 e CNR-DT 200: la mappatura li rifiuta con il messaggio del legacy (F2-2). fck e γc passati alla libreria per la torsione NTC non entrano nelle resistenze.",
       "codice": [
         "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:151",
         "Checker/GPCChecker.Concrete/Torsion/SectionTorsionContracts.cs:47-64, :83-88",

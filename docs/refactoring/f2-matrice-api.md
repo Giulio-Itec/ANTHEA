@@ -49,9 +49,11 @@ staffe" nella cattura densa dei muri; fase F4.7).
 
 Chiamanti in produzione: gli stessi del taglio (`ConcreteShearAnalysis.Calculate` → `Torsion`).
 
-Collegamento (F2.5-F2.6, [piano](piano.md)): `ConcreteShearAnalysis` e la cattura densa chiamano
-`ConcreteShearTorsionAdapter` (`X.Calculations/ConcreteShearTorsionAdapter.cs`), che sceglie il motore legacy o la
-libreria con l'interruttore `Default` (sulla libreria dal passo F2.6); unità, norme e testi passano da
+Collegamento (F2.5-F2.6, [piano](piano.md)): `ConcreteShearAnalysis` (taglio con `Shear`, profilo resistente con
+`TorsionGeometryOf`, torsione con `Torsion`) e la cattura densa chiamano `ConcreteShearTorsionAdapter`
+(`X.Calculations/ConcreteShearTorsionAdapter.cs`), che sceglie il motore legacy o la libreria con l'interruttore `Default`
+(stato e misure nelle righe F2.5 e F2.6 del piano; fino alla correzione di F2.5 successiva a 7176c0c il modulo chiamava
+ancora il legacy diretto per profilo resistente e torsione: prova 3f di `tests/ConcreteLibraryAdapter.Checks`); unità, norme e testi passano da
 `X.Calculations/ConcreteLibraryMapping.cs`. Esiti diversi per scelta della libreria riportati al legacy e testi: registro
 F2-1…F2-4. Restano nel legacy, fuori da questo collegamento, `SectionShearGeometry.Derive` (buco 3) e la copia del ramo
 senza staffe nei muri (`RetainingWall.Structures.cs`, F4.7).

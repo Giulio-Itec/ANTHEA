@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using Anthea.Calculations;
@@ -14,8 +15,10 @@ using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 // 3. Equivalenza legacy → libreria sulle griglie della cattura densa (stessi generatori e semi di CheckerMigration.Capture) e sui
 //    calcoli del modulo: stessi esiti, stessi rifiuti con lo stesso messaggio, stessi testi (stati, riferimenti, modelli, tracce),
 //    numeri entro 1e-9 (|a − b| ≤ 1e-9 + 1e-9 · max(|a|, |b|), come le grandezze ca_fixture_* di tests/ANTHEA.Testing/tolerances.json).
+//    3f: la torsione del modulo passa dall'adattatore con il motore richiesto (bit per bit, controllo che distingue i motori).
+// 4. Attesi indipendenti (reference.json, benchmark e forme chiuse di taglio e torsione) sul percorso dell'adattatore, con entrambi i motori.
 // Uscita 0 con la riga "PASS · …"; 1 con il primo controllo fallito.
-const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Library; // F2.5: legacy; F2.6: libreria
+const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Legacy; // F2.5: legacy; F2.6: libreria
 const double Tolerance = 1e-9;
 
 int count = 0;
@@ -57,10 +60,20 @@ try
     // ---------------------------------------------------------------- 1. strato di mappatura
     // Nessuna costante normativa nei file di mappatura: fuori da testi e commenti solo i fattori delle conversioni con nome
     // (1000 N/kN, 1e6 N·mm/kNm) e, nell'adattatore, 0 (staffe assenti) e 2 (raggio = diametro / 2 della barra più grossa).
+    // Letterali anche nella forma con il punto iniziale (.85, .9e-3), lo stile del codice legacy.
+    static string[] Literals(string source)
+    {
+        string code = Regex.Replace(source, @"(?s)/\*.*?\*/|//[^\n]*|@""(?:[^""]|"""")*""|\$?""(?:[^""\\\n]|\\.)*""|'(?:[^'\\]|\\.)'", " ");
+        // Un letterale comincia con una cifra o con il punto decimale, mai dopo una lettera, una cifra o un punto (identificatori,
+        // accesso a membro); il primo ramo prende "1.5" intero, il secondo ".85".
+        return Regex.Matches(code, @"(?<![\w.])(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][-+]?\d+)?[dDfFmM]?(?![\w.])").Select(m => m.Value).Distinct().ToArray();
+    }
+    const string Sample = "double k = .85 * fck, x = a.Length, y = (.9 + 1e6) / 2.5m, w = Item2; // .7";
+    Check(Literals(Sample).OrderBy(s => s, StringComparer.Ordinal).SequenceEqual(new[] { ".85", ".9", "1e6", "2.5m" }.OrderBy(s => s, StringComparer.Ordinal)),
+        "controllo dei letterali su un caso sintetico: trovati " + string.Join(", ", Literals(Sample)) + ", attesi .85, .9, 1e6, 2.5m");
     foreach (var (file, allowed) in new[] { ("X.Calculations/ConcreteLibraryMapping.cs", new[] { "1000", "1e6" }), ("X.Calculations/ConcreteShearTorsionAdapter.cs", new[] { "0", "2" }) })
     {
-        string code = Regex.Replace(File.ReadAllText(Path.Combine(root, file)), @"(?s)/\*.*?\*/|//[^\n]*|@""(?:[^""]|"""")*""|\$?""(?:[^""\\\n]|\\.)*""|'(?:[^'\\]|\\.)'", " ");
-        var literals = Regex.Matches(code, @"(?<![\w.])\d+(?:\.\d+)?(?:[eE][-+]?\d+)?[dDfFmM]?(?![\w.])").Select(m => m.Value).Distinct().ToArray();
+        var literals = Literals(File.ReadAllText(Path.Combine(root, file)));
         Check(literals.All(allowed.Contains), file + ": numeri non ammessi nel file di mappatura: " + string.Join(", ", literals.Except(allowed)));
     }
     Check(ConcreteLibraryMapping.NewtonsFromKilonewtons(1.25) == 1250 && ConcreteLibraryMapping.KilonewtonsFromNewtons(1250) == 1.25, "conversione kN ↔ N");
@@ -162,6 +175,56 @@ try
     }
     Check(moduleStats.Results > 100 && moduleStats.Rejected > 10, $"modulo: {moduleStats.Results} calcoli, {moduleStats.Rejected} rifiuti");
 
+    // ---------------------------------------------------------------- 3f. il modulo usa per la torsione il motore richiesto
+    // Per ogni motore la 'torsione' di ConcreteShearAnalysis coincide bit per bit con l'adattatore chiamato direttamente con gli stessi
+    // ingressi (profilo resistente dal contorno, taglio delle due direzioni dello stesso calcolo), e un profilo rifiutato dà lo stesso
+    // messaggio. Il controllo distingue i motori: in una parte dei casi le uscite Legacy e Library differiscono nelle ultime cifre, quindi
+    // un modulo che aggirasse l'adattatore (o usasse un solo motore) fallirebbe qui.
+    var routedStats = new Stats("torsione del modulo");
+    int routed = 0, routedRejected = 0, discriminating = 0;
+    foreach (var shape in new[] { "Rettangolare", "A T", "Circolare", "Rettangolare cava", "Circolare cava" })
+        foreach (var loads in new[] { ("-300", "60", "25", "50", "80", "15"), ("-300", "60", "25", "900", "700", "40"), ("200", "-40", "10", "-120", "35", "-8"),
+            ("-900", "150", "-80", "400", "-260", "25"), ("0", "0", "0", "0", "0", "5") })
+            foreach (var cot in new[] { "1", "1.5", "2.5" })
+            {
+                var (input, settings, options) = Module("NTC 2018", shape);
+                options["cot_torsione"] = cot;
+                var row = J.Obj(("N", loads.Item1), ("Mx", loads.Item2), ("My", loads.Item3), ("Vx", loads.Item4), ("Vy", loads.Item5), ("T", loads.Item6));
+                string id = $"torsione del modulo {shape} T={loads.Item6} V=({loads.Item4}; {loads.Item5}) cot {cot}";
+                var outputs = new Dictionary<ShearTorsionEngine, string>();
+                foreach (var engine in new[] { ShearTorsionEngine.Legacy, ShearTorsionEngine.Library })
+                {
+                    var module = Run(() => ConcreteShearAnalysis.Calculate(input, settings, options, row, engine));
+                    var effective = (JsonObject)options.DeepClone();
+                    var geometry = ConcreteCalculationSettings.UpdateAutomaticShear(input, effective);
+                    var profile = Run(() => ConcreteShearTorsionAdapter.TorsionGeometryOf(geometry, engine));
+                    Check(profile.Outcome == "ok" || module.Outcome != "ok", $"{id} ({engine}): profilo rifiutato «{profile.Message}» dall'adattatore, calcolato dal modulo");
+                    if (module.Outcome != "ok") { outputs[engine] = module.Outcome + " " + module.Message; routedRejected++; continue; }
+                    var r = ConcreteShearAnalysis.Calculate(input, settings, options, row, engine);
+                    var torsionInput = new TorsionInput(SectionWorkspace.Number(row.S("T"), "T"), ConcreteShearTorsionAdapter.TorsionGeometryOf(geometry, engine),
+                        ConcreteMaterials.DesignValues(input, settings).Fcd, geometry.Fyd, Math.PI * Math.Pow(input.D("transverse_bar_diameter_mm"), 2) / 4,
+                        input.D("transverse_spacing_mm"), effective.Required("as_torsione"), effective.Required("cot_torsione"), row.D("Vx"), row.D("Vy"), r.Shear[0], r.Shear[1]);
+                    string direct = J.Node(ConcreteShearTorsionAdapter.Torsion(torsionInput, input.Required("fck_mpa"), input.Required("gamma_c"), engine))!.ToJsonString();
+                    Check(J.Node(r.Torsion)?.ToJsonString() == direct, $"{id} ({engine}): la torsione del modulo non è quella dell'adattatore con il motore {engine}");
+                    var other = engine == ShearTorsionEngine.Legacy ? ShearTorsionEngine.Library : ShearTorsionEngine.Legacy;
+                    if (J.Node(ConcreteShearTorsionAdapter.Torsion(torsionInput with { Geometry = ConcreteShearTorsionAdapter.TorsionGeometryOf(geometry, other) },
+                        input.Required("fck_mpa"), input.Required("gamma_c"), other))!.ToJsonString() != direct) discriminating++;
+                    outputs[engine] = direct; routed++;
+                }
+                string legacyOut = outputs[ShearTorsionEngine.Legacy], libraryOut = outputs[ShearTorsionEngine.Library];
+                if (legacyOut.StartsWith("error:") || libraryOut.StartsWith("error:"))
+                    Check(legacyOut == libraryOut, $"{id}: rifiuto diverso fra i motori: «{legacyOut}» / «{libraryOut}»");
+                else
+                {
+                    var errors = new List<string>();
+                    Json.Compare(JsonNode.Parse(outputs[ShearTorsionEngine.Legacy]), JsonNode.Parse(outputs[ShearTorsionEngine.Library]), id, routedStats, errors, Tolerance);
+                    Check(errors.Count == 0, string.Join(Environment.NewLine, errors.Take(5)));
+                    routedStats.Results++;
+                }
+            }
+    Check(routed >= 100 && routedRejected >= 10 && discriminating > 0, $"torsione del modulo: {routed} calcoli, {routedRejected} rifiuti del profilo, {discriminating} con uscite dei due motori diverse");
+    routedStats.Rejected = routedRejected / 2;
+
     // ---------------------------------------------------------------- 3e. calcolo headless del modulo e relazioni
     // ConcreteAnalysis (motore predefinito) contro lo stesso risultato con 'taglio', 'torsione' ed errori del motore legacy:
     // JSON entro la tolleranza con testi identici; testo delle relazioni completa e sintetica (X.Core) identico.
@@ -213,14 +276,103 @@ try
     }
     Check(reports == 10, "relazioni confrontate: " + reports);
 
-    var lines = new[] { shearStats, torsionStats, geometryStats, moduleStats, analysisStats }.Select(s => s.Line()).Append($"relazioni: {reports} testi identici (completa e sintetica, 5 norme)").ToArray();
+    // ---------------------------------------------------------------- 4. attesi indipendenti attraverso l'adattatore
+    // Gli stessi attesi che supporto/test/ConcreteCode.Checks e X.Verifiche (--ca-module) verificano sul legacy diretto, qui sul
+    // percorso di produzione (ConcreteShearTorsionAdapter) con entrambi i motori, quindi anche con quello predefinito:
+    // reference.json (fib structuralcodes) letto in sola lettura, benchmark SOFiSTiK DIN, NA DS e UNI, granulometria NS, azione nulla,
+    // massimo del cot θ automatico; torsione NTC in forma chiusa (eq. 4.1.35-4.1.40, come ConcreteModuleChecks e i casi TO/TV di
+    // supporto/test/ValidazioneCA20260925/reference_extra.py).
+    int independent = 0;
+    void Near(double value, double expected, string message) { Check(double.IsFinite(value) && Math.Abs(value - expected) <= 1e-9 * Math.Max(1, Math.Abs(expected)), $"{message}: {value:G17} invece di {expected:G17}"); independent++; }
+    void Reject(Action action, string message) { try { action(); } catch (ArgumentException) { independent++; count++; return; } throw new Exception(message); }
+    var references = JsonNode.Parse(File.ReadAllText(Path.Combine(root, "supporto", "test", "ConcreteCode.Checks", "reference.json")))!;
+    foreach (var engine in new[] { ShearTorsionEngine.Legacy, ShearTorsionEngine.Library })
+    {
+        Ntc2018Checks.ShearResult Shear(ConcreteCodeChecks.ShearInput p) => ConcreteShearTorsionAdapter.Shear(p, engine);
+        string tag = " (" + engine + ")";
+        int rows = 0;
+        foreach (var row in references["shear"]!.AsArray())
+        {
+            var p = row!["input"]!.Deserialize<ConcreteCodeChecks.ShearInput>()!;
+            var r = Shear(p);
+            Near(r.VRd, row.D("expected"), "fib shear " + p.Standard + tag);
+            if (J.Number(row["steel"]) is double rs) Near(r.VRsd, rs, "fib VRds " + p.Standard + tag);
+            if (J.Number(row["concrete"]) is double rc) Near(r.VRcd, rc, "fib VRdmax " + p.Standard + tag);
+            Check(r.Details.Length > 0 && r.Reference.Length > 0, "traccia normativa assente " + p.Standard + tag);
+            Near(Shear(p with { V = -p.V, M = -p.M }).VRd, r.VRd, "inversione delle azioni " + p.Standard + tag);
+            rows++;
+        }
+        Check(rows >= 5, "righe di taglio di reference.json: " + rows);
+        var din = new ConcreteCodeChecks.ShearInput("DIN EN 1992-1-1", 0, 343.25, 0, 150000, 300, 450, 1933.5, 30, 17, 500 / 1.15, 1.5, 200000, 128.4, 100, 90, 1, 384d / 450);
+        Near(Shear(din).VRcd, 734.4, "SOFiSTiK DCE-EN6 puntone DIN" + tag);
+        Reject(() => Shear(din with { CotTheta = 2 }), "DIN accetta cot oltre il limite dipendente dal taglio" + tag);
+        var ds = din with { Standard = "DS EN 1992-1-1", CotTheta = 1, LeverFactor = .9 };
+        Near(Shear(ds).VRcd, 405 * 300 * (.7 - 30d / 200) * 17 / 2 / 1000, "DS 5.103 NA" + tag);
+        var ns = din with { Standard = "NS EN 1992-1-1", Asw = 0, Aggregate = 8 };
+        Check(Shear(ns).VRd < Shear(ns with { Aggregate = 20 }).VRd, "NS granulometria non considerata" + tag);
+        Reject(() => Shear(ns with { Asw = 100, N = 1000, CotTheta = 2 }), "NS forte trazione senza limite del cot" + tag);
+        foreach (double invalid in new[] { double.NaN, double.PositiveInfinity, -1 })
+            Reject(() => Shear(din with { Bw = invalid }), "bw non valido accettato" + tag);
+        var uni = din with { Standard = "UNI EN 1992-1-1", N = -500, CotTheta = 1, LeverFactor = .9 };
+        Near(Shear(uni).VRcd, 405 * 300 * .5 * 17 / 2 / 1000, "UNI alpha_cw = 1, NA ufficiale p. 83" + tag);
+        Near(Shear(uni with { N = 0 }).VRcd, Shear(uni).VRcd, "UNI: la compressione non introduce l'incremento della precompressione" + tag);
+        Near(Shear(din with { V = 0, CotTheta = null }).Ratio!.Value, 0, "azione nulla, tasso nullo" + tag);
+        foreach (var norm in new[] { "EN 1992-1-1", "DIN EN 1992-1-1", "DS EN 1992-1-1", "NS EN 1992-1-1", "UNI EN 1992-1-1", "Model Code 2010" })
+            foreach (double alpha in new[] { 45d, 60d, 90d })
+            {
+                var p = din with { Standard = norm, Alpha = alpha, CotTheta = null, N = 0, V = 50 };
+                double sampled = 0;
+                for (int i = 0; i <= 500; i++)
+                {
+                    double c = .4 + i * .006;
+                    try { sampled = Math.Max(sampled, Shear(p with { CotTheta = c }).VRd); } catch (ArgumentException) { }
+                }
+                Check(Shear(p).VRd >= sampled - 1e-7, "il cot θ automatico non dà il massimo: " + norm + " alpha " + alpha + tag); independent++;
+            }
+
+        // Torsione NTC in forma chiusa: TRcd = 2 Ak t (0,5 fcd) cot/(1+cot²), TRsd = 2 Ak (Asw/s) fyd cot, TRld = 2 Ak (ΣAl/uk) fyd / cot,
+        // ΣAl richiesta = T uk / (2 Ak fyd cot); interazione [4.1.40] con VRcd e VRsd del taglio NTC in forma chiusa (staffe a 90°, N = 0).
+        TorsionResult Torsion(double t, double ak, double uk, double th, double fcd, double fyd, double at, double s, double al, double cot, double vx, double vy, Ntc2018Checks.ShearResult sx, Ntc2018Checks.ShearResult sy)
+            => ConcreteShearTorsionAdapter.Torsion(new(t, new(ak, uk, th), fcd, fyd, at, s, al, cot, vx, vy, sx, sy), 30, 1.5, engine);
+        var shear = Shear(new("NTC 2018", 0, 50, 0, 240000, 300, 450, 0, 30, 17, 400, 1.5, 200000, 200, 150, 90, 1));
+        Near(shear.VRcd, .9 * 450 * 300 * .5 * 17 * 1 / (1 + 1) / 1000, "VRcd NTC in forma chiusa" + tag);
+        Near(shear.VRsd, .9 * 450 * 200 / 150.0 * 400 * 1 / 1000, "VRsd NTC in forma chiusa" + tag);
+        var t = Torsion(10, 100000, 1300, 80, 17, 400, 100, 150, 1000, 1, 50, 0, shear, shear);
+        Near(t.TRcd, 68, "TRcd = 2 Ak t (0,5 fcd) cot/(1+cot²)" + tag); Near(t.TRsd, 2 * 100000 * 100 / 150.0 * 400 / 1e6, "TRsd ramo singolo" + tag);
+        Near(t.RequiredLongitudinalArea, 162.5, "area longitudinale richiesta a torsione" + tag);
+        Near(t.ConcreteCombinedRatio!.Value, 10 / 68.0 + 50 / 516.375, "interazione monoassiale NTC [4.1.40]" + tag);
+        var zeroSteel = Torsion(10, 100000, 1300, 80, 17, 400, 100, 150, 0, 1, 50, 0, shear, shear);
+        Check(!zeroSteel.Passed && zeroSteel.TorsionRatio is null && J.Node(zeroSteel) is JsonObject, "torsione senza As disponibile: non soddisfatta ed esportabile" + tag); independent++;
+        double fyd = 450 / 1.15;
+        foreach (var (torque, vx) in new[] { (20.0, 0.0), (80.0, 0.0), (20.0, 80.0), (80.0, 180.0) })
+        {
+            ConcreteCodeChecks.ShearInput Axis(double v) => new("NTC 2018", 0, v, 0, 240000, 300, 450, 1000, 30, 17, fyd, 1.5, 200000, 200, 150, 90, 1);
+            var r = Torsion(torque, 100000, 1300, 80, 17, fyd, 100, 150, 1000, 1, vx, 0, Shear(Axis(vx)), Shear(Axis(0)));
+            double rc = 2 * 100000 * 80 * .5 * 17 / 2 / 1e6, rs = 2 * 100000 * 100 / 150.0 * fyd / 1e6, rl = 2 * 100000 * 1000 / 1300.0 * fyd / 1e6, rd = Math.Min(rc, Math.Min(rs, rl));
+            double vrcd = .9 * 450 * 300 * .5 * 17 / 2 / 1000, vrsd = .9 * 450 * 200 / 150.0 * fyd / 1000;
+            double et = torque / rd, ec = torque / rc + vx / vrcd, es = torque / rs + vx / vrsd;
+            string id = $"torsione T = {torque}, Vx = {vx}" + tag;
+            Near(r.TRcd, rc, id + " TRcd"); Near(r.TRsd, rs, id + " TRsd"); Near(r.TRld, rl, id + " TRld"); Near(r.TRd, rd, id + " TRd");
+            Near(r.TorsionRatio!.Value, et, id + " ηT"); Near(r.ConcreteCombinedRatio!.Value, ec, id + " ηc"); Near(r.SteelCombinedRatio!.Value, es, id + " ηs");
+            Near(r.RequiredLongitudinalArea, torque * 1e6 * 1300 / (2 * 100000 * fyd), id + " ΣAl richiesta");
+            Check(r.Passed == (Math.Max(et, Math.Max(ec, es)) <= 1), id + " esito"); independent++;
+        }
+    }
+    Check(independent > 200, "attesi indipendenti: " + independent);
+
+    var lines = new[] { shearStats, torsionStats, geometryStats, moduleStats, routedStats, analysisStats }.Select(s => s.Line())
+        .Append($"relazioni: {reports} testi identici (completa e sintetica, 5 norme)")
+        .Append($"torsione del modulo: {routed} calcoli coincidenti con l'adattatore del motore richiesto, {discriminating} con uscite dei due motori diverse")
+        .Append($"attesi indipendenti: {independent} controlli superati con i motori Legacy e Library").ToArray();
     foreach (var line in lines) Console.WriteLine(line);
     if (args.Length > 0)
     {
         Directory.CreateDirectory(args[0]);
         var report = new JsonObject { ["strumento"] = "ConcreteLibraryAdapter.Checks", ["motore_predefinito"] = ExpectedDefault.ToString(), ["tolleranza"] = Tolerance, ["controlli"] = count };
-        foreach (var s in new[] { shearStats, torsionStats, geometryStats, moduleStats, analysisStats }) report[s.Name] = s.Json();
+        foreach (var s in new[] { shearStats, torsionStats, geometryStats, moduleStats, routedStats, analysisStats }) report[s.Name] = s.Json();
         report["relazioni"] = reports;
+        report["torsione_del_modulo"] = new JsonObject { ["calcoli_coincidenti_con_adattatore"] = routed, ["rifiuti"] = routedRejected, ["uscite_dei_motori_diverse"] = discriminating };
+        report["attesi_indipendenti"] = independent;
         File.WriteAllText(Path.Combine(args[0], "misura.json"), report.ToJsonString(J.Options), new UTF8Encoding(false));
     }
     Console.WriteLine($"PASS · {count} controlli dell'adattatore di taglio e torsione (motore predefinito {ExpectedDefault}).");

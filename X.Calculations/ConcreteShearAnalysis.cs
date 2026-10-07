@@ -71,8 +71,9 @@ public static class ConcreteShearAnalysis
         if (options.D("alpha_x") != 90 || options.D("alpha_y") != 90) throw new ArgumentException("Torsione: modello implementato con staffe a 90°.");
         if (input.S("shape") == "Circolare" && options.S("tipo_staffa") == "Spirale") throw new ArgumentException("Torsione: selezionare staffa chiusa; spirale non equivalente automaticamente.");
         double al = options.Required("as_torsione"); if (al > geometry.AreaSteel) throw new ArgumentException("As disponibile per torsione supera l’armatura totale.");
-        var g = ConcreteTorsionCalculator.Geometry(geometry);
-        var result = new ConcreteTorsionCalculator().Calculate(new(torque, g, fcd, geometry.Fyd, Math.PI * Math.Pow(input.D("transverse_bar_diameter_mm"), 2) / 4, input.D("transverse_spacing_mm"), al, options.Required("cot_torsione"), row.D("Vx"), row.D("Vy"), shear[0], shear[1]));
-        return result;
+        // Profilo resistente e torsione dallo stesso motore del taglio (adattatore, refactoring F2.5-F2.6).
+        var g = ConcreteShearTorsionAdapter.TorsionGeometryOf(geometry, engine);
+        return ConcreteShearTorsionAdapter.Torsion(new(torque, g, fcd, geometry.Fyd, Math.PI * Math.Pow(input.D("transverse_bar_diameter_mm"), 2) / 4, input.D("transverse_spacing_mm"), al, options.Required("cot_torsione"), row.D("Vx"), row.D("Vy"), shear[0], shear[1]),
+            input.Required("fck_mpa"), input.Required("gamma_c"), engine);
     }
 }
