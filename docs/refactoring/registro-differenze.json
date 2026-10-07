@@ -233,31 +233,43 @@
     },
     {
       "id": "D7-e",
-      "titolo": "Classe minima C30/37 per XC3, XD1, XF4 e XA1 contro C28/35 della UNI 11104",
+      "titolo": "Classe minima C30/37 per XC3, XD1, XF4 e XA1 (UNI 11104:2025 in vigore) contro C28/35 attribuito all'edizione 2004",
       "famiglia": "calcestruzzo/durabilita",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
-      "descrizione": "La classe minima per esposizione del profilo NTC (dichiarata come UNI 11104 tramite ATECAP 2020) vale C30/37 per XC3, XD1, XF4 e XA1; la UNI 11104 dà C28/35. I valori del codice coincidono con il prospetto F.1 della EN 206. La classe minima regola l'avviso della scheda Materiali e la maggiorazione di 5 mm del copriferro NTC.",
+      "stato": "dichiarato",
+      "descrizione": "La classe minima per esposizione del profilo NTC vale C30/37 per XC3, XD1, XF4 e XA1, come il prospetto 6 della UNI 11104:2025 in vigore, il prospetto 5 della UNI 11104:2016 (riportato in ATECAP 2020) e il prospetto F.1 della EN 206; C28/35 per le stesse classi è il valore attribuito all'edizione 2004. Il codice tiene C30/37 (decisione del 7/10) e le citazioni di ANTHEA indicano ora edizione e prospetto. Il riscontro sul prospetto 6 della 2025 ha trovato una sola classe diversa dal codice, XF1 (C30/37 contro C32/40 del codice e della 2016), e limiti di composizione diversi: voce seguito. La classe minima regola l'avviso della scheda Materiali e la maggiorazione di 5 mm del copriferro NTC.",
       "riferimento_normativo": [
-        { "fonte": "UNI 11104", "punto": "prospetto 4 secondo il piano (il codice cita il prospetto 5 tramite ATECAP 2020)", "riscontro": "testo non disponibile: valori e numero del prospetto da riscontrare" },
+        { "fonte": "UNI 11104:2025", "punto": "punto 6.1, prospetto 6 «Valori limite per la composizione e le proprietà del calcestruzzo», riga «Classe di resistenza minima»", "riscontro": "diretto: anteprima della norma pubblicata nel catalogo UNI, pagina 12 (il frontespizio porta «UNI 11104 luglio 2025» e «La presente norma sostituisce la UNI 11104:2016»). Celle unite attribuite con le posizioni del testo nella pagina. Classi minime: X0 C12/15; XC1 e XC2 C25/30; XC3 C30/37; XC4 C32/40; XS1 C32/40; XS2 e XS3 C35/45; XD1 C30/37; XD2 C32/40; XD3 C35/45; XF1 C30/37; XF2 e XF3 C25/30; XF4 C30/37; XA1 C30/37; XA2 C32/40; XA3 C35/45. A/C massimo: XC1-XC2 0,60; XC3 0,55; XC4 0,50; XS1 0,50; XS2-XS3 0,45; XD1 0,55; XD2 0,50; XD3 0,45; XF1 0,55; XF2-XF3 0,50; XF4 0,45; XA1 0,55; XA2 0,50; XA3 0,45. Cemento minimo (kg/m³): XC1-XC2 280; XC3 300; XC4 320; XS1 320; XS2-XS3 350; XD1 300; XD2 320; XD3 350; XF1 300; XF2-XF3 320; XF4 340; XA1 300; XA2 320; XA3 350; X0 senza valore. Nota a) aria 4 % per Dupper > 20 mm, 5 % ad esempio per 12-16 mm; nota b) XF1 aerato con le specifiche di XF2 e XF3" },
+        { "fonte": "Catalogo UNI", "punto": "schede UNI 11104:2025 e UNI 11104:2016", "riscontro": "diretto: UNI 11104:2025 in vigore, entrata in vigore 24/07/2025, sostituisce la UNI 11104:2016; UNI 11104:2016 ritirata con sostituzione, in vigore dal 14/07/2016 al 24/07/2025, sostituisce la UNI 11104:2004. Nessuna edizione o errata corrige successiva trovata" },
+        { "fonte": "UNI 11104:2016", "punto": "prospetto 5 «Valori limite per la composizione e le proprietà del calcestruzzo»", "riscontro": "indiretto: riproduzione in ATECAP 2020, La corretta prescrizione del calcestruzzo, p. 19 (testo letto; il documento indica la 2016 come ultimo aggiornamento della norma). Classi minime uguali al codice per tutte le 18 classi (XF1 C32/40); A/C e cemento uguali a AtecapMix. Concorde per XC1-XC4 un articolo tecnico di settore del 28/04/2024 (XC3 0,55, C30/37, 320 kg/m³). Testo UNI 2016 non consultato: il catalogo non ne pubblica l'anteprima" },
+        { "fonte": "UNI 11104:2004", "punto": "prospetto 4", "riscontro": "non riscontrato in questa ricerca: C28/35 per XC3, XD1, XF4 e XA1 resta l'attribuzione del commento della libreria e della revisione del 6/10" },
         { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "§11.2.11; Tab. 4.1.I e nota sulle classi C28/35 e C32/40", "riscontro": "testo della G.U. consultato" },
         { "fonte": "Circolare 21/01/2019 n. 7", "punto": "C4.1.6.1.3, Tab. C4.1.IV", "riscontro": "testo della G.U., p. 90" },
         { "fonte": "UNI EN 206-1:2006", "punto": "prospetto F.1 (informativo)", "riscontro": "testo consultato: C30/37 per XC3, XD1, XF4, XA1" }
       ],
       "codice": [
-        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:11-13",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:10-13",
         "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:61",
         "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:63",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:69",
         "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:72-73",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:89",
         "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:107",
-        "X.Calculations/Materials/MinimumConcrete.cs:5-13",
-        "X.Calculations/Materials/MinimumConcrete.cs:19",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:121",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:128",
+        "X.Calculations/Materials/MinimumConcrete.cs:5-16",
+        "X.Calculations/Materials/MinimumConcrete.cs:21",
+        "X.Calculations/Materials/MixAutomation.cs:5-17",
         "X.Calculations/Materials/NtcCover.cs:24",
-        "X.Calculations/Materials/NtcCover.cs:27"
+        "X.Calculations/Materials/NtcCover.cs:27",
+        "X.Materiali/MinimumConcrete.cs:15-16",
+        "X.Materiali/MixAutomation.cs:7-8",
+        "X.Materiali/MixAutomation.cs:46"
       ],
       "segno": "cautelativo",
       "effetto_quantificato": {
-        "sintesi": "Classe minima diversa in 46 combinazioni di esposizione su 520. Nel catalogo della scheda Materiali cambia solo C28/35: oggi segnalata come inferiore al minimo in quelle 46 combinazioni. Copriferro nominale NTC: +5 mm in 184 casi su 17 646, tutti con fck fra 28 e 30 MPa. ANTHEA e libreria coincidono. Manca l'etichetta C28/35 in MinimumConcrete.Label.",
+        "nota": "Effetto dell'opzione e1 (C28/35), scartata con la decisione del 7/10; resta come misura della differenza fra le edizioni 2004 e 2016/2025.",
+        "sintesi": "Classe minima diversa in 46 combinazioni di esposizione su 520. Nel catalogo della scheda Materiali cambia solo C28/35: oggi segnalata come inferiore al minimo in quelle 46 combinazioni. Copriferro nominale NTC: +5 mm in 184 casi su 17 646, tutti con fck fra 28 e 30 MPa. ANTHEA e libreria coincidono. L'etichetta C28/35 manca in MinimumConcrete.Label ma non serve: Label riceve solo valori di MinimumConcrete.Required (12, 25, 30, 32, 35 MPa).",
         "combinazioni": { "totale": 520, "cambiate": 46, "singole": 4, "doppie": 18, "triple": 24 },
         "catalogo": { "classi": 16, "classi_che_cambiano": ["C28/35"], "avvisi_cambiati": 46 },
         "copriferro": { "casi": 17646, "cambiati": 184, "delta_mm": 5 },
@@ -277,15 +289,34 @@
         "revisione": "Dopo la decisione la revisione dei metodi (pagina ca.durabilita-copriferri) ha trovato che C30/37 per XC3, XD1, XF4 e XA1 è il valore di UNI 11104:2016 (ATECAP 2020 e una seconda fonte secondaria concordi) e, da estratto, della UNI 11104:2025 (prospetto 6, in vigore dal 24/07/2025); C28/35 è dell'edizione 2004 (prospetto 4). Il codice segue quindi l'edizione in vigore e il prospetto F.1 della EN 206. Nessun testo UNI primario consultato.",
         "esito": "da confermare con l'utente: la scelta diventa fra UNI 11104:2016/2025 ed EN 206 F.1 (C30/37, predefinito) e UNI 11104:2004 (C28/35, edizione ritirata). Da correggere comunque l'etichetta «UNI 11104 prospetto 5» (il numero dipende dall'edizione) e MinimumConcrete.Label(28) se la scelta resta."
       },
+      "attuazione": {
+        "data": "2026-10-07",
+        "branch": "refactoring/d7e-uni11104",
+        "commit": ["6b01da8 (codice, guida teorica, indice della Wiki)", "commit successivo dello stesso branch (registro, scostamenti, decisioni)"],
+        "anthea": "Nessun valore numerico cambiato. Citazioni corrette: commento di MinimumConcrete (prospetto 6 della UNI 11104:2025, valori trascritti dal prospetto 5 della 2016, eccezione XF1); commento nuovo di AtecapMix (prospetto 5 della 2016 e differenze della 2025); nota della scheda Materiali «UNI 11104:2025, prospetto 6», con la nota su XF1 quando XF1 è attiva; testo «Riferimenti della composizione» della scheda e del report Word dei materiali (prospetto 5 della 2016 e differenze della 2025); README di X.Materiali; guida teorica, paragrafo «Esposizioni e requisiti del materiale» e riga XF1 della tabella (edizioni Word e PDF da rigenerare con le guide); indice della Wiki rigenerato. Etichetta C28/35 non aggiunta: non serve (vedi effetto_quantificato).",
+        "libreria": "Da fare nella prossima release di GPCChecker.Concrete (F2.9 durabilità), senza modificare Checker ora per non cambiare la DLL della release S2: commento di ExposureClasses.cs:10-13, :89, :121, :128 e riferimento restituito a :107 «UNI 11104 prospetto 5 (NTC 2018 §11.2.11)», da scrivere con edizione e prospetto (testo proposto nel resoconto del filone e nella scheda); README di GPCChecker.Concrete:163-164 e :176; MIGRAZIONE_ANTHEA.txt:74 e :260; commento di DurabilityEdgeCaseTests.cs:122.",
+        "attesi": "Nessun atteso da aggiornare: i testi cambiati compaiono solo nella scheda WPF e nel report Word dei materiali, che non hanno uscite catturate nel runner (profili quick e standard, baseline headless F2-B2, supporto/test). Il riferimento della libreria a :107 non è usato da ANTHEA.",
+        "verifica": "profilo quick (tag d7e): PASS 18, KNOWN 0, NEW-FAIL 0 (comprende CalculationLibrary.Checks con i controlli di durabilità e copriferro NTC, wiki/indice e wiki/manuale); banco c.a. (-Profile baseline -Only '^baseline/banco-ca'): PASS, durability-legacy.csv 3048 righe identiche alle fixture di Checker, 27 698 righe confrontate senza differenze oltre agli identificativi casuali"
+      },
+      "seguito": {
+        "stato": "da-decidere",
+        "descrizione": "Il prospetto 6 della UNI 11104:2025 differisce dai valori del codice (UNI 11104:2016, prospetto 5) in tre punti, tutti con il codice più restrittivo: (1) classe minima di XF1, C30/37 contro C32/40; (2) A/C massimo di XF1, 0,55 contro 0,50; (3) cemento minimo inferiore in tutte le classi: 280 contro 300 (XC1-XC2), 300 contro 320 (XC3, XD1, XF1, XA1), 320 contro 340 (XC4, XS1, XD2, XF2-XF3, XA2), 340 contro 360 (XF4), 350 contro 360 (XS2-XS3, XD3, XA3).",
+        "effetto": "Classe minima: con XF1 a C30/37 cambiano 13 combinazioni di esposizione su 520 (1 singola, 5 doppie, 7 triple: XF1 con XC1, XC2, XC3, XD1, XA1), da C32/40 a C30/37; nel catalogo cambia solo C30/37, oggi segnalata inferiore al minimo in quelle 13 combinazioni, e il copriferro nominale NTC di C30/37 in quelle combinazioni perderebbe la maggiorazione di 5 mm. Composizione: cambia il cemento minimo di tutte le combinazioni tranne X0 e l'A/C delle combinazioni in cui XF1 governa.",
+        "opzioni": [
+          { "id": "e4", "descrizione": "allineare classe minima e composizione al prospetto 6 della 2025 (ANTHEA in F2.9 insieme alla libreria, con i due commit e la ricattura delle righe MIX di durability-legacy.csv)" },
+          { "id": "e5", "descrizione": "tenere i valori della 2016 come scelta cautelativa dichiarata (stato attuale, già scritto nelle citazioni)" }
+        ],
+        "raccomandazione": "e4, per coerenza con la decisione «confermo la norma più aggiornata»; decisione dell'utente prima di F2.9"
+      },
       "data": "2026-10-06",
-      "fase": "F2.3 (libreria), F2.9 (collegamento)",
+      "fase": "F2.9 (citazioni della libreria e decisione del seguito)",
       "test": [
         "Checker/GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122-125",
         "Checker/GPCChecker.Test.Concrete/DurabilityMigrationTests.cs (durability-legacy.csv, righe MIX)",
         "X.Materiali/ExposureSelector.cs:102",
         "X.Materiali/ExposureSelector.cs:109"
       ],
-      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:61 (Esposizioni e requisiti del materiale)", "supporto/docs/guida-teorica-anthea.md:85 (Copriferro minimo e nominale)"] },
+      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:61 (Esposizioni e requisiti del materiale)", "supporto/docs/guida-teorica-anthea.md:85 (Copriferro minimo e nominale)"], "nota": "7/10: il paragrafo :63 dichiara già edizione, prospetto ed eccezione XF1; il riquadro resta per W1" },
       "scheda": "docs/refactoring/scostamenti.md#d7-e-classe-minima-per-xc3-xd1-xf4-e-xa1"
     },
     {

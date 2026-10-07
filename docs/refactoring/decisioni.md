@@ -140,6 +140,20 @@ sempre in due commit (collegamento con opzione legacy identico, poi cambio con e
   report di lavori, test, committa e continua con il refactoring". Profilo full con prove WPF eseguito durante
   la pausa sulla punta dell'integrazione.
 
+## Decisioni del 7 ottobre 2026, pomeriggio
+
+- **(e) Durabilità, attuazione di «confermo la norma più aggiornata»**: riscontro diretto sull'anteprima
+  della UNI 11104:2025 pubblicata da UNI (in vigore dal 24/07/2025, sostituisce la 2016): il prospetto 6
+  «Valori limite per la composizione e le proprietà del calcestruzzo» dà C30/37 per XC3, XD1, XF4 e XA1,
+  come il codice. C30/37 resta, nessun valore cambia; in ANTHEA le citazioni indicano ora edizione e
+  prospetto (scheda Materiali, report dei materiali, commenti, README, guida teorica; branch
+  `refactoring/d7e-uni11104`). La libreria (`ExposureClasses.cs`) si corregge nella prossima release
+  (F2.9), con il testo proposto in `scostamenti.md`. D7-e passa a dichiarato.
+- **Da decidere (seguito di D7-e)**: il prospetto 6 della 2025 differisce dai valori del codice (2016,
+  prospetto 5) per XF1 (C30/37 contro C32/40, A/C 0,55 contro 0,50) e per il cemento minimo, inferiore
+  in tutte le classi; il codice è più restrittivo. Opzioni e4 (allineare alla 2025 in F2.9, raccomandata)
+  ed e5 (tenere la 2016 come scelta cautelativa dichiarata).
+
 ## Dipendenze esterne previste
 
 Da approvare una volta; ogni variazione si aggiunge qui.
