@@ -2,7 +2,9 @@ namespace Materiali;
 
 public static class MinimumConcrete
 {
-    // ATECAP 2020, p. 19, Prospetto 5 UNI 11104: riga Minima classe di resistenza.
+    // Classe di resistenza minima per esposizione: UNI 11104:2025 (in vigore dal 24/07/2025), prospetto 6, riga «Classe di
+    // resistenza minima». Valori trascritti dalla UNI 11104:2016, prospetto 5 (riportato in ATECAP 2020, p. 19), uguali a quelli
+    // della 2025 salvo XF1: qui C32/40 dell'edizione 2016, nel prospetto 6 della 2025 C30/37 (registro D7-e, da decidere).
     public static int Fck(string code)=>code switch
     {
         "X0"=>12,
