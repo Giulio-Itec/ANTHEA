@@ -323,3 +323,26 @@ Branch `refactoring/f2-taglio-torsione` (worktree Temp\aw-f2tt, da main 17b6c98)
   accettati, traccia NTC non esposta, B3).
 - Una corsa del runner si è interrotta dopo l'ultima suite perché `summary.txt` era letto da fuori durante la scrittura
   (Add-Content): ripetuta; le corse non vanno osservate leggendo i file del runner.
+- Fuori dall'interruttore restano, nel legacy, il taglio senza staffe dei muri in c.a. (`RetainingWall.Structures.cs:98-100`,
+  VRd,c con una formula propria senza σcp, F4.7) e la proposta di bw, d e Asl (`SectionShearGeometry.Derive`, buco 3 della
+  matrice); i pali elastici verificano il taglio con `GPC.Checkers.Concrete.Piles` già da prima di F2. Quindi non tutto il
+  taglio di ANTHEA passa dalla libreria: solo quello della sezione c.a. (WPF, calcolo headless, progetto delle armature).
+- Terza verifica avversaria (su ca6530d e 801e11c), 8 punti. Corretti: esclusioni scritte nel piano (prima solo nella
+  matrice); riga della matrice per il controllo "torsione solo NTC" (`ConcreteShearAnalysis.cs:61` in ca6530d, non :60);
+  prove rafforzate (4e8b30b): prima la 3e riconosceva un calcolo headless che aggirasse l'interruttore con la sola riga T7,
+  e nessuna prova distingueva il motore del taglio del modulo (con il taglio sempre legacy le prove di 801e11c passano);
+  ora la 3d conta 131 calcoli del modulo con uscite diverse e la 3e confronta bit per bit taglio (106 righe, 42 che
+  distinguono i motori) e torsione (63 righe, 36) anche su sezioni NTC di 5 forme con 3 valori di cot θ, con almeno 10 casi
+  per controllo; nota in F2.4 sui testi della libreria senza traduzione (nella scheda WPF interromperebbero le righe
+  successive del taglio; oggi non raggiungibile). Provenienza di B3 confermata anche dalla cattura di 17b6c98 con il corpus
+  di dcde952 (uguale a B3, `fallbacks.json` identico byte per byte). Scartati senza modifiche: effetto dei ripieghi sui
+  documenti senza `foro_presente` (resta dichiarato in F2-1, scelta dell'utente) e documenti di 8c95d9b…ea6e0ac che
+  descrivevano lo stato con la libreria (già dichiarato nel messaggio di 8c95d9b).
+- Il messaggio di 256714d ("taglio e torsione elevati, verifica non soddisfatta") e la prima stesura del LEGGIMI di B3
+  davano non soddisfatta solo V3: in B3 anche V2 non soddisfa l'interazione taglio-torsione lato acciaio (ηs 1,284), V3 non
+  soddisfa taglio (η 2,84 e 1,53) e interazione; negli altri casi C2, C3 e H2 non soddisfatti a torsione/interazione, C3 e
+  H2 anche a taglio. LEGGIMI corretto (non versionato); il messaggio di commit resta.
+- 63cda73 è partito con il messaggio di 8c95d9b (nome del file del messaggio già usato da un'altra corsa): ritirato con
+  2b2f16b e ricommittato identico come 4e8b30b con il messaggio giusto. Regola per le prossime volte: nome del file del
+  messaggio controllato prima del commit; se l'interruttore viene sospeso di nuovo, piano e registro nello stesso commit o
+  in quello subito dopo.
