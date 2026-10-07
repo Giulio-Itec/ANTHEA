@@ -88,7 +88,10 @@ opzioni predefinite. Ciò che resta escluso è elencato in `manifest.json` (`non
 
 - numero JSON: `|a − b| ≤ abs + rel · max(|a|, |b|)` con la grandezza scelta dalla prima
   regola che corrisponde al nome della proprietà (o della colonna CSV) e al percorso; mai
-  `max(1, |x|)`. Default 0: uguaglianza esatta per i refactoring puri;
+  `max(1, |x|)`. Default 0: uguaglianza esatta per i refactoring puri. Dal passo F2.6 i
+  numeri del JSON `taglio` e `torsione` dei risultati `str_palo` (resistenze, tassi, cot θ,
+  ΣAsl richiesta, profilo resistente, valori dei dettagli) ammettono 1e-9 (grandezze
+  `ca_libreria_*`, registro F2-1); ogni altro campo di quei risultati resta esatto;
 - testi (report, celle CSV, stringhe): scheletro senza numeri identico; interi uguali;
   decimali entro metà dell'ultima cifra stampata di ciascun valore più la tolleranza della
   grandezza. Le righe che contengono JSON (`# NOME {…}`) si confrontano come JSON;
