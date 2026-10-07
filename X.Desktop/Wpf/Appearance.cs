@@ -76,6 +76,9 @@ internal static class Appearance
         resources[SystemColors.MenuTextBrushKey] = Ink;
         resources[SystemColors.ControlBrushKey] = Colour(SystemColors.ControlColor, "background");
         resources[SystemColors.ControlTextBrushKey] = Colour(SystemColors.ControlTextColor, "foreground");
+        // Selection without focus (DataGrid cells, list and tree items): light grey in the system theme.
+        resources[SystemColors.InactiveSelectionHighlightBrushKey] = Colour(((SolidColorBrush)SystemColors.InactiveSelectionHighlightBrush).Color, "background");
+        resources[SystemColors.InactiveSelectionHighlightTextBrushKey] = Colour(((SolidColorBrush)SystemColors.InactiveSelectionHighlightTextBrush).Color, "foreground");
         EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.LoadedEvent,
             new RoutedEventHandler((sender, _) => ApplyElement((DependencyObject)sender)));
         // WPF raises Loaded only on elements with a Loaded handler of their own: an element added to a window

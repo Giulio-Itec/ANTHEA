@@ -13,7 +13,37 @@
   </Trigger></Style.Triggers></Style>
   <Style TargetType="MenuItem"><Style.Triggers><Trigger Property="local:Appearance.Dark" Value="True">
    <Setter Property="Foreground" Value="{DynamicResource AppearanceInk}"/>
+   <Setter Property="Template" Value="{StaticResource AppearanceMenuItemTemplate}"/>
+  </Trigger>
+  <MultiTrigger><MultiTrigger.Conditions><Condition Property="local:Appearance.Dark" Value="True"/><Condition Property="Role" Value="TopLevelHeader"/></MultiTrigger.Conditions>
+   <Setter Property="Template" Value="{StaticResource AppearanceTopLevelMenuItemTemplate}"/>
+  </MultiTrigger>
+  <MultiTrigger><MultiTrigger.Conditions><Condition Property="local:Appearance.Dark" Value="True"/><Condition Property="Role" Value="TopLevelItem"/></MultiTrigger.Conditions>
+   <Setter Property="Template" Value="{StaticResource AppearanceTopLevelMenuItemTemplate}"/>
+  </MultiTrigger></Style.Triggers></Style>
+  <Style TargetType="ContextMenu"><Style.Triggers><Trigger Property="local:Appearance.Dark" Value="True">
+   <Setter Property="Background" Value="{DynamicResource AppearancePaper}"/>
+   <Setter Property="Foreground" Value="{DynamicResource AppearanceInk}"/>
+   <Setter Property="BorderBrush" Value="{DynamicResource AppearanceBorder}"/>
+   <Setter Property="Template" Value="{StaticResource AppearanceContextMenuTemplate}"/>
   </Trigger></Style.Triggers></Style>
+  <Style TargetType="ToolTip"><Style.Triggers><Trigger Property="local:Appearance.Dark" Value="True">
+   <Setter Property="Background" Value="{DynamicResource AppearancePaper}"/>
+   <Setter Property="Foreground" Value="{DynamicResource AppearanceInk}"/>
+   <Setter Property="BorderBrush" Value="{DynamicResource AppearanceBorder}"/>
+  </Trigger></Style.Triggers></Style>
+  <Style TargetType="ProgressBar"><Style.Triggers><Trigger Property="local:Appearance.Dark" Value="True">
+   <Setter Property="Background" Value="{DynamicResource AppearanceSurface}"/>
+   <Setter Property="BorderBrush" Value="{DynamicResource AppearanceBorder}"/>
+  </Trigger></Style.Triggers></Style>
+  <Style TargetType="ScrollBar"><Style.Triggers><Trigger Property="local:Appearance.Dark" Value="True">
+   <Setter Property="Background" Value="{DynamicResource AppearanceSurface}"/>
+   <Setter Property="BorderBrush" Value="{DynamicResource AppearanceSurface}"/>
+   <Setter Property="Template" Value="{StaticResource AppearanceVerticalScrollBarTemplate}"/>
+  </Trigger>
+  <MultiTrigger><MultiTrigger.Conditions><Condition Property="local:Appearance.Dark" Value="True"/><Condition Property="Orientation" Value="Horizontal"/></MultiTrigger.Conditions>
+   <Setter Property="Template" Value="{StaticResource AppearanceHorizontalScrollBarTemplate}"/>
+  </MultiTrigger></Style.Triggers></Style>
   <Style TargetType="Window">
    <Setter Property="Icon" Value="/ANTHEA;component/Assets/anthea.ico"/>
    <Setter Property="FontFamily" Value="Segoe UI"/>
