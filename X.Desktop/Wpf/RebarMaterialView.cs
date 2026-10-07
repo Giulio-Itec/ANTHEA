@@ -119,7 +119,7 @@ internal sealed class RebarIcon : FrameworkElement
         for (int bar = 0; bar < 3; bar++)
         {
             double y = 20 + bar * 19;
-            dc.DrawLine(new Pen(Ui.Navy, 9), new Point(12, y + 12), new Point(68, y - 5));
+            dc.DrawLine(new Pen(Appearance.Ink, 9), new Point(12, y + 12), new Point(68, y - 5));
             for (int i = 0; i < 6; i++) { double x = 16 + i * 9, cy = y + 12 - (x - 12) * 17 / 56; dc.DrawLine(rib, new Point(x - 2, cy - 4), new Point(x + 2, cy + 4)); }
         }
     }

@@ -520,7 +520,7 @@ internal sealed class DomainViewport3D : Grid
         {
             var vector = p - camera.Position; double depth = Vector3D.DotProduct(vector, forward); if (depth <= 0) continue;
             double factor = ActualWidth / (2 * Math.Tan(camera.FieldOfView * Math.PI / 360) * depth);
-            var label = Ui.Text(text, 11, true); Canvas.SetLeft(label, Math.Clamp(ActualWidth / 2 + Vector3D.DotProduct(vector, right) * factor, 4, Math.Max(4, ActualWidth - 125))); Canvas.SetTop(label, Math.Clamp(ActualHeight / 2 - Vector3D.DotProduct(vector, up) * factor, 4, Math.Max(4, ActualHeight - 50))); labels.Children.Add(label);
+            var label = Ui.Text(text, 11, true); label.Style = (Style)Application.Current.FindResource("AppearanceDrawingLabel"); Canvas.SetLeft(label, Math.Clamp(ActualWidth / 2 + Vector3D.DotProduct(vector, right) * factor, 4, Math.Max(4, ActualWidth - 125))); Canvas.SetTop(label, Math.Clamp(ActualHeight / 2 - Vector3D.DotProduct(vector, up) * factor, 4, Math.Max(4, ActualHeight - 50))); labels.Children.Add(label);
         }
     }
     private static GeometryModel3D Model(MeshGeometry3D mesh, Brush brush) { mesh.Freeze(); var material = new DiffuseMaterial(brush); return new(mesh, material) { BackMaterial = material }; }
