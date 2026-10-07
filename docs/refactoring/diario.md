@@ -137,8 +137,10 @@ sugli scostamenti (a)-(g).
     TorsionProfiles.cs:81; +38,8% nell'esempio; da riscontrare); SLE con analisi non lineare usa le leggi di
     progetto (sigma*alpha_cc/gamma_c, fyd) e StressLimitCheck lo accetta senza avviso (sigma_c -31%); DIN k5 dei
     trefoli 0,75 invece di 0,65 (fonte secondaria, da confermare).
-  - Cautelativi: NTC torsione cot theta >= 1 anche in torsione pura; interazione delle bielle sommata; SLE: k3 su
-    |sigma| delle barre compresse, k1 fck in ogni classe, k2 fck come limite; NS senza kc; DS cot theta <= 2.
+  - Cautelativi: interazione delle bielle sommata; SLE: k3 su |sigma| delle barre compresse, k1 fck in ogni classe,
+    k2 fck come limite; NS senza kc; DS cot theta <= 2. [Rettifica del 7/10: qui era elencato anche «NTC torsione
+    cot theta >= 1 anche in torsione pura», che non è uno scostamento: NTC 2018 [4.1.38] dà 1 <= cot theta <= 2,5
+    anche in torsione (S.O. n. 8 alla G.U. n. 42 del 20/02/2018, p. 82); 0,4 era della NTC 2008. Registro, voce R7.]
   - Da riscontrare: MC2010 fessurazione senza ritiro; DIN coefficiente di hc,ef; EN Tab. 7.1N per XD3.
   - Limiti non controllati: EC2 6.2.2(6), nota 2 di 6.2.3(3) (nu1 0,6), regola DK per staffe classe A.
   - Citazione errata '7.3.4(4)' nei commenti (va 7.3.4(3), eq. 7.14).
@@ -320,3 +322,51 @@ sugli scostamenti (a)-(g).
   Uscite in `supporto/artefatti/ci` e `supporto/artefatti/refactoring/s2` del worktree.
 - Restano: push di Checker develop 1fbaea61 e poi `pushed: true` nel manifest (senza ricompilare), profilo full a
   schermo, approvazione dell'utente e merge su main.
+
+## 7 ottobre 2026, pomeriggio
+
+Cronologia sintetica dei filoni del pomeriggio; il dettaglio è nei documenti citati e nelle sezioni dei singoli filoni.
+L'utente ha delegato le decisioni al coordinatore («esegui tutto te»): sono in [decisioni.md](decisioni.md), da
+ratificare. Nessun push da parte dei workflow.
+
+- 15:07-15:20, F1.4: i quattro scenari sull'exe Release (compilato da main 17b6c98, avviato con `dotnet ANTHEA.dll`)
+  eseguiti con UI Automation e mouse reale, con i dialoghi di produzione. Esito in
+  `supporto/artefatti/refactoring/f1.4/esito.md`: avvio con la Home; dati condivisi, conferma spostamento, chiusura con
+  modifiche ed errore di un comando superati, controllati rileggendo i file salvati. Note: `errori.log` registra solo
+  gli errori non gestiti, come prima di F1 (l'errore di un comando passa da `Safe` e non lo scrive); il messaggio
+  dell'errore di lettura è quello inglese del parser JSON, da rivedere in F5; nel tema scuro le righe di sezione non
+  selezionate dell'albero dei progetti sono chiare su chiaro (vedi tema scuro).
+- 15:10-15:18, F1.6 sul branch `refactoring/f1-6-archivio` (4ff5026, f5647f5, d01caf7, 5517b96): sette progetti di
+  `supporto/test` archiviati in `supporto/SUPERATI/test`, con registro. Unito nell'integrazione 2 alle 16:41 (6e35729,
+  branch `refactoring/integrazione-2`, worktree Temp\aw-int2). La verifica ha trovato rotto l'import di
+  `build_document.py` dello script della relazione del 25/9 e cambiata la destinazione di ElasticPile.Performance:
+  seguiti 16:55-17:03 (3ff710e, a57aff6, cb9b750, a2a3ac1, 99b2ae7); profilo quick `int2-f16` 18 PASS, 0 KNOWN,
+  0 NEW-FAIL. Le cartelle `bin` e `obj` ignorate rimaste nelle vecchie posizioni non sono state cancellate.
+- 15:39-16:27, D7-e sul branch `refactoring/d7e-uni11104` (6b01da8, f1bb485, verifica 4e429dd), unito alle 16:41
+  (0576678): citazioni della UNI 11104 con edizione e prospetto, C30/37 confermato, nessun valore cambiato. Seguito su
+  XF1 e composizione: opzione e4, da attuare in F2.9 dopo il riscontro del prospetto 6 su una copia con licenza. Le
+  fonti sono riscritte in modo riproducibile: la «p. 12 dell'anteprima» citata in un primo tempo non è fra le pagine
+  visibili (era un residuo di una versione precedente dentro il file); le pagine visibili (indice alle pp. III-IV,
+  introduzione e punti 1 e 2 alle pp. 1-2) confermano edizione e struttura; i valori del prospetto 6 vengono da un
+  estratto pubblicato il 28/07/2025 (fonte secondaria).
+- 15:24-15:25: origin di Model e di Checker risultano aggiornati con Model 5ad56681 e Checker 0d7ba50b, le revisioni
+  della release S2. Il push non è stato eseguito da nessun workflow; da confermare con l'utente.
+- 15:32-16:56, F2.2: revisione tecnica delle pagine dei metodi in Checker, merge locali in develop alle 15:57 (c555a3b8,
+  1fbaea61); verifica avversaria e correzioni (5675492f e 398eb36a, merge 9eb800d4 e 26fb6b8b alle 16:47; bf23a16d,
+  7d86ffc7, bd9938ac); e41a803a collega i riquadri alle voci R16-R21. Checker develop locale è a e41a803a, 35 commit
+  oltre origin/develop: il push resta all'utente. Registro: voci R16-R21 da decidere in F5.15; R7 rettificata (NTC
+  2018 [4.1.38] dà 1 ≤ cot θ ≤ 2,5 anche in torsione) e segno da stabilire per il limite 1,3 (h − x) con barre fuori
+  da Ac,eff (F-4).
+- 16:01-17:14, F2.4 sul branch `refactoring/f2-4-snapshot-s2` (worktree Temp\aw-s2): candidato S2 f6b6fdf, compilato
+  da Checker develop 1fbaea61 locale, verificato e unito nell'integrazione 2 alle 16:42 (0c87141). Poi S2 ricompilata
+  dai commit pushati con `Update-Snapshot.ps1 -FromUpstream` (8d6a8ec, edc4fce; documenti decd371): profilo standard
+  33 PASS e baseline 39 PASS, 1 KNOWN, 0 NEW-FAIL, esiti uguali al candidato; manca il profilo full a schermo. Da unire
+  nell'integrazione.
+- 15:09-17:18, F2.5 e F2.6 sul branch `refactoring/f2-taglio-torsione` (worktree Temp\aw-f2tt): in correzione dopo le
+  verifiche avversarie. Il primo interruttore (7176c0c) collegava alla libreria il solo taglio del modulo; torsione del
+  modulo attraverso l'adattatore (f5b5f50); baseline B3 catturata con il legacy su dcde952; interruttore sulla libreria
+  (ca6530d); documenti con le decisioni del coordinatore F2-3 e F2-4 (801e11c). Da unire dopo la verifica.
+- Tema scuro, branch `refactoring/ui-tema-scuro` (worktree Temp\aw-tema): correzioni ai colori e controllo del
+  contrasto in corso.
+- Documenti di refactoring dell'integrazione 2: registro (R7 rettificata, R16-R21, D7-e con e4 e fonti riproducibili),
+  scostamenti, piano (F1.4 e F2.2 chiusi, F2.9, F5.15), decisioni e questo diario.

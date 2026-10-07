@@ -167,17 +167,77 @@ sempre in due commit (collegamento con opzione legacy identico, poi cambio con e
 
 ## Decisioni del 7 ottobre 2026, pomeriggio: D7-e
 
-- **(e) Durabilità, attuazione di «confermo la norma più aggiornata»**: riscontro diretto sull'anteprima
-  della UNI 11104:2025 pubblicata da UNI (in vigore dal 24/07/2025, sostituisce la 2016): il prospetto 6
-  «Valori limite per la composizione e le proprietà del calcestruzzo» dà C30/37 per XC3, XD1, XF4 e XA1,
-  come il codice. C30/37 resta, nessun valore cambia; in ANTHEA le citazioni indicano ora edizione e
-  prospetto (scheda Materiali, report dei materiali, commenti, README, guida teorica; branch
-  `refactoring/d7e-uni11104`). La libreria (`ExposureClasses.cs`) si corregge nella prossima release
+- **(e) Durabilità, attuazione di «confermo la norma più aggiornata»**: UNI 11104:2025 in vigore dal
+  24/07/2025 al posto della 2016 (schede del catalogo UNI); secondo un estratto pubblicato il 28/07/2025
+  (fonte secondaria) il prospetto 6 «Valori limite per la composizione e le proprietà del calcestruzzo»
+  dà C30/37 per XC3, XD1, XF4 e XA1, come il codice. Le pagine visibili dell'anteprima UNI (indice,
+  introduzione, punti 1 e 2) confermano edizione e struttura, non i valori; la lettura «a p. 12
+  dell'anteprima» registrata in un primo tempo veniva da contenuti del file non mostrati (fonti
+  riscritte il 7/10, sezione seguente). C30/37 resta, nessun valore cambia; in ANTHEA le citazioni
+  indicano ora edizione e prospetto (scheda Materiali, report dei materiali, commenti, README, guida
+  teorica; branch `refactoring/d7e-uni11104`). La libreria (`ExposureClasses.cs`) si corregge nella prossima release
   (F2.9), con il testo proposto in `scostamenti.md`. D7-e passa a dichiarato.
 - **Da decidere (seguito di D7-e)**: il prospetto 6 della 2025 differisce dai valori del codice (2016,
   prospetto 5) per XF1 (C30/37 contro C32/40, A/C 0,55 contro 0,50) e per il cemento minimo, inferiore
   in tutte le classi; il codice è più restrittivo. Opzioni e4 (allineare alla 2025 in F2.9, raccomandata)
-  ed e5 (tenere la 2016 come scelta cautelativa dichiarata).
+  ed e5 (tenere la 2016 come scelta cautelativa dichiarata). Decisa poi e4 (sezione seguente).
+
+## 7 ottobre 2026, pomeriggio: decisioni del coordinatore su delega dell'utente («esegui tutto te»), da ratificare
+
+L'utente ha delegato le decisioni del pomeriggio al coordinatore dei workflow ("esegui tutto te"). Le decisioni
+seguenti sono state prese dal coordinatore su delega e restano da ratificare dall'utente.
+
+- **F1.6, destino dei progetti di test e seguiti** (dettaglio in [progetti-di-test.md](progetti-di-test.md) e
+  nella sezione «F1.6» sopra):
+
+  | Progetto o cartella | Decisione | Commit |
+  | --- | --- | --- |
+  | ConcreteDesign.DesktopChecks, ValidationIllustrations | codice nella configurazione `UiTests` (`--check-concrete-design`, `--capture-validation`); vecchi progetti in `supporto/SUPERATI/test` | cdd56ea |
+  | BridgeDesign.SiteComparison, ConcreteStressDiagnosis, ValidazioneCA20260925, ProgrammaAnthea (`qa.py`) | archiviati in `supporto/SUPERATI/test/<nome>` con `git mv`, invariati, con registro `registro-20261007-test.json` | 4ff5026, f5647f5, d01caf7 |
+  | MaxRetainingWall.Cases e .Compare | archiviati come sopra; la tabella rimandava la scelta all'utente: restano archiviati, scelta reversibile con `git mv` e documentata | 4ff5026 |
+  | `supporto/script/validazione_ca_2026_09_25` | archiviato anche il generatore una tantum della relazione del 25/9, che importa le parti Python di ValidazioneCA20260925, in `supporto/SUPERATI/script/validazione_ca_2026_09_25`, con voci nel registro di SUPERATI; `build_document.py` al testo di prima di F1.6 | 3ff710e, a57aff6, a2a3ac1 |
+  | ElasticPile.Performance | riportato in `supporto/test` con `git mv`; destinazione della tabella invariata: «Archiviare dopo F5, o spostare in `tools/`» | cb9b750 |
+  | Cartelle `bin` e `obj` ignorate rimaste nelle vecchie posizioni | non si cancellano; le segnala il coordinatore all'utente | — |
+  | Tabella, decisioni e piano | allineati ai seguiti | 99b2ae7 |
+
+- **D7-e, seguito su XF1 e composizione**: si adotta l'opzione e4, allineamento alla UNI 11104:2025, coerente con
+  «confermo la norma più aggiornata». Si attua in F2.9 insieme allo spostamento della durabilità nella libreria,
+  dopo il riscontro del prospetto 6 su una copia con licenza della norma: la variazione su XF1 (C30/37 e A/C 0,55
+  invece di C32/40 e 0,50) e sul cemento minimo è a sfavore rispetto al codice attuale. Fonti di oggi, descritte
+  in modo riproducibile nel registro e in [scostamenti.md](scostamenti.md): pagine visibili dell'anteprima UNI
+  (indice alle pp. III-IV, introduzione e punti 1 e 2 alle pp. 1-2; frontespizio e prospetto 6 non visibili) ed
+  estratto pubblicato il 28/07/2025 (fonte secondaria). La lettura «a p. 12 dell'anteprima» è ritirata: la p. 12
+  non è visibile, era un residuo di una versione precedente dentro il file. Se il testo smentisse l'estratto, la
+  scelta fra e4 ed e5 torna all'utente.
+- **F2.2, pagine dei metodi c.a.**: revisione tecnica accettata. Le pagine sono unite in Checker develop con i
+  merge locali c555a3b8 (taglio, torsione, SLE, fessurazione) e 1fbaea61 (ancoraggi, dettagli, durabilità,
+  momento-curvatura) più le correzioni del verificatore (5675492f e 398eb36a con i merge 9eb800d4 e 26fb6b8b;
+  bf23a16d, 7d86ffc7, bd9938ac, e41a803a). Il push di Checker develop (punta e41a803a, 35 commit oltre
+  origin/develop) resta all'utente. Le voci nuove a sfavore o da chiarire diventano R16-R21 del registro, stato
+  «da-decidere», con la stessa decisione di R4-R14 («le voci sfavorevoli le guardiamo a fine refactoring», F5.15):
+  R16 torsione DS con νv invece di νt = 0,7 (0,7 − fck/200); R17 classe indicativa di XC3 C25/30 contro C30/37 del
+  prospetto E.1N del DM 2012; R18 incrudimento dell'acciaio di progetto riferito a fyk; R19 citazioni della
+  torsione; R20 ρw,min DS non implementato; R21 condizione DIN (h − x)/3 con NominalCover invece del copriferro
+  assegnato. R7 rettificata: NTC 2018 [4.1.38] dà 1 ≤ cot θ ≤ 2,5 anche in torsione (0,4 era della NTC 2008),
+  quindi «NTC torsione: cot θ ≥ 1 anche in torsione pura» non è uno scostamento; resta da stabilire il segno del
+  limite 1,3 (h − x) con barre tese fuori da Ac,eff (riquadro F-4).
+- **F2.4, lib/Checker da commit pushati**: lo snapshot si compila dai commit dei rami remoti con
+  `tools/libs/Update-Snapshot.ps1 -FromUpstream` (8d6a8ec): worktree temporanei sotto una radice fissa, così gli
+  SHA-256 sono ripetibili. S2 ricompilata così (edc4fce, branch `refactoring/f2-4-snapshot-s2`) da Model
+  origin/master 5ad56681 e Checker origin/develop 0d7ba50b, con le stesse versioni del candidato e `pushed: true`:
+  la release non dipende più dal push di Checker develop, che dopo 0d7ba50b cambia solo `docs/metodi`.
+- **F2.6, taglio e torsione nella libreria** (voci F2-3 e F2-4 del registro e sezione delle decisioni del branch
+  `refactoring/f2-taglio-torsione`, da unire): la torsione senza staffe chiuse resta un rifiuto con il messaggio di
+  oggi, controllato dall'adattatore prima della libreria (F2-3); i rifiuti e i limiti propri della libreria non
+  raggiungibili dal modulo sono accettati, nessuna azione (F2-4); il corpus headless riceve casi c.a. con taglio e
+  torsione (`tests/ANTHEA.Testing/corpus`) e la baseline B3 si cattura con il motore legacy prima dell'interruttore
+  sulla libreria (`supporto/artefatti/baseline/F2-B3`, dcde952).
+- **Tema scuro**: i difetti di colore della modalità scura (fra cui le righe di sezione non selezionate dell'albero
+  dei progetti, chiare su chiaro, `ProjectHierarchy.cs:155`, segnalate anche dall'utente) si correggono sul branch
+  dedicato `refactoring/ui-tema-scuro` (worktree Temp\aw-tema), da unire dopo verifica.
+- **F1.4, quattro scenari sull'exe Release**: eseguiti dal coordinatore con UI Automation e mouse reale sull'exe
+  Release compilato da main 17b6c98, con i dialoghi di produzione, invece che a mano con l'utente. Esito in
+  `supporto/artefatti/refactoring/f1.4/esito.md`: avvio con la Home e 4 scenari superati.
 
 ## Dipendenze esterne previste
 
