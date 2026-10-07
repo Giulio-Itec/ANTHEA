@@ -70,8 +70,10 @@ di caratteri si scrivono compressi (`.gz`), letti in modo trasparente da `compar
   degli esempi della Wiki: `moduleId` e `overrides` applicati ai default; caso
   `corpus-<nome del file>`, ultimi nell'elenco, così i casi precedenti si calcolano come in B2):
   sezioni c.a. con azioni di taglio e torsione, che le altre fonti non contengono
-  (rettangolare e circolare NTC 2018 con torsione, rettangolare DIN con cot θ assegnato e
-  rifiuti).
+  (rettangolare, circolare e circolare cava NTC 2018 con torsione, rettangolare DIN con cot θ
+  assegnato e rifiuti). I casi dichiarano `foro_presente`: senza la chiave il ripiego di
+  `J.B("foro_presente")` registrato in `fallbacks.json` cambierebbe chiamante con il motore di
+  taglio e torsione (registro F2-1), e il confronto con la baseline lo segnalerebbe.
 
 Motori fuori da `CalculationService`: risposta e armature dei tratti del palo elastico
 (`CalculateResponse`, `CompleteReinforcement`), stabilità globale dei muri con la proposta

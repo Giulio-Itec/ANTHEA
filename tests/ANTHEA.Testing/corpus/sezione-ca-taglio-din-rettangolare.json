@@ -3,7 +3,7 @@
   "label": "sezione rettangolare 600 x 800, DIN EN 1992-1-1: taglio con cot θ assegnato",
   "description": "Caso del corpus della cattura headless (baseline B3, refactoring F2.6): sezione del default con staffe Ø10/200 e cot θ = 2,5 assegnato nelle due direzioni. Con taglio basso il limite DIN dipendente dal carico è 3 e il calcolo procede; con taglio alto il limite scende sotto 2,5 e il calcolo è rifiutato; la riga con T diverso da zero è rifiutata perché la torsione accoppiata è solo NTC 2018.",
   "overrides": {
-    "input": { "shape": "Rettangolare" },
+    "input": { "shape": "Rettangolare", "foro_presente": false },
     "combinazioni": {
       "SLU": [ { "nome": "SLU 1", "azioni": [ "-1200", "250", "60" ] } ],
       "SLV": [],

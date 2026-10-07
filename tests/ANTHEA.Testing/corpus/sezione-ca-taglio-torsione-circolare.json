@@ -3,7 +3,7 @@
   "label": "sezione circolare Ø1000, NTC 2018: taglio e torsione",
   "description": "Caso del corpus della cattura headless (baseline B3, refactoring F2.6): sezione circolare del default (16Ø24, staffe chiuse Ø10/200), modello delle pile NTC §7.9.5.2, azioni di taglio con e senza torsione, cot θ comune 2 con T diverso da zero, As longitudinale per la torsione 3000 mm².",
   "overrides": {
-    "input": { "shape": "Circolare" },
+    "input": { "shape": "Circolare", "foro_presente": false },
     "combinazioni": {
       "SLU": [ { "nome": "SLU 1", "azioni": [ "-2000", "400", "150" ] } ],
       "SLV": [],

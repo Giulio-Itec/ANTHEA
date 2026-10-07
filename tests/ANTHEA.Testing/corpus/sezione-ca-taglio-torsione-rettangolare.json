@@ -3,7 +3,7 @@
   "label": "sezione rettangolare 600 x 800, NTC 2018: taglio e torsione",
   "description": "Caso del corpus della cattura headless (baseline B3, refactoring F2.6): sezione del default con staffe chiuse Ø10/200, azioni di taglio biassiale con e senza torsione, compressione e trazione, cot θ comune 1,5 con T diverso da zero, As longitudinale per la torsione 2000 mm².",
   "overrides": {
-    "input": { "shape": "Rettangolare" },
+    "input": { "shape": "Rettangolare", "foro_presente": false },
     "combinazioni": {
       "SLU": [ { "nome": "SLU 1", "azioni": [ "-1200", "250", "60" ] } ],
       "SLV": [],
