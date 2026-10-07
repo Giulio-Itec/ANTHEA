@@ -11,9 +11,11 @@ public static partial class Ntc2018Checks
         var regions=new List<ConcreteEffectiveRegion>();var widths=new List<double>();var formulae=new List<List<CrackCalculationDetail>>();
         var strains=section.Outline.Select(p=>plane.GetStrain(p[0],p[1])).ToArray();
         double maxStrain=strains.Max(),k2=maxStrain>0?Math.Clamp((strains.Min()+maxStrain)/(2*maxStrain),.5,1):1;
+        // With the bar rule of NtcK2FromCompressedBars a binary k₂ is already in the trace; otherwise k₂ is chosen only here.
+        bool barRule=NtcK2FromCompressedBars;
         details.RemoveAll(d=>d.Symbol=="Criterio k₂");
         details.Add(new("Criterio k₂",k2,"−","Trazione non uniforme: (εmax + εmin)/(2 εmax); uniforme: 1"));
-        details.Add(new("k₂ · interamente tesa",k2,"−","(εmax + εmin)/(2 εmax); trazione uniforme: 1","EC2 §7.3.4; sostituisce il criterio binario per questo ramo."));
+        details.Add(new("k₂ · interamente tesa",k2,"−","(εmax + εmin)/(2 εmax); trazione uniforme: 1",barRule?"EC2 §7.3.4; sostituisce il criterio binario per questo ramo.":"Sezione interamente tesa: EN 1992-1-1 7.3.4(3), eq. (7.13); Circolare 2019 [C4.1.9]."));
         // Opposite faces are independent; never add effective areas belonging to different directions.
         var faces=new List<(string Name,double X,double Y)>{("Faccia +x",1,0),("Faccia −x",-1,0),("Faccia +y",0,1),("Faccia −y",0,-1)};
         if(section.Shape=="Circolare")

@@ -22,6 +22,8 @@ public static class ReportWord
         if(module=="str_palo")throw new ArgumentException("Il report Word della sezione non è disponibile, come nel programma sorgente. Esportare i risultati JSON.");
         options??=Sezioni.Where(s=>!s.Key.StartsWith("grafico_")||s.Key=="grafico_nq").Select(s=>s.Key).ToHashSet();if(options.Count==0)throw new ArgumentException("Selezionare almeno un contenuto per il report.");
         bool micro=module=="geo_micropalo_verticale";var body=new XElement(W+"body");
+        // D7-d (d2): the report shows the sheet as the editor opens it (Calcolo.AggiornaFoglio on a copy), with the effective γb.
+        data=(JsonObject)data.DeepClone();Calcolo.AggiornaFoglio(data,micro);
         XElement P(string text,bool bold=false)=>new(W+"p",new XElement(W+"pPr",new XElement(W+"spacing",new XAttribute(W+"after",bold?160:80))),new XElement(W+"r",new XElement(W+"rPr",new XElement(W+"rFonts",new XAttribute(W+"ascii","Calibri"),new XAttribute(W+"hAnsi","Calibri")),new XElement(W+"sz",new XAttribute(W+"val",bold?25:19)),bold?new XElement(W+"b"):null),new XElement(W+"t",new XAttribute(XNamespace.Xml+"space","preserve"),text)));
         var selected=new List<ImmagineReport>();
         void Table(Tabella table,bool calculated=false)
@@ -59,7 +61,7 @@ public static class ReportWord
         if(options.Contains("coefficienti"))
         {
             var g=data["generali"]!;var (xi3,xi4)=Calcolo.Verticali[g.S("verticali_indagate","1")];
-            var coefficients=J.Obj(("ξ3",xi3),("ξ4",xi4),("γs,c",g.D("sicurezza_laterale_compressione",1.15)),("γs,t",g.D("sicurezza_laterale_trazione",1.25)),("γb",g.D("sicurezza_base",1.35)),("γG sfavorevole",g.D("peso_palo_sfavorevole",1.3)),("γG favorevole",g.D("peso_palo_favorevole",1)));
+            var coefficients=J.Obj(("ξ3",xi3),("ξ4",xi4),("γs,c",g.D("sicurezza_laterale_compressione",1.15)),("γs,t",g.D("sicurezza_laterale_trazione",1.25)),("γb",Calcolo.SicurezzaBase(data,micro)),("γG sfavorevole",g.D("peso_palo_sfavorevole",1.3)),("γG favorevole",g.D("peso_palo_favorevole",1)));
             if(micro&&!g.B("considera_punta"))coefficients.Remove("γb");
             Table(Tabelle.Parametri("Coefficienti applicati",coefficients,"coefficienti"));
         }

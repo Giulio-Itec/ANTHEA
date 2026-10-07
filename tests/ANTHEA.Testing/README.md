@@ -16,6 +16,7 @@ Dalla radice del repository, dopo `dotnet build tests\ANTHEA.Testing\ANTHEA.Test
 dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll capture <uscita> [--tag B0] [--commit <sha>] [--only <regex modulo/caso>] [--no-trace]
 dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll compare <a> <b> [--report confronto.json] [--tolerances <file>] [--max 40]
 dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll normalize <ingresso> <uscita>
+dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll compare-dense <riferimento> <candidato> --confronto <nome> [--classificazione <file>] [--report confronto.json] [--max 40]
 ```
 
 - `capture` scrive in una cartella nuova o vuota. Esce con 0 anche quando un caso lancia
@@ -27,7 +28,13 @@ dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll normalize <ing
   paragrafo e cella, JSON in forma canonica, testi normalizzati, PNG e BMP ridotti alle
   dimensioni.
 
-Nel runner: `build\ci.ps1 -Profile baseline` (standard più cattura) e, con
+- `compare-dense` (F2.1) confronta le catture dense di `supporto/test/CheckerMigration.Capture`
+  con un riferimento: un'altra cattura densa o le fixture del legacy congelate nelle librerie.
+  Esce con 0 solo se ogni differenza è ammessa dalle tolleranze o classificata in
+  `f2-classificazione.json` e ogni differenza attesa è trovata con i conteggi dichiarati; 1
+  altrimenti; 2 per argomenti errati. Vedi la sezione "Confronto delle catture dense".
+
+Nel runner: `build\ci.ps1 -Profile baseline` (standard più cattura e banco del c.a.) e, con
 `-BaselineRef <cartella>`, anche il confronto con una cattura di riferimento.
 
 ## Contenuto di una cattura
@@ -84,6 +91,42 @@ Classi delle differenze: `file-aggiunto`, `file-rimosso`, `chiave-aggiunta`,
 `chiave-rimossa`, `elemento-aggiunto`, `elemento-rimosso`, `riga-aggiunta`, `riga-rimossa`,
 `tipo`, `valore`, `testo`, `numero` (non ammesse); `numero-entro-tolleranza`,
 `arrotondamento`, `volatile` (ammesse e riportate).
+
+## Confronto delle catture dense
+
+`f2-classificazione.json`, versionato, descrive i confronti per nome (`--confronto`):
+
+| Confronto | Riferimento | Tolleranze | Uso |
+| --- | --- | --- | --- |
+| `fixture-checker` | `Checker/GPCChecker.Test.Concrete/Fixtures` (ricatturate il 7/10/2026 da `F2-pre-m4-v2/a/tutte`, SHA-256 a fine riga LF fissati nel file; nessuna differenza attesa) | regole `fixture-checker/` di `tolerances.json`, allineate ai MigrationTests | suite `baseline/banco-ca` |
+| `b0` | `supporto/artefatti/baseline/F0-B0/dense/<modalità>` | esatte (`denso/`) | misura F2.1 rispetto a B0 |
+| `pre-m4` | `supporto/artefatti/baseline/F2-pre-m4-v2/a/<modalità>` (nessuna differenza attesa) | esatte (`denso/`) | doppia corsa e passi F2.5-F2.9 (`-DenseRef`) |
+
+Regole del confronto:
+
+- si confrontano i file della modalità (o quelli dichiarati dal confronto); `capture-manifest.json`
+  è escluso;
+- si escludono le righe che iniziano con `#` e le righe JSONL `{"header":…}` (commit e SHA-256
+  di `ANTHEA.Calculations.dll`);
+- gli identificativi casuali dichiarati (GUID degli archivi del Model, id delle azioni dei muri
+  in versione 1) diventano `<GUID-n>` e `<ID-n>` nell'ordine di comparsa nel file;
+- CSV per cella (`;`), con l'intestazione confrontata esattamente; JSONL per valore JSON; altri
+  file per riga;
+- i numeri dentro celle e stringhe si leggono nel formato invariante e si confrontano con la
+  grandezza della regola che corrisponde a `<prefisso>/<file>:<campo>`; il resto del testo deve
+  essere identico. Nessuna tolleranza di stampa: i valori sono scritti con `R`;
+- campo: nome della colonna (o `c<i>` per i CSV senza intestazione né colonne dichiarate),
+  percorso JSON (`$.result.avvisi[3]`) o `testo`.
+
+Classi ammesse: `identificativo-casuale` (conteggiato per riga), `numero-entro-tolleranza`. Classi
+da classificare: `file-aggiunto`, `file-rimosso`, `riga-aggiunta`, `riga-rimossa`,
+`intestazione`, `struttura`, `testo`, `numero`, `tipo`, `valore`, `chiave-aggiunta`,
+`chiave-rimossa`, `elemento-aggiunto`, `elemento-rimosso`. Una differenza attesa ha id,
+categoria (`convenzione`, `intenzionale`, `difetto-legacy`, `rumore-numerico`), motivo ed
+espressioni regolari su file, righe (chiave della riga), campo, classe e valori `a` e `b`;
+`righe_attese` e `differenze_attese` la rendono esatta. Una differenza attesa di un file non
+confrontato (un'altra modalità) non è applicabile. Un riferimento con SHA-256 diverso da quello
+dichiarato è un errore.
 
 ## Registro dei ripieghi
 

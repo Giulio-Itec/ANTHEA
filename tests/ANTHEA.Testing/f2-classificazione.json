@@ -1,0 +1,141 @@
+{
+  "schema": 1,
+  "nota": "Banco di confronto della migrazione del c.a. (docs/refactoring/f2.1-banco.md). Ogni confronto dichiara i file, gli identificativi casuali sostituiti prima del confronto, il prefisso delle regole di tests/ANTHEA.Testing/tolerances.json e le differenze attese. 'ANTHEA.Testing compare-dense <riferimento> <candidato> --confronto <nome>' esce con 0 solo se ogni differenza non ammessa dalle tolleranze corrisponde a una differenza attesa e ogni differenza attesa è trovata con i conteggi dichiarati. Campi delle differenze attese: espressioni regolari su file, righe (chiave della riga: colonna 'id' o 'chiave' del file, 'name' delle righe JSONL, altrimenti il numero della riga di dati), campo (colonna CSV, percorso JSON, 'testo'), classe, a (riferimento) e b (candidato); righe_attese e differenze_attese facoltativi.",
+  "categorie": {
+    "convenzione": "il codice segue alla lettera un testo normativo diverso da quello del riferimento, o cambia solo una convenzione di formato",
+    "intenzionale": "modifica voluta del legacy o della libreria, dichiarata in un commit, nel registro delle differenze o nei test",
+    "difetto-legacy": "comportamento non voluto del codice esistente, corretto o da correggere",
+    "rumore-numerico": "differenza oltre la tolleranza dovuta all'aritmetica in virgola mobile, senza effetto sugli esiti"
+  },
+  "confronti": {
+    "fixture-checker": {
+      "descrizione": "Cattura densa (CheckerMigration.Capture, modalità tutte) contro le fixture c.a. di Checker/GPCChecker.Test.Concrete/Fixtures, ricatturate il 7/10/2026 dalla cattura supporto/artefatti/baseline/F2-pre-m4-v2/a/tutte (ANTHEA refactoring/integrazione-d7b-d2 d2d3225; Checker develop 06d97733, decisione B dell'utente). Le fixture del 1/10/2026 (ANTHEA fe4652c, ultimo commit ddfe7edf) e le loro classificazioni FC-1…FC-14 restano nella storia di git. Tolleranze allineate ai MigrationTests di Checker (regole 'fixture-checker/' di tolerances.json); ingressi e testi esatti; nessuna differenza attesa.",
+      "prefisso_tolleranze": "fixture-checker",
+      "file": [
+        { "nome": "shear-legacy.csv", "chiave": "id", "sha256": "CDFE0CD5C89AD9A44B9699D5A5F5C9F410A0E9462C83BDEE1A454AD0484302CB", "righe_dati": 2016, "test": "Checker/GPCChecker.Test.Concrete/ShearMigrationTests.cs:41-84" },
+        { "nome": "stress-legacy.csv", "chiave": "id", "sha256": "04EF3EA3F2B6CA22B489F5BE759C73DE550CD546F67724DDE8B90263FEC5A88B", "righe_dati": 2016, "test": "Checker/GPCChecker.Test.Concrete/ServiceabilityMigrationTests.cs:50-101" },
+        { "nome": "stress-sections.xml", "sha256": "FB89CAC19E7C28BDAB7053CC60EED4EA606A5AD3D1B8578AEA3F7E10583EA13C", "righe_dati": 3785, "test": "Checker/GPCChecker.Test.Concrete/ServiceabilityMigrationTests.cs:55" },
+        { "nome": "torsion-legacy.csv", "chiave": "id", "sha256": "1A4A5BBF1A3EBCF65056DC7F40D2726B5D1B0CB51301276BB2A0F04E4D93CAB9", "righe_dati": 986, "test": "Checker/GPCChecker.Test.Concrete/TorsionMigrationTests.cs:29-69" },
+        { "nome": "torsion-geometry-legacy.csv", "chiave": "id", "sha256": "7F5258AD251B5FD78FC0C7D85984927F890DF577884D9167109DE9CA7A27D372", "righe_dati": 10, "test": "Checker/GPCChecker.Test.Concrete/TorsionMigrationTests.cs:71-93" },
+        { "nome": "crack-legacy.csv", "chiave": "id", "sha256": "AD2D86F2F00531AB41FA05EFFCE919ECD0DFDD0DACBCB48F247BC3064BAD7DD1", "righe_dati": 936, "test": "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs:77-174" },
+        { "nome": "crack-scalar-legacy.csv", "intestazione": false, "chiave": "c0", "sha256": "916ADEA621B72D07BD63B3D335BCF8E1192DC95F1A03C52E4CDE550797C66A14", "righe_dati": 2996, "test": "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs:506-534" },
+        { "nome": "crack-sections.xml", "sha256": "E1220CD5686C11C82E067DEB0F9ADFB723639C9BB9FB9162EAA88D45937FAF27", "righe_dati": 6863, "test": "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs:82" },
+        { "nome": "anchorage-legacy.csv", "intestazione": false, "colonne": "id;diameter;stress;fctk05;gammaC;goodBond;available;lap;percent;clear;outcome;fbd;basic;required;passed;eta1;eta2;alpha6;maxClear;lengthPassed;clearPassed", "chiave": "id", "sha256": "5B4354B1625B66008EF24BB039E39DD279C3CD23D54EAB3650A4078ACC04E806", "righe_dati": 468, "test": "Checker/GPCChecker.Test.Concrete/DetailingMigrationTests.cs:41-66" },
+        { "nome": "detailing-legacy.csv", "chiave": "id", "sha256": "D357420A2951E59BC40FB956A0D1634FAD78F7951F5FEFDF4FB38ED0171CB551", "righe_dati": 144, "test": "Checker/GPCChecker.Test.Concrete/DetailingMigrationTests.cs:108-134" },
+        { "nome": "detailing-sections.xml", "sha256": "AD4AFA306E4CA3E5F54E11C83203FCE5E34C6F3E50D3E2B2445E3A90A723BA43", "righe_dati": 4425, "test": "Checker/GPCChecker.Test.Concrete/DetailingMigrationTests.cs:36-39" },
+        { "nome": "curvature-legacy.csv", "chiave": "id", "sha256": "192964B0B516D8D74A9ADDD0EFC159EDD164F6478B28F99BABEEAF6280A16404", "righe_dati": 5, "test": "Checker/GPCChecker.Test.Concrete/DetailingMigrationTests.cs:224-266" },
+        { "nome": "durability-legacy.csv", "intestazione": false, "sha256": "3335DAF4668B6A1FA82374046850AB61296B05E6B16B27075E3AEF5B8CD64FF0", "righe_dati": 3048, "test": "Checker/GPCChecker.Test.Concrete/DurabilityMigrationTests.cs:24-70" }
+      ],
+      "identificativi_casuali": [
+        { "file": "-sections\\.xml$", "forma": "guid", "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" }
+      ],
+      "differenze_attese": []
+    },
+    "b0": {
+      "descrizione": "Cattura densa pre-M4 contro la baseline B0 (supporto/artefatti/baseline/F0-B0/dense, commit dello strumento 2cd73c1, 6/10/2026), una modalità per volta (tutte, muri, pali, mesh). Confronto esatto.",
+      "prefisso_tolleranze": "denso",
+      "identificativi_casuali": [
+        { "file": "-sections\\.xml$", "forma": "guid", "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" },
+        { "file": "^walls-(combinations|documents)\\.jsonl", "forma": "hex32", "motivo": "id delle azioni creati da RetainingWall.Upgrade per i documenti dei muri in versione 1 (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" }
+      ],
+      "differenze_attese": [
+        {
+          "id": "B0-1", "categoria": "intenzionale",
+          "file": "^walls-documents\\.jsonl", "classe": "^numero$",
+          "campo": "^\\$\\.result\\.(combinazioni\\[\\d+\\]\\.(SeismicBearing\\.(Ratio|SoilInertia|VerticalLimit|Capacity|Interaction)|BearingResistance)|verifiche_geotecniche\\[\\d+\\]\\.(Resistance|Ratio))$",
+          "righe_attese": 15, "differenze_attese": 330,
+          "motivo": "D7-c: portanza sismica dei muri secondo EN 1998-5 (F.7), senza γRd sull'inerzia del terreno F̄. 15 documenti, 46 combinazioni (6 valori ciascuna) e 27 verifiche geotecniche (resistenza e rapporto). η(B0)/η(nuovo) − 1: da +1,70 a +6,96 %, media +3,83 % sulle 30 combinazioni con η ≤ 1,5; fino a +40,46 % fuori campo.",
+          "commit": "ANTHEA d2cf2f7 (7/10/2026)", "registro": "D7-c",
+          "codice": ["X.Calculations/RetainingWall.Library.cs:23", "X.Calculations/RetainingWall.Library.cs:136-138"]
+        },
+        {
+          "id": "B0-2", "categoria": "intenzionale",
+          "file": "^walls-documents\\.jsonl", "classe": "^testo$", "campo": "\\.Status$",
+          "a": "^Non soddisfatta$", "b": "^Soddisfatta$",
+          "righe_attese": 3, "differenze_attese": 4,
+          "motivo": "D7-c: 3 combinazioni passano a soddisfatte (documenti 'sisma da sito categoria C', 'sisma da sito categoria D', 'globale sismica da sito'; η 1,030 → 0,986, 1,067 → 0,998, 1,030 → 0,986) e con loro una verifica geotecnica; nessun esito peggiora.",
+          "commit": "ANTHEA d2cf2f7 (7/10/2026)", "registro": "D7-c",
+          "codice": ["X.Calculations/RetainingWall.Library.cs:23"]
+        },
+        {
+          "id": "B0-3", "categoria": "intenzionale",
+          "file": "^piles-vertical\\.jsonl$", "classe": "^elemento-aggiunto$", "campo": "^\\$\\.result\\.avvisi\\[3\\]$",
+          "b": "^\"γb = 1,35 diverso dal valore della NTC 2018 Tab\\. 6\\.4\\.II per la tecnologia del palo \\((1,15|1,30)\\): il calcolo usa il valore del foglio\\.\"$",
+          "righe_attese": 6, "differenze_attese": 6,
+          "motivo": "D7-d: avviso quando il γb del foglio (1,35) differisce da quello della Tab. 6.4.II per la tecnologia (5 pali battuti 1,15, 1 elica continua 1,30). Nessun numero cambia.",
+          "commit": "ANTHEA 7c96c04, e05a05b (7/10/2026)", "registro": "D7-d",
+          "codice": ["X.Calculations/Calcolo.cs:274"]
+        },
+        {
+          "id": "B0-4", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(796)$", "campo": "^(width|ratio|regions)$",
+          "righe_attese": 1, "differenze_attese": 3,
+          "motivo": "D7-b: k₂ = 0,50 con l'asse neutro interno alla sezione per ogni normativa (Circolare 2019 C4.1.2.2.4.5; EN 1992-1-1 7.3.4(3)). Unico stato numerico cambiato: R400x400, NTC 2018, SLE frequente, N = +400 kN, M1 = 20 kNm, M2 = 15 kNm (tensoflessione deviata, nessuna barra compressa), k₂ da 1,00 a 0,50: wk 0,60779 → 0,35952 mm (−40,85 %), rapporto e larghezza della regione efficace; wlim 0,3 mm, esito invariato (non soddisfatta).",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:37", "X.Calculations/Ntc2018Checks.cs:114-127"]
+        },
+        {
+          "id": "B0-5", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(796)$", "campo": "^details$",
+          "a": "^Criterio k₂=1\\|", "b": "^Criterio k₂=0\\.5\\|",
+          "righe_attese": 1, "differenze_attese": 1,
+          "motivo": "D7-b: stesso stato della voce precedente; nella traccia il Criterio k₂ passa da 1 a 0,5 e cambiano i valori derivati (sr,max, wk).",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:37", "X.Calculations/Ntc2018Checks.cs:114-127"]
+        },
+        {
+          "id": "B0-6", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(30|32|35|42|44|47|48|50|51|54|62|63|66|68|70|73|74|76|77|80|88|89|90|91|92|94|95|96|97|100|101|106|112|113|116|118|119|125|130|131|136|140|141|144|145|152|153|155|185|187|188|193|197|199|200|205|206|212|217|218|221|223|226|227|229|242|243|244|245|249|251|252|255|257|270|275|276|281|287|288|295|296|297|304|305|307|308|309|312|344|347|350|356|359|364|365|367|370|374|376|377|385|387|388|389|394|400|402|403|405|406|407|409|416|428|429|432|435|444|446|447|452|464|502|509|512|515|520|521|524|529|532|538|539|541|542|543|547|554|556|557|559|560|561|562|563|567|570|573|578|582|584|590|597|602|603|607|608|609|619|620|622|623|656|659|666|668|671|672|677|678|686|689|690|692|695|697|700|701|711|712|713|715|718|719|721|724|725|734|736|737|743|746|754|755|758|760|763|767|773|776|779|810|812|818|822|824|825|828|831|833|837|840|842|843|845|848|849|850|853|854|856|857|860|861|867|868|870|871|872|875|876|877|881|883|886|889|890|893|895|898|899|901|905|910|911|913|924|934|935)$", "campo": "^details$",
+          "a": "^Criterio k₂=(0\\.5|1)\\|Criterio k₂=0\\.5(\\||$)", "b": "^Criterio k₂=0\\.5(\\||$)",
+          "righe_attese": 250, "differenze_attese": 250,
+          "motivo": "D7-b: normative diverse da NTC 2018 con l'asse neutro interno alla sezione. k₂ valeva già 0,50; la traccia scriveva prima un Criterio k₂ dalle barre e poi quello della flessione, ora uno solo, dove k₂ si decide. Numeri ed esiti invariati.",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:89-110", "X.Calculations/Ntc2018Checks.cs:116-127"]
+        },
+        {
+          "id": "B0-7", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(10|36|56|78|79|143|156|166|191|211|224|233|234|260|279|292|300|314|322|323|325|362|382|391|392|393|411|417|457|468|469|477|497|503|517|536|537|545|572|585|591|611|625|634|635|636|637|660|662|674|680|681|693|694|703|704|705|730|749|790|791|816|836|858|859|922|923)$", "campo": "^details$",
+          "a": "^Criterio k₂=(0\\.5|1)$", "b": "^$",
+          "righe_attese": 67, "differenze_attese": 67,
+          "motivo": "D7-b: sezione interamente compressa (εc,max ≤ 1e-12): wk = 0 come prima, ma k₂ non si sceglie più e la traccia non contiene alcun Criterio k₂ (prima scriveva 'Flessione: almeno una armatura compressa'). Numeri ed esiti invariati.",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:114"]
+        },
+        {
+          "id": "B0-8", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(638|639|706|707)$", "campo": "^(width|ratio|regions)$",
+          "righe_attese": 4, "differenze_attese": 6,
+          "motivo": "Difetto della fascia interna dei fori corretto il 7/10/2026: C1000H con la sola N = +300 kN, gradiente di rumore. L'anello interno è in trazione uniforme, k₂ = 1 invece di 1 − 5e-8: larghezza della regione dell'anello +2,8e-8 relativo in 4 stati; nello stato 706 l'anello governa (wk 0,0655429137 → 0,0655429147 mm, rapporto). Esiti invariati.",
+          "commit": "ANTHEA refactoring/integrazione-d7b-d2 d2d3225, fascia interna dei fori (7/10/2026)", "registro": "R15",
+          "codice": ["X.Calculations/ConcreteInnerCracking.cs:24-32", "X.Calculations/ConcreteInnerCracking.cs:50-66"]
+        },
+        {
+          "id": "B0-9", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(638|639|706|707)$", "campo": "^details$",
+          "righe_attese": 4, "differenze_attese": 4,
+          "motivo": "Stessi stati della voce precedente: nella traccia catturata cambiano Δsm adottata e wk dell'anello interno (k₂ della fascia = 1; «h − x della fascia» = 1000 mm non è fra le voci catturate).",
+          "commit": "ANTHEA refactoring/integrazione-d7b-d2 d2d3225, fascia interna dei fori (7/10/2026)", "registro": "R15",
+          "codice": ["X.Calculations/ConcreteInnerCracking.cs:50-66"]
+        },
+        {
+          "id": "B0-10", "categoria": "intenzionale",
+          "file": "^piles-vertical\\.jsonl$", "classe": "^chiave-aggiunta$", "campo": "^\\$\\.input\\.versione$",
+          "b": "^2$",
+          "righe_attese": 55, "differenze_attese": 55,
+          "motivo": "D7-d, opzione d2: i fogli nuovi del palo e del micropalo verticale nascono con la versione 2 (CalculationDefaults), il marcatore della migrazione una tantum di γb. Nella cattura cambia solo l'ingresso: risultati e avvisi invariati (B0-3 resta).",
+          "commit": "ANTHEA b8e07d8, ac81b74 (refactoring/d7d-d2-coefficienti-pali, 7/10/2026)", "registro": "D7-d",
+          "codice": ["X.Calculations/CalculationDefaults.cs:15", "X.Calculations/Calcolo.cs:57", "X.Calculations/Calcolo.cs:90-95"]
+        }
+      ]
+    },
+    "pre-m4": {
+      "descrizione": "Cattura densa contro la cattura pre-M4 v2 (supporto/artefatti/baseline/F2-pre-m4-v2/a, ANTHEA refactoring/integrazione-d7b-d2 d2d3225, 7/10/2026), una modalità per volta: doppia corsa e riferimento dei passi F2.5-F2.9. Confronto esatto, nessuna differenza attesa. La v2 differisce dalla cattura pre-M4 di F2.1 (F2-pre-m4/a, commit 75e4626) solo per D7-b, R15 e D7-d d2 (voci B0-4…B0-10 del confronto b0; docs/refactoring/f2.1-banco.md).",
+      "prefisso_tolleranze": "denso",
+      "identificativi_casuali": [
+        { "file": "-sections\\.xml$", "forma": "guid", "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" },
+        { "file": "^walls-(combinations|documents)\\.jsonl", "forma": "hex32", "motivo": "id delle azioni creati da RetainingWall.Upgrade per i documenti dei muri in versione 1 (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" }
+      ],
+      "differenze_attese": []
+    }
+  }
+}

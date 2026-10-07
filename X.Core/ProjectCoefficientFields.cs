@@ -18,8 +18,8 @@ public static partial class ProjectSharedData
     private static bool CompatibleCoefficient(string key, JsonObject first, JsonObject second)
     {
         if (CalculationCoefficients.Label(key) is null) return true;
-        string a = CalculationCoefficients.Standard(first.S("modulo_id"), first["dati"] as JsonObject ?? new());
-        string b = CalculationCoefficients.Standard(second.S("modulo_id"), second["dati"] as JsonObject ?? new());
+        string a = CalculationCoefficients.Scope(first.S("modulo_id"), first["dati"] as JsonObject ?? new(), key);
+        string b = CalculationCoefficients.Scope(second.S("modulo_id"), second["dati"] as JsonObject ?? new(), key);
         return a == b || key == "gamma_s" && (a == "Assegnato" || b == "Assegnato");
     }
     private static void PrepareCoefficientTarget(JsonObject source, JsonObject target, HashSet<string> groups, HashSet<string>? keys)
