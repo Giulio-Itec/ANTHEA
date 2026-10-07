@@ -366,8 +366,8 @@ internal static class CrackK2Checks
 
         // (j) Hollow sections in nearly uniform tension (defect found in the D7-b review, already in 733a77c): the tensile depth h − x of an
         // inner band was εmax/|∇ε| also with a numerical-noise gradient (≈ 1e-12 1/mm), giving h − x ≈ 1e11 mm and wk ≈ 1e9 mm with sparse bars
-        // (EN 1992-1-1 7.3.4(3), eq. (7.14)). Now h − x ≤ h of the section along the gradient (x ≥ 0, as for the outer faces of a fully tensioned
-        // section) and, with a gradient negligible against the strain, uniform tension: k₂ = 1 and h − x = h of the section normal to the face.
+        // (EN 1992-1-1 7.3.4(3), eq. (7.14)). Now, in a fully tensioned section, h − x ≤ h of the section normal to the face (x = 0, as for the outer
+        // faces) and, with a gradient negligible against the strain, uniform tension: k₂ = 1 and h − x = the same h.
         {
             var box = (JsonObject)input.DeepClone(); box["width_mm"] = "1000"; box["height_mm"] = "1000"; box["foro_presente"] = true; box["inner_width_mm"] = "600"; box["inner_height_mm"] = "600";
             var boxBars = new List<(double X, double Y, double Phi)>();
@@ -409,12 +409,13 @@ internal static class CrackK2Checks
                     }
                     else
                     {
-                        // Eccentric tension, neutral axis outside the section: εmax/|∇ε| > h along the gradient (≈ y, h ≈ 1000 mm), so x = 0.
+                        // Eccentric tension, neutral axis outside the section: εmax/|∇ε| > h, so x = 0 and h − x = h of the section normal to the
+                        // face of the band (1000 mm), as for the outer faces of the fully tensioned section.
                         double[] along = engine.Geometry.Outline.Select(p => (plane.ChiX * p[0] + plane.ChiY * p[1]) / gradient).ToArray();
                         double h = along.Max() - along.Min();
                         Console.WriteLine($"    {band}: χx = {plane.ChiX:E3}, χy = {plane.ChiY:E3}, h lungo il gradiente = {h:R} mm, h − x della fascia = {depth.Value:R} mm, k₂ della fascia = {bandK2.Value:R}");
-                        Assert(Math.Abs(h - 1000) < 1e-4 && strains.Max() / gradient > h && Math.Abs(depth.Value!.Value - h) <= 1e-12 * h && depth.Expression == "min[εmax/|∇ε|; h lungo il gradiente]"
-                            && bandK2.Value is > .5 and < 1, $"{label}, {band}: h − x = min(εmax/|∇ε| = {strains.Max() / gradient:0} mm; {h:0.###} mm), k₂ della fascia dalle deformazioni");
+                        Assert(Math.Abs(h - 1000) < 1e-4 && strains.Max() / gradient > h && depth.Value == 1000 && depth.Expression == "min[εmax/|∇ε|; h della sezione normale alla faccia]"
+                            && bandK2.Value is > .5 and < 1, $"{label}, {band}: h − x = min(εmax/|∇ε| = {strains.Max() / gradient:0} mm; 1000 mm), k₂ della fascia dalle deformazioni");
                     }
                     if (code == "NTC 2018")
                     {
@@ -426,6 +427,89 @@ internal static class CrackK2Checks
                         Assert(B("h − x (formula)") == depth.Value && Math.Abs(B("wk") - 1.7 * distance * strain) <= 1e-12 * B("wk"), $"{label}, {band}: wk = {B("wk"):0.0000} mm come il calcolo a mano con h − x = {depth.Value:0.###} mm");
                     }
                 }
+            }
+        }
+
+        // (k) Continuity of h − x of the inner bands in a non-square box (review of the integration D7-b/d2): box 1000 × 1400, hole 600 × 1000,
+        // N = 1500 kN with a moment about x or y whose eccentricity crosses the uniform-tension threshold (|∇ε| h = 1e-4 εmax), interaxis 300 mm
+        // > 5 (c + Ø/2) so that h − x enters wk (NTC Δsm,distante, EN sr,max = 1,3 (h − x)). Fully tensioned section: h − x of the band =
+        // min[εmax/|∇ε|; h of the section normal to the face] (1000 mm for ±x, 1400 mm for ±y), the h of the outer faces and of uniform tension,
+        // so h − x does not jump at the threshold (before: h along the gradient, 1400 mm for the ±x bands with a moment about x) and wk changes
+        // only with σs and k₂ (k₂ ≥ 1 − 1e-4/2 above the threshold, 1 below). Neutral axis inside the section: h − x of the band stays εmax/|∇ε|
+        // from the neutral axis, without the bound and without the entry; the regime changes where the neutral axis enters the section, as for
+        // the outer faces (fully tensioned faces with h normal to the face ↔ bending).
+        {
+            var box = (JsonObject)input.DeepClone(); box["width_mm"] = "1000"; box["height_mm"] = "1400"; box["foro_presente"] = true; box["inner_width_mm"] = "600"; box["inner_height_mm"] = "1000";
+            var boxBars = new List<(double X, double Y, double Phi)>();
+            foreach (var x in new[] { -400d, -200, 0, 200, 400 }) { boxBars.Add((x, -640, 20)); boxBars.Add((x, 640, 20)); }
+            foreach (var x in new[] { -250d, 0, 250 }) { boxBars.Add((x, -540, 12)); boxBars.Add((x, 540, 12)); }
+            foreach (var y in new[] { -400d, -200, 0, 200, 400 }) { boxBars.Add((-440, y, 16)); boxBars.Add((440, y, 16)); boxBars.Add((-340, y, 12)); boxBars.Add((340, y, 12)); }
+            box["barre_manuali"] = Bars(boxBars.ToArray());
+            var options = (JsonObject)sle.DeepClone(); options["spaziatura_fessure"] = "300";
+            string[] bands = ["Parete interna +x", "Parete interna −x", "Parete interna +y", "Parete interna −y"];
+            double FaceHeight(string band) => band.EndsWith("x") ? 1000 : 1400;
+            (Ntc2018Checks.CrackResult R, CheckerStressState S, CheckerSection E) Run(string code, double mx, double my)
+            {
+                var w = (JsonObject)settings.DeepClone(); w["normativa"] = code;
+                var engine = new CheckerSection(box, w, options); var action = new ActionPoint(1500, mx, my); var state = engine.Stress(action, "SLE_QP");
+                return (Ntc2018Checks.Cracking(engine, state, action, box, w, options, "SLE_QP"), state, engine);
+            }
+            double Gradient(CheckerStressState state) => double.Hypot(state.Native.StrainPlane.ChiX, state.Native.StrainPlane.ChiY);
+            double[] Strains((Ntc2018Checks.CrackResult R, CheckerStressState S, CheckerSection E) run) => run.E.Geometry.Outline.Select(p => run.S.Native.StrainPlane.GetStrain(p[0], p[1])).ToArray();
+            double Ratio((Ntc2018Checks.CrackResult R, CheckerStressState S, CheckerSection E) run)
+            {
+                var plane = run.S.Native.StrainPlane; double gradient = Gradient(run.S);
+                double[] along = run.E.Geometry.Outline.Select(p => (plane.ChiX * p[0] + plane.ChiY * p[1]) / gradient).ToArray();
+                return gradient * (along.Max() - along.Min()) / Strains(run).Max();
+            }
+            CrackCalculationDetail? Entry(Ntc2018Checks.CrackResult r, string band, string symbol) => r.Details.SingleOrDefault(d => d.Symbol == band + " · " + symbol);
+            foreach (var code in new[] { "NTC 2018", "EN 1992-1-1" })
+                foreach (var (axis, mx, my) in new[] { ("x", 1d, 0d), ("y", 0d, 1d) })
+                {
+                    // Calibration with 10 kNm (linear in M for the cracked section in tension), then 0,5 and 2 times the threshold.
+                    double r0 = Ratio(Run(code, sign * 10 * mx, sign * 10 * my));
+                    double mBelow = 10 * .5e-4 / r0, mAbove = 10 * 2e-4 / r0;
+                    var below = Run(code, sign * mBelow * mx, sign * mBelow * my); var above = Run(code, sign * mAbove * mx, sign * mAbove * my);
+                    string label = $"(k) cassone 1000×1400 {code}, M intorno a {axis}";
+                    Console.WriteLine($"{label}: M = {mBelow:G4} / {mAbove:G4} kNm, |∇ε|·h/εmax = {Ratio(below):E3} / {Ratio(above):E3}, wk = {below.R.Width:G8} / {above.R.Width:G8} mm");
+                    Assert(Strains(below).Min() > 0 && Strains(above).Min() > 0 && Ratio(below) < 1e-4 && Ratio(above) > 1e-4 && Ratio(above) < 4e-4,
+                        $"{label}: sezione interamente tesa, eccentricità a cavallo della soglia ({Ratio(below):E3}, {Ratio(above):E3})");
+                    foreach (var band in bands)
+                    {
+                        var d0 = Entry(below.R, band, "h − x della fascia"); var d1 = Entry(above.R, band, "h − x della fascia");
+                        var k0 = Entry(below.R, band, "k₂ della fascia"); var k1 = Entry(above.R, band, "k₂ della fascia");
+                        double w0 = Entry(below.R, band, "wk")!.Value!.Value, w1 = Entry(above.R, band, "wk")!.Value!.Value;
+                        Console.WriteLine($"    {band}: h − x = {d0?.Value:G8} / {d1?.Value:G8} mm, k₂ = {k0?.Value:R} / {k1?.Value:R}, wk = {w0:G8} / {w1:G8} mm");
+                        Assert(d0 != null && d0.Value == FaceHeight(band) && d0.Expression == "Trazione uniforme: h della sezione normale alla faccia" && k0!.Value == 1,
+                            $"{label}, {band}: sotto la soglia trazione uniforme, h − x = {FaceHeight(band)} mm, k₂ = 1");
+                        Assert(d1 != null && d1.Value == FaceHeight(band) && d1.Expression == "min[εmax/|∇ε|; h della sezione normale alla faccia]" && k1!.Value is > 1 - 2e-4 and < 1,
+                            $"{label}, {band}: sopra la soglia h − x = min(εmax/|∇ε|; {FaceHeight(band)} mm) = {d1?.Value} mm, stesso valore della trazione uniforme");
+                        Assert(Math.Abs(w1 - w0) <= 1e-3 * w0, $"{label}, {band}: wk continuo attraverso la soglia ({w0:G8} / {w1:G8} mm)");
+                        Assert(code == "NTC 2018" ? Entry(above.R, band, "h − x (formula)")!.Value == d1.Value
+                            : Math.Abs(Entry(above.R, band, "sr,max")!.Value!.Value - 1.3 * d1.Value!.Value) <= 1e-9 * d1.Value.Value, $"{label}, {band}: la formula usa h − x della fascia");
+                    }
+                    Assert(Math.Abs(above.R.Width!.Value - below.R.Width!.Value) <= 1e-3 * below.R.Width.Value, $"{label}: wk della sezione continuo attraverso la soglia");
+                }
+            // Moment about x growing until the neutral axis enters the section (NTC): last fully tensioned state and first bent one.
+            (Ntc2018Checks.CrackResult R, CheckerStressState S, CheckerSection E)? last = null, first = null; double mLast = 0, mFirst = 0;
+            for (double m = 25; m <= 3000 && first == null; m += 25)
+            {
+                var run = Run("NTC 2018", sign * m, 0);
+                if (Strains(run).Min() >= 0) { last = run; mLast = m; } else { first = run; mFirst = m; }
+            }
+            Assert(last != null && first != null && Bending(first.Value.R), "(k) cassone 1000×1400: l'asse neutro entra nella sezione al crescere di M");
+            foreach (var band in new[] { "Parete interna +x", "Parete interna −x" })
+            {
+                var outside = Entry(last!.Value.R, band, "h − x della fascia");
+                Assert(outside != null && outside.Value == 1000 && outside.Expression == "min[εmax/|∇ε|; h della sezione normale alla faccia]",
+                    $"(k) M = {mLast} kNm, asse neutro fuori, {band}: h − x = 1000 mm");
+                // Neutral axis inside: εmax/|∇ε| at the corners of the band (hole face x = ±300, y = ±500, depth hc,eff), beyond 1000 mm and not bounded.
+                var bent = first!.Value; var plane = bent.S.Native.StrainPlane; double q = band.EndsWith("+x") ? 1 : -1, hc = Entry(bent.R, band, "hc,eff")!.Value!.Value;
+                double hand = new[] { 300, 300 + hc }.SelectMany(x => new[] { -500d, 500 }.Select(y => plane.GetStrain(q * x, y))).Max() / Gradient(bent.S);
+                double used = Entry(bent.R, band, "h − x (formula)")!.Value!.Value;
+                Console.WriteLine($"(k) M = {mLast} → {mFirst} kNm, {band}: h − x = {outside?.Value} mm (interamente tesa) → {used:G8} mm (asse neutro interno, εmax/|∇ε| = {hand:G8} mm)");
+                Assert(Entry(bent.R, band, "h − x della fascia") == null && Math.Abs(used - hand) <= 1e-9 * hand && hand > 1000,
+                    $"(k) M = {mFirst} kNm, asse neutro interno, {band}: h − x = εmax/|∇ε| = {hand:0.#} mm senza limite né voce");
             }
         }
         Console.WriteLine($"k2 D7-b: {passed} controlli superati."); return passed;

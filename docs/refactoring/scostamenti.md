@@ -643,6 +643,9 @@ sicurezza, da decidere con priorità:
 
 R15 (7/10/2026, corretto): nelle fasce interne dei fori h − x era εmax/|∇ε| anche con il gradiente
 di rumore della trazione quasi uniforme (h − x ≈ 1e12 mm, wk ≈ 1e9 mm con barre distanziate).
-Ora h − x ≤ h della sezione lungo il gradiente (x ≥ 0) e, con |∇ε| h ≤ 1e-4 εmax, trazione
-uniforme: k2 = 1 e h − x = h della sezione normale alla faccia. Nessun effetto con l'asse neutro
-interno; nel banco c.a. cambiano 4 stati C1000H in sola trazione (+2,8e-8 relativo, esiti invariati).
+Ora, con la sezione interamente tesa (x = 0), h − x ≤ h della sezione normale alla faccia della
+fascia (diametro per l'anello), come per le facce esterne e, con |∇ε| h ≤ 1e-4 εmax, trazione
+uniforme: k2 = 1 e h − x = la stessa h, senza salto alla soglia anche nelle sezioni non quadrate
+(la prima versione limitava all'altezza lungo il gradiente: cassone 400×600, fasce ±x da 600 a
+400 mm alla soglia). Nessun effetto con l'asse neutro interno; nel banco c.a. cambiano 4 stati
+C1000H in sola trazione (+2,8e-8 relativo, esiti invariati), nessuno per la regola continua.
