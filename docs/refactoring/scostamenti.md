@@ -489,7 +489,11 @@ resistenza sotto il minimo. La composizione cambia in tutte le combinazioni tran
 dove XF1 governa l'A/C.
 
 - e4: allineare classe minima e composizione al prospetto 6 della 2025, in F2.9 insieme alla
-  libreria (due commit, ricattura delle righe MIX di `durability-legacy.csv`);
+  libreria (due commit). Ricattura di `durability-legacy.csv`: 22 righe MIX con cemento (per XF1 e
+  XF1+XF3 anche la classe minima, per XF1 l'A/C) e 36 righe NTC di XF1 e XF1+XF3 con Cmin pertinente
+  da `MinimumConcrete.Required`, da 32 a 30, di cui 4 con fck 30 senza la maggiorazione di 5 mm. Gli
+  attesi di A/C e cemento di `supporto/test/Materiali/MaterialViewChecks.cs:78` si ritrascrivono dal
+  prospetto 6;
 - e5: tenere i valori della 2016 come scelta cautelativa dichiarata (stato attuale, già scritto
   nelle citazioni).
 
@@ -524,6 +528,12 @@ Stesso aggiornamento per `GPCChecker.Concrete/README.md:163-164` e `:176`,
 `docs/migrazione-anthea/MIGRAZIONE_ANTHEA.txt:74` e `:260-261`,
 `GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122` («UNI 11104 (ANTHEA) C30/37» →
 «UNI 11104:2016 e 2025 C30/37»). Nessun test controlla il testo di `:107`.
+
+La pagina dei metodi `docs/metodi/ca.durabilita-copriferri.md` (entrata in develop con il merge
+1fbaea61, dopo questo riscontro) dà ancora la 2025 come estratto da riscontrare e uguale al codice:
+da aggiornare `:66`,
+`:85`, la tabella `:165-171`, il testo `:173-176` («Per a/c e cemento le fonti non mostrano differenze
+fra le edizioni», smentito dal prospetto 6), il riquadro C-1 `:178-189` e `:348-352`.
 
 ### Riquadro Wiki
 

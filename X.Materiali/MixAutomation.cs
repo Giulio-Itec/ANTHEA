@@ -44,7 +44,7 @@ public sealed partial class MaterialView
         compositionValues["chloride"].Text="Cl 0,40";
         compositionAirNote.Text="";compositionRequirements.Text="";
         compositionSource.Text="UNI 11104:2016, prospetto 5 (riportato in ATECAP 2020, p. 19). Nella UNI 11104:2025 in vigore (prospetto 6) i dosaggi minimi di cemento sono inferiori e per XF1 l’A/C massimo è 0,55: i valori adottati sono più restrittivi. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).";
-        if(choices["life"].SelectedIndex==1)compositionSource.Text+="\n\nVita utile 100 anni: i valori del documento sono riferimenti per 50 anni (p. 9); la prescrizione per 100 anni richiede una valutazione specifica.";
+        if(choices["life"].SelectedIndex==1)compositionSource.Text+="\n\nVita utile 100 anni: i valori del prospetto sono riferimenti per 50 anni (ATECAP 2020, p. 9); la prescrizione per 100 anni richiede una valutazione specifica.";
         string[] slump=["Da scegliere secondo elemento e modalità di getto (p. 21).","S1: 10–40 mm","S2: 50–90 mm","S3: 100–150 mm","S4: 160–210 mm","S5: > 220 mm (tabella ATECAP, p. 22)."];
         consistencyInfo.Text=slump[choices["consistency"].SelectedIndex];
         double? dmax=null;
