@@ -36,6 +36,8 @@ public static partial class Ntc2018Checks
     /// True reproduces the numbers, the verdicts, the trace and the summary of 733a77c: every text added by D7-b depends on this
     /// switch (Cracking, ConcreteTensionCracking, ConcreteInnerCracking "k₂ della fascia", ConcreteCodeChecks k₂ of MC/DIN,
     /// CrackCalculationSummary), and the bar stresses are checked, with the "k₂:" message, before the compression return.
+    /// Not reproduced in either case: the bound on the tensile depth h − x of the inner bands of hollow sections (ConcreteInnerCracking,
+    /// fix of 7/10/2026), which was unbounded in 733a77c with a noise strain gradient.
     /// </summary>
     public const bool NtcK2FromCompressedBars = false;
     /// <summary>Legacy rule of <see cref="NtcK2FromCompressedBars"/>. Compression is negative. Inspect every ordinary bar, not only the effective tensile area.</summary>

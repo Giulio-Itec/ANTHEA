@@ -363,6 +363,71 @@ internal static class CrackK2Checks
             catch (ArgumentException ex) { message = ex.Message; }
             Assert(message == "tensioni delle armature mancanti o non finite.", $"(i) flessione con tensioni non finite: errore senza k₂ («{message}»)");
         }
+
+        // (j) Hollow sections in nearly uniform tension (defect found in the D7-b review, already in 733a77c): the tensile depth h − x of an
+        // inner band was εmax/|∇ε| also with a numerical-noise gradient (≈ 1e-12 1/mm), giving h − x ≈ 1e11 mm and wk ≈ 1e9 mm with sparse bars
+        // (EN 1992-1-1 7.3.4(3), eq. (7.14)). Now h − x ≤ h of the section along the gradient (x ≥ 0, as for the outer faces of a fully tensioned
+        // section) and, with a gradient negligible against the strain, uniform tension: k₂ = 1 and h − x = h of the section normal to the face.
+        {
+            var box = (JsonObject)input.DeepClone(); box["width_mm"] = "1000"; box["height_mm"] = "1000"; box["foro_presente"] = true; box["inner_width_mm"] = "600"; box["inner_height_mm"] = "600";
+            var boxBars = new List<(double X, double Y, double Phi)>();
+            foreach (var x in new[] { -400d, -200, 0, 200, 400 }) { boxBars.Add((x, -440, 20)); boxBars.Add((x, 440, 20)); }
+            foreach (var x in new[] { -250d, 0, 250 }) { boxBars.Add((x, -340, 12)); boxBars.Add((x, 340, 12)); }
+            foreach (var y in new[] { -200d, 0, 200 }) { boxBars.Add((-440, y, 16)); boxBars.Add((440, y, 16)); boxBars.Add((-340, y, 12)); boxBars.Add((340, y, 12)); }
+            box["barre_manuali"] = Bars(boxBars.ToArray());
+            var ring = (JsonObject)input.DeepClone(); ring["shape"] = "Circolare"; ring["diameter_mm"] = "1000"; ring["foro_presente"] = true; ring["inner_diameter_mm"] = "600";
+            var ringBars = new List<(double X, double Y, double Phi)>();
+            for (int k = 0; k < 16; k++) ringBars.Add((Math.Round(440 * Math.Cos(2 * Math.PI * k / 16), 6), Math.Round(440 * Math.Sin(2 * Math.PI * k / 16), 6), 20));
+            for (int k = 0; k < 8; k++) ringBars.Add((Math.Round(340 * Math.Cos(2 * Math.PI * (k + .5) / 8), 6), Math.Round(340 * Math.Sin(2 * Math.PI * (k + .5) / 8), 6), 12));
+            ring["barre_manuali"] = Bars(ringBars.ToArray());
+            foreach (var (section, shape, code, n, m) in new[] { (box, "cassone", "NTC 2018", 3000d, 0d), (box, "cassone", "EN 1992-1-1", 3000d, 0d), (ring, "anello", "NTC 2018", 3000d, 0d),
+                (ring, "anello", "EN 1992-1-1", 3000d, 0d), (box, "cassone", "NTC 2018", 3000d, 100d), (box, "cassone", "EN 1992-1-1", 3000d, 100d) })
+            {
+                var w = (JsonObject)settings.DeepClone(); w["normativa"] = code;
+                var options = (JsonObject)sle.DeepClone(); if (shape == "anello") options["spaziatura_fessure"] = "300";
+                var engine = new CheckerSection(section, w, options); var action = new ActionPoint(n, sign * m, 0); var state = engine.Stress(action, "SLE_QP");
+                var r = Ntc2018Checks.Cracking(engine, state, action, section, w, options, "SLE_QP");
+                var plane = state.Native.StrainPlane; double gradient = double.Hypot(plane.ChiX, plane.ChiY);
+                var strains = engine.Geometry.Outline.Select(p => plane.GetStrain(p[0], p[1])).ToArray();
+                string label = $"(j) {shape} {code}, N = {n} kN, M = {m} kNm";
+                Console.WriteLine($"{label}: |∇ε| = {gradient:E3} 1/mm, εmin = {strains.Min():E6}, εmax = {strains.Max():E6}, |∇ε|·h/εmax = {gradient * 1000 / strains.Max():E3}, wk = {r.Width:G6} mm, {r.Status}");
+                foreach (var d in r.Details.Where(d => d.Symbol.EndsWith("h − x (formula)") || d.Symbol.EndsWith("sr,max") || d.Symbol.EndsWith("h − x della fascia") || d.Symbol.EndsWith("k₂ della fascia")))
+                    Console.WriteLine($"    {d.Symbol} = {d.Value:G8} {d.Unit}  {d.Expression}");
+                Assert(strains.Min() > 0 && r.Width is double width && double.IsFinite(width) && width < 10, $"{label}: sezione interamente tesa, wk finito e realistico ({r.Width:G6} mm)");
+                // Every tensile depth of the trace is within the section (h = 1000 mm along any axis direction, ≤ the diagonal along any other).
+                Assert(r.Details.Where(d => d.Symbol.EndsWith("h − x (formula)") || d.Symbol.EndsWith("h − x della fascia")).All(d => d.Value <= 1000 * Math.Sqrt(2) + 1e-9), $"{label}: h − x delle fasce entro la sezione");
+                Assert(r.Details.Where(d => d.Symbol.EndsWith("sr,max")).All(d => d.Value <= 1.3 * 1000 * Math.Sqrt(2) + 1e-9), $"{label}: sr,max entro 1,3 h");
+                string[] bands = shape == "anello" ? ["Anello interno"] : ["Parete interna +x", "Parete interna −x", "Parete interna +y", "Parete interna −y"];
+                foreach (var band in bands)
+                {
+                    var depth = r.Details.Single(d => d.Symbol == band + " · h − x della fascia"); var bandK2 = r.Details.Single(d => d.Symbol == band + " · k₂ della fascia");
+                    if (m == 0)
+                    {
+                        // Noise gradient: uniform tension, h of the section normal to the face (1000 mm for both shapes), k₂ = 1.
+                        Assert(gradient * 1000 / strains.Max() < 1e-8 && depth.Value == 1000 && depth.Expression == "Trazione uniforme: h della sezione normale alla faccia"
+                            && bandK2.Value == 1 && bandK2.Expression == "Trazione uniforme: 1", $"{label}, {band}: trazione uniforme, h − x = h = 1000 mm, k₂ = 1");
+                    }
+                    else
+                    {
+                        // Eccentric tension, neutral axis outside the section: εmax/|∇ε| > h along the gradient (≈ y, h ≈ 1000 mm), so x = 0.
+                        double[] along = engine.Geometry.Outline.Select(p => (plane.ChiX * p[0] + plane.ChiY * p[1]) / gradient).ToArray();
+                        double h = along.Max() - along.Min();
+                        Console.WriteLine($"    {band}: χx = {plane.ChiX:E3}, χy = {plane.ChiY:E3}, h lungo il gradiente = {h:R} mm, h − x della fascia = {depth.Value:R} mm, k₂ della fascia = {bandK2.Value:R}");
+                        Assert(Math.Abs(h - 1000) < 1e-4 && strains.Max() / gradient > h && Math.Abs(depth.Value!.Value - h) <= 1e-12 * h && depth.Expression == "min[εmax/|∇ε|; h lungo il gradiente]"
+                            && bandK2.Value is > .5 and < 1, $"{label}, {band}: h − x = min(εmax/|∇ε| = {strains.Max() / gradient:0} mm; {h:0.###} mm), k₂ della fascia dalle deformazioni");
+                    }
+                    if (code == "NTC 2018")
+                    {
+                        // Hand calculation of the band width (Circolare C4.1.2.2.4.5 with the Δsm path of the code), inputs from the band trace.
+                        double B(string symbol) => r.Details.Single(d => d.Symbol == band + " · " + symbol).Value!.Value;
+                        double sigma = B("σs (formula)"), es = B("Es"), ecm = B("Ecm"), fct = B("fct,eff = fctm"), rho = B("ρp,eff"), phi = B("Øeq (formula)"), c = B("c (formula)"), s = B("s (formula)");
+                        double strain = Math.Max((sigma - .4 * fct / rho * (1 + es / ecm * rho)) / es, .6 * sigma / es);
+                        double near = (3.4 * c + .8 * bandK2.Value!.Value * .425 * phi / rho) / 1.7, distance = s <= 5 * (c + phi / 2) ? near : Math.Max(near, .75 * depth.Value!.Value);
+                        Assert(B("h − x (formula)") == depth.Value && Math.Abs(B("wk") - 1.7 * distance * strain) <= 1e-12 * B("wk"), $"{label}, {band}: wk = {B("wk"):0.0000} mm come il calcolo a mano con h − x = {depth.Value:0.###} mm");
+                    }
+                }
+            }
+        }
         Console.WriteLine($"k2 D7-b: {passed} controlli superati."); return passed;
     }
 }

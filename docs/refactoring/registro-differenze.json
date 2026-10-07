@@ -597,6 +597,22 @@
       "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
       "data": "2026-10-07",
       "fase": "F2.3"
+    },
+    {
+      "id": "R15",
+      "titolo": "Fessurazione delle sezioni cave: h − x delle fasce interne senza limite",
+      "famiglia": "calcestruzzo/fessurazione",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Nelle fasce interne dei fori (pareti e anello) h − x era εmax/|∇ε| anche con un gradiente di rumore del solutore (1e-15…1e-12 1/mm) in trazione quasi uniforme: h − x ≈ 1e12 mm e, con barre distanziate (EN (7.14), NTC Δsm,distante = 0,75 (h − x)), wk ≈ 1e9 mm (cassone 1000×1000 con foro 600×600, N = 3000 kN: h − x = 1,65e12 mm, wk = 3,3e9 mm; libreria, cassone 400×600: wk = 238 389 mm). Presente già in 733a77c, rilevato dalla revisione di D7-b. Correzione: h − x = min[εmax/|∇ε|; h della sezione lungo il gradiente] (x ≥ 0, come le facce esterne della sezione interamente tesa, che usano h); con |∇ε| h ≤ 1e-4 εmax trazione uniforme: fascia intera, k2 = 1, h − x = h della sezione normale alla faccia (diametro per l'anello; prima Max(B, H) con gradiente nullo). Con l'asse neutro dentro la sezione nulla cambia.",
+      "riferimento_normativo": [ { "fonte": "EN 1992-1-1:2004", "punto": "§7.3.4(3), eq. (7.13)-(7.14)", "riscontro": "h − x è la profondità della zona tesa (x ≥ 0); k2 = 1 in trazione uniforme" } ],
+      "codice": [ "X.Calculations/ConcreteInnerCracking.cs:24-32", "X.Calculations/ConcreteInnerCracking.cs:50-66", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:359-401 (da7cf02a)" ],
+      "segno": "il difetto dava aperture assurde (cautelative) nei soli casi di trazione quasi uniforme o eccentrica con asse neutro fuori dalla sezione; nessun effetto con l'asse neutro interno",
+      "raccomandazione": "correggere in ANTHEA e nella libreria",
+      "decisione": { "data": "2026-10-07", "utente": "nessuna decisione specifica: difetto numerico corretto nel lavoro di integrazione di D7-b e D7-d (d2)", "esito": "corretto" },
+      "attuazione": { "data": "2026-10-07", "commit": ["Checker da7cf02a (develop, locale; GPCChecker.Concrete 0.0.17.0, entra in ANTHEA con il prossimo rilascio di lib/Checker)", "ANTHEA, branch refactoring/integrazione-d7b-d2"], "verifica": "GPCChecker.Test.Concrete 508/508; X.Verifiche --checker caso (j); cattura headless uguale a prima della correzione (432 file); banco c.a.: 4 stati C1000H con la sola N = 300 kN (FC-13, FC-14, PM-5, PM-6), anello interno +2,8e-8 relativo, esiti invariati" },
+      "data": "2026-10-07",
+      "fase": "F2.3"
     }
   ]
 }

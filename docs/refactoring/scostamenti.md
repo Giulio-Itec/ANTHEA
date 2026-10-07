@@ -640,3 +640,9 @@ sicurezza, da decidere con priorità:
 - R10: ancoraggi senza limite di fctk alla C60/75 (lb,rqd −11 % con C90/105);
 - R11: Cmin di default del copriferro NTC (−5 mm);
 - R9: limite EC2 6.2.2(6) non controllato.
+
+R15 (7/10/2026, corretto): nelle fasce interne dei fori h − x era εmax/|∇ε| anche con il gradiente
+di rumore della trazione quasi uniforme (h − x ≈ 1e12 mm, wk ≈ 1e9 mm con barre distanziate).
+Ora h − x ≤ h della sezione lungo il gradiente (x ≥ 0) e, con |∇ε| h ≤ 1e-4 εmax, trazione
+uniforme: k2 = 1 e h − x = h della sezione normale alla faccia. Nessun effetto con l'asse neutro
+interno; nel banco c.a. cambiano 4 stati C1000H in sola trazione (+2,8e-8 relativo, esiti invariati).

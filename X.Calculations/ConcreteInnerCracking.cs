@@ -5,6 +5,10 @@ namespace Anthea.Calculations;
 
 public static partial class Ntc2018Checks
 {
+    /// <summary>Relative strain variation |∇ε|·h/εmax over the section below which the inner bands are in uniform tension (k₂ = 1): the
+    /// solver returns gradients of 1e-15…1e-12 1/mm for axial tension, whose direction means nothing; 1e-4 is an eccentricity of about h/120000.</summary>
+    private const double UniformTensionTolerance = 1e-4;
+
     /// <summary>Additional checks on the cavity boundary. Each wall/ring is checked independently;
     /// effective areas are never summed between faces. An unreinforced tensile face cannot pass.</summary>
     private static CrackResult InnerCracking(CrackResult outer, CheckerSection engine, CheckerStressState state, JsonObject options)
@@ -17,12 +21,16 @@ public static partial class Ntc2018Checks
         var details = outer.Details.ToList(); var regions = outer.Regions.ToList();
         var results = new List<CrackResult> { outer };
         var material = (ConcreteMaterialEuropeanCommon)engine.Section.ConcreteMaterial;
-        double[][] Tension(double[][] polygon)
-        {
-            double gradient = double.Hypot(plane.ChiX, plane.ChiY);
-            return gradient < 1e-15 ? polygon : SectionRegions.Clip(polygon, plane.ChiX/gradient, plane.ChiY/gradient, -plane.GetStrain(0,0)/gradient);
-        }
-        void Check(string name, double[][] outline, double[][][] holes, int[] indices, Func<Barra,double> cover, double effectiveDepth)
+        // Tensile depth h − x of a band (EN 1992-1-1 7.3.4(3), eq. (7.14); NTC Δsm,distante): εmax/|∇ε| measured from the neutral axis, but
+        // never beyond the height h of the section along the gradient (x ≥ 0), as for the outer faces of a fully tensioned section.
+        // A gradient negligible against the strain (solver noise, ≈ 1e-15…1e-12 1/mm) has no direction: uniform tension, the whole band
+        // is tensile, k₂ = 1 and h − x = h of the section normal to the face. Before 7/10/2026 εmax/|∇ε| was used unbounded (≈ 1e12 mm).
+        double gradient = double.Hypot(plane.ChiX, plane.ChiY);
+        double gx = gradient > 0 ? plane.ChiX/gradient : 0, gy = gradient > 0 ? plane.ChiY/gradient : 0;
+        double sectionAlongGradient = s.Outline.Max(p => gx*p[0]+gy*p[1]) - s.Outline.Min(p => gx*p[0]+gy*p[1]);
+        bool uniform = gradient < 1e-15 || gradient*sectionAlongGradient <= UniformTensionTolerance*s.Outline.Max(E);
+        double[][] Tension(double[][] polygon) => uniform ? polygon : SectionRegions.Clip(polygon, gx, gy, -plane.GetStrain(0,0)/gradient);
+        void Check(string name, double[][] outline, double[][][] holes, int[] indices, Func<Barra,double> cover, double effectiveDepth, double uniformDepth)
         {
             var p = Tension(outline); var h = holes.Select(Tension).Where(v => v.Length >= 3).ToArray();
             double area = SectionRegions.Area(p) - h.Sum(SectionRegions.Area), steel = indices.Sum(i => s.Bars[i].Area);
@@ -40,15 +48,21 @@ public static partial class Ntc2018Checks
             double? spacing = options.S("spaziatura_fessure").Trim()=="" ? SpacingCalculator.Maximum(s,indices) : options.Required("spaziatura_fessure",strict:true);
             if (spacing is not >0) { results.Add(new(null,limit,null,null,name+": inserire l’interasse massimo per la superficie del foro")); return; }
             double[] strains = p.Select(E).ToArray();
-            double k2 = strains.Max()>0 ? Math.Clamp((Math.Max(0,strains.Min())+strains.Max())/(2*strains.Max()),.5,1) : 1;
-            double gradient = double.Hypot(plane.ChiX,plane.ChiY);
-            double depth = gradient > 1e-15 ? strains.Max()/gradient : Math.Max(s.Width,s.Height);
+            double k2 = uniform ? 1 : strains.Max()>0 ? Math.Clamp((Math.Max(0,strains.Min())+strains.Max())/(2*strains.Max()),.5,1) : 1;
+            double fromNeutralAxis = uniform ? double.PositiveInfinity : strains.Max()/gradient;
+            double depth = uniform ? uniformDepth : Math.Min(fromNeutralAxis, sectionAlongGradient);
             var trace = new List<CrackCalculationDetail>();
             trace.Add(new("hc,eff", effectiveDepth, "mm", "Fascia della parete/anello interno, limitata a metà spessore"));
+            // Written only where the bound acts, so that the trace of the other cases is unchanged.
+            if (uniform) trace.Add(new("h − x della fascia", depth, "mm", "Trazione uniforme: h della sezione normale alla faccia",
+                $"|∇ε|·h = {gradient*sectionAlongGradient:G3} ≤ {UniformTensionTolerance:G1}·εmax: gradiente trascurabile, senza direzione; fascia tutta tesa, k₂ = 1 (EN 1992-1-1 7.3.4(3), eq. (7.14))."));
+            else if (fromNeutralAxis > sectionAlongGradient) trace.Add(new("h − x della fascia", depth, "mm", "min[εmax/|∇ε|; h lungo il gradiente]",
+                $"εmax/|∇ε| = {fromNeutralAxis:G6} mm oltre l'altezza della sezione lungo il gradiente: asse neutro fuori dalla sezione, x = 0 (EN 1992-1-1 7.3.4(3), eq. (7.14))."));
             // Local check: k₂ from the strains of the tensile part of the band, not the Criterio k₂ of the whole section.
             // Not written with the legacy rule of NtcK2FromCompressedBars, whose trace had no such entry (local copy: no unreachable branch).
             bool legacyK2 = NtcK2FromCompressedBars;
-            if (!legacyK2) trace.Add(new("k₂ della fascia", k2, "−", "(εmax + εmin)/(2 εmax) ai vertici della parte tesa della fascia, limitato fra 0,50 e 1",
+            if (!legacyK2) trace.Add(uniform ? new("k₂ della fascia", k2, "−", "Trazione uniforme: 1", "Gradiente trascurabile rispetto alla deformazione (EN 1992-1-1 7.3.4(3), eq. (7.13) con ε1 = ε2).")
+                : new("k₂ della fascia", k2, "−", "(εmax + εmin)/(2 εmax) ai vertici della parte tesa della fascia, limitato fra 0,50 e 1",
                 "Distribuzione locale delle deformazioni (EN 1992-1-1 7.3.4(3), aree locali): 0,50 se l'asse neutro taglia la fascia, oltre 0,50 se la fascia è tutta tesa. Indipendente dal Criterio k₂ della sezione."));
             double width = ConcreteCodeChecks.CrackWidth(options.S("__normativa_fessure","NTC 2018"), sigma,s.Es,material.Ecm,material.Fctm,steel/area,phi,c,spacing.Value,depth,
                 options.S("durata","Lunga")=="Breve",options.S("aderenza","Migliorata")=="Migliorata",k2,trace);
@@ -66,7 +80,7 @@ public static partial class Ntc2018Checks
             double hc=Math.Min((options.S("__normativa_fessure").StartsWith("DS")?2:2.5)*nearest,wall/2), radius=ri+hc;
             var outline=s.Holes[0].Select(p=>new[]{p[0]*radius/ri,p[1]*radius/ri}).Reverse().ToArray();
             var indices=tensile.Where(i=>double.Hypot(s.Bars[i].X,s.Bars[i].Y)<=radius+1e-8).ToArray();
-            Check("Anello interno",outline,s.Holes.ToArray(),indices,b=>double.Hypot(b.X,b.Y)-ri-b.Diametro/2,hc);
+            Check("Anello interno",outline,s.Holes.ToArray(),indices,b=>double.Hypot(b.X,b.Y)-ri-b.Diametro/2,hc,Math.Max(s.Width,s.Height));
         }
         else
         {
@@ -86,7 +100,7 @@ public static partial class Ntc2018Checks
                     SectionRegions.Clip(SectionRegions.Clip(p,qx,qy,inner),-qx,-qy,-inner-hc),
                     -qy,qx,tangentMin),qy,-qx,-tangentMax);
                 var indices=candidates.Where(i=>Q(s.Bars[i].X,s.Bars[i].Y)<=inner+hc+1e-8).ToArray();
-                Check(name,Band(s.Outline),s.Holes.Select(Band).Where(h=>h.Length>=3).ToArray(),indices,b=>Q(b.X,b.Y)-inner-b.Diametro/2,hc);
+                Check(name,Band(s.Outline),s.Holes.Select(Band).Where(h=>h.Length>=3).ToArray(),indices,b=>Q(b.X,b.Y)-inner-b.Diametro/2,hc,edge-s.Outline.Min(p=>Q(p[0],p[1])));
             }
         }
         var governing=results.Where(r=>r.Width.HasValue).MaxBy(r=>r.Width)!;

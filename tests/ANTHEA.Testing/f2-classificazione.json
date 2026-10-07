@@ -133,6 +133,22 @@
           "motivo": "D7-b: sezione interamente compressa (εc,max ≤ 1e-12): wk = 0 come prima, ma k₂ non si sceglie più e la traccia non contiene alcun Criterio k₂ (prima scriveva 'Flessione: almeno una armatura compressa'). Numeri ed esiti invariati.",
           "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
           "codice": ["X.Calculations/Ntc2018Checks.cs:114"]
+        },
+        {
+          "id": "FC-13", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(639|706|707)$", "campo": "^(ratio|regions)$",
+          "righe_attese": 3, "differenze_attese": 3,
+          "motivo": "Difetto della fascia interna dei fori corretto il 7/10/2026: C1000H con la sola N = +300 kN, gradiente di deformazione di rumore numerico. L'anello interno è in trazione uniforme: k₂ = 1 invece di (εmin + εmax)/(2 εmax) = 1 − 5e-8, h − x = h della sezione (prima εmax/|∇ε| senza limite; qui non entra, barre vicine). Larghezza dell'anello +2,8e-8 relativo (0,0645917032 → 0,0645917050 mm); nello stato 706 (UNI EN 1992-1-1, SLE frequente, XD3) l'anello governa: rapporto 0,3277145687 → 0,3277145734. Esiti invariati.",
+          "commit": "ANTHEA refactoring/integrazione-d7b-d2, fascia interna dei fori (7/10/2026)", "registro": "R15",
+          "codice": ["X.Calculations/ConcreteInnerCracking.cs:24-32", "X.Calculations/ConcreteInnerCracking.cs:50-66"]
+        },
+        {
+          "id": "FC-14", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(638|639|706|707)$", "campo": "^details$",
+          "righe_attese": 4, "differenze_attese": 4,
+          "motivo": "Difetto della fascia interna dei fori corretto il 7/10/2026: C1000H con la sola N = +300 kN (gradiente di rumore). Nella traccia dell'anello interno k₂ della fascia = 1 al posto di (εmin + εmax)/(2 εmax) = 1 − 5e-8: Δsm adottata e wk dell'anello cambiano di circa 1e-8 relativo (la traccia riporta anche «h − x della fascia» = 1000 mm, voce non catturata). Esiti invariati.",
+          "commit": "ANTHEA refactoring/integrazione-d7b-d2, fascia interna dei fori (7/10/2026)", "registro": "R15",
+          "codice": ["X.Calculations/ConcreteInnerCracking.cs:50-66"]
         }
       ]
     },
@@ -209,7 +225,7 @@
       ]
     },
     "pre-m4": {
-      "descrizione": "Cattura densa contro la cattura pre-M4 (supporto/artefatti/baseline/F2-pre-m4/a, commit 75e4626), una modalità per volta: doppia corsa di F2.1 e riferimento dei passi F2.5-F2.9. Confronto esatto; differenze attese solo quelle di D7-b (7/10/2026), in crack-legacy.csv.",
+      "descrizione": "Cattura densa contro la cattura pre-M4 (supporto/artefatti/baseline/F2-pre-m4/a, commit 75e4626), una modalità per volta: doppia corsa di F2.1 e riferimento dei passi F2.5-F2.9. Confronto esatto; differenze attese solo quelle di D7-b e di R15 (7/10/2026), in crack-legacy.csv.",
       "prefisso_tolleranze": "denso",
       "identificativi_casuali": [
         { "file": "-sections\\.xml$", "forma": "guid", "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" },
@@ -250,6 +266,22 @@
           "motivo": "D7-b: sezione interamente compressa (εc,max ≤ 1e-12): wk = 0 come prima, ma k₂ non si sceglie più e la traccia non contiene alcun Criterio k₂ (prima scriveva 'Flessione: almeno una armatura compressa'). Numeri ed esiti invariati.",
           "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
           "codice": ["X.Calculations/Ntc2018Checks.cs:114"]
+        },
+        {
+          "id": "PM-5", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(638|639|706|707)$", "campo": "^(width|ratio|regions)$",
+          "righe_attese": 4, "differenze_attese": 6,
+          "motivo": "Difetto della fascia interna dei fori corretto il 7/10/2026: C1000H con la sola N = +300 kN, gradiente di rumore. L'anello interno è in trazione uniforme, k₂ = 1 invece di 1 − 5e-8: larghezza della regione dell'anello +2,8e-8 relativo in 4 stati; nello stato 706 l'anello governa (wk 0,0655429137 → 0,0655429147 mm, rapporto). Esiti invariati.",
+          "commit": "ANTHEA refactoring/integrazione-d7b-d2, fascia interna dei fori (7/10/2026)", "registro": "R15",
+          "codice": ["X.Calculations/ConcreteInnerCracking.cs:24-32", "X.Calculations/ConcreteInnerCracking.cs:50-66"]
+        },
+        {
+          "id": "PM-6", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(638|639|706|707)$", "campo": "^details$",
+          "righe_attese": 4, "differenze_attese": 4,
+          "motivo": "Stessi stati della voce precedente: nella traccia catturata cambiano Δsm adottata e wk dell'anello interno (k₂ della fascia = 1; «h − x della fascia» = 1000 mm non è fra le voci catturate).",
+          "commit": "ANTHEA refactoring/integrazione-d7b-d2, fascia interna dei fori (7/10/2026)", "registro": "R15",
+          "codice": ["X.Calculations/ConcreteInnerCracking.cs:50-66"]
         }
       ]
     }
