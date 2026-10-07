@@ -176,8 +176,8 @@ e R16-R21 (F2.2), D7-e, F2-1…F2-4 (F2.5-F2.6).
   - MaxRetainingWall.Cases e .Compare, per cui la tabella rimandava la scelta all'utente, restano archiviati: la
     scelta è reversibile con `git mv` ed è documentata in [progetti-di-test.md](progetti-di-test.md) e nel
     README di SUPERATI;
-  - le cartelle `bin` e `obj` ignorate rimaste nelle vecchie posizioni dei progetti non si cancellano; le
-    segnala il coordinatore all'utente.
+  - le cartelle `bin` e `obj` ignorate rimaste nelle vecchie posizioni dei progetti restano per ora; si
+    tolgono a fine refactoring con l'autorizzazione dell'utente (sotto, «Autorizzazioni dell'utente»).
 - **Riepilogo con i commit** (dettaglio in [progetti-di-test.md](progetti-di-test.md)):
 
   | Progetto o cartella | Decisione | Commit |
@@ -220,9 +220,9 @@ e R16-R21 (F2.2), D7-e, F2-1…F2-4 (F2.5-F2.6).
 
 - **Revisione tecnica accettata**. Le pagine sono unite in Checker develop con i merge locali c555a3b8 (taglio,
   torsione, SLE, fessurazione) e 1fbaea61 (ancoraggi, dettagli, durabilità, momento-curvatura) più le correzioni del
-  verificatore (5675492f e 398eb36a con i merge 9eb800d4 e 26fb6b8b; bf23a16d, 7d86ffc7, bd9938ac, e41a803a). Il push
-  di Checker develop (punta e41a803a, 35 commit oltre origin/develop) resta all'utente. Nota della sera: nel
-  checkout di Checker origin/develop risulta aggiornato da un push a 4f54139a alle 17:59 (reflog del ramo remoto).
+  verificatore (5675492f e 398eb36a con i merge 9eb800d4 e 26fb6b8b; bf23a16d, 7d86ffc7, bd9938ac, e41a803a, poi
+  4f54139a). Dopo l'autorizzazione dell'utente (sotto) il coordinatore ha fatto il push di Checker develop a 4f54139a
+  alle 17:59 (diff verso origin/develop solo su 9 file di `docs/metodi`).
 - **Voci nuove R16-R21**: le voci nuove a sfavore o da chiarire diventano R16-R21 del registro, stato «da-decidere»,
   con la stessa decisione di R4-R14 («le voci sfavorevoli le guardiamo a fine refactoring», F5.15): R16 torsione DS
   con νv invece di νt = 0,7 (0,7 − fck/200); R17 classe indicativa di XC3 C25/30 contro C30/37 del prospetto E.1N del
@@ -268,6 +268,22 @@ nell'integrazione 2 con il merge ea4c51e); voci F2-1…F2-4 del registro.
 - I difetti di colore della modalità scura (fra cui le righe di sezione non selezionate dell'albero dei progetti,
   chiare su chiaro, `ProjectHierarchy.cs:155`, segnalate anche dall'utente) si correggono sul branch dedicato
   `refactoring/ui-tema-scuro` (worktree Temp\aw-tema), da unire dopo verifica.
+
+### Autorizzazioni dell'utente (7/10 sera)
+
+Messaggi dell'utente nella sessione del coordinatore, riportati con le sue parole:
+
+- **Cancellazioni**: «ti autorizzo a cancellare le cartelle non necessarie a fine refactoring». A fine refactoring il
+  coordinatore toglie le cartelle che non servono più (le `bin` e `obj` ignorate rimaste nelle vecchie posizioni dei
+  progetti archiviati, i worktree temporanei `Temp\aw-*` e `cw-metodi*`, i branch locali già uniti) e le elenca nel
+  diario; il contenuto versionato si archivia in SUPERATI, le prove ancora citate restano. Alla domanda sullo spazio
+  su disco (4,2 GB liberi) l'utente ha scelto «Rimuovi ora (Raccomandato)»: il coordinatore ha copiato nel checkout
+  principale le prove citate nei documenti che erano solo nei worktree (S2-upstream, s2, s2u) e ha rimosso con
+  `git worktree remove` i 20 worktree già uniti e puliti (aw-b0, aw-d7, aw-d7b, aw-d7d, aw-d7e, aw-dense, aw-f1,
+  aw-f16, aw-f2, aw-fascia-prima, aw-guide, aw-int, aw-norma, aw-pc, aw-pre, aw-s1, aw-s2, aw-ui, aw-uifull,
+  aw-wiki); i branch restano. Spazio libero dopo: 17,4 GB.
+- **Push**: «ti abilito al push dei commit» e «abilitato al push». Il coordinatore fa i push dalla propria sessione
+  dopo le prove, mai forzati (i workflow non fanno push). Eseguiti: Checker develop 4f54139a.
 
 ## Dipendenze esterne previste
 
