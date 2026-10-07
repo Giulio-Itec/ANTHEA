@@ -137,7 +137,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
                 if (f.Id == "suspension") Input["deck_type"] = BridgeConcept.DeckTypes[1];
             }, true));
             bool selected = Input.S("family") == f.Id;
-            button.Background = selected ? Ui.Navy : Brushes.White; button.Foreground = selected ? Brushes.White : Ui.Navy;
+            Ui.SetSelected(button, selected);
             button.Content = Ui.Stack(Ui.Text(f.Name, 11, true, button.Foreground), new BridgeFamilyIcon { Family = f.Id, Ink = button.Foreground, Height = 32, Width = 112 }, Ui.Text($"{f.MinSpan:0}–{f.MaxSpan:0} m", 10, color: selected ? Ui.Brush("#BCCFE2") : Ui.Muted));
             button.SetValue(AutomationProperties.NameProperty, f.Name); button.MinHeight = 82; button.Padding = new Thickness(6); families.Children.Add(button);
         }

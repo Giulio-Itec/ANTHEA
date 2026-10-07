@@ -150,7 +150,7 @@ public sealed partial class MainWindow : Window
             dashboard.Height = Math.Max(680, dashboardViewport.ViewportHeight);
         }
         body.Content = dashboardViewport;
-        foreach (var (key, b) in navigation) { b.Background = key == name ? Ui.Navy : Brushes.White; b.Foreground = key == name ? Brushes.White : Ui.Navy; }
+        foreach (var (key, b) in navigation) Ui.SetSelected(b, key == name);
     }
     private void ShowHome()
     {

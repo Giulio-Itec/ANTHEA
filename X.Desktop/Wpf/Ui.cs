@@ -20,9 +20,16 @@ internal static class Ui
     internal static Brush Brush(string color) { var b = (SolidColorBrush)new BrushConverter().ConvertFromString(color)!; b.Freeze(); return b; }
     internal static Button Button(string title, Action action, bool primary = false, bool inspection = false)
     {
-        var b = new Button { Content = title, Background = primary ? Navy : Brushes.White, Foreground = primary ? Brushes.White : Navy };
+        var b = new Button { Content = title }; SetSelected(b, primary);
         if (inspection) RevisionInspection.Allow(b);
         b.Click += (_, _) => action(); return b;
+    }
+    /// <summary>Colours of a dark (primary or selected) or light button, bound to the palette: they follow the
+    /// appearance also when assigned after the view is built (navigation, choice of a typology).</summary>
+    internal static void SetSelected(Button button, bool selected)
+    {
+        button.Background = selected ? Appearance.Background("#0B2A4A") : Appearance.Paper;
+        button.Foreground = selected ? Appearance.Foreground(Brushes.White) : Appearance.Ink;
     }
     internal static TextBlock Text(string text, double size = 13, bool bold = false, Brush? color = null) => new()
     {
