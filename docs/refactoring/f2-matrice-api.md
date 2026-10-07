@@ -52,7 +52,7 @@ Chiamanti in produzione: gli stessi del taglio (`ConcreteShearAnalysis.Calculate
 Collegamento (F2.5-F2.6, [piano](piano.md)): `ConcreteShearAnalysis` (taglio con `Shear`, profilo resistente con
 `TorsionGeometryOf`, torsione con `Torsion`) e la cattura densa chiamano `ConcreteShearTorsionAdapter`
 (`X.Calculations/ConcreteShearTorsionAdapter.cs`), che sceglie il motore legacy o la libreria con l'interruttore `Default`
-(stato e misure nelle righe F2.5 e F2.6 del piano; fino alla correzione di F2.5 successiva a 7176c0c il modulo chiamava
+(stato e misure nelle righe F2.5 e F2.6 del piano; fino alla correzione di F2.5 (f5b5f50, dopo 7176c0c) il modulo chiamava
 ancora il legacy diretto per profilo resistente e torsione: prova 3f di `tests/ConcreteLibraryAdapter.Checks`); unità, norme e testi passano da
 `X.Calculations/ConcreteLibraryMapping.cs`. Esiti diversi per scelta della libreria riportati al legacy e testi: registro
 F2-1…F2-4. Restano nel legacy, fuori da questo collegamento, `SectionShearGeometry.Derive` (buco 3) e la copia del ramo
