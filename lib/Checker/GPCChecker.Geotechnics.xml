@@ -520,6 +520,12 @@
             combination A1+M1+R3, bored piles γb 1.35, γs 1.15, γst 1.25), γG of its action set, ξ3 and ξ4 of the investigated profiles.
             </summary>
         </member>
+        <member name="T:GPC.Checkers.Geotechnics.Piles.PileSegments">
+            <summary>Depths in m; compression and weight in kN and kN/m. No axial soil resistance.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Piles.PileSegments.TubeWeight(System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>Grout fills the geotechnical cross-section except the steel annulus. Zero grout weight explicitly excludes grout.</summary>
+        </member>
         <member name="T:GPC.Checkers.Geotechnics.Piles.HorizontalSoilAssignment">
             <summary>Inputs in kN and m; table 14.6 choice is explicitly in N/cm³. No soil-name lookup.</summary>
         </member>

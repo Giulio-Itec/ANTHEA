@@ -1,9 +1,43 @@
 # DLL Checker
 
-**Release S2 (7 ottobre 2026, refactoring F2.4).** Ricostruita con `tools/libs/Update-Snapshot.ps1` da alberi
-puliti, senza `-Install` (staging in `supporto/artefatti/lib-staging/S2`, poi copiati DLL, `manifest.json` e
-`manifest.props`). Commit sorgente: Utilities df3b3e7 e Geometry 6a0d1c1 (binari committati, gli stessi di S1:
-dopo 75182cc Geometry cambia solo un test), Model master 5ad56681, Checker develop 1fbaea61; SDK 9.0.318.
+**Procedura di aggiornamento.** Le DLL di questa cartella si producono solo con `tools/libs/Update-Snapshot.ps1
+-FromUpstream`, cioè dai commit pushati delle librerie (AGENTS.md).
+
+1. Nelle librerie (Utilities, Geometry, Model, Checker): commit con le versioni nuove e push. Ogni DLL ricompilata da
+   un commit nuovo cambia SHA-256 anche a sorgente invariato (SourceLink scrive il commit nel PDB e, con l'id del PDB,
+   nella DLL), quindi richiede una versione più alta (almeno la revisione, ultima cifra). Poi `git fetch` nei checkout
+   locali, perché lo script legge i rami remoti all'ultimo fetch.
+2. Dal checkout di ANTHEA: `powershell -NoProfile -ExecutionPolicy Bypass -File tools\libs\Update-Snapshot.ps1
+   -FromUpstream [-Staging <cartella>] [-Install]` (staging predefinito: `supporto/artefatti/lib-staging/<data-ora>`).
+   Per ciascun repository lo script risolve il commit del ramo remoto tracciato dal ramo estratto (`@{u}`), lo estrae
+   con `git worktree add --detach` in `<TEMP>\gpc-snapshot\<Repo>` (worktree fratelli, quindi HintPath e
+   ProjectReference fra repository funzionano), usa i binari versionati di Utilities e Geometry, compila Model e Checker
+   in Release con l'SDK di global.json, controlla che nessun worktree differisca dal suo commit dopo la build, scrive
+   nello staging le 8 DLL, `GPCChecker.Geotechnics.xml`, `manifest.json` (commit e ramo remoti, `pushed: true`,
+   `fromUpstream`, `buildRoot`) e `manifest.props`, poi rimuove i soli worktree creati (`git worktree remove`, `git
+   worktree prune`) e la radice, anche dopo un errore. Lo stato dei checkout locali non conta (commit locali, merge in
+   corso, modifiche). Da un worktree di ANTHEA che non sta accanto alle librerie: `-Repos <cartella dei repository>` e
+   `-Lib <lib\Checker di riferimento>`.
+3. Controllo di versione: una DLL con SHA-256 diverso da quello del manifest in `-Lib` (predefinito: questa cartella)
+   deve avere una versione assembly più alta, altrimenti lo script si ferma. `-Install` copia in `-Lib` DLL, xml,
+   `manifest.json` e `manifest.props`; senza `-Install` si copia a mano dallo staging.
+4. Verifiche: `build\ci.ps1 -Profile full`, profilo baseline contro i riferimenti, impronta delle mesh DelaunayMesh, test
+   delle librerie; voce in questo README.
+
+Riproducibilità: lo SHA-256 dipende dal commit e anche dal percorso di build, perché la DLL contiene il percorso
+completo del suo PDB (`<progetto>\obj\Release\netstandard2.0\<nome>.pdb`). Per questo la radice dei worktree è fissa
+(`gpc-snapshot` nella cartella temporanea dell'utente in forma lunga, registrata in `buildRoot`): due corse dagli stessi
+commit danno DLL identiche, mentre lo stesso commit compilato nel checkout principale dà SHA-256 diversi. Una sola corsa
+`-FromUpstream` alla volta; una radice lasciata da una corsa interrotta si riconosce dal file `.update-snapshot-root` e
+viene rimossa all'inizio. Senza `-FromUpstream` lo script compila il HEAD locale dei checkout (alberi puliti, nessun
+commit o merge durante la corsa): serve per prove, non per questa cartella.
+
+**Release S2 (7 ottobre 2026, refactoring F2.4).** Compilata dai commit pushati con `tools/libs/Update-Snapshot.ps1
+-FromUpstream -Install` (staging in `supporto/artefatti/lib-staging/S2-upstream`; controllo di versione contro S1,
+cioè contro il manifest di main 17b6c98). Commit sorgente, rami remoti: Utilities origin/master df3b3e7 e Geometry
+origin/master 6a0d1c1 (binari committati, gli stessi di S1: dopo 75182cc Geometry cambia solo un test), Model
+origin/master 5ad56681, Checker origin/develop 0d7ba50b; SDK 9.0.318; `pushed: true` per tutte le DLL; radice di build
+`C:\Users\g.pacini\AppData\Local\Temp\gpc-snapshot`.
 
 - Versioni: GPCChecker.Concrete 0.0.15.0 → 0.0.17.0, GPCModel 1.6.1.0 → 1.6.1.1, GPCModelData 0.0.2.2 → 0.0.2.3,
   GPCChecker.Geotechnics 0.1.1.0 → 0.1.1.1, GPCChecker.CompositeBridge 1.4.0.3 → 1.4.0.4. GPCUtilities 2.0.0.8,
@@ -17,24 +51,35 @@ dopo 75182cc Geometry cambia solo un test), Model master 5ad56681, Checker devel
   versione più alta; è stata alzata la revisione (ultima cifra, convenzione dei repository). Cambiano anche i
   riferimenti nei metadati: GPCModelData, Concrete, Geotechnics e CompositeBridge referenziano GPCModel 1.6.1.1,
   CompositeBridge referenzia Concrete 0.0.17.0.
-- Push: Model 5ad56681 era pushato al momento della build (`pushed: true`). Checker 1fbaea61 è locale: è il merge delle
-  pagine dei metodi c.a. (F2.2, solo `docs/metodi`) sopra 0d7ba50b, già pushato. Il commit da pushare è develop
-  1fbaea61; dopo il push il campo `pushed` delle tre DLL di Checker passa a `true` senza ricompilare (DLL e SHA-256
-  invariati).
-- Riproducibilità: una ricompilazione completa (`--no-incremental`) dagli stessi commit dà DLL identiche bit per bit.
-  Una prima build è stata scartata: era partita mentre su Checker develop entravano i merge delle pagine dei metodi, e
-  il manifest registrava 0d7ba50b per DLL compilate da 1fbaea61.
-- ANTHEA, sul commit dell'installazione e senza `-GpcLibDir`: profilo standard 33 PASS, 1 KNOWN
-  (`verifiche/project-calculations`), 0 NEW-FAIL; profilo baseline 39 PASS, 1 KNOWN, 0 NEW-FAIL, esiti e righe di
-  conteggio uguali a quelli di S1 sullo stesso codice (17b6c98). Cattura headless uguale alla baseline F2-B2 su 432 file
-  (solo i 21 tempi volatili; nel manifest cambiano commit, hash di questo manifest, le cinque DLL e, come già con S1 su
-  17b6c98, ANTHEA.Calculations, ANTHEA.Core e ANTHEA.Testing, perché F2-B2 è catturata da a88b177). Banco c.a. contro le
-  fixture di Checker: 27 698 righe, 26 462 identiche, 1236 con soli identificativi casuali; contro F2-pre-m4-v2: 32 564
-  righe, 31 320 identiche, 1244 con soli identificativi casuali; nessuna differenza. Impronta delle 80 mesh identica a
-  B0 e a F2-pre-m4-v2 bit per bit.
-- Librerie, sulle DLL compilate da Model 5ad56681 e Checker 0d7ba50b (stesso sorgente di 1fbaea61): Concrete 510/510,
-  Geotechnics 98/98, CompositeBridge 254/254, Model 892 superati e 2 ignorati, ModelChecker 106/106. Steel (non nello
-  snapshot, 17 fallimenti storici) e BridgeAudit (compila ANTHEA/X.Core) non eseguiti.
+- SHA-256 (per intero nel manifest): GPCModel 3C6D5788…, GPCModelData EA40DB14…, GPCChecker.Concrete E724B959…,
+  GPCChecker.Geotechnics A72C43FC…, GPCChecker.CompositeBridge F9A59096…; GPCUtilities 638FF722…, GPCGeometry
+  1D43F568… e DelaunayMesh 24B24DC1… come in S1.
+- Sostituisce il candidato del pomeriggio (f6b6fdf), compilato nel checkout principale con il modo predefinito da
+  Model 5ad56681 e da Checker develop 1fbaea61, locale (merge delle pagine dei metodi c.a. sopra 0d7ba50b, solo
+  `docs/metodi`). Stesso sorgente delle DLL e stesse versioni; cambiano gli SHA-256 delle cinque DLL ricompilate, per
+  il commit di Checker scritto da SourceLink e per il percorso di build: GPCModel, dallo stesso commit Model 5ad56681, è
+  936FDE1A… nel checkout principale e 3C6D5788… nella radice temporanea. Una prima build del candidato era già stata
+  scartata perché partita durante i merge delle pagine dei metodi su Checker develop (il manifest registrava 0d7ba50b
+  per DLL compilate da 1fbaea61): con `-FromUpstream` il HEAD dei checkout non entra più nella build.
+- Riproducibilità: quattro corse `-FromUpstream` dagli stessi commit, una delle quali partita da una radice lasciata da
+  una corsa interrotta, hanno dato DLL, xml, `manifest.json` e `manifest.props` identici bit per bit.
+- `GPCChecker.Geotechnics.xml` viene ora dalla stessa build: aggiunge la documentazione di `PileSegments` e
+  `PileSegments.TubeWeight`, assente nella copia precedente, ferma a una build anteriore.
+- ANTHEA, sul commit dell'installazione (edc4fce) e senza `-GpcLibDir`, con le DLL nuove negli output (SHA-256
+  controllati): profilo standard (corsa `20261007-170249-s2u`) 33 PASS, 1 KNOWN (`verifiche/project-calculations`),
+  0 NEW-FAIL; profilo baseline (corsa `20261007-170533-s2u-baseline`, `-BaselineRef <F2-B2>\headless`, `-DenseRef
+  <F2-pre-m4-v2>\a\tutte`) 39 PASS, 1 KNOWN, 0 NEW-FAIL. Con `-CompareTo` le corse del candidato nessun avviso: esiti e
+  righe di conteggio uguali a quelli del candidato, a loro volta uguali a S1 sullo stesso codice (17b6c98). Cattura
+  headless uguale alla baseline F2-B2 su 432 file (solo i 21 tempi volatili; nel manifest cambiano commit, hash di
+  questo manifest, le cinque DLL e, come già con S1 su 17b6c98, ANTHEA.Calculations, ANTHEA.Core e ANTHEA.Testing,
+  perché F2-B2 è catturata da a88b177). Banco c.a. contro le fixture di Checker: 27 698 righe, 26 462 identiche, 1236
+  con soli identificativi casuali; contro F2-pre-m4-v2: 32 564 righe, 31 320 identiche, 1244 con soli identificativi
+  casuali; nessuna differenza. Impronta delle 80 mesh (cattura densa `mesh`) identica riga per riga a B0 e a
+  F2-pre-m4-v2.
+- Librerie, sulle DLL compilate nel checkout principale da Model 5ad56681 e Checker 0d7ba50b, stesso sorgente di questa
+  release (non ripetuti sui binari della radice temporanea, che differiscono solo per il percorso del PDB): Concrete
+  510/510, Geotechnics 98/98, CompositeBridge 254/254, Model 892 superati e 2 ignorati, ModelChecker 106/106. Steel
+  (non nello snapshot, 17 fallimenti storici) e BridgeAudit (compila ANTHEA/X.Core) non eseguiti.
 - Manca il profilo full con le prove WPF a schermo.
 
 **Snapshot riproducibile da commit (7 ottobre 2026, refactoring F0.8-F0.9).** Prima ricostruzione con
@@ -210,9 +255,8 @@ aprire un foglio esistente conserva i valori salvati. I coefficienti normativi
 restano separati dai materiali. Applicare un materiale trefolo modifica il
 predefinito per i nuovi cavi; il menu materiale nella singola riga consente
 di assegnarlo a un cavo esistente senza modificare gli altri.
-Per aggiornare: sostituire un insieme coerente di DLL proveniente dalla stessa
-build, aggiornare il manifest, compilare ed eseguire i controlli `--checker`, la
-regressione completa e la prova WPF. Non usare wildcard sulle cartelle bin esterne.
+Per aggiornare: vedere la procedura in testa a questo file (dal 7 ottobre 2026
+`Update-Snapshot.ps1 -FromUpstream`). Non copiare DLL a mano dalle cartelle bin esterne.
 
 Le DLL proprietarie restano soggette alle condizioni del titolare. Questo snapshot
 non assegna nuove licenze ai componenti terzi (GMsh.Net, DelaunayMesh, UnsafeEx);
