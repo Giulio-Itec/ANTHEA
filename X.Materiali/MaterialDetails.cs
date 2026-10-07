@@ -114,7 +114,7 @@ public sealed partial class MaterialView
         var active=Active(); var fck=Classes[choice.SelectedIndex].Fck;
         RefreshMinimumConcrete(active);
         RefreshExposureSelector(active);
-        coverHeadline.Text="Da completare"; coverSteps.Text=""; coverHeadline.Foreground=Navy;
+        coverHeadline.Text="Da completare"; coverSteps.Text=""; coverHeadline.Foreground=Themed("foreground","#0B2A4A");
         bool ntc=choices["coverMethod"].SelectedIndex==0;
         ntcOptions!.Visibility=ntc?Visibility.Visible:Visibility.Collapsed;
         ec2Options!.Visibility=ntc?Visibility.Collapsed:Visibility.Visible;
@@ -138,7 +138,7 @@ public sealed partial class MaterialView
             if(active.Any(e=>e.CoverColumn<0)) coverSteps.Text+="\nXF/XA: requisiti aggiuntivi della miscela nella colonna Composizione.";
             }
         }
-        catch(ArgumentException ex) {coverSteps.Text=ex.Message;coverHeadline.Foreground=Brush("#9A4D0A");}
+        catch(ArgumentException ex) {coverSteps.Text=ex.Message;coverHeadline.Foreground=Themed("foreground","#9A4D0A");}
         RefreshMix(active,fck);
     }
     void UpdateDeviation()
