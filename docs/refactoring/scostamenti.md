@@ -649,3 +649,13 @@ uniforme: k2 = 1 e h − x = la stessa h, senza salto alla soglia anche nelle se
 (la prima versione limitava all'altezza lungo il gradiente: cassone 400×600, fasce ±x da 600 a
 400 mm alla soglia). Nessun effetto con l'asse neutro interno; nel banco c.a. cambiano 4 stati
 C1000H in sola trazione (+2,8e-8 relativo, esiti invariati), nessuno per la regola continua.
+
+La regola continua sposta però la discontinuità delle fasce dalla soglia della trazione uniforme
+(un'eccentricità trascurabile) al punto in cui l'asse neutro entra nella sezione, dove prima non
+c'era (d2d3225 limitava all'altezza lungo il gradiente da entrambi i lati, 733a77c non limitava):
+appena fuori h − x = min[εmax/|∇ε|; h normale alla faccia], appena dentro εmax/|∇ε|. Il salto c'è
+anche nelle sezioni quadrate in flessione deviata e può decidere l'esito: cassone 1000×1000 con
+foro 600×600, N = 3000 kN, momento lungo (0,6; 0,8), ingresso a M = 485,44 kNm: fascia +x
+1000 → 1183,68 mm, wk della sezione 3,9279 → 4,6494 mm NTC (4,0049 → 4,7406 mm EN, +18,4 %).
+Nell'anello non c'è (le due altezze sono il diametro). **Da decidere**: tenere questa regola oppure
+scegliere un limite continuo sia alla soglia sia all'ingresso dell'asse neutro.

@@ -437,8 +437,10 @@ internal static class CrackK2Checks
         // min[εmax/|∇ε|; h of the section normal to the face] (1000 mm for ±x, 1400 mm for ±y), the h of the outer faces and of uniform tension,
         // so h − x does not jump at the threshold (before: h along the gradient, 1400 mm for the ±x bands with a moment about x) and wk changes
         // only with σs and k₂ (k₂ ≥ 1 − 1e-4/2 above the threshold, 1 below). Neutral axis inside the section: h − x of the band stays εmax/|∇ε|
-        // from the neutral axis, without the bound and without the entry; the regime changes where the neutral axis enters the section, as for
-        // the outer faces (fully tensioned faces with h normal to the face ↔ bending).
+        // from the neutral axis, without the bound and without the entry. The continuous rule moves the discontinuity of the bands from the
+        // uniform-tension threshold to the entry of the neutral axis, where it is new (d2d3225 bounded both sides by the height along the
+        // gradient, 733a77c neither): here ±x bands 1000 → 1186 mm between 525 and 550 kNm; in the square box of (j) with an oblique moment
+        // the +x band goes 1000 → 1183.68 mm and the section wk +18.4 % (last part of (k)). To be decided by the user (R15).
         {
             var box = (JsonObject)input.DeepClone(); box["width_mm"] = "1000"; box["height_mm"] = "1400"; box["foro_presente"] = true; box["inner_width_mm"] = "600"; box["inner_height_mm"] = "1000";
             var boxBars = new List<(double X, double Y, double Phi)>();
@@ -511,6 +513,61 @@ internal static class CrackK2Checks
                 Console.WriteLine($"(k) M = {mLast} → {mFirst} kNm, {band}: h − x = {outside?.Value} mm (interamente tesa) → {used:G8} mm (asse neutro interno, εmax/|∇ε| = {hand:G8} mm)");
                 Assert(Entry(bent.R, band, "h − x della fascia") == null && Math.Abs(used - hand) <= 1e-9 * hand && hand > 1000,
                     $"(k) M = {mFirst} kNm, asse neutro interno, {band}: h − x = εmax/|∇ε| = {hand:0.#} mm senza limite né voce");
+            }
+            // Square box of (j) (1000 × 1000, hole 600 × 600, N = 3000 kN, interaxis 300 mm) with a moment along (0,6; 0,8), bisected to the
+            // entry of the neutral axis: just outside, h − x of a band is min[εmax/|∇ε|; 1000 mm] (the height normal to the face); just inside,
+            // εmax/|∇ε| unbounded. The bands with εmax/|∇ε| > 1000 mm at the entry jump there, and so does wk: a discontinuity introduced by the
+            // continuous rule of 76a2062 (with d2d3225 the bound was the height along the gradient, 1400 mm, on both sides; with 733a77c there was
+            // none), also in square sections. Current behaviour, pinned until the user decides (R15).
+            {
+                var sq = (JsonObject)input.DeepClone(); sq["width_mm"] = "1000"; sq["height_mm"] = "1000"; sq["foro_presente"] = true; sq["inner_width_mm"] = "600"; sq["inner_height_mm"] = "600";
+                var sqBars = new List<(double X, double Y, double Phi)>();
+                foreach (var x in new[] { -400d, -200, 0, 200, 400 }) { sqBars.Add((x, -440, 20)); sqBars.Add((x, 440, 20)); }
+                foreach (var x in new[] { -250d, 0, 250 }) { sqBars.Add((x, -340, 12)); sqBars.Add((x, 340, 12)); }
+                foreach (var y in new[] { -200d, 0, 200 }) { sqBars.Add((-440, y, 16)); sqBars.Add((440, y, 16)); sqBars.Add((-340, y, 12)); sqBars.Add((340, y, 12)); }
+                sq["barre_manuali"] = Bars(sqBars.ToArray());
+                foreach (var code in new[] { "NTC 2018", "EN 1992-1-1" })
+                {
+                    (Ntc2018Checks.CrackResult R, CheckerStressState S, CheckerSection E) Sq(double m)
+                    {
+                        var w = (JsonObject)settings.DeepClone(); w["normativa"] = code;
+                        var engine = new CheckerSection(sq, w, options); var action = new ActionPoint(3000, sign * .6 * m, sign * .8 * m); var state = engine.Stress(action, "SLE_QP");
+                        return (Ntc2018Checks.Cracking(engine, state, action, sq, w, options, "SLE_QP"), state, engine);
+                    }
+                    double lo = 0, hi = 2000; var tensile = Sq(lo); var bent = Sq(hi);
+                    string label = $"(k) cassone 1000×1000 {code}, M lungo (0,6; 0,8)";
+                    Assert(Strains(tensile).Min() >= 0 && Strains(bent).Min() < 0, $"{label}: l'asse neutro entra nella sezione fra 0 e {hi} kNm");
+                    while (hi - lo > 1e-4)
+                    {
+                        double mid = (lo + hi) / 2; var run = Sq(mid);
+                        if (Strains(run).Min() >= 0) { lo = mid; tensile = run; } else { hi = mid; bent = run; }
+                    }
+                    double wOut = tensile.R.Width!.Value, wIn = bent.R.Width!.Value;
+                    Console.WriteLine($"{label}: ingresso dell'asse neutro M in [{lo:F5}; {hi:F5}] kNm, wk della sezione {wOut:G8} → {wIn:G8} mm ({wIn / wOut - 1:+0.0%;-0.0%})");
+                    int jumps = 0;
+                    foreach (var band in bands)
+                    {
+                        double Hand((Ntc2018Checks.CrackResult R, CheckerStressState S, CheckerSection E) run)
+                        {
+                            // εmax/|∇ε| at the corners of the band: hole face at ±300 mm, depth hc,eff, along the hole face (−300 … 300).
+                            var plane = run.S.Native.StrainPlane; double q = band.EndsWith("+x") || band.EndsWith("+y") ? 1 : -1, hc = Entry(run.R, band, "hc,eff")!.Value!.Value;
+                            var corners = new[] { 300, 300 + hc }.SelectMany(a => new[] { -300d, 300 }.Select(b => band.EndsWith("x") ? (X: q * a, Y: b) : (X: b, Y: q * a)));
+                            return corners.Max(p => plane.GetStrain(p.X, p.Y)) / Gradient(run.S);
+                        }
+                        double Used((Ntc2018Checks.CrackResult R, CheckerStressState S, CheckerSection E) run)
+                            => code == "NTC 2018" ? Entry(run.R, band, "h − x (formula)")!.Value!.Value : Entry(run.R, band, "sr,max")!.Value!.Value / 1.3;
+                        double handOut = Hand(tensile), handIn = Hand(bent), usedOut = Used(tensile), usedIn = Used(bent);
+                        var bound = Entry(tensile.R, band, "h − x della fascia");
+                        Console.WriteLine($"    {band}: h − x = {usedOut:G8} mm (εmax/|∇ε| = {handOut:G8}, interamente tesa) → {usedIn:G8} mm (εmax/|∇ε| = {handIn:G8}, asse neutro interno), wk = {Entry(tensile.R, band, "wk")!.Value:G8} → {Entry(bent.R, band, "wk")!.Value:G8} mm");
+                        Assert(handOut > 1000 ? bound != null && bound.Value == 1000 && usedOut == 1000 && bound.Expression == "min[εmax/|∇ε|; h della sezione normale alla faccia]"
+                                : bound == null && Math.Abs(usedOut - handOut) <= 1e-9 * handOut,
+                            $"{label}, {band}: asse neutro fuori, h − x = min(εmax/|∇ε| = {handOut:0.##} mm; 1000 mm)");
+                        Assert(Entry(bent.R, band, "h − x della fascia") == null && Math.Abs(usedIn - handIn) <= 1e-9 * handIn,
+                            $"{label}, {band}: asse neutro interno, h − x = εmax/|∇ε| = {handIn:0.##} mm senza limite né voce");
+                        if (handOut > 1000) jumps++;
+                    }
+                    Assert(jumps > 0 && wIn / wOut - 1 > .1, $"{label}: salto di h − x e di wk della sezione all'ingresso dell'asse neutro ({wOut:G6} → {wIn:G6} mm), da decidere (R15)");
+                }
             }
         }
         Console.WriteLine($"k2 D7-b: {passed} controlli superati."); return passed;
