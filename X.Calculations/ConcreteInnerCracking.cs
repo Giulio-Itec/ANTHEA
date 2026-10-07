@@ -46,7 +46,9 @@ public static partial class Ntc2018Checks
             var trace = new List<CrackCalculationDetail>();
             trace.Add(new("hc,eff", effectiveDepth, "mm", "Fascia della parete/anello interno, limitata a metà spessore"));
             // Local check: k₂ from the strains of the tensile part of the band, not the Criterio k₂ of the whole section.
-            trace.Add(new("k₂ della fascia", k2, "−", "(εmax + εmin)/(2 εmax) ai vertici della parte tesa della fascia, limitato fra 0,50 e 1",
+            // Not written with the legacy rule of NtcK2FromCompressedBars, whose trace had no such entry (local copy: no unreachable branch).
+            bool legacyK2 = NtcK2FromCompressedBars;
+            if (!legacyK2) trace.Add(new("k₂ della fascia", k2, "−", "(εmax + εmin)/(2 εmax) ai vertici della parte tesa della fascia, limitato fra 0,50 e 1",
                 "Distribuzione locale delle deformazioni (EN 1992-1-1 7.3.4(3), aree locali): 0,50 se l'asse neutro taglia la fascia, oltre 0,50 se la fascia è tutta tesa. Indipendente dal Criterio k₂ della sezione."));
             double width = ConcreteCodeChecks.CrackWidth(options.S("__normativa_fessure","NTC 2018"), sigma,s.Es,material.Ecm,material.Fctm,steel/area,phi,c,spacing.Value,depth,
                 options.S("durata","Lunga")=="Breve",options.S("aderenza","Migliorata")=="Migliorata",k2,trace);

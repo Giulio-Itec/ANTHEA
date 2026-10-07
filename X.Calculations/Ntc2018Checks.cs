@@ -33,6 +33,9 @@ public static partial class Ntc2018Checks
     /// frozen fixtures and the comparisons. With false k₂ = 0,50 for every standard when the neutral axis crosses the section
     /// (Circolare 2019 C4.1.2.2.4.5, EN 1992-1-1 7.3.4(3)); a fully compressed section returns wk = 0 before k₂ is chosen,
     /// a fully tensioned one keeps (εmax + εmin)/(2 εmax).
+    /// True reproduces the numbers, the verdicts, the trace and the summary of 733a77c: every text added by D7-b depends on this
+    /// switch (Cracking, ConcreteTensionCracking, ConcreteInnerCracking "k₂ della fascia", ConcreteCodeChecks k₂ of MC/DIN,
+    /// CrackCalculationSummary), and the bar stresses are checked, with the "k₂:" message, before the compression return.
     /// </summary>
     public const bool NtcK2FromCompressedBars = false;
     /// <summary>Legacy rule of <see cref="NtcK2FromCompressedBars"/>. Compression is negative. Inspect every ordinary bar, not only the effective tensile area.</summary>
