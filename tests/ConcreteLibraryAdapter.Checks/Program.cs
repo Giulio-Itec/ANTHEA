@@ -15,10 +15,12 @@ using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 // 3. Equivalenza legacy → libreria sulle griglie della cattura densa (stessi generatori e semi di CheckerMigration.Capture) e sui
 //    calcoli del modulo: stessi esiti, stessi rifiuti con lo stesso messaggio, stessi testi (stati, riferimenti, modelli, tracce),
 //    numeri entro 1e-9 (|a − b| ≤ 1e-9 + 1e-9 · max(|a|, |b|), come le grandezze ca_fixture_* di tests/ANTHEA.Testing/tolerances.json).
-//    3f: la torsione del modulo passa dall'adattatore con il motore richiesto (bit per bit, controllo che distingue i motori).
+//    3f: la torsione del modulo passa dall'adattatore con il motore richiesto (bit per bit, controllo che distingue i motori);
+//    con il motore legacy coincide anche con il legacy diretto. 3e: la torsione del calcolo headless è quella dell'adattatore
+//    con il motore predefinito.
 // 4. Attesi indipendenti (reference.json, benchmark e forme chiuse di taglio e torsione) sul percorso dell'adattatore, con entrambi i motori.
 // Uscita 0 con la riga "PASS · …"; 1 con il primo controllo fallito.
-const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Library; // F2.5: legacy; F2.6: libreria
+const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Legacy; // F2.5 e cattura di B3: legacy; F2.6: libreria
 const double Tolerance = 1e-9;
 
 int count = 0;
@@ -51,6 +53,16 @@ void Identical(string id, Func<object?> direct, Func<object?> adapter)
     var a = Run(direct); var b = Run(adapter);
     Check(a.Outcome == b.Outcome && a.Message == b.Message, $"{id}: il motore legacy dell'adattatore rifiuta diversamente ({a.Message} / {b.Message})");
     Check(a.Json?.ToJsonString() == b.Json?.ToJsonString(), $"{id}: il motore legacy dell'adattatore non coincide con il legacy");
+}
+// Ingressi che ConcreteShearAnalysis.Torsion passa all'adattatore, ricostruiti qui: profilo resistente dal contorno con il motore
+// indicato, taglio delle due direzioni dello stesso calcolo del modulo, fcd e fyd della sezione, staffe, As e cot θ della torsione.
+TorsionInput ModuleTorsionInput(JsonObject input, JsonObject settings, JsonObject options, JsonObject row, ConcreteShearResult shear, ShearTorsionEngine engine, out SezioneCA geometry)
+{
+    var effective = (JsonObject)options.DeepClone();
+    geometry = ConcreteCalculationSettings.UpdateAutomaticShear(input, effective);
+    return new TorsionInput(SectionWorkspace.Number(row.S("T"), "T"), ConcreteShearTorsionAdapter.TorsionGeometryOf(geometry, engine),
+        ConcreteMaterials.DesignValues(input, settings).Fcd, geometry.Fyd, Math.PI * Math.Pow(input.D("transverse_bar_diameter_mm"), 2) / 4,
+        input.D("transverse_spacing_mm"), effective.Required("as_torsione"), effective.Required("cot_torsione"), row.D("Vx"), row.D("Vy"), shear.Shear[0], shear.Shear[1]);
 }
 
 try
@@ -201,11 +213,13 @@ try
                     Check(profile.Outcome == "ok" || module.Outcome != "ok", $"{id} ({engine}): profilo rifiutato «{profile.Message}» dall'adattatore, calcolato dal modulo");
                     if (module.Outcome != "ok") { outputs[engine] = module.Outcome + " " + module.Message; routedRejected++; continue; }
                     var r = ConcreteShearAnalysis.Calculate(input, settings, options, row, engine);
-                    var torsionInput = new TorsionInput(SectionWorkspace.Number(row.S("T"), "T"), ConcreteShearTorsionAdapter.TorsionGeometryOf(geometry, engine),
-                        ConcreteMaterials.DesignValues(input, settings).Fcd, geometry.Fyd, Math.PI * Math.Pow(input.D("transverse_bar_diameter_mm"), 2) / 4,
-                        input.D("transverse_spacing_mm"), effective.Required("as_torsione"), effective.Required("cot_torsione"), row.D("Vx"), row.D("Vy"), r.Shear[0], r.Shear[1]);
+                    var torsionInput = ModuleTorsionInput(input, settings, options, row, r, engine, out _);
                     string direct = J.Node(ConcreteShearTorsionAdapter.Torsion(torsionInput, input.Required("fck_mpa"), input.Required("gamma_c"), engine))!.ToJsonString();
                     Check(J.Node(r.Torsion)?.ToJsonString() == direct, $"{id} ({engine}): la torsione del modulo non è quella dell'adattatore con il motore {engine}");
+                    // Con il motore legacy il modulo coincide anche con il nucleo legacy chiamato direttamente (ConcreteTorsionCalculator).
+                    if (engine == ShearTorsionEngine.Legacy)
+                        Check(J.Node(r.Torsion)?.ToJsonString() == J.Node(new ConcreteTorsionCalculator().Calculate(torsionInput with { Geometry = ConcreteTorsionCalculator.Geometry(geometry) }))!.ToJsonString(),
+                            $"{id}: la torsione del modulo con il motore Legacy non è quella del legacy diretto");
                     var other = engine == ShearTorsionEngine.Legacy ? ShearTorsionEngine.Library : ShearTorsionEngine.Legacy;
                     if (J.Node(ConcreteShearTorsionAdapter.Torsion(torsionInput with { Geometry = ConcreteShearTorsionAdapter.TorsionGeometryOf(geometry, other) },
                         input.Required("fck_mpa"), input.Required("gamma_c"), other))!.ToJsonString() != direct) discriminating++;
@@ -227,8 +241,9 @@ try
 
     // ---------------------------------------------------------------- 3e. calcolo headless del modulo e relazioni
     // ConcreteAnalysis (motore predefinito) contro lo stesso risultato con 'taglio', 'torsione' ed errori del motore legacy:
-    // JSON entro la tolleranza con testi identici; testo delle relazioni completa e sintetica (X.Core) identico.
-    int reports = 0; var analysisStats = new Stats("calcolo headless");
+    // JSON entro la tolleranza con testi identici; testo delle relazioni completa e sintetica (X.Core) identico; 'torsione' del calcolo
+    // headless uguale bit per bit all'adattatore con il motore predefinito (la riga T7 dà uscite diverse con i due motori).
+    int reports = 0, headlessRouted = 0, headlessDiscriminating = 0; var analysisStats = new Stats("calcolo headless");
     foreach (var norm in new[] { "NTC 2018", "EN 1992-1-1", "Model Code 2010", "DIN EN 1992-1-1", "NS EN 1992-1-1" })
     {
         var data = SezioneCA.DefaultData(); var input = data["input"]!.AsObject(); var settings = SectionWorkspace.Prepare(data);
@@ -239,7 +254,8 @@ try
         shear["ancoraggio"] = "Confermato"; shear["chiusura_torsione"] = "Confermato"; shear["as_torsione"] = "1000";
         var actions = new JsonArray();
         foreach (var (id, n, mx, my, vx, vy, t) in new[] { ("T1", "-300", "60", "25", "50", "80", "0"), ("T2", "-900", "150", "-80", "400", "-260", "0"), ("T3", "200", "-40", "10", "-120", "35", "0"),
-            ("T4", "-300", "60", "25", "50", "80", norm == "NTC 2018" ? "15" : "0"), ("T5", "-300", "60", "25", "900", "700", norm == "NTC 2018" ? "40" : "0"), ("T6", "-300", "60", "25", "50", "80", norm == "NTC 2018" ? "0" : "10") })
+            ("T4", "-300", "60", "25", "50", "80", norm == "NTC 2018" ? "15" : "0"), ("T5", "-300", "60", "25", "900", "700", norm == "NTC 2018" ? "40" : "0"), ("T6", "-300", "60", "25", "50", "80", norm == "NTC 2018" ? "0" : "10"),
+            ("T7", "-900", "150", "-80", "400", "-260", norm == "NTC 2018" ? "25" : "0") })
             actions.Add(J.Obj(("id", id), ("nome", "Azione " + id), ("N", n), ("Mx", mx), ("My", my), ("Vx", vx), ("Vy", vy), ("T", t)));
         shear["azioni"] = actions;
         var library = ConcreteAnalysis.Calculate(data);
@@ -259,8 +275,25 @@ try
         var errors = new List<string>();
         Json.Compare(legacy, library, "analisi " + norm, analysisStats, errors, Tolerance); analysisStats.Results++;
         Check(errors.Count == 0, string.Join(Environment.NewLine, errors.Take(5)));
+        // La 'torsione' del calcolo headless (motore predefinito) è quella dell'adattatore chiamato direttamente con il motore
+        // predefinito, bit per bit; dove i due motori danno uscite diverse il controllo riconosce un calcolo che aggiri l'adattatore.
+        foreach (var row in preparedSettings["taglio"]!.Array("azioni").OfType<JsonObject>())
+        {
+            string id = row.S("id");
+            if (library["torsione"]![id] is not JsonNode headless) continue;
+            var engine = ConcreteShearTorsionAdapter.Default;
+            var r = ConcreteShearAnalysis.Calculate(preparedInput, preparedSettings, preparedSettings["taglio"]!.AsObject(), row, engine);
+            var torsionInput = ModuleTorsionInput(preparedInput, preparedSettings, preparedSettings["taglio"]!.AsObject(), row, r, engine, out var geometry);
+            double fck = preparedInput.Required("fck_mpa"), gammaC = preparedInput.Required("gamma_c");
+            string direct = J.Node(ConcreteShearTorsionAdapter.Torsion(torsionInput, fck, gammaC, engine))!.ToJsonString();
+            Check(headless.ToJsonString() == direct, $"analisi {norm} {id}: la torsione del calcolo headless non è quella dell'adattatore con il motore predefinito {engine}");
+            var other = engine == ShearTorsionEngine.Legacy ? ShearTorsionEngine.Library : ShearTorsionEngine.Legacy;
+            if (J.Node(ConcreteShearTorsionAdapter.Torsion(torsionInput with { Geometry = ConcreteShearTorsionAdapter.TorsionGeometryOf(geometry, other) }, fck, gammaC, other))!.ToJsonString() != direct)
+                headlessDiscriminating++;
+            headlessRouted++;
+        }
         // NTC: due righe con torsione; altre norme: la riga con T diverso da zero è rifiutata (torsione accoppiata solo NTC).
-        Check(library["taglio"]!.AsObject().Count >= 5 && (norm == "NTC 2018" ? library["torsione"]!.AsObject().Count == 2 : library["errori_calcolo"]!.AsObject().Any(p => p.Key.StartsWith("Taglio/"))),
+        Check(library["taglio"]!.AsObject().Count >= 5 && (norm == "NTC 2018" ? library["torsione"]!.AsObject().Count == 3 : library["errori_calcolo"]!.AsObject().Any(p => p.Key.StartsWith("Taglio/"))),
             norm + ": casi del calcolo headless non rappresentativi: " + library["taglio"]!.ToJsonString().Length + " " + string.Join(",", library["torsione"]!.AsObject().Select(p => p.Key)) + " " + library["errori_calcolo"]!.ToJsonString());
         var complete = X.Core.ReportConcrete.Sections.Select(s => s.Key).ToHashSet();
         foreach (var (kind, make) in new (string, Func<JsonObject, byte[]>)[]
@@ -275,6 +308,7 @@ try
         }
     }
     Check(reports == 10, "relazioni confrontate: " + reports);
+    Check(headlessRouted == 3 && headlessDiscriminating > 0, $"torsioni del calcolo headless confrontate con l'adattatore: {headlessRouted}, con uscite dei due motori diverse: {headlessDiscriminating}");
 
     // ---------------------------------------------------------------- 4. attesi indipendenti attraverso l'adattatore
     // Gli stessi attesi che supporto/test/ConcreteCode.Checks e X.Verifiche (--ca-module) verificano sul legacy diretto, qui sul
@@ -363,6 +397,7 @@ try
     var lines = new[] { shearStats, torsionStats, geometryStats, moduleStats, routedStats, analysisStats }.Select(s => s.Line())
         .Append($"relazioni: {reports} testi identici (completa e sintetica, 5 norme)")
         .Append($"torsione del modulo: {routed} calcoli coincidenti con l'adattatore del motore richiesto, {discriminating} con uscite dei due motori diverse")
+        .Append($"torsione del calcolo headless: {headlessRouted} righe coincidenti con l'adattatore del motore predefinito {ConcreteShearTorsionAdapter.Default}, {headlessDiscriminating} con uscite dei due motori diverse")
         .Append($"attesi indipendenti: {independent} controlli superati con i motori Legacy e Library").ToArray();
     foreach (var line in lines) Console.WriteLine(line);
     if (args.Length > 0)
@@ -372,6 +407,7 @@ try
         foreach (var s in new[] { shearStats, torsionStats, geometryStats, moduleStats, routedStats, analysisStats }) report[s.Name] = s.Json();
         report["relazioni"] = reports;
         report["torsione_del_modulo"] = new JsonObject { ["calcoli_coincidenti_con_adattatore"] = routed, ["rifiuti"] = routedRejected, ["uscite_dei_motori_diverse"] = discriminating };
+        report["torsione_del_calcolo_headless"] = new JsonObject { ["righe_coincidenti_con_adattatore"] = headlessRouted, ["uscite_dei_motori_diverse"] = headlessDiscriminating };
         report["attesi_indipendenti"] = independent;
         File.WriteAllText(Path.Combine(args[0], "misura.json"), report.ToJsonString(J.Options), new UTF8Encoding(false));
     }
