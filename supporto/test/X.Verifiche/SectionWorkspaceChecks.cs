@@ -323,6 +323,21 @@ internal static class CrackK2Checks
             Console.WriteLine($"(g) cassone NTC, M = 600 kNm: governa la parete interna −y, k₂ della fascia = {bandK2:0.0000}, wk = {r.Width:0.0000} mm");
         }
 
+        // (h) Neutral axis in the cover of the reinforced tensile edge: no tensile bar, wk = 0; k₂ written once with the note
+        // that it does not enter, no k₂ of the formula and no k₂ in the summary.
+        {
+            const double moment = 80; // h − x ≈ 12,6 mm, the bottom bars are 50 mm from the edge
+            var (h, _, _) = Crack("NTC 2018", both, -900, sign * moment);
+            Assert(h.Status == "Asse neutro nel copriferro: nessuna barra tesa, wk = 0", "(h) N = −900 kN, M = 80 kNm: asse neutro nel copriferro");
+            Assert(Bending(h) && h.Width == 0 && h.Ratio == 0 && h.Passed == true, $"(h) M = {moment} kNm: asse neutro interno alla sezione, wk = 0, soddisfatta");
+            Assert(V(h, "h − d,min") > V(h, "h − x"), "(h) barra più vicina al lembo teso oltre la profondità tesa");
+            FlexureK2(h, "(h)");
+            Assert(h.Details.Single(d => d.Symbol == "Criterio k₂").Note.Contains("non entra se l'asse neutro è nel copriferro senza barre tese"), "(h) il criterio dichiara che k₂ non entra");
+            Assert(!h.Details.Any(d => d.Symbol == "k₂"), "(h) nessun k₂ della formula");
+            Assert(!CrackCalculationSummary.Values(h).Any(d => d.Symbol == "k₂") && !CrackCalculationSummary.Format(h).Contains("k₂"), "(h) riepilogo senza k₂");
+            Console.WriteLine($"(h) asse neutro nel copriferro: N = −900 kN, M = {moment} kNm, h − x = {V(h, "h − x"):0.0} mm, h − d,min = {V(h, "h − d,min"):0.0} mm, wk = 0");
+        }
+
         // (i) Bar stresses missing or not finite: with the new rule k₂ does not use them, so a fully compressed section still gives
         // wk = 0; where σs is needed the check stops with a message that does not mention k₂.
         {
