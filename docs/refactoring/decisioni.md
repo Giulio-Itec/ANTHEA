@@ -140,6 +140,16 @@ sempre in due commit (collegamento con opzione legacy identico, poi cambio con e
   report di lavori, test, committa e continua con il refactoring". Profilo full con prove WPF eseguito durante
   la pausa sulla punta dell'integrazione.
 
+## Decisioni del 7 ottobre 2026, pomeriggio: F1.6
+
+- **Destino dei progetti di test**: la tabella di [progetti-di-test.md](progetti-di-test.md) era da approvare;
+  l'utente ha delegato la decisione ("esegui tutto te"). Si archiviano in `supporto/SUPERATI/test/<nome>`, con
+  `git mv` e contenuto invariato, i progetti che dipendono da servizi o programmi di terzi, gli strumenti una
+  tantum e quello che non compila: BridgeDesign.SiteComparison, MaxRetainingWall.Cases,
+  MaxRetainingWall.Compare, ConcreteStressDiagnosis, ValidazioneCA20260925, ElasticPile.Performance e
+  ProgrammaAnthea (`qa.py`). Nessuno era nel runner. Gli altri progetti mantengono la destinazione già scritta
+  in tabella. Origine, motivo e sostituzione di ogni file sono in `supporto/SUPERATI/registro-20261007-test.json`.
+
 ## Dipendenze esterne previste
 
 Da approvare una volta; ogni variazione si aggiunge qui.

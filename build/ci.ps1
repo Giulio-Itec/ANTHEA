@@ -165,15 +165,11 @@ Add-Suite @{ Name = 'ui/check-concrete-design'; Stage = 'ui'; Kind = 'check'; Ar
     Proof = @{ File = '{out}\ui-pass.txt'; Pattern = '^PASS' } }
 Add-Suite @{ Name = 'ConcreteShort.Checks'; Stage = 'word'; Kind = 'run'; Project = (TestProject 'ConcreteShort.Checks'); Args = @('{out}'); Timeout = 900 }
 
+# Projects of supporto\test that the runner does not execute. The external comparisons and one-off tools (MAX, web
+# site, stress diagnosis, timing, validation of 25/9) were moved to supporto\SUPERATI\test in F1.6.
 $NotRun = @(
     @{ Name = 'ElasticPile.Checks'; Reason = 'compila progetti del working tree di Checker; passa nei test di libreria (traccia infrastruttura)' },
-    @{ Name = 'BridgeValidationCurrent'; Reason = 'compila i sorgenti di test di Checker; passa nei test di libreria (traccia infrastruttura)' },
-    @{ Name = 'MaxRetainingWall.Cases'; Reason = 'confronto con il programma MAX: input esterni' },
-    @{ Name = 'MaxRetainingWall.Compare'; Reason = 'confronto con il programma MAX: input esterni' },
-    @{ Name = 'ElasticPile.Performance'; Reason = 'misura dei tempi con input in supporto/artefatti' },
-    @{ Name = 'ConcreteStressDiagnosis'; Reason = 'strumento di diagnosi, non una verifica' },
-    @{ Name = 'ValidazioneCA20260925'; Reason = 'campagna di validazione del 25/9 con riferimenti legacy' },
-    @{ Name = 'BridgeDesign.SiteComparison'; Reason = 'confronto con un sito web esterno' }
+    @{ Name = 'BridgeValidationCurrent'; Reason = 'compila i sorgenti di test di Checker; passa nei test di libreria (traccia infrastruttura)' }
 ) + $benchNotRun
 
 # ---------------------------------------------------------------- helpers

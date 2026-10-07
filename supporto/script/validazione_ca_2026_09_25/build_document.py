@@ -150,7 +150,7 @@ for e in sections[3].findall(qn('w:headerReference')):
  if e.get(qn('w:type'))=='default':finalsect.insert(0,deepcopy(e))
 
 import sys
-sys.path.insert(0,str(REPO/'supporto/test/ValidazioneCA20260925'))
+sys.path.insert(0,str(REPO/'supporto/SUPERATI/test/ValidazioneCA20260925'))
 import reference_base as rb
 EX=json.loads((ROOT/'extra_reference.json').read_text(encoding='utf8'))['cases']
 AX={v['id']:v for v in json.loads((ROOT/'actual_extra.json').read_text(encoding='utf8'))}
@@ -404,9 +404,9 @@ table(['Casi','Evidenza da controllare'],[
 ],[54,116])
 p('Gli scostamenti richiedono un riesame delle ipotesi e del risultato prima della chiusura del relativo caso di validazione. Nessun valore ANTHEA è stato sostituito con il valore atteso.')
 heading('Riproducibilità della campagna',newpage=True)
-p('I file di input e le risposte integrali sono conservati in supporto/artefatti/validazione_ca_2026_09_25. I programmi indipendenti e il programma C# di richiamo delle API sono in supporto/test/ValidazioneCA20260925. I sorgenti di generazione del rapporto sono in supporto/script/validazione_ca_2026_09_25.')
+p('I file di input e le risposte integrali sono conservati in supporto/artefatti/validazione_ca_2026_09_25. I programmi indipendenti e il programma C# di richiamo delle API sono in supporto/SUPERATI/test/ValidazioneCA20260925. I sorgenti di generazione del rapporto sono in supporto/script/validazione_ca_2026_09_25.')
 p('Ordine di esecuzione: reference_base.py genera i 20 casi originari; reference_extra.py genera le 68 estensioni; ValidazioneCA.csproj legge separatamente reference.json ed extra_reference.json e scrive actual_base.json e actual_extra.json. I risultati delle API sono acquisiti senza arrotondamento. I calcoli numerici delle schede derivano dai file di riferimento, non dall’output del motore.')
-p('Comando del programma di prova: dotnet run --project supporto/test/ValidazioneCA20260925 -c Release -- percorso_input.json percorso_output.json. Per una nuova build conservare la precedente cartella di artefatti e produrre una nuova sottocartella, senza sovrascrivere gli esiti storici.')
+p('Comando del programma di prova: dotnet run --project supporto/SUPERATI/test/ValidazioneCA20260925 -c Release -- percorso_input.json percorso_output.json. Per una nuova build conservare la precedente cartella di artefatti e produrre una nuova sottocartella, senza sovrascrivere gli esiti storici.')
 heading('Copertura dei singoli dettagli',2)
 table(['Controllo del modulo','Casi che lo esercitano'],[[k,', '.join(ids)] for k,ids in detail_coverage.items()],[104,66])
 assert all(len(ids)>=2 for ids in detail_coverage.values())
