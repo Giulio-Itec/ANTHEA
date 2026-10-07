@@ -31,25 +31,4 @@ public static class NtcCover
         var result=new CoverResult(bond,dur,minimum,Math.Max(minimum+p.Deviation,p.Ground),[]);
         return new(new[]{"Ordinario","Aggressivo","Molto aggressivo"}[severity],severity,cmin,c0,table,life,low,quality,result);
     }
-    public static void Check()
-    {
-        Exposure E(string code)=>Durability.Exposures.Single(e=>e.Code==code);
-        var p=new CoverInput(50,false,false,false,16,20,10,false,0,0);
-        static void Equal(double actual,double expected){if(Math.Abs(actual-expected)>1e-9)throw new Exception($"NTC copriferro: {actual}, atteso {expected}");}
-        Equal(Calculate([E("XF2")],30,p,true,false).Cover.Nominal,40);
-        Equal(Calculate([E("XF2")],30,p,false,false).Cover.Nominal,45);
-        Equal(Calculate([E("XF2")],40,p,false,false).Cover.Nominal,40);
-        Equal(Calculate([E("XF2")],25,p,false,false).Cover.Nominal,50);
-        Equal(Calculate([E("XF2")],25,p,false,false,25).Cover.Nominal,45);
-        Equal(Calculate([E("XF2")],30,p with{Life=100},false,false).Cover.Nominal,55);
-        Equal(Calculate([E("XF2")],30,p,false,true).Cover.Nominal,40);
-        Equal(Calculate([E("XF2"),E("XS3")],35,p,false,false).Cover.Nominal,55);
-        Equal(Calculate([E("XA3")],45,p,true,false).Cover.Nominal,45);
-        Equal(Calculate([E("XF1")],35,p,true,false).Cover.Nominal,26);
-        Equal(Calculate([E("XF2")],30,p with{Diameter=50},false,false).Cover.Nominal,60);
-        Equal(Calculate([E("XF2")],30,p with{Ground=75},false,false).Cover.Nominal,75);
-        Equal(Calculate([E("XF2")],30,p with{StrengthReduction=true,Slab=true,Quality=true},false,false).Cover.Nominal,45);
-        foreach(var e in Durability.Exposures) _=Calculate([e],30,p,false,false);
-        try{Calculate([],30,p,false,false);throw new Exception("Esposizione vuota accettata");}catch(ArgumentException){}
-    }
 }

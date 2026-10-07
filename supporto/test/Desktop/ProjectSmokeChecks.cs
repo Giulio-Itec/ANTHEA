@@ -12,7 +12,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeProjects(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory);
+        Directory.CreateDirectory(directory);
         void Check(bool condition, string message) { if (!condition) throw new Exception(message); }
         document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "progetti"), ("progetti", new JsonArray()));
         var project = J.Obj(("nome", "Progetto di prova"), ("strutture", new JsonArray()));

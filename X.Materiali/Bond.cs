@@ -33,16 +33,4 @@ public sealed partial class MaterialView
         }
         catch(ArgumentException ex) {bondDetails.Text=ex.Message;}
     }
-    void CheckBond()
-    {
-        var good=Bond(30,16,1,1,1.5);
-        if(Math.Abs(good.Fbd-3.041291)>1e-5) throw new Exception("Benchmark aderenza C30/37 errato.");
-        if(Math.Abs(Bond(30,40,.7,1,1.5).Fbd-good.Fbd*.7*.92)>1e-10) throw new Exception("Coefficienti aderenza errati.");
-        if(Bond(90,16,1,1,1.5).Fbd!=Bond(60,16,1,1,1.5).Fbd) throw new Exception("Limite C60/75 mancante.");
-        choices["bondCondition"].SelectedIndex=0;
-        if(!bondValue.Text.Contains(good.Fbd.ToString("0.00"))) throw new Exception("Aggiornamento aderenza errato: " + bondValue.Text + " · " + bondDetails.Text);
-        numbers["bondGamma"].Text="0";
-        if(bondValue.Text!="Da completare") throw new Exception("Risultato aderenza obsoleto.");
-        numbers["bondGamma"].Text="1,5";
-    }
 }

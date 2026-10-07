@@ -14,7 +14,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeNeutralAxis(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory);
+        Directory.CreateDirectory(directory);
         var checks = new List<string>();
         void Check(bool ok, string message) { if (!ok) throw new Exception(message); checks.Add("OK: " + message); }
         // Known affine fields, including a translated reference: the oracle is epsilon(x,y)=0.

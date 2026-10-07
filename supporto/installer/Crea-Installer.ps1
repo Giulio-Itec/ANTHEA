@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
 Crea l'installer NSIS di ANTHEA.
 
@@ -7,6 +7,7 @@ Pubblica X.Desktop self-contained per win-x64 (runtime .NET 8 incluso) nella car
 di lavoro supporto/artefatti/installer, senza toccare bin/obj del repository; copia l'ultima
 revisione delle guide generali e tutti i PDF del catalogo Guide.json, genera le immagini e gli elenchi dei file
 per installazione e disinstallazione, poi compila ANTHEA.nsi con makensis.
+Si ferma se tools/qa/Assert-NoTestCode.ps1 trova codice di prova negli assembly pubblicati.
 La versione e' quella di <Version> in X.Desktop/X.Desktop.csproj: il setup si chiama
 ANTHEA-<versione>-Setup-x64.exe e con la stessa versione viene sovrascritto.
 
@@ -177,6 +178,10 @@ else {
         -p:DebugType=None -p:DebugSymbols=false -p:SatelliteResourceLanguages=it
     if ($LASTEXITCODE -ne 0) { throw "dotnet publish non riuscito ($LASTEXITCODE)" }
 }
+
+# The setup must never ship the WPF checks of the UiTests configuration (refactoring F1.2).
+& (Join-Path $root 'tools\qa\Assert-NoTestCode.ps1') -Path $app | Out-Host
+if ($LASTEXITCODE -ne 0) { throw "La pubblicazione in $app contiene codice di prova: setup non creato." }
 
 Write-InstallerGuides $guideCatalog $stage
 New-InstallerImages

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +11,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeRetainingWall(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory); WindowState = WindowState.Normal; Width = 1600; Height = 1000;
+        Directory.CreateDirectory(directory); WindowState = WindowState.Normal; Width = 1600; Height = 1000;
         var messages = new List<string>();
         void Check(bool ok, string text) { if (!ok) throw new Exception(text); messages.Add("OK " + text); }
         async Task Settle() { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); }

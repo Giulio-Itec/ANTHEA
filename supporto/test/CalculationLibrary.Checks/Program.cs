@@ -92,6 +92,10 @@ try
     Check(sectionPile.S("motore") == "GPCChecker.Concrete" && sectionPile.D("momento_knm") > 0, "Sezione del palo non disponibile nella libreria autonoma");
     Check(beforePile == pile.ToJsonString(), "Calcolo sezione palo modifica gli input");
     Console.WriteLine($"Completato: {count} controlli della libreria autonoma superati.");
+    // Reference checks formerly inside the engine (Durability.Check, NtcCover.Check): always run here, while
+    // X.Verifiche --project-calculations can stop before reaching them.
+    Materiali.DurabilityReferenceChecks.CheckDurability(); Materiali.DurabilityReferenceChecks.CheckNtcCover();
+    Console.WriteLine("Completato: 2 controlli di riferimento di durabilità e copriferro NTC superati.");
     return 0;
 }
 catch (Exception ex) { Console.Error.WriteLine(ex); return 1; }

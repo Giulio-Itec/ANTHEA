@@ -17,7 +17,7 @@ public sealed partial class MainWindow
             sheet["dati"] = data.DeepClone(); MarkDirty(); RefreshTree(sheet); ShowSheet(sheet); return;
         }
         // A standalone wall stays open; its unsaved data are not discarded by a module switch.
-        var copy = new MainWindow { document = Archivio.Documento(module), dirty = true, testing = testing };
+        var copy = new MainWindow(serviceFactory) { document = Archivio.Documento(module), dirty = true };
         copy.document["dati"] = data.DeepClone(); copy.document["nome"] = name;
         copy.ShowSheet(copy.document); copy.UpdateTitle(); copy.Show();
     }

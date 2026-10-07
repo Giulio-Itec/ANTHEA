@@ -12,7 +12,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeBridge(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory); WindowState = WindowState.Normal; Width = 1600; Height = 990;
+        Directory.CreateDirectory(directory); WindowState = WindowState.Normal; Width = 1600; Height = 990;
         foreach (int oldPage in new[] { 0, 1, 2 })
         {
             var legacyData = BridgeSection.Defaults();

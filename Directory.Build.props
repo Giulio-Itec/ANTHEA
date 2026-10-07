@@ -15,4 +15,14 @@
     <CheckerLibraryDirectory>$(GpcLibDir)</CheckerLibraryDirectory>
     <GpcManifestProps Condition="'$(GpcManifestProps)' == ''">$(GpcLibDir)manifest.props</GpcManifestProps>
   </PropertyGroup>
+  <!--
+    UiTests: X.Desktop with the WPF checks of supporto\test (dotnet build X.Desktop\X.Desktop.csproj -c UiTests).
+    Optimized like Release, so that the checks run the same code as the shipped build; output in bin\UiTests.
+    Release never contains test code: tools\qa\Assert-NoTestCode.ps1 checks it, also in the installer.
+  -->
+  <PropertyGroup Condition="'$(Configuration)' == 'UiTests'">
+    <Optimize>true</Optimize>
+    <DebugType>portable</DebugType>
+    <DefineConstants>$(DefineConstants);UITESTS</DefineConstants>
+  </PropertyGroup>
 </Project>

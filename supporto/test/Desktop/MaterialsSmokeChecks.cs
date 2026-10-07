@@ -11,7 +11,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeMaterials(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory);
+        Directory.CreateDirectory(directory);
         void Check(bool value, string message) { if (!value) throw new Exception(message); }
         ShowModules("Materiali");
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();

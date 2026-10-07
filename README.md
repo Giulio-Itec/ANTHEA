@@ -171,17 +171,20 @@ Il modello adottato compare nella verifica, nei risultati e nella relazione.
 Passo dei diagrammi e tolleranza sono in “Opzioni avanzate”, nei dati generali.
 Controllo dedicato: `dotnet run --project supporto/test/X.Verifiche -c Release -- --horizontal`.
 
-Su Windows, dopo la compilazione Release:
+Le prove WPF (`--smoke-*`, `--check-*`) sono compilate solo nella configurazione `UiTests`,
+mai nell'eseguibile Release distribuito; il runner le esegue con `build\ci.ps1 -Profile full`
+oppure, una per volta, con `build\ci.ps1 -Stage build,ui -Only <nome>`. Su Windows:
 
 ```powershell
-dotnet X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll --smoke supporto/artefatti/verifiche_wpf/dopo supporto/test/casi_confronto.json
+dotnet build X.Desktop/X.Desktop.csproj -c UiTests
+dotnet X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.dll --smoke supporto/artefatti/verifiche_wpf/dopo supporto/test/casi_confronto.json
 ```
 
 Per verificare l'adattamento dell'interfaccia a quattro dimensioni di finestra e
 registrare la scala DPI effettiva, avviare direttamente l'eseguibile con il suo manifest:
 
 ```powershell
-X.Desktop/bin/Release/net8.0-windows/ANTHEA.exe --smoke-display supporto/artefatti/verifiche_wpf/display
+X.Desktop/bin/UiTests/net8.0-windows/ANTHEA.exe --smoke-display supporto/artefatti/verifiche_wpf/display
 ```
 
 Questa prova non cambia la scala di Windows. Per verificare scale diverse e il
@@ -221,6 +224,6 @@ L'indicatore accanto al gruppo apre il confronto dei valori e consente di rialli
 
 Il CLS è collegato tra Materiali, sezioni in c.a. e pali orizzontali. Geometrie circolari compatibili scambiano il diametro convertendo metri e millimetri. Forme incompatibili non vengono convertite. L'armatura parametrica ordinaria è condivisa tra moduli compatibili; barre manuali e trefoli vengono condivisi tra fogli di sezione in c.a. Un fck personalizzato non rappresentabile nella scheda Materiali resta segnalato come differenza. I fogli aggiornati usano i nuovi dati e ricalcolano alla riapertura, senza riutilizzare risultati di un precedente editor.
 
-Verifiche: ANTHEA.exe --smoke-sharing <cartella-output>.
+Verifiche: ANTHEA.exe della configurazione `UiTests` con `--smoke-sharing <cartella-output>`.
 
 Le formule Wiki usano blocchi Markdown `math` con sorgente LaTeX e formule inline fra `$`. WPF-Math 2.1.0 compone le equazioni nell’interfaccia; il comando Copia LaTeX restituisce il sorgente. La generazione Word usa latex2mathml 3.81.1 (MIT, copia in `supporto/scripts/wiki/vendor`) e la trasformazione MathML di Office per ottenere equazioni native editabili, mantenute anche nei PDF.

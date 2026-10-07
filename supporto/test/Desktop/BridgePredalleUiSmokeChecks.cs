@@ -11,7 +11,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeBridgePredalle(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory);
+        Directory.CreateDirectory(directory);
         await CheckBridgePredalleUi(directory);
     }
     private async Task CheckBridgePredalleUi(string directory)

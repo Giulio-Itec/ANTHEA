@@ -11,7 +11,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeBridgeDesign(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory); WindowState = WindowState.Normal; Width = 1600; Height = 990;
+        Directory.CreateDirectory(directory); WindowState = WindowState.Normal; Width = 1600; Height = 990;
         document = Archivio.Documento(BridgeConcept.Module); dirty = false; currentSheet = null; ShowSheet(document);
         var workspace = editor!.bridgeDesign ?? throw new Exception("Bridge Design non aperto.");
         async Task Settle() { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); }

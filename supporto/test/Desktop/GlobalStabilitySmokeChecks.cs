@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -10,7 +10,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeGlobalStability(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory); WindowState = WindowState.Normal; Width = 1600; Height = 1000;
+        Directory.CreateDirectory(directory); WindowState = WindowState.Normal; Width = 1600; Height = 1000;
         var log = new List<string>();
         void Check(bool ok, string message) { if (!ok) throw new Exception(message); log.Add("OK " + message); }
         async Task Settle() { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); }

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Threading;
@@ -10,7 +10,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeSharing(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory);
+        Directory.CreateDirectory(directory);
         await CheckCoverWarnings(directory);
         CheckComparisonOrder();
         void Check(bool value, string message) { if (!value) throw new Exception(message); }
@@ -119,14 +119,14 @@ public sealed partial class MainWindow
         rc["dati"]!["input"]!["shape"] = "Circolare"; rc2["dati"]!["input"]!["shape"] = "Circolare";
         var actions = rc["dati"]!["combinazioni"]!.DeepClone(); var horizontalActions = horizontal["dati"]!["generali"]!["azione_orizzontale"]!.DeepClone();
         ShowProjects(); ShowSheet(material);
-        int questions = 0; sharedChoiceForTest = () => { questions++; return true; };
+        int questions = 0; Scripted.SharedUpdate = () => { questions++; return true; };
         var state = editor!.materials!.CaptureState(); state["classe"] = "C40/50"; editor.materials.RestoreState(state);
         Commit();
         Check(questions == 1, "Conferma condivisa assente");
         Check(secondMaterial["dati"].S("classe") == "C40/50" && rc["dati"]!["input"].D("fck_mpa") == 40 && horizontal["dati"]!["sezione"].D("fck_mpa") == 40, "CLS non condiviso tra moduli");
         Check(outside["dati"].S("classe", "C30/37") == "C30/37", "Aggiornata altra sezione");
         Commit(); Check(questions == 1, "Conferma ripetuta senza modifiche");
-        sharedChoiceForTest = () => { questions++; return false; };
+        Scripted.SharedUpdate = () => { questions++; return false; };
         state = editor.materials.CaptureState(); state["classe"] = "C25/30"; editor.materials.RestoreState(state); Commit();
         Check(rc["dati"]!["input"].D("fck_mpa") == 40 && material["dati"].S("classe") == "C25/30", "Scelta locale non rispettata");
         Check(ProjectSharedData.Differences(section).Any(d => d.Group == "Materiali"), "Differenza locale non segnalata");
@@ -262,7 +262,7 @@ public sealed partial class MainWindow
         File.WriteAllBytes(Path.Combine(directory, "copriferro.png"), Ui.Snapshot(this));
         // Keep a deliberate local difference visible in the final screenshot.
         rc2["dati"]!["input"]!["width_mm"] = "800";
-        sharedChoiceForTest = null; ShowProjects();
+        Scripted.SharedUpdate = null; ShowProjects();
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout();
         File.WriteAllBytes(Path.Combine(directory, "condivisione.png"), Ui.Snapshot(this));
         bool compared = false;

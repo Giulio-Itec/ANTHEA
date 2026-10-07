@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
 using X.Core;
@@ -8,7 +8,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeConcreteFeatures(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory);
+        Directory.CreateDirectory(directory);
         document = Archivio.Documento("str_palo"); currentSheet = null; ShowSheet(document);
         await editor!.CalculateAsync();
         await editor.VerifyConcreteFeatures(directory);

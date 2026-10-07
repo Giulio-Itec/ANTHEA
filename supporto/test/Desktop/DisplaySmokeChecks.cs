@@ -12,7 +12,6 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeDisplay(string directory)
     {
-        testing = true;
         Directory.CreateDirectory(directory);
         var cases = SmokeTestData.LoadCases();
         var dpi = VisualTreeHelper.GetDpi(this);

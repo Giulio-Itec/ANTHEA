@@ -6,15 +6,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Win32;
 using X.Core;
+using X.Desktop.Services;
 
 namespace X.Desktop;
 
 public sealed partial class MainWindow : Window
 {
+    private readonly Func<Window, DesktopServices> serviceFactory;
+    private DesktopServices services;
     private JsonObject document = Archivio.Documento("geo_palo_verticale");
     private JsonObject? currentSheet;
     private string? path;
-    private bool dirty, testing;
+    private bool dirty;
     private SheetEditor? editor;
     private readonly ContentControl body = new();
     private readonly Grid dashboard = new();
@@ -29,8 +32,14 @@ public sealed partial class MainWindow : Window
     private readonly TreeView tree = new() { BorderThickness = new Thickness(0), Background = Appearance.Paper };
     private readonly Dictionary<string, Button> navigation = new();
 
-    public MainWindow()
+    public MainWindow() : this(WpfDesktopServices.Create) { }
+
+    /// <summary>Main window whose questions and messages go through the services created by <paramref name="serviceFactory"/>;
+    /// the copies opened from this window use the same factory.</summary>
+    internal MainWindow(Func<Window, DesktopServices> serviceFactory)
     {
+        this.serviceFactory = serviceFactory;
+        services = serviceFactory(this);
         Style = (Style)Application.Current.FindResource(typeof(Window));
         Title = "ANTHEA"; Width = 1600; Height = 990; MinWidth = 760; MinHeight = 480; WindowStartupLocation = WindowStartupLocation.CenterScreen;
         dashboardViewport = DisplayAdaptation.Viewport(dashboard, 1120, 680);
@@ -39,11 +48,11 @@ public sealed partial class MainWindow : Window
         Appearance.Watch(this);
         PreviewMouseDown += (_, _) => CancelProjectSectionClick();
         Deactivated += (_, _) => CancelProjectSectionClick();
-        Closing += (_, e) => { if (testing) return; e.Cancel = !ConfirmDiscard(); };
+        Closing += (_, e) => e.Cancel = !services.Confirmations.ConfirmClose(ConfirmDiscard);
         Closed += (_, _) => { CancelProjectSectionClick(); editor?.Dispose(); };
 
     }
-    internal void Safe(Action action) { try { action(); } catch (Exception ex) { if (testing) throw; MessageBox.Show(this, ex.Message, "Operazione non completata", MessageBoxButton.OK, MessageBoxImage.Error); } }
+    internal void Safe(Action action) { try { action(); } catch (Exception ex) { services.Messages.ReportFailure("Operazione non completata", ex); } }
     internal static string ModuleName(string module) => ModuleCatalog.Get(module).Name;
     private Menu BuildMenu()
     {

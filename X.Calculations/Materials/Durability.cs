@@ -64,27 +64,4 @@ public static class Durability
         if(!double.IsFinite(total)||!double.IsFinite(absorbed)||total<0||absorbed<0||absorbed>total) throw new ArgumentException("Acqua: richiedere 0 ≤ acqua assorbita ≤ acqua totale.");
         return total-absorbed;
     }
-    public static void Check()
-    {
-        static void Equal(double a,double b) { if(Math.Abs(a-b)>1e-8) throw new Exception($"Atteso {b}, ottenuto {a}"); }
-        static void Reject(Action action) { try { action(); } catch(ArgumentException) {return;} throw new Exception("Input non valido accettato."); }
-        Exposure E(string code)=>Exposures.Single(x=>x.Code==code);
-        var p=new CoverInput(50,false,false,false,16,20,10,false,0,0);
-        Equal(Cover([E("XC1")],30,p).Nominal,26);
-        Equal(Cover([E("XC4")],30,p).Nominal,40);
-        Equal(Cover([E("XC4"),E("XS3"),E("XF4")],35,p).Nominal,55);
-        Equal(Cover([E("XC1")],30,p with{Diameter=32,Aggregate=32}).Bond,32);
-        Equal(Cover([E("XC1")],30,p with{Diameter=32,Aggregate=40}).Bond,37);
-        Equal(Cover([E("XC1")],30,p with{Ground=75}).Nominal,75);
-        Equal(Cover([E("XC4")],30,p with{Life=100}).Nominal,50);
-        Equal(Cover([E("XC4")],30,p with{Rough=true,Abrasion=10}).Nominal,55);
-        Equal(StructuralClass(E("XD2"),40,p with{StrengthReduction=true}),3);
-        Equal(StructuralClass(E("XS2"),40,p with{StrengthReduction=true}),4);
-        Equal(StructuralClass(E("XC1"),30,p with{StrengthReduction=true,Slab=true,Quality=true}),1);
-        Equal(EffectiveWater(190,10)/360,.5);
-        Reject(()=>Cover([E("XF4")],30,p)); Reject(()=>Cover([E("X0"),E("XC1")],30,p));
-        Reject(()=>Cover([],30,p)); Reject(()=>EffectiveWater(10,20)); Reject(()=>EffectiveWater(double.NaN,0));
-        Reject(()=>Cover([E("XC1")],30,p with{Diameter=-1}));
-        Equal(Exposures.Length,18); Equal(E("XS3").MinCement,340); Equal(E("XD2").MaxRatio!.Value,.55); Equal(E("XA3").MinCement,360);
-    }
 }

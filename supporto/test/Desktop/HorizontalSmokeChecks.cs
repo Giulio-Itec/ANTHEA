@@ -42,7 +42,7 @@ public sealed partial class MainWindow
 
     private async Task SmokeHorizontalLayouts(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory); WindowState = WindowState.Normal;
+        Directory.CreateDirectory(directory); WindowState = WindowState.Normal;
         var data = PaloOrizzontale.Defaults(); data["stratigrafie"]![0]!.AsArray().Add(PaloOrizzontale.Layer());
         document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", PaloOrizzontale.Module), ("dati", data));
         dirty = false; currentSheet = null; ShowSheet(document); await editor!.WaitForHorizontalAutomatic();

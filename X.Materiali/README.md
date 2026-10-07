@@ -6,7 +6,7 @@ Il progetto X.Materiali è una libreria WPF inclusa nella compilazione e pubblic
 
 Dal riordino del 26 settembre 2026, i motori di durabilità, copriferro, classe minima e prescrizioni di miscela sono in `X.Calculations/Materials` e conservano il namespace `Materiali`. Sono condivisi con la sezione in c.a. e con i calcoli senza interfaccia. L’aderenza è unica in `X.Calculations/ConcreteBond.cs`; cataloghi e materiali provengono da GPC.Model. Le schede restano responsabili della presentazione e dello stato dei controlli. `X.Materiali` dipende direttamente dalla libreria di calcolo e non da `X.Core`.
 
-Verifica integrata: ANTHEA.exe --smoke-materials <cartella-output>. Include i controlli originali della scheda e catalogo, apertura interna, ripresa, modifica, salvataggio singolo e in progetto, spostamento, riapertura e input incompleti.
+Verifica integrata: ANTHEA.exe della configurazione `UiTests` (`dotnet build X.Desktop/X.Desktop.csproj -c UiTests`) con `--smoke-materials <cartella-output>`. Include i controlli originali della scheda e catalogo, apertura interna, ripresa, modifica, salvataggio singolo e in progetto, spostamento, riapertura e input incompleti. Gli autotest della scheda (`MaterialView.Check`) sono in `supporto/test/Materiali` e compilati solo nella configurazione `UiTests`; i controlli di riferimento di durabilità e copriferro NTC sono in `supporto/test/Shared/DurabilityReferenceChecks.cs` ed eseguiti anche da `CalculationLibrary.Checks`.
 
 ## Documentazione della versione importata
 

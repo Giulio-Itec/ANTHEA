@@ -13,7 +13,7 @@ Requisiti: SDK .NET 8 (come per `Compila.cmd`) e NSIS 3 (`winget install NSIS.NS
 
 Lo script:
 
-1. pubblica `X.Desktop` con `-r win-x64 --self-contained` in `supporto/artefatti/installer/stage/app`, usando una cartella di compilazione separata (`--artifacts-path`): `bin`/`obj` del repository e la cartella `app` di `Compila.cmd` restano invariati;
+1. pubblica `X.Desktop` con `-r win-x64 --self-contained` in `supporto/artefatti/installer/stage/app`, usando una cartella di compilazione separata (`--artifacts-path`): `bin`/`obj` del repository e la cartella `app` di `Compila.cmd` restano invariati; poi controlla con `tools/qa/Assert-NoTestCode.ps1` che gli assembly pubblicati non contengano le prove WPF (configurazione `UiTests`) e in caso contrario si interrompe senza creare il setup;
 
 2. verifica e copia l'ultima revisione delle due guide generali di `supporto/documentazione/Guide_ANTHEA`, più l'indice e tutti i PDF elencati in `Guide.json`; se manca un PDF o le revisioni delle due guide generali non coincidono, si interrompe prima della pubblicazione;
 

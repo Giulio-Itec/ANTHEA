@@ -10,7 +10,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeProjectWorkspace(string directory)
     {
-        testing = true; Directory.CreateDirectory(directory);
+        Directory.CreateDirectory(directory);
         void Check(bool condition, string message) { if (!condition) throw new Exception(message); }
         document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "progetti"), ("progetti", new JsonArray()));
         ShowProjectOverview(); UpdateLayout(); await Task.Delay(150);
@@ -68,9 +68,9 @@ public sealed partial class MainWindow
         RestoreProjectHistory(true); Check(ProjectRevisions.Nodes(document).Any(n => n.S("nome").Contains("copia")), "Ripristino copia fallito");
         pile = ProjectRevisions.Find(document, pileId)!; sheet = ProjectRevisions.Find(document, sheetId)!; other = ProjectRevisions.Find(document, otherId)!;
         ResetProjectHistory(); var beforeMove = document.DeepClone();
-        projectMoveChoiceForTest = changes => { Check(changes.Any(c => c.Contains("450") && c.Contains("400")), "Anteprima valori mancante"); return false; };
+        Scripted.ProjectMove = changes => { Check(changes.Any(c => c.Contains("450") && c.Contains("400")), "Anteprima valori mancante"); return false; };
         MoveProjectSheet(sheet, other); Check(JsonNode.DeepEquals(beforeMove, document), "Spostamento annullato modifica dati");
-        projectMoveChoiceForTest = _ => true; MoveProjectSheet(sheet, other);
+        Scripted.ProjectMove = _ => true; MoveProjectSheet(sheet, other);
         Check(sheet.Parent?.Parent == other && sheet["dati"]!["input"].D("fyk_mpa") == 400, "Spostamento non applicato");
         RestoreProjectHistory(false); sheet = ProjectRevisions.Find(document, sheetId)!; pile = ProjectRevisions.Find(document, pileId)!;
         Check(sheet.Parent?.Parent == pile && sheet["dati"]!["input"].D("fyk_mpa") == 450, "Annulla spostamento incompleto");
@@ -132,7 +132,7 @@ public sealed partial class MainWindow
             RestoreProjectHistory(false); pile = ProjectRevisions.Find(document, pileId)!; sheet = ProjectRevisions.Find(document, sheetId)!;
             Check(sheet["dati"]!["input"].D("fyk_mpa") == 420, "Annulla uniformazione non ripristina valori");
         }
-        var readOnly = new MainWindow { testing = true, projectReadOnly = true };
+        var readOnly = new MainWindow(TestServices.Create) { projectReadOnly = true };
         readOnly.document = J.Obj(("formato", "X"), ("versione", 1), ("tipo", "progetti"), ("progetti", new JsonArray(snapshot)));
         readOnly.Show(); var historical = ProjectRevisions.Find(readOnly.document, sheetId)!; readOnly.ShowSheet(historical);
         Check(readOnly.sheetContent.IsEnabled && Ui.Descendants<TextBox>(readOnly.sheetContent).All(t => t.IsReadOnly), "Revisione non protetta o consultazione disabilitata"); readOnly.Close();
