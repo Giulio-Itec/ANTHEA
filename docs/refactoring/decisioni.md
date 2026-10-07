@@ -90,6 +90,29 @@ sempre in due commit (collegamento con opzione legacy identico, poi cambio con e
   cautelativo entro il 10%; raccomandato lo Schema 1 NTC con linee di influenza e γQ = 1,35, in GPC.Design.
 - **(g) Metodo nei report del ponte**: ripristinare metodo, norma e versione della libreria.
 
+## Decisioni del 7 ottobre 2026, mattina
+
+- **Fasi approvate**: F0, F1, D7-c/D7-d/R3 e W0.4/W0.5 (guide Rev31), comprese le due correzioni del disegno
+  del ponte della diagnosi UI ("approvo le modifiche"). Merge su main in locale. Push di ANTHEA da confermare.
+- **Librerie**: "pusha le librerie". Pushati Utilities master (df3b3e7), Geometry master (6a0d1c1), Model
+  master (d6631635), Checker develop (7c15cf4f), da cui è costruito lo snapshot S1 di `lib/Checker`.
+- **(b) k2**: "hai ragione. fallo come lo hai previsto. se l'asse neutro taglia la sezione. occhio però che non
+  si cada nel caso di pura compressione". k2 = 0,5 quando l'asse neutro taglia la sezione, per ogni normativa;
+  la sezione interamente compressa resta con wk = 0 prima di ogni uso di k2. Attuazione sul branch
+  `refactoring/d7b-k2-flessione` e in Checker `anthea-d7b-k2`.
+- **(e) Durabilità**: "confermo la norma più aggiornata". Si tiene la UNI 11104 nell'edizione in vigore (2025,
+  che per XC3, XD1, XF4 e XA1 conferma C30/37 come la 2016); niente scelta del riferimento 2004. Da fare:
+  riscontrare sul testo della 2025 le classi minime di tutte le esposizioni e aggiornare le citazioni
+  («UNI 11104 prospetto 5» dipende dall'edizione).
+- **(f) Bridge Design**: "se fattibile come costo computazionale (deve essere rapido) prendiamo in
+  considerazione il tandem, linee di influenza, γQ 1,35". Schema 1 con tandem e linee di influenza in forma
+  chiusa e γQ = 1,35 in GPC.Design (F4.11), con il vincolo di un costo di calcolo che non rallenti in modo
+  percepibile esplorazione e ottimizzazione (da misurare contro il tempo attuale).
+- **(d) γb dei pali**: l'utente chiede quali archivi toccherebbe la migrazione d2; resta d1 fino alla risposta.
+- **Voci sfavorevoli R4-R14**: "le guardiamo a fine refactoring. segna di ridiscuterne". Restano da decidere,
+  con discussione fissata alla chiusura del refactoring (dopo F5).
+- **Guide**: "ok" ai default dichiarati come «convenzione di ANTHEA» e alla Rev30 lasciata in SUPERATI.
+
 ## Dipendenze esterne previste
 
 Da approvare una volta; ogni variazione si aggiunge qui.

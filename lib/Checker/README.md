@@ -3,8 +3,9 @@
 **Snapshot riproducibile da commit (7 ottobre 2026, refactoring F0.8-F0.9).** Prima ricostruzione con
 `tools/libs/Update-Snapshot.ps1`: ogni DLL viene da un commit con albero pulito, registrato in `manifest.json`
 (repository, ramo, commit, push, SDK, versione, SHA-256); `manifest.props` permette alla build di verificare gli
-hash (Directory.Build.targets). Commit locali, non ancora pushati: Utilities df3b3e7, Geometry 75182cc (binari
-committati), Model 5ba61a04, Checker b994e188; SDK 9.0.318 fissato da global.json in ogni libreria.
+hash (Directory.Build.targets). Commit sorgente: Utilities df3b3e7, Geometry 75182cc (binari committati), Model
+5ba61a04, Checker b994e188, tutti pushati il 7/10/2026 (campo `pushed` del manifest aggiornato, DLL e SHA-256
+invariati); SDK 9.0.318 fissato da global.json in ogni libreria.
 
 - Le versioni distribuite in precedenza da working tree con lo stesso numero (Concrete 0.0.14.0 e Geotechnics
   0.1.0.0 ricompilate più volte tra il 2 e il 6/10; GPCGeometry 2.1.0.3 senza la modifica di CoordinateSystem

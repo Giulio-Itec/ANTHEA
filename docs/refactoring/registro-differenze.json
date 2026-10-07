@@ -74,7 +74,7 @@
       "titolo": "k2 = 1,0 nel ramo NTC con sezione parzializzata senza barre compresse",
       "famiglia": "calcestruzzo/fessurazione",
       "categoria": "scostamento-normativo",
-      "stato": "da-decidere",
+      "stato": "da-correggere",
       "descrizione": "Nel ramo NTC k2 vale 0,5 solo se almeno una barra ordinaria è compressa, altrimenti 1,0, anche quando l'asse neutro taglia la sezione (flessione). La Circolare e la EN 1992-1-1 danno 0,5 in flessione; il ramo Eurocodice dello stesso codice usa 0,5.",
       "riferimento_normativo": [
         { "fonte": "Circolare 21/01/2019 n. 7", "punto": "C4.1.2.2.4.5, k2 e eq. [C4.1.9]", "riscontro": "testo della G.U., p. 88" },
@@ -107,6 +107,7 @@
         { "id": "b2", "descrizione": "dichiarare" }
       ],
       "raccomandazione": "b1, in due commit (collegamento con l'opzione legacy, poi cambio del predefinito)",
+      "decisione_finale": { "data": "2026-10-07", "utente": "per il punto b hai ragione. fallo come lo hai previsto. se l'asse neutro taglia la sezione. occhio però che non si cada nel caso di pura compressione", "opzione": "b1", "esito": "k2 = 0,5 quando l'asse neutro taglia la sezione, per ogni normativa; sezione interamente compressa con wk = 0 prima di ogni uso di k2; opzione legacy solo per le fixture congelate. Attuazione sui branch refactoring/d7b-k2-flessione (ANTHEA) e anthea-d7b-k2 (Checker)." },
       "decisione": {
         "data": "2026-10-06",
         "utente": "per solo armature tese k2 = 1, per flessione 0,5: il comportamento non è corretto? da vedere insieme",
@@ -232,7 +233,7 @@
       "titolo": "Classe minima C30/37 per XC3, XD1, XF4 e XA1 contro C28/35 della UNI 11104",
       "famiglia": "calcestruzzo/durabilita",
       "categoria": "intenzionale",
-      "stato": "da-decidere",
+      "stato": "da-correggere",
       "descrizione": "La classe minima per esposizione del profilo NTC (dichiarata come UNI 11104 tramite ATECAP 2020) vale C30/37 per XC3, XD1, XF4 e XA1; la UNI 11104 dà C28/35. I valori del codice coincidono con il prospetto F.1 della EN 206. La classe minima regola l'avviso della scheda Materiali e la maggiorazione di 5 mm del copriferro NTC.",
       "riferimento_normativo": [
         { "fonte": "UNI 11104", "punto": "prospetto 4 secondo il piano (il codice cita il prospetto 5 tramite ATECAP 2020)", "riscontro": "testo non disponibile: valori e numero del prospetto da riscontrare" },
@@ -265,6 +266,7 @@
         { "id": "e3", "descrizione": "tenere entrambi i riferimenti e lasciare la scelta all'utente nel foglio, con il predefinito sul riferimento in vigore" }
       ],
       "raccomandazione": "e1 dopo il riscontro del testo; fino ad allora riquadro dichiarato; decisione prima di F2.9",
+      "decisione_finale": { "data": "2026-10-07", "utente": "confermo la norma più aggiornata", "esito": "UNI 11104 nell'edizione in vigore (2025): C30/37 per XC3, XD1, XF4 e XA1 come oggi, nessuna scelta del riferimento 2004. Restano da riscontrare sul testo 2025 le classi minime di tutte le esposizioni e da aggiornare le citazioni (numero e edizione del prospetto)." },
       "decisione": {
         "data": "2026-10-06",
         "utente": "lasciare entrambi i riferimenti e la possibilità di scelta all'utente",
@@ -320,6 +322,7 @@
         { "id": "f3", "descrizione": "γG2 1,50 sui permanenti portati, oppure dichiararli ben definiti" }
       ],
       "raccomandazione": "f1; f2 come dichiarazione con avviso, valutando il tandem quando BridgeConcept passa in GPC.Design; f3 come dichiarazione",
+      "decisione_finale": { "data": "2026-10-07", "utente": "se fattibile come costo computazionale (deve essere rapido) prendiamo in considerazione il tandem, linee di influenza, γQ 1,35", "esito": "Schema 1 con tandem e linee di influenza in forma chiusa e γQ = 1,35 in GPC.Design (F4.11), con vincolo di rapidità: tempo di esplorazione e ottimizzazione da misurare contro quello attuale prima di adottarlo come predefinito." },
       "decisione": {
         "data": "2026-10-06",
         "utente": "cercare la soluzione più simile al caso reale: 9 kN/m² + tandem, 20 kN/m², un altro metodo semplificato oppure il tandem ripartito come carico distribuito maggiore",
@@ -440,7 +443,7 @@
       "effetto_quantificato": { "sintesi": "resistenza a taglio +38,8 % nell'esempio S5 della pagina ca.taglio", "evidenze": ["supporto/artefatti/refactoring/metodi/esempi.txt"] },
       "effetto_anthea": "Verificato il 7/10: ANTHEA offre il profilo «Model Code 2010» (X.Calculations/ConcreteStandards.cs:10) e il suo codice legacy del taglio con staffe usa lo stesso θmin = 20° (X.Calculations/ConcreteCodeChecks.cs:107, maxCot = cot 20°). Il profilo NTC predefinito non è coinvolto.",
       "raccomandazione": "riscontrare il testo e correggere con opzione legacy; a sfavore di sicurezza, priorità alta",
-      "decisione": null,
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -457,7 +460,7 @@
       "effetto_quantificato": { "sintesi": "σc −31 % a 80 kNm; a 150 kNm rapporto 0,83 contro 1,14 dell'analisi lineare (sezione 300×500 dell'esempio)" },
       "effetto_anthea": "Verificato il 7/10: per default le tensioni SLE della sezione c.a. sono lineari (il predefinito «Lineare · sezione fessurata» è ricondotto a «Lineare» in X.Calculations/SectionWorkspace.cs:64). Se l'utente sceglie «Non lineare» nella scheda Tensioni (X.Desktop/Wpf/ConcreteStress.cs), CheckerSection passa StressAnalysisTypes.NonLinear (X.Calculations/CheckerSection.cs:94) e le tensioni di esercizio usano le leggi di progetto senza avviso; la relazione riporta «Modello: Non lineare» (Ntc2018Checks.cs:42).",
       "raccomandazione": "leggi di esercizio nell'analisi non lineare oppure rifiuto con avviso; a sfavore di sicurezza, priorità alta",
-      "decisione": null,
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -472,7 +475,7 @@
       "codice": [ "Model/Model/Standards/StandardModelCode2010.cs:176" ],
       "segno": "NON cautelativo se confermato",
       "raccomandazione": "riscontrare il NA; se confermato correggere in Model",
-      "decisione": null,
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -486,7 +489,7 @@
       "codice": [ "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:153-154", "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:111-113", "Checker/GPCChecker.Concrete/Serviceability/StressLimitCheck.cs:100-120", "Checker/GPCChecker.Concrete/Cracking/CrackRequirements.cs:70-78", "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:176", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:183-193", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:205-215" ],
       "segno": "cautelativo",
       "raccomandazione": "dichiarare nelle pagine dei metodi (già fatto nei riquadri delle pagine) e nella guida teorica",
-      "decisione": null,
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
       "data": "2026-10-07",
       "fase": "F2.2 (pagine), W1.2 (riquadri)"
     },
@@ -500,7 +503,7 @@
       "codice": [ "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:74-79", "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs:198", "Checker/GPCChecker.Concrete/Cracking/CrackRequirements.cs:84" ],
       "segno": "da stabilire",
       "raccomandazione": "riscontrare sui testi primari prima di F2.3",
-      "decisione": null,
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -514,7 +517,7 @@
       "codice": [ "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs" ],
       "segno": "6.2.2(6) non controllato: NON cautelativo per carichi vicini agli appoggi",
       "raccomandazione": "aggiungere il controllo 6.2.2(6); dichiarare gli altri due limiti",
-      "decisione": null,
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -531,7 +534,7 @@
       "effetto_quantificato": { "sintesi": "lb,rqd −11 % con C90/105" },
       "effetto_anthea": "Verificato il 7/10: la sezione c.a. limita fck a 60 prima di ricavare fctk (X.Calculations/ConcreteDetailingAnalysis.cs:60-61) e il palo elastico passa fctk della classe limitata (ElasticHorizontalPile.Reinforcement.cs:204); le armature dei muri passano fctk,0,05 senza limite (X.Calculations/RetainingWall.Reinforcement.cs:45-46 e :52): ancoraggi e sovrapposizioni dei muri più corti del dovuto solo con classi oltre C60/75.",
       "raccomandazione": "applicare il limite nella libreria, con opzione legacy; intanto i muri vanno allineati agli altri chiamanti",
-      "decisione": null,
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -547,7 +550,7 @@
       "effetto_quantificato": { "sintesi": "esempio XC3 C28/35 trave: cnom 35 mm con il default contro 40 mm con Cmin della UNI 11104 in libreria", "evidenze": ["supporto/artefatti/refactoring/metodi2/out-durability.txt"] },
       "effetto_anthea": "Verificato il 7/10: nessuno. Tutti i chiamanti di ANTHEA passano la classe minima pertinente (X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Calculations/Materials/MaterialCover.cs:31, X.Materiali/MaterialDetails.cs:173 con MinimumConcrete.Required; ElasticHorizontalPile.Reinforcement.cs:155 con ExposureClasses.Uni11104MinimumStrength). Il default riguarda solo gli altri utenti della libreria.",
       "raccomandazione": "default = classe minima pertinente dell'esposizione dalla tabella di durabilità (oggi 25 + 5 · severità, cioè i Cmin per ambiente della Tab. C4.1.IV, che la Circolare riferisce alla classe di esposizione pertinente)",
-      "decisione": null,
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -562,7 +565,7 @@
       "segno": "cautelativo (esito non soddisfatto indebito)",
       "effetto_quantificato": { "sintesi": "pilastro 600×600 con 8Ø20: 498 mm calcolati contro 249 mm lungo le facce, limite 300 mm: non soddisfatto indebito", "evidenze": ["supporto/artefatti/refactoring/metodi2/out-spacing.txt"] },
       "raccomandazione": "correggere (misura lungo il perimetro), con opzione legacy",
-      "decisione": null,
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -576,7 +579,7 @@
       "codice": [ "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:169", "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:97", "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:140", "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:135-139" ],
       "segno": "cautelativo",
       "raccomandazione": "correggere la riduzione 0,6 (esito indebito); dichiarare gli altri tre",
-      "decisione": null,
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -590,7 +593,7 @@
       "codice": [ "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:220", "Checker/GPCChecker.Concrete/Response/MomentCurvatureAnalysis.cs:142-164", "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:200", "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:112-117", "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:107" ],
       "segno": "15Ø: da stabilire (la conferma dipende dall'utente); citazioni senza effetto",
       "raccomandazione": "implementare la regola dei 15Ø come controllo; dichiarare le definizioni del momento-curvatura e aggiungere la bilineare come opzione; correggere le citazioni",
-      "decisione": null,
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
       "data": "2026-10-07",
       "fase": "F2.3"
     }
