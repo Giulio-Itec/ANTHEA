@@ -112,6 +112,10 @@ sempre in due commit (collegamento con opzione legacy identico, poi cambio con e
 - **Voci sfavorevoli R4-R14**: "le guardiamo a fine refactoring. segna di ridiscuterne". Restano da decidere,
   con discussione fissata alla chiusura del refactoring (dopo F5).
 - **Guide**: "ok" ai default dichiarati come «convenzione di ANTHEA» e alla Rev30 lasciata in SUPERATI.
+- **Fixture di Checker (F2.1)**: "B: rifai la fotografia del comportamento attuale, appena sicuri del codice
+  dietro". Le fixture congelate il 1/10 dal legacy di ANTHEA si ricatturano dal comportamento attuale dopo la
+  verifica di D7-b; spariscono le classificazioni FC-1…FC-8 e i casi speciali dei test di migrazione; le
+  fixture precedenti restano nella storia di git.
 
 ## Dipendenze esterne previste
 
