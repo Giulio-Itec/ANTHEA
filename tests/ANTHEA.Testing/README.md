@@ -65,7 +65,13 @@ di caratteri si scrivono compressi (`.gz`), letti in modo trasparente da `compar
 - documenti di `supporto/esempi` (`.json`, `.anthea`, `.programma`) letti con `Archivio.Leggi`;
 - casi `palo` e `micropalo` di `supporto/test/casi_confronto.json` (i default dei pali
   verticali sono moduli vuoti);
-- `RetainingWall.Example("gravity")` ed `Example("cantilever")`.
+- `RetainingWall.Example("gravity")` ed `Example("cantilever")`;
+- dalla baseline B3 (refactoring F2.6), i casi scritti per la cattura in `corpus/` (stesso formato
+  degli esempi della Wiki: `moduleId` e `overrides` applicati ai default; caso
+  `corpus-<nome del file>`, ultimi nell'elenco, così i casi precedenti si calcolano come in B2):
+  sezioni c.a. con azioni di taglio e torsione, che le altre fonti non contengono
+  (rettangolare e circolare NTC 2018 con torsione, rettangolare DIN con cot θ assegnato e
+  rifiuti).
 
 Motori fuori da `CalculationService`: risposta e armature dei tratti del palo elastico
 (`CalculateResponse`, `CompleteReinforcement`), stabilità globale dei muri con la proposta
