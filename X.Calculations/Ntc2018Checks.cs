@@ -44,10 +44,10 @@ public static partial class Ntc2018Checks
         RequireBarStresses(barStresses);
         return barStresses.Any(s => s < 0) ? .5 : 1;
     }
-    private static void RequireBarStresses(IReadOnlyList<double> barStresses)
+    private static void RequireBarStresses(IReadOnlyList<double> barStresses, string message = "k₂: tensioni delle armature mancanti o non finite.")
     {
         if (barStresses.Count == 0 || barStresses.Any(s => !double.IsFinite(s)))
-            throw new ArgumentException("k₂: tensioni delle armature mancanti o non finite.");
+            throw new ArgumentException(message);
     }
     public static CrackResult Cracking(CheckerSection engine, CheckerStressState state, ActionPoint force, JsonObject input, JsonObject workspace, JsonObject options, string set)
     {
@@ -91,7 +91,8 @@ public static partial class Ntc2018Checks
         var barStresses = state.tensioni_barre.Take(engine.Geometry.Bars.Count).ToArray();
         // Local copy: a constant condition would leave one of the two rules unreachable for the compiler.
         bool barRule = NtcK2FromCompressedBars;
-        RequireBarStresses(barStresses);
+        // Legacy rule: the bar stresses choose k₂, checked here with the "k₂:" message. New rule: k₂ does not depend on them, they are
+        // checked after the compression return, where σs is used (a fully compressed section gives wk = 0 without them).
         double k2 = barRule ? CrackK2(barStresses) : double.NaN;
         int compressedBars = barStresses.Count(s => s < 0), tensileBars = barStresses.Count(s => s > 0), zeroBars = barStresses.Count(s => s == 0);
         if (barRule)
@@ -115,6 +116,7 @@ public static partial class Ntc2018Checks
         Add("εc,max", strains.Max(), "−", "max ε ai vertici");
         Add("Tolleranza compressione", 1e-12, "−", "Se εc,max ≤ tolleranza, wk = 0");
         if (strains.Max() <= 1e-12) return new(0, req.Limit, 0, true, "Sezione interamente compressa") { Details = details.ToArray() };
+        if (!barRule) RequireBarStresses(barStresses, "tensioni delle armature mancanti o non finite.");
         if (strains.Min() >= 0) return InnerCracking(FullyTensionedCracking(engine,state,input,options,req.Limit!.Value,details),engine,state,options);
         // From here the neutral axis crosses the section: bending, also with axial force (Circolare 2019 C4.1.2.2.4.5; EC2 7.3.4(3), k2 of (7.11)).
         if (!barRule)

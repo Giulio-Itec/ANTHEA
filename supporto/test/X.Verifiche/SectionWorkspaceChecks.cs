@@ -322,6 +322,32 @@ internal static class CrackK2Checks
             Assert(summaryK2.Value == bandK2 && summaryK2.Expression.StartsWith("k₂ della fascia: "), "(g) riepilogo: k₂ della fascia dichiarato");
             Console.WriteLine($"(g) cassone NTC, M = 600 kNm: governa la parete interna −y, k₂ della fascia = {bandK2:0.0000}, wk = {r.Width:0.0000} mm");
         }
+
+        // (i) Bar stresses missing or not finite: with the new rule k₂ does not use them, so a fully compressed section still gives
+        // wk = 0; where σs is needed the check stops with a message that does not mention k₂.
+        {
+            var (compressed, compressedState, compressedEngine) = Crack("NTC 2018", both, -500, 0);
+            foreach (var (stresses, label) in new[] { (Array.Empty<double>(), "mancanti"), (compressedState.tensioni_barre.Select(_ => double.NaN).ToArray(), "non finite") })
+            {
+                var state = compressedState with { tensioni_barre = stresses };
+                var action = new ActionPoint(-500, 0, 0);
+                var i = (JsonObject)input.DeepClone(); i["barre_manuali"] = both.DeepClone();
+                var w = (JsonObject)settings.DeepClone(); w["normativa"] = "NTC 2018";
+                var r = Ntc2018Checks.Cracking(compressedEngine, state, action, i, w, sle, "SLE_QP");
+                Assert(r.Width == 0 && r.Passed == true && r.Status == "Sezione interamente compressa" && compressed.Width == 0, "(i) compressione con tensioni delle barre " + label + ": wk = 0");
+            }
+            var (bent, bentState, bentEngine) = Crack("NTC 2018", single, 0, sign * 100);
+            Assert(bent.Width is > 0, "(i) caso inflesso calcolato con le tensioni delle barre");
+            string? message = null;
+            try
+            {
+                var i = (JsonObject)input.DeepClone(); i["barre_manuali"] = single.DeepClone();
+                var w = (JsonObject)settings.DeepClone(); w["normativa"] = "NTC 2018";
+                Ntc2018Checks.Cracking(bentEngine, bentState with { tensioni_barre = bentState.tensioni_barre.Select(_ => double.NaN).ToArray() }, new ActionPoint(0, sign * 100, 0), i, w, sle, "SLE_QP");
+            }
+            catch (ArgumentException ex) { message = ex.Message; }
+            Assert(message == "tensioni delle armature mancanti o non finite.", $"(i) flessione con tensioni non finite: errore senza k₂ («{message}»)");
+        }
         Console.WriteLine($"k2 D7-b: {passed} controlli superati."); return passed;
     }
 }
