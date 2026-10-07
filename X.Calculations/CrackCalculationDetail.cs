@@ -60,7 +60,9 @@ public static class CrackCalculationSummary
             Add("αe", "Es / Ecm, distinto da n dell'analisi viscosa");
             Add("kt", "Coefficiente di durata del carico");
             Add("k₁", "Coefficiente di aderenza · C4.1.7");
-            Add("k₂", source.ContainsKey("k₂ · interamente tesa")?"Trazione: (εmax+εmin)/(2 εmax); uniforme = 1":"Criterio k₂ adottato: barre compresse → flessione; altrimenti trazione", "Criterio k₂");
+            bool barRule = Ntc2018Checks.NtcK2FromCompressedBars;
+            Add("k₂", source.ContainsKey("k₂ · interamente tesa")?"Trazione: (εmax+εmin)/(2 εmax); uniforme = 1"
+                : barRule ? "Criterio k₂ adottato: barre compresse → flessione; altrimenti trazione" : "Asse neutro interno alla sezione: flessione, k₂ = 0,50 · C4.1.2.2.4.5", "Criterio k₂");
             Add("k₃", "Coefficiente del copriferro · C4.1.7");
             Add("k₄", "Coefficiente dell'armatura · C4.1.7");
             Add("Δε calcolata", "[σs − kt·fct,eff·(1+αe·ρp,eff)/ρp,eff] / Es");
