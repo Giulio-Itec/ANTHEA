@@ -50,8 +50,6 @@ public static class Calcolo
     }
     /// <summary>Versione dei fogli del palo e del micropalo verticale con γb della tecnologia come predefinito (D7-d, opzione d2).</summary>
     public const int VersioneFoglio=2;
-    /// <summary>Interruttore della regola d2 (D7-d): spento, i fogli conservano il comportamento precedente (1,35 se γb manca).</summary>
-    internal static readonly bool RegolaD2=false;
     static bool Marcato(JsonNode? dati)=>J.Number(dati?["versione"]) is double v&&v>=VersioneFoglio;
     /// <summary>
     /// γb effettivo del foglio (dati completi del palo o del micropalo verticale), unica regola per calcolo, relazione, progetti ed editor:
@@ -62,7 +60,6 @@ public static class Calcolo
     public static double SicurezzaBase(JsonNode? dati)
     {
         var g=dati?["generali"];var stored=g?["sicurezza_base"];
-        if(!RegolaD2)return J.Number(stored)??1.35;
         double normative=SicurezzaBaseNormativa(g);
         // Un valore non numerico è respinto dal calcolo (Validate): qui vale quello della tecnologia.
         if(J.Number(stored) is not double value)return normative;
@@ -78,7 +75,7 @@ public static class Calcolo
     /// </summary>
     public static bool AggiornaFoglio(JsonObject dati)
     {
-        if(!RegolaD2||Marcato(dati))return false;
+        if(Marcato(dati))return false;
         if(dati["generali"] is JsonObject g)
         {
             double normative=SicurezzaBaseNormativa(g);

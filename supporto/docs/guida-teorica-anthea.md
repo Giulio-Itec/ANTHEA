@@ -183,7 +183,9 @@ I coefficienti parziali sono quelli della NTC 2018 Tab. 6.4.II (R3): γs = 1,15 
 | Elica continua | 1,30 |
 | Micropalo (perforato e iniettato, senza valori propri nella norma) | 1,35 |
 
-Il foglio nuovo parte dal palo trivellato con γb = 1,35. Quando si cambia la tecnologia il foglio propone il γb della tabella. Il valore resta modificabile, e i fogli salvati conservano quello memorizzato. Se γb differisce da quello della tecnologia, il calcolo lo usa e lo dichiara negli avvisi. Fino al 6/10/2026 il foglio proponeva 1,35 per ogni tecnologia. Sui casi di prova, con il γb della tabella la resistenza di progetto drenata alla profondità massima aumenta del 4,3–7,0 % per i pali battuti e dell'1,0–1,2 % per l'elica continua.
+Il foglio nuovo parte dal palo trivellato con γb = 1,35. Quando si cambia la tecnologia, e con Reset, il foglio propone il γb della tabella. Il valore resta modificabile e il foglio conserva quello scelto. Un foglio senza γb usa quello della tecnologia nel calcolo, nella relazione e nei progetti. Se γb differisce da quello della tecnologia, il calcolo lo usa e lo dichiara negli avvisi.
+
+I fogli del formato precedente, privi del numero di versione del foglio, proponevano 1,35 per ogni tecnologia. Per i pali battuti e a elica continua di questi fogli, un γb di 1,35 o mancante vale come il γb della tabella. Il foglio è aggiornato una sola volta, all'apertura o quando un progetto vi trascrive dei valori, e riceve il numero di versione: un 1,35 scelto in seguito resta quindi 1,35. Il calcolo e la relazione applicano la stessa regola senza modificare il documento. I pali trivellati e i micropali non cambiano, e ogni altro valore di γb resta quello memorizzato. Sui casi di prova, con il γb della tabella la resistenza di progetto drenata alla profondità massima aumenta del 4,3–7,0 % per i pali battuti e dell'1,0–1,2 % per l'elica continua.
 
 L'azione di compressione comprende il peso proprio sfavorevole e quella di trazione è ridotta dal peso favorevole, con i coefficienti specificati. L'opzione di sottospinta modifica il peso secondo la parte immersa del palo, separatamente dal calcolo delle tensioni del terreno.
 
