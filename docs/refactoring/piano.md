@@ -57,8 +57,8 @@ Tra F1 e F2: regressione in MSTest (464 casi singoli) e `casi_confronto.json` di
 
 ## Fase 2: chiusura del c.a.
 
-- [ ] F2.1 Cattura pre-M4 del legacy attuale; matrice delle API; casi vicini alla soglia; test con sezioni in forma chiusa.
-- [ ] F2.2 [CP] Pagine dei metodi c.a. (revisione tecnica).
+- [~] F2.1 Cattura pre-M4 del legacy attuale; matrice delle API; casi vicini alla soglia; test con sezioni in forma chiusa. Fatti (branch `refactoring/f2-banco-confronto`, [f2.1-banco.md](f2.1-banco.md), [f2-matrice-api.md](f2-matrice-api.md)): cattura pre-M4 doppia in `supporto/artefatti/baseline/F2-pre-m4` (identica a meno degli identificativi casuali; contro B0 solo D7-c e D7-d), comando `compare-dense` con classificazione versionata, suite `baseline/banco-ca` (fixture di Checker del 1/10: 27 698 righe, 110 differenze tutte classificate). Restano: casi vicini alla soglia, test con sezioni in forma chiusa, decisione sul ricongelamento delle fixture.
+- [~] F2.2 [CP] Pagine dei metodi c.a. (revisione tecnica). Scritte in Checker (branch locali `anthea-metodi-ca-1` e `anthea-metodi-ca-2`, worktree Temp\cw-metodi1 e cw-metodi2): taglio, torsione, SLE, fessurazione, ancoraggi, dettagli, M-χ, durabilità e copriferri, con esempi a mano uguali alla libreria; in attesa della revisione dell'utente.
 - [ ] F2.3 [CP] GPCChecker.Concrete: dettagli di solette e pareti; mesh sicure in parallelo al posto del lock; tracce per i report; opzioni degli scostamenti.
 - [ ] F2.4 [CP] Rilascio `lib/Checker` con codice ANTHEA invariato.
 - [ ] F2.5 Strato di mappatura con contratto JSON invariato.

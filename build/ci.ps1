@@ -6,11 +6,18 @@ Single runner for the ANTHEA verifications (refactoring, phase F0).
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile full -Tag run0  # standard + WPF smokes (needs the desktop)
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Stage ui -Only 'smoke-bridge'
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile baseline -Tag B1 -BaselineRef supporto\artefatti\baseline\F0-B0\headless
+  powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1 -Profile baseline -Only '^baseline/banco' -DenseRef <F2-pre-m4>\a\tutte
 
 Stages: build, fast, regression, wiki, baseline, ui, word (word needs Microsoft Word, never in a profile).
 Profiles: quick = build fast wiki; standard = quick + regression; baseline = standard + baseline; full = standard + ui.
 Stage baseline: headless capture of the corpus with tests\ANTHEA.Testing (results, engines, report text, archives, fallbacks);
 with -BaselineRef <capture folder> also its comparison with that reference capture (tests\ANTHEA.Testing\tolerances.json).
+Bench of the concrete migration (F2.1, docs\refactoring\f2.1-banco.md), also in the stage baseline: dense capture of
+supporto\test\CheckerMigration.Capture (mode tutte) compared with the legacy fixtures frozen in Checker on 1/10/2026
+(compare-dense, comparison 'fixture-checker' of tests\ANTHEA.Testing\f2-classificazione.json). The fixtures folder is
+-CheckerFixtures, by default ..\Checker\GPCChecker.Test.Concrete\Fixtures next to this checkout or next to the main working tree
+of a git worktree; without it the suite is listed as not run. With -DenseRef <dense 'tutte' folder> a second dense capture is
+compared with that reference (comparison -DenseSet, default 'pre-m4').
 The WPF checks (--smoke-*, --check-*) exist only in the UiTests configuration (refactoring F1.2): the build stage
 compiles X.Desktop with -c UiTests and the ui stage runs X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe.
 Every outcome is classified against build/known-failures.json: PASS, KNOWN, NEW-FAIL, FIXED, BLOCKED, NOT-RUN.
@@ -27,7 +34,10 @@ param(
     [string] $GpcLibDir,
     [string] $CompareTo,
     [string] $Only,
-    [string] $BaselineRef
+    [string] $BaselineRef,
+    [string] $CheckerFixtures,
+    [string] $DenseRef,
+    [string] $DenseSet = 'pre-m4'
 )
 $ErrorActionPreference = 'Stop'
 $Root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
@@ -105,6 +115,34 @@ if ($BaselineRef) {
         Args = @('compare', $(if ([IO.Path]::IsPathRooted($BaselineRef)) { $BaselineRef } else { Join-Path $Root $BaselineRef }), '{output}\baseline_cattura\cattura', '--report', '{out}\confronto.json') }
 }
 
+# Bench of the concrete migration (F2.1): the Before step writes the dense capture (mode tutte) in {out}\cattura, then compare-dense.
+$Dense = 'supporto\test\CheckerMigration.Capture\CheckerMigration.Capture.csproj'
+$benchNotRun = @()
+if (-not $CheckerFixtures) {
+    $candidates = @(Join-Path $Root '..\Checker\GPCChecker.Test.Concrete\Fixtures')
+    if ($Git) {
+        # In a git worktree the libraries sit next to the main working tree, not next to the worktree.
+        try { $common = (& $Git -C $Root rev-parse --path-format=absolute --git-common-dir | Select-Object -First 1) } catch { $common = $null }
+        if ($common) { $candidates += Join-Path (Split-Path ([IO.Path]::GetFullPath($common)) -Parent) '..\Checker\GPCChecker.Test.Concrete\Fixtures' }
+    }
+    $CheckerFixtures = $candidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+}
+if ($CheckerFixtures) {
+    $CheckerFixtures = [IO.Path]::GetFullPath($CheckerFixtures)
+    Add-Suite @{ Name = 'baseline/banco-ca'; Stage = 'baseline'; Kind = 'run'; Project = $Testing; Timeout = 1800
+        Before = @{ Project = $Dense; Args = @('{out}\cattura', '{commit}', 'tutte', '--manifest') }; Builds = @(@{ Project = $Dense; Configuration = 'Release' })
+        Args = @('compare-dense', $CheckerFixtures, '{out}\cattura', '--confronto', 'fixture-checker', '--report', '{out}\confronto-fixture-checker.json')
+        Proof = @{ File = '{out}\confronto-fixture-checker.json'; Pattern = '"esito": "differenze tutte ammesse o classificate"' } }
+} else {
+    $benchNotRun += @{ Name = 'baseline/banco-ca'; Reason = 'fixture di Checker non trovate: passare -CheckerFixtures <Checker>\GPCChecker.Test.Concrete\Fixtures' }
+}
+if ($DenseRef) {
+    Add-Suite @{ Name = 'baseline/banco-denso'; Stage = 'baseline'; Kind = 'run'; Project = $Testing; Timeout = 1800
+        Before = @{ Project = $Dense; Args = @('{out}\cattura', '{commit}', 'tutte', '--manifest') }; Builds = @(@{ Project = $Dense; Configuration = 'Release' })
+        Args = @('compare-dense', $(if ([IO.Path]::IsPathRooted($DenseRef)) { $DenseRef } else { Join-Path $Root $DenseRef }), '{out}\cattura', '--confronto', $DenseSet, '--report', '{out}\confronto-denso.json')
+        Proof = @{ File = '{out}\confronto-denso.json'; Pattern = '"esito": "differenze tutte ammesse o classificate"' } }
+}
+
 $smokes = 'smoke', 'smoke-bridge', 'smoke-bridge-curves', 'smoke-bridge-design', 'smoke-bridge-predalle', 'smoke-ca-extensions', 'smoke-ca-features',
     'smoke-display', 'smoke-global-stability', 'smoke-hierarchy', 'smoke-horizontal', 'smoke-material-report', 'smoke-materials', 'smoke-neutral-axis',
     'smoke-project-report', 'smoke-projects', 'smoke-project-workspace', 'smoke-retaining-wall', 'smoke-sharing', 'smoke-steel'
@@ -129,14 +167,13 @@ Add-Suite @{ Name = 'ConcreteShort.Checks'; Stage = 'word'; Kind = 'run'; Projec
 $NotRun = @(
     @{ Name = 'ElasticPile.Checks'; Reason = 'compila progetti del working tree di Checker; passa nei test di libreria (traccia infrastruttura)' },
     @{ Name = 'BridgeValidationCurrent'; Reason = 'compila i sorgenti di test di Checker; passa nei test di libreria (traccia infrastruttura)' },
-    @{ Name = 'CheckerMigration.Capture'; Reason = 'cattura dei riferimenti congelati: eseguita nella baseline' },
     @{ Name = 'MaxRetainingWall.Cases'; Reason = 'confronto con il programma MAX: input esterni' },
     @{ Name = 'MaxRetainingWall.Compare'; Reason = 'confronto con il programma MAX: input esterni' },
     @{ Name = 'ElasticPile.Performance'; Reason = 'misura dei tempi con input in supporto/artefatti' },
     @{ Name = 'ConcreteStressDiagnosis'; Reason = 'strumento di diagnosi, non una verifica' },
     @{ Name = 'ValidazioneCA20260925'; Reason = 'campagna di validazione del 25/9 con riferimenti legacy' },
     @{ Name = 'BridgeDesign.SiteComparison'; Reason = 'confronto con un sito web esterno' }
-)
+) + $benchNotRun
 
 # ---------------------------------------------------------------- helpers
 function Expand([string] $text, [string] $out) {

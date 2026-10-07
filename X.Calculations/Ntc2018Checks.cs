@@ -27,12 +27,27 @@ public static partial class Ntc2018Checks
         return ("Apertura fessure", environment == 0 ? sensitive ? qp ? .2 : .3 : qp ? .3 : .4
             : environment == 1 ? sensitive ? .2 : qp ? .2 : .3 : .2);
     }
-    /// <summary>Compression is negative. Inspect every ordinary bar, not only the effective tensile area.</summary>
+    /// <summary>
+    /// k₂ of the NTC 2018 branch chosen from the bar stresses (0,50 with at least one compressed ordinary bar, 1,00 otherwise)
+    /// instead of the neutral axis: false since 7/10/2026 (decision D7-b); true reproduces the earlier rule, kept only for the
+    /// frozen fixtures and the comparisons. With false k₂ = 0,50 for every standard when the neutral axis crosses the section
+    /// (Circolare 2019 C4.1.2.2.4.5, EN 1992-1-1 7.3.4(3)); a fully compressed section returns wk = 0 before k₂ is chosen,
+    /// a fully tensioned one keeps (εmax + εmin)/(2 εmax).
+    /// True reproduces the numbers, the verdicts, the trace and the summary of 733a77c: every text added by D7-b depends on this
+    /// switch (Cracking, ConcreteTensionCracking, ConcreteInnerCracking "k₂ della fascia", ConcreteCodeChecks k₂ of MC/DIN,
+    /// CrackCalculationSummary), and the bar stresses are checked, with the "k₂:" message, before the compression return.
+    /// </summary>
+    public const bool NtcK2FromCompressedBars = false;
+    /// <summary>Legacy rule of <see cref="NtcK2FromCompressedBars"/>. Compression is negative. Inspect every ordinary bar, not only the effective tensile area.</summary>
     public static double CrackK2(IReadOnlyList<double> barStresses)
     {
-        if (barStresses.Count == 0 || barStresses.Any(s => !double.IsFinite(s)))
-            throw new ArgumentException("k₂: tensioni delle armature mancanti o non finite.");
+        RequireBarStresses(barStresses);
         return barStresses.Any(s => s < 0) ? .5 : 1;
+    }
+    private static void RequireBarStresses(IReadOnlyList<double> barStresses, string message = "k₂: tensioni delle armature mancanti o non finite.")
+    {
+        if (barStresses.Count == 0 || barStresses.Any(s => !double.IsFinite(s)))
+            throw new ArgumentException(message);
     }
     public static CrackResult Cracking(CheckerSection engine, CheckerStressState state, ActionPoint force, JsonObject input, JsonObject workspace, JsonObject options, string set)
     {
@@ -74,13 +89,26 @@ public static partial class Ntc2018Checks
         if (!native.LinearElasticAnalysis || options.S("trazione_cls") == "Sì")
             return new(null, req.Limit, null, null, "wk richiede analisi lineare con CLS teso escluso") { Details = details.ToArray() };
         var barStresses = state.tensioni_barre.Take(engine.Geometry.Bars.Count).ToArray();
-        double k2 = CrackK2(barStresses);
+        // Local copy: a constant condition would leave one of the two rules unreachable for the compiler.
+        bool barRule = NtcK2FromCompressedBars;
+        // Legacy rule: the bar stresses choose k₂, checked here with the "k₂:" message. New rule: k₂ does not depend on them, they are
+        // checked after the compression return, where σs is used (a fully compressed section gives wk = 0 without them).
+        double k2 = barRule ? CrackK2(barStresses) : double.NaN;
         int compressedBars = barStresses.Count(s => s < 0), tensileBars = barStresses.Count(s => s > 0), zeroBars = barStresses.Count(s => s == 0);
-        Add("Barre compresse per k₂", compressedBars, "−", "Conteggio σs < 0 su tutte le armature ordinarie, anche fuori dall'area efficace");
-        Add("Barre tese per k₂", tensileBars, "−", "Conteggio σs > 0");
-        Add("Barre a tensione nulla per k₂", zeroBars, "−", "Conteggio σs = 0");
-        Add("Criterio k₂", k2, "−", compressedBars > 0 ? "Flessione: almeno una armatura compressa → k₂ = 0,50" : "Trazione: nessuna armatura compressa → k₂ = 1,00",
-            zeroBars > 0 ? "Le barre a tensione esattamente nulla non sono considerate compresse." : "Selezione per la combinazione corrente, dalle tensioni Checker.");
+        if (barRule)
+        {
+            Add("Barre compresse per k₂", compressedBars, "−", "Conteggio σs < 0 su tutte le armature ordinarie, anche fuori dall'area efficace");
+            Add("Barre tese per k₂", tensileBars, "−", "Conteggio σs > 0");
+            Add("Barre a tensione nulla per k₂", zeroBars, "−", "Conteggio σs = 0");
+            Add("Criterio k₂", k2, "−", compressedBars > 0 ? "Flessione: almeno una armatura compressa → k₂ = 0,50" : "Trazione: nessuna armatura compressa → k₂ = 1,00",
+                zeroBars > 0 ? "Le barre a tensione esattamente nulla non sono considerate compresse." : "Selezione per la combinazione corrente, dalle tensioni Checker.");
+        }
+        else
+        {
+            Add("Barre compresse", compressedBars, "−", "Conteggio σs < 0 su tutte le armature ordinarie, anche fuori dall'area efficace", "Informativo: k₂ dipende dalla posizione dell'asse neutro, non dalle barre.");
+            Add("Barre tese", tensileBars, "−", "Conteggio σs > 0");
+            Add("Barre a tensione nulla", zeroBars, "−", "Conteggio σs = 0");
+        }
         var plane = native.StrainPlane;
         var points = section.ConcreteShape.GetPoints2d();
         var strains = points.Select(plane.GetStrain).ToArray();
@@ -88,10 +116,23 @@ public static partial class Ntc2018Checks
         Add("εc,max", strains.Max(), "−", "max ε ai vertici");
         Add("Tolleranza compressione", 1e-12, "−", "Se εc,max ≤ tolleranza, wk = 0");
         if (strains.Max() <= 1e-12) return new(0, req.Limit, 0, true, "Sezione interamente compressa") { Details = details.ToArray() };
+        if (!barRule) RequireBarStresses(barStresses, "tensioni delle armature mancanti o non finite.");
         if (strains.Min() >= 0) return InnerCracking(FullyTensionedCracking(engine,state,input,options,req.Limit!.Value,details),engine,state,options);
-        if (code != "NTC 2018")
+        // From here the neutral axis crosses the section: bending, also with axial force (Circolare 2019 C4.1.2.2.4.5; EC2 7.3.4(3), k2 of (7.11)).
+        if (!barRule)
         {
-            k2 = .5; // A neutral axis crosses the section: bending, EC2 7.3.4(3) (k2 of (7.11)).
+            k2 = .5;
+            // Model Code 2010 and DIN: sr,max has no k₂ term (ConcreteCodeChecks.CrackWidth).
+            string k2Note = code == "Model Code 2010" || code.StartsWith("DIN")
+                ? $"Con {code} sr,max non contiene k₂: valore solo informativo."
+                : "Entra in wk solo con il termine k₁·k₂·k₄·Øeq/ρp,eff di sr,max (NTC: Δsm,vicino): non entra se l'asse neutro è nel copriferro senza barre tese, "
+                  + "se non ci sono barre tese in Ac,eff o, con barre distanziate, se governa il termine in (h − x).";
+            if (engine.Geometry.Holes.Count > 0) k2Note += " Le fasce interne dei fori usano il k₂ della propria distribuzione di deformazioni («k₂ della fascia»).";
+            Add("Criterio k₂", k2, "−", "Asse neutro interno alla sezione: flessione, k₂ = 0,50 (Circolare 2019 C4.1.2.2.4.5; EN 1992-1-1 7.3.4(3))", k2Note);
+        }
+        else if (code != "NTC 2018")
+        {
+            k2 = .5;
             Add("Criterio k₂", k2, "−", "Sezione parzialmente compressa: flessione, k₂ = 0,50");
         }
         double gradient = double.Hypot(plane.ChiX, plane.ChiY);
