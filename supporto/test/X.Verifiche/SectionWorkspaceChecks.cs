@@ -72,9 +72,11 @@ internal static class SectionWorkspaceChecks
             var check=two.Check(new(-500,50*Math.Cos(t),50*Math.Sin(t)));
             Assert(check.Utilization is > 0 && check.Resistance is not null, "N-M " + angle);
         }
-        Assert(Ntc2018Checks.CrackK2([-1, 100, 200]) == .5, "k2 flessione con una barra compressa");
-        Assert(Ntc2018Checks.CrackK2([100, 150, 200]) == 1, "k2 trazione con tutte le barre tese");
-        Assert(Ntc2018Checks.CrackK2([0, 100]) == 1 && Ntc2018Checks.CrackK2([-1e-12, 100]) == .5, "k2: zero non compresso, segno negativo rispettato");
+        // Legacy rule of Ntc2018Checks.NtcK2FromCompressedBars (until 7/10/2026), kept for the fixtures: k2 from the bar stresses.
+        Assert(!Ntc2018Checks.NtcK2FromCompressedBars, "D7-b: k2 dall'asse neutro come predefinito");
+        Assert(Ntc2018Checks.CrackK2([-1, 100, 200]) == .5, "k2 legacy: flessione con una barra compressa");
+        Assert(Ntc2018Checks.CrackK2([100, 150, 200]) == 1, "k2 legacy: trazione con tutte le barre tese");
+        Assert(Ntc2018Checks.CrackK2([0, 100]) == 1 && Ntc2018Checks.CrackK2([-1e-12, 100]) == .5, "k2 legacy: zero non compresso, segno negativo rispettato");
         bool invalidK2 = false;
         try { Ntc2018Checks.CrackK2([double.NaN]); } catch (ArgumentException) { invalidK2 = true; }
         Assert(invalidK2, "k2 non accetta tensioni non finite");
@@ -120,13 +122,14 @@ internal static class SectionWorkspaceChecks
         var restoredCrack = System.Text.Json.JsonSerializer.Deserialize<Ntc2018Checks.CrackResult>(J.Node(crack)!.ToJsonString())!;
         Assert(CrackCalculationSummary.Values(restoredCrack).SequenceEqual(compact), "Riepilogo report identico dopo round trip JSON");
         Assert(crack.Width is >0 && crack.EffectiveArea is >0 && crack.Ratio is >0,"Fessurazione da tensioni native e mesh tagliata");
-        Assert(crack.Details.Single(d => d.Symbol == "Criterio k₂").Value == Ntc2018Checks.CrackK2(crackStress.tensioni_barre), "k2 scelto da tutte le barre del risultato nativo");
+        Assert(crack.Details.Single(d => d.Symbol == "Criterio k₂").Value == .5, "k2 = 0,5 con l'asse neutro interno alla sezione (D7-b)");
         foreach (var force in new[] { new ActionPoint(100, 0, 0), new ActionPoint(100, 10, 0), new ActionPoint(200, 20, 0), new ActionPoint(-100, 50, 0) })
         {
             var nativeState = crackEngine.Stress(force, "SLE_QP");
             var checkedCrack = Ntc2018Checks.Cracking(crackEngine, nativeState, force, input, settings, sle, "SLE_QP");
-            double expectedK2 = Ntc2018Checks.CrackK2(nativeState.tensioni_barre);
+            double expectedK2 = .5;
             var eps=nativeState.ConcreteVertices.Select(v=>v.Strain).ToArray();
+            Assert(eps.Max()>1e-12, "Casi di prova non interamente compressi");
             if(eps.Min()>=0&&eps.Max()>0)expectedK2=(eps.Min()+eps.Max())/(2*eps.Max());
             Assert(checkedCrack.Details.Single(d => d.Symbol == "Criterio k₂").Value == expectedK2, "Criterio k2 anche per trazione pura e pressoflessione");
             if (checkedCrack.Width is > 0)
@@ -169,5 +172,113 @@ internal static class SectionWorkspaceChecks
         try { prestressed.Section.Domain3D(cts.Token); } catch(OperationCanceledException) { stopped=true; }
         Assert(stopped,"Cancellazione prima del calcolo");
         Console.WriteLine($"Checker DLL e controlli NTC: {passed} controlli superati."); return passed;
+    }
+}
+
+/// <summary>D7-b (7/10/2026): k₂ = 0,50 whenever the neutral axis crosses the section, for every standard
+/// (Circolare 2019 C4.1.2.2.4.5, EN 1992-1-1 7.3.4(3)); wk = 0 for a fully compressed section before k₂ is chosen;
+/// fully tensioned sections keep (εmax + εmin)/(2 εmax). Widths are recomputed by hand from the trace inputs.</summary>
+internal static class CrackK2Checks
+{
+    internal static int Run()
+    {
+        int passed = 0;
+        void Assert(bool condition, string name) { if (!condition) throw new Exception("k2 D7-b: " + name); passed++; }
+        var data = SezioneCA.DefaultData(); var settings = SectionWorkspace.Prepare(data);
+        var input = data["input"]!.AsObject(); input["shape"] = "Rettangolare"; input["width_mm"] = "300"; input["height_mm"] = "500"; input["fck_mpa"] = "30";
+        JsonArray Bars(params (double X, double Y, double Phi)[] bars) => new(bars.Select(b => (JsonNode)J.Obj(("x", b.X.ToString(System.Globalization.CultureInfo.InvariantCulture)),
+            ("y", b.Y.ToString(System.Globalization.CultureInfo.InvariantCulture)), ("phi", b.Phi.ToString(System.Globalization.CultureInfo.InvariantCulture)))).ToArray());
+        var single = Bars((-100, -200, 20), (0, -200, 20), (100, -200, 20));
+        var both = Bars((-100, -200, 20), (0, -200, 20), (100, -200, 20), (-100, 200, 16), (100, 200, 16));
+        var sle = (JsonObject)settings["sle"]!["SLE_QP"]!.DeepClone();
+        sle["modello"] = "Lineare"; sle["phi"] = "0"; sle["trazione_cls"] = "No"; sle["esposizione"] = "XC1"; sle["sensibilita"] = "Poco sensibile";
+        sle["durata"] = "Lunga"; sle["aderenza"] = "Migliorata"; sle["copriferro_fessure"] = ""; sle["spaziatura_fessure"] = ""; sle["limite_fessure"] = "0.3";
+        (Ntc2018Checks.CrackResult Result, CheckerStressState State, CheckerSection Engine) Crack(string code, JsonArray bars, double n, double m)
+        {
+            var i = (JsonObject)input.DeepClone(); i["barre_manuali"] = bars.DeepClone();
+            var w = (JsonObject)settings.DeepClone(); w["normativa"] = code;
+            var engine = new CheckerSection(i, w, sle); var action = new ActionPoint(n, m, 0); var state = engine.Stress(action, "SLE_QP");
+            return (Ntc2018Checks.Cracking(engine, state, action, i, w, sle, "SLE_QP"), state, engine);
+        }
+        double V(Ntc2018Checks.CrackResult r, string symbol) => r.Details.Last(d => d.Symbol == symbol).Value!.Value;
+        int Count(Ntc2018Checks.CrackResult r, string symbol) => r.Details.Count(d => d.Symbol == symbol);
+        // Hand calculation of the NTC branch (Circolare C4.1.2.2.4.5 with the Δsm path of the code), inputs from the trace.
+        double NtcWidth(Ntc2018Checks.CrackResult r, double k2)
+        {
+            double sigma = V(r, "σs (formula)"), es = V(r, "Es"), ecm = V(r, "Ecm"), fct = V(r, "fct,eff = fctm"), rho = V(r, "ρp,eff"), phi = V(r, "Øeq (formula)");
+            double c = V(r, "c (formula)"), s = V(r, "s (formula)"), hx = V(r, "h − x (formula)"), kt = V(r, "kt"), k1 = V(r, "k₁");
+            double strain = Math.Max((sigma - kt * fct / rho * (1 + es / ecm * rho)) / es, .6 * sigma / es);
+            double near = (3.4 * c + k1 * k2 * .425 * phi / rho) / 1.7, distance = s <= 5 * (c + phi / 2) ? near : Math.Max(near, .75 * hx);
+            return Math.Max(0, 1.7 * distance * strain);
+        }
+        bool Bending(Ntc2018Checks.CrackResult r) => V(r, "εc,min") < 0 && V(r, "εc,max") > 1e-12;
+        void FlexureK2(Ntc2018Checks.CrackResult r, string name)
+        {
+            Assert(Count(r, "Criterio k₂") == 1 && V(r, "Criterio k₂") == .5, name + ": un solo Criterio k₂ = 0,50");
+            Assert(r.Details.Single(d => d.Symbol == "Criterio k₂").Expression == "Asse neutro interno alla sezione: flessione, k₂ = 0,50 (Circolare 2019 C4.1.2.2.4.5; EN 1992-1-1 7.3.4(3))", name + ": testo del criterio");
+            Assert(!r.Details.Any(d => d.Symbol.EndsWith("per k₂")), name + ": nessun conteggio di barre usato per k₂");
+        }
+        // Orientation with the bottom bars in tension, from the sign convention of the native checker.
+        double sign = Crack("NTC 2018", single, 0, 100).State.tensioni_barre.Take(3).All(s => s > 0) ? 1 : -1;
+
+        // (a) Singly reinforced beam in bending, NTC: no compressed bar, neutral axis inside: k2 = 0,5 (the bar rule gave 1).
+        var (beam, beamState, _) = Crack("NTC 2018", single, 0, sign * 100);
+        Assert(Bending(beam) && beamState.tensioni_barre.Take(3).All(s => s > 0) && Ntc2018Checks.CrackK2(beamState.tensioni_barre.Take(3).ToArray()) == 1, "(a) trave a semplice armatura inflessa, nessuna barra compressa");
+        FlexureK2(beam, "(a)");
+        Assert(V(beam, "k₂") == .5 && beam.Width is > 0, "(a) k₂ = 0,50 nella formula di wk");
+        double handBeam = NtcWidth(beam, .5), legacyBeam = NtcWidth(beam, 1);
+        Assert(Math.Abs(beam.Width!.Value - handBeam) <= 1e-12 * handBeam, $"(a) wk = {beam.Width:R} mm come il calcolo a mano {handBeam:R} mm");
+        Assert(handBeam < legacyBeam, "(a) wk con k₂ = 0,50 minore di quello con k₂ = 1,00");
+        Console.WriteLine($"(a) trave a semplice armatura NTC: wk = {handBeam:0.0000} mm (con k₂ = 1: {legacyBeam:0.0000} mm, {100 * (handBeam / legacyBeam - 1):0.0} %)");
+
+        // (b) Combined compression and bending with the neutral axis inside: 0,5 with and without compressed bars; also tension and bending.
+        foreach (var (bars, n, m, name) in new[] { (single, -150d, 120d, "(b) pressoflessione, semplice armatura"), (both, -300d, 150d, "(b) pressoflessione, doppia armatura"),
+            (single, 60d, 100d, "(b) tensoflessione, asse neutro interno") })
+        {
+            var (r, state, _) = Crack("NTC 2018", bars, n, sign * m);
+            Assert(Bending(r), name + ": asse neutro interno");
+            FlexureK2(r, name);
+            Assert(r.Width is > 0 && V(r, "k₂") == .5 && Math.Abs(r.Width!.Value - NtcWidth(r, .5)) <= 1e-12 * r.Width.Value, name + ": wk con k₂ = 0,50");
+        }
+
+        // (c) Pure compression and compression with εc,max ≤ 1e-12: wk = 0, k2 never chosen, no bending criterion in the trace.
+        foreach (var (bars, n, m, name) in new[] { (both, -500d, 0d, "(c) compressione semplice"), (both, -900d, 8d, "(c) pressoflessione interamente compressa"),
+            (single, -600d, 5d, "(c) compressione, semplice armatura") })
+        {
+            var (r, _, _) = Crack("NTC 2018", bars, n, sign * m);
+            Assert(V(r, "εc,max") <= 1e-12, name + ": εc,max ≤ 1e-12");
+            Assert(r.Width == 0 && r.Ratio == 0 && r.Passed == true && r.Status == "Sezione interamente compressa", name + ": wk = 0, soddisfatta");
+            Assert(!r.Details.Any(d => d.Symbol is "Criterio k₂" or "k₂" || d.Symbol.EndsWith("per k₂")), name + ": nessun k₂ nella traccia");
+            Assert(!r.Details.Any(d => (d.Expression + " " + d.Note).Contains("lession")), name + ": nessuna flessione dichiarata");
+            Assert(!CrackCalculationSummary.Values(r).Any(d => d.Symbol == "k₂"), name + ": riepilogo senza k₂");
+        }
+
+        // (d) Fully tensioned section: dedicated branch, k2 = (εmax + εmin)/(2 εmax), unchanged.
+        foreach (var (n, m) in new[] { (300d, 0d), (300d, 8d) })
+        {
+            var (r, state, engine) = Crack("NTC 2018", both, n, sign * m);
+            var plane = state.Native.StrainPlane; var strains = engine.Geometry.Outline.Select(p => plane.GetStrain(p[0], p[1])).ToArray();
+            double expected = Math.Clamp((strains.Min() + strains.Max()) / (2 * strains.Max()), .5, 1);
+            Assert(V(r, "εc,min") >= 0 && r.Status.StartsWith("Interamente tesa"), $"(d) N = {n}, M = {m}: ramo interamente teso");
+            Assert(Count(r, "Criterio k₂") == 1 && V(r, "Criterio k₂") == expected && V(r, "k₂ · interamente tesa") == expected && V(r, "k₂") == expected, $"(d) N = {n}, M = {m}: k₂ = (εmax + εmin)/(2 εmax)");
+            Assert(expected is > .5 and <= 1, $"(d) N = {n}, M = {m}: k₂ = {expected:0.000} fra 0,5 e 1 (armatura asimmetrica: trazione non uniforme)");
+            Assert(r.Width is > 0, $"(d) N = {n}, M = {m}: wk calcolato");
+        }
+
+        // (e) Other standards: k2 was already 0,5 with the neutral axis inside; now a single criterion, same numbers.
+        foreach (var code in ConcreteStandards.OrdinaryNames.Where(x => x != "NTC 2018"))
+        {
+            var (r, _, _) = Crack(code, single, 0, sign * 100);
+            Assert(Bending(r) && r.Width is > 0, code + ": wk calcolato in flessione");
+            FlexureK2(r, code);
+            if (code is "EN 1992-1-1" or "UNI EN 1992-1-1" or "NS EN 1992-1-1")
+            {
+                double c = V(r, "c"), phi = V(r, "Øeq"), rho = V(r, "ρp,eff"), s = V(r, "s");
+                Assert(V(r, "k₂") == .5, code + ": k₂ = 0,50 nella formula");
+                if (s <= 5 * (c + phi / 2)) Assert(Math.Abs(V(r, "sr,max") - (3.4 * c + .8 * .5 * .425 * phi / rho)) < 1e-9, code + ": sr,max = 3,4c + k₁k₂k₄Ø/ρ con k₂ = 0,50");
+                Assert(Math.Abs(r.Width!.Value - V(r, "sr,max") * V(r, "εsm − εcm")) < 1e-12, code + ": wk = sr,max (εsm − εcm)");
+            }
+        }
+        Console.WriteLine($"k2 D7-b: {passed} controlli superati."); return passed;
     }
 }

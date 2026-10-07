@@ -71,7 +71,7 @@
           "file": "^crack-legacy\\.csv$", "righe": "^(145|168|212|782|810|837|850|861)$", "campo": "^details$",
           "b": "\\|wk=[^|]+$",
           "righe_attese": 8, "differenze_attese": 8,
-          "motivo": "Stessi 8 stati di FC-3: la traccia aggiunge in coda Øeq, σs, εsm − εcm, sr,max e wk del limite superiore; le voci precedenti sono invariate.",
+          "motivo": "Stessi 8 stati di FC-3: la traccia aggiunge in coda Øeq, σs, εsm − εcm, sr,max e wk del limite superiore; le voci precedenti sono invariate, salvo nelle righe 145, 212, 810, 837, 850 e 861 (normative EN) dove dal 7/10/2026 manca il primo dei due Criterio k₂ (D7-b, come FC-11).",
           "commit": "ANTHEA 0a63315 (2/10/2026)", "registro": "R7",
           "codice": ["X.Calculations/Ntc2018Checks.cs:163-167", "X.Calculations/ConcreteCodeChecks.cs:227-229"]
         },
@@ -98,6 +98,41 @@
           "righe_attese": 32, "differenze_attese": 32,
           "motivo": "Densità dei materiali da g/mm³ (versione 4) a t/mm³ (versione 5): stesso valore fisico; la lettura di un archivio in versione 4 divide per 1e6 le densità maggiori di 1e-6, quindi le fixture rilette dalla libreria danno gli stessi materiali.",
           "codice": ["Model/Model/Materials/Material.cs:78", "Model/Model/Materials/Material.cs:395-396"]
+        },
+        {
+          "id": "FC-9", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(796)$", "campo": "^(width|ratio|regions)$",
+          "righe_attese": 1, "differenze_attese": 3,
+          "motivo": "D7-b: k₂ = 0,50 con l'asse neutro interno alla sezione per ogni normativa (Circolare 2019 C4.1.2.2.4.5; EN 1992-1-1 7.3.4(3)). Unico stato numerico cambiato: R400x400, NTC 2018, SLE frequente, N = +400 kN, M1 = 20 kNm, M2 = 15 kNm (tensoflessione deviata, nessuna barra compressa), k₂ da 1,00 a 0,50: wk 0,60779 → 0,35952 mm (−40,85 %), rapporto e larghezza della regione efficace; wlim 0,3 mm, esito invariato (non soddisfatta).",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:37", "X.Calculations/Ntc2018Checks.cs:114-127"]
+        },
+        {
+          "id": "FC-10", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(796)$", "campo": "^details$",
+          "a": "^Criterio k₂=1\\|", "b": "^Criterio k₂=0\\.5\\|",
+          "righe_attese": 1, "differenze_attese": 1,
+          "motivo": "D7-b: stesso stato della voce precedente; nella traccia il Criterio k₂ passa da 1 a 0,5 e cambiano i valori derivati (sr,max, wk).",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:37", "X.Calculations/Ntc2018Checks.cs:114-127"]
+        },
+        {
+          "id": "FC-11", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(30|32|35|42|44|47|48|50|51|54|62|63|66|68|70|73|74|76|77|80|88|89|90|91|92|94|95|96|97|100|101|106|112|113|116|118|119|125|130|131|136|140|141|144|152|153|155|185|187|188|193|197|199|200|205|206|217|218|221|223|226|227|229|242|243|244|245|249|251|252|255|257|270|275|276|281|287|288|295|296|297|304|305|307|308|309|312|344|347|350|356|359|364|365|367|370|374|376|377|385|387|388|389|394|400|402|403|405|406|407|409|416|428|429|432|435|444|446|447|452|464|502|509|512|515|520|521|524|529|532|538|539|541|542|543|547|554|556|557|559|560|561|562|563|567|570|573|578|582|584|590|597|602|603|607|608|609|619|620|622|623|656|659|666|668|671|672|677|678|686|689|690|692|695|697|700|701|711|712|713|715|718|719|721|724|725|734|736|737|743|746|754|755|758|760|763|767|773|776|779|812|818|822|824|825|828|831|833|840|842|843|845|848|849|853|854|856|857|860|867|868|870|871|872|875|876|877|881|883|886|889|890|893|895|898|899|901|905|910|911|913|924|934|935)$", "campo": "^details$",
+          "a": "^Criterio k₂=(0\\.5|1)\\|Criterio k₂=0\\.5(\\||$)", "b": "^Criterio k₂=0\\.5(\\||$)",
+          "righe_attese": 244, "differenze_attese": 244,
+          "motivo": "D7-b: normative diverse da NTC 2018 con l'asse neutro interno alla sezione. k₂ valeva già 0,50; la traccia scriveva prima un Criterio k₂ dalle barre e poi quello della flessione, ora uno solo, dove k₂ si decide. Numeri ed esiti invariati. Le righe 145, 212, 810, 837, 850 e 861 hanno lo stesso cambiamento ma sono contate in FC-5 (prima corrispondenza).",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:89-110", "X.Calculations/Ntc2018Checks.cs:116-127"]
+        },
+        {
+          "id": "FC-12", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(10|36|56|78|79|143|156|166|191|211|224|233|234|260|279|292|300|314|322|323|325|362|382|391|392|393|411|417|457|468|469|477|497|503|517|536|537|545|572|585|591|611|625|634|635|636|637|660|662|674|680|681|693|694|703|704|705|730|749|790|791|816|836|858|859|922|923)$", "campo": "^details$",
+          "a": "^Criterio k₂=(0\\.5|1)$", "b": "^$",
+          "righe_attese": 67, "differenze_attese": 67,
+          "motivo": "D7-b: sezione interamente compressa (εc,max ≤ 1e-12): wk = 0 come prima, ma k₂ non si sceglie più e la traccia non contiene alcun Criterio k₂ (prima scriveva 'Flessione: almeno una armatura compressa'). Numeri ed esiti invariati.",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:114"]
         }
       ]
     },
@@ -135,17 +170,88 @@
           "motivo": "D7-d: avviso quando il γb del foglio (1,35) differisce da quello della Tab. 6.4.II per la tecnologia (5 pali battuti 1,15, 1 elica continua 1,30). Nessun numero cambia.",
           "commit": "ANTHEA 7c96c04, e05a05b (7/10/2026)", "registro": "D7-d",
           "codice": ["X.Calculations/Calcolo.cs:274"]
+        },
+        {
+          "id": "B0-4", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(796)$", "campo": "^(width|ratio|regions)$",
+          "righe_attese": 1, "differenze_attese": 3,
+          "motivo": "D7-b: k₂ = 0,50 con l'asse neutro interno alla sezione per ogni normativa (Circolare 2019 C4.1.2.2.4.5; EN 1992-1-1 7.3.4(3)). Unico stato numerico cambiato: R400x400, NTC 2018, SLE frequente, N = +400 kN, M1 = 20 kNm, M2 = 15 kNm (tensoflessione deviata, nessuna barra compressa), k₂ da 1,00 a 0,50: wk 0,60779 → 0,35952 mm (−40,85 %), rapporto e larghezza della regione efficace; wlim 0,3 mm, esito invariato (non soddisfatta).",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:37", "X.Calculations/Ntc2018Checks.cs:114-127"]
+        },
+        {
+          "id": "B0-5", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(796)$", "campo": "^details$",
+          "a": "^Criterio k₂=1\\|", "b": "^Criterio k₂=0\\.5\\|",
+          "righe_attese": 1, "differenze_attese": 1,
+          "motivo": "D7-b: stesso stato della voce precedente; nella traccia il Criterio k₂ passa da 1 a 0,5 e cambiano i valori derivati (sr,max, wk).",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:37", "X.Calculations/Ntc2018Checks.cs:114-127"]
+        },
+        {
+          "id": "B0-6", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(30|32|35|42|44|47|48|50|51|54|62|63|66|68|70|73|74|76|77|80|88|89|90|91|92|94|95|96|97|100|101|106|112|113|116|118|119|125|130|131|136|140|141|144|145|152|153|155|185|187|188|193|197|199|200|205|206|212|217|218|221|223|226|227|229|242|243|244|245|249|251|252|255|257|270|275|276|281|287|288|295|296|297|304|305|307|308|309|312|344|347|350|356|359|364|365|367|370|374|376|377|385|387|388|389|394|400|402|403|405|406|407|409|416|428|429|432|435|444|446|447|452|464|502|509|512|515|520|521|524|529|532|538|539|541|542|543|547|554|556|557|559|560|561|562|563|567|570|573|578|582|584|590|597|602|603|607|608|609|619|620|622|623|656|659|666|668|671|672|677|678|686|689|690|692|695|697|700|701|711|712|713|715|718|719|721|724|725|734|736|737|743|746|754|755|758|760|763|767|773|776|779|810|812|818|822|824|825|828|831|833|837|840|842|843|845|848|849|850|853|854|856|857|860|861|867|868|870|871|872|875|876|877|881|883|886|889|890|893|895|898|899|901|905|910|911|913|924|934|935)$", "campo": "^details$",
+          "a": "^Criterio k₂=(0\\.5|1)\\|Criterio k₂=0\\.5(\\||$)", "b": "^Criterio k₂=0\\.5(\\||$)",
+          "righe_attese": 250, "differenze_attese": 250,
+          "motivo": "D7-b: normative diverse da NTC 2018 con l'asse neutro interno alla sezione. k₂ valeva già 0,50; la traccia scriveva prima un Criterio k₂ dalle barre e poi quello della flessione, ora uno solo, dove k₂ si decide. Numeri ed esiti invariati.",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:89-110", "X.Calculations/Ntc2018Checks.cs:116-127"]
+        },
+        {
+          "id": "B0-7", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(10|36|56|78|79|143|156|166|191|211|224|233|234|260|279|292|300|314|322|323|325|362|382|391|392|393|411|417|457|468|469|477|497|503|517|536|537|545|572|585|591|611|625|634|635|636|637|660|662|674|680|681|693|694|703|704|705|730|749|790|791|816|836|858|859|922|923)$", "campo": "^details$",
+          "a": "^Criterio k₂=(0\\.5|1)$", "b": "^$",
+          "righe_attese": 67, "differenze_attese": 67,
+          "motivo": "D7-b: sezione interamente compressa (εc,max ≤ 1e-12): wk = 0 come prima, ma k₂ non si sceglie più e la traccia non contiene alcun Criterio k₂ (prima scriveva 'Flessione: almeno una armatura compressa'). Numeri ed esiti invariati.",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:114"]
         }
       ]
     },
     "pre-m4": {
-      "descrizione": "Cattura densa contro la cattura pre-M4 (supporto/artefatti/baseline/F2-pre-m4/a, commit 75e4626), una modalità per volta: doppia corsa di F2.1 e riferimento dei passi F2.5-F2.9. Confronto esatto, nessuna differenza attesa.",
+      "descrizione": "Cattura densa contro la cattura pre-M4 (supporto/artefatti/baseline/F2-pre-m4/a, commit 75e4626), una modalità per volta: doppia corsa di F2.1 e riferimento dei passi F2.5-F2.9. Confronto esatto; differenze attese solo quelle di D7-b (7/10/2026), in crack-legacy.csv.",
       "prefisso_tolleranze": "denso",
       "identificativi_casuali": [
         { "file": "-sections\\.xml$", "forma": "guid", "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" },
         { "file": "^walls-(combinations|documents)\\.jsonl", "forma": "hex32", "motivo": "id delle azioni creati da RetainingWall.Upgrade per i documenti dei muri in versione 1 (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" }
       ],
-      "differenze_attese": []
+      "differenze_attese": [
+        {
+          "id": "PM-1", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(796)$", "campo": "^(width|ratio|regions)$",
+          "righe_attese": 1, "differenze_attese": 3,
+          "motivo": "D7-b: k₂ = 0,50 con l'asse neutro interno alla sezione per ogni normativa (Circolare 2019 C4.1.2.2.4.5; EN 1992-1-1 7.3.4(3)). Unico stato numerico cambiato: R400x400, NTC 2018, SLE frequente, N = +400 kN, M1 = 20 kNm, M2 = 15 kNm (tensoflessione deviata, nessuna barra compressa), k₂ da 1,00 a 0,50: wk 0,60779 → 0,35952 mm (−40,85 %), rapporto e larghezza della regione efficace; wlim 0,3 mm, esito invariato (non soddisfatta).",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:37", "X.Calculations/Ntc2018Checks.cs:114-127"]
+        },
+        {
+          "id": "PM-2", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(796)$", "campo": "^details$",
+          "a": "^Criterio k₂=1\\|", "b": "^Criterio k₂=0\\.5\\|",
+          "righe_attese": 1, "differenze_attese": 1,
+          "motivo": "D7-b: stesso stato della voce precedente; nella traccia il Criterio k₂ passa da 1 a 0,5 e cambiano i valori derivati (sr,max, wk).",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:37", "X.Calculations/Ntc2018Checks.cs:114-127"]
+        },
+        {
+          "id": "PM-3", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(30|32|35|42|44|47|48|50|51|54|62|63|66|68|70|73|74|76|77|80|88|89|90|91|92|94|95|96|97|100|101|106|112|113|116|118|119|125|130|131|136|140|141|144|145|152|153|155|185|187|188|193|197|199|200|205|206|212|217|218|221|223|226|227|229|242|243|244|245|249|251|252|255|257|270|275|276|281|287|288|295|296|297|304|305|307|308|309|312|344|347|350|356|359|364|365|367|370|374|376|377|385|387|388|389|394|400|402|403|405|406|407|409|416|428|429|432|435|444|446|447|452|464|502|509|512|515|520|521|524|529|532|538|539|541|542|543|547|554|556|557|559|560|561|562|563|567|570|573|578|582|584|590|597|602|603|607|608|609|619|620|622|623|656|659|666|668|671|672|677|678|686|689|690|692|695|697|700|701|711|712|713|715|718|719|721|724|725|734|736|737|743|746|754|755|758|760|763|767|773|776|779|810|812|818|822|824|825|828|831|833|837|840|842|843|845|848|849|850|853|854|856|857|860|861|867|868|870|871|872|875|876|877|881|883|886|889|890|893|895|898|899|901|905|910|911|913|924|934|935)$", "campo": "^details$",
+          "a": "^Criterio k₂=(0\\.5|1)\\|Criterio k₂=0\\.5(\\||$)", "b": "^Criterio k₂=0\\.5(\\||$)",
+          "righe_attese": 250, "differenze_attese": 250,
+          "motivo": "D7-b: normative diverse da NTC 2018 con l'asse neutro interno alla sezione. k₂ valeva già 0,50; la traccia scriveva prima un Criterio k₂ dalle barre e poi quello della flessione, ora uno solo, dove k₂ si decide. Numeri ed esiti invariati.",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:89-110", "X.Calculations/Ntc2018Checks.cs:116-127"]
+        },
+        {
+          "id": "PM-4", "categoria": "intenzionale",
+          "file": "^crack-legacy\\.csv$", "righe": "^(10|36|56|78|79|143|156|166|191|211|224|233|234|260|279|292|300|314|322|323|325|362|382|391|392|393|411|417|457|468|469|477|497|503|517|536|537|545|572|585|591|611|625|634|635|636|637|660|662|674|680|681|693|694|703|704|705|730|749|790|791|816|836|858|859|922|923)$", "campo": "^details$",
+          "a": "^Criterio k₂=(0\\.5|1)$", "b": "^$",
+          "righe_attese": 67, "differenze_attese": 67,
+          "motivo": "D7-b: sezione interamente compressa (εc,max ≤ 1e-12): wk = 0 come prima, ma k₂ non si sceglie più e la traccia non contiene alcun Criterio k₂ (prima scriveva 'Flessione: almeno una armatura compressa'). Numeri ed esiti invariati.",
+          "commit": "ANTHEA refactoring/d7b-k2-flessione, D7-b passo 2 (7/10/2026)", "registro": "D7-b",
+          "codice": ["X.Calculations/Ntc2018Checks.cs:114"]
+        }
+      ]
     }
   }
 }

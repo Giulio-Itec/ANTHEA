@@ -26,7 +26,7 @@ try
     if (args.Length == 1 && args[0] == "--pile-factors") { PileFactorChecks.Run(); return 0; }
     if (args.Length == 1 && args[0] == "--horizontal-stratified") { HorizontalStratifiedChecks.Run(); return 0; }
     if (args.Length == 1 && args[0] == "--horizontal") { Console.WriteLine($"Palo orizzontale: {HorizontalChecks.Run()} controlli superati."); HorizontalChsChecks.Run(); HorizontalStratifiedChecks.Run(); return 0; }
-    if (args.Length == 1 && args[0] == "--checker") { SectionWorkspaceChecks.Run(); SectionExchangeChecks.Run(); ConcreteEnhancementChecks.Run(); ConcreteDataChecks.Run(); return 0; }
+    if (args.Length == 1 && args[0] == "--checker") { SectionWorkspaceChecks.Run(); CrackK2Checks.Run(); SectionExchangeChecks.Run(); ConcreteEnhancementChecks.Run(); ConcreteDataChecks.Run(); return 0; }
     if (args.Length == 1 && args[0] == "--ca-module") { ConcreteModuleChecks.Run(); return 0; }
     if (args.Length == 2 && args[0] == "--ca-benchmark") { ConcreteBenchmark.Run(args[1]); return 0; }
     bool referenceOnly = args.Length >= 2 && args[0] == "--reference-only";

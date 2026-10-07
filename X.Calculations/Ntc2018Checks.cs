@@ -29,12 +29,12 @@ public static partial class Ntc2018Checks
     }
     /// <summary>
     /// k₂ of the NTC 2018 branch chosen from the bar stresses (0,50 with at least one compressed ordinary bar, 1,00 otherwise)
-    /// instead of the neutral axis: true reproduces the rule used until 7/10/2026, kept only for the frozen fixtures and the
-    /// comparisons (decision D7-b). With false k₂ = 0,50 for every standard when the neutral axis crosses the section
+    /// instead of the neutral axis: false since 7/10/2026 (decision D7-b); true reproduces the earlier rule, kept only for the
+    /// frozen fixtures and the comparisons. With false k₂ = 0,50 for every standard when the neutral axis crosses the section
     /// (Circolare 2019 C4.1.2.2.4.5, EN 1992-1-1 7.3.4(3)); a fully compressed section returns wk = 0 before k₂ is chosen,
     /// a fully tensioned one keeps (εmax + εmin)/(2 εmax).
     /// </summary>
-    public const bool NtcK2FromCompressedBars = true;
+    public const bool NtcK2FromCompressedBars = false;
     /// <summary>Legacy rule of <see cref="NtcK2FromCompressedBars"/>. Compression is negative. Inspect every ordinary bar, not only the effective tensile area.</summary>
     public static double CrackK2(IReadOnlyList<double> barStresses)
     {
