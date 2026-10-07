@@ -209,7 +209,9 @@ internal sealed class ContrastAudit
             for (int i = 0; i < 5; i++) { await Dispatcher.CurrentDispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle); await Task.Delay(30); }
             log.Add("dopo l'attesa: " + Describe(button));
             var inspected = Ui.Button("Ispezione", () => { }, inspection: true); host.Children.Add(inspected);
-            var plain = Ui.Button("Senza gestore Loaded", () => { }); host.Children.Add(plain);
+            var plain = Ui.Button("Senza gestore Loaded", () => { });
+            plain.SizeChanged += (_, e) => log.Add($"SizeChanged del pulsante senza gestore Loaded: {e.NewSize} caricato={plain.IsLoaded} {Describe(plain)}");
+            host.Children.Add(plain);
             var handled = Ui.Button("Con gestore Loaded", () => { }, inspection: true); handled.Loaded += (_, _) => { }; host.Children.Add(handled);
             for (int i = 0; i < 5; i++) { await Dispatcher.CurrentDispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle); await Task.Delay(30); }
             log.Add("pulsante con ispezione, senza gestore Loaded: " + Describe(inspected));

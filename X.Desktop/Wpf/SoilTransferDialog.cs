@@ -26,6 +26,7 @@ internal sealed class SoilTransferDialog : Window
     {
         Owner = owner; Title = "Terreno · invio e riutilizzo"; Width = 940; Height = 660; MinWidth = 720; MinHeight = 520;
         WindowStartupLocation = WindowStartupLocation.CenterOwner; Background = Appearance.Surface; this.module = module; original = (JsonObject)data.DeepClone();
+        Appearance.Watch(this);
         survey = Ui.Choice(module == RetainingWall.Module ? new[] { "Monte", "Valle" } : Enumerable.Range(1, SoilProfileTransfer.SurveyCount(module, data)).Select(i => "Profilo " + i), module == RetainingWall.Module ? "Monte" : "Profilo 1");
         Destination = new ComboBox { MinWidth = 300, SelectedValuePath = "Tag" };
         foreach (var target in SoilProfileTransfer.Modules) { var info = ModuleCatalog.Get(target); Destination.Items.Add(new ComboBoxItem { Content = info.Element + " · " + info.Description, Tag = target }); }

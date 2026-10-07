@@ -77,6 +77,12 @@ internal static class Appearance
         resources[SystemColors.ControlTextBrushKey] = Colour(SystemColors.ControlTextColor, "foreground");
         EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.LoadedEvent,
             new RoutedEventHandler((sender, _) => ApplyElement((DependencyObject)sender)));
+        // WPF raises Loaded only on elements with a Loaded handler of their own: an element added to a window
+        // already loaded (module views, project pages, tree rows) is reached by its first layout instead, when
+        // it lies in a dark window (IsLoaded is not reliable there). In Light the palette is the identity, and
+        // Set themes the whole window when the mode changes.
+        EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.SizeChangedEvent,
+            new SizeChangedEventHandler((sender, _) => { if (sender is FrameworkElement element && GetDark(element)) ApplyElement(element); }), true);
         Set(Current, false);
     }
     internal static void Set(AppAppearance mode, bool persist = true)
