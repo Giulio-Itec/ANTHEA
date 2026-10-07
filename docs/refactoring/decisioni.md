@@ -142,7 +142,19 @@ sempre in due commit (collegamento con opzione legacy identico, poi cambio con e
   report di lavori, test, committa e continua con il refactoring". Profilo full con prove WPF eseguito durante
   la pausa sulla punta dell'integrazione.
 
-## Decisioni del 7 ottobre 2026, pomeriggio: F1.6
+## Decisioni del 7 ottobre 2026, pomeriggio (coordinatore su delega dell'utente «esegui tutto te», da ratificare)
+
+L'utente ha delegato le decisioni del pomeriggio al coordinatore dei workflow ("esegui tutto te"). Le decisioni
+seguenti sono state prese dal coordinatore su delega e valgono fino alla ratifica dell'utente. Voci del registro: R7
+e R16-R21 (F2.2), D7-e, F2-1…F2-4 (F2.5-F2.6).
+
+### F1.4, quattro scenari sull'exe Release
+
+- Eseguiti dal coordinatore con UI Automation e mouse reale sull'exe Release compilato da main 17b6c98, con i dialoghi
+  di produzione, invece che a mano con l'utente. Esito in `supporto/artefatti/refactoring/f1.4/esito.md`: avvio con la
+  Home e 4 scenari superati.
+
+### F1.6, destino dei progetti di test e seguiti
 
 - **Destino dei progetti di test**: la tabella di [progetti-di-test.md](progetti-di-test.md) era da approvare;
   l'utente ha delegato la decisione ("esegui tutto te"); decisa dal coordinatore su delega, da ratificare. Si
@@ -152,7 +164,7 @@ sempre in due commit (collegamento con opzione legacy identico, poi cambio con e
   ValidazioneCA20260925, ElasticPile.Performance (riportato in `supporto/test`, vedi sotto) e ProgrammaAnthea
   (`qa.py`). Nessuno era nel runner. Gli altri progetti mantengono la destinazione già scritta in tabella.
   Origine, motivo e sostituzione di ogni file sono in `supporto/SUPERATI/registro-20261007-test.json`.
-- **Seguito di F1.6 dopo la verifica dell'integrazione 2** (decise dal coordinatore su delega, da ratificare):
+- **Seguito di F1.6 dopo la verifica dell'integrazione 2**:
   - si archivia anche `supporto/script/validazione_ca_2026_09_25`, generatore una tantum della relazione del
     25/9 che importa `reference_base.py` e `reference_extra.py` di ValidazioneCA20260925, in
     `supporto/SUPERATI/script/validazione_ca_2026_09_25`, con voci nel registro di SUPERATI. `build_document.py`
@@ -166,31 +178,7 @@ sempre in due commit (collegamento con opzione legacy identico, poi cambio con e
     README di SUPERATI;
   - le cartelle `bin` e `obj` ignorate rimaste nelle vecchie posizioni dei progetti non si cancellano; le
     segnala il coordinatore all'utente.
-
-## Decisioni del 7 ottobre 2026, pomeriggio: D7-e
-
-- **(e) Durabilità, attuazione di «confermo la norma più aggiornata»**: UNI 11104:2025 in vigore dal
-  24/07/2025 al posto della 2016 (schede del catalogo UNI); secondo un estratto pubblicato il 28/07/2025
-  (fonte secondaria) il prospetto 6 «Valori limite per la composizione e le proprietà del calcestruzzo»
-  dà C30/37 per XC3, XD1, XF4 e XA1, come il codice. Le pagine visibili dell'anteprima UNI (indice,
-  introduzione, punti 1 e 2) confermano edizione e struttura, non i valori; la lettura «a p. 12
-  dell'anteprima» registrata in un primo tempo veniva da contenuti del file non mostrati (fonti
-  riscritte il 7/10, sezione seguente). C30/37 resta, nessun valore cambia; in ANTHEA le citazioni
-  indicano ora edizione e prospetto (scheda Materiali, report dei materiali, commenti, README, guida
-  teorica; branch `refactoring/d7e-uni11104`). La libreria (`ExposureClasses.cs`) si corregge nella prossima release
-  (F2.9), con il testo proposto in `scostamenti.md`. D7-e passa a dichiarato.
-- **Da decidere (seguito di D7-e)**: il prospetto 6 della 2025 differisce dai valori del codice (2016,
-  prospetto 5) per XF1 (C30/37 contro C32/40, A/C 0,55 contro 0,50) e per il cemento minimo, inferiore
-  in tutte le classi; il codice è più restrittivo. Opzioni e4 (allineare alla 2025 in F2.9, raccomandata)
-  ed e5 (tenere la 2016 come scelta cautelativa dichiarata). Decisa poi e4 (sezione seguente).
-
-## 7 ottobre 2026, pomeriggio: decisioni del coordinatore su delega dell'utente («esegui tutto te»), da ratificare
-
-L'utente ha delegato le decisioni del pomeriggio al coordinatore dei workflow ("esegui tutto te"). Le decisioni
-seguenti sono state prese dal coordinatore su delega e restano da ratificare dall'utente.
-
-- **F1.6, destino dei progetti di test e seguiti** (dettaglio in [progetti-di-test.md](progetti-di-test.md) e
-  nella sezione «F1.6» sopra):
+- **Riepilogo con i commit** (dettaglio in [progetti-di-test.md](progetti-di-test.md)):
 
   | Progetto o cartella | Decisione | Commit |
   | --- | --- | --- |
@@ -202,6 +190,22 @@ seguenti sono state prese dal coordinatore su delega e restano da ratificare dal
   | Cartelle `bin` e `obj` ignorate rimaste nelle vecchie posizioni | non si cancellano; le segnala il coordinatore all'utente | — |
   | Tabella, decisioni e piano | allineati ai seguiti | 99b2ae7 |
 
+### D7-e, durabilità e UNI 11104
+
+- **(e) Durabilità, attuazione di «confermo la norma più aggiornata»**: UNI 11104:2025 in vigore dal
+  24/07/2025 al posto della 2016 (schede del catalogo UNI); secondo un estratto pubblicato il 28/07/2025
+  (fonte secondaria) il prospetto 6 «Valori limite per la composizione e le proprietà del calcestruzzo»
+  dà C30/37 per XC3, XD1, XF4 e XA1, come il codice. Le pagine visibili dell'anteprima UNI (indice,
+  introduzione, punti 1 e 2) confermano edizione e struttura, non i valori; la lettura «a p. 12
+  dell'anteprima» registrata in un primo tempo veniva da contenuti del file non mostrati (fonti
+  riscritte il 7/10, punto «seguito su XF1 e composizione» sotto). C30/37 resta, nessun valore cambia; in ANTHEA le
+  citazioni indicano ora edizione e prospetto (scheda Materiali, report dei materiali, commenti, README, guida
+  teorica; branch `refactoring/d7e-uni11104`). La libreria (`ExposureClasses.cs`) si corregge nella prossima release
+  (F2.9), con il testo proposto in `scostamenti.md`. D7-e passa a dichiarato.
+- **Da decidere (seguito di D7-e)**: il prospetto 6 della 2025 differisce dai valori del codice (2016,
+  prospetto 5) per XF1 (C30/37 contro C32/40, A/C 0,55 contro 0,50) e per il cemento minimo, inferiore
+  in tutte le classi; il codice è più restrittivo. Opzioni e4 (allineare alla 2025 in F2.9, raccomandata)
+  ed e5 (tenere la 2016 come scelta cautelativa dichiarata). Decisa poi e4 (punto seguente).
 - **D7-e, seguito su XF1 e composizione**: si adotta l'opzione e4, allineamento alla UNI 11104:2025, coerente con
   «confermo la norma più aggiornata». Si attua in F2.9 insieme allo spostamento della durabilità nella libreria,
   dopo il riscontro del prospetto 6 su una copia con licenza della norma: la variazione su XF1 (C30/37 e A/C 0,55
@@ -211,40 +215,35 @@ seguenti sono state prese dal coordinatore su delega e restano da ratificare dal
   estratto pubblicato il 28/07/2025 (fonte secondaria). La lettura «a p. 12 dell'anteprima» è ritirata: la p. 12
   non è visibile, era un residuo di una versione precedente dentro il file. Se il testo smentisse l'estratto, la
   scelta fra e4 ed e5 torna all'utente.
-- **F2.2, pagine dei metodi c.a.**: revisione tecnica accettata. Le pagine sono unite in Checker develop con i
-  merge locali c555a3b8 (taglio, torsione, SLE, fessurazione) e 1fbaea61 (ancoraggi, dettagli, durabilità,
-  momento-curvatura) più le correzioni del verificatore (5675492f e 398eb36a con i merge 9eb800d4 e 26fb6b8b;
-  bf23a16d, 7d86ffc7, bd9938ac, e41a803a). Il push di Checker develop (punta e41a803a, 35 commit oltre
-  origin/develop) resta all'utente. Le voci nuove a sfavore o da chiarire diventano R16-R21 del registro, stato
-  «da-decidere», con la stessa decisione di R4-R14 («le voci sfavorevoli le guardiamo a fine refactoring», F5.15):
-  R16 torsione DS con νv invece di νt = 0,7 (0,7 − fck/200); R17 classe indicativa di XC3 C25/30 contro C30/37 del
-  prospetto E.1N del DM 2012; R18 incrudimento dell'acciaio di progetto riferito a fyk; R19 citazioni della
-  torsione; R20 ρw,min DS non implementato; R21 condizione DIN (h − x)/3 con NominalCover invece del copriferro
-  assegnato. R7 rettificata: NTC 2018 [4.1.38] dà 1 ≤ cot θ ≤ 2,5 anche in torsione (0,4 era della NTC 2008),
-  quindi «NTC torsione: cot θ ≥ 1 anche in torsione pura» non è uno scostamento; resta da stabilire il segno del
-  limite 1,3 (h − x) con barre tese fuori da Ac,eff (riquadro F-4).
-- **F2.4, lib/Checker da commit pushati**: lo snapshot si compila dai commit dei rami remoti con
-  `tools/libs/Update-Snapshot.ps1 -FromUpstream` (8d6a8ec): worktree temporanei sotto una radice fissa, così gli
-  SHA-256 sono ripetibili. S2 ricompilata così (edc4fce, branch `refactoring/f2-4-snapshot-s2`) da Model
-  origin/master 5ad56681 e Checker origin/develop 0d7ba50b, con le stesse versioni del candidato e `pushed: true`:
-  la release non dipende più dal push di Checker develop, che dopo 0d7ba50b cambia solo `docs/metodi`.
-- **F2.6, taglio e torsione nella libreria** (voci F2-3 e F2-4 del registro e sezione delle decisioni del branch
-  `refactoring/f2-taglio-torsione`, da unire): la torsione senza staffe chiuse resta un rifiuto con il messaggio di
-  oggi, controllato dall'adattatore prima della libreria (F2-3); i rifiuti e i limiti propri della libreria non
-  raggiungibili dal modulo sono accettati, nessuna azione (F2-4); il corpus headless riceve casi c.a. con taglio e
-  torsione (`tests/ANTHEA.Testing/corpus`) e la baseline B3 si cattura con il motore legacy prima dell'interruttore
-  sulla libreria (`supporto/artefatti/baseline/F2-B3`, dcde952).
-- **Tema scuro**: i difetti di colore della modalità scura (fra cui le righe di sezione non selezionate dell'albero
-  dei progetti, chiare su chiaro, `ProjectHierarchy.cs:155`, segnalate anche dall'utente) si correggono sul branch
-  dedicato `refactoring/ui-tema-scuro` (worktree Temp\aw-tema), da unire dopo verifica.
-- **F1.4, quattro scenari sull'exe Release**: eseguiti dal coordinatore con UI Automation e mouse reale sull'exe
-  Release compilato da main 17b6c98, con i dialoghi di produzione, invece che a mano con l'utente. Esito in
-  `supporto/artefatti/refactoring/f1.4/esito.md`: avvio con la Home e 4 scenari superati.
 
-## Decisioni del 7 ottobre 2026, pomeriggio (coordinatore, da ratificare)
+### F2.2, pagine dei metodi c.a., voci R16-R21 e rettifica di R7
 
-Decise dal coordinatore dei workflow su delega dell'utente, durante la verifica avversaria di F2.5-F2.6 (branch
-`refactoring/f2-taglio-torsione`); valgono fino alla ratifica dell'utente. Voci F2-2…F2-4 del registro.
+- **Revisione tecnica accettata**. Le pagine sono unite in Checker develop con i merge locali c555a3b8 (taglio,
+  torsione, SLE, fessurazione) e 1fbaea61 (ancoraggi, dettagli, durabilità, momento-curvatura) più le correzioni del
+  verificatore (5675492f e 398eb36a con i merge 9eb800d4 e 26fb6b8b; bf23a16d, 7d86ffc7, bd9938ac, e41a803a). Il push
+  di Checker develop (punta e41a803a, 35 commit oltre origin/develop) resta all'utente. Nota della sera: nel
+  checkout di Checker origin/develop risulta aggiornato da un push a 4f54139a alle 17:59 (reflog del ramo remoto).
+- **Voci nuove R16-R21**: le voci nuove a sfavore o da chiarire diventano R16-R21 del registro, stato «da-decidere»,
+  con la stessa decisione di R4-R14 («le voci sfavorevoli le guardiamo a fine refactoring», F5.15): R16 torsione DS
+  con νv invece di νt = 0,7 (0,7 − fck/200); R17 classe indicativa di XC3 C25/30 contro C30/37 del prospetto E.1N del
+  DM 2012; R18 incrudimento dell'acciaio di progetto riferito a fyk; R19 citazioni della torsione; R20 ρw,min DS non
+  implementato; R21 condizione DIN (h − x)/3 con NominalCover invece del copriferro assegnato.
+- **R7 rettificata**: NTC 2018 [4.1.38] dà 1 ≤ cot θ ≤ 2,5 anche in torsione (0,4 era della NTC 2008), quindi «NTC
+  torsione: cot θ ≥ 1 anche in torsione pura» non è uno scostamento; resta da stabilire il segno del limite
+  1,3 (h − x) con barre tese fuori da Ac,eff (riquadro F-4).
+
+### F2.4, lib/Checker da commit pushati (`-FromUpstream`)
+
+- Lo snapshot si compila dai commit dei rami remoti con `tools/libs/Update-Snapshot.ps1 -FromUpstream` (8d6a8ec):
+  worktree temporanei sotto una radice fissa, così gli SHA-256 sono ripetibili. S2 ricompilata così (edc4fce, branch
+  `refactoring/f2-4-snapshot-s2`) da Model origin/master 5ad56681 e Checker origin/develop 0d7ba50b, con le stesse
+  versioni del candidato e `pushed: true`: la release non dipende più dal push di Checker develop, che dopo 0d7ba50b
+  cambia solo `docs/metodi`.
+
+### F2.5 e F2.6, taglio e torsione nella libreria
+
+Decisioni prese durante la verifica avversaria di F2.5-F2.6 (branch `refactoring/f2-taglio-torsione`, unito
+nell'integrazione 2 con il merge ea4c51e); voci F2-1…F2-4 del registro.
 
 - **F2-3, torsione senza staffe chiuse**: resta un dato non valido, rifiutato con il messaggio di oggi; l'adattatore lo
   controlla prima della libreria, che darebbe invece una verifica non soddisfatta con resistenza nulla.
@@ -257,6 +256,18 @@ Decise dal coordinatore dei workflow su delega dell'utente, durante la verifica 
   casi scritti per la cattura (`tests/ANTHEA.Testing/corpus`: rettangolare, circolare e circolare cava NTC con torsione,
   rettangolare DIN con cot θ assegnato e rifiuti) e si cattura la baseline B3 con il motore legacy, prima
   dell'interruttore (`supporto/artefatti/baseline/F2-B3`, commit dcde952). Riferimento headless dei passi F2.6-F2.9.
+- **F2-1, ripieghi di `foro_presente`**: si ratifica F2-1 così com'è. Con il motore della libreria cambia solo il
+  chiamante registrato del ripiego J.B("foro_presente") = False dei fogli senza la chiave
+  (`ConcreteShearTorsionAdapter.TorsionGeometryOf` invece di `ConcreteTorsionCalculator.Geometry`), con la stessa
+  chiave e lo stesso valore; il registro dei ripieghi (`fallbacks.json`) non è un risultato. Non si aggiunge al
+  corpus di B3 un caso senza la chiave (l'altra scelta lasciata aperta dal registro): i casi di B3 dichiarano
+  `foro_presente` (dcde952) e l'effetto sui documenti senza la chiave resta dichiarato in F2-1.
+
+### Tema scuro
+
+- I difetti di colore della modalità scura (fra cui le righe di sezione non selezionate dell'albero dei progetti,
+  chiare su chiaro, `ProjectHierarchy.cs:155`, segnalate anche dall'utente) si correggono sul branch dedicato
+  `refactoring/ui-tema-scuro` (worktree Temp\aw-tema), da unire dopo verifica.
 
 ## Dipendenze esterne previste
 
