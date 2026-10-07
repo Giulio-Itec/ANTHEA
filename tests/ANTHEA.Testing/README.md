@@ -65,7 +65,15 @@ di caratteri si scrivono compressi (`.gz`), letti in modo trasparente da `compar
 - documenti di `supporto/esempi` (`.json`, `.anthea`, `.programma`) letti con `Archivio.Leggi`;
 - casi `palo` e `micropalo` di `supporto/test/casi_confronto.json` (i default dei pali
   verticali sono moduli vuoti);
-- `RetainingWall.Example("gravity")` ed `Example("cantilever")`.
+- `RetainingWall.Example("gravity")` ed `Example("cantilever")`;
+- dalla baseline B3 (refactoring F2.6), i casi scritti per la cattura in `corpus/` (stesso formato
+  degli esempi della Wiki: `moduleId` e `overrides` applicati ai default; caso
+  `corpus-<nome del file>`, ultimi nell'elenco, così i casi precedenti si calcolano come in B2):
+  sezioni c.a. con azioni di taglio e torsione, che le altre fonti non contengono
+  (rettangolare, circolare e circolare cava NTC 2018 con torsione, rettangolare DIN con cot θ
+  assegnato e rifiuti). I casi dichiarano `foro_presente`: senza la chiave il ripiego di
+  `J.B("foro_presente")` registrato in `fallbacks.json` cambierebbe chiamante con il motore di
+  taglio e torsione (registro F2-1), e il confronto con la baseline lo segnalerebbe.
 
 Motori fuori da `CalculationService`: risposta e armature dei tratti del palo elastico
 (`CalculateResponse`, `CompleteReinforcement`), stabilità globale dei muri con la proposta
@@ -80,7 +88,10 @@ opzioni predefinite. Ciò che resta escluso è elencato in `manifest.json` (`non
 
 - numero JSON: `|a − b| ≤ abs + rel · max(|a|, |b|)` con la grandezza scelta dalla prima
   regola che corrisponde al nome della proprietà (o della colonna CSV) e al percorso; mai
-  `max(1, |x|)`. Default 0: uguaglianza esatta per i refactoring puri;
+  `max(1, |x|)`. Default 0: uguaglianza esatta per i refactoring puri. Dal passo F2.6 i
+  numeri del JSON `taglio` e `torsione` dei risultati `str_palo` (resistenze, tassi, cot θ,
+  ΣAsl richiesta, profilo resistente, valori dei dettagli) ammettono 1e-9 (grandezze
+  `ca_libreria_*`, registro F2-1); ogni altro campo di quei risultati resta esatto;
 - testi (report, celle CSV, stringhe): scheletro senza numeri identico; interi uguali;
   decimali entro metà dell'ultima cifra stampata di ciascun valore più la tolleranza della
   grandezza. Le righe che contengono JSON (`# NOME {…}`) si confrontano come JSON;
@@ -100,7 +111,8 @@ Classi delle differenze: `file-aggiunto`, `file-rimosso`, `chiave-aggiunta`,
 | --- | --- | --- | --- |
 | `fixture-checker` | `Checker/GPCChecker.Test.Concrete/Fixtures` (ricatturate il 7/10/2026 da `F2-pre-m4-v2/a/tutte`, SHA-256 a fine riga LF fissati nel file; nessuna differenza attesa) | regole `fixture-checker/` di `tolerances.json`, allineate ai MigrationTests | suite `baseline/banco-ca` |
 | `b0` | `supporto/artefatti/baseline/F0-B0/dense/<modalità>` | esatte (`denso/`) | misura F2.1 rispetto a B0 |
-| `pre-m4` | `supporto/artefatti/baseline/F2-pre-m4-v2/a/<modalità>` (nessuna differenza attesa) | esatte (`denso/`) | doppia corsa e passi F2.5-F2.9 (`-DenseRef`) |
+| `pre-m4` | `supporto/artefatti/baseline/F2-pre-m4-v2/a/<modalità>` (nessuna differenza attesa) | esatte (`denso/`) | doppia corsa; catture con `--motore legacy` (`-DenseSet pre-m4`) |
+| `f2-libreria` | come `pre-m4` (nessuna differenza attesa) | 1e-9 sui soli numeri di taglio e torsione calcolati da GPCChecker.Concrete (regole `f2-libreria/`, registro F2-1), il resto esatto | catture con il motore della libreria (predefinito dal passo F2.6, o `--motore libreria`), passi F2.6-F2.9; predefinito di `-DenseSet` nel runner (`-DenseRef`) |
 
 Regole del confronto:
 

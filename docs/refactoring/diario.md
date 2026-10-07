@@ -419,3 +419,59 @@ ratificare. Nessun push da parte dei workflow.
   contrasto in corso.
 - Documenti di refactoring dell'integrazione 2: registro (R7 rettificata, R16-R21, D7-e con e4 e fonti riproducibili),
   scostamenti, piano (F1.4 e F2.2 chiusi, F2.9, F5.15), decisioni e questo diario.
+
+## Pomeriggio del 7 ottobre 2026: F2.5 e F2.6 (taglio e torsione verso la libreria)
+
+Branch `refactoring/f2-taglio-torsione` (worktree Temp\aw-f2tt, da main 17b6c98), non su main, non pushato.
+
+- F2.5 (2583225): strato di mappatura `ConcreteLibraryMapping` (unità con nome, norme, testi italiani del legacy) e
+  adattatore `ConcreteShearTorsionAdapter` con l'interruttore `Default` sul legacy; prove `tests/ConcreteLibraryAdapter.Checks`.
+- Primo interruttore (7176c0c). La verifica avversaria ha trovato che collegava alla libreria il solo taglio del modulo:
+  `ConcreteShearAnalysis` calcolava ancora profilo resistente e torsione con il legacy diretto, e le prove 3d/3e
+  confrontavano per la torsione il legacy con se stesso; inoltre tolleranze nel commit dell'interruttore, controllo delle
+  costanti cieco ai letterali con il punto iniziale (.85), attesi indipendenti solo sul legacy diretto, SHA mancanti nel
+  piano e nel registro, nessun caso con taglio e torsione nel corpus headless di B2. Messaggio di 7176c0c e prime righe di
+  piano, matrice e registro descrivevano un collegamento che non esisteva: corretti nei documenti, senza riscrivere la storia.
+- Correzione, prima corsa (f5b5f50, 8f991b4, 85314a6, 0111a1f): torsione e profilo resistente del modulo attraverso
+  l'adattatore; prova 3f (torsione del modulo uguale bit per bit all'adattatore del motore richiesto, 70 casi su 120 con
+  uscite diverse fra i motori); prova 4 (reference.json in sola lettura, benchmark DIN, DS, UNI, NS, torsione NTC in forma
+  chiusa, con entrambi i motori); regex delle costanti con il caso sintetico .85; tolleranze dense in un commit dedicato;
+  interruttore sulla libreria.
+- Correzione, seconda corsa (coordinatore: la baseline B3 si cattura con il legacy prima dell'interruttore): 8c95d9b
+  interruttore di nuovo sul legacy, 3f anche contro il legacy diretto, 3e con la torsione del calcolo headless uguale
+  all'adattatore del motore predefinito (riga T7); 256714d corpus headless con tre sezioni c.a. con taglio e torsione;
+  una prova con la libreria a mano ha mostrato che senza `foro_presente` il registro dei ripieghi cambia chiamante
+  (TorsionGeometryOf invece di ConcreteTorsionCalculator.Geometry, stesso valore), quindi dcde952 dichiara la chiave e
+  aggiunge la sezione circolare cava; B3 catturata su dcde952 (runner PASS 40, KNOWN 1, NEW-FAIL 0; densa identica a
+  F2-pre-m4-v2 con il confronto esatto; headless uguale a B2 sui 432 file comuni salvo le voci dei casi nuovi; doppia
+  corsa con soli tempi volatili). ea6e0ac tolleranze headless dedicate; ca6530d interruttore sulla libreria.
+- Misure su ca6530d: runner baseline contro B3 e F2-pre-m4-v2 PASS 41, KNOWN 1, NEW-FAIL 0 (headless: 5 numeri su 276
+  di 'taglio' e 'torsione' entro 1e-9, massimo relativo 2,0e-16, relazioni identiche; densa: 1083 righe entro 1e-9, nessuna
+  non classificata); profilo standard PASS 35, KNOWN 1; prove negative della 3e e della 3f. Registro F2-1…F2-4, piano,
+  matrice, decisioni del coordinatore da ratificare (F2-3 rifiuto senza staffe chiuse, F2-4 limiti della libreria
+  accettati, traccia NTC non esposta, B3).
+- Una corsa del runner si è interrotta dopo l'ultima suite perché `summary.txt` era letto da fuori durante la scrittura
+  (Add-Content): ripetuta; le corse non vanno osservate leggendo i file del runner.
+- Fuori dall'interruttore restano, nel legacy, il taglio senza staffe dei muri in c.a. (`RetainingWall.Structures.cs:98-100`,
+  VRd,c con una formula propria senza σcp, F4.7) e la proposta di bw, d e Asl (`SectionShearGeometry.Derive`, buco 3 della
+  matrice); i pali elastici verificano il taglio con `GPC.Checkers.Concrete.Piles` già da prima di F2. Quindi non tutto il
+  taglio di ANTHEA passa dalla libreria: solo quello della sezione c.a. (WPF, calcolo headless, progetto delle armature).
+- Terza verifica avversaria (su ca6530d e 801e11c), 8 punti. Corretti: esclusioni scritte nel piano (prima solo nella
+  matrice); riga della matrice per il controllo "torsione solo NTC" (`ConcreteShearAnalysis.cs:61` in ca6530d, non :60);
+  prove rafforzate (4e8b30b): prima la 3e riconosceva un calcolo headless che aggirasse l'interruttore con la sola riga T7,
+  e nessuna prova distingueva il motore del taglio del modulo (con il taglio sempre legacy le prove di 801e11c passano);
+  ora la 3d conta 131 calcoli del modulo con uscite diverse e la 3e confronta bit per bit taglio (106 righe, 42 che
+  distinguono i motori) e torsione (63 righe, 36) anche su sezioni NTC di 5 forme con 3 valori di cot θ, con almeno 10 casi
+  per controllo; nota in F2.4 sui testi della libreria senza traduzione (nella scheda WPF interromperebbero le righe
+  successive del taglio; oggi non raggiungibile). Provenienza di B3 confermata anche dalla cattura di 17b6c98 con il corpus
+  di dcde952 (uguale a B3, `fallbacks.json` identico byte per byte). Scartati senza modifiche: effetto dei ripieghi sui
+  documenti senza `foro_presente` (resta dichiarato in F2-1, scelta dell'utente) e documenti di 8c95d9b…ea6e0ac che
+  descrivevano lo stato con la libreria (già dichiarato nel messaggio di 8c95d9b).
+- Il messaggio di 256714d ("taglio e torsione elevati, verifica non soddisfatta") e la prima stesura del LEGGIMI di B3
+  davano non soddisfatta solo V3: in B3 anche V2 non soddisfa l'interazione taglio-torsione lato acciaio (ηs 1,284), V3 non
+  soddisfa taglio (η 2,84 e 1,53) e interazione; negli altri casi C2, C3 e H2 non soddisfatti a torsione/interazione, C3 e
+  H2 anche a taglio. LEGGIMI corretto (non versionato); il messaggio di commit resta.
+- 63cda73 è partito con il messaggio di 8c95d9b (nome del file del messaggio già usato da un'altra corsa): ritirato con
+  2b2f16b e ricommittato identico come 4e8b30b con il messaggio giusto. Regola per le prossime volte: nome del file del
+  messaggio controllato prima del commit; se l'interruttore viene sospeso di nuovo, piano e registro nello stesso commit o
+  in quello subito dopo.

@@ -17,8 +17,10 @@ supporto\test\CheckerMigration.Capture (mode tutte) compared with the concrete f
 the dense capture F2-pre-m4-v2 (compare-dense, comparison 'fixture-checker' of tests\ANTHEA.Testing\f2-classificazione.json, no
 expected difference). The fixtures folder is -CheckerFixtures, by default ..\Checker\GPCChecker.Test.Concrete\Fixtures next to this
 checkout or next to the main working tree of a git worktree; without it the suite is listed as not run. With -DenseRef <dense
-'tutte' folder> a second dense capture is compared with that reference (comparison -DenseSet, default 'pre-m4', whose reference is
-supporto\artefatti\baseline\F2-pre-m4-v2\a\tutte of the main repository).
+'tutte' folder> a second dense capture is compared with that reference (comparison -DenseSet, default 'f2-libreria' from step F2.6: the reference
+supporto\artefatti\baseline\F2-pre-m4-v2\a\tutte of the main repository, with 1e-9 on the numbers of shear and torsion now computed by
+GPCChecker.Concrete; 'pre-m4' is the exact comparison, for a capture with --motore legacy or a double run). The headless reference of
+steps F2.6-F2.9 is supporto\artefatti\baseline\F2-B3\headless (-BaselineRef), with concrete sections with shear and torsion.
 The WPF checks (--smoke-*, --check-*) exist only in the UiTests configuration (refactoring F1.2): the build stage
 compiles X.Desktop with -c UiTests and the ui stage runs X.Desktop\bin\UiTests\net8.0-windows\ANTHEA.exe.
 Every outcome is classified against build/known-failures.json: PASS, KNOWN, NEW-FAIL, FIXED, BLOCKED, NOT-RUN.
@@ -38,7 +40,7 @@ param(
     [string] $BaselineRef,
     [string] $CheckerFixtures,
     [string] $DenseRef,
-    [string] $DenseSet = 'pre-m4'
+    [string] $DenseSet = 'f2-libreria'
 )
 $ErrorActionPreference = 'Stop'
 $Root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
@@ -91,6 +93,9 @@ foreach ($flag in 'checker', 'bridge', 'horizontal', 'coesione', 'gamma-sat', 'p
 Add-Suite @{ Name = 'verifiche/micropalo'; Stage = 'fast'; Kind = 'run'; Project = $Verifiche; Args = @('--micropalo', '{cases}') }
 Add-Suite @{ Name = 'CalculationLibrary.Checks'; Stage = 'fast'; Kind = 'run'; Project = (TestProject 'CalculationLibrary.Checks'); Args = @() }
 Add-Suite @{ Name = 'ConcreteCode.Checks'; Stage = 'fast'; Kind = 'run'; Project = (TestProject 'ConcreteCode.Checks'); Args = @() }
+# Adapter of shear and torsion to GPCChecker.Concrete (refactoring F2.5-F2.6): mapping layer, switch, legacy-library equivalence.
+Add-Suite @{ Name = 'ConcreteLibraryAdapter.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'; Args = @('{out}')
+    Proof = @{ File = '{out}\misura.json'; Pattern = '"strumento": "ConcreteLibraryAdapter.Checks"' } }
 
 Add-Suite @{ Name = 'verifiche/regressione'; Stage = 'regression'; Kind = 'run'; Project = $Verifiche; Args = @('{cases}', '{out}\confronto_numerico.json') }
 Add-Suite @{ Name = 'verifiche/software'; Stage = 'regression'; Kind = 'run'; Project = $Verifiche; Args = @('--software', '{cases}', '{out}\avanzamento.txt'); Proof = @{ File = '{out}\avanzamento.txt'; Pattern = '^Completato: ' } }

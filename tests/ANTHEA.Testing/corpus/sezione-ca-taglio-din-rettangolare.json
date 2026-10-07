@@ -1,0 +1,30 @@
+{
+  "moduleId": "str_palo",
+  "label": "sezione rettangolare 600 x 800, DIN EN 1992-1-1: taglio con cot θ assegnato",
+  "description": "Caso del corpus della cattura headless (baseline B3, refactoring F2.6): sezione del default con staffe Ø10/200 e cot θ = 2,5 assegnato nelle due direzioni. Con taglio basso il limite DIN dipendente dal carico è 3 e il calcolo procede; con taglio alto il limite scende sotto 2,5 e il calcolo è rifiutato; la riga con T diverso da zero è rifiutata perché la torsione accoppiata è solo NTC 2018.",
+  "overrides": {
+    "input": { "shape": "Rettangolare", "foro_presente": false },
+    "combinazioni": {
+      "SLU": [ { "nome": "SLU 1", "azioni": [ "-1200", "250", "60" ] } ],
+      "SLV": [],
+      "SLE": [],
+      "SLE_FREQ": [],
+      "SLE_QP": []
+    },
+    "workspace_ca": {
+      "versione": 2,
+      "normativa": "DIN EN 1992-1-1",
+      "taglio": {
+        "modello": "Con staffe",
+        "cot_x": "2.5",
+        "cot_y": "2.5",
+        "azioni": [
+          { "id": "D1", "nome": "Taglio basso", "N": "-1000", "Mx": "200", "My": "50", "Vx": "150", "Vy": "100", "T": "0" },
+          { "id": "D2", "nome": "Taglio alto, cot θ oltre il limite", "N": "-1000", "Mx": "200", "My": "50", "Vx": "1200", "Vy": "900", "T": "0" },
+          { "id": "D3", "nome": "Trazione", "N": "200", "Mx": "-50", "My": "10", "Vx": "100", "Vy": "-60", "T": "0" },
+          { "id": "D4", "nome": "Torsione non NTC", "N": "-1000", "Mx": "200", "My": "50", "Vx": "150", "Vy": "100", "T": "20" }
+        ]
+      }
+    }
+  }
+}

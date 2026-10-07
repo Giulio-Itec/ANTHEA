@@ -15,7 +15,8 @@ public sealed record CaptureCase(string Module, string Id, string Origin, string
 /// <summary>
 /// The B0 corpus: the defaults of the 11 modules of ModuleCatalog.All (and the elastic view of the two horizontal modules), the Wiki
 /// examples (X.Desktop/Wiki/Examples, applied as MainWindow.WikiExamples does), the documents of supporto/esempi read with
-/// Archivio.Leggi, and RetainingWall.Example("gravity"/"cantilever").
+/// Archivio.Leggi, the vertical pile cases of supporto/test/casi_confronto.json and RetainingWall.Example("gravity"/"cantilever").
+/// From B3 (refactoring F2.6) also the cases of tests/ANTHEA.Testing/corpus: concrete sections with shear and torsion.
 /// </summary>
 public static class Corpus
 {
@@ -88,6 +89,26 @@ public static class Corpus
 
         foreach (var family in new[] { "gravity", "cantilever" })
             cases.Add(Safe(RetainingWall.Module, "example-" + family, $"RetainingWall.Example(\"{family}\")", null, () => RetainingWall.Example(family)));
+
+        // Cases written for the capture (baseline B3, refactoring F2.6): sheets that the other sources do not contain, in the format of the
+        // Wiki examples (moduleId, overrides applied to the defaults). Last in the list, so the earlier cases run as in B2.
+        string own = Path.Combine(root, "tests", "ANTHEA.Testing", "corpus");
+        if (Directory.Exists(own))
+            foreach (var file in Directory.EnumerateFiles(own, "*.json").OrderBy(f => f, StringComparer.Ordinal))
+            {
+                string id = "corpus-" + Id(Path.GetFileNameWithoutExtension(file));
+                JsonObject definition;
+                try { definition = JsonNode.Parse(File.ReadAllText(file, Encoding.UTF8))!.AsObject(); }
+                catch (Exception ex) { cases.Add(new("sconosciuto", id, "caso del corpus", Relative(root, file), null, ex.Message)); continue; }
+                string module = definition["moduleId"]?.GetValue<string>() ?? "sconosciuto";
+                cases.Add(Safe(module, id, "caso del corpus (tests/ANTHEA.Testing/corpus) applicato ai default", Relative(root, file), () =>
+                {
+                    var data = ModuleCatalog.CreateData(module);
+                    Apply(data, definition["overrides"]!.AsObject());
+                    ModuleCatalog.ValidateData(module, data);
+                    return data;
+                }));
+            }
         return cases;
     }
 

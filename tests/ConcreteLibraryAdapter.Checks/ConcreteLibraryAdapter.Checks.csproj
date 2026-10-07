@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Prove dell'adattatore di taglio e torsione verso GPCChecker.Concrete (refactoring F2.5-F2.6); suite del runner 'fast'. -->
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../../X.Calculations/X.Calculations.csproj" /><ProjectReference Include="../../X.Core/X.Core.csproj" /></ItemGroup>
+</Project>

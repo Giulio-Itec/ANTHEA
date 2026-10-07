@@ -1,0 +1,31 @@
+{
+  "moduleId": "str_palo",
+  "label": "sezione circolare cava Ø1000 / Ø500, NTC 2018: taglio e torsione",
+  "description": "Caso del corpus della cattura headless (baseline B3, refactoring F2.6): sezione circolare del default (16Ø24, staffe chiuse Ø10/200) con foro centrale Ø500, modello delle pile NTC §7.9.5.2 (z/d = 0,60 con il foro), profilo resistente dallo spessore della parete, cot θ comune 1,5 con T diverso da zero, As longitudinale per la torsione 2500 mm².",
+  "overrides": {
+    "input": { "shape": "Circolare", "foro_presente": true, "inner_diameter_mm": "500" },
+    "combinazioni": {
+      "SLU": [ { "nome": "SLU 1", "azioni": [ "-1500", "300", "100" ] } ],
+      "SLV": [],
+      "SLE": [],
+      "SLE_FREQ": [],
+      "SLE_QP": []
+    },
+    "workspace_ca": {
+      "versione": 2,
+      "normativa": "NTC 2018",
+      "taglio": {
+        "modello": "Con staffe",
+        "modello_circolare": "Pile · NTC §7.9.5.2",
+        "cot_torsione": "1.5",
+        "as_torsione": "2500",
+        "chiusura_torsione": "Confermato",
+        "azioni": [
+          { "id": "H1", "nome": "Taglio", "N": "-1500", "Mx": "300", "My": "100", "Vx": "250", "Vy": "120", "T": "0" },
+          { "id": "H2", "nome": "Taglio biassiale e torsione", "N": "-1500", "Mx": "300", "My": "100", "Vx": "250", "Vy": "120", "T": "60" },
+          { "id": "H3", "nome": "Trazione, torsione negativa", "N": "250", "Mx": "-100", "My": "40", "Vx": "-150", "Vy": "80", "T": "-35" }
+        ]
+      }
+    }
+  }
+}
