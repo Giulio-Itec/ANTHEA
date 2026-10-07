@@ -137,56 +137,77 @@
     "archived": "supporto/SUPERATI/test/ValidazioneCA20260925/Extra.cs",
     "sha256": "B5DCCEB5AFD18B9694A79241ADC6542EA48925D4265BF8C2025B2500298A4FD7",
     "reason": "F1.6, 7/10/2026: campagna di validazione c.a. del 25/9/2026; non compila (Extra.cs non risolve Ntc2018Checks, già prima di F1); non era nel runner",
-    "replacement": "Nessuna revisione diretta: i casi utili entrano nella regressione MSTest prevista tra F1 e F2. supporto/script/validazione_ca_2026_09_25/build_document.py importa da questa cartella reference_base.py e reference_extra.py"
+    "replacement": "Nessuna revisione diretta: i casi utili entrano nella regressione MSTest prevista tra F1 e F2. reference_base.py e reference_extra.py sono importati da build_document.py, archiviato con questa cartella in supporto/SUPERATI/script/validazione_ca_2026_09_25"
   },
   {
     "original": "supporto/test/ValidazioneCA20260925/Program.cs",
     "archived": "supporto/SUPERATI/test/ValidazioneCA20260925/Program.cs",
     "sha256": "0D16254CC5383B9563931C547BC625C65E0EAF37447FC34551239535B15EED61",
     "reason": "F1.6, 7/10/2026: campagna di validazione c.a. del 25/9/2026; non compila (Extra.cs non risolve Ntc2018Checks, già prima di F1); non era nel runner",
-    "replacement": "Nessuna revisione diretta: i casi utili entrano nella regressione MSTest prevista tra F1 e F2. supporto/script/validazione_ca_2026_09_25/build_document.py importa da questa cartella reference_base.py e reference_extra.py"
+    "replacement": "Nessuna revisione diretta: i casi utili entrano nella regressione MSTest prevista tra F1 e F2. reference_base.py e reference_extra.py sono importati da build_document.py, archiviato con questa cartella in supporto/SUPERATI/script/validazione_ca_2026_09_25"
   },
   {
     "original": "supporto/test/ValidazioneCA20260925/ValidazioneCA.csproj",
     "archived": "supporto/SUPERATI/test/ValidazioneCA20260925/ValidazioneCA.csproj",
     "sha256": "2D79B3110361BAF0A4366C6C94BC8209CE58E218B3E6DA77ACA87B3308E63F7C",
     "reason": "F1.6, 7/10/2026: campagna di validazione c.a. del 25/9/2026; non compila (Extra.cs non risolve Ntc2018Checks, già prima di F1); non era nel runner",
-    "replacement": "Nessuna revisione diretta: i casi utili entrano nella regressione MSTest prevista tra F1 e F2. supporto/script/validazione_ca_2026_09_25/build_document.py importa da questa cartella reference_base.py e reference_extra.py"
+    "replacement": "Nessuna revisione diretta: i casi utili entrano nella regressione MSTest prevista tra F1 e F2. reference_base.py e reference_extra.py sono importati da build_document.py, archiviato con questa cartella in supporto/SUPERATI/script/validazione_ca_2026_09_25"
   },
   {
     "original": "supporto/test/ValidazioneCA20260925/check_campaign.py",
     "archived": "supporto/SUPERATI/test/ValidazioneCA20260925/check_campaign.py",
     "sha256": "89281577E079B5270735E9E9A7D19B86D3774D3791AB8FD387A97E87AD3AE423",
     "reason": "F1.6, 7/10/2026: campagna di validazione c.a. del 25/9/2026; non compila (Extra.cs non risolve Ntc2018Checks, già prima di F1); non era nel runner",
-    "replacement": "Nessuna revisione diretta: i casi utili entrano nella regressione MSTest prevista tra F1 e F2. supporto/script/validazione_ca_2026_09_25/build_document.py importa da questa cartella reference_base.py e reference_extra.py"
+    "replacement": "Nessuna revisione diretta: i casi utili entrano nella regressione MSTest prevista tra F1 e F2. reference_base.py e reference_extra.py sono importati da build_document.py, archiviato con questa cartella in supporto/SUPERATI/script/validazione_ca_2026_09_25"
   },
   {
     "original": "supporto/test/ValidazioneCA20260925/reference_base.py",
     "archived": "supporto/SUPERATI/test/ValidazioneCA20260925/reference_base.py",
     "sha256": "83A9B44A2CF1FCF97A800A1928EBB438C349C3707AA8744B39E23AAEFBA9641E",
     "reason": "F1.6, 7/10/2026: campagna di validazione c.a. del 25/9/2026; non compila (Extra.cs non risolve Ntc2018Checks, già prima di F1); non era nel runner",
-    "replacement": "Nessuna revisione diretta: i casi utili entrano nella regressione MSTest prevista tra F1 e F2. supporto/script/validazione_ca_2026_09_25/build_document.py importa da questa cartella reference_base.py e reference_extra.py"
+    "replacement": "Nessuna revisione diretta: i casi utili entrano nella regressione MSTest prevista tra F1 e F2. reference_base.py e reference_extra.py sono importati da build_document.py, archiviato con questa cartella in supporto/SUPERATI/script/validazione_ca_2026_09_25"
   },
   {
     "original": "supporto/test/ValidazioneCA20260925/reference_extra.py",
     "archived": "supporto/SUPERATI/test/ValidazioneCA20260925/reference_extra.py",
     "sha256": "6BA2CE810938BB45340A7E898A5239EF907C7CFFD9481DB37B9287E7758F9A3E",
     "reason": "F1.6, 7/10/2026: campagna di validazione c.a. del 25/9/2026; non compila (Extra.cs non risolve Ntc2018Checks, già prima di F1); non era nel runner",
-    "replacement": "Nessuna revisione diretta: i casi utili entrano nella regressione MSTest prevista tra F1 e F2. supporto/script/validazione_ca_2026_09_25/build_document.py importa da questa cartella reference_base.py e reference_extra.py"
+    "replacement": "Nessuna revisione diretta: i casi utili entrano nella regressione MSTest prevista tra F1 e F2. reference_base.py e reference_extra.py sono importati da build_document.py, archiviato con questa cartella in supporto/SUPERATI/script/validazione_ca_2026_09_25"
   },
   {
-    "original": "supporto/test/ElasticPile.Performance/ElasticPile.Performance.csproj",
-    "archived": "supporto/SUPERATI/test/ElasticPile.Performance/ElasticPile.Performance.csproj",
-    "sha256": "F10B6EB350AA07A1B43F00018DD4601BA81CC0D69105C2276BB7340F439C551C",
-    "reason": "F1.6, 7/10/2026: misura dei tempi del palo elastico (diagnostica, non una verifica) con input in supporto/artefatti; non era nel runner",
-    "replacement": "Nessuna revisione sostitutiva; il palo elastico è verificato da supporto/test/ElasticPile.Checks e supporto/test/ElasticPile.UiChecks"
+    "original": "supporto/script/validazione_ca_2026_09_25/build_document.py",
+    "archived": "supporto/SUPERATI/script/validazione_ca_2026_09_25/build_document.py",
+    "sha256": "E328F32D4EA48F5A43D473E861CA60F06A143378C519D7D0B5FF27195F5A1CB5",
+    "reason": "F1.6, 7/10/2026: generatore una tantum della relazione ANTHEA_Validazione_Calcestruzzo_Armato_Rev01 del 25/9/2026, già archiviata in SUPERATI (registro-20260929.json); build_document.py importa reference_base.py e reference_extra.py di supporto/test/ValidazioneCA20260925 e la cartella si archivia con quel progetto (decisione del coordinatore su delega, da ratificare); non era nel runner",
+    "replacement": "Nessuna revisione sostitutiva dello script. La relazione Rev01 è confluita nella Rev02 (supporto/scripts/Build-IntegratedValidation.py) e questa nella relazione corrente supporto/documentazione/Validazione_CA_ANTHEA/ANTHEA_Validazione_Software_CA_e_Ponti_Rev03.docx (supporto/scripts/validazione_illustrata_2026_09_26/build.py)"
   },
   {
-    "original": "supporto/test/ElasticPile.Performance/Program.cs",
-    "archived": "supporto/SUPERATI/test/ElasticPile.Performance/Program.cs",
-    "sha256": "BBA82901EC27BA990CED719F3EF81200ECA939C654D4C8513920D06AF03F92B9",
-    "reason": "F1.6, 7/10/2026: misura dei tempi del palo elastico (diagnostica, non una verifica) con input in supporto/artefatti; non era nel runner",
-    "replacement": "Nessuna revisione sostitutiva; il palo elastico è verificato da supporto/test/ElasticPile.Checks e supporto/test/ElasticPile.UiChecks"
+    "original": "supporto/script/validazione_ca_2026_09_25/check_final.py",
+    "archived": "supporto/SUPERATI/script/validazione_ca_2026_09_25/check_final.py",
+    "sha256": "8EAC4D84500FE19780B60D8BCB482AA8DE4882E07814FB3B253281D522A3CA6A",
+    "reason": "F1.6, 7/10/2026: generatore una tantum della relazione ANTHEA_Validazione_Calcestruzzo_Armato_Rev01 del 25/9/2026, già archiviata in SUPERATI (registro-20260929.json); build_document.py importa reference_base.py e reference_extra.py di supporto/test/ValidazioneCA20260925 e la cartella si archivia con quel progetto (decisione del coordinatore su delega, da ratificare); non era nel runner",
+    "replacement": "Nessuna revisione sostitutiva dello script. La relazione Rev01 è confluita nella Rev02 (supporto/scripts/Build-IntegratedValidation.py) e questa nella relazione corrente supporto/documentazione/Validazione_CA_ANTHEA/ANTHEA_Validazione_Software_CA_e_Ponti_Rev03.docx (supporto/scripts/validazione_illustrata_2026_09_26/build.py)"
+  },
+  {
+    "original": "supporto/script/validazione_ca_2026_09_25/finalize.py",
+    "archived": "supporto/SUPERATI/script/validazione_ca_2026_09_25/finalize.py",
+    "sha256": "345AFE44E05BFE2FCE97D23D497577B5FDCADBC9D76FCFA1875EDAFAD2C3D85B",
+    "reason": "F1.6, 7/10/2026: generatore una tantum della relazione ANTHEA_Validazione_Calcestruzzo_Armato_Rev01 del 25/9/2026, già archiviata in SUPERATI (registro-20260929.json); build_document.py importa reference_base.py e reference_extra.py di supporto/test/ValidazioneCA20260925 e la cartella si archivia con quel progetto (decisione del coordinatore su delega, da ratificare); non era nel runner",
+    "replacement": "Nessuna revisione sostitutiva dello script. La relazione Rev01 è confluita nella Rev02 (supporto/scripts/Build-IntegratedValidation.py) e questa nella relazione corrente supporto/documentazione/Validazione_CA_ANTHEA/ANTHEA_Validazione_Software_CA_e_Ponti_Rev03.docx (supporto/scripts/validazione_illustrata_2026_09_26/build.py)"
+  },
+  {
+    "original": "supporto/script/validazione_ca_2026_09_25/render_pages.py",
+    "archived": "supporto/SUPERATI/script/validazione_ca_2026_09_25/render_pages.py",
+    "sha256": "FDD53C07D3BF0A6DF4C41F711E962AD9D8BD1C385510424C7A2BE8DE10B9511C",
+    "reason": "F1.6, 7/10/2026: generatore una tantum della relazione ANTHEA_Validazione_Calcestruzzo_Armato_Rev01 del 25/9/2026, già archiviata in SUPERATI (registro-20260929.json); build_document.py importa reference_base.py e reference_extra.py di supporto/test/ValidazioneCA20260925 e la cartella si archivia con quel progetto (decisione del coordinatore su delega, da ratificare); non era nel runner",
+    "replacement": "Nessuna revisione sostitutiva dello script. La relazione Rev01 è confluita nella Rev02 (supporto/scripts/Build-IntegratedValidation.py) e questa nella relazione corrente supporto/documentazione/Validazione_CA_ANTHEA/ANTHEA_Validazione_Software_CA_e_Ponti_Rev03.docx (supporto/scripts/validazione_illustrata_2026_09_26/build.py)"
+  },
+  {
+    "original": "supporto/script/validazione_ca_2026_09_25/render_word.ps1",
+    "archived": "supporto/SUPERATI/script/validazione_ca_2026_09_25/render_word.ps1",
+    "sha256": "64AD22118006FCBCDFC6A262DE88CAC52C2FCBD20D4321D67EF4ACE956306DE7",
+    "reason": "F1.6, 7/10/2026: generatore una tantum della relazione ANTHEA_Validazione_Calcestruzzo_Armato_Rev01 del 25/9/2026, già archiviata in SUPERATI (registro-20260929.json); build_document.py importa reference_base.py e reference_extra.py di supporto/test/ValidazioneCA20260925 e la cartella si archivia con quel progetto (decisione del coordinatore su delega, da ratificare); non era nel runner",
+    "replacement": "Nessuna revisione sostitutiva dello script. La relazione Rev01 è confluita nella Rev02 (supporto/scripts/Build-IntegratedValidation.py) e questa nella relazione corrente supporto/documentazione/Validazione_CA_ANTHEA/ANTHEA_Validazione_Software_CA_e_Ponti_Rev03.docx (supporto/scripts/validazione_illustrata_2026_09_26/build.py)"
   },
   {
     "original": "supporto/test/ProgrammaAnthea/qa.py",
