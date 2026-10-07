@@ -115,6 +115,25 @@ internal static class PileFactorChecks
         Assert(microWithout.S("errore") == "" && JsonNode.DeepEquals(microWithout, Calcolo.Calcola(microExplicit, true)) && micro.ToJsonString() == microText, "Micropalo senza γb come 1,35");
         Assert(Calcolo.AggiornaFoglio(micro) && !micro["generali"]!.AsObject().ContainsKey("sicurezza_base") && micro.D("versione") == Calcolo.VersioneFoglio, "Micropalo: solo la versione");
         var microOld = Micropile(false); Assert(Calcolo.AggiornaFoglio(microOld) && microOld["generali"].S("sicurezza_base") == "1.35", "Micropalo con 1,35 invariato");
+        // A micropile is recognised by its module, not by metodo_micropalo: an old FHWA sheet (no metodo_micropalo) with a stray tipo_palo
+        // of a driven or CFA pile keeps 1,35 in the editor, the projects and the report.
+        foreach (string type in new[] { "Battuto", "Elica continua" })
+        {
+            var fhwa = Micropile(false); var fg = fhwa["generali"]!.AsObject(); fg.Remove("metodo_micropalo"); fg["tipo_palo"] = type; fg["sicurezza_base"] = "1.35";
+            Assert(Calcolo.SicurezzaBaseNormativa(fg, micropalo: true) == 1.35 && Calcolo.SicurezzaBase(fhwa, micropalo: true) == 1.35, "Micropalo senza metodo: γb dei trivellati, " + type);
+            Assert(Calcolo.AggiornaFoglio(fhwa, micropalo: true) && fg.S("sicurezza_base") == "1.35" && fhwa.D("versione") == Calcolo.VersioneFoglio, "Micropalo senza metodo non migrato: " + type);
+            var missingFhwa = Micropile(false); var mg = missingFhwa["generali"]!.AsObject(); mg.Remove("metodo_micropalo"); mg.Remove("sicurezza_base"); mg["tipo_palo"] = type;
+            Assert(Calcolo.AggiornaFoglio(missingFhwa, micropalo: true) && !mg.ContainsKey("sicurezza_base") && Calcolo.SicurezzaBaseTesto(missingFhwa, micropalo: true) == "1.35", "Micropalo senza metodo e senza γb: " + type);
+            var fhwaSheet = Micropile(false); fhwaSheet["generali"]!.AsObject().Remove("metodo_micropalo"); fhwaSheet["generali"]!["tipo_palo"] = type;
+            Assert(CalculationCoefficients.Read("geo_micropalo_verticale", fhwaSheet).Single(c => c.Key == "Geotecnica · sicurezza_base").Value!.ToString() == "1.35", "Coefficiente dei progetti del micropalo senza metodo: " + type);
+            var microSection = J.Obj(("id", "m"), ("nome", "Sezione"), ("fogli", new JsonArray(
+                J.Obj(("id", "a"), ("nome", "Fonte"), ("modulo_id", "geo_micropalo_verticale"), ("dati", Micropile(true))),
+                J.Obj(("id", "b"), ("nome", "Micropalo FHWA"), ("modulo_id", "geo_micropalo_verticale"), ("dati", fhwaSheet)))));
+            var microSource = microSection.Array("fogli")[0]!.AsObject(); var microTarget = microSection.Array("fogli")[1]!.AsObject();
+            microSource["dati"]!["generali"]!["peso_palo_favorevole"] = "0.9";
+            Assert(ProjectSharedData.Apply(microSource, microSection, ["Coefficienti"], microTarget, ["Geotecnica · peso_palo_favorevole"]) == 1, "Progetto: coefficiente condiviso nel micropalo senza metodo");
+            Assert(microTarget["dati"].D("versione") == Calcolo.VersioneFoglio && microTarget["dati"]!["generali"].S("sicurezza_base") == "1.35", "Progetto: micropalo senza metodo non migrato, " + type);
+        }
 
         // Report: the coefficient table and the general data show the effective γb of an old driven sheet (1,35 or without γb), the
         // explicit 1,35 of a sheet at version 2; the report does not write into the sheet.
@@ -129,14 +148,44 @@ internal static class PileFactorChecks
             Assert(sheet.ToJsonString() == text, "La relazione scrive nel foglio");
         }
 
-        // Projects: γb of an old driven sheet is compared with its effective value; a 1,35 received from another sheet stays 1,35.
+        // Projects: γb of an old driven sheet is compared with its effective value; a 1,35 chosen on another driven sheet and shared stays
+        // 1,35 after the migration of the target.
+        var drivenSource = Pile("Battuto", "Tubo d'acciaio chiuso"); drivenSource["generali"]!["sicurezza_base"] = "1.35";
         var section = J.Obj(("id", "s"), ("nome", "Sezione"), ("fogli", new JsonArray(
-            J.Obj(("id", "a"), ("nome", "Trivellato"), ("modulo_id", "geo_palo_verticale"), ("dati", Pile("Trivellato", null))),
+            J.Obj(("id", "a"), ("nome", "Battuto 1,35"), ("modulo_id", "geo_palo_verticale"), ("dati", drivenSource)),
             J.Obj(("id", "b"), ("nome", "Battuto"), ("modulo_id", "geo_palo_verticale"), ("dati", Pile("Battuto", "Profilato d'acciaio", false))))));
         var source = section.Array("fogli")[0]!.AsObject(); var target = section.Array("fogli")[1]!.AsObject(); // J.Obj stores copies
         Assert(ProjectSharedData.Fields(target)["Geotecnica · sicurezza_base"].Value!.ToString() == "1.15", "Progetto: γb effettivo del foglio precedente");
+        Assert(ProjectSharedData.Differences(section).Any(d => d.Key == "Geotecnica · sicurezza_base"), "Progetto: γb confrontato tra pali battuti");
         Assert(ProjectSharedData.Apply(source, section, ["Coefficienti"], target, ["Geotecnica · sicurezza_base"]) == 1, "Progetto: γb condiviso");
         Assert(target["dati"].D("versione") == Calcolo.VersioneFoglio && target["dati"]!["generali"].S("sicurezza_base") == "1.35" && Calcolo.SicurezzaBase(target["dati"]) == 1.35, "Progetto: 1,35 ricevuto conservato");
+
+        // Projects: γb is compared and shared only between sheets with the same execution of Tab. 6.4.II (the micropile as a bored pile);
+        // a bored pile does not give its γb to a driven or CFA pile, and the other coefficients are still shared.
+        foreach (var (first, second, same) in new[] {
+            (("geo_palo_verticale", "Trivellato", (string?)null), ("geo_palo_verticale", "Battuto", (string?)"Profilato d'acciaio"), false),
+            (("geo_palo_verticale", "Trivellato", null), ("geo_palo_verticale", "Elica continua", null), false),
+            (("geo_palo_verticale", "Elica continua", null), ("geo_palo_verticale", "Battuto", "Calcestruzzo prefabbricato"), false),
+            (("geo_palo_verticale", "Battuto", "Calcestruzzo gettato in opera"), ("geo_palo_verticale", "Battuto", "Profilato d'acciaio"), true),
+            (("geo_micropalo_verticale", "", null), ("geo_palo_verticale", "Trivellato", null), true),
+            (("geo_micropalo_verticale", "", null), ("geo_palo_verticale", "Battuto", "Profilato d'acciaio"), false) })
+        {
+            JsonObject Sheet((string Module, string Type, string? Driven) s, string id)
+            {
+                var d = s.Module == "geo_micropalo_verticale" ? Micropile(false) : Pile(s.Type, s.Driven, false);
+                d["generali"]!["sicurezza_base"] = "1.20"; d["generali"]!["peso_palo_favorevole"] = id == "a" ? "0.9" : "1";
+                return J.Obj(("id", id), ("nome", id + " " + s.Type), ("modulo_id", s.Module), ("dati", d));
+            }
+            var mixed = J.Obj(("id", "x"), ("nome", "Sezione"), ("fogli", new JsonArray(Sheet(first, "a"), Sheet(second, "b"))));
+            var a = mixed.Array("fogli")[0]!.AsObject(); var b = mixed.Array("fogli")[1]!.AsObject(); b["dati"]!["generali"]!["sicurezza_base"] = "1.30";
+            string name = $"{first.Item2}{first.Item3} / {second.Item2}{second.Item3}";
+            var differences = ProjectSharedData.Differences(mixed);
+            Assert(differences.Any(d => d.Key == "Geotecnica · sicurezza_base") == same, "Progetto: γb confrontato solo con la stessa esecuzione, " + name);
+            Assert(differences.Any(d => d.Key == "Geotecnica · peso_palo_favorevole"), "Progetto: altri coefficienti confrontati, " + name);
+            Assert(ProjectSharedData.Apply(a, mixed, ["Coefficienti"], b, ["Geotecnica · sicurezza_base"]) == (same ? 1 : 0) &&
+                b["dati"]!["generali"].S("sicurezza_base") == (same ? "1.20" : "1.30"), "Progetto: γb condiviso solo con la stessa esecuzione, " + name);
+            Assert(ProjectSharedData.Apply(a, mixed, ["Coefficienti"], b, ["Geotecnica · peso_palo_favorevole"]) == 1 && b["dati"]!["generali"].S("peso_palo_favorevole") == "0.9", "Progetto: altri coefficienti condivisi, " + name);
+        }
         Console.WriteLine($"Coefficienti dei pali: {passed} controlli superati.");
     }
 

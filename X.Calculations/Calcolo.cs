@@ -36,51 +36,62 @@ public static class Calcolo
     /// <summary>
     /// γb della Tab. 6.4.II (R3) per la tecnologia del foglio, da Model (StandardNTC2018Geotechnics.PileExecution) tramite
     /// PileResistanceFactors.FromStandard: 1,15 per i pali infissi, 1,35 per i trivellati, 1,30 per l'elica continua. I micropali, perforati
-    /// e iniettati, non hanno valori propri nella norma e usano quelli dei trivellati (scheda D7-d).
+    /// e iniettati, non hanno valori propri nella norma e usano quelli dei trivellati (scheda D7-d). Il micropalo è riconosciuto dal modulo
+    /// (<paramref name="micropalo"/>, passato dai chiamanti che lo conoscono) o, in mancanza, dalla chiave metodo_micropalo.
     /// </summary>
-    public static double SicurezzaBaseNormativa(JsonNode? g)
+    public static double SicurezzaBaseNormativa(JsonNode? g,bool micropalo=false)
+        =>PileResistanceFactors.FromStandard(new StandardNTC2018Geotechnics{PileExecution=Esecuzione(g,micropalo)},1).Base;
+    /// <summary>Esecuzione del palo della Tab. 6.4.II (infisso, trivellato, elica continua) per la tecnologia del foglio; i micropali come i trivellati.</summary>
+    static PileExecution Esecuzione(JsonNode? g,bool micropalo)=>micropalo||g?["metodo_micropalo"] is not null?PileExecution.Bored:Tecnologia(g) switch
     {
-        var execution=g?["metodo_micropalo"] is not null?PileExecution.Bored:Tecnologia(g) switch
-        {
-            PileInstallation.ContinuousFlightAuger=>PileExecution.ContinuousFlightAuger,
-            PileInstallation.Bored or null=>PileExecution.Bored,
-            _=>PileExecution.Driven
-        };
-        return PileResistanceFactors.FromStandard(new StandardNTC2018Geotechnics{PileExecution=execution},1).Base;
-    }
+        PileInstallation.ContinuousFlightAuger=>PileExecution.ContinuousFlightAuger,
+        PileInstallation.Bored or null=>PileExecution.Bored,
+        _=>PileExecution.Driven
+    };
+    /// <summary>
+    /// Ambito di γb nel confronto e nella condivisione tra fogli dei progetti: l'esecuzione del palo della Tab. 6.4.II, così si confrontano e si
+    /// condividono γb solo fogli con lo stesso valore della norma (un trivellato non dà il suo γb a un battuto).
+    /// </summary>
+    public static string AmbitoSicurezzaBase(JsonNode? g,bool micropalo=false)=>Esecuzione(g,micropalo).ToString();
     /// <summary>Versione dei fogli del palo e del micropalo verticale con γb della tecnologia come predefinito (D7-d, opzione d2).</summary>
     public const int VersioneFoglio=2;
+    /// <summary>γb predefinito dei fogli salvati prima della versione <see cref="VersioneFoglio"/>, per ogni tecnologia.</summary>
+    const double SicurezzaBasePrecedente=1.35;
     static bool Marcato(JsonNode? dati)=>J.Number(dati?["versione"]) is double v&&v>=VersioneFoglio;
+    /// <summary>
+    /// Regola unica di d2: un foglio senza la versione con γb assente o pari al predefinito precedente (1,35, anche come testo) usa il valore
+    /// della tecnologia. Il valore non numerico resta al calcolo, che lo respinge (Validate).
+    /// </summary>
+    static bool PredefinitoPrecedente(JsonNode? dati)
+    {
+        var stored=dati?["generali"]?["sicurezza_base"];
+        return !Marcato(dati)&&(stored is null||J.Number(stored)==SicurezzaBasePrecedente);
+    }
     /// <summary>
     /// γb effettivo del foglio (dati completi del palo o del micropalo verticale), unica regola per calcolo, relazione, progetti ed editor:
     /// il valore del foglio; quello della tecnologia (<see cref="SicurezzaBaseNormativa"/>) se il foglio non ha la chiave o se il foglio,
     /// salvato prima della versione <see cref="VersioneFoglio"/>, ha 1,35, il predefinito di allora per ogni tecnologia. Non scrive nei dati:
     /// <see cref="AggiornaFoglio"/> applica la stessa regola al documento.
     /// </summary>
-    public static double SicurezzaBase(JsonNode? dati)
+    public static double SicurezzaBase(JsonNode? dati,bool micropalo=false)
     {
-        var g=dati?["generali"];var stored=g?["sicurezza_base"];
-        double normative=SicurezzaBaseNormativa(g);
-        // Un valore non numerico è respinto dal calcolo (Validate): qui vale quello della tecnologia.
-        if(J.Number(stored) is not double value)return normative;
-        return !Marcato(dati)&&value==1.35?normative:value;
+        double normative=SicurezzaBaseNormativa(dati?["generali"],micropalo);
+        // Un valore non numerico (foglio marcato) è respinto dal calcolo (Validate): qui vale quello della tecnologia.
+        return !PredefinitoPrecedente(dati)&&J.Number(dati?["generali"]?["sicurezza_base"]) is double value?value:normative;
     }
     /// <summary>γb effettivo nel formato dei coefficienti memorizzati (due decimali, punto), per completare un foglio senza la chiave.</summary>
-    public static string SicurezzaBaseTesto(JsonNode? dati)=>SicurezzaBase(dati).ToString("0.00",CultureInfo.InvariantCulture);
+    public static string SicurezzaBaseTesto(JsonNode? dati,bool micropalo=false)=>SicurezzaBase(dati,micropalo).ToString("0.00",CultureInfo.InvariantCulture);
     /// <summary>
     /// Migrazione una tantum dei fogli del palo e del micropalo verticale salvati prima della versione <see cref="VersioneFoglio"/>: γb 1,35
     /// (anche come testo) o assente diventa quello della tecnologia, cioè cambia solo per i pali battuti e a elica continua; poi il foglio
     /// riceve la versione, così un 1,35 scelto dopo non è più riscritto. Chiamata dall'editor all'apertura e dai progetti prima di scrivere
     /// in un foglio, come RetainingWall.Upgrade; il calcolo non la chiama. Restituisce vero se il foglio cambia.
     /// </summary>
-    public static bool AggiornaFoglio(JsonObject dati)
+    public static bool AggiornaFoglio(JsonObject dati,bool micropalo=false)
     {
         if(Marcato(dati))return false;
-        if(dati["generali"] is JsonObject g)
-        {
-            double normative=SicurezzaBaseNormativa(g);
-            if(normative!=1.35&&(g["sicurezza_base"] is null||J.Number(g["sicurezza_base"])==1.35))g["sicurezza_base"]=SicurezzaBaseTesto(dati);
-        }
+        if(dati["generali"] is JsonObject g&&PredefinitoPrecedente(dati)&&SicurezzaBaseNormativa(g,micropalo)!=SicurezzaBasePrecedente)
+            g["sicurezza_base"]=SicurezzaBaseTesto(dati,micropalo);
         dati["versione"]=VersioneFoglio;return true;
     }
     public static (double? K,double? Mu) CoefficientiLaterali(JsonNode g,JsonNode v)
@@ -271,7 +282,7 @@ public static class Calcolo
             }
             if(strata.Count==0)throw new ArgumentException("Aggiungere almeno una stratigrafia.");
             var (xi3,xi4)=Verticali[g.S("verticali_indagate","1")];
-            double gammaB=SicurezzaBase(dati);
+            double gammaB=SicurezzaBase(dati,micro);
             var factors=new PileResistanceFactors(g.D("sicurezza_laterale_compressione",1.15),g.D("sicurezza_laterale_trazione",1.25),gammaB,g.D("peso_palo_sfavorevole",1.30),
                 g.D("peso_palo_favorevole",1),xi3,xi4);
             double? compression=J.Number(g["azione_compressione"])*1000,tension=J.Number(g["azione_trazione"])*1000;
@@ -305,7 +316,7 @@ public static class Calcolo
                 result["metodo_micropalo"]=BustamanteDoix.Versione;result["pressione_iniezione"]=pi;result["ipotesi_pressione"]="p_l = p_i";
             }
             // D7-d: γb effettivo del foglio (SicurezzaBase); se differisce da quello della tecnologia il calcolo lo dichiara.
-            double normative=SicurezzaBaseNormativa(g);
+            double normative=SicurezzaBaseNormativa(g,micro);
             if((!micro||g.B("considera_punta"))&&Math.Abs(gammaB-normative)>1e-9)
             {
                 var it=CultureInfo.GetCultureInfo("it-IT");

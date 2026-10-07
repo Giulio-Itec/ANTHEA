@@ -14,9 +14,9 @@ internal sealed partial class SheetEditor
         var defaults = Archivio.NuovoFoglio(Module); if (Data["generali"] is not JsonObject) Data["generali"] = new JsonObject(); var g = Data["generali"]!.AsObject();
         string previous = Micro ? "" : Nq.MetodoPrecedente(g);
         if (Micro) g.Remove("peso_lineare_micropalo"); // Superseded manual input; weight is always derived from geometry.
-        Calcolo.AggiornaFoglio(Data); // D7-d (d2): one-off migration of γb of the sheets saved before version 2.
+        Calcolo.AggiornaFoglio(Data, Micro); // D7-d (d2): one-off migration of γb of the sheets saved before version 2.
         // A missing γb is completed with the effective value of the calculation (that of the technology), not with the default of the bored pile.
-        foreach (var (k, v) in defaults["generali"]!.AsObject()) if (!g.ContainsKey(k) && k != "metodo_micropalo") g[k] = k == "sicurezza_base" ? Calcolo.SicurezzaBaseTesto(Data) : v?.DeepClone();
+        foreach (var (k, v) in defaults["generali"]!.AsObject()) if (!g.ContainsKey(k) && k != "metodo_micropalo") g[k] = k == "sicurezza_base" ? Calcolo.SicurezzaBaseTesto(Data, Micro) : v?.DeepClone();
         if (!Micro) { g["metodo_nq"] = "Parametrizzata"; if (previous != "") g["metodo_nq_precedente"] = previous; }
         if (Data["efficienza"] is not JsonObject) Data["efficienza"] = defaults["efficienza"]!.DeepClone();
         var fields = new List<Field>();
@@ -68,7 +68,7 @@ internal sealed partial class SheetEditor
         AddCard("Grafici capacità portante", Ui.Dock(outputs, capacityView), true); UpdateVerification();
     }
     /// <summary>γb of NTC Tab. 6.4.II for the technology of the sheet, in the invariant format of the stored coefficients.</summary>
-    private static string NormativeBase(JsonNode g) => Calcolo.SicurezzaBaseNormativa(g).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+    private string NormativeBase(JsonNode g) => Calcolo.SicurezzaBaseNormativa(g, Micro).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
     private void ResetAlphas()
     {
         foreach (var rows in Data.Array("stratigrafie")) foreach (var row in rows!.AsArray())

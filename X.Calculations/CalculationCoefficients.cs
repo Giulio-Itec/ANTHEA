@@ -31,15 +31,15 @@ public static class CalculationCoefficients
     public static IReadOnlyList<CalculationCoefficient> Read(string module, JsonObject data)
     {
         var result = new List<CalculationCoefficient>();
-        string standard = Standard(module, data);
+        string standard = Standard(module, data); bool micro = module == "geo_micropalo_verticale";
         void Add(string key, string label, string path, JsonNode? fallback = null, string? scope = null)
         {
             JsonNode? value = data;
             foreach (string segment in path.Split('/')) value = (value as JsonObject)?[segment];
             // D7-d: γb of the vertical piles is read with the rule of the calculation (Calcolo.SicurezzaBase), as after Calcolo.AggiornaFoglio;
             // a stored value that is not a number stays visible to the validation.
-            if (path == "generali/sicurezza_base" && (value is null || J.Number(value) is double stored && stored != Calcolo.SicurezzaBase(data)))
-                value = JsonValue.Create(Calcolo.SicurezzaBaseTesto(data));
+            if (path == "generali/sicurezza_base" && (value is null || J.Number(value) is double stored && stored != Calcolo.SicurezzaBase(data, micro)))
+                value = JsonValue.Create(Calcolo.SicurezzaBaseTesto(data, micro));
             result.Add(new(key, label, path, (value ?? fallback)?.DeepClone(), scope ?? standard));
         }
         if (module is "str_palo" or PaloOrizzontale.Module or BridgeSection.Module or RetainingWall.Module)
@@ -77,9 +77,19 @@ public static class CalculationCoefficients
                 ("sicurezza_laterale_compressione", "γs,c · resistenza laterale a compressione"),
                 ("sicurezza_laterale_trazione", "γs,t · resistenza laterale a trazione"), ("sicurezza_base", "γb · resistenza alla base"),
                 ("peso_palo_sfavorevole", "γG · peso proprio sfavorevole"), ("peso_palo_favorevole", "γG · peso proprio favorevole") })
-                Add("Geotecnica · " + key, label, "generali/" + key, defaults[key], standard + "/verticale");
+                Add("Geotecnica · " + key, label, "generali/" + key, defaults[key], Scope(module, data, "Geotecnica · " + key));
         }
         return result;
+    }
+    /// <summary>
+    /// Scope within which a coefficient is compared and shared between sheets: the standard; for the vertical piles the standard and
+    /// "/verticale", and for γb also the pile execution of NTC Tab. 6.4.II (D7-d), so a bored pile and a driven pile never share γb.
+    /// </summary>
+    public static string Scope(string module, JsonObject data, string key)
+    {
+        string standard = Standard(module, data);
+        if (module is not ("geo_palo_verticale" or "geo_micropalo_verticale") || !key.StartsWith("Geotecnica · ")) return standard;
+        return key == "Geotecnica · sicurezza_base" ? standard + "/verticale/" + Calcolo.AmbitoSicurezzaBase(data["generali"], module == "geo_micropalo_verticale") : standard + "/verticale";
     }
     public static bool Compatible(CalculationCoefficient left, CalculationCoefficient right) => left.Key == right.Key &&
         (left.Scope == right.Scope || left.Key == "gamma_s" && (left.Scope == "Assegnato" || right.Scope == "Assegnato"));
