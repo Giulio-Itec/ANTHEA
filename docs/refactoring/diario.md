@@ -523,3 +523,20 @@ Branch `refactoring/integrazione-2` (worktree Temp\aw-int2), non pushato.
 - Prove copiate nel checkout principale in `supporto/artefatti/refactoring/integrazione-2`: `ci/20261007-182312-int2-f26-std`,
   `ci/20261007-182549-int2-f26-base`, `console/int2-f26-std.log` e `int2-f26-base.log`, `f26/` (corsa diretta
   dell'adattatore, confronti S1-S2 e LEGGIMI).
+- Spazio su disco: con 4,2 GB liberi l'utente ha scelto di rimuovere subito i 20 worktree temporanei già uniti e puliti.
+  Prima sono state copiate nel checkout principale le prove citate nei documenti che erano solo nei worktree
+  (`lib-staging/S2-upstream`, `refactoring/s2`, `refactoring/s2u`); poi `git worktree remove` di aw-b0, aw-d7, aw-d7b,
+  aw-d7d, aw-d7e, aw-dense, aw-f1, aw-f16, aw-f2, aw-fascia-prima, aw-guide, aw-int, aw-norma, aw-pc, aw-pre, aw-s1, aw-s2,
+  aw-ui, aw-uifull, aw-wiki (branch conservati). Spazio libero dopo: 17,4 GB.
+- Push autorizzato dall'utente: Checker develop 4f54139a (pagine dei metodi, solo `docs/metodi`) alle 17:59.
+- 618354e e 258e81a: frase di D7-e precisata (il codice segue la UNI 11104:2016) e autorizzazioni dell'utente in
+  `decisioni.md`.
+- Profilo full a schermo sull'integrazione 2 (258e81a, S2, F2.5-F2.6, F1.6, D7-e), corsa `20261007-184928-int2-full`:
+  PASS 69, KNOWN 1 (`verifiche/project-calculations`), NEW-FAIL 0; tutte le prove WPF superate (`ui/smoke-*`,
+  `ui/check-*`, HorizontalPileGroup.Checks, ElasticPile.UiChecks, ConcreteShort.UiChecks), circa 10 minuti. Chiude il
+  controllo richiesto da AGENTS.md dopo l'aggiornamento di lib/Checker (F2.4). Prove in
+  `supporto/artefatti/refactoring/integrazione-2/ci` del checkout principale.
+- b1998ec: guide Rev32 (Word e PDF) per le citazioni della UNI 11104 di D7-e; Rev31 in `supporto/SUPERATI` con
+  `registro-20261007-rev32.json`. Pratica 65 pagine, teorica 135 con 321 formule, 26 parti del modello ITEC identiche;
+  verifica indipendente sulle pagine rese in PNG: cambiano solo copertina, piè di pagina, il paragrafo «Esposizioni e
+  requisiti del materiale» e la riga XF1. Difetti di impaginazione già presenti nella Rev31 annotati in W0.2.
