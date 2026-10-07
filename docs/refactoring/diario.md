@@ -503,8 +503,9 @@ Branch `refactoring/integrazione-2` (worktree Temp\aw-int2), non pushato.
     5 numeri entro 1e-9 (Ratio del taglio V3 e H3 in direzione y, ConcreteCombinedRatio della torsione V2, C2 e H2,
     scarto relativo massimo 2,0e-16, assoluto 2,2e-16), 21 tempi volatili. Banco denso: 32 564 righe, 30 237
     identiche, 1244 con soli identificativi casuali, 1083 entro 1e-9 (589 di shear-legacy.csv con 1001 numeri, 494 di
-    torsion-legacy.csv con 681), nessuna non classificata. Fixture di Checker (06d97733, invariate in develop 4f54139a): 27 698 righe, 25 379 identiche, 1236
-    identificativi casuali, 1083 entro 1e-9. Banco c.a. coerente con il banco denso;
+    torsion-legacy.csv con 681), nessuna non classificata. Fixture di Checker (06d97733, invariate in develop
+    4f54139a): 27 698 righe, 25 379 identiche, 1236 identificativi casuali, 1083 entro 1e-9. Banco c.a. coerente con il
+    banco denso;
   - `tests/ConcreteLibraryAdapter.Checks` lanciato anche da solo con `dotnet <dll>`: PASS, 17 880 controlli, come su
     4e8b30b.
 - Confronto con le misure con S1 (corse di 4e8b30b e 660e1f7 sul branch, `prove-rafforzate`): esiti e righe di
