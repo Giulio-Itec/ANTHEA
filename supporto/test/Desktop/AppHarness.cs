@@ -34,6 +34,19 @@ public partial class App
             }));
             return;
         }
+        if (e.Args.Length >= 2 && e.Args[0] == "--check-contrast")
+        {
+            // Contrast of every view, window and popup in the three appearances, off screen (ContrastAudit.cs).
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            Dispatcher.BeginInvoke(new Action(async () =>
+            {
+                int code = 0;
+                try { await ContrastAudit.Run(e.Args.Skip(1).ToArray()); }
+                catch (Exception ex) { Directory.CreateDirectory(e.Args[1]); File.WriteAllText(Path.Combine(e.Args[1], "errore.txt"), ex.ToString()); code = 1; }
+                finally { Shutdown(code); }
+            }));
+            return;
+        }
         if (e.Args.Length == 2 && e.Args[0] == "--check-wiki-offscreen")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
