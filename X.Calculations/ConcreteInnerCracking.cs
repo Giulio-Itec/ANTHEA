@@ -21,23 +21,26 @@ public static partial class Ntc2018Checks
         var details = outer.Details.ToList(); var regions = outer.Regions.ToList();
         var results = new List<CrackResult> { outer };
         var material = (ConcreteMaterialEuropeanCommon)engine.Section.ConcreteMaterial;
-        // Tensile depth h − x of a band (EN 1992-1-1 7.3.4(3), eq. (7.14); NTC Δsm,distante): εmax/|∇ε| measured from the neutral axis.
-        // Neutral axis inside the section: εmax/|∇ε| does not exceed the height of the section along the gradient (the min only guards rounding).
-        // Neutral axis outside (fully tensioned section, the same test as Cracking): x = 0 and h − x is bounded by the height h of the section
-        // normal to the face of the band (diameter for the ring), the h of the outer faces in FullyTensionedCracking. A gradient negligible
-        // against the strain (solver noise, ≈ 1e-15…1e-12 1/mm) has no direction: uniform tension, the whole band is tensile, k₂ = 1 and
-        // h − x = that same h, so the general rule tends to the uniform one as the gradient vanishes, also in non-square sections.
-        // The price is a discontinuity where the neutral axis enters the section: just outside h − x = min[εmax/|∇ε|; h normal to the face],
-        // just inside εmax/|∇ε|, which exceeds that h when the gradient is oblique to the face or runs along the longer side. Square box
-        // 1000 × 1000 with an oblique moment (X.Verifiche (k)): +x band 1000 → 1183.68 mm, governing wk +18.4 %. Neither 733a77c (unbounded)
-        // nor d2d3225 (bound = height along the gradient on both sides) jumped there: this rule moved the band discontinuity from the
-        // uniform-tension threshold (|∇ε| h = 1e-4 εmax, a negligible eccentricity) to the entry of the neutral axis. Pending user decision (R15).
+        // Tensile depth h − x of a band (EN 1992-1-1 7.3.4(3), eq. (7.14); NTC Δsm,distante; R15): h − x = min[εmax/|∇ε|; h of the
+        // section along the gradient]. εmax/|∇ε| is measured from the neutral axis; with the neutral axis inside the section it does not
+        // exceed the height along the gradient (the min only guards rounding, the rule before R15 is unchanged there); with the neutral
+        // axis outside x = 0 and h − x is that height, as for the outer faces of a fully tensioned section. A gradient negligible against the
+        // strain (|∇ε|·h ≤ 1e-4 εmax: solver noise, ≈ 1e-15…1e-12 1/mm, has no direction) is uniform tension: the whole band is tensile,
+        // k₂ = 1 and h − x = h of the section normal to the face (diameter for the ring).
+        // Continuity: where the neutral axis enters the section εmax/|∇ε| tends to the height along the gradient, so h − x and wk of the
+        // bands are continuous there (straight and biaxial bending, square or not). Residual jump: at the uniform-tension threshold, a
+        // negligible eccentricity, h − x passes from the height normal to the face to the height along the gradient whenever they differ,
+        // i.e. in non-square boxes (box 400 × 600 of the Checker tests, gradient along y: ±x bands 400 mm below, 600 mm above, NTC
+        // Δsm,distante and EN sr,max +50 %) and with an oblique gradient, also in square boxes (X.Verifiche (k): box 1000 × 1000, moment along
+        // (0,6; 0,8), every band 1000 → 1372.5 mm, section wk +37 %). In the ring only the polygon: h along the gradient between D cos(π/n) and D.
+        // Decision of the user (7/10/2026, R15): "Altezza lungo il gradiente". The intermediate rule of 76a2062 (height normal to the face
+        // in a fully tensioned section) was continuous at the threshold but jumped at the entry of the neutral axis (square box 1000 × 1000
+        // with an oblique moment: +x band 1000 → 1183.68 mm, section wk +18.4 %) and has been withdrawn.
         // Before 7/10/2026 εmax/|∇ε| was used unbounded (≈ 1e12 mm).
         double gradient = double.Hypot(plane.ChiX, plane.ChiY);
         double gx = gradient > 0 ? plane.ChiX/gradient : 0, gy = gradient > 0 ? plane.ChiY/gradient : 0;
         double sectionAlongGradient = s.Outline.Max(p => gx*p[0]+gy*p[1]) - s.Outline.Min(p => gx*p[0]+gy*p[1]);
         bool uniform = gradient < 1e-15 || gradient*sectionAlongGradient <= UniformTensionTolerance*s.Outline.Max(E);
-        bool fullyTensioned = engine.Section.ConcreteShape.GetPoints2d().Select(plane.GetStrain).Min() >= 0;
         double[][] Tension(double[][] polygon) => uniform ? polygon : SectionRegions.Clip(polygon, gx, gy, -plane.GetStrain(0,0)/gradient);
         void Check(string name, double[][] outline, double[][][] holes, int[] indices, Func<Barra,double> cover, double effectiveDepth, double uniformDepth)
         {
@@ -59,18 +62,14 @@ public static partial class Ntc2018Checks
             double[] strains = p.Select(E).ToArray();
             double k2 = uniform ? 1 : strains.Max()>0 ? Math.Clamp((Math.Max(0,strains.Min())+strains.Max())/(2*strains.Max()),.5,1) : 1;
             double fromNeutralAxis = uniform ? double.PositiveInfinity : strains.Max()/gradient;
-            double bound = fullyTensioned ? uniformDepth : sectionAlongGradient;
-            double depth = uniform ? uniformDepth : Math.Min(fromNeutralAxis, bound);
+            double depth = uniform ? uniformDepth : Math.Min(fromNeutralAxis, sectionAlongGradient);
             var trace = new List<CrackCalculationDetail>();
             trace.Add(new("hc,eff", effectiveDepth, "mm", "Fascia della parete/anello interno, limitata a metà spessore"));
             // Written only where the bound acts, so that the trace of the other cases is unchanged.
             if (uniform) trace.Add(new("h − x della fascia", depth, "mm", "Trazione uniforme: h della sezione normale alla faccia",
                 $"|∇ε|·h = {gradient*sectionAlongGradient:G3} ≤ {UniformTensionTolerance:G1}·εmax: gradiente trascurabile, senza direzione; fascia tutta tesa, k₂ = 1 (EN 1992-1-1 7.3.4(3), eq. (7.14))."));
-            else if (fromNeutralAxis > bound) trace.Add(fullyTensioned
-                ? new("h − x della fascia", depth, "mm", "min[εmax/|∇ε|; h della sezione normale alla faccia]",
-                    $"εmax/|∇ε| = {fromNeutralAxis:G6} mm: sezione interamente tesa, asse neutro fuori, x = 0; h come per le facce esterne, al tendere del gradiente a zero coincide con la trazione uniforme (EN 1992-1-1 7.3.4(3), eq. (7.14)).")
-                : new("h − x della fascia", depth, "mm", "min[εmax/|∇ε|; h lungo il gradiente]",
-                    $"εmax/|∇ε| = {fromNeutralAxis:G6} mm oltre l'altezza della sezione lungo il gradiente, x = 0 (EN 1992-1-1 7.3.4(3), eq. (7.14))."));
+            else if (fromNeutralAxis > sectionAlongGradient) trace.Add(new("h − x della fascia", depth, "mm", "min[εmax/|∇ε|; h lungo il gradiente]",
+                $"εmax/|∇ε| = {fromNeutralAxis:G6} mm oltre l'altezza della sezione lungo il gradiente: asse neutro fuori dalla sezione, x = 0 (EN 1992-1-1 7.3.4(3), eq. (7.14))."));
             // Local check: k₂ from the strains of the tensile part of the band, not the Criterio k₂ of the whole section.
             // Not written with the legacy rule of NtcK2FromCompressedBars, whose trace had no such entry (local copy: no unreachable branch).
             bool legacyK2 = NtcK2FromCompressedBars;
