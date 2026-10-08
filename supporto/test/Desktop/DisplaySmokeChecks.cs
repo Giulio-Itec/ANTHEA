@@ -219,8 +219,8 @@ internal sealed partial class SheetEditor
             {
                 satInput.Text = blank; layer["peso_specifico"] = "19,5";
                 await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-                if (hint.Visibility != Visibility.Visible || hint.Text != "19,5" || !Equals(hint.Foreground, Brushes.Gray) || satInput.Text != blank || layer.Values.S("peso_specifico_saturo") != blank)
-                    throw new Exception("γsat automatico non visualizzato o memorizzato come valore esplicito");
+                if (hint.Visibility != Visibility.Visible || hint.Text != "19,5" || (hint.Foreground as SolidColorBrush)?.Color != ((SolidColorBrush)Appearance.Foreground(Brushes.Gray)).Color || satInput.Text != blank || layer.Values.S("peso_specifico_saturo") != blank)
+                    throw new Exception($"γsat automatico non visualizzato o memorizzato come valore esplicito (visibilità {hint.Visibility}, testo '{hint.Text}', colore {(hint.Foreground as SolidColorBrush)?.Color}, campo '{satInput.Text}', valore '{layer.Values.S("peso_specifico_saturo")}')");
                 layer["peso_specifico"] = "20";
                 await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
                 if (hint.Text != "20") throw new Exception("γsat automatico non segue γ");
