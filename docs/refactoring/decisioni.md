@@ -268,6 +268,32 @@ nell'integrazione 2 con il merge ea4c51e); voci F2-1…F2-4 del registro.
 - I difetti di colore della modalità scura (fra cui le righe di sezione non selezionate dell'albero dei progetti,
   chiare su chiaro, `ProjectHierarchy.cs:155`, segnalate anche dall'utente) si correggono sul branch dedicato
   `refactoring/ui-tema-scuro` (worktree Temp\aw-tema), da unire dopo verifica.
+- Esito (8/10, unito nell'integrazione 2 con 09142a9 e 356d9b9):
+  - **Misura**: verifica automatica del contrasto (`--check-contrast`, c927ef1) su 56 viste e dialoghi in tre aspetti.
+    I difetti per modalità scendono da circa 1800 a 0 in Scuro e in Molto scuro.
+  - **Chiara**: identica al riferimento salvo la cattura dei terreni, che varia per un GUID. Il riferimento è a
+    144 DPI, `riferimento-c927ef1-dpi144`, perché lo schermo è passato da 120 a 144 DPI.
+  - **Cause principali** e relative correzioni:
+    - colori fissi nel codice invece dei ruoli della tavolozza: sfondo, primo piano, bordo e i ruoli aggiunti alla
+      chiusura (selezione, selezionato, calcolato, serie, campione, disattivato, fondo tinto);
+    - elementi aggiunti dopo il caricamento: gestore di classe su SizeChanged;
+    - stato selezionato e pulsanti primari Navy, indistinguibili in Molto scuro;
+    - disegni OnRender senza fondo proprio: fondo bianco negli aspetti scuri.
+  - **Report, esportazioni e stampa**: immagini sempre chiare con `Appearance.Document` e `Ui.DocumentSnapshot`. Le
+    ha corrette una sessione separata avviata dall'utente sullo stesso branch (eabae27, fd14c94).
+  - **Chiusura**: dieci correzioni, 16b646b…4fb8c85, sulle segnalazioni di due revisori visivi. Sette sono scartate
+    con motivo, elencate in `supporto/artefatti/tema-scuro/esito.md` del branch.
+  - **Eccezioni accettate**:
+    - disegni tecnici e grafici su fondo bianco;
+    - controlli disabilitati attenuati;
+    - icone bitmap e figure della Wiki su fondo chiaro;
+    - difetti identici in Chiara, come il titolo verticale del foglio «Verifica sezione».
+  - **Seguiti da decidere con l'utente**:
+    - i 719 difetti di contrasto della sola Chiara, lasciati per non cambiarla;
+    - il testo disegnato in OnRender, non ancora misurato dalla verifica automatica;
+    - la condizione di tempo delle catture di `str_mista_ponte`.
+  - **Prova `ui/smoke-display`**: confrontava il pennello del γsat automatico per riferimento; ora confronta il colore
+    (d69a5bb).
 
 ### Autorizzazioni dell'utente (7/10 sera)
 
@@ -284,6 +310,43 @@ Messaggi dell'utente nella sessione del coordinatore, riportati con le sue parol
   aw-wiki); i branch restano. Spazio libero dopo: 17,4 GB.
 - **Push**: «ti abilito al push dei commit» e «abilitato al push». Il coordinatore fa i push dalla propria sessione
   dopo le prove, mai forzati (i workflow non fanno push). Eseguiti: Checker develop 4f54139a.
+
+## Decisioni dell'utente dell'8 ottobre 2026, mattina
+
+- **Priorità**: «voglio riuscire ad avere, prima della fine dei crediti, la possibilità di provare l'interfaccia […]
+  voglio poter vedere se tutto il refactoring sta andando nel verso giusto». Prima si chiude il tema scuro e si compila
+  una build da provare, poi il coordinatore si ferma per decidere i passi successivi con l'utente («finito il tema scuro,
+  compila e fermati un attimo»).
+- **Analisi dei bug**: «per ora stoppa la ricerca di bug. metti quei controlli in coda a tutti gli altri». La corsa
+  `wf_9c55965c-68b` è ferma con 85 agenti conclusi in cache: due aree verificate per intero, fessurazione in parte, le
+  altre aree solo con le segnalazioni dei ricercatori. Si riprende dopo tutte le altre attività.
+- **Proposte U1–U7 del progetto F2.7 rivisto** (`supporto/artefatti/refactoring/f27-f28-progetto/F27-progetto-rivisto.md`, §12):
+  - U1 «correggi»: il difetto di BarSpacing nella sezione NTC interamente tesa si corregge
+    (`ConcreteTensionCracking.cs:73` cerca «s», la formula scrive «s (formula)»). Su 13 righe NTC di `crack-legacy.csv`
+    il passo delle barre torna a comparire; wk, ηw ed esiti restano invariati.
+  - U2 (R5): «teoricamente la norma non specifica il modo come effettuare l'analisi tensionale, se lineare o non
+    lineare. l'analisi non lineare non è nata per la verifica tensionale agli SLE. quindi metterei un avviso […] e però
+    lascerei la verifica. quindi opzione c ma con avviso tipo la a». Con «Non lineare» le tensioni di esercizio si
+    calcolano con i legami di esercizio dei materiali, non con quelli di progetto (proposta del coordinatore, da
+    confermare quando si implementa: calcestruzzo secondo EN 1992-1-1 §3.1.5, eq. 3.14, con fcm ed Ecm; acciaio
+    bilineare con fyk ed Es, senza coefficienti parziali). La verifica resta e la relazione riporta un avviso, per
+    esempio: «Tensioni di esercizio calcolate con analisi non lineare e legami di esercizio dei materiali. La norma
+    non prescrive il metodo dell'analisi tensionale; per le verifiche SLE il riferimento abituale è l'analisi lineare
+    a sezione fessurata.» È lavoro di libreria (SectionSolverModelCode2010, materiali di Model, StressLimitCheck):
+    passo dedicato dopo l'interruttore di F2.7, con opzione legacy nominata e due commit.
+  - U3 «correggi»: R22 si risolve applicando il fattore 0,8 dei getti sottili anche con UNI/DM 2012: limiti SLE del
+    calcestruzzo, αcc e fcd con `gettato_sottile` = Sì.
+  - U4 «tieni i limiti come oggi»: con CS-TR34 ANTHEA continua a calcolare i limiti tensionali SLE con i coefficienti
+    di MC2010 da cui deriva `StandardCSTR34`. La proposta di allinearsi alla libreria (nessun limite) è respinta: la
+    motivazione normativa non è verificata e togliere i limiti è meno cautelativo. In F2.7 la libreria deve quindi
+    poter calcolare i limiti anche per CS-TR34 (opzione richiesta dall'adattatore).
+  - U5 «correggi»: la scheda WPF rifiuta φ < 0, come già fanno i calcoli (`CheckerSection.cs:95`, `:127`).
+  - U6 «metti in coda ad altre cose. non da fare ora»: la revisione delle pagine dei metodi ca.sle-tensioni e
+    ca.fessurazione si sposta in coda.
+  - U7 «correggi»: `staffe_presenti` si normalizza a Sì/No (riguarda solo documenti scritti a mano).
+  Le correzioni U1, U2, U3, U5 e U7 cambiano risultati o comportamenti: si fanno in F2.7 dopo l'interruttore, una per
+  commit, con cattura prima e confronto dopo (regola delle correzioni in due commit), e si registrano nel registro
+  delle differenze.
 
 ## Dipendenze esterne previste
 

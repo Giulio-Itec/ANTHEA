@@ -540,3 +540,31 @@ Branch `refactoring/integrazione-2` (worktree Temp\aw-int2), non pushato.
   `registro-20261007-rev32.json`. Pratica 65 pagine, teorica 135 con 321 formule, 26 parti del modello ITEC identiche;
   verifica indipendente sulle pagine rese in PNG: cambiano solo copertina, piè di pagina, il paragrafo «Esposizioni e
   requisiti del materiale» e la riga XF1. Difetti di impaginazione già presenti nella Rev31 annotati in W0.2.
+
+## Notte 7-8 e mattina dell'8 ottobre 2026
+
+**Notte**
+- Tre workflow in parallelo: chiusura del tema scuro, revisione dei progetti F2.7 e F2.8, analisi dei bug.
+- Verso le 00:40 il limite di sessione dell'account li ha fermati tutti. L'azzeramento era alle 02:20, ma nessun
+  lavoro è ripartito da solo fino alle 07:30.
+- Errore del coordinatore: la pausa di 60 s fra i tentativi non funziona dentro i workflow. Ogni agente fallito è
+  stato rilanciato subito, 10 volte di fila, e l'analisi dei bug ha raggiunto il tetto di 1000 agenti. I tentativi ora
+  sono al massimo 3.
+
+**Mattina, dalle 07:31**
+- Priorità decisa dall'utente: una build da provare prima della fine dei crediti settimanali. L'analisi dei bug è
+  ferma e in coda a tutto.
+- Revisione dei progetti F2.7 e F2.8 conclusa:
+  - progetti in `supporto/artefatti/refactoring/f27-f28-progetto` (F27- e F28-progetto-rivisto.md, seconda-critica.md);
+  - due errori certi di F2.7 corretti nella §0 del progetto;
+  - decisioni dell'utente su U1-U7 in `decisioni.md`.
+- 09142a9: merge del tema verificato (fd14c94). Il profilo full a schermo (corsa `int2-tema-full`) ha dato PASS 68,
+  KNOWN 1 e NEW-FAIL 1, `ui/smoke-display`: la prova confrontava il pennello del γsat automatico per riferimento.
+  Corretta in d69a5bb, poi PASS.
+- Chiusura del tema in un solo agente, con le 30 segnalazioni dei due revisori della notte (il workflow ripreso
+  rifaceva le revisioni già concluse ed è stato fermato): dieci commit 16b646b…4fb8c85.
+- 356d9b9: merge della chiusura. Esiti:
+  - profilo standard: PASS 35, KNOWN 1, NEW-FAIL 0;
+  - stadio `ui` a schermo: PASS 35, NEW-FAIL 0, schermo usato dalle 09:20 alle 09:36 dopo la domanda all'utente senza
+    risposta entro 5 minuti;
+  - Release compilata, `Assert-NoTestCode` PASS.

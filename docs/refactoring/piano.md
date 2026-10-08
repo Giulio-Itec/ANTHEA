@@ -140,3 +140,18 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
 - [ ] [CP] SUPERATI fuori dall'indice con archivio esterno; script in un'unica cartella.
 - [ ] Dopo F5: archiviazione dei progetti di test non più usati.
 - [ ] Su richiesta: riscrittura della storia (node_modules, corpus esterno), `git fsck`, `git gc`.
+- [x] Tema scuro e molto scuro corretti e verificati (branch `refactoring/ui-tema-scuro`, unito nell'integrazione 2 con
+  09142a9 e 356d9b9, l'8/10):
+  - verifica `--check-contrast`: Scuro e Molto scuro a 0 difetti, Chiara invariata;
+  - immagini dei report sempre chiare (`--check-report-appearance-offscreen`);
+  - esito in `decisioni.md`, sezione «Tema scuro».
+
+  Seguiti:
+  - [ ] difetti di contrasto della sola Chiara (719 in 28 gruppi), da decidere con l'utente;
+  - [ ] misura del testo disegnato in OnRender in `ContrastAudit`;
+  - [ ] attesa più robusta nelle catture di `str_mista_ponte`;
+  - [ ] figure della guida pratica in `supporto/artefatti` (ignorato da git), che fanno fallire lo stadio wiki in un
+    worktree nuovo.
+- [ ] In coda a tutte le altre attività (decisione dell'utente dell'8/10):
+  - analisi dei bug del codice di calcolo, corsa `wf_9c55965c-68b` ferma con 85 agenti in cache;
+  - revisione delle pagine dei metodi ca.sle-tensioni e ca.fessurazione (U6).
