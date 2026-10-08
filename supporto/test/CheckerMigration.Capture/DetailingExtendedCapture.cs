@@ -98,10 +98,17 @@ internal static class DetailingExtendedCapture
         ("S1000x220M", Manual(1000, 220, 25, 30, (-400, -70, 12), (-275, -72.5, 12), (-150, 70.5, 12), (100, -71, 12), (225, 73, 12), (350, 71.5, 12))),
         ("S1000x200B", Manual(1000, 200, 25, 30, (-400, -60, 12), (-200, -60, 12), (0, -60, 12), (200, -60, 12), (400, -60, 12))),
         ("S1000x400H", Rect(1000, 400, 5, 16, 5, 16, 0, 16, 30, 30, more: i => { i["foro_presente"] = true; i["inner_width_mm"] = "600"; i["inner_height_mm"] = "100"; })),
-        // Walls 1000 x 200 (bars on the long faces) and 200 x 1000 (side bars), one without stirrups.
+        // Dense (As,max, clear distance) and sparse (As,min, spacing) slabs, so that every branch of the slab rules has both outcomes (R9).
+        ("S1000x200D", Rect(1000, 200, 14, 32, 14, 32, 0, 32, 25, 30)),
+        ("S1000x300S", Rect(1000, 300, 2, 8, 2, 8, 0, 8, 30, 30)),
+        // Walls 1000 x 200 (bars on the long faces) and 200 x 1000 (side bars), one without stirrups; dense, sparse and staggered
+        // manual bars (no recognised vertical spacing) for the remaining branches of the wall rules.
         ("W1000x200", Rect(1000, 200, 6, 12, 6, 12, 0, 12, 30, 30)),
         ("W200x1000", Rect(200, 1000, 2, 14, 2, 14, 5, 14, 30, 30)),
         ("W250x1200N", Rect(250, 1200, 2, 16, 2, 16, 6, 16, 35, 30, stirrups: false)),
+        ("W1000x200D", Rect(1000, 200, 14, 32, 14, 32, 0, 32, 30, 30)),
+        ("W1000x250S", Rect(1000, 250, 2, 8, 2, 8, 0, 8, 30, 30)),
+        ("W1000x200M", Manual(1000, 200, 30, 30, (-420, -65, 12), (-300, 66, 12), (-150, -67, 12), (0, 68, 12), (150, -69, 12), (300, 70, 12), (420, -71, 12))),
     ];
 
     static Action<JsonObject> Edit(string name) => Sections.Single(s => s.Name == name).Edit;
@@ -182,8 +189,9 @@ internal static class DetailingExtendedCapture
         // Grid of slabs and walls: durability cover (NaN, +∞ and -5 pending as in the legacy), critical region, lap zone; the other parameters cycle.
         int variant = 0;
         foreach (var (name, kind) in new[] { ("S1000x200", ConcreteMemberKind.Slab), ("S1000x300", ConcreteMemberKind.Slab), ("S1000x250N", ConcreteMemberKind.Slab),
-            ("S1000x220M", ConcreteMemberKind.Slab), ("S1000x200B", ConcreteMemberKind.Slab), ("W1000x200", ConcreteMemberKind.Wall), ("W200x1000", ConcreteMemberKind.Wall),
-            ("W250x1200N", ConcreteMemberKind.Wall) })
+            ("S1000x220M", ConcreteMemberKind.Slab), ("S1000x200B", ConcreteMemberKind.Slab), ("S1000x200D", ConcreteMemberKind.Slab), ("S1000x300S", ConcreteMemberKind.Slab),
+            ("W1000x200", ConcreteMemberKind.Wall), ("W200x1000", ConcreteMemberKind.Wall), ("W250x1200N", ConcreteMemberKind.Wall), ("W1000x200D", ConcreteMemberKind.Wall),
+            ("W1000x250S", ConcreteMemberKind.Wall), ("W1000x200M", ConcreteMemberKind.Wall) })
             foreach (double durability in new[] { double.NaN, double.PositiveInfinity, -5, 25, 45 })
                 foreach (bool critical in new[] { false, true })
                     foreach (bool lap in new[] { false, true })
