@@ -8,9 +8,17 @@ internal sealed class PileGroupPlan : FrameworkElement
 {
     JsonObject? data; JsonNode? result; JsonArray? cap;
     internal void Set(JsonObject d, JsonNode? r, JsonArray? c) { data=d; result=r; cap=c; InvalidateVisual(); }
+    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+        if (e.Property == Appearance.DarkProperty) InvalidateVisual();
+    }
     protected override void OnRender(DrawingContext dc)
     {
         base.OnRender(dc); if(data is null || ActualWidth<100) return;
+        // Technical drawing with the Light colours: on white also in the dark appearances, as the other plots
+        // (in Light it lies on the white card, which stays the only background).
+        if (Appearance.GetDark(this)) dc.DrawRectangle(Brushes.White,null,new Rect(0,0,ActualWidth,ActualHeight));
         void Text(string s, double x,double y, Brush? b=null) => dc.DrawText(new FormattedText(s,CultureInfo.CurrentCulture,FlowDirection.LeftToRight,new Typeface("Segoe UI"),12,b??Brushes.DimGray,VisualTreeHelper.GetDpi(this).PixelsPerDip),new Point(x,y));
         var piles=data.Array("pali").ToArray(); if(piles.Length==0)return;
         double d=data.D("diametro",1); if(d<=0)return;

@@ -24,7 +24,7 @@ internal sealed partial class RetainingWallWorkspace
                 _ => { SyncSoils(front); UpdateColumnDepths(); }, 150);
             if (front) ValleyLayerGrid = grid; else LayerGrid = grid;
             for (int i = 0; i < grid.Columns.Count; i++) { grid.Columns[i].Width = new DataGridLength(i == 0 ? 2 : 1, DataGridLengthUnitType.Star); grid.Columns[i].MinWidth = i == 0 ? 80 : 40; }
-            grid.LoadingRow += (_, e) => { e.Row.BorderBrush = Appearance.Outline(RetainingWallDrawing.LayerColors[e.Row.GetIndex() % RetainingWallDrawing.LayerColors.Length]); e.Row.BorderThickness = new Thickness(5, 0, 0, 0); };
+            grid.LoadingRow += (_, e) => { e.Row.BorderBrush = Appearance.Swatch(RetainingWallDrawing.LayerColors[e.Row.GetIndex() % RetainingWallDrawing.LayerColors.Length]); e.Row.BorderThickness = new Thickness(5, 0, 0, 0); };
             grid.SelectionChanged += (_, _) => { Drawing.SelectedLayer = grid.SelectedIndex; Drawing.SelectedValley = front; Drawing.InvalidateVisual(); };
             return Ui.Stack(Ui.Text(front ? "VALLE · z dalla superficie a valle" : "MONTE · z dalla sommità", 13, true), grid,
                 Ui.Bar(Ui.Button("+ Strato", () => AddSoilLayer(front)), Ui.Button("−", () => RemoveSoilLayer(front)), Ui.Button("↑", () => MoveSoilLayer(front, -1)), Ui.Button("↓", () => MoveSoilLayer(front, 1))));

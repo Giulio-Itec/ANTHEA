@@ -431,7 +431,8 @@ internal sealed class DomainViewport3D : Grid
     private IEnumerable<(Point3D Start, Point3D End, Point3D LabelPoint, Brush Color, string Label)> AxisLines()
     {
         var points = mesh?.Vertices.ToArray() ?? [new ActionPoint(-1, -1, -1), new ActionPoint(1, 1, 1)];
-        foreach (var (axis, name, color) in new[] { (0, "Mx", Ui.Brush("#BF5545")), (1, "N", Ui.Brush("#218463")), (2, "My", Ui.Blue) })
+        // The view is dark in the dark appearances: the axes keep their hue, lightened (Light colours in the exported images).
+        foreach (var (axis, name, color) in new[] { (0, "Mx", Appearance.Series(Ui.Brush("#BF5545"))), (1, "N", Appearance.Series(Ui.Brush("#218463"))), (2, "My", Appearance.Series(Ui.Blue)) })
         {
             double Value(ActionPoint p) => axis == 0 ? p.Mx : axis == 1 ? p.N : p.My;
             double min = Math.Min(0, points.Min(Value)), max = Math.Max(0, points.Max(Value)), label = Math.Abs(min) > Math.Abs(max) ? min : max;

@@ -65,7 +65,7 @@ internal static class StratigraphyTable
             {
                 control = new FrameworkElementFactory(typeof(TextBox)); control.SetBinding(TextBox.TextProperty, Value(field.Key, field.ReadOnly));
                 control.SetValue(TextBox.IsReadOnlyProperty, field.ReadOnly); control.SetValue(TextBox.TextAlignmentProperty, TextAlignment.Center);
-                control.SetValue(Control.BackgroundProperty, field.ReadOnly ? Appearance.Background("#EAF2FA") : Appearance.Paper);
+                control.SetValue(Control.BackgroundProperty, field.ReadOnly ? Appearance.Calculated : Appearance.Paper);
             }
             control.SetValue(FrameworkElement.VerticalAlignmentProperty, VerticalAlignment.Center);
             control.SetValue(FrameworkElement.MarginProperty, new Thickness(3)); control.SetValue(FrameworkElement.HeightProperty, 26.0);
@@ -90,7 +90,7 @@ internal static class StratigraphyTable
                 hint.SetBinding(TextBlock.TextProperty, Value("peso_specifico", true));
                 var visibility = Value(field.Key, true); visibility.Converter = new EmptyVisibility();
                 hint.SetBinding(UIElement.VisibilityProperty, visibility);
-                hint.SetValue(TextBlock.ForegroundProperty, Appearance.Foreground(Brushes.Gray));
+                hint.SetValue(TextBlock.ForegroundProperty, Appearance.Dim(Brushes.Gray));
                 hint.SetValue(TextBlock.TextAlignmentProperty, TextAlignment.Center);
                 hint.SetValue(FrameworkElement.VerticalAlignmentProperty, VerticalAlignment.Center);
                 hint.SetValue(UIElement.IsHitTestVisibleProperty, false);

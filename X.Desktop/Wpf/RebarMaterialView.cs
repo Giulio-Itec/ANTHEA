@@ -82,7 +82,7 @@ internal sealed class RebarMaterialView : UserControl
         foreach (string key in new[] { "fyk_mpa", "steel_fu_mpa", "steel_modulus_mpa", "steel_eps_u" })
         {
             var box = (TextBox)Properties.Editors[key]; box.IsReadOnly = !custom && !(historical && key == "steel_eps_u");
-            box.Background = box.IsReadOnly ? Appearance.Background("#EAF2FA") : Appearance.Paper;
+            box.Background = box.IsReadOnly ? Appearance.Calculated : Appearance.Paper;
         }
         Properties.Enable("steel_diagramma", custom || historical);
         ((TextBox)identity.Editors["materiale_acciaio_nome"]).IsReadOnly = !custom;
