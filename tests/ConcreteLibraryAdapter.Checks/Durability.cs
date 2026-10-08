@@ -459,7 +459,9 @@ internal static class DurabilityChecks
         {
             OnPath("RetainingWall.Calculate " + name, () => { RetainingWall.Calculate((JsonObject)wall.DeepClone()); return null; });
             OnPath("RetainingWall.DesignReinforcement " + name, () => RetainingWall.DesignReinforcement((JsonObject)wall.DeepClone()));
-            OnPath("RetainingWall.RequiredCover " + name, () => RetainingWall.RequiredCover((JsonObject)wall.DeepClone()));
+            // Dati aggiornati come nella scheda WPF del muro, che li aggiorna all'apertura (RetainingWallWorkspace.Inputs.cs:24): il documento
+            // di supporto/esempi è nella versione 1, senza 'detailing'.
+            OnPath("RetainingWall.RequiredCover " + name, () => { var data = (JsonObject)wall.DeepClone(); RetainingWall.Upgrade(data); return RetainingWall.RequiredCover(data); });
         }
         // Dettagli della sezione c.a. e ricerca piccola del progetto delle armature (sequenziale e con due attività).
         foreach (var (name, data) in DetailingSections(root))
@@ -651,11 +653,15 @@ internal static class DurabilityChecks
         }
     }
 
-    /// <summary>Muri a mensola: il default del modulo e RetainingWall.Example("cantilever"), come nella baseline B3, e W1-W3 del corpus di B6.</summary>
+    /// <summary>Muri a mensola: i tre della baseline B3 (il default del modulo, RetainingWall.Example("cantilever") e il documento
+    /// supporto/esempi/muri-sostegno/mensola.anthea, letto con Archivio.Leggi come nella cattura: caso esempio-muri-sostegno-mensola) e
+    /// W1-W3 del corpus di B6.</summary>
     static IEnumerable<(string Name, JsonObject Wall)> Walls(string root)
     {
         yield return ("default", ModuleCatalog.CreateData(RetainingWall.Module));
         yield return ("esempio a mensola", RetainingWall.Example("cantilever"));
+        var document = Archivio.Leggi(Path.Combine(root, "supporto", "esempi", "muri-sostegno", "mensola.anthea"));
+        yield return ("esempio-muri-sostegno-mensola", document["dati"]!.AsObject());
         foreach (var (id, _, data) in CorpusDocuments(root).Where(d => d.Module == RetainingWall.Module)) yield return ("corpus " + id, data);
     }
 
