@@ -28,7 +28,10 @@ using ProbeEntry = Anthea.Calculations.ConcreteDurabilityAdapter.ProbeEntry;
 /// 11f. Punti d'ingresso con il parametro del motore (F2.9-D2): testi e numeri identici con i due motori, sonda del motore richiesto.
 /// 11g. Stato statico: nessun campo o proprietà statica scrivibile, nessuna collezione statica modificabile.
 /// 11h. Attesi indipendenti (valori a mano), con entrambi i motori.
-/// 11i. Scansione dei sorgenti con l'elenco ammesso legacy-allowlist-durabilita.json.
+/// 11i. Scansione dei sorgenti con l'elenco ammesso legacy-allowlist-durabilita.json. I tipi della libreria contano come nomi semplici o
+///      qualificati dal loro spazio dei nomi, mai come membri di altri tipi (per esempio CrackRequirements.ExposureClasses di F2.7).
+///      Anche adattatore, mappatura e nucleo legacy sono scansionati, ognuno senza le sole regole che lo riguardano; nell'adattatore il
+///      nucleo legacy e il motore Legacy compaiono solo nei rami "if (UseLegacy(engine))" che registrano Legacy nella sonda.
 /// </summary>
 internal static class DurabilityChecks
 {
@@ -839,33 +842,85 @@ internal static class DurabilityChecks
     /// <summary>Cartelle scansionate: codice di produzione (da E2) e prove (da E3).</summary>
     static readonly ImmutableArray<string> ProductionFolders = ["X.Calculations", "X.Core", "X.Desktop", "X.Materiali"];
     static readonly ImmutableArray<string> TestFolders = ["supporto/test", "tests"];
-    static readonly ImmutableHashSet<string> OwnFiles = ["X.Calculations/ConcreteDurabilityAdapter.cs", "X.Calculations/ConcreteLibraryMapping.Durability.cs", "X.Calculations/Materials/DurabilityLegacy.cs"];
+    const string AdapterFile = "X.Calculations/ConcreteDurabilityAdapter.cs";
+
+    /// <summary>File propri della durabilità → regole che non si applicano a quel file. L'adattatore usa per costruzione la libreria, il nucleo
+    /// legacy e il motore Legacy: al posto delle regole ha il controllo dei rami legacy (<see cref="AdapterBranches"/>). La mappatura usa la
+    /// libreria ma mai il legacy; il nucleo legacy non usa mai la libreria.</summary>
+    static readonly ImmutableDictionary<string, ImmutableHashSet<string>> OwnFiles = new Dictionary<string, ImmutableHashSet<string>>
+    {
+        [AdapterFile] = ["legacy", "motore-legacy", "libreria-durabilita"],
+        ["X.Calculations/ConcreteLibraryMapping.Durability.cs"] = ["libreria-durabilita"],
+        ["X.Calculations/Materials/DurabilityLegacy.cs"] = ["legacy"]
+    }.ToImmutableDictionary();
+
+    // Tipi propri di GPC.Checkers.Concrete.Durability (CoverInput, CoverLine e CoverResult sono omonimi dei record di Materiali: contano solo
+    // con lo spazio dei nomi, registro R-12 del progetto). Un tipo conta come nome semplice, che richiede lo spazio dei nomi in un using
+    // (anch'esso vietato), o qualificato da '…Durability.'; dopo un altro qualificatore è un membro di un altro tipo e non conta
+    // (CrackRequirements.ExposureClasses, X.Calculations/ConcreteLibraryMapping.Serviceability.cs di F2.7).
+    const string LibraryTypes = @"(?:CoverRequirements|ExposureClasses|ExposureClass|DurabilityProfiles?|StrengthRequirement)\b";
 
     static readonly (string Name, Regex Pattern, bool ProductionOnly)[] ScanRules =
     [
         ("legacy", new(@"\bDurabilityLegacy\b", RegexOptions.CultureInvariant), false),
         ("motore-legacy", new(@"\bDurabilityEngine\s*\.\s*Legacy\b", RegexOptions.CultureInvariant), true),
-        ("libreria-durabilita", new(@"\bGPC\s*\.\s*Checkers\s*\.\s*Concrete\s*\.\s*Durability\b|\b(?:CoverRequirements|ExposureClasses|ExposureClass|DurabilityProfiles?|StrengthRequirement)\b", RegexOptions.CultureInvariant), false),
-        ("classe-minima-per-profilo", new(@"\bExposureClasses\s*\.\s*MinimumStrength\b", RegexOptions.CultureInvariant), false)
+        ("libreria-durabilita", new(@"\bGPC\s*\.\s*Checkers\s*\.\s*Concrete\s*\.\s*Durability\b|(?<!\.\s*)\b" + LibraryTypes + @"|\bDurability\s*\.\s*" + LibraryTypes,
+            RegexOptions.CultureInvariant), false),
+        ("classe-minima-per-profilo", new(@"(?<!\.\s*)\bExposureClasses\s*\.\s*MinimumStrength\b|\bDurability\s*\.\s*ExposureClasses\s*\.\s*MinimumStrength\b", RegexOptions.CultureInvariant), false)
     ];
+
+    /// <summary>Righe sintetiche dell'autoverifica delle regole: regola → righe che la violano e righe che non la violano.</summary>
+    static readonly (string Rule, string[] Hit, string[] Miss)[] ScanSamples =
+    [
+        ("libreria-durabilita",
+            ["using GPC.Checkers.Concrete.Durability;", "using L = GPC . Checkers.Concrete.Durability.CoverInput;", "var r = CoverRequirements.Calculate(DurabilityProfile.Ntc2018, input);",
+             "return ExposureClasses.Get(code).NtcEnvironment;", "var a = global::GPC.Checkers.Concrete.Durability.ExposureClasses.All;", "var b = C.Durability.ExposureClasses.All;",
+             "static string Text(ExposureClass e) => e.Code;", "var s = DurabilityProfiles.Reference(p);", "StrengthRequirement m = default;"],
+            ["public static string? ExposureOf(string text) => CrackRequirements.ExposureClasses.Contains(text, StringComparer.Ordinal) ? text : null;",
+             "var c = input?.ExposureClass;", "var d = row\n    .ExposureClasses;", "Materiali.CoverInput p = Basic; CoverResult r = Durability.Cover(e, 30, p);", "var e = Durability.Exposures;"]),
+        ("classe-minima-per-profilo",
+            ["var m = ExposureClasses.MinimumStrength(profile, codes);", "var n = C.Durability.ExposureClasses.MinimumStrength(profile, codes);"],
+            ["var k = CrackRequirements.ExposureClasses.MinimumStrength;", "var u = ExposureClasses.Uni11104MinimumStrength(codes);"])
+    ];
+
+    // Ramo legacy di un'operazione dell'adattatore: dietro UseLegacy(engine), con la voce Legacy della sonda e una sola chiamata al nucleo legacy.
+    static readonly Regex LegacyBranch = new(@"^\s*if \(UseLegacy\(engine\)\) \{ Record\(nameof\((?<op>\w+)\), DurabilityEngine\.Legacy\); (?:return )?DurabilityLegacy(?:\.\w+)+(?:\([\w, ]*\))?; (?:return; )?\}\s*$",
+        RegexOptions.CultureInvariant);
+    static readonly Regex LibraryRecord = new(@"\bRecord\(nameof\((?<op>\w+)\), DurabilityEngine\.Library\);", RegexOptions.CultureInvariant);
+    static readonly Regex EngineSwitch = new(@"^\s*static bool UseLegacy\(DurabilityEngine\? engine\) => \(engine \?\? Default\) == DurabilityEngine\.Legacy;\s*$", RegexOptions.CultureInvariant);
+    static readonly Regex PublicOperation = new(@"^\s*public static .*\bDurabilityEngine\? engine = null\)\s*$", RegexOptions.CultureInvariant);
 
     static JsonObject Scan(string root, Action<bool, string> check)
     {
+        // Autoverifica delle regole su righe sintetiche, ognuna nella forma del codice (CodeOnly).
+        int samples = 0;
+        foreach (var (rule, hit, miss) in ScanSamples)
+        {
+            var pattern = ScanRules.Single(r => r.Name == rule).Pattern;
+            foreach (string line in hit) { check(CodeOnly(line).Split('\n').Any(pattern.IsMatch), $"11i: autoverifica: la regola {rule} non riconosce «{line}»"); samples++; }
+            foreach (string line in miss) { check(!CodeOnly(line).Split('\n').Any(pattern.IsMatch), $"11i: autoverifica: la regola {rule} riconosce «{line}»"); samples++; }
+        }
+        check(LegacyBranch.IsMatch("        if (UseLegacy(engine)) { Record(nameof(Cover), DurabilityEngine.Legacy); return DurabilityLegacy.Durability.Cover(values, fck, p); }")
+            && !LegacyBranch.IsMatch("        Record(nameof(NtcCover), DurabilityEngine.Library); if (values != null) return DurabilityLegacy.NtcCover.Calculate(values, fck, p, plate, coverQuality, pertinentCmin);")
+            && !LegacyBranch.IsMatch("        if (UseLegacy(engine)) { Record(nameof(Cover), DurabilityEngine.Library); return DurabilityLegacy.Durability.Cover(values, fck, p); }"),
+            "11i: autoverifica del ramo legacy dell'adattatore");
         var allowlist = JsonNode.Parse(File.ReadAllText(Path.Combine(root, "tests", "ConcreteLibraryAdapter.Checks", "legacy-allowlist-durabilita.json")))!["voci"]!.AsArray()
             .Select(v => (File: v!["file"]!.GetValue<string>(), Rule: v["regola"]!.GetValue<string>(), Lines: v["righe"]?.GetValue<int>(), WholeFile: v["tutto_il_file"]?.GetValue<bool>() == true,
                 Texts: v["testo"]?.AsArray().Select(t => t!.GetValue<string>()).ToArray() ?? [])).ToList();
         var hits = new Dictionary<(string File, string Rule), List<string>>();
-        int files = 0;
+        int files = 0, own = 0;
         foreach (var (folder, production) in ProductionFolders.Select(f => (f, true)).Concat(TestFolders.Select(f => (f, false))))
             foreach (string path in Directory.EnumerateFiles(Path.Combine(root, folder), "*.cs", SearchOption.AllDirectories))
             {
                 string relative = Path.GetRelativePath(root, path).Replace('\\', '/');
-                if (relative.Split('/').Any(part => part is "bin" or "obj") || OwnFiles.Contains(relative)) continue;
+                if (relative.Split('/').Any(part => part is "bin" or "obj")) continue;
                 files++;
+                var excluded = OwnFiles.TryGetValue(relative, out var set) ? set : ImmutableHashSet<string>.Empty;
+                if (excluded.Count > 0) own++;
                 var lines = CodeOnly(File.ReadAllText(path)).Split('\n');
                 foreach (var (name, pattern, productionOnly) in ScanRules)
                 {
-                    if (productionOnly && !production) continue;
+                    if ((productionOnly && !production) || excluded.Contains(name)) continue;
                     foreach (string line in lines.Where(l => pattern.IsMatch(l)))
                     {
                         if (!hits.TryGetValue((relative, name), out var list)) hits[(relative, name)] = list = [];
@@ -873,6 +928,7 @@ internal static class DurabilityChecks
                     }
                 }
             }
+        check(own == OwnFiles.Count, $"11i: file propri della durabilità trovati: {own} su {OwnFiles.Count}");
         foreach (var ((file, rule), lines) in hits)
         {
             var entry = allowlist.FirstOrDefault(a => a.File == file && a.Rule == rule);
@@ -883,7 +939,37 @@ internal static class DurabilityChecks
         }
         foreach (var entry in allowlist)
             check(hits.ContainsKey((entry.File, entry.Rule)), $"11i: voce dell'elenco ammesso senza riscontro: {entry.File} ({entry.Rule})");
-        return new JsonObject { ["file_scansionati"] = files, ["voci_dell_elenco_ammesso"] = allowlist.Count, ["righe_ammesse"] = hits.Values.Sum(l => l.Count) };
+        int branches = AdapterBranches(root, check);
+        return new JsonObject
+        {
+            ["file_scansionati"] = files, ["file_propri_con_regole_ridotte"] = own, ["voci_dell_elenco_ammesso"] = allowlist.Count, ["righe_ammesse"] = hits.Values.Sum(l => l.Count),
+            ["righe_dell_autoverifica"] = samples, ["rami_legacy_dell_adattatore"] = branches
+        };
+    }
+
+    /// <summary>Rami legacy dell'adattatore (rilievo della revisione di F2.9): con uscite identiche fra i motori, solo la struttura del
+    /// sorgente rivela un ramo della libreria che calcola con il nucleo legacy e registra Library. Ogni riga con DurabilityLegacy o con il
+    /// motore Legacy è un ramo "if (UseLegacy(engine)) { Record(nameof(Op), DurabilityEngine.Legacy); … DurabilityLegacy…; }" oppure la
+    /// definizione di UseLegacy; ogni operazione pubblica con il motore ha un ramo legacy e una voce Library della sonda, una sola volta.</summary>
+    static int AdapterBranches(string root, Action<bool, string> check)
+    {
+        var legacy = new List<string>(); var library = new List<string>();
+        int switches = 0, operations = 0;
+        Regex core = ScanRules.Single(r => r.Name == "legacy").Pattern, engine = ScanRules.Single(r => r.Name == "motore-legacy").Pattern;
+        foreach (string line in CodeOnly(File.ReadAllText(Path.Combine(root, AdapterFile))).Split('\n'))
+        {
+            if (PublicOperation.IsMatch(line)) operations++;
+            if (LibraryRecord.Match(line) is { Success: true } record) library.Add(record.Groups["op"].Value);
+            if (!core.IsMatch(line) && !engine.IsMatch(line)) continue;
+            if (LegacyBranch.Match(line) is { Success: true } branch) { legacy.Add(branch.Groups["op"].Value); continue; }
+            if (EngineSwitch.IsMatch(line)) { switches++; continue; }
+            check(false, $"11i: {AdapterFile}: nucleo legacy o motore Legacy fuori da un ramo 'if (UseLegacy(engine)) {{ Record(…, DurabilityEngine.Legacy); … }}': {line.Trim()}");
+        }
+        check(switches == 1, $"11i: {AdapterFile}: {switches} definizioni di UseLegacy invece di una");
+        check(operations >= 12 && legacy.Count == operations, $"11i: {AdapterFile}: {operations} operazioni pubbliche con il motore, {legacy.Count} rami legacy");
+        check(legacy.Distinct().Count() == legacy.Count && legacy.Order().SequenceEqual(library.Order()),
+            $"11i: {AdapterFile}: operazioni dei rami legacy [{string.Join(", ", legacy)}] e voci Library della sonda [{string.Join(", ", library)}] diverse");
+        return legacy.Count;
     }
 
     /// <summary>Codice senza commenti, stringhe e caratteri, con le stesse righe.</summary>
