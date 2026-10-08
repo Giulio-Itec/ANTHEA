@@ -170,3 +170,13 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
       di analisi della scheda Tensioni, va completata con la scelta fra analisi lineare e non lineare (legami di
       progetto, avviso dell'8/10).
 - [ ] Report di calcolo: non si modificano finché l'utente non lo dice (decisione dell'8/10).
+- [ ] Dopo la fine di tutto il refactoring (richiesta dell'utente dell'8/10, «in coda a tutte le cose implementa il
+  "detailed check" dentro il modulo design bridge con le info che sono presenti sul sito
+  https://thebridgeeng.com/design. metti in coda alla fine di tutto il refactoring»): verifica di dettaglio nel
+  modulo Bridge Design.
+  - Il sito serve solo come riferimento funzionale, per capire ambito e contenuti della verifica. Si rilegge quando
+    il lavoro parte.
+  - Metodi e coefficienti si prendono dalle norme e si implementano nelle librerie (GPC.Design o Checker), non in
+    ANTHEA.
+  - Come vuole AGENTS.md, interfaccia, guide e report non contengono testi, figure né rimandi al sito.
+  - Si progetta con un piano dedicato e con le decisioni dell'utente.
