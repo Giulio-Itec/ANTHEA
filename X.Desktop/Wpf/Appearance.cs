@@ -47,6 +47,8 @@ internal static class Appearance
     // brush is painted on another property (see Map): the code that chooses them knows what the colour stands for.
     /// <summary>Fill of a primary button and of the selected choice (navigation, filters, revisions, typologies): Navy in Light.</summary>
     internal static Brush Selected => Colour((Color)ColorConverter.ConvertFromString("#0B2A4A"), "selected");
+    /// <summary>Highlight of the selected row of a tree or grid and of the selected tab.</summary>
+    internal static Brush Selection(string hex) => Colour((Color)ColorConverter.ConvertFromString(hex), "selection");
     private static bool Generic(string role) => role is "background" or "foreground" or "border";
 
     internal static AppAppearance ReadPreference(string path)
@@ -81,8 +83,10 @@ internal static class Appearance
         resources[SystemColors.MenuTextBrushKey] = Ink;
         resources[SystemColors.ControlBrushKey] = Colour(SystemColors.ControlColor, "background");
         resources[SystemColors.ControlTextBrushKey] = Colour(SystemColors.ControlTextColor, "foreground");
-        // Selection without focus (DataGrid cells, list and tree items): light grey in the system theme.
-        resources[SystemColors.InactiveSelectionHighlightBrushKey] = Colour(((SolidColorBrush)SystemColors.InactiveSelectionHighlightBrush).Color, "background");
+        // Selection without focus (DataGrid cells, list and tree items): light grey in the system theme, the selection
+        // highlight of the palette in the dark appearances (distinct from the alternate rows and the column headers).
+        resources[SystemColors.InactiveSelectionHighlightBrushKey] = Colour(((SolidColorBrush)SystemColors.InactiveSelectionHighlightBrush).Color, "selection");
+        resources["AppearanceSelection"] = Selection("#E2EFFC");
         resources[SystemColors.InactiveSelectionHighlightTextBrushKey] = Colour(((SolidColorBrush)SystemColors.InactiveSelectionHighlightTextBrush).Color, "foreground");
         EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.LoadedEvent,
             new RoutedEventHandler((sender, _) => ApplyElement((DependencyObject)sender)));
@@ -188,6 +192,8 @@ internal static class Appearance
         {
             // Lighter than the surfaces, with light text on it (white, #BCCFE2): at least 4.5:1 in both appearances.
             case "selected": return Hex(veryDark ? "#2F4C6E" : "#24507E");
+            // Lighter than the rows, the alternate rows and the headers; status text on it stays above 4.5:1.
+            case "selection": return Hex(veryDark ? "#2E3D52" : "#26425E");
         }
         if (role == "background")
         {

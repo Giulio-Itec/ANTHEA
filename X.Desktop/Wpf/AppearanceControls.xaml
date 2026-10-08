@@ -37,7 +37,7 @@
    <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </Border>
   <ControlTemplate.Triggers>
-   <Trigger Property="IsSelected" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource AppearanceSurface}"/><Setter TargetName="Frame" Property="BorderThickness" Value="1,1,1,3"/></Trigger>
+   <Trigger Property="IsSelected" Value="True"><Setter TargetName="Frame" Property="Background" Value="{DynamicResource AppearanceSelection}"/><Setter TargetName="Frame" Property="BorderThickness" Value="1,1,1,3"/></Trigger>
    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="{DynamicResource AppearanceInk}"/></Trigger>
    <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.5"/></Trigger>
   </ControlTemplate.Triggers>
