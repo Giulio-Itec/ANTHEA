@@ -192,7 +192,7 @@ internal sealed class InputForm : ChainedScrollViewer
             }
             else
             {
-                var t = new TextBox { Text = values.S(f.Key), IsReadOnly = f.ReadOnly, TextAlignment = symbolColumns ? TextAlignment.Center : TextAlignment.Right, Background = f.ReadOnly ? Ui.Brush("#EAF2FA") : Ui.Brush("#F8FAFC") };
+                var t = new TextBox { Text = values.S(f.Key), IsReadOnly = f.ReadOnly, TextAlignment = symbolColumns ? TextAlignment.Center : TextAlignment.Right, Background = f.ReadOnly ? Appearance.Calculated : Ui.Brush("#F8FAFC") };
                 string raw = t.Text;
                 bool formatting = false;
                 t.TextChanged += (_, _) => { if (!formatting) raw = t.Text; };

@@ -49,6 +49,8 @@ internal static class Appearance
     internal static Brush Selected => Colour((Color)ColorConverter.ConvertFromString("#0B2A4A"), "selected");
     /// <summary>Highlight of the selected row of a tree or grid and of the selected tab.</summary>
     internal static Brush Selection(string hex) => Colour((Color)ColorConverter.ConvertFromString(hex), "selection");
+    /// <summary>Background of a calculated or linked field, which the user does not edit.</summary>
+    internal static Brush Calculated => Colour((Color)ColorConverter.ConvertFromString("#EAF2FA"), "calculated");
     private static bool Generic(string role) => role is "background" or "foreground" or "border";
 
     internal static AppAppearance ReadPreference(string path)
@@ -195,6 +197,8 @@ internal static class Appearance
             case "selected": return Hex(veryDark ? "#2F4C6E" : "#24507E");
             // Lighter than the rows, the alternate rows and the headers; status text on it stays above 4.5:1.
             case "selection": return Hex(veryDark ? "#2E3D52" : "#26425E");
+            // Bluish as in Light, lighter than the editable fields (#1D3047, #090A0C).
+            case "calculated": return Tinted(c, veryDark ? .03 : .05, veryDark ? .5 : .7);
         }
         if (role == "background")
         {
