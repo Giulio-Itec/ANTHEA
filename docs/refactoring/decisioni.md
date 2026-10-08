@@ -334,17 +334,22 @@ Messaggi dell'utente nella sessione del coordinatore, riportati con le sue parol
     non prescrive il metodo dell'analisi tensionale; per le verifiche SLE il riferimento abituale è l'analisi lineare
     a sezione fessurata.» È lavoro di libreria (SectionSolverModelCode2010, materiali di Model, StressLimitCheck):
     passo dedicato dopo l'interruttore di F2.7, con opzione legacy nominata e due commit.
+    **Ripensamento dell'utente, 8/10 tarda mattina**: «il calcolo viene fatto secondo legame costitutivo coefficientato
+    con alpha e gamma. quindi valori caratteristici + coeff x il design. ad ora lascialo così. ritiriamo fuori questo
+    argomento a fine refactoring». U2 è sospesa: l'analisi non lineare resta con i legami di progetto, senza legami
+    nuovi in Model e senza modifiche al solutore; R5 resta «da ridiscutere» in F5.15.
   - U3 «correggi»: R22 si risolve applicando il fattore 0,8 dei getti sottili anche con UNI/DM 2012: limiti SLE del
     calcestruzzo, αcc e fcd con `gettato_sottile` = Sì.
   - U4 «tieni i limiti come oggi»: con CS-TR34 ANTHEA continua a calcolare i limiti tensionali SLE con i coefficienti
     di MC2010 da cui deriva `StandardCSTR34`. La proposta di allinearsi alla libreria (nessun limite) è respinta: la
-    motivazione normativa non è verificata e togliere i limiti è meno cautelativo. In F2.7 la libreria deve quindi
-    poter calcolare i limiti anche per CS-TR34 (opzione richiesta dall'adattatore).
+    motivazione normativa non è verificata e togliere i limiti è meno cautelativo. In F2.7 l'adattatore chiama
+    `StressLimitCheck.Evaluate` con lo standard dell'analisi, che per CS-TR34 calcola i limiti con i coefficienti
+    della classe, e non usa mai `NotApplicableReason` (regola W5 del progetto): non serve una modifica di libreria.
   - U5 «correggi»: la scheda WPF rifiuta φ < 0, come già fanno i calcoli (`CheckerSection.cs:95`, `:127`).
   - U6 «metti in coda ad altre cose. non da fare ora»: la revisione delle pagine dei metodi ca.sle-tensioni e
     ca.fessurazione si sposta in coda.
   - U7 «correggi»: `staffe_presenti` si normalizza a Sì/No (riguarda solo documenti scritti a mano).
-  Le correzioni U1, U2, U3, U5 e U7 cambiano risultati o comportamenti: si fanno in F2.7 dopo l'interruttore, una per
+  Le correzioni U1, U3, U5 e U7 cambiano risultati o comportamenti: si fanno in F2.7 dopo l'interruttore, una per
   commit, con cattura prima e confronto dopo (regola delle correzioni in due commit), e si registrano nel registro
   delle differenze.
 - **Dopo la prova della build** (8/10, mattina):
@@ -354,7 +359,7 @@ Messaggi dell'utente nella sessione del coordinatore, riportati con le sue parol
   - «non toccare più i report di calcolo. saranno corretti successivamente. ti dico io quando sarà fatto»: il codice e
     i testi dei report di calcolo (X.Core Report*, ReportWord, report WPF) non si modificano finché l'utente non lo
     dice. Le correzioni di calcolo approvate possono cambiare i valori stampati, ma non i testi né l'impaginazione.
-    L'avviso di U2 va quindi per ora nell'interfaccia e nei risultati, non nella relazione.
+    (U2, poi sospesa, avrebbe messo il suo avviso nell'interfaccia e nei risultati, non nella relazione.)
   - «anche la wiki mettila in coda ad altre cose»: la traccia Wiki (W) va in coda, dopo le fasi in corso.
 
 ## Dipendenze esterne previste
