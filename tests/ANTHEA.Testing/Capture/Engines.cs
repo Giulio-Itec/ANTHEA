@@ -101,7 +101,7 @@ public sealed partial class CaptureRunner
     void Walls(CaptureCase item, GuidMap guids, string title, string report)
     {
         var data = item.Data!; string id = item.Id;
-        var wall = Once(report, () => RetainingWall.Calculate(Clone(data)));
+        var wall = Once(report, () => RetainingWall.Calculate(Clone(data), default, options.ServiceabilityEngine));
         Docx(report + ".txt", guids, () => ReportRetainingWall.Create(title, wall.Value));
         Text(report + ".csv", guids, () => ReportRetainingWall.Csv(wall.Value));
 
@@ -120,7 +120,7 @@ public sealed partial class CaptureRunner
         }
 
         if (Str(data, "family") != "cantilever") return;
-        Json($"engines/muri_progetto_armature/{id}.json", guids, () => RetainingWall.DesignReinforcement(Clone(data)));
+        Json($"engines/muri_progetto_armature/{id}.json", guids, () => RetainingWall.DesignReinforcement(Clone(data), default, options.ServiceabilityEngine));
         var schedule = Once($"engines/muri_distinta/{id}", () => RetainingWall.CalculateBarSchedule(wall.Value));
         Json($"engines/muri_distinta/{id}.json", guids, () => schedule.Value);
         Docx($"{report}.distinta.txt", guids, () => ReportRetainingWall.CreateBarSchedule(Clone(wall.Value.Input), schedule.Value));

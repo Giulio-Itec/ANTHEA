@@ -16,7 +16,9 @@ public static partial class RetainingWall
     /// combination (RetainingWallAnalysis), serviceability and global stability; ANTHEA checks the document, writes the results in m and kN and adds
     /// the reinforced concrete or gravity checks of the sections.
     /// </summary>
-    public static Result Calculate(JsonObject data, CancellationToken token = default)
+    /// <param name="serviceabilityEngine">Motore SLE delle sezioni in c.a. (tensioni e fessurazione); null = predefinito dell'adattatore
+    /// (refactoring F2.7b, commit A4).</param>
+    public static Result Calculate(JsonObject data, CancellationToken token = default, ServiceabilityEngine? serviceabilityEngine = null)
     {
         ValidateShape(data); var d = (JsonObject)data.DeepClone(); CompleteSoilInput(d); CompleteAdvancedInput(d); CompleteMaterialInput(d); ResolveSeismic(d); Validate(d);
         bool modern = d.D("version") >= 2;
@@ -42,7 +44,7 @@ public static partial class RetainingWall
             else notes.Add("kh e kv assegnati: il preset manuale mantiene γR statici e non maggiora kh per il ribaltamento. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).");
         }
         notes.AddRange(wall.Warnings);
-        var structural = StructuralChecks(d, cases.Where(c => c.Factors.S("purpose") != "Ribaltamento").ToList(), token, out double steel);
+        var structural = StructuralChecks(d, cases.Where(c => c.Factors.S("purpose") != "Ribaltamento").ToList(), token, out double steel, serviceabilityEngine);
         var service = CalculateService(d, input, wall, cases, checks, token);
         var detailing = d.S("family") == "cantilever" ? CalculateReinforcementDetails(d) : null;
         if (d["detailing"].B("enabled") && detailing is not null) { structural.AddRange(detailing.Checks); steel = detailing.SteelKg; }

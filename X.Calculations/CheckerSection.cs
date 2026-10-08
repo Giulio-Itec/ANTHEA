@@ -69,10 +69,14 @@ public sealed partial class CheckerSection
         }
         return new(section, new CoordinateSystem(section.Centroid, new Vector3d(-1, 0, 0), new Vector3d(0, -1, 0)), geometry);
     }
-    public CheckerSection(JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU")
-        : this(PrepareModel(input, workspace), input, workspace, options, state) { }
-    public CheckerSection(CheckerSectionModel model, JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU")
+    /// <summary>Motore SLE dei limiti tensionali di questa sezione (null = motore predefinito dell'adattatore), fissato alla costruzione
+    /// (refactoring F2.7b, commit A4). Il marcatore degli stati tensionali viene sempre dal risultato dell'adattatore, mai da qui.</summary>
+    public ServiceabilityEngine? ServiceabilityEngine { get; }
+    public CheckerSection(JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU", ServiceabilityEngine? engine = null)
+        : this(PrepareModel(input, workspace), input, workspace, options, state, engine) { }
+    public CheckerSection(CheckerSectionModel model, JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU", ServiceabilityEngine? engine = null)
     {
+        ServiceabilityEngine = engine;
         Model = model; Options = (JsonObject)options.DeepClone(); Geometry = model.Geometry; Section = model.Section; Local = model.Local;
         ForceAxes = new CoordinateSystem(Local);
         switch (options.S("assi", "Locali"))
@@ -189,8 +193,9 @@ public sealed partial class CheckerSection
         var concrete = linear ? result.GetConcreteVerticesTension(phi) : result.GetConcreteVerticesTension();
         var fibers = Geometry.Fibers.Select(f => linear ? result.GetConcreteTension(phi, new Point2d(f.X, f.Y)) : result.GetConcreteTension(new Point2d(f.X, f.Y))).ToArray();
         if (bars.Any(b => !double.IsFinite(b.tension)) || concrete.Any(c => !double.IsFinite(c.tension)) || fibers.Any(v => !double.IsFinite(v))) throw new ArgumentException("Checker: tensioni non finite.");
-        // Tasso, stato e limiti SLE del motore legacy (estratti in A3, rilievo M5): stesse espressioni e stesso rifiuto del tasso non valido.
-        var limits = LegacyServiceability.StressLimits(result, set, standard, Section, phi, phiT, compressionReduction);
+        // Tasso, stato, limiti SLE e marcatore del motore dall'adattatore SLE (refactoring F2.7b, commit A4; rilievi M4, M5): la costruzione
+        // dello stato (tensioni, deformazioni, raster) resta qui, invariata.
+        var limits = ConcreteServiceabilityAdapter.StressLimits(result, set, standard, Section, phi, phiT, compressionReduction, ServiceabilityEngine);
         var material = (ConcreteMaterialEuropeanCommon)Section.ConcreteMaterial;
         var response = SectionResponse.From(result.CalculateStrainPlaneResult(linear, linear ? phi : 0, linear ? phiT : 0));
         return new(concrete.Min(c => c.tension), bars.Max(b => Math.Abs(b.tension)), bars.Select(b => b.tension).ToArray(), fibers, limits.Ratio, limits.Status, result)
@@ -202,6 +207,7 @@ public sealed partial class CheckerSection
             FiberStrains = Geometry.Fibers.Select(f => (linear ? result.GetVerticeStrain(new Point2d(f.X, f.Y), phi) : result.GetVerticeStrain(new Point2d(f.X, f.Y))) * 1000).ToArray(),
             ConcreteStressLimit = limits.ConcreteStressLimit,
             SteelStressLimit = limits.SteelStressLimit,
+            Engine = limits.Engine,
             ConcreteVertices = Geometry.Outline.Select((p, i) => new StressPoint("C" + (i + 1), p[0], p[1], linear ? result.GetConcreteTension(phi, new Point2d(p[0], p[1])) : result.GetConcreteTension(new Point2d(p[0], p[1])), (linear ? result.GetVerticeStrain(new Point2d(p[0], p[1]), phi) : result.GetVerticeStrain(new Point2d(p[0], p[1]))) * 1000)).ToArray(),
             BarStrains = Section.Rebars.Select(b => (linear ? result.GetRebarStrain(b, b.EpsilonP != 0 ? phiT : phi) : result.GetRebarStrain(b)) * 1000).ToArray()
             ,RasterFactory = new(() => StressRaster.Sample(Geometry, p => linear ? result.GetConcreteTension(phi, p) : result.GetConcreteTension(p), p => (linear ? result.GetVerticeStrain(p, phi) : result.GetVerticeStrain(p)) * 1000))
@@ -216,6 +222,8 @@ public sealed record CheckerStressState(double sigma_cls, double sigma_acciaio, 
     public double ConcreteTensionStrength { get; init; }
     public double? ConcreteStressLimit { get; init; }
     public double SteelStressLimit { get; init; }
+    /// <summary>Motore SLE di tasso e limiti: lo scrive soltanto ConcreteServiceabilityAdapter (refactoring F2.7b, commit A4); escluso dal JSON.</summary>
+    [System.Text.Json.Serialization.JsonIgnore] public ServiceabilityEngine? Engine { get; init; }
     public StressPoint[] ConcreteVertices { get; init; } = [];
     public double[] BarStrains { get; init; } = [];
     internal Lazy<StressRaster>? RasterFactory { get; init; }

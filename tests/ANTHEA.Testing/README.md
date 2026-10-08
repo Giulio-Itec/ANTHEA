@@ -13,7 +13,7 @@ arrivano dalle proprietà comuni (`Directory.Build.targets`), senza riferimenti 
 Dalla radice del repository, dopo `dotnet build tests\ANTHEA.Testing\ANTHEA.Testing.csproj -c Release`:
 
 ```
-dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll capture <uscita> [--tag B0] [--commit <sha>] [--only <regex modulo/caso>] [--no-trace]
+dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll capture <uscita> [--tag B0] [--commit <sha>] [--only <regex modulo/caso>] [--no-trace] [--motore-sle legacy|libreria]
 dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll compare <a> <b> [--report confronto.json] [--tolerances <file>] [--max 40]
 dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll normalize <ingresso> <uscita>
 dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll compare-dense <riferimento> <candidato> --confronto <nome> [--classificazione <file>] [--report confronto.json] [--max 40]
@@ -21,7 +21,10 @@ dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll compare-dense 
 
 - `capture` scrive in una cartella nuova o vuota. Esce con 0 anche quando un caso lancia
   un'eccezione: l'eccezione fa parte del comportamento ed è scritta al posto del risultato
-  (`errore_cattura`).
+  (`errore_cattura`). `--motore-sle` (refactoring F2.7b, commit A4) sceglie il motore delle
+  verifiche SLE della sezione c.a. e dei muri (`ConcreteServiceabilityAdapter`); senza
+  l'opzione si usa quello predefinito dell'adattatore e il manifest non cambia, con l'opzione
+  il manifest riporta `motore_sle`.
 - `compare` esce con 0 se le due catture sono uguali entro le tolleranze, con 1 se ci sono
   differenze non ammesse, con 2 per argomenti errati.
 - `normalize` rende confrontabili le uscite delle prove WPF e i report: DOCX in testo per

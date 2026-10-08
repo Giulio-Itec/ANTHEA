@@ -14,6 +14,9 @@ public static partial class Ntc2018Checks
     {
         public CrackCalculationDetail[] Details { get; init; } = [];
         public ConcreteEffectiveRegion[] Regions { get; init; } = [];
+        /// <summary>Motore che ha calcolato il risultato: lo scrive soltanto ConcreteServiceabilityAdapter (refactoring F2.7b, commit A4);
+        /// escluso dal JSON, quindi relazioni e catture non cambiano.</summary>
+        [System.Text.Json.Serialization.JsonIgnore] public ServiceabilityEngine? Engine { get; init; }
     }
     public static (string Kind, double? Limit) CrackRequirement(string set, string exposure, bool sensitive)
     {
@@ -78,7 +81,8 @@ public static partial class Ntc2018Checks
         {
             // NTC 4.1.2.2.4.5: these checks use the homogenized UNCRACKED section, not wk / 0.
             var uncracked = (JsonObject)options.DeepClone(); uncracked["modello"] = "Lineare"; uncracked["trazione_cls"] = "Sì";
-            var check = new CheckerSection(engine.Model, input, workspace, uncracked).Stress(force, "SLE_FREQ");
+            // Analisi ausiliaria del motore legacy: limiti tensionali del legacy anche qui (refactoring F2.7b, commit A4; si usano solo le tensioni).
+            var check = new CheckerSection(engine.Model, input, workspace, uncracked, "SLU", ServiceabilityEngine.Legacy).Stress(force, "SLE_FREQ");
             var stresses = check.Native.GetConcreteVerticesTension(check.Native.PsiRebar ?? 0);
             double maximum = stresses.Max(p => p.tension);
             double limit = req.Kind == "Decompressione" ? 0 : ((ConcreteMaterialEuropeanCommon)engine.Section.ConcreteMaterial).Fctm / 1.2;

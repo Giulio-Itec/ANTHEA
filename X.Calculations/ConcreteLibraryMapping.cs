@@ -19,9 +19,10 @@ namespace Anthea.Calculations;
 /// dalle prove di tests/ConcreteLibraryAdapter.Checks.
 /// Nessuno stato statico modificabile: le tabelle dei testi sono <see cref="FrozenDictionary{TKey, TValue}"/> (prova 5l di
 /// tests/ConcreteLibraryAdapter.Checks).
-/// Dal refactoring F2.7b (commit A3) anche la regola dei getti sottili: il fattore viene da <see cref="ThinCasting"/> della libreria.
+/// Dal refactoring F2.7b (commit A3) anche la regola dei getti sottili: il fattore viene da <see cref="ThinCasting"/> della libreria; dal
+/// commit A4 le verifiche SLE (limiti tensionali e fessurazione) nel file ConcreteLibraryMapping.Serviceability.cs.
 /// </summary>
-public static class ConcreteLibraryMapping
+public static partial class ConcreteLibraryMapping
 {
     // ------------------------------------------------------------------ unità
     const double NewtonsPerKilonewton = 1000;

@@ -58,6 +58,9 @@ public sealed record ConcreteDesignOptions
     public double DiameterCost { get; init; } = 1;
     public bool AnchorageConfirmed { get; init; }
     public bool TorsionLayoutConfirmed { get; init; }
+    /// <summary>Motore SLE (tensioni e fessurazione) dei controlli dei candidati; null = predefinito dell'adattatore (refactoring F2.7b,
+    /// commit A4). Non viene dal foglio: lo assegnano le prove e le catture.</summary>
+    [System.Text.Json.Serialization.JsonIgnore] public ServiceabilityEngine? ServiceabilityEngine { get; init; }
     public Dictionary<string, double> Targets { get; init; } = ConcreteReinforcementDesign.Targets.ToDictionary(t => t.Key, _ => 1d);
     public double Target(string key) => Targets.GetValueOrDefault(key, 1);
     public void Validate()
