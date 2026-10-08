@@ -47,7 +47,6 @@ internal sealed partial class WikiView : UserControl
         searchBar.Margin = new Thickness(0, 0, 0, 14);
         var commands = Ui.Bar(Ui.Button("Handbook", Home), Ui.Button("Indice", () => { navExpanded = !navExpanded; tocExpanded = false; Adapt(); }),
             Ui.Button("In questa pagina", () => { tocExpanded = !tocExpanded; navExpanded = false; Adapt(); }),
-            Appearance.Selector(),
             Ui.Button("Apri collegamento", () => { if (Ui.Ask(Window.GetWindow(this), "Apri collegamento Wiki", "/wiki/") is { } uri) Navigate(uri); }));
         if (returnToWork is not null) commands.Children.Insert(0, Ui.Button("← Torna al lavoro", returnToWork));
         Content = Ui.Dock(columns, top: Ui.Stack(commands, searchBar));

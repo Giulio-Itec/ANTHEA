@@ -347,6 +347,15 @@ Messaggi dell'utente nella sessione del coordinatore, riportati con le sue parol
   Le correzioni U1, U2, U3, U5 e U7 cambiano risultati o comportamenti: si fanno in F2.7 dopo l'interruttore, una per
   commit, con cattura prima e confronto dopo (regola delle correzioni in due commit), e si registrano nel registro
   delle differenze.
+- **Dopo la prova della build** (8/10, mattina):
+  - «l'aspetto è molto buono, ad ora mi sembra corretto. nel caso trovassi bug te li segnalerò».
+  - «hai messo chiaro/scuro dentro Aspetto. rimuovila dalla finestra wiki in alto»: il selettore dell'aspetto non è
+    più nella barra della Wiki; resta il menu Aspetto della finestra principale.
+  - «non toccare più i report di calcolo. saranno corretti successivamente. ti dico io quando sarà fatto»: il codice e
+    i testi dei report di calcolo (X.Core Report*, ReportWord, report WPF) non si modificano finché l'utente non lo
+    dice. Le correzioni di calcolo approvate possono cambiare i valori stampati, ma non i testi né l'impaginazione.
+    L'avviso di U2 va quindi per ora nell'interfaccia e nei risultati, non nella relazione.
+  - «anche la wiki mettila in coda ad altre cose»: la traccia Wiki (W) va in coda, dopo le fasi in corso.
 
 ## Dipendenze esterne previste
 

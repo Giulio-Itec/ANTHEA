@@ -141,18 +141,6 @@ internal static class Appearance
             Current = mode; Repaint();
         });
     }
-    internal static ComboBox Selector()
-    {
-        var choice = Ui.Choice(["Chiaro", "Scuro", "Molto scuro"]);
-        choice.SelectedIndex = (int)Current; choice.MinWidth = 130;
-        System.Windows.Automation.AutomationProperties.SetName(choice, "Aspetto di ANTHEA");
-        bool syncing = false;
-        void Refresh() { syncing = true; choice.SelectedIndex = (int)Current; syncing = false; }
-        choice.Loaded += (_, _) => { Refresh(); Changed += Refresh; };
-        choice.Unloaded += (_, _) => Changed -= Refresh;
-        choice.SelectionChanged += (_, _) => { if (!syncing && choice.SelectedIndex >= 0 && choice.SelectedIndex != (int)Current) Set((AppAppearance)choice.SelectedIndex); };
-        return choice;
-    }
     internal static void Watch(Window window)
     {
         SetDark(window, Current != AppAppearance.Light);
