@@ -776,8 +776,19 @@ internal static class DurabilityChecks
             Hand(n.Cover.Durability, 30, "esempio 2, NTC: cmin,dur"); Hand(n.Cover.Minimum, 30, "esempio 2, NTC: cmin"); Hand(n.Cover.Nominal, 40, "esempio 2, NTC: cnom");
             Hand(E("XC4", "XD1").Max(e => e.MinStrength), 30, "esempio 2, EN 206 F.1: classe");
         }
+        // Controlli di riferimento di supporto/test/Shared/DurabilityReferenceChecks.cs (valori a mano, prima Durability.Check e
+        // NtcCover.Check), con ciascun motore: la sonda conferma che tutte le chiamate usano il motore richiesto.
+        int reference = 0;
+        foreach (var engine in Engines)
+        {
+            var (outcome, entries) = Probed(() => { DurabilityReferenceChecks.CheckDurability(engine); DurabilityReferenceChecks.CheckNtcCover(engine); return null; });
+            check(outcome == "ok null", $"11h: DurabilityReferenceChecks con il motore {engine}: {outcome}");
+            check(entries.Count > 20 && entries.All(e => e.Engine == engine), $"11h: DurabilityReferenceChecks con il motore {engine}: voci della sonda {Describe(entries.Where(e => e.Engine != engine))}");
+            reference++;
+        }
         return new JsonObject
         {
+            ["controlli_di_riferimento_per_motore"] = reference,
             ["valori_a_mano_della_pagina_del_metodo"] = count,
             ["righe_non_raggiungibili_da_ANTHEA"] = "esempio 2: profilo DS e classi minime EN e DS (la scheda offre solo NTC + Circolare 2019 e EC2 2004; ANTHEA non chiama ExposureClasses.MinimumStrength, registro R17)"
         };
@@ -786,7 +797,7 @@ internal static class DurabilityChecks
     // ================================================================ 11i. scansione dei sorgenti
     /// <summary>Cartelle scansionate: codice di produzione (da E2) e prove (da E3).</summary>
     static readonly ImmutableArray<string> ProductionFolders = ["X.Calculations", "X.Core", "X.Desktop", "X.Materiali"];
-    static readonly ImmutableArray<string> TestFolders = [];
+    static readonly ImmutableArray<string> TestFolders = ["supporto/test", "tests"];
     static readonly ImmutableHashSet<string> OwnFiles = ["X.Calculations/ConcreteDurabilityAdapter.cs", "X.Calculations/ConcreteLibraryMapping.Durability.cs", "X.Calculations/Materials/DurabilityLegacy.cs"];
 
     static readonly (string Name, Regex Pattern, bool ProductionOnly)[] ScanRules =

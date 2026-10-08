@@ -24,6 +24,13 @@
       "testo": [ "using GPC.Checkers.Concrete.Durability;", "CoverRequirements.Calculate(DurabilityProfile.Ntc2018" ],
       "motivo": "F2.9-D4: la durabilità del palo elastico (PileDurability) chiama la libreria direttamente da prima di F2.9, con riferimento e messaggi inglesi nei risultati e nella relazione; resta così (traduzione: proposta F2.9-U3, dopo lo sblocco dei report).",
       "scadenza": "F2.9-U3"
+    },
+    {
+      "file": "tests/ConcreteLibraryAdapter.Checks/Durability.cs",
+      "regola": "legacy",
+      "tutto_il_file": true,
+      "motivo": "Prove dell'adattatore: la 11b confronta il motore Legacy dell'adattatore con il nucleo legacy chiamato direttamente.",
+      "scadenza": "F2.11"
     }
   ]
 }
