@@ -135,21 +135,27 @@ Chiamanti in produzione: `X.Desktop/Wpf/ConcreteCurvature.cs:39`.
 
 ## Durabilità e copriferri
 
+Dal passo F2.9 (branch `refactoring/f2-9-durabilita`, E1-E5) i corpi legacy sono in `X.Calculations/Materials/DurabilityLegacy.cs`,
+in classi annidate con i nomi di prima; le facciate `Durability`, `NtcCover`, `MinimumConcrete` e `AtecapMix` (stessi nomi e firme, più
+il motore facoltativo finale) delegano a `ConcreteDurabilityAdapter` (`X.Calculations/ConcreteDurabilityAdapter.cs`), con i testi
+della mappatura `X.Calculations/ConcreteLibraryMapping.Durability.cs`. Interruttore unico sulla libreria dal passo E5 (registro F2-13).
+
 | Legacy | Libreria | Adattatore ANTHEA | Copertura | Buchi e note |
 | --- | --- | --- | --- | --- |
-| `Durability.Cover` (`X.Calculations/Materials/Durability.cs:50-61`), `StructuralClass` (:44-49) | `CoverRequirements.Calculate` (`Durability/CoverRequirements.cs:141`) con profilo EN o UNI, `StructuralClass` (:135), `CoverInput` (:82) | `MaterialCover.Required` (`X.Calculations/Materials/MaterialCover.cs:16-32`) | `durability-legacy.csv`: 588 righe EC2; `DurabilityMigrationTests.cs:24-70` | la libreria aggiunge DS (senza classi strutturali) e il profilo UNI |
-| `NtcCover.Calculate` (`X.Calculations/Materials/NtcCover.cs:18-33`), `DefaultCmin` (:13-17), `Severity` (:6-12) | `CoverRequirements.Calculate` con profilo `Ntc2018` (`Durability/CoverRequirements.cs:152-162`), gruppo ambientale `ExposureClass.NtcEnvironment` (`Durability/ExposureClasses.cs:25`) | `MaterialCover.Required`; `ConcreteDetailingAnalysis.Calculate` (`ConcreteDetailingAnalysis.cs:29-40`) | `durability-legacy.csv`: 1932 righe NTC e 505 rifiuti | registro R11 (Cmin predefinito) |
-| `MinimumConcrete.Required` (`X.Calculations/Materials/MinimumConcrete.cs:15-18`) | `ExposureClasses.Uni11104MinimumStrength` (`Durability/ExposureClasses.cs:90`); per profilo `MinimumStrength` (:100) | scheda Materiali; `ConcreteDetailingAnalysis.cs:38` | 23 righe "MIX" di `durability-legacy.csv` | registro D7-e (C30/37 contro C28/35) |
-| `AtecapMix.Required` e `Air` (`X.Calculations/Materials/MixAutomation.cs:15-26`) | `ExposureClasses.Uni11104Mix` (:122), `Uni11104Air` (:129) | scheda Materiali (`X.Materiali/MixAutomation.cs:54`, :61) | 23 righe "MIX" | la composizione della miscela resta in ANTHEA (Checker/docs/migrazione-anthea/MIGRAZIONE_ANTHEA.txt:262) |
-| `Durability.Exposures` (`Durability.cs:11-31`) con le descrizioni in italiano | `ExposureClasses.All` (`Durability/ExposureClasses.cs:56`), `Get` (:78) | scheda Materiali | indiretta | le descrizioni della libreria sono in inglese: i testi dell'interfaccia restano in ANTHEA |
-| `Durability.EffectiveWater` (`Durability.cs:62-66`) | nessuna | scheda Materiali | nessuna | composizione della miscela: fuori da GPCChecker.Concrete; candidato GPC.Design (F4) |
-| `ConcreteCoverAnalysis.Calculate` (`X.Calculations/ConcreteCoverAnalysis.cs:14-28`) | `CoverRequirements.Calculate` tramite `MaterialCover` | è l'adattatore | nessuna fixture (solo i nuclei) | validazione di progetto (F2.9, F4.15) |
+| `DurabilityLegacy.Durability.Cover` (`X.Calculations/Materials/DurabilityLegacy.cs:57-68`), `StructuralClass` (:51-56) | `CoverRequirements.Calculate` (`Durability/CoverRequirements.cs:141`) con profilo `EN1992p11`, `StructuralClass` (:135), `CoverInput` (:82) | `ConcreteDurabilityAdapter.Cover` e `StructuralClass`; punto d'ingresso `MaterialCover.Required` (`X.Calculations/Materials/MaterialCover.cs:16-35`) | `durability-legacy.csv`: 588 righe EC2; `DurabilityMigrationTests.cs:24-70`; prove 11b-11c | la libreria aggiunge DS (senza classi strutturali) e il profilo UNI, non offerti dalla scheda (registro F2-14) |
+| `DurabilityLegacy.NtcCover.Calculate` (`DurabilityLegacy.cs:90-106`), `DefaultCmin` (:85-89), `Severity` (:78-84) | `CoverRequirements.Calculate` con profilo `Ntc2018` (`Durability/CoverRequirements.cs:152-162`), gruppo ambientale `ExposureClass.NtcEnvironment` (`Durability/ExposureClasses.cs:25`) | `ConcreteDurabilityAdapter.NtcCover` e `Severity`; `MaterialCover.Required`; `ConcreteDetailingAnalysis.Calculate` (`ConcreteDetailingAnalysis.cs:29-40`) | `durability-legacy.csv`: 1932 righe NTC e 505 rifiuti; prove 11b-11c | registro R11 (Cmin predefinito: nessun chiamante di produzione lo usa); `DefaultCmin` resta nel legacy (F2.9-D5) |
+| `DurabilityLegacy.MinimumConcrete.Required`, `Fck`, `Label` (`DurabilityLegacy.cs:113-127`) | `ExposureClasses.Uni11104MinimumStrength` (`Durability/ExposureClasses.cs:90`), `Get(...).Uni11104MinStrength`; per profilo `MinimumStrength` (:100), non usato da ANTHEA | `ConcreteDurabilityAdapter.MinimumStrength`, `MinimumFck`, `Label` (etichette dal catalogo dei calcestruzzi, F2.9-D13); scheda Materiali; `ConcreteDetailingAnalysis.cs:38` | 23 righe "MIX" di `durability-legacy.csv`; prova 11d | registro D7-e (C30/37 contro C28/35); e4 esclusa (F2.9-D6) |
+| `DurabilityLegacy.AtecapMix.Limits`, `Required` e `Air` (`DurabilityLegacy.cs:134-155`) | `ExposureClasses.Uni11104Mix` (:122), `Uni11104Air` (:129) | `ConcreteDurabilityAdapter.MixLimits`, `Mix`, `Air`; scheda Materiali (`X.Materiali/MixAutomation.cs:55`, :62) | 23 righe "MIX"; prove 11c-11d | la composizione della miscela resta in ANTHEA (Checker/docs/migrazione-anthea/MIGRAZIONE_ANTHEA.txt:262) |
+| `DurabilityLegacy.Durability.Exposures` (`DurabilityLegacy.cs:17-38`) con le descrizioni in italiano | `ExposureClasses.All` (`Durability/ExposureClasses.cs:56`), `Get` (:78) | `ConcreteDurabilityAdapter.Exposures` (descrizioni italiane dalla mappatura); facciata `Durability.Exposures` (`ImmutableArray`) | prova 11d (record per record) | le descrizioni della libreria sono in inglese: i testi dell'interfaccia restano nella mappatura di ANTHEA |
+| `DurabilityLegacy.Durability.EffectiveWater` (`DurabilityLegacy.cs:69-73`) | nessuna | nessuno (F2.9-D5): la facciata chiama il legacy | `DurabilityReferenceChecks.cs` (unico chiamante) | non è usata dalla scheda Materiali (correzione F2.9: la riga diceva «scheda Materiali»), solo da `supporto/test/Shared/DurabilityReferenceChecks.cs`; composizione della miscela: fuori da GPCChecker.Concrete; candidato GPC.Design (F4) |
+| `ConcreteCoverAnalysis.Calculate` (`X.Calculations/ConcreteCoverAnalysis.cs:15-30`) | `CoverRequirements.Calculate` tramite `MaterialCover` | punto d'ingresso con il motore facoltativo (F2.9-D2), come `ProjectValidation.CoverChecks` e `Warnings` | prove 11e-11f (10 scenari di progetto) | validazione di progetto (F4.15) |
 
-Chiamanti in produzione: `X.Core/ProjectValidation.cs:46-49`; `X.Calculations/CalculationService.cs:39`;
-`X.Calculations/RetainingWall.Materials.cs:71`; `X.Calculations/RetainingWall.Reinforcement.cs:44`;
-`X.Materiali/MaterialDetails.cs:131` e :173; `X.Materiali/MinimumConcrete.cs:14`;
-`X.Materiali/MixAutomation.cs:54-71`; `X.Materiali/ExposureSelector.cs:59` e :87-89. I pali elastici
-usano già `CoverRequirements` (`ElasticHorizontalPile.Reinforcement.cs:155`).
+Chiamanti in produzione, tutti attraverso le facciate o i punti d'ingresso (chiamate invariate in F2.9, salvo il motore facoltativo
+dei punti d'ingresso): `X.Core/ProjectValidation.cs:47-50`;
+`X.Calculations/CalculationService.cs:39`; `X.Calculations/RetainingWall.Materials.cs:73`; `X.Calculations/RetainingWall.Reinforcement.cs:44`;
+`X.Calculations/ConcreteDetailingAnalysis.cs:33-38`; `X.Materiali/MaterialDetails.cs:49`, :108, :131 e :173; `X.Materiali/MinimumConcrete.cs:14`;
+`X.Materiali/MixAutomation.cs:55-72`; `X.Materiali/ExposureSelector.cs:59` e :87-89. I pali elastici usano già `CoverRequirements`
+(`ElasticHorizontalPile.Reinforcement.cs:155`, F2.9-D4, unica voce della libreria nell'elenco ammesso della prova 11i).
 
 ## Sessione, orchestrazione e stato condiviso
 

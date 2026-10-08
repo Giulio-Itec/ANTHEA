@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-07",
+  "aggiornato": "2026-10-08",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/",
@@ -316,6 +316,7 @@
       },
       "data": "2026-10-06",
       "fase": "F2.9 (citazioni della libreria; attuazione di e4 dopo il riscontro del prospetto 6 su copia con licenza)",
+      "seguito_f29": { "data": "2026-10-08", "decisore": "coordinatore su delega dell'utente, da ratificare (F2.9-D6, decisioni.md)", "esito": "e4 esclusa da F2.9: serve una copia con licenza della UNI 11104:2025 per riscontrare il prospetto 6. Restano i valori della UNI 11104:2016, prospetto 5, in libreria e in ANTHEA; nessun atteso, testo o fixture cambia (durability-legacy.csv, supporto/test/Materiali/MaterialViewChecks.cs:78). La scelta fra e4 ed e5 torna all'utente (proposta F2.9-U1). Le citazioni della libreria senza e4 (ExposureClasses.cs, README, MIGRAZIONE_ANTHEA.txt, DurabilityEdgeCaseTests.cs:122) sono il passo CD1 di F2.9a in Checker, non ancora fatto: attuazione.libreria resta da aggiornare con quel commit. Il riferimento restituito a ExposureClasses.cs:107 non cambia (F2.9-D7, proposta U2)." },
       "test": [
         "Checker/GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122-125",
         "Checker/GPCChecker.Test.Concrete/DurabilityMigrationTests.cs (durability-legacy.csv, righe MIX)",
@@ -595,7 +596,7 @@
       "codice": [ "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:155" ],
       "segno": "NON cautelativo (fino a −5 mm sul copriferro)",
       "effetto_quantificato": { "sintesi": "esempio XC3 C28/35 trave: cnom 35 mm con il default contro 40 mm con Cmin della UNI 11104 in libreria", "evidenze": ["supporto/artefatti/refactoring/metodi2/out-durability.txt"] },
-      "effetto_anthea": "Verificato il 7/10: nessuno. Tutti i chiamanti di ANTHEA passano la classe minima pertinente (X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Calculations/Materials/MaterialCover.cs:31, X.Materiali/MaterialDetails.cs:173 con MinimumConcrete.Required; ElasticHorizontalPile.Reinforcement.cs:155 con ExposureClasses.Uni11104MinimumStrength). Il default riguarda solo gli altri utenti della libreria.",
+      "effetto_anthea": "Verificato il 7/10: nessuno. Tutti i chiamanti di ANTHEA passano la classe minima pertinente (X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Calculations/Materials/MaterialCover.cs:31, X.Materiali/MaterialDetails.cs:173 con MinimumConcrete.Required; ElasticHorizontalPile.Reinforcement.cs:155 con ExposureClasses.Uni11104MinimumStrength). Il default riguarda solo gli altri utenti della libreria. Riverificato in F2.9 (8/10): con l'adattatore della durabilità i chiamanti sono gli stessi e passano la classe pertinente (X.Calculations/Materials/MaterialCover.cs:34, X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Materiali/MaterialDetails.cs:173, ElasticHorizontalPile.Reinforcement.cs:155); il default lo usano solo le prove (supporto/test/Shared/DurabilityReferenceChecks.cs) e la cattura densa, con risultati identici fra i motori (registro F2-13).",
       "raccomandazione": "default = classe minima pertinente dell'esposizione dalla tabella di durabilità (oggi 25 + 5 · severità, cioè i Cmin per ambiente della Tab. C4.1.IV, che la Circolare riferisce alla classe di esposizione pertinente)",
       "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
       "data": "2026-10-07",
@@ -691,7 +692,7 @@
       "codice": [ "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:61" ],
       "test": [ "Checker/GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122-123 (XC3: EN e UNI C25/30, dalla stessa lettura)", "Model/ModelChecker.Tests/DurabilityDetailingTest.cs:98 (XC3, profilo EN: «Table E.1N C25/30 = fck», dalla stessa lettura)" ],
       "segno": "NON cautelativo: con XC3 sola o combinata con classi meno severe il controllo della classe minima dei profili EN e UNI accetta C25/30 e C28/35; nessun effetto sui copriferri",
-      "effetto_anthea": "Da verificare in F2.9: i chiamanti di ANTHEA elencati in R11 passano la classe UNI 11104 di MinimumConcrete.Required (D7-e), non quella del prospetto E.1N.",
+      "effetto_anthea": "Nessuno, verificato in F2.9 (8/10): nessun sorgente di produzione né di prova di ANTHEA chiama ExposureClasses.MinimumStrength (classe minima per profilo); la scheda Materiali, i dettagli della sezione c.a. e i muri usano solo la classe UNI 11104 (MinimumConcrete.Required, ConcreteDurabilityAdapter.MinimumStrength, ExposureClasses.Uni11104MinimumStrength) e il palo elastico ExposureClasses.Uni11104MinimumStrength (ElasticHorizontalPile.Reinforcement.cs:155). La scansione 11i di tests/ConcreteLibraryAdapter.Checks (regola classe-minima-per-profilo) lo rende permanente.",
       "raccomandazione": "C30/37 per XC3 nei profili EN e UNI dopo il riscontro dell'impaginazione della EN, con opzione legacy; gli attesi dei due test si correggono dal testo del prospetto",
       "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)", "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare" },
       "data": "2026-10-07",
@@ -918,7 +919,7 @@
       },
       "raccomandazione": "nessuna azione; eliminazione del legacy di durabilità in F2.11 [CP], dopo la revisione della pagina del metodo (proposta F2.9-U6)",
       "decisione": { "data": "2026-10-08", "coordinatore": "deciso dal coordinatore su delega dell'utente (F2.9-D1…D14, progetto F29-progetto.md), da ratificare", "esito": "interruttore unico sulla libreria; legacy raggiungibile con DurabilityEngine.Legacy e '--motore-durabilita legacy' fino a F2.11" },
-      "attuazione": { "data": "2026-10-08", "branch": "refactoring/f2-9-durabilita (worktree Temp\\aw-f29, non unito, non pushato)", "commit": ["ANTHEA c77f80a (E1, nucleo legacy con nome, contratti e facciate)", "ANTHEA f53205b (E2, mappatura, adattatore e sonda, motore Legacy)", "ANTHEA 55e51ac (E3, controlli di riferimento con entrambi i motori)", "ANTHEA adb6121 (E4, corpus di durabilità; baseline B6 catturata con il legacy)", "ANTHEA E5 (interruttore sulla libreria, con questa voce)"] },
+      "attuazione": { "data": "2026-10-08", "branch": "refactoring/f2-9-durabilita (worktree Temp\\aw-f29, non unito, non pushato)", "commit": ["ANTHEA c77f80a (E1, nucleo legacy con nome, contratti e facciate)", "ANTHEA f53205b (E2, mappatura, adattatore e sonda, motore Legacy)", "ANTHEA 55e51ac (E3, controlli di riferimento con entrambi i motori)", "ANTHEA adb6121 (E4, corpus di durabilità; baseline B6 catturata con il legacy)", "ANTHEA 5c06124 (E5, interruttore sulla libreria, con questa voce)"] },
       "data": "2026-10-08",
       "fase": "F2.9",
       "test": [
@@ -948,7 +949,7 @@
       },
       "raccomandazione": "nessuna azione; da rivedere se la scheda aprirà i profili UNI, DS o CNR-DT (cambio di contratto)",
       "decisione": { "data": "2026-10-08", "coordinatore": "deciso dal coordinatore su delega dell'utente (F2.9-D3, progetto F29-progetto.md §6.4), da ratificare", "esito": "casi dichiarati, nessuna azione" },
-      "attuazione": { "data": "2026-10-08", "commit": ["ANTHEA f53205b (E2, adattatore e mappatura)", "ANTHEA E5 (interruttore sulla libreria, con questa voce)"] },
+      "attuazione": { "data": "2026-10-08", "commit": ["ANTHEA f53205b (E2, adattatore e mappatura)", "ANTHEA 5c06124 (E5, interruttore sulla libreria, con questa voce)"] },
       "data": "2026-10-08",
       "fase": "F2.9",
       "test": [

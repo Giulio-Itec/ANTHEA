@@ -357,6 +357,40 @@ Messaggi dell'utente nella sessione del coordinatore, riportati con le sue parol
     L'avviso di U2 va quindi per ora nell'interfaccia e nei risultati, non nella relazione.
   - «anche la wiki mettila in coda ad altre cose»: la traccia Wiki (W) va in coda, dopo le fasi in corso.
 
+## F2.9, durabilità e copriferri (8 ottobre 2026)
+
+Progetto: `supporto/artefatti/refactoring/f27-f28-progetto/F29-progetto.md` del checkout principale. La parte ANTHEA (F2.9b,
+passi E1-E6) è sul branch `refactoring/f2-9-durabilita` (worktree `Temp\aw-f29`), non unita e non pushata.
+
+Le decisioni F2.9-D1…D14 sono **decise dal coordinatore su delega dell'utente («esegui tutto te», 7/10), da ratificare**
+(proposta F2.9-U7). In ogni punto si è scelta l'opzione che lascia invariati comportamento, contratto JSON, testi e report.
+
+| Decisione | Scelta | Dove |
+| --- | --- | --- |
+| F2.9-D1 Facciate | `Durability`, `NtcCover`, `MinimumConcrete` e `AtecapMix` restano con gli stessi nomi e firme, più il motore facoltativo finale `DurabilityEngine? engine = null`, e delegano all'adattatore. I corpi legacy sono in `DurabilityLegacy`, invariati. | E1, E2 |
+| F2.9-D2 Parametro del motore | Solo su adattatore, facciate e punti d'ingresso propri della durabilità: `MaterialCover.Required`, `ConcreteCoverAnalysis.Calculate`, `ProjectValidation.CoverChecks` e `Warnings`. Non su `CalculationService`, muri, dettagli e progetto delle armature (lì prova la sonda). | E2 |
+| F2.9-D3 Rifiuti | Tradotti per messaggio con un dizionario e due espressioni regolari, come per il taglio; nessun codice di rifiuto nuovo in libreria; un testo senza traduzione dà `InvalidOperationException`. | E2, registro F2-13 |
+| F2.9-D4 Palo elastico | `PileDurability` resta com'è: chiama la libreria direttamente, con testi inglesi (proposta U3). Unica voce della libreria nell'elenco ammesso. | 11i |
+| F2.9-D5 Funzioni senza chiamanti | `Durability.EffectiveWater`, `Durability.Strength` e `NtcCover.DefaultCmin` restano solo nel legacy fino a F2.11 (elenco ammesso). | E2, `f2-matrice-api.md` |
+| F2.9-D6 e4 | Esclusa: serve una copia con licenza della UNI 11104:2025. Restano i valori della 2016 (prospetto 5); nessun atteso, testo o fixture cambia. | registro D7-e |
+| F2.9-D7 Citazioni della libreria | Testi «senza e4» nei commenti, nel README e in `MIGRAZIONE_ANTHEA.txt` (CD1 di F2.9a, in Checker); il riferimento restituito a `ExposureClasses.cs:107` non cambia (proposta U2). | F2.9a, non fatta |
+| F2.9-D8 Interruttore | Uno solo: `ConcreteDurabilityAdapter.Default`, sulla libreria dal passo E5. | E5 |
+| F2.9-D9 Baseline | B6 = base (B3) più il corpus di durabilità, catturata col legacy prima dell'interruttore; confronti esatti, nessuna tolleranza nuova. | E4 |
+| F2.9-D10 Regole normative nelle viste | Dichiarate (progetto, §10); spostamento con CD3 ed E7 in F4.13. Nessun file WPF in F2.9b. | F4.13 |
+| F2.9-D11 Release | Parte di libreria (CD0-CD2) in S3 se entra in develop prima del commit delle versioni (C5); altrimenti nella release successiva. ANTHEA usa solo l'API 0.0.17.0. | F2.9a |
+| F2.9-D12 Stato statico | Catalogo delle esposizioni `ImmutableArray`; array dei copriferri dei muri `ImmutableArray`; `ExposureClasses.All` di sola lettura in libreria (CD2). | E1, 11g |
+| F2.9-D13 Etichette delle classi minime | Con la libreria, `MinimumConcrete.Label` prende il nome dal catalogo dei calcestruzzi della scheda, solo per le classi minime del catalogo delle esposizioni (12, 25, 30, 32, 35 MPa); per gli altri valori lo stesso rifiuto di prima. | E2, 11d |
+| F2.9-D14 Sonda | La base non ha la sonda generalizzata di F2.7 (A4): l'adattatore ha una sonda propria con la stessa forma (adattatore, operazione, motore), da unificare in F2.11. | E2 |
+
+Proposte all'utente, non attuate (progetto, §12): **U1** e4 dopo il riscontro del prospetto 6 su una copia con licenza;
+**U2** testo del riferimento restituito a `ExposureClasses.cs:107`; **U3** traduzione dei testi del palo elastico, quando i
+report si potranno toccare; **U4** ripieghi silenziosi della scheda Materiali (F3.1); **U5** testi di origine esterna della
+scheda (ATECAP 2020); **U6** revisione della pagina del metodo `ca.durabilita-copriferri` prima di F2.11; **U7** ratifica di
+F2.9-D1…D14.
+
+Restano al coordinatore: F2.9a in Checker (CD0-CD2), profilo full a schermo per chiudere E5 (insieme a F2.7 e F2.8), copia della
+baseline B6 nel checkout principale (`supporto/artefatti/baseline/F2-B6`), unione su main dopo l'approvazione dell'utente.
+
 ## Dipendenze esterne previste
 
 Da approvare una volta; ogni variazione si aggiunge qui.
