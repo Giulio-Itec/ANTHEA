@@ -378,6 +378,12 @@ Messaggi dell'utente nella sessione del coordinatore, riportati con le sue parol
   - F2.8-U5 «ok»: il M–χ nel report di progetto resta a F3.4, perché i report sono fermi.
   - F2.11: senza la revisione delle pagine dei metodi (U6 e F2.8-U1, in coda), il legacy di quelle famiglie resta
     finché l'utente non decide.
+- **Scostamento della libreria F2.8 da §4 L3** (Checker `anthea-f2-8`, 53fb0011 e 05eb3cd2), solo informativo: la
+  nuova `MomentCurvatureException` la lancia solo il sovraccarico con `MomentCurvatureUnits`. I metodi della 0.0.17.0
+  lanciano ancora `ArgumentException` di tipo esatto, con lo stesso messaggio e il motivo in
+  `Data["GPC.MomentCurvatureRejection"]`, perché il contratto L0 registra il tipo esatto (come K2 di F2.7). ANTHEA usa
+  il sovraccarico con le unità (B3) e passa sempre la tolleranza su N nelle proprie unità: il default 1000 varrebbe
+  1000 kN.
 - **Crediti**: «supera il 15% ma cerca di non arrivare sopra i 90%. vorrei tenere un 8-10% a build chiusa».
 
 ## Dipendenze esterne previste
