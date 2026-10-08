@@ -1,0 +1,1211 @@
+{
+ "strumento": "genera_attesi.py",
+ "descrizione": "Attesi indipendenti delle sezioni in forma chiusa del banco F2.1 (ConcreteBench.Checks): SLE elastica fessurata e SLU con stress-block e parabola-rettangolo.",
+ "convenzioni": "(le stesse dichiarate dal solutore di sezione, non i suoi risultati):\n- mm, MPa, N, N·mm nei calcoli; azioni in kN e kNm nel JSON; compressione negativa;\n- contorni centrati nell'origine (baricentro della sezione lorda), asse y verso l'alto, flessione attorno all'asse x;\n  \"superiore\" = lembo y massimo compresso, \"inferiore\" = lembo y minimo compresso;\n- calcestruzzo spostato dalle barre sottratto: barra compressa con (σs − σc(ε)) As;\n- SLE: analisi lineare, calcestruzzo teso escluso, φ = 0, n = Es / Ecm con Ecm = 22000 ((fck + 8)/10)^0,3\n  (EN 1992-1-1 prospetto 3.1); limiti NTC 2018 §4.1.2.2.5: 0,60 fck (rara), 0,45 fck (quasi permanente), 0,80 fyk;\n- SLU: acciaio elastico-perfettamente plastico ±fyd = fyk/γs; calcestruzzo fcd = αcc fck/γc; stress-block\n  (EN 1992-1-1 3.1.7(3)): σ = η fcd per ε ≤ −(1 − λ) εcu3, λ = 0,8 e η = 1 fino a C50/60; parabola-rettangolo\n  (3.1.7(1)): σ = fcd [1 − (1 − ε/εc2)^2] fino a εc2 = 2 ‰, poi fcd fino a εcu2 = 3,5 ‰; rottura lato calcestruzzo\n  (ε = −εcu al lembo compresso) controllata: deformazione massima delle barre tese ≤ 5 %, sotto εud = 0,9 εuk = 6,75 %\n  di B450C (εuk = 7,5 %, passato anche alle sezioni di ANTHEA).",
+ "sezioni": {
+  "R1": {
+   "forma": "Rettangolare",
+   "barre": [
+    [
+     -100,
+     -200,
+     20
+    ],
+    [
+     0,
+     -200,
+     20
+    ],
+    [
+     100,
+     -200,
+     20
+    ],
+    [
+     -100,
+     205,
+     16
+    ],
+    [
+     100,
+     205,
+     16
+    ]
+   ],
+   "b_mm": 300,
+   "h_mm": 500
+  },
+  "R2": {
+   "forma": "Rettangolare",
+   "barre": [
+    [
+     -150,
+     -250,
+     20
+    ],
+    [
+     -50,
+     -250,
+     20
+    ],
+    [
+     50,
+     -250,
+     20
+    ],
+    [
+     150,
+     -250,
+     20
+    ],
+    [
+     -150,
+     250,
+     20
+    ],
+    [
+     -50,
+     250,
+     20
+    ],
+    [
+     50,
+     250,
+     20
+    ],
+    [
+     150,
+     250,
+     20
+    ]
+   ],
+   "b_mm": 400,
+   "h_mm": 600
+  },
+  "R3": {
+   "forma": "Rettangolare",
+   "barre": [
+    [
+     -100,
+     -200,
+     20
+    ],
+    [
+     0,
+     -200,
+     20
+    ],
+    [
+     100,
+     -200,
+     20
+    ]
+   ],
+   "b_mm": 300,
+   "h_mm": 500
+  },
+  "C1": {
+   "forma": "Circolare",
+   "barre": [
+    [
+     221.73108780270883,
+     91.84402376762155,
+     20
+    ],
+    [
+     91.84402376762156,
+     221.73108780270883,
+     20
+    ],
+    [
+     -91.84402376762154,
+     221.73108780270883,
+     20
+    ],
+    [
+     -221.73108780270883,
+     91.84402376762158,
+     20
+    ],
+    [
+     -221.73108780270886,
+     -91.84402376762152,
+     20
+    ],
+    [
+     -91.84402376762148,
+     -221.73108780270886,
+     20
+    ],
+    [
+     91.84402376762161,
+     -221.7310878027088,
+     20
+    ],
+    [
+     221.73108780270886,
+     -91.8440237676215,
+     20
+    ]
+   ],
+   "D_mm": 600,
+   "lati": 72
+  },
+  "C2": {
+   "forma": "Circolare",
+   "barre": [
+    [
+     318.75552267539257,
+     85.41028488383185,
+     16
+    ],
+    [
+     233.3452377915607,
+     233.3452377915607,
+     16
+    ],
+    [
+     85.41028488383185,
+     318.75552267539257,
+     16
+    ],
+    [
+     -85.41028488383188,
+     318.75552267539257,
+     16
+    ],
+    [
+     -233.34523779156066,
+     233.3452377915607,
+     16
+    ],
+    [
+     -318.7555226753925,
+     85.41028488383193,
+     16
+    ],
+    [
+     -318.75552267539257,
+     -85.41028488383186,
+     16
+    ],
+    [
+     -233.34523779156075,
+     -233.34523779156066,
+     16
+    ],
+    [
+     -85.4102848838318,
+     -318.75552267539257,
+     16
+    ],
+    [
+     85.4102848838317,
+     -318.75552267539257,
+     16
+    ],
+    [
+     233.34523779156063,
+     -233.34523779156075,
+     16
+    ],
+    [
+     318.75552267539257,
+     -85.41028488383182,
+     16
+    ]
+   ],
+   "D_mm": 800,
+   "lati": 144
+  }
+ },
+ "sle": [
+  {
+   "id": "SLE-R1-flessione",
+   "sezione": "R1",
+   "fck": 30,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "N_kN": 0,
+   "Ecm": 32836.56803133079,
+   "n": 6.090770503457345,
+   "limiti": {
+    "sigma_c_rara": -18.0,
+    "sigma_c_qp": -13.5,
+    "sigma_s": 360.0
+   },
+   "azioni": [
+    {
+     "M_kNm": 100,
+     "lembo_meno_deformato": "superiore",
+     "regime": "parzializzata",
+     "x_mm": 110.09015962157264,
+     "yn_mm": 139.90984037842736,
+     "sigma_c_min": -13.670008352658547,
+     "sigma_s": [
+      257.072873458383,
+      257.072873458383,
+      257.072873458383,
+      -49.227507944911096,
+      -49.227507944911096
+     ],
+     "rapporto_rara": 0.7594449084810304,
+     "rapporto_qp": 1.0125932113080405,
+     "forma_chiusa": "x da b x²/2 + (n − 1) As' (x − d') = n As (d − x); σc = M x / Icr, σs = n M (d − x) / Icr"
+    },
+    {
+     "M_kNm": -100,
+     "lembo_meno_deformato": "inferiore",
+     "regime": "parzializzata",
+     "x_mm": 73.88486212772023,
+     "yn_mm": -176.11513787227977,
+     "sigma_c_min": -18.52585051699101,
+     "sigma_s": [
+      -36.47687817931758,
+      -36.47687817931758,
+      -36.47687817931758,
+      582.0377099990357,
+      582.0377099990357
+     ],
+     "rapporto_rara": 1.616771416663988,
+     "rapporto_qp": 1.3722852234808156,
+     "forma_chiusa": "x da b x²/2 + (n − 1) As' (x − d') = n As (d − x); σc = M x / Icr, σs = n M (d − x) / Icr"
+    }
+   ]
+  },
+  {
+   "id": "SLE-R1-presso",
+   "sezione": "R1",
+   "fck": 30,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "N_kN": -300,
+   "Ecm": 32836.56803133079,
+   "n": 6.090770503457345,
+   "limiti": {
+    "sigma_c_rara": -18.0,
+    "sigma_c_qp": -13.5,
+    "sigma_s": 360.0
+   },
+   "azioni": [
+    {
+     "M_kNm": 120,
+     "lembo_meno_deformato": "superiore",
+     "regime": "parzializzata",
+     "x_mm": 171.1703929919554,
+     "yn_mm": 78.8296070080446,
+     "sigma_c_min": -16.822182551298205,
+     "sigma_s": [
+      166.90325875130796,
+      166.90325875130796,
+      166.90325875130796,
+      -75.52372208336895,
+      -75.52372208336895
+     ],
+     "rapporto_rara": 0.9345656972943447,
+     "rapporto_qp": 1.2460875963924596
+    },
+    {
+     "M_kNm": -120,
+     "lembo_meno_deformato": "inferiore",
+     "regime": "parzializzata",
+     "x_mm": 121.86851179292262,
+     "yn_mm": -128.13148820707738,
+     "sigma_c_min": -20.812177496266685,
+     "sigma_s": [
+      -74.75442427326232,
+      -74.75442427326232,
+      -74.75442427326232,
+      346.50853324984973,
+      346.50853324984973
+     ],
+     "rapporto_rara": 1.156232083125927,
+     "rapporto_qp": 1.541642777501236
+    }
+   ]
+  },
+  {
+   "id": "SLE-R1-compressa",
+   "sezione": "R1",
+   "fck": 30,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "N_kN": -1500,
+   "Ecm": 32836.56803133079,
+   "n": 6.090770503457345,
+   "limiti": {
+    "sigma_c_rara": -18.0,
+    "sigma_c_qp": -13.5,
+    "sigma_s": 360.0
+   },
+   "azioni": [
+    {
+     "M_kNm": 20,
+     "lembo_meno_deformato": "superiore",
+     "regime": "interamente compressa",
+     "x_mm": 1546.044668241193,
+     "yn_mm": -1296.044668241193,
+     "sigma_c_min": -11.438723233044868,
+     "sigma_s": [
+      -49.391930875465576,
+      -49.391930875465576,
+      -49.391930875465576,
+      -67.64276734608428,
+      -67.64276734608428
+     ],
+     "rapporto_rara": 0.6354846240580483,
+     "rapporto_qp": 0.8473128320773976
+    },
+    {
+     "M_kNm": -20,
+     "lembo_meno_deformato": "inferiore",
+     "regime": "interamente compressa",
+     "x_mm": 2438.914019055592,
+     "yn_mm": 2188.914019055592,
+     "sigma_c_min": -10.639120864210078,
+     "sigma_s": [
+      -63.471974333690845,
+      -63.471974333690845,
+      -63.471974333690845,
+      -52.71137374275489,
+      -52.71137374275489
+     ],
+     "rapporto_rara": 0.5910622702338932,
+     "rapporto_qp": 0.7880830269785243
+    }
+   ]
+  },
+  {
+   "id": "SLE-R1-tensoflessione",
+   "sezione": "R1",
+   "fck": 30,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "N_kN": 200,
+   "Ecm": 32836.56803133079,
+   "n": 6.090770503457345,
+   "limiti": {
+    "sigma_c_rara": -18.0,
+    "sigma_c_qp": -13.5,
+    "sigma_s": 360.0
+   },
+   "azioni": [
+    {
+     "M_kNm": 10,
+     "lembo_meno_deformato": "inferiore",
+     "regime": "interamente tesa",
+     "x_mm": -1019.5145631068226,
+     "yn_mm": -1269.5145631068226,
+     "sigma_c_min": 0.0,
+     "sigma_s": [
+      133.6115571635651,
+      133.6115571635651,
+      133.6115571635651,
+      184.20711006006087,
+      184.20711006006087
+     ],
+     "rapporto_rara": 0.5116864168335025,
+     "rapporto_qp": 0.0
+    },
+    {
+     "M_kNm": -10,
+     "lembo_meno_deformato": "inferiore",
+     "regime": "interamente tesa",
+     "x_mm": -95.6707759245819,
+     "yn_mm": -345.6707759245819,
+     "sigma_c_min": 0.0,
+     "sigma_s": [
+      81.21486807981377,
+      81.21486807981377,
+      81.21486807981377,
+      307.01185010010425,
+      307.01185010010425
+     ],
+     "rapporto_rara": 0.8528106947225118,
+     "rapporto_qp": 0.0
+    }
+   ]
+  },
+  {
+   "id": "SLE-R2-flessione",
+   "sezione": "R2",
+   "fck": 35,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "N_kN": 0,
+   "Ecm": 34077.14619918933,
+   "n": 5.869036063963533,
+   "limiti": {
+    "sigma_c_rara": -21.0,
+    "sigma_c_qp": -15.75,
+    "sigma_s": 360.0
+   },
+   "azioni": [
+    {
+     "M_kNm": 200,
+     "lembo_meno_deformato": "superiore",
+     "regime": "parzializzata",
+     "x_mm": 117.75664478167346,
+     "yn_mm": 182.24335521832654,
+     "sigma_c_min": -14.504210056910429,
+     "sigma_s": [
+      312.46671507601275,
+      312.46671507601275,
+      312.46671507601275,
+      312.46671507601275,
+      -48.98096399609872,
+      -48.98096399609872,
+      -48.98096399609872,
+      -48.98096399609872
+     ],
+     "rapporto_rara": 0.8679630974333687,
+     "rapporto_qp": 0.9209022258355828,
+     "forma_chiusa": "x da b x²/2 + (n − 1) As' (x − d') = n As (d − x); σc = M x / Icr, σs = n M (d − x) / Icr"
+    },
+    {
+     "M_kNm": -200,
+     "lembo_meno_deformato": "inferiore",
+     "regime": "parzializzata",
+     "x_mm": 117.75664478167346,
+     "yn_mm": -182.24335521832654,
+     "sigma_c_min": -14.504210056910429,
+     "sigma_s": [
+      -48.98096399609872,
+      -48.98096399609872,
+      -48.98096399609872,
+      -48.98096399609872,
+      312.46671507601275,
+      312.46671507601275,
+      312.46671507601275,
+      312.46671507601275
+     ],
+     "rapporto_rara": 0.8679630974333687,
+     "rapporto_qp": 0.9209022258355828,
+     "forma_chiusa": "x da b x²/2 + (n − 1) As' (x − d') = n As (d − x); σc = M x / Icr, σs = n M (d − x) / Icr"
+    }
+   ]
+  },
+  {
+   "id": "SLE-R2-presso",
+   "sezione": "R2",
+   "fck": 35,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "N_kN": -800,
+   "Ecm": 34077.14619918933,
+   "n": 5.869036063963533,
+   "limiti": {
+    "sigma_c_rara": -21.0,
+    "sigma_c_qp": -15.75,
+    "sigma_s": 360.0
+   },
+   "azioni": [
+    {
+     "M_kNm": 150,
+     "lembo_meno_deformato": "superiore",
+     "regime": "parzializzata",
+     "x_mm": 397.07244341969545,
+     "yn_mm": -97.07244341969545,
+     "sigma_c_min": -9.76536887722716,
+     "sigma_s": [
+      22.073511767837307,
+      22.073511767837307,
+      22.073511767837307,
+      22.073511767837307,
+      -50.096319037790494,
+      -50.096319037790494,
+      -50.096319037790494,
+      -50.096319037790494
+     ],
+     "rapporto_rara": 0.4650175655822458,
+     "rapporto_qp": 0.6200234207763277
+    },
+    {
+     "M_kNm": -150,
+     "lembo_meno_deformato": "inferiore",
+     "regime": "parzializzata",
+     "x_mm": 397.07244341969545,
+     "yn_mm": 97.07244341969545,
+     "sigma_c_min": -9.76536887722716,
+     "sigma_s": [
+      -50.096319037790494,
+      -50.096319037790494,
+      -50.096319037790494,
+      -50.096319037790494,
+      22.073511767837307,
+      22.073511767837307,
+      22.073511767837307,
+      22.073511767837307
+     ],
+     "rapporto_rara": 0.4650175655822458,
+     "rapporto_qp": 0.6200234207763277
+    }
+   ]
+  },
+  {
+   "id": "SLE-R3-flessione",
+   "sezione": "R3",
+   "fck": 25,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "N_kN": 0,
+   "Ecm": 31475.806210019346,
+   "n": 6.354086648822237,
+   "limiti": {
+    "sigma_c_rara": -15.0,
+    "sigma_c_qp": -11.25,
+    "sigma_s": 360.0
+   },
+   "azioni": [
+    {
+     "M_kNm": 80,
+     "lembo_meno_deformato": "superiore",
+     "regime": "parzializzata",
+     "x_mm": 115.55275674035784,
+     "yn_mm": 134.44724325964216,
+     "sigma_c_min": -11.216752510789323,
+     "sigma_s": [
+      206.28496708746505,
+      206.28496708746505,
+      206.28496708746505
+     ],
+     "rapporto_rara": 0.7477835007192882,
+     "rapporto_qp": 0.9970446676257176,
+     "forma_chiusa": "x da b x²/2 + (n − 1) As' (x − d') = n As (d − x); σc = M x / Icr, σs = n M (d − x) / Icr"
+    }
+   ]
+  },
+  {
+   "id": "SLE-C1-flessione",
+   "sezione": "C1",
+   "fck": 30,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "N_kN": 0,
+   "Ecm": 32836.56803133079,
+   "n": 6.090770503457345,
+   "limiti": {
+    "sigma_c_rara": -18.0,
+    "sigma_c_qp": -13.5,
+    "sigma_s": 360.0
+   },
+   "azioni": [
+    {
+     "M_kNm": 120,
+     "lembo_meno_deformato": "superiore",
+     "regime": "parzializzata",
+     "x_mm": 134.07867984391305,
+     "yn_mm": 165.92132015608695,
+     "sigma_c_min": -15.183607981998007,
+     "sigma_s": [
+      51.09431916309346,
+      -38.4944135326003,
+      -38.4944135326003,
+      51.094319163093445,
+      177.7919199771615,
+      267.3806526728553,
+      267.3806526728552,
+      177.79191997716146
+     ],
+     "rapporto_rara": 0.843533776777667,
+     "rapporto_qp": 1.1247117023702227
+    },
+    {
+     "M_kNm": -120,
+     "lembo_meno_deformato": "inferiore",
+     "regime": "parzializzata",
+     "x_mm": 134.07867984391305,
+     "yn_mm": -165.92132015608695,
+     "sigma_c_min": -15.183607981998003,
+     "sigma_s": [
+      177.79191997716146,
+      267.3806526728552,
+      267.3806526728552,
+      177.7919199771615,
+      51.094319163093466,
+      -38.494413532600305,
+      -38.49441353260027,
+      51.09431916309349
+     ],
+     "rapporto_rara": 0.8435337767776668,
+     "rapporto_qp": 1.1247117023702224
+    }
+   ]
+  },
+  {
+   "id": "SLE-C1-presso",
+   "sezione": "C1",
+   "fck": 30,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "N_kN": -500,
+   "Ecm": 32836.56803133079,
+   "n": 6.090770503457345,
+   "limiti": {
+    "sigma_c_rara": -18.0,
+    "sigma_c_qp": -13.5,
+    "sigma_s": 360.0
+   },
+   "azioni": [
+    {
+     "M_kNm": 100,
+     "lembo_meno_deformato": "superiore",
+     "regime": "parzializzata",
+     "x_mm": 301.77226310380547,
+     "yn_mm": -1.772263103805443,
+     "sigma_c_min": -8.361750630237552,
+     "sigma_s": [
+      -15.799434370225041,
+      -37.72021559691479,
+      -37.72021559691479,
+      -15.799434370225047,
+      15.201231738373128,
+      37.122012965062886,
+      37.12201296506288,
+      15.201231738373126
+     ],
+     "rapporto_rara": 0.46454170167986397,
+     "rapporto_qp": 0.619388935573152
+    },
+    {
+     "M_kNm": -100,
+     "lembo_meno_deformato": "inferiore",
+     "regime": "parzializzata",
+     "x_mm": 301.77226310380547,
+     "yn_mm": 1.772263103805443,
+     "sigma_c_min": -8.361750630237552,
+     "sigma_s": [
+      15.201231738373131,
+      37.12201296506288,
+      37.12201296506288,
+      15.201231738373137,
+      -15.799434370225034,
+      -37.72021559691479,
+      -37.720215596914784,
+      -15.79943437022503
+     ],
+     "rapporto_rara": 0.46454170167986397,
+     "rapporto_qp": 0.619388935573152
+    }
+   ]
+  },
+  {
+   "id": "SLE-C2-presso",
+   "sezione": "C2",
+   "fck": 40,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "N_kN": -1000,
+   "Ecm": 35220.46228893441,
+   "n": 5.678517174456172,
+   "limiti": {
+    "sigma_c_rara": -24.0,
+    "sigma_c_qp": -18.0,
+    "sigma_s": 360.0
+   },
+   "azioni": [
+    {
+     "M_kNm": 250,
+     "lembo_meno_deformato": "superiore",
+     "regime": "parzializzata",
+     "x_mm": 405.3779497441176,
+     "yn_mm": -5.377949744117586,
+     "sigma_c_min": -9.250987900687326,
+     "sigma_s": [
+      -11.76501556486528,
+      -30.935528469752594,
+      -42.003629255892484,
+      -42.003629255892484,
+      -30.935528469752594,
+      -11.76501556486529,
+      10.37118600741449,
+      29.541698912301797,
+      40.60979969844169,
+      40.60979969844169,
+      29.541698912301808,
+      10.371186007414485
+     ],
+     "rapporto_rara": 0.38545782919530525,
+     "rapporto_qp": 0.513943772260407
+    },
+    {
+     "M_kNm": -250,
+     "lembo_meno_deformato": "inferiore",
+     "regime": "parzializzata",
+     "x_mm": 405.3779497441176,
+     "yn_mm": 5.377949744117586,
+     "sigma_c_min": -9.250987900687331,
+     "sigma_s": [
+      10.371186007414494,
+      29.54169891230182,
+      40.60979969844171,
+      40.60979969844171,
+      29.54169891230182,
+      10.371186007414504,
+      -11.765015564865287,
+      -30.935528469752605,
+      -42.003629255892506,
+      -42.003629255892506,
+      -30.935528469752615,
+      -11.765015564865282
+     ],
+     "rapporto_rara": 0.38545782919530547,
+     "rapporto_qp": 0.5139437722604073
+    }
+   ]
+  }
+ ],
+ "slu": [
+  {
+   "id": "SLU-R1-SB-N0",
+   "sezione": "R1",
+   "fck": 30,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "diagramma": "Stress block",
+   "N_kN": 0,
+   "azioni": [
+    {
+     "segno": "+",
+     "lembo_compresso": "superiore",
+     "x_mm": 68.43856266160071,
+     "MRd_kNm": 154.28354038092942,
+     "eps_s_max": 0.0195133412910452,
+     "forma_chiusa": "stress-block 0,8 b x ηfcd a 0,4 x"
+    },
+    {
+     "segno": "-",
+     "lembo_compresso": "inferiore",
+     "x_mm": 47.407930970642695,
+     "MRd_kNm": -69.73116839933678,
+     "eps_s_max": 0.03009142589424866,
+     "forma_chiusa": "stress-block 0,8 b x ηfcd a 0,4 x"
+    }
+   ]
+  },
+  {
+   "id": "SLU-R1-SB-N500",
+   "sezione": "R1",
+   "fck": 30,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "diagramma": "Stress block",
+   "N_kN": -500,
+   "azioni": [
+    {
+     "segno": "+",
+     "lembo_compresso": "superiore",
+     "x_mm": 176.0487623282596,
+     "MRd_kNm": 233.60394671126926,
+     "eps_s_max": 0.0054463849627256295,
+     "forma_chiusa": "stress-block 0,8 b x ηfcd a 0,4 x"
+    },
+    {
+     "segno": "-",
+     "lembo_compresso": "inferiore",
+     "x_mm": 91.60368753265564,
+     "MRd_kNm": -168.72054574010082,
+     "eps_s_max": 0.01388467132594736,
+     "forma_chiusa": "stress-block 0,8 b x ηfcd a 0,4 x"
+    }
+   ]
+  },
+  {
+   "id": "SLU-R2-SB-N0",
+   "sezione": "R2",
+   "fck": 35,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "diagramma": "Stress block",
+   "N_kN": 0,
+   "azioni": [
+    {
+     "segno": "+",
+     "lembo_compresso": "superiore",
+     "x_mm": 58.11809552809083,
+     "MRd_kNm": 255.73169439728562,
+     "eps_s_max": 0.02962221404553027,
+     "forma_chiusa": "stress-block 0,8 b x ηfcd a 0,4 x"
+    },
+    {
+     "segno": "-",
+     "lembo_compresso": "inferiore",
+     "x_mm": 58.11809552809083,
+     "MRd_kNm": -255.73169439728562,
+     "eps_s_max": 0.02962221404553027,
+     "forma_chiusa": "stress-block 0,8 b x ηfcd a 0,4 x"
+    }
+   ]
+  },
+  {
+   "id": "SLU-R2-SB-N1000",
+   "sezione": "R2",
+   "fck": 35,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "diagramma": "Stress block",
+   "N_kN": -1000,
+   "azioni": [
+    {
+     "segno": "+",
+     "lembo_compresso": "superiore",
+     "x_mm": 161.49001602707307,
+     "MRd_kNm": 480.9039858071475,
+     "eps_s_max": 0.008420241556464286,
+     "forma_chiusa": "stress-block 0,8 b x ηfcd a 0,4 x"
+    },
+    {
+     "segno": "-",
+     "lembo_compresso": "inferiore",
+     "x_mm": 161.49001602707307,
+     "MRd_kNm": -480.9039858071475,
+     "eps_s_max": 0.008420241556464286,
+     "forma_chiusa": "stress-block 0,8 b x ηfcd a 0,4 x"
+    }
+   ]
+  },
+  {
+   "id": "SLU-R2-SB-EN-N0",
+   "sezione": "R2",
+   "fck": 35,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "EN 1992-1-1",
+   "alpha_cc": 1.0,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "diagramma": "Stress block",
+   "N_kN": 0,
+   "azioni": [
+    {
+     "segno": "+",
+     "lembo_compresso": "superiore",
+     "x_mm": 55.04970031555593,
+     "MRd_kNm": 257.36465875301326,
+     "eps_s_max": 0.03146840108057834,
+     "forma_chiusa": "stress-block 0,8 b x ηfcd a 0,4 x"
+    },
+    {
+     "segno": "-",
+     "lembo_compresso": "inferiore",
+     "x_mm": 55.04970031555593,
+     "MRd_kNm": -257.3646587530133,
+     "eps_s_max": 0.03146840108057834,
+     "forma_chiusa": "stress-block 0,8 b x ηfcd a 0,4 x"
+    }
+   ]
+  },
+  {
+   "id": "SLU-R3-SB-N0",
+   "sezione": "R3",
+   "fck": 25,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "diagramma": "Stress block",
+   "N_kN": 0,
+   "azioni": [
+    {
+     "segno": "+",
+     "lembo_compresso": "superiore",
+     "x_mm": 108.46931156895698,
+     "MRd_kNm": 149.9568421894531,
+     "eps_s_max": 0.011020235974750594,
+     "forma_chiusa": "stress-block 0,8 b x ηfcd a 0,4 x"
+    }
+   ]
+  },
+  {
+   "id": "SLU-C1-SB-N0",
+   "sezione": "C1",
+   "fck": 30,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "diagramma": "Stress block",
+   "N_kN": 0,
+   "azioni": [
+    {
+     "segno": "+",
+     "lembo_compresso": "superiore",
+     "x_mm": 132.1608053256267,
+     "MRd_kNm": 226.86152945392652,
+     "eps_s_max": 0.010316946732507526,
+     "cerchio_vero": {
+      "nota": "area compressa a parità di x: poligono di 72 lati / cerchio vero − 1",
+      "scarto": -0.00296422921897066
+     }
+    },
+    {
+     "segno": "-",
+     "lembo_compresso": "inferiore",
+     "x_mm": 132.1608053256267,
+     "MRd_kNm": -226.86152945392664,
+     "eps_s_max": 0.010316946732507524,
+     "cerchio_vero": {
+      "nota": "area compressa a parità di x: poligono di 72 lati / cerchio vero − 1",
+      "scarto": -0.0029642292189702157
+     }
+    }
+   ]
+  },
+  {
+   "id": "SLU-C1-SB-N800",
+   "sezione": "C1",
+   "fck": 30,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "diagramma": "Stress block",
+   "N_kN": -800,
+   "azioni": [
+    {
+     "segno": "+",
+     "lembo_compresso": "superiore",
+     "x_mm": 205.02576463137189,
+     "MRd_kNm": 344.82992266561433,
+     "eps_s_max": 0.00540648456106315,
+     "cerchio_vero": {
+      "nota": "area compressa a parità di x: poligono di 72 lati / cerchio vero − 1",
+      "scarto": -0.002012576417375622
+     }
+    },
+    {
+     "segno": "-",
+     "lembo_compresso": "inferiore",
+     "x_mm": 205.02576463137189,
+     "MRd_kNm": -344.82992266561445,
+     "eps_s_max": 0.0054064845610631495,
+     "cerchio_vero": {
+      "nota": "area compressa a parità di x: poligono di 72 lati / cerchio vero − 1",
+      "scarto": -0.002012576417375511
+     }
+    }
+   ]
+  },
+  {
+   "id": "SLU-C2-SB-N1500",
+   "sezione": "C2",
+   "fck": 40,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "diagramma": "Stress block",
+   "N_kN": -1500,
+   "azioni": [
+    {
+     "segno": "+",
+     "lembo_compresso": "superiore",
+     "x_mm": 221.91282775560754,
+     "MRd_kNm": 706.4860203686168,
+     "eps_s_max": 0.007836182566851662,
+     "cerchio_vero": {
+      "nota": "area compressa a parità di x: poligono di 144 lati / cerchio vero − 1",
+      "scarto": -0.0005996585674559185
+     }
+    },
+    {
+     "segno": "-",
+     "lembo_compresso": "inferiore",
+     "x_mm": 221.91282775560754,
+     "MRd_kNm": -706.4860203686166,
+     "eps_s_max": 0.007836182566851662,
+     "cerchio_vero": {
+      "nota": "area compressa a parità di x: poligono di 144 lati / cerchio vero − 1",
+      "scarto": -0.0005996585674562516
+     }
+    }
+   ]
+  },
+  {
+   "id": "SLU-R2-PR-N0",
+   "sezione": "R2",
+   "fck": 35,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "diagramma": "Parabola-rettangolo",
+   "N_kN": 0,
+   "azioni": [
+    {
+     "segno": "+",
+     "lembo_compresso": "superiore",
+     "x_mm": 58.46066760406463,
+     "MRd_kNm": 255.50613588020252,
+     "eps_s_max": 0.029428122084362913,
+     "forma_chiusa": "parabola-rettangolo 17/21 b x fcd a 99/238 x"
+    },
+    {
+     "segno": "-",
+     "lembo_compresso": "inferiore",
+     "x_mm": 58.46066760406463,
+     "MRd_kNm": -255.50613588020252,
+     "eps_s_max": 0.029428122084362913,
+     "forma_chiusa": "parabola-rettangolo 17/21 b x fcd a 99/238 x"
+    }
+   ]
+  },
+  {
+   "id": "SLU-R2-PR-N1000",
+   "sezione": "R2",
+   "fck": 35,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "diagramma": "Parabola-rettangolo",
+   "N_kN": -1000,
+   "azioni": [
+    {
+     "segno": "+",
+     "lembo_compresso": "superiore",
+     "x_mm": 159.5901334855771,
+     "MRd_kNm": 479.07129508968126,
+     "eps_s_max": 0.008562149194041318,
+     "forma_chiusa": "parabola-rettangolo 17/21 b x fcd a 99/238 x"
+    },
+    {
+     "segno": "-",
+     "lembo_compresso": "inferiore",
+     "x_mm": 159.5901334855771,
+     "MRd_kNm": -479.07129508968126,
+     "eps_s_max": 0.008562149194041318,
+     "forma_chiusa": "parabola-rettangolo 17/21 b x fcd a 99/238 x"
+    }
+   ]
+  },
+  {
+   "id": "SLU-R1-PR-N500",
+   "sezione": "R1",
+   "fck": 30,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "diagramma": "Parabola-rettangolo",
+   "N_kN": -500,
+   "azioni": [
+    {
+     "segno": "+",
+     "lembo_compresso": "superiore",
+     "x_mm": 173.97760041851456,
+     "MRd_kNm": 232.20378482662798,
+     "eps_s_max": 0.005552889545615262,
+     "forma_chiusa": "parabola-rettangolo 17/21 b x fcd a 99/238 x"
+    },
+    {
+     "segno": "-",
+     "lembo_compresso": "inferiore",
+     "x_mm": 90.96455703102143,
+     "MRd_kNm": -168.2952992873182,
+     "eps_s_max": 0.01400681861130719,
+     "forma_chiusa": "parabola-rettangolo 17/21 b x fcd a 99/238 x"
+    }
+   ]
+  },
+  {
+   "id": "SLU-C1-PR-N800",
+   "sezione": "C1",
+   "fck": 30,
+   "fyk": 450.0,
+   "Es": 200000.0,
+   "normativa": "NTC 2018",
+   "alpha_cc": 0.85,
+   "gamma_c": 1.5,
+   "gamma_s": 1.15,
+   "diagramma": "Parabola-rettangolo",
+   "N_kN": -800,
+   "azioni": [
+    {
+     "segno": "+",
+     "lembo_compresso": "superiore",
+     "x_mm": 202.45738308153125,
+     "MRd_kNm": 341.7987395136041,
+     "eps_s_max": 0.005519472540421568
+    },
+    {
+     "segno": "-",
+     "lembo_compresso": "inferiore",
+     "x_mm": 202.45738308153125,
+     "MRd_kNm": -341.79873951360435,
+     "eps_s_max": 0.005519472540421566
+    }
+   ]
+  }
+ ]
+}

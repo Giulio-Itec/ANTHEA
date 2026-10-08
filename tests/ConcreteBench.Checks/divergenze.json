@@ -1,0 +1,23 @@
+{
+  "descrizione": "Divergenze registrate del banco F2.1 (ConcreteBench.Checks): riportate a ogni corsa e non fanno fallire la suite. Chiave = identificativo del controllo (testo prima di ': ' nel messaggio). Numeri e analisi in esito.md. Nessun codice di calcolo modificato.",
+  "divergenze": [
+    {
+      "chiave": "SLU-C2-SB-N1500 + libreria · SLU |NRd − N| / tolleranza del legacy",
+      "id": "S-1",
+      "motori": "GPCChecker.Concrete (SectionSolver.CalculateDomainPoint) contro la tolleranza su N del legacy (SectionMomentResistance)",
+      "sintesi": "Cerchio D 800 (144 lati, 12Ø16), stress-block NTC, N = −1500 kN, direzione Mx+: punto resistente con NRd = −1502,05 kN, 2,05 volte la tolleranza del legacy (1 kN)."
+    },
+    {
+      "chiave": "SLU-C2-SB-N1500 + legacy · SLU resistenza assente",
+      "id": "S-1",
+      "motori": "legacy SectionMomentResistance.Calculate contro GPCChecker.Concrete",
+      "sintesi": "Stesso punto: il legacy scarta il punto della libreria («Soluzione non coerente con N e direzione assegnati.») e non dà la resistenza; la libreria dà MxRd = 707,02 kNm (atteso Python 706,49 kNm, +0,075 %)."
+    },
+    { "chiave": "B12-η-esatto NTC 2018 senza staffe", "id": "T-1", "motori": "ConcreteCodeChecks.Shear contro SectionShearCalculator (adattatore)", "sintesi": "VEd = VRd del legacy: legacy η = 1 «Resistenza sufficiente», libreria VRd più piccola di 1 ulp, η = 1,0000000000000002 «Resistenza insufficiente»." },
+    { "chiave": "B12-η-esatto EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." },
+    { "chiave": "B12-η-esatto UNI EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." },
+    { "chiave": "B12-η-esatto DIN EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." },
+    { "chiave": "B12-η-esatto DS EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." },
+    { "chiave": "B12-η-esatto NS EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." }
+  ]
+}
