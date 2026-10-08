@@ -14,7 +14,7 @@ namespace Anthea.Calculations;
 /// testo del motore legacy; un testo senza traduzione è un errore di programma (<see cref="InvalidOperationException"/>), coperto
 /// dalle prove di tests/ConcreteLibraryAdapter.Checks.
 /// </summary>
-public static class ConcreteLibraryMapping
+public static partial class ConcreteLibraryMapping
 {
     // ------------------------------------------------------------------ unità
     const double NewtonsPerKilonewton = 1000;

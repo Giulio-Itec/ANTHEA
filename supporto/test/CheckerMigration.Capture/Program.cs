@@ -7,10 +7,13 @@ using Anthea.Calculations;
 using Anthea.Calculations.Geotechnics;
 
 // Freezes the legacy outputs of the calculation cores before they are moved to Checker (migration step M2).
-// Usage: dotnet CheckerMigration.Capture.dll <output directory> <ANTHEA commit> [tutte|muri|pali|mesh] [--manifest] [--motore legacy|libreria] (see README.md)
+// Usage: dotnet CheckerMigration.Capture.dll <output directory> <ANTHEA commit> [tutte|muri|pali|mesh] [--manifest] [--motore legacy|libreria]
+//        [--motore-durabilita legacy|libreria] (see README.md)
 // Output: shear-legacy.csv (ConcreteCodeChecks.Shear). Units as in the legacy API: kN, kNm, mm, MPa.
 // Shear and torsion go through ConcreteShearTorsionAdapter (refactoring F2.5-F2.6): '--motore legacy' captures the legacy cores,
 // '--motore libreria' GPCChecker.Concrete through the mapping layer; without the option the default engine of the adapter.
+// Durability goes through the facades and ConcreteDurabilityAdapter (refactoring F2.9): '--motore-durabilita legacy|libreria', without
+// the option the default engine of that adapter.
 string output = Path.GetFullPath(args.Length > 0 ? args[0] : Path.Combine("supporto", "artefatti", "migrazione-checker"));
 string commit = args.Length > 1 ? args[1] : "unknown";
 Directory.CreateDirectory(output);
@@ -25,6 +28,11 @@ var shearTorsionEngine = args.SkipWhile(a => a != "--motore").Skip(1).FirstOrDef
 {
     null => ConcreteShearTorsionAdapter.Default, "legacy" => ShearTorsionEngine.Legacy, "libreria" => ShearTorsionEngine.Library,
     var other => throw new ArgumentException("--motore: legacy o libreria, non " + other)
+};
+var durabilityEngine = args.SkipWhile(a => a != "--motore-durabilita").Skip(1).FirstOrDefault() switch
+{
+    null => ConcreteDurabilityAdapter.Default, "legacy" => DurabilityEngine.Legacy, "libreria" => DurabilityEngine.Library,
+    var other => throw new ArgumentException("--motore-durabilita: legacy o libreria, non " + other)
 };
 // Optional third argument "muri": only the retaining walls.
 if (args.Length > 2 && args[2] == "muri") { WallCapture.Run(output, commit, sha); Finish(); return; }
@@ -98,7 +106,7 @@ StressCapture.Run(output, commit, sha);
 TorsionCapture.Run(output, commit, sha, shearTorsionEngine);
 CrackCapture.Run(output, commit, sha);
 DetailingCapture.Run(output, commit, sha);
-DurabilityCapture.Run(output, commit, sha);
+DurabilityCapture.Run(output, commit, sha, durabilityEngine);
 #if LEGACY_GEOTECHNICS
 GeotechnicsCapture.Run(output, commit, sha);
 #endif
@@ -542,17 +550,17 @@ internal static class DetailingCapture
 }
 
 // Durability (Materiali: Durability.Cover EC2 4.4N with structural classes, NtcCover.Calculate, MinimumConcrete, AtecapMix) on a grid of exposures,
-// strengths and options, single and combined exposures.
+// strengths and options, single and combined exposures. Through the facades with the engine of ConcreteDurabilityAdapter (refactoring F2.9).
 internal static class DurabilityCapture
 {
     static string F(double? v) => v is double d ? d.ToString("R", CultureInfo.InvariantCulture) : "";
     static string Clean(string s) => s.Replace(";", ",").Replace("\n", " ").Replace("|", "/");
-    internal static void Run(string output, string commit, string sha)
+    internal static void Run(string output, string commit, string sha, DurabilityEngine engine)
     {
         var csv = new StringBuilder();
-        csv.AppendLine("# Materiali.Durability / NtcCover / MinimumConcrete / AtecapMix legacy outputs; ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
+        csv.AppendLine("# Materiali.Durability / NtcCover / MinimumConcrete / AtecapMix legacy outputs (engine " + engine + " of ConcreteDurabilityAdapter); ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
         csv.AppendLine("# Lengths mm, strengths MPa. method;exposures;fck;life;strengthReduction;slab;quality;diameter;aggregate;deviation;rough;abrasion;ground;plate;ntcQuality;outcome;bond;durability;minimum;nominal;lines|...");
-        var exposures = Materiali.Durability.Exposures;
+        var exposures = ConcreteDurabilityAdapter.Exposures(engine);
         var sets = exposures.Select(e => new[] { e }).Concat(new[] { new[] { "XC4", "XF2" }, new[] { "XC4", "XS3", "XF4" }, new[] { "XD1", "XA2" }, new[] { "XF1", "XF3" }, new[] { "X0", "XC1" }, new[] { "XF4" } }
             .Select(c => c.Select(code => exposures.Single(e => e.Code == code)).ToArray())).ToArray();
         int n = 0;
@@ -567,7 +575,7 @@ internal static class DurabilityCapture
                     string head = string.Join(";", codes, F(fck), p.Life, p.StrengthReduction, p.Slab, p.Quality, F(p.Diameter), F(p.Aggregate), F(p.Deviation), p.Rough, p.Abrasion, p.Ground);
                     try
                     {
-                        var r = Materiali.Durability.Cover(set, fck, p);
+                        var r = Materiali.Durability.Cover(set, fck, p, engine);
                         csv.AppendLine(string.Join(";", "EC2", head, "", "", "ok", F(r.Bond), F(r.Durability), F(r.Minimum), F(r.Nominal), string.Join("|", r.Lines.Select(l => l.Exposure + ":" + l.StructuralClass + ":" + F(l.Durability)))));
                     }
                     catch (Exception ex) { csv.AppendLine(string.Join(";", "EC2", head, "", "", "error:" + ex.GetType().Name, "", "", "", "", Clean(ex.Message))); }
@@ -576,8 +584,8 @@ internal static class DurabilityCapture
                         bool quality = v % 2 == 1; int? pertinent = null;
                         try
                         {
-                            if (v % 5 == 3) pertinent = Materiali.MinimumConcrete.Required(set);
-                            var r = Materiali.NtcCover.Calculate(set, fck, p, plate, quality, pertinent);
+                            if (v % 5 == 3) pertinent = Materiali.MinimumConcrete.Required(set, engine);
+                            var r = Materiali.NtcCover.Calculate(set, fck, p, plate, quality, pertinent, engine);
                             csv.AppendLine(string.Join(";", "NTC", head, plate, quality + (pertinent is int c ? ":" + c : ""), "ok", F(r.Cover.Bond), F(r.Cover.Durability), F(r.Cover.Minimum), F(r.Cover.Nominal),
                                 string.Join("|", r.Environment, r.Severity, F(r.Cmin), F(r.C0), F(r.TableCover), F(r.LifeExtra), F(r.LowStrengthExtra), F(r.QualityReduction))));
                         }
@@ -588,9 +596,9 @@ internal static class DurabilityCapture
         {
             try
             {
-                var mix = Materiali.AtecapMix.Required(set);
-                csv.AppendLine(string.Join(";", "MIX", string.Join("+", set.Select(e => e.Code)), F(Materiali.MinimumConcrete.Required(set)), F(mix.Ratio), mix.Cement?.ToString() ?? "",
-                    F(Materiali.AtecapMix.Air(set, 16)), F(Materiali.AtecapMix.Air(set, 32)), F(Materiali.AtecapMix.Air(set, 8))));
+                var mix = Materiali.AtecapMix.Required(set, engine);
+                csv.AppendLine(string.Join(";", "MIX", string.Join("+", set.Select(e => e.Code)), F(Materiali.MinimumConcrete.Required(set, engine)), F(mix.Ratio), mix.Cement?.ToString() ?? "",
+                    F(Materiali.AtecapMix.Air(set, 16, engine)), F(Materiali.AtecapMix.Air(set, 32, engine)), F(Materiali.AtecapMix.Air(set, 8, engine))));
             }
             catch (Exception ex) { csv.AppendLine(string.Join(";", "MIX", string.Join("+", set.Select(e => e.Code)), "error:" + ex.GetType().Name, "", "", "", "", Clean(ex.Message))); }
         }

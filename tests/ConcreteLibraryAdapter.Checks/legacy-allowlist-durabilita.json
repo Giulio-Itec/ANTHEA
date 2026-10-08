@@ -1,0 +1,29 @@
+{
+  "descrizione": "Elenco ammesso della prova 11i (refactoring F2.9, tests/ConcreteLibraryAdapter.Checks/Durability.cs): usi consentiti, fuori dall'adattatore della durabilità (X.Calculations/ConcreteDurabilityAdapter.cs), dalla sua mappatura (X.Calculations/ConcreteLibraryMapping.Durability.cs) e dal nucleo legacy (X.Calculations/Materials/DurabilityLegacy.cs), di ciò che la scansione vieta. Regole: 'legacy' = DurabilityLegacy; 'motore-legacy' = il letterale DurabilityEngine.Legacy nel codice di produzione (X.Calculations, X.Core, X.Desktop, X.Materiali); 'libreria-durabilita' = uso diretto di GPC.Checkers.Concrete.Durability (namespace o tipi propri: CoverRequirements, ExposureClasses, ExposureClass, DurabilityProfile, DurabilityProfiles, StrengthRequirement); 'classe-minima-per-profilo' = ExposureClasses.MinimumStrength (registro R17: ANTHEA usa solo la classe UNI 11104). Per ogni voce: file, regola, numero esatto di righe che la violano (oppure tutto il file), testo che ogni riga deve contenere, motivo e scadenza. Un uso nuovo, una riga in più o in meno o una voce senza riscontro fanno fallire la prova. Commenti e stringhe non contano. Da unire con legacy-allowlist.json di F2.7 (A5) in F2.10 o F2.11.",
+  "voci": [
+    {
+      "file": "X.Calculations/Materials/Durability.cs",
+      "regola": "legacy",
+      "righe": 2,
+      "testo": [ "DurabilityLegacy.Durability.Strength(", "DurabilityLegacy.Durability.EffectiveWater(" ],
+      "motivo": "F2.9-D5: Strength ed EffectiveWater non hanno chiamanti di produzione (EffectiveWater è usata solo dai controlli di riferimento); restano nel nucleo legacy, senza funzioni nuove in libreria.",
+      "scadenza": "F2.11"
+    },
+    {
+      "file": "X.Calculations/Materials/NtcCover.cs",
+      "regola": "legacy",
+      "righe": 1,
+      "testo": [ "DurabilityLegacy.NtcCover.DefaultCmin(" ],
+      "motivo": "F2.9-D5: DefaultCmin non ha chiamanti di produzione; resta nel nucleo legacy.",
+      "scadenza": "F2.11"
+    },
+    {
+      "file": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
+      "regola": "libreria-durabilita",
+      "righe": 2,
+      "testo": [ "using GPC.Checkers.Concrete.Durability;", "CoverRequirements.Calculate(DurabilityProfile.Ntc2018" ],
+      "motivo": "F2.9-D4: la durabilità del palo elastico (PileDurability) chiama la libreria direttamente da prima di F2.9, con riferimento e messaggi inglesi nei risultati e nella relazione; resta così (traduzione: proposta F2.9-U3, dopo lo sblocco dei report).",
+      "scadenza": "F2.9-U3"
+    }
+  ]
+}
