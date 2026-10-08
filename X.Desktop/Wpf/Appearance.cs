@@ -53,6 +53,8 @@ internal static class Appearance
     internal static Brush Calculated => Colour((Color)ColorConverter.ConvertFromString("#EAF2FA"), "calculated");
     /// <summary>Colour of a series in a legend or of an axis on a dark view: the hue identifies the curve, so it is kept and lightened.</summary>
     internal static Brush Series(Brush brush) => brush is SolidColorBrush solid ? Colour(origins.TryGetValue(solid, out var source) ? source.Color : solid.Color, "series") : brush;
+    /// <summary>Identification colour (soil layer) shown also in the drawings: the same in every appearance.</summary>
+    internal static Brush Swatch(string hex) => Colour((Color)ColorConverter.ConvertFromString(hex), "swatch");
     private static bool Generic(string role) => role is "background" or "foreground" or "border";
 
     internal static AppAppearance ReadPreference(string path)
@@ -196,6 +198,7 @@ internal static class Appearance
         Color Lighter() => Color.FromArgb(c.A, (byte)(c.R * .45 + 140), (byte)(c.G * .45 + 140), (byte)(c.B * .45 + 140));
         switch (role)
         {
+            case "swatch": return c;
             // Lighter than the surfaces, with light text on it (white, #BCCFE2): at least 4.5:1 in both appearances.
             case "selected": return Hex(veryDark ? "#2F4C6E" : "#24507E");
             // Lighter than the rows, the alternate rows and the headers; status text on it stays above 4.5:1.
