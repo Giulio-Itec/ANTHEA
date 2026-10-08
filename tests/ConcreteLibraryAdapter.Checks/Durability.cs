@@ -33,7 +33,7 @@ using ProbeEntry = Anthea.Calculations.ConcreteDurabilityAdapter.ProbeEntry;
 internal static class DurabilityChecks
 {
     /// <summary>Motore predefinito atteso: Legacy fino all'interruttore (passi E2-E4), Library dal passo E5.</summary>
-    public const DurabilityEngine ExpectedDefault = DurabilityEngine.Legacy;
+    public const DurabilityEngine ExpectedDefault = DurabilityEngine.Library;
     const string Adapter = nameof(ConcreteDurabilityAdapter);
     static readonly CultureInfo Invariant = CultureInfo.InvariantCulture;
     static readonly CultureInfo Italian = CultureInfo.GetCultureInfo("it-IT");
@@ -422,20 +422,21 @@ internal static class DurabilityChecks
             check(entries.All(e => e.Adapter == Adapter && e.Engine == ExpectedDefault), $"11e: {id}: voci con un motore diverso dal predefinito {ExpectedDefault}: {Describe(entries.Where(e => e.Engine != ExpectedDefault))}");
             paths++; entriesTotal += entries.Count;
         }
-        // Facciate chiamate senza motore.
+        // Facciate chiamate senza motore (le esposizioni si preparano fuori dalla sonda).
         var p = Basic;
+        Exposure[] xc1 = Set("XC1"), xc3 = Set("XC3"), xc4 = Set("XC4"), xf4 = Set("XF4"), xc4xd1 = Set("XC4", "XD1"), xc4xf2 = Set("XC4", "XF2");
         OnPath("facciata Durability.Exposures", () => Durability.Exposures.Length);
-        OnPath("facciata Durability.ValidateExposure", () => { Durability.ValidateExposure(Set("XC1")); return null; });
-        OnPath("facciata Durability.StructuralClass", () => Durability.StructuralClass(Set("XC4")[0], 40, p with { StrengthReduction = true }));
-        OnPath("facciata Durability.Cover", () => Durability.Cover(Set("XC4", "XD1"), 40, p));
+        OnPath("facciata Durability.ValidateExposure", () => { Durability.ValidateExposure(xc1); return null; });
+        OnPath("facciata Durability.StructuralClass", () => Durability.StructuralClass(xc4[0], 40, p with { StrengthReduction = true }));
+        OnPath("facciata Durability.Cover", () => Durability.Cover(xc4xd1, 40, p));
         OnPath("facciata NtcCover.Severity", () => NtcCover.Severity("XD3"));
-        OnPath("facciata NtcCover.Calculate", () => NtcCover.Calculate(Set("XC3"), 28, p, false, false, 30));
+        OnPath("facciata NtcCover.Calculate", () => NtcCover.Calculate(xc3, 28, p, false, false, 30));
         OnPath("facciata MinimumConcrete.Fck", () => MinimumConcrete.Fck("XF1"));
-        OnPath("facciata MinimumConcrete.Required", () => MinimumConcrete.Required(Set("XC4", "XD1")));
+        OnPath("facciata MinimumConcrete.Required", () => MinimumConcrete.Required(xc4xd1));
         OnPath("facciata MinimumConcrete.Label", () => MinimumConcrete.Label(32));
         OnPath("facciata AtecapMix.Limits", () => AtecapMix.Limits("XS3"));
-        OnPath("facciata AtecapMix.Required", () => AtecapMix.Required(Set("XC4", "XF2")));
-        OnPath("facciata AtecapMix.Air", () => AtecapMix.Air(Set("XF4"), 25));
+        OnPath("facciata AtecapMix.Required", () => AtecapMix.Required(xc4xf2));
+        OnPath("facciata AtecapMix.Air", () => AtecapMix.Air(xf4, 25));
         // Scheda Materiali headless (CalculationService, mat_calcestruzzo) e minimo della scheda.
         foreach (var (name, state) in MaterialStates(root))
         {

@@ -888,6 +888,72 @@
       "test": [
         "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 3b, 3c, 3d)"
       ]
+    },
+    {
+      "id": "F2-13",
+      "titolo": "Durabilità e copriferri con GPCChecker.Concrete: uscite identiche, testi e rifiuti attraverso la mappatura",
+      "famiglia": "calcestruzzo/durabilita",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Dal passo F2.9 E5 la durabilità di ANTHEA (catalogo delle esposizioni, copriferro EC2 e NTC della scheda Materiali, dei muri a mensola, dei dettagli della sezione c.a. e della validazione di progetto, classe minima, limiti di composizione e aria UNI 11104) è calcolata da GPC.Checkers.Concrete.Durability 0.0.17.0 attraverso ConcreteDurabilityAdapter, con un solo interruttore (F2.9-D8). La libreria è il trasferimento dei nuclei di ANTHEA (commit fe4652c): stessi dati per le 18 classi, stesse espressioni aritmetiche nello stesso ordine, stesso ordine dei controlli; le uscite numeriche sono identiche bit per bit, quindi nessuna tolleranza. Cambiano solo i testi, che la mappatura (ConcreteLibraryMapping.Durability.cs) riporta a quelli del legacy: descrizioni italiane delle esposizioni, nomi dei gruppi ambientali NTC, etichette delle classi minime dal catalogo dei calcestruzzi della scheda (F2.9-D13) e rifiuti tradotti per messaggio (dizionario ed espressioni regolari; F2.9-D3; un testo senza traduzione è un errore di programma). Il codice di un'esposizione fuori catalogo ha il testo del legacy dell'operazione chiamata («Esposizione non riconosciuta.», oppure «Classe di esposizione non riconosciuta.» per la classe minima). Restano fuori dall'adattatore: la durabilità del palo elastico, che chiamava già la libreria (F2.9-D4, testi inglesi, proposta U3), e Strength, EffectiveWater e DefaultCmin senza chiamanti di produzione (F2.9-D5). Poiché le uscite coincidono, la prova che distingue i motori è la sonda dell'adattatore (adattatore, operazione, motore di ogni chiamata, F2.9-D14) con la scansione dei sorgenti, come per l'aderenza in F2.8.",
+      "codice": [
+        "X.Calculations/ConcreteDurabilityAdapter.cs:30 (interruttore), :56-158 (operazioni), :33-50 (sonda)",
+        "X.Calculations/ConcreteLibraryMapping.Durability.cs:20-102",
+        "X.Calculations/Materials/Durability.cs, NtcCover.cs, MinimumConcrete.cs, MixAutomation.cs (facciate)",
+        "X.Calculations/Materials/DurabilityLegacy.cs (nucleo legacy, raggiungibile fino a F2.11)",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:56-135",
+        "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:135-181"
+      ],
+      "segno": "nessuno: numeri identici bit per bit, testi e rifiuti identici",
+      "effetto_quantificato": {
+        "sintesi": "Prove dell'adattatore, sezione 11 (tests/ConcreteLibraryAdapter.Checks/Durability.cs, 8/10, motore predefinito Library): 11b motore Legacy dell'adattatore uguale al legacy diretto in 14 092 chiamate; 11c libreria contro legacy attraverso le facciate con il motore esplicito: griglia della cattura densa (24 insiemi di esposizioni × 7 fck × 6 opzioni, EC2 e NTC con piastra sì e no) e combinazioni, 4455 risultati e 597 rifiuti uguali, griglia degli errori anche combinati in it-IT e nella cultura invariante 16 risultati e 17 904 rifiuti uguali, a ogni chiamata la sonda registra il motore richiesto (45 944 chiamate); 11d catalogo di 18 esposizioni identico record per record, 59 risultati e 20 rifiuti uguali per gruppo NTC, classe minima, limiti ed etichette (28, 0 e 90 rifiutate); 11a 23 siti di rifiuto della libreria provocati, tutti con il testo del legacy; 11f punti d'ingresso con il motore esplicito: MaterialCover.Required 311 risultati e 72 rifiuti, ConcreteCoverAnalysis 250 e 55, ProjectValidation 10 scenari di progetto con CoverChecks e Warnings identici; 11e 244 percorsi headless con voci della sonda tutte del motore predefinito; 11h valori a mano della pagina del metodo (116 controlli), DurabilityReferenceChecks e documento M1 di B6 (cnom 40 mm) con i due motori. Cattura densa: durability-legacy.csv con il motore della libreria (esplicito su f53205b, predefinito nella prova generale e su E5) identico in 3048 righe a F2-pre-m4-v2 e alle fixture di Checker. Cattura headless: B6 (546 file, catturata con il legacy su adb6121) identica salvo i 21 tempi volatili con il motore della libreria; fallbacks.json identico byte per byte.",
+        "evidenze": [
+          "supporto/artefatti/refactoring/f2-9/LEGGIMI.txt",
+          "supporto/artefatti/refactoring/f2-9/baseline-F2-B6/LEGGIMI.txt",
+          "supporto/artefatti/refactoring/f2-9/adattatore-e5/misura.json",
+          "supporto/artefatti/refactoring/f2-9/e2-densa-libreria/confronto-pre-m4.json",
+          "supporto/artefatti/refactoring/f2-9/prova-generale",
+          "supporto/artefatti/refactoring/f2-9/ci"
+        ]
+      },
+      "raccomandazione": "nessuna azione; eliminazione del legacy di durabilità in F2.11 [CP], dopo la revisione della pagina del metodo (proposta F2.9-U6)",
+      "decisione": { "data": "2026-10-08", "coordinatore": "deciso dal coordinatore su delega dell'utente (F2.9-D1…D14, progetto F29-progetto.md), da ratificare", "esito": "interruttore unico sulla libreria; legacy raggiungibile con DurabilityEngine.Legacy e '--motore-durabilita legacy' fino a F2.11" },
+      "attuazione": { "data": "2026-10-08", "branch": "refactoring/f2-9-durabilita (worktree Temp\\aw-f29, non unito, non pushato)", "commit": ["ANTHEA c77f80a (E1, nucleo legacy con nome, contratti e facciate)", "ANTHEA f53205b (E2, mappatura, adattatore e sonda, motore Legacy)", "ANTHEA 55e51ac (E3, controlli di riferimento con entrambi i motori)", "ANTHEA adb6121 (E4, corpus di durabilità; baseline B6 catturata con il legacy)", "ANTHEA E5 (interruttore sulla libreria, con questa voce)"] },
+      "data": "2026-10-08",
+      "fase": "F2.9",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/Durability.cs (prove 11a-11i)",
+        "tests/ConcreteLibraryAdapter.Checks/legacy-allowlist-durabilita.json",
+        "supporto/test/Shared/DurabilityReferenceChecks.cs (con entrambi i motori)",
+        "Checker/GPCChecker.Test.Concrete/DurabilityMigrationTests.cs (durability-legacy.csv)"
+      ]
+    },
+    {
+      "id": "F2-14",
+      "titolo": "Durabilità: rifiuti e casi limite della libreria non raggiungibili da ANTHEA",
+      "famiglia": "calcestruzzo/durabilita",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Differenze fra i motori fuori dai percorsi di ANTHEA, dichiarate e non coperte dalle uscite. (a) Argomenti nulli: con un insieme di esposizioni nullo il legacy dà NullReferenceException, la libreria ArgumentNullException (l'adattatore la lascia passare senza traduzione); nessun chiamante passa null. (b) Record Exposure fuori catalogo (codice inventato o campi diversi dal catalogo): il legacy usa i campi del record (Durability.Cover, StructuralClass, ValidateExposure, AtecapMix.Air non rifiutano un codice sconosciuto), la libreria usa solo il codice e il proprio catalogo e rifiuta un codice sconosciuto con il testo del legacy dell'operazione («Esposizione non riconosciuta.»; «Classe di esposizione non riconosciuta.» per la classe minima). Con un codice sconosciuto insieme a un altro errore l'ordine dei controlli può differire (la libreria controlla il codice per primo). I record vengono sempre dal catalogo della facciata (scheda Materiali, MaterialCover.cs, ConcreteDetailingAnalysis.cs), che rifiutano prima un codice sconosciuto («Definire la classe di esposizione.», «Scegliere la classe di esposizione…»). (c) Profili non offerti dalla scheda: DS (DK NA, solo 50 anni, Δcdev ≥ 5 mm), UNI con DM 2012 e CNR-DT 200 non sono usati dall'adattatore, che usa solo EN1992p11 ed Ntc2018; i loro rifiuti darebbero InvalidOperationException (senza traduzione). (d) Le righe DS e le classi minime EN e DS dell'esempio 2 della pagina del metodo non sono raggiungibili da ANTHEA, che non chiama ExposureClasses.MinimumStrength (registro R17).",
+      "codice": [
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:78, :83",
+        "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:143, :163-171",
+        "X.Calculations/ConcreteDurabilityAdapter.cs:167-172",
+        "X.Calculations/Materials/MaterialCover.cs:24",
+        "X.Calculations/ConcreteDetailingAnalysis.cs:33-34"
+      ],
+      "segno": "nessuno sui percorsi di ANTHEA",
+      "effetto_quantificato": {
+        "sintesi": "Nessun caso della cattura densa, della griglia degli errori della prova 11c, del corpus di B6 e delle prove dell'adattatore raggiunge questi casi; i codici sconosciuti delle funzioni per codice (NtcCover.Severity, MinimumConcrete.Fck, AtecapMix.Limits, anche con codice vuoto, in minuscolo e nullo) e delle combinazioni passate a NtcCover.Calculate, MinimumConcrete.Required e AtecapMix.Required danno lo stesso rifiuto con i due motori (prove 11a, 11b, 11d)."
+      },
+      "raccomandazione": "nessuna azione; da rivedere se la scheda aprirà i profili UNI, DS o CNR-DT (cambio di contratto)",
+      "decisione": { "data": "2026-10-08", "coordinatore": "deciso dal coordinatore su delega dell'utente (F2.9-D3, progetto F29-progetto.md §6.4), da ratificare", "esito": "casi dichiarati, nessuna azione" },
+      "attuazione": { "data": "2026-10-08", "commit": ["ANTHEA f53205b (E2, adattatore e mappatura)", "ANTHEA E5 (interruttore sulla libreria, con questa voce)"] },
+      "data": "2026-10-08",
+      "fase": "F2.9",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/Durability.cs (prove 11a, 11b, 11d)"
+      ]
     }
   ]
 }

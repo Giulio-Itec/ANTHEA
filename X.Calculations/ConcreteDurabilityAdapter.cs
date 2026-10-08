@@ -24,8 +24,10 @@ public enum DurabilityEngine { Legacy, Library }
 /// </summary>
 public static class ConcreteDurabilityAdapter
 {
-    /// <summary>Interruttore unico del motore usato quando il chiamante non ne indica uno (F2.9-D8).</summary>
-    public static DurabilityEngine Default => DurabilityEngine.Legacy;
+    /// <summary>Interruttore unico del motore usato quando il chiamante non ne indica uno (F2.9-D8): la libreria dal passo F2.9 E5
+    /// (uscite identiche al legacy bit per bit, registro F2-13, misurate contro la cattura densa F2-pre-m4-v2 e la baseline headless B6,
+    /// catturate con il legacy); il legacy resta raggiungibile con <see cref="DurabilityEngine.Legacy"/> fino a F2.11.</summary>
+    public static DurabilityEngine Default => DurabilityEngine.Library;
 
     // ------------------------------------------------------------------ sonda (F2.9-D14)
     /// <summary>Voce della sonda: adattatore, operazione, motore (forma della sonda generalizzata chiesta da F2.8 §13.2).</summary>
