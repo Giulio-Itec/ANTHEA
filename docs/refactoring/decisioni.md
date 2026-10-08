@@ -373,7 +373,7 @@ Le decisioni F2.9-D1…D14 sono **decise dal coordinatore su delega dell'utente 
 | F2.9-D4 Palo elastico | `PileDurability` resta com'è: chiama la libreria direttamente, con testi inglesi (proposta U3). Unica voce della libreria nell'elenco ammesso. | 11i |
 | F2.9-D5 Funzioni senza chiamanti | `Durability.EffectiveWater`, `Durability.Strength` e `NtcCover.DefaultCmin` restano solo nel legacy fino a F2.11 (elenco ammesso). | E2, `f2-matrice-api.md` |
 | F2.9-D6 e4 | Esclusa: serve una copia con licenza della UNI 11104:2025. Restano i valori della 2016 (prospetto 5); nessun atteso, testo o fixture cambia. | registro D7-e |
-| F2.9-D7 Citazioni della libreria | Testi «senza e4» nei commenti, nel README e in `MIGRAZIONE_ANTHEA.txt` (CD1 di F2.9a, in Checker); il riferimento restituito a `ExposureClasses.cs:107` non cambia (proposta U2). | F2.9a, non fatta |
+| F2.9-D7 Citazioni della libreria | Testi «senza e4» nei commenti, nel README e in `MIGRAZIONE_ANTHEA.txt` (CD1 di F2.9a, in Checker); il riferimento restituito a `ExposureClasses.cs:107` non cambia (proposta U2). | F2.9a: branch locale di Checker `anthea-f2-9-durabilita` (CD1 975cf006), non in develop |
 | F2.9-D8 Interruttore | Uno solo: `ConcreteDurabilityAdapter.Default`, sulla libreria dal passo E5. | E5 |
 | F2.9-D9 Baseline | B6 = base (B3) più il corpus di durabilità, catturata col legacy prima dell'interruttore; confronti esatti, nessuna tolleranza nuova. | E4 |
 | F2.9-D10 Regole normative nelle viste | Dichiarate (progetto, §10); spostamento con CD3 ed E7 in F4.13. Nessun file WPF in F2.9b. | F4.13 |
@@ -390,6 +390,21 @@ F2.9-D1…D14.
 
 Restano al coordinatore: F2.9a in Checker (CD0-CD2), profilo full a schermo per chiudere E5 (insieme a F2.7 e F2.8), copia della
 baseline B6 nel checkout principale (`supporto/artefatti/baseline/F2-B6`), unione su main dopo l'approvazione dell'utente.
+F2.9a l'ha già fatta un'altra corsia sul branch locale di Checker `anthea-f2-9-durabilita` (cinque commit b4ec06df…6543860d da
+develop 4f54139a, worktree `Temp\gpc-s3-dev-d\Checker`; non in develop, non pushato). La corsia di F2.9b non l'ha verificata:
+restano la revisione e l'unione in develop prima di C5.
+
+Da far presente nella ratifica (revisione di F2.9b, 8/10):
+- **Ripieghi del corpus B6.** Il progetto (§8.2) dice che ogni documento del corpus dichiara le chiavi lette, così non nascono
+  ripieghi nuovi. In realtà i casi nuovi aggiungono 369 voci a `fallbacks.json`: 249 dei muri W1-W3 e 120 delle sezioni S1-S3,
+  nessuna delle schede Materiali. Tutte stanno nei 133 gruppi di B3 e nessun gruppo è nuovo; le 2848 voci di B3 sono invariate e
+  dopo E5 `fallbacks.json` resta identico byte per byte. Lo scopo è raggiunto, la formulazione del progetto no.
+- **Muri nel progetto.** Il progetto è incoerente: §13.1 dice che `RetainingWall.*` resta invariato, mentre E1 e §9 chiedono
+  `ImmutableArray` in `RetainingWall.Materials.cs`. La corsia ha seguito E1 (`RetainingWall.Materials.cs:47-52`). I branch di F2.7
+  (`refactoring/f2-7-sle-fessurazione`, `refactoring/f2-7-prototipo`) e di F2.8 (`refactoring/f2-8-a0-cattura`) partono anch'essi da
+  98a21d4 e non toccano quel file: nessun conflitto atteso.
+- **Durata delle prove dell'adattatore.** Con la sezione 11 `tests/ConcreteLibraryAdapter.Checks` passa da circa 7 s a circa 60 s e
+  resta nello stadio fast. Da decidere: lasciarla così oppure spostare una parte delle griglie nello stadio regression.
 
 ## Dipendenze esterne previste
 

@@ -595,3 +595,25 @@ Progetto seguito: `F29-progetto.md` (§5 e seguenti). Nessun push, nessun merge,
   prima di usarne i risultati.
 - Restano: F2.9a in Checker, profilo full a schermo per chiudere E5, copia di B6 nel checkout principale, ratifiche e unione.
   Prove e log in `supporto/artefatti/refactoring/f2-9` del checkout principale.
+
+## 8 ottobre 2026, sera: correzioni della revisione di F2.9b
+
+La revisione ha accettato E1-E6 senza rilievi bloccanti, con nove rilievi minori. Ogni rilievo è stato prima verificato sul codice.
+- d02e890 (rilievi 1 e 2): la scansione 11i cercava i tipi della libreria anche come membri di altri tipi, quindi la riga di F2.7
+  `CrackRequirements.ExposureClasses.Contains(…)` la faceva fallire dopo l'unione (riprodotto). Ora un tipo conta solo come nome
+  semplice o qualificato da `Durability.`, con un'autoverifica su righe sintetiche. Adattatore, mappatura e nucleo legacy, prima
+  esclusi, sono scansionati senza le sole regole che li riguardano. Nell'adattatore il nucleo legacy compare solo nei rami
+  `if (UseLegacy(engine))` che registrano Legacy. Le mutazioni della revisione (r1: `NtcCover` registra Library e calcola col
+  legacy; r4: catalogo legacy nel ramo della libreria) e altre tre (alias del nucleo legacy, facciata richiamata col motore Legacy,
+  mappatura con le descrizioni legacy) passavano tutte inosservate alla 11i; ora la 11i le rileva.
+- 1c2c88b (rilievo 4): le prove 11e e 11f usano anche il terzo muro a mensola di B3 (`supporto/esempi/muri-sostegno/mensola.anthea`).
+  È un documento nella versione 1: per `RequiredCover` la prova aggiorna i dati come la scheda WPF del muro all'apertura.
+- Documenti (rilievi 3, 5, 6, 7): F2.9a esiste già sul branch locale di Checker `anthea-f2-9-durabilita` (altra corsia, non in
+  develop); note per la ratifica in `decisioni.md` (ripieghi del corpus B6, incoerenza del progetto sui muri, durata delle prove
+  dell'adattatore). Nella cartella delle prove alcuni log venivano da altre corsie: il LEGGIMI ora lo dice.
+- Rilievi 8 e 9: solo informazioni per il coordinatore, nessuna modifica.
+- Prove su 1c2c88b: `tests/ConcreteLibraryAdapter.Checks` PASS con 151 566 controlli (sezioni 1-4 di `misura.json` uguali a E5);
+  prove negative n25-n34 e le cinque mutazioni nuove tutte rilevate. Con il file di mappatura di F2.7 copiato (non compilato)
+  in `X.Calculations` la 11i passa; aggiungendo nello stesso file un uso vero di `GPC.Checkers.Concrete.Durability` fallisce.
+  Nessun file di produzione cambiato, quindi catture e baseline B6 restano quelle di E5. Il profilo standard sulla punta e i log
+  sono descritti nel LEGGIMI di `supporto/artefatti/refactoring/f2-9` del checkout principale.
