@@ -334,17 +334,28 @@ Messaggi dell'utente nella sessione del coordinatore, riportati con le sue parol
     non prescrive il metodo dell'analisi tensionale; per le verifiche SLE il riferimento abituale è l'analisi lineare
     a sezione fessurata.» È lavoro di libreria (SectionSolverModelCode2010, materiali di Model, StressLimitCheck):
     passo dedicato dopo l'interruttore di F2.7, con opzione legacy nominata e due commit.
+    **Ripensamento dell'utente, 8/10 tarda mattina**: «il calcolo viene fatto secondo legame costitutivo coefficientato
+    con alpha e gamma. quindi valori caratteristici + coeff x il design. ad ora lascialo così. ritiriamo fuori questo
+    argomento a fine refactoring». U2 è sospesa: l'analisi non lineare resta con i legami di progetto, senza legami
+    nuovi in Model e senza modifiche al solutore; R5 resta «da ridiscutere» in F5.15. Subito dopo: «metti il rimando
+    alla guida accanto al tipo di analisi. l'avviso mettilo». Nella scheda Tensioni il campo «Analisi» ha il
+    pulsante «?» verso la guida teorica («Materiali tendini e analisi di esercizio») e con «Non lineare» compare
+    l'avviso: «Analisi non lineare: le tensioni di esercizio sono calcolate con i legami costitutivi di progetto
+    (valori caratteristici ridotti con αcc e γ). La norma non prescrive il metodo dell'analisi tensionale; per le
+    verifiche SLE il riferimento abituale è l'analisi lineare a sezione fessurata.» Solo interfaccia: calcolo e
+    relazioni invariati.
   - U3 «correggi»: R22 si risolve applicando il fattore 0,8 dei getti sottili anche con UNI/DM 2012: limiti SLE del
     calcestruzzo, αcc e fcd con `gettato_sottile` = Sì.
   - U4 «tieni i limiti come oggi»: con CS-TR34 ANTHEA continua a calcolare i limiti tensionali SLE con i coefficienti
     di MC2010 da cui deriva `StandardCSTR34`. La proposta di allinearsi alla libreria (nessun limite) è respinta: la
-    motivazione normativa non è verificata e togliere i limiti è meno cautelativo. In F2.7 la libreria deve quindi
-    poter calcolare i limiti anche per CS-TR34 (opzione richiesta dall'adattatore).
+    motivazione normativa non è verificata e togliere i limiti è meno cautelativo. In F2.7 l'adattatore chiama
+    `StressLimitCheck.Evaluate` con lo standard dell'analisi, che per CS-TR34 calcola i limiti con i coefficienti
+    della classe, e non usa mai `NotApplicableReason` (regola W5 del progetto): non serve una modifica di libreria.
   - U5 «correggi»: la scheda WPF rifiuta φ < 0, come già fanno i calcoli (`CheckerSection.cs:95`, `:127`).
   - U6 «metti in coda ad altre cose. non da fare ora»: la revisione delle pagine dei metodi ca.sle-tensioni e
     ca.fessurazione si sposta in coda.
   - U7 «correggi»: `staffe_presenti` si normalizza a Sì/No (riguarda solo documenti scritti a mano).
-  Le correzioni U1, U2, U3, U5 e U7 cambiano risultati o comportamenti: si fanno in F2.7 dopo l'interruttore, una per
+  Le correzioni U1, U3, U5 e U7 cambiano risultati o comportamenti: si fanno in F2.7 dopo l'interruttore, una per
   commit, con cattura prima e confronto dopo (regola delle correzioni in due commit), e si registrano nel registro
   delle differenze.
 - **Dopo la prova della build** (8/10, mattina):
@@ -354,8 +365,26 @@ Messaggi dell'utente nella sessione del coordinatore, riportati con le sue parol
   - «non toccare più i report di calcolo. saranno corretti successivamente. ti dico io quando sarà fatto»: il codice e
     i testi dei report di calcolo (X.Core Report*, ReportWord, report WPF) non si modificano finché l'utente non lo
     dice. Le correzioni di calcolo approvate possono cambiare i valori stampati, ma non i testi né l'impaginazione.
-    L'avviso di U2 va quindi per ora nell'interfaccia e nei risultati, non nella relazione.
+    (U2, poi sospesa, avrebbe messo il suo avviso nell'interfaccia e nei risultati, non nella relazione.)
   - «anche la wiki mettila in coda ad altre cose»: la traccia Wiki (W) va in coda, dopo le fasi in corso.
+- **Proposte del progetto F2.8 rivisto** (`supporto/artefatti/refactoring/f27-f28-progetto/F28-progetto-rivisto.md`,
+  §12.1), risposte dell'utente dell'8/10 pomeriggio:
+  - F2.8-U1 «si» (alla domanda se metterla in coda come U6): la revisione delle pagine dei metodi ca.dettagli,
+    ca.ancoraggi e ca.momento-curvatura va in coda con U6.
+  - F2.8-U2 «confermo b»: `rami_y` si valida nel punto d'ingresso dei dettagli con `ValidateStirrups` (intero fra 2 e
+    100), come già fanno taglio e progetto delle armature. Si fa dopo l'interruttore I2, in due commit.
+  - F2.8-U3 «ok»: tetto C60/75 di fctk,0,05 anche nei muri (R10), nel momento proposto dal progetto (F5.15).
+  - F2.8-U4 «ok»: l'incoerenza di NEd fra la scheda dei dettagli e il progetto delle armature si tratta in F4.12.
+  - F2.8-U5 «ok»: il M–χ nel report di progetto resta a F3.4, perché i report sono fermi.
+  - F2.11: senza la revisione delle pagine dei metodi (U6 e F2.8-U1, in coda), il legacy di quelle famiglie resta
+    finché l'utente non decide.
+- **Scostamento della libreria F2.8 da §4 L3** (Checker `anthea-f2-8`, 53fb0011 e 05eb3cd2), solo informativo: la
+  nuova `MomentCurvatureException` la lancia solo il sovraccarico con `MomentCurvatureUnits`. I metodi della 0.0.17.0
+  lanciano ancora `ArgumentException` di tipo esatto, con lo stesso messaggio e il motivo in
+  `Data["GPC.MomentCurvatureRejection"]`, perché il contratto L0 registra il tipo esatto (come K2 di F2.7). ANTHEA usa
+  il sovraccarico con le unità (B3) e passa sempre la tolleranza su N nelle proprie unità: il default 1000 varrebbe
+  1000 kN.
+- **Crediti**: «supera il 15% ma cerca di non arrivare sopra i 90%. vorrei tenere un 8-10% a build chiusa».
 
 ## F2.9, durabilità e copriferri (8 ottobre 2026)
 

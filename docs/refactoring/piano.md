@@ -110,7 +110,16 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
 - [ ] F5.3 [CP] Temi a token.
 - [ ] F5.4 [CP] Modulo pilota: palificata orizzontale.
 - [ ] F5.5–F5.12 Materiali, palo verticale, orizzontale, elastico, muri, sezione c.a., sezione composta, Bridge Design.
-- [ ] F5.13 [CP] Shell; sessione di prova prima di eliminare SheetEditor e la vecchia MainWindow.
+- [ ] F5.13 [CP] Shell; sessione di prova prima di eliminare SheetEditor e la vecchia MainWindow. Requisito
+  dell'utente dell'8/10 («considera le opzioni 1 e 3. non multi progetto. però dai la possibilità di staccare la
+  finestra per più monitor»):
+  - più fogli aperti insieme in schede dentro il progetto;
+  - più file di calcolo singoli aperti insieme, con un solo progetto alla volta;
+  - schede staccabili in una finestra separata, per lavorare su più monitor.
+
+  Da gestire: aggiornamento dei fogli aperti quando cambiano i dati condivisi (sezione, terreni, fogli CLS
+  collegati), modifiche non salvate per foglio, calcoli in parallelo senza stato statico (dopo F2.11). Oggi
+  MainWindow tiene un solo foglio e un solo documento (`MainWindow.cs:220-229`).
 - [ ] F5.14 Chiusura: X.Desktop → ANTHEA.Desktop, terza revisione di AGENTS.md.
 - [ ] F5.15 [CP] Ridiscutere con l'utente le voci sfavorevoli o aperte del registro delle differenze R4-R21 (R4-R14 e R16-R21; R15 è corretta) (decisione del 7/10: "le guardiamo a fine refactoring"; estesa a R16-R21 dal coordinatore su delega, da ratificare).
 
@@ -155,6 +164,19 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
 - [ ] In coda a tutte le altre attività (decisione dell'utente dell'8/10):
   - analisi dei bug del codice di calcolo, corsa `wf_9c55965c-68b` ferma con 85 agenti in cache;
   - revisione delle pagine dei metodi ca.sle-tensioni e ca.fessurazione (U6);
-  - traccia Wiki (W). Fra le voci da fare: la guida pratica (riga 19) cita ancora la tendina dell'aspetto nella
-    Wiki, tolta l'8/10.
+  - traccia Wiki (W). Fra le voci da fare:
+    - la guida pratica (riga 19) cita ancora la tendina dell'aspetto nella Wiki, tolta l'8/10;
+    - la sezione «Materiali tendini e analisi di esercizio» della guida teorica, a cui rimanda il «?» accanto al tipo
+      di analisi della scheda Tensioni, va completata con la scelta fra analisi lineare e non lineare (legami di
+      progetto, avviso dell'8/10).
 - [ ] Report di calcolo: non si modificano finché l'utente non lo dice (decisione dell'8/10).
+- [ ] Dopo la fine di tutto il refactoring (richiesta dell'utente dell'8/10, «in coda a tutte le cose implementa il
+  "detailed check" dentro il modulo design bridge con le info che sono presenti sul sito
+  https://thebridgeeng.com/design. metti in coda alla fine di tutto il refactoring»): verifica di dettaglio nel
+  modulo Bridge Design.
+  - Il sito serve solo come riferimento funzionale, per capire ambito e contenuti della verifica. Si rilegge quando
+    il lavoro parte.
+  - Metodi e coefficienti si prendono dalle norme e si implementano nelle librerie (GPC.Design o Checker), non in
+    ANTHEA.
+  - Come vuole AGENTS.md, interfaccia, guide e report non contengono testi, figure né rimandi al sito.
+  - Si progetta con un piano dedicato e con le decisioni dell'utente.

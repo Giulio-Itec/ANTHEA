@@ -40,6 +40,7 @@ internal static class WikiChecks
             Check(WikiContextHelp.ArticlesFor(module.Id).Any(a => a.Type == "theory"), "Approfondimenti tecnici · " + module.Id);
         }
         foreach (var topic in WikiContextHelp.Topics) CheckLink(topic.Uri);
+        CheckLink(WikiContextHelp.StressAnalysis.Uri);
         Check(WikiContextHelp.ForField("cover_mm", "str_palo")?.Uri.EndsWith("#copriferro-minimo-e-nominale") == true, "Copriferro rinvia alla durabilità");
         Check(WikiContextHelp.ForField("copriferro_fessure", "str_palo")?.Uri.EndsWith("#apertura-delle-fessure") == true, "Copriferro SLE distinto dal nominale");
         Check(WikiContextHelp.ForField("N", "geo_palo_orizzontale") is null, "N del palo non eredita la convenzione della sezione CA");

@@ -175,11 +175,19 @@ internal sealed partial class ConcreteWorkspace
             panel.Options.Set(field, value); await Update();
             Check(states.All(s => ReferenceEquals(s.Value, stressResults["SLE"][s.Key].State)), field + " conserva tensioni native");
         }
+        var nonLinearWarning = ((System.Windows.Controls.Panel)panel.Options.Parent).Children.OfType<System.Windows.Controls.Border>().Single(b => System.Windows.Automation.AutomationProperties.GetName(b) == "Avviso analisi non lineare");
+        // The SLE panel may not be displayed: search the logical tree, which exists before the visual one.
+        static IEnumerable<DependencyObject> Logical(DependencyObject node) { yield return node; foreach (var child in LogicalTreeHelper.GetChildren(node).OfType<DependencyObject>()) foreach (var d in Logical(child)) yield return d; }
+        var analysisHelp = Logical(panel.Options).OfType<System.Windows.Controls.Button>().Single(b => System.Windows.Automation.AutomationProperties.GetName(b) == "Wiki: Analisi");
+        Check(analysisHelp.Visibility == Visibility.Visible && Equals(analysisHelp.ToolTip, WikiContextHelp.StressAnalysis.Title + "\nApri questa sezione della Wiki"), "Analisi tensionale con rimando alla guida");
+        Check(nonLinearWarning.Visibility == Visibility.Collapsed, "Nessun avviso con analisi lineare");
         panel.Options.Set("modello", "Non lineare"); await Update();
+        Check(nonLinearWarning.Visibility == Visibility.Visible, "Avviso con analisi non lineare");
         options = (JsonObject)settings["sle"]!["SLE"]!.DeepClone();
         var nonlinearExpected = await Task.Run(() => { var engine = new CheckerSection(input, workspace, options); return forces.Select(f => engine.Stress(f, "SLE")).ToArray(); });
         for (int i = 0; i < nonlinearExpected.Length; i++) Check(Math.Abs(stressResults["SLE"][actions["SLE"][i].Values.S("id")].State!.sigma_cls - nonlinearExpected[i].sigma_cls) < 1e-8, "Parallelo non lineare identico al seriale");
         panel.Options.Set("modello", "Lineare"); await Update();
+        Check(nonLinearWarning.Visibility == Visibility.Collapsed, "Avviso tolto tornando all'analisi lineare");
         Check(barInventory.Rows[0].Values.S("id") == "B01", "Identificativi a due cifre");
         var domain = domainPanels[0]; tabs.SelectedIndex = 1;
         domain.Options["tutte_rd"] = true; UpdateSelection(domain, true);

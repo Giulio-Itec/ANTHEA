@@ -34,12 +34,15 @@ internal sealed partial class ConcreteWorkspace
         foreach (string key in SectionWorkspace.Sets.Skip(2))
         {
             var panel = new StressPanel(); stressPanels[key] = panel; var options = settings["sle"]![key]!.AsObject();
+            var nonLinearWarning = Notice("Analisi non lineare: le tensioni di esercizio sono calcolate con i legami costitutivi di progetto (valori caratteristici ridotti con αcc e γ). La norma non prescrive il metodo dell'analisi tensionale; per le verifiche SLE il riferimento abituale è l'analisi lineare a sezione fessurata. Vedere la guida (?) accanto ad «Analisi».");
+            System.Windows.Automation.AutomationProperties.SetName(nonLinearWarning, "Avviso analisi non lineare");
             void EnableOptions()
             {
+                nonLinearWarning.Visibility = options.S("modello") == "Non lineare" ? Visibility.Visible : Visibility.Collapsed;
                 foreach (var field in new[] { "phi", "phi_trefoli", "n_armature", "n_trefoli" }) panel.Options.Enable(field, options.S("modello") == "Lineare");
                 foreach (var field in new[] { "origine_x", "origine_y", "rotazione" }) panel.Options.Enable(field, options.S("assi") == "Personalizzati");
             }
-            panel.Options = new InputForm(options, [new("modello", "Analisi", Choices: ["Lineare", "Non lineare"]), new("n_armature", "n armature"), new("phi", "Viscosità φ armature"), new("n_trefoli", "n trefoli (Ep riferimento)"), new("phi_trefoli", "Viscosità φ trefoli"), new("__ep_ref", "Ep di riferimento", "MPa", ReadOnly: true), new("trazione_cls", "CLS resistente a trazione", Choices: ["No", "Sì"]), new("assi", "Assi delle azioni", Choices: ["Locali", "Principali", "Personalizzati"]), new("origine_x", "Origine x", "mm"), new("origine_y", "Origine y", "mm"), new("rotazione", "Rotazione assi", "°"), new("esposizione", "Esposizione", Choices: Ntc2018Checks.Exposures), new("sensibilita", "Armatura", Choices: ["Poco sensibile", "Sensibile"]), new("durata", "Durata del carico", Choices: ["Lunga", "Breve"]), new("aderenza", "Barre", Choices: ["Migliorata", "Liscia"]), new("copriferro_fessure", "c barra (vuoto: auto)", "mm"), new("spaziatura_fessure", "Interasse massimo (vuoto: auto)", "mm"), new("limite_fessure", "wlim di progetto (EC2/MC)", "mm")], field =>
+            panel.Options = new InputForm(options, [new("modello", "Analisi", Choices: ["Lineare", "Non lineare"], Help: WikiContextHelp.StressAnalysis), new("n_armature", "n armature"), new("phi", "Viscosità φ armature"), new("n_trefoli", "n trefoli (Ep riferimento)"), new("phi_trefoli", "Viscosità φ trefoli"), new("__ep_ref", "Ep di riferimento", "MPa", ReadOnly: true), new("trazione_cls", "CLS resistente a trazione", Choices: ["No", "Sì"]), new("assi", "Assi delle azioni", Choices: ["Locali", "Principali", "Personalizzati"]), new("origine_x", "Origine x", "mm"), new("origine_y", "Origine y", "mm"), new("rotazione", "Rotazione assi", "°"), new("esposizione", "Esposizione", Choices: Ntc2018Checks.Exposures), new("sensibilita", "Armatura", Choices: ["Poco sensibile", "Sensibile"]), new("durata", "Durata del carico", Choices: ["Lunga", "Breve"]), new("aderenza", "Barre", Choices: ["Migliorata", "Liscia"]), new("copriferro_fessure", "c barra (vuoto: auto)", "mm"), new("spaziatura_fessure", "Interasse massimo (vuoto: auto)", "mm"), new("limite_fessure", "wlim di progetto (EC2/MC)", "mm")], field =>
             {
                 if (initializing) return;
                 using var notifications = JsonRow.DeferNotifications(actions.Values.SelectMany(r => r));
@@ -58,7 +61,7 @@ internal sealed partial class ConcreteWorkspace
             RevisionInspection.Allow(combinationChoice); RevisionInspection.Allow(panel.Regions);
             combinationChoice.SelectionChanged+=(_,_)=>{if(combinationChoice.SelectedIndex>=0)sleTabs.SelectedIndex=combinationChoice.SelectedIndex;};
             sleTabs.SelectionChanged+=(_,e)=>{if(e.Source==sleTabs && sleTabs.SelectedIndex>=0)combinationChoice.SelectedIndex=sleTabs.SelectedIndex;};
-            var optionsPanel = Panel("Opzioni SLE comuni", Scroller(Ui.Stack(Ui.Text("Combinazione SLE",12,true),combinationChoice,panel.Options, instructions)), "Modifiche valide per Rara, Frequente e Quasi permanente. Azioni separate, già combinate.");
+            var optionsPanel = Panel("Opzioni SLE comuni", Scroller(Ui.Stack(Ui.Text("Combinazione SLE",12,true),combinationChoice,panel.Options, nonLinearWarning, instructions)), "Modifiche valide per Rara, Frequente e Quasi permanente. Azioni separate, già combinate.");
             var viewport = new ViewportFrame("Mappa tensionale della sezione", panel.View, panel.View.ResetView);
             panel.Regions.SelectionChanged += (_,_)=>{panel.View.EffectiveRegion=panel.Regions.SelectedItem as ConcreteEffectiveRegion;panel.View.InvalidateVisual();};
             panel.Regions.DisplayMemberPath="Name";
