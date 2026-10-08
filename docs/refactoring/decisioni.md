@@ -367,6 +367,18 @@ Messaggi dell'utente nella sessione del coordinatore, riportati con le sue parol
     dice. Le correzioni di calcolo approvate possono cambiare i valori stampati, ma non i testi né l'impaginazione.
     (U2, poi sospesa, avrebbe messo il suo avviso nell'interfaccia e nei risultati, non nella relazione.)
   - «anche la wiki mettila in coda ad altre cose»: la traccia Wiki (W) va in coda, dopo le fasi in corso.
+- **Proposte del progetto F2.8 rivisto** (`supporto/artefatti/refactoring/f27-f28-progetto/F28-progetto-rivisto.md`,
+  §12.1), risposte dell'utente dell'8/10 pomeriggio:
+  - F2.8-U1 «si» (alla domanda se metterla in coda come U6): la revisione delle pagine dei metodi ca.dettagli,
+    ca.ancoraggi e ca.momento-curvatura va in coda con U6.
+  - F2.8-U2 «confermo b»: `rami_y` si valida nel punto d'ingresso dei dettagli con `ValidateStirrups` (intero fra 2 e
+    100), come già fanno taglio e progetto delle armature. Si fa dopo l'interruttore I2, in due commit.
+  - F2.8-U3 «ok»: tetto C60/75 di fctk,0,05 anche nei muri (R10), nel momento proposto dal progetto (F5.15).
+  - F2.8-U4 «ok»: l'incoerenza di NEd fra la scheda dei dettagli e il progetto delle armature si tratta in F4.12.
+  - F2.8-U5 «ok»: il M–χ nel report di progetto resta a F3.4, perché i report sono fermi.
+  - F2.11: senza la revisione delle pagine dei metodi (U6 e F2.8-U1, in coda), il legacy di quelle famiglie resta
+    finché l'utente non decide.
+- **Crediti**: «supera il 15% ma cerca di non arrivare sopra i 90%. vorrei tenere un 8-10% a build chiusa».
 
 ## Dipendenze esterne previste
 
