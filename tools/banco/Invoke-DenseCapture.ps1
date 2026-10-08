@@ -1,10 +1,12 @@
 <#
 Dense captures of CheckerMigration.Capture (refactoring F2.1, docs/refactoring/f2.1-banco.md).
 
-  powershell -NoProfile -ExecutionPolicy Bypass -File tools\banco\Invoke-DenseCapture.ps1 -Output <cartella nuova> [-Modes tutte,muri,pali,mesh] [-Commit <sha>] [-NoBuild]
+  powershell -NoProfile -ExecutionPolicy Bypass -File tools\banco\Invoke-DenseCapture.ps1 -Output <cartella nuova> [-Modes tutte,muri,pali,mesh] [-Commit <sha>] [-NoBuild] [-Motore legacy|libreria]
 
 Builds supporto\test\CheckerMigration.Capture (Release) unless -NoBuild, then runs every mode with --manifest into <Output>\<mode>,
 with 'dotnet <dll>' (not the apphost .exe, which the antivirus of this machine may refuse) and the logs in <Output>\log.
+-Motore passes '--motore <value>' to every mode (shear and torsion engine of ConcreteShearTorsionAdapter, refactoring F2.5-F2.6);
+without it the default engine of the adapter. The F2-pre-f28 reference (F2.8-A0) is captured with -Motore legacy.
 The commit written in the first line of every file is HEAD of this checkout unless -Commit is given.
 Exit code 0 only if every mode exits with 0.
 #>
@@ -14,7 +16,8 @@ param(
     [string[]] $Modes = @('tutte', 'muri', 'pali', 'mesh'),
     [string] $Commit,
     [switch] $NoBuild,
-    [string] $GpcLibDir
+    [string] $GpcLibDir,
+    [ValidateSet('legacy', 'libreria')] [string] $Motore
 )
 $ErrorActionPreference = 'Stop'
 $Root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
@@ -53,7 +56,9 @@ foreach ($mode in @($Modes | ForEach-Object { $_ -split ',' } | Where-Object { $
     $out = Join-Path $Output $mode
     if ((Test-Path -LiteralPath $out) -and (Get-ChildItem -LiteralPath $out -Force | Select-Object -First 1)) { throw "Cartella non vuota: $out" }
     New-Item -ItemType Directory -Force -Path $out | Out-Null
-    $line = (@($Dll, $out, $Commit, $mode, '--manifest') | ForEach-Object { '"' + $_ + '"' }) -join ' '
+    $captureArgs = @($Dll, $out, $Commit, $mode, '--manifest')
+    if ($Motore) { $captureArgs += @('--motore', $Motore) }
+    $line = ($captureArgs | ForEach-Object { '"' + $_ + '"' }) -join ' '
     $sw = [Diagnostics.Stopwatch]::StartNew()
     $p = Start-Process -FilePath 'dotnet' -ArgumentList $line -WorkingDirectory $Root -NoNewWindow -PassThru `
         -RedirectStandardOutput (Join-Path $logs "$mode.out.log") -RedirectStandardError (Join-Path $logs "$mode.err.log")

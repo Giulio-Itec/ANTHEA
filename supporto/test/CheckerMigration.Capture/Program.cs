@@ -104,6 +104,8 @@ GeotechnicsCapture.Run(output, commit, sha);
 #endif
 PilesCapture.Run(output, commit, sha);
 WallCapture.Run(output, commit, sha);
+// Refactoring F2.8-A0: new files only (detailing of slabs and walls, texts, complete sheets, bond, production M-χ), see DetailingExtendedCapture.cs.
+DetailingExtendedCapture.Run(output, commit, sha);
 Finish();
 
 // Serviceability stresses (CheckerSection.Stress): sections saved with the Model archive, effective standard coefficients,
