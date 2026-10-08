@@ -1,0 +1,13 @@
+{
+  "moduleId": "mat_calcestruzzo",
+  "label": "Scheda Materiali, EC2 2004: XD3, C35/45, 100 anni",
+  "description": "Caso M7 del corpus della cattura headless (baseline B6, refactoring F2.9): vita utile di 100 anni, classe strutturale S6, colonna XD3 del prospetto 4.4N.",
+  "overrides": {
+    "classe": "C35/45",
+    "esposizione_principale": "XD3",
+    "esposizioni": [ "XD3" ],
+    "numeri": { "diameter": "16", "aggregate": "20" },
+    "scelte": { "coverMethod": "EC2 2004", "ntcElement": "Trave / pilastro", "life": "100 anni", "deviationControl": "Ordinario", "deviationValue": "10 mm", "ground": "Casseratura", "abrasion": "Nessuno" },
+    "opzioni": { "highStrength": false, "slab": false, "quality": false, "rough": false, "ntcQuality": false }
+  }
+}

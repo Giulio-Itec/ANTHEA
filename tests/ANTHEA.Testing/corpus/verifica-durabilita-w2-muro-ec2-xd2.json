@@ -1,0 +1,14 @@
+{
+  "moduleId": "geo_muri_sostegno",
+  "label": "Muro a mensola, copriferro EC2 2004: XD2, C40/50, riduzioni per resistenza, piastra e controllo di qualità",
+  "description": "Caso W2 del corpus della cattura headless (baseline B6, refactoring F2.9): minimo del copriferro del muro con il criterio EC2 e le tre riduzioni della classe strutturale del prospetto 4.3N.",
+  "overrides": {
+    "family": "cantilever",
+    "materials": { "exposure": "XD2", "fck": 40, "classe_cls": "C40/50", "materiale_cls_nome": "C40/50", "cover": 40 },
+    "detailing": {
+      "aggregate": 20, "life": 50, "cover_deviation": 10, "cover_method": "EC2 2004", "cover_element": "Piastra / soletta / parete",
+      "cover_ground": "Casseratura", "cover_abrasion": "Nessuno", "cover_quality": false, "cover_high_strength": true, "cover_slab": true,
+      "cover_ec_quality": true, "cover_rough": false
+    }
+  }
+}

@@ -1,22 +1,15 @@
+using Anthea.Calculations;
+
 namespace Materiali;
 
+/// <summary>
+/// Facciata della classe minima di resistenza per esposizione, UNI 11104 (refactoring F2.9): stessi nomi e firme di prima, più il
+/// motore facoltativo finale; nessun calcolo, delega a <see cref="ConcreteDurabilityAdapter"/> (motore predefinito senza argomento).
+/// Le citazioni della norma (registro D7-e) sono nel nucleo legacy e in GPCChecker.Concrete.
+/// </summary>
 public static class MinimumConcrete
 {
-    // Classe di resistenza minima per esposizione: UNI 11104:2025 (in vigore dal 24/07/2025), prospetto 6, riga «Classe di
-    // resistenza minima». Valori trascritti dalla UNI 11104:2016, prospetto 5 (riportato in ATECAP 2020, p. 19), uguali a quelli
-    // della 2025 salvo XF1: qui C32/40 dell'edizione 2016, nel prospetto 6 della 2025 C30/37 (registro D7-e, da decidere).
-    public static int Fck(string code)=>code switch
-    {
-        "X0"=>12,
-        "XC1" or "XC2" or "XF2" or "XF3"=>25,
-        "XC3" or "XD1" or "XF4" or "XA1"=>30,
-        "XC4" or "XS1" or "XD2" or "XF1" or "XA2"=>32,
-        "XS2" or "XS3" or "XD3" or "XA3"=>35,
-        _=>throw new ArgumentException("Classe di esposizione non riconosciuta.")
-    };
-    public static int Required(Exposure[] exposures)
-    {
-        Durability.ValidateExposure(exposures);return exposures.Max(e=>Fck(e.Code));
-    }
-    public static string Label(int fck)=>fck switch {12=>"C12/15",25=>"C25/30",30=>"C30/37",32=>"C32/40",35=>"C35/45",_=>throw new ArgumentException("Classe minima non riconosciuta.")};
+    public static int Fck(string code, DurabilityEngine? engine = null) => ConcreteDurabilityAdapter.MinimumFck(code, engine);
+    public static int Required(Exposure[] exposures, DurabilityEngine? engine = null) => ConcreteDurabilityAdapter.MinimumStrength(exposures, engine);
+    public static string Label(int fck, DurabilityEngine? engine = null) => ConcreteDurabilityAdapter.Label(fck, engine);
 }

@@ -1,0 +1,36 @@
+{
+  "descrizione": "Elenco ammesso della prova 11i (refactoring F2.9, tests/ConcreteLibraryAdapter.Checks/Durability.cs): usi consentiti di ciò che la scansione vieta. Regole: 'legacy' = DurabilityLegacy; 'motore-legacy' = il letterale DurabilityEngine.Legacy nel codice di produzione (X.Calculations, X.Core, X.Desktop, X.Materiali); 'libreria-durabilita' = uso diretto di GPC.Checkers.Concrete.Durability (lo spazio dei nomi, oppure i suoi tipi propri CoverRequirements, ExposureClasses, ExposureClass, DurabilityProfile, DurabilityProfiles e StrengthRequirement come nomi semplici o qualificati da 'Durability.'; dopo un altro qualificatore sono membri di altri tipi e non contano, per esempio CrackRequirements.ExposureClasses di F2.7; CoverInput, CoverLine e CoverResult, omonimi dei record di Materiali, contano solo con lo spazio dei nomi); 'classe-minima-per-profilo' = ExposureClasses.MinimumStrength (registro R17: ANTHEA usa solo la classe UNI 11104). I file propri della durabilità sono scansionati senza le sole regole che li riguardano: l'adattatore (X.Calculations/ConcreteDurabilityAdapter.cs) senza 'legacy', 'motore-legacy' e 'libreria-durabilita', ma con il controllo dei rami legacy (ogni riga con DurabilityLegacy o DurabilityEngine.Legacy è un ramo 'if (UseLegacy(engine))' che registra Legacy nella sonda, oppure la definizione di UseLegacy); la mappatura (X.Calculations/ConcreteLibraryMapping.Durability.cs) senza 'libreria-durabilita'; il nucleo legacy (X.Calculations/Materials/DurabilityLegacy.cs) senza 'legacy'. Per ogni voce: file, regola, numero esatto di righe che la violano (oppure tutto il file), testo che ogni riga deve contenere, motivo e scadenza. Un uso nuovo, una riga in più o in meno o una voce senza riscontro fanno fallire la prova. Commenti e stringhe non contano. Da unire con legacy-allowlist.json di F2.7 (A5) in F2.10 o F2.11.",
+  "voci": [
+    {
+      "file": "X.Calculations/Materials/Durability.cs",
+      "regola": "legacy",
+      "righe": 2,
+      "testo": [ "DurabilityLegacy.Durability.Strength(", "DurabilityLegacy.Durability.EffectiveWater(" ],
+      "motivo": "F2.9-D5: Strength ed EffectiveWater non hanno chiamanti di produzione (EffectiveWater è usata solo dai controlli di riferimento); restano nel nucleo legacy, senza funzioni nuove in libreria.",
+      "scadenza": "F2.11"
+    },
+    {
+      "file": "X.Calculations/Materials/NtcCover.cs",
+      "regola": "legacy",
+      "righe": 1,
+      "testo": [ "DurabilityLegacy.NtcCover.DefaultCmin(" ],
+      "motivo": "F2.9-D5: DefaultCmin non ha chiamanti di produzione; resta nel nucleo legacy.",
+      "scadenza": "F2.11"
+    },
+    {
+      "file": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
+      "regola": "libreria-durabilita",
+      "righe": 2,
+      "testo": [ "using GPC.Checkers.Concrete.Durability;", "CoverRequirements.Calculate(DurabilityProfile.Ntc2018" ],
+      "motivo": "F2.9-D4: la durabilità del palo elastico (PileDurability) chiama la libreria direttamente da prima di F2.9, con riferimento e messaggi inglesi nei risultati e nella relazione; resta così (traduzione: proposta F2.9-U3, dopo lo sblocco dei report).",
+      "scadenza": "F2.9-U3"
+    },
+    {
+      "file": "tests/ConcreteLibraryAdapter.Checks/Durability.cs",
+      "regola": "legacy",
+      "tutto_il_file": true,
+      "motivo": "Prove dell'adattatore: la 11b confronta il motore Legacy dell'adattatore con il nucleo legacy chiamato direttamente.",
+      "scadenza": "F2.11"
+    }
+  ]
+}

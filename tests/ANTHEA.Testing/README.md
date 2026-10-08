@@ -73,14 +73,22 @@ di caratteri si scrivono compressi (`.gz`), letti in modo trasparente da `compar
   (rettangolare, circolare e circolare cava NTC 2018 con torsione, rettangolare DIN con cot θ
   assegnato e rifiuti). I casi dichiarano `foro_presente`: senza la chiave il ripiego di
   `J.B("foro_presente")` registrato in `fallbacks.json` cambierebbe chiamante con il motore di
-  taglio e torsione (registro F2-1), e il confronto con la baseline lo segnalerebbe.
+  taglio e torsione (registro F2-1), e il confronto con la baseline lo segnalerebbe;
+- dalla baseline B6 (refactoring F2.9), i casi della durabilità `verifica-durabilita-*.json`,
+  dopo quelli di B3 nell'ordine dei nomi: 14 schede Materiali (M1-M14: criteri NTC ed EC2,
+  esposizioni, elemento, vita, controlli di esecuzione, getto, abrasione e tre rifiuti), 3 muri a
+  mensola (W1-W3) e 3 sezioni c.a. NTC con i dettagli costruttivi (S1-S3). Ogni caso dichiara le
+  chiavi lette dal calcolo, così non nascono gruppi nuovi in `fallbacks.json`.
 
 Motori fuori da `CalculationService`: risposta e armature dei tratti del palo elastico
 (`CalculateResponse`, `CompleteReinforcement`), stabilità globale dei muri con la proposta
 del profilo e con il modello di `GlobalStability.Checks`, `DesignReinforcement` e distinta
 dei muri a mensola, curve di risposta della sezione composta (`ResponseDefaults`: momento–
 curvatura, forza–deformazione, dopo la fase 0), ottimizzazione di Bridge Design con le
-opzioni predefinite. Ciò che resta escluso è elencato in `manifest.json` (`non_coperto`).
+opzioni predefinite; dalla baseline B6 (F2.9) la parte di durabilità dei dettagli costruttivi
+delle sezioni c.a. (`engines/dettagli_durabilita/<caso>.json`: proiezione con campi con nome di
+`ConcreteDetailingAnalysis.Calculate(…).Durability` e `DurabilityError`, con le azioni SLU e SLV
+del foglio). Ciò che resta escluso è elencato in `manifest.json` (`non_coperto`).
 
 ## Tolleranze
 

@@ -568,3 +568,52 @@ Branch `refactoring/integrazione-2` (worktree Temp\aw-int2), non pushato.
   - stadio `ui` a schermo: PASS 35, NEW-FAIL 0, schermo usato dalle 09:20 alle 09:36 dopo la domanda all'utente senza
     risposta entro 5 minuti;
   - Release compilata, `Assert-NoTestCode` PASS.
+
+## 8 ottobre 2026, pomeriggio: F2.9b, durabilità attraverso la libreria
+
+Workflow del coordinatore, un agente sul worktree `Temp\aw-f29`, branch `refactoring/f2-9-durabilita` da main 98a21d4 (S2).
+Progetto seguito: `F29-progetto.md` (§5 e seguenti). Nessun push, nessun merge, nessun file WPF né di report.
+
+- Prima di tutto: profilo baseline sulla base (PASS 41, KNOWN 1) e cattura di provenienza del corpus nuovo con il codice di base.
+  Le figure delle guide citate da `supporto/docs/*.md` sono state copiate nel worktree (`supporto/artefatti`, non versionata),
+  altrimenti le prove della Wiki falliscono.
+- c77f80a (E1): nucleo legacy `DurabilityLegacy` con i corpi invariati, contratti in un file proprio, facciate con gli stessi nomi.
+  Cattura headless uguale a B3, `fallbacks.json` identico byte per byte, `durability-legacy.csv` identico.
+- f53205b (E2): adattatore con motore selezionabile e sonda propria, mappatura con i testi italiani a tabella come per il taglio,
+  motore facoltativo nei punti d'ingresso della durabilità, `--motore-durabilita` nella cattura densa, prove 11a-11i.
+  Prove negative n25-n32 e n34 con il motore della libreria esplicito: tutte rilevate.
+- 55e51ac (E3): controlli di riferimento con entrambi i motori; scansione estesa alle prove; prova negativa n33 rilevata.
+- adb6121 (E4): 20 casi di durabilità nel corpus (M1-M14, W1-W3, S1-S3) e cattura `engines/dettagli_durabilita`. Baseline B6
+  catturata con il legacy: uguale a B3 più i casi nuovi, uguale alla cattura di provenienza e a una seconda cattura salvo i
+  21 tempi. Prova generale con `Default => Library` in locale: uguale a B6.
+- 5c06124 (E5): interruttore unico sulla libreria; registro F2-13 e F2-14. Runner baseline contro B6 e F2-pre-m4-v2: PASS 41,
+  KNOWN 1, NEW-FAIL 0, nessuna differenza salvo i tempi. Prove negative n25-n34 ripetute con il motore predefinito: tutte
+  rilevate. Tempi con i due motori alternati (6 giri): ConcreteDesign.Checks +5,7 %, `verifiche/ca-benchmark` +1,4 % sulle
+  mediane.
+- E6: piano (F2.9 in corso), matrice delle API, decisioni F2.9-D1…D14 da ratificare, registro (D7-e, R11, R17), questo diario.
+- Errore evitato: in PowerShell `$b3` e `$B3` sono la stessa variabile; uno script di verifica le confondeva ed è stato corretto
+  prima di usarne i risultati.
+- Restano: F2.9a in Checker, profilo full a schermo per chiudere E5, copia di B6 nel checkout principale, ratifiche e unione.
+  Prove e log in `supporto/artefatti/refactoring/f2-9` del checkout principale.
+
+## 8 ottobre 2026, sera: correzioni della revisione di F2.9b
+
+La revisione ha accettato E1-E6 senza rilievi bloccanti, con nove rilievi minori. Ogni rilievo è stato prima verificato sul codice.
+- d02e890 (rilievi 1 e 2): la scansione 11i cercava i tipi della libreria anche come membri di altri tipi, quindi la riga di F2.7
+  `CrackRequirements.ExposureClasses.Contains(…)` la faceva fallire dopo l'unione (riprodotto). Ora un tipo conta solo come nome
+  semplice o qualificato da `Durability.`, con un'autoverifica su righe sintetiche. Adattatore, mappatura e nucleo legacy, prima
+  esclusi, sono scansionati senza le sole regole che li riguardano. Nell'adattatore il nucleo legacy compare solo nei rami
+  `if (UseLegacy(engine))` che registrano Legacy. Le mutazioni della revisione (r1: `NtcCover` registra Library e calcola col
+  legacy; r4: catalogo legacy nel ramo della libreria) e altre tre (alias del nucleo legacy, facciata richiamata col motore Legacy,
+  mappatura con le descrizioni legacy) passavano tutte inosservate alla 11i; ora la 11i le rileva.
+- 1c2c88b (rilievo 4): le prove 11e e 11f usano anche il terzo muro a mensola di B3 (`supporto/esempi/muri-sostegno/mensola.anthea`).
+  È un documento nella versione 1: per `RequiredCover` la prova aggiorna i dati come la scheda WPF del muro all'apertura.
+- Documenti (rilievi 3, 5, 6, 7): F2.9a esiste già sul branch locale di Checker `anthea-f2-9-durabilita` (altra corsia, non in
+  develop); note per la ratifica in `decisioni.md` (ripieghi del corpus B6, incoerenza del progetto sui muri, durata delle prove
+  dell'adattatore). Nella cartella delle prove alcuni log venivano da altre corsie: il LEGGIMI ora lo dice.
+- Rilievi 8 e 9: solo informazioni per il coordinatore, nessuna modifica.
+- Prove su 1c2c88b: `tests/ConcreteLibraryAdapter.Checks` PASS con 151 566 controlli (sezioni 1-4 di `misura.json` uguali a E5);
+  prove negative n25-n34 e le cinque mutazioni nuove tutte rilevate. Con il file di mappatura di F2.7 copiato (non compilato)
+  in `X.Calculations` la 11i passa; aggiungendo nello stesso file un uso vero di `GPC.Checkers.Concrete.Durability` fallisce.
+  Nessun file di produzione cambiato, quindi catture e baseline B6 restano quelle di E5. Il profilo standard sulla punta e i log
+  sono descritti nel LEGGIMI di `supporto/artefatti/refactoring/f2-9` del checkout principale.

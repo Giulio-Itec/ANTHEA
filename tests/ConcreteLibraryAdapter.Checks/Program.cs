@@ -20,6 +20,7 @@ using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 //    con il motore legacy coincide anche con il legacy diretto. 3e: taglio e torsione del calcolo headless sono quelli del motore
 //    predefinito (5 norme; torsione NTC su 5 forme e 3 valori di cot θ), con più righe che distinguono i motori.
 // 4. Attesi indipendenti (reference.json, benchmark e forme chiuse di taglio e torsione) sul percorso dell'adattatore, con entrambi i motori.
+// 11. Durabilità e copriferri (refactoring F2.9): Durability.cs.
 // Uscita 0 con la riga "PASS · …"; 1 con il primo controllo fallito.
 const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Library; // F2.5 e cattura di B3: legacy; F2.6: libreria
 const double Tolerance = 1e-9;
@@ -449,6 +450,9 @@ try
     }
     Check(independent > 200, "attesi indipendenti: " + independent);
 
+    // ---------------------------------------------------------------- 11. durabilità e copriferri (F2.9): Durability.cs
+    var durability = DurabilityChecks.Run(root, Check);
+
     var lines = new[] { shearStats, torsionStats, geometryStats, moduleStats, routedStats, analysisStats }.Select(s => s.Line())
         .Append($"relazioni: {reports} testi identici (completa e sintetica, 5 norme)")
         .Append($"taglio del modulo: {moduleShearDiscriminating} calcoli con uscite dei due motori diverse")
@@ -469,6 +473,7 @@ try
         report["torsione_del_calcolo_headless"] = new JsonObject { ["righe_coincidenti_con_adattatore"] = headlessRouted, ["uscite_dei_motori_diverse"] = headlessDiscriminating };
         report["casi_minimi_che_distinguono_i_motori"] = MinimumDiscriminating;
         report["attesi_indipendenti"] = independent;
+        report["durabilita"] = durability;
         File.WriteAllText(Path.Combine(args[0], "misura.json"), report.ToJsonString(J.Options), new UTF8Encoding(false));
     }
     Console.WriteLine($"PASS · {count} controlli dell'adattatore di taglio e torsione (motore predefinito {ExpectedDefault}).");

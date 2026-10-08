@@ -1,0 +1,21 @@
+{
+  "moduleId": "str_palo",
+  "label": "Sezione c.a. NTC 2018 con i dettagli costruttivi: trave, XC4, 100 anni, controllo di qualità, aggregato 25 mm, Δc 5 mm",
+  "description": "Caso S1 del corpus della cattura headless (baseline B6, refactoring F2.9): parte di durabilità dei dettagli costruttivi (cmin,dur NTC della Circolare con la classe minima UNI 11104 come Cmin pertinente), catturata in engines/dettagli_durabilita.",
+  "overrides": {
+    "input": { "shape": "Rettangolare", "foro_presente": false },
+    "combinazioni": {
+      "SLU": [ { "nome": "SLU 1", "azioni": [ "-1200", "250", "60" ] } ],
+      "SLV": [ { "nome": "SLV 1", "azioni": [ "-800", "180", "40" ] } ],
+      "SLE": [],
+      "SLE_FREQ": [],
+      "SLE_QP": []
+    },
+    "workspace_ca": {
+      "versione": 2,
+      "normativa": "NTC 2018",
+      "sle": { "SLE": { "modello": "Lineare · sezione fessurata", "sigma_c_lim": "", "sigma_s_lim": "", "wk_lim": "", "esposizione": "XC4" } },
+      "dettagli_costruttivi": { "elemento": "Trave", "vita_durabilita": "100", "qualita_copriferro": "Sì", "aggregato": "25", "delta_c": "5" }
+    }
+  }
+}

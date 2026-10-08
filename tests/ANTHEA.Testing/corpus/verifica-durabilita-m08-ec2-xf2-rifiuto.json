@@ -1,0 +1,13 @@
+{
+  "moduleId": "mat_calcestruzzo",
+  "label": "Scheda Materiali, EC2 2004: XF2 senza esposizione alla corrosione (rifiuto)",
+  "description": "Caso M8 del corpus della cattura headless (baseline B6, refactoring F2.9): con il criterio EC2 un'esposizione XF da sola non definisce cmin,dur; il calcolo è rifiutato con il messaggio «Per il copriferro aggiungere l'esposizione alla corrosione…».",
+  "overrides": {
+    "classe": "C30/37",
+    "esposizione_principale": "XF2",
+    "esposizioni": [ "XF2" ],
+    "numeri": { "diameter": "16", "aggregate": "20" },
+    "scelte": { "coverMethod": "EC2 2004", "ntcElement": "Trave / pilastro", "life": "50 anni", "deviationControl": "Ordinario", "deviationValue": "10 mm", "ground": "Casseratura", "abrasion": "Nessuno" },
+    "opzioni": { "highStrength": false, "slab": false, "quality": false, "rough": false, "ntcQuality": false }
+  }
+}
