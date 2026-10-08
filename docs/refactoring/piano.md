@@ -164,6 +164,9 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
 - [ ] In coda a tutte le altre attività (decisione dell'utente dell'8/10):
   - analisi dei bug del codice di calcolo, corsa `wf_9c55965c-68b` ferma con 85 agenti in cache;
   - revisione delle pagine dei metodi ca.sle-tensioni e ca.fessurazione (U6);
-  - traccia Wiki (W). Fra le voci da fare: la guida pratica (riga 19) cita ancora la tendina dell'aspetto nella
-    Wiki, tolta l'8/10.
+  - traccia Wiki (W). Fra le voci da fare:
+    - la guida pratica (riga 19) cita ancora la tendina dell'aspetto nella Wiki, tolta l'8/10;
+    - la sezione «Materiali tendini e analisi di esercizio» della guida teorica, a cui rimanda il «?» accanto al tipo
+      di analisi della scheda Tensioni, va completata con la scelta fra analisi lineare e non lineare (legami di
+      progetto, avviso dell'8/10).
 - [ ] Report di calcolo: non si modificano finché l'utente non lo dice (decisione dell'8/10).

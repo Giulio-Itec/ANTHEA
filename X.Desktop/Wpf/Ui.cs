@@ -126,7 +126,8 @@ internal sealed class SectionIcon : FrameworkElement
     }
 }
 
-internal sealed record Field(string Key, string Label, string Unit = "", string[]? Choices = null, bool Bool = false, bool ReadOnly = false, string Symbol = "", bool Wide = false);
+/// <param name="Help">Wiki section for this field when the key alone is ambiguous in the module (e.g. «modello»).</param>
+internal sealed record Field(string Key, string Label, string Unit = "", string[]? Choices = null, bool Bool = false, bool ReadOnly = false, string Symbol = "", bool Wide = false, WikiContextHelp.Topic? Help = null);
 
 internal class ChainedScrollViewer : ScrollViewer
 {
@@ -178,11 +179,11 @@ internal sealed class InputForm : ChainedScrollViewer
             var f = symbolColumns ? WithSymbol(original) : original;
             int row = table.RowDefinitions.Count; table.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             var label = Ui.Text(f.Label, compact ? 12 : 13); label.Margin = new Thickness(2, 3, 6, 3); label.ToolTip = CalculationHelp.Field(f.Key) ?? f.Label;
-            var labelHost = WikiContextHelp.Label(label, f.Key, wikiModule);
+            var labelHost = WikiContextHelp.Label(label, f.Key, wikiModule, f.Help);
             FrameworkElement editor;
             if (f.Bool)
             {
-                var c = new CheckBox { Content = symbolColumns ? null : WikiContextHelp.Label(Ui.Text(f.Label, compact ? 12 : 13), f.Key, wikiModule), IsChecked = values.B(f.Key), VerticalContentAlignment = VerticalAlignment.Center };
+                var c = new CheckBox { Content = symbolColumns ? null : WikiContextHelp.Label(Ui.Text(f.Label, compact ? 12 : 13), f.Key, wikiModule, f.Help), IsChecked = values.B(f.Key), VerticalContentAlignment = VerticalAlignment.Center };
                 c.Checked += (_, _) => Store(f.Key, true); c.Unchecked += (_, _) => Store(f.Key, false); editor = c;
             }
             else if (f.Choices is not null)
@@ -217,14 +218,14 @@ internal sealed class InputForm : ChainedScrollViewer
                 t.LostKeyboardFocus += (_, _) => Present(false);
                 editor = t;
             }
-            editor.Margin = new Thickness(2, 3, 2, 3); editor.MinHeight = compact ? 22 : 27; editor.ToolTip = WikiContextHelp.Description(f.Key, wikiModule) ?? CalculationHelp.Field(f.Key) ?? f.Label + (f.Unit != "" ? " [" + f.Unit + "]" : "");
+            editor.Margin = new Thickness(2, 3, 2, 3); editor.MinHeight = compact ? 22 : 27; editor.ToolTip = f.Help?.Title ?? WikiContextHelp.Description(f.Key, wikiModule) ?? CalculationHelp.Field(f.Key) ?? f.Label + (f.Unit != "" ? " [" + f.Unit + "]" : "");
             ToolTipService.SetShowDuration(editor, 20000); ToolTipService.SetShowDuration(label, 20000);
             editor.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, f.Label);
             editor.KeyDown += (_, e) =>
             {
                 if (e.Key != System.Windows.Input.Key.F1) return;
                 var module = wikiModule ?? GetValue(WikiContextHelp.ModuleProperty) as string;
-                var uri = WikiContextHelp.ForField(f.Key, module)?.Uri ?? (module is null ? null : WikiCatalog.ForModule(module)?.Id);
+                var uri = f.Help?.Uri ?? WikiContextHelp.ForField(f.Key, module)?.Uri ?? (module is null ? null : WikiCatalog.ForModule(module)?.Id);
                 if (uri is null) return;
                 e.Handled = true; WikiContextHelp.Open(editor, uri);
             };

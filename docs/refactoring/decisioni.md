@@ -337,7 +337,13 @@ Messaggi dell'utente nella sessione del coordinatore, riportati con le sue parol
     **Ripensamento dell'utente, 8/10 tarda mattina**: «il calcolo viene fatto secondo legame costitutivo coefficientato
     con alpha e gamma. quindi valori caratteristici + coeff x il design. ad ora lascialo così. ritiriamo fuori questo
     argomento a fine refactoring». U2 è sospesa: l'analisi non lineare resta con i legami di progetto, senza legami
-    nuovi in Model e senza modifiche al solutore; R5 resta «da ridiscutere» in F5.15.
+    nuovi in Model e senza modifiche al solutore; R5 resta «da ridiscutere» in F5.15. Subito dopo: «metti il rimando
+    alla guida accanto al tipo di analisi. l'avviso mettilo». Nella scheda Tensioni il campo «Analisi» ha il
+    pulsante «?» verso la guida teorica («Materiali tendini e analisi di esercizio») e con «Non lineare» compare
+    l'avviso: «Analisi non lineare: le tensioni di esercizio sono calcolate con i legami costitutivi di progetto
+    (valori caratteristici ridotti con αcc e γ). La norma non prescrive il metodo dell'analisi tensionale; per le
+    verifiche SLE il riferimento abituale è l'analisi lineare a sezione fessurata.» Solo interfaccia: calcolo e
+    relazioni invariati.
   - U3 «correggi»: R22 si risolve applicando il fattore 0,8 dei getti sottili anche con UNI/DM 2012: limiti SLE del
     calcestruzzo, αcc e fcd con `gettato_sottile` = Sì.
   - U4 «tieni i limiti come oggi»: con CS-TR34 ANTHEA continua a calcolare i limiti tensionali SLE con i coefficienti
