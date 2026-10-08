@@ -38,6 +38,10 @@ SLU a N assegnato con stress-block (0,8 x, η fcd) e parabola-rettangolo, rottur
 integrazioni con le formule chiuse dei manuali; per i poligoni riporta lo scarto dal cerchio vero (area compressa a parità di x:
 da −0,20 a −0,30 % con 72 lati, −0,06 % con 144).
 
+Controllo a mano di uno stato: R2 (400 × 600, 4 + 4Ø20 a 50 mm, C35/45, n = 200000/34077 = 5,869) in flessione semplice,
+200 x² + (n − 1) As' (x − 50) = n As (550 − x) con As = As' = 1256,6 mm² → 200 x² + 13 494 x − 4 362 290 = 0, x = 117,76 mm
+(attesi.json: 117,757 mm; motori: yn entro 2e-5 h).
+
 Convenzione di segno ricavata e poi imposta a tutti i casi: Mx positivo di ANTHEA comprime il lembo superiore (y massimo).
 
 Tolleranze fissate prima delle misure; scarti massimi misurati (relativi alla scala della grandezza):
