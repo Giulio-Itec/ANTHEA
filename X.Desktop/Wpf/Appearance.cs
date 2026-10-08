@@ -190,8 +190,9 @@ internal static class Appearance
         int chroma = Math.Max(c.R, Math.Max(c.G, c.B)) - Math.Min(c.R, Math.Min(c.G, c.B));
         if (role == "border")
         {
-            // Saturated lines carry a meaning (selection, validation, soil layer colours) and keep their hue.
-            if (chroma > 55 && l < .7) return c;
+            // Saturated lines carry a meaning (selection, validation, status) and keep their hue; the strongest
+            // hues (the yellow of the utilization palette, 0.70 < η ≤ 0.90) are light by nature.
+            if (chroma > 55 && l < .7 || chroma > 100) return c;
             return Hex(Current == AppAppearance.VeryDark ? "#454C55" : "#596B7E");
         }
         if (l > .78) return c;
