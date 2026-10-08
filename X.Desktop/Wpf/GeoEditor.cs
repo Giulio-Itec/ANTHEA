@@ -336,7 +336,7 @@ internal sealed partial class SheetEditor
         foreach (var (key, series) in allSeries.Where(p => CapacityIncludes(p.Key)))
         {
             string value = Result?.B("copertura_completa") == true && series.Points.Count > 0 ? series.Points[^1][0].ToString("N1") : "—";
-            var check = new CheckBox { Content = series.Name + ": " + value, Foreground = series.Color, IsChecked = visibility[key], Margin = new Thickness(2, 4, 8, 4), FontSize = 11 };
+            var check = new CheckBox { Content = series.Name + ": " + value, Foreground = Appearance.Series(series.Color), IsChecked = visibility[key], Margin = new Thickness(2, 4, 8, 4), FontSize = 11 };
             void Change() { visibility[key] = check.IsChecked == true; StoreVisibility(); UpdateVisible(); }
             check.Checked += (_, _) => Change(); check.Unchecked += (_, _) => Change(); curveChoices.Children.Add(check);
         }

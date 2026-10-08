@@ -56,7 +56,7 @@ internal sealed partial class BridgeDesignWorkspace
         var cloudCard = Ui.Paper(Ui.Stack(Ui.Text("3 · Famiglia di soluzioni plausibili", 17, true), Ui.Bar(filter, pareto), OptimizationCloud,
             Ui.Text("In basso a sinistra: meno costo e CO₂. Anello = Pareto; stella = ottimo; croce = progetto corrente. Clicca un punto per esaminarlo, anche fuori dalle prime N.", 11, color: Ui.Muted)));
         var legend = new WrapPanel();
-        foreach (var family in BridgeConcept.Families) legend.Children.Add(Ui.Text("● " + family.Name + "   ", 11, color: BridgeOptimizationPlot.FamilyBrush(family.Id)));
+        foreach (var family in BridgeConcept.Families) legend.Children.Add(Ui.Text("● " + family.Name + "   ", 11, color: Appearance.Series(BridgeOptimizationPlot.FamilyBrush(family.Id))));
         var chartGrid = new Grid(); chartGrid.ColumnDefinitions.Add(new()); chartGrid.ColumnDefinitions.Add(new());
         chartGrid.RowDefinitions.Add(new() { Height = GridLength.Auto }); chartGrid.RowDefinitions.Add(new() { Height = GridLength.Auto });
         chartGrid.Children.Add(traceCard); chartGrid.Children.Add(cloudCard);

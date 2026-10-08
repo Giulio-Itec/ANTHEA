@@ -110,7 +110,7 @@ internal sealed partial class ConcreteWorkspace
         }
         var legend = new StackPanel();
         foreach (var (value, label) in new[] { (.25, "0 ≤ η ≤ 0,50"), (.6, "0,50 < η ≤ 0,70"), (.8, "0,70 < η ≤ 0,90"), (.95, "0,90 < η ≤ 1,00"), (1.1, "η > 1,00") })
-            legend.Children.Add(Ui.Text("■  " + label, 11, color: UtilizationPalette.Brush(value)));
+            legend.Children.Add(Ui.Text("■  " + label, 11, color: Appearance.Series(UtilizationPalette.Brush(value))));
         frame.Toolbar.Children.Add(new Expander { Header = "Legenda η", Content = legend, Margin = new Thickness(5) });
         string ratio = threeD ? "eta3d" : "eta2d", outcome = threeD ? "esito3d" : "esito2d";
         panel.Grid = new JsonGrid([new("visible", "Mostra", Bool: true), new("nome", "Combinazione"), new("N", "N [kN]"), new("Mx", "Mx [kNm]"), new("My", "My [kNm]"), new(ratio, "η [-]", ReadOnly: true), new(outcome, "Esito", ReadOnly: true)], true, actions[panel.Key]);

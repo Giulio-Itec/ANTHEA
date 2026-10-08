@@ -51,6 +51,8 @@ internal static class Appearance
     internal static Brush Selection(string hex) => Colour((Color)ColorConverter.ConvertFromString(hex), "selection");
     /// <summary>Background of a calculated or linked field, which the user does not edit.</summary>
     internal static Brush Calculated => Colour((Color)ColorConverter.ConvertFromString("#EAF2FA"), "calculated");
+    /// <summary>Colour of a series in a legend or of an axis on a dark view: the hue identifies the curve, so it is kept and lightened.</summary>
+    internal static Brush Series(Brush brush) => brush is SolidColorBrush solid ? Colour(origins.TryGetValue(solid, out var source) ? source.Color : solid.Color, "series") : brush;
     private static bool Generic(string role) => role is "background" or "foreground" or "border";
 
     internal static AppAppearance ReadPreference(string path)
@@ -191,6 +193,7 @@ internal static class Appearance
         bool veryDark = Current == AppAppearance.VeryDark;
         Color Hex(string s) { var value = (Color)ColorConverter.ConvertFromString(s); value.A = c.A; return value; }
         int chroma = Math.Max(c.R, Math.Max(c.G, c.B)) - Math.Min(c.R, Math.Min(c.G, c.B));
+        Color Lighter() => Color.FromArgb(c.A, (byte)(c.R * .45 + 140), (byte)(c.G * .45 + 140), (byte)(c.B * .45 + 140));
         switch (role)
         {
             // Lighter than the surfaces, with light text on it (white, #BCCFE2): at least 4.5:1 in both appearances.
@@ -199,6 +202,8 @@ internal static class Appearance
             case "selection": return Hex(veryDark ? "#2E3D52" : "#26425E");
             // Bluish as in Light, lighter than the editable fields (#1D3047, #090A0C).
             case "calculated": return Tinted(c, veryDark ? .03 : .05, veryDark ? .5 : .7);
+            // Every hue, blue and violet included (the foreground role keeps only the status hues).
+            case "series": return l > .78 ? c : Lighter();
         }
         if (role == "background")
         {
@@ -222,9 +227,8 @@ internal static class Appearance
         }
         if (l > .78) return c;
         // Preserve status hues, with enough luminance for dark surfaces.
-        if (chroma > 55 && (c.G > c.B * 1.2 || c.R > c.B * 1.3))
-            return Color.FromArgb(c.A, (byte)(c.R * .45 + 140), (byte)(c.G * .45 + 140), (byte)(c.B * .45 + 140));
-        return Hex(Current == AppAppearance.VeryDark ? (l < .3 ? "#E8E9EB" : "#BFC2C7") : (l < .3 ? "#E5EDF7" : "#B9C9DD"));
+        if (chroma > 55 && (c.G > c.B * 1.2 || c.R > c.B * 1.3)) return Lighter();
+        return Hex(veryDark ? (l < .3 ? "#E8E9EB" : "#BFC2C7") : (l < .3 ? "#E5EDF7" : "#B9C9DD"));
     }
     private static double Linear(byte v) { double s = v / 255.0; return s <= .04045 ? s / 12.92 : Math.Pow((s + .055) / 1.055, 2.4); }
     private static byte Gamma(double v) { v = Math.Clamp(v, 0, 1); return (byte)Math.Round(255 * (v <= .0031308 ? 12.92 * v : 1.055 * Math.Pow(v, 1 / 2.4) - .055)); }
