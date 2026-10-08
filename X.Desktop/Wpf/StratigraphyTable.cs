@@ -90,7 +90,7 @@ internal static class StratigraphyTable
                 hint.SetBinding(TextBlock.TextProperty, Value("peso_specifico", true));
                 var visibility = Value(field.Key, true); visibility.Converter = new EmptyVisibility();
                 hint.SetBinding(UIElement.VisibilityProperty, visibility);
-                hint.SetValue(TextBlock.ForegroundProperty, Appearance.Foreground(Brushes.Gray));
+                hint.SetValue(TextBlock.ForegroundProperty, Appearance.Dim(Brushes.Gray));
                 hint.SetValue(TextBlock.TextAlignmentProperty, TextAlignment.Center);
                 hint.SetValue(FrameworkElement.VerticalAlignmentProperty, VerticalAlignment.Center);
                 hint.SetValue(UIElement.IsHitTestVisibleProperty, false);

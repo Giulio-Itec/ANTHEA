@@ -53,6 +53,8 @@ internal static class Appearance
     internal static Brush Calculated => Colour((Color)ColorConverter.ConvertFromString("#EAF2FA"), "calculated");
     /// <summary>Colour of a series in a legend or of an axis on a dark view: the hue identifies the curve, so it is kept and lightened.</summary>
     internal static Brush Series(Brush brush) => brush is SolidColorBrush solid ? Colour(origins.TryGetValue(solid, out var source) ? source.Color : solid.Color, "series") : brush;
+    /// <summary>Text of a disabled control or of an automatic value shown in grey: dimmer than the muted text, as in Light.</summary>
+    internal static Brush Dim(Brush brush) => brush is SolidColorBrush solid ? Colour(origins.TryGetValue(solid, out var source) ? source.Color : solid.Color, "disabled") : brush;
     /// <summary>Identification colour (soil layer) shown also in the drawings: the same in every appearance.</summary>
     internal static Brush Swatch(string hex) => Colour((Color)ColorConverter.ConvertFromString(hex), "swatch");
     private static bool Generic(string role) => role is "background" or "foreground" or "border";
@@ -94,6 +96,8 @@ internal static class Appearance
         resources[SystemColors.InactiveSelectionHighlightBrushKey] = Colour(((SolidColorBrush)SystemColors.InactiveSelectionHighlightBrush).Color, "selection");
         resources["AppearanceSelection"] = Selection("#E2EFFC");
         resources[SystemColors.InactiveSelectionHighlightTextBrushKey] = Colour(((SolidColorBrush)SystemColors.InactiveSelectionHighlightTextBrush).Color, "foreground");
+        // Text of disabled items (ComboBoxItem): dimmer than the muted text in the dark appearances, as in Light.
+        resources[SystemColors.GrayTextBrushKey] = Colour(SystemColors.GrayTextColor, "disabled");
         EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.LoadedEvent,
             new RoutedEventHandler((sender, _) => ApplyElement((DependencyObject)sender)));
         // WPF raises Loaded only on elements with a Loaded handler of their own: an element added to a window
@@ -207,6 +211,8 @@ internal static class Appearance
             case "calculated": return Tinted(c, veryDark ? .03 : .05, veryDark ? .5 : .7);
             // Every hue, blue and violet included (the foreground role keeps only the status hues).
             case "series": return l > .78 ? c : Lighter();
+            // 4.9:1 on #142337 and 5.5:1 on #141518, clearly dimmer than the text (#E5EDF7, #E8E9EB) and the muted text.
+            case "disabled": return Hex(veryDark ? "#8A8D92" : "#8291A5");
         }
         if (role == "background")
         {
