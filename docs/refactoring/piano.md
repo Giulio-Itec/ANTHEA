@@ -166,6 +166,11 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
   - [ ] attesa più robusta nelle catture di `str_mista_ponte`;
   - [ ] figure della guida pratica in `supporto/artefatti` (ignorato da git), che fanno fallire lo stadio wiki in un
     worktree nuovo.
+- [ ] Segnalazioni dell'utente dell'8/10 sera, dalla prova della build dell'integrazione 3 («appunti da correggere poi»):
+  - [ ] tema scuro: le scritte del menu in alto non si vedono;
+  - [ ] pali: una seconda fila di armature non si vede; anche aggiunta nel verificatore del cls dei pali, sparisce;
+  - [ ] nota visibile nell'interfaccia «stress block: risultati SLU meno precisi» (S-1; oggi solo nella libreria e
+    nella pagina del metodo).
 - [ ] In coda a tutte le altre attività (decisione dell'utente dell'8/10):
   - analisi dei bug del codice di calcolo, corsa `wf_9c55965c-68b` ferma con 85 agenti in cache;
   - revisione delle pagine dei metodi ca.sle-tensioni e ca.fessurazione (U6);
