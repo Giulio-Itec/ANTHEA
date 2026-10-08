@@ -32,8 +32,9 @@
       "differenze_attese": []
     },
     "b0": {
-      "descrizione": "Cattura densa pre-M4 contro la baseline B0 (supporto/artefatti/baseline/F0-B0/dense, commit dello strumento 2cd73c1, 6/10/2026), una modalità per volta (tutte, muri, pali, mesh). Confronto esatto.",
+      "descrizione": "Cattura densa pre-M4 contro la baseline B0 (supporto/artefatti/baseline/F0-B0/dense, commit dello strumento 2cd73c1, 6/10/2026), una modalità per volta (tutte, muri, pali, mesh). Confronto esatto. Dal passo F2.8-A0 i sei file nuovi della modalità tutte, assenti in B0, sono esclusi come in pre-m4.",
       "prefisso_tolleranze": "denso",
+      "file_esclusi": ["^detailing-plate-legacy\\.csv$", "^detailing-plate-sections\\.xml$", "^detailing-texts-legacy\\.csv$", "^detailing-adapter-legacy\\.jsonl$", "^bond-legacy\\.csv$", "^curvature-production-legacy\\.csv$"],
       "identificativi_casuali": [
         { "file": "-sections\\.xml$", "forma": "guid", "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" },
         { "file": "^walls-(combinations|documents)\\.jsonl", "forma": "hex32", "motivo": "id delle azioni creati da RetainingWall.Upgrade per i documenti dei muri in versione 1 (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" }
@@ -129,8 +130,9 @@
       ]
     },
     "pre-m4": {
-      "descrizione": "Cattura densa contro la cattura pre-M4 v2 (supporto/artefatti/baseline/F2-pre-m4-v2/a, ANTHEA refactoring/integrazione-d7b-d2 d2d3225, 7/10/2026), una modalità per volta: doppia corsa e riferimento dei passi F2.5-F2.9. Confronto esatto, nessuna differenza attesa. La v2 differisce dalla cattura pre-M4 di F2.1 (F2-pre-m4/a, commit 75e4626) solo per D7-b, R15 e D7-d d2 (voci B0-4…B0-10 del confronto b0; docs/refactoring/f2.1-banco.md).",
+      "descrizione": "Cattura densa contro la cattura pre-M4 v2 (supporto/artefatti/baseline/F2-pre-m4-v2/a, ANTHEA refactoring/integrazione-d7b-d2 d2d3225, 7/10/2026), una modalità per volta: doppia corsa e riferimento dei passi F2.5-F2.9. Confronto esatto, nessuna differenza attesa. La v2 differisce dalla cattura pre-M4 di F2.1 (F2-pre-m4/a, commit 75e4626) solo per D7-b, R15 e D7-d d2 (voci B0-4…B0-10 del confronto b0; docs/refactoring/f2.1-banco.md). Dal passo F2.8-A0 i sei file nuovi della modalità tutte (DetailingExtendedCapture) sono esclusi: il loro riferimento è il confronto pre-f28.",
       "prefisso_tolleranze": "denso",
+      "file_esclusi": ["^detailing-plate-legacy\\.csv$", "^detailing-plate-sections\\.xml$", "^detailing-texts-legacy\\.csv$", "^detailing-adapter-legacy\\.jsonl$", "^bond-legacy\\.csv$", "^curvature-production-legacy\\.csv$"],
       "identificativi_casuali": [
         { "file": "-sections\\.xml$", "forma": "guid", "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" },
         { "file": "^walls-(combinations|documents)\\.jsonl", "forma": "hex32", "motivo": "id delle azioni creati da RetainingWall.Upgrade per i documenti dei muri in versione 1 (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" }
@@ -138,8 +140,18 @@
       "differenze_attese": []
     },
     "f2-libreria": {
-      "descrizione": "Dal passo F2.6: cattura densa con taglio e torsione calcolati da GPCChecker.Concrete tramite ConcreteShearTorsionAdapter (CheckerMigration.Capture con '--motore libreria', o senza opzione dopo l'interruttore di F2.6 sulla libreria) contro la cattura pre-M4 v2 (supporto/artefatti/baseline/F2-pre-m4-v2/a, legacy), una modalità per volta. Come pre-m4, ma le grandezze numeriche di shear-legacy.csv, torsion-legacy.csv e torsion-geometry-legacy.csv ammettono 1e-9 (regole 'f2-libreria/' di tolerances.json, come le fixture di Checker): differenze nelle ultime cifre fra l'aritmetica della libreria e quella del legacy (Math.Pow(x, 1/3) contro Math.Cbrt, unità N e N·mm, ordine delle somme dei tassi), categoria convenzione, registro F2-1. Testi, stati, esiti, rifiuti e messaggi esatti (mappatura sui testi del legacy, registro F2-2); ogni altro file esatto. Con '--motore legacy' la cattura resta confrontabile con pre-m4.",
+      "descrizione": "Dal passo F2.6: cattura densa con taglio e torsione calcolati da GPCChecker.Concrete tramite ConcreteShearTorsionAdapter (CheckerMigration.Capture con '--motore libreria', o senza opzione dopo l'interruttore di F2.6 sulla libreria) contro la cattura pre-M4 v2 (supporto/artefatti/baseline/F2-pre-m4-v2/a, legacy), una modalità per volta. Come pre-m4, ma le grandezze numeriche di shear-legacy.csv, torsion-legacy.csv e torsion-geometry-legacy.csv ammettono 1e-9 (regole 'f2-libreria/' di tolerances.json, come le fixture di Checker): differenze nelle ultime cifre fra l'aritmetica della libreria e quella del legacy (Math.Pow(x, 1/3) contro Math.Cbrt, unità N e N·mm, ordine delle somme dei tassi), categoria convenzione, registro F2-1. Testi, stati, esiti, rifiuti e messaggi esatti (mappatura sui testi del legacy, registro F2-2); ogni altro file esatto. Con '--motore legacy' la cattura resta confrontabile con pre-m4. Dal passo F2.8-A0 i sei file nuovi della modalità tutte sono esclusi, come in pre-m4.",
       "prefisso_tolleranze": "f2-libreria",
+      "file_esclusi": ["^detailing-plate-legacy\\.csv$", "^detailing-plate-sections\\.xml$", "^detailing-texts-legacy\\.csv$", "^detailing-adapter-legacy\\.jsonl$", "^bond-legacy\\.csv$", "^curvature-production-legacy\\.csv$"],
+      "identificativi_casuali": [
+        { "file": "-sections\\.xml$", "forma": "guid", "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" },
+        { "file": "^walls-(combinations|documents)\\.jsonl", "forma": "hex32", "motivo": "id delle azioni creati da RetainingWall.Upgrade per i documenti dei muri in versione 1 (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" }
+      ],
+      "differenze_attese": []
+    },
+    "pre-f28": {
+      "descrizione": "Dal passo F2.8-A0: cattura densa contro la cattura pre-F2.8 (supporto/artefatti/baseline/F2-pre-f28/a, ANTHEA refactoring/f2-8-a0-cattura, '--motore legacy'), una modalità per volta: F2-pre-m4-v2 più i sei file nuovi della modalità tutte (detailing-plate-legacy.csv e detailing-plate-sections.xml, detailing-texts-legacy.csv, detailing-adapter-legacy.jsonl, bond-legacy.csv, curvature-production-legacy.csv; supporto/test/CheckerMigration.Capture/DetailingExtendedCapture.cs). Doppia corsa e riferimento esatto dei passi F2.8 (fixture di CL1 e CL2, confronti degli interruttori I1-I3 con il legacy). Confronto esatto su tutti i file, nessuna differenza attesa. Dopo F2.7 le catture confrontabili sono quelle con tutti i motori legacy.",
+      "prefisso_tolleranze": "denso",
       "identificativi_casuali": [
         { "file": "-sections\\.xml$", "forma": "guid", "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" },
         { "file": "^walls-(combinations|documents)\\.jsonl", "forma": "hex32", "motivo": "id delle azioni creati da RetainingWall.Upgrade per i documenti dei muri in versione 1 (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" }

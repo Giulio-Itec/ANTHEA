@@ -113,6 +113,13 @@ Classi delle differenze: `file-aggiunto`, `file-rimosso`, `chiave-aggiunta`,
 | `b0` | `supporto/artefatti/baseline/F0-B0/dense/<modalità>` | esatte (`denso/`) | misura F2.1 rispetto a B0 |
 | `pre-m4` | `supporto/artefatti/baseline/F2-pre-m4-v2/a/<modalità>` (nessuna differenza attesa) | esatte (`denso/`) | doppia corsa; catture con `--motore legacy` (`-DenseSet pre-m4`) |
 | `f2-libreria` | come `pre-m4` (nessuna differenza attesa) | 1e-9 sui soli numeri di taglio e torsione calcolati da GPCChecker.Concrete (regole `f2-libreria/`, registro F2-1), il resto esatto | catture con il motore della libreria (predefinito dal passo F2.6, o `--motore libreria`), passi F2.6-F2.9; predefinito di `-DenseSet` nel runner (`-DenseRef`) |
+| `pre-f28` | `supporto/artefatti/baseline/F2-pre-f28/a/<modalità>`: F2-pre-m4-v2 più i sei file della cattura estesa di F2.8-A0, tutto con `--motore legacy` (nessuna differenza attesa) | esatte (`denso/`), tutti i file | doppia corsa; riferimento esatto dei passi F2.8 (catture con tutti i motori legacy) |
+
+Dal passo F2.8-A0 `b0`, `pre-m4` e `f2-libreria` escludono (`file_esclusi`, espressioni regolari sui nomi) i sei file
+nuovi della modalità tutte: `detailing-plate-legacy.csv`, `detailing-plate-sections.xml`, `detailing-texts-legacy.csv`,
+`detailing-adapter-legacy.jsonl`, `bond-legacy.csv` e `curvature-production-legacy.csv`
+(`supporto/test/CheckerMigration.Capture/README.md`). `fixture-checker` dichiara i suoi file e li lascia fra i non
+confrontati.
 
 Regole del confronto:
 
