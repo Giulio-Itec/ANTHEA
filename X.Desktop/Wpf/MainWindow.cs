@@ -114,6 +114,8 @@ public sealed partial class MainWindow : Window
     {
         var button = Ui.Button(title, action, dark);
         button.Style = (Style)Application.Current.FindResource(dark ? "ProjectCommandButton" : "ProjectButton");
+        // Commands of the Navy bars: the colour of the bar, not the fill of a primary button.
+        if (dark) button.Background = Appearance.Background("#0B2A4A");
         button.Height = 36; button.Padding = new Thickness(10, 2, 10, 2);
         button.VerticalAlignment = VerticalAlignment.Center;
         return button;
@@ -150,7 +152,7 @@ public sealed partial class MainWindow : Window
             dashboard.Height = Math.Max(680, dashboardViewport.ViewportHeight);
         }
         body.Content = dashboardViewport;
-        foreach (var (key, b) in navigation) { b.Background = key == name ? Ui.Navy : Brushes.White; b.Foreground = key == name ? Brushes.White : Ui.Navy; }
+        foreach (var (key, b) in navigation) Ui.SetSelected(b, key == name);
     }
     private void ShowHome()
     {

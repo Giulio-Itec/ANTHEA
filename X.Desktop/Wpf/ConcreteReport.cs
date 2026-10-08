@@ -40,7 +40,7 @@ internal sealed partial class ConcreteWorkspace
                     view.Ratios = checks?.ToDictionary(kv => kv.Key, kv => kv.Value.Utilization);
                     view.Resistances = panel.Options.B("tutte_rd") ? panel.Grid.Items.OfType<JsonRow>().Where(r => r.Values.B("visible", true)).Select(r => (Id: r.Values.S("id"), Check: checks?.GetValueOrDefault(r.Values.S("id")))).Where(r => r.Check?.Resistance is not null).ToDictionary(r => r.Id, r => r.Check!.Resistance!.Value) : null;
                     view.SetActions(points, selected, selected is null ? null : checks?.GetValueOrDefault(selected)?.Resistance); view.SurfaceOpacity = 1 - panel.Options.D("trasparenza", 35) / 100; view.UpdateLayout();
-                    images.Add(new("Dominio 3D " + SectionWorkspace.Label(panel.Key) + " in vista isometrica con filtri e livelli correnti", Ui.Snapshot(view), category));
+                    images.Add(new("Dominio 3D " + SectionWorkspace.Label(panel.Key) + " in vista isometrica con filtri e livelli correnti", Ui.DocumentSnapshot(view), category));
                 }
                 else if (!panel.ThreeD && checker2D.ContainsKey(panel.Key))
                 {

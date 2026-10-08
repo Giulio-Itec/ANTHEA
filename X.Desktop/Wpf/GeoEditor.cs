@@ -302,12 +302,12 @@ internal sealed partial class SheetEditor
             style.Setters.Add(new Setter(FrameworkElement.MarginProperty, new Thickness(3, 5, 3, 5)));
             if (i == 4)
             {
-                style.Setters.Add(new Setter(TextBlock.ForegroundProperty, Ui.Muted));
+                style.Setters.Add(new Setter(TextBlock.ForegroundProperty, Appearance.Foreground(Ui.Muted)));
                 style.Setters.Add(new Setter(TextBlock.FontWeightProperty, FontWeights.SemiBold));
                 foreach (var (value, color) in new[] { ("Verifica soddisfatta", "#16703B"), ("Verifica non soddisfatta", "#B42318") })
                 {
                     var trigger = new DataTrigger { Binding = new Binding("[4]"), Value = value };
-                    trigger.Setters.Add(new Setter(TextBlock.ForegroundProperty, Ui.Brush(color))); style.Triggers.Add(trigger);
+                    trigger.Setters.Add(new Setter(TextBlock.ForegroundProperty, Appearance.Foreground(Ui.Brush(color)))); style.Triggers.Add(trigger);
                 }
             }
             column.ElementStyle = style;
@@ -336,7 +336,7 @@ internal sealed partial class SheetEditor
         foreach (var (key, series) in allSeries.Where(p => CapacityIncludes(p.Key)))
         {
             string value = Result?.B("copertura_completa") == true && series.Points.Count > 0 ? series.Points[^1][0].ToString("N1") : "—";
-            var check = new CheckBox { Content = series.Name + ": " + value, Foreground = series.Color, IsChecked = visibility[key], Margin = new Thickness(2, 4, 8, 4), FontSize = 11 };
+            var check = new CheckBox { Content = series.Name + ": " + value, Foreground = Appearance.Series(series.Color), IsChecked = visibility[key], Margin = new Thickness(2, 4, 8, 4), FontSize = 11 };
             void Change() { visibility[key] = check.IsChecked == true; StoreVisibility(); UpdateVisible(); }
             check.Checked += (_, _) => Change(); check.Unchecked += (_, _) => Change(); curveChoices.Children.Add(check);
         }

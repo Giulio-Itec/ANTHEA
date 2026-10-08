@@ -4,8 +4,8 @@
   "aggiornato": "2026-10-07",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso",
-    "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R della revisione dei metodi; percorsi con prefisso Checker/",
-    "Model": "c85b70a6 (master) per le voci D7; d6631635 (master, locale) per le voci R; percorsi con prefisso Model/",
+    "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/",
+    "Model": "c85b70a6 (master) per le voci D7; d6631635 (master, locale) per le voci R1-R14; 5ad56681 (master, pushato) per le voci R16-R21; percorsi con prefisso Model/",
     "lib/Checker": "manifest del 2026-10-06: GPCChecker.Concrete 0.0.14.0, GPCChecker.Geotechnics 0.1.0.0, GPCChecker.CompositeBridge 1.4.0.2, GPCModel 1.6.0.0"
   },
   "categorie": {
@@ -15,7 +15,7 @@
     "scostamento-normativo": "il codice si discosta dal testo della norma del profilo"
   },
   "stati": ["da-decidere", "dichiarato", "da-correggere", "corretto"],
-  "nota_voci_r": "Le voci R1-R14 vengono dalla ricerca normativa sulla fessurazione (supporto/artefatti/refactoring/ricerca-a/rapporto.md) e dalla revisione dei metodi c.a. per le pagine docs/metodi di Checker (branch locali anthea-metodi-ca-1 e anthea-metodi-ca-2, harness in supporto/artefatti/refactoring/metodi e metodi2). Il segno è riferito al testo della norma del profilo; dove il testo primario non è stato letto il grado di certezza è indicato nel campo riscontro.",
+  "nota_voci_r": "Le voci R1-R14 vengono dalla ricerca normativa sulla fessurazione (supporto/artefatti/refactoring/ricerca-a/rapporto.md) e dalla revisione dei metodi c.a. per le pagine docs/metodi di Checker (branch locali anthea-metodi-ca-1 e anthea-metodi-ca-2, harness in supporto/artefatti/refactoring/metodi e metodi2). R15 viene dalla revisione di D7-b. Le voci R16-R21 vengono dalla verifica delle pagine dei metodi unite in Checker develop (F2.2: merge c555a3b8 e 1fbaea61 e correzioni successive, riquadri collegati alle voci in e41a803a); stato da-decidere e stessa decisione di R4-R14 (F5.15). Il segno è riferito al testo della norma del profilo; dove il testo primario non è stato letto il grado di certezza è indicato nel campo riscontro.",
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
@@ -233,31 +233,43 @@
     },
     {
       "id": "D7-e",
-      "titolo": "Classe minima C30/37 per XC3, XD1, XF4 e XA1 contro C28/35 della UNI 11104",
+      "titolo": "Classe minima C30/37 per XC3, XD1, XF4 e XA1 (UNI 11104:2025 in vigore) contro C28/35 attribuito all'edizione 2004",
       "famiglia": "calcestruzzo/durabilita",
       "categoria": "intenzionale",
-      "stato": "da-correggere",
-      "descrizione": "La classe minima per esposizione del profilo NTC (dichiarata come UNI 11104 tramite ATECAP 2020) vale C30/37 per XC3, XD1, XF4 e XA1; la UNI 11104 dà C28/35. I valori del codice coincidono con il prospetto F.1 della EN 206. La classe minima regola l'avviso della scheda Materiali e la maggiorazione di 5 mm del copriferro NTC.",
+      "stato": "dichiarato",
+      "descrizione": "La classe minima per esposizione del profilo NTC vale C30/37 per XC3, XD1, XF4 e XA1, come il prospetto 6 della UNI 11104:2025 in vigore (secondo l'estratto del 28/07/2025), il prospetto 5 della UNI 11104:2016 (riportato in ATECAP 2020) e il prospetto F.1 della EN 206; C28/35 per le stesse classi è il valore attribuito all'edizione 2004. Il codice tiene C30/37 (decisione del 7/10) e le citazioni di ANTHEA indicano ora edizione e prospetto. Secondo un estratto pubblicato il 28/07/2025 (fonte secondaria) il prospetto 6 della 2025 differisce dal codice per una sola classe, XF1 (C30/37 contro C32/40 del codice e della 2016), e per i limiti di composizione: voce seguito, con l'opzione e4 da attuare in F2.9 dopo il riscontro del prospetto 6 su una copia con licenza della norma. La classe minima regola l'avviso della scheda Materiali e la maggiorazione di 5 mm del copriferro NTC.",
       "riferimento_normativo": [
-        { "fonte": "UNI 11104", "punto": "prospetto 4 secondo il piano (il codice cita il prospetto 5 tramite ATECAP 2020)", "riscontro": "testo non disponibile: valori e numero del prospetto da riscontrare" },
+        { "fonte": "UNI 11104:2025", "punto": "punto 6.1 «Requisiti relativi alle classi di esposizione», prospetto 6 «Valori limite per la composizione e le proprietà del calcestruzzo», riga «Classe di resistenza minima»", "riscontro": "indiretto, da completare su una copia con licenza della norma prima di F2.9. (1) Anteprima pubblicata nel catalogo UNI, pagine visibili: indice (pp. III-IV, con il punto 6.1 «Requisiti relativi alle classi di esposizione» a p. 10), introduzione (p. 1), punti 1 e 2 (p. 2), con l'intestazione «UNI 11104:2025»; il frontespizio e il prospetto 6 non sono fra le pagine visibili e l'indice elenca i punti, non i prospetti. (2) Estratto pubblicato il 28/07/2025 (fonte secondaria): XC3, XD1, XF4 e XA1 C30/37 come nella 2016; XF1 C30/37 con A/C 0,55; cemento minimo più basso in tutte le classi che lo prescrivono. La trascrizione completa registrata il 7/10 come «pagina 12 dell'anteprima» veniva da contenuti del file dell'anteprima che il lettore non mostra (residuo di una versione precedente del file): non è una fonte riproducibile e i valori seguenti restano provvisori fino al riscontro. Valori provvisori. Classi minime: X0 C12/15; XC1 e XC2 C25/30; XC3 C30/37; XC4 C32/40; XS1 C32/40; XS2 e XS3 C35/45; XD1 C30/37; XD2 C32/40; XD3 C35/45; XF1 C30/37; XF2 e XF3 C25/30; XF4 C30/37; XA1 C30/37; XA2 C32/40; XA3 C35/45. A/C massimo: XC1-XC2 0,60; XC3 0,55; XC4 0,50; XS1 0,50; XS2-XS3 0,45; XD1 0,55; XD2 0,50; XD3 0,45; XF1 0,55; XF2-XF3 0,50; XF4 0,45; XA1 0,55; XA2 0,50; XA3 0,45. Cemento minimo (kg/m³): XC1-XC2 280; XC3 300; XC4 320; XS1 320; XS2-XS3 350; XD1 300; XD2 320; XD3 350; XF1 300; XF2-XF3 320; XF4 340; XA1 300; XA2 320; XA3 350; X0 senza valore. Nota a) aria 4 % per Dupper > 20 mm, 5 % ad esempio per 12-16 mm; nota b) XF1 aerato con le specifiche di XF2 e XF3" },
+        { "fonte": "Catalogo UNI", "punto": "schede UNI 11104:2025 e UNI 11104:2016", "riscontro": "diretto: UNI 11104:2025 in vigore, entrata in vigore 24/07/2025, sostituisce la UNI 11104:2016; UNI 11104:2016 ritirata con sostituzione, in vigore dal 14/07/2016 al 24/07/2025, sostituisce la UNI 11104:2004. Nessuna edizione o errata corrige successiva trovata" },
+        { "fonte": "UNI 11104:2016", "punto": "prospetto 5 «Valori limite per la composizione e le proprietà del calcestruzzo»", "riscontro": "indiretto: riproduzione in ATECAP 2020, La corretta prescrizione del calcestruzzo, p. 19 (testo letto; il documento indica la 2016 come ultimo aggiornamento della norma). Classi minime uguali al codice per tutte le 18 classi (XF1 C32/40); A/C e cemento uguali a AtecapMix. Concorde per XC1-XC4 un articolo tecnico di settore del 28/04/2024 (XC3 0,55, C30/37, 320 kg/m³). Testo UNI 2016 non consultato: il catalogo non ne pubblica l'anteprima" },
+        { "fonte": "UNI 11104:2004", "punto": "prospetto 4", "riscontro": "non riscontrato in questa ricerca: C28/35 per XC3, XD1, XF4 e XA1 resta l'attribuzione del commento della libreria e della revisione del 6/10" },
         { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "§11.2.11; Tab. 4.1.I e nota sulle classi C28/35 e C32/40", "riscontro": "testo della G.U. consultato" },
         { "fonte": "Circolare 21/01/2019 n. 7", "punto": "C4.1.6.1.3, Tab. C4.1.IV", "riscontro": "testo della G.U., p. 90" },
         { "fonte": "UNI EN 206-1:2006", "punto": "prospetto F.1 (informativo)", "riscontro": "testo consultato: C30/37 per XC3, XD1, XF4, XA1" }
       ],
       "codice": [
-        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:11-13",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:10-13",
         "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:61",
         "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:63",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:69",
         "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:72-73",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:89",
         "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:107",
-        "X.Calculations/Materials/MinimumConcrete.cs:5-13",
-        "X.Calculations/Materials/MinimumConcrete.cs:19",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:121",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:128",
+        "X.Calculations/Materials/MinimumConcrete.cs:5-16",
+        "X.Calculations/Materials/MinimumConcrete.cs:21",
+        "X.Calculations/Materials/MixAutomation.cs:5-17",
         "X.Calculations/Materials/NtcCover.cs:24",
-        "X.Calculations/Materials/NtcCover.cs:27"
+        "X.Calculations/Materials/NtcCover.cs:27",
+        "X.Materiali/MinimumConcrete.cs:15-16",
+        "X.Materiali/MixAutomation.cs:7-8",
+        "X.Materiali/MixAutomation.cs:46"
       ],
       "segno": "cautelativo",
       "effetto_quantificato": {
-        "sintesi": "Classe minima diversa in 46 combinazioni di esposizione su 520. Nel catalogo della scheda Materiali cambia solo C28/35: oggi segnalata come inferiore al minimo in quelle 46 combinazioni. Copriferro nominale NTC: +5 mm in 184 casi su 17 646, tutti con fck fra 28 e 30 MPa. ANTHEA e libreria coincidono. Manca l'etichetta C28/35 in MinimumConcrete.Label.",
+        "nota": "Effetto dell'opzione e1 (C28/35), scartata con la decisione del 7/10; resta come misura della differenza fra le edizioni 2004 e 2016/2025.",
+        "sintesi": "Classe minima diversa in 46 combinazioni di esposizione su 520. Nel catalogo della scheda Materiali cambia solo C28/35: oggi segnalata come inferiore al minimo in quelle 46 combinazioni. Copriferro nominale NTC: +5 mm in 184 casi su 17 646, tutti con fck fra 28 e 30 MPa. ANTHEA e libreria coincidono. L'etichetta C28/35 manca in MinimumConcrete.Label ma non serve: Label riceve solo valori di MinimumConcrete.Required (12, 25, 30, 32, 35 MPa).",
         "combinazioni": { "totale": 520, "cambiate": 46, "singole": 4, "doppie": 18, "triple": 24 },
         "catalogo": { "classi": 16, "classi_che_cambiano": ["C28/35"], "avvisi_cambiati": 46 },
         "copriferro": { "casi": 17646, "cambiati": 184, "delta_mm": 5 },
@@ -269,23 +281,48 @@
         { "id": "e3", "descrizione": "tenere entrambi i riferimenti e lasciare la scelta all'utente nel foglio, con il predefinito sul riferimento in vigore" }
       ],
       "raccomandazione": "e1 dopo il riscontro del testo; fino ad allora riquadro dichiarato; decisione prima di F2.9",
-      "decisione_finale": { "data": "2026-10-07", "utente": "confermo la norma più aggiornata", "esito": "UNI 11104 nell'edizione in vigore (2025): C30/37 per XC3, XD1, XF4 e XA1 come oggi, nessuna scelta del riferimento 2004. Restano da riscontrare sul testo 2025 le classi minime di tutte le esposizioni e da aggiornare le citazioni (numero e edizione del prospetto)." },
+      "decisione_finale": { "data": "2026-10-07", "utente": "confermo la norma più aggiornata", "esito": "UNI 11104 nell'edizione in vigore (2025): C30/37 per XC3, XD1, XF4 e XA1 come oggi, nessuna scelta del riferimento 2004. Restano da riscontrare sul testo 2025 le classi minime di tutte le esposizioni e da aggiornare le citazioni (numero e edizione del prospetto).", "seguito": "e4 in F2.9 dopo riscontro del prospetto 6 su copia con licenza (decisione del coordinatore su delega dell'utente, da ratificare: seguito.decisione_finale)" },
       "decisione": {
         "data": "2026-10-06",
         "utente": "lasciare entrambi i riferimenti e la possibilità di scelta all'utente",
         "opzione": "e3",
-        "revisione": "Dopo la decisione la revisione dei metodi (pagina ca.durabilita-copriferri) ha trovato che C30/37 per XC3, XD1, XF4 e XA1 è il valore di UNI 11104:2016 (ATECAP 2020 e una seconda fonte secondaria concordi) e, da estratto, della UNI 11104:2025 (prospetto 6, in vigore dal 24/07/2025); C28/35 è dell'edizione 2004 (prospetto 4). Il codice segue quindi l'edizione in vigore e il prospetto F.1 della EN 206. Nessun testo UNI primario consultato.",
+        "revisione": "Dopo la decisione la revisione dei metodi (pagina ca.durabilita-copriferri) ha trovato che C30/37 per XC3, XD1, XF4 e XA1 è il valore di UNI 11104:2016 (ATECAP 2020 e una seconda fonte secondaria concordi) e, da estratto, della UNI 11104:2025 (prospetto 6, in vigore dal 24/07/2025); C28/35 è dell'edizione 2004 (prospetto 4). Per queste quattro classi il codice coincide quindi con l'edizione in vigore e con il prospetto F.1 della EN 206; nel complesso segue la UNI 11104:2016 (prospetto 5), da cui la 2025 differisce, secondo l'estratto, per XF1 e per il cemento minimo (vedi seguito). Nessun testo UNI primario consultato.",
         "esito": "da confermare con l'utente: la scelta diventa fra UNI 11104:2016/2025 ed EN 206 F.1 (C30/37, predefinito) e UNI 11104:2004 (C28/35, edizione ritirata). Da correggere comunque l'etichetta «UNI 11104 prospetto 5» (il numero dipende dall'edizione) e MinimumConcrete.Label(28) se la scelta resta."
       },
+      "attuazione": {
+        "data": "2026-10-07",
+        "branch": "refactoring/d7e-uni11104",
+        "commit": ["6b01da8 (codice, guida teorica, indice della Wiki)", "commit successivo dello stesso branch (registro, scostamenti, decisioni)"],
+        "anthea": "Nessun valore numerico cambiato. Citazioni corrette: commento di MinimumConcrete (prospetto 6 della UNI 11104:2025, valori trascritti dal prospetto 5 della 2016, eccezione XF1); commento nuovo di AtecapMix (prospetto 5 della 2016 e differenze della 2025); nota della scheda Materiali «UNI 11104:2025, prospetto 6», con la nota su XF1 quando XF1 è attiva; testo «Riferimenti della composizione» della scheda e del report Word dei materiali (prospetto 5 della 2016 e differenze della 2025); README di X.Materiali; guida teorica, paragrafo «Esposizioni e requisiti del materiale» e riga XF1 della tabella (edizioni Word e PDF da rigenerare con le guide); indice della Wiki rigenerato. Etichetta C28/35 non aggiunta: non serve (vedi effetto_quantificato).",
+        "libreria": "Da fare nella prossima release di GPCChecker.Concrete (F2.9 durabilità), senza modificare Checker ora per non cambiare la DLL della release S2: commento di ExposureClasses.cs:10-13, :89, :121, :128 e riferimento restituito a :107 «UNI 11104 prospetto 5 (NTC 2018 §11.2.11)», da scrivere con edizione e prospetto (testo proposto nel resoconto del filone e nella scheda); README di GPCChecker.Concrete:163-164 e :176; MIGRAZIONE_ANTHEA.txt:74 e :260-261; commento di DurabilityEdgeCaseTests.cs:122; pagina dei metodi docs/metodi/ca.durabilita-copriferri.md, che in develop 1fbaea61 dava la 2025 uguale al codice anche per a/c e cemento ed è stata allineata in develop 7d86ffc7 (differenze della 2025 dall'estratto del 28/07/2025, fonte secondaria da riscontrare; riquadro C-1 riscritto): con e4 si aggiorna di nuovo in F2.9 dopo il riscontro del prospetto 6.",
+        "attesi": "Nessun atteso da aggiornare: i testi cambiati compaiono solo nella scheda WPF e nel report Word dei materiali, che non hanno uscite catturate nel runner (profili quick e standard, baseline headless F2-B2, supporto/test). Il riferimento della libreria a :107 non è usato da ANTHEA.",
+        "verifica": "profilo quick (tag d7e): PASS 18, KNOWN 0, NEW-FAIL 0 (comprende CalculationLibrary.Checks con i controlli di durabilità e copriferro NTC, wiki/indice e wiki/manuale); banco c.a. (-Profile baseline -Only '^baseline/banco-ca'): PASS, durability-legacy.csv 3048 righe identiche alle fixture di Checker, 27 698 righe confrontate senza differenze oltre agli identificativi casuali"
+      },
+      "seguito": {
+        "stato": "da-correggere",
+        "descrizione": "Il prospetto 6 della UNI 11104:2025 differisce dai valori del codice (UNI 11104:2016, prospetto 5) in tre punti, tutti con il codice più restrittivo: (1) classe minima di XF1, C30/37 contro C32/40; (2) A/C massimo di XF1, 0,55 contro 0,50; (3) cemento minimo inferiore in tutte le classi: 280 contro 300 (XC1-XC2), 300 contro 320 (XC3, XD1, XF1, XA1), 320 contro 340 (XC4, XS1, XD2, XF2-XF3, XA2), 340 contro 360 (XF4), 350 contro 360 (XS2-XS3, XD3, XA3). I punti (1) e (2) e il verso del punto (3) vengono dall'estratto del 28/07/2025 (fonte secondaria); i valori di cemento per classe sono quelli provvisori del riferimento normativo, da riscontrare sul prospetto 6 di una copia con licenza.",
+        "effetto": "Classe minima: con XF1 a C30/37 cambiano 13 combinazioni di esposizione su 520 (1 singola, 5 doppie, 7 triple: XF1 con XC1, XC2, XC3, XD1, XA1), da C32/40 a C30/37; nel catalogo cambia solo C30/37, oggi segnalata inferiore al minimo in quelle 13 combinazioni, e il copriferro nominale NTC di C30/37 in quelle combinazioni perderebbe la maggiorazione di 5 mm. Composizione: cambia il cemento minimo di tutte le combinazioni tranne X0 e l'A/C delle combinazioni in cui XF1 governa.",
+        "opzioni": [
+          { "id": "e4", "descrizione": "allineare classe minima e composizione al prospetto 6 della 2025 (ANTHEA in F2.9 insieme alla libreria, con i due commit e la ricattura di durability-legacy.csv: 22 righe MIX con cemento, con classe minima anche per XF1 e XF1+XF3 e A/C per XF1; 36 righe NTC di XF1 e XF1+XF3 con Cmin pertinente da MinimumConcrete.Required, da 32 a 30, di cui 4 con fck 30 senza la maggiorazione di 5 mm; attesi di A/C e cemento in supporto/test/Materiali/MaterialViewChecks.cs:78 da ritrascrivere dal prospetto 6)" },
+          { "id": "e5", "descrizione": "tenere i valori della 2016 come scelta cautelativa dichiarata (stato attuale, già scritto nelle citazioni)" }
+        ],
+        "raccomandazione": "e4, per coerenza con la decisione «confermo la norma più aggiornata»; decisione dell'utente prima di F2.9",
+        "decisione_finale": {
+          "data": "2026-10-07",
+          "decisore": "coordinatore su delega dell'utente («esegui tutto te»), da ratificare",
+          "opzione": "e4",
+          "esito": "e4 in F2.9 dopo riscontro del prospetto 6 su copia con licenza: allineamento alla UNI 11104:2025, coerente con «confermo la norma più aggiornata», attuato insieme allo spostamento della durabilità nella libreria (due commit, ricattura di durability-legacy.csv, attesi di MaterialViewChecks.cs:78 ritrascritti dal prospetto 6). Il riscontro sul testo viene prima perché la variazione su XF1 e sul cemento minimo è a sfavore rispetto al codice attuale e le fonti di oggi sono le pagine visibili dell'anteprima UNI e l'estratto del 28/07/2025 (fonte secondaria). Se il testo smentisse l'estratto si torna alla scelta fra e4 ed e5 con l'utente."
+        }
+      },
       "data": "2026-10-06",
-      "fase": "F2.3 (libreria), F2.9 (collegamento)",
+      "fase": "F2.9 (citazioni della libreria; attuazione di e4 dopo il riscontro del prospetto 6 su copia con licenza)",
       "test": [
         "Checker/GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122-125",
         "Checker/GPCChecker.Test.Concrete/DurabilityMigrationTests.cs (durability-legacy.csv, righe MIX)",
         "X.Materiali/ExposureSelector.cs:102",
         "X.Materiali/ExposureSelector.cs:109"
       ],
-      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:61 (Esposizioni e requisiti del materiale)", "supporto/docs/guida-teorica-anthea.md:85 (Copriferro minimo e nominale)"] },
+      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:61 (Esposizioni e requisiti del materiale)", "supporto/docs/guida-teorica-anthea.md:85 (Copriferro minimo e nominale)"], "nota": "7/10: il paragrafo :63 dichiara già edizione, prospetto ed eccezione XF1; il riquadro resta per W1" },
       "scheda": "docs/refactoring/scostamenti.md#d7-e-classe-minima-per-xc3-xd1-xf4-e-xa1"
     },
     {
@@ -429,7 +466,7 @@
       "segno": "nessun effetto numerico",
       "raccomandazione": "correggere il testo in Checker e in ANTHEA",
       "decisione": { "data": "2026-10-06", "utente": "decisione (a)", "esito": "da correggere (solo testo)" },
-      "attuazione": { "data": "2026-10-07", "commit": ["Checker 7c15cf4f (develop, locale; entra in ANTHEA con il prossimo rilascio di lib/Checker)", "ANTHEA, branch refactoring/d7-norma-muri-pali"], "verifica": "GPCChecker.Test.Concrete 500/500; cattura headless contro B1 senza differenze dovute alla correzione" },
+      "attuazione": { "data": "2026-10-07", "commit": ["Checker 7c15cf4f (develop, pushato; in ANTHEA con la release S2 di lib/Checker, GPCChecker.Concrete 0.0.17.0, edc4fce dai commit pushati, candidato f6b6fdf; integrazione 2 b818b20)", "ANTHEA, branch refactoring/d7-norma-muri-pali"], "verifica": "GPCChecker.Test.Concrete 500/500; cattura headless contro B1 senza differenze dovute alla correzione" },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -484,13 +521,19 @@
     },
     {
       "id": "R7",
-      "titolo": "Interpretazioni cautelative di taglio, torsione, SLE e fessurazione",
+      "titolo": "Interpretazioni cautelative o dichiarate di taglio, torsione, SLE e fessurazione",
       "famiglia": "calcestruzzo",
       "categoria": "intenzionale",
       "stato": "da-decidere",
-      "descrizione": "NTC torsione: cot θ ≥ 1 anche in torsione pura (la norma ammette 0,4 ≤ cot θ; fino a −25 % nell'esempio). Interazione delle bielle: somma dei tagli nelle due direzioni. SLE: limite k3 applicato a |σ| anche delle barre compresse; k1 fck in ogni classe di esposizione; k2 fck trattato come limite e non come soglia del creep non lineare. NS: wmax senza il fattore kc = cnom/cmin,dur ≤ 1,3 della Tab. NA.7.1N. DS: cot θ ≤ 2 (già dichiarato). Interpretazioni dichiarate: wk = 0 con asse neutro nel copriferro; 1,3 (h − x) con barre tese fuori da Ac,eff.",
-      "codice": [ "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:153-154", "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:111-113", "Checker/GPCChecker.Concrete/Serviceability/StressLimitCheck.cs:100-120", "Checker/GPCChecker.Concrete/Cracking/CrackRequirements.cs:70-78", "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:176", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:183-193", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:205-215" ],
-      "segno": "cautelativo",
+      "descrizione": "Interazione delle bielle in torsione: somma dei rapporti del taglio nelle due direzioni (riquadro R-1 della pagina ca.torsione). SLE: limite k3 applicato a |σ| anche delle barre compresse; k1 fck in ogni classe di esposizione; k2 fck trattato come limite e non come soglia del creep non lineare. NS: wmax senza il fattore kc = cnom/cmin,dur ≤ 1,3 della Tab. NA.7.1N. DS: cot θ ≤ 2 (già dichiarato). Interpretazioni dichiarate: wk = 0 con asse neutro nel copriferro; 1,3 (h − x) con barre tese fuori da Ac,eff (riquadro F-4 della pagina ca.fessurazione: il limite superiore riguarda sr, mentre εsm − εcm viene dalle barre tese, più vicine all'asse neutro del lembo, quindi wk non è un limite superiore dell'apertura al lembo; segno da stabilire). La componente «NTC torsione: cot θ ≥ 1 anche in torsione pura» è stata tolta il 7/10: vedi rettifica.",
+      "rettifica": {
+        "data": "2026-10-07",
+        "oggetto": "componente «NTC torsione: cot θ ≥ 1 anche in torsione pura (la norma ammette 0,4 ≤ cot θ; fino a −25 % nell'esempio)»",
+        "fonte": "NTC 2018 (D.M. 17/01/2018), §4.1.2.3.6, eq. [4.1.38]: testo della G.U. n. 42 del 20/02/2018, S.O. n. 8, p. 82 (copia locale supporto/artefatti/ponte_taglio_pioli/fonti/NTC2018.txt, non versionata)",
+        "esito": "[4.1.38] dà 1 ≤ cot θ ≤ 2,5 anche in torsione e, entro questi limiti, in torsione pura consente cot θ = (al/as)^1/2; il limite 0,4 ≤ cot θ era della NTC 2008. Il campo [1; 2,5] del codice (Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:153-154, cmax da TorsionProfiles.MaximumCotTheta) coincide con la norma: la componente non è uno scostamento ed è tolta dalla descrizione e dal codice della voce. Resta un limite dichiarato, non uno scostamento: cot θ è un dato e la scelta automatica di (al/as)^1/2 in torsione pura non è implementata (pagina ca.torsione, punto 9). Corretto anche il diario della notte 6-7/10, che riportava la stessa componente."
+      },
+      "codice": [ "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:111-113", "Checker/GPCChecker.Concrete/Serviceability/StressLimitCheck.cs:100-120", "Checker/GPCChecker.Concrete/Cracking/CrackRequirements.cs:70-78", "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:176", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:183-193", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:205-215" ],
+      "segno": "cautelativo per l'interazione delle bielle, le interpretazioni SLE, NS e DS; wk = 0 con asse neutro nel copriferro dichiarato; da stabilire per il limite 1,3 (h − x) con barre tese fuori da Ac,eff (F-4): nel caso di prova della pagina (h − x = 100 mm, barre a 50 mm dal lembo, σs = 100 MPa) wk = 0,039 mm EN e 0,03825 mm NTC, il doppio con la deformazione del lembo",
       "effetto_anthea": "Banco F2.1 (7/10): dal commit ANTHEA 0a63315 (2/10) anche il legacy applica le due interpretazioni dichiarate della fessurazione, wk = 0 con asse neutro nel copriferro (22 stati) e limite superiore EC2 7.3.4(3) con barre tese fuori da Ac,eff (8 stati); le fixture di Checker del 1/10 le precedono e le differenze erano classificate FC-1…FC-5 in tests/ANTHEA.Testing/f2-classificazione.json. Il 7/10 (decisione B) le fixture sono state ricatturate da F2-pre-m4-v2 (ANTHEA d2d3225, Checker 06d97733): il banco non ha più differenze e le classificazioni sono tolte.",
       "raccomandazione": "dichiarare nelle pagine dei metodi (già fatto nei riquadri delle pagine) e nella guida teorica",
       "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
@@ -613,9 +656,238 @@
       "segno": "il difetto dava aperture assurde (cautelative) nei soli casi di trazione quasi uniforme o eccentrica con asse neutro fuori dalla sezione; nessun effetto con l'asse neutro interno. Con la regola adottata h − x delle fasce è limitato all'altezza lungo il gradiente nelle sezioni interamente tese (wk minore o uguale a 733a77c) ed è continuo all'ingresso dell'asse neutro; alla soglia della trazione uniforme, per un'eccentricità trascurabile, wk delle fasce cambia a gradino nel rapporto fra l'altezza lungo il gradiente e quella normale alla faccia (nei casi di prova da −29 % a +50 %)",
       "raccomandazione": "correggere in ANTHEA e nella libreria (fatto, regola scelta dall'utente); salto residuo alla soglia della trazione uniforme dichiarato nella guida teorica",
       "decisione": { "data": "2026-10-07", "utente": "Altezza lungo il gradiente", "esito": "corretto con h − x = min[εmax/|∇ε|; h della sezione lungo il gradiente] (regola di d2d3225); regola intermedia di 76a2062 ritirata; k2 della fascia con l'asse neutro che taglia la sezione dalla (7.13) della propria distribuzione (confermato)" },
-      "attuazione": { "data": "2026-10-07", "commit": ["Checker da7cf02a; regola intermedia d2f81329 e 984cf849, ritirata con 12547700 (develop, locali); GPCChecker.Concrete 0.0.17.0 non distribuita, entra in ANTHEA con il prossimo rilascio di lib/Checker", "ANTHEA d2d3225; regola intermedia 76a2062, f2e3830 e 348f967, ritirata con 08c6dcc (branch refactoring/integrazione-d7b-d2)"], "verifica": "Checker 12547700: GPCChecker.Test.Concrete 510/510 (CrackMigrationTests (h) tensione eccentrica, (i) continuità all'ingresso dell'asse neutro con cassone 400×600, 400×400 e anello, (j) salto residuo alla soglia); ModelChecker.Tests 106/106 (Model compilato prima di Checker). ANTHEA 08c6dcc: X.Verifiche --checker (CrackK2Checks 545 controlli; (j) e (k): ingresso dell'asse neutro per bisezione a 1e-6 kNm, stati del solutore entro 1e-3 per il rumore di convergenza del piano, fino a ≈ 3e-5, piani prescritti entro 1e-6; salto residuo alla soglia fissato); profilo standard PASS 33, KNOWN 1 (verifiche/project-calculations), NEW-FAIL 0; profilo baseline -Only '^baseline/' con -DenseRef F2-pre-m4-v2/a/tutte e -BaselineRef F2-B2/headless: PASS 6, banco c.a. senza differenze (27 698 righe contro le fixture, 32 564 contro F2-pre-m4-v2, solo identificativi casuali), cattura headless uguale a B2 su 432 file salvo 21 tempi volatili. Esiti in supporto/artefatti/refactoring/r15/regola-gradiente. Banco c.a. di d2d3225: 4 stati C1000H con la sola N = 300 kN (B0-8, B0-9), anello interno +2,8e-8 relativo, esiti invariati" },
+      "attuazione": { "data": "2026-10-07", "commit": ["Checker da7cf02a; regola intermedia d2f81329 e 984cf849, ritirata con 12547700 (develop, pushati); GPCChecker.Concrete 0.0.17.0 in ANTHEA con la release S2 di lib/Checker (edc4fce dai commit pushati, candidato f6b6fdf, branch refactoring/f2-4-snapshot-s2; integrazione 2 b818b20)", "ANTHEA d2d3225; regola intermedia 76a2062, f2e3830 e 348f967, ritirata con 08c6dcc (branch refactoring/integrazione-d7b-d2)"], "verifica": "Checker 12547700: GPCChecker.Test.Concrete 510/510 (CrackMigrationTests (h) tensione eccentrica, (i) continuità all'ingresso dell'asse neutro con cassone 400×600, 400×400 e anello, (j) salto residuo alla soglia); ModelChecker.Tests 106/106 (Model compilato prima di Checker). ANTHEA 08c6dcc: X.Verifiche --checker (CrackK2Checks 545 controlli; (j) e (k): ingresso dell'asse neutro per bisezione a 1e-6 kNm, stati del solutore entro 1e-3 per il rumore di convergenza del piano, fino a ≈ 3e-5, piani prescritti entro 1e-6; salto residuo alla soglia fissato); profilo standard PASS 33, KNOWN 1 (verifiche/project-calculations), NEW-FAIL 0; profilo baseline -Only '^baseline/' con -DenseRef F2-pre-m4-v2/a/tutte e -BaselineRef F2-B2/headless: PASS 6, banco c.a. senza differenze (27 698 righe contro le fixture, 32 564 contro F2-pre-m4-v2, solo identificativi casuali), cattura headless uguale a B2 su 432 file salvo 21 tempi volatili. Esiti in supporto/artefatti/refactoring/r15/regola-gradiente. Banco c.a. di d2d3225: 4 stati C1000H con la sola N = 300 kN (B0-8, B0-9), anello interno +2,8e-8 relativo, esiti invariati" },
       "data": "2026-10-07",
       "fase": "F2.3"
+    },
+    {
+      "id": "R16",
+      "titolo": "DS, torsione: fattore di efficienza delle bielle νv del taglio invece di νt",
+      "famiglia": "calcestruzzo/torsione",
+      "categoria": "scostamento-normativo",
+      "stato": "da-decidere",
+      "descrizione": "Nel profilo DS la resistenza delle bielle in torsione usa in ogni caso ν = νv = max(0,45; 0,7 − fck/200), il fattore del taglio (SectionShearCalculator.StrutEfficiency), anche per le sezioni piene armate sulla sola faccia esterna. DK NA 5.6.1(3)P (informazione supplementare) dà per la torsione νt = 0,7 (0,7 − fck/200) (5.104 NA); νt si può porre uguale a νv solo se le pareti del profilo resistente hanno staffe chiuse sul perimetro e barre longitudinali distribuite su entrambe le facce; con taglio e torsione insieme si usa la media di νv e νt pesata sulle due azioni. L'indicatore HollowWithReinforcementOnBothFaces non è usato dal profilo DS.",
+      "riferimento_normativo": [ { "fonte": "DS/EN 1992-1-1 con DK NA:2024", "punto": "5.6.1(3)P, informazione supplementare, eq. (5.103 NA) e (5.104 NA)", "riscontro": "testo (pagina ca.torsione di Checker, riquadro R-4)" } ],
+      "codice": [ "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:90-94", "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:214-219" ],
+      "segno": "NON cautelativo: TRcd e la parte di torsione dell'interazione delle bielle valgono 1/0,7 = 1,43 volte quelli della norma fino a fck = 50 MPa e 1,61 volte con fck = 60 MPa (νv limitato a 0,45, νt no); nessuno scostamento per i profili armati su entrambe le facce delle pareti",
+      "effetto_quantificato": { "sintesi": "esempio della pagina ca.torsione (DS, fcd = 30/1,45 MPa, cot θ = 1,5): TRcd = 83,11 kNm con νv = 0,55 invece di 58,17 kNm con νt = 0,385 (+42,9 %)" },
+      "effetto_anthea": "Verificato il 7/10 sull'integrazione 2: nessuno oggi, il modulo calcola la torsione solo con NTC 2018 (X.Calculations/ConcreteShearAnalysis.cs:60). Da riesaminare se il collegamento alla libreria (F2.6) apre la torsione agli altri profili.",
+      "raccomandazione": "νt della (5.104 NA) per i profili non armati su entrambe le facce e media pesata con taglio e torsione insieme, con opzione legacy; a sfavore di sicurezza",
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)", "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare" },
+      "data": "2026-10-07",
+      "fase": "F2.3 (libreria); decisione in F5.15"
+    },
+    {
+      "id": "R17",
+      "titolo": "Classe indicativa di XC3 nei profili EN e UNI: C25/30 invece di C30/37 (prospetto E.1N)",
+      "famiglia": "calcestruzzo/durabilita",
+      "categoria": "scostamento-normativo",
+      "stato": "da-decidere",
+      "descrizione": "Nei profili EN e UNI la classe minima di resistenza viene dal prospetto E.1N (appendice E informativa). Il catalogo assegna a XC3 C25/30, cioè legge le celle unite del prospetto come XC2-XC3. Il prospetto E.1N del DM 31/07/2012 dà per XC3 e XC4 una sola cella con C30/37 (XC1 e XC2 hanno celle proprie, C25/30); il DM riproduce l'impaginazione del prospetto E.1N della EN 1992-1-1 cambiando i valori nazionali, quindi anche per la EN la classe di XC3 è probabilmente C30/37. Gli attesi dei test della libreria per XC3 vengono dalla stessa lettura del codice e non sono indipendenti.",
+      "riferimento_normativo": [
+        { "fonte": "UNI EN 1992-1-1, appendice nazionale (DM 31/07/2012)", "punto": "E.1(2), prospetto E.1N", "riscontro": "testo: XC3 e XC4 in una cella con C30/37 (pagina ca.durabilita-copriferri di Checker, riquadro C-3)" },
+        { "fonte": "EN 1992-1-1:2004 + AC:2010", "punto": "appendice E (informativa), prospetto E.1N", "riscontro": "testo; impaginazione delle celle di XC2-XC4 da riscontrare" }
+      ],
+      "codice": [ "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:61" ],
+      "test": [ "Checker/GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122-123 (XC3: EN e UNI C25/30, dalla stessa lettura)", "Model/ModelChecker.Tests/DurabilityDetailingTest.cs:98 (XC3, profilo EN: «Table E.1N C25/30 = fck», dalla stessa lettura)" ],
+      "segno": "NON cautelativo: con XC3 sola o combinata con classi meno severe il controllo della classe minima dei profili EN e UNI accetta C25/30 e C28/35; nessun effetto sui copriferri",
+      "effetto_anthea": "Da verificare in F2.9: i chiamanti di ANTHEA elencati in R11 passano la classe UNI 11104 di MinimumConcrete.Required (D7-e), non quella del prospetto E.1N.",
+      "raccomandazione": "C30/37 per XC3 nei profili EN e UNI dopo il riscontro dell'impaginazione della EN, con opzione legacy; gli attesi dei due test si correggono dal testo del prospetto",
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)", "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare" },
+      "data": "2026-10-07",
+      "fase": "F2.9 (durabilità); decisione in F5.15"
+    },
+    {
+      "id": "R18",
+      "titolo": "Acciaio di progetto con incrudimento: ramo superiore riferito a fyk invece che a fyd",
+      "famiglia": "calcestruzzo/momento-curvatura",
+      "categoria": "scostamento-normativo",
+      "stato": "da-decidere",
+      "descrizione": "Oltre lo snervamento la legge di progetto dell'acciaio di Model (SteelMaterial) usa la curva caratteristica traslata lungo la retta elastica e abbassata di fyk − fyd: σ(ε) = σk(ε + (fyk − fyd)/Es) − (fyk − fyd). L'incremento di incrudimento è quindi riferito a fyk, mentre il ramo inclinato di EN 1992-1-1 3.2.7(2) e Fig. 3.8 va da fyd in εyd a k fyk/γs in εuk, con il limite εud. Riguarda il momento-curvatura e il dominio di rottura del solutore con acciaio incrudente.",
+      "riferimento_normativo": [ { "fonte": "EN 1992-1-1:2004 + AC:2010", "punto": "3.2.7(2), Fig. 3.8 (anche NTC 2018 Fig. 4.1.3(a))", "riscontro": "testo (pagina ca.momento-curvatura di Checker, riquadro M-2)" } ],
+      "codice": [ "Model/Model/Materials/Steel/SteelMaterial.cs:857-880" ],
+      "segno": "NON cautelativo con acciaio incrudente: il ramo di progetto supera quello della norma di circa (k − 1)(fyk − fyd)(ε − εyd)/(εuk − εyd); nessun effetto con il ramo superiore orizzontale",
+      "effetto_quantificato": { "sintesi": "B450C con k = 1,15 ed εuk = 7,5 %: circa 8 MPa (+2 %) in εud" },
+      "effetto_anthea": "Da verificare: dipende dalla legge dell'acciaio delle sezioni di ANTHEA (con o senza incrudimento).",
+      "raccomandazione": "ramo inclinato della norma in Model, con opzione legacy, e ricattura delle fixture coinvolte",
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)", "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare" },
+      "data": "2026-10-07",
+      "fase": "F2.8 (momento-curvatura, libreria Model); decisione in F5.15"
+    },
+    {
+      "id": "R19",
+      "titolo": "Torsione: citazioni del riferimento restituito per NTC 2018 e DS",
+      "famiglia": "calcestruzzo/torsione",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "TorsionProfiles.Reference restituisce per NTC 2018 «NTC 2018 §4.1.2.3.6 (4.1.27-4.1.32)», ma in NTC 2018 [4.1.27]-[4.1.32] sono equazioni del taglio (§4.1.2.3.5.2 e 4.1.2.3.5.3) e la torsione è in [4.1.34]-[4.1.40]; per DS cita «θ 6.7a NA» mentre il limite applicato è cot θ ≤ 2 della (6.7b NA). Solo testo.",
+      "riferimento_normativo": [
+        { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "§4.1.2.3.5.2-4.1.2.3.5.3, eq. [4.1.27]-[4.1.32]; §4.1.2.3.6, eq. [4.1.34]-[4.1.40]", "riscontro": "testo della G.U. n. 42 del 20/02/2018, S.O. n. 8, pp. 80-82" },
+        { "fonte": "DS/EN 1992-1-1 con DK NA:2024", "punto": "6.2.3(2), eq. (6.7b NA)", "riscontro": "testo (pagina ca.torsione di Checker)" }
+      ],
+      "codice": [ "Checker/GPCChecker.Concrete/Torsion/TorsionProfiles.cs:93", "Checker/GPCChecker.Concrete/Torsion/TorsionProfiles.cs:98" ],
+      "segno": "nessun effetto numerico",
+      "raccomandazione": "correggere il testo nella prossima release di GPCChecker.Concrete: NTC 2018 §4.1.2.3.6 [4.1.34]-[4.1.40]; DS cot θ ≤ 2 della (6.7b NA)",
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)", "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare" },
+      "data": "2026-10-07",
+      "fase": "F2.3 (citazioni della libreria)"
+    },
+    {
+      "id": "R20",
+      "titolo": "DS, travi: ρw,min nazionale non implementato",
+      "famiglia": "calcestruzzo/dettagli",
+      "categoria": "intenzionale",
+      "stato": "da-decidere",
+      "descrizione": "Nel profilo DS i controlli MinimumLinks:<faccia> delle travi (come MinimumTension:<faccia>) restano in sospeso con NotImplemented = true («DK NA national value of ρw,min not available in this implementation»). DK NA:2024 9.2.2(5) fissa ρw,min = 0,063 √fck/fyk (9.5N NA); la scelta nazionale di 9.2.1.1(1) prescrive nelle anime alte un'armatura distribuita sulle facce con lo stesso rapporto; 9.2.1.2(3) estende alle travi la regola 9.5.3(6), che il codice tratta come una conferma.",
+      "riferimento_normativo": [ { "fonte": "DS/EN 1992-1-1 con DK NA:2024", "punto": "9.2.2(5), eq. (9.5N NA); 9.2.1.1(1); 9.2.1.2(3)", "riscontro": "testo (pagina ca.dettagli di Checker, riquadro D-5)" } ],
+      "codice": [ "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:209" ],
+      "segno": "nessun esito errato: l'esito complessivo DS delle travi resta in sospeso (verifica incompleta)",
+      "raccomandazione": "implementare ρw,min = 0,063 √fck/fyk, il cui valore è nel testo; poi As,min di 9.2.1.1(1) e la regola 9.5.3(6)",
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)", "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare" },
+      "data": "2026-10-07",
+      "fase": "F2.3 (libreria); decisione in F5.15"
+    },
+    {
+      "id": "R21",
+      "titolo": "DIN, hc,eff: condizione (h − x)/3 ≥ c + 20 mm con NominalCover invece del copriferro assegnato",
+      "famiglia": "calcestruzzo/fessurazione",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Nel profilo DIN hc,eff = min[β (h − d); h/2] si riduce a (h − x)/3 se (h − x)/3 ≥ c + 20 mm (Bild 7.1DE). Il codice valuta la condizione con il copriferro nominale del dato NominalCover anche quando il copriferro della formula di wk è assegnato con CoverOverride: nello stesso calcolo valgono due copriferri diversi.",
+      "riferimento_normativo": [ { "fonte": "DIN EN 1992-1-1/NA:2013-04", "punto": "NCI a 7.3.2(3), Bild 7.1DE", "riscontro": "fonte secondaria (pagina ca.fessurazione di Checker, (F.5) e riquadro F-7)" } ],
+      "codice": [ "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:231", "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs:200" ],
+      "segno": "da stabilire: con copriferro assegnato maggiore di NominalCover la condizione vale più spesso che con il copriferro assegnato, hc,eff si riduce a (h − x)/3, ρp,eff cresce e wk in genere diminuisce (a sfavore); con copriferro assegnato minore l'opposto (a favore); nessun effetto senza CoverOverride",
+      "raccomandazione": "usare nella condizione lo stesso copriferro della formula di wk (CoverOverride se assegnato), con opzione legacy",
+      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)", "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare" },
+      "data": "2026-10-07",
+      "fase": "F2.3 (libreria), F2.7 (collegamento); decisione in F5.15"
+    },
+    {
+      "id": "F2-1",
+      "titolo": "Taglio e torsione con GPCChecker.Concrete: differenze nelle ultime cifre",
+      "famiglia": "calcestruzzo/taglio-torsione",
+      "categoria": "convenzione",
+      "stato": "dichiarato",
+      "descrizione": "Stesse formule del legacy (la libreria è il trasferimento di ConcreteCodeChecks.Shear, Ntc2018Checks.Shear e ConcreteTorsionCalculator), con altra aritmetica in virgola mobile: radice cubica Math.Pow(x, 1/3) in netstandard2.0 contro Math.Cbrt del legacy (SectionShearCalculator.Cbrt); unità N e N·mm nella libreria contro kN e kNm (resistenze divise per 1000 alla fine nel legacy, nella mappatura dopo il calcolo; tassi |V|/VRd e |T|/TRd calcolati in N e N·mm); ordine delle somme dei tassi di interazione della torsione (|T|/TRcd + (|Vx|/VRcd,x + |Vy|/VRcd,y) contro (|T|/TRcd + |Vx|/VRcd,x) + |Vy|/VRcd,y); resistenze a taglio passate alla torsione riconvertite da kN a N. Nessuna formula, coefficiente o esito diverso.",
+      "codice": [
+        "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:221-222",
+        "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:103-114",
+        "X.Calculations/ConcreteLibraryMapping.cs:20-26",
+        "X.Calculations/ConcreteShearTorsionAdapter.cs:25-39, :45-66, :73-88 (ca6530d)",
+        "X.Calculations/ConcreteShearAnalysis.cs:53-57, :75-77 (ca6530d)"
+      ],
+      "segno": "nessuno: scarti relativi dell'ordine di 1e-16 (ultima cifra), in entrambi i versi",
+      "effetto_ripieghi": "Registro dei ripieghi della cattura headless (fallbacks.json), non un risultato: con il motore della libreria il ripiego J.B(\"foro_presente\") = False dei fogli senza la chiave è registrato con il chiamante ConcreteShearTorsionAdapter.TorsionGeometryOf invece di ConcreteTorsionCalculator.Geometry (stessa chiave, stesso valore; prova sui tre casi della prima cattura di B3, 256714d: 2 voci e l'ordine di 2 gruppi). I casi del corpus di B3 dichiarano \"foro_presente\" (dcde952), quindi il confronto con la baseline misura solo i risultati: l'effetto sui documenti senza la chiave resta dichiarato qui e non è coperto dalla baseline (scelta dell'utente: un caso senza la chiave con la differenza accettata, oppure ratifica così).",
+      "effetto_quantificato": {
+        "sintesi": "Prove dell'adattatore su ca6530d (tests/ConcreteLibraryAdapter.Checks, 17 696 controlli; griglie della cattura densa, cultura it-IT e invariante, calcoli del modulo): taglio 1853 risultati e 203 rifiuti uguali, 1059 numeri diversi su 19 032, scarto relativo massimo 9,19e-16; torsione 1070 risultati e 58 rifiuti uguali, 801 numeri diversi su 12 539, massimo 3,18e-16; profilo resistente 11 risultati e 5 rifiuti, identico; modulo (ConcreteShearAnalysis, 7 norme, 5 forme, con e senza staffe, torsione NTC; taglio, profilo resistente e torsione dall'adattatore) 215 risultati e 67 rifiuti uguali, 263 numeri diversi su 4510, massimo 5,43e-16; torsione del modulo (prova 3f: NTC, 5 forme, 5 azioni, cot θ 1, 1,5 e 2,5) 60 risultati e 15 rifiuti del profilo uguali, 39 numeri diversi su 720, massimo 2,32e-16, uguale bit per bit all'adattatore del motore richiesto in 120 calcoli; calcolo headless (ConcreteAnalysis, 5 norme, 7 azioni) 25 numeri diversi su 1159, massimo 3,95e-16, torsione uguale bit per bit all'adattatore della libreria, relazioni completa e sintetica identiche. Cattura densa con il motore della libreria contro F2-pre-m4-v2 (CheckerMigration.Capture chiama l'adattatore direttamente; misura per colonna sulla cattura con --motore libreria di 8f991b4, totali uguali nel runner di ca6530d): shear-legacy.csv 2016 righe, 589 con numeri diversi (VRsd 165 celle, VRcd 89, VRd 164, ratio 401, cotTheta 16, details 166), scarto relativo massimo 9,19e-16 (riga 1369, DIN, VRcd 4946,0569613109374 → 4946,0569613109419 kN), assoluto massimo 4,5e-12 kN; torsion-legacy.csv 986 righe, 494 con numeri diversi (torsionRatio 169, concrete 268, steel 244; resistenze TRcd, TRsd, TRld, TRd e ΣAsl richiesta identiche), massimo 3,18e-16; torsion-geometry-legacy.csv identico; in tutto 1083 righe e 1682 numeri entro 1e-9. Rifiuti: 176 di taglio, 50 di torsione e 2 di profilo, gli stessi con lo stesso messaggio. Cattura headless contro la baseline B3 (4 sezioni c.a. del corpus con taglio e torsione, catturate con il legacy su dcde952): 5 numeri diversi su 276 di 'taglio' e 'torsione' (14 righe di taglio, 9 di torsione; Ratio del taglio V3 e H3 in direzione y, ConcreteCombinedRatio della torsione V2, C2 e H2), scarto relativo massimo 2,02e-16, assoluto 2,2e-16; relazioni, rifiuti (cot θ DIN fuori intervallo, torsione non NTC), ripieghi e ogni altro file identici. Nessun esito, stato, testo o rifiuto diverso; tutte le differenze entro 1e-9. In 7176c0c (ritirato) il calcolo headless e le relazioni erano confrontati con profilo resistente e torsione del modulo ancora legacy. Prove rafforzate su 4e8b30b (17 880 controlli, stessi numeri delle griglie): taglio del modulo con uscite Legacy e Library diverse in 131 calcoli (prima nessuna prova distingueva il motore del taglio del modulo); calcolo headless su 20 documenti (5 norme e sezioni NTC di 5 forme con cot θ 1, 1,5 e 2,5) entro 1e-9 dal legacy, 85 numeri diversi su 4948, massimo 3,95e-16; 106 righe di taglio uguali bit per bit al motore predefinito (42 con uscite dei motori diverse) e 63 di torsione uguali bit per bit all'adattatore (36 con uscite diverse sia per la sola torsione sia per tutto il calcolo; prima 3 righe, 1 che distingueva i motori). Provenienza legacy di B3 anche dal codice di prima di F2.5: cattura headless di 17b6c98 con Corpus.cs e corpus/ di dcde952 uguale a B3 su 452 file salvo 21 tempi volatili, fallbacks.json identico byte per byte (2848 voci).",
+        "evidenze": [
+          "supporto/artefatti/refactoring/f2-taglio-torsione/f2.5/adattatore/misura.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/correzione/adattatore/misura.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/interruttore/adattatore/misura.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/tolleranze/confronti/libreria-esatto-pre-m4.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/interruttore/runner-baseline/baseline_banco-denso/confronto-denso.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/f2.6/denso/confronti/misura-scarti.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/interruttore-b3/runner-baseline/ConcreteLibraryAdapter.Checks/misura.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/interruttore-b3/runner-baseline/baseline_confronto/confronto.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/interruttore-b3/runner-baseline/baseline_banco-denso/confronto-denso.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/b3/verifica-B3-contro-B2.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/b3/prova-ripieghi/confronto-legacy-libreria.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/interruttore-b3/prova-negativa/LEGGIMI.txt",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/prove-rafforzate/LEGGIMI.txt",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/prove-rafforzate/runner-baseline/ConcreteLibraryAdapter.Checks/misura.json",
+          "supporto/artefatti/refactoring/f2-taglio-torsione/b3/provenienza-17b6c98/LEGGIMI.txt",
+          "supporto/artefatti/baseline/F2-B3/LEGGIMI.txt",
+          "supporto/artefatti/refactoring/integrazione-2/f26/LEGGIMI.txt"
+        ]
+      },
+      "attuazione": { "data": "2026-10-07", "commit": ["ANTHEA 2583225 (F2.5, motore legacy, risultati identici; profilo resistente e torsione del modulo non ancora collegati)", "ANTHEA 7176c0c (primo interruttore, ritirato: con la libreria il modulo cambiava solo il taglio)", "ANTHEA f5b5f50 (correzione di F2.5: torsione del modulo attraverso l'adattatore, interruttore sul legacy)", "ANTHEA 8f991b4 (tolleranze dense f2-libreria, commit dedicato)", "ANTHEA 85314a6 (secondo interruttore sulla libreria, sospeso da 8c95d9b)", "ANTHEA 8c95d9b (interruttore di nuovo sul legacy per catturare B3; prove 3e e 3f rafforzate)", "ANTHEA 256714d e dcde952 (casi del corpus headless con taglio e torsione; baseline B3 catturata su dcde952 con il legacy)", "ANTHEA ea6e0ac (tolleranze headless dei risultati str_palo, commit dedicato)", "ANTHEA ca6530d (F2.6, interruttore sulla libreria; branch refactoring/f2-taglio-torsione, non su main)", "ANTHEA 63cda73, 2b2f16b e 4e8b30b (prove 3d e 3e rafforzate: 63cda73 aveva per errore il messaggio di 8c95d9b ed è ritirato da 2b2f16b; 4e8b30b ha lo stesso contenuto con il messaggio corretto; nessun cambio di produzione)", "ANTHEA ea4c51e (merge di refactoring/f2-taglio-torsione, punta db4da92, nell'integrazione 2 con lib/Checker S2)"], "verifica": "Su 4e8b30b: tests/ConcreteLibraryAdapter.Checks 17 880 controlli; runner -Profile baseline contro B3 e F2-pre-m4-v2 PASS 41, KNOWN 1, NEW-FAIL 0 con le stesse misure di ca6530d (headless: 452 file, 5 numeri entro 1e-9, 21 tempi volatili; densa e fixture: 1083 righe entro 1e-9, nessuna non classificata); prove negative: calcolo headless con il motore legacy esplicito (fallisce la 3e) e taglio del modulo sempre legacy (fallisce la 3d; le prove di 801e11c passano); profilo standard sui documenti 660e1f7 PASS 35, KNOWN 1, NEW-FAIL 0. Cattura headless di 17b6c98 con il corpus di dcde952 (runner -Only '^baseline/(cattura|confronto)$'): uguale a B3. Su ca6530d: tests/ConcreteLibraryAdapter.Checks (stadio fast, prove 3a-3f e 4, 17 696 controlli con il motore predefinito Library); runner -Profile baseline con -BaselineRef F2-B3\\headless e -DenseRef F2-pre-m4-v2\\a\\tutte (DenseSet f2-libreria): PASS 41, KNOWN 1 (verifiche/project-calculations), NEW-FAIL 0; cattura headless contro B3 uguale entro le tolleranze (452 file, 5 numeri entro 1e-9, 21 tempi volatili); banco denso f2-libreria e fixture-checker (Checker 06d97733): 1083 righe entro 1e-9, nessuna non classificata; profilo standard PASS 35, KNOWN 1, NEW-FAIL 0. Con il motore legacy (dcde952): cattura densa identica a F2-pre-m4-v2 (confronto esatto pre-m4, 32 564 righe, 1244 con soli identificativi casuali) e cattura headless uguale a B2 sui 432 file comuni salvo le voci dei casi nuovi in fallbacks.json. Prove negative su ca6530d: calcolo headless che ignora l'interruttore (fallisce la 3e) e torsione del modulo dal legacy diretto (fallisce la 3f). Le misure precedenti sono con S1 (lib/Checker di main 17b6c98, GPCChecker.Concrete 0.0.15.0). Integrazione 2 (merge ea4c51e, lib/Checker S2 dai commit pushati: GPCChecker.Concrete 0.0.17.0, manifest 5489C912…): tests/ConcreteLibraryAdapter.Checks PASS, 17 880 controlli, misura.json identico byte per byte a quello di 4e8b30b; runner -Profile standard (int2-f26-std) PASS 35, KNOWN 1 (verifiche/project-calculations), NEW-FAIL 0; runner -Profile baseline con -BaselineRef F2-B3\\headless e -DenseRef F2-pre-m4-v2\\a\\tutte (int2-f26-base) PASS 41, KNOWN 1, NEW-FAIL 0 con le stesse misure di S1 (headless: 452 file, gli stessi 5 numeri entro 1e-9, 21 tempi volatili; densa: 32 564 righe, 1083 entro 1e-9, nessuna non classificata; fixture di Checker: 27 698 righe, 1083 entro 1e-9); conteggi di tutte le suite uguali alle corse di S1. Catture con S2 confrontate con quelle con S1: densa identica salvo 1244 righe con soli identificativi casuali (shear-legacy.csv e torsion-legacy.csv identici), headless uguale salvo i 21 tempi volatili; cambiano solo i metadati (commit, manifest di lib/Checker, assembly ricompilati). Motivo: Shear/ e Torsion/ di GPCChecker.Concrete sono identici fra Checker b994e188 (S1) e 0d7ba50b (S2), che cambiano solo la fessurazione (D7-b, R15) e le versioni; Model cambia solo le versioni." },
+      "raccomandazione": "accettare: tolleranza 1e-9 relativa dei MigrationTests e del banco (tests/ANTHEA.Testing/tolerances.json)",
+      "decisione": { "data": "2026-10-07", "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente («esegui tutto te», 7/10 pomeriggio), da ratificare", "esito": "si ratifica F2-1 così com'è: per i ripieghi cambia solo il chiamante registrato del ripiego J.B(\"foro_presente\") = False dei fogli senza la chiave (ConcreteShearTorsionAdapter.TorsionGeometryOf invece di ConcreteTorsionCalculator.Geometry), con la stessa chiave e lo stesso valore; nessun caso senza la chiave aggiunto al corpus di B3" },
+      "data": "2026-10-07",
+      "fase": "F2.5, F2.6",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 3a-3f, 4)",
+        "tests/ANTHEA.Testing/corpus (casi della baseline B3) e regole results/str_palo di tests/ANTHEA.Testing/tolerances.json",
+        "Checker/GPCChecker.Test.Concrete/ShearMigrationTests.cs:41-84",
+        "Checker/GPCChecker.Test.Concrete/TorsionMigrationTests.cs:29-93"
+      ]
+    },
+    {
+      "id": "F2-2",
+      "titolo": "Testi del taglio e della torsione: la mappatura restituisce i testi del legacy",
+      "famiglia": "calcestruzzo/taglio-torsione",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "GPCChecker.Concrete scrive stati, riferimenti, modelli, espressioni dei dettagli e messaggi di rifiuto in inglese, i riferimenti con le proprie citazioni (\"NTC 2018 §§4.1.2.3.5.1-2\", \"EN 1992-1-1 §§6.2.2-6.2.3\") e per NTC anche una traccia di calcolo. Il JSON 'taglio' e 'torsione' e le relazioni di ANTHEA restano quelli del legacy: lo strato di mappatura sostituisce ogni testo con quello del legacy (stati, \"NTC 2018 §§4.1.2.3.5.1–2\", \"<norma> · §§6.2.2–6.2.3\", \"fib MC2010 · livello II · §§7.3.3–7.3.4\", modelli, espressioni con la virgola decimale, VRd,cc in kN, messaggi dei rifiuti con gli estremi di cot θ nella cultura corrente) e non espone la traccia NTC della libreria, che il legacy non aveva. Un testo della libreria senza traduzione è un errore di programma (InvalidOperationException), mai un testo inglese mostrato; nomi delle norme diversi dalle 7 ordinarie rifiutati con il messaggio del legacy (la libreria accetterebbe anche CNR-DT 204 e CNR-DT 200).",
+      "codice": [
+        "X.Calculations/ConcreteLibraryMapping.cs",
+        "Checker/GPCChecker.Concrete/Shear/ShearProfiles.cs:53-80",
+        "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:36-42"
+      ],
+      "segno": "nessuno: testi identici al legacy; la traccia NTC della libreria resta disponibile per le relazioni future (punto aperto 4 di f2-matrice-api.md)",
+      "effetto_quantificato": {
+        "sintesi": "Testi, stati, riferimenti, modelli, unità e messaggi identici al legacy in tutte le prove dell'adattatore, nelle catture dense (shear-legacy.csv: colonne status e details; torsion-legacy.csv: status e messaggi), nel JSON 'taglio', 'torsione' ed 'errori_calcolo' del calcolo headless, nel testo delle relazioni completa e sintetica (X.Core ReportConcrete e ReportConcreteShort, 5 norme, con torsione NTC e rifiuti) e nella cattura headless contro B3 (12 relazioni dei 4 casi del corpus e messaggi dei rifiuti identici, ca6530d)."
+      },
+      "raccomandazione": "mantenere finché le relazioni non useranno tracce localizzate della libreria (F2.3, tracce per i report)",
+      "decisione": { "data": "2026-10-07", "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente (7/10 pomeriggio, verifica avversaria di F2.5-F2.6), da ratificare", "esito": "la traccia NTC della libreria non è esposta nel JSON 'taglio' né nelle relazioni, come oggi; si riprende con le tracce in italiano per i report (F2.3)" },
+      "attuazione": { "data": "2026-10-07", "commit": ["ANTHEA 2583225 (ConcreteLibraryMapping: testi, riferimenti, modelli, espressioni e rifiuti del legacy)", "ANTHEA ca6530d (F2.6, interruttore sulla libreria)"], "verifica": "Su ca6530d: tests/ConcreteLibraryAdapter.Checks (prove 1 e 3a-3f, testi e rifiuti identici; relazioni di 5 norme identiche); cattura headless contro B3: 12 relazioni e messaggi dei rifiuti dei 4 casi del corpus identici; cattura densa: colonne di testo di shear-legacy.csv e torsion-legacy.csv identiche" },
+      "data": "2026-10-07",
+      "fase": "F2.5, F2.6",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 1, 3a-3f)"
+      ]
+    },
+    {
+      "id": "F2-3",
+      "titolo": "Torsione senza staffe chiuse: resta un dato non valido",
+      "famiglia": "calcestruzzo/torsione",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Con area del ramo di staffa nulla il legacy rifiuta il calcolo (\"Torsione: controllare geometria, armature, materiali e 1 ≤ cot θ ≤ 2,5.\"), la libreria dà una verifica non soddisfatta con resistenza nulla (\"No closed links: zero torsional resistance\"; TorsionMigrationTests.cs:45-51). L'adattatore conserva il comportamento di oggi: rifiuto con lo stesso messaggio, controllato prima della libreria, quindi anche quando il cot θ del taglio è diverso. Nel modulo, che dalla correzione di F2.5 (f5b5f50) calcola profilo resistente e torsione attraverso l'adattatore, il caso non arriva all'adattatore: ConcreteShearAnalysis rifiuta prima la torsione senza staffe chiuse (\"Torsione: occorrono staffe resistenti chiuse.\").",
+      "codice": [
+        "X.Calculations/ConcreteShearTorsionAdapter.cs:45-62 (controllo a :50, ca6530d)",
+        "X.Calculations/ConcreteShearAnalysis.cs:69",
+        "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:112, :136"
+      ],
+      "segno": "nessuno per ANTHEA (stesso rifiuto); la libreria resta più espressiva per gli altri chiamanti",
+      "effetto_quantificato": {
+        "sintesi": "1 caso di torsion-legacy.csv (riga 581) e 1 caso con cot θ del taglio diverso nelle prove dell'adattatore: stesso rifiuto e stesso messaggio."
+      },
+      "raccomandazione": "mantenere il rifiuto finché l'interfaccia non mostrerà la verifica non soddisfatta (scelta dell'utente)",
+      "decisione": { "data": "2026-10-07", "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente (7/10 pomeriggio, verifica avversaria di F2.5-F2.6), da ratificare", "esito": "la torsione senza staffe chiuse resta un rifiuto con il messaggio di oggi, controllato dall'adattatore prima della libreria" },
+      "attuazione": { "data": "2026-10-07", "commit": ["ANTHEA 2583225 (controllo nell'adattatore, ConcreteShearTorsionAdapter.Torsion)", "ANTHEA f5b5f50 (torsione del modulo attraverso l'adattatore)", "ANTHEA ca6530d (F2.6, interruttore sulla libreria)"], "verifica": "Su ca6530d: tests/ConcreteLibraryAdapter.Checks prova 3b (riga 581 di torsion-legacy.csv e caso con cot θ del taglio diverso: stesso rifiuto e messaggio con i due motori); cattura densa f2-libreria: stessi 50 rifiuti di torsione" },
+      "data": "2026-10-07",
+      "fase": "F2.5, F2.6",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/Program.cs (prova 3b, \"torsione senza staffe e cot diverso\")",
+        "Checker/GPCChecker.Test.Concrete/TorsionMigrationTests.cs:45-51"
+      ]
+    },
+    {
+      "id": "F2-4",
+      "titolo": "Rifiuti e limiti propri della libreria non raggiungibili dal modulo",
+      "famiglia": "calcestruzzo/taglio-torsione",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "(a) La torsione della libreria rifiuta fck > 90 MPa (\"Torsione: calcestruzzo oltre C90/105 fuori dal campo implementato.\", testo nuovo della mappatura); il legacy della torsione non riceve fck, ma nel modulo (torsione attraverso l'adattatore dalla correzione di F2.5) il taglio della stessa sezione rifiuta prima con il proprio messaggio. (b) TorsionShearComponent rifiuta resistenze a taglio negative o non finite (mappate sul messaggio dei dati non validi della torsione), dove il legacy darebbe tassi infiniti: le resistenze del taglio del modulo sono sempre finite e non negative. (c) Profilo resistente circolare: la libreria confronta lo spessore con il diametro, il legacy con il minimo fra larghezza e altezza del poligono del contorno; diverso solo con lo spessore compreso fra le due (spessore pari al diametro). (d) La libreria accetterebbe CNR-DT 204 e CNR-DT 200: la mappatura li rifiuta con il messaggio del legacy (F2-2). fck e γc passati alla libreria per la torsione NTC non entrano nelle resistenze.",
+      "codice": [
+        "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:151",
+        "Checker/GPCChecker.Concrete/Torsion/SectionTorsionContracts.cs:47-64, :83-88",
+        "X.Calculations/ConcreteTorsion.cs:7-17",
+        "X.Calculations/ConcreteLibraryMapping.cs"
+      ],
+      "segno": "nessuno sui casi del modulo",
+      "effetto_quantificato": {
+        "sintesi": "Nessun caso delle griglie (2016 + 986 + 10) né del modulo cambia esito o messaggio; prova 3d: con fck = 95 MPa e torsione i due motori danno lo stesso rifiuto del taglio."
+      },
+      "raccomandazione": "nessuna azione; da rivedere se l'interfaccia aprirà la torsione ad altre norme (punto aperto 5 di f2-matrice-api.md)",
+      "decisione": { "data": "2026-10-07", "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente (7/10 pomeriggio, verifica avversaria di F2.5-F2.6), da ratificare", "esito": "limiti e rifiuti propri della libreria non raggiungibili dal modulo accettati, nessuna azione" },
+      "attuazione": { "data": "2026-10-07", "commit": ["ANTHEA 2583225 (messaggi della mappatura per i rifiuti della libreria)", "ANTHEA ca6530d (F2.6, interruttore sulla libreria)"], "verifica": "Su ca6530d: tests/ConcreteLibraryAdapter.Checks prove 3b (torsione oltre C90/105 solo nella libreria), 3c (profili resistenti identici, 11 risultati e 5 rifiuti) e 3d (fck = 95 MPa con torsione: stesso rifiuto del taglio con i due motori); nessun caso delle griglie dense, del modulo e di B3 cambia esito o messaggio" },
+      "data": "2026-10-07",
+      "fase": "F2.5, F2.6",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 3b, 3c, 3d)"
+      ]
     }
   ]
 }

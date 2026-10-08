@@ -1,0 +1,32 @@
+{
+  "moduleId": "str_palo",
+  "label": "sezione rettangolare 600 x 800, NTC 2018: taglio e torsione",
+  "description": "Caso del corpus della cattura headless (baseline B3, refactoring F2.6): sezione del default con staffe chiuse Ø10/200, azioni di taglio biassiale con e senza torsione, compressione e trazione, cot θ comune 1,5 con T diverso da zero, As longitudinale per la torsione 2000 mm².",
+  "overrides": {
+    "input": { "shape": "Rettangolare", "foro_presente": false },
+    "combinazioni": {
+      "SLU": [ { "nome": "SLU 1", "azioni": [ "-1200", "250", "60" ] } ],
+      "SLV": [],
+      "SLE": [],
+      "SLE_FREQ": [],
+      "SLE_QP": []
+    },
+    "workspace_ca": {
+      "versione": 2,
+      "normativa": "NTC 2018",
+      "taglio": {
+        "modello": "Con staffe",
+        "cot_torsione": "1.5",
+        "as_torsione": "2000",
+        "chiusura_torsione": "Confermato",
+        "azioni": [
+          { "id": "V1", "nome": "Taglio biassiale", "N": "-1200", "Mx": "250", "My": "60", "Vx": "200", "Vy": "150", "T": "0" },
+          { "id": "V2", "nome": "Taglio e torsione", "N": "-1200", "Mx": "250", "My": "60", "Vx": "200", "Vy": "150", "T": "40" },
+          { "id": "V3", "nome": "Taglio e torsione elevati", "N": "-400", "Mx": "100", "My": "20", "Vx": "600", "Vy": "450", "T": "90" },
+          { "id": "V4", "nome": "Trazione, torsione negativa", "N": "150", "Mx": "-80", "My": "10", "Vx": "-150", "Vy": "90", "T": "-25" },
+          { "id": "V5", "nome": "Sola torsione", "N": "-800", "Mx": "0", "My": "0", "Vx": "0", "Vy": "0", "T": "15" }
+        ]
+      }
+    }
+  }
+}

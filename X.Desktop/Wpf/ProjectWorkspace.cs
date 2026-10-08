@@ -89,7 +89,7 @@ public sealed partial class MainWindow
         projectDropHint.Style = hintStyle;
         projectDropHint.TextWrapping = TextWrapping.NoWrap;
         projectDropHint.TextTrimming = TextTrimming.CharacterEllipsis;
-        projectDropHint.Background = System.Windows.Media.Brushes.White;
+        projectDropHint.Background = Appearance.Paper;
         projectDropHint.IsHitTestVisible = false;
         var grid = projectLayout = new Grid { Margin = new Thickness(14, 12, 14, 14) };
         grid.ColumnDefinitions.Add(new ColumnDefinition()); grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(18) }); grid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -99,7 +99,7 @@ public sealed partial class MainWindow
         var treeHeader = Ui.Stack(treeTitle);
         treeHeader.Margin = new Thickness(0, 0, 0, 14);
         var treeBody = new Grid(); treeBody.Children.Add(tree);
-        projectEmptyState = new Border { Child = BuildEmptyProjectTree(), Background = System.Windows.Media.Brushes.White, Visibility = Visibility.Collapsed }; treeBody.Children.Add(projectEmptyState);
+        projectEmptyState = new Border { Child = BuildEmptyProjectTree(), Background = Appearance.Paper, Visibility = Visibility.Collapsed }; treeBody.Children.Add(projectEmptyState);
         projectTreeSummary = Ui.Text("", 11, color: Ui.Muted); projectTreeSummary.Margin = new Thickness(0, 10, 0, 0);
         var left = Ui.Dock(treeBody, treeHeader, projectTreeSummary);
         ScrollViewer.SetHorizontalScrollBarVisibility(tree, ScrollBarVisibility.Disabled);
@@ -149,7 +149,7 @@ public sealed partial class MainWindow
         Grid.SetColumn(projectTreePane, sheetOpen ? 0 : 2);
         Grid.SetColumn(projectDetailPane, sheetOpen ? 2 : 0);
         projectDetailPane.Padding = new Thickness(sheetOpen ? 0 : 14);
-        projectDetailPane.Background = sheetOpen ? System.Windows.Media.Brushes.White : Ui.Brush("#F6F9FC");
+        projectDetailPane.Background = sheetOpen ? Appearance.Paper : Appearance.Background("#F6F9FC");
         projectTreePane.Visibility = projectColumnSplitter.Visibility = Visibility.Visible;
         projectTreeToggle.Visibility = sheetOpen ? Visibility.Visible : Visibility.Collapsed;
         projectCatalogPane.Visibility = projectCatalogSplitter.Visibility = catalogVisible ? Visibility.Visible : Visibility.Collapsed;

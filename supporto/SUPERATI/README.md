@@ -1,6 +1,6 @@
 # Documenti e raccolte superati
 
-Questo archivio conserva le revisioni sostituite senza eliminazioni definitive. I percorsi sotto questa cartella riproducono quelli originali relativi a `supporto`. I registri `registro-20260929.json` e `registro-20260930.json` riportano per ogni file origine, destinazione, motivo e impronta SHA256.
+Questo archivio conserva le revisioni sostituite senza eliminazioni definitive. I percorsi sotto questa cartella riproducono quelli originali relativi a `supporto`. I registri `registro-<data>.json` di questa cartella riportano per ogni file origine, destinazione, motivo e impronta SHA256.
 
 ## Guide e rapporti generali
 
@@ -45,3 +45,28 @@ Le edizioni successive, fino alla Rev29, sono conservate nelle cartelle `<attivi
 ## Guide globali Rev31 — 7 ottobre 2026
 
 Le edizioni Word e PDF Rev30 delle due guide globali sono conservate in `documentazione/Guide_ANTHEA` di questa cartella, con il percorso originale relativo a `supporto`. `registro-20261007.json` riporta origine, motivo, SHA-256 e revisione sostitutiva. La Rev31 contiene solo contenuti propri: corpus esterno tolto con W0.5, diario di sviluppo, strumenti di IA, concorrenti e paragrafi duplicati tolti con W0.4 (elenco in `docs/refactoring/w0.4-pulizia-guide.md`). La Rev30 della guida teorica contiene ancora il corpus esterno, come le altre copie di questa cartella. I PDF accanto ai sorgenti Markdown erano copie identiche della Rev30 e non sono stati archiviati una seconda volta.
+
+## Guide globali Rev32 — 7 ottobre 2026
+
+Le edizioni Word e PDF Rev31 delle due guide globali sono conservate nella stessa cartella `documentazione/Guide_ANTHEA`, con `registro-20261007-rev32.json` (origine, motivo, SHA-256 e revisione sostitutiva). La Rev32 cambia solo il paragrafo «Esposizioni e requisiti del materiale» della guida teorica: classi minime secondo il prospetto 6 della UNI 11104:2025, con XF1 a C32/40 del prospetto 5 dell'edizione 2016, e composizione secondo il prospetto 5 dell'edizione 2016. Il testo della guida pratica è invariato; cambiano revisione e nota di copertina. I PDF accanto ai sorgenti Markdown erano copie identiche della Rev31 e non sono stati archiviati una seconda volta.
+
+## Progetti di test e script del 25/9 — 7 ottobre 2026 (F1.6)
+
+La cartella `test` conserva otto progetti tolti da `supporto/test` durante il passo F1.6 del refactoring; la cartella `script/validazione_ca_2026_09_25` conserva il generatore della relazione di validazione c.a. del 25/9, tolto da `supporto/script`. Entrambe mantengono il percorso originale relativo a `supporto`. `registro-20261007-test.json` riporta per ogni file origine, destinazione, SHA-256 (del file estratto su Windows, con fine riga CRLF), motivo e sostituzione; la tabella dei progetti è in `docs/refactoring/progetti-di-test.md`. Le destinazioni sono state decise dal coordinatore del refactoring su delega dell'utente e sono da ratificare (`docs/refactoring/decisioni.md`).
+
+- `ConcreteDesign.DesktopChecks` e `ValidationIllustrations` ricompilavano X.Desktop con un proprio App e non compilavano più. Il loro codice è passato nell'exe di prova UiTests: `supporto/test/Desktop/ConcreteDesignDesktopChecks.cs` e `ValidationCaptureChecks.cs`.
+- `BridgeDesign.SiteComparison`, `MaxRetainingWall.Cases` e `MaxRetainingWall.Compare` dipendevano da un sito web esterno o dal programma MAX; `ConcreteStressDiagnosis` e `ProgrammaAnthea` (`qa.py`) erano strumenti una tantum; `ValidazioneCA20260925` non compilava. Nessuno era eseguito dal runner `build/ci.ps1` e nessuno ha una revisione sostitutiva diretta; dove esistono, il registro indica le verifiche correnti degli stessi calcoli. L'archiviazione è reversibile con `git mv`, anche per i tre progetti per i quali la tabella rimandava la scelta all'utente (il confronto con il sito e i due progetti MAX).
+- `script/validazione_ca_2026_09_25` (`build_document.py`, `check_final.py`, `finalize.py`, `render_pages.py`, `render_word.ps1`) ha prodotto la relazione `ANTHEA_Validazione_Calcestruzzo_Armato_Rev01`, archiviata il 29/9. `build_document.py` importa `reference_base.py` e `reference_extra.py` di `ValidazioneCA20260925` ed è archiviato con quel progetto, con il testo di prima di F1.6.
+
+`ElasticPile.Performance`, spostato qui nello stesso passo, è tornato in `supporto/test`: la tabella gli assegna "Archiviare dopo F5, o spostare in `tools/`".
+
+I file sono invariati. Questi percorsi interni valgono solo nella posizione originale:
+
+- i riferimenti `../../../X.*` dei csproj e `../Desktop/*.cs` di `ConcreteDesign.DesktopChecks` e `ValidationIllustrations`;
+- i comandi con `supporto/test/<progetto>` dei README di `BridgeDesign.SiteComparison` e `MaxRetainingWall.Compare` e del testo scritto da `compare.py`;
+- la radice del repository, che `qa.py`, `compare.py` di `BridgeDesign.SiteComparison`, `check_campaign.py`, `build_document.py`, `check_final.py` e `finalize.py` calcolano come `parents[3]` del proprio file e `render_word.ps1` come `../../..` della propria cartella;
+- `ROOT` di `reference_base.py`, uguale a `parents[2]/'artefatti/validazione_ca_2026_09_25'`, che è `supporto/artefatti/validazione_ca_2026_09_25` solo da `supporto/test`; `reference_extra.py` lo usa (`O = rb.ROOT`);
+- la cartella `supporto/test/ValidazioneCA20260925` aggiunta a `sys.path` da `build_document.py` per importare i due riferimenti Python;
+- il comando `dotnet run --project supporto/test/ValidazioneCA20260925 -c Release -- percorso_input.json percorso_output.json` e le cartelle citate nel capitolo "Riproducibilità della campagna" della relazione. Il testo è scritto da `build_document.py` ed è ripreso nella Rev02 e nella relazione corrente `ANTHEA_Validazione_Software_CA_e_Ponti_Rev03.docx`, in `supporto/documentazione/Validazione_CA_ANTHEA`, che non è stata modificata.
+
+Per rieseguire un progetto lo si riporta nella posizione originale con `git mv`; per la campagna del 25/9 vanno riportate entrambe le cartelle. Gli ingressi della campagna in `supporto/artefatti/validazione_ca_2026_09_25` non sono versionati e `build_document.py` legge il modello Word dal Desktop dell'autore. Nessuno di questi progetti è in `ANTHEA.sln`.

@@ -41,7 +41,7 @@ internal sealed partial class RetainingWallWorkspace
         form.ShowField("soil_class", site && ssAuto); form.ShowField("f0", site && ssAuto && s.S("soil_class") != "A"); form.ShowField("ss", site && !ssAuto);
         form.ShowField("topography", site && stAuto); form.ShowField("st", site && !stAuto); form.ShowField("slope", site && stAuto && relief);
         foreach (string key in new[] { "relief_height", "site_height" }) form.ShowField(key, site && stAuto && relief && s.D("slope") > 15);
-        seismicAudit.Foreground = Ui.Navy;
+        seismicAudit.Foreground = Appearance.Ink;
         if (!enabled) { seismicAudit.Text = "Sisma escluso. Attivarlo per calcolare e verificare i casi sismici."; return; }
         if (!site) { seismicAudit.Text = "Modalità manuale: kh e |kv| sono dati assegnati. Per ricavarli da ag/g, selezionare Da parametri del sito (SLV)."; return; }
         try
@@ -51,6 +51,6 @@ internal sealed partial class RetainingWallWorkspace
             form.Set("kh", s.S("kh"), display: true); form.Set("kv", s.S("kv"), display: true);
             seismicAudit.Text = result.Description;
         }
-        catch (ArgumentException ex) { seismicAudit.Text = ex.Message; seismicAudit.Foreground = Brushes.Firebrick; }
+        catch (ArgumentException ex) { seismicAudit.Text = ex.Message; seismicAudit.Foreground = Appearance.Foreground(Brushes.Firebrick); }
     }
 }

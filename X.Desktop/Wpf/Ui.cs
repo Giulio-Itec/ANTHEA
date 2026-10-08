@@ -20,9 +20,16 @@ internal static class Ui
     internal static Brush Brush(string color) { var b = (SolidColorBrush)new BrushConverter().ConvertFromString(color)!; b.Freeze(); return b; }
     internal static Button Button(string title, Action action, bool primary = false, bool inspection = false)
     {
-        var b = new Button { Content = title, Background = primary ? Navy : Brushes.White, Foreground = primary ? Brushes.White : Navy };
+        var b = new Button { Content = title }; SetSelected(b, primary);
         if (inspection) RevisionInspection.Allow(b);
         b.Click += (_, _) => action(); return b;
+    }
+    /// <summary>Colours of a dark (primary or selected) or light button, bound to the palette: they follow the
+    /// appearance also when assigned after the view is built (navigation, choice of a typology).</summary>
+    internal static void SetSelected(Button button, bool selected)
+    {
+        button.Background = selected ? Appearance.Selected : Appearance.Paper;
+        button.Foreground = selected ? Appearance.Foreground(Brushes.White) : Appearance.Ink;
     }
     internal static TextBlock Text(string text, double size = 13, bool bold = false, Brush? color = null) => new()
     {
@@ -90,6 +97,12 @@ internal static class Ui
         if (element is Window { Content: FrameworkElement content }) element = content;
         element.UpdateLayout(); var bitmap = new RenderTargetBitmap(Math.Max(1, (int)Math.Ceiling(element.ActualWidth)), Math.Max(1, (int)Math.Ceiling(element.ActualHeight)), 96, 96, PixelFormats.Pbgra32);
         bitmap.Render(element); var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap)); using var stream = new MemoryStream(); encoder.Save(stream); return stream.ToArray();
+    }
+    /// <summary>Image for a calculation document (report figure, exported view): Light colours whatever the appearance.
+    /// <see cref="Snapshot"/> keeps the appearance, as the screenshots of the interface.</summary>
+    internal static byte[] DocumentSnapshot(FrameworkElement element)
+    {
+        using (Appearance.Document(element)) return Snapshot(element);
     }
     internal static DataGrid Table(string[] headers, IEnumerable<string[]> rows)
     {
@@ -179,7 +192,7 @@ internal sealed class InputForm : ChainedScrollViewer
             }
             else
             {
-                var t = new TextBox { Text = values.S(f.Key), IsReadOnly = f.ReadOnly, TextAlignment = symbolColumns ? TextAlignment.Center : TextAlignment.Right, Background = f.ReadOnly ? Ui.Brush("#EAF2FA") : Ui.Brush("#F8FAFC") };
+                var t = new TextBox { Text = values.S(f.Key), IsReadOnly = f.ReadOnly, TextAlignment = symbolColumns ? TextAlignment.Center : TextAlignment.Right, Background = f.ReadOnly ? Appearance.Calculated : Ui.Brush("#F8FAFC") };
                 string raw = t.Text;
                 bool formatting = false;
                 t.TextChanged += (_, _) => { if (!formatting) raw = t.Text; };

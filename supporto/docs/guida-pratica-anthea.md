@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 5 aggiornata il 7 ottobre 2026 — revisione documentale 31
+Edizione 5 aggiornata il 7 ottobre 2026 — revisione documentale 32
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 

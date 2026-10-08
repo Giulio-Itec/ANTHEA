@@ -174,7 +174,7 @@ internal sealed partial class RetainingWallWorkspace
     {
         bool enabled = Data["seismic"].B("enabled"); int? cases = Calculation?.Cases.Count(c => c.State == "SISMA");
         SeismicButton.Content = !enabled ? "Sisma: non attivo · imposta" : cases is null ? "Sisma: attivo · da ricalcolare" : cases == 0 ? "Sisma: attivo · nessuna combinazione" : $"Sisma: attivo · {cases} combinazioni";
-        SeismicButton.Foreground = enabled && cases == 0 ? Brushes.Firebrick : Ui.Navy;
+        SeismicButton.Foreground = Appearance.Foreground(enabled && cases == 0 ? Brushes.Firebrick : Ui.Navy);
         SeismicButton.ToolTip = "Apri Input → Azioni → Sisma. " + (enabled ? $"{Data["seismic"].S("method")} · kh={Data["seismic"].D("kh"):0.###} · |kv|={Data["seismic"].D("kv"):0.###}. " : "Abilita l’azione sismica e assegna modello, kh e |kv|. ")
             + "Con matrice personalizzata controllare le righe SISMA; Genera / ripristina automatiche ricrea le combinazioni dai parametri inseriti.";
     }

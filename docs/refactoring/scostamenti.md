@@ -42,7 +42,8 @@ correzioni scelte; W1.2 scrive soltanto i riquadri delle voci dichiarate.
 | EN 1992-1-1:2004 | `supporto/tmp/materiali_norme/en.1992.1.1.2004.txt`: §7.3.4(2)-(3), eq. (7.9)-(7.14) |
 | UNI EN 206-1:2006 | `supporto/tmp/materiali_norme/UNI-EN-206.txt`: prospetto F.1 |
 | EN 1998-5:2004, Annesso F | non presente nei repository; riscontro fatto durante il port della libreria su una copia del testo (Checker `docs/migrazione-anthea/MIGRAZIONE_ANTHEA.txt:358-362`) |
-| UNI 11104 (edizioni 2004 e 2016) | non presente nei repository: numero del prospetto e valori da riscontrare |
+| UNI 11104:2025 (in vigore dal 24/07/2025) | non presente nei repository. Anteprima pubblicata nel catalogo UNI, pagine visibili: indice (pp. III-IV, punto 6.1 «Requisiti relativi alle classi di esposizione» a p. 10), introduzione (p. 1), punti 1 e 2 (p. 2); frontespizio e prospetto 6 non visibili. Prospetto 6 da un estratto pubblicato il 28/07/2025 (fonte secondaria); riscontro sul testo con licenza prima di F2.9. Date e sostituzione della 2016 dalle schede del catalogo UNI |
+| UNI 11104:2016 (ritirata il 24/07/2025) e 2004 | non presenti; 2016 dal prospetto 5 riprodotto in ATECAP 2020, p. 19 (fonte secondaria); 2004 non riscontrata |
 
 ## Quadro riassuntivo
 
@@ -52,7 +53,7 @@ correzioni scelte; W1.2 scrive soltanto i riquadri delle voci dichiarate.
 | [D7-b](#d7-b-k2-del-ramo-ntc-senza-barre-compresse) | k2 del ramo NTC | 1,0 se nessuna barra è compressa | 0,5 in flessione | cautelativo | wk −24 … −48 % negli stati coinvolti; 9 282 esiti su 37 128 | correggere con opzione legacy |
 | [D7-c](#d7-c-portanza-sismica-dei-muri-secondo-en-1998-5-annesso-f) | Portanza sismica dei muri | γRd anche su F̄ | (F.7): F̄ senza γRd | cautelativo | η +1,7 … +7,0 % (es. 4: 0,791 contro 0,760); 3 esiti su 46 | correggere (la libreria segue già la norma) |
 | [D7-d](#d7-d-coefficiente-di-base-dei-pali-uguale-per-ogni-tecnologia) | γb dei pali | 1,35 per ogni tecnologia | Tab. 6.4.II: 1,15 infissi, 1,35 trivellati, 1,30 elica | cautelativo (infissi, elica) | Rc,d +4,3 … +7,0 % infissi, +1,0 … +1,2 % elica; nessun esito | correggere il predefinito, archivi invariati |
-| [D7-e](#d7-e-classe-minima-per-xc3-xd1-xf4-e-xa1) | Classe minima per XC3, XD1, XF4, XA1 | C30/37 | UNI 11104: C28/35 (EN 206 F.1: C30/37) | cautelativo | solo C28/35: avviso in 46 combinazioni su 520, +5 mm di copriferro in 184 casi su 17 646 | riscontrare la UNI 11104, poi correggere |
+| [D7-e](#d7-e-classe-minima-per-xc3-xd1-xf4-e-xa1) | Classe minima per XC3, XD1, XF4, XA1 | C30/37 | UNI 11104:2025 prospetto 6 (secondo l'estratto del 28/07/2025) e 2016 prospetto 5: C30/37 (EN 206 F.1: C30/37); C28/35 attribuito alla 2004 | cautelativo rispetto alla 2004 | solo C28/35: avviso in 46 combinazioni su 520, +5 mm di copriferro in 184 casi su 17 646 | C30/37 confermato, citazioni corrette in ANTHEA; seguito su XF1 e composizione: e4 in F2.9 dopo il riscontro del prospetto 6 (da ratificare) |
 | [D7-f](#d7-f-bridge-design-coefficiente-e-carico-da-traffico) | Bridge Design, carichi da traffico | γQ 1,50; 9 kN/m² su tutta la larghezza, senza tandem | Tab. 5.1.V: γQ 1,35; Schema 1 (Tab. 5.1.II) | γQ cautelativo (+11 %); carico non cautelativo sotto 20 m di luce, cautelativo sopra | momenti −2,5 … −5,5 %; costi −1,4 … −5,2 % solo per strallati, sospesi, archi e reticolari; ottimizzazione invariata | γQ 1,35 per i documenti nuovi; dichiarare il carico equivalente |
 | [D7-g](#d7-g-testo-del-metodo-nei-report-della-sezione-composta) | Testo del metodo nei report del ponte | etichetta breve della scelta | — | nessun effetto numerico | report senza norma e versione; 8 baseline BridgeAudit | correggere |
 
@@ -378,14 +379,19 @@ verticale).
 ### Codice
 
 - Libreria: `Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:61` (XC3), `:63` (XD1),
-  `:72` (XF4), `:73` (XA1): `Uni11104MinStrength` = 30; fonte dichiarata ai righi `:11-13` (ATECAP
-  2020, fonte secondaria); riferimento «UNI 11104 prospetto 5» a `:107`.
-- ANTHEA: `X.Calculations/Materials/MinimumConcrete.cs:5-13` (fonte «ATECAP 2020, p. 19, Prospetto 5
-  UNI 11104») e `:19` (etichette, senza C28/35).
+  `:72` (XF4), `:73` (XA1): `Uni11104MinStrength` = 30; fonte dichiarata ai righi `:10-13` (ATECAP
+  2020, fonte secondaria, senza edizione); riferimento «UNI 11104 prospetto 5» a `:107`; commenti
+  senza edizione a `:89`, `:121`, `:128`. Da correggere nella prossima release (testo proposto più
+  sotto).
+- ANTHEA: `X.Calculations/Materials/MinimumConcrete.cs:5-7` (fonte: prospetto 6 della UNI 11104:2025,
+  valori trascritti dal prospetto 5 della 2016, eccezione XF1), `:21` (etichette);
+  `X.Calculations/Materials/MixAutomation.cs:5-7` (A/C e cemento dal prospetto 5 della 2016);
+  `X.Materiali/MinimumConcrete.cs:15-16` (nota della scheda) e `X.Materiali/MixAutomation.cs:46`
+  («Riferimenti della composizione», anche nel report Word dei materiali).
 - Uso: copriferro NTC con +5 mm se fck < Cmin pertinente (`X.Calculations/Materials/NtcCover.cs:24`
   e `:27`, `MaterialCover.cs:31`, `ConcreteDetailingAnalysis.cs:38`,
   `ElasticHorizontalPile.Reinforcement.cs:155`); avviso «classe inferiore al minimo»
-  (`X.Materiali/MixAutomation.cs:70-71`, `MaterialDetails.cs:173`).
+  (`X.Materiali/MixAutomation.cs:71-72`, `MaterialDetails.cs:173`).
 
 ### Norma e riscontro sul testo
 
@@ -394,21 +400,39 @@ verticale).
   Tab. 4.1.I ammette le classi C28/35 e C32/40 «già in uso».
 - Circolare 2019, Tab. C4.1.IV (p. 90): Cmin per ambiente (C25/30, C30/37, C35/45), da intendere
   riferita alla pertinente classe di esposizione della UNI EN 206:2016.
-- UNI 11104 (prospetto 4 secondo il piano; ANTHEA e Checker citano il prospetto 5 tramite ATECAP
-  2020): classe minima C28/35 per XC3, XD1, XF4 e XA1. **Testo non disponibile**: numero del
-  prospetto e valori da riscontrare. Il commento della libreria attribuisce C28/35 alla UNI
-  11104:2004.
+- Edizioni (catalogo UNI, riscontro diretto): UNI 11104:2025 in vigore dal 24/07/2025, sostituisce
+  la 2016; UNI 11104:2016 in vigore dal 14/07/2016, ritirata il 24/07/2025, sostituiva la 2004.
+- UNI 11104:2025, punto 6.1, prospetto 6 «Valori limite per la composizione e le proprietà del
+  calcestruzzo» (riscontro indiretto). Le pagine visibili dell'anteprima pubblicata da UNI sono
+  l'indice (pp. III-IV, con il punto 6.1 «Requisiti relativi alle classi di esposizione» a p. 10),
+  l'introduzione (p. 1) e i punti 1 e 2 (p. 2): confermano edizione e struttura, non i valori; il
+  frontespizio e il prospetto 6 non sono visibili e l'indice non elenca i prospetti. Secondo un
+  estratto pubblicato il 28/07/2025 (fonte secondaria) il prospetto 6 dà C30/37 per XC3, XD1, XF4 e
+  XA1, come il codice; XF1 C30/37 con A/C 0,55 contro C32/40 e 0,50 del codice; cemento minimo più
+  basso in tutte le classi che lo prescrivono. La trascrizione completa del 7/10, attribuita alla
+  «p. 12 dell'anteprima», veniva da contenuti del file che il lettore non mostra (residuo di una
+  versione precedente del file): i valori per classe nel registro sono provvisori e si riscontrano
+  sul testo di una copia con licenza prima di F2.9.
+- UNI 11104:2016, prospetto 5, stesso titolo (riscontro indiretto: riproduzione in ATECAP 2020,
+  p. 19; per XC1-XC4 concorde un articolo tecnico di settore del 2024): coincide con il codice in
+  tutte le 18 classi, XF1 compresa (C32/40), e con AtecapMix per A/C e cemento. Testo UNI non
+  consultato.
+- UNI 11104:2004, prospetto 4: C28/35 per XC3, XD1, XF4 e XA1 secondo il commento della libreria e
+  la revisione del 6/10; non riscontrato.
 - UNI EN 206-1:2006, prospetto F.1 (informativo, valori raccomandati), riscontrato: C30/37 per le
   stesse quattro classi, come il codice.
 
 ### Segno
 
-Cautelativo.
+Rispetto all'edizione in vigore nessuno per XC3, XD1, XF4 e XA1; cautelativo per XF1 e per la
+composizione (seguito). Rispetto alla 2004, cautelativo.
 
 ### Effetto quantificato
 
+Le misure seguenti sono quelle dell'opzione e1 (C28/35), scartata il 7/10.
+
 - ANTHEA (`MinimumConcrete.Fck`) e libreria (`Uni11104MinStrength`) coincidono per tutte le 18
-  classi. Per le altre 14 classi non risultano differenze, da confermare con lo stesso riscontro.
+  classi.
 - 520 combinazioni di esposizione (una classe per famiglia XC, XD, XS, XF, XA; da 1 a 3 classi; più
   X0): la classe minima passa da C30/37 a C28/35 in 46 combinazioni (4 singole, 18 doppie, 24
   triple).
@@ -418,8 +442,9 @@ Cautelativo.
 - Copriferro nominale NTC su 17 646 casi (combinazioni × fck × trave o piastra): cambia in 184 casi,
   tutti con fck fra 28 e 30 MPa; il codice aggiunge 5 mm, con C28/35 no. ANTHEA (`NtcCover`) e
   libreria (`CoverRequirements`) coincidono.
-- La correzione richiede anche l'etichetta «C28/35»: oggi `MinimumConcrete.Label(28)` lancia
-  un'eccezione.
+- L'opzione e1 avrebbe richiesto anche l'etichetta «C28/35» (`MinimumConcrete.Label(28)` lancia
+  un'eccezione). Con C30/37 non serve: `Label` riceve solo valori di `MinimumConcrete.Required`
+  (12, 25, 30, 32, 35 MPa).
 
 Evidenze: `out/e-durabilita.txt`, `out/e-copriferri.csv`.
 
@@ -435,14 +460,110 @@ Evidenze: `out/e-durabilita.txt`, `out/e-copriferri.csv`.
   (tabella della libreria ed etichetta);
 - e2: dichiarare la scelta dei valori del prospetto F.1 della EN 206, più cautelativa.
 
-**Raccomandazione**: e1 dopo il riscontro, perché il profilo NTC rimanda alla UNI 11104 e l'effetto
-è limitato a C28/35. Fino al riscontro, riquadro dichiarato. La decisione serve prima di F2.9;
-attuazione in F2.3 (libreria) e F2.9.
+**Raccomandazione** (6/10): e1 dopo il riscontro, perché il profilo NTC rimanda alla UNI 11104 e
+l'effetto è limitato a C28/35. Fino al riscontro, riquadro dichiarato. La decisione serve prima di
+F2.9; attuazione in F2.3 (libreria) e F2.9.
+
+### Esito e attuazione (7/10)
+
+Decisione dell'utente: «confermo la norma più aggiornata». Il riscontro ha mostrato che e1 si
+basava sull'edizione 2004: la 2016 e la 2025 in vigore (questa secondo l'estratto del 28/07/2025)
+danno C30/37 per le quattro classi, come il codice. C30/37 resta; nessun valore numerico cambia.
+Stato della voce: dichiarato.
+
+ANTHEA, branch `refactoring/d7e-uni11104`: citazioni con edizione e prospetto nel commento di
+`MinimumConcrete` e di `AtecapMix`, nella nota della classe minima della scheda Materiali
+(«UNI 11104:2025, prospetto 6», con la nota su XF1 quando XF1 è attiva), nel testo «Riferimenti
+della composizione» della scheda e del report Word dei materiali, nel README di X.Materiali e nella
+guida teorica («Esposizioni e requisiti del materiale» e riga XF1 della tabella; edizioni Word e PDF
+da rigenerare con le guide); indice della Wiki rigenerato. Nessun atteso da aggiornare: questi testi
+non hanno uscite catturate nel runner.
+
+### Seguito: XF1 e composizione (e4 in F2.9, da ratificare)
+
+Secondo l'estratto del 28/07/2025 il prospetto 6 della 2025 differisce dai valori del codice, presi
+dal prospetto 5 della 2016, in tre punti, tutti con il codice più restrittivo. I valori di cemento
+per classe della tabella sono quelli provvisori del registro, da riscontrare sul prospetto 6:
+
+| Grandezza | Codice (2016) | UNI 11104:2025 (estratto; cemento per classe provvisorio) |
+| --- | --- | --- |
+| Classe minima XF1 | C32/40 | C30/37 |
+| A/C massimo XF1 | 0,50 | 0,55 |
+| Cemento minimo, kg/m³ | 300 (XC1-XC2); 320 (XC3, XD1, XF1, XA1); 340 (XC4, XS1, XD2, XF2-XF3, XA2); 360 (XS2-XS3, XD3, XF4, XA3) | 280; 300; 320; 340 per XF4 e 350 per XS2-XS3, XD3, XA3 |
+
+Effetto della classe minima di XF1: cambiano 13 combinazioni su 520 (1 singola, 5 doppie, 7 triple:
+XF1 con XC1, XC2, XC3, XD1, XA1), da C32/40 a C30/37; nel catalogo cambia solo C30/37, oggi segnalata
+inferiore al minimo in quelle combinazioni, e il suo copriferro nominale NTC perderebbe i 5 mm della
+resistenza sotto il minimo. La composizione cambia in tutte le combinazioni tranne X0 (cemento) e
+dove XF1 governa l'A/C.
+
+- e4: allineare classe minima e composizione al prospetto 6 della 2025, in F2.9 insieme alla
+  libreria (due commit). Ricattura di `durability-legacy.csv`: 22 righe MIX con cemento (per XF1 e
+  XF1+XF3 anche la classe minima, per XF1 l'A/C) e 36 righe NTC di XF1 e XF1+XF3 con Cmin pertinente
+  da `MinimumConcrete.Required`, da 32 a 30, di cui 4 con fck 30 senza la maggiorazione di 5 mm. Gli
+  attesi di A/C e cemento di `supporto/test/Materiali/MaterialViewChecks.cs:78` si ritrascrivono dal
+  prospetto 6;
+- e5: tenere i valori della 2016 come scelta cautelativa dichiarata (stato attuale, già scritto
+  nelle citazioni).
+
+**Raccomandazione**: e4, coerente con «confermo la norma più aggiornata»; decisione prima di F2.9.
+
+**Decisione** (7/10, del coordinatore su delega dell'utente, «esegui tutto te», da ratificare): e4
+in F2.9, insieme allo spostamento della durabilità nella libreria, dopo il riscontro del prospetto 6
+su una copia con licenza della norma. Il riscontro viene prima perché la variazione su XF1 e sul
+cemento minimo è a sfavore rispetto al codice attuale e le fonti di oggi sono le pagine visibili
+dell'anteprima e un estratto secondario. Se il testo smentisse l'estratto, la scelta fra e4 ed e5
+torna all'utente.
+
+### Libreria: testo proposto per la prossima release (F2.9)
+
+Checker non si modifica ora: una modifica del sorgente cambierebbe la DLL della release S2. Con la
+decisione e4 (da ratificare) in F2.9 si scrivono i testi «con e4», dopo il riscontro del prospetto 6
+su una copia con licenza; gli altri valgono solo se il riscontro riporta la scelta all'utente. Righe di
+`GPCChecker.Concrete/Durability/ExposureClasses.cs` (develop 0d7ba50b, file invariato da ddfe7edf):
+
+- `:10` «and the UNI 11104 requirements (minimum fck, maximum w/c, minimum cement).» → «and the
+  UNI 11104 requirements (minimum fck, maximum w/c, minimum cement; UNI 11104:2016, prospetto 5).»
+- `:12-13` «UNI 11104 from ANTHEA (ATECAP 2020, secondary source: XC3, XD1, XF4 and XA1 give C30/37
+  where UNI 11104:2004 gave C28/35, on the safe side).» → «UNI 11104:2016 prospetto 5 from ANTHEA, as
+  reproduced in ATECAP 2020 p. 19 (secondary source). UNI 11104:2025 (in force since 24/07/2025),
+  prospetto 6, according to an extract published on 28/07/2025 (secondary source, to be checked on
+  the text of the standard): same minimum classes except XF1 (C30/37), w/c 0.55 for XF1 and lower
+  minimum cement contents; XC3, XD1, XF4 and XA1 are C30/37 in both editions (C28/35 attributed to
+  UNI 11104:2004).» Con e4: «UNI 11104:2025 prospetto 6 (in force since 24/07/2025, replaces
+  UNI 11104:2016), checked on the text of the standard. Before this release the values were those of
+  UNI 11104:2016 prospetto 5 as reproduced in ATECAP 2020 p. 19 (secondary source): XF1 C32/40 with
+  w/c 0.50 and higher minimum cement contents. XC3, XD1, XF4 and XA1 are C30/37 in both editions
+  (C28/35 attributed to UNI 11104:2004).»
+- `:89` «UNI 11104 minimum characteristic cylinder strength» → «UNI 11104:2016 (prospetto 5) minimum
+  characteristic cylinder strength».
+- `:107` «"UNI 11104 prospetto 5 (NTC 2018 §11.2.11)"» → «"UNI 11104:2016 prospetto 5 (NTC 2018
+  §11.2.11)"»; con e4 «"UNI 11104:2025 prospetto 6 (NTC 2018 §11.2.11)"».
+- `:121` «UNI 11104: largest w/c» → «UNI 11104:2016 prospetto 5: largest w/c».
+- `:128` «(UNI 11104)» → «(UNI 11104:2016 prospetto 5, note a; same note in UNI 11104:2025
+  prospetto 6)».
+- Con e4, righe dei dati (`uniStrength`, `uniRatio`, `uniCement`; valori provvisori del registro, da
+  confermare sul prospetto 6): `:59-60` XC1, XC2 cemento 280;
+  `:61` XC3 300; `:62` XC4 320; `:63` XD1 300; `:64` XD2 320; `:65` XD3 350; `:66` XS1 320; `:67-68`
+  XS2, XS3 350; `:69` XF1 30, .55, 300; `:70-71` XF2, XF3 320; `:72` XF4 340; `:73` XA1 300; `:74`
+  XA2 320; `:75` XA3 350; commenti di `:12-13` e `:107` con la 2025.
+
+Stesso aggiornamento per `GPCChecker.Concrete/README.md:163-164` e `:176`,
+`docs/migrazione-anthea/MIGRAZIONE_ANTHEA.txt:74` e `:260-261`,
+`GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122` («UNI 11104 (ANTHEA) C30/37» →
+«UNI 11104:2016 e 2025 C30/37»). Nessun test controlla il testo di `:107`.
+
+La pagina dei metodi `docs/metodi/ca.durabilita-copriferri.md` (entrata in develop con il merge
+1fbaea61) dava la 2025 uguale al codice anche per a/c e cemento. È stata allineata in develop
+7d86ffc7 (locale): edizioni distinte, differenze della 2025 dall'estratto del 28/07/2025 come fonte
+secondaria da riscontrare, tabella 6.2 con le tre edizioni e riquadro C-1 riscritto. Con e4 la pagina
+si aggiorna di nuovo in F2.9, dopo il riscontro del prospetto 6.
 
 ### Riquadro Wiki
 
 `supporto/docs/guida-teorica-anthea.md:61` («Esposizioni e requisiti del materiale») e `:85`
-(«Copriferro minimo e nominale»).
+(«Copriferro minimo e nominale»). Il paragrafo `:63` dichiara già edizione, prospetto ed eccezione
+XF1; il riquadro resta per W1.
 
 ## D7-f Bridge Design, coefficiente e carico da traffico
 
@@ -614,7 +735,9 @@ con la data e porta lo stato a `dichiarato` o `da-correggere`.
 2. D7-b: b1 (raccomandata) o b2.
 3. D7-c: c1 (raccomandata) o c2.
 4. D7-d: d1 (raccomandata), d2 o d3; corrispondenza delle tecnologie della tabella.
-5. D7-e: e1 dopo il riscontro della UNI 11104 (raccomandata; serve il testo) o e2.
+5. D7-e: e1 dopo il riscontro della UNI 11104 (raccomandata; serve il testo) o e2. Superata il
+   7/10 (C30/37 confermato); seguito: e4 in F2.9 dopo il riscontro del prospetto 6 su una copia con
+   licenza (decisione del coordinatore su delega, da ratificare).
 6. D7-f: f1, f2 come dichiarazione con avviso, f3 come dichiarazione (raccomandate), oppure le
    alternative.
 7. D7-g: g1 (raccomandata), g2 o g3.
@@ -624,10 +747,10 @@ con la data e porta lo stato a `dichiarato` o `da-correggere`.
 | Voce | Decisione dell'utente | Esito | Stato |
 | --- | --- | --- | --- |
 | D7-a | correggere se è sbagliato, controllando EC2, NTC, annessi e Model Code | il ramo NTC è la Circolare 2019 alla lettera ([C4.1.10]); corretti anche EN, UNI, CNR-DT 200, DS. Da correggere MC2010 (R1), DIN kt (R2) e le citazioni (R3) | dichiarato |
-| D7-b | per sole armature tese 1, per flessione 0,5: da vedere insieme | la regola dell'utente è quella della norma; il codice riconosce la flessione dalla barra compressa e non dall'asse neutro, quindi usa 1,0 nelle travi a semplice armatura inflesse | da decidere |
+| D7-b | per sole armature tese 1, per flessione 0,5: da vedere insieme; poi (7/10) «per il punto b hai ragione. fallo come lo hai previsto» | la regola dell'utente è quella della norma; il codice riconosceva la flessione dalla barra compressa e non dall'asse neutro, quindi usava 1,0 nelle travi a semplice armatura inflesse. Attuata b1: k2 = 0,5 quando l'asse neutro taglia la sezione, per ogni normativa; sezione interamente compressa con wk = 0 prima di ogni uso di k2; opzione legacy solo per i test dedicati e i confronti storici (registro, voce D7-b) | corretto (ANTHEA 1ae68bc, bdea165; GPCChecker.Concrete 0.0.16.0, in lib/Checker con la release S2) |
 | D7-c | seguire la norma | c1 | corretto (d2cf2f7, anticipato da F4.9) |
 | D7-d | seguire la norma | d1, archivi invariati con avviso | corretto (7c96c04, e05a05b, anticipato da F4.5) |
-| D7-e | entrambi i riferimenti, scelta dell'utente | C30/37 è di UNI 11104:2016 e 2025 (ed EN 206 F.1), C28/35 dell'edizione 2004: scelta da confermare | da decidere |
+| D7-e | entrambi i riferimenti, scelta dell'utente; poi (7/10) «confermo la norma più aggiornata» | C30/37 è di UNI 11104:2025 (prospetto 6, secondo l'estratto del 28/07/2025) e 2016 (prospetto 5), come EN 206 F.1; C30/37 tenuto e citazioni di ANTHEA corrette (branch refactoring/d7e-uni11104); libreria in F2.9; seguito XF1 e composizione della 2025: e4 in F2.9 dopo il riscontro del prospetto 6 su copia con licenza (coordinatore su delega, da ratificare) | dichiarato; seguito da correggere |
 | D7-f | cercare il metodo semplificato più vicino al reale | nessun carico uniforme regge entro il 10 % sulle travi continue; Schema 1 con linee di influenza e γQ 1,35 in GPC.Design, modello legacy per gli archivi ([ricerca](../../supporto/artefatti/refactoring/ricerca-f/rapporto.md), non versionata) | da correggere (F4.11) |
 | D7-g | ripristinare | commit 0d861de | corretto |
 
@@ -640,6 +763,16 @@ sicurezza, da decidere con priorità:
 - R10: ancoraggi senza limite di fctk alla C60/75 (lb,rqd −11 % con C90/105);
 - R11: Cmin di default del copriferro NTC (−5 mm);
 - R9: limite EC2 6.2.2(6) non controllato.
+
+La verifica delle pagine dei metodi unite in Checker develop (F2.2) ha aggiunto sei voci, R16-R21, da
+decidere con R4-R14 alla fine del refactoring (F5.15): a sfavore di sicurezza R16 (DS, torsione con
+νv invece di νt: TRcd × 1,43 fino a fck = 50 MPa, × 1,61 a fck = 60 MPa), R17 (XC3 C25/30 nei profili EN
+e UNI contro C30/37 del prospetto E.1N del DM 2012) e R18 (incrudimento dell'acciaio di progetto
+riferito a fyk, circa +2 % in εud); R19 citazioni della torsione; R20 ρw,min DS non implementato; R21
+condizione DIN su hc,eff con NominalCover invece del copriferro assegnato (segno da stabilire). R7 è
+rettificata: NTC 2018 [4.1.38] dà 1 ≤ cot θ ≤ 2,5 anche in torsione (0,4 era della NTC 2008), quindi
+«cot θ ≥ 1 anche in torsione pura» non è uno scostamento; resta da stabilire il segno del limite
+1,3 (h − x) con barre tese fuori da Ac,eff (riquadro F-4 della pagina ca.fessurazione).
 
 R15 (7/10/2026, corretto): nelle fasce interne dei fori h − x era εmax/|∇ε| anche con il gradiente
 di rumore della trazione quasi uniforme (h − x ≈ 1e12 mm, wk ≈ 1e9 mm con barre distanziate).

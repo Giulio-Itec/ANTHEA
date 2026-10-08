@@ -30,7 +30,7 @@ fessurazione, ancoraggi e dettagli; 1e-7 per M-χ (deformazioni dei punti snerva
 
 | Legacy | Libreria | Adattatore ANTHEA | Copertura | Buchi e note |
 | --- | --- | --- | --- | --- |
-| `ConcreteCodeChecks.Shear` (`X.Calculations/ConcreteCodeChecks.cs:53-155`), ingresso `ShearInput` (:48-51), norme ammesse `RequireOrdinary` (:42-46) | `SectionShearCalculator.Calculate` (`Shear/SectionShearCalculator.cs:16`), `SectionShearInput` (`Shear/SectionShearContracts.cs:54`), `ShearProfiles.Resolve` (`Shear/ShearProfiles.cs:43`) | `ConcreteShearAnalysis.Calculate` (`X.Calculations/ConcreteShearAnalysis.cs:10-62`) | `shear-legacy.csv`: 2016 righe (1840 esiti, 176 rifiuti, oltre 5000 valori intermedi); `ShearMigrationTests.cs:40-83` | unità kN e kNm → N e N·mm (il test moltiplica per 1000 e 1e6); nomi delle norme → classi `Standard` per tipo esatto; la libreria accetta anche CNR-DT 204 e CNR-DT 200, il legacy no |
+| `ConcreteCodeChecks.Shear` (`X.Calculations/ConcreteCodeChecks.cs:53-155`), ingresso `ShearInput` (:48-51), norme ammesse `RequireOrdinary` (:42-46) | `SectionShearCalculator.Calculate` (`Shear/SectionShearCalculator.cs:16`), `SectionShearInput` (`Shear/SectionShearContracts.cs:54`), `ShearProfiles.Resolve` (`Shear/ShearProfiles.cs:43`) | `ConcreteShearTorsionAdapter.Shear` (`X.Calculations/ConcreteShearTorsionAdapter.cs:25-39` in ca6530d), chiamato da `ConcreteShearAnalysis.Calculate` (`X.Calculations/ConcreteShearAnalysis.cs:10-62` in 75e4626) | `shear-legacy.csv`: 2016 righe (1840 esiti, 176 rifiuti, oltre 5000 valori intermedi); `ShearMigrationTests.cs:40-83` | unità kN e kNm → N e N·mm (il test moltiplica per 1000 e 1e6); nomi delle norme → classi `Standard` per tipo esatto; la libreria accetta anche CNR-DT 204 e CNR-DT 200, il legacy no |
 | `Ntc2018Checks.Shear` (`X.Calculations/Ntc2018Checks.cs:264-291`), ramo NTC chiamato da `ConcreteCodeChecks.Shear` (:63-64) | stesso `SectionShearCalculator.Calculate`, profilo `Ntc2018` | come sopra | compreso nelle 2016 righe (norma "NTC 2018") | `Reference` e `Model` del risultato in inglese nella libreria: il testo delle relazioni va mappato (F2.3, tracce per i report) |
 | `SectionShearGeometry.Derive` (`X.Calculations/SectionShearGeometry.cs:7`), usato da `ConcreteCalculationSettings.UpdateAutomaticShear` (`X.Calculations/ConcreteCalculationSettings.cs:61-77`) | nessuna | — | nessuna fixture; suite `verifiche/ca-module`, cattura headless | **buco**: bw, d e Asl proposti dal contorno non esistono in libreria (Model/CHECKER_PASSO_4.txt, limiti aperti: "derivazione automatica … da proporre come aiuto, mai come conferma") |
 
@@ -44,10 +44,28 @@ staffe" nella cattura densa dei muri; fase F4.7).
 
 | Legacy | Libreria | Adattatore ANTHEA | Copertura | Buchi e note |
 | --- | --- | --- | --- | --- |
-| `ConcreteTorsionCalculator.Calculate` (`X.Calculations/ConcreteTorsion.cs:27-44`) | `SectionTorsionCalculator.Evaluate` (`Torsion/SectionTorsionCalculator.cs:54`) con `TorsionShearComponent` (`Torsion/SectionTorsionContracts.cs:83`), oppure `Calculate` (:23) che ricalcola il taglio con lo stesso cot θ; `SectionTorsionInput` (`Torsion/SectionTorsionContracts.cs:122`); `TorsionProfiles.Resolve` (`Torsion/TorsionProfiles.cs:50`) | `ConcreteShearAnalysis.Torsion` (`X.Calculations/ConcreteShearAnalysis.cs:63-76`) | `torsion-legacy.csv`: 986 righe (936 esiti, 49 rifiuti, 1 senza staffe); `TorsionMigrationTests.cs:28-68` | caso senza staffe: errore di ingresso nel legacy, esito non soddisfatto con resistenza nulla nella libreria (differenza intenzionale, `TorsionMigrationTests.cs:45-51`): cambia il messaggio del foglio; il legacy accetta solo NTC (`ConcreteShearAnalysis.cs:60`), la libreria tutte le norme non americane tranne CNR-DT 204 |
-| `ConcreteTorsionCalculator.Geometry` (`X.Calculations/ConcreteTorsion.cs:16-26`) | `TorsionGeometry.Rectangle` e `Circle` (`Torsion/SectionTorsionContracts.cs:38`, :47) | `ConcreteShearAnalysis.Torsion` | `torsion-geometry-legacy.csv`: 10 righe (sezione a T rifiutata in entrambi); `TorsionMigrationTests.cs:70-92` | la distanza dell'asse delle barre (copriferro + Ø staffa + Ømax/2, `ConcreteTorsion.cs:20`) e l'area di calcestruzzo passano dall'adattatore |
+| `ConcreteTorsionCalculator.Calculate` (`X.Calculations/ConcreteTorsion.cs:27-44`) | `SectionTorsionCalculator.Evaluate` (`Torsion/SectionTorsionCalculator.cs:54`) con `TorsionShearComponent` (`Torsion/SectionTorsionContracts.cs:83`), oppure `Calculate` (:23) che ricalcola il taglio con lo stesso cot θ; `SectionTorsionInput` (`Torsion/SectionTorsionContracts.cs:122`); `TorsionProfiles.Resolve` (`Torsion/TorsionProfiles.cs:50`) | `ConcreteShearTorsionAdapter.Torsion` (`X.Calculations/ConcreteShearTorsionAdapter.cs:45-62` in ca6530d), chiamato da `ConcreteShearAnalysis.Torsion` (`ConcreteShearAnalysis.cs:64-78` in ca6530d) | `torsion-legacy.csv`: 986 righe (936 esiti, 49 rifiuti, 1 senza staffe); `TorsionMigrationTests.cs:28-68` | caso senza staffe: errore di ingresso nel legacy, esito non soddisfatto con resistenza nulla nella libreria (differenza intenzionale, `TorsionMigrationTests.cs:45-51`): l'adattatore conserva il rifiuto del legacy (registro F2-3, decisione del coordinatore da ratificare); il legacy accetta solo NTC (`ConcreteShearAnalysis.cs:61` in ca6530d), la libreria tutte le norme non americane tranne CNR-DT 204 |
+| `ConcreteTorsionCalculator.Geometry` (`X.Calculations/ConcreteTorsion.cs:16-26`) | `TorsionGeometry.Rectangle` e `Circle` (`Torsion/SectionTorsionContracts.cs:38`, :47) | `ConcreteShearTorsionAdapter.TorsionGeometryOf` (`ConcreteShearTorsionAdapter.cs:73-88` in ca6530d), chiamato da `ConcreteShearAnalysis.Torsion` | `torsion-geometry-legacy.csv`: 10 righe (sezione a T rifiutata in entrambi); `TorsionMigrationTests.cs:70-92` | la distanza dell'asse delle barre (copriferro + Ø staffa + Ømax/2, `ConcreteTorsion.cs:20`) e l'area di calcestruzzo passano dall'adattatore |
 
 Chiamanti in produzione: gli stessi del taglio (`ConcreteShearAnalysis.Calculate` → `Torsion`).
+
+Collegamento (F2.5-F2.6, [piano](piano.md); righe di ca6530d): `ConcreteShearAnalysis` (taglio con `Shear` a
+`ConcreteShearAnalysis.cs:53-57`, profilo resistente con `TorsionGeometryOf` e torsione con `Torsion` a :75-77) e la cattura densa chiamano
+`ConcreteShearTorsionAdapter` (`X.Calculations/ConcreteShearTorsionAdapter.cs`), che sceglie il motore legacy o la libreria
+con l'interruttore `Default`: legacy in F2.5 (2583225, correzione f5b5f50, 8c95d9b), libreria dal passo F2.6 (ca6530d,
+misurato contro F2-pre-m4-v2 e la baseline headless B3). Il primo interruttore 7176c0c, ritirato, collegava alla libreria il
+solo taglio: fino a f5b5f50 il modulo calcolava profilo resistente e torsione con il legacy diretto. Le prove 3f (modulo) e
+3e (calcolo headless) di `tests/ConcreteLibraryAdapter.Checks` confrontano bit per bit la torsione con l'adattatore del motore
+richiesto e falliscono se il modulo o il calcolo headless lo aggirano (prove negative in
+`supporto/artefatti/refactoring/f2-taglio-torsione/interruttore-b3/prova-negativa`). Da 4e8b30b distinguono il motore anche
+per il taglio (3d: calcoli del modulo con uscite Legacy e Library diverse; 3e: taglio del calcolo headless uguale bit per bit
+al motore predefinito) e la 3e copre la torsione NTC di 5 forme con 3 valori di cot θ; ogni controllo della 3d e della 3e
+chiede almeno 10 casi che distinguono i motori, la 3f ne ha 70 su 120 (prove negative in
+`supporto/artefatti/refactoring/f2-taglio-torsione/prove-rafforzate`). Unità,
+norme e testi passano da `X.Calculations/ConcreteLibraryMapping.cs`. Esiti diversi per scelta della libreria riportati al
+legacy e testi: registro F2-1…F2-4. Restano nel legacy, fuori da questo collegamento, `SectionShearGeometry.Derive` (buco 3)
+e la copia del ramo senza staffe nei muri (`RetainingWall.Structures.cs:98-100`, F4.7). I pali elastici verificano il taglio
+con la libreria già da prima di F2 (`PileReinforcement` di `GPC.Checkers.Concrete.Piles`, che chiama `SectionShearCalculator`).
 
 ## Tensioni SLE
 
@@ -158,10 +176,15 @@ usano già `CoverRequirements` (`ElasticHorizontalPile.Reinforcement.cs:155`).
 4. **Tracce e testi delle relazioni**: le tracce del legacy (simboli, formule, note in italiano) e i
    messaggi di stato alimentano report e JSON; la libreria ha dettagli e messaggi in inglese. Per
    lasciare invariati contratto JSON e testo delle relazioni serve una mappa nell'adattatore o tracce
-   localizzabili in libreria (F2.3, "tracce per i report").
+   localizzabili in libreria (F2.3, "tracce per i report"). Per taglio e torsione (F2.5-F2.6) la mappa
+   è in `ConcreteLibraryMapping.cs` e la traccia NTC della libreria non è esposta, come oggi (registro
+   F2-2, decisione del coordinatore da ratificare).
 5. **Norme**: torsione, dettagli e ancoraggi del legacy sono solo NTC; la libreria copre più norme.
-   Decidere se l'interfaccia le apre (cambia il contratto) o resta su NTC in F2.
-6. **Esiti diversi per scelta**: torsione senza staffe (non soddisfatta invece di errore), asse
+   Decidere se l'interfaccia le apre (cambia il contratto) o resta su NTC in F2. Per la torsione
+   (F2.5-F2.6) resta NTC; i limiti propri della libreria non raggiungibili dal modulo sono accettati
+   (registro F2-4, decisione del coordinatore da ratificare).
+6. **Esiti diversi per scelta**: torsione senza staffe (non soddisfatta invece di errore; in F2.5-F2.6
+   resta l'errore del legacy, registro F2-3, decisione del coordinatore da ratificare), asse
    neutro nel copriferro e barre fuori da Ac,eff (già allineati nel legacy dal commit 0a63315). I
    muri leggono i testi degli esiti di fessurazione (`RetainingWall.Structures.cs:115`).
 7. **Stato statico e lock**: `Ntc2018Checks.SpacingCalculator` (`Ntc2018Checks.cs:12`) e il lock di

@@ -13,7 +13,7 @@ Dalla radice del repository:
 
 ```powershell
 dotnet build supporto\test\CheckerMigration.Capture\CheckerMigration.Capture.csproj -c Release -nologo
-dotnet supporto\test\CheckerMigration.Capture\bin\Release\net8.0\CheckerMigration.Capture.dll <cartella> <commit> [modalità] [--manifest]
+dotnet supporto\test\CheckerMigration.Capture\bin\Release\net8.0\CheckerMigration.Capture.dll <cartella> <commit> [modalità] [--manifest] [--motore legacy|libreria]
 ```
 
 Con un altro insieme di DLL si compila con `-p:GpcLibDir=<cartella>\` (vedi `Directory.Build.props`).
@@ -32,6 +32,13 @@ dadea50: i suoi riferimenti sono in `GPCChecker.Test.Geotechnics/Fixtures`.
 `--manifest`, dopo la modalità, aggiunge `capture-manifest.json`: argomenti e riga di comando,
 commit passato, assembly caricati dalla cartella dell'applicazione (DLL GPC comprese) con versione e
 SHA-256, SHA-256 di ogni file prodotto, tempi. Senza l'opzione le uscite non cambiano.
+
+`--motore`, dopo la modalità (refactoring F2.5-F2.6): taglio (`shear-legacy.csv`) e torsione
+(`torsion-legacy.csv`, `torsion-geometry-legacy.csv`) passano da `ConcreteShearTorsionAdapter`. Con `legacy` si
+catturano i nuclei di `X.Calculations` (le fixture di Checker), con `libreria` GPCChecker.Concrete attraverso lo
+strato di mappatura (unità di ANTHEA, testi del legacy); senza l'opzione il motore predefinito dell'adattatore. Il
+motore usato è scritto nella riga `#` dei tre file. Per la torsione la libreria riceve fck = 30 MPa e γc = 1,5, come
+nei `TorsionMigrationTests`: per NTC 2018 non entrano nelle resistenze.
 
 ## Modalità mesh
 

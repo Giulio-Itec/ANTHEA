@@ -28,7 +28,7 @@ internal sealed partial class BridgeWorkspace
         detachedHost = new ContentControl { Content = Viewport };
         var window = new Window { Title = "ANTHEA · Sezione da ponte · sollecitazioni e tensioni", Owner = Window.GetWindow(this),
             Width = 1400, Height = 900, MinWidth = 880, MinHeight = 550, Background = Appearance.Surface, WindowStartupLocation = WindowStartupLocation.CenterOwner };
-        detachedWindow = window;
+        detachedWindow = window; Appearance.Watch(window);
         WindowState previousState = WindowState.Normal;
         void FullScreen()
         {

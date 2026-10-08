@@ -137,7 +137,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
                 if (f.Id == "suspension") Input["deck_type"] = BridgeConcept.DeckTypes[1];
             }, true));
             bool selected = Input.S("family") == f.Id;
-            button.Background = selected ? Ui.Navy : Brushes.White; button.Foreground = selected ? Brushes.White : Ui.Navy;
+            Ui.SetSelected(button, selected);
             button.Content = Ui.Stack(Ui.Text(f.Name, 11, true, button.Foreground), new BridgeFamilyIcon { Family = f.Id, Ink = button.Foreground, Height = 32, Width = 112 }, Ui.Text($"{f.MinSpan:0}–{f.MaxSpan:0} m", 10, color: selected ? Ui.Brush("#BCCFE2") : Ui.Muted));
             button.SetValue(AutomationProperties.NameProperty, f.Name); button.MinHeight = 82; button.Padding = new Thickness(6); families.Children.Add(button);
         }
@@ -217,7 +217,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
             if (refreshing) return;
             Data[group]![p.Key] = edit.Text;
             double? v = J.Number(Data[group]![p.Key]);
-            edit.BorderBrush = v is null || v < p.Min || v > p.Max ? Brushes.IndianRed : Ui.Brush("#DCE2E9");
+            edit.BorderBrush = Appearance.Outline(v is null || v < p.Min || v > p.Max ? "#CD5C5C" : "#DCE2E9");
             if (range is not null && v.HasValue) { sync = true; range.Value = v.Value; sync = false; }
             Changed();
         };
@@ -268,14 +268,14 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
             values[3].Text = F(r.Duration, "0") + " mesi"; captions[3].Text = $"±25% · {r.Supports.Count(s => s.Type != "Spalla")} pile · {r.Supports.Count(s => s.Type == "Spalla")} spalle";
             configuration.Text = $"L {F(r.Length)} m · W {F(r.Width)} m · {r.Family.Name} · {r.Girders} elementi · {r.Foundation}" + (r.PileLength > 0 ? $" × {F(r.PileLength, "0")} m" : "");
             ShowQuantities(r); ShowDetails(r); ShowComparison(); ShowAdvice(r); ShowTechnical(r); InvalidateOptimization();
-            status.Text = BridgeConcept.Scope; status.Foreground = Ui.Muted;
+            status.Text = BridgeConcept.Scope; status.Foreground = Appearance.Foreground(Ui.Muted);
         }
         catch (ArgumentException ex)
         {
             Calculation = null; Drawing.Result = null; Drawing.InvalidateVisual();
             foreach (var v in values) v.Text = "—"; foreach (var c in captions) c.Text = "Dati da completare";
             quantities.Content = detail.Content = comparison.Content = advice.Content = technical.Content = null; configuration.Text = ""; InvalidateOptimization();
-            status.Text = ex.Message; status.Foreground = Brushes.Firebrick;
+            status.Text = ex.Message; status.Foreground = Appearance.Foreground(Brushes.Firebrick);
         }
     }
     private static DataGrid Table(string[] headers, IEnumerable<string[]> rows, double height = 300)
@@ -392,14 +392,20 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
     {
         if (Calculation is null) return;
         var dialog = new PrintDialog(); if (dialog.ShowDialog() != true) return;
-        var r = Calculation;
+        var page = PrintPage(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight);
+        using (Appearance.Document(page)) dialog.PrintVisual(page, "ANTHEA Bridge Design");
+    }
+    /// <summary>The printed summary of the current result, laid out on the printable area.</summary>
+    internal FrameworkElement PrintPage(double width, double height)
+    {
+        var r = Calculation ?? throw new InvalidOperationException("Completare i dati del ponte.");
         var drawing = new BridgeDesignDrawing { Data = Data, Result = r, Width = 1000, Height = 420 };
         var panel = Ui.Stack(Ui.Text("ANTHEA · Bridge Design", 26, true), Ui.Text(BridgeConcept.Scope, 14), drawing,
             Ui.Text($"{r.Family.Name} · L {F(r.Length)} m · W {F(r.Width)} m · d {F(r.Depth)} m", 16),
             Ui.Text($"Costo {F(r.TotalCost, "N0")} € · CO₂ {F(r.Carbon, "N0")} t · Durata {r.Duration:0} mesi", 18, true));
         foreach (var q in r.Quantities) panel.Children.Add(Ui.Text($"{q.Group} / {q.Item}: {F(q.Amount)} {q.Unit} × {F(q.Rate)} € = {F(q.Cost, "N0")} €", 14));
         panel.Children.Add(Ui.Text("Listino e fattori ambientali indicativi. Dettagli e ipotesi completi nel report Word.", 12));
-        var box = new Viewbox { Child = panel, Width = dialog.PrintableAreaWidth, Height = dialog.PrintableAreaHeight, Stretch = Stretch.Uniform };
-        box.Measure(new Size(box.Width, box.Height)); box.Arrange(new Rect(0, 0, box.Width, box.Height)); dialog.PrintVisual(box, "ANTHEA Bridge Design");
+        var box = new Viewbox { Child = panel, Width = width, Height = height, Stretch = Stretch.Uniform };
+        box.Measure(new Size(box.Width, box.Height)); box.Arrange(new Rect(0, 0, box.Width, box.Height)); return box;
     }
 }

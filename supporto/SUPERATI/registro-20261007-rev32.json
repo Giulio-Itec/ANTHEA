@@ -1,0 +1,44 @@
+[
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev31.docx",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev31.docx",
+    "sha256": "B7905F137287CA26D665ACE6A1FB721DE2FE99BC87E994EF20CC95BBCF41C5FF",
+    "reason": "Revisione 32 del 07/10/2026: classi minime del calcestruzzo secondo UNI 11104 con edizione e prospetto (D7-e); il testo della guida pratica non cambia, cambiano revisione e nota di copertina",
+    "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev32.docx"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev31.pdf",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev31.pdf",
+    "sha256": "A1AB24D081EF726380750385A316268A09C6243DE0EF4CB18FB61546831E905E",
+    "reason": "Revisione 32 del 07/10/2026: classi minime del calcestruzzo secondo UNI 11104 con edizione e prospetto (D7-e); il testo della guida pratica non cambia, cambiano revisione e nota di copertina",
+    "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev32.pdf"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev31.docx",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev31.docx",
+    "sha256": "40B98BFC7ABEBA646AC974B27048AA3FAAACC46C43C3BCE4F710BCAB42E5D2E8",
+    "reason": "Revisione 32 del 07/10/2026: classi minime del calcestruzzo secondo UNI 11104 con edizione e prospetto (D7-e); la Rev31 rimanda al prospetto ATECAP 2020 senza edizione e prospetto della norma",
+    "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev32.docx"
+  },
+  {
+    "original": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev31.pdf",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev31.pdf",
+    "sha256": "CEE82EF50DC40ACDECD53EFBBBC1DEADF4D61817F9FA36ACB0E72557C6CF45B4",
+    "reason": "Revisione 32 del 07/10/2026: classi minime del calcestruzzo secondo UNI 11104 con edizione e prospetto (D7-e); la Rev31 rimanda al prospetto ATECAP 2020 senza edizione e prospetto della norma",
+    "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev32.pdf"
+  },
+  {
+    "original": "supporto/docs/guida-pratica-anthea.pdf",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev31.pdf",
+    "sha256": "A1AB24D081EF726380750385A316268A09C6243DE0EF4CB18FB61546831E905E",
+    "reason": "Copia identica del PDF Rev31 accanto al sorgente Markdown, sostituita dal PDF Rev32; non archiviata una seconda volta",
+    "replacement": "supporto/docs/guida-pratica-anthea.pdf"
+  },
+  {
+    "original": "supporto/docs/guida-teorica-anthea.pdf",
+    "archived": "supporto\\SUPERATI\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev31.pdf",
+    "sha256": "CEE82EF50DC40ACDECD53EFBBBC1DEADF4D61817F9FA36ACB0E72557C6CF45B4",
+    "reason": "Copia identica del PDF Rev31 accanto al sorgente Markdown, sostituita dal PDF Rev32; non archiviata una seconda volta",
+    "replacement": "supporto/docs/guida-teorica-anthea.pdf"
+  }
+]

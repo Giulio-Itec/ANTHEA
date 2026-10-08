@@ -82,7 +82,7 @@ internal sealed class RebarMaterialView : UserControl
         foreach (string key in new[] { "fyk_mpa", "steel_fu_mpa", "steel_modulus_mpa", "steel_eps_u" })
         {
             var box = (TextBox)Properties.Editors[key]; box.IsReadOnly = !custom && !(historical && key == "steel_eps_u");
-            box.Background = box.IsReadOnly ? Ui.Brush("#EAF2FA") : Brushes.White;
+            box.Background = box.IsReadOnly ? Appearance.Calculated : Appearance.Paper;
         }
         Properties.Enable("steel_diagramma", custom || historical);
         ((TextBox)identity.Editors["materiale_acciaio_nome"]).IsReadOnly = !custom;
@@ -99,13 +99,13 @@ internal sealed class RebarMaterialView : UserControl
             string F(double n) => n.ToString("0.##", CultureInfo.GetCultureInfo("it-IT"));
             results.Text = $"fyd     {F(v.Fyd)} MPa\nεyd     {F(v.EpsilonYd)} ‰\nfu / fyk     {F(v.Ratio)}";
             Status.Text = historical ? "Dati completi. Per strutture esistenti verificare i valori adottati e i coefficienti applicabili." : "✓ Proprietà coerenti";
-            Status.Foreground = historical ? Ui.Brush("#9A6700") : Ui.Brush("#18794E");
+            Status.Foreground = Appearance.Foreground(Ui.Brush(historical ? "#9A6700" : "#18794E"));
             diagram.Series = [new(Input.S("materiale_acciaio_nome"), RebarMaterial.Curve(Input), Ui.Blue)];
         }
         catch (ArgumentException ex)
         {
             results.Text = "fyd     —\nεyd     —\nfu / fyk     —";
-            Status.Text = "⚠ " + ex.Message; Status.Foreground = Ui.Brush("#9A6700"); diagram.Series = [];
+            Status.Text = "⚠ " + ex.Message; Status.Foreground = Appearance.Foreground(Ui.Brush("#9A6700")); diagram.Series = [];
         }
         diagram.ResetView();
     }
@@ -119,7 +119,7 @@ internal sealed class RebarIcon : FrameworkElement
         for (int bar = 0; bar < 3; bar++)
         {
             double y = 20 + bar * 19;
-            dc.DrawLine(new Pen(Ui.Navy, 9), new Point(12, y + 12), new Point(68, y - 5));
+            dc.DrawLine(new Pen(Appearance.Ink, 9), new Point(12, y + 12), new Point(68, y - 5));
             for (int i = 0; i < 6; i++) { double x = 16 + i * 9, cy = y + 12 - (x - 12) * 17 / 56; dc.DrawLine(rib, new Point(x - 2, cy - 4), new Point(x + 2, cy + 4)); }
         }
     }

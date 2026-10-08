@@ -47,7 +47,7 @@ public sealed partial class MainWindow
     private static UIElement ProjectStatus(string text, bool warning)
     {
         var row = Ui.Stack(Ui.Text((warning ? "!  " : "✓  ") + text, 12, true, Ui.Brush(warning ? "#A7600A" : "#267245")));
-        return new Border { Child = row, Background = Ui.Brush(warning ? "#FFF3DF" : "#EAF5ED"),
+        return new Border { Child = row, Background = Appearance.Background(warning ? "#FFF3DF" : "#EAF5ED"),
             Padding = new Thickness(10, 7, 10, 7), CornerRadius = new CornerRadius(4), Margin = new Thickness(0, 0, 7, 10) };
     }
     private static (string Title, string Subtitle) ProjectModuleLabel(string module)
@@ -83,8 +83,8 @@ public sealed partial class MainWindow
                 var grip = new ProjectGlyph("grip") { Width = 10, Height = 20, VerticalAlignment = VerticalAlignment.Center }; Grid.SetColumn(grip, 2); row.Children.Add(grip);
                 var card = ProjectPanel(row, 10); card.MinHeight = 59; card.Margin = new Thickness(0, 0, 0, 6); card.Cursor = Cursors.Hand;
                 card.ToolTip = "Trascina nella sezione oppure fai doppio clic per aggiungere.";
-                card.MouseEnter += (_, _) => { card.Background = Appearance.Background("#F0F6FC"); card.BorderBrush = Ui.Brush("#A8C6E3"); };
-                card.MouseLeave += (_, _) => { card.Background = Appearance.Paper; card.BorderBrush = Ui.Brush("#DCE5EF"); };
+                card.MouseEnter += (_, _) => { card.Background = Appearance.Background("#F0F6FC"); card.BorderBrush = Appearance.Outline("#A8C6E3"); };
+                card.MouseLeave += (_, _) => { card.Background = Appearance.Paper; card.BorderBrush = Appearance.Outline("#DCE5EF"); };
                 card.MouseLeftButtonDown += (_, e) => { if (e.ClickCount == 2) { e.Handled = true; Safe(() => AddSheet(id)); } };
                 EnableProjectDrag(card, ModuleDragFormat, id); cards.Children.Add(card); projectCatalogCards.Add((id, card));
                 rows.Add((card, group.Key + " " + name + " " + subtitle + " " + ModuleName(id)));
@@ -201,7 +201,8 @@ internal sealed class ProjectGlyph(string kind) : FrameworkElement
     protected override void OnRender(DrawingContext dc)
     {
         dc.PushTransform(new ScaleTransform(ActualWidth / 24, ActualHeight / 24));
-        var pen = new Pen(Ui.Navy, 1.5) { LineJoin = PenLineJoin.Round };
+        // Line glyphs on the page background: ink of the palette, light in the dark appearances.
+        var pen = new Pen(Appearance.Ink, 1.5) { LineJoin = PenLineJoin.Round };
         if (kind == "folder")
         {
             dc.DrawGeometry(Ui.Brush("#7590A6"), null, Geometry.Parse("M2,6 L9,6 11,9 22,9 22,21 2,21 Z"));
@@ -210,7 +211,7 @@ internal sealed class ProjectGlyph(string kind) : FrameworkElement
         else if (kind == "project")
         {
             dc.DrawRoundedRectangle(null, pen, new Rect(5,2,14,20), 1, 1);
-            foreach (int x in new[] { 8, 14 }) foreach (int y in new[] { 6, 11, 16 }) dc.DrawRectangle(Ui.Navy, null, new Rect(x,y,2,2));
+            foreach (int x in new[] { 8, 14 }) foreach (int y in new[] { 6, 11, 16 }) dc.DrawRectangle(Appearance.Ink, null, new Rect(x,y,2,2));
         }
         else if (kind == "report")
         {

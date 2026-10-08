@@ -14,7 +14,7 @@ internal sealed partial class BridgeDesignDrawing : FrameworkElement
     internal byte[] Png(bool? section = null)
     {
         var drawing = new BridgeDesignDrawing { Data = Data, Result = Result, Section = section ?? Section, Width = 1200, Height = 480 };
-        drawing.Measure(new Size(1200, 480)); drawing.Arrange(new Rect(0, 0, 1200, 480)); return Ui.Snapshot(drawing);
+        drawing.Measure(new Size(1200, 480)); drawing.Arrange(new Rect(0, 0, 1200, 480)); return Ui.DocumentSnapshot(drawing);
     }
     protected override void OnRender(DrawingContext dc)
     {
@@ -241,9 +241,17 @@ internal sealed class BridgeFamilyIcon : FrameworkElement
 internal sealed class BridgeConceptMomentPlot : FrameworkElement
 {
     internal BridgeConcept.Result? Result;
+    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+        if (e.Property == Appearance.DarkProperty) InvalidateVisual();
+    }
     protected override void OnRender(DrawingContext dc)
     {
         if (Result is not { } r || ActualWidth < 100) return;
+        // Technical drawing with the Light colours: on white also in the dark appearances, as the other plots
+        // (in Light it lies on the white card, which stays the only background).
+        if (Appearance.GetDark(this)) dc.DrawRectangle(Brushes.White, null, new Rect(0, 0, ActualWidth, ActualHeight));
         if (r.Stations.Length == 0) { BridgeDesignDrawing.Text(dc, "Diagrammi globali non disponibili per questa tipologia.", 12, 50, 12, Ui.Muted); BridgeDesignDrawing.Text(dc, "Consultare equilibrio, forze e quantità nei dettagli del modello.", 12, 75, 12, Ui.Muted); return; }
         double max = r.Stations.Max(s => Math.Abs(s.Moment)); if (max == 0) max = 1;
         double xs = (ActualWidth - 100) / r.Length, ys = 55 / max, axis = 80;

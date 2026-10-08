@@ -24,7 +24,7 @@ internal sealed partial class RetainingWallWorkspace
                 _ => { SyncSoils(front); UpdateColumnDepths(); }, 150);
             if (front) ValleyLayerGrid = grid; else LayerGrid = grid;
             for (int i = 0; i < grid.Columns.Count; i++) { grid.Columns[i].Width = new DataGridLength(i == 0 ? 2 : 1, DataGridLengthUnitType.Star); grid.Columns[i].MinWidth = i == 0 ? 80 : 40; }
-            grid.LoadingRow += (_, e) => { e.Row.BorderBrush = Ui.Brush(RetainingWallDrawing.LayerColors[e.Row.GetIndex() % RetainingWallDrawing.LayerColors.Length]); e.Row.BorderThickness = new Thickness(5, 0, 0, 0); };
+            grid.LoadingRow += (_, e) => { e.Row.BorderBrush = Appearance.Swatch(RetainingWallDrawing.LayerColors[e.Row.GetIndex() % RetainingWallDrawing.LayerColors.Length]); e.Row.BorderThickness = new Thickness(5, 0, 0, 0); };
             grid.SelectionChanged += (_, _) => { Drawing.SelectedLayer = grid.SelectedIndex; Drawing.SelectedValley = front; Drawing.InvalidateVisual(); };
             return Ui.Stack(Ui.Text(front ? "VALLE · z dalla superficie a valle" : "MONTE · z dalla sommità", 13, true), grid,
                 Ui.Bar(Ui.Button("+ Strato", () => AddSoilLayer(front)), Ui.Button("−", () => RemoveSoilLayer(front)), Ui.Button("↑", () => MoveSoilLayer(front, -1)), Ui.Button("↓", () => MoveSoilLayer(front, 1))));
@@ -80,7 +80,7 @@ internal sealed partial class RetainingWallWorkspace
             foreach (var row in grid.Rows) { row.Output("__index", ++i); row.Output("__from", F(z)); z += row.Values.D("thickness"); row.Output("__to", F(z)); }
             grid.Height = Math.Min(200, 72 + 31 * grid.Rows.Count); valid &= z + 1e-9 >= need; labels.Add($"{name}: {F(z)} m / {F(need)} m richiesti");
         }
-        layerStatus.Text = string.Join(" · ", labels) + $"\nHlib={F(ht - dv)} m · terreno di valle Dv={F(dv)} m sopra il piano di posa"; layerStatus.Foreground = valid ? Ui.Muted : Brushes.Firebrick;
+        layerStatus.Text = string.Join(" · ", labels) + $"\nHlib={F(ht - dv)} m · terreno di valle Dv={F(dv)} m sopra il piano di posa"; layerStatus.Foreground = Appearance.Foreground(valid ? Ui.Muted : Brushes.Firebrick);
     }
     private void UpdateSoilFields()
     {

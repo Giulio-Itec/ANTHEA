@@ -20,6 +20,9 @@ public sealed partial class MaterialView : UserControl
     readonly DataGrid table = new() { IsReadOnly=true, CanUserSortColumns=false, RowHeight=double.NaN, MinRowHeight=34, HorizontalScrollBarVisibility=ScrollBarVisibility.Auto };
     readonly Grid cards = new();
     static Brush Brush(string value) => new SolidColorBrush((Color)ColorConverter.ConvertFromString(value));
+    // Colours assigned after the view is built: inside ANTHEA the palette brushes (Appearance.<ruolo>.<colore>)
+    // follow the light and dark appearances; elsewhere the plain colour.
+    static Brush Themed(string role, string value) => Application.Current?.TryFindResource($"Appearance.{role}.{value.TrimStart('#')}") as Brush ?? Brush(value);
     static TextBlock Text(string text, double size=13, bool bold=false) => new() {
         Text=text,FontSize=size,FontWeight=bold?FontWeights.SemiBold:FontWeights.Normal,
         Foreground=Navy,TextWrapping=TextWrapping.Wrap,Margin=new Thickness(0,3,0,3)
@@ -35,7 +38,9 @@ public sealed partial class MaterialView : UserControl
     public MaterialView(Func<TextBlock, string, FrameworkElement>? wikiLabel)
     {
         this.wikiLabel = wikiLabel;
-        Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/Materiali;component/Styles.xaml") });
+        // Inside ANTHEA the application styles apply: the same values, plus the dark appearances.
+        if (Application.Current?.TryFindResource(typeof(DataGrid)) is null)
+            Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/Materiali;component/Styles.xaml") });
         var root=new DockPanel { Background=Brush("#F3F5F8") };
         var footer=new Border { Padding=new Thickness(24,8,24,8),Background=Brushes.White,Child=status };
         DockPanel.SetDock(footer,Dock.Bottom); root.Children.Add(footer);

@@ -137,8 +137,10 @@ sugli scostamenti (a)-(g).
     TorsionProfiles.cs:81; +38,8% nell'esempio; da riscontrare); SLE con analisi non lineare usa le leggi di
     progetto (sigma*alpha_cc/gamma_c, fyd) e StressLimitCheck lo accetta senza avviso (sigma_c -31%); DIN k5 dei
     trefoli 0,75 invece di 0,65 (fonte secondaria, da confermare).
-  - Cautelativi: NTC torsione cot theta >= 1 anche in torsione pura; interazione delle bielle sommata; SLE: k3 su
-    |sigma| delle barre compresse, k1 fck in ogni classe, k2 fck come limite; NS senza kc; DS cot theta <= 2.
+  - Cautelativi: interazione delle bielle sommata; SLE: k3 su |sigma| delle barre compresse, k1 fck in ogni classe,
+    k2 fck come limite; NS senza kc; DS cot theta <= 2. [Rettifica del 7/10: qui era elencato anche «NTC torsione
+    cot theta >= 1 anche in torsione pura», che non è uno scostamento: NTC 2018 [4.1.38] dà 1 <= cot theta <= 2,5
+    anche in torsione (S.O. n. 8 alla G.U. n. 42 del 20/02/2018, p. 82); 0,4 era della NTC 2008. Registro, voce R7.]
   - Da riscontrare: MC2010 fessurazione senza ritiro; DIN coefficiente di hc,ef; EN Tab. 7.1N per XD3.
   - Limiti non controllati: EC2 6.2.2(6), nota 2 di 6.2.3(3) (nu1 0,6), regola DK per staffe classe A.
   - Citazione errata '7.3.4(4)' nei commenti (va 7.3.4(3), eq. 7.14).
@@ -290,3 +292,279 @@ sugli scostamenti (a)-(g).
   ca0cc10) e confermato k2 = (7.13) delle fasce. Testo della regola in sezione interamente tesa reso preciso (2d40a95,
   d71054ce) e guide rigenerate.
 - Profilo full con prove WPF a schermo durante la pausa dell'utente (punta 348f967): 67 PASS, 1 KNOWN, 0 NEW-FAIL.
+
+### 7/10 pomeriggio: release S2 di lib/Checker (F2.4)
+
+- Versioni nelle librerie, a sorgente invariato, perché SourceLink cambia lo SHA-256 di ogni DLL ricompilata da un
+  commit nuovo: Model 5ad56681 (GPCModel 1.6.1.1, GPCModelData 0.0.2.3), Checker 0d7ba50b (Geotechnics 0.1.1.1,
+  CompositeBridge 1.4.0.4), risultano pushati (origin aggiornato alle 15:24 e 15:25). Test delle librerie sulle DLL ricompilate da questi
+  commit: Concrete 510/510, Geotechnics 98/98, CompositeBridge 254/254, Model 892 superati e 2 ignorati, ModelChecker
+  106/106; Steel e BridgeAudit non eseguiti (Steel fuori dallo snapshot con 17 fallimenti storici, BridgeAudit compila
+  ANTHEA/X.Core).
+- Branch `refactoring/f2-4-snapshot-s2` (da main 17b6c98, worktree Temp\aw-s2). `Update-Snapshot.ps1` lanciato dal
+  checkout principale senza `-Install`, staging nel worktree. Incidente: la prima build è partita mentre su Checker
+  develop entravano i merge delle pagine dei metodi (`anthea-metodi-ca-1` e `-2`, 15:57, solo `docs/metodi`); il
+  manifest registrava 0d7ba50b per DLL compilate da 1fbaea61. Staging scartato
+  (`lib-staging/S2-annullato-merge-concorrente`) e build rifatta a merge concluso: Checker 1fbaea61, locale, da pushare.
+  Ricompilazione completa (`--no-incremental`) identica bit per bit. Controllo di versione superato per le 8 DLL;
+  Utilities, Geometry e DelaunayMesh con lo stesso SHA-256 di S1.
+- f6b6fdf: S2 installata in lib/Checker (Concrete 0.0.17.0 con D7-b e R15; revisioni nuove delle altre quattro DLL
+  ricompilate).
+- Verifiche sul commit f6b6fdf, senza `-GpcLibDir`, con le DLL di S2 negli output (SHA-256 controllati):
+  - profilo standard (corsa `20261007-160200-s2`): 33 PASS, 1 KNOWN (`verifiche/project-calculations`), 0 NEW-FAIL;
+  - profilo baseline (corsa `20261007-160459-s2-baseline`, `-BaselineRef <F2-B2>\headless`, `-DenseRef
+    <F2-pre-m4-v2>\a\tutte`, `-CompareTo` la corsa baseline `prima` di 17b6c98 con S1): 39 PASS, 1 KNOWN, 0 NEW-FAIL,
+    nessun avviso (esiti e righe di conteggio uguali a S1); cattura headless uguale a F2-B2 su 432 file con i soli 21
+    tempi volatili; `banco-ca` 27 698 righe, 26 462 identiche, 1236 con soli identificativi casuali; `banco-denso`
+    32 564 righe, 31 320 identiche, 1244 con soli identificativi casuali; nessuna differenza. La fessurazione della
+    libreria ora coincide con quella di ANTHEA, ma il banco cattura i nuclei di ANTHEA e non cambia;
+  - cattura densa `mesh`: 80 impronte identiche a B0 e a F2-pre-m4-v2 (DelaunayMesh 2.0.0.11 invariata).
+  Uscite in `supporto/artefatti/ci` e `supporto/artefatti/refactoring/s2` del worktree.
+- Restano: push di Checker develop 1fbaea61 e poi `pushed: true` nel manifest (senza ricompilare), profilo full a
+  schermo, approvazione dell'utente e merge su main.
+
+### 7/10 tardo pomeriggio: S2 dai commit pushati (`Update-Snapshot.ps1 -FromUpstream`)
+
+- Problema: AGENTS.md vuole lib/Checker da commit pushati, ma `Update-Snapshot.ps1` compilava il HEAD locale dei
+  repository fratelli; con SourceLink anche un commit di sola documentazione (Checker 1fbaea61) dà DLL diverse, e un
+  merge concorrente durante la build sbaglia il commit del manifest (incidente della prima build di S2). Durante questo
+  lavoro Checker develop locale è passato da 1fbaea61 a e41a803a (altri merge e commit delle pagine dei metodi), senza
+  effetti sulla build.
+- 8d6a8ec: opzione `-FromUpstream`. Per Utilities, Geometry, Model e Checker lo script risolve `@{u}` del ramo estratto,
+  crea worktree staccati in `<TEMP>\gpc-snapshot\<Repo>` (fratelli, quindi HintPath e ProjectReference funzionano),
+  compila come prima, controlla che nessun worktree differisca dal suo commit, registra commit e ramo remoti con
+  `pushed: true`, `fromUpstream` e `buildRoot`, e alla fine rimuove i soli worktree creati (`git worktree remove
+  --force`, `git worktree prune`) e la radice, anche dopo un errore. Opzioni nuove `-Repos` e `-Lib` per lanciarlo da un
+  worktree di ANTHEA; `GPCChecker.Geotechnics.xml` copiato dall'uscita della build.
+- Radice fissa per necessità: la DLL contiene il percorso completo del PDB, quindi lo stesso commit compilato altrove
+  cambia SHA-256 (GPCModel da Model 5ad56681: 936FDE1A… nel checkout principale, 3C6D5788… nella radice temporanea).
+  Quattro corse `-FromUpstream` (una partita da una radice lasciata da una corsa interrotta, riconosciuta dal file
+  marcatore e rimossa) hanno dato DLL, xml e manifest identici bit per bit; una cartella `gpc-snapshot` senza marcatore
+  ferma lo script. Modo predefinito invariato: su cloni locali degli stessi commit lo script originale e quello nuovo
+  danno DLL, manifest.json e manifest.props identici (in più solo lo xml). Il percorso più lungo versionato in Geometry
+  è di 142 caratteri: un primo clone di prova nella cartella di scratch, più profonda, falliva per percorsi troppo lunghi;
+  nella radice temporanea il margine è di circa 60 caratteri, e il controllo dello stato dei worktree dopo la build
+  coglierebbe un checkout troncato.
+- edc4fce: S2 ricompilata con `-FromUpstream -Install` (staging `lib-staging/S2-upstream`, controllo di versione contro
+  il manifest S1 di main 17b6c98, ripristinato per la corsa nel worktree) da Utilities df3b3e7, Geometry 6a0d1c1, Model
+  5ad56681 e Checker 0d7ba50b, tutti in origin. Versioni invariate rispetto al candidato; SHA-256 nuovi: GPCModel
+  3C6D5788…, GPCModelData EA40DB14…, Concrete E724B959…, Geotechnics A72C43FC…, CompositeBridge F9A59096…; Utilities,
+  Geometry e DelaunayMesh come S1. Lo xml aggiunge `PileSegments` e `PileSegments.TubeWeight`.
+- Verifiche su edc4fce, senza `-GpcLibDir`, con `-CompareTo` le corse del candidato: profilo standard
+  (`20261007-170249-s2u`) 33 PASS, 1 KNOWN, 0 NEW-FAIL; profilo baseline (`20261007-170533-s2u-baseline`, stessi
+  riferimenti F2-B2 e F2-pre-m4-v2) 39 PASS, 1 KNOWN, 0 NEW-FAIL; nessun avviso, quindi esiti e righe di conteggio
+  uguali al candidato.
+  Cattura headless uguale a F2-B2 su 432 file (21 tempi volatili), banco c.a. e banco denso con gli stessi totali del
+  candidato e nessuna differenza; cattura densa `mesh`: 80 impronte identiche a B0 e a F2-pre-m4-v2 (uscite in
+  `supporto/artefatti/refactoring/s2u` del worktree). Test delle librerie non ripetuti: binari dello stesso sorgente,
+  diversi solo per il percorso del PDB.
+- Stato: S2 da commit pushati, verificata senza interfaccia; manca il profilo full con le prove WPF a schermo, poi
+  approvazione dell'utente e merge su main. Il push di Checker develop 1fbaea61 non serve più per S2.
+
+## 7 ottobre 2026, pomeriggio
+
+Cronologia sintetica dei filoni del pomeriggio; il dettaglio è nei documenti citati e nelle sezioni dei singoli filoni.
+L'utente ha delegato le decisioni al coordinatore («esegui tutto te»): sono in [decisioni.md](decisioni.md), da
+ratificare. Nessun push da parte dei workflow.
+
+- 15:07-15:20, F1.4: i quattro scenari sull'exe Release (compilato da main 17b6c98, avviato con `dotnet ANTHEA.dll`)
+  eseguiti con UI Automation e mouse reale, con i dialoghi di produzione. Esito in
+  `supporto/artefatti/refactoring/f1.4/esito.md`: avvio con la Home; dati condivisi, conferma spostamento, chiusura con
+  modifiche ed errore di un comando superati, controllati rileggendo i file salvati. Note: `errori.log` registra solo
+  gli errori non gestiti, come prima di F1 (l'errore di un comando passa da `Safe` e non lo scrive); il messaggio
+  dell'errore di lettura è quello inglese del parser JSON, da rivedere in F5; nel tema scuro le righe di sezione non
+  selezionate dell'albero dei progetti sono chiare su chiaro (vedi tema scuro).
+- 15:10-15:18, F1.6 sul branch `refactoring/f1-6-archivio` (4ff5026, f5647f5, d01caf7, 5517b96): sette progetti di
+  `supporto/test` archiviati in `supporto/SUPERATI/test`, con registro. Unito nell'integrazione 2 alle 16:41 (6e35729,
+  branch `refactoring/integrazione-2`, worktree Temp\aw-int2). La verifica ha trovato rotto l'import di
+  `build_document.py` dello script della relazione del 25/9 e cambiata la destinazione di ElasticPile.Performance:
+  seguiti 16:55-17:03 (3ff710e, a57aff6, cb9b750, a2a3ac1, 99b2ae7); profilo quick `int2-f16` 18 PASS, 0 KNOWN,
+  0 NEW-FAIL. Le cartelle `bin` e `obj` ignorate rimaste nelle vecchie posizioni non sono state cancellate.
+- 15:39-16:27, D7-e sul branch `refactoring/d7e-uni11104` (6b01da8, f1bb485, verifica 4e429dd), unito alle 16:41
+  (0576678): citazioni della UNI 11104 con edizione e prospetto, C30/37 confermato, nessun valore cambiato. Seguito su
+  XF1 e composizione: opzione e4, da attuare in F2.9 dopo il riscontro del prospetto 6 su una copia con licenza. Le
+  fonti sono riscritte in modo riproducibile: la «p. 12 dell'anteprima» citata in un primo tempo non è fra le pagine
+  visibili (era un residuo di una versione precedente dentro il file); le pagine visibili (indice alle pp. III-IV,
+  introduzione e punti 1 e 2 alle pp. 1-2) confermano edizione e struttura; i valori del prospetto 6 vengono da un
+  estratto pubblicato il 28/07/2025 (fonte secondaria).
+- 15:24-15:25: origin di Model e di Checker risultano aggiornati con Model 5ad56681 e Checker 0d7ba50b, le revisioni
+  della release S2. Il push non è stato eseguito da nessun workflow; da confermare con l'utente.
+- 15:32-16:56, F2.2: revisione tecnica delle pagine dei metodi in Checker, merge locali in develop alle 15:57 (c555a3b8,
+  1fbaea61); verifica avversaria e correzioni (5675492f e 398eb36a, merge 9eb800d4 e 26fb6b8b alle 16:47; bf23a16d,
+  7d86ffc7, bd9938ac); e41a803a collega i riquadri alle voci R16-R21. Checker develop locale è a e41a803a, 35 commit
+  oltre origin/develop: il push resta all'utente. Registro: voci R16-R21 da decidere in F5.15; R7 rettificata (NTC
+  2018 [4.1.38] dà 1 ≤ cot θ ≤ 2,5 anche in torsione) e segno da stabilire per il limite 1,3 (h − x) con barre fuori
+  da Ac,eff (F-4).
+- 16:01-17:14, F2.4 sul branch `refactoring/f2-4-snapshot-s2` (worktree Temp\aw-s2): candidato S2 f6b6fdf, compilato
+  da Checker develop 1fbaea61 locale, verificato e unito nell'integrazione 2 alle 16:42 (0c87141). Poi S2 ricompilata
+  dai commit pushati con `Update-Snapshot.ps1 -FromUpstream` (8d6a8ec, edc4fce; documenti decd371): profilo standard
+  33 PASS e baseline 39 PASS, 1 KNOWN, 0 NEW-FAIL, esiti uguali al candidato; manca il profilo full a schermo. Unita
+  nell'integrazione 2 alle 17:40 (b818b20, secondo merge del branch).
+- 17:41-17:49, integrazione 2 dopo il secondo merge di F2.4 (b818b20, lib/Checker uguale a edc4fce, manifest
+  5489C912…), senza `-GpcLibDir`, con `-CompareTo` le corse `s2u` del branch F2.4: profilo standard
+  (`20261007-174117-int2-std`) 33 PASS, 1 KNOWN (`verifiche/project-calculations`), 0 NEW-FAIL; profilo baseline
+  (`20261007-174409-int2-base`, `-BaselineRef <F2-B2>\headless`, `-DenseRef <F2-pre-m4-v2>\a\tutte`) 39 PASS, 1 KNOWN,
+  0 NEW-FAIL. Nessun avviso, quindi esiti e righe di conteggio uguali a S2; nessun file tracciato modificato. Cattura
+  headless uguale a F2-B2 su 432 file con i soli 21 tempi volatili; `banco-ca` 27 698 righe, 26 462 identiche, 1236
+  con soli identificativi casuali; `banco-denso` 32 564 righe, 31 320 identiche, 1244; nessuna differenza. Le DLL GPC
+  negli output usati dalle suite hanno lo SHA-256 di lib/Checker. Prove conservate nel checkout principale in
+  `supporto/artefatti/refactoring/integrazione-2`: corse del runner dell'integrazione (`ci`) e uscite della console
+  (`console`); corse, staging e catture `mesh` di S2 dal worktree Temp\aw-s2 (`s2/ci`, `s2/lib-staging`,
+  `s2/refactoring`).
+- 15:09-17:18, F2.5 e F2.6 sul branch `refactoring/f2-taglio-torsione` (worktree Temp\aw-f2tt): in correzione dopo le
+  verifiche avversarie. Il primo interruttore (7176c0c) collegava alla libreria il solo taglio del modulo; torsione del
+  modulo attraverso l'adattatore (f5b5f50); baseline B3 catturata con il legacy su dcde952; interruttore sulla libreria
+  (ca6530d); documenti con le decisioni del coordinatore F2-3 e F2-4 (801e11c). Da unire dopo la verifica; unito
+  nell'integrazione 2 alle 18:22 (ea4c51e, sezione «Sera del 7 ottobre 2026» in fondo).
+- Tema scuro, branch `refactoring/ui-tema-scuro` (worktree Temp\aw-tema): correzioni ai colori e controllo del
+  contrasto in corso.
+- Documenti di refactoring dell'integrazione 2: registro (R7 rettificata, R16-R21, D7-e con e4 e fonti riproducibili),
+  scostamenti, piano (F1.4 e F2.2 chiusi, F2.9, F5.15), decisioni e questo diario.
+
+## Pomeriggio del 7 ottobre 2026: F2.5 e F2.6 (taglio e torsione verso la libreria)
+
+Branch `refactoring/f2-taglio-torsione` (worktree Temp\aw-f2tt, da main 17b6c98), non su main, non pushato.
+
+- F2.5 (2583225): strato di mappatura `ConcreteLibraryMapping` (unità con nome, norme, testi italiani del legacy) e
+  adattatore `ConcreteShearTorsionAdapter` con l'interruttore `Default` sul legacy; prove `tests/ConcreteLibraryAdapter.Checks`.
+- Primo interruttore (7176c0c). La verifica avversaria ha trovato che collegava alla libreria il solo taglio del modulo:
+  `ConcreteShearAnalysis` calcolava ancora profilo resistente e torsione con il legacy diretto, e le prove 3d/3e
+  confrontavano per la torsione il legacy con se stesso; inoltre tolleranze nel commit dell'interruttore, controllo delle
+  costanti cieco ai letterali con il punto iniziale (.85), attesi indipendenti solo sul legacy diretto, SHA mancanti nel
+  piano e nel registro, nessun caso con taglio e torsione nel corpus headless di B2. Messaggio di 7176c0c e prime righe di
+  piano, matrice e registro descrivevano un collegamento che non esisteva: corretti nei documenti, senza riscrivere la storia.
+- Correzione, prima corsa (f5b5f50, 8f991b4, 85314a6, 0111a1f): torsione e profilo resistente del modulo attraverso
+  l'adattatore; prova 3f (torsione del modulo uguale bit per bit all'adattatore del motore richiesto, 70 casi su 120 con
+  uscite diverse fra i motori); prova 4 (reference.json in sola lettura, benchmark DIN, DS, UNI, NS, torsione NTC in forma
+  chiusa, con entrambi i motori); regex delle costanti con il caso sintetico .85; tolleranze dense in un commit dedicato;
+  interruttore sulla libreria.
+- Correzione, seconda corsa (coordinatore: la baseline B3 si cattura con il legacy prima dell'interruttore): 8c95d9b
+  interruttore di nuovo sul legacy, 3f anche contro il legacy diretto, 3e con la torsione del calcolo headless uguale
+  all'adattatore del motore predefinito (riga T7); 256714d corpus headless con tre sezioni c.a. con taglio e torsione;
+  una prova con la libreria a mano ha mostrato che senza `foro_presente` il registro dei ripieghi cambia chiamante
+  (TorsionGeometryOf invece di ConcreteTorsionCalculator.Geometry, stesso valore), quindi dcde952 dichiara la chiave e
+  aggiunge la sezione circolare cava; B3 catturata su dcde952 (runner PASS 40, KNOWN 1, NEW-FAIL 0; densa identica a
+  F2-pre-m4-v2 con il confronto esatto; headless uguale a B2 sui 432 file comuni salvo le voci dei casi nuovi; doppia
+  corsa con soli tempi volatili). ea6e0ac tolleranze headless dedicate; ca6530d interruttore sulla libreria.
+- Misure su ca6530d: runner baseline contro B3 e F2-pre-m4-v2 PASS 41, KNOWN 1, NEW-FAIL 0 (headless: 5 numeri su 276
+  di 'taglio' e 'torsione' entro 1e-9, massimo relativo 2,0e-16, relazioni identiche; densa: 1083 righe entro 1e-9, nessuna
+  non classificata); profilo standard PASS 35, KNOWN 1; prove negative della 3e e della 3f. Registro F2-1…F2-4, piano,
+  matrice, decisioni del coordinatore da ratificare (F2-3 rifiuto senza staffe chiuse, F2-4 limiti della libreria
+  accettati, traccia NTC non esposta, B3).
+- Una corsa del runner si è interrotta dopo l'ultima suite perché `summary.txt` era letto da fuori durante la scrittura
+  (Add-Content): ripetuta; le corse non vanno osservate leggendo i file del runner.
+- Fuori dall'interruttore restano, nel legacy, il taglio senza staffe dei muri in c.a. (`RetainingWall.Structures.cs:98-100`,
+  VRd,c con una formula propria senza σcp, F4.7) e la proposta di bw, d e Asl (`SectionShearGeometry.Derive`, buco 3 della
+  matrice); i pali elastici verificano il taglio con `GPC.Checkers.Concrete.Piles` già da prima di F2. Quindi non tutto il
+  taglio di ANTHEA passa dalla libreria: solo quello della sezione c.a. (WPF, calcolo headless, progetto delle armature).
+- Terza verifica avversaria (su ca6530d e 801e11c), 8 punti. Corretti: esclusioni scritte nel piano (prima solo nella
+  matrice); riga della matrice per il controllo "torsione solo NTC" (`ConcreteShearAnalysis.cs:61` in ca6530d, non :60);
+  prove rafforzate (4e8b30b): prima la 3e riconosceva un calcolo headless che aggirasse l'interruttore con la sola riga T7,
+  e nessuna prova distingueva il motore del taglio del modulo (con il taglio sempre legacy le prove di 801e11c passano);
+  ora la 3d conta 131 calcoli del modulo con uscite diverse e la 3e confronta bit per bit taglio (106 righe, 42 che
+  distinguono i motori) e torsione (63 righe, 36) anche su sezioni NTC di 5 forme con 3 valori di cot θ, con almeno 10 casi
+  per controllo; nota in F2.4 sui testi della libreria senza traduzione (nella scheda WPF interromperebbero le righe
+  successive del taglio; oggi non raggiungibile). Provenienza di B3 confermata anche dalla cattura di 17b6c98 con il corpus
+  di dcde952 (uguale a B3, `fallbacks.json` identico byte per byte). Scartati senza modifiche: effetto dei ripieghi sui
+  documenti senza `foro_presente` (resta dichiarato in F2-1, scelta dell'utente) e documenti di 8c95d9b…ea6e0ac che
+  descrivevano lo stato con la libreria (già dichiarato nel messaggio di 8c95d9b).
+- Il messaggio di 256714d ("taglio e torsione elevati, verifica non soddisfatta") e la prima stesura del LEGGIMI di B3
+  davano non soddisfatta solo V3: in B3 anche V2 non soddisfa l'interazione taglio-torsione lato acciaio (ηs 1,284), V3 non
+  soddisfa taglio (η 2,84 e 1,53) e interazione; negli altri casi C2, C3 e H2 non soddisfatti a torsione/interazione, C3 e
+  H2 anche a taglio. LEGGIMI corretto (non versionato); il messaggio di commit resta.
+- 63cda73 è partito con il messaggio di 8c95d9b (nome del file del messaggio già usato da un'altra corsa): ritirato con
+  2b2f16b e ricommittato identico come 4e8b30b con il messaggio giusto. Regola per le prossime volte: nome del file del
+  messaggio controllato prima del commit; se l'interruttore viene sospeso di nuovo, piano e registro nello stesso commit o
+  in quello subito dopo.
+
+## Sera del 7 ottobre 2026: F2.5-F2.6 nell'integrazione 2
+
+Branch `refactoring/integrazione-2` (worktree Temp\aw-int2), non pushato.
+
+- 18:22, ea4c51e: merge `--no-ff` di `refactoring/f2-taglio-torsione` (punta db4da92) su 618354e. Conflitti solo nei
+  documenti, risolti tenendo il contenuto dei due lati: `decisioni.md` (le sezioni del 7/10 pomeriggio dei due lati),
+  `diario.md` (sezioni in fondo), `registro-differenze.json` (R16-R21 dopo R15, poi F2-1…F2-4: 32 voci, id unici, JSON
+  valido con un parser che rifiuta chiavi duplicate), `piano.md` (F2.4 dell'integrazione con la nota del branch su una
+  `GPCChecker.Concrete` nuova; F2.5 e F2.6 chiusi). `build/ci.ps1` unito da solo: suite non eseguite di F1.6, suite
+  `ConcreteLibraryAdapter.Checks` e DenseSet predefinito `f2-libreria`.
+- Documenti dopo il merge: le quattro sezioni del 7/10 pomeriggio di `decisioni.md` riunite in una sola, «Decisioni del
+  7 ottobre 2026, pomeriggio (coordinatore su delega dell'utente «esegui tutto te», da ratificare)», con sottosezioni
+  per argomento (F1.4, F1.6 e seguiti, D7-e, F2.2 con R16-R21 e la rettifica di R7, F2.4 con `-FromUpstream`, F2.5-F2.6
+  con F2-1…F2-4 e B3, tema scuro). Decisione del coordinatore sui ripieghi di `foro_presente`: F2-1 ratificata così
+  com'è (cambia solo il chiamante registrato del ripiego, stessa chiave e stesso valore), campo `decisione` nel
+  registro. Piano: F2.5 e F2.6 con il merge e le misure con S2. Checker: origin/develop risulta aggiornato da un push a
+  4f54139a alle 17:59 (reflog del ramo remoto).
+- Corse del runner sul merge ea4c51e, con lib/Checker S2 (manifest 5489C912…; DLL GPC negli output con lo SHA-256 del
+  manifest, 40 copie controllate), albero pulito prima e dopo:
+  - `20261007-182312-int2-f26-std` (`-Profile standard`): PASS 35, KNOWN 1 (`verifiche/project-calculations`, F3.3),
+    NEW-FAIL 0. Rispetto a `int2-std` (S2 senza F2.6) in più solo la build e la suite `ConcreteLibraryAdapter.Checks`;
+  - `20261007-182549-int2-f26-base` (`-Profile baseline`, `-BaselineRef <F2-B3>\headless`, `-DenseRef
+    <F2-pre-m4-v2>\a\tutte`, DenseSet `f2-libreria`): PASS 41, KNOWN 1, NEW-FAIL 0. Cattura headless contro B3: 452 file,
+    5 numeri entro 1e-9 (Ratio del taglio V3 e H3 in direzione y, ConcreteCombinedRatio della torsione V2, C2 e H2,
+    scarto relativo massimo 2,0e-16, assoluto 2,2e-16), 21 tempi volatili. Banco denso: 32 564 righe, 30 237
+    identiche, 1244 con soli identificativi casuali, 1083 entro 1e-9 (589 di shear-legacy.csv con 1001 numeri, 494 di
+    torsion-legacy.csv con 681), nessuna non classificata. Fixture di Checker (06d97733, invariate in develop
+    4f54139a): 27 698 righe, 25 379 identiche, 1236 identificativi casuali, 1083 entro 1e-9. Banco c.a. coerente con il
+    banco denso;
+  - `tests/ConcreteLibraryAdapter.Checks` lanciato anche da solo con `dotnet <dll>`: PASS, 17 880 controlli, come su
+    4e8b30b.
+- Confronto con le misure con S1 (corse di 4e8b30b e 660e1f7 sul branch, `prove-rafforzate`): esiti e righe di
+  conteggio di tutte le suite uguali; `misura.json` dell'adattatore identico byte per byte (SHA-256 D81AC015…);
+  `confronto.json` contro B3 con le stesse 5 differenze e gli stessi valori; `confronto-denso.json` e
+  `confronto-fixture-checker.json` uguali salvo i percorsi. Confronto diretto delle catture: densa con S2 contro densa
+  con S1, confronto esatto `pre-m4`, 31 320 righe identiche e 1244 con soli identificativi casuali (shear-legacy.csv e
+  torsion-legacy.csv identici); headless con S2 contro headless con S1, 452 file senza differenze salvo i 21 tempi.
+  Cambiano solo i metadati: commit, SHA-256 del manifest di lib/Checker (BA34AB45… con S1, 5489C912… con S2), elenco
+  degli assembly cambiati (in più GPCModel, GPCModelData, GPCChecker.Concrete, .Geotechnics e .CompositeBridge
+  ricompilati in S2) e l'elenco delle suite non eseguite (progetti archiviati in F1.6). Motivo: fra Checker b994e188 (S1)
+  e 0d7ba50b (S2) GPCChecker.Concrete cambia solo in `Cracking/CrackWidthCalculator.cs` e `Cracking/SectionCrackCheck.cs`
+  (D7-b, R15), `AssemblyInfo.cs` e README, e Model fra 5ba61a04 e 5ad56681 solo nelle versioni: `Shear/` e `Torsion/`
+  sono identici; il banco cattura la fessurazione di ANTHEA, non quella della libreria.
+- Prove copiate nel checkout principale in `supporto/artefatti/refactoring/integrazione-2`: `ci/20261007-182312-int2-f26-std`,
+  `ci/20261007-182549-int2-f26-base`, `console/int2-f26-std.log` e `int2-f26-base.log`, `f26/` (corsa diretta
+  dell'adattatore, confronti S1-S2 e LEGGIMI).
+- Spazio su disco: con 4,2 GB liberi l'utente ha scelto di rimuovere subito i 20 worktree temporanei già uniti e puliti.
+  Prima sono state copiate nel checkout principale le prove citate nei documenti che erano solo nei worktree
+  (`lib-staging/S2-upstream`, `refactoring/s2`, `refactoring/s2u`); poi `git worktree remove` di aw-b0, aw-d7, aw-d7b,
+  aw-d7d, aw-d7e, aw-dense, aw-f1, aw-f16, aw-f2, aw-fascia-prima, aw-guide, aw-int, aw-norma, aw-pc, aw-pre, aw-s1, aw-s2,
+  aw-ui, aw-uifull, aw-wiki (branch conservati). Spazio libero dopo: 17,4 GB.
+- Push autorizzato dall'utente: Checker develop 4f54139a (pagine dei metodi, solo `docs/metodi`) alle 17:59.
+- 618354e e 258e81a: frase di D7-e precisata (il codice segue la UNI 11104:2016) e autorizzazioni dell'utente in
+  `decisioni.md`.
+- Profilo full a schermo sull'integrazione 2 (258e81a, S2, F2.5-F2.6, F1.6, D7-e), corsa `20261007-184928-int2-full`:
+  PASS 69, KNOWN 1 (`verifiche/project-calculations`), NEW-FAIL 0; tutte le prove WPF superate (`ui/smoke-*`,
+  `ui/check-*`, HorizontalPileGroup.Checks, ElasticPile.UiChecks, ConcreteShort.UiChecks), circa 10 minuti. Chiude il
+  controllo richiesto da AGENTS.md dopo l'aggiornamento di lib/Checker (F2.4). Prove in
+  `supporto/artefatti/refactoring/integrazione-2/ci` del checkout principale.
+- b1998ec: guide Rev32 (Word e PDF) per le citazioni della UNI 11104 di D7-e; Rev31 in `supporto/SUPERATI` con
+  `registro-20261007-rev32.json`. Pratica 65 pagine, teorica 135 con 321 formule, 26 parti del modello ITEC identiche;
+  verifica indipendente sulle pagine rese in PNG: cambiano solo copertina, piè di pagina, il paragrafo «Esposizioni e
+  requisiti del materiale» e la riga XF1. Difetti di impaginazione già presenti nella Rev31 annotati in W0.2.
+
+## Notte 7-8 e mattina dell'8 ottobre 2026
+
+**Notte**
+- Tre workflow in parallelo: chiusura del tema scuro, revisione dei progetti F2.7 e F2.8, analisi dei bug.
+- Verso le 00:40 il limite di sessione dell'account li ha fermati tutti. L'azzeramento era alle 02:20, ma nessun
+  lavoro è ripartito da solo fino alle 07:30.
+- Errore del coordinatore: la pausa di 60 s fra i tentativi non funziona dentro i workflow. Ogni agente fallito è
+  stato rilanciato subito, 10 volte di fila, e l'analisi dei bug ha raggiunto il tetto di 1000 agenti. I tentativi ora
+  sono al massimo 3.
+
+**Mattina, dalle 07:31**
+- Priorità decisa dall'utente: una build da provare prima della fine dei crediti settimanali. L'analisi dei bug è
+  ferma e in coda a tutto.
+- Revisione dei progetti F2.7 e F2.8 conclusa:
+  - progetti in `supporto/artefatti/refactoring/f27-f28-progetto` (F27- e F28-progetto-rivisto.md, seconda-critica.md);
+  - due errori certi di F2.7 corretti nella §0 del progetto;
+  - decisioni dell'utente su U1-U7 in `decisioni.md`.
+- 09142a9: merge del tema verificato (fd14c94). Il profilo full a schermo (corsa `int2-tema-full`) ha dato PASS 68,
+  KNOWN 1 e NEW-FAIL 1, `ui/smoke-display`: la prova confrontava il pennello del γsat automatico per riferimento.
+  Corretta in d69a5bb, poi PASS.
+- Chiusura del tema in un solo agente, con le 30 segnalazioni dei due revisori della notte (il workflow ripreso
+  rifaceva le revisioni già concluse ed è stato fermato): dieci commit 16b646b…4fb8c85.
+- 356d9b9: merge della chiusura. Esiti:
+  - profilo standard: PASS 35, KNOWN 1, NEW-FAIL 0;
+  - stadio `ui` a schermo: PASS 35, NEW-FAIL 0, schermo usato dalle 09:20 alle 09:36 dopo la domanda all'utente senza
+    risposta entro 5 minuti;
+  - Release compilata, `Assert-NoTestCode` PASS.

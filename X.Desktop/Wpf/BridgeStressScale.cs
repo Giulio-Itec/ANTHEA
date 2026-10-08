@@ -47,7 +47,7 @@ internal sealed partial class BridgeWorkspace
         if (!double.TryParse(ConcreteScaleEditor.Text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double value)
             || !double.IsFinite(value) || value < .01 || value > 1000)
         {
-            ConcreteScaleEditor.BorderBrush = Ui.Brush("#B33A40");
+            ConcreteScaleEditor.BorderBrush = Appearance.Outline("#B33A40");
             ConcreteScaleEditor.ToolTip = "Inserire un fattore fra 0,01 e 1000. Il diagramma conserva l’ultima scala valida. Esc ripristina il valore.";
             return;
         }

@@ -152,7 +152,7 @@ public sealed partial class MainWindow
             if (!projectReadOnly) EnableSheetReorder(item, header, value);
             return;
         }
-        item.Background = Ui.Brush(depth == 0 ? "#F0F6FC" : "#FFFFFF");
+        item.Background = Appearance.Background(depth == 0 ? "#F0F6FC" : "#FFFFFF");
         var folder = new ProjectGlyph(depth == 0 ? "project" : "folder") { Width = 22, Height = 22, Margin = new Thickness(3, 0, 12, 0), VerticalAlignment = VerticalAlignment.Center };
         header.Children.Add(folder);
         label.Margin = new Thickness(0, 3, 10, 3); header.Children.Add(label);
