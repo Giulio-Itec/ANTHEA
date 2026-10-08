@@ -1,8 +1,11 @@
 using System.Collections.Frozen;
 using System.Text.RegularExpressions;
+using GPC.Checkers.Concrete.Serviceability;
 using GPC.Checkers.Concrete.Shear;
 using GPC.Checkers.Concrete.Torsion;
 using GPC.Model.Standards;
+// ANTHEA ha già Anthea.Calculations.Homogenization: la classe omonima della libreria si nomina solo con l'alias (progetto F2.7 §2.4 punto 6).
+using LibraryHomogenization = GPC.Checkers.Concrete.Serviceability.Homogenization;
 
 namespace Anthea.Calculations;
 
@@ -16,6 +19,7 @@ namespace Anthea.Calculations;
 /// dalle prove di tests/ConcreteLibraryAdapter.Checks.
 /// Nessuno stato statico modificabile: le tabelle dei testi sono <see cref="FrozenDictionary{TKey, TValue}"/> (prova 5l di
 /// tests/ConcreteLibraryAdapter.Checks).
+/// Dal refactoring F2.7b (commit A3) anche la regola dei getti sottili: il fattore viene da <see cref="ThinCasting"/> della libreria.
 /// </summary>
 public static class ConcreteLibraryMapping
 {
@@ -41,6 +45,19 @@ public static class ConcreteLibraryMapping
 
     /// <summary>Nome della norma della torsione accoppiata: il contratto attuale di ANTHEA è solo NTC 2018 (ConcreteShearAnalysis).</summary>
     public const string TorsionStandardName = "NTC 2018";
+
+    // ------------------------------------------------------------------ getti sottili
+    /// <summary>Regola dei getti sottili di ANTHEA (decisione F2.7-D2): la regola predefinita della libreria, con i valori usati da
+    /// ANTHEA prima di F2.7 (riduzione solo per NTC 2018). L'estensione a UNI EN 1992-1-1 con l'appendice italiana (scostamento R22,
+    /// proposta U3) è una decisione dell'utente e si applica dopo l'interruttore, non qui.</summary>
+    public const ThinCastingRule ThinCastingRuleOfAnthea = ThinCastingRule.Ntc2018Only;
+
+    /// <summary>Fattore del getto sottile (piano gettato in opera di spessore inferiore a 50 mm) per la norma dell'analisi, riconosciuta
+    /// dalla classe effettiva (<see cref="ConcreteStandards.Effective"/>, coefficienti personalizzati compresi). Unica fonte del limite SLE
+    /// del calcestruzzo e di αcc (<see cref="CheckerSection"/>) e di fcd (<see cref="ConcreteMaterials.DesignValues"/>), refactoring F2.7b,
+    /// commit A3 (rilievo M14). Un fattore uguale a 1 vuol dire che la norma non riduce; il chiamante lo applica solo ai getti sottili
+    /// ('gettato_sottile' = «Sì»).</summary>
+    public static double ThinCastingFactor(Standard standard) => ThinCasting.Factor(standard, ThinCastingRuleOfAnthea);
 
     // ------------------------------------------------------------------ taglio
     /// <summary>Risultato della libreria → DTO del JSON 'taglio' e delle relazioni (resistenze in kN, testi italiani).

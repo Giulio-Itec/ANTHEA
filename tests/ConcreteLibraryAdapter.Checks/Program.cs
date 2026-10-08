@@ -20,8 +20,10 @@ using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 //    con il motore legacy coincide anche con il legacy diretto. 3e: taglio e torsione del calcolo headless sono quelli del motore
 //    predefinito (5 norme; torsione NTC su 5 forme e 3 valori di cot θ), con più righe che distinguono i motori.
 // 4. Attesi indipendenti (reference.json, benchmark e forme chiuse di taglio e torsione) sul percorso dell'adattatore, con entrambi i motori.
-// 5l (F2.7, commit A2): stato statico di Ntc2018Checks, ConcreteLibraryMapping e ConcreteShearTorsionAdapter per riflessione (StaticState.cs),
+// 5l (F2.7, commit A2; LegacyServiceability da A3): stato statico di Ntc2018Checks, ConcreteLibraryMapping, ConcreteShearTorsionAdapter e LegacyServiceability per riflessione (StaticState.cs),
 //    con una sola eccezione dichiarata. Contata a parte e stampata: misura.json resta quello di F2.6 fino alla parte SLE dell'adattatore (A4).
+// 7a (F2.7, commit A3): fattore dei getti sottili dalla libreria attraverso la mappatura per limite SLE, αcc e fcd (ThinCastingGrid.cs): griglia di
+//    9 norme × 4 valori di 'gettato_sottile' uguale all'espressione legacy, ordine dei rifiuti e fonte unica. Contata a parte, come la 5l.
 // Uscita 0 con la riga "PASS · …"; 1 con il primo controllo fallito.
 const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Library; // F2.5 e cattura di B3: legacy; F2.6: libreria
 const double Tolerance = 1e-9;
@@ -34,6 +36,9 @@ void Check(bool ok, string message) { if (!ok) throw new Exception(message); cou
 // Prova 5l contata a parte: non entra nei 'controlli' di misura.json.
 int staticChecks = 0;
 void StaticCheck(bool ok, string message) { if (!ok) throw new Exception(message); staticChecks++; }
+// Prova 7a contata a parte, come la 5l.
+int thinCastingChecks = 0;
+void ThinCastingCheck(bool ok, string message) { if (!ok) throw new Exception(message); thinCastingChecks++; }
 var italian = CultureInfo.GetCultureInfo("it-IT");
 CultureInfo.CurrentCulture = italian; // cultura dell'applicazione: i messaggi con numeri formattati devono coincidere anche qui
 var shearStats = new Stats("taglio"); var torsionStats = new Stats("torsione"); var geometryStats = new Stats("profilo resistente"); var moduleStats = new Stats("modulo");
@@ -137,7 +142,7 @@ try
             + "eccezione dichiarata fino al commit di F2.7c che può toccare i file WPF (A11), progetto F2.7 §0 punto 2"
     };
     int staticMembers = 0; var excepted = new List<string>();
-    foreach (var type in new[] { typeof(Ntc2018Checks), typeof(ConcreteLibraryMapping), typeof(ConcreteShearTorsionAdapter) })
+    foreach (var type in new[] { typeof(Ntc2018Checks), typeof(ConcreteLibraryMapping), typeof(ConcreteShearTorsionAdapter), typeof(LegacyServiceability) })
     {
         var (members, violations) = StaticState.Inspect(type);
         staticMembers += members;
@@ -148,6 +153,9 @@ try
         }
     }
     foreach (var member in declaredStatic.Keys) StaticCheck(excepted.Contains(member), "5l: eccezione dichiarata superata, toglierla: " + member);
+
+    // ---------------------------------------------------------------- 2c. getti sottili (prova 7a)
+    var thinCasting = ThinCastingGrid.Run(root, ThinCastingCheck);
 
     // ---------------------------------------------------------------- 3a. taglio, griglia di CheckerMigration.Capture (2016 casi)
     var shearCases = ShearGrid();
@@ -485,8 +493,10 @@ try
         .Append($"taglio del calcolo headless: {headlessShearRouted} righe coincidenti con il motore predefinito {ConcreteShearTorsionAdapter.Default}, {headlessShearDiscriminating} con uscite dei due motori diverse")
         .Append($"torsione del calcolo headless: {headlessRouted} righe coincidenti con l'adattatore del motore predefinito {ConcreteShearTorsionAdapter.Default}, {headlessDiscriminating} con uscite dei due motori diverse (sola torsione e calcolo intero)")
         .Append($"attesi indipendenti: {independent} controlli superati con i motori Legacy e Library")
-        .Append($"stato statico (5l): {staticChecks} controlli superati, {staticMembers} membri statici di Ntc2018Checks, ConcreteLibraryMapping e ConcreteShearTorsionAdapter; "
-            + $"campione con {sample.Length} violazioni riconosciute; eccezioni dichiarate: {string.Join(", ", declaredStatic.Keys)}").ToArray();
+        .Append($"stato statico (5l): {staticChecks} controlli superati, {staticMembers} membri statici di Ntc2018Checks, ConcreteLibraryMapping, ConcreteShearTorsionAdapter e LegacyServiceability; "
+            + $"campione con {sample.Length} violazioni riconosciute; eccezioni dichiarate: {string.Join(", ", declaredStatic.Keys)}")
+        .Append($"getti sottili (7a): {thinCastingChecks} controlli superati; griglia di {thinCasting.Cases} casi ({thinCasting.Reduced} con riduzione) e {thinCasting.Rejections} rifiuti "
+            + $"uguali all'espressione legacy; {thinCasting.Readers} letture di 'gettato_sottile' con il fattore della mappatura").ToArray();
     foreach (var line in lines) Console.WriteLine(line);
     if (args.Length > 0)
     {
