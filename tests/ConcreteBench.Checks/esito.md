@@ -104,6 +104,11 @@ tolleranza del banco.
   combinazioni (`CheckerDomain3D.CheckMany`) non ha questo controllo.
 - Da decidere: tolleranza della ricerca su N nella libreria, oppure tolleranza del controllo dell'adattatore riferita alla
   scala della sezione.
+- **Decisione dell'utente (8/10)**: «tolleranza di convergenza che dipende dal legame costitutivo del materiale. stress
+  block tolleranza maggiore. metti nota che potrebbe essere meno preciso». La regola della tolleranza va nella libreria
+  (S3 se pronta prima del commit delle versioni) e `SectionMomentResistance` la usa dopo l'aggiornamento di `lib/Checker`;
+  la nota sulla minore precisione dello stress block va nella documentazione della libreria e nella pagina del metodo, e
+  nelle guide quando riparte la traccia W.
 
 ### T-1: VEd uguale a VRd senza staffe, esito opposto per 1 ulp (taglio)
 
@@ -117,6 +122,9 @@ sufficiente»; libreria VRd = 87,9252060796201 kN (1 ulp in meno), η = 1,000000
 - Effetto: dal passo F2.6 il modulo calcola il taglio con la libreria, quindi un'azione esattamente uguale alla resistenza
   senza staffe ora dà «insufficiente». F2-1 dice «nessun esito diverso»: la voce va completata con questo caso limite, oppure
   il confronto η ≤ 1 va reso indipendente dall'ultima cifra. Decisione del coordinatore o dell'utente.
+- **Decisione (8/10)**: l'utente ha lasciato la scelta al coordinatore («fai come credi meglio»). Si accetta e si registra
+  nella voce F2-1, senza tolleranze sul verdetto: il caso ha misura nulla e una tolleranza sposterebbe il confine della
+  verifica. La divergenza resta in `divergenze.json` come caso noto.
 
 ## Osservazioni (non divergenze)
 
