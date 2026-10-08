@@ -32,6 +32,28 @@ commit danno DLL identiche, mentre lo stesso commit compilato nel checkout princ
 viene rimossa all'inizio. Senza `-FromUpstream` lo script compila il HEAD locale dei checkout (alberi puliti, nessun
 commit o merge durante la corsa): serve per prove, non per questa cartella.
 
+**Release S3 (8 ottobre 2026, refactoring F2.7-F2.9 e S-1).** Compilata dai commit pushati con
+`tools/libs/Update-Snapshot.ps1 -FromUpstream -Install -Repos <radice>` (staging in
+`supporto/artefatti/lib-staging/20261008-174751`; controllo di versione contro S2). `-Repos` indica una radice di
+worktree con Model su master: il checkout principale di Model era su un altro branch, che `-FromUpstream` avrebbe
+seguito. Commit sorgente, rami remoti: Utilities origin/master df3b3e7, Geometry origin/master 6a0d1c1, Model
+origin/master 5ad56681 (come S2), Checker origin/develop 0ad8314b; SDK 9.0.318; `pushed: true` per tutte le DLL;
+radice di build `C:\Users\g.pacini\AppData\Local\Temp\gpc-snapshot`.
+
+- Versioni: GPCChecker.Concrete 0.0.17.0 → 0.0.18.0, GPCChecker.Geotechnics 0.1.1.1 → 0.1.1.2 e
+  GPCChecker.CompositeBridge 1.4.0.4 → 1.4.0.5 (sorgente invariato, SourceLink). GPCUtilities, GPCGeometry,
+  DelaunayMesh, GPCModel e GPCModelData invariate (stesso SHA-256 di S2).
+- Concrete 0.0.18.0, solo aggiunte con i comportamenti predefiniti della 0.0.17.0 (contratti K0, L0, CD0 e del punto
+  del dominio identici): F2.7 SLE e fessurazione (traccia, codici dei rifiuti, profili, getti sottili,
+  omogeneizzazione); F2.8 dettagli di solette e pareti, aderenza, momento-curvatura con unità del chiamante; F2.9
+  catalogo delle esposizioni di sola lettura e citazioni della UNI 11104; S-1 `DomainPointAxialTolerance`
+  (tolleranza su N dei punti del dominio per legame e scala della sezione: corregge il palo orizzontale con D ≥ 1,6 m
+  quando ANTHEA la usa; con lo stress block risultati SLU meno precisi).
+- Prove: Concrete 568/568, Geotechnics 98, CompositeBridge 254, BridgeAudit 302, ModelChecker.Tests 106 (con il
+  commit M1 di Model, 6005d180, solo test).
+- SHA-256 (per intero nel manifest): GPCChecker.Concrete F803B3CA…, GPCChecker.Geotechnics 4AB0C7AE…,
+  GPCChecker.CompositeBridge 58DC9529…; le altre come in S2.
+
 **Release S2 (7 ottobre 2026, refactoring F2.4).** Compilata dai commit pushati con `tools/libs/Update-Snapshot.ps1
 -FromUpstream -Install` (staging in `supporto/artefatti/lib-staging/S2-upstream`; controllo di versione contro S1,
 cioè contro il manifest di main 17b6c98). Commit sorgente, rami remoti: Utilities origin/master df3b3e7 e Geometry
