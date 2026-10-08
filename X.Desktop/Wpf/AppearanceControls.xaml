@@ -97,7 +97,16 @@
   </Grid>
  </ControlTemplate>
  <!-- Menus: the native templates draw their popups and the menu bar on fixed light greys. -->
+ <!-- Separators of the dark menus: a thin line of the palette instead of the native light grey. The menus give their
+  separators the style MenuItem.SeparatorStyleKey, found in the resources of the dark templates below. -->
+ <Style x:Key="AppearanceMenuSeparator" TargetType="Separator">
+  <Setter Property="Margin" Value="4,4"/><Setter Property="Focusable" Value="False"/>
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Separator">
+   <Border Height="1" Background="{DynamicResource AppearanceBorder}" SnapsToDevicePixels="True"/>
+  </ControlTemplate></Setter.Value></Setter>
+ </Style>
  <ControlTemplate x:Key="AppearanceContextMenuTemplate" TargetType="ContextMenu">
+  <ControlTemplate.Resources><Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator" BasedOn="{StaticResource AppearanceMenuSeparator}"/></ControlTemplate.Resources>
   <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Padding="2">
    <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto">
     <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Cycle" Grid.IsSharedSizeScope="True"/>
@@ -105,6 +114,7 @@
   </Border>
  </ControlTemplate>
  <ControlTemplate x:Key="AppearanceTopLevelMenuItemTemplate" TargetType="MenuItem">
+  <ControlTemplate.Resources><Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator" BasedOn="{StaticResource AppearanceMenuSeparator}"/></ControlTemplate.Resources>
   <Border x:Name="Row" Background="{TemplateBinding Background}" Padding="7,2,8,3" SnapsToDevicePixels="True">
    <Grid>
     <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" VerticalAlignment="Center"/>
@@ -124,6 +134,7 @@
   </ControlTemplate.Triggers>
  </ControlTemplate>
  <ControlTemplate x:Key="AppearanceMenuItemTemplate" TargetType="MenuItem">
+  <ControlTemplate.Resources><Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator" BasedOn="{StaticResource AppearanceMenuSeparator}"/></ControlTemplate.Resources>
   <Border x:Name="Row" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
    <Grid MinHeight="24">
     <Grid.ColumnDefinitions>
