@@ -9,7 +9,6 @@ namespace Anthea.Calculations;
 /// <summary>Port of Rhino2Midas concrete checks, with documented NTC2018/Circolare2019 corrections.</summary>
 public static partial class Ntc2018Checks
 {
-    public static ITensionBarSpacing SpacingCalculator { get; set; } = new TensionBarSpacing();
     public static readonly string[] Exposures = ["Da scegliere", "X0", "XC1", "XC2", "XC3", "XF1", "XC4", "XD1", "XS1", "XA1", "XA2", "XF2", "XF3", "XD2", "XD3", "XS2", "XS3", "XA3", "XF4"];
     public sealed record CrackResult(double? Width, double? Limit, double? Ratio, bool? Passed, string Status, double? EffectiveArea = null, double? EffectiveSteel = null, double? BarSpacing = null, string? SpacingSource = null)
     {
@@ -66,8 +65,10 @@ public static partial class Ntc2018Checks
         Add("φ", state.Native.PsiRebar ?? 0, "−", "Coefficiente utilizzato nell'analisi tensionale");
         Add("γc (input)", input.D("gamma_c"), "−", "Coefficiente di materiale della sezione", "Non compare direttamente nella formula wk: qui si usa fctm, non fctd.");
         Add("γs (input)", input.D("gamma_s"), "−", "Coefficiente di materiale della sezione", "Non è applicato come divisore aggiuntivo di σs nella formula wk.");
+        // The standard and the stateless spacing calculator are passed explicitly to the faces of a fully tensioned section and to the
+        // inner bands: no key added to the options, no static state.
         var code = workspace.S("normativa", "NTC 2018");
-        options = (JsonObject)options.DeepClone(); options["__normativa_fessure"] = code;
+        ITensionBarSpacing spacingCalculator = new TensionBarSpacing();
         var req = ConcreteCodeChecks.CrackRequirement(code, set, options);
         Add("Normativa fessurazione", null, "", code);
         Add("Criterio", null, "", req.Kind, "Criterio selezionato dal codice in funzione di famiglia SLE, esposizione e sensibilità.");
@@ -122,7 +123,7 @@ public static partial class Ntc2018Checks
         Add("Tolleranza compressione", 1e-12, "−", "Se εc,max ≤ tolleranza, wk = 0");
         if (strains.Max() <= 1e-12) return new(0, req.Limit, 0, true, "Sezione interamente compressa") { Details = details.ToArray() };
         if (!barRule) RequireBarStresses(barStresses, "tensioni delle armature mancanti o non finite.");
-        if (strains.Min() >= 0) return InnerCracking(FullyTensionedCracking(engine,state,input,options,req.Limit!.Value,details),engine,state,options);
+        if (strains.Min() >= 0) return InnerCracking(FullyTensionedCracking(engine,state,input,options,code,spacingCalculator,req.Limit!.Value,details),engine,state,options,code,spacingCalculator);
         // From here the neutral axis crosses the section: bending, also with axial force (Circolare 2019 C4.1.2.2.4.5; EC2 7.3.4(3), k2 of (7.11)).
         if (!barRule)
         {
@@ -165,7 +166,7 @@ public static partial class Ntc2018Checks
             double nearest = rebars.Length == 0 ? double.PositiveInfinity : top - rebars.Max(r => Q(r.Position));
             if (!(nearest < height / 2)) return new(null, req.Limit, null, null, "Nessuna armatura tesa") { Details = details.ToArray() };
             Add("h − d,min", nearest, "mm", "Qmax − Q della barra più vicina al lembo teso", "Maggiore di h − x: nessuna barra tesa, wk = 0.");
-            return InnerCracking(new(0, req.Limit, 0, true, "Asse neutro nel copriferro: nessuna barra tesa, wk = 0") { Details = details.ToArray() }, engine, state, options);
+            return InnerCracking(new(0, req.Limit, 0, true, "Asse neutro nel copriferro: nessuna barra tesa, wk = 0") { Details = details.ToArray() }, engine, state, options, code, spacingCalculator);
         }
         double centroid = bars.Sum(r => Q(r.Position) * r.Area) / bars.Sum(r => r.Area);
         double coverToCenter = top - centroid, hc = ConcreteCodeChecks.EffectiveCrackDepth(code,engine.Geometry,qx,qy,top,height,coverToCenter,tensileDepth,false);
@@ -213,7 +214,7 @@ public static partial class Ntc2018Checks
                 options.S("durata", "Lunga") == "Breve", options.S("aderenza", "Migliorata") == "Migliorata", details);
             Add("ηw", bound / req.Limit, "−", "wk / wlim");
             return InnerCracking(new(bound, req.Limit, bound / req.Limit, bound <= req.Limit, "Nessuna barra in Ac,eff: limite superiore con sr,max da (h − x) · "
-                + (bound <= req.Limit ? "apertura entro limite" : "apertura oltre limite"), aceff, 0) { Details = details.ToArray(), Regions=[SectionRegions.Region(engine.Geometry,"Zona tesa efficace",qx,qy,level,[],bound)] },engine,state,options);
+                + (bound <= req.Limit ? "apertura entro limite" : "apertura oltre limite"), aceff, 0) { Details = details.ToArray(), Regions=[SectionRegions.Region(engine.Geometry,"Zona tesa efficace",qx,qy,level,[],bound)] },engine,state,options,code,spacingCalculator);
         }
         if (aceff <= 0) return new(null, req.Limit, null, null, "Armatura/area efficace assente") { Details = details.ToArray() };
         double steel = effective.Sum(r => r.Area), phi = effective.Sum(r => r.RebarSection.Diameter * r.RebarSection.Diameter) / effective.Sum(r => r.RebarSection.Diameter);
@@ -228,7 +229,7 @@ public static partial class Ntc2018Checks
         bool automatic = options.S("spaziatura_fessure").Trim() == "";
         var tensileIndices = engine.Geometry.Bars.Select((b, i) => (b, i))
             .Where(v => plane.GetStrain(new Point2d(v.b.X, v.b.Y)) > 0 && Q(new Point2d(v.b.X, v.b.Y)) >= level - 1e-8).Select(v => v.i).ToArray();
-        double? calculatedSpacing = automatic ? SpacingCalculator.Maximum(engine.Geometry, tensileIndices) : options.Required("spaziatura_fessure", strict: true);
+        double? calculatedSpacing = automatic ? spacingCalculator.Maximum(engine.Geometry, tensileIndices) : options.Required("spaziatura_fessure", strict: true);
         Add("s", calculatedSpacing, "mm", automatic ? "Interasse massimo geometrico delle barre efficaci tese" : "Interasse massimo manuale");
         if (calculatedSpacing is not double spacing || spacing <= 0)
             return new(null, req.Limit, null, null, "Interasse automatico non determinabile: inserire un valore manuale", aceff, steel) { Details = details.ToArray() };
@@ -239,7 +240,7 @@ public static partial class Ntc2018Checks
         double width = ConcreteCodeChecks.CrackWidth(code, sigma, es, concrete.Ecm, concrete.Fctm, steel / aceff, phi, c, spacing, tensileDepth,
             options.S("durata", "Lunga") == "Breve", options.S("aderenza", "Migliorata") == "Migliorata", k2, details);
         Add("ηw", width / req.Limit, "−", "wk / wlim");
-        return InnerCracking(new(width, req.Limit, width / req.Limit, width <= req.Limit, width <= req.Limit ? "Apertura entro limite" : "Apertura oltre limite", aceff, steel, spacing, automatic ? "Automatico geometrico" : "Manuale") { Details = details.ToArray(), Regions=[SectionRegions.Region(engine.Geometry,"Zona tesa efficace",qx,qy,level,tensileIndices,width)] },engine,state,options);
+        return InnerCracking(new(width, req.Limit, width / req.Limit, width <= req.Limit, width <= req.Limit ? "Apertura entro limite" : "Apertura oltre limite", aceff, steel, spacing, automatic ? "Automatico geometrico" : "Manuale") { Details = details.ToArray(), Regions=[SectionRegions.Region(engine.Geometry,"Zona tesa efficace",qx,qy,level,tensileIndices,width)] },engine,state,options,code,spacingCalculator);
     }
     public static double CrackWidth(double sigmaS, double es, double ecm, double fctm, double rho, double phi, double cover, double spacing, double tensileDepth, bool shortTerm, bool ribbed, double k2)
         => CalculateCrackWidth(sigmaS, es, ecm, fctm, rho, phi, cover, spacing, tensileDepth, shortTerm, ribbed, k2, null);
