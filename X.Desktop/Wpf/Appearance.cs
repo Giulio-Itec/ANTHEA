@@ -188,6 +188,7 @@ internal static class Appearance
         double l = (c.R * .2126 + c.G * .7152 + c.B * .0722) / 255;
         bool veryDark = Current == AppAppearance.VeryDark;
         Color Hex(string s) { var value = (Color)ColorConverter.ConvertFromString(s); value.A = c.A; return value; }
+        int chroma = Math.Max(c.R, Math.Max(c.G, c.B)) - Math.Min(c.R, Math.Min(c.G, c.B));
         switch (role)
         {
             // Lighter than the surfaces, with light text on it (white, #BCCFE2): at least 4.5:1 in both appearances.
@@ -197,14 +198,17 @@ internal static class Appearance
         }
         if (role == "background")
         {
+            // Tinted fills (highlights, notes, warnings, segment colours) keep their hue at the luminance of the
+            // appearance, so that they stay distinct from the neutral surfaces and from each other: in Scuro the
+            // luminance of the former grey (c × 0.19 + 12, the contrast of the text is unchanged), in Molto scuro
+            // that of #2B2D31.
+            bool tinted = chroma > 20 && l >= .38;
             if (veryDark)
-                return Hex(l < .38 ? "#17191C" : l > .985 ? "#141518" : l < .85 ? "#2B2D31" : "#090A0C");
+                return tinted ? Tinted(c, .03, .5) : Hex(l < .38 ? "#17191C" : l > .985 ? "#141518" : l < .85 ? "#2B2D31" : "#090A0C");
             if (l < .38) return c; // dark command bars retain white text
-            bool tinted = Math.Max(c.R, Math.Max(c.G, c.B)) - Math.Min(c.R, Math.Min(c.G, c.B)) > 20;
-            if (tinted) return Color.FromArgb(c.A, (byte)(c.R * .19 + 12), (byte)(c.G * .19 + 12), (byte)(c.B * .19 + 12));
+            if (tinted) return Tinted(c, Luminance(Color.FromRgb((byte)(c.R * .19 + 12), (byte)(c.G * .19 + 12), (byte)(c.B * .19 + 12))), .7);
             return Hex(l > .985 ? "#142337" : "#1D3047");
         }
-        int chroma = Math.Max(c.R, Math.Max(c.G, c.B)) - Math.Min(c.R, Math.Min(c.G, c.B));
         if (role == "border")
         {
             // Saturated lines carry a meaning (selection, validation, status) and keep their hue; the strongest
@@ -217,6 +221,19 @@ internal static class Appearance
         if (chroma > 55 && (c.G > c.B * 1.2 || c.R > c.B * 1.3))
             return Color.FromArgb(c.A, (byte)(c.R * .45 + 140), (byte)(c.G * .45 + 140), (byte)(c.B * .45 + 140));
         return Hex(Current == AppAppearance.VeryDark ? (l < .3 ? "#E8E9EB" : "#BFC2C7") : (l < .3 ? "#E5EDF7" : "#B9C9DD"));
+    }
+    private static double Linear(byte v) { double s = v / 255.0; return s <= .04045 ? s / 12.92 : Math.Pow((s + .055) / 1.055, 2.4); }
+    private static byte Gamma(double v) { v = Math.Clamp(v, 0, 1); return (byte)Math.Round(255 * (v <= .0031308 ? 12.92 * v : 1.055 * Math.Pow(v, 1 / 2.4) - .055)); }
+    private static double Luminance(Color c) => .2126 * Linear(c.R) + .7152 * Linear(c.G) + .0722 * Linear(c.B);
+    /// <summary>Colour with the hue of <paramref name="c"/> and relative luminance <paramref name="luminance"/>: the deviation of
+    /// each linear channel from the luminance is normalised to <paramref name="saturation"/>, so that pale tints keep a visible hue.</summary>
+    private static Color Tinted(Color c, double luminance, double saturation)
+    {
+        double y = Math.Max(1e-6, Luminance(c));
+        double[] deviation = [Linear(c.R) / y - 1, Linear(c.G) / y - 1, Linear(c.B) / y - 1];
+        double largest = Math.Max(1e-6, deviation.Max(Math.Abs));
+        byte Channel(int i) => Gamma(luminance * (1 + saturation * deviation[i] / largest));
+        return Color.FromArgb(c.A, Channel(0), Channel(1), Channel(2));
     }
     private static void Paint(DependencyObject item, DependencyProperty property, string role)
     {
