@@ -69,17 +69,11 @@ public static partial class ConcreteLibraryMapping
 
     public static string ProfileName(CrackProfile profile) => ProfileNames.TryGetValue(profile, out var name) ? name : throw Unmapped("profilo della fessurazione", profile.ToString());
 
-    /// <summary>Profili con la tabella dei requisiti NTC (NTC 2018, UNI EN 1992-1-1, CNR-DT 200): il legacy non legge 'limite_fessure'.</summary>
-    static bool NtcRequirementTable(CrackProfile profile) => profile is CrackProfile.Ntc2018 or CrackProfile.UniEN1992p11 or CrackProfile.CnrDT200;
-
-    /// <summary>Profili con la formula NTC 2018 dell'ampiezza (Ntc2018Checks.CalculateCrackWidth): i testi della traccia sono quelli NTC.</summary>
-    static bool NtcWidthFormula(CrackProfile profile) => profile is CrackProfile.Ntc2018 or CrackProfile.CnrDT200;
-
-    /// <summary>Vero se il legacy legge 'limite_fessure' (famiglia Eurocodice e Model Code 2010, ConcreteCodeChecks.CrackRequirement).</summary>
-    public static bool ReadsDesignLimit(CrackProfile profile) => !NtcRequirementTable(profile);
-
-    /// <summary>Vero se la condizione di hc,eff usa il copriferro (DIN, ConcreteCodeChecks.EffectiveCrackDepth): l'adattatore lo passa sempre.</summary>
-    public static bool UsesEffectiveDepthCover(CrackProfile profile) => profile == CrackProfile.DinEN1992p11;
+    /// <summary>
+    /// Testi NTC della traccia e dei rifiuti (Ntc2018Checks.CalculateCrackWidth) o della famiglia Eurocodice (ConcreteCodeChecks.CrackWidth): la famiglia
+    /// della formula la dice la libreria (<see cref="CrackProfiles.WidthFormula"/>, ciclo di prototipo di F2.7), la mappatura non la ricopia.
+    /// </summary>
+    static bool NtcTexts(CrackProfile profile) => CrackProfiles.WidthFormula(profile) == CrackWidthFormula.Ntc2018;
 
     /// <summary>Classe di esposizione del foglio → classe della libreria; «Da scegliere», vuota o sconosciuta → null (esposizione assente).</summary>
     public static string? ExposureOf(string text) => CrackRequirements.ExposureClasses.Contains(text, StringComparer.Ordinal) ? text : null;
@@ -101,10 +95,13 @@ public static partial class ConcreteLibraryMapping
     /// <summary>Vertice di ANTHEA [x, y] → punto della libreria (indici delle coordinate, non costanti).</summary>
     static GPC.Geometry.Point2d Point(double[] p) => new(p[0], p[1]);
 
-    /// <summary>Requisito della libreria → testo del criterio del legacy (ConcreteCodeChecks.CrackRequirement, Ntc2018Checks.CrackRequirement).</summary>
+    /// <summary>
+    /// Requisito della libreria → testo del criterio del legacy: Ntc2018Checks.CrackRequirement per i profili della tabella NTC, che non leggono il wlim di
+    /// progetto (<see cref="CrackProfiles.UsesDesignLimit"/> falso), ConcreteCodeChecks.CrackRequirement per gli altri.
+    /// </summary>
     public static string CrackRequirementText(CrackRequirement requirement, CrackProfile profile)
     {
-        bool ntc = NtcRequirementTable(profile);
+        bool ntc = !CrackProfiles.UsesDesignLimit(profile);
         return requirement.Criterion switch
         {
             CrackCriterion.NotRequired => ntc ? "Non richiesta nella rara"
@@ -212,6 +209,11 @@ public static partial class ConcreteLibraryMapping
         [CrackReason.NoEffectiveSteelOrArea] = "Armatura/area efficace assente",
         [CrackReason.FaceWithoutAreaOrSteel] = ": area o armatura efficace assente"
     }.ToFrozenDictionary();
+    // Motivi dei rami valutati senza una voce propria nella traccia (Ntc2018Checks.cs:124; ciclo di prototipo di F2.7).
+    static readonly FrozenDictionary<CrackReason, string> EvaluatedReasons = new Dictionary<CrackReason, string>
+    {
+        [CrackReason.EntirelyCompressed] = "Sezione interamente compressa"
+    }.ToFrozenDictionary();
 
     /// <summary>Esiti della libreria tradotti (prova 5a): stati fissi, superfici interne, requisiti, verifiche con ampiezza e rami composti.</summary>
     public static IReadOnlyCollection<CrackOutcome> TranslatedOutcomes { get; } = OuterStops.Keys.Concat(InnerMissing.Keys)
@@ -219,7 +221,7 @@ public static partial class ConcreteLibraryMapping
         .ToFrozenSet();
 
     /// <summary>Motivi della libreria tradotti (prova 5a); None non ha un testo proprio.</summary>
-    public static IReadOnlyCollection<CrackReason> TranslatedReasons { get; } = NoEffectiveAreaStops.Keys.Append(CrackReason.None).ToFrozenSet();
+    public static IReadOnlyCollection<CrackReason> TranslatedReasons { get; } = NoEffectiveAreaStops.Keys.Concat(EvaluatedReasons.Keys).Append(CrackReason.None).ToFrozenSet();
 
     /// <summary>Voci che ripetono gli ingressi della verifica, scritte dalla mappatura prima della traccia (Ntc2018Checks.cs:60-67).</summary>
     public static CrackCalculationDetail[] CrackInputDetails(string set, string exposure, string sensitivity, string duration, string bond, bool linear,
@@ -237,11 +239,12 @@ public static partial class ConcreteLibraryMapping
 
     /// <summary>
     /// Risultato della libreria → DTO del legacy: voci degli ingressi, norma, criterio e wlim, poi la traccia tradotta; stato composto dai dati
-    /// strutturati (esito, motivo, esiti per regione, regione governante), mai dal testo inglese.
+    /// strutturati (esito, motivo, esiti per regione, regione governante), mai dal testo inglese. Il requisito è quello del risultato: con la traccia
+    /// la libreria lo riporta in ogni ramo, anche nella sezione interamente tesa (ciclo di prototipo di F2.7).
     /// </summary>
-    /// <param name="requirement">Requisito della verifica (quello del risultato o, se la libreria non lo riporta, quello calcolato con gli stessi dati).</param>
-    public static Ntc2018Checks.CrackResult ToCrackResult(SectionCrackResult r, CrackRequirement requirement, CrackProfile profile, IEnumerable<CrackCalculationDetail> header, bool hollow)
+    public static Ntc2018Checks.CrackResult ToCrackResult(SectionCrackResult r, CrackProfile profile, IEnumerable<CrackCalculationDetail> header, bool hollow)
     {
+        var requirement = r.Requirement ?? throw Unmapped("requisito del risultato della fessurazione", r.Outcome + " " + r.GoverningRegion);
         string kind = CrackRequirementText(requirement, profile);
         var details = header.ToList();
         details.Add(new("Normativa fessurazione", null, "", ProfileName(profile)));
@@ -249,7 +252,7 @@ public static partial class ConcreteLibraryMapping
         details.Add(new("wlim", requirement.Limit, "mm", "Limite di apertura selezionato",
             requirement.Limit is null ? "Nessun limite di apertura numerico per questo ramo." : "Confronto wk ≤ wlim"));
         details.AddRange(r.Trace.Select(e => CrackDetail(e, profile)));
-        double? spacing = LegacyEntirelyTensileNtcBarSpacing && NtcWidthFormula(profile) && IsFace(r.GoverningRegion) ? null : r.BarSpacing;
+        double? spacing = LegacyEntirelyTensileNtcBarSpacing && NtcTexts(profile) && IsFace(r.GoverningRegion) ? null : r.BarSpacing;
         return new(r.Width, r.Limit, r.Ratio, r.Passed, CrackStatus(r, requirement.Criterion, kind, hollow), r.EffectiveArea, r.EffectiveSteel, spacing, SpacingSourceText(r.SpacingSource))
         {
             Details = details.ToArray(),
@@ -264,6 +267,8 @@ public static partial class ConcreteLibraryMapping
             return kind + (r.Passed == true ? ": soddisfatta" : ": non soddisfatta") + $" · σct,max={r.UncrackedMaximumStress:0.00} MPa; limite={r.StressLimit:0.00}";
         if (criterion != CrackCriterion.CrackWidth) throw Unmapped("criterio della fessurazione", criterion.ToString());
         if (r.Width is null) return StopStatus(r);
+        // Sezione interamente compressa: ampiezza nulla, prima delle superfici interne (Ntc2018Checks.cs:124), dal motivo della libreria.
+        if (EvaluatedReasons.TryGetValue(r.Reason, out var evaluated)) return evaluated;
         var trace = r.Trace;
         bool Has(string code) => trace.Any(e => e.Code == code);
         double limit = r.Limit ?? throw Unmapped("limite dell'apertura", r.Outcome.ToString());
@@ -278,9 +283,7 @@ public static partial class ConcreteLibraryMapping
             outer = trace.Any(e => e.Code == CrackTraceCodes.MaximumCrackSpacing && e.Region is null && e.HasFlag(CrackTraceFlags.UpperBound))
                 ? "Nessuna barra in Ac,eff: limite superiore con sr,max da (h − x) · " + (w <= limit ? "apertura entro limite" : "apertura oltre limite")
                 : w <= limit ? "Apertura entro limite" : "Apertura oltre limite";
-        // Sezione interamente compressa: ampiezza nulla senza regioni né regione governante, prima delle superfici interne (Ntc2018Checks.cs:124).
-        else if (!r.Regions.Any() && r.GoverningRegion is null) return "Sezione interamente compressa";
-        else throw Unmapped("ramo della fessurazione", r.Outcome + " " + r.GoverningRegion);
+        else throw Unmapped("ramo della fessurazione", r.Outcome + " " + r.Reason + " " + r.GoverningRegion);
         if (!hollow) return outer;
         // Superfici interne (ConcreteInnerCracking.cs:22, :121-136): verificate (nota del contorno interno o superfici non supportate) oppure
         // contorno interno compresso.
@@ -317,7 +320,7 @@ public static partial class ConcreteLibraryMapping
     // Codice del rifiuto (CrackRejection, in Exception.Data) → messaggio del legacy, per profilo e regola di k₂ (NtcK2FromCompressedBars).
     static readonly FrozenDictionary<string, Func<CrackProfile, bool, string>> CrackRejections = new Dictionary<string, Func<CrackProfile, bool, string>>(StringComparer.Ordinal)
     {
-        [CrackRejection.WidthParameters] = (profile, _) => NtcWidthFormula(profile) ? "Parametri fessurazione non validi." : "Parametri di fessurazione non validi.",
+        [CrackRejection.WidthParameters] = (profile, _) => NtcTexts(profile) ? "Parametri fessurazione non validi." : "Parametri di fessurazione non validi.",
         [CrackRejection.UpperBoundParameters] = (_, _) => "Parametri di fessurazione non validi.",
         [CrackRejection.RibbedBarsRequired] = (_, _) => "Modello di fessurazione MC/DIN implementato per barre ad aderenza migliorata.",
         [CrackRejection.BarStresses] = (_, k2FromBars) => k2FromBars ? "k₂: tensioni delle armature mancanti o non finite." : "tensioni delle armature mancanti o non finite.",
@@ -468,16 +471,16 @@ public static partial class ConcreteLibraryMapping
         [CrackTraceCodes.Ecm] = (_, _) => ("Ecm", "Modulo medio CLS usato per αe", ""),
         [CrackTraceCodes.EffectiveTensileStrength] = (_, _) => ("fct,eff = fctm", "Resistenza media a trazione del materiale", "Nel codice attuale non è applicata una riduzione per l'età di fessurazione."),
         [CrackTraceCodes.Rho] = (_, _) => ("ρp,eff", "As,eff / Ac,eff", ""),
-        [CrackTraceCodes.AlphaE] = (_, profile) => NtcWidthFormula(profile) ? ("αe", "Es / Ecm", "Non coincide necessariamente con n dell'analisi con viscosità.") : ("αe", "Es/Ecm", ""),
-        [CrackTraceCodes.Kt] = (e, profile) => ("kt", NtcWidthFormula(profile)
+        [CrackTraceCodes.AlphaE] = (_, profile) => NtcTexts(profile) ? ("αe", "Es / Ecm", "Non coincide necessariamente con n dell'analisi con viscosità.") : ("αe", "Es/Ecm", ""),
+        [CrackTraceCodes.Kt] = (e, profile) => ("kt", NtcTexts(profile)
             ? Pick(e, (CrackTraceFlags.ShortTerm, "Breve durata → 0,60"), (CrackTraceFlags.LongTerm, "Lunga durata → 0,40")) : "Coefficiente della durata / normativa", ""),
         [CrackTraceCodes.K1] = (e, _) => ("k₁", Pick(e, (CrackTraceFlags.Ribbed, "Aderenza migliorata → 0,80"), (CrackTraceFlags.Plain, "Barre lisce → 1,60")), ""),
-        [CrackTraceCodes.K2] = (e, profile) => ("k₂", NtcWidthFormula(profile) ? "Coefficiente della distribuzione delle deformazioni passato dal chiamante"
+        [CrackTraceCodes.K2] = (e, profile) => ("k₂", NtcTexts(profile) ? "Coefficiente della distribuzione delle deformazioni passato dal chiamante"
             : e.HasFlag(CrackTraceFlags.NotInWidthFormula) ? "Distribuzione delle deformazioni; non entra in sr,max di " + ProfileName(profile) : "Distribuzione delle deformazioni", ""),
         [CrackTraceCodes.K3] = (_, _) => ("k₃", "Coefficiente del termine di copriferro", ""),
         [CrackTraceCodes.K4] = (_, _) => ("k₄", "Coefficiente del termine Øeq / ρp,eff", ""),
         [CrackTraceCodes.BetaMinimum] = (e, profile) => ("β minimo deformazione", e.HasFlag(CrackTraceFlags.UpperBound) ? profile == CrackProfile.ModelCode2010 ? "1 − kt" : "0,6"
-            : NtcWidthFormula(profile) ? "Limite inferiore = 0,60·σs/Es" : "Limite inferiore", ""),
+            : NtcTexts(profile) ? "Limite inferiore = 0,60·σs/Es" : "Limite inferiore", ""),
         [CrackTraceCodes.BetaWidth] = (_, _) => ("β apertura", "wk = 1,70·Δsm·(εsm − εcm)", ""),
         [CrackTraceCodes.FarRegionCoefficient] = (_, _) => ("Coefficiente regione distante", "Δsm,distante = 0,75·(h − x)", ""),
         [CrackTraceCodes.SpacingThresholdCoefficient] = (_, _) => ("Coefficiente soglia interasse", "s_lim = 5·(c + Øeq/2)", ""),
@@ -517,7 +520,7 @@ public static partial class ConcreteLibraryMapping
         [CrackTraceCodes.Width] = (e, profile) => e.HasFlag(CrackTraceFlags.UpperBound) ? ("wk", "sr,max (εsm−εcm), limite superiore", "")
             : e.HasFlag(CrackTraceFlags.DsCoarseHalf) ? ("wk", "0,5 · apertura Eq.(7.8) con intera area tesa · DK NA 7.3.4(1)", "")
             : e.HasFlag(CrackTraceFlags.Envelope) ? ("wk", "Inviluppo delle superfici esterne e interne", "")
-            : NtcWidthFormula(profile) ? ("wk", "max[0; 1,70·Δsm·(εsm − εcm)]",
+            : NtcTexts(profile) ? ("wk", "max[0; 1,70·Δsm·(εsm − εcm)]",
                 $"max[0; 1,70 × {Argument(e, CrackTraceArguments.AdoptedSpacing):G10} × {Argument(e, CrackTraceArguments.MeanStrainDifference):G10}]")
             : ("wk", "sr,max (εsm−εcm)", ""),
         [CrackTraceCodes.WidthRatio] = (e, _) => ("ηw", e.HasFlag(CrackTraceFlags.Envelope) ? "wk / wlim; esito sospeso se una superficie resta senza verifica" : "wk / wlim", ""),

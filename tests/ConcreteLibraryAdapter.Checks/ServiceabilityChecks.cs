@@ -262,14 +262,79 @@ sealed partial class ServiceabilityChecks
         new(-100, 80, 0), new(0, 60, 40), new(-50, 260, 0), new(20, -150, 10)
     ];
 
+    /// <summary>Primo identificativo degli stati mirati, dopo quelli della griglia.</summary>
+    const int TargetedFirstId = 10000;
+
+    /// <summary>
+    /// Stati mirati della 5c (ciclo di prototipo, giro 1): rami raggiungibili in ANTHEA che la griglia della cattura densa non tocca (formazione delle
+    /// fessure, barre distanziate con la regione distante o vicina governante, precompressione, copriferro e interasse della fessurazione non validi
+    /// rifiutati al punto d'uso o non letti), sulla R300x500 della griglia; ognuno con il ramo che deve raggiungere nel legacy (risultato o messaggio
+    /// del rifiuto). I rami non raggiungibili in ANTHEA (regola di k₂ prima di D7-b, hc,eff nulla, Ac,eff nulla, faccia senza armatura, asse neutro non
+    /// determinato, nessuna armatura tesa, superfici interne non supportate, limite superiore DIN, rifiuti dei parametri della formula, delle tensioni delle
+    /// barre e della sezione non fessurata) restano provati dalla libreria e dalla 5a.
+    /// </summary>
+    static IEnumerable<(CrackState State, string Branch, Func<Ntc2018Checks.CrackResult?, string, bool> Reached)> TargetedCrackStates()
+    {
+        (CrackState, string, Func<Ntc2018Checks.CrackResult?, string, bool>) Make(int id, string standard, string set, ActionPoint action, string branch,
+            Func<Ntc2018Checks.CrackResult?, string, bool> reached, Action<JsonObject> options, bool tendon = false)
+        {
+            var data = SezioneCA.DefaultData(); var settings = SectionWorkspace.Prepare(data); var input = data["input"]!.AsObject();
+            input["shape"] = "Rettangolare"; input["width_mm"] = "300"; input["height_mm"] = "500"; input["top_bar_count"] = "2"; input["bottom_bar_count"] = "3";
+            input["side_bar_count_per_side"] = "0"; input["top_bar_diameter_mm"] = "16"; input["bottom_bar_diameter_mm"] = "20"; input["cover_mm"] = "30"; input["fck_mpa"] = "30";
+            input["gettato_sottile"] = "No"; settings["normativa"] = standard;
+            if (tendon) settings["trefoli"]!.AsArray().Add(J.Obj(("id", "T1"), ("x", "0"), ("y", "-150"), ("area", "150"), ("sigma0", "1000"), ("Ep", "195000"),
+                ("fpyk", "1670"), ("fpk", "1860"), ("eps_u", "35")));
+            var prepared = CheckerSection.PrepareModel(input, settings);
+            var o = (JsonObject)settings["sle"]![set]!.DeepClone();
+            o["modello"] = "Lineare"; o["phi"] = "0"; o["phi_trefoli"] = "0"; o["trazione_cls"] = "No"; o["angoli"] = "32"; o["esposizione"] = "XC3";
+            o["sensibilita"] = "Poco sensibile"; o["durata"] = "Lunga"; o["aderenza"] = "Migliorata"; o["copriferro_fessure"] = ""; o["spaziatura_fessure"] = ""; o["limite_fessure"] = "";
+            options(o);
+            return (new CrackState(id, "R300x500", standard, set, action, prepared, (JsonObject)input.DeepClone(), (JsonObject)settings.DeepClone(), o), branch, reached);
+        }
+        static bool Adopted(Ntc2018Checks.CrackResult? r, string note) => r?.Details.Any(d => d.Symbol == "Δsm adottata" && d.Note == note) == true;
+        var bending = new ActionPoint(0, 120, 0);
+        int id = TargetedFirstId;
+        foreach (var standard in new[] { "NTC 2018", "UNI EN 1992-1-1" })
+            yield return Make(id++, standard, "SLE_FREQ", bending, "formazione delle fessure " + standard, (r, _) => r?.Status.StartsWith("Formazione fessure") == true,
+                o => { o["esposizione"] = "XS3"; o["sensibilita"] = "Sensibile"; });
+        yield return Make(id++, "NTC 2018", "SLE_QP", bending, "barre distanziate, regione distante governante", (r, _) => Adopted(r, "Governa regione distante dalle barre."),
+            o => o["spaziatura_fessure"] = "400");
+        // Copriferro della formula 120 mm: Δsm,vicino ≈ (3,4·120 + k₁k₂k₄Øeq/ρ)/1,7 supera 0,75·(h − x) (h − x ≈ 390 mm); s = 700 > s_lim = 5·(120 + 10) = 650.
+        yield return Make(id++, "NTC 2018", "SLE_QP", bending, "barre distanziate, regione vicina governante",
+            (r, _) => Adopted(r, "Governa regione vicina alle barre.") && r!.Details.Any(d => d.Symbol == "s − s_lim" && d.Note.StartsWith("s > s_lim")),
+            o => { o["copriferro_fessure"] = "120"; o["spaziatura_fessure"] = "700"; });
+        foreach (var standard in new[] { "NTC 2018", "EN 1992-1-1" })
+            yield return Make(id++, standard, "SLE_QP", bending, "precompressione " + standard, (r, _) => r?.Status == "Apertura CAP: modello aderenza/decompressione da definire", _ => { },
+                tendon: true);
+        // Copriferro e interasse della fessurazione non validi (JsonData.Required): rifiuto del legacy dove il dato entra, con il suo testo; dove il ramo
+        // non lo legge (sezione compressa, decompressione) nessun rifiuto.
+        static Func<Ntc2018Checks.CrackResult?, string, bool> Refused(string key) => (r, message) => r is null && message.StartsWith(key + ": inserire un numero finito");
+        foreach (var (standard, action, key, value, branch) in new[]
+        {
+            ("NTC 2018", bending, "copriferro_fessure", "abc", "inflessa"), ("EN 1992-1-1", bending, "copriferro_fessure", "-5", "inflessa"),
+            ("DIN EN 1992-1-1", bending, "copriferro_fessure", "abc", "inflessa"), ("NTC 2018", bending, "spaziatura_fessure", "0", "inflessa"),
+            ("DS EN 1992-1-1", bending, "spaziatura_fessure", "abc", "inflessa"), ("NTC 2018", new ActionPoint(300, 0, 0), "copriferro_fessure", "abc", "interamente tesa"),
+            ("EN 1992-1-1", new ActionPoint(300, 0, 0), "spaziatura_fessure", "-5", "interamente tesa")
+        })
+            yield return Make(id++, standard, "SLE_QP", action, $"{key} «{value}» rifiutato, {standard}, sezione {branch}", Refused(key), o => o[key] = value);
+        yield return Make(id++, "NTC 2018", "SLE_QP", new ActionPoint(-1500, 0, 0), "copriferro e interasse non validi non letti, sezione compressa",
+            (r, _) => r?.Status == "Sezione interamente compressa", o => { o["copriferro_fessure"] = "abc"; o["spaziatura_fessure"] = "0"; });
+        yield return Make(id++, "NTC 2018", "SLE_QP", bending, "copriferro e interasse non validi non letti, decompressione",
+            (r, _) => r?.Status.StartsWith("Decompressione") == true, o => { o["esposizione"] = "XD1"; o["sensibilita"] = "Sensibile"; o["copriferro_fessure"] = "abc"; o["spaziatura_fessure"] = "0"; });
+    }
+
     void CrackGrid()
     {
-        int checksBefore = Checks, states = 0, rejected = 0, discriminating = 0, ntcEntirelyTensile = 0, ntcEntirelyTensileNullSpacing = 0, notesDifferent = 0;
-        var stats = new Stats("fessurazione (griglia della cattura densa)");
+        int checksBefore = Checks, states = 0, rejected = 0, discriminating = 0, ntcEntirelyTensile = 0, ntcEntirelyTensileNullSpacing = 0, notesDifferent = 0, compressed = 0,
+            libraryValues = 0;
+        var stats = new Stats("fessurazione (griglia della cattura densa e stati mirati)");
         var outcomes = new Dictionary<string, int>(StringComparer.Ordinal);
-        foreach (var s in CrackStates())
+        var coverage = new LibraryCoverage(); var withTargeted = new LibraryCoverage();
+        var targeted = TargetedCrackStates().ToArray(); var reachedBranches = new List<string>();
+        foreach (var s in CrackStates().Concat(targeted.Select(t => t.State)))
         {
-            states++;
+            bool grid = s.Id < TargetedFirstId;
+            if (grid) states++;
             string id = $"fessurazione {s.Id} {s.Section} {s.Standard} {s.Set}";
             var legacySection = Try(() => new CheckerSection(s.Prepared, s.Input, s.Settings, s.Options, "SLU", ServiceabilityEngine.Legacy));
             var librarySection = Try(() => new CheckerSection(s.Prepared, s.Input, s.Settings, s.Options, "SLU", ServiceabilityEngine.Library));
@@ -285,7 +350,29 @@ sealed partial class ServiceabilityChecks
                 string tag = id + " (" + (culture == Italian ? "it-IT" : "invariante") + ")";
                 var direct = Try(() => Ntc2018Checks.Cracking(legacySection.Value, legacyState.Value, s.Action, s.Input, s.Settings, s.Options, s.Set));
                 var legacy = Try(() => ConcreteServiceabilityAdapter.Cracking(legacySection.Value, legacyState.Value, s.Action, s.Input, s.Settings, s.Options, s.Set, ServiceabilityEngine.Legacy));
-                var library = Try(() => ConcreteServiceabilityAdapter.Cracking(librarySection.Value!, libraryState.Value!, s.Action, s.Input, s.Settings, s.Options, s.Set, ServiceabilityEngine.Library));
+                // Risultati della libreria prima della mappatura, dalla sonda: copertura della 5c e requisito di ogni ramo (ciclo di prototipo, giro 1).
+                ServiceabilityProbe probe;
+                (string Outcome, string Message, Ntc2018Checks.CrackResult? Value, Exception? Error) library;
+                using (probe = ServiceabilityProbe.Start())
+                    library = Try(() => ConcreteServiceabilityAdapter.Cracking(librarySection.Value!, libraryState.Value!, s.Action, s.Input, s.Settings, s.Options, s.Set, ServiceabilityEngine.Library));
+                if (culture == Italian && library.Value is not null) libraryValues++;
+                if (culture == Italian && !grid)
+                {
+                    var (_, branch, reached) = targeted.Single(t => ReferenceEquals(t.State, s));
+                    Check(reached(direct.Value, direct.Message), $"{tag}: stato mirato senza il ramo «{branch}» nel legacy: {direct.Value?.Status ?? direct.Message}; "
+                        + string.Join(" | ", direct.Value?.Details.Where(d => d.Symbol.Contains("Δsm") || d.Symbol.Contains("s_lim") || d.Symbol.Contains("h − x") || d.Symbol.Contains("(formula)"))
+                            .Select(d => $"{d.Symbol}={d.Value} {d.Note}") ?? []));
+                    reachedBranches.Add(branch);
+                }
+                if (culture == Italian && grid) coverage.Add(probe);
+                if (culture == Italian)
+                    foreach (var raw in withTargeted.Add(probe))
+                    {
+                        Check(raw.Requirement is not null, tag + ": risultato della libreria senza requisito (" + raw.Outcome + " " + raw.GoverningRegion + ")");
+                        bool legacyCompressed = direct.Value?.Status == "Sezione interamente compressa";
+                        Check((raw.Reason == CrackReason.EntirelyCompressed) == legacyCompressed, $"{tag}: motivo {raw.Reason} della libreria, stato «{direct.Value?.Status}» del legacy");
+                        if (legacyCompressed) compressed++;
+                    }
                 // 5b: legacy dell'adattatore = legacy diretto, bit per bit; marcatori dei due motori.
                 Check(direct.Outcome == legacy.Outcome && direct.Message == legacy.Message && Text(direct.Value) == Text(legacy.Value), tag + ": il motore Legacy dell'adattatore non coincide con il legacy");
                 Check(legacy.Value is null || legacy.Value.Engine == ServiceabilityEngine.Legacy, tag + ": marcatore del motore Legacy");
@@ -314,7 +401,15 @@ sealed partial class ServiceabilityChecks
         // Opzione legacy nominata del BarSpacing (F2.7-D5): le 13 righe NTC interamente tese con BarSpacing nullo, nei due motori.
         Check(ntcEntirelyTensileNullSpacing == 13, $"5c: BarSpacing nullo in {ntcEntirelyTensileNullSpacing} righe NTC interamente tese su {ntcEntirelyTensile}, attese 13");
         Check(discriminating >= MinimumDiscriminating, $"5c: {discriminating} stati con uscite dei due motori diverse");
+        // Ogni risultato della libreria è passato dalla sonda (autoverifica della sonda); la sezione interamente compressa c'è; ogni stato mirato raggiunge il suo ramo.
+        Check(withTargeted.Results == libraryValues && libraryValues > 0 && compressed > 0,
+            $"5c: sonda con {withTargeted.Results} risultati per {libraryValues} risultati dell'adattatore; {compressed} sezioni compresse");
+        Check(reachedBranches.Count == targeted.Length, $"5c: {reachedBranches.Count} stati mirati su {targeted.Length}");
         stats.Rejected = rejected;
+        Report["fessurazione_copertura"] = coverage.Json();
+        Report["fessurazione_copertura"]!["sezioni_compresse"] = compressed;
+        Report["fessurazione_copertura_con_stati_mirati"] = withTargeted.Json();
+        Report["fessurazione_copertura_con_stati_mirati"]!["stati_mirati"] = new JsonArray(reachedBranches.Select(b => (JsonNode)b).ToArray());
         Report["fessurazione_griglia"] = stats.Json();
         Report["fessurazione_griglia"]!["stati"] = states;
         Report["fessurazione_griglia"]!["uscite_dei_motori_diverse"] = discriminating;
@@ -323,6 +418,8 @@ sealed partial class ServiceabilityChecks
         Report["fessurazione_griglia"]!["stati_per_esito"] = new JsonObject(outcomes.OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => KeyValuePair.Create(p.Key, (JsonNode?)p.Value)));
         Lines.Add(stats.Line() + $"; {states} stati, {discriminating} con uscite dei due motori diverse, {notesDifferent} note con numeri diversi entro 1e-9, "
             + $"BarSpacing nullo in {ntcEntirelyTensileNullSpacing} righe NTC interamente tese (opzione legacy F2.7-D5); {Checks - checksBefore} controlli (5b, 5c; it-IT e invariante)");
+        Lines.Add("griglia · " + coverage.Line() + $"; {compressed} sezioni interamente compresse dal motivo della libreria");
+        Lines.Add($"griglia e {targeted.Length} stati mirati ({string.Join("; ", reachedBranches)}) · " + withTargeted.Line());
     }
 
     /// <summary>

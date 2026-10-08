@@ -26,6 +26,7 @@ public sealed class ServiceabilityProbe : IDisposable
 {
     static readonly AsyncLocal<ServiceabilityProbe?> current = new();
     readonly ConcurrentQueue<ServiceabilityProbeEntry> entries = new();
+    readonly ConcurrentQueue<object> results = new();
     readonly ServiceabilityProbe? previous;
 
     ServiceabilityProbe(ServiceabilityProbe? previous) => this.previous = previous;
@@ -45,6 +46,18 @@ public sealed class ServiceabilityProbe : IDisposable
     public static void Record(string adapter, string operation, Enum engine)
     {
         if (current.Value is { } probe) probe.entries.Enqueue(new(adapter, operation, engine.ToString()));
+    }
+
+    /// <summary>
+    /// Risultati e rifiuti della libreria ricevuti dagli adattatori nel flusso, prima della mappatura, nell'ordine di arrivo (ciclo di prototipo di F2.7:
+    /// copertura di codici, flag, argomenti, motivi ed esiti nella prova 5c).
+    /// </summary>
+    public IReadOnlyList<object> Results => results.ToArray();
+
+    /// <summary>Registra un risultato o un rifiuto della libreria se una sonda è attiva nel flusso; altrimenti non fa nulla.</summary>
+    public static void RecordResult(object result)
+    {
+        if (current.Value is { } probe) probe.results.Enqueue(result);
     }
 
     public void Dispose()
@@ -141,21 +154,26 @@ public static class ConcreteServiceabilityAdapter
         catch (ArgumentOutOfRangeException e) when (deferred.For(e.ParamName) is { } legacy) { throw legacy; }
     }
 
-    /// <summary>Esposizione, sensibilità e wlim di progetto come li legge il legacy: wlim solo per la famiglia Eurocodice e Model Code 2010.</summary>
+    /// <summary>
+    /// Esposizione, sensibilità e wlim di progetto come li legge il legacy: wlim solo per i profili il cui requisito lo usa (famiglia Eurocodice e
+    /// Model Code 2010, <see cref="CrackProfiles.UsesDesignLimit"/>).
+    /// </summary>
     static (string? Exposure, bool Sensitive, double? DesignLimit) RequirementData(CrackProfile profile, JsonObject options, DeferredRejections deferred)
     {
         string? exposure = ConcreteLibraryMapping.ExposureOf(options.S("esposizione"));
         bool sensitive = options.S("sensibilita") == "Sensibile";
         double? designLimit = null;
-        if (ConcreteLibraryMapping.ReadsDesignLimit(profile) && options.S("limite_fessure").Trim() != "")
+        if (CrackProfiles.UsesDesignLimit(profile) && options.S("limite_fessure").Trim() != "")
             designLimit = deferred.Read(DesignLimitParameter, () => options.Required("limite_fessure", strict: true));
         return (exposure, sensitive, designLimit);
     }
 
+    /// <summary>Opzioni della verifica: validazione al punto d'uso, traccia e, per il profilo la cui hc,eff legge il copriferro (DIN,
+    /// <see cref="CrackProfiles.EffectiveDepthReadsCover"/>), il copriferro della condizione.</summary>
     static SectionCrackOptions Options(CrackProfile profile, double? effectiveDepthCover)
     {
         var options = SectionCrackOptions.Default.WithValidateAtUse(true).WithTrace(true);
-        return ConcreteLibraryMapping.UsesEffectiveDepthCover(profile) ? options.WithEffectiveDepthCover(effectiveDepthCover) : options;
+        return CrackProfiles.EffectiveDepthReadsCover(profile) ? options.WithEffectiveDepthCover(effectiveDepthCover) : options;
     }
 
     // ------------------------------------------------------------------ fessurazione
@@ -185,10 +203,9 @@ public static class ConcreteServiceabilityAdapter
         var combination = ConcreteLibraryMapping.RequireCombination(set);
         var deferred = new DeferredRejections();
         var (exposure, sensitive, designLimit) = RequirementData(profile, options, deferred);
-        // Requisito con gli stessi dati della verifica: la libreria lo riporta nel risultato, ma non in quello della sezione interamente tesa
-        // (SectionCrackResult.Requirement nullo, lacuna della parte K annotata nel ciclo di prototipo).
-        CrackRequirement requirement;
-        try { requirement = CrackRequirements.For(profile, combination, exposure, sensitive, designLimit, Options(profile, null)); }
+        // Requisito prima dei dati della sezione, nell'ordine dei rifiuti del legacy (Ntc2018Checks.cs:75): un wlim non valido si rifiuta qui. Il
+        // requisito della mappatura è poi quello del risultato, che la libreria con la traccia riporta in ogni ramo (ciclo di prototipo di F2.7).
+        try { _ = CrackRequirements.For(profile, combination, exposure, sensitive, designLimit, Options(profile, null)); }
         catch (ArgumentOutOfRangeException e) when (deferred.For(e.ParamName) is { } legacy) { throw legacy; }
         var geometry = section.Geometry;
         var concrete = (ConcreteMaterialEuropeanCommon)section.Section.ConcreteMaterial;
@@ -200,8 +217,8 @@ public static class ConcreteServiceabilityAdapter
             : deferred.Read(NominalCoverParameter, () => input.Required("cover_mm") + (input.S("staffe_presenti", "Sì") == "No" ? 0 : input.Required("transverse_bar_diameter_mm")));
         double? spacingOverride = options.S("spaziatura_fessure").Trim() == "" ? null
             : deferred.Read(SpacingOverrideParameter, () => options.Required("spaziatura_fessure", strict: true));
-        // Copriferro della condizione DIN di hc,eff (ConcreteCodeChecks.EffectiveCrackDepth), con i ripieghi della sezione.
-        double? effectiveDepthCover = ConcreteLibraryMapping.UsesEffectiveDepthCover(profile)
+        // Copriferro della condizione DIN di hc,eff (ConcreteCodeChecks.EffectiveCrackDepth), con i ripieghi della sezione, solo se il profilo lo legge.
+        double? effectiveDepthCover = CrackProfiles.EffectiveDepthReadsCover(profile)
             ? geometry.Input.D("cover_mm") + (geometry.Input.S("staffe_presenti", "Sì") == "Sì" ? geometry.Input.D("transverse_bar_diameter_mm") : 0) : null;
         // Sezione non fessurata per decompressione e formazione (Ntc2018Checks.cs:79-82): solo quando la libreria la chiede, con lo stesso motore.
         Exception? callbackError = null;
@@ -228,10 +245,12 @@ public static class ConcreteServiceabilityAdapter
         }
         catch (ArgumentException e) when (!ReferenceEquals(e, callbackError))
         {
+            ServiceabilityProbe.RecordResult(e);
             if (e is ArgumentOutOfRangeException && deferred.For(e.ParamName) is { } legacy) throw legacy;
             throw ConcreteLibraryMapping.CrackError(e, profile, Ntc2018Checks.NtcK2FromCompressedBars);
         }
-        return ConcreteLibraryMapping.ToCrackResult(result, result.Requirement ?? requirement, profile, header, geometry.Holes.Count > 0);
+        ServiceabilityProbe.RecordResult(result);
+        return ConcreteLibraryMapping.ToCrackResult(result, profile, header, geometry.Holes.Count > 0);
     }
 
     /// <summary>
