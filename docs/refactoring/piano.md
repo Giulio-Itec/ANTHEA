@@ -110,7 +110,16 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
 - [ ] F5.3 [CP] Temi a token.
 - [ ] F5.4 [CP] Modulo pilota: palificata orizzontale.
 - [ ] F5.5–F5.12 Materiali, palo verticale, orizzontale, elastico, muri, sezione c.a., sezione composta, Bridge Design.
-- [ ] F5.13 [CP] Shell; sessione di prova prima di eliminare SheetEditor e la vecchia MainWindow.
+- [ ] F5.13 [CP] Shell; sessione di prova prima di eliminare SheetEditor e la vecchia MainWindow. Requisito
+  dell'utente dell'8/10 («considera le opzioni 1 e 3. non multi progetto. però dai la possibilità di staccare la
+  finestra per più monitor»):
+  - più fogli aperti insieme in schede dentro il progetto;
+  - più file di calcolo singoli aperti insieme, con un solo progetto alla volta;
+  - schede staccabili in una finestra separata, per lavorare su più monitor.
+
+  Da gestire: aggiornamento dei fogli aperti quando cambiano i dati condivisi (sezione, terreni, fogli CLS
+  collegati), modifiche non salvate per foglio, calcoli in parallelo senza stato statico (dopo F2.11). Oggi
+  MainWindow tiene un solo foglio e un solo documento (`MainWindow.cs:220-229`).
 - [ ] F5.14 Chiusura: X.Desktop → ANTHEA.Desktop, terza revisione di AGENTS.md.
 - [ ] F5.15 [CP] Ridiscutere con l'utente le voci sfavorevoli o aperte del registro delle differenze R4-R21 (R4-R14 e R16-R21; R15 è corretta) (decisione del 7/10: "le guardiamo a fine refactoring"; estesa a R16-R21 dal coordinatore su delega, da ratificare).
 
