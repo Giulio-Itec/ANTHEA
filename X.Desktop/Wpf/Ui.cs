@@ -28,7 +28,7 @@ internal static class Ui
     /// appearance also when assigned after the view is built (navigation, choice of a typology).</summary>
     internal static void SetSelected(Button button, bool selected)
     {
-        button.Background = selected ? Appearance.Background("#0B2A4A") : Appearance.Paper;
+        button.Background = selected ? Appearance.Selected : Appearance.Paper;
         button.Foreground = selected ? Appearance.Foreground(Brushes.White) : Appearance.Ink;
     }
     internal static TextBlock Text(string text, double size = 13, bool bold = false, Brush? color = null) => new()

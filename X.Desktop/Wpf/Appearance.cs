@@ -43,6 +43,11 @@ internal static class Appearance
     internal static Brush Background(string hex) => Colour((Color)ColorConverter.ConvertFromString(hex), "background");
     internal static Brush Foreground(Brush brush) => Map(brush, "foreground");
     internal static Brush Outline(string hex) => Colour((Color)ColorConverter.ConvertFromString(hex), "border");
+    // Roles with a meaning of their own. Unlike background, foreground and border they are never re-assigned when the
+    // brush is painted on another property (see Map): the code that chooses them knows what the colour stands for.
+    /// <summary>Fill of a primary button and of the selected choice (navigation, filters, revisions, typologies): Navy in Light.</summary>
+    internal static Brush Selected => Colour((Color)ColorConverter.ConvertFromString("#0B2A4A"), "selected");
+    private static bool Generic(string role) => role is "background" or "foreground" or "border";
 
     internal static AppAppearance ReadPreference(string path)
     {
@@ -170,17 +175,23 @@ internal static class Appearance
             return mapped;
         }
         if (brush is not SolidColorBrush solid || solid.Color.A == 0) return brush;
-        if (origins.TryGetValue(solid, out var source)) return source.Role == role ? brush : Colour(source.Color, role);
+        if (origins.TryGetValue(solid, out var source)) return source.Role == role || !Generic(source.Role) ? brush : Colour(source.Color, role);
         return Colour(solid.Color, role);
     }
     private static Color Transform(Color c, string role)
     {
         if (Current == AppAppearance.Light || c.A == 0) return c;
         double l = (c.R * .2126 + c.G * .7152 + c.B * .0722) / 255;
+        bool veryDark = Current == AppAppearance.VeryDark;
         Color Hex(string s) { var value = (Color)ColorConverter.ConvertFromString(s); value.A = c.A; return value; }
+        switch (role)
+        {
+            // Lighter than the surfaces, with light text on it (white, #BCCFE2): at least 4.5:1 in both appearances.
+            case "selected": return Hex(veryDark ? "#2F4C6E" : "#24507E");
+        }
         if (role == "background")
         {
-            if (Current == AppAppearance.VeryDark)
+            if (veryDark)
                 return Hex(l < .38 ? "#17191C" : l > .985 ? "#141518" : l < .85 ? "#2B2D31" : "#090A0C");
             if (l < .38) return c; // dark command bars retain white text
             bool tinted = Math.Max(c.R, Math.Max(c.G, c.B)) - Math.Min(c.R, Math.Min(c.G, c.B)) > 20;
