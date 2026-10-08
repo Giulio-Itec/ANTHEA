@@ -302,12 +302,12 @@ internal sealed partial class SheetEditor
             style.Setters.Add(new Setter(FrameworkElement.MarginProperty, new Thickness(3, 5, 3, 5)));
             if (i == 4)
             {
-                style.Setters.Add(new Setter(TextBlock.ForegroundProperty, Ui.Muted));
+                style.Setters.Add(new Setter(TextBlock.ForegroundProperty, Appearance.Foreground(Ui.Muted)));
                 style.Setters.Add(new Setter(TextBlock.FontWeightProperty, FontWeights.SemiBold));
                 foreach (var (value, color) in new[] { ("Verifica soddisfatta", "#16703B"), ("Verifica non soddisfatta", "#B42318") })
                 {
                     var trigger = new DataTrigger { Binding = new Binding("[4]"), Value = value };
-                    trigger.Setters.Add(new Setter(TextBlock.ForegroundProperty, Ui.Brush(color))); style.Triggers.Add(trigger);
+                    trigger.Setters.Add(new Setter(TextBlock.ForegroundProperty, Appearance.Foreground(Ui.Brush(color)))); style.Triggers.Add(trigger);
                 }
             }
             column.ElementStyle = style;

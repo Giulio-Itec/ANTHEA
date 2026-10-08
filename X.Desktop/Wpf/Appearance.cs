@@ -42,6 +42,7 @@ internal static class Appearance
     internal static Brush Accent => Colour((Color)ColorConverter.ConvertFromString("#0B5CAD"), "foreground");
     internal static Brush Background(string hex) => Colour((Color)ColorConverter.ConvertFromString(hex), "background");
     internal static Brush Foreground(Brush brush) => Map(brush, "foreground");
+    internal static Brush Outline(string hex) => Colour((Color)ColorConverter.ConvertFromString(hex), "border");
 
     internal static AppAppearance ReadPreference(string path)
     {
@@ -75,8 +76,17 @@ internal static class Appearance
         resources[SystemColors.MenuTextBrushKey] = Ink;
         resources[SystemColors.ControlBrushKey] = Colour(SystemColors.ControlColor, "background");
         resources[SystemColors.ControlTextBrushKey] = Colour(SystemColors.ControlTextColor, "foreground");
+        // Selection without focus (DataGrid cells, list and tree items): light grey in the system theme.
+        resources[SystemColors.InactiveSelectionHighlightBrushKey] = Colour(((SolidColorBrush)SystemColors.InactiveSelectionHighlightBrush).Color, "background");
+        resources[SystemColors.InactiveSelectionHighlightTextBrushKey] = Colour(((SolidColorBrush)SystemColors.InactiveSelectionHighlightTextBrush).Color, "foreground");
         EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.LoadedEvent,
             new RoutedEventHandler((sender, _) => ApplyElement((DependencyObject)sender)));
+        // WPF raises Loaded only on elements with a Loaded handler of their own: an element added to a window
+        // already loaded (module views, project pages, tree rows) is reached by its first layout instead, when
+        // it lies in a dark window (IsLoaded is not reliable there). In Light the palette is the identity, and
+        // Set themes the whole window when the mode changes.
+        EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.SizeChangedEvent,
+            new SizeChangedEventHandler((sender, _) => { if (sender is FrameworkElement element && GetDark(element)) ApplyElement(element); }), true);
         Set(Current, false);
     }
     internal static void Set(AppAppearance mode, bool persist = true)
@@ -84,13 +94,33 @@ internal static class Appearance
         if (!Enum.IsDefined(mode)) throw new ArgumentOutOfRangeException(nameof(mode));
         // Write first so a failed save is visible to the caller, without claiming persistence.
         if (persist) SavePreference(PreferencePath, mode);
-        Current = mode;
-        foreach (var (key, brush) in brushes) origins.GetValue(brush, _ => throw new InvalidOperationException()).Value = Transform(key.Item1, key.Item2);
+        Current = mode; Repaint();
         if (Application.Current is { } app)
         {
             foreach (Window window in app.Windows) { SetDark(window, mode != AppAppearance.Light); ApplyTree(window); }
         }
         Changed?.Invoke();
+    }
+    private static void Repaint()
+    {
+        foreach (var (key, brush) in brushes) origins.GetValue(brush, _ => throw new InvalidOperationException()).Value = Transform(key.Item1, key.Item2);
+    }
+    /// <summary>Images and printouts of calculation documents keep the Light colours whatever the appearance. Until the scope
+    /// is disposed the palette brushes take their Light colours, and <paramref name="root"/>, when it lies in a dark window,
+    /// leaves the dark styles. Render synchronously inside the scope: everything returns to the current appearance before
+    /// WPF draws the windows again, the open views are not re-themed and <see cref="Changed"/> is not raised.
+    /// In Light the scope does nothing.</summary>
+    internal static IDisposable Document(DependencyObject? root = null)
+    {
+        if (Current == AppAppearance.Light) return new UpdateScope(() => { });
+        var mode = Current; var dark = root?.ReadLocalValue(DarkProperty);
+        Current = AppAppearance.Light; Repaint();
+        if (root is not null && GetDark(root)) SetDark(root, false);
+        return new UpdateScope(() =>
+        {
+            if (root is not null) { if (dark == DependencyProperty.UnsetValue) root.ClearValue(DarkProperty); else root.SetValue(DarkProperty, dark); }
+            Current = mode; Repaint();
+        });
     }
     internal static ComboBox Selector()
     {
@@ -157,10 +187,15 @@ internal static class Appearance
             if (tinted) return Color.FromArgb(c.A, (byte)(c.R * .19 + 12), (byte)(c.G * .19 + 12), (byte)(c.B * .19 + 12));
             return Hex(l > .985 ? "#142337" : "#1D3047");
         }
-        if (role == "border") return Hex(Current == AppAppearance.VeryDark ? "#454C55" : "#596B7E");
+        int chroma = Math.Max(c.R, Math.Max(c.G, c.B)) - Math.Min(c.R, Math.Min(c.G, c.B));
+        if (role == "border")
+        {
+            // Saturated lines carry a meaning (selection, validation, soil layer colours) and keep their hue.
+            if (chroma > 55 && l < .7) return c;
+            return Hex(Current == AppAppearance.VeryDark ? "#454C55" : "#596B7E");
+        }
         if (l > .78) return c;
         // Preserve status hues, with enough luminance for dark surfaces.
-        int chroma = Math.Max(c.R, Math.Max(c.G, c.B)) - Math.Min(c.R, Math.Min(c.G, c.B));
         if (chroma > 55 && (c.G > c.B * 1.2 || c.R > c.B * 1.3))
             return Color.FromArgb(c.A, (byte)(c.R * .45 + 140), (byte)(c.G * .45 + 140), (byte)(c.B * .45 + 140));
         return Hex(Current == AppAppearance.VeryDark ? (l < .3 ? "#E8E9EB" : "#BFC2C7") : (l < .3 ? "#E5EDF7" : "#B9C9DD"));

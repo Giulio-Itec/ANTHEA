@@ -21,7 +21,7 @@ internal sealed partial class BridgeWorkspace
                 ContourSection = viewSettings.B("contour_sezione"), ContourDiagram = viewSettings.B("contour_tensioni"), ShowStressLimits = viewSettings.B("limiti_tensioni"),
                 Mode = mode, Width = 1200, Height = 640 };
             drawing.Measure(new Size(1200, 640)); drawing.Arrange(new Rect(0, 0, 1200, 640)); drawing.UpdateLayout();
-            images.Add(new(caption, Ui.Snapshot(drawing), category));
+            images.Add(new(caption, Ui.DocumentSnapshot(drawing), category));
         }
         if (options.Contains("grafici"))
         {
@@ -31,7 +31,7 @@ internal sealed partial class BridgeWorkspace
                     {
                         var sketch = new BridgeDetailSketch { Input = result.Input, AtSupport = support, Width = 800 };
                         sketch.Measure(new Size(800, 165)); sketch.Arrange(new Rect(0, 0, 800, 165)); sketch.UpdateLayout();
-                        images.Add(new(support ? "Appoggio e montante terminale schema locale" : "Irrigidimento intermedio e pannelli adiacenti schema locale", Ui.Snapshot(sketch), "dettagli"));
+                        images.Add(new(support ? "Appoggio e montante terminale schema locale" : "Irrigidimento intermedio e pannelli adiacenti schema locale", Ui.DocumentSnapshot(sketch), "dettagli"));
                     }
             if (options.Contains("geometria")) Image("Geometria della sezione e disposizione delle armature", "geometria", null, 2);
             if (options.Overlaps(["tensioni", "classe4", "omogeneizzazione", "taglio"]))

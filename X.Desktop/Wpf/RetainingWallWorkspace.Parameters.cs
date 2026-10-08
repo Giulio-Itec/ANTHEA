@@ -12,6 +12,7 @@ internal sealed partial class RetainingWallWorkspace
     {
         Commit(); var snapshot = (JsonObject)Data.DeepClone(); int openedRevision = revision;
         var window = new Window { Owner = Window.GetWindow(this), Title = "Muro · valori utilizzati nel calcolo", Width = 1150, Height = 780, MinWidth = 780, MinHeight = 530, Background = Appearance.Surface, WindowStartupLocation = WindowStartupLocation.CenterOwner };
+        Appearance.Watch(window);
         var rows = new JsonGrid([new("group", "Gruppo", ReadOnly: true), new("meaning", "Parametro", ReadOnly: true), new("value", "Valore assegnato"), new("unit", "Unità", ReadOnly: true)]) { Height = 230 };
         rows.Columns[0].Width = 270; rows.Columns[1].Width = 340; rows.Columns[2].Width = 190;
         var bindings = new List<(JsonObject Row, JsonObject Owner, string Key, JsonNode? Original)>();
@@ -81,7 +82,7 @@ internal sealed partial class RetainingWallWorkspace
                 if (checkedResult.GlobalError is not null) throw new ArgumentException(checkedResult.GlobalError);
                 Data.Clear(); foreach (var p in snapshot) Data[p.Key] = p.Value?.DeepClone(); BuildInputs(); BuildMatrix(); UpdateFields(); Changed(); window.Close(); await CalculateAsync();
             }
-            catch (Exception ex) { message.Text = ex.Message; message.Foreground = Brushes.Firebrick; }
+            catch (Exception ex) { message.Text = ex.Message; message.Foreground = Appearance.Foreground(Brushes.Firebrick); }
             finally { window.IsEnabled = true; }
         });
         var body = Ui.Stack(Ui.Text("Input modificabili e valori effettivamente utilizzati", 18, true), message, rows, Ui.Bar(Ui.Text("Combinazione", 12), combo), derived, Ui.Bar(apply, Ui.Button("Chiudi", window.Close)));

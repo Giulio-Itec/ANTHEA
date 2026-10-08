@@ -57,7 +57,7 @@ internal sealed partial class RetainingWallWorkspace
             }));
         }
         foreach (var layer in layers.OfType<JsonObject>()) AddView(layer);
-        grid.LoadingRow += (_, e) => { e.Row.BorderBrush = Ui.Brush(RetainingWallDrawing.GlobalLayerColor(Data, ((JsonRow)e.Row.Item).Values)); e.Row.BorderThickness = new Thickness(5, 0, 0, 0); };
+        grid.LoadingRow += (_, e) => { e.Row.BorderBrush = Appearance.Outline(RetainingWallDrawing.GlobalLayerColor(Data, ((JsonRow)e.Row.Item).Values)); e.Row.BorderThickness = new Thickness(5, 0, 0, 0); };
         grid.SelectionChanged += (_, _) => Selected(); grid.SelectedIndex = grid.Rows.Count > 0 ? 0 : -1;
         return Ui.Stack(grid, Ui.Bar(Ui.Button("+ Strato", () =>
         {
@@ -91,6 +91,6 @@ internal sealed partial class RetainingWallWorkspace
         { form.ShowField("phi", drained); form.ShowField("c", drained); form.ShowField("cu", !drained); }
         foreach (var grid in new[] { GlobalLayers, GlobalValleyLayers }) if (grid is not null)
             foreach (var row in grid.Rows) if (grid.ItemContainerGenerator.ContainerFromItem(row) is DataGridRow visual)
-                visual.BorderBrush = Ui.Brush(RetainingWallDrawing.GlobalLayerColor(Data, row.Values));
+                visual.BorderBrush = Appearance.Outline(RetainingWallDrawing.GlobalLayerColor(Data, row.Values));
     }
 }

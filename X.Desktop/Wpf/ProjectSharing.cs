@@ -52,10 +52,10 @@ public sealed partial class MainWindow
         var badge = ProjectButton(title, () => Safe(() => ShowCoherence(section)));
         bool warning = hasConflicts || warnings.Length > 0;
         badge.FontSize = 11; badge.Content = warning ? (differences.Select(d => d.Key).Distinct().Count() + ProjectSharedData.MissingSoilLayers(section).Count + warnings.Length).ToString() : "✓";
-        badge.Background = Ui.Brush(warning ? "#FFF0D8" : "#EAF5ED"); badge.BorderThickness = new Thickness(0);
+        badge.Background = Appearance.Background(warning ? "#FFF0D8" : "#EAF5ED"); badge.BorderThickness = new Thickness(0);
         badge.MinHeight = 24; badge.Padding = new Thickness(7, 2, 7, 2); badge.Margin = new Thickness(4, 0, 5, 0); Grid.SetColumn(badge, 2);
         System.Windows.Automation.AutomationProperties.SetName(badge, title);
-        badge.Foreground = !hasConflicts && warnings.Length == 0 ? System.Windows.Media.Brushes.DarkGreen : System.Windows.Media.Brushes.DarkOrange;
+        badge.Foreground = Appearance.Foreground(!hasConflicts && warnings.Length == 0 ? System.Windows.Media.Brushes.DarkGreen : System.Windows.Media.Brushes.DarkOrange);
         badge.ToolTip = warnings.Length == 0 ? "Apri il confronto dei dati comuni della sezione." :
             "Apri il confronto e gli avvisi della sezione.\n\n" + string.Join("\n\n", warnings);
         header.Children.Add(badge);

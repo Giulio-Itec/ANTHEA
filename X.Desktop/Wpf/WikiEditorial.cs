@@ -86,7 +86,7 @@ internal static class WikiEditorial
         {
             text.Inlines.Add(new Run(value[position..token.Index])); position = token.Index + token.Length;
             if (token.Groups[1].Success) text.Inlines.Add(new Bold(new Run(token.Groups[1].Value)));
-            else if (token.Groups[2].Success) text.Inlines.Add(new Run(token.Groups[2].Value) { FontFamily = new FontFamily("Consolas"), Background = Ui.Bg });
+            else if (token.Groups[2].Success) text.Inlines.Add(new Run(token.Groups[2].Value) { FontFamily = new FontFamily("Consolas"), Background = Appearance.Surface });
             else if (token.Groups[6].Success)
             {
                 var math = new FormulaControl { Formula = RenderLatex(token.Groups[6].Value), Scale = 16, Foreground = text.Foreground };

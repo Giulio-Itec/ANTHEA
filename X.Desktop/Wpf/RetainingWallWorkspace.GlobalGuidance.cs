@@ -78,7 +78,7 @@ internal sealed partial class RetainingWallWorkspace
         globalReadiness.Text = items.Count == 0 ? "Pronto per il calcolo · premi «Calcola globale». L’esito si legge nelle Verifiche." : "Da completare · " + items[0] + (items.Count > 1 ? $"\nAltri {items.Count - 1} controlli da completare: vedi il suggerimento su questo messaggio." : "");
         globalReadiness.ToolTip = string.Join("\n", items.Select((item, i) => $"{i + 1}. {item}"));
         ToolTipService.SetShowDuration(globalReadiness, 30000);
-        globalReadiness.Foreground = items.Count == 0 ? Ui.Navy : Brushes.DarkGoldenrod;
+        globalReadiness.Foreground = Appearance.Foreground(items.Count == 0 ? Ui.Navy : Brushes.DarkGoldenrod);
         GlobalSetupButton.Content = !g.B("enabled") ? "Stabilità globale: non attiva · imposta" : GlobalResult is null ? "Stabilità globale: dati / calcolo" : "Stabilità globale: calcolata · imposta";
         GlobalSetupButton.ToolTip = "Apri il percorso guidato: profilo del terreno, strati profondi, falda, ricerca e verifica.";
     }

@@ -30,6 +30,8 @@ internal abstract class DrawingView : FrameworkElement
     }
     internal byte[] Png(int width = 1200, int height = 750)
     {
+        // Image for a calculation document: Light colours whatever the appearance.
+        using var document = Appearance.Document();
         var visual = new DrawingVisual(); using (var dc = visual.RenderOpen()) Render(dc, new Size(width, height));
         var bitmap = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32); bitmap.Render(visual);
         var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap)); using var stream = new MemoryStream(); encoder.Save(stream); return stream.ToArray();

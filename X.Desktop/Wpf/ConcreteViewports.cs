@@ -24,7 +24,7 @@ internal sealed class ViewportFrame : Border
         Toolbar.Children.Add(Ui.Button("PNG", () =>
         {
             var dialog = new SaveFileDialog { Filter = "Immagine PNG|*.png", FileName = "ANTHEA_" + title.Replace(' ', '_') + ".png" };
-            if (dialog.ShowDialog(Window.GetWindow(this)) == true) try { Archivio.ScriviAtomico(dialog.FileName, viewport is DrawingView drawing ? drawing.Png() : Ui.Snapshot(viewport)); }
+            if (dialog.ShowDialog(Window.GetWindow(this)) == true) try { Archivio.ScriviAtomico(dialog.FileName, viewport is DrawingView drawing ? drawing.Png() : Ui.DocumentSnapshot(viewport)); }
             catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message, "Esportazione immagine"); }
         }, inspection: true));
         Toolbar.Children.Add(Ui.Button("Espandi", () =>
@@ -520,7 +520,7 @@ internal sealed class DomainViewport3D : Grid
         {
             var vector = p - camera.Position; double depth = Vector3D.DotProduct(vector, forward); if (depth <= 0) continue;
             double factor = ActualWidth / (2 * Math.Tan(camera.FieldOfView * Math.PI / 360) * depth);
-            var label = Ui.Text(text, 11, true); Canvas.SetLeft(label, Math.Clamp(ActualWidth / 2 + Vector3D.DotProduct(vector, right) * factor, 4, Math.Max(4, ActualWidth - 125))); Canvas.SetTop(label, Math.Clamp(ActualHeight / 2 - Vector3D.DotProduct(vector, up) * factor, 4, Math.Max(4, ActualHeight - 50))); labels.Children.Add(label);
+            var label = Ui.Text(text, 11, true); label.Style = (Style)Application.Current.FindResource("AppearanceDrawingLabel"); Canvas.SetLeft(label, Math.Clamp(ActualWidth / 2 + Vector3D.DotProduct(vector, right) * factor, 4, Math.Max(4, ActualWidth - 125))); Canvas.SetTop(label, Math.Clamp(ActualHeight / 2 - Vector3D.DotProduct(vector, up) * factor, 4, Math.Max(4, ActualHeight - 50))); labels.Children.Add(label);
         }
     }
     private static GeometryModel3D Model(MeshGeometry3D mesh, Brush brush) { mesh.Freeze(); var material = new DiffuseMaterial(brush); return new(mesh, material) { BackMaterial = material }; }

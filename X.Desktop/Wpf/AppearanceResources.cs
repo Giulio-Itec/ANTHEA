@@ -24,6 +24,7 @@ internal static class AppearanceResources
         resources["Appearance.border.E4EAF1"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#E4EAF1"), "border");
         resources["Appearance.foreground.0B2A4A"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#0B2A4A"), "foreground");
         resources["Appearance.foreground.234767"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#234767"), "foreground");
+        resources["Appearance.foreground.9A4D0A"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#9A4D0A"), "foreground");
         resources["Appearance.foreground.FFFFFF"] = Appearance.Colour((Color)ColorConverter.ConvertFromString("#FFFFFF"), "foreground");
     }
 }
