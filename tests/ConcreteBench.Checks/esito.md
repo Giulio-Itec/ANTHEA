@@ -109,6 +109,8 @@ tolleranza del banco.
   (S3 se pronta prima del commit delle versioni) e `SectionMomentResistance` la usa dopo l'aggiornamento di `lib/Checker`;
   la nota sulla minore precisione dello stress block va nella documentazione della libreria e nella pagina del metodo, e
   nelle guide quando riparte la traccia W.
+- **Attuata (8/10, release S3)**: `DomainPointAxialTolerance` di Checker 0.0.18.0, usata da `SectionMomentResistance`; la
+  stessa regola corregge il palo orizzontale con D ≥ 1,6 m. Le voci S-1 sono tolte da `divergenze.json`; registro F2-15.
 
 ### T-1: VEd uguale a VRd senza staffe, esito opposto per 1 ulp (taglio)
 

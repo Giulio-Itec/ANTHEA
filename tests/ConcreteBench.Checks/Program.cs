@@ -157,8 +157,9 @@ try
             var point = library.Checker.SectionSolver.CalculateDomainPoint([Prep.Force(library.Local, new ActionPoint(axial, direction, 0))])[0];
             Check(point is not null, at + ": punto resistente della libreria assente");
             double libraryMoment = point!.MxRd / 1e6;
-            // Tolleranza su N del legacy (SectionMomentResistance.AxialToleranceKn): max(1 kN; 1e-6 |N|).
-            Expect(at + " libreria", "SLU |NRd − N| / tolleranza del legacy", Math.Abs(point.NRd / 1000 - axial) / SectionMomentResistance.AxialToleranceKn(axial), 0, 1, 1);
+            // Tolleranza su N di SectionMomentResistance, dalla libreria dopo S-1 (DomainPointAxialTolerance): max(1 kN; 1e-6 |N|; 0,5e-4 b h fck),
+            // con lo stress block almeno 1e-3 NRd,c. Prima di S-1 era max(1 kN; 1e-6 |N|) e la divergenza S-1 era registrata.
+            Expect(at + " libreria", "SLU |NRd − N| / tolleranza di SectionMomentResistance", Math.Abs(point.NRd / 1000 - axial) / SectionMomentResistance.AxialToleranceKn(library.Checker.SectionSolver, axial), 0, 1, 1);
             Max("SLU |MyRd| / |MxRd|", Math.Abs(point.MyRd / point.MxRd));
             if (principal.Moment is null)
             {

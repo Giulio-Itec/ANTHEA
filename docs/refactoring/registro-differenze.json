@@ -955,6 +955,34 @@
       "test": [
         "tests/ConcreteLibraryAdapter.Checks/Durability.cs (prove 11a, 11b, 11d)"
       ]
+    },
+    {
+      "id": "F2-15",
+      "titolo": "Resistenza a N assegnato: tolleranza su N della libreria per legame e scala della sezione (S-1, palo orizzontale)",
+      "famiglia": "calcestruzzo/flessione-slu",
+      "categoria": "correzione",
+      "stato": "attuato",
+      "descrizione": "SectionMomentResistance (resistenza rapida, sezione del palo orizzontale, verifica N–M dei muri) accettava il punto della libreria solo con |NRd − N| ≤ max(1 kN; 1e-6 |N|). La ricerca iterativa della libreria si ferma invece a 0,25e-4 b h fck sul punto prima dell'ultimo passo, quindi le sezioni grandi davano scarti di 1-2 kN e il punto era scartato: il palo orizzontale non era più calcolato da D 1,6 m (bug segnalato dall'utente l'8/10); con lo stress block la risultante a gradini dava scarti fino a 2 kN anche su sezioni medie (divergenza S-1 del banco F2.1). Ora la tolleranza è quella della libreria (DomainPointAxialTolerance, Checker 0.0.18.0): max(1000 N; 1e-6 |N|; 0,5e-4 b h fck) e con lo stress block almeno 1e-3 NRd,c. I valori dei punti non cambiano: cambia solo l'accettazione, mai più stretta di prima. Con i legami continui la regola coincide con la vecchia fino a b h fck = 2e7 N (per esempio D 800 in C40/50 passa da 1 a 1,28 kN). Con lo stress block i risultati SLU sono meno precisi (nota nella libreria e nella pagina del metodo).",
+      "codice": [
+        "Checker/GPCChecker.Concrete/SectionSolvers/DomainPointAxialTolerance.cs",
+        "X.Calculations/SectionMomentResistance.cs:12-16, :38",
+        "X.Calculations/HorizontalConcreteSection.cs:31"
+      ],
+      "segno": "solo più punti accettati; con lo stress block MRd entro circa 0,5 % nel campione (fino a 1-2 % vicino agli estremi del dominio)",
+      "effetto_quantificato": {
+        "sintesi": "Palo orizzontale C35/45 16Ø24, N = 0: da D 1,6 m a 2,5 m prima rifiutato, ora calcolato con NRd e MRd identici ai punti della libreria (sonda di Checker, 20 punti). Campione di S-1 (8840 punti, 13 sezioni, 4 legami): nessun punto passa da accettato a rifiutato; con lo stress block a SLU da 784 a 847 punti accettati su 884. Banco F2.1: la divergenza S-1 non c'è più (C2 stress block, N = −1500 kN: MxRd 707,02 kNm, atteso 706,49)."
+      },
+      "decisione": { "data": "2026-10-08", "utente": "tolleranza di convergenza che dipende dal legame costitutivo del materiale. stress block tolleranza maggiore. metti nota che potrebbe essere meno preciso; poi, per il palo: correggi quel punto", "esito": "regola nella libreria (release S3), ANTHEA la usa" },
+      "data": "2026-10-08",
+      "fase": "F2.1 (banco), release S3",
+      "test": [
+        "Checker/GPCChecker.Test.Concrete/DomainPointAxialToleranceTests.cs, DomainPointContractTests.cs",
+        "supporto/test/X.Verifiche/HorizontalChecks.cs (pali D 1,6-2,5 m)",
+        "tests/ConcreteBench.Checks (S-1 tolta da divergenze.json)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f2.1-soglie/S1-progetto.md"
+      ]
     }
   ]
 }
