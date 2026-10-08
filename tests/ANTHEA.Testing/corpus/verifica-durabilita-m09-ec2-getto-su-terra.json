@@ -1,0 +1,13 @@
+{
+  "moduleId": "mat_calcestruzzo",
+  "label": "Scheda Materiali, EC2 2004: XC2, getto direttamente su terra, abrasione XM3, superficie irregolare, Ø32, Dmax 40 mm",
+  "description": "Caso M9 del corpus della cattura headless (baseline B6, refactoring F2.9): cmin,b = Ø + 5 mm per Dmax > 32 mm, maggiorazioni per superficie irregolare e abrasione XM3, limite di 75 mm per il getto direttamente su terra.",
+  "overrides": {
+    "classe": "C30/37",
+    "esposizione_principale": "XC2",
+    "esposizioni": [ "XC2" ],
+    "numeri": { "diameter": "32", "aggregate": "40" },
+    "scelte": { "coverMethod": "EC2 2004", "ntcElement": "Trave / pilastro", "life": "50 anni", "deviationControl": "Ordinario", "deviationValue": "10 mm", "ground": "Direttamente su terra", "abrasion": "XM3 · +15 mm" },
+    "opzioni": { "highStrength": false, "slab": false, "quality": false, "rough": true, "ntcQuality": false }
+  }
+}

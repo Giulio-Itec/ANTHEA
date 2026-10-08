@@ -49,8 +49,8 @@ internal static class DurabilityChecks
         {
             ("11a_mappatura", () => MappingLayer(root, check)), ("11b_motore_legacy", () => LegacyEngine(check)),
             ("11c_libreria_contro_legacy", () => Equivalence(check)), ("11d_catalogo", () => Catalog(check)),
-            ("11e_sonda_percorsi", () => Paths(check)), ("11f_punti_di_ingresso", () => EntryPoints(check)),
-            ("11g_stato_statico", () => StaticState(check)), ("11h_attesi_indipendenti", () => Independent(check)),
+            ("11e_sonda_percorsi", () => Paths(root, check)), ("11f_punti_di_ingresso", () => EntryPoints(root, check)),
+            ("11g_stato_statico", () => StaticState(check)), ("11h_attesi_indipendenti", () => Independent(root, check)),
             ("11i_scansione", () => Scan(root, check))
         })
         {
@@ -404,9 +404,12 @@ internal static class DurabilityChecks
     }
 
     // ================================================================ 11e. sonda sui percorsi headless
-    static JsonObject Paths(Action<bool, string> check)
+    static JsonObject Paths(string root, Action<bool, string> check)
     {
         ProbeSelfCheck("11e", check);
+        var corpus = CorpusDocuments(root);
+        check(corpus.Count(d => d.Module == "mat_calcestruzzo") == 14 && corpus.Count(d => d.Module == RetainingWall.Module) == 3 && corpus.Count(d => d.Module == "str_palo") == 3,
+            "11e: documenti del corpus di durabilità (B6): " + string.Join(", ", corpus.Select(d => d.Id)));
         int paths = 0, entriesTotal = 0;
         void OnPath(string id, Func<object?> call, bool requireEntries = true)
         {
@@ -434,13 +437,13 @@ internal static class DurabilityChecks
         OnPath("facciata AtecapMix.Required", () => AtecapMix.Required(Set("XC4", "XF2")));
         OnPath("facciata AtecapMix.Air", () => AtecapMix.Air(Set("XF4"), 25));
         // Scheda Materiali headless (CalculationService, mat_calcestruzzo) e minimo della scheda.
-        foreach (var (name, state) in MaterialStates())
+        foreach (var (name, state) in MaterialStates(root))
         {
-            OnPath("CalculationService mat_calcestruzzo " + name, () => CalculationService.Calculate("mat_calcestruzzo", (JsonObject)state.DeepClone()), !name.StartsWith("diametro"));
-            OnPath("MaterialCover.Required " + name, () => MaterialCover.Required(state, 30), !name.StartsWith("diametro"));
+            OnPath("CalculationService mat_calcestruzzo " + name, () => CalculationService.Calculate("mat_calcestruzzo", (JsonObject)state.DeepClone()), !name.Contains("diametro"));
+            OnPath("MaterialCover.Required " + name, () => MaterialCover.Required(state, 30), !name.Contains("diametro"));
         }
         // Copriferro della sezione e validazione di progetto.
-        foreach (var (name, state) in MaterialStates().Where(s => !s.Name.StartsWith("diametro")))
+        foreach (var (name, state) in MaterialStates(root).Where(s => !s.Name.Contains("diametro")))
             OnPath("ConcreteCoverAnalysis " + name, () => ConcreteCoverAnalysis.Calculate(SezioneCA.DefaultInput(), state, 30));
         foreach (var (name, section, durability) in ProjectScenarios())
         {
@@ -448,14 +451,14 @@ internal static class DurabilityChecks
             OnPath("ProjectValidation.Warnings " + name, () => ProjectValidation.Warnings(section), durability);
         }
         // Muri a mensola: calcolo, progetto delle armature e minimo del copriferro.
-        foreach (var (name, wall) in Walls())
+        foreach (var (name, wall) in Walls(root))
         {
             OnPath("RetainingWall.Calculate " + name, () => { RetainingWall.Calculate((JsonObject)wall.DeepClone()); return null; });
             OnPath("RetainingWall.DesignReinforcement " + name, () => RetainingWall.DesignReinforcement((JsonObject)wall.DeepClone()));
             OnPath("RetainingWall.RequiredCover " + name, () => RetainingWall.RequiredCover((JsonObject)wall.DeepClone()));
         }
         // Dettagli della sezione c.a. e ricerca piccola del progetto delle armature (sequenziale e con due attività).
-        foreach (var (name, data) in DetailingSections())
+        foreach (var (name, data) in DetailingSections(root))
             OnPath("ConcreteDetailingAnalysis " + name, () => Detailing(data));
         foreach (int workers in new[] { 1, 2 })
             OnPath($"ConcreteReinforcementDesign.Optimize ({workers} attività)", () => ConcreteReinforcementDesign.Optimize(DesignFixture(), SmallDesign with { MaxParallelism = workers }).Evaluated);
@@ -469,25 +472,25 @@ internal static class DurabilityChecks
     }
 
     // ================================================================ 11f. punti d'ingresso con il motore esplicito
-    static JsonObject EntryPoints(Action<bool, string> check)
+    static JsonObject EntryPoints(string root, Action<bool, string> check)
     {
         ProbeSelfCheck("11f", check);
         var material = new Comparison("11f", check);
-        foreach (var (name, state) in MaterialStates())
+        foreach (var (name, state) in MaterialStates(root))
             foreach (double fck in new[] { 20.0, 30, 45 })
             {
-                int entries = name.StartsWith("diametro") ? 0 : 1;
+                int entries = name.Contains("diametro") ? 0 : 1;
                 material.Same($"MaterialCover.Required {name} fck {fck}", e => MaterialCover.Required(state, fck, e), entries);
                 material.Same($"MaterialCover.Required {name} fck {fck} Ø 25", e => MaterialCover.Required(state, fck, 25, e));
             }
-        foreach (var (name, wall) in Walls())
+        foreach (var (name, wall) in Walls(root))
         {
             var data = (JsonObject)wall.DeepClone(); RetainingWall.Upgrade(data);
             var state = RetainingWall.CoverMaterialState(data);
             material.Same("MaterialCover.Required muro " + name, e => MaterialCover.Required(state, data["materials"].D("fck"), RetainingWall.MaximumBarDiameter(data), e));
         }
         var cover = new Comparison("11f", check);
-        foreach (var (name, state) in MaterialStates().Where(s => !s.Name.StartsWith("diametro")))
+        foreach (var (name, state) in MaterialStates(root).Where(s => !s.Name.Contains("diametro")))
             foreach (var (label, input) in SectionInputs())
                 cover.Same($"ConcreteCoverAnalysis {name} {label}", e => ConcreteCoverAnalysis.Calculate(input, state, 30, e));
         var project = new Comparison("11f", check);
@@ -514,10 +517,37 @@ internal static class DurabilityChecks
 
     const string Ntc = "NTC + Circ. 2019", Ec2 = "EC2 2004";
 
-    /// <summary>Stati della scheda Materiali: il default, ogni esposizione con i due criteri, varianti di elemento, vita, controllo,
-    /// getto, abrasione, superficie e rifiuti (dati non numerici, esposizione sconosciuta, aggregato fuori intervallo).</summary>
-    static IEnumerable<(string Name, JsonObject State)> MaterialStates()
+    /// <summary>Documenti del corpus di durabilità della baseline B6 (tests/ANTHEA.Testing/corpus/verifica-durabilita-*.json), applicati
+    /// ai default come fa la cattura (Corpus.Build): 14 schede Materiali (M1-M14), 3 muri a mensola (W1-W3), 3 sezioni c.a. (S1-S3).</summary>
+    static List<(string Id, string Module, JsonObject Data)> CorpusDocuments(string root)
     {
+        static void Apply(JsonObject target, JsonObject values)
+        {
+            foreach (var (key, value) in values)
+            {
+                if (key != "combinazioni" && value is JsonObject child && target[key] is JsonObject existing) Apply(existing, child);
+                else target[key] = value?.DeepClone();
+            }
+        }
+        var documents = new List<(string, string, JsonObject)>();
+        foreach (string file in Directory.EnumerateFiles(Path.Combine(root, "tests", "ANTHEA.Testing", "corpus"), "verifica-durabilita-*.json").OrderBy(f => f, StringComparer.Ordinal))
+        {
+            var definition = JsonNode.Parse(File.ReadAllText(file, Encoding.UTF8))!.AsObject();
+            string module = definition["moduleId"]!.GetValue<string>();
+            var data = ModuleCatalog.CreateData(module);
+            Apply(data, definition["overrides"]!.AsObject());
+            ModuleCatalog.ValidateData(module, data);
+            documents.Add((Path.GetFileNameWithoutExtension(file)["verifica-durabilita-".Length..], module, data));
+        }
+        return documents;
+    }
+
+    /// <summary>Stati della scheda Materiali: il default, ogni esposizione con i due criteri, varianti di elemento, vita, controllo,
+    /// getto, abrasione, superficie e rifiuti (dati non numerici, esposizione sconosciuta, aggregato fuori intervallo), più le schede
+    /// M1-M14 del corpus di B6.</summary>
+    static IEnumerable<(string Name, JsonObject State)> MaterialStates(string root)
+    {
+        foreach (var (id, _, data) in CorpusDocuments(root).Where(d => d.Module == "mat_calcestruzzo")) yield return ("corpus " + id, data);
         yield return ("default", ModuleCatalog.CreateData("mat_calcestruzzo"));
         foreach (var e in ConcreteDurabilityAdapter.Exposures(DurabilityEngine.Legacy))
         {
@@ -617,16 +647,18 @@ internal static class DurabilityChecks
         }
     }
 
-    /// <summary>Muri a mensola: il default del modulo e RetainingWall.Example("cantilever"), come nella baseline B3.</summary>
-    static IEnumerable<(string Name, JsonObject Wall)> Walls()
+    /// <summary>Muri a mensola: il default del modulo e RetainingWall.Example("cantilever"), come nella baseline B3, e W1-W3 del corpus di B6.</summary>
+    static IEnumerable<(string Name, JsonObject Wall)> Walls(string root)
     {
         yield return ("default", ModuleCatalog.CreateData(RetainingWall.Module));
         yield return ("esempio a mensola", RetainingWall.Example("cantilever"));
+        foreach (var (id, _, data) in CorpusDocuments(root).Where(d => d.Module == RetainingWall.Module)) yield return ("corpus " + id, data);
     }
 
-    /// <summary>Sezioni c.a. NTC 2018 con i dettagli costruttivi.</summary>
-    static IEnumerable<(string Name, JsonObject Data)> DetailingSections()
+    /// <summary>Sezioni c.a. NTC 2018 con i dettagli costruttivi, più S1-S3 del corpus di B6 (preparate come nel calcolo).</summary>
+    static IEnumerable<(string Name, JsonObject Data)> DetailingSections(string root)
     {
+        foreach (var (id, _, data) in CorpusDocuments(root).Where(d => d.Module == "str_palo")) { SectionWorkspace.Prepare(data); yield return ("corpus " + id, data); }
         JsonObject Section(string kind, string exposure, string life = "50", string quality = "No", string aggregate = "20", string deviation = "10")
         {
             var data = SezioneCA.DefaultData(); var ws = SectionWorkspace.Prepare(data);
@@ -734,7 +766,7 @@ internal static class DurabilityChecks
     }
 
     // ================================================================ 11h. attesi indipendenti
-    static JsonObject Independent(Action<bool, string> check)
+    static JsonObject Independent(string root, Action<bool, string> check)
     {
         int count = 0;
         foreach (var engine in Engines)
@@ -786,8 +818,16 @@ internal static class DurabilityChecks
             check(entries.Count > 20 && entries.All(e => e.Engine == engine), $"11h: DurabilityReferenceChecks con il motore {engine}: voci della sonda {Describe(entries.Where(e => e.Engine != engine))}");
             reference++;
         }
+        // Il documento M1 del corpus di B6 è l'esempio 1 nella scheda Materiali (C28/35, XC3, trave, Ø8, Dmax 20, Δcdev 10): cnom = 40 mm,
+        // con il calcolo headless (motore predefinito) e con MaterialCover.Required per ciascun motore.
+        var m1 = CorpusDocuments(root).Single(d => d.Id.StartsWith("m01")).Data;
+        var sheet = CalculationService.Calculate("mat_calcestruzzo", (JsonObject)m1.DeepClone());
+        check(sheet.D("fck_mpa") == 28 && sheet.D("copriferro_nominale_mm") == 40, $"11h: documento M1 di B6: fck {sheet.D("fck_mpa")}, cnom {sheet.D("copriferro_nominale_mm")} invece di 28 e 40 mm (valore a mano)");
+        foreach (var engine in Engines)
+            check(MaterialCover.Required(m1, 28, engine) == 40, $"11h: documento M1 di B6 con il motore {engine}: cnom {MaterialCover.Required(m1, 28, engine)} invece di 40 mm (valore a mano)");
         return new JsonObject
         {
+            ["documento_M1_di_B6"] = "cnom 40 mm (esempio 1)",
             ["controlli_di_riferimento_per_motore"] = reference,
             ["valori_a_mano_della_pagina_del_metodo"] = count,
             ["righe_non_raggiungibili_da_ANTHEA"] = "esempio 2: profilo DS e classi minime EN e DS (la scheda offre solo NTC + Circolare 2019 e EC2 2004; ANTHEA non chiama ExposureClasses.MinimumStrength, registro R17)"

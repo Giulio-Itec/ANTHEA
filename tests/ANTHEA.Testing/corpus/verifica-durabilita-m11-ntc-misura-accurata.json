@@ -1,0 +1,13 @@
+{
+  "moduleId": "mat_calcestruzzo",
+  "label": "Scheda Materiali, NTC + Circolare 2019: XC2, C30/37, «Misura accurata + scarto» con Δcdev 0 mm, terreno preparato",
+  "description": "Caso M11 del corpus della cattura headless (baseline B6, refactoring F2.9): tolleranza di posa nulla e limite di 40 mm per il getto su terreno preparato.",
+  "overrides": {
+    "classe": "C30/37",
+    "esposizione_principale": "XC2",
+    "esposizioni": [ "XC2" ],
+    "numeri": { "diameter": "16", "aggregate": "20" },
+    "scelte": { "coverMethod": "NTC + Circ. 2019", "ntcElement": "Trave / pilastro", "life": "50 anni", "deviationControl": "Misura accurata + scarto", "deviationValue": "0 mm", "ground": "Terreno preparato", "abrasion": "Nessuno" },
+    "opzioni": { "highStrength": false, "slab": false, "quality": false, "rough": false, "ntcQuality": false }
+  }
+}

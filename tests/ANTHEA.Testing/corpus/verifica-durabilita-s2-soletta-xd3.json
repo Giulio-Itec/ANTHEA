@@ -1,0 +1,21 @@
+{
+  "moduleId": "str_palo",
+  "label": "Sezione c.a. NTC 2018 con i dettagli costruttivi: soletta piena, XD3",
+  "description": "Caso S2 del corpus della cattura headless (baseline B6, refactoring F2.9): parte di durabilità dei dettagli costruttivi per un elemento a piastra in ambiente molto aggressivo, catturata in engines/dettagli_durabilita.",
+  "overrides": {
+    "input": { "shape": "Rettangolare", "foro_presente": false },
+    "combinazioni": {
+      "SLU": [ { "nome": "SLU 1", "azioni": [ "-1200", "250", "60" ] } ],
+      "SLV": [],
+      "SLE": [],
+      "SLE_FREQ": [],
+      "SLE_QP": []
+    },
+    "workspace_ca": {
+      "versione": 2,
+      "normativa": "NTC 2018",
+      "sle": { "SLE": { "modello": "Lineare · sezione fessurata", "sigma_c_lim": "", "sigma_s_lim": "", "wk_lim": "", "esposizione": "XD3" } },
+      "dettagli_costruttivi": { "elemento": "Soletta piena", "vita_durabilita": "50", "qualita_copriferro": "No", "aggregato": "20", "delta_c": "10" }
+    }
+  }
+}

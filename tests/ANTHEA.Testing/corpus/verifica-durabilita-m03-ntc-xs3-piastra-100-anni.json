@@ -1,0 +1,13 @@
+{
+  "moduleId": "mat_calcestruzzo",
+  "label": "Scheda Materiali, NTC + Circolare 2019: XS3, C45/55, piastra, 100 anni, controllo di qualità",
+  "description": "Caso M3 del corpus della cattura headless (baseline B6, refactoring F2.9): ambiente molto aggressivo, elemento a piastra, vita utile di 100 anni e riduzione per il controllo di qualità del copriferro.",
+  "overrides": {
+    "classe": "C45/55",
+    "esposizione_principale": "XS3",
+    "esposizioni": [ "XS3" ],
+    "numeri": { "diameter": "16", "aggregate": "20" },
+    "scelte": { "coverMethod": "NTC + Circ. 2019", "ntcElement": "Piastra / soletta / parete", "life": "100 anni", "deviationControl": "Ordinario", "deviationValue": "10 mm", "ground": "Casseratura", "abrasion": "Nessuno" },
+    "opzioni": { "highStrength": false, "slab": false, "quality": false, "rough": false, "ntcQuality": true }
+  }
+}

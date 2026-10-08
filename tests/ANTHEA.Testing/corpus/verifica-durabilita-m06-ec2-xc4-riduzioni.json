@@ -1,0 +1,13 @@
+{
+  "moduleId": "mat_calcestruzzo",
+  "label": "Scheda Materiali, EC2 2004: XC4, C40/50, riduzioni per resistenza, piastra e controllo di qualità",
+  "description": "Caso M6 del corpus della cattura headless (baseline B6, refactoring F2.9): classe strutturale S4 ridotta dalle tre condizioni del prospetto 4.3N (resistenza non inferiore alla soglia di XC4, geometria a piastra, controllo di qualità).",
+  "overrides": {
+    "classe": "C40/50",
+    "esposizione_principale": "XC4",
+    "esposizioni": [ "XC4" ],
+    "numeri": { "diameter": "16", "aggregate": "20" },
+    "scelte": { "coverMethod": "EC2 2004", "ntcElement": "Trave / pilastro", "life": "50 anni", "deviationControl": "Ordinario", "deviationValue": "10 mm", "ground": "Casseratura", "abrasion": "Nessuno" },
+    "opzioni": { "highStrength": true, "slab": true, "quality": true, "rough": false, "ntcQuality": false }
+  }
+}

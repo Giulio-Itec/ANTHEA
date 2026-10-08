@@ -1,0 +1,13 @@
+{
+  "moduleId": "mat_calcestruzzo",
+  "label": "Scheda Materiali, NTC + Circolare 2019: XF1, C30/37, trave",
+  "description": "Caso M4 del corpus della cattura headless (baseline B6, refactoring F2.9): classe minima UNI 11104:2016 di XF1 C32/40 superiore a C30/37, quindi +5 mm sul copriferro. È il caso che l'opzione e4 (UNI 11104:2025, esclusa in F2.9) cambierebbe.",
+  "overrides": {
+    "classe": "C30/37",
+    "esposizione_principale": "XF1",
+    "esposizioni": [ "XF1" ],
+    "numeri": { "diameter": "16", "aggregate": "20" },
+    "scelte": { "coverMethod": "NTC + Circ. 2019", "ntcElement": "Trave / pilastro", "life": "50 anni", "deviationControl": "Ordinario", "deviationValue": "10 mm", "ground": "Casseratura", "abrasion": "Nessuno" },
+    "opzioni": { "highStrength": false, "slab": false, "quality": false, "rough": false, "ntcQuality": false }
+  }
+}

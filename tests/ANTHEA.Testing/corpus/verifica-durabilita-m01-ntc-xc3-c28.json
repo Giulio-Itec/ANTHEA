@@ -1,0 +1,13 @@
+{
+  "moduleId": "mat_calcestruzzo",
+  "label": "Scheda Materiali, NTC + Circolare 2019: XC3, C28/35, trave, Ø8, Dmax 20 mm, Δcdev 10 mm",
+  "description": "Caso M1 del corpus della cattura headless (baseline B6, refactoring F2.9). È l'esempio 1 della pagina del metodo ca.durabilita-copriferri (§10): ambiente ordinario, C0 = 35 MPa, tabella 20 + 5 = 25 mm, classe minima UNI 11104 C30/37 superiore a C28/35, quindi +5 mm; cmin,dur = 30 mm, cnom = 40 mm.",
+  "overrides": {
+    "classe": "C28/35",
+    "esposizione_principale": "XC3",
+    "esposizioni": [ "XC3" ],
+    "numeri": { "diameter": "8", "aggregate": "20" },
+    "scelte": { "coverMethod": "NTC + Circ. 2019", "ntcElement": "Trave / pilastro", "life": "50 anni", "deviationControl": "Ordinario", "deviationValue": "10 mm", "ground": "Casseratura", "abrasion": "Nessuno" },
+    "opzioni": { "highStrength": false, "slab": false, "quality": false, "rough": false, "ntcQuality": false }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "moduleId": "mat_calcestruzzo",
+  "label": "Scheda Materiali, NTC + Circolare 2019: XA3, C90/105, trave",
+  "description": "Caso M14 del corpus della cattura headless (baseline B6, refactoring F2.9): ambiente molto aggressivo con la classe più alta della scheda.",
+  "overrides": {
+    "classe": "C90/105",
+    "esposizione_principale": "XA3",
+    "esposizioni": [ "XA3" ],
+    "numeri": { "diameter": "16", "aggregate": "20" },
+    "scelte": { "coverMethod": "NTC + Circ. 2019", "ntcElement": "Trave / pilastro", "life": "50 anni", "deviationControl": "Ordinario", "deviationValue": "10 mm", "ground": "Casseratura", "abrasion": "Nessuno" },
+    "opzioni": { "highStrength": false, "slab": false, "quality": false, "rough": false, "ntcQuality": false }
+  }
+}
