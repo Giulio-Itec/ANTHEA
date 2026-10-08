@@ -8,10 +8,12 @@ using Anthea.Calculations.Geotechnics;
 
 // Freezes the legacy outputs of the calculation cores before they are moved to Checker (migration step M2).
 // Usage: dotnet CheckerMigration.Capture.dll <output directory> <ANTHEA commit> [tutte|muri|pali|mesh] [--manifest] [--motore legacy|libreria]
-//        [--motore-durabilita legacy|libreria] (see README.md)
+//        [--motore-sle legacy|libreria] [--motore-durabilita legacy|libreria] (see README.md)
 // Output: shear-legacy.csv (ConcreteCodeChecks.Shear). Units as in the legacy API: kN, kNm, mm, MPa.
 // Shear and torsion go through ConcreteShearTorsionAdapter (refactoring F2.5-F2.6): '--motore legacy' captures the legacy cores,
 // '--motore libreria' GPCChecker.Concrete through the mapping layer; without the option the default engine of the adapter.
+// Serviceability stresses, cracking and the retaining walls go through ConcreteServiceabilityAdapter (refactoring F2.7b, commit A4) with the engine
+// of '--motore-sle' (without the option the default engine of the adapter); with 'libreria' the scalar crack cores are those of the library.
 // Durability goes through the facades and ConcreteDurabilityAdapter (refactoring F2.9): '--motore-durabilita legacy|libreria', without
 // the option the default engine of that adapter.
 string output = Path.GetFullPath(args.Length > 0 ? args[0] : Path.Combine("supporto", "artefatti", "migrazione-checker"));
@@ -34,8 +36,13 @@ var durabilityEngine = args.SkipWhile(a => a != "--motore-durabilita").Skip(1).F
     null => ConcreteDurabilityAdapter.Default, "legacy" => DurabilityEngine.Legacy, "libreria" => DurabilityEngine.Library,
     var other => throw new ArgumentException("--motore-durabilita: legacy o libreria, non " + other)
 };
+var serviceabilityEngine = args.SkipWhile(a => a != "--motore-sle").Skip(1).FirstOrDefault() switch
+{
+    null => ConcreteServiceabilityAdapter.Default, "legacy" => ServiceabilityEngine.Legacy, "libreria" => ServiceabilityEngine.Library,
+    var other => throw new ArgumentException("--motore-sle: legacy o libreria, non " + other)
+};
 // Optional third argument "muri": only the retaining walls.
-if (args.Length > 2 && args[2] == "muri") { WallCapture.Run(output, commit, sha); Finish(); return; }
+if (args.Length > 2 && args[2] == "muri") { WallCapture.Run(output, commit, sha, serviceabilityEngine); Finish(); return; }
 // Optional third argument "pali": only piles and micropiles.
 if (args.Length > 2 && args[2] == "pali") { PilesCapture.Run(output, commit, sha); Finish(); return; }
 // Optional third argument "mesh": only the fingerprints of the section meshes (MeshCapture).
@@ -102,16 +109,16 @@ for (int i = 0; i < cases.Count; i++)
 }
 File.WriteAllText(Path.Combine(output, "shear-legacy.csv"), csv.ToString(), new UTF8Encoding(false));
 Console.WriteLine($"{cases.Count} casi di taglio -> {Path.Combine(output, "shear-legacy.csv")}");
-StressCapture.Run(output, commit, sha);
+StressCapture.Run(output, commit, sha, serviceabilityEngine);
 TorsionCapture.Run(output, commit, sha, shearTorsionEngine);
-CrackCapture.Run(output, commit, sha);
+CrackCapture.Run(output, commit, sha, serviceabilityEngine);
 DetailingCapture.Run(output, commit, sha);
 DurabilityCapture.Run(output, commit, sha, durabilityEngine);
 #if LEGACY_GEOTECHNICS
 GeotechnicsCapture.Run(output, commit, sha);
 #endif
 PilesCapture.Run(output, commit, sha);
-WallCapture.Run(output, commit, sha);
+WallCapture.Run(output, commit, sha, serviceabilityEngine);
 // Refactoring F2.8-A0: new files only (detailing of slabs and walls, texts, complete sheets, bond, production M-χ), see DetailingExtendedCapture.cs.
 DetailingExtendedCapture.Run(output, commit, sha);
 Finish();
@@ -121,7 +128,7 @@ Finish();
 internal static class StressCapture
 {
     static string F(double? v) => v is double d ? d.ToString("R", CultureInfo.InvariantCulture) : "";
-    internal static void Run(string output, string commit, string sha)
+    internal static void Run(string output, string commit, string sha, ServiceabilityEngine serviceability)
     {
         var sections = new List<(string Name, Action<System.Text.Json.Nodes.JsonObject> Edit)>
         {
@@ -134,7 +141,7 @@ internal static class StressCapture
         };
         var model = new GPC.Model.Models.Model("Sezioni SLE congelate");
         var csv = new StringBuilder();
-        csv.AppendLine("# CheckerSection.Stress legacy outputs; ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
+        csv.AppendLine("# CheckerSection.Stress legacy outputs (SLE engine " + serviceability + " of ConcreteServiceabilityAdapter); ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
         csv.AppendLine("# Sections in stress-sections.xml (Model archive, properties by name). Forces N, Nmm in the local axes passed to the checker; stresses MPa.");
         csv.AppendLine("id;section;standard;coefficients;linear;psi;tension;divisions;reduction;origin;v1;v2;N;V1;V2;T;M1;M2;set;outcome;sigmaC;sigmaS;ratio;limitC;limitS;status");
         var actions = new[] { new ActionPoint(-500, 50, 0), new ActionPoint(-200, 150, 40), new ActionPoint(0, 120, 0), new ActionPoint(100, 30, 0), new ActionPoint(-1500, 0, 0), new ActionPoint(-800, -60, 90) };
@@ -152,7 +159,7 @@ internal static class StressCapture
                     var options = (System.Text.Json.Nodes.JsonObject)settings["sle"]!["SLE"]!.DeepClone();
                     options["modello"] = linear ? "Lineare" : "Non lineare"; options["phi"] = psi; options["trazione_cls"] = tension; options["angoli"] = "32";
                     CheckerSection engine;
-                    try { engine = new CheckerSection(prepared, input, settings, options); }
+                    try { engine = new CheckerSection(prepared, input, settings, options, "SLU", serviceability); }
                     catch (Exception ex) { csv.AppendLine(string.Join(";", id++, name, standard, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "error:" + ex.GetType().Name, "", "", "", "", "", ex.Message.Replace(";", ","))); continue; }
                     var effective = ConcreteStandards.Effective(input, settings); double reduction = standard == "NTC 2018" && thin ? .8 : 1; effective.AlphaCC *= reduction;
                     string coefficients = string.Join(",", ConcreteStandards.Coefficients.Select(c => c.Key + "=" + F((double)typeof(GPC.Model.Standards.StandardModelCode2010).GetProperty(c.Key)!.GetValue(effective)!)));
@@ -302,7 +309,7 @@ internal static class CrackCapture
     static string F(double? v) => v is double d ? d.ToString("R", CultureInfo.InvariantCulture) : "";
     static string Clean(string s) => s.Replace(";", ",").Replace("\n", " ").Replace("|", "/");
     static readonly string[] Symbols = ["Criterio k₂", "hc,eff", "Ac,eff", "As,eff", "Øeq", "σs", "c", "s", "sr,max", "wk", "εsm − εcm", "Δsm adottata", "σct,max", "σct,lim", "h − x", "Qtaglio"];
-    internal static void Run(string output, string commit, string sha)
+    internal static void Run(string output, string commit, string sha, ServiceabilityEngine serviceability)
     {
         var sections = new List<(string Name, Action<System.Text.Json.Nodes.JsonObject> Edit)>
         {
@@ -330,7 +337,7 @@ internal static class CrackCapture
         int skipped = 0;
         var model = new GPC.Model.Models.Model("Sezioni fessurazione congelate");
         var csv = new StringBuilder();
-        csv.AppendLine("# Ntc2018Checks.Cracking legacy outputs; ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
+        csv.AppendLine("# Ntc2018Checks.Cracking legacy outputs (SLE engine " + serviceability + " of ConcreteServiceabilityAdapter); ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
         csv.AppendLine("# Sections in crack-sections.xml (Model archive, properties by name). Forces N, Nmm in the local axes passed to the checker; widths mm, areas mm2, stresses MPa.");
         csv.AppendLine("# regions: name:area:steel:width:bar indices (0-based, '/' separated); details: symbol=value of the selected trace entries.");
         csv.AppendLine("id;section;standard;coefficients;linear;psi;tension;divisions;origin;v1;v2;N;V1;V2;T;M1;M2;set;exposure;sensitivity;duration;bond;cover;spacing;limit;outcome;width;wlim;ratio;passed;status;aceff;aseff;barSpacing;spacingSource;regions;details");
@@ -354,11 +361,11 @@ internal static class CrackCapture
                         // Model Code 2010 has no default limit: a design wlim in three states out of four.
                         if (standard == "Model Code 2010" && v.Limit == "" && variant % 4 != 0) options["limite_fessure"] = "0.3";
                         // Keep one state out of four where the standard does not require the check for this combination.
-                        if (ConcreteCodeChecks.CrackRequirement(standard, set, options).Kind.StartsWith("Non richiesta") && skipped++ % 4 != 0) continue;
+                        if (ConcreteServiceabilityAdapter.CrackRequirement(standard, set, options, serviceability).Kind.StartsWith("Non richiesta") && skipped++ % 4 != 0) continue;
                         var effective = ConcreteStandards.Effective(input, settings);
                         string coefficients = string.Join(",", ConcreteStandards.Coefficients.Select(c => c.Key + "=" + F((double)typeof(GPC.Model.Standards.StandardModelCode2010).GetProperty(c.Key)!.GetValue(effective)!)));
                         CheckerSection engine;
-                        try { engine = new CheckerSection(prepared, input, settings, options); }
+                        try { engine = new CheckerSection(prepared, input, settings, options, "SLU", serviceability); }
                         catch (Exception ex) { csv.AppendLine(string.Join(";", id++, name, standard, "", "", "", "", "", "", "", "", "", "", "", "", "", "", set, "", "", "", "", "", "", "", "error:" + ex.GetType().Name, "", "", "", "", Clean(ex.Message), "", "", "", "", "", "")); continue; }
                         var force = engine.Force(action); var cs = force.CoordinateSystem;
                         string head = string.Join(";", id++, name, standard, coefficients, linear, psi, tension, 32,
@@ -368,7 +375,7 @@ internal static class CrackCapture
                         try
                         {
                             var state = engine.Stress(action, set);
-                            var r = Ntc2018Checks.Cracking(engine, state, action, input, settings, options, set);
+                            var r = ConcreteServiceabilityAdapter.Cracking(engine, state, action, input, settings, options, set, serviceability);
                             string regions = string.Join("|", r.Regions.Select(g => string.Join(":", Clean(g.Name), F(g.Area), F(g.SteelArea), F(g.Width), string.Join("/", g.BarIndices))));
                             string details = string.Join("|", r.Details.Where(d => d.Value is double && Symbols.Any(s => d.Symbol == s || d.Symbol.EndsWith(" · " + s)))
                                 .Select(d => Clean(d.Symbol) + "=" + F(d.Value)));
@@ -384,7 +391,7 @@ internal static class CrackCapture
 
         // Scalar cores on seeded random inputs: crack width of every ordinary standard and the requirement table.
         var scalar = new StringBuilder();
-        scalar.AppendLine("# ConcreteCodeChecks.CrackWidth / CrackRequirement legacy outputs; ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
+        scalar.AppendLine("# ConcreteCodeChecks.CrackWidth / CrackRequirement legacy outputs (SLE engine " + serviceability + "); ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha);
         scalar.AppendLine("# width: standard;sigma;es;ecm;fct;rho;phi;cover;spacing;tensileDepth;short;ribbed;k2;outcome;wk|sr|strain  requirement: standard;set;exposure;sensitive;limit;kind;wlim");
         var random = new Random(20261003);
         double U(double a, double b) => a + (b - a) * random.NextDouble();
@@ -397,8 +404,15 @@ internal static class CrackCapture
             string head = string.Join(";", "W" + i, standard, F(sigma), F(es), F(ecm), F(fct), F(rho), F(phi), F(cover), F(spacing), F(depth), shortTerm, ribbed, F(k2));
             try
             {
-                var trace = new List<CrackCalculationDetail>();
-                double w = ConcreteCodeChecks.CrackWidth(standard, sigma, es, ecm, fct, rho, phi, cover, spacing, depth, shortTerm, ribbed, k2, trace);
+                double w;
+                if (serviceability == ServiceabilityEngine.Legacy)
+                {
+                    var trace = new List<CrackCalculationDetail>();
+                    w = ConcreteCodeChecks.CrackWidth(standard, sigma, es, ecm, fct, rho, phi, cover, spacing, depth, shortTerm, ribbed, k2, trace);
+                }
+                // Library core of the width formula, profile of the standard through the mapping (refusals keep the type ArgumentException).
+                else w = GPC.Checkers.Concrete.Cracking.CrackWidthCalculator.Width(GPC.Checkers.Concrete.Cracking.CrackProfiles.Resolve(ConcreteLibraryMapping.StandardFor(standard)),
+                    new GPC.Checkers.Concrete.Cracking.CrackWidthInput(sigma, es, ecm, fct, rho, phi, cover, spacing, depth, shortTerm, ribbed, k2));
                 scalar.AppendLine(string.Join(";", head, "ok", F(w)));
             }
             catch (Exception ex) { scalar.AppendLine(string.Join(";", head, "error:" + ex.GetType().Name, "")); }
@@ -410,7 +424,7 @@ internal static class CrackCapture
                         foreach (var limit in new[] { "", "0.25" })
                         {
                             var o = new System.Text.Json.Nodes.JsonObject { ["esposizione"] = exposure, ["sensibilita"] = sensitive ? "Sensibile" : "Poco sensibile", ["limite_fessure"] = limit };
-                            var req = ConcreteCodeChecks.CrackRequirement(standard, set, o);
+                            var req = ConcreteServiceabilityAdapter.CrackRequirement(standard, set, o, serviceability);
                             scalar.AppendLine(string.Join(";", "R", standard, set, exposure, sensitive, limit, Clean(req.Kind), F(req.Limit)));
                         }
         File.WriteAllText(Path.Combine(output, "crack-scalar-legacy.csv"), scalar.ToString(), new UTF8Encoding(false));
@@ -1288,7 +1302,7 @@ internal static class WallCapture
     static void Write(TextWriter w, JsonObject line) => w.WriteLine(line.ToJsonString(Options));
     static JsonNode? Node(object? value) => value is JsonNode n ? n.DeepClone() : JsonSerializer.SerializeToNode(value, Options);
 
-    internal static void Run(string output, string commit, string sha)
+    internal static void Run(string output, string commit, string sha, ServiceabilityEngine serviceability)
     {
         string header = "ANTHEA commit " + commit + "; ANTHEA.Calculations.dll SHA-256 " + sha;
         int functions = 0, combinations = 0, documents = 0;
@@ -1375,12 +1389,12 @@ internal static class WallCapture
         using (var zip = new System.IO.Compression.GZipStream(file, System.IO.Compression.CompressionLevel.SmallestSize))
         using (var w = new StreamWriter(zip, new UTF8Encoding(false)))
         {
-            Write(w, new JsonObject { ["header"] = "RetainingWall.Calculate (Result.Json()); " + header });
+            Write(w, new JsonObject { ["header"] = "RetainingWall.Calculate (Result.Json(); SLE engine " + serviceability + " of ConcreteServiceabilityAdapter); " + header });
             foreach (var (name, data) in all)
             {
                 string before = data.ToJsonString(); JsonObject result;
                 var watch = System.Diagnostics.Stopwatch.StartNew();
-                try { result = Full(RetainingWall.Calculate(data)); }
+                try { result = Full(RetainingWall.Calculate(data, default, serviceability)); }
                 catch (Exception ex) { result = Error(ex); }
                 if (before != data.ToJsonString()) throw new InvalidOperationException("Input modified: " + name);
                 Write(w, new JsonObject { ["name"] = name, ["input"] = data, ["result"] = result }); documents++;

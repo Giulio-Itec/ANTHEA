@@ -6,13 +6,15 @@ namespace Anthea.Calculations;
 /// Optional curves/details keep their explicit entry points; no legacy sign convention is used here.</summary>
 public static class ConcreteAnalysis
 {
-    public static JsonObject Calculate(JsonObject source, CancellationToken token = default)
+    /// <param name="serviceabilityEngine">Motore SLE (limiti tensionali e fessurazione); null = predefinito dell'adattatore (refactoring F2.7b,
+    /// commit A4: catture e prove con il motore scelto, nessun interruttore statico).</param>
+    public static JsonObject Calculate(JsonObject source, CancellationToken token = default, ServiceabilityEngine? serviceabilityEngine = null)
     {
         ModuleCatalog.ValidateData("str_palo", source);
         var data = (JsonObject)source.DeepClone();
         var settings = SectionWorkspace.Prepare(data);
         var input = data["input"]!.AsObject();
-        var session = new ConcreteAnalysisSession();
+        var session = new ConcreteAnalysisSession(serviceabilityEngine);
         token.ThrowIfCancellationRequested();
         var prepared = CheckerSection.PrepareModel(input, settings);
         var domains = new JsonObject(); var stresses = new JsonObject();

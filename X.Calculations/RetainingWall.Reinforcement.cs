@@ -122,11 +122,13 @@ public static partial class RetainingWall
         return new(bars, checks, kg, "Schema di predimensionamento per metro: principali, rete secondaria e collegamenti della giunzione. Ancoraggi a fyd senza riduzioni favorevoli; 100% giunzioni a h₁. Sfridi, giunti di costruzione, estremità lungo muro e piano di posa delle barre fuori piano richiedono il disegno esecutivo. Non è una distinta di officina.");
     }
 
-    public static ReinforcementProposal DesignReinforcement(JsonObject input, CancellationToken token = default)
+    /// <param name="serviceabilityEngine">Motore SLE delle sezioni (tensioni e fessurazione) di ogni candidato e del calcolo finale; null =
+    /// predefinito dell'adattatore (refactoring F2.7b, commit A4).</param>
+    public static ReinforcementProposal DesignReinforcement(JsonObject input, CancellationToken token = default, ServiceabilityEngine? serviceabilityEngine = null)
     {
         var d = (JsonObject)input.DeepClone(); Upgrade(d);
         if (d.S("family") != "cantilever") throw new ArgumentException("Il predimensionamento delle armature richiede un muro a mensola in c.a.");
-        var original = Calculate(d, token); var opt = d["detailing"]!;
+        var original = Calculate(d, token, serviceabilityEngine); var opt = d["detailing"]!;
         int maxCount = (int)AdvancedNumber(opt, "max_count", 4, 30); double maxDia = AdvancedNumber(opt, "max_diameter", 8, 40), target = AdvancedNumber(opt, "target_ratio", .1, 1);
         if (opt.D("max_count") != maxCount) throw new ArgumentException("Numero massimo di barre: inserire un intero.");
         var failures = new List<string>();
@@ -145,7 +147,7 @@ public static partial class RetainingWall
                 if (selected.SelectMany(c => c.Sections).Any(f => Math.Abs(f.M) * 1e6 > area * d["materials"].D("fyk") / MaterialSectionInput(d).D("gamma_s") * f.Thickness * 1000)) continue;
                 var arm = d["reinforcement"]![key]!; arm["diameter"] = dia; arm["count"] = count; arm["symmetric"] = true;
                 List<Check> values;
-                try { values = StructuralChecks(d, selected, token, out _); } catch (ArgumentException) { continue; }
+                try { values = StructuralChecks(d, selected, token, out _, serviceabilityEngine); } catch (ArgumentException) { continue; }
                 if (values.Any(c => c.Ratio is null || c.Ratio > (c.Combination == "Dettagli" ? 1 : target))) continue;
                 arm["secondary_diameter"] = 10;
                 double required = key.StartsWith("stem") ? Math.Max(.25 * area, .0005 * d["geometry"].D("stem_base") * 1e6) : .2 * area;
@@ -160,7 +162,7 @@ public static partial class RetainingWall
             d["reinforcement"]!["stem"]!["count"] = n; d["reinforcement"]!["stem_upper"]!["count"] = n;
         }
         d["detailing"]!["enabled"] = true;
-        var final = Calculate(d, token); bool pass = failures.Count == 0 && final.Structural.All(c => c.Ratio is double v && v <= (c.Combination == "Dettagli" ? 1 : target));
+        var final = Calculate(d, token, serviceabilityEngine); bool pass = failures.Count == 0 && final.Structural.All(c => c.Ratio is double v && v <= (c.Combination == "Dettagli" ? 1 : target));
         return new(d, final.Structural, pass, pass ? "Proposta verificata per le combinazioni inserite; controllare il dettaglio costruttivo prima dell’esecuzione." : string.Join("; ", failures.Append("Predimensionamento con controlli non soddisfatti o incompleti: consultare la tabella; può essere necessario aumentare gli spessori.")));
     }
 }

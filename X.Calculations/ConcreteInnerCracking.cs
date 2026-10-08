@@ -11,7 +11,9 @@ public static partial class Ntc2018Checks
 
     /// <summary>Additional checks on the cavity boundary. Each wall/ring is checked independently;
     /// effective areas are never summed between faces. An unreinforced tensile face cannot pass.</summary>
-    private static CrackResult InnerCracking(CrackResult outer, CheckerSection engine, CheckerStressState state, JsonObject options)
+    /// <param name="code">Standard of the crack check (the "normativa" of the workspace, as in <see cref="Cracking"/>).</param>
+    /// <param name="spacingCalculator">Stateless geometric spacing of the tensile bars, passed by <see cref="Cracking"/>.</param>
+    private static CrackResult InnerCracking(CrackResult outer, CheckerSection engine, CheckerStressState state, JsonObject options, string code, ITensionBarSpacing spacingCalculator)
     {
         var s = engine.Geometry;
         if (s.Holes.Count == 0 || outer.Limit is not double limit || outer.Width is null) return outer;
@@ -58,7 +60,7 @@ public static partial class Ntc2018Checks
             double sigma = indices.Max(i => state.tensioni_barre[i]);
             double phi = bars.Sum(b=>b.Diametro*b.Diametro)/bars.Sum(b=>b.Diametro);
             double c = options.S("copriferro_fessure").Trim()=="" ? bars.Min(cover) : options.Required("copriferro_fessure");
-            double? spacing = options.S("spaziatura_fessure").Trim()=="" ? SpacingCalculator.Maximum(s,indices) : options.Required("spaziatura_fessure",strict:true);
+            double? spacing = options.S("spaziatura_fessure").Trim()=="" ? spacingCalculator.Maximum(s,indices) : options.Required("spaziatura_fessure",strict:true);
             if (spacing is not >0) { results.Add(new(null,limit,null,null,name+": inserire l’interasse massimo per la superficie del foro")); return; }
             double[] strains = p.Select(E).ToArray();
             double k2 = uniform ? 1 : strains.Max()>0 ? Math.Clamp((Math.Max(0,strains.Min())+strains.Max())/(2*strains.Max()),.5,1) : 1;
@@ -77,7 +79,7 @@ public static partial class Ntc2018Checks
             if (!legacyK2) trace.Add(uniform ? new("k₂ della fascia", k2, "−", "Trazione uniforme: 1", "Gradiente trascurabile rispetto alla deformazione (EN 1992-1-1 7.3.4(3), eq. (7.13) con ε1 = ε2).")
                 : new("k₂ della fascia", k2, "−", "(εmax + εmin)/(2 εmax) ai vertici della parte tesa della fascia, limitato fra 0,50 e 1",
                 "Distribuzione locale delle deformazioni (EN 1992-1-1 7.3.4(3), aree locali): 0,50 se l'asse neutro taglia la fascia, oltre 0,50 se la fascia è tutta tesa. Indipendente dal Criterio k₂ della sezione."));
-            double width = ConcreteCodeChecks.CrackWidth(options.S("__normativa_fessure","NTC 2018"), sigma,s.Es,material.Ecm,material.Fctm,steel/area,phi,c,spacing.Value,depth,
+            double width = ConcreteCodeChecks.CrackWidth(code, sigma,s.Es,material.Ecm,material.Fctm,steel/area,phi,c,spacing.Value,depth,
                 options.S("durata","Lunga")=="Breve",options.S("aderenza","Migliorata")=="Migliorata",k2,trace);
             details.Add(new(name+" · Ac,eff",area,"mm²","Area della fascia interna tesa, depurata del foro"));
             details.Add(new(name+" · As,eff",steel,"mm²",string.Join(", ",indices.Select(i=>$"B{i+1:00}"))));
@@ -90,7 +92,7 @@ public static partial class Ntc2018Checks
         {
             double ri=s.Input.Required("inner_diameter_mm")/2, wall=s.Radius-ri;
             double nearest=tensile.Select(i=>double.Hypot(s.Bars[i].X,s.Bars[i].Y)-ri).DefaultIfEmpty(wall).Min();
-            double hc=Math.Min((options.S("__normativa_fessure").StartsWith("DS")?2:2.5)*nearest,wall/2), radius=ri+hc;
+            double hc=Math.Min((code.StartsWith("DS")?2:2.5)*nearest,wall/2), radius=ri+hc;
             var outline=s.Holes[0].Select(p=>new[]{p[0]*radius/ri,p[1]*radius/ri}).Reverse().ToArray();
             var indices=tensile.Where(i=>double.Hypot(s.Bars[i].X,s.Bars[i].Y)<=radius+1e-8).ToArray();
             Check("Anello interno",outline,s.Holes.ToArray(),indices,b=>double.Hypot(b.X,b.Y)-ri-b.Diametro/2,hc,Math.Max(s.Width,s.Height));
@@ -108,7 +110,7 @@ public static partial class Ntc2018Checks
                     && -qy*s.Bars[i].X+qx*s.Bars[i].Y>=tangentMin-1e-8
                     && -qy*s.Bars[i].X+qx*s.Bars[i].Y<=tangentMax+1e-8).ToArray();
                 double nearest=candidates.Select(i=>Q(s.Bars[i].X,s.Bars[i].Y)-inner).DefaultIfEmpty(wall).Min();
-                double hc=Math.Min((options.S("__normativa_fessure").StartsWith("DS")?2:2.5)*nearest,wall/2);
+                double hc=Math.Min((code.StartsWith("DS")?2:2.5)*nearest,wall/2);
                 double[][] Band(IReadOnlyList<double[]> p)=>SectionRegions.Clip(SectionRegions.Clip(
                     SectionRegions.Clip(SectionRegions.Clip(p,qx,qy,inner),-qx,-qy,-inner-hc),
                     -qy,qx,tangentMin),qy,-qx,-tangentMax);

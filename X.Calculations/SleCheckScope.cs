@@ -5,10 +5,7 @@ namespace Anthea.Calculations;
 public static class SleCheckScope
 {
     public static bool Stress(string set) => set != "SLE_FREQ";
-    public static bool Cracking(string set, JsonNode workspace)
-    {
-        try { return !ConcreteCodeChecks.CrackRequirement(workspace.S("normativa", "NTC 2018"), set,
-            workspace["sle"]?[set] as JsonObject ?? new()).Kind.StartsWith("Non richiesta"); }
-        catch (ArgumentException) { return true; }
-    }
+    /// <summary>Crack check shown for the set: through the serviceability adapter with the default engine (refactoring F2.7b, commit A4),
+    /// total as before (excluded standards and invalid data give true).</summary>
+    public static bool Cracking(string set, JsonNode workspace) => ConcreteServiceabilityAdapter.CrackingRequired(set, workspace);
 }

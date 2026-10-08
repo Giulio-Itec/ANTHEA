@@ -69,12 +69,15 @@ public sealed partial class CheckerSection
         }
         return new(section, new CoordinateSystem(section.Centroid, new Vector3d(-1, 0, 0), new Vector3d(0, -1, 0)), geometry);
     }
-    public CheckerSection(JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU")
-        : this(PrepareModel(input, workspace), input, workspace, options, state) { }
-    public CheckerSection(CheckerSectionModel model, JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU")
+    /// <summary>Motore SLE dei limiti tensionali di questa sezione (null = motore predefinito dell'adattatore), fissato alla costruzione
+    /// (refactoring F2.7b, commit A4). Il marcatore degli stati tensionali viene sempre dal risultato dell'adattatore, mai da qui.</summary>
+    public ServiceabilityEngine? ServiceabilityEngine { get; }
+    public CheckerSection(JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU", ServiceabilityEngine? engine = null)
+        : this(PrepareModel(input, workspace), input, workspace, options, state, engine) { }
+    public CheckerSection(CheckerSectionModel model, JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU", ServiceabilityEngine? engine = null)
     {
+        ServiceabilityEngine = engine;
         Model = model; Options = (JsonObject)options.DeepClone(); Geometry = model.Geometry; Section = model.Section; Local = model.Local;
-        compressionReduction = workspace.S("normativa", "NTC 2018") == "NTC 2018" && input.S("gettato_sottile", "No") == "Sì" ? .8 : 1;
         ForceAxes = new CoordinateSystem(Local);
         switch (options.S("assi", "Locali"))
         {
@@ -86,6 +89,12 @@ public sealed partial class CheckerSection
             default: throw new ArgumentException("Sistema di riferimento non riconosciuto.");
         }
         standard = ConcreteStandards.Effective(input, workspace);
+        // Getti sottili (refactoring F2.7b, commit A3, rilievo M14): fattore della norma dalla libreria attraverso la mappatura, stessa fonte
+        // di fcd in ConcreteMaterials.DesignValues; vale per αcc e per il limite SLE del calcestruzzo. Si calcola dopo Effective, così con
+        // assi o norma non validi il primo rifiuto resta quello di prima. 'gettato_sottile' si legge solo se la norma riduce (fattore
+        // diverso da 1), come nella regola legacy: stessi ripieghi registrati da JsonFallbackTrace.
+        double thinCasting = ConcreteLibraryMapping.ThinCastingFactor(standard);
+        compressionReduction = thinCasting != 1 && input.S("gettato_sottile", "No") == "Sì" ? thinCasting : 1;
         standard.AlphaCC *= compressionReduction;
         bool tensile = options.S("trazione_cls", "No") == "Sì";
         int subdivisions = SectionWorkspace.Subdivisions(options.S("angoli", "32"), "Direzioni angolari", 4, 360);
@@ -184,27 +193,21 @@ public sealed partial class CheckerSection
         var concrete = linear ? result.GetConcreteVerticesTension(phi) : result.GetConcreteVerticesTension();
         var fibers = Geometry.Fibers.Select(f => linear ? result.GetConcreteTension(phi, new Point2d(f.X, f.Y)) : result.GetConcreteTension(new Point2d(f.X, f.Y))).ToArray();
         if (bars.Any(b => !double.IsFinite(b.tension)) || concrete.Any(c => !double.IsFinite(c.tension)) || fibers.Any(v => !double.IsFinite(v))) throw new ArgumentException("Checker: tensioni non finite.");
-        double? ratio = null;
-        if (set == "SLE")
-        {
-            var c = linear ? result.ConcreteServiceabilityCharacteristicCheck(phi) : result.ConcreteServiceabilityCharacteristicCheck();
-            var s = linear ? result.SteelServiceabilityCharacteristicCheck(phi, phiT) : result.SteelServiceabilityCharacteristicCheck();
-            ratio = Math.Max(c.Where(p => p.tension < 0).Select(p => p.workingRatio / compressionReduction).DefaultIfEmpty(0).Max(), s.Max(p => p.workingRatio));
-        }
-        if (set == "SLE_QP") ratio = (linear ? result.ConcreteServiceabilityQuasiPermanentCheck(phi) : result.ConcreteServiceabilityQuasiPermanentCheck()).Where(p => p.tension < 0).Select(p => p.workingRatio / compressionReduction).DefaultIfEmpty(0).Max();
-        if (ratio.HasValue && !double.IsFinite(ratio.Value)) throw new ArgumentException("Checker: tasso tensionale non valido.");
+        // Tasso, stato, limiti SLE e marcatore del motore dall'adattatore SLE (refactoring F2.7b, commit A4; rilievi M4, M5): la costruzione
+        // dello stato (tensioni, deformazioni, raster) resta qui, invariata.
+        var limits = ConcreteServiceabilityAdapter.StressLimits(result, set, standard, Section, phi, phiT, compressionReduction, ServiceabilityEngine);
         var material = (ConcreteMaterialEuropeanCommon)Section.ConcreteMaterial;
         var response = SectionResponse.From(result.CalculateStrainPlaneResult(linear, linear ? phi : 0, linear ? phiT : 0));
-        return new(concrete.Min(c => c.tension), bars.Max(b => Math.Abs(b.tension)), bars.Select(b => b.tension).ToArray(), fibers, ratio,
-            ratio is null ? "Stato tensionale calcolato" : ratio <= 1 ? "Entro limiti tensionali" : "Oltre limiti tensionali", result)
+        return new(concrete.Min(c => c.tension), bars.Max(b => Math.Abs(b.tension)), bars.Select(b => b.tension).ToArray(), fibers, limits.Ratio, limits.Status, result)
         {
             Response = response,
             ConcreteCompressionStrength = Math.Abs(material.CalculateFcd(standard)), ConcreteTensionStrength = Math.Abs(material.CalculateFctd(standard)),
             // Plot normalization is a material strength ratio, not a SLE compliance check.
             BarStrengths = Section.Rebars.Select(r => Math.Abs(r.RebarMaterial.CalculateFyd(standard))).ToArray(),
             FiberStrains = Geometry.Fibers.Select(f => (linear ? result.GetVerticeStrain(new Point2d(f.X, f.Y), phi) : result.GetVerticeStrain(new Point2d(f.X, f.Y))) * 1000).ToArray(),
-            ConcreteStressLimit = set == "SLE" ? standard.ServiceabilityStressConcreteCoefficientForCharacteristicCombination * Math.Abs(material.Fck) * compressionReduction : set == "SLE_QP" ? standard.ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination * Math.Abs(material.Fck) * compressionReduction : null,
-            SteelStressLimit = standard.ServiceabilityStressSteelCoefficientForCharacteristicCombination * Math.Abs(Section.Rebars.First().RebarMaterial.Fyk),
+            ConcreteStressLimit = limits.ConcreteStressLimit,
+            SteelStressLimit = limits.SteelStressLimit,
+            Engine = limits.Engine,
             ConcreteVertices = Geometry.Outline.Select((p, i) => new StressPoint("C" + (i + 1), p[0], p[1], linear ? result.GetConcreteTension(phi, new Point2d(p[0], p[1])) : result.GetConcreteTension(new Point2d(p[0], p[1])), (linear ? result.GetVerticeStrain(new Point2d(p[0], p[1]), phi) : result.GetVerticeStrain(new Point2d(p[0], p[1]))) * 1000)).ToArray(),
             BarStrains = Section.Rebars.Select(b => (linear ? result.GetRebarStrain(b, b.EpsilonP != 0 ? phiT : phi) : result.GetRebarStrain(b)) * 1000).ToArray()
             ,RasterFactory = new(() => StressRaster.Sample(Geometry, p => linear ? result.GetConcreteTension(phi, p) : result.GetConcreteTension(p), p => (linear ? result.GetVerticeStrain(p, phi) : result.GetVerticeStrain(p)) * 1000))
@@ -219,6 +222,8 @@ public sealed record CheckerStressState(double sigma_cls, double sigma_acciaio, 
     public double ConcreteTensionStrength { get; init; }
     public double? ConcreteStressLimit { get; init; }
     public double SteelStressLimit { get; init; }
+    /// <summary>Motore SLE di tasso e limiti: lo scrive soltanto ConcreteServiceabilityAdapter (refactoring F2.7b, commit A4); escluso dal JSON.</summary>
+    [System.Text.Json.Serialization.JsonIgnore] public ServiceabilityEngine? Engine { get; init; }
     public StressPoint[] ConcreteVertices { get; init; } = [];
     public double[] BarStrains { get; init; } = [];
     internal Lazy<StressRaster>? RasterFactory { get; init; }

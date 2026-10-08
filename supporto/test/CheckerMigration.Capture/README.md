@@ -13,7 +13,7 @@ Dalla radice del repository:
 
 ```powershell
 dotnet build supporto\test\CheckerMigration.Capture\CheckerMigration.Capture.csproj -c Release -nologo
-dotnet supporto\test\CheckerMigration.Capture\bin\Release\net8.0\CheckerMigration.Capture.dll <cartella> <commit> [modalità] [--manifest] [--motore legacy|libreria] [--motore-durabilita legacy|libreria]
+dotnet supporto\test\CheckerMigration.Capture\bin\Release\net8.0\CheckerMigration.Capture.dll <cartella> <commit> [modalità] [--manifest] [--motore legacy|libreria] [--motore-sle legacy|libreria] [--motore-durabilita legacy|libreria]
 ```
 
 Con un altro insieme di DLL si compila con `-p:GpcLibDir=<cartella>\` (vedi `Directory.Build.props`).
@@ -39,6 +39,13 @@ catturano i nuclei di `X.Calculations` (le fixture di Checker), con `libreria` G
 strato di mappatura (unità di ANTHEA, testi del legacy); senza l'opzione il motore predefinito dell'adattatore. Il
 motore usato è scritto nella riga `#` dei tre file. Per la torsione la libreria riceve fck = 30 MPa e γc = 1,5, come
 nei `TorsionMigrationTests`: per NTC 2018 non entrano nelle resistenze.
+
+`--motore-sle`, dopo la modalità (refactoring F2.7b, commit A4): tensioni SLE (`stress-legacy.csv`), fessurazione
+(`crack-legacy.csv`, `crack-scalar-legacy.csv`) e muri (`walls-documents.jsonl.gz`) passano da
+`ConcreteServiceabilityAdapter` con il motore indicato (`legacy` o `libreria`); senza l'opzione il motore predefinito
+dell'adattatore. Con `libreria` la parte scalare usa le classi della libreria (`CrackWidthCalculator` con il profilo
+della norma dalla mappatura; requisiti attraverso l'adattatore). Il motore usato è scritto nelle righe `#` e
+nell'intestazione dei documenti dei muri, escluse dal confronto.
 
 `--motore-durabilita`, dopo la modalità (refactoring F2.9): la durabilità (`durability-legacy.csv`) passa dalle
 facciate `Materiali.Durability`, `NtcCover`, `MinimumConcrete` e `AtecapMix` con il motore indicato di

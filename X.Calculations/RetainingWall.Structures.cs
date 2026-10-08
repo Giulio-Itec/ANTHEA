@@ -22,7 +22,9 @@ public static partial class RetainingWall
         input["fck_mpa"] = m.D("fck"); input["fyk_mpa"] = m.D("fyk"); input["axial_force_kn"] = 0; input["moment_x_knm"] = 0; input["moment_y_knm"] = 0;
         return input;
     }
-    private static List<Check> StructuralChecks(JsonObject d, List<LoadCase> cases, CancellationToken token, out double steelKg)
+    /// <param name="engine">Motore SLE delle sezioni (tensioni e fessurazione, refactoring F2.7b, commit A4); null = predefinito dell'adattatore.
+    /// Restano regole dei muri, fuori dall'adattatore, armatura minima e massima, taglio senza staffe e criterio «Non fessurata» (F2.7-D4).</param>
+    private static List<Check> StructuralChecks(JsonObject d, List<LoadCase> cases, CancellationToken token, out double steelKg, ServiceabilityEngine? engine = null)
     {
         var result = new List<Check>(); steelKg = 0; var m = d["materials"]!;
         void Stamp(int start, SectionForce force) { for (int i = start; i < result.Count; i++) result[i] = result[i] with { Member = force.Name, Position = force.Position }; }
@@ -74,7 +76,7 @@ public static partial class RetainingWall
                 var opt = ws["sle"]!["SLE_QP"]!.AsObject(); opt["modello"] = "Lineare"; opt["trazione_cls"] = "No"; opt["phi"] = m.D("creep");
                 opt["esposizione"] = m.S("exposure"); opt["sensibilita"] = "Non sensibile"; opt["aderenza"] = "Migliorata"; opt["durata"] = "Lunga";
                 opt["spaziatura_fessure"] = new[] { "top", "bottom" }.Max(face => (1000 - 2 * m.D("cover") - input.D(face + "_bar_diameter_mm")) / (input.D(face + "_bar_count") - 1)); opt["copriferro_fessure"] = m.D("cover");
-                engines = (input, ws, new CheckerSection(input, ws, J.Obj(("criterio", "N costante"), ("modello", "Non lineare"))), new CheckerSection(input, ws, opt), opt);
+                engines = (input, ws, new CheckerSection(input, ws, J.Obj(("criterio", "N costante"), ("modello", "Non lineare"))), new CheckerSection(input, ws, opt, "SLU", engine), opt);
                 cache[(memberKey, f.Thickness)] = engines;
                 double minimumDepth = f.Thickness * 1000 - m.D("cover") - Math.Min(input.D("top_bar_diameter_mm"), input.D("bottom_bar_diameter_mm")) / 2;
                 double minimum = Math.Max(.26 * ConcreteMaterials.Concrete(input).Fctm / m.D("fyk"), .0013) * 1000 * minimumDepth;
@@ -108,7 +110,7 @@ public static partial class RetainingWall
                     if (c.State == "SLE") result.Add(CheckValue(label + " · tensione acciaio", c.Name, state.sigma_acciaio, state.SteelStressLimit, "MPa"));
                     if (c.State != "SLE")
                     {
-                        var crack = Ntc2018Checks.Cracking(engines.Service, state, action, input, engines.Ws, engines.Options, c.State);
+                        var crack = ConcreteServiceabilityAdapter.Cracking(engines.Service, state, action, input, engines.Ws, engines.Options, c.State, engine);
                         // In weakly stressed sections the no-tension solution may have no tensile
                         // reinforcement in the effective zone. Establish absence of cracking with
                         // a separate GPC uncracked analysis, never turn arbitrary missing checks into passes.
@@ -117,7 +119,7 @@ public static partial class RetainingWall
                             if (!uncracked.TryGetValue((memberKey, f.Thickness), out var elastic))
                             {
                                 var elasticOptions = (JsonObject)engines.Options.DeepClone(); elasticOptions["trazione_cls"] = "Sì";
-                                elastic = new CheckerSection(input, engines.Ws, elasticOptions); uncracked[(memberKey, f.Thickness)] = elastic;
+                                elastic = new CheckerSection(input, engines.Ws, elasticOptions, "SLU", engine); uncracked[(memberKey, f.Thickness)] = elastic;
                             }
                             var elasticState = elastic.Stress(action, c.State);
                             double tensile = elasticState.Native.GetConcreteVerticesTension(m.D("creep")).Max(x => x.tension);
