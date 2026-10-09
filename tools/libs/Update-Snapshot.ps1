@@ -8,6 +8,10 @@ Rebuilds the GPC DLL snapshot from committed sources and, with -Install, replace
                    ANTHEA checkout. Pass it when the script runs from a git worktree of ANTHEA placed elsewhere.
   -Lib <folder>    installed snapshot: its manifest.json is the reference of the version check and, with -Install, the
                    folder is the destination; default: lib\Checker of this checkout.
+  -At <Repo=commit[,...]>  with -FromUpstream only: builds that repository at a commit reachable from its upstream
+                   (already pushed, for example a release older than the head) instead of the upstream head.
+  -ModelDependencies <folder>  verified bundle of the dependencies pinned by Model (build/dependencies.props, Model 4):
+                   default .dependencies of the Model checkout in -Repos. See step 2.
 
 Sources of the build:
 - -FromUpstream (the mode for lib\Checker, which AGENTS.md wants from pushed commits). For each repository the commit of
@@ -34,6 +38,10 @@ Steps:
    -FromUpstream no worktree may differ from its commit after the build, Model and Checker included). Model and
    Checker are built from the commit, Release, with the SDK pinned by each global.json, into their (ignored) bin
    folders; they reference the committed Geometry and Utilities binaries through their HintPaths.
+   Model 4 builds only from the bundle pinned in its build/dependencies.props (SHA-256 checked by its
+   Directory.Build.targets) in the ignored Model\.dependencies, which a fresh worktree lacks: the Prepare-Dependencies.ps1
+   of the commit fills it from -ModelDependencies, validating every file. The Geometry and Utilities DLLs pinned there
+   must be the committed binaries of this snapshot, or GPCModel would be built against other DLLs than the installed ones.
 3. The 8 DLLs go to the staging folder with manifest.json (file, version, SHA-256, repository, branch, commit, push, SDK;
    with -FromUpstream also fromUpstream = true and the buildRoot needed to reproduce the SHA-256) and manifest.props.
    A DLL whose SHA-256 differs from the one in -Lib must have a higher assembly version.
@@ -44,7 +52,8 @@ Steps:
 After installing: build\ci.ps1 -Profile full, the baseline comparison and the library tests (see AGENTS.md).
 #>
 [CmdletBinding()]
-param([string] $Staging, [switch] $Install, [switch] $RequirePushed, [switch] $FromUpstream, [string] $Repos, [string] $Lib)
+param([string] $Staging, [switch] $Install, [switch] $RequirePushed, [switch] $FromUpstream, [string] $Repos, [string] $Lib,
+    [string[]] $At, [string] $ModelDependencies)
 $ErrorActionPreference = 'Stop'
 function Full([string] $path) {
     if (-not [IO.Path]::IsPathRooted($path)) { $path = Join-Path (Get-Location).ProviderPath $path }
@@ -53,6 +62,12 @@ function Full([string] $path) {
 $Anthea = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 $Repos = if ($Repos) { Full $Repos } else { Split-Path $Anthea -Parent }
 $Lib = if ($Lib) { Full $Lib } else { Join-Path $Anthea 'lib\Checker' }
+$atCommits = @{}
+foreach ($item in @($At | ForEach-Object { $_ -split ',' } | Where-Object { $_ })) {
+    if ($item -notmatch '^\s*(\w+)\s*=\s*([0-9a-fA-F]{7,40})\s*$') { throw "-At: atteso Repo=commit, non '$item'." }
+    $atCommits[$Matches[1]] = $Matches[2]
+}
+if ($atCommits.Count -and -not $FromUpstream) { throw '-At vale solo con -FromUpstream (senza, si compila lo HEAD di ogni checkout).' }
 $git = (Get-Command git -ErrorAction SilentlyContinue).Source
 if (-not $git) { $git = 'C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd\git.exe' }
 if (-not $Staging) { $Staging = Join-Path $Anthea ('supporto\artefatti\lib-staging\' + (Get-Date -Format 'yyyyMMdd-HHmmss')) }
@@ -133,6 +148,12 @@ foreach ($r in $repoNames) {
     if ($FromUpstream) {
         $upstream = GitValue $dir rev-parse --abbrev-ref --symbolic-full-name '@{u}'
         $commit = GitValue $dir rev-parse --verify '@{u}^{commit}'
+        if ($atCommits.ContainsKey($r)) {
+            $wanted = GitValue $dir rev-parse --verify "$($atCommits[$r])^{commit}"
+            $base = GitValue $dir merge-base $wanted $commit
+            if ($base -ne $wanted) { throw "-At $r=$($atCommits[$r]): il commit non e' raggiungibile da $upstream (non pushato)." }
+            $commit = $wanted
+        }
         $s = [pscustomobject]@{ Repo = $r; Branch = ($upstream -replace '^[^/]+/', ''); Commit = $commit; Dirty = 0; Unpushed = 0; Sdk = ''; Upstream = $upstream }
     } else {
         $s = RepoState $r
@@ -160,7 +181,21 @@ try {
         Push-Location (Join-Path $buildRepos $r); $states[$r].Sdk = (& dotnet --version).Trim(); Pop-Location
     }
 
-    # 2. Build
+    # 2. Build. Model 4: pinned bundle in Model\.dependencies, coherent with the Geometry and Utilities of the snapshot.
+    $prepare = Join-Path $buildRepos 'Model\build\Prepare-Dependencies.ps1'
+    if (Test-Path -LiteralPath $prepare) {
+        [xml] $pins = Get-Content -LiteralPath (Join-Path $buildRepos 'Model\build\dependencies.props') -Raw
+        foreach ($l in $libraries | Where-Object { $_.TrackedBin }) {
+            $pin = @($pins.Project.ItemGroup.GpcDependency | Where-Object { $_.Include -eq $l.File })
+            $shipped = (Get-FileHash -LiteralPath (Join-Path (Join-Path (Join-Path $buildRepos $l.Repo) $l.Output) $l.File) -Algorithm SHA256).Hash
+            if ($pin.Count -and $pin[0].Sha256 -ne $shipped) {
+                throw "Model fissa $($l.File) $($pin[0].AssemblyVersion) ($($pin[0].Sha256.Substring(0, 12))), $($l.Repo) $($states[$l.Repo].Commit.Substring(0, 8)) ne fornisce un altro ($($shipped.Substring(0, 12))): scegliere commit coerenti (-At)."
+            }
+        }
+        $bundle = if ($ModelDependencies) { Full $ModelDependencies } else { Join-Path $Repos 'Model\.dependencies' }
+        & $prepare -SourceBundle $bundle *>> $log
+        Write-Output "Model: dipendenze fissate preparate da $bundle"
+    }
     foreach ($l in $libraries | Where-Object { $_.Build }) {
         $proj = Join-Path (Join-Path $buildRepos $l.Repo) $l.Project
         Push-Location (Join-Path $buildRepos $l.Repo)
@@ -207,6 +242,7 @@ try {
     }
     $manifest = [ordered]@{ snapshotDate = (Get-Date -Format 'yyyy-MM-dd'); generator = 'tools/libs/Update-Snapshot.ps1' }
     if ($FromUpstream) { $manifest.fromUpstream = $true; $manifest.buildRoot = $buildRepos }
+    if ($atCommits.Count) { $manifest.at = @($atCommits.Keys | Sort-Object | ForEach-Object { "$_=$($atCommits[$_])" }) }
     $manifest.targetFramework = 'netstandard2.0'
     $manifest.nuget = @(@{ name = 'MathNet.Numerics'; version = '5.0.0' })
     $manifest.assemblies = @($assemblies)
