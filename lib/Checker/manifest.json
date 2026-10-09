@@ -70,6 +70,17 @@
                            "sdk":  "9.0.318"
                        },
                        {
+                           "file":  "GPC.Model.Persistence.dll",
+                           "source":  "Model/GPC.Model.Persistence/bin/Release/netstandard2.0",
+                           "assemblyVersion":  "2.0.1.0",
+                           "sha256":  "4EE43C7015047D1DBFCCFDF66F80C3BA6236FAC15C298A6D68F4217B066C0B07",
+                           "repository":  "Model",
+                           "branch":  "master",
+                           "commit":  "a324af3fd2bc4b962d7cbde47de456a1b5f35091",
+                           "pushed":  true,
+                           "sdk":  "9.0.318"
+                       },
+                       {
                            "file":  "GPCChecker.Concrete.dll",
                            "source":  "Checker/GPCChecker.Concrete/bin/Release/netstandard2.0",
                            "assemblyVersion":  "0.0.25.0",

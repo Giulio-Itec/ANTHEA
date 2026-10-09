@@ -42,7 +42,7 @@ Steps:
    Directory.Build.targets) in the ignored Model\.dependencies, which a fresh worktree lacks: the Prepare-Dependencies.ps1
    of the commit fills it from -ModelDependencies, validating every file. The Geometry and Utilities DLLs pinned there
    must be the committed binaries of this snapshot, or GPCModel would be built against other DLLs than the installed ones.
-3. The 8 DLLs go to the staging folder with manifest.json (file, version, SHA-256, repository, branch, commit, push, SDK;
+3. The 9 DLLs go to the staging folder with manifest.json (file, version, SHA-256, repository, branch, commit, push, SDK;
    with -FromUpstream also fromUpstream = true and the buildRoot needed to reproduce the SHA-256) and manifest.props.
    A DLL whose SHA-256 differs from the one in -Lib must have a higher assembly version.
    GPCChecker.Geotechnics.xml (XML documentation, versioned in lib\Checker, outside the manifest and the hash check) is
@@ -82,6 +82,8 @@ $libraries = @(
     @{ File = 'DelaunayMesh.dll'; Repo = 'Geometry'; Project = 'DelaunayMesh\DelaunayMesh.csproj'; Output = 'DelaunayMesh\bin\Release\netstandard2.0'; TrackedBin = $true; Build = $false },
     @{ File = 'GPCModel.dll'; Repo = 'Model'; Project = 'Model\GPCModel.csproj'; Output = 'Model\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     @{ File = 'GPCModelData.dll'; Repo = 'Model'; Project = 'ModelData\GPCModelData.csproj'; Output = 'ModelData\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
+    # Model 4: archives (ModelArchive) in their own assembly; only the capture tools reference it, never the application.
+    @{ File = 'GPC.Model.Persistence.dll'; Repo = 'Model'; Project = 'GPC.Model.Persistence\GPC.Model.Persistence.csproj'; Output = 'GPC.Model.Persistence\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     @{ File = 'GPCChecker.Concrete.dll'; Repo = 'Checker'; Project = 'GPCChecker.Concrete\GPCChecker.Concrete.csproj'; Output = 'GPCChecker.Concrete\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     @{ File = 'GPCChecker.Geotechnics.dll'; Repo = 'Checker'; Project = 'GPCChecker.Geotechnics\GPCChecker.Geotechnics.csproj'; Output = 'GPCChecker.Geotechnics\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true; Doc = 'GPCChecker.Geotechnics.xml' },
     @{ File = 'GPCChecker.CompositeBridge.dll'; Repo = 'Checker'; Project = 'GPCChecker.CompositeBridge\GPCChecker.CompositeBridge.csproj'; Output = 'GPCChecker.CompositeBridge\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true }
