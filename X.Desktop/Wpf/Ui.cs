@@ -127,7 +127,16 @@ internal sealed class SectionIcon : FrameworkElement
 }
 
 /// <param name="Help">Wiki section for this field when the key alone is ambiguous in the module (e.g. «modello»).</param>
-internal sealed record Field(string Key, string Label, string Unit = "", string[]? Choices = null, bool Bool = false, bool ReadOnly = false, string Symbol = "", bool Wide = false, WikiContextHelp.Topic? Help = null);
+/// <param name="Note">Notice shown under the field while it returns a text (for example a choice with known limits).</param>
+internal sealed record Field(string Key, string Label, string Unit = "", string[]? Choices = null, bool Bool = false, bool ReadOnly = false, string Symbol = "", bool Wide = false, WikiContextHelp.Topic? Help = null, Func<JsonObject, string?>? Note = null);
+
+internal static class FieldNotes
+{
+    /// <summary>Stress block: the library accepts a wider tolerance on N for the stepped resultant (registro F2-15, decision of the user of 8/10).</summary>
+    internal static string? StressBlock(JsonObject values) => values.S("cls_diagramma") == "Stress block"
+        ? "Stress block: risultati SLU meno precisi. La risultante a gradini richiede una tolleranza su N più ampia; MRd può scostarsi fino a circa l'1-2 % vicino agli estremi del dominio."
+        : null;
+}
 
 internal class ChainedScrollViewer : ScrollViewer
 {
@@ -167,6 +176,7 @@ internal sealed class InputForm : ChainedScrollViewer
     private readonly Dictionary<string, Action<string>> setRawText = new();
     internal readonly Dictionary<string, FrameworkElement> Editors = new();
     private readonly Dictionary<string, List<FrameworkElement>> rows = new();
+    private readonly Dictionary<string, (TextBlock Text, Border Box, Func<JsonObject, string?> Note)> notes = new();
     internal InputForm(JsonObject values, IEnumerable<Field> fields, Action<string> changed, bool compact = false, bool wideChoices = false, bool symbolColumns = false, string? wikiModule = null)
     {
         this.values = values; this.changed = changed;
@@ -244,11 +254,27 @@ internal sealed class InputForm : ChainedScrollViewer
                 Grid.SetColumnSpan(labelHost, 3); Grid.SetRow(editor, row + 1); Grid.SetColumn(editor, 0); Grid.SetColumnSpan(editor, 3); elements = [labelHost, editor];
             }
             else if (f.Choices is not null && f.Unit == "" && !compact) { Grid.SetColumnSpan(editor, 2); elements = [labelHost, editor]; }
+            if (f.Note is not null)
+            {
+                // Same look as the notices of the modules; a row of its own, so that GroupFields moves it with the field.
+                int noteRow = table.RowDefinitions.Count; table.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                var text = Ui.Text("", 11, color: Ui.Brush("#865D16")); text.TextWrapping = TextWrapping.Wrap;
+                var box = Ui.Paper(text, 8); box.Background = Appearance.Background("#FFF6DD"); box.BorderBrush = Ui.Brush("#EEDCAF"); box.Margin = new Thickness(2, 2, 2, 6);
+                Grid.SetRow(box, noteRow); Grid.SetColumn(box, 0); Grid.SetColumnSpan(box, table.ColumnDefinitions.Count);
+                elements.Add(box); notes[f.Key] = (text, box, f.Note);
+            }
             foreach (var element in elements) table.Children.Add(element);
             Editors[f.Key] = editor; rows[f.Key] = elements;
+            UpdateNote(f.Key);
         }
     }
-    private void Store(string key, object value) { if (displayOnly) return; values[key] = J.Node(value); changed(key); }
+    private void UpdateNote(string key)
+    {
+        if (!notes.TryGetValue(key, out var note)) return;
+        string? text = note.Note(values); note.Text.Text = text ?? "";
+        note.Box.Visibility = text is null || Editors[key].Visibility != Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+    }
+    private void Store(string key, object value) { if (displayOnly) return; values[key] = J.Node(value); UpdateNote(key); changed(key); }
     internal Size UnwrappedSize()
     {
         // Measure the form's labels on one line, including the fixed editor/unit columns.
@@ -289,14 +315,14 @@ internal sealed class InputForm : ChainedScrollViewer
         drafts.Remove(key);
         displayOnly = display;
         try { if (editor is TextBox) { setRawText[key](value); if (!display && values.S(key) != value) Store(key, value); } else if (editor is ComboBox c) c.SelectedItem = value; }
-        finally { displayOnly = false; }
+        finally { displayOnly = false; UpdateNote(key); }
     }
     internal void Enable(string key, bool enabled, bool dim = false)
     {
         if (rows.TryGetValue(key, out var row)) foreach (var e in row)
         { e.IsEnabled = enabled; if (dim) e.Opacity = enabled ? 1 : .4; }
     }
-    internal void ShowField(string key, bool show) { if (rows.TryGetValue(key, out var row)) foreach (var e in row) e.Visibility = show ? Visibility.Visible : Visibility.Collapsed; }
+    internal void ShowField(string key, bool show) { if (rows.TryGetValue(key, out var row)) foreach (var e in row) e.Visibility = show ? Visibility.Visible : Visibility.Collapsed; UpdateNote(key); }
     internal void GroupFields(string title, string[] keys, bool expanded = false)
     {
         // Keep the same editors/bindings; only their visual containers change.

@@ -166,11 +166,20 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
   - [ ] attesa più robusta nelle catture di `str_mista_ponte`;
   - [ ] figure della guida pratica in `supporto/artefatti` (ignorato da git), che fanno fallire lo stadio wiki in un
     worktree nuovo.
-- [ ] Segnalazioni dell'utente dell'8/10 sera, dalla prova della build dell'integrazione 3 («appunti da correggere poi»):
-  - [ ] tema scuro: le scritte del menu in alto non si vedono;
-  - [ ] pali: una seconda fila di armature non si vede; anche aggiunta nel verificatore del cls dei pali, sparisce;
-  - [ ] nota visibile nell'interfaccia «stress block: risultati SLU meno precisi» (S-1; oggi solo nella libreria e
-    nella pagina del metodo).
+- [x] Segnalazioni dell'utente dell'8/10 sera, dalla prova della build dell'integrazione 3 («appunti da correggere poi»),
+  chiuse il 9/10 (prove in `supporto/artefatti/refactoring/segnalazioni-8-10` del checkout principale):
+  - [x] tema scuro, scritte del menu in alto (File, Aspetto): non riproducibile con il codice di integrazione-3 (1c09d78).
+    Fuori schermo il menu è leggibile in Scuro e Molto scuro all'avvio, dopo aver aperto e chiuso una tendina e dopo il
+    cambio dal menu Aspetto (diagnosi `--check-contrast <cartella> --diagnosi-menu`); l'utente, con la Release compilata
+    il 9/10 dallo stesso commit, conferma che «File» e «Aspetto» si leggono. Nessuna modifica del codice di produzione.
+  - [x] pali: secondo anello interno nel palo orizzontale (sezione principale, schede dei tratti, «Applica armatura» e
+    riapertura del verificatore c.a.), registro F2-16 (0cada3f prova, 4a147ea correzione). Da decidere con l'utente: la
+    distinta della libreria rifiuta un anello di diametro diverso dalla prima fila («diametri misti nella stessa sezione
+    non supportati») e il calcolo elastico si ferma con quel messaggio; i report del palo non citano l'anello (report
+    fermi).
+  - [x] nota «Stress block: risultati SLU meno precisi» sotto il legame del calcestruzzo, visibile solo con lo stress
+    block, nella sezione c.a., nel palo orizzontale, nei muri e nel nuovo materiale (84f6942 prova e correzione
+    successiva).
 - [ ] In coda a tutte le altre attività (decisione dell'utente dell'8/10):
   - analisi dei bug del codice di calcolo, corsa `wf_9c55965c-68b` ferma con 85 agenti in cache;
   - revisione delle pagine dei metodi ca.sle-tensioni e ca.fessurazione (U6);

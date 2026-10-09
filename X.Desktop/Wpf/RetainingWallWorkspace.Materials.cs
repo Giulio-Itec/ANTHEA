@@ -17,7 +17,7 @@ internal sealed partial class RetainingWallWorkspace
             new("gamma", "Peso specifico muro", "kN/m³"),
             new("classe_cls", "Calcestruzzo da normativa", Choices: Choices(ConcreteMaterialCatalog.Concrete("NTC 2018"), "classe_cls")),
             new("materiale_cls_nome", "Nome CLS personalizzato"), new("fck", "fck", "MPa"),
-            new("cls_diagramma", "Diagramma CLS", Choices: ConcreteMaterials.ConcreteDiagrams),
+            new("cls_diagramma", "Diagramma CLS", Choices: ConcreteMaterials.ConcreteDiagrams, Note: FieldNotes.StressBlock),
             new("__fcd", "fcd", "MPa", ReadOnly: true), new("__ecm", "Ecm", "MPa", ReadOnly: true),
             new("classe_acciaio", "Acciaio da normativa", Choices: Choices(ConcreteMaterialCatalog.Steel(false, "NTC 2018"), "classe_acciaio")),
             new("materiale_acciaio_nome", "Nome acciaio personalizzato"), new("fyk", "fyk", "MPa"), new("steel_modulus_mpa", "Es", "MPa"),

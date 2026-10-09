@@ -171,6 +171,8 @@ foreach ($name in 'HorizontalPileGroup.Checks', 'ElasticPile.UiChecks', 'Concret
 }
 # Second ring of bars of the horizontal pile (user report of 8/10): main section, segments, c.a. verifier, off screen.
 Add-Suite @{ Name = 'ElasticPile.UiChecks/anello-interno'; Stage = 'ui'; Kind = 'run'; Project = (TestProject 'ElasticPile.UiChecks'); Args = @('{out}', '--inner-ring-only'); Timeout = 300 }
+# Notice of the stress block under the concrete law (decision of the user of 8/10), c.a. section and pile, off screen.
+Add-Suite @{ Name = 'ElasticPile.UiChecks/nota-stress-block'; Stage = 'ui'; Kind = 'run'; Project = (TestProject 'ElasticPile.UiChecks'); Args = @('{out}', '--stress-block-note-only'); Timeout = 300 }
 # Formerly ConcreteDesign.DesktopChecks (moved to supporto/SUPERATI/test in F1.6): ConcreteDesign.Checks writes ui-fixture.json first.
 Add-Suite @{ Name = 'ui/check-concrete-design'; Stage = 'ui'; Kind = 'check'; Args = @('--check-concrete-design', '{out}'); Timeout = 900
     Before = @{ Project = (TestProject 'ConcreteDesign.Checks'); Args = @('{out}') }; Builds = @(@{ Project = (TestProject 'ConcreteDesign.Checks'); Configuration = 'Release' })

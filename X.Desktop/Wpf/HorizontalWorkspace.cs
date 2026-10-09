@@ -123,7 +123,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             new("vita_durabilita", "Vita utile per durabilità", "anni", Choices:["50","100"]),
             new("qualita_copriferro", "Controllo qualità copriferro confermato", Bool:true),
             new("steel_modulus_mpa", "Modulo elastico acciaio", "MPa", Symbol: "Es"),
-            new("cls_diagramma", "Legame calcestruzzo", Choices: ConcreteMaterials.ConcreteDiagrams),
+            new("cls_diagramma", "Legame calcestruzzo", Choices: ConcreteMaterials.ConcreteDiagrams, Note: FieldNotes.StressBlock),
             new("steel_diagramma", "Legame acciaio", Choices: ["Elastoplastico", "Incrudente"]),
             new("steel_fu_mpa", "Resistenza ultima", "MPa", Symbol: "fu"),
             new("steel_eps_u", "Deformazione ultima", "‰", Symbol: "εu"),
