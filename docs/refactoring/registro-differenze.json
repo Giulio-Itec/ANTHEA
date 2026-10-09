@@ -1044,6 +1044,32 @@
       "test": ["build/ci.ps1 -Profile quick: 25 PASS", "ModelWorkspace.Checks: 46 PASS", "ModelViewer.UiChecks sintetico: 20 PASS", "ModelViewer.UiChecks reale: 38 PASS", "GPC: 90 test importazione/assegnazioni/persistenza"],
       "evidenze": ["supporto/artefatti/ci/20261009-231939-modelli-workspace-v2", "supporto/artefatti/model-viewer/logic-validated", "supporto/artefatti/model-viewer/synthetic-validated", "supporto/artefatti/model-viewer/review-measured", "supporto/artefatti/model-viewer/delivery", "supporto/artefatti/model-viewer/gpc-boundary/extended"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "S4-1",
+      "titolo": "lib/Checker S4 (Model 4): archivi del Model con SectionVersion 5 e moduli plastici delle sezioni generiche non salvati",
+      "famiglia": "librerie/archivi",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Aggiornamento di lib/Checker alla release S4 (GPCModel 1.6.1.1 -> 4.0.1.0, GPCChecker.Concrete 0.0.18.0 -> 0.0.25.0, GPCGeometry 2.1.0.4 -> 2.1.0.5 e le altre). La cattura headless del corpus con le librerie nuove coincide con quella con le librerie S3 sullo stesso codice di ANTHEA (546 file: risultati, motori, testi dei report, archivi di ANTHEA, ripieghi; uniche differenze i 21 tempi Stopwatch, volatili). Nei banchi densi (fixture-checker e f2-libreria) tutti i file di calcolo sono identici o entro le tolleranze; cambiano solo gli archivi del Model scritti da ModelArchive (crack-, detailing-, stress-sections.xml): SectionVersion 5 al posto di 4 (193 righe) e WPL1, WPL2, WPLX, WPLY NaN per le 16 sezioni generiche (64 righe). In Model 4 una sezione generica descritta dal contorno non salva torsione e moduli plastici come valori propri: NaN nell'archivio, calcolo esatto al primo accesso. Un lettore con un Model precedente troverebbe NaN negli archivi nuovi (compatibilità solo all'indietro).",
+      "codice": [
+        "Model/Model/Sections/Section.cs:268 (Wpl1 calcolato quando il campo è NaN)",
+        "Model/Model/Sections/Section.cs:618-624 (versione < 5: proprietà non salvate delle sezioni generiche)",
+        "tests/ANTHEA.Testing/f2-classificazione.json (S4-1, S4-2 nei confronti fixture-checker e f2-libreria)"
+      ],
+      "segno": "nessuno sui risultati",
+      "effetto_quantificato": {
+        "sintesi": "Cattura headless S3 -> S4 sullo stesso commit di ANTHEA: 0 differenze non ammesse su 546 file. Banchi densi: 257 righe di archivio classificate (S4-1 193, S4-2 64), nessuna differenza nei file di calcolo."
+      },
+      "data": "2026-10-09",
+      "fase": "aggiornamento librerie S4",
+      "test": [
+        "build/ci.ps1 -Profile baseline (baseline/banco-ca, baseline/banco-denso)",
+        "tests/ANTHEA.Testing compare tra la cattura con S3 e quella con S4"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/librerie-s4"
+      ]
     }
   ]
 }

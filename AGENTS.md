@@ -30,6 +30,7 @@
 
 - `lib/Checker` si aggiorna solo con un insieme coerente di DLL della stessa build, compilato da commit pushati, con manifest (versioni, commit e SHA-256) e voce nel README. Ogni DLL con sorgente cambiato ha una versione nuova. Dopo l'aggiornamento: profilo `full` del runner e test delle librerie.
 - Le mesh DelaunayMesh delle sezioni usuali devono restare identiche bit per bit.
+- Gmsh (GMsh.Net, UnsafeEx, le DLL native gmsh-*.dll e il wrapper GMesh) va solo negli unit test: mai in `lib/Checker`, nell'installer o nelle DLL delle librerie.
 
 # Guide, esempi e revisioni
 
