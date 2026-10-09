@@ -617,3 +617,22 @@ La revisione ha accettato E1-E6 senza rilievi bloccanti, con nove rilievi minori
   in `X.Calculations` la 11i passa; aggiungendo nello stesso file un uso vero di `GPC.Checkers.Concrete.Durability` fallisce.
   Nessun file di produzione cambiato, quindi catture e baseline B6 restano quelle di E5. Il profilo standard sulla punta e i log
   sono descritti nel LEGGIMI di `supporto/artefatti/refactoring/f2-9` del checkout principale.
+
+## 9 ottobre 2026, pomeriggio: F2.7 A5, suite attraverso l'adattatore SLE
+
+Branch `refactoring/integrazione-4` (da 45a3193). Prove e log in `supporto/artefatti/refactoring/f2-7/a5`.
+- 3dc8c57: X.Verifiche (`--checker`, `--ca-module`, `--ca-benchmark`) con `--motore-sle`; test di formula raddoppiati sulla
+  libreria. Col motore predefinito l'uscita di `--checker` è uguale riga per riga al profilo full del mattino salvo il
+  conteggio (107 → 123); `--ca-module` identico.
+- b35afa8: ConcreteCode.Checks, PASS con i due motori (434 → 478 controlli, i 44 nuovi sulla libreria).
+- c8a0927: ConcreteShort.Checks (results.json identico byte per byte a HEAD con i due motori) e harness WPF
+  (`ANTHEA_MOTORE_SLE`, perché la riga di comando dell'harness ha lunghezza fissa). La prova a schermo va col profilo full.
+- bf7f6a6: 5k estesa alle suite con `legacy-allowlist.json` (6 voci, 40 chiamate ammesse, 426 file). n11 rilevata, anche
+  nella variante con una chiamata in più in un file già in elenco.
+- Prova generale con `--motore-sle libreria`: tutto PASS (anche il benchmark) salvo il caso (i) di CrackK2Checks. Con le
+  tensioni delle barre mancanti (vettore vuoto) su una sezione interamente compressa il legacy dà wk = 0; la libreria rifiuta
+  («one stress per ordinary bar is required») e la mappatura non ha la traduzione, quindi esce l'errore di programma
+  «senza traduzione nello strato di mappatura». Dalla produzione non si arriva a uno stato senza tensioni delle barre.
+  Segnalato all'utente, non corretto. Saltando il caso tutto il resto di `--checker` passa; 25 righe stampate cambiano solo
+  nell'ultima cifra (F2-5).
+- Profilo standard `int4-a5-std` sui commit: PASS 39, KNOWN 1, NEW-FAIL 0.
