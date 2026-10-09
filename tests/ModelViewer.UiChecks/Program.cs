@@ -79,6 +79,28 @@ static class Program
             var document = (JsonObject)window.GetType().GetField("document", Flags)!.GetValue(window)!;
             var owner = document.Array("progetti").OfType<JsonObject>().SelectMany(ProjectModelStore.Containers).First(c => ProjectModelStore.Models(c).Any());
             string id = ProjectModelStore.Models(owner).First().S("id");
+            if (args.Contains("--viewer-only"))
+            {
+                // Host the actual production control on its own, to review the view without project chrome.
+                var targets = ProjectModelStore.DescendantSheets(owner).Select(s => new SheetTarget(s.S("id"), s.S("nome"), ProjectModelStore.LinkStatus(owner, s))).ToArray();
+                using var isolated = new ModelViewerControl(ProjectModelStore.Read(owner, id), targets, false,
+                    imported => ProjectModelStore.Set(owner, imported, id),
+                    (sheetId, element, result, component) => ProjectModelStore.Link(owner,
+                        ProjectModelStore.DescendantSheets(owner).Single(s => s.S("id") == sheetId), id, element, result, component));
+                window.Close(); window = null;
+                var preview = new Window { Title = "ANTHEA · Modelli", Content = isolated, Width = 1600, Height = 1020, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.CenterScreen };
+                preview.Show(); Wait(1200);
+                var state = (ModelViewerViewModel)isolated.DataContext;
+                var scene = Children<Viewport3DX>(isolated).Single();
+                foreach (var (mode, name) in new[] { (2, "modelli-risultati"), (1, "modelli-volumi"), (0, "modelli-mesh") })
+                {
+                    state.SelectedMode = mode; Wait(500);
+                    Check(state.Status.StartsWith("Scena pronta"), "isolated viewer renders mode " + mode);
+                    Capture(isolated, scene, Path.Combine(output, name + ".png"));
+                }
+                listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()), "no WPF binding errors in isolated viewer");
+                preview.Close(); app.Shutdown(); return 0;
+            }
             Call(window, "ShowModelsHub"); Wait(100);
             Check(Children<Button>(window).Any(b => b.Content?.ToString() == ProjectModelStore.Models(owner).First().S("nome")), "Models workspace exposes imported resources");
             CapturePage((FrameworkElement)window.Content, Path.Combine(output, "00-modelli.png"));
