@@ -46,6 +46,7 @@ static partial class Program
         try
         {
             if(args.Contains("--inner-ring-only"))return InnerRingChecks(dir,args.Contains("--probe"));
+            if(args.Contains("--stress-block-note-only"))return StressBlockNoteChecks(dir,args.Contains("--probe"));
             if(args.Contains("--drawing-only"))return DrawingChecks(dir);
             if(args.Contains("--clarity-only"))return ClarityChecks(dir);
             if(args.Contains("--seismic-only"))return SeismicUiChecks(dir);
