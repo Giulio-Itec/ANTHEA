@@ -1,0 +1,45 @@
+{
+  "descrizione": "Elenco ammesso della prova 5k (refactoring F2.7, commit A5; tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs): chiamate del legacy SLE consentite fuori da X.Calculations/ConcreteServiceabilityAdapter.cs e dai file legacy (Ntc2018Checks.cs, ConcreteTensionCracking.cs, ConcreteInnerCracking.cs, ConcreteCodeChecks.cs, LegacyServiceability.cs). La scansione copre X.Calculations, X.Core, X.Desktop, supporto/test e tests (senza bin e obj) e vieta Ntc2018Checks.Cracking, CrackRequirement, CrackWidth, CrackWidthWithDetails e CrackK2; ConcreteCodeChecks.CrackRequirement, CrackWidth, UnbondedCrackWidthBound ed EffectiveCrackDepth; LegacyServiceability.StressLimits e CrackingRequired; 'using static' delle tre classi. Per ogni voce: file, numero esatto di chiamate (oppure tutto il file), testo ammesso di ogni chiamata, motivo e scadenza. Una chiamata nuova, una in più o in meno o una voce senza riscontro fanno fallire la prova. Commenti e stringhe non contano. Da unire con legacy-allowlist-durabilita.json di F2.9 in F2.10 o F2.11.",
+  "voci": [
+    {
+      "file": "supporto/test/X.Verifiche/SectionWorkspaceChecks.cs",
+      "chiamate": 18,
+      "testo": [ "Ntc2018Checks.CrackK2", "Ntc2018Checks.CrackWidthWithDetails", "Ntc2018Checks.CrackWidth", "Ntc2018Checks.CrackRequirement" ],
+      "motivo": "Test di formula del legacy (k2 dalla regola delle barre, traccia, wk NTC, requisiti) e caso (a) di CrackK2Checks, che confronta k2 = 0,50 con la regola legacy; dal commit A5 le stesse prove di formula girano anche sulle funzioni della libreria con gli stessi attesi indipendenti (progetto F2.7 §7).",
+      "scadenza": "F2.11"
+    },
+    {
+      "file": "supporto/test/ConcreteCode.Checks/Program.cs",
+      "chiamate": 11,
+      "testo": [ "ConcreteCodeChecks.CrackWidth", "ConcreteCodeChecks.CrackRequirement", "ConcreteCodeChecks.EffectiveCrackDepth" ],
+      "motivo": "Test di formula del legacy (reference.json, benchmark DIN/DS/MC, requisiti NS e MC, hc,eff, rifiuto CNR-DT 204); dal commit A5 le stesse prove girano anche sulle funzioni della libreria con gli stessi attesi (progetto F2.7 §7).",
+      "scadenza": "F2.11"
+    },
+    {
+      "file": "supporto/test/CheckerMigration.Capture/Program.cs",
+      "chiamate": 1,
+      "testo": [ "ConcreteCodeChecks.CrackWidth" ],
+      "motivo": "Ramo legacy della cattura scalare con '--motore-sle legacy' (con 'libreria' la cattura usa CrackWidthCalculator); serve per le catture di confronto col legacy (progetto F2.7 §7).",
+      "scadenza": "F2.11"
+    },
+    {
+      "file": "tests/ConcreteBench.Checks/Program.cs",
+      "chiamate": 1,
+      "testo": [ "Ntc2018Checks.Cracking" ],
+      "motivo": "Banco di F2.1: confronta il legacy di X.Calculations con GPCChecker.Concrete vicino alle soglie dei rami.",
+      "scadenza": "F2.11"
+    },
+    {
+      "file": "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs",
+      "tutto_il_file": true,
+      "motivo": "Prove dell'adattatore: la 5b confronta il motore Legacy con il legacy chiamato direttamente, la 5c il motore Library col legacy.",
+      "scadenza": "F2.11"
+    },
+    {
+      "file": "tests/ConcreteLibraryAdapter.Checks/ServiceabilityPaths.cs",
+      "tutto_il_file": true,
+      "motivo": "Prove dell'adattatore: percorsi 5d-5j e attesi indipendenti 6 con il legacy diretto e con la libreria.",
+      "scadenza": "F2.11"
+    }
+  ]
+}

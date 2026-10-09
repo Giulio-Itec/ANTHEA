@@ -595,7 +595,13 @@ sealed partial class ServiceabilityChecks
         Lines.Add($"5i ambito della fessurazione: {rows} righe uguali nei due motori e in SleCheckScope ({required} richieste, norme escluse e dati non validi compresi); {Checks - checksBefore} controlli");
     }
 
-    // ================================================================== 5k. scansione dei sorgenti di produzione
+    // ================================================================== 5k. scansione dei sorgenti
+    /// <summary>
+    /// Chiamate del legacy SLE fuori dall'adattatore e dai file legacy, vietate nel codice di produzione (X.Calculations, X.Core, X.Desktop) e, dal
+    /// commit A5, nelle suite (supporto/test, tests), salvo le voci di legacy-allowlist.json: file, numero esatto di chiamate (oppure tutto il file),
+    /// testo ammesso di ogni chiamata, motivo e scadenza. Una chiamata nuova, una in più o in meno o una voce senza riscontro fanno fallire la prova
+    /// (prova negativa n11). Commenti e stringhe non contano.
+    /// </summary>
     void Scan()
     {
         int checksBefore = Checks;
@@ -607,25 +613,48 @@ sealed partial class ServiceabilityChecks
             + @"|\bConcreteCodeChecks\s*\.\s*(CrackRequirement|CrackWidth|UnbondedCrackWidthBound|EffectiveCrackDepth)\b"
             + @"|\bLegacyServiceability\s*\.\s*(StressLimits|CrackingRequired)\b|using\s+static\s+Anthea\.Calculations\.(Ntc2018Checks|ConcreteCodeChecks|LegacyServiceability)\b",
             RegexOptions.CultureInvariant);
-        // Il campione: la scansione riconosce le chiamate, anche spezzate, e ignora commenti e testi.
-        const string sample = "var r = Ntc2018Checks .Cracking(a); var q = ConcreteCodeChecks.CrackRequirement(x); // Ntc2018Checks.Cracking\n var t = \"LegacyServiceability.StressLimits\";";
-        Check(forbidden.Matches(Code(sample)).Count == 2, "5k: la scansione non riconosce il campione");
-        int files = 0; var found = new List<string>();
-        foreach (var folder in new[] { "X.Calculations", "X.Core", "X.Desktop" })
+        string Call(Match m) => Regex.Replace(Regex.Replace(m.Value, @"\s*\.\s*", "."), @"\s+", " ");
+        // Il campione: la scansione riconosce le chiamate, anche spezzate, e ignora commenti, testi e stringhe grezze.
+        const string sample = "var r = Ntc2018Checks .Cracking(a); var q = ConcreteCodeChecks.CrackRequirement(x); // Ntc2018Checks.Cracking\n var t = \"LegacyServiceability.StressLimits\";"
+            + "\n var u = \"\"\"\n Ntc2018Checks.CrackK2\n \"\"\"; var v = $@\"{x} ConcreteCodeChecks.CrackWidth\";";
+        Check(forbidden.Matches(DurabilityChecks.CodeOnly(sample)).Select(Call).SequenceEqual(["Ntc2018Checks.Cracking", "ConcreteCodeChecks.CrackRequirement"]),
+            "5k: la scansione non riconosce il campione");
+        var allowlist = JsonNode.Parse(File.ReadAllText(Path.Combine(root, "tests", "ConcreteLibraryAdapter.Checks", "legacy-allowlist.json")))!["voci"]!.AsArray()
+            .Select(v => (File: v!["file"]!.GetValue<string>(), Calls: v["chiamate"]?.GetValue<int>(), WholeFile: v["tutto_il_file"]?.GetValue<bool>() == true,
+                Texts: v["testo"]?.AsArray().Select(t => t!.GetValue<string>()).ToArray() ?? [], Reason: v["motivo"]?.GetValue<string>(), Expiry: v["scadenza"]?.GetValue<string>()))
+            .ToList();
+        Check(allowlist.Select(a => a.File).Distinct().Count() == allowlist.Count
+            && allowlist.All(a => !string.IsNullOrWhiteSpace(a.Reason) && !string.IsNullOrWhiteSpace(a.Expiry) && (a.WholeFile ? a.Calls is null : a.Calls > 0 && a.Texts.Length > 0)),
+            "5k: voci di legacy-allowlist.json ripetute o incomplete (file, chiamate e testo oppure tutto il file, motivo, scadenza)");
+        int files = 0, suiteFiles = 0; var found = new SortedDictionary<string, List<string>>(StringComparer.Ordinal);
+        foreach (var (folder, production) in new[] { ("X.Calculations", true), ("X.Core", true), ("X.Desktop", true), ("supporto/test", false), ("tests", false) })
             foreach (var path in Directory.EnumerateFiles(Path.Combine(root, folder), "*.cs", SearchOption.AllDirectories))
             {
                 string relative = Path.GetRelativePath(root, path).Replace('\\', '/');
-                if (relative.Contains("/bin/") || relative.Contains("/obj/") || legacyFiles.Contains(relative) || relative == adapter) continue;
-                files++;
-                foreach (Match m in forbidden.Matches(Code(File.ReadAllText(path)))) found.Add(relative + ": " + m.Value);
+                if (relative.Split('/').Any(part => part is "bin" or "obj") || legacyFiles.Contains(relative) || relative == adapter) continue;
+                files++; if (!production) suiteFiles++;
+                var calls = forbidden.Matches(DurabilityChecks.CodeOnly(File.ReadAllText(path))).Select(Call).ToList();
+                if (calls.Count > 0) found[relative] = calls;
             }
-        Check(files > 100 && found.Count == 0, "5k: chiamate del legacy fuori dall'adattatore: " + string.Join("; ", found));
-        Report["scansione_5k"] = new JsonObject { ["file"] = files, ["chiamate_vietate"] = found.Count };
-        Lines.Add($"5k scansione: {files} file di X.Calculations, X.Core e X.Desktop senza chiamate del legacy SLE fuori dall'adattatore e dai {legacyFiles.Length} file legacy; {Checks - checksBefore} controlli");
+        foreach (var (file, calls) in found)
+        {
+            var entry = allowlist.FirstOrDefault(a => a.File == file);
+            Check(entry.File is not null, $"5k: {file}: chiamate del legacy SLE fuori dall'adattatore e dall'elenco ammesso: {string.Join("; ", calls.Distinct())}");
+            if (entry.WholeFile) continue;
+            Check(entry.Calls == calls.Count, $"5k: {file}: {calls.Count} chiamate del legacy SLE, {entry.Calls} nell'elenco ammesso ({string.Join("; ", calls)})");
+            foreach (var call in calls) Check(entry.Texts.Contains(call), $"5k: {file}: chiamata non prevista dall'elenco ammesso: {call}");
+        }
+        foreach (var entry in allowlist) Check(found.ContainsKey(entry.File), $"5k: voce dell'elenco ammesso senza riscontro: {entry.File}");
+        Check(files - suiteFiles > 100 && suiteFiles > 100, $"5k: file scansionati {files - suiteFiles} di produzione e {suiteFiles} delle suite");
+        int allowed = found.Values.Sum(c => c.Count);
+        Report["scansione_5k"] = new JsonObject
+        {
+            ["file"] = files, ["file_delle_suite"] = suiteFiles, ["voci_dell_elenco_ammesso"] = allowlist.Count,
+            ["file_interi_ammessi"] = allowlist.Count(a => a.WholeFile), ["chiamate_ammesse"] = allowed
+        };
+        Lines.Add($"5k scansione: {files} file ({files - suiteFiles} di produzione, {suiteFiles} delle suite) senza chiamate del legacy SLE fuori dall'adattatore, dai "
+            + $"{legacyFiles.Length} file legacy e dalle {allowlist.Count} voci di legacy-allowlist.json ({allowed} chiamate ammesse); {Checks - checksBefore} controlli");
     }
-
-    /// <summary>Sorgente senza commenti e senza testi.</summary>
-    static string Code(string source) => Regex.Replace(source, @"(?s)/\*.*?\*/|//[^\n]*|@""(?:[^""]|"""")*""|\$?""(?:[^""\\\n]|\\.)*""|'(?:[^'\\]|\\.)'", " ");
 
     // ================================================================== 5m. motore della sessione
     void SessionEngine()

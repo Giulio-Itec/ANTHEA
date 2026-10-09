@@ -978,8 +978,8 @@ internal static class DurabilityChecks
         return legacy.Count;
     }
 
-    /// <summary>Codice senza commenti, stringhe e caratteri, con le stesse righe.</summary>
-    static string CodeOnly(string source)
+    /// <summary>Codice senza commenti, stringhe e caratteri, con le stesse righe (anche per la 5k delle SLE).</summary>
+    internal static string CodeOnly(string source)
     {
         const string Pattern = @"/\*[\s\S]*?\*/|//[^\n]*|\$*""""""[\s\S]*?""""""|(?:\$@|@\$|@)""(?:[^""]|"""")*""|\$?""(?:[^""\\\n]|\\.)*""|'(?:[^'\\\n]|\\.)'";
         return Regex.Replace(source.Replace("\r\n", "\n"), Pattern, m => new string('\n', m.Value.Count(c => c == '\n')) + " ");
