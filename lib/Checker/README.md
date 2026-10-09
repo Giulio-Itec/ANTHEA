@@ -24,6 +24,32 @@
 4. Verifiche: `build\ci.ps1 -Profile full`, profilo baseline contro i riferimenti, impronta delle mesh DelaunayMesh, test
    delle librerie; voce in questo README.
 
+Dal 9 ottobre 2026 il ramo principale di Checker è master (non più develop). Model 4 compila solo dal bundle fissato in
+`build/dependencies.props`: lo script lo prepara nel worktree da `-ModelDependencies <cartella>` (predefinito: la cache
+`.dependencies` del checkout Model in `-Repos`), validando ogni file per SHA-256, e si ferma se la Geometry o la
+Utilities fissate da Model non sono quelle dello snapshot. `-At Repo=commit` compila un commit già pushato più vecchio
+della testa del ramo remoto. Gmsh (GMsh.Net, UnsafeEx, gmsh-*.dll, GMesh) non entra mai in questa cartella: solo negli
+unit test.
+
+**Release S4 (9 ottobre 2026, librerie Model 4).** Compilata dai commit pushati con `tools/libs/Update-Snapshot.ps1
+-FromUpstream -At Geometry=1f901ef -ModelDependencies <cache verificata> -Repos <radice> -Install` (staging in
+`supporto/artefatti/lib-staging/20261009-224605`; controllo di versione contro S3). Commit sorgente: Utilities
+origin/master c0466b0, Geometry 1f901ef (release 2.1.0.5, raggiungibile da origin/master a420e0e, che porta già la 2.2:
+Model è fissato e verificato sulla 2.1.0.5), Model origin/master a324af3f, Checker origin/master 5fb6cdff; SDK 9.0.318;
+`pushed: true`; radice di build `C:\Users\g.pacini\AppData\Local\Temp\gpc-snapshot`.
+
+- Versioni: GPCGeometry 2.1.0.4 → 2.1.0.5, DelaunayMesh 2.0.0.11 → 2.0.0.12, GPCModel 1.6.1.1 → 4.0.1.0, GPCModelData
+  0.0.2.3 → 0.0.2.5, GPCChecker.Concrete 0.0.18.0 → 0.0.25.0, GPCChecker.Geotechnics 0.1.1.2 → 0.1.1.4,
+  GPCChecker.CompositeBridge 1.4.0.5 → 1.4.0.7; GPCUtilities 2.0.0.8 invariata (stesso SHA-256).
+- Model 4: namespace riorganizzati (guida `MIGRAZIONE_MODEL_4.txt` nel repository Model); ANTHEA compila senza
+  modifiche ai sorgenti. Concrete 0.0.25.0: numero delle tensioni delle barre controllato al punto d'uso con
+  ValidateAtUse (prova generale F2.7), risposte numeriche separate dalla verifica delle tensioni (8c45ba30, messaggio
+  del caso senza piano di deformazione cambiato, contratto K0 aggiornato su decisione dell'utente). Geometry 2.1.0.5:
+  hash e confronti di punti e vettori, mesh, poligoni; mesh usuali identiche (contratto K0 di Checker, 112027 righe).
+- SHA-256 (per intero nel manifest): GPCGeometry 4498B921…, DelaunayMesh 1ACE7E6F…, GPCModel 46EB0FF8…,
+  GPCModelData 5B091233…, GPCChecker.Concrete B6925BE8…, GPCChecker.Geotechnics C3EA33AF…, GPCChecker.CompositeBridge
+  E9C72307…; GPCUtilities 638FF722… come in S3.
+
 Riproducibilità: lo SHA-256 dipende dal commit e anche dal percorso di build, perché la DLL contiene il percorso
 completo del suo PDB (`<progetto>\obj\Release\netstandard2.0\<nome>.pdb`). Per questo la radice dei worktree è fissa
 (`gpc-snapshot` nella cartella temporanea dell'utente in forma lunga, registrata in `buildRoot`): due corse dagli stessi
