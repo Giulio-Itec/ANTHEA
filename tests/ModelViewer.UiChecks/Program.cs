@@ -47,6 +47,14 @@ static class Program
         var png = new PngBitmapEncoder(); png.Frames.Add(BitmapFrame.Create(target)); using var output = File.Create(path); png.Save(output);
         Check(scene.PixelWidth > 200 && scene.PixelHeight > 200 && new FileInfo(render).Length > 5000, "renderer produced a nonempty image: " + Path.GetFileName(path));
     }
+    static void CapturePage(FrameworkElement root, string path)
+    {
+        root.UpdateLayout();
+        var image = new RenderTargetBitmap((int)Math.Ceiling(root.ActualWidth), (int)Math.Ceiling(root.ActualHeight), 96, 96, PixelFormats.Pbgra32);
+        image.Render(root);
+        var png = new PngBitmapEncoder(); png.Frames.Add(BitmapFrame.Create(image));
+        using var output = File.Create(path); png.Save(output);
+    }
     [STAThread]
     static int Main(string[] args)
     {
@@ -73,6 +81,12 @@ static class Program
             string id = ProjectModelStore.Models(owner).First().S("id");
             Call(window, "ShowModelsHub"); Wait(100);
             Check(Children<Button>(window).Any(b => b.Content?.ToString() == ProjectModelStore.Models(owner).First().S("nome")), "Models workspace exposes imported resources");
+            CapturePage((FrameworkElement)window.Content, Path.Combine(output, "00-modelli.png"));
+            if (args.Contains("--models-hub-only"))
+            {
+                listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()), "no WPF binding errors in Models workspace");
+                window.Close(); app.Shutdown(); return 0;
+            }
             Call(window, "ShowContainerModel", owner, id); Wait(1200);
             var view = Children<ModelViewerControl>(window).Single(); var vm = (ModelViewerViewModel)view.DataContext; var viewport = Children<Viewport3DX>(view).Single();
             var timings = new List<string>();
