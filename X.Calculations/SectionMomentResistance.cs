@@ -9,7 +9,11 @@ public sealed record PrincipalMomentResistance(string Direction, double? Moment,
 
 public static class SectionMomentResistance
 {
-    public static double AxialToleranceKn(double axial) => Math.Max(1, Math.Abs(axial) * 1e-6);
+    /// <summary>Tolerance on N (kN) of a resistance point at the assigned axial force: the rule of the library (refactoring S-1), which
+    /// depends on the concrete diagram (larger with the stress block, less precise) and on the size of the section.</summary>
+    public static double AxialToleranceKn(GPC.Checkers.Concrete.SectionSolvers.SectionSolver solver, double axial) =>
+        GPC.Checkers.Concrete.SectionSolvers.DomainPointAxialTolerance.Calculate(solver, axial * 1000) / 1000;
+    internal static double AxialToleranceKn(CheckerSection engine, double axial) => AxialToleranceKn(engine.Checker.SectionSolver, axial);
     public static PrincipalMomentResistance[] Calculate(JsonObject input, JsonObject workspace, double axial, bool elastic, CancellationToken token = default)
     {
         if (!double.IsFinite(axial)) throw new ArgumentException("N deve essere finito.");
@@ -31,7 +35,7 @@ public static class SectionMomentResistance
                 if (point is null) throw new ArgumentException("Punto resistente non trovato.");
                 var r = CheckerSection.Point(point);
                 double moment = mx != 0 ? r.Mx : r.My, transverse = mx != 0 ? r.My : r.Mx;
-                if (!double.IsFinite(r.N + r.Mx + r.My) || Math.Abs(r.N - axial) > AxialToleranceKn(axial)
+                if (!double.IsFinite(r.N + r.Mx + r.My) || Math.Abs(r.N - axial) > AxialToleranceKn(engine, axial)
                     || moment * (mx + my) < 0 || Math.Abs(transverse) > Math.Max(1, Math.Abs(moment) * .001))
                     throw new ArgumentException("Soluzione non coerente con N e direzione assegnati.");
                 results.Add(new(label, moment, r, "Resistenza a N costante · assi locali") { Section = engine.Describe(point) });

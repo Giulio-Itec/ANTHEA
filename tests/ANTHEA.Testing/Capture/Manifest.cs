@@ -64,7 +64,7 @@ public static class Manifest
         var counts = new JsonObject(); foreach (var (k, v) in written.OrderBy(p => p.Key, StringComparer.Ordinal)) counts[k] = v;
         counts["errori_registrati"] = errors; counts["casi"] = corpus.Count;
 
-        return new JsonObject
+        var manifest = new JsonObject
         {
             ["schema"] = 1,
             ["strumento"] = "ANTHEA.Testing",
@@ -101,6 +101,9 @@ public static class Manifest
             ["non_coperto"] = new JsonArray(CaptureRunner.NotCovered.Select(n => (JsonNode)new JsonObject { ["voce"] = n.Item, ["motivo"] = n.Reason }).ToArray()),
             ["confronto"] = "manifest.json, log.txt e raw/ sono esclusi dal confronto dei valori (tests/ANTHEA.Testing/tolerances.json, file_esclusi)."
         };
+        // Motore SLE scelto con '--motore-sle' (refactoring F2.7b, commit A4); senza l'opzione il manifest resta quello di prima.
+        if (options.ServiceabilityEngine is { } engine) manifest["motore_sle"] = engine.ToString();
+        return manifest;
     }
 
     sealed record GitTool(string? Executable, string Root)

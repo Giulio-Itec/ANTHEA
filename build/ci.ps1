@@ -96,6 +96,11 @@ Add-Suite @{ Name = 'ConcreteCode.Checks'; Stage = 'fast'; Kind = 'run'; Project
 # Adapter of shear and torsion to GPCChecker.Concrete (refactoring F2.5-F2.6): mapping layer, switch, legacy-library equivalence.
 Add-Suite @{ Name = 'ConcreteLibraryAdapter.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'; Args = @('{out}')
     Proof = @{ File = '{out}\misura.json'; Pattern = '"strumento": "ConcreteLibraryAdapter.Checks"' } }
+# F2.1 bench: legacy against GPCChecker.Concrete near the branch thresholds and on closed-form sections (independent Python
+# expected values, regenerated and compared by the second suite).
+Add-Suite @{ Name = 'ConcreteBench.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ConcreteBench.Checks\ConcreteBench.Checks.csproj'; Args = @('{out}')
+    Proof = @{ File = '{out}\misura.json'; Pattern = '"strumento": "ConcreteBench.Checks"' } }
+Add-Suite @{ Name = 'ConcreteBench.Checks/attesi'; Stage = 'fast'; Kind = 'python'; Script = 'tests\ConcreteBench.Checks\attesi\genera_attesi.py'; Args = @('--check') }
 
 Add-Suite @{ Name = 'verifiche/regressione'; Stage = 'regression'; Kind = 'run'; Project = $Verifiche; Args = @('{cases}', '{out}\confronto_numerico.json') }
 Add-Suite @{ Name = 'verifiche/software'; Stage = 'regression'; Kind = 'run'; Project = $Verifiche; Args = @('--software', '{cases}', '{out}\avanzamento.txt'); Proof = @{ File = '{out}\avanzamento.txt'; Pattern = '^Completato: ' } }
@@ -164,6 +169,10 @@ Add-Suite @{ Name = 'ui/check-wiki-offscreen'; Stage = 'ui'; Kind = 'check'; Arg
 foreach ($name in 'HorizontalPileGroup.Checks', 'ElasticPile.UiChecks', 'ConcreteShort.UiChecks') {
     Add-Suite @{ Name = $name; Stage = 'ui'; Kind = 'run'; Project = (TestProject $name); Args = @('{out}'); Timeout = 900 }
 }
+# Second ring of bars of the horizontal pile (user report of 8/10): main section, segments, c.a. verifier, off screen.
+Add-Suite @{ Name = 'ElasticPile.UiChecks/anello-interno'; Stage = 'ui'; Kind = 'run'; Project = (TestProject 'ElasticPile.UiChecks'); Args = @('{out}', '--inner-ring-only'); Timeout = 300 }
+# Notice of the stress block under the concrete law (decision of the user of 8/10), c.a. section and pile, off screen.
+Add-Suite @{ Name = 'ElasticPile.UiChecks/nota-stress-block'; Stage = 'ui'; Kind = 'run'; Project = (TestProject 'ElasticPile.UiChecks'); Args = @('{out}', '--stress-block-note-only'); Timeout = 300 }
 # Formerly ConcreteDesign.DesktopChecks (moved to supporto/SUPERATI/test in F1.6): ConcreteDesign.Checks writes ui-fixture.json first.
 Add-Suite @{ Name = 'ui/check-concrete-design'; Stage = 'ui'; Kind = 'check'; Args = @('--check-concrete-design', '{out}'); Timeout = 900
     Before = @{ Project = (TestProject 'ConcreteDesign.Checks'); Args = @('{out}') }; Builds = @(@{ Project = (TestProject 'ConcreteDesign.Checks'); Configuration = 'Release' })

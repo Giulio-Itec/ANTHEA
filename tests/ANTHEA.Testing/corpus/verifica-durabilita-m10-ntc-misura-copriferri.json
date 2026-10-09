@@ -1,0 +1,13 @@
+{
+  "moduleId": "mat_calcestruzzo",
+  "label": "Scheda Materiali, NTC + Circolare 2019: XC1, C25/30, controllo «Misura copriferri» con Δcdev 5 mm",
+  "description": "Caso M10 del corpus della cattura headless (baseline B6, refactoring F2.9): tolleranza di posa ridotta a 5 mm con il controllo di esecuzione «Misura copriferri».",
+  "overrides": {
+    "classe": "C25/30",
+    "esposizione_principale": "XC1",
+    "esposizioni": [ "XC1" ],
+    "numeri": { "diameter": "16", "aggregate": "20" },
+    "scelte": { "coverMethod": "NTC + Circ. 2019", "ntcElement": "Trave / pilastro", "life": "50 anni", "deviationControl": "Misura copriferri", "deviationValue": "5 mm", "ground": "Casseratura", "abrasion": "Nessuno" },
+    "opzioni": { "highStrength": false, "slab": false, "quality": false, "rough": false, "ntcQuality": false }
+  }
+}

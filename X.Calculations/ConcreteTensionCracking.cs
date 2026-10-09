@@ -4,8 +4,10 @@ using GPC.Model.Materials;
 namespace Anthea.Calculations;
 public static partial class Ntc2018Checks
 {
+    /// <param name="code">Standard of the crack check (the "normativa" of the workspace, as in <see cref="Cracking"/>).</param>
+    /// <param name="spacingCalculator">Stateless geometric spacing of the tensile bars, passed by <see cref="Cracking"/>.</param>
     private static CrackResult FullyTensionedCracking(CheckerSection engine,CheckerStressState state,JsonObject input,
-        JsonObject options,double limit,List<CrackCalculationDetail> details)
+        JsonObject options,string code,ITensionBarSpacing spacingCalculator,double limit,List<CrackCalculationDetail> details)
     {
         var section=engine.Geometry;var plane=state.Native.StrainPlane;var material=(ConcreteMaterialEuropeanCommon)engine.Section.ConcreteMaterial;
         var regions=new List<ConcreteEffectiveRegion>();var widths=new List<double>();var formulae=new List<List<CrackCalculationDetail>>();
@@ -32,7 +34,7 @@ public static partial class Ntc2018Checks
             double edge=section.Bars.Max(b=>Q(b.X,b.Y));
             var face=section.Bars.Where(b=>Q(b.X,b.Y)>=edge-section.Bars.Max(b=>b.Diametro)).ToArray();
             double center=face.Sum(b=>Q(b.X,b.Y)*b.Area)/face.Sum(b=>b.Area);
-            double hc=ConcreteCodeChecks.EffectiveCrackDepth(options.S("__normativa_fessure","NTC 2018"),section,qx,qy,top,height,top-center,height,true),level=top-hc;
+            double hc=ConcreteCodeChecks.EffectiveCrackDepth(code,section,qx,qy,top,height,top-center,height,true),level=top-hc;
             var indices=section.Bars.Select((b,i)=>(b,i)).Where(v=>Q(v.b.X,v.b.Y)>=level-1e-8&&state.tensioni_barre[v.i]>0).Select(v=>v.i).ToArray();
             var region=SectionRegions.Region(section,name,qx,qy,level,indices);
             details.Add(new(name,null,"","Verifica indipendente della fascia; nessuna somma con le aree delle altre facce."));
@@ -43,22 +45,22 @@ public static partial class Ntc2018Checks
             var bars=indices.Select(i=>section.Bars[i]).ToArray();
             double phi=bars.Sum(b=>b.Diametro*b.Diametro)/bars.Sum(b=>b.Diametro);
             double cover=options.S("copriferro_fessure").Trim()==""?bars.Min(b=>top-Q(b.X,b.Y)-b.Diametro/2):options.Required("copriferro_fessure");
-            double? spacing=options.S("spaziatura_fessure").Trim()==""?SpacingCalculator.Maximum(section,indices):options.Required("spaziatura_fessure",strict:true);
+            double? spacing=options.S("spaziatura_fessure").Trim()==""?spacingCalculator.Maximum(section,indices):options.Required("spaziatura_fessure",strict:true);
             if(spacing is not >0)return new(null,limit,null,null,name+": specificare l’interasse massimo delle barre"){Details=details.ToArray(),Regions=regions.Append(region).ToArray()};
             double sigma=indices.Max(i=>state.tensioni_barre[i]);
             var calculation=new List<CrackCalculationDetail>();
-            double width=ConcreteCodeChecks.CrackWidth(options.S("__normativa_fessure","NTC 2018"),sigma,section.Es,material.Ecm,material.Fctm,region.SteelArea/region.Area,phi,cover,spacing.Value,height,
+            double width=ConcreteCodeChecks.CrackWidth(code,sigma,section.Es,material.Ecm,material.Fctm,region.SteelArea/region.Area,phi,cover,spacing.Value,height,
                 options.S("durata","Lunga")=="Breve",options.S("aderenza","Migliorata")=="Migliorata",k2,calculation);
             details.AddRange(calculation.Select(d=>d with{Symbol=name+" · "+d.Symbol}));formulae.Add(calculation);
             regions.Add(region with{Width=width});widths.Add(width);
         }
-        if(options.S("__normativa_fessure").StartsWith("DS"))
+        if(code.StartsWith("DS"))
         {
             var indices=Enumerable.Range(0,section.Bars.Count).ToArray();
             double area=SectionGeometry.Area(section.Outline)-section.Holes.Sum(SectionGeometry.Area),steel=section.AreaSteel;
             double phi=section.Bars.Sum(b=>b.Diametro*b.Diametro)/section.Bars.Sum(b=>b.Diametro);
             double cover=options.S("copriferro_fessure").Trim()==""?section.Bars.Min(b=>SectionGeometry.BarCover(section,b)):options.Required("copriferro_fessure");
-            double? spacing=options.S("spaziatura_fessure").Trim()==""?SpacingCalculator.Maximum(section,indices):options.Required("spaziatura_fessure",strict:true);
+            double? spacing=options.S("spaziatura_fessure").Trim()==""?spacingCalculator.Maximum(section,indices):options.Required("spaziatura_fessure",strict:true);
             if(spacing is not >0)return new(null,limit,null,null,"DS sistema grossolano: inserire interasse massimo"){Details=details.ToArray(),Regions=regions.ToArray()};
             var trace=new List<CrackCalculationDetail>();
             double width=.5*ConcreteCodeChecks.CrackWidth("DS EN 1992-1-1",state.tensioni_barre.Max(),section.Es,material.Ecm,material.Fctm,steel/area,phi,cover,spacing.Value,Math.Max(section.Width,section.Height),

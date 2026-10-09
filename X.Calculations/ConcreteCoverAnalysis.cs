@@ -10,10 +10,11 @@ public sealed record ConcreteCoverResult(double Adopted, double MaterialMinimum,
 
 public static class ConcreteCoverAnalysis
 {
-    /// <summary>Checks material-sheet and actual-bar cover minima without changing either input.</summary>
-    public static ConcreteCoverResult Calculate(JsonObject input, JsonObject material, double fck)
+    /// <summary>Checks material-sheet and actual-bar cover minima without changing either input.
+    /// The optional durability engine (refactoring F2.9-D2) is passed to every minimum; default the adapter's.</summary>
+    public static ConcreteCoverResult Calculate(JsonObject input, JsonObject material, double fck, DurabilityEngine? engine = null)
     {
-        double minimum = Materiali.MaterialCover.Required(material, fck);
+        double minimum = Materiali.MaterialCover.Required(material, fck, engine);
         double adopted = input.Required("cover_mm"), required = minimum;
         double? diameter = null; string? error = null;
         try
@@ -21,7 +22,7 @@ public static class ConcreteCoverAnalysis
             var section = new SezioneCA(input);
             if (section.Bars.Count == 0) throw new ArgumentException("armatura non definita");
             diameter = section.Bars.Max(b => b.Diametro);
-            required = Math.Max(minimum, Materiali.MaterialCover.Required(material, fck, diameter.Value));
+            required = Math.Max(minimum, Materiali.MaterialCover.Required(material, fck, diameter.Value, engine));
         }
         catch (ArgumentException ex) { error = ex.Message; }
         return new(adopted, minimum, required, diameter, error);

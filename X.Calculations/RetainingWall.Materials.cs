@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Text.Json.Nodes;
 
 namespace Anthea.Calculations;
@@ -43,11 +44,12 @@ public static partial class RetainingWall
             if (key is "fck_mpa" or "fyk_mpa" || SectionMaterialKeys.Contains(key)) m[target] = value?.DeepClone();
         }
     }
-    public static readonly (string Key, string Value)[] CoverChoiceDefaults = [
+    // Copriferro del muro come la scheda Materiali: tabelle immutabili (refactoring F2.9, prova 11g; prima array pubblici modificabili).
+    public static readonly ImmutableArray<(string Key, string Value)> CoverChoiceDefaults = [
         ("cover_method", "NTC + Circ. 2019"), ("cover_element", "Piastra / soletta / parete"),
         ("cover_ground", "Casseratura"), ("cover_abrasion", "Nessuno")];
-    public static readonly string[] CoverFlags = ["cover_quality", "cover_high_strength", "cover_slab", "cover_ec_quality", "cover_rough"];
-    public static readonly (string Key, string Path)[] CoverSheetPaths = [
+    public static readonly ImmutableArray<string> CoverFlags = ["cover_quality", "cover_high_strength", "cover_slab", "cover_ec_quality", "cover_rough"];
+    public static readonly ImmutableArray<(string Key, string Path)> CoverSheetPaths = [
         ("cover_method", "scelte/coverMethod"), ("cover_element", "scelte/ntcElement"),
         ("cover_ground", "scelte/ground"), ("cover_abrasion", "scelte/abrasion"),
         ("cover_high_strength", "opzioni/highStrength"), ("cover_slab", "opzioni/slab"),

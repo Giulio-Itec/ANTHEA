@@ -6,9 +6,11 @@ using X.Core;
 
 static partial class Program
 {
-    static int PileExample(string evidence,bool cuttingExample=false)
+    static int PileExample(string evidence,bool cuttingExample=false,bool updateExample=false)
     {
-        var folder=Path.GetFullPath("supporto/esempi/palo-orizzontale-armature");Directory.CreateDirectory(folder);
+        // A check run writes the example (archive, drawing, text) into its own folder; the versioned copy in supporto/esempi
+        // is rewritten only on explicit request (--update-example).
+        var folder=updateExample?Path.GetFullPath("supporto/esempi/palo-orizzontale-armature"):Path.Combine(Path.GetFullPath(evidence),"esempio");Directory.CreateDirectory(folder);
         var root=PaloOrizzontale.Defaults();var g=root["generali"]!;g["lunghezza"]=12;g["diametro"]=1;g["azione_assiale"]=600;g["azione_orizzontale"]=100;
         g["presenza_falda"]=true;g["profondita_falda"]=4;g["eccentricita"]=0;g["tratto_libero"]=0;
         var upper=PaloOrizzontale.Layer();upper["nome"]="Sabbia sciolta · esempio";upper["spessore"]=4;

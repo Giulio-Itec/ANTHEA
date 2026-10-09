@@ -44,7 +44,7 @@ internal sealed partial class ConcreteWorkspace
             .Append(Input.S(key)).Append("Personalizzato").Where(s => s.Length > 0).Distinct().ToArray();
         materials = new InputForm(Input, [
             new("classe_cls", "Calcestruzzo da normativa", Choices: Choices(concreteCatalog, "classe_cls")),
-            new("fck_mpa", "fck", "MPa", ReadOnly: true), new("cls_diagramma", "Diagramma CLS", Choices: ConcreteMaterials.ConcreteDiagrams),
+            new("fck_mpa", "fck", "MPa", ReadOnly: true), new("cls_diagramma", "Diagramma CLS", Choices: ConcreteMaterials.ConcreteDiagrams, Note: FieldNotes.StressBlock),
             new("gettato_sottile", "Piano gettato in opera < 50 mm", Choices: ["No", "Sì"]),
             new("__fcd", "fcd", "MPa", ReadOnly: true), new("__ecm", "Ecm", "MPa", ReadOnly: true),
             new("__ec2", "εc,y (diagramma)", "‰", ReadOnly: true), new("__ecu", "εc,u (diagramma)", "‰", ReadOnly: true),

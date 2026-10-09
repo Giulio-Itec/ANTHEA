@@ -1,0 +1,13 @@
+{
+  "moduleId": "mat_calcestruzzo",
+  "label": "Scheda Materiali, NTC + Circolare 2019: X0, C12/15, trave",
+  "description": "Caso M5 del corpus della cattura headless (baseline B6, refactoring F2.9): esposizione X0 con la classe più bassa della scheda, uguale alla classe minima UNI 11104.",
+  "overrides": {
+    "classe": "C12/15",
+    "esposizione_principale": "X0",
+    "esposizioni": [ "X0" ],
+    "numeri": { "diameter": "16", "aggregate": "20" },
+    "scelte": { "coverMethod": "NTC + Circ. 2019", "ntcElement": "Trave / pilastro", "life": "50 anni", "deviationControl": "Ordinario", "deviationValue": "10 mm", "ground": "Casseratura", "abrasion": "Nessuno" },
+    "opzioni": { "highStrength": false, "slab": false, "quality": false, "rough": false, "ntcQuality": false }
+  }
+}

@@ -13,7 +13,7 @@ arrivano dalle proprietà comuni (`Directory.Build.targets`), senza riferimenti 
 Dalla radice del repository, dopo `dotnet build tests\ANTHEA.Testing\ANTHEA.Testing.csproj -c Release`:
 
 ```
-dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll capture <uscita> [--tag B0] [--commit <sha>] [--only <regex modulo/caso>] [--no-trace]
+dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll capture <uscita> [--tag B0] [--commit <sha>] [--only <regex modulo/caso>] [--no-trace] [--motore-sle legacy|libreria]
 dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll compare <a> <b> [--report confronto.json] [--tolerances <file>] [--max 40]
 dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll normalize <ingresso> <uscita>
 dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll compare-dense <riferimento> <candidato> --confronto <nome> [--classificazione <file>] [--report confronto.json] [--max 40]
@@ -21,7 +21,10 @@ dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll compare-dense 
 
 - `capture` scrive in una cartella nuova o vuota. Esce con 0 anche quando un caso lancia
   un'eccezione: l'eccezione fa parte del comportamento ed è scritta al posto del risultato
-  (`errore_cattura`).
+  (`errore_cattura`). `--motore-sle` (refactoring F2.7b, commit A4) sceglie il motore delle
+  verifiche SLE della sezione c.a. e dei muri (`ConcreteServiceabilityAdapter`); senza
+  l'opzione si usa quello predefinito dell'adattatore e il manifest non cambia, con l'opzione
+  il manifest riporta `motore_sle`.
 - `compare` esce con 0 se le due catture sono uguali entro le tolleranze, con 1 se ci sono
   differenze non ammesse, con 2 per argomenti errati.
 - `normalize` rende confrontabili le uscite delle prove WPF e i report: DOCX in testo per
@@ -73,14 +76,22 @@ di caratteri si scrivono compressi (`.gz`), letti in modo trasparente da `compar
   (rettangolare, circolare e circolare cava NTC 2018 con torsione, rettangolare DIN con cot θ
   assegnato e rifiuti). I casi dichiarano `foro_presente`: senza la chiave il ripiego di
   `J.B("foro_presente")` registrato in `fallbacks.json` cambierebbe chiamante con il motore di
-  taglio e torsione (registro F2-1), e il confronto con la baseline lo segnalerebbe.
+  taglio e torsione (registro F2-1), e il confronto con la baseline lo segnalerebbe;
+- dalla baseline B6 (refactoring F2.9), i casi della durabilità `verifica-durabilita-*.json`,
+  dopo quelli di B3 nell'ordine dei nomi: 14 schede Materiali (M1-M14: criteri NTC ed EC2,
+  esposizioni, elemento, vita, controlli di esecuzione, getto, abrasione e tre rifiuti), 3 muri a
+  mensola (W1-W3) e 3 sezioni c.a. NTC con i dettagli costruttivi (S1-S3). Ogni caso dichiara le
+  chiavi lette dal calcolo, così non nascono gruppi nuovi in `fallbacks.json`.
 
 Motori fuori da `CalculationService`: risposta e armature dei tratti del palo elastico
 (`CalculateResponse`, `CompleteReinforcement`), stabilità globale dei muri con la proposta
 del profilo e con il modello di `GlobalStability.Checks`, `DesignReinforcement` e distinta
 dei muri a mensola, curve di risposta della sezione composta (`ResponseDefaults`: momento–
 curvatura, forza–deformazione, dopo la fase 0), ottimizzazione di Bridge Design con le
-opzioni predefinite. Ciò che resta escluso è elencato in `manifest.json` (`non_coperto`).
+opzioni predefinite; dalla baseline B6 (F2.9) la parte di durabilità dei dettagli costruttivi
+delle sezioni c.a. (`engines/dettagli_durabilita/<caso>.json`: proiezione con campi con nome di
+`ConcreteDetailingAnalysis.Calculate(…).Durability` e `DurabilityError`, con le azioni SLU e SLV
+del foglio). Ciò che resta escluso è elencato in `manifest.json` (`non_coperto`).
 
 ## Tolleranze
 
@@ -113,6 +124,13 @@ Classi delle differenze: `file-aggiunto`, `file-rimosso`, `chiave-aggiunta`,
 | `b0` | `supporto/artefatti/baseline/F0-B0/dense/<modalità>` | esatte (`denso/`) | misura F2.1 rispetto a B0 |
 | `pre-m4` | `supporto/artefatti/baseline/F2-pre-m4-v2/a/<modalità>` (nessuna differenza attesa) | esatte (`denso/`) | doppia corsa; catture con `--motore legacy` (`-DenseSet pre-m4`) |
 | `f2-libreria` | come `pre-m4` (nessuna differenza attesa) | 1e-9 sui soli numeri di taglio e torsione calcolati da GPCChecker.Concrete (regole `f2-libreria/`, registro F2-1), il resto esatto | catture con il motore della libreria (predefinito dal passo F2.6, o `--motore libreria`), passi F2.6-F2.9; predefinito di `-DenseSet` nel runner (`-DenseRef`) |
+| `pre-f28` | `supporto/artefatti/baseline/F2-pre-f28/a/<modalità>`: F2-pre-m4-v2 più i sei file della cattura estesa di F2.8-A0, tutto con `--motore legacy` (nessuna differenza attesa) | esatte (`denso/`), tutti i file | doppia corsa; riferimento esatto dei passi F2.8 (catture con tutti i motori legacy) |
+
+Dal passo F2.8-A0 `b0`, `pre-m4` e `f2-libreria` escludono (`file_esclusi`, espressioni regolari sui nomi) i sei file
+nuovi della modalità tutte: `detailing-plate-legacy.csv`, `detailing-plate-sections.xml`, `detailing-texts-legacy.csv`,
+`detailing-adapter-legacy.jsonl`, `bond-legacy.csv` e `curvature-production-legacy.csv`
+(`supporto/test/CheckerMigration.Capture/README.md`). `fixture-checker` dichiara i suoi file e li lascia fra i non
+confrontati.
 
 Regole del confronto:
 

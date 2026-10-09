@@ -5,7 +5,9 @@ namespace Anthea.Calculations;
 /// <summary>Nonvisual calculation entry point. Every branch calls the same engines as the sheet UI.</summary>
 public static class CalculationService
 {
-    public static JsonObject Calculate(string module, JsonObject data, CancellationToken cancellation = default)
+    /// <param name="serviceabilityEngine">Motore SLE della sezione c.a. e dei muri (limiti tensionali e fessurazione); null = predefinito
+    /// dell'adattatore (refactoring F2.7b, commit A4). Gli altri moduli non hanno verifiche SLE della sezione.</param>
+    public static JsonObject Calculate(string module, JsonObject data, CancellationToken cancellation = default, ServiceabilityEngine? serviceabilityEngine = null)
     {
         ModuleCatalog.ValidateData(module, data);
         CalculationValidation.RequireValidCoefficients(module, data);
@@ -18,10 +20,10 @@ public static class CalculationService
             "geo_palo_verticale" => Calcolo.Calcola(snapshot),
             "geo_micropalo_verticale" => Calcolo.Calcola(snapshot, true),
             PaloOrizzontale.Module or MicropaloOrizzontale.Module => PaloOrizzontale.Calculate(snapshot),
-            RetainingWall.Module => RetainingWall.Calculate(snapshot, cancellation).Json(),
+            RetainingWall.Module => RetainingWall.Calculate(snapshot, cancellation, serviceabilityEngine).Json(),
             BridgeSection.Module => BridgeSection.Calculate(snapshot, cancellation).Json(),
             BridgeConcept.Module => BridgeConcept.Calculate(snapshot).Json(),
-            "str_palo" => ConcreteAnalysis.Calculate(snapshot, cancellation),
+            "str_palo" => ConcreteAnalysis.Calculate(snapshot, cancellation, serviceabilityEngine),
             RebarMaterial.Module => J.Obj(("errore", ""), ("materiale", RebarMaterial.Evaluate(snapshot["input"]!.AsObject())),
                 ("diagramma", RebarMaterial.Curve(snapshot["input"]!.AsObject()))),
             "mat_calcestruzzo" => MaterialProperties(snapshot),

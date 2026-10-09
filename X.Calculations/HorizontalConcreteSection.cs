@@ -28,7 +28,7 @@ public static class HorizontalConcreteSection
         return J.Obj(("momento_knm", moment), ("n_kn", axial), ("n_checker_kn", -axial),
             ("asse_neutro_mm", governing.Section?.NeutralDistance),
             ("residuo_n_kn", -governing.Resistance!.Value.N - axial),
-            ("tolleranza_n_kn", SectionMomentResistance.AxialToleranceKn(axial)),
+            ("tolleranza_n_kn", SectionMomentResistance.AxialToleranceKn(engine, -axial)),
             ("fcd_mpa", material.Fcd), ("fyd_mpa", material.Fyd), ("area_acciaio_mm2", engine.Geometry.AreaSteel),
             ("outline", engine.Geometry.Outline), ("bars", engine.Geometry.Bars.Select(b => new[] { b.X, b.Y, b.Area, b.Diametro })),
             ("normativa", workspace.S("normativa_custom", "NTC 2018")), ("coefficienti_unitari",input.B("coefficienti_unitari")), ("motore", "GPCChecker.Concrete"), ("direzioni", directions), ("lati_contorno", engine.Geometry.CircularSides),

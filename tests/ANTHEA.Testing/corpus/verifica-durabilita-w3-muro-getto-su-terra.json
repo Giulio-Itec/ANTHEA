@@ -1,0 +1,14 @@
+{
+  "moduleId": "geo_muri_sostegno",
+  "label": "Muro a mensola, copriferro NTC + Circolare 2019: getto direttamente su terra, abrasione XM2, copriferro adottato 40 mm",
+  "description": "Caso W3 del corpus della cattura headless (baseline B6, refactoring F2.9): il limite di 75 mm per il getto direttamente su terra supera il copriferro adottato di 40 mm, quindi il controllo del copriferro del muro non è soddisfatto.",
+  "overrides": {
+    "family": "cantilever",
+    "materials": { "exposure": "XC2", "fck": 30, "cover": 40 },
+    "detailing": {
+      "aggregate": 20, "life": 50, "cover_deviation": 10, "cover_method": "NTC + Circ. 2019", "cover_element": "Piastra / soletta / parete",
+      "cover_ground": "Direttamente su terra", "cover_abrasion": "XM2 · +10 mm", "cover_quality": false, "cover_high_strength": false, "cover_slab": false,
+      "cover_ec_quality": false, "cover_rough": false
+    }
+  }
+}

@@ -147,7 +147,7 @@ internal sealed class PileReinforcementDrawing : DrawingView
             Section(dc, segment, new(sectionsX + 65, c), 49, i);
             var s = segment["sezione"]!;
             Text(dc, $"{segment.S("id")} · x={at:0.00} m", sectionsX + 3, c - 73, 12, Ui.Navy, 205, true);
-            Text(dc, $"{s.D("longitudinal_bar_count"):0} Ø{s.D("longitudinal_bar_diameter_mm"):0}", sectionsX + 126, c - 14, 13, Ui.Navy, 85, true);
+            Text(dc, $"{s.D("longitudinal_bar_count"):0} Ø{s.D("longitudinal_bar_diameter_mm"):0}" + (s.B("second_inner_enabled") ? $"\n+ {s.D("second_inner_count"):0} Ø{s.D("second_inner_diameter"):0}" : ""), sectionsX + 126, c - 14, 13, Ui.Navy, 85, true);
             Text(dc, $"{LinkMark(segment,i)} · {s.S("tipo_trasversale","Staffe singole")}\nØ{s.D("transverse_bar_diameter_mm"):0} / {s.D("transverse_spacing_mm"):0} mm · c = {s.D("cover_mm"):0} mm", sectionsX + 3, c + 54, 11, Ui.Muted, 210);
         }
 

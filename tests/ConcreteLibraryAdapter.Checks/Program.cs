@@ -20,8 +20,27 @@ using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 //    con il motore legacy coincide anche con il legacy diretto. 3e: taglio e torsione del calcolo headless sono quelli del motore
 //    predefinito (5 norme; torsione NTC su 5 forme e 3 valori di cot θ), con più righe che distinguono i motori.
 // 4. Attesi indipendenti (reference.json, benchmark e forme chiuse di taglio e torsione) sul percorso dell'adattatore, con entrambi i motori.
+// 11. Durabilità e copriferri (refactoring F2.9): Durability.cs.
+// 5l (F2.7, commit A2; LegacyServiceability da A3; adattatore SLE e sonda da A4): stato statico di Ntc2018Checks, ConcreteLibraryMapping,
+//    ConcreteShearTorsionAdapter, LegacyServiceability, ConcreteServiceabilityAdapter e ServiceabilityProbe per riflessione (StaticState.cs), con le eccezioni
+//    dichiarate (Ntc2018Checks.Exposures fino ad A11; l'AsyncLocal della sonda). Contata a parte; in misura.json da A4.
+// 7a (F2.7, commit A3): fattore dei getti sottili dalla libreria attraverso la mappatura per limite SLE, αcc e fcd (ThinCastingGrid.cs): griglia di
+//    9 norme × 4 valori di 'gettato_sottile' uguale all'espressione legacy, ordine dei rifiuti e fonte unica. Contata a parte, come la 5l.
+// SLE (F2.7, commit A4; ServiceabilityChecks.cs e ServiceabilityPaths.cs): prove 5a-5k, 5m e 6 dell'adattatore delle verifiche SLE con entrambi i
+//    motori; da A4 anche 5l e 7a entrano in misura.json, ciascuna con i propri conteggi.
+//   dotnet ConcreteLibraryAdapter.Checks.dll [cartella] [--solo-sle] [--prove 5a,5d,…]   (--solo-sle salta le griglie di taglio e torsione e non
+//   scrive misura.json; --prove limita le prove SLE, per le prove negative)
 // Uscita 0 con la riga "PASS · …"; 1 con il primo controllo fallito.
 const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Library; // F2.5 e cattura di B3: legacy; F2.6: libreria
+const ServiceabilityEngine ExpectedServiceabilityDefault = ServiceabilityEngine.Legacy; // F2.7b A4: legacy; A8: libreria
+string? output = null; bool onlySle = false; HashSet<string>? proofs = null;
+for (int i = 0; i < args.Length; i++)
+{
+    if (args[i] == "--solo-sle") onlySle = true;
+    else if (args[i] == "--prove" && i + 1 < args.Length) proofs = args[++i].Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToHashSet();
+    else output = args[i];
+}
+bool partial = onlySle || proofs is not null;
 const double Tolerance = 1e-9;
 // Casi con uscite dei due motori diverse richiesti a ogni controllo che distingue i motori (3d taglio del modulo, 3e taglio e torsione
 // del calcolo headless): il riconoscimento di un calcolo che aggiri l'interruttore non dipende da un solo caso.
@@ -29,6 +48,12 @@ const int MinimumDiscriminating = 10;
 
 int count = 0;
 void Check(bool ok, string message) { if (!ok) throw new Exception(message); count++; }
+// Prova 5l contata a parte: non entra nei 'controlli' di misura.json.
+int staticChecks = 0;
+void StaticCheck(bool ok, string message) { if (!ok) throw new Exception(message); staticChecks++; }
+// Prova 7a contata a parte, come la 5l.
+int thinCastingChecks = 0;
+void ThinCastingCheck(bool ok, string message) { if (!ok) throw new Exception(message); thinCastingChecks++; }
 var italian = CultureInfo.GetCultureInfo("it-IT");
 CultureInfo.CurrentCulture = italian; // cultura dell'applicazione: i messaggi con numeri formattati devono coincidere anche qui
 var shearStats = new Stats("taglio"); var torsionStats = new Stats("torsione"); var geometryStats = new Stats("profilo resistente"); var moduleStats = new Stats("modulo");
@@ -119,6 +144,49 @@ try
 
     // ---------------------------------------------------------------- 2. interruttore
     Check(ConcreteShearTorsionAdapter.Default == ExpectedDefault, $"motore predefinito {ConcreteShearTorsionAdapter.Default}, atteso {ExpectedDefault}");
+    // Interruttore SLE: contato nella parte SLE ('controlli' di misura.json resta quello di taglio e torsione).
+    if (ConcreteServiceabilityAdapter.Default != ExpectedServiceabilityDefault)
+        throw new Exception($"motore SLE predefinito {ConcreteServiceabilityAdapter.Default}, atteso {ExpectedServiceabilityDefault}");
+
+    // ---------------------------------------------------------------- 2b. stato statico (prova 5l)
+    // Prima il campione: la prova riconosce ogni forma di stato statico (una prova che non trova nulla non deve passare per vuota).
+    var sample = StaticState.Inspect(typeof(StaticStateSample)).Violations.Select(v => v.Member).OrderBy(m => m, StringComparer.Ordinal).ToArray();
+    StaticCheck(sample.SequenceEqual(StaticStateSample.Expected.OrderBy(m => m, StringComparer.Ordinal)),
+        "5l, campione: trovate " + string.Join(", ", sample) + "; attese " + string.Join(", ", StaticStateSample.Expected));
+    // Eccezioni dichiarate (membro → motivo e scadenza). Un'eccezione che non trova più la sua violazione è superata e va tolta.
+    var declaredStatic = new Dictionary<string, string>(StringComparer.Ordinal)
+    {
+        ["Ntc2018Checks.Exposures"] = "array pubblico letto da file WPF (HorizontalWorkspace.cs:118, RetainingWallWorkspace.Materials.cs:26, ConcreteStress.cs:42): "
+            + "eccezione dichiarata fino al commit di F2.7c che può toccare i file WPF (A11), progetto F2.7 §0 punto 2",
+        ["ServiceabilityProbe.current"] = "AsyncLocal diagnostico della sonda degli adattatori, nullo in produzione: unica eccezione dichiarata della 5l per l'adattatore SLE "
+            + "(progetto F2.7 §6.2 e §9)"
+    };
+    int staticMembers = 0; var excepted = new List<string>();
+    foreach (var type in new[] { typeof(Ntc2018Checks), typeof(ConcreteLibraryMapping), typeof(ConcreteShearTorsionAdapter), typeof(LegacyServiceability),
+        typeof(ConcreteServiceabilityAdapter), typeof(ServiceabilityProbe) })
+    {
+        var (members, violations) = StaticState.Inspect(type);
+        staticMembers += members;
+        foreach (var (member, reason) in violations)
+        {
+            StaticCheck(declaredStatic.ContainsKey(member), $"5l: {member}: {reason}");
+            excepted.Add(member);
+        }
+    }
+    foreach (var member in declaredStatic.Keys) StaticCheck(excepted.Contains(member), "5l: eccezione dichiarata superata, toglierla: " + member);
+
+    // ---------------------------------------------------------------- 2c. getti sottili (prova 7a)
+    var thinCasting = ThinCastingGrid.Run(root, ThinCastingCheck);
+
+    // ---------------------------------------------------------------- SLE (F2.7, commit A4): solo le prove SLE, senza misura.json
+    if (onlySle)
+    {
+        var partialSle = ServiceabilityChecks.Run(root, proofs);
+        foreach (var line in partialSle.Lines) Console.WriteLine(line);
+        Console.WriteLine($"PASS · {partialSle.Checks} controlli SLE dell'adattatore ({(proofs is null ? "tutte le prove" : "prove " + string.Join(", ", proofs))}), "
+            + $"{staticChecks} della 5l e {thinCastingChecks} della 7a; griglie di taglio e torsione non eseguite.");
+        return 0;
+    }
 
     // ---------------------------------------------------------------- 3a. taglio, griglia di CheckerMigration.Capture (2016 casi)
     var shearCases = ShearGrid();
@@ -449,17 +517,29 @@ try
     }
     Check(independent > 200, "attesi indipendenti: " + independent);
 
+    // ---------------------------------------------------------------- 11. durabilità e copriferri (F2.9): Durability.cs
+    var durability = DurabilityChecks.Run(root, Check);
+
+    // ---------------------------------------------------------------- SLE (F2.7, commit A4): prove 5a-5k, 5m e 6 con entrambi i motori
+    var sle = ServiceabilityChecks.Run(root, proofs);
+
     var lines = new[] { shearStats, torsionStats, geometryStats, moduleStats, routedStats, analysisStats }.Select(s => s.Line())
         .Append($"relazioni: {reports} testi identici (completa e sintetica, 5 norme)")
         .Append($"taglio del modulo: {moduleShearDiscriminating} calcoli con uscite dei due motori diverse")
         .Append($"torsione del modulo: {routed} calcoli coincidenti con l'adattatore del motore richiesto, {discriminating} con uscite dei due motori diverse")
         .Append($"taglio del calcolo headless: {headlessShearRouted} righe coincidenti con il motore predefinito {ConcreteShearTorsionAdapter.Default}, {headlessShearDiscriminating} con uscite dei due motori diverse")
         .Append($"torsione del calcolo headless: {headlessRouted} righe coincidenti con l'adattatore del motore predefinito {ConcreteShearTorsionAdapter.Default}, {headlessDiscriminating} con uscite dei due motori diverse (sola torsione e calcolo intero)")
-        .Append($"attesi indipendenti: {independent} controlli superati con i motori Legacy e Library").ToArray();
+        .Append($"attesi indipendenti: {independent} controlli superati con i motori Legacy e Library")
+        .Append($"stato statico (5l): {staticChecks} controlli superati, {staticMembers} membri statici di Ntc2018Checks, ConcreteLibraryMapping, ConcreteShearTorsionAdapter, LegacyServiceability, "
+            + $"ConcreteServiceabilityAdapter e ServiceabilityProbe; "
+            + $"campione con {sample.Length} violazioni riconosciute; eccezioni dichiarate: {string.Join(", ", declaredStatic.Keys)}")
+        .Append($"getti sottili (7a): {thinCastingChecks} controlli superati; griglia di {thinCasting.Cases} casi ({thinCasting.Reduced} con riduzione) e {thinCasting.Rejections} rifiuti "
+            + $"uguali all'espressione legacy; {thinCasting.Readers} letture di 'gettato_sottile' con il fattore della mappatura")
+        .Concat(sle.Lines.Select(l => "SLE · " + l)).ToArray();
     foreach (var line in lines) Console.WriteLine(line);
-    if (args.Length > 0)
+    if (output is not null && !partial)
     {
-        Directory.CreateDirectory(args[0]);
+        Directory.CreateDirectory(output);
         var report = new JsonObject { ["strumento"] = "ConcreteLibraryAdapter.Checks", ["motore_predefinito"] = ExpectedDefault.ToString(), ["tolleranza"] = Tolerance, ["controlli"] = count };
         foreach (var s in new[] { shearStats, torsionStats, geometryStats, moduleStats, routedStats, analysisStats }) report[s.Name] = s.Json();
         report["relazioni"] = reports;
@@ -469,9 +549,17 @@ try
         report["torsione_del_calcolo_headless"] = new JsonObject { ["righe_coincidenti_con_adattatore"] = headlessRouted, ["uscite_dei_motori_diverse"] = headlessDiscriminating };
         report["casi_minimi_che_distinguono_i_motori"] = MinimumDiscriminating;
         report["attesi_indipendenti"] = independent;
-        File.WriteAllText(Path.Combine(args[0], "misura.json"), report.ToJsonString(J.Options), new UTF8Encoding(false));
+        report["durabilita"] = durability;
+        // Da F2.7b A4: stato statico (5l), getti sottili (7a) e parte SLE dell'adattatore, ciascuno con i propri conteggi; 'controlli' resta quello
+        // di taglio e torsione.
+        report["stato_statico_5l"] = new JsonObject { ["controlli"] = staticChecks, ["membri_statici"] = staticMembers, ["eccezioni_dichiarate"] = new JsonArray(declaredStatic.Keys.Select(k => (JsonNode)k).ToArray()) };
+        report["getti_sottili_7a"] = new JsonObject { ["controlli"] = thinCastingChecks, ["casi"] = thinCasting.Cases, ["con_riduzione"] = thinCasting.Reduced, ["rifiuti"] = thinCasting.Rejections };
+        sle.Report["motore_predefinito"] = ConcreteServiceabilityAdapter.Default.ToString();
+        report["sle"] = sle.Report;
+        File.WriteAllText(Path.Combine(output, "misura.json"), report.ToJsonString(J.Options), new UTF8Encoding(false));
     }
-    Console.WriteLine($"PASS · {count} controlli dell'adattatore di taglio e torsione (motore predefinito {ExpectedDefault}).");
+    Console.WriteLine($"PASS · {count} controlli dell'adattatore di taglio e torsione (motore predefinito {ExpectedDefault}), {sle.Checks} della parte SLE "
+        + $"(motore predefinito {ConcreteServiceabilityAdapter.Default}, prove con entrambi i motori), {staticChecks} della 5l e {thinCastingChecks} della 7a.");
     return 0;
 }
 catch (Exception ex) { Console.Error.WriteLine("FAIL: " + ex.Message); Console.Error.WriteLine(ex); return 1; }

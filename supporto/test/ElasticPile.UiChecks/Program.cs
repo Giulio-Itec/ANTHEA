@@ -45,11 +45,13 @@ static partial class Program
         AppDomain.CurrentDomain.ProcessExit+=(_,_)=>File.WriteAllText(Path.Combine(dir,"process-exit.txt"),$"checks={checks}; exit={Environment.ExitCode}");
         try
         {
+            if(args.Contains("--inner-ring-only"))return InnerRingChecks(dir,args.Contains("--probe"));
+            if(args.Contains("--stress-block-note-only"))return StressBlockNoteChecks(dir,args.Contains("--probe"));
             if(args.Contains("--drawing-only"))return DrawingChecks(dir);
             if(args.Contains("--clarity-only"))return ClarityChecks(dir);
             if(args.Contains("--seismic-only"))return SeismicUiChecks(dir);
-            if(args.Contains("--cuts-example-only"))return PileExample(dir,true);
-            if(args.Contains("--example-only"))return PileExample(dir);
+            if(args.Contains("--cuts-example-only"))return PileExample(dir,true,args.Contains("--update-example"));
+            if(args.Contains("--example-only"))return PileExample(dir,updateExample:args.Contains("--update-example"));
             if(args.Contains("--visual-only"))
             {
                 capture=true;var visualRoot=JsonNode.Parse(File.ReadAllText(Path.Combine(dir,"input.json")))!.AsObject();visualRoot["elastico"]!["dettagli"]!["azioni_progetto"]=true;visualRoot["elastico"]!["dettagli"]!["taglio_confermato"]=true;visualRoot["sezione"]!["transverse_spacing_mm"]=150;

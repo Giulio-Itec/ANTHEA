@@ -71,6 +71,8 @@ public sealed partial class CaptureRunner
                     Docx(report + ".txt", guids, () => ReportConcrete.Create(title, Clone(prepared), Clone(result), ConcreteDefaults, null, true));
                     Docx(report + ".completo.txt", guids, () => ReportConcrete.Create(title, Clone(prepared), Clone(result), ConcreteComplete, null, true));
                     Docx(report + ".sintetico.txt", guids, () => ReportConcreteShort.Create(title, Clone(prepared), Clone(result)));
+                    // Durability part of the detailing (refactoring F2.9, baseline B6): ConcreteDetailingAnalysis is not run by CalculationService.
+                    Json($"engines/dettagli_durabilita/{id}.json", guids, () => DetailingDurability(Clone(prepared)));
                 }
                 break;
             case BridgeSection.Module:
@@ -101,7 +103,7 @@ public sealed partial class CaptureRunner
     void Walls(CaptureCase item, GuidMap guids, string title, string report)
     {
         var data = item.Data!; string id = item.Id;
-        var wall = Once(report, () => RetainingWall.Calculate(Clone(data)));
+        var wall = Once(report, () => RetainingWall.Calculate(Clone(data), default, options.ServiceabilityEngine));
         Docx(report + ".txt", guids, () => ReportRetainingWall.Create(title, wall.Value));
         Text(report + ".csv", guids, () => ReportRetainingWall.Csv(wall.Value));
 
@@ -120,11 +122,32 @@ public sealed partial class CaptureRunner
         }
 
         if (Str(data, "family") != "cantilever") return;
-        Json($"engines/muri_progetto_armature/{id}.json", guids, () => RetainingWall.DesignReinforcement(Clone(data)));
+        Json($"engines/muri_progetto_armature/{id}.json", guids, () => RetainingWall.DesignReinforcement(Clone(data), default, options.ServiceabilityEngine));
         var schedule = Once($"engines/muri_distinta/{id}", () => RetainingWall.CalculateBarSchedule(wall.Value));
         Json($"engines/muri_distinta/{id}.json", guids, () => schedule.Value);
         Docx($"{report}.distinta.txt", guids, () => ReportRetainingWall.CreateBarSchedule(Clone(wall.Value.Input), schedule.Value));
         Text($"{report}.distinta.csv", guids, () => ReportRetainingWall.BarScheduleCsv(schedule.Value));
+    }
+
+    /// <summary>
+    /// Durability part of ConcreteDetailingAnalysis.Calculate on the prepared sheet (refactoring F2.9, baseline B6), with the SLU and SLV
+    /// actions as the detailing tab passes them: an explicit projection of Durability and DurabilityError with named fields, not the DTO.
+    /// </summary>
+    static JsonObject DetailingDurability(JsonObject prepared)
+    {
+        var settings = prepared["workspace_ca"]!.AsObject();
+        var actions = new[] { "SLU", "SLV" }.SelectMany(set => prepared["combinazioni"]?[set] as JsonArray ?? [])
+            .OfType<JsonObject>().Select(row => J.Obj(("N", row["azioni"]![0]))).ToArray();
+        var detailing = ConcreteDetailingAnalysis.Calculate(prepared["input"]!.AsObject(), settings, actions);
+        var d = detailing.Durability;
+        return new JsonObject
+        {
+            ["esposizione"] = settings["sle_comuni"]?["esposizione"]?.DeepClone(),
+            ["errore_durabilita"] = detailing.DurabilityError,
+            ["ambiente"] = d?.Environment, ["gruppo"] = d?.Severity, ["cmin_pertinente"] = d?.Cmin, ["c0"] = d?.C0,
+            ["tabella"] = d?.TableCover, ["vita"] = d?.LifeExtra, ["classe_inferiore"] = d?.LowStrengthExtra, ["riduzione_qualita"] = d?.QualityReduction,
+            ["cmin_b"] = d?.Cover.Bond, ["cmin_dur"] = d?.Cover.Durability, ["cmin"] = d?.Cover.Minimum, ["cnom"] = d?.Cover.Nominal
+        };
     }
 
     /// <summary>The proposal of the global stability panel (PrepareGlobalProfile), confirmed as it is.</summary>

@@ -1,0 +1,13 @@
+{
+  "moduleId": "mat_calcestruzzo",
+  "label": "Scheda Materiali: esposizione «XZ9» non riconosciuta (rifiuto)",
+  "description": "Caso M13 del corpus della cattura headless (baseline B6, refactoring F2.9): un codice fuori dal catalogo delle esposizioni è rifiutato con il messaggio «Definire la classe di esposizione.».",
+  "overrides": {
+    "classe": "C30/37",
+    "esposizione_principale": "XZ9",
+    "esposizioni": [ "XZ9" ],
+    "numeri": { "diameter": "16", "aggregate": "20" },
+    "scelte": { "coverMethod": "NTC + Circ. 2019", "ntcElement": "Trave / pilastro", "life": "50 anni", "deviationControl": "Ordinario", "deviationValue": "10 mm", "ground": "Casseratura", "abrasion": "Nessuno" },
+    "opzioni": { "highStrength": false, "slab": false, "quality": false, "rough": false, "ntcQuality": false }
+  }
+}

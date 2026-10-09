@@ -1,0 +1,13 @@
+{
+  "moduleId": "mat_calcestruzzo",
+  "label": "Scheda Materiali, NTC + Circolare 2019: XD1, C40/50, trave, Ø12",
+  "description": "Caso M2 del corpus della cattura headless (baseline B6, refactoring F2.9): ambiente aggressivo con fck uguale a C0 = 40 MPa, quindi tabella senza la maggiorazione per classe inferiore a C0.",
+  "overrides": {
+    "classe": "C40/50",
+    "esposizione_principale": "XD1",
+    "esposizioni": [ "XD1" ],
+    "numeri": { "diameter": "12", "aggregate": "20" },
+    "scelte": { "coverMethod": "NTC + Circ. 2019", "ntcElement": "Trave / pilastro", "life": "50 anni", "deviationControl": "Ordinario", "deviationValue": "10 mm", "ground": "Casseratura", "abrasion": "Nessuno" },
+    "opzioni": { "highStrength": false, "slab": false, "quality": false, "rough": false, "ntcQuality": false }
+  }
+}

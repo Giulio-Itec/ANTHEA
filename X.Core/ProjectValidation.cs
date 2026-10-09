@@ -5,11 +5,12 @@ namespace X.Core;
 /// <summary>Project consistency checks shared by the overview, live status and report.</summary>
 public static class ProjectValidation
 {
-    public static string[] Warnings(JsonObject section) => ProjectSharedData.Limitations(section)
-        .Concat(CoverChecks(section).Where(c => c.Passed != true).Select(c => c.Text)).Distinct().ToArray();
+    // Refactoring F2.9-D2: the optional durability engine reaches every cover minimum (ConcreteCoverAnalysis, MaterialCover); default the adapter's.
+    public static string[] Warnings(JsonObject section, DurabilityEngine? engine = null) => ProjectSharedData.Limitations(section)
+        .Concat(CoverChecks(section, null, engine).Where(c => c.Passed != true).Select(c => c.Text)).Distinct().ToArray();
     public sealed record CoverStatus(string Text, bool? Passed);
 
-    public static List<CoverStatus> CoverChecks(JsonObject section, JsonObject? only = null)
+    public static List<CoverStatus> CoverChecks(JsonObject section, JsonObject? only = null, DurabilityEngine? engine = null)
     {
         var sheets = ProjectSharedData.SubtreeSheets(section).ToArray();
         var result = new List<CoverStatus>();
@@ -43,10 +44,10 @@ public static class ProjectValidation
                     if (wall)
                     {
                         var wallData = (JsonObject)sheet["dati"]!.DeepClone(); RetainingWall.Upgrade(wallData);
-                        double wallBarDiameter = RetainingWall.MaximumBarDiameter(wallData), minimum = Materiali.MaterialCover.Required(state, fck);
-                        check = new(input.Required("cover_mm"), minimum, Math.Max(minimum, Materiali.MaterialCover.Required(state, fck, wallBarDiameter)), wallBarDiameter, null);
+                        double wallBarDiameter = RetainingWall.MaximumBarDiameter(wallData), minimum = Materiali.MaterialCover.Required(state, fck, engine);
+                        check = new(input.Required("cover_mm"), minimum, Math.Max(minimum, Materiali.MaterialCover.Required(state, fck, wallBarDiameter, engine)), wallBarDiameter, null);
                     }
-                    else check = ConcreteCoverAnalysis.Calculate(input, state, fck);
+                    else check = ConcreteCoverAnalysis.Calculate(input, state, fck, engine);
                     double materialRequired = check.MaterialMinimum, adopted = check.Adopted;
                     string barDetail = check.MaximumBarDiameter is double diameter ? $", Ø massimo effettivo delle barre {diameter:0.##} mm" : "";
                     if (check.Required > check.MaterialMinimum) barDetail += $", minimo per le barre effettive {check.Required:0.##} mm";

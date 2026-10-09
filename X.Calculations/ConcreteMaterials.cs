@@ -8,7 +8,10 @@ public static class ConcreteMaterials
     public static DesignStrengths DesignValues(JsonObject input, JsonObject workspace)
     {
         var standard = ConcreteStandards.Effective(input, workspace);
-        double reduction = workspace.S("normativa", "NTC 2018") == "NTC 2018" && input.S("gettato_sottile", "No") == "Sì" ? .8 : 1;
+        // Getti sottili (refactoring F2.7b, commit A3, rilievo M14): fattore della norma dalla libreria attraverso la mappatura, stessa
+        // fonte del limite SLE e di αcc in CheckerSection; 'gettato_sottile' si legge solo se la norma riduce, come nella regola legacy.
+        double thinCasting = ConcreteLibraryMapping.ThinCastingFactor(standard);
+        double reduction = thinCasting != 1 && input.S("gettato_sottile", "No") == "Sì" ? thinCasting : 1;
         return new(Math.Abs(Concrete(input).CalculateFcd(standard)) * reduction, Math.Abs(Rebar(input).CalculateFyd(standard)));
     }
     public static readonly string[] ConcreteDiagrams = ["Parabola-rettangolo", "Bilineare", "Stress block", "Non lineare"];

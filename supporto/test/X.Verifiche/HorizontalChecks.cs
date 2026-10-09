@@ -159,8 +159,15 @@ public static class HorizontalChecks
         }
         var section = Data(false, false, 10, 1000); section["generali"]!["origine_momento"] = "Sezione c.a.";
         var sec = PaloOrizzontale.Section(section);
-        Assert(Math.Abs(sec.D("residuo_n_kn")) <= sec.D("tolleranza_n_kn") && sec.D("tolleranza_n_kn") == 1, "Equilibrio assiale entro la tolleranza esplicita del motore Checker");
+        // Tolleranza su N della libreria (S-1): max(1 kN; 1e-6 |N|; 0,5e-4 b h fck); palo D 1000 mm in C35/45, b = h = D: 0,5e-4 · 1000² · 35 N = 1,75 kN.
+        Assert(Math.Abs(sec.D("residuo_n_kn")) <= sec.D("tolleranza_n_kn") && Math.Abs(sec.D("tolleranza_n_kn") - 1.75) < 1e-9, "Equilibrio assiale entro la tolleranza esplicita del motore Checker: " + sec.D("tolleranza_n_kn"));
         Assert(sec.S("motore") == "GPCChecker.Concrete" && !sec.ContainsKey("scarto_mesh"), "Il palo non usa il motore comune del cemento armato");
+        // Bug segnalato dall'utente l'8/10 (S-1): da D 1,6 m la resistenza veniva scartata per |NRd − N| oltre 1 kN.
+        foreach (double large in new[] { 1.6, 1.7, 2.0, 2.5 }) {
+            var big = Data(false, false, 10, 1000); big["generali"]!["origine_momento"] = "Sezione c.a."; big["generali"]!["diametro"] = large;
+            var bigSection = PaloOrizzontale.Section(big);
+            Assert(bigSection.D("momento_knm") > 0 && Math.Abs(bigSection.D("residuo_n_kn")) <= bigSection.D("tolleranza_n_kn"), $"Palo D {large} m non calcolato");
+        }
         Near(sec.D("area_acciaio_mm2"), 16 * Math.PI * 24 * 24 / 4, "Area barre e unità mm");
         // Independent circular strip integration reference for the same constitutive model.
         Near(sec.D("momento_knm"), StripMoment(section), "Momento riferimento strisce", .004);

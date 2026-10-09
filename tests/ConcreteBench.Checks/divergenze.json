@@ -1,0 +1,11 @@
+{
+  "descrizione": "Divergenze registrate del banco F2.1 (ConcreteBench.Checks): riportate a ogni corsa e non fanno fallire la suite. Chiave = identificativo del controllo (testo prima di ': ' nel messaggio). Numeri e analisi in esito.md. Nessun codice di calcolo modificato.",
+  "divergenze": [
+    { "chiave": "B12-η-esatto NTC 2018 senza staffe", "id": "T-1", "motori": "ConcreteCodeChecks.Shear contro SectionShearCalculator (adattatore)", "sintesi": "VEd = VRd del legacy: legacy η = 1 «Resistenza sufficiente», libreria VRd più piccola di 1 ulp, η = 1,0000000000000002 «Resistenza insufficiente»." },
+    { "chiave": "B12-η-esatto EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." },
+    { "chiave": "B12-η-esatto UNI EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." },
+    { "chiave": "B12-η-esatto DIN EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." },
+    { "chiave": "B12-η-esatto DS EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." },
+    { "chiave": "B12-η-esatto NS EN 1992-1-1 senza staffe", "id": "T-1", "motori": "come sopra", "sintesi": "Come per NTC 2018." }
+  ]
+}

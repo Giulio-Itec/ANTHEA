@@ -10,6 +10,11 @@ public static partial class ElasticHorizontalPile
 {
     public const string SeismicSourceUrl=PileReinforcement.SeismicUrl;
     public static readonly string[] ReinforcementKeys=["longitudinal_bar_count","longitudinal_bar_diameter_mm","transverse_bar_diameter_mm","transverse_spacing_mm"];
+    /// <summary>Second ring of bars inside the first, with the keys of the c.a. section («Secondo anello interno»). A segment without
+    /// them takes those of the main section.</summary>
+    public static readonly string[] InnerRingKeys=["second_inner_enabled","second_inner_count","second_inner_diameter","second_inner_gap"];
+    /// <summary>Keys that a segment with its own reinforcement can assign instead of the main section.</summary>
+    public static readonly string[] SegmentKeys=[..ReinforcementKeys,..InnerRingKeys];
     public static void PrepareReinforcement(JsonObject root)
     {
         var e=root["elastico"]!.AsObject();
@@ -32,7 +37,7 @@ public static partial class ElasticHorizontalPile
     public static JsonObject SegmentSection(JsonObject root,JsonObject segment)
     {
         var input=(JsonObject)root["sezione"]!.DeepClone();input["shape"]="Circolare";input["diameter_mm"]=root["generali"].D("diametro")*1000;
-        if(!segment.B("collegato"))foreach(string key in ReinforcementKeys)if(segment[key]!=null)input[key]=segment[key]!.DeepClone();input["tipo_trasversale"]=TransverseKind(root,segment);return input;
+        if(!segment.B("collegato"))foreach(string key in SegmentKeys)if(segment[key]!=null)input[key]=segment[key]!.DeepClone();input["tipo_trasversale"]=TransverseKind(root,segment);return input;
     }
     static JsonObject CalculateReinforcement(JsonObject root,JsonObject result)=>CalculateReinforcementCore(root,result,new(),default,0);
     static JsonObject CalculateReinforcementCore(JsonObject root,JsonObject result,ElasticPileVerificationCache resistanceCache,CancellationToken cancellation,int maximumParallelism,IProgress<PileCalculationProgress>? progress=null)
@@ -133,7 +138,7 @@ public static partial class ElasticHorizontalPile
         var bounds=estimate.Boundaries;var proposal=new JsonArray();for(int i=1;i<bounds.Length;i++)
         {
             var row=NewSegment("T"+i,i==bounds.Length-1?null:bounds[i]);
-            if(estimate.ChangeDepth.HasValue&&bounds[i-1]>=estimate.ChangeDepth.Value-1e-9){row["collegato"]=false;foreach(string key in ReinforcementKeys)row[key]=root["sezione"]![key]?.DeepClone();row["origine_armatura"]="Sezione personalizzabile oltre Mmax/2; armatura iniziale principale, da dimensionare";}
+            if(estimate.ChangeDepth.HasValue&&bounds[i-1]>=estimate.ChangeDepth.Value-1e-9){row["collegato"]=false;foreach(string key in ReinforcementKeys)row[key]=root["sezione"]![key]?.DeepClone();foreach(string key in InnerRingKeys)if(root["sezione"]![key] is JsonNode ring)row[key]=ring.DeepClone();row["origine_armatura"]="Sezione personalizzabile oltre Mmax/2; armatura iniziale principale, da dimensionare";}
             row["criterio_proposta"]=estimate.Explanation;row["quota_teorica_mmeta"]=estimate.HalfMomentDepth;row["quota_cambio_proposta"]=estimate.ChangeDepth;proposal.Add(row);
         }return proposal;
     }

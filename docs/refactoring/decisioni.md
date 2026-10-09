@@ -334,17 +334,28 @@ Messaggi dell'utente nella sessione del coordinatore, riportati con le sue parol
     non prescrive il metodo dell'analisi tensionale; per le verifiche SLE il riferimento abituale è l'analisi lineare
     a sezione fessurata.» È lavoro di libreria (SectionSolverModelCode2010, materiali di Model, StressLimitCheck):
     passo dedicato dopo l'interruttore di F2.7, con opzione legacy nominata e due commit.
+    **Ripensamento dell'utente, 8/10 tarda mattina**: «il calcolo viene fatto secondo legame costitutivo coefficientato
+    con alpha e gamma. quindi valori caratteristici + coeff x il design. ad ora lascialo così. ritiriamo fuori questo
+    argomento a fine refactoring». U2 è sospesa: l'analisi non lineare resta con i legami di progetto, senza legami
+    nuovi in Model e senza modifiche al solutore; R5 resta «da ridiscutere» in F5.15. Subito dopo: «metti il rimando
+    alla guida accanto al tipo di analisi. l'avviso mettilo». Nella scheda Tensioni il campo «Analisi» ha il
+    pulsante «?» verso la guida teorica («Materiali tendini e analisi di esercizio») e con «Non lineare» compare
+    l'avviso: «Analisi non lineare: le tensioni di esercizio sono calcolate con i legami costitutivi di progetto
+    (valori caratteristici ridotti con αcc e γ). La norma non prescrive il metodo dell'analisi tensionale; per le
+    verifiche SLE il riferimento abituale è l'analisi lineare a sezione fessurata.» Solo interfaccia: calcolo e
+    relazioni invariati.
   - U3 «correggi»: R22 si risolve applicando il fattore 0,8 dei getti sottili anche con UNI/DM 2012: limiti SLE del
     calcestruzzo, αcc e fcd con `gettato_sottile` = Sì.
   - U4 «tieni i limiti come oggi»: con CS-TR34 ANTHEA continua a calcolare i limiti tensionali SLE con i coefficienti
     di MC2010 da cui deriva `StandardCSTR34`. La proposta di allinearsi alla libreria (nessun limite) è respinta: la
-    motivazione normativa non è verificata e togliere i limiti è meno cautelativo. In F2.7 la libreria deve quindi
-    poter calcolare i limiti anche per CS-TR34 (opzione richiesta dall'adattatore).
+    motivazione normativa non è verificata e togliere i limiti è meno cautelativo. In F2.7 l'adattatore chiama
+    `StressLimitCheck.Evaluate` con lo standard dell'analisi, che per CS-TR34 calcola i limiti con i coefficienti
+    della classe, e non usa mai `NotApplicableReason` (regola W5 del progetto): non serve una modifica di libreria.
   - U5 «correggi»: la scheda WPF rifiuta φ < 0, come già fanno i calcoli (`CheckerSection.cs:95`, `:127`).
   - U6 «metti in coda ad altre cose. non da fare ora»: la revisione delle pagine dei metodi ca.sle-tensioni e
     ca.fessurazione si sposta in coda.
   - U7 «correggi»: `staffe_presenti` si normalizza a Sì/No (riguarda solo documenti scritti a mano).
-  Le correzioni U1, U2, U3, U5 e U7 cambiano risultati o comportamenti: si fanno in F2.7 dopo l'interruttore, una per
+  Le correzioni U1, U3, U5 e U7 cambiano risultati o comportamenti: si fanno in F2.7 dopo l'interruttore, una per
   commit, con cattura prima e confronto dopo (regola delle correzioni in due commit), e si registrano nel registro
   delle differenze.
 - **Dopo la prova della build** (8/10, mattina):
@@ -354,8 +365,75 @@ Messaggi dell'utente nella sessione del coordinatore, riportati con le sue parol
   - «non toccare più i report di calcolo. saranno corretti successivamente. ti dico io quando sarà fatto»: il codice e
     i testi dei report di calcolo (X.Core Report*, ReportWord, report WPF) non si modificano finché l'utente non lo
     dice. Le correzioni di calcolo approvate possono cambiare i valori stampati, ma non i testi né l'impaginazione.
-    L'avviso di U2 va quindi per ora nell'interfaccia e nei risultati, non nella relazione.
+    (U2, poi sospesa, avrebbe messo il suo avviso nell'interfaccia e nei risultati, non nella relazione.)
   - «anche la wiki mettila in coda ad altre cose»: la traccia Wiki (W) va in coda, dopo le fasi in corso.
+- **Proposte del progetto F2.8 rivisto** (`supporto/artefatti/refactoring/f27-f28-progetto/F28-progetto-rivisto.md`,
+  §12.1), risposte dell'utente dell'8/10 pomeriggio:
+  - F2.8-U1 «si» (alla domanda se metterla in coda come U6): la revisione delle pagine dei metodi ca.dettagli,
+    ca.ancoraggi e ca.momento-curvatura va in coda con U6.
+  - F2.8-U2 «confermo b»: `rami_y` si valida nel punto d'ingresso dei dettagli con `ValidateStirrups` (intero fra 2 e
+    100), come già fanno taglio e progetto delle armature. Si fa dopo l'interruttore I2, in due commit.
+  - F2.8-U3 «ok»: tetto C60/75 di fctk,0,05 anche nei muri (R10), nel momento proposto dal progetto (F5.15).
+  - F2.8-U4 «ok»: l'incoerenza di NEd fra la scheda dei dettagli e il progetto delle armature si tratta in F4.12.
+  - F2.8-U5 «ok»: il M–χ nel report di progetto resta a F3.4, perché i report sono fermi.
+  - F2.11: senza la revisione delle pagine dei metodi (U6 e F2.8-U1, in coda), il legacy di quelle famiglie resta
+    finché l'utente non decide.
+- **Scostamento della libreria F2.8 da §4 L3** (Checker `anthea-f2-8`, 53fb0011 e 05eb3cd2), solo informativo: la
+  nuova `MomentCurvatureException` la lancia solo il sovraccarico con `MomentCurvatureUnits`. I metodi della 0.0.17.0
+  lanciano ancora `ArgumentException` di tipo esatto, con lo stesso messaggio e il motivo in
+  `Data["GPC.MomentCurvatureRejection"]`, perché il contratto L0 registra il tipo esatto (come K2 di F2.7). ANTHEA usa
+  il sovraccarico con le unità (B3) e passa sempre la tolleranza su N nelle proprie unità: il default 1000 varrebbe
+  1000 kN.
+- **Crediti**: «supera il 15% ma cerca di non arrivare sopra i 90%. vorrei tenere un 8-10% a build chiusa».
+
+## F2.9, durabilità e copriferri (8 ottobre 2026)
+
+Progetto: `supporto/artefatti/refactoring/f27-f28-progetto/F29-progetto.md` del checkout principale. La parte ANTHEA (F2.9b,
+passi E1-E6) è sul branch `refactoring/f2-9-durabilita` (worktree `Temp\aw-f29`), non unita e non pushata.
+
+Le decisioni F2.9-D1…D14 sono **decise dal coordinatore su delega dell'utente («esegui tutto te», 7/10), da ratificare**
+(proposta F2.9-U7). In ogni punto si è scelta l'opzione che lascia invariati comportamento, contratto JSON, testi e report.
+
+| Decisione | Scelta | Dove |
+| --- | --- | --- |
+| F2.9-D1 Facciate | `Durability`, `NtcCover`, `MinimumConcrete` e `AtecapMix` restano con gli stessi nomi e firme, più il motore facoltativo finale `DurabilityEngine? engine = null`, e delegano all'adattatore. I corpi legacy sono in `DurabilityLegacy`, invariati. | E1, E2 |
+| F2.9-D2 Parametro del motore | Solo su adattatore, facciate e punti d'ingresso propri della durabilità: `MaterialCover.Required`, `ConcreteCoverAnalysis.Calculate`, `ProjectValidation.CoverChecks` e `Warnings`. Non su `CalculationService`, muri, dettagli e progetto delle armature (lì prova la sonda). | E2 |
+| F2.9-D3 Rifiuti | Tradotti per messaggio con un dizionario e due espressioni regolari, come per il taglio; nessun codice di rifiuto nuovo in libreria; un testo senza traduzione dà `InvalidOperationException`. | E2, registro F2-13 |
+| F2.9-D4 Palo elastico | `PileDurability` resta com'è: chiama la libreria direttamente, con testi inglesi (proposta U3). Unica voce della libreria nell'elenco ammesso. | 11i |
+| F2.9-D5 Funzioni senza chiamanti | `Durability.EffectiveWater`, `Durability.Strength` e `NtcCover.DefaultCmin` restano solo nel legacy fino a F2.11 (elenco ammesso). | E2, `f2-matrice-api.md` |
+| F2.9-D6 e4 | Esclusa: serve una copia con licenza della UNI 11104:2025. Restano i valori della 2016 (prospetto 5); nessun atteso, testo o fixture cambia. | registro D7-e |
+| F2.9-D7 Citazioni della libreria | Testi «senza e4» nei commenti, nel README e in `MIGRAZIONE_ANTHEA.txt` (CD1 di F2.9a, in Checker); il riferimento restituito a `ExposureClasses.cs:107` non cambia (proposta U2). | F2.9a: branch locale di Checker `anthea-f2-9-durabilita` (CD1 975cf006), non in develop |
+| F2.9-D8 Interruttore | Uno solo: `ConcreteDurabilityAdapter.Default`, sulla libreria dal passo E5. | E5 |
+| F2.9-D9 Baseline | B6 = base (B3) più il corpus di durabilità, catturata col legacy prima dell'interruttore; confronti esatti, nessuna tolleranza nuova. | E4 |
+| F2.9-D10 Regole normative nelle viste | Dichiarate (progetto, §10); spostamento con CD3 ed E7 in F4.13. Nessun file WPF in F2.9b. | F4.13 |
+| F2.9-D11 Release | Parte di libreria (CD0-CD2) in S3 se entra in develop prima del commit delle versioni (C5); altrimenti nella release successiva. ANTHEA usa solo l'API 0.0.17.0. | F2.9a |
+| F2.9-D12 Stato statico | Catalogo delle esposizioni `ImmutableArray`; array dei copriferri dei muri `ImmutableArray`; `ExposureClasses.All` di sola lettura in libreria (CD2). | E1, 11g |
+| F2.9-D13 Etichette delle classi minime | Con la libreria, `MinimumConcrete.Label` prende il nome dal catalogo dei calcestruzzi della scheda, solo per le classi minime del catalogo delle esposizioni (12, 25, 30, 32, 35 MPa); per gli altri valori lo stesso rifiuto di prima. | E2, 11d |
+| F2.9-D14 Sonda | La base non ha la sonda generalizzata di F2.7 (A4): l'adattatore ha una sonda propria con la stessa forma (adattatore, operazione, motore), da unificare in F2.11. | E2 |
+
+Proposte all'utente, non attuate (progetto, §12): **U1** e4 dopo il riscontro del prospetto 6 su una copia con licenza;
+**U2** testo del riferimento restituito a `ExposureClasses.cs:107`; **U3** traduzione dei testi del palo elastico, quando i
+report si potranno toccare; **U4** ripieghi silenziosi della scheda Materiali (F3.1); **U5** testi di origine esterna della
+scheda (ATECAP 2020); **U6** revisione della pagina del metodo `ca.durabilita-copriferri` prima di F2.11; **U7** ratifica di
+F2.9-D1…D14.
+
+Restano al coordinatore: F2.9a in Checker (CD0-CD2), profilo full a schermo per chiudere E5 (insieme a F2.7 e F2.8), copia della
+baseline B6 nel checkout principale (`supporto/artefatti/baseline/F2-B6`), unione su main dopo l'approvazione dell'utente.
+F2.9a l'ha già fatta un'altra corsia sul branch locale di Checker `anthea-f2-9-durabilita` (cinque commit b4ec06df…6543860d da
+develop 4f54139a, worktree `Temp\gpc-s3-dev-d\Checker`; non in develop, non pushato). La corsia di F2.9b non l'ha verificata:
+restano la revisione e l'unione in develop prima di C5.
+
+Da far presente nella ratifica (revisione di F2.9b, 8/10):
+- **Ripieghi del corpus B6.** Il progetto (§8.2) dice che ogni documento del corpus dichiara le chiavi lette, così non nascono
+  ripieghi nuovi. In realtà i casi nuovi aggiungono 369 voci a `fallbacks.json`: 249 dei muri W1-W3 e 120 delle sezioni S1-S3,
+  nessuna delle schede Materiali. Tutte stanno nei 133 gruppi di B3 e nessun gruppo è nuovo; le 2848 voci di B3 sono invariate e
+  dopo E5 `fallbacks.json` resta identico byte per byte. Lo scopo è raggiunto, la formulazione del progetto no.
+- **Muri nel progetto.** Il progetto è incoerente: §13.1 dice che `RetainingWall.*` resta invariato, mentre E1 e §9 chiedono
+  `ImmutableArray` in `RetainingWall.Materials.cs`. La corsia ha seguito E1 (`RetainingWall.Materials.cs:47-52`). I branch di F2.7
+  (`refactoring/f2-7-sle-fessurazione`, `refactoring/f2-7-prototipo`) e di F2.8 (`refactoring/f2-8-a0-cattura`) partono anch'essi da
+  98a21d4 e non toccano quel file: nessun conflitto atteso.
+- **Durata delle prove dell'adattatore.** Con la sezione 11 `tests/ConcreteLibraryAdapter.Checks` passa da circa 7 s a circa 60 s e
+  resta nello stadio fast. Da decidere: lasciarla così oppure spostare una parte delle griglie nello stadio regression.
 
 ## Dipendenze esterne previste
 

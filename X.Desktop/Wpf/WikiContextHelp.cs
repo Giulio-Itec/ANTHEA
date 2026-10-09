@@ -46,6 +46,8 @@ internal static class WikiContextHelp
         new("Muri: metodi, geometrie e limiti", "muri-metodi-perimetro", ["geo_muri_sostegno"], ["height", "stem_base", "stem_top", "toe", "heel", "slab"]),
         new("Ricerca, obiettivi e limiti", "guida-bridge-design#scegliere-obiettivo-e-costanti", ["str_bridge_design"], ["obiettivo", "metodo", "objective"])
     ];
+    /// <summary>Type of stress analysis of the c.a. section («modello» of the SLE tab; the same key names the shear model).</summary>
+    internal static readonly Topic StressAnalysis = new("Analisi tensionale di esercizio: lineare o non lineare", "sezione-in-calcestruzzo-armato#materiali-tendini-e-analisi-di-esercizio", ["str_palo"], []);
     internal static Topic? ForField(string key, string? module) => Topics.FirstOrDefault(t => module is not null && t.Modules.Contains(module) && t.Keys.Contains(key));
     internal static string? Description(string key, string? module) => ForField(key, module)?.Title;
     internal static void Open(FrameworkElement source, string uri)
@@ -53,7 +55,7 @@ internal static class WikiContextHelp
         for (var window = Window.GetWindow(source); window is not null; window = window.Owner)
             if (window is MainWindow main) { main.Safe(() => main.ShowWiki(uri)); return; }
     }
-    internal static FrameworkElement Label(TextBlock label, string key, string? module)
+    internal static FrameworkElement Label(TextBlock label, string key, string? module, Topic? fixedTopic = null)
     {
         Topic? topic = null;
         var help = Ui.Button("?", () => { if (topic is not null) Open(label, topic.Uri); }, inspection: true);
@@ -64,7 +66,7 @@ internal static class WikiContextHelp
         var row = new DockPanel(); DockPanel.SetDock(help, Dock.Right); row.Children.Add(help); row.Children.Add(label);
         void Refresh()
         {
-            topic = ForField(key, module ?? row.GetValue(ModuleProperty) as string);
+            topic = fixedTopic ?? ForField(key, module ?? row.GetValue(ModuleProperty) as string);
             help.Visibility = topic is null ? Visibility.Collapsed : Visibility.Visible;
             if (topic is not null) help.ToolTip = label.ToolTip = topic.Title + "\nApri questa sezione della Wiki";
         }

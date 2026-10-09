@@ -14,7 +14,7 @@ internal sealed partial class ConcreteWorkspace
         var value = (JsonObject)preset.DeepClone();
         value["nome"] = type + " personalizzato"; value["tipo"] = type; value["id"] = Guid.NewGuid().ToString("N");
         value["origine"] = "Personalizzato"; value["normativa_origine"] = settings.S("normativa");
-        Field[] parameters = type == "Calcestruzzo" ? [new("fck_mpa", "fck", "MPa"), new("cls_diagramma", "Diagramma", Choices: ConcreteMaterials.ConcreteDiagrams)]
+        Field[] parameters = type == "Calcestruzzo" ? [new("fck_mpa", "fck", "MPa"), new("cls_diagramma", "Diagramma", Choices: ConcreteMaterials.ConcreteDiagrams, Note: FieldNotes.StressBlock)]
             : type == "Acciaio" ? [new("steel_modulus_mpa", "Es", "MPa"), new("fyk_mpa", "fyk", "MPa"), new("steel_fu_mpa", "fu", "MPa"), new("steel_eps_u", "εu", "‰"), new("steel_diagramma", "Diagramma", Choices: ["Elastoplastico", "Incrudente"])]
             : [new("Ep", "Ep", "MPa"), new("fpyk", "fpyk", "MPa"), new("fpk", "fpk", "MPa"), new("eps_u", "εpu", "‰"), new("diagramma", "Diagramma", Choices: ["Elastoplastico", "Incrudente"])];
         var plot = new Plot { Title = "Diagramma σ–ε", XLabel = "ε [‰]", YLabel = "σ [MPa]", InvertY = false, NegateAxisLabels = type == "Calcestruzzo", VerticalLegend = true, FitPadding = .06, Note = type == "Calcestruzzo" ? "Compressione (−ε, −σ) nel primo quadrante · sola rappresentazione" : "Compressione negativa · curve native della DLL" };

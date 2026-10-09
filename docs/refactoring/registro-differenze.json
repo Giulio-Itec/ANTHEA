@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-07",
+  "aggiornato": "2026-10-08",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/",
@@ -316,6 +316,7 @@
       },
       "data": "2026-10-06",
       "fase": "F2.9 (citazioni della libreria; attuazione di e4 dopo il riscontro del prospetto 6 su copia con licenza)",
+      "seguito_f29": { "data": "2026-10-08", "decisore": "coordinatore su delega dell'utente, da ratificare (F2.9-D6, decisioni.md)", "esito": "e4 esclusa da F2.9: serve una copia con licenza della UNI 11104:2025 per riscontrare il prospetto 6. Restano i valori della UNI 11104:2016, prospetto 5, in libreria e in ANTHEA; nessun atteso, testo o fixture cambia (durability-legacy.csv, supporto/test/Materiali/MaterialViewChecks.cs:78). La scelta fra e4 ed e5 torna all'utente (proposta F2.9-U1). Le citazioni della libreria senza e4 (ExposureClasses.cs, README, MIGRAZIONE_ANTHEA.txt, DurabilityEdgeCaseTests.cs:122) sono il passo CD1 di F2.9a in Checker: c'è sul branch locale anthea-f2-9-durabilita (975cf006, corsia F2.9a, worktree Temp\\gpc-s3-dev-d\\Checker), non ancora in develop né pushato; attuazione.libreria si aggiorna quando entra in develop. Il riferimento restituito a ExposureClasses.cs:107 non cambia (F2.9-D7, proposta U2)." },
       "test": [
         "Checker/GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122-125",
         "Checker/GPCChecker.Test.Concrete/DurabilityMigrationTests.cs (durability-legacy.csv, righe MIX)",
@@ -595,7 +596,7 @@
       "codice": [ "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:155" ],
       "segno": "NON cautelativo (fino a −5 mm sul copriferro)",
       "effetto_quantificato": { "sintesi": "esempio XC3 C28/35 trave: cnom 35 mm con il default contro 40 mm con Cmin della UNI 11104 in libreria", "evidenze": ["supporto/artefatti/refactoring/metodi2/out-durability.txt"] },
-      "effetto_anthea": "Verificato il 7/10: nessuno. Tutti i chiamanti di ANTHEA passano la classe minima pertinente (X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Calculations/Materials/MaterialCover.cs:31, X.Materiali/MaterialDetails.cs:173 con MinimumConcrete.Required; ElasticHorizontalPile.Reinforcement.cs:155 con ExposureClasses.Uni11104MinimumStrength). Il default riguarda solo gli altri utenti della libreria.",
+      "effetto_anthea": "Verificato il 7/10: nessuno. Tutti i chiamanti di ANTHEA passano la classe minima pertinente (X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Calculations/Materials/MaterialCover.cs:31, X.Materiali/MaterialDetails.cs:173 con MinimumConcrete.Required; ElasticHorizontalPile.Reinforcement.cs:155 con ExposureClasses.Uni11104MinimumStrength). Il default riguarda solo gli altri utenti della libreria. Riverificato in F2.9 (8/10): con l'adattatore della durabilità i chiamanti sono gli stessi e passano la classe pertinente (X.Calculations/Materials/MaterialCover.cs:34, X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Materiali/MaterialDetails.cs:173, ElasticHorizontalPile.Reinforcement.cs:155); il default lo usano solo le prove (supporto/test/Shared/DurabilityReferenceChecks.cs) e la cattura densa, con risultati identici fra i motori (registro F2-13).",
       "raccomandazione": "default = classe minima pertinente dell'esposizione dalla tabella di durabilità (oggi 25 + 5 · severità, cioè i Cmin per ambiente della Tab. C4.1.IV, che la Circolare riferisce alla classe di esposizione pertinente)",
       "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
       "data": "2026-10-07",
@@ -691,7 +692,7 @@
       "codice": [ "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:61" ],
       "test": [ "Checker/GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122-123 (XC3: EN e UNI C25/30, dalla stessa lettura)", "Model/ModelChecker.Tests/DurabilityDetailingTest.cs:98 (XC3, profilo EN: «Table E.1N C25/30 = fck», dalla stessa lettura)" ],
       "segno": "NON cautelativo: con XC3 sola o combinata con classi meno severe il controllo della classe minima dei profili EN e UNI accetta C25/30 e C28/35; nessun effetto sui copriferri",
-      "effetto_anthea": "Da verificare in F2.9: i chiamanti di ANTHEA elencati in R11 passano la classe UNI 11104 di MinimumConcrete.Required (D7-e), non quella del prospetto E.1N.",
+      "effetto_anthea": "Nessuno, verificato in F2.9 (8/10): nessun sorgente di produzione né di prova di ANTHEA chiama ExposureClasses.MinimumStrength (classe minima per profilo); la scheda Materiali, i dettagli della sezione c.a. e i muri usano solo la classe UNI 11104 (MinimumConcrete.Required, ConcreteDurabilityAdapter.MinimumStrength, ExposureClasses.Uni11104MinimumStrength) e il palo elastico ExposureClasses.Uni11104MinimumStrength (ElasticHorizontalPile.Reinforcement.cs:155). La scansione 11i di tests/ConcreteLibraryAdapter.Checks (regola classe-minima-per-profilo) lo rende permanente.",
       "raccomandazione": "C30/37 per XC3 nei profili EN e UNI dopo il riscontro dell'impaginazione della EN, con opzione legacy; gli attesi dei due test si correggono dal testo del prospetto",
       "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)", "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare" },
       "data": "2026-10-07",
@@ -768,7 +769,7 @@
       "famiglia": "calcestruzzo/taglio-torsione",
       "categoria": "convenzione",
       "stato": "dichiarato",
-      "descrizione": "Stesse formule del legacy (la libreria è il trasferimento di ConcreteCodeChecks.Shear, Ntc2018Checks.Shear e ConcreteTorsionCalculator), con altra aritmetica in virgola mobile: radice cubica Math.Pow(x, 1/3) in netstandard2.0 contro Math.Cbrt del legacy (SectionShearCalculator.Cbrt); unità N e N·mm nella libreria contro kN e kNm (resistenze divise per 1000 alla fine nel legacy, nella mappatura dopo il calcolo; tassi |V|/VRd e |T|/TRd calcolati in N e N·mm); ordine delle somme dei tassi di interazione della torsione (|T|/TRcd + (|Vx|/VRcd,x + |Vy|/VRcd,y) contro (|T|/TRcd + |Vx|/VRcd,x) + |Vy|/VRcd,y); resistenze a taglio passate alla torsione riconvertite da kN a N. Nessuna formula, coefficiente o esito diverso.",
+      "descrizione": "Stesse formule del legacy (la libreria è il trasferimento di ConcreteCodeChecks.Shear, Ntc2018Checks.Shear e ConcreteTorsionCalculator), con altra aritmetica in virgola mobile: radice cubica Math.Pow(x, 1/3) in netstandard2.0 contro Math.Cbrt del legacy (SectionShearCalculator.Cbrt); unità N e N·mm nella libreria contro kN e kNm (resistenze divise per 1000 alla fine nel legacy, nella mappatura dopo il calcolo; tassi |V|/VRd e |T|/TRd calcolati in N e N·mm); ordine delle somme dei tassi di interazione della torsione (|T|/TRcd + (|Vx|/VRcd,x + |Vy|/VRcd,y) contro (|T|/TRcd + |Vx|/VRcd,x) + |Vy|/VRcd,y); resistenze a taglio passate alla torsione riconvertite da kN a N. Nessuna formula o coefficiente diverso. Unico esito diverso, solo per uguaglianza esatta (divergenza T-1 del banco F2.1, tests/ConcreteBench.Checks): senza armatura a taglio, con VEd uguale al VRd del legacy, la libreria dà VRd più piccolo di 1 ulp, quindi η = 1,0000000000000002 e «Resistenza insufficiente» invece di η = 1 e «sufficiente» (NTC, EN, UNI, DIN, DS, NS; dal passo F2.6). Decisione del coordinatore su delega dell'utente («fai come credi meglio», 8/10): si accetta e si registra qui, senza tolleranze sul verdetto η ≤ 1, perché il caso ha misura nulla e una tolleranza cambierebbe il confine della verifica.",
       "codice": [
         "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:221-222",
         "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:103-114",
@@ -887,6 +888,127 @@
       "fase": "F2.5, F2.6",
       "test": [
         "tests/ConcreteLibraryAdapter.Checks/Program.cs (prove 3b, 3c, 3d)"
+      ]
+    },
+    {
+      "id": "F2-13",
+      "titolo": "Durabilità e copriferri con GPCChecker.Concrete: uscite identiche, testi e rifiuti attraverso la mappatura",
+      "famiglia": "calcestruzzo/durabilita",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Dal passo F2.9 E5 la durabilità di ANTHEA (catalogo delle esposizioni, copriferro EC2 e NTC della scheda Materiali, dei muri a mensola, dei dettagli della sezione c.a. e della validazione di progetto, classe minima, limiti di composizione e aria UNI 11104) è calcolata da GPC.Checkers.Concrete.Durability 0.0.17.0 attraverso ConcreteDurabilityAdapter, con un solo interruttore (F2.9-D8). La libreria è il trasferimento dei nuclei di ANTHEA (commit fe4652c): stessi dati per le 18 classi, stesse espressioni aritmetiche nello stesso ordine, stesso ordine dei controlli; le uscite numeriche sono identiche bit per bit, quindi nessuna tolleranza. Cambiano solo i testi, che la mappatura (ConcreteLibraryMapping.Durability.cs) riporta a quelli del legacy: descrizioni italiane delle esposizioni, nomi dei gruppi ambientali NTC, etichette delle classi minime dal catalogo dei calcestruzzi della scheda (F2.9-D13) e rifiuti tradotti per messaggio (dizionario ed espressioni regolari; F2.9-D3; un testo senza traduzione è un errore di programma). Il codice di un'esposizione fuori catalogo ha il testo del legacy dell'operazione chiamata («Esposizione non riconosciuta.», oppure «Classe di esposizione non riconosciuta.» per la classe minima). Restano fuori dall'adattatore: la durabilità del palo elastico, che chiamava già la libreria (F2.9-D4, testi inglesi, proposta U3), e Strength, EffectiveWater e DefaultCmin senza chiamanti di produzione (F2.9-D5). Poiché le uscite coincidono, la prova che distingue i motori è la sonda dell'adattatore (adattatore, operazione, motore di ogni chiamata, F2.9-D14) con la scansione dei sorgenti, come per l'aderenza in F2.8.",
+      "codice": [
+        "X.Calculations/ConcreteDurabilityAdapter.cs:30 (interruttore), :56-158 (operazioni), :33-50 (sonda)",
+        "X.Calculations/ConcreteLibraryMapping.Durability.cs:20-102",
+        "X.Calculations/Materials/Durability.cs, NtcCover.cs, MinimumConcrete.cs, MixAutomation.cs (facciate)",
+        "X.Calculations/Materials/DurabilityLegacy.cs (nucleo legacy, raggiungibile fino a F2.11)",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:56-135",
+        "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:135-181"
+      ],
+      "segno": "nessuno: numeri identici bit per bit, testi e rifiuti identici",
+      "effetto_quantificato": {
+        "sintesi": "Prove dell'adattatore, sezione 11 (tests/ConcreteLibraryAdapter.Checks/Durability.cs, 8/10, motore predefinito Library): 11b motore Legacy dell'adattatore uguale al legacy diretto in 14 092 chiamate; 11c libreria contro legacy attraverso le facciate con il motore esplicito: griglia della cattura densa (24 insiemi di esposizioni × 7 fck × 6 opzioni, EC2 e NTC con piastra sì e no) e combinazioni, 4455 risultati e 597 rifiuti uguali, griglia degli errori anche combinati in it-IT e nella cultura invariante 16 risultati e 17 904 rifiuti uguali, a ogni chiamata la sonda registra il motore richiesto (45 944 chiamate); 11d catalogo di 18 esposizioni identico record per record, 59 risultati e 20 rifiuti uguali per gruppo NTC, classe minima, limiti ed etichette (28, 0 e 90 rifiutate); 11a 23 siti di rifiuto della libreria provocati, tutti con il testo del legacy; 11f punti d'ingresso con il motore esplicito: MaterialCover.Required 311 risultati e 72 rifiuti, ConcreteCoverAnalysis 250 e 55, ProjectValidation 10 scenari di progetto con CoverChecks e Warnings identici; 11e 244 percorsi headless con voci della sonda tutte del motore predefinito; 11h valori a mano della pagina del metodo (116 controlli), DurabilityReferenceChecks e documento M1 di B6 (cnom 40 mm) con i due motori. Dopo la revisione (1c2c88b, terzo muro a mensola di B3): 11f MaterialCover.Required 312 risultati e 72 rifiuti, 11e 247 percorsi; la 11i scansiona anche adattatore, mappatura e nucleo legacy e controlla i 12 rami legacy dell'adattatore (d02e890). Cattura densa: durability-legacy.csv con il motore della libreria (esplicito su f53205b, predefinito nella prova generale e su E5) identico in 3048 righe a F2-pre-m4-v2 e alle fixture di Checker. Cattura headless: B6 (546 file, catturata con il legacy su adb6121) identica salvo i 21 tempi volatili con il motore della libreria; fallbacks.json identico byte per byte.",
+        "evidenze": [
+          "supporto/artefatti/refactoring/f2-9/LEGGIMI.txt",
+          "supporto/artefatti/refactoring/f2-9/baseline-F2-B6/LEGGIMI.txt",
+          "supporto/artefatti/refactoring/f2-9/adattatore-e5/misura.json",
+          "supporto/artefatti/refactoring/f2-9/e2-densa-libreria/confronto-pre-m4.json",
+          "supporto/artefatti/refactoring/f2-9/prova-generale",
+          "supporto/artefatti/refactoring/f2-9/ci"
+        ]
+      },
+      "raccomandazione": "nessuna azione; eliminazione del legacy di durabilità in F2.11 [CP], dopo la revisione della pagina del metodo (proposta F2.9-U6)",
+      "decisione": { "data": "2026-10-08", "coordinatore": "deciso dal coordinatore su delega dell'utente (F2.9-D1…D14, progetto F29-progetto.md), da ratificare", "esito": "interruttore unico sulla libreria; legacy raggiungibile con DurabilityEngine.Legacy e '--motore-durabilita legacy' fino a F2.11" },
+      "attuazione": { "data": "2026-10-08", "branch": "refactoring/f2-9-durabilita (worktree Temp\\aw-f29, non unito, non pushato)", "commit": ["ANTHEA c77f80a (E1, nucleo legacy con nome, contratti e facciate)", "ANTHEA f53205b (E2, mappatura, adattatore e sonda, motore Legacy)", "ANTHEA 55e51ac (E3, controlli di riferimento con entrambi i motori)", "ANTHEA adb6121 (E4, corpus di durabilità; baseline B6 catturata con il legacy)", "ANTHEA 5c06124 (E5, interruttore sulla libreria, con questa voce)", "ANTHEA d02e890 (revisione: scansione 11i per nome qualificato, rami legacy dell'adattatore)", "ANTHEA 1c2c88b (revisione: terzo muro a mensola di B3 nelle prove 11e e 11f)"] },
+      "data": "2026-10-08",
+      "fase": "F2.9",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/Durability.cs (prove 11a-11i)",
+        "tests/ConcreteLibraryAdapter.Checks/legacy-allowlist-durabilita.json",
+        "supporto/test/Shared/DurabilityReferenceChecks.cs (con entrambi i motori)",
+        "Checker/GPCChecker.Test.Concrete/DurabilityMigrationTests.cs (durability-legacy.csv)"
+      ]
+    },
+    {
+      "id": "F2-14",
+      "titolo": "Durabilità: rifiuti e casi limite della libreria non raggiungibili da ANTHEA",
+      "famiglia": "calcestruzzo/durabilita",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Differenze fra i motori fuori dai percorsi di ANTHEA, dichiarate e non coperte dalle uscite. (a) Argomenti nulli: con un insieme di esposizioni nullo il legacy dà NullReferenceException, la libreria ArgumentNullException (l'adattatore la lascia passare senza traduzione); nessun chiamante passa null. (b) Record Exposure fuori catalogo (codice inventato o campi diversi dal catalogo): il legacy usa i campi del record (Durability.Cover, StructuralClass, ValidateExposure, AtecapMix.Air non rifiutano un codice sconosciuto), la libreria usa solo il codice e il proprio catalogo e rifiuta un codice sconosciuto con il testo del legacy dell'operazione («Esposizione non riconosciuta.»; «Classe di esposizione non riconosciuta.» per la classe minima). Con un codice sconosciuto insieme a un altro errore l'ordine dei controlli può differire (la libreria controlla il codice per primo). I record vengono sempre dal catalogo della facciata (scheda Materiali, MaterialCover.cs, ConcreteDetailingAnalysis.cs), che rifiutano prima un codice sconosciuto («Definire la classe di esposizione.», «Scegliere la classe di esposizione…»). (c) Profili non offerti dalla scheda: DS (DK NA, solo 50 anni, Δcdev ≥ 5 mm), UNI con DM 2012 e CNR-DT 200 non sono usati dall'adattatore, che usa solo EN1992p11 ed Ntc2018; i loro rifiuti darebbero InvalidOperationException (senza traduzione). (d) Le righe DS e le classi minime EN e DS dell'esempio 2 della pagina del metodo non sono raggiungibili da ANTHEA, che non chiama ExposureClasses.MinimumStrength (registro R17).",
+      "codice": [
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:78, :83",
+        "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:143, :163-171",
+        "X.Calculations/ConcreteDurabilityAdapter.cs:167-172",
+        "X.Calculations/Materials/MaterialCover.cs:24",
+        "X.Calculations/ConcreteDetailingAnalysis.cs:33-34"
+      ],
+      "segno": "nessuno sui percorsi di ANTHEA",
+      "effetto_quantificato": {
+        "sintesi": "Nessun caso della cattura densa, della griglia degli errori della prova 11c, del corpus di B6 e delle prove dell'adattatore raggiunge questi casi; i codici sconosciuti delle funzioni per codice (NtcCover.Severity, MinimumConcrete.Fck, AtecapMix.Limits, anche con codice vuoto, in minuscolo e nullo) e delle combinazioni passate a NtcCover.Calculate, MinimumConcrete.Required e AtecapMix.Required danno lo stesso rifiuto con i due motori (prove 11a, 11b, 11d)."
+      },
+      "raccomandazione": "nessuna azione; da rivedere se la scheda aprirà i profili UNI, DS o CNR-DT (cambio di contratto)",
+      "decisione": { "data": "2026-10-08", "coordinatore": "deciso dal coordinatore su delega dell'utente (F2.9-D3, progetto F29-progetto.md §6.4), da ratificare", "esito": "casi dichiarati, nessuna azione" },
+      "attuazione": { "data": "2026-10-08", "commit": ["ANTHEA f53205b (E2, adattatore e mappatura)", "ANTHEA 5c06124 (E5, interruttore sulla libreria, con questa voce)"] },
+      "data": "2026-10-08",
+      "fase": "F2.9",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/Durability.cs (prove 11a, 11b, 11d)"
+      ]
+    },
+    {
+      "id": "F2-15",
+      "titolo": "Resistenza a N assegnato: tolleranza su N della libreria per legame e scala della sezione (S-1, palo orizzontale)",
+      "famiglia": "calcestruzzo/flessione-slu",
+      "categoria": "correzione",
+      "stato": "attuato",
+      "descrizione": "SectionMomentResistance (resistenza rapida, sezione del palo orizzontale, verifica N–M dei muri) accettava il punto della libreria solo con |NRd − N| ≤ max(1 kN; 1e-6 |N|). La ricerca iterativa della libreria si ferma invece a 0,25e-4 b h fck sul punto prima dell'ultimo passo, quindi le sezioni grandi davano scarti di 1-2 kN e il punto era scartato: il palo orizzontale non era più calcolato da D 1,6 m (bug segnalato dall'utente l'8/10); con lo stress block la risultante a gradini dava scarti fino a 2 kN anche su sezioni medie (divergenza S-1 del banco F2.1). Ora la tolleranza è quella della libreria (DomainPointAxialTolerance, Checker 0.0.18.0): max(1000 N; 1e-6 |N|; 0,5e-4 b h fck) e con lo stress block almeno 1e-3 NRd,c. I valori dei punti non cambiano: cambia solo l'accettazione, mai più stretta di prima. Con i legami continui la regola coincide con la vecchia fino a b h fck = 2e7 N (per esempio D 800 in C40/50 passa da 1 a 1,28 kN). Con lo stress block i risultati SLU sono meno precisi (nota nella libreria e nella pagina del metodo).",
+      "codice": [
+        "Checker/GPCChecker.Concrete/SectionSolvers/DomainPointAxialTolerance.cs",
+        "X.Calculations/SectionMomentResistance.cs:12-16, :38",
+        "X.Calculations/HorizontalConcreteSection.cs:31"
+      ],
+      "segno": "solo più punti accettati; con lo stress block MRd entro circa 0,5 % nel campione (fino a 1-2 % vicino agli estremi del dominio)",
+      "effetto_quantificato": {
+        "sintesi": "Palo orizzontale C35/45 16Ø24, N = 0: da D 1,6 m a 2,5 m prima rifiutato, ora calcolato con NRd e MRd identici ai punti della libreria (sonda di Checker, 20 punti). Campione di S-1 (8840 punti, 13 sezioni, 4 legami): nessun punto passa da accettato a rifiutato; con lo stress block a SLU da 784 a 847 punti accettati su 884. Banco F2.1: la divergenza S-1 non c'è più (C2 stress block, N = −1500 kN: MxRd 707,02 kNm, atteso 706,49)."
+      },
+      "decisione": { "data": "2026-10-08", "utente": "tolleranza di convergenza che dipende dal legame costitutivo del materiale. stress block tolleranza maggiore. metti nota che potrebbe essere meno preciso; poi, per il palo: correggi quel punto", "esito": "regola nella libreria (release S3), ANTHEA la usa" },
+      "data": "2026-10-08",
+      "fase": "F2.1 (banco), release S3",
+      "test": [
+        "Checker/GPCChecker.Test.Concrete/DomainPointAxialToleranceTests.cs, DomainPointContractTests.cs",
+        "supporto/test/X.Verifiche/HorizontalChecks.cs (pali D 1,6-2,5 m)",
+        "tests/ConcreteBench.Checks (S-1 tolta da divergenze.json)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f2.1-soglie/S1-progetto.md"
+      ]
+    },
+    {
+      "id": "F2-16",
+      "titolo": "Palo orizzontale: secondo anello interno di barre (seconda fila) nella sezione principale, nei tratti e dal verificatore c.a.",
+      "famiglia": "pali/armatura",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Segnalazione dell'utente dell'8/10 sera: nei pali la seconda fila di armature non si vede e, aggiunta nel verificatore c.a. del palo, sparisce. Il palo orizzontale non aveva i campi del secondo anello (second_inner_enabled, _count, _diameter, _gap, gli stessi della sezione in c.a.); «Applica armatura» del verificatore trasferiva solo numero e diametro delle barre e staffe; alla riapertura il foglio prendeva di nuovo la sezione dal palo, quindi l'anello spariva anche dal verificatore. Ora la sezione principale ha i quattro campi (mostrati quando l'anello è attivo, valori iniziali come nella sezione c.a.), ogni scheda dei tratti ha la scelta «Secondo anello interno» e i suoi valori, il verificatore trasferisce l'anello alla sezione principale (primo tratto) o al tratto, con gli stessi limiti della sezione c.a. (almeno quattro barre, diametro e distanza libera positivi). Un tratto senza le chiavi dell'anello usa quelle della sezione principale, come prima. Nessuna formula nuova: la sezione con due anelli è quella di SezioneCA e della libreria. Un palo senza anello ha archivio, sezione dei tratti e risultati invariati. Limite della libreria emerso dalla correzione (messo in coda dall'utente il 9/10, insieme ai report del palo; piano, seguiti di F2-16): con un anello di diametro diverso dalla prima fila la distinta di GPC.Checkers.Concrete.Piles.PileReinforcement rifiuta la sezione («Distinta del palo: diametri misti nella stessa sezione non supportati.») e il calcolo elastico del palo si ferma con quel messaggio; Broms (resistenza della sezione) funziona. I report del palo (ReportElasticPile, ReportOrizzontale) non citano l'anello: i report sono fermi per decisione dell'utente dell'8/10.",
+      "codice": [
+        "X.Calculations/ElasticHorizontalPile.Reinforcement.cs:12-17 (InnerRingKeys, SegmentKeys), SegmentSection, ProposeSegments",
+        "X.Calculations/ElasticHorizontalPile.ConcreteSheet.cs (ApplyConcreteSheetReinforcement)",
+        "X.Desktop/Wpf/HorizontalWorkspace.cs (campi della sezione principale), HorizontalMaterials.cs (ShowInnerRing)",
+        "X.Desktop/Wpf/PileReinforcementEditor.cs (schede dei tratti), PileReinforcementDrawing.cs (etichetta della sezione)"
+      ],
+      "segno": "nessuno per i pali senza anello; con l'anello la sezione verificata è quella che l'utente assegna",
+      "effetto_quantificato": {
+        "sintesi": "Prova fuori schermo ElasticPile.UiChecks --inner-ring-only (10 controlli): prima della correzione 7 FAIL su 9 (campi assenti, anello perso applicando e riaprendo il verificatore, verifiche elastiche senza anello, schede senza scelta, limiti non controllati), dopo 10 PASS. Tratti di prova: T1 16 barre (sezione principale), T2 12 + 8 barre dello stesso diametro. ElasticPile.UiChecks completo 100 PASS e modi drawing 26, clarity 19, seismic 22, example 4, cuts-example 6 tutti PASS."
+      },
+      "data": "2026-10-09",
+      "fase": "segnalazioni dell'utente dell'8/10",
+      "test": [
+        "supporto/test/ElasticPile.UiChecks/InnerRingChecks.cs (suite ElasticPile.UiChecks/anello-interno del runner, stadio ui)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/segnalazioni-8-10/pali-anello/prima",
+        "supporto/artefatti/refactoring/segnalazioni-8-10/pali-anello/dopo"
       ]
     }
   ]

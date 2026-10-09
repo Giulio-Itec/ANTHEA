@@ -1,0 +1,14 @@
+{
+  "moduleId": "geo_muri_sostegno",
+  "label": "Muro a mensola, copriferro NTC + Circolare 2019: XS1, piastra, controllo di qualità",
+  "description": "Caso W1 del corpus della cattura headless (baseline B6, refactoring F2.9): minimo del copriferro del muro con il criterio NTC, elemento a piastra, classe del muro C30/37 inferiore alla classe minima UNI 11104 di XS1 e riduzione per il controllo di qualità.",
+  "overrides": {
+    "family": "cantilever",
+    "materials": { "exposure": "XS1", "fck": 30, "cover": 40 },
+    "detailing": {
+      "aggregate": 20, "life": 50, "cover_deviation": 10, "cover_method": "NTC + Circ. 2019", "cover_element": "Piastra / soletta / parete",
+      "cover_ground": "Casseratura", "cover_abrasion": "Nessuno", "cover_quality": true, "cover_high_strength": false, "cover_slab": false,
+      "cover_ec_quality": false, "cover_rough": false
+    }
+  }
+}

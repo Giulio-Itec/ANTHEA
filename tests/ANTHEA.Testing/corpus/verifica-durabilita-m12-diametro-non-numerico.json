@@ -1,0 +1,13 @@
+{
+  "moduleId": "mat_calcestruzzo",
+  "label": "Scheda Materiali: diametro di riferimento non numerico (rifiuto)",
+  "description": "Caso M12 del corpus della cattura headless (baseline B6, refactoring F2.9): il diametro «abc» è rifiutato con il messaggio «Dati del copriferro incompleti o non numerici.».",
+  "overrides": {
+    "classe": "C30/37",
+    "esposizione_principale": "XC1",
+    "esposizioni": [ "XC1" ],
+    "numeri": { "diameter": "abc", "aggregate": "20" },
+    "scelte": { "coverMethod": "NTC + Circ. 2019", "ntcElement": "Trave / pilastro", "life": "50 anni", "deviationControl": "Ordinario", "deviationValue": "10 mm", "ground": "Casseratura", "abrasion": "Nessuno" },
+    "opzioni": { "highStrength": false, "slab": false, "quality": false, "rough": false, "ntcQuality": false }
+  }
+}
