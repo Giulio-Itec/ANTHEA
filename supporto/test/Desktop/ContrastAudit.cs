@@ -9,6 +9,8 @@ using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Automation;
+using System.Windows.Automation.Peers;
+using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
@@ -124,6 +126,7 @@ internal sealed class ContrastAudit
     internal static async Task Run(string[] args)
     {
         if (args.Length == 2 && args[1] == "--diagnosi") { await Diagnose(Path.GetFullPath(args[0])); return; }
+        if (args.Length == 2 && args[1] == "--diagnosi-menu") { await DiagnoseMenu(Path.GetFullPath(args[0])); return; }
         string output = Path.GetFullPath(args[0]); string? reference = null, views = null;
         for (int i = 1; i < args.Length; i += 2)
         {
@@ -221,6 +224,72 @@ internal sealed class ContrastAudit
             window.Close();
         }
         File.WriteAllLines(Path.Combine(output, "diagnosi.txt"), log);
+    }
+
+    /// <summary>
+    /// --check-contrast &lt;cartella&gt; --diagnosi-menu: the menu bar of the main window off screen, after the paths a user
+    /// follows (start in a dark appearance, open and close a menu, choose the appearance from the Aspetto menu). Clicks go
+    /// through the automation peers (MenuItem.OnClick, as a real click). The preference file is restored at the end.
+    /// Output: diagnosi-menu.txt and one PNG of the menu bar per scenario.
+    /// </summary>
+    private static async Task DiagnoseMenu(string output)
+    {
+        Directory.CreateDirectory(output);
+        var log = new List<string>();
+        var audit = new ContrastAudit(output, null, null);
+        string preference = Appearance.PreferencePath;
+        byte[]? saved = File.Exists(preference) ? File.ReadAllBytes(preference) : null;
+        static string B(Brush? b) => b is SolidColorBrush s ? s.Color.ToString() : b?.GetType().Name ?? "null";
+        static MenuItem Top(Window w, string header) => Ui.Descendants<Menu>(w).First().Items.OfType<MenuItem>().First(i => (i.Header as string)?.Replace("_", "") == header);
+        async Task Open(MenuItem item) { ((IExpandCollapseProvider)new MenuItemAutomationPeer(item).GetPattern(PatternInterface.ExpandCollapse)).Expand(); await audit.Settle(120); }
+        async Task Choose(MenuItem parent, string header)
+        {
+            await Open(parent);
+            var option = parent.Items.OfType<MenuItem>().First(i => (i.Header as string) == header);
+            ((IInvokeProvider)new MenuItemAutomationPeer(option).GetPattern(PatternInterface.Invoke)).Invoke();
+            await audit.Settle(200);
+        }
+        async Task Scenario(string name, AppAppearance start, Func<MainWindow, Task> act)
+        {
+            audit.Mode = start;
+            var window = await audit.OpenMain(start);
+            try
+            {
+                await act(window); await audit.Settle(150);
+                var menu = Ui.Descendants<Menu>(window).First();
+                log.Add($"[{name}] avvio={start} corrente={Appearance.Current} menu: sfondo={B(menu.Background)} testo={B(menu.Foreground)} modalità menu={menu.IsKeyboardFocusWithin}");
+                foreach (var item in menu.Items.OfType<MenuItem>())
+                {
+                    var row = item.Template?.FindName("Row", item) as Border;
+                    var texts = Ui.Descendants<TextBlock>(item).Where(t => t.IsVisible).Select(t => $"'{t.Text}' {B(t.Foreground)}");
+                    log.Add($"  {item.Header}: scuro={Appearance.GetDark(item)} modello={(row is null ? "nativo" : "scuro")} testo={B(item.Foreground)} " +
+                        $"({DependencyPropertyHelper.GetValueSource(item, Control.ForegroundProperty).BaseValueSource}) sfondo={B(item.Background)} riga={B(row?.Background)} " +
+                        $"evidenziato={item.IsHighlighted} aperto={item.IsSubmenuOpen} opacità={item.Opacity} testi=[{string.Join("; ", texts)}]");
+                }
+                menu.UpdateLayout();
+                SavePng(Render(menu, (int)Math.Ceiling(menu.ActualWidth), (int)Math.Ceiling(menu.ActualHeight)), Path.Combine(output, name + ".png"));
+            }
+            catch (Exception ex) { log.Add($"[{name}] errore: {ex}"); }
+            finally { await audit.CloseMain(window); }
+        }
+        using (OffscreenWindows.Install(audit))
+        {
+            try
+            {
+                await Scenario("avvio-scuro", AppAppearance.Dark, _ => Task.CompletedTask);
+                await Scenario("avvio-molto-scuro", AppAppearance.VeryDark, _ => Task.CompletedTask);
+                await Scenario("avvio-scuro-file-aperto-e-chiuso", AppAppearance.Dark, async w => { var file = Top(w, "File"); await Open(file); file.IsSubmenuOpen = false; });
+                await Scenario("chiaro-poi-scuro-dal-menu", AppAppearance.Light, w => Choose(Top(w, "Aspetto"), "Scuro"));
+                await Scenario("chiaro-poi-molto-scuro-dal-menu", AppAppearance.Light, w => Choose(Top(w, "Aspetto"), "Molto scuro"));
+                await Scenario("scuro-poi-chiaro-poi-scuro-dal-menu", AppAppearance.Dark, async w => { await Choose(Top(w, "Aspetto"), "Chiaro"); await Choose(Top(w, "Aspetto"), "Scuro"); });
+            }
+            finally
+            {
+                Appearance.Set(AppAppearance.Light, false);
+                if (saved is null) { if (File.Exists(preference)) File.Delete(preference); } else File.WriteAllBytes(preference, saved);
+            }
+        }
+        File.WriteAllLines(Path.Combine(output, "diagnosi-menu.txt"), log);
     }
 
     private static void RegisterHandlers()
