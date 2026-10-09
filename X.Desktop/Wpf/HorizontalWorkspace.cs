@@ -111,6 +111,10 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             new("__fyd", "Resistenza a snervamento di progetto", "MPa", Symbol: "fyd", ReadOnly: true),
             new("longitudinal_bar_diameter_mm", "Diametro barre", "mm", Symbol: "φL", Choices: ["8", "10", "12", "14", "16", "18", "20", "22", "24", "25", "26", "28", "30", "32", "36", "40"]),
             new("longitudinal_bar_count", "Numero barre", Symbol: "n"),
+            new("second_inner_enabled", "Secondo anello interno", Bool: true),
+            new("second_inner_count", "Numero barre dell'anello interno", Symbol: "n₂"),
+            new("second_inner_diameter", "Diametro barre dell'anello interno", "mm", Symbol: "φL,2", Choices: ["8", "10", "12", "14", "16", "18", "20", "22", "24", "25", "26", "28", "30", "32", "36", "40"]),
+            new("second_inner_gap", "Distanza libera dalla prima fila", "mm"),
             new("transverse_bar_diameter_mm", "Diametro staffa", "mm", Symbol: "φst", Choices: ["6", "8", "10", "12", "14", "16", "18", "20"]),
             new("transverse_spacing_mm", "Passo staffe", "mm"),
             new("gamma_ca", "Peso unitario c.a. adottato (acciaio incluso)", "kN/m³"),
@@ -128,6 +132,8 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         foreach(string key in new[]{"alpha_cc","gamma_c","gamma_s"})sectionFields.ShowField(key,false);
         sectionFields.Editors["coefficienti_unitari"].ToolTip="Disattivato: coefficienti NTC/archivio. Attivato: normativa custom di sezione con tutti i gamma e alpha_cc pari a 1; non modifica i coefficienti geotecnici di Broms. I valori ordinari restano conservati.";
         sectionFields.Editors["cover_mm"].ToolTip = "Distanza netta dal bordo del calcestruzzo alla superficie esterna della staffa, in mm.";
+        sectionFields.Editors["second_inner_gap"].ToolTip = "Distanza libera tra le superfici delle barre dei due anelli, in mm.";
+        ShowInnerRing(false);
         }
         moment.MaxWidth = sectionFields.MaxWidth = 650;
         moment.HorizontalAlignment = sectionFields.HorizontalAlignment = HorizontalAlignment.Left;

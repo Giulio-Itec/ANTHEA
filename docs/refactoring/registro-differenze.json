@@ -983,6 +983,33 @@
       "evidenze": [
         "supporto/artefatti/refactoring/f2.1-soglie/S1-progetto.md"
       ]
+    },
+    {
+      "id": "F2-16",
+      "titolo": "Palo orizzontale: secondo anello interno di barre (seconda fila) nella sezione principale, nei tratti e dal verificatore c.a.",
+      "famiglia": "pali/armatura",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Segnalazione dell'utente dell'8/10 sera: nei pali la seconda fila di armature non si vede e, aggiunta nel verificatore c.a. del palo, sparisce. Il palo orizzontale non aveva i campi del secondo anello (second_inner_enabled, _count, _diameter, _gap, gli stessi della sezione in c.a.); «Applica armatura» del verificatore trasferiva solo numero e diametro delle barre e staffe; alla riapertura il foglio prendeva di nuovo la sezione dal palo, quindi l'anello spariva anche dal verificatore. Ora la sezione principale ha i quattro campi (mostrati quando l'anello è attivo, valori iniziali come nella sezione c.a.), ogni scheda dei tratti ha la scelta «Secondo anello interno» e i suoi valori, il verificatore trasferisce l'anello alla sezione principale (primo tratto) o al tratto, con gli stessi limiti della sezione c.a. (almeno quattro barre, diametro e distanza libera positivi). Un tratto senza le chiavi dell'anello usa quelle della sezione principale, come prima. Nessuna formula nuova: la sezione con due anelli è quella di SezioneCA e della libreria. Un palo senza anello ha archivio, sezione dei tratti e risultati invariati. Limite della libreria emerso dalla correzione (da decidere con l'utente): con un anello di diametro diverso dalla prima fila la distinta di GPC.Checkers.Concrete.Piles.PileReinforcement rifiuta la sezione («Distinta del palo: diametri misti nella stessa sezione non supportati.») e il calcolo elastico del palo si ferma con quel messaggio; Broms (resistenza della sezione) funziona. I report del palo (ReportElasticPile, ReportOrizzontale) non citano l'anello: i report sono fermi per decisione dell'utente dell'8/10.",
+      "codice": [
+        "X.Calculations/ElasticHorizontalPile.Reinforcement.cs:12-17 (InnerRingKeys, SegmentKeys), SegmentSection, ProposeSegments",
+        "X.Calculations/ElasticHorizontalPile.ConcreteSheet.cs (ApplyConcreteSheetReinforcement)",
+        "X.Desktop/Wpf/HorizontalWorkspace.cs (campi della sezione principale), HorizontalMaterials.cs (ShowInnerRing)",
+        "X.Desktop/Wpf/PileReinforcementEditor.cs (schede dei tratti), PileReinforcementDrawing.cs (etichetta della sezione)"
+      ],
+      "segno": "nessuno per i pali senza anello; con l'anello la sezione verificata è quella che l'utente assegna",
+      "effetto_quantificato": {
+        "sintesi": "Prova fuori schermo ElasticPile.UiChecks --inner-ring-only (10 controlli): prima della correzione 7 FAIL su 9 (campi assenti, anello perso applicando e riaprendo il verificatore, verifiche elastiche senza anello, schede senza scelta, limiti non controllati), dopo 10 PASS. Tratti di prova: T1 16 barre (sezione principale), T2 12 + 8 barre dello stesso diametro. ElasticPile.UiChecks completo 100 PASS e modi drawing 26, clarity 19, seismic 22, example 4, cuts-example 6 tutti PASS."
+      },
+      "data": "2026-10-09",
+      "fase": "segnalazioni dell'utente dell'8/10",
+      "test": [
+        "supporto/test/ElasticPile.UiChecks/InnerRingChecks.cs (suite ElasticPile.UiChecks/anello-interno del runner, stadio ui)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/segnalazioni-8-10/pali-anello/prima",
+        "supporto/artefatti/refactoring/segnalazioni-8-10/pali-anello/dopo"
+      ]
     }
   ]
 }

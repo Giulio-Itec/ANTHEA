@@ -31,8 +31,17 @@ public static partial class ElasticHorizontalPile
     public static void ApplyConcreteSheetReinforcement(JsonObject root,JsonObject sheet,int index)
     {
         var input=sheet["input"]!;foreach(string key in ReinforcementKeys)if(J.Number(input[key]) is not double n||n<=0)throw new ArgumentException("Armature della scheda non valide: "+key);
+        // Second ring of the sheet: same limits as the c.a. section (at least four bars, positive diameter and clear distance).
+        if(input.B("second_inner_enabled"))
+        {
+            if(J.Number(input["second_inner_count"]) is not double count||count<4||count!=Math.Truncate(count))throw new ArgumentException("Secondo anello interno: almeno quattro barre, in numero intero.");
+            foreach(string key in new[]{"second_inner_diameter","second_inner_gap"})if(J.Number(input[key]) is not double v||v<=0)throw new ArgumentException("Armature della scheda non valide: "+key);
+        }
         var row=root["elastico"]!.Array("tratti")[index]!.AsObject();var target=index==0?root["sezione"]!.AsObject():row;
         foreach(string key in ReinforcementKeys)target[key]=input[key]!.DeepClone();if(index>0)row["collegato"]=false;
+        // A pile without a second ring keeps its archive unchanged; otherwise the sheet decides whether the ring is active.
+        if(input["second_inner_enabled"]!=null||SegmentSection(root,row)["second_inner_enabled"]!=null)
+            foreach(string key in InnerRingKeys){if(key=="second_inner_enabled")target[key]=input.B(key);else if(input[key] is JsonNode value)target[key]=value.DeepClone();}
         row["origine_armatura"]="Armatura applicata esplicitamente dal foglio c.a.; geometria, materiali e azioni del foglio non trasferiti.";
     }
 }
