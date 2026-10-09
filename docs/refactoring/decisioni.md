@@ -432,8 +432,10 @@ Da far presente nella ratifica (revisione di F2.9b, 8/10):
   `ImmutableArray` in `RetainingWall.Materials.cs`. La corsia ha seguito E1 (`RetainingWall.Materials.cs:47-52`). I branch di F2.7
   (`refactoring/f2-7-sle-fessurazione`, `refactoring/f2-7-prototipo`) e di F2.8 (`refactoring/f2-8-a0-cattura`) partono anch'essi da
   98a21d4 e non toccano quel file: nessun conflitto atteso.
-- **Durata delle prove dell'adattatore.** Con la sezione 11 `tests/ConcreteLibraryAdapter.Checks` passa da circa 7 s a circa 60 s e
-  resta nello stadio fast. Da decidere: lasciarla così oppure spostare una parte delle griglie nello stadio regression.
+- **Durata delle prove dell'adattatore.** Con la sezione 11 `tests/ConcreteLibraryAdapter.Checks` passa da circa 7 s a circa 60 s
+  (143 s il 9/10, con le prove SLE di F2.7). Decisione dell'utente del 9/10 («confermo la 2»): nello stadio fast resta
+  `ConcreteLibraryAdapter.Checks/rapido` (`--rapido`: sezioni 1-4 e interruttori della durabilità e delle SLE, 7,7 s); la corsa
+  completa con `misura.json` passa nello stadio regression (profili standard, baseline e full).
 
 ## Dipendenze esterne previste
 

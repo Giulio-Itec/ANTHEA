@@ -93,8 +93,11 @@ foreach ($flag in 'checker', 'bridge', 'horizontal', 'coesione', 'gamma-sat', 'p
 Add-Suite @{ Name = 'verifiche/micropalo'; Stage = 'fast'; Kind = 'run'; Project = $Verifiche; Args = @('--micropalo', '{cases}') }
 Add-Suite @{ Name = 'CalculationLibrary.Checks'; Stage = 'fast'; Kind = 'run'; Project = (TestProject 'CalculationLibrary.Checks'); Args = @() }
 Add-Suite @{ Name = 'ConcreteCode.Checks'; Stage = 'fast'; Kind = 'run'; Project = (TestProject 'ConcreteCode.Checks'); Args = @() }
-# Adapter of shear and torsion to GPCChecker.Concrete (refactoring F2.5-F2.6): mapping layer, switch, legacy-library equivalence.
-Add-Suite @{ Name = 'ConcreteLibraryAdapter.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'; Args = @('{out}')
+# Adapters to GPCChecker.Concrete (refactoring F2.5-F2.9): mapping layer, switches, legacy-library equivalence. The complete run
+# (durability and SLE grids, about 2.5 minutes) is in the regression stage; the fast stage runs sections 1-4 and the switches
+# (--rapido), user decision of 9/10.
+Add-Suite @{ Name = 'ConcreteLibraryAdapter.Checks/rapido'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'; Args = @('{out}', '--rapido') }
+Add-Suite @{ Name = 'ConcreteLibraryAdapter.Checks'; Stage = 'regression'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'; Args = @('{out}')
     Proof = @{ File = '{out}\misura.json'; Pattern = '"strumento": "ConcreteLibraryAdapter.Checks"' } }
 # F2.1 bench: legacy against GPCChecker.Concrete near the branch thresholds and on closed-form sections (independent Python
 # expected values, regenerated and compared by the second suite).

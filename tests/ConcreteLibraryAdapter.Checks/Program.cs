@@ -28,19 +28,22 @@ using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 //    9 norme × 4 valori di 'gettato_sottile' uguale all'espressione legacy, ordine dei rifiuti e fonte unica. Contata a parte, come la 5l.
 // SLE (F2.7, commit A4; ServiceabilityChecks.cs e ServiceabilityPaths.cs): prove 5a-5k, 5m e 6 dell'adattatore delle verifiche SLE con entrambi i
 //    motori; da A4 anche 5l e 7a entrano in misura.json, ciascuna con i propri conteggi.
-//   dotnet ConcreteLibraryAdapter.Checks.dll [cartella] [--solo-sle] [--prove 5a,5d,…]   (--solo-sle salta le griglie di taglio e torsione e non
-//   scrive misura.json; --prove limita le prove SLE, per le prove negative)
+//   dotnet ConcreteLibraryAdapter.Checks.dll [cartella] [--solo-sle] [--prove 5a,5d,…] [--rapido]   (--solo-sle salta le griglie di taglio e
+//   torsione e non scrive misura.json; --prove limita le prove SLE, per le prove negative; --rapido, stadio fast del runner, esegue le sezioni
+//   1-4 e controlla gli interruttori della durabilità e delle SLE, senza le griglie 11 e SLE e senza misura.json: la corsa completa è nello
+//   stadio regression, scelta dell'utente del 9/10)
 // Uscita 0 con la riga "PASS · …"; 1 con il primo controllo fallito.
 const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Library; // F2.5 e cattura di B3: legacy; F2.6: libreria
 const ServiceabilityEngine ExpectedServiceabilityDefault = ServiceabilityEngine.Legacy; // F2.7b A4: legacy; A8: libreria
-string? output = null; bool onlySle = false; HashSet<string>? proofs = null;
+string? output = null; bool onlySle = false, quick = false; HashSet<string>? proofs = null;
 for (int i = 0; i < args.Length; i++)
 {
     if (args[i] == "--solo-sle") onlySle = true;
+    else if (args[i] == "--rapido") quick = true;
     else if (args[i] == "--prove" && i + 1 < args.Length) proofs = args[++i].Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToHashSet();
     else output = args[i];
 }
-bool partial = onlySle || proofs is not null;
+bool partial = onlySle || proofs is not null || quick;
 const double Tolerance = 1e-9;
 // Casi con uscite dei due motori diverse richiesti a ogni controllo che distingue i motori (3d taglio del modulo, 3e taglio e torsione
 // del calcolo headless): il riconoscimento di un calcolo che aggiri l'interruttore non dipende da un solo caso.
@@ -516,6 +519,15 @@ try
         }
     }
     Check(independent > 200, "attesi indipendenti: " + independent);
+
+    if (quick)
+    {
+        // Interruttore SLE già controllato nella sezione 2; qui quello della durabilità (11b nella corsa completa).
+        Check(ConcreteDurabilityAdapter.Default == DurabilityChecks.ExpectedDefault, $"motore della durabilità predefinito {ConcreteDurabilityAdapter.Default}, atteso {DurabilityChecks.ExpectedDefault}");
+        Console.WriteLine($"PASS · {count} controlli (rapido: sezioni 1-4 e interruttori della durabilità e delle SLE; griglie 11 e SLE nello stadio regression), "
+            + $"{staticChecks} della 5l e {thinCastingChecks} della 7a.");
+        return 0;
+    }
 
     // ---------------------------------------------------------------- 11. durabilità e copriferri (F2.9): Durability.cs
     var durability = DurabilityChecks.Run(root, Check);
