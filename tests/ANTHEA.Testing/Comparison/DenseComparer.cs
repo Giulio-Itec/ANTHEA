@@ -31,7 +31,13 @@ public sealed class DenseComparer
     // Invariant numbers not glued to letters, digits or dots ('B02', 'R300x500', '§4.1.2' stay text), and the invariant NaN and infinities.
     static readonly Regex NumberPattern = new(@"(?<![\p{L}\p{N}_.])[-+]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][-+]?\d+)?(?![\p{L}\p{N}_.])|(?<![\p{L}\p{N}_])-?(?:NaN|Infinity)(?![\p{L}\p{N}_])",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
-    static readonly JsonSerializerOptions JsonOut = new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+    // NaN and ±∞ are legitimate values and differences (a relative difference against zero): written as "NaN"/"Infinity", the
+    // report never fails on them.
+    static readonly JsonSerializerOptions JsonOut = new()
+    {
+        WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
+    };
 
     readonly Tolerances tolerances;
     readonly DenseSet set;
@@ -377,7 +383,10 @@ public sealed class DenseComparer
     };
     static string R(double v) => v.ToString("R", CultureInfo.InvariantCulture);
     static string? Short(JsonNode? n) => n is null ? "null" : n.ToJsonString(Relaxed);
-    static readonly JsonSerializerOptions Relaxed = new() { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+    static readonly JsonSerializerOptions Relaxed = new()
+    {
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping, NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
+    };
     static string Clip(string s) => s.Length <= 300 ? s : s[..300] + "…";
     // Whole lines kept for the classification patterns, capped so that a removed JSONL document does not fill the memory.
     static string Cap(string s) => s.Length <= 20000 ? s : s[..20000] + "…";
