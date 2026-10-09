@@ -45,6 +45,7 @@ static partial class Program
         AppDomain.CurrentDomain.ProcessExit+=(_,_)=>File.WriteAllText(Path.Combine(dir,"process-exit.txt"),$"checks={checks}; exit={Environment.ExitCode}");
         try
         {
+            if(args.Contains("--inner-ring-only"))return InnerRingChecks(dir,args.Contains("--probe"));
             if(args.Contains("--drawing-only"))return DrawingChecks(dir);
             if(args.Contains("--clarity-only"))return ClarityChecks(dir);
             if(args.Contains("--seismic-only"))return SeismicUiChecks(dir);
