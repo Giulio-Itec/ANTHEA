@@ -27,7 +27,9 @@ public static class MidasSnapshotImporter
         }).ToArray();
         result.Sections = Read("SECT").GetProperty("SECT").EnumerateObject().Select(p =>
         {
-            var b = p.Value.GetProperty("SECT_BEFORE"); string shape = b.GetProperty("SHAPE").GetString()!; if (shape != "SB") throw new InvalidDataException("La bozza importa per ora sezioni rettangolari piene.");
+            var b = p.Value.GetProperty("SECT_BEFORE"); string shape = b.GetProperty("SHAPE").GetString()!;
+            // A missing solid outline does not discard the element or invent an equivalent rectangle.
+            if (shape != "SB") return new SectionProperty(int.Parse(p.Name), p.Value.GetProperty("SECT_NAME").GetString()!, shape, 0, 0, false);
             var size = b.GetProperty("SECT_I").GetProperty("vSIZE"); bool centered = b.GetProperty("OFFSET_PT").GetString() == "CC" && (!b.TryGetProperty("USERDEF_OFFSET_YI", out var y) || y.GetDouble() == 0) && (!b.TryGetProperty("USERDEF_OFFSET_ZI", out var z) || z.GetDouble() == 0);
             return new SectionProperty(int.Parse(p.Name), p.Value.GetProperty("SECT_NAME").GetString()!, shape, size[1].GetDouble() * factor, size[0].GetDouble() * factor, centered);
         }).ToArray();
@@ -48,6 +50,20 @@ public static class MidasSnapshotImporter
             }
             else throw new InvalidDataException("Nessuna tabella risultati valida nella copia.");
         }
+        result.SourceTables = new();
+        // Preserve every acquired attribute. Missing exports remain missing, never an invented empty model category.
+        foreach (string name in new[] { "UNIT", "NODE", "ELEM", "THIK", "SECT", "MATL", "STLD", "LCOM-CONC", "LCOM-GEN", "LCOM-STEEL", "LCOM-SRC", "LCOM-SEISMIC", "LCOM-STLCOMP", "CONS", "ELNK", "RIGD", "FRLS", "PRLS", "NLNK", "NSPR", "MCON", "SKEW", "OFFS", "GRUP", "BNGR", "LDGR", "CNLD", "BMLD", "PRES", "STAG", "BODF", "NBOF", "NLLP" })
+            if (File.Exists(Path.Combine(directory, name + ".json")))
+            {
+                var root = Read(name);
+                if (root.TryGetProperty(name, out var table) && table.ValueKind == JsonValueKind.Object)
+                    result.SourceTables.Add(name, table.Clone());
+                else if (root.TryGetProperty("message", out var message) && message.GetString() == "")
+                    result.SourceTables.Add(name, JsonSerializer.SerializeToElement(new Dictionary<string, object>()));
+                else throw new InvalidDataException("Tabella acquisita non riconosciuta: " + name);
+            }
+        if (Directory.EnumerateFiles(directory, "*-results-*.json").Any())
+            result.Results = MidasResultTables.Read(directory, result.Elements.ToDictionary(e => e.Id));
         result.Validate(); return result;
     }
 }
