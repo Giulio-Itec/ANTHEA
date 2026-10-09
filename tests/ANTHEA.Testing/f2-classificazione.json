@@ -29,7 +29,26 @@
       "identificativi_casuali": [
         { "file": "-sections\\.xml$", "forma": "guid", "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" }
       ],
-      "differenze_attese": []
+      "differenze_attese": [
+        {
+          "id": "S4-1", "categoria": "convenzione",
+          "file": "^(crack|detailing|stress)-sections\\.xml$", "classe": "^numero$", "campo": "^testo$",
+          "a": "<SectionVersion [^>]*>4</SectionVersion>", "b": "<SectionVersion [^>]*>5</SectionVersion>",
+          "righe_attese": 193, "differenze_attese": 193,
+          "motivo": "Model 4 (lib/Checker S4): ModelArchive scrive le sezioni con SectionVersion 5 invece di 4 (89 righe in crack-sections, 55 in detailing-sections, 49 in stress-sections). Cambia solo la versione del formato dell'archivio; i file di calcolo restano identici o entro le tolleranze.",
+          "commit": "lib/Checker S4, Model a324af3f (9/10/2026)", "registro": "S4-1",
+          "codice": ["Model/Model/Sections/Section.cs:1172"]
+        },
+        {
+          "id": "S4-2", "categoria": "intenzionale",
+          "file": "^(crack|detailing|stress)-sections\\.xml$", "classe": "^numero$", "campo": "^testo$",
+          "a": "<(WPL1|WPL2|WPLX|WPLY) [^>]*>-?[0-9]", "b": ">NaN</(WPL1|WPL2|WPLX|WPLY)>",
+          "righe_attese": 64, "differenze_attese": 64,
+          "motivo": "Model 4: una sezione generica descritta dal contorno non salva i moduli plastici come valori propri; nell'archivio sono NaN e la proprietà li calcola esatti al primo accesso (Section.Wpl1 restituisce Calculated.Wpl1 quando il campo è NaN). 16 sezioni generiche per 4 moduli (WPL1, WPL2, WPLX, WPLY); nessun file di calcolo cambia.",
+          "commit": "lib/Checker S4, Model a324af3f (9/10/2026)", "registro": "S4-1",
+          "codice": ["Model/Model/Sections/Section.cs:268", "Model/Model/Sections/Section.cs:618-624"]
+        }
+      ]
     },
     "b0": {
       "descrizione": "Cattura densa pre-M4 contro la baseline B0 (supporto/artefatti/baseline/F0-B0/dense, commit dello strumento 2cd73c1, 6/10/2026), una modalità per volta (tutte, muri, pali, mesh). Confronto esatto. Dal passo F2.8-A0 i sei file nuovi della modalità tutte, assenti in B0, sono esclusi come in pre-m4.",
@@ -147,7 +166,26 @@
         { "file": "-sections\\.xml$", "forma": "guid", "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" },
         { "file": "^walls-(combinations|documents)\\.jsonl", "forma": "hex32", "motivo": "id delle azioni creati da RetainingWall.Upgrade per i documenti dei muri in versione 1 (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" }
       ],
-      "differenze_attese": []
+      "differenze_attese": [
+        {
+          "id": "S4-1", "categoria": "convenzione",
+          "file": "^(crack|detailing|stress)-sections\\.xml$", "classe": "^numero$", "campo": "^testo$",
+          "a": "<SectionVersion [^>]*>4</SectionVersion>", "b": "<SectionVersion [^>]*>5</SectionVersion>",
+          "righe_attese": 193, "differenze_attese": 193,
+          "motivo": "Model 4 (lib/Checker S4): ModelArchive scrive le sezioni con SectionVersion 5 invece di 4, come nel confronto fixture-checker.",
+          "commit": "lib/Checker S4, Model a324af3f (9/10/2026)", "registro": "S4-1",
+          "codice": ["Model/Model/Sections/Section.cs:1172"]
+        },
+        {
+          "id": "S4-2", "categoria": "intenzionale",
+          "file": "^(crack|detailing|stress)-sections\\.xml$", "classe": "^numero$", "campo": "^testo$",
+          "a": "<(WPL1|WPL2|WPLX|WPLY) [^>]*>-?[0-9]", "b": ">NaN</(WPL1|WPL2|WPLX|WPLY)>",
+          "righe_attese": 64, "differenze_attese": 64,
+          "motivo": "Model 4: moduli plastici delle sezioni generiche NaN nell'archivio, calcolati al primo accesso, come nel confronto fixture-checker.",
+          "commit": "lib/Checker S4, Model a324af3f (9/10/2026)", "registro": "S4-1",
+          "codice": ["Model/Model/Sections/Section.cs:268", "Model/Model/Sections/Section.cs:618-624"]
+        }
+      ]
     },
     "pre-f28": {
       "descrizione": "Dal passo F2.8-A0: cattura densa contro la cattura pre-F2.8 (supporto/artefatti/baseline/F2-pre-f28/a, ANTHEA refactoring/f2-8-a0-cattura, '--motore legacy'), una modalità per volta: F2-pre-m4-v2 più i sei file nuovi della modalità tutte (detailing-plate-legacy.csv e detailing-plate-sections.xml, detailing-texts-legacy.csv, detailing-adapter-legacy.jsonl, bond-legacy.csv, curvature-production-legacy.csv; supporto/test/CheckerMigration.Capture/DetailingExtendedCapture.cs). Doppia corsa e riferimento esatto dei passi F2.8 (fixture di CL1 e CL2, confronti degli interruttori I1-I3 con il legacy). Confronto esatto su tutti i file, nessuna differenza attesa. Dopo F2.7 le catture confrontabili sono quelle con tutti i motori legacy.",
