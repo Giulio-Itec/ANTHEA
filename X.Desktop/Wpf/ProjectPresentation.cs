@@ -135,6 +135,7 @@ public sealed partial class MainWindow
         overviewSection = section;
         panel.Children.Add(Ui.Text("SEZIONE SELEZIONATA", 11, true, Ui.Muted));
         overviewName = Ui.Text(section.S("nome"), 26, true); overviewName.Margin = new Thickness(0, 5, 0, 16); panel.Children.Add(overviewName);
+        AddModelsOverview(panel, section);
         int conflicts = ProjectSharedData.Differences(section).Select(d => d.Key).Distinct().Count() + ProjectSharedData.MissingSoilLayers(section).Count;
         var notices = SectionReportWarnings(section);
         var statuses = Ui.Bar(ProjectStatus($"{conflicts} {(conflicts == 1 ? "conflitto" : "conflitti")}", conflicts > 0), ProjectStatus($"{notices.Length} {(notices.Length == 1 ? "avviso" : "avvisi")}", notices.Length > 0));

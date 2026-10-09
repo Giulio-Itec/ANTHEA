@@ -23,7 +23,7 @@ public partial class App : Application
         if (e.Args.Length == 2 && e.Args[0] == "--wiki")
             window.Loaded += (_, _) => window.Safe(() => window.ShowWiki(e.Args[1]));
         else if (e.Args.FirstOrDefault(a => !a.StartsWith("--")) is string path)
-            window.Loaded += (_, _) => window.Safe(() => window.LoadFile(path));
+            window.Loaded += (_, _) => window.Safe(() => { window.LoadFile(path); if (e.Args.Contains("--models")) window.ShowModelsHub(); });
         window.Show();
     }
 

@@ -19,7 +19,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Assets/anthea.ico</ApplicationIcon>
   </PropertyGroup>
-  <ItemGroup><ProjectReference Include="../X.Calculations/X.Calculations.csproj" /><ProjectReference Include="../X.Core/X.Core.csproj" /><ProjectReference Include="../X.Materiali/X.Materiali.csproj" /></ItemGroup>
+  <ItemGroup><ProjectReference Include="../X.Calculations/X.Calculations.csproj" /><ProjectReference Include="../X.Core/X.Core.csproj" /><ProjectReference Include="../X.Materiali/X.Materiali.csproj" /><ProjectReference Include="../src/ANTHEA.ModelViewer.Wpf/ANTHEA.ModelViewer.Wpf.csproj" /></ItemGroup>
   <PropertyGroup><GpcLibraries>all</GpcLibraries></PropertyGroup>
   <ItemGroup><Resource Include="Assets/*.png" /><Resource Include="Assets/anthea.ico" /></ItemGroup>
   <ItemGroup>

@@ -91,7 +91,7 @@ public sealed partial class MainWindow : Window
         dashboard.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(250) }); dashboard.ColumnDefinitions.Add(new ColumnDefinition());
         var nav = new StackPanel { Margin = new Thickness(20, 22, 20, 22) }; var logo = Ui.Logo(150); logo.Margin = new Thickness(0, 0, 0, 16); nav.Children.Add(logo);
         nav.Children.Add(Ui.Text("Strumenti di calcolo", color: Ui.Muted));
-        foreach (var (title, action) in new (string, Action)[] { ("Home", ShowHome), ("Progetti", ShowProjects), ("Moduli singoli", () => ShowModules()), ("Wiki", () => ShowWiki()) })
+        foreach (var (title, action) in new (string, Action)[] { ("Home", ShowHome), ("Progetti", ShowProjects), ("Modelli", ShowModelsHub), ("Moduli singoli", () => ShowModules()), ("Wiki", () => ShowWiki()) })
         {
             var b = Ui.Button(title, () => Safe(() => { Commit(); action(); })); b.Height = 45; b.HorizontalContentAlignment = HorizontalAlignment.Left; b.FontWeight = FontWeights.SemiBold; nav.Children.Add(b); navigation[title] = b;
         }
@@ -108,7 +108,7 @@ public sealed partial class MainWindow : Window
         wikiTopics.ToolTip = "Teoria, parametri, dettagli costruttivi ed esempi del modulo";
         top.Children.Add(wikiTopics);
         var titles = Ui.Stack(heading, Ui.Text("Scheda di calcolo · input, profilo e risultati", 12, color: Ui.Brush("#B9C8D8"))); titles.Margin = new Thickness(15, 10, 0, 0); top.Children.Add(titles);
-        DockPanel.SetDock(top, System.Windows.Controls.Dock.Top); moduleView.Children.Add(top); DockPanel.SetDock(sharedStatus, Dock.Top); moduleView.Children.Add(sharedStatus); moduleView.Children.Add(sheetContent);
+        DockPanel.SetDock(top, System.Windows.Controls.Dock.Top); moduleView.Children.Add(top); DockPanel.SetDock(sharedStatus, Dock.Top); moduleView.Children.Add(sharedStatus); DockPanel.SetDock(modelReferenceNotice, Dock.Top); moduleView.Children.Add(modelReferenceNotice); moduleView.Children.Add(sheetContent);
     }
     private static Button CommandButton(string title, Action action, bool dark = true)
     {
@@ -238,6 +238,7 @@ public sealed partial class MainWindow : Window
         sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or RetainingWall.Module or "mat_calcestruzzo" or RebarMaterial.Module or BridgeSection.Module or BridgeConcept.Module
             ? editor : DisplayAdaptation.Viewport(editor, 1120, 600);
         heading.Text = SheetHeading(sheet); UpdateBackButton();
+        RefreshModelReference(sheet);
         wikiHelp.Visibility = WikiCatalog.ForModule(module) is null ? Visibility.Collapsed : Visibility.Visible;
     }
     private void RefreshTree(JsonObject? selected = null)
@@ -262,6 +263,7 @@ public sealed partial class MainWindow : Window
                 if (!value.ContainsKey("modulo_id")) Action("Duplica", () => DuplicateProjectSection(value));
                 Action("Elimina", Delete); item.ContextMenu = menu;
             }
+            AddModelTreeItems(item, value);
             foreach (var sheet in value.Array("fogli").OfType<JsonObject>()) item.Items.Add(Node(sheet, ModuleName(sheet.S("modulo_id"))));
             foreach (var child in value.Array("strutture").OfType<JsonObject>()) item.Items.Add(Node(child, "Sezione"));
             if (ReferenceEquals(value, selection)) selectedItem = item; return item;

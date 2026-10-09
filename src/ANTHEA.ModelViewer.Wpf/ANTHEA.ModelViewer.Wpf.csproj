@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net8.0-windows</TargetFramework><UseWPF>true</UseWPF><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><GpcLibraries>none</GpcLibraries></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../ANTHEA.ModelWorkspace/ANTHEA.ModelWorkspace.csproj"/><ProjectReference Include="../ANTHEA.ModelViewer.Presentation/ANTHEA.ModelViewer.Presentation.csproj"/><PackageReference Include="HelixToolkit.Wpf.SharpDX" Version="3.1.2"/></ItemGroup>
+</Project>

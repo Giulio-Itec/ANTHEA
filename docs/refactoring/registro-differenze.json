@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-08",
+  "aggiornato": "2026-10-09",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/",
@@ -1010,6 +1010,23 @@
         "supporto/artefatti/refactoring/segnalazioni-8-10/pali-anello/prima",
         "supporto/artefatti/refactoring/segnalazioni-8-10/pali-anello/dopo"
       ]
+    },
+    {
+      "id": "MOD-01",
+      "titolo": "Bozza del modulo Modelli: risorse per sezione, riferimenti ai fogli e visualizzatore MVVM",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Aggiunta autonoma su branch dedicato: più modelli e fogli nello stesso contenitore, archivio della copia importata, riferimento versionato senza applicare sollecitazioni, tre viste WPF con renderer separato e ViewModel senza WPF. Nessuno spostamento o cambiamento del motore legacy. L'adattatore offline è temporaneo fino al contratto GPC Model; non calcola inviluppi. Il confronto testuale legacy delle revisioni non include ancora le modifiche ai modelli: attività successiva dichiarata.",
+      "codice": ["src/ANTHEA.ModelWorkspace", "src/ANTHEA.ModelViewer.Presentation", "src/ANTHEA.ModelViewer.Wpf", "X.Desktop/Wpf/ProjectModels.cs"],
+      "segno": "nessuna variazione dei calcoli esistenti; nuova rappresentazione grafica dei dati importati",
+      "effetto_quantificato": { "sintesi": "Prima prova sul laboratorio: 3755 nodi, 3616 elementi, 13718 risultati nodali; offset piastre -0.70, +0.45, +0.35 m conservati; scene preparate in circa 22/16/90 ms per geometria/volumi/risultati alta qualità, esclusi import, GPU e valutazione degli inviluppi." },
+      "decisione": { "data": "2026-10-09", "utente": "creare la bozza in un ramo di ANTHEA; WPF con MVVM; non toccare gli altri progetti, segnalare soltanto le integrazioni future", "esito": "tre nuovi progetti in src, due suite in tests e soli agganci UI in X.Desktop; librerie GPC e moduli di calcolo invariati" },
+      "data": "2026-10-09",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["tests/ModelWorkspace.Checks", "tests/ModelViewer.UiChecks"],
+      "evidenze": ["supporto/artefatti/model-viewer/checks", "supporto/artefatti/model-viewer/ui"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

@@ -215,3 +215,15 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
     ANTHEA.
   - Come vuole AGENTS.md, interfaccia, guide e report non contengono testi, figure né rimandi al sito.
   - Si progetta con un piano dedicato e con le decisioni dell'utente.
+
+## Bozza del modulo Modelli — 9 ottobre 2026
+
+Attività autonoma autorizzata dall'utente nel branch `codex/model-viewer-draft`, base `781b6a9`; non chiude né anticipa
+le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](../sviluppo/modelli-visualizzatore.md).
+
+- [x] Modelli autonomi nella gerarchia progetto/fase/sottofase, più modelli e fogli nello stesso contenitore.
+- [x] Libreria di importazione e archivio senza WPF; ViewModel senza WPF con comandi asincroni; vista XAML e renderer separati.
+- [x] Mesh, volumi preliminari con offset delle piastre, risultati importati e contouring per elemento.
+- [x] Riferimenti versionati ai fogli, persistenza e controlli mirati; nessun trasferimento automatico di sollecitazioni.
+- [ ] Integrazioni GPC, inviluppi calcolati, confronto delle revisioni modello e archivio grandi dati: solo annotate nella specifica.
+- [ ] Rilascio, guide globali e merge: dopo il collaudo e l'approvazione dell'utente.
