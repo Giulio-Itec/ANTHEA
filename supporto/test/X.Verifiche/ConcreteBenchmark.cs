@@ -34,21 +34,21 @@ internal static class ConcreteBenchmark
                     samples.Add(new(name,operation,run,watch.Elapsed.TotalMilliseconds,GC.GetTotalAllocatedBytes(false)-before,sum));return sum;
                 }
                 CheckerSection? engine=null;CheckerDomain3D? domain=null;
-                Measure("preparazione",()=>{engine=new(input,workspace,options);return engine.Section.Area;});
+                Measure("preparazione",()=>{engine=new(input,workspace,options,engine:SleEngine.Selected);return engine.Section.Area;});
                 Measure("dominio_3d_32",()=>{domain=engine!.Domain3D();return domain.Native.Domain.DomainPoints.Length;});
                 Measure("24_verifiche",()=>domain!.CheckMany(actions).Sum(r=>r.Utilization??throw new Exception(r.Status)));
                 Measure("24_tensioni_non_lineari",()=>actions.Sum(a=>engine!.Stress(a,"BENCH").sigma_acciaio));
                 var sle=(JsonObject)workspace["sle"]!["SLE_QP"]!.DeepClone();sle["esposizione"]="XC1";sle["spaziatura_fessure"]="150";
                 if(run==0)cases[name]!["sleOptions"]=sle.DeepClone();
-                var linear=new CheckerSection(input,workspace,sle);
-                Measure("24_tensioni_lineari_fessure",()=>sleActions.Sum(a=>{var state=linear.Stress(a,"SLE_QP");var crack=Ntc2018Checks.Cracking(linear,state,a,input,workspace,sle,"SLE_QP");return state.sigma_acciaio+(crack.Width??throw new Exception(crack.Status));}));
+                var linear=new CheckerSection(input,workspace,sle,engine:SleEngine.Selected);
+                Measure("24_tensioni_lineari_fessure",()=>sleActions.Sum(a=>{var state=linear.Stress(a,"SLE_QP");var crack=ConcreteServiceabilityAdapter.Cracking(linear,state,a,input,workspace,sle,"SLE_QP",SleEngine.Selected);return state.sigma_acciaio+(crack.Width??throw new Exception(crack.Status));}));
                 Measure("curva_30_passi",()=>{var curve=new MomentCurvatureCalculator().Calculate(new(-500,0,30,.95),domain!.Check,a=>engine!.Stress(a,"BENCH"),engine!.Geometry.Fyd/engine.Geometry.Es);if(curve.Points.Count<31)throw new Exception(curve.Status);return curve.Points.Sum(p=>p.Curvature);});
             }
             Console.WriteLine("Benchmark completato: "+name);
         }
         var dlls=Directory.GetFiles(AppContext.BaseDirectory,"*.dll").Where(p=>Path.GetFileName(p).StartsWith("GPC")||Path.GetFileName(p).StartsWith("ANTHEA")||new[]{"DelaunayMesh.dll","GMsh.Net.dll","UnsafeEx.dll","MathNet.Numerics.dll"}.Contains(Path.GetFileName(p)))
             .Select(p=>new{File=Path.GetFileName(p),Version=FileVersionInfo.GetVersionInfo(p).FileVersion,Sha256=Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(p)))}).ToArray();
-        var output=new{Schema=1,Utc=DateTime.UtcNow,Runtime=RuntimeInformation.FrameworkDescription,OS=RuntimeInformation.OSDescription,Architecture=RuntimeInformation.ProcessArchitecture.ToString(),LogicalProcessors=Environment.ProcessorCount,
+        var output=new{Schema=1,Utc=DateTime.UtcNow,Runtime=RuntimeInformation.FrameworkDescription,OS=RuntimeInformation.OSDescription,Architecture=RuntimeInformation.ProcessArchitecture.ToString(),LogicalProcessors=Environment.ProcessorCount,MotoreSle=(SleEngine.Selected??ConcreteServiceabilityAdapter.Default).ToString(),
             Notes="Tempi di processo senza UI; eseguire su stessa macchina senza altri calcoli. Run 0: primo uso del caso, non processo freddo indipendente. Allocazioni complessive del processo, incluse attività native gestite. Checksum diagnostico, non validazione ingegneristica.",Libraries=dlls,Cases=cases,Samples=samples,
             WarmSummary=samples.Where(s=>s.Run>0).GroupBy(s=>(s.Shape,s.Operation)).Select(g=>new{g.Key.Shape,g.Key.Operation,MedianMs=g.Select(s=>s.Milliseconds).Order().ElementAt(1),MinMs=g.Min(s=>s.Milliseconds),MaxMs=g.Max(s=>s.Milliseconds)})};
         File.WriteAllText(Path.Combine(directory,"benchmark.json"),JsonSerializer.Serialize(output,J.Options));

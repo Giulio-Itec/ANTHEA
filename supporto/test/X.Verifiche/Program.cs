@@ -2,6 +2,7 @@ using System.Text.Json.Nodes;
 using X.Core;
 try
 {
+    args = SleEngine.Take(args);
     if (args.Length == 1 && args[0] == "--project-audit") { ProjectAuditChecks.Run(); return 0; }
     if (args.Length == 2 && args[0] == "--audit-benchmark") { ProjectAuditBenchmark.Run(args[1]); return 0; }
     if (args.Length == 2 && args[0] == "--project-calculations") return ProjectCalculationChecks.Run(args[1]);

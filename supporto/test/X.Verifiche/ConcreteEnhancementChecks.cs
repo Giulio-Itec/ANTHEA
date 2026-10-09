@@ -88,7 +88,7 @@ internal static class ConcreteEnhancementChecks
             Check(lazyDomain.IsMeshCreated && ReferenceEquals(lazyMesh, lazyDomain.Mesh), "Mesh grafica creata una sola volta " + norm);
             Check(result.Resistance.HasValue && result.Utilization is > 0, "Motore disponibile " + norm);
             settings["coefficienti"]!["ServiceabilityStressConcreteCoefficientForCharacteristicCombination"] = "0.51";
-            var stressEngine = new CheckerSection(input, settings, settings["sle"]!["SLE"]!.AsObject());
+            var stressEngine = new CheckerSection(input, settings, settings["sle"]!["SLE"]!.AsObject(), engine: SleEngine.Selected);
             var stress = stressEngine.Stress(new(-500, 5, 5), "SLE");
             Check(!stress.IsRasterCreated, "Verifica SLE senza raster " + norm);
             var secondStress = stressEngine.Stress(new(-700, 10, 10), "SLE");
@@ -96,7 +96,7 @@ internal static class ConcreteEnhancementChecks
             Check(Math.Abs(stress.ConcreteStressLimit!.Value - .51 * input.D("fck_mpa")) < 1e-10, "Limite personalizzato passato alla DLL " + norm);
             Check(stress.ConcreteVertices.Length == engine.Geometry.Outline.Count && stress.Raster?.Stresses.All(double.IsFinite) == true, "Contouring e vertici nativi " + norm);
             var raster = stress.Raster!;
-            var fresh = new CheckerSection(input, settings, settings["sle"]!["SLE"]!.AsObject()).Stress(new(-500, 5, 5), "SLE").Raster!;
+            var fresh = new CheckerSection(input, settings, settings["sle"]!["SLE"]!.AsObject(), engine: SleEngine.Selected).Stress(new(-500, 5, 5), "SLE").Raster!;
             Check(stress.IsRasterCreated && ReferenceEquals(raster, stress.Raster) && !secondStress.IsRasterCreated, "Raster memorizzato per la sola combinazione richiesta " + norm);
             Check(raster.Stresses.SequenceEqual(fresh.Stresses) && raster.Strains.SequenceEqual(fresh.Strains), "Raster differito conserva lo stato dopo altre analisi " + norm);
         }
