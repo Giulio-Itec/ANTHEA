@@ -1,115 +1,140 @@
-# Modelli di calcolo: bozza integrata
+# Modelli di calcolo: visualizzatore integrato
 
-Stato: bozza di sviluppo del 9 ottobre 2026, branch `codex/model-viewer-draft`, base ANTHEA `781b6a9`.
-Autorizzazione: creare il visualizzatore in un ramo separato; WPF con MVVM; non modificare le altre librerie o i loro progetti.
-Questo documento descrive l'implementazione e le attività future, non è una guida di un modulo rilasciato.
+Stato: bozza di sviluppo del 9 ottobre 2026, branch `codex/model-viewer-draft`.
+La base ANTHEA 1.1.0 (`main`, 5c324ef) è stata incorporata nel branch con ff9d4c4.
+Nessun merge verso main e nessun push. Questo è un documento di sviluppo; Wiki e guide globali con PDF si aggiornano al rilascio del modulo.
 
-## Organizzazione
+## Organizzazione e confini
 
-Il progetto organizza i contenuti. Ogni contenitore della gerarchia (progetto, fase, sottofase) può avere zero o più
-modelli di calcolo e zero o più fogli. I modelli sono risorse autonome: non entrano nel catalogo dei fogli di calcolo.
-La voce **Modelli** raccoglie quelli dell'archivio aperto; l'albero del progetto li mostra nella sezione di appartenenza.
-La Wiki resta trasversale.
+Il progetto organizza i contenuti. Ogni progetto, fase e sottofase può contenere più modelli e più fogli.
+I modelli sono risorse autonome. La voce Modelli raccoglie quelli dell'archivio aperto e apre la vista
+senza il pannello del progetto; la collocazione nella gerarchia rimane conservata.
 
-Un foglio può riferirsi a un modello della propria sezione o di un suo antenato. Il riferimento salva identità del
-modello, impronta della revisione, elemento, caso e componente. Sostituire un modello conserva la sua identità ma
-invalida i riferimenti alla vecchia impronta. Rinominare non invalida il riferimento. Duplicare una sezione assegna
-identità nuove ai modelli copiati e aggiorna i riferimenti interni alla copia. Spostare un foglio fuori dal ramo del
-modello rende visibile il riferimento non risolto.
+Un foglio può riferirsi a un modello della propria sezione o di un antenato. Il riferimento conserva identità,
+impronta, elemento, caso e componente. Sostituire il modello invalida il riferimento; rinominarlo no.
+Duplicare una sezione assegna nuove identità alle copie e aggiorna i riferimenti interni. Spostare un foglio
+fuori dal ramo rende visibile il riferimento non risolto. Collegare non trasferisce azioni né esegue verifiche.
 
-**Collegare un riferimento non trasferisce carichi e non esegue verifiche strutturali.** I dati numerici dei fogli
-esistenti restano invariati. L'importazione effettua controlli di formato, unità, connettività, proprietà e associazione
-dei risultati; non sostituisce la verifica ingegneristica del modello.
+| Progetto | Responsabilità |
+| --- | --- |
+| src/ANTHEA.ModelWorkspace | Snapshot normalizzato, validazione, adattatore offline, archivio e riferimenti; nessuna WPF |
+| src/ANTHEA.ModelViewer.Presentation | ViewModel, albero, selezioni, colori, tabelle, unità e comandi; nessuna WPF |
+| src/ANTHEA.ModelViewer.Wpf | Controlli XAML, servizi di dialogo, renderer Helix, interpolazione esclusivamente grafica |
+| X.Desktop/Wpf/ProjectModels.cs | Navigazione e aggancio al documento, limitati al modulo Modelli |
+| tools/ModelViewer.Prepare | Ponte di sviluppo verso un checkout GPC esplicito, fuori dal normale prodotto e dalla soluzione |
 
-## Confini dell'implementazione
+Comandi con CommunityToolkit.Mvvm 8.3.2; renderer HelixToolkit.Wpf.SharpDX 3.1.2. Il code-behind collega soltanto
+eventi WPF, selezione e ciclo di vita. La chiusura annulla l'importazione pendente e libera le risorse GPU.
+Nessun calcolo aggiunto a X.Core, X.Calculations o X.Desktop. Il bundle lib/Checker non cambia.
 
-| Progetto | Responsabilità | Dipendenze principali |
+## Funzioni disponibili
+
+- Albero Modello: nodi, famiglie di elementi, materiali, sezioni, spessori/offset, gruppi, carichi e combinazioni,
+  condizioni al contorno, fasi, tabelle originali e rapporto GPC. Ricerca, pagine di 100 elementi e virtualizzazione.
+  Il pannello proprietà mostra gli attributi acquisiti e distingue unità normalizzate da quelle originali.
+- Sollecitazioni: famiglia, caso, assi locali/principali, componente, unità forza/lunghezza, qualità, isolinee e contesto.
+  Plate: otto componenti locali e quattro principali importate. Beam: sei componenti e cinque stazioni.
+  Non si ricavano componenti principali dagli estremi non simultanei di un inviluppo.
+- Verifiche: riferimento versionato ai fogli e abbozzo della configurazione futura. Non esegue verifiche.
+- Geometria, volumi con offset, risultati; selezione dalla scena tramite ray picking, Ctrl per aggiungere/rimuovere.
+- Isola, nascondi, mostra selezione, mostra tutto e inverti visibilità. Il wireframe degli oggetti nascosti
+  è soltanto contesto: non contribuisce a selezione, risultati o scala. Inquadratura con inclusione dei nascosti opzionale.
+- ID di nodi, elementi e proprietà, su tutti i visibili o soltanto sulla selezione; dimensione testo e linee.
+  Le etichette sono in primo piano; su zone dense è utile limitarle alla selezione o ingrandire.
+- Colori uniformi, per tipo, materiale, sezione/spessore e gruppo. Legenda stabile rispetto ai filtri.
+  Per appartenenze multiple prevale il gruppo con meno elementi; parità risolta per ID crescente.
+- Assi locali da GPC, restrain, constraint, link e release. Simboli distinti, senza sostituzioni meccaniche.
+- Preview proporzionata della sezione rettangolare, proprietà ridimensionabili, tema chiaro e scuro.
+- Tabelle dei dati salvati: nodi, elementi, sezioni, spessori/offset, vincoli, risultato corrente e attributi.
+  Tipi numerici ordinabili, ricerca, filtri di visibilità/selezione, riga collegata alla scena, copia Ctrl+C e CSV.
+  Il risultato corrente usa esattamente campo, campioni e unità della vista; non media nodi condivisi.
+  CSV con separatore punto e virgola, decimale invariant, valori numerici integri e testi protetti da formule.
+- Esportazione PNG del controllo completo, comprendente scena Direct3D, titolo, legenda e opzioni.
+
+## Copertura e limiti dei dati
+
+Snapshot schema 1: coordinate in m; plate in kN/m e kN·m/m; beam in kN e kN·m.
+Campi, terne, tabelle e diagnostica sono estensioni opzionali omesse dalla serializzazione delle vecchie copie,
+per conservarne l'impronta. Gli archivi .programma includono la copia; non contengono credenziali.
+
+Geometrie rappresentate: plate triangolari/quadrilatere e linee a due nodi BEAM, TRUSS, TENSTR, COMPTR, CABLE.
+Le formulazioni restano distinte. Il contratto dei risultati truss/affini ammette solo Fx locale, se importato.
+La presenza di un contratto di visualizzazione non certifica l'adattatore di ogni software:
+il modello reale collaudato contiene soltanto BEAM e PLATE, oltre ai link nelle tabelle di assegnazione.
+Formulazioni e connettività diverse sono rifiutate esplicitamente; non si eliminano entità silenziosamente.
+
+Preview solida: plate con spessore fisico unico e offset; aste con sezione rettangolare piena centrata.
+Le altre sezioni restano ispezionabili in connettività, con dati originali; nessun rettangolo equivalente inventato.
+Per cavi e formulazioni speciali la connettività non rappresenta la forma di equilibrio.
+Offset di estremità, profili generici/variabili e assi mancanti richiedono il completamento del ponte GPC.
+Le facce interne coincidenti di plate coplanari della stessa proprietà sono omesse solo quando entrambe visibili.
+
+Contouring: valori distinti per elemento, interpolazione bilineare dei quad e lineare dei triangoli,
+qualità 1/4/8 suddivisioni, palette continua, isolinee. Nessuna media tra elementi. La suddivisione è grafica,
+non accresce l'accuratezza del solutore. Beam: segmenti colorati tra campioni importati, senza inventare valori
+interni oltre la rappresentazione lineare; la scelta di una stazione colora l'asta con quel campione.
+
+I risultati della copia MIDAS mantengono componenti e segni MIDAS, convertendo solo le unità.
+Non sono risultati già normalizzati alle convenzioni del Checker GPC (in particolare il momento locale beam).
+Gli estremi del caso SLU_Q1_1(max) sono importati, non simultanei e non calcolati dentro ANTHEA.
+Non è certificata la compatibilità analisi/modello per le verifiche. La scheda Verifiche conserva solo riferimenti.
+
+Le assegnazioni non interpretabili restano nei record originali e nella diagnostica. Il simbolo non sostituisce
+l'ispezione dei gradi di libertà. La copia di prova contiene un vincolo con settimo DOF: la vista mostra i sei DOF
+supportati e mantiene il dato warping originale con avviso.
+
+## Ponte GPC e acquisizione
+
+Autorizzazione successiva dell'utente: completare dove necessario release e link in Model, sempre su branch separato.
+Il dominio GPC disponeva già dei contratti. Il branch `codex/viewer-boundary-data` nel checkout ModelViewerBoundary
+aggiunge il mapping Civil NX FRLS/RIGD/ELNK nel Converter 2.0.2; commit 14a0c859.
+Non modifica il checkout Model con le sezioni in lavorazione, né distribuisce nuove DLL in ANTHEA.
+
+`tools/model-viewer/Read-MidasSnapshot.ps1`: acquisizione HTTPS in sola lettura e verifica di stabilità delle
+tabelle geometriche principali. `Read-MidasResults.ps1`: lettura delle tabelle beam/plate in blocchi da 500.
+La chiave è un parametro runtime, mai salvata. Nessun comando di analisi o modifica del modello.
+La corrispondenza con la revisione dell'analisi richiede ancora il contratto di provenienza definitivo.
+
+`tools/ModelViewer.Prepare` richiede GpcModelRoot esplicito. Legge la copia, esegue il mapping completo GPC,
+ricava le terne dal dominio e conserva la diagnostica nel pacchetto. Non appartiene alla build ordinaria.
+
+Il pacchetto `supporto/artefatti/model-viewer/midas-complete/spalla-validata.antheamodel` contiene:
+3.755 nodi, 181 beam, 3.435 plate, 3.616 terne, un restrain, 381 ELNK rigidi, 1.263 relazioni master/slave
+da due record RIGD. Risultati: 13.718 campioni plate e 905 campioni beam (cinque stazioni per asta).
+Due materiali, due sezioni, sette spessori, 21 gruppi, 49 casi statici e 73 combinazioni sono ispezionabili.
+FRLS e altri insiemi realmente vuoti restano distinguibili dagli insiemi non acquisiti.
+
+## Collaudo e prestazioni
+
+- Runner `build/ci.ps1 -Profile quick -Tag modelli-workspace-v2`: 25 PASS, nessun nuovo fallimento.
+- ModelWorkspace: 46 controlli rapidi, inclusi colori sovrapposti, isolamento, unità, campioni, tabelle,
+  export, distinzione mancante/vuoto e rifiuto di momenti su truss.
+- WPF sintetico integrato: 20 controlli, comprese quote offset -0,85/-0,55 m attese indipendenti e valore bilineare 25.
+- WPF sul modello completo: 38 controlli su ray picking, tre viste, sezioni, assi/vincoli, principali, beam, ID, colori, tabella,
+  export e temi. Screenshot reali in `supporto/artefatti/model-viewer/delivery`.
+- GPC: 90 test mirati di importazione, assegnazioni e persistenza. Gli svincoli e link sopravvivono
+  all'archivio esplicito e contribuiscono all'impronta degli input; errori atomici e leggi non supportate verificati.
+
+Sei cambi di componente sul modello completo già caricato, qualità Alta: da 98,97 a 122,22 ms,
+mediana 108,70 ms fino all'evento Viewport.OnRendered. La misura include cambio dello stato, preparazione
+e notifica del fotogramma; non misura il monitor fisico, l'acquisizione, il solutore o il calcolo dell'inviluppo.
+I dati grezzi sono in `review-measured/tempi-campi.json`. Non è una garanzia per modelli arbitrariamente grandi.
+
+## Passi successivi
+
+| Priorità | Lavoro rimasto | Sede |
 | --- | --- | --- |
-| `src/ANTHEA.ModelWorkspace` | Copia normalizzata, controlli di importazione, adattatore offline, archivio dei modelli e riferimenti ai fogli | .NET, nessuna WPF e nessuna nuova formula |
-| `src/ANTHEA.ModelViewer.Presentation` | ViewModel, selezioni, comandi asincroni, stati occupato/errore/sola lettura, interrogazione dei dati | ModelWorkspace, CommunityToolkit.Mvvm 8.3.2; nessuna WPF |
-| `src/ANTHEA.ModelViewer.Wpf` | XAML con binding, dialoghi tramite servizi, ciclo di vita WPF, renderer Helix, geometria grafica | Presentation, HelixToolkit.Wpf.SharpDX 3.1.2 |
-| `X.Desktop/Wpf/ProjectModels.cs` | Collegamento del nuovo modulo alla navigazione e al documento aperto | API dei tre nuovi progetti; nessun calcolo |
+| 1 | Rilascio coerente GPC da commit pushati e aggiornamento bundle con manifest e profilo full | Librerie / build ANTHEA |
+| 1 | Adattatore comune definitivo per tutti i solutori; copertura esplicita di solidi, cavi, link non lineari, PRLS e fasi | GPC Model / Converter |
+| 1 | Profili solidi generici/variabili, offset di estremità e sezioni orientate, provenienza delle convenzioni | GPC Geometry/Model e renderer |
+| 1 | Combinazioni e inviluppi locali con caso governante, coerenza simultanea e cache | GPC, non WPF |
+| 1 | Archivio compresso/grandi dati e confronto completo delle revisioni modello | Librerie documenti/progetti |
+| 2 | Carichi grafici, deformate, tensioni, volumi, diagrammi beam, clipping, scala manuale/simmetrica | Contratti GPC e vista |
+| 2 | Controlli ingegneristici, editor del modello e trasferimento controllato ai fogli | GPC e libreria applicativa |
+| 2 | Selezione rettangolare, etichette senza sovrapposizioni, ordinamento avanzato, grafici tabellari, preferenze persistenti | Modulo Modelli |
+| 2 | Ampliare prove su software reali diversi, modelli grandi, DPI multipli e accessibilità | Test |
+| 3 | Guide globali/Wiki/PDF e distribuzione dopo il collaudo del modulo | Documentazione |
 
-Il code-behind della vista collega il ciclo Loaded/Unloaded e le notifiche di scena al renderer. I comandi non aprono
-dialoghi direttamente: ricevono `IModelViewerServices`. Il ViewModel si prova senza GPU e senza WPF. La chiusura annulla
-l'importazione pendente, impedisce una scrittura tardiva e libera il gestore delle risorse grafiche. Riaprire crea una
-vista nuova. L'importazione legge fuori dal thread WPF; l'aggancio al documento avviene al ritorno nel thread UI.
-
-Nessun cambiamento ai sorgenti di X.Core, X.Calculations, X.Materiali, ai repository GPC o allo snapshot `lib/Checker`.
-Non si anticipa il refactoring dei moduli esistenti. Gli agganci in X.Desktop sono limitati a navigazione, albero,
-apertura della vista, avviso del riferimento sul foglio e nuove identità nella duplicazione di una sezione.
-
-## Cosa si può provare
-
-1. Aprire/creare un archivio progetti e selezionare la fase o sottofase.
-2. Usare **+ Importa un modello** nella sezione oppure **Modelli → + Modello**.
-3. Importare un pacchetto `.antheamodel`, oppure il `NODE.json` della copia del laboratorio nella stessa cartella
-   delle tabelle UNIT, ELEM, THIK, SECT e, facoltativamente, plate-0-nodes.
-4. Consultare geometria, volumi e risultati; scegliere caso e componente; ruotare, spostare, inquadrare ed esportare PNG.
-5. Interrogare un elemento per numero e collegare un riferimento a un foglio della sezione o delle sottosezioni.
-6. Salvare il normale archivio `.programma`: la copia del modello è contenuta nell'archivio.
-
-La bozza accetta piastre triangolari/quadrilatere e aste a due nodi. Per le aste, il volume è una preview delle sezioni
-rettangolari piene centrate. I risultati implementati sono le otto componenti nodali di piastra Mxx, Myy, Mxy, Fxx, Fyy,
-Fxy, Vxx, Vyy. Nessun risultato mancante viene inventato: l'elemento incompleto è grigio.
-
-Unità della copia: metri, kN/m, kN·m/m. L'adattatore del laboratorio richiede risultati in N e mm e converte i momenti
-per unità di larghezza. Non fa richieste al servizio di origine e non conserva credenziali. Un formato non riconosciuto
-viene rifiutato senza sostituire il modello già aperto.
-
-Contouring: valori nodali originali distinti per elemento, interpolazione bilineare sui quadrilateri e lineare sui
-triangoli, tre livelli di suddivisione grafica (1, 4, 8), scala colori continua e isolinee. Non si mediano valori fra
-elementi. La suddivisione grafica non aggiunge accuratezza ai risultati del solutore. Gli estremi di un inviluppo
-importato sono dichiarati non simultanei. Non viene calcolato alcun nuovo inviluppo.
-
-Volumi: spessore e offset delle piastre lungo la normale locale; le facce interne coincidenti fra piastre coplanari
-della stessa proprietà vengono omesse. La mesh analitica e i dati importati restano invariati. Per coordinate grandi
-si sottrae l'origine locale prima della conversione ai float del renderer. Rotazioni e offset delle aste richiedono
-ancora una corrispondenza completa con le convenzioni del modello di origine.
-
-## Evidenze e controlli
-
-- `tests/ModelWorkspace.Checks`: importazione e rifiuti, continuità/discontinuità dei dati, più modelli e fogli,
-  archivio reale, revisioni, duplicazione, impronta, riferimenti obsoleti, comandi e annullamento del ViewModel.
-- `tests/ModelViewer.UiChecks`: apertura nella vera finestra ANTHEA, tre viste, qualità massima, binding, immagini
-  prodotte dal renderer, rilascio delle risorse e riapertura.
-- Registrate nel runner unico: ModelWorkspace nello stadio fast, ModelViewer.UiChecks nello stadio ui.
-- Dati privati, demo e immagini soltanto in `supporto/artefatti/model-viewer/`, non versionati.
-
-Prima misura sul modello del laboratorio: 3.755 nodi, 3.616 elementi, 13.718 risultati nodali per componente.
-Preparazione scena con dati già caricati: geometria circa 22 ms, volumi circa 16 ms, risultati alta qualità circa
-90 ms (109.238 triangoli). Sono misure della prima prova integrata, non un SLA: escludono importazione, calcolo
-dell'inviluppo, trasferimento GPU e tempo effettivo del primo fotogramma. I tempi delle prove successive sono negli
-artefatti del relativo run. Gli offset -0,70 / +0,45 / +0,35 m della copia sono verificati dai controlli.
-
-La prova finale sullo stesso modello (`supporto/artefatti/model-viewer/ui-validated`) completa 19 controlli WPF:
-circa 27/12/80 ms per cambio stato e preparazione delle tre scene. Dopo la rimozione delle facce interne coincidenti,
-la vista solida usa 17.432 triangoli. La prova sintetica verifica anche le quote effettive delle facce rispetto
-all'offset e il valore bilineare al centro del quadrilatero. La prova grafica finale usa l'antialiasing delle linee e
-il depth bias del renderer; MSAA 4x resta da collaudare (la prova di acquisizione immagini non è arrivata a completamento).
-
-Il primo profilo quick ha completato build e tutte le suite fast; i due controlli Wiki richiedevano sette immagini
-locali non versionate del checkout principale. Dopo averle copiate, entrambi i controlli Wiki sono PASS senza cambiare
-guide, indici né l'elenco dei fallimenti ammessi. Le risorse copiate restano negli artefatti locali del worktree.
-
-## Attività successive, non implementate negli altri progetti
-
-| Priorità | Attività | Ambito futuro |
-| --- | --- | --- |
-| 1 | Contratto stabile GPC Model per geometria, materiali, sezioni, assi locali, offset e risultati; adattatori dei vari software e rapporto delle entità non supportate | GPC Model + adattatore ANTHEA |
-| 1 | Corrispondenza delle sezioni solide: offset delle aste e dei loro estremi, rotazioni locali, sezioni generiche e variabili, confronti con casi indipendenti | GPC Geometry/Model + renderer |
-| 1 | Archivio binario/compresso e caricamento selettivo dei campi: evitare di clonare snapshot JSON grandi nella cronologia di annullamento | Libreria documenti del refactoring |
-| 1 | Differenze e conflitti delle risorse modello nel confronto delle revisioni; oggi la copia è conservata ma il riepilogo legacy non descrive le modifiche ai modelli | Libreria progetti, dopo il refactoring |
-| 1 | Valutazione combinazioni/inviluppi nelle librerie, cache per campo, caso governante e coerenza delle componenti simultanee | GPC Model/Checker, non WPF |
-| 2 | Selezione grafica, evidenziazione, isolamento, clipping, filtri per gruppi/sezioni e preview dedicata delle sezioni | Nuovo modulo WPF |
-| 2 | Scala manuale/simmetrica, livelli, etichette delle isolinee, scelte esplicite di estrapolazione e media con trattamento delle discontinuità | Contratto risultati + renderer |
-| 2 | Spostamenti/deformata, sollecitazioni delle aste, tensioni e risultati di volume | GPC Model + renderer |
-| 2 | Editor/creatore di modello e controlli di consistenza ingegneristica, distinti dai soli controlli del file | GPC Model/Checker + nuovo modulo |
-| 2 | Trasferimento controllato delle sollecitazioni ai fogli, con unità, assi, convenzioni dei segni, revisione e provenienza verificabili | Libreria applicativa e moduli di verifica |
-| 2 | Gestione dei modelli completa: rimozione, spostamento tra sezioni, esportazione del pacchetto, riferimenti a più elementi/casi | Nuovo modulo e futura libreria progetti |
-| 3 | Prove end-to-end su primo fotogramma e cambio inviluppo, modelli grandi, DPI, temi, tastiera e accessibilità; soglie di qualità e prestazioni | Nuovo modulo/test |
-| 3 | Integrazione nella Wiki e nelle due guide globali con PDF, al rilascio del modulo dopo l'assestamento del refactoring | Documentazione generale |
-
-Il formato `.antheamodel` è un contratto temporaneo di presentazione (schema 1), non il formato definitivo GPC Model.
-La copia JSON incorporata e il confronto revisioni incompleto rendono questa una bozza da collaudare in branch,
-non una modifica da distribuire agli archivi operativi prima di completare le attività di priorità 1.
+Il formato .antheamodel resta un contratto temporaneo di presentazione, non il formato definitivo GPC Model.
+Nessun dato di calcolo legacy è stato spostato o sostituito; confronto delle revisioni e archivio grandi dati
+restano prerequisiti per distribuire il modulo negli archivi operativi.

@@ -225,5 +225,9 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] Libreria di importazione e archivio senza WPF; ViewModel senza WPF con comandi asincroni; vista XAML e renderer separati.
 - [x] Mesh, volumi preliminari con offset delle piastre, risultati importati e contouring per elemento.
 - [x] Riferimenti versionati ai fogli, persistenza e controlli mirati; nessun trasferimento automatico di sollecitazioni.
-- [ ] Integrazioni GPC, inviluppi calcolati, confronto delle revisioni modello e archivio grandi dati: solo annotate nella specifica.
+- [x] Allineamento di main ANTHEA 1.1.0 nel branch; vista Modelli autonoma con albero, tab Sollecitazioni/Verifiche e proprietà.
+- [x] Assi e assegnazioni da GPC, risultati beam/principali importati, unità/stazioni, ID, colori, isolamento/wireframe e tabelle sui dati salvati.
+- [x] Integrazione di sviluppo FRLS/RIGD/ELNK nel branch separato Model codex/viewer-boundary-data, senza aggiornare lib/Checker.
+- [x] Collaudo della copia completa MIDAS, 90 test GPC, 46 controlli ModelWorkspace, WPF sintetico/reale e quick 25 PASS; registro MOD-02.
+- [ ] Integrazione GPC nel prodotto rilasciato, inviluppi calcolati, confronto delle revisioni modello e archivio grandi dati: restano nella specifica.
 - [ ] Rilascio, guide globali e merge: dopo il collaudo e l'approvazione dell'utente.

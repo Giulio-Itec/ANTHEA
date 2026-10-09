@@ -5,7 +5,7 @@ using System.Text.Json.Nodes;
 using X.Core;
 using Anthea.Calculations;
 
-static class Program
+static partial class Program
 {
     static int checks;
     static void Check(bool condition, string message) { if (!condition) throw new Exception(message); checks++; Console.WriteLine("PASS " + message); }
@@ -73,10 +73,11 @@ static class Program
             var closing = new ModelViewerViewModel(null, [], false, delayed, _ => imports++, (_, _, _, _) => { });
             Task pending = closing.ImportCommand.ExecuteAsync(null); closing.Dispose(); delayed.Pending.SetResult(Sample.Model()); await pending;
             Check(imports == 1, "closing the view prevents a late import from mutating the document");
+            DisplayAndTableChecks();
 
             if (args.Length > 1)
             {
-                var real = MidasSnapshotImporter.ReadDirectory(args[1]);
+                var real = args.Length > 2 ? ModelSnapshot.FromJson(File.ReadAllText(args[2])) : MidasSnapshotImporter.ReadDirectory(args[1]);
                 Check(real.Nodes.Length == 3755 && real.Elements.Length == 3616 && real.Results.Single().Values.Length == 13718, "laboratory geometry and result row counts are preserved");
                 Check(real.Plates.Single(p => p.Id == 3).Offset == -.7 && real.Plates.Single(p => p.Id == 6).Offset == .45 && Math.Abs(real.Plates.Single(p => p.Id == 7).Offset - .35) < 1e-14, "laboratory offsets -0.70, +0.45, +0.35 m preserved");
                 var demo = ProjectDocuments.CreateArchive(); var p = ProjectDocuments.AddProject(demo, "Studio · Modelli e verifiche");
@@ -99,5 +100,6 @@ static class Program
         public Task<ModelSnapshot?> ImportAsync(CancellationToken cancellationToken) => Pending?.Task ?? (Fail ? Task.FromException<ModelSnapshot?>(new InvalidDataException("Bad source")) : Task.FromResult(Next));
         public void FitView() { }
         public void SaveImage() { }
+        public void ExportTable(string name, string csv) { }
     }
 }

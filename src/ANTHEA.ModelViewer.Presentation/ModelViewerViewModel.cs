@@ -14,6 +14,7 @@ public interface IModelViewerServices
     Task<ModelSnapshot?> ImportAsync(CancellationToken cancellationToken);
     void FitView();
     void SaveImage();
+    void ExportTable(string name, string csv);
 }
 
 public enum ModelViewMode { Geometry, Solids, Results }
@@ -27,6 +28,8 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     private readonly CancellationTokenSource lifetime = new();
     private bool updating;
     private bool disposed;
+    private string? displayName;
+    public void SetDisplayName(string name) { displayName = name; Title = name; }
 
     public ModelViewerViewModel(ModelSnapshot? snapshot, IReadOnlyList<SheetTarget> sheets, bool readOnly,
         IModelViewerServices services, Action<ModelSnapshot> imported, Action<string, int, string, string> linked)
@@ -40,7 +43,6 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     public ModelSnapshot? Snapshot { get; private set; }
     public bool IsReadOnly { get; }
     public IReadOnlyList<SheetTarget> Sheets { get; }
-    public IReadOnlyList<string> Components => ModelSnapshot.Components;
     public IReadOnlyList<string> ModeLabels { get; } = ["Geometria", "Volumi e offset", "Risultati"];
     public IReadOnlyList<string> QualityLabels { get; } = ["Normale", "Alta", "Massima"];
     public ModelViewMode Mode => (ModelViewMode)SelectedMode;
@@ -70,7 +72,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
 
     partial void OnSelectedModeChanged(int value)
     {
-        bool wasUpdating = updating; updating = true; ShowMesh = value == 0; updating = wasUpdating;
+        bool wasUpdating = updating; updating = true; ShowMesh = value == 0; SelectedPanel = value == 2 ? 1 : 0; updating = wasUpdating;
         OnPropertyChanged(nameof(IsResultsView)); OnPropertyChanged(nameof(CanShowMesh)); RefreshScene();
     }
     partial void OnSelectedQualityChanged(int value) => RefreshScene();
@@ -102,7 +104,8 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     private void SetSnapshot(ModelSnapshot snapshot)
     {
         snapshot.Validate(); updating = true; Snapshot = snapshot;
-        Title = snapshot.Name; Summary = $"{snapshot.Nodes.Length:N0} nodi · {snapshot.Elements.Length:N0} elementi";
+        Title = displayName ?? snapshot.Name; Summary = $"{snapshot.Nodes.Length:N0} nodi · {snapshot.Elements.Length:N0} elementi";
+        InitializeWorkspace();
         Cases = snapshot.Results.Select(r => r.Name).ToArray(); SelectedCase = Cases.FirstOrDefault();
         SelectedMode = snapshot.Results.Length > 0 ? 2 : 0;
         ElementNumber = snapshot.Elements.FirstOrDefault(e => e.Type == "PLATE")?.Id.ToString() ?? "";
@@ -114,16 +117,14 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     {
         if (updating || disposed || Snapshot == null) return;
         var result = Snapshot.Results.FirstOrDefault(r => r.Name == SelectedCase);
-        int column = Array.IndexOf(ModelSnapshot.Components, SelectedComponent);
-        var values = column >= 0 ? result?.Values.Select(v => v.Values[column]).ToArray() : null;
-        Minimum = values?.Length > 0 ? values.Min().ToString("G6") : "—";
-        Maximum = values?.Length > 0 ? values.Max().ToString("G6") : "—";
-        ResultUnit = SelectedComponent + " [" + ModelSnapshot.Unit(SelectedComponent) + "]";
+        UpdateResultField();
+        UpdateDisplay();
+        RefreshTable();
         Information = Mode switch
         {
             ModelViewMode.Geometry => "Superficie analitica e connettività originali.\n\nTasto destro: ruota · rotella: zoom · Maiusc + destro: sposta.",
             ModelViewMode.Solids => "Piastre: spessori e offset lungo la normale locale.\n\nAste: sezioni rettangolari centrate. Offset di estremità non importati.\n\nVolumi preliminari, da confrontare con il modello di origine.",
-            _ => "Assi locali · valori non mediati. Piastre senza risultati in grigio.\n\nInterpolazione bilineare per elemento, senza raccordare discontinuità fra elementi." + (result?.IsEnvelope == true ? "\n\nInviluppo importato: estremi per componente, non simultanei." : "")
+            _ => HasResults ? "Interpolazione grafica interna all’elemento. Discontinuità conservate fra elementi." + (result?.IsEnvelope == true ? "\n\nInviluppo importato: estremi per componente, non simultanei." : "") : ResultAvailability
         };
         SceneChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -134,23 +135,21 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     {
         var element = Snapshot!.Elements.FirstOrDefault(e => e.Id.ToString() == ElementNumber.Trim());
         if (element == null) { SelectionInformation = "Elemento non presente nel modello."; return; }
-        int column = Array.IndexOf(ModelSnapshot.Components, SelectedComponent);
-        var result = Snapshot.Results.FirstOrDefault(r => r.Name == SelectedCase);
         SelectionInformation = $"Elemento {element.Id} · {element.Type}\nNodi: {string.Join(", ", element.Nodes)}\nProprietà {element.Property}\n";
         if (element.Type == "PLATE")
         {
             var plate = Snapshot.Plates.Single(p => p.Id == element.Property);
             SelectionInformation += $"Spessore {plate.Thickness:G4} m · offset {plate.Offset:G4} m\n\n{SelectedCase}\n{ResultUnit}\n";
-            SelectionInformation += string.Join("\n", result?.Values.Where(v => v.Element == element.Id).Select(v => $"Nodo {v.Node}: {v.Values[column]:G7}") ?? []);
         }
         else
         {
             var section = Snapshot.Sections.Single(s => s.Id == element.Property);
-            SelectionInformation += $"{section.Name}\n{section.Width:G4} × {section.Height:G4} m\nRotazione {element.Angle:G4}°";
+            SelectionInformation += section.Width > 0 ? $"{section.Name}\n{section.Width:G4} × {section.Height:G4} m\nRotazione {element.Angle:G4}°" : $"{section.Name} · {section.Shape}\nProfilo solido non importato.\nRotazione {element.Angle:G4}°";
         }
+        SelectionInformation += "\n" + string.Join("\n", ActiveValues.Where(v => v.Element == element.Id).Select(v => $"{(v.Station.HasValue ? "x/L " + v.Station.Value.ToString("G3") : "Nodo " + v.Node)}: {v.Value:G7}"));
     }
 
-    private bool CanLink() => !IsReadOnly && !IsBusy && CanQuery() && SelectedSheet != null && SelectedCase != null;
+    private bool CanLink() => !IsReadOnly && !IsBusy && CanQuery() && SelectedSheet != null && SelectedCase != null && SelectedFamily == 0 && SelectedAxes == 0 && ActiveValues.Any(v => v.Element.ToString() == ElementNumber.Trim());
     [RelayCommand(CanExecute = nameof(CanLink))]
     private void Link()
     {
@@ -169,5 +168,6 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     {
         if (disposed) return; disposed = true; lifetime.Cancel(); lifetime.Dispose(); SceneChanged = null;
         ImportCommand.NotifyCanExecuteChanged(); QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged();
+        IsolateCommand.NotifyCanExecuteChanged(); HideCommand.NotifyCanExecuteChanged(); ShowSelectedCommand.NotifyCanExecuteChanged();
     }
 }

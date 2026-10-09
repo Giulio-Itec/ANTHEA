@@ -34,6 +34,14 @@ internal sealed class EdgeBuilder
     readonly Vector3Collection positions = new(); readonly IntCollection indices = new();
     internal int Count => positions.Count / 2;
     internal void Line(Vector3 a, Vector3 b) { int i = positions.Count; positions.Add(a); positions.Add(b); indices.Add(i); indices.Add(i + 1); }
+    internal void Arrow(Vector3 a, Vector3 b)
+    {
+        Line(a, b); var delta = b - a;
+        if (delta.LengthSquared() < 1e-16) return;
+        var direction = Vector3.Normalize(delta);
+        var side = Vector3.Normalize(Vector3.Cross(direction, Math.Abs(direction.Z) < .9 ? Vector3.UnitZ : Vector3.UnitY)) * delta.Length() * .12f;
+        Line(b, b - delta * .25f + side); Line(b, b - delta * .25f - side);
+    }
     internal LineGeometry3D Geometry() => new() { Positions = positions, Indices = indices };
 }
 internal static class Contours

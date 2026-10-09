@@ -466,3 +466,18 @@ Le due dipendenze della bozza sono nella tabella unica precedente, comprese nell
 Le licenze sono quelle dichiarate nei pacchetti. CommunityToolkit.Mvvm 8.3.2 è anche la versione richiesta da Helix 3.1.2.
 Versioni fissate per la bozza; non è un aggiornamento delle altre dipendenze di ANTHEA. Restano da valutare nel collaudo
 per il rilascio anche ciclo di vita e manutenzione delle dipendenze transitive del renderer.
+
+### Estensione del 9 ottobre: gestione del modello e tabelle
+
+L'utente autorizza successivamente anche le integrazioni necessarie per assi, restrain, constraint, release e link
+nel repository Model, purché in branch separato. Il Converter viene quindi esteso nel ramo
+codex/viewer-boundary-data (14a0c859); il checkout delle sezioni e il bundle lib/Checker restano invariati.
+Il ponte tools/ModelViewer.Prepare usa esplicitamente quel checkout e produce un pacchetto di presentazione.
+
+ANTHEA mantiene uno spazio Modelli distinto dalla navigazione del progetto, tre tab a sinistra, proprietà a destra
+e tabelle associate alla scena. Colori/ID/visibilità e unità sono stato della vista. Le tabelle proiettano i dati
+salvati, senza imporre la struttura di un solutore e senza modificarli. I campi di risultato conservano famiglia,
+assi, campioni e convenzioni; componenti mancanti o non simultanee non vengono ricostruite nella UI.
+Il confronto funzionale con il manuale del solutore non introduce testi o figure di terzi nelle guide.
+Guide globali e PDF rimangono attività di rilascio dopo il collaudo e l'assestamento del refactoring.
+Vedi registro MOD-02 e specifica del modulo per copertura effettiva, evidenze e integrazioni ancora necessarie.

@@ -20,4 +20,9 @@ internal sealed class WpfModelViewerServices(Func<Window?> owner, Action fit, Ac
         var dialog = new SaveFileDialog { Filter = "Immagine PNG|*.png", FileName = "modello.png" };
         if (dialog.ShowDialog(owner()) == true) saveImage(dialog.FileName);
     }
+    public void ExportTable(string name, string csv)
+    {
+        var dialog = new SaveFileDialog { Title = "Esporta tabella", Filter = "Tabella CSV|*.csv", FileName = "modello-tabella.csv" };
+        if (dialog.ShowDialog(owner()) == true) System.IO.File.WriteAllText(dialog.FileName, csv, new System.Text.UTF8Encoding(true));
+    }
 }

@@ -1027,6 +1027,23 @@
       "test": ["tests/ModelWorkspace.Checks", "tests/ModelViewer.UiChecks"],
       "evidenze": ["supporto/artefatti/model-viewer/checks", "supporto/artefatti/model-viewer/ui"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-02",
+      "titolo": "Gestione e visualizzazione del modello completo, risultati beam/principali e tabelle",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Il branch incorpora main ANTHEA 1.1.0 e sviluppa uno spazio Modelli autonomo con tre tab, albero degli attributi, assi e assegnazioni da GPC, risultati con famiglia/assi/unità/stazioni, selezione, ID, colori per attributo, isolamento e wireframe dei nascosti. Le tabelle proiettano i dati salvati e si collegano alla scena; nessun aggiornamento dei calcoli legacy. Il Converter GPC viene esteso nel branch separato codex/viewer-boundary-data, commit 14a0c859, su autorizzazione successiva dell'utente. Nessun aggiornamento di lib/Checker.",
+      "codice": ["src/ANTHEA.ModelWorkspace", "src/ANTHEA.ModelViewer.Presentation", "src/ANTHEA.ModelViewer.Wpf", "X.Desktop/Wpf/ProjectModels.cs", "tools/ModelViewer.Prepare", "tools/model-viewer"],
+      "segno": "nessuna variazione ai risultati importati oltre alla conversione delle unità di visualizzazione; nessun trasferimento automatico ai fogli",
+      "effetto_quantificato": { "sintesi": "Copia reale: 3755 nodi, 181 beam, 3435 plate, 3616 terne, 1645 simboli di assegnazione; 13718 campioni plate e 905 campioni beam. Sei cambi di componente fino a OnRendered: 98.97-122.22 ms, mediana 108.70 ms; esclusi acquisizione, solver e calcolo inviluppo. Attesi offset -0.85/-0.55 m e interpolazione 25 invariati." },
+      "decisione": { "data": "2026-10-09", "utente": "allineare main nel branch; gestione stile tree del modello, assi/vincoli/release/link e truss, opzioni di visualizzazione e tabelle basate sui valori salvati", "esito": "implementazione MVVM isolata, estensioni additive dello snapshot, ponte GPC di sviluppo e limiti espliciti; nessun push né merge verso main/master" },
+      "data": "2026-10-09",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["build/ci.ps1 -Profile quick: 25 PASS", "ModelWorkspace.Checks: 46 PASS", "ModelViewer.UiChecks sintetico: 20 PASS", "ModelViewer.UiChecks reale: 38 PASS", "GPC: 90 test importazione/assegnazioni/persistenza"],
+      "evidenze": ["supporto/artefatti/ci/20261009-231939-modelli-workspace-v2", "supporto/artefatti/model-viewer/logic-validated", "supporto/artefatti/model-viewer/synthetic-validated", "supporto/artefatti/model-viewer/review-measured", "supporto/artefatti/model-viewer/delivery", "supporto/artefatti/model-viewer/gpc-boundary/extended"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

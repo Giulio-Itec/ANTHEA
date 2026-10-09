@@ -83,33 +83,35 @@ public sealed partial class MainWindow
         // Read and validate before removing the currently displayed page.
         var snapshot = modelId == null ? null : ProjectModelStore.Read(container, modelId);
         Commit(); editor?.Dispose(); editor = null; currentSheet = null; sheetContent.Content = null;
-        EnsureProjectWorkspace(); ArrangeProjectWorkspace(sheetOpen: true); SetProjectSheetTreeVisible(true);
+        // Models have their own workspace and model tree; the project remains the document owner.
         body.Content = null; projectContent.Content = null;
         var page = new DockPanel();
         var title = Ui.Text(modelId == null ? "Nuovo modello" : ProjectModelStore.Models(container).Single(m => m.S("id") == modelId).S("nome"), 20, true);
-        var toolbar = Ui.Bar(ProjectButton("← Progetto", () => Safe(() => ShowProjectOverview(container))),
-            ProjectButton("Tutti i modelli", () => Safe(ShowModelsHub)),
+        ModelViewerControl? viewer = null;
+        var toolbar = Ui.Bar(ProjectButton("← Modelli", () => Safe(ShowModelsHub)),
+            ProjectButton("Progetto di appartenenza", () => Safe(() => ShowProjectOverview(container))),
             ProjectButton("+ Modello", () => Safe(() => ShowContainerModel(container))),
             ProjectButton("Salva progetto", () => Safe(() => Save(false))));
         toolbar.Children[2].IsEnabled = !projectReadOnly;
-        var top = Ui.Stack(toolbar, title, Ui.Text(ContainerPath(container) + (projectReadOnly ? " · sola lettura" : ""), 12, color: Ui.Muted));
+        var top = Ui.Stack(toolbar, Ui.Text(ContainerPath(container) + (projectReadOnly ? " · sola lettura" : ""), 12, color: Ui.Muted));
         if (!projectReadOnly)
         {
             var name = new TextBox { Text = title.Text, MinWidth = 260, Margin = new Thickness(4) };
-            top.Children.Add(Ui.Bar(name, ProjectButton("Rinomina", () => Safe(() =>
+            top.Children.Add(new Expander { Header = "Nome del modello", IsExpanded = false, Content = Ui.Bar(name, ProjectButton("Rinomina", () => Safe(() =>
             {
                 if (modelId == null) throw new InvalidOperationException("Importare prima il modello.");
-                ProjectModelStore.Rename(container, modelId, name.Text); title.Text = name.Text.Trim(); MarkDirty(); RefreshTree(container);
-            }))));
+                ProjectModelStore.Rename(container, modelId, name.Text); title.Text = name.Text.Trim(); viewer?.SetDisplayName(title.Text); MarkDirty(); RefreshTree(container);
+            }))) });
         }
         top.Margin = new Thickness(14, 8, 14, 8); DockPanel.SetDock(top, Dock.Top); page.Children.Add(top);
         var targets = ProjectModelStore.DescendantSheets(container).Select(s => new SheetTarget(s.S("id"), s.S("nome"),
             s[ProjectModelStore.Binding] == null ? "Non collegato" : ProjectModelStore.FindOwner(s) is { } owner ? ProjectModelStore.LinkStatus(owner, s) : "Riferimento da aggiornare")).ToArray();
-        var viewer = new ModelViewerControl(snapshot, targets, projectReadOnly,
+        viewer = new ModelViewerControl(snapshot, targets, projectReadOnly,
             imported =>
             {
                 modelId = ProjectModelStore.Set(container, imported, modelId);
                 title.Text = ProjectModelStore.Models(container).Single(m => m.S("id") == modelId).S("nome");
+                viewer?.SetDisplayName(title.Text);
                 MarkDirty(); RefreshTree(container);
             },
             (sheetId, element, result, component) =>
@@ -118,7 +120,8 @@ public sealed partial class MainWindow
                 ProjectModelStore.Link(container, sheet, modelId ?? throw new InvalidOperationException("Importare prima il modello."), element, result, component);
                 MarkDirty();
             });
-        page.Children.Add(viewer); projectContent.Content = page; body.Content = projectWorkspace;
+        viewer.SetDisplayName(title.Text); page.Children.Add(viewer); body.Content = page;
+        foreach (var (key, button) in navigation) Ui.SetSelected(button, key == "Modelli");
         selectedProjectId = container.S("id"); RefreshTree(container); UpdateProjectRevisionBar(container);
     }
 

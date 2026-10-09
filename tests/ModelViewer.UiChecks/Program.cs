@@ -92,13 +92,97 @@ static class Program
                 preview.Show(); Wait(1200);
                 var state = (ModelViewerViewModel)isolated.DataContext;
                 var scene = Children<Viewport3DX>(isolated).Single();
+                var realRenderer = isolated.GetType().GetField("renderer", Flags)!.GetValue(isolated)!;
+                bool picked = false;
+                for (int y = 2; y < 9 && !picked; y++)
+                    for (int x = 2; x < 9 && !picked; x++)
+                        foreach (var hit in scene.FindHits(new Point(scene.ActualWidth * x / 10, scene.ActualHeight * y / 10)))
+                            if (Call(realRenderer, "ElementAt", hit) is int hitId && state.Snapshot!.Elements.Any(e => e.Id == hitId)) { picked = true; break; }
+                Check(picked, "ray picking resolves a rendered triangle to its source element");
+                var frameTimes = new List<double>();
+                foreach (string component in new[] { "Mxx", "Myy", "Fxx", "Fyy", "Mxy", "Vxx" })
+                {
+                    var frame = new DispatcherFrame(); var watch = Stopwatch.StartNew(); bool rendered = false;
+                    EventHandler completed = (_, _) => { if (!rendered) { watch.Stop(); rendered = true; frame.Continue = false; } };
+                    scene.OnRendered += completed;
+                    state.SelectedComponent = component;
+                    var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+                    timer.Tick += (_, _) => { timer.Stop(); frame.Continue = false; }; timer.Start();
+                    if (!rendered) Dispatcher.PushFrame(frame);
+                    timer.Stop(); scene.OnRendered -= completed;
+                    Check(rendered, "updated field produces a rendered frame: " + component);
+                    frameTimes.Add(watch.Elapsed.TotalMilliseconds);
+                }
+                File.WriteAllText(Path.Combine(output, "tempi-campi.json"), System.Text.Json.JsonSerializer.Serialize(new { Scope = "Cambio componente con dati caricati, fino a Viewport.OnRendered; esclusi acquisizione, solver e costruzione inviluppo", Milliseconds = frameTimes, Median = frameTimes.Order().Skip(2).Take(2).Average(), Maximum = frameTimes.Max() }, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
+                state.SelectedComponent = "Myy";
                 foreach (var (mode, name) in new[] { (2, "modelli-risultati"), (1, "modelli-volumi"), (0, "modelli-mesh") })
                 {
                     state.SelectedMode = mode; Wait(500);
                     Check(state.Status.StartsWith("Scena pronta"), "isolated viewer renders mode " + mode);
                     Capture(isolated, scene, Path.Combine(output, name + ".png"));
                 }
+                state.SelectedPanel = 0;
+                state.SelectedTreeItem = state.FindTreeItem("SECT:" + state.Snapshot!.Sections[0].Id);
+                state.SelectedMode = 1; Wait(400);
+                Check(state.IsSectionSelected && state.SectionWidth > 0 && state.SectionHeight > 0, "section selection exposes its scaled preview");
+                Capture(isolated, scene, Path.Combine(output, "modelli-sezioni.png"));
+                state.IsolateCommand.Execute(null); Wait(250);
+                Check(state.VisibleElementIds?.Count == state.SelectedElementIds.Count, "isolation matches the section membership");
+                state.ShowAllCommand.Execute(null); state.ClearSelectionCommand.Execute(null);
+                if (state.Snapshot.LocalFrames?.Length > 0)
+                {
+                    state.SelectedMode = 0; state.SelectedTreeItem = state.FindTreeItem("THIK:3"); state.ShowLocalAxes = true; state.ShowConstraints = true; state.ShowRestraints = true; Wait(450);
+                    Check(state.Status.StartsWith("Scena pronta") && !state.Status.Contains("non importate"), "imported local axes and boundary overlays render");
+                    Capture(isolated, scene, Path.Combine(output, "modelli-assi-vincoli.png"));
+                    state.ShowLocalAxes = false; state.ShowConstraints = false; state.ShowRestraints = false; state.ClearSelectionCommand.Execute(null);
+                    state.SelectedMode = 2; state.SelectedAxes = 1; Wait(350);
+                    Check(state.HasResults && state.SelectedComponent == "Mmax" && state.Status.StartsWith("Scena pronta"), "principal components use imported values");
+                    Capture(isolated, scene, Path.Combine(output, "modelli-principali.png"));
+                    state.SelectedAxes = 0; state.SelectedFamily = 1; state.SelectedComponent = "My"; Wait(350);
+                    Check(state.HasResults && state.ActiveValues.Count == 905 && state.Status.StartsWith("Scena pronta"), "beam results render all five imported stations");
+                    Capture(isolated, scene, Path.Combine(output, "modelli-beam.png"));
+                    state.SelectedBeamLocation = 3; state.ForceUnit = "N"; state.LengthUnit = "mm"; Wait(350);
+                    Check(state.ActiveValues.Count == 181 && state.ResultUnit == "My [N·mm]", "beam midspan and engineering units update the real field");
+                    state.SelectedFamily = 0; state.SelectedAxes = 0; state.SelectedComponent = "Myy"; state.ForceUnit = "kN"; state.LengthUnit = "m";
+                }
+                state.SelectedPanel = 2; state.QueryCommand.Execute(null); Wait(300);
+                Capture(isolated, scene, Path.Combine(output, "modelli-verifiche.png"));
+                state.SelectedMode = 0; state.SelectedColorMode = 3; state.ShowDisplayOptions = true; state.SelectedLabelScope = 1;
+                state.SelectedTreeItem = state.FindTreeItem("SECT:" + state.Snapshot.Sections[0].Id);
+                state.ShowElementIds = true; state.ShowNodeIds = true; state.ShowPropertyIds = true;
+                state.IsolateCommand.Execute(null); state.ShowHiddenWireframe = true; Wait(450);
+                Check(state.Status.StartsWith("Scena pronta") && scene.Items.OfType<BillboardTextModel3D>().Any(), "IDs and inactive wireframe render with property colors");
+                Capture(isolated, scene, Path.Combine(output, "modelli-id-isolamento.png"));
+                state.ShowAllCommand.Execute(null); state.ClearSelectionCommand.Execute(null); state.ShowElementIds = state.ShowNodeIds = state.ShowPropertyIds = false;
+                state.SelectedColorMode = 4; state.ShowDisplayOptions = false; state.ShowTable = true; state.SelectedTableKind = 1; Wait(450);
+                Check(state.TableRows?.Count == state.Snapshot.Elements.Length, "element table is backed by stored elements");
+                state.SelectedTableRow = state.TableRows![0]; Wait(250);
+                Check(state.SelectedElementIds.Contains((int)state.TableRows[0]["ID"]), "table row selects the corresponding 3D element");
+                Capture(isolated, scene, Path.Combine(output, "modelli-gruppi-tabella.png"));
+                state.SelectedMode = 2; state.SelectedTableKind = 5; Wait(450);
+                Check(state.TableRows!.Count == state.ActiveValues.Count, "result table and scene share the same values and units");
+                Capture(isolated, scene, Path.Combine(output, "modelli-risultati-tabella.png"));
+                state.ShowTable = false; state.SelectedMode = 0; state.SelectedSurfaceMode = 2; Wait(250);
+                Check(state.Status.StartsWith("Scena pronta") && !scene.Items.OfType<MeshGeometryModel3D>().Any(m => m.Geometry?.Indices?.Count > 0), "wireframe mode contains no filled faces");
+                // Export through the production compositor, including the WPF legend and current field title.
+                typeof(ModelViewerControl).Assembly.GetType("ANTHEA.ModelViewer.Wpf.ViewerImageExporter")!.GetMethod("Save", BindingFlags.Static | BindingFlags.Public)!.Invoke(null, [isolated, scene, Path.Combine(output, "modelli-export.png")]);
+                Check(new FileInfo(Path.Combine(output, "modelli-export.png")).Length > 10000, "production image export includes the complete view");
+                state.SelectedSurfaceMode = 0; state.SelectedMode = 2; state.ShowTable = true; Wait(300);
+                var appearance = typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.Appearance")!;
+                var modeType = typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.AppAppearance")!;
+                appearance.GetMethod("Set", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, [Enum.Parse(modeType, "Dark"), false]); Wait(300);
+                var caption = Children<TextBlock>(isolated).First(t => t.Text == "Caso / combinazione");
+                Check(caption.Foreground is SolidColorBrush ink && ink.Color.R > 150 && ink.Color.G > 150, "dark theme keeps field captions readable");
+                var palette = (LinearGradientBrush)isolated.FindResource("ModelContourPalette");
+                Check(palette.GradientStops[4].Color == Color.FromRgb(232, 64, 41), "dark theme preserves the contour legend palette");
+                var familyBox = Children<ComboBox>(isolated).First(c => System.Windows.Automation.AutomationProperties.GetName(c) == "Famiglia degli elementi");
+                familyBox.IsDropDownOpen = true; Wait(150);
+                Check(familyBox.IsDropDownOpen && familyBox.Items.Count == 6, "family selector opens all supported formulations");
+                familyBox.IsDropDownOpen = false; Wait(100);
+                Capture(isolated, scene, Path.Combine(output, "modelli-tema-scuro.png"));
+                appearance.GetMethod("Set", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, [Enum.Parse(modeType, "Light"), false]);
                 listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()), "no WPF binding errors in isolated viewer");
+                File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} checks");
                 preview.Close(); app.Shutdown(); return 0;
             }
             Call(window, "ShowModelsHub"); Wait(100);
@@ -111,6 +195,7 @@ static class Program
             }
             Call(window, "ShowContainerModel", owner, id); Wait(1200);
             var view = Children<ModelViewerControl>(window).Single(); var vm = (ModelViewerViewModel)view.DataContext; var viewport = Children<Viewport3DX>(view).Single();
+            vm.SelectedColorMode = 3; // Keep section and plate-property meshes distinct while checking physical offsets.
             var timings = new List<string>();
             foreach (var (mode, name) in new[] { (0, "01-geometria"), (1, "02-volumi-offset"), (2, "03-risultati-contour") })
             {
