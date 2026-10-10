@@ -1,8 +1,15 @@
 <#
 Rebuilds the GPC DLL snapshot from committed sources and, with -Install, replaces lib\Checker.
 
+  powershell -NoProfile -ExecutionPolicy Bypass -File tools\libs\Update-Snapshot.ps1 -ReleaseSet <folder> [-Staging <folder>] [-Install]
   powershell -NoProfile -ExecutionPolicy Bypass -File tools\libs\Update-Snapshot.ps1 -FromUpstream [-Staging <folder>] [-Install]
   powershell -NoProfile -ExecutionPolicy Bypass -File tools\libs\Update-Snapshot.ps1 [-Staging <folder>] [-Install] [-RequirePushed]
+
+  -ReleaseSet <folder>  the mode for releases (Checker/build/RILASCIO.txt): takes the DLLs of a coherent set produced by
+                   Checker/build/Release-Set.ps1, which already ran every Model and Checker suite. Nothing is built: each
+                   DLL must have the SHA-256 recorded in release-set.json, every suite of the set must have passed (only
+                   the known failures it lists) and a candidate set (branches, unpushed commits) is refused unless
+                   -AllowCandidate is given, for tests on branches only. The manifest records the commits of the set.
 
   -Repos <folder>  folder that contains Utilities, Geometry, Model and Checker; default: the folder that contains this
                    ANTHEA checkout. Pass it when the script runs from a git worktree of ANTHEA placed elsewhere.
@@ -21,9 +28,11 @@ Sources of the build:
   working tree, their HEAD and their local commits do not matter. The manifest records commit = upstream commit, branch =
   upstream branch, pushed = true. At the end, also after a failure, the script removes only the worktrees it created
   (git worktree remove --force, then git worktree prune) and the root; a root left by an interrupted run is recognised
-  by its marker file and removed at the start. The root is fixed on purpose: each DLL contains the full path of its PDB
-  (<project>\obj\Release\netstandard2.0\<name>.pdb), so the same commit built in another folder gives another SHA-256;
-  with the fixed root two runs from the same commits give identical DLLs. The root must stay short (Geometry and
+  by its marker file and removed at the start. The root is fixed on purpose: up to the commits of 9/10/2026 each DLL
+  contains the full path of its PDB (<project>\obj\Release\netstandard2.0\<name>.pdb), so the same commit built in
+  another folder gives another SHA-256; with the fixed root two runs from the same commits give identical DLLs. Commits
+  with the deterministic Release builds of the libraries (Directory.Build.props, 10/10/2026) give the same SHA-256 in
+  any folder. The root must stay short (Geometry and
   Utilities version paths of up to 142 characters, Windows refuses paths of more than 260). Run one -FromUpstream at a
   time.
 - Default: each repository is built in place at its local HEAD. The trees must be clean; the commit, branch and push
@@ -53,7 +62,7 @@ After installing: build\ci.ps1 -Profile full, the baseline comparison and the li
 #>
 [CmdletBinding()]
 param([string] $Staging, [switch] $Install, [switch] $RequirePushed, [switch] $FromUpstream, [string] $Repos, [string] $Lib,
-    [string[]] $At, [string] $ModelDependencies)
+    [string[]] $At, [string] $ModelDependencies, [string] $ReleaseSet, [switch] $AllowCandidate)
 $ErrorActionPreference = 'Stop'
 function Full([string] $path) {
     if (-not [IO.Path]::IsPathRooted($path)) { $path = Join-Path (Get-Location).ProviderPath $path }
@@ -88,6 +97,60 @@ $libraries = @(
     @{ File = 'GPCChecker.Geotechnics.dll'; Repo = 'Checker'; Project = 'GPCChecker.Geotechnics\GPCChecker.Geotechnics.csproj'; Output = 'GPCChecker.Geotechnics\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true; Doc = 'GPCChecker.Geotechnics.xml' },
     @{ File = 'GPCChecker.CompositeBridge.dll'; Repo = 'Checker'; Project = 'GPCChecker.CompositeBridge\GPCChecker.CompositeBridge.csproj'; Output = 'GPCChecker.CompositeBridge\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true }
 )
+$installed = @{}
+if (Test-Path -LiteralPath (Join-Path $Lib 'manifest.json')) {
+    foreach ($a in (Get-Content -LiteralPath (Join-Path $Lib 'manifest.json') -Raw -Encoding UTF8 | ConvertFrom-Json).assemblies) { $installed[$a.file] = $a }
+}
+# A DLL whose content differs from the installed one needs a higher version (assigned by the user, see RILASCIO.txt).
+function Assert-NewVersion([string] $file, [string] $hash, [string] $version) {
+    $old = $installed[$file]
+    if ($old -and $old.sha256 -ne $hash -and [version] $version -le [version] $old.assemblyVersion) {
+        throw "${file}: contenuto diverso da quello installato con versione $version non superiore a $($old.assemblyVersion)."
+    }
+}
+function Install-Staging($assemblies, $docs) {
+    New-Item -ItemType Directory -Force -Path $Lib | Out-Null
+    foreach ($a in $assemblies) { Copy-Item -LiteralPath (Join-Path $Staging $a.file) -Destination $Lib -Force }
+    foreach ($d in $docs) { Copy-Item -LiteralPath (Join-Path $Staging $d) -Destination $Lib -Force }
+    Copy-Item -LiteralPath (Join-Path $Staging 'manifest.json') -Destination $Lib -Force
+    Copy-Item -LiteralPath (Join-Path $Staging 'manifest.props') -Destination $Lib -Force
+    Write-Output "Installato in $Lib. Aggiornare lib\Checker\README.md e lanciare build\ci.ps1 -Profile full."
+}
+
+# -ReleaseSet: the DLLs of a coherent set of Checker/build/Release-Set.ps1; no build, every SHA-256 checked against the set.
+if ($ReleaseSet) {
+    if ($FromUpstream -or $atCommits.Count -or $RequirePushed -or $ModelDependencies) { throw '-ReleaseSet non si combina con -FromUpstream, -At, -RequirePushed o -ModelDependencies.' }
+    $setDir = Full $ReleaseSet
+    $set = Get-Content -LiteralPath (Join-Path $setDir 'release-set.json') -Raw -Encoding UTF8 | ConvertFrom-Json
+    if ($set.candidate -and -not $AllowCandidate) { throw "$setDir e' un set candidato (branch o commit non pushati): installabile solo per prove, con -AllowCandidate." }
+    $bad = @($set.suites | Where-Object { [int] $_.failed -gt @($_.knownFailures | Where-Object { $_ }).Count })
+    if ($bad.Count) { throw "Il set ha suite con fallimenti non ammessi: $(($bad | ForEach-Object { $_.name }) -join ', ')." }
+    $docs = @()
+    $assemblies = foreach ($l in $libraries) {
+        $entry = @($set.files | Where-Object { $_.file -eq $l.File })
+        if ($entry.Count -ne 1) { throw "$($l.File) non e' nel set $setDir." }
+        $src = Join-Path $setDir $l.File
+        $hash = (Get-FileHash -LiteralPath $src -Algorithm SHA256).Hash
+        if ($hash -ne $entry[0].sha256) { throw "$($l.File): SHA-256 $($hash.Substring(0, 12)) diverso da release-set.json ($($entry[0].sha256.Substring(0, 12)))." }
+        $version = [Reflection.AssemblyName]::GetAssemblyName($src).Version.ToString()
+        Assert-NewVersion $l.File $hash $version
+        Copy-Item -LiteralPath $src -Destination $Staging -Force
+        if ($l.Doc -and (Test-Path -LiteralPath (Join-Path $setDir $l.Doc))) { Copy-Item -LiteralPath (Join-Path $setDir $l.Doc) -Destination $Staging -Force; $docs += $l.Doc }
+        $repo = $set.repositories.($l.Repo)
+        [ordered]@{ file = $l.File; source = "$($l.Repo)/$($l.Output.Replace('\', '/'))"; assemblyVersion = $version; sha256 = $hash
+            repository = $l.Repo; branch = $repo.branch; commit = $repo.commit; pushed = [bool] $repo.onOriginMaster; sdk = $set.dotnetSdk }
+    }
+    $manifest = [ordered]@{ snapshotDate = (Get-Date -Format 'yyyy-MM-dd'); generator = 'tools/libs/Update-Snapshot.ps1 -ReleaseSet'
+        releaseSet = $setDir; releaseSetCreated = $set.created; candidate = [bool] $set.candidate; targetFramework = 'netstandard2.0'
+        nuget = @(@{ name = 'MathNet.Numerics'; version = '5.0.0' }); assemblies = @($assemblies) }
+    [IO.File]::WriteAllText((Join-Path $Staging 'manifest.json'), ($manifest | ConvertTo-Json -Depth 5), (New-Object Text.UTF8Encoding($false)))
+    & (Join-Path $PSScriptRoot 'Write-ManifestProps.ps1') -LibDir $Staging | Out-Null
+    Write-Output "Snapshot dal set $setDir in $Staging"
+    $assemblies | ForEach-Object { "{0,-32} {1,-10} {2} {3}@{4}" -f $_.file, $_.assemblyVersion, $_.sha256.Substring(0, 12), $_.repository, $_.commit.Substring(0, 8) }
+    if ($Install) { Install-Staging $assemblies $docs }
+    return
+}
+
 foreach ($r in $repoNames) {
     if (-not (Test-Path -LiteralPath (Join-Path (Join-Path $Repos $r) '.git'))) { throw "Repository $r non trovato in $Repos (opzione -Repos)." }
 }
@@ -220,10 +283,6 @@ try {
     }
 
     # 3. Staging and manifest
-    $installed = @{}
-    if (Test-Path -LiteralPath (Join-Path $Lib 'manifest.json')) {
-        foreach ($a in (Get-Content -LiteralPath (Join-Path $Lib 'manifest.json') -Raw -Encoding UTF8 | ConvertFrom-Json).assemblies) { $installed[$a.file] = $a }
-    }
     $assemblies = foreach ($l in $libraries) {
         $out = Join-Path (Join-Path $buildRepos $l.Repo) $l.Output
         $src = Join-Path $out $l.File
@@ -234,10 +293,7 @@ try {
         }
         $hash = (Get-FileHash -LiteralPath $src -Algorithm SHA256).Hash
         $version = [Reflection.AssemblyName]::GetAssemblyName($src).Version.ToString()
-        $old = $installed[$l.File]
-        if ($old -and $old.sha256 -ne $hash -and [version] $version -le [version] $old.assemblyVersion) {
-            throw "$($l.File): contenuto diverso da quello installato con versione $version non superiore a $($old.assemblyVersion)."
-        }
+        Assert-NewVersion $l.File $hash $version
         $s = $states[$l.Repo]
         [ordered]@{ file = $l.File; source = "$($l.Repo)/$($l.Output.Replace('\', '/'))"; assemblyVersion = $version; sha256 = $hash
             repository = $l.Repo; branch = $s.Branch; commit = $s.Commit; pushed = ($s.Unpushed -eq 0); sdk = $s.Sdk }
@@ -260,11 +316,4 @@ Write-Output "Snapshot in $Staging"
 $assemblies | ForEach-Object { "{0,-32} {1,-10} {2} {3}@{4}" -f $_.file, $_.assemblyVersion, $_.sha256.Substring(0, 12), $_.repository, $_.commit.Substring(0, 8) }
 
 # 4. Install
-if ($Install) {
-    New-Item -ItemType Directory -Force -Path $Lib | Out-Null
-    foreach ($a in $assemblies) { Copy-Item -LiteralPath (Join-Path $Staging $a.file) -Destination $Lib -Force }
-    foreach ($d in $docs) { Copy-Item -LiteralPath (Join-Path $Staging $d) -Destination $Lib -Force }
-    Copy-Item -LiteralPath (Join-Path $Staging 'manifest.json') -Destination $Lib -Force
-    Copy-Item -LiteralPath (Join-Path $Staging 'manifest.props') -Destination $Lib -Force
-    Write-Output "Installato in $Lib. Aggiornare lib\Checker\README.md e lanciare build\ci.ps1 -Profile full."
-}
+if ($Install) { Install-Staging $assemblies $docs }
