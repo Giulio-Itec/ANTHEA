@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><GpcLibraries>none</GpcLibraries></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../ANTHEA.ModelWorkspace/ANTHEA.ModelWorkspace.csproj"/><PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2"/></ItemGroup>
+</Project>

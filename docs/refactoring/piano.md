@@ -215,3 +215,19 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
     ANTHEA.
   - Come vuole AGENTS.md, interfaccia, guide e report non contengono testi, figure né rimandi al sito.
   - Si progetta con un piano dedicato e con le decisioni dell'utente.
+
+## Bozza del modulo Modelli — 9 ottobre 2026
+
+Attività autonoma autorizzata dall'utente nel branch `codex/model-viewer-draft`, base `781b6a9`; non chiude né anticipa
+le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](../sviluppo/modelli-visualizzatore.md).
+
+- [x] Modelli autonomi nella gerarchia progetto/fase/sottofase, più modelli e fogli nello stesso contenitore.
+- [x] Libreria di importazione e archivio senza WPF; ViewModel senza WPF con comandi asincroni; vista XAML e renderer separati.
+- [x] Mesh, volumi preliminari con offset delle piastre, risultati importati e contouring per elemento.
+- [x] Riferimenti versionati ai fogli, persistenza e controlli mirati; nessun trasferimento automatico di sollecitazioni.
+- [x] Allineamento di main ANTHEA 1.1.0 nel branch; vista Modelli autonoma con albero, tab Sollecitazioni/Verifiche e proprietà.
+- [x] Assi e assegnazioni da GPC, risultati beam/principali importati, unità/stazioni, ID, colori, isolamento/wireframe e tabelle sui dati salvati.
+- [x] Integrazione di sviluppo FRLS/RIGD/ELNK nel branch separato Model codex/viewer-boundary-data, senza aggiornare lib/Checker.
+- [x] Collaudo della copia completa MIDAS, 90 test GPC, 46 controlli ModelWorkspace, WPF sintetico/reale e quick 25 PASS; registro MOD-02.
+- [ ] Integrazione GPC nel prodotto rilasciato, inviluppi calcolati, confronto delle revisioni modello e archivio grandi dati: restano nella specifica.
+- [ ] Rilascio, guide globali e merge: dopo il collaudo e l'approvazione dell'utente.

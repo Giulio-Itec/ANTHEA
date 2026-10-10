@@ -1,0 +1,51 @@
+<UserControl x:Class="ANTHEA.ModelViewer.Wpf.ModelDisplayOptionsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Border Background="{DynamicResource AppearancePaper}" BorderBrush="{DynamicResource AppearanceBorder}" BorderThickness="0,0,0,1" Padding="18,10">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="24" />
+        <ColumnDefinition />
+        <ColumnDefinition Width="24" />
+        <ColumnDefinition />
+        <ColumnDefinition Width="24" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <StackPanel>
+        <TextBlock Text="COLORE DEGLI OGGETTI" FontSize="10" FontWeight="SemiBold" Opacity="0.65" Margin="0,0,0,7" />
+        <ComboBox ItemsSource="{Binding ColorModes}" SelectedIndex="{Binding SelectedColorMode}" AutomationProperties.Name="Colore per attributo" />
+        <TextBlock Text="{Binding ColorExplanation}" TextWrapping="Wrap" FontSize="10" Opacity="0.65" Margin="0,7,0,0" />
+      </StackPanel>
+      <StackPanel Grid.Column="2">
+        <TextBlock Text="RAPPRESENTAZIONE" FontSize="10" FontWeight="SemiBold" Opacity="0.65" Margin="0,0,0,7" />
+        <ComboBox ItemsSource="{Binding SurfaceModes}" SelectedIndex="{Binding SelectedSurfaceMode}" AutomationProperties.Name="Rappresentazione delle superfici" />
+        <CheckBox Content="Mostra nodi" IsChecked="{Binding ShowNodes}" />
+        <DockPanel Margin="0,4,0,0">
+          <TextBlock Text="Spessore linee" FontSize="11" Width="100" VerticalAlignment="Center" />
+          <Slider Value="{Binding LineWidth}" Minimum="0.5" Maximum="2.5" SmallChange="0.25" ToolTip="Spessore grafico delle linee" />
+        </DockPanel>
+      </StackPanel>
+      <StackPanel Grid.Column="4">
+        <TextBlock Text="ETICHETTE" FontSize="10" FontWeight="SemiBold" Opacity="0.65" Margin="0,0,0,7" />
+        <WrapPanel>
+          <CheckBox Content="ID nodi" IsChecked="{Binding ShowNodeIds}" Margin="0,0,12,6" />
+          <CheckBox Content="ID elementi" IsChecked="{Binding ShowElementIds}" Margin="0,0,0,6" />
+        </WrapPanel>
+        <CheckBox Content="ID sezioni / spessori" IsChecked="{Binding ShowPropertyIds}" Margin="0,0,0,6" />
+        <ComboBox ItemsSource="{Binding LabelScopes}" SelectedIndex="{Binding SelectedLabelScope}" AutomationProperties.Name="Ambito delle etichette" />
+        <DockPanel Margin="0,6,0,0">
+          <TextBlock Text="Dimensione testo" FontSize="11" Width="100" />
+          <Slider Value="{Binding LabelScale}" Minimum="0.6" Maximum="1.6" SmallChange="0.1" />
+        </DockPanel>
+      </StackPanel>
+      <StackPanel Grid.Column="6">
+        <TextBlock Text="OGGETTI NASCOSTI" FontSize="10" FontWeight="SemiBold" Opacity="0.65" Margin="0,0,0,7" />
+        <CheckBox Content="Mostra wireframe di contesto" IsChecked="{Binding ShowHiddenWireframe}" Margin="0,0,0,7" />
+        <CheckBox Content="Includi nell’inquadratura" IsChecked="{Binding IncludeHiddenInFit}" Margin="0,0,0,9" />
+        <WrapPanel>
+          <Button Content="Mostra selezione" Command="{Binding ShowSelectedCommand}" Margin="0,0,5,5" />
+          <Button Content="Inverti visibilità" Command="{Binding InvertVisibilityCommand}" Margin="0,0,0,5" />
+        </WrapPanel>
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>

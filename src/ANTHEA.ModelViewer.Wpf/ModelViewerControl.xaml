@@ -1,0 +1,331 @@
+<UserControl x:Class="ANTHEA.ModelViewer.Wpf.ModelViewerControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:h="http://helix-toolkit.org/wpf/SharpDX" xmlns:p="clr-namespace:ANTHEA.ModelViewer.Presentation;assembly=ANTHEA.ModelViewer.Presentation" xmlns:local="clr-namespace:ANTHEA.ModelViewer.Wpf" MinHeight="440" UseLayoutRounding="True" FontFamily="Segoe UI" FontSize="12" Background="{DynamicResource AppearancePaper}" Foreground="{DynamicResource AppearanceInk}">
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ModelViewerStyles.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </UserControl.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Border Padding="18,12" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource AppearanceBorder}">
+      <DockPanel>
+        <Button DockPanel.Dock="Right" Content="{Binding ImportLabel}" Command="{Binding ImportCommand}" VerticalAlignment="Center" />
+        <StackPanel>
+          <TextBlock Text="MODELLI / SPAZIO DI LAVORO" FontSize="10" Foreground="#438ED8" FontWeight="SemiBold" />
+          <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="SemiBold" Margin="0,3,12,0" TextTrimming="CharacterEllipsis" />
+        </StackPanel>
+      </DockPanel>
+    </Border>
+    <Border Grid.Row="1" Background="{DynamicResource AppearanceSurface}" Padding="12,7" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource AppearanceBorder}">
+      <DockPanel LastChildFill="False">
+        <Button Content="Esporta immagine…" Command="{Binding SaveImageCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" />
+        <CheckBox Content="Proprietà" IsChecked="{Binding ShowInspector}" DockPanel.Dock="Right" Margin="12,0" VerticalAlignment="Center" />
+        <CheckBox Content="Tabella" IsChecked="{Binding ShowTable}" DockPanel.Dock="Right" Margin="12,0,0,0" VerticalAlignment="Center" />
+        <CheckBox Content="Visualizzazione" IsChecked="{Binding ShowDisplayOptions}" DockPanel.Dock="Right" Margin="12,0,0,0" VerticalAlignment="Center" />
+        <Button Content="Inquadra" Command="{Binding FitCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" />
+        <StackPanel Orientation="Horizontal">
+          <Button Content="Geometria" Command="{Binding SetModeCommand}" CommandParameter="0" Style="{StaticResource ModeGeometry}" />
+          <Button Content="Volumi e offset" Command="{Binding SetModeCommand}" CommandParameter="1" Style="{StaticResource ModeSolid}" Margin="3,0" />
+          <Button Content="Risultati" Command="{Binding SetModeCommand}" CommandParameter="2" Style="{StaticResource ModeResults}" />
+        </StackPanel>
+        <Separator Margin="12,2" Width="1" />
+        <CheckBox Content="Mesh" IsChecked="{Binding ShowMesh}" IsEnabled="{Binding CanShowMesh}" Margin="0,0,15,0" VerticalAlignment="Center" />
+        <CheckBox Content="Assi locali" IsChecked="{Binding ShowLocalAxes}" Margin="0" VerticalAlignment="Center" ToolTip="Terne importate: X rosso, Y verde, Z blu. La selezione limita le terne visualizzate." />
+      </DockPanel>
+    </Border>
+    <local:ModelDisplayOptionsView Grid.Row="2" Visibility="{Binding ShowDisplayOptions, Converter={StaticResource Visible}}" />
+    <Grid Grid.Row="3">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="330" MinWidth="290" MaxWidth="460" />
+        <ColumnDefinition Width="5" />
+        <ColumnDefinition MinWidth="260" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition>
+          <ColumnDefinition.Style>
+            <Style TargetType="ColumnDefinition">
+              <Setter Property="Width" Value="280" />
+              <Setter Property="MinWidth" Value="240" />
+              <Setter Property="MaxWidth" Value="460" />
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding ShowInspector}" Value="False">
+                  <Setter Property="Width" Value="0" />
+                  <Setter Property="MinWidth" Value="0" />
+                  <Setter Property="MaxWidth" Value="0" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </ColumnDefinition.Style>
+        </ColumnDefinition>
+      </Grid.ColumnDefinitions>
+      <TabControl SelectedIndex="{Binding SelectedPanel}" BorderThickness="0" Background="{DynamicResource AppearancePaper}" Padding="0" HorizontalContentAlignment="Stretch">
+        <TabItem Header="Modello">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Margin="14,10,14,10">
+              <TextBlock Text="ESPLORA IL MODELLO" Style="{StaticResource Caption}" Margin="0,0,0,7" />
+              <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=250}" MinHeight="33" Padding="9,6" ToolTip="Cerca per nome, numero o categoria" AutomationProperties.Name="Cerca nell'albero del modello" />
+              <TextBlock Text="Cerca per nome o numero" FontSize="10" Opacity="0.55" Margin="1,4,0,0" />
+            </StackPanel>
+            <TreeView x:Name="ModelTree" Grid.Row="1" ItemsSource="{Binding Tree}" SelectedItemChanged="TreeSelectionChanged" BorderThickness="0" Background="Transparent" Padding="5,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Albero del modello" />
+            <Border Grid.Row="2" Padding="14,12" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource AppearanceBorder}">
+              <StackPanel>
+                <TextBlock Text="{Binding SelectionCount}" FontWeight="SemiBold" />
+                <UniformGrid Columns="3" Margin="0,9,0,0">
+                  <Button Content="Isola" Command="{Binding IsolateCommand}" Margin="0,0,4,0" />
+                  <Button Content="Nascondi" Command="{Binding HideCommand}" Margin="2,0" />
+                  <Button Content="Tutto" Command="{Binding ShowAllCommand}" Margin="4,0,0,0" />
+                </UniformGrid>
+                <Expander Header="Assi e condizioni al contorno" Margin="0,12,0,2">
+                  <StackPanel>
+                    <TextBlock Text="{Binding OverlaySummary}" FontSize="10" Opacity="0.65" Margin="0,6,0,4" />
+                    <CheckBox Content="Assi locali degli elementi" IsChecked="{Binding ShowLocalAxes}" />
+                    <CheckBox Content="Restrain · vincoli nodali" IsChecked="{Binding ShowRestraints}" />
+                    <CheckBox Content="Constraint · collegamenti rigidi" IsChecked="{Binding ShowConstraints}" />
+                    <CheckBox Content="Link elastici" IsChecked="{Binding ShowLinks}" />
+                    <CheckBox Content="Release · svincoli" IsChecked="{Binding ShowReleases}" />
+                  </StackPanel>
+                </Expander>
+                <TextBlock Text="Gli attributi della copia importata sono in sola lettura." TextWrapping="Wrap" FontSize="10" Opacity="0.6" Margin="0,8,0,0" />
+              </StackPanel>
+            </Border>
+          </Grid>
+        </TabItem>
+        <TabItem Header="Sollecitazioni">
+          <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="18,0,18,18">
+              <TextBlock Text="01 / CAMPO DI RISULTATO" Style="{StaticResource Caption}" />
+              <TextBlock Text="Elementi" Style="{StaticResource FieldLabel}" Margin="0,0,0,5" />
+              <ComboBox ItemsSource="{Binding FamilyLabels}" SelectedIndex="{Binding SelectedFamily}" AutomationProperties.Name="Famiglia degli elementi" />
+              <TextBlock Text="Caso / combinazione" Style="{StaticResource FieldLabel}" />
+              <ComboBox ItemsSource="{Binding Cases}" SelectedItem="{Binding SelectedCase}" AutomationProperties.Name="Caso o combinazione" />
+              <TextBlock Text="{Binding ResultKind}" Foreground="#438ED8" FontWeight="SemiBold" FontSize="10" Margin="1,7,0,0" />
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition />
+                  <ColumnDefinition Width="12" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                  <TextBlock Text="Assi" Style="{StaticResource FieldLabel}" />
+                  <ComboBox ItemsSource="{Binding AxesLabels}" SelectedIndex="{Binding SelectedAxes}" AutomationProperties.Name="Assi dei risultati" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                  <TextBlock Text="Componente" Style="{StaticResource FieldLabel}" />
+                  <ComboBox ItemsSource="{Binding Components}" SelectedItem="{Binding SelectedComponent}" AutomationProperties.Name="Componente del risultato" />
+                </StackPanel>
+              </Grid>
+              <ComboBox ItemsSource="{Binding BeamLocations}" SelectedIndex="{Binding SelectedBeamLocation}" Margin="0,12,0,0" Visibility="{Binding IsBeamFamily, Converter={StaticResource Visible}}" AutomationProperties.Name="Sezione di output beam" />
+              <TextBlock Text="{Binding SampleLocation}" FontSize="11" TextWrapping="Wrap" Opacity="0.65" Margin="0,9,0,0" />
+              <TextBlock Text="02 / UNITÀ DI VISUALIZZAZIONE" Style="{StaticResource Caption}" />
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition />
+                  <ColumnDefinition Width="12" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                  <TextBlock Text="Forza" Style="{StaticResource FieldLabel}" Margin="0,0,0,5" />
+                  <ComboBox ItemsSource="{Binding ForceUnits}" SelectedItem="{Binding ForceUnit}" AutomationProperties.Name="Unità di forza" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                  <TextBlock Text="Lunghezza" Style="{StaticResource FieldLabel}" Margin="0,0,0,5" />
+                  <ComboBox ItemsSource="{Binding LengthUnits}" SelectedItem="{Binding LengthUnit}" AutomationProperties.Name="Unità di lunghezza" />
+                </StackPanel>
+              </Grid>
+              <TextBlock Text="{Binding ResultUnit}" FontSize="15" FontWeight="SemiBold" Margin="0,9,0,0" />
+              <TextBlock Text="03 / CONTOURING" Style="{StaticResource Caption}" />
+              <ComboBox ItemsSource="{Binding QualityLabels}" SelectedIndex="{Binding SelectedQuality}" AutomationProperties.Name="Qualità del contouring" />
+              <CheckBox Content="Altri elementi in contesto" IsChecked="{Binding ShowContext}" />
+              <CheckBox Content="Isolinee" IsChecked="{Binding ShowIsolines}" />
+              <CheckBox Content="Bordi della mesh" IsChecked="{Binding ShowMesh}" />
+              <Border Background="{DynamicResource AppearanceSurface}" CornerRadius="6" Padding="11" Margin="0,16,0,0">
+                <StackPanel>
+                  <TextBlock Text="{Binding ResultAvailability}" TextWrapping="Wrap" FontSize="11" />
+                  <TextBlock Text="{Binding Information}" TextWrapping="Wrap" FontSize="11" Opacity="0.7" Margin="0,8,0,0" />
+                </StackPanel>
+              </Border>
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+        <TabItem Header="Verifiche">
+          <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="18,0,18,18">
+              <TextBlock Text="VERIFICHE SUL MODELLO" Style="{StaticResource Caption}" />
+              <TextBlock Text="Dal modello al foglio" FontSize="20" FontWeight="SemiBold" Margin="0,3,0,10" />
+              <TextBlock Text="Collega il punto del modello al foglio della fase. Le impostazioni di verifica verranno definite nel prossimo passaggio." TextWrapping="Wrap" Opacity="0.75" />
+              <TextBlock Text="01 / RIFERIMENTO" Style="{StaticResource Caption}" />
+              <TextBlock Text="Elemento" Style="{StaticResource FieldLabel}" />
+              <DockPanel>
+                <Button Content="Leggi" Command="{Binding QueryCommand}" DockPanel.Dock="Right" Margin="6,0,0,0" />
+                <TextBox Text="{Binding ElementNumber, UpdateSourceTrigger=PropertyChanged}" Padding="8,6" AutomationProperties.Name="Numero dell'elemento" />
+              </DockPanel>
+              <TextBlock Text="{Binding SelectionInformation}" TextWrapping="Wrap" FontSize="11" Opacity="0.8" Margin="0,10,0,0" />
+              <TextBlock Text="Foglio di verifica" Style="{StaticResource FieldLabel}" />
+              <ComboBox ItemsSource="{Binding Sheets}" SelectedItem="{Binding SelectedSheet}" AutomationProperties.Name="Foglio da collegare" />
+              <Button Content="Collega riferimento" Command="{Binding LinkCommand}" Style="{StaticResource Primary}" Margin="0,10,0,0" />
+              <TextBlock Text="Conserva elemento, risultato e revisione. Non trasferisce automaticamente le sollecitazioni al foglio." TextWrapping="Wrap" FontSize="11" Opacity="0.6" Margin="0,8,0,0" />
+              <TextBlock Text="02 / CONFIGURAZIONE · PROSSIMA FASE" Style="{StaticResource Caption}" />
+              <Border BorderBrush="{DynamicResource AppearanceBorder}" BorderThickness="1" CornerRadius="6" Padding="12">
+                <StackPanel>
+                  <TextBlock Text="Ambito → metodo → combinazioni" FontWeight="SemiBold" />
+                  <TextBlock Text="Materiale e normativa&#xA;Sezione / armature&#xA;Famiglie di verifiche&#xA;Esiti e relazione" TextWrapping="Wrap" Margin="0,10,0,0" Opacity="0.65" />
+                  <Button Content="Esegui verifiche" IsEnabled="False" Margin="0,14,0,0" />
+                  <TextBlock Text="Motore GPC da collegare" FontSize="10" HorizontalAlignment="Center" Margin="0,7,0,0" Opacity="0.6" />
+                </StackPanel>
+              </Border>
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+      </TabControl>
+      <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="{DynamicResource AppearanceBorder}" ResizeBehavior="PreviousAndNext" />
+      <Grid Grid.Column="2" Background="#131D2B">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Border Padding="18,14" BorderBrush="#2B3C50" BorderThickness="0,0,0,1">
+          <StackPanel>
+            <TextBlock Text="{Binding FieldTitle}" Foreground="#F0F5FC" FontSize="16" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding Summary}" Foreground="#A2B5CD" FontSize="11" Margin="0,4,0,0" />
+          </StackPanel>
+        </Border>
+        <Grid Grid.Row="1">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <h:Viewport3DX x:Name="Viewport" BackgroundColor="#131D2B" ShowCoordinateSystem="True" ShowViewCube="True" MouseDown3D="SceneMouseDown" />
+          <Border Grid.Column="1" Padding="10,18,14,18" Width="104" Visibility="{Binding IsResultsView, Converter={StaticResource Visible}}">
+            <StackPanel VerticalAlignment="Center">
+              <TextBlock Text="{Binding SelectedComponent}" Foreground="White" FontSize="14" FontWeight="SemiBold" />
+              <TextBlock Text="{Binding Maximum}" Foreground="#D0DDED" FontSize="11" Margin="0,8,0,8" />
+              <Grid Height="200">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="14" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border CornerRadius="3" Background="{DynamicResource ModelContourPalette}" />
+                <TextBlock Grid.Column="1" Text="{Binding Middle}" Foreground="#A2B5CD" FontSize="10" VerticalAlignment="Center" Margin="6,0,0,0" />
+              </Grid>
+              <TextBlock Text="{Binding Minimum}" Foreground="#D0DDED" FontSize="11" Margin="0,8,0,0" />
+              <TextBlock Text="{Binding ResultUnit}" Foreground="#A2B5CD" FontSize="10" TextWrapping="Wrap" Margin="0,12,0,0" />
+            </StackPanel>
+          </Border>
+          <Border Grid.Column="1" Padding="10,18" Width="180" Visibility="{Binding HasColorLegend, Converter={StaticResource Visible}}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+              <StackPanel>
+                <TextBlock Text="{Binding ColorLegendTitle}" Foreground="#A2B5CD" FontSize="10" Margin="0,0,0,14" />
+                <ItemsControl ItemsSource="{Binding ColorLegend}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="16" />
+                          <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Rectangle Fill="{Binding Color}" Width="9" Height="9" VerticalAlignment="Top" Margin="0,4,0,0" />
+                        <StackPanel Grid.Column="1">
+                          <TextBlock Text="{Binding Label}" TextWrapping="Wrap" Foreground="#D0DDED" FontSize="10" />
+                          <TextBlock Text="{Binding Count, StringFormat={}{0:N0} elementi}" Foreground="#91A8C2" FontSize="9" Margin="0,3,0,0" />
+                        </StackPanel>
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </StackPanel>
+            </ScrollViewer>
+          </Border>
+          <TextBlock Text="Importa un modello per iniziare" Foreground="#C6D5E8" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False">
+            <TextBlock.Style>
+              <Style TargetType="TextBlock">
+                <Setter Property="Visibility" Value="Collapsed" />
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding Snapshot}" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Visible" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </TextBlock.Style>
+          </TextBlock>
+        </Grid>
+        <local:ModelTableView Grid.Row="2" Height="255" Visibility="{Binding ShowTable, Converter={StaticResource Visible}}" />
+        <Border Grid.Row="3" Padding="14,9" BorderBrush="#2B3C50" BorderThickness="0,1,0,0">
+          <DockPanel>
+            <TextBlock DockPanel.Dock="Right" FontSize="10">
+              <Run Text="X " Foreground="#EC746F" />
+              <Run Text="Y " Foreground="#6FCE9D" />
+              <Run Text="Z" Foreground="#71B1F7" />
+            </TextBlock>
+            <TextBlock Text="Destro: ruota · rotella: zoom · Maiusc + destro: sposta" Foreground="#91A8C2" FontSize="10" />
+          </DockPanel>
+        </Border>
+      </Grid>
+      <GridSplitter Grid.Column="3" Width="5" HorizontalAlignment="Stretch" Background="{DynamicResource AppearanceBorder}" ResizeBehavior="PreviousAndNext" Visibility="{Binding ShowInspector, Converter={StaticResource Visible}}" />
+      <Grid Grid.Column="4" Visibility="{Binding ShowInspector, Converter={StaticResource Visible}}">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Margin="16,14,16,12">
+          <DockPanel>
+            <Button Content="×" Command="{Binding ClearSelectionCommand}" DockPanel.Dock="Right" MinHeight="22" Padding="7,1" ToolTip="Azzera selezione" />
+            <TextBlock Text="PROPRIETÀ" Style="{StaticResource Caption}" Margin="0,4,0,5" />
+          </DockPanel>
+          <TextBlock Text="{Binding InspectorTitle}" TextWrapping="Wrap" FontSize="17" FontWeight="SemiBold" Margin="0,5,0,0" />
+          <TextBlock Text="{Binding SelectionCount}" Opacity="0.55" FontSize="10" Margin="0,6,0,0" />
+        </StackPanel>
+        <Border Grid.Row="1" Margin="16,0,16,14" Background="{DynamicResource AppearanceSurface}" CornerRadius="5" Padding="12" Visibility="{Binding IsSectionSelected, Converter={StaticResource Visible}}">
+          <StackPanel>
+            <Rectangle Width="{Binding SectionWidth}" Height="{Binding SectionHeight}" Fill="#95BEEA" Stroke="#397ABA" StrokeThickness="1.5" />
+            <TextBlock Text="{Binding SectionSize}" HorizontalAlignment="Center" Margin="0,9,0,0" FontSize="11" />
+          </StackPanel>
+        </Border>
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Attributes}" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" HeadersVisibility="Column" GridLinesVisibility="Horizontal" BorderThickness="0" RowHeaderWidth="0" RowHeight="NaN" MinRowHeight="32" FontSize="11" SelectionMode="Single" EnableRowVirtualization="True" Background="Transparent" HorizontalGridLinesBrush="{DynamicResource AppearanceBorder}" AutomationProperties.Name="Attributi della selezione">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Attributo" Binding="{Binding Name}" Width="0.52*">
+              <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock">
+                  <Setter Property="TextWrapping" Value="Wrap" />
+                  <Setter Property="Padding" Value="9,7" />
+                </Style>
+              </DataGridTextColumn.ElementStyle>
+            </DataGridTextColumn>
+            <DataGridTextColumn Header="Valore" Binding="{Binding Value}" Width="0.48*">
+              <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock">
+                  <Setter Property="TextWrapping" Value="Wrap" />
+                  <Setter Property="Padding" Value="6,7" />
+                </Style>
+              </DataGridTextColumn.ElementStyle>
+            </DataGridTextColumn>
+          </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="3" Margin="14">
+          <TextBlock Text="{Binding VisibilitySummary}" FontSize="11" Opacity="0.65" />
+          <Button Content="Mostra tutto" Command="{Binding ShowAllCommand}" Margin="0,8,0,0" />
+        </StackPanel>
+      </Grid>
+    </Grid>
+    <Border Grid.Row="4" Padding="14,7" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource AppearanceBorder}" Background="{DynamicResource AppearanceSurface}">
+      <DockPanel>
+        <ProgressBar Width="85" Height="4" IsIndeterminate="True" Visibility="{Binding IsBusy, Converter={StaticResource Visible}}" DockPanel.Dock="Right" />
+        <TextBlock Text="{Binding Status}" FontSize="11" TextTrimming="CharacterEllipsis" />
+      </DockPanel>
+    </Border>
+  </Grid>
+</UserControl>

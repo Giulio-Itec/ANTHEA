@@ -216,6 +216,7 @@ public sealed partial class MainWindow
     {
         if (projectReadOnly || section.Parent is not JsonArray siblings) return;
         Commit(); var copy = ProjectRevisions.Duplicate(section); copy["nome"] = NextProjectName(siblings, section.S("nome") + " copia");
+        ANTHEA.ModelWorkspace.ProjectModelStore.ReidentifyCopy(copy);
         siblings.Insert(siblings.IndexOf(section) + 1, copy); MarkDirty(); ShowProjectOverview(copy);
     }
     private static string RevisionDate(JsonObject revision) => DateTime.TryParse(revision.S("data"), out var time) ? time.ToString("dd/MM/yyyy HH:mm") : revision.S("data");

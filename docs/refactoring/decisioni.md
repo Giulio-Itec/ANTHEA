@@ -446,9 +446,38 @@ Da approvare una volta; ogni variazione si aggiunge qui.
 | MSTest.TestFramework, MSTest.TestAdapter, Microsoft.NET.Test.Sdk | MIT | test automatici | INF (dopo F1) |
 | Nerdbank.GitVersioning | MIT | versione derivata da git (non richiede git nel PATH) | INF |
 | Microsoft.CodeAnalysis.CSharp | MIT | test di architettura (regole L4–L5) | F3–F4 |
-| CommunityToolkit.Mvvm | MIT | ViewModel | F5 |
+| CommunityToolkit.Mvvm 8.3.2 | MIT | ViewModel del nuovo modulo Modelli; altri moduli in F5 | Modelli / F5 |
+| HelixToolkit.Wpf.SharpDX 3.1.2 | MIT | Renderer WPF/Direct3D del nuovo modulo Modelli | Bozza Modelli |
 | Microsoft.Extensions.DependencyInjection | MIT | composizione dell'applicazione | F5 |
 | Microsoft.VisualStudio.Threading.Analyzers | MIT | analisi di async void e attese | F5 |
 | Markdig, YamlDotNet | BSD-2, MIT | fonti della Wiki con front-matter | W2 |
 | DocumentFormat.OpenXml oppure Pandoc | MIT / GPL (strumento esterno) | guide Word e PDF dalle stesse fonti | W2.5 |
 | python-docx, lxml, pypdf, pypdfium2, Pillow, reportlab | varie (MIT, BSD, Apache) | pipeline attuale delle guide, fino a W2.5 | W0 |
+
+## Modelli di calcolo — decisione del 9 ottobre 2026
+
+L'utente autorizza una bozza integrata in ANTHEA su branch autonomo, richiede WPF con MVVM e chiede di non modificare
+per ora gli altri progetti. Il modulo Modelli è distinto dai fogli; ogni contenitore del progetto ospita più modelli
+e più fogli. La Wiki resta trasversale. ViewModel e adattatore sono senza WPF; il renderer è sostituibile e non esegue
+verifiche né combinazioni. Gli interventi nelle librerie GPC e nei moduli esistenti sono soltanto elencati come seguito.
+Vedi [specifica della bozza](../sviluppo/modelli-visualizzatore.md), registro MOD-01.
+
+Le due dipendenze della bozza sono nella tabella unica precedente, comprese nell'autorizzazione al visualizzatore e a MVVM.
+Le licenze sono quelle dichiarate nei pacchetti. CommunityToolkit.Mvvm 8.3.2 è anche la versione richiesta da Helix 3.1.2.
+Versioni fissate per la bozza; non è un aggiornamento delle altre dipendenze di ANTHEA. Restano da valutare nel collaudo
+per il rilascio anche ciclo di vita e manutenzione delle dipendenze transitive del renderer.
+
+### Estensione del 9 ottobre: gestione del modello e tabelle
+
+L'utente autorizza successivamente anche le integrazioni necessarie per assi, restrain, constraint, release e link
+nel repository Model, purché in branch separato. Il Converter viene quindi esteso nel ramo
+codex/viewer-boundary-data (14a0c859); il checkout delle sezioni e il bundle lib/Checker restano invariati.
+Il ponte tools/ModelViewer.Prepare usa esplicitamente quel checkout e produce un pacchetto di presentazione.
+
+ANTHEA mantiene uno spazio Modelli distinto dalla navigazione del progetto, tre tab a sinistra, proprietà a destra
+e tabelle associate alla scena. Colori/ID/visibilità e unità sono stato della vista. Le tabelle proiettano i dati
+salvati, senza imporre la struttura di un solutore e senza modificarli. I campi di risultato conservano famiglia,
+assi, campioni e convenzioni; componenti mancanti o non simultanee non vengono ricostruite nella UI.
+Il confronto funzionale con il manuale del solutore non introduce testi o figure di terzi nelle guide.
+Guide globali e PDF rimangono attività di rilascio dopo il collaudo e l'assestamento del refactoring.
+Vedi registro MOD-02 e specifica del modulo per copertura effettiva, evidenze e integrazioni ancora necessarie.
