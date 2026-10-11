@@ -15,7 +15,7 @@ namespace ANTHEA.ModelViewer.Wpf;
 internal sealed record SceneOptions(int Mode, IReadOnlyList<ResultValue> Values, string Family, int Subdivisions, bool ShowMesh, bool ShowIsolines,
     IReadOnlySet<int>? Visible, IReadOnlySet<int> Selection, bool ShowLocalAxes, bool ShowRestraints, bool ShowConstraints, bool ShowLinks, bool ShowReleases, bool ShowContext,
     DisplayOptions Display, double ColorMinimum, double ColorMaximum, bool ShowNodeAxes, bool OverlaysOnlySelection, IReadOnlySet<int> SelectedNodes,
-    int Lighting = 1, int Palette = 0, int IsolineCount = 8, double IsolineWidth = .5, ExplorationOptions? Exploration = null);
+    int Lighting = 1, int Palette = 0, int IsolineCount = 8, double IsolineWidth = .5, ExplorationOptions? Exploration = null, double RasterScale = 1);
 internal sealed record DisplayOptions(IReadOnlyDictionary<int, ElementDisplay> Colors, int SurfaceMode, bool HiddenWireframe,
     bool NodeIds, bool ElementIds, bool PropertyIds, bool Nodes, bool LabelsSelectedOnly, double LabelScale, double LineWidth);
 internal sealed record SceneStatistics(TimeSpan Preparation, int Triangles, int MissingElements);

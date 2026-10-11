@@ -566,3 +566,19 @@ in forze equivalenti. Il confronto affiancato non interpreta l'inviluppo come st
 Su richiesta successiva si apre subito una copia autonoma della build di test, mantenendola separata
 dai collaudi e dalle ricompilazioni. Nessun push, merge su main o cambiamento agli altri repository.
 Evidenze e limiti nel registro MOD-09 e nella specifica del modulo; guide globali al rilascio.
+
+
+### Impostazioni uniche e composizione dei report — 11 ottobre
+
+Su richiesta dell'utente si eliminano i pannelli concorrenti: Vista e Risultati sono le sedi
+uniche delle rispettive impostazioni, mentre Report salva i riferimenti grafici necessari
+alla rigenerazione e non propone copie degli stessi editor. Le proprietà del documento
+(risoluzione e sfondo da stampa) sono override espliciti e non modificano la vista di lavoro.
+Si introduce ANTHEA.ModelReports senza WPF per contratti, persistenza e composizione, usando
+PDFsharp/MigraDoc Core con licenza MIT. Il rendering resta nell'adattatore WPF ed è isolato
+dalla scena interattiva. L'esportazione comprende sempre il sorgente modificabile e il PDF.
+Le verifiche restano rinviate: il capitolo conserva il riferimento al foglio e indica
+esplicitamente l'assenza degli esiti. Nessun nuovo calcolo ingegneristico in ANTHEA.
+La prima ricetta è portabile, esterna al progetto; integrazione nell'archivio, tabelle e
+aggiornamenti incrementali sono passi successivi dichiarati. Nessun push, merge su main,
+modifica delle librerie GPC o pubblicazione delle guide del prototipo. Registro MOD-10.

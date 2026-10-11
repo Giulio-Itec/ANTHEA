@@ -211,16 +211,24 @@ public sealed partial class ModelViewerViewModel
         if(disposed||Snapshot==null) { ExplorationMessage="Importa un modello prima di salvare la vista.";return; }
         string name=ViewName.Trim();
         if(name.Length is 0 or >80 || SavedViews.Any(v=>v.Name.Equals(name,StringComparison.OrdinalIgnoreCase))) { ExplorationMessage="Scegli un nome nuovo da 1 a 80 caratteri."; return; }
-        var saved=new ModelViewPreset { Name=name, Camera=services.CaptureCamera(), Visible=VisibleElementIds?.ToArray(), Selected=SelectedElementIds.ToArray(),
-            Case=SelectedCase, Component=SelectedComponent, Family=SelectedFamily, Axes=SelectedAxes, Mode=SelectedMode, ForceUnit=ForceUnit, LengthUnit=LengthUnit,
-            Averaging=SelectedContourValues, Scale=SelectedColorScale, Lower=ColorMinimum, Upper=ColorMaximum, Clip=ClipEnabled, ClipAxis=ClipAxis, ClipPercent=ClipPercent, ClipReverse=ClipReverse, ClipNodes=ClipNodes,
-            Mesh=ShowMesh, Outlines=ShowOutlines, Opacity=SurfaceOpacity, Palette=SelectedContourPalette, ReversePalette=ReversePalette, Bands=ContourBands, Background=SceneBackground };
+        var saved=CaptureView(name);
         try { services.SaveViews(viewRevision,[..SavedViews,saved]); SavedViews.Add(saved); SelectedSavedView=saved; ViewName=""; ExplorationMessage="Vista salvata su questo computer per la revisione corrente."; }
         catch(Exception ex) when(ex is IOException or UnauthorizedAccessException) { ExplorationMessage="Vista non salvata: "+ex.Message; }
     }
+    public ModelViewPreset CaptureView(string name)
+    {
+        return new ModelViewPreset { Name=name, Camera=services.CaptureCamera(), Visible=VisibleElementIds?.ToArray(), Selected=SelectedElementIds.ToArray(),
+            Case=SelectedCase, Component=SelectedComponent, Family=SelectedFamily, Axes=SelectedAxes, Mode=SelectedMode, ForceUnit=ForceUnit, LengthUnit=LengthUnit,
+            Averaging=SelectedContourValues, Scale=SelectedColorScale, Lower=ColorMinimum, Upper=ColorMaximum, Clip=ClipEnabled, ClipAxis=ClipAxis, ClipPercent=ClipPercent, ClipReverse=ClipReverse, ClipNodes=ClipNodes,
+            Mesh=ShowMesh, Outlines=ShowOutlines, Opacity=SurfaceOpacity, Palette=SelectedContourPalette, ReversePalette=ReversePalette, Bands=ContourBands, Background=SceneBackground, SelectedNodes=SelectedNodeIds.ToArray(), Appearance=CaptureAppearance() };
+    }
     [RelayCommand] void RecallView()
     {
-        if(SelectedSavedView is not {} v || Snapshot==null) return;
+        if(SelectedSavedView is {} view) ApplyView(view);
+    }
+    public void ApplyView(ModelViewPreset v)
+    {
+        if(Snapshot==null) return;
         updating=true;
         try
         {
@@ -230,11 +238,12 @@ public sealed partial class ModelViewerViewModel
             ClipEnabled=v.Clip; ClipAxis=v.ClipAxis; ClipPercent=v.ClipPercent; ClipReverse=v.ClipReverse; ClipNodes=v.ClipNodes;
             ShowMesh=v.Mesh; ShowOutlines=v.Outlines; SurfaceOpacity=v.Opacity; SelectedContourPalette=v.Palette; ReversePalette=v.ReversePalette; ContourBands=v.Bands;
             ApplyBackgroundCommand.Execute(v.Background); SelectedColorScale=0;
+            if(v.Appearance is {} appearance) ApplyAppearance(appearance);
         }
         finally { updating=false; }
         RefreshScene(); SelectedColorScale=v.Scale;
         if(v.Scale==3) { ColorScaleLower=v.Lower.ToString("R",CultureInfo.InvariantCulture); ColorScaleUpper=v.Upper.ToString("R",CultureInfo.InvariantCulture); ApplyColorScaleCommand.Execute(null); }
-        SelectionTarget=0; SelectElements(v.Selected); if(v.Camera!=null) services.RestoreCamera(v.Camera); ExplorationMessage="Vista ripristinata: "+v.Name;
+        SelectionTarget=0; SelectElements(v.Selected); SelectedNodeIds=v.SelectedNodes.ToHashSet(); OnPropertyChanged(nameof(SelectedNodeIds)); RefreshScene(); if(v.Camera!=null) services.RestoreCamera(v.Camera); ExplorationMessage="Vista ripristinata: "+v.Name;
     }
     [RelayCommand] void DeleteView()
     {

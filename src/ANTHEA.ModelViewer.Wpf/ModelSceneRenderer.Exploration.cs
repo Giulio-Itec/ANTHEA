@@ -153,7 +153,7 @@ internal sealed partial class ModelSceneRenderer
                 var p=new Vector3((float)(probe.X-modelOrigin.X),(float)(probe.Y-modelOrigin.Y),(float)(probe.Z-modelOrigin.Z));
                 if(!ProbePlacement(probe,p,out var offset))continue;
                 leaders.Line(p,LabelLeaderEnd(p,offset));
-                text.TextInfo.Add(new TextInfo(probe.Caption,p) { Foreground=new Color4(1,.95f,.72f,1),Background=new Color4(.04f,.07f,.1f,.94f),Scale=.58f,Offset=offset });
+                text.TextInfo.Add(new TextInfo(probe.Caption,p) { Foreground=new Color4(1,.95f,.72f,1),Background=new Color4(.04f,.07f,.1f,.94f),Scale=(float)(.58*options.RasterScale),Offset=offset*(float)options.RasterScale });
             }
             AddLines(leaders,Color.FromRgb(230,211,147),.7);
             viewport.Items.Add(new BillboardTextModel3D { Geometry=text,FixedSize=true,IsHitTestVisible=false,DepthBias=-10000 });

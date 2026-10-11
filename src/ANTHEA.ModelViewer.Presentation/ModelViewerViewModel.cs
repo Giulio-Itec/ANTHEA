@@ -1,4 +1,5 @@
 using ANTHEA.ModelWorkspace;
+using ANTHEA.ModelReports;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -12,6 +13,10 @@ public sealed record SheetTarget(string Id, string Name, string Status)
 public interface IModelViewerServices
 {
     Task<ModelSnapshot?> ImportAsync(CancellationToken cancellationToken);
+    ModelReportDocument? OpenReport(bool hasChanges) => null;
+    bool SaveReport(ModelReportDocument document) => false;
+    Task<ReportExportResult?> ExportReportAsync(ModelReportDocument document, ModelSnapshot snapshot, IProgress<ReportProgress> progress, CancellationToken cancellationToken) => Task.FromResult<ReportExportResult?>(null);
+    void OpenReportOutput(string path) { }
     void FitView();
     void SaveImage();
     void ExportTable(string name, string csv);
@@ -88,7 +93,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     partial void OnSelectedSheetChanged(SheetTarget? value) => LinkCommand.NotifyCanExecuteChanged();
     partial void OnIsBusyChanged(bool value) { ImportCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); }
 
-    private bool CanImport() => !IsReadOnly && !IsBusy && !IsVerificationRunning && !disposed;
+    private bool CanImport() => !IsReadOnly && !IsBusy && !IsVerificationRunning && !IsReportRunning && !disposed;
     [RelayCommand(CanExecute = nameof(CanImport))]
     private async Task ImportAsync()
     {
@@ -115,7 +120,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         SelectedMode = snapshot.Results.Length > 0 ? 2 : 0;
         ElementNumber = snapshot.Elements.FirstOrDefault(e => e.Type == "PLATE")?.Id.ToString() ?? "";
         updating = false; OnPropertyChanged(nameof(Snapshot)); OnPropertyChanged(nameof(ImportLabel));
-        QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); RefreshScene();
+        QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); RefreshScene(); InitializeReport();
     }
 
     private void RefreshScene()
@@ -175,6 +180,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     public void Dispose()
     {
         if (disposed) return; disposed = true; lifetime.Cancel(); lifetime.Dispose(); SceneChanged = null;
+        foreach(var chapter in ReportChapters) chapter.PropertyChanged -= ChapterChanged;
         Comparison?.Dispose(); Comparison=null; FocusSelectionRequested=null;PreviousCameraRequested=null;HoverChanged=null;
         ViewSettingsChanged = null; CameraPresetRequested = null;
         ImportCommand.NotifyCanExecuteChanged(); QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged();

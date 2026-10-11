@@ -50,7 +50,8 @@ public sealed partial class ModelViewerViewModel
     partial void OnSelectedContourPaletteChanged(int value) => RefreshScene();
     partial void OnIsolineCountChanged(int value) => RefreshScene();
     partial void OnIsolineWidthChanged(double value) => RefreshScene();
-    [RelayCommand] void ToggleViewSettings() => ShowViewSettings = !ShowViewSettings;
+    [RelayCommand] void ToggleViewSettings() { OpenNavigationCommand.Execute("2"); ShowViewSettings = false; }
+    partial void OnShowViewSettingsChanged(bool value) { if(value) { OpenNavigationCommand.Execute("2"); ShowViewSettings=false; } }
     [RelayCommand] void ApplyBackground(string? preset)
     {
         string text = (preset ?? BackgroundInput).Trim();
@@ -67,8 +68,7 @@ public sealed partial class ModelViewerViewModel
     {
         SceneBackground = BackgroundInput = "#131D2B"; RotationSensitivity = .5; PanSensitivity = .75; ZoomSensitivity = .7;
         SelectedRotationMode = 0; CameraInertia = RotateAroundPointer = IsOrthographic = false; SelectedAntialiasing = 2;
-        SelectedLighting = 1; SelectedContourPalette = 0; IsolineCount = 8; IsolineWidth = .5; ShowIsolines = false;
-        SelectedContourValues = 0;
+        SelectedLighting = 1;
         ViewSettingsMessage = "";
     }
 }

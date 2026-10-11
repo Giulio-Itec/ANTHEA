@@ -1,0 +1,87 @@
+using ANTHEA.ModelWorkspace;
+
+namespace ANTHEA.ModelViewer.Presentation;
+
+public sealed partial class ModelViewerViewModel
+{
+    ModelViewAppearance CaptureAppearance() => new()
+    {
+        SurfaceMode=SelectedSurfaceMode,
+        ColorMode=SelectedColorMode,
+        Quality=SelectedQuality,
+        Lighting=SelectedLighting,
+        Antialiasing=SelectedAntialiasing,
+        BeamLocation=SelectedBeamLocation,
+        LabelScope=SelectedLabelScope,
+        LegendPrecision=LegendPrecision,
+        Context=ShowContext,
+        HiddenWireframe=ShowHiddenWireframe,
+        Nodes=ShowNodes,
+        NodeIds=ShowNodeIds,
+        ElementIds=ShowElementIds,
+        PropertyIds=ShowPropertyIds,
+        GlobalAxes=ShowGlobalAxes,
+        ViewCube=ShowViewCube,
+        LocalAxes=ShowLocalAxes,
+        NodeAxes=ShowNodeAxes,
+        Restraints=ShowRestraints,
+        Constraints=ShowConstraints,
+        Links=ShowLinks,
+        Releases=ShowReleases,
+        OverlaysOnlySelection=OverlaysOnlySelection,
+        AvoidLabelOverlap=AvoidLabelOverlap,
+        LabelScale=LabelScale,
+        LineWidth=LineWidth,
+        Isolines=ShowIsolines,
+        IsolineCount=IsolineCount,
+        IsolineWidth=IsolineWidth,
+        Extrema=ShowExtrema,
+        BeamDiagram=ShowBeamDiagram,
+        BeamDiagramScale=BeamDiagramScale,
+        Deformation=ShowDeformation,
+        DeformationScale=DeformationScale,
+        Loads=ShowLoads,
+        LoadCase=SelectedLoadCase,
+        LoadScale=LoadGlyphScale,
+    };
+    void ApplyAppearance(ModelViewAppearance a)
+    {
+        SelectedSurfaceMode=a.SurfaceMode;
+        SelectedColorMode=a.ColorMode;
+        SelectedQuality=a.Quality;
+        SelectedLighting=a.Lighting;
+        SelectedAntialiasing=a.Antialiasing;
+        SelectedBeamLocation=a.BeamLocation;
+        SelectedLabelScope=a.LabelScope;
+        LegendPrecision=a.LegendPrecision;
+        ShowContext=a.Context;
+        ShowHiddenWireframe=a.HiddenWireframe;
+        ShowNodes=a.Nodes;
+        ShowNodeIds=a.NodeIds;
+        ShowElementIds=a.ElementIds;
+        ShowPropertyIds=a.PropertyIds;
+        ShowGlobalAxes=a.GlobalAxes;
+        ShowViewCube=a.ViewCube;
+        ShowLocalAxes=a.LocalAxes;
+        ShowNodeAxes=a.NodeAxes;
+        ShowRestraints=a.Restraints;
+        ShowConstraints=a.Constraints;
+        ShowLinks=a.Links;
+        ShowReleases=a.Releases;
+        OverlaysOnlySelection=a.OverlaysOnlySelection;
+        AvoidLabelOverlap=a.AvoidLabelOverlap;
+        LabelScale=a.LabelScale;
+        LineWidth=a.LineWidth;
+        ShowIsolines=a.Isolines;
+        IsolineCount=a.IsolineCount;
+        IsolineWidth=a.IsolineWidth;
+        ShowExtrema=a.Extrema;
+        ShowBeamDiagram=a.BeamDiagram;
+        BeamDiagramScale=a.BeamDiagramScale;
+        ShowDeformation=a.Deformation;
+        DeformationScale=a.DeformationScale;
+        ShowLoads=a.Loads;
+        SelectedLoadCase=a.LoadCase;
+        LoadGlyphScale=a.LoadScale;
+    }
+}

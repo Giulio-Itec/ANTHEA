@@ -81,6 +81,7 @@ static partial class Program
             ViewSettingsAndRevisionChecks();
             await ContourAveragingChecks();
             ExplorationChecks(output);
+            await ReportChecks(output);
 
             if (args.Length > 1)
             {

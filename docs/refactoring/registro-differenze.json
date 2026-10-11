@@ -1215,6 +1215,47 @@
         "supporto/artefatti/ci/20261011-120808-modelli-esplorazione"
       ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-10",
+      "titolo": "Impostazioni unificate e report dinamico del modello",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Unica sede degli editor di vista e risultati. Report MVVM con figure rigenerabili da stato salvato, serie viste/casi, testo, ordine e inclusione, riferimento alle verifiche. Esportazione PDF/HTML e ricetta portabile con provenienza, cancellazione e renderer indipendente.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelReports",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Reports.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelReportRenderSession.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelReportView.xaml",
+        "src/ANTHEA.ModelWorkspace/ModelViewPresets.cs"
+      ],
+      "segno": "nessuna differenza nei dati o nelle verifiche ingegneristiche; redistribuzione UI e nuova composizione documentale",
+      "effetto_quantificato": {
+        "sintesi": "Ricetta schema 1 fino a 100 capitoli, immagini 1600/2400/3840 pixel. Prova 3 figure, 6 pagine, circa 3,5 s con dati caricati. Impronta del modello e stato della vista invariati."
+      },
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "uniformare le schede evitando impostazioni duplicate e predisporre report dinamici con viste, combinazioni, testi e sezioni di verifica",
+        "esito": "implementazione nel branch separato; verifiche predisposte, integrazione dei risultati rinviata"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "ModelWorkspace.Checks: 177 PASS",
+        "ModelViewer.UiChecks regressione: 106 PASS, nessun errore di binding",
+        "Prova report reale: 12 PASS; PDF, stato originale, provenienza, sorgente modificabile e capitoli esclusi",
+        "quick: 27 PASS, nessun nuovo fallimento"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/exploration/reviewed",
+        "supporto/artefatti/model-viewer/reports/logic",
+        "supporto/artefatti/model-viewer/reports/regression-final",
+        "supporto/artefatti/model-viewer/reports/final",
+        "supporto/artefatti/ci/20261011-134222-modelli-report-final"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

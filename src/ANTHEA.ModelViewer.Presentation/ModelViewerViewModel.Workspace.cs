@@ -58,7 +58,7 @@ public sealed partial class ModelViewerViewModel
     [ObservableProperty] private string inspectorTitle = "Proprietà del modello";
     [ObservableProperty] private string resultAvailability = "Importa un modello con risultati.";
 
-    partial void OnSelectedPanelChanged(int value) { if (value == 1 && !updating) SelectedMode = 2; }
+    partial void OnSelectedPanelChanged(int value) { if (value == 1 && !updating) SelectedMode = 2; if(value == 4) RefreshReportChoices(); }
     partial void OnSelectedFamilyChanged(int value)
     {
         bool prior = updating; updating = true; ShowContext = value == 0; updating = prior;

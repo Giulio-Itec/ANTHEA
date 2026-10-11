@@ -42,7 +42,7 @@ internal sealed partial class ModelSceneRenderer
         {
             if(!LabelFits(origin))return;
             text.TextInfo.Add(new TextInfo(value, origin) { Foreground = color, Background = new Color4(.075f, .11f, .17f, .9f),
-                Scale = (float)(Math.Clamp(options.Display.LabelScale, .6, 1.6) * .6), Offset = new Vector2(0, offset) });
+                Scale = (float)(Math.Clamp(options.Display.LabelScale, .6, 1.6) * .6 * options.RasterScale), Offset = new Vector2(0, offset) });
         }
         if (options.Display.NodeIds)
             foreach (int node in visible.SelectMany(e => e.Nodes).Distinct()) Label("N " + node, points[node], new Color4(.58f, .86f, 1, 1), 10);

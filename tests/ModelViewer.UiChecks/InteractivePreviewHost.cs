@@ -15,7 +15,7 @@ internal static class InteractivePreviewHost
         bar.Children.Add(new TextBlock { Text="PROVA INTERATTIVA · copia offline", FontWeight=FontWeights.SemiBold,
             VerticalAlignment=VerticalAlignment.Center, Margin=new Thickness(0,0,18,0) });
         var settings=new Button { Content="Apri impostazioni vista", Margin=new Thickness(0,0,12,0), Padding=new Thickness(10,5,10,5) };
-        settings.Click+=(_,_)=>state.ShowViewSettings=true;bar.Children.Add(settings);
+        settings.Click+=(_,_)=>state.ToggleViewSettingsCommand.Execute(null);bar.Children.Add(settings);
         var kinds=new[]{ModelSourceFailureKind.SessionMissing,ModelSourceFailureKind.DocumentClosed,ModelSourceFailureKind.Timeout,ModelSourceFailureKind.AccessDenied,ModelSourceFailureKind.Unavailable};
         var failures=new ComboBox { ItemsSource=new[]{"Sessione MIDAS scaduta","Modello MIDAS chiuso","Tempo di risposta superato","Accesso rifiutato","MIDAS non raggiungibile"},SelectedIndex=0,
             Width=230,VerticalAlignment=VerticalAlignment.Center,Margin=new Thickness(0,0,8,0) };

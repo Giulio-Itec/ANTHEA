@@ -22,7 +22,7 @@
         <CheckBox Content="Inverti palette" IsChecked="{Binding ReversePalette}" />
         <ComboBox ItemsSource="{Binding QualityLabels}" SelectedIndex="{Binding SelectedQuality}" AutomationProperties.Name="Qualità del contouring" />
         <CheckBox Content="Isolinee" IsChecked="{Binding ShowIsolines}"/><Slider Value="{Binding IsolineCount}" Minimum="4" Maximum="20" TickFrequency="1" IsSnapToTickEnabled="True" ToolTip="Intervalli delle isolinee"/>
-        <CheckBox Content="Bordi della mesh" IsChecked="{Binding ShowMesh}"/><CheckBox Content="Altri elementi in contesto" IsChecked="{Binding ShowContext}"/>
+        <TextBlock Text="Spessore isolinee"/><Slider Value="{Binding IsolineWidth}" Minimum=".25" Maximum="1.5"/><CheckBox Content="Altri elementi in contesto" IsChecked="{Binding ShowContext}"/>
       </StackPanel></Expander>
       <Expander Header="Scala e legenda" IsExpanded="{Binding ShowLegendSettings}" Margin="0,10,0,0"><StackPanel Margin="0,7">
         <ComboBox ItemsSource="{Binding ColorScaleModes}" SelectedIndex="{Binding SelectedColorScale}" AutomationProperties.Name="Scala dei colori"/>

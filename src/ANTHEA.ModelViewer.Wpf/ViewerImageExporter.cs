@@ -26,30 +26,32 @@ internal static class ViewerImageExporter
             host.UpdateAndRender();
         }
     }
-    public static void SaveScene(Viewport3DX viewport,Viewport3DX? comparison,ANTHEA.ModelViewer.Presentation.ModelViewerViewModel state,string path)
+    public static void SaveScene(Viewport3DX viewport,Viewport3DX? comparison,ANTHEA.ModelViewer.Presentation.ModelViewerViewModel state,string path,bool printLayout=false)
     {
         int width=state.ExportWidths.Contains(state.ExportWidth)?state.ExportWidth:2400;
-        int count=comparison==null?1:2,panelWidth=width/count,legendWidth=state.IsResultsView?150:0,sceneWidth=panelWidth-legendWidth;
-        int sceneHeight=(int)Math.Clamp(sceneWidth*Math.Max(1,viewport.ActualHeight)/Math.Max(1,viewport.ActualWidth),350,2400),height=sceneHeight+128;
+        double scale=printLayout?width/1000.0:1; int layoutWidth=printLayout?1000:width;
+        int count=comparison==null?1:2,panelWidth=layoutWidth/count,legendWidth=state.IsResultsView?150:0,sceneWidth=panelWidth-legendWidth;
+        int sceneHeight=(int)Math.Clamp(sceneWidth*Math.Max(1,viewport.ActualHeight)/Math.Max(1,viewport.ActualWidth),350,printLayout?1100:2400),height=sceneHeight+128;
         var background=state.ExportWhiteBackground?Colors.White:(Color)ColorConverter.ConvertFromString(state.SceneBackground);
         var ink=state.ExportWhiteBackground?Brushes.Black:(Brush)new BrushConverter().ConvertFromString(state.SceneInk)!;
         var visual=new DrawingVisual();
         using(var drawing=visual.RenderOpen())
         {
-            drawing.DrawRectangle(new SolidColorBrush(background),null,new Rect(0,0,width,height));
+            drawing.PushTransform(new ScaleTransform(scale,scale));
+            drawing.DrawRectangle(new SolidColorBrush(background),null,new Rect(0,0,layoutWidth,height));
             void Text(string value,double x,double y,double size,double maxWidth)
             {
                 var text=new FormattedText(value,System.Globalization.CultureInfo.CurrentCulture,FlowDirection.LeftToRight,new Typeface("Segoe UI"),size,ink,1) { MaxTextWidth=maxWidth,Trimming=TextTrimming.CharacterEllipsis,MaxLineCount=2 };
                 drawing.DrawText(text,new Point(x,y));
             }
-            Text("ANTHEA · "+state.Title,24,12,23,width-48);
+            Text("ANTHEA · "+state.Title,24,12,23,layoutWidth-48);
             for(int panel=0;panel<count;panel++)
             {
                 var view=panel==0?viewport:comparison!;var model=panel==0?state:state.Comparison!;var previous=view.BackgroundColor;
                 try
                 {
                     view.SetCurrentValue(Viewport3DX.BackgroundColorProperty,background);
-                    var pixels=RenderScene(view,sceneWidth,sceneHeight);
+                    var pixels=RenderScene(view,(int)Math.Round(sceneWidth*scale),(int)Math.Round(sceneHeight*scale));
                     drawing.DrawImage(pixels,new Rect(panel*panelWidth,80,sceneWidth,sceneHeight));
                 }
                 finally {view.SetCurrentValue(Viewport3DX.BackgroundColorProperty,previous);}
@@ -61,11 +63,11 @@ internal static class ViewerImageExporter
                     var c=Contours.DisplayColor(1-i/255.0,model.SelectedContourPalette,model.ReversePalette,model.ContourBands);
                     drawing.DrawRectangle(new SolidColorBrush(Color.FromRgb((byte)(c.Red*255),(byte)(c.Green*255),(byte)(c.Blue*255))),null,new Rect(legendX,legendY+i*legendHeight/256,20,legendHeight/256+1));
                 }
-                for(int i=0;i<5;i++)Text(model.LegendTicks[i],legendX+28,legendY+i*legendHeight/4-7,12,100);
-                Text(model.ResultUnit,panel*panelWidth+24,height-38,13,panelWidth-30);
+                for(int i=0;i<5;i++)Text(model.LegendTicks[i],legendX+28,legendY+i*legendHeight/4-7,printLayout?16:12,100);
+                Text(model.ResultUnit,panel*panelWidth+24,height-38,printLayout?16:13,panelWidth-30);
             }
         }
-        var target=new RenderTargetBitmap(width,height,96,96,PixelFormats.Pbgra32);target.Render(visual);
+        var target=new RenderTargetBitmap(width,(int)Math.Round(height*scale),96,96,PixelFormats.Pbgra32);target.Render(visual);
         var encoder=new PngBitmapEncoder();encoder.Frames.Add(BitmapFrame.Create(target));using var output=File.Create(path);encoder.Save(output);
     }
     public static void Save(FrameworkElement root, Viewport3DX viewport, string path)

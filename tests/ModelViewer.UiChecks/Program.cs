@@ -105,7 +105,13 @@ static partial class Program
                         state.SelectedPanel = 1; state.SelectedContourValues = 1; state.ShowMesh = false; state.ShowInspector = false;
                         Wait(250);
                     }
-                    preview.Title = "ANTHEA · Modelli · prova interattiva";
+                    int reportArg=Array.IndexOf(args,"--report-template");
+                    if(reportArg>=0 && reportArg+1<args.Length)
+                    {
+                        state.ApplyReport(ANTHEA.ModelReports.ModelReportFiles.Read(args[reportArg+1]));
+                        state.SelectedPanel=4;state.ShowInspector=false;
+                    }
+                    preview.Title = "ANTHEA · Modelli e report · prova interattiva";
                     preview.ShowInTaskbar = true; preview.Closed += (_, _) => app.Shutdown();
                     Capture(isolated, scene, Path.Combine(output, "anteprima-interattiva.png"));
                     File.WriteAllText(Path.Combine(output,"pronta.json"),System.Text.Json.JsonSerializer.Serialize(new
@@ -115,6 +121,13 @@ static partial class Program
                         BindingErrors=bindingLog.ToString(),ReadyUtc=DateTime.UtcNow,Contour=state.ContourValueLabel,Averaging=state.ContourAveragingSummary
                     },new System.Text.Json.JsonSerializerOptions{WriteIndented=true}));
                     app.Run(); return 0;
+                }
+                if(args.Contains("--report-only"))
+                {
+                    ReportRenderingChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"report composer has no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
                 }
                 if(args.Contains("--exploration-only"))
                 {
@@ -252,9 +265,9 @@ static partial class Program
                     expander.IsExpanded = false;
                 }
                 state.ShowViewSettings = true; Wait(150);
-                var settingsPopup = (System.Windows.Controls.Primitives.Popup)isolated.FindName("ViewSettingsPopup");
-                Check(settingsPopup.IsOpen && ReferenceEquals(((FrameworkElement)settingsPopup.Child).DataContext,state), "view settings popup uses the same MVVM state");
-                CapturePage((FrameworkElement)settingsPopup.Child,Path.Combine(output,"impostazioni-vista.png"));
+                var settingsView = Children<ModelViewSettingsView>(isolated).Single();
+                Check(state.SelectedPanel==2 && ReferenceEquals(settingsView.DataContext,state), "view settings use a single embedded MVVM panel");
+                CapturePage(settingsView,Path.Combine(output,"impostazioni-vista.png"));
                 state.ShowViewSettings = false; state.ApplyBackgroundCommand.Execute("#FFFFFF"); state.RotationSensitivity=.35;state.PanSensitivity=.6;state.ZoomSensitivity=.5; Wait(100);
                 Check(scene.RotationSensitivity==.35 && scene.LeftRightPanSensitivity==.6 && scene.ZoomSensitivity==.5 && state.SceneInk=="#24354A", "camera sensitivity and background settings reach the native viewport");
                 state.IsOrthographic=true;state.CameraPresetCommand.Execute("top");Wait(350);

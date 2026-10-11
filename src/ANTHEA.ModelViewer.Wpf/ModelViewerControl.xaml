@@ -29,7 +29,7 @@
         <CheckBox Content="Proprietà" IsChecked="{Binding ShowInspector}" DockPanel.Dock="Right" Margin="12,0" VerticalAlignment="Center" />
         <CheckBox Content="Tabella" IsChecked="{Binding ShowTable}" DockPanel.Dock="Right" Margin="12,0,0,0" VerticalAlignment="Center" />
         <Button x:Name="ViewSettingsButton" Content="Impostazioni vista" Command="{Binding ToggleViewSettingsCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" />
-        <CheckBox Content="Oggetti" IsChecked="{Binding ShowDisplayOptions}" DockPanel.Dock="Right" Margin="12,0,0,0" VerticalAlignment="Center" />
+        <Button Content="Report" Command="{Binding OpenNavigationCommand}" CommandParameter="4" DockPanel.Dock="Right" Margin="8,0,0,0" />
         <Button Content="Inquadra" Command="{Binding FitCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" />
         <StackPanel Orientation="Horizontal">
           <Button Content="Geometria" Command="{Binding SetModeCommand}" CommandParameter="0" Style="{StaticResource ModeGeometry}" />
@@ -37,8 +37,6 @@
           <Button Content="Risultati" Command="{Binding SetModeCommand}" CommandParameter="2" Style="{StaticResource ModeResults}" />
         </StackPanel>
         <Separator Margin="12,2" Width="1" />
-        <CheckBox Content="Mesh" IsChecked="{Binding ShowMesh}" IsEnabled="{Binding CanShowMesh}" Margin="0,0,15,0" VerticalAlignment="Center" />
-        <CheckBox Content="Assi locali" IsChecked="{Binding ShowLocalAxes}" Margin="0" VerticalAlignment="Center" ToolTip="Terne degli elementi: X rosso, Y verde, Z blu. L’ambito si imposta in Assi e condizioni al contorno." />
       </DockPanel>
     </Border>
     <StackPanel Grid.Row="2">
@@ -52,11 +50,8 @@
           </StackPanel>
         </DockPanel>
       </Border>
-      <local:ModelDisplayOptionsView Visibility="{Binding ShowDisplayOptions, Converter={StaticResource Visible}}" />
+
     </StackPanel>
-    <Popup x:Name="ViewSettingsPopup" IsOpen="{Binding ShowViewSettings, Mode=TwoWay}" PlacementTarget="{Binding ElementName=ViewSettingsButton}" Placement="Bottom" StaysOpen="False" AllowsTransparency="True">
-      <local:ModelViewSettingsView DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=Popup}}" />
-    </Popup>
     <Grid Grid.Row="3">
       <Grid.ColumnDefinitions>
         <ColumnDefinition>
@@ -187,6 +182,7 @@
             </StackPanel>
           </ScrollViewer>
         </TabItem>
+        <TabItem Header="Report"><local:ModelReportView /></TabItem>
       </TabControl>
       </Grid>
       <Border x:Name="NavigationRail" Visibility="{Binding IsNavigationCollapsed, Converter={StaticResource Visible}}" Background="{DynamicResource AppearanceSurface}">
@@ -195,6 +191,7 @@
           <Button Content="M" Command="{Binding OpenNavigationCommand}" CommandParameter="0" Padding="4,10" Margin="0,8,0,4" ToolTip="Modello e filtri" AutomationProperties.Name="Apri albero modello" />
           <Button Content="S" Command="{Binding OpenNavigationCommand}" CommandParameter="1" Padding="4,10" Margin="0,0,0,4" ToolTip="Sollecitazioni" AutomationProperties.Name="Apri sollecitazioni" />
           <Button Content="◈" Command="{Binding OpenNavigationCommand}" CommandParameter="2" Padding="4,10" ToolTip="Vista" /><Button Content="V" Command="{Binding OpenNavigationCommand}" CommandParameter="3" Padding="4,10" ToolTip="Verifiche" AutomationProperties.Name="Apri verifiche" />
+        <Button Content="R" ToolTip="Report" Command="{Binding OpenNavigationCommand}" CommandParameter="4" Margin="4,6" />
         </StackPanel>
       </Border>
       <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="{DynamicResource AppearanceBorder}" ResizeBehavior="PreviousAndNext" />

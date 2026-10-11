@@ -386,3 +386,84 @@ i buffer usano pixel fisici. La prova sullo schermo al 150% conserva dimensioni 
 Evidenze finali in exploration/reviewed, exploration/logic-final ed exploration/synthetic;
 suite completa in exploration/validated; quick in ci/20261011-120808-modelli-esplorazione.
 La build autonoma e il relativo avvio sono in exploration/interactive-final.
+
+
+## Impostazioni unificate e report dinamico — 11 ottobre 2026
+
+La revisione MOD-10 assegna una sola sede alle impostazioni: **Modello** conserva albero,
+filtri, carichi, assi e condizioni al contorno; **Risultati** contiene campo, unità, media,
+contouring, scala e confronto; **Vista** contiene camera, navigazione, sfondo, qualità,
+oggetti/etichette, taglio, viste salvate ed esportazione PNG. Il pulsante superiore porta
+alla scheda Vista. Non esistono più popup o barre concorrenti con copie degli stessi editor.
+Le scorciatoie di selezione e inquadratura rimangono comandi rapidi. Il ripristino della
+camera non azzera più le scelte della scheda Risultati. Tutta la navigazione, incluso Report,
+si può ridurre alla barra laterale.
+
+**Report** è una composizione ordinata di capitoli con titolo, testo/didascalia e inclusione.
+Si aggiungono la vista principale corrente, testi liberi e riferimenti ai fogli di verifica.
+La generazione in serie incrocia le viste salvate selezionate con i casi/combinazioni
+realmente disponibili; senza viste selezionate usa quella corrente. Non acquisisce dati da
+MIDAS, non costruisce combinazioni e non ricostruisce campi mancanti. Limite iniziale: 100
+capitoli, 30.000 caratteri per testo, figure da 1600/2400/3840 pixel.
+
+Le figure conservano camera/proiezione/proporzioni, visibilità e selezione, famiglia/caso/
+componente/assi/unità, media grafica, scala, palette, taglio, superfici/etichette/condizioni
+al contorno, carichi e deformata. Questi contratti estendono in modo opzionale le precedenti
+viste locali. Richiama figura applica lo stato alla vista; le modifiche passano sempre dagli
+editor esistenti e vengono registrate nella figura con un comando esplicito. La composizione
+si salva e riapre come `.antheareport`: in questa bozza non è ancora incorporata nell'archivio
+`.programma`. I testi non vengono sostituiti dalla rigenerazione.
+
+Architettura:
+
+- `ANTHEA.ModelReports`, nuova libreria senza WPF: contratti versionati, validazione,
+  persistenza atomica, composizione PDF/HTML e pubblicazione della cartella completa.
+- Presentation: capitoli e scelte osservabili, comandi di aggiunta/riordino/esclusione,
+  stato della revisione, annullamento e avanzamento. Nessuna formula o verifica strutturale.
+- WPF: finestre di scelta file, rendering delle figure in un host separato, avvio della
+  visualizzazione del PDF su comando dell'utente. Il renderer del report non cambia camera,
+  campi, selezione o dati della vista interattiva. Accessi WPF confinati al Dispatcher anche
+  dopo la composizione PDF sul thread di lavoro.
+- PDFsharp/MigraDoc **6.2.4**, build Core senza WPF, licenza MIT con avviso distribuito insieme
+  al modulo. I font Segoe UI vengono letti da Windows, non copiati nel repository.
+
+Ogni generazione crea una cartella nuova con PDF, HTML autonomo con immagini incorporate,
+figure PNG e composizione modificabile; non sovrascrive il report precedente. La pubblicazione
+avviene dopo il completamento; errore o annullamento rimuovono solo i file temporanei della
+singola esecuzione. Il report riporta revisione, caso, campo, unità, scala, visibilità e
+limiti dei dati disponibili. Le legende e le etichette hanno dimensioni adatte alla stampa,
+indipendenti dalla risoluzione raster. Il cubo di navigazione è escluso dalle figure stampate.
+
+Il cambio di revisione è segnalato nella composizione. La rigenerazione verifica gli ID e
+rifiuta casi/campi, spostamenti e carichi richiesti ma assenti, senza sostituirli con altri.
+Un insieme esplicito di elementi resta tale; una vista salvata su tutti gli elementi include
+anche quelli nuovi. La rigenerazione è su richiesta e riguarda tutti i capitoli inclusi;
+non esiste ancora un aggiornamento incrementale delle sole figure cambiate.
+
+Predisposizioni e limiti dichiarati:
+
+- Le sezioni di verifica salvano ID e nome del foglio. Il PDF è marcato come bozza quando
+  include questi capitoli e dichiara che gli esiti non sono collegati. Il futuro provider
+  dovrà ricevere i risultati dalle librerie GPC e i contenuti dai servizi documentali.
+- Si acquisisce la vista principale: confronto affiancato e letture fissate non sono ancora
+  inclusi nel contratto del report. Estremi automatici e legenda del campo sono disponibili.
+- Restano da realizzare l'archiviazione dei report nel progetto, anteprima paginata interna,
+  tabelle dinamiche, immagini esterne, rich text e aggiornamenti incrementali.
+- La guida pratica globale e le sue edizioni verranno aggiornate alla pubblicazione del
+  modulo, insieme al collaudo d'uso già previsto dal piano. Questa è documentazione di sviluppo.
+
+Riferimenti funzionali consultati (solo documentazione di sviluppo): guida ufficiale MIDAS
+[Dynamic Report](https://support.midasuser.com/hc/en-us/articles/24721486569369-Dynamic-Report)
+e manuale RFEM [Printout Report Manager](https://www.dlubal.com/en/downloads-and-information/documents/online-manuals/rfem-6/002454).
+Nessun testo, figura o rimando ai concorrenti è inserito nei documenti prodotti dal modulo.
+
+Verifiche: 177 controlli di logica; regressione WPF completa 106 PASS senza errori di binding;
+prova del report reale 12 PASS; runner quick 27 PASS, zero nuovi fallimenti. Evidenze prima in `exploration/reviewed`, dopo in
+`reports/regression-final`, `reports/final` e `reports/logic`. Prova di stampa: spalla con
+3 figure a 2400 pixel, testi e capitolo di verifica esplicitamente predisposto, 6 pagine.
+Misura finale della generazione con dati caricati: 3,430 s, esclusi importazione e calcoli.
+Tutte le pagine del PDF sono renderizzate e controllate. Nessuna libreria GPC o altro repository
+modificato; nessun push o merge su main.
+
+Runner finale: `supporto/artefatti/ci/20261011-134222-modelli-report-final`.
+Build di prova: `supporto/artefatti/model-viewer/reports/interactive/Avvia-Modelli-Report.cmd`.

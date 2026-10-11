@@ -1,5 +1,8 @@
 using ANTHEA.ModelViewer.Presentation;
 using ANTHEA.ModelWorkspace;
+using ANTHEA.ModelReports;
+using System.IO;
+using System.Diagnostics;
 using Microsoft.Win32;
 using System.Windows;
 
@@ -12,6 +15,37 @@ internal sealed class WpfModelViewerServices(Func<Window?> owner, Action fit, Ac
     public void RestoreCamera(ModelCameraState camera)=>restoreCamera?.Invoke(camera);
     public IReadOnlyList<ModelViewPreset> LoadViews(string revision)=>views.Read(revision);
     public void SaveViews(string revision,IReadOnlyList<ModelViewPreset> presets)=>views.Write(revision,presets);
+    public ModelReportDocument? OpenReport(bool hasChanges)
+    {
+        if(hasChanges && MessageBox.Show(owner(),"Aprendo una composizione verrà sostituita quella in modifica. Continuare?","Apri composizione",MessageBoxButton.YesNo,MessageBoxImage.Question)!=MessageBoxResult.Yes) return null;
+        var dialog=new OpenFileDialog { Title="Apri composizione del report",Filter="Report ANTHEA|*.antheareport" };
+        return dialog.ShowDialog(owner())==true ? ModelReportFiles.Read(dialog.FileName) : null;
+    }
+    public bool SaveReport(ModelReportDocument document)
+    {
+        var dialog=new SaveFileDialog { Title="Salva composizione del report",Filter="Report ANTHEA|*.antheareport",FileName="report-modello.antheareport" };
+        if(dialog.ShowDialog(owner())!=true)return false;
+        ModelReportFiles.Write(dialog.FileName,document);return true;
+    }
+    public async Task<ReportExportResult?> ExportReportAsync(ModelReportDocument document, ModelSnapshot snapshot,IProgress<ReportProgress> progress,CancellationToken cancellationToken)
+    {
+        var dialog=new SaveFileDialog { Title="Nome del report · verrà creata una cartella con PDF e sorgenti",Filter="Report PDF|*.pdf",FileName="report-modello.pdf",OverwritePrompt=false };
+        if(dialog.ShowDialog(owner())!=true)return null;
+        return await ExportReportToAsync(document,snapshot,dialog.FileName,progress,cancellationToken);
+    }
+    internal static async Task<ReportExportResult> ExportReportToAsync(ModelReportDocument document,ModelSnapshot snapshot,string path,IProgress<ReportProgress>? progress,CancellationToken cancellationToken)
+    {
+        ModelReportFiles.ValidateReferences(document,snapshot);
+        var fontDirectory=Environment.GetFolderPath(Environment.SpecialFolder.Fonts);
+        ModelReportExporter.ConfigureFonts(File.ReadAllBytes(Path.Combine(fontDirectory,"segoeui.ttf")),File.ReadAllBytes(Path.Combine(fontDirectory,"segoeuib.ttf")));
+        using var session=new ModelReportRenderSession(snapshot,document);
+        return await ModelReportExporter.ExportAsync(document with {ModelName=snapshot.Name},snapshot.Fingerprint(),path,session.CaptureAsync,progress,cancellationToken);
+    }
+    public void OpenReportOutput(string path)
+    {
+        if(!File.Exists(path))throw new FileNotFoundException("Il PDF è stato spostato o eliminato.");
+        Process.Start(new ProcessStartInfo(path) { UseShellExecute=true });
+    }
     public async Task<ModelSnapshot?> ImportAsync(CancellationToken cancellationToken)
     {
         var dialog = new OpenFileDialog { Title = "Importa modello nel progetto", Filter = "Modello ANTHEA|*.antheamodel|Copia del laboratorio (NODE.json)|NODE.json" };

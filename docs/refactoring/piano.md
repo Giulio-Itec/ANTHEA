@@ -243,3 +243,5 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: contouring plate con media opzionale ai vertici condivisi, confini per proprietà/materiale/terne, legenda sul campo grafico e dati originali invariati. Attesi manuali e verifica dei valori nel buffer GPU; 129 controlli di logica e 74 WPF reali, registro MOD-08.
 
 - [x] 11 ottobre: schede Modello/Risultati/Vista/Verifiche, selezione grafica/per ID/per valore, clipping, opacità, letture/estremi, confronto con camera comune, viste locali persistenti e PNG; carichi riconosciuti e deformata solo da dati espliciti. Verifiche ingegneristiche invariate. Registro MOD-09.
+
+- [x] 11 ottobre: impostazioni unificate nelle schede e compositore Report MVVM; figure dinamiche in serie, testi, riferimenti alle verifiche, ricetta portabile e PDF/HTML con rigenerazione isolata. Archivio nel progetto e provider degli esiti ancora da implementare. Registro MOD-10.

@@ -16,7 +16,7 @@ public sealed partial class ModelViewerViewModel
     [RelayCommand] void ToggleInspector() => ShowInspector = !ShowInspector;
     [RelayCommand] void OpenNavigation(string? panel)
     {
-        if (int.TryParse(panel, out int index) && index is >= 0 and <= 3) SelectedPanel = index;
+        if (int.TryParse(panel, out int index) && index is >= 0 and <= 4) SelectedPanel = index;
         IsNavigationCollapsed = false;
     }
     [RelayCommand] void DisableOverlays()
