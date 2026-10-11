@@ -10,6 +10,7 @@ public sealed record ModelElement(int Id, string Type, int Property, int[] Nodes
 public sealed record PlateProperty(int Id, string Name, double Thickness, double Offset);
 public sealed record SectionProperty(int Id, string Name, string Shape, double Width, double Height, bool Centered);
 public sealed record CornerResult(int Element, int Node, double[] Values);
+public sealed record ModelDisplacement(int Node,double X,double Y,double Z);
 public sealed record ModelDirection(double X, double Y, double Z);
 public sealed record ModelLocalFrame(int Element, ModelDirection X, ModelDirection Y, ModelDirection Z);
 public sealed record ModelNodeFrame(int Node, ModelDirection X, ModelDirection Y, ModelDirection Z);
@@ -19,6 +20,9 @@ public sealed record ModelResultSet(string Name, bool IsEnvelope, CornerResult[]
 {
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ResultField[]? Fields { get; init; }
+    // Optional imported global displacements in metres, never reconstructed from internal forces.
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelDisplacement[]? Displacements { get; init; }
 }
 
 /// <summary>Offline presentation snapshot. Units: m, kN/m and kN m/m. It is not a calculation model or a solver.</summary>
@@ -92,6 +96,8 @@ public sealed class ModelSnapshot
         {
             if (string.IsNullOrWhiteSpace(result.Name) || result.Values.Select(v => (v.Element, v.Node)).Distinct().Count() != result.Values.Length || result.Values.Any(v => !elements.TryGetValue(v.Element, out var e) || e.Type != "PLATE" || !e.Nodes.Contains(v.Node) || v.Values.Length != 8 || v.Values.Any(x => !double.IsFinite(x)))) throw new InvalidDataException("Risultati non validi o non associabili agli elementi.");
             ResultFields.Validate(result, elements);
+            if(result.Displacements is {} displacements && (displacements.Any(d=>d==null||!ids.Contains(d.Node)||!double.IsFinite(d.X)||!double.IsFinite(d.Y)||!double.IsFinite(d.Z))||displacements.Select(d=>d.Node).Distinct().Count()!=displacements.Length))
+                throw new InvalidDataException("Spostamenti importati non validi o non associabili ai nodi.");
         }
         if (SourceTables?.Any(t => string.IsNullOrWhiteSpace(t.Key) || t.Value.ValueKind != JsonValueKind.Object) == true)
             throw new InvalidDataException("Tabelle degli attributi non valide.");
