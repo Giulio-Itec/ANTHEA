@@ -74,8 +74,7 @@ public sealed partial class ModelViewerViewModel
             allMemberSeries=element==null?[]:global::ANTHEA.ModelViewer.Presentation.MemberDiagramSeries.Read(Snapshot,element.Id,SelectedCase,ForceUnit,LengthUnit);
             // Components and units are the same controls used by the 3D view; the plot always states local axes.
             MemberDiagramSeries=MemberDiagramAllComponents?allMemberSeries:allMemberSeries.Where(s=>s.Component==SelectedComponent).ToArray();
-            var nodes=element==null?[]:Snapshot.Nodes.Where(n=>element.Nodes.Contains(n.Id)).ToArray();
-            memberDiagramLength=nodes.Length==2?Math.Sqrt(Math.Pow(nodes[1].X-nodes[0].X,2)+Math.Pow(nodes[1].Y-nodes[0].Y,2)+Math.Pow(nodes[1].Z-nodes[0].Z,2)):0;
+            memberDiagramLength=element==null?0:ModelMeasurements.Read(Snapshot,new(0,element.Nodes),0,null).Value??0;
             MemberDiagramTitle=element==null?"Diagrammi dell’asta":$"{element.Type} {element.Id} · I {element.Nodes[0]} → J {element.Nodes[1]} · L {memberDiagramLength:0.####} m · {SelectedCase} · assi locali";
             MemberDiagramMessage=element==null?"Seleziona un’asta nel modello oppure nell’elenco."
                 :allMemberSeries.Count==0?"Sollecitazioni locali non importate per questa asta e questo caso."

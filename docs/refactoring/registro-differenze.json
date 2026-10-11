@@ -1669,6 +1669,23 @@
         "supporto/artefatti/ci/20261011-201311-modelli-overlay-details"
       ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-25",
+      "titolo": "Letture geometriche delegate a GPC",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "ViewModel delega modulo delle traslazioni e lunghezza dell'asta a ModelMeasurements, adattatore senza WPF delle operazioni Vector3d di GPC già distribuite.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelWorkspace/ModelMeasurements.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Deformations.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.MemberDiagrams.cs"],
+      "segno": "Nessuna differenza nelle catture numeriche; nessun cambio delle DLL o degli attesi indipendenti.",
+      "decisione": {"data": "2026-10-11", "utente": "architettura MVVM e operazioni geometriche nelle librerie GPC", "esito": "riuso dell'adattatore, confronto prima/dopo identico"},
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["322 controlli logici", "Catture numeriche identiche: sei vettori con scala da 1e-150 a 1e150, posizione e lunghezza dell'asta"],
+      "evidenze": ["supporto/artefatti/ci/20261011-202042-modelli-gpc-letture-baseline", "supporto/artefatti/ci/20261011-202133-modelli-gpc-letture-dopo"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

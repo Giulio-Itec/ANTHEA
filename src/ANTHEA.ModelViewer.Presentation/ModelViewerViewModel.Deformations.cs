@@ -50,12 +50,7 @@ public sealed partial class ModelViewerViewModel
     partial void OnShowUndeformedMeshChanged(bool value) => RefreshScene();
     partial void OnUndeformedOpacityChanged(double value) => RefreshScene();
 
-    // These are graphical norms and display factors, never recovered structural results.
-    static double DisplacementMagnitude(ModelDisplacement d)
-    {
-        double max = Math.Max(Math.Abs(d.X), Math.Max(Math.Abs(d.Y), Math.Abs(d.Z)));
-        return max == 0 ? 0 : max * Math.Sqrt(Math.Pow(d.X / max, 2) + Math.Pow(d.Y / max, 2) + Math.Pow(d.Z / max, 2));
-    }
+    static double DisplacementMagnitude(ModelDisplacement d) => ModelMeasurements.DisplacementMagnitude(d);
     void UpdateDeformations()
     {
         Displacements = Snapshot?.Results.FirstOrDefault(r => r.Name == SelectedCase)?.Displacements ?? [];

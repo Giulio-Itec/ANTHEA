@@ -5,6 +5,15 @@ static partial class Program
 {
     static void DisplacementChecks(string output)
     {
+        var geometrySample=Sample.Model();
+        geometrySample.Results=[geometrySample.Results[0] with { Displacements=[new(1,0,0,0),new(2,.003,-.004,.012),new(3,-.02,.03,-.06),new(4,1e150,-2e150,3e150),new(5,1e-150,2e-150,-3e-150),new(6,.3,.4,0)] }];
+        using(var display=new ANTHEA.ModelViewer.Presentation.ModelViewerViewModel(geometrySample,[],false,new FakeServices(),_=>{},(_,_,_,_)=>{}))
+        {
+            display.SelectedResultType=1;display.SelectedComponent="|u|";display.DisplacementUnit="m";
+            var magnitudes=display.ActiveValues.DistinctBy(v=>v.Node).OrderBy(v=>v.Node).Select(v=>new {v.Node,v.Value}).ToArray();
+            display.SelectedResultType=0;display.SelectedFamily=1;display.MemberDiagramElementId=12;display.OpenMemberDiagramCommand.Execute(null);
+            File.WriteAllText(Path.Combine(output,"letture-geometriche.json"),JsonSerializer.Serialize(new {Magnitudes=magnitudes,Position=display.MemberDiagramPosition,Title=display.MemberDiagramTitle}));
+        }
         string Fixture(string name, string unit, string[] heads, object[][] rows)
         {
             string directory = Path.Combine(output, "displacement-fixtures", name); Directory.CreateDirectory(directory);

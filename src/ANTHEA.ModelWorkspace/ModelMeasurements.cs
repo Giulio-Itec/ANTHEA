@@ -12,6 +12,12 @@ public sealed record ModelMeasurementValue(double? Value,ModelDirection? Delta,s
 /// <summary>Adapts imported node coordinates to the existing GPC geometry operations. No solver or recovered result.</summary>
 public static class ModelMeasurements
 {
+    /// <summary>Imported global vector magnitude using the existing GPC operation; scaling protects its input from overflow/underflow.</summary>
+    public static double DisplacementMagnitude(ModelDisplacement displacement)
+    {
+        double scale=Math.Max(Math.Abs(displacement.X),Math.Max(Math.Abs(displacement.Y),Math.Abs(displacement.Z)));
+        return scale==0?0:scale*new Vector3d(displacement.X/scale,displacement.Y/scale,displacement.Z/scale).Length;
+    }
     public static void Validate(ModelMeasurementSettings? settings)
     {
         if(settings==null)return;

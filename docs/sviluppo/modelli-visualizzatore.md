@@ -712,3 +712,12 @@ del runner ufficiale; catture `overlay-details/layout-before` e `overlay-details
 Ispirazione funzionale: [display MIDAS](https://support.midasuser.com/hc/en-us/articles/29198491035417-Display)
 e [vincoli nodali RFEM](https://www.dlubal.com/en/downloads-and-information/documents/online-manuals/rfem-6/000006).
 Nessun contenuto di terzi incorporato nel modulo. MOD-24.
+
+### Letture geometriche e separazione delle responsabilità — 11 ottobre 2026
+
+Modulo delle traslazioni e lunghezza dell'asta passano dall'adattatore ModelMeasurements
+alle operazioni GPC esistenti. Il ViewModel conserva soltanto selezione, scala grafica e
+formattazione. Cattura precedente in `ci/20261011-202042-modelli-gpc-letture-baseline`,
+successiva e confronto in `ci/20261011-202133-modelli-gpc-letture-dopo`: JSON identico,
+SHA-256 `D20AF48B7DD07331B441F8F87CE86FD2BC1654C800C8CF74DDB82C6C62553B1D`.
+322 controlli logici; nessun atteso indipendente aggiornato. MOD-25.

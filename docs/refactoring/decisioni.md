@@ -730,3 +730,13 @@ separata da geometria e risultati. Stato conservato in viste, ricette e confront
 Le aree degli strumenti sopra e sotto l'albero hanno scorrimento e altezza massima relativa;
 l'apertura degli espansori non può più eliminare l'albero o rendere irraggiungibili i comandi.
 La cattura precedente e quella corretta restano fra le evidenze del passo.
+
+## Letture geometriche nel visualizzatore (11 ottobre 2026)
+
+Il ViewModel richiede il modulo delle traslazioni e la lunghezza dell'asta all'adattatore
+senza WPF ModelMeasurements, che riusa Vector3d.Length della DLL GPC già distribuita.
+Per i vettori si mantiene la normalizzazione numerica di ingresso; nessun nuovo algoritmo
+strutturale e nessun aggiornamento del bundle. Le formule di interpolazione/animazione e
+inquadratura rimangono operazioni esclusivamente grafiche. Catture prima/dopo identiche
+per vettori nulli, ordinari, molto grandi e molto piccoli e per la posizione lungo l'asta.
+Attesi indipendenti invariati. MOD-25.
