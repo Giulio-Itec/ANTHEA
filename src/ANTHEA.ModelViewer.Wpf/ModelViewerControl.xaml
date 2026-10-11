@@ -76,6 +76,9 @@
               <TextBlock Text="ESPLORA IL MODELLO" Style="{StaticResource Caption}" Margin="0,0,0,7" />
               <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=250}" MinHeight="33" Padding="9,6" ToolTip="Cerca per nome, numero o categoria" AutomationProperties.Name="Cerca nell'albero del modello" />
               <TextBlock Text="Cerca per nome o numero" FontSize="10" Opacity="0.55" Margin="1,4,0,0" />
+              <Expander Header="{Binding VisibilityFilterTitle}" IsExpanded="{Binding ShowVisibilityOptions}" Margin="0,10,0,0">
+                <local:ModelVisibilityView />
+              </Expander>
             </StackPanel>
             <TreeView x:Name="ModelTree" Grid.Row="1" ItemsSource="{Binding Tree}" SelectedItemChanged="TreeSelectionChanged" BorderThickness="0" Background="Transparent" Padding="5,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Albero del modello" />
             <Border Grid.Row="2" Padding="14,12" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource AppearanceBorder}">
@@ -149,6 +152,18 @@
               <CheckBox Content="Altri elementi in contesto" IsChecked="{Binding ShowContext}" />
               <CheckBox Content="Isolinee" IsChecked="{Binding ShowIsolines}" />
               <CheckBox Content="Bordi della mesh" IsChecked="{Binding ShowMesh}" />
+              <TextBlock Text="Scala dei colori" Style="{StaticResource FieldLabel}" />
+              <ComboBox ItemsSource="{Binding ColorScaleModes}" SelectedIndex="{Binding SelectedColorScale}" AutomationProperties.Name="Scala dei colori" />
+              <StackPanel Visibility="{Binding IsManualColorScale, Converter={StaticResource Visible}}" Margin="0,7,0,0">
+                <Grid>
+                  <Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="10" /><ColumnDefinition /></Grid.ColumnDefinitions>
+                  <StackPanel><TextBlock Text="Minimo" FontSize="11" Margin="0,0,0,4" /><TextBox Text="{Binding ColorScaleLower, UpdateSourceTrigger=PropertyChanged}" Padding="6" AutomationProperties.Name="Minimo scala colori" /></StackPanel>
+                  <StackPanel Grid.Column="2"><TextBlock Text="Massimo" FontSize="11" Margin="0,0,0,4" /><TextBox Text="{Binding ColorScaleUpper, UpdateSourceTrigger=PropertyChanged}" Padding="6" AutomationProperties.Name="Massimo scala colori" /></StackPanel>
+                </Grid>
+                <Button Content="Applica scala" Command="{Binding ApplyColorScaleCommand}" Margin="0,7,0,0" />
+              </StackPanel>
+              <TextBlock Text="{Binding VisibleResultRange}" FontSize="10" TextWrapping="Wrap" Opacity="0.7" Margin="0,7,0,0" />
+              <TextBlock Text="{Binding ColorScaleMessage}" Visibility="{Binding HasColorScaleMessage, Converter={StaticResource Visible}}" FontSize="11" TextWrapping="Wrap" Margin="0,7,0,0" />
               <Border Background="{DynamicResource AppearanceSurface}" CornerRadius="6" Padding="11" Margin="0,16,0,0">
                 <StackPanel>
                   <TextBlock Text="{Binding ResultAvailability}" TextWrapping="Wrap" FontSize="11" />
@@ -211,16 +226,16 @@
           <Border Grid.Column="1" Padding="10,18,14,18" Width="104" Visibility="{Binding IsResultsView, Converter={StaticResource Visible}}">
             <StackPanel VerticalAlignment="Center">
               <TextBlock Text="{Binding SelectedComponent}" Foreground="White" FontSize="14" FontWeight="SemiBold" />
-              <TextBlock Text="{Binding Maximum}" Foreground="#D0DDED" FontSize="11" Margin="0,8,0,8" />
+              <TextBlock Text="{Binding ColorMaximumLabel}" Foreground="#D0DDED" FontSize="11" Margin="0,8,0,8" />
               <Grid Height="200">
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="14" />
                   <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Border CornerRadius="3" Background="{DynamicResource ModelContourPalette}" />
-                <TextBlock Grid.Column="1" Text="{Binding Middle}" Foreground="#A2B5CD" FontSize="10" VerticalAlignment="Center" Margin="6,0,0,0" />
+                <TextBlock Grid.Column="1" Text="{Binding ColorMiddleLabel}" Foreground="#A2B5CD" FontSize="10" VerticalAlignment="Center" Margin="6,0,0,0" />
               </Grid>
-              <TextBlock Text="{Binding Minimum}" Foreground="#D0DDED" FontSize="11" Margin="0,8,0,0" />
+              <TextBlock Text="{Binding ColorMinimumLabel}" Foreground="#D0DDED" FontSize="11" Margin="0,8,0,0" />
               <TextBlock Text="{Binding ResultUnit}" Foreground="#A2B5CD" FontSize="10" TextWrapping="Wrap" Margin="0,12,0,0" />
             </StackPanel>
           </Border>

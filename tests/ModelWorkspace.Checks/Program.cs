@@ -74,6 +74,7 @@ static partial class Program
             Task pending = closing.ImportCommand.ExecuteAsync(null); closing.Dispose(); delayed.Pending.SetResult(Sample.Model()); await pending;
             Check(imports == 1, "closing the view prevents a late import from mutating the document");
             DisplayAndTableChecks();
+            VisibilityAndScaleChecks();
 
             if (args.Length > 1)
             {

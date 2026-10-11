@@ -51,6 +51,8 @@ internal static class Contours
     {
         void Triangle(Vector3 a, Vector3 b, Vector3 c, double va, double vb, double vc)
         {
+            // Keep coordinates unbounded: clipping vertices would move the color transitions inside a triangle.
+            // The texture sampler clamps after interpolation, at the pixel, including for manual color limits.
             float U(double value) => (float)((value - min) / (max == min ? 1 : max - min));
             mesh.Triangle(a, b, c, U(va), U(vb), U(vc), id);
             if (!isolines || max <= min) return;

@@ -107,7 +107,9 @@ public sealed partial class ModelViewerViewModel
     {
         fields.Clear(); hiddenElements.Clear(); isolatedElements = null; VisibleElementIds = null; SelectedElementIds = new HashSet<int>();
         tableState = null;
+        ResetColorScale();
         allTree = ModelTreeBuilder.Build(Snapshot!); Tree = allTree; SearchText = "";
+        InitializeVisibility();
         displayCatalog = new ModelDisplayCatalog(Snapshot!);
         SelectedTreeItem = null;
         SectionWidth = SectionHeight = 0; SectionSize = "";
@@ -128,11 +130,12 @@ public sealed partial class ModelViewerViewModel
         bool moment = SelectedComponent?.StartsWith('M') == true;
         double scale = force * (SelectedFamily == 0 ? moment ? 1 : 1 / length : moment ? length : 1);
         string unit = SelectedFamily == 0 ? moment ? $"{ForceUnit}·{LengthUnit}/{LengthUnit}" : $"{ForceUnit}/{LengthUnit}" : moment ? $"{ForceUnit}·{LengthUnit}" : ForceUnit;
-        ActiveValues = raw.Where(v => (VisibleElementIds == null || VisibleElementIds.Contains(v.Element)) &&
-            (SelectedFamily == 0 || SelectedBeamLocation == 0 || v.Station == (SelectedBeamLocation - 1) / 4.0)).Select(v => v with { Value = v.Value * scale }).ToArray();
+        var atStation = raw.Where(v => SelectedFamily == 0 || SelectedBeamLocation == 0 || v.Station == (SelectedBeamLocation - 1) / 4.0).ToArray();
+        ActiveValues = atStation.Where(v => VisibleElementIds == null || VisibleElementIds.Contains(v.Element)).Select(v => v with { Value = v.Value * scale }).ToArray();
         Minimum = HasResults ? ActiveValues.Min(v => v.Value).ToString("G6") : "—";
         Maximum = HasResults ? ActiveValues.Max(v => v.Value).ToString("G6") : "—";
         ResultUnit = string.IsNullOrEmpty(SelectedComponent) ? "—" : $"{SelectedComponent} [{unit}]";
+        UpdateColorScale(atStation, scale);
         ResultAvailability = HasResults ? $"{ActiveValues.Select(v => v.Element).Distinct().Count():N0} elementi con valori · {SampleLocation.ToLowerInvariant()}"
             : SelectedFamily > 0 && SelectedAxes == 1 ? "Per le aste scegli gli assi locali. Gli assi principali delle sezioni richiedono un contratto dedicato."
             : SelectedAxes == 1 ? "Componenti principali non importate. Non si ricavano dagli estremi non simultanei di un inviluppo."
@@ -159,9 +162,9 @@ public sealed partial class ModelViewerViewModel
         ShowInspector = true;
     }
     private bool CanChangeVisibility() => HasSelection && !disposed;
-    [RelayCommand(CanExecute = nameof(CanChangeVisibility))] private void Isolate() { isolatedElements = SelectedElementIds.ToHashSet(); hiddenElements.ExceptWith(isolatedElements); ApplyVisibility(); }
+    [RelayCommand(CanExecute = nameof(CanChangeVisibility))] private void Isolate() { ClearVisibilityCriteria(); isolatedElements = SelectedElementIds.ToHashSet(); hiddenElements.ExceptWith(isolatedElements); ApplyVisibility(); }
     [RelayCommand(CanExecute = nameof(CanChangeVisibility))] private void Hide() { hiddenElements.UnionWith(SelectedElementIds); ApplyVisibility(); }
-    [RelayCommand] private void ShowAll() { hiddenElements.Clear(); isolatedElements = null; ApplyVisibility(); }
+    [RelayCommand] private void ShowAll() { ClearVisibilityCriteria(); hiddenElements.Clear(); isolatedElements = null; ApplyVisibility(); }
     [RelayCommand] private void ClearSelection() { SelectedTreeItem = new() { Label = "Proprietà del modello", Attributes = [new("Selezione", "Seleziona una voce nell’albero o un elemento nella scena.")] }; }
     [RelayCommand] private void SetMode(string mode) { if (int.TryParse(mode, out int value) && value is >= 0 and <= 2) SelectedMode = value; }
     void ApplyVisibility()

@@ -481,3 +481,16 @@ assi, campioni e convenzioni; componenti mancanti o non simultanee non vengono r
 Il confronto funzionale con il manuale del solutore non introduce testi o figure di terzi nelle guide.
 Guide globali e PDF rimangono attività di rilascio dopo il collaudo e l'assestamento del refactoring.
 Vedi registro MOD-02 e specifica del modulo per copertura effettiva, evidenze e integrazioni ancora necessarie.
+
+### Estensione dell'11 ottobre: filtri e scale di visualizzazione
+
+Su richiesta dell'utente si considera anche RFEM come riferimento funzionale per navigazione, visibilità e pannello
+dei risultati. Nessun testo, figura o contenuto della documentazione esterna è copiato nella UI o nelle guide.
+Nel modulo vengono aggiunti criteri combinabili per attributi, visibilità con nome temporanee e scale di colore
+globali, simmetriche e manuali. Sono stato della vista: non mutano i dati del modello né i campioni delle sollecitazioni.
+Le proprietà non assegnate compaiono nelle tabelle senza filtri. Clipping, viste persistenti con camera, diagrammi,
+sezioni di risultato e filtri numerici restano nel seguito della specifica.
+
+Il bundle S4/Model 4 di main è stato acquisito senza ricompilarne o sostituirne le DLL. Il collaudo completo di ANTHEA
+ha dato 79 PASS e un solo KNOWN già censito; le suite GPC 1196 PASS. Il merge 7852f67 del precedente lavoro è già
+presente in main alla ripresa; le nuove aggiunte continuano sul ramo codex/model-viewer-draft, senza push o merge inverso.

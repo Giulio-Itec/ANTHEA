@@ -14,7 +14,7 @@ namespace ANTHEA.ModelViewer.Wpf;
 
 internal sealed record SceneOptions(int Mode, IReadOnlyList<ResultValue> Values, string Family, int Subdivisions, bool ShowMesh, bool ShowIsolines,
     IReadOnlySet<int>? Visible, IReadOnlySet<int> Selection, bool ShowLocalAxes, bool ShowRestraints, bool ShowConstraints, bool ShowLinks, bool ShowReleases, bool ShowContext,
-    DisplayOptions Display);
+    DisplayOptions Display, double ColorMinimum, double ColorMaximum);
 internal sealed record DisplayOptions(IReadOnlyDictionary<int, ElementDisplay> Colors, int SurfaceMode, bool HiddenWireframe,
     bool NodeIds, bool ElementIds, bool PropertyIds, bool Nodes, bool LabelsSelectedOnly, double LabelScale, double LineWidth);
 internal sealed record SceneStatistics(TimeSpan Preparation, int Triangles, int MissingElements);
@@ -59,7 +59,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
     void AddMesh(SurfaceBuilder builder, Color4 color, bool contour = false)
     {
         if (builder.Indices.Count == 0) return;
-        Material material = contour ? new ColorStripeMaterial { DiffuseColor = new Color4(1, 1, 1, 1), ColorStripeX = Enumerable.Range(0, 256).Select(i => Contours.Color(i / 255.0)).ToList(), ColorStripeXEnabled = true, ColorStripeYEnabled = false } : new PhongMaterial { DiffuseColor = color, AmbientColor = new Color4(.35f, .35f, .35f, 1) };
+        Material material = contour ? new ColorStripeMaterial { DiffuseColor = new Color4(1, 1, 1, 1), ColorStripeX = Enumerable.Range(0, 256).Select(i => Contours.Color(i / 255.0)).ToList(), ColorStripeXEnabled = true, ColorStripeYEnabled = false, ColorStripeSampler = HelixToolkit.SharpDX.Shaders.DefaultSamplers.LinearSamplerClampAni4 } : new PhongMaterial { DiffuseColor = color, AmbientColor = new Color4(.35f, .35f, .35f, 1) };
         var mesh = new MeshGeometryModel3D { Geometry = builder.Mesh(), Material = material, CullMode = SharpDX.Direct3D11.CullMode.None };
         meshElements.Add(mesh, builder.ElementIds); viewport.Items.Add(mesh);
     }
@@ -75,7 +75,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         var clock = System.Diagnostics.Stopwatch.StartNew(); int view = options.Mode;
         var values = options.Values.Where(v => v.Node > 0).ToDictionary(v => (v.Element, v.Node), v => v.Value);
         var samples = options.Values.ToLookup(v => v.Element);
-        double min = options.Values.Count > 0 ? options.Values.Min(v => v.Value) : 0, max = options.Values.Count > 0 ? options.Values.Max(v => v.Value) : 0;
+        double min = options.ColorMinimum, max = options.ColorMaximum;
 
         meshElements.Clear(); lineElements.Clear();
         viewport.Items.Clear(); viewport.Items.Add(new AmbientLight3D { Color = Color.FromRgb(160, 160, 160) }); viewport.Items.Add(new DirectionalLight3D { Color = Colors.White, Direction = new Vector3D(2, 1, -1) }); viewport.Items.Add(new DirectionalLight3D { Color = Color.FromRgb(180, 190, 210), Direction = new Vector3D(-1, -2, -3) });

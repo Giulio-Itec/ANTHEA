@@ -66,11 +66,11 @@ public sealed partial class ModelViewerViewModel
                 break;
             case 2:
                 Columns(("ID", typeof(int)), ("Nome", typeof(string)), ("Forma", typeof(string)), ("Larghezza [m]", typeof(double)), ("Altezza [m]", typeof(double)), ("Centrata", typeof(bool)));
-                foreach (var s in Snapshot.Sections.Where(s => elements.Any(e => e.Type != "PLATE" && e.Property == s.Id))) Add("SECT:" + s.Id, s.Id, s.Name, s.Shape, s.Width > 0 ? s.Width : null, s.Height > 0 ? s.Height : null, s.Width > 0 ? s.Centered : null);
+                foreach (var s in Snapshot.Sections.Where(s => !TableOnlyVisible && !TableOnlySelected || elements.Any(e => e.Type != "PLATE" && e.Property == s.Id))) Add("SECT:" + s.Id, s.Id, s.Name, s.Shape, s.Width > 0 ? s.Width : null, s.Height > 0 ? s.Height : null, s.Width > 0 ? s.Centered : null);
                 break;
             case 3:
                 Columns(("ID", typeof(int)), ("Nome", typeof(string)), ("Spessore [m]", typeof(double)), ("Offset [m]", typeof(double)));
-                foreach (var p in Snapshot.Plates.Where(p => elements.Any(e => e.Type == "PLATE" && e.Property == p.Id))) Add("THIK:" + p.Id, p.Id, p.Name, p.Thickness, p.Offset);
+                foreach (var p in Snapshot.Plates.Where(p => !TableOnlyVisible && !TableOnlySelected || elements.Any(e => e.Type == "PLATE" && e.Property == p.Id))) Add("THIK:" + p.Id, p.Id, p.Name, p.Thickness, p.Offset);
                 break;
             case 4:
                 Columns(("Sorgente", typeof(string)), ("Tipo", typeof(string)), ("Nodi", typeof(string)), ("Elemento", typeof(int)), ("DOF / informazioni", typeof(string)));

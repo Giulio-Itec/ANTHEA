@@ -60,7 +60,7 @@ public partial class ModelViewerControl : UserControl, IDisposable
                 viewModel.Subdivisions, viewModel.ShowMesh, viewModel.ShowIsolines, viewModel.VisibleElementIds, viewModel.SelectedElementIds, viewModel.ShowLocalAxes,
                 viewModel.ShowRestraints, viewModel.ShowConstraints, viewModel.ShowLinks, viewModel.ShowReleases, viewModel.ShowContext,
                 new(viewModel.ElementColors, viewModel.SelectedSurfaceMode, viewModel.ShowHiddenWireframe, viewModel.ShowNodeIds,
-                    viewModel.ShowElementIds, viewModel.ShowPropertyIds, viewModel.ShowNodes, viewModel.SelectedLabelScope == 1, viewModel.LabelScale, viewModel.LineWidth)));
+                    viewModel.ShowElementIds, viewModel.ShowPropertyIds, viewModel.ShowNodes, viewModel.SelectedLabelScope == 1, viewModel.LabelScale, viewModel.LineWidth), viewModel.ColorMinimum, viewModel.ColorMaximum));
             viewModel.Status = $"Scena pronta · {statistics.Preparation.TotalMilliseconds:N0} ms di preparazione · {statistics.Triangles:N0} triangoli";
             if (viewModel.IsResultsView) viewModel.Status += $" · {statistics.MissingElements} {viewModel.Family.ToLowerInvariant()} senza risultati";
             if (viewModel.ShowLocalAxes && viewModel.Snapshot.LocalFrames == null) viewModel.Status += " · terne locali non importate";

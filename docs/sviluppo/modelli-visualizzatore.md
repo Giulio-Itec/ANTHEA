@@ -1,8 +1,11 @@
 # Modelli di calcolo: visualizzatore integrato
 
-Stato: bozza di sviluppo del 9 ottobre 2026, branch `codex/model-viewer-draft`.
-La base ANTHEA 1.1.0 (`main`, 5c324ef) è stata incorporata nel branch con ff9d4c4.
-Nessun merge verso main e nessun push. Questo è un documento di sviluppo; Wiki e guide globali con PDF si aggiornano al rilascio del modulo.
+Stato: bozza di sviluppo, aggiornata l'11 ottobre 2026, branch `codex/model-viewer-draft`.
+La base ANTHEA 1.1.0 (`main`, 5c324ef) è stata incorporata con ff9d4c4; il successivo bundle S4/Model 4
+di main 735848f è entrato con a83c92d. Alla ripresa dell'11 ottobre, main conteneva già il merge 7852f67
+del visualizzatore, con albero identico: il branch è stato allineato a quel commit prima delle nuove aggiunte.
+Le aggiunte dell'11 ottobre rimangono sul ramo separato, senza push né nuovo merge verso main.
+Questo è un documento di sviluppo; Wiki e guide globali con PDF si aggiornano al rilascio del modulo.
 
 ## Organizzazione e confini
 
@@ -25,7 +28,8 @@ fuori dal ramo rende visibile il riferimento non risolto. Collegare non trasferi
 
 Comandi con CommunityToolkit.Mvvm 8.3.2; renderer HelixToolkit.Wpf.SharpDX 3.1.2. Il code-behind collega soltanto
 eventi WPF, selezione e ciclo di vita. La chiusura annulla l'importazione pendente e libera le risorse GPU.
-Nessun calcolo aggiunto a X.Core, X.Calculations o X.Desktop. Il bundle lib/Checker non cambia.
+Nessun calcolo aggiunto a X.Core, X.Calculations o X.Desktop. Il bundle lib/Checker è quello S4 acquisito da main,
+con manifest e DLL invariati rispetto al rilascio; il Converter sperimentale non è distribuito nel bundle.
 
 ## Funzioni disponibili
 
@@ -39,6 +43,11 @@ Nessun calcolo aggiunto a X.Core, X.Calculations o X.Desktop. Il bundle lib/Chec
 - Geometria, volumi con offset, risultati; selezione dalla scena tramite ray picking, Ctrl per aggiungere/rimuovere.
 - Isola, nascondi, mostra selezione, mostra tutto e inverti visibilità. Il wireframe degli oggetti nascosti
   è soltanto contesto: non contribuisce a selezione, risultati o scala. Inquadratura con inclusione dei nascosti opzionale.
+- Filtri per famiglia, materiale, sezione, spessore e gruppo, combinabili per intersezione o unione.
+  Gli insiemi vuoti restano vuoti. I comandi espliciti di isolamento/inversione sostituiscono i criteri attivi;
+  scena e tabelle seguono la stessa visibilità. «Mostra tutto» azzera filtri e nascondimenti.
+  Visibilità con nome memorizzabili e richiamabili nella sessione; contengono gli ID, non camera o risultati.
+  La sostituzione del modello e la chiusura della vista le azzerano; nomi duplicati non sovrascrivono altre viste.
 - ID di nodi, elementi e proprietà, su tutti i visibili o soltanto sulla selezione; dimensione testo e linee.
   Le etichette sono in primo piano; su zone dense è utile limitarle alla selezione o ingrandire.
 - Colori uniformi, per tipo, materiale, sezione/spessore e gruppo. Legenda stabile rispetto ai filtri.
@@ -49,6 +58,7 @@ Nessun calcolo aggiunto a X.Core, X.Calculations o X.Desktop. Il bundle lib/Chec
   Tipi numerici ordinabili, ricerca, filtri di visibilità/selezione, riga collegata alla scena, copia Ctrl+C e CSV.
   Il risultato corrente usa esattamente campo, campioni e unità della vista; non media nodi condivisi.
   CSV con separatore punto e virgola, decimale invariant, valori numerici integri e testi protetti da formule.
+  Disattivando sia Visibili sia Selezionati, sezioni e spessori includono anche le definizioni non assegnate.
 - Esportazione PNG del controllo completo, comprendente scena Direct3D, titolo, legenda e opzioni.
 
 ## Copertura e limiti dei dati
@@ -73,6 +83,13 @@ Contouring: valori distinti per elemento, interpolazione bilineare dei quad e li
 qualità 1/4/8 suddivisioni, palette continua, isolinee. Nessuna media tra elementi. La suddivisione è grafica,
 non accresce l'accuratezza del solutore. Beam: segmenti colorati tra campioni importati, senza inventare valori
 interni oltre la rappresentazione lineare; la scelta di una stazione colora l'asta con quel campione.
+
+Scale dei colori: automatica sui visibili, globale sul caso/componente/stazione, simmetrica rispetto a zero,
+oppure manuale. La scala globale permette di confrontare sottoinsiemi senza ricolorare lo stesso valore.
+I limiti manuali rimangono costanti cambiando caso e si convertono con le unità; cambiare componente/famiglia/assi
+riporta all'automatico. Input non finiti o invertiti sono rifiutati conservando la scala precedente.
+La saturazione grafica avviene al pixel dopo l'interpolazione, senza troncamento dei valori ai vertici;
+le etichette ≤/≥ segnalano gli estremi saturati. Tabelle, interrogazione e snapshot restano integri.
 
 I risultati della copia MIDAS mantengono componenti e segni MIDAS, convertendo solo le unità.
 Non sono risultati già normalizzati alle convenzioni del Checker GPC (in particolare il momento locale beam).
@@ -115,6 +132,20 @@ FRLS e altri insiemi realmente vuoti restano distinguibili dagli insiemi non acq
 - GPC: 90 test mirati di importazione, assegnazioni e persistenza. Gli svincoli e link sopravvivono
   all'archivio esplicito e contribuiscono all'impronta degli input; errori atomici e leggi non supportate verificati.
 
+Completamento del collaudo S4, verificato alla ripresa dell'11 ottobre:
+- `build/ci.ps1 -Profile full -Tag modelli-s4-completo` su a83c92d: 79 PASS, 1 KNOWN, 0 NEW-FAIL, 0 BLOCKED.
+  Il KNOWN è il confronto dei Guid dei default dei muri, già censito in build/known-failures.json.
+  Le tre suite non eseguite dal runner restano quelle esterne/infrastrutturali indicate nel suo riepilogo.
+- GPC sul ramo del Converter: UnitTest 1024 PASS (escluse le due prove native Straus7), Model.Core.Tests 6 PASS,
+  ModelChecker.Tests 166 PASS; totale 1196. Evidenze in `gpc-boundary/model4-completo`.
+- Prova reale con S4: 38 PASS, immagini in `delivery-s4`.
+
+Aggiunte dell'11 ottobre: ModelWorkspace 67 PASS, WPF sintetico 21 PASS, WPF reale 44 PASS.
+Runner quick `modelli-filtri-scale`: 25 PASS, nessun nuovo fallimento (11 ottobre).
+Evidenze in `supporto/artefatti/model-viewer/visibility-scale`: `logic`, `synthetic`, `real`.
+La prova `before-table-fix` cattura il difetto delle proprietà non assegnate prima della correzione;
+gli attesi di offset e interpolazione esistenti non sono cambiati. Registro MOD-03.
+
 Sei cambi di componente sul modello completo già caricato, qualità Alta: da 98,97 a 122,22 ms,
 mediana 108,70 ms fino all'evento Viewport.OnRendered. La misura include cambio dello stato, preparazione
 e notifica del fotogramma; non misura il monitor fisico, l'acquisizione, il solutore o il calcolo dell'inviluppo.
@@ -124,14 +155,14 @@ I dati grezzi sono in `review-measured/tempi-campi.json`. Non è una garanzia pe
 
 | Priorità | Lavoro rimasto | Sede |
 | --- | --- | --- |
-| 1 | Rilascio coerente GPC da commit pushati e aggiornamento bundle con manifest e profilo full | Librerie / build ANTHEA |
+| 1 | Rilascio del Converter con le nuove assegnazioni da commit pushati e integrazione del ponte nel prodotto; S4/Model 4 è già acquisito da main | Librerie / build ANTHEA |
 | 1 | Adattatore comune definitivo per tutti i solutori; copertura esplicita di solidi, cavi, link non lineari, PRLS e fasi | GPC Model / Converter |
 | 1 | Profili solidi generici/variabili, offset di estremità e sezioni orientate, provenienza delle convenzioni | GPC Geometry/Model e renderer |
 | 1 | Combinazioni e inviluppi locali con caso governante, coerenza simultanea e cache | GPC, non WPF |
 | 1 | Archivio compresso/grandi dati e confronto completo delle revisioni modello | Librerie documenti/progetti |
-| 2 | Carichi grafici, deformate, tensioni, volumi, diagrammi beam, clipping, scala manuale/simmetrica | Contratti GPC e vista |
+| 2 | Carichi grafici, deformate, tensioni, volumi, diagrammi beam, clipping e filtri per intervalli di risultato | Contratti GPC e vista |
 | 2 | Controlli ingegneristici, editor del modello e trasferimento controllato ai fogli | GPC e libreria applicativa |
-| 2 | Selezione rettangolare, etichette senza sovrapposizioni, ordinamento avanzato, grafici tabellari, preferenze persistenti | Modulo Modelli |
+| 2 | Selezione rettangolare/per numeri, etichette senza sovrapposizioni, ordinamento avanzato, grafici tabellari, viste con camera e preferenze persistenti | Modulo Modelli |
 | 2 | Ampliare prove su software reali diversi, modelli grandi, DPI multipli e accessibilità | Test |
 | 3 | Guide globali/Wiki/PDF e distribuzione dopo il collaudo del modulo | Documentazione |
 

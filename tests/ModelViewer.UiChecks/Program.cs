@@ -161,7 +161,24 @@ static class Program
                 Capture(isolated, scene, Path.Combine(output, "modelli-gruppi-tabella.png"));
                 state.SelectedMode = 2; state.SelectedTableKind = 5; Wait(450);
                 Check(state.TableRows!.Count == state.ActiveValues.Count, "result table and scene share the same values and units");
+                state.SelectedTableRow = state.TableRows[0]; Wait(150);
                 Capture(isolated, scene, Path.Combine(output, "modelli-risultati-tabella.png"));
+                state.SelectedColorScale = 3; state.ColorScaleLower = "-100"; state.ColorScaleUpper = "500"; state.ApplyColorScaleCommand.Execute(null); Wait(350);
+                Check(state.ColorMinimum == -100 && state.ColorMaximum == 500 && state.TableRows!.Count == state.ActiveValues.Count && state.Status.StartsWith("Scena pronta"), "manual scale renders without removing table values");
+                var stripe = scene.Items.OfType<MeshGeometryModel3D>().Select(m => m.Material).OfType<ColorStripeMaterial>().Single();
+                Check(stripe.ColorStripeSampler.AddressU == SharpDX.Direct3D11.TextureAddressMode.Clamp, "manual colors saturate at pixels rather than wrapping the palette");
+                Capture(isolated, scene, Path.Combine(output, "modelli-scala-manuale.png"));
+                state.SelectedColorScale = 0; state.SelectedMode = 0; state.SelectedColorMode = 3; state.SelectedTableKind = 1; state.ShowVisibilityOptions = true;
+                state.SelectedTreeItem = state.FindTreeItem("THIK:3");
+                foreach (string key in new[] { "PLATE", "THIK:3" }) { state.SelectedVisibilityChoice = state.VisibilityChoices.Single(c => c.Key == key); state.AddVisibilityCriterionCommand.Execute(null); }
+                int expectedVisible = state.Snapshot.Elements.Count(e => e.Type == "PLATE" && e.Property == 3);
+                Check(state.VisibleElementIds?.Count == expectedVisible && state.TableRows!.Count == expectedVisible, "attribute intersection filters both the rendered model and its table");
+                state.VisibilityName = "Paraghiaia"; state.SaveVisibilityCommand.Execute(null); state.ShowAllCommand.Execute(null); state.RecallVisibilityCommand.Execute(null); Wait(350);
+                Check(state.VisibleElementIds?.Count == expectedVisible && state.Status.StartsWith("Scena pronta"), "named visibility recalls an exact subset on the real model");
+                // Keep the active criteria visible in the screenshot, alongside the saved set.
+                foreach (string key in new[] { "PLATE", "THIK:3" }) { state.SelectedVisibilityChoice = state.VisibilityChoices.Single(c => c.Key == key); state.AddVisibilityCriterionCommand.Execute(null); }
+                Wait(200); Capture(isolated, scene, Path.Combine(output, "modelli-filtri-visibilita.png"));
+                state.ShowVisibilityOptions = false; state.ShowAllCommand.Execute(null);
                 state.ShowTable = false; state.SelectedMode = 0; state.SelectedSurfaceMode = 2; Wait(250);
                 Check(state.Status.StartsWith("Scena pronta") && !scene.Items.OfType<MeshGeometryModel3D>().Any(m => m.Geometry?.Indices?.Count > 0), "wireframe mode contains no filled faces");
                 // Export through the production compositor, including the WPF legend and current field title.
@@ -219,6 +236,15 @@ static class Program
                 Capture((FrameworkElement)window.Content, viewport, Path.Combine(output, name + ".png"));
             }
             vm.SelectedQuality = 2; Wait(500); Check(vm.Status.StartsWith("Scena pronta"), "maximum contour quality renders");
+            if (args.Length == 1)
+            {
+                vm.SelectedColorScale = 3; vm.ColorScaleLower = "15"; vm.ColorScaleUpper = "35"; vm.ApplyColorScaleCommand.Execute(null); Wait(200);
+                var mesh = (HelixToolkit.SharpDX.MeshGeometry3D)viewport.Items.OfType<MeshGeometryModel3D>().First().Geometry!;
+                int center = Enumerable.Range(0, mesh.Positions!.Count).First(i => Math.Abs(mesh.Positions[i].X + 1) < 1e-6 && Math.Abs(mesh.Positions[i].Y) < 1e-6);
+                Check(Math.Abs(mesh.TextureCoordinates![center].X - .5) < 1e-6 && mesh.TextureCoordinates.Min(uv => uv.X) < 0 && mesh.TextureCoordinates.Max(uv => uv.X) > 1,
+                    "manual color range preserves interpolation coordinates before pixel saturation");
+                vm.SelectedColorScale = 0;
+            }
             vm.SelectedComponent = "Fxx"; Wait(300); Check(vm.ResultUnit.Contains("kN/m"), "result component selection updates unit label");
             vm.QueryCommand.Execute(null); Check(vm.SelectionInformation.Contains("Spessore"), "WPF view binds query data from the ViewModel");
             Call(window, "ShowModelsHub"); Wait(100);

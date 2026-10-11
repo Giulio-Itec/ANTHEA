@@ -41,13 +41,13 @@ public sealed partial class ModelViewerViewModel
     [RelayCommand(CanExecute = nameof(CanChangeVisibility))]
     private void ShowSelected()
     {
-        hiddenElements.ExceptWith(SelectedElementIds); isolatedElements?.UnionWith(SelectedElementIds); ApplyVisibility();
+        ClearVisibilityCriteria(); hiddenElements.ExceptWith(SelectedElementIds); isolatedElements?.UnionWith(SelectedElementIds); ApplyVisibility();
     }
     [RelayCommand] private void InvertVisibility()
     {
         if (Snapshot == null) return;
         var currentlyVisible = VisibleElementIds ?? Snapshot.Elements.Select(e => e.Id).ToHashSet();
-        isolatedElements = null; hiddenElements.Clear(); hiddenElements.UnionWith(currentlyVisible); ApplyVisibility();
+        ClearVisibilityCriteria(); isolatedElements = null; hiddenElements.Clear(); hiddenElements.UnionWith(currentlyVisible); ApplyVisibility();
     }
     void UpdateDisplay()
     {

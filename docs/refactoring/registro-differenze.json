@@ -1034,7 +1034,7 @@
       "famiglia": "progetti/modelli",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Il branch incorpora main ANTHEA 1.1.0 e sviluppa uno spazio Modelli autonomo con tre tab, albero degli attributi, assi e assegnazioni da GPC, risultati con famiglia/assi/unità/stazioni, selezione, ID, colori per attributo, isolamento e wireframe dei nascosti. Le tabelle proiettano i dati salvati e si collegano alla scena; nessun aggiornamento dei calcoli legacy. Il Converter GPC viene esteso nel branch separato codex/viewer-boundary-data, commit 14a0c859, su autorizzazione successiva dell'utente. Nessun aggiornamento di lib/Checker.",
+      "descrizione": "Il branch incorpora main ANTHEA 1.1.0 e sviluppa uno spazio Modelli autonomo con tre tab, albero degli attributi, assi e assegnazioni da GPC, risultati con famiglia/assi/unità/stazioni, selezione, ID, colori per attributo, isolamento e wireframe dei nascosti. Le tabelle proiettano i dati salvati e si collegano alla scena; nessun aggiornamento dei calcoli legacy. Il Converter GPC viene esteso nel branch separato codex/viewer-boundary-data, commit 14a0c859, su autorizzazione successiva dell'utente. Nessun rilascio del Converter sperimentale in lib/Checker. Il successivo merge a83c92d acquisisce integralmente da main il bundle S4/Model 4 descritto in S4-1; full 79 PASS, 1 KNOWN già censito, 0 NEW-FAIL e 1196 test GPC superati.",
       "codice": ["src/ANTHEA.ModelWorkspace", "src/ANTHEA.ModelViewer.Presentation", "src/ANTHEA.ModelViewer.Wpf", "X.Desktop/Wpf/ProjectModels.cs", "tools/ModelViewer.Prepare", "tools/model-viewer"],
       "segno": "nessuna variazione ai risultati importati oltre alla conversione delle unità di visualizzazione; nessun trasferimento automatico ai fogli",
       "effetto_quantificato": { "sintesi": "Copia reale: 3755 nodi, 181 beam, 3435 plate, 3616 terne, 1645 simboli di assegnazione; 13718 campioni plate e 905 campioni beam. Sei cambi di componente fino a OnRendered: 98.97-122.22 ms, mediana 108.70 ms; esclusi acquisizione, solver e calcolo inviluppo. Attesi offset -0.85/-0.55 m e interpolazione 25 invariati." },
@@ -1070,6 +1070,23 @@
       "evidenze": [
         "supporto/artefatti/refactoring/librerie-s4"
       ]
+    },
+    {
+      "id": "MOD-03",
+      "titolo": "Filtri combinabili, visibilità temporanee e scale grafiche indipendenti dai risultati",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Estensione del visualizzatore su richiesta dell'utente di considerare anche RFEM come riferimento funzionale. Visibilità per famiglia/materiale/sezione/spessore/gruppo con intersezione o unione; insiemi di ID richiamabili con nome nella sessione. Scala colori automatica, globale per caso e campo, simmetrica o manuale. La saturazione avviene al pixel senza modificare campioni, tabelle o snapshot. Corretto inoltre il filtro implicito delle sezioni e degli spessori: la tabella senza filtri include anche le proprietà salvate non assegnate. Nessun cambiamento al motore di calcolo o alle librerie distribuite.",
+      "codice": ["src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Visibility.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ColorScale.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Tables.cs", "src/ANTHEA.ModelViewer.Wpf/ModelVisibilityView.xaml", "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.cs"],
+      "segno": "sola rappresentazione grafica e completezza delle tabelle senza filtri; impronta e valori del modello invariati",
+      "effetto_quantificato": { "sintesi": "Fixture: l'intersezione di plate e sezione beam è vuota, l'unione contiene i 3 elementi. Limiti grafici 15,5/30,5 non tagliano i valori 10/40 della tabella; cambiando unità diventano 15500/30500. Prima della correzione la tabella senza filtri perdeva la sezione non assegnata (prova fallita catturata); dopo mostra entrambe le sezioni e entrambi gli spessori. Contouring sintetico: valore bilineare centrale 25 invariato e coordinata colore 0,5 con limiti 15/35; offset attesi -0,85/-0,55 m invariati. Sul modello reale l'intersezione plate/spessore 3 contiene 320 elementi in scena e tabella." },
+      "decisione": { "data": "2026-10-11", "utente": "continua da dove ti sei interrotta; come consigli su visualizzatori, opzioni e filtri usa anche RFEM", "esito": "funzioni MVVM nel branch separato, dati indipendenti dal solutore, nessun contenuto esterno copiato nelle guide e nessun push o nuovo merge verso main" },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelWorkspace.Checks: 67 PASS", "ModelViewer.UiChecks sintetico: 21 PASS", "ModelViewer.UiChecks reale: 44 PASS"],
+      "evidenze": ["supporto/artefatti/model-viewer/visibility-scale/before-table-fix", "supporto/artefatti/model-viewer/visibility-scale/logic", "supporto/artefatti/model-viewer/visibility-scale/synthetic", "supporto/artefatti/model-viewer/visibility-scale/real"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }
