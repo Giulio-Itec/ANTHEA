@@ -155,6 +155,7 @@ public sealed partial class ModelViewerViewModel
     }
     void InitializeExploration()
     {
+        ApplyMeasurements(null);
         SetClipBoxBounds(false,false);
         visibilityHistory.Clear(); lastVisible = null; PinnedProbes.Clear(); HoverProbe = null;
         CompareCase = Snapshot!.Results.FirstOrDefault()?.Name; CompareComponent = "Myy";
@@ -223,7 +224,7 @@ public sealed partial class ModelViewerViewModel
         return new ModelViewPreset { Name=name, Camera=services.CaptureCamera(), Visible=VisibleElementIds?.ToArray(), Selected=SelectedElementIds.ToArray(),
             Case=SelectedCase, Component=SelectedComponent, Family=SelectedFamily, Axes=SelectedAxes, Mode=SelectedMode, Representation=SelectedRepresentation, ForceUnit=ForceUnit, LengthUnit=LengthUnit, ResultType=SelectedResultType,DisplacementUnit=DisplacementUnit,
             Averaging=SelectedContourValues, Scale=SelectedColorScale, Lower=ColorMinimum, Upper=ColorMaximum, Clip=ClipEnabled, ClipShape=ClipShape,ClipBox=CaptureClipBox().IsValid?CaptureClipBox():null, ClipAxis=ClipAxis, ClipPercent=ClipPercent, ClipReverse=ClipReverse, ClipNodes=ClipNodes,
-            Mesh=ShowMesh, Outlines=ShowOutlines, Opacity=SurfaceOpacity, Palette=SelectedContourPalette, ReversePalette=ReversePalette, Bands=ContourBands, Background=SceneBackground, SelectedNodes=SelectedNodeIds.ToArray(), Appearance=CaptureAppearance() };
+            Mesh=ShowMesh, Outlines=ShowOutlines, Opacity=SurfaceOpacity, Palette=SelectedContourPalette, ReversePalette=ReversePalette, Bands=ContourBands, Background=SceneBackground, SelectedNodes=SelectedNodeIds.ToArray(), Appearance=CaptureAppearance(), Measurements=CaptureMeasurements() };
     }
     [RelayCommand] void RecallView()
     {
@@ -241,6 +242,7 @@ public sealed partial class ModelViewerViewModel
             ClearVisibilityCriteria(); hiddenElements.Clear(); isolatedElements=v.Visible?.ToHashSet(); ApplyVisibility();
             ClipEnabled=v.Clip; ClipAxis=v.ClipAxis; ClipPercent=v.ClipPercent; ClipReverse=v.ClipReverse; ClipNodes=v.ClipNodes;
             ClipShape=v.ClipShape;if(v.ClipBox is {} box)ApplyClipBox(box);
+            ApplyMeasurements(v.Measurements);
             ShowMesh=v.Mesh; ShowOutlines=v.Outlines; SurfaceOpacity=v.Opacity; SelectedContourPalette=v.Palette; ReversePalette=v.ReversePalette; ContourBands=v.Bands;
             ApplyBackgroundCommand.Execute(v.Background); SelectedColorScale=0;
             if(v.Appearance is {} appearance) ApplyAppearance(appearance);

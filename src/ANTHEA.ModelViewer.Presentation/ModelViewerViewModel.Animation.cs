@@ -7,10 +7,11 @@ public sealed partial class ModelViewerViewModel
 {
     public event EventHandler? AnimationStateChanged;
     public event EventHandler? DeformationFrameChanged;
-    public bool CanAnimate => CanDeform && !ClipEnabled && !CompareEnabled && !IsReportRunning && !disposed;
+    public bool CanAnimate => CanDeform && !ClipEnabled && !CompareEnabled && !IsReportRunning && !IsMeasuring && !disposed;
     public string AnimationLabel => IsAnimationPlaying ? "Pausa" : "Riproduci";
     public string DeformationPhaseLabel => $"Fase grafica {DeformationPhase:P0} · fattore ×{EffectiveDeformationScale * DeformationPhase:G5}";
-    public string AnimationHelp => ClipEnabled ? "Per animare disattiva il piano di taglio. La deformata statica resta disponibile."
+    public string AnimationHelp => IsMeasuring ? "Termina la selezione dei nodi della misura prima di animare."
+        : ClipEnabled ? "Per animare disattiva il taglio. La deformata statica resta disponibile."
         : CompareEnabled ? "Per animare chiudi il confronto affiancato."
         : "Interpolazione grafica 0 → 100% → 0, non una storia temporale di analisi. Colori e valori restano quelli del caso; etichette sospese durante la riproduzione.";
     [ObservableProperty] private bool isAnimationPlaying;

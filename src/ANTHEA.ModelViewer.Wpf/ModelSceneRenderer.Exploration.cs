@@ -15,7 +15,8 @@ internal sealed record ExplorationOptions(GraphicPlane? Clip=null,bool Outlines=
     bool AvoidLabels=true,IReadOnlyList<ModelProbe>? Probes=null,bool BeamDiagram=false,double DiagramScale=1,
     IReadOnlyList<GraphicalLoad>? Loads=null,double LoadScale=1,IReadOnlyList<ModelDisplacement>? Displacements=null,double DeformationScale=1,
     bool DiagramAlongY=false,bool DiagramValues=false,bool ShowUndeformed=true,double UndeformedOpacity=.35,bool UndeformedMesh=false,
-    IReadOnlyList<GraphicPlane>? ClipPlanes=null,ModelClipBox? ClipBox=null);
+    IReadOnlyList<GraphicPlane>? ClipPlanes=null,ModelClipBox? ClipBox=null,
+    IReadOnlyList<MeasurementAnnotation>? Measurements=null,IReadOnlyList<int>? MeasurementNodes=null);
 
 internal sealed partial class ModelSceneRenderer
 {
@@ -31,7 +32,18 @@ internal sealed partial class ModelSceneRenderer
         if(polygon.Any(p=>!InFront(p)))return [];
         return clipping?.Polygon(polygon)??polygon;
     }
-    internal Point Project(Vector3 p)=>viewport.Project(new Point3D(p.X,p.Y,p.Z));
+    internal Point Project(Vector3 p)
+    {
+        if(viewport.Camera is not HelixToolkit.Wpf.SharpDX.ProjectionCamera camera)return new(double.NaN,double.NaN);
+        // The render context still contains the preceding frame immediately after a camera/layout change.
+        // Use the current camera so labels, selection and report layout share the same projection.
+        var matrix=camera.CameraInternal.CreateViewMatrix()*camera.CameraInternal.CreateProjectionMatrix((float)(viewport.ActualWidth/Math.Max(1,viewport.ActualHeight)));
+        var projected=Vector4.Transform(new Vector4(p,1),matrix);
+        if(Math.Abs(projected.W)<1e-12)return new(double.NaN,double.NaN);
+        var dpi=VisualTreeHelper.GetDpi(viewport);
+        return new((projected.X/projected.W+1)*viewport.ActualWidth/2-.5/dpi.DpiScaleX,
+            (1-projected.Y/projected.W)*viewport.ActualHeight/2-.5/dpi.DpiScaleY);
+    }
     internal bool InClip(Vector3 p)=>clipping==null||clipping.Contains(p);
     internal bool InFront(Vector3 p)=>viewport.Camera is not HelixToolkit.Wpf.SharpDX.ProjectionCamera c || Vector3D.DotProduct(new Vector3D(p.X-c.Position.X,p.Y-c.Position.Y,p.Z-c.Position.Z),c.LookDirection)>0;
     internal bool LabelFits(Vector3 p)
@@ -67,11 +79,10 @@ internal sealed partial class ModelSceneRenderer
         if(viewport.Camera is not HelixToolkit.Wpf.SharpDX.ProjectionCamera camera)return p;
         var look=camera.LookDirection;look.Normalize();var right=Vector3D.CrossProduct(look,camera.UpDirection);right.Normalize();
         var up=Vector3D.CrossProduct(right,look);up.Normalize();
-        double width=camera is HelixToolkit.Wpf.SharpDX.OrthographicCamera ortho?ortho.Width:
-            2*Vector3D.DotProduct(new Vector3D(p.X-camera.Position.X,p.Y-camera.Position.Y,p.Z-camera.Position.Z),look)*
-            Math.Tan(((HelixToolkit.Wpf.SharpDX.PerspectiveCamera)camera).FieldOfView*Math.PI/360);
-        double factor=width/Math.Max(1,viewport.ActualWidth);
-        return p+new Vector3((float)(right.X*offset.X+up.X*offset.Y),(float)(right.Y*offset.X+up.Y*offset.Y),(float)(right.Z*offset.X+up.Z*offset.Y))*(float)factor;
+        var matrix=camera.CameraInternal.CreateProjectionMatrix((float)(viewport.ActualWidth/Math.Max(1,viewport.ActualHeight)));
+        double depth=camera is HelixToolkit.Wpf.SharpDX.OrthographicCamera?1:Vector3D.DotProduct(new Vector3D(p.X-camera.Position.X,p.Y-camera.Position.Y,p.Z-camera.Position.Z),look);
+        double x=offset.X*2*depth/(matrix.M11*Math.Max(1,viewport.ActualWidth)),y=offset.Y*2*depth/(matrix.M22*Math.Max(1,viewport.ActualHeight));
+        return p+new Vector3((float)(right.X*x+up.X*y),(float)(right.Y*x+up.Y*y),(float)(right.Z*x+up.Z*y));
     }
     internal void Hover(int? id)
     {
@@ -85,6 +96,11 @@ internal sealed partial class ModelSceneRenderer
     {
         var p=model?.Elements.Where(e=>ids.Contains(e.Id)).SelectMany(DisplayPoints).Concat((nodeIds??new HashSet<int>()).Select(n=>points[n])).ToArray();
         if(p==null||p.Length==0)return;
+        FocusPoints(p);
+    }
+    private void FocusPoints(IReadOnlyList<Vector3> p)
+    {
+        if(p.Count==0)return;
         var min=p.Aggregate(Vector3.Min);var max=p.Aggregate(Vector3.Max);var center=(min+max)/2;
         if(viewport.Camera is not HelixToolkit.Wpf.SharpDX.ProjectionCamera camera||CameraState() is not {} state)return;
         // Fit against the actual projection: tall split views have a narrower horizontal field of view.
@@ -111,6 +127,7 @@ internal sealed partial class ModelSceneRenderer
     }
     internal void RestoreCamera(ModelCameraState state)
     {
+        cameraInitialized=true;
         HelixToolkit.Wpf.SharpDX.ProjectionCamera c=state.Orthographic?new HelixToolkit.Wpf.SharpDX.OrthographicCamera { Width=state.Width }:new HelixToolkit.Wpf.SharpDX.PerspectiveCamera { FieldOfView=state.FieldOfView };
         c.Position=new(state.Position[0],state.Position[1],state.Position[2]);c.LookDirection=new(state.Look[0],state.Look[1],state.Look[2]);c.UpDirection=new(state.Up[0],state.Up[1],state.Up[2]);
         c.NearPlaneDistance=.01;c.FarPlaneDistance=Math.Max(10000,extent*10);viewport.Orthographic=state.Orthographic;viewport.Camera=c;
@@ -152,5 +169,6 @@ internal sealed partial class ModelSceneRenderer
         }
         if(settings.BeamDiagram&&options.ShowResults&&options.Family!="PLATE")DrawBeamDiagram(options,settings);
         DrawLoadGraphics(options,settings);
+        if(!preparingAnimation)DrawMeasurements(options,settings);
     }
 }

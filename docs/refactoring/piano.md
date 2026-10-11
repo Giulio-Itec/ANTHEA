@@ -254,4 +254,4 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: pacchetto completo dei 49 casi acquisiti (forze e traslazioni, 123,8 MB), lettura in streaming e limite 256 MiB; impronte delle revisioni identiche al contratto precedente. Apertura nel progetto e rendering verificati. Registro MOD-14.
 - [x] 11 ottobre: diagrammi 2D dell'asta selezionata, sei componenti, cursore comune, campioni distinti dalle interpolazioni, CSV e figure dinamiche di report. Legenda adattiva per viewport ridotti. Registro MOD-15.
 - [x] 11 ottobre: ritaglio a volume XYZ, contorno opzionale, geometria estrusa e deformata statica, selezione e report coerenti; MOD-16.
-- [ ] Sessione grafica successiva: misure fra nodi e navigazione; solo presentazione dei dati importati.
+- [x] 11 ottobre: misure fra nodi (originale/deformata reale), angoli, viste e report; inquadratura rispettosa della camera e del taglio, proiezione immediata corretta. MOD-17.

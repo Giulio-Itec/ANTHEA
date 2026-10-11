@@ -200,6 +200,7 @@
           <StackPanel>
             <TextBlock Text="{Binding FieldTitle}" Foreground="{Binding SceneInk}" FontSize="16" FontWeight="SemiBold" />
             <TextBlock Text="{Binding ResultHeading}" Foreground="{Binding SceneInk}" Opacity="0.85" FontSize="11" Margin="0,4,0,0" TextTrimming="CharacterEllipsis"/>
+            <TextBlock Text="{Binding MeasurementPrompt}" Foreground="{Binding SceneInk}" FontSize="12" FontWeight="SemiBold" Margin="0,6,0,0" Visibility="{Binding IsMeasuring,Converter={StaticResource Visible}}"/>
             <TextBlock Text="{Binding DeformationHeading}" Foreground="{Binding SceneInk}" Opacity="0.85" FontSize="11" Margin="0,4,0,0" Visibility="{Binding ShowDeformation, Converter={StaticResource Visible}}"/>
             <WrapPanel Margin="0,8,0,0" ToolTip="Ctrl aggiunge, Shift sottrae. Rettangolo da sinistra: contenuti; da destra: attraversati. Poligono: doppio clic per chiudere. Esc deseleziona.">
               <WrapPanel.Resources><Style TargetType="Button" BasedOn="{StaticResource Action}"><Setter Property="Foreground" Value="{Binding SceneInk}"/><Setter Property="BorderBrush" Value="#60748A"/></Style></WrapPanel.Resources>

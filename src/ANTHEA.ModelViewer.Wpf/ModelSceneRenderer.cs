@@ -30,6 +30,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
     private readonly HashSet<(int Property,int Node)> plateOutlineCorners = new();
     private double extent = 1;
     private bool disposed;
+    private bool cameraInitialized;
     private SceneOptions? lastOptions;
     private readonly Dictionary<MeshGeometryModel3D, IReadOnlyList<int>> meshElements = new();
     private readonly Dictionary<LineGeometryModel3D, IReadOnlyList<int>> lineElements = new();
@@ -37,6 +38,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
     public void SetModel(ModelSnapshot snapshot)
     {
         model = snapshot;
+        cameraInitialized = false;
         double cx = (snapshot.Nodes.Min(n => n.X) + snapshot.Nodes.Max(n => n.X)) / 2, cy = (snapshot.Nodes.Min(n => n.Y) + snapshot.Nodes.Max(n => n.Y)) / 2, cz = (snapshot.Nodes.Min(n => n.Z) + snapshot.Nodes.Max(n => n.Z)) / 2;
         modelOrigin=new(cx,cy,cz);
         points = snapshot.Nodes.ToDictionary(n => n.Id, n => new Vector3((float)(n.X - cx), (float)(n.Y - cy), (float)(n.Z - cz)));
@@ -276,7 +278,18 @@ internal sealed partial class ModelSceneRenderer : IDisposable
     {
         if (model == null || disposed) return;
         var visiblePoints = model.Elements.Where(e => includeHidden || lastOptions?.Visible is not {} visible || visible.Contains(e.Id)).SelectMany(DisplayPoints).ToArray();
+        if(!includeHidden && clipping!=null)
+        {
+            // Bounds of the rendered model, excluding screen-sized labels and the clipping-box outline.
+            var clippedPoints=meshElements.Where(pair=>pair.Value.Any(id=>id>0)).SelectMany(pair=>pair.Key.Geometry?.Positions??[])
+                .Concat(lineElements.Where(pair=>pair.Value.Any(id=>id>0)).SelectMany(pair=>pair.Key.Geometry?.Positions??[])).ToArray();
+            if(clippedPoints.Length==0)
+                clippedPoints=model.Elements.Where(e=>lastOptions?.Visible is not {} visible || visible.Contains(e.Id)).SelectMany(e=>clipping.Polygon(ElementPoints(e))).ToArray();
+            visiblePoints=clippedPoints;
+        }
         if (visiblePoints.Length == 0) return;
+        if(cameraInitialized){FocusPoints(visiblePoints);return;}
+        cameraInitialized=true;
         var min = visiblePoints.Aggregate(Vector3.Min); var max = visiblePoints.Aggregate(Vector3.Max); var center = (min + max) / 2;
         double radius = Math.Max(.1, (max - min).Length());
         var d = new Vector3D(-1.35, -1.15, .95); d.Normalize(); d *= radius * 1.35;
@@ -287,6 +300,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
     }
     public void SetCameraPreset(string preset)
     {
+        cameraInitialized=true;
         var direction = preset switch
         {
             "front" => new Vector3D(0,1,0), "back" => new Vector3D(0,-1,0),

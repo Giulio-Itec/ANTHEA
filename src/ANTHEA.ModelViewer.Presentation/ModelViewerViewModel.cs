@@ -146,6 +146,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         PauseAnimation();
         var result = Snapshot.Results.FirstOrDefault(r => r.Name == SelectedCase);
         UpdateDeformations();
+        UpdateMeasurements();
         UpdateResultField();
         UpdateMemberDiagram();
         UpdateLoadGraphics();

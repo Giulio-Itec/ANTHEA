@@ -35,6 +35,8 @@ public sealed record ModelViewPreset
     public int ClipShape { get; init; }
     [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public ModelClipBox? ClipBox { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public ModelMeasurementSettings? Measurements { get; init; }
     public int ClipAxis { get; init; }
     public double ClipPercent { get; init; } = 50;
     public bool ClipReverse { get; init; }
@@ -140,6 +142,7 @@ public sealed class ModelViewPresetStore(string directory)
             throw new InvalidDataException("Viste salvate non valide.");
         foreach (var v in views)
         {
+            ModelMeasurements.Validate(v.Measurements);
             if(v.ClipShape is <0 or >1 || v.ClipShape==1 && v.ClipBox==null || v.ClipBox is {IsValid:false})
                 throw new InvalidDataException("Volume di taglio non valido: usa intervalli X, Y e Z crescenti.");
             if (v.Selected == null || v.Selected.Length > 500000 || v.Visible?.Length > 500000 || v.Selected.Any(i => i <= 0) || v.Visible?.Any(i => i <= 0) == true ||

@@ -38,7 +38,7 @@ public partial class ModelViewerControl
     {
         labelRefresh.Stop();
         if(disposed || renderer==null || viewModel.IsAnimationPlaying)return;
-        if(viewModel.ShowNodeIds||viewModel.ShowElementIds||viewModel.ShowPropertyIds||viewModel.ShowExtrema||viewModel.PinnedProbes.Count>0)
+        if(viewModel.ShowNodeIds||viewModel.ShowElementIds||viewModel.ShowPropertyIds||viewModel.ShowExtrema||viewModel.PinnedProbes.Count>0||viewModel.MeasurementAnnotations.Count>0)
         { renderer.Render(Options(viewModel));if(comparisonRenderer!=null && viewModel.Comparison is {} state)comparisonRenderer.Render(Options(state)); }
     }
     private void RememberWheelCamera(object sender,MouseWheelEventArgs e)=>previousCamera=renderer?.CameraState();
@@ -63,6 +63,13 @@ public partial class ModelViewerControl
         if(e.ChangedButton==MouseButton.Right||e.ChangedButton==MouseButton.Middle) { previousCamera=renderer?.CameraState();return; }
         if(e.ChangedButton!=MouseButton.Left)return;
         var point=e.GetPosition(Viewport);Viewport.Focus();
+        if(viewModel.IsMeasuring)
+        {
+            CancelSelectionDrawing();
+            if(NodeNear(point) is int node)viewModel.AddMeasurementNode(node);
+            else viewModel.MeasurementMessage="Avvicinati a un nodo visibile oppure inserisci gli ID nella scheda Vista.";
+            e.Handled=true;return;
+        }
         if(viewModel.SelectionTool==1) { dragStart=point;Viewport.CaptureMouse();e.Handled=true; }
         else if(viewModel.SelectionTool==2)
         {
@@ -72,12 +79,16 @@ public partial class ModelViewerControl
         }
         else if(viewModel.SelectionTarget==1&&renderer!=null&&viewModel.Snapshot!=null)
         {
-            var nodes=viewModel.Snapshot.Elements.Where(x=>viewModel.VisibleElementIds==null||viewModel.VisibleElementIds.Contains(x.Id)).SelectMany(x=>x.Nodes).Distinct();
-            var hit=nodes.Where(n=>renderer.InClip(renderer.PointForNode(n))&&renderer.InFront(renderer.PointForNode(n)))
-                .Select(n=>(Id:n,Distance:(renderer.Project(renderer.PointForNode(n))-point).Length)).Where(n=>n.Distance<12).OrderBy(n=>n.Distance).FirstOrDefault();
-            if(hit.Id>0)viewModel.SelectNodes([hit.Id],Keyboard.Modifiers.HasFlag(ModifierKeys.Control),Keyboard.Modifiers.HasFlag(ModifierKeys.Shift));
+            if(NodeNear(point) is int node)viewModel.SelectNodes([node],Keyboard.Modifiers.HasFlag(ModifierKeys.Control),Keyboard.Modifiers.HasFlag(ModifierKeys.Shift));
             e.Handled=true;
         }
+    }
+    private int? NodeNear(Point point)
+    {
+        if(renderer==null||viewModel.Snapshot==null)return null;
+        var nodes=viewModel.Snapshot.Elements.Where(x=>viewModel.VisibleElementIds==null||viewModel.VisibleElementIds.Contains(x.Id)).SelectMany(x=>x.Nodes).Distinct();
+        return nodes.Where(n=>renderer.InClip(renderer.PointForNode(n))&&renderer.InFront(renderer.PointForNode(n)))
+            .Select(n=>(Id:n,Distance:(renderer.Project(renderer.PointForNode(n))-point).Length)).Where(n=>n.Distance<12).OrderBy(n=>n.Distance).Select(n=>(int?)n.Id).FirstOrDefault();
     }
     private void InputMove(object sender,MouseEventArgs e)
     {

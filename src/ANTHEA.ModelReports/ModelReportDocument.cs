@@ -84,6 +84,13 @@ public static class ModelReportFiles
         foreach (var block in document.Blocks.Where(b => b.Included && b.Kind == ReportBlockKind.Figure))
         {
             var view = block.View!;
+            if(view.Measurements is {Visible:true} measure)
+            {
+                if(measure.Items.SelectMany(m=>m.Nodes).Any(id=>!nodes.Contains(id)))
+                    throw new InvalidDataException($"«{block.Title}»: un nodo delle misure non esiste più.");
+                if(measure.Items.Any(m=>!ModelMeasurements.Read(snapshot,m,measure.Basis,view.Case).Available))
+                    throw new InvalidDataException($"«{block.Title}»: una misura non è disponibile con i nodi e il caso salvati.");
+            }
             if(block.MemberDiagram is {} member && !snapshot.Elements.Any(e=>e.Id==member.Element && ElementFamilies.IsLine(e.Type)))
                 throw new InvalidDataException($"«{block.Title}»: asta {member.Element} non disponibile.");
             if ((view.Visible ?? []).Concat(view.Selected).Any(id => !elements.Contains(id)) || view.SelectedNodes.Any(id => !nodes.Contains(id)))

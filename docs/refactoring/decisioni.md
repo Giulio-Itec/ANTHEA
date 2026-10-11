@@ -647,3 +647,16 @@ nascoste per baricentro; ID e coordinate del colore rimangono associati alla geo
 faccia di chiusura o distribuzione nello spessore viene inventata. Il contorno si può spegnere.
 La scala del campo resta riferita ai campioni degli elementi attivi, anche fuori dal taglio,
 con indicazione nella vista e nel report. Deformata statica ammessa, animazione sospesa. MOD-16.
+
+## Misure e camera (11 ottobre 2026)
+
+Le operazioni distanza/angolo sono delegate a GPC.Geometry già distribuita; ModelWorkspace
+adatta i punti importati e le traslazioni relative, senza nuove formule geometriche in WPF
+o Presentation. Nessuna DLL viene aggiornata. Le misure reali non dipendono dalla scala
+grafica e richiedono dati simultanei completi. Invilluppi e riferimenti mancanti restano
+indisponibili; il report rifiuta riferimenti invalidi. Il disegno segue la forma visualizzata
+con una base della misura sempre esplicita. Esc termina lo strumento e deseleziona.
+
+Inquadra mantiene orientamento e tipo di proiezione dopo la prima apertura; sul taglio usa
+i limiti grafici attivi. Proiezione di etichette e selezione dalla camera corrente, non dal
+contesto GPU del fotogramma precedente. MOD-17.

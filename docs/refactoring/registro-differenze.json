@@ -1404,6 +1404,44 @@
         "supporto/artefatti/ci/20261011-183744-volume-taglio-logica"
       ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-17",
+      "titolo": "Misure nodali, annotazioni e inquadratura coerente",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Distanze e angoli fra nodi, scelta grafica o ID, componenti globali, misure su originale o deformata reale. Stato MVVM, annotazioni disattivabili, viste e report. Inquadra conserva orientamento e proiezione e considera la geometria ritagliata.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelMeasurements.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Measurements.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Measurements.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Exploration.cs"
+      ],
+      "segno": "Operazioni geometriche delegate alle DLL GPC esistenti, senza aggiornarle. Nessuna misura sulla deformata amplificata né ricostruzione dagli inviluppi. Corretta la proiezione grafica obsoleta delle annotazioni subito dopo un cambio camera.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "aggiungere funzioni utili dal confronto con RFEM e MIDAS NX, mantenendo MVVM",
+        "esito": "misure salvabili e rigenerabili; importati e librerie invariati"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "ModelWorkspace.Checks: 263 PASS, attesi 3-4-5, 5-12-13 e 90 gradi",
+        "WPF misure reali e report: 14 PASS",
+        "Regressione esplorazione: 33 PASS",
+        "Inquadratura con taglio: 19 PASS",
+        "PDF di tre pagine controllato a video"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/measurements/real",
+        "supporto/artefatti/model-viewer/measurements/final",
+        "supporto/artefatti/model-viewer/measurements/regression",
+        "supporto/artefatti/model-viewer/navigation-fit",
+        "supporto/artefatti/ci/20261011-185015-modelli-misure-logica"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

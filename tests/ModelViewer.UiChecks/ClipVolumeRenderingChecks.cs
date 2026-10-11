@@ -35,6 +35,20 @@ static partial class Program
         Check(viewport.Items.OfType<MeshGeometryModel3D>().SelectMany(m=>m.Geometry?.Positions??[]).All(renderer.InClip),"every rendered surface vertex lies inside all active clipping planes");
         bool Outline()=>viewport.Items.OfType<LineGeometryModel3D>().Any(l=>l.Color==System.Windows.Media.Color.FromArgb(170,104,203,220) && l.Geometry?.Positions?.Count==24 && !l.IsHitTestVisible);
         Check(Outline(),"volume boundary is a twelve-edge non-pickable outline");
+        var camera=renderer.CameraState()!;
+        renderer.RestoreCamera(camera with {Position=[3,4,105],Look=[0,0,-100],Up=[0,1,0],Orthographic=true});
+        var freshProjection=renderer.Project(new(3,4,5));
+        Check(Math.Abs(freshProjection.X-viewport.ActualWidth/2)<1 && Math.Abs(freshProjection.Y-viewport.ActualHeight/2)<1,"label and picking projection uses the current camera before a new GPU frame exists");
+        renderer.Fit();
+        var fitted=renderer.CameraState()!;
+        Check(fitted.Orthographic && fitted.Look[0]==0 && fitted.Look[1]==0 && fitted.Look[2]<0 && fitted.Up.SequenceEqual(new double[]{0,1,0}),"fit preserves the orthographic top view and its up direction");
+        var renderedPoints=viewport.Items.OfType<MeshGeometryModel3D>().SelectMany(m=>m.Geometry?.Positions??[]).ToArray();
+        var renderedCenter=(renderedPoints.Aggregate(Vector3.Min)+renderedPoints.Aggregate(Vector3.Max))/2;
+        Check(Math.Abs(fitted.Position[0]+fitted.Look[0]-renderedCenter.X)<1e-4 && Math.Abs(fitted.Position[1]+fitted.Look[1]-renderedCenter.Y)<1e-4,"fit centers the clipped model without including the full box outline");
+        renderer.RestoreCamera(camera with {Position=[0,-100,0],Look=[0,100,0],Up=[0,0,1],Orthographic=false});renderer.Fit();
+        fitted=renderer.CameraState()!;
+        Check(!fitted.Orthographic && fitted.Look[0]==0 && fitted.Look[2]==0 && fitted.Look[1]>0,"fit preserves the perspective front view");
+        renderer.RestoreCamera(camera);Wait(100);
         var bound=state.ActiveClipBox!;SetAppearance("VeryDark");Wait(100);Capture(control,viewport,Path.Combine(output,"spalla-volume-taglio.png"));
         state.ShowClipBox=false;Wait(100);Check(!Outline() && state.ActiveClipPlanes.Count==6,"hiding the box outline leaves the clipping active");
         if(state.Snapshot.Results.Any(r=>r.Displacements?.Length>0))

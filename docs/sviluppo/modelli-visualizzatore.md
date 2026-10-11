@@ -616,3 +616,17 @@ grafica. Contorno indipendente; deformate statiche supportate. Non si ricostruis
 o risultati mancanti sul taglio. Scala del campo esplicitamente conservata. Viste, confronto
 e report salvano il volume. 16 controlli WPF dedicati, 33 di regressione esplorazione;
 PDF di due pagine controllato in `clip-volume/real`. Sorgente e impronta del modello invariati.
+
+### Misure nodali e navigazione (MOD-17)
+
+Riferimento funzionale: [RFEM, Measuring](https://www.dlubal.com/en/downloads-and-information/documents/online-manuals/rfem-6/003183).
+Distanza fra due nodi, componenti globali e angolo con vertice nel secondo di tre nodi.
+Scelta grafica o ID, venti annotazioni al massimo, interruttore globale e rimozione singola.
+Base originale oppure deformata reale del caso selezionato, unità m/cm/mm; valori indipendenti
+dalla scala e fase grafiche. Viste e report conservano definizioni e base. GPC.Geometry
+esistente esegue distanza e angolo attraverso un adattatore senza WPF; nessuna libreria aggiornata.
+
+Inquadra preserva vista e proiezione e centra il modello tagliato. Risolta anche una proiezione
+obsoleta subito dopo il cambio camera, che poteva sovrapporre annotazioni nel primo fotogramma
+e nel PDF. Attesi indipendenti 3-4-5, 5-12-13, 90 gradi; 263 controlli logici, 14 WPF/report
+reali e 33 di regressione esplorazione. Tre pagine PDF controllate, evidenza `measurements/final`.

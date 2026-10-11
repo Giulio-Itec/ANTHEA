@@ -34,6 +34,7 @@
     </StackPanel>
     <TextBlock Text="{Binding ClipDescription}" FontSize="10" TextWrapping="Wrap" Opacity=".7"/>
     </StackPanel></Expander>
+    <Expander Header="Misure fra nodi" Margin="0,8"><local:ModelMeasurementsView Margin="0,8"/></Expander>
     <Expander Header="Viste salvate" Margin="0,8"><StackPanel Margin="0,8">
     <TextBox Text="{Binding ViewName, UpdateSourceTrigger=PropertyChanged}" ToolTip="Nome della vista"/>
     <Button Content="Salva camera, campo e visibilità" Command="{Binding SaveViewCommand}" Margin="0,6,0,0"/>

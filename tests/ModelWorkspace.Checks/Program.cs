@@ -87,6 +87,7 @@ static partial class Program
             RepresentationChecks(output);
             MemberDiagramChecks();
             ClipVolumeChecks();
+            MeasurementChecks();
 
             if (args.Length > 1)
             {

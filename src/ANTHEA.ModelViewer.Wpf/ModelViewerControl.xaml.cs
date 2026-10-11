@@ -44,6 +44,7 @@ public partial class ModelViewerControl : UserControl, IDisposable
         if(e.Key==Key.P&&Keyboard.FocusedElement is not TextBox) {viewModel.PinProbeCommand.Execute(null);e.Handled=true;return;}
         if (e.Key != Key.Escape) return;
         CancelSelectionDrawing();
+        viewModel.CancelMeasurementCommand.Execute(null);
         viewModel.ClearSelectionCommand.Execute(null); viewModel.ShowViewSettings = false; e.Handled = true;
     }
     private void ViewSettingsChanged(object? sender, EventArgs e) => ApplyViewSettings();
@@ -79,6 +80,7 @@ public partial class ModelViewerControl : UserControl, IDisposable
     private void SceneMouseDown(object? sender, RoutedEventArgs args)
     {
         Viewport.Focus();
+        if(viewModel.IsMeasuring)return;
         if (viewModel.SelectionTool==0&&viewModel.SelectionTarget!=1&&args is MouseDown3DEventArgs e && e.OriginalInputEventArgs is MouseButtonEventArgs mouse && mouse.ChangedButton == MouseButton.Left && renderer?.ElementAt(e.HitTestResult) is int id)
             viewModel.SelectElements([id], Keyboard.Modifiers.HasFlag(ModifierKeys.Control),Keyboard.Modifiers.HasFlag(ModifierKeys.Shift));
     }
