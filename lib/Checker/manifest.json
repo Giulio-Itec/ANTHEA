@@ -1,9 +1,9 @@
 {
-    "snapshotDate":  "2026-10-11",
+    "snapshotDate":  "2026-10-12",
     "generator":  "tools/libs/Update-Snapshot.ps1 -ReleaseSet",
-    "releaseSet":  "C:\\Users\\g.pacini\\AppData\\Local\\Temp\\gpc-rev\\risultati\\set-d8",
-    "releaseSetCreated":  "2026-10-11T19:21:14",
-    "candidate":  true,
+    "releaseSet":  "C:\\Users\\g.pacini\\AppData\\Local\\Temp\\gpc-rev\\risultati\\set-rel",
+    "releaseSetCreated":  "2026-10-12T00:11:48",
+    "candidate":  false,
     "targetFramework":  "netstandard2.0",
     "nuget":  [
                   {
@@ -18,9 +18,9 @@
                            "assemblyVersion":  "3.0.0.0",
                            "sha256":  "92031B381F9AA426A5F88B48762C72DB89724F784670FFDA8802203FC52A05E5",
                            "repository":  "Utilities",
-                           "branch":  "claude/revisione-architettura",
+                           "branch":  "HEAD",
                            "commit":  "503e28c0de1407c090de22f6df4eb30a23b4bba0",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.318"
                        },
                        {
@@ -29,9 +29,9 @@
                            "assemblyVersion":  "2.3.0.0",
                            "sha256":  "7EF76EDFB4C3736AAE7B6F66B2F3CE30A8BB8DE031C492B03BD52289D6E9D29E",
                            "repository":  "Geometry",
-                           "branch":  "claude/revisione-architettura",
+                           "branch":  "HEAD",
                            "commit":  "1f40436c973fa9eefd430c049db93b9b2651324a",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.318"
                        },
                        {
@@ -40,9 +40,9 @@
                            "assemblyVersion":  "2.0.0.14",
                            "sha256":  "D18BB08255D23239271C197130515758767291F75CE1A9996F1A92DB55F114BB",
                            "repository":  "Geometry",
-                           "branch":  "claude/revisione-architettura",
+                           "branch":  "HEAD",
                            "commit":  "1f40436c973fa9eefd430c049db93b9b2651324a",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.318"
                        },
                        {
@@ -51,9 +51,9 @@
                            "assemblyVersion":  "5.0.0.0",
                            "sha256":  "FB4490990AF0A3B2C5FDD6C85752F8E1C10BC21C197CE79920B1FAA8BDE979CA",
                            "repository":  "Model",
-                           "branch":  "claude/revisione-architettura",
+                           "branch":  "HEAD",
                            "commit":  "d39fbe93bd5b1f138aa75f9e728aef3725cfbf90",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.318"
                        },
                        {
@@ -62,9 +62,9 @@
                            "assemblyVersion":  "0.0.2.7",
                            "sha256":  "F0DE9894B6856714CF7172C36DEBCF5A53498E129DD3EAB0AF3710C63A8B581A",
                            "repository":  "Model",
-                           "branch":  "claude/revisione-architettura",
+                           "branch":  "HEAD",
                            "commit":  "d39fbe93bd5b1f138aa75f9e728aef3725cfbf90",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.318"
                        },
                        {
@@ -73,9 +73,9 @@
                            "assemblyVersion":  "3.0.0.0",
                            "sha256":  "EC51FA19A2AAF1257EB7B691B3DE71E7BAE17A8C9636FD34EF7111255E6819E4",
                            "repository":  "Model",
-                           "branch":  "claude/revisione-architettura",
+                           "branch":  "HEAD",
                            "commit":  "d39fbe93bd5b1f138aa75f9e728aef3725cfbf90",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.318"
                        },
                        {
@@ -84,9 +84,9 @@
                            "assemblyVersion":  "0.0.27.0",
                            "sha256":  "EFF1F6F9176F6894B686BC560DEFB8F0F51714E3C3855C9050DCBB6CE86003EC",
                            "repository":  "Checker",
-                           "branch":  "claude/revisione-architettura",
+                           "branch":  "HEAD",
                            "commit":  "14ba711640bc1103d6889a8f502db66b70c60630",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.318"
                        },
                        {
@@ -95,9 +95,9 @@
                            "assemblyVersion":  "0.1.1.6",
                            "sha256":  "F5E954B9632389FF1469C822C9776B20A8689ADB71B9EFD8D5C3C3B10FC9BBAC",
                            "repository":  "Checker",
-                           "branch":  "claude/revisione-architettura",
+                           "branch":  "HEAD",
                            "commit":  "14ba711640bc1103d6889a8f502db66b70c60630",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.318"
                        },
                        {
@@ -106,9 +106,9 @@
                            "assemblyVersion":  "1.5.0.0",
                            "sha256":  "CA807E5542D964DD293F70B49C579B4FED8C62BA981A2CBC2084C2AA2429A7DC",
                            "repository":  "Checker",
-                           "branch":  "claude/revisione-architettura",
+                           "branch":  "HEAD",
                            "commit":  "14ba711640bc1103d6889a8f502db66b70c60630",
-                           "pushed":  false,
+                           "pushed":  true,
                            "sdk":  "9.0.318"
                        }
                    ]
