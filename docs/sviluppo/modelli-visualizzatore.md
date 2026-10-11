@@ -42,7 +42,8 @@ con manifest e DLL invariati rispetto al rilascio; il Converter sperimentale non
 - Verifiche: riferimento versionato ai fogli e abbozzo della configurazione futura. Non esegue verifiche.
 - Geometria, volumi con offset, risultati; selezione dalla scena tramite ray picking, Ctrl per aggiungere/rimuovere.
 - Isola, nascondi, mostra selezione, mostra tutto e inverti visibilità. Il wireframe degli oggetti nascosti
-  è soltanto contesto: non contribuisce a selezione, risultati o scala. Inquadratura con inclusione dei nascosti opzionale.
+  è soltanto contesto e non è selezionabile. L'interruttore wireframe non cambia risultati o scala;
+  la media ai vertici, quando attiva, usa il vicinato del modello intero. Inquadratura con inclusione dei nascosti opzionale.
 - Filtri per famiglia, materiale, sezione, spessore e gruppo, combinabili per intersezione o unione.
   Gli insiemi vuoti restano vuoti. I comandi espliciti di isolamento/inversione sostituiscono i criteri attivi;
   scena e tabelle seguono la stessa visibilità. «Mostra tutto» azzera filtri e nascondimenti.
@@ -56,7 +57,8 @@ con manifest e DLL invariati rispetto al rilascio; il Converter sperimentale non
 - Preview proporzionata della sezione rettangolare, proprietà ridimensionabili, tema chiaro e scuro.
 - Tabelle dei dati salvati: nodi, elementi, sezioni, spessori/offset, vincoli, risultato corrente e attributi.
   Tipi numerici ordinabili, ricerca, filtri di visibilità/selezione, riga collegata alla scena, copia Ctrl+C e CSV.
-  Il risultato corrente usa esattamente campo, campioni e unità della vista; non media nodi condivisi.
+  Il risultato corrente usa lo stesso caso, componente e unità della vista, conservando sempre i campioni
+  originali per elemento, anche quando la grafica usa la media ai vertici.
   CSV con separatore punto e virgola, decimale invariant, valori numerici integri e testi protetti da formule.
   Disattivando sia Visibili sia Selezionati, sezioni e spessori includono anche le definizioni non assegnate.
 - Esportazione PNG del controllo completo, comprendente scena Direct3D, titolo, legenda e opzioni.
@@ -79,10 +81,34 @@ Per cavi e formulazioni speciali la connettività non rappresenta la forma di eq
 Offset di estremità, profili generici/variabili e assi mancanti richiedono il completamento del ponte GPC.
 Le facce interne coincidenti di plate coplanari della stessa proprietà sono omesse solo quando entrambe visibili.
 
-Contouring: valori distinti per elemento, interpolazione bilineare dei quad e lineare dei triangoli,
-qualità 1/4/8 suddivisioni, palette continua, isolinee. Nessuna media tra elementi. La suddivisione è grafica,
+Contouring: scelta fra valori distinti per elemento (predefinita) e media ai vertici condivisi delle plate;
+interpolazione bilineare dei quad e lineare dei triangoli, qualità 1/4/8 suddivisioni, palette continua,
+isolinee alimentate dallo stesso campo grafico. La suddivisione è grafica,
 non accresce l'accuratezza del solutore. Beam: segmenti colorati tra campioni importati, senza inventare valori
 interni oltre la rappresentazione lineare; la scelta di una stazione colora l'asta con quel campione.
+
+La media è aritmetica, con uguale peso per ogni elemento adiacente con tutti i campioni ai vertici disponibili.
+Si condivide solo l'ID nodale, senza saldare nodi coincidenti distinti, e si separano proprietà (anche spessori/offset)
+e materiali acquisiti. Le terne locali importate devono coincidere entro 1e-6 per componente cartesiana:
+non si ruotano tensori né si scambiano assi, anche quando le componenti selezionate sono principali importate.
+Senza terna il contributo resta originale; una plate con campioni incompleti resta senza contour e non influenza
+le adiacenti. Se il materiale non è importato non si può distinguere il confine materiale: restano le altre separazioni.
+Il vicinato include gli elementi nascosti, quindi a scala fissa isolare o nascondere non modifica i colori rimanenti.
+La legenda indica «MEDIA AI VERTICI» e le quattro modalità di scala usano il campo effettivamente disegnato;
+il pannello distingue l'intervallo grafico da quello dei dati importati. Tabelle, query, CSV, riferimenti e snapshot
+restano originali. Negli inviluppi la media degli estremi è solo grafica e non acquisisce simultaneità.
+Il servizio di presentazione senza WPF conserva una sola cache di campo mediato; la sostituzione del modello
+invalida campo e vicinato. Non vengono aggiunti calcoli ingegneristici o modifiche alle librerie GPC.
+
+Collaudo MOD-08: 129 controlli di logica e 74 WPF sul modello reale. Attesi manuali sui nodi condivisi,
+triangoli/quad, proprietà, materiali, terne e dati incompleti; nel buffer GPU due campi costanti 10 e 30
+condividono l'intero bordo al valore 20 (UV 0,5). Copia della spalla: 3.531 vertici mediati e 8.244 contributi
+modificati per Myy su 13.718; prima attivazione 53,51 ms per preparazione sincrona del campo e della scena,
+esclusi completamento GPU e acquisizione. Le immagini prima/dopo usano la stessa camera e scala.
+Evidenze in `supporto/artefatti/model-viewer/nodal-averaging`. La preview accetta `--averaged` per partire
+con questa opzione, sempre modificabile dalla scheda Sollecitazioni o dalle impostazioni vista.
+Runner unico: quick `20261011-111122-modelli-media-vertici`, 27 PASS e nessun nuovo fallimento;
+suite WPF sintetica `20261011-111314-modelli-media-vertici-wpf`, 32 controlli superati senza errori di binding.
 
 Scale dei colori: automatica sui visibili, globale sul caso/componente/stazione, simmetrica rispetto a zero,
 oppure manuale. La scala globale permette di confrontare sottoinsiemi senza ricolorare lo stesso valore.

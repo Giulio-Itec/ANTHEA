@@ -79,6 +79,7 @@ static partial class Program
             await VerificationProgressChecks();
             await ImportFailureChecks();
             ViewSettingsAndRevisionChecks();
+            await ContourAveragingChecks();
 
             if (args.Length > 1)
             {

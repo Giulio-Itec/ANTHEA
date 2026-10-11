@@ -93,7 +93,7 @@ public partial class ModelViewerControl : UserControl, IDisposable
             {
                 renderer.SetModel(viewModel.Snapshot); renderedSnapshot = viewModel.Snapshot;
             }
-            var statistics = renderer.Render(new(viewModel.SelectedMode, viewModel.ActiveValues, viewModel.Family,
+            var statistics = renderer.Render(new(viewModel.SelectedMode, viewModel.ContourValues, viewModel.Family,
                 viewModel.Subdivisions, viewModel.ShowMesh, viewModel.ShowIsolines, viewModel.VisibleElementIds, viewModel.SelectedElementIds, viewModel.ShowLocalAxes,
                 viewModel.ShowRestraints, viewModel.ShowConstraints, viewModel.ShowLinks, viewModel.ShowReleases, viewModel.ShowContext,
                 new(viewModel.ElementColors, viewModel.SelectedSurfaceMode, viewModel.ShowHiddenWireframe, viewModel.ShowNodeIds,

@@ -1155,6 +1155,23 @@
       "test": ["attesi manuali indipendenti del prototipo PASS", "5408 confronti sul campione PASS", "109744 confronti sulla combinazione completa plate PASS", "quick: 27 PASS, 0 nuovi fallimenti"],
       "evidenze": ["supporto/artefatti/model-viewer/base-case-benchmark/run-01/source", "supporto/artefatti/model-viewer/base-case-benchmark/full-01", "supporto/artefatti/model-viewer/base-case-benchmark/full-combination-validation"],
       "documento": "docs/sviluppo/modelli-benchmark-casi-base.md"
+    },
+    {
+      "id": "MOD-08",
+      "titolo": "Contouring opzionale con media ai vertici condivisi",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Media aritmetica esclusivamente grafica dei contributi nodali delle plate complete. Proprietà, materiali importati e terne locali compatibili delimitano il vicinato. Visibilità indipendente dalla media; legenda e isolinee seguono il campo visualizzato, mentre tabelle, query, CSV, riferimenti e snapshot conservano gli originali. Stato e servizio senza WPF nella presentazione; nessuna modifica al motore o alle DLL GPC.",
+      "codice": ["src/ANTHEA.ModelViewer.Presentation/PlateContourAverager.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Contouring.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ColorScale.cs", "src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.xaml", "tests/ModelWorkspace.Checks/ContourAveragingChecks.cs", "tests/ModelViewer.UiChecks/ContourRenderingChecks.cs"],
+      "segno": "modifica intenzionale e reversibile della sola rappresentazione grafica; dati ingegneristici invariati",
+      "effetto_quantificato": { "sintesi": "Attesi manuali: (20-200)/2=-90 e (30-30)/2=0, anche con aree diverse. GPU: campi 10 e 30 condividono il bordo al valore 20 (UV 0,5). Spalla reale: 3531 vertici mediati, 8244 contributi modificati su 13718; minimo Myy grafico da -563,353972 a -496,819197, massimo 1832,324824 invariato. Prima attivazione: 53,51 ms di preparazione sincrona, esclusi completamento GPU e acquisizione." },
+      "decisione": { "data": "2026-10-11", "utente": "aggiungere la possibilità di avere il contouring con i punti mediati sui vertici", "esito": "opzione MVVM nel branch separato, controllo delle discontinuità, prove e finestra interattiva; nessun push o merge su main" },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelWorkspace.Checks: 129 PASS", "ModelViewer.UiChecks reale: 74 PASS, nessun errore di binding", "ModelViewer.UiChecks sintetico: 32 PASS", "quick: 27 PASS, nessun nuovo fallimento"],
+      "evidenze": ["supporto/artefatti/model-viewer/nodal-averaging/logic", "supporto/artefatti/model-viewer/nodal-averaging/real", "supporto/artefatti/ci/20261011-111122-modelli-media-vertici", "supporto/artefatti/ci/20261011-111314-modelli-media-vertici-wpf"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

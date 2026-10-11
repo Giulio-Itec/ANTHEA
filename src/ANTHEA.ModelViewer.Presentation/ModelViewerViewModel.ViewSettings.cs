@@ -68,6 +68,7 @@ public sealed partial class ModelViewerViewModel
         SceneBackground = BackgroundInput = "#131D2B"; RotationSensitivity = .5; PanSensitivity = .75; ZoomSensitivity = .7;
         SelectedRotationMode = 0; CameraInertia = RotateAroundPointer = IsOrthographic = false; SelectedAntialiasing = 2;
         SelectedLighting = 1; SelectedContourPalette = 0; IsolineCount = 8; IsolineWidth = .5; ShowIsolines = false;
+        SelectedContourValues = 0;
         ViewSettingsMessage = "";
     }
 }

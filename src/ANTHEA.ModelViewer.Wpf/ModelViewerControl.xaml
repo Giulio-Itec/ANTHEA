@@ -194,6 +194,7 @@
               </Grid>
               <TextBlock Text="{Binding ResultUnit}" FontSize="15" FontWeight="SemiBold" Margin="0,9,0,0" />
               <TextBlock Text="03 / CONTOURING" Style="{StaticResource Caption}" />
+              <ComboBox ItemsSource="{Binding ContourValueModes}" SelectedIndex="{Binding SelectedContourValues}" IsEnabled="{Binding CanAverageContours}" ToolTip="{Binding ContourAveragingHelp}" AutomationProperties.Name="Valori del contouring" Margin="0,0,0,7" />
               <ComboBox ItemsSource="{Binding QualityLabels}" SelectedIndex="{Binding SelectedQuality}" AutomationProperties.Name="Qualità del contouring" />
               <CheckBox Content="Altri elementi in contesto" IsChecked="{Binding ShowContext}" />
               <CheckBox Content="Isolinee" IsChecked="{Binding ShowIsolines}" />
@@ -292,6 +293,7 @@
               </Grid>
               <TextBlock Text="{Binding ColorMinimumLabel}" Foreground="{Binding SceneInk}" FontSize="11" Margin="0,8,0,0" />
               <TextBlock Text="{Binding ResultUnit}" Foreground="{Binding SceneInk}" FontSize="10" TextWrapping="Wrap" Margin="0,12,0,0" />
+              <TextBlock Text="{Binding ContourValueLabel}" Foreground="{Binding SceneInk}" FontSize="9" TextWrapping="Wrap" Margin="0,7,0,0" />
             </StackPanel>
           </Border>
           <Border Grid.Column="1" Padding="10,18" Width="180" Visibility="{Binding HasColorLegend, Converter={StaticResource Visible}}">

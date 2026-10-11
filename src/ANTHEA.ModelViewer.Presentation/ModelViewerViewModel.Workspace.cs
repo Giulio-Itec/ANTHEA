@@ -32,7 +32,7 @@ public sealed partial class ModelViewerViewModel
     public double SectionHeight { get; private set; }
     public string SectionSize { get; private set; } = "";
     public string FieldTitle => IsResultsView ? $"{Family} · {SelectedComponent} · {AxesLabels[Math.Clamp(SelectedAxes, 0, 1)]}" : ModeLabels[SelectedMode];
-    public string SampleLocation => SelectedFamily == 0 ? "Nodi dell’elemento · valori non mediati" : BeamLocations[Math.Clamp(SelectedBeamLocation, 0, 5)] + " · campioni importati";
+    public string SampleLocation => SelectedFamily == 0 ? IsAveragedContour ? "Nodi condivisi · media grafica" : "Nodi dell’elemento · valori non mediati" : BeamLocations[Math.Clamp(SelectedBeamLocation, 0, 5)] + " · campioni importati";
     public string SelectionCount => HasSelection ? $"{SelectedElementIds.Count:N0} elementi selezionati" : "Nessuna selezione";
     public string VisibilitySummary => Snapshot == null ? "Nessun modello" : $"{(VisibleElementIds?.Count ?? Snapshot.Elements.Length):N0} / {Snapshot.Elements.Length:N0} elementi visibili";
     public string ResultKind => Snapshot?.Results.FirstOrDefault(r => r.Name == SelectedCase)?.IsEnvelope == true ? "INVILUPPO IMPORTATO" : "CASO / COMBINAZIONE";
@@ -107,6 +107,7 @@ public sealed partial class ModelViewerViewModel
     void InitializeWorkspace()
     {
         fields.Clear(); hiddenElements.Clear(); isolatedElements = null; VisibleElementIds = null; SelectedElementIds = new HashSet<int>();
+        contourAverager = null; averagedSource = null; averagedField = null;
         tableState = null;
         ResetColorScale();
         allTree = ModelTreeBuilder.Build(Snapshot!); Tree = allTree; SearchText = "";
@@ -134,16 +135,19 @@ public sealed partial class ModelViewerViewModel
         string unit = SelectedFamily == 0 ? moment ? $"{ForceUnit}·{LengthUnit}/{LengthUnit}" : $"{ForceUnit}/{LengthUnit}" : moment ? $"{ForceUnit}·{LengthUnit}" : ForceUnit;
         var atStation = raw.Where(v => SelectedFamily == 0 || SelectedBeamLocation == 0 || v.Station == (SelectedBeamLocation - 1) / 4.0).ToArray();
         ActiveValues = atStation.Where(v => VisibleElementIds == null || VisibleElementIds.Contains(v.Element)).Select(v => v with { Value = v.Value * scale }).ToArray();
+        var contour = ContourField(SelectedFamily == 0 ? raw : atStation);
+        ContourValues = IsAveragedContour ? contour.Where(v => VisibleElementIds == null || VisibleElementIds.Contains(v.Element)).Select(v => v with { Value = v.Value * scale }).ToArray() : ActiveValues;
         Minimum = HasResults ? ActiveValues.Min(v => v.Value).ToString("G6") : "—";
         Maximum = HasResults ? ActiveValues.Max(v => v.Value).ToString("G6") : "—";
         ResultUnit = string.IsNullOrEmpty(SelectedComponent) ? "—" : $"{SelectedComponent} [{unit}]";
-        UpdateColorScale(atStation, scale);
+        UpdateColorScale(contour, scale);
         ResultAvailability = HasResults ? $"{ActiveValues.Select(v => v.Element).Distinct().Count():N0} elementi con valori · {SampleLocation.ToLowerInvariant()}"
             : SelectedFamily > 0 && SelectedAxes == 1 ? "Per le aste scegli gli assi locali. Gli assi principali delle sezioni richiedono un contratto dedicato."
             : SelectedAxes == 1 ? "Componenti principali non importate. Non si ricavano dagli estremi non simultanei di un inviluppo."
             : raw.Count > 0 ? "Nessun risultato negli elementi attualmente visibili. Usa «Mostra tutto»."
             : $"Nessun risultato {Family} disponibile per questa combinazione nella copia importata.";
         foreach (string property in new[] { nameof(HasResults), nameof(FieldTitle), nameof(ResultKind), nameof(Middle), nameof(VisibilitySummary) }) OnPropertyChanged(property);
+        foreach (string property in new[] { nameof(CanAverageContours), nameof(IsAveragedContour), nameof(ContourValueLabel), nameof(ContourValues), nameof(ContourAveragingSummary), nameof(SampleLocation) }) OnPropertyChanged(property);
         if (SelectedTreeItem?.Table == "ELEM" && SelectedTreeItem.Id is int selectedId)
             Attributes = SelectedTreeItem.Attributes.Concat(ActiveValues.Where(v => v.Element == selectedId)
                 .Select(v => new AttributeRow(v.Station.HasValue ? $"x/L = {v.Station:G3} · {ResultUnit}" : $"Nodo {v.Node} · {ResultUnit}", v.Value.ToString("G7")))).ToArray();

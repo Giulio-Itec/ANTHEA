@@ -125,7 +125,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         {
             ModelViewMode.Geometry => "Superficie analitica e connettività originali.\n\nTasto destro: ruota · rotella: zoom · Maiusc + destro: sposta.",
             ModelViewMode.Solids => "Piastre: spessori e offset lungo la normale locale.\n\nAste: sezioni rettangolari centrate. Offset di estremità non importati.\n\nVolumi preliminari, da confrontare con il modello di origine.",
-            _ => HasResults ? "Interpolazione grafica interna all’elemento. Discontinuità conservate fra elementi." + (result?.IsEnvelope == true ? "\n\nInviluppo importato: estremi per componente, non simultanei." : "") : ResultAvailability
+            _ => HasResults ? (IsAveragedContour ? ContourAveragingSummary + ".\nMedia solo grafica: tabelle e riferimenti conservano i valori importati. Discontinuità mantenute tra proprietà, materiali e terne differenti." : "Interpolazione grafica interna all’elemento. Discontinuità conservate fra elementi.") + (result?.IsEnvelope == true ? "\n\nInviluppo importato: estremi per componente, non simultanei." : "") : ResultAvailability
         };
         SceneChanged?.Invoke(this, EventArgs.Empty);
     }

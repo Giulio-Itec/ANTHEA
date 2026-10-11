@@ -14,7 +14,7 @@ using Anthea.Calculations;
 using HelixToolkit.Wpf.SharpDX;
 using X.Core;
 
-static class Program
+static partial class Program
 {
     const BindingFlags Flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
     static int checks;
@@ -98,6 +98,11 @@ static class Program
                 var scene = Children<Viewport3DX>(isolated).Single();
                 if (args.Contains("--interactive"))
                 {
+                    if (args.Contains("--averaged"))
+                    {
+                        state.SelectedPanel = 1; state.SelectedContourValues = 1; state.ShowMesh = false; state.ShowInspector = false;
+                        Wait(250);
+                    }
                     preview.Title = "ANTHEA · Modelli · prova interattiva";
                     preview.ShowInTaskbar = true; preview.Closed += (_, _) => app.Shutdown();
                     Capture(isolated, scene, Path.Combine(output, "anteprima-interattiva.png"));
@@ -105,7 +110,7 @@ static class Program
                     {
                         ProcessId=Environment.ProcessId,Window=preview.Title,Model=state.Snapshot?.Name,
                         Nodes=state.Snapshot?.Nodes.Length,Elements=state.Snapshot?.Elements.Length,Cases=state.Cases,
-                        BindingErrors=bindingLog.ToString(),ReadyUtc=DateTime.UtcNow
+                        BindingErrors=bindingLog.ToString(),ReadyUtc=DateTime.UtcNow,Contour=state.ContourValueLabel,Averaging=state.ContourAveragingSummary
                     },new System.Text.Json.JsonSerializerOptions{WriteIndented=true}));
                     app.Run(); return 0;
                 }
@@ -138,6 +143,10 @@ static class Program
                     Check(state.Status.StartsWith("Scena pronta"), "isolated viewer renders mode " + mode);
                     Capture(isolated, scene, Path.Combine(output, name + ".png"));
                 }
+                state.SelectedPanel = 0;
+                RealContourAveragingChecks(isolated, scene, output);
+                ContourRenderingChecks(output);
+                preview.Activate();
                 state.SelectedPanel = 0;
                 state.SelectedTreeItem = state.FindTreeItem("SECT:" + state.Snapshot!.Sections[0].Id);
                 state.SelectedMode = 1; Wait(400);
@@ -276,6 +285,7 @@ static class Program
                 File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} checks");
                 preview.Close(); app.Shutdown(); return 0;
             }
+            ContourRenderingChecks(output); window.Activate();
             Call(window, "ShowModelsHub"); Wait(100);
             Check(Children<Button>(window).Any(b => b.Content?.ToString() == ProjectModelStore.Models(owner).First().S("nome")), "Models workspace exposes imported resources");
             CapturePage((FrameworkElement)window.Content, Path.Combine(output, "00-modelli.png"));

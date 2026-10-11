@@ -23,6 +23,7 @@
         <ComboBox ItemsSource="{Binding SurfaceModes}" SelectedIndex="{Binding SelectedSurfaceMode}" Margin="0,6,0,0" />
         <ComboBox ItemsSource="{Binding LightingModes}" SelectedIndex="{Binding SelectedLighting}" Margin="0,6,0,0" />
         <TextBlock Text="CONTOURING" Style="{StaticResource Caption}" />
+        <ComboBox ItemsSource="{Binding ContourValueModes}" SelectedIndex="{Binding SelectedContourValues}" IsEnabled="{Binding CanAverageContours}" ToolTip="{Binding ContourAveragingHelp}" AutomationProperties.Name="Valori del contouring nelle impostazioni" Margin="0,0,0,6" />
         <ComboBox ItemsSource="{Binding ContourPalettes}" SelectedIndex="{Binding SelectedContourPalette}" />
         <ComboBox ItemsSource="{Binding QualityLabels}" SelectedIndex="{Binding SelectedQuality}" Margin="0,6,0,0" />
         <CheckBox Content="Isolinee" IsChecked="{Binding ShowIsolines}" /><TextBlock Text="Numero di intervalli" /><Slider Value="{Binding IsolineCount}" Minimum="4" Maximum="20" TickFrequency="1" IsSnapToTickEnabled="True" AutoToolTipPlacement="TopLeft" />

@@ -540,3 +540,14 @@ il confronto completo dell'inviluppo è limitato dal timeout MIDAS di 180 second
 Si conservano i risultati e le prove senza sostituire gli attesi. Prima dell'integrazione occorrono il contratto
 GPC, i casi governanti, la semantica di simultaneità e l'archivio dei grandi campi. L'utente vuole partire da
 queste misure per le considerazioni successive. Vedi [benchmark](../sviluppo/modelli-benchmark-casi-base.md), MOD-07.
+
+### Media ai vertici del contouring — 11 ottobre
+
+L'utente chiede una modalità aggiuntiva con i punti mediati sui vertici. Si implementa come operazione di
+presentazione senza WPF, opzionale e reversibile: media aritmetica dei contributi delle plate compatibili,
+con separazione per proprietà, materiale disponibile e terna locale importata. Niente trasformazione dei
+risultati tra assi diversi, ricostruzione di campioni mancanti o modifica degli estremi nei dati salvati.
+Il vicinato è quello del modello intero, indipendente dalla visibilità; tabelle e riferimenti restano originali,
+la legenda usa il campo grafico e dichiara la media. Gli inviluppi restano estremi non simultanei.
+Il controllo e le impostazioni condividono lo stato MVVM. Nessuna modifica degli altri progetti o delle
+librerie GPC. Evidenze prima/dopo e collaudi sintetici/reali nel registro MOD-08; guide globali al rilascio.

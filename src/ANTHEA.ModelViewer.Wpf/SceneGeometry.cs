@@ -46,7 +46,7 @@ internal sealed class EdgeBuilder
 }
 internal static class Contours
 {
-    // Graphic interpolation only, independently within each element; no averaging over element boundaries.
+    // Graphic interpolation inside each element. Input corners can be original or display-only nodal means.
     internal static void Surface(SurfaceBuilder mesh, EdgeBuilder lines, Vector3[] p, double[] values, int id, double min, double max, int subdivisions, bool isolines, int intervals = 12)
     {
         void Triangle(Vector3 a, Vector3 b, Vector3 c, double va, double vb, double vc)
