@@ -11,8 +11,16 @@ public sealed record ConcreteDomainResult(CheckerDomain3D? Three, CheckerDomain2
 /// One session per sheet. Call a given domain/set once at a time, on input snapshots.</summary>
 public sealed class ConcreteAnalysisSession
 {
-    /// <summary>Sessione con il motore SLE indicato, o con quello predefinito dell'adattatore (refactoring F2.7b, commit A4).</summary>
-    public ConcreteAnalysisSession(ServiceabilityEngine? engine = null) => Engine = engine ?? ConcreteServiceabilityAdapter.Default;
+    /// <summary>Sessione con il motore SLE indicato, o con quello predefinito dell'adattatore (refactoring F2.7b, commit A4), e con il motore del
+    /// punto resistente SLU indicato o predefinito (revisione di architettura R2, registro F2-17).</summary>
+    public ConcreteAnalysisSession(ServiceabilityEngine? engine = null, ResistanceEngine? resistance = null)
+    {
+        Engine = engine ?? ConcreteServiceabilityAdapter.Default;
+        Resistance = resistance ?? ConcreteResistanceAdapter.Default;
+    }
+
+    /// <summary>Motore del punto resistente SLU dei domini della sessione: fissato alla costruzione e parte della firma della cache dei domini.</summary>
+    public ResistanceEngine Resistance { get; }
 
     /// <summary>Motore SLE (limiti tensionali e fessurazione) della sessione: fissato alla costruzione e parte della firma della cache degli
     /// stati tensionali, così due sessioni con motori diversi non condividono stati (prova 5m).</summary>
@@ -58,14 +66,15 @@ public sealed class ConcreteAnalysisSession
         token.ThrowIfCancellationRequested();
         var computationOptions = (JsonObject)options.DeepClone();
         foreach (string visual in new[] { "stato", "filtro", "solo_selezionata", "trasparenza", "mostra_ed", "mostra_rd", "tutte_rd", "mostra_linee", "colora_eta", "criterio", "strategia", "proietta", "scala_x", "scala_y", "scala_n", "scala_mx", "scala_my", "fit_azioni", "dimensione_ed", "dimensione_rd", "interpolazione", "suddivisioni_n", "asse_neutro" }) computationOptions.Remove(visual);
-        string signature = input.ToJsonString() + workspace.S("normativa") + workspace["coefficienti"]?.ToJsonString() + workspace["trefoli"]?.ToJsonString() + computationOptions.ToJsonString();
+        string signature = input.ToJsonString() + workspace.S("normativa") + workspace["coefficienti"]?.ToJsonString() + workspace["trefoli"]?.ToJsonString() + computationOptions.ToJsonString()
+            + "|motore SLU " + Resistance;
         var cached = domainCache.GetValueOrDefault((threeD ? "3D:" : "2D:") + key);
 
         CheckerDomain3D? three = cached.Signature == signature ? cached.Three : null;
         CheckerDomain2D? two = cached.Signature == signature ? cached.Two : null;
         if (three is null && two is null)
         {
-            var engine = prepared is null ? new CheckerSection(input, workspace, options, key, Engine) : new CheckerSection(prepared, input, workspace, options, key, Engine);
+            var engine = prepared is null ? new CheckerSection(input, workspace, options, key, Engine, Resistance) : new CheckerSection(prepared, input, workspace, options, key, Engine, Resistance);
             three = threeD ? engine.Domain3D(token) : null;
             two = threeD ? null : engine.Domain2D(token);
         }

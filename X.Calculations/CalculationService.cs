@@ -7,7 +7,10 @@ public static class CalculationService
 {
     /// <param name="serviceabilityEngine">Motore SLE della sezione c.a. e dei muri (limiti tensionali e fessurazione); null = predefinito
     /// dell'adattatore (refactoring F2.7b, commit A4). Gli altri moduli non hanno verifiche SLE della sezione.</param>
-    public static JsonObject Calculate(string module, JsonObject data, CancellationToken cancellation = default, ServiceabilityEngine? serviceabilityEngine = null)
+    /// <param name="resistanceEngine">Motore del punto resistente SLU dei domini della sezione c.a.; null = predefinito dell'adattatore (revisione
+    /// di architettura R2, registro F2-17). I muri e il palo orizzontale usano per ora il motore predefinito.</param>
+    public static JsonObject Calculate(string module, JsonObject data, CancellationToken cancellation = default, ServiceabilityEngine? serviceabilityEngine = null,
+        ResistanceEngine? resistanceEngine = null)
     {
         ModuleCatalog.ValidateData(module, data);
         CalculationValidation.RequireValidCoefficients(module, data);
@@ -23,7 +26,7 @@ public static class CalculationService
             RetainingWall.Module => RetainingWall.Calculate(snapshot, cancellation, serviceabilityEngine).Json(),
             BridgeSection.Module => BridgeSection.Calculate(snapshot, cancellation).Json(),
             BridgeConcept.Module => BridgeConcept.Calculate(snapshot).Json(),
-            "str_palo" => ConcreteAnalysis.Calculate(snapshot, cancellation, serviceabilityEngine),
+            "str_palo" => ConcreteAnalysis.Calculate(snapshot, cancellation, serviceabilityEngine, resistanceEngine),
             RebarMaterial.Module => J.Obj(("errore", ""), ("materiale", RebarMaterial.Evaluate(snapshot["input"]!.AsObject())),
                 ("diagramma", RebarMaterial.Curve(snapshot["input"]!.AsObject()))),
             "mat_calcestruzzo" => MaterialProperties(snapshot),

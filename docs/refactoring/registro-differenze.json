@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-09",
+  "aggiornato": "2026-10-11",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/",
@@ -1069,6 +1069,44 @@
       ],
       "evidenze": [
         "supporto/artefatti/refactoring/librerie-s4"
+      ]
+    },
+    {
+      "id": "F2-17",
+      "titolo": "Punto resistente SLU: punto grezzo del solutore nel modulo c.a. contro la porta ISectionResistanceSolver della libreria (revisione di architettura R2)",
+      "famiglia": "calcestruzzo/flessione-slu",
+      "categoria": "difetto-legacy",
+      "stato": "da-decidere",
+      "descrizione": "Fino a R2 il modulo sezione c.a. prendeva il punto resistente direttamente dal solutore di GPCChecker.Concrete (SectionSolver.CalculateDomainPoint per le verifiche del dominio 3D in lotto, la resistenza a N assegnato e il progetto delle armature; FailureDomainResult.CalculateForce per la verifica singola). È il punto grezzo della strategia scelta con i suoi ripieghi: nessuno controlla che rispetti i vincoli della ricerca (N fisso, direzione dei momenti, Mx o My fissi, verso della ricerca). ModelChecker usa invece la porta ISectionResistanceSolver (LegacySectionCalculation.SolveResistance), che valida il punto con DomainPointConvergence e, se non li rispetta, prova le strategie di bisezione e di intersezione; se nessuna converge non dà il punto. Lo stesso pilastro poteva quindi avere esiti diversi in ANTHEA e nella verifica del modello FEM. Con R2 tutti i percorsi del modulo passano da ConcreteResistanceAdapter con un motore selezionabile: Legacy (punto grezzo, comportamento di prima, predefinito) e Library (porta della libreria). In Checker i tre ingressi pubblici del punto grezzo sono [Obsolete]. Il passaggio del predefinito a Library cambia esiti visibili e spetta all'utente.",
+      "codice": [
+        "X.Calculations/ConcreteResistanceAdapter.cs (interruttore Default, motori Legacy e Library, sonda)",
+        "X.Calculations/ConcreteLibraryMapping.Resistance.cs (motivi della libreria → testi italiani)",
+        "X.Calculations/CheckerSection.cs (CheckerDomain3D.Check e CheckMany, ResistanceEngine della sezione)",
+        "X.Calculations/SectionMomentResistance.cs, X.Calculations/ConcreteReinforcementDesign.Checks.cs",
+        "Checker/GPCChecker.Concrete/Analysis/LegacySectionCalculation.cs:49-77 (SolveResistance)",
+        "Checker/GPCChecker.Concrete/SectionSolvers/DomainPointConvergence.cs, Checker/GPCChecker.Concrete/Analysis/ResistanceConvergence.cs:45-82 (vincoli per criterio)",
+        "Checker/GPCChecker.Concrete/SectionSolvers/SectionSolver.cs (CalculateDomainPoint(ResultBeamForces[]) obsoleto, commit 5f87a390)"
+      ],
+      "segno": "con il motore Library: punti uguali quando il punto grezzo rispetta i vincoli; altrimenti punto convergente di un'altra strategia (nella griglia nessun esito cambiato, tasso entro il 5 %) oppure nessun punto con il motivo «punto resistente non convergente», anche dove il legacy dichiarava «Entro il dominio»",
+      "effetto_quantificato": {
+        "sintesi": "Prova 12d di tests/ConcreteLibraryAdapter.Checks (Resistance.cs): 4 sezioni NTC (rettangolare 300×500 C25/30 con 4Ø16 agli spigoli, la stessa con lo stress block, rettangolare 400×700 asimmetrica, circolare D600), 5 criteri, SLU e SLV, strategie iterativa e di intersezione: 30 configurazioni, 1800 forze (N da −0,8 a +0,05 Ac·fcd, 6 direzioni, 2 intensità). Il motore Legacy dell'adattatore coincide bit per bit con il vettore nativo e con la formula di prima di R2. Punti grezzi fuori dai vincoli della ricerca: 687 su 1800 (Eccentricità costante 99, N costante 25, Mx–My costanti 254, N e Mx costanti 131, N e My costanti 178). Motore Library: 1113 punti uguali bit per bit (tasso, stato e risposta della sezione identici, 12 147 numeri), 137 spostati su un punto convergente di un'altra strategia (99 a eccentricità costante, 25 a N costante, 13 negli altri criteri; nessun esito cambiato, variazione massima del tasso 5,1 %, stress block, η 3,571 → 3,751), 550 senza punto (Mx–My costanti 247, N e Mx 129, N e My 174): 192 con direzione di ricerca nulla (componente della domanda che fissa il verso uguale a zero, per esempio N = 0 con Mx–My costanti) e 358 con residui fuori tolleranza su Mx, My o N. Su quei 550 il legacy dava «Entro il dominio» in 126 casi, «Fuori dominio» in 338 e nessun tasso in 86. Dei 126: 106 con direzione di ricerca nulla, dove il tasso del legacy è 0 qualunque sia il momento (55 con Mx–My costanti e N = 0, 31 con N e Mx costanti e My = 0, 20 con N e My costanti e Mx = 0; per esempio sulla 300×500 con 4Ø16, N = 0 e My = 159 kNm: η legacy 0, «Entro il dominio», con un punto grezzo a My = 37 kNm), quindi esiti non cautelativi; 20 con Mx o My del punto grezzo fuori tolleranza (Mx–My costanti). Griglia con componenti della domanda esattamente nulle a 0° e 90°. Corpus della cattura headless: 9 casi della sezione c.a. con 11 verifiche 3D (tutte a N costante), identici con i due motori; cattura con il motore predefinito identica a quella di prima di R2 su 546 file salvo i 21 tempi volatili. Banco F2.1: le 25 resistenze in forma chiusa degli attesi Python anche con il motore Library entro 5e-3.",
+        "evidenze": [
+          "supporto/artefatti/refactoring/revisione-r2 (cattura prima, dopo e con --motore-slu libreria; misura.json della prova 12)"
+        ]
+      },
+      "opzioni": [
+        "A. Predefinito Library per tutti i criteri: un solo proprietario anche in ANTHEA; i casi senza punto convergente mostrano «Checker: punto resistente non convergente» invece di un tasso",
+        "B. Predefinito Library per N costante ed eccentricità costante (dove la libreria trova sempre un punto convergente) e decisione separata per Mx–My costanti, N e Mx costanti, N e My costanti",
+        "C. Restare sul legacy fino a F2.11 e mostrare un avviso quando il punto grezzo non rispetta i vincoli"
+      ],
+      "raccomandazione": "A. Con il legacy i criteri Mx–My costanti (N = 0), N e Mx costanti (My = 0) e N e My costanti (Mx = 0) danno η = 0 e «Entro il dominio» qualunque sia il momento: esito non cautelativo raggiungibile dal modulo scegliendo il criterio (per esempio una trave con N = 0). Con la libreria quei casi non hanno punto e il modulo mostra «Checker: punto resistente non convergente». Prima del passaggio: profilo full a schermo con il motore Library e cattura B nuova.",
+      "data": "2026-10-11",
+      "fase": "revisione di architettura R2 (branch claude/revisione-architettura, non unito)",
+      "test": [
+        "tests/ConcreteLibraryAdapter.Checks/Resistance.cs (prove 12a-12g; '--solo-slu' per eseguirle da sole)",
+        "tests/ConcreteBench.Checks (A2 con il motore Library contro attesi/attesi.json)",
+        "tests/ANTHEA.Testing capture --motore-slu legacy|libreria e compare",
+        "Checker/GPCChecker.Test.Calculation/DetachedCalculationTests.cs (RawDomainPointEntriesAreObsoleteAndUnchanged)"
       ]
     }
   ]

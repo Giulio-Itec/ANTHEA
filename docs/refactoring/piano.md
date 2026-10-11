@@ -86,6 +86,13 @@ Tra F1 e F2: regressione in MSTest (464 casi singoli) e `casi_confronto.json` di
 - [ ] F2.11 [CP] Eliminazione dei duplicati, dello stato statico, del lock e dei 6 file geotecnici esclusi.
 - [ ] F2.12 [CP] Rimozione del solutore legacy a fibre conservando l'oracolo Python.
 - [ ] F2.13 Registri di migrazione, chiusura.
+- [~] Revisione di architettura R2 (11/10, branch `claude/revisione-architettura`, non unito): punto resistente SLU con un
+  solo proprietario. `ConcreteResistanceAdapter` con motore selezionabile (Legacy = punto grezzo di prima, predefinito;
+  Library = porta `ISectionResistanceSolver` di GPCChecker.Concrete, il calcolo di ModelChecker) per dominio 3D, resistenza a
+  N assegnato, progetto delle armature e calcolo headless (`--motore-slu` della cattura); in Checker i punti grezzi pubblici
+  sono `[Obsolete]` (5f87a390). Cattura headless con il predefinito uguale a quella di prima su 546 file; prove 12a-12g in
+  `tests/ConcreteLibraryAdapter.Checks`. Differenze del motore Library nel registro (F2-17): **resta la decisione
+  dell'utente** sul passaggio del predefinito, poi profilo full a schermo e cattura B nuova.
 
 Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`; prima, destino di `GPCChecker.Test.BridgeAudit` (referenzia `ANTHEA/X.Core`) e test di libreria nei repository delle librerie.
 

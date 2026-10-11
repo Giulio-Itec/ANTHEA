@@ -6,7 +6,7 @@ using Anthea.Testing.Comparison;
 using Anthea.Testing.Normalization;
 
 // ANTHEA.Testing: the single capture, normalisation and comparison toolkit of the refactoring (docs/refactoring/piano.md, F0.4).
-//   capture <out> [--root <repo>] [--tag <name>] [--commit <sha>] [--only <regex>] [--no-trace] [--culture it-IT] [--motore-sle legacy|libreria]
+//   capture <out> [--root <repo>] [--tag <name>] [--commit <sha>] [--only <regex>] [--no-trace] [--culture it-IT] [--motore-sle legacy|libreria] [--motore-slu legacy|libreria]
 //   compare <a> <b> [--tolerances <file>] [--report <file.json>] [--max <n>]      exit 0 = equal within the tolerances
 //   compare-dense <riferimento> <candidato> --confronto <nome> [--classificazione <file>] [--tolerances <file>] [--report <file.json>] [--max <n>]
 //                                                                                 dense captures of CheckerMigration.Capture (F2.1): exit 0 = every difference admitted or classified
@@ -39,7 +39,13 @@ try
                 null => null, "legacy" => Anthea.Calculations.ServiceabilityEngine.Legacy, "libreria" => Anthea.Calculations.ServiceabilityEngine.Library,
                 var other => throw new ArgumentException("--motore-sle: legacy o libreria, non " + other)
             };
-            return new CaptureRunner(new CaptureOptions(root, output, named.GetValueOrDefault("tag", "cattura"), named.GetValueOrDefault("commit"), only, trace, culture.Name, serviceability)).Run();
+            // Motore del punto resistente SLU della sezione c.a. (revisione di architettura R2, registro F2-17); senza l'opzione quello predefinito.
+            Anthea.Calculations.ResistanceEngine? resistance = named.GetValueOrDefault("motore-slu") switch
+            {
+                null => null, "legacy" => Anthea.Calculations.ResistanceEngine.Legacy, "libreria" => Anthea.Calculations.ResistanceEngine.Library,
+                var other => throw new ArgumentException("--motore-slu: legacy o libreria, non " + other)
+            };
+            return new CaptureRunner(new CaptureOptions(root, output, named.GetValueOrDefault("tag", "cattura"), named.GetValueOrDefault("commit"), only, trace, culture.Name, serviceability, resistance)).Run();
         }
         case "compare":
         {
@@ -86,7 +92,7 @@ catch (Exception ex) when (ex is ArgumentException or IOException or Unauthorize
 static int Usage()
 {
     Console.Error.WriteLine("""
-        ANTHEA.Testing capture <out> [--root <repo>] [--tag <nome>] [--commit <sha>] [--only <regex modulo/caso>] [--no-trace] [--culture it-IT] [--motore-sle legacy|libreria]
+        ANTHEA.Testing capture <out> [--root <repo>] [--tag <nome>] [--commit <sha>] [--only <regex modulo/caso>] [--no-trace] [--culture it-IT] [--motore-sle legacy|libreria] [--motore-slu legacy|libreria]
         ANTHEA.Testing compare <a> <b> [--tolerances <file>] [--report <file.json>] [--max <n>]
         ANTHEA.Testing compare-dense <riferimento> <candidato> --confronto <nome> [--classificazione <file>] [--tolerances <file>] [--report <file.json>] [--max <n>]
         ANTHEA.Testing normalize <in> <out>

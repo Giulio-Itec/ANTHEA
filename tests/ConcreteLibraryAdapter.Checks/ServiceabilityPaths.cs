@@ -89,7 +89,7 @@ sealed partial class ServiceabilityChecks
                     {
                         using var probe = ServiceabilityProbe.Start();
                         outputs[engine] = new ConcreteAnalysisSession(engine).Stress(input, settings, options, set, sessionRows);
-                        var entries = probe.Entries;
+                        var entries = Sle(probe);
                         Check(entries.All(e => e.Engine == engine.ToString()) && entries.Count(e => e.Operation == "StressLimits") >= sessionRows.Length
                             && entries.Count(e => e.Operation == "Cracking") == outputs[engine].Count(p => p.Value.State is not null),
                             $"5d {norm} {shape} {set} ({engine}): sonda {string.Join(", ", entries.GroupBy(e => e.Operation + "/" + e.Engine).Select(g => g.Key + " " + g.Count()))}");
@@ -133,7 +133,7 @@ sealed partial class ServiceabilityChecks
                 {
                     using var probe = ServiceabilityProbe.Start();
                     results[engine] = ConcreteAnalysis.Calculate(data, default, engine);
-                    Check(probe.Entries.Count > 0 && probe.Entries.All(e => e.Engine == engine.ToString()) && probe.Entries.Any(e => e.Operation == "StressLimits"),
+                    Check(Sle(probe).Count > 0 && Sle(probe).All(e => e.Engine == engine.ToString()) && Sle(probe).Any(e => e.Operation == "StressLimits"),
                         $"5e {norm} {shape} ({engine}): il calcolo headless non passa dall'adattatore con il motore richiesto");
                     // Il JSON 'tensioni' è quello della sessione con lo stesso motore, sugli stessi dati preparati.
                     var prepared = (JsonObject)data.DeepClone(); var settings = SectionWorkspace.Prepare(prepared); var input = prepared["input"]!.AsObject();
@@ -177,8 +177,8 @@ sealed partial class ServiceabilityChecks
                     string a = DocxText(make(Ordered(results[ServiceabilityEngine.Legacy], data))), b = DocxText(make(Ordered(results[ServiceabilityEngine.Library], data)));
                     Check(a.Contains("SLE") && a == b, $"5h {norm} {shape}: relazione {kind} diversa fra i motori: " + FirstLineDifference(a, b));
                     if (kind == "completa")
-                        Check(probe.Entries.Count >= 2 * SleSets.Length && probe.Entries.All(e => e.Operation == "CrackingRequired" && e.Engine == ConcreteServiceabilityAdapter.Default.ToString()),
-                            $"5h {norm} {shape}: la relazione non passa dall'adattatore per i requisiti: " + string.Join(", ", probe.Entries));
+                        Check(Sle(probe).Count >= 2 * SleSets.Length && Sle(probe).All(e => e.Operation == "CrackingRequired" && e.Engine == ConcreteServiceabilityAdapter.Default.ToString()),
+                            $"5h {norm} {shape}: la relazione non passa dall'adattatore per i requisiti: " + string.Join(", ", Sle(probe)));
                     reports++;
                 }
             }
@@ -246,7 +246,7 @@ sealed partial class ServiceabilityChecks
                     StirrupDiameters = [8], StirrupSpacings = [100, 150, 200], MaxEvaluations = 1000, MaxParallelism = 1, ServiceabilityEngine = engine };
                 using var probe = ServiceabilityProbe.Start();
                 results[engine] = ConcreteReinforcementDesign.Optimize(data, options);
-                Check(probe.Entries.Any(e => e.Operation == "Cracking") && probe.Entries.All(e => e.Engine == engine.ToString()),
+                Check(Sle(probe).Any(e => e.Operation == "Cracking") && Sle(probe).All(e => e.Engine == engine.ToString()),
                     $"5f {shape} ({engine}): il progetto armature non passa dall'adattatore con il motore delle opzioni");
             }
             foreach (var engine in Engines)
@@ -302,7 +302,7 @@ sealed partial class ServiceabilityChecks
             {
                 using var probe = ServiceabilityProbe.Start();
                 results[engine] = RetainingWall.Calculate(document, default, engine);
-                Check(probe.Entries.Any(e => e.Operation == "Cracking") && probe.Entries.All(e => e.Engine == engine.ToString()), $"5g {name} ({engine}): i muri non passano dall'adattatore con il motore del calcolo");
+                Check(Sle(probe).Any(e => e.Operation == "Cracking") && Sle(probe).All(e => e.Engine == engine.ToString()), $"5g {name} ({engine}): i muri non passano dall'adattatore con il motore del calcolo");
                 var wall = results[engine];
                 foreach (var check in wall.Structural.Where(c => c.Name.EndsWith(" · fessurazione")))
                 {
@@ -336,7 +336,7 @@ sealed partial class ServiceabilityChecks
         {
             using var probe = ServiceabilityProbe.Start();
             proposals[engine] = RetainingWall.DesignReinforcement(RetainingWall.Defaults(), default, engine);
-            Check(probe.Entries.Any(e => e.Operation == "Cracking") && probe.Entries.All(e => e.Engine == engine.ToString()), $"5g predimensionamento ({engine}): sonda");
+            Check(Sle(probe).Any(e => e.Operation == "Cracking") && Sle(probe).All(e => e.Engine == engine.ToString()), $"5g predimensionamento ({engine}): sonda");
         }
         Check(proposals[ServiceabilityEngine.Legacy].Input["reinforcement"]!.ToJsonString() == proposals[ServiceabilityEngine.Library].Input["reinforcement"]!.ToJsonString()
             && proposals[ServiceabilityEngine.Legacy].Passed == proposals[ServiceabilityEngine.Library].Passed, "5g: il predimensionamento sceglie candidati diversi nei due motori");
@@ -391,8 +391,8 @@ sealed partial class ServiceabilityChecks
                 {
                     using var probe = ServiceabilityProbe.Start();
                     var state = section.Stress(action, set);
-                    Check(probe.Entries.SequenceEqual(new[] { new ServiceabilityProbeEntry(ConcreteServiceabilityAdapter.ProbeName, "SteelLimit", engine.ToString()) }),
-                        $"5j {shape} {set} ({engine}): sonda " + string.Join(", ", probe.Entries));
+                    Check(Sle(probe).SequenceEqual(new[] { new ServiceabilityProbeEntry(ConcreteServiceabilityAdapter.ProbeName, "SteelLimit", engine.ToString()) }),
+                        $"5j {shape} {set} ({engine}): sonda " + string.Join(", ", Sle(probe)));
                     Check(state.Engine == engine && state.Ratio is null && state.ConcreteStressLimit is null && state.Status == "Stato tensionale calcolato", $"5j {shape} {set} ({engine}): stato non SLE");
                     steel[engine] = state.SteelStressLimit; states++;
                 }
@@ -403,8 +403,8 @@ sealed partial class ServiceabilityChecks
                 using (var probe = ServiceabilityProbe.Start())
                 {
                     var limit = check.LimitState!.Value;
-                    Check(probe.Entries.SequenceEqual(new[] { new ServiceabilityProbeEntry(ConcreteServiceabilityAdapter.ProbeName, "SteelLimit", engine.ToString()) })
-                        && limit.Engine == engine && limit.Ratio is null && Same(limit.SteelStressLimit, steel[engine]), $"5j {shape} LIMITE ({engine}): sonda " + string.Join(", ", probe.Entries));
+                    Check(Sle(probe).SequenceEqual(new[] { new ServiceabilityProbeEntry(ConcreteServiceabilityAdapter.ProbeName, "SteelLimit", engine.ToString()) })
+                        && limit.Engine == engine && limit.Ratio is null && Same(limit.SteelStressLimit, steel[engine]), $"5j {shape} LIMITE ({engine}): sonda " + string.Join(", ", Sle(probe)));
                     states++;
                 }
             }
@@ -414,9 +414,9 @@ sealed partial class ServiceabilityChecks
             using (var probe = ServiceabilityProbe.Start())
             {
                 var result = Try(() => ConcreteCurvatureAnalysis.Calculate(input, settings, curve));
-                Check(result.Value is not null && probe.Entries.Count > 0 && probe.Entries.All(e => e == new ServiceabilityProbeEntry(ConcreteServiceabilityAdapter.ProbeName, "SteelLimit", ConcreteServiceabilityAdapter.Default.ToString())),
-                    $"5j {shape} CURVA: {result.Message} sonda " + string.Join(", ", probe.Entries.Distinct()));
-                states += probe.Entries.Count;
+                Check(result.Value is not null && Sle(probe).Count > 0 && Sle(probe).All(e => e == new ServiceabilityProbeEntry(ConcreteServiceabilityAdapter.ProbeName, "SteelLimit", ConcreteServiceabilityAdapter.Default.ToString())),
+                    $"5j {shape} CURVA: {result.Message} sonda " + string.Join(", ", Sle(probe).Distinct()));
+                states += Sle(probe).Count;
             }
         }
         Report["stati_non_sle_5j"] = new JsonObject { ["stati"] = states };

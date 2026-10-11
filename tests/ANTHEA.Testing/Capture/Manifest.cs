@@ -103,6 +103,8 @@ public static class Manifest
         };
         // Motore SLE scelto con '--motore-sle' (refactoring F2.7b, commit A4); senza l'opzione il manifest resta quello di prima.
         if (options.ServiceabilityEngine is { } engine) manifest["motore_sle"] = engine.ToString();
+        // Motore SLU scelto con '--motore-slu' (revisione di architettura R2); senza l'opzione il manifest resta quello di prima.
+        if (options.ResistanceEngine is { } resistance) manifest["motore_slu"] = resistance.ToString();
         return manifest;
     }
 

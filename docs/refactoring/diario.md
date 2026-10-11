@@ -636,3 +636,21 @@ Branch `refactoring/integrazione-4` (da 45a3193). Prove e log in `supporto/artef
   Segnalato all'utente, non corretto. Saltando il caso tutto il resto di `--checker` passa; 25 righe stampate cambiano solo
   nell'ultima cifra (F2-5).
 - Profilo standard `int4-a5-std` sui commit: PASS 39, KNOWN 1, NEW-FAIL 0.
+
+## Revisione di architettura R2 (11/10/2026)
+
+Branch `claude/revisione-architettura` (da main 7852f67, con T2 9593c69), non unito, non pushato. Punto R2 della revisione
+delle librerie GPC: il calcolo SLU della sezione ha un solo proprietario, la porta `ISectionResistanceSolver` di
+GPCChecker.Concrete. In Checker (5f87a390) i tre ingressi pubblici del punto grezzo sono `[Obsolete]`.
+- `X.Calculations/ConcreteResistanceAdapter.cs`: motori Legacy (punto grezzo, predefinito) e Library; sonda
+  `ServiceabilityProbe`; motore fissato alla costruzione di `CheckerSection`; una sola sessione della libreria per sezione.
+  Dominio 3D (Check e CheckMany), `SectionMomentResistance`, progetto delle armature, sessione di calcolo, calcolo headless e
+  `CalculationService` (solo `str_palo`; muri e palo orizzontale restano sul predefinito) passano dall'adattatore.
+- Cattura prima/dopo con il predefinito: 546 file uguali salvo i 21 tempi volatili. Cattura con `--motore-slu libreria`:
+  uguale anche lei (il corpus ha 11 verifiche 3D, tutte a N costante).
+- Prove 12a-12g in `tests/ConcreteLibraryAdapter.Checks/Resistance.cs`: su 1800 forze di una griglia di 30 configurazioni
+  687 punti grezzi non rispettano i vincoli della ricerca; con la libreria 1113 uguali, 137 spostati (nessun esito
+  cambiato), 550 senza punto, di cui 126 che il legacy dava entro il dominio: 106 hanno la direzione di ricerca nulla (per esempio
+  N = 0 con Mx–My costanti), dove il legacy dà η = 0 qualunque sia il momento, esito non cautelativo segnalato all'utente.
+  Voce F2-17 del registro, da decidere
+  dall'utente; il predefinito resta Legacy, quindi report e risultati non cambiano.

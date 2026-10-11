@@ -26,7 +26,8 @@ using GPC.Model.Standards;
 //    elastica fessurata (flessione semplice e composta, rettangoli e poligoni regolari) e per la resistenza a rottura con stress-block
 //    e parabola-rettangolo. Tolleranze fissate prima delle misure: 1e-3 sulle tensioni e sulla posizione dell'asse neutro (1e-3 h),
 //    5e-3 su MRd (integrazione della libreria con punti di Gauss su una mesh fissa, non tagliata lungo i salti della legge σ-ε;
-//    parabola della libreria discretizzata in 8 tratti). I due motori fra loro: 1e-9.
+//    parabola della libreria discretizzata in 8 tratti). I due motori fra loro: 1e-9. Le resistenze a rottura anche con il motore Library
+//    dell'adattatore SLU (revisione di architettura R2, registro F2-17), contro gli stessi attesi e con la stessa tolleranza.
 // B. Soglie: per ogni ramo un parametro di carico o di geometria trovato per bisezione sul legacy; i due motori a λ*(1 ± 1e-4),
 //    λ*(1 ± 1e-6), λ*(1 ± 1e-9) e a λ*: stessi esiti, numeri entro 1e-9 (|a − b| ≤ 1e-9 + 1e-9 · max(|a|, |b|)), e il ramo atteso
 //    ai due lati a ± 1e-4 (sopra il rumore del solutore di sezione).
@@ -147,6 +148,9 @@ try
         var p = Prep.Build(spec, c.D("fck"), c["normativa"]!.GetValue<string>(), c.D("alpha_cc"), c.D("gamma_c"), c.D("gamma_s"), c["diagramma"]!.GetValue<string>());
         double axial = c.D("N_kN");
         var legacy = SectionMomentResistance.Calculate(p.Input, p.Settings, axial, false);
+        // Revisione di architettura R2 (registro F2-17): la stessa resistenza del modulo con il motore Library dell'adattatore SLU
+        // (porta ISectionResistanceSolver), contro gli stessi attesi indipendenti.
+        var port = SectionMomentResistance.Calculate(p.Input, p.Settings, axial, false, default, ResistanceEngine.Library);
         var library = p.Library(false, 0, false);
         library.Checker.SetDomainPointStrategy(SectionSolver.DomainPointStrategyTypes.Iterative);
         foreach (var a in c["azioni"]!.AsArray().Select(n => n!.AsObject()))
@@ -154,6 +158,14 @@ try
             double mrd = a.D("MRd_kNm"); string at = id + " " + a["segno"]!.GetValue<string>();
             double direction = sign.Value * Math.Sign(mrd);
             var principal = legacy.Single(r => r.Direction == (direction > 0 ? "Mx+" : "Mx−"));
+            var ported = port.Single(r => r.Direction == principal.Direction);
+            if (ported.Moment is null)
+            {
+                string key = at + " motore Library · SLU resistenza assente";
+                string text = $"{key}: «{ported.Status}», atteso {mrd:G10} kNm";
+                if (divergences.Contains(key)) registered.Add(text); else problems.Add(text);
+            }
+            else Expect(at + " motore Library", "SLU MRd " + c["diagramma"], Math.Abs(ported.Moment.Value), Math.Abs(mrd), Math.Abs(mrd), UlsTolerance);
             var point = library.Checker.SectionSolver.CalculateDomainPoint([Prep.Force(library.Local, new ActionPoint(axial, direction, 0))])[0];
             Check(point is not null, at + ": punto resistente della libreria assente");
             double libraryMoment = point!.MxRd / 1e6;

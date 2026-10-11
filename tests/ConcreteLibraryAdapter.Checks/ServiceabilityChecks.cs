@@ -86,6 +86,11 @@ sealed partial class ServiceabilityChecks
         Check(inner == 0 && probe.Entries.Count == 1, proof + ": la sonda di un altro flusso riceve chiamate di questo");
     }
 
+    /// <summary>Voci dell'adattatore SLE: la sonda è condivisa con l'adattatore SLU (revisione di architettura R2), che registra le proprie
+    /// voci nei percorsi che calcolano il dominio (calcolo headless, muri, curvature).</summary>
+    static IReadOnlyList<ServiceabilityProbeEntry> Sle(ServiceabilityProbe probe)
+        => probe.Entries.Where(e => e.Adapter == ConcreteServiceabilityAdapter.ProbeName).ToArray();
+
     // ================================================================== 5a. strato di mappatura
     void MappingLayer()
     {
@@ -537,8 +542,8 @@ sealed partial class ServiceabilityChecks
                             Check(Same(b.Ratio, libraryLimits.Ratio) && b.Status == libraryLimits.Status && Same(b.ConcreteStressLimit, libraryLimits.ConcreteStressLimit)
                                 && Same(b.SteelStressLimit, libraryLimits.SteelStressLimit), id + ": lo stato della libreria non viene dall'adattatore");
                             // Sonda: due chiamate per motore (stato e verifica qui sopra), operazione delle combinazioni SLE.
-                            Check(probe.Entries.Count(e => e.Operation == "StressLimits" && e.Engine == "Legacy") == 2 && probe.Entries.Count(e => e.Operation == "StressLimits" && e.Engine == "Library") == 2,
-                                id + ": sonda " + string.Join(", ", probe.Entries));
+                            Check(Sle(probe).Count(e => e.Operation == "StressLimits" && e.Engine == "Legacy") == 2 && Sle(probe).Count(e => e.Operation == "StressLimits" && e.Engine == "Library") == 2,
+                                id + ": sonda " + string.Join(", ", Sle(probe)));
                             // 5c: stessi stati e testi; numeri entro la tolleranza; il resto dello stato identico.
                             Check(l.Status == b.Status, $"{id}: stato «{l.Status}» con il legacy, «{b.Status}» con la libreria");
                             var errors = new List<string>();
@@ -584,11 +589,11 @@ sealed partial class ServiceabilityChecks
                             string id = $"ambito {standard} {set} {exposure} «{limit}» {layout}";
                             Check(direct == legacy && direct == library && direct == production, $"{id}: legacy {direct}, adattatore Legacy {legacy}, Library {library}, SleCheckScope {production}");
                             // Sonda: SleCheckScope passa dall'adattatore con il motore predefinito.
-                            Check(probe.Entries.SequenceEqual(new ServiceabilityProbeEntry[]
+                            Check(Sle(probe).SequenceEqual(new ServiceabilityProbeEntry[]
                             {
                                 new(ConcreteServiceabilityAdapter.ProbeName, "CrackingRequired", "Legacy"), new(ConcreteServiceabilityAdapter.ProbeName, "CrackingRequired", "Library"),
                                 new(ConcreteServiceabilityAdapter.ProbeName, "CrackingRequired", ConcreteServiceabilityAdapter.Default.ToString())
-                            }), id + ": sonda " + string.Join(", ", probe.Entries));
+                            }), id + ": sonda " + string.Join(", ", Sle(probe)));
                             rows++; if (direct) required++;
                         }
         Report["ambito_5i"] = new JsonObject { ["righe"] = rows, ["richieste"] = required };

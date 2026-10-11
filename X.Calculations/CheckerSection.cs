@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using GPC.Checkers.Concrete.Analysis;
 using GPC.Checkers.Concrete.Attributes;
 using GPC.Checkers.Concrete.Checkers;
 using GPC.Checkers.Concrete.Results;
@@ -72,11 +73,21 @@ public sealed partial class CheckerSection
     /// <summary>Motore SLE dei limiti tensionali di questa sezione (null = motore predefinito dell'adattatore), fissato alla costruzione
     /// (refactoring F2.7b, commit A4). Il marcatore degli stati tensionali viene sempre dal risultato dell'adattatore, mai da qui.</summary>
     public ServiceabilityEngine? ServiceabilityEngine { get; }
-    public CheckerSection(JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU", ServiceabilityEngine? engine = null)
-        : this(PrepareModel(input, workspace), input, workspace, options, state, engine) { }
-    public CheckerSection(CheckerSectionModel model, JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU", ServiceabilityEngine? engine = null)
+    /// <summary>Motore del punto resistente SLU di questa sezione (null = motore predefinito dell'adattatore), fissato alla costruzione
+    /// (revisione di architettura R2, registro F2-17): dominio 3D, resistenza a N assegnato e progetto delle armature passano da
+    /// <see cref="ConcreteResistanceAdapter"/>.</summary>
+    public ResistanceEngine? ResistanceEngine { get; }
+    private readonly Lazy<ISectionResistanceSolver> resistanceSolver;
+    /// <summary>Sessione della porta della libreria per il motore Library: una sola per sezione, creata al primo uso.</summary>
+    internal ISectionResistanceSolver ResistanceSolver => resistanceSolver.Value;
+    public CheckerSection(JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU", ServiceabilityEngine? engine = null,
+        ResistanceEngine? resistance = null)
+        : this(PrepareModel(input, workspace), input, workspace, options, state, engine, resistance) { }
+    public CheckerSection(CheckerSectionModel model, JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU", ServiceabilityEngine? engine = null,
+        ResistanceEngine? resistance = null)
     {
-        ServiceabilityEngine = engine;
+        ServiceabilityEngine = engine; ResistanceEngine = resistance;
+        resistanceSolver = new(() => new LegacySectionCalculation(Checker));
         Model = model; Options = (JsonObject)options.DeepClone(); Geometry = model.Geometry; Section = model.Section; Local = model.Local;
         ForceAxes = new CoordinateSystem(Local);
         switch (options.S("assi", "Locali"))
@@ -124,12 +135,15 @@ public sealed partial class CheckerSection
     }
     private double N(string key) => SectionWorkspace.Number(Options.S(key, "0"), key);
     internal SectionResponse? Describe(FailureDomain.FailureDomainPoint point)
+        => point is null ? null : Describe(point.NRd, point.MxRd, point.MyRd, point.StrainPlane);
+    internal SectionResponse? Describe(ResistancePoint point) => Describe(point.NRd, point.MxRd, point.MyRd, point.StrainPlane);
+    private SectionResponse? Describe(double nRd, double mxRd, double myRd, StrainPlane plane)
     {
         // Reporting only: use the same native strain plane that generated the resistance.
         try
         {
-            var force = new ResultBeamForces(point.NRd, 0, 0, 0, point.MxRd, point.MyRd, Local);
-            return SectionResponse.From(point.StrainPlane.CalculateStrainPlaneResult(Section, force, Checker.SectionSolver, standard));
+            var force = new ResultBeamForces(nRd, 0, 0, 0, mxRd, myRd, Local);
+            return SectionResponse.From(plane.CalculateStrainPlaneResult(Section, force, Checker.SectionSolver, standard));
         }
         catch (Exception) { return null; } // A missing report must not alter the native resistance result.
     }
@@ -137,6 +151,7 @@ public sealed partial class CheckerSection
     public ResultBeamForces Force(ActionPoint p, int id = 1) => new ResultBeamForces(p.N * 1000, 0, 0, 0, p.Mx * 1e6, p.My * 1e6, ForceAxes, id).ToCoordinateSystemWithEccentricity(Local);
     public static ActionPoint Point(ResultBeamForces p) => new(p.N / 1000, p.M1 / 1e6, p.M2 / 1e6);
     public static ActionPoint Point(FailureDomain.FailureDomainPoint p) => new(p.NRd / 1000, p.MxRd / 1e6, p.MyRd / 1e6);
+    public static ActionPoint Point(ResistancePoint p) => new(p.NRd / 1000, p.MxRd / 1e6, p.MyRd / 1e6);
     public CheckerDomain3D Domain3D(CancellationToken token = default)
     {
         token.ThrowIfCancellationRequested();
@@ -177,11 +192,13 @@ public sealed partial class CheckerSection
         var result = Checker.GetTensionAnalysisResult(Force(action));
         return DescribeStress(result, set);
     }
-    public CheckerStressState LimitState(FailureDomain.FailureDomainPoint point)
+    public CheckerStressState LimitState(FailureDomain.FailureDomainPoint point) => LimitState(point.NRd, point.MxRd, point.MyRd, point.StrainPlane);
+    public CheckerStressState LimitState(ResistancePoint point) => LimitState(point.NRd, point.MxRd, point.MyRd, point.StrainPlane);
+    private CheckerStressState LimitState(double nRd, double mxRd, double myRd, StrainPlane plane)
     {
-        var force = new ResultBeamForces(point.NRd, 0, 0, 0, point.MxRd, point.MyRd, Local);
+        var force = new ResultBeamForces(nRd, 0, 0, 0, mxRd, myRd, Local);
         // Sample the saved limit plane. Never solve equilibrium again at Rd.
-        var result = new StressAnalysisResult(Section, force, point.StrainPlane, Checker.SectionSolver, standard, false, null, null, 0, null);
+        var result = new StressAnalysisResult(Section, force, plane, Checker.SectionSolver, standard, false, null, null, 0, null);
         return DescribeStress(result, "LIMITE");
     }
     private CheckerStressState DescribeStress(StressAnalysisResult result, string set)
@@ -291,8 +308,8 @@ public sealed class CheckerDomain3D(CheckerSection section, FailureDomainResult 
     {
         var force = Section.Force(action);
         if (action.Length == 0 && !Section.Section.Rebars.Any(r => r.EpsilonP != 0)) return new(0, null, "Azione nulla");
-        var p = Native.CalculateForce(force);
-        return Describe(p, force);
+        // Punto dall'adattatore SLU con il motore della sezione (revisione di architettura R2).
+        return Describe(ConcreteResistanceAdapter.Point(Section, Native, force), force);
     }
     /// <summary>Ordered batch on a configured domain; do not reconfigure it while this call is running.</summary>
     public DomainCheck[] CheckMany(IReadOnlyList<ActionPoint> actions, CancellationToken token = default)
@@ -310,8 +327,8 @@ public sealed class CheckerDomain3D(CheckerSection section, FailureDomainResult 
         }
         var checks = new DomainCheck[unique.Count];
         bool prestressed = Section.Section.Rebars.Any(r => r.EpsilonP != 0);
-        // The native vector overload parallelizes the searches. Small chunks bound
-        // temporary memory and cancellation latency, without any UI refresh per force.
+        // The points come from the ULS adapter with the engine of the section (architecture review R2). With the legacy engine the native
+        // vector overload parallelizes the searches. Small chunks bound temporary memory and cancellation latency, without any UI refresh per force.
         const int batchSize = 64;
         for (int start = 0; start < unique.Count; start += batchSize)
         {
@@ -326,8 +343,8 @@ public sealed class CheckerDomain3D(CheckerSection section, FailureDomainResult 
                 pending.Add(i); forces.Add(Section.Force(action, i + 1));
             }
             if (pending.Count == 0) continue;
-            FailureDomain.FailureDomainPoint[] points;
-            try { points = Section.Checker.SectionSolver.CalculateDomainPoint(forces.ToArray()); }
+            ResistanceOutcome[] points;
+            try { points = ConcreteResistanceAdapter.Points(Section, forces, token); }
             catch (Exception ex) when (ex is not OperationCanceledException)
             {
                 // One native failure must not discard every other combination.
@@ -349,9 +366,9 @@ public sealed class CheckerDomain3D(CheckerSection section, FailureDomainResult 
         token.ThrowIfCancellationRequested();
         return map.Select(i => checks[i]).ToArray();
     }
-    private DomainCheck Describe(FailureDomain.FailureDomainPoint? p, ResultBeamForces force)
-        => p is null ? new(null, null, "Checker: punto resistente non trovato")
-         : Outcome(p.CalculateWorkingRatio(Native.FailureAnalysisType, force, 1e6, 1000), CheckerSection.Point(p)) with { Response = Section.Describe(p), LimitState = new(() => Section.LimitState(p)) };
+    private DomainCheck Describe(ResistanceOutcome outcome, ResultBeamForces force)
+        => outcome.Point is not { } p ? new(null, null, "Checker: " + (outcome.Rejection ?? "punto resistente non trovato"))
+         : Outcome(p.WorkingRatio(Native.FailureAnalysisType, force), CheckerSection.Point(p)) with { Response = Section.Describe(p), LimitState = new(() => Section.LimitState(p)) };
     internal static DomainCheck Outcome(double ratio, ActionPoint p)
         => !double.IsFinite(ratio) || ratio < 0 || !double.IsFinite(p.N + p.Mx + p.My) ? new(null, null, "Checker: resistenza non determinata")
          : new(ratio, p, ratio <= 1 ? "Entro il dominio" : "Fuori dominio");
