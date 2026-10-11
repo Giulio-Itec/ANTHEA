@@ -12,6 +12,7 @@ public sealed record SectionProperty(int Id, string Name, string Shape, double W
 public sealed record CornerResult(int Element, int Node, double[] Values);
 public sealed record ModelDirection(double X, double Y, double Z);
 public sealed record ModelLocalFrame(int Element, ModelDirection X, ModelDirection Y, ModelDirection Z);
+public sealed record ModelNodeFrame(int Node, ModelDirection X, ModelDirection Y, ModelDirection Z);
 public sealed record ModelBoundary(string SourceRecord, string Kind, int[] Nodes, int? Element, string Dofs);
 public sealed record ModelImportMessage(string Code, string Severity, string Record, string Message);
 public sealed record ModelResultSet(string Name, bool IsEnvelope, CornerResult[] Values)
@@ -36,6 +37,8 @@ public sealed class ModelSnapshot
     public Dictionary<string, JsonElement>? SourceTables { get; set; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ModelLocalFrame[]? LocalFrames { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelNodeFrame[]? NodeFrames { get; set; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ModelBoundary[]? Boundaries { get; set; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -68,6 +71,20 @@ public sealed class ModelSnapshot
                     Math.Abs(Dot(frame.X, frame.Y)) > 1e-6 || Math.Abs(Dot(frame.X, frame.Z)) > 1e-6 || Math.Abs(Dot(frame.Y, frame.Z)) > 1e-6 ||
                     frame.X.X * (frame.Y.Y * frame.Z.Z - frame.Y.Z * frame.Z.Y) + frame.X.Y * (frame.Y.Z * frame.Z.X - frame.Y.X * frame.Z.Z) + frame.X.Z * (frame.Y.X * frame.Z.Y - frame.Y.Y * frame.Z.X) < .999999)
                     throw new InvalidDataException("Terna locale non ortonormale e destrorsa.");
+            }
+        }
+        if (NodeFrames != null)
+        {
+            if (NodeFrames.Any(f => f == null || !ids.Contains(f.Node)) || NodeFrames.Select(f => f.Node).Distinct().Count() != NodeFrames.Length)
+                throw new InvalidDataException("Terne locali non associabili ai nodi.");
+            static double Dot(ModelDirection a, ModelDirection b) => a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+            foreach (var frame in NodeFrames)
+            {
+                var directions = new[] { frame.X, frame.Y, frame.Z };
+                if (directions.Any(v => v == null || !double.IsFinite(v.X) || !double.IsFinite(v.Y) || !double.IsFinite(v.Z) || Math.Abs(Dot(v, v) - 1) > 1e-6) ||
+                    Math.Abs(Dot(frame.X, frame.Y)) > 1e-6 || Math.Abs(Dot(frame.X, frame.Z)) > 1e-6 || Math.Abs(Dot(frame.Y, frame.Z)) > 1e-6 ||
+                    frame.X.X * (frame.Y.Y * frame.Z.Z - frame.Y.Z * frame.Z.Y) + frame.X.Y * (frame.Y.Z * frame.Z.X - frame.Y.X * frame.Z.Z) + frame.X.Z * (frame.Y.X * frame.Z.Y - frame.Y.Y * frame.Z.X) < .999999)
+                    throw new InvalidDataException("Terna nodale non ortonormale e destrorsa.");
             }
         }
         if (Results.Select(r => r.Name).Distinct().Count() != Results.Length) throw new InvalidDataException("Casi di risultato duplicati.");

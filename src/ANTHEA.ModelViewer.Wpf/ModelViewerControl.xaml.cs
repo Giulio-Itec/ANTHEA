@@ -40,6 +40,15 @@ public partial class ModelViewerControl : UserControl, IDisposable
     {
         if (e.NewValue is ModelTreeItem item) viewModel.SelectedTreeItem = item;
     }
+    private void TreeContextSelection(object sender, MouseButtonEventArgs e)
+    {
+        if (e.ChangedButton != MouseButton.Right) return;
+        var source = e.OriginalSource as DependencyObject;
+        while (source != null && source is not TreeViewItem)
+            source = source is System.Windows.Media.Visual ? System.Windows.Media.VisualTreeHelper.GetParent(source) : LogicalTreeHelper.GetParent(source);
+        if (source is TreeViewItem item && item.DataContext is ModelTreeItem modelItem)
+            viewModel.SelectedTreeItem = modelItem;
+    }
     private void SceneMouseDown(object? sender, RoutedEventArgs args)
     {
         if (args is MouseDown3DEventArgs e && e.OriginalInputEventArgs is MouseButtonEventArgs mouse && mouse.ChangedButton == MouseButton.Left && renderer?.ElementAt(e.HitTestResult) is int id)
@@ -60,10 +69,11 @@ public partial class ModelViewerControl : UserControl, IDisposable
                 viewModel.Subdivisions, viewModel.ShowMesh, viewModel.ShowIsolines, viewModel.VisibleElementIds, viewModel.SelectedElementIds, viewModel.ShowLocalAxes,
                 viewModel.ShowRestraints, viewModel.ShowConstraints, viewModel.ShowLinks, viewModel.ShowReleases, viewModel.ShowContext,
                 new(viewModel.ElementColors, viewModel.SelectedSurfaceMode, viewModel.ShowHiddenWireframe, viewModel.ShowNodeIds,
-                    viewModel.ShowElementIds, viewModel.ShowPropertyIds, viewModel.ShowNodes, viewModel.SelectedLabelScope == 1, viewModel.LabelScale, viewModel.LineWidth), viewModel.ColorMinimum, viewModel.ColorMaximum));
+                    viewModel.ShowElementIds, viewModel.ShowPropertyIds, viewModel.ShowNodes, viewModel.SelectedLabelScope == 1, viewModel.LabelScale, viewModel.LineWidth), viewModel.ColorMinimum, viewModel.ColorMaximum, viewModel.ShowNodeAxes, viewModel.OverlaysOnlySelection, viewModel.SelectedNodeIds));
             viewModel.Status = $"Scena pronta · {statistics.Preparation.TotalMilliseconds:N0} ms di preparazione · {statistics.Triangles:N0} triangoli";
             if (viewModel.IsResultsView) viewModel.Status += $" · {statistics.MissingElements} {viewModel.Family.ToLowerInvariant()} senza risultati";
             if (viewModel.ShowLocalAxes && viewModel.Snapshot.LocalFrames == null) viewModel.Status += " · terne locali non importate";
+            if (viewModel.ShowNodeAxes && viewModel.Snapshot.NodeFrames == null) viewModel.Status += " · terne nodali non importate";
         }
         catch (Exception ex) { viewModel.Status = "Vista non disponibile: " + ex.Message; }
     }

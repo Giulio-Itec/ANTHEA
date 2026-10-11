@@ -100,6 +100,20 @@ Le assegnazioni non interpretabili restano nei record originali e nella diagnost
 l'ispezione dei gradi di libertà. La copia di prova contiene un vincolo con settimo DOF: la vista mostra i sei DOF
 supportati e mantiene il dato warping originale con avviso.
 
+Navigazione (Modello, Sollecitazioni, Verifiche) e proprietà si riducono separatamente a barre da 44 pixel.
+Le schede si riaprono direttamente dalla barra, conservando selezione e visibilità. Il menu contestuale
+dell'albero seleziona la voce sotto il puntatore, anche nei rami annidati: esamina gli elementi associati,
+isola, nascondi, mostra selezione, mostra tutto. L'esame apre proprietà e tabella degli elementi associati.
+
+Assi nodali e degli elementi, restrain, constraint, link e release hanno interruttori indipendenti.
+L'ambito è tutti gli oggetti visibili oppure la sola selezione; un nodo selezionato mostra la propria terna,
+non quelle degli altri nodi degli elementi adiacenti. Un comando spegne insieme questi sei livelli.
+Assi globali e cubo di orientamento si disattivano separatamente nelle opzioni di visualizzazione.
+Le terne nodali sono dati opzionali espliciti, validati e salvati nello snapshot; la loro assenza non modifica
+l'impronta delle copie precedenti. Il ponte usa gli orientamenti già interpretati da GPC, esclude quelli con
+diagnostica di orientamento irrisolto e usa la terna globale solo per nodi senza assegnazione in una SKEW acquisita.
+Se SKEW non è stata acquisita, le terne nodali rimangono non importate. La UI non ricava orientamenti dalla mesh.
+
 ## Ponte GPC e acquisizione
 
 Autorizzazione successiva dell'utente: completare dove necessario release e link in Model, sempre su branch separato.
@@ -120,6 +134,29 @@ Il pacchetto `supporto/artefatti/model-viewer/midas-complete/spalla-validata.ant
 da due record RIGD. Risultati: 13.718 campioni plate e 905 campioni beam (cinque stazioni per asta).
 Due materiali, due sezioni, sette spessori, 21 gruppi, 49 casi statici e 73 combinazioni sono ispezionabili.
 FRLS e altri insiemi realmente vuoti restano distinguibili dagli insiemi non acquisiti.
+
+Il pacchetto successivo `panels-node-axes/spalla-assi-nodali.antheamodel`, ottenuto dalle stesse fonti salvate,
+aggiunge le 3.755 terne nodali. Nel modello reale SKEW è vuota e le terne sono globali; una fixture indipendente
+con X=(0,1,0), Y=(-1,0,0), Z=(0,0,1) verifica in WPF l'orientamento ruotato.
+
+Il pulsante «Aggiorna modello» della bozza rilegge un pacchetto .antheamodel o una copia MIDAS già acquisita;
+non è ancora collegato direttamente a MIDAS/Straus. La rilettura dal software sorgente è il flusso previsto.
+Modalità concordate con l'utente l'11 ottobre:
+
+| Modalità | Contenuto acquisito | Uso |
+| --- | --- | --- |
+| Solo geometria | Nodi, elementi, connettività e orientamenti geometrici | Vista leggera di nodi, elementi e mesh, senza richiedere risultati |
+| Geometria + attributi + carichi | Geometria, materiali, sezioni/spessori/offset, vincoli, collegamenti, gruppi e carichi | Esame completo del modello di input |
+| Solo risultati | Campi disponibili e relativa provenienza dell'analisi | Aggiornamento delle sollecitazioni sulla medesima revisione del modello |
+| Tutto | Modello di input completo e risultati disponibili | Aggiornamento completo della copia |
+
+Le quattro modalità sono specifica del prossimo flusso, non opzioni già operative del pulsante della bozza.
+Il primo caricamento dei soli risultati richiede un modello compatibile già presente. Una variazione geometrica
+deve invalidare i risultati precedenti incompatibili e segnalare i riferimenti ai fogli da aggiornare.
+Anche attributi/carichi appartengono alla revisione di analisi: la sola geometria coincidente non basta a
+certificare la validità dei risultati. L'aggiornamento parziale deve conservare o invalidare esplicitamente
+gli insiemi non riletti; una vista geometrica non inventa sezioni o spessori per ottenere una preview solida.
+Nessuna analisi del solutore viene avviata dalla semplice rilettura.
 
 ## Collaudo e prestazioni
 
@@ -146,16 +183,27 @@ Evidenze in `supporto/artefatti/model-viewer/visibility-scale`: `logic`, `synthe
 La prova `before-table-fix` cattura il difetto delle proprietà non assegnate prima della correzione;
 gli attesi di offset e interpolazione esistenti non sono cambiati. Registro MOD-03.
 
+Estensione barre laterali e terne nodali: ModelWorkspace 78 PASS sulla copia reale (76 senza fonti esterne),
+WPF sintetico 27 PASS e WPF reale 49 PASS. Evidenze `panels-node-axes/logic`, `synthetic-final`, `real-final`.
+Le prove verificano riduzione di entrambi i pannelli, comandi contestuali sul ramo annidato, tabella associata,
+terna nodale ruotata, ambito della selezione e spegnimento dei livelli; nessun errore di binding WPF.
+Le prove intermedie hanno evidenziato la necessità di usare l'evento mouse tunneling nel test contestuale
+e attendere il layout dopo la riapertura della scheda nel runner. Attesi numerici precedenti invariati. Registro MOD-04.
+Runner quick `modelli-barre-assi-finale`: 25 PASS, nessun nuovo fallimento e uscita 0.
+
 Sei cambi di componente sul modello completo già caricato, qualità Alta: da 98,97 a 122,22 ms,
 mediana 108,70 ms fino all'evento Viewport.OnRendered. La misura include cambio dello stato, preparazione
 e notifica del fotogramma; non misura il monitor fisico, l'acquisizione, il solutore o il calcolo dell'inviluppo.
 I dati grezzi sono in `review-measured/tempi-campi.json`. Non è una garanzia per modelli arbitrariamente grandi.
+Ripetizione con terne nodali e barre laterali, 11 ottobre: 120,74–150,78 ms, mediana 130,64 ms,
+stesso ambito di misura; dati in `panels-node-axes/real-final/tempi-campi.json`.
 
 ## Passi successivi
 
 | Priorità | Lavoro rimasto | Sede |
 | --- | --- | --- |
 | 1 | Rilascio del Converter con le nuove assegnazioni da commit pushati e integrazione del ponte nel prodotto; S4/Model 4 è già acquisito da main | Librerie / build ANTHEA |
+| 1 | Collegare Aggiorna modello ai software sorgente, controllare revisioni e invalidare risultati/riferimenti incompatibili | GPC / libreria applicativa e vista |
 | 1 | Adattatore comune definitivo per tutti i solutori; copertura esplicita di solidi, cavi, link non lineari, PRLS e fasi | GPC Model / Converter |
 | 1 | Profili solidi generici/variabili, offset di estremità e sezioni orientate, provenienza delle convenzioni | GPC Geometry/Model e renderer |
 | 1 | Combinazioni e inviluppi locali con caso governante, coerenza simultanea e cache | GPC, non WPF |

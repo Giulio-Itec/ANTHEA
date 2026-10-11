@@ -1087,6 +1087,23 @@
       "test": ["ModelWorkspace.Checks: 67 PASS", "ModelViewer.UiChecks sintetico: 21 PASS", "ModelViewer.UiChecks reale: 44 PASS"],
       "evidenze": ["supporto/artefatti/model-viewer/visibility-scale/before-table-fix", "supporto/artefatti/model-viewer/visibility-scale/logic", "supporto/artefatti/model-viewer/visibility-scale/synthetic", "supporto/artefatti/model-viewer/visibility-scale/real"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-04",
+      "titolo": "Barre laterali, ispezione dei rami e assi nodali espliciti",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Navigazione e proprietà riducibili a barre mantenendo lo stato della vista. Il menu contestuale agisce sul ramo sotto il puntatore e apre la tabella degli elementi associati. Terne nodali opzionali nello snapshot, orientate dal ponte GPC esistente, separate dalle terne degli elementi. Interruttori e ambito selezione per assi, restrain, constraint, link e release; spegnimento collettivo dei sei livelli e opzioni separate per assi globali e cubo vista. Nessuna variazione dei calcoli o delle DLL distribuite.",
+      "codice": ["src/ANTHEA.ModelWorkspace/ModelSnapshot.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Panels.cs", "src/ANTHEA.ModelViewer.Presentation/ModelTreeItem.cs", "src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.xaml", "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.cs", "tools/ModelViewer.Prepare"],
+      "segno": "estensione opzionale della copia importata e sola rappresentazione; vecchie impronte invariate quando le terne nodali sono assenti",
+      "effetto_quantificato": { "sintesi": "Barre da 44 pixel, oltre 400 pixel restituiti alla scena a 1600 pixel di larghezza. Copia reale con 3755 terne nodali globali (SKEW acquisita vuota). Fixture ruotata X=(0,1,0) verificata nella geometria WPF; selezionare un nodo mostra una sola terna. Spegnimento collettivo con un aggiornamento scena. Attesi di offset e interpolazione invariati. Cambio campo già caricato: 120.74-150.78 ms fino a OnRendered, mediana 130.64 ms, esclusi acquisizione e calcolo inviluppi." },
+      "decisione": { "data": "2026-10-11", "utente": "alberi riducibili a barra laterale, selezione/isola/nascondi di gruppi e proprietà, vista vincoli e assi nodali/elementi, tutto disattivabile", "esito": "implementazione MVVM nel ramo separato; quattro modalità del futuro aggiornamento concordate nella specifica: Solo geometria, Geometria + attributi + carichi, Solo risultati, Tutto" },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelWorkspace.Checks reale: 78 PASS", "ModelViewer.UiChecks sintetico: 27 PASS", "ModelViewer.UiChecks reale: 49 PASS"],
+      "evidenze": ["supporto/artefatti/model-viewer/panels-node-axes/logic", "supporto/artefatti/model-viewer/panels-node-axes/synthetic-final", "supporto/artefatti/model-viewer/panels-node-axes/real-final"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

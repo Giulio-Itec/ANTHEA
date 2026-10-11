@@ -21,6 +21,8 @@ public sealed partial class ModelViewerViewModel
     [ObservableProperty] private bool showElementIds;
     [ObservableProperty] private bool showPropertyIds;
     [ObservableProperty] private bool showNodes;
+    [ObservableProperty] private bool showGlobalAxes = true;
+    [ObservableProperty] private bool showViewCube = true;
     [ObservableProperty] private double labelScale = 1;
     [ObservableProperty] private double lineWidth = 1;
     public bool HasColorLegend => !IsResultsView && SelectedColorMode != 0;

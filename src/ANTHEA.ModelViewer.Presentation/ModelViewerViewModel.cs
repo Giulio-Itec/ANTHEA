@@ -169,5 +169,6 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         if (disposed) return; disposed = true; lifetime.Cancel(); lifetime.Dispose(); SceneChanged = null;
         ImportCommand.NotifyCanExecuteChanged(); QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged();
         IsolateCommand.NotifyCanExecuteChanged(); HideCommand.NotifyCanExecuteChanged(); ShowSelectedCommand.NotifyCanExecuteChanged();
+        InspectSelectionCommand.NotifyCanExecuteChanged(); AddVisibilityCriterionCommand.NotifyCanExecuteChanged();
     }
 }

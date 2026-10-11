@@ -14,7 +14,7 @@ namespace ANTHEA.ModelViewer.Wpf;
 
 internal sealed record SceneOptions(int Mode, IReadOnlyList<ResultValue> Values, string Family, int Subdivisions, bool ShowMesh, bool ShowIsolines,
     IReadOnlySet<int>? Visible, IReadOnlySet<int> Selection, bool ShowLocalAxes, bool ShowRestraints, bool ShowConstraints, bool ShowLinks, bool ShowReleases, bool ShowContext,
-    DisplayOptions Display, double ColorMinimum, double ColorMaximum);
+    DisplayOptions Display, double ColorMinimum, double ColorMaximum, bool ShowNodeAxes, bool OverlaysOnlySelection, IReadOnlySet<int> SelectedNodes);
 internal sealed record DisplayOptions(IReadOnlyDictionary<int, ElementDisplay> Colors, int SurfaceMode, bool HiddenWireframe,
     bool NodeIds, bool ElementIds, bool PropertyIds, bool Nodes, bool LabelsSelectedOnly, double LabelScale, double LineWidth);
 internal sealed record SceneStatistics(TimeSpan Preparation, int Triangles, int MissingElements);
@@ -101,7 +101,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
             string elementColor = options.Display.Colors.TryGetValue(e.Id, out var style) ? style.Color : "#71B6E8";
             if (options.Selection.Contains(e.Id))
                 for (int i = 0; i < (p.Length == 2 ? 1 : p.Length); i++) highlight.Line(p[i], p[(i + 1) % p.Length]);
-            if (options.ShowLocalAxes && frames?.TryGetValue(e.Id, out var frame) == true && (options.Selection.Count == 0 || options.Selection.Contains(e.Id)))
+            if (options.ShowLocalAxes && frames?.TryGetValue(e.Id, out var frame) == true && (!options.OverlaysOnlySelection || options.Selection.Contains(e.Id)))
             {
                 var origin = p.Aggregate(Vector3.Zero, (a, b) => a + b) / p.Length;
                 float size = (float)Math.Min(extent * .025, Vector3.Distance(p[0], p[1]) * .32);
@@ -166,6 +166,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         AddLines(highlight, Color.FromRgb(255, 214, 102), 3);
         AddLines(axesX, Color.FromRgb(236, 116, 111), 2); AddLines(axesY, Color.FromRgb(111, 206, 157), 2); AddLines(axesZ, Color.FromRgb(113, 177, 247), 2);
         DrawBoundaries(options);
+        DrawNodeAxes(options);
         DrawDisplayOverlays(options);
         return new(clock.Elapsed, viewport.Items.OfType<MeshGeometryModel3D>().Sum(m => m.Geometry?.Indices?.Count / 3 ?? 0), missingElements);
     }
@@ -177,6 +178,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         foreach (var boundary in model!.Boundaries ?? [])
         {
             if (visibleNodes != null && !boundary.Nodes.Any(visibleNodes.Contains)) continue;
+            if (options.OverlaysOnlySelection && !boundary.Nodes.Any(options.SelectedNodes.Contains) && !(boundary.Element is int element && options.Selection.Contains(element))) continue;
             var p = points[boundary.Nodes[0]];
             if (boundary.Kind == "RESTRAIN" && options.ShowRestraints)
             {
@@ -196,6 +198,21 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         }
         AddLines(restraints, Color.FromRgb(111,206,157), 2.5); AddLines(constraints, Color.FromRgb(201,155,238), 1.2);
         AddLines(links, Color.FromRgb(84,211,221), 2); AddLines(releases, Color.FromRgb(255,204,112), 2);
+    }
+    private void DrawNodeAxes(SceneOptions options)
+    {
+        if (!options.ShowNodeAxes || model!.NodeFrames == null) return;
+        var x = new EdgeBuilder(); var y = new EdgeBuilder(); var z = new EdgeBuilder();
+        var visibleNodes = options.Visible == null ? null : model.Elements.Where(e => options.Visible.Contains(e.Id)).SelectMany(e => e.Nodes).ToHashSet();
+        float size = (float)(extent * .009);
+        static Vector3 Direction(ModelDirection value) => new((float)value.X, (float)value.Y, (float)value.Z);
+        foreach (var frame in model.NodeFrames)
+        {
+            if (visibleNodes != null && !visibleNodes.Contains(frame.Node) || options.OverlaysOnlySelection && !options.SelectedNodes.Contains(frame.Node)) continue;
+            var origin = points[frame.Node];
+            x.Arrow(origin, origin + Direction(frame.X) * size); y.Arrow(origin, origin + Direction(frame.Y) * size); z.Arrow(origin, origin + Direction(frame.Z) * size);
+        }
+        AddLines(x, Color.FromRgb(236,116,111), 1.5); AddLines(y, Color.FromRgb(111,206,157), 1.5); AddLines(z, Color.FromRgb(113,177,247), 1.5);
     }
     public int? ElementAt(HelixToolkit.SharpDX.HitTestResult? hit)
     {

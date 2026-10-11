@@ -494,3 +494,19 @@ sezioni di risultato e filtri numerici restano nel seguito della specifica.
 Il bundle S4/Model 4 di main è stato acquisito senza ricompilarne o sostituirne le DLL. Il collaudo completo di ANTHEA
 ha dato 79 PASS e un solo KNOWN già censito; le suite GPC 1196 PASS. Il merge 7852f67 del precedente lavoro è già
 presente in main alla ripresa; le nuove aggiunte continuano sul ramo codex/model-viewer-draft, senza push o merge inverso.
+
+### Estensione dell'11 ottobre: pannelli riducibili e terne nodali
+
+L'utente richiede tutti gli alberi della vista riducibili a barra laterale, selezione/isola/nascondi per
+esplorare gruppi e proprietà, vincoli e assi locali nodali e degli elementi disattivabili. La navigazione
+delle tre schede e le proprietà collassano separatamente; la tabella si apre sugli elementi associati.
+Le terne nodali entrano nel contratto come dati opzionali normalizzati da GPC. Non si ricavano nella UI
+né si sostituiscono con assi globali quando il Converter segnala un orientamento irrisolto.
+Interruttori individuali, ambito della selezione e spegnimento collettivo restano stato della vista.
+Il ponte di sviluppo usa GPC esistente senza cambiare altri repository o il bundle distribuito.
+Alla domanda sul pulsante Aggiorna modello si chiarisce che ora rilegge una copia da file; l'acquisizione
+diretta dal software e il controllo delle revisioni modello/analisi rimangono nel piano del modulo.
+L'utente approva e precisa quattro modalità per quel flusso: Solo geometria, Geometria + attributi + carichi,
+Solo risultati, Tutto. Solo geometria abilita anche visualizzazioni semplici senza risultati.
+La specifica distingue questa decisione dalle funzioni oggi operative ed esplicita la coerenza di revisione
+e l'invalidazione dei dati incompatibili nei caricamenti parziali.

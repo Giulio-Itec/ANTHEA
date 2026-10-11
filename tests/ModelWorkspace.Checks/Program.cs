@@ -75,6 +75,7 @@ static partial class Program
             Check(imports == 1, "closing the view prevents a late import from mutating the document");
             DisplayAndTableChecks();
             VisibilityAndScaleChecks();
+            PanelAndNodeAxesChecks();
 
             if (args.Length > 1)
             {

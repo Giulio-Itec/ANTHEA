@@ -19,6 +19,10 @@
         <TextBlock Text="RAPPRESENTAZIONE" FontSize="10" FontWeight="SemiBold" Opacity="0.65" Margin="0,0,0,7" />
         <ComboBox ItemsSource="{Binding SurfaceModes}" SelectedIndex="{Binding SelectedSurfaceMode}" AutomationProperties.Name="Rappresentazione delle superfici" />
         <CheckBox Content="Mostra nodi" IsChecked="{Binding ShowNodes}" />
+        <WrapPanel>
+          <CheckBox Content="Assi globali" IsChecked="{Binding ShowGlobalAxes}" Margin="0,0,12,4" />
+          <CheckBox Content="Cubo vista" IsChecked="{Binding ShowViewCube}" Margin="0,0,0,4" />
+        </WrapPanel>
         <DockPanel Margin="0,4,0,0">
           <TextBlock Text="Spessore linee" FontSize="11" Width="100" VerticalAlignment="Center" />
           <Slider Value="{Binding LineWidth}" Minimum="0.5" Maximum="2.5" SmallChange="0.25" ToolTip="Spessore grafico delle linee" />

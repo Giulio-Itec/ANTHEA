@@ -71,7 +71,11 @@ static class Program
             else
             {
                 var doc = ProjectDocuments.CreateArchive(); var p = ProjectDocuments.AddProject(doc, "Progetto UI"); var sf = ProjectDocuments.AddSection(p, "Sottofase UI");
-                ProjectDocuments.AddSheet(sf, "str_palo", "Verifica UI"); ProjectModelStore.Set(sf, Sample.Model());
+                ProjectDocuments.AddSheet(sf, "str_palo", "Verifica UI");
+                var fixture = Sample.Model();
+                fixture.NodeFrames = [new(1, new(0, 1, 0), new(-1, 0, 0), new(0, 0, 1))];
+                fixture.Boundaries = [new("CONS/1", "RESTRAIN", [1], null, "DX, DY, DZ"), new("ELNK/1", "CONSTRAINT", [1, 6], null, "DX"), new("ELNK/2", "LINK", [2, 5], null, "Matrice elastica"), new("FRLS/12/I", "RELEASE", [1], 12, "RZ")];
+                ProjectModelStore.Set(sf, fixture);
                 archive = Path.Combine(output, "ui.programma"); Archivio.Scrivi(archive, doc);
             }
             window = new X.Desktop.MainWindow { Width = 1600, Height = 990, ShowInTaskbar = false };
@@ -198,6 +202,24 @@ static class Program
                 familyBox.IsDropDownOpen = false; Wait(100);
                 Capture(isolated, scene, Path.Combine(output, "modelli-tema-scuro.png"));
                 appearance.GetMethod("Set", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, [Enum.Parse(modeType, "Light"), false]);
+                state.ShowTable = false; double expandedWidth = scene.ActualWidth;
+                state.ToggleNavigationCommand.Execute(null); state.ToggleInspectorCommand.Execute(null); Wait(250);
+                var rail = (FrameworkElement)isolated.FindName("NavigationRail"); var propertyRail = (FrameworkElement)isolated.FindName("InspectorRail");
+                Check(rail.IsVisible && propertyRail.IsVisible && Math.Abs(rail.ActualWidth - 44) < 1 && Math.Abs(propertyRail.ActualWidth - 44) < 1 && scene.ActualWidth > expandedWidth + 400, "both side panels collapse to rails and release space for the model");
+                Capture(isolated, scene, Path.Combine(output, "modelli-barre-laterali.png"));
+                state.OpenNavigationCommand.Execute("0"); state.ToggleInspectorCommand.Execute(null); state.SelectedMode = 0; Wait(150);
+                if (state.Snapshot.NodeFrames?.Length > 0)
+                {
+                    int node = state.Snapshot.Boundaries!.First(b => b.Kind == "RESTRAIN").Nodes[0];
+                    state.SelectedTreeItem = state.FindTreeItem("NODE:" + node); state.OverlaysOnlySelection = true; state.ShowNodeAxes = true; state.ShowRestraints = true;
+                    var expander = Children<Expander>(isolated).Single(e => e.Header?.ToString() == "Assi e condizioni al contorno"); expander.IsExpanded = true; Wait(300);
+                    var axes = scene.Items.OfType<LineGeometryModel3D>().Where(l => l.Color == Color.FromRgb(236,116,111) && l.Geometry?.Positions?.Count > 0).ToArray();
+                    Check(axes.Length == 1 && axes[0].Geometry!.Positions!.Count == 6, "nodal axes scope renders exactly the selected node triad");
+                    Capture(isolated, scene, Path.Combine(output, "modelli-vincoli-assi-nodali.png"));
+                    state.DisableOverlaysCommand.Execute(null); Wait(100);
+                    Check(!scene.Items.OfType<LineGeometryModel3D>().Any(l => l.Color == Color.FromRgb(236,116,111) && l.Geometry?.Positions?.Count > 0), "disabling overlays removes the nodal axis geometry");
+                    expander.IsExpanded = false;
+                }
                 listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()), "no WPF binding errors in isolated viewer");
                 File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} checks");
                 preview.Close(); app.Shutdown(); return 0;
@@ -247,6 +269,26 @@ static class Program
             }
             vm.SelectedComponent = "Fxx"; Wait(300); Check(vm.ResultUnit.Contains("kN/m"), "result component selection updates unit label");
             vm.QueryCommand.Execute(null); Check(vm.SelectionInformation.Contains("Spessore"), "WPF view binds query data from the ViewModel");
+            if (args.Length == 1)
+            {
+                vm.SelectedMode = 0; vm.SelectedTreeItem = vm.FindTreeItem("NODE:1"); vm.OverlaysOnlySelection = true; vm.ShowNodeAxes = true; Wait(150);
+                var axes = viewport.Items.OfType<LineGeometryModel3D>().Single(l => l.Color == Color.FromRgb(236,116,111) && l.Geometry?.Positions?.Count > 0).Geometry!.Positions!;
+                Check(Math.Abs(axes[1].X - axes[0].X) < 1e-6 && axes[1].Y > axes[0].Y && Math.Abs(axes[1].Z - axes[0].Z) < 1e-6, "rotated nodal X is drawn along its imported direction rather than a connected beam");
+                vm.ShowRestraints = vm.ShowConstraints = vm.ShowLinks = vm.ShowReleases = true; Wait(100);
+                Check(viewport.Items.OfType<LineGeometryModel3D>().Any(l => l.Color == Color.FromRgb(201,155,238) && l.Geometry?.Positions?.Count > 0), "constraint overlay has its own visible geometry");
+                vm.DisableOverlaysCommand.Execute(null); Wait(100);
+                Check(!viewport.Items.OfType<LineGeometryModel3D>().Any(l => (l.Color == Color.FromRgb(236,116,111) || l.Color == Color.FromRgb(201,155,238)) && l.Geometry?.Positions?.Count > 0), "disabling layers removes axes and constraints while retaining the model");
+                vm.SelectedTreeItem = vm.FindTreeItem("SECT:2"); Wait(150);
+                var treeItem = Children<TreeViewItem>(view).First(t => t.DataContext is ModelTreeItem item && item.Key == "SECT:2");
+                var header = Children<TextBlock>(treeItem).First(t => t.Text.Contains("Rettangolare")); vm.ClearSelectionCommand.Execute(null);
+                header.RaiseEvent(new System.Windows.Input.MouseButtonEventArgs(System.Windows.Input.Mouse.PrimaryDevice, Environment.TickCount, System.Windows.Input.MouseButton.Right) { RoutedEvent = System.Windows.Input.Mouse.PreviewMouseDownEvent });
+                Check(vm.SelectedTreeItem?.Key == "SECT:2", "context click resolves the nested property item rather than its parent category");
+                var menu = ((TreeView)view.FindName("ModelTree")).ContextMenu; menu.PlacementTarget = (TreeView)view.FindName("ModelTree"); menu.IsOpen = true; Wait(80);
+                var isolate = menu.Items.OfType<MenuItem>().Single(item => item.Header?.ToString() == "Isola");
+                Check(isolate.Command?.CanExecute(null) == true, "tree context menu binds visibility commands to the selected property"); menu.IsOpen = false;
+                vm.ShowGlobalAxes = vm.ShowViewCube = false; Wait(80);
+                Check(!viewport.ShowCoordinateSystem && !viewport.ShowViewCube, "orientation widgets can be disabled independently of the model");
+            }
             Call(window, "ShowModelsHub"); Wait(100);
             Check(!vm.ImportCommand.CanExecute(null), "leaving viewer disposes its ViewModel and disables late imports");
             Check(viewport.EffectsManager == null, "leaving viewer releases GPU manager");

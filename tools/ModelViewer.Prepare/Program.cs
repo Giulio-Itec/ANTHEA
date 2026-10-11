@@ -20,6 +20,16 @@ if (mapped.Model == null) throw new InvalidDataException("GPC Model ha rifiutato
 ModelDirection Direction(Vector3d v) => new(v.X, v.Y, v.Z);
 snapshot.LocalFrames = batch.Shells.Select(s => new ModelLocalFrame(int.Parse(s.Id), Direction(s.CoordinateSystem.V1), Direction(s.CoordinateSystem.V2), Direction(s.CoordinateSystem.V3)))
     .Concat(batch.Beams.Select(b => new ModelLocalFrame(int.Parse(b.Id), Direction(b.CoordinateSystem.V3), Direction(b.CoordinateSystem.V1), Direction(b.CoordinateSystem.V2)))).ToArray();
+// An unresolved nodal orientation is not replaced by a global triad. Null NodeFrames means the source table was not acquired.
+if (snapshot.SourceTables?.ContainsKey("SKEW") == true)
+{
+    var unresolved = batch.Diagnostics.Where(d => d.Code == "CivilNxNodeAxesUnresolved").Select(d => d.Record).ToHashSet();
+    snapshot.NodeFrames = batch.Nodes.Where(n => !unresolved.Contains("SKEW/" + n.Id)).Select(n =>
+    {
+        var axes = n.CoordinateSystem ?? CoordinateSystem.Global;
+        return new ModelNodeFrame(int.Parse(n.Id), Direction(axes.V1), Direction(axes.V2), Direction(axes.V3));
+    }).ToArray();
+}
 string[] dofs = ["DX", "DY", "DZ", "RX", "RY", "RZ"];
 string Flags(IEnumerable<bool> flags) => string.Join(", ", flags.Select((active, i) => active ? dofs[i] : null).OfType<string>());
 var boundaries = batch.NodeRestrains.Select(r => new ModelBoundary(r.Record, "RESTRAIN", [int.Parse(r.NodeId)], null, Flags(r.FixedDofs))).ToList();
@@ -42,6 +52,7 @@ File.WriteAllText(Path.ChangeExtension(output, ".import.json"), JsonSerializer.S
 {
     Source = directory, Converter = typeof(CivilNxModelProfile).Assembly.GetName().Version?.ToString(),
     Nodes = snapshot.Nodes.Length, Elements = snapshot.Elements.Length, Frames = snapshot.LocalFrames.Length,
+    NodeFrames = snapshot.NodeFrames?.Length,
     Boundaries = boundaries.GroupBy(b => b.Kind).ToDictionary(g => g.Key, g => g.Count()),
     Results = snapshot.Results.Select(r => new { r.Name, Corners = r.Values.Length, Fields = r.Fields?.Select(f => new { f.Family, f.Axes, f.Component, Samples = f.Values.Length }) }),
     Diagnostics = batch.Diagnostics.Select(d => new { d.Code, Severity = d.Severity.ToString(), d.Record, d.Message })

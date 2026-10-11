@@ -82,6 +82,7 @@ public sealed partial class ModelViewerViewModel
         value.IsSelected = true; ModelTreeBuilder.ExpandPath(Tree, value.Key);
         Attributes = value.Attributes; InspectorTitle = value.Label;
         SelectedElementIds = value.Elements.ToHashSet();
+        UpdateSelectedNodes(value);
         var section = value.Table == "SECT" ? Snapshot?.Sections.FirstOrDefault(s => s.Id == value.Id) : null;
         SectionWidth = section == null ? 0 : 156 * section.Width / Math.Max(section.Width, section.Height);
         SectionHeight = section == null ? 0 : 108 * section.Height / Math.Max(section.Width, section.Height);
@@ -112,6 +113,7 @@ public sealed partial class ModelViewerViewModel
         InitializeVisibility();
         displayCatalog = new ModelDisplayCatalog(Snapshot!);
         SelectedTreeItem = null;
+        UpdateSelectedNodes(null); OnPropertyChanged(nameof(NodeAxesSummary));
         SectionWidth = SectionHeight = 0; SectionSize = "";
         foreach (var property in new[] { nameof(HasSelection), nameof(SelectionCount), nameof(IsSectionSelected), nameof(SectionWidth), nameof(SectionHeight), nameof(SectionSize) }) OnPropertyChanged(property);
         IsolateCommand.NotifyCanExecuteChanged(); HideCommand.NotifyCanExecuteChanged(); ShowSelectedCommand.NotifyCanExecuteChanged();
