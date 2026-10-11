@@ -402,6 +402,12 @@ public sealed partial class MainWindow : Window
     }
     private void ExportReport()
     {
+        if (editor?.Module == Anthea.FoundationWorkspace.FoundationDocument.Module)
+        {
+            Commit(); if (!editor.HasResults) { MessageBox.Show(this, "Completare il calcolo prima di esportare il report."); return; }
+            var save = new SaveFileDialog { Filter = "Word e PDF affiancati|*.docx", FileName = "Fondazioni_superficiali.docx" };
+            if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []); return;
+        }
         if (editor?.Module is "mat_calcestruzzo" or RebarMaterial.Module)
         {
             Commit();
