@@ -9,6 +9,15 @@ namespace ANTHEA.ModelViewer.Wpf;
 /// <summary>Composes the control's own WPF content with its Direct3D scene, including labels and legend.</summary>
 internal static class ViewerImageExporter
 {
+    internal static void SynchronizeLayout(FrameworkElement root,Viewport3DX viewport)
+    {
+        root.UpdateLayout();viewport.UpdateLayout();
+        if(viewport.RenderHost is {} host)
+        {
+            host.Resize(Math.Max(1,(int)Math.Round(viewport.ActualWidth)),Math.Max(1,(int)Math.Round(viewport.ActualHeight)));
+            host.UpdateAndRender();
+        }
+    }
     private static BitmapSource RenderScene(Viewport3DX view,int width,int height)
     {
         var host=view.RenderHost??throw new InvalidOperationException("Vista grafica non pronta.");
@@ -75,6 +84,7 @@ internal static class ViewerImageExporter
         string temporary = Path.Combine(Path.GetTempPath(), "anthea-view-" + Guid.NewGuid().ToString("N") + ".png");
         try
         {
+            SynchronizeLayout(root,viewport);
             viewport.SaveScreen(temporary);
             BitmapSource scene;
             using(var input=File.OpenRead(temporary))scene=BitmapDecoder.Create(input,BitmapCreateOptions.PreservePixelFormat,BitmapCacheOption.OnLoad).Frames[0];

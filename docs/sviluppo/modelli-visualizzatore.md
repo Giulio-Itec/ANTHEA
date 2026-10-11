@@ -744,3 +744,15 @@ con margini in un'altra vista e dopo una riduzione della finestra. Catture prece
 `export-layout/before`, corrette in `export-layout/preferences`; 10 controlli WPF includono
 pixel ai bordi, prima apertura scura, salvataggio e riapertura delle viste dallo store dedicato.
 I nuovi host registrano il tema prima di aprirsi; didascalia del tipo di risultato resa esplicita.
+
+La cattura completa sincronizza inoltre layout e render host prima del frame: un'apertura
+immediata del pannello dei diagrammi non comprime più la vecchia immagine nella viewport
+ridotta. Prova senza attesa intermedia e dimensioni native verificate; 12 controlli in
+`export-layout/synchronized`. MOD-27.
+
+Collaudo di e25b7ed: `ci/20261011-203008-modelli-preview-finale`, standard 43 PASS / 1 KNOWN
+già censito / 0 nuovi fallimenti; `preview-20261011/collaudo/regressione-isolata`, 138 WPF
+PASS con codice processo 0. Una prima esecuzione parallela senza file di esito non è
+conteggiata. Diagrammi e relativo PDF: 17 PASS; report deformate: 9 PASS; tutte le otto
+pagine dei due PDF sono state controllate. Campo già caricato: mediana 56 ms, massimo
+144 ms fino a OnRendered, esclusi acquisizione, solver e costruzione di combinazioni/inviluppi.

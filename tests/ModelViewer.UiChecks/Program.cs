@@ -34,6 +34,7 @@ static partial class Program
     static void Capture(FrameworkElement root, Viewport3DX viewport, string path,int minimumViewportSide=200)
     {
         // Capture our own WPF tree and its native Direct3D render, never the operating-system desktop.
+        ViewerImageExporter.SynchronizeLayout(root,viewport);
         string render = Path.ChangeExtension(path, ".viewport.png"); viewport.SaveScreen(render);
         BitmapSource scene;
         using(var input=File.OpenRead(render))scene=BitmapDecoder.Create(input,BitmapCreateOptions.PreservePixelFormat,BitmapCacheOption.OnLoad).Frames[0];
@@ -153,9 +154,9 @@ static partial class Program
                     if (args.Contains("--beam-results"))
                     {
                         state.SelectedFamily=1;state.SelectedComponent="My";state.ShowBeamDiagram=true;state.ShowLineContour=true;
-                        state.SelectedRepresentation=1;state.SelectedPanel=1;state.ShowContext=false;
+                        state.SelectedRepresentation=1;state.SelectedPanel=1;state.ShowContext=true;
                         var beamSamples=ResultFields.Read(state.Snapshot!.Results.FirstOrDefault(r=>r.Name==state.SelectedCase),"BEAM","LOCAL","My");
-                        state.MemberDiagramElementId=beamSamples.GroupBy(v=>v.Element).MaxBy(g=>g.Max(v=>v.Value)-g.Min(v=>v.Value))?.Key
+                        state.MemberDiagramElementId=beamSamples.GroupBy(v=>v.Element).MaxBy(g=>g.Max(v=>Math.Abs(v.Value)))?.Key
                             ??state.Snapshot.Elements.FirstOrDefault(e=>e.Type=="BEAM")?.Id;
                         state.MemberDiagramAllComponents=true;state.OpenMemberDiagramCommand.Execute(null);
                     }

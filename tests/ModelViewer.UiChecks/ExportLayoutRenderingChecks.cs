@@ -52,6 +52,16 @@ static partial class Program
             Check(store.Read(state.Snapshot!.Fingerprint()).Any(v=>v.Name=="Preferenza di prova"),"preview view preferences are saved through the injected store");
             using var reopened=new ModelViewerControl(Sample.Model(),[],false,_=>{},(_,_,_,_)=>{},store);
             Check(((ModelViewerViewModel)reopened.DataContext).SavedViews.Any(v=>v.Name=="Preferenza di prova"),"a new viewer restores the dedicated preview preferences without using the app store");
+            host.Width=1500;host.Height=950;Wait(150);
+            state.MemberDiagramElementId=12;state.MemberDiagramAllComponents=true;state.OpenMemberDiagramCommand.Execute(null);
+            // Deliberately do not pump a layout/render pass between opening the drawer and exporting.
+            string immediate=Path.Combine(output,"diagrammi-immediati.png");
+            ViewerImageExporter.Save(control,viewport,immediate);
+            Capture(control,viewport,Path.Combine(output,"diagrammi-immediati-runner.png"),100);
+            using var frame=File.OpenRead(Path.Combine(output,"diagrammi-immediati-runner.viewport.png"));
+            var native=BitmapDecoder.Create(frame,BitmapCreateOptions.PreservePixelFormat,BitmapCacheOption.OnLoad).Frames[0];
+            var dpi=VisualTreeHelper.GetDpi(viewport);
+            Check(Math.Abs(native.PixelWidth-viewport.ActualWidth*dpi.DpiScaleX)<3 && Math.Abs(native.PixelHeight-viewport.ActualHeight*dpi.DpiScaleY)<3,"immediate drawer export renders at the new viewport size instead of compressing the previous frame");
         }
         finally {host.Close();}
     }

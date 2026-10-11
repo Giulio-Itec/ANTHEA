@@ -757,3 +757,16 @@ caricata da stream, senza dipendere dalla cache degli URI. Prima/dopo e prova co
 e ridimensionamento conservati. I nuovi host di prova sono registrati con Appearance.Watch
 prima di mostrarli, come le finestre dell'applicazione, per applicare anche le barre di
 scorrimento al primo avvio scuro. Nessuna modifica al gestore dei temi dell'applicazione.
+
+## Cattura dopo un cambio di disposizione (11 ottobre 2026)
+
+Prima di acquisire il frame Direct3D si completa il layout WPF e si aggiorna la dimensione
+del render host. Altrimenti l'apertura dei diagrammi può lasciare una cattura alta 870 pixel
+ridotta dentro una viewport alta 270 pixel fisici. Il controllo immediato ora acquisisce
+le dimensioni corrette, senza dover aspettare manualmente un fotogramma. MOD-27.
+
+Il collaudo standard sulla build e25b7ed chiude con 43 PASS, un solo KNOWN già censito e
+nessun nuovo fallimento. La prima batteria intensiva di schermate non ha prodotto l'esito
+finale durante l'esecuzione parallela e non è conteggiata come superata. La ripetizione
+isolata, con attesa esplicita del processo, termina con codice 0 e 138 controlli PASS.
+Diagrammi/report: 17 PASS; deformate/report: 9 PASS; otto pagine PDF ispezionate.

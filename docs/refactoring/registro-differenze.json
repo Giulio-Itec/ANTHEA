@@ -1703,6 +1703,23 @@
       "test": ["10 controlli WPF di esportazione incorporata, tema iniziale e persistenza separata", "Build Release fuori dai sorgenti: 14 controlli deformate, 62 controlli temi", "Avviatore interattivo reale: 49 casi, nessun errore di binding"],
       "evidenze": ["supporto/artefatti/model-viewer/export-layout/before", "supporto/artefatti/model-viewer/export-layout/preferences", "supporto/artefatti/model-viewer/preview-qa-20261011"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-27",
+      "titolo": "Cattura sincronizzata con il layout",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Completamento del layout e aggiornamento del render host prima della cattura completa; il frame segue immediatamente il ridimensionamento dovuto ai pannelli.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelViewer.Wpf/ViewerImageExporter.cs", "tests/ModelViewer.UiChecks/ExportLayoutRenderingChecks.cs"],
+      "segno": "Rimossa la compressione del vecchio frame: esempio 870 pixel catturati per una viewport da 270 pixel fisici; nessun cambio dei dati.",
+      "decisione": {"data": "2026-10-11", "utente": "vista e schermate del visualizzatore", "esito": "sincronizzazione verificata anche senza attese fra apertura del pannello ed esportazione"},
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["12 controlli WPF di layout, esportazione, prima apertura scura e store dedicato"],
+      "evidenze": ["supporto/artefatti/model-viewer/preview-20261011/prove/20261011-203826-a46b06", "supporto/artefatti/model-viewer/export-layout/synchronized"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }
