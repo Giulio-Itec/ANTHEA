@@ -20,9 +20,10 @@ public partial class ModelViewerControl : UserControl, IDisposable
         Action<ModelSnapshot> imported, Action<string, int, string, string> linked)
     {
         InitializeComponent();
-        var services = new WpfModelViewerServices(() => Window.GetWindow(this), () => renderer?.Fit(viewModel?.IncludeHiddenInFit ?? false), path => ViewerImageExporter.Save(this, Viewport, path));
+        var services = new WpfModelViewerServices(() => Window.GetWindow(this), () => {previousCamera=renderer?.CameraState();renderer?.Fit(viewModel?.IncludeHiddenInFit ?? false);}, SaveConfiguredImage,()=>renderer?.CameraState(),camera=>{viewModel!.IsOrthographic=camera.Orthographic;renderer?.RestoreCamera(camera);});
         viewModel = new ModelViewerViewModel(snapshot, sheets, readOnly, services, imported, linked);
         DataContext = viewModel;
+        AttachInteraction();
         viewModel.SceneChanged += SceneChanged;
         viewModel.ViewSettingsChanged += ViewSettingsChanged;
         viewModel.CameraPresetRequested += CameraPresetRequested;
@@ -39,11 +40,13 @@ public partial class ModelViewerControl : UserControl, IDisposable
     }
     private void ViewerKeyDown(object sender, KeyEventArgs e)
     {
+        if(e.Key==Key.P&&Keyboard.FocusedElement is not TextBox) {viewModel.PinProbeCommand.Execute(null);e.Handled=true;return;}
         if (e.Key != Key.Escape) return;
+        CancelSelectionDrawing();
         viewModel.ClearSelectionCommand.Execute(null); viewModel.ShowViewSettings = false; e.Handled = true;
     }
     private void ViewSettingsChanged(object? sender, EventArgs e) => ApplyViewSettings();
-    private void CameraPresetRequested(object? sender, string preset) => renderer?.SetCameraPreset(preset);
+    private void CameraPresetRequested(object? sender, string preset) {previousCamera=renderer?.CameraState();renderer?.SetCameraPreset(preset);}
     private void ApplyViewSettings()
     {
         Viewport.RotationSensitivity = Math.Clamp(viewModel.RotationSensitivity, .1, 2);
@@ -75,8 +78,8 @@ public partial class ModelViewerControl : UserControl, IDisposable
     private void SceneMouseDown(object? sender, RoutedEventArgs args)
     {
         Viewport.Focus();
-        if (args is MouseDown3DEventArgs e && e.OriginalInputEventArgs is MouseButtonEventArgs mouse && mouse.ChangedButton == MouseButton.Left && renderer?.ElementAt(e.HitTestResult) is int id)
-            viewModel.SelectElement(id, Keyboard.Modifiers.HasFlag(ModifierKeys.Control));
+        if (viewModel.SelectionTool==0&&viewModel.SelectionTarget!=1&&args is MouseDown3DEventArgs e && e.OriginalInputEventArgs is MouseButtonEventArgs mouse && mouse.ChangedButton == MouseButton.Left && renderer?.ElementAt(e.HitTestResult) is int id)
+            viewModel.SelectElements([id], Keyboard.Modifiers.HasFlag(ModifierKeys.Control),Keyboard.Modifiers.HasFlag(ModifierKeys.Shift));
     }
     private void OnUnloaded(object sender, RoutedEventArgs e) => Dispose();
 
@@ -87,17 +90,14 @@ public partial class ModelViewerControl : UserControl, IDisposable
         {
             ApplyViewSettings();
             var palette = new System.Windows.Media.LinearGradientBrush { StartPoint = new Point(0, 1), EndPoint = new Point(0, 0) };
-            for (int i = 0; i < 5; i++) { var c = Contours.Color(i / 4.0, viewModel.SelectedContourPalette); palette.GradientStops.Add(new(System.Windows.Media.Color.FromRgb((byte)Math.Round(c.Red * 255), (byte)Math.Round(c.Green * 255), (byte)Math.Round(c.Blue * 255)), i / 4.0)); }
+            for (int i = 0; i < 256; i++) { var c = Contours.DisplayColor(i / 255.0, viewModel.SelectedContourPalette,viewModel.ReversePalette,viewModel.ContourBands); palette.GradientStops.Add(new(System.Windows.Media.Color.FromRgb((byte)Math.Round(c.Red * 255), (byte)Math.Round(c.Green * 255), (byte)Math.Round(c.Blue * 255)), i / 255.0)); }
             Resources["ModelContourPalette"] = palette;
             if (!ReferenceEquals(renderedSnapshot, viewModel.Snapshot))
             {
                 renderer.SetModel(viewModel.Snapshot); renderedSnapshot = viewModel.Snapshot;
             }
-            var statistics = renderer.Render(new(viewModel.SelectedMode, viewModel.ContourValues, viewModel.Family,
-                viewModel.Subdivisions, viewModel.ShowMesh, viewModel.ShowIsolines, viewModel.VisibleElementIds, viewModel.SelectedElementIds, viewModel.ShowLocalAxes,
-                viewModel.ShowRestraints, viewModel.ShowConstraints, viewModel.ShowLinks, viewModel.ShowReleases, viewModel.ShowContext,
-                new(viewModel.ElementColors, viewModel.SelectedSurfaceMode, viewModel.ShowHiddenWireframe, viewModel.ShowNodeIds,
-                    viewModel.ShowElementIds, viewModel.ShowPropertyIds, viewModel.ShowNodes, viewModel.SelectedLabelScope == 1, viewModel.LabelScale, viewModel.LineWidth), viewModel.ColorMinimum, viewModel.ColorMaximum, viewModel.ShowNodeAxes, viewModel.OverlaysOnlySelection, viewModel.SelectedNodeIds, viewModel.SelectedLighting, viewModel.SelectedContourPalette, viewModel.IsolineCount, viewModel.IsolineWidth));
+            var statistics = renderer.Render(Options(viewModel));
+            UpdateComparisonScene();
             viewModel.Status = $"Scena pronta · {statistics.Preparation.TotalMilliseconds:N0} ms di preparazione · {statistics.Triangles:N0} triangoli";
             if (viewModel.IsResultsView) viewModel.Status += $" · {statistics.MissingElements} {viewModel.Family.ToLowerInvariant()} senza risultati";
             if (viewModel.ShowLocalAxes && viewModel.Snapshot.LocalFrames == null) viewModel.Status += " · terne locali non importate";
@@ -110,6 +110,7 @@ public partial class ModelViewerControl : UserControl, IDisposable
     {
         if (disposed) return;
         disposed = true;
+        DetachInteraction(); DisposeComparison();
         Loaded -= OnLoaded; Unloaded -= OnUnloaded; viewModel.SceneChanged -= SceneChanged;
         PreviewKeyDown -= ViewerKeyDown; viewModel.ViewSettingsChanged -= ViewSettingsChanged; viewModel.CameraPresetRequested -= CameraPresetRequested;
         viewModel.Dispose(); renderer?.Dispose(); renderer = null; renderedSnapshot = null;

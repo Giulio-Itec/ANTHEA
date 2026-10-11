@@ -46,6 +46,12 @@ internal sealed class EdgeBuilder
 }
 internal static class Contours
 {
+    internal static Color4 DisplayColor(double t,int palette,bool reverse,int bands)
+    {
+        int count=bands switch {1=>8,2=>12,3=>20,_=>0};t=Math.Clamp(t,0,1);
+        if(count>0)t=(Math.Min(count-1,(int)(t*count))+.5)/count;
+        return Color(reverse?1-t:t,palette);
+    }
     // Graphic interpolation inside each element. Input corners can be original or display-only nodal means.
     internal static void Surface(SurfaceBuilder mesh, EdgeBuilder lines, Vector3[] p, double[] values, int id, double min, double max, int subdivisions, bool isolines, int intervals = 12)
     {

@@ -294,9 +294,9 @@ il runner entra tramite Dispatcher come il futuro comando WPF, preservando il co
 | 1 | Profili solidi generici/variabili, offset di estremità e sezioni orientate, provenienza delle convenzioni | GPC Geometry/Model e renderer |
 | 1 | Combinazioni e inviluppi locali con caso governante, coerenza simultanea e cache | GPC, non WPF |
 | 1 | Archivio compresso/grandi dati e confronto completo delle revisioni modello | Librerie documenti/progetti |
-| 2 | Carichi grafici, deformate, tensioni, volumi, diagrammi beam, clipping e filtri per intervalli di risultato | Contratti GPC e vista |
+| 2 | Ampliare i carichi grafici a HYDRO, carichi variabili/proiettati/eccentrici e altre formulazioni; importare spostamenti e tensioni con provenienza esplicita | Contratti GPC e adattatori |
 | 2 | Controlli ingegneristici, editor del modello e trasferimento controllato ai fogli | GPC e libreria applicativa |
-| 2 | Selezione rettangolare/per numeri, etichette senza sovrapposizioni, ordinamento avanzato, grafici tabellari, viste con camera e preferenze persistenti | Modulo Modelli |
+| 2 | Ordinamento avanzato, grafici tabellari, soglie arbitrarie delle singole fasce e preselezione delle facce solide con offset | Modulo Modelli |
 | 2 | Ampliare prove su software reali diversi, modelli grandi, DPI multipli e accessibilità | Test |
 | 3 | Guide globali/Wiki/PDF e distribuzione dopo il collaudo del modulo | Documentazione |
 
@@ -307,3 +307,82 @@ Per la scelta fra importazione di tutte le combinazioni e soli casi base, vedere
 73 definizioni ricostruite in un prototipo separato, tempi e limiti di validazione espliciti.
 Nessun dato di calcolo legacy è stato spostato o sostituito; confronto delle revisioni e archivio grandi dati
 restano prerequisiti per distribuire il modulo negli archivi operativi.
+
+
+## Esplorazione e disposizione delle schede — 11 ottobre 2026
+
+La revisione MOD-09 parte dal commit 662e9a7. Le verifiche ingegneristiche rimangono nella loro
+predisposizione precedente. I comandi operativi sono organizzati per l'oggetto che modificano:
+
+| Posizione | Contenuti |
+| --- | --- |
+| Modello | Albero e proprietà, selezione per ID/intervalli, filtri, carichi importati, assi e condizioni al contorno |
+| Risultati | Caso, famiglia, assi, componente, unità; media ai vertici; palette continua o 8/12/20 fasce e inversione; scala; estremi e letture fissate; selezione per valore; diagrammi, deformata e confronto |
+| Vista | Camera e stile, opacità, taglio X/Y/Z o tre nodi, lato visibile, viste persistenti ed esportazione |
+| Barra della scena | Clic/rettangolo/poligono, tipo di oggetto, isolamento, nascondi/mostra, visibilità precedente e zoom selezione |
+| Legenda | Valori alle estremità e quartili, precisione, saturazione, unità, natura mediata/originale e accesso alla scala |
+
+La barra laterale ridotta conserva tutte e quattro le schede. La barra superiore mantiene accessibili le
+impostazioni generali, gli oggetti e le tabelle. La selezione è indipendente dallo strumento di navigazione:
+Ctrl aggiunge e Shift sottrae; rettangolo da sinistra per contenimento, da destra per intersezione;
+poligono chiuso con doppio clic. Esc annulla il disegno e deseleziona. I nodi hanno evidenziazione
+e inquadratura proprie. La selezione per valore considera almeno un campione del campo grafico corrente;
+non valuta estremi interni ricostruiti. Isola/Nascondi agiscono poi sugli elementi selezionati.
+
+Il mouse legge il campione importato più vicino sullo schermo all'interno dell'elemento colpito.
+La didascalia lo dichiara: non è una query interpolata della faccia. P fissa fino a 20 letture, con
+caso e unità di origine; nel caso mediato espone anche il corrispondente valore originale.
+Le letture rimangono riferite al campo di origine quando cambia il campo attivo. Min/max si riferiscono
+ai campioni grafici degli elementi attivi, inclusa la porzione coperta dal taglio. Le etichette riservano
+rettangoli sullo schermo e vengono ridisposte dopo il movimento della camera.
+
+Il clipping conserva gli ID per il picking e interpola soltanto le coordinate grafiche della texture.
+Non modifica elementi, offset, risultati, tabelle, campioni o scala: taglio visuale senza tappi e senza
+calcolo delle risultanti di sezione. Le coordinate vengono ricentrate in doppia precisione prima dei
+buffer float. Un piano per tre nodi degeneri non viene applicato. Trasparenza e bordi esterni sono livelli
+separati dalla mesh; i volumi mantengono la geometria con offset già collaudata.
+
+Il confronto usa due campi indipendenti per caso/componente/media, con famiglia, assi, unità e visibilità
+comuni. La posa della camera è sincronizzata dalla prima scena con nuclei di rendering indipendenti; all'apertura si inquadra la geometria attiva.
+La scala comune usa l'unione dei due intervalli (oppure i limiti manuali della vista principale) solo
+per unità compatibili. Ogni scena dispone della propria legenda. Non è un calcolo di differenze o inviluppi.
+
+Le viste con nome persistono camera, campo, unità, limiti, selezione di elementi, visibilità, taglio,
+mesh, bordi, opacità, palette e sfondo. Sono preferenze locali in LocalAppData/ANTHEA/ModelViews,
+separate dall'archivio ingegneristico e indicizzate dall'impronta della revisione esatta.
+Salvataggio atomico, nomi univoci, validazione e limite di dimensione impediscono di corrompere
+silenziosamente l'archivio delle viste. Non si trasferiscono le viste a una revisione diversa.
+
+L'esportazione della scena produce PNG a 1600/2400/3840 pixel con titolo, campo e legenda per ogni vista.
+Lo sfondo bianco è temporaneo e la vista aperta viene ripristinata; resta disponibile l'immagine
+dell'intero controllo. Le immagini generate sono evidenze di prova, non risorse dell'applicazione.
+
+### Contratti grafici e limiti espliciti
+
+- Diagrammi delle aste: segmenti fra stazioni effettivamente importate, ordinata grafica lungo Z locale
+  dichiarata nella scheda, scala visiva regolabile. Nessuna ricostruzione di campioni o deformate beam.
+- Carichi: adattatore documentale in ModelWorkspace per CNLD globali, BMLD uniformi sull'intera asta
+  senza proiezione/eccentricità/addizionali, PRES uniformi con direzione globale o terna locale importata.
+  Conversione delle unità esplicite a kN/m. Frecce e momenti sono normalizzati per famiglia di unità;
+  non sono azioni equivalenti. Assegnazioni non rappresentate sono contate e rimangono nelle tabelle.
+  HYDRO, distribuzioni variabili, peso proprio e altri contratti non sono ricostruiti dal visualizzatore.
+- Deformata: nuovo campo opzionale di spostamenti nodali globali [m], validato e omesso dai vecchi snapshot.
+  Si disegna soltanto la geometria nodale spostata, amplificata a video, per elementi con tutti i nodi disponibili.
+  La spalla reale non contiene questi spostamenti: comando disabilitato e messaggio esplicito.
+- Nessuna modifica alle librerie GPC, al motore legacy, agli attesi indipendenti o alle verifiche.
+
+Collaudi: 163 controlli di logica, 99 WPF nella suite completa, 32 nel percorso sintetico generale,
+33 controlli grafici mirati nella revisione finale e runner quick con 27 PASS, nessun nuovo fallimento. Catture prima in nodal-averaging e dopo in
+supporto/artefatti/model-viewer/exploration. La prova sintetica misura taglio/UV/ID, selezione attraverso
+il piano, coordinate globali di un miliardo di metri, separazione delle legende, opacità, deformata
+da spostamenti noti, carichi espliciti e persistenza. Dati originali e impronta restano invariati.
+Sei cambi di campo reale già caricato: mediana 71,9955 ms, massimo 97,5869 ms fino a OnRendered;
+importazione, costruzione delle combinazioni e acquisizione delle immagini sono escluse.
+
+La prova finale comprende opacità misurata nei pixel, rotazione sincronizzata, uguale area delle due
+scene e inquadratura completa sia prospettica sia ortogonale. È stato corretto il ripristino delle
+dimensioni del render host dopo l'esportazione ad alta risoluzione: il ridimensionamento usa DIP WPF,
+i buffer usano pixel fisici. La prova sullo schermo al 150% conserva dimensioni e binding dello sfondo.
+Evidenze finali in exploration/reviewed, exploration/logic-final ed exploration/synthetic;
+suite completa in exploration/validated; quick in ci/20261011-120808-modelli-esplorazione.
+La build autonoma e il relativo avvio sono in exploration/interactive-final.

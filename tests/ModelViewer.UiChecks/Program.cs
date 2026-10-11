@@ -36,7 +36,9 @@ static partial class Program
         string render = Path.ChangeExtension(path, ".viewport.png"); viewport.SaveScreen(render);
         var scene = new BitmapImage(); scene.BeginInit(); scene.CacheOption = BitmapCacheOption.OnLoad; scene.UriSource = new Uri(render); scene.EndInit(); scene.Freeze();
         root.UpdateLayout(); int width = (int)Math.Ceiling(root.ActualWidth), height = (int)Math.Ceiling(root.ActualHeight);
-        var surface = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32); surface.Render(root);
+        var surface = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32); var content=new DrawingVisual();
+        using(var context=content.RenderOpen())context.DrawRectangle(new VisualBrush(root) { Stretch=Stretch.Fill },null,new Rect(0,0,root.ActualWidth,root.ActualHeight));
+        surface.Render(content);
         var visual = new DrawingVisual(); using (var drawing = visual.RenderOpen())
         {
             drawing.DrawImage(surface, new Rect(0, 0, width, height));
@@ -78,7 +80,7 @@ static partial class Program
                 ProjectModelStore.Set(sf, fixture);
                 archive = Path.Combine(output, "ui.programma"); Archivio.Scrivi(archive, doc);
             }
-            window = new X.Desktop.MainWindow { Width = 1600, Height = 990, ShowInTaskbar = false };
+            window = new X.Desktop.MainWindow { Width = 1600, Height = 990, ShowInTaskbar = false, ShowActivated = false };
             Call(window, "LoadFile", archive); window.Show(); Wait(150);
             var document = (JsonObject)window.GetType().GetField("document", Flags)!.GetValue(window)!;
             var owner = document.Array("progetti").OfType<JsonObject>().SelectMany(ProjectModelStore.Containers).First(c => ProjectModelStore.Models(c).Any());
@@ -92,7 +94,7 @@ static partial class Program
                     (sheetId, element, result, component) => ProjectModelStore.Link(owner,
                         ProjectModelStore.DescendantSheets(owner).Single(s => s.S("id") == sheetId), id, element, result, component));
                 window.Close(); window = null;
-                var preview = new Window { Title = "ANTHEA · Modelli", Content = args.Contains("--interactive") ? InteractivePreviewHost.Create(isolated) : isolated, Width = 1600, Height = 1020, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.CenterScreen };
+                var preview = new Window { Title = "ANTHEA · Modelli", Content = args.Contains("--interactive") ? InteractivePreviewHost.Create(isolated) : isolated, Width = 1600, Height = 1020, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.CenterScreen, ShowActivated = args.Contains("--interactive") };
                 preview.Show(); Wait(1200);
                 var state = (ModelViewerViewModel)isolated.DataContext;
                 var scene = Children<Viewport3DX>(isolated).Single();
@@ -113,6 +115,13 @@ static partial class Program
                         BindingErrors=bindingLog.ToString(),ReadyUtc=DateTime.UtcNow,Contour=state.ContourValueLabel,Averaging=state.ContourAveragingSummary
                     },new System.Text.Json.JsonSerializerOptions{WriteIndented=true}));
                     app.Run(); return 0;
+                }
+                if(args.Contains("--exploration-only"))
+                {
+                    ExplorationRenderingChecks(output);CaptureExplorationOnRealModel(isolated,scene,output);
+                    listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"exploration has no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
                 }
                 var realRenderer = isolated.GetType().GetField("renderer", Flags)!.GetValue(isolated)!;
                 bool picked = false;
@@ -217,7 +226,7 @@ static partial class Program
                 var caption = Children<TextBlock>(isolated).First(t => t.Text == "Caso / combinazione");
                 Check(caption.Foreground is SolidColorBrush ink && ink.Color.R > 150 && ink.Color.G > 150, "dark theme keeps field captions readable");
                 var palette = (LinearGradientBrush)isolated.FindResource("ModelContourPalette");
-                Check(palette.GradientStops[4].Color == Color.FromRgb(232, 64, 41), "dark theme preserves the contour legend palette");
+                Check(palette.GradientStops[^1].Color == Color.FromRgb(232, 64, 41), "dark theme preserves the contour legend palette");
                 var familyBox = Children<ComboBox>(isolated).First(c => System.Windows.Automation.AutomationProperties.GetName(c) == "Famiglia degli elementi");
                 familyBox.IsDropDownOpen = true; Wait(150);
                 Check(familyBox.IsDropDownOpen && familyBox.Items.Count == 6, "family selector opens all supported formulations");
@@ -281,6 +290,8 @@ static partial class Program
                 Check(!progressBar.IsIndeterminate && progressBar.Value == 37, "cancelled progress stops at reported work rather than claiming completion");
                 state.DismissVerificationProgressCommand.Execute(null); Wait(80);
                 Check(!progressBar.IsVisible, "dismissed progress leaves the model workspace available");
+                ExplorationRenderingChecks(output);
+                CaptureExplorationOnRealModel(isolated,scene,output);
                 listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()), "no WPF binding errors in isolated viewer");
                 File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} checks");
                 preview.Close(); app.Shutdown(); return 0;

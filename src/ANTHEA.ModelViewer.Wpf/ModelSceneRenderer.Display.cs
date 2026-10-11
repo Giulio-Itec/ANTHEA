@@ -40,6 +40,7 @@ internal sealed partial class ModelSceneRenderer
         var text = new BillboardText3D();
         void Label(string value, Vector3 origin, Color4 color, float offset)
         {
+            if(!LabelFits(origin))return;
             text.TextInfo.Add(new TextInfo(value, origin) { Foreground = color, Background = new Color4(.075f, .11f, .17f, .9f),
                 Scale = (float)(Math.Clamp(options.Display.LabelScale, .6, 1.6) * .6), Offset = new Vector2(0, offset) });
         }

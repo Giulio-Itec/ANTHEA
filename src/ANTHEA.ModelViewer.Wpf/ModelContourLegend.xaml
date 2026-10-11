@@ -1,0 +1,16 @@
+<UserControl x:Class="ANTHEA.ModelViewer.Wpf.ModelContourLegend" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Border Padding="10,18,10,18" Width="118"><StackPanel VerticalAlignment="Center">
+              <TextBlock Text="{Binding SelectedComponent}" Foreground="{Binding SceneInk}" FontSize="14" FontWeight="SemiBold" />
+
+              <Grid Height="240"><Grid.ColumnDefinitions><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
+                <Border CornerRadius="3" Background="{DynamicResource ModelContourPalette}"/>
+                <Grid Grid.Column="1" Margin="6,0,0,0"><Grid.RowDefinitions><RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/></Grid.RowDefinitions>
+<TextBlock Grid.Row="0" Text="{Binding LegendTicks[0]}" FontSize="10" Foreground="{Binding SceneInk}" VerticalAlignment="Top" Margin="0,0,0,0"/>
+<TextBlock Grid.Row="1" Text="{Binding LegendTicks[1]}" FontSize="10" Foreground="{Binding SceneInk}" VerticalAlignment="Top" Margin="0,-6,0,0"/>
+<TextBlock Grid.Row="2" Text="{Binding LegendTicks[2]}" FontSize="10" Foreground="{Binding SceneInk}" VerticalAlignment="Top" Margin="0,-6,0,0"/>
+<TextBlock Grid.Row="3" Text="{Binding LegendTicks[3]}" FontSize="10" Foreground="{Binding SceneInk}" VerticalAlignment="Top" Margin="0,-6,0,0"/>
+<TextBlock Grid.Row="3" Text="{Binding LegendTicks[4]}" FontSize="10" Foreground="{Binding SceneInk}" VerticalAlignment="Bottom" Margin="0,0,0,0"/></Grid>
+              </Grid>
+              <TextBlock Text="{Binding ResultUnit}" Foreground="{Binding SceneInk}" FontSize="10" TextWrapping="Wrap" Margin="0,12,0,0" />
+              <TextBlock Text="{Binding ContourValueLabel}" Foreground="{Binding SceneInk}" FontSize="9" TextWrapping="Wrap" Margin="0,7,0,0" />
+            </StackPanel></Border></UserControl>

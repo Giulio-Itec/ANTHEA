@@ -16,7 +16,7 @@ static partial class Program
             .SelectMany(e => e.Nodes.Select(n => new CornerResult(e.Id, n, [1, e.Id == 10 ? 10 : 30, 3, 4, 5, 6, 7, 8]))).ToArray())];
         sample.LocalFrames = [new(10, new(1, 0, 0), new(0, 1, 0), new(0, 0, 1)), new(11, new(1, 0, 0), new(0, 1, 0), new(0, 0, 1))];
         using var control = new ModelViewerControl(sample, [], false, _ => { }, (_, _, _, _) => { });
-        var host = new Window { Title = "ANTHEA · collaudo media ai vertici", Content = control, Width = 1400, Height = 940, ShowInTaskbar = false };
+        var host = new Window { Title = "ANTHEA · collaudo media ai vertici", Content = control, Width = 1400, Height = 940, ShowInTaskbar = false, ShowActivated = false };
         host.Show(); Wait(500);
         try
         {

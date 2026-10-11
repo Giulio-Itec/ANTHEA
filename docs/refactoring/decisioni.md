@@ -551,3 +551,18 @@ Il vicinato è quello del modello intero, indipendente dalla visibilità; tabell
 la legenda usa il campo grafico e dichiara la media. Gli inviluppi restano estremi non simultanei.
 Il controllo e le impostazioni condividono lo stato MVVM. Nessuna modifica degli altri progetti o delle
 librerie GPC. Evidenze prima/dopo e collaudi sintetici/reali nel registro MOD-08; guide globali al rilascio.
+
+
+### Esplorazione della vista e prova autonoma — 11 ottobre
+
+L'utente autorizza le sistemazioni grafiche proposte e chiede una posizione coerente nelle schede,
+rimandando le verifiche. Si distinguono dati del modello, campo di risultato e impostazioni della
+camera/rappresentazione; gli strumenti frequenti di selezione restano sopra la scena.
+Stato e comandi rimangono MVVM senza WPF, mentre hit testing, proiezione, ritaglio e GPU sono nel renderer.
+Preferenze persistenti e lettura dei carichi sono servizi documentali senza WPF.
+La deformata usa esclusivamente spostamenti globali importati, con contratto opzionale retrocompatibile:
+non si inferiscono deformazioni dalle sollecitazioni. Carichi non riconosciuti sono dichiarati, non trasformati
+in forze equivalenti. Il confronto affiancato non interpreta l'inviluppo come stato simultaneo.
+Su richiesta successiva si apre subito una copia autonoma della build di test, mantenendola separata
+dai collaudi e dalle ricompilazioni. Nessun push, merge su main o cambiamento agli altri repository.
+Evidenze e limiti nel registro MOD-09 e nella specifica del modulo; guide globali al rilascio.

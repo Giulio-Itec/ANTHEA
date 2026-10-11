@@ -1172,6 +1172,49 @@
       "test": ["ModelWorkspace.Checks: 129 PASS", "ModelViewer.UiChecks reale: 74 PASS, nessun errore di binding", "ModelViewer.UiChecks sintetico: 32 PASS", "quick: 27 PASS, nessun nuovo fallimento"],
       "evidenze": ["supporto/artefatti/model-viewer/nodal-averaging/logic", "supporto/artefatti/model-viewer/nodal-averaging/real", "supporto/artefatti/ci/20261011-111122-modelli-media-vertici", "supporto/artefatti/ci/20261011-111314-modelli-media-vertici-wpf"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-09",
+      "titolo": "Esplorazione grafica, confronto e viste persistenti organizzati per scheda",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Schede Modello, Risultati e Vista; selezione per clic/rettangolo/poligono/ID/valore, clipping grafico, opacità, letture e min/max, confronto con camera comune, viste locali persistenti, palette a fasce ed esportazione PNG. Carichi espliciti riconosciuti e wireframe deformato solo da spostamenti nodali opzionali importati. Verifiche e dati originali invariati.",
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Exploration.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Exploration.cs",
+        "src/ANTHEA.ModelViewer.Wpf/SceneClipping.cs",
+        "src/ANTHEA.ModelWorkspace/ModelViewPresets.cs",
+        "src/ANTHEA.ModelWorkspace/MidasGraphicalLoads.cs",
+        "tests/ModelWorkspace.Checks/ExplorationChecks.cs",
+        "tests/ModelViewer.UiChecks/ExplorationRenderingChecks.cs"
+      ],
+      "segno": "modifiche grafiche e preferenze locali; nessuno spostamento del motore o modifica degli attesi",
+      "effetto_quantificato": {
+        "sintesi": "Taglio del triangolo x>=0 con UV e ID conservati; ricentratura verificata anche a coordinate globali 1e9 m. Deformata sintetica 0,1 m × fattore 2 = 0,2 m; dati assenti disabilitano la deformata reale. Stessa camera e due legende, scala comune solo per unità compatibili. PNG 1600/2400/3840. Cambio campo reale già caricato: mediana 71,9955 ms, massimo 97,5869 ms fino a OnRendered; esclusi importazione e combinazioni."
+      },
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "crea tutto, dai un senso alla posizione nelle tab; apri una versione di test anche con la build precedente",
+        "esito": "funzioni MVVM e test nel branch separato, prova interattiva autonoma aperta, nessun push o merge su main"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "ModelWorkspace.Checks: 163 PASS",
+        "ModelViewer.UiChecks sintetico: 32 PASS",
+        "quick: 27 PASS, nessun nuovo fallimento",
+        "ModelViewer.UiChecks reale: 99 PASS, nessun errore di binding",
+        "Ripetizione grafica finale: 33 PASS, inclusi DPI, opacità, rotazione e proiezioni"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/nodal-averaging/real",
+        "supporto/artefatti/model-viewer/exploration/logic-final",
+        "supporto/artefatti/model-viewer/exploration/validated",
+        "supporto/artefatti/model-viewer/exploration/reviewed",
+        "supporto/artefatti/ci/20261011-120808-modelli-esplorazione"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

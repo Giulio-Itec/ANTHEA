@@ -1,0 +1,182 @@
+using ANTHEA.ModelWorkspace;
+using ANTHEA.ModelViewer.Presentation;
+using System.Numerics;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Media3D;
+using HelixToolkit.SharpDX;
+using HelixToolkit.Wpf.SharpDX;
+using HelixToolkit.Maths;
+using Color=System.Windows.Media.Color;
+
+namespace ANTHEA.ModelViewer.Wpf;
+
+internal sealed record ExplorationOptions(GraphicPlane? Clip=null,bool Outlines=true,double Opacity=1,bool ReversePalette=false,int Bands=0,
+    bool AvoidLabels=true,IReadOnlyList<ModelProbe>? Probes=null,bool BeamDiagram=false,double DiagramScale=1,
+    IReadOnlyList<GraphicalLoad>? Loads=null,double LoadScale=1,IReadOnlyList<ModelDisplacement>? Displacements=null,double DeformationScale=1);
+
+internal sealed partial class ModelSceneRenderer
+{
+    private ModelDirection modelOrigin = new(0,0,0);
+    private SceneClip? clipping;
+    private LineGeometryModel3D? hoverLine;
+    private readonly List<Rect> labelBounds=[];
+    internal IReadOnlyList<Rect> LabelBounds=>labelBounds;
+    internal Vector3 PointForNode(int id)=>points[id];
+    internal IReadOnlyList<Vector3> SelectionShape(ModelElement element)
+    {
+        var polygon=element.Nodes.Select(n=>points[n]).ToArray();
+        if(polygon.Any(p=>!InFront(p)))return [];
+        if(clipping is not {} plane)return polygon;
+        if(polygon.Length==2)
+        { var a=polygon[0];var b=polygon[1];return plane.Segment(ref a,ref b)?[a,b]:[]; }
+        var clipped=new List<Vector3>();
+        for(int i=0;i<polygon.Length;i++)
+        {
+            var a=polygon[i];var b=polygon[(i+1)%polygon.Length];float da=plane.Side(a),db=plane.Side(b);
+            if(da>=0)clipped.Add(a);
+            if((da>=0)!=(db>=0))clipped.Add(Vector3.Lerp(a,b,da/(da-db)));
+        }
+        return clipped;
+    }
+    internal Point Project(Vector3 p)=>viewport.Project(new Point3D(p.X,p.Y,p.Z));
+    internal bool InClip(Vector3 p)=>clipping==null||clipping.Value.Side(p)>=-1e-5;
+    internal bool InFront(Vector3 p)=>viewport.Camera is not HelixToolkit.Wpf.SharpDX.ProjectionCamera c || Vector3D.DotProduct(new Vector3D(p.X-c.Position.X,p.Y-c.Position.Y,p.Z-c.Position.Z),c.LookDirection)>0;
+    internal bool LabelFits(Vector3 p)
+    {
+        if(!InClip(p)||!InFront(p)) return false;
+        if(lastOptions?.Exploration?.AvoidLabels==false) return true;
+        var screen=Project(p); if(!double.IsFinite(screen.X)||!double.IsFinite(screen.Y)||screen.X<0||screen.Y<0||screen.X>viewport.ActualWidth||screen.Y>viewport.ActualHeight) return false;
+        var bounds=new Rect(screen.X-50,screen.Y-18,100,36);
+        if(labelBounds.Any(r=>r.IntersectsWith(bounds)))return false;
+        labelBounds.Add(bounds);return true;
+    }
+    bool ProbePlacement(ModelProbe probe,Vector3 p,out Vector2 offset)
+    {
+        offset=new(12,24);
+        if(!InClip(p)||!InFront(p))return false;
+        if(lastOptions?.Exploration?.AvoidLabels==false)return true;
+        var screen=Project(p);if(!double.IsFinite(screen.X)||!double.IsFinite(screen.Y))return false;
+        var lines=probe.Caption.Split('\n');
+        double width=lines.Max(l=>l.Length)*8+24,height=lines.Length*22+16;
+        if(width>viewport.ActualWidth-16||height>viewport.ActualHeight-16)return false;
+        foreach(int row in new[]{0,1,-1,2,-2,3,-3})
+        {
+            double x=Math.Clamp(screen.X+12,width/2+8,viewport.ActualWidth-width/2-8);
+            double y=Math.Clamp(screen.Y-24+row*(height+10),height/2+8,viewport.ActualHeight-height/2-8);
+            var bounds=new Rect(x-width/2,y-height/2,width,height);
+            if(labelBounds.Any(r=>r.IntersectsWith(bounds)))continue;
+            labelBounds.Add(bounds);offset=new((float)(x-screen.X),(float)(screen.Y-y));return true;
+        }
+        return false;
+    }
+    Vector3 LabelLeaderEnd(Vector3 p,Vector2 offset)
+    {
+        if(viewport.Camera is not HelixToolkit.Wpf.SharpDX.ProjectionCamera camera)return p;
+        var look=camera.LookDirection;look.Normalize();var right=Vector3D.CrossProduct(look,camera.UpDirection);right.Normalize();
+        var up=Vector3D.CrossProduct(right,look);up.Normalize();
+        double width=camera is HelixToolkit.Wpf.SharpDX.OrthographicCamera ortho?ortho.Width:
+            2*Vector3D.DotProduct(new Vector3D(p.X-camera.Position.X,p.Y-camera.Position.Y,p.Z-camera.Position.Z),look)*
+            Math.Tan(((HelixToolkit.Wpf.SharpDX.PerspectiveCamera)camera).FieldOfView*Math.PI/360);
+        double factor=width/Math.Max(1,viewport.ActualWidth);
+        return p+new Vector3((float)(right.X*offset.X+up.X*offset.Y),(float)(right.Y*offset.X+up.Y*offset.Y),(float)(right.Z*offset.X+up.Z*offset.Y))*(float)factor;
+    }
+    internal void Hover(int? id)
+    {
+        if(hoverLine!=null) { viewport.Items.Remove(hoverLine); hoverLine=null; }
+        var e=model?.Elements.FirstOrDefault(e=>e.Id==id); if(e==null)return;
+        var edges=new EdgeBuilder(); var p=e.Nodes.Select(n=>points[n]).ToArray();
+        for(int i=0;i<(p.Length==2?1:p.Length);i++)edges.Line(p[i],p[(i+1)%p.Length]);
+        hoverLine=AddLines(edges,Color.FromRgb(100,220,255),3);
+    }
+    internal void Focus(IReadOnlySet<int> ids,IReadOnlySet<int>? nodeIds=null)
+    {
+        var p=model?.Elements.Where(e=>ids.Contains(e.Id)).SelectMany(e=>e.Nodes).Concat(nodeIds??new HashSet<int>()).Distinct().Select(n=>points[n]).ToArray();
+        if(p==null||p.Length==0)return;
+        var min=p.Aggregate(Vector3.Min);var max=p.Aggregate(Vector3.Max);var center=(min+max)/2;
+        if(viewport.Camera is not HelixToolkit.Wpf.SharpDX.ProjectionCamera camera||CameraState() is not {} state)return;
+        // Fit against the actual projection: tall split views have a narrower horizontal field of view.
+        // Screen-sized labels must never contribute to the geometric bounds.
+        double radius=Math.Max(.1,(max-min).Length()*.55),aspect=Math.Max(.05,viewport.ActualWidth/Math.Max(1,viewport.ActualHeight));
+        var direction=camera.LookDirection;direction.Normalize();
+        double distance;
+        if(state.Orthographic)distance=Math.Max(radius*2,camera.LookDirection.Length);
+        else
+        {
+            var matrix=camera.CameraInternal.CreateProjectionMatrix((float)aspect);
+            double cotangent=Math.Max(Math.Abs(matrix.M11),Math.Abs(matrix.M22));
+            distance=radius*Math.Sqrt(1+cotangent*cotangent);
+        }
+        var look=direction*distance;
+        RestoreCamera(state with {Position=[center.X-look.X,center.Y-look.Y,center.Z-look.Z],
+            Look=[look.X,look.Y,look.Z],Width=2*radius*Math.Max(1,aspect)});
+    }
+    internal ModelCameraState? CameraState()
+    {
+        if(viewport.Camera is not HelixToolkit.Wpf.SharpDX.ProjectionCamera c)return null;
+        return new([c.Position.X,c.Position.Y,c.Position.Z],[c.LookDirection.X,c.LookDirection.Y,c.LookDirection.Z],[c.UpDirection.X,c.UpDirection.Y,c.UpDirection.Z],c is HelixToolkit.Wpf.SharpDX.OrthographicCamera,
+            c is HelixToolkit.Wpf.SharpDX.OrthographicCamera o?o.Width:extent,c is HelixToolkit.Wpf.SharpDX.PerspectiveCamera p?p.FieldOfView:42);
+    }
+    internal void RestoreCamera(ModelCameraState state)
+    {
+        HelixToolkit.Wpf.SharpDX.ProjectionCamera c=state.Orthographic?new HelixToolkit.Wpf.SharpDX.OrthographicCamera { Width=state.Width }:new HelixToolkit.Wpf.SharpDX.PerspectiveCamera { FieldOfView=state.FieldOfView };
+        c.Position=new(state.Position[0],state.Position[1],state.Position[2]);c.LookDirection=new(state.Look[0],state.Look[1],state.Look[2]);c.UpDirection=new(state.Up[0],state.Up[1],state.Up[2]);
+        c.NearPlaneDistance=.01;c.FarPlaneDistance=Math.Max(10000,extent*10);viewport.Orthographic=state.Orthographic;viewport.Camera=c;
+    }
+    void DrawExploration(SceneOptions options)
+    {
+        if(options.Exploration is not {} settings)return;
+        if(settings.Outlines && options.Mode!=1)
+        {
+            var outline=new EdgeBuilder();var seen=new HashSet<(int,int)>();
+            foreach(var e in model!.Elements.Where(e=>e.Type=="PLATE"&&(options.Visible==null||options.Visible.Contains(e.Id))))
+                for(int i=0;i<e.Nodes.Length;i++)
+                {
+                    int a=e.Nodes[i],b=e.Nodes[(i+1)%e.Nodes.Length];
+                    if(plateSides[e.Id][i]&&seen.Add((Math.Min(a,b),Math.Max(a,b)))) outline.Line(points[a],points[b]);
+                }
+            AddLines(outline,Color.FromRgb(116,147,170),1.2);
+        }
+        if(options.Selection.Count==0 && options.SelectedNodes.Count>0)
+        {
+            var dots=new EdgeBuilder();float size=(float)extent*.003f;
+            foreach(int id in options.SelectedNodes.Where(points.ContainsKey))
+            { var p=points[id];dots.Line(p-Vector3.UnitX*size,p+Vector3.UnitX*size);dots.Line(p-Vector3.UnitY*size,p+Vector3.UnitY*size);dots.Line(p-Vector3.UnitZ*size,p+Vector3.UnitZ*size); }
+            AddLines(dots,Color.FromRgb(255,207,96),3);
+        }
+        if(settings.Probes is {Count:>0})
+        {
+            var text=new BillboardText3D();var leaders=new EdgeBuilder();
+            foreach(var probe in settings.Probes)
+            {
+                if(options.Visible!=null&&!options.Visible.Contains(probe.Element))continue;
+                var p=new Vector3((float)(probe.X-modelOrigin.X),(float)(probe.Y-modelOrigin.Y),(float)(probe.Z-modelOrigin.Z));
+                if(!ProbePlacement(probe,p,out var offset))continue;
+                leaders.Line(p,LabelLeaderEnd(p,offset));
+                text.TextInfo.Add(new TextInfo(probe.Caption,p) { Foreground=new Color4(1,.95f,.72f,1),Background=new Color4(.04f,.07f,.1f,.94f),Scale=.58f,Offset=offset });
+            }
+            AddLines(leaders,Color.FromRgb(230,211,147),.7);
+            viewport.Items.Add(new BillboardTextModel3D { Geometry=text,FixedSize=true,IsHitTestVisible=false,DepthBias=-10000 });
+        }
+        if(settings.BeamDiagram&&options.Mode==2&&options.Family!="PLATE")DrawBeamDiagram(options,settings);
+        DrawLoadGraphics(options,settings);
+    }
+    void DrawBeamDiagram(SceneOptions options,ExplorationOptions settings)
+    {
+        var lines=new EdgeBuilder(); var frames=model!.LocalFrames?.ToDictionary(f=>f.Element);
+        double max=options.Values.Count>0?options.Values.Max(v=>Math.Abs(v.Value)):0;if(max==0||frames==null)return;
+        foreach(var group in options.Values.Where(v=>v.Station.HasValue).GroupBy(v=>v.Element))
+        {
+            var element=model.Elements.First(e=>e.Id==group.Key);if(!frames.TryGetValue(element.Id,out var frame))continue;
+            var direction=new Vector3((float)frame.Z.X,(float)frame.Z.Y,(float)frame.Z.Z);
+            Vector3? previous=null;
+            foreach(var v in group.OrderBy(v=>v.Station))
+            {
+                var a=Vector3.Lerp(points[element.Nodes[0]],points[element.Nodes[^1]],(float)v.Station!.Value);
+                var b=a+direction*(float)(v.Value/max*extent*.08*Math.Clamp(settings.DiagramScale,.1,5));
+                lines.Line(a,b); if(previous.HasValue)lines.Line(previous.Value,b);previous=b;
+            }
+        }
+        AddLines(lines,Color.FromRgb(242,194,109),1.8);
+    }
+}

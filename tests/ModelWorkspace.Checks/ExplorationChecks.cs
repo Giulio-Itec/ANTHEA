@@ -96,4 +96,3 @@ static partial class Program
         public void SaveViews(string revision,IReadOnlyList<ModelViewPreset> views)=>Store.Write(revision,views);
     }
 }
-

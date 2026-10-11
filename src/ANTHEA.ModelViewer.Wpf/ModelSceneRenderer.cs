@@ -15,7 +15,7 @@ namespace ANTHEA.ModelViewer.Wpf;
 internal sealed record SceneOptions(int Mode, IReadOnlyList<ResultValue> Values, string Family, int Subdivisions, bool ShowMesh, bool ShowIsolines,
     IReadOnlySet<int>? Visible, IReadOnlySet<int> Selection, bool ShowLocalAxes, bool ShowRestraints, bool ShowConstraints, bool ShowLinks, bool ShowReleases, bool ShowContext,
     DisplayOptions Display, double ColorMinimum, double ColorMaximum, bool ShowNodeAxes, bool OverlaysOnlySelection, IReadOnlySet<int> SelectedNodes,
-    int Lighting = 1, int Palette = 0, int IsolineCount = 8, double IsolineWidth = .5);
+    int Lighting = 1, int Palette = 0, int IsolineCount = 8, double IsolineWidth = .5, ExplorationOptions? Exploration = null);
 internal sealed record DisplayOptions(IReadOnlyDictionary<int, ElementDisplay> Colors, int SurfaceMode, bool HiddenWireframe,
     bool NodeIds, bool ElementIds, bool PropertyIds, bool Nodes, bool LabelsSelectedOnly, double LabelScale, double LineWidth);
 internal sealed record SceneStatistics(TimeSpan Preparation, int Triangles, int MissingElements);
@@ -37,6 +37,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
     {
         model = snapshot;
         double cx = (snapshot.Nodes.Min(n => n.X) + snapshot.Nodes.Max(n => n.X)) / 2, cy = (snapshot.Nodes.Min(n => n.Y) + snapshot.Nodes.Max(n => n.Y)) / 2, cz = (snapshot.Nodes.Min(n => n.Z) + snapshot.Nodes.Max(n => n.Z)) / 2;
+        modelOrigin=new(cx,cy,cz);
         points = snapshot.Nodes.ToDictionary(n => n.Id, n => new Vector3((float)(n.X - cx), (float)(n.Y - cy), (float)(n.Z - cz)));
         extent = Math.Max(1, (points.Values.Aggregate(Vector3.Max) - points.Values.Aggregate(Vector3.Min)).Length());
         plateSides.Clear();
@@ -59,16 +60,24 @@ internal sealed partial class ModelSceneRenderer : IDisposable
     }
     void AddMesh(SurfaceBuilder builder, Color4 color, bool contour = false)
     {
+        if(clipping is {} clip) builder=clip.Apply(builder);
         if (builder.Indices.Count == 0) return;
-        Material material = contour ? new ColorStripeMaterial { DiffuseColor = new Color4(1, 1, 1, 1), ColorStripeX = Enumerable.Range(0, 256).Select(i => Contours.Color(i / 255.0, lastOptions?.Palette ?? 0)).ToList(), ColorStripeXEnabled = true, ColorStripeYEnabled = false, ColorStripeSampler = HelixToolkit.SharpDX.Shaders.DefaultSamplers.LinearSamplerClampAni4 }
+        float opacity=(float)Math.Clamp(lastOptions?.Exploration?.Opacity??1,.1,1);color.Alpha=opacity;
+        Material material = contour ? new ColorStripeMaterial { DiffuseColor = new Color4(1, 1, 1, opacity), ColorStripeX = Enumerable.Range(0, 256).Select(i => Contours.DisplayColor(i / 255.0, lastOptions?.Palette ?? 0,lastOptions?.Exploration?.ReversePalette??false,lastOptions?.Exploration?.Bands??0)).ToList(), ColorStripeXEnabled = true, ColorStripeYEnabled = false, ColorStripeSampler = (lastOptions?.Exploration?.Bands??0)>0?new SharpDX.Direct3D11.SamplerStateDescription { Filter=SharpDX.Direct3D11.Filter.MinMagMipPoint,AddressU=SharpDX.Direct3D11.TextureAddressMode.Clamp,AddressV=SharpDX.Direct3D11.TextureAddressMode.Clamp,AddressW=SharpDX.Direct3D11.TextureAddressMode.Clamp,MaximumLod=float.MaxValue }:HelixToolkit.SharpDX.Shaders.DefaultSamplers.LinearSamplerClampAni4 }
             : lastOptions?.Lighting == 0 ? new HelixToolkit.Wpf.SharpDX.DiffuseMaterial { DiffuseColor = color, EnableUnLit = true }
             : lastOptions?.Lighting == 2 ? new PBRMaterial { AlbedoColor = color, MetallicFactor = 0, RoughnessFactor = .7 }
             : new PhongMaterial { DiffuseColor = color, AmbientColor = new Color4(.35f, .35f, .35f, 1) };
-        var mesh = new MeshGeometryModel3D { Geometry = builder.Mesh(), Material = material, CullMode = SharpDX.Direct3D11.CullMode.None };
+        var mesh = new MeshGeometryModel3D { Geometry = builder.Mesh(), Material = material, CullMode = SharpDX.Direct3D11.CullMode.None, IsTransparent=opacity<1 };
         meshElements.Add(mesh, builder.ElementIds); viewport.Items.Add(mesh);
     }
     LineGeometryModel3D AddLines(EdgeBuilder edges, Color color, double thickness = .8, IReadOnlyList<int>? ids = null)
     {
+        if(clipping is {} clip)
+        {
+            var geometry=edges.Geometry();var clipped=new EdgeBuilder();var kept=new List<int>();
+            for(int i=0;i<geometry.Positions!.Count;i+=2) { var a=geometry.Positions[i];var b=geometry.Positions[i+1]; if(clip.Segment(ref a,ref b)) { clipped.Line(a,b);if(ids!=null)kept.Add(ids[i/2]); } }
+            edges=clipped;if(ids!=null)ids=kept;
+        }
         var line = new LineGeometryModel3D { Geometry = edges.Geometry(), Color = color, Thickness = thickness, Smoothness = 1, DepthBias = -5, IsHitTestVisible = ids != null };
         viewport.Items.Add(line); if (ids != null) lineElements.Add(line, ids); return line;
     }
@@ -76,6 +85,8 @@ internal sealed partial class ModelSceneRenderer : IDisposable
     {
         if (disposed || model == null) return new(TimeSpan.Zero, 0, 0);
         lastOptions = options;
+        clipping=options.Exploration?.Clip is {} plane?new SceneClip(new Vector3((float)plane.X,(float)plane.Y,(float)plane.Z),(float)(plane.Distance-plane.X*modelOrigin.X-plane.Y*modelOrigin.Y-plane.Z*modelOrigin.Z)):null;
+        labelBounds.Clear();hoverLine=null;
         var clock = System.Diagnostics.Stopwatch.StartNew(); int view = options.Mode;
         var values = options.Values.Where(v => v.Node > 0).ToDictionary(v => (v.Element, v.Node), v => v.Value);
         var samples = options.Values.ToLookup(v => v.Element);
@@ -165,13 +176,13 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         AddLines(edges, Color.FromRgb(35, 61, 77), options.Display.LineWidth);
         AddLines(barEdges, Color.FromRgb(153, 166, 181), 1.6, beamIds);
         foreach (var category in categoryEdges) AddLines(category.Value, (Color)ColorConverter.ConvertFromString(category.Key), options.Display.LineWidth * 1.6, categoryLineIds[category.Key]);
-        foreach (var pair in beamColors) { var c = Contours.Color(pair.Key / 63.0, options.Palette); AddLines(pair.Value, Color.FromRgb((byte)Math.Round(c.Red*255), (byte)Math.Round(c.Green*255), (byte)Math.Round(c.Blue*255)), 4, beamColorIds[pair.Key]); }
+        foreach (var pair in beamColors) { var c = Contours.DisplayColor(pair.Key / 63.0, options.Palette,options.Exploration?.ReversePalette??false,options.Exploration?.Bands??0); AddLines(pair.Value, Color.FromRgb((byte)Math.Round(c.Red*255), (byte)Math.Round(c.Green*255), (byte)Math.Round(c.Blue*255)), 4, beamColorIds[pair.Key]); }
         AddLines(contours, Color.FromArgb(135, 25, 47, 57), Math.Clamp(options.IsolineWidth, .25, 1.5));
         AddLines(highlight, Color.FromRgb(255, 214, 102), 3);
         AddLines(axesX, Color.FromRgb(236, 116, 111), 2); AddLines(axesY, Color.FromRgb(111, 206, 157), 2); AddLines(axesZ, Color.FromRgb(113, 177, 247), 2);
         DrawBoundaries(options);
         DrawNodeAxes(options);
-        DrawDisplayOverlays(options);
+        DrawExploration(options); DrawDisplayOverlays(options);
         return new(clock.Elapsed, viewport.Items.OfType<MeshGeometryModel3D>().Sum(m => m.Geometry?.Indices?.Count / 3 ?? 0), missingElements);
     }
     private void DrawBoundaries(SceneOptions options)
