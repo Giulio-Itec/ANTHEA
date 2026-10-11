@@ -529,3 +529,14 @@ storico restano da completare dopo la nuova priorità assegnata all'esperimento 
 Le interruzioni reali della sessione MIDAS motivano un contratto tipizzato di errore, con recupero leggibile
 e conservazione della copia valida. La vista non riceve credenziali né il corpo del messaggio HTTP.
 È una predisposizione collaudata: il connettore diretto nel prodotto rimane nel piano. Registro MOD-06.
+
+### Esperimento sui casi base — 11 ottobre
+
+Su richiesta esplicita dell'utente si interrompe l'acquisizione massiva di tutti gli inviluppi e si acquisiscono
+i 49 casi statici per misurare la costruzione locale delle 73 combinazioni/inviluppi. Il prototipo C# resta
+in tools, senza dipendenze dai progetti di produzione: non anticipa una release del motore GPC.
+Il dataset completo è acquisito e il confronto della combinazione sulle plate supera 109.744 campioni;
+il confronto completo dell'inviluppo è limitato dal timeout MIDAS di 180 secondi, dichiarato nel rapporto.
+Si conservano i risultati e le prove senza sostituire gli attesi. Prima dell'integrazione occorrono il contratto
+GPC, i casi governanti, la semantica di simultaneità e l'archivio dei grandi campi. L'utente vuole partire da
+queste misure per le considerazioni successive. Vedi [benchmark](../sviluppo/modelli-benchmark-casi-base.md), MOD-07.

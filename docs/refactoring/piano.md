@@ -237,3 +237,5 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: menu delle impostazioni vista, navigazione e viste standard/45°, Esc, palette e antialiasing; contratto e messaggi per aggiornamento interrotto con conservazione della copia valida. Registro MOD-06.
 - [ ] Confronto revisioni: servizio iniziale e prove disponibili, interfaccia, storico e integrazione nel comando Aggiorna ancora da completare; priorità temporaneamente data alla misura delle combinazioni dai casi base richiesta dall'utente.
 - [ ] Rilascio, guide globali e merge: dopo il collaudo e l'approvazione dell'utente.
+- [x] 11 ottobre: esperimento sui 49 casi statici completi, 73 definizioni Add/Envelope, misure C# e confronto numerico. Somma delle combinazioni fuori dalla UI e dalle librerie di produzione; dettagli e limiti in [benchmark casi base](../sviluppo/modelli-benchmark-casi-base.md), registro MOD-07.
+- [ ] Trasferire il metodo validato in GPC dopo la decisione sul contratto, ampliare confronto a inviluppi completi/beam, governanti e simultaneità, quindi collegare archivio e renderer. L'inviluppo completo MIDAS ha superato 180 s nella prova.

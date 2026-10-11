@@ -1138,6 +1138,23 @@
       "test": ["ModelWorkspace.Checks: 105 PASS", "ModelViewer.UiChecks reale: 65 PASS", "quick: 27 PASS, 0 nuovi fallimenti"],
       "evidenze": ["supporto/artefatti/model-viewer/base-case-benchmark/ui", "supporto/artefatti/ci/20261011-104113-modelli-casi-base"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-07",
+      "titolo": "Esperimento riproducibile sulle combinazioni dai casi statici",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Acquisizione in sola lettura di 49 casi statici su 3435 plate e 181 beam. Prototipo C# isolato in tools, senza riferimenti dai progetti di produzione, per Add ed Envelope locali con dipendenze annidate e segni. Nessun risultato calcolato dal prototipo sostituisce attesi o dati del progetto. Modello MIDAS e librerie GPC invariati.",
+      "codice": ["tools/ModelViewer.CombinationBench", "tools/model-viewer/Read-MidasBaseCases.ps1", "tools/model-viewer/Read-MidasBenchmarkReferences.ps1", "tests/ModelViewer.CombinationBench.Checks"],
+      "segno": "esperimento e misure; nessuna modifica delle formule o dei risultati di produzione",
+      "effetto_quantificato": { "sintesi": "Acquisizione 517,02 s; 115174 scalari per caso. Mediane a dati caricati: SLU_Q1_1 9,657 ms, ENV_SLU 57,864 ms, ENV_SLV 63,755 ms, tutte le 73 definizioni 139,888 ms. Confronto campione 5408 scalari e combinazione completa plate 109744 scalari: zero scarti fuori tolleranza. Inviluppo completo MIDAS non ottenuto entro 180 s; confronto completo inviluppi/beam ancora aperto. UI/GPU, principali e CBall esclusi dal benchmark." },
+      "decisione": { "data": "2026-10-11", "utente": "guarda cosa ottieni con solo i 49 casi; misura i tempi per creare le combo; da lì partiamo con le considerazioni", "esito": "misure reali e limiti salvati; motore sperimentale tenuto fuori dal prodotto, nessuna modifica agli altri repository e nessun push" },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["attesi manuali indipendenti del prototipo PASS", "5408 confronti sul campione PASS", "109744 confronti sulla combinazione completa plate PASS", "quick: 27 PASS, 0 nuovi fallimenti"],
+      "evidenze": ["supporto/artefatti/model-viewer/base-case-benchmark/run-01/source", "supporto/artefatti/model-viewer/base-case-benchmark/full-01", "supporto/artefatti/model-viewer/base-case-benchmark/full-combination-validation"],
+      "documento": "docs/sviluppo/modelli-benchmark-casi-base.md"
     }
   ]
 }

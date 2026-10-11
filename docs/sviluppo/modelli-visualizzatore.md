@@ -268,5 +268,9 @@ il runner entra tramite Dispatcher come il futuro comando WPF, preservando il co
 | 3 | Guide globali/Wiki/PDF e distribuzione dopo il collaudo del modulo | Documentazione |
 
 Il formato .antheamodel resta un contratto temporaneo di presentazione, non il formato definitivo GPC Model.
+
+Per la scelta fra importazione di tutte le combinazioni e soli casi base, vedere il
+[benchmark sul modello completo dell'11 ottobre](modelli-benchmark-casi-base.md): 49 casi acquisiti,
+73 definizioni ricostruite in un prototipo separato, tempi e limiti di validazione espliciti.
 Nessun dato di calcolo legacy è stato spostato o sostituito; confronto delle revisioni e archivio grandi dati
 restano prerequisiti per distribuire il modulo negli archivi operativi.
