@@ -670,3 +670,20 @@ L'utente: «il motore deve essere solo quello della libreria». Su branch `claud
   grezzo solo quando il punto grezzo è fuori dai vincoli.
 - Cattura del corpus uguale a quelle di R2 con i due motori su 546 file salvo i 21 tempi volatili. Evidenze in
   `supporto/artefatti/refactoring/revisione-r2/solo-libreria`. Registro: F2-17 corretto, con la decisione.
+
+## Merge in main e ANTHEA 1.2.0 (12/10/2026)
+
+Richiesta dell'utente: portare tutto in master, aggiornare le dipendenze, unire tutti i branch di ANTHEA, controllare, nuova
+versione e installer 1.2.0.
+- Librerie: master di Utilities, Geometry, Model e Checker portati in fast-forward ai branch `claude/revisione-architettura`
+  e pushati (Utilities 503e28c, Geometry 1f40436, Model d39fbe93, Checker 14ba7116). Primo set di rilascio da master
+  (`Release-Set.ps1`, non candidato): tutte le suite verdi, DLL identiche bit per bit al set candidato dell'11/10.
+- ANTHEA main: fast-forward a `claude/revisione-architettura`, poi merge di `codex/model-viewer-draft` (e6c109f1; conflitto
+  solo nel registro, risolto tenendo F2-17 e le voci MOD), `lib/Checker` dalla release R (10e19346, cambia solo il manifest),
+  versione 1.2.0 (fc632464).
+- Verifiche sul main unito: quick `merge-quick` PASS 27; baseline `rel-baseline` PASS 48, KNOWN 1, NEW-FAIL 0 (cattura del
+  corpus uguale a quella del branch su 546 file salvo i 21 tempi volatili; banco c.a. con le sole differenze attese S4-1 e
+  S4-2); full `rel-full` PASS 81, KNOWN 1 (`verifiche/project-calculations`), NEW-FAIL 0.
+- Installer `ANTHEA-1.2.0-Setup-x64.exe` (59,1 MB, SHA256 7B20009D5AB3AFCE90FA72B2C86EC9FE28E5E85E3FE2F4F2B4FC34148B383344),
+  ANTHEA.exe 1.2.0.0, prodotto `1.2.0+fc632464`, guide Rev32. Compilato da un worktree pulito a fc632464, perché nel checkout
+  principale c'era lavoro di un altro agente non committato (fondazioni superficiali), che non compila ancora.
