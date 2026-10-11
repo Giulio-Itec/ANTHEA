@@ -26,8 +26,8 @@ using GPC.Model.Standards;
 //    elastica fessurata (flessione semplice e composta, rettangoli e poligoni regolari) e per la resistenza a rottura con stress-block
 //    e parabola-rettangolo. Tolleranze fissate prima delle misure: 1e-3 sulle tensioni e sulla posizione dell'asse neutro (1e-3 h),
 //    5e-3 su MRd (integrazione della libreria con punti di Gauss su una mesh fissa, non tagliata lungo i salti della legge σ-ε;
-//    parabola della libreria discretizzata in 8 tratti). I due motori fra loro: 1e-9. Le resistenze a rottura anche con il motore Library
-//    dell'adattatore SLU (revisione di architettura R2, registro F2-17), contro gli stessi attesi e con la stessa tolleranza.
+//    parabola della libreria discretizzata in 8 tratti). I due motori fra loro: 1e-9. Le resistenze a rottura del modulo vengono
+//    dall'adattatore SLU con il solo motore della libreria (revisione di architettura R2, registro F2-17, decisione dell'11/10/2026).
 // B. Soglie: per ogni ramo un parametro di carico o di geometria trovato per bisezione sul legacy; i due motori a λ*(1 ± 1e-4),
 //    λ*(1 ± 1e-6), λ*(1 ± 1e-9) e a λ*: stessi esiti, numeri entro 1e-9 (|a − b| ≤ 1e-9 + 1e-9 · max(|a|, |b|)), e il ramo atteso
 //    ai due lati a ± 1e-4 (sopra il rumore del solutore di sezione).
@@ -140,33 +140,25 @@ try
     measures["sle_forme_chiuse"] = sleStates;
 
     // ------------------------------------------------------------ A2. SLU, resistenza a rottura a N assegnato
-    int ulsStates = 0;
+    int ulsStates = 0; var movedUls = new List<string>();
     foreach (var c in expected["slu"]!.AsArray().Select(n => n!.AsObject()))
     {
         string id = c["id"]!.GetValue<string>();
         var spec = Spec.From(expected["sezioni"]![c["sezione"]!.GetValue<string>()]!.AsObject());
         var p = Prep.Build(spec, c.D("fck"), c["normativa"]!.GetValue<string>(), c.D("alpha_cc"), c.D("gamma_c"), c.D("gamma_s"), c["diagramma"]!.GetValue<string>());
         double axial = c.D("N_kN");
-        var legacy = SectionMomentResistance.Calculate(p.Input, p.Settings, axial, false);
-        // Revisione di architettura R2 (registro F2-17): la stessa resistenza del modulo con il motore Library dell'adattatore SLU
-        // (porta ISectionResistanceSolver), contro gli stessi attesi indipendenti.
-        var port = SectionMomentResistance.Calculate(p.Input, p.Settings, axial, false, default, ResistanceEngine.Library);
+        // Resistenza del modulo: adattatore SLU con il solo motore della libreria (porta ISectionResistanceSolver; revisione di architettura R2,
+        // registro F2-17), contro gli attesi indipendenti e contro il punto grezzo del solutore della libreria.
+        var module = SectionMomentResistance.Calculate(p.Input, p.Settings, axial, false);
         var library = p.Library(false, 0, false);
         library.Checker.SetDomainPointStrategy(SectionSolver.DomainPointStrategyTypes.Iterative);
         foreach (var a in c["azioni"]!.AsArray().Select(n => n!.AsObject()))
         {
             double mrd = a.D("MRd_kNm"); string at = id + " " + a["segno"]!.GetValue<string>();
             double direction = sign.Value * Math.Sign(mrd);
-            var principal = legacy.Single(r => r.Direction == (direction > 0 ? "Mx+" : "Mx−"));
-            var ported = port.Single(r => r.Direction == principal.Direction);
-            if (ported.Moment is null)
-            {
-                string key = at + " motore Library · SLU resistenza assente";
-                string text = $"{key}: «{ported.Status}», atteso {mrd:G10} kNm";
-                if (divergences.Contains(key)) registered.Add(text); else problems.Add(text);
-            }
-            else Expect(at + " motore Library", "SLU MRd " + c["diagramma"], Math.Abs(ported.Moment.Value), Math.Abs(mrd), Math.Abs(mrd), UlsTolerance);
-            var point = library.Checker.SectionSolver.CalculateDomainPoint([Prep.Force(library.Local, new ActionPoint(axial, direction, 0))])[0];
+            var principal = module.Single(r => r.Direction == (direction > 0 ? "Mx+" : "Mx−"));
+            var unit = Prep.Force(library.Local, new ActionPoint(axial, direction, 0));
+            var point = library.Checker.SectionSolver.CalculateDomainPoint([unit])[0];
             Check(point is not null, at + ": punto resistente della libreria assente");
             double libraryMoment = point!.MxRd / 1e6;
             // Tolleranza su N di SectionMomentResistance, dalla libreria dopo S-1 (DomainPointAxialTolerance): max(1 kN; 1e-6 |N|; 0,5e-4 b h fck),
@@ -175,19 +167,27 @@ try
             Max("SLU |MyRd| / |MxRd|", Math.Abs(point.MyRd / point.MxRd));
             if (principal.Moment is null)
             {
-                string key = at + " legacy · SLU resistenza assente";
+                string key = at + " modulo · SLU resistenza assente";
                 string text = $"{key}: «{principal.Status}»; libreria NRd = {point.NRd / 1000:G10} kN, MxRd = {libraryMoment:G10} kNm, MyRd = {point.MyRd / 1e6:G6} kNm, atteso {mrd:G10} kNm";
                 if (divergences.Contains(key)) registered.Add(text); else problems.Add(text);
                 Expect(at + " libreria", "SLU MRd " + c["diagramma"], Math.Abs(libraryMoment), Math.Abs(mrd), Math.Abs(mrd), UlsTolerance);
                 ulsStates++;
                 continue;
             }
-            Expect(at + " legacy", "SLU MRd " + c["diagramma"], Math.Abs(principal.Moment!.Value), Math.Abs(mrd), Math.Abs(mrd), UlsTolerance);
+            Expect(at + " modulo", "SLU MRd " + c["diagramma"], Math.Abs(principal.Moment!.Value), Math.Abs(mrd), Math.Abs(mrd), UlsTolerance);
             Expect(at + " libreria", "SLU MRd " + c["diagramma"], Math.Abs(libraryMoment), Math.Abs(mrd), Math.Abs(mrd), UlsTolerance);
-            Check(CloseTo(principal.Moment!.Value, libraryMoment), at + $": legacy {principal.Moment} e libreria {libraryMoment} diversi");
+            if (!CloseTo(principal.Moment!.Value, libraryMoment))
+            {
+                // Il motore della libreria scarta il punto grezzo fuori dai vincoli della ricerca e ne trova un altro (registro F2-17): ammesso
+                // solo così, con entrambi i valori entro la tolleranza degli attesi indipendenti (controllati sopra).
+                bool rawAccepted = DomainPointConvergence.Evaluate(library.Checker.SectionSolver, unit, point, SectionSolver.FailureAnalysisTypes.ConstantN).Accepted;
+                Check(!rawAccepted, at + $": modulo {principal.Moment} e punto grezzo della libreria {libraryMoment} diversi, con il punto grezzo nei vincoli della ricerca");
+                movedUls.Add($"{at}: modulo {principal.Moment.Value:R}, punto grezzo fuori dai vincoli {libraryMoment:R}, atteso {mrd:R} kNm");
+            }
             ulsStates++;
         }
     }
+    measures["slu_punti_grezzi_scartati_dalla_libreria"] = J.Node(movedUls);
     Check(ulsStates == 25, "stati SLU: " + ulsStates);
     measures["slu_forme_chiuse"] = ulsStates;
 

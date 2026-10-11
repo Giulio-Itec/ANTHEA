@@ -43,9 +43,12 @@ public sealed class ServiceabilityProbe : IDisposable
     public IReadOnlyList<ServiceabilityProbeEntry> Entries => entries.ToArray();
 
     /// <summary>Registra una chiamata se una sonda è attiva nel flusso; altrimenti non fa nulla.</summary>
-    public static void Record(string adapter, string operation, Enum engine)
+    public static void Record(string adapter, string operation, Enum engine) => Record(adapter, operation, engine.ToString());
+
+    /// <summary>Registra una chiamata di un adattatore con un solo motore (il nome del motore).</summary>
+    public static void Record(string adapter, string operation, string engine)
     {
-        if (current.Value is { } probe) probe.entries.Enqueue(new(adapter, operation, engine.ToString()));
+        if (current.Value is { } probe) probe.entries.Enqueue(new(adapter, operation, engine));
     }
 
     /// <summary>

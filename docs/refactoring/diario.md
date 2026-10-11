@@ -654,3 +654,19 @@ GPCChecker.Concrete. In Checker (5f87a390) i tre ingressi pubblici del punto gre
   N = 0 con Mx–My costanti), dove il legacy dà η = 0 qualunque sia il momento, esito non cautelativo segnalato all'utente.
   Voce F2-17 del registro, da decidere
   dall'utente; il predefinito resta Legacy, quindi report e risultati non cambiano.
+
+### Decisione F2-17: solo il motore della libreria (11/10/2026, sera)
+
+L'utente: «il motore deve essere solo quello della libreria». Su branch `claude/revisione-architettura`:
+- `ConcreteResistanceAdapter` ha solo il motore della libreria: tolti il motore Legacy, l'enum `ResistanceEngine`, i parametri
+  di `CheckerSection`, `ConcreteAnalysisSession`, `ConcreteAnalysis`, `CalculationService`, `SectionMomentResistance` e
+  `ConcreteDesignOptions`, e l'opzione `--motore-slu` della cattura (la sonda registra il motore «Library»).
+- Prove 12 riscritte: il riferimento è il punto grezzo chiamato direttamente. Griglia uguale a prima (1113 uguali, 137 spostati,
+  550 senza punto, 126 che il punto grezzo dava entro il dominio); nuova 12c: le domande con direzione di ricerca nulla sono
+  rifiutate con il motivo della libreria. 6227 controlli superati.
+- Banco F2.1 (ConcreteBench): 3373 controlli superati. In 2 resistenze con lo stress block la libreria scarta il punto grezzo
+  fuori dai vincoli e il suo valore è più vicino all'atteso indipendente (SLU-R1-SB-N0 −: −69,7202 contro −69,6061, atteso
+  −69,7312 kNm; SLU-C2-SB-N1500 +: 706,566 contro 707,017, atteso 706,486 kNm). Il banco ammette la differenza fra modulo e punto
+  grezzo solo quando il punto grezzo è fuori dai vincoli.
+- Cattura del corpus uguale a quelle di R2 con i due motori su 546 file salvo i 21 tempi volatili. Evidenze in
+  `supporto/artefatti/refactoring/revisione-r2/solo-libreria`. Registro: F2-17 corretto, con la decisione.

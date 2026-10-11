@@ -535,7 +535,7 @@ try
     {
         // Interruttore SLE già controllato nella sezione 2; qui quello della durabilità (11b nella corsa completa).
         Check(ConcreteDurabilityAdapter.Default == DurabilityChecks.ExpectedDefault, $"motore della durabilità predefinito {ConcreteDurabilityAdapter.Default}, atteso {DurabilityChecks.ExpectedDefault}");
-        ResistanceChecks.CheckDefault(Check);
+        ResistanceChecks.CheckEngine(Check);
         Console.WriteLine($"PASS · {count} controlli (rapido: sezioni 1-4 e interruttori della durabilità, delle SLE e dello SLU; griglie 11, 12 e SLE nello stadio regression), "
             + $"{staticChecks} della 5l e {thinCastingChecks} della 7a.");
         return 0;
@@ -557,9 +557,9 @@ try
         .Append($"taglio del calcolo headless: {headlessShearRouted} righe coincidenti con il motore predefinito {ConcreteShearTorsionAdapter.Default}, {headlessShearDiscriminating} con uscite dei due motori diverse")
         .Append($"torsione del calcolo headless: {headlessRouted} righe coincidenti con l'adattatore del motore predefinito {ConcreteShearTorsionAdapter.Default}, {headlessDiscriminating} con uscite dei due motori diverse (sola torsione e calcolo intero)")
         .Append($"attesi indipendenti: {independent} controlli superati con i motori Legacy e Library")
-        .Append($"punto resistente SLU (12): {resistance["12cd_griglia"]!["forze"]} forze, {resistance["12cd_griglia"]!["grezzi_fuori_dai_vincoli"]} punti grezzi fuori dai vincoli della ricerca; "
-            + $"motore Library: {resistance["12cd_griglia"]!["uguali"]} uguali, {resistance["12cd_griglia"]!["spostati"]} spostati, {resistance["12cd_griglia"]!["rifiutati"]} rifiutati, "
-            + $"{resistance["12cd_griglia"]!["recuperati"]} recuperati; motore predefinito {ConcreteResistanceAdapter.Default}")
+        .Append($"punto resistente SLU (12): {resistance["12d_griglia"]!["forze"]} forze, {resistance["12d_griglia"]!["grezzi_fuori_dai_vincoli"]} punti grezzi fuori dai vincoli della ricerca; "
+            + $"libreria: {resistance["12d_griglia"]!["uguali"]} uguali, {resistance["12d_griglia"]!["spostati"]} spostati, {resistance["12d_griglia"]!["rifiutati"]} rifiutati, "
+            + $"{resistance["12d_griglia"]!["recuperati"]} recuperati; motore unico {ConcreteResistanceAdapter.Engine}")
         .Append($"stato statico (5l): {staticChecks} controlli superati, {staticMembers} membri statici di Ntc2018Checks, ConcreteLibraryMapping, ConcreteShearTorsionAdapter, LegacyServiceability, "
             + $"ConcreteServiceabilityAdapter, ServiceabilityProbe e ConcreteResistanceAdapter; "
             + $"campione con {sample.Length} violazioni riconosciute; eccezioni dichiarate: {string.Join(", ", declaredStatic.Keys)}")

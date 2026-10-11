@@ -12,10 +12,8 @@ namespace Anthea.Testing.Capture;
 
 /// <param name="ServiceabilityEngine">Motore SLE (tensioni e fessurazione della sezione c.a. e dei muri) di '--motore-sle'; null = predefinito
 /// dell'adattatore (refactoring F2.7b, commit A4).</param>
-/// <param name="ResistanceEngine">Motore del punto resistente SLU della sezione c.a. di '--motore-slu'; null = predefinito dell'adattatore
-/// (revisione di architettura R2, registro F2-17).</param>
 public sealed record CaptureOptions(string Root, string Output, string Tag, string? Commit, Regex? Only, bool Trace, string Culture,
-    ServiceabilityEngine? ServiceabilityEngine = null, ResistanceEngine? ResistanceEngine = null);
+    ServiceabilityEngine? ServiceabilityEngine = null);
 
 /// <summary>
 /// 'capture &lt;out&gt;': runs the corpus through CalculationService and the engines it does not cover, writes the normalised results
@@ -81,7 +79,7 @@ public sealed partial class CaptureRunner
         var input = (JsonObject)item.Data.DeepClone();
         CanonicalJson.Register(input, guids);
         entry["sha256_input"] = Sha(Write($"inputs/{item.Module}/{item.Id}.json", input, guids));
-        var result = Json($"results/{item.Module}/{item.Id}.json", guids, () => CalculationService.Calculate(item.Module, Clone(item.Data), default, options.ServiceabilityEngine, options.ResistanceEngine));
+        var result = Json($"results/{item.Module}/{item.Id}.json", guids, () => CalculationService.Calculate(item.Module, Clone(item.Data), default, options.ServiceabilityEngine));
         entry["esito"] = result is null ? "errore" : result["errore"] is JsonValue e && e.ToString().Length > 0 ? "errore del calcolo" : "ok";
         Extras(item, guids, result);
     }

@@ -13,7 +13,7 @@ arrivano dalle proprietà comuni (`Directory.Build.targets`), senza riferimenti 
 Dalla radice del repository, dopo `dotnet build tests\ANTHEA.Testing\ANTHEA.Testing.csproj -c Release`:
 
 ```
-dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll capture <uscita> [--tag B0] [--commit <sha>] [--only <regex modulo/caso>] [--no-trace] [--motore-sle legacy|libreria] [--motore-slu legacy|libreria]
+dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll capture <uscita> [--tag B0] [--commit <sha>] [--only <regex modulo/caso>] [--no-trace] [--motore-sle legacy|libreria]
 dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll compare <a> <b> [--report confronto.json] [--tolerances <file>] [--max 40]
 dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll normalize <ingresso> <uscita>
 dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll compare-dense <riferimento> <candidato> --confronto <nome> [--classificazione <file>] [--report confronto.json] [--max 40]
@@ -24,9 +24,9 @@ dotnet tests\ANTHEA.Testing\bin\Release\net8.0\ANTHEA.Testing.dll compare-dense 
   (`errore_cattura`). `--motore-sle` (refactoring F2.7b, commit A4) sceglie il motore delle
   verifiche SLE della sezione c.a. e dei muri (`ConcreteServiceabilityAdapter`); senza
   l'opzione si usa quello predefinito dell'adattatore e il manifest non cambia, con l'opzione
-  il manifest riporta `motore_sle`. `--motore-slu` (revisione di architettura R2, registro
-  F2-17) sceglie allo stesso modo il motore del punto resistente SLU dei domini della sezione
-  c.a. (`ConcreteResistanceAdapter`); con l'opzione il manifest riporta `motore_slu`.
+  il manifest riporta `motore_sle`. Il punto resistente SLU dei domini della sezione c.a.
+  (`ConcreteResistanceAdapter`) ha solo il motore della libreria (registro F2-17, decisione
+  dell'utente dell'11/10/2026): l'opzione `--motore-slu` non esiste più.
 - `compare` esce con 0 se le due catture sono uguali entro le tolleranze, con 1 se ci sono
   differenze non ammesse, con 2 per argomenti errati.
 - `normalize` rende confrontabili le uscite delle prove WPF e i report: DOCX in testo per

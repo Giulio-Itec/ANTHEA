@@ -8,46 +8,52 @@ using GPC.Checkers.Concrete.SectionSolvers;
 using GPC.Model.Results;
 
 /// <summary>
-/// Sezione 12 delle prove dell'adattatore: punto resistente SLU della sezione c.a. (revisione di architettura R2, registro F2-17).
-/// Ogni messaggio comincia con il numero della prova (12a…12g).
+/// Sezione 12 delle prove dell'adattatore: punto resistente SLU della sezione c.a. (revisione di architettura R2, registro F2-17). Il modulo
+/// usa solo il motore della libreria (decisione dell'utente dell'11/10/2026): il punto grezzo di SectionSolver.CalculateDomainPoint resta
+/// qui come riferimento, chiamato direttamente. Ogni messaggio comincia con il numero della prova (12a…12g).
 /// 12a. Mappatura dei motivi della libreria: ogni testo noto ha la traduzione, la domanda nulla dà «Azione nulla», un testo inventato dà
 ///      InvalidOperationException.
-/// 12b. Interruttore: motore predefinito atteso dell'adattatore e della sessione di calcolo.
-/// 12c. Motore Legacy: punti dell'adattatore uguali bit per bit al vettore nativo SectionSolver.CalculateDomainPoint; verifiche del dominio 3D
-///      (CheckMany) uguali alla formula di prima di R2 (tasso CalculateWorkingRatio del punto nativo, punto resistente, stato).
-/// 12d. Motore Library contro Legacy sulla stessa griglia (4 sezioni, 5 criteri, SLU e SLV, strategie iterativa e di intersezione): quando il
-///      punto grezzo rispetta i vincoli della ricerca (DomainPointConvergence della libreria) il punto, il tasso, lo stato e la risposta della
-///      sezione sono gli stessi; altrimenti la libreria dà il punto di un'altra strategia che li rispetta, oppure nessun punto con il motivo
-///      tradotto. Ogni punto della libreria rispetta i vincoli. Conteggi e scarti in misura.json: è la misura della voce F2-17.
-/// 12e. Percorsi del modulo: dominio 3D (CheckMany e Check), resistenza a N assegnato e calcolo headless passano dall'adattatore con il
-///      motore richiesto (sonda); con il motore Legacy il calcolo headless coincide bit per bit con quello senza motore.
-/// 12f. Scansione dei sorgenti di X.Calculations, X.Core e X.Desktop: nessuna chiamata ai punti grezzi della libreria fuori dall'adattatore.
-/// 12g. Annullamento con il motore Library.
+/// 12b. Motore unico: ogni chiamata dell'adattatore registra il motore della libreria nella sonda.
+/// 12c. Direzione di ricerca nulla, il difetto del punto grezzo segnalato con F2-17: con «Mx–My costanti» e N = 0, con «N e Mx costanti» e
+///      My = 0, con «N e My costanti» e Mx = 0 il punto grezzo dava tasso 0 ed «Entro il dominio» anche con un momento cento volte quello di
+///      riferimento. Il modulo rifiuta queste domande con il motivo della libreria.
+/// 12d. Libreria contro punto grezzo sulla stessa griglia (4 sezioni, 5 criteri, SLU e SLV, strategie iterativa e di intersezione): quando il
+///      punto grezzo rispetta i vincoli della ricerca (DomainPointConvergence della libreria) il punto è lo stesso bit per bit e la verifica
+///      del dominio coincide con la formula di prima di R2 (tasso CalculateWorkingRatio del punto grezzo); altrimenti la libreria dà il punto
+///      di un'altra strategia che li rispetta, oppure nessun punto con il motivo tradotto. Ogni punto della libreria rispetta i vincoli.
+///      Conteggi e scarti in misura.json: è la misura della voce F2-17.
+/// 12e. Percorsi del modulo: dominio 3D (CheckMany e Check), resistenza a N assegnato, sessione di calcolo e calcolo headless passano
+///      dall'adattatore (sonda).
+/// 12f. Scansione dei sorgenti di X.Calculations, X.Core e X.Desktop: nessuna chiamata ai punti grezzi della libreria, adattatore compreso.
+/// 12g. Annullamento.
 /// </summary>
 internal static class ResistanceChecks
 {
-    /// <summary>Motore predefinito atteso: Legacy finché l'utente non decide il passaggio (registro F2-17).</summary>
-    public const ResistanceEngine ExpectedDefault = ResistanceEngine.Legacy;
     static readonly CultureInfo Invariant = CultureInfo.InvariantCulture;
 
     public static JsonObject Run(string root, Action<bool, string> check)
     {
-        var report = new JsonObject { ["motore_predefinito"] = ConcreteResistanceAdapter.Default.ToString() };
+        var report = new JsonObject { ["motore"] = ConcreteResistanceAdapter.Engine };
         // Prima le prove brevi, poi la griglia.
         report["12a_mappatura"] = Mapping(check);
-        report["12b_interruttore"] = Switch(check);
+        report["12b_motore"] = Engine(check);
+        report["12c_direzione_nulla"] = NullDirection(check);
         report["12e_percorsi"] = Paths(check);
         report["12f_scansione"] = Scan(root, check);
         report["12g_annullamento"] = Cancellation(check);
-        report["12cd_griglia"] = Grid(check);
+        report["12d_griglia"] = Grid(check);
         return report;
     }
 
-    /// <summary>Interruttore, per lo stadio rapido.</summary>
-    public static void CheckDefault(Action<bool, string> check)
+    /// <summary>Motore unico, per lo stadio rapido.</summary>
+    public static void CheckEngine(Action<bool, string> check)
     {
-        check(ConcreteResistanceAdapter.Default == ExpectedDefault, $"12b: motore SLU predefinito {ConcreteResistanceAdapter.Default}, atteso {ExpectedDefault}");
-        check(new ConcreteAnalysisSession().Resistance == ExpectedDefault, "12b: motore SLU della sessione senza motore diverso dal predefinito");
+        var c = Sections()[0];
+        var section = new CheckerSection(c.Input, c.Settings, DomainOptions(c, "N costante", "Iterativo"), "SLU");
+        using var probe = ServiceabilityProbe.Start();
+        ConcreteResistanceAdapter.Points(section, [section.Force(new ActionPoint(-300, 50, 10))]);
+        check(probe.Entries.Single() == new ServiceabilityProbeEntry(ConcreteResistanceAdapter.ProbeName, "Points", "Library"),
+            "12b: l'adattatore SLU non usa il motore della libreria");
     }
 
     // ------------------------------------------------------------------ 12a
@@ -71,20 +77,50 @@ internal static class ResistanceChecks
     }
 
     // ------------------------------------------------------------------ 12b
-    static JsonObject Switch(Action<bool, string> check)
+    static JsonObject Engine(Action<bool, string> check)
     {
-        CheckDefault(check);
-        var c = Sections()[0];
-        var section = new CheckerSection(c.Input, c.Settings, DomainOptions(c, "N costante", "Iterativo"), "SLU");
-        check(section.ResistanceEngine is null, "12b: sezione senza motore con un motore assegnato");
-        using var probe = ServiceabilityProbe.Start();
-        ConcreteResistanceAdapter.Points(section, [section.Force(new ActionPoint(-300, 50, 10))]);
-        check(probe.Entries.Single() == new ServiceabilityProbeEntry(ConcreteResistanceAdapter.ProbeName, "Points", ExpectedDefault.ToString()),
-            "12b: la sezione senza motore non usa il predefinito");
-        return new JsonObject { ["motore_predefinito"] = ConcreteResistanceAdapter.Default.ToString() };
+        CheckEngine(check);
+        check(ConcreteResistanceAdapter.Engine == "Library", "12b: nome del motore " + ConcreteResistanceAdapter.Engine);
+        return new JsonObject { ["motore"] = ConcreteResistanceAdapter.Engine };
     }
 
-    // ------------------------------------------------------------------ 12c, 12d
+    // ------------------------------------------------------------------ 12c
+    static JsonObject NullDirection(Action<bool, string> check)
+    {
+        int rejected = 0, legacyInside = 0;
+        var c = Sections()[0];
+        // Domande con la componente che fissa il verso della ricerca uguale a zero, con il momento di riferimento e cento volte tanto.
+        foreach (var (criterion, unit) in new[] { ("Mx–My costanti", new ActionPoint(0, .8, .3)), ("N e Mx costanti", new ActionPoint(-.3, .8, 0)),
+            ("N e My costanti", new ActionPoint(-.3, 0, .8)) })
+            foreach (double scale in new[] { 1.0, 100 })
+            {
+                var action = new ActionPoint(unit.N * c.AxialScale, unit.Mx * c.MomentScale * scale, unit.My * c.MomentScale * scale);
+                string at = $"12c {criterion} N={action.N:R} Mx={action.Mx:R} My={action.My:R}";
+                var options = DomainOptions(c, criterion, "Iterativo");
+                var section = new CheckerSection(c.Input, c.Settings, options, "SLU");
+                var domain = section.Domain3D(); domain.ConfigureVerification(options);
+                var search = section.Checker.SectionCheckerOptions.FailureAnalysisType;
+                using var probe = ServiceabilityProbe.Start();
+                var outcome = domain.CheckMany([action])[0];
+                var response = probe.Results.OfType<SectionResistanceResponse>().Single();
+                check(outcome.Utilization is null && outcome.Status.StartsWith("Checker: ") && outcome.Status != "Checker: punto resistente non trovato",
+                    $"{at}: verifica «{outcome.Status}» η = {outcome.Utilization}, attesa il rifiuto con il motivo della libreria");
+                check(response.Diagnostics.ResistanceConvergence is { HasSearchDirection: false }, $"{at}: la libreria non riconosce la direzione di ricerca nulla");
+                rejected++;
+                // Il difetto che il motore della libreria toglie: il punto grezzo, con la formula di prima di R2.
+                var raw = new CheckerSection(c.Input, c.Settings, options, "SLU");
+                var force = raw.Force(action);
+#pragma warning disable CS0618 // punto grezzo chiamato di proposito come riferimento
+                var point = raw.Checker.SectionSolver.CalculateDomainPoint([force])[0];
+#pragma warning restore CS0618
+                if (point is not null && Expected(point.CalculateWorkingRatio(search, force, 1e6, 1000), CheckerSection.Point(point)).Status == "Entro il dominio")
+                    legacyInside++;
+            }
+        check(legacyInside > 0, "12c: il punto grezzo non dà più «Entro il dominio» in nessuna domanda con direzione nulla: la prova non mostra il difetto");
+        return new JsonObject { ["domande_rifiutate"] = rejected, ["punto_grezzo_entro_il_dominio"] = legacyInside };
+    }
+
+    // ------------------------------------------------------------------ 12d
     sealed record SectionCase(string Id, JsonObject Input, JsonObject Settings, double AxialScale, double MomentScale);
 
     static string F(double v) => v.ToString("R", Invariant);
@@ -156,17 +192,16 @@ internal static class ResistanceChecks
 
     static JsonObject Grid(Action<bool, string> check)
     {
-        int configurations = 0, forces = 0, legacyMissing = 0, rawOutside = 0, same = 0, moved = 0, rejected = 0, recovered = 0, bothMissing = 0;
+        int configurations = 0, forces = 0, rawMissing = 0, rawOutside = 0, same = 0, moved = 0, rejected = 0, recovered = 0, bothMissing = 0;
         double maxRatioChange = 0; string maxRatioCase = "";
-        // Esiti del motore Legacy nei casi in cui la libreria cambia il punto o non lo dà: verdetti che cambiano e cause dei rifiuti.
-        var rejectedLegacyVerdicts = new SortedDictionary<string, int>(StringComparer.Ordinal);
+        // Esiti del punto grezzo nei casi in cui la libreria cambia il punto o non lo dà: verdetti che cambiano e cause dei rifiuti.
+        var rejectedRawVerdicts = new SortedDictionary<string, int>(StringComparer.Ordinal);
         var rejectionCauses = new SortedDictionary<string, int>(StringComparer.Ordinal);
         int movedUnconservative = 0, movedConservative = 0; double maxRelativeChange = 0; string maxRelativeCase = "";
-        var rejectedCross = new SortedDictionary<string, int>(StringComparer.Ordinal); // criterio · esito legacy · causa
-        var legacyInsideExamples = new List<string>();
+        var rejectedCross = new SortedDictionary<string, int>(StringComparer.Ordinal); // criterio · esito del punto grezzo · causa
+        var rawInsideExamples = new List<string>();
         var rejections = new SortedDictionary<string, int>(StringComparer.Ordinal);
         var byCriterion = new SortedDictionary<string, int[]>(StringComparer.Ordinal); // criterio → [grezzi fuori dai vincoli, rifiutati, spostati]
-        var stats = new Stats("risposta della sezione");
         var sections = Sections();
         foreach (var c in sections)
             foreach (string criterion in CheckerSection.Criteria)
@@ -175,79 +210,64 @@ internal static class ResistanceChecks
                     {
                         string config = $"{c.Id} {state} {criterion} {strategy}";
                         var options = DomainOptions(c, criterion, strategy);
-                        var legacySection = new CheckerSection(c.Input, c.Settings, options, state, null, ResistanceEngine.Legacy);
-                        var librarySection = new CheckerSection(c.Input, c.Settings, options, state, null, ResistanceEngine.Library);
-                        var legacyDomain = legacySection.Domain3D(); legacyDomain.ConfigureVerification(options);
-                        var libraryDomain = librarySection.Domain3D(); libraryDomain.ConfigureVerification(options);
-                        var search = legacySection.Checker.SectionCheckerOptions.FailureAnalysisType;
-                        check(search == CheckerSection.Criterion(criterion) && legacyDomain.Native.FailureAnalysisType == search
-                            && librarySection.Checker.SectionCheckerOptions.FailureAnalysisType == search, $"12d {config}: criterio della ricerca diverso da quello del tasso");
+                        // Due sezioni uguali: una per il punto grezzo, una per il modulo, così le chiamate non condividono lo stato del solutore.
+                        var rawSection = new CheckerSection(c.Input, c.Settings, options, state);
+                        var section = new CheckerSection(c.Input, c.Settings, options, state);
+                        rawSection.Domain3D().ConfigureVerification(options);
+                        var domain = section.Domain3D(); domain.ConfigureVerification(options);
+                        var search = section.Checker.SectionCheckerOptions.FailureAnalysisType;
+                        check(search == CheckerSection.Criterion(criterion) && domain.Native.FailureAnalysisType == search
+                            && rawSection.Checker.SectionCheckerOptions.FailureAnalysisType == search, $"12d {config}: criterio della ricerca diverso da quello del tasso");
                         var actions = Actions(c);
-                        var demand = actions.Select((a, i) => legacySection.Force(a, i + 1)).ToArray();
+                        var demand = actions.Select((a, i) => rawSection.Force(a, i + 1)).ToArray();
 
-                        // 12c. Motore Legacy: vettore nativo e formula di prima di R2.
-#pragma warning disable CS0618 // percorso grezzo provato di proposito
-                        var direct = legacySection.Checker.SectionSolver.CalculateDomainPoint(demand);
+                        // Punto grezzo e verifica con la formula di prima di R2: il riferimento.
+#pragma warning disable CS0618 // punto grezzo chiamato di proposito come riferimento
+                        var direct = rawSection.Checker.SectionSolver.CalculateDomainPoint(demand);
 #pragma warning restore CS0618
-                        var adapted = ConcreteResistanceAdapter.Points(legacySection, demand);
-                        var legacyChecks = legacyDomain.CheckMany(actions);
-                        for (int i = 0; i < demand.Length; i++)
-                        {
-                            string at = $"{config} azione {i}";
-                            var p = direct[i]; var a = adapted[i].Point;
-                            check(p is null ? a is null : a is not null && a.NRd.Equals(p.NRd) && a.MxRd.Equals(p.MxRd) && a.MyRd.Equals(p.MyRd) && a.Engine == ResistanceEngine.Legacy,
-                                $"12c {at}: punto del motore Legacy diverso dal vettore nativo");
-                            check(adapted[i].Rejection is null, $"12c {at}: motivo con il motore Legacy");
-                            var expected = p is null ? new DomainCheck(null, null, "Checker: punto resistente non trovato")
-                                : Expected(p.CalculateWorkingRatio(search, demand[i], 1e6, 1000), CheckerSection.Point(p));
-                            var actual = legacyChecks[i];
-                            check(Same(actual.Utilization, expected.Utilization) && actual.Resistance == expected.Resistance && actual.Status == expected.Status,
-                                $"12c {at}: verifica del dominio {actual.Utilization} «{actual.Status}», prima di R2 {expected.Utilization} «{expected.Status}»");
-                            if (p is null) legacyMissing++;
-                        }
+                        var rawChecks = direct.Select((p, i) => p is null ? new DomainCheck(null, null, "Checker: punto resistente non trovato")
+                            : Expected(p.CalculateWorkingRatio(search, demand[i], 1e6, 1000), CheckerSection.Point(p))).ToArray();
+                        rawMissing += direct.Count(p => p is null);
 
-                        // 12d. Motore Library contro Legacy.
+                        // Il modulo: adattatore con il motore della libreria.
                         using var probe = ServiceabilityProbe.Start();
-                        var library = ConcreteResistanceAdapter.Points(librarySection, demand);
+                        var library = ConcreteResistanceAdapter.Points(section, demand);
                         var responses = probe.Results.OfType<SectionResistanceResponse>().ToArray();
-                        check(responses.Length == demand.Length && probe.Entries.All(e => e.Engine == nameof(ResistanceEngine.Library)), $"12d {config}: sonda del motore Library");
-                        var libraryChecks = libraryDomain.CheckMany(actions);
+                        check(responses.Length == demand.Length && probe.Entries.All(e => e.Engine == ConcreteResistanceAdapter.Engine), $"12d {config}: sonda del motore della libreria");
+                        var libraryChecks = domain.CheckMany(actions);
                         var counters = byCriterion.TryGetValue(criterion, out var existing) ? existing : byCriterion[criterion] = new int[3];
                         for (int i = 0; i < demand.Length; i++)
                         {
                             string at = $"{config} azione {i}";
                             var raw = direct[i]; var outcome = library[i]; var response = responses[i];
                             bool rawAccepted = raw?.StrainPlane is not null && double.IsFinite(raw.NRd + raw.MxRd + raw.MyRd)
-                                && DomainPointConvergence.Evaluate(legacySection.Checker.SectionSolver, demand[i], raw, search).Accepted;
+                                && DomainPointConvergence.Evaluate(rawSection.Checker.SectionSolver, demand[i], raw, search).Accepted;
                             if (raw is not null && !rawAccepted) { rawOutside++; counters[0]++; }
                             if (outcome.Point is { } point)
                             {
-                                check(point.Engine == ResistanceEngine.Library && response.Diagnostics.Status == CalculationStatus.Completed
-                                    && response.Diagnostics.ResistanceConvergence?.Accepted == true, $"12d {at}: punto della libreria senza i vincoli della ricerca");
-                                check(Same(libraryChecks[i].Utilization, Expected(point.WorkingRatio(search, demand[i]), CheckerSection.Point(point)).Utilization),
-                                    $"12d {at}: verifica del dominio con il motore Library diversa dal punto dell'adattatore");
+                                check(response.Diagnostics.Status == CalculationStatus.Completed && response.Diagnostics.ResistanceConvergence?.Accepted == true,
+                                    $"12d {at}: punto della libreria senza i vincoli della ricerca");
+                                check(Same(libraryChecks[i].Utilization, Expected(point.WorkingRatio(search), CheckerSection.Point(point)).Utilization),
+                                    $"12d {at}: verifica del dominio diversa dal punto dell'adattatore");
                                 if (rawAccepted && raw is not null)
                                 {
                                     check(point.NRd.Equals(raw.NRd) && point.MxRd.Equals(raw.MxRd) && point.MyRd.Equals(raw.MyRd),
                                         $"12d {at}: punto grezzo nei vincoli ma punto della libreria diverso");
-                                    var l = legacyChecks[i]; var r = libraryChecks[i];
-                                    check(Same(l.Utilization, r.Utilization) && l.Resistance == r.Resistance && l.Status == r.Status, $"12d {at}: verifica diversa con lo stesso punto");
-                                    var errors = new List<string>();
-                                    Json.Compare(J.Node(l.Response), J.Node(r.Response), at + " risposta", stats, errors, 1e-9);
-                                    check(errors.Count == 0, "12d " + string.Join("; ", errors.Take(3)));
-                                    stats.Results++;
+                                    var l = rawChecks[i]; var r = libraryChecks[i];
+                                    check(Same(l.Utilization, r.Utilization) && l.Resistance == r.Resistance && l.Status == r.Status,
+                                        $"12d {at}: verifica diversa da quella del punto grezzo con lo stesso punto");
                                     same++;
                                 }
                                 else if (raw is null) recovered++;
                                 else
                                 {
                                     moved++; counters[2]++;
-                                    if (legacyChecks[i].Utilization is double before && libraryChecks[i].Utilization is double after)
+                                    if (rawChecks[i].Utilization is double before && libraryChecks[i].Utilization is double after)
                                     {
                                         if (Math.Abs(after - before) > maxRatioChange) { maxRatioChange = Math.Abs(after - before); maxRatioCase = $"{at}: η {before:R} → {after:R}"; }
                                         double relative = Math.Abs(after - before) / Math.Max(Math.Abs(before), 1e-12);
                                         if (relative > maxRelativeChange) { maxRelativeChange = relative; maxRelativeCase = $"{at}: η {before:R} → {after:R}"; }
-                                        // Verdetto che cambia: il legacy dichiarava entro il dominio e la libreria fuori (legacy non cautelativo), o il contrario.
+                                        // Verdetto che cambia: il punto grezzo dichiarava entro il dominio e la libreria fuori (non cautelativo), o il contrario.
                                         if (before <= 1 && after > 1) movedUnconservative++;
                                         if (before > 1 && after <= 1) movedConservative++;
                                     }
@@ -257,7 +277,7 @@ internal static class ResistanceChecks
                             {
                                 check(outcome.Rejection is { Length: > 0 } && libraryChecks[i].Utilization is null && libraryChecks[i].Status == "Checker: " + outcome.Rejection,
                                     $"12d {at}: punto mancante senza motivo");
-                                check(!rawAccepted || legacyChecks[i].Utilization is null, $"12d {at}: punto grezzo nei vincoli e valido, rifiutato dalla libreria");
+                                check(!rawAccepted || rawChecks[i].Utilization is null, $"12d {at}: punto grezzo nei vincoli e valido, rifiutato dalla libreria");
                                 rejections[outcome.Rejection!] = rejections.GetValueOrDefault(outcome.Rejection!) + 1;
                                 if (raw is null) bothMissing++; else { rejected++; counters[1]++; }
                                 // Causa: direzione di ricerca nulla (componente della domanda che fissa il verso uguale a zero) oppure residui fuori tolleranza.
@@ -266,36 +286,36 @@ internal static class ResistanceChecks
                                     : !convergence.HasSearchDirection ? "direzione di ricerca nulla"
                                     : "residui fuori tolleranza: " + string.Join("+", convergence.Residuals.Where(x => !x.Accepted).Select(x => x.Quantity));
                                 rejectionCauses[cause] = rejectionCauses.GetValueOrDefault(cause) + 1;
-                                string verdict = legacyChecks[i].Utilization is not double eta ? "legacy senza tasso" : eta <= 1 ? "legacy entro il dominio" : "legacy fuori dominio";
-                                rejectedLegacyVerdicts[verdict] = rejectedLegacyVerdicts.GetValueOrDefault(verdict) + 1;
+                                string verdict = rawChecks[i].Utilization is not double eta ? "punto grezzo senza tasso" : eta <= 1 ? "punto grezzo entro il dominio" : "punto grezzo fuori dominio";
+                                rejectedRawVerdicts[verdict] = rejectedRawVerdicts.GetValueOrDefault(verdict) + 1;
                                 string cross = $"{criterion} · {verdict} · {cause}";
                                 rejectedCross[cross] = rejectedCross.GetValueOrDefault(cross) + 1;
-                                if (verdict == "legacy entro il dominio" && legacyInsideExamples.Count < 5)
-                                    legacyInsideExamples.Add($"{at}: N={actions[i].N:R} Mx={actions[i].Mx:R} My={actions[i].My:R} kN·kNm, η legacy {legacyChecks[i].Utilization:R}, "
+                                if (verdict == "punto grezzo entro il dominio" && rawInsideExamples.Count < 5)
+                                    rawInsideExamples.Add($"{at}: N={actions[i].N:R} Mx={actions[i].Mx:R} My={actions[i].My:R} kN·kNm, η del punto grezzo {rawChecks[i].Utilization:R}, "
                                         + $"punto grezzo N={raw!.NRd / 1000:R} Mx={raw.MxRd / 1e6:R} My={raw.MyRd / 1e6:R}; {cause}");
                             }
                         }
                         configurations++; forces += demand.Length;
                     }
         check(configurations == 4 * 5 + 5 + 5 && forces == configurations * 60, $"12d: griglia di {configurations} configurazioni e {forces} forze");
-        // La griglia deve contenere casi che distinguono i motori, altrimenti la prova non dice nulla sulla voce F2-17.
+        // La griglia deve contenere casi in cui il punto grezzo e la libreria differiscono, altrimenti la prova non dice nulla sulla voce F2-17.
         check(rawOutside > 0 && same > 0, $"12d: griglia senza punti grezzi fuori dai vincoli ({rawOutside}) o senza punti uguali ({same})");
         var criteria = new JsonObject();
         foreach (var (name, v) in byCriterion) criteria[name] = new JsonObject { ["grezzi_fuori_dai_vincoli"] = v[0], ["rifiutati_dalla_libreria"] = v[1], ["spostati_dalla_libreria"] = v[2] };
         return new JsonObject
         {
             ["configurazioni"] = configurations, ["forze"] = forces,
-            ["legacy_senza_punto"] = legacyMissing, ["grezzi_fuori_dai_vincoli"] = rawOutside,
+            ["punto_grezzo_assente"] = rawMissing, ["grezzi_fuori_dai_vincoli"] = rawOutside,
             ["uguali"] = same, ["spostati"] = moved, ["rifiutati"] = rejected, ["recuperati"] = recovered, ["senza_punto_con_entrambi"] = bothMissing,
             ["massima_variazione_del_tasso"] = maxRatioChange, ["caso_della_massima_variazione"] = maxRatioCase,
             ["massima_variazione_relativa_del_tasso"] = maxRelativeChange, ["caso_della_massima_variazione_relativa"] = maxRelativeCase,
             ["spostati_da_entro_a_fuori_dominio"] = movedUnconservative, ["spostati_da_fuori_a_entro_dominio"] = movedConservative,
             ["motivi"] = new JsonObject(rejections.Select(p => KeyValuePair.Create(p.Key, (JsonNode?)p.Value))),
             ["cause_dei_rifiuti"] = new JsonObject(rejectionCauses.Select(p => KeyValuePair.Create(p.Key, (JsonNode?)p.Value))),
-            ["esito_legacy_dei_rifiutati"] = new JsonObject(rejectedLegacyVerdicts.Select(p => KeyValuePair.Create(p.Key, (JsonNode?)p.Value))),
+            ["esito_del_punto_grezzo_dei_rifiutati"] = new JsonObject(rejectedRawVerdicts.Select(p => KeyValuePair.Create(p.Key, (JsonNode?)p.Value))),
             ["rifiutati_per_criterio_esito_e_causa"] = new JsonObject(rejectedCross.Select(p => KeyValuePair.Create(p.Key, (JsonNode?)p.Value))),
-            ["esempi_legacy_entro_il_dominio_rifiutati"] = new JsonArray(legacyInsideExamples.Select(e => (JsonNode)e).ToArray()),
-            ["per_criterio"] = criteria, ["risposte_confrontate"] = stats.Json()
+            ["esempi_punto_grezzo_entro_il_dominio_rifiutati"] = new JsonArray(rawInsideExamples.Select(e => (JsonNode)e).ToArray()),
+            ["per_criterio"] = criteria
         };
     }
 
@@ -311,66 +331,30 @@ internal static class ResistanceChecks
     {
         var c = Sections()[0];
         int paths = 0;
-        void Engines(string path, Func<ResistanceEngine?, object?> call)
+        void Library(string path, Func<object?> call)
         {
-            foreach (var engine in new ResistanceEngine?[] { null, ResistanceEngine.Legacy, ResistanceEngine.Library })
-            {
-                using var probe = ServiceabilityProbe.Start();
-                call(engine);
-                var expected = (engine ?? ExpectedDefault).ToString();
-                var entries = probe.Entries.Where(e => e.Adapter == ConcreteResistanceAdapter.ProbeName).ToArray();
-                check(entries.Length > 0 && entries.All(e => e.Engine == expected), $"12e {path} ({engine?.ToString() ?? "predefinito"}): sonda {string.Join(", ", entries.Select(e => e.Operation + "/" + e.Engine))}");
-            }
+            using var probe = ServiceabilityProbe.Start();
+            call();
+            var entries = probe.Entries.Where(e => e.Adapter == ConcreteResistanceAdapter.ProbeName).ToArray();
+            check(entries.Length > 0 && entries.All(e => e.Engine == ConcreteResistanceAdapter.Engine),
+                $"12e {path}: sonda {string.Join(", ", entries.Select(e => e.Operation + "/" + e.Engine))}");
             paths++;
         }
         var options = DomainOptions(c, "Eccentricità costante", "Iterativo");
-        Engines("CheckerDomain3D.CheckMany", e => { var d = new CheckerSection(c.Input, c.Settings, options, "SLU", null, e).Domain3D(); d.ConfigureVerification(options); return d.CheckMany([new(-400, 60, 20)]); });
-        Engines("CheckerDomain3D.Check", e => { var d = new CheckerSection(c.Input, c.Settings, options, "SLU", null, e).Domain3D(); d.ConfigureVerification(options); return d.Check(new(-400, 60, 20)); });
-        Engines("SectionMomentResistance.Calculate", e => SectionMomentResistance.Calculate(c.Input, c.Settings, -400, false, default, e));
-        Engines("ConcreteAnalysisSession.Domain", e =>
-            new ConcreteAnalysisSession(null, e).Domain(c.Input, c.Settings, options, "SLU", true, [J.Obj(("id", "r1"), ("N", "-400"), ("Mx", "60"), ("My", "20"))]));
+        Library("CheckerDomain3D.CheckMany", () => { var d = new CheckerSection(c.Input, c.Settings, options, "SLU").Domain3D(); d.ConfigureVerification(options); return d.CheckMany([new(-400, 60, 20)]); });
+        Library("CheckerDomain3D.Check", () => { var d = new CheckerSection(c.Input, c.Settings, options, "SLU").Domain3D(); d.ConfigureVerification(options); return d.Check(new(-400, 60, 20)); });
+        Library("SectionMomentResistance.Calculate", () => SectionMomentResistance.Calculate(c.Input, c.Settings, -400, false));
+        Library("ConcreteAnalysisSession.Domain", () =>
+            new ConcreteAnalysisSession().Domain(c.Input, c.Settings, options, "SLU", true, [J.Obj(("id", "r1"), ("N", "-400"), ("Mx", "60"), ("My", "20"))]));
 
-        // Calcolo headless: con il motore Legacy uguale bit per bit al calcolo senza motore; con il motore Library cambiano solo i domini.
+        // Calcolo headless.
         var data = SezioneCA.DefaultData();
-        // Identificativi univoci in tutti gli insiemi: la preparazione genera un GUID per le righe senza identificativo o con uno ripetuto.
         foreach (string set in new[] { "SLU", "SLV" })
             data["combinazioni"]![set] = new JsonArray(
                 J.Obj(("id", set + "-a"), ("nome", "A"), ("azioni", new JsonArray("-2500", "500", "250"))),
                 J.Obj(("id", set + "-b"), ("nome", "B"), ("azioni", new JsonArray("-800", "-300", "120"))),
                 J.Obj(("id", set + "-c"), ("nome", "C"), ("azioni", new JsonArray("200", "150", "0"))));
-        data["combinazioni"]!["SLE"] = new JsonArray(J.Obj(("id", "SLE-a"), ("nome", "A"), ("azioni", new JsonArray("-2500", "500", "250"))));
-        // Forma canonica (chiavi ordinate): le tensioni SLE si calcolano in parallelo e l'ordine delle righe del dizionario non è fissato.
-        static JsonNode? Canonical(JsonNode? node) => node switch
-        {
-            JsonObject o => new JsonObject(o.OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => KeyValuePair.Create(p.Key, Canonical(p.Value)))),
-            JsonArray a => new JsonArray(a.Select(Canonical).ToArray()),
-            _ => node?.DeepClone()
-        };
-        // GUID generati a ogni calcolo sostituiti con segnaposto nell'ordine di comparsa (come la GuidMap della cattura headless).
-        static string Text(JsonNode? r)
-        {
-            var map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            return Regex.Replace(Canonical(r)?.ToJsonString() ?? "null", "[0-9a-fA-F]{8}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{12}",
-                m => map.TryGetValue(m.Value, out var token) ? token : map[m.Value] = "<GUID" + map.Count + ">");
-        }
-        var plain = ConcreteAnalysis.Calculate(data);
-        var legacy = ConcreteAnalysis.Calculate(data, default, null, ResistanceEngine.Legacy);
-        var differing = plain.Select(p => p.Key).Where(k => Text(plain[k]) != Text(legacy[k])).ToArray();
-        if (differing.Length > 0 && Environment.GetEnvironmentVariable("ANTHEA_DUMP_12E") is { Length: > 0 } dump)
-        {
-            Directory.CreateDirectory(dump);
-            File.WriteAllText(Path.Combine(dump, "senza-motore.json"), Text(plain)); File.WriteAllText(Path.Combine(dump, "legacy.json"), Text(legacy));
-        }
-        check(differing.Length == 0, "12e: calcolo headless con il motore Legacy diverso da quello senza motore: " + string.Join(", ", differing));
-        using (var probe = ServiceabilityProbe.Start())
-        {
-            var library = ConcreteAnalysis.Calculate(data, default, null, ResistanceEngine.Library);
-            var entries = probe.Entries.Where(e => e.Adapter == ConcreteResistanceAdapter.ProbeName).ToArray();
-            check(entries.Length > 0 && entries.All(e => e.Engine == nameof(ResistanceEngine.Library)), "12e: calcolo headless senza il motore Library");
-            foreach (var key in plain.Select(p => p.Key).Where(k => k != "domini" && k != "errori_calcolo"))
-                check(Text(plain[key]) == Text(library[key]), "12e: calcolo headless con il motore Library diverso fuori dai domini: " + key);
-        }
-        paths++;
+        Library("ConcreteAnalysis.Calculate", () => ConcreteAnalysis.Calculate(data));
         return new JsonObject { ["percorsi"] = paths };
     }
 
@@ -387,9 +371,7 @@ internal static class ResistanceChecks
                 string relative = Path.GetRelativePath(root, file).Replace('\\', '/');
                 string code = Regex.Replace(File.ReadAllText(file), @"(?s)/\*.*?\*/|//[^\n]*", " ");
                 var calls = raw.Matches(code).Select(m => m.Groups[1].Value).ToArray();
-                if (relative == "X.Calculations/ConcreteResistanceAdapter.cs")
-                    check(calls.OrderBy(s => s, StringComparer.Ordinal).SequenceEqual(new[] { "CalculateDomainPoint", "CalculateForce" }), "12f: l'adattatore deve avere solo i due rami Legacy: " + string.Join(", ", calls));
-                else check(calls.Length == 0, $"12f: {relative}: punto grezzo della libreria fuori dall'adattatore ({string.Join(", ", calls)})");
+                check(calls.Length == 0, $"12f: {relative}: punto grezzo della libreria ({string.Join(", ", calls)})");
             }
         return new JsonObject { ["file_scansionati"] = files };
     }
@@ -398,10 +380,10 @@ internal static class ResistanceChecks
     static JsonObject Cancellation(Action<bool, string> check)
     {
         var c = Sections()[0];
-        var section = new CheckerSection(c.Input, c.Settings, DomainOptions(c, "N costante", "Iterativo"), "SLU", null, ResistanceEngine.Library);
+        var section = new CheckerSection(c.Input, c.Settings, DomainOptions(c, "N costante", "Iterativo"), "SLU");
         using var stopped = new CancellationTokenSource(); stopped.Cancel();
         check(Outcome(() => ConcreteResistanceAdapter.Points(section, [section.Force(new ActionPoint(-300, 50, 10))], stopped.Token)).StartsWith("error:OperationCanceledException"),
-            "12g: annullamento ignorato dal motore Library");
+            "12g: annullamento ignorato dal motore della libreria");
         return new JsonObject { ["annullamento"] = true };
     }
 

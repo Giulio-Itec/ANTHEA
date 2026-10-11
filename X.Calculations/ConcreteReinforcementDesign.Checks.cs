@@ -31,10 +31,10 @@ public static partial class ConcreteReinforcementDesign
             var o = (JsonObject)workspace["dominio3d"]!.DeepClone(); o["strategia"] = "Iterativo";
             // One radial N–Mx–My check covers combined and pure axial actions, without a mesh.
             o["criterio"] = "Eccentricità costante";
-            var engine = new CheckerSection(resistanceModel, reduced, workspace, o, set, resistance: options.ResistanceEngine);
+            var engine = new CheckerSection(resistanceModel, reduced, workspace, o, set);
             var localOptions = (JsonObject)o.DeepClone(); localOptions["assi"] = "Locali";
             var localEngine = o.S("assi", "Locali") == "Locali" || !rows[set].Any(r => r.B("__locali")) ? engine
-                : new CheckerSection(resistanceModel, reduced, workspace, localOptions, set, resistance: options.ResistanceEngine);
+                : new CheckerSection(resistanceModel, reduced, workspace, localOptions, set);
             foreach (var row in rows[set])
             {
                 token.ThrowIfCancellationRequested(); var action = ConcreteAnalysisSession.ReadAction(row);
@@ -44,11 +44,11 @@ public static partial class ConcreteReinforcementDesign
                 else
                 {
                     var force = solver.Force(action);
-                    // Punto dall'adattatore SLU con il motore delle opzioni (revisione di architettura R2).
+                    // Punto dall'adattatore SLU, motore della libreria (revisione di architettura R2, registro F2-17).
                     var point = ConcreteResistanceAdapter.Points(solver, [force], token)[0].Point;
                     if (point is not null)
                     {
-                        double value = point.WorkingRatio(CheckerSection.Criterion("Eccentricità costante"), force);
+                        double value = point.WorkingRatio(CheckerSection.Criterion("Eccentricità costante"));
                         var resistance = CheckerSection.Point(point);
                         if (double.IsFinite(value) && value >= 0 && double.IsFinite(resistance.N + resistance.Mx + resistance.My)) ratio = value;
                     }

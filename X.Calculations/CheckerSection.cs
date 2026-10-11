@@ -73,20 +73,15 @@ public sealed partial class CheckerSection
     /// <summary>Motore SLE dei limiti tensionali di questa sezione (null = motore predefinito dell'adattatore), fissato alla costruzione
     /// (refactoring F2.7b, commit A4). Il marcatore degli stati tensionali viene sempre dal risultato dell'adattatore, mai da qui.</summary>
     public ServiceabilityEngine? ServiceabilityEngine { get; }
-    /// <summary>Motore del punto resistente SLU di questa sezione (null = motore predefinito dell'adattatore), fissato alla costruzione
-    /// (revisione di architettura R2, registro F2-17): dominio 3D, resistenza a N assegnato e progetto delle armature passano da
-    /// <see cref="ConcreteResistanceAdapter"/>.</summary>
-    public ResistanceEngine? ResistanceEngine { get; }
     private readonly Lazy<ISectionResistanceSolver> resistanceSolver;
-    /// <summary>Sessione della porta della libreria per il motore Library: una sola per sezione, creata al primo uso.</summary>
+    /// <summary>Sessione della porta della libreria per il punto resistente SLU (<see cref="ConcreteResistanceAdapter"/>: dominio 3D, resistenza
+    /// a N assegnato e progetto delle armature): una sola per sezione, creata al primo uso.</summary>
     internal ISectionResistanceSolver ResistanceSolver => resistanceSolver.Value;
-    public CheckerSection(JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU", ServiceabilityEngine? engine = null,
-        ResistanceEngine? resistance = null)
-        : this(PrepareModel(input, workspace), input, workspace, options, state, engine, resistance) { }
-    public CheckerSection(CheckerSectionModel model, JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU", ServiceabilityEngine? engine = null,
-        ResistanceEngine? resistance = null)
+    public CheckerSection(JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU", ServiceabilityEngine? engine = null)
+        : this(PrepareModel(input, workspace), input, workspace, options, state, engine) { }
+    public CheckerSection(CheckerSectionModel model, JsonObject input, JsonObject workspace, JsonObject options, string state = "SLU", ServiceabilityEngine? engine = null)
     {
-        ServiceabilityEngine = engine; ResistanceEngine = resistance;
+        ServiceabilityEngine = engine;
         resistanceSolver = new(() => new LegacySectionCalculation(Checker));
         Model = model; Options = (JsonObject)options.DeepClone(); Geometry = model.Geometry; Section = model.Section; Local = model.Local;
         ForceAxes = new CoordinateSystem(Local);
@@ -308,8 +303,8 @@ public sealed class CheckerDomain3D(CheckerSection section, FailureDomainResult 
     {
         var force = Section.Force(action);
         if (action.Length == 0 && !Section.Section.Rebars.Any(r => r.EpsilonP != 0)) return new(0, null, "Azione nulla");
-        // Punto dall'adattatore SLU con il motore della sezione (revisione di architettura R2).
-        return Describe(ConcreteResistanceAdapter.Point(Section, Native, force), force);
+        // Punto dall'adattatore SLU, motore della libreria (revisione di architettura R2, registro F2-17).
+        return Describe(ConcreteResistanceAdapter.Point(Section, force));
     }
     /// <summary>Ordered batch on a configured domain; do not reconfigure it while this call is running.</summary>
     public DomainCheck[] CheckMany(IReadOnlyList<ActionPoint> actions, CancellationToken token = default)
@@ -327,8 +322,8 @@ public sealed class CheckerDomain3D(CheckerSection section, FailureDomainResult 
         }
         var checks = new DomainCheck[unique.Count];
         bool prestressed = Section.Section.Rebars.Any(r => r.EpsilonP != 0);
-        // The points come from the ULS adapter with the engine of the section (architecture review R2). With the legacy engine the native
-        // vector overload parallelizes the searches. Small chunks bound temporary memory and cancellation latency, without any UI refresh per force.
+        // The points come from the ULS adapter, library engine (architecture review R2, register F2-17). Small chunks bound temporary memory
+        // and cancellation latency, without any UI refresh per force.
         const int batchSize = 64;
         for (int start = 0; start < unique.Count; start += batchSize)
         {
@@ -359,16 +354,16 @@ public sealed class CheckerDomain3D(CheckerSection section, FailureDomainResult 
             for (int i = 0; i < pending.Count; i++)
             {
                 token.ThrowIfCancellationRequested();
-                try { checks[pending[i]] = Describe(points[i], forces[i]); }
+                try { checks[pending[i]] = Describe(points[i]); }
                 catch (Exception ex) when (ex is not OperationCanceledException) { checks[pending[i]] = new(null, null, "Checker: " + ex.Message); }
             }
         }
         token.ThrowIfCancellationRequested();
         return map.Select(i => checks[i]).ToArray();
     }
-    private DomainCheck Describe(ResistanceOutcome outcome, ResultBeamForces force)
+    private DomainCheck Describe(ResistanceOutcome outcome)
         => outcome.Point is not { } p ? new(null, null, "Checker: " + (outcome.Rejection ?? "punto resistente non trovato"))
-         : Outcome(p.WorkingRatio(Native.FailureAnalysisType, force), CheckerSection.Point(p)) with { Response = Section.Describe(p), LimitState = new(() => Section.LimitState(p)) };
+         : Outcome(p.WorkingRatio(Native.FailureAnalysisType), CheckerSection.Point(p)) with { Response = Section.Describe(p), LimitState = new(() => Section.LimitState(p)) };
     internal static DomainCheck Outcome(double ratio, ActionPoint p)
         => !double.IsFinite(ratio) || ratio < 0 || !double.IsFinite(p.N + p.Mx + p.My) ? new(null, null, "Checker: resistenza non determinata")
          : new(ratio, p, ratio <= 1 ? "Entro il dominio" : "Fuori dominio");
