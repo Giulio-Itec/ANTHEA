@@ -226,6 +226,13 @@ e runner quick `20261011-104113-modelli-casi-base` (27 PASS, nessun nuovo fallim
 Nella prova WPF, sei cambi di componente già caricato fino a OnRendered: mediana 92,89 ms, massimo 104,79 ms;
 acquisizione e costruzione delle combinazioni escluse. Registro MOD-06.
 
+La modalità `--viewer-only --interactive` del runner ospita il controllo reale in una finestra utilizzabile,
+senza eseguire le suite. Una barra del solo host di prova apre le impostazioni e permette di simulare
+i cinque avvisi MIDAS, sempre dichiarati come simulazione e senza richieste di rete. La copia importata
+e le sue sollecitazioni rimangono consultabili. Acquisizioni e collegamenti restano nella memoria della
+finestra; il file sorgente non viene riscritto. La preview registra una schermata e il segnale di avvio
+in `supporto/artefatti` per confermare che la vista e il renderer siano effettivamente pronti.
+
 ### Assegnazioni e avanzamento delle verifiche
 
 Impostazione proposta: assegnazione esplicita fra un ambito geometrico (elementi selezionati, gruppo o zona)

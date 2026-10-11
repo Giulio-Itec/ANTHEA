@@ -92,7 +92,7 @@ static class Program
                     (sheetId, element, result, component) => ProjectModelStore.Link(owner,
                         ProjectModelStore.DescendantSheets(owner).Single(s => s.S("id") == sheetId), id, element, result, component));
                 window.Close(); window = null;
-                var preview = new Window { Title = "ANTHEA · Modelli", Content = isolated, Width = 1600, Height = 1020, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.CenterScreen };
+                var preview = new Window { Title = "ANTHEA · Modelli", Content = args.Contains("--interactive") ? InteractivePreviewHost.Create(isolated) : isolated, Width = 1600, Height = 1020, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.CenterScreen };
                 preview.Show(); Wait(1200);
                 var state = (ModelViewerViewModel)isolated.DataContext;
                 var scene = Children<Viewport3DX>(isolated).Single();
@@ -100,6 +100,13 @@ static class Program
                 {
                     preview.Title = "ANTHEA · Modelli · prova interattiva";
                     preview.ShowInTaskbar = true; preview.Closed += (_, _) => app.Shutdown();
+                    Capture(isolated, scene, Path.Combine(output, "anteprima-interattiva.png"));
+                    File.WriteAllText(Path.Combine(output,"pronta.json"),System.Text.Json.JsonSerializer.Serialize(new
+                    {
+                        ProcessId=Environment.ProcessId,Window=preview.Title,Model=state.Snapshot?.Name,
+                        Nodes=state.Snapshot?.Nodes.Length,Elements=state.Snapshot?.Elements.Length,Cases=state.Cases,
+                        BindingErrors=bindingLog.ToString(),ReadyUtc=DateTime.UtcNow
+                    },new System.Text.Json.JsonSerializerOptions{WriteIndented=true}));
                     app.Run(); return 0;
                 }
                 var realRenderer = isolated.GetType().GetField("renderer", Flags)!.GetValue(isolated)!;

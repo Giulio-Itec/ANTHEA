@@ -235,6 +235,7 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: predisposizione MVVM della barra di avanzamento delle verifiche, attività e conteggio, annullamento cooperativo e gestione di errore/fine; motore e assegnazioni sezioni ancora da collegare, registro MOD-05.
 - [ ] Integrazione GPC nel prodotto rilasciato, inviluppi calcolati, confronto delle revisioni modello e archivio grandi dati: restano nella specifica.
 - [x] 11 ottobre: menu delle impostazioni vista, navigazione e viste standard/45°, Esc, palette e antialiasing; contratto e messaggi per aggiornamento interrotto con conservazione della copia valida. Registro MOD-06.
+- [x] Finestra di prova interattiva aggiornata: controllo WPF reale, scorciatoia alle impostazioni e simulazione esplicita dei cinque avvisi MIDAS, senza connessioni o modifiche ai file sorgente. Combinazioni locali e confronto revisioni restano separati dalla preview.
 - [ ] Confronto revisioni: servizio iniziale e prove disponibili, interfaccia, storico e integrazione nel comando Aggiorna ancora da completare; priorità temporaneamente data alla misura delle combinazioni dai casi base richiesta dall'utente.
 - [ ] Rilascio, guide globali e merge: dopo il collaudo e l'approvazione dell'utente.
 - [x] 11 ottobre: esperimento sui 49 casi statici completi, 73 definizioni Add/Envelope, misure C# e confronto numerico. Somma delle combinazioni fuori dalla UI e dalle librerie di produzione; dettagli e limiti in [benchmark casi base](../sviluppo/modelli-benchmark-casi-base.md), registro MOD-07.
