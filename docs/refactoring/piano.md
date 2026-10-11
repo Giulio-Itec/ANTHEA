@@ -86,13 +86,13 @@ Tra F1 e F2: regressione in MSTest (464 casi singoli) e `casi_confronto.json` di
 - [ ] F2.11 [CP] Eliminazione dei duplicati, dello stato statico, del lock e dei 6 file geotecnici esclusi.
 - [ ] F2.12 [CP] Rimozione del solutore legacy a fibre conservando l'oracolo Python.
 - [ ] F2.13 Registri di migrazione, chiusura.
-- [~] Revisione di architettura R2 (11/10, branch `claude/revisione-architettura`, non unito): punto resistente SLU con un
+- [x] Revisione di architettura R2 (11/10, unita in main il 12/10): punto resistente SLU con un
   solo proprietario. `ConcreteResistanceAdapter` per dominio 3D, resistenza a N assegnato, progetto delle armature e calcolo
   headless, con la porta `ISectionResistanceSolver` di GPCChecker.Concrete (il calcolo di ModelChecker); in Checker i punti
   grezzi pubblici sono `[Obsolete]` (5f87a390). Decisione dell'utente dell'11/10 (F2-17, corretto): solo il motore della
   libreria, senza interruttore né `--motore-slu`. Cattura del corpus uguale a quella di prima su 546 file; prove 12a-12g in
-  `tests/ConcreteLibraryAdapter.Checks` contro il punto grezzo chiamato direttamente. Restano il profilo full a schermo e la
-  cattura B nuova, al merge.
+  `tests/ConcreteLibraryAdapter.Checks` contro il punto grezzo chiamato direttamente. lib/Checker: release R delle librerie
+  della revisione (Model 5.0.0.0), dal primo set di rilascio da master. ANTHEA 1.2.0.
 
 Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`; prima, destino di `GPCChecker.Test.BridgeAudit` (referenzia `ANTHEA/X.Core`) e test di libreria nei repository delle librerie.
 
