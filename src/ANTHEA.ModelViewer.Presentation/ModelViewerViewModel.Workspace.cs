@@ -33,7 +33,7 @@ public sealed partial class ModelViewerViewModel
     public string SectionSize { get; private set; } = "";
     public string FieldTitle => IsResultsView ? $"{Family} · {SelectedComponent} · {AxesLabels[Math.Clamp(SelectedAxes, 0, 1)]}" : ModeLabels[SelectedMode];
     public string SampleLocation => SelectedFamily == 0 ? IsAveragedContour ? "Nodi condivisi · media grafica" : "Nodi dell’elemento · valori non mediati" : BeamLocations[Math.Clamp(SelectedBeamLocation, 0, 5)] + " · campioni importati";
-    public string SelectionCount => HasSelection ? $"{SelectedElementIds.Count:N0} elementi selezionati" : "Nessuna selezione";
+    public string SelectionCount => !HasSelection && SelectedNodeIds.Count>0 ? $"{SelectedNodeIds.Count:N0} nodi selezionati" : HasSelection ? $"{SelectedElementIds.Count:N0} elementi selezionati" : "Nessuna selezione";
     public string VisibilitySummary => Snapshot == null ? "Nessun modello" : $"{(VisibleElementIds?.Count ?? Snapshot.Elements.Length):N0} / {Snapshot.Elements.Length:N0} elementi visibili";
     public string ResultKind => Snapshot?.Results.FirstOrDefault(r => r.Name == SelectedCase)?.IsEnvelope == true ? "INVILUPPO IMPORTATO" : "CASO / COMBINAZIONE";
     public string Middle => HasResults ? ((ActiveValues.Min(v => v.Value) + ActiveValues.Max(v => v.Value)) / 2).ToString("G5") : "—";
@@ -113,6 +113,8 @@ public sealed partial class ModelViewerViewModel
         allTree = ModelTreeBuilder.Build(Snapshot!); Tree = allTree; SearchText = "";
         InitializeVisibility();
         displayCatalog = new ModelDisplayCatalog(Snapshot!);
+        InitializeExploration();
+        InitializeLoadGraphics();
         SelectedTreeItem = null;
         UpdateSelectedNodes(null); OnPropertyChanged(nameof(NodeAxesSummary));
         SectionWidth = SectionHeight = 0; SectionSize = "";
@@ -176,6 +178,6 @@ public sealed partial class ModelViewerViewModel
     void ApplyVisibility()
     {
         VisibleElementIds = Snapshot == null || hiddenElements.Count == 0 && isolatedElements == null ? null : Snapshot.Elements.Where(e => !hiddenElements.Contains(e.Id) && (isolatedElements == null || isolatedElements.Contains(e.Id))).Select(e => e.Id).ToHashSet();
-        RefreshScene();
+        TrackVisibility(); RefreshScene();
     }
 }

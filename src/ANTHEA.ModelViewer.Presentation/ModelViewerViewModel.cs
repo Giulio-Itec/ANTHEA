@@ -15,6 +15,10 @@ public interface IModelViewerServices
     void FitView();
     void SaveImage();
     void ExportTable(string name, string csv);
+    ModelCameraState? CaptureCamera() => null;
+    void RestoreCamera(ModelCameraState camera) { }
+    IReadOnlyList<ModelViewPreset> LoadViews(string revision) => [];
+    void SaveViews(string revision, IReadOnlyList<ModelViewPreset> views) { }
 }
 
 public enum ModelViewMode { Geometry, Solids, Results }
@@ -119,6 +123,9 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         if (updating || disposed || Snapshot == null) return;
         var result = Snapshot.Results.FirstOrDefault(r => r.Name == SelectedCase);
         UpdateResultField();
+        UpdateLoadGraphics();
+        UpdateComparison();
+        UpdateExploration();
         UpdateDisplay();
         RefreshTable();
         Information = Mode switch
@@ -168,6 +175,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     public void Dispose()
     {
         if (disposed) return; disposed = true; lifetime.Cancel(); lifetime.Dispose(); SceneChanged = null;
+        Comparison?.Dispose(); Comparison=null; FocusSelectionRequested=null;PreviousCameraRequested=null;HoverChanged=null;
         ViewSettingsChanged = null; CameraPresetRequested = null;
         ImportCommand.NotifyCanExecuteChanged(); QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged();
         IsolateCommand.NotifyCanExecuteChanged(); HideCommand.NotifyCanExecuteChanged(); ShowSelectedCommand.NotifyCanExecuteChanged();
