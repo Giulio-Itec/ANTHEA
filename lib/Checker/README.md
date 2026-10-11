@@ -31,6 +31,21 @@ Utilities fissate da Model non sono quelle dello snapshot. `-At Repo=commit` com
 della testa del ramo remoto. Gmsh (GMsh.Net, UnsafeEx, gmsh-*.dll, GMesh) non entra mai in questa cartella: solo negli
 unit test.
 
+**Set candidato della revisione di architettura (11 ottobre 2026, branch `claude/revisione-architettura`).** Solo per
+le prove su questo branch: installato con `tools/libs/Update-Snapshot.ps1 -ReleaseSet <set-d8> -AllowCandidate -Install`
+dal set prodotto da `Checker/build/Release-Set.ps1 -Candidate` sui branch pushati delle librerie (Utilities 503e28c,
+Geometry 1f40436, Model d39fbe93, Checker 14ba7116), con tutte le suite verdi (Model 6 e 1.186; Checker Concrete 680,
+Steel 88 più i 17 fallimenti storici, CompositeBridge 261, Geotechnics 108, Calculation 174, ModelChecker 168; API
+senza rimozioni). Versioni: GPCUtilities 3.0.0.0, GPCGeometry 2.3.0.0 e DelaunayMesh 2.0.0.14 (invariate), GPCModel
+5.0.0.0, GPCModelData 0.0.2.7, GPC.Model.Persistence 3.0.0.0, GPCChecker.Concrete 0.0.27.0, GPCChecker.CompositeBridge
+1.5.0.0, GPCChecker.Geotechnics 0.1.1.6; SHA-256 in `manifest.json`. Sostituisce la S4. Al merge su master il set di
+rilascio vero si rifà da master.
+- Verifiche (corsa `d8-lib`, profilo baseline con `-BaselineRef` la cattura fatta con la S4 sullo stesso codice e
+  `-CheckerFixtures` del set): PASS 44, KNOWN 1 (`verifiche/project-calculations`), NEW-FAIL 2 d'ambiente (wiki/indice e
+  wiki/manuale cercano figure in `supporto/artefatti`, che il worktree non ha). Cattura del corpus uguale a quella con
+  la S4 su 546 file salvo i 21 tempi volatili; banco c.a. contro le fixture di Checker con le sole differenze attese
+  S4-1 e S4-2. Resta il profilo full con le prove WPF, al merge.
+
 **Release S4 (9 ottobre 2026, librerie Model 4).** Compilata dai commit pushati con `tools/libs/Update-Snapshot.ps1
 -FromUpstream -At Geometry=1f901ef -ModelDependencies <cache verificata> -Repos <radice> -Install` (staging in
 `supporto/artefatti/lib-staging/20261009-225939`; controllo di versione contro S3). Commit sorgente: Utilities
