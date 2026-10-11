@@ -668,3 +668,18 @@ dei dati nodali della deformata. La cache si aggiorna solo quando cambia questo 
 Le facce interne vengono soppresse solo fra due plate complanari con stessa proprieta;
 confini diversi o non manifold rimangono. Il taglio grafico conserva il contratto separato
 senza facce artificiali. Cattura prima/modifica/confronto in `visible-boundaries`. MOD-18.
+
+## Check della revisione (11 ottobre 2026)
+
+Si collega il servizio documentale esistente alla UI. Confronto automatico fra copie al termine
+di una importazione valida, oppure caricamento esplicito della copia precedente senza cambiare
+il modello corrente. Solo ID corrispondenti, tolleranza coordinate 1 micrometro. Si conserva
+in memoria l’ultimo confronto; annullamento e fallimento mantengono quello valido.
+
+Il delta e asincrono, per il campo scelto nei Risultati e soltanto su richiesta. Le geometrie
+cambiate sono escluse inizialmente, includibili con indicazione esplicita. Si confrontano valori
+importati, senza medie grafiche; su inviluppi si sottraggono estremi, non si crea un inviluppo
+della differenza. Le annotazioni salvano provenienza e sagome precedenti; il PDF ne verifica
+la revisione corrente, bloccando annotazioni obsolete. Per ricomputare il delta dopo riapertura
+serve la copia precedente con i risultati: non viene incorporata nelle preferenze grafiche.
+Archivio storico e connessioni live rimangono distinti. MOD-19.

@@ -88,6 +88,7 @@ static partial class Program
             MemberDiagramChecks();
             ClipVolumeChecks();
             MeasurementChecks();
+            await RevisionViewChecks();
 
             if (args.Length > 1)
             {

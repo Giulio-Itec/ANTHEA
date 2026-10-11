@@ -16,7 +16,7 @@ internal sealed record ExplorationOptions(GraphicPlane? Clip=null,bool Outlines=
     IReadOnlyList<GraphicalLoad>? Loads=null,double LoadScale=1,IReadOnlyList<ModelDisplacement>? Displacements=null,double DeformationScale=1,
     bool DiagramAlongY=false,bool DiagramValues=false,bool ShowUndeformed=true,double UndeformedOpacity=.35,bool UndeformedMesh=false,
     IReadOnlyList<GraphicPlane>? ClipPlanes=null,ModelClipBox? ClipBox=null,
-    IReadOnlyList<MeasurementAnnotation>? Measurements=null,IReadOnlyList<int>? MeasurementNodes=null);
+    IReadOnlyList<MeasurementAnnotation>? Measurements=null,IReadOnlyList<int>? MeasurementNodes=null,ModelRevisionOverlay? Revision=null);
 
 internal sealed partial class ModelSceneRenderer
 {
@@ -170,5 +170,6 @@ internal sealed partial class ModelSceneRenderer
         if(settings.BeamDiagram&&options.ShowResults&&options.Family!="PLATE")DrawBeamDiagram(options,settings);
         DrawLoadGraphics(options,settings);
         if(!preparingAnimation)DrawMeasurements(options,settings);
+        DrawRevision(options,settings.Revision);
     }
 }

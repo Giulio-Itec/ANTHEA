@@ -30,6 +30,7 @@
         <CheckBox Content="Tabella" IsChecked="{Binding ShowTable}" DockPanel.Dock="Right" Margin="12,0,0,0" VerticalAlignment="Center" />
         <Button x:Name="ViewSettingsButton" Content="Impostazioni vista" Command="{Binding ToggleViewSettingsCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" />
         <Button Content="Report" Command="{Binding OpenNavigationCommand}" CommandParameter="4" DockPanel.Dock="Right" Margin="8,0,0,0" />
+        <Button Content="Revisione" Command="{Binding OpenRevisionDetailsCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" Visibility="{Binding HasRevision,Converter={StaticResource Visible}}"/>
         <Button Content="Inquadra" Command="{Binding FitCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" />
       </DockPanel>
     </Border>
@@ -98,6 +99,7 @@
               <Expander Header="{Binding VisibilityFilterTitle}" IsExpanded="{Binding ShowVisibilityOptions}" Margin="0,10,0,0">
                 <local:ModelVisibilityView />
               </Expander>
+              <Expander Header="Check della revisione" Margin="0,8,0,0"><local:ModelRevisionToolsView/></Expander>
             </StackPanel>
             <TreeView x:Name="ModelTree" Grid.Row="1" ItemsSource="{Binding Tree}" SelectedItemChanged="TreeSelectionChanged" PreviewMouseDown="TreeContextSelection" BorderThickness="0" Background="Transparent" Padding="5,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Albero del modello">
               <TreeView.ContextMenu>
@@ -201,6 +203,10 @@
             <TextBlock Text="{Binding FieldTitle}" Foreground="{Binding SceneInk}" FontSize="16" FontWeight="SemiBold" />
             <TextBlock Text="{Binding ResultHeading}" Foreground="{Binding SceneInk}" Opacity="0.85" FontSize="11" Margin="0,4,0,0" TextTrimming="CharacterEllipsis"/>
             <TextBlock Text="{Binding MeasurementPrompt}" Foreground="{Binding SceneInk}" FontSize="12" FontWeight="SemiBold" Margin="0,6,0,0" Visibility="{Binding IsMeasuring,Converter={StaticResource Visible}}"/>
+            <WrapPanel Margin="0,6,0,0" Visibility="{Binding RevisionLegendVisible,Converter={StaticResource Visible}}">
+              <TextBlock Text="REVISIONE  " Foreground="{Binding SceneInk}" FontSize="10"/>
+              <TextBlock Text="● Nuovi  " Foreground="#47D68D" FontSize="10"/><TextBlock Text="● Geometria  " Foreground="#FFC14C" FontSize="10"/><TextBlock Text="● Attributi  " Foreground="#CA90FF" FontSize="10"/><TextBlock Text="● Cancellati · sagoma precedente" Foreground="#FF6E75" FontSize="10"/>
+            </WrapPanel>
             <TextBlock Text="{Binding DeformationHeading}" Foreground="{Binding SceneInk}" Opacity="0.85" FontSize="11" Margin="0,4,0,0" Visibility="{Binding ShowDeformation, Converter={StaticResource Visible}}"/>
             <WrapPanel Margin="0,8,0,0" ToolTip="Ctrl aggiunge, Shift sottrae. Rettangolo da sinistra: contenuti; da destra: attraversati. Poligono: doppio clic per chiudere. Esc deseleziona.">
               <WrapPanel.Resources><Style TargetType="Button" BasedOn="{StaticResource Action}"><Setter Property="Foreground" Value="{Binding SceneInk}"/><Setter Property="BorderBrush" Value="#60748A"/></Style></WrapPanel.Resources>
@@ -269,6 +275,7 @@
         </Grid>
         <local:ModelTableView Grid.Row="2" Height="255" Visibility="{Binding ShowTable, Converter={StaticResource Visible}}" />
         <local:ModelMemberDiagramView Grid.Row="2" Height="{Binding MemberDiagramHeight}" Visibility="{Binding ShowMemberDiagram, Converter={StaticResource Visible}}" />
+        <local:ModelRevisionReviewView Grid.Row="2" Height="310" Visibility="{Binding ShowRevisionDetails,Converter={StaticResource Visible}}"/>
         <Border Grid.Row="3" Padding="14,9" BorderBrush="#2B3C50" BorderThickness="0,1,0,0">
           <DockPanel>
             <TextBlock DockPanel.Dock="Right" FontSize="10">

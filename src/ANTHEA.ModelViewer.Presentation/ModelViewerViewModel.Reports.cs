@@ -58,7 +58,7 @@ public sealed partial class ModelViewerViewModel
     partial void OnReportImageWidthChanged(int value) => MarkReportDirty();
     partial void OnReportDirtyChanged(bool value) { OnPropertyChanged(nameof(ReportRevisionStatus)); OpenReportPdfCommand.NotifyCanExecuteChanged(); }
     partial void OnLastReportPdfChanged(string? value) => OpenReportPdfCommand.NotifyCanExecuteChanged();
-    partial void OnIsReportRunningChanged(bool value) { OnPropertyChanged(nameof(CanEditReport)); ImportCommand.NotifyCanExecuteChanged(); }
+    partial void OnIsReportRunningChanged(bool value) { OnPropertyChanged(nameof(CanEditReport)); ImportCommand.NotifyCanExecuteChanged(); ComparePreviousCommand.NotifyCanExecuteChanged();ComputeRevisionDeltaCommand.NotifyCanExecuteChanged();ClearRevisionCommand.NotifyCanExecuteChanged(); }
     void MarkReportDirty() { ReportDirty = true; OnPropertyChanged(nameof(ReportCount)); }
     void ChapterChanged(object? sender, PropertyChangedEventArgs e) => MarkReportDirty();
     void InitializeReport()

@@ -641,3 +641,24 @@ ne mantiene 12. Sul modello reale completo e isolamento totale hanno geometria i
 bit per bit e 222212 triangoli. Proprieta 1 isolata: 1612 plate, 103520 triangoli;
 53 ms di preparazione osservati nella cattura. 11 controlli WPF, immagini prima e dopo
 in `visible-boundaries`; mesh GPC e valori importati non modificati.
+
+### Check della revisione e delta (MOD-19)
+
+La scheda Modello ospita il confronto con una copia precedente; il pannello inferiore alterna
+tabella, diagrammi e revisione. Elenco filtrabile, selezione degli oggetti correnti, isolamento
+delle modifiche, inquadratura della posizione precedente per i cancellati. Verde: nuovi,
+arancio: geometria, viola: attributi, rosso: sagoma originale dei cancellati. Ogni livello
+si puo disattivare. Le annotazioni possono accompagnare il contouring senza cambiarne i valori.
+
+Dopo un’importazione valida, il confronto viene predisposto automaticamente. Calcolo dei delta
+solo su richiesta, fuori dal thread grafico, con annullamento. Caso/famiglia/assi/componente/unità
+restano nella scheda Risultati. Identita dei campioni: elemento, nodo e stazione; geometrie cambiate
+escluse inizialmente. Cambio di campo invalida la tabella; cambio di unita riusa i delta acquisiti.
+CSV e flag di geometria diversa; nessuna combinazione, trasformazione o media aggiunta.
+
+Le viste e i report conservano annotazioni e impronta delle due copie. La rigenerazione del report
+rifiuta una revisione corrente diversa. Le grandi matrici precedenti restano solo nell’ultimo
+confronto di sessione; riaprire una vista non finge di averle, il delta richiede la copia precedente.
+Prove sul modello reale con differenze simulate dichiarate: 193-274 ms per geometria/attributi,
+circa 10 ms per 13718 campioni Myy. Tempi senza lettura dei file. 281 controlli logici, 13 WPF,
+PDF di due pagine controllato; evidenze `revision-review/reviewed` e `final`.

@@ -30,7 +30,7 @@ public sealed partial class ModelViewerViewModel
     private IReadOnlyList<MemberDiagramSeries> allMemberSeries=[];
     partial void OnShowMemberDiagramChanged(bool value)
     {
-        if(value){ShowTable=false;PauseAnimation();UpdateMemberDiagram();}
+        if(value){ShowTable=false;ShowRevisionDetails=false;PauseAnimation();UpdateMemberDiagram();}
     }
     partial void OnMemberDiagramElementIdChanged(int? value)
     {

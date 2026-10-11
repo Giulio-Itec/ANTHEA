@@ -1,0 +1,38 @@
+<UserControl x:Class="ANTHEA.ModelViewer.Wpf.ModelRevisionReviewView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Border Background="{DynamicResource AppearancePaper}" BorderBrush="{DynamicResource AppearanceBorder}" BorderThickness="0,1,0,0" Padding="12,7">
+    <Grid>
+      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+      <DockPanel Margin="0,0,0,4">
+        <Button DockPanel.Dock="Right" Content="×" Command="{Binding CloseRevisionDetailsCommand}" ToolTip="Chiudi il confronto" MinWidth="25" Padding="4,0"/>
+        <TextBlock Text="CHECK DELLA REVISIONE" FontSize="10" FontWeight="SemiBold" VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding RevisionSummary}" FontSize="11" Margin="14,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+      </DockPanel>
+      <TabControl Grid.Row="1" SelectedIndex="{Binding RevisionTab}" Background="Transparent" BorderThickness="0" Padding="0">
+        <TabItem Header="Geometria e attributi">
+          <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+            <WrapPanel Margin="0,5">
+              <ComboBox ItemsSource="{Binding RevisionFilters}" SelectedIndex="{Binding RevisionFilter}" Width="180"/>
+              <Button Content="Isola elementi dell'elenco" Command="{Binding IsolateRevisionChangesCommand}" Margin="6,0"/>
+              <Button Content="Confronta altra copia…" Command="{Binding ComparePreviousCommand}"/>
+              <Button Content="Rimuovi confronto" Command="{Binding ClearRevisionCommand}" Margin="6,0"/>
+            </WrapPanel>
+            <DataGrid Grid.Row="1" ItemsSource="{Binding RevisionRows}" SelectedItem="{Binding SelectedRevisionRow}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True" SelectionMode="Single" HeadersVisibility="Column" RowHeaderWidth="0" FontSize="11" Background="Transparent" BorderThickness="0">
+              <DataGrid.Columns><DataGridTextColumn Header="Oggetto" Binding="{Binding Category}" Width="150"/><DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="100"/><DataGridTextColumn Header="Modifica" Binding="{Binding Change}" Width="110"/><DataGridTextColumn Header="Dettaglio" Binding="{Binding Detail}" Width="*"/></DataGrid.Columns>
+            </DataGrid>
+            <TextBlock Grid.Row="2" Text="{Binding RevisionMessage}" FontSize="10" TextWrapping="Wrap" Opacity=".7" Margin="0,5,0,0"/>
+          </Grid>
+        </TabItem>
+        <TabItem Header="Delta sollecitazioni">
+          <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+            <DockPanel Margin="0,5"><Button DockPanel.Dock="Right" Content="Esporta CSV…" Command="{Binding ExportRevisionDeltaCommand}"/><TextBlock Text="{Binding RevisionDeltaHeading}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="11"/></DockPanel>
+            <WrapPanel Grid.Row="1" Margin="0,0,0,5"><Button Content="Calcola delta del campo corrente" Command="{Binding ComputeRevisionDeltaCommand}"/><Button Content="Annulla" Command="{Binding ComputeRevisionDeltaCancelCommand}" Margin="6,0"/><CheckBox Content="Includi elementi con geometria modificata" IsChecked="{Binding IncludeChangedGeometryInDelta}" VerticalAlignment="Center"/></WrapPanel>
+            <DataGrid Grid.Row="2" ItemsSource="{Binding RevisionDeltaRows}" SelectedItem="{Binding SelectedRevisionDeltaRow}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True" SelectionMode="Single" HeadersVisibility="Column" RowHeaderWidth="0" FontSize="11" Background="Transparent" BorderThickness="0">
+              <DataGrid.Columns><DataGridTextColumn Header="Elemento" Binding="{Binding Element}" Width="80"/><DataGridTextColumn Header="Nodo" Binding="{Binding Node}" Width="80"/><DataGridTextColumn Header="x/L" Binding="{Binding Station,StringFormat=G5}" Width="60"/><DataGridTextColumn Header="Precedente" Binding="{Binding Previous,StringFormat=G7}" Width="*"/><DataGridTextColumn Header="Corrente" Binding="{Binding Current,StringFormat=G7}" Width="*"/><DataGridTextColumn Header="Delta" Binding="{Binding Delta,StringFormat=G7}" Width="*"/><DataGridCheckBoxColumn Header="Geometria diversa" Binding="{Binding GeometryChanged}" Width="110"/></DataGrid.Columns>
+            </DataGrid>
+            <TextBlock Grid.Row="3" Text="{Binding RevisionDeltaSummary}" FontSize="10" TextWrapping="Wrap" Opacity=".75" Margin="0,5,0,0"/>
+          </Grid>
+        </TabItem>
+      </TabControl>
+    </Grid>
+  </Border>
+</UserControl>

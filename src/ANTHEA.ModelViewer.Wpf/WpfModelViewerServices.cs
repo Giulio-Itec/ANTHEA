@@ -52,6 +52,12 @@ internal sealed class WpfModelViewerServices(Func<Window?> owner, Action fit, Ac
         if (dialog.ShowDialog(owner()) != true) return null;
         return await Task.Run(() => ModelSnapshotFiles.Read(dialog.FileName, cancellationToken), cancellationToken);
     }
+    public async Task<ModelSnapshot?> OpenPreviousModelAsync(CancellationToken cancellationToken)
+    {
+        var dialog=new OpenFileDialog {Title="Confronta con una copia precedente del modello",Filter="Modello ANTHEA|*.antheamodel|Copia del laboratorio (NODE.json)|NODE.json"};
+        if(dialog.ShowDialog(owner())!=true)return null;
+        return await Task.Run(()=>ModelSnapshotFiles.Read(dialog.FileName,cancellationToken),cancellationToken);
+    }
 
     public void FitView() => fit();
     public void SaveImage()

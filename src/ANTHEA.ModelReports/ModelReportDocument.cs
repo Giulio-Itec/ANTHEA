@@ -81,9 +81,16 @@ public static class ModelReportFiles
         Validate(document);
         var elements = snapshot.Elements.Select(e => e.Id).ToHashSet();
         var nodes = snapshot.Nodes.Select(n => n.Id).ToHashSet();
+        string? revision=null;
         foreach (var block in document.Blocks.Where(b => b.Included && b.Kind == ReportBlockKind.Figure))
         {
             var view = block.View!;
+            if(view.RevisionOverlay is {} overlay)
+            {
+                revision??=snapshot.Fingerprint();
+                if(overlay.CurrentRevision!=revision || overlay.Markers.Any(m=>!elements.Contains(m.Element)))
+                    throw new InvalidDataException($"«{block.Title}»: il confronto appartiene a una revisione diversa. Ricalcola il confronto e aggiorna la figura.");
+            }
             if(view.Measurements is {Visible:true} measure)
             {
                 if(measure.Items.SelectMany(m=>m.Nodes).Any(id=>!nodes.Contains(id)))

@@ -69,6 +69,8 @@ internal sealed class ModelReportRenderSession : IDisposable
         if (state.ShowDeformation) description += "\n" + state.DeformationHeading + ". " + state.DeformationMessage;
         if(state.ShowMeasurements && state.MeasurementReadings.Count>0)
             description+="\nMisure · "+state.MeasurementBasisLabel+". Valori indipendenti dall'amplificazione grafica.\n"+string.Join("\n",state.MeasurementReadings.Select(m=>m.Title+": "+m.Value+" · "+m.Details));
+        if(state.ActiveRevisionOverlay is {} revision)
+            description+=$"\nConfronto con {revision.PreviousName} ({revision.PreviousRevision[..12]}). {state.RevisionSummary}. Verde: nuovi; arancio: geometria; viola: attributi; rosso: cancellati nella posizione precedente. Corrispondenza per ID. Confronto valido solo per questa revisione.";
         if (state.IsExtruded) description += "\nVolumi preliminari: spessori e offset plate; aste rettangolari centrate, offset di estremità non importati.";
         if (state.IsExtruded && state.IsResultsView && state.Family == "PLATE") description += "\nCampo plate riportato sulle facce estruse; non è una distribuzione di tensione nello spessore.";
         if(state.IsResultsView && state.IsBeamFamily)

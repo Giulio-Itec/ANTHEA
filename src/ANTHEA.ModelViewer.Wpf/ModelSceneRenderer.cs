@@ -255,6 +255,8 @@ internal sealed partial class ModelSceneRenderer : IDisposable
                 clippedPoints=model.Elements.Where(e=>lastOptions?.Visible is not {} visible || visible.Contains(e.Id)).SelectMany(e=>clipping.Polygon(ElementPoints(e))).ToArray();
             visiblePoints=clippedPoints;
         }
+        if(lastOptions?.Exploration?.Revision is {ShowRemoved:true} revision)
+            visiblePoints=visiblePoints.Concat(revision.Removed.SelectMany(g=>clipping?.Polygon(RevisionGhostPoints(g))??RevisionGhostPoints(g))).ToArray();
         if (visiblePoints.Length == 0) return;
         if(cameraInitialized){FocusPoints(visiblePoints);return;}
         cameraInitialized=true;

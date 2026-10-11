@@ -13,6 +13,7 @@ public sealed record SheetTarget(string Id, string Name, string Status)
 public interface IModelViewerServices
 {
     Task<ModelSnapshot?> ImportAsync(CancellationToken cancellationToken);
+    Task<ModelSnapshot?> OpenPreviousModelAsync(CancellationToken cancellationToken)=>ImportAsync(cancellationToken);
     ModelReportDocument? OpenReport(bool hasChanges) => null;
     bool SaveReport(ModelReportDocument document) => false;
     Task<ReportExportResult?> ExportReportAsync(ModelReportDocument document, ModelSnapshot snapshot, IProgress<ReportProgress> progress, CancellationToken cancellationToken) => Task.FromResult<ReportExportResult?>(null);
@@ -107,9 +108,9 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     partial void OnShowIsolinesChanged(bool value) => RefreshScene();
     partial void OnElementNumberChanged(string value) { QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); }
     partial void OnSelectedSheetChanged(SheetTarget? value) => LinkCommand.NotifyCanExecuteChanged();
-    partial void OnIsBusyChanged(bool value) { ImportCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); }
+    partial void OnIsBusyChanged(bool value) { ImportCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); ComparePreviousCommand.NotifyCanExecuteChanged();ComputeRevisionDeltaCommand.NotifyCanExecuteChanged();ClearRevisionCommand.NotifyCanExecuteChanged(); }
 
-    private bool CanImport() => !IsReadOnly && !IsBusy && !IsVerificationRunning && !IsReportRunning && !disposed;
+    private bool CanImport() => !IsReadOnly && !IsBusy && !IsVerificationRunning && !IsReportRunning && !IsRevisionBusy && !disposed;
     [RelayCommand(CanExecute = nameof(CanImport))]
     private async Task ImportAsync()
     {
@@ -118,7 +119,12 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         {
             var snapshot = await services.ImportAsync(lifetime.Token);
             if (snapshot == null || disposed) { if (!disposed) Status = "Importazione annullata"; return; }
-            snapshot.Validate(); imported(snapshot); SetSnapshot(snapshot); services.FitView();
+            snapshot.Validate();
+            (ModelRevisionReview Review,ModelRevisionOverlay Overlay)? review=Snapshot is {} previous?await CreateRevisionAsync(previous,snapshot,lifetime.Token):null;
+            if(disposed)return;
+            imported(snapshot); SetSnapshot(snapshot);
+            if(review!=null)ApplyRevision(review.Value.Review,review.Value.Overlay);
+            services.FitView();
             Status = "Modello importato. Salva il progetto per conservare la copia e i riferimenti.";
         }
         catch (TaskCanceledException) when (!lifetime.IsCancellationRequested) { if (!disposed) { var failure = new ModelSourceException(ModelSourceFailureKind.Timeout); SetImportFailure(failure); Status = failure.Message; } }
@@ -130,6 +136,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     private void SetSnapshot(ModelSnapshot snapshot)
     {
         snapshot.Validate(); updating = true; Snapshot = snapshot;
+        ResetRevision();
         Title = displayName ?? snapshot.Name; Summary = $"{snapshot.Nodes.Length:N0} nodi · {snapshot.Elements.Length:N0} elementi";
         InitializeWorkspace();
         Cases = snapshot.Results.Select(r => r.Name).ToArray(); SelectedCase = Cases.FirstOrDefault();
@@ -148,6 +155,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         UpdateDeformations();
         UpdateMeasurements();
         UpdateResultField();
+        UpdateRevisionState();
         UpdateMemberDiagram();
         UpdateLoadGraphics();
         UpdateComparison();
@@ -211,6 +219,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         Comparison?.Dispose(); Comparison=null; FocusSelectionRequested=null;PreviousCameraRequested=null;HoverChanged=null;
         ViewSettingsChanged = null; CameraPresetRequested = null;
         AnimationStateChanged = null; DeformationFrameChanged = null;
+        FocusRemovedRevisionRequested=null;
         ImportCommand.NotifyCanExecuteChanged(); QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged();
         IsolateCommand.NotifyCanExecuteChanged(); HideCommand.NotifyCanExecuteChanged(); ShowSelectedCommand.NotifyCanExecuteChanged();
         InspectSelectionCommand.NotifyCanExecuteChanged(); AddVisibilityCriterionCommand.NotifyCanExecuteChanged();

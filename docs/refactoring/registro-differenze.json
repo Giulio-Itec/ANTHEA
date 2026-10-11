@@ -1474,6 +1474,41 @@
         "supporto/artefatti/model-viewer/visible-boundaries/real"
       ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-19",
+      "titolo": "Check della revisione e delta su richiesta",
+      "famiglia": "interfaccia/documenti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Confronto automatico dopo importazione o esplicito con una copia precedente, elenco filtrabile, selezione e isolamento, quattro colori e sagome dei cancellati. Delta per campo selezionato, unità condivise, esclusione predefinita delle geometrie cambiate, CSV. Annotazioni portabili con provenienza e controllo della revisione nel report.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Revisions.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Revisions.cs",
+        "src/ANTHEA.ModelWorkspace/ModelRevisionOverlay.cs",
+        "src/ANTHEA.ModelReports/ModelReportDocument.cs"
+      ],
+      "segno": "Dati importati invariati. Corrispondenza soltanto per ID; nessuna equivalenza strutturale dedotta. Delta fra campioni corrispondenti, non inviluppo delle differenze. Evidenze reali ottenute con una copia precedente simulata, senza alterare il modello MIDAS.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "check della revisione, differenze geometriche e attributi, delta delle forze solo se richiesto",
+        "esito": "flusso MVVM collegato alle copie del visualizzatore; archivio storico delle grandi copie e connettori live restano successivi"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "ModelWorkspace.Checks: 281 PASS, inclusi 30 - 10 = 20, conversione unità e annullamento",
+        "WPF reale con differenze simulate: 13 PASS, nessun errore di binding",
+        "Report di due pagine controllato a video",
+        "Geometria/attributi: 193-274 ms; delta di 13718 campioni Myy circa 10 ms, dati già caricati"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/revision-review/reviewed",
+        "supporto/artefatti/model-viewer/revision-review/final",
+        "supporto/artefatti/ci/20261011-191920-modelli-revisioni-annullamento"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

@@ -25,6 +25,7 @@ public partial class ModelViewerControl
         Viewport.CameraChanged+=CameraChanged;Viewport.PreviewMouseWheel+=RememberWheelCamera;
         cameraProperty.AddValueChanged(Viewport,CameraReplaced);
         viewModel.FocusSelectionRequested+=FocusSelection;viewModel.PreviousCameraRequested+=PreviousCamera;viewModel.HoverChanged+=HoverChanged;
+        viewModel.FocusRemovedRevisionRequested+=FocusRemovedRevision;
     }
     private void DetachInteraction()
     {
@@ -33,6 +34,7 @@ public partial class ModelViewerControl
         Viewport.CameraChanged-=CameraChanged;Viewport.PreviewMouseWheel-=RememberWheelCamera;
         cameraProperty.RemoveValueChanged(Viewport,CameraReplaced);
         viewModel.FocusSelectionRequested-=FocusSelection;viewModel.PreviousCameraRequested-=PreviousCamera;viewModel.HoverChanged-=HoverChanged;
+        viewModel.FocusRemovedRevisionRequested-=FocusRemovedRevision;
     }
     private void RefreshLabels(object? sender,EventArgs e)
     {
@@ -52,6 +54,7 @@ public partial class ModelViewerControl
         labelRefresh.Stop();labelRefresh.Start();
     }
     private void FocusSelection(object? sender,EventArgs e) { previousCamera=renderer?.CameraState();renderer?.Focus(viewModel.SelectedElementIds,viewModel.SelectedNodeIds); }
+    private void FocusRemovedRevision(object? sender,int id){previousCamera=renderer?.CameraState();renderer?.FocusRemovedRevision(id);}
     private void PreviousCamera(object? sender,EventArgs e)
     {
         if(previousCamera==null)return;var current=renderer?.CameraState();renderer?.RestoreCamera(previousCamera);previousCamera=current;
