@@ -158,6 +158,13 @@ static partial class Program
                     File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
                     preview.Close();app.Shutdown();return 0;
                 }
+                if(args.Contains("--member-diagrams"))
+                {
+                    MemberDiagramRenderingChecks(isolated,scene,output);
+                    listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"member diagram views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
                 if(args.Contains("--themes-only"))
                 {
                     ThemeRenderingChecks(isolated,scene,output);

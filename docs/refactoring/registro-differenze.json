@@ -1353,6 +1353,23 @@
       "test": ["ModelWorkspace.Checks: 216 PASS, inclusa equivalenza SHA-256 con la serializzazione precedente", "ModelViewer.UiChecks su pacchetto completo: 14 PASS"],
       "evidenze": ["supporto/artefatti/model-viewer/deformations/fresh-source", "supporto/artefatti/model-viewer/deformations/real-complete", "supporto/artefatti/ci/20261011-181542-modelli-pacchetto-stream"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-15",
+      "titolo": "Diagrammi di dettaglio delle aste e figure rigenerabili",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Grafici 2D delle componenti locali importate con cursore comune, unità condivise, campioni e interpolazioni distinguibili, CSV e figure di report. Pannello adattivo e legenda leggibile nei viewport ridotti.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelViewer.Presentation/MemberDiagram.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.MemberDiagrams.cs", "src/ANTHEA.ModelViewer.Wpf/MemberDiagramPlot.cs", "src/ANTHEA.ModelViewer.Wpf/MemberDiagramReportRenderer.cs", "src/ANTHEA.ModelReports/ModelReportDocument.cs"],
+      "segno": "nessuna modifica dei valori; interpolazione solo grafica fra stazioni disponibili, nessuna media di valori ambigui o estrapolazione",
+      "decisione": {"data": "2026-10-11", "utente": "aggiungere le funzioni utili di RFEM/MIDAS NX e i grafici delle aste", "esito": "diagramma selezionabile e rigenerabile nel report, condividendo i selettori della scheda Risultati"},
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelWorkspace.Checks: 235 PASS", "ModelViewer.UiChecks: 17 PASS, report e tre temi, nessun errore di binding"],
+      "evidenze": ["supporto/artefatti/model-viewer/member-diagrams/real", "supporto/artefatti/model-viewer/member-diagrams/reviewed", "supporto/artefatti/ci/20261011-182619-diagrammi-report-logica"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

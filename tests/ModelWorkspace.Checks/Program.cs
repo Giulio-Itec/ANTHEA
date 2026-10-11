@@ -85,6 +85,7 @@ static partial class Program
             DisplacementChecks(output);
             await ReportChecks(output);
             RepresentationChecks(output);
+            MemberDiagramChecks();
 
             if (args.Length > 1)
             {

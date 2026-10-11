@@ -618,7 +618,8 @@ sono MVVM; timer e buffer appartengono alla vista/renderer. Import e persistenza
 Si riusano i tre aspetti globali di ANTHEA, senza un secondo sistema di temi nel modulo. I test
 non modificano la preferenza salvata. Lo sfondo del modello rimane una scelta grafica indipendente
 e i colori ingegneristici non cambiano con l'aspetto. Nessuna modifica alle librerie GPC. MOD-13.
-# Pacchetti Modelli con più casi (11 ottobre 2026)
+
+## Pacchetti Modelli con più casi (11 ottobre 2026)
 
 Il limite preliminare di 64 MB impediva di aprire il pacchetto reale dei 49 casi, pur avendo
 solo 3.755 nodi e 3.616 elementi. Il limite esplicito è ora 256 MiB e la lettura del file usa
@@ -626,3 +627,15 @@ lo stream, con cancellazione. Anche SHA-256 viene alimentato in streaming: ordin
 serializzazione UTF-8 rimangono identici, senza invalidare i riferimenti salvati. Il formato
 del progetto non cambia; un archivio dedicato dei grandi risultati rimane un'evoluzione distinta.
 
+## Diagrammi delle aste e report (11 ottobre 2026)
+
+Il dettaglio 2D usa gli stessi selettori di caso, componente e unità della vista 3D. Il pannello
+inferiore alterna tabella e diagrammi; non duplica la configurazione. È disponibile per beam,
+truss e altre famiglie lineari riconosciute, limitatamente ai campioni importati. Segmenti
+rettilinei fra stazioni, nessuna estrapolazione e nessuna curva di analisi ricostruita. Un valore
+isolato resta un punto; stazioni ambigue non vengono mediate. Il cursore distingue il campione
+originale dall'interpolazione grafica. I sei grafici mantengono le rispettive unità.
+
+Le figure di report salvano elemento, caso, componente o tutte le componenti, unità e cursore.
+Alla rigenerazione i grafici vengono ricreati dai valori correnti; riferimenti mancanti bloccano
+la figura. La forma d'onda e i dati strutturali non si modificano. Registro MOD-15.

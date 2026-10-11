@@ -586,3 +586,23 @@ Nuovo limite 256 MiB, deserializzazione del file e calcolo dell'impronta in stre
 Formato JSON e impronta delle revisioni conservati, nessun aggiornamento delle DLL GPC.
 Runner mirato: 216 controlli logici; apertura in archivio e deformata reale: 14 PASS.
 Evidenza `deformations/real-complete`; il pacchetto iniziale rimane conservato.
+
+### Dettaglio delle aste (MOD-15)
+
+Confronto funzionale con i manuali ufficiali [RFEM, Result Diagrams](https://www.dlubal.com/en/downloads-and-information/documents/online-manuals/rfem-6/000484)
+e [MIDAS, Beam Diagrams](https://support.midasuser.com/hc/en-us/articles/18165910326809-Beam-Diagrams).
+Implementazione originale: grafico per asta selezionata, componente singola o tutte disponibili,
+stazione x/L condivisa, distanza dall'estremità I, punti importati distinti dall'interpolazione
+lineare, inversione del solo grafico, riempimento opzionale, blocco del cursore e CSV dei campioni.
+Il filtro delle stazioni 3D non elimina i dati dal dettaglio. Famiglie assiali mantengono il solo Fx.
+Nessuna interpolazione fuori dal dominio importato o attraverso stazioni ambigue. L'inviluppo
+rimane identificato come insieme di estremi non simultanei.
+
+Stato MVVM nella Presentation; disegno e layout adattivo in WPF. Scheda Risultati come unica
+sede dei selettori del campo. Pannello inferiore alternativo alla tabella; col numero di grafici
+si adattano altezza e colonne. Legenda 3D adattata al viewport residuo; etichette quasi coincidenti
+non vengono sovrapposte, con estremi esatti disponibili nel tooltip. Temi esistenti riutilizzati.
+
+Report: figure specifiche dei diagrammi con rigenerazione indipendente dalla scena, stessa
+ricetta portabile, nessuna modifica dei dati. 235 controlli logici e 17 WPF/report reali;
+PDF di tre pagine controllato. Evidenze `member-diagrams/reviewed`, baseline `real` e `final`.

@@ -22,11 +22,11 @@ public sealed partial class ReportChapter : ObservableObject
     [ObservableProperty] string text;
     [ObservableProperty] bool included;
     public bool IsFigure => Source.Kind == ReportBlockKind.Figure;
-    public string Kind => Source.Kind switch { ReportBlockKind.Figure => "FIGURA DINAMICA", ReportBlockKind.Text => "TESTO", _ => "VERIFICA · PREDISPOSIZIONE" };
-    public string Detail => Source.View is {} v ? $"{v.Name} · {v.Case ?? "Geometria"} · {v.Component}\n{(v.Visible is null ? "Tutti gli elementi" : v.Visible.Length + " elementi salvati")} · camera e stile memorizzati" :
+    public string Kind => Source.MemberDiagram!=null?"DIAGRAMMI ASTA":Source.Kind switch { ReportBlockKind.Figure => "FIGURA DINAMICA", ReportBlockKind.Text => "TESTO", _ => "VERIFICA · PREDISPOSIZIONE" };
+    public string Detail => Source.MemberDiagram is {} member ? $"Asta {member.Element} · {Source.View?.Case}\n{(member.AllComponents?"Tutte le componenti":Source.View?.Component)} · assi locali · x/L {member.Station:0.####}":Source.View is {} v ? $"{v.Name} · {v.Case ?? "Geometria"} · {v.Component}\n{(v.Visible is null ? "Tutti gli elementi" : v.Visible.Length + " elementi salvati")} · camera e stile memorizzati" :
         Source.Kind == ReportBlockKind.Verification ? $"{Source.SheetName ?? "Foglio da associare"}\nRisultati non ancora collegati." : "Testo libero conservato durante la rigenerazione.";
     public ModelReportBlock ToBlock() => Source with { Title = Title, Text = Text, Included = Included };
-    public void ReplaceView(ModelViewPreset view) { Source = Source with { View = view }; OnPropertyChanged(nameof(Detail)); }
+    public void ReplaceView(ModelViewPreset view, ModelReportMemberDiagram? member=null) { Source = Source with { View = view, MemberDiagram=member }; OnPropertyChanged(nameof(Detail));OnPropertyChanged(nameof(Kind)); }
 }
 
 public sealed partial class ModelViewerViewModel
@@ -94,6 +94,18 @@ public sealed partial class ModelViewerViewModel
         try { AddChapter(new() { Kind = ReportBlockKind.Text, Title = "Note al modello" }); }
         catch (Exception ex) { ReportMessage = ex.Message; }
     }
+    ModelReportMemberDiagram CaptureMemberDiagram()
+    {
+        if(!HasMemberDiagram || MemberDiagramElementId is not int id)throw new InvalidOperationException("Apri un diagramma dell’asta con risultati disponibili.");
+        return new(id,MemberDiagramAllComponents,MemberDiagramInvert,MemberDiagramFill,MemberDiagramStation);
+    }
+    ModelViewPreset CaptureMemberReportView()=>ReportCapture() with {ResultType=0,Axes=0,Mode=2};
+    [RelayCommand] void AddReportMemberDiagram()
+    {
+        if(!CanComposeReport())return;
+        try {AddChapter(new() {Kind=ReportBlockKind.Figure,Title=$"Asta {MemberDiagramElementId} · {SelectedCase} · diagrammi",View=CaptureMemberReportView(),MemberDiagram=CaptureMemberDiagram()});ReportMessage="Diagrammi aggiunti: saranno rigenerati dai campioni importati.";}
+        catch(Exception ex){ReportMessage=ex.Message;}
+    }
     [RelayCommand] void AddReportVerification()
     {
         if (!CanComposeReport()) return;
@@ -119,7 +131,7 @@ public sealed partial class ModelViewerViewModel
     [RelayCommand] void ReplaceReportFigure()
     {
         if (!CanComposeReport() || SelectedReportChapter?.IsFigure != true) return;
-        try { SelectedReportChapter.ReplaceView(ReportCapture()); MarkReportDirty(); ReportMessage = "Camera, campo e stile della figura aggiornati dalla vista principale."; }
+        try { SelectedReportChapter.ReplaceView(SelectedReportChapter.Source.MemberDiagram==null?ReportCapture():CaptureMemberReportView(),SelectedReportChapter.Source.MemberDiagram==null?null:CaptureMemberDiagram()); MarkReportDirty(); ReportMessage = "Campo e impostazioni della figura aggiornati."; }
         catch (Exception ex) { ReportMessage = ex.Message; }
     }
     [RelayCommand] void ShowReportFigure()
@@ -129,6 +141,12 @@ public sealed partial class ModelViewerViewModel
         {
             ModelReportFiles.ValidateReferences(CaptureReport() with { Blocks = [SelectedReportChapter.ToBlock() with { Included = true }] }, Snapshot!);
             ApplyView(view); OpenNavigationCommand.Execute("4");
+            if(SelectedReportChapter.Source.MemberDiagram is {} member)
+            {
+                MemberDiagramElementId=member.Element;SelectElement(member.Element);
+                MemberDiagramAllComponents=member.AllComponents;MemberDiagramInvert=member.Invert;
+                MemberDiagramFill=member.Fill;MemberDiagramStation=member.Station;ShowMemberDiagram=true;
+            }
             ReportMessage = "Vista della figura richiamata. Modifica le impostazioni nelle schede dedicate, poi aggiorna la figura.";
         }
         catch (Exception ex) { ReportMessage = "Figura non richiamata: " + ex.Message; }

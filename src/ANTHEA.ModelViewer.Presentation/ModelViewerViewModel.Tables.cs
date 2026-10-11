@@ -19,7 +19,7 @@ public sealed partial class ModelViewerViewModel
     [ObservableProperty] private DataRowView? selectedTableRow;
     [ObservableProperty] private string tableSummary = "";
     private string? tableState;
-    partial void OnShowTableChanged(bool value) { if (value) RefreshTable(true); }
+    partial void OnShowTableChanged(bool value) { if (value) {ShowMemberDiagram=false;RefreshTable(true);} }
     partial void OnSelectedTableKindChanged(int value)
     {
         if (value == 5) TableOnlyVisible = true;

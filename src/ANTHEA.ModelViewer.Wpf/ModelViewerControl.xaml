@@ -223,10 +223,10 @@
             <Border.Style><Style TargetType="Border"><Setter Property="Visibility" Value="Visible"/><Style.Triggers><DataTrigger Binding="{Binding HoverProbe}" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></Border.Style>
             <TextBlock Text="{Binding HoverProbe.Caption}" Foreground="White" FontSize="11" TextWrapping="Wrap"/>
           </Border>
-          <StackPanel Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding IsResultsView, Converter={StaticResource Visible}}">
+          <Grid Grid.Column="1" MaxHeight="380" Margin="0,8" Visibility="{Binding IsResultsView, Converter={StaticResource Visible}}"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
             <Button Foreground="{Binding SceneInk}" Content="Modifica scala" Command="{Binding OpenLegendSettingsCommand}" FontSize="10" Padding="4" Margin="10,6"/>
-            <local:ModelContourLegend/>
-          </StackPanel>
+            <local:ModelContourLegend Grid.Row="1"/>
+          </Grid>
           <Border Grid.Column="1" Padding="10,18" Width="180" Visibility="{Binding HasColorLegend, Converter={StaticResource Visible}}">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
               <StackPanel>
@@ -267,6 +267,7 @@
           <ContentControl x:Name="ComparisonHost" Grid.Column="1"/>
         </Grid>
         <local:ModelTableView Grid.Row="2" Height="255" Visibility="{Binding ShowTable, Converter={StaticResource Visible}}" />
+        <local:ModelMemberDiagramView Grid.Row="2" Height="{Binding MemberDiagramHeight}" Visibility="{Binding ShowMemberDiagram, Converter={StaticResource Visible}}" />
         <Border Grid.Row="3" Padding="14,9" BorderBrush="#2B3C50" BorderThickness="0,1,0,0">
           <DockPanel>
             <TextBlock DockPanel.Dock="Right" FontSize="10">

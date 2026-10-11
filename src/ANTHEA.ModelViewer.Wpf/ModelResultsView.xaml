@@ -27,6 +27,7 @@
           <CheckBox Content="Valori alle stazioni" IsChecked="{Binding ShowBeamDiagramValues}"/>
         </StackPanel>
         <TextBlock Text="{Binding LineRepresentationMessage}" TextWrapping="Wrap" FontSize="10" Opacity=".7"/>
+        <Button Content="Diagramma 2D dell’asta…" Command="{Binding OpenMemberDiagramCommand}" Margin="0,8,0,0"/>
       </StackPanel></Expander>
       <TextBlock Text="{Binding ResultUnit}" FontWeight="SemiBold" Margin="0,7,0,3" />
       <Expander Header="Unità" Margin="0,4"><StackPanel Margin="0,7">

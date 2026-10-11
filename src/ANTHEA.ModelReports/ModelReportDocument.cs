@@ -4,6 +4,7 @@ using System.Text.Json;
 namespace ANTHEA.ModelReports;
 
 public enum ReportBlockKind { Figure, Text, Verification }
+public sealed record ModelReportMemberDiagram(int Element, bool AllComponents, bool Invert, bool Fill, double Station);
 
 public sealed record ModelReportBlock
 {
@@ -13,6 +14,8 @@ public sealed record ModelReportBlock
     public string Text { get; init; } = "";
     public bool Included { get; init; } = true;
     public ModelViewPreset? View { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public ModelReportMemberDiagram? MemberDiagram { get; init; }
     public string? SheetId { get; init; }
     public string? SheetName { get; init; }
 }
@@ -52,6 +55,8 @@ public static class ModelReportFiles
                 ModelViewPresetStore.Validate([b.View]);
             }
             else if (b.View != null) throw new InvalidDataException("Solo le figure possono contenere una vista.");
+            if(b.MemberDiagram is {} diagram && (b.Kind!=ReportBlockKind.Figure || diagram.Element<=0 || !double.IsFinite(diagram.Station) || diagram.Station is <0 or >1 || b.View is not {ResultType:0,Axes:0}))
+                throw new InvalidDataException("Impostazioni del diagramma dell’asta non valide.");
         }
     }
     public static ModelReportDocument Read(string path)
@@ -79,6 +84,8 @@ public static class ModelReportFiles
         foreach (var block in document.Blocks.Where(b => b.Included && b.Kind == ReportBlockKind.Figure))
         {
             var view = block.View!;
+            if(block.MemberDiagram is {} member && !snapshot.Elements.Any(e=>e.Id==member.Element && ElementFamilies.IsLine(e.Type)))
+                throw new InvalidDataException($"«{block.Title}»: asta {member.Element} non disponibile.");
             if ((view.Visible ?? []).Concat(view.Selected).Any(id => !elements.Contains(id)) || view.SelectedNodes.Any(id => !nodes.Contains(id)))
                 throw new InvalidDataException($"«{block.Title}»: alcuni oggetti salvati non esistono più. Rivedi la figura.");
             if ((view.Mode == 2 || view.Appearance?.Deformation == true) && !snapshot.Results.Any(r => r.Name == view.Case))

@@ -39,6 +39,13 @@ static partial class Program
         Reject(() => ModelReportFiles.ValidateReferences(bad, model), "deformed geometry without contours still requires its exact result case");
         bad = loaded with { Blocks = [loaded.Blocks[0] with { View = captured with { Visible = [9999] } }] };
         Reject(() => ModelReportFiles.ValidateReferences(bad, model), "deleted visible element requires an explicit figure edit");
+        var memberBlock=loaded.Blocks[0] with {View=captured with {Family=1,Axes=0,Component="My",ResultType=0},MemberDiagram=new(12,true,false,true,.5)};
+        var memberReport=loaded with {Blocks=[memberBlock]};ModelReportFiles.ValidateReferences(memberReport,model);
+        Check(ModelReportFiles.Read(WriteMemberRecipe()).Blocks[0].MemberDiagram==memberBlock.MemberDiagram,"member diagram recipe persists element, plot settings and shared station");
+        string WriteMemberRecipe(){string target=Path.Combine(output,"member.antheareport");ModelReportFiles.Write(target,memberReport);return target;}
+        Reject(()=>ModelReportFiles.ValidateReferences(memberReport with {Blocks=[memberBlock with {MemberDiagram=memberBlock.MemberDiagram! with {Element=10}}]},model),"member figure cannot reference a plate or deleted member");
+        Reject(()=>ModelReportFiles.Validate(memberReport with {Blocks=[memberBlock with {MemberDiagram=memberBlock.MemberDiagram! with {Station=double.NaN}}]}),"member report rejects non-finite cursor positions");
+        Reject(()=>ModelReportFiles.Validate(memberReport with {Blocks=[memberBlock with {View=memberBlock.View! with {ResultType=1}}]}),"force diagrams cannot be silently encoded as nodal displacement results");
         var invalidAppearance = captured with { Appearance = captured.Appearance! with { LineWidth = double.NaN } };
         Reject(() => ModelViewPresetStore.Validate([invalidAppearance]), "non-finite report appearance is rejected before rendering");
         vm.ApplyReport(loaded with { SourceRevision = new string('A', 64) });

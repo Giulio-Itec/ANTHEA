@@ -147,6 +147,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         var result = Snapshot.Results.FirstOrDefault(r => r.Name == SelectedCase);
         UpdateDeformations();
         UpdateResultField();
+        UpdateMemberDiagram();
         UpdateLoadGraphics();
         UpdateComparison();
         UpdateExploration();

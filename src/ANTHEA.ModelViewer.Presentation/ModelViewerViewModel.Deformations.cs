@@ -35,7 +35,7 @@ public sealed partial class ModelViewerViewModel
     partial void OnSelectedResultTypeChanged(int value)
     {
         bool prior = updating; updating = true;
-        if (value == 1) { forceComponent = SelectedComponent; SelectedComponent = displacementComponent; ShowDeformationSettings = true; }
+        if (value == 1) { forceComponent = SelectedComponent; SelectedComponent = displacementComponent; ShowDeformationSettings = true; ShowMemberDiagram = false; }
         else { displacementComponent = SelectedComponent; SelectedComponent = forceComponent; }
         if (!Components.Contains(SelectedComponent)) SelectedComponent = Components.FirstOrDefault() ?? "";
         updating = prior;

@@ -31,6 +31,7 @@ internal sealed class ModelReportRenderSession : IDisposable
     async Task<ReportFigure> CaptureCoreAsync(ModelReportBlock block, string path, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        if(block.MemberDiagram!=null) return MemberDiagramReportRenderer.Capture(state.Snapshot!,block,path,recipe.ImageWidth,recipe.WhiteBackground);
         var preset = block.View!;
         state.ApplyView(preset); state.CompareEnabled = false;
         if (preset.Mode == 2 && (state.SelectedComponent != preset.Component || !state.HasResults))
