@@ -155,6 +155,7 @@ public sealed partial class ModelViewerViewModel
     }
     void InitializeExploration()
     {
+        SetClipBoxBounds(false,false);
         visibilityHistory.Clear(); lastVisible = null; PinnedProbes.Clear(); HoverProbe = null;
         CompareCase = Snapshot!.Results.FirstOrDefault()?.Name; CompareComponent = "Myy";
         SavedViews.Clear(); viewRevision = Snapshot.Fingerprint();
@@ -165,7 +166,7 @@ public sealed partial class ModelViewerViewModel
     void UpdateExploration()
     {
         ActiveClipPlane = null; ClipDescription = "Taglio grafico disattivato";
-        if (ClipEnabled && Snapshot != null)
+        if (ClipEnabled && IsPlaneClip && Snapshot != null)
         {
             double x = ClipAxis == 0 ? 1 : 0, y = ClipAxis == 1 ? 1 : 0, z = ClipAxis == 2 ? 1 : 0;
             double distance = 0;
@@ -192,6 +193,7 @@ public sealed partial class ModelViewerViewModel
             if(valid) { double sign=ClipReverse?-1:1; ActiveClipPlane=new(x*sign,y*sign,z*sign,distance*sign); ClipDescription=$"Taglio a {distance:G6} m · scala sugli elementi attivi"; }
             else ClipDescription="Indica tre ID nodali distinti e non allineati. Taglio non applicato.";
         }
+        UpdateClipVolume();
         ExtremeProbes = ShowExtrema && ContourValues.Count > 0 ? new[] { ProbeFor(ContourValues.MinBy(v=>v.Value)!, "MIN"), ProbeFor(ContourValues.MaxBy(v=>v.Value)!, "MAX") } : [];
         foreach (var name in new[] { nameof(ActiveClipPlane), nameof(ClipDescription), nameof(ExtremeProbes), nameof(LegendTicks), nameof(ResultHeading) }) OnPropertyChanged(name);
     }
@@ -220,7 +222,7 @@ public sealed partial class ModelViewerViewModel
         PauseAnimation();
         return new ModelViewPreset { Name=name, Camera=services.CaptureCamera(), Visible=VisibleElementIds?.ToArray(), Selected=SelectedElementIds.ToArray(),
             Case=SelectedCase, Component=SelectedComponent, Family=SelectedFamily, Axes=SelectedAxes, Mode=SelectedMode, Representation=SelectedRepresentation, ForceUnit=ForceUnit, LengthUnit=LengthUnit, ResultType=SelectedResultType,DisplacementUnit=DisplacementUnit,
-            Averaging=SelectedContourValues, Scale=SelectedColorScale, Lower=ColorMinimum, Upper=ColorMaximum, Clip=ClipEnabled, ClipAxis=ClipAxis, ClipPercent=ClipPercent, ClipReverse=ClipReverse, ClipNodes=ClipNodes,
+            Averaging=SelectedContourValues, Scale=SelectedColorScale, Lower=ColorMinimum, Upper=ColorMaximum, Clip=ClipEnabled, ClipShape=ClipShape,ClipBox=CaptureClipBox().IsValid?CaptureClipBox():null, ClipAxis=ClipAxis, ClipPercent=ClipPercent, ClipReverse=ClipReverse, ClipNodes=ClipNodes,
             Mesh=ShowMesh, Outlines=ShowOutlines, Opacity=SurfaceOpacity, Palette=SelectedContourPalette, ReversePalette=ReversePalette, Bands=ContourBands, Background=SceneBackground, SelectedNodes=SelectedNodeIds.ToArray(), Appearance=CaptureAppearance() };
     }
     [RelayCommand] void RecallView()
@@ -238,6 +240,7 @@ public sealed partial class ModelViewerViewModel
             SelectedComponent=Components.Contains(v.Component)?v.Component:Components.FirstOrDefault()??""; ForceUnit=v.ForceUnit; LengthUnit=v.LengthUnit; SelectedContourValues=v.Averaging;
             ClearVisibilityCriteria(); hiddenElements.Clear(); isolatedElements=v.Visible?.ToHashSet(); ApplyVisibility();
             ClipEnabled=v.Clip; ClipAxis=v.ClipAxis; ClipPercent=v.ClipPercent; ClipReverse=v.ClipReverse; ClipNodes=v.ClipNodes;
+            ClipShape=v.ClipShape;if(v.ClipBox is {} box)ApplyClipBox(box);
             ShowMesh=v.Mesh; ShowOutlines=v.Outlines; SurfaceOpacity=v.Opacity; SelectedContourPalette=v.Palette; ReversePalette=v.ReversePalette; ContourBands=v.Bands;
             ApplyBackgroundCommand.Execute(v.Background); SelectedColorScale=0;
             if(v.Appearance is {} appearance) ApplyAppearance(appearance);

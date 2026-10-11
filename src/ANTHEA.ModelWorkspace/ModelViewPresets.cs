@@ -3,6 +3,11 @@ using System.Text.Json;
 namespace ANTHEA.ModelWorkspace;
 
 public sealed record ModelCameraState(double[] Position, double[] Look, double[] Up, bool Orthographic, double Width, double FieldOfView, double AspectRatio = 0);
+public sealed record ModelClipBox(double MinX,double MaxX,double MinY,double MaxY,double MinZ,double MaxZ,bool Outline=true)
+{
+    [System.Text.Json.Serialization.JsonIgnore]
+    public bool IsValid=>new[]{MinX,MaxX,MinY,MaxY,MinZ,MaxZ,MaxX-MinX,MaxY-MinY,MaxZ-MinZ}.All(double.IsFinite) && MinX<MaxX && MinY<MaxY && MinZ<MaxZ;
+}
 public sealed record ModelViewPreset
 {
     public string Name { get; init; } = "";
@@ -27,6 +32,9 @@ public sealed record ModelViewPreset
     public double Lower { get; init; }
     public double Upper { get; init; }
     public bool Clip { get; init; }
+    public int ClipShape { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public ModelClipBox? ClipBox { get; init; }
     public int ClipAxis { get; init; }
     public double ClipPercent { get; init; } = 50;
     public bool ClipReverse { get; init; }
@@ -132,6 +140,8 @@ public sealed class ModelViewPresetStore(string directory)
             throw new InvalidDataException("Viste salvate non valide.");
         foreach (var v in views)
         {
+            if(v.ClipShape is <0 or >1 || v.ClipShape==1 && v.ClipBox==null || v.ClipBox is {IsValid:false})
+                throw new InvalidDataException("Volume di taglio non valido: usa intervalli X, Y e Z crescenti.");
             if (v.Selected == null || v.Selected.Length > 500000 || v.Visible?.Length > 500000 || v.Selected.Any(i => i <= 0) || v.Visible?.Any(i => i <= 0) == true ||
                 v.Averaging is < 0 or > 1 || v.Palette is < 0 or > 2 || v.Bands is < 0 or > 3 || v.ClipNodes==null || v.Component==null ||
                 v.ForceUnit is not ("kN" or "N" or "MN") || v.LengthUnit is not ("m" or "mm" or "cm") ||

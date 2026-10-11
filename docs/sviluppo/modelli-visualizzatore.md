@@ -606,3 +606,13 @@ non vengono sovrapposte, con estremi esatti disponibili nel tooltip. Temi esiste
 Report: figure specifiche dei diagrammi con rigenerazione indipendente dalla scena, stessa
 ricetta portabile, nessuna modifica dei dati. 235 controlli logici e 17 WPF/report reali;
 PDF di tre pagine controllato. Evidenze `member-diagrams/reviewed`, baseline `real` e `final`.
+
+### Volume di esplorazione (MOD-16)
+
+Riferimento funzionale: [RFEM, Clipping Boxes](https://www.dlubal.com/en/downloads-and-information/documents/online-manuals/rfem-6/000217).
+Implementazione originale a sei semispazi, con limiti XYZ impostabili e acquisibili dalla selezione
+o dal modello. Il taglio conserva ID, colori interpolati, intersezioni delle linee e selezione
+grafica. Contorno indipendente; deformate statiche supportate. Non si ricostruiscono facce
+o risultati mancanti sul taglio. Scala del campo esplicitamente conservata. Viste, confronto
+e report salvano il volume. 16 controlli WPF dedicati, 33 di regressione esplorazione;
+PDF di due pagine controllato in `clip-volume/real`. Sorgente e impronta del modello invariati.

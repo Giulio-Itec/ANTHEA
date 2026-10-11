@@ -15,6 +15,7 @@ internal sealed partial class ModelSceneRenderer
     internal bool PrepareAnimation(SceneOptions options)
     {
         if (options.Exploration is not { Displacements.Count: > 0, Clip: null } settings) return false;
+        if(settings.ClipPlanes is {Count:>0})return false;
         preparingAnimation = true;
         try
         {

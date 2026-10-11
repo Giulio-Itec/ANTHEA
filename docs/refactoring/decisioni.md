@@ -639,3 +639,11 @@ originale dall'interpolazione grafica. I sei grafici mantengono le rispettive un
 Le figure di report salvano elemento, caso, componente o tutte le componenti, unità e cursore.
 Alla rigenerazione i grafici vengono ricreati dai valori correnti; riferimenti mancanti bloccano
 la figura. La forma d'onda e i dati strutturali non si modificano. Registro MOD-15.
+
+## Volume di ritaglio (11 ottobre 2026)
+
+Il volume conserva la porzione interna a sei piani globali. Mesh e linee sono tagliate, non solo
+nascoste per baricentro; ID e coordinate del colore rimangono associati alla geometria. Nessuna
+faccia di chiusura o distribuzione nello spessore viene inventata. Il contorno si può spegnere.
+La scala del campo resta riferita ai campioni degli elementi attivi, anche fuori dal taglio,
+con indicazione nella vista e nel report. Deformata statica ammessa, animazione sospesa. MOD-16.

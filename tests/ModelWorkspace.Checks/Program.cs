@@ -86,6 +86,7 @@ static partial class Program
             await ReportChecks(output);
             RepresentationChecks(output);
             MemberDiagramChecks();
+            ClipVolumeChecks();
 
             if (args.Length > 1)
             {

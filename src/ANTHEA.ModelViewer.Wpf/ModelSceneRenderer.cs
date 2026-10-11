@@ -90,9 +90,9 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         var mesh = new MeshGeometryModel3D { Geometry = geometry, Material = material, CullMode = SharpDX.Direct3D11.CullMode.None, IsTransparent=opacity<1 };
         meshElements.Add(mesh, builder.ElementIds); viewport.Items.Add(mesh);
     }
-    LineGeometryModel3D AddLines(EdgeBuilder edges, Color color, double thickness = .8, IReadOnlyList<int>? ids = null)
+    LineGeometryModel3D AddLines(EdgeBuilder edges, Color color, double thickness = .8, IReadOnlyList<int>? ids = null,bool bypassClip=false)
     {
-        if(clipping is {} clip)
+        if(!bypassClip && clipping is {} clip)
         {
             var geometry=edges.Geometry();var clipped=new EdgeBuilder();var kept=new List<int>();
             for(int i=0;i<geometry.Positions!.Count;i+=2) { var a=geometry.Positions[i];var b=geometry.Positions[i+1]; if(clip.Segment(ref a,ref b)) { clipped.Line(a,b);if(ids!=null)kept.Add(ids[i/2]); } }
@@ -108,7 +108,8 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         if (!preparingAnimation) ClearAnimation();
         lastOptions = options;
         UpdateDeformedPoints(options);
-        clipping=options.Exploration?.Clip is {} plane?new SceneClip(new Vector3((float)plane.X,(float)plane.Y,(float)plane.Z),(float)(plane.Distance-plane.X*modelOrigin.X-plane.Y*modelOrigin.Y-plane.Z*modelOrigin.Z)):null;
+        var clipPlanes=options.Exploration?.ClipPlanes is {Count:>0} planes?planes:options.Exploration?.Clip is {} plane?[plane]:Array.Empty<GraphicPlane>();
+        clipping=clipPlanes.Count==0?null:new SceneClipSet(clipPlanes.Select(p=>new SceneClip(new Vector3((float)p.X,(float)p.Y,(float)p.Z),(float)(p.Distance-p.X*modelOrigin.X-p.Y*modelOrigin.Y-p.Z*modelOrigin.Z))).ToArray());
         labelBounds.Clear();hoverLine=null;
         var clock = System.Diagnostics.Stopwatch.StartNew(); bool results = options.ShowResults;
         var values = options.Values.Where(v => v.Node > 0).ToDictionary(v => (v.Element, v.Node), v => v.Value);
@@ -196,6 +197,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         DrawNodeAxes(options);
         DrawUndeformed(options);
         DrawExploration(options); DrawDisplayOverlays(options);
+        DrawClipBox(options.Exploration?.ClipBox);
         return new(clock.Elapsed, viewport.Items.OfType<MeshGeometryModel3D>().Sum(m => m.Geometry?.Indices?.Count / 3 ?? 0), missingElements, incompleteCount);
     }
     private void ElementOutline(EdgeBuilder edges, ModelElement element, Vector3[] p, bool extruded, bool[]? sides = null)

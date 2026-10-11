@@ -14,12 +14,13 @@ namespace ANTHEA.ModelViewer.Wpf;
 internal sealed record ExplorationOptions(GraphicPlane? Clip=null,bool Outlines=true,double Opacity=1,bool ReversePalette=false,int Bands=0,
     bool AvoidLabels=true,IReadOnlyList<ModelProbe>? Probes=null,bool BeamDiagram=false,double DiagramScale=1,
     IReadOnlyList<GraphicalLoad>? Loads=null,double LoadScale=1,IReadOnlyList<ModelDisplacement>? Displacements=null,double DeformationScale=1,
-    bool DiagramAlongY=false,bool DiagramValues=false,bool ShowUndeformed=true,double UndeformedOpacity=.35,bool UndeformedMesh=false);
+    bool DiagramAlongY=false,bool DiagramValues=false,bool ShowUndeformed=true,double UndeformedOpacity=.35,bool UndeformedMesh=false,
+    IReadOnlyList<GraphicPlane>? ClipPlanes=null,ModelClipBox? ClipBox=null);
 
 internal sealed partial class ModelSceneRenderer
 {
     private ModelDirection modelOrigin = new(0,0,0);
-    private SceneClip? clipping;
+    private SceneClipSet? clipping;
     private LineGeometryModel3D? hoverLine;
     private readonly List<Rect> labelBounds=[];
     internal IReadOnlyList<Rect> LabelBounds=>labelBounds;
@@ -28,20 +29,10 @@ internal sealed partial class ModelSceneRenderer
     {
         var polygon=ElementPoints(element);
         if(polygon.Any(p=>!InFront(p)))return [];
-        if(clipping is not {} plane)return polygon;
-        if(polygon.Length==2)
-        { var a=polygon[0];var b=polygon[1];return plane.Segment(ref a,ref b)?[a,b]:[]; }
-        var clipped=new List<Vector3>();
-        for(int i=0;i<polygon.Length;i++)
-        {
-            var a=polygon[i];var b=polygon[(i+1)%polygon.Length];float da=plane.Side(a),db=plane.Side(b);
-            if(da>=0)clipped.Add(a);
-            if((da>=0)!=(db>=0))clipped.Add(Vector3.Lerp(a,b,da/(da-db)));
-        }
-        return clipped;
+        return clipping?.Polygon(polygon)??polygon;
     }
     internal Point Project(Vector3 p)=>viewport.Project(new Point3D(p.X,p.Y,p.Z));
-    internal bool InClip(Vector3 p)=>clipping==null||clipping.Value.Side(p)>=-1e-5;
+    internal bool InClip(Vector3 p)=>clipping==null||clipping.Contains(p);
     internal bool InFront(Vector3 p)=>viewport.Camera is not HelixToolkit.Wpf.SharpDX.ProjectionCamera c || Vector3D.DotProduct(new Vector3D(p.X-c.Position.X,p.Y-c.Position.Y,p.Z-c.Position.Z),c.LookDirection)>0;
     internal bool LabelFits(Vector3 p)
     {

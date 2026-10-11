@@ -10,12 +10,28 @@
     <local:ModelViewSettingsView/>
     <Button Content="Vista precedente" Command="{Binding PreviousCameraCommand}" Margin="0,8"/>
     <Expander Header="Oggetti, colori ed etichette" Margin="0,8"><local:ModelDisplayOptionsView Margin="0,8"/></Expander>
-    <Expander Header="Piano di taglio" Margin="0,8"><StackPanel Margin="0,8">
+    <Expander Header="Taglio e volume di esplorazione" Margin="0,8"><StackPanel Margin="0,8">
     <CheckBox Content="Attiva taglio grafico" IsChecked="{Binding ClipEnabled}"/>
+    <ComboBox ItemsSource="{Binding ClipShapes}" SelectedIndex="{Binding ClipShape}" Margin="0,5,0,8" AutomationProperties.Name="Tipo di ritaglio"/>
+    <StackPanel Visibility="{Binding IsPlaneClip,Converter={StaticResource Visible}}">
     <ComboBox ItemsSource="{Binding ClipAxes}" SelectedIndex="{Binding ClipAxis}"/>
     <Slider Value="{Binding ClipPercent}" Minimum="0" Maximum="100" AutoToolTipPlacement="TopLeft" ToolTip="Posizione del piano X/Y/Z nel modello"/>
     <TextBox Text="{Binding ClipNodes, UpdateSourceTrigger=PropertyChanged, Delay=400}" ToolTip="Per Tre nodi: tre ID separati da spazio"/>
     <CheckBox Content="Inverti lato visibile" IsChecked="{Binding ClipReverse}"/>
+    </StackPanel>
+    <StackPanel Visibility="{Binding IsBoxClip,Converter={StaticResource Visible}}">
+      <TextBlock Text="Coordinate globali [m]" FontSize="10" Margin="0,2,0,8"/>
+      <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="24"/><ColumnDefinition/><ColumnDefinition Width="6"/><ColumnDefinition/></Grid.ColumnDefinitions><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <TextBlock Grid.Column="1" Text="Minimo" FontSize="10"/><TextBlock Grid.Column="3" Text="Massimo" FontSize="10"/>
+        <TextBlock Grid.Row="1" Text="X" VerticalAlignment="Center"/><TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ClipBoxMinX,UpdateSourceTrigger=LostFocus,ValidatesOnExceptions=True,StringFormat=0.####}" Margin="0,5,0,0"/><TextBox Grid.Row="1" Grid.Column="3" Text="{Binding ClipBoxMaxX,UpdateSourceTrigger=LostFocus,ValidatesOnExceptions=True,StringFormat=0.####}" Margin="0,5,0,0"/>
+        <TextBlock Grid.Row="2" Text="Y" VerticalAlignment="Center"/><TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ClipBoxMinY,UpdateSourceTrigger=LostFocus,ValidatesOnExceptions=True,StringFormat=0.####}" Margin="0,5,0,0"/><TextBox Grid.Row="2" Grid.Column="3" Text="{Binding ClipBoxMaxY,UpdateSourceTrigger=LostFocus,ValidatesOnExceptions=True,StringFormat=0.####}" Margin="0,5,0,0"/>
+        <TextBlock Grid.Row="3" Text="Z" VerticalAlignment="Center"/><TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ClipBoxMinZ,UpdateSourceTrigger=LostFocus,ValidatesOnExceptions=True,StringFormat=0.####}" Margin="0,5,0,0"/><TextBox Grid.Row="3" Grid.Column="3" Text="{Binding ClipBoxMaxZ,UpdateSourceTrigger=LostFocus,ValidatesOnExceptions=True,StringFormat=0.####}" Margin="0,5,0,0"/>
+      </Grid>
+      <CheckBox Content="Mostra contorno del volume" IsChecked="{Binding ShowClipBox}"/>
+      <Button Content="Intorno alla selezione" Command="{Binding ClipBoxFromSelectionCommand}" Margin="0,7,0,0"/>
+      <Button Content="Ripristina tutto il modello" Command="{Binding ResetClipBoxCommand}" Margin="0,5,0,0"/>
+      <TextBlock Text="Il volume conserva la parte interna. I tagli delle facce non introducono nuove superfici o risultati nello spessore." FontSize="10" TextWrapping="Wrap" Opacity=".7" Margin="0,7"/>
+    </StackPanel>
     <TextBlock Text="{Binding ClipDescription}" FontSize="10" TextWrapping="Wrap" Opacity=".7"/>
     </StackPanel></Expander>
     <Expander Header="Viste salvate" Margin="0,8"><StackPanel Margin="0,8">

@@ -36,8 +36,8 @@ internal sealed class ModelReportRenderSession : IDisposable
         state.ApplyView(preset); state.CompareEnabled = false;
         if (preset.Mode == 2 && (state.SelectedComponent != preset.Component || !state.HasResults))
             throw new InvalidDataException($"«{block.Title}»: il campo {preset.Component} non è disponibile per {preset.Case}.");
-        if (preset.Clip && state.ActiveClipPlane is null)
-            throw new InvalidDataException($"«{block.Title}»: il piano di taglio non può essere ricostruito.");
+        if (preset.Clip && state.ActiveClipPlanes.Count==0)
+            throw new InvalidDataException($"«{block.Title}»: il taglio non può essere ricostruito.");
         if (preset.Appearance is { Deformation: true } && !state.CanDeform)
             throw new InvalidDataException($"«{block.Title}»: deformata non disponibile. {state.DeformationMessage}");
         if (preset.Appearance is { Loads: true } a && !state.LoadCases.Contains(a.LoadCase ?? ""))

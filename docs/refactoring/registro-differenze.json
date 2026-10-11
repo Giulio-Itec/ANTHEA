@@ -1370,6 +1370,40 @@
       "test": ["ModelWorkspace.Checks: 235 PASS", "ModelViewer.UiChecks: 17 PASS, report e tre temi, nessun errore di binding"],
       "evidenze": ["supporto/artefatti/model-viewer/member-diagrams/real", "supporto/artefatti/model-viewer/member-diagrams/reviewed", "supporto/artefatti/ci/20261011-182619-diagrammi-report-logica"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-16",
+      "titolo": "Volume di ritaglio del modello",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Ritaglio grafico interno a sei piani XYZ, limiti da modello o selezione, contorno disattivabile, persistenza nelle viste e rigenerazione nei report. Mesh, linee, etichette e selezione rispettano il volume.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ClipBox.cs",
+        "src/ANTHEA.ModelViewer.Wpf/SceneClipping.cs",
+        "src/ANTHEA.ModelWorkspace/ModelViewPresets.cs"
+      ],
+      "segno": "Differenza grafica intenzionale. Valori importati, identità degli elementi e interpolazione del colore conservati; nessuna superficie o sollecitazione inventata sul taglio.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "aggiungere funzioni utili dal confronto con RFEM e MIDAS NX",
+        "esito": "volume con geometria e deformata statica; animazione sospesa durante il taglio"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "Controlli logici dedicati del volume nel runner quick",
+        "WPF volume: 16 PASS",
+        "Regressione esplorazione: 33 PASS",
+        "PDF di due pagine controllato a video"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/clip-volume/real",
+        "supporto/artefatti/model-viewer/clip-volume/regression",
+        "supporto/artefatti/ci/20261011-183744-volume-taglio-logica"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

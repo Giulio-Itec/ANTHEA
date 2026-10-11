@@ -50,6 +50,7 @@ public sealed partial class ModelViewerViewModel
             c.ShowUndeformedMesh=ShowUndeformedMesh;
             c.ShowExtrema=ShowExtrema;c.SceneBackground=SceneBackground;c.AvoidLabelOverlap=AvoidLabelOverlap;
             c.ClipEnabled=ClipEnabled;c.ClipAxis=ClipAxis;c.ClipPercent=ClipPercent;c.ClipReverse=ClipReverse;c.ClipNodes=ClipNodes;
+            c.ClipShape=ClipShape;c.ApplyClipBox(CaptureClipBox());
         }
         finally {c.updating=false;}
         c.RefreshScene();
