@@ -8,9 +8,9 @@ using System.Windows;
 
 namespace ANTHEA.ModelViewer.Wpf;
 
-internal sealed class WpfModelViewerServices(Func<Window?> owner, Action fit, Action<string> saveImage, Func<ModelCameraState?>? captureCamera=null, Action<ModelCameraState>? restoreCamera=null) : IModelViewerServices
+internal sealed class WpfModelViewerServices(Func<Window?> owner, Action fit, Action<string> saveImage, Func<ModelCameraState?>? captureCamera=null, Action<ModelCameraState>? restoreCamera=null, ModelViewPresetStore? viewStore=null) : IModelViewerServices
 {
-    private readonly ModelViewPresetStore views=new(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ANTHEA","ModelViews"));
+    private readonly ModelViewPresetStore views=viewStore??new(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ANTHEA","ModelViews"));
     public ModelCameraState? CaptureCamera()=>captureCamera?.Invoke();
     public void RestoreCamera(ModelCameraState camera)=>restoreCamera?.Invoke(camera);
     public IReadOnlyList<ModelViewPreset> LoadViews(string revision)=>views.Read(revision);

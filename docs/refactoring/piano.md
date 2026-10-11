@@ -264,3 +264,4 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: controlli coerenti nei tre temi, cubo di orientamento corretto e clic verificati, ridisegno dopo ripristino camera e pannelli inferiori adattivi. MOD-23.
 - [x] 11 ottobre: versi degli elementi, etichette fedeli dei DOF, dimensione simboli, collegamento alla tabella e confronto coerente; aree strumenti scorrevoli per conservare l'albero. MOD-24.
 - [x] 11 ottobre: letture del modulo degli spostamenti e della lunghezza delle aste delegate alle operazioni geometriche GPC tramite adattatore, con cattura prima/dopo identica; MOD-25.
+- [x] 11 ottobre: esportazione del controllo incorporato e ridimensionato corretta, tema applicato al primo avvio, preferenze della preview separate e strumento di confezionamento con tre avviatori; MOD-26.

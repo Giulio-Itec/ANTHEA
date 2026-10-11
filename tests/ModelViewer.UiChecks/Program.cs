@@ -40,7 +40,8 @@ static partial class Program
         scene.Freeze();
         root.UpdateLayout(); int width = (int)Math.Ceiling(root.ActualWidth), height = (int)Math.Ceiling(root.ActualHeight);
         var surface = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32); var content=new DrawingVisual();
-        using(var context=content.RenderOpen())context.DrawRectangle(new VisualBrush(root) { Stretch=Stretch.Fill,ViewboxUnits=BrushMappingMode.Absolute,Viewbox=new Rect(0,0,root.ActualWidth,root.ActualHeight) },null,new Rect(0,0,root.ActualWidth,root.ActualHeight));
+        var rootOffset=VisualTreeHelper.GetOffset(root);
+        using(var context=content.RenderOpen())context.DrawRectangle(new VisualBrush(root) { Stretch=Stretch.Fill,ViewboxUnits=BrushMappingMode.Absolute,Viewbox=new Rect(new Point(rootOffset.X,rootOffset.Y),root.RenderSize) },null,new Rect(root.RenderSize));
         surface.Render(content);
         var visual = new DrawingVisual(); using (var drawing = visual.RenderOpen())
         {
@@ -77,6 +78,8 @@ static partial class Program
         {
             var app = new TestApp(); app.LoadStyles(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.Appearance")!.GetMethod("Initialize", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, [false]);
+            int themeArgument=Array.IndexOf(args,"--appearance");
+            if(themeArgument>=0 && themeArgument+1<args.Length)SetAppearance(args[themeArgument+1]);
             ModelSnapshot? directSnapshot=null;JsonObject owner=null!;string id="";
             if(args.Contains("--direct-model"))
             {
@@ -115,15 +118,20 @@ static partial class Program
             {
                 // Host the actual production control on its own, to review the view without project chrome.
                 var targets = directSnapshot!=null?[]:ProjectModelStore.DescendantSheets(owner).Select(s => new SheetTarget(s.S("id"), s.S("nome"), ProjectModelStore.LinkStatus(owner, s))).ToArray();
+                int preferencesArgument=Array.IndexOf(args,"--preferences");
+                string preferences=preferencesArgument>=0&&preferencesArgument+1<args.Length?Path.GetFullPath(args[preferencesArgument+1]):Path.Combine(output,"preferenze-viste");
                 using var isolated = new ModelViewerControl(directSnapshot??ProjectModelStore.Read(owner, id), targets, false,
                     imported => {if(directSnapshot!=null)directSnapshot=imported;else ProjectModelStore.Set(owner, imported, id);},
                     (sheetId, element, result, component) => ProjectModelStore.Link(owner,
-                        ProjectModelStore.DescendantSheets(owner).Single(s => s.S("id") == sheetId), id, element, result, component));
+                        ProjectModelStore.DescendantSheets(owner).Single(s => s.S("id") == sheetId), id, element, result, component),new ModelViewPresetStore(preferences));
                 window?.Close(); window = null;
-                int themeArgument=Array.IndexOf(args,"--appearance");
-                if(themeArgument>=0 && themeArgument+1<args.Length)SetAppearance(args[themeArgument+1]);
                 var preview = new Window { Title = "ANTHEA · Modelli", Content = args.Contains("--interactive") ? InteractivePreviewHost.Create(isolated) : isolated, Width = 1600, Height = 1020, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.CenterScreen, ShowActivated = args.Contains("--interactive") };
-                preview.Show(); Wait(1200);
+                if(args.Contains("--interactive"))
+                {
+                    preview.Width=Math.Min(preview.Width,SystemParameters.WorkArea.Width*.96);
+                    preview.Height=Math.Min(preview.Height,SystemParameters.WorkArea.Height*.94);
+                }
+                WatchAppearance(preview);preview.Show(); Wait(1200);
                 var state = (ModelViewerViewModel)isolated.DataContext;
                 var scene = Children<Viewport3DX>(isolated).Single();
                 File.WriteAllText(Path.Combine(output,"avvio.json"),System.Text.Json.JsonSerializer.Serialize(new {Direct=args.Contains("--direct-model"),ReadyMilliseconds=startup.Elapsed.TotalMilliseconds,ReadMilliseconds=previewReadMilliseconds,Nodes=state.Snapshot!.Nodes.Length,Elements=state.Snapshot.Elements.Length,Cases=state.Snapshot.Results.Length,PrivateBytes=Process.GetCurrentProcess().PrivateMemorySize64}));
@@ -146,6 +154,10 @@ static partial class Program
                     {
                         state.SelectedFamily=1;state.SelectedComponent="My";state.ShowBeamDiagram=true;state.ShowLineContour=true;
                         state.SelectedRepresentation=1;state.SelectedPanel=1;state.ShowContext=false;
+                        var beamSamples=ResultFields.Read(state.Snapshot!.Results.FirstOrDefault(r=>r.Name==state.SelectedCase),"BEAM","LOCAL","My");
+                        state.MemberDiagramElementId=beamSamples.GroupBy(v=>v.Element).MaxBy(g=>g.Max(v=>v.Value)-g.Min(v=>v.Value))?.Key
+                            ??state.Snapshot.Elements.FirstOrDefault(e=>e.Type=="BEAM")?.Id;
+                        state.MemberDiagramAllComponents=true;state.OpenMemberDiagramCommand.Execute(null);
                     }
                     if (args.Contains("--deformed"))
                     {
@@ -154,7 +166,7 @@ static partial class Program
                         state.ShowInspector=false;state.ShowMesh=false;
                     }
                     preview.ShowInTaskbar = true; preview.Closed += (_, _) => app.Shutdown();
-                    Capture(isolated, scene, Path.Combine(output, "anteprima-interattiva.png"));
+                    Capture((FrameworkElement)preview.Content, scene, Path.Combine(output, "anteprima-interattiva.png"));
                     File.WriteAllText(Path.Combine(output,"pronta.json"),System.Text.Json.JsonSerializer.Serialize(new
                     {
                         ProcessId=Environment.ProcessId,Window=preview.Title,Model=state.Snapshot?.Name,
@@ -231,6 +243,13 @@ static partial class Program
                 {
                     OverlayDetailRenderingChecks(isolated,scene,output);
                     listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"overlay details have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--export-layout"))
+                {
+                    ExportLayoutRenderingChecks(output,args.Contains("--capture-before"));
+                    listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"embedded export has no WPF binding errors");
                     File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
                     preview.Close();app.Shutdown();return 0;
                 }
@@ -537,7 +556,10 @@ static partial class Program
         }
         catch (Exception ex)
         {
-            Console.Error.WriteLine(ex); File.WriteAllText(Path.Combine(output, "errore.txt"), ex + "\n" + bindingLog); window?.Close(); return 1;
+            Console.Error.WriteLine(ex); File.WriteAllText(Path.Combine(output, "errore.txt"), ex + "\n" + bindingLog); window?.Close();
+            if(args.Contains("--interactive") && ex is not OperationCanceledException)
+                MessageBox.Show("La finestra di prova non è stata aperta.\n"+ex.Message+"\n\nDettagli: "+Path.Combine(output,"errore.txt"),"ANTHEA · Modelli",MessageBoxButton.OK,MessageBoxImage.Error);
+            return ex is OperationCanceledException?0:1;
         }
     }
 }

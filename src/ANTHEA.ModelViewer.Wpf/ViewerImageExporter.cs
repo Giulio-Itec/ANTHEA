@@ -76,12 +76,16 @@ internal static class ViewerImageExporter
         try
         {
             viewport.SaveScreen(temporary);
-            var scene = new BitmapImage(); scene.BeginInit(); scene.CacheOption = BitmapCacheOption.OnLoad;
-            scene.UriSource = new Uri(temporary); scene.EndInit(); scene.Freeze();
+            BitmapSource scene;
+            using(var input=File.OpenRead(temporary))scene=BitmapDecoder.Create(input,BitmapCreateOptions.PreservePixelFormat,BitmapCacheOption.OnLoad).Frames[0];
+            scene.Freeze();
             root.UpdateLayout(); var dpi = VisualTreeHelper.GetDpi(root);
             int width = (int)Math.Ceiling(root.ActualWidth * dpi.DpiScaleX), height = (int)Math.Ceiling(root.ActualHeight * dpi.DpiScaleY);
             var surface = new RenderTargetBitmap(width, height, dpi.PixelsPerInchX, dpi.PixelsPerInchY, PixelFormats.Pbgra32); var content=new DrawingVisual();
-            using(var context=content.RenderOpen())context.DrawRectangle(new VisualBrush(root) { Stretch=Stretch.Fill },null,new Rect(0,0,root.ActualWidth,root.ActualHeight));
+            // A hosted visual includes its parent-relative offset; retained Direct3D bounds can also exceed its new size.
+            // Select the actual arranged rectangle explicitly, rather than auto-scaling the stale descendant bounds.
+            var offset=VisualTreeHelper.GetOffset(root);
+            using(var context=content.RenderOpen())context.DrawRectangle(new VisualBrush(root) { Stretch=Stretch.Fill,ViewboxUnits=BrushMappingMode.Absolute,Viewbox=new Rect(new Point(offset.X,offset.Y),root.RenderSize) },null,new Rect(root.RenderSize));
             surface.Render(content);
             var visual = new DrawingVisual();
             using (var drawing = visual.RenderOpen())

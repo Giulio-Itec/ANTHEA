@@ -17,7 +17,7 @@ static partial class Program
         stack.Children.Add(new ProgressBar {Height=5,IsIndeterminate=true});
         var detail=new TextBlock {Text=Path.GetFileName(path),Margin=new Thickness(0,12,0,0),TextTrimming=TextTrimming.CharacterEllipsis};detail.SetResourceReference(TextBlock.ForegroundProperty,"AppearanceInk");stack.Children.Add(detail);
         var window=new Window {Title="ANTHEA · caricamento modello",Content=stack,Width=470,SizeToContent=SizeToContent.Height,WindowStartupLocation=WindowStartupLocation.CenterScreen,ResizeMode=ResizeMode.NoResize,ShowInTaskbar=interactive,ShowActivated=interactive};
-        window.SetResourceReference(Window.BackgroundProperty,"AppearancePaper");window.Closed+=(_,_)=>cancellation.Cancel();window.Show();
+        window.SetResourceReference(Window.BackgroundProperty,"AppearancePaper");window.Closed+=(_,_)=>cancellation.Cancel();WatchAppearance(window);window.Show();
         var watch=Stopwatch.StartNew();
         try
         {

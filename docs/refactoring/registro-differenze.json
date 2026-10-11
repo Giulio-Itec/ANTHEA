@@ -1686,6 +1686,23 @@
       "test": ["322 controlli logici", "Catture numeriche identiche: sei vettori con scala da 1e-150 a 1e150, posizione e lunghezza dell'asta"],
       "evidenze": ["supporto/artefatti/ci/20261011-202042-modelli-gpc-letture-baseline", "supporto/artefatti/ci/20261011-202133-modelli-gpc-letture-dopo"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-26",
+      "titolo": "Preview confezionata ed esportazione del controllo incorporato",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Cattura WPF corretta per offset e limiti Direct3D obsoleti, temi al primo avvio, store delle viste iniettabile, confezionamento locale Release con modello e tre avviatori.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelViewer.Wpf/ViewerImageExporter.cs", "src/ANTHEA.ModelViewer.Wpf/WpfModelViewerServices.cs", "tests/ModelViewer.UiChecks/Program.cs", "tools/model-viewer/Publish-Preview.ps1"],
+      "segno": "Corretti ritaglio/scalatura della schermata e barre di scorrimento inizialmente chiare nella preview; nessuna modifica ai dati strutturali o alle preferenze globali.",
+      "decisione": {"data": "2026-10-11", "utente": "finestra di prova, temi scuro/molto scuro e schermate del visualizzatore", "esito": "correzioni e pacchetto locale collaudati"},
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["10 controlli WPF di esportazione incorporata, tema iniziale e persistenza separata", "Build Release fuori dai sorgenti: 14 controlli deformate, 62 controlli temi", "Avviatore interattivo reale: 49 casi, nessun errore di binding"],
+      "evidenze": ["supporto/artefatti/model-viewer/export-layout/before", "supporto/artefatti/model-viewer/export-layout/preferences", "supporto/artefatti/model-viewer/preview-qa-20261011"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

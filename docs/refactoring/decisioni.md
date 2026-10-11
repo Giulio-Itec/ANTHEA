@@ -740,3 +740,20 @@ strutturale e nessun aggiornamento del bundle. Le formule di interpolazione/anim
 inquadratura rimangono operazioni esclusivamente grafiche. Catture prima/dopo identiche
 per vettori nulli, ordinari, molto grandi e molto piccoli e per la posizione lungo l'asta.
 Attesi indipendenti invariati. MOD-25.
+
+## Preview locale ed esportazione del controllo (11 ottobre 2026)
+
+La preview confezionata riusa il controllo di produzione, richiede il runtime Desktop .NET 8,
+apre la copia offline e mantiene le importazioni in memoria. Tre avviatori: contouring,
+deformata e aste con grafici 2D. Le viste salvate sono nella cartella della preview; il servizio
+WPF riceve uno store opzionale, mantenendo il percorso dell'applicazione quando non fornito.
+Manifest con commit, stato dell'albero e SHA-256 dei file, rifiuto di cartelle già popolate.
+Nessuna credenziale, connessione MIDAS, installazione o pubblicazione esterna. MOD-26.
+
+La cattura del controllo deve usare l'area effettivamente disposta da WPF, inclusa la sua
+traslazione rispetto al contenitore. I limiti dei discendenti Direct3D possono conservare
+le dimensioni precedenti: non sono adatti a determinare la scala dell'immagine. Bitmap
+caricata da stream, senza dipendere dalla cache degli URI. Prima/dopo e prova con margini
+e ridimensionamento conservati. I nuovi host di prova sono registrati con Appearance.Watch
+prima di mostrarli, come le finestre dell'applicazione, per applicare anche le barre di
+scorrimento al primo avvio scuro. Nessuna modifica al gestore dei temi dell'applicazione.

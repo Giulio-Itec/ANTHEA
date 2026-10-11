@@ -721,3 +721,26 @@ formattazione. Cattura precedente in `ci/20261011-202042-modelli-gpc-letture-bas
 successiva e confronto in `ci/20261011-202133-modelli-gpc-letture-dopo`: JSON identico,
 SHA-256 `D20AF48B7DD07331B441F8F87CE86FD2BC1654C800C8CF74DDB82C6C62553B1D`.
 322 controlli logici; nessun atteso indipendente aggiornato. MOD-25.
+
+### Confezionamento della prova e cattura incorporata — 11 ottobre 2026
+
+`tools/model-viewer/Publish-Preview.ps1 -Model <pacchetto> -OutputDirectory <cartella-vuota>`
+pubblica la build Release locale, copia il pacchetto e crea tre avviatori Windows.
+`Apri-Contouring.cmd`, `Apri-Deformata.cmd`, `Apri-Aste.cmd`: controllo reale, tema molto
+scuro iniziale, cambio tema nella barra della preview. Il terzo apre anche i sei diagrammi
+dell'asta. Richiede Desktop Runtime .NET 8 x64; non è un installer del prodotto.
+Manifest dei file, nessuna sostituzione di una cartella non vuota, nessuna dipendenza Gmsh.
+Viste salvate in `preferenze-viste`, log e schermate in una nuova sottocartella `prove`
+per ogni avvio. Gli aggiornamenti del modello restano in memoria. MOD-26.
+
+Controlli sulla build Release aperta fuori dai sorgenti: 14 prove deformate e 62 prove dei
+temi. Cambio deformata visibile 97–205 ms, preparazione animazione 170 ms, frame CPU
+mediano 6,9 ms e P95 10,9 ms, circa 31 fotogrammi animati distinti/s. Questi tempi sono
+misure sul modello di laboratorio già caricato; lettura 2,3 s e prima vista 7,9 s sono
+separati. Evidenze `preview-qa-20261011/collaudo/deformate`.
+
+La cattura completa mantiene il corretto allineamento anche quando il controllo è inserito
+con margini in un'altra vista e dopo una riduzione della finestra. Catture precedenti in
+`export-layout/before`, corrette in `export-layout/preferences`; 10 controlli WPF includono
+pixel ai bordi, prima apertura scura, salvataggio e riapertura delle viste dallo store dedicato.
+I nuovi host registrano il tema prima di aprirsi; didascalia del tipo di risultato resa esplicita.

@@ -19,6 +19,8 @@ static partial class Program
         appearance.GetMethod("Set", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null,
             [Enum.Parse(assembly.GetType("X.Desktop.AppAppearance")!, mode), false]);
     }
+    static void WatchAppearance(Window window) => typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.Appearance")!
+        .GetMethod("Watch", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, [window]);
     static double Luminance(Color c)
     {
         double Linear(byte value) { double s = value / 255.0; return s <= .04045 ? s / 12.92 : Math.Pow((s + .055) / 1.055, 2.4); }

@@ -8,6 +8,7 @@
       <TextBlock Text="Caso / combinazione" Style="{StaticResource FieldLabel}"/>
       <ComboBox ItemsSource="{Binding Cases}" SelectedItem="{Binding SelectedCase}" AutomationProperties.Name="Caso o combinazione" />
       <TextBlock Text="{Binding ResultKind}" Foreground="#438ED8" FontSize="10" Margin="0,5,0,7" />
+      <TextBlock Text="Tipo di risultato" Style="{StaticResource FieldLabel}" Margin="0,3,0,5"/>
       <ComboBox ItemsSource="{Binding ResultTypes}" SelectedIndex="{Binding SelectedResultType}" AutomationProperties.Name="Tipo di risultato" Margin="0,0,0,7"/>
       <ComboBox ItemsSource="{Binding FamilyLabels}" SelectedIndex="{Binding SelectedFamily}" Visibility="{Binding IsForceResult, Converter={StaticResource Visible}}" AutomationProperties.Name="Famiglia degli elementi" />
       <Grid Margin="0,7,0,0"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="8"/><ColumnDefinition/></Grid.ColumnDefinitions>
