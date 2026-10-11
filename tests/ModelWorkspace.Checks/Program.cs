@@ -16,6 +16,7 @@ static partial class Program
         try
         {
             var model = Sample.Model(); model.Validate();
+            SnapshotPackageChecks(output);
             var clone = ModelSnapshot.FromJson(JsonSerializer.Serialize(model));
             Check(clone.Fingerprint() == model.Fingerprint(), "snapshot survives round trip, including offsets and per-element result values");
             Check(clone.Results[0].Values.Where(v => v.Node == 2).Select(v => v.Values[1]).SequenceEqual([20.0, -200.0]), "shared node retains the discontinuity between elements");
@@ -74,6 +75,22 @@ static partial class Program
             Task pending = closing.ImportCommand.ExecuteAsync(null); closing.Dispose(); delayed.Pending.SetResult(Sample.Model()); await pending;
             Check(imports == 1, "closing the view prevents a late import from mutating the document");
             DisplayAndTableChecks();
+            CategoryColorChecks();
+            VisibilityAndScaleChecks();
+            PanelAndNodeAxesChecks();
+            await VerificationProgressChecks();
+            await ImportFailureChecks();
+            await ModelUpdateChecks();
+            ViewSettingsAndRevisionChecks();
+            await ContourAveragingChecks();
+            ExplorationChecks(output);
+            DisplacementChecks(output);
+            await ReportChecks(output);
+            RepresentationChecks(output);
+            MemberDiagramChecks();
+            ClipVolumeChecks();
+            MeasurementChecks();
+            await RevisionViewChecks();
 
             if (args.Length > 1)
             {
@@ -96,8 +113,8 @@ static partial class Program
 
     sealed class FakeServices : IModelViewerServices
     {
-        public ModelSnapshot? Next; public bool Fail; public TaskCompletionSource<ModelSnapshot?>? Pending;
-        public Task<ModelSnapshot?> ImportAsync(CancellationToken cancellationToken) => Pending?.Task ?? (Fail ? Task.FromException<ModelSnapshot?>(new InvalidDataException("Bad source")) : Task.FromResult(Next));
+        public ModelSnapshot? Next; public bool Fail; public Exception? Failure; public TaskCompletionSource<ModelSnapshot?>? Pending;
+        public Task<ModelSnapshot?> ImportAsync(CancellationToken cancellationToken) => Pending?.Task ?? (Failure != null ? Task.FromException<ModelSnapshot?>(Failure) : Fail ? Task.FromException<ModelSnapshot?>(new InvalidDataException("Bad source")) : Task.FromResult(Next));
         public void FitView() { }
         public void SaveImage() { }
         public void ExportTable(string name, string csv) { }

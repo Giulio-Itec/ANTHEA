@@ -1,0 +1,13 @@
+<UserControl x:Class="ANTHEA.ModelViewer.Wpf.ModelRevisionToolsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <UserControl.Resources><ResourceDictionary><ResourceDictionary.MergedDictionaries><ResourceDictionary Source="ModelViewerStyles.xaml"/></ResourceDictionary.MergedDictionaries></ResourceDictionary></UserControl.Resources>
+  <StackPanel Margin="0,8">
+    <TextBlock Text="{Binding RevisionSummary}" TextWrapping="Wrap" FontWeight="SemiBold" FontSize="11"/>
+    <Button Content="Confronta con copia precedente…" Command="{Binding ComparePreviousCommand}" Margin="0,7,0,0"/>
+    <ProgressBar IsIndeterminate="True" Height="3" Margin="0,7,0,0" Visibility="{Binding IsRevisionBusy,Converter={StaticResource Visible}}"/>
+    <Button Content="Annulla confronto" Command="{Binding ComparePreviousCancelCommand}" Visibility="{Binding IsRevisionBusy,Converter={StaticResource Visible}}" Margin="0,5,0,0"/>
+    <CheckBox Content="Evidenzia le differenze" IsChecked="{Binding ShowRevisionHighlights}" IsEnabled="{Binding HasRevision}" Margin="0,9,0,0"/>
+    <CheckBox Content="Sagoma degli elementi cancellati" IsChecked="{Binding ShowRemovedRevisionElements}" IsEnabled="{Binding HasRevision}"/>
+    <Button Content="Apri elenco e delta dei risultati" Command="{Binding OpenRevisionDetailsCommand}" Margin="0,7,0,0"/>
+    <TextBlock Text="{Binding RevisionMessage}" TextWrapping="Wrap" FontSize="10" Opacity=".75" Margin="0,7,0,0"/>
+  </StackPanel>
+</UserControl>

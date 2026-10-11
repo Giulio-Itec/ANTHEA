@@ -1,0 +1,41 @@
+<UserControl x:Class="ANTHEA.ModelViewer.Wpf.ModelMemberDiagramView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ANTHEA.ModelViewer.Wpf" Background="{DynamicResource AppearancePaper}">
+  <UserControl.Resources><ResourceDictionary><ResourceDictionary.MergedDictionaries><ResourceDictionary Source="ModelViewerStyles.xaml"/></ResourceDictionary.MergedDictionaries></ResourceDictionary></UserControl.Resources>
+  <Grid Margin="12,8">
+    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+    <DockPanel>
+      <Button DockPanel.Dock="Right" Content="×" Command="{Binding CloseMemberDiagramCommand}" ToolTip="Chiudi diagrammi" Padding="8,1"/>
+      <TextBlock Text="{Binding MemberDiagramTitle}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" Margin="0,0,8,0"/>
+    </DockPanel>
+    <WrapPanel Grid.Row="1" Margin="0,5,0,7" VerticalAlignment="Center">
+      <ComboBox ItemsSource="{Binding MemberDiagramChoices}" SelectedValuePath="Id" SelectedValue="{Binding MemberDiagramElementId}" Width="195" MinHeight="29" AutomationProperties.Name="Asta del diagramma"/>
+      <CheckBox Content="Tutte le componenti" IsChecked="{Binding MemberDiagramAllComponents}" Margin="12,0,0,0"/>
+      <CheckBox Content="Inverti grafico" IsChecked="{Binding MemberDiagramInvert}" Margin="12,0,0,0"/>
+      <CheckBox Content="Riempimento" IsChecked="{Binding MemberDiagramFill}" Margin="12,0,0,0"/>
+      <CheckBox Content="Blocca cursore" IsChecked="{Binding MemberDiagramCursorLocked}" Margin="12,0,0,0"/>
+      <TextBlock Text="x/L" VerticalAlignment="Center" Margin="12,0,4,0"/>
+      <TextBox Text="{Binding MemberDiagramStation,UpdateSourceTrigger=LostFocus,ValidatesOnExceptions=True,StringFormat=0.####}" Width="62" VerticalContentAlignment="Center" ToolTip="Posizione da 0 a 1; frecce sul grafico per spostarsi"/>
+      <Button Content="CSV" Command="{Binding ExportMemberDiagramCommand}" Margin="8,0,0,0" Padding="8,3" IsEnabled="{Binding HasMemberDiagram}" ToolTip="Esporta i campioni importati di tutte le componenti"/>
+      <Button Content="+ Report" Command="{Binding AddReportMemberDiagramCommand}" Margin="6,0,0,0" Padding="8,3" IsEnabled="{Binding HasMemberDiagram}"/>
+    </WrapPanel>
+    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+      <ItemsControl ItemsSource="{Binding MemberDiagramSeries}">
+        <ItemsControl.ItemsPanel><ItemsPanelTemplate><local:MemberDiagramPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate><DataTemplate>
+          <local:MemberDiagramPlot Series="{Binding}" ToolTip="{Binding RangeDescription}" Height="{Binding DataContext.MemberDiagramPlotHeight,RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="3" Background="{DynamicResource AppearanceSurface}" Foreground="{DynamicResource AppearanceInk}"
+            Station="{Binding DataContext.MemberDiagramStation,RelativeSource={RelativeSource AncestorType=UserControl},Mode=TwoWay}"
+            Invert="{Binding DataContext.MemberDiagramInvert,RelativeSource={RelativeSource AncestorType=UserControl}}"
+            FillDiagram="{Binding DataContext.MemberDiagramFill,RelativeSource={RelativeSource AncestorType=UserControl}}"
+            CursorLocked="{Binding DataContext.MemberDiagramCursorLocked,RelativeSource={RelativeSource AncestorType=UserControl}}" AutomationProperties.Name="Diagramma delle sollecitazioni"/>
+        </DataTemplate></ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </ScrollViewer>
+    <StackPanel Grid.Row="3" Margin="3,6,0,0">
+      <DockPanel><TextBlock Text="{Binding MemberDiagramPosition}" FontWeight="SemiBold" Margin="0,0,12,0"/>
+        <ItemsControl ItemsSource="{Binding MemberDiagramReadings}"><ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel><ItemsControl.ItemTemplate><DataTemplate>
+          <TextBlock Margin="0,0,14,3" ToolTip="{Binding Origin}"><Run Text="{Binding Component}"/><Run Text=" = "/><Run Text="{Binding Value}"/><Run Text=" "/><Run Text="{Binding Unit}"/></TextBlock>
+        </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+      </DockPanel>
+      <TextBlock Text="{Binding MemberDiagramMessage}" TextWrapping="Wrap" FontSize="10" Opacity=".7"/>
+    </StackPanel>
+  </Grid>
+</UserControl>

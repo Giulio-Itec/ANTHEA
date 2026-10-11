@@ -1,0 +1,36 @@
+<UserControl x:Class="ANTHEA.ModelViewer.Wpf.ModelVisibilityView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <ScrollViewer MaxHeight="300" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Margin="0,8,5,4">
+      <TextBlock Text="Combina attributi del modello" FontSize="11" Margin="0,0,0,6" />
+      <ComboBox ItemsSource="{Binding VisibilityChoices}" SelectedItem="{Binding SelectedVisibilityChoice}" AutomationProperties.Name="Criterio di visibilità" />
+      <DockPanel Margin="0,6,0,6">
+        <Button Content="Aggiungi" Command="{Binding AddVisibilityCriterionCommand}" DockPanel.Dock="Right" Margin="5,0,0,0" />
+        <ComboBox ItemsSource="{Binding VisibilityCombinations}" SelectedIndex="{Binding VisibilityCombination}" AutomationProperties.Name="Combinazione dei filtri" FontSize="11" />
+      </DockPanel>
+      <ItemsControl ItemsSource="{Binding VisibilityCriteria}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Border Background="{DynamicResource AppearanceSurface}" CornerRadius="4" Margin="0,0,0,4" Padding="7,3">
+              <DockPanel>
+                <Button Content="×" DockPanel.Dock="Right" Padding="6,2" Command="{Binding DataContext.RemoveVisibilityCriterionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" ToolTip="Rimuovi criterio" />
+                <TextBlock Text="{Binding Label}" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="11" />
+              </DockPanel>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <Button Content="Azzera filtri e mostra tutto" Command="{Binding ResetVisibilityCriteriaCommand}" HorizontalAlignment="Left" Margin="0,3,0,9" />
+      <TextBlock Text="VISIBILITÀ MEMORIZZATE" FontSize="10" Opacity="0.65" Margin="0,3,0,6" />
+      <DockPanel>
+        <Button Content="Memorizza" DockPanel.Dock="Right" Command="{Binding SaveVisibilityCommand}" Margin="5,0,0,0" />
+        <TextBox Text="{Binding VisibilityName, UpdateSourceTrigger=PropertyChanged}" Padding="6" MaxLength="80" ToolTip="Nome della visibilità attuale" AutomationProperties.Name="Nome della visibilità" />
+      </DockPanel>
+      <ComboBox ItemsSource="{Binding SavedVisibilities}" SelectedItem="{Binding SelectedSavedVisibility}" Margin="0,6,0,6" AutomationProperties.Name="Visibilità memorizzate" />
+      <WrapPanel>
+        <Button Content="Richiama" Command="{Binding RecallVisibilityCommand}" Margin="0,0,5,0" />
+        <Button Content="Rimuovi" Command="{Binding RemoveSavedVisibilityCommand}" />
+      </WrapPanel>
+      <TextBlock Text="{Binding VisibilityMessage}" TextWrapping="Wrap" FontSize="10" Opacity="0.7" Margin="0,8,0,0" />
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

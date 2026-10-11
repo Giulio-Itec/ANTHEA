@@ -10,14 +10,19 @@ public sealed record ModelElement(int Id, string Type, int Property, int[] Nodes
 public sealed record PlateProperty(int Id, string Name, double Thickness, double Offset);
 public sealed record SectionProperty(int Id, string Name, string Shape, double Width, double Height, bool Centered);
 public sealed record CornerResult(int Element, int Node, double[] Values);
+public sealed record ModelDisplacement(int Node,double X,double Y,double Z);
 public sealed record ModelDirection(double X, double Y, double Z);
 public sealed record ModelLocalFrame(int Element, ModelDirection X, ModelDirection Y, ModelDirection Z);
+public sealed record ModelNodeFrame(int Node, ModelDirection X, ModelDirection Y, ModelDirection Z);
 public sealed record ModelBoundary(string SourceRecord, string Kind, int[] Nodes, int? Element, string Dofs);
 public sealed record ModelImportMessage(string Code, string Severity, string Record, string Message);
 public sealed record ModelResultSet(string Name, bool IsEnvelope, CornerResult[] Values)
 {
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ResultField[]? Fields { get; init; }
+    // Optional imported global displacements in metres, never reconstructed from internal forces.
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelDisplacement[]? Displacements { get; init; }
 }
 
 /// <summary>Offline presentation snapshot. Units: m, kN/m and kN m/m. It is not a calculation model or a solver.</summary>
@@ -37,15 +42,21 @@ public sealed class ModelSnapshot
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ModelLocalFrame[]? LocalFrames { get; set; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelNodeFrame[]? NodeFrames { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ModelBoundary[]? Boundaries { get; set; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ModelImportMessage[]? ImportMessages { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelUpdateInfo? UpdateInfo { get; set; }
     public static readonly string[] Components = ["Mxx", "Myy", "Mxy", "Fxx", "Fyy", "Fxy", "Vxx", "Vyy"];
     public static string Unit(string component) => component.StartsWith('M') ? "kN·m/m" : "kN/m";
     public void Validate()
     {
         if (Nodes is null || Elements is null || Plates is null || Sections is null || Results is null || Nodes.Any(n => n is null) || Elements.Any(e => e is null || e.Nodes is null) || Plates.Any(p => p is null) || Sections.Any(s => s is null) || Results.Any(r => r is null || r.Values is null || r.Values.Any(v => v is null || v.Values is null))) throw new InvalidDataException("Il modello contiene dati mancanti.");
         if (Version != 1) throw new InvalidDataException("Versione del modello non supportata.");
+        if(UpdateInfo is {} update && (!Enum.IsDefined(update.Scope) || update.InputSource is null || update.InputSource.Length>4000 || update.DiscardedResultCases<0 || update.ResultsCompatibilityVerified!=(update.Scope==ModelUpdateScope.Results)))
+            throw new InvalidDataException("Provenienza dell’aggiornamento non valida.");
         if (Nodes.Length == 0 || Nodes.Length > 500000 || Elements.Length > 500000) throw new InvalidDataException("Dimensione del modello non supportata dalla bozza.");
         if (Nodes.Any(n => n.Id <= 0 || !double.IsFinite(n.X) || !double.IsFinite(n.Y) || !double.IsFinite(n.Z)) || Nodes.Select(n => n.Id).Distinct().Count() != Nodes.Length) throw new InvalidDataException("Nodi non validi o duplicati.");
         var ids = Nodes.Select(n => n.Id).ToHashSet();
@@ -70,20 +81,45 @@ public sealed class ModelSnapshot
                     throw new InvalidDataException("Terna locale non ortonormale e destrorsa.");
             }
         }
+        if (NodeFrames != null)
+        {
+            if (NodeFrames.Any(f => f == null || !ids.Contains(f.Node)) || NodeFrames.Select(f => f.Node).Distinct().Count() != NodeFrames.Length)
+                throw new InvalidDataException("Terne locali non associabili ai nodi.");
+            static double Dot(ModelDirection a, ModelDirection b) => a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+            foreach (var frame in NodeFrames)
+            {
+                var directions = new[] { frame.X, frame.Y, frame.Z };
+                if (directions.Any(v => v == null || !double.IsFinite(v.X) || !double.IsFinite(v.Y) || !double.IsFinite(v.Z) || Math.Abs(Dot(v, v) - 1) > 1e-6) ||
+                    Math.Abs(Dot(frame.X, frame.Y)) > 1e-6 || Math.Abs(Dot(frame.X, frame.Z)) > 1e-6 || Math.Abs(Dot(frame.Y, frame.Z)) > 1e-6 ||
+                    frame.X.X * (frame.Y.Y * frame.Z.Z - frame.Y.Z * frame.Z.Y) + frame.X.Y * (frame.Y.Z * frame.Z.X - frame.Y.X * frame.Z.Z) + frame.X.Z * (frame.Y.X * frame.Z.Y - frame.Y.Y * frame.Z.X) < .999999)
+                    throw new InvalidDataException("Terna nodale non ortonormale e destrorsa.");
+            }
+        }
         if (Results.Select(r => r.Name).Distinct().Count() != Results.Length) throw new InvalidDataException("Casi di risultato duplicati.");
         foreach (var result in Results)
         {
             if (string.IsNullOrWhiteSpace(result.Name) || result.Values.Select(v => (v.Element, v.Node)).Distinct().Count() != result.Values.Length || result.Values.Any(v => !elements.TryGetValue(v.Element, out var e) || e.Type != "PLATE" || !e.Nodes.Contains(v.Node) || v.Values.Length != 8 || v.Values.Any(x => !double.IsFinite(x)))) throw new InvalidDataException("Risultati non validi o non associabili agli elementi.");
             ResultFields.Validate(result, elements);
+            if(result.Displacements is {} displacements && (displacements.Any(d=>d==null||!ids.Contains(d.Node)||!double.IsFinite(d.X)||!double.IsFinite(d.Y)||!double.IsFinite(d.Z))||displacements.Select(d=>d.Node).Distinct().Count()!=displacements.Length))
+                throw new InvalidDataException("Spostamenti importati non validi o non associabili ai nodi.");
         }
         if (SourceTables?.Any(t => string.IsNullOrWhiteSpace(t.Key) || t.Value.ValueKind != JsonValueKind.Object) == true)
             throw new InvalidDataException("Tabelle degli attributi non valide.");
         if (ImportMessages?.Any(m => m == null || string.IsNullOrWhiteSpace(m.Code)) == true) throw new InvalidDataException("Rapporto di importazione non valido.");
     }
-    public string Fingerprint() => Convert.ToHexString(SHA256.HashData(JsonSerializer.SerializeToUtf8Bytes(this)));
+    public string Fingerprint()
+    {
+        // Same canonical UTF-8 JSON as previous revisions, without allocating another complete copy.
+        using var hash = SHA256.Create();
+        using var stream = new CryptoStream(Stream.Null, hash, CryptoStreamMode.Write);
+        JsonSerializer.Serialize(stream, this);
+        stream.FlushFinalBlock();
+        return Convert.ToHexString(hash.Hash!);
+    }
     public static ModelSnapshot FromJson(string json)
     {
-        if (json.Length > 64000000) throw new InvalidDataException("La bozza accetta modelli fino a 64 MB.");
+        if (json.Length > ModelSnapshotFiles.MaximumPackageBytes || System.Text.Encoding.UTF8.GetByteCount(json) > ModelSnapshotFiles.MaximumPackageBytes)
+            throw new InvalidDataException(ModelSnapshotFiles.PackageSizeMessage);
         var value = JsonSerializer.Deserialize<ModelSnapshot>(json) ?? throw new InvalidDataException("Modello vuoto."); value.Validate(); return value;
     }
 }

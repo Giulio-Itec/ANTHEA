@@ -46,15 +46,39 @@ internal sealed class EdgeBuilder
 }
 internal static class Contours
 {
-    // Graphic interpolation only, independently within each element; no averaging over element boundaries.
-    internal static void Surface(SurfaceBuilder mesh, EdgeBuilder lines, Vector3[] p, double[] values, int id, double min, double max, int subdivisions, bool isolines)
+    // Display-only extrusion: duplicate the same plate field on both faces, and interpolate along each rim.
+    // No engineering extrapolation through thickness. Reversing the lower face also reverses its nodal values.
+    internal static void Prism(SurfaceBuilder mesh, EdgeBuilder lines, Vector3[] lower, Vector3 extrusion,
+        double[] values, int id, double min, double max, int subdivisions, bool isolines, int intervals, bool[]? sides)
+    {
+        Surface(mesh, lines, lower.Reverse().ToArray(), values.Reverse().ToArray(), id, min, max, subdivisions, isolines, intervals);
+        var upper = lower.Select(p => p + extrusion).ToArray();
+        Surface(mesh, lines, upper, values, id, min, max, subdivisions, isolines, intervals);
+        for (int i = 0; i < lower.Length; i++)
+        {
+            if (sides != null && !sides[i]) continue;
+            int j = (i + 1) % lower.Length;
+            Surface(mesh, lines, [lower[i], lower[j], upper[j], upper[i]], [values[i], values[j], values[j], values[i]],
+                id, min, max, 1, isolines, intervals);
+        }
+    }
+    internal static Color4 DisplayColor(double t,int palette,bool reverse,int bands)
+    {
+        int count=bands switch {1=>8,2=>12,3=>20,_=>0};t=Math.Clamp(t,0,1);
+        if(count>0)t=(Math.Min(count-1,(int)(t*count))+.5)/count;
+        return Color(reverse?1-t:t,palette);
+    }
+    // Graphic interpolation inside each element. Input corners can be original or display-only nodal means.
+    internal static void Surface(SurfaceBuilder mesh, EdgeBuilder lines, Vector3[] p, double[] values, int id, double min, double max, int subdivisions, bool isolines, int intervals = 12)
     {
         void Triangle(Vector3 a, Vector3 b, Vector3 c, double va, double vb, double vc)
         {
+            // Keep coordinates unbounded: clipping vertices would move the color transitions inside a triangle.
+            // The texture sampler clamps after interpolation, at the pixel, including for manual color limits.
             float U(double value) => (float)((value - min) / (max == min ? 1 : max - min));
             mesh.Triangle(a, b, c, U(va), U(vb), U(vc), id);
             if (!isolines || max <= min) return;
-            for (int level = 1; level < 12; level++) if (Segment([a, b, c], [va, vb, vc], min + (max - min) * level / 12) is { } segment) lines.Line(segment.A, segment.B);
+            for (int level = 1; level < intervals; level++) if (Segment([a, b, c], [va, vb, vc], min + (max - min) * level / intervals) is { } segment) lines.Line(segment.A, segment.B);
         }
         if (p.Length == 3) { Triangle(p[0], p[1], p[2], values[0], values[1], values[2]); return; }
         (Vector3 p, double v) At(double u, double v)
@@ -77,9 +101,14 @@ internal static class Contours
         for (int i = 0; i < 3; i++) { int j = (i + 1) % 3; if ((v[i] <= level && v[j] > level) || (v[j] <= level && v[i] > level)) hits.Add(Vector3.Lerp(p[i], p[j], (float)((level - v[i]) / (v[j] - v[i])))); }
         return hits.Count == 2 && Vector3.DistanceSquared(hits[0], hits[1]) > 1e-14 ? (hits[0], hits[1]) : null;
     }
-    internal static Color4 Color(double t)
+    internal static Color4 Color(double t, int palette = 0)
     {
-        var colors = new[] { new Vector3(.12f, .23f, .62f), new Vector3(.08f, .64f, .85f), new Vector3(.25f, .78f, .65f), new Vector3(.97f, .90f, .36f), new Vector3(.91f, .25f, .16f) };
+        var colors = palette switch
+        {
+            1 => new[] { new Vector3(.13f,.4f,.67f), new Vector3(.4f,.66f,.81f), new Vector3(.97f,.97f,.97f), new Vector3(.94f,.54f,.38f), new Vector3(.7f,.09f,.17f) },
+            2 => new[] { new Vector3(.267f,.005f,.329f), new Vector3(.23f,.322f,.546f), new Vector3(.128f,.567f,.551f), new Vector3(.369f,.789f,.383f), new Vector3(.993f,.906f,.144f) },
+            _ => new[] { new Vector3(.12f, .23f, .62f), new Vector3(.08f, .64f, .85f), new Vector3(.25f, .78f, .65f), new Vector3(.97f, .90f, .36f), new Vector3(.91f, .25f, .16f) }
+        };
         t = Math.Clamp(t, 0, 1) * 4; int i = Math.Min(3, (int)t); var c = Vector3.Lerp(colors[i], colors[i + 1], (float)(t - i)); return new Color4(c.X, c.Y, c.Z, 1);
     }
 }

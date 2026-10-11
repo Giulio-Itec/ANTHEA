@@ -19,7 +19,7 @@ public sealed partial class ModelViewerViewModel
     [ObservableProperty] private DataRowView? selectedTableRow;
     [ObservableProperty] private string tableSummary = "";
     private string? tableState;
-    partial void OnShowTableChanged(bool value) { if (value) RefreshTable(true); }
+    partial void OnShowTableChanged(bool value) { if (value) {ShowMemberDiagram=false;ShowRevisionDetails=false;RefreshTable(true);} }
     partial void OnSelectedTableKindChanged(int value)
     {
         if (value == 5) TableOnlyVisible = true;
@@ -37,8 +37,8 @@ public sealed partial class ModelViewerViewModel
     {
         if (!ShowTable || Snapshot == null || disposed || updating) return;
         string state = string.Join("|", SelectedTableKind, TableOnlyVisible ? VisibleElementIds == null ? "all" : string.Join(",", VisibleElementIds.Order()) : "all",
-            TableOnlySelected ? string.Join(",", SelectedElementIds.Order()) : "all", TableSearch,
-            SelectedTableKind == 5 ? $"{SelectedCase}/{Family}/{Axes}/{SelectedComponent}/{ForceUnit}/{LengthUnit}/{SelectedBeamLocation}" : "",
+            TableOnlySelected ? string.Join(",", SelectedElementIds.Order()) + "/" + string.Join(",", SelectedNodeIds.Order()) : "all", TableSearch,
+            SelectedTableKind == 5 ? $"{SelectedCase}/{Family}/{Axes}/{SelectedComponent}/{ForceUnit}/{LengthUnit}/{DisplacementUnit}/{SelectedBeamLocation}" : "",
             SelectedTableKind == 6 ? SelectedTreeItem?.Key : "");
         if (!force && tableState == state) return;
         tableState = state;
@@ -66,11 +66,11 @@ public sealed partial class ModelViewerViewModel
                 break;
             case 2:
                 Columns(("ID", typeof(int)), ("Nome", typeof(string)), ("Forma", typeof(string)), ("Larghezza [m]", typeof(double)), ("Altezza [m]", typeof(double)), ("Centrata", typeof(bool)));
-                foreach (var s in Snapshot.Sections.Where(s => elements.Any(e => e.Type != "PLATE" && e.Property == s.Id))) Add("SECT:" + s.Id, s.Id, s.Name, s.Shape, s.Width > 0 ? s.Width : null, s.Height > 0 ? s.Height : null, s.Width > 0 ? s.Centered : null);
+                foreach (var s in Snapshot.Sections.Where(s => !TableOnlyVisible && !TableOnlySelected || elements.Any(e => e.Type != "PLATE" && e.Property == s.Id))) Add("SECT:" + s.Id, s.Id, s.Name, s.Shape, s.Width > 0 ? s.Width : null, s.Height > 0 ? s.Height : null, s.Width > 0 ? s.Centered : null);
                 break;
             case 3:
                 Columns(("ID", typeof(int)), ("Nome", typeof(string)), ("Spessore [m]", typeof(double)), ("Offset [m]", typeof(double)));
-                foreach (var p in Snapshot.Plates.Where(p => elements.Any(e => e.Type == "PLATE" && e.Property == p.Id))) Add("THIK:" + p.Id, p.Id, p.Name, p.Thickness, p.Offset);
+                foreach (var p in Snapshot.Plates.Where(p => !TableOnlyVisible && !TableOnlySelected || elements.Any(e => e.Type == "PLATE" && e.Property == p.Id))) Add("THIK:" + p.Id, p.Id, p.Name, p.Thickness, p.Offset);
                 break;
             case 4:
                 Columns(("Sorgente", typeof(string)), ("Tipo", typeof(string)), ("Nodi", typeof(string)), ("Elemento", typeof(int)), ("DOF / informazioni", typeof(string)));
@@ -82,6 +82,13 @@ public sealed partial class ModelViewerViewModel
                 }
                 break;
             case 5:
+                if (IsDisplacementResult)
+                {
+                    Columns(("Nodo", typeof(int)), ("Caso", typeof(string)), ("Assi", typeof(string)), ("Componente", typeof(string)), ("Unità", typeof(string)), ("Valore", typeof(double)));
+                    foreach (var v in ActiveValues.Where(v => !TableOnlySelected || SelectedNodeIds.Contains(v.Node)).DistinctBy(v => v.Node).OrderBy(v => v.Node))
+                        Add("NODE:" + v.Node, v.Node, SelectedCase, Axes, SelectedComponent, ResultUnit, v.Value);
+                    break;
+                }
                 Columns(("Elemento", typeof(int)), ("Nodo", typeof(int)), ("x/L", typeof(double)), ("Caso", typeof(string)), ("Famiglia", typeof(string)), ("Assi", typeof(string)), ("Componente", typeof(string)), ("Unità", typeof(string)), ("Valore", typeof(double)));
                 // Use exactly the displayed field and units; never average shared nodes or combine envelope extrema.
                 foreach (var v in ActiveValues.Where(v => !TableOnlySelected || SelectedElementIds.Contains(v.Element)))

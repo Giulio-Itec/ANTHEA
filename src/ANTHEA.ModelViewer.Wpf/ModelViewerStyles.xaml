@@ -75,6 +75,51 @@
   <Style TargetType="CheckBox">
     <Setter Property="Margin" Value="0,8,0,2" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Foreground" Value="{DynamicResource AppearanceInk}"/>
+    <Setter Property="MinHeight" Value="22"/>
+    <Setter Property="Template">
+      <Setter.Value><ControlTemplate TargetType="CheckBox">
+        <Grid Background="Transparent"><Grid.ColumnDefinitions><ColumnDefinition Width="18"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+          <Border x:Name="CheckFace" Width="16" Height="16" CornerRadius="3" BorderThickness="1" BorderBrush="{DynamicResource AppearanceBorder}" Background="{DynamicResource AppearancePaper}" VerticalAlignment="Center">
+            <Grid><Path x:Name="CheckMark" Data="M 2 6 L 5 9 L 11 3" Stroke="White" StrokeThickness="1.8" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Visibility="Collapsed"/><Path x:Name="MixedMark" Data="M 3 6 L 10 6" Stroke="White" StrokeThickness="2" Visibility="Collapsed"/></Grid>
+          </Border>
+          <ContentPresenter Grid.Column="1" Margin="7,0,0,0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+          <Trigger Property="IsChecked" Value="True"><Setter TargetName="CheckFace" Property="Background" Value="#2265B5"/><Setter TargetName="CheckFace" Property="BorderBrush" Value="#438ED8"/><Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/></Trigger>
+          <Trigger Property="IsChecked" Value="{x:Null}"><Setter TargetName="CheckFace" Property="Background" Value="#2265B5"/><Setter TargetName="MixedMark" Property="Visibility" Value="Visible"/></Trigger>
+          <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="CheckFace" Property="BorderBrush" Value="#438ED8"/></Trigger>
+          <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="CheckFace" Property="BorderBrush" Value="#438ED8"/><Setter TargetName="CheckFace" Property="BorderThickness" Value="2"/></Trigger>
+          <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value=".45"/></Trigger>
+        </ControlTemplate.Triggers>
+      </ControlTemplate></Setter.Value>
+    </Setter>
+  </Style>
+  <Style TargetType="Expander">
+    <Setter Property="Foreground" Value="{DynamicResource AppearanceInk}"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Expander">
+      <StackPanel>
+        <ToggleButton x:Name="HeaderSite" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="Stretch" Padding="2,7">
+          <ToggleButton.Template><ControlTemplate TargetType="ToggleButton">
+            <Border x:Name="HeaderFace" Background="Transparent" CornerRadius="4" Padding="{TemplateBinding Padding}" BorderBrush="Transparent" BorderThickness="1">
+              <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="19"/><ColumnDefinition/></Grid.ColumnDefinitions>
+                <Path x:Name="Chevron" Data="M 1 0 L 5 4 L 1 8" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.4" StrokeStartLineCap="Round" StrokeEndLineCap="Round" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <ContentPresenter Grid.Column="1" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+              </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="True"><Setter TargetName="Chevron" Property="Data" Value="M 0 2 L 4 6 L 8 2"/></Trigger>
+              <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="HeaderFace" Property="Background" Value="{DynamicResource AppearanceSurface}"/></Trigger>
+              <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="HeaderFace" Property="BorderBrush" Value="#438ED8"/></Trigger>
+              <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value=".45"/></Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate></ToggleButton.Template>
+        </ToggleButton>
+        <ContentPresenter x:Name="ExpandSite" Visibility="Collapsed" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+      </StackPanel>
+      <ControlTemplate.Triggers><Trigger Property="IsExpanded" Value="True"><Setter TargetName="ExpandSite" Property="Visibility" Value="Visible"/></Trigger></ControlTemplate.Triggers>
+    </ControlTemplate></Setter.Value></Setter>
   </Style>
   <Style x:Key="Action" TargetType="Button">
     <Setter Property="Padding" Value="11,7" />
@@ -114,7 +159,7 @@
   <Style x:Key="ModeGeometry" TargetType="Button" BasedOn="{StaticResource Action}">
     <Setter Property="BorderThickness" Value="0" />
     <Style.Triggers>
-      <DataTrigger Binding="{Binding SelectedMode}" Value="0">
+      <DataTrigger Binding="{Binding SelectedRepresentation}" Value="0">
         <Setter Property="Background" Value="#2265B5" />
         <Setter Property="Foreground" Value="White" />
       </DataTrigger>
@@ -123,16 +168,7 @@
   <Style x:Key="ModeSolid" TargetType="Button" BasedOn="{StaticResource Action}">
     <Setter Property="BorderThickness" Value="0" />
     <Style.Triggers>
-      <DataTrigger Binding="{Binding SelectedMode}" Value="1">
-        <Setter Property="Background" Value="#2265B5" />
-        <Setter Property="Foreground" Value="White" />
-      </DataTrigger>
-    </Style.Triggers>
-  </Style>
-  <Style x:Key="ModeResults" TargetType="Button" BasedOn="{StaticResource Action}">
-    <Setter Property="BorderThickness" Value="0" />
-    <Style.Triggers>
-      <DataTrigger Binding="{Binding SelectedMode}" Value="2">
+      <DataTrigger Binding="{Binding SelectedRepresentation}" Value="1">
         <Setter Property="Background" Value="#2265B5" />
         <Setter Property="Foreground" Value="White" />
       </DataTrigger>
@@ -140,7 +176,9 @@
   </Style>
   <Style TargetType="TabItem">
     <Setter Property="Foreground" Value="{DynamicResource AppearanceInk}" />
-    <Setter Property="Padding" Value="14,13" />
+    <Setter Property="Padding" Value="8,12" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="MinWidth" Value="0" />
     <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="Template">
       <Setter.Value>

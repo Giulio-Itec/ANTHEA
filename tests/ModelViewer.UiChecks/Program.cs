@@ -14,10 +14,11 @@ using Anthea.Calculations;
 using HelixToolkit.Wpf.SharpDX;
 using X.Core;
 
-static class Program
+static partial class Program
 {
     const BindingFlags Flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
     static int checks;
+    static int capturedImages;
     static void Check(bool condition, string message) { if (!condition) throw new Exception(message); checks++; Console.WriteLine("PASS " + message); }
     static object? Call(object obj, string method, params object?[] args) => obj.GetType().GetMethod(method, Flags)!.Invoke(obj, args);
     static IEnumerable<T> Children<T>(DependencyObject root) where T : DependencyObject
@@ -30,22 +31,31 @@ static class Program
         var frame = new DispatcherFrame(); var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(milliseconds) };
         timer.Tick += (_, _) => { timer.Stop(); frame.Continue = false; }; timer.Start(); Dispatcher.PushFrame(frame);
     }
-    static void Capture(FrameworkElement root, Viewport3DX viewport, string path)
+    static void Capture(FrameworkElement root, Viewport3DX viewport, string path,int minimumViewportSide=200)
     {
         // Capture our own WPF tree and its native Direct3D render, never the operating-system desktop.
+        ViewerImageExporter.SynchronizeLayout(root,viewport);
         string render = Path.ChangeExtension(path, ".viewport.png"); viewport.SaveScreen(render);
-        var scene = new BitmapImage(); scene.BeginInit(); scene.CacheOption = BitmapCacheOption.OnLoad; scene.UriSource = new Uri(render); scene.EndInit(); scene.Freeze();
+        BitmapSource scene;
+        using(var input=File.OpenRead(render))scene=BitmapDecoder.Create(input,BitmapCreateOptions.PreservePixelFormat,BitmapCacheOption.OnLoad).Frames[0];
+        scene.Freeze();
         root.UpdateLayout(); int width = (int)Math.Ceiling(root.ActualWidth), height = (int)Math.Ceiling(root.ActualHeight);
-        var surface = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32); surface.Render(root);
+        var surface = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32); var content=new DrawingVisual();
+        var rootOffset=VisualTreeHelper.GetOffset(root);
+        using(var context=content.RenderOpen())context.DrawRectangle(new VisualBrush(root) { Stretch=Stretch.Fill,ViewboxUnits=BrushMappingMode.Absolute,Viewbox=new Rect(new Point(rootOffset.X,rootOffset.Y),root.RenderSize) },null,new Rect(root.RenderSize));
+        surface.Render(content);
         var visual = new DrawingVisual(); using (var drawing = visual.RenderOpen())
         {
             drawing.DrawImage(surface, new Rect(0, 0, width, height));
             var point = viewport.TransformToAncestor(root).Transform(new Point());
+            File.WriteAllText(path+".capture.json",System.Text.Json.JsonSerializer.Serialize(new {Width=width,Height=height,ViewX=point.X,ViewY=point.Y,ViewWidth=viewport.ActualWidth,ViewHeight=viewport.ActualHeight,ImageWidth=scene.PixelWidth,ImageHeight=scene.PixelHeight}));
             drawing.DrawImage(scene, new Rect(point.X, point.Y, viewport.ActualWidth, viewport.ActualHeight));
         }
         var target = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32); target.Render(visual);
         var png = new PngBitmapEncoder(); png.Frames.Add(BitmapFrame.Create(target)); using var output = File.Create(path); png.Save(output);
-        Check(scene.PixelWidth > 200 && scene.PixelHeight > 200 && new FileInfo(render).Length > 5000, "renderer produced a nonempty image: " + Path.GetFileName(path));
+        Check(scene.PixelWidth > minimumViewportSide && scene.PixelHeight > minimumViewportSide && new FileInfo(render).Length > 5000, "renderer produced a nonempty image: " + Path.GetFileName(path));
+        // WPF bitmaps own large unmanaged buffers; a long screenshot suite must release previous captures as it progresses.
+        if(++capturedImages%5==0){GC.Collect();GC.WaitForPendingFinalizers();}
     }
     static void CapturePage(FrameworkElement root, string path)
     {
@@ -58,7 +68,10 @@ static class Program
     [STAThread]
     static int Main(string[] args)
     {
+        var startup=Stopwatch.StartNew();
         string output = Path.GetFullPath(args.FirstOrDefault() ?? "supporto/artefatti/model-viewer/ui"); Directory.CreateDirectory(output);
+        AppDomain.CurrentDomain.UnhandledException+=(_,e)=>File.WriteAllText(Path.Combine(output,"unhandled.txt"),e.ExceptionObject.ToString());
+        AppDomain.CurrentDomain.ProcessExit+=(_,_)=>{if(!args.Contains("--interactive")&&!File.Exists(Path.Combine(output,"esito.txt")))File.WriteAllText(Path.Combine(output,"uscita-incompleta.txt"),$"Codice {Environment.ExitCode}; controlli {checks}; memoria {Process.GetCurrentProcess().PrivateMemorySize64}\n{Environment.StackTrace}");};
         var bindingLog = new StringWriter(); var listener = new TextWriterTraceListener(bindingLog);
         PresentationTraceSources.DataBindingSource.Listeners.Add(listener); PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
         X.Desktop.MainWindow? window = null;
@@ -66,32 +79,224 @@ static class Program
         {
             var app = new TestApp(); app.LoadStyles(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.Appearance")!.GetMethod("Initialize", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, [false]);
+            int themeArgument=Array.IndexOf(args,"--appearance");
+            if(themeArgument>=0 && themeArgument+1<args.Length)SetAppearance(args[themeArgument+1]);
+            ModelSnapshot? directSnapshot=null;JsonObject owner=null!;string id="";
+            if(args.Contains("--direct-model"))
+            {
+                if(!args.Contains("--viewer-only") || args.Length<2)throw new ArgumentException("L’apertura diretta richiede --viewer-only e un pacchetto .antheamodel.");
+                directSnapshot=ReadPreviewSnapshot(Path.GetFullPath(args[1]),args.Contains("--interactive"));
+            }
+            else
+            {
             string archive;
             if (args.Length > 1) archive = Path.GetFullPath(args[1]);
             else
             {
                 var doc = ProjectDocuments.CreateArchive(); var p = ProjectDocuments.AddProject(doc, "Progetto UI"); var sf = ProjectDocuments.AddSection(p, "Sottofase UI");
-                ProjectDocuments.AddSheet(sf, "str_palo", "Verifica UI"); ProjectModelStore.Set(sf, Sample.Model());
+                ProjectDocuments.AddSheet(sf, "str_palo", "Verifica UI");
+                var fixture = Sample.Model();
+                fixture.NodeFrames = [new(1, new(0, 1, 0), new(-1, 0, 0), new(0, 0, 1))];
+                fixture.Boundaries = [new("CONS/1", "RESTRAIN", [1], null, "DX, DY, DZ"), new("ELNK/1", "CONSTRAINT", [1, 6], null, "DX"), new("ELNK/2", "LINK", [2, 5], null, "Matrice elastica"), new("FRLS/12/I", "RELEASE", [1], 12, "RZ")];
+                ProjectModelStore.Set(sf, fixture);
                 archive = Path.Combine(output, "ui.programma"); Archivio.Scrivi(archive, doc);
             }
-            window = new X.Desktop.MainWindow { Width = 1600, Height = 990, ShowInTaskbar = false };
+            if (Path.GetExtension(archive).Equals(".antheamodel", StringComparison.OrdinalIgnoreCase))
+            {
+                var doc = ProjectDocuments.CreateArchive();
+                var project = ProjectDocuments.AddProject(doc, "Prova del visualizzatore");
+                var subphase = ProjectDocuments.AddSection(project, "Modello offline");
+                ProjectModelStore.Set(subphase, ModelSnapshotFiles.Read(archive));
+                archive = Path.Combine(output, "preview.programma"); Archivio.Scrivi(archive, doc);
+            }
+            window = new X.Desktop.MainWindow { Width = 1600, Height = 990, ShowInTaskbar = false, ShowActivated = false };
             Call(window, "LoadFile", archive); window.Show(); Wait(150);
             var document = (JsonObject)window.GetType().GetField("document", Flags)!.GetValue(window)!;
-            var owner = document.Array("progetti").OfType<JsonObject>().SelectMany(ProjectModelStore.Containers).First(c => ProjectModelStore.Models(c).Any());
-            string id = ProjectModelStore.Models(owner).First().S("id");
+            owner = document.Array("progetti").OfType<JsonObject>().SelectMany(ProjectModelStore.Containers).First(c => ProjectModelStore.Models(c).Any());
+            id = ProjectModelStore.Models(owner).First().S("id");
+            }
             if (args.Contains("--viewer-only"))
             {
                 // Host the actual production control on its own, to review the view without project chrome.
-                var targets = ProjectModelStore.DescendantSheets(owner).Select(s => new SheetTarget(s.S("id"), s.S("nome"), ProjectModelStore.LinkStatus(owner, s))).ToArray();
-                using var isolated = new ModelViewerControl(ProjectModelStore.Read(owner, id), targets, false,
-                    imported => ProjectModelStore.Set(owner, imported, id),
+                var targets = directSnapshot!=null?[]:ProjectModelStore.DescendantSheets(owner).Select(s => new SheetTarget(s.S("id"), s.S("nome"), ProjectModelStore.LinkStatus(owner, s))).ToArray();
+                int preferencesArgument=Array.IndexOf(args,"--preferences");
+                string preferences=preferencesArgument>=0&&preferencesArgument+1<args.Length?Path.GetFullPath(args[preferencesArgument+1]):Path.Combine(output,"preferenze-viste");
+                using var isolated = new ModelViewerControl(directSnapshot??ProjectModelStore.Read(owner, id), targets, false,
+                    imported => {if(directSnapshot!=null)directSnapshot=imported;else ProjectModelStore.Set(owner, imported, id);},
                     (sheetId, element, result, component) => ProjectModelStore.Link(owner,
-                        ProjectModelStore.DescendantSheets(owner).Single(s => s.S("id") == sheetId), id, element, result, component));
-                window.Close(); window = null;
-                var preview = new Window { Title = "ANTHEA · Modelli", Content = isolated, Width = 1600, Height = 1020, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.CenterScreen };
-                preview.Show(); Wait(1200);
+                        ProjectModelStore.DescendantSheets(owner).Single(s => s.S("id") == sheetId), id, element, result, component),new ModelViewPresetStore(preferences));
+                window?.Close(); window = null;
+                var preview = new Window { Title = "ANTHEA · Modelli", Content = args.Contains("--interactive") ? InteractivePreviewHost.Create(isolated) : isolated, Width = 1600, Height = 1020, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.CenterScreen, ShowActivated = args.Contains("--interactive") };
+                if(args.Contains("--interactive"))
+                {
+                    preview.Width=Math.Min(preview.Width,SystemParameters.WorkArea.Width*.96);
+                    preview.Height=Math.Min(preview.Height,SystemParameters.WorkArea.Height*.94);
+                }
+                WatchAppearance(preview);preview.Show(); Wait(1200);
                 var state = (ModelViewerViewModel)isolated.DataContext;
                 var scene = Children<Viewport3DX>(isolated).Single();
+                File.WriteAllText(Path.Combine(output,"avvio.json"),System.Text.Json.JsonSerializer.Serialize(new {Direct=args.Contains("--direct-model"),ReadyMilliseconds=startup.Elapsed.TotalMilliseconds,ReadMilliseconds=previewReadMilliseconds,Nodes=state.Snapshot!.Nodes.Length,Elements=state.Snapshot.Elements.Length,Cases=state.Snapshot.Results.Length,PrivateBytes=Process.GetCurrentProcess().PrivateMemorySize64}));
+                if (args.Contains("--interactive"))
+                {
+                    if (args.Contains("--averaged"))
+                    {
+                        state.SelectedPanel = 1; state.SelectedContourValues = 1; state.ShowMesh = false; state.ShowInspector = false;
+                        Wait(250);
+                    }
+                    int reportArg=Array.IndexOf(args,"--report-template");
+                    if(reportArg>=0 && reportArg+1<args.Length)
+                    {
+                        state.ApplyReport(ANTHEA.ModelReports.ModelReportFiles.Read(args[reportArg+1]));
+                        state.SelectedPanel=4;state.ShowInspector=false;
+                    }
+                    preview.Title = "ANTHEA · Modelli e report · prova interattiva";
+                    if (args.Contains("--extruded")) state.SetRepresentationCommand.Execute("1");
+                    if (args.Contains("--beam-results"))
+                    {
+                        state.SelectedFamily=1;state.SelectedComponent="My";state.ShowBeamDiagram=true;state.ShowLineContour=true;
+                        state.SelectedRepresentation=1;state.SelectedPanel=1;state.ShowContext=true;
+                        var beamSamples=ResultFields.Read(state.Snapshot!.Results.FirstOrDefault(r=>r.Name==state.SelectedCase),"BEAM","LOCAL","My");
+                        state.MemberDiagramElementId=beamSamples.GroupBy(v=>v.Element).MaxBy(g=>g.Max(v=>Math.Abs(v.Value)))?.Key
+                            ??state.Snapshot.Elements.FirstOrDefault(e=>e.Type=="BEAM")?.Id;
+                        state.MemberDiagramAllComponents=true;state.OpenMemberDiagramCommand.Execute(null);
+                    }
+                    if (args.Contains("--deformed"))
+                    {
+                        state.SelectedResultType=1;state.SelectedCase=state.Cases.Contains("SismaX")?"SismaX":state.Cases.FirstOrDefault();
+                        state.SelectedComponent="|u|";state.ShowDeformation=true;state.SelectedRepresentation=1;state.SelectedPanel=1;
+                        state.ShowInspector=false;state.ShowMesh=false;
+                    }
+                    preview.ShowInTaskbar = true; preview.Closed += (_, _) => app.Shutdown();
+                    Capture((FrameworkElement)preview.Content, scene, Path.Combine(output, "anteprima-interattiva.png"));
+                    File.WriteAllText(Path.Combine(output,"pronta.json"),System.Text.Json.JsonSerializer.Serialize(new
+                    {
+                        ProcessId=Environment.ProcessId,Window=preview.Title,Model=state.Snapshot?.Name,
+                        Nodes=state.Snapshot?.Nodes.Length,Elements=state.Snapshot?.Elements.Length,Cases=state.Cases,
+                        BindingErrors=bindingLog.ToString(),ReadyUtc=DateTime.UtcNow,ReadyMilliseconds=startup.Elapsed.TotalMilliseconds,Contour=state.ContourValueLabel,Averaging=state.ContourAveragingSummary
+                    },new System.Text.Json.JsonSerializerOptions{WriteIndented=true}));
+                    app.Run(); return 0;
+                }
+                if(args.Contains("--deformations-real"))
+                {
+                    RealDeformationChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"real deformations have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--deformation-report"))
+                {
+                    DeformationReportChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"deformation report has no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--member-diagrams"))
+                {
+                    MemberDiagramRenderingChecks(isolated,scene,output);
+                    listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"member diagram views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--clip-volume"))
+                {
+                    ClipVolumeRenderingChecks(isolated,scene,output);
+                    listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"volume clipping views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--measurements"))
+                {
+                    MeasurementRenderingChecks(isolated,scene,output);
+                    listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"measurement views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--visible-boundaries"))
+                {
+                    VisibleBoundaryChecks(output,args.Contains("--capture-before"));
+                    if(!args.Contains("--capture-before"))VisibleBoundaryRealChecks(isolated,scene,output);
+                    listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"visible boundary views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--revision-review"))
+                {
+                    RevisionRenderingChecks(isolated,scene,output);
+                    listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"revision review views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--themes-only"))
+                {
+                    ThemeRenderingChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"themes have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--view-cube"))
+                {
+                    ViewCubeRenderingChecks(isolated,scene,output,args.Contains("--capture-before"));
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"view cube has no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--overlay-details"))
+                {
+                    OverlayDetailRenderingChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"overlay details have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--export-layout"))
+                {
+                    ExportLayoutRenderingChecks(output,args.Contains("--capture-before"));
+                    listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"embedded export has no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--category-colors"))
+                {
+                    CategoryColorRenderingChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"category color views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--partial-updates"))
+                {
+                    ModelUpdateRenderingChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"partial update views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--deformations-only"))
+                {
+                    DeformationRenderingChecks(output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"deformation views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--report-only"))
+                {
+                    ReportRenderingChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"report composer has no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--extruded-only"))
+                {
+                    ExtrudedContourChecks(output); CaptureExtrudedRealModel(isolated,scene,output);
+                    LineResultRenderingChecks(output); CaptureRealBeamResults(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"extruded result views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--exploration-only"))
+                {
+                    ExplorationRenderingChecks(output);CaptureExplorationOnRealModel(isolated,scene,output);
+                    listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"exploration has no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
                 var realRenderer = isolated.GetType().GetField("renderer", Flags)!.GetValue(isolated)!;
                 bool picked = false;
                 for (int y = 2; y < 9 && !picked; y++)
@@ -122,6 +327,12 @@ static class Program
                     Capture(isolated, scene, Path.Combine(output, name + ".png"));
                 }
                 state.SelectedPanel = 0;
+                RealContourAveragingChecks(isolated, scene, output);
+                ContourRenderingChecks(output);
+                ExtrudedContourChecks(output);
+                LineResultRenderingChecks(output);
+                preview.Activate();
+                state.SelectedPanel = 0;
                 state.SelectedTreeItem = state.FindTreeItem("SECT:" + state.Snapshot!.Sections[0].Id);
                 state.SelectedMode = 1; Wait(400);
                 Check(state.IsSectionSelected && state.SectionWidth > 0 && state.SectionHeight > 0, "section selection exposes its scaled preview");
@@ -136,7 +347,8 @@ static class Program
                     Capture(isolated, scene, Path.Combine(output, "modelli-assi-vincoli.png"));
                     state.ShowLocalAxes = false; state.ShowConstraints = false; state.ShowRestraints = false; state.ClearSelectionCommand.Execute(null);
                     state.SelectedMode = 2; state.SelectedAxes = 1; Wait(350);
-                    Check(state.HasResults && state.SelectedComponent == "Mmax" && state.Status.StartsWith("Scena pronta"), "principal components use imported values");
+                    bool hasPrincipal=state.Snapshot.Results.Single(r=>r.Name==state.SelectedCase).Fields?.Any(f=>f.Family=="PLATE"&&f.Axes=="PRINCIPAL"&&f.Component=="Mmax"&&f.Values.Length>0)==true;
+                    Check(state.HasResults==hasPrincipal && state.SelectedComponent == "Mmax" && state.Status.StartsWith("Scena pronta"), "principal components follow actual imported availability without synthesizing missing values");
                     Capture(isolated, scene, Path.Combine(output, "modelli-principali.png"));
                     state.SelectedAxes = 0; state.SelectedFamily = 1; state.SelectedComponent = "My"; Wait(350);
                     Check(state.HasResults && state.ActiveValues.Count == 905 && state.Status.StartsWith("Scena pronta"), "beam results render all five imported stations");
@@ -161,7 +373,24 @@ static class Program
                 Capture(isolated, scene, Path.Combine(output, "modelli-gruppi-tabella.png"));
                 state.SelectedMode = 2; state.SelectedTableKind = 5; Wait(450);
                 Check(state.TableRows!.Count == state.ActiveValues.Count, "result table and scene share the same values and units");
+                state.SelectedTableRow = state.TableRows[0]; Wait(150);
                 Capture(isolated, scene, Path.Combine(output, "modelli-risultati-tabella.png"));
+                state.SelectedColorScale = 3; state.ColorScaleLower = "-100"; state.ColorScaleUpper = "500"; state.ApplyColorScaleCommand.Execute(null); Wait(350);
+                Check(state.ColorMinimum == -100 && state.ColorMaximum == 500 && state.TableRows!.Count == state.ActiveValues.Count && state.Status.StartsWith("Scena pronta"), "manual scale renders without removing table values");
+                var stripe = scene.Items.OfType<MeshGeometryModel3D>().Select(m => m.Material).OfType<ColorStripeMaterial>().Single();
+                Check(stripe.ColorStripeSampler.AddressU == SharpDX.Direct3D11.TextureAddressMode.Clamp, "manual colors saturate at pixels rather than wrapping the palette");
+                Capture(isolated, scene, Path.Combine(output, "modelli-scala-manuale.png"));
+                state.SelectedColorScale = 0; state.SelectedMode = 0; state.SelectedColorMode = 3; state.SelectedTableKind = 1; state.ShowVisibilityOptions = true;
+                state.SelectedTreeItem = state.FindTreeItem("THIK:3");
+                foreach (string key in new[] { "PLATE", "THIK:3" }) { state.SelectedVisibilityChoice = state.VisibilityChoices.Single(c => c.Key == key); state.AddVisibilityCriterionCommand.Execute(null); }
+                int expectedVisible = state.Snapshot.Elements.Count(e => e.Type == "PLATE" && e.Property == 3);
+                Check(state.VisibleElementIds?.Count == expectedVisible && state.TableRows!.Count == expectedVisible, "attribute intersection filters both the rendered model and its table");
+                state.VisibilityName = "Paraghiaia"; state.SaveVisibilityCommand.Execute(null); state.ShowAllCommand.Execute(null); state.RecallVisibilityCommand.Execute(null); Wait(350);
+                Check(state.VisibleElementIds?.Count == expectedVisible && state.Status.StartsWith("Scena pronta"), "named visibility recalls an exact subset on the real model");
+                // Keep the active criteria visible in the screenshot, alongside the saved set.
+                foreach (string key in new[] { "PLATE", "THIK:3" }) { state.SelectedVisibilityChoice = state.VisibilityChoices.Single(c => c.Key == key); state.AddVisibilityCriterionCommand.Execute(null); }
+                Wait(200); Capture(isolated, scene, Path.Combine(output, "modelli-filtri-visibilita.png"));
+                state.ShowVisibilityOptions = false; state.ShowAllCommand.Execute(null);
                 state.ShowTable = false; state.SelectedMode = 0; state.SelectedSurfaceMode = 2; Wait(250);
                 Check(state.Status.StartsWith("Scena pronta") && !scene.Items.OfType<MeshGeometryModel3D>().Any(m => m.Geometry?.Indices?.Count > 0), "wireframe mode contains no filled faces");
                 // Export through the production compositor, including the WPF legend and current field title.
@@ -174,17 +403,78 @@ static class Program
                 var caption = Children<TextBlock>(isolated).First(t => t.Text == "Caso / combinazione");
                 Check(caption.Foreground is SolidColorBrush ink && ink.Color.R > 150 && ink.Color.G > 150, "dark theme keeps field captions readable");
                 var palette = (LinearGradientBrush)isolated.FindResource("ModelContourPalette");
-                Check(palette.GradientStops[4].Color == Color.FromRgb(232, 64, 41), "dark theme preserves the contour legend palette");
+                Check(palette.GradientStops[^1].Color == Color.FromRgb(232, 64, 41), "dark theme preserves the contour legend palette");
                 var familyBox = Children<ComboBox>(isolated).First(c => System.Windows.Automation.AutomationProperties.GetName(c) == "Famiglia degli elementi");
                 familyBox.IsDropDownOpen = true; Wait(150);
                 Check(familyBox.IsDropDownOpen && familyBox.Items.Count == 6, "family selector opens all supported formulations");
                 familyBox.IsDropDownOpen = false; Wait(100);
                 Capture(isolated, scene, Path.Combine(output, "modelli-tema-scuro.png"));
                 appearance.GetMethod("Set", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, [Enum.Parse(modeType, "Light"), false]);
+                state.ShowTable = false; double expandedWidth = scene.ActualWidth;
+                state.ToggleNavigationCommand.Execute(null); state.ToggleInspectorCommand.Execute(null); Wait(250);
+                var rail = (FrameworkElement)isolated.FindName("NavigationRail"); var propertyRail = (FrameworkElement)isolated.FindName("InspectorRail");
+                Check(rail.IsVisible && propertyRail.IsVisible && Math.Abs(rail.ActualWidth - 44) < 1 && Math.Abs(propertyRail.ActualWidth - 44) < 1 && scene.ActualWidth > expandedWidth + 400, "both side panels collapse to rails and release space for the model");
+                Capture(isolated, scene, Path.Combine(output, "modelli-barre-laterali.png"));
+                state.OpenNavigationCommand.Execute("0"); state.ToggleInspectorCommand.Execute(null); state.SelectedMode = 0; Wait(150);
+                if (state.Snapshot.NodeFrames?.Length > 0)
+                {
+                    int node = state.Snapshot.Boundaries!.First(b => b.Kind == "RESTRAIN").Nodes[0];
+                    state.SelectedTreeItem = state.FindTreeItem("NODE:" + node); state.OverlaysOnlySelection = true; state.ShowNodeAxes = true; state.ShowRestraints = true;
+                    var expander = Children<Expander>(isolated).Single(e => e.Header?.ToString() == "Assi e condizioni al contorno"); expander.IsExpanded = true; Wait(300);
+                    var axes = scene.Items.OfType<LineGeometryModel3D>().Where(l => l.Color == Color.FromRgb(236,116,111) && l.Geometry?.Positions?.Count > 0).ToArray();
+                    Check(axes.Length == 1 && axes[0].Geometry!.Positions!.Count == 6, "nodal axes scope renders exactly the selected node triad");
+                    Capture(isolated, scene, Path.Combine(output, "modelli-vincoli-assi-nodali.png"));
+                    state.DisableOverlaysCommand.Execute(null); Wait(100);
+                    Check(!scene.Items.OfType<LineGeometryModel3D>().Any(l => l.Color == Color.FromRgb(236,116,111) && l.Geometry?.Positions?.Count > 0), "disabling overlays removes the nodal axis geometry");
+                    expander.IsExpanded = false;
+                }
+                state.ShowViewSettings = true; Wait(150);
+                var settingsView = Children<ModelViewSettingsView>(isolated).Single();
+                Check(state.SelectedPanel==2 && ReferenceEquals(settingsView.DataContext,state), "view settings use a single embedded MVVM panel");
+                CapturePage(settingsView,Path.Combine(output,"impostazioni-vista.png"));
+                state.ShowViewSettings = false; state.ApplyBackgroundCommand.Execute("#FFFFFF"); state.RotationSensitivity=.35;state.PanSensitivity=.6;state.ZoomSensitivity=.5; Wait(100);
+                Check(scene.RotationSensitivity==.35 && scene.LeftRightPanSensitivity==.6 && scene.ZoomSensitivity==.5 && state.SceneInk=="#24354A", "camera sensitivity and background settings reach the native viewport");
+                state.IsOrthographic=true;state.CameraPresetCommand.Execute("top");Wait(350);
+                Check(scene.Camera is OrthographicCamera && scene.Camera.LookDirection.Z<0 && Math.Abs(scene.Camera.LookDirection.X)<1e-5, "top preset preserves orthographic projection and aligns to Z");
+                state.CameraPresetCommand.Execute("iso-ne");Wait(350);
+                var look=scene.Camera!.LookDirection;
+                Check(Math.Abs(Math.Abs(look.X)-Math.Abs(look.Y))<1e-5 && Math.Abs(Math.Abs(look.Z)/Math.Abs(look.X)-Math.Sqrt(2))<1e-5, "45 degree camera preset has matching horizontal components and elevation");
+                state.SelectedMode=2;state.SelectedContourPalette=2;Wait(150);
+                Check(scene.Items.OfType<MeshGeometryModel3D>().Any(m=>m.Material is ColorStripeMaterial),"smooth contour palette remains a scalar GPU material");
+                Capture(isolated,scene,Path.Combine(output,"contouring-chiaro.png"));
+                state.SelectElement(state.Snapshot!.Elements[0].Id);
+                isolated.RaiseEvent(new System.Windows.Input.KeyEventArgs(System.Windows.Input.Keyboard.PrimaryDevice,PresentationSource.FromVisual(isolated),0,System.Windows.Input.Key.Escape){RoutedEvent=System.Windows.Input.Keyboard.PreviewKeyDownEvent});
+                Check(!state.HasSelection,"Esc clears model selection through the viewmodel command");
+                state.ResetViewSettingsCommand.Execute(null);state.ImportFailure=new("Collegamento MIDAS non più disponibile","Riattiva il collegamento API in MIDAS e riprova.","Ultima copia valida conservata · simulazione del messaggio di errore");Wait(120);
+                Check(((FrameworkElement)isolated.FindName("ImportFailureBanner")).IsVisible,"source failure banner is visible beside the retained model");
+                Capture(isolated,scene,Path.Combine(output,"midas-connessione-interrotta.png"));state.DismissImportFailureCommand.Execute(null);
+                var progressReady = new TaskCompletionSource<IProgress<VerificationProgress>>(TaskCreationOptions.RunContinuationsAsynchronously);
+                var progressFinish = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                // Enter through the WPF dispatcher, as the future launch command will.
+                var progressRun = isolated.Dispatcher.InvokeAsync(() => state.RunVerificationAsync(async (progress, _) => { progressReady.SetResult(progress); await progressFinish.Task; })).Task.Unwrap();
+                Wait(150);
+                Check(progressReady.Task.IsCompletedSuccessfully && state.IsVerificationIndeterminate, "verification starts in indeterminate preparation on the WPF context");
+                progressReady.Task.Result.Report(new(37, 100, "Anteprima grafica · nessun calcolo eseguito"));
+                state.IsNavigationCollapsed = true; state.ShowInspector = false; Wait(150);
+                var progressBar = Children<ProgressBar>(isolated).Single(p => System.Windows.Automation.AutomationProperties.GetName(p) == "Avanzamento delle verifiche");
+                Check(progressBar.IsVisible && progressBar.Value == 37 && !progressBar.IsIndeterminate, "worker progress updates WPF and remains visible with collapsed panels");
+                Capture(isolated, scene, Path.Combine(output, "modelli-anteprima-avanzamento.png"));
+                state.CancelVerificationCommand.Execute(null); progressFinish.SetResult();
+                var stop = Stopwatch.StartNew(); while (!progressRun.IsCompleted && stop.ElapsedMilliseconds < 3000) Wait(30);
+                Check(progressRun.IsCompletedSuccessfully, $"verification worker terminates on WPF (task={progressRun.Status}, status={state.VerificationStatus})");
+                Check(progressRun.Result == VerificationRunOutcome.Cancelled && !state.IsVerificationRunning, "WPF acknowledges cooperative cancellation");
+                Wait(80);
+                Check(!progressBar.IsIndeterminate && progressBar.Value == 37, "cancelled progress stops at reported work rather than claiming completion");
+                state.DismissVerificationProgressCommand.Execute(null); Wait(80);
+                Check(!progressBar.IsVisible, "dismissed progress leaves the model workspace available");
+                ExplorationRenderingChecks(output);
+                CaptureExplorationOnRealModel(isolated,scene,output);
                 listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()), "no WPF binding errors in isolated viewer");
                 File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} checks");
                 preview.Close(); app.Shutdown(); return 0;
             }
+            if(window==null)throw new InvalidOperationException("Finestra progetto non inizializzata.");
+            ContourRenderingChecks(output); window.Activate();
             Call(window, "ShowModelsHub"); Wait(100);
             Check(Children<Button>(window).Any(b => b.Content?.ToString() == ProjectModelStore.Models(owner).First().S("nome")), "Models workspace exposes imported resources");
             CapturePage((FrameworkElement)window.Content, Path.Combine(output, "00-modelli.png"));
@@ -219,8 +509,37 @@ static class Program
                 Capture((FrameworkElement)window.Content, viewport, Path.Combine(output, name + ".png"));
             }
             vm.SelectedQuality = 2; Wait(500); Check(vm.Status.StartsWith("Scena pronta"), "maximum contour quality renders");
+            if (args.Length == 1)
+            {
+                vm.SelectedColorScale = 3; vm.ColorScaleLower = "15"; vm.ColorScaleUpper = "35"; vm.ApplyColorScaleCommand.Execute(null); Wait(200);
+                var mesh = (HelixToolkit.SharpDX.MeshGeometry3D)viewport.Items.OfType<MeshGeometryModel3D>().First().Geometry!;
+                int center = Enumerable.Range(0, mesh.Positions!.Count).First(i => Math.Abs(mesh.Positions[i].X + 1) < 1e-6 && Math.Abs(mesh.Positions[i].Y) < 1e-6);
+                Check(Math.Abs(mesh.TextureCoordinates![center].X - .5) < 1e-6 && mesh.TextureCoordinates.Min(uv => uv.X) < 0 && mesh.TextureCoordinates.Max(uv => uv.X) > 1,
+                    "manual color range preserves interpolation coordinates before pixel saturation");
+                vm.SelectedColorScale = 0;
+            }
             vm.SelectedComponent = "Fxx"; Wait(300); Check(vm.ResultUnit.Contains("kN/m"), "result component selection updates unit label");
             vm.QueryCommand.Execute(null); Check(vm.SelectionInformation.Contains("Spessore"), "WPF view binds query data from the ViewModel");
+            if (args.Length == 1)
+            {
+                vm.SelectedMode = 0; vm.SelectedTreeItem = vm.FindTreeItem("NODE:1"); vm.OverlaysOnlySelection = true; vm.ShowNodeAxes = true; Wait(150);
+                var axes = viewport.Items.OfType<LineGeometryModel3D>().Single(l => l.Color == Color.FromRgb(236,116,111) && l.Geometry?.Positions?.Count > 0).Geometry!.Positions!;
+                Check(Math.Abs(axes[1].X - axes[0].X) < 1e-6 && axes[1].Y > axes[0].Y && Math.Abs(axes[1].Z - axes[0].Z) < 1e-6, "rotated nodal X is drawn along its imported direction rather than a connected beam");
+                vm.ShowRestraints = vm.ShowConstraints = vm.ShowLinks = vm.ShowReleases = true; Wait(100);
+                Check(viewport.Items.OfType<LineGeometryModel3D>().Any(l => l.Color == Color.FromRgb(201,155,238) && l.Geometry?.Positions?.Count > 0), "constraint overlay has its own visible geometry");
+                vm.DisableOverlaysCommand.Execute(null); Wait(100);
+                Check(!viewport.Items.OfType<LineGeometryModel3D>().Any(l => (l.Color == Color.FromRgb(236,116,111) || l.Color == Color.FromRgb(201,155,238)) && l.Geometry?.Positions?.Count > 0), "disabling layers removes axes and constraints while retaining the model");
+                vm.SelectedTreeItem = vm.FindTreeItem("SECT:2"); Wait(150);
+                var treeItem = Children<TreeViewItem>(view).First(t => t.DataContext is ModelTreeItem item && item.Key == "SECT:2");
+                var header = Children<TextBlock>(treeItem).First(t => t.Text.Contains("Rettangolare")); vm.ClearSelectionCommand.Execute(null);
+                header.RaiseEvent(new System.Windows.Input.MouseButtonEventArgs(System.Windows.Input.Mouse.PrimaryDevice, Environment.TickCount, System.Windows.Input.MouseButton.Right) { RoutedEvent = System.Windows.Input.Mouse.PreviewMouseDownEvent });
+                Check(vm.SelectedTreeItem?.Key == "SECT:2", "context click resolves the nested property item rather than its parent category");
+                var menu = ((TreeView)view.FindName("ModelTree")).ContextMenu; menu.PlacementTarget = (TreeView)view.FindName("ModelTree"); menu.IsOpen = true; Wait(80);
+                var isolate = menu.Items.OfType<MenuItem>().Single(item => item.Header?.ToString() == "Isola");
+                Check(isolate.Command?.CanExecute(null) == true, "tree context menu binds visibility commands to the selected property"); menu.IsOpen = false;
+                vm.ShowGlobalAxes = vm.ShowViewCube = false; Wait(80);
+                Check(!viewport.ShowCoordinateSystem && !viewport.ShowViewCube, "orientation widgets can be disabled independently of the model");
+            }
             Call(window, "ShowModelsHub"); Wait(100);
             Check(!vm.ImportCommand.CanExecute(null), "leaving viewer disposes its ViewModel and disables late imports");
             Check(viewport.EffectsManager == null, "leaving viewer releases GPU manager");
@@ -238,7 +557,10 @@ static class Program
         }
         catch (Exception ex)
         {
-            Console.Error.WriteLine(ex); File.WriteAllText(Path.Combine(output, "errore.txt"), ex + "\n" + bindingLog); window?.Close(); return 1;
+            Console.Error.WriteLine(ex); File.WriteAllText(Path.Combine(output, "errore.txt"), ex + "\n" + bindingLog); window?.Close();
+            if(args.Contains("--interactive") && ex is not OperationCanceledException)
+                MessageBox.Show("La finestra di prova non è stata aperta.\n"+ex.Message+"\n\nDettagli: "+Path.Combine(output,"errore.txt"),"ANTHEA · Modelli",MessageBoxButton.OK,MessageBoxImage.Error);
+            return ex is OperationCanceledException?0:1;
         }
     }
 }
@@ -247,7 +569,8 @@ sealed class TestApp : Application
 {
     internal void LoadStyles()
     {
-        var document = System.Xml.Linq.XDocument.Load("X.Desktop/App.xaml"); var dictionary = document.Root!.Elements().Single().Elements().Single();
+        using var stylesSource=typeof(TestApp).Assembly.GetManifestResourceStream("ModelViewer.Preview.App.xaml")??throw new InvalidOperationException("Risorse della preview mancanti.");
+        var document = System.Xml.Linq.XDocument.Load(stylesSource); var dictionary = document.Root!.Elements().Single().Elements().Single();
         dictionary.SetAttributeValue(System.Xml.Linq.XNamespace.Xmlns + "x", "http://schemas.microsoft.com/winfx/2006/xaml");
         dictionary.SetAttributeValue(System.Xml.Linq.XNamespace.Xmlns + "local", "clr-namespace:X.Desktop;assembly=ANTHEA");
         foreach (var source in dictionary.Descendants().SelectMany(e => e.Attributes("Source"))) source.Value = "/ANTHEA;component/" + source.Value;

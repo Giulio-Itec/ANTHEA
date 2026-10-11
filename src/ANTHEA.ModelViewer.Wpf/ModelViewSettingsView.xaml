@@ -1,0 +1,31 @@
+<UserControl x:Class="ANTHEA.ModelViewer.Wpf.ModelViewSettingsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <UserControl.Resources><ResourceDictionary><ResourceDictionary.MergedDictionaries><ResourceDictionary Source="ModelViewerStyles.xaml" /></ResourceDictionary.MergedDictionaries></ResourceDictionary></UserControl.Resources>
+  <StackPanel>
+    <Expander Header="Camera e orientamento" IsExpanded="True" Margin="0,6"><StackPanel Margin="0,8">
+        <UniformGrid Columns="3"><Button Content="Front" Command="{Binding CameraPresetCommand}" CommandParameter="front" /><Button Content="Back" Command="{Binding CameraPresetCommand}" CommandParameter="back" /><Button Content="Top" Command="{Binding CameraPresetCommand}" CommandParameter="top" /><Button Content="Left" Command="{Binding CameraPresetCommand}" CommandParameter="left" /><Button Content="Right" Command="{Binding CameraPresetCommand}" CommandParameter="right" /><Button Content="Bottom" Command="{Binding CameraPresetCommand}" CommandParameter="bottom" /></UniformGrid>
+        <TextBlock Text="Viste a 45°" Margin="0,8,0,5" /><UniformGrid Columns="4"><Button Content="NE" Command="{Binding CameraPresetCommand}" CommandParameter="iso-ne" /><Button Content="NW" Command="{Binding CameraPresetCommand}" CommandParameter="iso-nw" /><Button Content="SE" Command="{Binding CameraPresetCommand}" CommandParameter="iso-se" /><Button Content="SW" Command="{Binding CameraPresetCommand}" CommandParameter="iso-sw" /></UniformGrid>
+        <TextBlock Text="Facce, spigoli e angoli del cubo sono cliccabili." FontSize="11" TextWrapping="Wrap" Opacity="0.7" Margin="0,8,0,0" />
+<CheckBox Content="Proiezione ortografica" IsChecked="{Binding IsOrthographic}"/>
+    </StackPanel></Expander>
+    <Expander Header="Navigazione" IsExpanded="False" Margin="0,6"><StackPanel Margin="0,8">
+        <ComboBox ItemsSource="{Binding RotationModes}" SelectedIndex="{Binding SelectedRotationMode}" />
+        <TextBlock Text="Velocità rotazione" Style="{StaticResource FieldLabel}" /><Slider Value="{Binding RotationSensitivity}" Minimum="0.1" Maximum="2" TickFrequency="0.1" AutoToolTipPlacement="TopLeft" />
+        <TextBlock Text="Velocità pan" Style="{StaticResource FieldLabel}" /><Slider Value="{Binding PanSensitivity}" Minimum="0.1" Maximum="2" AutoToolTipPlacement="TopLeft" />
+        <TextBlock Text="Sensibilità zoom" Style="{StaticResource FieldLabel}" /><Slider Value="{Binding ZoomSensitivity}" Minimum="0.1" Maximum="2" AutoToolTipPlacement="TopLeft" />
+        <CheckBox Content="Inerzia della camera" IsChecked="{Binding CameraInertia}" /><CheckBox Content="Ruota intorno al punto cliccato" IsChecked="{Binding RotateAroundPointer}" />
+
+    </StackPanel></Expander>
+    <Expander Header="Sfondo" IsExpanded="False" Margin="0,6"><StackPanel Margin="0,8">
+        <UniformGrid Columns="4"><Button Content="Scuro" Command="{Binding ApplyBackgroundCommand}" CommandParameter="#131D2B" /><Button Content="Chiaro" Command="{Binding ApplyBackgroundCommand}" CommandParameter="#EDF1F6" /><Button Content="Bianco" Command="{Binding ApplyBackgroundCommand}" CommandParameter="#FFFFFF" /><Button Content="Grigio" Command="{Binding ApplyBackgroundCommand}" CommandParameter="#353A40" /></UniformGrid>
+        <DockPanel Margin="0,6,0,0"><Button Content="Applica" Command="{Binding ApplyBackgroundCommand}" DockPanel.Dock="Right" /><TextBox Text="{Binding BackgroundInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,6,0" ToolTip="Colore #RRGGBB" /></DockPanel>
+        <TextBlock Text="{Binding ViewSettingsMessage}" TextWrapping="Wrap" />
+
+    </StackPanel></Expander>
+    <Expander Header="Qualità e illuminazione" IsExpanded="False" Margin="0,6"><StackPanel Margin="0,8">
+        <ComboBox ItemsSource="{Binding AntialiasingModes}" SelectedIndex="{Binding SelectedAntialiasing}" />
+        <ComboBox ItemsSource="{Binding LightingModes}" SelectedIndex="{Binding SelectedLighting}" Margin="0,6,0,0" />
+
+    </StackPanel></Expander>
+    <Button Content="Ripristina camera e sfondo" Command="{Binding ResetViewSettingsCommand}" Margin="0,8"/>
+  </StackPanel>
+</UserControl>

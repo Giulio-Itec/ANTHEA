@@ -4,6 +4,8 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ModelViewerStyles.xaml" />
       </ResourceDictionary.MergedDictionaries>
+      <local:ModelDrawerHeightConverter x:Key="DrawerHeight"/>
+      <local:ModelNavigationHeightConverter x:Key="NavigationHeight"/>
     </ResourceDictionary>
   </UserControl.Resources>
   <Grid>
@@ -16,7 +18,7 @@
     </Grid.RowDefinitions>
     <Border Padding="18,12" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource AppearanceBorder}">
       <DockPanel>
-        <Button DockPanel.Dock="Right" Content="{Binding ImportLabel}" Command="{Binding ImportCommand}" VerticalAlignment="Center" />
+        <Button DockPanel.Dock="Right" Content="{Binding ImportLabel}" Command="{Binding OpenImportOptionsCommand}" VerticalAlignment="Center" />
         <StackPanel>
           <TextBlock Text="MODELLI / SPAZIO DI LAVORO" FontSize="10" Foreground="#438ED8" FontWeight="SemiBold" />
           <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="SemiBold" Margin="0,3,12,0" TextTrimming="CharacterEllipsis" />
@@ -28,22 +30,35 @@
         <Button Content="Esporta immagine…" Command="{Binding SaveImageCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" />
         <CheckBox Content="Proprietà" IsChecked="{Binding ShowInspector}" DockPanel.Dock="Right" Margin="12,0" VerticalAlignment="Center" />
         <CheckBox Content="Tabella" IsChecked="{Binding ShowTable}" DockPanel.Dock="Right" Margin="12,0,0,0" VerticalAlignment="Center" />
-        <CheckBox Content="Visualizzazione" IsChecked="{Binding ShowDisplayOptions}" DockPanel.Dock="Right" Margin="12,0,0,0" VerticalAlignment="Center" />
+        <Button x:Name="ViewSettingsButton" Content="Impostazioni vista" Command="{Binding ToggleViewSettingsCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" />
+        <Button Content="Report" Command="{Binding OpenNavigationCommand}" CommandParameter="4" DockPanel.Dock="Right" Margin="8,0,0,0" />
+        <Button Content="Revisione" Command="{Binding OpenRevisionDetailsCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" Visibility="{Binding HasRevision,Converter={StaticResource Visible}}"/>
         <Button Content="Inquadra" Command="{Binding FitCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" />
-        <StackPanel Orientation="Horizontal">
-          <Button Content="Geometria" Command="{Binding SetModeCommand}" CommandParameter="0" Style="{StaticResource ModeGeometry}" />
-          <Button Content="Volumi e offset" Command="{Binding SetModeCommand}" CommandParameter="1" Style="{StaticResource ModeSolid}" Margin="3,0" />
-          <Button Content="Risultati" Command="{Binding SetModeCommand}" CommandParameter="2" Style="{StaticResource ModeResults}" />
-        </StackPanel>
-        <Separator Margin="12,2" Width="1" />
-        <CheckBox Content="Mesh" IsChecked="{Binding ShowMesh}" IsEnabled="{Binding CanShowMesh}" Margin="0,0,15,0" VerticalAlignment="Center" />
-        <CheckBox Content="Assi locali" IsChecked="{Binding ShowLocalAxes}" Margin="0" VerticalAlignment="Center" ToolTip="Terne importate: X rosso, Y verde, Z blu. La selezione limita le terne visualizzate." />
       </DockPanel>
     </Border>
-    <local:ModelDisplayOptionsView Grid.Row="2" Visibility="{Binding ShowDisplayOptions, Converter={StaticResource Visible}}" />
+    <StackPanel Grid.Row="2">
+      <Border x:Name="ImportFailureBanner" Padding="14,10" BorderBrush="#D99A44" BorderThickness="0,0,0,2" Background="{DynamicResource AppearanceSurface}" Visibility="{Binding HasImportFailure, Converter={StaticResource Visible}}">
+        <DockPanel>
+          <Button DockPanel.Dock="Right" Content="Chiudi" Command="{Binding DismissImportFailureCommand}" VerticalAlignment="Top" Margin="16,0,0,0" />
+          <StackPanel>
+            <TextBlock Text="{Binding ImportFailure.Title}" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding ImportFailure.Recovery}" TextWrapping="Wrap" Margin="0,4,0,0" />
+            <TextBlock Text="{Binding ImportFailure.RetainedData}" TextWrapping="Wrap" Opacity="0.7" FontSize="11" Margin="0,4,0,0" />
+          </StackPanel>
+        </DockPanel>
+      </Border>
+
+    </StackPanel>
     <Grid Grid.Row="3">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="330" MinWidth="290" MaxWidth="460" />
+        <ColumnDefinition>
+          <ColumnDefinition.Style>
+            <Style TargetType="ColumnDefinition">
+              <Setter Property="Width" Value="330" /><Setter Property="MinWidth" Value="290" /><Setter Property="MaxWidth" Value="460" />
+              <Style.Triggers><DataTrigger Binding="{Binding IsNavigationCollapsed}" Value="True"><Setter Property="Width" Value="44" /><Setter Property="MinWidth" Value="44" /><Setter Property="MaxWidth" Value="44" /></DataTrigger></Style.Triggers>
+            </Style>
+          </ColumnDefinition.Style>
+        </ColumnDefinition>
         <ColumnDefinition Width="5" />
         <ColumnDefinition MinWidth="260" />
         <ColumnDefinition Width="Auto" />
@@ -55,16 +70,23 @@
               <Setter Property="MaxWidth" Value="460" />
               <Style.Triggers>
                 <DataTrigger Binding="{Binding ShowInspector}" Value="False">
-                  <Setter Property="Width" Value="0" />
-                  <Setter Property="MinWidth" Value="0" />
-                  <Setter Property="MaxWidth" Value="0" />
+                  <Setter Property="Width" Value="44" />
+                  <Setter Property="MinWidth" Value="44" />
+                  <Setter Property="MaxWidth" Value="44" />
                 </DataTrigger>
               </Style.Triggers>
             </Style>
           </ColumnDefinition.Style>
         </ColumnDefinition>
       </Grid.ColumnDefinitions>
-      <TabControl SelectedIndex="{Binding SelectedPanel}" BorderThickness="0" Background="{DynamicResource AppearancePaper}" Padding="0" HorizontalContentAlignment="Stretch">
+      <Grid x:Name="NavigationPane">
+        <Grid.Style><Style TargetType="Grid"><Style.Triggers><DataTrigger Binding="{Binding IsNavigationCollapsed}" Value="True"><Setter Property="Visibility" Value="Collapsed" /></DataTrigger></Style.Triggers></Style></Grid.Style>
+        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition /></Grid.RowDefinitions>
+        <DockPanel Margin="12,5,8,3">
+          <Button Content="‹" Command="{Binding ToggleNavigationCommand}" DockPanel.Dock="Right" Padding="9,1" MinHeight="24" ToolTip="Riduci la navigazione a barra laterale" AutomationProperties.Name="Riduci navigazione" />
+          <TextBlock Text="NAVIGAZIONE" FontSize="10" Opacity="0.6" VerticalAlignment="Center" />
+        </DockPanel>
+      <TabControl Grid.Row="1" SelectedIndex="{Binding SelectedPanel}" BorderThickness="0" Background="{DynamicResource AppearancePaper}" Padding="0" HorizontalContentAlignment="Stretch">
         <TabItem Header="Modello">
           <Grid>
             <Grid.RowDefinitions>
@@ -72,13 +94,32 @@
               <RowDefinition />
               <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+            <ScrollViewer x:Name="ModelToolsScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="{Binding ActualHeight, ElementName=NavigationPane, Converter={StaticResource NavigationHeight}, ConverterParameter=.30}">
             <StackPanel Margin="14,10,14,10">
               <TextBlock Text="ESPLORA IL MODELLO" Style="{StaticResource Caption}" Margin="0,0,0,7" />
               <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=250}" MinHeight="33" Padding="9,6" ToolTip="Cerca per nome, numero o categoria" AutomationProperties.Name="Cerca nell'albero del modello" />
-              <TextBlock Text="Cerca per nome o numero" FontSize="10" Opacity="0.55" Margin="1,4,0,0" />
+              <Expander Header="Seleziona per ID" Margin="0,8,0,0"><StackPanel Margin="0,6"><TextBox Text="{Binding SelectionIds, UpdateSourceTrigger=PropertyChanged}" ToolTip="Esempio: 1 5 10-20"/><Button Content="Seleziona ID" Command="{Binding SelectByIdsCommand}" Margin="0,5,0,0"/><TextBlock Text="{Binding ExplorationMessage}" TextWrapping="Wrap" FontSize="10"/></StackPanel></Expander>
+              <Expander Header="{Binding VisibilityFilterTitle}" IsExpanded="{Binding ShowVisibilityOptions}" Margin="0,10,0,0">
+                <local:ModelVisibilityView />
+              </Expander>
+              <Expander Header="Check della revisione" Margin="0,8,0,0"><local:ModelRevisionToolsView/></Expander>
+              <Expander Header="Importazione e aggiornamento" IsExpanded="{Binding ShowImportOptions}" Margin="0,8,0,0"><local:ModelImportOptionsView/></Expander>
             </StackPanel>
-            <TreeView x:Name="ModelTree" Grid.Row="1" ItemsSource="{Binding Tree}" SelectedItemChanged="TreeSelectionChanged" BorderThickness="0" Background="Transparent" Padding="5,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Albero del modello" />
-            <Border Grid.Row="2" Padding="14,12" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource AppearanceBorder}">
+            </ScrollViewer>
+            <TreeView x:Name="ModelTree" Grid.Row="1" ItemsSource="{Binding Tree}" SelectedItemChanged="TreeSelectionChanged" PreviewMouseDown="TreeContextSelection" BorderThickness="0" Background="Transparent" Padding="5,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Albero del modello">
+              <TreeView.ContextMenu>
+                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                  <MenuItem Header="Esamina gli elementi associati" Command="{Binding InspectSelectionCommand}" />
+                  <Separator />
+                  <MenuItem Header="Isola" Command="{Binding IsolateCommand}" />
+                  <MenuItem Header="Nascondi" Command="{Binding HideCommand}" />
+                  <MenuItem Header="Mostra selezione" Command="{Binding ShowSelectedCommand}" />
+                  <MenuItem Header="Mostra tutto" Command="{Binding ShowAllCommand}" />
+                </ContextMenu>
+              </TreeView.ContextMenu>
+            </TreeView>
+            <ScrollViewer x:Name="ModelOverlaysScroll" Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="{Binding ActualHeight, ElementName=NavigationPane, Converter={StaticResource NavigationHeight}, ConverterParameter=.45}">
+            <Border Padding="14,12" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource AppearanceBorder}">
               <StackPanel>
                 <TextBlock Text="{Binding SelectionCount}" FontWeight="SemiBold" />
                 <UniformGrid Columns="3" Margin="0,9,0,0">
@@ -86,78 +127,41 @@
                   <Button Content="Nascondi" Command="{Binding HideCommand}" Margin="2,0" />
                   <Button Content="Tutto" Command="{Binding ShowAllCommand}" Margin="4,0,0,0" />
                 </UniformGrid>
+                <Button Content="Esamina gli elementi associati" Command="{Binding InspectSelectionCommand}" Margin="0,6,0,0" />
+                <Expander Header="Carichi sul modello" Margin="0,8"><StackPanel Margin="0,6">
+                  <CheckBox Content="Mostra carichi importati" IsChecked="{Binding ShowLoads}"/>
+                  <ComboBox ItemsSource="{Binding LoadCases}" SelectedItem="{Binding SelectedLoadCase}"/>
+                  <Slider Value="{Binding LoadGlyphScale}" Minimum=".1" Maximum="5" ToolTip="Dimensione dei simboli"/>
+                  <TextBlock Text="{Binding LoadsMessage}" FontSize="10" TextWrapping="Wrap" Opacity=".7"/>
+                </StackPanel></Expander>
                 <Expander Header="Assi e condizioni al contorno" Margin="0,12,0,2">
                   <StackPanel>
                     <TextBlock Text="{Binding OverlaySummary}" FontSize="10" Opacity="0.65" Margin="0,6,0,4" />
                     <CheckBox Content="Assi locali degli elementi" IsChecked="{Binding ShowLocalAxes}" />
+                    <CheckBox Content="Verso degli elementi · I → J / N1 → N2" IsChecked="{Binding ShowElementDirections}" />
+                    <CheckBox Content="Assi locali dei nodi" IsChecked="{Binding ShowNodeAxes}" />
+                    <TextBlock Text="{Binding NodeAxesSummary}" FontSize="10" Opacity="0.65" Margin="0,2,0,4" />
                     <CheckBox Content="Restrain · vincoli nodali" IsChecked="{Binding ShowRestraints}" />
                     <CheckBox Content="Constraint · collegamenti rigidi" IsChecked="{Binding ShowConstraints}" />
                     <CheckBox Content="Link elastici" IsChecked="{Binding ShowLinks}" />
                     <CheckBox Content="Release · svincoli" IsChecked="{Binding ShowReleases}" />
+                    <CheckBox Content="Etichette dei gradi di libertà" IsChecked="{Binding ShowBoundaryLabels}" />
+                    <TextBlock Text="Dati importati, senza reinterpretazione. Fino a 40 etichette; tutti i dettagli restano in tabella." TextWrapping="Wrap" FontSize="10" Opacity=".65" Margin="0,3,0,7" />
+                    <DockPanel><TextBlock Text="Dimensione simboli" VerticalAlignment="Center"/><TextBlock Text="{Binding OverlayScale, StringFormat={}{0:0.00}×}" HorizontalAlignment="Right"/></DockPanel>
+                    <Slider Value="{Binding OverlayScale}" Minimum=".25" Maximum="3" AutomationProperties.Name="Dimensione assi e vincoli" />
+                    <CheckBox Content="Limita assi e vincoli alla selezione" IsChecked="{Binding OverlaysOnlySelection}" Margin="0,9,0,4" />
+                    <Button Content="Tabella vincoli e collegamenti" Command="{Binding InspectBoundariesCommand}" Margin="0,0,0,5" />
+                    <Button Content="Disattiva assi e vincoli" Command="{Binding DisableOverlaysCommand}" />
                   </StackPanel>
                 </Expander>
                 <TextBlock Text="Gli attributi della copia importata sono in sola lettura." TextWrapping="Wrap" FontSize="10" Opacity="0.6" Margin="0,8,0,0" />
               </StackPanel>
             </Border>
+            </ScrollViewer>
           </Grid>
         </TabItem>
-        <TabItem Header="Sollecitazioni">
-          <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <StackPanel Margin="18,0,18,18">
-              <TextBlock Text="01 / CAMPO DI RISULTATO" Style="{StaticResource Caption}" />
-              <TextBlock Text="Elementi" Style="{StaticResource FieldLabel}" Margin="0,0,0,5" />
-              <ComboBox ItemsSource="{Binding FamilyLabels}" SelectedIndex="{Binding SelectedFamily}" AutomationProperties.Name="Famiglia degli elementi" />
-              <TextBlock Text="Caso / combinazione" Style="{StaticResource FieldLabel}" />
-              <ComboBox ItemsSource="{Binding Cases}" SelectedItem="{Binding SelectedCase}" AutomationProperties.Name="Caso o combinazione" />
-              <TextBlock Text="{Binding ResultKind}" Foreground="#438ED8" FontWeight="SemiBold" FontSize="10" Margin="1,7,0,0" />
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition />
-                  <ColumnDefinition Width="12" />
-                  <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <StackPanel>
-                  <TextBlock Text="Assi" Style="{StaticResource FieldLabel}" />
-                  <ComboBox ItemsSource="{Binding AxesLabels}" SelectedIndex="{Binding SelectedAxes}" AutomationProperties.Name="Assi dei risultati" />
-                </StackPanel>
-                <StackPanel Grid.Column="2">
-                  <TextBlock Text="Componente" Style="{StaticResource FieldLabel}" />
-                  <ComboBox ItemsSource="{Binding Components}" SelectedItem="{Binding SelectedComponent}" AutomationProperties.Name="Componente del risultato" />
-                </StackPanel>
-              </Grid>
-              <ComboBox ItemsSource="{Binding BeamLocations}" SelectedIndex="{Binding SelectedBeamLocation}" Margin="0,12,0,0" Visibility="{Binding IsBeamFamily, Converter={StaticResource Visible}}" AutomationProperties.Name="Sezione di output beam" />
-              <TextBlock Text="{Binding SampleLocation}" FontSize="11" TextWrapping="Wrap" Opacity="0.65" Margin="0,9,0,0" />
-              <TextBlock Text="02 / UNITÀ DI VISUALIZZAZIONE" Style="{StaticResource Caption}" />
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition />
-                  <ColumnDefinition Width="12" />
-                  <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <StackPanel>
-                  <TextBlock Text="Forza" Style="{StaticResource FieldLabel}" Margin="0,0,0,5" />
-                  <ComboBox ItemsSource="{Binding ForceUnits}" SelectedItem="{Binding ForceUnit}" AutomationProperties.Name="Unità di forza" />
-                </StackPanel>
-                <StackPanel Grid.Column="2">
-                  <TextBlock Text="Lunghezza" Style="{StaticResource FieldLabel}" Margin="0,0,0,5" />
-                  <ComboBox ItemsSource="{Binding LengthUnits}" SelectedItem="{Binding LengthUnit}" AutomationProperties.Name="Unità di lunghezza" />
-                </StackPanel>
-              </Grid>
-              <TextBlock Text="{Binding ResultUnit}" FontSize="15" FontWeight="SemiBold" Margin="0,9,0,0" />
-              <TextBlock Text="03 / CONTOURING" Style="{StaticResource Caption}" />
-              <ComboBox ItemsSource="{Binding QualityLabels}" SelectedIndex="{Binding SelectedQuality}" AutomationProperties.Name="Qualità del contouring" />
-              <CheckBox Content="Altri elementi in contesto" IsChecked="{Binding ShowContext}" />
-              <CheckBox Content="Isolinee" IsChecked="{Binding ShowIsolines}" />
-              <CheckBox Content="Bordi della mesh" IsChecked="{Binding ShowMesh}" />
-              <Border Background="{DynamicResource AppearanceSurface}" CornerRadius="6" Padding="11" Margin="0,16,0,0">
-                <StackPanel>
-                  <TextBlock Text="{Binding ResultAvailability}" TextWrapping="Wrap" FontSize="11" />
-                  <TextBlock Text="{Binding Information}" TextWrapping="Wrap" FontSize="11" Opacity="0.7" Margin="0,8,0,0" />
-                </StackPanel>
-              </Border>
-            </StackPanel>
-          </ScrollViewer>
-        </TabItem>
+        <TabItem Header="Risultati"><local:ModelResultsView /></TabItem>
+        <TabItem Header="Vista"><local:ModelViewToolsView /></TabItem>
         <TabItem Header="Verifiche">
           <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="18,0,18,18">
@@ -187,61 +191,89 @@
             </StackPanel>
           </ScrollViewer>
         </TabItem>
+        <TabItem Header="Report"><local:ModelReportView /></TabItem>
       </TabControl>
+      </Grid>
+      <Border x:Name="NavigationRail" Visibility="{Binding IsNavigationCollapsed, Converter={StaticResource Visible}}" Background="{DynamicResource AppearanceSurface}">
+        <StackPanel Margin="4,6">
+          <Button Content="›" Command="{Binding ToggleNavigationCommand}" Padding="4" ToolTip="Espandi navigazione" AutomationProperties.Name="Espandi navigazione" />
+          <Button Content="M" Command="{Binding OpenNavigationCommand}" CommandParameter="0" Padding="4,10" Margin="0,8,0,4" ToolTip="Modello e filtri" AutomationProperties.Name="Apri albero modello" />
+          <Button Content="S" Command="{Binding OpenNavigationCommand}" CommandParameter="1" Padding="4,10" Margin="0,0,0,4" ToolTip="Sollecitazioni" AutomationProperties.Name="Apri sollecitazioni" />
+          <Button Content="◈" Command="{Binding OpenNavigationCommand}" CommandParameter="2" Padding="4,10" ToolTip="Vista" /><Button Content="V" Command="{Binding OpenNavigationCommand}" CommandParameter="3" Padding="4,10" ToolTip="Verifiche" AutomationProperties.Name="Apri verifiche" />
+        <Button Content="R" ToolTip="Report" Command="{Binding OpenNavigationCommand}" CommandParameter="4" Margin="4,6" />
+        </StackPanel>
+      </Border>
       <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="{DynamicResource AppearanceBorder}" ResizeBehavior="PreviousAndNext" />
-      <Grid Grid.Column="2" Background="#131D2B">
+      <Grid x:Name="SceneWorkspace" Grid.Column="2" Background="{Binding SceneBackground}">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition />
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border Padding="18,14" BorderBrush="#2B3C50" BorderThickness="0,0,0,1">
+        <Border x:Name="SceneHeader" Padding="18,14" BorderBrush="#2B3C50" BorderThickness="0,0,0,1">
           <StackPanel>
-            <TextBlock Text="{Binding FieldTitle}" Foreground="#F0F5FC" FontSize="16" FontWeight="SemiBold" />
-            <TextBlock Text="{Binding Summary}" Foreground="#A2B5CD" FontSize="11" Margin="0,4,0,0" />
+            <TextBlock Text="{Binding FieldTitle}" Foreground="{Binding SceneInk}" FontSize="16" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding ResultHeading}" Foreground="{Binding SceneInk}" Opacity="0.85" FontSize="11" Margin="0,4,0,0" TextTrimming="CharacterEllipsis"/>
+            <TextBlock Text="{Binding MeasurementPrompt}" Foreground="{Binding SceneInk}" FontSize="12" FontWeight="SemiBold" Margin="0,6,0,0" Visibility="{Binding IsMeasuring,Converter={StaticResource Visible}}"/>
+            <WrapPanel Margin="0,6,0,0" Visibility="{Binding RevisionLegendVisible,Converter={StaticResource Visible}}">
+              <TextBlock Text="REVISIONE  " Foreground="{Binding SceneInk}" FontSize="10"/>
+              <TextBlock Text="● Nuovi  " Foreground="#47D68D" FontSize="10"/><TextBlock Text="● Geometria  " Foreground="#FFC14C" FontSize="10"/><TextBlock Text="● Attributi  " Foreground="#CA90FF" FontSize="10"/><TextBlock Text="● Cancellati · sagoma precedente" Foreground="#FF6E75" FontSize="10"/>
+            </WrapPanel>
+            <TextBlock Text="{Binding DeformationHeading}" Foreground="{Binding SceneInk}" Opacity="0.85" FontSize="11" Margin="0,4,0,0" Visibility="{Binding ShowDeformation, Converter={StaticResource Visible}}"/>
+            <WrapPanel Margin="0,8,0,0" ToolTip="Ctrl aggiunge, Shift sottrae. Rettangolo da sinistra: contenuti; da destra: attraversati. Poligono: doppio clic per chiudere. Esc deseleziona.">
+              <WrapPanel.Resources><Style TargetType="Button" BasedOn="{StaticResource Action}"><Setter Property="Foreground" Value="{Binding SceneInk}"/><Setter Property="BorderBrush" Value="#60748A"/></Style></WrapPanel.Resources>
+              <ComboBox ItemsSource="{Binding SelectionTools}" SelectedIndex="{Binding SelectionTool}" Width="112" MinHeight="28" ToolTip="Strumento di selezione"/>
+              <ComboBox ItemsSource="{Binding SelectionTargets}" SelectedIndex="{Binding SelectionTarget}" Width="112" MinHeight="28" Margin="5,0" ToolTip="Oggetti selezionabili"/>
+              <Button Content="Isola" Command="{Binding IsolateCommand}"/><Button Content="Nascondi" Command="{Binding HideCommand}" Margin="4,0"/>
+              <Button Content="Tutto" Command="{Binding ShowAllCommand}"/><Button Content="Visibilità precedente" Command="{Binding PreviousVisibilityCommand}" Margin="4,0"/>
+              <Button Content="Zoom selezione" Command="{Binding FocusSelectionCommand}"/>
+            </WrapPanel>
           </StackPanel>
         </Border>
         <Grid Grid.Row="1">
           <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition><ColumnDefinition.Style><Style TargetType="ColumnDefinition"><Setter Property="Width" Value="0"/><Style.Triggers><DataTrigger Binding="{Binding CompareEnabled}" Value="True"><Setter Property="Width" Value="*"/></DataTrigger></Style.Triggers></Style></ColumnDefinition.Style></ColumnDefinition>
           </Grid.ColumnDefinitions>
-          <h:Viewport3DX x:Name="Viewport" BackgroundColor="#131D2B" ShowCoordinateSystem="True" ShowViewCube="True" MouseDown3D="SceneMouseDown" />
-          <Border Grid.Column="1" Padding="10,18,14,18" Width="104" Visibility="{Binding IsResultsView, Converter={StaticResource Visible}}">
-            <StackPanel VerticalAlignment="Center">
-              <TextBlock Text="{Binding SelectedComponent}" Foreground="White" FontSize="14" FontWeight="SemiBold" />
-              <TextBlock Text="{Binding Maximum}" Foreground="#D0DDED" FontSize="11" Margin="0,8,0,8" />
-              <Grid Height="200">
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="14" />
-                  <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Border CornerRadius="3" Background="{DynamicResource ModelContourPalette}" />
-                <TextBlock Grid.Column="1" Text="{Binding Middle}" Foreground="#A2B5CD" FontSize="10" VerticalAlignment="Center" Margin="6,0,0,0" />
-              </Grid>
-              <TextBlock Text="{Binding Minimum}" Foreground="#D0DDED" FontSize="11" Margin="0,8,0,0" />
-              <TextBlock Text="{Binding ResultUnit}" Foreground="#A2B5CD" FontSize="10" TextWrapping="Wrap" Margin="0,12,0,0" />
-            </StackPanel>
+          <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+          <h:Viewport3DX x:Name="Viewport" BackgroundColor="{Binding SceneBackground}" ShowCoordinateSystem="{Binding ShowGlobalAxes}" ShowViewCube="{Binding ShowViewCube}" ModelUpDirection="0,0,1" IsViewCubeEdgeClicksEnabled="True" IsViewCubeMoverEnabled="False" ViewCubeSize="1.1" ViewCubeVerticalPosition="0.8" MouseDown3D="SceneMouseDown" Focusable="True" />
+          <Canvas x:Name="SelectionCanvas" IsHitTestVisible="False" ClipToBounds="True"/>
+          <Border VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12" Padding="10" Background="#E5131D2B" IsHitTestVisible="False" MaxWidth="310">
+            <Border.Style><Style TargetType="Border"><Setter Property="Visibility" Value="Visible"/><Style.Triggers><DataTrigger Binding="{Binding HoverProbe}" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></Border.Style>
+            <TextBlock Text="{Binding HoverProbe.Caption}" Foreground="White" FontSize="11" TextWrapping="Wrap"/>
           </Border>
+          <Grid Grid.Column="1" MaxHeight="380" Margin="0,8" Visibility="{Binding IsResultsView, Converter={StaticResource Visible}}"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
+            <Button Foreground="{Binding SceneInk}" Content="Modifica scala" Command="{Binding OpenLegendSettingsCommand}" FontSize="10" Padding="4" Margin="10,6"/>
+            <local:ModelContourLegend Grid.Row="1"/>
+          </Grid>
           <Border Grid.Column="1" Padding="10,18" Width="180" Visibility="{Binding HasColorLegend, Converter={StaticResource Visible}}">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
               <StackPanel>
-                <TextBlock Text="{Binding ColorLegendTitle}" Foreground="#A2B5CD" FontSize="10" Margin="0,0,0,14" />
+                <TextBlock Text="{Binding ColorLegendTitle}" Foreground="{Binding SceneInk}" FontSize="10" Margin="0,0,0,14" />
                 <ItemsControl ItemsSource="{Binding ColorLegend}">
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                      <Grid Margin="0,0,0,12">
+                      <Button Margin="0,0,0,8" Padding="4" HorizontalContentAlignment="Stretch" Command="{Binding DataContext.SelectColorCategoryCommand, RelativeSource={RelativeSource AncestorType=local:ModelViewerControl}}" CommandParameter="{Binding Key}" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=local:ModelViewerControl}}" ToolTip="Seleziona gli elementi visibili · tasto destro per isolare, nascondere o cambiare colore">
+                        <Button.ContextMenu><ContextMenu DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                          <MenuItem Header="Seleziona visibili" Command="{Binding SelectColorCategoryCommand}" CommandParameter="{Binding PlacementTarget.DataContext.Key, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                          <MenuItem Header="Isola categoria" Command="{Binding IsolateColorCategoryCommand}" CommandParameter="{Binding PlacementTarget.DataContext.Key, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                          <MenuItem Header="Nascondi categoria" Command="{Binding HideColorCategoryCommand}" CommandParameter="{Binding PlacementTarget.DataContext.Key, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                          <Separator/>
+                          <MenuItem Header="Personalizza colore…" Command="{Binding EditColorCategoryCommand}" CommandParameter="{Binding PlacementTarget.DataContext.Key, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                        </ContextMenu></Button.ContextMenu>
+                        <Grid>
                         <Grid.ColumnDefinitions>
                           <ColumnDefinition Width="16" />
                           <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Rectangle Fill="{Binding Color}" Width="9" Height="9" VerticalAlignment="Top" Margin="0,4,0,0" />
                         <StackPanel Grid.Column="1">
-                          <TextBlock Text="{Binding Label}" TextWrapping="Wrap" Foreground="#D0DDED" FontSize="10" />
-                          <TextBlock Text="{Binding Count, StringFormat={}{0:N0} elementi}" Foreground="#91A8C2" FontSize="9" Margin="0,3,0,0" />
+                          <TextBlock Text="{Binding Label}" TextWrapping="Wrap" Foreground="{Binding DataContext.SceneInk, RelativeSource={RelativeSource AncestorType=local:ModelViewerControl}}" FontSize="10" />
+                          <TextBlock Text="{Binding Count, StringFormat={}{0:N0} elementi}" Foreground="{Binding DataContext.SceneInk, RelativeSource={RelativeSource AncestorType=local:ModelViewerControl}}" Opacity="0.7" FontSize="9" Margin="0,3,0,0" />
                         </StackPanel>
-                      </Grid>
+                        </Grid>
+                      </Button>
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -260,16 +292,23 @@
               </Style>
             </TextBlock.Style>
           </TextBlock>
+          </Grid>
+          <ContentControl x:Name="ComparisonHost" Grid.Column="1"/>
         </Grid>
-        <local:ModelTableView Grid.Row="2" Height="255" Visibility="{Binding ShowTable, Converter={StaticResource Visible}}" />
-        <Border Grid.Row="3" Padding="14,9" BorderBrush="#2B3C50" BorderThickness="0,1,0,0">
+        <Grid x:Name="DetailsPane" Grid.Row="2">
+          <Grid.MaxHeight><MultiBinding Converter="{StaticResource DrawerHeight}"><Binding ElementName="SceneWorkspace" Path="ActualHeight"/><Binding ElementName="SceneHeader" Path="ActualHeight"/><Binding ElementName="SceneFooter" Path="ActualHeight"/></MultiBinding></Grid.MaxHeight>
+          <local:ModelTableView Height="255" MaxHeight="{Binding MaxHeight,ElementName=DetailsPane}" Visibility="{Binding ShowTable, Converter={StaticResource Visible}}" />
+          <local:ModelMemberDiagramView Height="{Binding MemberDiagramHeight}" MaxHeight="{Binding MaxHeight,ElementName=DetailsPane}" Visibility="{Binding ShowMemberDiagram, Converter={StaticResource Visible}}" />
+          <local:ModelRevisionReviewView Height="310" MaxHeight="{Binding MaxHeight,ElementName=DetailsPane}" Visibility="{Binding ShowRevisionDetails,Converter={StaticResource Visible}}"/>
+        </Grid>
+        <Border x:Name="SceneFooter" Grid.Row="3" Padding="14,9" BorderBrush="#2B3C50" BorderThickness="0,1,0,0">
           <DockPanel>
             <TextBlock DockPanel.Dock="Right" FontSize="10">
               <Run Text="X " Foreground="#EC746F" />
               <Run Text="Y " Foreground="#6FCE9D" />
               <Run Text="Z" Foreground="#71B1F7" />
             </TextBlock>
-            <TextBlock Text="Destro: ruota · rotella: zoom · Maiusc + destro: sposta" Foreground="#91A8C2" FontSize="10" />
+            <TextBlock Text="Destro: ruota · rotella: zoom · Maiusc + destro: pan · Esc: deseleziona" Foreground="{Binding SceneInk}" Opacity="0.7" FontSize="10" />
           </DockPanel>
         </Border>
       </Grid>
@@ -283,6 +322,7 @@
         </Grid.RowDefinitions>
         <StackPanel Margin="16,14,16,12">
           <DockPanel>
+            <Button Content="›" Command="{Binding ToggleInspectorCommand}" DockPanel.Dock="Right" MinHeight="22" Padding="7,1" Margin="5,0,0,0" ToolTip="Riduci le proprietà a barra laterale" AutomationProperties.Name="Riduci proprietà" />
             <Button Content="×" Command="{Binding ClearSelectionCommand}" DockPanel.Dock="Right" MinHeight="22" Padding="7,1" ToolTip="Azzera selezione" />
             <TextBlock Text="PROPRIETÀ" Style="{StaticResource Caption}" Margin="0,4,0,5" />
           </DockPanel>
@@ -320,12 +360,22 @@
           <Button Content="Mostra tutto" Command="{Binding ShowAllCommand}" Margin="0,8,0,0" />
         </StackPanel>
       </Grid>
+      <Border Grid.Column="4" x:Name="InspectorRail" Background="{DynamicResource AppearanceSurface}">
+        <Border.Style><Style TargetType="Border"><Setter Property="Visibility" Value="Collapsed" /><Style.Triggers><DataTrigger Binding="{Binding ShowInspector}" Value="False"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers></Style></Border.Style>
+        <StackPanel Margin="4,6">
+          <Button Content="‹" Command="{Binding ToggleInspectorCommand}" Padding="4" ToolTip="Espandi proprietà" AutomationProperties.Name="Espandi proprietà" />
+          <TextBlock Text="PROPRIETÀ" FontSize="11" Margin="9,14,0,0"><TextBlock.LayoutTransform><RotateTransform Angle="90" /></TextBlock.LayoutTransform></TextBlock>
+        </StackPanel>
+      </Border>
     </Grid>
     <Border Grid.Row="4" Padding="14,7" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource AppearanceBorder}" Background="{DynamicResource AppearanceSurface}">
+      <StackPanel>
+      <local:ModelVerificationProgressView />
       <DockPanel>
         <ProgressBar Width="85" Height="4" IsIndeterminate="True" Visibility="{Binding IsBusy, Converter={StaticResource Visible}}" DockPanel.Dock="Right" />
         <TextBlock Text="{Binding Status}" FontSize="11" TextTrimming="CharacterEllipsis" />
       </DockPanel>
+      </StackPanel>
     </Border>
   </Grid>
 </UserControl>

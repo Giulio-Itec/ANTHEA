@@ -27,13 +27,17 @@ internal static class ModelTreeBuilder
     public static IReadOnlyList<ModelTreeItem> Build(ModelSnapshot model)
     {
         var adjacency = model.Elements.SelectMany(e => e.Nodes.Select(n => (n, e.Id))).ToLookup(p => p.n, p => p.Id);
+        var nodeFrames = (model.NodeFrames ?? []).ToDictionary(f => f.Node);
+        static string Direction(ModelDirection value) => $"({value.X:G6}, {value.Y:G6}, {value.Z:G6})";
+        AttributeRow[] NodeAxes(int node) => nodeFrames.TryGetValue(node, out var frame) ?
+            [new("Asse locale X", Direction(frame.X)), new("Asse locale Y", Direction(frame.Y)), new("Asse locale Z", Direction(frame.Z))] : [new("Assi locali nodali", "Non importati per questo nodo")];
         ModelTreeItem Item(string table, int id, string label, string icon, IReadOnlyList<int> elements, params AttributeRow[] attributes) => new()
         {
             Key = table + ":" + id, Table = table, Id = id, Label = label, Icon = icon, Elements = elements,
             Attributes = attributes.Concat(SourceAttributes(model, table, id)).ToArray()
         };
         var nodes = model.Nodes.Select(n => Item("NODE", n.Id, $"Nodo {n.Id}", "○", adjacency[n.Id].ToArray(),
-            new("X [m]", n.X.ToString("G9")), new("Y [m]", n.Y.ToString("G9")), new("Z [m]", n.Z.ToString("G9")))).ToArray();
+            new[] { new AttributeRow("X [m]", n.X.ToString("G9")), new("Y [m]", n.Y.ToString("G9")), new("Z [m]", n.Z.ToString("G9")) }.Concat(NodeAxes(n.Id)).ToArray())).ToArray();
         ModelTreeItem[] Elements(string type) => model.Elements.Where(e => e.Type == type).Select(e => Item("ELEM", e.Id, $"{type} {e.Id}", type == "PLATE" ? "▱" : "╱", [e.Id],
             new("Tipo", e.Type), new("Nodi", string.Join(", ", e.Nodes)), new("Proprietà", e.Property.ToString()), new("Rotazione [°]", e.Angle.ToString("G6")))).ToArray();
         var plates = model.Plates.Select(p => Item("THIK", p.Id, $"{p.Id} · {p.Name}", "▤", model.Elements.Where(e => e.Type == "PLATE" && e.Property == p.Id).Select(e => e.Id).ToArray(),

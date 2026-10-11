@@ -236,5 +236,41 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] Assi e assegnazioni da GPC, risultati beam/principali importati, unità/stazioni, ID, colori, isolamento/wireframe e tabelle sui dati salvati.
 - [x] Integrazione di sviluppo FRLS/RIGD/ELNK nel branch separato Model codex/viewer-boundary-data, senza aggiornare lib/Checker.
 - [x] Collaudo della copia completa MIDAS, 90 test GPC, 46 controlli ModelWorkspace, WPF sintetico/reale e quick 25 PASS; registro MOD-02.
-- [ ] Integrazione GPC nel prodotto rilasciato, inviluppi calcolati, confronto delle revisioni modello e archivio grandi dati: restano nella specifica.
+- [x] Acquisizione S4/Model 4 da main: full 79 PASS, 1 KNOWN già censito e nessun nuovo fallimento; 1196 test GPC superati.
+- [x] 11 ottobre: filtri per attributi combinabili, visibilità con nome nella sessione, scale globali/simmetriche/manuali e tabelle delle proprietà non assegnate; 67 controlli ModelWorkspace, WPF sintetico 21 e reale 44, registro MOD-03.
+- [x] 11 ottobre: navigazione e proprietà riducibili a barra, menu contestuale e tabella degli elementi associati, terne nodali esplicite, ambito della selezione e interruttori per ogni livello; ModelWorkspace reale 78, WPF sintetico 27 e reale 49 PASS, registro MOD-04.
+- [x] 11 ottobre: predisposizione MVVM della barra di avanzamento delle verifiche, attività e conteggio, annullamento cooperativo e gestione di errore/fine; motore e assegnazioni sezioni ancora da collegare, registro MOD-05.
+- [ ] Integrazione GPC nel prodotto rilasciato, inviluppi calcolati e archivio grandi dati: restano nella specifica.
+- [x] 11 ottobre: menu delle impostazioni vista, navigazione e viste standard/45°, Esc, palette e antialiasing; contratto e messaggi per aggiornamento interrotto con conservazione della copia valida. Registro MOD-06.
+- [x] Finestra di prova interattiva aggiornata: controllo WPF reale, scorciatoia alle impostazioni e simulazione esplicita dei cinque avvisi MIDAS, senza connessioni o modifiche ai file sorgente. Combinazioni locali e confronto revisioni restano separati dalla preview.
+- [x] Confronto revisioni collegato all’importazione delle copie: elenco e grafica, aggiunte/modifiche/cancellazioni, delta per campo su richiesta, annullamento e report con provenienza; MOD-19.
+- [ ] Storico completo delle copie e dei risultati nel progetto e connettori live: integrazione successiva. Aggiornamenti parziali delle copie disponibili, MOD-21.
 - [ ] Rilascio, guide globali e merge: dopo il collaudo e l'approvazione dell'utente.
+- [x] 11 ottobre: esperimento sui 49 casi statici completi, 73 definizioni Add/Envelope, misure C# e confronto numerico. Somma delle combinazioni fuori dalla UI e dalle librerie di produzione; dettagli e limiti in [benchmark casi base](../sviluppo/modelli-benchmark-casi-base.md), registro MOD-07.
+- [ ] Trasferire il metodo validato in GPC dopo la decisione sul contratto, ampliare confronto a inviluppi completi/beam, governanti e simultaneità, quindi collegare archivio e renderer. L'inviluppo completo MIDAS ha superato 180 s nella prova.
+- [x] 11 ottobre: contouring plate con media opzionale ai vertici condivisi, confini per proprietà/materiale/terne, legenda sul campo grafico e dati originali invariati. Attesi manuali e verifica dei valori nel buffer GPU; 129 controlli di logica e 74 WPF reali, registro MOD-08.
+
+- [x] 11 ottobre: schede Modello/Risultati/Vista/Verifiche, selezione grafica/per ID/per valore, clipping, opacità, letture/estremi, confronto con camera comune, viste locali persistenti e PNG; carichi riconosciuti e deformata solo da dati espliciti. Verifiche ingegneristiche invariate. Registro MOD-09.
+
+- [x] 11 ottobre: impostazioni unificate nelle schede e compositore Report MVVM; figure dinamiche in serie, testi, riferimenti alle verifiche, ricetta portabile e PDF/HTML con rigenerazione isolata. Archivio nel progetto e provider degli esiti ancora da implementare. Registro MOD-10.
+
+- [x] 11 ottobre: Geometria e Volumi e offset spostati nella scheda Vista, senza cambio involontario di scheda; accesso ai risultati dalla loro scheda e barra superiore alleggerita. Registro MOD-11.
+
+- [x] 11 ottobre: risultati separati dalla rappresentazione; contouring plate sui volumi con offset e diagrammi/contouring delle aste combinabili in wireframe o estrusione, incluse viste e report. Registro MOD-12.
+
+- [x] 11 ottobre: deformata nodale completa, campo degli spostamenti globali, scala automatica/reale/manuale, sagoma iniziale, animazione con buffer riutilizzati e import dei 49 casi MIDAS. Verificati chiaro, scuro e molto scuro su schede, menu e tabelle. Registro MOD-13.
+- [x] 11 ottobre: pacchetto completo dei 49 casi acquisiti (forze e traslazioni, 123,8 MB), lettura in streaming e limite 256 MiB; impronte delle revisioni identiche al contratto precedente. Apertura nel progetto e rendering verificati. Registro MOD-14.
+- [x] 11 ottobre: diagrammi 2D dell'asta selezionata, sei componenti, cursore comune, campioni distinti dalle interpolazioni, CSV e figure dinamiche di report. Legenda adattiva per viewport ridotti. Registro MOD-15.
+- [x] 11 ottobre: ritaglio a volume XYZ, contorno opzionale, geometria estrusa e deformata statica, selezione e report coerenti; MOD-16.
+- [x] 11 ottobre: misure fra nodi (originale/deformata reale), angoli, viste e report; inquadratura rispettosa della camera e del taglio, proiezione immediata corretta. MOD-17.
+
+- [x] 11 ottobre: topologia grafica dei bordi plate coerente con isolamento e visibilita; 11 controlli WPF sintetici/reali, cattura prima e dopo. MOD-18.
+- [x] 11 ottobre: legenda interattiva e colori per categoria personalizzabili, selezione/isola/nascondi/mostra, viste e report; MOD-20.
+- [x] 11 ottobre: quattro modalità di importazione della copia, compatibilità rigorosa per i soli risultati, annullamento, rimozione esplicita delle sollecitazioni nei modi senza risultati e provenienza; MOD-21.
+- [x] 11 ottobre: preview diretta del pacchetto completo, risorse incorporate e indicatore di caricamento; lettura 2,3–2,4 s, prima vista circa 8 s inclusa inizializzazione WPF/Direct3D. MOD-22.
+- [x] 11 ottobre: controlli coerenti nei tre temi, cubo di orientamento corretto e clic verificati, ridisegno dopo ripristino camera e pannelli inferiori adattivi. MOD-23.
+- [x] 11 ottobre: versi degli elementi, etichette fedeli dei DOF, dimensione simboli, collegamento alla tabella e confronto coerente; aree strumenti scorrevoli per conservare l'albero. MOD-24.
+- [x] 11 ottobre: letture del modulo degli spostamenti e della lunghezza delle aste delegate alle operazioni geometriche GPC tramite adattatore, con cattura prima/dopo identica; MOD-25.
+- [x] 11 ottobre: esportazione del controllo incorporato e ridimensionato corretta, tema applicato al primo avvio, preferenze della preview separate e strumento di confezionamento con tre avviatori; MOD-26.
+- [x] 11 ottobre: sincronizzazione del layout prima della cattura Direct3D, verificata aprendo i diagrammi ed esportando immediatamente; 12 controlli WPF. MOD-27.
+- [x] Collaudo della build e25b7ed: standard 43 PASS / 1 KNOWN / 0 nuovi fallimenti; WPF isolato 138 PASS, diagrammi/report 17 PASS, deformate/report 9 PASS, tutte le otto pagine PDF controllate.

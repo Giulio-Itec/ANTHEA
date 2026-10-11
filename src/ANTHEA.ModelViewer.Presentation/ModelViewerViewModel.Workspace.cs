@@ -17,11 +17,11 @@ public sealed partial class ModelViewerViewModel
     public IReadOnlyList<string> ForceUnits { get; } = ["kN", "N", "MN"];
     public IReadOnlyList<string> LengthUnits { get; } = ["m", "mm", "cm"];
     public IReadOnlyList<string> BeamLocations { get; } = ["Lungo l’asta", "Estremità I", "1/4", "Mezzeria", "3/4", "Estremità J"];
-    public bool IsBeamFamily => SelectedFamily > 0;
+    public bool IsBeamFamily => IsForceResult && SelectedFamily > 0;
     public string OverlaySummary => Snapshot == null ? "Nessun modello" : $"{Snapshot.LocalFrames?.Length ?? 0:N0} terne · {Snapshot.Boundaries?.Length ?? 0:N0} assegnazioni grafiche";
-    public string Family => FamilyKeys[Math.Clamp(SelectedFamily, 0, FamilyKeys.Length - 1)];
-    public string Axes => SelectedAxes == 0 ? "LOCAL" : "PRINCIPAL";
-    public IReadOnlyList<string> Components => ResultFields.Components(Family, Axes);
+    public string Family => IsDisplacementResult ? "*" : FamilyKeys[Math.Clamp(SelectedFamily, 0, FamilyKeys.Length - 1)];
+    public string Axes => IsDisplacementResult ? "GLOBAL" : SelectedAxes == 0 ? "LOCAL" : "PRINCIPAL";
+    public IReadOnlyList<string> Components => IsDisplacementResult ? IsDisplacementEnvelope ? ["ux", "uy", "uz"] : ["|u|", "ux", "uy", "uz"] : ResultFields.Components(Family, Axes);
     public IReadOnlyList<ResultValue> ActiveValues { get; private set; } = [];
     public IReadOnlySet<int> SelectedElementIds { get; private set; } = new HashSet<int>();
     public IReadOnlySet<int>? VisibleElementIds { get; private set; }
@@ -31,11 +31,11 @@ public sealed partial class ModelViewerViewModel
     public double SectionWidth { get; private set; }
     public double SectionHeight { get; private set; }
     public string SectionSize { get; private set; } = "";
-    public string FieldTitle => IsResultsView ? $"{Family} · {SelectedComponent} · {AxesLabels[Math.Clamp(SelectedAxes, 0, 1)]}" : ModeLabels[SelectedMode];
-    public string SampleLocation => SelectedFamily == 0 ? "Nodi dell’elemento · valori non mediati" : BeamLocations[Math.Clamp(SelectedBeamLocation, 0, 5)] + " · campioni importati";
-    public string SelectionCount => HasSelection ? $"{SelectedElementIds.Count:N0} elementi selezionati" : "Nessuna selezione";
-    public string VisibilitySummary => Snapshot == null ? "Nessun modello" : $"{(VisibleElementIds?.Count ?? Snapshot.Elements.Length):N0} / {Snapshot.Elements.Length:N0} elementi visibili";
-    public string ResultKind => Snapshot?.Results.FirstOrDefault(r => r.Name == SelectedCase)?.IsEnvelope == true ? "INVILUPPO IMPORTATO" : "CASO / COMBINAZIONE";
+    public string FieldTitle => IsResultsView ? IsDisplacementResult ? $"Spostamenti · {SelectedComponent} · Globali" : $"{Family} · {SelectedComponent} · {AxesLabels[Math.Clamp(SelectedAxes, 0, 1)]}" : RepresentationLabel;
+    public string SampleLocation => IsDisplacementResult ? "Nodi · traslazioni globali" : SelectedFamily == 0 ? IsAveragedContour ? "Nodi condivisi · media grafica" : "Nodi dell’elemento · valori non mediati" : BeamLocations[Math.Clamp(SelectedBeamLocation, 0, 5)] + " · campioni importati";
+    public string SelectionCount => !HasSelection && SelectedNodeIds.Count>0 ? $"{SelectedNodeIds.Count:N0} nodi selezionati" : HasSelection ? $"{SelectedElementIds.Count:N0} elementi selezionati" : "Nessuna selezione";
+    public string VisibilitySummary => Snapshot == null ? "Nessun modello" : $"{Snapshot.Elements.Count(e => (VisibleElementIds == null || VisibleElementIds.Contains(e.Id)) && (!ShowResults || ShowContext || IsDisplacementResult || e.Type == Family)):N0} / {Snapshot.Elements.Length:N0} elementi visibili";
+    public string ResultKind => Snapshot?.Results.FirstOrDefault(r => r.Name == SelectedCase)?.IsEnvelope == true ? "INVILUPPO IMPORTATO" : "RISULTATO IMPORTATO";
     public string Middle => HasResults ? ((ActiveValues.Min(v => v.Value) + ActiveValues.Max(v => v.Value)) / 2).ToString("G5") : "—";
 
     [ObservableProperty] private int selectedPanel;
@@ -58,7 +58,7 @@ public sealed partial class ModelViewerViewModel
     [ObservableProperty] private string inspectorTitle = "Proprietà del modello";
     [ObservableProperty] private string resultAvailability = "Importa un modello con risultati.";
 
-    partial void OnSelectedPanelChanged(int value) { if (value == 1 && !updating) SelectedMode = 2; }
+    partial void OnSelectedPanelChanged(int value) { if (value == 1 && !updating) ShowResults = true; if(value == 4) RefreshReportChoices(); }
     partial void OnSelectedFamilyChanged(int value)
     {
         bool prior = updating; updating = true; ShowContext = value == 0; updating = prior;
@@ -82,6 +82,7 @@ public sealed partial class ModelViewerViewModel
         value.IsSelected = true; ModelTreeBuilder.ExpandPath(Tree, value.Key);
         Attributes = value.Attributes; InspectorTitle = value.Label;
         SelectedElementIds = value.Elements.ToHashSet();
+        UpdateSelectedNodes(value);
         var section = value.Table == "SECT" ? Snapshot?.Sections.FirstOrDefault(s => s.Id == value.Id) : null;
         SectionWidth = section == null ? 0 : 156 * section.Width / Math.Max(section.Width, section.Height);
         SectionHeight = section == null ? 0 : 108 * section.Height / Math.Max(section.Width, section.Height);
@@ -106,10 +107,16 @@ public sealed partial class ModelViewerViewModel
     void InitializeWorkspace()
     {
         fields.Clear(); hiddenElements.Clear(); isolatedElements = null; VisibleElementIds = null; SelectedElementIds = new HashSet<int>();
+        contourAverager = null; averagedSource = null; averagedField = null;
         tableState = null;
+        ResetColorScale();
         allTree = ModelTreeBuilder.Build(Snapshot!); Tree = allTree; SearchText = "";
+        InitializeVisibility();
         displayCatalog = new ModelDisplayCatalog(Snapshot!);
+        InitializeExploration();
+        InitializeLoadGraphics();
         SelectedTreeItem = null;
+        UpdateSelectedNodes(null); OnPropertyChanged(nameof(NodeAxesSummary));
         SectionWidth = SectionHeight = 0; SectionSize = "";
         foreach (var property in new[] { nameof(HasSelection), nameof(SelectionCount), nameof(IsSectionSelected), nameof(SectionWidth), nameof(SectionHeight), nameof(SectionSize) }) OnPropertyChanged(property);
         IsolateCommand.NotifyCanExecuteChanged(); HideCommand.NotifyCanExecuteChanged(); ShowSelectedCommand.NotifyCanExecuteChanged();
@@ -122,23 +129,29 @@ public sealed partial class ModelViewerViewModel
     {
         var result = Snapshot!.Results.FirstOrDefault(r => r.Name == SelectedCase);
         var key = (SelectedCase ?? "", Family, Axes, SelectedComponent ?? "");
-        if (!fields.TryGetValue(key, out var raw)) fields[key] = raw = ResultFields.Read(result, Family, Axes, SelectedComponent ?? "");
+        if (!fields.TryGetValue(key, out var raw)) fields[key] = raw = IsDisplacementResult ? DisplacementField() : ResultFields.Read(result, Family, Axes, SelectedComponent ?? "");
         double force = ForceUnit switch { "N" => 1000, "MN" => .001, _ => 1 };
         double length = LengthUnit switch { "mm" => 1000, "cm" => 100, _ => 1 };
         bool moment = SelectedComponent?.StartsWith('M') == true;
         double scale = force * (SelectedFamily == 0 ? moment ? 1 : 1 / length : moment ? length : 1);
         string unit = SelectedFamily == 0 ? moment ? $"{ForceUnit}·{LengthUnit}/{LengthUnit}" : $"{ForceUnit}/{LengthUnit}" : moment ? $"{ForceUnit}·{LengthUnit}" : ForceUnit;
-        ActiveValues = raw.Where(v => (VisibleElementIds == null || VisibleElementIds.Contains(v.Element)) &&
-            (SelectedFamily == 0 || SelectedBeamLocation == 0 || v.Station == (SelectedBeamLocation - 1) / 4.0)).Select(v => v with { Value = v.Value * scale }).ToArray();
+        if (IsDisplacementResult) { scale = DisplacementUnit switch { "mm" => 1000, "cm" => 100, _ => 1 }; unit = DisplacementUnit; }
+        var atStation = raw.Where(v => IsDisplacementResult || SelectedFamily == 0 || SelectedBeamLocation == 0 || v.Station == (SelectedBeamLocation - 1) / 4.0).ToArray();
+        ActiveValues = atStation.Where(v => VisibleElementIds == null || VisibleElementIds.Contains(v.Element)).Select(v => v with { Value = v.Value * scale }).ToArray();
+        var contour = ContourField(SelectedFamily == 0 ? raw : atStation);
+        ContourValues = IsAveragedContour ? contour.Where(v => VisibleElementIds == null || VisibleElementIds.Contains(v.Element)).Select(v => v with { Value = v.Value * scale }).ToArray() : ActiveValues;
         Minimum = HasResults ? ActiveValues.Min(v => v.Value).ToString("G6") : "—";
         Maximum = HasResults ? ActiveValues.Max(v => v.Value).ToString("G6") : "—";
         ResultUnit = string.IsNullOrEmpty(SelectedComponent) ? "—" : $"{SelectedComponent} [{unit}]";
+        UpdateColorScale(contour, scale);
         ResultAvailability = HasResults ? $"{ActiveValues.Select(v => v.Element).Distinct().Count():N0} elementi con valori · {SampleLocation.ToLowerInvariant()}"
+            : IsDisplacementResult ? HasDisplacements ? "Nessun risultato nodale negli elementi visibili." : "Spostamenti nodali non acquisiti per questo caso."
             : SelectedFamily > 0 && SelectedAxes == 1 ? "Per le aste scegli gli assi locali. Gli assi principali delle sezioni richiedono un contratto dedicato."
             : SelectedAxes == 1 ? "Componenti principali non importate. Non si ricavano dagli estremi non simultanei di un inviluppo."
             : raw.Count > 0 ? "Nessun risultato negli elementi attualmente visibili. Usa «Mostra tutto»."
             : $"Nessun risultato {Family} disponibile per questa combinazione nella copia importata.";
         foreach (string property in new[] { nameof(HasResults), nameof(FieldTitle), nameof(ResultKind), nameof(Middle), nameof(VisibilitySummary) }) OnPropertyChanged(property);
+        foreach (string property in new[] { nameof(CanAverageContours), nameof(IsAveragedContour), nameof(ContourValueLabel), nameof(ContourValues), nameof(ContourAveragingSummary), nameof(SampleLocation) }) OnPropertyChanged(property);
         if (SelectedTreeItem?.Table == "ELEM" && SelectedTreeItem.Id is int selectedId)
             Attributes = SelectedTreeItem.Attributes.Concat(ActiveValues.Where(v => v.Element == selectedId)
                 .Select(v => new AttributeRow(v.Station.HasValue ? $"x/L = {v.Station:G3} · {ResultUnit}" : $"Nodo {v.Node} · {ResultUnit}", v.Value.ToString("G7")))).ToArray();
@@ -159,14 +172,19 @@ public sealed partial class ModelViewerViewModel
         ShowInspector = true;
     }
     private bool CanChangeVisibility() => HasSelection && !disposed;
-    [RelayCommand(CanExecute = nameof(CanChangeVisibility))] private void Isolate() { isolatedElements = SelectedElementIds.ToHashSet(); hiddenElements.ExceptWith(isolatedElements); ApplyVisibility(); }
+    [RelayCommand(CanExecute = nameof(CanChangeVisibility))] private void Isolate() { ClearVisibilityCriteria(); isolatedElements = SelectedElementIds.ToHashSet(); hiddenElements.ExceptWith(isolatedElements); ApplyVisibility(); }
     [RelayCommand(CanExecute = nameof(CanChangeVisibility))] private void Hide() { hiddenElements.UnionWith(SelectedElementIds); ApplyVisibility(); }
-    [RelayCommand] private void ShowAll() { hiddenElements.Clear(); isolatedElements = null; ApplyVisibility(); }
+    [RelayCommand] private void ShowAll() { ClearVisibilityCriteria(); hiddenElements.Clear(); isolatedElements = null; ApplyVisibility(); }
     [RelayCommand] private void ClearSelection() { SelectedTreeItem = new() { Label = "Proprietà del modello", Attributes = [new("Selezione", "Seleziona una voce nell’albero o un elemento nella scena.")] }; }
-    [RelayCommand] private void SetMode(string mode) { if (int.TryParse(mode, out int value) && value is >= 0 and <= 2) SelectedMode = value; }
+    [RelayCommand] private void SetRepresentation(string mode)
+    {
+        if (!int.TryParse(mode, out int value) || value is < 0 or > 1) return;
+        SelectedRepresentation = value;
+        SelectedPanel = 2;
+    }
     void ApplyVisibility()
     {
         VisibleElementIds = Snapshot == null || hiddenElements.Count == 0 && isolatedElements == null ? null : Snapshot.Elements.Where(e => !hiddenElements.Contains(e.Id) && (isolatedElements == null || isolatedElements.Contains(e.Id))).Select(e => e.Id).ToHashSet();
-        RefreshScene();
+        TrackVisibility(); RefreshScene();
     }
 }

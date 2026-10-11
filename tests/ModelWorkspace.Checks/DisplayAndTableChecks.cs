@@ -8,7 +8,7 @@ static partial class Program
     {
         var sample = Sample.Model();
         string oldJson = JsonSerializer.Serialize(sample);
-        Check(!oldJson.Contains("ImportMessages") && !oldJson.Contains("LocalFrames") && !oldJson.Contains("Fields"), "optional additions do not change serialization of old snapshots");
+        Check(!oldJson.Contains("ImportMessages") && !oldJson.Contains("LocalFrames") && !oldJson.Contains("NodeFrames") && !oldJson.Contains("Fields"), "optional additions do not change serialization of old snapshots");
         sample.SourceTables = new()
         {
             ["GRUP"] = JsonSerializer.SerializeToElement(new Dictionary<string, object>

@@ -481,3 +481,292 @@ assi, campioni e convenzioni; componenti mancanti o non simultanee non vengono r
 Il confronto funzionale con il manuale del solutore non introduce testi o figure di terzi nelle guide.
 Guide globali e PDF rimangono attività di rilascio dopo il collaudo e l'assestamento del refactoring.
 Vedi registro MOD-02 e specifica del modulo per copertura effettiva, evidenze e integrazioni ancora necessarie.
+
+### Estensione dell'11 ottobre: filtri e scale di visualizzazione
+
+Su richiesta dell'utente si considera anche RFEM come riferimento funzionale per navigazione, visibilità e pannello
+dei risultati. Nessun testo, figura o contenuto della documentazione esterna è copiato nella UI o nelle guide.
+Nel modulo vengono aggiunti criteri combinabili per attributi, visibilità con nome temporanee e scale di colore
+globali, simmetriche e manuali. Sono stato della vista: non mutano i dati del modello né i campioni delle sollecitazioni.
+Le proprietà non assegnate compaiono nelle tabelle senza filtri. Clipping, viste persistenti con camera, diagrammi,
+sezioni di risultato e filtri numerici restano nel seguito della specifica.
+
+Il bundle S4/Model 4 di main è stato acquisito senza ricompilarne o sostituirne le DLL. Il collaudo completo di ANTHEA
+ha dato 79 PASS e un solo KNOWN già censito; le suite GPC 1196 PASS. Il merge 7852f67 del precedente lavoro è già
+presente in main alla ripresa; le nuove aggiunte continuano sul ramo codex/model-viewer-draft, senza push o merge inverso.
+
+### Estensione dell'11 ottobre: pannelli riducibili e terne nodali
+
+L'utente richiede tutti gli alberi della vista riducibili a barra laterale, selezione/isola/nascondi per
+esplorare gruppi e proprietà, vincoli e assi locali nodali e degli elementi disattivabili. La navigazione
+delle tre schede e le proprietà collassano separatamente; la tabella si apre sugli elementi associati.
+Le terne nodali entrano nel contratto come dati opzionali normalizzati da GPC. Non si ricavano nella UI
+né si sostituiscono con assi globali quando il Converter segnala un orientamento irrisolto.
+Interruttori individuali, ambito della selezione e spegnimento collettivo restano stato della vista.
+Il ponte di sviluppo usa GPC esistente senza cambiare altri repository o il bundle distribuito.
+Alla domanda sul pulsante Aggiorna modello si chiarisce che ora rilegge una copia da file; l'acquisizione
+diretta dal software e il controllo delle revisioni modello/analisi rimangono nel piano del modulo.
+L'utente approva e precisa quattro modalità per quel flusso: Solo geometria, Geometria + attributi + carichi,
+Solo risultati, Tutto. Solo geometria abilita anche visualizzazioni semplici senza risultati.
+La specifica distingue questa decisione dalle funzioni oggi operative ed esplicita la coerenza di revisione
+e l'invalidazione dei dati incompatibili nei caricamenti parziali.
+
+### Avanzamento delle verifiche e punto di arresto
+
+L'utente richiede la progress bar per il futuro lancio delle verifiche e chiede di fermarsi a una vista
+utilizzabile per provare il modello. Si prepara quindi soltanto il contratto di avanzamento e la vista WPF,
+con annullamento cooperativo, notifiche sul contesto UI, stato finale distinto dall'esito ingegneristico
+e nessuna esecuzione fittizia nel prodotto. Le assegnazioni delle sezioni alla geometria restano una proposta
+nella specifica; il pulsante Esegui è disabilitato fino al collegamento GPC. Il runner WPF può aprire il vero
+controllo in modalità interattiva su una copia di prova, senza avviare le suite o le verifiche.
+
+### Vista e indisponibilità del solutore — 11 ottobre
+
+L'utente richiede controllo della camera e della qualità grafica, Esc e confronto delle revisioni.
+Si aggiungono impostazioni di sessione e comandi nel ViewModel; il code-behind applica solo le proprietà
+del renderer e gli eventi WPF. Il confronto documentale nasce nella libreria senza WPF; interfaccia e
+storico restano da completare dopo la nuova priorità assegnata all'esperimento sui casi base.
+Le interruzioni reali della sessione MIDAS motivano un contratto tipizzato di errore, con recupero leggibile
+e conservazione della copia valida. La vista non riceve credenziali né il corpo del messaggio HTTP.
+È una predisposizione collaudata: il connettore diretto nel prodotto rimane nel piano. Registro MOD-06.
+
+### Esperimento sui casi base — 11 ottobre
+
+Su richiesta esplicita dell'utente si interrompe l'acquisizione massiva di tutti gli inviluppi e si acquisiscono
+i 49 casi statici per misurare la costruzione locale delle 73 combinazioni/inviluppi. Il prototipo C# resta
+in tools, senza dipendenze dai progetti di produzione: non anticipa una release del motore GPC.
+Il dataset completo è acquisito e il confronto della combinazione sulle plate supera 109.744 campioni;
+il confronto completo dell'inviluppo è limitato dal timeout MIDAS di 180 secondi, dichiarato nel rapporto.
+Si conservano i risultati e le prove senza sostituire gli attesi. Prima dell'integrazione occorrono il contratto
+GPC, i casi governanti, la semantica di simultaneità e l'archivio dei grandi campi. L'utente vuole partire da
+queste misure per le considerazioni successive. Vedi [benchmark](../sviluppo/modelli-benchmark-casi-base.md), MOD-07.
+
+### Media ai vertici del contouring — 11 ottobre
+
+L'utente chiede una modalità aggiuntiva con i punti mediati sui vertici. Si implementa come operazione di
+presentazione senza WPF, opzionale e reversibile: media aritmetica dei contributi delle plate compatibili,
+con separazione per proprietà, materiale disponibile e terna locale importata. Niente trasformazione dei
+risultati tra assi diversi, ricostruzione di campioni mancanti o modifica degli estremi nei dati salvati.
+Il vicinato è quello del modello intero, indipendente dalla visibilità; tabelle e riferimenti restano originali,
+la legenda usa il campo grafico e dichiara la media. Gli inviluppi restano estremi non simultanei.
+Il controllo e le impostazioni condividono lo stato MVVM. Nessuna modifica degli altri progetti o delle
+librerie GPC. Evidenze prima/dopo e collaudi sintetici/reali nel registro MOD-08; guide globali al rilascio.
+
+
+### Esplorazione della vista e prova autonoma — 11 ottobre
+
+L'utente autorizza le sistemazioni grafiche proposte e chiede una posizione coerente nelle schede,
+rimandando le verifiche. Si distinguono dati del modello, campo di risultato e impostazioni della
+camera/rappresentazione; gli strumenti frequenti di selezione restano sopra la scena.
+Stato e comandi rimangono MVVM senza WPF, mentre hit testing, proiezione, ritaglio e GPU sono nel renderer.
+Preferenze persistenti e lettura dei carichi sono servizi documentali senza WPF.
+La deformata usa esclusivamente spostamenti globali importati, con contratto opzionale retrocompatibile:
+non si inferiscono deformazioni dalle sollecitazioni. Carichi non riconosciuti sono dichiarati, non trasformati
+in forze equivalenti. Il confronto affiancato non interpreta l'inviluppo come stato simultaneo.
+Su richiesta successiva si apre subito una copia autonoma della build di test, mantenendola separata
+dai collaudi e dalle ricompilazioni. Nessun push, merge su main o cambiamento agli altri repository.
+Evidenze e limiti nel registro MOD-09 e nella specifica del modulo; guide globali al rilascio.
+
+
+### Impostazioni uniche e composizione dei report — 11 ottobre
+
+Su richiesta dell'utente si eliminano i pannelli concorrenti: Vista e Risultati sono le sedi
+uniche delle rispettive impostazioni, mentre Report salva i riferimenti grafici necessari
+alla rigenerazione e non propone copie degli stessi editor. Le proprietà del documento
+(risoluzione e sfondo da stampa) sono override espliciti e non modificano la vista di lavoro.
+Si introduce ANTHEA.ModelReports senza WPF per contratti, persistenza e composizione, usando
+PDFsharp/MigraDoc Core con licenza MIT. Il rendering resta nell'adattatore WPF ed è isolato
+dalla scena interattiva. L'esportazione comprende sempre il sorgente modificabile e il PDF.
+Le verifiche restano rinviate: il capitolo conserva il riferimento al foglio e indica
+esplicitamente l'assenza degli esiti. Nessun nuovo calcolo ingegneristico in ANTHEA.
+La prima ricetta è portabile, esterna al progetto; integrazione nell'archivio, tabelle e
+aggiornamenti incrementali sono passi successivi dichiarati. Nessun push, merge su main,
+modifica delle librerie GPC o pubblicazione delle guide del prototipo. Registro MOD-10.
+
+
+### Collocazione delle modalità geometriche — 11 ottobre
+
+Geometria e Volumi e offset passano dalla barra superiore alla scheda Vista, su richiesta
+dell’utente. Il comando resta nel ViewModel e mantiene aperta Vista; la scheda Risultati è
+l’accesso alla rappresentazione delle sollecitazioni. Nessuna modifica del renderer. MOD-11.
+
+### Risultati sovrapposti a geometria e volumi — 11 ottobre
+
+Risultati è un livello attivabile sopra la rappresentazione geometrica. Il cambio tra superficie
+analitica ed estrusione non spegne il campo. Plate: le facce estruse ripetono la sollecitazione
+importata, senza interpretarla come distribuzione nello spessore. Aste: diagrammi e contouring
+hanno interruttori distinti; si interpolano solo stazioni importate. Il volume dipende dai profili
+reali disponibili nella copia; per profili non supportati si mantiene l'asse. Nessun calcolo
+strutturale né aggiornamento delle librerie GPC. Stato interamente MVVM, geometria e materiali
+nel renderer WPF, persistenza delle preferenze nella libreria non WPF. MOD-12.
+
+### Deformate e temi del visualizzatore — 11 ottobre
+
+La deformata usa esclusivamente traslazioni nodali globali importate. Forma, campo colorato e
+rappresentazione geometrica sono indipendenti. Spessori e offset conservano la direzione
+originaria, perché il contratto attuale non contiene rotazioni di sezione; nessuna ricostruzione
+di curvature dalle sollecitazioni. Gli elementi con dati incompleti restano come contorno grigio
+nella posizione originale. Un inviluppo per componenti non genera una forma deformata né un
+modulo vettoriale da estremi non simultanei.
+
+L'animazione interpola graficamente tra due configurazioni riutilizzando gli stessi buffer;
+non rappresenta il tempo dell'analisi. Colori e valori non vengono scalati. La pausa ricostruisce
+la vista completa alla fase corrente; esportazione e salvataggio congelano una fase esplicita.
+Taglio e confronto affiancato restano disponibili in forma statica. Preferenze, comandi e stato
+sono MVVM; timer e buffer appartengono alla vista/renderer. Import e persistenza restano senza WPF.
+
+Si riusano i tre aspetti globali di ANTHEA, senza un secondo sistema di temi nel modulo. I test
+non modificano la preferenza salvata. Lo sfondo del modello rimane una scelta grafica indipendente
+e i colori ingegneristici non cambiano con l'aspetto. Nessuna modifica alle librerie GPC. MOD-13.
+
+## Pacchetti Modelli con più casi (11 ottobre 2026)
+
+Il limite preliminare di 64 MB impediva di aprire il pacchetto reale dei 49 casi, pur avendo
+solo 3.755 nodi e 3.616 elementi. Il limite esplicito è ora 256 MiB e la lettura del file usa
+lo stream, con cancellazione. Anche SHA-256 viene alimentato in streaming: ordinamento e
+serializzazione UTF-8 rimangono identici, senza invalidare i riferimenti salvati. Il formato
+del progetto non cambia; un archivio dedicato dei grandi risultati rimane un'evoluzione distinta.
+
+## Diagrammi delle aste e report (11 ottobre 2026)
+
+Il dettaglio 2D usa gli stessi selettori di caso, componente e unità della vista 3D. Il pannello
+inferiore alterna tabella e diagrammi; non duplica la configurazione. È disponibile per beam,
+truss e altre famiglie lineari riconosciute, limitatamente ai campioni importati. Segmenti
+rettilinei fra stazioni, nessuna estrapolazione e nessuna curva di analisi ricostruita. Un valore
+isolato resta un punto; stazioni ambigue non vengono mediate. Il cursore distingue il campione
+originale dall'interpolazione grafica. I sei grafici mantengono le rispettive unità.
+
+Le figure di report salvano elemento, caso, componente o tutte le componenti, unità e cursore.
+Alla rigenerazione i grafici vengono ricreati dai valori correnti; riferimenti mancanti bloccano
+la figura. La forma d'onda e i dati strutturali non si modificano. Registro MOD-15.
+
+## Volume di ritaglio (11 ottobre 2026)
+
+Il volume conserva la porzione interna a sei piani globali. Mesh e linee sono tagliate, non solo
+nascoste per baricentro; ID e coordinate del colore rimangono associati alla geometria. Nessuna
+faccia di chiusura o distribuzione nello spessore viene inventata. Il contorno si può spegnere.
+La scala del campo resta riferita ai campioni degli elementi attivi, anche fuori dal taglio,
+con indicazione nella vista e nel report. Deformata statica ammessa, animazione sospesa. MOD-16.
+
+## Misure e camera (11 ottobre 2026)
+
+Le operazioni distanza/angolo sono delegate a GPC.Geometry già distribuita; ModelWorkspace
+adatta i punti importati e le traslazioni relative, senza nuove formule geometriche in WPF
+o Presentation. Nessuna DLL viene aggiornata. Le misure reali non dipendono dalla scala
+grafica e richiedono dati simultanei completi. Inviluppi e riferimenti mancanti restano
+indisponibili; il report rifiuta riferimenti invalidi. Il disegno segue la forma visualizzata
+con una base della misura sempre esplicita. Esc termina lo strumento e deseleziona.
+
+Inquadra mantiene orientamento e tipo di proiezione dopo la prima apertura; sul taglio usa
+i limiti grafici attivi. Proiezione di etichette e selezione dalla camera corrente, non dal
+contesto GPU del fotogramma precedente. MOD-17.
+
+## Confini dei plate visibili (11 ottobre 2026)
+
+La topologia del renderer dipende dai plate effettivamente rappresentati, inclusa la completezza
+dei dati nodali della deformata. La cache si aggiorna solo quando cambia questo insieme.
+Le facce interne vengono soppresse solo fra due plate complanari con stessa proprieta;
+confini diversi o non manifold rimangono. Il taglio grafico conserva il contratto separato
+senza facce artificiali. Cattura prima/modifica/confronto in `visible-boundaries`. MOD-18.
+
+## Check della revisione (11 ottobre 2026)
+
+Si collega il servizio documentale esistente alla UI. Confronto automatico fra copie al termine
+di una importazione valida, oppure caricamento esplicito della copia precedente senza cambiare
+il modello corrente. Solo ID corrispondenti, tolleranza coordinate 1 micrometro. Si conserva
+in memoria l’ultimo confronto; annullamento e fallimento mantengono quello valido.
+
+Il delta e asincrono, per il campo scelto nei Risultati e soltanto su richiesta. Le geometrie
+cambiate sono escluse inizialmente, includibili con indicazione esplicita. Si confrontano valori
+importati, senza medie grafiche; su inviluppi si sottraggono estremi, non si crea un inviluppo
+della differenza. Le annotazioni salvano provenienza e sagome precedenti; il PDF ne verifica
+la revisione corrente, bloccando annotazioni obsolete. Per ricomputare il delta dopo riapertura
+serve la copia precedente con i risultati: non viene incorporata nelle preferenze grafiche.
+Archivio storico e connessioni live rimangono distinti. MOD-19.
+
+## Colori per categoria e aggiornamenti parziali (11 ottobre 2026)
+
+I colori personalizzati sono preferenze della vista, identificati da modalità e chiave della
+categoria, separati dai dati importati. La legenda mostra le categorie visibili; l’editor
+mantiene anche quelle nascoste. Seleziona agisce sui visibili; Isola/Nascondi/Mostra su tutta
+la categoria. In caso di gruppi sovrapposti resta la regola deterministica del gruppo più
+specifico. L’albero continua a mostrare tutte le appartenenze. Ricette, confronto e report
+usano gli stessi colori. MOD-20.
+
+L’aggiornamento delle copie distingue solo geometria, geometria/attributi/carichi, soli risultati
+e tutto. Solo geometria include le dimensioni reali delle sezioni, spessori, offset e terne
+necessarie alla rappresentazione, ma esclude materiali, gruppi, condizioni al contorno e carichi.
+I primi due modi eliminano i risultati dalla nuova copia: non si conserva un campo precedente
+su un modello cambiato. I soli risultati sostituiscono tutti i casi e richiedono identità di
+nodi, elementi, proprietà, terne, vincoli e tabelle acquisite. Si tollera soltanto l’ordine
+degli oggetti JSON e la scrittura numerica equivalente; non si rimappano nodi o elementi.
+Provenienza e ambito sono salvati nel pacchetto. Annullamento/rifiuto conservano la copia valida.
+La lettura diretta dai software resta un adattatore da integrare. MOD-21.
+
+## Avvio di prova, temi e navigazione (11 ottobre 2026)
+
+La preview può aprire direttamente un pacchetto, senza costruire un archivio Progetti temporaneo.
+Ospita sempre il controllo di produzione; non introduce un renderer alternativo. Le risorse
+di stile dell’applicazione sono incorporate nel runner per renderlo avviabile da altre cartelle.
+Lettura in background con indicatore e annullamento alla chiusura della finestra di caricamento.
+Le modifiche del modello nella preview rimangono in memoria. MOD-22.
+
+CheckBox ed Expander del modulo hanno template con le risorse del tema, mantenendo binding,
+tastiera e automazione WPF. Il cubo Helix usa una scala 1,1: il precedente 110 era stato inteso
+erroneamente come pixel. Posizione adattiva, texture propria, selezione distinta dal modello.
+Dopo la sostituzione della camera si invalida esplicitamente il frame: il solo cambio della
+proprietà Camera non aggiorna il contesto usato dal cubo nella versione distribuita.
+Tabelle/diagrammi/revisioni riducono la propria altezza per conservare la viewport. MOD-23.
+
+## Lettura dei versi e delle condizioni al contorno (11 ottobre 2026)
+
+Le frecce seguono la connettività importata I→J / N1→N2; non sostituiscono le terne locali.
+Le etichette dei vincoli riportano il testo dei DOF salvato, senza dedurre rigidezze o cerniere.
+I collegamenti con stesso primo nodo, tipo, elemento e testo sono raggruppati soltanto per
+l'etichetta, con conteggio esplicito; la tabella conserva ogni assegnazione. Massimo 40 etichette,
+limite anti-sovrapposizione e clipping; disabilitate durante l'animazione. Scala dei simboli
+separata da geometria e risultati. Stato conservato in viste, ricette e confronto. MOD-24.
+
+Le aree degli strumenti sopra e sotto l'albero hanno scorrimento e altezza massima relativa;
+l'apertura degli espansori non può più eliminare l'albero o rendere irraggiungibili i comandi.
+La cattura precedente e quella corretta restano fra le evidenze del passo.
+
+## Letture geometriche nel visualizzatore (11 ottobre 2026)
+
+Il ViewModel richiede il modulo delle traslazioni e la lunghezza dell'asta all'adattatore
+senza WPF ModelMeasurements, che riusa Vector3d.Length della DLL GPC già distribuita.
+Per i vettori si mantiene la normalizzazione numerica di ingresso; nessun nuovo algoritmo
+strutturale e nessun aggiornamento del bundle. Le formule di interpolazione/animazione e
+inquadratura rimangono operazioni esclusivamente grafiche. Catture prima/dopo identiche
+per vettori nulli, ordinari, molto grandi e molto piccoli e per la posizione lungo l'asta.
+Attesi indipendenti invariati. MOD-25.
+
+## Preview locale ed esportazione del controllo (11 ottobre 2026)
+
+La preview confezionata riusa il controllo di produzione, richiede il runtime Desktop .NET 8,
+apre la copia offline e mantiene le importazioni in memoria. Tre avviatori: contouring,
+deformata e aste con grafici 2D. Le viste salvate sono nella cartella della preview; il servizio
+WPF riceve uno store opzionale, mantenendo il percorso dell'applicazione quando non fornito.
+Manifest con commit, stato dell'albero e SHA-256 dei file, rifiuto di cartelle già popolate.
+Nessuna credenziale, connessione MIDAS, installazione o pubblicazione esterna. MOD-26.
+
+La cattura del controllo deve usare l'area effettivamente disposta da WPF, inclusa la sua
+traslazione rispetto al contenitore. I limiti dei discendenti Direct3D possono conservare
+le dimensioni precedenti: non sono adatti a determinare la scala dell'immagine. Bitmap
+caricata da stream, senza dipendere dalla cache degli URI. Prima/dopo e prova con margini
+e ridimensionamento conservati. I nuovi host di prova sono registrati con Appearance.Watch
+prima di mostrarli, come le finestre dell'applicazione, per applicare anche le barre di
+scorrimento al primo avvio scuro. Nessuna modifica al gestore dei temi dell'applicazione.
+
+## Cattura dopo un cambio di disposizione (11 ottobre 2026)
+
+Prima di acquisire il frame Direct3D si completa il layout WPF e si aggiorna la dimensione
+del render host. Altrimenti l'apertura dei diagrammi può lasciare una cattura alta 870 pixel
+ridotta dentro una viewport alta 270 pixel fisici. Il controllo immediato ora acquisisce
+le dimensioni corrette, senza dover aspettare manualmente un fotogramma. MOD-27.
+
+Il collaudo standard sulla build e25b7ed chiude con 43 PASS, un solo KNOWN già censito e
+nessun nuovo fallimento. La prima batteria intensiva di schermate non ha prodotto l'esito
+finale durante l'esecuzione parallela e non è conteggiata come superata. La ripetizione
+isolata, con attesa esplicita del processo, termina con codice 0 e 138 controlli PASS.
+Diagrammi/report: 17 PASS; deformate/report: 9 PASS; otto pagine PDF ispezionate.

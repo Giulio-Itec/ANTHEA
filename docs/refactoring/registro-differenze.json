@@ -1034,7 +1034,7 @@
       "famiglia": "progetti/modelli",
       "categoria": "intenzionale",
       "stato": "dichiarato",
-      "descrizione": "Il branch incorpora main ANTHEA 1.1.0 e sviluppa uno spazio Modelli autonomo con tre tab, albero degli attributi, assi e assegnazioni da GPC, risultati con famiglia/assi/unità/stazioni, selezione, ID, colori per attributo, isolamento e wireframe dei nascosti. Le tabelle proiettano i dati salvati e si collegano alla scena; nessun aggiornamento dei calcoli legacy. Il Converter GPC viene esteso nel branch separato codex/viewer-boundary-data, commit 14a0c859, su autorizzazione successiva dell'utente. Nessun aggiornamento di lib/Checker.",
+      "descrizione": "Il branch incorpora main ANTHEA 1.1.0 e sviluppa uno spazio Modelli autonomo con tre tab, albero degli attributi, assi e assegnazioni da GPC, risultati con famiglia/assi/unità/stazioni, selezione, ID, colori per attributo, isolamento e wireframe dei nascosti. Le tabelle proiettano i dati salvati e si collegano alla scena; nessun aggiornamento dei calcoli legacy. Il Converter GPC viene esteso nel branch separato codex/viewer-boundary-data, commit 14a0c859, su autorizzazione successiva dell'utente. Nessun rilascio del Converter sperimentale in lib/Checker. Il successivo merge a83c92d acquisisce integralmente da main il bundle S4/Model 4 descritto in S4-1; full 79 PASS, 1 KNOWN già censito, 0 NEW-FAIL e 1196 test GPC superati.",
       "codice": ["src/ANTHEA.ModelWorkspace", "src/ANTHEA.ModelViewer.Presentation", "src/ANTHEA.ModelViewer.Wpf", "X.Desktop/Wpf/ProjectModels.cs", "tools/ModelViewer.Prepare", "tools/model-viewer"],
       "segno": "nessuna variazione ai risultati importati oltre alla conversione delle unità di visualizzazione; nessun trasferimento automatico ai fogli",
       "effetto_quantificato": { "sintesi": "Copia reale: 3755 nodi, 181 beam, 3435 plate, 3616 terne, 1645 simboli di assegnazione; 13718 campioni plate e 905 campioni beam. Sei cambi di componente fino a OnRendered: 98.97-122.22 ms, mediana 108.70 ms; esclusi acquisizione, solver e calcolo inviluppo. Attesi offset -0.85/-0.55 m e interpolazione 25 invariati." },
@@ -1114,6 +1114,656 @@
         "tests/ANTHEA.Testing capture e compare",
         "Checker/GPCChecker.Test.Calculation/DetachedCalculationTests.cs (RawDomainPointEntriesAreObsoleteAndUnchanged)"
       ]
+    },
+    {
+      "id": "MOD-03",
+      "titolo": "Filtri combinabili, visibilità temporanee e scale grafiche indipendenti dai risultati",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Estensione del visualizzatore su richiesta dell'utente di considerare anche RFEM come riferimento funzionale. Visibilità per famiglia/materiale/sezione/spessore/gruppo con intersezione o unione; insiemi di ID richiamabili con nome nella sessione. Scala colori automatica, globale per caso e campo, simmetrica o manuale. La saturazione avviene al pixel senza modificare campioni, tabelle o snapshot. Corretto inoltre il filtro implicito delle sezioni e degli spessori: la tabella senza filtri include anche le proprietà salvate non assegnate. Nessun cambiamento al motore di calcolo o alle librerie distribuite.",
+      "codice": ["src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Visibility.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ColorScale.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Tables.cs", "src/ANTHEA.ModelViewer.Wpf/ModelVisibilityView.xaml", "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.cs"],
+      "segno": "sola rappresentazione grafica e completezza delle tabelle senza filtri; impronta e valori del modello invariati",
+      "effetto_quantificato": { "sintesi": "Fixture: l'intersezione di plate e sezione beam è vuota, l'unione contiene i 3 elementi. Limiti grafici 15,5/30,5 non tagliano i valori 10/40 della tabella; cambiando unità diventano 15500/30500. Prima della correzione la tabella senza filtri perdeva la sezione non assegnata (prova fallita catturata); dopo mostra entrambe le sezioni e entrambi gli spessori. Contouring sintetico: valore bilineare centrale 25 invariato e coordinata colore 0,5 con limiti 15/35; offset attesi -0,85/-0,55 m invariati. Sul modello reale l'intersezione plate/spessore 3 contiene 320 elementi in scena e tabella." },
+      "decisione": { "data": "2026-10-11", "utente": "continua da dove ti sei interrotta; come consigli su visualizzatori, opzioni e filtri usa anche RFEM", "esito": "funzioni MVVM nel branch separato, dati indipendenti dal solutore, nessun contenuto esterno copiato nelle guide e nessun push o nuovo merge verso main" },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelWorkspace.Checks: 67 PASS", "ModelViewer.UiChecks sintetico: 21 PASS", "ModelViewer.UiChecks reale: 44 PASS"],
+      "evidenze": ["supporto/artefatti/model-viewer/visibility-scale/before-table-fix", "supporto/artefatti/model-viewer/visibility-scale/logic", "supporto/artefatti/model-viewer/visibility-scale/synthetic", "supporto/artefatti/model-viewer/visibility-scale/real"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-04",
+      "titolo": "Barre laterali, ispezione dei rami e assi nodali espliciti",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Navigazione e proprietà riducibili a barre mantenendo lo stato della vista. Il menu contestuale agisce sul ramo sotto il puntatore e apre la tabella degli elementi associati. Terne nodali opzionali nello snapshot, orientate dal ponte GPC esistente, separate dalle terne degli elementi. Interruttori e ambito selezione per assi, restrain, constraint, link e release; spegnimento collettivo dei sei livelli e opzioni separate per assi globali e cubo vista. Nessuna variazione dei calcoli o delle DLL distribuite.",
+      "codice": ["src/ANTHEA.ModelWorkspace/ModelSnapshot.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Panels.cs", "src/ANTHEA.ModelViewer.Presentation/ModelTreeItem.cs", "src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.xaml", "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.cs", "tools/ModelViewer.Prepare"],
+      "segno": "estensione opzionale della copia importata e sola rappresentazione; vecchie impronte invariate quando le terne nodali sono assenti",
+      "effetto_quantificato": { "sintesi": "Barre da 44 pixel, oltre 400 pixel restituiti alla scena a 1600 pixel di larghezza. Copia reale con 3755 terne nodali globali (SKEW acquisita vuota). Fixture ruotata X=(0,1,0) verificata nella geometria WPF; selezionare un nodo mostra una sola terna. Spegnimento collettivo con un aggiornamento scena. Attesi di offset e interpolazione invariati. Cambio campo già caricato: 120.74-150.78 ms fino a OnRendered, mediana 130.64 ms, esclusi acquisizione e calcolo inviluppi." },
+      "decisione": { "data": "2026-10-11", "utente": "alberi riducibili a barra laterale, selezione/isola/nascondi di gruppi e proprietà, vista vincoli e assi nodali/elementi, tutto disattivabile", "esito": "implementazione MVVM nel ramo separato; quattro modalità del futuro aggiornamento concordate nella specifica: Solo geometria, Geometria + attributi + carichi, Solo risultati, Tutto" },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelWorkspace.Checks reale: 78 PASS", "ModelViewer.UiChecks sintetico: 27 PASS", "ModelViewer.UiChecks reale: 49 PASS"],
+      "evidenze": ["supporto/artefatti/model-viewer/panels-node-axes/logic", "supporto/artefatti/model-viewer/panels-node-axes/synthetic-final", "supporto/artefatti/model-viewer/panels-node-axes/real-final"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-05",
+      "titolo": "Predisposizione dell'avanzamento delle verifiche in MVVM",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Contratto di avanzamento senza WPF e barra indipendente dai pannelli laterali: preparazione indeterminata, conteggio attività, annullamento cooperativo, esecuzione completata/annullata/fallita. Il lavoro futuro è delegato a un runner e non contiene calcoli nel ViewModel. Il comando di esecuzione rimane disabilitato finché il motore GPC non è collegato. Il test WPF alimenta una sola anteprima grafica esplicitamente etichettata; nessun risultato ingegneristico simulato.",
+      "codice": ["src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Verifications.cs", "src/ANTHEA.ModelViewer.Wpf/ModelVerificationProgressView.xaml", "tests/ModelWorkspace.Checks/VerificationProgressChecks.cs", "tests/ModelViewer.UiChecks/Program.cs"],
+      "segno": "sola predisposizione della UI; nessuna variazione dei dati o dei calcoli",
+      "effetto_quantificato": { "sintesi": "11 nuovi controlli di ciclo asincrono: totale sconosciuto, conteggio, dati incoerenti, doppio avvio, annullamento in attesa, mancato 100% su annullamento/errore, notifiche tardive, chiusura della vista. WPF verifica un avanzamento 37/100 simulato dal test con pannelli chiusi e arresto a 37 dopo annullamento." },
+      "decisione": { "data": "2026-10-11", "utente": "preparare la progress bar per le verifiche; impostare la vista e fermarsi a un punto utilizzabile per provare il modello; rispettare MVVM", "esito": "UI e aggancio asincrono predisposti, motore e assegnazioni rimandati; modalità interattiva del controllo reale su una copia del modello di prova" },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelWorkspace.Checks: 87 PASS", "ModelViewer.UiChecks reale: 56 PASS"],
+      "evidenze": ["supporto/artefatti/model-viewer/verification-progress/logic", "supporto/artefatti/model-viewer/verification-progress/validated"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-06",
+      "titolo": "Impostazioni della vista e recupero delle importazioni interrotte",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Camera regolabile, viste standard e a 45 gradi, sfondo, antialiasing, materiali e palette continue. Esc deseleziona. Errori della sorgente tipizzati e banner MVVM con recupero, senza sostituzione della copia valida o esposizione dei corpi HTTP. Confronto documentale di revisioni disponibile come servizio iniziale, non ancora collegato alla UI. Nessun calcolo ingegneristico o modifica alle DLL distribuite.",
+      "codice": ["src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ViewSettings.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ImportFailure.cs", "src/ANTHEA.ModelViewer.Wpf/ModelViewSettingsView.xaml", "src/ANTHEA.ModelWorkspace/ModelSourceException.cs", "src/ANTHEA.ModelWorkspace/ModelRevisionComparison.cs"],
+      "segno": "sola rappresentazione e gestione documentale; dati ingegneristici invariati",
+      "effetto_quantificato": { "sintesi": "Isolinee opzionali inizialmente spente, tre palette con stesso campo scalare, Z stabile e inerzia disattivata. 105 controlli di logica e 65 WPF superati. Sei cambi di componente già caricato: mediana 92,89 ms fino a OnRendered, massimo 104,79 ms. Il banner MIDAS è provato con un errore simulato; il connettore diretto nel prodotto resta da integrare." },
+      "decisione": { "data": "2026-10-11", "utente": "migliorare rendering, navigazione e contouring; predisporre check revisione e messaggi quando MIDAS non risponde", "esito": "impostazioni e feedback MVVM nel branch; priorità successiva al benchmark con 49 casi base; nessun push o merge verso main" },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelWorkspace.Checks: 105 PASS", "ModelViewer.UiChecks reale: 65 PASS", "quick: 27 PASS, 0 nuovi fallimenti"],
+      "evidenze": ["supporto/artefatti/model-viewer/base-case-benchmark/ui", "supporto/artefatti/ci/20261011-104113-modelli-casi-base"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-07",
+      "titolo": "Esperimento riproducibile sulle combinazioni dai casi statici",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Acquisizione in sola lettura di 49 casi statici su 3435 plate e 181 beam. Prototipo C# isolato in tools, senza riferimenti dai progetti di produzione, per Add ed Envelope locali con dipendenze annidate e segni. Nessun risultato calcolato dal prototipo sostituisce attesi o dati del progetto. Modello MIDAS e librerie GPC invariati.",
+      "codice": ["tools/ModelViewer.CombinationBench", "tools/model-viewer/Read-MidasBaseCases.ps1", "tools/model-viewer/Read-MidasBenchmarkReferences.ps1", "tests/ModelViewer.CombinationBench.Checks"],
+      "segno": "esperimento e misure; nessuna modifica delle formule o dei risultati di produzione",
+      "effetto_quantificato": { "sintesi": "Acquisizione 517,02 s; 115174 scalari per caso. Mediane a dati caricati: SLU_Q1_1 9,657 ms, ENV_SLU 57,864 ms, ENV_SLV 63,755 ms, tutte le 73 definizioni 139,888 ms. Confronto campione 5408 scalari e combinazione completa plate 109744 scalari: zero scarti fuori tolleranza. Inviluppo completo MIDAS non ottenuto entro 180 s; confronto completo inviluppi/beam ancora aperto. UI/GPU, principali e CBall esclusi dal benchmark." },
+      "decisione": { "data": "2026-10-11", "utente": "guarda cosa ottieni con solo i 49 casi; misura i tempi per creare le combo; da lì partiamo con le considerazioni", "esito": "misure reali e limiti salvati; motore sperimentale tenuto fuori dal prodotto, nessuna modifica agli altri repository e nessun push" },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["attesi manuali indipendenti del prototipo PASS", "5408 confronti sul campione PASS", "109744 confronti sulla combinazione completa plate PASS", "quick: 27 PASS, 0 nuovi fallimenti"],
+      "evidenze": ["supporto/artefatti/model-viewer/base-case-benchmark/run-01/source", "supporto/artefatti/model-viewer/base-case-benchmark/full-01", "supporto/artefatti/model-viewer/base-case-benchmark/full-combination-validation"],
+      "documento": "docs/sviluppo/modelli-benchmark-casi-base.md"
+    },
+    {
+      "id": "MOD-08",
+      "titolo": "Contouring opzionale con media ai vertici condivisi",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Media aritmetica esclusivamente grafica dei contributi nodali delle plate complete. Proprietà, materiali importati e terne locali compatibili delimitano il vicinato. Visibilità indipendente dalla media; legenda e isolinee seguono il campo visualizzato, mentre tabelle, query, CSV, riferimenti e snapshot conservano gli originali. Stato e servizio senza WPF nella presentazione; nessuna modifica al motore o alle DLL GPC.",
+      "codice": ["src/ANTHEA.ModelViewer.Presentation/PlateContourAverager.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Contouring.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ColorScale.cs", "src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.xaml", "tests/ModelWorkspace.Checks/ContourAveragingChecks.cs", "tests/ModelViewer.UiChecks/ContourRenderingChecks.cs"],
+      "segno": "modifica intenzionale e reversibile della sola rappresentazione grafica; dati ingegneristici invariati",
+      "effetto_quantificato": { "sintesi": "Attesi manuali: (20-200)/2=-90 e (30-30)/2=0, anche con aree diverse. GPU: campi 10 e 30 condividono il bordo al valore 20 (UV 0,5). Spalla reale: 3531 vertici mediati, 8244 contributi modificati su 13718; minimo Myy grafico da -563,353972 a -496,819197, massimo 1832,324824 invariato. Prima attivazione: 53,51 ms di preparazione sincrona, esclusi completamento GPU e acquisizione." },
+      "decisione": { "data": "2026-10-11", "utente": "aggiungere la possibilità di avere il contouring con i punti mediati sui vertici", "esito": "opzione MVVM nel branch separato, controllo delle discontinuità, prove e finestra interattiva; nessun push o merge su main" },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelWorkspace.Checks: 129 PASS", "ModelViewer.UiChecks reale: 74 PASS, nessun errore di binding", "ModelViewer.UiChecks sintetico: 32 PASS", "quick: 27 PASS, nessun nuovo fallimento"],
+      "evidenze": ["supporto/artefatti/model-viewer/nodal-averaging/logic", "supporto/artefatti/model-viewer/nodal-averaging/real", "supporto/artefatti/ci/20261011-111122-modelli-media-vertici", "supporto/artefatti/ci/20261011-111314-modelli-media-vertici-wpf"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-09",
+      "titolo": "Esplorazione grafica, confronto e viste persistenti organizzati per scheda",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Schede Modello, Risultati e Vista; selezione per clic/rettangolo/poligono/ID/valore, clipping grafico, opacità, letture e min/max, confronto con camera comune, viste locali persistenti, palette a fasce ed esportazione PNG. Carichi espliciti riconosciuti e wireframe deformato solo da spostamenti nodali opzionali importati. Verifiche e dati originali invariati.",
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Exploration.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Exploration.cs",
+        "src/ANTHEA.ModelViewer.Wpf/SceneClipping.cs",
+        "src/ANTHEA.ModelWorkspace/ModelViewPresets.cs",
+        "src/ANTHEA.ModelWorkspace/MidasGraphicalLoads.cs",
+        "tests/ModelWorkspace.Checks/ExplorationChecks.cs",
+        "tests/ModelViewer.UiChecks/ExplorationRenderingChecks.cs"
+      ],
+      "segno": "modifiche grafiche e preferenze locali; nessuno spostamento del motore o modifica degli attesi",
+      "effetto_quantificato": {
+        "sintesi": "Taglio del triangolo x>=0 con UV e ID conservati; ricentratura verificata anche a coordinate globali 1e9 m. Deformata sintetica 0,1 m × fattore 2 = 0,2 m; dati assenti disabilitano la deformata reale. Stessa camera e due legende, scala comune solo per unità compatibili. PNG 1600/2400/3840. Cambio campo reale già caricato: mediana 71,9955 ms, massimo 97,5869 ms fino a OnRendered; esclusi importazione e combinazioni."
+      },
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "crea tutto, dai un senso alla posizione nelle tab; apri una versione di test anche con la build precedente",
+        "esito": "funzioni MVVM e test nel branch separato, prova interattiva autonoma aperta, nessun push o merge su main"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "ModelWorkspace.Checks: 163 PASS",
+        "ModelViewer.UiChecks sintetico: 32 PASS",
+        "quick: 27 PASS, nessun nuovo fallimento",
+        "ModelViewer.UiChecks reale: 99 PASS, nessun errore di binding",
+        "Ripetizione grafica finale: 33 PASS, inclusi DPI, opacità, rotazione e proiezioni"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/nodal-averaging/real",
+        "supporto/artefatti/model-viewer/exploration/logic-final",
+        "supporto/artefatti/model-viewer/exploration/validated",
+        "supporto/artefatti/model-viewer/exploration/reviewed",
+        "supporto/artefatti/ci/20261011-120808-modelli-esplorazione"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-10",
+      "titolo": "Impostazioni unificate e report dinamico del modello",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Unica sede degli editor di vista e risultati. Report MVVM con figure rigenerabili da stato salvato, serie viste/casi, testo, ordine e inclusione, riferimento alle verifiche. Esportazione PDF/HTML e ricetta portabile con provenienza, cancellazione e renderer indipendente.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelReports",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Reports.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelReportRenderSession.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelReportView.xaml",
+        "src/ANTHEA.ModelWorkspace/ModelViewPresets.cs"
+      ],
+      "segno": "nessuna differenza nei dati o nelle verifiche ingegneristiche; redistribuzione UI e nuova composizione documentale",
+      "effetto_quantificato": {
+        "sintesi": "Ricetta schema 1 fino a 100 capitoli, immagini 1600/2400/3840 pixel. Prova 3 figure, 6 pagine, circa 3,5 s con dati caricati. Impronta del modello e stato della vista invariati."
+      },
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "uniformare le schede evitando impostazioni duplicate e predisporre report dinamici con viste, combinazioni, testi e sezioni di verifica",
+        "esito": "implementazione nel branch separato; verifiche predisposte, integrazione dei risultati rinviata"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "ModelWorkspace.Checks: 177 PASS",
+        "ModelViewer.UiChecks regressione: 106 PASS, nessun errore di binding",
+        "Prova report reale: 12 PASS; PDF, stato originale, provenienza, sorgente modificabile e capitoli esclusi",
+        "quick: 27 PASS, nessun nuovo fallimento"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/exploration/reviewed",
+        "supporto/artefatti/model-viewer/reports/logic",
+        "supporto/artefatti/model-viewer/reports/regression-final",
+        "supporto/artefatti/model-viewer/reports/final",
+        "supporto/artefatti/ci/20261011-134222-modelli-report-final"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-11",
+      "titolo": "Modalità geometria e volumi nella scheda Vista",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Spostati i pulsanti Geometria e Volumi e offset nella scheda Vista; il comando MVVM mantiene questa scheda aperta. Accesso al contouring dalla scheda Risultati, rimossi i tre selettori della barra superiore.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Wpf/ModelViewToolsView.xaml",
+        "src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.xaml",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Workspace.cs"
+      ],
+      "segno": "solo organizzazione UI e destinazione della navigazione; valori e rendering invariati",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "spostare geometria e volumi e offset dalla parte alta a sinistra in una scheda",
+        "esito": "collocazione iniziale nella scheda Vista"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelViewer.UiChecks esplorazione: 33 PASS, nessun errore di binding", "Runner quick mirato ModelWorkspace: 2 PASS inclusa build; 177 controlli logici"],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/reports/final/scheda-vista-unificata.png",
+        "supporto/artefatti/model-viewer/view-mode-tab/ui"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-12",
+      "titolo": "Contouring su volumi e diagrammi delle aste indipendenti",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Separati rappresentazione e livello risultati. Campo plate su facce e bordi estrusi con offset; aste con diagramma e contouring indipendenti su assi o volumi. Persistenza in viste e report, compatibilità delle viste precedenti.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Lines.cs",
+        "src/ANTHEA.ModelWorkspace/ModelViewPresets.cs"
+      ],
+      "segno": "grafica e organizzazione UI intenzionali; valori importati invariati. Eliminata la precedente estensione di un singolo valore su tutta l’asta; ora resta puntuale.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "risultati sui plate estrusi e diagrammi/contouring beam e aste in wireframe e volume",
+        "esito": "implementati stati e opzioni indipendenti, limitati ai dati geometrici e ai campioni disponibili"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "ModelWorkspace: 191 PASS",
+        "Regressione WPF: 138 PASS, nessun errore di binding",
+        "Plate e aste mirato: 39 PASS",
+        "Report reale: 14 PASS, quattro figure e sette pagine controllate"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/view-mode-tab/ui",
+        "supporto/artefatti/model-viewer/extruded-results"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-13",
+      "titolo": "Spostamenti globali, deformate nodali e verifica dei temi scuri",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Importazione delle traslazioni nodali globali, contouring in mm/cm/m, forma deformata su assi e volumi, fattore automatico/reale/manuale, sagoma e mesh originali opzionali, animazione grafica con buffer riutilizzati. Temi Scuro e Molto scuro verificati nelle cinque schede, nelle tabelle e nei menu. Viste e report conservano campo, fase e impostazioni.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelWorkspace/MidasDisplacementTables.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Deformations.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Animation.cs", "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Deformations.cs", "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Animation.cs"],
+      "segno": "solo importazione e rappresentazione; valori originali invariati. Sostituita la precedente sovrapposizione magenta con la geometria realmente traslata. Nessuna ricostruzione di rotazioni, curvature o forme da estremi non simultanei.",
+      "effetto_quantificato": {"sintesi": "49 casi reali, 183995 vettori nodali acquisiti in 139,4 s. Cambio caso con volume deformato già caricato: circa 0,13–0,24 s nelle prime prove. Offset mantenuti nella direzione originale in assenza di rotazioni importate."},
+      "decisione": {"data": "2026-10-11", "utente": "confrontare le funzioni di RFEM e MIDAS NX, verificare Scuro/Molto scuro e introdurre le deformate", "esito": "implementazione nel branch del visualizzatore, senza modifiche alle librerie GPC"},
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["Spostamenti e importazione: controlli logici dedicati", "Deformate sintetiche: 36 PASS", "Temi: 53 PASS", "Deformate reali: 14 PASS", "Regressione WPF: 138 PASS"],
+      "evidenze": ["supporto/artefatti/model-viewer/deformations/before", "supporto/artefatti/model-viewer/deformations/static-final", "supporto/artefatti/model-viewer/deformations/real-refined", "supporto/artefatti/model-viewer/deformations/themes-check", "supporto/artefatti/model-viewer/deformations/regression"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-14",
+      "titolo": "Pacchetti completi dei casi e lettura in streaming",
+      "famiglia": "documenti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Limite del pacchetto aumentato da 64 MB a 256 MiB, lettura da stream con cancellazione e SHA-256 senza copia completa del JSON. Formato e impronta precedenti conservati.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelWorkspace/ModelSnapshotFiles.cs", "src/ANTHEA.ModelWorkspace/ModelSnapshot.cs"],
+      "segno": "accettati pacchetti più grandi entro un limite esplicito; nessuna differenza nei valori o nell'identità delle revisioni",
+      "decisione": {"data": "2026-10-11", "utente": "view con tutti i casi disponibili e nuove deformate", "esito": "apertura del pacchetto reale di 123821818 byte verificata nel progetto di prova"},
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelWorkspace.Checks: 216 PASS, inclusa equivalenza SHA-256 con la serializzazione precedente", "ModelViewer.UiChecks su pacchetto completo: 14 PASS"],
+      "evidenze": ["supporto/artefatti/model-viewer/deformations/fresh-source", "supporto/artefatti/model-viewer/deformations/real-complete", "supporto/artefatti/ci/20261011-181542-modelli-pacchetto-stream"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-15",
+      "titolo": "Diagrammi di dettaglio delle aste e figure rigenerabili",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Grafici 2D delle componenti locali importate con cursore comune, unità condivise, campioni e interpolazioni distinguibili, CSV e figure di report. Pannello adattivo e legenda leggibile nei viewport ridotti.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelViewer.Presentation/MemberDiagram.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.MemberDiagrams.cs", "src/ANTHEA.ModelViewer.Wpf/MemberDiagramPlot.cs", "src/ANTHEA.ModelViewer.Wpf/MemberDiagramReportRenderer.cs", "src/ANTHEA.ModelReports/ModelReportDocument.cs"],
+      "segno": "nessuna modifica dei valori; interpolazione solo grafica fra stazioni disponibili, nessuna media di valori ambigui o estrapolazione",
+      "decisione": {"data": "2026-10-11", "utente": "aggiungere le funzioni utili di RFEM/MIDAS NX e i grafici delle aste", "esito": "diagramma selezionabile e rigenerabile nel report, condividendo i selettori della scheda Risultati"},
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelWorkspace.Checks: 235 PASS", "ModelViewer.UiChecks: 17 PASS, report e tre temi, nessun errore di binding"],
+      "evidenze": ["supporto/artefatti/model-viewer/member-diagrams/real", "supporto/artefatti/model-viewer/member-diagrams/reviewed", "supporto/artefatti/ci/20261011-182619-diagrammi-report-logica"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-16",
+      "titolo": "Volume di ritaglio del modello",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Ritaglio grafico interno a sei piani XYZ, limiti da modello o selezione, contorno disattivabile, persistenza nelle viste e rigenerazione nei report. Mesh, linee, etichette e selezione rispettano il volume.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ClipBox.cs",
+        "src/ANTHEA.ModelViewer.Wpf/SceneClipping.cs",
+        "src/ANTHEA.ModelWorkspace/ModelViewPresets.cs"
+      ],
+      "segno": "Differenza grafica intenzionale. Valori importati, identità degli elementi e interpolazione del colore conservati; nessuna superficie o sollecitazione inventata sul taglio.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "aggiungere funzioni utili dal confronto con RFEM e MIDAS NX",
+        "esito": "volume con geometria e deformata statica; animazione sospesa durante il taglio"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "Controlli logici dedicati del volume nel runner quick",
+        "WPF volume: 16 PASS",
+        "Regressione esplorazione: 33 PASS",
+        "PDF di due pagine controllato a video"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/clip-volume/real",
+        "supporto/artefatti/model-viewer/clip-volume/regression",
+        "supporto/artefatti/ci/20261011-183744-volume-taglio-logica"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-17",
+      "titolo": "Misure nodali, annotazioni e inquadratura coerente",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Distanze e angoli fra nodi, scelta grafica o ID, componenti globali, misure su originale o deformata reale. Stato MVVM, annotazioni disattivabili, viste e report. Inquadra conserva orientamento e proiezione e considera la geometria ritagliata.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelMeasurements.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Measurements.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Measurements.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Exploration.cs"
+      ],
+      "segno": "Operazioni geometriche delegate alle DLL GPC esistenti, senza aggiornarle. Nessuna misura sulla deformata amplificata né ricostruzione dagli inviluppi. Corretta la proiezione grafica obsoleta delle annotazioni subito dopo un cambio camera.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "aggiungere funzioni utili dal confronto con RFEM e MIDAS NX, mantenendo MVVM",
+        "esito": "misure salvabili e rigenerabili; importati e librerie invariati"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "ModelWorkspace.Checks: 263 PASS, attesi 3-4-5, 5-12-13 e 90 gradi",
+        "WPF misure reali e report: 14 PASS",
+        "Regressione esplorazione: 33 PASS",
+        "Inquadratura con taglio: 19 PASS",
+        "PDF di tre pagine controllato a video"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/measurements/real",
+        "supporto/artefatti/model-viewer/measurements/final",
+        "supporto/artefatti/model-viewer/measurements/regression",
+        "supporto/artefatti/model-viewer/navigation-fit",
+        "supporto/artefatti/ci/20261011-185015-modelli-misure-logica"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-18",
+      "titolo": "Contorni e pareti dei plate isolati",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Cache della topologia grafica legata agli elementi effettivamente rappresentati. Rimossi i bordi e le facce interne fra plate adiacenti dopo isolamento; ripristinate le facce esposte quando il vicino viene nascosto.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.PlateTopology.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Deformations.cs"
+      ],
+      "segno": "Differenza grafica intenzionale. Due plate isolati passano da 24 a 20 triangoli esterni; uno solo resta un prisma chiuso di 12 triangoli. Valori e connettività importati invariati.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "migliorare visualizzazione, filtri e isolamento",
+        "esito": "confini coerenti anche su estrusioni e sagoma indeformata"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "WPF sintetico e reale: 11 PASS",
+        "Modello reale: 222212 triangoli sia completo sia isolando tutti gli elementi, posizioni identiche bit per bit",
+        "Proprieta 1: 1612 plate, 103520 triangoli"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/visible-boundaries/before",
+        "supporto/artefatti/model-viewer/visible-boundaries/after",
+        "supporto/artefatti/model-viewer/visible-boundaries/real"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-19",
+      "titolo": "Check della revisione e delta su richiesta",
+      "famiglia": "interfaccia/documenti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Confronto automatico dopo importazione o esplicito con una copia precedente, elenco filtrabile, selezione e isolamento, quattro colori e sagome dei cancellati. Delta per campo selezionato, unità condivise, esclusione predefinita delle geometrie cambiate, CSV. Annotazioni portabili con provenienza e controllo della revisione nel report.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Revisions.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Revisions.cs",
+        "src/ANTHEA.ModelWorkspace/ModelRevisionOverlay.cs",
+        "src/ANTHEA.ModelReports/ModelReportDocument.cs"
+      ],
+      "segno": "Dati importati invariati. Corrispondenza soltanto per ID; nessuna equivalenza strutturale dedotta. Delta fra campioni corrispondenti, non inviluppo delle differenze. Evidenze reali ottenute con una copia precedente simulata, senza alterare il modello MIDAS.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "check della revisione, differenze geometriche e attributi, delta delle forze solo se richiesto",
+        "esito": "flusso MVVM collegato alle copie del visualizzatore; archivio storico delle grandi copie e connettori live restano successivi"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "ModelWorkspace.Checks: 281 PASS, inclusi 30 - 10 = 20, conversione unità e annullamento",
+        "WPF reale con differenze simulate: 13 PASS, nessun errore di binding",
+        "Report di due pagine controllato a video",
+        "Geometria/attributi: 193-274 ms; delta di 13718 campioni Myy circa 10 ms, dati già caricati"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/revision-review/reviewed",
+        "supporto/artefatti/model-viewer/revision-review/final",
+        "supporto/artefatti/ci/20261011-191920-modelli-revisioni-annullamento"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-20",
+      "titolo": "Colori personalizzati e legenda interattiva",
+      "famiglia": "interfaccia/documenti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Colori RGB per categoria, palette, ripristino, azioni di selezione e visibilità dalla legenda. Stessa configurazione in viste, confronto e report.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.CategoryColors.cs",
+        "src/ANTHEA.ModelWorkspace/ModelCategoryColor.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelDisplayOptionsView.xaml"
+      ],
+      "segno": "Preferenze grafiche; nessuna modifica a proprietà o risultati. La legenda conserva i propri elementi WPF quando le categorie non cambiano.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "colori per sezioni/gruppi e selezione/isola/nascondi",
+        "esito": "impostazioni uniche nella scheda Vista"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "14 controlli logici aggiuntivi; suite cumulativa 315 PASS",
+        "11 controlli WPF reali e tre temi, nessun errore di binding",
+        "PDF di due pagine renderizzato e controllato"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/category-colors/real",
+        "supporto/artefatti/ci/20261011-193500-modelli-aggiornamenti-parziali"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-21",
+      "titolo": "Aggiornamenti parziali delle copie del modello",
+      "famiglia": "interfaccia/documenti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Quattro ambiti di importazione, compatibilità rigorosa per i soli risultati, annullamento e provenienza. Gli ambiti geometrici senza risultati rimuovono i campi precedenti.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelSnapshotUpdate.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Updates.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelImportOptionsView.xaml"
+      ],
+      "segno": "Composizione documentale senza calcoli o rimappatura. La copia valida resta disponibile in caso di rifiuto/annullamento. Fonti immutate; metadati opzionali preservano le impronte dei pacchetti precedenti.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "solo geometria, geometria+attributi+carichi, solo risultati, tutto",
+        "esito": "flusso su copie salvate; connettori live ancora da integrare"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "20 controlli logici aggiuntivi; suite cumulativa 315 PASS",
+        "10 controlli WPF reali senza errori di binding",
+        "Compatibilità e composizione dei 49 casi già caricati: 541 ms"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/partial-updates/real",
+        "supporto/artefatti/ci/20261011-193500-modelli-aggiornamenti-parziali"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-22",
+      "titolo": "Preview diretta del pacchetto modello",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Apertura diretta nella vista di produzione, senza archivio temporaneo; caricamento in background e risorse incorporate nel runner.",
+      "riferimento_normativo": [],
+      "codice": [
+        "tests/ModelViewer.UiChecks/DirectPreview.cs",
+        "tests/ModelViewer.UiChecks/Program.cs"
+      ],
+      "segno": "Soli comportamento grafico e host di prova; nessuna modifica a geometria, valori o algoritmi strutturali.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "controllare scuro e molto scuro e migliorare il visualizzatore",
+        "esito": "rifinitura e correzioni collaudate nel ramo separato"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "Pacchetto 123,8 MB: lettura 2,3-2,4 s; prima vista 8,0-8,4 s",
+        "20 controlli WPF del taglio e della proiezione eseguiti dalla preview diretta"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/direct-preview/clip-volume",
+        "supporto/artefatti/model-viewer/theme-controls/final"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-23",
+      "titolo": "Controlli dei temi, cubo e disposizione adattiva",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Template del modulo coerenti con i temi; cubo 1,1 anziché 110, facce proprie, hit test separato dalla selezione; ridisegno esplicito al ripristino camera; altezza dei dettagli limitata per conservare la viewport.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Wpf/ModelViewerStyles.xaml",
+        "src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.Interaction.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Exploration.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelDrawerHeightConverter.cs"
+      ],
+      "segno": "Soli comportamento grafico e host di prova; nessuna modifica a geometria, valori o algoritmi strutturali.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "controllare scuro e molto scuro e migliorare il visualizzatore",
+        "esito": "rifinitura e correzioni collaudate nel ramo separato"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "62 controlli WPF dei tre temi",
+        "13 controlli del cubo: facce, spigoli, vertici, nascondimento e finestra ridotta",
+        "Regressione WPF completa sui 49 casi: 138 PASS; quick generale precedente: 27 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/theme-controls/final",
+        "supporto/artefatti/model-viewer/view-cube/before",
+        "supporto/artefatti/model-viewer/view-cube/capture-diagnostics"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-24",
+      "titolo": "Versi degli elementi e dettagli dei vincoli",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Frecce dalla connettività, etichette dei DOF senza reinterpretazione, raggruppamento grafico esplicito dei collegamenti, scala simboli e accesso alla tabella; aree strumenti scorrevoli per conservare l'albero.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.OverlayDetails.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Panels.cs",
+        "src/ANTHEA.ModelWorkspace/ModelViewPresets.cs"
+      ],
+      "segno": "Nuovi livelli grafici disattivati inizialmente. Dati, geometria e risultati originali invariati; corretta la propagazione degli assi e vincoli nel confronto.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "aggiungere funzionalità di lettura del modello ispirate a MIDAS e RFEM",
+        "esito": "implementato e collaudato nel ramo separato"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "18 controlli WPF sintetici/reali, inclusi vincoli parziali, rilasci e animazione",
+        "Runner quick mirato ModelWorkspace.Checks: PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/overlay-details/layout-before",
+        "supporto/artefatti/model-viewer/overlay-details/final",
+        "supporto/artefatti/ci/20261011-201311-modelli-overlay-details"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-25",
+      "titolo": "Letture geometriche delegate a GPC",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "ViewModel delega modulo delle traslazioni e lunghezza dell'asta a ModelMeasurements, adattatore senza WPF delle operazioni Vector3d di GPC già distribuite.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelWorkspace/ModelMeasurements.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Deformations.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.MemberDiagrams.cs"],
+      "segno": "Nessuna differenza nelle catture numeriche; nessun cambio delle DLL o degli attesi indipendenti.",
+      "decisione": {"data": "2026-10-11", "utente": "architettura MVVM e operazioni geometriche nelle librerie GPC", "esito": "riuso dell'adattatore, confronto prima/dopo identico"},
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["322 controlli logici", "Catture numeriche identiche: sei vettori con scala da 1e-150 a 1e150, posizione e lunghezza dell'asta"],
+      "evidenze": ["supporto/artefatti/ci/20261011-202042-modelli-gpc-letture-baseline", "supporto/artefatti/ci/20261011-202133-modelli-gpc-letture-dopo"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-26",
+      "titolo": "Preview confezionata ed esportazione del controllo incorporato",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Cattura WPF corretta per offset e limiti Direct3D obsoleti, temi al primo avvio, store delle viste iniettabile, confezionamento locale Release con modello e tre avviatori.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelViewer.Wpf/ViewerImageExporter.cs", "src/ANTHEA.ModelViewer.Wpf/WpfModelViewerServices.cs", "tests/ModelViewer.UiChecks/Program.cs", "tools/model-viewer/Publish-Preview.ps1"],
+      "segno": "Corretti ritaglio/scalatura della schermata e barre di scorrimento inizialmente chiare nella preview; nessuna modifica ai dati strutturali o alle preferenze globali.",
+      "decisione": {"data": "2026-10-11", "utente": "finestra di prova, temi scuro/molto scuro e schermate del visualizzatore", "esito": "correzioni e pacchetto locale collaudati"},
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["10 controlli WPF di esportazione incorporata, tema iniziale e persistenza separata", "Build Release fuori dai sorgenti: 14 controlli deformate, 62 controlli temi", "Avviatore interattivo reale: 49 casi, nessun errore di binding"],
+      "evidenze": ["supporto/artefatti/model-viewer/export-layout/before", "supporto/artefatti/model-viewer/export-layout/preferences", "supporto/artefatti/model-viewer/preview-qa-20261011"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-27",
+      "titolo": "Cattura sincronizzata con il layout",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Completamento del layout e aggiornamento del render host prima della cattura completa; il frame segue immediatamente il ridimensionamento dovuto ai pannelli.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelViewer.Wpf/ViewerImageExporter.cs", "tests/ModelViewer.UiChecks/ExportLayoutRenderingChecks.cs"],
+      "segno": "Rimossa la compressione del vecchio frame: esempio 870 pixel catturati per una viewport da 270 pixel fisici; nessun cambio dei dati.",
+      "decisione": {"data": "2026-10-11", "utente": "vista e schermate del visualizzatore", "esito": "sincronizzazione verificata anche senza attese fra apertura del pannello ed esportazione"},
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["12 controlli WPF di layout, esportazione, prima apertura scura e store dedicato"],
+      "evidenze": ["supporto/artefatti/model-viewer/preview-20261011/prove/20261011-203826-a46b06", "supporto/artefatti/model-viewer/export-layout/synchronized"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }
