@@ -3,6 +3,8 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Automation.Peers;
+using System.Windows.Automation.Provider;
 using System.Windows.Media;
 using ANTHEA.ModelViewer.Presentation;
 using ANTHEA.ModelViewer.Wpf;
@@ -48,6 +50,17 @@ static partial class Program
                     Capture(control, scene, Path.Combine(output, $"tema-{mode.ToLowerInvariant()}-{panel}.png"));
                 }
                 state.SelectedPanel = 1; Wait(80);
+                var mesh=Children<CheckBox>(control).First(c=>c.Content?.ToString()=="Tabella");
+                state.ShowTable=false;Wait(30);
+                var face=(Border)mesh.Template.FindName("CheckFace",mesh);
+                Check(face.Background is SolidColorBrush inputPaper && inputPaper.Color==paper,mode+" unchecked input follows the theme rather than the system white checkbox");
+                ((IToggleProvider)new CheckBoxAutomationPeer(mesh).GetPattern(PatternInterface.Toggle)).Toggle();Wait(40);
+                Check(state.ShowTable && ((System.Windows.Shapes.Path)mesh.Template.FindName("CheckMark",mesh)).Visibility==Visibility.Visible,mode+" themed checkbox retains its native toggle semantics and viewmodel binding");
+                state.ShowTable=false;state.SelectedPanel=2;Wait(60);
+                var expander=Children<Expander>(control).First(e=>e.Header?.ToString()=="Oggetti, colori ed etichette");
+                ((IExpandCollapseProvider)new ExpanderAutomationPeer(expander).GetPattern(PatternInterface.ExpandCollapse)).Expand();Wait(40);
+                Check(state.ShowDisplayOptions && ((ContentPresenter)expander.Template.FindName("ExpandSite",expander)).Visibility==Visibility.Visible,mode+" themed expander retains automation and two-way expansion state");
+                expander.IsExpanded=false;state.SelectedPanel=1;Wait(40);
                 var combo = Children<ComboBox>(control).First(c => System.Windows.Automation.AutomationProperties.GetName(c) == "Tipo di risultato");
                 combo.IsDropDownOpen = true; Wait(100);
                 var popup = (Popup)combo.Template.FindName("PART_Popup", combo);

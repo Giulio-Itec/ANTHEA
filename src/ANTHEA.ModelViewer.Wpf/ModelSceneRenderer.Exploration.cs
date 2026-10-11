@@ -131,6 +131,8 @@ internal sealed partial class ModelSceneRenderer
         HelixToolkit.Wpf.SharpDX.ProjectionCamera c=state.Orthographic?new HelixToolkit.Wpf.SharpDX.OrthographicCamera { Width=state.Width }:new HelixToolkit.Wpf.SharpDX.PerspectiveCamera { FieldOfView=state.FieldOfView };
         c.Position=new(state.Position[0],state.Position[1],state.Position[2]);c.LookDirection=new(state.Look[0],state.Look[1],state.Look[2]);c.UpDirection=new(state.Up[0],state.Up[1],state.Up[2]);
         c.NearPlaneDistance=.01;c.FarPlaneDistance=Math.Max(10000,extent*10);viewport.Orthographic=state.Orthographic;viewport.Camera=c;
+        // Helix does not invalidate the frame merely because Camera is replaced. Cube hit testing must use the new frame too.
+        viewport.InvalidateRender();
     }
     void DrawExploration(SceneOptions options)
     {

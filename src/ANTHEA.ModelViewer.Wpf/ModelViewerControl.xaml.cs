@@ -37,6 +37,7 @@ public partial class ModelViewerControl : UserControl, IDisposable
     {
         if (disposed) return;
         renderer ??= new ModelSceneRenderer(Viewport);
+        Viewport.ViewCubeTexture??=CreateViewCubeTexture();
         ApplyViewSettings(); UpdateScene(); renderer.Fit();
     }
     private void ViewerKeyDown(object sender, KeyEventArgs e)

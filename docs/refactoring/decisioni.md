@@ -702,3 +702,18 @@ nodi, elementi, proprietà, terne, vincoli e tabelle acquisite. Si tollera solta
 degli oggetti JSON e la scrittura numerica equivalente; non si rimappano nodi o elementi.
 Provenienza e ambito sono salvati nel pacchetto. Annullamento/rifiuto conservano la copia valida.
 La lettura diretta dai software resta un adattatore da integrare. MOD-21.
+
+## Avvio di prova, temi e navigazione (11 ottobre 2026)
+
+La preview può aprire direttamente un pacchetto, senza costruire un archivio Progetti temporaneo.
+Ospita sempre il controllo di produzione; non introduce un renderer alternativo. Le risorse
+di stile dell’applicazione sono incorporate nel runner per renderlo avviabile da altre cartelle.
+Lettura in background con indicatore e annullamento alla chiusura della finestra di caricamento.
+Le modifiche del modello nella preview rimangono in memoria. MOD-22.
+
+CheckBox ed Expander del modulo hanno template con le risorse del tema, mantenendo binding,
+tastiera e automazione WPF. Il cubo Helix usa una scala 1,1: il precedente 110 era stato inteso
+erroneamente come pixel. Posizione adattiva, texture propria, selezione distinta dal modello.
+Dopo la sostituzione della camera si invalida esplicitamente il frame: il solo cambio della
+proprietà Camera non aggiorna il contesto usato dal cubo nella versione distribuita.
+Tabelle/diagrammi/revisioni riducono la propria altezza per conservare la viewport. MOD-23.

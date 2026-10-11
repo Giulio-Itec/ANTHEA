@@ -4,6 +4,7 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ModelViewerStyles.xaml" />
       </ResourceDictionary.MergedDictionaries>
+      <local:ModelDrawerHeightConverter x:Key="DrawerHeight"/>
     </ResourceDictionary>
   </UserControl.Resources>
   <Grid>
@@ -192,14 +193,14 @@
         </StackPanel>
       </Border>
       <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="{DynamicResource AppearanceBorder}" ResizeBehavior="PreviousAndNext" />
-      <Grid Grid.Column="2" Background="{Binding SceneBackground}">
+      <Grid x:Name="SceneWorkspace" Grid.Column="2" Background="{Binding SceneBackground}">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition />
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border Padding="18,14" BorderBrush="#2B3C50" BorderThickness="0,0,0,1">
+        <Border x:Name="SceneHeader" Padding="18,14" BorderBrush="#2B3C50" BorderThickness="0,0,0,1">
           <StackPanel>
             <TextBlock Text="{Binding FieldTitle}" Foreground="{Binding SceneInk}" FontSize="16" FontWeight="SemiBold" />
             <TextBlock Text="{Binding ResultHeading}" Foreground="{Binding SceneInk}" Opacity="0.85" FontSize="11" Margin="0,4,0,0" TextTrimming="CharacterEllipsis"/>
@@ -225,7 +226,7 @@
             <ColumnDefinition><ColumnDefinition.Style><Style TargetType="ColumnDefinition"><Setter Property="Width" Value="0"/><Style.Triggers><DataTrigger Binding="{Binding CompareEnabled}" Value="True"><Setter Property="Width" Value="*"/></DataTrigger></Style.Triggers></Style></ColumnDefinition.Style></ColumnDefinition>
           </Grid.ColumnDefinitions>
           <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-          <h:Viewport3DX x:Name="Viewport" BackgroundColor="{Binding SceneBackground}" ShowCoordinateSystem="{Binding ShowGlobalAxes}" ShowViewCube="{Binding ShowViewCube}" ModelUpDirection="0,0,1" IsViewCubeEdgeClicksEnabled="True" ViewCubeSize="110" MouseDown3D="SceneMouseDown" Focusable="True" />
+          <h:Viewport3DX x:Name="Viewport" BackgroundColor="{Binding SceneBackground}" ShowCoordinateSystem="{Binding ShowGlobalAxes}" ShowViewCube="{Binding ShowViewCube}" ModelUpDirection="0,0,1" IsViewCubeEdgeClicksEnabled="True" IsViewCubeMoverEnabled="False" ViewCubeSize="1.1" ViewCubeVerticalPosition="0.8" MouseDown3D="SceneMouseDown" Focusable="True" />
           <Canvas x:Name="SelectionCanvas" IsHitTestVisible="False" ClipToBounds="True"/>
           <Border VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12" Padding="10" Background="#E5131D2B" IsHitTestVisible="False" MaxWidth="310">
             <Border.Style><Style TargetType="Border"><Setter Property="Visibility" Value="Visible"/><Style.Triggers><DataTrigger Binding="{Binding HoverProbe}" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></Border.Style>
@@ -283,10 +284,13 @@
           </Grid>
           <ContentControl x:Name="ComparisonHost" Grid.Column="1"/>
         </Grid>
-        <local:ModelTableView Grid.Row="2" Height="255" Visibility="{Binding ShowTable, Converter={StaticResource Visible}}" />
-        <local:ModelMemberDiagramView Grid.Row="2" Height="{Binding MemberDiagramHeight}" Visibility="{Binding ShowMemberDiagram, Converter={StaticResource Visible}}" />
-        <local:ModelRevisionReviewView Grid.Row="2" Height="310" Visibility="{Binding ShowRevisionDetails,Converter={StaticResource Visible}}"/>
-        <Border Grid.Row="3" Padding="14,9" BorderBrush="#2B3C50" BorderThickness="0,1,0,0">
+        <Grid x:Name="DetailsPane" Grid.Row="2">
+          <Grid.MaxHeight><MultiBinding Converter="{StaticResource DrawerHeight}"><Binding ElementName="SceneWorkspace" Path="ActualHeight"/><Binding ElementName="SceneHeader" Path="ActualHeight"/><Binding ElementName="SceneFooter" Path="ActualHeight"/></MultiBinding></Grid.MaxHeight>
+          <local:ModelTableView Height="255" MaxHeight="{Binding MaxHeight,ElementName=DetailsPane}" Visibility="{Binding ShowTable, Converter={StaticResource Visible}}" />
+          <local:ModelMemberDiagramView Height="{Binding MemberDiagramHeight}" MaxHeight="{Binding MaxHeight,ElementName=DetailsPane}" Visibility="{Binding ShowMemberDiagram, Converter={StaticResource Visible}}" />
+          <local:ModelRevisionReviewView Height="310" MaxHeight="{Binding MaxHeight,ElementName=DetailsPane}" Visibility="{Binding ShowRevisionDetails,Converter={StaticResource Visible}}"/>
+        </Grid>
+        <Border x:Name="SceneFooter" Grid.Row="3" Padding="14,9" BorderBrush="#2B3C50" BorderThickness="0,1,0,0">
           <DockPanel>
             <TextBlock DockPanel.Dock="Right" FontSize="10">
               <Run Text="X " Foreground="#EC746F" />

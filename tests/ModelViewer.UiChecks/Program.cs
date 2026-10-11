@@ -18,6 +18,7 @@ static partial class Program
 {
     const BindingFlags Flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
     static int checks;
+    static int capturedImages;
     static void Check(bool condition, string message) { if (!condition) throw new Exception(message); checks++; Console.WriteLine("PASS " + message); }
     static object? Call(object obj, string method, params object?[] args) => obj.GetType().GetMethod(method, Flags)!.Invoke(obj, args);
     static IEnumerable<T> Children<T>(DependencyObject root) where T : DependencyObject
@@ -30,24 +31,29 @@ static partial class Program
         var frame = new DispatcherFrame(); var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(milliseconds) };
         timer.Tick += (_, _) => { timer.Stop(); frame.Continue = false; }; timer.Start(); Dispatcher.PushFrame(frame);
     }
-    static void Capture(FrameworkElement root, Viewport3DX viewport, string path)
+    static void Capture(FrameworkElement root, Viewport3DX viewport, string path,int minimumViewportSide=200)
     {
         // Capture our own WPF tree and its native Direct3D render, never the operating-system desktop.
         string render = Path.ChangeExtension(path, ".viewport.png"); viewport.SaveScreen(render);
-        var scene = new BitmapImage(); scene.BeginInit(); scene.CacheOption = BitmapCacheOption.OnLoad; scene.UriSource = new Uri(render); scene.EndInit(); scene.Freeze();
+        BitmapSource scene;
+        using(var input=File.OpenRead(render))scene=BitmapDecoder.Create(input,BitmapCreateOptions.PreservePixelFormat,BitmapCacheOption.OnLoad).Frames[0];
+        scene.Freeze();
         root.UpdateLayout(); int width = (int)Math.Ceiling(root.ActualWidth), height = (int)Math.Ceiling(root.ActualHeight);
         var surface = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32); var content=new DrawingVisual();
-        using(var context=content.RenderOpen())context.DrawRectangle(new VisualBrush(root) { Stretch=Stretch.Fill },null,new Rect(0,0,root.ActualWidth,root.ActualHeight));
+        using(var context=content.RenderOpen())context.DrawRectangle(new VisualBrush(root) { Stretch=Stretch.Fill,ViewboxUnits=BrushMappingMode.Absolute,Viewbox=new Rect(0,0,root.ActualWidth,root.ActualHeight) },null,new Rect(0,0,root.ActualWidth,root.ActualHeight));
         surface.Render(content);
         var visual = new DrawingVisual(); using (var drawing = visual.RenderOpen())
         {
             drawing.DrawImage(surface, new Rect(0, 0, width, height));
             var point = viewport.TransformToAncestor(root).Transform(new Point());
+            File.WriteAllText(path+".capture.json",System.Text.Json.JsonSerializer.Serialize(new {Width=width,Height=height,ViewX=point.X,ViewY=point.Y,ViewWidth=viewport.ActualWidth,ViewHeight=viewport.ActualHeight,ImageWidth=scene.PixelWidth,ImageHeight=scene.PixelHeight}));
             drawing.DrawImage(scene, new Rect(point.X, point.Y, viewport.ActualWidth, viewport.ActualHeight));
         }
         var target = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32); target.Render(visual);
         var png = new PngBitmapEncoder(); png.Frames.Add(BitmapFrame.Create(target)); using var output = File.Create(path); png.Save(output);
-        Check(scene.PixelWidth > 200 && scene.PixelHeight > 200 && new FileInfo(render).Length > 5000, "renderer produced a nonempty image: " + Path.GetFileName(path));
+        Check(scene.PixelWidth > minimumViewportSide && scene.PixelHeight > minimumViewportSide && new FileInfo(render).Length > 5000, "renderer produced a nonempty image: " + Path.GetFileName(path));
+        // WPF bitmaps own large unmanaged buffers; a long screenshot suite must release previous captures as it progresses.
+        if(++capturedImages%5==0){GC.Collect();GC.WaitForPendingFinalizers();}
     }
     static void CapturePage(FrameworkElement root, string path)
     {
@@ -60,7 +66,10 @@ static partial class Program
     [STAThread]
     static int Main(string[] args)
     {
+        var startup=Stopwatch.StartNew();
         string output = Path.GetFullPath(args.FirstOrDefault() ?? "supporto/artefatti/model-viewer/ui"); Directory.CreateDirectory(output);
+        AppDomain.CurrentDomain.UnhandledException+=(_,e)=>File.WriteAllText(Path.Combine(output,"unhandled.txt"),e.ExceptionObject.ToString());
+        AppDomain.CurrentDomain.ProcessExit+=(_,_)=>{if(!args.Contains("--interactive")&&!File.Exists(Path.Combine(output,"esito.txt")))File.WriteAllText(Path.Combine(output,"uscita-incompleta.txt"),$"Codice {Environment.ExitCode}; controlli {checks}; memoria {Process.GetCurrentProcess().PrivateMemorySize64}\n{Environment.StackTrace}");};
         var bindingLog = new StringWriter(); var listener = new TextWriterTraceListener(bindingLog);
         PresentationTraceSources.DataBindingSource.Listeners.Add(listener); PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
         X.Desktop.MainWindow? window = null;
@@ -68,6 +77,14 @@ static partial class Program
         {
             var app = new TestApp(); app.LoadStyles(); app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             typeof(X.Desktop.MainWindow).Assembly.GetType("X.Desktop.Appearance")!.GetMethod("Initialize", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, [false]);
+            ModelSnapshot? directSnapshot=null;JsonObject owner=null!;string id="";
+            if(args.Contains("--direct-model"))
+            {
+                if(!args.Contains("--viewer-only") || args.Length<2)throw new ArgumentException("L’apertura diretta richiede --viewer-only e un pacchetto .antheamodel.");
+                directSnapshot=ReadPreviewSnapshot(Path.GetFullPath(args[1]),args.Contains("--interactive"));
+            }
+            else
+            {
             string archive;
             if (args.Length > 1) archive = Path.GetFullPath(args[1]);
             else
@@ -91,23 +108,25 @@ static partial class Program
             window = new X.Desktop.MainWindow { Width = 1600, Height = 990, ShowInTaskbar = false, ShowActivated = false };
             Call(window, "LoadFile", archive); window.Show(); Wait(150);
             var document = (JsonObject)window.GetType().GetField("document", Flags)!.GetValue(window)!;
-            var owner = document.Array("progetti").OfType<JsonObject>().SelectMany(ProjectModelStore.Containers).First(c => ProjectModelStore.Models(c).Any());
-            string id = ProjectModelStore.Models(owner).First().S("id");
+            owner = document.Array("progetti").OfType<JsonObject>().SelectMany(ProjectModelStore.Containers).First(c => ProjectModelStore.Models(c).Any());
+            id = ProjectModelStore.Models(owner).First().S("id");
+            }
             if (args.Contains("--viewer-only"))
             {
                 // Host the actual production control on its own, to review the view without project chrome.
-                var targets = ProjectModelStore.DescendantSheets(owner).Select(s => new SheetTarget(s.S("id"), s.S("nome"), ProjectModelStore.LinkStatus(owner, s))).ToArray();
-                using var isolated = new ModelViewerControl(ProjectModelStore.Read(owner, id), targets, false,
-                    imported => ProjectModelStore.Set(owner, imported, id),
+                var targets = directSnapshot!=null?[]:ProjectModelStore.DescendantSheets(owner).Select(s => new SheetTarget(s.S("id"), s.S("nome"), ProjectModelStore.LinkStatus(owner, s))).ToArray();
+                using var isolated = new ModelViewerControl(directSnapshot??ProjectModelStore.Read(owner, id), targets, false,
+                    imported => {if(directSnapshot!=null)directSnapshot=imported;else ProjectModelStore.Set(owner, imported, id);},
                     (sheetId, element, result, component) => ProjectModelStore.Link(owner,
                         ProjectModelStore.DescendantSheets(owner).Single(s => s.S("id") == sheetId), id, element, result, component));
-                window.Close(); window = null;
+                window?.Close(); window = null;
                 int themeArgument=Array.IndexOf(args,"--appearance");
                 if(themeArgument>=0 && themeArgument+1<args.Length)SetAppearance(args[themeArgument+1]);
                 var preview = new Window { Title = "ANTHEA · Modelli", Content = args.Contains("--interactive") ? InteractivePreviewHost.Create(isolated) : isolated, Width = 1600, Height = 1020, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.CenterScreen, ShowActivated = args.Contains("--interactive") };
                 preview.Show(); Wait(1200);
                 var state = (ModelViewerViewModel)isolated.DataContext;
                 var scene = Children<Viewport3DX>(isolated).Single();
+                File.WriteAllText(Path.Combine(output,"avvio.json"),System.Text.Json.JsonSerializer.Serialize(new {Direct=args.Contains("--direct-model"),ReadyMilliseconds=startup.Elapsed.TotalMilliseconds,ReadMilliseconds=previewReadMilliseconds,Nodes=state.Snapshot!.Nodes.Length,Elements=state.Snapshot.Elements.Length,Cases=state.Snapshot.Results.Length,PrivateBytes=Process.GetCurrentProcess().PrivateMemorySize64}));
                 if (args.Contains("--interactive"))
                 {
                     if (args.Contains("--averaged"))
@@ -140,7 +159,7 @@ static partial class Program
                     {
                         ProcessId=Environment.ProcessId,Window=preview.Title,Model=state.Snapshot?.Name,
                         Nodes=state.Snapshot?.Nodes.Length,Elements=state.Snapshot?.Elements.Length,Cases=state.Cases,
-                        BindingErrors=bindingLog.ToString(),ReadyUtc=DateTime.UtcNow,Contour=state.ContourValueLabel,Averaging=state.ContourAveragingSummary
+                        BindingErrors=bindingLog.ToString(),ReadyUtc=DateTime.UtcNow,ReadyMilliseconds=startup.Elapsed.TotalMilliseconds,Contour=state.ContourValueLabel,Averaging=state.ContourAveragingSummary
                     },new System.Text.Json.JsonSerializerOptions{WriteIndented=true}));
                     app.Run(); return 0;
                 }
@@ -198,6 +217,13 @@ static partial class Program
                 {
                     ThemeRenderingChecks(isolated,scene,output);
                     listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"themes have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--view-cube"))
+                {
+                    ViewCubeRenderingChecks(isolated,scene,output,args.Contains("--capture-before"));
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"view cube has no WPF binding errors");
                     File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
                     preview.Close();app.Shutdown();return 0;
                 }
@@ -294,7 +320,8 @@ static partial class Program
                     Capture(isolated, scene, Path.Combine(output, "modelli-assi-vincoli.png"));
                     state.ShowLocalAxes = false; state.ShowConstraints = false; state.ShowRestraints = false; state.ClearSelectionCommand.Execute(null);
                     state.SelectedMode = 2; state.SelectedAxes = 1; Wait(350);
-                    Check(state.HasResults && state.SelectedComponent == "Mmax" && state.Status.StartsWith("Scena pronta"), "principal components use imported values");
+                    bool hasPrincipal=state.Snapshot.Results.Single(r=>r.Name==state.SelectedCase).Fields?.Any(f=>f.Family=="PLATE"&&f.Axes=="PRINCIPAL"&&f.Component=="Mmax"&&f.Values.Length>0)==true;
+                    Check(state.HasResults==hasPrincipal && state.SelectedComponent == "Mmax" && state.Status.StartsWith("Scena pronta"), "principal components follow actual imported availability without synthesizing missing values");
                     Capture(isolated, scene, Path.Combine(output, "modelli-principali.png"));
                     state.SelectedAxes = 0; state.SelectedFamily = 1; state.SelectedComponent = "My"; Wait(350);
                     Check(state.HasResults && state.ActiveValues.Count == 905 && state.Status.StartsWith("Scena pronta"), "beam results render all five imported stations");
@@ -419,6 +446,7 @@ static partial class Program
                 File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} checks");
                 preview.Close(); app.Shutdown(); return 0;
             }
+            if(window==null)throw new InvalidOperationException("Finestra progetto non inizializzata.");
             ContourRenderingChecks(output); window.Activate();
             Call(window, "ShowModelsHub"); Wait(100);
             Check(Children<Button>(window).Any(b => b.Content?.ToString() == ProjectModelStore.Models(owner).First().S("nome")), "Models workspace exposes imported resources");
@@ -511,7 +539,8 @@ sealed class TestApp : Application
 {
     internal void LoadStyles()
     {
-        var document = System.Xml.Linq.XDocument.Load("X.Desktop/App.xaml"); var dictionary = document.Root!.Elements().Single().Elements().Single();
+        using var stylesSource=typeof(TestApp).Assembly.GetManifestResourceStream("ModelViewer.Preview.App.xaml")??throw new InvalidOperationException("Risorse della preview mancanti.");
+        var document = System.Xml.Linq.XDocument.Load(stylesSource); var dictionary = document.Root!.Elements().Single().Elements().Single();
         dictionary.SetAttributeValue(System.Xml.Linq.XNamespace.Xmlns + "x", "http://schemas.microsoft.com/winfx/2006/xaml");
         dictionary.SetAttributeValue(System.Xml.Linq.XNamespace.Xmlns + "local", "clr-namespace:X.Desktop;assembly=ANTHEA");
         foreach (var source in dictionary.Descendants().SelectMany(e => e.Attributes("Source"))) source.Value = "/ANTHEA;component/" + source.Value;

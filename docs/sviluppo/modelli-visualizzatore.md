@@ -233,7 +233,8 @@ pan e zoom, rotazione con verticale Z stabile o libera, inerzia e centro sul pun
 proiezione ortografica, sei viste standard e quattro viste con azimut/elevazione a 45°. Il cubo permette
 anche i clic sugli spigoli. Antialiasing disattivato/FXAA/MSAA 4×/8× (nei limiti della GPU), materiali piatti,
 shaded o PBR con occlusione ambientale per la geometria. Risultati con palette continue e isolinee opzionali,
-senza mediare i valori tra elementi. Esc deseleziona. Le impostazioni sono della sessione, non ancora persistenti.
+con media fra elementi aggiunta successivamente in MOD-08. Esc deseleziona. Persistenza delle impostazioni
+grafiche nelle viste e ricette aggiunta nei passi MOD-09/10.
 
 Il contratto di errore della sorgente distingue sessione MIDAS assente, documento chiuso, accesso rifiutato,
 timeout e indisponibilità. La vista espone il motivo e il recupero, conserva l'ultima copia valida e non
@@ -242,9 +243,9 @@ diretto MIDAS nel prodotto è ancora da integrare: il banner è collaudato con u
 le acquisizioni reali di questa fase usano gli strumenti di laboratorio.
 
 Preparato nella libreria senza WPF il confronto di snapshot per ID, con tolleranza sulle coordinate,
-attributi, aggiunte/rimozioni e delta di un campo esplicitamente richiesto. La visualizzazione dei cambiamenti,
-la scelta della revisione di riferimento e la conservazione dello storico NON sono ancora collegate:
-l'utente ha dato precedenza all'esperimento sui 49 casi base. Non si dichiara completato il check revisione.
+attributi, aggiunte/rimozioni e delta di un campo esplicitamente richiesto. La visualizzazione dei cambiamenti
+e la scelta della copia di riferimento sono state collegate in MOD-19; resta successivo l’archivio storico
+completo delle copie nel progetto.
 
 Collaudo: 105 controlli ModelWorkspace, 65 WPF sul modello reale, senza errori di binding. Nuove prove per
 menu, camera, proiezione, palette, Esc e banner. Evidenze `supporto/artefatti/model-viewer/base-case-benchmark/ui`
@@ -679,3 +680,17 @@ delle parti strutturali e delle tabelle. In caso di differenza invita a usare Tu
 aggiornamento parziale viene applicato prima del controllo. Annullamento cooperativo, provenienza
 portabile e confronto della revisione. Resta un flusso su copie salvate, non un connettore live.
 MOD-21.
+
+### Preview diretta e rifinitura dei controlli — 11 ottobre 2026
+
+`--viewer-only --direct-model` apre il pacchetto senza passare dal documento Progetti.
+Sul pacchetto completo da 123,8 MB: lettura e validazione 2,3–2,4 s; prima vista 8,0–8,4 s,
+inclusi inizializzazione WPF/Direct3D e attesa del runner. Sono tempi di avvio, distinti dai
+cambi di campo già caricato. Risorse di stile incorporate; caricamento in background e
+chiusura annullabile. La preview interattiva conserva le modifiche in memoria. MOD-22.
+
+Tema applicato anche a caselle di scelta e pannelli espandibili, con 62 controlli WPF nei
+tre aspetti. Il cubo ora ha dimensione corretta (fattore 1,1), etichette proprie e bersagli
+verificati su facce, spigoli e vertici. Un ripristino della camera richiede il ridisegno esplicito
+per evitare hit test sul fotogramma precedente. I pannelli inferiori si adattano all’altezza
+della finestra. Cattura prima/correzione/confronto in `view-cube`, 13 controlli. MOD-23.

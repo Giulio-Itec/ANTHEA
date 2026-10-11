@@ -1573,6 +1573,70 @@
         "supporto/artefatti/ci/20261011-193500-modelli-aggiornamenti-parziali"
       ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-22",
+      "titolo": "Preview diretta del pacchetto modello",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Apertura diretta nella vista di produzione, senza archivio temporaneo; caricamento in background e risorse incorporate nel runner.",
+      "riferimento_normativo": [],
+      "codice": [
+        "tests/ModelViewer.UiChecks/DirectPreview.cs",
+        "tests/ModelViewer.UiChecks/Program.cs"
+      ],
+      "segno": "Soli comportamento grafico e host di prova; nessuna modifica a geometria, valori o algoritmi strutturali.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "controllare scuro e molto scuro e migliorare il visualizzatore",
+        "esito": "rifinitura e correzioni collaudate nel ramo separato"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "Pacchetto 123,8 MB: lettura 2,3-2,4 s; prima vista 8,0-8,4 s",
+        "20 controlli WPF del taglio e della proiezione eseguiti dalla preview diretta"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/direct-preview/clip-volume",
+        "supporto/artefatti/model-viewer/theme-controls/final"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-23",
+      "titolo": "Controlli dei temi, cubo e disposizione adattiva",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Template del modulo coerenti con i temi; cubo 1,1 anziché 110, facce proprie, hit test separato dalla selezione; ridisegno esplicito al ripristino camera; altezza dei dettagli limitata per conservare la viewport.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Wpf/ModelViewerStyles.xaml",
+        "src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.Interaction.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Exploration.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelDrawerHeightConverter.cs"
+      ],
+      "segno": "Soli comportamento grafico e host di prova; nessuna modifica a geometria, valori o algoritmi strutturali.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "controllare scuro e molto scuro e migliorare il visualizzatore",
+        "esito": "rifinitura e correzioni collaudate nel ramo separato"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "62 controlli WPF dei tre temi",
+        "13 controlli del cubo: facce, spigoli, vertici, nascondimento e finestra ridotta",
+        "Regressione WPF completa sui 49 casi: 138 PASS; quick generale precedente: 27 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/theme-controls/final",
+        "supporto/artefatti/model-viewer/view-cube/before",
+        "supporto/artefatti/model-viewer/view-cube/capture-diagnostics"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

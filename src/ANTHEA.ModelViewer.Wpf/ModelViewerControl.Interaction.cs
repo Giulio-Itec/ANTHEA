@@ -1,6 +1,7 @@
 using ANTHEA.ModelViewer.Presentation;
 using ANTHEA.ModelWorkspace;
 using HelixToolkit.Wpf.SharpDX;
+using HelixToolkit.SharpDX;
 using System.Numerics;
 using System.Windows;
 using System.Windows.Input;
@@ -21,6 +22,7 @@ public partial class ModelViewerControl
     private void AttachInteraction()
     {
         Viewport.PreviewMouseDown+=InputDown;Viewport.PreviewMouseMove+=InputMove;Viewport.PreviewMouseUp+=InputUp;Viewport.MouseLeave+=InputLeave;
+        Viewport.SizeChanged+=ViewportSizeChanged;
         labelRefresh.Tick+=RefreshLabels;
         Viewport.CameraChanged+=CameraChanged;Viewport.PreviewMouseWheel+=RememberWheelCamera;
         cameraProperty.AddValueChanged(Viewport,CameraReplaced);
@@ -30,6 +32,7 @@ public partial class ModelViewerControl
     private void DetachInteraction()
     {
         Viewport.PreviewMouseDown-=InputDown;Viewport.PreviewMouseMove-=InputMove;Viewport.PreviewMouseUp-=InputUp;Viewport.MouseLeave-=InputLeave;
+        Viewport.SizeChanged-=ViewportSizeChanged;
         labelRefresh.Stop();labelRefresh.Tick-=RefreshLabels;
         Viewport.CameraChanged-=CameraChanged;Viewport.PreviewMouseWheel-=RememberWheelCamera;
         cameraProperty.RemoveValueChanged(Viewport,CameraReplaced);
@@ -61,11 +64,24 @@ public partial class ModelViewerControl
     }
     private void HoverChanged(object? sender,EventArgs e)=>renderer?.Hover(viewModel.HoverProbe?.Element);
     private void InputLeave(object sender,MouseEventArgs e) { if(dragStart==null)viewModel.HoverProbe=null; }
+    private void ViewportSizeChanged(object sender,SizeChangedEventArgs e)
+    {
+        // Helix uses a relative center and a size factor, not a pixel width. Keep the cube inside small viewports too.
+        Viewport.ViewCubeHorizontalPosition=Math.Max(0,1-140/Math.Max(1,Viewport.ActualWidth));
+        Viewport.ViewCubeVerticalPosition=Math.Max(0,1-140/Math.Max(1,Viewport.ActualHeight));
+    }
+    private bool IsViewCubeHit(Point point)
+    {
+        if(!Viewport.ShowViewCube || Viewport.RenderContext is not {} context || Viewport.Template.FindName("PART_ViewCube",Viewport) is not ViewBoxModel3D cube)return false;
+        var position=new Vector2((float)point.X,(float)point.Y);var hits=new List<HelixToolkit.SharpDX.HitTestResult>();
+        return cube.HitTest(new HitTestContext(context,Viewport.UnProject(position),position),ref hits);
+    }
     private void InputDown(object sender,MouseButtonEventArgs e)
     {
         if(e.ChangedButton==MouseButton.Right||e.ChangedButton==MouseButton.Middle) { previousCamera=renderer?.CameraState();return; }
         if(e.ChangedButton!=MouseButton.Left)return;
         var point=e.GetPosition(Viewport);Viewport.Focus();
+        if(IsViewCubeHit(point)){previousCamera=renderer?.CameraState();CancelSelectionDrawing();return;}
         if(viewModel.IsMeasuring)
         {
             CancelSelectionDrawing();
