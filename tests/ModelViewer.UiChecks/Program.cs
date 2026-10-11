@@ -226,6 +226,26 @@ static class Program
                     Check(!scene.Items.OfType<LineGeometryModel3D>().Any(l => l.Color == Color.FromRgb(236,116,111) && l.Geometry?.Positions?.Count > 0), "disabling overlays removes the nodal axis geometry");
                     expander.IsExpanded = false;
                 }
+                state.ShowViewSettings = true; Wait(150);
+                var settingsPopup = (System.Windows.Controls.Primitives.Popup)isolated.FindName("ViewSettingsPopup");
+                Check(settingsPopup.IsOpen && ReferenceEquals(((FrameworkElement)settingsPopup.Child).DataContext,state), "view settings popup uses the same MVVM state");
+                CapturePage((FrameworkElement)settingsPopup.Child,Path.Combine(output,"impostazioni-vista.png"));
+                state.ShowViewSettings = false; state.ApplyBackgroundCommand.Execute("#FFFFFF"); state.RotationSensitivity=.35;state.PanSensitivity=.6;state.ZoomSensitivity=.5; Wait(100);
+                Check(scene.RotationSensitivity==.35 && scene.LeftRightPanSensitivity==.6 && scene.ZoomSensitivity==.5 && state.SceneInk=="#24354A", "camera sensitivity and background settings reach the native viewport");
+                state.IsOrthographic=true;state.CameraPresetCommand.Execute("top");Wait(350);
+                Check(scene.Camera is OrthographicCamera && scene.Camera.LookDirection.Z<0 && Math.Abs(scene.Camera.LookDirection.X)<1e-5, "top preset preserves orthographic projection and aligns to Z");
+                state.CameraPresetCommand.Execute("iso-ne");Wait(350);
+                var look=scene.Camera!.LookDirection;
+                Check(Math.Abs(Math.Abs(look.X)-Math.Abs(look.Y))<1e-5 && Math.Abs(Math.Abs(look.Z)/Math.Abs(look.X)-Math.Sqrt(2))<1e-5, "45 degree camera preset has matching horizontal components and elevation");
+                state.SelectedMode=2;state.SelectedContourPalette=2;Wait(150);
+                Check(scene.Items.OfType<MeshGeometryModel3D>().Any(m=>m.Material is ColorStripeMaterial),"smooth contour palette remains a scalar GPU material");
+                Capture(isolated,scene,Path.Combine(output,"contouring-chiaro.png"));
+                state.SelectElement(state.Snapshot!.Elements[0].Id);
+                isolated.RaiseEvent(new System.Windows.Input.KeyEventArgs(System.Windows.Input.Keyboard.PrimaryDevice,PresentationSource.FromVisual(isolated),0,System.Windows.Input.Key.Escape){RoutedEvent=System.Windows.Input.Keyboard.PreviewKeyDownEvent});
+                Check(!state.HasSelection,"Esc clears model selection through the viewmodel command");
+                state.ResetViewSettingsCommand.Execute(null);state.ImportFailure=new("Collegamento MIDAS non più disponibile","Riattiva il collegamento API in MIDAS e riprova.","Ultima copia valida conservata · simulazione del messaggio di errore");Wait(120);
+                Check(((FrameworkElement)isolated.FindName("ImportFailureBanner")).IsVisible,"source failure banner is visible beside the retained model");
+                Capture(isolated,scene,Path.Combine(output,"midas-connessione-interrotta.png"));state.DismissImportFailureCommand.Execute(null);
                 var progressReady = new TaskCompletionSource<IProgress<VerificationProgress>>(TaskCreationOptions.RunContinuationsAsynchronously);
                 var progressFinish = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                 // Enter through the WPF dispatcher, as the future launch command will.

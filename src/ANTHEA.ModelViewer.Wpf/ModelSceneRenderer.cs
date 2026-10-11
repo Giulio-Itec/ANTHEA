@@ -14,7 +14,8 @@ namespace ANTHEA.ModelViewer.Wpf;
 
 internal sealed record SceneOptions(int Mode, IReadOnlyList<ResultValue> Values, string Family, int Subdivisions, bool ShowMesh, bool ShowIsolines,
     IReadOnlySet<int>? Visible, IReadOnlySet<int> Selection, bool ShowLocalAxes, bool ShowRestraints, bool ShowConstraints, bool ShowLinks, bool ShowReleases, bool ShowContext,
-    DisplayOptions Display, double ColorMinimum, double ColorMaximum, bool ShowNodeAxes, bool OverlaysOnlySelection, IReadOnlySet<int> SelectedNodes);
+    DisplayOptions Display, double ColorMinimum, double ColorMaximum, bool ShowNodeAxes, bool OverlaysOnlySelection, IReadOnlySet<int> SelectedNodes,
+    int Lighting = 1, int Palette = 0, int IsolineCount = 8, double IsolineWidth = .5);
 internal sealed record DisplayOptions(IReadOnlyDictionary<int, ElementDisplay> Colors, int SurfaceMode, bool HiddenWireframe,
     bool NodeIds, bool ElementIds, bool PropertyIds, bool Nodes, bool LabelsSelectedOnly, double LabelScale, double LineWidth);
 internal sealed record SceneStatistics(TimeSpan Preparation, int Triangles, int MissingElements);
@@ -59,7 +60,10 @@ internal sealed partial class ModelSceneRenderer : IDisposable
     void AddMesh(SurfaceBuilder builder, Color4 color, bool contour = false)
     {
         if (builder.Indices.Count == 0) return;
-        Material material = contour ? new ColorStripeMaterial { DiffuseColor = new Color4(1, 1, 1, 1), ColorStripeX = Enumerable.Range(0, 256).Select(i => Contours.Color(i / 255.0)).ToList(), ColorStripeXEnabled = true, ColorStripeYEnabled = false, ColorStripeSampler = HelixToolkit.SharpDX.Shaders.DefaultSamplers.LinearSamplerClampAni4 } : new PhongMaterial { DiffuseColor = color, AmbientColor = new Color4(.35f, .35f, .35f, 1) };
+        Material material = contour ? new ColorStripeMaterial { DiffuseColor = new Color4(1, 1, 1, 1), ColorStripeX = Enumerable.Range(0, 256).Select(i => Contours.Color(i / 255.0, lastOptions?.Palette ?? 0)).ToList(), ColorStripeXEnabled = true, ColorStripeYEnabled = false, ColorStripeSampler = HelixToolkit.SharpDX.Shaders.DefaultSamplers.LinearSamplerClampAni4 }
+            : lastOptions?.Lighting == 0 ? new HelixToolkit.Wpf.SharpDX.DiffuseMaterial { DiffuseColor = color, EnableUnLit = true }
+            : lastOptions?.Lighting == 2 ? new PBRMaterial { AlbedoColor = color, MetallicFactor = 0, RoughnessFactor = .7 }
+            : new PhongMaterial { DiffuseColor = color, AmbientColor = new Color4(.35f, .35f, .35f, 1) };
         var mesh = new MeshGeometryModel3D { Geometry = builder.Mesh(), Material = material, CullMode = SharpDX.Direct3D11.CullMode.None };
         meshElements.Add(mesh, builder.ElementIds); viewport.Items.Add(mesh);
     }
@@ -153,7 +157,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
             bool available = e.Nodes.All(n => values.ContainsKey((e.Id, n))); if (view == 2 && options.Family == "PLATE" && !available) missingElements++;
             var target = view == 0 ? CategoryMesh(elementColor) : !available ? missing : faces;
             var nodal = e.Nodes.Select(n => available ? values[(e.Id, n)] : 0).ToArray();
-            Contours.Surface(target, contours, p, nodal, e.Id, min, max, view == 2 && available ? options.Subdivisions : 1, view == 2 && available && options.ShowIsolines);
+            Contours.Surface(target, contours, p, nodal, e.Id, min, max, view == 2 && available ? options.Subdivisions : 1, view == 2 && available && options.ShowIsolines, Math.Clamp(options.IsolineCount, 4, 20));
             if (options.ShowMesh && (view == 2 || options.Display.SurfaceMode == 0)) for (int i = 0; i < p.Length; i++) edges.Line(p[i], p[(i + 1) % p.Length]);
         }
         foreach (var category in categoryFaces) { var c = (Color)ColorConverter.ConvertFromString(category.Key); AddMesh(category.Value, new Color4(c.R / 255f, c.G / 255f, c.B / 255f, 1)); }
@@ -161,8 +165,8 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         AddLines(edges, Color.FromRgb(35, 61, 77), options.Display.LineWidth);
         AddLines(barEdges, Color.FromRgb(153, 166, 181), 1.6, beamIds);
         foreach (var category in categoryEdges) AddLines(category.Value, (Color)ColorConverter.ConvertFromString(category.Key), options.Display.LineWidth * 1.6, categoryLineIds[category.Key]);
-        foreach (var pair in beamColors) { var c = Contours.Color(pair.Key / 63.0); AddLines(pair.Value, Color.FromScRgb(1, c.Red, c.Green, c.Blue), 4, beamColorIds[pair.Key]); }
-        AddLines(contours, Color.FromRgb(25, 47, 57), .8);
+        foreach (var pair in beamColors) { var c = Contours.Color(pair.Key / 63.0, options.Palette); AddLines(pair.Value, Color.FromRgb((byte)Math.Round(c.Red*255), (byte)Math.Round(c.Green*255), (byte)Math.Round(c.Blue*255)), 4, beamColorIds[pair.Key]); }
+        AddLines(contours, Color.FromArgb(135, 25, 47, 57), Math.Clamp(options.IsolineWidth, .25, 1.5));
         AddLines(highlight, Color.FromRgb(255, 214, 102), 3);
         AddLines(axesX, Color.FromRgb(236, 116, 111), 2); AddLines(axesY, Color.FromRgb(111, 206, 157), 2); AddLines(axesZ, Color.FromRgb(113, 177, 247), 2);
         DrawBoundaries(options);
@@ -231,7 +235,22 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         var min = visiblePoints.Aggregate(Vector3.Min); var max = visiblePoints.Aggregate(Vector3.Max); var center = (min + max) / 2;
         double radius = Math.Max(.1, (max - min).Length());
         var d = new Vector3D(-1.35, -1.15, .95); d.Normalize(); d *= radius * 1.35;
-        viewport.Camera = new PerspectiveCamera { Position = new Point3D(center.X + d.X, center.Y + d.Y, center.Z + d.Z), LookDirection = -d, UpDirection = new Vector3D(0, 0, 1), FieldOfView = 42, NearPlaneDistance = .01, FarPlaneDistance = Math.Max(10000, extent * 10) };
+        var position = new Point3D(center.X + d.X, center.Y + d.Y, center.Z + d.Z);
+        viewport.Camera = viewport.Orthographic
+            ? new HelixToolkit.Wpf.SharpDX.OrthographicCamera { Position = position, LookDirection = -d, UpDirection = new Vector3D(0, 0, 1), Width = radius * 1.2, NearPlaneDistance = .01, FarPlaneDistance = Math.Max(10000, extent * 10) }
+            : new PerspectiveCamera { Position = position, LookDirection = -d, UpDirection = new Vector3D(0, 0, 1), FieldOfView = 42, NearPlaneDistance = .01, FarPlaneDistance = Math.Max(10000, extent * 10) };
+    }
+    public void SetCameraPreset(string preset)
+    {
+        var direction = preset switch
+        {
+            "front" => new Vector3D(0,1,0), "back" => new Vector3D(0,-1,0),
+            "left" => new Vector3D(1,0,0), "right" => new Vector3D(-1,0,0),
+            "top" => new Vector3D(0,0,-1), "bottom" => new Vector3D(0,0,1),
+            "iso-ne" => new Vector3D(-1,-1,-Math.Sqrt(2)), "iso-nw" => new Vector3D(1,-1,-Math.Sqrt(2)),
+            "iso-se" => new Vector3D(-1,1,-Math.Sqrt(2)), _ => new Vector3D(1,1,-Math.Sqrt(2))
+        };
+        viewport.ChangeDirection(direction, preset is "top" or "bottom" ? new Vector3D(0,1,0) : new Vector3D(0,0,1), 250);
     }
     public void SaveImage(string path) => viewport.SaveScreen(path);
     public void Dispose()

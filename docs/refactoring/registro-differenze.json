@@ -1121,6 +1121,23 @@
       "test": ["ModelWorkspace.Checks: 87 PASS", "ModelViewer.UiChecks reale: 56 PASS"],
       "evidenze": ["supporto/artefatti/model-viewer/verification-progress/logic", "supporto/artefatti/model-viewer/verification-progress/validated"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-06",
+      "titolo": "Impostazioni della vista e recupero delle importazioni interrotte",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Camera regolabile, viste standard e a 45 gradi, sfondo, antialiasing, materiali e palette continue. Esc deseleziona. Errori della sorgente tipizzati e banner MVVM con recupero, senza sostituzione della copia valida o esposizione dei corpi HTTP. Confronto documentale di revisioni disponibile come servizio iniziale, non ancora collegato alla UI. Nessun calcolo ingegneristico o modifica alle DLL distribuite.",
+      "codice": ["src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ViewSettings.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ImportFailure.cs", "src/ANTHEA.ModelViewer.Wpf/ModelViewSettingsView.xaml", "src/ANTHEA.ModelWorkspace/ModelSourceException.cs", "src/ANTHEA.ModelWorkspace/ModelRevisionComparison.cs"],
+      "segno": "sola rappresentazione e gestione documentale; dati ingegneristici invariati",
+      "effetto_quantificato": { "sintesi": "Isolinee opzionali inizialmente spente, tre palette con stesso campo scalare, Z stabile e inerzia disattivata. 105 controlli di logica e 65 WPF superati. Sei cambi di componente già caricato: mediana 92,89 ms fino a OnRendered, massimo 104,79 ms. Il banner MIDAS è provato con un errore simulato; il connettore diretto nel prodotto resta da integrare." },
+      "decisione": { "data": "2026-10-11", "utente": "migliorare rendering, navigazione e contouring; predisporre check revisione e messaggi quando MIDAS non risponde", "esito": "impostazioni e feedback MVVM nel branch; priorità successiva al benchmark con 49 casi base; nessun push o merge verso main" },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelWorkspace.Checks: 105 PASS", "ModelViewer.UiChecks reale: 65 PASS", "quick: 27 PASS, 0 nuovi fallimenti"],
+      "evidenze": ["supporto/artefatti/model-viewer/base-case-benchmark/ui", "supporto/artefatti/ci/20261011-104113-modelli-casi-base"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

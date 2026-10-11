@@ -519,3 +519,13 @@ con annullamento cooperativo, notifiche sul contesto UI, stato finale distinto d
 e nessuna esecuzione fittizia nel prodotto. Le assegnazioni delle sezioni alla geometria restano una proposta
 nella specifica; il pulsante Esegui è disabilitato fino al collegamento GPC. Il runner WPF può aprire il vero
 controllo in modalità interattiva su una copia di prova, senza avviare le suite o le verifiche.
+
+### Vista e indisponibilità del solutore — 11 ottobre
+
+L'utente richiede controllo della camera e della qualità grafica, Esc e confronto delle revisioni.
+Si aggiungono impostazioni di sessione e comandi nel ViewModel; il code-behind applica solo le proprietà
+del renderer e gli eventi WPF. Il confronto documentale nasce nella libreria senza WPF; interfaccia e
+storico restano da completare dopo la nuova priorità assegnata all'esperimento sui casi base.
+Le interruzioni reali della sessione MIDAS motivano un contratto tipizzato di errore, con recupero leggibile
+e conservazione della copia valida. La vista non riceve credenziali né il corpo del messaggio HTTP.
+È una predisposizione collaudata: il connettore diretto nel prodotto rimane nel piano. Registro MOD-06.

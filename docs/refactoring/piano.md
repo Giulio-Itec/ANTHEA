@@ -234,4 +234,6 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: navigazione e proprietà riducibili a barra, menu contestuale e tabella degli elementi associati, terne nodali esplicite, ambito della selezione e interruttori per ogni livello; ModelWorkspace reale 78, WPF sintetico 27 e reale 49 PASS, registro MOD-04.
 - [x] 11 ottobre: predisposizione MVVM della barra di avanzamento delle verifiche, attività e conteggio, annullamento cooperativo e gestione di errore/fine; motore e assegnazioni sezioni ancora da collegare, registro MOD-05.
 - [ ] Integrazione GPC nel prodotto rilasciato, inviluppi calcolati, confronto delle revisioni modello e archivio grandi dati: restano nella specifica.
+- [x] 11 ottobre: menu delle impostazioni vista, navigazione e viste standard/45°, Esc, palette e antialiasing; contratto e messaggi per aggiornamento interrotto con conservazione della copia valida. Registro MOD-06.
+- [ ] Confronto revisioni: servizio iniziale e prove disponibili, interfaccia, storico e integrazione nel comando Aggiorna ancora da completare; priorità temporaneamente data alla misura delle combinazioni dai casi base richiesta dall'utente.
 - [ ] Rilascio, guide globali e merge: dopo il collaudo e l'approvazione dell'utente.

@@ -200,6 +200,32 @@ stesso ambito di misura; dati in `panels-node-axes/real-final/tempi-campi.json`.
 
 ## Passi successivi
 
+### Impostazioni vista e aggiornamenti interrotti — 11 ottobre
+
+Menu Impostazioni vista: sfondo libero/preset e contrasto delle etichette, sensibilità separate di rotazione,
+pan e zoom, rotazione con verticale Z stabile o libera, inerzia e centro sul punto cliccato opzionali,
+proiezione ortografica, sei viste standard e quattro viste con azimut/elevazione a 45°. Il cubo permette
+anche i clic sugli spigoli. Antialiasing disattivato/FXAA/MSAA 4×/8× (nei limiti della GPU), materiali piatti,
+shaded o PBR con occlusione ambientale per la geometria. Risultati con palette continue e isolinee opzionali,
+senza mediare i valori tra elementi. Esc deseleziona. Le impostazioni sono della sessione, non ancora persistenti.
+
+Il contratto di errore della sorgente distingue sessione MIDAS assente, documento chiuso, accesso rifiutato,
+timeout e indisponibilità. La vista espone il motivo e il recupero, conserva l'ultima copia valida e non
+applica importazioni parziali. I corpi HTTP e le credenziali non diventano testo della vista. Il collegamento
+diretto MIDAS nel prodotto è ancora da integrare: il banner è collaudato con un adattatore simulato, mentre
+le acquisizioni reali di questa fase usano gli strumenti di laboratorio.
+
+Preparato nella libreria senza WPF il confronto di snapshot per ID, con tolleranza sulle coordinate,
+attributi, aggiunte/rimozioni e delta di un campo esplicitamente richiesto. La visualizzazione dei cambiamenti,
+la scelta della revisione di riferimento e la conservazione dello storico NON sono ancora collegate:
+l'utente ha dato precedenza all'esperimento sui 49 casi base. Non si dichiara completato il check revisione.
+
+Collaudo: 105 controlli ModelWorkspace, 65 WPF sul modello reale, senza errori di binding. Nuove prove per
+menu, camera, proiezione, palette, Esc e banner. Evidenze `supporto/artefatti/model-viewer/base-case-benchmark/ui`
+e runner quick `20261011-104113-modelli-casi-base` (27 PASS, nessun nuovo fallimento).
+Nella prova WPF, sei cambi di componente già caricato fino a OnRendered: mediana 92,89 ms, massimo 104,79 ms;
+acquisizione e costruzione delle combinazioni escluse. Registro MOD-06.
+
 ### Assegnazioni e avanzamento delle verifiche
 
 Impostazione proposta: assegnazione esplicita fra un ambito geometrico (elementi selezionati, gruppo o zona)

@@ -77,6 +77,8 @@ static partial class Program
             VisibilityAndScaleChecks();
             PanelAndNodeAxesChecks();
             await VerificationProgressChecks();
+            await ImportFailureChecks();
+            ViewSettingsAndRevisionChecks();
 
             if (args.Length > 1)
             {
@@ -99,8 +101,8 @@ static partial class Program
 
     sealed class FakeServices : IModelViewerServices
     {
-        public ModelSnapshot? Next; public bool Fail; public TaskCompletionSource<ModelSnapshot?>? Pending;
-        public Task<ModelSnapshot?> ImportAsync(CancellationToken cancellationToken) => Pending?.Task ?? (Fail ? Task.FromException<ModelSnapshot?>(new InvalidDataException("Bad source")) : Task.FromResult(Next));
+        public ModelSnapshot? Next; public bool Fail; public Exception? Failure; public TaskCompletionSource<ModelSnapshot?>? Pending;
+        public Task<ModelSnapshot?> ImportAsync(CancellationToken cancellationToken) => Pending?.Task ?? (Failure != null ? Task.FromException<ModelSnapshot?>(Failure) : Fail ? Task.FromException<ModelSnapshot?>(new InvalidDataException("Bad source")) : Task.FromResult(Next));
         public void FitView() { }
         public void SaveImage() { }
         public void ExportTable(string name, string csv) { }

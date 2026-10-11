@@ -65,7 +65,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     [ObservableProperty] private string? selectedCase;
     [ObservableProperty] private string selectedComponent = "Myy";
     [ObservableProperty] private bool showMesh = true;
-    [ObservableProperty] private bool showIsolines = true;
+    [ObservableProperty] private bool showIsolines;
     [ObservableProperty] private bool isBusy;
     [ObservableProperty] private string elementNumber = "";
     [ObservableProperty] private SheetTarget? selectedSheet;
@@ -88,7 +88,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     [RelayCommand(CanExecute = nameof(CanImport))]
     private async Task ImportAsync()
     {
-        IsBusy = true; Status = "Lettura e controllo del modello…";
+        IsBusy = true; ImportFailure = null; Status = "Lettura e controllo del modello…";
         try
         {
             var snapshot = await services.ImportAsync(lifetime.Token);
@@ -96,8 +96,9 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
             snapshot.Validate(); imported(snapshot); SetSnapshot(snapshot); services.FitView();
             Status = "Modello importato. Salva il progetto per conservare la copia e i riferimenti.";
         }
+        catch (TaskCanceledException) when (!lifetime.IsCancellationRequested) { if (!disposed) { var failure = new ModelSourceException(ModelSourceFailureKind.Timeout); SetImportFailure(failure); Status = failure.Message; } }
         catch (OperationCanceledException) { if (!disposed) Status = "Importazione annullata"; }
-        catch (Exception ex) { if (!disposed) Status = "Importazione non completata: " + ex.Message; }
+        catch (Exception ex) { if (!disposed) { SetImportFailure(ex); Status = "Importazione non completata: " + ex.Message; } }
         finally { IsBusy = false; }
     }
 
@@ -167,6 +168,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     public void Dispose()
     {
         if (disposed) return; disposed = true; lifetime.Cancel(); lifetime.Dispose(); SceneChanged = null;
+        ViewSettingsChanged = null; CameraPresetRequested = null;
         ImportCommand.NotifyCanExecuteChanged(); QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged();
         IsolateCommand.NotifyCanExecuteChanged(); HideCommand.NotifyCanExecuteChanged(); ShowSelectedCommand.NotifyCanExecuteChanged();
         InspectSelectionCommand.NotifyCanExecuteChanged(); AddVisibilityCriterionCommand.NotifyCanExecuteChanged();

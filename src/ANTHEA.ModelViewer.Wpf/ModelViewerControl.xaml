@@ -28,7 +28,8 @@
         <Button Content="Esporta immagine…" Command="{Binding SaveImageCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" />
         <CheckBox Content="Proprietà" IsChecked="{Binding ShowInspector}" DockPanel.Dock="Right" Margin="12,0" VerticalAlignment="Center" />
         <CheckBox Content="Tabella" IsChecked="{Binding ShowTable}" DockPanel.Dock="Right" Margin="12,0,0,0" VerticalAlignment="Center" />
-        <CheckBox Content="Visualizzazione" IsChecked="{Binding ShowDisplayOptions}" DockPanel.Dock="Right" Margin="12,0,0,0" VerticalAlignment="Center" />
+        <Button x:Name="ViewSettingsButton" Content="Impostazioni vista" Command="{Binding ToggleViewSettingsCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" />
+        <CheckBox Content="Oggetti" IsChecked="{Binding ShowDisplayOptions}" DockPanel.Dock="Right" Margin="12,0,0,0" VerticalAlignment="Center" />
         <Button Content="Inquadra" Command="{Binding FitCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" />
         <StackPanel Orientation="Horizontal">
           <Button Content="Geometria" Command="{Binding SetModeCommand}" CommandParameter="0" Style="{StaticResource ModeGeometry}" />
@@ -40,7 +41,22 @@
         <CheckBox Content="Assi locali" IsChecked="{Binding ShowLocalAxes}" Margin="0" VerticalAlignment="Center" ToolTip="Terne degli elementi: X rosso, Y verde, Z blu. L’ambito si imposta in Assi e condizioni al contorno." />
       </DockPanel>
     </Border>
-    <local:ModelDisplayOptionsView Grid.Row="2" Visibility="{Binding ShowDisplayOptions, Converter={StaticResource Visible}}" />
+    <StackPanel Grid.Row="2">
+      <Border x:Name="ImportFailureBanner" Padding="14,10" BorderBrush="#D99A44" BorderThickness="0,0,0,2" Background="{DynamicResource AppearanceSurface}" Visibility="{Binding HasImportFailure, Converter={StaticResource Visible}}">
+        <DockPanel>
+          <Button DockPanel.Dock="Right" Content="Chiudi" Command="{Binding DismissImportFailureCommand}" VerticalAlignment="Top" Margin="16,0,0,0" />
+          <StackPanel>
+            <TextBlock Text="{Binding ImportFailure.Title}" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding ImportFailure.Recovery}" TextWrapping="Wrap" Margin="0,4,0,0" />
+            <TextBlock Text="{Binding ImportFailure.RetainedData}" TextWrapping="Wrap" Opacity="0.7" FontSize="11" Margin="0,4,0,0" />
+          </StackPanel>
+        </DockPanel>
+      </Border>
+      <local:ModelDisplayOptionsView Visibility="{Binding ShowDisplayOptions, Converter={StaticResource Visible}}" />
+    </StackPanel>
+    <Popup x:Name="ViewSettingsPopup" IsOpen="{Binding ShowViewSettings, Mode=TwoWay}" PlacementTarget="{Binding ElementName=ViewSettingsButton}" Placement="Bottom" StaysOpen="False" AllowsTransparency="True">
+      <local:ModelViewSettingsView DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=Popup}}" />
+    </Popup>
     <Grid Grid.Row="3">
       <Grid.ColumnDefinitions>
         <ColumnDefinition>
@@ -243,7 +259,7 @@
         </StackPanel>
       </Border>
       <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="{DynamicResource AppearanceBorder}" ResizeBehavior="PreviousAndNext" />
-      <Grid Grid.Column="2" Background="#131D2B">
+      <Grid Grid.Column="2" Background="{Binding SceneBackground}">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition />
@@ -252,8 +268,8 @@
         </Grid.RowDefinitions>
         <Border Padding="18,14" BorderBrush="#2B3C50" BorderThickness="0,0,0,1">
           <StackPanel>
-            <TextBlock Text="{Binding FieldTitle}" Foreground="#F0F5FC" FontSize="16" FontWeight="SemiBold" />
-            <TextBlock Text="{Binding Summary}" Foreground="#A2B5CD" FontSize="11" Margin="0,4,0,0" />
+            <TextBlock Text="{Binding FieldTitle}" Foreground="{Binding SceneInk}" FontSize="16" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding Summary}" Foreground="{Binding SceneInk}" Opacity="0.7" FontSize="11" Margin="0,4,0,0" />
           </StackPanel>
         </Border>
         <Grid Grid.Row="1">
@@ -261,27 +277,27 @@
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <h:Viewport3DX x:Name="Viewport" BackgroundColor="#131D2B" ShowCoordinateSystem="{Binding ShowGlobalAxes}" ShowViewCube="{Binding ShowViewCube}" MouseDown3D="SceneMouseDown" />
+          <h:Viewport3DX x:Name="Viewport" BackgroundColor="{Binding SceneBackground}" ShowCoordinateSystem="{Binding ShowGlobalAxes}" ShowViewCube="{Binding ShowViewCube}" ModelUpDirection="0,0,1" IsViewCubeEdgeClicksEnabled="True" ViewCubeSize="110" MouseDown3D="SceneMouseDown" Focusable="True" />
           <Border Grid.Column="1" Padding="10,18,14,18" Width="104" Visibility="{Binding IsResultsView, Converter={StaticResource Visible}}">
             <StackPanel VerticalAlignment="Center">
-              <TextBlock Text="{Binding SelectedComponent}" Foreground="White" FontSize="14" FontWeight="SemiBold" />
-              <TextBlock Text="{Binding ColorMaximumLabel}" Foreground="#D0DDED" FontSize="11" Margin="0,8,0,8" />
+              <TextBlock Text="{Binding SelectedComponent}" Foreground="{Binding SceneInk}" FontSize="14" FontWeight="SemiBold" />
+              <TextBlock Text="{Binding ColorMaximumLabel}" Foreground="{Binding SceneInk}" FontSize="11" Margin="0,8,0,8" />
               <Grid Height="200">
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="14" />
                   <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Border CornerRadius="3" Background="{DynamicResource ModelContourPalette}" />
-                <TextBlock Grid.Column="1" Text="{Binding ColorMiddleLabel}" Foreground="#A2B5CD" FontSize="10" VerticalAlignment="Center" Margin="6,0,0,0" />
+                <TextBlock Grid.Column="1" Text="{Binding ColorMiddleLabel}" Foreground="{Binding SceneInk}" FontSize="10" VerticalAlignment="Center" Margin="6,0,0,0" />
               </Grid>
-              <TextBlock Text="{Binding ColorMinimumLabel}" Foreground="#D0DDED" FontSize="11" Margin="0,8,0,0" />
-              <TextBlock Text="{Binding ResultUnit}" Foreground="#A2B5CD" FontSize="10" TextWrapping="Wrap" Margin="0,12,0,0" />
+              <TextBlock Text="{Binding ColorMinimumLabel}" Foreground="{Binding SceneInk}" FontSize="11" Margin="0,8,0,0" />
+              <TextBlock Text="{Binding ResultUnit}" Foreground="{Binding SceneInk}" FontSize="10" TextWrapping="Wrap" Margin="0,12,0,0" />
             </StackPanel>
           </Border>
           <Border Grid.Column="1" Padding="10,18" Width="180" Visibility="{Binding HasColorLegend, Converter={StaticResource Visible}}">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
               <StackPanel>
-                <TextBlock Text="{Binding ColorLegendTitle}" Foreground="#A2B5CD" FontSize="10" Margin="0,0,0,14" />
+                <TextBlock Text="{Binding ColorLegendTitle}" Foreground="{Binding SceneInk}" FontSize="10" Margin="0,0,0,14" />
                 <ItemsControl ItemsSource="{Binding ColorLegend}">
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -292,8 +308,8 @@
                         </Grid.ColumnDefinitions>
                         <Rectangle Fill="{Binding Color}" Width="9" Height="9" VerticalAlignment="Top" Margin="0,4,0,0" />
                         <StackPanel Grid.Column="1">
-                          <TextBlock Text="{Binding Label}" TextWrapping="Wrap" Foreground="#D0DDED" FontSize="10" />
-                          <TextBlock Text="{Binding Count, StringFormat={}{0:N0} elementi}" Foreground="#91A8C2" FontSize="9" Margin="0,3,0,0" />
+                          <TextBlock Text="{Binding Label}" TextWrapping="Wrap" Foreground="{Binding DataContext.SceneInk, RelativeSource={RelativeSource AncestorType=local:ModelViewerControl}}" FontSize="10" />
+                          <TextBlock Text="{Binding Count, StringFormat={}{0:N0} elementi}" Foreground="{Binding DataContext.SceneInk, RelativeSource={RelativeSource AncestorType=local:ModelViewerControl}}" Opacity="0.7" FontSize="9" Margin="0,3,0,0" />
                         </StackPanel>
                       </Grid>
                     </DataTemplate>
@@ -323,7 +339,7 @@
               <Run Text="Y " Foreground="#6FCE9D" />
               <Run Text="Z" Foreground="#71B1F7" />
             </TextBlock>
-            <TextBlock Text="Destro: ruota · rotella: zoom · Maiusc + destro: sposta" Foreground="#91A8C2" FontSize="10" />
+            <TextBlock Text="Destro: ruota · rotella: zoom · Maiusc + destro: pan · Esc: deseleziona" Foreground="{Binding SceneInk}" Opacity="0.7" FontSize="10" />
           </DockPanel>
         </Border>
       </Grid>
