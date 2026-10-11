@@ -717,3 +717,16 @@ erroneamente come pixel. Posizione adattiva, texture propria, selezione distinta
 Dopo la sostituzione della camera si invalida esplicitamente il frame: il solo cambio della
 proprietà Camera non aggiorna il contesto usato dal cubo nella versione distribuita.
 Tabelle/diagrammi/revisioni riducono la propria altezza per conservare la viewport. MOD-23.
+
+## Lettura dei versi e delle condizioni al contorno (11 ottobre 2026)
+
+Le frecce seguono la connettività importata I→J / N1→N2; non sostituiscono le terne locali.
+Le etichette dei vincoli riportano il testo dei DOF salvato, senza dedurre rigidezze o cerniere.
+I collegamenti con stesso primo nodo, tipo, elemento e testo sono raggruppati soltanto per
+l'etichetta, con conteggio esplicito; la tabella conserva ogni assegnazione. Massimo 40 etichette,
+limite anti-sovrapposizione e clipping; disabilitate durante l'animazione. Scala dei simboli
+separata da geometria e risultati. Stato conservato in viste, ricette e confronto. MOD-24.
+
+Le aree degli strumenti sopra e sotto l'albero hanno scorrimento e altezza massima relativa;
+l'apertura degli espansori non può più eliminare l'albero o rendere irraggiungibili i comandi.
+La cattura precedente e quella corretta restano fra le evidenze del passo.

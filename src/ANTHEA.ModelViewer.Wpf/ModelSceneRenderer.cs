@@ -15,7 +15,8 @@ namespace ANTHEA.ModelViewer.Wpf;
 internal sealed record SceneOptions(bool ShowResults, bool Extruded, IReadOnlyList<ResultValue> Values, string Family, int Subdivisions, bool ShowMesh, bool ShowIsolines,
     IReadOnlySet<int>? Visible, IReadOnlySet<int> Selection, bool ShowLocalAxes, bool ShowRestraints, bool ShowConstraints, bool ShowLinks, bool ShowReleases, bool ShowContext,
     DisplayOptions Display, double ColorMinimum, double ColorMaximum, bool ShowNodeAxes, bool OverlaysOnlySelection, IReadOnlySet<int> SelectedNodes,
-    int Lighting = 1, int Palette = 0, int IsolineCount = 8, double IsolineWidth = .5, ExplorationOptions? Exploration = null, double RasterScale = 1, bool LineContour = true);
+    int Lighting = 1, int Palette = 0, int IsolineCount = 8, double IsolineWidth = .5, ExplorationOptions? Exploration = null, double RasterScale = 1, bool LineContour = true,
+    bool ElementDirections = false, bool BoundaryLabels = false, double OverlayScale = 1);
 internal sealed record DisplayOptions(IReadOnlyDictionary<int, ElementDisplay> Colors, int SurfaceMode, bool HiddenWireframe,
     bool NodeIds, bool ElementIds, bool PropertyIds, bool Nodes, bool LabelsSelectedOnly, double LabelScale, double LineWidth);
 internal sealed record SceneStatistics(TimeSpan Preparation, int Triangles, int MissingElements, int IncompleteDeformations = 0);
@@ -119,7 +120,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
             if (options.ShowLocalAxes && frames?.TryGetValue(e.Id, out var frame) == true && (!options.OverlaysOnlySelection || options.Selection.Contains(e.Id)))
             {
                 var origin = p.Aggregate(Vector3.Zero, (a, b) => a + b) / p.Length;
-                float size = (float)Math.Min(extent * .025, Vector3.Distance(p[0], p[1]) * .32);
+                float size = (float)(Math.Min(extent * .025, Vector3.Distance(p[0], p[1]) * .32) * options.OverlayScale);
                 Vector3 Direction(ModelDirection d) => new((float)d.X, (float)d.Y, (float)d.Z);
                 axesX.Arrow(origin, origin + Direction(frame.X) * size); axesY.Arrow(origin, origin + Direction(frame.Y) * size); axesZ.Arrow(origin, origin + Direction(frame.Z) * size);
             }
@@ -165,6 +166,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         AddLines(axesX, Color.FromRgb(236, 116, 111), 2); AddLines(axesY, Color.FromRgb(111, 206, 157), 2); AddLines(axesZ, Color.FromRgb(113, 177, 247), 2);
         DrawBoundaries(options);
         DrawNodeAxes(options);
+        DrawOverlayDetails(options);
         DrawUndeformed(options);
         DrawExploration(options); DrawDisplayOverlays(options);
         DrawClipBox(options.Exploration?.ClipBox);
@@ -193,7 +195,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
     private void DrawBoundaries(SceneOptions options)
     {
         var restraints = new EdgeBuilder(); var constraints = new EdgeBuilder(); var links = new EdgeBuilder(); var releases = new EdgeBuilder();
-        float size = (float)(extent * .008);
+        float size = (float)(extent * .008 * options.OverlayScale);
         var visibleNodes = options.Visible == null ? null : model!.Elements.Where(e => options.Visible.Contains(e.Id)).SelectMany(e => e.Nodes).ToHashSet();
         foreach (var boundary in model!.Boundaries ?? [])
         {
@@ -224,7 +226,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         if (!options.ShowNodeAxes || model!.NodeFrames == null) return;
         var x = new EdgeBuilder(); var y = new EdgeBuilder(); var z = new EdgeBuilder();
         var visibleNodes = options.Visible == null ? null : model.Elements.Where(e => options.Visible.Contains(e.Id)).SelectMany(e => e.Nodes).ToHashSet();
-        float size = (float)(extent * .009);
+        float size = (float)(extent * .009 * options.OverlayScale);
         static Vector3 Direction(ModelDirection value) => new((float)value.X, (float)value.Y, (float)value.Z);
         foreach (var frame in model.NodeFrames)
         {

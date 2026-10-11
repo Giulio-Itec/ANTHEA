@@ -227,6 +227,13 @@ static partial class Program
                     File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
                     preview.Close();app.Shutdown();return 0;
                 }
+                if(args.Contains("--overlay-details"))
+                {
+                    OverlayDetailRenderingChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"overlay details have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
                 if(args.Contains("--category-colors"))
                 {
                     CategoryColorRenderingChecks(isolated,scene,output);

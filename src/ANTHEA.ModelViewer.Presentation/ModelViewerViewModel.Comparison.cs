@@ -40,6 +40,9 @@ public sealed partial class ModelViewerViewModel
             c.ForceUnit=ForceUnit;c.LengthUnit=LengthUnit;c.SelectedBeamLocation=SelectedBeamLocation;c.SelectedContourValues=CompareAveraging;
             c.VisibleElementIds=VisibleElementIds;c.SelectedElementIds=SelectedElementIds;c.ShowMesh=ShowMesh;c.ShowContext=ShowContext;
             c.ShowOutlines=ShowOutlines;c.SurfaceOpacity=SurfaceOpacity;c.SelectedContourPalette=SelectedContourPalette;c.ReversePalette=ReversePalette;c.ContourBands=ContourBands;
+            c.ShowLocalAxes=ShowLocalAxes;c.ShowNodeAxes=ShowNodeAxes;c.ShowRestraints=ShowRestraints;c.ShowConstraints=ShowConstraints;
+            c.ShowLinks=ShowLinks;c.ShowReleases=ShowReleases;c.OverlaysOnlySelection=OverlaysOnlySelection;c.SelectedNodeIds=SelectedNodeIds;
+            c.ShowElementDirections=ShowElementDirections;c.ShowBoundaryLabels=ShowBoundaryLabels;c.OverlayScale=OverlayScale;
             c.SelectedQuality=SelectedQuality;c.ShowIsolines=ShowIsolines;c.IsolineCount=IsolineCount;c.IsolineWidth=IsolineWidth;
             c.SelectedColorScale=SelectedColorScale==3?0:SelectedColorScale;c.ShowBeamDiagram=ShowBeamDiagram;c.BeamDiagramScale=BeamDiagramScale;
             c.ShowLineContour=ShowLineContour;c.ShowBeamDiagramValues=ShowBeamDiagramValues;c.SelectedBeamDiagramAxis=SelectedBeamDiagramAxis;

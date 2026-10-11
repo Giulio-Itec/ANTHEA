@@ -28,5 +28,19 @@ static partial class Program
         vm.ShowNodeAxes = vm.ShowLocalAxes = vm.ShowRestraints = vm.ShowConstraints = vm.ShowLinks = vm.ShowReleases = true;
         int updates = 0; vm.SceneChanged += (_, _) => updates++; vm.DisableOverlaysCommand.Execute(null);
         Check(!vm.ShowNodeAxes && !vm.ShowLocalAxes && !vm.ShowRestraints && !vm.ShowConstraints && !vm.ShowLinks && !vm.ShowReleases && updates == 1, "all axis and boundary layers can be disabled with one scene update");
+        vm.ShowNodeAxes = vm.ShowLocalAxes = vm.ShowRestraints = vm.ShowConstraints = vm.ShowLinks = vm.ShowReleases = true;
+        vm.ShowElementDirections = vm.ShowBoundaryLabels = vm.OverlaysOnlySelection = true; vm.OverlayScale = 2.25;
+        var preset = JsonSerializer.Deserialize<ModelViewPreset>(JsonSerializer.Serialize(vm.CaptureView("Simboli")))!;
+        ModelViewPresetStore.Validate([preset]); vm.DisableOverlaysCommand.Execute(null); vm.OverlayScale = 1; vm.ApplyView(preset);
+        Check(vm.ShowElementDirections && vm.ShowBoundaryLabels && vm.OverlayScale == 2.25 && vm.ShowReleases, "portable views restore directions, DOF labels and symbol scale");
+        vm.CompareEnabled = true;
+        Check(vm.Comparison!.ShowNodeAxes && vm.Comparison.ShowElementDirections && vm.Comparison.ShowBoundaryLabels && vm.Comparison.OverlayScale == 2.25 && vm.Comparison.SelectedNodeIds.SetEquals(vm.SelectedNodeIds), "comparison keeps the complete overlay state and selected nodes");
+        updates = 0; vm.DisableOverlaysCommand.Execute(null);
+        Check(!vm.ShowElementDirections && !vm.ShowBoundaryLabels && updates == 1, "the master overlay switch also disables directions and DOF labels in a single update");
+        vm.OverlayScale = double.NaN; Check(vm.OverlayScale == 1, "nonfinite symbol scale has a safe UI fallback");
+        vm.OverlayScale = 100; Check(vm.OverlayScale == 3, "symbol scale is bounded before rendering");
+        Reject(() => ModelViewPresetStore.Validate([preset with { Appearance = preset.Appearance! with { OverlayScale = double.PositiveInfinity } }]), "portable views reject nonfinite symbol scales");
+        vm.InspectBoundariesCommand.Execute(null);
+        Check(vm.ShowTable && vm.SelectedTableKind == 4 && vm.TableOnlySelected && vm.TableOnlyVisible, "boundary table opens with the current overlay scope");
     }
 }

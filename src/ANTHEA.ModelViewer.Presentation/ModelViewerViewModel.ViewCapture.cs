@@ -30,6 +30,9 @@ public sealed partial class ModelViewerViewModel
         Links=ShowLinks,
         Releases=ShowReleases,
         OverlaysOnlySelection=OverlaysOnlySelection,
+        ElementDirections=ShowElementDirections,
+        BoundaryLabels=ShowBoundaryLabels,
+        OverlayScale=OverlayScale,
         AvoidLabelOverlap=AvoidLabelOverlap,
         LabelScale=LabelScale,
         LineWidth=LineWidth,
@@ -81,6 +84,9 @@ public sealed partial class ModelViewerViewModel
         ShowLinks=a.Links;
         ShowReleases=a.Releases;
         OverlaysOnlySelection=a.OverlaysOnlySelection;
+        ShowElementDirections=a.ElementDirections;
+        ShowBoundaryLabels=a.BoundaryLabels;
+        OverlayScale=a.OverlayScale;
         AvoidLabelOverlap=a.AvoidLabelOverlap;
         LabelScale=a.LabelScale;
         LineWidth=a.LineWidth;

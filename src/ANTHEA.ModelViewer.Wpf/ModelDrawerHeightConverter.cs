@@ -13,3 +13,14 @@ public sealed class ModelDrawerHeightConverter:IMultiValueConverter
     }
     public object[] ConvertBack(object value,Type[] targetTypes,object parameter,CultureInfo culture)=>throw new NotSupportedException();
 }
+
+/// <summary>Bounds scrollable navigation tools so that the tree retains its own viewport.</summary>
+public sealed class ModelNavigationHeightConverter:IValueConverter
+{
+    public object Convert(object value,Type targetType,object parameter,CultureInfo culture)
+    {
+        double fraction=double.TryParse(parameter?.ToString(),NumberStyles.Float,CultureInfo.InvariantCulture,out var parsed)?parsed:.4;
+        return value is double height && double.IsFinite(height) ? Math.Max(40,height*Math.Clamp(fraction,.1,.6)) : 240.0;
+    }
+    public object ConvertBack(object value,Type targetType,object parameter,CultureInfo culture)=>throw new NotSupportedException();
+}

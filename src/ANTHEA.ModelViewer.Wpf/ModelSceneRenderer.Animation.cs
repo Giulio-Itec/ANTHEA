@@ -21,7 +21,7 @@ internal sealed partial class ModelSceneRenderer
         {
             // Keep topology, scalar textures, materials and picking IDs stable throughout the cycle.
             var display = options.Display with { NodeIds = false, ElementIds = false, PropertyIds = false };
-            var frame = options with { Display = display, Exploration = settings with { Probes = [], DiagramValues = false } };
+            var frame = options with { Display = display, BoundaryLabels = false, Exploration = settings with { Probes = [], DiagramValues = false } };
             Render(frame with { Exploration = frame.Exploration! with { DeformationScale = 0 } });
             Geometry3D[] Geometries() => viewport.Items.OfType<GeometryModel3D>().Where(m => m is MeshGeometryModel3D or LineGeometryModel3D).Select(m => m.Geometry).OfType<Geometry3D>().ToArray();
             var original = Geometries().Select(g => (Type: g.GetType(), Positions: g.Positions?.ToArray() ?? [], Normals: (g as MeshGeometry3D)?.Normals?.ToArray(), Indices: g.Indices?.ToArray() ?? [])).ToArray();

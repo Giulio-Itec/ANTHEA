@@ -262,3 +262,4 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: quattro modalità di importazione della copia, compatibilità rigorosa per i soli risultati, annullamento, rimozione esplicita delle sollecitazioni nei modi senza risultati e provenienza; MOD-21.
 - [x] 11 ottobre: preview diretta del pacchetto completo, risorse incorporate e indicatore di caricamento; lettura 2,3–2,4 s, prima vista circa 8 s inclusa inizializzazione WPF/Direct3D. MOD-22.
 - [x] 11 ottobre: controlli coerenti nei tre temi, cubo di orientamento corretto e clic verificati, ridisegno dopo ripristino camera e pannelli inferiori adattivi. MOD-23.
+- [x] 11 ottobre: versi degli elementi, etichette fedeli dei DOF, dimensione simboli, collegamento alla tabella e confronto coerente; aree strumenti scorrevoli per conservare l'albero. MOD-24.

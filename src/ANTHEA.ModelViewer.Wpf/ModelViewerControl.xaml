@@ -5,6 +5,7 @@
         <ResourceDictionary Source="ModelViewerStyles.xaml" />
       </ResourceDictionary.MergedDictionaries>
       <local:ModelDrawerHeightConverter x:Key="DrawerHeight"/>
+      <local:ModelNavigationHeightConverter x:Key="NavigationHeight"/>
     </ResourceDictionary>
   </UserControl.Resources>
   <Grid>
@@ -93,6 +94,7 @@
               <RowDefinition />
               <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+            <ScrollViewer x:Name="ModelToolsScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="{Binding ActualHeight, ElementName=NavigationPane, Converter={StaticResource NavigationHeight}, ConverterParameter=.30}">
             <StackPanel Margin="14,10,14,10">
               <TextBlock Text="ESPLORA IL MODELLO" Style="{StaticResource Caption}" Margin="0,0,0,7" />
               <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=250}" MinHeight="33" Padding="9,6" ToolTip="Cerca per nome, numero o categoria" AutomationProperties.Name="Cerca nell'albero del modello" />
@@ -103,6 +105,7 @@
               <Expander Header="Check della revisione" Margin="0,8,0,0"><local:ModelRevisionToolsView/></Expander>
               <Expander Header="Importazione e aggiornamento" IsExpanded="{Binding ShowImportOptions}" Margin="0,8,0,0"><local:ModelImportOptionsView/></Expander>
             </StackPanel>
+            </ScrollViewer>
             <TreeView x:Name="ModelTree" Grid.Row="1" ItemsSource="{Binding Tree}" SelectedItemChanged="TreeSelectionChanged" PreviewMouseDown="TreeContextSelection" BorderThickness="0" Background="Transparent" Padding="5,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Albero del modello">
               <TreeView.ContextMenu>
                 <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
@@ -115,7 +118,8 @@
                 </ContextMenu>
               </TreeView.ContextMenu>
             </TreeView>
-            <Border Grid.Row="2" Padding="14,12" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource AppearanceBorder}">
+            <ScrollViewer x:Name="ModelOverlaysScroll" Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="{Binding ActualHeight, ElementName=NavigationPane, Converter={StaticResource NavigationHeight}, ConverterParameter=.45}">
+            <Border Padding="14,12" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource AppearanceBorder}">
               <StackPanel>
                 <TextBlock Text="{Binding SelectionCount}" FontWeight="SemiBold" />
                 <UniformGrid Columns="3" Margin="0,9,0,0">
@@ -134,19 +138,26 @@
                   <StackPanel>
                     <TextBlock Text="{Binding OverlaySummary}" FontSize="10" Opacity="0.65" Margin="0,6,0,4" />
                     <CheckBox Content="Assi locali degli elementi" IsChecked="{Binding ShowLocalAxes}" />
+                    <CheckBox Content="Verso degli elementi · I → J / N1 → N2" IsChecked="{Binding ShowElementDirections}" />
                     <CheckBox Content="Assi locali dei nodi" IsChecked="{Binding ShowNodeAxes}" />
                     <TextBlock Text="{Binding NodeAxesSummary}" FontSize="10" Opacity="0.65" Margin="0,2,0,4" />
                     <CheckBox Content="Restrain · vincoli nodali" IsChecked="{Binding ShowRestraints}" />
                     <CheckBox Content="Constraint · collegamenti rigidi" IsChecked="{Binding ShowConstraints}" />
                     <CheckBox Content="Link elastici" IsChecked="{Binding ShowLinks}" />
                     <CheckBox Content="Release · svincoli" IsChecked="{Binding ShowReleases}" />
+                    <CheckBox Content="Etichette dei gradi di libertà" IsChecked="{Binding ShowBoundaryLabels}" />
+                    <TextBlock Text="Dati importati, senza reinterpretazione. Fino a 40 etichette; tutti i dettagli restano in tabella." TextWrapping="Wrap" FontSize="10" Opacity=".65" Margin="0,3,0,7" />
+                    <DockPanel><TextBlock Text="Dimensione simboli" VerticalAlignment="Center"/><TextBlock Text="{Binding OverlayScale, StringFormat={}{0:0.00}×}" HorizontalAlignment="Right"/></DockPanel>
+                    <Slider Value="{Binding OverlayScale}" Minimum=".25" Maximum="3" AutomationProperties.Name="Dimensione assi e vincoli" />
                     <CheckBox Content="Limita assi e vincoli alla selezione" IsChecked="{Binding OverlaysOnlySelection}" Margin="0,9,0,4" />
+                    <Button Content="Tabella vincoli e collegamenti" Command="{Binding InspectBoundariesCommand}" Margin="0,0,0,5" />
                     <Button Content="Disattiva assi e vincoli" Command="{Binding DisableOverlaysCommand}" />
                   </StackPanel>
                 </Expander>
                 <TextBlock Text="Gli attributi della copia importata sono in sola lettura." TextWrapping="Wrap" FontSize="10" Opacity="0.6" Margin="0,8,0,0" />
               </StackPanel>
             </Border>
+            </ScrollViewer>
           </Grid>
         </TabItem>
         <TabItem Header="Risultati"><local:ModelResultsView /></TabItem>

@@ -81,6 +81,9 @@ public sealed record ModelViewAppearance
     public bool Links { get; init; }
     public bool Releases { get; init; }
     public bool OverlaysOnlySelection { get; init; }
+    public bool ElementDirections { get; init; }
+    public bool BoundaryLabels { get; init; }
+    public double OverlayScale { get; init; } = 1;
     public bool AvoidLabelOverlap { get; init; } = true;
     public double LabelScale { get; init; } = 1;
     public double LineWidth { get; init; } = 1;
@@ -163,7 +166,7 @@ public sealed class ModelViewPresetStore(string directory)
                 throw new InvalidDataException("Selezione nodale non valida.");
             if(v.Appearance is {} a && (a.SurfaceMode is <0 or >2 || a.ColorMode is <0 or >4 || a.Quality is <0 or >2 ||
                 a.Lighting is <0 or >2 || a.Antialiasing is <0 or >3 || a.BeamLocation is <0 or >5 || a.BeamDiagramAxis is <0 or >2 || a.LabelScope is <0 or >1 || a.LegendPrecision is <0 or >6 ||
-                a.IsolineCount is <4 or >20 || !ValidRange(a.LabelScale,.6,1.6) || !ValidRange(a.LineWidth,.5,2.5) ||
+                a.IsolineCount is <4 or >20 || !ValidRange(a.OverlayScale,.25,3) || !ValidRange(a.LabelScale,.6,1.6) || !ValidRange(a.LineWidth,.5,2.5) ||
                 !ValidRange(a.IsolineWidth,.25,1.5) || !ValidRange(a.BeamDiagramScale,.1,5) || !ValidRange(a.DeformationScale,.001,1_000_000) ||
                 a.DeformationScaleMode is < 0 or > 2 || !ValidRange(a.UndeformedOpacity,.05,1) || !ValidRange(a.DeformationPhase,0,1) || !ValidRange(a.AnimationDuration,1,20) || !ValidRange(a.LoadScale,.1,5)))
                 throw new InvalidDataException("Stile della vista non valido.");

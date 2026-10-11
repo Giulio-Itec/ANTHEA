@@ -694,3 +694,21 @@ tre aspetti. Il cubo ora ha dimensione corretta (fattore 1,1), etichette proprie
 verificati su facce, spigoli e vertici. Un ripristino della camera richiede il ridisegno esplicito
 per evitare hit test sul fotogramma precedente. I pannelli inferiori si adattano all’altezza
 della finestra. Cattura prima/correzione/confronto in `view-cube`, 13 controlli. MOD-23.
+
+### Versi e dettagli delle condizioni al contorno — 11 ottobre 2026
+
+Scheda Modello: frecce I→J per aste e N1→N2 per superfici; dimensione di assi e simboli
+da 0,25 a 3; etichette dei DOF importati, collegate al rispettivo interruttore del vincolo.
+Non si reinterpretano gli stati dei rilasci. Collegamenti con stesso nodo iniziale e stessi
+dettagli condividono una sola etichetta con conteggio; restano singoli in tabella. Limite 40,
+priorità a selezione e vincoli/svincoli, controllo sovrapposizione e taglio grafico.
+Versi e simboli seguono la deformata; etichette sospese durante l'animazione.
+
+Il comando della tabella riusa l'ambito visibile/selezionato. Interruttore generale, viste,
+report e confronto conservano lo stesso stato. Nessuna modifica del pacchetto strutturale.
+Le opzioni superiori e inferiori dell'albero scorrono entro un'altezza relativa: l'albero
+rimane accessibile anche aprendo i dettagli. 18 controlli WPF sintetici/reali e suite logica
+del runner ufficiale; catture `overlay-details/layout-before` e `overlay-details/final`.
+Ispirazione funzionale: [display MIDAS](https://support.midasuser.com/hc/en-us/articles/29198491035417-Display)
+e [vincoli nodali RFEM](https://www.dlubal.com/en/downloads-and-information/documents/online-manuals/rfem-6/000006).
+Nessun contenuto di terzi incorporato nel modulo. MOD-24.

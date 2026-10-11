@@ -1637,6 +1637,38 @@
         "supporto/artefatti/model-viewer/view-cube/capture-diagnostics"
       ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-24",
+      "titolo": "Versi degli elementi e dettagli dei vincoli",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Frecce dalla connettività, etichette dei DOF senza reinterpretazione, raggruppamento grafico esplicito dei collegamenti, scala simboli e accesso alla tabella; aree strumenti scorrevoli per conservare l'albero.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.OverlayDetails.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Panels.cs",
+        "src/ANTHEA.ModelWorkspace/ModelViewPresets.cs"
+      ],
+      "segno": "Nuovi livelli grafici disattivati inizialmente. Dati, geometria e risultati originali invariati; corretta la propagazione degli assi e vincoli nel confronto.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "aggiungere funzionalità di lettura del modello ispirate a MIDAS e RFEM",
+        "esito": "implementato e collaudato nel ramo separato"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "18 controlli WPF sintetici/reali, inclusi vincoli parziali, rilasci e animazione",
+        "Runner quick mirato ModelWorkspace.Checks: PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/overlay-details/layout-before",
+        "supporto/artefatti/model-viewer/overlay-details/final",
+        "supporto/artefatti/ci/20261011-201311-modelli-overlay-details"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }
