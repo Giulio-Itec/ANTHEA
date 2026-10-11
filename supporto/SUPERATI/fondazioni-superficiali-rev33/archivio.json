@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-12",
+  "reason": "Edizione superata dalla revisione 33 con Fondazioni superficiali",
+  "files": [
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev32.docx",
+      "sha256": "e684dbaefeef55f3526eb318c6744734749d57c74f98cba1b4a5d80ed60b13b2",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev33.docx"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev32.pdf",
+      "sha256": "7a98ac1b5cb12e0f4061cff10676ac15b6e01cf2a1e7171d74517486e2c0b1c7",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev33.pdf"
+    },
+    {
+      "origin": "supporto/docs/guida-pratica-anthea.md",
+      "sha256": "5030d724b09bf7a60033c07dc8aa80d0b1cb97e54206524c0047afae0d7209bb",
+      "replacement": "supporto/docs/guida-pratica-anthea.md (revisione 33)"
+    },
+    {
+      "origin": "supporto/docs/guida-pratica-anthea.pdf",
+      "sha256": "7a98ac1b5cb12e0f4061cff10676ac15b6e01cf2a1e7171d74517486e2c0b1c7",
+      "replacement": "supporto/docs/guida-pratica-anthea.pdf (revisione 33)"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev32.docx",
+      "sha256": "25eae6b095ea2791348b6052a66081efef5eff86a48001023f0b75fd5850aea3",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev33.docx"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev32.pdf",
+      "sha256": "b43efcf6ab8cff92a634991da78f55b23b4b54abc404bbec77db4291de6d1dcd",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev33.pdf"
+    },
+    {
+      "origin": "supporto/docs/guida-teorica-anthea.md",
+      "sha256": "9ad71a5ccc426d39d3b4fb2f0b3a650c6c98f2ed3555a49ea72c5216cfed57ab",
+      "replacement": "supporto/docs/guida-teorica-anthea.md (revisione 33)"
+    },
+    {
+      "origin": "supporto/docs/guida-teorica-anthea.pdf",
+      "sha256": "b43efcf6ab8cff92a634991da78f55b23b4b54abc404bbec77db4291de6d1dcd",
+      "replacement": "supporto/docs/guida-teorica-anthea.pdf (revisione 33)"
+    }
+  ]
+}

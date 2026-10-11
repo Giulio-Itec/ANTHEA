@@ -1391,5 +1391,49 @@
     "references": [],
     "order": 213,
     "summary": "Lezioni tecniche di ANTHEA su geotecnica, calcestruzzo armato e ponti, con esempi numerici originali, ipotesi, unità e limiti dichiarati."
+  },
+  "guide:Fondazioni superficiali": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli-singoli/fondazioni-superficiali",
+    "modules": [
+      "geo_fondazioni_superficiali"
+    ],
+    "related": [
+      "fondazioni-superficiali"
+    ],
+    "key": "guida-fondazioni-superficiali",
+    "chapterId": "anthea",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018",
+      "fondazioni-portanza"
+    ],
+    "title": "Fondazioni superficiali",
+    "order": 200,
+    "summary": "Capacità portante statica su terreno omogeneo: metodi, dati, coefficienti e limiti."
+  },
+  "theory:Fondazioni superficiali": {
+    "area": "Fondazioni e geotecnica",
+    "id": "/wiki/manuale/fondazioni-e-geotecnica/fondazioni-superficiali",
+    "modules": [
+      "geo_fondazioni_superficiali"
+    ],
+    "related": [
+      "guida-fondazioni-superficiali"
+    ],
+    "key": "fondazioni-superficiali",
+    "chapterId": "geotecnica",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "ntc2018",
+      "fondazioni-portanza"
+    ],
+    "title": "Fondazioni superficiali",
+    "order": 200,
+    "summary": "Capacità portante statica su terreno omogeneo: metodi, dati, coefficienti e limiti."
   }
 }

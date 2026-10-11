@@ -274,3 +274,14 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: esportazione del controllo incorporato e ridimensionato corretta, tema applicato al primo avvio, preferenze della preview separate e strumento di confezionamento con tre avviatori; MOD-26.
 - [x] 11 ottobre: sincronizzazione del layout prima della cattura Direct3D, verificata aprendo i diagrammi ed esportando immediatamente; 12 controlli WPF. MOD-27.
 - [x] Collaudo della build e25b7ed: standard 43 PASS / 1 KNOWN / 0 nuovi fallimenti; WPF isolato 138 PASS, diagrammi/report 17 PASS, deformate/report 9 PASS, tutte le otto pagine PDF controllate.
+
+## Fondazioni superficiali — 12 ottobre 2026
+
+Attività autorizzata dall'utente, ramo `refactoring/f5-fondazioni-superficiali`; registro FON-01 e [scheda tecnica](../sviluppo/fondazioni-superficiali.md).
+
+- [x] Lettura integrale del manuale e riscontro visivo delle formule, mappa delle API e delle lacune.
+- [x] Nuova API statica in Checker con coefficienti normativi da Model, dieci test indipendenti; 108 regressioni esistenti invariate.
+- [x] Documento e report nella libreria senza WPF, foglio ANTHEA, archivio, dettagli e aiuto contestuale; test sorgente isolato.
+- [x] Due capitoli nelle guide globali, esempio verificato, figura originale e indice Wiki rigenerato.
+- [x] Guide Rev33 rigenerate e controllate, Rev32 archiviate. Standard: 45 PASS, 1 KNOWN già censito, 0 nuovi fallimenti.
+- [ ] Rilascio coerente: versione dell'utente, merge e push autorizzati, suite del treno, installazione manifest e runner full. Lo snapshot distribuito resta invariato.

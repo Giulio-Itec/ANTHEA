@@ -24,12 +24,12 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[2]
-REVISION = '32'
+REVISION = '33'
 # edition data of the revision: date, contents and description in the revision table of the cover
-DATE = '07/10/2026'
-CONTENTS = '7 ottobre 2026'
-CONTENTS_ISO = '2026-10-07'
-REVISION_NOTE = 'CLASSI MINIME DEL CALCESTRUZZO SECONDO UNI 11104 CON EDIZIONE E PROSPETTO'
+DATE = '12/10/2026'
+CONTENTS = '12 ottobre 2026'
+CONTENTS_ISO = '2026-10-12'
+REVISION_NOTE = 'FONDAZIONI SUPERFICIALI PORTANZA STATICA METODI CAMPI DI APPLICAZIONE ED ESEMPIO'
 ART = ROOT / f'supporto/artefatti/guide_anthea_itec_rev{REVISION}'
 OUT = ROOT / 'supporto/documentazione/Guide_ANTHEA'
 TEMPLATE = Path('C:/Users/g.pacini/Desktop/MODELLO-RELAZIONE-ITEC-AA.docx')
