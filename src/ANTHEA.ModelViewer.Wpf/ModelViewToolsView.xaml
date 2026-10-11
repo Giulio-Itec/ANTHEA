@@ -2,6 +2,11 @@
   <UserControl.Resources><ResourceDictionary><ResourceDictionary.MergedDictionaries><ResourceDictionary Source="ModelViewerStyles.xaml"/></ResourceDictionary.MergedDictionaries></ResourceDictionary></UserControl.Resources>
   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><StackPanel Margin="14,0,14,16">
     <TextBlock Text="VISTA E RAPPRESENTAZIONE" Style="{StaticResource Caption}"/>
+    <UniformGrid Columns="2" Margin="0,0,0,6">
+      <Button Content="Geometria" Command="{Binding SetModeCommand}" CommandParameter="0" Style="{StaticResource ModeGeometry}" Margin="0,0,3,0" />
+      <Button Content="Volumi e offset" Command="{Binding SetModeCommand}" CommandParameter="1" Style="{StaticResource ModeSolid}" Margin="3,0,0,0" />
+    </UniformGrid>
+    <TextBlock Text="Per le sollecitazioni e il contouring apri la scheda Risultati." TextWrapping="Wrap" FontSize="10" Opacity=".65" Margin="0,0,0,8"/>
     <local:ModelViewSettingsView/>
     <Button Content="Vista precedente" Command="{Binding PreviousCameraCommand}" Margin="0,8"/>
     <Expander Header="Oggetti, colori ed etichette" Margin="0,8"><local:ModelDisplayOptionsView Margin="0,8"/></Expander>

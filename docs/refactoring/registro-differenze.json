@@ -1256,6 +1256,34 @@
         "supporto/artefatti/ci/20261011-134222-modelli-report-final"
       ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-11",
+      "titolo": "Modalità geometria e volumi nella scheda Vista",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Spostati i pulsanti Geometria e Volumi e offset nella scheda Vista; il comando MVVM mantiene questa scheda aperta. Accesso al contouring dalla scheda Risultati, rimossi i tre selettori della barra superiore.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Wpf/ModelViewToolsView.xaml",
+        "src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.xaml",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Workspace.cs"
+      ],
+      "segno": "solo organizzazione UI e destinazione della navigazione; valori e rendering invariati",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "spostare geometria e volumi e offset dalla parte alta a sinistra in una scheda",
+        "esito": "collocazione iniziale nella scheda Vista"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelViewer.UiChecks esplorazione: 33 PASS, nessun errore di binding", "Runner quick mirato ModelWorkspace: 2 PASS inclusa build; 177 controlli logici"],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/reports/final/scheda-vista-unificata.png",
+        "supporto/artefatti/model-viewer/view-mode-tab/ui"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

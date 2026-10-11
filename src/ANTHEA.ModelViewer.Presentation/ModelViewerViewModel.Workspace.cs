@@ -174,7 +174,12 @@ public sealed partial class ModelViewerViewModel
     [RelayCommand(CanExecute = nameof(CanChangeVisibility))] private void Hide() { hiddenElements.UnionWith(SelectedElementIds); ApplyVisibility(); }
     [RelayCommand] private void ShowAll() { ClearVisibilityCriteria(); hiddenElements.Clear(); isolatedElements = null; ApplyVisibility(); }
     [RelayCommand] private void ClearSelection() { SelectedTreeItem = new() { Label = "Proprietà del modello", Attributes = [new("Selezione", "Seleziona una voce nell’albero o un elemento nella scena.")] }; }
-    [RelayCommand] private void SetMode(string mode) { if (int.TryParse(mode, out int value) && value is >= 0 and <= 2) SelectedMode = value; }
+    [RelayCommand] private void SetMode(string mode)
+    {
+        if (!int.TryParse(mode, out int value) || value is < 0 or > 2) return;
+        SelectedMode = value;
+        SelectedPanel = value == 2 ? 1 : 2;
+    }
     void ApplyVisibility()
     {
         VisibleElementIds = Snapshot == null || hiddenElements.Count == 0 && isolatedElements == null ? null : Snapshot.Elements.Where(e => !hiddenElements.Contains(e.Id) && (isolatedElements == null || isolatedElements.Contains(e.Id))).Select(e => e.Id).ToHashSet();

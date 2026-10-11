@@ -129,15 +129,6 @@
       </DataTrigger>
     </Style.Triggers>
   </Style>
-  <Style x:Key="ModeResults" TargetType="Button" BasedOn="{StaticResource Action}">
-    <Setter Property="BorderThickness" Value="0" />
-    <Style.Triggers>
-      <DataTrigger Binding="{Binding SelectedMode}" Value="2">
-        <Setter Property="Background" Value="#2265B5" />
-        <Setter Property="Foreground" Value="White" />
-      </DataTrigger>
-    </Style.Triggers>
-  </Style>
   <Style TargetType="TabItem">
     <Setter Property="Foreground" Value="{DynamicResource AppearanceInk}" />
     <Setter Property="Padding" Value="14,13" />

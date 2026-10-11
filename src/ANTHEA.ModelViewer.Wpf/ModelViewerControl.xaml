@@ -31,12 +31,6 @@
         <Button x:Name="ViewSettingsButton" Content="Impostazioni vista" Command="{Binding ToggleViewSettingsCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" />
         <Button Content="Report" Command="{Binding OpenNavigationCommand}" CommandParameter="4" DockPanel.Dock="Right" Margin="8,0,0,0" />
         <Button Content="Inquadra" Command="{Binding FitCommand}" DockPanel.Dock="Right" Margin="8,0,0,0" />
-        <StackPanel Orientation="Horizontal">
-          <Button Content="Geometria" Command="{Binding SetModeCommand}" CommandParameter="0" Style="{StaticResource ModeGeometry}" />
-          <Button Content="Volumi e offset" Command="{Binding SetModeCommand}" CommandParameter="1" Style="{StaticResource ModeSolid}" Margin="3,0" />
-          <Button Content="Risultati" Command="{Binding SetModeCommand}" CommandParameter="2" Style="{StaticResource ModeResults}" />
-        </StackPanel>
-        <Separator Margin="12,2" Width="1" />
       </DockPanel>
     </Border>
     <StackPanel Grid.Row="2">

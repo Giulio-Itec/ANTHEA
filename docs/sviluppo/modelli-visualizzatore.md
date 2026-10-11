@@ -467,3 +467,17 @@ modificato; nessun push o merge su main.
 
 Runner finale: `supporto/artefatti/ci/20261011-134222-modelli-report-final`.
 Build di prova: `supporto/artefatti/model-viewer/reports/interactive/Avvia-Modelli-Report.cmd`.
+
+
+### Posizione delle modalità di rappresentazione — MOD-11
+
+Su richiesta dell'utente Geometria e Volumi e offset sono nella parte iniziale della scheda
+Vista, con evidenza della modalità attiva. Il comando MVVM conserva aperta questa scheda dopo
+il cambio di rappresentazione. I risultati si attivano dalla scheda Risultati: rimossi dalla
+barra superiore i tre selettori e il separatore. Restano i comandi rapidi di inquadratura,
+report, impostazioni, tabella, proprietà ed esportazione. Nessuna modifica al renderer o ai dati.
+Prima: `reports/final/scheda-vista-unificata.png`; dopo: `view-mode-tab/ui/vista-taglio.png`,
+entrambi in `supporto/artefatti/model-viewer/`.
+
+Collaudo MOD-11: 33 controlli WPF senza errori di binding, suite ModelWorkspace con 177 controlli
+tramite runner quick mirato (2 PASS inclusa la build, nessun nuovo fallimento).

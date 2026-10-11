@@ -582,3 +582,10 @@ esplicitamente l'assenza degli esiti. Nessun nuovo calcolo ingegneristico in ANT
 La prima ricetta è portabile, esterna al progetto; integrazione nell'archivio, tabelle e
 aggiornamenti incrementali sono passi successivi dichiarati. Nessun push, merge su main,
 modifica delle librerie GPC o pubblicazione delle guide del prototipo. Registro MOD-10.
+
+
+### Collocazione delle modalità geometriche — 11 ottobre
+
+Geometria e Volumi e offset passano dalla barra superiore alla scheda Vista, su richiesta
+dell’utente. Il comando resta nel ViewModel e mantiene aperta Vista; la scheda Risultati è
+l’accesso alla rappresentazione delle sollecitazioni. Nessuna modifica del renderer. MOD-11.
