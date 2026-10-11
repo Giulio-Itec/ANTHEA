@@ -247,3 +247,5 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: impostazioni unificate nelle schede e compositore Report MVVM; figure dinamiche in serie, testi, riferimenti alle verifiche, ricetta portabile e PDF/HTML con rigenerazione isolata. Archivio nel progetto e provider degli esiti ancora da implementare. Registro MOD-10.
 
 - [x] 11 ottobre: Geometria e Volumi e offset spostati nella scheda Vista, senza cambio involontario di scheda; accesso ai risultati dalla loro scheda e barra superiore alleggerita. Registro MOD-11.
+
+- [x] 11 ottobre: risultati separati dalla rappresentazione; contouring plate sui volumi con offset e diagrammi/contouring delle aste combinabili in wireframe o estrusione, incluse viste e report. Registro MOD-12.

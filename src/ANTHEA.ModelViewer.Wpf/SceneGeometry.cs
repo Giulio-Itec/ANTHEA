@@ -46,6 +46,22 @@ internal sealed class EdgeBuilder
 }
 internal static class Contours
 {
+    // Display-only extrusion: duplicate the same plate field on both faces, and interpolate along each rim.
+    // No engineering extrapolation through thickness. Reversing the lower face also reverses its nodal values.
+    internal static void Prism(SurfaceBuilder mesh, EdgeBuilder lines, Vector3[] lower, Vector3 extrusion,
+        double[] values, int id, double min, double max, int subdivisions, bool isolines, int intervals, bool[]? sides)
+    {
+        Surface(mesh, lines, lower.Reverse().ToArray(), values.Reverse().ToArray(), id, min, max, subdivisions, isolines, intervals);
+        var upper = lower.Select(p => p + extrusion).ToArray();
+        Surface(mesh, lines, upper, values, id, min, max, subdivisions, isolines, intervals);
+        for (int i = 0; i < lower.Length; i++)
+        {
+            if (sides != null && !sides[i]) continue;
+            int j = (i + 1) % lower.Length;
+            Surface(mesh, lines, [lower[i], lower[j], upper[j], upper[i]], [values[i], values[j], values[j], values[i]],
+                id, min, max, 1, isolines, intervals);
+        }
+    }
     internal static Color4 DisplayColor(double t,int palette,bool reverse,int bands)
     {
         int count=bands switch {1=>8,2=>12,3=>20,_=>0};t=Math.Clamp(t,0,1);

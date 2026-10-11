@@ -13,7 +13,8 @@ namespace ANTHEA.ModelViewer.Wpf;
 
 internal sealed record ExplorationOptions(GraphicPlane? Clip=null,bool Outlines=true,double Opacity=1,bool ReversePalette=false,int Bands=0,
     bool AvoidLabels=true,IReadOnlyList<ModelProbe>? Probes=null,bool BeamDiagram=false,double DiagramScale=1,
-    IReadOnlyList<GraphicalLoad>? Loads=null,double LoadScale=1,IReadOnlyList<ModelDisplacement>? Displacements=null,double DeformationScale=1);
+    IReadOnlyList<GraphicalLoad>? Loads=null,double LoadScale=1,IReadOnlyList<ModelDisplacement>? Displacements=null,double DeformationScale=1,
+    bool DiagramAlongY=false,bool DiagramValues=false);
 
 internal sealed partial class ModelSceneRenderer
 {
@@ -86,12 +87,12 @@ internal sealed partial class ModelSceneRenderer
         if(hoverLine!=null) { viewport.Items.Remove(hoverLine); hoverLine=null; }
         var e=model?.Elements.FirstOrDefault(e=>e.Id==id); if(e==null)return;
         var edges=new EdgeBuilder(); var p=e.Nodes.Select(n=>points[n]).ToArray();
-        for(int i=0;i<(p.Length==2?1:p.Length);i++)edges.Line(p[i],p[(i+1)%p.Length]);
+        ElementOutline(edges,e,p,lastOptions?.Extruded==true);
         hoverLine=AddLines(edges,Color.FromRgb(100,220,255),3);
     }
     internal void Focus(IReadOnlySet<int> ids,IReadOnlySet<int>? nodeIds=null)
     {
-        var p=model?.Elements.Where(e=>ids.Contains(e.Id)).SelectMany(e=>e.Nodes).Concat(nodeIds??new HashSet<int>()).Distinct().Select(n=>points[n]).ToArray();
+        var p=model?.Elements.Where(e=>ids.Contains(e.Id)).SelectMany(DisplayPoints).Concat((nodeIds??new HashSet<int>()).Select(n=>points[n])).ToArray();
         if(p==null||p.Length==0)return;
         var min=p.Aggregate(Vector3.Min);var max=p.Aggregate(Vector3.Max);var center=(min+max)/2;
         if(viewport.Camera is not HelixToolkit.Wpf.SharpDX.ProjectionCamera camera||CameraState() is not {} state)return;
@@ -126,7 +127,7 @@ internal sealed partial class ModelSceneRenderer
     void DrawExploration(SceneOptions options)
     {
         if(options.Exploration is not {} settings)return;
-        if(settings.Outlines && options.Mode!=1)
+        if(settings.Outlines && !options.Extruded)
         {
             var outline=new EdgeBuilder();var seen=new HashSet<(int,int)>();
             foreach(var e in model!.Elements.Where(e=>e.Type=="PLATE"&&(options.Visible==null||options.Visible.Contains(e.Id))))
@@ -158,25 +159,7 @@ internal sealed partial class ModelSceneRenderer
             AddLines(leaders,Color.FromRgb(230,211,147),.7);
             viewport.Items.Add(new BillboardTextModel3D { Geometry=text,FixedSize=true,IsHitTestVisible=false,DepthBias=-10000 });
         }
-        if(settings.BeamDiagram&&options.Mode==2&&options.Family!="PLATE")DrawBeamDiagram(options,settings);
+        if(settings.BeamDiagram&&options.ShowResults&&options.Family!="PLATE")DrawBeamDiagram(options,settings);
         DrawLoadGraphics(options,settings);
-    }
-    void DrawBeamDiagram(SceneOptions options,ExplorationOptions settings)
-    {
-        var lines=new EdgeBuilder(); var frames=model!.LocalFrames?.ToDictionary(f=>f.Element);
-        double max=options.Values.Count>0?options.Values.Max(v=>Math.Abs(v.Value)):0;if(max==0||frames==null)return;
-        foreach(var group in options.Values.Where(v=>v.Station.HasValue).GroupBy(v=>v.Element))
-        {
-            var element=model.Elements.First(e=>e.Id==group.Key);if(!frames.TryGetValue(element.Id,out var frame))continue;
-            var direction=new Vector3((float)frame.Z.X,(float)frame.Z.Y,(float)frame.Z.Z);
-            Vector3? previous=null;
-            foreach(var v in group.OrderBy(v=>v.Station))
-            {
-                var a=Vector3.Lerp(points[element.Nodes[0]],points[element.Nodes[^1]],(float)v.Station!.Value);
-                var b=a+direction*(float)(v.Value/max*extent*.08*Math.Clamp(settings.DiagramScale,.1,5));
-                lines.Line(a,b); if(previous.HasValue)lines.Line(previous.Value,b);previous=b;
-            }
-        }
-        AddLines(lines,Color.FromRgb(242,194,109),1.8);
     }
 }

@@ -114,7 +114,7 @@
   <Style x:Key="ModeGeometry" TargetType="Button" BasedOn="{StaticResource Action}">
     <Setter Property="BorderThickness" Value="0" />
     <Style.Triggers>
-      <DataTrigger Binding="{Binding SelectedMode}" Value="0">
+      <DataTrigger Binding="{Binding SelectedRepresentation}" Value="0">
         <Setter Property="Background" Value="#2265B5" />
         <Setter Property="Foreground" Value="White" />
       </DataTrigger>
@@ -123,7 +123,7 @@
   <Style x:Key="ModeSolid" TargetType="Button" BasedOn="{StaticResource Action}">
     <Setter Property="BorderThickness" Value="0" />
     <Style.Triggers>
-      <DataTrigger Binding="{Binding SelectedMode}" Value="1">
+      <DataTrigger Binding="{Binding SelectedRepresentation}" Value="1">
         <Setter Property="Background" Value="#2265B5" />
         <Setter Property="Foreground" Value="White" />
       </DataTrigger>

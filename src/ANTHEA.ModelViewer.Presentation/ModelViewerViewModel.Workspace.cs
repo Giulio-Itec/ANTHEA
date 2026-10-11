@@ -31,10 +31,10 @@ public sealed partial class ModelViewerViewModel
     public double SectionWidth { get; private set; }
     public double SectionHeight { get; private set; }
     public string SectionSize { get; private set; } = "";
-    public string FieldTitle => IsResultsView ? $"{Family} · {SelectedComponent} · {AxesLabels[Math.Clamp(SelectedAxes, 0, 1)]}" : ModeLabels[SelectedMode];
+    public string FieldTitle => IsResultsView ? $"{Family} · {SelectedComponent} · {AxesLabels[Math.Clamp(SelectedAxes, 0, 1)]}" : RepresentationLabel;
     public string SampleLocation => SelectedFamily == 0 ? IsAveragedContour ? "Nodi condivisi · media grafica" : "Nodi dell’elemento · valori non mediati" : BeamLocations[Math.Clamp(SelectedBeamLocation, 0, 5)] + " · campioni importati";
     public string SelectionCount => !HasSelection && SelectedNodeIds.Count>0 ? $"{SelectedNodeIds.Count:N0} nodi selezionati" : HasSelection ? $"{SelectedElementIds.Count:N0} elementi selezionati" : "Nessuna selezione";
-    public string VisibilitySummary => Snapshot == null ? "Nessun modello" : $"{(VisibleElementIds?.Count ?? Snapshot.Elements.Length):N0} / {Snapshot.Elements.Length:N0} elementi visibili";
+    public string VisibilitySummary => Snapshot == null ? "Nessun modello" : $"{Snapshot.Elements.Count(e => (VisibleElementIds == null || VisibleElementIds.Contains(e.Id)) && (!ShowResults || ShowContext || e.Type == Family)):N0} / {Snapshot.Elements.Length:N0} elementi visibili";
     public string ResultKind => Snapshot?.Results.FirstOrDefault(r => r.Name == SelectedCase)?.IsEnvelope == true ? "INVILUPPO IMPORTATO" : "CASO / COMBINAZIONE";
     public string Middle => HasResults ? ((ActiveValues.Min(v => v.Value) + ActiveValues.Max(v => v.Value)) / 2).ToString("G5") : "—";
 
@@ -58,7 +58,7 @@ public sealed partial class ModelViewerViewModel
     [ObservableProperty] private string inspectorTitle = "Proprietà del modello";
     [ObservableProperty] private string resultAvailability = "Importa un modello con risultati.";
 
-    partial void OnSelectedPanelChanged(int value) { if (value == 1 && !updating) SelectedMode = 2; if(value == 4) RefreshReportChoices(); }
+    partial void OnSelectedPanelChanged(int value) { if (value == 1 && !updating) ShowResults = true; if(value == 4) RefreshReportChoices(); }
     partial void OnSelectedFamilyChanged(int value)
     {
         bool prior = updating; updating = true; ShowContext = value == 0; updating = prior;
@@ -174,11 +174,11 @@ public sealed partial class ModelViewerViewModel
     [RelayCommand(CanExecute = nameof(CanChangeVisibility))] private void Hide() { hiddenElements.UnionWith(SelectedElementIds); ApplyVisibility(); }
     [RelayCommand] private void ShowAll() { ClearVisibilityCriteria(); hiddenElements.Clear(); isolatedElements = null; ApplyVisibility(); }
     [RelayCommand] private void ClearSelection() { SelectedTreeItem = new() { Label = "Proprietà del modello", Attributes = [new("Selezione", "Seleziona una voce nell’albero o un elemento nella scena.")] }; }
-    [RelayCommand] private void SetMode(string mode)
+    [RelayCommand] private void SetRepresentation(string mode)
     {
-        if (!int.TryParse(mode, out int value) || value is < 0 or > 2) return;
-        SelectedMode = value;
-        SelectedPanel = value == 2 ? 1 : 2;
+        if (!int.TryParse(mode, out int value) || value is < 0 or > 1) return;
+        SelectedRepresentation = value;
+        SelectedPanel = 2;
     }
     void ApplyVisibility()
     {

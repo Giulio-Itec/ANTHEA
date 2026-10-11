@@ -26,8 +26,6 @@ public interface IModelViewerServices
     void SaveViews(string revision, IReadOnlyList<ModelViewPreset> views) { }
 }
 
-public enum ModelViewMode { Geometry, Solids, Results }
-
 /// <summary>Testable presentation state. No WPF, renderer, file dialogs or structural calculations.</summary>
 public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
 {
@@ -52,12 +50,25 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     public ModelSnapshot? Snapshot { get; private set; }
     public bool IsReadOnly { get; }
     public IReadOnlyList<SheetTarget> Sheets { get; }
-    public IReadOnlyList<string> ModeLabels { get; } = ["Geometria", "Volumi e offset", "Risultati"];
+    public IReadOnlyList<string> RepresentationLabels { get; } = ["Geometria", "Volumi e offset"];
     public IReadOnlyList<string> QualityLabels { get; } = ["Normale", "Alta", "Massima"];
-    public ModelViewMode Mode => (ModelViewMode)SelectedMode;
     public int Subdivisions => new[] { 1, 4, 8 }[Math.Clamp(SelectedQuality, 0, 2)];
-    public bool IsResultsView => Mode == ModelViewMode.Results;
-    public bool CanShowMesh => Mode != ModelViewMode.Solids;
+    public bool IsResultsView => ShowResults;
+    public bool IsExtruded => SelectedRepresentation == 1;
+    public string RepresentationLabel => RepresentationLabels[Math.Clamp(SelectedRepresentation, 0, 1)];
+    // Compatibility for the original prototype callers. UI state uses the two independent properties below.
+    public int SelectedMode
+    {
+        get => ShowResults ? 2 : SelectedRepresentation;
+        set
+        {
+            if (value is < 0 or > 2) return;
+            bool previous = updating; updating = true;
+            SelectedRepresentation = value == 1 ? 1 : 0; ShowResults = value == 2;
+            ShowMesh = value == 0; SelectedPanel = value == 2 ? 1 : 0;
+            updating = previous; RefreshScene();
+        }
+    }
     public string ImportLabel => Snapshot == null ? "Importa modello…" : "Aggiorna modello…";
 
     [ObservableProperty] private string title = "Nessun modello importato";
@@ -69,7 +80,8 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     [ObservableProperty] private string maximum = "—";
     [ObservableProperty] private string resultUnit = "";
     [ObservableProperty] private IReadOnlyList<string> cases = Array.Empty<string>();
-    [ObservableProperty] private int selectedMode;
+    [ObservableProperty] private int selectedRepresentation;
+    [ObservableProperty] private bool showResults;
     [ObservableProperty] private int selectedQuality = 1;
     [ObservableProperty] private string? selectedCase;
     [ObservableProperty] private string selectedComponent = "Myy";
@@ -79,10 +91,14 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     [ObservableProperty] private string elementNumber = "";
     [ObservableProperty] private SheetTarget? selectedSheet;
 
-    partial void OnSelectedModeChanged(int value)
+    partial void OnSelectedRepresentationChanged(int value)
     {
-        bool wasUpdating = updating; updating = true; ShowMesh = value == 0; SelectedPanel = value == 2 ? 1 : 0; updating = wasUpdating;
-        OnPropertyChanged(nameof(IsResultsView)); OnPropertyChanged(nameof(CanShowMesh)); RefreshScene();
+        OnPropertyChanged(nameof(IsExtruded)); OnPropertyChanged(nameof(RepresentationLabel));
+        OnPropertyChanged(nameof(SelectedMode)); RefreshScene();
+    }
+    partial void OnShowResultsChanged(bool value)
+    {
+        OnPropertyChanged(nameof(IsResultsView)); OnPropertyChanged(nameof(SelectedMode)); RefreshScene();
     }
     partial void OnSelectedQualityChanged(int value) => RefreshScene();
     partial void OnSelectedCaseChanged(string? value) { RefreshScene(); LinkCommand.NotifyCanExecuteChanged(); }
@@ -117,7 +133,8 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         Title = displayName ?? snapshot.Name; Summary = $"{snapshot.Nodes.Length:N0} nodi · {snapshot.Elements.Length:N0} elementi";
         InitializeWorkspace();
         Cases = snapshot.Results.Select(r => r.Name).ToArray(); SelectedCase = Cases.FirstOrDefault();
-        SelectedMode = snapshot.Results.Length > 0 ? 2 : 0;
+        ShowResults = snapshot.Results.Length > 0; SelectedRepresentation = 0;
+        ShowMesh = !ShowResults; SelectedPanel = ShowResults ? 1 : 0;
         ElementNumber = snapshot.Elements.FirstOrDefault(e => e.Type == "PLATE")?.Id.ToString() ?? "";
         updating = false; OnPropertyChanged(nameof(Snapshot)); OnPropertyChanged(nameof(ImportLabel));
         QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); RefreshScene(); InitializeReport();
@@ -132,13 +149,16 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         UpdateComparison();
         UpdateExploration();
         UpdateDisplay();
+        OnPropertyChanged(nameof(LineRepresentationMessage));
         RefreshTable();
-        Information = Mode switch
+        Information = IsExtruded
+            ? "Piastre: spessori e offset lungo la normale locale. Aste: sezioni rettangolari centrate; offset di estremità non importati. Volumi preliminari."
+            : "Superficie analitica e connettività originali.";
+        if (ShowResults)
         {
-            ModelViewMode.Geometry => "Superficie analitica e connettività originali.\n\nTasto destro: ruota · rotella: zoom · Maiusc + destro: sposta.",
-            ModelViewMode.Solids => "Piastre: spessori e offset lungo la normale locale.\n\nAste: sezioni rettangolari centrate. Offset di estremità non importati.\n\nVolumi preliminari, da confrontare con il modello di origine.",
-            _ => HasResults ? (IsAveragedContour ? ContourAveragingSummary + ".\nMedia solo grafica: tabelle e riferimenti conservano i valori importati. Discontinuità mantenute tra proprietà, materiali e terne differenti." : "Interpolazione grafica interna all’elemento. Discontinuità conservate fra elementi.") + (result?.IsEnvelope == true ? "\n\nInviluppo importato: estremi per componente, non simultanei." : "") : ResultAvailability
-        };
+            Information += "\n\n" + (HasResults ? (IsAveragedContour ? ContourAveragingSummary + ".\nMedia solo grafica: tabelle e riferimenti conservano i valori importati. Discontinuità mantenute tra proprietà, materiali e terne differenti." : "Interpolazione grafica interna all’elemento. Discontinuità conservate fra elementi.") + (result?.IsEnvelope == true ? "\n\nInviluppo importato: estremi per componente, non simultanei." : "") : ResultAvailability);
+            if (IsExtruded) Information += "\n\nPlate: il campo è riportato su entrambe le facce e sui bordi; non rappresenta una distribuzione di tensione nello spessore.";
+        }
         SceneChanged?.Invoke(this, EventArgs.Empty);
     }
 

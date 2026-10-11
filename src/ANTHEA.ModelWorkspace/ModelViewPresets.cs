@@ -14,6 +14,10 @@ public sealed record ModelViewPreset
     public string ForceUnit { get; init; } = "kN";
     public string LengthUnit { get; init; } = "m";
     public int Mode { get; init; } = 2;
+    // Missing in earlier presets: geometry/results used the analytical surface, mode 1 used volumes.
+    public int? Representation { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore]
+    public int EffectiveRepresentation => Representation ?? (Mode == 1 ? 1 : 0);
     public int Family { get; init; }
     public int Axes { get; init; }
     public int Averaging { get; init; }
@@ -70,6 +74,9 @@ public sealed record ModelViewAppearance
     public double IsolineWidth { get; init; } = .5;
     public bool Extrema { get; init; }
     public bool BeamDiagram { get; init; }
+    public bool LineContour { get; init; } = true;
+    public bool BeamDiagramValues { get; init; }
+    public int BeamDiagramAxis { get; init; }
     public double BeamDiagramScale { get; init; } = 1;
     public bool Deformation { get; init; }
     public double DeformationScale { get; init; } = 100;
@@ -122,13 +129,13 @@ public sealed class ModelViewPresetStore(string directory)
                 v.ForceUnit is not ("kN" or "N" or "MN") || v.LengthUnit is not ("m" or "mm" or "cm") ||
                 v.Background==null || !System.Text.RegularExpressions.Regex.IsMatch(v.Background,"^#[0-9a-fA-F]{6}$") ||
                 v.Scale==3 && v.Lower>=v.Upper ||
-                v.Mode is < 0 or > 2 || v.Family is < 0 or > 5 || v.Axes is < 0 or > 1 || v.Scale is < 0 or > 3 || v.ClipAxis is < 0 or > 3 ||
+                v.Mode is < 0 or > 2 || v.Representation is < 0 or > 1 || v.Family is < 0 or > 5 || v.Axes is < 0 or > 1 || v.Scale is < 0 or > 3 || v.ClipAxis is < 0 or > 3 ||
                 !double.IsFinite(v.Lower) || !double.IsFinite(v.Upper) || !double.IsFinite(v.ClipPercent) || v.ClipPercent is < 0 or > 100 || v.Opacity is < .1 or > 1 || !double.IsFinite(v.Opacity))
                 throw new InvalidDataException("Impostazioni della vista non valide.");
             if(v.SelectedNodes is null || v.SelectedNodes.Length>500000 || v.SelectedNodes.Any(i=>i<=0))
                 throw new InvalidDataException("Selezione nodale non valida.");
             if(v.Appearance is {} a && (a.SurfaceMode is <0 or >2 || a.ColorMode is <0 or >4 || a.Quality is <0 or >2 ||
-                a.Lighting is <0 or >2 || a.Antialiasing is <0 or >3 || a.BeamLocation is <0 or >5 || a.LabelScope is <0 or >1 || a.LegendPrecision is <0 or >6 ||
+                a.Lighting is <0 or >2 || a.Antialiasing is <0 or >3 || a.BeamLocation is <0 or >5 || a.BeamDiagramAxis is <0 or >2 || a.LabelScope is <0 or >1 || a.LegendPrecision is <0 or >6 ||
                 a.IsolineCount is <4 or >20 || !ValidRange(a.LabelScale,.6,1.6) || !ValidRange(a.LineWidth,.5,2.5) ||
                 !ValidRange(a.IsolineWidth,.25,1.5) || !ValidRange(a.BeamDiagramScale,.1,5) || !ValidRange(a.DeformationScale,1,1000) || !ValidRange(a.LoadScale,.1,5)))
                 throw new InvalidDataException("Stile della vista non valido.");

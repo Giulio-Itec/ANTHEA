@@ -82,6 +82,7 @@ static partial class Program
             await ContourAveragingChecks();
             ExplorationChecks(output);
             await ReportChecks(output);
+            RepresentationChecks(output);
 
             if (args.Length > 1)
             {

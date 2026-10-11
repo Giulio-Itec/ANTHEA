@@ -64,7 +64,13 @@ internal sealed class ModelReportRenderSession : IDisposable
         if (state.Snapshot!.Results.FirstOrDefault(r => r.Name == state.SelectedCase)?.IsEnvelope == true && state.IsResultsView)
             description += "\nInviluppo importato: estremi per componente non simultanei.";
         if (state.ShowLoads) description += "\n" + state.LoadsMessage;
-        if (state.SelectedMode == 1) description += "\nVolumi preliminari: aste rettangolari centrate; offset di estremità non importati.";
+        if (state.IsExtruded) description += "\nVolumi preliminari: spessori e offset plate; aste rettangolari centrate, offset di estremità non importati.";
+        if (state.IsExtruded && state.IsResultsView && state.Family == "PLATE") description += "\nCampo plate riportato sulle facce estruse; non è una distribuzione di tensione nello spessore.";
+        if(state.IsResultsView && state.IsBeamFamily)
+        {
+            description += "\nAste: " + (state.ShowLineContour?"contouring attivo":"contouring nascosto") + (state.ShowBeamDiagram?$"; diagramma lungo {(state.BeamDiagramAlongY?"Y":"Z")} locale, scala grafica {state.BeamDiagramScale:G3}.":"; diagramma nascosto.");
+            description += "\nInterpolazione grafica fra campioni importati; nessuna estensione oltre le stazioni disponibili.";
+        }
         var categories=!state.IsResultsView && state.SelectedColorMode!=0
             ? state.ColorLegend.Select(c=>new ReportCategory(c.Label,c.Color,c.Count)).ToArray() : [];
         if(categories.Length>0) description += "\n" + state.ColorModes[state.SelectedColorMode];

@@ -13,11 +13,11 @@ public partial class ModelViewerControl
     private ANTHEA.ModelWorkspace.ModelSnapshot? comparisonSnapshot;
     private TextBlock? comparisonTitle;
     private ModelContourLegend? comparisonLegend;
-    internal static SceneOptions Options(ModelViewerViewModel state)=>new(state.SelectedMode,state.ContourValues,state.Family,state.Subdivisions,state.ShowMesh,state.ShowIsolines,state.VisibleElementIds,state.SelectedElementIds,state.ShowLocalAxes,
+    internal static SceneOptions Options(ModelViewerViewModel state)=>new(state.ShowResults,state.IsExtruded,state.ContourValues,state.Family,state.Subdivisions,state.ShowMesh,state.ShowIsolines,state.VisibleElementIds,state.SelectedElementIds,state.ShowLocalAxes,
         state.ShowRestraints,state.ShowConstraints,state.ShowLinks,state.ShowReleases,state.ShowContext,
         new(state.ElementColors,state.SelectedSurfaceMode,state.ShowHiddenWireframe,state.ShowNodeIds,state.ShowElementIds,state.ShowPropertyIds,state.ShowNodes,state.SelectedLabelScope==1,state.LabelScale,state.LineWidth),
         state.ColorMinimum,state.ColorMaximum,state.ShowNodeAxes,state.OverlaysOnlySelection,state.SelectedNodeIds,state.SelectedLighting,state.SelectedContourPalette,state.IsolineCount,state.IsolineWidth,
-        new(state.ActiveClipPlane,state.ShowOutlines,state.SurfaceOpacity,state.ReversePalette,state.ContourBands,state.AvoidLabelOverlap,[..state.ExtremeProbes,..state.PinnedProbes],state.ShowBeamDiagram,state.BeamDiagramScale,state.ActiveLoads,state.LoadGlyphScale,state.ShowDeformation?state.Displacements:[],state.DeformationScale));
+        new(state.ActiveClipPlane,state.ShowOutlines,state.SurfaceOpacity,state.ReversePalette,state.ContourBands,state.AvoidLabelOverlap,[..state.ExtremeProbes,..state.PinnedProbes],state.ShowBeamDiagram,state.BeamDiagramScale,state.ActiveLoads,state.LoadGlyphScale,state.ShowDeformation?state.Displacements:[],state.DeformationScale,state.BeamDiagramAlongY,state.ShowBeamDiagramValues),LineContour:state.ShowLineContour);
     private void UpdateComparisonScene()
     {
         if(!viewModel.CompareEnabled||viewModel.Comparison is not {} state) {DisposeComparison();return;}

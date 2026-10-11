@@ -111,7 +111,7 @@ public sealed partial class ModelViewerViewModel
             if (cases.Length == 0) throw new InvalidDataException("Seleziona almeno un caso o una combinazione.");
             if (ReportChapters.Count + cases.Length * views.Length > 100) throw new InvalidDataException("La serie supera il limite di 100 capitoli. Riduci la selezione.");
             foreach (var view in views) foreach (string name in cases)
-                AddChapter(new() { Kind = ReportBlockKind.Figure, Title = $"{view.Name} · {name} · {view.Component}", View = view with { Mode = 2, Case = name } });
+                AddChapter(new() { Kind = ReportBlockKind.Figure, Title = $"{view.Name} · {name} · {view.Component}", View = view with { Mode = 2, Representation = view.EffectiveRepresentation, Case = name } });
             ReportMessage = $"Aggiunte {cases.Length * views.Length} figure. Campo e stile derivano da ciascuna vista scelta.";
         }
         catch (Exception ex) { ReportMessage = ex.Message; }

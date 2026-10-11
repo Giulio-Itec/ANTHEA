@@ -112,6 +112,12 @@ static partial class Program
                         state.SelectedPanel=4;state.ShowInspector=false;
                     }
                     preview.Title = "ANTHEA · Modelli e report · prova interattiva";
+                    if (args.Contains("--extruded")) state.SetRepresentationCommand.Execute("1");
+                    if (args.Contains("--beam-results"))
+                    {
+                        state.SelectedFamily=1;state.SelectedComponent="My";state.ShowBeamDiagram=true;state.ShowLineContour=true;
+                        state.SelectedRepresentation=1;state.SelectedPanel=1;state.ShowContext=false;
+                    }
                     preview.ShowInTaskbar = true; preview.Closed += (_, _) => app.Shutdown();
                     Capture(isolated, scene, Path.Combine(output, "anteprima-interattiva.png"));
                     File.WriteAllText(Path.Combine(output,"pronta.json"),System.Text.Json.JsonSerializer.Serialize(new
@@ -126,6 +132,14 @@ static partial class Program
                 {
                     ReportRenderingChecks(isolated,scene,output);
                     listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"report composer has no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--extruded-only"))
+                {
+                    ExtrudedContourChecks(output); CaptureExtrudedRealModel(isolated,scene,output);
+                    LineResultRenderingChecks(output); CaptureRealBeamResults(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"extruded result views have no WPF binding errors");
                     File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
                     preview.Close();app.Shutdown();return 0;
                 }
@@ -168,6 +182,8 @@ static partial class Program
                 state.SelectedPanel = 0;
                 RealContourAveragingChecks(isolated, scene, output);
                 ContourRenderingChecks(output);
+                ExtrudedContourChecks(output);
+                LineResultRenderingChecks(output);
                 preview.Activate();
                 state.SelectedPanel = 0;
                 state.SelectedTreeItem = state.FindTreeItem("SECT:" + state.Snapshot!.Sections[0].Id);

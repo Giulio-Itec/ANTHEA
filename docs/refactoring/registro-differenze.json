@@ -1284,6 +1284,40 @@
         "supporto/artefatti/model-viewer/view-mode-tab/ui"
       ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-12",
+      "titolo": "Contouring su volumi e diagrammi delle aste indipendenti",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Separati rappresentazione e livello risultati. Campo plate su facce e bordi estrusi con offset; aste con diagramma e contouring indipendenti su assi o volumi. Persistenza in viste e report, compatibilità delle viste precedenti.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Lines.cs",
+        "src/ANTHEA.ModelWorkspace/ModelViewPresets.cs"
+      ],
+      "segno": "grafica e organizzazione UI intenzionali; valori importati invariati. Eliminata la precedente estensione di un singolo valore su tutta l’asta; ora resta puntuale.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "risultati sui plate estrusi e diagrammi/contouring beam e aste in wireframe e volume",
+        "esito": "implementati stati e opzioni indipendenti, limitati ai dati geometrici e ai campioni disponibili"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "ModelWorkspace: 191 PASS",
+        "Regressione WPF: 138 PASS, nessun errore di binding",
+        "Plate e aste mirato: 39 PASS",
+        "Report reale: 14 PASS, quattro figure e sette pagine controllate"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/view-mode-tab/ui",
+        "supporto/artefatti/model-viewer/extruded-results"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

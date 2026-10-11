@@ -37,6 +37,9 @@ public sealed partial class ModelViewerViewModel
         IsolineWidth=IsolineWidth,
         Extrema=ShowExtrema,
         BeamDiagram=ShowBeamDiagram,
+        LineContour=ShowLineContour,
+        BeamDiagramValues=ShowBeamDiagramValues,
+        BeamDiagramAxis=SelectedBeamDiagramAxis,
         BeamDiagramScale=BeamDiagramScale,
         Deformation=ShowDeformation,
         DeformationScale=DeformationScale,
@@ -77,6 +80,9 @@ public sealed partial class ModelViewerViewModel
         IsolineWidth=a.IsolineWidth;
         ShowExtrema=a.Extrema;
         ShowBeamDiagram=a.BeamDiagram;
+        ShowLineContour=a.LineContour;
+        ShowBeamDiagramValues=a.BeamDiagramValues;
+        SelectedBeamDiagramAxis=a.BeamDiagramAxis;
         BeamDiagramScale=a.BeamDiagramScale;
         ShowDeformation=a.Deformation;
         DeformationScale=a.DeformationScale;

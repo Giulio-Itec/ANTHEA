@@ -481,3 +481,43 @@ entrambi in `supporto/artefatti/model-viewer/`.
 
 Collaudo MOD-11: 33 controlli WPF senza errori di binding, suite ModelWorkspace con 177 controlli
 tramite runner quick mirato (2 PASS inclusa la build, nessun nuovo fallimento).
+
+### Risultati indipendenti dalla rappresentazione e grafici delle aste — MOD-12
+
+La scelta Geometria / Volumi e offset nella scheda Vista ora è indipendente dal livello
+Mostra risultati nella scheda Risultati. Cambiare rappresentazione conserva caso, componente,
+media, scala e preferenza della mesh. Il selettore del primo prototipo rimane soltanto come
+adattatore di compatibilità per i chiamanti esistenti; UI, confronto e renderer hanno due stati
+distinti. Le viste precedenti continuano ad aprirsi con lo stesso significato e le nuove ricette
+memorizzano esplicitamente la rappresentazione. Anche le serie dei report conservano l'estrusione.
+
+Plate: contouring sulle facce superiore/inferiore e sui bordi dello spessore, usando gli offset
+lungo la normale. La stessa sollecitazione è rappresentata sulle due facce: non si ricavano
+nuove tensioni attraverso lo spessore. Media ai vertici, isolinee, selezione per clic e chiusura
+dei lati esposti dall'isolamento sono mantenute. L'inquadratura considera gli ingombri estrusi;
+i bordi continui non ricevono una linea verticale per ogni elemento della mesh.
+
+Aste: controlli unici in Risultati / Contouring e diagrammi delle aste. Contouring e diagramma
+sono indipendenti, combinabili e disattivabili. Geometria e stile wireframe mostrano assi colorati;
+Volumi mostra il campo sulle sezioni rettangolari centrate SB disponibili. Altri profili restano
+sull'asse; non si inventano sezioni o offset delle aste. Supportate le famiglie BEAM, TRUSS,
+TENSTR, COMPTR e CABLE, limitate alle componenti già importate per ciascuna formulazione.
+
+I diagrammi hanno riempimento trasparente, ampiezza grafica, scelta Y/Z locale e valori opzionali
+alle stazioni. Automatico usa Y per Fy/Mz, Z per gli altri campi; l'utente può cambiare il piano.
+L'orientamento usa le terne importate, con fallback grafico da connettività e rotazione per i
+modelli senza terna esplicita. Contouring e diagrammi interpolano soltanto fra stazioni note,
+senza prolungare il campo oltre i campioni. Un singolo campione rimane un'ordinata/marker locale.
+Nessun nuovo calcolo di sollecitazioni. Visibilità nel report conta gli elementi effettivamente
+disegnati quando le altre famiglie sono nascoste.
+
+Collaudo: 191 controlli ModelWorkspace; 138 controlli WPF di regressione; 39 mirati plate/aste;
+14 sul report reale, con quattro figure e sette pagine verificate visivamente. Attesi indipendenti
+sugli offset (+0.6, -0.7), triangoli orientati, UV delle due facce e campo lineare a tratti
+(-10, 20, 0) delle aste. Provati valori non mediati/mediati, stazione singola, tutte le famiglie,
+wireframe/estrusione, spegnimenti separati, picking e compatibilità delle ricette.
+
+Evidenze prima: `supporto/artefatti/model-viewer/view-mode-tab/ui`; dopo:
+`supporto/artefatti/model-viewer/extruded-results/combined`, `regression`, `report-final`.
+Il prototipo resta nel branch separato; nessuna modifica alle DLL GPC o agli altri repository.
+Guide globali e pubblicazione restano al collaudo del rilascio già previsto nel piano.

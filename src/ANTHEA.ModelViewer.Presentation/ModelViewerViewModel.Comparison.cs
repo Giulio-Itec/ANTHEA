@@ -8,8 +8,19 @@ public sealed partial class ModelViewerViewModel
     public ModelViewerViewModel? Comparison { get; private set; }
     public bool CanShareComparisonScale => SelectedComponent.StartsWith('M')==(Components.Contains(CompareComponent)?CompareComponent:SelectedComponent).StartsWith('M');
     [ObservableProperty] private bool showBeamDiagram;
+    [ObservableProperty] private bool showLineContour = true;
+    [ObservableProperty] private bool showBeamDiagramValues;
+    [ObservableProperty] private int selectedBeamDiagramAxis;
+    public IReadOnlyList<string> BeamDiagramAxes { get; } = ["Automatico", "Y locale", "Z locale"];
+    public bool BeamDiagramAlongY => SelectedBeamDiagramAxis == 1 || SelectedBeamDiagramAxis == 0 && SelectedComponent is "Fy" or "Mz";
+    public string LineRepresentationMessage => !IsExtruded || SelectedSurfaceMode == 2
+        ? "Contouring lungo l’asse. Diagrammi fra le stazioni importate; un solo campione resta puntuale."
+        : "Contouring sulle sezioni rettangolari centrate disponibili. Profili assenti o non supportati restano sull’asse; offset delle aste non importati.";
     [ObservableProperty] private double beamDiagramScale=1;
     partial void OnShowBeamDiagramChanged(bool value)=>RefreshScene();
+    partial void OnShowLineContourChanged(bool value)=>RefreshScene();
+    partial void OnShowBeamDiagramValuesChanged(bool value)=>RefreshScene();
+    partial void OnSelectedBeamDiagramAxisChanged(int value)=>RefreshScene();
     partial void OnBeamDiagramScaleChanged(double value)=>RefreshScene();
     private void UpdateComparison()
     {
@@ -22,7 +33,7 @@ public sealed partial class ModelViewerViewModel
         var c=Comparison;c.updating=true;
         try
         {
-            c.SelectedMode=SelectedMode;c.SelectedFamily=SelectedFamily;c.SelectedAxes=SelectedAxes;
+            c.SelectedRepresentation=SelectedRepresentation;c.ShowResults=ShowResults;c.SelectedFamily=SelectedFamily;c.SelectedAxes=SelectedAxes;
             c.SelectedCase=Cases.Contains(CompareCase??"")?CompareCase:SelectedCase;
             c.SelectedComponent=Components.Contains(CompareComponent)?CompareComponent:SelectedComponent;
             c.ForceUnit=ForceUnit;c.LengthUnit=LengthUnit;c.SelectedBeamLocation=SelectedBeamLocation;c.SelectedContourValues=CompareAveraging;
@@ -30,6 +41,8 @@ public sealed partial class ModelViewerViewModel
             c.ShowOutlines=ShowOutlines;c.SurfaceOpacity=SurfaceOpacity;c.SelectedContourPalette=SelectedContourPalette;c.ReversePalette=ReversePalette;c.ContourBands=ContourBands;
             c.SelectedQuality=SelectedQuality;c.ShowIsolines=ShowIsolines;c.IsolineCount=IsolineCount;c.IsolineWidth=IsolineWidth;
             c.SelectedColorScale=SelectedColorScale==3?0:SelectedColorScale;c.ShowBeamDiagram=ShowBeamDiagram;c.BeamDiagramScale=BeamDiagramScale;
+            c.ShowLineContour=ShowLineContour;c.ShowBeamDiagramValues=ShowBeamDiagramValues;c.SelectedBeamDiagramAxis=SelectedBeamDiagramAxis;
+            c.SelectedSurfaceMode=SelectedSurfaceMode;
             c.ShowLoads=ShowLoads;c.SelectedLoadCase=SelectedLoadCase;c.LoadGlyphScale=LoadGlyphScale;c.ShowDeformation=ShowDeformation;c.DeformationScale=DeformationScale;c.LegendPrecision=LegendPrecision;
             c.ShowExtrema=ShowExtrema;c.SceneBackground=SceneBackground;c.AvoidLabelOverlap=AvoidLabelOverlap;
             c.ClipEnabled=ClipEnabled;c.ClipAxis=ClipAxis;c.ClipPercent=ClipPercent;c.ClipReverse=ClipReverse;c.ClipNodes=ClipNodes;

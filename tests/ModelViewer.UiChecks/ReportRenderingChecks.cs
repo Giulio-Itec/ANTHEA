@@ -24,7 +24,11 @@ static partial class Program
         state.AddReportFigureCommand.Execute(null); state.SelectedReportChapter!.Title = "Momento Myy · valori mediati";
         state.SelectedReportChapter.Text = "Lettura del campo con media grafica ai nodi compatibili. Discontinuità conservate fra proprietà e orientamenti differenti.";
         state.SelectedComponent = "Mxx"; state.SelectedContourValues = 0;
-        state.AddReportFigureCommand.Execute(null); state.SelectedReportChapter!.Title = "Momento Mxx · valori per elemento";
+        state.SetRepresentationCommand.Execute("1");
+        state.AddReportFigureCommand.Execute(null); state.SelectedReportChapter!.Title = "Momento Mxx · valori per elemento sul modello estruso";
+        state.SelectedFamily=1;state.SelectedComponent="My";state.ShowBeamDiagram=true;state.ShowLineContour=true;state.ShowExtrema=false;state.ShowContext=false;
+        bool beamFigure=state.HasResults;
+        if(beamFigure) {state.AddReportFigureCommand.Execute(null);state.SelectedReportChapter!.Title="Aste · diagrammi e contouring sul modello estruso";}
         state.ReportSheet = state.Sheets.FirstOrDefault(); state.AddReportVerificationCommand.Execute(null);
         state.AddReportTextCommand.Execute(null);state.SelectedReportChapter!.Title="Escluso";state.SelectedReportChapter.Text="DO-NOT-EXPORT <script>";state.SelectedReportChapter.Included=false;
         state.OpenNavigationCommand.Execute("4"); Wait(250);
@@ -37,10 +41,13 @@ static partial class Program
         while (!task.IsCompleted) Wait(25);
         var result = task.GetAwaiter().GetResult(); watch.Stop();
         Check(File.Exists(result.PdfPath) && new FileInfo(result.PdfPath).Length > 15000, "report produces a real PDF with rendered figures");
-        Check(result.Figures == 3 && Directory.GetFiles(Path.GetDirectoryName(result.PdfPath)!, "figura-*.png").Length == 3, "report regenerates geometry and two different result fields");
+        int figures=beamFigure?4:3;
+        Check(result.Figures == figures && Directory.GetFiles(Path.GetDirectoryName(result.PdfPath)!, "figura-*.png").Length == figures, "report regenerates geometry, plate fields and available beam results");
         Check(JsonSerializer.Serialize(state.CaptureView("Stato interattivo")) == before, "batch rendering preserves active camera, selected field and appearance");
         Check(state.Snapshot.Fingerprint() == original, "report generation leaves original model and forces unchanged");
         var saved = ModelReportFiles.Read(result.RecipePath);
+        Check(saved.Blocks[3].View is { Mode: 2, Representation: 1 } && File.ReadAllText(result.HtmlPath).Contains("Campo plate riportato sulle facce estruse"), "report regenerates and describes the extruded plate result figure");
+        if(beamFigure) Check(saved.Blocks[4].View is { Mode:2,Representation:1,Appearance:{BeamDiagram:true,LineContour:true}} && File.ReadAllText(result.HtmlPath).Contains("diagramma lungo Z locale"),"report regenerates independent beam contour and diagram settings");
         Check(saved.SourceRevision == original && saved.Blocks[0].Text == document.Blocks[0].Text && saved.Blocks[^2].Kind == ReportBlockKind.Verification, "report bundle preserves provenance, author text and pending verification sections");
         Check(File.ReadAllText(result.HtmlPath).Contains("data:image/png;base64,") && File.ReadAllText(result.HtmlPath).Contains("RISULTATI NON COLLEGATI"), "portable HTML embeds figures and identifies unconnected verification results");
         Check(!File.ReadAllText(result.HtmlPath).Contains("DO-NOT-EXPORT") && saved.Blocks[^1].Text.Contains("<script>"), "excluded chapters remain editable but do not enter the exported report");

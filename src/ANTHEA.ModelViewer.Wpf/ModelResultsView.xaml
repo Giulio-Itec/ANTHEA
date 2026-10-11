@@ -3,6 +3,8 @@
   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
     <StackPanel Margin="14,0,14,16">
       <TextBlock Text="CAMPO DI RISULTATO" Style="{StaticResource Caption}" />
+      <CheckBox Content="Mostra risultati sul modello" IsChecked="{Binding ShowResults}" AutomationProperties.Name="Mostra risultati sul modello" />
+      <TextBlock Text="{Binding RepresentationLabel, StringFormat=Rappresentazione: {0}}" FontSize="10" Opacity=".65" Margin="0,0,0,6"/>
       <TextBlock Text="Caso / combinazione" Style="{StaticResource FieldLabel}"/>
       <ComboBox ItemsSource="{Binding Cases}" SelectedItem="{Binding SelectedCase}" AutomationProperties.Name="Caso o combinazione" />
       <TextBlock Text="{Binding ResultKind}" Foreground="#438ED8" FontSize="10" Margin="0,5,0,7" />
@@ -12,6 +14,18 @@
         <ComboBox Grid.Column="2" ItemsSource="{Binding Components}" SelectedItem="{Binding SelectedComponent}" AutomationProperties.Name="Componente del risultato" />
       </Grid>
       <ComboBox ItemsSource="{Binding BeamLocations}" SelectedIndex="{Binding SelectedBeamLocation}" Margin="0,7,0,0" Visibility="{Binding IsBeamFamily, Converter={StaticResource Visible}}" />
+      <Expander Header="Contouring e diagrammi delle aste" IsExpanded="True" Visibility="{Binding IsBeamFamily, Converter={StaticResource Visible}}" Margin="0,8"><StackPanel>
+        <CheckBox Content="Contouring sull’elemento" IsChecked="{Binding ShowLineContour}"/>
+        <CheckBox Content="Diagramma delle sollecitazioni" IsChecked="{Binding ShowBeamDiagram}"/>
+        <StackPanel IsEnabled="{Binding ShowBeamDiagram}">
+          <TextBlock Text="Piano del diagramma" Style="{StaticResource FieldLabel}"/>
+          <ComboBox ItemsSource="{Binding BeamDiagramAxes}" SelectedIndex="{Binding SelectedBeamDiagramAxis}"/>
+          <TextBlock Text="Ampiezza grafica" Style="{StaticResource FieldLabel}"/>
+          <Slider Value="{Binding BeamDiagramScale}" Minimum=".1" Maximum="5" ToolTip="Scala del diagramma"/>
+          <CheckBox Content="Valori alle stazioni" IsChecked="{Binding ShowBeamDiagramValues}"/>
+        </StackPanel>
+        <TextBlock Text="{Binding LineRepresentationMessage}" TextWrapping="Wrap" FontSize="10" Opacity=".7"/>
+      </StackPanel></Expander>
       <TextBlock Text="{Binding ResultUnit}" FontWeight="SemiBold" Margin="0,7,0,3" />
       <Expander Header="Unità" Margin="0,4"><UniformGrid Columns="2" Margin="0,7"><ComboBox ItemsSource="{Binding ForceUnits}" SelectedItem="{Binding ForceUnit}" Margin="0,0,4,0"/><ComboBox ItemsSource="{Binding LengthUnits}" SelectedItem="{Binding LengthUnit}" Margin="4,0,0,0"/></UniformGrid></Expander>
       <TextBlock Text="CONTOURING" Style="{StaticResource Caption}" />
@@ -45,11 +59,6 @@
       <UniformGrid Columns="2"><Button Content="Vai al minimo" Command="{Binding GoToExtremeCommand}" CommandParameter="min" Margin="0,0,3,0"/><Button Content="Vai al massimo" Command="{Binding GoToExtremeCommand}" CommandParameter="max" Margin="3,0,0,0"/></UniformGrid>
       <Button Content="Rimuovi letture fissate" Command="{Binding ClearProbesCommand}" Margin="0,6,0,0"/>
       <TextBlock Text="Passa su un elemento; premi P per fissare il campione vicino. Le letture indicano sempre il caso di origine." FontSize="10" TextWrapping="Wrap" Opacity=".65" Margin="0,7"/>
-      <Expander Header="Diagrammi delle aste" Visibility="{Binding IsBeamFamily, Converter={StaticResource Visible}}" Margin="0,10"><StackPanel>
-        <CheckBox Content="Diagramma dei campioni importati" IsChecked="{Binding ShowBeamDiagram}"/>
-        <Slider Value="{Binding BeamDiagramScale}" Minimum=".1" Maximum="5" ToolTip="Scala del diagramma"/>
-        <TextBlock Text="Ordinata grafica lungo Z locale; segmenti fra stazioni importate. Nessuna ricostruzione di valori mancanti." TextWrapping="Wrap" FontSize="10"/>
-      </StackPanel></Expander>
       <Expander Header="Deformata nodale" Margin="0,10"><StackPanel Margin="0,6">
         <CheckBox Content="Sovrapponi deformata" IsChecked="{Binding ShowDeformation}" IsEnabled="{Binding HasDisplacements}"/>
         <TextBlock Text="Fattore di amplificazione" FontSize="10"/>

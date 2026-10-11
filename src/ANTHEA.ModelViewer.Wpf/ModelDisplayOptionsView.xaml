@@ -8,7 +8,7 @@
       <StackPanel>
         <TextBlock Margin="0,14,0,7" Text="RAPPRESENTAZIONE" FontSize="10" FontWeight="SemiBold" Opacity="0.65" />
         <ComboBox ItemsSource="{Binding SurfaceModes}" SelectedIndex="{Binding SelectedSurfaceMode}" AutomationProperties.Name="Rappresentazione delle superfici" />
-        <CheckBox Content="Bordi della mesh" IsChecked="{Binding ShowMesh}" IsEnabled="{Binding CanShowMesh}" />
+        <CheckBox Content="Bordi della mesh" IsChecked="{Binding ShowMesh}" />
         <CheckBox Content="Bordi esterni e spigoli" IsChecked="{Binding ShowOutlines}"/>
         <TextBlock Text="Opacità delle superfici" Margin="0,8,0,3"/><Slider Value="{Binding SurfaceOpacity}" Minimum=".1" Maximum="1"/>
         <CheckBox Content="Mostra nodi" IsChecked="{Binding ShowNodes}" />

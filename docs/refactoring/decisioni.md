@@ -589,3 +589,13 @@ modifica delle librerie GPC o pubblicazione delle guide del prototipo. Registro 
 Geometria e Volumi e offset passano dalla barra superiore alla scheda Vista, su richiesta
 dell’utente. Il comando resta nel ViewModel e mantiene aperta Vista; la scheda Risultati è
 l’accesso alla rappresentazione delle sollecitazioni. Nessuna modifica del renderer. MOD-11.
+
+### Risultati sovrapposti a geometria e volumi — 11 ottobre
+
+Risultati è un livello attivabile sopra la rappresentazione geometrica. Il cambio tra superficie
+analitica ed estrusione non spegne il campo. Plate: le facce estruse ripetono la sollecitazione
+importata, senza interpretarla come distribuzione nello spessore. Aste: diagrammi e contouring
+hanno interruttori distinti; si interpolano solo stazioni importate. Il volume dipende dai profili
+reali disponibili nella copia; per profili non supportati si mantiene l'asse. Nessun calcolo
+strutturale né aggiornamento delle librerie GPC. Stato interamente MVVM, geometria e materiali
+nel renderer WPF, persistenza delle preferenze nella libreria non WPF. MOD-12.
