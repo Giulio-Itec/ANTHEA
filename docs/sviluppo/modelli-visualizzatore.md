@@ -662,3 +662,20 @@ confronto di sessione; riaprire una vista non finge di averle, il delta richiede
 Prove sul modello reale con differenze simulate dichiarate: 193-274 ms per geometria/attributi,
 circa 10 ms per 13718 campioni Myy. Tempi senza lettura dei file. 281 controlli logici, 13 WPF,
 PDF di due pagine controllato; evidenze `revision-review/reviewed` e `final`.
+### Colori per categoria e aggiornamento delle copie — 11 ottobre 2026
+
+La legenda degli attributi permette selezione dei visibili e, dal menu contestuale, isolamento,
+nascondimento e apertura del colore nella scheda Vista. La stessa scheda include tutte le
+categorie, anche nascoste, una palette, RGB esadecimale e ripristino. Colori stabili per chiave
+e modalità, persistenti nelle viste/ricette e coerenti nel confronto e nelle legende PDF.
+Il colore dei risultati resta determinato esclusivamente dal campo scalare. MOD-20.
+
+Il comando Aggiorna apre un’unica sezione di importazione nella scheda Modello. Quattro modi:
+solo geometria; geometria, attributi e carichi; solo risultati; tutto. Nei modi senza risultati
+le sollecitazioni precedenti vengono rimosse dalla nuova copia. Geometria comprende sezioni,
+spessori, offset e terne geometriche, senza attributi non geometrici. Solo risultati conserva
+geometria e preferenze della vista, sostituisce l’insieme completo dei casi e richiede identità
+delle parti strutturali e delle tabelle. In caso di differenza invita a usare Tutto; nessun
+aggiornamento parziale viene applicato prima del controllo. Annullamento cooperativo, provenienza
+portabile e confronto della revisione. Resta un flusso su copie salvate, non un connettore live.
+MOD-21.

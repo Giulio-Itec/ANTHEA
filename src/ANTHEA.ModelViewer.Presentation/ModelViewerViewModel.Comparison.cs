@@ -44,6 +44,8 @@ public sealed partial class ModelViewerViewModel
             c.SelectedColorScale=SelectedColorScale==3?0:SelectedColorScale;c.ShowBeamDiagram=ShowBeamDiagram;c.BeamDiagramScale=BeamDiagramScale;
             c.ShowLineContour=ShowLineContour;c.ShowBeamDiagramValues=ShowBeamDiagramValues;c.SelectedBeamDiagramAxis=SelectedBeamDiagramAxis;
             c.SelectedSurfaceMode=SelectedSurfaceMode;
+            c.SelectedColorMode=SelectedColorMode;c.categoryColors.Clear();
+            foreach(var color in categoryColors)c.categoryColors[color.Key]=color.Value;
             c.ShowLoads=ShowLoads;c.SelectedLoadCase=SelectedLoadCase;c.LoadGlyphScale=LoadGlyphScale;c.ShowDeformation=ShowDeformation;c.DeformationScale=DeformationScale;c.LegendPrecision=LegendPrecision;
             c.SelectedDeformationScale=SelectedDeformationScale;c.ShowUndeformed=ShowUndeformed;c.UndeformedOpacity=UndeformedOpacity;
             c.DeformationPhase=DeformationPhase;

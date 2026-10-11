@@ -9,7 +9,7 @@
     <TextBlock Text="I risultati restano visibili anche sui volumi. Attivali o nascondili nella scheda Risultati." TextWrapping="Wrap" FontSize="10" Opacity=".65" Margin="0,0,0,8"/>
     <local:ModelViewSettingsView/>
     <Button Content="Vista precedente" Command="{Binding PreviousCameraCommand}" Margin="0,8"/>
-    <Expander Header="Oggetti, colori ed etichette" Margin="0,8"><local:ModelDisplayOptionsView Margin="0,8"/></Expander>
+    <Expander Header="Oggetti, colori ed etichette" IsExpanded="{Binding ShowDisplayOptions}" Margin="0,8"><local:ModelDisplayOptionsView Margin="0,8"/></Expander>
     <Expander Header="Taglio e volume di esplorazione" Margin="0,8"><StackPanel Margin="0,8">
     <CheckBox Content="Attiva taglio grafico" IsChecked="{Binding ClipEnabled}"/>
     <ComboBox ItemsSource="{Binding ClipShapes}" SelectedIndex="{Binding ClipShape}" Margin="0,5,0,8" AutomationProperties.Name="Tipo di ritaglio"/>

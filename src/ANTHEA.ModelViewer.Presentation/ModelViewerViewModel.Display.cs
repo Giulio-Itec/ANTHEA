@@ -30,7 +30,7 @@ public sealed partial class ModelViewerViewModel
     public string ColorExplanation => IsResultsView ? "Il colore rappresenta la sollecitazione. I colori degli attributi si applicano a Geometria e Volumi."
         : SelectedColorMode == 4 ? "Appartenenze multiple: colore del gruppo con meno elementi; a parità, ID minore. Tutte le appartenenze sono consultabili nell’albero."
         : "Colori stabili per gli attributi della copia importata.";
-    partial void OnSelectedColorModeChanged(int value) => RefreshScene();
+    partial void OnSelectedColorModeChanged(int value) { SelectedColorCategoryKey=null; RefreshScene(); }
     partial void OnSelectedSurfaceModeChanged(int value) => RefreshScene();
     partial void OnSelectedLabelScopeChanged(int value) => RefreshScene();
     partial void OnShowHiddenWireframeChanged(bool value) => RefreshScene();
@@ -54,8 +54,12 @@ public sealed partial class ModelViewerViewModel
     void UpdateDisplay()
     {
         ElementColors = displayCatalog?.ForMode(Math.Clamp(SelectedColorMode, 0, 4)) ?? new Dictionary<int, ElementDisplay>();
-        ColorLegend = ElementColors.Where(e => VisibleElementIds == null || VisibleElementIds.Contains(e.Key)).GroupBy(e => e.Value.Key)
+        if(categoryColors.Keys.Any(k=>k.Mode==SelectedColorMode))
+            ElementColors=ElementColors.ToDictionary(p=>p.Key,p=>categoryColors.TryGetValue((SelectedColorMode,p.Value.Key),out var color)?p.Value with {Color=color.Color}:p.Value);
+        UpdateColorCategories();
+        var legend = ElementColors.Where(e => VisibleElementIds == null || VisibleElementIds.Contains(e.Key)).GroupBy(e => e.Value.Key)
             .Select(g => new DisplayCategory(g.Key, g.First().Value.Label, g.First().Value.Color, g.Count())).ToArray();
+        if(!ColorLegend.SequenceEqual(legend))ColorLegend=legend;
         OnPropertyChanged(nameof(HasColorLegend)); OnPropertyChanged(nameof(ColorExplanation)); OnPropertyChanged(nameof(ColorLegendTitle));
     }
 }

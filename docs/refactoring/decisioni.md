@@ -653,7 +653,7 @@ con indicazione nella vista e nel report. Deformata statica ammessa, animazione 
 Le operazioni distanza/angolo sono delegate a GPC.Geometry già distribuita; ModelWorkspace
 adatta i punti importati e le traslazioni relative, senza nuove formule geometriche in WPF
 o Presentation. Nessuna DLL viene aggiornata. Le misure reali non dipendono dalla scala
-grafica e richiedono dati simultanei completi. Invilluppi e riferimenti mancanti restano
+grafica e richiedono dati simultanei completi. Inviluppi e riferimenti mancanti restano
 indisponibili; il report rifiuta riferimenti invalidi. Il disegno segue la forma visualizzata
 con una base della misura sempre esplicita. Esc termina lo strumento e deseleziona.
 
@@ -683,3 +683,22 @@ della differenza. Le annotazioni salvano provenienza e sagome precedenti; il PDF
 la revisione corrente, bloccando annotazioni obsolete. Per ricomputare il delta dopo riapertura
 serve la copia precedente con i risultati: non viene incorporata nelle preferenze grafiche.
 Archivio storico e connessioni live rimangono distinti. MOD-19.
+
+## Colori per categoria e aggiornamenti parziali (11 ottobre 2026)
+
+I colori personalizzati sono preferenze della vista, identificati da modalità e chiave della
+categoria, separati dai dati importati. La legenda mostra le categorie visibili; l’editor
+mantiene anche quelle nascoste. Seleziona agisce sui visibili; Isola/Nascondi/Mostra su tutta
+la categoria. In caso di gruppi sovrapposti resta la regola deterministica del gruppo più
+specifico. L’albero continua a mostrare tutte le appartenenze. Ricette, confronto e report
+usano gli stessi colori. MOD-20.
+
+L’aggiornamento delle copie distingue solo geometria, geometria/attributi/carichi, soli risultati
+e tutto. Solo geometria include le dimensioni reali delle sezioni, spessori, offset e terne
+necessarie alla rappresentazione, ma esclude materiali, gruppi, condizioni al contorno e carichi.
+I primi due modi eliminano i risultati dalla nuova copia: non si conserva un campo precedente
+su un modello cambiato. I soli risultati sostituiscono tutti i casi e richiedono identità di
+nodi, elementi, proprietà, terne, vincoli e tabelle acquisite. Si tollera soltanto l’ordine
+degli oggetti JSON e la scrittura numerica equivalente; non si rimappano nodi o elementi.
+Provenienza e ambito sono salvati nel pacchetto. Annullamento/rifiuto conservano la copia valida.
+La lettura diretta dai software resta un adattatore da integrare. MOD-21.

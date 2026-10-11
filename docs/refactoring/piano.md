@@ -233,11 +233,11 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: filtri per attributi combinabili, visibilità con nome nella sessione, scale globali/simmetriche/manuali e tabelle delle proprietà non assegnate; 67 controlli ModelWorkspace, WPF sintetico 21 e reale 44, registro MOD-03.
 - [x] 11 ottobre: navigazione e proprietà riducibili a barra, menu contestuale e tabella degli elementi associati, terne nodali esplicite, ambito della selezione e interruttori per ogni livello; ModelWorkspace reale 78, WPF sintetico 27 e reale 49 PASS, registro MOD-04.
 - [x] 11 ottobre: predisposizione MVVM della barra di avanzamento delle verifiche, attività e conteggio, annullamento cooperativo e gestione di errore/fine; motore e assegnazioni sezioni ancora da collegare, registro MOD-05.
-- [ ] Integrazione GPC nel prodotto rilasciato, inviluppi calcolati, confronto delle revisioni modello e archivio grandi dati: restano nella specifica.
+- [ ] Integrazione GPC nel prodotto rilasciato, inviluppi calcolati e archivio grandi dati: restano nella specifica.
 - [x] 11 ottobre: menu delle impostazioni vista, navigazione e viste standard/45°, Esc, palette e antialiasing; contratto e messaggi per aggiornamento interrotto con conservazione della copia valida. Registro MOD-06.
 - [x] Finestra di prova interattiva aggiornata: controllo WPF reale, scorciatoia alle impostazioni e simulazione esplicita dei cinque avvisi MIDAS, senza connessioni o modifiche ai file sorgente. Combinazioni locali e confronto revisioni restano separati dalla preview.
 - [x] Confronto revisioni collegato all’importazione delle copie: elenco e grafica, aggiunte/modifiche/cancellazioni, delta per campo su richiesta, annullamento e report con provenienza; MOD-19.
-- [ ] Storico completo delle copie e dei risultati nel progetto, connettori live e aggiornamenti parziali: integrazione successiva.
+- [ ] Storico completo delle copie e dei risultati nel progetto e connettori live: integrazione successiva. Aggiornamenti parziali delle copie disponibili, MOD-21.
 - [ ] Rilascio, guide globali e merge: dopo il collaudo e l'approvazione dell'utente.
 - [x] 11 ottobre: esperimento sui 49 casi statici completi, 73 definizioni Add/Envelope, misure C# e confronto numerico. Somma delle combinazioni fuori dalla UI e dalle librerie di produzione; dettagli e limiti in [benchmark casi base](../sviluppo/modelli-benchmark-casi-base.md), registro MOD-07.
 - [ ] Trasferire il metodo validato in GPC dopo la decisione sul contratto, ampliare confronto a inviluppi completi/beam, governanti e simultaneità, quindi collegare archivio e renderer. L'inviluppo completo MIDAS ha superato 180 s nella prova.
@@ -258,3 +258,5 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: misure fra nodi (originale/deformata reale), angoli, viste e report; inquadratura rispettosa della camera e del taglio, proiezione immediata corretta. MOD-17.
 
 - [x] 11 ottobre: topologia grafica dei bordi plate coerente con isolamento e visibilita; 11 controlli WPF sintetici/reali, cattura prima e dopo. MOD-18.
+- [x] 11 ottobre: legenda interattiva e colori per categoria personalizzabili, selezione/isola/nascondi/mostra, viste e report; MOD-20.
+- [x] 11 ottobre: quattro modalità di importazione della copia, compatibilità rigorosa per i soli risultati, annullamento, rimozione esplicita delle sollecitazioni nei modi senza risultati e provenienza; MOD-21.

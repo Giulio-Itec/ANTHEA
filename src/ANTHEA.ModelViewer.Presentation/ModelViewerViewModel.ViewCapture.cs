@@ -8,6 +8,7 @@ public sealed partial class ModelViewerViewModel
     {
         SurfaceMode=SelectedSurfaceMode,
         ColorMode=SelectedColorMode,
+        CategoryColors=categoryColors.Values.OrderBy(c=>c.Mode).ThenBy(c=>c.Key,StringComparer.Ordinal).ToArray(),
         Quality=SelectedQuality,
         Lighting=SelectedLighting,
         Antialiasing=SelectedAntialiasing,
@@ -55,6 +56,8 @@ public sealed partial class ModelViewerViewModel
     };
     void ApplyAppearance(ModelViewAppearance a)
     {
+        categoryColors.Clear();
+        foreach(var color in a.CategoryColors ?? []) categoryColors[(color.Mode,color.Key)] = color;
         SelectedSurfaceMode=a.SurfaceMode;
         SelectedColorMode=a.ColorMode;
         SelectedQuality=a.Quality;

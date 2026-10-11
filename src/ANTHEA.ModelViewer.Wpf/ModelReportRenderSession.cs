@@ -66,6 +66,7 @@ internal sealed class ModelReportRenderSession : IDisposable
         if (state.Snapshot!.Results.FirstOrDefault(r => r.Name == state.SelectedCase)?.IsEnvelope == true && state.IsResultsView)
             description += "\nInviluppo importato: estremi per componente non simultanei.";
         if (state.ShowLoads) description += "\n" + state.LoadsMessage;
+        if(state.Snapshot.UpdateInfo!=null)description+="\n"+state.UpdateProvenance;
         if (state.ShowDeformation) description += "\n" + state.DeformationHeading + ". " + state.DeformationMessage;
         if(state.ShowMeasurements && state.MeasurementReadings.Count>0)
             description+="\nMisure · "+state.MeasurementBasisLabel+". Valori indipendenti dall'amplificazione grafica.\n"+string.Join("\n",state.MeasurementReadings.Select(m=>m.Title+": "+m.Value+" · "+m.Details));

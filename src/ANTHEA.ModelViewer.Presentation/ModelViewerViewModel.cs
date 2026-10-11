@@ -13,6 +13,7 @@ public sealed record SheetTarget(string Id, string Name, string Status)
 public interface IModelViewerServices
 {
     Task<ModelSnapshot?> ImportAsync(CancellationToken cancellationToken);
+    Task<ModelSnapshot?> ImportAsync(ModelUpdateScope scope,CancellationToken cancellationToken)=>ImportAsync(cancellationToken);
     Task<ModelSnapshot?> OpenPreviousModelAsync(CancellationToken cancellationToken)=>ImportAsync(cancellationToken);
     ModelReportDocument? OpenReport(bool hasChanges) => null;
     bool SaveReport(ModelReportDocument document) => false;
@@ -108,26 +109,32 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     partial void OnShowIsolinesChanged(bool value) => RefreshScene();
     partial void OnElementNumberChanged(string value) { QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); }
     partial void OnSelectedSheetChanged(SheetTarget? value) => LinkCommand.NotifyCanExecuteChanged();
-    partial void OnIsBusyChanged(bool value) { ImportCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); ComparePreviousCommand.NotifyCanExecuteChanged();ComputeRevisionDeltaCommand.NotifyCanExecuteChanged();ClearRevisionCommand.NotifyCanExecuteChanged(); }
+    partial void OnIsBusyChanged(bool value) { OnPropertyChanged(nameof(CanChooseUpdateScope));ImportCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); ComparePreviousCommand.NotifyCanExecuteChanged();ComputeRevisionDeltaCommand.NotifyCanExecuteChanged();ClearRevisionCommand.NotifyCanExecuteChanged(); }
 
-    private bool CanImport() => !IsReadOnly && !IsBusy && !IsVerificationRunning && !IsReportRunning && !IsRevisionBusy && !disposed;
-    [RelayCommand(CanExecute = nameof(CanImport))]
-    private async Task ImportAsync()
+    private bool CanImport() => !IsReadOnly && !IsBusy && !IsVerificationRunning && !IsReportRunning && !IsRevisionBusy && !disposed && (SelectedUpdateScope!=2 || Snapshot!=null);
+    [RelayCommand(CanExecute = nameof(CanImport),IncludeCancelCommand=true)]
+    private async Task ImportAsync(CancellationToken cancellationToken)
     {
+        using var linkedCancellation=CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token,cancellationToken);
+        var token=linkedCancellation.Token;
+        var scope=(ModelUpdateScope)SelectedUpdateScope;
         IsBusy = true; ImportFailure = null; Status = "Lettura e controllo del modello…";
         try
         {
-            var snapshot = await services.ImportAsync(lifetime.Token);
-            if (snapshot == null || disposed) { if (!disposed) Status = "Importazione annullata"; return; }
-            snapshot.Validate();
-            (ModelRevisionReview Review,ModelRevisionOverlay Overlay)? review=Snapshot is {} previous?await CreateRevisionAsync(previous,snapshot,lifetime.Token):null;
-            if(disposed)return;
+            var incoming = await services.ImportAsync(scope,token);
+            if (incoming == null || disposed) { if (!disposed) Status = "Importazione annullata"; return; }
+            var snapshot=await Task.Run(()=>ModelSnapshotUpdate.Apply(Snapshot,incoming,scope,token),token);
+            var previousView=scope==ModelUpdateScope.Results?CaptureView("Vista corrente"):null;
+            (ModelRevisionReview Review,ModelRevisionOverlay Overlay)? review=Snapshot is {} previous?await CreateRevisionAsync(previous,snapshot,token):null;
+            token.ThrowIfCancellationRequested();if(disposed)return;
             imported(snapshot); SetSnapshot(snapshot);
+            if(previousView!=null)ApplyView(previousView with {Case=Cases.Contains(previousView.Case)?previousView.Case:Cases.FirstOrDefault(),RevisionOverlay=null});
             if(review!=null)ApplyRevision(review.Value.Review,review.Value.Overlay);
-            services.FitView();
-            Status = "Modello importato. Salva il progetto per conservare la copia e i riferimenti.";
+            if(scope!=ModelUpdateScope.Results)services.FitView();
+            ShowImportOptions=false;
+            Status = UpdateScopeLabels[(int)scope]+" completato. Salva il progetto per conservare la copia e i riferimenti.";
         }
-        catch (TaskCanceledException) when (!lifetime.IsCancellationRequested) { if (!disposed) { var failure = new ModelSourceException(ModelSourceFailureKind.Timeout); SetImportFailure(failure); Status = failure.Message; } }
+        catch (TaskCanceledException) when (!token.IsCancellationRequested) { if (!disposed) { var failure = new ModelSourceException(ModelSourceFailureKind.Timeout); SetImportFailure(failure); Status = failure.Message; } }
         catch (OperationCanceledException) { if (!disposed) Status = "Importazione annullata"; }
         catch (Exception ex) { if (!disposed) { SetImportFailure(ex); Status = "Importazione non completata: " + ex.Message; } }
         finally { IsBusy = false; }
@@ -136,6 +143,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     private void SetSnapshot(ModelSnapshot snapshot)
     {
         snapshot.Validate(); updating = true; Snapshot = snapshot;
+        categoryColors.Clear();
         ResetRevision();
         Title = displayName ?? snapshot.Name; Summary = $"{snapshot.Nodes.Length:N0} nodi · {snapshot.Elements.Length:N0} elementi";
         InitializeWorkspace();
@@ -144,6 +152,8 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         ShowMesh = !ShowResults; SelectedPanel = ShowResults ? 1 : 0;
         ElementNumber = snapshot.Elements.FirstOrDefault(e => e.Type == "PLATE")?.Id.ToString() ?? "";
         updating = false; OnPropertyChanged(nameof(Snapshot)); OnPropertyChanged(nameof(ImportLabel));
+        OnPropertyChanged(nameof(UpdateProvenance));
+        OnPropertyChanged(nameof(UpdateScopeDescription));
         QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); RefreshScene(); InitializeReport();
     }
 

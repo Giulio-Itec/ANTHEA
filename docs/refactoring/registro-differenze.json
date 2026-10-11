@@ -1509,6 +1509,70 @@
         "supporto/artefatti/ci/20261011-191920-modelli-revisioni-annullamento"
       ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-20",
+      "titolo": "Colori personalizzati e legenda interattiva",
+      "famiglia": "interfaccia/documenti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Colori RGB per categoria, palette, ripristino, azioni di selezione e visibilità dalla legenda. Stessa configurazione in viste, confronto e report.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.CategoryColors.cs",
+        "src/ANTHEA.ModelWorkspace/ModelCategoryColor.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelDisplayOptionsView.xaml"
+      ],
+      "segno": "Preferenze grafiche; nessuna modifica a proprietà o risultati. La legenda conserva i propri elementi WPF quando le categorie non cambiano.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "colori per sezioni/gruppi e selezione/isola/nascondi",
+        "esito": "impostazioni uniche nella scheda Vista"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "14 controlli logici aggiuntivi; suite cumulativa 315 PASS",
+        "11 controlli WPF reali e tre temi, nessun errore di binding",
+        "PDF di due pagine renderizzato e controllato"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/category-colors/real",
+        "supporto/artefatti/ci/20261011-193500-modelli-aggiornamenti-parziali"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-21",
+      "titolo": "Aggiornamenti parziali delle copie del modello",
+      "famiglia": "interfaccia/documenti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Quattro ambiti di importazione, compatibilità rigorosa per i soli risultati, annullamento e provenienza. Gli ambiti geometrici senza risultati rimuovono i campi precedenti.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelSnapshotUpdate.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Updates.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelImportOptionsView.xaml"
+      ],
+      "segno": "Composizione documentale senza calcoli o rimappatura. La copia valida resta disponibile in caso di rifiuto/annullamento. Fonti immutate; metadati opzionali preservano le impronte dei pacchetti precedenti.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "solo geometria, geometria+attributi+carichi, solo risultati, tutto",
+        "esito": "flusso su copie salvate; connettori live ancora da integrare"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "20 controlli logici aggiuntivi; suite cumulativa 315 PASS",
+        "10 controlli WPF reali senza errori di binding",
+        "Compatibilità e composizione dei 49 casi già caricati: 541 ms"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/partial-updates/real",
+        "supporto/artefatti/ci/20261011-193500-modelli-aggiornamenti-parziali"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

@@ -16,7 +16,7 @@
     </Grid.RowDefinitions>
     <Border Padding="18,12" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource AppearanceBorder}">
       <DockPanel>
-        <Button DockPanel.Dock="Right" Content="{Binding ImportLabel}" Command="{Binding ImportCommand}" VerticalAlignment="Center" />
+        <Button DockPanel.Dock="Right" Content="{Binding ImportLabel}" Command="{Binding OpenImportOptionsCommand}" VerticalAlignment="Center" />
         <StackPanel>
           <TextBlock Text="MODELLI / SPAZIO DI LAVORO" FontSize="10" Foreground="#438ED8" FontWeight="SemiBold" />
           <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="SemiBold" Margin="0,3,12,0" TextTrimming="CharacterEllipsis" />
@@ -100,6 +100,7 @@
                 <local:ModelVisibilityView />
               </Expander>
               <Expander Header="Check della revisione" Margin="0,8,0,0"><local:ModelRevisionToolsView/></Expander>
+              <Expander Header="Importazione e aggiornamento" IsExpanded="{Binding ShowImportOptions}" Margin="0,8,0,0"><local:ModelImportOptionsView/></Expander>
             </StackPanel>
             <TreeView x:Name="ModelTree" Grid.Row="1" ItemsSource="{Binding Tree}" SelectedItemChanged="TreeSelectionChanged" PreviewMouseDown="TreeContextSelection" BorderThickness="0" Background="Transparent" Padding="5,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Albero del modello">
               <TreeView.ContextMenu>
@@ -241,7 +242,15 @@
                 <ItemsControl ItemsSource="{Binding ColorLegend}">
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                      <Grid Margin="0,0,0,12">
+                      <Button Margin="0,0,0,8" Padding="4" HorizontalContentAlignment="Stretch" Command="{Binding DataContext.SelectColorCategoryCommand, RelativeSource={RelativeSource AncestorType=local:ModelViewerControl}}" CommandParameter="{Binding Key}" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=local:ModelViewerControl}}" ToolTip="Seleziona gli elementi visibili · tasto destro per isolare, nascondere o cambiare colore">
+                        <Button.ContextMenu><ContextMenu DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                          <MenuItem Header="Seleziona visibili" Command="{Binding SelectColorCategoryCommand}" CommandParameter="{Binding PlacementTarget.DataContext.Key, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                          <MenuItem Header="Isola categoria" Command="{Binding IsolateColorCategoryCommand}" CommandParameter="{Binding PlacementTarget.DataContext.Key, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                          <MenuItem Header="Nascondi categoria" Command="{Binding HideColorCategoryCommand}" CommandParameter="{Binding PlacementTarget.DataContext.Key, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                          <Separator/>
+                          <MenuItem Header="Personalizza colore…" Command="{Binding EditColorCategoryCommand}" CommandParameter="{Binding PlacementTarget.DataContext.Key, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                        </ContextMenu></Button.ContextMenu>
+                        <Grid>
                         <Grid.ColumnDefinitions>
                           <ColumnDefinition Width="16" />
                           <ColumnDefinition />
@@ -251,7 +260,8 @@
                           <TextBlock Text="{Binding Label}" TextWrapping="Wrap" Foreground="{Binding DataContext.SceneInk, RelativeSource={RelativeSource AncestorType=local:ModelViewerControl}}" FontSize="10" />
                           <TextBlock Text="{Binding Count, StringFormat={}{0:N0} elementi}" Foreground="{Binding DataContext.SceneInk, RelativeSource={RelativeSource AncestorType=local:ModelViewerControl}}" Opacity="0.7" FontSize="9" Margin="0,3,0,0" />
                         </StackPanel>
-                      </Grid>
+                        </Grid>
+                      </Button>
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>

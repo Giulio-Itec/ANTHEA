@@ -59,6 +59,7 @@ public sealed record ModelViewAppearance
 {
     public int SurfaceMode { get; init; }
     public int ColorMode { get; init; }
+    public ModelCategoryColor[]? CategoryColors { get; init; }
     public int Quality { get; init; } = 1;
     public int Lighting { get; init; } = 1;
     public int Antialiasing { get; init; } = 2;
@@ -146,6 +147,7 @@ public sealed class ModelViewPresetStore(string directory)
         {
             ModelMeasurements.Validate(v.Measurements);
             ModelRevisionOverlay.Validate(v.RevisionOverlay);
+            ModelCategoryColor.Validate(v.Appearance?.CategoryColors);
             if(v.ClipShape is <0 or >1 || v.ClipShape==1 && v.ClipBox==null || v.ClipBox is {IsValid:false})
                 throw new InvalidDataException("Volume di taglio non valido: usa intervalli X, Y e Z crescenti.");
             if (v.Selected == null || v.Selected.Length > 500000 || v.Visible?.Length > 500000 || v.Selected.Any(i => i <= 0) || v.Visible?.Any(i => i <= 0) == true ||

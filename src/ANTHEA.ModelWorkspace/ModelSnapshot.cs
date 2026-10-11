@@ -47,12 +47,16 @@ public sealed class ModelSnapshot
     public ModelBoundary[]? Boundaries { get; set; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ModelImportMessage[]? ImportMessages { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelUpdateInfo? UpdateInfo { get; set; }
     public static readonly string[] Components = ["Mxx", "Myy", "Mxy", "Fxx", "Fyy", "Fxy", "Vxx", "Vyy"];
     public static string Unit(string component) => component.StartsWith('M') ? "kN·m/m" : "kN/m";
     public void Validate()
     {
         if (Nodes is null || Elements is null || Plates is null || Sections is null || Results is null || Nodes.Any(n => n is null) || Elements.Any(e => e is null || e.Nodes is null) || Plates.Any(p => p is null) || Sections.Any(s => s is null) || Results.Any(r => r is null || r.Values is null || r.Values.Any(v => v is null || v.Values is null))) throw new InvalidDataException("Il modello contiene dati mancanti.");
         if (Version != 1) throw new InvalidDataException("Versione del modello non supportata.");
+        if(UpdateInfo is {} update && (!Enum.IsDefined(update.Scope) || update.InputSource is null || update.InputSource.Length>4000 || update.DiscardedResultCases<0 || update.ResultsCompatibilityVerified!=(update.Scope==ModelUpdateScope.Results)))
+            throw new InvalidDataException("Provenienza dell’aggiornamento non valida.");
         if (Nodes.Length == 0 || Nodes.Length > 500000 || Elements.Length > 500000) throw new InvalidDataException("Dimensione del modello non supportata dalla bozza.");
         if (Nodes.Any(n => n.Id <= 0 || !double.IsFinite(n.X) || !double.IsFinite(n.Y) || !double.IsFinite(n.Z)) || Nodes.Select(n => n.Id).Distinct().Count() != Nodes.Length) throw new InvalidDataException("Nodi non validi o duplicati.");
         var ids = Nodes.Select(n => n.Id).ToHashSet();
