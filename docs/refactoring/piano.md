@@ -251,4 +251,5 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: risultati separati dalla rappresentazione; contouring plate sui volumi con offset e diagrammi/contouring delle aste combinabili in wireframe o estrusione, incluse viste e report. Registro MOD-12.
 
 - [x] 11 ottobre: deformata nodale completa, campo degli spostamenti globali, scala automatica/reale/manuale, sagoma iniziale, animazione con buffer riutilizzati e import dei 49 casi MIDAS. Verificati chiaro, scuro e molto scuro su schede, menu e tabelle. Registro MOD-13.
-- [ ] Sessione grafica successiva al confronto con i manuali: diagramma di dettaglio dell'asta, misure fra nodi e ritaglio a volume; solo presentazione dei dati importati. Acquisizione aggiornata delle forze dei 49 casi in corso, integrazione da verificare entro i limiti dell'archivio del prototipo.
+- [x] 11 ottobre: pacchetto completo dei 49 casi acquisiti (forze e traslazioni, 123,8 MB), lettura in streaming e limite 256 MiB; impronte delle revisioni identiche al contratto precedente. Apertura nel progetto e rendering verificati. Registro MOD-14.
+- [ ] Sessione grafica successiva al confronto con i manuali: diagramma di dettaglio dell'asta, misure fra nodi e ritaglio a volume; solo presentazione dei dati importati.

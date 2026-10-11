@@ -575,3 +575,14 @@ cinque pagine controllato a video in `deformations/report-verified`. Il confront
 attende l'assestamento del layout prima della cattura dell'aspect ratio della camera.
 Prima: `deformations/before`; dopo: `static-final`, `themes-check`, `real-refined` e `regression`.
 Guide globali e rilascio rimangono nel passaggio di pubblicazione già concordato.
+
+### Pacchetto reale completo (MOD-14)
+
+Acquisizione aggiornata conclusa senza variazioni delle tabelle controllate: 49 casi plate e
+beam in 534,8 s, oltre ai 139,4 s delle traslazioni. Il pacchetto normalizzato completo occupa
+123.821.818 byte; SHA-256 della cattura prima della modifica alla lettura:
+`44364F843E48DFF1865976D084F46C0A96E237FFCA569AC48574B950AB8962D9`.
+Nuovo limite 256 MiB, deserializzazione del file e calcolo dell'impronta in streaming.
+Formato JSON e impronta delle revisioni conservati, nessun aggiornamento delle DLL GPC.
+Runner mirato: 216 controlli logici; apertura in archivio e deformata reale: 14 PASS.
+Evidenza `deformations/real-complete`; il pacchetto iniziale rimane conservato.

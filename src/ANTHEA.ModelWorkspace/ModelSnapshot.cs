@@ -103,10 +103,19 @@ public sealed class ModelSnapshot
             throw new InvalidDataException("Tabelle degli attributi non valide.");
         if (ImportMessages?.Any(m => m == null || string.IsNullOrWhiteSpace(m.Code)) == true) throw new InvalidDataException("Rapporto di importazione non valido.");
     }
-    public string Fingerprint() => Convert.ToHexString(SHA256.HashData(JsonSerializer.SerializeToUtf8Bytes(this)));
+    public string Fingerprint()
+    {
+        // Same canonical UTF-8 JSON as previous revisions, without allocating another complete copy.
+        using var hash = SHA256.Create();
+        using var stream = new CryptoStream(Stream.Null, hash, CryptoStreamMode.Write);
+        JsonSerializer.Serialize(stream, this);
+        stream.FlushFinalBlock();
+        return Convert.ToHexString(hash.Hash!);
+    }
     public static ModelSnapshot FromJson(string json)
     {
-        if (json.Length > 64000000) throw new InvalidDataException("La bozza accetta modelli fino a 64 MB.");
+        if (json.Length > ModelSnapshotFiles.MaximumPackageBytes || System.Text.Encoding.UTF8.GetByteCount(json) > ModelSnapshotFiles.MaximumPackageBytes)
+            throw new InvalidDataException(ModelSnapshotFiles.PackageSizeMessage);
         var value = JsonSerializer.Deserialize<ModelSnapshot>(json) ?? throw new InvalidDataException("Modello vuoto."); value.Validate(); return value;
     }
 }

@@ -618,3 +618,11 @@ sono MVVM; timer e buffer appartengono alla vista/renderer. Import e persistenza
 Si riusano i tre aspetti globali di ANTHEA, senza un secondo sistema di temi nel modulo. I test
 non modificano la preferenza salvata. Lo sfondo del modello rimane una scelta grafica indipendente
 e i colori ingegneristici non cambiano con l'aspetto. Nessuna modifica alle librerie GPC. MOD-13.
+# Pacchetti Modelli con più casi (11 ottobre 2026)
+
+Il limite preliminare di 64 MB impediva di aprire il pacchetto reale dei 49 casi, pur avendo
+solo 3.755 nodi e 3.616 elementi. Il limite esplicito è ora 256 MiB e la lettura del file usa
+lo stream, con cancellazione. Anche SHA-256 viene alimentato in streaming: ordinamento e
+serializzazione UTF-8 rimangono identici, senza invalidare i riferimenti salvati. Il formato
+del progetto non cambia; un archivio dedicato dei grandi risultati rimane un'evoluzione distinta.
+

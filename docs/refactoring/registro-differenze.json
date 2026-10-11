@@ -1336,6 +1336,23 @@
       "test": ["Spostamenti e importazione: controlli logici dedicati", "Deformate sintetiche: 36 PASS", "Temi: 53 PASS", "Deformate reali: 14 PASS", "Regressione WPF: 138 PASS"],
       "evidenze": ["supporto/artefatti/model-viewer/deformations/before", "supporto/artefatti/model-viewer/deformations/static-final", "supporto/artefatti/model-viewer/deformations/real-refined", "supporto/artefatti/model-viewer/deformations/themes-check", "supporto/artefatti/model-viewer/deformations/regression"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-14",
+      "titolo": "Pacchetti completi dei casi e lettura in streaming",
+      "famiglia": "documenti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Limite del pacchetto aumentato da 64 MB a 256 MiB, lettura da stream con cancellazione e SHA-256 senza copia completa del JSON. Formato e impronta precedenti conservati.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelWorkspace/ModelSnapshotFiles.cs", "src/ANTHEA.ModelWorkspace/ModelSnapshot.cs"],
+      "segno": "accettati pacchetti più grandi entro un limite esplicito; nessuna differenza nei valori o nell'identità delle revisioni",
+      "decisione": {"data": "2026-10-11", "utente": "view con tutti i casi disponibili e nuove deformate", "esito": "apertura del pacchetto reale di 123821818 byte verificata nel progetto di prova"},
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelWorkspace.Checks: 216 PASS, inclusa equivalenza SHA-256 con la serializzazione precedente", "ModelViewer.UiChecks su pacchetto completo: 14 PASS"],
+      "evidenze": ["supporto/artefatti/model-viewer/deformations/fresh-source", "supporto/artefatti/model-viewer/deformations/real-complete", "supporto/artefatti/ci/20261011-181542-modelli-pacchetto-stream"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }
