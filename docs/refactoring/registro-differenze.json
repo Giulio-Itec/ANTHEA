@@ -1104,6 +1104,23 @@
       "test": ["ModelWorkspace.Checks reale: 78 PASS", "ModelViewer.UiChecks sintetico: 27 PASS", "ModelViewer.UiChecks reale: 49 PASS"],
       "evidenze": ["supporto/artefatti/model-viewer/panels-node-axes/logic", "supporto/artefatti/model-viewer/panels-node-axes/synthetic-final", "supporto/artefatti/model-viewer/panels-node-axes/real-final"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-05",
+      "titolo": "Predisposizione dell'avanzamento delle verifiche in MVVM",
+      "famiglia": "progetti/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Contratto di avanzamento senza WPF e barra indipendente dai pannelli laterali: preparazione indeterminata, conteggio attività, annullamento cooperativo, esecuzione completata/annullata/fallita. Il lavoro futuro è delegato a un runner e non contiene calcoli nel ViewModel. Il comando di esecuzione rimane disabilitato finché il motore GPC non è collegato. Il test WPF alimenta una sola anteprima grafica esplicitamente etichettata; nessun risultato ingegneristico simulato.",
+      "codice": ["src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Verifications.cs", "src/ANTHEA.ModelViewer.Wpf/ModelVerificationProgressView.xaml", "tests/ModelWorkspace.Checks/VerificationProgressChecks.cs", "tests/ModelViewer.UiChecks/Program.cs"],
+      "segno": "sola predisposizione della UI; nessuna variazione dei dati o dei calcoli",
+      "effetto_quantificato": { "sintesi": "11 nuovi controlli di ciclo asincrono: totale sconosciuto, conteggio, dati incoerenti, doppio avvio, annullamento in attesa, mancato 100% su annullamento/errore, notifiche tardive, chiusura della vista. WPF verifica un avanzamento 37/100 simulato dal test con pannelli chiusi e arresto a 37 dopo annullamento." },
+      "decisione": { "data": "2026-10-11", "utente": "preparare la progress bar per le verifiche; impostare la vista e fermarsi a un punto utilizzabile per provare il modello; rispettare MVVM", "esito": "UI e aggancio asincrono predisposti, motore e assegnazioni rimandati; modalità interattiva del controllo reale su una copia del modello di prova" },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["ModelWorkspace.Checks: 87 PASS", "ModelViewer.UiChecks reale: 56 PASS"],
+      "evidenze": ["supporto/artefatti/model-viewer/verification-progress/logic", "supporto/artefatti/model-viewer/verification-progress/validated"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

@@ -200,6 +200,33 @@ stesso ambito di misura; dati in `panels-node-axes/real-final/tempi-campi.json`.
 
 ## Passi successivi
 
+### Assegnazioni e avanzamento delle verifiche
+
+Impostazione proposta: assegnazione esplicita fra un ambito geometrico (elementi selezionati, gruppo o zona)
+e una sezione di verifica con materiale, armature e metodo. La sezione dell'analisi e i dati aggiunti per la
+verifica restano distinti; incongruenze di geometria, orientamento o revisione vanno esposte, non corrette
+silenziosamente. Per le aste: asta/tratto e stazioni; per le superfici: zone di verifica e, separatamente,
+sezioni di taglio con risultanti elaborate da GPC. Un albero delle assegnazioni collegherà selezione grafica,
+isolamento, definizione e riferimenti ai fogli. Oggi è operativo solo il riferimento elemento–foglio:
+nessun assegnatore o nuovo calcolo è incluso in questa bozza.
+
+Su richiesta dell'utente si prepara intanto l'avanzamento: barra persistente sotto la scena, visibile anche
+con entrambi i pannelli chiusi, attività corrente, conteggio, annullamento e chiusura dell'esito.
+La fase iniziale è indeterminata; la percentuale usa soltanto attività completate/totali comunicate dal runner.
+Il ViewModel offre un aggancio asincrono senza motore, svolge il lavoro fuori dal thread grafico e riporta
+le notifiche sul contesto della vista. Si impediscono doppie esecuzioni e sostituzione del modello durante
+il lavoro; la chiusura della vista richiede annullamento e scarta notifiche tardive. Una richiesta di
+annullamento resta in attesa finché termina il lavoro; non equivale a un'interruzione forzata.
+«Esecuzione completata» non significa «verifiche soddisfatte». Errori e annullamento non forzano il 100%.
+Il pulsante Esegui resta disabilitato fino al collegamento del motore GPC; nessuna verifica simulata nel prodotto.
+La cattura `verification-progress/validated/modelli-anteprima-avanzamento.png` è esplicitamente un'anteprima
+grafica alimentata dal test, senza calcolo ingegneristico.
+Collaudo: 87 controlli ModelWorkspace (11 aggiunti per il ciclo di esecuzione), 56 WPF sul modello reale,
+senza errori di binding. Evidenze in `verification-progress/logic` e `verification-progress/validated`.
+Runner quick `modelli-avanzamento`: 25 PASS, nessun nuovo fallimento e uscita 0.
+Le prove preliminari hanno corretto la risoluzione delle risorse del nuovo controllo e il test di lancio:
+il runner entra tramite Dispatcher come il futuro comando WPF, preservando il contesto della presentazione.
+
 | Priorità | Lavoro rimasto | Sede |
 | --- | --- | --- |
 | 1 | Rilascio del Converter con le nuove assegnazioni da commit pushati e integrazione del ponte nel prodotto; S4/Model 4 è già acquisito da main | Librerie / build ANTHEA |

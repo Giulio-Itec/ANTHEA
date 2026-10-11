@@ -384,10 +384,13 @@
       </Border>
     </Grid>
     <Border Grid.Row="4" Padding="14,7" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource AppearanceBorder}" Background="{DynamicResource AppearanceSurface}">
+      <StackPanel>
+      <local:ModelVerificationProgressView />
       <DockPanel>
         <ProgressBar Width="85" Height="4" IsIndeterminate="True" Visibility="{Binding IsBusy, Converter={StaticResource Visible}}" DockPanel.Dock="Right" />
         <TextBlock Text="{Binding Status}" FontSize="11" TextTrimming="CharacterEllipsis" />
       </DockPanel>
+      </StackPanel>
     </Border>
   </Grid>
 </UserControl>

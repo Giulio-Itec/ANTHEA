@@ -84,7 +84,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     partial void OnSelectedSheetChanged(SheetTarget? value) => LinkCommand.NotifyCanExecuteChanged();
     partial void OnIsBusyChanged(bool value) { ImportCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); }
 
-    private bool CanImport() => !IsReadOnly && !IsBusy && !disposed;
+    private bool CanImport() => !IsReadOnly && !IsBusy && !IsVerificationRunning && !disposed;
     [RelayCommand(CanExecute = nameof(CanImport))]
     private async Task ImportAsync()
     {
@@ -149,7 +149,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         SelectionInformation += "\n" + string.Join("\n", ActiveValues.Where(v => v.Element == element.Id).Select(v => $"{(v.Station.HasValue ? "x/L " + v.Station.Value.ToString("G3") : "Nodo " + v.Node)}: {v.Value:G7}"));
     }
 
-    private bool CanLink() => !IsReadOnly && !IsBusy && CanQuery() && SelectedSheet != null && SelectedCase != null && SelectedFamily == 0 && SelectedAxes == 0 && ActiveValues.Any(v => v.Element.ToString() == ElementNumber.Trim());
+    private bool CanLink() => !IsReadOnly && !IsBusy && !IsVerificationRunning && CanQuery() && SelectedSheet != null && SelectedCase != null && SelectedFamily == 0 && SelectedAxes == 0 && ActiveValues.Any(v => v.Element.ToString() == ElementNumber.Trim());
     [RelayCommand(CanExecute = nameof(CanLink))]
     private void Link()
     {
@@ -170,5 +170,6 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         ImportCommand.NotifyCanExecuteChanged(); QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged();
         IsolateCommand.NotifyCanExecuteChanged(); HideCommand.NotifyCanExecuteChanged(); ShowSelectedCommand.NotifyCanExecuteChanged();
         InspectSelectionCommand.NotifyCanExecuteChanged(); AddVisibilityCriterionCommand.NotifyCanExecuteChanged();
+        CancelVerificationCommand.NotifyCanExecuteChanged(); DismissVerificationProgressCommand.NotifyCanExecuteChanged();
     }
 }

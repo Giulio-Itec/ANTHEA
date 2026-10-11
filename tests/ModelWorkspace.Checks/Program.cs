@@ -76,6 +76,7 @@ static partial class Program
             DisplayAndTableChecks();
             VisibilityAndScaleChecks();
             PanelAndNodeAxesChecks();
+            await VerificationProgressChecks();
 
             if (args.Length > 1)
             {

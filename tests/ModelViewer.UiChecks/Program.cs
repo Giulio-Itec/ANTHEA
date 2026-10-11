@@ -96,6 +96,12 @@ static class Program
                 preview.Show(); Wait(1200);
                 var state = (ModelViewerViewModel)isolated.DataContext;
                 var scene = Children<Viewport3DX>(isolated).Single();
+                if (args.Contains("--interactive"))
+                {
+                    preview.Title = "ANTHEA · Modelli · prova interattiva";
+                    preview.ShowInTaskbar = true; preview.Closed += (_, _) => app.Shutdown();
+                    app.Run(); return 0;
+                }
                 var realRenderer = isolated.GetType().GetField("renderer", Flags)!.GetValue(isolated)!;
                 bool picked = false;
                 for (int y = 2; y < 9 && !picked; y++)
@@ -220,6 +226,25 @@ static class Program
                     Check(!scene.Items.OfType<LineGeometryModel3D>().Any(l => l.Color == Color.FromRgb(236,116,111) && l.Geometry?.Positions?.Count > 0), "disabling overlays removes the nodal axis geometry");
                     expander.IsExpanded = false;
                 }
+                var progressReady = new TaskCompletionSource<IProgress<VerificationProgress>>(TaskCreationOptions.RunContinuationsAsynchronously);
+                var progressFinish = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                // Enter through the WPF dispatcher, as the future launch command will.
+                var progressRun = isolated.Dispatcher.InvokeAsync(() => state.RunVerificationAsync(async (progress, _) => { progressReady.SetResult(progress); await progressFinish.Task; })).Task.Unwrap();
+                Wait(150);
+                Check(progressReady.Task.IsCompletedSuccessfully && state.IsVerificationIndeterminate, "verification starts in indeterminate preparation on the WPF context");
+                progressReady.Task.Result.Report(new(37, 100, "Anteprima grafica · nessun calcolo eseguito"));
+                state.IsNavigationCollapsed = true; state.ShowInspector = false; Wait(150);
+                var progressBar = Children<ProgressBar>(isolated).Single(p => System.Windows.Automation.AutomationProperties.GetName(p) == "Avanzamento delle verifiche");
+                Check(progressBar.IsVisible && progressBar.Value == 37 && !progressBar.IsIndeterminate, "worker progress updates WPF and remains visible with collapsed panels");
+                Capture(isolated, scene, Path.Combine(output, "modelli-anteprima-avanzamento.png"));
+                state.CancelVerificationCommand.Execute(null); progressFinish.SetResult();
+                var stop = Stopwatch.StartNew(); while (!progressRun.IsCompleted && stop.ElapsedMilliseconds < 3000) Wait(30);
+                Check(progressRun.IsCompletedSuccessfully, $"verification worker terminates on WPF (task={progressRun.Status}, status={state.VerificationStatus})");
+                Check(progressRun.Result == VerificationRunOutcome.Cancelled && !state.IsVerificationRunning, "WPF acknowledges cooperative cancellation");
+                Wait(80);
+                Check(!progressBar.IsIndeterminate && progressBar.Value == 37, "cancelled progress stops at reported work rather than claiming completion");
+                state.DismissVerificationProgressCommand.Execute(null); Wait(80);
+                Check(!progressBar.IsVisible, "dismissed progress leaves the model workspace available");
                 listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()), "no WPF binding errors in isolated viewer");
                 File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} checks");
                 preview.Close(); app.Shutdown(); return 0;

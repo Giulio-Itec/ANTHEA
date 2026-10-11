@@ -232,5 +232,6 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] Acquisizione S4/Model 4 da main: full 79 PASS, 1 KNOWN già censito e nessun nuovo fallimento; 1196 test GPC superati.
 - [x] 11 ottobre: filtri per attributi combinabili, visibilità con nome nella sessione, scale globali/simmetriche/manuali e tabelle delle proprietà non assegnate; 67 controlli ModelWorkspace, WPF sintetico 21 e reale 44, registro MOD-03.
 - [x] 11 ottobre: navigazione e proprietà riducibili a barra, menu contestuale e tabella degli elementi associati, terne nodali esplicite, ambito della selezione e interruttori per ogni livello; ModelWorkspace reale 78, WPF sintetico 27 e reale 49 PASS, registro MOD-04.
+- [x] 11 ottobre: predisposizione MVVM della barra di avanzamento delle verifiche, attività e conteggio, annullamento cooperativo e gestione di errore/fine; motore e assegnazioni sezioni ancora da collegare, registro MOD-05.
 - [ ] Integrazione GPC nel prodotto rilasciato, inviluppi calcolati, confronto delle revisioni modello e archivio grandi dati: restano nella specifica.
 - [ ] Rilascio, guide globali e merge: dopo il collaudo e l'approvazione dell'utente.

@@ -510,3 +510,12 @@ L'utente approva e precisa quattro modalità per quel flusso: Solo geometria, Ge
 Solo risultati, Tutto. Solo geometria abilita anche visualizzazioni semplici senza risultati.
 La specifica distingue questa decisione dalle funzioni oggi operative ed esplicita la coerenza di revisione
 e l'invalidazione dei dati incompatibili nei caricamenti parziali.
+
+### Avanzamento delle verifiche e punto di arresto
+
+L'utente richiede la progress bar per il futuro lancio delle verifiche e chiede di fermarsi a una vista
+utilizzabile per provare il modello. Si prepara quindi soltanto il contratto di avanzamento e la vista WPF,
+con annullamento cooperativo, notifiche sul contesto UI, stato finale distinto dall'esito ingegneristico
+e nessuna esecuzione fittizia nel prodotto. Le assegnazioni delle sezioni alla geometria restano una proposta
+nella specifica; il pulsante Esegui è disabilitato fino al collegamento GPC. Il runner WPF può aprire il vero
+controllo in modalità interattiva su una copia di prova, senza avviare le suite o le verifiche.
