@@ -35,16 +35,5 @@ internal sealed partial class ModelSceneRenderer
             }
             AddLines(forces,Color.FromRgb(91,210,147),2);AddLines(moments,Color.FromRgb(230,143,232),2);
         }
-        if(settings.Displacements is {Count:>0} displacements)
-        {
-            var delta=displacements.ToDictionary(d=>d.Node);var edges=new EdgeBuilder();
-            foreach(var e in model.Elements.Where(e=>options.Visible==null||options.Visible.Contains(e.Id)))
-            {
-                if(e.Nodes.Any(n=>!delta.ContainsKey(n)))continue;
-                var p=e.Nodes.Select(n=>points[n]+new Vector3((float)delta[n].X,(float)delta[n].Y,(float)delta[n].Z)*(float)Math.Clamp(settings.DeformationScale,0,100000)).ToArray();
-                for(int i=0;i<(p.Length==2?1:p.Length);i++)edges.Line(p[i],p[(i+1)%p.Length]);
-            }
-            AddLines(edges,Color.FromRgb(247,120,190),2);
-        }
     }
 }

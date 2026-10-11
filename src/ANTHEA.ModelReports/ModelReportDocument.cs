@@ -81,7 +81,7 @@ public static class ModelReportFiles
             var view = block.View!;
             if ((view.Visible ?? []).Concat(view.Selected).Any(id => !elements.Contains(id)) || view.SelectedNodes.Any(id => !nodes.Contains(id)))
                 throw new InvalidDataException($"«{block.Title}»: alcuni oggetti salvati non esistono più. Rivedi la figura.");
-            if (view.Mode == 2 && !snapshot.Results.Any(r => r.Name == view.Case))
+            if ((view.Mode == 2 || view.Appearance?.Deformation == true) && !snapshot.Results.Any(r => r.Name == view.Case))
                 throw new InvalidDataException($"«{block.Title}»: caso o combinazione «{view.Case}» non disponibile.");
         }
     }

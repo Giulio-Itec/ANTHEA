@@ -14,7 +14,7 @@ namespace ANTHEA.ModelViewer.Wpf;
 internal sealed record ExplorationOptions(GraphicPlane? Clip=null,bool Outlines=true,double Opacity=1,bool ReversePalette=false,int Bands=0,
     bool AvoidLabels=true,IReadOnlyList<ModelProbe>? Probes=null,bool BeamDiagram=false,double DiagramScale=1,
     IReadOnlyList<GraphicalLoad>? Loads=null,double LoadScale=1,IReadOnlyList<ModelDisplacement>? Displacements=null,double DeformationScale=1,
-    bool DiagramAlongY=false,bool DiagramValues=false);
+    bool DiagramAlongY=false,bool DiagramValues=false,bool ShowUndeformed=true,double UndeformedOpacity=.35,bool UndeformedMesh=false);
 
 internal sealed partial class ModelSceneRenderer
 {
@@ -26,7 +26,7 @@ internal sealed partial class ModelSceneRenderer
     internal Vector3 PointForNode(int id)=>points[id];
     internal IReadOnlyList<Vector3> SelectionShape(ModelElement element)
     {
-        var polygon=element.Nodes.Select(n=>points[n]).ToArray();
+        var polygon=ElementPoints(element);
         if(polygon.Any(p=>!InFront(p)))return [];
         if(clipping is not {} plane)return polygon;
         if(polygon.Length==2)
@@ -86,7 +86,7 @@ internal sealed partial class ModelSceneRenderer
     {
         if(hoverLine!=null) { viewport.Items.Remove(hoverLine); hoverLine=null; }
         var e=model?.Elements.FirstOrDefault(e=>e.Id==id); if(e==null)return;
-        var edges=new EdgeBuilder(); var p=e.Nodes.Select(n=>points[n]).ToArray();
+        var edges=new EdgeBuilder(); var p=ElementPoints(e);
         ElementOutline(edges,e,p,lastOptions?.Extruded==true);
         hoverLine=AddLines(edges,Color.FromRgb(100,220,255),3);
     }
@@ -151,7 +151,7 @@ internal sealed partial class ModelSceneRenderer
             foreach(var probe in settings.Probes)
             {
                 if(options.Visible!=null&&!options.Visible.Contains(probe.Element))continue;
-                var p=new Vector3((float)(probe.X-modelOrigin.X),(float)(probe.Y-modelOrigin.Y),(float)(probe.Z-modelOrigin.Z));
+                var p=ProbePoint(probe);
                 if(!ProbePlacement(probe,p,out var offset))continue;
                 leaders.Line(p,LabelLeaderEnd(p,offset));
                 text.TextInfo.Add(new TextInfo(probe.Caption,p) { Foreground=new Color4(1,.95f,.72f,1),Background=new Color4(.04f,.07f,.1f,.94f),Scale=(float)(.58*options.RasterScale),Offset=offset*(float)options.RasterScale });

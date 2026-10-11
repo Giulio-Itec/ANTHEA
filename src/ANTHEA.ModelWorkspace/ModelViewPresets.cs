@@ -13,6 +13,8 @@ public sealed record ModelViewPreset
     public string Component { get; init; } = "Myy";
     public string ForceUnit { get; init; } = "kN";
     public string LengthUnit { get; init; } = "m";
+    public int ResultType { get; init; }
+    public string DisplacementUnit { get; init; } = "mm";
     public int Mode { get; init; } = 2;
     // Missing in earlier presets: geometry/results used the analytical surface, mode 1 used volumes.
     public int? Representation { get; init; }
@@ -80,6 +82,12 @@ public sealed record ModelViewAppearance
     public double BeamDiagramScale { get; init; } = 1;
     public bool Deformation { get; init; }
     public double DeformationScale { get; init; } = 100;
+    public int DeformationScaleMode { get; init; } = 2;
+    public bool Undeformed { get; init; } = true;
+    public bool UndeformedMesh { get; init; }
+    public double UndeformedOpacity { get; init; } = .35;
+    public double DeformationPhase { get; init; } = 1;
+    public double AnimationDuration { get; init; } = 4;
     public bool Loads { get; init; }
     public string? LoadCase { get; init; }
     public double LoadScale { get; init; } = 1;
@@ -127,6 +135,7 @@ public sealed class ModelViewPresetStore(string directory)
             if (v.Selected == null || v.Selected.Length > 500000 || v.Visible?.Length > 500000 || v.Selected.Any(i => i <= 0) || v.Visible?.Any(i => i <= 0) == true ||
                 v.Averaging is < 0 or > 1 || v.Palette is < 0 or > 2 || v.Bands is < 0 or > 3 || v.ClipNodes==null || v.Component==null ||
                 v.ForceUnit is not ("kN" or "N" or "MN") || v.LengthUnit is not ("m" or "mm" or "cm") ||
+                v.ResultType is < 0 or > 1 || v.DisplacementUnit is not ("m" or "mm" or "cm") ||
                 v.Background==null || !System.Text.RegularExpressions.Regex.IsMatch(v.Background,"^#[0-9a-fA-F]{6}$") ||
                 v.Scale==3 && v.Lower>=v.Upper ||
                 v.Mode is < 0 or > 2 || v.Representation is < 0 or > 1 || v.Family is < 0 or > 5 || v.Axes is < 0 or > 1 || v.Scale is < 0 or > 3 || v.ClipAxis is < 0 or > 3 ||
@@ -137,7 +146,8 @@ public sealed class ModelViewPresetStore(string directory)
             if(v.Appearance is {} a && (a.SurfaceMode is <0 or >2 || a.ColorMode is <0 or >4 || a.Quality is <0 or >2 ||
                 a.Lighting is <0 or >2 || a.Antialiasing is <0 or >3 || a.BeamLocation is <0 or >5 || a.BeamDiagramAxis is <0 or >2 || a.LabelScope is <0 or >1 || a.LegendPrecision is <0 or >6 ||
                 a.IsolineCount is <4 or >20 || !ValidRange(a.LabelScale,.6,1.6) || !ValidRange(a.LineWidth,.5,2.5) ||
-                !ValidRange(a.IsolineWidth,.25,1.5) || !ValidRange(a.BeamDiagramScale,.1,5) || !ValidRange(a.DeformationScale,1,1000) || !ValidRange(a.LoadScale,.1,5)))
+                !ValidRange(a.IsolineWidth,.25,1.5) || !ValidRange(a.BeamDiagramScale,.1,5) || !ValidRange(a.DeformationScale,.001,1_000_000) ||
+                a.DeformationScaleMode is < 0 or > 2 || !ValidRange(a.UndeformedOpacity,.05,1) || !ValidRange(a.DeformationPhase,0,1) || !ValidRange(a.AnimationDuration,1,20) || !ValidRange(a.LoadScale,.1,5)))
                 throw new InvalidDataException("Stile della vista non valido.");
             if (v.Camera is { } c && (new[] { c.Position, c.Look, c.Up }.Any(a => a is null || a.Length != 3 || a.Any(x => !double.IsFinite(x))) ||
                 c.Look.All(x => x == 0) || c.Up.All(x => x == 0) || Parallel(c.Look,c.Up) || !double.IsFinite(c.Width) || c.Width <= 0 || !double.IsFinite(c.FieldOfView) || c.FieldOfView is < 1 or > 175 || !double.IsFinite(c.AspectRatio) || c.AspectRatio is <0 or >10))

@@ -34,6 +34,7 @@ public sealed partial class ModelViewerViewModel
         try
         {
             c.SelectedRepresentation=SelectedRepresentation;c.ShowResults=ShowResults;c.SelectedFamily=SelectedFamily;c.SelectedAxes=SelectedAxes;
+            c.SelectedResultType=SelectedResultType;c.DisplacementUnit=DisplacementUnit;
             c.SelectedCase=Cases.Contains(CompareCase??"")?CompareCase:SelectedCase;
             c.SelectedComponent=Components.Contains(CompareComponent)?CompareComponent:SelectedComponent;
             c.ForceUnit=ForceUnit;c.LengthUnit=LengthUnit;c.SelectedBeamLocation=SelectedBeamLocation;c.SelectedContourValues=CompareAveraging;
@@ -44,6 +45,9 @@ public sealed partial class ModelViewerViewModel
             c.ShowLineContour=ShowLineContour;c.ShowBeamDiagramValues=ShowBeamDiagramValues;c.SelectedBeamDiagramAxis=SelectedBeamDiagramAxis;
             c.SelectedSurfaceMode=SelectedSurfaceMode;
             c.ShowLoads=ShowLoads;c.SelectedLoadCase=SelectedLoadCase;c.LoadGlyphScale=LoadGlyphScale;c.ShowDeformation=ShowDeformation;c.DeformationScale=DeformationScale;c.LegendPrecision=LegendPrecision;
+            c.SelectedDeformationScale=SelectedDeformationScale;c.ShowUndeformed=ShowUndeformed;c.UndeformedOpacity=UndeformedOpacity;
+            c.DeformationPhase=DeformationPhase;
+            c.ShowUndeformedMesh=ShowUndeformedMesh;
             c.ShowExtrema=ShowExtrema;c.SceneBackground=SceneBackground;c.AvoidLabelOverlap=AvoidLabelOverlap;
             c.ClipEnabled=ClipEnabled;c.ClipAxis=ClipAxis;c.ClipPercent=ClipPercent;c.ClipReverse=ClipReverse;c.ClipNodes=ClipNodes;
         }

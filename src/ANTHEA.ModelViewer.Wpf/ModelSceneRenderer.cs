@@ -18,7 +18,7 @@ internal sealed record SceneOptions(bool ShowResults, bool Extruded, IReadOnlyLi
     int Lighting = 1, int Palette = 0, int IsolineCount = 8, double IsolineWidth = .5, ExplorationOptions? Exploration = null, double RasterScale = 1, bool LineContour = true);
 internal sealed record DisplayOptions(IReadOnlyDictionary<int, ElementDisplay> Colors, int SurfaceMode, bool HiddenWireframe,
     bool NodeIds, bool ElementIds, bool PropertyIds, bool Nodes, bool LabelsSelectedOnly, double LabelScale, double LineWidth);
-internal sealed record SceneStatistics(TimeSpan Preparation, int Triangles, int MissingElements);
+internal sealed record SceneStatistics(TimeSpan Preparation, int Triangles, int MissingElements, int IncompleteDeformations = 0);
 
 /// <summary>Owns the Helix scene and GPU resources. No dialogs, document writes or verification calculations.</summary>
 internal sealed partial class ModelSceneRenderer : IDisposable
@@ -40,6 +40,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         double cx = (snapshot.Nodes.Min(n => n.X) + snapshot.Nodes.Max(n => n.X)) / 2, cy = (snapshot.Nodes.Min(n => n.Y) + snapshot.Nodes.Max(n => n.Y)) / 2, cz = (snapshot.Nodes.Min(n => n.Z) + snapshot.Nodes.Max(n => n.Z)) / 2;
         modelOrigin=new(cx,cy,cz);
         points = snapshot.Nodes.ToDictionary(n => n.Id, n => new Vector3((float)(n.X - cx), (float)(n.Y - cy), (float)(n.Z - cz)));
+        undeformedPoints = points; incompleteDeformations.Clear(); deformed = false;
         extent = Math.Max(1, (points.Values.Aggregate(Vector3.Max) - points.Values.Aggregate(Vector3.Min)).Length());
         plateSides.Clear();
         var edges = new Dictionary<(int, int, int), List<(int element, int edge, Vector3 normal)>>();
@@ -85,7 +86,8 @@ internal sealed partial class ModelSceneRenderer : IDisposable
             : lastOptions?.Lighting == 0 ? new HelixToolkit.Wpf.SharpDX.DiffuseMaterial { DiffuseColor = color, EnableUnLit = true }
             : lastOptions?.Lighting == 2 ? new PBRMaterial { AlbedoColor = color, MetallicFactor = 0, RoughnessFactor = .7 }
             : new PhongMaterial { DiffuseColor = color, AmbientColor = new Color4(.35f, .35f, .35f, 1) };
-        var mesh = new MeshGeometryModel3D { Geometry = builder.Mesh(), Material = material, CullMode = SharpDX.Direct3D11.CullMode.None, IsTransparent=opacity<1 };
+        var geometry = builder.Mesh(); geometry.IsDynamic = preparingAnimation;
+        var mesh = new MeshGeometryModel3D { Geometry = geometry, Material = material, CullMode = SharpDX.Direct3D11.CullMode.None, IsTransparent=opacity<1 };
         meshElements.Add(mesh, builder.ElementIds); viewport.Items.Add(mesh);
     }
     LineGeometryModel3D AddLines(EdgeBuilder edges, Color color, double thickness = .8, IReadOnlyList<int>? ids = null)
@@ -96,13 +98,16 @@ internal sealed partial class ModelSceneRenderer : IDisposable
             for(int i=0;i<geometry.Positions!.Count;i+=2) { var a=geometry.Positions[i];var b=geometry.Positions[i+1]; if(clip.Segment(ref a,ref b)) { clipped.Line(a,b);if(ids!=null)kept.Add(ids[i/2]); } }
             edges=clipped;if(ids!=null)ids=kept;
         }
-        var line = new LineGeometryModel3D { Geometry = edges.Geometry(), Color = color, Thickness = thickness, Smoothness = 1, DepthBias = -5, IsHitTestVisible = ids != null };
+        var lineGeometry = edges.Geometry(); lineGeometry.IsDynamic = preparingAnimation;
+        var line = new LineGeometryModel3D { Geometry = lineGeometry, Color = color, Thickness = thickness, Smoothness = 1, DepthBias = -5, IsHitTestVisible = ids != null };
         viewport.Items.Add(line); if (ids != null) lineElements.Add(line, ids); return line;
     }
     public SceneStatistics Render(SceneOptions options)
     {
         if (disposed || model == null) return new(TimeSpan.Zero, 0, 0);
+        if (!preparingAnimation) ClearAnimation();
         lastOptions = options;
+        UpdateDeformedPoints(options);
         clipping=options.Exploration?.Clip is {} plane?new SceneClip(new Vector3((float)plane.X,(float)plane.Y,(float)plane.Z),(float)(plane.Distance-plane.X*modelOrigin.X-plane.Y*modelOrigin.Y-plane.Z*modelOrigin.Z)):null;
         labelBounds.Clear();hoverLine=null;
         var clock = System.Diagnostics.Stopwatch.StartNew(); bool results = options.ShowResults;
@@ -114,6 +119,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         viewport.Items.Clear(); viewport.Items.Add(new AmbientLight3D { Color = Color.FromRgb(160, 160, 160) }); viewport.Items.Add(new DirectionalLight3D { Color = Colors.White, Direction = new Vector3D(2, 1, -1) }); viewport.Items.Add(new DirectionalLight3D { Color = Color.FromRgb(180, 190, 210), Direction = new Vector3D(-1, -2, -3) });
         var faces = new SurfaceBuilder(); var missing = new SurfaceBuilder(); var solids = new Dictionary<int, SurfaceBuilder>(); var bars = new SurfaceBuilder(); var edges = new EdgeBuilder(); var barEdges = new EdgeBuilder(); var contours = new EdgeBuilder(); int missingElements = 0;
         var highlight = new EdgeBuilder(); var axesX = new EdgeBuilder(); var axesY = new EdgeBuilder(); var axesZ = new EdgeBuilder();
+        int incompleteCount = 0;
         var frames = model.LocalFrames?.ToDictionary(f => f.Element);
         var beamColors = new Dictionary<int, EdgeBuilder>(); var beamIds = new List<int>();
         var beamColorIds = new Dictionary<int, List<int>>();
@@ -129,8 +135,14 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         }
         foreach (var e in model.Elements.Where(e => options.Visible == null || options.Visible.Contains(e.Id)))
         {
-            if (results && !options.ShowContext && e.Type != options.Family) continue;
-            var p = e.Nodes.Select(n => points[n]).ToArray();
+            if (results && !options.ShowContext && !MatchesFamily(e, options)) continue;
+            var p = ElementPoints(e);
+            if (incompleteDeformations.Contains(e.Id))
+            {
+                ElementOutline(barEdges, e, p, false);
+                beamIds.AddRange(Enumerable.Repeat(e.Id, p.Length == 2 ? 1 : p.Length));
+                incompleteCount++; continue;
+            }
             string elementColor = options.Display.Colors.TryGetValue(e.Id, out var style) ? style.Color : "#71B6E8";
             if (options.Selection.Contains(e.Id)) ElementOutline(highlight, e, p, options.Extruded);
             if (options.ShowLocalAxes && frames?.TryGetValue(e.Id, out var frame) == true && (!options.OverlaysOnlySelection || options.Selection.Contains(e.Id)))
@@ -145,11 +157,11 @@ internal sealed partial class ModelSceneRenderer : IDisposable
                 missingElements += DrawLineElement(e,p,options,samples[e.Id],elementColor,faces,missing,edges,barEdges,beamIds,beamColors,beamColorIds,CategoryMesh,CategoryLine);
                 continue;
             }
-            var normal = Vector3.Normalize(Vector3.Cross(p[1] - p[0], p[2] - p[0]));
+            var normal = PlateNormal(e, p);
             if (wireframe)
             { for (int i = 0; i < p.Length; i++) CategoryLine(elementColor, p[i], p[(i + 1) % p.Length], e.Id); continue; }
-            bool available = results && e.Type == options.Family && e.Nodes.All(n => values.ContainsKey((e.Id, n)));
-            if (results && options.Family == "PLATE" && !available) missingElements++;
+            bool available = results && MatchesFamily(e, options) && e.Nodes.All(n => values.ContainsKey((e.Id, n)));
+            if (results && MatchesFamily(e, options) && !available) missingElements++;
             var target = !results ? CategoryMesh(elementColor) : available ? faces : missing;
             var nodal = e.Nodes.Select(n => available ? values[(e.Id, n)] : 0).ToArray();
             int subdivisions = available ? options.Subdivisions : 1;
@@ -182,8 +194,9 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         AddLines(axesX, Color.FromRgb(236, 116, 111), 2); AddLines(axesY, Color.FromRgb(111, 206, 157), 2); AddLines(axesZ, Color.FromRgb(113, 177, 247), 2);
         DrawBoundaries(options);
         DrawNodeAxes(options);
+        DrawUndeformed(options);
         DrawExploration(options); DrawDisplayOverlays(options);
-        return new(clock.Elapsed, viewport.Items.OfType<MeshGeometryModel3D>().Sum(m => m.Geometry?.Indices?.Count / 3 ?? 0), missingElements);
+        return new(clock.Elapsed, viewport.Items.OfType<MeshGeometryModel3D>().Sum(m => m.Geometry?.Indices?.Count / 3 ?? 0), missingElements, incompleteCount);
     }
     private void ElementOutline(EdgeBuilder edges, ModelElement element, Vector3[] p, bool extruded, bool[]? sides = null)
     {
@@ -193,7 +206,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
             return;
         }
         var prop = model!.Plates.First(t => t.Id == element.Property);
-        var normal = Vector3.Normalize(Vector3.Cross(p[1] - p[0], p[2] - p[0]));
+        var normal = PlateNormal(element, p);
         var bottom = normal * (float)(prop.Offset - prop.Thickness / 2);
         var top = normal * (float)(prop.Offset + prop.Thickness / 2);
         for (int i = 0; i < p.Length; i++)
@@ -287,6 +300,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
     {
         if (disposed) return;
         disposed = true;
+        ClearAnimation();
         viewport.Items.Clear();
         viewport.EffectsManager?.Dispose();
         viewport.EffectsManager = null;

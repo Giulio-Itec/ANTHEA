@@ -90,9 +90,8 @@ static partial class Program
             Check(viewport.BackgroundColor==(Color)ColorConverter.ConvertFromString(state.SceneBackground),"print export restores the onscreen background");
             Check(System.Windows.Data.BindingOperations.IsDataBound(viewport,Viewport3DX.BackgroundColorProperty),"print export preserves the background binding for later view settings");
             Check(Math.Abs(viewport.RenderHost.ActualWidth-beforeWidth)<2&&Math.Abs(viewport.RenderHost.ActualHeight-beforeHeight)<2,"high-resolution export restores physical viewport dimensions at the active Windows DPI");
-            state.CompareEnabled=false;state.ShowDeformation=true;state.DeformationScale=2;
-            var deformed=viewport.Items.OfType<LineGeometryModel3D>().Single(l=>l.Color==Color.FromRgb(247,120,190));
-            Check(deformed.Geometry!.Positions!.All(p=>Math.Abs(p.Z-.2)<1e-6),"deformed wireframe uses imported displacement times the chosen display factor");
+            state.CompareEnabled=false;state.ShowDeformation=true;state.SelectedDeformationScale=2;state.DeformationScale=2;
+            Check(sample.Nodes.All(n=>Math.Abs(renderer.PointForNode(n.Id).Z-.2)<1e-6),"deformed model uses imported displacement times the chosen display factor");
             state.ShowLoads=true;
             Check(viewport.Items.OfType<LineGeometryModel3D>().Any(l=>l.Color==Color.FromRgb(91,210,147)&&l.Geometry!.Positions!.Count>0),"explicit imported nodal load produces a directional glyph");
             state.ShowLoads=false;state.ShowDeformation=false;state.SelectedPanel=2;Wait(150);

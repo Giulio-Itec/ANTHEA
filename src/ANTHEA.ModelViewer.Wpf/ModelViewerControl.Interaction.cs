@@ -37,7 +37,7 @@ public partial class ModelViewerControl
     private void RefreshLabels(object? sender,EventArgs e)
     {
         labelRefresh.Stop();
-        if(disposed || renderer==null)return;
+        if(disposed || renderer==null || viewModel.IsAnimationPlaying)return;
         if(viewModel.ShowNodeIds||viewModel.ShowElementIds||viewModel.ShowPropertyIds||viewModel.ShowExtrema||viewModel.PinnedProbes.Count>0)
         { renderer.Render(Options(viewModel));if(comparisonRenderer!=null && viewModel.Comparison is {} state)comparisonRenderer.Render(Options(state)); }
     }

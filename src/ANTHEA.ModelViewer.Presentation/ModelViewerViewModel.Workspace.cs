@@ -17,11 +17,11 @@ public sealed partial class ModelViewerViewModel
     public IReadOnlyList<string> ForceUnits { get; } = ["kN", "N", "MN"];
     public IReadOnlyList<string> LengthUnits { get; } = ["m", "mm", "cm"];
     public IReadOnlyList<string> BeamLocations { get; } = ["Lungo l’asta", "Estremità I", "1/4", "Mezzeria", "3/4", "Estremità J"];
-    public bool IsBeamFamily => SelectedFamily > 0;
+    public bool IsBeamFamily => IsForceResult && SelectedFamily > 0;
     public string OverlaySummary => Snapshot == null ? "Nessun modello" : $"{Snapshot.LocalFrames?.Length ?? 0:N0} terne · {Snapshot.Boundaries?.Length ?? 0:N0} assegnazioni grafiche";
-    public string Family => FamilyKeys[Math.Clamp(SelectedFamily, 0, FamilyKeys.Length - 1)];
-    public string Axes => SelectedAxes == 0 ? "LOCAL" : "PRINCIPAL";
-    public IReadOnlyList<string> Components => ResultFields.Components(Family, Axes);
+    public string Family => IsDisplacementResult ? "*" : FamilyKeys[Math.Clamp(SelectedFamily, 0, FamilyKeys.Length - 1)];
+    public string Axes => IsDisplacementResult ? "GLOBAL" : SelectedAxes == 0 ? "LOCAL" : "PRINCIPAL";
+    public IReadOnlyList<string> Components => IsDisplacementResult ? IsDisplacementEnvelope ? ["ux", "uy", "uz"] : ["|u|", "ux", "uy", "uz"] : ResultFields.Components(Family, Axes);
     public IReadOnlyList<ResultValue> ActiveValues { get; private set; } = [];
     public IReadOnlySet<int> SelectedElementIds { get; private set; } = new HashSet<int>();
     public IReadOnlySet<int>? VisibleElementIds { get; private set; }
@@ -31,10 +31,10 @@ public sealed partial class ModelViewerViewModel
     public double SectionWidth { get; private set; }
     public double SectionHeight { get; private set; }
     public string SectionSize { get; private set; } = "";
-    public string FieldTitle => IsResultsView ? $"{Family} · {SelectedComponent} · {AxesLabels[Math.Clamp(SelectedAxes, 0, 1)]}" : RepresentationLabel;
-    public string SampleLocation => SelectedFamily == 0 ? IsAveragedContour ? "Nodi condivisi · media grafica" : "Nodi dell’elemento · valori non mediati" : BeamLocations[Math.Clamp(SelectedBeamLocation, 0, 5)] + " · campioni importati";
+    public string FieldTitle => IsResultsView ? IsDisplacementResult ? $"Spostamenti · {SelectedComponent} · Globali" : $"{Family} · {SelectedComponent} · {AxesLabels[Math.Clamp(SelectedAxes, 0, 1)]}" : RepresentationLabel;
+    public string SampleLocation => IsDisplacementResult ? "Nodi · traslazioni globali" : SelectedFamily == 0 ? IsAveragedContour ? "Nodi condivisi · media grafica" : "Nodi dell’elemento · valori non mediati" : BeamLocations[Math.Clamp(SelectedBeamLocation, 0, 5)] + " · campioni importati";
     public string SelectionCount => !HasSelection && SelectedNodeIds.Count>0 ? $"{SelectedNodeIds.Count:N0} nodi selezionati" : HasSelection ? $"{SelectedElementIds.Count:N0} elementi selezionati" : "Nessuna selezione";
-    public string VisibilitySummary => Snapshot == null ? "Nessun modello" : $"{Snapshot.Elements.Count(e => (VisibleElementIds == null || VisibleElementIds.Contains(e.Id)) && (!ShowResults || ShowContext || e.Type == Family)):N0} / {Snapshot.Elements.Length:N0} elementi visibili";
+    public string VisibilitySummary => Snapshot == null ? "Nessun modello" : $"{Snapshot.Elements.Count(e => (VisibleElementIds == null || VisibleElementIds.Contains(e.Id)) && (!ShowResults || ShowContext || IsDisplacementResult || e.Type == Family)):N0} / {Snapshot.Elements.Length:N0} elementi visibili";
     public string ResultKind => Snapshot?.Results.FirstOrDefault(r => r.Name == SelectedCase)?.IsEnvelope == true ? "INVILUPPO IMPORTATO" : "CASO / COMBINAZIONE";
     public string Middle => HasResults ? ((ActiveValues.Min(v => v.Value) + ActiveValues.Max(v => v.Value)) / 2).ToString("G5") : "—";
 
@@ -129,13 +129,14 @@ public sealed partial class ModelViewerViewModel
     {
         var result = Snapshot!.Results.FirstOrDefault(r => r.Name == SelectedCase);
         var key = (SelectedCase ?? "", Family, Axes, SelectedComponent ?? "");
-        if (!fields.TryGetValue(key, out var raw)) fields[key] = raw = ResultFields.Read(result, Family, Axes, SelectedComponent ?? "");
+        if (!fields.TryGetValue(key, out var raw)) fields[key] = raw = IsDisplacementResult ? DisplacementField() : ResultFields.Read(result, Family, Axes, SelectedComponent ?? "");
         double force = ForceUnit switch { "N" => 1000, "MN" => .001, _ => 1 };
         double length = LengthUnit switch { "mm" => 1000, "cm" => 100, _ => 1 };
         bool moment = SelectedComponent?.StartsWith('M') == true;
         double scale = force * (SelectedFamily == 0 ? moment ? 1 : 1 / length : moment ? length : 1);
         string unit = SelectedFamily == 0 ? moment ? $"{ForceUnit}·{LengthUnit}/{LengthUnit}" : $"{ForceUnit}/{LengthUnit}" : moment ? $"{ForceUnit}·{LengthUnit}" : ForceUnit;
-        var atStation = raw.Where(v => SelectedFamily == 0 || SelectedBeamLocation == 0 || v.Station == (SelectedBeamLocation - 1) / 4.0).ToArray();
+        if (IsDisplacementResult) { scale = DisplacementUnit switch { "mm" => 1000, "cm" => 100, _ => 1 }; unit = DisplacementUnit; }
+        var atStation = raw.Where(v => IsDisplacementResult || SelectedFamily == 0 || SelectedBeamLocation == 0 || v.Station == (SelectedBeamLocation - 1) / 4.0).ToArray();
         ActiveValues = atStation.Where(v => VisibleElementIds == null || VisibleElementIds.Contains(v.Element)).Select(v => v with { Value = v.Value * scale }).ToArray();
         var contour = ContourField(SelectedFamily == 0 ? raw : atStation);
         ContourValues = IsAveragedContour ? contour.Where(v => VisibleElementIds == null || VisibleElementIds.Contains(v.Element)).Select(v => v with { Value = v.Value * scale }).ToArray() : ActiveValues;
@@ -144,6 +145,7 @@ public sealed partial class ModelViewerViewModel
         ResultUnit = string.IsNullOrEmpty(SelectedComponent) ? "—" : $"{SelectedComponent} [{unit}]";
         UpdateColorScale(contour, scale);
         ResultAvailability = HasResults ? $"{ActiveValues.Select(v => v.Element).Distinct().Count():N0} elementi con valori · {SampleLocation.ToLowerInvariant()}"
+            : IsDisplacementResult ? HasDisplacements ? "Nessun risultato nodale negli elementi visibili." : "Spostamenti nodali non acquisiti per questo caso."
             : SelectedFamily > 0 && SelectedAxes == 1 ? "Per le aste scegli gli assi locali. Gli assi principali delle sezioni richiedono un contratto dedicato."
             : SelectedAxes == 1 ? "Componenti principali non importate. Non si ricavano dagli estremi non simultanei di un inviluppo."
             : raw.Count > 0 ? "Nessun risultato negli elementi attualmente visibili. Usa «Mostra tutto»."

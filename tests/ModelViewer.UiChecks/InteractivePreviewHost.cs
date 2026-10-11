@@ -27,6 +27,16 @@ internal static class InteractivePreviewHost
             state.ImportFailure=new(failure.Message,failure.Recovery,"AVVISO SIMULATO · la copia del modello rimane disponibile. Nessuna connessione a MIDAS effettuata.");
         };
         bar.Children.Add(simulate);
+        var assembly=typeof(X.Desktop.MainWindow).Assembly;
+        var appearance=assembly.GetType("X.Desktop.Appearance")!;
+        var appearanceType=assembly.GetType("X.Desktop.AppAppearance")!;
+        const System.Reflection.BindingFlags flags=System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic;
+        string[] modes=["Light","Dark","VeryDark"];
+        var themes=new ComboBox {ItemsSource=new[]{"Chiaro","Scuro","Molto scuro"},Width=120,Margin=new Thickness(14,0,0,0),
+            SelectedIndex=Array.IndexOf(modes,appearance.GetProperty("Current",flags)!.GetValue(null)!.ToString()),
+            ToolTip="Aspetto della finestra di prova. La preferenza salvata di ANTHEA rimane invariata."};
+        themes.SelectionChanged+=(_,_)=>{if(themes.SelectedIndex>=0)appearance.GetMethod("Set",flags)!.Invoke(null,[Enum.Parse(appearanceType,modes[themes.SelectedIndex]),false]);};
+        bar.Children.Add(themes);
         var strip=new Border { Child=bar,BorderThickness=new Thickness(0,0,0,1) };
         strip.SetResourceReference(Border.BackgroundProperty,"AppearanceSurface");strip.SetResourceReference(Border.BorderBrushProperty,"AppearanceBorder");
         DockPanel.SetDock(strip,Dock.Top);host.Children.Add(strip);host.Children.Add(viewer);

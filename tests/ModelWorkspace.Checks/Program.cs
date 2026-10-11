@@ -81,6 +81,7 @@ static partial class Program
             ViewSettingsAndRevisionChecks();
             await ContourAveragingChecks();
             ExplorationChecks(output);
+            DisplacementChecks(output);
             await ReportChecks(output);
             RepresentationChecks(output);
 

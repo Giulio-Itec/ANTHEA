@@ -521,3 +521,57 @@ Evidenze prima: `supporto/artefatti/model-viewer/view-mode-tab/ui`; dopo:
 `supporto/artefatti/model-viewer/extruded-results/combined`, `regression`, `report-final`.
 Il prototipo resta nel branch separato; nessuna modifica alle DLL GPC o agli altri repository.
 Guide globali e pubblicazione restano al collaudo del rilascio già previsto nel piano.
+
+### Deformata completa, spostamenti e aspetti — MOD-13
+
+Confronto funzionale con i manuali ufficiali (riferimenti soltanto di sviluppo):
+[MIDAS Deformed Shape](https://support.midasuser.com/hc/en-us/articles/18162691103385-Deformed-Shape),
+[tabella API degli spostamenti](https://support.midasuser.com/hc/en-us/articles/36009638400281-Displacements-Analysis-Result-Table),
+[RFEM Deformations](https://www.dlubal.com/en/downloads-and-information/documents/online-manuals/rfem-6/002713).
+Le lacune principali del prototipo erano la sola linea deformata, l'assenza del campo nodale e
+del controllo della scala; ora il modello completo può deformarsi anche con volumi e forze colorate.
+
+Risultati contiene la scelta Sollecitazioni / Spostamenti nodali. Per questi ultimi sono disponibili
+ux, uy, uz e modulo ricavato dalle tre traslazioni, con unità mm/cm/m e assi globali. La tabella
+elenca ogni nodo una sola volta e segue la selezione nodale. Non si applica la media degli elementi
+a un campo già nodale. Il collegamento ai fogli conserva il contratto delle forze precedente.
+
+Forma deformata: scala automatica (spostamento massimo pari all'8% dell'estensione maggiore),
+reale ×1 o manuale; sagoma originaria con opacità e mesh opzionale. Gli offset vengono traslati
+insieme ai nodi, nella loro direzione originale: non si inventano rotazioni e non si aprono giunti
+artificiali tra plate adiacenti. Se mancano traslazioni, l'intero elemento rimane grigio e indeformato.
+Gli inviluppi ammettono i contouring delle singole componenti, ma non deformata e modulo vettoriale.
+
+L'animazione 0–100%–0 riutilizza geometrie, indici, colori e materiali; aggiorna posizioni e normali.
+Durata del ciclo, pausa, cursore della fase e ritorno al 100% sono nel ViewModel. Il timer WPF si
+ferma alla chiusura e al cambio di campo/opzioni. Durante la riproduzione le etichette sono sospese;
+la pausa le ripristina. Taglio e confronto affiancato disabilitano soltanto l'animazione. Le figure
+e le viste salvano la fase esplicita e non modificano i dati del caso. Il report rifiuta un caso
+mancante anche quando la deformata è richiesta senza contouring.
+
+Temi: verificati Light, Dark e VeryDark su tutte le cinque schede, menu a discesa e tabella;
+nessun nuovo tema parallelo. La finestra di prova offre un selettore temporaneo, senza salvare
+preferenze globali. Le schede restano in una riga anche nella larghezza ordinaria della barra.
+
+Acquisizione reale: 49 casi statici, 3.755 nodi per caso, 183.995 vettori di traslazione. Richieste
+MIDAS in sola lettura, circa 139 s complessivi per le tabelle nodali. Nodi ed elementi confrontati
+con la cattura precedente; terne/vincoli riutilizzati solo dopo verifica delle rispettive sorgenti.
+I file originali e il pacchetto nodale sono in `supporto/artefatti/model-viewer/deformations/`.
+La cattura delle forze aggiornata è separata; i tempi di caricamento non sono inclusi nel rendering.
+
+Prime misure sul modello caricato e con volumi: cambio caso a video 0,13–0,24 s; preparazione
+animazione circa 0,26 s, aggiornamento CPU mediano circa 7 ms su 678 mila vertici. La frequenza
+effettiva viene misurata contando le fasi distinte presentate, non tutti i ridisegni del viewport.
+I valori dipendono dalla macchina e dalla qualità selezionata; JSON delle misure conservati.
+Con il timer adattato al lavoro grafico, la prova successiva misura 28,8 fasi distinte/s;
+cambio caso 0,11–0,15 s, preparazione 0,27 s. Evidenza `deformations/real-timer`.
+
+Collaudo: controlli indipendenti sul vettore 3–4–12 mm, offset delle facce −0,65/−0,35 m dopo
+traslazione, riuso dei buffer, ripristino, dati parziali e rifiuto delle deformate d'inviluppo.
+Regressione WPF originale 138 PASS; 53 controlli sui tre temi; 14 sulla copia nodale reale.
+La suite di logica include import, unità, dati invalidi e compatibilità delle ricette precedenti.
+Collaudo conclusivo: 212 controlli logici, 36 deformate sintetiche, 9 report deformate; PDF di
+cinque pagine controllato a video in `deformations/report-verified`. Il confronto di stato
+attende l'assestamento del layout prima della cattura dell'aspect ratio della camera.
+Prima: `deformations/before`; dopo: `static-final`, `themes-check`, `real-refined` e `regression`.
+Guide globali e rilascio rimangono nel passaggio di pubblicazione già concordato.

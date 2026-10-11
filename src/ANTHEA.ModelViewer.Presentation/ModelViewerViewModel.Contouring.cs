@@ -7,9 +7,9 @@ public sealed partial class ModelViewerViewModel
 {
     public IReadOnlyList<string> ContourValueModes { get; } = ["Per elemento · non mediati", "Media ai vertici"];
     [ObservableProperty] private int selectedContourValues;
-    public bool CanAverageContours => SelectedFamily == 0;
+    public bool CanAverageContours => IsForceResult && SelectedFamily == 0;
     public bool IsAveragedContour => CanAverageContours && SelectedContourValues == 1;
-    public string ContourValueLabel => IsAveragedContour ? "MEDIA AI VERTICI" : "VALORI IMPORTATI";
+    public string ContourValueLabel => IsDisplacementResult ? SelectedComponent == "|u|" ? "MODULO DA TRASLAZIONI" : "SPOSTAMENTI IMPORTATI" : IsAveragedContour ? "MEDIA AI VERTICI" : "VALORI IMPORTATI";
     public IReadOnlyList<ResultValue> ContourValues { get; private set; } = [];
     public string ContourAveragingSummary { get; private set; } = "";
     public string ContourAveragingHelp => "Media aritmetica dei contributi delle piastre ai nodi condivisi, a parità di proprietà e terna locale; separazione per materiale quando importato. Sono inclusi anche gli elementi nascosti: isolare non cambia i colori a scala fissa. Senza terna o con risultati incompleti non si esegue la media. Tabelle e riferimenti mantengono i dati originali.";

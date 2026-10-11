@@ -599,3 +599,22 @@ hanno interruttori distinti; si interpolano solo stazioni importate. Il volume d
 reali disponibili nella copia; per profili non supportati si mantiene l'asse. Nessun calcolo
 strutturale né aggiornamento delle librerie GPC. Stato interamente MVVM, geometria e materiali
 nel renderer WPF, persistenza delle preferenze nella libreria non WPF. MOD-12.
+
+### Deformate e temi del visualizzatore — 11 ottobre
+
+La deformata usa esclusivamente traslazioni nodali globali importate. Forma, campo colorato e
+rappresentazione geometrica sono indipendenti. Spessori e offset conservano la direzione
+originaria, perché il contratto attuale non contiene rotazioni di sezione; nessuna ricostruzione
+di curvature dalle sollecitazioni. Gli elementi con dati incompleti restano come contorno grigio
+nella posizione originale. Un inviluppo per componenti non genera una forma deformata né un
+modulo vettoriale da estremi non simultanei.
+
+L'animazione interpola graficamente tra due configurazioni riutilizzando gli stessi buffer;
+non rappresenta il tempo dell'analisi. Colori e valori non vengono scalati. La pausa ricostruisce
+la vista completa alla fase corrente; esportazione e salvataggio congelano una fase esplicita.
+Taglio e confronto affiancato restano disponibili in forma statica. Preferenze, comandi e stato
+sono MVVM; timer e buffer appartengono alla vista/renderer. Import e persistenza restano senza WPF.
+
+Si riusano i tre aspetti globali di ANTHEA, senza un secondo sistema di temi nel modulo. I test
+non modificano la preferenza salvata. Lo sfondo del modello rimane una scelta grafica indipendente
+e i colori ingegneristici non cambiano con l'aspetto. Nessuna modifica alle librerie GPC. MOD-13.

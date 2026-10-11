@@ -217,8 +217,9 @@ public sealed partial class ModelViewerViewModel
     }
     public ModelViewPreset CaptureView(string name)
     {
+        PauseAnimation();
         return new ModelViewPreset { Name=name, Camera=services.CaptureCamera(), Visible=VisibleElementIds?.ToArray(), Selected=SelectedElementIds.ToArray(),
-            Case=SelectedCase, Component=SelectedComponent, Family=SelectedFamily, Axes=SelectedAxes, Mode=SelectedMode, Representation=SelectedRepresentation, ForceUnit=ForceUnit, LengthUnit=LengthUnit,
+            Case=SelectedCase, Component=SelectedComponent, Family=SelectedFamily, Axes=SelectedAxes, Mode=SelectedMode, Representation=SelectedRepresentation, ForceUnit=ForceUnit, LengthUnit=LengthUnit, ResultType=SelectedResultType,DisplacementUnit=DisplacementUnit,
             Averaging=SelectedContourValues, Scale=SelectedColorScale, Lower=ColorMinimum, Upper=ColorMaximum, Clip=ClipEnabled, ClipAxis=ClipAxis, ClipPercent=ClipPercent, ClipReverse=ClipReverse, ClipNodes=ClipNodes,
             Mesh=ShowMesh, Outlines=ShowOutlines, Opacity=SurfaceOpacity, Palette=SelectedContourPalette, ReversePalette=ReversePalette, Bands=ContourBands, Background=SceneBackground, SelectedNodes=SelectedNodeIds.ToArray(), Appearance=CaptureAppearance() };
     }
@@ -233,6 +234,7 @@ public sealed partial class ModelViewerViewModel
         try
         {
             SelectedRepresentation=v.EffectiveRepresentation; ShowResults=v.Mode==2; SelectedFamily=v.Family; SelectedAxes=v.Axes; SelectedCase=Cases.Contains(v.Case??"")?v.Case:Cases.FirstOrDefault();
+            SelectedResultType=v.ResultType;DisplacementUnit=v.DisplacementUnit;
             SelectedComponent=Components.Contains(v.Component)?v.Component:Components.FirstOrDefault()??""; ForceUnit=v.ForceUnit; LengthUnit=v.LengthUnit; SelectedContourValues=v.Averaging;
             ClearVisibilityCriteria(); hiddenElements.Clear(); isolatedElements=v.Visible?.ToHashSet(); ApplyVisibility();
             ClipEnabled=v.Clip; ClipAxis=v.ClipAxis; ClipPercent=v.ClipPercent; ClipReverse=v.ClipReverse; ClipNodes=v.ClipNodes;

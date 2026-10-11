@@ -131,7 +131,9 @@
   </Style>
   <Style TargetType="TabItem">
     <Setter Property="Foreground" Value="{DynamicResource AppearanceInk}" />
-    <Setter Property="Padding" Value="14,13" />
+    <Setter Property="Padding" Value="8,12" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="MinWidth" Value="0" />
     <Setter Property="FontWeight" Value="SemiBold" />
     <Setter Property="Template">
       <Setter.Value>

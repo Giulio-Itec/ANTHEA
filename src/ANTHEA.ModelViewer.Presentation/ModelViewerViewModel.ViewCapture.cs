@@ -43,6 +43,12 @@ public sealed partial class ModelViewerViewModel
         BeamDiagramScale=BeamDiagramScale,
         Deformation=ShowDeformation,
         DeformationScale=DeformationScale,
+        DeformationScaleMode=SelectedDeformationScale,
+        Undeformed=ShowUndeformed,
+        UndeformedMesh=ShowUndeformedMesh,
+        UndeformedOpacity=UndeformedOpacity,
+        DeformationPhase=DeformationPhase,
+        AnimationDuration=AnimationDuration,
         Loads=ShowLoads,
         LoadCase=SelectedLoadCase,
         LoadScale=LoadGlyphScale,
@@ -86,6 +92,12 @@ public sealed partial class ModelViewerViewModel
         BeamDiagramScale=a.BeamDiagramScale;
         ShowDeformation=a.Deformation;
         DeformationScale=a.DeformationScale;
+        SelectedDeformationScale=a.DeformationScaleMode;
+        ShowUndeformed=a.Undeformed;
+        ShowUndeformedMesh=a.UndeformedMesh;
+        UndeformedOpacity=a.UndeformedOpacity;
+        DeformationPhase=a.DeformationPhase;
+        AnimationDuration=a.AnimationDuration;
         ShowLoads=a.Loads;
         SelectedLoadCase=a.LoadCase;
         LoadGlyphScale=a.LoadScale;

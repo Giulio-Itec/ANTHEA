@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-09",
+  "aggiornato": "2026-10-11",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/",
@@ -1317,6 +1317,24 @@
         "supporto/artefatti/model-viewer/view-mode-tab/ui",
         "supporto/artefatti/model-viewer/extruded-results"
       ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-13",
+      "titolo": "Spostamenti globali, deformate nodali e verifica dei temi scuri",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Importazione delle traslazioni nodali globali, contouring in mm/cm/m, forma deformata su assi e volumi, fattore automatico/reale/manuale, sagoma e mesh originali opzionali, animazione grafica con buffer riutilizzati. Temi Scuro e Molto scuro verificati nelle cinque schede, nelle tabelle e nei menu. Viste e report conservano campo, fase e impostazioni.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelWorkspace/MidasDisplacementTables.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Deformations.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Animation.cs", "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Deformations.cs", "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Animation.cs"],
+      "segno": "solo importazione e rappresentazione; valori originali invariati. Sostituita la precedente sovrapposizione magenta con la geometria realmente traslata. Nessuna ricostruzione di rotazioni, curvature o forme da estremi non simultanei.",
+      "effetto_quantificato": {"sintesi": "49 casi reali, 183995 vettori nodali acquisiti in 139,4 s. Cambio caso con volume deformato già caricato: circa 0,13–0,24 s nelle prime prove. Offset mantenuti nella direzione originale in assenza di rotazioni importate."},
+      "decisione": {"data": "2026-10-11", "utente": "confrontare le funzioni di RFEM e MIDAS NX, verificare Scuro/Molto scuro e introdurre le deformate", "esito": "implementazione nel branch del visualizzatore, senza modifiche alle librerie GPC"},
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["Spostamenti e importazione: controlli logici dedicati", "Deformate sintetiche: 36 PASS", "Temi: 53 PASS", "Deformate reali: 14 PASS", "Regressione WPF: 138 PASS"],
+      "evidenze": ["supporto/artefatti/model-viewer/deformations/before", "supporto/artefatti/model-viewer/deformations/static-final", "supporto/artefatti/model-viewer/deformations/real-refined", "supporto/artefatti/model-viewer/deformations/themes-check", "supporto/artefatti/model-viewer/deformations/regression"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]

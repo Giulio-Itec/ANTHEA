@@ -37,8 +37,8 @@ internal sealed class ModelReportRenderSession : IDisposable
             throw new InvalidDataException($"«{block.Title}»: il campo {preset.Component} non è disponibile per {preset.Case}.");
         if (preset.Clip && state.ActiveClipPlane is null)
             throw new InvalidDataException($"«{block.Title}»: il piano di taglio non può essere ricostruito.");
-        if (preset.Appearance is { Deformation: true } && !state.HasDisplacements)
-            throw new InvalidDataException($"«{block.Title}»: gli spostamenti nodali richiesti non sono disponibili.");
+        if (preset.Appearance is { Deformation: true } && !state.CanDeform)
+            throw new InvalidDataException($"«{block.Title}»: deformata non disponibile. {state.DeformationMessage}");
         if (preset.Appearance is { Loads: true } a && !state.LoadCases.Contains(a.LoadCase ?? ""))
             throw new InvalidDataException($"«{block.Title}»: il caso dei carichi non è disponibile.");
         var camera = preset.Camera!;
@@ -56,14 +56,16 @@ internal sealed class ModelReportRenderSession : IDisposable
         var stats = renderer.Render(ModelViewerControl.Options(state) with { RasterScale=recipe.ImageWidth/1200.0 });
         await FrameAsync(cancellationToken);
         ViewerImageExporter.SaveScene(viewport, null, state, path, printLayout:true);
-        string description = state.ResultHeading + (state.IsResultsView ? " · " + state.ResultUnit + " · " + state.AxesLabels[state.SelectedAxes] : "") +
+        string description = state.ResultHeading + (state.IsResultsView ? " · " + state.ResultUnit + " · " + (state.IsDisplacementResult ? "Globali" : state.AxesLabels[state.SelectedAxes]) : "") +
             "\n" + state.VisibilitySummary + (state.ClipEnabled ? " · " + state.ClipDescription : "");
         if (state.IsResultsView) description += "\nScala: " + state.FormatLegend(state.ColorMinimum) + " / " + state.FormatLegend(state.ColorMaximum) + ". " + state.ColorScaleModes[state.SelectedColorScale] + ".";
         if (stats.MissingElements > 0 && state.IsResultsView) description += $"\n{stats.MissingElements} elementi senza risultati del campo selezionato.";
+        if (stats.IncompleteDeformations > 0) description += $"\n{stats.IncompleteDeformations} elementi con spostamenti incompleti: contorno grigio nella posizione originale.";
         if (state.IsAveragedContour) description += "\nMedia solo grafica; dati originali invariati.";
         if (state.Snapshot!.Results.FirstOrDefault(r => r.Name == state.SelectedCase)?.IsEnvelope == true && state.IsResultsView)
             description += "\nInviluppo importato: estremi per componente non simultanei.";
         if (state.ShowLoads) description += "\n" + state.LoadsMessage;
+        if (state.ShowDeformation) description += "\n" + state.DeformationHeading + ". " + state.DeformationMessage;
         if (state.IsExtruded) description += "\nVolumi preliminari: spessori e offset plate; aste rettangolari centrate, offset di estremità non importati.";
         if (state.IsExtruded && state.IsResultsView && state.Family == "PLATE") description += "\nCampo plate riportato sulle facce estruse; non è una distribuzione di tensione nello spessore.";
         if(state.IsResultsView && state.IsBeamFamily)

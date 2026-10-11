@@ -10,12 +10,18 @@ internal sealed partial class ModelSceneRenderer
 {
     IEnumerable<Vector3> DisplayPoints(ModelElement element)
     {
-        var p=element.Nodes.Select(n=>points[n]).ToArray();
+        var p=ElementPoints(element);
+        var display = ExpandedPoints(element,p);
+        return deformed && lastOptions?.Exploration?.ShowUndeformed==true
+            ? display.Concat(ExpandedPoints(element,element.Nodes.Select(n=>undeformedPoints[n]).ToArray())) : display;
+    }
+    IEnumerable<Vector3> ExpandedPoints(ModelElement element,Vector3[] p)
+    {
         if(lastOptions?.Extruded!=true) return p;
         if(element.Type=="PLATE")
         {
             var prop=model!.Plates.First(t=>t.Id==element.Property);
-            var n=Vector3.Normalize(Vector3.Cross(p[1]-p[0],p[2]-p[0]));
+            var n=PlateNormal(element,p);
             return p.Select(v=>v+n*(float)(prop.Offset-prop.Thickness/2)).Concat(p.Select(v=>v+n*(float)(prop.Offset+prop.Thickness/2)));
         }
         return lastOptions.Display.SurfaceMode!=2 && LineProfile(element,p) is {} profile ? profile.Concat(profile.Select(v=>v+p[1]-p[0])) : p;
@@ -25,6 +31,7 @@ internal sealed partial class ModelSceneRenderer
         if (model!.LocalFrames?.FirstOrDefault(f => f.Element == element.Id) is {} frame)
             return (new((float)frame.Y.X,(float)frame.Y.Y,(float)frame.Y.Z), new((float)frame.Z.X,(float)frame.Z.Y,(float)frame.Z.Z));
         // Graphical fallback uses connectivity and imported roll; it does not transform force components.
+        if (deformed) p = element.Nodes.Select(n => undeformedPoints[n]).ToArray();
         var x = Vector3.Normalize(p[1]-p[0]);
         var y = Vector3.Normalize(Vector3.Cross(x, Math.Abs(x.Z)>.9 ? Vector3.UnitY : Vector3.UnitZ));
         var z = Vector3.Cross(x,y); float angle=(float)(element.Angle*Math.PI/180);
@@ -45,7 +52,7 @@ internal sealed partial class ModelSceneRenderer
         Dictionary<int,EdgeBuilder> colors,Dictionary<int,List<int>> colorIds,
         Func<string,SurfaceBuilder> categoryMesh,Action<string,Vector3,Vector3,int> categoryLine)
     {
-        bool active=options.ShowResults && options.Family==element.Type;
+        bool active=options.ShowResults && MatchesFamily(element,options);
         var samples=active?LineSamples(element,values):[];
         var profile=options.Extruded && options.Display.SurfaceMode!=2 ? LineProfile(element,p):null;
         var delta=p[1]-p[0]; double min=options.ColorMinimum,max=options.ColorMaximum;
@@ -115,7 +122,7 @@ internal sealed partial class ModelSceneRenderer
         foreach(var group in options.Values.GroupBy(v=>v.Element))
         {
             var element=model!.Elements.First(e=>e.Id==group.Key);
-            if(!ElementFamilies.IsLine(element.Type)||element.Type!=options.Family||options.Visible!=null&&!options.Visible.Contains(element.Id))continue;
+            if(!ElementFamilies.IsLine(element.Type)||element.Type!=options.Family||options.Visible!=null&&!options.Visible.Contains(element.Id)||incompleteDeformations.Contains(element.Id))continue;
             var p=element.Nodes.Select(n=>points[n]).ToArray(); var basis=LineBasis(element,p);
             var direction=settings.DiagramAlongY?basis.Y:basis.Z;
             Vector3? previousAxis=null,previousTip=null;double previousValue=0;

@@ -35,6 +35,8 @@ static partial class Program
         bad = loaded with { Blocks = [loaded.Blocks[0], loaded.Blocks[0]] }; Reject(() => ModelReportFiles.Validate(bad), "duplicate chapter identity is rejected");
         bad = loaded with { Blocks = [loaded.Blocks[0] with { View = captured with { Case = "not available", Mode = 2 } }] };
         Reject(() => ModelReportFiles.ValidateReferences(bad, model), "missing case is not silently replaced");
+        bad = loaded with { Blocks = [loaded.Blocks[0] with { View = captured with { Case = "not available", Mode = 0, Appearance = captured.Appearance! with { Deformation = true } } }] };
+        Reject(() => ModelReportFiles.ValidateReferences(bad, model), "deformed geometry without contours still requires its exact result case");
         bad = loaded with { Blocks = [loaded.Blocks[0] with { View = captured with { Visible = [9999] } }] };
         Reject(() => ModelReportFiles.ValidateReferences(bad, model), "deleted visible element requires an explicit figure edit");
         var invalidAppearance = captured with { Appearance = captured.Appearance! with { LineWidth = double.NaN } };

@@ -80,6 +80,14 @@ static partial class Program
                 ProjectModelStore.Set(sf, fixture);
                 archive = Path.Combine(output, "ui.programma"); Archivio.Scrivi(archive, doc);
             }
+            if (Path.GetExtension(archive).Equals(".antheamodel", StringComparison.OrdinalIgnoreCase))
+            {
+                var doc = ProjectDocuments.CreateArchive();
+                var project = ProjectDocuments.AddProject(doc, "Prova del visualizzatore");
+                var subphase = ProjectDocuments.AddSection(project, "Modello offline");
+                ProjectModelStore.Set(subphase, ModelSnapshotFiles.Read(archive));
+                archive = Path.Combine(output, "preview.programma"); Archivio.Scrivi(archive, doc);
+            }
             window = new X.Desktop.MainWindow { Width = 1600, Height = 990, ShowInTaskbar = false, ShowActivated = false };
             Call(window, "LoadFile", archive); window.Show(); Wait(150);
             var document = (JsonObject)window.GetType().GetField("document", Flags)!.GetValue(window)!;
@@ -94,6 +102,8 @@ static partial class Program
                     (sheetId, element, result, component) => ProjectModelStore.Link(owner,
                         ProjectModelStore.DescendantSheets(owner).Single(s => s.S("id") == sheetId), id, element, result, component));
                 window.Close(); window = null;
+                int themeArgument=Array.IndexOf(args,"--appearance");
+                if(themeArgument>=0 && themeArgument+1<args.Length)SetAppearance(args[themeArgument+1]);
                 var preview = new Window { Title = "ANTHEA · Modelli", Content = args.Contains("--interactive") ? InteractivePreviewHost.Create(isolated) : isolated, Width = 1600, Height = 1020, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.CenterScreen, ShowActivated = args.Contains("--interactive") };
                 preview.Show(); Wait(1200);
                 var state = (ModelViewerViewModel)isolated.DataContext;
@@ -118,6 +128,12 @@ static partial class Program
                         state.SelectedFamily=1;state.SelectedComponent="My";state.ShowBeamDiagram=true;state.ShowLineContour=true;
                         state.SelectedRepresentation=1;state.SelectedPanel=1;state.ShowContext=false;
                     }
+                    if (args.Contains("--deformed"))
+                    {
+                        state.SelectedResultType=1;state.SelectedCase=state.Cases.Contains("SismaX")?"SismaX":state.Cases.FirstOrDefault();
+                        state.SelectedComponent="|u|";state.ShowDeformation=true;state.SelectedRepresentation=1;state.SelectedPanel=1;
+                        state.ShowInspector=false;state.ShowMesh=false;
+                    }
                     preview.ShowInTaskbar = true; preview.Closed += (_, _) => app.Shutdown();
                     Capture(isolated, scene, Path.Combine(output, "anteprima-interattiva.png"));
                     File.WriteAllText(Path.Combine(output,"pronta.json"),System.Text.Json.JsonSerializer.Serialize(new
@@ -127,6 +143,34 @@ static partial class Program
                         BindingErrors=bindingLog.ToString(),ReadyUtc=DateTime.UtcNow,Contour=state.ContourValueLabel,Averaging=state.ContourAveragingSummary
                     },new System.Text.Json.JsonSerializerOptions{WriteIndented=true}));
                     app.Run(); return 0;
+                }
+                if(args.Contains("--deformations-real"))
+                {
+                    RealDeformationChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"real deformations have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--deformation-report"))
+                {
+                    DeformationReportChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"deformation report has no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--themes-only"))
+                {
+                    ThemeRenderingChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"themes have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--deformations-only"))
+                {
+                    DeformationRenderingChecks(output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"deformation views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
                 }
                 if(args.Contains("--report-only"))
                 {

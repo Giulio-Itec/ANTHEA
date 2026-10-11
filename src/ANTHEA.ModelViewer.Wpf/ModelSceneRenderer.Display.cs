@@ -12,7 +12,7 @@ internal sealed partial class ModelSceneRenderer
     void DrawDisplayOverlays(SceneOptions options)
     {
         var visible = model!.Elements.Where(e => (options.Visible == null || options.Visible.Contains(e.Id)) &&
-            (!options.ShowResults || options.ShowContext || e.Type == options.Family)).ToArray();
+            (!options.ShowResults || options.ShowContext || MatchesFamily(e,options))).ToArray();
         if (options.Display.HiddenWireframe && options.Visible != null)
         {
             var ghost = new EdgeBuilder();

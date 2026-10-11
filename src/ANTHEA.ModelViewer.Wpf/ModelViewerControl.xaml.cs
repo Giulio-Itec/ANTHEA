@@ -24,6 +24,7 @@ public partial class ModelViewerControl : UserControl, IDisposable
         viewModel = new ModelViewerViewModel(snapshot, sheets, readOnly, services, imported, linked);
         DataContext = viewModel;
         AttachInteraction();
+        AttachAnimation();
         viewModel.SceneChanged += SceneChanged;
         viewModel.ViewSettingsChanged += ViewSettingsChanged;
         viewModel.CameraPresetRequested += CameraPresetRequested;
@@ -99,7 +100,8 @@ public partial class ModelViewerControl : UserControl, IDisposable
             var statistics = renderer.Render(Options(viewModel));
             UpdateComparisonScene();
             viewModel.Status = $"Scena pronta · {statistics.Preparation.TotalMilliseconds:N0} ms di preparazione · {statistics.Triangles:N0} triangoli";
-            if (viewModel.IsResultsView) viewModel.Status += $" · {statistics.MissingElements} {viewModel.Family.ToLowerInvariant()} senza risultati";
+            if (viewModel.IsResultsView && statistics.MissingElements > 0) viewModel.Status += $" · {statistics.MissingElements} elementi senza risultati del campo";
+            if (statistics.IncompleteDeformations > 0) viewModel.Status += $" · {statistics.IncompleteDeformations} elementi con spostamenti incompleti";
             if (viewModel.ShowLocalAxes && viewModel.Snapshot.LocalFrames == null) viewModel.Status += " · terne locali non importate";
             if (viewModel.ShowNodeAxes && viewModel.Snapshot.NodeFrames == null) viewModel.Status += " · terne nodali non importate";
         }
@@ -110,7 +112,7 @@ public partial class ModelViewerControl : UserControl, IDisposable
     {
         if (disposed) return;
         disposed = true;
-        DetachInteraction(); DisposeComparison();
+        DetachInteraction(); DetachAnimation(); DisposeComparison();
         Loaded -= OnLoaded; Unloaded -= OnUnloaded; viewModel.SceneChanged -= SceneChanged;
         PreviewKeyDown -= ViewerKeyDown; viewModel.ViewSettingsChanged -= ViewSettingsChanged; viewModel.CameraPresetRequested -= CameraPresetRequested;
         viewModel.Dispose(); renderer?.Dispose(); renderer = null; renderedSnapshot = null;

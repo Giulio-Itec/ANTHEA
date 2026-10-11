@@ -143,21 +143,26 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     private void RefreshScene()
     {
         if (updating || disposed || Snapshot == null) return;
+        PauseAnimation();
         var result = Snapshot.Results.FirstOrDefault(r => r.Name == SelectedCase);
+        UpdateDeformations();
         UpdateResultField();
         UpdateLoadGraphics();
         UpdateComparison();
         UpdateExploration();
         UpdateDisplay();
+        UpdateAnimationAvailability();
         OnPropertyChanged(nameof(LineRepresentationMessage));
         RefreshTable();
         Information = IsExtruded
             ? "Piastre: spessori e offset lungo la normale locale. Aste: sezioni rettangolari centrate; offset di estremità non importati. Volumi preliminari."
             : "Superficie analitica e connettività originali.";
+        if (ShowDeformation) Information += "\n\n" + DeformationHeading + ". " + DeformationMessage;
         if (ShowResults)
         {
             Information += "\n\n" + (HasResults ? (IsAveragedContour ? ContourAveragingSummary + ".\nMedia solo grafica: tabelle e riferimenti conservano i valori importati. Discontinuità mantenute tra proprietà, materiali e terne differenti." : "Interpolazione grafica interna all’elemento. Discontinuità conservate fra elementi.") + (result?.IsEnvelope == true ? "\n\nInviluppo importato: estremi per componente, non simultanei." : "") : ResultAvailability);
-            if (IsExtruded) Information += "\n\nPlate: il campo è riportato su entrambe le facce e sui bordi; non rappresenta una distribuzione di tensione nello spessore.";
+            if (IsDisplacementResult) Information += "\n\nSpostamenti nodali globali: gli stessi valori sono condivisi dagli elementi adiacenti. Il colore rappresenta il valore importato, indipendentemente dal fattore della deformata.";
+            else if (IsExtruded) Information += "\n\nPlate: il campo è riportato su entrambe le facce e sui bordi; non rappresenta una distribuzione di tensione nello spessore.";
         }
         SceneChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -182,7 +187,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         SelectionInformation += "\n" + string.Join("\n", ActiveValues.Where(v => v.Element == element.Id).Select(v => $"{(v.Station.HasValue ? "x/L " + v.Station.Value.ToString("G3") : "Nodo " + v.Node)}: {v.Value:G7}"));
     }
 
-    private bool CanLink() => !IsReadOnly && !IsBusy && !IsVerificationRunning && CanQuery() && SelectedSheet != null && SelectedCase != null && SelectedFamily == 0 && SelectedAxes == 0 && ActiveValues.Any(v => v.Element.ToString() == ElementNumber.Trim());
+    private bool CanLink() => !IsDisplacementResult && !IsReadOnly && !IsBusy && !IsVerificationRunning && CanQuery() && SelectedSheet != null && SelectedCase != null && SelectedFamily == 0 && SelectedAxes == 0 && ActiveValues.Any(v => v.Element.ToString() == ElementNumber.Trim());
     [RelayCommand(CanExecute = nameof(CanLink))]
     private void Link()
     {
@@ -195,7 +200,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     }
 
     [RelayCommand] private void Fit() => services.FitView();
-    [RelayCommand] private void SaveImage() { try { services.SaveImage(); } catch (Exception ex) { Status = "Immagine non salvata: " + ex.Message; } }
+    [RelayCommand] private void SaveImage() { try { PauseAnimation(); services.SaveImage(); } catch (Exception ex) { Status = "Immagine non salvata: " + ex.Message; } }
 
     public void Dispose()
     {
@@ -203,6 +208,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         foreach(var chapter in ReportChapters) chapter.PropertyChanged -= ChapterChanged;
         Comparison?.Dispose(); Comparison=null; FocusSelectionRequested=null;PreviousCameraRequested=null;HoverChanged=null;
         ViewSettingsChanged = null; CameraPresetRequested = null;
+        AnimationStateChanged = null; DeformationFrameChanged = null;
         ImportCommand.NotifyCanExecuteChanged(); QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged();
         IsolateCommand.NotifyCanExecuteChanged(); HideCommand.NotifyCanExecuteChanged(); ShowSelectedCommand.NotifyCanExecuteChanged();
         InspectSelectionCommand.NotifyCanExecuteChanged(); AddVisibilityCriterionCommand.NotifyCanExecuteChanged();

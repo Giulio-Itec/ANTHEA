@@ -37,8 +37,8 @@ public sealed partial class ModelViewerViewModel
     {
         if (!ShowTable || Snapshot == null || disposed || updating) return;
         string state = string.Join("|", SelectedTableKind, TableOnlyVisible ? VisibleElementIds == null ? "all" : string.Join(",", VisibleElementIds.Order()) : "all",
-            TableOnlySelected ? string.Join(",", SelectedElementIds.Order()) : "all", TableSearch,
-            SelectedTableKind == 5 ? $"{SelectedCase}/{Family}/{Axes}/{SelectedComponent}/{ForceUnit}/{LengthUnit}/{SelectedBeamLocation}" : "",
+            TableOnlySelected ? string.Join(",", SelectedElementIds.Order()) + "/" + string.Join(",", SelectedNodeIds.Order()) : "all", TableSearch,
+            SelectedTableKind == 5 ? $"{SelectedCase}/{Family}/{Axes}/{SelectedComponent}/{ForceUnit}/{LengthUnit}/{DisplacementUnit}/{SelectedBeamLocation}" : "",
             SelectedTableKind == 6 ? SelectedTreeItem?.Key : "");
         if (!force && tableState == state) return;
         tableState = state;
@@ -82,6 +82,13 @@ public sealed partial class ModelViewerViewModel
                 }
                 break;
             case 5:
+                if (IsDisplacementResult)
+                {
+                    Columns(("Nodo", typeof(int)), ("Caso", typeof(string)), ("Assi", typeof(string)), ("Componente", typeof(string)), ("Unità", typeof(string)), ("Valore", typeof(double)));
+                    foreach (var v in ActiveValues.Where(v => !TableOnlySelected || SelectedNodeIds.Contains(v.Node)).DistinctBy(v => v.Node).OrderBy(v => v.Node))
+                        Add("NODE:" + v.Node, v.Node, SelectedCase, Axes, SelectedComponent, ResultUnit, v.Value);
+                    break;
+                }
                 Columns(("Elemento", typeof(int)), ("Nodo", typeof(int)), ("x/L", typeof(double)), ("Caso", typeof(string)), ("Famiglia", typeof(string)), ("Assi", typeof(string)), ("Componente", typeof(string)), ("Unità", typeof(string)), ("Valore", typeof(double)));
                 // Use exactly the displayed field and units; never average shared nodes or combine envelope extrema.
                 foreach (var v in ActiveValues.Where(v => !TableOnlySelected || SelectedElementIds.Contains(v.Element)))

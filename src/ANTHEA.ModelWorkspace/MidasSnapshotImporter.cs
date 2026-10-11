@@ -64,6 +64,7 @@ public static class MidasSnapshotImporter
             }
         if (Directory.EnumerateFiles(directory, "*-results-*.json").Any())
             result.Results = MidasResultTables.Read(directory, result.Elements.ToDictionary(e => e.Id));
+        result.Results = MidasDisplacementTables.Merge(result.Results, MidasDisplacementTables.ReadDirectory(directory, result.Nodes.Select(n => n.Id).ToHashSet()));
         result.Validate(); return result;
     }
 }

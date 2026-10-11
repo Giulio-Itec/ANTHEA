@@ -50,7 +50,7 @@ public sealed partial class ModelViewerViewModel
             double span = high == low ? Math.Max(1, Math.Abs(low) * .1) : 0;
             manualMinimum = (low - span) / factor; manualMaximum = (high + span) / factor; manualScaleReady = true;
         }
-        string units = $"{ForceUnit}/{LengthUnit}";
+        string units = IsDisplacementResult ? DisplacementUnit : $"{ForceUnit}/{LengthUnit}";
         if (colorUnitKey != units && manualScaleReady)
         {
             ColorScaleLower = (manualMinimum * factor).ToString("G9"); ColorScaleUpper = (manualMaximum * factor).ToString("G9"); colorUnitKey = units;
