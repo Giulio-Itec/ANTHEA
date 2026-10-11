@@ -255,3 +255,5 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: diagrammi 2D dell'asta selezionata, sei componenti, cursore comune, campioni distinti dalle interpolazioni, CSV e figure dinamiche di report. Legenda adattiva per viewport ridotti. Registro MOD-15.
 - [x] 11 ottobre: ritaglio a volume XYZ, contorno opzionale, geometria estrusa e deformata statica, selezione e report coerenti; MOD-16.
 - [x] 11 ottobre: misure fra nodi (originale/deformata reale), angoli, viste e report; inquadratura rispettosa della camera e del taglio, proiezione immediata corretta. MOD-17.
+
+- [x] 11 ottobre: topologia grafica dei bordi plate coerente con isolamento e visibilita; 11 controlli WPF sintetici/reali, cattura prima e dopo. MOD-18.

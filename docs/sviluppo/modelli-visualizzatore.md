@@ -630,3 +630,14 @@ Inquadra preserva vista e proiezione e centra il modello tagliato. Risolta anche
 obsoleta subito dopo il cambio camera, che poteva sovrapporre annotazioni nel primo fotogramma
 e nel PDF. Attesi indipendenti 3-4-5, 5-12-13, 90 gradi; 263 controlli logici, 14 WPF/report
 reali e 33 di regressione esplorazione. Tre pagine PDF controllate, evidenza `measurements/final`.
+
+### Bordi dopo isolamento (MOD-18)
+
+Prima, una visibilita esplicita disabilitava la soppressione delle facce interne: anche isolare
+tutto il modello reintroduceva la mesh dei volumi. Ora la topologia e memorizzata in cache
+per il gruppo attivo; i nuovi bordi esterni compaiono quando si nasconde il vicino.
+Il caso indipendente di due plate passa dai 24 triangoli precedenti a 20; un solo prisma
+ne mantiene 12. Sul modello reale completo e isolamento totale hanno geometria identica
+bit per bit e 222212 triangoli. Proprieta 1 isolata: 1612 plate, 103520 triangoli;
+53 ms di preparazione osservati nella cattura. 11 controlli WPF, immagini prima e dopo
+in `visible-boundaries`; mesh GPC e valori importati non modificati.

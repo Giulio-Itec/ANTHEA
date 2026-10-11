@@ -55,7 +55,7 @@ internal sealed partial class ModelSceneRenderer
             (!options.ShowResults || options.ShowContext || MatchesFamily(e, options))))
         {
             var p = element.Nodes.Select(n => undeformedPoints[n]).ToArray();
-            bool[]? sides = !settings.UndeformedMesh && options.Visible == null && element.Type == "PLATE" ? plateSides[element.Id] : null;
+            bool[]? sides = !settings.UndeformedMesh && element.Type == "PLATE" ? plateSides[element.Id] : null;
             if (!options.Extruded && sides != null)
             {
                 for (int i = 0; i < p.Length; i++) if (sides[i]) ghost.Line(p[i], p[(i + 1) % p.Length]);

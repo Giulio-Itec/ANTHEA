@@ -1442,6 +1442,38 @@
         "supporto/artefatti/ci/20261011-185015-modelli-misure-logica"
       ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-18",
+      "titolo": "Contorni e pareti dei plate isolati",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Cache della topologia grafica legata agli elementi effettivamente rappresentati. Rimossi i bordi e le facce interne fra plate adiacenti dopo isolamento; ripristinate le facce esposte quando il vicino viene nascosto.",
+      "riferimento_normativo": [],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.PlateTopology.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Deformations.cs"
+      ],
+      "segno": "Differenza grafica intenzionale. Due plate isolati passano da 24 a 20 triangoli esterni; uno solo resta un prisma chiuso di 12 triangoli. Valori e connettività importati invariati.",
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "migliorare visualizzazione, filtri e isolamento",
+        "esito": "confini coerenti anche su estrusioni e sagoma indeformata"
+      },
+      "data": "2026-10-11",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": [
+        "WPF sintetico e reale: 11 PASS",
+        "Modello reale: 222212 triangoli sia completo sia isolando tutti gli elementi, posizioni identiche bit per bit",
+        "Proprieta 1: 1612 plate, 103520 triangoli"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/visible-boundaries/before",
+        "supporto/artefatti/model-viewer/visible-boundaries/after",
+        "supporto/artefatti/model-viewer/visible-boundaries/real"
+      ],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]
 }

@@ -44,40 +44,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         points = snapshot.Nodes.ToDictionary(n => n.Id, n => new Vector3((float)(n.X - cx), (float)(n.Y - cy), (float)(n.Z - cz)));
         undeformedPoints = points; incompleteDeformations.Clear(); deformed = false;
         extent = Math.Max(1, (points.Values.Aggregate(Vector3.Max) - points.Values.Aggregate(Vector3.Min)).Length());
-        plateSides.Clear();
-        var edges = new Dictionary<(int, int, int), List<(int element, int edge, Vector3 normal)>>();
-        foreach (var element in snapshot.Elements.Where(e => e.Type == "PLATE"))
-        {
-            plateSides[element.Id] = Enumerable.Repeat(true, element.Nodes.Length).ToArray();
-            var p = element.Nodes.Select(n => points[n]).ToArray(); var normal = Vector3.Normalize(Vector3.Cross(p[1] - p[0], p[2] - p[0]));
-            for (int i = 0; i < p.Length; i++)
-            {
-                int a = element.Nodes[i], b = element.Nodes[(i + 1) % p.Length]; var key = (element.Property, Math.Min(a, b), Math.Max(a, b));
-                if (!edges.TryGetValue(key, out var list)) edges[key] = list = new(); list.Add((element.Id, i, normal));
-            }
-        }
-        // Remove only matching internal side faces of coplanar plates with the same physical property.
-        // Different normals, properties and non-manifold junctions retain their full volume boundaries.
-        foreach (var edge in edges.Values.Where(e => e.Count == 2))
-            if (Vector3.Dot(edge[0].normal, edge[1].normal) > 0.999999f)
-            { plateSides[edge[0].element][edge[0].edge] = false; plateSides[edge[1].element][edge[1].edge] = false; }
-        // Suppress seam lines through thickness along straight, continuous external boundaries.
-        plateOutlineCorners.Clear();
-        var directions=new Dictionary<(int Property,int Node),List<Vector3>>();
-        foreach(var element in snapshot.Elements.Where(e=>e.Type=="PLATE"))
-            for(int i=0;i<element.Nodes.Length;i++)
-            {
-                if(!plateSides[element.Id][i])continue;
-                int a=element.Nodes[i],b=element.Nodes[(i+1)%element.Nodes.Length];
-                foreach(var pair in new[]{(a,b),(b,a)})
-                {
-                    var key=(element.Property,pair.Item1);
-                    if(!directions.TryGetValue(key,out var list))directions[key]=list=[];
-                    list.Add(Vector3.Normalize(points[pair.Item2]-points[pair.Item1]));
-                }
-            }
-        foreach(var pair in directions)
-            if(pair.Value.Count!=2 || Vector3.Dot(pair.Value[0],pair.Value[1])>-.999999f)plateOutlineCorners.Add(pair.Key);
+        activePlateBoundaries=null;plateSides.Clear();plateOutlineCorners.Clear();
     }
     void AddMesh(SurfaceBuilder builder, Color4 color, bool contour = false)
     {
@@ -110,6 +77,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         if (!preparingAnimation) ClearAnimation();
         lastOptions = options;
         UpdateDeformedPoints(options);
+        UpdatePlateBoundaries(options);
         var clipPlanes=options.Exploration?.ClipPlanes is {Count:>0} planes?planes:options.Exploration?.Clip is {} plane?[plane]:Array.Empty<GraphicPlane>();
         clipping=clipPlanes.Count==0?null:new SceneClipSet(clipPlanes.Select(p=>new SceneClip(new Vector3((float)p.X,(float)p.Y,(float)p.Z),(float)(p.Distance-p.X*modelOrigin.X-p.Y*modelOrigin.Y-p.Z*modelOrigin.Z))).ToArray());
         labelBounds.Clear();hoverLine=null;
@@ -174,7 +142,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
                 var prop = model.Plates.First(t => t.Id == e.Property);
                 var lower = p.Select(x => x + normal * (float)(prop.Offset - prop.Thickness / 2)).ToArray();
                 var extrusion = normal * (float)prop.Thickness;
-                var sides = options.Visible == null ? plateSides[e.Id] : null;
+                var sides = plateSides[e.Id];
                 if (available) Contours.Prism(target, contours, lower, extrusion, nodal, e.Id, min, max, subdivisions, isolines, Math.Clamp(options.IsolineCount, 4, 20), sides);
                 else target.Prism(lower, extrusion, e.Id, sides);
                 if (options.ShowMesh) ElementOutline(edges, e, p, true);

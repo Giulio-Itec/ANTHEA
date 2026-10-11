@@ -179,6 +179,14 @@ static partial class Program
                     File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
                     preview.Close();app.Shutdown();return 0;
                 }
+                if(args.Contains("--visible-boundaries"))
+                {
+                    VisibleBoundaryChecks(output,args.Contains("--capture-before"));
+                    if(!args.Contains("--capture-before"))VisibleBoundaryRealChecks(isolated,scene,output);
+                    listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"visible boundary views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
                 if(args.Contains("--themes-only"))
                 {
                     ThemeRenderingChecks(isolated,scene,output);

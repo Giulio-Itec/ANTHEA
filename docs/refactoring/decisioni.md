@@ -660,3 +660,11 @@ con una base della misura sempre esplicita. Esc termina lo strumento e deselezio
 Inquadra mantiene orientamento e tipo di proiezione dopo la prima apertura; sul taglio usa
 i limiti grafici attivi. Proiezione di etichette e selezione dalla camera corrente, non dal
 contesto GPU del fotogramma precedente. MOD-17.
+
+## Confini dei plate visibili (11 ottobre 2026)
+
+La topologia del renderer dipende dai plate effettivamente rappresentati, inclusa la completezza
+dei dati nodali della deformata. La cache si aggiorna solo quando cambia questo insieme.
+Le facce interne vengono soppresse solo fra due plate complanari con stessa proprieta;
+confini diversi o non manifold rimangono. Il taglio grafico conserva il contratto separato
+senza facce artificiali. Cattura prima/modifica/confronto in `visible-boundaries`. MOD-18.
