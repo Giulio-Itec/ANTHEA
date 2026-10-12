@@ -851,3 +851,9 @@ viene proiettato per posizione, dopo il controllo di GUID non vuoti e univoci.
 Tutti gli altri valori e riferimenti restano soggetti a uguaglianza esatta. Il
 confronto opera su copie e non modifica né il documento né gli attesi numerici.
 La chiusura elimina l’eccezione del runner; non anticipa lo spostamento in Application.
+
+F2.9: chiusa la migrazione tecnica CD0-CD2/E1-E6 dopo verifica del set S,
+del full già eseguito e della baseline B6 presente nel checkout principale.
+Le attese di merge, rilascio e copia della baseline annotate l’8 ottobre sono
+superate. Le proposte normative e di contenuto restano aperte; la chiusura non
+vale come ratifica. Evidenze in `chiusura-f29-20261012.md`.
