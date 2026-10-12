@@ -91,6 +91,7 @@ $libraries = @(
     @{ File = 'DelaunayMesh.dll'; Repo = 'Geometry'; Project = 'DelaunayMesh\DelaunayMesh.csproj'; Output = 'DelaunayMesh\bin\Release\netstandard2.0'; TrackedBin = $true; Build = $false },
     @{ File = 'GPCModel.dll'; Repo = 'Model'; Project = 'Model\GPCModel.csproj'; Output = 'Model\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     @{ File = 'GPCModelData.dll'; Repo = 'Model'; Project = 'ModelData\GPCModelData.csproj'; Output = 'ModelData\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
+    @{ File = 'GPC.Converter.dll'; Repo = 'Model'; Project = 'GPC Converter\GPC Converter.csproj'; Output = 'GPC Converter\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     # Model 4: archives (ModelArchive) in their own assembly; only the capture tools reference it, never the application.
     @{ File = 'GPC.Model.Persistence.dll'; Repo = 'Model'; Project = 'GPC.Model.Persistence\GPC.Model.Persistence.csproj'; Output = 'GPC.Model.Persistence\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     @{ File = 'GPCChecker.Concrete.dll'; Repo = 'Checker'; Project = 'GPCChecker.Concrete\GPCChecker.Concrete.csproj'; Output = 'GPCChecker.Concrete\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },

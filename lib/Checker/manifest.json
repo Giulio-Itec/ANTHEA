@@ -68,6 +68,17 @@
                            "sdk":  "9.0.318"
                        },
                        {
+                           "file":  "GPC.Converter.dll",
+                           "source":  "Model/GPC Converter/bin/Release/netstandard2.0",
+                           "assemblyVersion":  "2.0.3.0",
+                           "sha256":  "F42874170D5F0F5413275F3D0BB3FBC9046CB422E0E9522A99F2F493F6E9DD79",
+                           "repository":  "Model",
+                           "branch":  "HEAD",
+                           "commit":  "d39fbe93bd5b1f138aa75f9e728aef3725cfbf90",
+                           "pushed":  true,
+                           "sdk":  "9.0.318"
+                       },
+                       {
                            "file":  "GPC.Model.Persistence.dll",
                            "source":  "Model/GPC.Model.Persistence/bin/Release/netstandard2.0",
                            "assemblyVersion":  "3.0.0.0",

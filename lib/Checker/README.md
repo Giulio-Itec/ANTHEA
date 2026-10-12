@@ -1,5 +1,19 @@
 # DLL Checker
 
+**Completamento della Release R per Modelli (12 ottobre 2026).** Aggiunto `GPC.Converter 2.0.3.0`
+dal medesimo `set-rel` non candidato prodotto da `Checker/build/Release-Set.ps1`, Model
+`d39fbe93bd5b1f138aa75f9e728aef3725cfbf90`, già su origin/master. Installazione con
+`tools/libs/Update-Snapshot.ps1 -ReleaseSet <set-rel> -Install`; SHA-256 completo nel manifest.
+Le altre nove DLL sono identiche alla Release R: nessuna ricompilazione o variazione di versione.
+Il convertitore è referenziato esplicitamente da ANTHEA.ModelWorkspace per espansione, importazione
+in memoria e ricostruzione GPC delle combinazioni. Non contiene Gmsh. Le suite del rilascio sono
+conservate in `set-rel/TestResults` (Model: 6 + 1186 PASS; Checker: esiti R sotto riportati).
+Il collaudo ANTHEA e i confronti sono registrati in `docs/sviluppo/modelli-combinazioni.md`.
+Rieseguiti dopo l'integrazione: ANTHEA full 83 PASS / 1 KNOWN / 0 nuovi fallimenti;
+Model UnitTest 1186 PASS (2 esclusi) e Core 6 PASS sulle DLL del set, con SHA-256 verificati.
+Evidenze: `supporto/artefatti/ci/20261012-150738-combo-full` e
+`supporto/artefatti/model-viewer/combinations-20261012/library-checks`.
+
 **Procedura di aggiornamento.** Le DLL di questa cartella si producono solo con `tools/libs/Update-Snapshot.ps1
 -FromUpstream`, cioè dai commit pushati delle librerie (AGENTS.md).
 
