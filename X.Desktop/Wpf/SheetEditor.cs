@@ -359,7 +359,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         if (rebarMaterial is null) throw new InvalidOperationException("La scheda non è un materiale.");
         try
         {
-            var values = RebarMaterial.Evaluate(Data["input"]!.AsObject());
+            var values = ModuleServices.Get(RebarMaterial.Module).Calculate(Data).NativeAs<RebarMaterial.Values>();
             derived.Add(new("Acciaio", "Resistenza di progetto fyd [MPa]", JsonValue.Create(values.Fyd)));
             derived.Add(new("Acciaio", "Deformazione εyd [‰]", JsonValue.Create(values.EpsilonYd)));
             derived.Add(new("Acciaio", "Rapporto fu / fyk", JsonValue.Create(values.Ratio)));

@@ -145,6 +145,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
   - [ ] F3.5b: servizio report progetto autonomo e renderer delle figure; il percorso attuale usa ancora SheetEditor per preparare calcoli e figure.
 - [~] F3.6 Moduli uno alla volta: acciaio e palificata; palo verticale; calcestruzzo; orizzontale ed elastico; muri; ponte [CP ricalcolo ritardato]; sezione c.a. [CP report short senza Word].
   - [x] F3.6a (13/10): pali e micropali verticali collegati ai servizi, cache e scheduler; ritardo 450 ms conservato. Nove prove WPF con motore volutamente non cooperativo, cambi di geometria e chiusura. Corsa f3-vertical-service: 10 PASS, 458 file equivalenti; async void da 11 a 10, timer di calcolo da 6 a 5, soglie ridotte.
+  - [x] F3.6b (13/10): acciaio per armature, palificata e fondazioni passano dai servizi applicativi. Palificata con scheduler comune e ritardo 180 ms; disponibilità e libreria iniettata delle fondazioni conservate. 12 PASS con prove WPF acciaio/fondazioni/materiali e 458 file equivalenti. Timer di calcolo da 5 a 4.
 - [ ] F3.7 [CP] Chiusura: X.Desktop dipende solo dallo strato applicativo.
 
 ## Fase 4: calcoli residui nelle librerie

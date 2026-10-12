@@ -1,3 +1,4 @@
+using Anthea.Application.Modules;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -95,12 +96,13 @@ internal sealed class RebarMaterialView : UserControl
             : "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato.";
         try
         {
-            var v = RebarMaterial.Evaluate(Input);
+            var calculated = ModuleServices.Get(RebarMaterial.Module).Calculate(Data);
+            var v = calculated.NativeAs<RebarMaterial.Values>();
             string F(double n) => n.ToString("0.##", CultureInfo.GetCultureInfo("it-IT"));
             results.Text = $"fyd     {F(v.Fyd)} MPa\nεyd     {F(v.EpsilonYd)} ‰\nfu / fyk     {F(v.Ratio)}";
             Status.Text = historical ? "Dati completi. Per strutture esistenti verificare i valori adottati e i coefficienti applicabili." : "✓ Proprietà coerenti";
             Status.Foreground = Appearance.Foreground(Ui.Brush(historical ? "#9A6700" : "#18794E"));
-            diagram.Series = [new(Input.S("materiale_acciaio_nome"), RebarMaterial.Curve(Input), Ui.Blue)];
+            diagram.Series = [new(Input.S("materiale_acciaio_nome"), calculated.Values.Array("diagramma").Select(p => p!.AsArray().Select(v => v!.GetValue<double>()).ToArray()).ToList(), Ui.Blue)];
         }
         catch (ArgumentException ex)
         {

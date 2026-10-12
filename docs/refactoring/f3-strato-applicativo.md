@@ -59,3 +59,9 @@ Corsa 20261013-014723-f3-module-services-final: 7 PASS e 185 controlli Applicati
 SheetEditor dei pali e micropali verticali usa IModuleService, la sessione con cache e RecalculationScheduler. Ritardo iniziale invariato di 450 ms; il calcolo esplicito sostituisce quello in attesa, le modifiche invalidano i lavori precedenti e i motori che non si interrompono subito restano serializzati. Lo stato visuale viene aggiornato soltanto dal risultato corrente.
 
 Corsa 20261013-015056-f3-vertical-service: 10 PASS, smoke WPF generale e confronto di 458 file senza differenze nuove. Nove prove WPF dedicate con un motore di test trattenuto da barriere, due geometrie consecutive e chiusura durante il lavoro. Il test dei timer esistente ora attende la Task della richiesta. Soglie correnti in limits.json: 10 async void e 9 occorrenze DispatcherTimer, cioè 5 timer di calcolo più quelli di gerarchia e Wiki; il riferimento originale rimane immutato.
+
+## F3.6b — acciaio, palificata e fondazioni
+
+Proprietà e curva dell’acciaio e proprietà derivate del report usano il servizio del modulo. La palificata conserva il calcolo breve sincrono, le modifiche alla direzione selezionata e il ritardo di 180 ms, ora coordinato dallo scheduler senza DispatcherTimer. La fondazione passa al servizio mantenendo la stessa FoundationLibrary iniettata, anche quando l’API non è disponibile.
+
+Corsa 20261013-015601-f3-steel-group-foundations: 12 PASS; 185 controlli Application, controlli fondazioni anche WPF, smoke acciaio e report materiali, 458 file F3 equivalenti. Soglia DispatcherTimer ridotta a 8 occorrenze, quattro timer di calcolo residui. Nessuna formula cambiata.

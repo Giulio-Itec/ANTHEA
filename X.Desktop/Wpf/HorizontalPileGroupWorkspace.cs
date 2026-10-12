@@ -1,3 +1,5 @@
+using Anthea.Application.Modules;
+using Anthea.Application.Scheduling;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.Json.Nodes;
@@ -22,7 +24,9 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
     readonly TextBlock coordinateHelp = Ui.Text("", 11, color: Ui.Muted);
     readonly PileGroupPlan plan = new() { Height = 345 };
     readonly DataGrid comparison = OutputGrid(305), details = OutputGrid(235);
-    readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(180) };
+    readonly RecalculationScheduler recalculation = new();
+    readonly ModuleCalculationSession calculationSession = new(ModuleServices.Get(HorizontalPileGroup.Module));
+    Task scheduledCalculation = Task.CompletedTask;
     bool loading = true, selecting, calculating, disposed;
     string spacingDirection = "X";
     internal JsonObject? Result { get; private set; }
@@ -116,7 +120,7 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
         var columns = new Grid(); columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(355) }); columns.ColumnDefinitions.Add(new ColumnDefinition());
         columns.Children.Add(new ScrollViewer { Content = input, Background = Appearance.Paper, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled });
         var right = new ScrollViewer { Content = output, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled }; Grid.SetColumn(right, 1); columns.Children.Add(right); Content = columns;
-        timer.Tick += Tick; loading = false; TryCalculate();
+        loading = false; TryCalculate();
     }
     void BuildGenerator()
     {
@@ -140,17 +144,31 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
         if (loading || data["generatore"].S("tipo") != "Generica") return false;
         var rows = new JsonArray(piles.Select(p => (JsonNode)J.Obj(("id", p.Id), ("x", Value(p.X)), ("y", Value(p.Y)))).ToArray()); if (JsonNode.DeepEquals(rows, data["pali"])) return false; data["pali"] = rows; return true;
     }
-    void Queue() { if (loading || disposed) return; Result = null; Clear("Aggiornamento automatico…"); Modified?.Invoke(); if (calculating) return; timer.Stop(); timer.Start(); }
-    void Tick(object? sender, EventArgs e) { timer.Stop(); TryCalculate(); }
+    void Queue()
+    {
+        if (loading || disposed) return;
+        Result = null; Clear("Aggiornamento automatico…"); Modified?.Invoke();
+        if (!calculating) scheduledCalculation = DelayedCalculation();
+    }
+    async Task DelayedCalculation()
+    {
+        var completed = await recalculation.ScheduleAsync(_ => { CalculateCurrent(); return Task.FromResult(true); }, TimeSpan.FromMilliseconds(180));
+        completed.TryPublish(result => { if (result.Error is not null) { Result = null; Clear("Dati da completare: " + result.Error.Message); } });
+    }
     void Clear(string message) { title.Text = "Effetto di gruppo della palificata"; state.Text = message; source.Text = notes.Text = geometry.Text = ""; minValue.Text = meanValue.Text = maxValue.Text = reduction.Text = "—"; selecting = true; comparison.ItemsSource = null; selecting = false; details.ItemsSource = null; plan.Set(data, null, null); }
-    internal void Commit() { coordinates.CommitEdit(DataGridEditingUnit.Cell, true); coordinates.CommitEdit(DataGridEditingUnit.Row, true); if (CapturePiles()) Queue(); if (!calculating && (timer.IsEnabled || Result is null)) TryCalculate(); }
+    internal void Commit() { coordinates.CommitEdit(DataGridEditingUnit.Cell, true); coordinates.CommitEdit(DataGridEditingUnit.Row, true); if (CapturePiles()) Queue(); if (!calculating && (!scheduledCalculation.IsCompleted || Result is null)) TryCalculate(); }
     internal void TryCalculate()
     {
-        if (loading || disposed || calculating) return; timer.Stop(); calculating = true;
+        if (loading || disposed || calculating) return;
+        recalculation.Invalidate(); CalculateCurrent();
+    }
+    void CalculateCurrent()
+    {
+        if (loading || disposed || calculating) return; calculating = true;
         try
         {
             coordinates.CommitEdit(DataGridEditingUnit.Cell, true); coordinates.CommitEdit(DataGridEditingUnit.Row, true); CapturePiles(); HorizontalPileGroup.Regenerate(data); if (data["generatore"].S("tipo") != "Generica") LoadPiles();
-            Result = HorizontalPileGroup.Calculate(data); var selected = Result["selezionato"]!; data["direzione_selezionata"] = selected.S("DirectionId"); data["angolo"] = selected.D("Angle");
+            Result = calculationSession.Calculate(data).Values; var selected = Result["selezionato"]!; data["direzione_selezionata"] = selected.S("DirectionId"); data["angolo"] = selected.D("Angle");
             var rows = Result.Array("confronto").Select(n => new ComparisonRow { Node = n! }).ToArray(); selecting = true; comparison.ItemsSource = rows; comparison.SelectedItem = rows.First(r => r.Method == data.D("metodo") && r.DirectionId == data.S("direzione_selezionata")); selecting = false; Present();
         }
         catch (Exception ex) { Result = null; Clear("Dati da completare: " + ex.Message); }
@@ -166,5 +184,5 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
         source.Text = selected.S("Source"); notes.Text = string.Join("\n", new[] { selected.S("Error"), Result.S("errore_basamento") }.Concat(selected.Array("Warnings").Select(w => w!.ToString())).Where(s => s.Length > 0));
         details.ItemsSource = selected.Array("Piles").Select(p => new { Palo = p.S("Id"), Fila = p.D("Row"), Q = F(J.Number(p!["ParallelCoordinate"])), T = F(J.Number(p["TransverseCoordinate"])), Beta = method >= 4 && available ? F(J.Number(p["Beta"])) : "—", Alfa = method == 5 && available ? F(J.Number(p["Alpha"])) : "—", Coefficiente = available ? F(J.Number(p["Factor"])) : "—", Riduzione = available ? F((1 - J.Number(p["Factor"])) * 100) + "%" : "—" }).ToArray(); plan.Set(data, selected, Result["basamento"] as JsonArray);
     }
-    public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= Tick; foreach (var row in piles) row.Changed = null; }
+    public void Dispose() { disposed = true; recalculation.Dispose(); calculationSession.Clear(); foreach (var row in piles) row.Changed = null; }
 }

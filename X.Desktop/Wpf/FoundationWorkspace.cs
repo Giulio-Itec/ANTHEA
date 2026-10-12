@@ -1,3 +1,4 @@
+using Anthea.Application.Modules;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,6 +10,7 @@ internal sealed partial class FoundationWorkspace : UserControl
 {
     readonly JsonObject data,input;
     readonly FoundationLibrary library;
+    readonly IModuleService calculationService;
     readonly Dictionary<string,FrameworkElement> fields=[];
     readonly StackPanel results=new() { Margin=new Thickness(8) };
     readonly TextBlock state=Ui.Text("Dati da verificare · premere Calcola",12,color:Ui.Muted);
@@ -27,7 +29,7 @@ internal sealed partial class FoundationWorkspace : UserControl
     internal FoundationWorkspace(JsonObject data) : this(data,new FoundationLibrary()) { }
     internal FoundationWorkspace(JsonObject data,FoundationLibrary library)
     {
-        this.library=library;this.data=data;FoundationDocument.ValidateShape(data);FoundationMaterials.Complete(data);input=data["input"]!.AsObject();
+        this.library=library;calculationService=ModuleServices.ForFoundation(library);this.data=data;FoundationDocument.ValidateShape(data);FoundationMaterials.Complete(data);input=data["input"]!.AsObject();
         var form=new StackPanel { Margin=new Thickness(8) };
         var method=new StackPanel();Choice(method,"Method","Metodo",FoundationDocument.Methods);
         Choice(method,"Shape","Geometria",FoundationDocument.Shapes);
@@ -139,7 +141,7 @@ internal sealed partial class FoundationWorkspace : UserControl
         Commit();Result=null;ClearResults();
         try
         {
-            Result=library.Calculate(data);results.Children.Clear();
+            Result=calculationService.Calculate(data).Values;results.Children.Clear();
             results.Children.Add(Ui.Text(Result["Status"]+"     N = "+FoundationPresentation.Value(input["Normal"])+" kN     R = "+FoundationPresentation.Value(Result["Resistance"],.001)+" kN     N/R = "+FoundationPresentation.Value(Result["Utilization"],1,"0.000")+"     A′ = "+FoundationPresentation.Value(Result["EffectiveArea"],1e-6)+" m²",16,true));
             var details=new StackPanel();
             foreach(var row in FoundationPresentation.Summary(Result))details.Children.Add(Ui.Text(row.Label+"   "+row.Value,12));
