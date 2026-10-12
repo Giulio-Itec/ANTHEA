@@ -116,7 +116,18 @@ Riusare entità, convertitori e contratti già presenti in GPC Model; nuove form
 - [ ] STG-1: inventario delle API e dei dati stage già disponibili; studio della documentazione MIDAS e campione dei risultati. Distinguere incremento/cumulato, età e attivazione di elementi, vincoli e carichi.
 - [ ] STG-2: modello comune degli stage e provenienza dei risultati, senza duplicare casi/combinazioni; lettura MIDAS con errori espliciti e test di unità/assi/associazione stage.
 - [ ] STG-3: selezione degli stage nella vista e nell’importazione; predisposizione coerente degli adattatori degli altri software, con capacità dichiarate quando la lettura nativa non è disponibile.
-- [ ] STG-4: collaudo e confronto del modello a stage, commit per punto, quindi prosecuzione della fase 3.
+- [ ] STG-4: collaudo e confronto del modello a stage, commit per punto, quindi visualizzazione delle sezioni (SEZ) prima della fase 3.
+
+## Passaggio fra stage e F3: visualizzazione delle sezioni
+
+Aggiunto dall’utente il 12 ottobre dopo il blocco stage. L’immagine fornita è un
+riferimento funzionale: rappresentare i nostri dati e le capacità effettive degli
+importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
+
+- [ ] SEZ-1: inventario delle sezioni, proprietà e rappresentazioni già presenti in Model e negli adattatori; riuso dei metodi comuni. Coprire prima le sezioni del modello MIDAS di prova, comprese le composte acciaio-calcestruzzo.
+- [ ] SEZ-2: vista di dettaglio richiamabile dall’albero e dalla selezione degli elementi: anteprima 2D quotata, ID/nome/tipo, dimensioni e unità, materiali delle parti, assi locali/principali e baricentro quando disponibili. Distinguere proprietà importate e calcolate, segnalando quelle non supportate.
+- [ ] SEZ-3: rappresentazione dell’offset e del punto d’inserimento rispetto all’asse dell’elemento, coerenza con i volumi 3D, evidenziazione/isola degli elementi che usano la sezione. Per le composte, componenti e rapporti elastici già disponibili; collegamento allo stage pertinente quando la sezione cambia per fase.
+- [ ] SEZ-4: collaudo su sezioni usuali e composte, unità/orientamento/offset, screenshot e guide globali aggiornate; un commit per punto concluso. Quindi avvio di F3.
 
 ## Fase 3: strato applicativo
 

@@ -926,3 +926,7 @@ L’utente conferma la chiusura dei punti 1–5 e 5.2 con un commit per punto; a
 ### 12 ottobre — stage prima di F3 e riuso dei metodi
 
 L’utente richiede di evitare duplicati: controllare le API esistenti e unificare i metodi comuni. Aggiunge lo studio e la prima implementazione degli stage e della lettura dei risultati MIDAS dopo F2 e prima di F3, includendo il contratto per gli altri software. Questo blocco precede l’avvio di F3 precedentemente autorizzato.
+
+### 12 ottobre — visualizzazione delle sezioni dopo gli stage
+
+L’utente aggiunge in coda la visualizzazione delle sezioni, fornendo come riferimento funzionale una sezione composta acciaio-calcestruzzo con dimensioni, materiali, assi e offset. La coda intermedia diventa F2 (incluso 5.2), STG, SEZ, quindi F3. Il primo obiettivo è la consultazione dei dati presenti in Model, collegata agli elementi e agli stage: l’immagine non estende automaticamente il perimetro a un nuovo solutore o a tutte le opzioni di modifica del programma di riferimento. Riusare calcoli e anteprime esistenti; le capacità mancanti degli importatori devono restare esplicite.
