@@ -944,3 +944,10 @@ La build principale 1.2.0.0 con Converter 2.0.3.1 mostra `CombinationExpansionLi
 ## Chiusura U1/U3 — punto 3, 12 ottobre 2026
 
 U1 disattiva l’opzione di compatibilità che nascondeva BarSpacing nelle sezioni NTC interamente tese. Il valore nativo è confrontato con `s (formula)` nella traccia storica, non con un nuovo atteso generato dal codice; apertura delle fessure, rapporto e stato restano identici. U3 sceglie la regola GPC già esistente `Ntc2018AndItalianAnnex`: la riduzione approvata riguarda UNI/DM 2012 oltre a NTC, per il limite SLE del CLS e αcc/fcd. La griglia conserva l’espressione storica e dichiara separatamente l’atteso UNI pari a 0,8. Il legacy di confronto resta intatto. Il banco denso cambia soltanto nei 13 BarSpacing classificati; i casi UNI sottili sono verificati nella griglia dedicata, non presenti nel corpus headless. Nessuna formula nuova in ANTHEA.
+
+
+## 12 ottobre — concorrenza e prosecuzione notturna
+
+Il lock globale di costruzione è rimosso soltanto dopo la cattura con il lock attivo. Si riusa il catalogo di 80 mesh e si confrontano esattamente coordinate, numerazione, connettività e ordine. Le sezioni condivise e indipendenti producono gli stessi 36 stati del calcolo seriale. Il lock GPC per la cache della sezione, quello del singolo solutore e quello della cache grafica restano pertinenti. Nessun cambiamento numerico, registro F2-23.
+
+L’utente assegna nove ore di lavoro dal 12/10 alle 22:19 (Europe/Rome), richiede tracciamento persistente e riepilogo a ogni fine fase. Conferma la prosecuzione fino a F4 se il tempo basta; **F5 non deve iniziare**. Ordine: chiusure F2 e finestra 5.2, stage, sezioni, F3, F4. Il punto 5 di collaudo e il punto 5.2 della finestra appartengono al blocco F2, non alla fase F5 esclusa. Restano autorizzati test, versioni, merge e push al completamento dei blocchi. Stato operativo in `stato-notturno-20261012.md`.

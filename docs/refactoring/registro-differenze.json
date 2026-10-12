@@ -2180,6 +2180,31 @@
         "supporto/artefatti/ci/20261012-215810-f2-sle-u1-u3",
         "supporto/artefatti/ci/20261012-220834-f2-sle-chiusura"
       ]
+    },
+    {
+      "id": "F2-23",
+      "data": "2026-10-12",
+      "fase": "F2.3b-mesh",
+      "titolo": "Costruzione parallela senza lock globale",
+      "famiglia": "calcestruzzo/mesh",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Rimosso il lock globale di costruzione dopo prova seriale/parallela e confronto con cattura preventiva. Conservata la sincronizzazione per cache e singolo solutore.",
+      "codice": [
+        "X.Calculations/CheckerSection.cs",
+        "tests/ConcreteConcurrency.Checks",
+        "build/ci.ps1"
+      ],
+      "segno": "Nessun cambiamento numerico; 80 mesh identiche bit per bit e 36 stati seriali/paralleli identici.",
+      "test": [
+        "326 controlli di concorrenza e confronto prima/dopo",
+        "548 file headless invariati salvo 21 tempi",
+        "Runner 6 PASS, zero fallimenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261012-221801-f2-concorrenza-prima",
+        "supporto/artefatti/ci/20261012-221914-f2-concorrenza-dopo"
+      ]
     }
   ]
 }

@@ -40,6 +40,7 @@ param(
     [string] $BaselineRef,
     [string] $CheckerFixtures,
     [string] $DenseRef,
+    [string] $ConcurrencyRef,
     [string] $DenseSet = 'f2-libreria'
 )
 $ErrorActionPreference = 'Stop'
@@ -142,6 +143,11 @@ if ($BaselineRef) {
 
 # Bench of the concrete migration (F2.1): the Before step writes the dense capture (mode tutte) in {out}\cattura, then compare-dense.
 $Dense = 'supporto\test\CheckerMigration.Capture\CheckerMigration.Capture.csproj'
+$concurrencyArgs = @('{out}')
+if ($ConcurrencyRef) { $concurrencyArgs += @('--reference', $(if ([IO.Path]::IsPathRooted($ConcurrencyRef)) { $ConcurrencyRef } else { Join-Path $Root $ConcurrencyRef })) }
+Add-Suite @{ Name = 'ConcreteConcurrency.Checks'; Stage = 'regression'; Kind = 'run'; Project = 'tests\ConcreteConcurrency.Checks\ConcreteConcurrency.Checks.csproj'; Timeout = 600
+    Before = @{ Project = $Dense; Args = @('{out}\meshes', '{commit}', 'mesh') }; Builds = @(@{ Project = $Dense; Configuration = 'Release' })
+    Args = $concurrencyArgs }
 $benchNotRun = @()
 if (-not $CheckerFixtures) {
     $candidates = @(Join-Path $Root '..\Checker\GPCChecker.Test.Concrete\Fixtures')

@@ -25,7 +25,6 @@ public sealed class CheckerSectionModel
 
 public sealed partial class CheckerSection
 {
-    internal static readonly object NativeSolverConstruction = CompositeSolverSynchronization.Construction;
     public CheckerSectionModel Model { get; }
     public ReinforcedConcreteSection Section { get; }
     public CoordinateSystem Local { get; }
@@ -108,13 +107,10 @@ public sealed partial class CheckerSection
             state == "SLV" ? SectionSolver.FailureDomainTypes.Elastic : SectionSolver.FailureDomainTypes.Plastic,
             options.S("modello", "Non lineare") == "Lineare" ? SectionSolver.StressAnalysisTypes.Linear : SectionSolver.StressAnalysisTypes.NonLinear,
             Nonnegative("phi"), workspace.Array("trefoli").Count > 0 ? Nonnegative("phi_trefoli") : 0, tensile, subdivisions);
-        // GPC's Delaunay integration-mesh creation is not thread-safe. Keep only this
-        // short construction phase serialized; calculations on distinct solvers may overlap.
-        lock (NativeSolverConstruction)
-        {
-            Checker = new SectionCheckerModelCode2010(new SectionCheckerAttribute(Section, null, null), settings, standard, tensile);
-            Checker.SetDomainPointStrategy(options.S("strategia", "Iterativo") == "Intersezione" ? SectionSolver.DomainPointStrategyTypes.Intersection : SectionSolver.DomainPointStrategyTypes.Iterative);
-        }
+        // GPC owns the per-section mesh cache lock; independent checker instances may be constructed concurrently.
+        // Captured usual meshes and serial/parallel stress states are bit-identical (F2 point 4).
+        Checker = new SectionCheckerModelCode2010(new SectionCheckerAttribute(Section, null, null), settings, standard, tensile);
+        Checker.SetDomainPointStrategy(options.S("strategia", "Iterativo") == "Intersezione" ? SectionSolver.DomainPointStrategyTypes.Intersection : SectionSolver.DomainPointStrategyTypes.Iterative);
     }
     private static void ValidateRebarPosition(Polygon2d boundary, Polygon2d[] holes, ReinforcedConcreteSection section, double x, double y, double radius, string id)
     {
