@@ -130,7 +130,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
 - [~] SEZ-3: geometria, offset e associazioni; resta la variazione della sezione per fase.
   - [x] SEZ-3a (13/10): contorni condivisi fra 2D e 3D, fori e rientranze conservati, punto di inserimento applicato nelle terne locali, contouring lungo i volumi. Selezione/isola degli elementi associati; componenti e rapporti importati disponibili. Offset non risolto o di estremità non normalizzato: asta ad asse con avviso. Controllati vertici effettivi, aree indipendenti, orientamento dei triangoli; 477 controlli dati, 18 WPF sezioni e 33 WPF generali (20261013-003816-sez-volumes-validation).
   - [ ] SEZ-3b: sezione variabile per fase, collegata al futuro aggiornamento della geometria attiva STG-4. I dati restano conservati; la vista attuale dichiara il limite e non attribuisce al volume una sezione di fase non risolta.
-- [ ] SEZ-4: collaudo su sezioni usuali e composte, unità/orientamento/offset, screenshot e guide globali aggiornate; un commit per punto concluso. Quindi avvio di F3.
+- [x] SEZ-4 (13/10): full 20261013-004459-sez-set-v-full, 104 PASS e zero fallimenti; 478 controlli dati, 18 WPF sezioni e confronti numerici precedenti invariati. Guide globali Rev39 e ANTHEA 1.5.0; chiusura in chiusura-sezioni-20261013.md. SEZ-3b e il confronto reale STG-4 restano aperti. Si avvia F3 sul set V congelato.
 
 ## Fase 3: strato applicativo
 

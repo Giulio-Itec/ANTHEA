@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 5 aggiornata il 12 ottobre 2026 — revisione documentale 38
+Edizione 6 aggiornata il 13 ottobre 2026 — revisione documentale 39
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -3082,3 +3082,21 @@ La durata di una fase, l'età di attivazione di un elemento e il tempo del passo
 L'assenza di un risultato può dipendere dall'inattività dell'oggetto, da un output non richiesto o da dati non disponibili. Non equivale a una sollecitazione o a uno spostamento nullo. La vista associa soltanto i campioni disponibili agli oggetti identificati, con le stesse convenzioni di unità e assi usate per i casi statici. I vincoli temporanei non diventano vincoli permanenti per il solo fatto di comparire nelle tabelle del modello.
 
 In questa versione la geometria completa è un contesto grafico; non è la ricostruzione del sistema resistente attivo nella fase. L'importazione non esegue un'analisi per fasi, non calcola viscosità o ritiro del modello e non aggiorna la rigidezza degli elementi. La finestra di reologia è uno strumento separato di supporto al progettista. Il confronto dei risultati stage con un modello reale rimane una verifica aperta; le prove disponibili riguardano identità, protocollo, unità, segni e conservazione dei dati sintetici.
+
+## Geometria e rappresentazione delle sezioni
+
+La sezione grafica deriva dalla stessa geometria delle librerie che espone area, baricentro e inerzie. I contorni mantengono regioni materiali, fori e rientranze. La triangolazione destinata al disegno è costruita su copie dei contorni; non sostituisce né modifica la discretizzazione usata nei calcoli della sezione.
+
+### Riferimento locale e punto di inserimento
+
+Il piano della sezione è rappresentato con gli assi locali Y e Z dell'asta. Le coordinate del contorno sono espresse in millimetri; la scena del modello usa metri. Il punto O identifica il riferimento dell'asta all'interno o all'esterno del contorno. L'estrusione utilizza le coordinate relative a O e la terna locale importata, quando disponibile. Il riferimento geometrico non coincide necessariamente con G, il baricentro.
+
+Un offset non interpretabile è un dato non risolto, distinto da un offset nullo. La rappresentazione conserva l'asse quando non è possibile collocare correttamente il volume, anche in presenza di offset di estremità non normalizzati. Un contorno numericamente definito non basta a ricostruire una sezione rastremata o la sua variazione per fase.
+
+### Sezioni composte e significato delle proprietà
+
+Per una sezione formata da materiali diversi, l'unione fisica delle parti consente di rappresentare gli ingombri e le quantità geometriche. Non costituisce una sezione omogeneizzata: area, baricentro e inerzie geometriche non incorporano rapporti dei moduli elastici, viscosità, ritiro o una fase di analisi. Questi parametri rimangono dati separati quando disponibili.
+
+Un riferimento superiore o inferiore può essere collocato sul contorno fisico se è univoco. Un riferimento al baricentro elastico della composta richiede invece la definizione meccanica pertinente; il baricentro geometrico non lo sostituisce. Le proprietà riportano la disponibilità dichiarata dalla libreria: assegnata, calcolata geometricamente, approssimata, numerica differita o assente. L'assenza è distinta dal valore zero.
+
+Il campo di colore sulle aste estruse conserva i campioni della sollecitazione lungo l'asse. La stessa ordinata è riportata sul perimetro a quella stazione; non è una ricostruzione della tensione nel materiale. Fra campioni si usa un'interpolazione grafica. Le zone non coperte dai risultati non ricevono valori estrapolati.

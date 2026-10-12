@@ -14,6 +14,7 @@ static partial class Program
         Check(box.Contours.Length==1&&box.Contours[0].Holes.Length==1,"closed section preserves inner void in the shared contour");
         Check(Math.Abs(MeshArea(box)-(200*300-180*272))<1e-7,"box cap triangulation preserves 200x300 outer minus 180x272 hole area");
         Check(Math.Abs(MeshArea(girder)-(200*10+180*8+200*10))<1e-7,"concave I cap uses actual flanges and web, no fan over voids");
+        Check(composite.WidthMillimetres==3600&&composite.HeightMillimetres==2280,"inspector dimensions use the resolved full contour rather than an absent legacy bounding rectangle");
         Check(composite.IsComposite&&composite.Parts.Length==2&&composite.Insertion!.Z==2280,"composite physical parts resolve the top of the slab, not an elastic centroid");
         Check(Math.Abs(MeshArea(composite)-(1960*15+600*20+800*20+3600*280))<1e-5,"composite graphical mesh retains independently calculated physical area");
         Check(catalog.Find(5) is {HasGeometry:true,Insertion:null} && !catalog.Find(5)!.CanExtrude(15),"unresolved section offset cannot be replaced by a centred prism");

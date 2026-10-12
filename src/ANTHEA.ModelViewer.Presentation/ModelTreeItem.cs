@@ -43,7 +43,7 @@ internal static class ModelTreeBuilder
         var plates = model.Plates.Select(p => Item("THIK", p.Id, $"{p.Id} · {p.Name}", "▤", model.Elements.Where(e => e.Type == "PLATE" && e.Property == p.Id).Select(e => e.Id).ToArray(),
             new("Spessore [m]", p.Thickness.ToString("G6")), new("Offset [m]", p.Offset.ToString("G6")))).ToArray();
         var sections = model.Sections.Select(s => Item("SECT", s.Id, $"{s.Id} · {s.Name}", "▣", model.Elements.Where(e => ElementFamilies.IsLine(e.Type) && e.Property == s.Id).Select(e => e.Id).ToArray(),
-            new("Larghezza [m]", s.Width > 0 ? s.Width.ToString("G6") : "non importata"), new("Altezza [m]", s.Height > 0 ? s.Height.ToString("G6") : "non importata"), new("Forma", s.Shape), new("Preview solida", sectionCatalog?.Find(s.Id) is { HasGeometry:true, Insertion:not null } ? "Contorno e inserimento disponibili; offset delle singole aste da verificare" : "Geometria o inserimento non risolti: conserva la connettività"))).ToArray();
+            new("Larghezza contorno [mm]", sectionCatalog?.Find(s.Id)?.WidthMillimetres?.ToString("G7") ?? "non disponibile"), new("Altezza contorno [mm]", sectionCatalog?.Find(s.Id)?.HeightMillimetres?.ToString("G7") ?? "non disponibile"), new("Forma", s.Shape), new("Preview solida", sectionCatalog?.Find(s.Id) is { HasGeometry:true, Insertion:not null } ? "Contorno e inserimento disponibili; offset delle singole aste da verificare" : "Geometria o inserimento non risolti: conserva la connettività"))).ToArray();
 
         ModelTreeItem Source(string table, string label, string icon)
         {

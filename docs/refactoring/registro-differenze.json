@@ -3480,6 +3480,31 @@
       "evidenze": [
         "supporto/artefatti/ci/20261013-003816-sez-volumes-validation"
       ]
+    },
+    {
+      "id": "SEZ-03",
+      "data": "2026-10-13",
+      "fase": "SEZ-4",
+      "titolo": "Dimensioni nell’albero e impaginazione delle guide",
+      "famiglia": "modelli/presentazione",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "L’albero legge larghezza e altezza dallo stesso contorno del dettaglio: le composte hanno le dimensioni reali anziché le vecchie stime rettangolari. Nei documenti Word si compattano soltanto i due paragrafi vuoti di chiusura indice, eliminando una pagina con il solo piè di pagina.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelSections.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelTreeItem.cs",
+        "supporto/scripts/Finalize-AntheaGuides-Itec.py"
+      ],
+      "segno": "Sola presentazione; nessuna modifica ai risultati salvati, alle formule o agli attesi indipendenti. Parti del modello Word e 337 formule editabili conservate.",
+      "test": [
+        "478 controlli dati, nuova prova delle dimensioni della composta",
+        "Full 104 PASS, nessun fallimento",
+        "Verifica grafica delle due guide e degli indici"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-004459-sez-set-v-full",
+        "supporto/artefatti/guide_anthea_itec_rev39"
+      ]
     }
   ]
 }

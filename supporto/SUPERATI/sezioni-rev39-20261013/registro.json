@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-13",
+  "reason": "Revisione 39 con ispezione delle sezioni, contorni e offset condivisi fra 2D e 3D",
+  "files": [
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev38.docx",
+      "sha256": "980a3cba6d3d3d9c5e736ebcc5c5cf81162d1319617d1cb641eb1394a11b4f16",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev39.docx"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev38.pdf",
+      "sha256": "f84bafbd071d52d9ef7287a7ede206a8caf849513941b727a9142d8bb286c57b",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev39.pdf"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev38.docx",
+      "sha256": "5aa648eb6db676485ee710c96340f333d0dc4840308d0c392f13fa1218591f89",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev39.docx"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev38.pdf",
+      "sha256": "b865b48c90dfa397e7e42008a31bdda3e3ec7b7769329fbc62eccb4c79d2bc3d",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev39.pdf"
+    },
+    {
+      "origin": "supporto/docs/guida-pratica-anthea.md",
+      "sha256": "0a9f9b553a32aef5d054ce6cf1607240570e43dccfa8c24868e8bd77d7a83825",
+      "replacement": "supporto/docs/guida-pratica-anthea.md"
+    },
+    {
+      "origin": "supporto/docs/guida-pratica-anthea.pdf",
+      "sha256": "f84bafbd071d52d9ef7287a7ede206a8caf849513941b727a9142d8bb286c57b",
+      "replacement": "supporto/docs/guida-pratica-anthea.pdf"
+    },
+    {
+      "origin": "supporto/docs/guida-teorica-anthea.md",
+      "sha256": "fadbc4f3d69d30d6cabb85000b7260b985f94f955718969ac6af8ed472dce90b",
+      "replacement": "supporto/docs/guida-teorica-anthea.md"
+    },
+    {
+      "origin": "supporto/docs/guida-teorica-anthea.pdf",
+      "sha256": "b865b48c90dfa397e7e42008a31bdda3e3ec7b7769329fbc62eccb4c79d2bc3d",
+      "replacement": "supporto/docs/guida-teorica-anthea.pdf"
+    },
+    {
+      "origin": "supporto/README.md",
+      "sha256": "a7ceba8f2c906891c8f27e86163703158e33ffe37e99c4948ecf28ea27648eea",
+      "replacement": "supporto/README.md"
+    },
+    {
+      "origin": "supporto/README.pdf",
+      "sha256": "d7fd4bc6a81fce153f7b6e8b846d5a082ec7fdb548eb85fa39da291ddbe3d67d",
+      "replacement": "supporto/README.pdf"
+    },
+    {
+      "origin": "supporto/installer/Indice-guide.md",
+      "sha256": "a480580cde6b6b8ba09c22ea9c7c05bfbd215d6a503d59988e7097fca84f3291",
+      "replacement": "supporto/installer/Indice-guide.md"
+    },
+    {
+      "origin": "supporto/installer/Indice-guide.pdf",
+      "sha256": "b09f6ea93744f85f6d94e9a61ac4bb8a8070f2b7b6a6d3bfd71a463dd5452baa",
+      "replacement": "supporto/installer/Indice-guide.pdf"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/README.md",
+      "sha256": "76e95f5523fd6d2b66a91797b5710c679727fd1d4c24167c7f03fefbb2b24687",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/README.md"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+      "sha256": "9106a6248d82494889262121350eab428aec570b2246640eb5f423132dbd2b9f",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/README.pdf"
+    }
+  ]
+}

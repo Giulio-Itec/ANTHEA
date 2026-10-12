@@ -1,12 +1,12 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · 12 ottobre 2026 · Pratica Rev38 e teorica Rev38
+ITEC Engineering · 13 ottobre 2026 · Pratica Rev39 e teorica Rev39
 
-Guide globali consultabili anche nella Wiki. Aggiornate con importazione e visualizzazione dei risultati per fase.
+Guide globali consultabili anche nella Wiki. Aggiornate con dettaglio delle sezioni, contorni e offset nei volumi, oltre ai risultati per fase.
 
 ## Guida pratica ANTHEA
 
-[Word Rev38](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev38.docx) · [PDF Rev38](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev38.pdf)
+[Word Rev39](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev39.docx) · [PDF Rev39](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev39.pdf)
 
 - Avvio e scelta del modulo
 - Progetti e gestione del lavoro
@@ -33,7 +33,7 @@ Guide globali consultabili anche nella Wiki. Aggiornate con importazione e visua
 
 ## Guida teorica ANTHEA
 
-[Word Rev38](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev38.docx) · [PDF Rev38](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev38.pdf)
+[Word Rev39](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev39.docx) · [PDF Rev39](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev39.pdf)
 
 - Architettura del calcolo e convenzioni
 - Calcestruzzo armature e copriferro
@@ -82,3 +82,5 @@ Guide globali consultabili anche nella Wiki. Aggiornate con importazione e visua
 - Fondazioni superficiali
 - Reologia del calcestruzzo
 - Risultati dei modelli per fasi
+
+Le guide comprendono inoltre Esaminare le sezioni del modello (pratica) e Geometria e rappresentazione delle sezioni (teorica).

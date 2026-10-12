@@ -34,6 +34,41 @@ def shape(node):
     # Namespace-prefix-independent structural comparison of style definitions.
     return [node.tag, sorted(node.attrib.items()), node.text, [shape(c) for c in node]]
 
+def compact_toc_boundary(document):
+    # Word adds an empty field-closing paragraph before the TOC section marker.
+    # Keeping both at body line height can create a page containing only a footer.
+    # Reduce only these two empty paragraphs, leaving all TOC rows and styles intact.
+    for marker in document.xpath('//w:body/w:p[w:pPr/w:sectPr]', namespaces=NS):
+        closing = marker.getprevious()
+        if closing is None or closing.tag != f'{{{W}}}p':
+            continue
+        if marker.findall('.//w:t', NS) or closing.findall('.//w:t', NS):
+            continue
+        if not closing.xpath('.//w:fldChar[@w:fldCharType="end"]', namespaces=NS):
+            continue
+        for paragraph in (closing, marker):
+            properties = paragraph.find('w:pPr', NS)
+            if properties is None:
+                properties = E.Element(f'{{{W}}}pPr')
+                paragraph.insert(0, properties)
+            def set_property(name, values):
+                node = properties.find('w:' + name, NS)
+                if node is None:
+                    node = E.SubElement(properties, f'{{{W}}}' + name)
+                for key, value in values.items():
+                    node.set(f'{{{W}}}' + key, value)
+            set_property('spacing', {'before': '0', 'after': '0', 'line': '20', 'lineRule': 'exact'})
+            for name in ('keepNext', 'keepLines', 'pageBreakBefore'):
+                set_property(name, {'val': '0'})
+            run = properties.find('w:rPr', NS)
+            if run is None:
+                run = E.SubElement(properties, f'{{{W}}}rPr')
+            size = run.find('w:sz', NS)
+            if size is None:
+                size = E.SubElement(run, f'{{{W}}}sz')
+            size.set(f'{{{W}}}val', '2')
+
+
 def finalize(kind):
     qa = B.ART / kind
     target = B.OUT / f'ANTHEA_Guida_{kind}_ITEC_Rev{B.REVISION}.docx'
@@ -70,6 +105,7 @@ def finalize(kind):
         assert len(original_math) == len(updated_math)
         for old, new in zip(original_math, updated_math):
             new.getparent().replace(new, deepcopy(old))
+        compact_toc_boundary(final)
         data['word/document.xml'] = xml(final)
     foot = E.fromstring(data['word/footer4.xml'])
     for instr in foot.findall('.//w:instrText', NS):

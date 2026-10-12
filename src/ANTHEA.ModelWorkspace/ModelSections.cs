@@ -43,6 +43,8 @@ public sealed class ModelSectionDetail
     public SectionPoint? Centroid { get; internal set; }
     public SectionPoint? Insertion { get; internal set; }
     public double? PrincipalAngleRadians { get; internal set; }
+    public double? WidthMillimetres { get; internal set; }
+    public double? HeightMillimetres { get; internal set; }
     public bool IsComposite { get; internal set; }
     public bool HasGeometry => Contours.Length>0;
     public string GeometryMeaning => IsComposite ? "Geometria fisica delle parti · proprietà non omogeneizzate" : "Geometria della sezione · proprietà GPC";
@@ -115,6 +117,7 @@ public sealed class ModelSectionCatalog
                     }
                 }
                 result.Contours=contours.ToArray();
+                result.WidthMillimetres=shape.Width;result.HeightMillimetres=shape.Height;
                 result.Parts=inspection.Parts.Select(p=>new SectionPartInfo(p.Name switch { "Steel girder"=>"Trave in acciaio", "Concrete slab"=>"Soletta in calcestruzzo", _=>p.Name },MaterialLabel(p.Material),p.Shape.Width,p.Shape.Height,p.X,p.Y) { Dimensions=PartDimensions(p.Shape) }).ToArray();
                 if(shape.GetAvailability(ShapeProperty.Centroid)!=PropertyAvailability.NotAvailable)
                     result.Centroid=new(shape.Centroid.X,shape.Centroid.Y);

@@ -1511,5 +1511,35 @@
     "title": "Risultati dei modelli per fasi",
     "order": 211,
     "summary": "Identità di fase e passo, riferimento degli spostamenti, copertura e limiti della lettura degli stage."
+  },
+  "guide:Esaminare le sezioni del modello": {
+    "area": "FEM e modellazione",
+    "id": "/wiki/manuale/fem/dettaglio-sezioni",
+    "modules": [],
+    "related": [],
+    "key": "dettaglio-sezioni",
+    "chapterId": "fem",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "title": "Esaminare le sezioni del modello",
+    "order": 212,
+    "summary": "Aprire il dettaglio, leggere proprietà e attributi, isolare gli elementi e interpretare volumi e offset."
+  },
+  "theory:Geometria e rappresentazione delle sezioni": {
+    "area": "FEM e modellazione",
+    "id": "/wiki/manuale/fem/geometria-sezioni",
+    "modules": [],
+    "related": [],
+    "key": "geometria-sezioni",
+    "chapterId": "fem",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "title": "Geometria e rappresentazione delle sezioni",
+    "order": 213,
+    "summary": "Contorni, punto di inserimento, proprietà geometriche e limiti della rappresentazione delle sezioni composte."
   }
 }
