@@ -3,23 +3,21 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Xml.Linq;
 
-namespace X.Core;
+namespace Anthea.Reports;
 
 /// <summary>Combines ANTHEA's generated reports, remapping image relationships and heading levels.</summary>
-public static class ReportProject
+public static class ProjectReportComposer
 {
-    public sealed record SheetContent(byte[]? Docx = null, string? Error = null, IReadOnlyList<ProjectReportPlan.InputValue>? Derived = null);
     private static readonly XNamespace W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
         R = "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
         Rel = "http://schemas.openxmlformats.org/package/2006/relationships";
 
-    public static void Write(string path, ProjectReportPlan plan, IReadOnlyDictionary<JsonObject, SheetContent> reports, IReadOnlyList<string> warnings, CancellationToken cancellation = default, bool materialSheet = false)
+    public static DocxDocument Compose(ProjectReportData plan, IReadOnlyDictionary<JsonObject, ProjectReportData.SheetContent> reports, IReadOnlyList<string> warnings, CancellationToken cancellation = default, bool materialSheet = false)
     {
         if (plan.Sheets.Length == 0) throw new ArgumentException("La sezione non contiene schede da esportare.");
         if (materialSheet && (plan.Sheets.Length != 1 || plan.Sheets[0].S("modulo_id") is not ("mat_calcestruzzo" or RebarMaterial.Module)))
             throw new ArgumentException("Il report materiale richiede una sola scheda materiali.");
         if (plan.Sheets.Any(s => !reports.ContainsKey(s))) throw new ArgumentException("Preparazione incompleta: manca una scheda del report.");
-        warnings = warnings.Concat(ProjectValidation.Warnings(plan.Root)).Distinct().ToArray();
         var body = new XElement(W + "body");
         var relationships = new XElement(Rel + "Relationships");
         var media = new Dictionary<string, byte[]>(); int imageId = 0, bookmarkId = 0;
@@ -53,14 +51,11 @@ public static class ReportProject
                         i == 0 ? new XElement(W + "shd", new XAttribute(W + "fill", "E8EFF7")) : null), Paragraph(text, i == 0 ? "TableHeader" : "TableText")))));
             body.Add(table); P("");
         }
-        IEnumerable<string[]> Values(IEnumerable<ProjectReportPlan.InputValue> values)
+        IEnumerable<string[]> Values(IEnumerable<ProjectReportData.InputValue> values)
         {
-            foreach (var item in values)
-                if (item.Value is JsonArray or JsonObject)
-                    foreach (var nested in ProjectReportPlan.Walk(item.Value, item.Label)) yield return [ProjectReportPlan.PathLabel(nested.Path), Text(nested.Value)];
-                else yield return [item.Label, Text(item.Value)];
+            foreach (var item in values) yield return [item.Label, Text(item.Value)];
         }
-        string SheetRef(JsonObject sheet) => numbers.TryGetValue(sheet, out var number) ? number + " " + sheet.S("nome") : ProjectSharedData.Location(sheet) + " › " + sheet.S("nome");
+        string SheetRef(JsonObject sheet) => numbers.TryGetValue(sheet, out var number) ? number + " " + sheet.S("nome") : plan.Locations[sheet] + " › " + sheet.S("nome");
         P(materialSheet ? "Scheda materiale" : "Relazione di calcolo", "Title"); P(plan.Root.S("nome", "Sezione"), "Subtitle"); P("ANTHEA · " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
         if (plan.Root["revisione"] is JsonObject revision)
         {
@@ -88,11 +83,11 @@ public static class ReportProject
         if (plan.Conflicts.Count > 0)
         {
             Heading("Conflitti tra i fogli", 1); P("I valori discordanti sono conservati nei rispettivi fogli e non vengono unificati nel report.");
-            foreach (var group in plan.Conflicts.GroupBy(c => c.Key))
+            foreach (var conflict in plan.Conflicts)
             {
-                Heading(ProjectReportPlan.Label(group.Key), 2);
-                var participants = group.SelectMany(d => new[] { d.First, d.Second }).Distinct();
-                Table(participants.Select(s => new[] { SheetRef(s), Text(ProjectSharedData.Fields(s)[group.Key].Value) }), "Foglio", "Valore adottato");
+                Heading(conflict.Label, 2);
+                var participants = conflict.Participants;
+                Table(participants.Select(s => new[] { SheetRef(s.Sheet), Text(s.Value) }), "Foglio", "Valore adottato");
             }
         }
         if (warnings.Count > 0 || missing.Length > 0)
@@ -101,25 +96,22 @@ public static class ReportProject
             foreach (string warning in warnings.Distinct()) P(warning);
             foreach (var (sheet, content) in missing) P(SheetRef(sheet) + ": " + content.Error, "Notice");
         }
-        void AppendReport(byte[] bytes, JsonObject sheet)
+        void AppendReport(DocxDocument document, JsonObject sheet)
         {
-            using var zip = new ZipArchive(new MemoryStream(bytes), ZipArchiveMode.Read);
-            using var xml = zip.GetEntry("word/document.xml")!.Open();
-            var imported = XDocument.Load(xml).Root!.Element(W + "body")!;
+            var imported = document.GetXml("word/document.xml").Root!.Element(W + "body")!;
             var mapping = new Dictionary<string, string>();
-            if (zip.GetEntry("word/_rels/document.xml.rels") is { } relEntry)
+            if (document.Contains("word/_rels/document.xml.rels"))
             {
-                using var stream = relEntry.Open();
-                foreach (var rel in XDocument.Load(stream).Root!.Elements())
+                foreach (var rel in document.GetXml("word/_rels/document.xml.rels").Root!.Elements())
                 {
                     string type = (string)rel.Attribute("Type")!;
                     if (type.EndsWith("/styles")) continue;
                     if (!type.EndsWith("/image") || rel.Attribute("TargetMode") is not null) throw new InvalidDataException("Collegamento del report non supportato: " + type);
                     string target = (string)rel.Attribute("Target")!;
-                    var entry = zip.GetEntry("word/" + target) ?? throw new InvalidDataException("Immagine assente nel report.");
+                    if (!document.Contains("word/" + target)) throw new InvalidDataException("Immagine assente nel report.");
                     if (!target.EndsWith(".png", StringComparison.OrdinalIgnoreCase)) throw new InvalidDataException("Formato immagine del report non supportato.");
                     string id = "img" + ++imageId, name = "media/" + id + ".png";
-                    using var image = new MemoryStream(); using (var input = entry.Open()) input.CopyTo(image); media["word/" + name] = image.ToArray();
+                    media["word/" + name] = document.GetBytes("word/" + target);
                     mapping[(string)rel.Attribute("Id")!] = id;
                     relationships.Add(new XElement(Rel + "Relationship", new XAttribute("Id", id), new XAttribute("Type", type), new XAttribute("Target", name)));
                 }
@@ -143,24 +135,24 @@ public static class ReportProject
         {
             if (!materialSheet) NodeHeading(section);
             var common = plan.Common.Where(v => ReferenceEquals(v.Section, section));
-            foreach (var group in common.GroupBy(v => (v.Field.Group, Origin: ProjectSharedData.Location(v.Source), Members: string.Join("; ", v.Sheets.Select(SheetRef)))))
+            foreach (var group in common.GroupBy(v => (v.Group, Origin: v.Origin, Members: string.Join("; ", v.Sheets.Select(SheetRef)))))
             {
                 Heading(group.Key.Group switch { "Geometria" => "Geometria comune", "Armatura" => "Armature comuni", "Normativa" => "Normativa comune", "Terreno" => "Dati comuni del terreno", _ => group.Key.Group + " comuni" }, levels[section] + 1);
                 P("Riferimento: " + group.Key.Origin + ". Utilizzati da: " + group.Key.Members + ".");
-                Table(Values(group.Select(v => new ProjectReportPlan.InputValue(v.Field.Group, ProjectReportPlan.Label(v.Field.Key), v.Field.Value))), "Proprietà", "Valore");
+                Table(Values(group.SelectMany(v => v.Values)), "Proprietà", "Valore");
             }
             foreach (var sheet in section.Array("fogli").OfType<JsonObject>())
             {
                 if (!materialSheet) NodeHeading(sheet);
                 P("Modulo: " + ModuleCatalog.Get(sheet.S("modulo_id")).Name);
-                var refs = plan.Common.Where(v => v.Sheets.Contains(sheet)).Select(v => numbers[v.Section] + " " + v.Section.S("nome") + " — " + v.Field.Group).Distinct().ToArray();
+                var refs = plan.Common.Where(v => v.Sheets.Contains(sheet)).Select(v => numbers[v.Section] + " " + v.Section.S("nome") + " — " + v.Group).Distinct().ToArray();
                 if (refs.Length > 0) P("Dati condivisi: vedere " + string.Join("; ", refs) + ".");
-                foreach (var group in plan.LocalInputs(sheet).GroupBy(v => v.Group))
+                foreach (var group in plan.Inputs[sheet].GroupBy(v => v.Group))
                 { Heading(group.Key, materialSheet ? 1 : levels[sheet] + 1); Table(Values(group), "Proprietà", "Valore"); }
                 var content = reports[sheet];
                 if (content.Derived is { Count: > 0 }) { Heading("Proprietà di calcolo", materialSheet ? 1 : levels[sheet] + 1); Table(Values(content.Derived), "Proprietà", "Valore"); }
                 if (content.Error is not null) P("Risultati non disponibili: " + content.Error, "Notice");
-                if (content.Docx is not null) AppendReport(content.Docx, sheet);
+                if (content.Document is not null) AppendReport(content.Document, sheet);
             }
             if (section.Array("fogli").Count == 0 && section.Array("strutture").Count == 0) P("Sezione senza schede.");
             foreach (var child in section.Array("strutture").OfType<JsonObject>()) Chapter(child);
@@ -190,18 +182,17 @@ public static class ReportProject
                     heading ? new XElement(W + "outlineLvl", new XAttribute(W + "val", int.Parse(id[7..]) - 1)) : null),
                 new XElement(W + "rPr", new XElement(W + "rFonts", new XAttribute(W + "ascii", "Calibri"), new XAttribute(W + "hAnsi", "Calibri")), new XElement(W + "sz", new XAttribute(W + "val", size)), new XElement(W + "color", new XAttribute(W + "val", "000000")), bold ? new XElement(W + "b") : null)));
         }
-        using var memory = new MemoryStream();
-        using (var zip = new ZipArchive(memory, ZipArchiveMode.Create, true))
+        var package = new DocxDocument();
         {
-            void Entry(string name, string content) { using var writer = new StreamWriter(zip.CreateEntry(name).Open(), new UTF8Encoding(false)); writer.Write(content); }
+            void Entry(string name, string content) => package.SetXml(name, content);
             Entry("[Content_Types].xml", "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Default Extension=\"png\" ContentType=\"image/png\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/><Override PartName=\"/word/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml\"/><Override PartName=\"/word/footer.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml\"/></Types>");
             Entry("_rels/.rels", new XElement(Rel + "Relationships", new XElement(Rel + "Relationship", new XAttribute("Id", "doc"), new XAttribute("Type", R.NamespaceName + "/officeDocument"), new XAttribute("Target", "word/document.xml"))).ToString());
             Entry("word/document.xml", new XDocument(new XElement(W + "document", new XAttribute(XNamespace.Xmlns + "w", W), new XAttribute(XNamespace.Xmlns + "r", R), body)).ToString());
             Entry("word/styles.xml", styles.ToString()); Entry("word/_rels/document.xml.rels", relationships.ToString());
             Entry("word/footer.xml", new XElement(W + "ftr", new XElement(W + "p", new XElement(W + "pPr", new XElement(W + "jc", new XAttribute(W + "val", "right"))), new XElement(W + "r", new XElement(W + "t", new XAttribute(XNamespace.Xml + "space", "preserve"), "ANTHEA · Pagina ")), new XElement(W + "fldSimple", new XAttribute(W + "instr", "PAGE"), new XElement(W + "r", new XElement(W + "t", "1"))))).ToString());
-            foreach (var (name, bytes) in media) { using var stream = zip.CreateEntry(name).Open(); stream.Write(bytes); }
+            foreach (var (name, bytes) in media) { package.SetBytes(name, bytes); }
         }
         cancellation.ThrowIfCancellationRequested();
-        Archivio.ScriviAtomico(path, memory.ToArray());
+        return package;
     }
 }

@@ -1,3 +1,4 @@
+using Anthea.Reports;
 using System.IO;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -343,17 +344,18 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         }
         catch (ArgumentException ex) { return new(Error: ex.Message); }
     }
-    internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false)
+    internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => DocxWriter.Write(BuildReportDocument(title, options, projectReport));
+    internal DocxDocument BuildReportDocument(string title, HashSet<string> options, bool projectReport = false)
     {
-        if (foundation is not null) return Anthea.FoundationWorkspace.FoundationReport.Word(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));
-        if (pileGroup is not null) return ReportPileGroup.Create(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));
-        if (retainingWall is not null) return retainingWall.BuildReport(title);
-        if (bridgeDesign is not null) return bridgeDesign.BuildReport(title);
-        if (bridge is not null) return bridge.BuildReport(title, options, projectReport);
-        if (concrete is not null) return concrete.BuildReport(title, options, projectReport);
+        if (foundation is not null) return Anthea.FoundationWorkspace.FoundationReport.WordDocument(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));
+        if (pileGroup is not null) return ReportPileGroup.CreateDocument(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));
+        if (retainingWall is not null) return retainingWall.BuildReportDocument(title);
+        if (bridgeDesign is not null) return bridgeDesign.BuildReportDocument(title);
+        if (bridge is not null) return bridge.BuildReportDocument(title, options, projectReport);
+        if (concrete is not null) return concrete.BuildReportDocument(title, options, projectReport);
         if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
-        if (horizontal is not null && Result.S("tipo_risultato") == "palo_elastico") return ReportElasticPile.Create(title, Result);
-        if (horizontal is not null) return ReportOrizzontale.Create(title, Result, !projectReport, horizontal.ReportFigures());
+        if (horizontal is not null && Result.S("tipo_risultato") == "palo_elastico") return ReportElasticPile.CreateDocument(title, Result);
+        if (horizontal is not null) return ReportOrizzontale.CreateDocument(title, Result, !projectReport, horizontal.ReportFigures());
         var images = new List<ImmagineReport> { new(plot.Title, plot.Png(), "grafico_capacita") };
         if (Micro)
         {
@@ -375,7 +377,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         }
         bool old = stratigraphy.ShowAll; stratigraphy.ShowAll = true;
         try { images.Add(new("Profilo stratigrafico", stratigraphy.Png(), "grafico_profilo")); } finally { stratigraphy.ShowAll = old; }
-        return ReportWord.Create(title, Module, Data, Result, options, images, !projectReport);
+        return ReportWord.CreateDocument(title, Module, Data, Result, options, images, !projectReport);
     }
     private void SavePlot()
     { var save = new SaveFileDialog { Filter = "Immagine PNG|*.png", FileName = "capacita.png" }; if (save.ShowDialog(Window.GetWindow(this)) == true) Archivio.ScriviAtomico(save.FileName, plot.Png()); }

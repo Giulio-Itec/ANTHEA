@@ -1,3 +1,4 @@
+using Anthea.Reports;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -387,7 +388,8 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
     }
     private void ExportCsv() => Save("Quantità CSV|*.csv", "BridgeDesign_quantita.csv", filename => Archivio.ScriviAtomico(filename, Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(BridgeConceptExport.Csv(Calculation!))).ToArray()));
     private void ExportPng() => Save("Immagine PNG|*.png", "BridgeDesign.png", filename => Archivio.ScriviAtomico(filename, Drawing.Png()));
-    internal byte[] BuildReport(string title) => BridgeConceptExport.Report(title, Data, Calculation ?? throw new InvalidOperationException("Completare i dati del ponte."), Drawing.Png(false), Drawing.Png(true));
+    internal byte[] BuildReport(string title) => DocxWriter.Write(BuildReportDocument(title));
+    internal DocxDocument BuildReportDocument(string title) => BridgeConceptExport.ReportDocument(title, Data, Calculation ?? throw new InvalidOperationException("Completare i dati del ponte."), Drawing.Png(false), Drawing.Png(true));
     private void Print()
     {
         if (Calculation is null) return;

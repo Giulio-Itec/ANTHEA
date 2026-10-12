@@ -40,7 +40,8 @@ public static class BridgeConceptExport
         }
         return string.Join("\r\n", rows.Select(row => string.Join(";", row.Select(Cell)))) + "\r\n";
     }
-    public static byte[] Report(string title, JsonObject data, BridgeConcept.Result result, byte[]? elevation = null, byte[]? section = null)
+    public static byte[] Report(string title, JsonObject data, BridgeConcept.Result result, byte[]? elevation = null, byte[]? section = null) => DocxWriter.Write(ReportDocument(title, data, result, elevation, section));
+    public static DocxDocument ReportDocument(string title, JsonObject data, BridgeConcept.Result result, byte[]? elevation = null, byte[]? section = null)
     {
         data = BridgeConcept.WithAdvancedDefaults(data);
         XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main", rel = "http://schemas.openxmlformats.org/package/2006/relationships",
@@ -137,17 +138,16 @@ public static class BridgeConceptExport
             styles.Add(new XElement(w + "style", new XAttribute(w + "type", "paragraph"), new XAttribute(w + "styleId", name), new XElement(w + "name", new XAttribute(w + "val", name)),
                 new XElement(w + "pPr", new XElement(w + "spacing", new XAttribute(w + "after", name.StartsWith("Heading") ? 140 : 70)), name.StartsWith("Heading") ? new XElement(w + "keepNext") : null),
                 new XElement(w + "rPr", new XElement(w + "sz", new XAttribute(w + "val", size)), bold ? new XElement(w + "b") : null, new XElement(w + "color", new XAttribute(w + "val", "0B2A4A")))));
-        using var memory = new MemoryStream();
-        using (var zip = new ZipArchive(memory, ZipArchiveMode.Create, true))
+        var package = new DocxDocument();
         {
-            void Entry(string path, string content) { using var writer = new StreamWriter(zip.CreateEntry(path).Open(), new UTF8Encoding(false)); writer.Write(content); }
+            void Entry(string path, string content) => package.SetXml(path, content);
             Entry("[Content_Types].xml", "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Default Extension=\"png\" ContentType=\"image/png\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/><Override PartName=\"/word/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml\"/></Types>");
             Entry("_rels/.rels", "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"doc\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");
             for (int k = 0; k < images.Count; k++)
-            { string path = $"media/image{k + 1}.png"; relationships.Add(new XElement(rel + "Relationship", new XAttribute("Id", "img" + (k + 1)), new XAttribute("Type", rns.NamespaceName + "/image"), new XAttribute("Target", path))); using var stream = zip.CreateEntry("word/" + path).Open(); stream.Write(images[k]); }
+            { string path = $"media/image{k + 1}.png"; relationships.Add(new XElement(rel + "Relationship", new XAttribute("Id", "img" + (k + 1)), new XAttribute("Type", rns.NamespaceName + "/image"), new XAttribute("Target", path))); package.SetBytes("word/" + path, images[k]); }
             Entry("word/document.xml", new XDocument(new XElement(w + "document", new XAttribute(XNamespace.Xmlns + "w", w), body)).ToString());
             Entry("word/styles.xml", new XDocument(styles).ToString()); Entry("word/_rels/document.xml.rels", new XDocument(relationships).ToString());
         }
-        return memory.ToArray();
+        return package;
     }
 }

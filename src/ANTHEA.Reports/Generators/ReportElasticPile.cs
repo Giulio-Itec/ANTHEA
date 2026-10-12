@@ -5,7 +5,8 @@ using System.Xml.Linq;
 namespace X.Core;
 public static class ReportElasticPile
 {
-    public static byte[] Create(string title,JsonObject result)
+    public static byte[] Create(string title,JsonObject result) => DocxWriter.Write(CreateDocument(title, result));
+    public static DocxDocument CreateDocument(string title,JsonObject result)
     {
         if(result.S("tipo_risultato")!="palo_elastico"||result["risposta"] is not JsonObject r)throw new ArgumentException("Risposta elastica non disponibile.");
         XNamespace w="http://schemas.openxmlformats.org/wordprocessingml/2006/main";var body=new XElement(w+"body");
@@ -94,9 +95,9 @@ public static class ReportElasticPile
             }
         }
         body.Add(new XElement(w+"sectPr",new XElement(w+"pgSz",new XAttribute(w+"w",11906),new XAttribute(w+"h",16838)),new XElement(w+"pgMar",new XAttribute(w+"top",900),new XAttribute(w+"bottom",900),new XAttribute(w+"left",1000),new XAttribute(w+"right",1000))));
-        using var memory=new MemoryStream();using(var zip=new ZipArchive(memory,ZipArchiveMode.Create,true))
-        {void Entry(string path,string text){using var writer=new StreamWriter(zip.CreateEntry(path).Open(),new UTF8Encoding(false));writer.Write(text);}
+        var package = new DocxDocument();
+        {void Entry(string path, string text) => package.SetXml(path, text);
         Entry("[Content_Types].xml","<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/></Types>");
-        Entry("_rels/.rels","<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"doc\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");Entry("word/document.xml",new XDocument(new XElement(w+"document",body)).ToString());}return memory.ToArray();
+        Entry("_rels/.rels","<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"doc\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");Entry("word/document.xml",new XDocument(new XElement(w+"document",body)).ToString());}return package;
     }
 }

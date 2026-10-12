@@ -4,7 +4,7 @@ namespace X.Core;
 
 public static partial class ReportBridge
 {
-    private static byte[] CreateHistory(string title, BridgeResult result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images)
+    private static DocxDocument CreateHistory(string title, BridgeResult result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images)
     {
         var doc = new Document(); var m = result.Materials; var g = result.Geometry;
         string F(double x) => EngineeringFormat.Number(x);
@@ -79,6 +79,6 @@ public static partial class ReportBridge
             if (options.Contains("taglio")) doc.P("V registrato. Taglio, pioli, irrigidimenti e interazione N–M–V non verificati dal metodo con storico.");
             doc.Figures(images, options, "fase_" + index);
         }
-        return doc.Bytes();
+        return doc.BuildDocument();
     }
 }

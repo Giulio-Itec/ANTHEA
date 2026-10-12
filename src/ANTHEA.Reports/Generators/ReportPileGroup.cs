@@ -7,7 +7,8 @@ namespace X.Core;
 
 public static class ReportPileGroup
 {
-    public static byte[] Create(string title, JsonObject result)
+    public static byte[] Create(string title, JsonObject result) => DocxWriter.Write(CreateDocument(title, result));
+    public static DocxDocument CreateDocument(string title, JsonObject result)
     {
         if (result["input"] is not JsonObject input || result["confronto"] is not JsonArray rows) throw new ArgumentException("Risultati della palificata non disponibili.");
         XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
@@ -33,14 +34,13 @@ public static class ReportPileGroup
                 foreach (var p in row.Array("Piles")) P($"{p.S("Id")} · fila {p.D("Row")} · {(i == 0 ? "Rg" : "Pm")} = {F(p!["Factor"])}" + (i >= 4 ? $" · β = {F(p["Beta"])} · α = {F(p["Alpha"])}" : ""));
         }
         body.Add(new XElement(w + "sectPr", new XElement(w + "pgSz", new XAttribute(w + "w", 11906), new XAttribute(w + "h", 16838)), new XElement(w + "pgMar", new XAttribute(w + "top", 1134), new XAttribute(w + "bottom", 1134), new XAttribute(w + "left", 1134), new XAttribute(w + "right", 1134))));
-        using var memory = new MemoryStream();
-        using (var zip = new ZipArchive(memory, ZipArchiveMode.Create, true))
+        var package = new DocxDocument();
         {
-            void Entry(string name, string content) { using var writer = new StreamWriter(zip.CreateEntry(name).Open(), new UTF8Encoding(false)); writer.Write(content); }
+            void Entry(string name, string content) => package.SetXml(name, content);
             Entry("[Content_Types].xml", "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/></Types>");
             Entry("_rels/.rels", "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"doc\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");
             Entry("word/document.xml", new XDocument(new XElement(w + "document", body)).ToString());
         }
-        return memory.ToArray();
+        return package;
     }
 }

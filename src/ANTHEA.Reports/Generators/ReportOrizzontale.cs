@@ -10,10 +10,11 @@ public static class ReportOrizzontale
 {
     public sealed record Figure(int Survey, string Caption, byte[] Png, double AspectRatio);
     public static void Write(string path, string title, JsonObject result, bool includeInputs = true)
-        => Archivio.ScriviAtomico(path, Create(title, result, includeInputs));
-    public static byte[] Create(string title, JsonObject result, bool includeInputs = true, IReadOnlyList<Figure>? figures = null)
+        => DocumentFile.Write(path, Create(title, result, includeInputs));
+    public static byte[] Create(string title, JsonObject result, bool includeInputs = true, IReadOnlyList<Figure>? figures = null) => DocxWriter.Write(CreateDocument(title, result, includeInputs, figures));
+    public static DocxDocument CreateDocument(string title, JsonObject result, bool includeInputs = true, IReadOnlyList<Figure>? figures = null)
     {
-        if(result.S("tipo_risultato") == "palo_elastico") return ReportElasticPile.Create(title,result);
+        if(result.S("tipo_risultato") == "palo_elastico") return ReportElasticPile.CreateDocument(title,result);
         if (result.S("errore") != "" || result["input"] is not JsonObject) throw new ArgumentException("Risultato orizzontale non disponibile.");
         XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         var body = new XElement(w + "body");
@@ -169,17 +170,16 @@ public static class ReportOrizzontale
             }
         }
         body.Add(Section(images.Count > 0));
-        using var memory = new MemoryStream();
-        using (var zip = new ZipArchive(memory, ZipArchiveMode.Create, true))
+        var package = new DocxDocument();
         {
-            void Entry(string name, string content) { using var writer = new StreamWriter(zip.CreateEntry(name).Open(), new UTF8Encoding(false)); writer.Write(content); }
+            void Entry(string name, string content) => package.SetXml(name, content);
             Entry("[Content_Types].xml", "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"png\" ContentType=\"image/png\"/><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/></Types>");
             Entry("_rels/.rels", "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"doc\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");
             Entry("word/document.xml", new XDocument(new XElement(w + "document", body)).ToString());
             XNamespace rel = "http://schemas.openxmlformats.org/package/2006/relationships";
             Entry("word/_rels/document.xml.rels", new XElement(rel + "Relationships", images.Select((_, i) => new XElement(rel + "Relationship", new XAttribute("Id", "image" + (i + 1)), new XAttribute("Type", "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"), new XAttribute("Target", "media/image" + (i + 1) + ".png")))).ToString());
-            for (int i = 0; i < images.Count; i++) { using var stream = zip.CreateEntry("word/media/image" + (i + 1) + ".png").Open(); stream.Write(images[i]); }
+            for (int i = 0; i < images.Count; i++) { package.SetBytes("word/media/image" + (i + 1) + ".png", images[i]); }
         }
-        return memory.ToArray();
+        return package;
     }
 }

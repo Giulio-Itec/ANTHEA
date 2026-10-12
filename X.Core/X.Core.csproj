@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup><AssemblyName>ANTHEA.Core</AssemblyName><Product>ANTHEA</Product><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><GpcLibraries>GPCChecker.CompositeBridge;GPCModel</GpcLibraries></PropertyGroup>
+  <PropertyGroup><AssemblyName>ANTHEA.Core</AssemblyName><Product>ANTHEA</Product><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../X.Calculations/X.Calculations.csproj" />
     <ProjectReference Include="../src/ANTHEA.Application/ANTHEA.Application.csproj" />
   </ItemGroup>
 </Project>

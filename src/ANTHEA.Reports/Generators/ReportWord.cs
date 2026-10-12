@@ -13,11 +13,12 @@ public static class ReportWord
     private static readonly XNamespace R="http://schemas.openxmlformats.org/officeDocument/2006/relationships";
     public static readonly (string Key,string Label)[] Sezioni=[("generali","Dati generali"),("efficienza","Efficienza del gruppo"),("coefficienti","Coefficienti normativi"),("stratigrafia","Tabelle stratigrafiche"),("nq","Metodo Nq / abachi"),("risultati","Risultati e verifiche"),("criteri","Criteri di calcolo"),("dettagli","Dettagli ogni 0,50 m"),("grafico_profilo","Profilo stratigrafico"),("grafico_nq","Curve Nq / abachi"),("grafico_capacita","Capacità portante")];
     public static void Esporta(string path,string title,string module,JsonObject data,JsonObject result,HashSet<string>? options=null,IReadOnlyList<ImmagineReport>? images=null,bool includeInputs=true)
-        => Archivio.ScriviAtomico(path, Create(title, module, data, result, options, images, includeInputs));
-    public static byte[] Create(string title,string module,JsonObject data,JsonObject result,HashSet<string>? options=null,IReadOnlyList<ImmagineReport>? images=null,bool includeInputs=true)
+        => DocumentFile.Write(path, Create(title, module, data, result, options, images, includeInputs));
+    public static byte[] Create(string title,string module,JsonObject data,JsonObject result,HashSet<string>? options=null,IReadOnlyList<ImmagineReport>? images=null,bool includeInputs=true) => DocxWriter.Write(CreateDocument(title, module, data, result, options, images, includeInputs));
+    public static DocxDocument CreateDocument(string title,string module,JsonObject data,JsonObject result,HashSet<string>? options=null,IReadOnlyList<ImmagineReport>? images=null,bool includeInputs=true)
     {
-        if(result.S("tipo_risultato") == "palo_elastico") return ReportElasticPile.Create(title,result);
-        if (module == HorizontalPileGroup.Module) return ReportPileGroup.Create(title, result);
+        if(result.S("tipo_risultato") == "palo_elastico") return ReportElasticPile.CreateDocument(title,result);
+        if (module == HorizontalPileGroup.Module) return ReportPileGroup.CreateDocument(title, result);
         if(result.S("errore")!="")throw new ArgumentException("Calcolo non disponibile: "+result.S("errore"));
         if(module=="str_palo")throw new ArgumentException("Il report Word della sezione non è disponibile, come nel programma sorgente. Esportare i risultati JSON.");
         options??=Sezioni.Where(s=>!s.Key.StartsWith("grafico_")||s.Key=="grafico_nq").Select(s=>s.Key).ToHashSet();if(options.Count==0)throw new ArgumentException("Selezionare almeno un contenuto per il report.");
@@ -104,18 +105,17 @@ public static class ReportWord
             body.Add(new XElement(W+"p",new XElement(W+"r",new XElement(W+"drawing",new XElement(wp+"inline",new XElement(wp+"extent",new XAttribute("cx",cx),new XAttribute("cy",cy)),new XElement(wp+"docPr",new XAttribute("id",i+1),new XAttribute("name",selected[i].Titolo)),new XElement(a+"graphic",new XElement(a+"graphicData",new XAttribute("uri",pic.NamespaceName),new XElement(pic+"pic",new XElement(pic+"nvPicPr",new XElement(pic+"cNvPr",new XAttribute("id",0),new XAttribute("name","image.png")),new XElement(pic+"cNvPicPr")),new XElement(pic+"blipFill",new XElement(a+"blip",new XAttribute(R+"embed","img"+i)),new XElement(a+"stretch",new XElement(a+"fillRect"))),new XElement(pic+"spPr",new XElement(a+"xfrm",new XElement(a+"off",new XAttribute("x",0),new XAttribute("y",0)),new XElement(a+"ext",new XAttribute("cx",cx),new XAttribute("cy",cy))),new XElement(a+"prstGeom",new XAttribute("prst","rect"),new XElement(a+"avLst")))))))))));
         }
         body.Add(new XElement(W+"sectPr",new XElement(W+"pgSz",new XAttribute(W+"w",11906),new XAttribute(W+"h",16838)),new XElement(W+"pgMar",new XAttribute(W+"top",1134),new XAttribute(W+"bottom",1134),new XAttribute(W+"left",1273),new XAttribute(W+"right",1273))));
-        using var memory=new MemoryStream();
-        using(var zip=new ZipArchive(memory,ZipArchiveMode.Create,true))
+        var package = new DocxDocument();
         {
-            void Entry(string name,string content){using var writer=new StreamWriter(zip.CreateEntry(name).Open(),new UTF8Encoding(false));writer.Write(content);}
+            void Entry(string name, string content) => package.SetXml(name, content);
             Entry("[Content_Types].xml","<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Default Extension=\"png\" ContentType=\"image/png\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/></Types>");
             Entry("_rels/.rels","<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"doc\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");
             var relationships=new XElement(XName.Get("Relationships","http://schemas.openxmlformats.org/package/2006/relationships"));
-            for(int i=0;i<selected.Count;i++){relationships.Add(new XElement(relationships.Name.Namespace+"Relationship",new XAttribute("Id","img"+i),new XAttribute("Type",R+"image"),new XAttribute("Target",$"media/image{i}.png")));using var stream=zip.CreateEntry($"word/media/image{i}.png").Open();stream.Write(selected[i].Png);}
+            for(int i=0;i<selected.Count;i++){relationships.Add(new XElement(relationships.Name.Namespace+"Relationship",new XAttribute("Id","img"+i),new XAttribute("Type",R+"image"),new XAttribute("Target",$"media/image{i}.png")));package.SetBytes($"word/media/image{i}.png", selected[i].Png);}
             // Il tipo relazione è un URI, non il nome XML espanso.
             foreach(var rel in relationships.Elements())rel.SetAttributeValue("Type",R.NamespaceName+"/image");
             Entry("word/_rels/document.xml.rels",relationships.ToString());Entry("word/document.xml",new XDocument(new XDeclaration("1.0","utf-8","yes"),new XElement(W+"document",new XAttribute(XNamespace.Xmlns+"w",W),new XAttribute(XNamespace.Xmlns+"r",R),body)).ToString());
         }
-        return memory.ToArray();
+        return package;
     }
 }

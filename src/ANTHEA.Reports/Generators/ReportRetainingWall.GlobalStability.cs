@@ -1,4 +1,4 @@
-﻿using Anthea.Calculations.Geotechnics;
+using Anthea.Calculations.Geotechnics;
 using System.Text.Json.Nodes;
 
 namespace X.Core;
@@ -6,12 +6,13 @@ namespace X.Core;
 public static partial class ReportRetainingWall
 {
     private static void WriteGlobal(WallDocument doc, RetainingWall.Result wall) => WriteGlobal(doc, wall.Input, wall.GlobalStability, wall.GlobalError);
-    public static byte[] CreateGlobal(JsonObject input, SlopeResult result, Figure? figure = null)
+    public static byte[] CreateGlobal(JsonObject input, SlopeResult result, Figure? figure = null) => DocxWriter.Write(CreateGlobalDocument(input, result, figure));
+    public static DocxDocument CreateGlobalDocument(JsonObject input, SlopeResult result, Figure? figure = null)
     {
         var doc = new WallDocument(); doc.P("ANTHEA Stabilità globale del muro", true);
         doc.P("Analisi del complesso muro terreno con il metodo di Bishop semplificato. Questa relazione riguarda soltanto la stabilità globale.");
         if (figure is not null) doc.Image(figure);
-        WriteGlobal(doc, input, result, null); return doc.Bytes();
+        WriteGlobal(doc, input, result, null); return doc.BuildDocument();
     }
     private static void WriteGlobal(WallDocument doc, JsonObject input, SlopeResult? analysis, string? error)
     {

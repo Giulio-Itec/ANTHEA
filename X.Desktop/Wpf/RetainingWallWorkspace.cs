@@ -1,3 +1,4 @@
+using Anthea.Reports;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -116,7 +117,8 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
         var dialog = new SaveFileDialog { Filter = "Tabelle CSV|*.csv", FileName = global ? "Muro_stabilita_globale_conci.csv" : "Muro_verifiche.csv" };
         if (dialog.ShowDialog(Window.GetWindow(this)) == true) Archivio.ScriviAtomico(dialog.FileName, Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(global ? ReportRetainingWall.GlobalCsv(GlobalResult!) : ReportRetainingWall.Csv(Calculation!))).ToArray());
     }
-    internal byte[] BuildReport(string title)
+    internal byte[] BuildReport(string title) => DocxWriter.Write(BuildReportDocument(title));
+    internal DocxDocument BuildReportDocument(string title)
     {
         if (Calculation is null || Busy) throw new InvalidOperationException("Attendere il calcolo del muro.");
         var figures = new List<ReportRetainingWall.Figure>(); var c = Drawing.Case ?? Calculation.Cases[0];
@@ -141,7 +143,7 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
             try { figures.AddRange(BarFigures(CreateBarDrawing())); }
             catch (ArgumentException) { /* The report records the invalid schedule inputs beside its tables. */ }
         }
-        return ReportRetainingWall.Create(title, Calculation, figures);
+        return ReportRetainingWall.CreateDocument(title, Calculation, figures);
     }
     public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= Tick; cancellation?.Cancel(); }
 }

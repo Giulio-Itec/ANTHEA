@@ -1,7 +1,7 @@
-namespace Anthea.Application.Documents;
+namespace Anthea.Reports;
 
 /// <summary>Durable write shared by archives and exported documents; preserves the existing Office copy policy.</summary>
-public static class AtomicFile
+public static class DocumentFile
 {
     public static void Write(string path,byte[] bytes)
     {

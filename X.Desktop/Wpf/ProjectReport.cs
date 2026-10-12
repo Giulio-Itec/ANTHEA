@@ -91,9 +91,9 @@ public sealed partial class MainWindow
                 string? error = reportEditor.Result?["errori_calcolo"] is JsonObject errors && errors.Count > 0 ? string.Join("; ", errors.Select(p => p.Key + ": " + p.Value)) : null;
                 var options = module == BridgeSection.Module ? ReportBridge.DefaultSections() : module == "str_palo" ? ReportConcrete.Sections.Where(s => s.Key is not ("dettagli" or "sle_tutte")).Select(s => s.Key).ToHashSet() :
                     ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
-                var bytes = reportEditor.BuildReport(sheet.S("nome"), options, projectReport: true);
+                var document = reportEditor.BuildReportDocument(sheet.S("nome"), options, projectReport: true);
                 progress($"Scheda {i + 1} di {sheets.Length}: capitolo pronto.");
-                reports[sheet] = new(bytes, error);
+                reports[sheet] = new(Error: error, Document: document);
             }
             catch (Exception ex) when (ex is not OperationCanceledException && ex is not IOException && ex is not UnauthorizedAccessException)
             { reports[sheet] = new(Error: ex.Message); }

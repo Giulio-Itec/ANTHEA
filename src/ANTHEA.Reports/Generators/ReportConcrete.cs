@@ -30,8 +30,9 @@ public static class ReportConcrete
         return values;
     }
     public static void Write(string path, string title, JsonObject data, JsonObject result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null, bool includeInputs = true)
-        => Archivio.ScriviAtomico(path, Create(title, data, result, options, images, includeInputs));
-    public static byte[] Create(string title, JsonObject data, JsonObject result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null, bool includeInputs = true)
+        => DocumentFile.Write(path, Create(title, data, result, options, images, includeInputs));
+    public static byte[] Create(string title, JsonObject data, JsonObject result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null, bool includeInputs = true) => DocxWriter.Write(CreateDocument(title, data, result, options, images, includeInputs));
+    public static DocxDocument CreateDocument(string title, JsonObject data, JsonObject result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null, bool includeInputs = true)
     {
         if (options.Count == 0) throw new ArgumentException("Selezionare almeno un contenuto del report.");
         if (result.S("motore") != "GPCChecker.Concrete.dll") throw new ArgumentException("Risultati GPC Engine aggiornati non disponibili.");
@@ -268,21 +269,20 @@ public static class ReportConcrete
           }
         }
         body.Add(new XElement(w + "sectPr", new XElement(w + "pgSz", new XAttribute(w + "w", 11906), new XAttribute(w + "h", 16838)), new XElement(w + "pgMar", new XAttribute(w + "top", 1134), new XAttribute(w + "bottom", 1134), new XAttribute(w + "left", 1273), new XAttribute(w + "right", 1273))));
-        using var memory = new MemoryStream();
-        using (var zip = new ZipArchive(memory, ZipArchiveMode.Create, true))
+        var package = new DocxDocument();
         {
-            void Entry(string name, string content) { using var writer = new StreamWriter(zip.CreateEntry(name).Open(), new UTF8Encoding(false)); writer.Write(content); }
+            void Entry(string name, string content) => package.SetXml(name, content);
             Entry("[Content_Types].xml", "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Default Extension=\"png\" ContentType=\"image/png\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/><Override PartName=\"/word/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml\"/></Types>");
             Entry("_rels/.rels", "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"doc\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");
             var relationships = new XElement(XName.Get("Relationships", "http://schemas.openxmlformats.org/package/2006/relationships"));
             relationships.Add(new XElement(relationships.Name.Namespace + "Relationship", new XAttribute("Id", "styles"), new XAttribute("Type", r.NamespaceName + "/styles"), new XAttribute("Target", "styles.xml")));
-            for (int i = 0; i < selected.Length; i++) { relationships.Add(new XElement(relationships.Name.Namespace + "Relationship", new XAttribute("Id", "img" + i), new XAttribute("Type", r.NamespaceName + "/image"), new XAttribute("Target", $"media/image{i}.png"))); using var stream = zip.CreateEntry($"word/media/image{i}.png").Open(); stream.Write(selected[i].Png); }
+            for (int i = 0; i < selected.Length; i++) { relationships.Add(new XElement(relationships.Name.Namespace + "Relationship", new XAttribute("Id", "img" + i), new XAttribute("Type", r.NamespaceName + "/image"), new XAttribute("Target", $"media/image{i}.png"))); package.SetBytes($"word/media/image{i}.png", selected[i].Png); }
             var styles = new XElement(w + "styles");
             foreach (var (id, size, bold, before, after) in new[] { ("Normal", 21, false, 0, 100), ("Title", 36, true, 0, 100), ("Subtitle", 26, false, 0, 180), ("Heading1", 28, true, 250, 130), ("Heading2", 23, true, 180, 90), ("Caption", 21, false, 0, 100), ("TableText", 19, false, 0, 45), ("TableHeader", 19, true, 0, 45) })
                 styles.Add(new XElement(w + "style", new XAttribute(w + "type", "paragraph"), new XAttribute(w + "styleId", id), new XElement(w + "name", new XAttribute(w + "val", id)), new XElement(w + "pPr", new XElement(w + "spacing", new XAttribute(w + "before", before), new XAttribute(w + "after", after)), new XElement(w + "widowControl"), id is "Heading1" or "Heading2" or "Title" or "Subtitle" or "Caption" or "TableHeader" ? new XElement(w + "keepNext") : null, id.StartsWith("Heading") ? new XElement(w + "outlineLvl", new XAttribute(w + "val", id == "Heading1" ? 0 : 1)) : null), new XElement(w + "rPr", new XElement(w + "rFonts", new XAttribute(w + "ascii", "Calibri"), new XAttribute(w + "hAnsi", "Calibri")), new XElement(w + "sz", new XAttribute(w + "val", size)), new XElement(w + "color", new XAttribute(w + "val", "000000")), bold ? new XElement(w + "b") : null)));
             Entry("word/styles.xml", styles.ToString()); Entry("word/_rels/document.xml.rels", relationships.ToString());
             Entry("word/document.xml", new XDocument(new XElement(w + "document", new XAttribute(XNamespace.Xmlns + "w", w), new XAttribute(XNamespace.Xmlns + "r", r), body)).ToString());
         }
-        return memory.ToArray();
+        return package;
     }
 }

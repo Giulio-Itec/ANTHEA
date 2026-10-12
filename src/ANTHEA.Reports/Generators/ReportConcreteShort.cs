@@ -129,17 +129,17 @@ public static class ReportConcreteShort
         body.Add(P("Ambito: le sette verifiche riportate. Torsione e interazioni, dettagli costruttivi, ancoraggi, domini 2D e momento–curvatura sono nel report completo. Valori arrotondati solo per la stampa.","Normal"));
         if(result["errori_calcolo"] is JsonObject errors && errors.Count>0)body.Add(P($"Sono presenti {errors.Count} segnalazioni di calcolo: consultare il report completo.","Normal"));
         body.Add(new XElement(w+"sectPr",new XElement(w+"pgSz",new XAttribute(w+"w",11906),new XAttribute(w+"h",16838)),new XElement(w+"pgMar",new XAttribute(w+"top",900),new XAttribute(w+"bottom",900),new XAttribute(w+"left",1273),new XAttribute(w+"right",1273))));
-        using var memory=new MemoryStream();memory.Write(ReportConcrete.Create(title,data,result,["materiali"]));memory.Position=0;
-        using(var zip=new ZipArchive(memory,ZipArchiveMode.Update,true))
+        var package = ReportConcrete.CreateDocument(title,data,result,["materiali"]);
+        
         {
-            void Replace(string path,string text){zip.GetEntry(path)?.Delete();using var writer=new StreamWriter(zip.CreateEntry(path).Open(),new UTF8Encoding(false));writer.Write(text);}
+            void Replace(string path,string text) => package.SetXml(path, text);
             Replace("word/document.xml",new XDocument(new XElement(w+"document",new XAttribute(XNamespace.Xmlns+"w",w),body)).ToString());
-            using var reader=new StreamReader(zip.GetEntry("word/styles.xml")!.Open());var styles=XDocument.Parse(reader.ReadToEnd());reader.Close();
+            var styles = package.GetXml("word/styles.xml");
             foreach(var style in styles.Root!.Elements(w+"style"))
             {string id=style.Attribute(w+"styleId")!.Value;style.Descendants(w+"sz").Single().SetAttributeValue(w+"val",id=="Title"?30:id=="Heading1"?26:id=="Subtitle"?22:20);}
             Replace("word/styles.xml",styles.ToString());
         }
-        return memory.ToArray();
+        return DocxWriter.Write(package);
     }
 }
 

@@ -34,6 +34,11 @@ try
     string manifestHash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(Path.Combine(root, "lib/Checker/manifest.json"))));
     Check(manifestHash.Equals(fixtureManifest.RootElement.GetProperty("library_manifest_sha256").GetString(), StringComparison.OrdinalIgnoreCase), "Set GPC cambiato durante F3: il riferimento va riesaminato prima degli spostamenti");
     var desktop = Metadata(Path.Combine(root, "X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll"));
+    Check(!desktop.Assemblies.Contains("ANTHEA.Core"), "Core ancora presente nel prodotto desktop");
+    var reportSources = SourceFiles(Path.Combine(root, "src/ANTHEA.Reports")).ToArray();
+    Check(reportSources.Count(f => File.ReadAllText(f).Contains("ZipArchiveMode.Create")) == 1 &&
+        reportSources.Where(f => File.ReadAllText(f).Contains("ZipArchiveMode.Create")).All(f => Path.GetFileName(f) == "DocxWriter.cs"), "Scrittori DOCX duplicati");
+    Check(!File.ReadAllText(Path.Combine(root, "src/ANTHEA.Reports/ProjectReportComposer.cs")).Contains("ZipArchive"), "Il report progetto riapre DOCX intermedi");
     var observed = desktop.Types.Where(p => p.Key == "ANTHEA.Calculations" || p.Key.StartsWith("GPCChecker", StringComparison.Ordinal)).ToDictionary();
     foreach (var (assembly, types) in observed)
     {

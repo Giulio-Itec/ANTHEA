@@ -11,12 +11,13 @@ public static partial class ReportRetainingWall
             .Concat(schedule.Bars.Select(b => Row([b.Mark, RetainingWall.RebarZoneName(b.Zone), b.Face, b.Kind, F(b.Diameter), b.Quantity.ToString(), b.CutLength is double l ? F(l) : "da definire", b.TotalLength is double total ? F(total) : "", b.Weight is double weight ? F(weight) : "", F(b.Spacing), F(b.Mandrel), F(b.Lap), string.Join(" / ", b.Legs.Select(l => l.Name + "=" + F(l.Length * 1000))), b.Note, F(schedule.PanelLength), F(schedule.EndCover), F(schedule.StockLength)])))
             .Concat(schedule.Warnings.Select(w => Row(["NOTA", w])))) + "\r\n";
     }
-    public static byte[] CreateBarSchedule(JsonObject input, RetainingWall.BarSchedule schedule, IReadOnlyList<Figure>? figures = null)
+    public static byte[] CreateBarSchedule(JsonObject input, RetainingWall.BarSchedule schedule, IReadOnlyList<Figure>? figures = null) => DocxWriter.Write(CreateBarScheduleDocument(input, schedule, figures));
+    public static DocxDocument CreateBarScheduleDocument(JsonObject input, RetainingWall.BarSchedule schedule, IReadOnlyList<Figure>? figures = null)
     {
         var doc = new WallDocument(); doc.P("Distinta ferri del muro a mensola", true);
         ScheduleTables(doc, input, schedule);
         if (figures is not null) foreach (var f in figures) { doc.PageBreak(); doc.Image(f); }
-        return doc.Bytes();
+        return doc.BuildDocument();
     }
     private static void ScheduleTables(WallDocument doc, JsonObject input, RetainingWall.BarSchedule schedule)
     {

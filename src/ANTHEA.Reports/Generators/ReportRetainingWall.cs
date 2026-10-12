@@ -22,7 +22,8 @@ public static partial class ReportRetainingWall
             .Concat(r.Checks.Concat(r.Structural).Select(c => Row(Cells(c))))) + "\r\n";
     }
     public sealed record Figure(string Caption, byte[] Png, double AspectRatio);
-    public static byte[] Create(string title, RetainingWall.Result result, IReadOnlyList<Figure>? figures = null)
+    public static byte[] Create(string title, RetainingWall.Result result, IReadOnlyList<Figure>? figures = null) => DocxWriter.Write(CreateDocument(title, result, figures));
+    public static DocxDocument CreateDocument(string title, RetainingWall.Result result, IReadOnlyList<Figure>? figures = null)
     {
         var doc = new WallDocument(); var d = result.Input;
         doc.P("ANTHEA · " + title, true); doc.P("Muri di sostegno · " + RetainingWall.Families.Single(f => f.Id == d.S("family")).Name);
@@ -121,7 +122,7 @@ public static partial class ReportRetainingWall
         doc.P("D.M. 17/01/2018, NTC 2018 §§4.1, 6.2.4, 6.5 e 7.11: https://www.gazzettaufficiale.it/eli/id/2018/2/20/18A00716/sg");
         doc.P("JRC 2013, Eurocode 7: Geotechnical Design – Worked examples, capitoli 3 e 4: https://eurocodes.jrc.ec.europa.eu/sites/default/files/2022-06/2013_06_WS_GEO.pdf");
         doc.P("Wood, 1973, Earthquake-induced soil pressures on structures: https://authors.library.caltech.edu/records/48499-83239; Yi, 2013, Seismic Design of Restrained Rigid Walls: https://www.cfms-sols.org/sites/default/files/Actes/3521-3524.pdf. Distribuzione uniforme dell’incremento esplicitamente assunta nel presente modello semplificato.");
-        return doc.Bytes();
+        return doc.BuildDocument();
     }
     private sealed class WallDocument
     {
@@ -153,20 +154,20 @@ public static partial class ReportRetainingWall
                 table.Add(new XElement(W + "tr", new XElement(W + "trPr", new XElement(W + "cantSplit"), idx == 0 ? new XElement(W + "tblHeader") : null), row.Select((cell, i) => new XElement(W + "tc", new XElement(W + "tcPr", new XElement(W + "tcW", new XAttribute(W + "w", widths[i]), new XAttribute(W + "type", "dxa")), idx == 0 ? new XElement(W + "shd", new XAttribute(W + "fill", "E8EFF7")) : null), Paragraph(cell, keep: idx == 0)))));
             body.Add(table); P("");
         }
-        internal byte[] Bytes()
+        internal DocxDocument BuildDocument()
         {
             body.Add(new XElement(W + "sectPr", new XElement(W + "pgSz", new XAttribute(W + "w", 11906), new XAttribute(W + "h", 16838)), new XElement(W + "pgMar", new XAttribute(W + "top", 1000), new XAttribute(W + "bottom", 1000), new XAttribute(W + "left", 1273), new XAttribute(W + "right", 1273))));
-            using var memory = new MemoryStream(); using (var zip = new ZipArchive(memory, ZipArchiveMode.Create, true))
+            var package = new DocxDocument();
             {
-                void Add(string name, string text) { using var sw = new StreamWriter(zip.CreateEntry(name).Open(), new UTF8Encoding(false)); sw.Write(text); }
+                void Add(string name, string text) => package.SetXml(name, text);
                 Add("[Content_Types].xml", "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"png\" ContentType=\"image/png\"/><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/></Types>");
                 Add("_rels/.rels", "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"doc\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");
                 Add("word/document.xml", new XDocument(new XElement(W + "document", new XAttribute(XNamespace.Xmlns + "w", W), body)).ToString());
                 XNamespace rel = "http://schemas.openxmlformats.org/package/2006/relationships";
                 Add("word/_rels/document.xml.rels", new XElement(rel + "Relationships", images.Select((_, i) => new XElement(rel + "Relationship", new XAttribute("Id", "image" + (i + 1)), new XAttribute("Type", "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"), new XAttribute("Target", "media/image" + (i + 1) + ".png")))).ToString());
-                for (int i = 0; i < images.Count; i++) { using var stream = zip.CreateEntry("word/media/image" + (i + 1) + ".png").Open(); stream.Write(images[i]); }
+                for (int i = 0; i < images.Count; i++) { package.SetBytes("word/media/image" + (i + 1) + ".png", images[i]); }
             }
-            return memory.ToArray();
+            return package;
         }
     }
 }

@@ -16,7 +16,8 @@ public static partial class ReportBridge
         ("classe4", "Sezione efficace e parametri di classe 4"), ("taglio", "Taglio, irrigidimenti e pioli"), ("grafici", "Geometria e diagrammi delle fasi")];
     public static HashSet<string> DefaultSections() => Sections.Select(s => s.Key).ToHashSet();
 
-    public static byte[] Create(string title, BridgeResult result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null)
+    public static byte[] Create(string title, BridgeResult result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null) => DocxWriter.Write(CreateDocument(title, result, options, images));
+    public static DocxDocument CreateDocument(string title, BridgeResult result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null)
     {
         if (!Sections.Any(s => s.Key != "grafici" && options.Contains(s.Key))) throw new ArgumentException("Selezionare almeno un contenuto del report.");
         if (result.Stages.Count == 0) throw new ArgumentException("Risultati della sezione composta non disponibili.");
@@ -230,7 +231,7 @@ public static partial class ReportBridge
             }
             doc.Figures(images, options, "fase_" + index);
         }
-        return doc.Bytes();
+        return doc.BuildDocument();
     }
 
     private sealed class Document
@@ -278,13 +279,12 @@ public static partial class ReportBridge
                         new XElement(pic + "blipFill", new XElement(a + "blip", new XAttribute(R + "embed", "img" + id)), new XElement(a + "stretch", new XElement(a + "fillRect"))), new XElement(pic + "spPr", new XElement(a + "xfrm", new XElement(a + "off", new XAttribute("x", 0), new XAttribute("y", 0)), new XElement(a + "ext", new XAttribute("cx", cx), new XAttribute("cy", cy))), new XElement(a + "prstGeom", new XAttribute("prst", "rect"), new XElement(a + "avLst")))))))))));
             }
         }
-        internal byte[] Bytes()
+        internal DocxDocument BuildDocument()
         {
             body.Add(new XElement(W + "sectPr", new XElement(W + "pgSz", new XAttribute(W + "w", 11906), new XAttribute(W + "h", 16838)), new XElement(W + "pgMar", new XAttribute(W + "top", 1134), new XAttribute(W + "bottom", 1134), new XAttribute(W + "left", 1273), new XAttribute(W + "right", 1273))));
-            using var memory = new MemoryStream();
-            using (var zip = new ZipArchive(memory, ZipArchiveMode.Create, true))
+            var package = new DocxDocument();
             {
-                void Entry(string name, string text) { using var writer = new StreamWriter(zip.CreateEntry(name).Open(), new UTF8Encoding(false)); writer.Write(text); }
+                void Entry(string name, string text) => package.SetXml(name, text);
                 Entry("[Content_Types].xml", "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Default Extension=\"png\" ContentType=\"image/png\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/><Override PartName=\"/word/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml\"/></Types>");
                 Entry("_rels/.rels", "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"doc\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");
                 XNamespace rel = "http://schemas.openxmlformats.org/package/2006/relationships";
@@ -292,7 +292,7 @@ public static partial class ReportBridge
                 for (int i = 0; i < figures.Count; i++)
                 {
                     relationships.Add(new XElement(rel + "Relationship", new XAttribute("Id", "img" + (i + 1)), new XAttribute("Type", R.NamespaceName + "/image"), new XAttribute("Target", $"media/image{i + 1}.png")));
-                    using var stream = zip.CreateEntry($"word/media/image{i + 1}.png").Open(); stream.Write(figures[i].Png);
+                    package.SetBytes($"word/media/image{i + 1}.png", figures[i].Png);
                 }
                 var styles = new XElement(W + "styles");
                 foreach (var (id, size, bold, before, after) in new[] { ("Normal", 21, false, 0, 100), ("Title", 36, true, 0, 120), ("Subtitle", 25, false, 0, 160), ("Heading1", 28, true, 240, 120), ("Heading2", 23, true, 180, 80), ("Caption", 19, false, 120, 70), ("TableText", 18, false, 0, 20), ("TableHeader", 18, true, 0, 20), ("TableGap", 8, false, 0, 50) })
@@ -301,7 +301,7 @@ public static partial class ReportBridge
                 Entry("word/styles.xml", styles.ToString()); Entry("word/_rels/document.xml.rels", relationships.ToString());
                 Entry("word/document.xml", new XDocument(new XElement(W + "document", new XAttribute(XNamespace.Xmlns + "w", W), new XAttribute(XNamespace.Xmlns + "r", R), body)).ToString());
             }
-            return memory.ToArray();
+            return package;
         }
     }
 }

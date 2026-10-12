@@ -1,3 +1,4 @@
+using Anthea.Reports;
 using System.Windows;
 using X.Core;
 
@@ -12,7 +13,8 @@ internal sealed partial class ConcreteWorkspace
     }
     internal void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
         => Archivio.ScriviAtomico(filename, BuildReport(title, options, projectReport));
-    internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false)
+    internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => DocxWriter.Write(BuildReportDocument(title, options, projectReport));
+    internal DocxDocument BuildReportDocument(string title, HashSet<string> options, bool projectReport = false)
     {
         Commit();
         if (Busy || !HasResults || calculationQueued) throw new InvalidOperationException("Attendere l’aggiornamento automatico e correggere i dati non validi prima di esportare il report.");
@@ -75,6 +77,6 @@ internal sealed partial class ConcreteWorkspace
             }
             if(options.Contains("curvatura")&&curvatureResult is not null)images.Add(new("Momento–curvatura · percorso assegnato",curvaturePlot.Png(),"curvatura"));
         }
-        return ReportConcrete.Create(title, Data, result, options, images, !projectReport);
+        return ReportConcrete.CreateDocument(title, Data, result, options, images, !projectReport);
     }
 }

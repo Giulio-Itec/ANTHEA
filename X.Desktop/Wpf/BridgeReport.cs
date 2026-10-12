@@ -1,3 +1,4 @@
+using Anthea.Reports;
 using System.Windows;
 using X.Core;
 
@@ -5,7 +6,8 @@ namespace X.Desktop;
 
 internal sealed partial class BridgeWorkspace
 {
-    internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false)
+    internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => DocxWriter.Write(BuildReportDocument(title, options, projectReport));
+    internal DocxDocument BuildReportDocument(string title, HashSet<string> options, bool projectReport = false)
     {
         Commit();
         if (Busy || Calculation is not { } result) throw new InvalidOperationException("Attendere l’aggiornamento automatico e correggere i dati non validi prima di esportare il report.");
@@ -39,6 +41,6 @@ internal sealed partial class BridgeWorkspace
                     Image($"Situazione {i + 1} dopo {result.Stages[i].Name}. {(viewSettings.B("contour_tensioni") ? "Campiture della somma secondo η: verde/ambra entro limite, rosso oltre limite, viola CLS teso." : "Campiture della somma: blu compressione, rosso trazione;")} contributi tratteggiati. CLS amplificato ×{F(concreteScale.Factor)} ({concreteScale.Source}); valori indicati in MPa reali. Arancio: parte inefficace.", "fase_" + i, result.Stages[i], 1);
         }
         // ProjectReportPlan does not consolidate the bridge's flat inputs. Preserve them in its chapter.
-        return ReportBridge.Create(title, result, options, images);
+        return ReportBridge.CreateDocument(title, result, options, images);
     }
 }
