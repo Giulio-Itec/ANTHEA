@@ -789,3 +789,23 @@ in caso contrario dichiarare le informazioni non normalizzate. Straus R3 viene p
 controllo dei file e contratto del worker, senza simulare disponibilità di importazione, ABI o licenza.
 Il primo collaudo reale di tutti i 49 casi MIDAS ha incontrato una sessione interrotta; la nuova
 acquisizione completa del solo G1 coincide esattamente con il riferimento. MOD-28 e MOD-29.
+
+## Gestione delle combinazioni — 12 ottobre 2026
+
+Il ramo `codex/model-combinations` integra il catalogo delle combo nel modello, con editor e griglia
+WPF, pannello riducibile e finestra staccabile. Le modifiche alle definizioni importate sono
+sostituzioni locali; le cancellazioni conservano le tabelle originali e possono essere ripristinate.
+Il generatore automatico è rinviato come richiesto. Il calcolo delle principali resta il passo dopo
+combinazioni e inviluppi, senza sommare principali o vettori di estremi indipendenti.
+
+Si usa GPC.Converter 2.0.3.0 del set R già rilasciato, con Model 5 e tutte le altre DLL immutate:
+nessuna versione o sorgente esterna modificata. Preparazione di geometria/casi base una sola volta
+per input; calcoli GPC senza attaccare risultati al modello preparato, pubblicazione atomica della
+copia ANTHEA. Le definizioni sono separate dall'identità della cache di normalizzazione.
+Si conservano riferimenti, alternativi governanti e vettori simultanei. Le rotazioni mancanti dei
+vecchi pacchetti non vengono inventate. Contratti e limiti in `docs/sviluppo/modelli-combinazioni.md`.
+
+La prova completa SLU_Q1_1(max) plate coincide con MIDAS su 109744 valori. La ricostruzione a caldo
+misurata è 7,606 s: non è dichiarato raggiunto l'obiettivo di 5 s. Ottimizzazioni ulteriori del motore
+GPC richiedono una fase nelle librerie e un successivo rilascio coerente; nessuna scorciatoia numerica
+nella UI o dichiarazione di supporto per famiglie/analisi non collegate. MOD-30.

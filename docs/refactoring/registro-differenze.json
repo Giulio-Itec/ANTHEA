@@ -1782,6 +1782,22 @@
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
+      "id": "MOD-30",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Gestione combinazioni importate e locali, editor MVVM, griglia coefficienti e finestra staccabile; calcolo e inviluppi tramite motore GPC rilasciato.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelWorkspace/ModelCombinations.cs", "src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Combinations.cs", "src/ANTHEA.ModelViewer.Wpf/ModelCombinationsView.xaml"],
+      "segno": "Nuova gestione locale senza modifiche a MIDAS o ai sorgenti GPC. Conservazione degli originali, governanti e stati concomitanti, invalidazione dei derivati e cache normalizzata indipendente dai coefficienti. Nuova lettura delle rotazioni nodali per il contratto completo GPC.",
+      "decisione": {"data": "2026-10-12", "utente": "implementa le combo nella gestione del modello; importate o create/eliminate dalla UI; griglia e finestra staccabile", "esito": "implementazione nel branch, generatore automatico e principali rinviati"},
+      "data": "2026-10-12",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["Attesi manuali plate/beam/nodi, inviluppi annidati, governanti diversi, ID sorgente non coincidenti con quelli interni", "109744 valori SLU_Q1_1(max) plate: zero differenze oltre tolleranza, massimo scarto assoluto 1.006e-9", "WPF nei tre temi, griglia, stacco e riaggancio"],
+      "evidenze": ["supporto/artefatti/model-viewer/combinations-20261012", "supporto/artefatti/ci/20261012-150738-combo-full", "supporto/artefatti/ci/20261012-152635-combo-finale"],
+      "documento": "docs/sviluppo/modelli-combinazioni.md"
+    },
+    {
       "id": "MOD-29",
       "famiglia": "interfaccia/modelli",
       "categoria": "intenzionale",
