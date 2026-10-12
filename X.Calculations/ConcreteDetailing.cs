@@ -54,6 +54,8 @@ public sealed class ConcreteDetailingCalculator : IConcreteDetailingCalculator
     public IReadOnlyList<DetailingCheck> Calculate(ConcreteDetailingInput p)
     {
         var s = p.Section;
+        int legs = p.Kind == ConcreteMemberKind.Beam && p.HasStirrups
+            ? SectionWorkspace.Subdivisions(p.StirrupLegs.ToString(), "rami_y", 2, 100) : 0;
         if (p.Kind == ConcreteMemberKind.Slab && (s.Shape != "Rettangolare" || s.Holes.Count > 0))
             throw new ArgumentException("Soletta piena: usare una striscia rettangolare senza foro, b = larghezza e h = spessore.");
         double fck = s.Input.D("fck_mpa"), fyk = s.Input.D("fyk_mpa");
@@ -69,10 +71,10 @@ public sealed class ConcreteDetailingCalculator : IConcreteDetailingCalculator
             s.Shape == "A T" ? s.Input.D("flange_width_mm") : s.Width,
             s.Shape == "A T" ? s.Input.D("web_width_mm") : s.Width,
             s.Shape == "A T" ? s.Input.D("web_width_mm") : s.Width,
-            p.CompressionKn * 1000, p.HasStirrups, p.StirrupDiameter, p.StirrupSpacing, p.StirrupLegs,
+            p.CompressionKn * 1000, p.HasStirrups, p.StirrupDiameter, p.StirrupSpacing, legs,
             p.Aggregate, s.Input.D("cover_mm"), double.IsFinite(p.MinimumDurabilityCover) ? p.MinimumDurabilityCover : null,
             p.CoverDeviation, p.LapZone, p.CompressionBarsRestrained, p.EndSupportAnchorageConfirmed, 0, 0,
-            new(new(p.SecondarySteelPerMetre, p.SecondarySpacing, p.CriticalSlabRegion), legacyNegativeLinkLegs: true));
+            new(new(p.SecondarySteelPerMetre, p.SecondarySpacing, p.CriticalSlabRegion), legacyNegativeLinkLegs: false));
         try
         {
             return NativeDetailing.MemberDetailingCalculator.Calculate(NativeDetailing.DetailingProfile.Ntc2018, input)

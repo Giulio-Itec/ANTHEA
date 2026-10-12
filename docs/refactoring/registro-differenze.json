@@ -2121,6 +2121,38 @@
       "evidenze": [
         "supporto/artefatti/ci/20261012-212735-f27-a10-dopo"
       ]
+    },
+    {
+      "id": "F2-21",
+      "data": "2026-10-12",
+      "fase": "F2.7-U5/U7 e F2.8-U2",
+      "titolo": "Rifiuto coerente di viscosità e dati delle staffe non validi",
+      "famiglia": "calcestruzzo/input",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Note SLE sincronizzate con validazione n/φ di GPC; flag staffe rigoroso con default solo se assente; rami interi 2–100 quando usati. Nessuna formula nuova o troncatura dei rami. Campi inattivi ignorati.",
+      "codice": [
+        "X.Desktop/Wpf/ConcreteStress.cs",
+        "X.Calculations/ConcreteCalculationSettings.cs",
+        "X.Calculations/SezioneCA.cs",
+        "X.Calculations/ConcreteDetailingAnalysis.cs",
+        "X.Calculations/ConcreteDetailing.cs",
+        "tests/ConcreteInput.Checks"
+      ],
+      "segno": "Valori validi invariati. Cinque casi storici di travi con staffe e −2 rami ora rifiutati, 18 differenze strutturali/testuali classificate. Il catalogo mantiene 58 testi e riferimenti; conteggi ridotti dei soli contributi rimossi, ordine e ID progressivi diversi.",
+      "test": [
+        "Prove degli ingressi e WPF prima/dopo, compresi i trefoli e le tre schede SLE",
+        "548 file headless: soltanto 21 tempi volatili",
+        "Suite estesa: 157808 controlli generali, 673588 SLE, 27 stato statico e 369 getti sottili",
+        "26 file densi / 50938 righe con 18 differenze intenzionali; catalogo 58 righe collaudato separatamente, totale 50996",
+        "Runner chiusura: 7 PASS, 0 KNOWN, 0 NEW-FAIL; nessuna modifica a fixture o attesi indipendenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261012-213725-f2-input-prima",
+        "supporto/artefatti/ci/20261012-213900-f2-input-dopo",
+        "supporto/artefatti/ci/20261012-214555-f2-input-collaudo",
+        "supporto/artefatti/ci/20261012-215329-f2-input-chiusura"
+      ]
     }
   ]
 }

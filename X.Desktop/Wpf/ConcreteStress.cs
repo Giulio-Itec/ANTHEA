@@ -9,6 +9,8 @@ namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
 {
     private static readonly string[] CrackFields = ConcreteAnalysisSession.CrackFields;
+    // SLE inputs are shared; their presentation errors must also stay identical in all three tabs.
+    private readonly Dictionary<string, string> homogenizationErrors = [];
     private readonly TabControl sleTabs = new() { BorderThickness = new Thickness(0), Background = Appearance.Surface };
 
     private sealed class StressPanel
@@ -42,7 +44,7 @@ internal sealed partial class ConcreteWorkspace
                 foreach (var field in new[] { "phi", "phi_trefoli", "n_armature", "n_trefoli" }) panel.Options.Enable(field, options.S("modello") == "Lineare");
                 foreach (var field in new[] { "origine_x", "origine_y", "rotazione" }) panel.Options.Enable(field, options.S("assi") == "Personalizzati");
             }
-            panel.Options = new InputForm(options, [new("modello", "Analisi", Choices: ["Lineare", "Non lineare"], Help: WikiContextHelp.StressAnalysis), new("n_armature", "n armature"), new("phi", "Viscosità φ armature"), new("n_trefoli", "n trefoli (Ep riferimento)"), new("phi_trefoli", "Viscosità φ trefoli"), new("__ep_ref", "Ep di riferimento", "MPa", ReadOnly: true), new("trazione_cls", "CLS resistente a trazione", Choices: ["No", "Sì"]), new("assi", "Assi delle azioni", Choices: ["Locali", "Principali", "Personalizzati"]), new("origine_x", "Origine x", "mm"), new("origine_y", "Origine y", "mm"), new("rotazione", "Rotazione assi", "°"), new("esposizione", "Esposizione", Choices: ConcreteLibraryMapping.ExposureChoices.ToArray()), new("sensibilita", "Armatura", Choices: ["Poco sensibile", "Sensibile"]), new("durata", "Durata del carico", Choices: ["Lunga", "Breve"]), new("aderenza", "Barre", Choices: ["Migliorata", "Liscia"]), new("copriferro_fessure", "c barra (vuoto: auto)", "mm"), new("spaziatura_fessure", "Interasse massimo (vuoto: auto)", "mm"), new("limite_fessure", "wlim di progetto (EC2/MC)", "mm")], field =>
+            panel.Options = new InputForm(options, [new("modello", "Analisi", Choices: ["Lineare", "Non lineare"], Help: WikiContextHelp.StressAnalysis), new("n_armature", "n armature", Note: _ => homogenizationErrors.GetValueOrDefault("n_armature")), new("phi", "Viscosità φ armature", Note: _ => homogenizationErrors.GetValueOrDefault("phi")), new("n_trefoli", "n trefoli (Ep riferimento)", Note: _ => homogenizationErrors.GetValueOrDefault("n_trefoli")), new("phi_trefoli", "Viscosità φ trefoli", Note: _ => homogenizationErrors.GetValueOrDefault("phi_trefoli")), new("__ep_ref", "Ep di riferimento", "MPa", ReadOnly: true), new("trazione_cls", "CLS resistente a trazione", Choices: ["No", "Sì"]), new("assi", "Assi delle azioni", Choices: ["Locali", "Principali", "Personalizzati"]), new("origine_x", "Origine x", "mm"), new("origine_y", "Origine y", "mm"), new("rotazione", "Rotazione assi", "°"), new("esposizione", "Esposizione", Choices: ConcreteLibraryMapping.ExposureChoices.ToArray()), new("sensibilita", "Armatura", Choices: ["Poco sensibile", "Sensibile"]), new("durata", "Durata del carico", Choices: ["Lunga", "Breve"]), new("aderenza", "Barre", Choices: ["Migliorata", "Liscia"]), new("copriferro_fessure", "c barra (vuoto: auto)", "mm"), new("spaziatura_fessure", "Interasse massimo (vuoto: auto)", "mm"), new("limite_fessure", "wlim di progetto (EC2/MC)", "mm")], field =>
             {
                 if (initializing) return;
                 using var notifications = JsonRow.DeferNotifications(actions.Values.SelectMany(r => r));
@@ -170,25 +172,30 @@ internal sealed partial class ConcreteWorkspace
     {
         if (!stressPanels.TryGetValue(key, out var panel) || panel.Options is null) return;
         var options = settings["sle"]![key]!;
-        try
+        foreach (var (nKey, phiKey) in new[] { ("n_armature", "phi"), ("n_trefoli", "phi_trefoli") })
         {
-            double ec = ConcreteMaterials.Concrete(Input).E, es = Input.Required("steel_modulus_mpa", strict: true);
-            double ep = settings.Array("trefoli").FirstOrDefault()?.D("Ep", 195000) ?? settings["materiale_trefolo"].D("Ep", 195000);
-            foreach (var (nKey, phiKey, modulus) in new[] { ("n_armature", "phi", es), ("n_trefoli", "phi_trefoli", ep) })
+            // Keep the last edited invalid source when the paired derived field has been cleared.
+            bool fromN = changed == nKey || changed != phiKey && options.S(phiKey) == "" && options.S(nKey) != "";
+            string source = fromN ? nKey : phiKey, target = fromN ? phiKey : nKey;
+            homogenizationErrors.Remove(nKey); homogenizationErrors.Remove(phiKey);
+            try
             {
-                if (changed == nKey)
-                {
-                    double n = SectionWorkspace.Number(options.S(nKey), nKey), phi = Homogenization.CreepFromModularRatio(n, modulus, ec);
-                    options[phiKey] = phi.ToString("G17", System.Globalization.CultureInfo.InvariantCulture); panel.Options.Set(phiKey, EngineeringFormat.Number(phi), true);
-                }
-                else
-                {
-                    double n = Homogenization.ModularRatio(modulus, ec, SectionWorkspace.Number(options.S(phiKey, "0"), phiKey));
-                    options[nKey] = n.ToString("G17", System.Globalization.CultureInfo.InvariantCulture); panel.Options.Set(nKey, EngineeringFormat.Number(n), true);
-                }
+                double ec = ConcreteMaterials.Concrete(Input).E;
+                double modulus = nKey == "n_armature" ? Input.Required("steel_modulus_mpa", strict: true)
+                    : settings.Array("trefoli").FirstOrDefault()?.D("Ep", 195000) ?? settings["materiale_trefolo"].D("Ep", 195000);
+                var ratio = Homogenization.Resolve(modulus, ec, fromN, SectionWorkspace.Number(options.S(source, "0"), source));
+                double value = fromN ? ratio.Phi : ratio.N;
+                options[target] = value.ToString("G17", System.Globalization.CultureInfo.InvariantCulture);
+                panel.Options.Set(target, EngineeringFormat.Number(value), true);
+                if (nKey == "n_trefoli") panel.Options.Set("__ep_ref", EngineeringFormat.Number(modulus), true);
             }
-            panel.Options.Set("__ep_ref", EngineeringFormat.Number(ep), true);
+            catch (ArgumentException error)
+            {
+                // Preserve the input for correction; never display a stale or negative derived coefficient.
+                options[target] = ""; panel.Options.Set(target, "", true);
+                homogenizationErrors[source] = error.Message;
+            }
+            panel.Options.UpdateNote(nKey); panel.Options.UpdateNote(phiKey);
         }
-        catch (ArgumentException) { if (changed is "n_armature" or "n_trefoli") { string phiKey = changed == "n_armature" ? "phi" : "phi_trefoli"; options[phiKey] = ""; panel.Options.Set(phiKey, "", true); } }
     }
 }

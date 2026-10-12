@@ -39,8 +39,11 @@ public static class ConcreteDetailingAnalysis
         }
         catch (Exception ex) when (ex is not OperationCanceledException) { durabilityError = ex.Message; }
         double n = actions.Select(row => Math.Max(0, -SectionWorkspace.Number(row.S("N"), "N"))).DefaultIfEmpty(0).Max();
-        var request = new ConcreteDetailingInput(kind, section, n, input.S("staffe_presenti", "Sì") == "Sì",
-            input.D("transverse_bar_diameter_mm"), input.D("transverse_spacing_mm"), (int)settings["taglio"].D("rami_y", 2),
+        bool hasStirrups = ConcreteCalculationSettings.HasStirrups(input);
+        int legs = kind == ConcreteMemberKind.Beam && hasStirrups
+            ? ConcreteCalculationSettings.StirrupLegs(settings["taglio"], "rami_y") : 0;
+        var request = new ConcreteDetailingInput(kind, section, n, hasStirrups,
+            input.D("transverse_bar_diameter_mm"), input.D("transverse_spacing_mm"), legs,
             Value("aggregato"), durability?.Cover.Durability ?? double.NaN, Value("delta_c"), o.S("zona_sovrapposizione") == "Sì",
             plate ? Value("as_secondaria") : 0, plate ? Value("passo_secondaria") : 0, o.S("zona_critica") == "Sì",
             o.S("barre_trattenute") == "Confermato", o.S("ancoraggio_appoggi") == "Confermato");

@@ -46,16 +46,31 @@ public static class ConcreteCalculationSettings
             ("confinamento", "Da verificare"), ("posizione", "Da verificare"), ("cautele", "Da verificare"));
     }
 
+    public static bool HasStirrups(JsonObject input)
+    {
+        // Missing in old documents means the historical default; an explicit invalid value is not a default.
+        if (!input.ContainsKey("staffe_presenti")) return true;
+        if (input["staffe_presenti"] is JsonValue value && value.TryGetValue<string>(out var flag))
+        {
+            if (flag == "Sì") return true;
+            if (flag == "No") return false;
+        }
+        throw new ArgumentException("Staffe presenti: scegliere Sì oppure No.");
+    }
+
+    public static int StirrupLegs(JsonNode? options, string key)
+    {
+        int minimum = key == "rami_interni" ? 0 : 2;
+        string text = options is JsonObject fields && fields.ContainsKey(key) ? options.S(key) : minimum.ToString();
+        return SectionWorkspace.Subdivisions(text, key, minimum, 100);
+    }
+
     public static void ValidateStirrups(JsonObject input, JsonObject options)
     {
+        if (!HasStirrups(input)) return;
         if (input.S("shape") == "Circolare") _ = SectionWorkspace.Number(options.S("rotazione_staffa", "0"), "Rotazione staffe");
         foreach (var key in input.S("shape") == "Circolare" ? new[] { "rami_interni" } : new[] { "rami_x", "rami_y" })
-        {
-            if (string.IsNullOrWhiteSpace(options.S(key))) continue;
-            double n = SectionWorkspace.Number(options.S(key), key); int min = key == "rami_interni" ? 0 : 2;
-            if (n < min || n > 100 || n != Math.Truncate(n))
-                throw new ArgumentException($"{key}: inserire un numero intero fra {min} e 100.");
-        }
+            _ = StirrupLegs(options, key);
     }
 
     public static SezioneCA UpdateAutomaticShear(JsonObject input, JsonObject options)

@@ -8,6 +8,97 @@
     "rumore-numerico": "differenza oltre la tolleranza dovuta all'aritmetica in virgola mobile, senza effetto sugli esiti"
   },
   "confronti": {
+    "input-validation": {
+      "descrizione": "F2 validazioni contro API-02 chiusa: rami negativi rifiutati in 2 fogli e 3 chiamate dirette di travi con staffe. Il solo catalogo diagnostico è verificato da baseline/input-catalogo: testi invariati, conteggi precedenti meno questi cinque casi; cambia l’ordine della prima comparsa.",
+      "prefisso_tolleranze": "riuso-api",
+      "identificativi_casuali": [
+        {
+          "file": "-sections\\.xml$",
+          "forma": "guid",
+          "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)"
+        },
+        {
+          "file": "^walls-(combinations|documents)\\.jsonl",
+          "forma": "hex32",
+          "motivo": "id delle azioni creati da RetainingWall.Upgrade per i documenti dei muri in versione 1 (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)"
+        }
+      ],
+      "differenze_attese": [
+        {
+          "categoria": "difetto-legacy",
+          "registro": "F2-21",
+          "commit": "refactoring/f2-chiusure-pendenti",
+          "motivo": "F2.8-U2: rami attivi interi 2–100; i cinque casi con -2 non producono più verifiche valide con armatura negativa.",
+          "id": "U2-fogli-risultati",
+          "file": "^detailing-adapter-legacy\\.jsonl$",
+          "righe": "^Trave/(R300x500|T1200x800)/s3-rami-meno-2$",
+          "campo": "^\\$\\.detailing\\.(Checks|Durability|DurabilityError|MaximumCompression)$",
+          "classe": "^chiave-rimossa$",
+          "righe_attese": 2,
+          "differenze_attese": 8
+        },
+        {
+          "categoria": "difetto-legacy",
+          "registro": "F2-21",
+          "commit": "refactoring/f2-chiusure-pendenti",
+          "motivo": "F2.8-U2: rami attivi interi 2–100; i cinque casi con -2 non producono più verifiche valide con armatura negativa.",
+          "id": "U2-fogli-rifiuto",
+          "file": "^detailing-adapter-legacy\\.jsonl$",
+          "righe": "^Trave/(R300x500|T1200x800)/s3-rami-meno-2$",
+          "campo": "^\\$\\.detailing\\.error$",
+          "classe": "^chiave-aggiunta$",
+          "b": "^\"ArgumentException\"$",
+          "righe_attese": 2,
+          "differenze_attese": 2
+        },
+        {
+          "categoria": "difetto-legacy",
+          "registro": "F2-21",
+          "commit": "refactoring/f2-chiusure-pendenti",
+          "motivo": "F2.8-U2: rami attivi interi 2–100; i cinque casi con -2 non producono più verifiche valide con armatura negativa.",
+          "id": "U2-fogli-messaggio",
+          "file": "^detailing-adapter-legacy\\.jsonl$",
+          "righe": "^Trave/(R300x500|T1200x800)/s3-rami-meno-2$",
+          "campo": "^\\$\\.detailing\\.message$",
+          "classe": "^chiave-aggiunta$",
+          "b": "^\"rami_y: intero tra 2 e 100\\.\"$",
+          "righe_attese": 2,
+          "differenze_attese": 2
+        },
+        {
+          "categoria": "difetto-legacy",
+          "registro": "F2-21",
+          "commit": "refactoring/f2-chiusure-pendenti",
+          "motivo": "F2.8-U2: rami attivi interi 2–100; i cinque casi con -2 non producono più verifiche valide con armatura negativa.",
+          "id": "U2-dirette-rifiuto",
+          "file": "^detailing-plate-legacy\\.csv$",
+          "righe": "^(270|271|272)$",
+          "campo": "^outcome$",
+          "classe": "^testo$",
+          "a": "^ok$",
+          "b": "^error:ArgumentException$",
+          "righe_attese": 3,
+          "differenze_attese": 3
+        },
+        {
+          "categoria": "difetto-legacy",
+          "registro": "F2-21",
+          "commit": "refactoring/f2-chiusure-pendenti",
+          "motivo": "F2.8-U2: rami attivi interi 2–100; i cinque casi con -2 non producono più verifiche valide con armatura negativa.",
+          "id": "U2-dirette-messaggio",
+          "file": "^detailing-plate-legacy\\.csv$",
+          "righe": "^(270|271|272)$",
+          "campo": "^checks$",
+          "classe": "^testo$",
+          "b": "^rami_y: intero tra 2 e 100\\.$",
+          "righe_attese": 3,
+          "differenze_attese": 3
+        }
+      ],
+      "file_esclusi": [
+        "^detailing-texts-legacy\\.csv$"
+      ]
+    },
     "api02": {
       "descrizione": "API-02: confronto con e56ffaeb, prima del collegamento del raggruppamento circolare corretto. Solo interasse e relativo esito del caso C400R2-r5a; attesi storici immutati.",
       "prefisso_tolleranze": "riuso-api",

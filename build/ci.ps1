@@ -105,6 +105,9 @@ Add-Suite @{ Name = 'FoundationWorkspace.UiChecks'; Stage = 'ui'; Kind = 'run'; 
 # (--rapido), user decision of 9/10.
 Add-Suite @{ Name = 'ConcreteLibraryAdapter.Checks/rapido'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'; Args = @('{out}', '--rapido') }
 Add-Suite @{ Name = 'ANTHEA.ApiReuse.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.ApiReuse.Checks\ANTHEA.ApiReuse.Checks.csproj'; Args = @() }
+Add-Suite @{ Name = 'ConcreteInput.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ConcreteInput.Checks\ConcreteInput.Checks.csproj'; Args = @('{out}'); Timeout = 180 }
+Add-Suite @{ Name = 'ConcreteInput.UiChecks'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ConcreteInput.Checks\ConcreteInput.Checks.csproj'; Args = @('{out}', '--ui'); Timeout = 180 }
+
 Add-Suite @{ Name = 'ConcreteLibraryAdapter.Checks'; Stage = 'regression'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'; Args = @('{out}')
     Proof = @{ File = '{out}\misura.json'; Pattern = '"strumento": "ConcreteLibraryAdapter.Checks"' } }
 # F2.1 bench: legacy against GPCChecker.Concrete near the branch thresholds and on closed-form sections (independent Python
@@ -163,6 +166,13 @@ if ($DenseRef) {
         Before = @{ Project = $Dense; Args = @('{out}\cattura', '{commit}', 'tutte', '--manifest') }; Builds = @(@{ Project = $Dense; Configuration = 'Release' })
         Args = @('compare-dense', $(if ([IO.Path]::IsPathRooted($DenseRef)) { $DenseRef } else { Join-Path $Root $DenseRef }), '{out}\cattura', '--confronto', $DenseSet, '--report', '{out}\confronto-denso.json')
         Proof = @{ File = '{out}\confronto-denso.json'; Pattern = '"esito": "differenze tutte ammesse o classificate"' } }
+}
+
+# The text catalogue is keyed by first occurrence, which changes after U2 rejects invalid beams.
+# Audit every text and subtract only the five formerly accepted invalid contributions.
+if ($DenseRef -and $DenseSet -eq 'input-validation') {
+    Add-Suite @{ Name = 'baseline/input-catalogo'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteInput.Checks\ConcreteInput.Checks.csproj'
+        Args = @('{out}', '--catalog', $(if ([IO.Path]::IsPathRooted($DenseRef)) { $DenseRef } else { Join-Path $Root $DenseRef }), '{out}\..\baseline_banco-denso\cattura') }
 }
 
 $smokes = 'smoke', 'smoke-bridge', 'smoke-bridge-curves', 'smoke-bridge-design', 'smoke-bridge-predalle', 'smoke-ca-extensions', 'smoke-ca-features',

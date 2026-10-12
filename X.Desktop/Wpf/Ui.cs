@@ -269,7 +269,7 @@ internal sealed class InputForm : ChainedScrollViewer
             UpdateNote(f.Key);
         }
     }
-    private void UpdateNote(string key)
+    internal void UpdateNote(string key)
     {
         if (!notes.TryGetValue(key, out var note)) return;
         string? text = note.Note(values); note.Text.Text = text ?? "";

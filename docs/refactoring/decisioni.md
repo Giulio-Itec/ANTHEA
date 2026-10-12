@@ -930,3 +930,9 @@ L’utente richiede di evitare duplicati: controllare le API esistenti e unifica
 ### 12 ottobre — visualizzazione delle sezioni dopo gli stage
 
 L’utente aggiunge in coda la visualizzazione delle sezioni, fornendo come riferimento funzionale una sezione composta acciaio-calcestruzzo con dimensioni, materiali, assi e offset. La coda intermedia diventa F2 (incluso 5.2), STG, SEZ, quindi F3. Il primo obiettivo è la consultazione dei dati presenti in Model, collegata agli elementi e agli stage: l’immagine non estende automaticamente il perimetro a un nuovo solutore o a tutte le opzioni di modifica del programma di riferimento. Riusare calcoli e anteprime esistenti; le capacità mancanti degli importatori devono restare esplicite.
+
+### 12 ottobre — chiusura validazioni U5, U7 e F2.8-U2
+
+La vista SLE usa Homogenization.Resolve di GPC e le note del form esistente: conserva l’ingresso errato per correggerlo e svuota soltanto il dato derivato; messaggio condiviso fra Rara, Frequente e Quasi permanente. La presenza delle staffe è validata alla costruzione della sezione: il campo assente conserva il default storico Sì, mentre null, valori vuoti, numeri, booleani e grafie diverse sono rifiutati. Il numero di rami usa il parser intero esistente; viene richiesto nei dettagli delle travi con staffe e nel taglio con staffe, non nei dettagli in cui è inattivo. L’opzione legacy dei rami negativi è disattivata nel percorso di produzione.
+
+Confronto: 548 file headless invariati salvo tempi; suite estesa degli adattatori passata. Il banco conserva i riferimenti originali: due fogli e tre chiamate dirette con −2 rami producono ora il rifiuto esplicito. Il catalogo diagnostico dei 58 testi cambia ordine perché segue la prima comparsa: un audit separato verifica testi/unità/riferimenti invariati e conteggi precedenti meno i soli cinque casi rifiutati; nessuna esclusione globale dai confronti. Registro F2-21.
