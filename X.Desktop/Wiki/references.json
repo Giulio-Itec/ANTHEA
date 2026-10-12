@@ -53,5 +53,10 @@
     "id": "sci-composite",
     "title": "SCI · Composite construction",
     "kind": "Riferimento del modello; non certificazione di ANTHEA"
+  },
+  {
+    "id": "fondazioni-portanza",
+    "title": "EN 1997-1:2004/AC:2009 allegato D; Terzaghi (1943), Meyerhof (1963), Hansen (1970), Vesić (1975); USACE EM 1110-1-1905 (1992); Hjiaj, Lyamin e Sloan (2005), DOI 10.1016/j.ijsolstr.2004.08.002",
+    "kind": "Normativa e bibliografia dei metodi di portanza"
   }
 ]

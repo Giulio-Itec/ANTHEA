@@ -809,3 +809,32 @@ La prova completa SLU_Q1_1(max) plate coincide con MIDAS su 109744 valori. La ri
 misurata è 7,606 s: non è dichiarato raggiunto l'obiettivo di 5 s. Ottimizzazioni ulteriori del motore
 GPC richiedono una fase nelle librerie e un successivo rilascio coerente; nessuna scorciatoia numerica
 nella UI o dichiarazione di supporto per famiglie/analisi non collegate. MOD-30.
+
+## Riuso delle API distribuite e rimozione dei sei motori esclusi (12 ottobre 2026)
+
+L'utente chiede di usare le API di Model/Checker, eliminare i duplicati sostituibili,
+segnalare i residui e compilare tutto. Autorizza poi espressamente la cancellazione
+di BishopSolver, FoundationSettlement, NewmarkSliding, ShallowFoundationSeismic,
+SlopeGeometry e SlopeStability. Erano già esclusi dalla compilazione: le funzioni
+sono in GPCChecker.Geotechnics con test di migrazione. Rimossi solo questi sei file.
+
+Riuso completato entro il perimetro provato nell'[audit](audit-contratti-moduli-20261012.md),
+registro API-01. La cattura estesa rivela un difetto di raggruppamento degli interassi
+circolari (API-02): nessuna tolleranza allargata per accettarlo. Conservo interassi,
+dettagli e fessurazione circolari sul percorso precedente fino alla correzione della
+libreria e al rilascio coerente. È una scelta conservativa dell'intervento, non
+un'approvazione dell'utente del valore errato. Il confronto non è una nuova
+validazione normativa dei metodi e non chiude i residui F4.
+
+Verifica conclusiva: runner baseline 52 PASS, 1 KNOWN già censito, 0 NEW-FAIL;
+548 file e 50.996 righe confrontati, nessuna differenza non ammessa. Tolleranze
+relative 1e-12 limitate ai campi mutati, registrate nei commit 1b3c38f e d69b97d
+prima dell'implementazione. Attesi indipendenti immutati. Build soluzione e app
+Release completate. Nessun push, cambio di versione o aggiornamento di lib/Checker;
+resta l'attesa delle versioni esplicitamente riservate all'utente.
+
+## Integrazione F4 e combinazioni (12 ottobre 2026)
+
+L'utente autorizza l'unione dei rami, l'aggiornamento coerente delle DLL, la compilazione e, solo con verifiche positive, il merge su main e il push. Le versioni delle librerie sono curate direttamente dall'utente: nessuna versione assegnata dall'agente e nessun nuovo snapshot installato prima del suo avviso.
+
+I conflitti riguardano la documentazione condivisa: si conservano entrambi i contributi e si rigenera l'indice Wiki. La guida pratica Rev35 riunisce fondazioni e importazione Modelli; la teorica resta alla Rev34. Le revisioni di origine sono archiviate, con impronte, in `supporto/SUPERATI/merge-f4-modelli-rev35-20261012`. Il tentativo di merge avviato anche nel checkout principale è conservato in `supporto/artefatti/merge-f4-combinations-20261012/backup-tentativo-utente`; il checkout sarà allineato all'unico commit di integrazione completato.

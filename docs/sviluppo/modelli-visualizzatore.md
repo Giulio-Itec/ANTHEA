@@ -845,3 +845,9 @@ PDF, nuove pagine 66–69 controllate visivamente e copie PDF sincronizzate. Il 
 della skill non trova LibreOffice sul sistema; usato Word nativo con Poppler e ispezione
 delle immagini. Runner `20261012-160101-guida-import-midas-rev33-finale`: 2 PASS, 0 nuovi
 fallimenti, dopo integrazione dei metadati editoriali. Nessun cambiamento al codice di calcolo.
+
+## Integrazione con F4 — 12 ottobre 2026
+
+La guida pratica corrente è la Rev35: conserva il capitolo Fondazioni di F4 e porta l'importazione Modelli al capitolo 21. La Rev33 descritta sopra resta un'evidenza storica e viene archiviata insieme alla pratica Rev34. La guida teorica resta alla Rev34. Codice del visualizzatore e calcoli delle combinazioni si integrano senza conflitti con F4. Verifica finale del rilascio subordinata alle nuove DLL che l'utente sta preparando.
+
+Controlli dell'integrazione: quick 31 PASS e nessun nuovo fallimento. Guida pratica di 72 pagine: 882 frammenti verificati nel Word, 26 parti ITEC identiche, 63 pagine precedenti del corpo del PDF senza variazioni di testo; nuove pagine 69–72 e indici controllati visivamente. Evidenze `supporto/artefatti/guide_anthea_itec_rev35`.

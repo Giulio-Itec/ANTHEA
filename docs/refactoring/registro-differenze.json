@@ -1812,6 +1812,155 @@
       "test": ["Controllo della DLL R31 x64 installata senza caricarla", "Percorsi errati, file mancanti, annullamento, sorgenti distinte e pulsante non attivo", "Pannello WPF nei temi dell'applicazione"],
       "evidenze": ["supporto/artefatti/ci/20261012-120445-import-midas-straus", "supporto/artefatti/ci/20261012-120619-import-ui-finale"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "FON-01",
+      "titolo": "Nuovo foglio di portanza statica delle fondazioni superficiali",
+      "famiglia": "geotecnica/portanza",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Nuova API Checker, documento e report senza WPF, UI e Wiki. Nessuna modifica dei motori dei muri, sisma e cedimenti. Rilascio della nuova DLL in attesa della versione e del push autorizzati.",
+      "riferimento_normativo": [
+        "NTC 2018 6.4.2.1 e tabella 6.4.I",
+        "EN 1997-1:2004/AC:2009 allegato D"
+      ],
+      "codice": [
+        "src/ANTHEA.FoundationWorkspace",
+        "X.Desktop/Wpf/FoundationWorkspace.cs",
+        "Checker/GPCChecker.Geotechnics/Foundations/ShallowFoundationBearing.cs"
+      ],
+      "segno": "Prima: modulo e API generale assenti. Dopo: cinque famiglie statiche con campi dichiarati. I risultati precedenti non sono modificati.",
+      "decisione": {
+        "data": "2026-10-12",
+        "utente": "implementare Fondazioni superficiali e Wiki",
+        "esito": "sorgenti implementati, rilascio soggetto ai prerequisiti AGENTS"
+      },
+      "data": "2026-10-12",
+      "fase": "F5, modulo autonomo",
+      "test": [
+        "108 test geotecnici esistenti e 10 nuovi passati",
+        "Runner quick: 29 PASS",
+        "26 controlli adattatore, archivio, UI, Wiki e report",
+        "Runner standard: 45 PASS, 1 KNOWN, 0 NEW-FAIL",
+        "Audit grafico guide Rev33: 185 pagine con corpo identico a Rev32, controllo delle pagine cambiate e aggiunte; nessuna differenza di testo fuori da copertina, indice e nuovo capitolo."
+      ],
+      "evidenze": [
+        "supporto/artefatti/fondazioni-superficiali"
+      ],
+      "documento": "docs/sviluppo/fondazioni-superficiali.md"
+    },
+    {
+      "id": "FON-02",
+      "titolo": "Materiali comuni e viste grafiche della fondazione",
+      "famiglia": "geotecnica/interfaccia/progetti",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Riutilizzo diretto Soil, SoilLayer e SoilProfile di Model; tabella come il palo verticale; terreno e CLS nei Progetti. Pagina unica, schede limitate ai grafici. Contatto affine senza trazione e schema di Prandtl illustrativo in Checker.",
+      "riferimento_normativo": [
+        "NTC 2018 6.4.2.1",
+        "EN 1997-1:2004/AC:2009 allegato D"
+      ],
+      "codice": [
+        "src/ANTHEA.FoundationWorkspace",
+        "X.Desktop/Wpf/FoundationWorkspace.cs",
+        "X.Desktop/Wpf/FoundationWorkspace.Materials.cs",
+        "X.Desktop/Wpf/FoundationViews.cs",
+        "X.Core/ProjectSharedData.cs",
+        "X.Core/ProjectSharedSoils.cs",
+        "X.Core/SoilProfileTransfer.cs",
+        "Checker/GPCChecker.Geotechnics/Foundations/FoundationGraphics.cs",
+        "Checker/GPCChecker.Geotechnics/Foundations/FoundationSoilProfile.cs"
+      ],
+      "segno": "Caso di riferimento: 26 campi del risultato di portanza identici prima/dopo. Nuovi dati canonici conservano i vecchi input e li sostituiscono come sorgente del terreno. Nessuna modifica ai motori precedenti o agli attesi indipendenti.",
+      "decisione": {
+        "data": "2026-10-12",
+        "utente": "riutilizzare le classi di terreno, uniformare gli strati al palo verticale e i materiali ai Progetti; unica pagina con schede solo grafiche",
+        "esito": "implementato nei sorgenti; rilascio fermo alle versioni richieste all’utente"
+      },
+      "data": "2026-10-12",
+      "fase": "F5, modulo autonomo",
+      "test": [
+        "23 test Checker e 108 regressioni geotecniche passati",
+        "67 controlli adattatore, Progetti, archivio, report e UI",
+        "26 campi di portanza identici prima/dopo",
+        "Runner standard: 45 PASS, 1 KNOWN, 0 NEW-FAIL",
+        "Runner mirato dopo migrazione D=0: build, documento e UI PASS",
+        "Guide Rev34: 183 pagine con corpo identico; controllo visivo pagine cambiate e formule"
+      ],
+      "evidenze": [
+        "supporto/artefatti/fondazioni-superficiali/visualizzazioni"
+      ],
+      "documento": "docs/sviluppo/fondazioni-superficiali.md"
+    },
+    {
+      "data": "2026-10-12",
+      "fase": "F4, riuso API autorizzato",
+      "documento": "docs/refactoring/audit-contratti-moduli-20261012.md",
+      "evidenze": [
+        "supporto/artefatti/riuso-api-20261012/"
+      ],
+      "id": "API-01",
+      "titolo": "Delega alle API GPC distribuite e rimozione dei motori geotecnici esclusi",
+      "famiglia": "architettura/calcestruzzo/materiali/geotecnica",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Aderenza, ancoraggi, dettagli non circolari, M-chi, geometria delle regioni, interassi non circolari, proprietà acciaio e SLE dalle API GPC. Sei motori geotecnici già esclusi da Compile rimossi su consenso esplicito. Contratti UI e archivi conservati; eccezione circolare API-02.",
+      "codice": [
+        "X.Calculations/ConcreteBond.cs",
+        "X.Calculations/ConcreteDetailing.cs",
+        "X.Calculations/MomentCurvature.cs",
+        "X.Calculations/TensionBarSpacing.cs",
+        "X.Calculations/SectionRegions.cs",
+        "X.Calculations/RebarMaterial.cs",
+        "X.Calculations/ConcreteServiceabilityAdapter.cs",
+        "X.Calculations/ConcreteAnalysisSession.cs",
+        "X.Calculations/X.Calculations.csproj"
+      ],
+      "segno": "Esiti, errori, testi e input invariati. Nel confronto completo 1421 differenze numeriche, massimo relativo 1.1436e-15; tolleranza relativa 1e-12 solo nei campi dichiarati. Nessun effetto sui verdetti. Nessuna DLL modificata.",
+      "decisione": {
+        "data": "2026-10-12",
+        "utente": "usa le API disponibili, rimuovi i duplicati e segnala i residui; cancella i sei file esclusi; compila tutto",
+        "esito": "riuso provato e compilato; residui elencati, nessun push"
+      },
+      "test": [
+        "Runner baseline: 52 PASS, 1 KNOWN, 0 NEW-FAIL",
+        "266 casi congelati e due attesi a mano; chiamate IL e percorsi di sessione",
+        "27 file densi / 50996 righe: zero differenze non ammesse",
+        "548 file completi: zero differenze non ammesse",
+        "Soluzione e applicazione Release: zero errori"
+      ]
+    },
+    {
+      "data": "2026-10-12",
+      "fase": "F4, riuso API autorizzato",
+      "documento": "docs/refactoring/audit-contratti-moduli-20261012.md",
+      "evidenze": [
+        "supporto/artefatti/riuso-api-20261012/"
+      ],
+      "id": "API-02",
+      "titolo": "Interassi circolari instabili sul confine del raggruppamento per raggio",
+      "famiglia": "calcestruzzo/geometria",
+      "categoria": "difetto-legacy",
+      "stato": "da-correggere",
+      "descrizione": "Il raggruppamento per Math.Round(r,5) separa barre della stessa corona vicino alla soglia. La norma euclidea del legacy e quella della DLL distribuita producono gruppi diversi; non è un arrotondamento ammissibile.",
+      "codice": [
+        "X.Calculations/TensionBarSpacing.cs",
+        "X.Calculations/LegacyCircularDetailing.cs",
+        "X.Calculations/ConcreteServiceabilityAdapter.cs",
+        "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs"
+      ],
+      "segno": "D=400, 8Ø16, c=39.999995, staffa8, seconda corona6Ø12 e gap20 mm: interasse geometrico115.19173586761349 mm; legacy452.3893578248936, DLL904.778715649787. Quattro fogli densi interessati, verdetto negativo invariato ma valore errato in entrambi.",
+      "raccomandazione": "Correggere il raggruppamento in Checker con attesi geometrici indipendenti, poi rilasciare il set coerente. Non modificare coordinate o risultati per forzare equivalenza.",
+      "decisione": {
+        "data": "2026-10-12",
+        "utente": "segnala quello che non può essere sostituito",
+        "esito": "mantengo il percorso precedente per interassi/dettagli/fessurazione circolari; non presentato come corretto"
+      },
+      "test": [
+        "Caso riproducibile C400R2-r5a della cattura densa",
+        "api02-geometria-indipendente.json: archi nominali",
+        "ANTHEA.ApiReuse.Checks: conservazione del precedente e selezione reale in sessione"
+      ]
     }
   ]
 }

@@ -5,10 +5,7 @@
     <GpcLibraries>all</GpcLibraries>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="../src/ANTHEA.FoundationWorkspace/ANTHEA.FoundationWorkspace.csproj" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-  </ItemGroup>
-  <!-- Legacy geotechnical cores replaced by GPCChecker.Geotechnics (slopes, settlement, Newmark, Annex F): not compiled, to be deleted. -->
-  <ItemGroup>
-    <Compile Remove="Geotechnics/BishopSolver.cs;Geotechnics/FoundationSettlement.cs;Geotechnics/NewmarkSliding.cs;Geotechnics/ShallowFoundationSeismic.cs;Geotechnics/SlopeGeometry.cs;Geotechnics/SlopeStability.cs" />
   </ItemGroup>
 </Project>

@@ -1,12 +1,12 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · Indice aggiornato il 12 ottobre 2026 · Pratica Rev33 e teorica Rev32
+ITEC Engineering · Indice aggiornato il 12 ottobre 2026 · Pratica Rev35 e teorica Rev34
 
-Engineering Handbook: 64 articoli e percorsi in 12 capitoli, ricavati dalle due guide globali. I vecchi indirizzi Wiki raggiungono le pagine correnti. Lo stato editoriale non equivale a una certificazione normativa.
+Engineering Handbook: 66 articoli e percorsi in 12 capitoli, ricavati dalle due guide globali. I vecchi indirizzi Wiki raggiungono le pagine correnti. Lo stato editoriale non equivale a una certificazione normativa.
 
 ## Guida pratica ANTHEA
 
-[Word Rev33](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev33.docx) · [PDF Rev33](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev33.pdf)
+[Word Rev35](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev35.docx) · [PDF Rev35](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev35.pdf)
 
 - Avvio e scelta del modulo
 - Progetti e gestione del lavoro
@@ -27,11 +27,12 @@ Engineering Handbook: 64 articoli e percorsi in 12 capitoli, ricavati dalle due 
 - Modulo Sezione in c.a.
 - Interpretazione dei risultati e controlli indipendenti
 - Tutorial dal modello Beam alla verifica di sezione
+- Fondazioni superficiali: documento, stratigrafia, materiali comuni, pressioni e viste grafiche.
 - Modelli e importazione da MIDAS nella versione di prova: connessione, prima acquisizione, scelta dei casi, quattro modalità, aggiornamento e recupero dagli errori.
 
 ## Guida teorica ANTHEA
 
-[Word Rev32](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev32.docx) · [PDF Rev32](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev32.pdf)
+[Word Rev34](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev34.docx) · [PDF Rev34](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev34.pdf)
 
 - Architettura del calcolo e convenzioni
 - Calcestruzzo armature e copriferro
@@ -63,6 +64,7 @@ Engineering Handbook: 64 articoli e percorsi in 12 capitoli, ricavati dalle due 
 - Progettazione parametrica e controllo delle dipendenze
 - Acciaio per armature: proprietà e diagrammi
 - Profili di calcolo del calcestruzzo
+- Fondazioni superficiali: metodi di portanza, contatto e controlli.
 
 - Esempio aggiornato: [palo 20 m, tratti 0–12 / 12–18 / 18–20](../esempi/palo-orizzontale-armature/palo-20m-tagli-12-18-20.programma), con [dati e tagli in PDF](../esempi/palo-orizzontale-armature/palo-20m-tagli-12-18-20.pdf).
 
@@ -95,4 +97,4 @@ Engineering Handbook: 64 articoli e percorsi in 12 capitoli, ricavati dalle due 
 
 - Revisione 32: classi minime del calcestruzzo secondo il prospetto 6 della UNI 11104:2025, con XF1 a C32/40 del prospetto 5 dell'edizione 2016; composizione secondo il prospetto 5 dell'edizione 2016.
 
-- Revisione 33 della guida pratica: procedura di importazione MIDAS nel modulo Modelli in prova. La guida teorica rimane alla revisione 32.
+- Revisione 35 della guida pratica: fondazioni superficiali e procedura di importazione MIDAS nel modulo Modelli in prova. La guida teorica è alla revisione 34.

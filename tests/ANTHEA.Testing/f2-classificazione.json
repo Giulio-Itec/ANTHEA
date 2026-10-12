@@ -8,6 +8,23 @@
     "rumore-numerico": "differenza oltre la tolleranza dovuta all'aritmetica in virgola mobile, senza effetto sugli esiti"
   },
   "confronti": {
+    "riuso-api": {
+      "descrizione": "Riuso API 12/10/2026 contro la cattura prima su 76e7916: tutti i file, inclusi dettagli estesi e M-chi di produzione. Solo arrotondamenti delle grandezze ricalcolate da GPC, registro API-01; testi, esiti e input esatti.",
+      "prefisso_tolleranze": "riuso-api",
+      "identificativi_casuali": [
+        {
+          "file": "-sections\\.xml$",
+          "forma": "guid",
+          "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)"
+        },
+        {
+          "file": "^walls-(combinations|documents)\\.jsonl",
+          "forma": "hex32",
+          "motivo": "id delle azioni creati da RetainingWall.Upgrade per i documenti dei muri in versione 1 (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)"
+        }
+      ],
+      "differenze_attese": []
+    },
     "fixture-checker": {
       "descrizione": "Cattura densa (CheckerMigration.Capture, modalità tutte) contro le fixture c.a. di Checker/GPCChecker.Test.Concrete/Fixtures, ricatturate il 7/10/2026 dalla cattura supporto/artefatti/baseline/F2-pre-m4-v2/a/tutte (ANTHEA refactoring/integrazione-d7b-d2 d2d3225; Checker develop 06d97733, decisione B dell'utente). Le fixture del 1/10/2026 (ANTHEA fe4652c, ultimo commit ddfe7edf) e le loro classificazioni FC-1…FC-14 restano nella storia di git. Tolleranze allineate ai MigrationTests di Checker (regole 'fixture-checker/' di tolerances.json); ingressi e testi esatti; nessuna differenza attesa.",
       "prefisso_tolleranze": "fixture-checker",

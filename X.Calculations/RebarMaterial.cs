@@ -49,11 +49,25 @@ public static class RebarMaterial
             Keys.Any(k => input[k] is not JsonValue) || data["riferimento"] is JsonObject or JsonArray)
             throw new ArgumentException("Formato della scheda acciaio non valido.");
     }
-    public sealed record Values(double Fy, double Fu, double E, double Gamma, double EpsilonU)
+    public sealed class Values
     {
-        public double Fyd => Fy / Gamma;
-        public double EpsilonY => 1000 * Fy / E;
-        public double EpsilonYd => 1000 * Fyd / E;
+        internal GPC.Model.Materials.SteelMaterial Material { get; }
+        private readonly GPC.Model.Standards.StandardModelCode2010 factors;
+        public Values(double fy, double fu, double e, double gamma, double epsilonU,
+            GPC.Model.Materials.SteelMaterial.StressStrainCurveType diagram)
+        {
+            Material = new("Armatura", e, fy, fu, epsilonU/1000, diagram, GPC.Model.Materials.SteelMaterial.SteelTypes.Rebar);
+            factors = new() { GammaS = gamma };
+        }
+        public double Fy => Material.Fyk;
+        public double Fu => Material.Fu;
+        public double E => Material.ElasticModulusTension;
+        public double Gamma => factors.GammaS;
+        public double EpsilonU => Material.StrainUTension*1000;
+        public double Fyd => Material.CalculateFyd(factors);
+        public double EpsilonY => Material.StrainYTension*1000;
+        public double EpsilonYd => Material.CalculateDesignYieldingStrainTension(factors)*1000;
+        // Dimensionless display ratio, not a material parameter or a resistance rule.
         public double Ratio => Fu / Fy;
     }
     public static Values Evaluate(JsonObject input)
@@ -65,7 +79,10 @@ public static class RebarMaterial
             return v;
         }
         var values = new Values(Positive("fyk_mpa", "fyk"), Positive("steel_fu_mpa", "fu"), Positive("steel_modulus_mpa", "Es"),
-            Positive("gamma_s", "γs"), Positive("steel_eps_u", "εu [‰]"));
+            Positive("gamma_s", "γs"), Positive("steel_eps_u", "εu [‰]"),
+            input["steel_diagramma"]?.ToString() == "Incrudente"
+                ? GPC.Model.Materials.SteelMaterial.StressStrainCurveType.ElasticHardening
+                : GPC.Model.Materials.SteelMaterial.StressStrainCurveType.ElasticPerfectPlastic);
         if (values.Fu < values.Fy) throw new ArgumentException("fu deve essere maggiore o uguale a fyk.");
         if (values.Gamma < 1) throw new ArgumentException("γs deve essere maggiore o uguale a 1.");
         if (values.EpsilonU <= values.EpsilonY) throw new ArgumentException("εu deve essere maggiore di fyk / Es (espresso in ‰).");
@@ -76,6 +93,7 @@ public static class RebarMaterial
     public static List<double[]> Curve(JsonObject input)
     {
         var v = Evaluate(input);
-        return [[0, 0], [v.EpsilonY, v.Fy], [v.EpsilonU, input.S("steel_diagramma") == "Incrudente" ? v.Fu : v.Fy]];
+        var table = v.Material.StressStrainTableTension;
+        return table.Strains.Zip(table.Stresses, (strain, stress) => new[] { strain*1000, stress }).ToList();
     }
 }

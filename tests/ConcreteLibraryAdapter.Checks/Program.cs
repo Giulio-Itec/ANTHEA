@@ -35,7 +35,7 @@ using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 //   stadio regression, scelta dell'utente del 9/10)
 // Uscita 0 con la riga "PASS · …"; 1 con il primo controllo fallito.
 const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Library; // F2.5 e cattura di B3: legacy; F2.6: libreria
-const ServiceabilityEngine ExpectedServiceabilityDefault = ServiceabilityEngine.Legacy; // F2.7b A4: legacy; A8: libreria
+const ServiceabilityEngine ExpectedServiceabilityDefault = ServiceabilityEngine.Library; // F4 riuso API: default di produzione sulla libreria
 string? output = null; bool onlySle = false, onlyUls = false, quick = false; HashSet<string>? proofs = null;
 for (int i = 0; i < args.Length; i++)
 {

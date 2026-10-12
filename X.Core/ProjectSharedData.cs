@@ -20,6 +20,7 @@ public static partial class ProjectSharedData
     {
         string module = sheet.S("modulo_id");
         var data = sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(module);
+        if(module==Anthea.FoundationWorkspace.FoundationDocument.Module){data=data.DeepClone().AsObject();Anthea.FoundationWorkspace.FoundationMaterials.Complete(data);}
         var result = new Dictionary<string, Field>();
         void Add(string key, string group, string path, double scale = 1, JsonNode? forced = null)
         {
@@ -91,6 +92,9 @@ public static partial class ProjectSharedData
         if (module == MicropaloOrizzontale.Module && data["sezione"] is JsonObject chs)
             foreach (var (key, _) in chs) Add("CHS · " + key, key is "fy_chs_mpa" or "gamma_m0" ? "Materiali" : "Armatura", "sezione/" + key);
         AddWallFields(module, data, result);
+        if(module==Anthea.FoundationWorkspace.FoundationDocument.Module)
+            foreach(var field in Anthea.FoundationWorkspace.FoundationMaterials.SharedConcrete(data))
+                result[field.Key]=new(field.Key,"Materiali",field.Path,field.Value);
         AddAdditionalFields(module, data, result);
         return result;
     }
@@ -144,6 +148,7 @@ public static partial class ProjectSharedData
         {
             var data = (JsonObject)(target["dati"] as JsonObject ?? Archivio.NuovoFoglio(target.S("modulo_id"))).DeepClone();
             if (target.S("modulo_id") == RetainingWall.Module) RetainingWall.Upgrade(data);
+            if(target.S("modulo_id")==Anthea.FoundationWorkspace.FoundationDocument.Module)Anthea.FoundationWorkspace.FoundationMaterials.Complete(data);
             // D7-d (d2): a pre-d2 vertical pile is migrated before a shared value is written, so a γb of 1,35 received now stays 1,35.
             if (target.S("modulo_id") is "geo_palo_verticale" or "geo_micropalo_verticale") Calcolo.AggiornaFoglio(data, target.S("modulo_id") == "geo_micropalo_verticale");
             bool changed = false;

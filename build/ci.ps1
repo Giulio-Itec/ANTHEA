@@ -98,10 +98,13 @@ Add-Suite @{ Name = 'ModelViewer.UiChecks'; Stage = 'ui'; Kind = 'run'; Project 
 Add-Suite @{ Name = 'ModelViewer.Combinations.UiChecks'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ModelViewer.UiChecks\ModelViewer.UiChecks.csproj'; Args = @('{out}', '--viewer-only', '--combinations'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ModelViewer.LiveImport.UiChecks'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ModelViewer.UiChecks\ModelViewer.UiChecks.csproj'; Args = @('{out}', '--viewer-only', '--live-import'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ConcreteCode.Checks'; Stage = 'fast'; Kind = 'run'; Project = (TestProject 'ConcreteCode.Checks'); Args = @() }
+Add-Suite @{ Name = 'FoundationWorkspace.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\FoundationWorkspace.Checks\FoundationWorkspace.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'FoundationWorkspace.UiChecks'; Stage = 'ui'; Kind = 'run'; Project = 'tests\FoundationWorkspace.Checks\FoundationWorkspace.Checks.csproj'; Args = @('{out}', '--ui'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # Adapters to GPCChecker.Concrete (refactoring F2.5-F2.9): mapping layer, switches, legacy-library equivalence. The complete run
 # (durability and SLE grids, about 2.5 minutes) is in the regression stage; the fast stage runs sections 1-4 and the switches
 # (--rapido), user decision of 9/10.
 Add-Suite @{ Name = 'ConcreteLibraryAdapter.Checks/rapido'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'; Args = @('{out}', '--rapido') }
+Add-Suite @{ Name = 'ANTHEA.ApiReuse.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.ApiReuse.Checks\ANTHEA.ApiReuse.Checks.csproj'; Args = @() }
 Add-Suite @{ Name = 'ConcreteLibraryAdapter.Checks'; Stage = 'regression'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'; Args = @('{out}')
     Proof = @{ File = '{out}\misura.json'; Pattern = '"strumento": "ConcreteLibraryAdapter.Checks"' } }
 # F2.1 bench: legacy against GPCChecker.Concrete near the branch thresholds and on closed-form sections (independent Python

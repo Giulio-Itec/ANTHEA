@@ -88,9 +88,8 @@ public static class ConcreteServiceabilityAdapter
     /// <summary>Nome dell'adattatore nella sonda.</summary>
     public const string ProbeName = "ConcreteServiceabilityAdapter";
 
-    /// <summary>Interruttore del motore usato da ANTHEA quando il chiamante non ne indica uno: legacy fino al commit A8 di F2.7b
-    /// (proprietà calcolata, senza stato).</summary>
-    public static ServiceabilityEngine Default => ServiceabilityEngine.Legacy;
+    /// <summary>Motore GPC usato da ANTHEA; il ramo legacy esplicito resta disponibile per i confronti di regressione.</summary>
+    public static ServiceabilityEngine Default => ServiceabilityEngine.Library;
 
     // Nomi dei parametri della libreria rifiutati al punto d'uso (ArgumentOutOfRangeException.ParamName di SectionCrackInput e CrackRequirements).
     const string DesignLimitParameter = "designLimit", NominalCoverParameter = "nominalCover", CoverOverrideParameter = "coverOverride",
@@ -186,7 +185,9 @@ public static class ConcreteServiceabilityAdapter
     public static Ntc2018Checks.CrackResult Cracking(CheckerSection section, CheckerStressState state, ActionPoint force, JsonObject input, JsonObject workspace,
         JsonObject options, string set, ServiceabilityEngine? engine = null)
     {
-        var chosen = engine ?? Default;
+        // API-02: keep the previous production path for circular sections until the ring-spacing API is corrected.
+        // Explicit engines remain available to the migration harness; the probe records the actual choice.
+        var chosen = engine ?? (section.Geometry.Shape == "Circolare" ? ServiceabilityEngine.Legacy : Default);
         ServiceabilityProbe.Record(ProbeName, "Cracking", chosen);
         if (chosen == ServiceabilityEngine.Legacy) return Ntc2018Checks.Cracking(section, state, force, input, workspace, options, set) with { Engine = chosen };
         return LibraryCracking(section, state, force, input, workspace, options, set) with { Engine = chosen };

@@ -5,7 +5,7 @@ namespace X.Core;
 /// <summary>A portable soil profile; module-specific resistance factors and loads are never copied.</summary>
 public static class SoilProfileTransfer
 {
-    public static readonly string[] Modules = [RetainingWall.Module, "geo_palo_verticale", PaloOrizzontale.Module, MicropaloOrizzontale.Module];
+    public static readonly string[] Modules = [RetainingWall.Module, "geo_palo_verticale", PaloOrizzontale.Module, MicropaloOrizzontale.Module, Anthea.FoundationWorkspace.FoundationDocument.Module];
     private static readonly string[] Properties = ["name", "spessore", "tipologia", "peso_specifico", "peso_specifico_saturo", "angolo_attrito", "coesione_efficace", "coesione_non_drenata"];
     public static bool Supports(string module) => Modules.Contains(module);
     public static int SurveyCount(string module, JsonObject data) => module == RetainingWall.Module ? 2 : data.Array("stratigrafie").Count;
@@ -97,6 +97,6 @@ public static class SoilProfileTransfer
     }
     public static JsonObject Create(string module, JsonObject profile) => Apply(module, ModuleCatalog.CreateData(module), profile);
     public static string Guidance(string module) => "Copia indipendente di un profilo; profondità e falda mantengono lo stesso z=0. Nessuna traslazione automatica di quota. "
-        + (module == RetainingWall.Module ? "Selezionare Monte o Valle. Controllare terreno di fondazione, battenti e copertura fino al piano di posa; il collegamento copia i materiali, non le falde. Il calcolo dei muri ammette solo strati granulari con c′=0."
+        + (module == Anthea.FoundationWorkspace.FoundationDocument.Module ? "Controllare il sondaggio selezionato, la quota di posa e l'ipotesi di semispazio. Sono ammessi strati diversi sopra la base; sotto la base il modello richiede parametri omogenei. Nessuna media o conversione automatica tra c′ e cu." : module == RetainingWall.Module ? "Selezionare Monte o Valle. Controllare terreno di fondazione, battenti e copertura fino al piano di posa; il collegamento copia i materiali, non le falde. Il calcolo dei muri ammette solo strati granulari con c′=0."
         : "Completare geometria e azioni del palo, addensamento e parametri specifici del metodo. Controllare che l’indagine raggiunga la punta: il profilo non viene prolungato. Cu resta da assegnare dove richiesto; nessuna correlazione automatica da φ′.");
 }

@@ -108,6 +108,10 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
 
 ## Fase 4: calcoli residui nelle librerie
 
+- [x] 12 ottobre: [audit dei contratti dei 12 moduli](audit-contratti-moduli-20261012.md), delle classi di terreno/materiale e dei Progetti; inventario dei sorgenti effettivamente compilati e confronto con le API delle DLL distribuite.
+- [x] 12 ottobre: riuso verificato delle API per aderenza/ancoraggi, dettagli non circolari, M–χ, regioni, interassi non circolari, acciaio e SLE; sei vecchi file geotecnici esclusi rimossi su consenso esplicito. Ramo `refactoring/f4-riuso-api`, registro API-01. Runner baseline: 52 PASS, 1 KNOWN, 0 NEW-FAIL; confronto completo di 548 file e denso di 50.996 righe passato; soluzione e app Release compilate. Residui e contratti incompleti nell'audit; non chiude F4.1–F4.16 né il rilascio delle fondazioni.
+- [ ] API-02: correggere il raggruppamento degli interassi circolari in Checker e rilasciare il set coerente; fino ad allora interassi, dettagli e fessurazione circolari conservano il percorso precedente. Caso indipendente e discrepanza riproducibile documentati nell'audit.
+
 - [ ] F4.1 Catture aggiornate dopo F3.
 - [ ] F4.2 Regole automatiche estese.
 - [ ] F4.3 [CP] Collocazione di GPC.Design, Concrete/Walls, muratura, σcp, CRd,c/k1/vmin, esiti dei pali.
@@ -284,3 +288,25 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [ ] Modelli: includere i convertitori nel set GPC coerente, completare la normalizzazione della prima importazione MIDAS e attivare il worker Straus/Strand7 con prova nativa. Versioni assegnate dall'utente; nessun aggiornamento isolato delle DLL.
 - [x] Collaudo finale importazioni: profilo quick 27 PASS, nessun nuovo fallimento; 381 controlli logici, 17 WPF del pannello e 32 WPF di regressione dell'integrazione. Evidenze `20261012-120857-import-midas-straus-finale` e `20261012-121018-import-ui-regressione`.
 - [x] 12 ottobre: guida pratica Rev33, capitolo 20 sull'importazione MIDAS nel modulo Modelli in prova; connessione, quattro ambiti, selezione sostitutiva dei casi, salvataggio, revisione e recupero dagli errori. Aggiornati Word, PDF e indici; Rev32 pratica archiviata con SHA-256. Confronto dei 60 fogli precedenti del corpo del PDF senza variazioni di contenuto. Evidenze `supporto/artefatti/guide_anthea_itec_rev33`.
+
+## Fondazioni superficiali — 12 ottobre 2026
+
+Attività autorizzata dall'utente, ramo `refactoring/f5-fondazioni-superficiali`; registro FON-01 e [scheda tecnica](../sviluppo/fondazioni-superficiali.md).
+
+- [x] Lettura integrale del manuale e riscontro visivo delle formule, mappa delle API e delle lacune.
+- [x] Nuova API statica in Checker con coefficienti normativi da Model, dieci test indipendenti; 108 regressioni esistenti invariate.
+- [x] Documento e report nella libreria senza WPF, foglio ANTHEA, archivio, dettagli e aiuto contestuale; test sorgente isolato.
+- [x] Due capitoli nelle guide globali, esempio verificato, figura originale e indice Wiki rigenerato.
+- [x] Guide Rev33 rigenerate e controllate, Rev32 archiviate. Standard: 45 PASS, 1 KNOWN già censito, 0 nuovi fallimenti.
+- [x] Geotechnics 0.1.2.0 assegnata dall'utente, prima implementazione integrata e pushata su Checker; estensioni sul ramo `codex/fondazioni-visualizzazioni`.
+- [x] Profili Soil/SoilLayer/SoilProfile di Model riutilizzati, tabella degli strati come il palo verticale, CLS e terreno condivisi nei Progetti, pagina unica con schede soltanto grafiche; registro FON-02.
+- [x] Pressioni di contatto senza trazione, area efficace nei due assi e schema illustrativo di Prandtl; 23 test Checker, 67 controlli documento/Progetti/UI, input richiudibili senza perdere il risultato.
+- [x] Collaudo estensione: standard 45 PASS / 1 KNOWN / 0 nuovi fallimenti; runner mirato documento/UI tutto PASS. Wiki e guide Rev34 rigenerate, controllo grafico completato, Rev33 archiviate.
+- [ ] Rilascio coerente: altre versioni in attesa dell'assegnazione dell'utente, controllo riproducibilità Model, suite del treno, installazione manifest e runner full. Lo snapshot distribuito resta invariato.
+
+## Integrazione F4 e combinazioni — 12 ottobre 2026
+
+- [x] Su richiesta dell'utente, integrati i contenuti di `refactoring/f4-riuso-api` nel ramo `codex/model-combinations`: nessun conflitto nel codice; conservati i registri di entrambi i rami.
+- [x] Riunite le guide: pratica Rev35 con Fondazioni e importazione Modelli (capitolo 21), teoria Rev34 invariata. Indice Wiki di 66 articoli; revisioni originali archiviate con SHA-256.
+- [x] Compilazione e runner quick dell'integrazione: 31 PASS, 0 NEW-FAIL (`20261012-162043-merge-f4-combinations`), con le DLL distribuite correnti.
+- [ ] Rilascio delle DLL dopo le versioni curate dall'utente, runner full e successivo merge su main e push autorizzati.
