@@ -10,7 +10,6 @@ public sealed class TensionBarSpacing : ITensionBarSpacing
 {
     public double? Maximum(SezioneCA section, IReadOnlyList<int> tensileBarIndices)
     {
-        if (section.Shape == "Circolare") return LegacyCircularSpacing.Maximum(section, tensileBarIndices);
         return ConcreteLibraryMapping.CrackGeometry(section).MaximumSpacing(tensileBarIndices);
     }
 }

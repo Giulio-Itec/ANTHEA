@@ -918,3 +918,7 @@ il codice di Model. La UI è separata e riutilizzabile, con parametri, grafici e
 tabella; E(t)/E₂₈ è mostrato insieme a E(t) per chiarire il significato del fattore.
 Ogni chiusura ha commit e aggiornamento. Le immagini fornite sono riferimenti
 funzionali della finestra, non fonti dei calcoli o contenuti da copiare nelle guide.
+
+### 12 ottobre 2026 — completamento, rilascio e prosecuzione F3
+
+L’utente conferma la chiusura dei punti 1–5 e 5.2 con un commit per punto; autorizza, a collaudo finale superato, versioni, merge e push di ANTHEA e delle librerie coinvolte. Al termine autorizza l’avvio della fase F3 e delega le decisioni operative, con aggiornamenti ai passaggi chiave. Restano obbligatori i confronti prima/dopo e il registro delle differenze.

@@ -8,6 +8,84 @@
     "rumore-numerico": "differenza oltre la tolleranza dovuta all'aritmetica in virgola mobile, senza effetto sugli esiti"
   },
   "confronti": {
+    "api02": {
+      "descrizione": "API-02: confronto con e56ffaeb, prima del collegamento del raggruppamento circolare corretto. Solo interasse e relativo esito del caso C400R2-r5a; attesi storici immutati.",
+      "prefisso_tolleranze": "riuso-api",
+      "identificativi_casuali": [
+        {
+          "file": "-sections\\.xml$",
+          "forma": "guid",
+          "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)"
+        },
+        {
+          "file": "^walls-(combinations|documents)\\.jsonl",
+          "forma": "hex32",
+          "motivo": "id delle azioni creati da RetainingWall.Upgrade per i documenti dei muri in versione 1 (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)"
+        }
+      ],
+      "differenze_attese": [
+        {
+          "categoria": "difetto-legacy",
+          "registro": "API-02",
+          "commit": "refactoring/f2-chiusure-pendenti",
+          "motivo": "Corona r=110.000005 con 6 barre: 2πr/6=115.19173586761349 mm. Il vecchio raggruppamento separava una corona fisica. Limite del dettaglio 300 mm: il solo interasse passa da non soddisfatto a soddisfatto.",
+          "id": "API-02-a",
+          "file": "^detailing-adapter-legacy\\.jsonl$",
+          "righe": "^Pilastro/C400R2-r5a/s[1-4]-(base|esposizione-assente|rami-meno-2|diagramma-non-valido)$",
+          "campo": "^\\$\\.detailing\\.Checks\\[[34]\\]\\.Actual$",
+          "classe": "^numero$",
+          "a": "^452\\.3893578248936$",
+          "b": "^115\\.1917358676135[0-9]$",
+          "righe_attese": 4,
+          "differenze_attese": 4
+        },
+        {
+          "categoria": "difetto-legacy",
+          "registro": "API-02",
+          "commit": "refactoring/f2-chiusure-pendenti",
+          "motivo": "Corona r=110.000005 con 6 barre: 2πr/6=115.19173586761349 mm. Il vecchio raggruppamento separava una corona fisica. Limite del dettaglio 300 mm: il solo interasse passa da non soddisfatto a soddisfatto.",
+          "id": "API-02-b",
+          "file": "^detailing-adapter-legacy\\.jsonl$",
+          "righe": "^Pilastro/C400R2-r5a/s[1-4]-(base|esposizione-assente|rami-meno-2|diagramma-non-valido)$",
+          "campo": "^\\$\\.detailing\\.Checks\\[[34]\\]\\.Passed$",
+          "classe": "^valore$",
+          "a": "^false$",
+          "b": "^true$",
+          "righe_attese": 4,
+          "differenze_attese": 4
+        },
+        {
+          "categoria": "difetto-legacy",
+          "registro": "API-02",
+          "commit": "refactoring/f2-chiusure-pendenti",
+          "motivo": "Stesso interasse corretto: conteggio del catalogo testi, quattro casi di adattatore e sedici varianti BeamColumnTexts di C400R2-r5a. Contenuti e riferimenti del dettaglio invariati.",
+          "id": "API-02-passed",
+          "file": "^detailing-texts-legacy\\.csv$",
+          "righe": "^48$",
+          "campo": "^passed$",
+          "classe": "^numero$",
+          "a": "^120$",
+          "b": "^140$",
+          "righe_attese": 1,
+          "differenze_attese": 1
+        },
+        {
+          "categoria": "difetto-legacy",
+          "registro": "API-02",
+          "commit": "refactoring/f2-chiusure-pendenti",
+          "motivo": "Stesso interasse corretto: conteggio del catalogo testi, quattro casi di adattatore e sedici varianti BeamColumnTexts di C400R2-r5a. Contenuti e riferimenti del dettaglio invariati.",
+          "id": "API-02-failed",
+          "file": "^detailing-texts-legacy\\.csv$",
+          "righe": "^48$",
+          "campo": "^failed$",
+          "classe": "^numero$",
+          "a": "^36$",
+          "b": "^16$",
+          "righe_attese": 1,
+          "differenze_attese": 1
+        }
+      ]
+    },
     "riuso-api": {
       "descrizione": "Riuso API 12/10/2026 contro la cattura prima su 76e7916: tutti i file, inclusi dettagli estesi e M-chi di produzione. Solo arrotondamenti delle grandezze ricalcolate da GPC, registro API-01; testi, esiti e input esatti.",
       "prefisso_tolleranze": "riuso-api",

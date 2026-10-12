@@ -202,9 +202,9 @@ public static class ConcreteServiceabilityAdapter
     public static Ntc2018Checks.CrackResult Cracking(CheckerSection section, CheckerStressState state, ActionPoint force, JsonObject input, JsonObject workspace,
         JsonObject options, string set, ServiceabilityEngine? engine = null)
     {
-        // API-02: keep the previous production path for circular sections until the ring-spacing API is corrected.
+        // API-02: the corrected library groups physical rings independently of rounding boundaries.
         // Explicit engines remain available to the migration harness; the probe records the actual choice.
-        var chosen = engine ?? (section.Geometry.Shape == "Circolare" ? ServiceabilityEngine.Legacy : Default);
+        var chosen = engine ?? Default;
         ServiceabilityProbe.Record(ProbeName, "Cracking", chosen);
         if (chosen == ServiceabilityEngine.Legacy) return Ntc2018Checks.Cracking(section, state, force, input, workspace, options, set) with { Engine = chosen };
         return LibraryCracking(section, state, force, input, workspace, options, set) with { Engine = chosen };

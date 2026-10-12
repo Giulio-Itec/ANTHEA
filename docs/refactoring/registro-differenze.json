@@ -1971,6 +1971,18 @@
         "descrizione": "Raggruppamento per estensione radiale massima 1e-5 mm ancorata al minimo; nessun interasse da gruppi con una sola barra. Coordinate e fixture immutate.",
         "prove": "38 prove geometriche indipendenti: 7 FAIL prima, 38 PASS dopo. Checker completo: 1544 PASS, 17 Steel noti, zero nuovi fallimenti; API compatibili.",
         "residuo": "Versione assegnata dall'utente, set coerente da commit pushati, collegamento ANTHEA e confronto prima/dopo. Lo stato globale resta da-correggere finché il prodotto usa il percorso precedente."
+      },
+      "attuazione_anthea": {
+        "data": "2026-10-12",
+        "stato": "collegato e collaudato sul set candidato; pubblicazione nel rilascio finale",
+        "descrizione": "Interassi, dettagli e fessurazione circolari ora usano la libreria; legacy esplicito conservato per confronto. Concrete 0.0.27.2 dal set candidato coerente Checker 97b7d1f1 / Model abd2b520.",
+        "confronto": "548 file headless: solo 21 tempi. 50996 righe dense: 4 interassi e 4 esiti corretti, 2 conteggi aggregati; 24 arrotondamenti entro le tolleranze esistenti. Il solo dettaglio di interasse diventa soddisfatto (115.192 <= 300 mm), non la verifica complessiva.",
+        "evidenze": [
+          "supporto/artefatti/ci/20261012-210939-api02-prima",
+          "supporto/artefatti/ci/20261012-211748-api02-dopo-v2",
+          "supporto/artefatti/ci/20261012-212422-api02-chiusura"
+        ],
+        "classificazione": "tests/ANTHEA.Testing/f2-classificazione.json: api02"
       }
     },
     {

@@ -54,8 +54,6 @@ public sealed class ConcreteDetailingCalculator : IConcreteDetailingCalculator
     public IReadOnlyList<DetailingCheck> Calculate(ConcreteDetailingInput p)
     {
         var s = p.Section;
-        // API-02: the shipped native radius grouping is not equivalent at rounding boundaries.
-        if (s.Shape == "Circolare") return new LegacyCircularDetailingCalculator().Calculate(p);
         if (p.Kind == ConcreteMemberKind.Slab && (s.Shape != "Rettangolare" || s.Holes.Count > 0))
             throw new ArgumentException("Soletta piena: usare una striscia rettangolare senza foro, b = larghezza e h = spessore.");
         double fck = s.Input.D("fck_mpa"), fyk = s.Input.D("fyk_mpa");

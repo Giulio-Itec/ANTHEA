@@ -341,7 +341,7 @@ L’utente approva i primi cinque passi proposti e aggiunge il punto 5.2; un com
 per ogni punto concluso, con aggiornamento ed evidenze. Le voci seguenti coordinano
 le attività già tracciate, senza dichiarare chiusi i residui delle fasi successive.
 
-- [ ] 1. API-02b: set coerente con il fix circolare, collegamento di interassi/dettagli/fessurazione, confronto prima/dopo e collaudo. Distinguere il set candidato sul ramo dal rilascio pubblicato.
+- [x] 1. API-02b, collegamento sul ramo: set candidato coerente Concrete 0.0.27.2, percorsi nativi di interassi/dettagli/fessurazione attivati e confrontati. 266 casi congelati, atteso geometrico indipendente, 548 file headless e 50996 righe dense; differenze API-02 classificate puntualmente. Evidenze `20261012-212422-api02-chiusura`. La pubblicazione e l’installazione in `lib/Checker` restano parte del collaudo/rilascio finale; il candidato è soltanto nell’area di prova.
 - [ ] 2. Validazioni approvate: F2.7-U5 (φ non negativo nella vista), F2.7-U7 (`staffe_presenti` coerente), F2.8-U2 (rami delle staffe interi fra 2 e 100 quando attivi).
 - [ ] 3. SLE/dettagli: F2.7-U1 (interasse delle sezioni interamente tese), U3 (getti sottili UNI), A10 (omogeneizzazione tramite API GPC); differenze dichiarate prima dell’attivazione.
 - [ ] 4. Mesh e parallelismo: costruzione sicura delle sezioni, stesso risultato bit per bit per le mesh usuali, rimozione del lock soltanto dopo la prova; stato condiviso residuo verificato.

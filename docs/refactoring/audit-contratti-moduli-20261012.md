@@ -262,3 +262,9 @@ complete 1544 PASS e 17 soli fallimenti Steel già noti. Fixture non modificate.
 La versione, il rilascio coerente e il successivo confronto d’integrazione sono
 il punto API-02b del piano. Le limitazioni dell’audit continuano quindi a valere
 per il prodotto attuale, anche se il difetto è corretto nel branch della libreria.
+
+## API-02 — collegamento sul ramo e collaudo, 12 ottobre sera
+
+Set candidato coerente di Checker `97b7d1f1`, Concrete 0.0.27.2: completate tutte le suite delle librerie. Il percorso di produzione è ora nativo anche per le sezioni circolari; la scelta esplicita Legacy resta disponibile per i confronti.
+
+266 casi congelati passano; confronto headless 548 file con soli 21 tempi. Su 50996 righe dense, quattro valori di interasse di C400R2-r5a passano da 452.3893578248936 a 115.19173586761357 mm, coerenti con gli archi nominali. Le quattro verifiche del solo interasse (limite 300 mm) diventano soddisfatte; gli altri dettagli negativi restano tali. Il catalogo testi passa da 120/36 a 140/16 esiti positivi/negativi (quattro adattatori e sedici varianti). Le dieci differenze sono dichiarate nel profilo `api02`, senza cambiare fixture o tolleranze. Pubblicazione e set distribuito fanno parte del rilascio finale autorizzato.

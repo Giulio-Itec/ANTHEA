@@ -78,8 +78,8 @@ void Compare(JsonNode? a, JsonNode? b, string path)
 Compare(expected, snapshot, "cases");
 LibraryCalls.Check();
 ProductionPaths.Check();
-// API-02: reference result from the frozen dense capture, NOT a correct geometric oracle.
-// Both old/native radius grouping need correction; until release, do not change the production result.
+// API-02: independent geometry: max(2*pi*144.000005/8, 2*pi*110.000005/6).
+// The frozen historical captures are preserved; 452.3893578248936 was the legacy defect.
 var ringInput = SezioneCA.DefaultInput();
 foreach (var (key, value) in new[] { ("shape", "Circolare"), ("diameter_mm", "400"), ("longitudinal_bar_count", "8"),
     ("longitudinal_bar_diameter_mm", "16"), ("cover_mm", "39.999995"), ("transverse_bar_diameter_mm", "8"),
@@ -87,7 +87,7 @@ foreach (var (key, value) in new[] { ("shape", "Circolare"), ("diameter_mm", "40
 ringInput["second_inner_enabled"] = true;
 var ringSection = new SezioneCA(ringInput);
 double ringSpacing = new TensionBarSpacing().Maximum(ringSection, Enumerable.Range(0, ringSection.Bars.Count).ToArray())!.Value;
-if (Math.Abs(ringSpacing - 452.3893578248936) > 1e-12 * ringSpacing) throw new Exception("API-02: circular compatibility changed");
+if (Math.Abs(ringSpacing - 115.19173586761349) > 1e-12 * ringSpacing) throw new Exception("API-02: incorrect circular spacing");
 // Hand calculation: fbd=2.25*2/1.5=3 MPa; lb=16*300/(4*3)=400 mm;
 // NTC straight bar minimum 320 mm, lap with 100% has alpha6=1.5 and l0=600 mm.
 var anchor = new ConcreteAnchorageCalculator().Calculate(new(16, 300, 2, 1.5, true, 400, false, 100, 0));
