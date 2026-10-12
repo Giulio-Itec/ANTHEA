@@ -40,6 +40,9 @@
     "ca_libreria_misto": { "abs": 1e-9, "rel": 1e-9, "unita": "unità di ciascun valore", "nota": "F2.6: dettagli del taglio; nella densa celle simbolo=valore=unità, nella headless il campo Value dei Details; ogni numero con 1e-9, simboli, espressioni e unità esatti (registro F2-1, F2-2)" }
   },
   "regole": [
+    { "percorso": "^engines/muri_progetto_armature/[^:]+:\\$\\.Checks\\[\\d+\\]\\.(Demand|Ratio)$", "grandezza": "api_arrotondamento" },
+    { "percorso": "^results/geo_muri_sostegno/[^:]+:\\$\\.verifiche_strutturali\\[\\d+\\]\\.(Demand|Ratio)$", "grandezza": "api_arrotondamento" },
+    { "percorso": "^results/mat_acciaio_armatura/[^:]+:\\$\\.materiale\\.EpsilonYd$", "grandezza": "api_arrotondamento" },
     {"percorso": "^riuso-api/crack-legacy\\.csv:(width|ratio|aceff|regions|details)$", "grandezza": "api_arrotondamento"},
     {"percorso": "^riuso-api/curvature(-production)?-legacy\\.csv:(points|ultimate|yield)$", "grandezza": "api_arrotondamento"},
     {"percorso": "^riuso-api/detailing(-plate)?-legacy\\.csv:checks$", "grandezza": "api_arrotondamento"},
