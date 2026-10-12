@@ -7,7 +7,7 @@ namespace Anthea.FoundationWorkspace;
 public static class FoundationPresentation
 {
     static readonly CultureInfo Italian=CultureInfo.GetCultureInfo("it-IT");
-    public static string Value(JsonNode? node,double scale=1,string format="0.###") => node is null ? "—" : (node.GetValue<double>()*scale).ToString(format,Italian);
+    public static string Value(JsonNode? node,double scale=1,string format="0.###") => node is null ? "—" : (FoundationDocument.Number(node,"Valore")*scale).ToString(format,Italian);
     public static bool Visible(string key,JsonObject input)
     {
         int method=input["Method"]!.GetValue<int>(),shape=input["Shape"]!.GetValue<int>();
@@ -56,12 +56,32 @@ public static class FoundationPresentation
         }
         lines.Add("Hansen non drenato: s, d e i sono incrementi additivi; il contributo non è il loro prodotto.");
         lines.Add("Dati al piano di posa già combinati e comprensivi dei pesi. Drenato: N efficace al netto della sottospinta; non drenato: N totale senza sottrarre la pressione interstiziale alla base. q non viene aggiunto nuovamente a N.");
-        var input=r["dati"]!["input"]!.AsObject();
+        var data=r["dati"]!.AsObject();var input=data["input"]!.AsObject();
+        bool commonSoils=data["stratigrafie"] is not null;
+        if(commonSoils){input=input.DeepClone().AsObject();input["WaterEnabled"]=data["generali"]!["presenza_falda"]!.DeepClone();}
         lines.Add("Dati di ingresso");
-        foreach(var f in FoundationDocument.Fields.Where(f=>Visible(f.Key,input)))lines.Add(f.Label+": "+input[f.Key]);
+        foreach(var f in FoundationDocument.Fields.Where(f=>Visible(f.Key,input)))
+            if(!commonSoils||!FoundationMaterials.LegacySoilKeys.Contains(f.Key) && f.Key!="WaterDepth")lines.Add(f.Label+": "+input[f.Key]);
+        if(commonSoils)
+        {
+            var profile=FoundationMaterials.Profile(data)!;lines.Add("Profilo esaminato: "+profile.Name);
+            int index=0;foreach(var layer in profile.Layers)
+            {
+                string D(double n)=>n.ToString("0.###",Italian);var soil=layer.Soil;
+                lines.Add($"Strato {++index} · {soil.Name}: z={D(-layer.Top/1000)}–{D(-layer.Bottom/1000)} m; γ={D(soil.UnitWeight*1e6)}, γsat={D(soil.SaturatedUnitWeight*1e6)} kN/m³; φ′={D(soil.FrictionAngle*180/Math.PI)}°; c′={D(soil.EffectiveCohesion*1000)} kPa; cu={(soil.UndrainedShearStrength.HasValue?D(soil.UndrainedShearStrength.Value*1000):"non assegnato")} kPa.");
+            }
+            lines.Add("Falda: "+(profile.GroundwaterElevation.HasValue?(-profile.GroundwaterElevation.Value/1000).ToString("0.###",Italian)+" m dal piano campagna":"assente"));
+            lines.Add("Ipotesi: terreno omogeneo sotto il piano di posa, prolungato come semispazio. Nessuna portanza multistrato o media delle resistenze.");
+            lines.Add("Calcestruzzo: "+data["sezione"]?["classe_cls"]+"; fck="+data["sezione"]?["fck_mpa"]+" MPa; "+data["sezione"]?["cls_diagramma"]+". Dato descrittivo condiviso nel progetto; resistenza strutturale e peso proprio automatico non calcolati.");
+        }
         lines.Add("Impostazioni: "+FoundationDocument.Shapes[input["Shape"]!.GetValue<int>()]+"; "+FoundationDocument.Conditions[input["Condition"]!.GetValue<int>()]+"; "+FoundationDocument.Compressions[input["Compression"]!.GetValue<int>()]);
         foreach(var (key,label) in new[]{("WaterEnabled","Falda"),("RoughBase","Base ruvida"),("IncludeDepthFactors","Fattori di profondità")})
-            if(Visible(key,input))lines.Add(label+": "+(input[key]!.GetValue<bool>()?"sì":"no"));
+            if(Visible(key,input) && !(commonSoils&&key=="WaterEnabled"))lines.Add(label+": "+(input[key]!.GetValue<bool>()?"sì":"no"));
+        if(r["Graphics"] is JsonObject graphics)
+        {
+            lines.Add("Pressioni sotto la fondazione: pmin="+Value(graphics["MinimumPressure"],1000)+" kPa; pmax="+Value(graphics["MaximumPressure"],1000)+" kPa; area compressa="+Value(graphics["CompressedArea"],1e-6)+" m². Area compressa e area efficace A′ sono distinte.");
+            lines.Add(graphics["ContactDescription"]!.ToString());lines.Add(graphics["MechanismDescription"]!.ToString());
+        }
         lines.AddRange(r["Warnings"]!.AsArray().Select(v=>v!.ToString()));
         lines.Add("Libreria GPCChecker.Geotechnics "+r["library_version"]);
         return lines.ToArray();

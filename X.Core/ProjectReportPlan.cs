@@ -65,13 +65,15 @@ public sealed class ProjectReportPlan
         foreach (var field in Fields[sheet].Values.Where(f => !SharedKeys[sheet].Contains(f.Key)))
             yield return new(field.Group, Label(field.Key), field.Value);
         string module = sheet.S("modulo_id"); var data = sheet["dati"]!.AsObject();
-        string[] roots = module == "str_palo" ? ["input"] : module == "mat_calcestruzzo" ? ["classe", "numeri", "scelte", "opzioni"] :
+        string[] roots = module == Anthea.FoundationWorkspace.FoundationDocument.Module ? ["input","generali","sezione","stratigrafie"] : module == "str_palo" ? ["input"] : module == "mat_calcestruzzo" ? ["classe", "numeri", "scelte", "opzioni"] :
             module == RebarMaterial.Module ? ["input", "riferimento"] : module == RetainingWall.Module ? [] : module == BridgeConcept.Module ? [] : ["generali", "sezione", "verifica", "efficienza", "stratigrafie"];
         foreach (string root in roots) foreach (var row in Walk(data[root], root))
         {
             if (consumed.Any(p => row.Path == p || row.Path.StartsWith(p + "/", StringComparison.Ordinal))) continue;
             if (row.Path.EndsWith("/shared_layer_id") || row.Path.EndsWith("/metodo_nq_precedente")) continue;
             string key = row.Path.Split('/').Last();
+            if(module==Anthea.FoundationWorkspace.FoundationDocument.Module && row.Path.StartsWith("input/") && data["stratigrafie"] is not null &&
+                (Anthea.FoundationWorkspace.FoundationMaterials.LegacySoilKeys.Contains(key)||key is "WaterEnabled" or "WaterDepth"))continue;
             if (key.StartsWith("__") || module == "str_palo" && key == "n") continue;
             if (module is "str_palo" or PaloOrizzontale.Module && row.Path.StartsWith(module == "str_palo" ? "input/" : "sezione/") &&
                 key is "axial_force_kn" or "moment_x_knm" or "moment_y_knm" or "apply_minimum_eccentricity" or "minimum_eccentricity_mm") continue;
