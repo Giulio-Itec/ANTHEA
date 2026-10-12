@@ -108,6 +108,9 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
 
 ## Fase 4: calcoli residui nelle librerie
 
+- [x] 12 ottobre: [audit dei contratti dei 12 moduli](audit-contratti-moduli-20261012.md), delle classi di terreno/materiale e dei Progetti; inventario dei sorgenti effettivamente compilati e confronto con le API delle DLL distribuite.
+- [~] Su richiesta successiva dell'utente, riuso delle API già disponibili ed eliminazione dei duplicati dopo confronto prima/dopo; ramo `refactoring/f4-riuso-api`. Le parti senza contratto equivalente restano elencate nell'audit. Non chiude automaticamente F4.1–F4.16 né il rilascio delle fondazioni.
+
 - [ ] F4.1 Catture aggiornate dopo F3.
 - [ ] F4.2 Regole automatiche estese.
 - [ ] F4.3 [CP] Collocazione di GPC.Design, Concrete/Walls, muratura, σcp, CRd,c/k1/vmin, esiti dei pali.
