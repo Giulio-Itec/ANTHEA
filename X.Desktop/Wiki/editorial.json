@@ -1391,5 +1391,24 @@
     "references": [],
     "order": 213,
     "summary": "Lezioni tecniche di ANTHEA su geotecnica, calcestruzzo armato e ponti, con esempi numerici originali, ipotesi, unità e limiti dichiarati."
+  },
+  "guide:Modelli e importazione da MIDAS": {
+    "area": "Progetti",
+    "id": "/wiki/guide/progetti/modelli-importazione-midas",
+    "modules": [],
+    "related": [
+      "guida-progetti-e-gestione-del-lavoro"
+    ],
+    "key": "guida-modelli-importazione-midas",
+    "chapterId": "anthea",
+    "status": "reviewed",
+    "level": "introductory",
+    "prerequisites": [
+      "guida-progetti-e-gestione-del-lavoro"
+    ],
+    "references": [],
+    "title": "Modelli e importazione da MIDAS",
+    "order": 19,
+    "summary": "Importare una copia dal modello aperto, scegliere contenuti e casi, salvare e aggiornare il progetto. Procedura per il modulo Modelli in prova."
   }
 }

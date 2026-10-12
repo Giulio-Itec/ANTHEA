@@ -824,3 +824,24 @@ PASS con codice processo 0. Una prima esecuzione parallela senza file di esito n
 conteggiata. Diagrammi e relativo PDF: 17 PASS; report deformate: 9 PASS; tutte le otto
 pagine dei due PDF sono state controllate. Campo già caricato: mediana 56 ms, massimo
 144 ms fino a OnRendered, esclusi acquisizione, solver e costruzione di combinazioni/inviluppi.
+
+## Guida all'importazione nel modulo Modelli — 12 ottobre 2026
+
+Su richiesta dell'utente, integrato il capitolo 20 nella guida pratica globale Rev33,
+con Word e PDF omonimi, indici aggiornati e originale Rev32 archiviato con SHA-256.
+Procedura confrontata con ProjectModels, ModelImportOptionsView, LiveImport,
+ModelSnapshotUpdate e MidasNormalizationReuse. Espliciti l'ambito della preview,
+la sostituzione dell'intero insieme dei risultati selezionati e i simboli non ancora
+normalizzati dal primo import diretto. Nessun accesso alla sessione MIDAS durante la redazione.
+
+Il capitolo è indicizzato nella Wiki. Il controllo editoriale conserva il divieto generale
+di programmi concorrenti, ma consente il nome della sorgente nel solo capitolo richiesto,
+nei suoi metadati e nel termine di ricerca associato esclusivamente a tale articolo;
+link esterni e gli altri programmi rimangono vietati. Casi negativi verificati dal runner.
+
+Evidenze in `supporto/artefatti/guide_anthea_itec_rev33`: audit Word di 838 frammenti,
+26 parti ITEC identiche, confronto senza variazioni delle 60 pagine preesistenti del corpo
+PDF, nuove pagine 66–69 controllate visivamente e copie PDF sincronizzate. Il renderer
+della skill non trova LibreOffice sul sistema; usato Word nativo con Poppler e ispezione
+delle immagini. Runner `20261012-160101-guida-import-midas-rev33-finale`: 2 PASS, 0 nuovi
+fallimenti, dopo integrazione dei metadati editoriali. Nessun cambiamento al codice di calcolo.

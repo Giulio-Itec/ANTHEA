@@ -1,12 +1,12 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · Revisione 32 · 7 ottobre 2026
+ITEC Engineering · Indice aggiornato il 12 ottobre 2026 · Pratica Rev33 e teorica Rev32
 
-Engineering Handbook: 63 articoli e percorsi in 12 capitoli, ricavati dalle due guide globali. I vecchi indirizzi Wiki raggiungono le pagine correnti. Lo stato editoriale non equivale a una certificazione normativa.
+Engineering Handbook: 64 articoli e percorsi in 12 capitoli, ricavati dalle due guide globali. I vecchi indirizzi Wiki raggiungono le pagine correnti. Lo stato editoriale non equivale a una certificazione normativa.
 
 ## Guida pratica ANTHEA
 
-[Word Rev32](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev32.docx) · [PDF Rev32](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev32.pdf)
+[Word Rev33](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev33.docx) · [PDF Rev33](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev33.pdf)
 
 - Avvio e scelta del modulo
 - Progetti e gestione del lavoro
@@ -27,6 +27,7 @@ Engineering Handbook: 63 articoli e percorsi in 12 capitoli, ricavati dalle due 
 - Modulo Sezione in c.a.
 - Interpretazione dei risultati e controlli indipendenti
 - Tutorial dal modello Beam alla verifica di sezione
+- Modelli e importazione da MIDAS nella versione di prova: connessione, prima acquisizione, scelta dei casi, quattro modalità, aggiornamento e recupero dagli errori.
 
 ## Guida teorica ANTHEA
 
@@ -93,3 +94,5 @@ Engineering Handbook: 63 articoli e percorsi in 12 capitoli, ricavati dalle due 
 - Revisione 31: guide con soli contenuti propri, senza corpus esterno, diario di sviluppo, strumenti di IA, programmi concorrenti e paragrafi duplicati; portanza sismica dei muri secondo EN 1998-5 Annesso F senza γRD sull'inerzia del terreno; γb della punta dei pali secondo la tecnologia (NTC 2018 Tab. 6.4.II).
 
 - Revisione 32: classi minime del calcestruzzo secondo il prospetto 6 della UNI 11104:2025, con XF1 a C32/40 del prospetto 5 dell'edizione 2016; composizione secondo il prospetto 5 dell'edizione 2016.
+
+- Revisione 33 della guida pratica: procedura di importazione MIDAS nel modulo Modelli in prova. La guida teorica rimane alla revisione 32.

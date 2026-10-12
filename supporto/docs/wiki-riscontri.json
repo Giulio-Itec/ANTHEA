@@ -475,5 +475,18 @@
       "supporto/test/RetainingWall.Checks/MaterialSharingChecks.cs"
     ],
     "openPoints": []
+  },
+  "guida-modelli-importazione-midas": {
+    "date": "2026-10-12",
+    "status": "reviewed",
+    "scope": "Procedura confrontata con i comandi della versione di prova. Documentati sostituzione dei casi, conservazione della copia valida in errore, salvataggio e limiti del primo import. Revisione editoriale della procedura, non attestazione di completezza del convertitore.",
+    "evidence": [
+      "X.Desktop/Wpf/ProjectModels.cs",
+      "src/ANTHEA.ModelViewer.Wpf/ModelImportOptionsView.xaml",
+      "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.LiveImport.cs",
+      "src/ANTHEA.ModelWorkspace/ModelSnapshotUpdate.cs",
+      "src/ANTHEA.ModelWorkspace/MidasNormalizationReuse.cs"
+    ],
+    "openPoints": []
   }
 }

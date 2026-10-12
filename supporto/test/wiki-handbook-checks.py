@@ -26,10 +26,17 @@ FORBIDDEN_IN_GUIDES=[
     (r'supporto/(?:test|scripts|SUPERATI)/|CONTROLLO\.md|\b\w+\.(?:cs|csproj)\b','percorso di sviluppo'),
     (r'supporto/artefatti/(?!'+'|'.join(map(re.escape,ARTIFACT_EXAMPLES))+')','percorso di sviluppo'),
 ]
-def diary_violations(text,guide=True):
+IMPORT_GUIDE_TITLE='Modelli e importazione da MIDAS'
+IMPORT_GUIDE_KEY='guida-modelli-importazione-midas'
+IMPORT_GUIDE_ROUTE='/wiki/guide/progetti/modelli-importazione-midas'
+
+def diary_violations(text,guide=True,import_source=False):
     """Forbidden expressions as (category, match); guide=False applies only the checks valid for metadata and code."""
     rules=FORBIDDEN_EVERYWHERE+(FORBIDDEN_IN_GUIDES if guide else [])
-    return [(label,m.group(0)) for pattern,label in rules for m in re.finditer(pattern,text)]
+    # The requested import procedure must name its source. This exception is supplied
+    # only for that chapter and its own metadata; external links and other products stay forbidden.
+    return [(label,m.group(0)) for pattern,label in rules for m in re.finditer(pattern,text)
+            if not (import_source and label=='programma concorrente' and m.group(0).casefold()=='midas')]
 def prose(text):
     """Paragraphs over 80 characters, excluding headings, tables, figures, formulas and link lists."""
     return {l.strip() for l in text.splitlines() if len(l.strip())>80 and not l.lstrip().startswith(('#','|','!','```','$$','- ','>','<!--'))}
@@ -96,11 +103,29 @@ class HandbookChecks(unittest.TestCase):
         for key in hub['related']:self.assertIn(key,{a['key'] for a in self.articles})
     def test_no_development_diary(self):
         # W0.4: the guides and the Wiki texts derived from them keep no development diary, AI tools, competitors or sites.
-        for path in GUIDES:self.assertEqual(diary_violations(path.read_text(encoding='utf-8')),[],path.name)
+        for path in GUIDES:
+            for part in re.split(r'(?m)(?=^## )',path.read_text(encoding='utf-8')):
+                scoped=path.name=='guida-pratica-anthea.md' and part.splitlines()[0]=='## '+IMPORT_GUIDE_TITLE
+                self.assertEqual(diary_violations(part,import_source=scoped),[],path.name)
         for name in ['editorial.json','chapters.json','glossary.json','references.json']:
-            self.assertEqual(diary_violations((W/name).read_text(encoding='utf-8')),[],name)
+            if name=='editorial.json':
+                for key,entry in read(name).items():
+                    self.assertEqual(diary_violations(json.dumps({key:entry},ensure_ascii=False),import_source=key=='guide:'+IMPORT_GUIDE_TITLE),[],key)
+            else:self.assertEqual(diary_violations((W/name).read_text(encoding='utf-8')),[],name)
         for path in [ROOT/'supporto/docs/wiki-riscontri.json',*sorted(W.glob('*.json')),*sorted((ROOT/'X.Desktop/Wpf').glob('Wiki*.cs'))]:
-            self.assertEqual(diary_violations(path.read_text(encoding='utf-8'),guide=False),[],path.name)
+            data=path.read_text(encoding='utf-8')
+            if path.name=='editorial.json':continue  # checked with stricter guide rules above
+            if path.name=='index.json':
+                for entry in json.loads(data):
+                    self.assertEqual(diary_violations(json.dumps(entry,ensure_ascii=False),guide=False,import_source=entry['id']==IMPORT_GUIDE_ROUTE),[],entry['id'])
+            elif path.name=='wiki-riscontri.json':
+                for key,entry in json.loads(data).items():
+                    self.assertEqual(diary_violations(json.dumps({key:entry},ensure_ascii=False),guide=False,import_source=key==IMPORT_GUIDE_KEY),[],key)
+            elif path.name=='search.json':
+                for term,positions in json.loads(data).items():
+                    scoped=term=='midas' and bool(positions) and all(self.articles[p]['id']==IMPORT_GUIDE_ROUTE for p in positions)
+                    self.assertEqual(diary_violations(json.dumps({term:positions}),guide=False,import_source=scoped),[],term)
+            else:self.assertEqual(diary_violations(data,guide=False),[],path.name)
     def test_diary_lint_rejects_and_accepts(self):
         for text in ['Il collegamento condiviso ChatGPT non era recuperabile.','Generato con Codex.','Confronto con SOFiSTiK.','Fonte: thebridgeeng.com/design',
                      'Evidenze in supporto/artefatti/palo-armature.','I test sono in supporto/test/ElasticPile.Checks.','Vedi BarScheduleChecks.cs.',
@@ -113,6 +138,10 @@ class HandbookChecks(unittest.TestCase):
                  'Quote e numeri imposti dall’utente vengono rispettati; Rev. 0 diventa Rev. 1.']
         for text in allowed:
             with self.subTest(text=text):self.assertEqual(diary_violations(text),[])
+        self.assertTrue(diary_violations('Confronto con MIDAS.'))
+        self.assertEqual(diary_violations('Sorgente MIDAS Civil NX',import_source=True),[])
+        self.assertTrue(diary_violations('Fonte esterna midas.com',import_source=True))
+        self.assertTrue(diary_violations('Confronto con SOFiSTiK.',import_source=True))
     def test_no_paragraphs_duplicated_between_guides(self):
         practical,theory=(prose(p.read_text(encoding='utf-8')) for p in GUIDES)
         self.assertEqual(sorted(practical&theory),[])
