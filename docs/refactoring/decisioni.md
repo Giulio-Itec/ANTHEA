@@ -876,3 +876,13 @@ validazione dei muri leggono il catalogo di sola lettura della libreria tramite
 la mappatura. Il riferimento legacy resta indipendente e immutabile. Nessun
 cambiamento di risultato nei 548 file e nelle 50.996 righe dense; tre suite WPF
 superate. Rimossa la relativa eccezione del controllo sullo stato statico.
+
+## Delega delle versioni — 12 ottobre 2026
+
+L’utente revoca la riserva sull’assegnazione dei numeri e chiede di aggiornare AGENTS.md.
+Gli agenti incrementano l’ultimo componente per i fix e il secondo da sinistra negli
+altri casi, azzerando i successivi. API-02 è un fix geometrico: Concrete passa da
+0.0.27.1 a 0.0.27.2, senza cambi di API o di metodo normativo. La delega riguarda i
+numeri; non sostituisce i controlli del rilascio coerente né autorizza nuovi merge
+o push. Le precedenti annotazioni sulla riserva delle versioni descrivono lo stato
+storico e sono superate da questa decisione.

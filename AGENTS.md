@@ -29,7 +29,7 @@
 # Librerie GPC
 
 - `lib/Checker` si aggiorna solo con un insieme coerente di DLL della stessa build, compilato da commit pushati, con manifest (versioni, commit e SHA-256) e voce nel README. Ogni DLL con sorgente cambiato ha una versione nuova. Dopo l'aggiornamento: profilo `full` del runner e test delle librerie.
-- Il set coerente lo produce `Checker/build/Release-Set.ps1` con tutte le suite di Model e Checker (treno di rilascio in `Checker/build/RILASCIO.txt`) e si installa con `tools/libs/Update-Snapshot.ps1 -ReleaseSet <cartella>`. Le versioni delle librerie le assegna l'utente: un agente chiede prima di cambiarle.
+- Il set coerente lo produce `Checker/build/Release-Set.ps1` con tutte le suite di Model e Checker (treno di rilascio in `Checker/build/RILASCIO.txt`) e si installa con `tools/libs/Update-Snapshot.ps1 -ReleaseSet <cartella>`. L'utente delega agli agenti le versioni: per i fix incrementare l'ultimo componente; negli altri casi incrementare il secondo da sinistra e azzerare i successivi (0.0.27.1 -> 0.0.27.2 per un fix; -> 0.1.0.0 negli altri casi). Motivare il numero nel commit, senza chiedere conferma; restano i controlli del set coerente e le autorizzazioni Git.
 - Le mesh DelaunayMesh delle sezioni usuali devono restare identiche bit per bit.
 - Gmsh (GMsh.Net, UnsafeEx, le DLL native gmsh-*.dll e il wrapper GMesh) va solo negli unit test: mai in `lib/Checker`, nell'installer o nelle DLL delle librerie.
 
