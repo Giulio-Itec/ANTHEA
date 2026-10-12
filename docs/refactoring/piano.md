@@ -89,11 +89,11 @@ Tra F1 e F2: regressione in MSTest (464 casi singoli) e `casi_confronto.json` di
   Baseline B6 presente nel checkout principale; equivalenza bit per bit della durabilità, 247 percorsi controllati e prove WPF richieste superate.
   Integrazione già in main/origin al commit `9b42f093`. [Evidenze e limiti della chiusura](chiusura-f29-20261012.md).
   Restano separati: proposte F2.9-U1…U7 e ratifiche normative, F4.13 per le regole residue della scheda,
-  F2.11 per la sonda comune e per ogni eventuale eliminazione del legacy. Nessuna nuova scelta normativa fatta con questa chiusura.
+  F2.11 per ogni eventuale eliminazione del legacy (sonda comune completata in F2.11b). Nessuna nuova scelta normativa fatta con questa chiusura.
 - [ ] F2.10 [CP] Registro delle differenze e accettazione dell'equivalenza.
 - [~] F2.11 [CP] Eliminazione dei duplicati, dello stato statico e del lock.
   - [x] F2.11a — sei file geotecnici esclusi: rimossi su autorizzazione esplicita con `83081a67`, già in main/set S. BishopSolver, FoundationSettlement, NewmarkSliding, ShallowFoundationSeismic, SlopeGeometry e SlopeStability non sono più nel progetto. Nessuna nuova eliminazione con questa riconciliazione del piano; `SlopeStability.Models.cs` e `WallRecords.cs` restano contratti usati.
-  - [ ] F2.11b — unificazione della sonda di durabilità (F2.9-D14) con quella comune degli adattatori.
+  - [x] F2.11b — sonda di durabilità (F2.9-D14) unificata con quella comune degli adattatori. Conservata la facciata tipizzata; contesti annidati ripristinati, calcoli paralleli isolati, eliminato il secondo AsyncLocal. 15 prove mirate (10 fallivano prima), regressione completa e catture: 9 PASS, 0 KNOWN, 0 NEW-FAIL; 548 file e 50.996 righe senza cambi di risultato. Registro F2-19.
   - [ ] F2.11c — altri duplicati, stato statico e lock: richiedono ancora confronto di equivalenza e accordo prima dell’eliminazione del legacy attivo.
 - [ ] F2.12 [CP] Rimozione del solutore legacy a fibre conservando l'oracolo Python.
 - [ ] F2.13 Registri di migrazione, chiusura.

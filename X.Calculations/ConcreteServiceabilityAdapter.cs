@@ -18,8 +18,8 @@ public sealed record ServiceabilityProbeEntry(string Adapter, string Operation, 
 /// <summary>
 /// Sonda diagnostica degli adattatori di libreria (refactoring F2.7b, progetto F2.7 §6.2; servirà anche agli adattatori di F2.8): registra
 /// adattatore, operazione e motore di ogni chiamata del flusso in cui è attiva. Il valore corrente è un <see cref="AsyncLocal{T}"/>: segue
-/// <see cref="Task.Run(Action)"/> e <see cref="Parallel"/> (ExecutionContext) e in produzione è nullo, quindi nessuna registrazione e nessun
-/// costo. Il registro è thread-safe. È l'unica eccezione dichiarata della prova 5l (stato statico) di tests/ConcreteLibraryAdapter.Checks.
+/// <see cref="Task.Run(Action)"/> e <see cref="Parallel"/> (ExecutionContext) e in produzione è nullo, quindi nessuna registrazione.
+/// Il registro è thread-safe. È l'unica eccezione dichiarata della prova 5l (stato statico) di tests/ConcreteLibraryAdapter.Checks.
 /// Uso: <c>using var probe = ServiceabilityProbe.Start();</c>, poi <see cref="Entries"/>; Dispose ripristina la sonda precedente.
 /// </summary>
 public sealed class ServiceabilityProbe : IDisposable
@@ -28,22 +28,39 @@ public sealed class ServiceabilityProbe : IDisposable
     readonly ConcurrentQueue<ServiceabilityProbeEntry> entries = new();
     readonly ConcurrentQueue<object> results = new();
     readonly ServiceabilityProbe? previous;
+    readonly Type? owner;
 
-    ServiceabilityProbe(ServiceabilityProbe? previous) => this.previous = previous;
+    ServiceabilityProbe(ServiceabilityProbe? previous, Type? owner)
+    {
+        this.previous = previous;
+        this.owner = owner;
+    }
 
     /// <summary>Attiva una sonda nuova per il flusso corrente.</summary>
-    public static ServiceabilityProbe Start()
+    public static ServiceabilityProbe Start() => Start(null);
+
+    // Le facciate diagnostiche condividono il contesto, mantenendo la proprietà del proprio scope.
+    internal static ServiceabilityProbe Start(Type? owner)
     {
-        var probe = new ServiceabilityProbe(current.Value);
+        var probe = new ServiceabilityProbe(current.Value, owner);
         current.Value = probe;
         return probe;
+    }
+
+    // Stop di una facciata non deve chiudere una sonda generale o di un altro adattatore.
+    internal static void Stop(Type owner)
+    {
+        if (current.Value is { } probe && probe.owner == owner) probe.Dispose();
     }
 
     /// <summary>Chiamate registrate, nell'ordine di arrivo.</summary>
     public IReadOnlyList<ServiceabilityProbeEntry> Entries => entries.ToArray();
 
     /// <summary>Registra una chiamata se una sonda è attiva nel flusso; altrimenti non fa nulla.</summary>
-    public static void Record(string adapter, string operation, Enum engine) => Record(adapter, operation, engine.ToString());
+    public static void Record(string adapter, string operation, Enum engine)
+    {
+        if (current.Value is { } probe) probe.entries.Enqueue(new(adapter, operation, engine.ToString()));
+    }
 
     /// <summary>Registra una chiamata di un adattatore con un solo motore (il nome del motore).</summary>
     public static void Record(string adapter, string operation, string engine)

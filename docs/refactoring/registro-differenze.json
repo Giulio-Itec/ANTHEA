@@ -2056,6 +2056,34 @@
         "supporto/artefatti/ci/20261012-201221-f27-exposures-ui",
         "supporto/artefatti/ci/20261012-201351-f27-exposures-after"
       ]
+    },
+    {
+      "id": "F2-19",
+      "data": "2026-10-12",
+      "fase": "F2.11b",
+      "titolo": "Sonda comune degli adattatori: durabilità e contesti annidati",
+      "famiglia": "infrastruttura/diagnostica",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "ConcreteDurabilityAdapter usa ServiceabilityProbe e conserva StartProbe/StopProbe e le voci tipizzate. Un solo AsyncLocal; le sonde annidate mantengono registri separati e ripristinano la precedente. StopProbe non interrompe una sonda appartenente ad altri chiamanti. Il contesto segue Task.Run e Parallel; gli scope propri dei Task rimangono isolati.",
+      "codice": [
+        "X.Calculations/ConcreteDurabilityAdapter.cs",
+        "X.Calculations/ConcreteServiceabilityAdapter.cs",
+        "tests/ConcreteLibraryAdapter.Checks/AdapterProbeChecks.cs",
+        "tests/ConcreteLibraryAdapter.Checks/Durability.cs"
+      ],
+      "segno": "Diagnostica più completa: la sonda comune vede anche la durabilità. Rimosso il secondo AsyncLocal e la relativa eccezione del controllo statico. Risultati, testi, rifiuti, archivi, DLL distribuite e attesi indipendenti invariati.",
+      "test": [
+        "Prima: 5 PASS e 10 FAIL nelle 15 nuove prove; dopo: 15 PASS",
+        "Regressione completa: 157808 controlli generali, 673588 SLE, 27 sullo stato statico e 369 sui getti sottili; 247 percorsi della durabilità verificati",
+        "Runner mirato baseline: 9 PASS, 0 KNOWN, 0 NEW-FAIL",
+        "548 file prima/dopo: solo 21 tempi volatili; 27 file densi, 50996 righe: 48511 identiche, 2485 con soli ID casuali; nessuna differenza numerica"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261012-201351-f27-exposures-after",
+        "supporto/artefatti/ci/20261012-202517-f211-probe-before",
+        "supporto/artefatti/ci/20261012-202856-f211-probe-verified"
+      ]
     }
   ]
 }

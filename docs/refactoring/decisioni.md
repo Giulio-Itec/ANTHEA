@@ -899,3 +899,12 @@ standard del 12 ottobre sera. La matrice F2.1 resta una fotografia storica di S1
 con un rimando esplicito allo stato attuale. Mesh, tracce residue e scostamenti
 normativi restano aperti; il caso circolare API-02 non viene considerato risolto
 nel prodotto per il solo fatto che la correzione è pronta in Checker.
+
+F2.11b: unificata la sonda di durabilità con ServiceabilityProbe, mantenendo le
+API StartProbe/StopProbe e le voci tipizzate. Un solo AsyncLocal segue il contesto
+di esecuzione; uno Stop della facciata ripristina la sonda precedente soltanto
+se la corrente le appartiene. Le sonde annidate mantengono registri separati.
+15 prove, di cui 10 fallivano prima, coprono contesti comuni, annidati, concorrenti,
+istantanee, errori e disattivazione. Regressione completa degli adattatori passata;
+548 file e 50.996 righe dense invariati, salvo tempi e identificativi casuali.
+Registro F2-19. Nessuna eliminazione del legacy di calcolo o variazione normativa.

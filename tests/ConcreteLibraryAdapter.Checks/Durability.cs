@@ -716,8 +716,7 @@ internal static class DurabilityChecks
     /// <summary>Eccezioni dichiarate della 11g: nome completo del campo → motivo.</summary>
     static readonly ImmutableDictionary<string, string> DeclaredStatic = ImmutableDictionary.CreateRange(new Dictionary<string, string>
     {
-        ["Materiali.DurabilityLegacy+Durability.Covers"] = "tabella privata int[,] del prospetto 4.4N del nucleo legacy, scade in F2.11",
-        ["Anthea.Calculations.ConcreteDurabilityAdapter.CurrentProbe"] = "sonda diagnostica AsyncLocal, nulla in produzione (F2.9-D14), da unificare in F2.11"
+        ["Materiali.DurabilityLegacy+Durability.Covers"] = "tabella privata int[,] del prospetto 4.4N del nucleo legacy, scade in F2.11"
     });
 
     /// <summary>Dictionary del taglio e della torsione nella classe parziale di mappatura (F2.5-F2.6): li rende immutabili F2.7 (A2).</summary>

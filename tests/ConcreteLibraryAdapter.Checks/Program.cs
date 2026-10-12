@@ -154,6 +154,7 @@ try
         throw new Exception($"motore SLE predefinito {ConcreteServiceabilityAdapter.Default}, atteso {ExpectedServiceabilityDefault}");
 
     ExposureChoicesChecks.Run(root, StaticCheck);
+    AdapterProbeChecks.Run(StaticCheck);
 
     // ---------------------------------------------------------------- 2b. stato statico (prova 5l)
     // Prima il campione: la prova riconosce ogni forma di stato statico (una prova che non trova nulla non deve passare per vuota).

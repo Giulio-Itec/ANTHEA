@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using GPC.Checkers.Concrete.Durability;
 using Materiali;
@@ -33,21 +32,24 @@ public static class ConcreteDurabilityAdapter
     /// <summary>Voce della sonda: adattatore, operazione, motore (forma della sonda generalizzata chiesta da F2.8 §13.2).</summary>
     public sealed record ProbeEntry(string Adapter, string Operation, DurabilityEngine Engine);
 
-    /// <summary>Registro diagnostico delle chiamate dell'adattatore, thread-safe; segue Task.Run e Parallel.ForEach (ExecutionContext).</summary>
+    /// <summary>Vista tipizzata della sonda comune degli adattatori; conserva il contratto delle prove di durabilità.</summary>
     public sealed class Probe
     {
-        readonly ConcurrentQueue<ProbeEntry> entries = new();
-        internal void Add(ProbeEntry entry) => entries.Enqueue(entry);
-        public IReadOnlyList<ProbeEntry> Entries => entries.ToArray();
+        readonly ServiceabilityProbe? scope;
+        public Probe() { }
+        internal Probe(ServiceabilityProbe scope) => this.scope = scope;
+        public IReadOnlyList<ProbeEntry> Entries => scope is null ? [] : scope.Entries
+            .Where(entry => entry.Adapter == nameof(ConcreteDurabilityAdapter))
+            .Select(entry => Enum.TryParse<DurabilityEngine>(entry.Engine, out var engine) && Enum.IsDefined(engine)
+                ? new ProbeEntry(entry.Adapter, entry.Operation, engine) : null)
+            .OfType<ProbeEntry>()
+            .ToArray();
     }
 
-    // Diagnostico, nullo in produzione: eccezione dichiarata della prova 11g. Da unificare con la sonda di F2.7 (A4) in F2.11.
-    static readonly AsyncLocal<Probe?> CurrentProbe = new();
-
-    /// <summary>Avvia una sonda nel contesto di esecuzione corrente (solo prove e diagnosi).</summary>
-    public static Probe StartProbe() { var probe = new Probe(); CurrentProbe.Value = probe; return probe; }
-    public static void StopProbe() => CurrentProbe.Value = null;
-    static void Record(string operation, DurabilityEngine engine) => CurrentProbe.Value?.Add(new(nameof(ConcreteDurabilityAdapter), operation, engine));
+    /// <summary>Avvia una sonda nel contesto corrente; StopProbe ripristina quella precedente.</summary>
+    public static Probe StartProbe() => new(ServiceabilityProbe.Start(typeof(ConcreteDurabilityAdapter)));
+    public static void StopProbe() => ServiceabilityProbe.Stop(typeof(ConcreteDurabilityAdapter));
+    static void Record(string operation, DurabilityEngine engine) => ServiceabilityProbe.Record(nameof(ConcreteDurabilityAdapter), operation, engine);
 
     static bool UseLegacy(DurabilityEngine? engine) => (engine ?? Default) == DurabilityEngine.Legacy;
 
