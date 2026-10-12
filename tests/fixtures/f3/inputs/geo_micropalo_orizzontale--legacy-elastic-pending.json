@@ -1,0 +1,48 @@
+{
+  "module": "geo_micropalo_orizzontale",
+  "id": "legacy-elastic-pending",
+  "origin": "Fixture sintetica di migrazione F3",
+  "source": null,
+  "data": {
+    "versione_orizzontale": 1,
+    "generali": {
+      "diametro": "0.24",
+      "lunghezza": "10",
+      "eccentricita": "0",
+      "vincolo": "Libera",
+      "modalita": "Automatica",
+      "metodo_calcolo": "Broms",
+      "azione_orizzontale": "100",
+      "presenza_falda": false,
+      "profondita_falda": "0",
+      "origine_momento": "Sezione CHS",
+      "momento_resistente": "1000",
+      "provenienza_momento": "",
+      "azione_assiale": "0",
+      "passo": "0.10",
+      "tolleranza": "1e-8"
+    },
+    "sezione": {
+      "modo_chs": "Catalogo",
+      "profilo_chs": "CHS 139.7 × 8",
+      "diametro_chs_mm": "139.7",
+      "spessore_chs_mm": "8",
+      "fy_chs_mpa": "355",
+      "gamma_m0": "1.05"
+    },
+    "verifica": {
+      "verticali_indagate": "1",
+      "efficienza_metodo": "Manuale",
+      "efficienza_eta": "1"
+    },
+    "stratigrafie": [
+      []
+    ],
+    "tipo_sezione": "CHS",
+    "elastico": {
+      "EI": "25000",
+      "strati": []
+    },
+    "vista_orizzontale": "elastico"
+  }
+}

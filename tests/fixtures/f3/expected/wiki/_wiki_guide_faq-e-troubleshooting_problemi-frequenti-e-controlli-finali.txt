@@ -1,0 +1,23 @@
+text: Situazione
+text: Interpretazione e intervento
+text: Risultati assenti dopo una modifica
+text: Completare il campo segnalato e verificare intervalli e selezioni obbligatorie
+text: Risultati marcati DA AGGIORNARE
+text: Attendere o avviare il ricalcolo previsto; non riutilizzare il valore precedente
+text: Valori differiscono di 1000
+text: Controllare MPa e kPa, N e kN, mm e m, momenti in Nmm e kNm
+text: Modifica locale genera un conflitto
+text: Individuare il riferimento superiore che governa quella proprietà
+text: Un parametro non cambia il risultato atteso
+text: Controllare famiglia, metodo attivo, automatismi e campo di applicazione
+text: File riaperto senza alcuni comandi
+text: Controllare versione dell'eseguibile e compatibilità dell'archivio
+text: Fessurazione o verifica locale non disponibile
+text: Leggere il motivo specifico; la soluzione tensionale non garantisce la disponibilità di ogni controllo
+text: Ponte con costo inatteso
+text: Controllare larghezza totale, numero di campate, fondazioni, voci del listino e maggiorazioni
+text: Curva non lineare interrotta
+text: Controllare convergenza, incremento, stato iniziale e limite del materiale
+text: Prima di usare un risultato, verificare che il nome del foglio e la revisione siano corretti, che il disegno corrisponda ai dati, che azioni e segni siano coerenti, che i coefficienti siano quelli voluti e che gli avvisi siano stati letti. Prima di consegnare un report, riaprirlo e controllare titoli, unità, immagini e presenza delle conclusioni realmente supportate dal modello.
+text: riferimenti-per-approfondire
+text: La Architettura del calcolo e convenzioni descrive i calcoli della stessa edizione. Prosegui con Sezione in calcestruzzo armato, Sezione composta da ponte, Bridge Design o Capacità orizzontale con Broms. Fonti e criteri di tracciabilità sono descritti in Tracciabilità, fonti e archivio. I riferimenti normativi vanno letti nelle edizioni identificate dal modulo, insieme alle relative condizioni di applicabilità.

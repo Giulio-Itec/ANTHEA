@@ -1,0 +1,4613 @@
+# word/document.xml
+¶ Relazione di calcolo
+¶ Progetto F3
+¶ ANTHEA · <DATA> <ORA>
+¶ Il documento comprende 12 schede, organizzate secondo la struttura della sezione e delle sue sottosezioni. I dati comuni compatibili e uguali sono raccolti al livello di riferimento; azioni, parametri specifici e risultati sono riportati per ciascun foglio.
+¶ I calcoli sono stati aggiornati sui dati acquisiti all'avvio dell'esportazione. Gli esiti mancanti o non determinati e i limiti dei singoli moduli restano esplicitamente indicati.
+¶ Attenzione: il report contiene 13 proprietà in conflitto e 5 schede senza risultati completi. Leggere le segnalazioni seguenti.
+¶ Contenuti
+¶ 1 Progetto F3
+¶ 1.1 geo_efficienza_orizzontale
+¶ 1.2 geo_fondazioni_superficiali
+¶ 1.3 geo_micropalo_orizzontale
+¶ 1.4 geo_micropalo_verticale
+¶ 1.5 geo_muri_sostegno
+¶ 1.6 geo_palo_orizzontale
+¶ 1.7 geo_palo_verticale
+¶ 1.8 mat_acciaio_armatura
+¶ 1.9 mat_calcestruzzo
+¶ 1.10 str_bridge_design
+¶ 1.11 str_mista_ponte
+¶ 1.12 str_palo
+¶ Conflitti tra i fogli
+¶ I valori discordanti sono conservati nei rispettivi fogli e non vengono unificati nel report.
+¶ CLS · fck [MPa]
+[T1 r1 c1] Foglio
+[T1 r1 c2] Valore adottato
+[T1 r2 c1] 1.2 geo_fondazioni_superficiali
+[T1 r2 c2] 30
+[T1 r3 c1] 1.6 geo_palo_orizzontale
+[T1 r3 c2] 35
+[T1 r4 c1] 1.12 str_palo
+[T1 r4 c2] 35
+[T1 r5 c1] 1.5 geo_muri_sostegno
+[T1 r5 c2] 30
+[T1 r6 c1] 1.9 mat_calcestruzzo
+[T1 r6 c2] 30
+¶ Sondaggio 1 · Strato 1 · Spessore [m]
+[T2 r1 c1] Foglio
+[T2 r1 c2] Valore adottato
+[T2 r2 c1] 1.2 geo_fondazioni_superficiali
+[T2 r2 c2] 1
+[T2 r3 c1] 1.7 geo_palo_verticale
+[T2 r3 c2] 0
+¶ Sondaggio 1 · Strato 1 · Tipologia del terreno
+[T3 r1 c1] Foglio
+[T3 r1 c2] Valore adottato
+[T3 r2 c1] 1.2 geo_fondazioni_superficiali
+[T3 r2 c2] Granulare
+[T3 r3 c1] 1.7 geo_palo_verticale
+[T3 r3 c2] Non definito
+¶ Sondaggio 1 · Strato 1 · Peso specifico [kN/m³]
+[T4 r1 c1] Foglio
+[T4 r1 c2] Valore adottato
+[T4 r2 c1] 1.2 geo_fondazioni_superficiali
+[T4 r2 c2] 18
+[T4 r3 c1] 1.7 geo_palo_verticale
+[T4 r3 c2] 0
+¶ Sondaggio 1 · Strato 1 · Angolo di attrito [°]
+[T5 r1 c1] Foglio
+[T5 r1 c2] Valore adottato
+[T5 r2 c1] 1.2 geo_fondazioni_superficiali
+[T5 r2 c2] 30
+[T5 r3 c1] 1.7 geo_palo_verticale
+[T5 r3 c2] 0
+¶ Sondaggio 1 · Strato 1 · Coesione non drenata [kPa]
+[T6 r1 c1] Foglio
+[T6 r1 c2] Valore adottato
+[T6 r2 c1] 1.2 geo_fondazioni_superficiali
+[T6 r2 c2] 75
+[T6 r3 c1] 1.7 geo_palo_verticale
+[T6 r3 c2] 0
+¶ Lunghezza [m]
+[T7 r1 c1] Foglio
+[T7 r1 c2] Valore adottato
+[T7 r2 c1] 1.3 geo_micropalo_orizzontale
+[T7 r2 c2] 10
+[T7 r3 c1] 1.4 geo_micropalo_verticale
+[T7 r3 c2]
+¶ CHS · Profilo tubolare
+[T8 r1 c1] Foglio
+[T8 r1 c2] Valore adottato
+[T8 r2 c1] 1.3 geo_micropalo_orizzontale
+[T8 r2 c2] CHS 139.7 × 8
+[T8 r3 c1] 1.4 geo_micropalo_verticale
+[T8 r3 c2]
+¶ Copriferro netto [mm]
+[T9 r1 c1] Foglio
+[T9 r1 c2] Valore adottato
+[T9 r2 c1] 1.5 geo_muri_sostegno
+[T9 r2 c2] 40
+[T9 r3 c1] 1.6 geo_palo_orizzontale
+[T9 r3 c2] 70
+[T9 r4 c1] 1.12 str_palo
+[T9 r4 c2] 70
+¶ Classe di esposizione
+[T10 r1 c1] Foglio
+[T10 r1 c2] Valore adottato
+[T10 r2 c1] 1.5 geo_muri_sostegno
+[T10 r2 c2] XC2
+[T10 r3 c1] 1.6 geo_palo_orizzontale
+[T10 r3 c2] Da scegliere
+[T10 r4 c1] 1.9 mat_calcestruzzo
+[T10 r4 c2] XC1
+[T10 r5 c1] 1.12 str_palo
+[T10 r5 c2] Da scegliere
+¶ Tipo di elemento
+[T11 r1 c1] Foglio
+[T11 r1 c2] Valore adottato
+[T11 r2 c1] 1.5 geo_muri_sostegno
+[T11 r2 c2] Piastra / soletta / parete
+[T11 r3 c1] 1.9 mat_calcestruzzo
+[T11 r3 c2] Trave / pilastro
+¶ Lunghezza [m]
+[T12 r1 c1] Foglio
+[T12 r1 c2] Valore adottato
+[T12 r2 c1] 1.6 geo_palo_orizzontale
+[T12 r2 c2] 10
+[T12 r3 c1] 1.7 geo_palo_verticale
+[T12 r3 c2]
+¶ Forma della sezione
+[T13 r1 c1] Foglio
+[T13 r1 c2] Valore adottato
+[T13 r2 c1] 1.6 geo_palo_orizzontale
+[T13 r2 c2] Circolare
+[T13 r3 c1] 1.12 str_palo
+[T13 r3 c2] Rettangolare
+¶ Avvisi
+¶ str_palo: forma o armatura avanzata non trasferibile al palo orizzontale; verificare separatamente la sezione resistente.
+¶ geo_fondazioni_superficiali / geo_micropalo_orizzontale: sondaggio 1, strato 1 assente in geo_micropalo_orizzontale. I dati degli altri strati sono confrontati normalmente.
+¶ geo_fondazioni_superficiali / geo_micropalo_orizzontale: sondaggio 1, strato 2 assente in geo_micropalo_orizzontale. I dati degli altri strati sono confrontati normalmente.
+¶ geo_fondazioni_superficiali / geo_palo_orizzontale: sondaggio 1, strato 1 assente in geo_palo_orizzontale. I dati degli altri strati sono confrontati normalmente.
+¶ geo_fondazioni_superficiali / geo_palo_orizzontale: sondaggio 1, strato 2 assente in geo_palo_orizzontale. I dati degli altri strati sono confrontati normalmente.
+¶ geo_fondazioni_superficiali / geo_palo_verticale: sondaggio 1, strato 2 assente in geo_palo_verticale. I dati degli altri strati sono confrontati normalmente.
+¶ geo_micropalo_orizzontale / geo_palo_verticale: sondaggio 1, strato 1 assente in geo_micropalo_orizzontale. I dati degli altri strati sono confrontati normalmente.
+¶ geo_palo_orizzontale / geo_palo_verticale: sondaggio 1, strato 1 assente in geo_palo_orizzontale. I dati degli altri strati sono confrontati normalmente.
+¶ geo_muri_sostegno: copriferro adottato 40 mm · minimo da Materiali 35 mm — DA VERIFICARE (mat_calcestruzzo, Ø massimo effettivo delle barre 16 mm). Dati diversi da mat_calcestruzzo: Classe di esposizione, Tipo di elemento; uniformare per completare la verifica.
+¶ geo_palo_orizzontale: copriferro adottato 70 mm · minimo da Materiali 35 mm — DA VERIFICARE (mat_calcestruzzo, Ø massimo effettivo delle barre 24 mm). Dati diversi da mat_calcestruzzo: CLS · fck [MPa], Classe di esposizione; uniformare per completare la verifica.
+¶ str_palo: copriferro adottato 70 mm · minimo da Materiali 35 mm — DA VERIFICARE (mat_calcestruzzo, Ø massimo effettivo delle barre 24 mm). Dati diversi da mat_calcestruzzo: CLS · fck [MPa], Classe di esposizione; uniformare per completare la verifica.
+¶ 1.2 geo_fondazioni_superficiali: Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.
+¶ 1.3 geo_micropalo_orizzontale: Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.
+¶ 1.4 geo_micropalo_verticale: Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.
+¶ 1.6 geo_palo_orizzontale: Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.
+¶ 1.7 geo_palo_verticale: Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.
+¶ 1 Progetto F3
+¶ Materiali comuni
+¶ Riferimento: Progetto F3. Utilizzati da: 1.2 geo_fondazioni_superficiali; 1.5 geo_muri_sostegno; 1.6 geo_palo_orizzontale; 1.12 str_palo.
+[T14 r1 c1] Proprietà
+[T14 r1 c2] Valore
+[T14 r2 c1] Diagramma CLS
+[T14 r2 c2] Parabola-rettangolo
+¶ Dati comuni del terreno
+¶ Riferimento: Progetto F3. Utilizzati da: 1.2 geo_fondazioni_superficiali; 1.7 geo_palo_verticale.
+[T15 r1 c1] Proprietà
+[T15 r1 c2] Valore
+[T15 r2 c1] Sondaggio 1 · Strato 1 · Coesione efficace [kPa]
+[T15 r2 c2] 0
+¶ Dati comuni del terreno
+¶ Riferimento: Progetto F3. Utilizzati da: 1.2 geo_fondazioni_superficiali; 1.3 geo_micropalo_orizzontale; 1.6 geo_palo_orizzontale; 1.7 geo_palo_verticale.
+[T16 r1 c1] Proprietà
+[T16 r1 c2] Valore
+[T16 r2 c1] Presenza falda
+[T16 r2 c2] No
+¶ Geometria comune
+¶ Riferimento: Progetto F3. Utilizzati da: 1.3 geo_micropalo_orizzontale; 1.4 geo_micropalo_verticale.
+[T17 r1 c1] Proprietà
+[T17 r1 c2] Valore
+[T17 r2 c1] Diametro perforazione [mm]
+[T17 r2 c2] 240
+¶ Dati comuni del terreno
+¶ Riferimento: Progetto F3. Utilizzati da: 1.3 geo_micropalo_orizzontale; 1.4 geo_micropalo_verticale; 1.6 geo_palo_orizzontale; 1.7 geo_palo_verticale.
+[T18 r1 c1] Proprietà
+[T18 r1 c2] Valore
+[T18 r2 c1] Verticali indagate
+[T18 r2 c2] 1
+¶ Coefficienti comuni
+¶ Riferimento: Progetto F3. Utilizzati da: 1.4 geo_micropalo_verticale; 1.7 geo_palo_verticale.
+[T19 r1 c1] Proprietà
+[T19 r1 c2] Valore
+[T19 r2 c1] γs,c · resistenza laterale a compressione
+[T19 r2 c2] 1,15
+[T19 r3 c1] γs,t · resistenza laterale a trazione
+[T19 r3 c2] 1,25
+[T19 r4 c1] γb · resistenza alla base
+[T19 r4 c2] 1,35
+[T19 r5 c1] γG · peso proprio sfavorevole
+[T19 r5 c2] 1,3
+[T19 r6 c1] γG · peso proprio favorevole
+[T19 r6 c2] 1
+¶ Materiali comuni
+¶ Riferimento: Progetto F3. Utilizzati da: 1.5 geo_muri_sostegno; 1.6 geo_palo_orizzontale; 1.8 mat_acciaio_armatura; 1.12 str_palo.
+[T20 r1 c1] Proprietà
+[T20 r1 c2] Valore
+[T20 r2 c1] Snervamento acciaio fyk [MPa]
+[T20 r2 c2] 450
+[T20 r3 c1] Classe acciaio
+[T20 r3 c2] B450C
+[T20 r4 c1] Modulo elastico Es [MPa]
+[T20 r4 c2] 200000
+[T20 r5 c1] Resistenza fu [MPa]
+[T20 r5 c2] 540
+[T20 r6 c1] Deformazione ultima εu [‰]
+[T20 r6 c2] 75
+[T20 r7 c1] Diagramma acciaio
+[T20 r7 c2] Elastoplastico
+¶ Coefficienti comuni
+¶ Riferimento: Progetto F3. Utilizzati da: 1.5 geo_muri_sostegno; 1.6 geo_palo_orizzontale; 1.11 str_mista_ponte; 1.12 str_palo.
+[T21 r1 c1] Proprietà
+[T21 r1 c2] Valore
+[T21 r2 c1] αcc · resistenza del calcestruzzo a compressione
+[T21 r2 c2] 0,85
+[T21 r3 c1] γc · resistenza del calcestruzzo
+[T21 r3 c2] 1,5
+¶ Coefficienti comuni
+¶ Riferimento: Progetto F3. Utilizzati da: 1.5 geo_muri_sostegno; 1.6 geo_palo_orizzontale; 1.8 mat_acciaio_armatura; 1.11 str_mista_ponte; 1.12 str_palo.
+[T22 r1 c1] Proprietà
+[T22 r1 c2] Valore
+[T22 r2 c1] γs · resistenza delle armature
+[T22 r2 c2] 1,15
+¶ Materiali comuni
+¶ Riferimento: Progetto F3. Utilizzati da: 1.5 geo_muri_sostegno; 1.9 mat_calcestruzzo.
+[T23 r1 c1] Proprietà
+[T23 r1 c2] Valore
+[T23 r2 c1] Criterio del copriferro
+[T23 r2 c2] NTC + Circ. 2019
+[T23 r3 c1] Superficie di getto
+[T23 r3 c2] Casseratura
+[T23 r4 c1] Strato per abrasione
+[T23 r4 c2] Nessuno
+[T23 r5 c1] Riduzione EC2 per classe di resistenza
+[T23 r5 c2] No
+[T23 r6 c1] Riduzione EC2 per geometria a piastra
+[T23 r6 c2] No
+[T23 r7 c1] Controllo speciale della produzione
+[T23 r7 c2] No
+[T23 r8 c1] Superficie irregolare
+[T23 r8 c2] No
+¶ Materiali comuni
+¶ Riferimento: Progetto F3. Utilizzati da: 1.5 geo_muri_sostegno; 1.9 mat_calcestruzzo; 1.12 str_palo.
+[T24 r1 c1] Proprietà
+[T24 r1 c2] Valore
+[T24 r2 c1] Durabilità · aggregato [mm]
+[T24 r2 c2] 20
+[T24 r3 c1] Durabilità · vita utile [anni]
+[T24 r3 c2] 50
+[T24 r4 c1] Durabilità · qualità copriferri
+[T24 r4 c2] No
+[T24 r5 c1] Durabilità · tolleranza [mm]
+[T24 r5 c2] 10
+¶ Geometria comune
+¶ Riferimento: Progetto F3. Utilizzati da: 1.6 geo_palo_orizzontale; 1.7 geo_palo_verticale.
+[T25 r1 c1] Proprietà
+[T25 r1 c2] Valore
+[T25 r2 c1] Diametro [mm]
+[T25 r2 c2] 1000
+¶ 1.1 geo_efficienza_orizzontale
+¶ Modulo: Palificata orizzontale
+¶ Pali identici. Le grandezze confrontate hanno significato fisico diverso: Davisson riduce kh/nh, gli altri metodi forniscono p-multiplier. Non si calcola la capacità laterale del gruppo.
+¶ Diametro D = 1 m; direzione H = 0° antioraria da +X.
+¶ Estrapolazioni: False; estensione file proiettate: False; S∥ assegnato = — m; S⊥ assegnato = — m.
+¶ Coordinate dei pali
+¶ P1: x = -3 m; y = -3 m.
+¶ P2: x = 0 m; y = -3 m.
+¶ P3: x = 3 m; y = -3 m.
+¶ P4: x = -3 m; y = 0 m.
+¶ P5: x = 0 m; y = 0 m.
+¶ P6: x = 3 m; y = 0 m.
+¶ P7: x = -3 m; y = 3 m.
+¶ P8: x = 0 m; y = 3 m.
+¶ P9: x = 3 m; y = 3 m.
+¶ Davisson (1970) · kh/nh · X
+¶ Min 0,25; media 0,25; max 0,25; riduzione media 75%.
+¶ Riduzione kh/nh · Rg = 0,25
+¶ Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Nessuna ulteriore influenza trasversale secondo Davisson per S⊥ ≥ 2.5D (o unica colonna).
+¶ Rg riduce kh/nh; non è un'efficienza di capacità Hgruppo/(N Hsingolo).
+¶ P1 · fila 3 · Rg = 0,25
+¶ P2 · fila 2 · Rg = 0,25
+¶ P3 · fila 1 · Rg = 0,25
+¶ P4 · fila 3 · Rg = 0,25
+¶ P5 · fila 2 · Rg = 0,25
+¶ P6 · fila 1 · Rg = 0,25
+¶ P7 · fila 3 · Rg = 0,25
+¶ P8 · fila 2 · Rg = 0,25
+¶ P9 · fila 1 · Rg = 0,25
+¶ AASHTO (2014) · p-multiplier · X
+¶ Min 0,3; media 0,5; max 0,8; riduzione media 50%.
+¶ p-multiplier medio = 0,5
+¶ AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,3
+¶ P2 · fila 2 · Pm = 0,4
+¶ P3 · fila 1 · Pm = 0,8
+¶ P4 · fila 3 · Pm = 0,3
+¶ P5 · fila 2 · Pm = 0,4
+¶ P6 · fila 1 · Pm = 0,8
+¶ P7 · fila 3 · Pm = 0,3
+¶ P8 · fila 2 · Pm = 0,4
+¶ P9 · fila 1 · Pm = 0,8
+¶ FHWA (2018) · p-multiplier · X
+¶ Min 0,35; media 0,5167; max 0,7; riduzione media 48,3333%.
+¶ p-multiplier medio = 0,5167
+¶ FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,35
+¶ P2 · fila 2 · Pm = 0,5
+¶ P3 · fila 1 · Pm = 0,7
+¶ P4 · fila 3 · Pm = 0,35
+¶ P5 · fila 2 · Pm = 0,5
+¶ P6 · fila 1 · Pm = 0,7
+¶ P7 · fila 3 · Pm = 0,35
+¶ P8 · fila 2 · Pm = 0,5
+¶ P9 · fila 1 · Pm = 0,7
+¶ Rollins / FEMA · p-multiplier · X
+¶ Min —; media —; max —; riduzione media —%.
+¶ p-multiplier medio = —
+¶ Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Non disponibile: Interasse fuori dal campo del metodo: abilitare esplicitamente le estrapolazioni.
+¶ Reese / Van Impe · interazione palo-palo · X · selezionato
+¶ Min 0,4962; media 0,6508; max 0,8661; riduzione media 34,9181%.
+¶ p-multiplier medio = 0,6508
+¶ Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,5845 · β = 0,5845 · α = 1
+¶ P2 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P3 · fila 1 · Pm = 0,8661 · β = 0,8661 · α = 1
+¶ P4 · fila 3 · Pm = 0,4966 · β = 0,4966 · α = 1
+¶ P5 · fila 2 · Pm = 0,4962 · β = 0,4962 · α = 1
+¶ P6 · fila 1 · Pm = 0,8053 · β = 0,8053 · α = 1
+¶ P7 · fila 3 · Pm = 0,5845 · β = 0,5845 · α = 1
+¶ P8 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P9 · fila 1 · Pm = 0,8661 · β = 0,8661 · α = 1
+¶ Caltrans (2025) · p-multiplier modificato · X
+¶ Min 0,3973; media 0,5856; max 0,7795; riduzione media 41,4389%.
+¶ p-multiplier medio = 0,5856
+¶ California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Caltrans 2025: α usa la media degli interassi fra file nella direzione H. Per unica fila α=1; oltre 8D α=1. Non prescrizione NTC.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,4676 · β = 0,5845 · α = 0,8
+¶ P2 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P3 · fila 1 · Pm = 0,7795 · β = 0,8661 · α = 0,9
+¶ P4 · fila 3 · Pm = 0,3973 · β = 0,4966 · α = 0,8
+¶ P5 · fila 2 · Pm = 0,4962 · β = 0,4962 · α = 1
+¶ P6 · fila 1 · Pm = 0,7248 · β = 0,8053 · α = 0,9
+¶ P7 · fila 3 · Pm = 0,4676 · β = 0,5845 · α = 0,8
+¶ P8 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P9 · fila 1 · Pm = 0,7795 · β = 0,8661 · α = 0,9
+¶ Davisson (1970) · kh/nh · Y
+¶ Min 0,25; media 0,25; max 0,25; riduzione media 75%.
+¶ Riduzione kh/nh · Rg = 0,25
+¶ Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Nessuna ulteriore influenza trasversale secondo Davisson per S⊥ ≥ 2.5D (o unica colonna).
+¶ Rg riduce kh/nh; non è un'efficienza di capacità Hgruppo/(N Hsingolo).
+¶ P1 · fila 3 · Rg = 0,25
+¶ P2 · fila 3 · Rg = 0,25
+¶ P3 · fila 3 · Rg = 0,25
+¶ P4 · fila 2 · Rg = 0,25
+¶ P5 · fila 2 · Rg = 0,25
+¶ P6 · fila 2 · Rg = 0,25
+¶ P7 · fila 1 · Rg = 0,25
+¶ P8 · fila 1 · Rg = 0,25
+¶ P9 · fila 1 · Rg = 0,25
+¶ AASHTO (2014) · p-multiplier · Y
+¶ Min 0,3; media 0,5; max 0,8; riduzione media 50%.
+¶ p-multiplier medio = 0,5
+¶ AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,3
+¶ P2 · fila 3 · Pm = 0,3
+¶ P3 · fila 3 · Pm = 0,3
+¶ P4 · fila 2 · Pm = 0,4
+¶ P5 · fila 2 · Pm = 0,4
+¶ P6 · fila 2 · Pm = 0,4
+¶ P7 · fila 1 · Pm = 0,8
+¶ P8 · fila 1 · Pm = 0,8
+¶ P9 · fila 1 · Pm = 0,8
+¶ FHWA (2018) · p-multiplier · Y
+¶ Min 0,35; media 0,5167; max 0,7; riduzione media 48,3333%.
+¶ p-multiplier medio = 0,5167
+¶ FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,35
+¶ P2 · fila 3 · Pm = 0,35
+¶ P3 · fila 3 · Pm = 0,35
+¶ P4 · fila 2 · Pm = 0,5
+¶ P5 · fila 2 · Pm = 0,5
+¶ P6 · fila 2 · Pm = 0,5
+¶ P7 · fila 1 · Pm = 0,7
+¶ P8 · fila 1 · Pm = 0,7
+¶ P9 · fila 1 · Pm = 0,7
+¶ Rollins / FEMA · p-multiplier · Y
+¶ Min —; media —; max —; riduzione media —%.
+¶ p-multiplier medio = —
+¶ Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Non disponibile: Interasse fuori dal campo del metodo: abilitare esplicitamente le estrapolazioni.
+¶ Reese / Van Impe · interazione palo-palo · Y
+¶ Min 0,4962; media 0,6508; max 0,8661; riduzione media 34,9181%.
+¶ p-multiplier medio = 0,6508
+¶ Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,5845 · β = 0,5845 · α = 1
+¶ P2 · fila 3 · Pm = 0,4966 · β = 0,4966 · α = 1
+¶ P3 · fila 3 · Pm = 0,5845 · β = 0,5845 · α = 1
+¶ P4 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P5 · fila 2 · Pm = 0,4962 · β = 0,4962 · α = 1
+¶ P6 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P7 · fila 1 · Pm = 0,8661 · β = 0,8661 · α = 1
+¶ P8 · fila 1 · Pm = 0,8053 · β = 0,8053 · α = 1
+¶ P9 · fila 1 · Pm = 0,8661 · β = 0,8661 · α = 1
+¶ Caltrans (2025) · p-multiplier modificato · Y
+¶ Min 0,3973; media 0,5856; max 0,7795; riduzione media 41,4389%.
+¶ p-multiplier medio = 0,5856
+¶ California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Caltrans 2025: α usa la media degli interassi fra file nella direzione H. Per unica fila α=1; oltre 8D α=1. Non prescrizione NTC.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,4676 · β = 0,5845 · α = 0,8
+¶ P2 · fila 3 · Pm = 0,3973 · β = 0,4966 · α = 0,8
+¶ P3 · fila 3 · Pm = 0,4676 · β = 0,5845 · α = 0,8
+¶ P4 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P5 · fila 2 · Pm = 0,4962 · β = 0,4962 · α = 1
+¶ P6 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P7 · fila 1 · Pm = 0,7795 · β = 0,8661 · α = 0,9
+¶ P8 · fila 1 · Pm = 0,7248 · β = 0,8053 · α = 0,9
+¶ P9 · fila 1 · Pm = 0,7795 · β = 0,8661 · α = 0,9
+¶ 1.2 geo_fondazioni_superficiali
+¶ Modulo: Fondazioni superficiali
+¶ Dati condivisi: vedere 1 Progetto F3 — Materiali; 1 Progetto F3 — Terreno.
+¶ Materiali
+[T26 r1 c1] Proprietà
+[T26 r1 c2] Valore
+[T26 r2 c1] CLS · fck [MPa]
+[T26 r2 c2] 30
+¶ Terreno
+[T27 r1 c1] Proprietà
+[T27 r1 c2] Valore
+[T27 r2 c1] Sondaggio 1 · Strato 1 · Spessore [m]
+[T27 r2 c2] 1
+[T27 r3 c1] Sondaggio 1 · Strato 1 · Tipologia del terreno
+[T27 r3 c2] Granulare
+[T27 r4 c1] Sondaggio 1 · Strato 1 · Peso specifico [kN/m³]
+[T27 r4 c2] 18
+[T27 r5 c1] Sondaggio 1 · Strato 1 · Peso specifico saturo [kN/m³]
+[T27 r5 c2] 20
+[T27 r6 c1] Sondaggio 1 · Strato 1 · Angolo di attrito [°]
+[T27 r6 c2] 30
+[T27 r7 c1] Sondaggio 1 · Strato 1 · Coesione non drenata [kPa]
+[T27 r7 c2] 75
+[T27 r8 c1] Sondaggio 1 · Strato 2 · Spessore [m]
+[T27 r8 c2] 10
+[T27 r9 c1] Sondaggio 1 · Strato 2 · Tipologia del terreno
+[T27 r9 c2] Granulare
+[T27 r10 c1] Sondaggio 1 · Strato 2 · Peso specifico [kN/m³]
+[T27 r10 c2] 18
+[T27 r11 c1] Sondaggio 1 · Strato 2 · Peso specifico saturo [kN/m³]
+[T27 r11 c2] 20
+[T27 r12 c1] Sondaggio 1 · Strato 2 · Angolo di attrito [°]
+[T27 r12 c2] 30
+[T27 r13 c1] Sondaggio 1 · Strato 2 · Coesione efficace [kPa]
+[T27 r13 c2] 0
+[T27 r14 c1] Sondaggio 1 · Strato 2 · Coesione non drenata [kPa]
+[T27 r14 c2] 75
+¶ Dati specifici del foglio
+[T28 r1 c1] Proprietà
+[T28 r1 c2] Valore
+[T28 r2 c1] Sezione · Width
+[T28 r2 c2] 2
+[T28 r3 c1] Sezione · Length
+[T28 r3 c2] 3
+[T28 r4 c1] Sezione · Depth
+[T28 r4 c2] 1
+[T28 r5 c1] Sezione · WaterUnitWeight
+[T28 r5 c2] 9,81
+[T28 r6 c1] Sezione · Surcharge
+[T28 r6 c2] 0
+[T28 r7 c1] Sezione · RelativeDensity
+[T28 r7 c2] 0,5
+[T28 r8 c1] Sezione · Normal
+[T28 r8 c2] 600
+[T28 r9 c1] Sezione · HorizontalX
+[T28 r9 c2] 0
+[T28 r10 c1] Sezione · HorizontalY
+[T28 r10 c2] 0
+[T28 r11 c1] Sezione · MomentX
+[T28 r11 c2] 0
+[T28 r12 c1] Sezione · MomentY
+[T28 r12 c2] 0
+[T28 r13 c1] Sezione · Method
+[T28 r13 c2] 0
+[T28 r14 c1] Sezione · Shape
+[T28 r14 c2] 0
+[T28 r15 c1] Sezione · Condition
+[T28 r15 c2] 0
+[T28 r16 c1] Sezione · Profile
+[T28 r16 c2] 0
+[T28 r17 c1] Sezione · Compression
+[T28 r17 c2] 0
+[T28 r18 c1] Sezione · RoughBase
+[T28 r18 c2] Sì
+[T28 r19 c1] Sezione · IncludeDepthFactors
+[T28 r19 c2] Sì
+[T28 r20 c1] Dati generali · sondaggio fondazione
+[T28 r20 c2] 0
+[T28 r21 c1] Dati generali · strato portante semiinfinito
+[T28 r21 c2] Sì
+[T28 r22 c1] Sezione · Classe CLS
+[T28 r22 c2] C30/37
+[T28 r23 c1] Sezione · Nome CLS
+[T28 r23 c2] C30/37
+¶ Terreno specifico del foglio
+[T29 r1 c1] Proprietà
+[T29 r1 c2] Valore
+[T29 r2 c1] Sondaggio 1 · Strato 1 · name
+[T29 r2 c2] Ricoprimento
+[T29 r3 c1] Sondaggio 1 · Strato 2 · name
+[T29 r3 c2] Strato portante
+¶ Risultati non disponibili: Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.
+¶ 1.3 geo_micropalo_orizzontale
+¶ Modulo: Micropalo orizzontale
+¶ Dati condivisi: vedere 1 Progetto F3 — Terreno; 1 Progetto F3 — Geometria.
+¶ Geometria
+[T30 r1 c1] Proprietà
+[T30 r1 c2] Valore
+[T30 r2 c1] Lunghezza [m]
+[T30 r2 c2] 10
+[T30 r3 c1] Forma della sezione
+[T30 r3 c2] Circolare
+¶ Armatura
+[T31 r1 c1] Proprietà
+[T31 r1 c2] Valore
+[T31 r2 c1] CHS · Modalità di definizione
+[T31 r2 c2] Catalogo
+[T31 r3 c1] CHS · Profilo tubolare
+[T31 r3 c2] CHS 139.7 × 8
+[T31 r4 c1] CHS · Diametro esterno [mm]
+[T31 r4 c2] 139,7
+[T31 r5 c1] CHS · Spessore [mm]
+[T31 r5 c2] 8
+[T31 r6 c1] CHS · modulo chs mpa
+[T31 r6 c2] 210000
+[T31 r7 c1] CHS · vita durabilita
+[T31 r7 c2] 50
+[T31 r8 c1] CHS · gamma ca
+[T31 r8 c2] 25
+[T31 r9 c1] CHS · gamma acciaio
+[T31 r9 c2] 78,5
+[T31 r10 c1] CHS · gamma iniezione
+[T31 r10 c2] 0
+¶ Materiali
+[T32 r1 c1] Proprietà
+[T32 r1 c2] Valore
+[T32 r2 c1] CHS · Snervamento fy [MPa]
+[T32 r2 c2] 355
+¶ Coefficienti
+[T33 r1 c1] Proprietà
+[T33 r1 c2] Valore
+[T33 r2 c1] γM0 · resistenza della sezione CHS
+[T33 r2 c2] 1,05
+¶ Dati specifici del foglio
+[T34 r1 c1] Proprietà
+[T34 r1 c2] Valore
+[T34 r2 c1] Dati generali · Eccentricità [m]
+[T34 r2 c2] 0
+[T34 r3 c1] Dati generali · vincolo
+[T34 r3 c2] Libera
+[T34 r4 c1] Dati generali · modalita
+[T34 r4 c2] Automatica
+[T34 r5 c1] Dati generali · metodo calcolo
+[T34 r5 c2] Broms
+[T34 r6 c1] Dati generali · Azione orizzontale [kN]
+[T34 r6 c2] 100
+[T34 r7 c1] Dati generali · origine momento
+[T34 r7 c2] Sezione CHS
+[T34 r8 c1] Dati generali · Azione assiale [kN]
+[T34 r8 c2] 0
+[T34 r9 c1] Dati generali · Passo dei diagrammi [m]
+[T34 r9 c2] 0,1
+[T34 r10 c1] Dati generali · tolleranza
+[T34 r10 c2] 0,00000001
+[T34 r11 c1] Dati generali · tratto libero
+[T34 r11 c2] 0
+[T34 r12 c1] Dati generali · gamma acqua
+[T34 r12 c2] 9,81
+[T34 r13 c1] verifica · efficienza metodo
+[T34 r13 c2] Manuale
+[T34 r14 c1] verifica · efficienza eta
+[T34 r14 c2] 1
+¶ Risultati non disponibili: Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.
+¶ 1.4 geo_micropalo_verticale
+¶ Modulo: Micropalo verticale
+¶ Dati condivisi: vedere 1 Progetto F3 — Geometria; 1 Progetto F3 — Terreno; 1 Progetto F3 — Coefficienti.
+¶ Geometria
+[T35 r1 c1] Proprietà
+[T35 r1 c2] Valore
+[T35 r2 c1] Forma della sezione
+[T35 r2 c2] Circolare
+¶ Dati specifici del foglio
+[T36 r1 c1] Proprietà
+[T36 r1 c2] Valore
+[T36 r2 c1] Dati generali · Peso specifico del palo [kN/m³]
+[T36 r2 c2] 25
+[T36 r3 c1] Dati generali · metodo micropalo
+[T36 r3 c2] BD-VIGGIANI-2026-09-10
+[T36 r4 c1] Dati generali · tipo iniezione
+[T36 r4 c2] IGU
+[T36 r5 c1] Dati generali · Inclinazione [°]
+[T36 r5 c2] 0
+[T36 r6 c1] Dati generali · Inizio aderenza [m]
+[T36 r6 c2] 0
+[T36 r7 c1] Dati generali · considera punta
+[T36 r7 c2] No
+[T36 r8 c1] Dati generali · percentuale punta
+[T36 r8 c2] 0
+[T36 r9 c1] efficienza · metodo
+[T36 r9 c2] Nessuna riduzione
+[T36 r10 c1] efficienza · numero pali x
+[T36 r10 c2] 1
+[T36 r11 c1] efficienza · numero pali y
+[T36 r11 c2] 1
+[T36 r12 c1] efficienza · eta compressione
+[T36 r12 c2] 1
+[T36 r13 c1] efficienza · eta trazione
+[T36 r13 c2] 1
+¶ Terreno specifico del foglio
+[T37 r1 c1] Proprietà
+[T37 r1 c2] Valore
+[T37 r2 c1] Sondaggio 1 · Strato 1 · Spessore [m]
+[T37 r2 c2] 0
+[T37 r3 c1] Sondaggio 1 · Strato 1 · Coefficiente α
+[T37 r3 c2] 0
+[T37 r4 c1] Sondaggio 1 · Strato 1 · laterale attiva
+[T37 r4 c2] Sì
+¶ Risultati non disponibili: Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.
+¶ 1.5 geo_muri_sostegno
+¶ Modulo: Muri di sostegno
+¶ Dati condivisi: vedere 1 Progetto F3 — Materiali; 1 Progetto F3 — Coefficienti.
+¶ Materiali
+[T38 r1 c1] Proprietà
+[T38 r1 c2] Valore
+[T38 r2 c1] CLS · fck [MPa]
+[T38 r2 c2] 30
+[T38 r3 c1] Classe di esposizione
+[T38 r3 c2] XC2
+[T38 r4 c1] Tipo di elemento
+[T38 r4 c2] Piastra / soletta / parete
+¶ Armatura
+[T39 r1 c1] Proprietà
+[T39 r1 c2] Valore
+[T39 r2 c1] Copriferro netto [mm]
+[T39 r2 c2] 40
+¶ Campo di applicazione e verifiche richieste
+¶ Sezione piana per metro di sviluppo. Paramento di monte verticale, riempimento orizzontale granulare (c′ = 0), spinta attiva oppure a riposo nel modello Wood. Fondazione nastriforme superficiale su terreno omogeneo drenato, con due stratigrafie e terreno a valle. Muro a mensola in c.a. o a gravità con sezione trapezia.
+¶ Bishop, cedimenti edometrici e spostamenti sono verifiche separate da attivare con i dati richiesti. Portanza sismica: EN 1998-5 allegato F, base ruvida e terreno granulare asciutto. Newmark: accelerogrammi e soglia di scorrimento assegnati, solo muro libero. Gravità: resistenze assegnate oppure CLS/muratura nel dominio senza trazione; fuori campo occorre analisi non lineare. Il disegno delle armature è un predimensionamento, da completare con dettagli esecutivi. Liquefazione, verifiche idrauliche e degradazione ciclica non incluse. Nessun esito complessivo dell’opera.
+¶ Statica: Rankine per strati (K₀ nel modello Wood), pressioni efficaci e acqua separate. Preset SLU A1+M1+R3: inviluppo γG,muro e γG,terra = 1 / 1,3; γQ = 0 / 1,5; γG,acqua = 1 / 1,3, correlato a spinta e sottospinta. γR scorrimento 1,1, ribaltamento 1,15, portanza 1,4. Portanza: EN 1997-1, allegato D, fondazione nastriforme c′=0, q′ di ricoprimento da valle, Nγ=2(Nq−1)tanφ, iγ=(1−H/V)³; base ruvida δ≥φ/2. Contatto elastico senza trazione; B′=B−2|e|. Oltre |e|=B/3 la portanza è fuori campo. Passiva Rankine opzionale e parzializzabile, esclusa nel sisma.
+¶ GPC.Geometry: area e baricentro; GPC.Model e GPCChecker.Concrete: materiali, equilibrio N–M e tensioni delle sezioni armate. Pressioni geotecniche, equilibrio del muro, combinazioni, esercizio e stabilità globale: GPCChecker.Geotechnics (GPC.Checkers.Geotechnics.Walls).
+¶ Due colonne con profondità dalla rispettiva superficie. Hlib è misurata dalla sommità al terreno di valle; Dv=H+t−Hlib dal piano di posa. Collegare le colonne copia spessori e materiali, non le quote assolute. Peso del terreno sopra la mensola e ricoprimento efficace nella portanza sempre inclusi. Passiva Rankine attivabile con frazione mobilitata 0–1; esclusa nei casi sismici. Il terreno di posa resta un input distinto.
+¶ Automatico: δd=k·atan(tanφcv,k/γMφ), k=1 gettato in opera, 2/3 prefabbricato, 0 liscio. φcv è l’angolo a volume costante, da caratterizzare; non è automaticamente l’angolo di picco. Assegnato: tanδd=tanδk/γMφ. Sul fusto Coulomb/Mononobe–Okabe con attrito; per l’equilibrio con mensola a monte la spinta è sul piano virtuale a tergo della mensola, δ=0. Wood non mobilita δ. Nessun doppio conteggio dell’attrito interno al blocco muro–terreno.
+¶ Passiva applicata al piano verticale esterno a valle e limitata alla spinta motrice; nessuna maggiorazione favorevole γG>1. Diagrammi del fusto: equilibrio della sezione con terreno sul paramento inclinato e attrito di monte. Ricoprimento q′ di valle usato con iq=(1−|H|/V)²; nessuna maggiorazione di profondità.
+¶ A modifica le azioni; M riduce i parametri del terreno (tan φd = tan φk / γMφ); R divide le resistenze. Per i muri NTC 2018 §6.5.3.1.1 il preset locale è Approccio 2: A1+M1+R3, con γR = 1,10 scorrimento, 1,15 ribaltamento, 1,40 portanza. A1+M1+R1 appartiene alla combinazione 1 dell’Approccio 1 e non sostituisce la verifica A2+M2+R2. La stabilità globale A2+M2+R2 richiede un’analisi dedicata. Nella matrice ogni riga espone i fattori realmente usati: modificarli produce una combinazione personalizzata, non una certificazione dell’approccio.
+¶ Azioni indipendenti con ψ propri e gruppi correlati. Matrice Automatiche: fanno fede i coefficienti salvati in ogni riga. Urto: forza statica equivalente assegnata per metro; eventi eccezionali separati, ψ₂ delle variabili e γR=1 nel preset. Resistenze del materiale conservate cautelativamente ai valori ordinari.
+¶ Sezione, terreno e armature · carichi caratteristici; spinte: SLE 1
+¶ Diagrammi Fusto · SLE 1
+¶ Diagrammi Valle · SLE 1
+¶ Diagrammi Monte · SLE 1
+¶ Sezione armata con pieghe e sovrapposizioni
+¶ Tavola armature e distinta ferri · 1
+¶ Tavola armature e distinta ferri · 2
+¶ Tavola armature e distinta ferri · 3
+¶ Tavola armature e distinta ferri · 4
+¶ Tavola armature e distinta ferri · 5
+¶ Geometria e dati di ingresso
+[T40 r1 c1] Parametro
+[T40 r1 c2] Valore
+[T40 r1 c3] Unità
+[T40 r2 c1] Altezza sopra fondazione · H
+[T40 r2 c2] 3
+[T40 r2 c3] m
+[T40 r3 c1] Spessore fusto al piede · s₀
+[T40 r3 c2] 0.4
+[T40 r3 c3] m
+[T40 r4 c1] Spessore fusto in testa · s₁
+[T40 r4 c2] 0.25
+[T40 r4 c3] m
+[T40 r5 c1] Spessore fondazione · t
+[T40 r5 c2] 0.45
+[T40 r5 c3] m
+[T40 r6 c1] Mensola a valle · a
+[T40 r6 c2] 0.8
+[T40 r6 c3] m
+[T40 r7 c1] Mensola a monte · b
+[T40 r7 c2] 1.8
+[T40 r7 c3] m
+[T41 r1 c1] Parametro
+[T41 r1 c2] Valore
+[T41 r1 c3] Unità
+[T41 r2 c1] Attrito terreno di posa · φ′f
+[T41 r2 c2] 34
+[T41 r2 c3] °
+[T41 r3 c1] Peso terreno asciutto · γf
+[T41 r3 c2] 19
+[T41 r3 c3] kN/m³
+[T41 r4 c1] Peso terreno saturo · γsat,f
+[T41 r4 c2] 21
+[T41 r4 c3] kN/m³
+[T41 r5 c1] Attrito alla base · δb
+[T41 r5 c2] 26
+[T41 r5 c3] °
+[T42 r1 c1] Parametro
+[T42 r1 c2] Valore
+[T42 r1 c3] Unità
+[T42 r2 c1] Peso specifico muro · γm
+[T42 r2 c2] 25
+[T42 r2 c3] kN/m³
+[T42 r3 c1] Resistenza calcestruzzo · fck
+[T42 r3 c2] 30
+[T42 r3 c3] MPa
+[T42 r4 c1] Snervamento armature · fyk
+[T42 r4 c2] 450
+[T42 r4 c3] MPa
+[T42 r5 c1] Copriferro netto barre · c
+[T42 r5 c2] 40
+[T42 r5 c3] mm
+[T42 r6 c1] Coefficiente viscosità per SLE · φ
+[T42 r6 c2] 2
+[T42 r6 c3] −
+¶ Materiali del verificatore delle sezioni in calcestruzzo
+¶ Cataloghi e legami GPC condivisi con il verificatore c.a. Le proprietà qui riportate sono quelle effettivamente usate dal muro e conservate nell’invio della sezione.
+[T43 r1 c1] Proprietà
+[T43 r1 c2] Valore
+[T43 r2 c1] Calcestruzzo
+[T43 r2 c2] C30/37
+[T43 r3 c1] Diagramma CLS
+[T43 r3 c2] Parabola-rettangolo
+[T43 r4 c1] αcc
+[T43 r4 c2] 0.85
+[T43 r5 c1] γc
+[T43 r5 c2] 1.50
+[T43 r6 c1] Acciaio per armature
+[T43 r6 c2] B450C
+[T43 r7 c1] Es [MPa]
+[T43 r7 c2] 200000
+[T43 r8 c1] fu [MPa]
+[T43 r8 c2] 540
+[T43 r9 c1] εu [‰]
+[T43 r9 c2] 75
+[T43 r10 c1] Diagramma acciaio
+[T43 r10 c2] Elastoplastico
+[T43 r11 c1] γs
+[T43 r11 c2] 1.15
+¶ Durabilità e copriferro
+[T44 r1 c1] Parametro
+[T44 r1 c2] Valore
+[T44 r2 c1] Esposizione
+[T44 r2 c2] XC2
+[T44 r3 c1] Copriferro adottato [mm]
+[T44 r3 c2] 40
+[T44 r4 c1] Aggregato [mm]
+[T44 r4 c2] 20
+[T44 r5 c1] Vita utile [anni]
+[T44 r5 c2] 50
+[T44 r6 c1] Tolleranza [mm]
+[T44 r6 c2] 10
+[T44 r7 c1] life
+[T44 r7 c2] 50 anni
+[T44 r8 c1] deviationValue
+[T44 r8 c2] 10 mm
+[T44 r9 c1] coverMethod
+[T44 r9 c2] NTC + Circ. 2019
+[T44 r10 c1] ntcElement
+[T44 r10 c2] Piastra / soletta / parete
+[T44 r11 c1] ground
+[T44 r11 c2] Casseratura
+[T44 r12 c1] abrasion
+[T44 r12 c2] Nessuno
+[T44 r13 c1] ntcQuality
+[T44 r13 c2] false
+[T44 r14 c1] highStrength
+[T44 r14 c2] false
+[T44 r15 c1] slab
+[T44 r15 c2] false
+[T44 r16 c1] quality
+[T44 r16 c2] false
+[T44 r17 c1] rough
+[T44 r17 c2] false
+¶ Azioni assegnate per metro di sviluppo
+[T45 r1 c1] Nome / tipo / natura
+[T45 r1 c2] Valore / unità
+[T45 r1 c3] z₀ / z₁ / x [m]
+[T45 r1 c4] ψ₀ / ψ₁ / ψ₂ / gruppo
+[T45 r2 c1] Sovraccarico uniforme ⏎ Sovraccarico uniforme · Q
+[T45 r2 c2] 10 kPa
+[T45 r2 c3] Tutto il riempimento
+[T45 r2 c4] 0.7 / 0.5 / 0.3 / legacy
+¶ z delle azioni dal piano di posa, x dal bordo a valle. H verso valle, N a compressione, momento ribaltante. Urto: azione statica equivalente assegnata. Visibilità nel disegno indipendente dall’abilitazione al calcolo.
+¶ Stratigrafia di monte (dalla sommità)
+[T46 r1 c1] Nome
+[T46 r1 c2] Δz [m]
+[T46 r1 c3] γ [kN/m³]
+[T46 r1 c4] γsat [kN/m³]
+[T46 r1 c5] φ′ [°]
+[T46 r2 c1] Terreno granulare
+[T46 r2 c2] 10
+[T46 r2 c3] 18
+[T46 r2 c4] 20
+[T46 r2 c5] 30
+¶ Stratigrafia di valle (dalla superficie di valle)
+[T47 r1 c1] Nome
+[T47 r1 c2] Δz [m]
+[T47 r1 c3] γ [kN/m³]
+[T47 r1 c4] γsat [kN/m³]
+[T47 r1 c5] φ′ [°]
+[T47 r2 c1] Terreno granulare
+[T47 r2 c2] 10
+[T47 r2 c3] 18
+[T47 r2 c4] 20
+[T47 r2 c5] 30
+¶ Dv=0 m; Hlib=3,45 m. Colonne collegate: False. Passiva richiesta: False; frazione=0.
+¶ Origine degli attriti
+[T48 r1 c1] Parametro
+[T48 r1 c2] Input
+[T48 r2 c1] wall_mode
+[T48 r2 c2] Assegnato
+[T48 r3 c1] wall_delta
+[T48 r3 c2] 0
+[T48 r4 c1] wall_phi_cv
+[T48 r4 c2] 30
+[T48 r5 c1] base_mode
+[T48 r5 c2] Assegnato
+[T48 r6 c1] base_phi_cv
+[T48 r6 c2] 34
+¶ Valori geotecnici effettivamente utilizzati per combinazione
+[T49 r1 c1] Caso
+[T49 r1 c2] Quote e attriti
+[T49 r1 c3] Terreno valle
+[T49 r1 c4] Portanza
+[T49 r2 c1] SLE 1
+[T49 r2 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T49 r2 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T49 r2 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,529 ⏎ igamma = 0,385 ⏎ Base ruvida: True
+[T49 r3 c1] SLE_FREQ 2
+[T49 r3 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T49 r3 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T49 r3 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,559 ⏎ igamma = 0,418 ⏎ Base ruvida: True
+[T49 r4 c1] Quasi permanente 3
+[T49 r4 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T49 r4 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T49 r4 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,572 ⏎ igamma = 0,433 ⏎ Base ruvida: True
+[T49 r5 c1] SLU 4
+[T49 r5 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T49 r5 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T49 r5 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,593 ⏎ igamma = 0,457 ⏎ Base ruvida: True
+[T49 r6 c1] SLU 5
+[T49 r6 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T49 r6 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T49 r6 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,629 ⏎ igamma = 0,499 ⏎ Base ruvida: True
+[T49 r7 c1] SLU 6
+[T49 r7 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T49 r7 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T49 r7 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,56 ⏎ igamma = 0,419 ⏎ Base ruvida: True
+[T49 r8 c1] SLU 7
+[T49 r8 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T49 r8 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T49 r8 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,593 ⏎ igamma = 0,457 ⏎ Base ruvida: True
+[T49 r9 c1] SLU 8
+[T49 r9 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T49 r9 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T49 r9 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,503 ⏎ igamma = 0,357 ⏎ Base ruvida: True
+[T49 r10 c1] SLU 9
+[T49 r10 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T49 r10 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T49 r10 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,54 ⏎ igamma = 0,397 ⏎ Base ruvida: True
+[T49 r11 c1] SLU 10
+[T49 r11 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T49 r11 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T49 r11 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,489 ⏎ igamma = 0,341 ⏎ Base ruvida: True
+[T49 r12 c1] SLU 11
+[T49 r12 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T49 r12 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T49 r12 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,521 ⏎ igamma = 0,376 ⏎ Base ruvida: True
+¶ Coefficienti delle spinte sul fusto
+[T50 r1 c1] Caso / z₀–z₁ [m]
+[T50 r1 c2] φd [°]
+[T50 r1 c3] K / Ke
+[T50 r1 c4] Incremento [kPa]
+[T50 r2 c1] SLE 1 / 0–3
+[T50 r2 c2] 30
+[T50 r2 c3] 0,333 / 0,333
+[T50 r2 c4] 0
+[T50 r3 c1] SLE 1 / 3–3,45
+[T50 r3 c2] 30
+[T50 r3 c3] 0,333 / 0,333
+[T50 r3 c4] 0
+[T50 r4 c1] SLE_FREQ 2 / 0–3
+[T50 r4 c2] 30
+[T50 r4 c3] 0,333 / 0,333
+[T50 r4 c4] 0
+[T50 r5 c1] SLE_FREQ 2 / 3–3,45
+[T50 r5 c2] 30
+[T50 r5 c3] 0,333 / 0,333
+[T50 r5 c4] 0
+[T50 r6 c1] Quasi permanente 3 / 0–3
+[T50 r6 c2] 30
+[T50 r6 c3] 0,333 / 0,333
+[T50 r6 c4] 0
+[T50 r7 c1] Quasi permanente 3 / 3–3,45
+[T50 r7 c2] 30
+[T50 r7 c3] 0,333 / 0,333
+[T50 r7 c4] 0
+[T50 r8 c1] SLU 4 / 0–3
+[T50 r8 c2] 30
+[T50 r8 c3] 0,333 / 0,333
+[T50 r8 c4] 0
+[T50 r9 c1] SLU 4 / 3–3,45
+[T50 r9 c2] 30
+[T50 r9 c3] 0,333 / 0,333
+[T50 r9 c4] 0
+[T50 r10 c1] SLU 5 / 0–3
+[T50 r10 c2] 30
+[T50 r10 c3] 0,333 / 0,333
+[T50 r10 c4] 0
+[T50 r11 c1] SLU 5 / 3–3,45
+[T50 r11 c2] 30
+[T50 r11 c3] 0,333 / 0,333
+[T50 r11 c4] 0
+[T50 r12 c1] SLU 6 / 0–3
+[T50 r12 c2] 30
+[T50 r12 c3] 0,333 / 0,333
+[T50 r12 c4] 0
+[T50 r13 c1] SLU 6 / 3–3,45
+[T50 r13 c2] 30
+[T50 r13 c3] 0,333 / 0,333
+[T50 r13 c4] 0
+[T50 r14 c1] SLU 7 / 0–3
+[T50 r14 c2] 30
+[T50 r14 c3] 0,333 / 0,333
+[T50 r14 c4] 0
+[T50 r15 c1] SLU 7 / 3–3,45
+[T50 r15 c2] 30
+[T50 r15 c3] 0,333 / 0,333
+[T50 r15 c4] 0
+[T50 r16 c1] SLU 8 / 0–3
+[T50 r16 c2] 30
+[T50 r16 c3] 0,333 / 0,333
+[T50 r16 c4] 0
+[T50 r17 c1] SLU 8 / 3–3,45
+[T50 r17 c2] 30
+[T50 r17 c3] 0,333 / 0,333
+[T50 r17 c4] 0
+[T50 r18 c1] SLU 9 / 0–3
+[T50 r18 c2] 30
+[T50 r18 c3] 0,333 / 0,333
+[T50 r18 c4] 0
+[T50 r19 c1] SLU 9 / 3–3,45
+[T50 r19 c2] 30
+[T50 r19 c3] 0,333 / 0,333
+[T50 r19 c4] 0
+[T50 r20 c1] SLU 10 / 0–3
+[T50 r20 c2] 30
+[T50 r20 c3] 0,333 / 0,333
+[T50 r20 c4] 0
+[T50 r21 c1] SLU 10 / 3–3,45
+[T50 r21 c2] 30
+[T50 r21 c3] 0,333 / 0,333
+[T50 r21 c4] 0
+[T50 r22 c1] SLU 11 / 0–3
+[T50 r22 c2] 30
+[T50 r22 c3] 0,333 / 0,333
+[T50 r22 c4] 0
+[T50 r23 c1] SLU 11 / 3–3,45
+[T50 r23 c2] 30
+[T50 r23 c3] 0,333 / 0,333
+[T50 r23 c4] 0
+¶ Pressioni sul fusto e resistenza di valle
+[T51 r1 c1] Caso / piano
+[T51 r1 c2] z₀–z₁ [m]
+[T51 r1 c3] p₀–p₁ [kPa]
+[T51 r2 c1] SLE 1 / fusto
+[T51 r2 c2] 0–3
+[T51 r2 c3] 3,333–21,333
+[T51 r3 c1] SLE 1 / fusto
+[T51 r3 c2] 3–3,45
+[T51 r3 c3] 21,333–24,033
+[T51 r4 c1] SLE_FREQ 2 / fusto
+[T51 r4 c2] 0–3
+[T51 r4 c3] 1,667–19,667
+[T51 r5 c1] SLE_FREQ 2 / fusto
+[T51 r5 c2] 3–3,45
+[T51 r5 c3] 19,667–22,367
+[T51 r6 c1] Quasi permanente 3 / fusto
+[T51 r6 c2] 0–3
+[T51 r6 c3] 1–19
+[T51 r7 c1] Quasi permanente 3 / fusto
+[T51 r7 c2] 3–3,45
+[T51 r7 c3] 19–21,7
+[T51 r8 c1] SLU 4 / fusto
+[T51 r8 c2] 0–3
+[T51 r8 c3] 0–18
+[T51 r9 c1] SLU 4 / fusto
+[T51 r9 c2] 3–3,45
+[T51 r9 c3] 18–20,7
+[T51 r10 c1] SLU 5 / fusto
+[T51 r10 c2] 0–3
+[T51 r10 c3] 0–18
+[T51 r11 c1] SLU 5 / fusto
+[T51 r11 c2] 3–3,45
+[T51 r11 c3] 18–20,7
+[T51 r12 c1] SLU 6 / fusto
+[T51 r12 c2] 0–3
+[T51 r12 c3] 0–23,4
+[T51 r13 c1] SLU 6 / fusto
+[T51 r13 c2] 3–3,45
+[T51 r13 c3] 23,4–26,91
+[T51 r14 c1] SLU 7 / fusto
+[T51 r14 c2] 0–3
+[T51 r14 c3] 0–23,4
+[T51 r15 c1] SLU 7 / fusto
+[T51 r15 c2] 3–3,45
+[T51 r15 c3] 23,4–26,91
+[T51 r16 c1] SLU 8 / fusto
+[T51 r16 c2] 0–3
+[T51 r16 c3] 5–23
+[T51 r17 c1] SLU 8 / fusto
+[T51 r17 c2] 3–3,45
+[T51 r17 c3] 23–25,7
+[T51 r18 c1] SLU 9 / fusto
+[T51 r18 c2] 0–3
+[T51 r18 c3] 5–23
+[T51 r19 c1] SLU 9 / fusto
+[T51 r19 c2] 3–3,45
+[T51 r19 c3] 23–25,7
+[T51 r20 c1] SLU 10 / fusto
+[T51 r20 c2] 0–3
+[T51 r20 c3] 5–28,4
+[T51 r21 c1] SLU 10 / fusto
+[T51 r21 c2] 3–3,45
+[T51 r21 c3] 28,4–31,91
+[T51 r22 c1] SLU 11 / fusto
+[T51 r22 c2] 0–3
+[T51 r22 c3] 5–28,4
+[T51 r23 c1] SLU 11 / fusto
+[T51 r23 c2] 3–3,45
+[T51 r23 c3] 28,4–31,91
+¶ Falda assente.
+¶ Analisi sismica non richiesta nel presente calcolo.
+¶ Armature e verifiche strutturali
+¶ Due facce simmetriche oppure indipendenti; quantità per metro. Resistenza N–M da GPCChecker.Concrete, taglio senza staffe secondo NTC 2018 senza beneficio della compressione. Sezioni del fusto ogni H/20, compresa la testa quando caricata, e radici delle mensole; l’inviluppo indica la sezione governante. SLE: sezione fessurata, viscosità assegnata, esposizione XC2. Compressione positiva nei risultati del muro e convertita in N negativa per Checker.
+[T52 r1 c1] Elemento
+[T52 r1 c2] Barre per metro/faccia
+[T52 r1 c3] Ø [mm]
+[T52 r2 c1] Fusto inferiore / intero
+[T52 r2 c2] 6
+[T52 r2 c3] 16
+[T52 r3 c1] Valle
+[T52 r3 c2] 6
+[T52 r3 c3] 16
+[T52 r4 c1] Monte
+[T52 r4 c2] 6
+[T52 r4 c3] 16
+¶ Quantità indicative: 2,325 m³/m di calcestruzzo e 113,64 kg/m (con dettagli se attivati). La distinta aggiornata delle barre e i controlli di ancoraggio, sovrapposizione e armatura secondaria sono riportati nel capitolo dedicato.
+¶ Inviluppo verifiche geotecniche
+[T53 r1 c1] Controllo / caso
+[T53 r1 c2] Ed / Rd
+[T53 r1 c3] Unità
+[T53 r1 c4] Ed/Rd
+[T53 r1 c5] Esito
+[T53 r2 c1] Scorrimento ⏎ SLU 10
+[T53 r2 c2] 63,67 / 93,771
+[T53 r2 c3] kN/m
+[T53 r2 c4] 0,679
+[T53 r2 c5] Soddisfatta
+[T53 r3 c1] Ribaltamento ⏎ SLU 8
+[T53 r3 c2] 70,82 / 292,751
+[T53 r3 c3] kNm/m
+[T53 r3 c4] 0,242
+[T53 r3 c5] Soddisfatta
+[T53 r4 c1] Capacità portante ⏎ SLU 11
+[T53 r4 c2] 228,923 / 851,504
+[T53 r4 c3] kN/m
+[T53 r4 c4] 0,269
+[T53 r4 c5] Soddisfatta
+[T53 r5 c1] Contatto fondazione ⏎ SLU 6
+[T53 r5 c2] 0,06 / 1,5
+[T53 r5 c3] m
+[T53 r5 c4] 0,04
+[T53 r5 c5] Contatto in compressione
+¶ Inviluppo verifiche strutturali
+[T54 r1 c1] Controllo / caso
+[T54 r1 c2] Ed / Rd
+[T54 r1 c3] Unità
+[T54 r1 c4] Ed/Rd
+[T54 r1 c5] Esito
+[T54 r2 c1] Fusto z=3.00 m · armatura minima per faccia ⏎ Dettagli
+[T54 r2 c2] 589,077 / 1206,372
+[T54 r2 c3] mm²/m
+[T54 r2 c4] 0,488
+[T54 r2 c5] Soddisfatta
+[T54 r3 c1] Fusto z=0.15 m · armatura massima ⏎ Dettagli
+[T54 r3 c2] 2412,743 / 10300
+[T54 r3 c3] mm²/m
+[T54 r3 c4] 0,234
+[T54 r3 c5] Soddisfatta
+[T54 r4 c1] Fusto z=3.00 m · tensione CLS ⏎ SLE 1
+[T54 r4 c2] 2,25 / 18
+[T54 r4 c3] MPa
+[T54 r4 c4] 0,125
+[T54 r4 c5] Soddisfatta
+[T54 r5 c1] Fusto z=3.00 m · tensione acciaio ⏎ SLE 1
+[T54 r5 c2] 97,888 / 360
+[T54 r5 c3] MPa
+[T54 r5 c4] 0,272
+[T54 r5 c5] Soddisfatta
+[T54 r6 c1] Valle z=0.04 m · armatura minima per faccia ⏎ Dettagli
+[T54 r6 c2] 672,753 / 1206,372
+[T54 r6 c3] mm²/m
+[T54 r6 c4] 0,558
+[T54 r6 c5] Soddisfatta
+[T54 r7 c1] Valle z=0.04 m · armatura massima ⏎ Dettagli
+[T54 r7 c2] 2412,743 / 18000
+[T54 r7 c3] mm²/m
+[T54 r7 c4] 0,134
+[T54 r7 c5] Soddisfatta
+[T54 r8 c1] Valle z=0.80 m · tensione CLS ⏎ Quasi permanente 3
+[T54 r8 c2] 0,563 / 13,5
+[T54 r8 c3] MPa
+[T54 r8 c4] 0,042
+[T54 r8 c5] Soddisfatta
+[T54 r9 c1] Valle z=0.80 m · tensione acciaio ⏎ SLE 1
+[T54 r9 c2] 35,056 / 360
+[T54 r9 c3] MPa
+[T54 r9 c4] 0,097
+[T54 r9 c5] Soddisfatta
+[T54 r10 c1] Monte z=0.09 m · armatura minima per faccia ⏎ Dettagli
+[T54 r10 c2] 672,753 / 1206,372
+[T54 r10 c3] mm²/m
+[T54 r10 c4] 0,558
+[T54 r10 c5] Soddisfatta
+[T54 r11 c1] Monte z=0.09 m · armatura massima ⏎ Dettagli
+[T54 r11 c2] 2412,743 / 18000
+[T54 r11 c3] mm²/m
+[T54 r11 c4] 0,134
+[T54 r11 c5] Soddisfatta
+[T54 r12 c1] Monte z=1.80 m · tensione CLS ⏎ SLE 1
+[T54 r12 c2] 1,315 / 18
+[T54 r12 c3] MPa
+[T54 r12 c4] 0,073
+[T54 r12 c5] Soddisfatta
+[T54 r13 c1] Monte z=1.80 m · tensione acciaio ⏎ SLE 1
+[T54 r13 c2] 68,895 / 360
+[T54 r13 c3] MPa
+[T54 r13 c4] 0,191
+[T54 r13 c5] Soddisfatta
+[T54 r14 c1] Fusto z=3.00 m · fessurazione ⏎ Quasi permanente 3
+[T54 r14 c2] 0,075 / 0,3
+[T54 r14 c3] mm
+[T54 r14 c4] 0,251
+[T54 r14 c5] Soddisfatta
+[T54 r15 c1] Valle z=0.80 m · fessurazione ⏎ Quasi permanente 3
+[T54 r15 c2] 0,035 / 0,3
+[T54 r15 c3] mm
+[T54 r15 c4] 0,117
+[T54 r15 c5] Soddisfatta
+[T54 r16 c1] Monte z=1.80 m · fessurazione ⏎ Quasi permanente 3
+[T54 r16 c2] 0,059 / 0,3
+[T54 r16 c3] mm
+[T54 r16 c4] 0,195
+[T54 r16 c5] Soddisfatta
+[T54 r17 c1] Fusto z=3.00 m · N–M GPC ⏎ SLU 10
+[T54 r17 c2] 56,756 / 164,862
+[T54 r17 c3] kNm/m
+[T54 r17 c4] 0,344
+[T54 r17 c5] Soddisfatta
+[T54 r18 c1] Fusto z=3.00 m · taglio senza staffe ⏎ SLU 10
+[T54 r18 c2] 50,1 / 161,084
+[T54 r18 c3] kN/m
+[T54 r18 c4] 0,311
+[T54 r18 c5] Soddisfatta
+[T54 r19 c1] Valle z=0.80 m · N–M GPC ⏎ SLU 11
+[T54 r19 c2] 20,768 / 184,675
+[T54 r19 c3] kNm/m
+[T54 r19 c4] 0,112
+[T54 r19 c5] Soddisfatta
+[T54 r20 c1] Valle z=0.80 m · taglio senza staffe ⏎ SLU 11
+[T54 r20 c2] 51,642 / 171,622
+[T54 r20 c3] kN/m
+[T54 r20 c4] 0,301
+[T54 r20 c5] Soddisfatta
+[T54 r21 c1] Monte z=1.80 m · N–M GPC ⏎ SLU 10
+[T54 r21 c2] 43,646 / 184,676
+[T54 r21 c3] kNm/m
+[T54 r21 c4] 0,236
+[T54 r21 c5] Soddisfatta
+[T54 r22 c1] Monte z=1.80 m · taglio senza staffe ⏎ SLU 10
+[T54 r22 c2] 47,903 / 171,622
+[T54 r22 c3] kN/m
+[T54 r22 c4] 0,279
+[T54 r22 c5] Soddisfatta
+¶ Combinazioni e equilibrio
+[T55 r1 c1] Caso / stato
+[T55 r1 c2] γ muro / monte / valle / acqua
+[T55 r1 c3] γMφ / γRsc / γRrib / γRport
+[T55 r1 c4] kh / kv
+[T55 r2 c1] SLE 1 ⏎ SLE · SLE
+[T55 r2 c2] 1 / 1 / 1 / 1
+[T55 r2 c3] 1 / 1 / 1 / 1
+[T55 r2 c4] 0 / 0
+[T55 r3 c1] SLE_FREQ 2 ⏎ SLE_FREQ · SLE
+[T55 r3 c2] 1 / 1 / 1 / 1
+[T55 r3 c3] 1 / 1 / 1 / 1
+[T55 r3 c4] 0 / 0
+[T55 r4 c1] Quasi permanente 3 ⏎ SLE_QP · SLE
+[T55 r4 c2] 1 / 1 / 1 / 1
+[T55 r4 c3] 1 / 1 / 1 / 1
+[T55 r4 c4] 0 / 0
+[T55 r5 c1] SLU 4 ⏎ SLU · A1+M1+R3
+[T55 r5 c2] 1 / 1 / 1 / 1
+[T55 r5 c3] 1 / 1.1 / 1.15 / 1.4
+[T55 r5 c4] 0 / 0
+[T55 r6 c1] SLU 5 ⏎ SLU · A1+M1+R3
+[T55 r6 c2] 1,3 / 1 / 1 / 1
+[T55 r6 c3] 1 / 1.1 / 1.15 / 1.4
+[T55 r6 c4] 0 / 0
+[T55 r7 c1] SLU 6 ⏎ SLU · A1+M1+R3
+[T55 r7 c2] 1 / 1,3 / 1 / 1
+[T55 r7 c3] 1 / 1.1 / 1.15 / 1.4
+[T55 r7 c4] 0 / 0
+[T55 r8 c1] SLU 7 ⏎ SLU · A1+M1+R3
+[T55 r8 c2] 1,3 / 1,3 / 1 / 1
+[T55 r8 c3] 1 / 1.1 / 1.15 / 1.4
+[T55 r8 c4] 0 / 0
+[T55 r9 c1] SLU 8 ⏎ SLU · A1+M1+R3
+[T55 r9 c2] 1 / 1 / 1 / 1
+[T55 r9 c3] 1 / 1.1 / 1.15 / 1.4
+[T55 r9 c4] 0 / 0
+[T55 r10 c1] SLU 9 ⏎ SLU · A1+M1+R3
+[T55 r10 c2] 1,3 / 1 / 1 / 1
+[T55 r10 c3] 1 / 1.1 / 1.15 / 1.4
+[T55 r10 c4] 0 / 0
+[T55 r11 c1] SLU 10 ⏎ SLU · A1+M1+R3
+[T55 r11 c2] 1 / 1,3 / 1 / 1
+[T55 r11 c3] 1 / 1.1 / 1.15 / 1.4
+[T55 r11 c4] 0 / 0
+[T55 r12 c1] SLU 11 ⏎ SLU · A1+M1+R3
+[T55 r12 c2] 1,3 / 1,3 / 1 / 1
+[T55 r12 c3] 1 / 1.1 / 1.15 / 1.4
+[T55 r12 c4] 0 / 0
+[T56 r1 c1] Combinazione
+[T56 r1 c2] Fattori γ × ψ delle azioni
+[T56 r2 c1] SLE 1
+[T56 r2 c2] Sovraccarico uniforme: 1
+[T56 r3 c1] SLE_FREQ 2
+[T56 r3 c2] Sovraccarico uniforme: 0,5
+[T56 r4 c1] Quasi permanente 3
+[T56 r4 c2] Sovraccarico uniforme: 0,3
+[T56 r5 c1] SLU 4
+[T56 r5 c2] Sovraccarico uniforme: 0
+[T56 r6 c1] SLU 5
+[T56 r6 c2] Sovraccarico uniforme: 0
+[T56 r7 c1] SLU 6
+[T56 r7 c2] Sovraccarico uniforme: 0
+[T56 r8 c1] SLU 7
+[T56 r8 c2] Sovraccarico uniforme: 0
+[T56 r9 c1] SLU 8
+[T56 r9 c2] Sovraccarico uniforme: 1,5
+[T56 r10 c1] SLU 9
+[T56 r10 c2] Sovraccarico uniforme: 1,5
+[T56 r11 c1] SLU 10
+[T56 r11 c2] Sovraccarico uniforme: 1,5
+[T56 r12 c1] SLU 11
+[T56 r12 c2] Sovraccarico uniforme: 1,5
+¶ Spinte: valori e coefficienti
+¶ Piano virtuale con mensola: Ka=tan²(45°−φd/2). Senza mensola: Coulomb con δd; K e Ke tabulati sono le componenti orizzontali. Fusto: Coulomb/MO con δd; la tabella seguente riguarda il piano esterno. tanφd=tanφk/γMφ. Statica: p=Kaσ′v+KaΣ(fi·qi)+u. Sisma MO: θ=atan[kh/(1−kv)], Kae=cos²(φd−θ)/{cos²θ·[1+√(sinφd·sin(φd−θ)/cosθ)]²}; Δp=(Kae−Ka)(1−kv)γHt/2; pq=Kae(1−kv)Σ(fi·qi). Incremento uniforme; Ht=H+t.
+[T57 r1 c1] Caso / z₀–z₁ [m]
+[T57 r1 c2] φd / K / Kae
+[T57 r1 c3] p terra₀–₁
+[T57 r1 c4] pq / u₀–₁
+[T57 r1 c5] Δp / ptot₀–₁
+[T57 r2 c1] SLE 1 ⏎ 0–3
+[T57 r2 c2] 30 / 0,333 / 0,333
+[T57 r2 c3] 0–18
+[T57 r2 c4] 3,333 / 0–0
+[T57 r2 c5] 0 / 3,333–21,333
+[T57 r3 c1] SLE 1 ⏎ 3–3,45
+[T57 r3 c2] 30 / 0,333 / 0,333
+[T57 r3 c3] 18–20,7
+[T57 r3 c4] 3,333 / 0–0
+[T57 r3 c5] 0 / 21,333–24,033
+[T57 r4 c1] SLE_FREQ 2 ⏎ 0–3
+[T57 r4 c2] 30 / 0,333 / 0,333
+[T57 r4 c3] 0–18
+[T57 r4 c4] 1,667 / 0–0
+[T57 r4 c5] 0 / 1,667–19,667
+[T57 r5 c1] SLE_FREQ 2 ⏎ 3–3,45
+[T57 r5 c2] 30 / 0,333 / 0,333
+[T57 r5 c3] 18–20,7
+[T57 r5 c4] 1,667 / 0–0
+[T57 r5 c5] 0 / 19,667–22,367
+[T57 r6 c1] Quasi permanente 3 ⏎ 0–3
+[T57 r6 c2] 30 / 0,333 / 0,333
+[T57 r6 c3] 0–18
+[T57 r6 c4] 1 / 0–0
+[T57 r6 c5] 0 / 1–19
+[T57 r7 c1] Quasi permanente 3 ⏎ 3–3,45
+[T57 r7 c2] 30 / 0,333 / 0,333
+[T57 r7 c3] 18–20,7
+[T57 r7 c4] 1 / 0–0
+[T57 r7 c5] 0 / 19–21,7
+[T57 r8 c1] SLU 4 ⏎ 0–3
+[T57 r8 c2] 30 / 0,333 / 0,333
+[T57 r8 c3] 0–18
+[T57 r8 c4] 0 / 0–0
+[T57 r8 c5] 0 / 0–18
+[T57 r9 c1] SLU 4 ⏎ 3–3,45
+[T57 r9 c2] 30 / 0,333 / 0,333
+[T57 r9 c3] 18–20,7
+[T57 r9 c4] 0 / 0–0
+[T57 r9 c5] 0 / 18–20,7
+[T57 r10 c1] SLU 5 ⏎ 0–3
+[T57 r10 c2] 30 / 0,333 / 0,333
+[T57 r10 c3] 0–18
+[T57 r10 c4] 0 / 0–0
+[T57 r10 c5] 0 / 0–18
+[T57 r11 c1] SLU 5 ⏎ 3–3,45
+[T57 r11 c2] 30 / 0,333 / 0,333
+[T57 r11 c3] 18–20,7
+[T57 r11 c4] 0 / 0–0
+[T57 r11 c5] 0 / 18–20,7
+[T57 r12 c1] SLU 6 ⏎ 0–3
+[T57 r12 c2] 30 / 0,333 / 0,333
+[T57 r12 c3] 0–23,4
+[T57 r12 c4] 0 / 0–0
+[T57 r12 c5] 0 / 0–23,4
+[T57 r13 c1] SLU 6 ⏎ 3–3,45
+[T57 r13 c2] 30 / 0,333 / 0,333
+[T57 r13 c3] 23,4–26,91
+[T57 r13 c4] 0 / 0–0
+[T57 r13 c5] 0 / 23,4–26,91
+[T57 r14 c1] SLU 7 ⏎ 0–3
+[T57 r14 c2] 30 / 0,333 / 0,333
+[T57 r14 c3] 0–23,4
+[T57 r14 c4] 0 / 0–0
+[T57 r14 c5] 0 / 0–23,4
+[T57 r15 c1] SLU 7 ⏎ 3–3,45
+[T57 r15 c2] 30 / 0,333 / 0,333
+[T57 r15 c3] 23,4–26,91
+[T57 r15 c4] 0 / 0–0
+[T57 r15 c5] 0 / 23,4–26,91
+[T57 r16 c1] SLU 8 ⏎ 0–3
+[T57 r16 c2] 30 / 0,333 / 0,333
+[T57 r16 c3] 0–18
+[T57 r16 c4] 5 / 0–0
+[T57 r16 c5] 0 / 5–23
+[T57 r17 c1] SLU 8 ⏎ 3–3,45
+[T57 r17 c2] 30 / 0,333 / 0,333
+[T57 r17 c3] 18–20,7
+[T57 r17 c4] 5 / 0–0
+[T57 r17 c5] 0 / 23–25,7
+[T57 r18 c1] SLU 9 ⏎ 0–3
+[T57 r18 c2] 30 / 0,333 / 0,333
+[T57 r18 c3] 0–18
+[T57 r18 c4] 5 / 0–0
+[T57 r18 c5] 0 / 5–23
+[T57 r19 c1] SLU 9 ⏎ 3–3,45
+[T57 r19 c2] 30 / 0,333 / 0,333
+[T57 r19 c3] 18–20,7
+[T57 r19 c4] 5 / 0–0
+[T57 r19 c5] 0 / 23–25,7
+[T57 r20 c1] SLU 10 ⏎ 0–3
+[T57 r20 c2] 30 / 0,333 / 0,333
+[T57 r20 c3] 0–23,4
+[T57 r20 c4] 5 / 0–0
+[T57 r20 c5] 0 / 5–28,4
+[T57 r21 c1] SLU 10 ⏎ 3–3,45
+[T57 r21 c2] 30 / 0,333 / 0,333
+[T57 r21 c3] 23,4–26,91
+[T57 r21 c4] 5 / 0–0
+[T57 r21 c5] 0 / 28,4–31,91
+[T57 r22 c1] SLU 11 ⏎ 0–3
+[T57 r22 c2] 30 / 0,333 / 0,333
+[T57 r22 c3] 0–23,4
+[T57 r22 c4] 5 / 0–0
+[T57 r22 c5] 0 / 5–28,4
+[T57 r23 c1] SLU 11 ⏎ 3–3,45
+[T57 r23 c2] 30 / 0,333 / 0,333
+[T57 r23 c3] 23,4–26,91
+[T57 r23 c4] 5 / 0–0
+[T57 r23 c5] 0 / 28,4–31,91
+¶ Pressioni in kPa; φd in gradi; z dalla sommità. σ′v include i fattori dei pesi e (1−kv). Le azioni laterali dirette sono integrate separatamente. Matrice completa e dettagli numerici disponibili anche nel JSON.
+[T58 r1 c1] Caso
+[T58 r1 c2] γ muro/terra/acqua
+[T58 r1 c3] H [kN/m]
+[T58 r1 c4] V′ [kN/m]
+[T58 r1 c5] U [kN/m]
+[T58 r2 c1] SLE 1
+[T58 r2 c2] 1 / 1 / 1 / 1
+[T58 r2 c3] 47,208
+[T58 r2 c4] 173,325
+[T58 r2 c5] 0
+[T58 r3 c1] SLE_FREQ 2
+[T58 r3 c2] 1 / 1 / 1 / 1
+[T58 r3 c3] 41,458
+[T58 r3 c4] 164,325
+[T58 r3 c5] 0
+[T58 r4 c1] Quasi permanente 3
+[T58 r4 c2] 1 / 1 / 1 / 1
+[T58 r4 c3] 39,158
+[T58 r4 c4] 160,725
+[T58 r4 c5] 0
+[T58 r5 c1] SLU 4
+[T58 r5 c2] 1 / 1 / 1 / 1
+[T58 r5 c3] 35,708
+[T58 r5 c4] 155,325
+[T58 r5 c5] 0
+[T58 r6 c1] SLU 5
+[T58 r6 c2] 1,3 / 1 / 1 / 1
+[T58 r6 c3] 35,708
+[T58 r6 c4] 172,763
+[T58 r6 c5] 0
+[T58 r7 c1] SLU 6
+[T58 r7 c2] 1 / 1,3 / 1 / 1
+[T58 r7 c3] 46,42
+[T58 r7 c4] 184,485
+[T58 r7 c5] 0
+[T58 r8 c1] SLU 7
+[T58 r8 c2] 1,3 / 1,3 / 1 / 1
+[T58 r8 c3] 46,42
+[T58 r8 c4] 201,923
+[T58 r8 c5] 0
+[T58 r9 c1] SLU 8
+[T58 r9 c2] 1 / 1 / 1 / 1
+[T58 r9 c3] 52,958
+[T58 r9 c4] 182,325
+[T58 r9 c5] 0
+[T58 r10 c1] SLU 9
+[T58 r10 c2] 1,3 / 1 / 1 / 1
+[T58 r10 c3] 52,958
+[T58 r10 c4] 199,763
+[T58 r10 c5] 0
+[T58 r11 c1] SLU 10
+[T58 r11 c2] 1 / 1,3 / 1 / 1
+[T58 r11 c3] 63,67
+[T58 r11 c4] 211,485
+[T58 r11 c5] 0
+[T58 r12 c1] SLU 11
+[T58 r12 c2] 1,3 / 1,3 / 1 / 1
+[T58 r12 c3] 63,67
+[T58 r12 c4] 228,923
+[T58 r12 c5] 0
+[T59 r1 c1] Caso
+[T59 r1 c2] Mstab [kNm/m]
+[T59 r1 c3] Mrib [kNm/m]
+[T59 r1 c4] e [m]
+[T59 r1 c5] B′ [m]
+[T59 r1 c6] pmax [kPa]
+[T59 r2 c1] SLE 1
+[T59 r2 c2] 317,764
+[T59 r2 c3] 60,901
+[T59 r2 c4] 0,018
+[T59 r2 c5] 2,964
+[T59 r2 c6] 59,858
+[T59 r3 c1] SLE_FREQ 2
+[T59 r3 c2] 298,864
+[T59 r3 c3] 50,982
+[T59 r3 c4] -0,008
+[T59 r3 c5] 2,983
+[T59 r3 c6] 55,704
+[T59 r4 c1] Quasi permanente 3
+[T59 r4 c2] 291,304
+[T59 r4 c3] 47,015
+[T59 r4 c4] -0,02
+[T59 r4 c5] 2,96
+[T59 r4 c6] 55,709
+[T59 r5 c1] SLU 4
+[T59 r5 c2] 279,964
+[T59 r5 c3] 41,064
+[T59 r5 c4] -0,038
+[T59 r5 c5] 2,924
+[T59 r5 c6] 55,717
+[T59 r6 c1] SLU 5
+[T59 r6 c2] 302,717
+[T59 r6 c3] 41,064
+[T59 r6 c4] -0,015
+[T59 r6 c5] 2,971
+[T59 r6 c6] 59,261
+[T59 r7 c1] SLU 6
+[T59 r7 c2] 341,2
+[T59 r7 c3] 53,383
+[T59 r7 c4] -0,06
+[T59 r7 c5] 2,88
+[T59 r7 c6] 68,888
+[T59 r8 c1] SLU 7
+[T59 r8 c2] 363,953
+[T59 r8 c3] 53,383
+[T59 r8 c4] -0,038
+[T59 r8 c5] 2,924
+[T59 r8 c6] 72,432
+[T59 r9 c1] SLU 8
+[T59 r9 c2] 336,664
+[T59 r9 c3] 70,82
+[T59 r9 c4] 0,042
+[T59 r9 c5] 2,916
+[T59 r9 c6] 65,871
+[T59 r10 c1] SLU 9
+[T59 r10 c2] 359,417
+[T59 r10 c3] 70,82
+[T59 r10 c4] 0,055
+[T59 r10 c5] 2,889
+[T59 r10 c6] 73,952
+[T59 r11 c1] SLU 10
+[T59 r11 c2] 397,9
+[T59 r11 c3] 83,139
+[T59 r11 c4] 0,012
+[T59 r11 c5] 2,977
+[T59 r11 c6] 72,139
+[T59 r12 c1] SLU 11
+[T59 r12 c2] 420,653
+[T59 r12 c3] 83,139
+[T59 r12 c4] 0,026
+[T59 r12 c5] 2,949
+[T59 r12 c6] 80,221
+¶ Convenzioni: x dal bordo a valle, e positivo verso valle, pressioni positive a compressione. N positivo a compressione. M del fusto positivo per trazione a monte; M delle mensole positivo per trazione inferiore. Sottospinta inclusa nel momento ribaltante. B′ è la larghezza efficace per la portanza, distinta dalla larghezza di contatto.
+¶ Sollecitazioni alle radici
+[T60 r1 c1] Caso
+[T60 r1 c2] Elemento
+[T60 r1 c3] N [kN/m]
+[T60 r1 c4] M [kNm/m]
+[T60 r1 c5] V [kN/m]
+[T60 r2 c1] SLE 1
+[T60 r2 c2] Fusto
+[T60 r2 c3] 24,375
+[T60 r2 c4] 41,156
+[T60 r2 c5] 37
+[T60 r3 c1] SLE 1
+[T60 r3 c2] Valle
+[T60 r3 c3] 0
+[T60 r3 c4] 15,436
+[T60 r3 c5] 38,442
+[T60 r4 c1] SLE 1
+[T60 r4 c2] Monte
+[T60 r4 c3] 0
+[T60 r4 c4] -30,334
+[T60 r4 c5] -32,955
+[T60 r5 c1] SLE_FREQ 2
+[T60 r5 c2] Fusto
+[T60 r5 c3] 24,375
+[T60 r5 c4] 33,656
+[T60 r5 c5] 32
+[T60 r6 c1] SLE_FREQ 2
+[T60 r6 c2] Valle
+[T60 r6 c3] 0
+[T60 r6 c4] 13,684
+[T60 r6 c5] 34,275
+[T60 r7 c1] SLE_FREQ 2
+[T60 r7 c2] Monte
+[T60 r7 c3] 0
+[T60 r7 c4] -24,166
+[T60 r7 c5] -27,186
+[T60 r8 c1] Quasi permanente 3
+[T60 r8 c2] Fusto
+[T60 r8 c3] 24,375
+[T60 r8 c4] 30,656
+[T60 r8 c5] 30
+[T60 r9 c1] Quasi permanente 3
+[T60 r9 c2] Valle
+[T60 r9 c3] 0
+[T60 r9 c4] 12,982
+[T60 r9 c5] 32,608
+[T60 r10 c1] Quasi permanente 3
+[T60 r10 c2] Monte
+[T60 r10 c3] 0
+[T60 r10 c4] -21,699
+[T60 r10 c5] -24,878
+[T60 r11 c1] SLU 4
+[T60 r11 c2] Fusto
+[T60 r11 c3] 24,375
+[T60 r11 c4] 26,156
+[T60 r11 c5] 27
+[T60 r12 c1] SLU 4
+[T60 r12 c2] Valle
+[T60 r12 c3] 0
+[T60 r12 c4] 11,931
+[T60 r12 c5] 30,108
+[T60 r13 c1] SLU 4
+[T60 r13 c2] Monte
+[T60 r13 c3] 0
+[T60 r13 c4] -17,998
+[T60 r13 c5] -21,417
+[T60 r14 c1] SLU 5
+[T60 r14 c2] Fusto
+[T60 r14 c3] 31,688
+[T60 r14 c4] 25,903
+[T60 r14 c5] 27
+[T60 r15 c1] SLU 5
+[T60 r15 c2] Valle
+[T60 r15 c3] 0
+[T60 r15 c4] 13,308
+[T60 r15 c5] 33,389
+[T60 r16 c1] SLU 5
+[T60 r16 c2] Monte
+[T60 r16 c3] 0
+[T60 r16 c4] -16,255
+[T60 r16 c5] -18,663
+[T60 r17 c1] SLU 6
+[T60 r17 c2] Fusto
+[T60 r17 c3] 24,375
+[T60 r17 c4] 34,256
+[T60 r17 c5] 35,1
+[T60 r18 c1] SLU 6
+[T60 r18 c2] Valle
+[T60 r18 c3] 0
+[T60 r18 c4] 14,133
+[T60 r18 c5] 35,859
+[T60 r19 c1] SLU 6
+[T60 r19 c2] Monte
+[T60 r19 c3] 0
+[T60 r19 c4] -25,141
+[T60 r19 c5] -30,596
+[T60 r20 c1] SLU 7
+[T60 r20 c2] Fusto
+[T60 r20 c3] 31,688
+[T60 r20 c4] 34,003
+[T60 r20 c5] 35,1
+[T60 r21 c1] SLU 7
+[T60 r21 c2] Valle
+[T60 r21 c3] 0
+[T60 r21 c4] 15,51
+[T60 r21 c5] 39,14
+[T60 r22 c1] SLU 7
+[T60 r22 c2] Monte
+[T60 r22 c3] 0
+[T60 r22 c4] -23,398
+[T60 r22 c5] -27,842
+[T60 r23 c1] SLU 8
+[T60 r23 c2] Fusto
+[T60 r23 c3] 24,375
+[T60 r23 c4] 48,656
+[T60 r23 c5] 42
+[T60 r24 c1] SLU 8
+[T60 r24 c2] Valle
+[T60 r24 c3] 0
+[T60 r24 c4] 17,189
+[T60 r24 c5] 42,61
+[T60 r25 c1] SLU 8
+[T60 r25 c2] Monte
+[T60 r25 c3] 0
+[T60 r25 c4] -36,503
+[T60 r25 c5] -38,724
+[T60 r26 c1] SLU 9
+[T60 r26 c2] Fusto
+[T60 r26 c3] 31,688
+[T60 r26 c4] 48,403
+[T60 r26 c5] 42
+[T60 r27 c1] SLU 9
+[T60 r27 c2] Valle
+[T60 r27 c3] 0
+[T60 r27 c4] 18,566
+[T60 r27 c5] 45,891
+[T60 r28 c1] SLU 9
+[T60 r28 c2] Monte
+[T60 r28 c3] 0
+[T60 r28 c4] -34,759
+[T60 r28 c5] -35,97
+[T60 r29 c1] SLU 10
+[T60 r29 c2] Fusto
+[T60 r29 c3] 24,375
+[T60 r29 c4] 56,756
+[T60 r29 c5] 50,1
+[T60 r30 c1] SLU 10
+[T60 r30 c2] Valle
+[T60 r30 c3] 0
+[T60 r30 c4] 19,391
+[T60 r30 c5] 48,361
+[T60 r31 c1] SLU 10
+[T60 r31 c2] Monte
+[T60 r31 c3] 0
+[T60 r31 c4] -43,646
+[T60 r31 c5] -47,903
+[T60 r32 c1] SLU 11
+[T60 r32 c2] Fusto
+[T60 r32 c3] 31,688
+[T60 r32 c4] 56,503
+[T60 r32 c5] 50,1
+[T60 r33 c1] SLU 11
+[T60 r33 c2] Valle
+[T60 r33 c3] 0
+[T60 r33 c4] 20,768
+[T60 r33 c5] 51,642
+[T60 r34 c1] SLU 11
+[T60 r34 c2] Monte
+[T60 r34 c3] 0
+[T60 r34 c4] -41,902
+[T60 r34 c5] -45,149
+¶ Tutte le sezioni campionate sono disponibili nell’export JSON; il CSV contiene tutti i controlli. Un controllo non disponibile è mantenuto nell’inviluppo e non sostituito da un esito favorevole.
+¶ Portanza sismica con inerzia del terreno
+¶ EN 1998-5:2004 allegato F, modello drenato per fondazione nastriforme su terreno granulare asciutto. Nmax=0,5 γ(1−av/g) B² Nγ; Nγ=2(Nq−1)tanφd. Ricoprimento favorevole escluso. Il dominio considera insieme N, V e M, senza ulteriori riduzioni di B o inclinazione. F=ah/(g tanφd), senza γRD come nella (F.7); N̄=γRD γR N/Nmax; V̄=γRD γR |V|/Nmax; M̄=γRD γR |M|/(B Nmax).
+¶ I=[(1−0,41F)^1,14(2,90V̄)^1,14+(1−0,32F)^1,01(2,80M̄)^1,01] / [N̄^0,92 ((1−0,96F)^0,39−N̄)^1,25] ≤1. 0<N̄<(1−0,96F)^0,39. Il tasso η è l’inverso del moltiplicatore limite lungo il raggio N,V,M; non coincide con I. γR è quello della combinazione; γRD=1.15. Origine accelerazione: Da sito. Da sito: ah/g=ag/g·Ss·St, |av|/g=0,5 ah/g; assegnata: ah/g=, |av|/g=.
+[T61 r1 c1] Caso
+[T61 r1 c2] Nmax / F
+[T61 r1 c3] N̄ / V̄ / M̄
+[T61 r1 c4] I / η
+[T61 r1 c5] Esito
+¶ Cedimenti e spostamenti in esercizio
+¶ Cedimenti richiesti: False; spostamenti richiesti: False. Pressione rimossa= kPa; limite cedimento=25 mm, rotazione=0.002 rad, spostamento testa=20 mm. Rigidezza orizzontale per metro= kN/m². Substrato rigido documentato: False.
+¶ Cedimento finale edometrico s=∫Δσz/M dz; tensioni Boussinesq della striscia con contatto lineare, al netto del terreno rimosso. Moduli assegnati e costanti per strato; niente storia di consolidazione o tempo di drenaggio. Confronto fra due discretizzazioni; profondità sufficiente a Δσz≤10% del carico netto o substrato rigido documentato. La rotazione deriva dal profilo di cedimento libero; non è una soluzione accoppiata della fondazione rigida. Flessione del fusto: doppia integrazione delle curvature GPC fessurate con viscosità per il c.a.; modello elastico senza trazione per gravità. u totale = u fusto + H/K − θ Hmuro. I limiti sono assegnati dal progettista.
+[T62 r1 c1] Strato sotto posa
+[T62 r1 c2] Spessore [m]
+[T62 r1 c3] M edometrico [kPa]
+[T63 r1 c1] Caso
+[T63 r1 c2] s valle/centro/monte [mm]
+[T63 r1 c3] θ [rad]
+[T63 r1 c4] u fusto/totale [mm]
+[T63 r1 c5] Stato
+¶ Contributi degli strati lungo la verticale centrale
+[T64 r1 c1] Caso / strato
+[T64 r1 c2] z₀–z₁ [m]
+[T64 r1 c3] M [kPa]
+[T64 r1 c4] Δs [mm]
+¶ Spostamenti sismici permanenti Newmark
+¶ Integrazione esatta per tratti lineari di a(t)−ky·g, con velocità non negativa verso valle e arresto dopo il termine della registrazione. Modello di blocco rigido libero; escluso Wood. ky/g e compatibilità delle storie con sito e stato limite sono responsabilità dell’analisi geotecnica. Ogni storia SLD o SLV viene controllata singolarmente: non viene dedotta la conformità normativa dell’insieme di accelerogrammi dal solo ag/g.
+[T65 r1 c1] Storia / stato
+[T65 r1 c2] ky/g / scala / PGA/g
+[T65 r1 c3] Campioni
+[T65 r1 c4] d / limite [mm]
+[T65 r1 c5] Esito
+¶ I campioni integrati completi e le curvature sono interrogabili nelle tabelle del modulo e conservati nel risultato JSON; gli accelerogrammi di input restano nel file del muro.
+¶ Distinta ferri del tratto di muro
+¶ Distinta riferita alle armature inserite e al tratto di muro di 1 m. Quote all’asse; peso netto senza sfridi. Il calcolo strutturale resta riferito a 1 m di muro.
+¶ CLS: C30/37; acciaio: B450C. Copriferro sezione 40 mm; estremità del tratto 40 mm. Barra commerciale 12 m.
+[T66 r1 c1] Marca / zona / faccia
+[T66 r1 c2] Ø [mm] / pezzi
+[T66 r1 c3] L pezzo [m]
+[T66 r1 c4] L totale [m]
+[T66 r1 c5] Peso [kg]
+[T66 r2 c1] P1 / Fusto inferiore / intero / monte
+[T66 r2 c2] 16 / 6
+[T66 r2 c3] 3,692
+[T66 r2 c4] 22,152
+[T66 r2 c5] 34,963
+[T66 r3 c1] P2 / Fusto inferiore / intero / valle
+[T66 r3 c2] 16 / 6
+[T66 r3 c3] 3,696
+[T66 r3 c4] 22,174
+[T66 r3 c5] 34,998
+[T66 r4 c1] P3 / Mensola valle / inferiore
+[T66 r4 c2] 16 / 6
+[T66 r4 c3] 1,492
+[T66 r4 c4] 8,952
+[T66 r4 c5] 14,129
+[T66 r5 c1] P4 / Mensola valle / superiore
+[T66 r5 c2] 16 / 6
+[T66 r5 c3] 1,492
+[T66 r5 c4] 8,952
+[T66 r5 c5] 14,129
+[T66 r6 c1] P5 / Mensola monte / inferiore
+[T66 r6 c2] 16 / 6
+[T66 r6 c3] 2,492
+[T66 r6 c4] 14,952
+[T66 r6 c5] 23,599
+[T66 r7 c1] P6 / Mensola monte / superiore
+[T66 r7 c2] 16 / 6
+[T66 r7 c3] 2,492
+[T66 r7 c4] 14,952
+[T66 r7 c5] 23,599
+[T66 r8 c1] S1 / Fusto inferiore / intero / monte
+[T66 r8 c2] 10 / 16
+[T66 r8 c3] 0,92
+[T66 r8 c4] 14,72
+[T66 r8 c5] 9,075
+[T66 r9 c1] S2 / Fusto inferiore / intero / valle
+[T66 r9 c2] 10 / 16
+[T66 r9 c3] 0,92
+[T66 r9 c4] 14,72
+[T66 r9 c5] 9,075
+[T66 r10 c1] S3 / Mensola valle / inferiore
+[T66 r10 c2] 10 / 5
+[T66 r10 c3] 0,92
+[T66 r10 c4] 4,6
+[T66 r10 c5] 2,836
+[T66 r11 c1] S4 / Mensola valle / superiore
+[T66 r11 c2] 10 / 5
+[T66 r11 c3] 0,92
+[T66 r11 c4] 4,6
+[T66 r11 c5] 2,836
+[T66 r12 c1] S5 / Mensola monte / inferiore
+[T66 r12 c2] 10 / 11
+[T66 r12 c3] 0,92
+[T66 r12 c4] 10,12
+[T66 r12 c5] 6,239
+[T66 r13 c1] S6 / Mensola monte / superiore
+[T66 r13 c2] 10 / 11
+[T66 r13 c3] 0,92
+[T66 r13 c4] 10,12
+[T66 r13 c5] 6,239
+¶ Peso delle barre definite: 181,72 kg.
+[T67 r1 c1] Marca
+[T67 r1 c2] Tratti all’asse [mm]
+[T67 r1 c3] Mandrino / l₀ [mm]
+[T67 r1 c4] Passo [mm] / note
+[T67 r2 c1] P1
+[T67 r2 c2] A = 2952; B = 269; arco 90° = 208,916; C = 262,084
+[T67 r2 c3] 250 / 0
+[T67 r2 c4] 180,8 ⏎ 
+[T67 r3 c1] P2
+[T67 r3 c2] A = 2955,688; B = 269; arco 90° = 208,916; C = 262,084
+[T67 r3 c3] 250 / 0
+[T67 r3 c4] 180,8 ⏎ Raccordo del tratto inclinato al piede da dettagliare.
+[T67 r4 c1] P3
+[T67 r4 c2] A = 1492
+[T67 r4 c3] 0 / 0
+[T67 r4 c4] 180,8 ⏎ 
+[T67 r5 c1] P4
+[T67 r5 c2] A = 1492
+[T67 r5 c3] 0 / 0
+[T67 r5 c4] 180,8 ⏎ 
+[T67 r6 c1] P5
+[T67 r6 c2] A = 2492
+[T67 r6 c3] 0 / 0
+[T67 r6 c4] 180,8 ⏎ 
+[T67 r7 c1] P6
+[T67 r7 c2] A = 2492
+[T67 r7 c3] 0 / 0
+[T67 r7 c4] 180,8 ⏎ 
+[T67 r8 c1] S1
+[T67 r8 c2] A = 920
+[T67 r8 c3] 0 / 0
+[T67 r8 c4] 194 ⏎ Rettilinea lungo muro; estremità e sovrapposizioni longitudinali da dettagliare. Zona 0.045–2.955 m.
+[T67 r9 c1] S2
+[T67 r9 c2] A = 920
+[T67 r9 c3] 0 / 0
+[T67 r9 c4] 194 ⏎ Rettilinea lungo muro; estremità e sovrapposizioni longitudinali da dettagliare. Zona 0.045–2.955 m.
+[T67 r10 c1] S3
+[T67 r10 c2] A = 920
+[T67 r10 c3] 0 / 0
+[T67 r10 c4] 191 ⏎ Rettilinea lungo muro; estremità e sovrapposizioni longitudinali da dettagliare. Zona 0.045–1 m.
+[T67 r11 c1] S4
+[T67 r11 c2] A = 920
+[T67 r11 c3] 0 / 0
+[T67 r11 c4] 191 ⏎ Rettilinea lungo muro; estremità e sovrapposizioni longitudinali da dettagliare. Zona 0.045–1 m.
+[T67 r12 c1] S5
+[T67 r12 c2] A = 920
+[T67 r12 c3] 0 / 0
+[T67 r12 c4] 195,5 ⏎ Rettilinea lungo muro; estremità e sovrapposizioni longitudinali da dettagliare. Zona 1–2.955 m.
+[T67 r13 c1] S6
+[T67 r13 c2] A = 920
+[T67 r13 c3] 0 / 0
+[T67 r13 c4] 195,5 ⏎ Rettilinea lungo muro; estremità e sovrapposizioni longitudinali da dettagliare. Zona 1–2.955 m.
+¶ Verifica dei dettagli non attivata nel riepilogo del muro.
+¶ Distinta preliminare senza sfridi. Quote all’asse delle barre; archi sviluppati al raggio (mandrino + Ø)/2. Estremità lungo muro, disposizione degli strati, raccordi e ganci richiedono il dettaglio esecutivo.
+¶ Distinta di predimensionamento delle armature
+¶ Schema di predimensionamento per metro: principali, rete secondaria e collegamenti della giunzione. Ancoraggi a fyd senza riduzioni favorevoli; 100% giunzioni a h₁. Sfridi, giunti di costruzione, estremità lungo muro e piano di posa delle barre fuori piano richiedono il disegno esecutivo. Non è una distinta di officina. Dettagli inclusi nel riepilogo: False. Principale fusto: monte/valle; solette: inferiore/superiore. Barre principali e secondarie disposte sulle due facce.
+[T68 r1 c1] Marca / zona / faccia
+[T68 r1 c2] n Ø / As [mm²/m]
+[T68 r1 c3] L [m]
+[T68 r1 c4] lbd richiesto/usato [mm]
+[T68 r1 c5] l0 richiesto/usato [mm]
+[T68 r2 c1] P1 / Fusto inferiore / intero / monte
+[T68 r2 c2] 6 Ø16 / 1206,372
+[T68 r2 c3] 3,692
+[T68 r2 c4] 735,222 / 740
+[T68 r2 c5] 0 / 0
+[T68 r3 c1] P2 / Fusto inferiore / intero / valle
+[T68 r3 c2] 6 Ø16 / 1206,372
+[T68 r3 c3] 3,696
+[T68 r3 c4] 735,222 / 740
+[T68 r3 c5] 0 / 0
+[T68 r4 c1] P3 / Mensola valle / inferiore
+[T68 r4 c2] 6 Ø16 / 1206,372
+[T68 r4 c3] 1,492
+[T68 r4 c4] 735,222 / 740
+[T68 r4 c5] 0 / 0
+[T68 r5 c1] P4 / Mensola valle / superiore
+[T68 r5 c2] 6 Ø16 / 1206,372
+[T68 r5 c3] 1,492
+[T68 r5 c4] 735,222 / 740
+[T68 r5 c5] 0 / 0
+[T68 r6 c1] P5 / Mensola monte / inferiore
+[T68 r6 c2] 6 Ø16 / 1206,372
+[T68 r6 c3] 2,492
+[T68 r6 c4] 735,222 / 740
+[T68 r6 c5] 0 / 0
+[T68 r7 c1] P6 / Mensola monte / superiore
+[T68 r7 c2] 6 Ø16 / 1206,372
+[T68 r7 c3] 2,492
+[T68 r7 c4] 735,222 / 740
+[T68 r7 c5] 0 / 0
+[T69 r1 c1] Marca
+[T69 r1 c2] Mandrino [mm]
+[T69 r1 c3] fbd [MPa]
+[T69 r1 c4] Interasse [mm]
+[T69 r2 c1] P1
+[T69 r2 c2] 250
+[T69 r2 c3] 2,129
+[T69 r2 c4] 180,8
+[T69 r3 c1] P2
+[T69 r3 c2] 250
+[T69 r3 c3] 2,129
+[T69 r3 c4] 180,8
+[T69 r4 c1] P3
+[T69 r4 c2] 0
+[T69 r4 c3] 2,129
+[T69 r4 c4] 180,8
+[T69 r5 c1] P4
+[T69 r5 c2] 0
+[T69 r5 c3] 2,129
+[T69 r5 c4] 180,8
+[T69 r6 c1] P5
+[T69 r6 c2] 0
+[T69 r6 c3] 2,129
+[T69 r6 c4] 180,8
+[T69 r7 c1] P6
+[T69 r7 c2] 0
+[T69 r7 c3] 2,129
+[T69 r7 c4] 180,8
+[T70 r1 c1] Zona
+[T70 r1 c2] Rete secondaria Ø / passo [mm]
+[T70 r2 c1] stem
+[T70 r2 c2] 10 / 200
+[T70 r3 c1] toe
+[T70 r3 c2] 10 / 200
+[T70 r4 c1] heel
+[T70 r4 c2] 10 / 200
+¶ Quantità complessiva stimata: 182,411 kg/m. Aderenza buona: False; aggregato 20 mm; vita 50 anni; tolleranza copriferro 10 mm. Giunzioni: 100% alla stessa quota; collegamenti Ø8/200 mm. Ancoraggi calcolati a fyd, α1…α5=1; sovrapposizioni con α6 e minimi NTC. Mandrino controllato per piegatura acciaio e pressione CLS.
+[T71 r1 c1] Dettaglio
+[T71 r1 c2] Richiesto / disponibile
+[T71 r1 c3] η
+[T71 r1 c4] Esito
+[T71 r2 c1] stem · monte · interferro
+[T71 r2 c2] 25 / 164,8 mm
+[T71 r2 c3] 0,152
+[T71 r2 c4] Soddisfatta
+[T71 r3 c1] stem · monte · interasse principale
+[T71 r3 c2] 180,8 / 400 mm
+[T71 r3 c3] 0,452
+[T71 r3 c4] Soddisfatta
+[T71 r4 c1] stem · monte · copriferro
+[T71 r4 c2] 30 / 40 mm
+[T71 r4 c3] 0,75
+[T71 r4 c4] Soddisfatta
+[T71 r5 c1] stem · monte · armatura secondaria
+[T71 r5 c2] 301,593 / 392,699 mm²/m
+[T71 r5 c3] 0,768
+[T71 r5 c4] Soddisfatta
+[T71 r6 c1] stem · monte · passo secondaria
+[T71 r6 c2] 200 / 400 mm
+[T71 r6 c3] 0,5
+[T71 r6 c4] Soddisfatta
+[T71 r7 c1] stem · monte · mandrino (acciaio e pressione CLS)
+[T71 r7 c2] 241,043 / 250 mm
+[T71 r7 c3] 0,964
+[T71 r7 c4] Soddisfatta
+[T71 r8 c1] stem · monte · altezza per la piega
+[T71 r8 c2] 133 / 354 mm
+[T71 r8 c3] 0,376
+[T71 r8 c4] Soddisfatta
+[T71 r9 c1] stem · monte · ingombro coda
+[T71 r9 c2] 395,084 / 1800 mm
+[T71 r9 c3] 0,219
+[T71 r9 c4] Soddisfatta
+[T71 r10 c1] stem · monte · ancoraggio al piede
+[T71 r10 c2] 735,222 / 740 mm
+[T71 r10 c3] 0,994
+[T71 r10 c4] Soddisfatta
+[T71 r11 c1] stem · valle · interferro
+[T71 r11 c2] 25 / 164,8 mm
+[T71 r11 c3] 0,152
+[T71 r11 c4] Soddisfatta
+[T71 r12 c1] stem · valle · interasse principale
+[T71 r12 c2] 180,8 / 400 mm
+[T71 r12 c3] 0,452
+[T71 r12 c4] Soddisfatta
+[T71 r13 c1] stem · valle · copriferro
+[T71 r13 c2] 30 / 40 mm
+[T71 r13 c3] 0,75
+[T71 r13 c4] Soddisfatta
+[T71 r14 c1] stem · valle · armatura secondaria
+[T71 r14 c2] 301,593 / 392,699 mm²/m
+[T71 r14 c3] 0,768
+[T71 r14 c4] Soddisfatta
+[T71 r15 c1] stem · valle · passo secondaria
+[T71 r15 c2] 200 / 400 mm
+[T71 r15 c3] 0,5
+[T71 r15 c4] Soddisfatta
+[T71 r16 c1] stem · valle · mandrino (acciaio e pressione CLS)
+[T71 r16 c2] 241,043 / 250 mm
+[T71 r16 c3] 0,964
+[T71 r16 c4] Soddisfatta
+[T71 r17 c1] stem · valle · altezza per la piega
+[T71 r17 c2] 133 / 354 mm
+[T71 r17 c3] 0,376
+[T71 r17 c4] Soddisfatta
+[T71 r18 c1] stem · valle · ingombro coda
+[T71 r18 c2] 395,084 / 800,06 mm
+[T71 r18 c3] 0,494
+[T71 r18 c4] Soddisfatta
+[T71 r19 c1] stem · valle · ancoraggio al piede
+[T71 r19 c2] 735,222 / 740 mm
+[T71 r19 c3] 0,994
+[T71 r19 c4] Soddisfatta
+[T71 r20 c1] toe · inferiore · interferro
+[T71 r20 c2] 25 / 164,8 mm
+[T71 r20 c3] 0,152
+[T71 r20 c4] Soddisfatta
+[T71 r21 c1] toe · inferiore · interasse principale
+[T71 r21 c2] 180,8 / 250 mm
+[T71 r21 c3] 0,723
+[T71 r21 c4] Soddisfatta
+[T71 r22 c1] toe · inferiore · copriferro
+[T71 r22 c2] 30 / 40 mm
+[T71 r22 c3] 0,75
+[T71 r22 c4] Soddisfatta
+[T71 r23 c1] toe · inferiore · armatura secondaria
+[T71 r23 c2] 241,274 / 392,699 mm²/m
+[T71 r23 c3] 0,614
+[T71 r23 c4] Soddisfatta
+[T71 r24 c1] toe · inferiore · passo secondaria
+[T71 r24 c2] 200 / 400 mm
+[T71 r24 c3] 0,5
+[T71 r24 c4] Soddisfatta
+[T71 r25 c1] toe · inferiore · ancoraggio oltre la radice
+[T71 r25 c2] 735,222 / 740 mm
+[T71 r25 c3] 0,994
+[T71 r25 c4] Soddisfatta
+[T71 r26 c1] toe · inferiore · ingombro ancoraggio
+[T71 r26 c2] 740 / 2152 mm
+[T71 r26 c3] 0,344
+[T71 r26 c4] Soddisfatta
+[T71 r27 c1] toe · superiore · interferro
+[T71 r27 c2] 25 / 164,8 mm
+[T71 r27 c3] 0,152
+[T71 r27 c4] Soddisfatta
+[T71 r28 c1] toe · superiore · interasse principale
+[T71 r28 c2] 180,8 / 250 mm
+[T71 r28 c3] 0,723
+[T71 r28 c4] Soddisfatta
+[T71 r29 c1] toe · superiore · copriferro
+[T71 r29 c2] 30 / 40 mm
+[T71 r29 c3] 0,75
+[T71 r29 c4] Soddisfatta
+[T71 r30 c1] toe · superiore · armatura secondaria
+[T71 r30 c2] 241,274 / 392,699 mm²/m
+[T71 r30 c3] 0,614
+[T71 r30 c4] Soddisfatta
+[T71 r31 c1] toe · superiore · passo secondaria
+[T71 r31 c2] 200 / 400 mm
+[T71 r31 c3] 0,5
+[T71 r31 c4] Soddisfatta
+[T71 r32 c1] toe · superiore · ancoraggio oltre la radice
+[T71 r32 c2] 735,222 / 740 mm
+[T71 r32 c3] 0,994
+[T71 r32 c4] Soddisfatta
+[T71 r33 c1] toe · superiore · ingombro ancoraggio
+[T71 r33 c2] 740 / 2152 mm
+[T71 r33 c3] 0,344
+[T71 r33 c4] Soddisfatta
+[T71 r34 c1] heel · inferiore · interferro
+[T71 r34 c2] 25 / 164,8 mm
+[T71 r34 c3] 0,152
+[T71 r34 c4] Soddisfatta
+[T71 r35 c1] heel · inferiore · interasse principale
+[T71 r35 c2] 180,8 / 250 mm
+[T71 r35 c3] 0,723
+[T71 r35 c4] Soddisfatta
+[T71 r36 c1] heel · inferiore · copriferro
+[T71 r36 c2] 30 / 40 mm
+[T71 r36 c3] 0,75
+[T71 r36 c4] Soddisfatta
+[T71 r37 c1] heel · inferiore · armatura secondaria
+[T71 r37 c2] 241,274 / 392,699 mm²/m
+[T71 r37 c3] 0,614
+[T71 r37 c4] Soddisfatta
+[T71 r38 c1] heel · inferiore · passo secondaria
+[T71 r38 c2] 200 / 400 mm
+[T71 r38 c3] 0,5
+[T71 r38 c4] Soddisfatta
+[T71 r39 c1] heel · inferiore · ancoraggio oltre la radice
+[T71 r39 c2] 735,222 / 740 mm
+[T71 r39 c3] 0,994
+[T71 r39 c4] Soddisfatta
+[T71 r40 c1] heel · inferiore · ingombro ancoraggio
+[T71 r40 c2] 740 / 1152 mm
+[T71 r40 c3] 0,642
+[T71 r40 c4] Soddisfatta
+[T71 r41 c1] heel · superiore · interferro
+[T71 r41 c2] 25 / 164,8 mm
+[T71 r41 c3] 0,152
+[T71 r41 c4] Soddisfatta
+[T71 r42 c1] heel · superiore · interasse principale
+[T71 r42 c2] 180,8 / 250 mm
+[T71 r42 c3] 0,723
+[T71 r42 c4] Soddisfatta
+[T71 r43 c1] heel · superiore · copriferro
+[T71 r43 c2] 30 / 40 mm
+[T71 r43 c3] 0,75
+[T71 r43 c4] Soddisfatta
+[T71 r44 c1] heel · superiore · armatura secondaria
+[T71 r44 c2] 241,274 / 392,699 mm²/m
+[T71 r44 c3] 0,614
+[T71 r44 c4] Soddisfatta
+[T71 r45 c1] heel · superiore · passo secondaria
+[T71 r45 c2] 200 / 400 mm
+[T71 r45 c3] 0,5
+[T71 r45 c4] Soddisfatta
+[T71 r46 c1] heel · superiore · ancoraggio oltre la radice
+[T71 r46 c2] 735,222 / 740 mm
+[T71 r46 c3] 0,994
+[T71 r46 c4] Soddisfatta
+[T71 r47 c1] heel · superiore · ingombro ancoraggio
+[T71 r47 c2] 740 / 1152 mm
+[T71 r47 c3] 0,642
+[T71 r47 c4] Soddisfatta
+¶ Fonti dei nuovi modelli: JRC Eurocode 8 Seismic Design of Buildings Worked Examples (2011), §4.8; JRC Eurocode 2 Background and Applications, Arrieta, Anchorage and lap splicing (2011); USACE EM 1110-1-1905 (2025); USGS SIR 2007-5196; NTC 2018 §§4.1.11 e 7.8.2.2.3. I motori geotecnici sono separati dall’interfaccia e dai materiali GPC.
+¶ Stabilità globale del complesso muro–terreno
+¶ Analisi non attivata. Nessun esito di stabilità globale disponibile.
+¶ Riferimenti
+¶ D.M. 17/01/2018, NTC 2018 §§4.1, 6.2.4, 6.5 e 7.11: https://www.gazzettaufficiale.it/eli/id/2018/2/20/18A00716/sg
+¶ JRC 2013, Eurocode 7: Geotechnical Design – Worked examples, capitoli 3 e 4: https://eurocodes.jrc.ec.europa.eu/sites/default/files/2022-06/2013_06_WS_GEO.pdf
+¶ Wood, 1973, Earthquake-induced soil pressures on structures: https://authors.library.caltech.edu/records/48499-83239; Yi, 2013, Seismic Design of Restrained Rigid Walls: https://www.cfms-sols.org/sites/default/files/Actes/3521-3524.pdf. Distribuzione uniforme dell’incremento esplicitamente assunta nel presente modello semplificato.
+¶ 1.6 geo_palo_orizzontale
+¶ Modulo: Palo orizzontale
+¶ Dati condivisi: vedere 1 Progetto F3 — Materiali; 1 Progetto F3 — Terreno; 1 Progetto F3 — Coefficienti; 1 Progetto F3 — Geometria.
+¶ Geometria
+[T72 r1 c1] Proprietà
+[T72 r1 c2] Valore
+[T72 r2 c1] Forma della sezione
+[T72 r2 c2] Circolare
+[T72 r3 c1] Lati del contorno circolare
+[T72 r3 c2] 32
+[T72 r4 c1] Lunghezza [m]
+[T72 r4 c2] 10
+¶ Armatura
+[T73 r1 c1] Proprietà
+[T73 r1 c2] Valore
+[T73 r2 c1] Copriferro netto [mm]
+[T73 r2 c2] 70
+[T73 r3 c1] Numero barre longitudinali
+[T73 r3 c2] 16
+[T73 r4 c1] Diametro barre longitudinali [mm]
+[T73 r4 c2] 24
+[T73 r5 c1] Diametro staffe [mm]
+[T73 r5 c2] 10
+[T73 r6 c1] Passo staffe [mm]
+[T73 r6 c2] 200
+[T73 r7 c1] Corona interna attiva
+[T73 r7 c2] No
+[T73 r8 c1] Staffe presenti
+[T73 r8 c2] Sì
+¶ Materiali
+[T74 r1 c1] Proprietà
+[T74 r1 c2] Valore
+[T74 r2 c1] CLS · fck [MPa]
+[T74 r2 c2] 35
+[T74 r3 c1] Classe di esposizione
+[T74 r3 c2] Da scegliere
+¶ Dati specifici del foglio
+[T75 r1 c1] Proprietà
+[T75 r1 c2] Valore
+[T75 r2 c1] Dati generali · Eccentricità [m]
+[T75 r2 c2] 0
+[T75 r3 c1] Dati generali · vincolo
+[T75 r3 c2] Libera
+[T75 r4 c1] Dati generali · modalita
+[T75 r4 c2] Automatica
+[T75 r5 c1] Dati generali · metodo calcolo
+[T75 r5 c2] Broms
+[T75 r6 c1] Dati generali · Azione orizzontale [kN]
+[T75 r6 c2] 100
+[T75 r7 c1] Dati generali · origine momento
+[T75 r7 c2] Sezione c.a.
+[T75 r8 c1] Dati generali · Azione assiale [kN]
+[T75 r8 c2] 0
+[T75 r9 c1] Dati generali · Passo dei diagrammi [m]
+[T75 r9 c2] 0,1
+[T75 r10 c1] Dati generali · tolleranza
+[T75 r10 c2] 0,00000001
+[T75 r11 c1] Dati generali · tratto libero
+[T75 r11 c2] 0
+[T75 r12 c1] Dati generali · gamma acqua
+[T75 r12 c2] 9,81
+[T75 r13 c1] Sezione · Requisiti specifici dei pali
+[T75 r13 c2] No
+[T75 r14 c1] Sezione · Zona dissipativa
+[T75 r14 c2] No
+[T75 r15 c1] Sezione · Classe CLS
+[T75 r15 c2] C35/45
+[T75 r16 c1] Sezione · Nome CLS
+[T75 r16 c2] C35/45
+[T75 r17 c1] Sezione · modulo chs mpa
+[T75 r17 c2] 210000
+[T75 r18 c1] Sezione · vita durabilita
+[T75 r18 c2] 50
+[T75 r19 c1] Sezione · gamma ca
+[T75 r19 c2] 25
+[T75 r20 c1] Sezione · gamma acciaio
+[T75 r20 c2] 78,5
+[T75 r21 c1] Sezione · gamma iniezione
+[T75 r21 c2] 0
+[T75 r22 c1] Sezione · coefficienti unitari
+[T75 r22 c2] No
+[T75 r23 c1] verifica · efficienza metodo
+[T75 r23 c2] Manuale
+[T75 r24 c1] verifica · efficienza eta
+[T75 r24 c2] 1
+¶ Risultati non disponibili: Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.
+¶ 1.7 geo_palo_verticale
+¶ Modulo: Palo verticale
+¶ Dati condivisi: vedere 1 Progetto F3 — Terreno; 1 Progetto F3 — Coefficienti; 1 Progetto F3 — Geometria.
+¶ Geometria
+[T76 r1 c1] Proprietà
+[T76 r1 c2] Valore
+[T76 r2 c1] Forma della sezione
+[T76 r2 c2] Circolare
+¶ Terreno
+[T77 r1 c1] Proprietà
+[T77 r1 c2] Valore
+[T77 r2 c1] Sondaggio 1 · Strato 1 · Spessore [m]
+[T77 r2 c2] 0
+[T77 r3 c1] Sondaggio 1 · Strato 1 · Peso specifico [kN/m³]
+[T77 r3 c2] 0
+[T77 r4 c1] Sondaggio 1 · Strato 1 · Angolo di attrito [°]
+[T77 r4 c2] 0
+[T77 r5 c1] Sondaggio 1 · Strato 1 · Coesione non drenata [kPa]
+[T77 r5 c2] 0
+¶ Dati specifici del foglio
+[T78 r1 c1] Proprietà
+[T78 r1 c2] Valore
+[T78 r2 c1] Dati generali · tipo palo
+[T78 r2 c2] Trivellato
+[T78 r3 c1] Dati generali · Peso specifico del palo [kN/m³]
+[T78 r3 c2] 25
+[T78 r4 c1] Dati generali · considera sottospinta
+[T78 r4 c2] No
+[T78 r5 c1] Dati generali · metodo nq
+[T78 r5 c2] Parametrizzata
+[T78 r6 c1] efficienza · metodo
+[T78 r6 c2] Nessuna riduzione
+[T78 r7 c1] efficienza · numero pali x
+[T78 r7 c2] 1
+[T78 r8 c1] efficienza · numero pali y
+[T78 r8 c2] 1
+[T78 r9 c1] efficienza · eta compressione
+[T78 r9 c2] 1
+[T78 r10 c1] efficienza · eta trazione
+[T78 r10 c2] 1
+¶ Terreno specifico del foglio
+[T79 r1 c1] Proprietà
+[T79 r1 c2] Valore
+[T79 r2 c1] Sondaggio 1 · Strato 1 · Coefficiente Nc
+[T79 r2 c2] 9
+[T79 r3 c1] Sondaggio 1 · Strato 1 · laterale attiva
+[T79 r3 c2] Sì
+¶ Risultati non disponibili: Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.
+¶ 1.8 mat_acciaio_armatura
+¶ Modulo: Acciaio per armature
+¶ Dati condivisi: vedere 1 Progetto F3 — Materiali; 1 Progetto F3 — Coefficienti.
+¶ Proprietà di calcolo
+[T80 r1 c1] Proprietà
+[T80 r1 c2] Valore
+[T80 r2 c1] Resistenza di progetto fyd [MPa]
+[T80 r2 c2] 391,30434783
+[T80 r3 c1] Deformazione εyd [‰]
+[T80 r3 c2] 1,95652174
+[T80 r4 c1] Rapporto fu / fyk
+[T80 r4 c2] 1,2
+¶ 1.9 mat_calcestruzzo
+¶ Modulo: Calcestruzzo
+¶ Dati condivisi: vedere 1 Progetto F3 — Materiali.
+¶ Materiali
+[T81 r1 c1] Proprietà
+[T81 r1 c2] Valore
+[T81 r2 c1] CLS · fck [MPa]
+[T81 r2 c2] 30
+[T81 r3 c1] Diametro della barra di riferimento [mm]
+[T81 r3 c2] 16
+[T81 r4 c1] Coefficiente di trazione αct
+[T81 r4 c2] 1
+[T81 r5 c1] Coefficiente parziale γc per aderenza
+[T81 r5 c2] 1,5
+[T81 r6 c1] Tipo di elemento
+[T81 r6 c2] Trave / pilastro
+[T81 r7 c1] Controllo di esecuzione
+[T81 r7 c2] Ordinario
+[T81 r8 c1] Consistenza al getto
+[T81 r8 c2] Da definire
+[T81 r9 c1] Famiglia del cemento
+[T81 r9 c2] CEM I
+[T81 r10 c1] Classe del cemento
+[T81 r10 c2] 32,5
+[T81 r11 c1] Resistenza iniziale del cemento
+[T81 r11 c2] N
+[T81 r12 c1] Condizioni di aderenza
+[T81 r12 c2] Altre · η₁ = 0,7
+[T81 r13 c1] Classe di esposizione
+[T81 r13 c2] XC1
+¶ Proprietà di calcolo
+[T82 r1 c1] Proprietà
+[T82 r1 c2] Valore
+[T82 r2 c1] Resistenza caratteristica cubica (classe) · Rck [MPa]
+[T82 r2 c2] 37
+[T82 r3 c1] Resistenza media a compressione · fcm [MPa]
+[T82 r3 c2] 38
+[T82 r4 c1] Resistenza media a trazione · fctm [MPa]
+[T82 r4 c2] 2,9
+[T82 r5 c1] Resistenza caratteristica a trazione · 5% · fctk,0.05 [MPa]
+[T82 r5 c2] 2,03
+[T82 r6 c1] Resistenza caratteristica a trazione · 95% · fctk,0.95 [MPa]
+[T82 r6 c2] 3,77
+[T82 r7 c1] Modulo elastico secante · Ecm [MPa]
+[T82 r7 c2] 32.836,57
+[T82 r8 c1] Deformazione al picco · parabola-rettangolo · εc2 [‰]
+[T82 r8 c2] 2
+[T82 r9 c1] Deformazione ultima · parabola-rettangolo · εcu2 [‰]
+[T82 r9 c2] 3,5
+[T82 r10 c1] Coefficiente di Poisson · ν [—]
+[T82 r10 c2] 0,2
+[T82 r11 c1] Aderenza
+[T82 r11 c2] fbd = 2,13 MPa
+[T82 r12 c1] Dettagli aderenza
+[T82 r12 c2] φ = 16 mm  ·  η₁ = 0,70  ·  η₂ = 1,00
+fctk,0.05 per aderenza = 2,03 MPa
+fctd = 1,35 MPa
+[T82 r13 c1] Copriferro nominale
+[T82 r13 c2] cnom = 35 mm
+[T82 r14 c1] Dettagli copriferro
+[T82 r14 c2] NTC + Circolare · ambiente ordinario
+XC1 · Trave / pilastro
+Cmin (fck) = 25 MPa · C0 (fck) = 35 MPa
+Minimo tabellare = 25 mm
+Vita utile: +0 mm; classe < Cmin: +0 mm
+Controllo dei copriferri: −0 mm
+Minimo per durabilità = 25 mm
+Minimo per aderenza = 16 mm
+cmin = max(durabilità; aderenza; 10) + superficie/abrasione = 25 mm
+cnom = cmin + Δcdev = 35 mm
+[T82 r15 c1] Applicabilità copriferro
+[T82 r15 c2] NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese.
+[T82 r16 c1] Classe cloruri
+[T82 r16 c2] Cl 0,40
+[T82 r17 c1] Rapporto A/C massimo
+[T82 r17 c2] 0,6
+[T82 r18 c1] Dosaggio minimo di cemento [kg/m³]
+[T82 r18 c2] 300
+[T82 r19 c1] Contenuto minimo di aria [%]
+[T82 r19 c2] Non prescritto
+[T82 r20 c1] Indicazioni cloruri
+[T82 r20 c2] Cl 0,40: proposta per armatura ordinaria dagli esempi ATECAP, pp. 43–50; non è una classe dedotta dall’esposizione e va confermata nella prescrizione.
+[T82 r21 c1] Riferimenti della composizione
+[T82 r21 c2] UNI 11104:2016, prospetto 5 (riportato in ATECAP 2020, p. 19). Nella UNI 11104:2025 in vigore (prospetto 6) i dosaggi minimi di cemento sono inferiori e per XF1 l’A/C massimo è 0,55: i valori adottati sono più restrittivi. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).
+
+Esposizioni: XC1. Classe minima: C25/30.
+¶ 1.10 str_bridge_design
+¶ Modulo: Bridge Design
+¶ Ambito e limiti
+¶ Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO.
+¶ Modello parametrico ANTHEA v1 di predimensionamento con regole proprie esplicitate; non costituisce verifica normativa.
+¶ Esclusi: inviluppi di traffico mobile, fasi costruttive, sisma, vento, urti, fatica, instabilità, precompressione nelle deformazioni, viscosità, fessurazione, collegamenti e verifiche geotecniche complete.
+¶ Riepilogo
+[T83 r1 c1] Indicatore
+[T83 r1 c2] Valore
+[T83 r2 c1] Tipologia
+[T83 r2 c2] Travi a I in c.a.p.
+[T83 r3 c1] Lunghezza / larghezza
+[T83 r3 c2] 105 / 20,2 m
+[T83 r4 c1] Campate
+[T83 r4 c2] 18,261 + 22,826 + 22,826 + 22,826 + 18,261 m
+[T83 r5 c1] Altezza in campata / sulle pile
+[T83 r5 c2] 1 / 1 m
+[T83 r6 c1] Costo totale, IVA esclusa
+[T83 r6 c2] 5.390.001 €
+[T83 r7 c1] Intervallo parametrico
+[T83 r7 c2] 3.773.001–7.007.002 €
+[T83 r8 c1] CO₂ materiali + cantiere
+[T83 r8 c2] 3.914 tCO₂e
+[T83 r9 c1] Durata indicativa ±25%
+[T83 r9 c2] 14 mesi
+¶ Prospetto schematico
+¶ Sezione schematica
+¶ Sezioni e dimensioni adottate
+¶ Le quote seguenti sono quelle effettivamente usate dal motore. Automatico identifica la regola di predimensionamento, impostato un dato esplicito, derivato una conseguenza geometrica. Spessori in mm, lunghezze in m. Non è una distinta esecutiva.
+[T84 r1 c1] Componente / simbolo
+[T84 r1 c2] Valore
+[T84 r1 c3] Origine
+[T84 r1 c4] Significato
+[T84 r2 c1] Geometria generale · L
+[T84 r2 c2] 105 m
+[T84 r2 c3] Impostato
+[T84 r2 c4] Lunghezza tra gli appoggi estremi
+[T84 r3 c1] Geometria generale · W
+[T84 r3 c2] 20,2 m
+[T84 r3 c3] Derivato
+[T84 r3 c4] Corsie, banchine, spartitraffico e barriere
+[T84 r4 c1] Geometria generale · N
+[T84 r4 c2] 5 n.
+[T84 r4 c3] Impostato
+[T84 r4 c4] Numero campate
+[T84 r5 c1] Geometria generale · Lmax
+[T84 r5 c2] 22,826 m
+[T84 r5 c3] Derivato
+[T84 r5 c4] Luce massima tra gli assi degli appoggi
+[T84 r6 c1] Impalcato · d
+[T84 r6 c2] 1 m
+[T84 r6 c3] Automatico
+[T84 r6 c4] Altezza totale in campata, inclusa soletta
+[T84 r7 c1] Impalcato · d_pila
+[T84 r7 c2] 1 m
+[T84 r7 c3] Derivato
+[T84 r7 c4] Altezza totale in corrispondenza delle pile
+[T84 r8 c1] Soletta · t_s
+[T84 r8 c2] 220 mm
+[T84 r8 c3] Automatico
+[T84 r8 c4] Spessore effettivamente usato nel calcolo
+[T84 r9 c1] Materiali · fc
+[T84 r9 c2] 45 MPa
+[T84 r9 c3] Impostato
+[T84 r9 c4] Resistenza convenzionale del cls impalcato
+[T84 r10 c1] Materiali · fc_sub
+[T84 r10 c2] 35 MPa
+[T84 r10 c3] Impostato
+[T84 r10 c4] Resistenza convenzionale del cls sottostrutture
+[T84 r11 c1] Trave · n
+[T84 r11 c2] 8 n.
+[T84 r11 c3] Derivato
+[T84 r11 c4] Elementi longitudinali per sezione trasversale
+[T84 r12 c1] Trave · s_rif
+[T84 r12 c2] 2,5 m
+[T84 r12 c3] Automatico
+[T84 r12 c4] Interasse di riferimento per stimare n = floor(W/s), minimo 2; non definisce gli sbalzi laterali
+[T84 r13 c1] Trave · h
+[T84 r13 c2] 0,73 m
+[T84 r13 c3] Derivato
+[T84 r13 c4] Altezza sotto soletta e rialzo; per FCM riferita alla sezione media
+[T84 r14 c1] Trave · Σ n·Li
+[T84 r14 c2] 840 m
+[T84 r14 c3] Derivato
+[T84 r14 c4] Sviluppo longitudinale teorico complessivo; non distinta di fabbricazione
+[T84 r15 c1] Trave · b_f
+[T84 r15 c2] 700 mm
+[T84 r15 c3] Automatico
+[T84 r15 c4] Larghezza delle due flange rettangolari equivalenti
+[T84 r16 c1] Trave · t_f
+[T84 r16 c2] 180 mm
+[T84 r16 c3] Automatico
+[T84 r16 c4] Spessore delle due flange; profilo ideale, non serie prefabbricata
+[T84 r17 c1] Trave · b_w
+[T84 r17 c2] 200 mm
+[T84 r17 c3] Automatico
+[T84 r17 c4] Spessore anima del profilo ideale
+[T84 r18 c1] Trave · h_w
+[T84 r18 c2] 0,37 m
+[T84 r18 c3] Derivato
+[T84 r18 c4] Altezza netta dell'anima
+[T84 r19 c1] Rialzo · h_r
+[T84 r19 c2] 50 mm
+[T84 r19 c3] Impostato
+[T84 r19 c4] Rialzo tra trave e soletta
+¶ Campate e sviluppo longitudinale
+[T85 r1 c1] Campata
+[T85 r1 c2] x iniziale [m]
+[T85 r1 c3] x finale [m]
+[T85 r1 c4] Luce [m]
+[T85 r1 c5] Elementi
+[T85 r1 c6] Sviluppo [m]
+[T85 r2 c1] 1
+[T85 r2 c2] 0
+[T85 r2 c3] 18,261
+[T85 r2 c4] 18,261
+[T85 r2 c5] 8
+[T85 r2 c6] 146,087
+[T85 r3 c1] 2
+[T85 r3 c2] 18,261
+[T85 r3 c3] 41,087
+[T85 r3 c4] 22,826
+[T85 r3 c5] 8
+[T85 r3 c6] 182,609
+[T85 r4 c1] 3
+[T85 r4 c2] 41,087
+[T85 r4 c3] 63,913
+[T85 r4 c4] 22,826
+[T85 r4 c5] 8
+[T85 r4 c6] 182,609
+[T85 r5 c1] 4
+[T85 r5 c2] 63,913
+[T85 r5 c3] 86,739
+[T85 r5 c4] 22,826
+[T85 r5 c5] 8
+[T85 r5 c6] 182,609
+[T85 r6 c1] 5
+[T85 r6 c2] 86,739
+[T85 r6 c3] 105
+[T85 r6 c4] 18,261
+[T85 r6 c5] 8
+[T85 r6 c6] 146,087
+¶ Dimensioni delle sottostrutture e fondazioni
+¶ B longitudinale, W trasversale, t spessore. Le spalle sono equivalenti volumetrici; non è definita una carpenteria esecutiva.
+[T86 r1 c1] Appoggio / fusto
+[T86 r1 c2] H [m]
+[T86 r1 c3] Pulvino W×B×t [m]
+[T86 r1 c4] Fondazione B×W×t [m]
+[T86 r1 c5] Pali n×Ø×L [m]
+[T86 r2 c1] 1 · Spalla equivalente
+[T86 r2 c2] 7
+[T86 r2 c3] —
+[T86 r2 c4] 8×20,2×1,5
+[T86 r2 c5] 6×Ø1×30
+[T86 r3 c1] 2 · Setto · 1,5×18,2 m
+[T86 r3 c2] 19
+[T86 r3 c3] 20,2×1,5×1,4
+[T86 r3 c4] 11×20,2×1,5
+[T86 r3 c5] 12×Ø1×30
+[T86 r4 c1] 3 · Setto · 1,5×18,2 m
+[T86 r4 c2] 19
+[T86 r4 c3] 20,2×1,5×1,4
+[T86 r4 c4] 11×20,2×1,5
+[T86 r4 c5] 12×Ø1×30
+[T86 r5 c1] 4 · Setto · 1,5×18,2 m
+[T86 r5 c2] 19
+[T86 r5 c3] 20,2×1,5×1,4
+[T86 r5 c4] 11×20,2×1,5
+[T86 r5 c5] 12×Ø1×30
+[T86 r6 c1] 5 · Setto · 1,5×18,2 m
+[T86 r6 c2] 19
+[T86 r6 c3] 20,2×1,5×1,4
+[T86 r6 c4] 11×20,2×1,5
+[T86 r6 c5] 12×Ø1×30
+[T86 r7 c1] 6 · Spalla equivalente
+[T86 r7 c2] 7
+[T86 r7 c3] —
+[T86 r7 c4] 8×20,2×1,5
+[T86 r7 c5] 6×Ø1×30
+¶ Quantità e prezzi
+¶ Valori orientativi confrontati con ANAS NC-MP 2026 Rev.1 e Regione Emilia-Romagna 2026. Prezzi modificabili; gli archivi conservano il proprio listino. SG e utile già compresi nei riferimenti: la maggiorazione di cantiere copre soltanto oneri aggiuntivi non computati.
+¶ Impalcato
+[T87 r1 c1] Voce
+[T87 r1 c2] Quantità
+[T87 r1 c3] Unità
+[T87 r1 c4] Prezzo €
+[T87 r1 c5] Importo €
+[T87 r2 c1] Calcestruzzo
+[T87 r2 c2] 769,9
+[T87 r2 c3] m³
+[T87 r2 c4] 260,0
+[T87 r2 c5] 200.164
+[T87 r3 c1] Armatura ordinaria
+[T87 r3 c2] 84,7
+[T87 r3 c3] t
+[T87 r3 c4] 1.660,0
+[T87 r3 c5] 140.576
+[T87 r4 c1] Precompressione
+[T87 r4 c2] 23,1
+[T87 r4 c3] t
+[T87 r4 c4] 3.600,0
+[T87 r4 c5] 83.145
+[T87 r5 c1] Casseforme equivalenti
+[T87 r5 c2] 2.121,0
+[T87 r5 c3] m²
+[T87 r5 c4] 50,0
+[T87 r5 c5] 106.050
+¶ Sottostrutture
+[T88 r1 c1] Voce
+[T88 r1 c2] Quantità
+[T88 r1 c3] Unità
+[T88 r1 c4] Prezzo €
+[T88 r1 c5] Importo €
+[T88 r2 c1] Calcestruzzo pile e spalle
+[T88 r2 c2] 2.648,5
+[T88 r2 c3] m³
+[T88 r2 c4] 240,0
+[T88 r2 c5] 635.635
+[T88 r3 c1] Armatura pile e spalle
+[T88 r3 c2] 397,3
+[T88 r3 c3] t
+[T88 r3 c4] 1.660,0
+[T88 r3 c5] 659.472
+[T88 r4 c1] Casseforme equivalenti pile e spalle
+[T88 r4 c2] 3.952,2
+[T88 r4 c3] m²
+[T88 r4 c4] 50,0
+[T88 r4 c5] 197.612
+¶ Fondazioni
+[T89 r1 c1] Voce
+[T89 r1 c2] Quantità
+[T89 r1 c3] Unità
+[T89 r1 c4] Prezzo €
+[T89 r1 c5] Importo €
+[T89 r2 c1] Casseforme laterali plinti
+[T89 r2 c2] 543,6
+[T89 r2 c3] m²
+[T89 r2 c4] 50,0
+[T89 r2 c5] 27.180
+[T89 r3 c1] Calcestruzzo plinti
+[T89 r3 c2] 1.818,0
+[T89 r3 c3] m³
+[T89 r3 c4] 240,0
+[T89 r3 c5] 436.320
+[T89 r4 c1] Pali trivellati Ø 1,0 m
+[T89 r4 c2] 1.800,0
+[T89 r4 c3] m
+[T89 r4 c4] 300,0
+[T89 r4 c5] 540.000
+[T89 r5 c1] Armatura plinti e pali
+[T89 r5 c2] 387,8
+[T89 r5 c3] t
+[T89 r5 c4] 1.660,0
+[T89 r5 c5] 643.758
+¶ Finiture
+[T90 r1 c1] Voce
+[T90 r1 c2] Quantità
+[T90 r1 c3] Unità
+[T90 r1 c4] Prezzo €
+[T90 r1 c5] Importo €
+[T90 r2 c1] Apparecchi d'appoggio
+[T90 r2 c2] 48,0
+[T90 r2 c3] cad
+[T90 r2 c4] 5.000,0
+[T90 r2 c5] 240.000
+[T90 r3 c1] Giunti di dilatazione
+[T90 r3 c2] 40,4
+[T90 r3 c3] m
+[T90 r3 c4] 2.400,0
+[T90 r3 c5] 96.960
+[T90 r4 c1] Barriere
+[T90 r4 c2] 315,0
+[T90 r4 c3] m
+[T90 r4 c4] 360,0
+[T90 r4 c5] 113.400
+[T90 r5 c1] Pavimentazione
+[T90 r5 c2] 2.016,0
+[T90 r5 c3] m²
+[T90 r5 c4] 32,0
+[T90 r5 c5] 64.512
+¶ Diretto 4.184.784 € × (1 + 12% oneri) × (1 + 15% imprevisti) = 5.390.001 €.
+¶ Regole e risultati intermedi
+[T91 r1 c1] Grandezza
+[T91 r1 c2] Valore
+[T91 r1 c3] Regola
+[T91 r2 c1] Larghezza impalcato
+[T91 r2 c2] 20,2 m
+[T91 r2 c3] corsie × larghezza + 2 banchine + spartitraffico + 2 barriere
+[T91 r3 c1] Altezza in campata
+[T91 r3 c2] 1 m
+[T91 r3 c3] max(1,00; Lmax/22,22 × .95)
+[T91 r4 c1] Altezza sulle pile
+[T91 r4 c2] 1 m
+[T91 r4 c3] Altezza costante
+[T91 r5 c1] Area cls impalcato
+[T91 r5 c2] 7,332 m²
+[T91 r5 c3] Soletta + componenti della famiglia selezionata
+[T91 r6 c1] Inerzia lorda equivalente
+[T91 r6 c2] 0,637 m⁴
+[T91 r6 c3] Componenti rettangolari, acciaio omogeneizzato con Es/Ec; sezione non fessurata
+[T91 r7 c1] Modulo elastico cls
+[T91 r7 c2] 36283,188 MPa
+[T91 r7 c3] 22000 × ((fc + 8)/10)^0.3; stima, senza viscosità
+[T91 r8 c1] Permanenti sull'intero impalcato
+[T91 r8 c2] 257,8 kN/m
+[T91 r8 c3] 25 Acls + 9.81 massa acciaio/m + g2 W + 8 per barriera
+[T91 r9 c1] Traffico equivalente sull'intero impalcato
+[T91 r9 c2] 181,8 kN/m
+[T91 r9 c3] q equivalente × W; carico uniforme su TUTTE le campate, senza assi mobili
+[T91 r10 c1] Momento positivo indicativo
+[T91 r10 c2] 14340,619 kNm
+[T91 r10 c3] Intero impalcato: γG G + γQ Q; tre momenti, EI costante
+[T91 r11 c1] Momento negativo indicativo
+[T91 r11 c2] -27053,057 kNm
+[T91 r11 c3] Intero impalcato: carico uniforme su tutte le campate; non è inviluppo di traffico
+[T91 r12 c1] Freccia elastica indicativa
+[T91 r12 c2] 13,861 mm
+[T91 r12 c3] Doppia integrazione M/EI, G + Q; esclusi precompressione, fessurazione e viscosità
+[T91 r13 c1] Pressione terreno adottata
+[T91 r13 c2] 100 kPa
+[T91 r13 c3] Parametro editabile o classe convenzionale; nessuna indagine geotecnica
+[T91 r14 c1] Carico assiale indicativo per palo
+[T91 r14 c2] 2748,894 kN
+[T91 r14 c3] π Ø L qs + π Ø² qb/4; valori di classe già convenzionalmente ridotti
+[T91 r15 c1] Rapporto carico / riferimento fondazione
+[T91 r15 c2] 0,983 —
+[T91 r15 c3] Assiale centrato con peso pila e plinto; esclusi momenti, azioni orizzontali, cedimenti
+[T91 r16 c1] Snellezza massima delle pile
+[T91 r16 c2] 87,757 —
+[T91 r16 c3] 2H/r, schema a mensola; r = Ø/4 o t/√12
+[T91 r17 c1] Compressione media pile / fc
+[T91 r17 c2] 0,025 —
+[T91 r17 c3] max [(R G+Q + peso pila) / A / fc sottostrutture]; carico centrato, senza armatura, non è una verifica di resistenza
+[T91 r18 c1] Calcestruzzo totale inclusi pali
+[T91 r18 c2] 6650,057 m³
+[T91 r18 c3] Pali inclusi nel prezzo al metro, senza duplicare il costo del cls
+[T91 r19 c1] Costo diretto
+[T91 r19 c2] 4184783,601 €
+[T91 r19 c3] Σ quantità × prezzo unitario
+[T91 r20 c1] Costo totale indicativo
+[T91 r20 c2] 5390001,279 €
+[T91 r20 c3] Diretto × (1 + oneri/100) × (1 + imprevisti/100); IVA esclusa
+[T91 r21 c1] Durata indicativa
+[T91 r21 c2] 14 mesi
+[T91 r21 c3] Avvio + campate × coeff. + pile × coeff. + fondazioni / conci; incertezza ±25%
+¶ Appoggi e reazioni
+¶ Reazioni G+Q non fattorizzate sull'intero impalcato. Le fondazioni sono dimensionate con carico assiale centrato e valori convenzionali.
+[T92 r1 c1] Appoggio / tipo
+[T92 r1 c2] x [m]
+[T92 r1 c3] R [kN]
+[T92 r1 c4] H [m]
+[T92 r1 c5] Pali [n.]
+[T92 r2 c1] 1 · Spalla
+[T92 r2 c2] 0
+[T92 r2 c3] 2988,17
+[T92 r2 c4] 7
+[T92 r2 c5] 6
+[T92 r3 c1] 2 · Setto
+[T92 r3 c2] 18,261
+[T92 r3 c3] 10037,594
+[T92 r3 c4] 19
+[T92 r3 c5] 12
+[T92 r4 c1] 3 · Setto
+[T92 r4 c2] 41,087
+[T92 r4 c3] 10053,236
+[T92 r4 c4] 19
+[T92 r4 c5] 12
+[T92 r5 c1] 4 · Setto
+[T92 r5 c2] 63,913
+[T92 r5 c3] 10053,236
+[T92 r5 c4] 19
+[T92 r5 c5] 12
+[T92 r6 c1] 5 · Setto
+[T92 r6 c2] 86,739
+[T92 r6 c3] 10037,594
+[T92 r6 c4] 19
+[T92 r6 c5] 12
+[T92 r7 c1] 6 · Spalla
+[T92 r7 c2] 105
+[T92 r7 c3] 2988,17
+[T92 r7 c4] 7
+[T92 r7 c5] 6
+¶ Avvisi del modello
+¶ Tipologia fuori dal campo usuale 20–50 m: campate 18,3–22,8 m.
+¶ Franco idraulico ed erosione non valutati: il terreno rappresentato è schematico.
+¶ Computo parziale: scavi, rinterri, drenaggi, protezioni, impermeabilizzazione, centine alte, accessi e sicurezza specifica non computati analiticamente. Oneri aggiuntivi e imprevisti sono riserve, non un computo completo.
+¶ CO₂ indicativa: cls e acciai + maggiorazione trasporti/cantiere; finiture, esercizio e fine vita esclusi. Fattori non riferiti a EPD.
+¶ Input e coefficienti conservati
+¶ Geometria e materiali (incluse opzioni delle altre famiglie)
+[T93 r1 c1] Parametro
+[T93 r1 c2] Valore
+[T93 r1 c3] Unità
+[T93 r2 c1] Lunghezza totale
+[T93 r2 c2] 105
+[T93 r2 c3] m
+[T93 r3 c1] Quota impalcato sul terreno
+[T93 r3 c2] 20
+[T93 r3 c3] m
+[T93 r4 c1] Larghezza ostacolo
+[T93 r4 c2] 20
+[T93 r4 c3] m
+[T93 r5 c1] Corsie complessive
+[T93 r5 c2] 4
+[T93 r5 c3] n.
+[T93 r6 c1] Larghezza corsia
+[T93 r6 c2] 3.65
+[T93 r6 c3] m
+[T93 r7 c1] Banchina per lato
+[T93 r7 c2] 1.5
+[T93 r7 c3] m
+[T93 r8 c1] Spartitraffico
+[T93 r8 c2] 1.6
+[T93 r8 c3] m
+[T93 r9 c1] Ingombro barriera per lato
+[T93 r9 c2] 0.5
+[T93 r9 c3] m
+[T93 r10 c1] Numero campate · 0 = auto
+[T93 r10 c2] 5
+[T93 r10 c3] n.
+[T93 r11 c1] Altezza totale · 0 = auto
+[T93 r11 c2] 0
+[T93 r11 c3] m
+[T93 r12 c1] Spessore soletta · 0 = auto
+[T93 r12 c2] 0
+[T93 r12 c3] m
+[T93 r13 c1] Interasse travi · 0 = auto
+[T93 r13 c2] 0
+[T93 r13 c3] m
+[T93 r14 c1] Spessore anima cls · 0 = auto
+[T93 r14 c2] 0
+[T93 r14 c3] m
+[T93 r15 c1] Soletta inferiore · 0 = auto
+[T93 r15 c2] 0
+[T93 r15 c3] m
+[T93 r16 c1] Larghezza fondo / impalcato
+[T93 r16 c2] 0.55
+[T93 r16 c3] —
+[T93 r17 c1] Celle del cassone
+[T93 r17 c2] 2
+[T93 r17 c3] n.
+[T93 r18 c1] Cassoni metallici · 0 = auto
+[T93 r18 c2] 0
+[T93 r18 c3] n.
+[T93 r19 c1] Larghezza piattabanda
+[T93 r19 c2] 0.55
+[T93 r19 c3] m
+[T93 r20 c1] Spessore piattabande
+[T93 r20 c2] 24
+[T93 r20 c3] mm
+[T93 r21 c1] Spessore anima acciaio
+[T93 r21 c2] 12
+[T93 r21 c3] mm
+[T93 r22 c1] Inclinazione anime · H per 4V
+[T93 r22 c2] 1
+[T93 r22 c3] —
+[T93 r23 c1] Rialzo sotto soletta
+[T93 r23 c2] 0.05
+[T93 r23 c3] m
+[T93 r24 c1] Larghezza superiore U
+[T93 r24 c2] 2.4
+[T93 r24 c3] m
+[T93 r25 c1] Larghezza inferiore U
+[T93 r25 c2] 1.4
+[T93 r25 c3] m
+[T93 r26 c1] Resistenza cls impalcato
+[T93 r26 c2] 45
+[T93 r26 c3] MPa
+[T93 r27 c1] Freccia arco / luce
+[T93 r27 c2] 0.2
+[T93 r27 c3] —
+[T93 r28 c1] Antenna sopra impalcato · 0 = auto
+[T93 r28 c2] 0
+[T93 r28 c3] m
+[T93 r29 c1] Freccia cavo / luce centrale
+[T93 r29 c2] 0.1
+[T93 r29 c3] —
+[T93 r30 c1] Passo indicativo pendini / stralli
+[T93 r30 c2] 8
+[T93 r30 c3] m
+[T93 r31 c1] Altezza reticolare / luce
+[T93 r31 c2] 0.12
+[T93 r31 c3] —
+[T93 r32 c1] Cls sopra e sotto trave incorporata
+[T93 r32 c2] 0.06
+[T93 r32 c3] m
+[T93 r33 c1] Lamiera piastra ortotropa
+[T93 r33 c2] 16
+[T93 r33 c3] mm
+[T93 r34 c1] Altezza canaletta ortotropa
+[T93 r34 c2] 0.3
+[T93 r34 c3] m
+[T93 r35 c1] Larghezza superiore canaletta
+[T93 r35 c2] 0.3
+[T93 r35 c3] m
+[T93 r36 c1] Larghezza inferiore canaletta
+[T93 r36 c2] 0.18
+[T93 r36 c3] m
+[T93 r37 c1] Spessore canaletta
+[T93 r37 c2] 8
+[T93 r37 c3] mm
+[T93 r38 c1] Interasse canalette
+[T93 r38 c2] 0.6
+[T93 r38 c3] m
+[T93 r39 c1] Lunghezza pali · 0 = auto
+[T93 r39 c2] 0
+[T93 r39 c3] m
+[T93 r40 c1] Diametro / spessore pila · 0 = auto
+[T93 r40 c2] 0
+[T93 r40 c3] m
+[T93 r41 c1] Pali per appoggio · 0 = auto
+[T93 r41 c2] 0
+[T93 r41 c3] n.
+[T93 r42 c1] Lato fondazione · 0 = auto
+[T93 r42 c2] 0
+[T93 r42 c3] m
+[T93 r43 c1] Resistenza cls sottostrutture
+[T93 r43 c2] 35
+[T93 r43 c3] MPa
+¶ Listino unitario EUR
+[T94 r1 c1] Parametro
+[T94 r1 c2] Valore
+[T94 r1 c3] Unità
+[T94 r2 c1] Cls impalcato
+[T94 r2 c2] 260
+[T94 r2 c3] €/m³
+[T94 r3 c1] Cls sottostrutture e plinti
+[T94 r3 c2] 240
+[T94 r3 c3] €/m³
+[T94 r4 c1] Armatura ordinaria
+[T94 r4 c2] 1660
+[T94 r4 c3] €/t
+[T94 r5 c1] Acciaio da precompressione
+[T94 r5 c2] 3600
+[T94 r5 c3] €/t
+[T94 r6 c1] Carpenteria metallica
+[T94 r6 c2] 3500
+[T94 r6 c3] €/t
+[T94 r7 c1] Carpenteria cassoni
+[T94 r7 c2] 4000
+[T94 r7 c3] €/t
+[T94 r8 c1] Casseforme
+[T94 r8 c2] 50
+[T94 r8 c3] €/m²
+[T94 r9 c1] Palo Ø 1,0 · esclusa armatura
+[T94 r9 c2] 300
+[T94 r9 c3] €/m
+[T94 r10 c1] Palo Ø 1,5 · esclusa armatura
+[T94 r10 c2] 550
+[T94 r10 c3] €/m
+[T94 r11 c1] Apparecchio d'appoggio
+[T94 r11 c2] 5000
+[T94 r11 c3] €/cad
+[T94 r12 c1] Giunto di dilatazione
+[T94 r12 c2] 2400
+[T94 r12 c3] €/m
+[T94 r13 c1] Barriera
+[T94 r13 c2] 360
+[T94 r13 c3] €/m
+[T94 r14 c1] Pavimentazione
+[T94 r14 c2] 32
+[T94 r14 c3] €/m²
+[T94 r15 c1] Carpenteria impalcato ortotropo
+[T94 r15 c2] 5000
+[T94 r15 c3] €/t
+[T94 r16 c1] Cavi e pendini installati, inclusi terminali
+[T94 r16 c2] 16000
+[T94 r16 c3] €/t
+[T94 r17 c1] Montaggio aggiuntivo strutture speciali
+[T94 r17 c2] 1000
+[T94 r17 c3] €/t
+¶ Ipotesi e coefficienti
+[T95 r1 c1] Parametro
+[T95 r1 c2] Valore
+[T95 r1 c3] Unità
+[T95 r2 c1] Oneri aggiuntivi non computati
+[T95 r2 c2] 12
+[T95 r2 c3] %
+[T95 r3 c1] Imprevisti
+[T95 r3 c2] 15
+[T95 r3 c3] %
+[T95 r4 c1] Intervallo indicativo costo ±
+[T95 r4 c2] 30
+[T95 r4 c3] %
+[T95 r5 c1] CO₂ cls ordinario
+[T95 r5 c2] 320
+[T95 r5 c3] kg/m³
+[T95 r6 c1] CO₂ armatura
+[T95 r6 c2] 1.4
+[T95 r6 c3] kg/kg
+[T95 r7 c1] CO₂ carpenteria
+[T95 r7 c2] 2
+[T95 r7 c3] kg/kg
+[T95 r8 c1] CO₂ precompressione
+[T95 r8 c2] 2.5
+[T95 r8 c3] kg/kg
+[T95 r9 c1] Trasporti e cantiere / materiali
+[T95 r9 c2] 15
+[T95 r9 c3] %
+[T95 r10 c1] Fattore cls a ridotta CO₂
+[T95 r10 c2] 0.6
+[T95 r10 c3] —
+[T95 r11 c1] Fattore acciaio riciclato
+[T95 r11 c2] 0.35
+[T95 r11 c3] —
+[T95 r12 c1] Armatura impalcato c.a.
+[T95 r12 c2] 140
+[T95 r12 c3] kg/m³
+[T95 r13 c1] Armatura impalcato c.a.p.
+[T95 r13 c2] 110
+[T95 r13 c3] kg/m³
+[T95 r14 c1] Armatura sottostrutture
+[T95 r14 c2] 150
+[T95 r14 c3] kg/m³
+[T95 r15 c1] Armatura fondazioni
+[T95 r15 c2] 120
+[T95 r15 c3] kg/m³
+[T95 r16 c1] Precompressione
+[T95 r16 c2] 30
+[T95 r16 c3] kg/m³
+[T95 r17 c1] Permanenti portati
+[T95 r17 c2] 2.5
+[T95 r17 c3] kN/m²
+[T95 r18 c1] Traffico uniforme equivalente
+[T95 r18 c2] 9
+[T95 r18 c3] kN/m²
+[T95 r19 c1] Moltiplicatore permanenti
+[T95 r19 c2] 1.35
+[T95 r19 c3] —
+[T95 r20 c1] Moltiplicatore traffico
+[T95 r20 c2] 1.5
+[T95 r20 c3] —
+[T95 r21 c1] Pressione terreno · 0 = classe
+[T95 r21 c2] 0
+[T95 r21 c3] kPa
+[T95 r22 c1] Resistenza laterale · 0 = classe
+[T95 r22 c2] 0
+[T95 r22 c3] kPa
+[T95 r23 c1] Resistenza punta · 0 = classe
+[T95 r23 c2] 0
+[T95 r23 c3] kPa
+[T95 r24 c1] Durata: avvio cantiere
+[T95 r24 c2] 4
+[T95 r24 c3] mesi
+[T95 r25 c1] Durata per campata
+[T95 r25 c2] 1.2
+[T95 r25 c3] mesi
+[T95 r26 c1] Durata per pila
+[T95 r26 c2] 0.4
+[T95 r26 c3] mesi
+[T95 r27 c1] Tensione di riferimento carpenteria
+[T95 r27 c2] 180
+[T95 r27 c3] MPa
+[T95 r28 c1] Compressione di riferimento archi / aste
+[T95 r28 c2] 100
+[T95 r28 c3] MPa
+[T95 r29 c1] Tensione di riferimento cavi
+[T95 r29 c2] 600
+[T95 r29 c3] MPa
+[T95 r30 c1] Compressione di riferimento antenne cls
+[T95 r30 c2] 6
+[T95 r30 c3] MPa
+[T95 r31 c1] Attrito convenzionale blocchi ancoraggio
+[T95 r31 c2] 0.5
+[T95 r31 c3] —
+[T95 r32 c1] Aggiunta collegamenti arco / reticolare
+[T95 r32 c2] 20
+[T95 r32 c3] %
+[T95 r33 c1] CO₂ cavi e pendini
+[T95 r33 c2] 2.5
+[T95 r33 c3] kg/kg
+[T96 r1 c1] Scelta
+[T96 r1 c2] Valore
+[T96 r2 c1] Ostacolo
+[T96 r2 c2] Fiume
+[T96 r3 c1] Terreno
+[T96 r3 c2] Argilla soffice
+[T96 r4 c1] Piano carrabile richiesto (applicato alle strutture superiori)
+[T96 r4 c2] Soletta in cls
+[T96 r5 c1] Pila richiesta (antenne a portale per i ponti a cavi)
+[T96 r5 c2] Setto
+[T96 r6 c1] Fondazione richiesta
+[T96 r6 c2] Automatica
+[T96 r7 c1] Continuità
+[T96 r7 c2] true
+[T96 r8 c1] Inizio su pila
+[T96 r8 c2] false
+[T96 r9 c1] Fine su pila
+[T96 r9 c2] false
+[T96 r10 c1] Cls ridotta CO₂
+[T96 r10 c2] false
+[T96 r11 c1] Acciaio riciclato
+[T96 r11 c2] false
+¶ 1.11 str_mista_ponte
+¶ Modulo: Sezione composta da ponte
+¶ Dati condivisi: vedere 1 Progetto F3 — Coefficienti.
+¶ Materiali
+[T97 r1 c1] Proprietà
+[T97 r1 c2] Valore
+[T97 r2 c1] Ponte · Classe del calcestruzzo
+[T97 r2 c2] C35/45
+[T97 r3 c1] Ponte · Acciaio della carpenteria
+[T97 r3 c2] S355
+[T97 r4 c1] Ponte · Acciaio delle armature
+[T97 r4 c2] B450C
+[T97 r5 c1] Ponte · Sovrascrivi fy
+[T97 r5 c2] No
+¶ Geometria
+[T98 r1 c1] Proprietà
+[T98 r1 c2] Valore
+[T98 r2 c1] Ponte · Larghezza soletta [mm]
+[T98 r2 c2] 3000
+[T98 r3 c1] Ponte · Spessore totale soletta [mm]
+[T98 r3 c2] 250
+[T98 r4 c1] Ponte · Altezza totale H trave [mm]
+[T98 r4 c2] 1855
+[T98 r5 c1] Ponte · Spessore anima [mm]
+[T98 r5 c2] 14
+[T98 r6 c1] Ponte · Larghezza piattabanda superiore [mm]
+[T98 r6 c2] 500
+[T98 r7 c1] Ponte · Spessore piattabanda superiore [mm]
+[T98 r7 c2] 25
+[T98 r8 c1] Ponte · Larghezza piattabanda inferiore [mm]
+[T98 r8 c2] 700
+[T98 r9 c1] Ponte · Spessore piattabanda inferiore [mm]
+[T98 r9 c2] 30
+[T98 r10 c1] Ponte · Seconda piattabanda inferiore
+[T98 r10 c2] No
+[T98 r11 c1] Ponte · Predalle presente · solo geometria
+[T98 r11 c2] No
+¶ Armatura
+[T99 r1 c1] Proprietà
+[T99 r1 c2] Valore
+[T99 r2 c1] Ponte · Armatura superiore presente
+[T99 r2 c2] Sì
+[T99 r3 c1] Ponte · Diametro barre superiori [mm]
+[T99 r3 c2] 16
+[T99 r4 c1] Ponte · Passo barre superiori [mm]
+[T99 r4 c2] 150
+[T99 r5 c1] Ponte · Estradosso soletta → asse barre [mm]
+[T99 r5 c2] 45
+[T99 r6 c1] Ponte · Armatura inferiore presente
+[T99 r6 c2] Sì
+[T99 r7 c1] Ponte · Diametro barre inferiori [mm]
+[T99 r7 c2] 16
+[T99 r8 c1] Ponte · Passo barre inferiori [mm]
+[T99 r8 c2] 150
+[T99 r9 c1] Ponte · Riferimento inferiore → asse barre [mm]
+[T99 r9 c2] 45
+¶ Coefficienti
+[T100 r1 c1] Proprietà
+[T100 r1 c2] Valore
+[T100 r2 c1] γM0 · resistenza della carpenteria
+[T100 r2 c2] 1,05
+[T100 r3 c1] γM1 · instabilità della carpenteria
+[T100 r3 c2] 1,1
+¶ Normativa
+[T101 r1 c1] Proprietà
+[T101 r1 c2] Valore
+[T101 r2 c1] Normativa · Sezione composta da ponte
+[T101 r2 c2] NTC 2018 / EN 1994-2:2005
+¶ Dati specifici del foglio
+[T102 r1 c1] Proprietà
+[T102 r1 c2] Valore
+[T102 r2 c1] Sezione
+[T102 r2 c2] H saldato
+¶ ANTHEA · <DATA> <ORA>
+¶ Motore di calcolo: GPC Engine · libreria GPCChecker.CompositeBridge.
+¶ Analisi delle tensioni normali di una soletta in calcestruzzo collegata a una trave in acciaio. La relazione riporta i dati e i risultati delle situazioni calcolate, senza eseguire un nuovo calcolo. I rapporti tensionali sono controlli locali della sezione.
+¶ Ambito e convenzioni
+¶ Analisi elastica N–Mx con connessione completa, sezione simmetrica e anima senza irrigidimenti longitudinali. b_eff della soletta è un dato di ingresso. Le fasi sono incrementi di carico già combinati; per ogni situazione la sezione efficace è comune ai contributi sommati. Il ritiro uniforme assegnato al CLS produce effetti primari locali. Non è un'analisi evolutiva con redistribuzione viscosa. Taglio e pioli hanno controlli locali dedicati. Irrigidimenti, appoggi, saldature continue, soletta trasversale e fatica dei pioli hanno verifiche opzionali con campo dichiarato. La torsione è verificata solo per il cassoncino (cella chiusa, distorsione e diaframmi, opzionali); l'instabilità globale del ponte resta esclusa.
+¶ Lunghezze in mm, tensioni in MPa, forze in kN e momenti in kNm. Compressione negativa e trazione positiva. L’asse y ha origine all’interfaccia acciaio soletta ed è positivo verso l’alto. Mx positivo comprime la parte superiore. Le azioni sono incrementi già combinati e, allo SLU, già coefficientati con γF e ψ. Il modulo non moltiplica nuovamente i carichi: il selettore SLU/SLE cambia limiti e resistenze. Arrotondamenti soltanto nella presentazione.
+¶ Model fornisce materiali e geometria. GPC Engine esegue il calcolo per fasi e le larghezze efficaci. ANTHEA gestisce ingressi e presentazione dei risultati.
+¶ Riepilogo delle situazioni
+[T103 r1 c1] Situazione
+[T103 r1 c2] ΣN [kN]
+[T103 r1 c3] ΣMx a y=0 [kNm]
+[T103 r1 c4] ΣV [kN]
+[T103 r1 c5] η max locale
+[T103 r1 c6] Stato locale
+[T103 r2 c1] 1 · Dopo G1 · getto e carpenteria
+[T103 r2 c2] 0,00
+[T103 r2 c3] 1500,00
+[T103 r2 c4] 0,00
+[T103 r2 c5] 0,15
+[T103 r2 c6] Entro limiti
+[T103 r3 c1] 2 · Dopo G2 · permanenti portati
+[T103 r3 c2] 0,00
+[T103 r3 c3] 3500,00
+[T103 r3 c4] 0,00
+[T103 r3 c5] 0,22
+[T103 r3 c6] Entro limiti
+[T103 r4 c1] 3 · Dopo Q · variabili
+[T103 r4 c2] 0,00
+[T103 r4 c3] 6500,00
+[T103 r4 c4] 0,00
+[T103 r4 c5] 0,37
+[T103 r4 c6] Entro limiti
+¶ η max locale include tensioni, taglio e controlli accessori attivati. Un controllo mancante non riceve un esito favorevole; leggere gli avvisi e il campo delle verifiche. Non è un esito globale del ponte.
+¶ EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.
+¶ Taglio irrigidimenti e pioli
+¶ Riferimenti: NTC 2018 §§4.2.4.1.2, 4.3.4.2.2 e 4.3.4.3; EN 1993-1-5:2006 §§5, 7.1, 9; EN 1994-2:2005 §§6.2.2, 6.6 e 7.2.2. Valori modificabili: γM1 = 1,10, η = 1,20, γV = 1,25.
+¶ Taglio affidato all’anima intera: VRd = min(Vpl,Rd; Vbw,Rd), Vbw,Rd = χw hw tw fy/(√3 γM1). Contributo delle flange omesso. La curva del montante terminale è non rigida salvo qualificazione positiva del terminale inserito. Gli irrigidimenti di appoggio sono verificati se attivati. Le zone inefficaci nel grafico riguardano le tensioni normali.
+¶ Irrigidimenti intermedi: assenti. Pioli: verifica disattivata.
+¶ Irrigidimenti mono o bilaterali: sezione con striscia simmetrica di anima limitata dal materiale disponibile, baricentro ed eccentricità reali. Analisi elastica del II ordine con imperfezione equivalente Lcr/200, EN 1993-1-1 §§5.2.2(7)a e 5.3.4. Controlli di rigidezza, torsione e piatti entro classe 3. Le saldature continue, quando attivate, usano fu da Model, βw=1 e γM2=1,25.
+¶ Appoggio: reazione R assegnata come inviluppo SLU indipendente dalle fasi, piatti a contatto e impronta interamente sottostante. Il terminale rigido è formato da due coppie bilaterali simmetriche identiche. La curva rigida è adottata soltanto dopo i controlli geometrici, di resistenza e dei collegamenti. Piastra di ripartizione e apparecchio d’appoggio esclusi.
+¶ Soletta: armature trasversali distinte dalle barre longitudinali. Superfici a–a sui due lati e b–b attorno ai gruppi di pioli, traliccio EN 1992-1-1 §6.2.4, armatura minima, interazione con flessione trasversale e ancoraggi. Cot θ limitata a 1–1,25 anche per soletta tesa. Il bordo fisico è un dato separato da b_eff.
+¶ Fatica pioli: ΔqE,2=λv φfat (qmax−qmin), ΔτE,2=ΔqE,2 p/(npioli Agambo). EN 1994-2 §§6.8.3 e 6.8.7.2: categoria 90 per i pioli; categoria 80 e interazione per flangia anche tesa. Gli intervalli sono inviluppi assegnati dal modello globale, comprensivi dei casi fessurati/non fessurati; non provengono dalle fasi costruttive. I controlli non attivati restano da verificare.
+¶ Pioli: q = Σ(Vi Si/Ii + Δqi), PEd = |q| p/npioli. NTC: proprietà della fase tensionale; EC4: CLS non fessurato con acciaio efficace. Il ritiro uniforme ha q(V)=0; gli effetti locali di estremità richiedono Δq assegnato da un modello longitudinale. PRd è il minore fra resistenza del gambo e del CLS; in combinazione SLE rara si usa 0,75 PRd. Per SLE quasi permanente non si assegna l’esito richiesto alla rara.
+¶ Interazione M–V per N=0, fy≤355 MPa e anima non tutta compressa: EN 1994-2 §6.2.2.4(3), con Mpl e Mf della sezione composta, flange efficaci e anima intera; armature omesse nelle capacità plastiche di riferimento. Negli altri casi, ad alto taglio, si adotta un inviluppo elastico cautelativo: ηnorm+(2ηV−1)²≤1, Mf=0 e CLS limitato a 0,85 fcd. Non si accredita redistribuzione plastica; il criterio può essere più gravoso della verifica con capacità plastiche ridotte per N. I controlli elastici e di classe 4 restano necessari.
+¶ Normativa e coefficienti
+¶ Riferimento selezionato: NTC 2018 / EN 1994-2:2005. Limiti tensionali: SLU.
+[T104 r1 c1] Coefficiente
+[T104 r1 c2] Applicato
+[T104 r2 c1] γM0 acciaio strutturale
+[T104 r2 c2] 1,05
+[T104 r3 c1] γc calcestruzzo
+[T104 r3 c2] 1,50
+[T104 r4 c1] αcc calcestruzzo
+[T104 r4 c2] 0,85
+[T104 r5 c1] γs armature
+[T104 r5 c2] 1,15
+¶ Riduzioni locali di classe 4: attive. Metodo: Sezione composta N–Mx · larghezze efficaci EN 1993-1-5:2006 · v1.
+¶ I coefficienti sono quelli assegnati nel foglio. Il rapporto delle larghezze efficaci usa fy caratteristico. SLU: limiti αcc fck/γc, fy/γM0 e fyk/γs. SLE: limite CLS 0,60 fck per la rara e 0,45 fck per la quasi permanente; limite armature 0,80 fyk e acciaio strutturale fy.
+¶ Materiali
+[T105 r1 c1] Materiale
+[T105 r1 c2] Classe
+[T105 r1 c3] Resistenza [MPa]
+[T105 r1 c4] Modulo E [MPa]
+[T105 r2 c1] Calcestruzzo
+[T105 r2 c2] C35/45
+[T105 r2 c3] fck = 35,00
+[T105 r2 c4] 34077,15
+[T105 r3 c1] Acciaio strutturale
+[T105 r3 c2] S355
+[T105 r3 c3] fy = 355,00
+[T105 r3 c4] 210000,00
+[T105 r4 c1] Armatura ordinaria
+[T105 r4 c2] B450C
+[T105 r4 c3] fyk = 450,00
+[T105 r4 c4] 200000,00
+¶ fy strutturale nominale da catalogo. Il calcolo non determina automaticamente la riduzione per lo spessore delle lamiere.
+¶ Geometria e armature
+[T106 r1 c1] Componente
+[T106 r1 c2] Larghezza [mm]
+[T106 r1 c3] Altezza o spessore [mm]
+[T106 r2 c1] Soletta collaborante
+[T106 r2 c2] 3000,00
+[T106 r2 c3] 250,00
+[T106 r3 c1] Trave d'acciaio totale H
+[T106 r3 c2] —
+[T106 r3 c3] 1855,00
+[T106 r4 c1] Anima libera ricavata
+[T106 r4 c2] 14,00
+[T106 r4 c3] 1800,00
+[T106 r5 c1] Piattabanda superiore
+[T106 r5 c2] 500,00
+[T106 r5 c3] 25,00
+[T106 r6 c1] Piattabanda inferiore 1
+[T106 r6 c2] 700,00
+[T106 r6 c3] 30,00
+[T106 r7 c1] Piattabanda inferiore 2
+[T106 r7 c2] Assente
+[T106 r7 c3] —
+[T106 r8 c1] Piattabanda inferiore equivalente (solo confronto)
+[T106 r8 c2] 700,00
+[T106 r8 c3] 30,00
+¶ La larghezza della soletta è la larghezza collaborante assegnata. La seconda piastra è centrata sotto la prima. Il calcolo usa le piastre reali. Il rettangolo equivalente (t = t1 + t2, b = (b1 t1 + b2 t2)/(t1 + t2)) conserva area e spessore complessivo, non in generale baricentro e inerzia: è riportato solo per confronto. Instabilità locale: ciascuna piastra come sbalzo dall'anima con il proprio spessore.
+[T107 r1 c1] Proprietà delle piastre inferiori
+[T107 r1 c2] Reale (calcolo)
+[T107 r1 c3] Equivalente (confronto)
+[T107 r2 c1] Area [mm²]
+[T107 r2 c2] 21000,00
+[T107 r2 c3] 21000,00
+[T107 r3 c1] Baricentro y [mm]
+[T107 r3 c2] -1840,00
+[T107 r3 c3] -1840,00
+[T107 r4 c1] Ix al proprio baricentro [mm⁴]
+[T107 r4 c2] 1575000,00
+[T107 r4 c3] 1575000,00
+¶ Ferri inferiori: riferimento = Intradosso soletta; distanza riferimento–asse = 45,00 mm; quota effettiva y = 45,00 mm dall'intradosso soletta.
+¶ Ferri superiori: estradosso soletta–asse = 45,00 mm; quota effettiva y = 205,00 mm.
+[T108 r1 c1] Fila
+[T108 r1 c2] Presente
+[T108 r1 c3] Ø [mm]
+[T108 r1 c4] Passo [mm]
+[T108 r1 c5] y asse [mm]
+[T108 r1 c6] Barre
+[T108 r2 c1] Superiore
+[T108 r2 c2] Sì
+[T108 r2 c3] 16,00
+[T108 r2 c4] 150,00
+[T108 r2 c5] 205,00
+[T108 r2 c6] 20
+[T108 r3 c1] Inferiore
+[T108 r3 c2] Sì
+[T108 r3 c3] 16,00
+[T108 r3 c4] 150,00
+[T108 r3 c5] 45,00
+[T108 r3 c6] 20
+¶ La distanza inserita è misurata fino all’asse della barra. Le barre sono distribuite e centrate da Model; entrambe le file possono essere assenti. Area totale delle armature: 8042,48 mm².
+¶ Geometria della sezione e disposizione delle armature
+¶ Sollecitazioni per fase
+¶ Ogni fase sceglie il proprio punto N: quota comune, baricentro omogeneizzato lordo fisso o baricentro efficace aggiornato durante l’iterazione. La quota comune, quando selezionata, è y = 0,00 mm. Il momento assegnato è riferito al punto N della fase. Mx,G = Mx + N (yG − yN); i momenti cumulati sono riportati a y=0 mediante Mx,0 = Mx − N yN, con unità coerenti.
+[T109 r1 c1] Fase
+[T109 r1 c2] Sezione / azione
+[T109 r1 c3] Attiva
+[T109 r1 c4] ΔN [kN]
+[T109 r1 c5] ΔMx [kNm]
+[T109 r1 c6] ΔV [kN]
+[T109 r1 c7] Δεcs [µε]
+[T109 r2 c1] 1 · G1 · getto e carpenteria
+[T109 r2 c2] Solo acciaio
+[T109 r2 c3] Sì
+[T109 r2 c4] 0
+[T109 r2 c5] 1500
+[T109 r2 c6] 0,00
+[T109 r2 c7] —
+[T109 r3 c1] 2 · G2 · permanenti portati
+[T109 r3 c2] Composta
+[T109 r3 c3] Sì
+[T109 r3 c4] 0
+[T109 r3 c5] 2000
+[T109 r3 c6] 0,00
+[T109 r3 c7] —
+[T109 r4 c1] 3 · Q · variabili
+[T109 r4 c2] Composta
+[T109 r4 c3] Sì
+[T109 r4 c4] 0
+[T109 r4 c5] 3000
+[T109 r4 c6] 0,00
+[T109 r4 c7] —
+¶ Solo acciaio: soletta e barre non partecipano. Composta: soletta non fessurata, carpenteria e barre. Soletta esclusa: carpenteria e barre. Per ciascuna situazione la sezione efficace è comune ai contributi sommati. Non si simula la storia evolutiva di costruzione o la redistribuzione viscosa.
+¶ Criteri di omogeneizzazione
+¶ n0 = Ea/Ecm; n = n0 (1 + ψL φ); φ = (n/n0 − 1)/ψL. Il parametro passato a Model e GPC Engine è ψL φ. Il rapporto Es/Ea è conservato.
+[T110 r1 c1] Fase composta
+[T110 r1 c2] φ
+[T110 r1 c3] ψL
+[T110 r1 c4] n di calcolo
+[T110 r1 c5] Stato
+[T110 r2 c1] G2 · permanenti portati
+[T110 r2 c2] 2,00
+[T110 r2 c3] 1.1
+[T110 r2 c4] 19,72
+[T110 r2 c5] Inclusa
+[T110 r3 c1] Q · variabili
+[T110 r3 c2] 0,00
+[T110 r3 c3] 1
+[T110 r3 c4] 6,16
+[T110 r3 c5] Inclusa
+¶ Situazione 1 dopo G1 · getto e carpenteria
+¶ Avviso: EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.
+¶ Convergenza in 9 iterazioni. Variazione relativa delle larghezze: 5,086E-008; tolleranza 1E−7. Il residuo normalizzato di equilibrio di ciascun contributo deve essere non maggiore di 1E−5.
+[T111 r1 c1] Contributo
+[T111 r1 c2] Riferimento N
+[T111 r1 c3] yN [mm]
+[T111 r1 c4] ΔN [kN]
+[T111 r1 c5] ΔMx al punto N [kNm]
+[T111 r1 c6] ΔV [kN]
+[T111 r2 c1] 1 · G1 · getto e carpenteria
+[T111 r2 c2] Baricentro omogeneizzato lordo
+[T111 r2 c3] -1058,03
+[T111 r2 c4] 0,00
+[T111 r2 c5] 1500,00
+[T111 r2 c6] 0,00
+¶ Rapporti e proprietà per contributo
+[T112 r1 c1] Contributo
+[T112 r1 c2] n0
+[T112 r1 c3] n
+[T112 r1 c4] φ
+[T112 r1 c5] ψL φ
+[T112 r1 c6] Ec eff [MPa]
+[T112 r2 c1] 1 · G1 · getto e carpenteria
+[T112 r2 c2] —
+[T112 r2 c3] —
+[T112 r2 c4] —
+[T112 r2 c5] —
+[T112 r2 c6] —
+[T113 r1 c1] Contributo
+[T113 r1 c2] A* [mm²]
+[T113 r1 c3] yG [mm]
+[T113 r1 c4] Ix* [mm⁴]
+[T113 r1 c5] Ix integrazione [mm⁴]
+[T113 r2 c1] 1
+[T113 r2 c2] 53430,71
+[T113 r2 c3] -1113,26
+[T113 r2 c4] 31879203342,87
+[T113 r2 c5] 31879203342,87
+[T114 r1 c1] Contributo
+[T114 r1 c2] Wsup* [mm³]
+[T114 r1 c3] Winf* [mm³]
+[T114 r1 c4] yσ zero [mm]
+[T114 r1 c5] κ [1/m]
+[T114 r1 c6] Residuo equilibrio
+[T114 r2 c1] 1
+[T114 r2 c2] 28635819,08
+[T114 r2 c3] 42979130,85
+[T114 r2 c4] -1113,26
+[T114 r2 c5] 2,24E-4
+[T114 r2 c6] 0E+0
+¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
+¶ Tensioni totali
+[T115 r1 c1] Punto
+[T115 r1 c2] y [mm]
+[T115 r1 c3] Σσ [MPa]
+[T115 r1 c4] Limite [MPa]
+[T115 r1 c5] η
+[T115 r1 c6] Esito locale
+[T115 r2 c1] Soletta · estradosso
+[T115 r2 c2] 250,00
+[T115 r2 c3] —
+[T115 r2 c4] —
+[T115 r2 c5] —
+[T115 r2 c6] Non attivo
+[T115 r3 c1] Soletta · intradosso
+[T115 r3 c2] 0,00
+[T115 r3 c3] —
+[T115 r3 c4] —
+[T115 r3 c5] —
+[T115 r3 c6] Non attivo
+[T115 r4 c1] Armatura · y=205
+[T115 r4 c2] 205,00
+[T115 r4 c3] —
+[T115 r4 c4] —
+[T115 r4 c5] —
+[T115 r4 c6] Non attivo
+[T115 r5 c1] Armatura · y=45
+[T115 r5 c2] 45,00
+[T115 r5 c3] —
+[T115 r5 c4] —
+[T115 r5 c5] —
+[T115 r5 c6] Non attivo
+[T115 r6 c1] Acciaio · estradosso
+[T115 r6 c2] 0,00
+[T115 r6 c3] -52,38
+[T115 r6 c4] 338,10
+[T115 r6 c5] 0,15
+[T115 r6 c6] Entro limite
+[T115 r7 c1] Anima · sommità
+[T115 r7 c2] -25,00
+[T115 r7 c3] -51,21
+[T115 r7 c4] 338,10
+[T115 r7 c5] 0,15
+[T115 r7 c6] Entro limite
+[T115 r8 c1] Anima · piede
+[T115 r8 c2] -1825,00
+[T115 r8 c3] 33,49
+[T115 r8 c4] 338,10
+[T115 r8 c5] 0,10
+[T115 r8 c6] Entro limite
+[T115 r9 c1] Acciaio · intradosso
+[T115 r9 c2] -1855,00
+[T115 r9 c3] 34,90
+[T115 r9 c4] 338,10
+[T115 r9 c5] 0,10
+[T115 r9 c6] Entro limite
+¶ Contributi alle tensioni in MPa
+[T116 r1 c1] Punto
+[T116 r1 c2] Δσ 1
+[T116 r2 c1] Soletta · estradosso
+[T116 r2 c2] 0,00
+[T116 r3 c1] Soletta · intradosso
+[T116 r3 c2] 0,00
+[T116 r4 c1] Armatura · y=205
+[T116 r4 c2] 0,00
+[T116 r5 c1] Armatura · y=45
+[T116 r5 c2] 0,00
+[T116 r6 c1] Acciaio · estradosso
+[T116 r6 c2] -52,38
+[T116 r7 c1] Anima · sommità
+[T116 r7 c2] -51,21
+[T116 r8 c1] Anima · piede
+[T116 r8 c2] 33,49
+[T116 r9 c1] Acciaio · intradosso
+[T116 r9 c2] 34,90
+¶ 1: G1 · getto e carpenteria.
+¶ Sezione efficace di classe 4
+[T117 r1 c1] Pannello
+[T117 r1 c2] b [mm]
+[T117 r1 c3] t [mm]
+[T117 r1 c4] ψ
+[T117 r1 c5] kσ
+[T117 r1 c6] λp
+[T117 r1 c7] ρ
+[T117 r2 c1] Anima
+[T117 r2 c2] 1800,00
+[T117 r2 c3] 14,00
+[T117 r2 c4] -0,65
+[T117 r2 c5] 16,11
+[T117 r2 c6] 1,39
+[T117 r2 c7] 0,65
+[T117 r3 c1] Sbalzo superiore
+[T117 r3 c2] 243,00
+[T117 r3 c3] 25,00
+[T117 r3 c4] 1,00
+[T117 r3 c5] 0,43
+[T117 r3 c6] 0,64
+[T117 r3 c7] 1,00
+[T117 r4 c1] Sbalzo inferiore
+[T117 r4 c2] 343,00
+[T117 r4 c3] 30,00
+[T117 r4 c4] 1,00
+[T117 r4 c5] 0,43
+[T117 r4 c6] 0,75
+[T117 r4 c7] 1,00
+[T118 r1 c1] Pannello
+[T118 r1 c2] σ1 [MPa]
+[T118 r1 c3] σ2 [MPa]
+[T118 r1 c4] bc [mm]
+[T118 r1 c5] b1 eff [mm]
+[T118 r1 c6] b2 eff [mm]
+[T118 r2 c1] Anima
+[T118 r2 c2] -51,21
+[T118 r2 c3] 33,49
+[T118 r2 c4] 1088,26
+[T118 r2 c5] 284,75
+[T118 r2 c6] 1138,87
+[T118 r3 c1] Sbalzo superiore
+[T118 r3 c2] -52,38
+[T118 r3 c3] -52,38
+[T118 r3 c4] 243,00
+[T118 r3 c5] 243,00
+[T118 r3 c6] 0,00
+[T118 r4 c1] Sbalzo inferiore
+[T118 r4 c2] 33,49
+[T118 r4 c3] 33,49
+[T118 r4 c4] 0,00
+[T118 r4 c5] 343,00
+[T118 r4 c6] 0,00
+[T119 r1 c1] Carpenteria
+[T119 r1 c2] Area [mm²]
+[T119 r1 c3] yG [mm]
+[T119 r1 c4] Ix [mm⁴]
+[T119 r2 c1] Lorda
+[T119 r2 c2] 58700,00
+[T119 r2 c3] -1058,03
+[T119 r2 c4] 33757370920,29
+[T119 r3 c1] Efficace
+[T119 r3 c2] 53430,71
+[T119 r3 c3] -1113,26
+[T119 r3 c4] 31879203342,87
+¶ Anima inefficace: 376,38 mm, da y = -686,13 a y = -309,75 mm. Aeff/Alorda = 0,91; Ieff/Ilorda = 0,94.
+¶ Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.
+¶ Taglio e connessione della situazione
+[T120 r1 c1] V [kN]
+[T120 r1 c2] kτ
+[T120 r1 c3] τcr [MPa]
+[T120 r1 c4] λw
+[T120 r1 c5] χw
+[T120 r1 c6] Vpl,Rd [kN]
+[T120 r1 c7] Vbw,Rd [kN]
+[T120 r2 c1] 0,00
+[T120 r2 c2] 5,34
+[T120 r2 c3] 61,31
+[T120 r2 c4] 1,83
+[T120 r2 c5] 0,45
+[T120 r2 c6] 4919,02
+[T120 r2 c7] 2131,54
+¶ τ nominale V/Av = 0,00 MPa; τ max elastica lorda = 0,00 MPa. Beneficio irrigidimenti: no. Montante terminale adottato: non rigido.
+[T121 r1 c1] Controllo
+[T121 r1 c2] Domanda
+[T121 r1 c3] Limite
+[T121 r1 c4] η
+[T121 r1 c5] Esito
+[T121 r2 c1] Anima · resistenza a taglio
+[T121 r2 c2] 0,00 kN
+[T121 r2 c3] 2131,54 kN
+[T121 r2 c4] 0,00
+[T121 r2 c5] Entro limite
+[T121 r3 c1] Anima · tensione equivalente elastica (inviluppo)
+[T121 r3 c2] 51,21 MPa
+[T121 r3 c3] 338,10 MPa
+[T121 r3 c4] 0,15
+[T121 r3 c5] Entro limite
+¶ Anima · resistenza a taglio: min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido.
+¶ Anima · tensione equivalente elastica (inviluppo): √(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata.
+¶ Situazione 1 dopo G1 · getto e carpenteria. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace.
+¶ Situazione 2 dopo G2 · permanenti portati
+¶ Avviso: EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.
+¶ Convergenza in 9 iterazioni. Variazione relativa delle larghezze: 2,444E-008; tolleranza 1E−7. Il residuo normalizzato di equilibrio di ciascun contributo deve essere non maggiore di 1E−5.
+[T122 r1 c1] Contributo
+[T122 r1 c2] Riferimento N
+[T122 r1 c3] yN [mm]
+[T122 r1 c4] ΔN [kN]
+[T122 r1 c5] ΔMx al punto N [kNm]
+[T122 r1 c6] ΔV [kN]
+[T122 r2 c1] 1 · G1 · getto e carpenteria
+[T122 r2 c2] Baricentro omogeneizzato lordo
+[T122 r2 c3] -1058,03
+[T122 r2 c4] 0,00
+[T122 r2 c5] 1500,00
+[T122 r2 c6] 0,00
+[T122 r3 c1] 2 · G2 · permanenti portati
+[T122 r3 c2] Baricentro omogeneizzato lordo
+[T122 r3 c3] -542,83
+[T122 r3 c4] 0,00
+[T122 r3 c5] 2000,00
+[T122 r3 c6] 0,00
+¶ Rapporti e proprietà per contributo
+[T123 r1 c1] Contributo
+[T123 r1 c2] n0
+[T123 r1 c3] n
+[T123 r1 c4] φ
+[T123 r1 c5] ψL φ
+[T123 r1 c6] Ec eff [MPa]
+[T123 r2 c1] 1 · G1 · getto e carpenteria
+[T123 r2 c2] —
+[T123 r2 c3] —
+[T123 r2 c4] —
+[T123 r2 c5] —
+[T123 r2 c6] —
+[T123 r3 c1] 2 · G2 · permanenti portati
+[T123 r3 c2] 6,16
+[T123 r3 c3] 19,72
+[T123 r3 c4] 2,00
+[T123 r3 c5] 2,20
+[T123 r3 c6] 10649,11
+[T124 r1 c1] Contributo
+[T124 r1 c2] A* [mm²]
+[T124 r1 c3] yG [mm]
+[T124 r1 c4] Ix* [mm⁴]
+[T124 r1 c5] Ix integrazione [mm⁴]
+[T124 r2 c1] 1
+[T124 r2 c2] 56818,94
+[T124 r2 c3] -1080,54
+[T124 r2 c4] 32856200754,85
+[T124 r2 c5] 32856200754,85
+[T124 r3 c1] 2
+[T124 r3 c2] 102103,14
+[T124 r3 c3] -545,86
+[T124 r3 c4] 69724484440,21
+[T124 r3 c5] 69722142371,86
+[T125 r1 c1] Contributo
+[T125 r1 c2] Wsup* [mm³]
+[T125 r1 c3] Winf* [mm³]
+[T125 r1 c4] yσ zero [mm]
+[T125 r1 c5] κ [1/m]
+[T125 r1 c6] Residuo equilibrio
+[T125 r2 c1] 1
+[T125 r2 c2] 30407286,77
+[T125 r2 c3] 42424498,01
+[T125 r2 c4] -1080,54
+[T125 r2 c5] 2,17E-4
+[T125 r2 c6] 0E+0
+[T125 r3 c1] 2
+[T125 r3 c2] 127732285,51
+[T125 r3 c3] 53259933,40
+[T125 r3 c4] -545,86
+[T125 r3 c5] 1,37E-4
+[T125 r3 c6] 2,742E-15
+¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
+¶ Tensioni totali
+[T126 r1 c1] Punto
+[T126 r1 c2] y [mm]
+[T126 r1 c3] Σσ [MPa]
+[T126 r1 c4] Limite [MPa]
+[T126 r1 c5] η
+[T126 r1 c6] Esito locale
+[T126 r2 c1] Soletta · estradosso
+[T126 r2 c2] 250,00
+[T126 r2 c3] -1,16
+[T126 r2 c4] 19,83
+[T126 r2 c5] 0,06
+[T126 r2 c6] Entro limite
+[T126 r3 c1] Soletta · intradosso
+[T126 r3 c2] 0,00
+[T126 r3 c3] -0,79
+[T126 r3 c4] 19,83
+[T126 r3 c5] 0,04
+[T126 r3 c6] Entro limite
+[T126 r4 c1] Armatura · y=205
+[T126 r4 c2] 205,00
+[T126 r4 c3] -20,51
+[T126 r4 c4] 391,30
+[T126 r4 c5] 0,05
+[T126 r4 c6] Entro limite
+[T126 r5 c1] Armatura · y=45
+[T126 r5 c2] 45,00
+[T126 r5 c3] -16,14
+[T126 r5 c4] 391,30
+[T126 r5 c5] 0,04
+[T126 r5 c6] Entro limite
+[T126 r6 c1] Acciaio · estradosso
+[T126 r6 c2] 0,00
+[T126 r6 c3] -64,99
+[T126 r6 c4] 338,10
+[T126 r6 c5] 0,19
+[T126 r6 c6] Entro limite
+[T126 r7 c1] Anima · sommità
+[T126 r7 c2] -25,00
+[T126 r7 c3] -63,13
+[T126 r7 c4] 338,10
+[T126 r7 c5] 0,19
+[T126 r7 c6] Entro limite
+[T126 r8 c1] Anima · piede
+[T126 r8 c2] -1825,00
+[T126 r8 c3] 70,68
+[T126 r8 c4] 338,10
+[T126 r8 c5] 0,21
+[T126 r8 c6] Entro limite
+[T126 r9 c1] Acciaio · intradosso
+[T126 r9 c2] -1855,00
+[T126 r9 c3] 72,91
+[T126 r9 c4] 338,10
+[T126 r9 c5] 0,22
+[T126 r9 c6] Entro limite
+¶ Contributi alle tensioni in MPa
+[T127 r1 c1] Punto
+[T127 r1 c2] Δσ 1
+[T127 r1 c3] Δσ 2
+[T127 r2 c1] Soletta · estradosso
+[T127 r2 c2] 0,00
+[T127 r2 c3] -1,16
+[T127 r3 c1] Soletta · intradosso
+[T127 r3 c2] 0,00
+[T127 r3 c3] -0,79
+[T127 r4 c1] Armatura · y=205
+[T127 r4 c2] 0,00
+[T127 r4 c3] -20,51
+[T127 r5 c1] Armatura · y=45
+[T127 r5 c2] 0,00
+[T127 r5 c3] -16,14
+[T127 r6 c1] Acciaio · estradosso
+[T127 r6 c2] -49,33
+[T127 r6 c3] -15,66
+[T127 r7 c1] Anima · sommità
+[T127 r7 c2] -48,19
+[T127 r7 c3] -14,94
+[T127 r8 c1] Anima · piede
+[T127 r8 c2] 33,99
+[T127 r8 c3] 36,69
+[T127 r9 c1] Acciaio · intradosso
+[T127 r9 c2] 35,36
+[T127 r9 c3] 37,55
+¶ 1: G1 · getto e carpenteria; 2: G2 · permanenti portati.
+¶ Sezione efficace di classe 4
+[T128 r1 c1] Pannello
+[T128 r1 c2] b [mm]
+[T128 r1 c3] t [mm]
+[T128 r1 c4] ψ
+[T128 r1 c5] kσ
+[T128 r1 c6] λp
+[T128 r1 c7] ρ
+[T128 r2 c1] Anima
+[T128 r2 c2] 1800,00
+[T128 r2 c3] 14,00
+[T128 r2 c4] -1,12
+[T128 r2 c5] 26,87
+[T128 r2 c6] 1,07
+[T128 r2 c7] 0,84
+[T128 r3 c1] Sbalzo superiore
+[T128 r3 c2] 243,00
+[T128 r3 c3] 25,00
+[T128 r3 c4] 1,00
+[T128 r3 c5] 0,43
+[T128 r3 c6] 0,64
+[T128 r3 c7] 1,00
+[T128 r4 c1] Sbalzo inferiore
+[T128 r4 c2] 343,00
+[T128 r4 c3] 30,00
+[T128 r4 c4] 1,00
+[T128 r4 c5] 0,43
+[T128 r4 c6] 0,75
+[T128 r4 c7] 1,00
+[T129 r1 c1] Pannello
+[T129 r1 c2] σ1 [MPa]
+[T129 r1 c3] σ2 [MPa]
+[T129 r1 c4] bc [mm]
+[T129 r1 c5] b1 eff [mm]
+[T129 r1 c6] b2 eff [mm]
+[T129 r2 c1] Anima
+[T129 r2 c2] -63,13
+[T129 r2 c3] 70,68
+[T129 r2 c4] 849,22
+[T129 r2 c5] 285,94
+[T129 r2 c6] 1379,69
+[T129 r3 c1] Sbalzo superiore
+[T129 r3 c2] -64,99
+[T129 r3 c3] -64,99
+[T129 r3 c4] 243,00
+[T129 r3 c5] 243,00
+[T129 r3 c6] 0,00
+[T129 r4 c1] Sbalzo inferiore
+[T129 r4 c2] 70,68
+[T129 r4 c3] 70,68
+[T129 r4 c4] 0,00
+[T129 r4 c5] 343,00
+[T129 r4 c6] 0,00
+[T130 r1 c1] Carpenteria
+[T130 r1 c2] Area [mm²]
+[T130 r1 c3] yG [mm]
+[T130 r1 c4] Ix [mm⁴]
+[T130 r2 c1] Lorda
+[T130 r2 c2] 58700,00
+[T130 r2 c3] -1058,03
+[T130 r2 c4] 33757370920,29
+[T130 r3 c1] Efficace
+[T130 r3 c2] 56818,94
+[T130 r3 c3] -1080,54
+[T130 r3 c4] 32856200754,85
+¶ Anima inefficace: 134,36 mm, da y = -445,31 a y = -310,94 mm. Aeff/Alorda = 0,97; Ieff/Ilorda = 0,97.
+¶ Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.
+¶ Taglio e connessione della situazione
+[T131 r1 c1] V [kN]
+[T131 r1 c2] kτ
+[T131 r1 c3] τcr [MPa]
+[T131 r1 c4] λw
+[T131 r1 c5] χw
+[T131 r1 c6] Vpl,Rd [kN]
+[T131 r1 c7] Vbw,Rd [kN]
+[T131 r2 c1] 0,00
+[T131 r2 c2] 5,34
+[T131 r2 c3] 61,31
+[T131 r2 c4] 1,83
+[T131 r2 c5] 0,45
+[T131 r2 c6] 4919,02
+[T131 r2 c7] 2131,54
+¶ τ nominale V/Av = 0,00 MPa; τ max elastica lorda = 0,00 MPa. Beneficio irrigidimenti: no. Montante terminale adottato: non rigido.
+[T132 r1 c1] Controllo
+[T132 r1 c2] Domanda
+[T132 r1 c3] Limite
+[T132 r1 c4] η
+[T132 r1 c5] Esito
+[T132 r2 c1] Anima · resistenza a taglio
+[T132 r2 c2] 0,00 kN
+[T132 r2 c3] 2131,54 kN
+[T132 r2 c4] 0,00
+[T132 r2 c5] Entro limite
+[T132 r3 c1] Anima · tensione equivalente elastica (inviluppo)
+[T132 r3 c2] 70,68 MPa
+[T132 r3 c3] 338,10 MPa
+[T132 r3 c4] 0,21
+[T132 r3 c5] Entro limite
+¶ Anima · resistenza a taglio: min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido.
+¶ Anima · tensione equivalente elastica (inviluppo): √(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata.
+¶ Situazione 2 dopo G2 · permanenti portati. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace.
+¶ Situazione 3 dopo Q · variabili
+¶ Avviso: EN 1993-1-5 §5.1: per questa anima snella sono necessari irrigidimenti trasversali agli appoggi, da dimensionare separatamente. L’opzione del pannello riguarda quelli intermedi.
+¶ Convergenza in 4 iterazioni. Variazione relativa delle larghezze: 0,000E+000; tolleranza 1E−7. Il residuo normalizzato di equilibrio di ciascun contributo deve essere non maggiore di 1E−5.
+[T133 r1 c1] Contributo
+[T133 r1 c2] Riferimento N
+[T133 r1 c3] yN [mm]
+[T133 r1 c4] ΔN [kN]
+[T133 r1 c5] ΔMx al punto N [kNm]
+[T133 r1 c6] ΔV [kN]
+[T133 r2 c1] 1 · G1 · getto e carpenteria
+[T133 r2 c2] Baricentro omogeneizzato lordo
+[T133 r2 c3] -1058,03
+[T133 r2 c4] 0,00
+[T133 r2 c5] 1500,00
+[T133 r2 c6] 0,00
+[T133 r3 c1] 2 · G2 · permanenti portati
+[T133 r3 c2] Baricentro omogeneizzato lordo
+[T133 r3 c3] -542,83
+[T133 r3 c4] 0,00
+[T133 r3 c5] 2000,00
+[T133 r3 c6] 0,00
+[T133 r4 c1] 3 · Q · variabili
+[T133 r4 c2] Baricentro omogeneizzato lordo
+[T133 r4 c3] -246,84
+[T133 r4 c4] 0,00
+[T133 r4 c5] 3000,00
+[T133 r4 c6] 0,00
+¶ Rapporti e proprietà per contributo
+[T134 r1 c1] Contributo
+[T134 r1 c2] n0
+[T134 r1 c3] n
+[T134 r1 c4] φ
+[T134 r1 c5] ψL φ
+[T134 r1 c6] Ec eff [MPa]
+[T134 r2 c1] 1 · G1 · getto e carpenteria
+[T134 r2 c2] —
+[T134 r2 c3] —
+[T134 r2 c4] —
+[T134 r2 c5] —
+[T134 r2 c6] —
+[T134 r3 c1] 2 · G2 · permanenti portati
+[T134 r3 c2] 6,16
+[T134 r3 c3] 19,72
+[T134 r3 c4] 2,00
+[T134 r3 c5] 2,20
+[T134 r3 c6] 10649,11
+[T134 r4 c1] 3 · Q · variabili
+[T134 r4 c2] 6,16
+[T134 r4 c3] 6,16
+[T134 r4 c4] 0,00
+[T134 r4 c5] 0,00
+[T134 r4 c6] 34077,15
+[T135 r1 c1] Contributo
+[T135 r1 c2] A* [mm²]
+[T135 r1 c3] yG [mm]
+[T135 r1 c4] Ix* [mm⁴]
+[T135 r1 c5] Ix integrazione [mm⁴]
+[T135 r2 c1] 1
+[T135 r2 c2] 58700,00
+[T135 r2 c3] -1058,03
+[T135 r2 c4] 33757370920,29
+[T135 r2 c5] 33757370920,29
+[T135 r3 c1] 2
+[T135 r3 c2] 103984,20
+[T135 r3 c3] -542,83
+[T135 r3 c4] 69779283266,85
+[T135 r3 c5] 69776941198,50
+[T135 r4 c1] 3
+[T135 r4 c2] 186758,53
+[T135 r4 c3] -246,84
+[T135 r4 c4] 90764161569,30
+[T135 r4 c5] 90761833856,72
+[T136 r1 c1] Contributo
+[T136 r1 c2] Wsup* [mm³]
+[T136 r1 c3] Winf* [mm³]
+[T136 r1 c4] yσ zero [mm]
+[T136 r1 c5] κ [1/m]
+[T136 r1 c6] Residuo equilibrio
+[T136 r2 c1] 1
+[T136 r2 c2] 31905930,13
+[T136 r2 c3] 42357040,82
+[T136 r2 c4] -1058,03
+[T136 r2 c5] 2,12E-4
+[T136 r2 c6] 0E+0
+[T136 r3 c1] 2
+[T136 r3 c2] 128547249,40
+[T136 r3 c3] 53178532,46
+[T136 r3 c4] -542,83
+[T136 r3 c5] 1,36E-4
+[T136 r3 c6] 2,503E-15
+[T136 r4 c1] 3
+[T136 r4 c2] 367708739,39
+[T136 r4 c3] 56439656,69
+[T136 r4 c4] -246,84
+[T136 r4 c5] 1,57E-4
+[T136 r4 c6] 5,587E-15
+¶ A*, Ix* e W* sono riferiti all’acciaio strutturale. Le proprietà geometriche Model includono le inerzie proprie; GPC Engine integra le pareti sottili lungo la linea media e le barre come aree concentrate. L’inerzia di integrazione è quella usata nel controllo indipendente dell’equilibrio.
+¶ Tensioni totali
+[T137 r1 c1] Punto
+[T137 r1 c2] y [mm]
+[T137 r1 c3] Σσ [MPa]
+[T137 r1 c4] Limite [MPa]
+[T137 r1 c5] η
+[T137 r1 c6] Esito locale
+[T137 r2 c1] Soletta · estradosso
+[T137 r2 c2] 250,00
+[T137 r2 c3] -3,82
+[T137 r2 c4] 19,83
+[T137 r2 c5] 0,19
+[T137 r2 c6] Entro limite
+[T137 r3 c1] Soletta · intradosso
+[T137 r3 c2] 0,00
+[T137 r3 c3] -2,11
+[T137 r3 c4] 19,83
+[T137 r3 c5] 0,11
+[T137 r3 c6] Entro limite
+[T137 r4 c1] Armatura · y=205
+[T137 r4 c2] 205,00
+[T137 r4 c3] -34,64
+[T137 r4 c4] 391,30
+[T137 r4 c5] 0,09
+[T137 r4 c6] Entro limite
+[T137 r5 c1] Armatura · y=45
+[T137 r5 c2] 45,00
+[T137 r5 c3] -25,23
+[T137 r5 c4] 391,30
+[T137 r5 c5] 0,06
+[T137 r5 c6] Entro limite
+[T137 r6 c1] Acciaio · estradosso
+[T137 r6 c2] 0,00
+[T137 r6 c3] -70,73
+[T137 r6 c4] 338,10
+[T137 r6 c5] 0,21
+[T137 r6 c6] Entro limite
+[T137 r7 c1] Anima · sommità
+[T137 r7 c2] -25,00
+[T137 r7 c3] -68,08
+[T137 r7 c4] 338,10
+[T137 r7 c5] 0,20
+[T137 r7 c6] Entro limite
+[T137 r8 c1] Anima · piede
+[T137 r8 c2] -1825,00
+[T137 r8 c3] 122,99
+[T137 r8 c4] 338,10
+[T137 r8 c5] 0,36
+[T137 r8 c6] Entro limite
+[T137 r9 c1] Acciaio · intradosso
+[T137 r9 c2] -1855,00
+[T137 r9 c3] 126,18
+[T137 r9 c4] 338,10
+[T137 r9 c5] 0,37
+[T137 r9 c6] Entro limite
+¶ Contributi alle tensioni in MPa
+[T138 r1 c1] Punto
+[T138 r1 c2] Δσ 1
+[T138 r1 c3] Δσ 2
+[T138 r1 c4] Δσ 3
+[T138 r2 c1] Soletta · estradosso
+[T138 r2 c2] 0,00
+[T138 r2 c3] -1,15
+[T138 r2 c4] -2,66
+[T138 r3 c1] Soletta · intradosso
+[T138 r3 c2] 0,00
+[T138 r3 c3] -0,79
+[T138 r3 c4] -1,32
+[T138 r4 c1] Armatura · y=205
+[T138 r4 c2] 0,00
+[T138 r4 c3] -20,41
+[T138 r4 c4] -14,22
+[T138 r5 c1] Armatura · y=45
+[T138 r5 c2] 0,00
+[T138 r5 c3] -16,05
+[T138 r5 c4] -9,19
+[T138 r6 c1] Acciaio · estradosso
+[T138 r6 c2] -47,01
+[T138 r6 c3] -15,56
+[T138 r6 c4] -8,16
+[T138 r7 c1] Anima · sommità
+[T138 r7 c2] -45,90
+[T138 r7 c3] -14,84
+[T138 r7 c4] -7,33
+[T138 r8 c1] Anima · piede
+[T138 r8 c2] 34,08
+[T138 r8 c3] 36,75
+[T138 r8 c4] 52,16
+[T138 r9 c1] Acciaio · intradosso
+[T138 r9 c2] 35,41
+[T138 r9 c3] 37,61
+[T138 r9 c4] 53,16
+¶ 1: G1 · getto e carpenteria; 2: G2 · permanenti portati; 3: Q · variabili.
+¶ Sezione efficace di classe 4
+[T139 r1 c1] Pannello
+[T139 r1 c2] b [mm]
+[T139 r1 c3] t [mm]
+[T139 r1 c4] ψ
+[T139 r1 c5] kσ
+[T139 r1 c6] λp
+[T139 r1 c7] ρ
+[T139 r2 c1] Anima
+[T139 r2 c2] 1800,00
+[T139 r2 c3] 14,00
+[T139 r2 c4] -1,81
+[T139 r2 c5] 47,11
+[T139 r2 c6] 0,81
+[T139 r2 c7] 1,00
+[T139 r3 c1] Sbalzo superiore
+[T139 r3 c2] 243,00
+[T139 r3 c3] 25,00
+[T139 r3 c4] 1,00
+[T139 r3 c5] 0,43
+[T139 r3 c6] 0,64
+[T139 r3 c7] 1,00
+[T139 r4 c1] Sbalzo inferiore
+[T139 r4 c2] 343,00
+[T139 r4 c3] 30,00
+[T139 r4 c4] 1,00
+[T139 r4 c5] 0,43
+[T139 r4 c6] 0,75
+[T139 r4 c7] 1,00
+[T140 r1 c1] Pannello
+[T140 r1 c2] σ1 [MPa]
+[T140 r1 c3] σ2 [MPa]
+[T140 r1 c4] bc [mm]
+[T140 r1 c5] b1 eff [mm]
+[T140 r1 c6] b2 eff [mm]
+[T140 r2 c1] Anima
+[T140 r2 c2] -68,08
+[T140 r2 c3] 122,99
+[T140 r2 c4] 641,32
+[T140 r2 c5] 256,53
+[T140 r2 c6] 1543,47
+[T140 r3 c1] Sbalzo superiore
+[T140 r3 c2] -70,73
+[T140 r3 c3] -70,73
+[T140 r3 c4] 243,00
+[T140 r3 c5] 243,00
+[T140 r3 c6] 0,00
+[T140 r4 c1] Sbalzo inferiore
+[T140 r4 c2] 122,99
+[T140 r4 c3] 122,99
+[T140 r4 c4] 0,00
+[T140 r4 c5] 343,00
+[T140 r4 c6] 0,00
+[T141 r1 c1] Carpenteria
+[T141 r1 c2] Area [mm²]
+[T141 r1 c3] yG [mm]
+[T141 r1 c4] Ix [mm⁴]
+[T141 r2 c1] Lorda
+[T141 r2 c2] 58700,00
+[T141 r2 c3] -1058,03
+[T141 r2 c4] 33757370920,29
+[T141 r3 c1] Efficace
+[T141 r3 c2] 58700,00
+[T141 r3 c3] -1058,03
+[T141 r3 c4] 33757370920,29
+¶ Anima inefficace: 0,00 mm. Aeff/Alorda = 1,00; Ieff/Ilorda = 1,00.
+¶ Anima trattata come pannello interno non irrigidito. Piattabande trattate come sbalzi uniformemente compressi con la tensione più compressiva nello spessore. Per ψ minore di −3, kσ e la riduzione sono valutati a −3, mantenendo la larghezza compressa effettiva. Il tratteggio rappresenta la parte inefficace sotto tensioni normali, non instabilità a taglio.
+¶ Taglio e connessione della situazione
+[T142 r1 c1] V [kN]
+[T142 r1 c2] kτ
+[T142 r1 c3] τcr [MPa]
+[T142 r1 c4] λw
+[T142 r1 c5] χw
+[T142 r1 c6] Vpl,Rd [kN]
+[T142 r1 c7] Vbw,Rd [kN]
+[T142 r2 c1] 0,00
+[T142 r2 c2] 5,34
+[T142 r2 c3] 61,31
+[T142 r2 c4] 1,83
+[T142 r2 c5] 0,45
+[T142 r2 c6] 4919,02
+[T142 r2 c7] 2131,54
+¶ τ nominale V/Av = 0,00 MPa; τ max elastica lorda = 0,00 MPa. Beneficio irrigidimenti: no. Montante terminale adottato: non rigido.
+[T143 r1 c1] Controllo
+[T143 r1 c2] Domanda
+[T143 r1 c3] Limite
+[T143 r1 c4] η
+[T143 r1 c5] Esito
+[T143 r2 c1] Anima · resistenza a taglio
+[T143 r2 c2] 0,00 kN
+[T143 r2 c3] 2131,54 kN
+[T143 r2 c4] 0,00
+[T143 r2 c5] Entro limite
+[T143 r3 c1] Anima · tensione equivalente elastica (inviluppo)
+[T143 r3 c2] 122,99 MPa
+[T143 r3 c3] 338,10 MPa
+[T143 r3 c4] 0,36
+[T143 r3 c5] Entro limite
+¶ Anima · resistenza a taglio: min(Vpl,Rd; Vbw,Rd), Av = hw·tw (NTC §4.2.4.1.2.4); flange omesse; montante terminale non rigido.
+¶ Anima · tensione equivalente elastica (inviluppo): √(max|σ|² + 3 max|τ|²); τ sulla sezione lorda omogeneizzata.
+¶ Situazione 3 dopo Q · variabili. Campiture della somma: blu compressione, rosso trazione; contributi tratteggiati. CLS amplificato ×6,162 (n · Q · variabili); valori indicati in MPa reali. Arancio: parte inefficace.
+¶ 1.12 str_palo
+¶ Modulo: Sezione in c.a.
+¶ Dati condivisi: vedere 1 Progetto F3 — Materiali; 1 Progetto F3 — Coefficienti.
+¶ Geometria
+[T144 r1 c1] Proprietà
+[T144 r1 c2] Valore
+[T144 r2 c1] Forma della sezione
+[T144 r2 c2] Rettangolare
+[T144 r3 c1] Larghezza [mm]
+[T144 r3 c2] 600
+[T144 r4 c1] Altezza [mm]
+[T144 r4 c2] 800
+[T144 r5 c1] Foro centrale
+[T144 r5 c2] No
+¶ Armatura
+[T145 r1 c1] Proprietà
+[T145 r1 c2] Valore
+[T145 r2 c1] Copriferro netto [mm]
+[T145 r2 c2] 70
+[T145 r3 c1] top bar count
+[T145 r3 c2] 4
+[T145 r4 c1] top bar diameter mm
+[T145 r4 c2] 20
+[T145 r5 c1] bottom bar count
+[T145 r5 c2] 6
+[T145 r6 c1] bottom bar diameter mm
+[T145 r6 c2] 24
+[T145 r7 c1] side bar count per side
+[T145 r7 c2] 2
+[T145 r8 c1] side bar diameter mm
+[T145 r8 c2] 16
+[T145 r9 c1] Diametro staffe [mm]
+[T145 r9 c2] 10
+[T145 r10 c1] Passo staffe [mm]
+[T145 r10 c2] 200
+[T145 r11 c1] Staffe presenti
+[T145 r11 c2] Sì
+[T145 r12 c1] Secondo strato superiore attivo
+[T145 r12 c2] No
+[T145 r13 c1] Secondo strato inferiore attivo
+[T145 r13 c2] No
+[T145 r14 c1] Staffe · rami x
+[T145 r14 c2] 2
+[T145 r15 c1] Staffe · rami y
+[T145 r15 c2] 2
+¶ Materiali
+[T146 r1 c1] Proprietà
+[T146 r1 c2] Valore
+[T146 r2 c1] CLS · fck [MPa]
+[T146 r2 c2] 35
+[T146 r3 c1] Riduzione per getto sottile
+[T146 r3 c2] No
+[T146 r4 c1] Classe di esposizione
+[T146 r4 c2] Da scegliere
+¶ Coefficienti
+[T147 r1 c1] Proprietà
+[T147 r1 c2] Valore
+[T147 r2 c1] αct · trazione
+[T147 r2 c2] 1
+[T147 r3 c1] γc · accidentale
+[T147 r3 c2] 1
+[T147 r4 c1] γcE · modulo
+[T147 r4 c2] 1,2
+[T147 r5 c1] γs · accidentale
+[T147 r5 c2] 1
+[T147 r6 c1] γF · fibre (predisposizione)
+[T147 r6 c2] 1,5
+[T147 r7 c1] kε · deformazione acciaio
+[T147 r7 c2] 0,9
+[T147 r8 c1] SLE rara · σc / fck
+[T147 r8 c2] 0,6
+[T147 r9 c1] SLE QP · σc / fck
+[T147 r9 c2] 0,45
+[T147 r10 c1] SLE rara · σs / fyk
+[T147 r10 c2] 0,8
+¶ Normativa
+[T148 r1 c1] Proprietà
+[T148 r1 c2] Valore
+[T148 r2 c1] Normativa · Sezione in c.a.
+[T148 r2 c2] NTC 2018
+¶ Dati specifici del foglio
+[T149 r1 c1] Proprietà
+[T149 r1 c2] Valore
+[T149 r2 c1] Sezione · Requisiti specifici dei pali
+[T149 r2 c2] No
+[T149 r3 c1] Sezione · Zona dissipativa
+[T149 r3 c2] No
+[T149 r4 c1] Sezione · Classe CLS
+[T149 r4 c2] C35/45
+[T149 r5 c1] Sezione · Nome CLS
+[T149 r5 c2] C35/45
+¶ Motore di calcolo: GPC Engine · libreria GPCChecker.Concrete.
+¶ Ambito e limiti
+¶ Normativa selezionata: NTC 2018. Compressione negativa; geometria in mm, tensioni in MPa, deformazioni in ‰, azioni N e V in kN, momenti in kNm. Arrotondamenti solo di presentazione.
+¶ NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe.
+¶ Questo report non attesta una verifica normativa completa. La presenza di un dominio o di tensioni calcolate non implica la conformità delle altre verifiche. I filtri e le opzioni grafiche non escludono combinazioni dai calcoli. Leggere gli esiti non determinati, fuori piano e non implementati.
+¶ Taglio nelle due direzioni secondo la norma selezionata; Model Code 2010 usa il livello II con N, M, V, Asl e granulometria. Per le circolari il modello e i parametri sono espliciti. Fessurazione lineare con CLS teso escluso: inviluppo delle superfici esterne e interne, comprese le sezioni interamente tese. Le superfici prive di armatura efficace restano senza verifica conclusa. Torsione accoppiata, dettagli costruttivi e ancoraggi automatici restano nel campo NTC documentato. Gerarchia sismica, appoggi e punzonamento richiedono il modello dell’elemento.
+¶ NTC 2018 · coefficienti della DLL; taglio e fessurazione nei limiti documentati del modulo. Coefficienti modificabili: verificare eventuali deroghe.
+¶ Riepilogo delle verifiche
+[T150 r1 c1] Verifica
+[T150 r1 c2] Esito
+[T150 r1 c3] η
+[T150 r1 c4] Governa
+[T150 r1 c5] Complete / totali
+[T150 r2 c1] 3D · Plastico
+[T150 r2 c2] VERIFICATA
+[T150 r2 c3] 0,54
+[T150 r2 c4] Combo 1
+[T150 r2 c5] 1 / 1
+[T150 r3 c1] 2D · Plastico
+[T150 r3 c2] DA COMPLETARE
+[T150 r3 c3] —
+[T150 r3 c4] —
+[T150 r3 c5] 0 / 1
+[T150 r4 c1] 3D · Elastico
+[T150 r4 c2] VERIFICATA
+[T150 r4 c3] 0,69
+[T150 r4 c4] Combo 1
+[T150 r4 c5] 1 / 1
+[T150 r5 c1] 2D · Elastico
+[T150 r5 c2] DA COMPLETARE
+[T150 r5 c3] —
+[T150 r5 c4] —
+[T150 r5 c5] 0 / 1
+[T150 r6 c1] Rara · tensioni
+[T150 r6 c2] VERIFICATA
+[T150 r6 c3] 0,99
+[T150 r6 c4] Combo 1
+[T150 r6 c5] 1 / 1
+[T150 r7 c1] Frequente · fessurazione
+[T150 r7 c2] NESSUNA AZIONE
+[T150 r7 c3] —
+[T150 r7 c4] —
+[T150 r7 c5] 0 / 0
+[T150 r8 c1] Quasi permanente · tensioni
+[T150 r8 c2] NESSUNA AZIONE
+[T150 r8 c3] —
+[T150 r8 c4] —
+[T150 r8 c5] 0 / 0
+[T150 r9 c1] Quasi permanente · fessurazione
+[T150 r9 c2] NESSUNA AZIONE
+[T150 r9 c3] —
+[T150 r9 c4] —
+[T150 r9 c5] 0 / 0
+[T150 r10 c1] Taglio Vx
+[T150 r10 c2] NESSUNA AZIONE
+[T150 r10 c3] —
+[T150 r10 c4] —
+[T150 r10 c5] 0 / 0
+[T150 r11 c1] Taglio Vy
+[T150 r11 c2] NESSUNA AZIONE
+[T150 r11 c3] —
+[T150 r11 c4] —
+[T150 r11 c5] 0 / 0
+¶ Sezione e schema indicativo delle staffe
+¶ Coefficienti normativi
+[T151 r1 c1] Coefficiente
+[T151 r1 c2] Predefinito DLL
+[T151 r1 c3] Applicato
+[T151 r1 c4] Modifica
+[T151 r2 c1] αcc · compressione
+[T151 r2 c2] 0,85
+[T151 r2 c3] 0,85
+[T151 r2 c4] No
+[T151 r3 c1] αct · trazione
+[T151 r3 c2] 1,00
+[T151 r3 c3] 1,00
+[T151 r3 c4] No
+[T151 r4 c1] γc · CLS
+[T151 r4 c2] 1,50
+[T151 r4 c3] 1,50
+[T151 r4 c4] No
+[T151 r5 c1] γs · armature
+[T151 r5 c2] 1,15
+[T151 r5 c3] 1,15
+[T151 r5 c4] No
+[T151 r6 c1] γp · trefoli
+[T151 r6 c2] 1,15
+[T151 r6 c3] 1,15
+[T151 r6 c4] No
+[T151 r7 c1] γc · accidentale
+[T151 r7 c2] 1,00
+[T151 r7 c3] 1,00
+[T151 r7 c4] No
+[T151 r8 c1] γcE · modulo
+[T151 r8 c2] 1,20
+[T151 r8 c3] 1,20
+[T151 r8 c4] No
+[T151 r9 c1] γs · accidentale
+[T151 r9 c2] 1,00
+[T151 r9 c3] 1,00
+[T151 r9 c4] No
+[T151 r10 c1] γp · accidentale
+[T151 r10 c2] 1,00
+[T151 r10 c3] 1,00
+[T151 r10 c4] No
+[T151 r11 c1] γF · fibre (predisposizione)
+[T151 r11 c2] 1,50
+[T151 r11 c3] 1,50
+[T151 r11 c4] No
+[T151 r12 c1] kε · deformazione acciaio
+[T151 r12 c2] 0,90
+[T151 r12 c3] 0,90
+[T151 r12 c4] No
+[T151 r13 c1] SLE rara · σc / fck
+[T151 r13 c2] 0,60
+[T151 r13 c3] 0,60
+[T151 r13 c4] No
+[T151 r14 c1] SLE QP · σc / fck
+[T151 r14 c2] 0,45
+[T151 r14 c3] 0,45
+[T151 r14 c4] No
+[T151 r15 c1] SLE rara · σs / fyk
+[T151 r15 c2] 0,80
+[T151 r15 c3] 0,80
+[T151 r15 c4] No
+[T151 r16 c1] SLE rara · σp / fpyk (DLL)
+[T151 r16 c2] 0,80
+[T151 r16 c3] 0,80
+[T151 r16 c4] No
+¶ I coefficienti accidentali/FRC esposti non attivano automaticamente verifiche accidentali o materiali fibrorinforzati. L’eventuale fattore NTC 0,80 per getti sottili è applicato separatamente ai parametri pertinenti.
+¶ Sollecitazioni
+¶ Plastico
+[T152 r1 c1] Combinazione
+[T152 r1 c2] N [kN]
+[T152 r1 c3] Mx [kNm]
+[T152 r1 c4] My [kNm]
+[T152 r2 c1] Combo 1
+[T152 r2 c2] -2500,00
+[T152 r2 c3] 500,00
+[T152 r2 c4] 250,00
+¶ Elastico
+[T153 r1 c1] Combinazione
+[T153 r1 c2] N [kN]
+[T153 r1 c3] Mx [kNm]
+[T153 r1 c4] My [kNm]
+[T153 r2 c1] Combo 1
+[T153 r2 c2] -2500,00
+[T153 r2 c3] 500,00
+[T153 r2 c4] 250,00
+¶ Rara
+[T154 r1 c1] Combinazione
+[T154 r1 c2] N [kN]
+[T154 r1 c3] Mx [kNm]
+[T154 r1 c4] My [kNm]
+[T154 r2 c1] Combo 1
+[T154 r2 c2] -2500,00
+[T154 r2 c3] 500,00
+[T154 r2 c4] 250,00
+¶ Frequente
+¶ Nessun dato inserito o risultato disponibile.
+¶ Quasi permanente
+¶ Nessun dato inserito o risultato disponibile.
+¶ Taglio e torsione
+¶ Nessun dato inserito o risultato disponibile.
+¶ Verifiche dominio 3D
+¶ Opzioni dominio 3D
+[T155 r1 c1] Parametro
+[T155 r1 c2] Valore
+[T155 r2 c1] Criterio
+[T155 r2 c2] N costante
+[T155 r3 c1] Strategia
+[T155 r3 c2] Iterativo
+[T155 r4 c1] Assi
+[T155 r4 c2] Locali
+[T155 r5 c1] Origine x [mm]
+[T155 r5 c2] 0,00
+[T155 r6 c1] Origine y [mm]
+[T155 r6 c2] 0,00
+[T155 r7 c1] Rotazione [°]
+[T155 r7 c2] 0,00
+[T155 r8 c1] Proiezione sul piano
+[T155 r8 c2] No
+[T155 r9 c1] CLS teso
+[T155 r9 c2] No
+[T155 r10 c1] Direzioni
+[T155 r10 c2] 32,00
+[T155 r11 c1] Interpolazione mesh
+[T155 r11 c2] Quadratica
+¶ Dominio 3D Plastico
+[T156 r1 c1] Combinazione
+[T156 r1 c2] NRd [kN]
+[T156 r1 c3] MxRd [kNm]
+[T156 r1 c4] MyRd [kNm]
+[T156 r1 c5] η [-]
+[T156 r1 c6] Esito
+[T156 r2 c1] Combo 1
+[T156 r2 c2] -2500,14
+[T156 r2 c3] 934,55
+[T156 r2 c4] 467,23
+[T156 r2 c5] 0,54
+[T156 r2 c6] Entro il dominio
+¶ Dominio 3D Elastico
+[T157 r1 c1] Combinazione
+[T157 r1 c2] NRd [kN]
+[T157 r1 c3] MxRd [kNm]
+[T157 r1 c4] MyRd [kNm]
+[T157 r1 c5] η [-]
+[T157 r1 c6] Esito
+[T157 r2 c1] Combo 1
+[T157 r2 c2] -2500,17
+[T157 r2 c3] 719,54
+[T157 r2 c4] 359,77
+[T157 r2 c5] 0,69
+[T157 r2 c6] Entro il dominio
+¶ Dominio 3D Plastico in vista isometrica con filtri e livelli correnti
+¶ Verifiche dominio 2D
+¶ Opzioni dominio 2D
+[T158 r1 c1] Parametro
+[T158 r1 c2] Valore
+[T158 r2 c1] Criterio
+[T158 r2 c2] N costante
+[T158 r3 c1] Strategia
+[T158 r3 c2] Iterativo
+[T158 r4 c1] Piano
+[T158 r4 c2] Mx–My
+[T158 r5 c1] N piano [kN]
+[T158 r5 c2] -1000,00
+[T158 r6 c1] θ [°]
+[T158 r6 c2] 0,00
+[T158 r7 c1] Assi
+[T158 r7 c2] Locali
+[T158 r8 c1] Origine x [mm]
+[T158 r8 c2] 0,00
+[T158 r9 c1] Origine y [mm]
+[T158 r9 c2] 0,00
+[T158 r10 c1] Rotazione [°]
+[T158 r10 c2] 0,00
+[T158 r11 c1] Proiezione sul piano
+[T158 r11 c2] No
+[T158 r12 c1] CLS teso
+[T158 r12 c2] No
+[T158 r13 c1] Direzioni
+[T158 r13 c2] 64,00
+[T158 r14 c1] Interpolazione mesh
+[T158 r14 c2] Quadratica
+¶ Dominio 2D Plastico
+[T159 r1 c1] Combinazione
+[T159 r1 c2] NRd [kN]
+[T159 r1 c3] MxRd [kNm]
+[T159 r1 c4] MyRd [kNm]
+[T159 r1 c5] η [-]
+[T159 r1 c6] Esito
+[T159 r2 c1] Combo 1
+[T159 r2 c2] —
+[T159 r2 c3] —
+[T159 r2 c4] —
+[T159 r2 c5] —
+[T159 r2 c6] Fuori dal piano selezionato
+¶ Dominio 2D Elastico
+[T160 r1 c1] Combinazione
+[T160 r1 c2] NRd [kN]
+[T160 r1 c3] MxRd [kNm]
+[T160 r1 c4] MyRd [kNm]
+[T160 r1 c5] η [-]
+[T160 r1 c6] Esito
+[T160 r2 c1] Combo 1
+[T160 r2 c2] —
+[T160 r2 c3] —
+[T160 r2 c4] —
+[T160 r2 c5] —
+[T160 r2 c6] Fuori dal piano selezionato
+¶ Plastico · Mx–My, N = -1000,00 kN nella configurazione grafica corrente
+¶ Impostazioni comuni SLE
+¶ Opzioni di verifica SLE
+[T161 r1 c1] Parametro
+[T161 r1 c2] Valore
+[T161 r2 c1] Analisi
+[T161 r2 c2] Lineare
+[T161 r3 c1] n armature
+[T161 r3 c2] 5,87
+[T161 r4 c1] φ armature
+[T161 r4 c2] 0,00
+[T161 r5 c1] CLS teso
+[T161 r5 c2] No
+[T161 r6 c1] Assi
+[T161 r6 c2] Locali
+[T161 r7 c1] Esposizione
+[T161 r7 c2] Da scegliere
+[T161 r8 c1] Durata
+[T161 r8 c2] Lunga
+[T161 r9 c1] Sensibilità
+[T161 r9 c2] Poco sensibile
+[T161 r10 c1] Aderenza
+[T161 r10 c2] Migliorata
+¶ Questi parametri sono comuni alle famiglie SLE selezionate; le azioni e gli esiti restano distinti per combinazione.
+¶ SLE Rara
+¶ Inviluppo delle combinazioni calcolate: ogni estremo proviene dalla combinazione indicata. Gli estremi non costituiscono uno stato simultaneo e non sostituiscono le verifiche. Le combinazioni con esito non determinato sono riportate separatamente.
+¶ Tensioni · combinazione governante
+[T162 r1 c1] Combinazione
+[T162 r1 c2] σc,min [MPa]
+[T162 r1 c3] |σs|max [MPa]
+[T162 r1 c4] ησ [-]
+[T162 r1 c5] Esito tensioni
+[T162 r2 c1] Combo 1
+[T162 r2 c2] -20,73
+[T162 r2 c3] 96,23
+[T162 r2 c4] 0,99
+[T162 r2 c5] Entro limiti tensionali
+¶ Inviluppo tensioni e deformazioni
+[T163 r1 c1] Grandezza
+[T163 r1 c2] Estremo
+[T163 r1 c3] Combinazione di origine
+[T163 r2 c1] CLS · σmin [MPa]
+[T163 r2 c2] -20,73
+[T163 r2 c3] Combo 1
+[T163 r3 c1] CLS · σmax [MPa]
+[T163 r3 c2] 0,00
+[T163 r3 c3] Combo 1
+[T163 r4 c1] CLS · εmin [‰]
+[T163 r4 c2] -0,61
+[T163 r4 c3] Combo 1
+[T163 r5 c1] CLS · εmax [‰]
+[T163 r5 c2] 0,38
+[T163 r5 c3] Combo 1
+[T163 r6 c1] Acciaio · σmin [MPa]
+[T163 r6 c2] -96,23
+[T163 r6 c3] Combo 1
+[T163 r7 c1] Acciaio · σmax [MPa]
+[T163 r7 c2] 50,94
+[T163 r7 c3] Combo 1
+[T163 r8 c1] Acciaio · εmin [‰]
+[T163 r8 c2] -0,48
+[T163 r8 c3] Combo 1
+[T163 r9 c1] Acciaio · εmax [‰]
+[T163 r9 c2] 0,25
+[T163 r9 c3] Combo 1
+¶ Compressione negativa: min e max sono estremi algebrici. Le deformazioni sono quelle incrementali native di GPC Engine, senza la deformazione iniziale dei trefoli.
+¶ SLE Rara · governante tensioni · Combo 1 · CLS · gradiente tensioni
+¶ SLE Frequente
+¶ Inviluppo delle combinazioni calcolate: ogni estremo proviene dalla combinazione indicata. Gli estremi non costituiscono uno stato simultaneo e non sostituiscono le verifiche. Le combinazioni con esito non determinato sono riportate separatamente.
+¶ Fessurazione · combinazione governante
+¶ Nessun dato inserito o risultato disponibile.
+¶ Nessuna combinazione governante per ηw determinabile: sono conservati gli esiti di decompressione, non applicabilità o calcolo non disponibile.
+¶ SLE Quasi permanente
+¶ Inviluppo delle combinazioni calcolate: ogni estremo proviene dalla combinazione indicata. Gli estremi non costituiscono uno stato simultaneo e non sostituiscono le verifiche. Le combinazioni con esito non determinato sono riportate separatamente.
+¶ Tensioni · combinazione governante
+¶ Nessun dato inserito o risultato disponibile.
+¶ Nessuna combinazione governante tensionale determinabile: consultare gli esiti sotto riportati.
+¶ Inviluppo tensioni e deformazioni
+¶ Nessun dato inserito o risultato disponibile.
+¶ Compressione negativa: min e max sono estremi algebrici. Le deformazioni sono quelle incrementali native di GPC Engine, senza la deformazione iniziale dei trefoli.
+¶ Fessurazione · combinazione governante
+¶ Nessun dato inserito o risultato disponibile.
+¶ Nessuna combinazione governante per ηw determinabile: sono conservati gli esiti di decompressione, non applicabilità o calcolo non disponibile.
+¶ Verifiche a taglio
+¶ Azioni SLU già combinate e coefficientate dal progettista: il modulo non moltiplica nuovamente N, M, V e T. I coefficienti parziali dei materiali entrano nelle resistenze. Le due direzioni di taglio sono controlli separati; non costituiscono una verifica biassiale generale.
+¶ Modello a taglio
+[T164 r1 c1] Parametro
+[T164 r1 c2] Valore
+[T164 r2 c1] Modello
+[T164 r2 c2] Con staffe
+[T164 r3 c1] bw,x [mm]
+[T164 r3 c2] 800,00
+[T164 r4 c1] dx [mm]
+[T164 r4 c2] 509,91
+[T164 r5 c1] Asl,x [mm²]
+[T164 r5 c2] 1168,67
+[T164 r6 c1] αx [°]
+[T164 r6 c2] 90,00
+[T164 r7 c1] cot θx
+[T164 r7 c2]
+[T164 r8 c1] bw,y [mm]
+[T164 r8 c2] 600,00
+[T164 r9 c1] dy [mm]
+[T164 r9 c2] 708,00
+[T164 r10 c1] Asl,y [mm²]
+[T164 r10 c2] 1256,64
+[T164 r11 c1] αy [°]
+[T164 r11 c2] 90,00
+[T164 r12 c1] cot θy
+[T164 r12 c2]
+¶ Nessun dato inserito o risultato disponibile.
+¶ Torsione e modello circolare
+[T165 r1 c1] Parametro
+[T165 r1 c2] Valore
+[T165 r2 c1] Modello circolare
+[T165 r2 c2] Da scegliere
+[T165 r3 c1] Parametri geometrici
+[T165 r3 c2] Automatici da sezione
+[T165 r4 c1] z/d assegnato (modello manuale)
+[T165 r4 c2] 0,75
+[T165 r5 c1] cot θ comune
+[T165 r5 c2] 1,00
+[T165 r6 c1] As,l disponibile [mm²]
+[T165 r6 c2] 0,00
+[T165 r7 c1] Configurazione resistente confermata
+[T165 r7 c2] Da confermare
+¶ Modello pile NTC §7.9.5.2: z/d = 0,75 per piena, 0,60 per cava; per altre norme scegliere parametri assegnati. Torsione solo NTC: TRcd = 2 Ak t (0,5 fcd) cot θ/(1+cot²θ); TRsd = 2 Ak (Asta/s) fyd cot θ; TRld = 2 Ak (As,l/uk) fyd/cot θ. As,l aggiuntiva rispetto alla pressoflessione.
+¶ Nessun dato inserito o risultato disponibile.
+¶ Schema indicativo delle staffe · diametro rappresentato in scala
+¶ Dettagli costruttivi e ancoraggi
+¶ Controlli della sezione
+¶ DA COMPLETARE
+¶ Dati da completare
+¶ Scegliere il tipo di elemento.
+¶ NTC capitolo 4 / EC2
+¶ In attesa dei dati dell’elemento.
+¶ In attesa dei dati dell’elemento.
+¶ In attesa dei dati dell’elemento.
+¶ Ancoraggi e giunzioni
+¶ Ancoraggi e giunzioni
+¶ DA COMPLETARE
+¶ Dati da completare
+¶ Inserire la lunghezza disponibile per eseguire la verifica.
+¶ NTC capitolo 4 / EC2 §§8.4 e 8.7
+¶ Diagramma momento–curvatura
+¶ Percorso di carico
+[T166 r1 c1] Parametro
+[T166 r1 c2] Valore
+[T166 r2 c1] N costante [kN]
+[T166 r2 c2] 0,00
+[T166 r3 c1] Direzione momento [°]
+[T166 r3 c2] 0,00
+[T166 r4 c1] Passi
+[T166 r4 c2] 60,00
+[T166 r5 c1] Frazione di MRd
+[T166 r5 c2] 1,00
+[T166 r6 c1] Campionamento
+[T166 r6 c2] Quadratico
+[T166 r7 c1] CLS a trazione
+[T166 r7 c2] No
+¶ Curva non calcolata con i dati correnti.
+# word/footer.xml
+¶ ANTHEA · Pagina 1

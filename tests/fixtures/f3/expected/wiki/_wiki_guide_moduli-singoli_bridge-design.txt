@@ -1,0 +1,178 @@
+text: Questa guida accompagna la costruzione di un progetto preliminare, la ricerca delle alternative e la lettura dei risultati di Bridge Design in ANTHEA. Il percorso è pensato per chi deve confrontare tipologie, campate e quantità prima di sviluppare il modello strutturale e il computo completo. Il Bridge Design spiega formule e limiti; qui ogni passo indica cosa inserire, cosa controllare e come interpretare il risultato.
+text: La parola ottimo significa migliore fra le combinazioni esplorate con i dati e i criteri scelti. La finestra non fornisce un’autorizzazione a costruire la soluzione e non esegue automaticamente le verifiche dei moduli GPC Engine. Usa il risultato per selezionare poche alternative motivate e conserva insieme geometrie, prezzi, ipotesi e avvisi.
+text: preparare-i-dati-prima-di-aprire-la-ricerca
+text: Servono almeno lunghezza totale del ponte, larghezza funzionale e quota sul terreno. Per ottenere un confronto utile aggiungere l’ingombro dell’ostacolo, un’ipotesi di terreno, gli estremi su spalla o pila e un listino coerente con l’opera. Se un’informazione non è disponibile, scegliere un valore convenzionale dichiarato e pianificare una seconda ricerca con un’ipotesi diversa.
+text: Informazione
+text: Dove inserirla
+text: Controllo da fare
+text: Lunghezza e quota
+text: Sito
+text: Non confondere quota impalcato e altezza della trave
+text: Corsie e larghezze
+text: Sito
+text: La larghezza totale comprende banchine spartitraffico e barriere
+text: Ostacolo
+text: Sito
+text: Il modello lo centra e aggiunge un margine geometrico di 1 m
+text: Tipologia e continuità
+text: Campate
+text: Lo schema deve essere compatibile con la famiglia
+text: Altezza e spessori
+text: Sezione
+text: Zero significa automatico soltanto nei campi che lo dichiarano
+text: Terreno pile fondazioni
+text: Pile
+text: Distinguere quote manuali e quote automatiche
+text: Prezzi e carichi
+text: Risultati del progetto
+text: Adeguare le ipotesi prima di classificare le alternative
+text: I metri e i millimetri sono indicati accanto ai campi. Non inserire 250 in una soletta richiesta in metri: il valore corretto è 0,25. I prezzi dell’armatura sono in euro per tonnellata; 1,66 euro per kg corrispondono a 1.660 euro per tonnellata. Una differenza di unità può alterare la graduatoria più di una scelta geometrica.
+text: creare-il-progetto-di-riferimento
+text: Apri il modulo Bridge Design e lavora nella scheda Progetto. Le schede di ingresso sono Sito, Campate, Sezione e Pile. I risultati comprendono Quantità e costi, Dettagli del predimensionamento, Confronto A / B, Prezzi unitari, Ipotesi e coefficienti e Sezioni e quote. Il pulsante Ottimizza porta alla scheda separata Ottimizzazione.
+text: 1. In Sito imposta lunghezza, quota, corsie e larghezze accessorie. Controlla la larghezza complessiva restituita dal programma, non soltanto il numero di corsie.
+text: 2. Seleziona l’ostacolo e la larghezza. Osserva il prospetto: il disegno è schematico e non costituisce una verifica del franco, dell’alveo o della posizione reale degli appoggi.
+text: 3. In Campate scegli una famiglia iniziale e la continuità. Inserisci un numero di campate ragionevole oppure usa zero per la scelta automatica. Leggi poi le luci effettive, che non sono necessariamente tutte uguali.
+text: 4. In Sezione imposta i soli dati noti. Lascia zero nei campi automatici se vuoi che il motore li predimensioni. Per le lamiere usa gli spessori in mm; per anime e solette in cls usa le unità mostrate.
+text: 5. In Pile scegli terreno, schema e fondazione. Una misura a zero resta automatica; una misura positiva è una richiesta esplicita. Verifica gli avvisi su snellezza, compressione e capacità assiale.
+text: 6. Apri Prezzi unitari e Ipotesi e coefficienti. Aggiorna tariffe, carichi equivalenti, resistenze geotecniche di riferimento e fattori ambientali dove disponi di informazioni migliori.
+text: 7. Salva il progetto prima della ricerca. Se non è calcolabile, correggi l’errore prima di avviare l’ottimizzazione: il motore deve poter costruire il riferimento.
+text: Una configurazione calcolabile può essere fuori dal campo usuale della famiglia. La scheda Progetto può mostrarla con un avviso, mentre l’ottimizzazione la esclude dai candidati ammessi. Perciò un costo visibile nella scheda Progetto non basta a dimostrare che il riferimento appartenga all’insieme esplorato.
+text: leggere-sezioni-spessori-e-lunghezze
+text: Apri Sezioni e quote prima di valutare il solo costo totale. Il prospetto riporta componenti, simboli, valori, unità, origine e significato. Impostato identifica un dato assegnato; Automatico una regola del motore; Derivato una conseguenza degli ingressi. Nelle famiglie speciali compaiono anche Adottato e Predimensionato. Nessuna di queste etichette significa sezione verificata.
+text: d è l’altezza complessiva in campata, con soletta. dpila è l’altezza dell’impalcato sulle pile e può essere maggiore per il cassone variabile. h è l’altezza sotto soletta e rialzo; hw è l’altezza netta dell’anima; lw è lo sviluppo reale di un’anima inclinata. Le tabelle distinguono larghezza della piattabanda, spessore, numero di travi, luce di ogni campata e sviluppo complessivo degli elementi longitudinali.
+text: Per esempio, H per 4V uguale a 1 indica uno scarto orizzontale pari a un quarto dell’altezza verticale dell’anima; non indica una pendenza di 45 gradi. Il computo usa lo sviluppo inclinato per l’area e la proiezione verticale per l’inerzia. Per le travi a U controlla che la somma delle larghezze superiori non provochi sovrapposizioni.
+text: Nel prospetto delle sottostrutture leggi separatamente altezza e dimensione del fusto, numero di colonne, dimensioni del pulvino, lati e spessore del plinto, numero, diametro e lunghezza dei pali. Una fondazione bloccata con dimensioni a zero può essere ridimensionata dopo una variazione delle reazioni: controlla sempre le quote effettivamente adottate.
+text: scegliere-obiettivo-e-costanti
+text: La scheda Ottimizzazione propone Costo minimo, CO₂ minima e Compromesso costo / CO₂ 50 / 50. Il compromesso normalizza i due indicatori sui minimi della ricerca. Non valuta sicurezza, paesaggio, tempi, manutenzione o interferenze oltre ai filtri presenti. Se uno di questi aspetti governa la scelta, traduci ciò che puoi in vincoli e confronta esternamente le alternative rimaste.
+text: Blocco
+text: Quando usarlo
+text: Significato operativo
+text: Tipologia
+text: Hai già scelto una famiglia
+text: Confronta geometrie della stessa famiglia
+text: Numero campate
+text: Gli appoggi sono vincolati
+text: Conserva il numero non una libera lista di luci
+text: Altezza in campata
+text: Hai un limite già assegnato
+text: Congela la quota adottata in campata
+text: Dimensioni della sezione
+text: Vuoi mantenere la sezione ordinaria
+text: Richiede anche il blocco della tipologia
+text: Continuità
+text: Vuoi confrontare lo stesso schema
+text: È bloccata all’avvio
+text: Schema pila e quote imposte
+text: Le sottostrutture sono già definite
+text: Le quote automatiche restano automatiche
+text: Fondazione e lunghezza pali
+text: Vuoi un confronto a fondazione fissata
+text: Quote e conteggi a zero possono ricalcolarsi
+text: Per un primo confronto ampio puoi liberare tipologia e numero di campate, conservando continuità, schema di pila e fondazione. In una seconda ricerca puoi liberare anche le sottostrutture. Fare entrambe le ricerche aiuta a capire se il risparmio proviene dall’impalcato o da una modifica sostanziale degli appoggi.
+text: La lunghezza totale e la larghezza non vengono ridotte dall’ottimizzatore per ottenere un costo inferiore. Carichi, prezzi, coefficienti e materiali restano quelli del progetto. Liberare la sezione richiama dimensioni standard; non avvia una ricerca sistematica su tutti gli spessori possibili. I parametri avanzati di archi, cavi e ortotropi rimangono quelli impostati nel progetto.
+text: impostare-range-utili
+text: Il pulsante Suggerisci campate dalla lunghezza propone l’intervallo ricavato dai campi usuali delle famiglie. È un punto di partenza: il controllo preventivo usa la luce media e non garantisce che le luci finali, dopo la distribuzione e l’ostacolo, siano ammesse. Se hai bloccato il numero delle campate, mantieni minimo e massimo compatibili con quel numero.
+text: Il minimo di altezza si riferisce alla campata; il massimo si applica anche all’altezza dell’impalcato sopra le pile. Zero significa nessun limite aggiuntivo, non una sezione di altezza nulla. Per un cassone variabile un limite massimo può quindi escludere una geometria la cui altezza in mezzeria sembra compatibile.
+text: Per le griglie percentuali, 100 significa la regola automatica della combinazione. Con altezza 100–120 e passo 10 si esaminano 100, 110 e 120%. Con pali 100–150 e passo 25 si esaminano tre lunghezze riferite alla classe di terreno. Se la fondazione è bloccata, la relativa griglia è disabilitata. Non sono esplorati valori inferiori al 100%.
+text: Come percorso iniziale, usa 2 o 3 valori di altezza e un intervallo di campate motivato dal sito. Se il vincitore cade all’estremo del range, amplia il campo solo dove fisicamente plausibile e ripeti. Se interessa affinare l’altezza, riduci il passo vicino ai risultati senza superare 11 valori nella griglia. Non è necessario usare subito tutti i 50.000 tentativi ammessi.
+text: Una griglia più fitta aumenta il numero di combinazioni ma non elimina i limiti del modello. Se mancano dati su varo, pali o traffico, è spesso più utile ripetere scenari con ipotesi diverse che usare molti decimali sulla stessa ipotesi incerta.
+text: avviare-e-leggere-l-avanzamento
+text: Premi Avvia ottimizzazione. Il motore comunica i nuovi tentativi in gruppi; la preview segue il migliore provvisorio quando cambia, al massimo due volte al secondo. Non viene ridisegnato ogni candidato. Il progetto corrente cambia soltanto quando premi Applica soluzione selezionata.
+text: La barra indica quante combinazioni sono state calcolate e quante sono state ammesse rispetto alla griglia prevista. Il totale previsto può diminuire di fatto per salti e duplicati. Alla fine sono esposti tentativi calcolati, ammessi, geometrie distinte ed esclusi. Non sommare le occorrenze dei motivi di esclusione per ricavare il numero degli esclusi, perché uno stesso tentativo può violare più condizioni.
+text: Interrompi annulla la ricerca senza applicare una soluzione. Una modifica agli input, al listino o ai vincoli rende obsoleta la ricerca: ANTHEA richiede di ripeterla. Non usare una graduatoria calcolata con prezzi vecchi per interpretare il costo di un progetto modificato.
+text: usare-i-grafici
+text: Il grafico Variabili esplorate ha in ascissa il numero del tentativo e permette di visualizzare costo, CO₂, altezza, campate, lunghezza pali, tipologia, schema di pila, fondazione e continuità. I punti grigi identificano tentativi esclusi; le quote non calcolabili non sono disegnate. Nei grafici economico e ambientale la linea scura indica il minimo progressivo, non una curva di convergenza strutturale.
+text: L’ordine dei tentativi deriva dall’enumerazione del programma. Non interpretare una successione di punti come un percorso continuo di trasformazione del ponte, né come una misura della sensibilità di una sola variabile se ne cambiano più di una. Per studiare una variabile, blocca le altre e ripeti una ricerca dedicata.
+text: La Famiglia di soluzioni plausibili rappresenta costo e CO₂ delle geometrie ammesse. In basso a sinistra si trovano i valori minori. L’anello identifica Pareto, la stella il migliore per l’obiettivo e la croce il progetto corrente. Filtra per famiglia o attiva Solo frontiera Pareto; clicca un punto per esaminarlo anche quando non compare fra le prime N righe.
+text: Nuvola costo e CO₂ ricavata dai risultati riproducibili dell’esempio
+text: Il grafico qui riportato è generato dai dati della ricerca descritta nel capitolo successivo. Nella finestra gli stessi concetti sono interattivi. Una nuvola non sostituisce il controllo del prospetto: due punti vicini possono avere numeri di appoggi, dimensioni o difficoltà costruttive molto diversi.
+text: Variazione di altezza e costo durante l’enumerazione dell’esempio
+text: esempio-guidato-da-centoventi-metri
+text: Costruisci un riferimento con i valori seguenti. Mantieni gli altri parametri ai valori iniziali della revisione documentata: un archivio precedente potrebbe avere un listino diverso.
+text: Campo
+text: Valore
+text: Lunghezza e quota
+text: 120 m e 12 m
+text: Corsie e larghezza corsia
+text: 4 e 3,65 m
+text: Banchine spartitraffico barriere
+text: 1,50 m per lato 1,60 m 0,50 m per lato
+text: Larghezza totale attesa
+text: 20,20 m
+text: Ostacolo e terreno
+text: Nessuno e Roccia
+text: Famiglia e campate
+text: Travi a I in c.a.p. e 3
+text: Continuità
+text: Attiva
+text: Schema pila
+text: Setto
+text: Fondazione
+text: Automatica che in questo caso adotta plinto diretto
+text: Quote automatiche
+text: Altezza sezione pila e fondazione a zero
+text: Estremi
+text: Entrambi su spalla
+text: Il riferimento restituisce costo 2.332.503,86 euro e CO₂ 1.371,939 t. Le tre luci non sono 40 m ciascuna: con continuità e tre campate le terminali hanno peso 0,8, quindi le luci sono circa 36,923 + 46,154 + 36,923 m. Questo è il primo controllo da fare per capire quale ponte si sta confrontando.
+text: Nella ricerca scegli Costo minimo; blocca Continuità, Schema pila e Fondazione. Lascia libere Tipologia, Numero campate, Altezza e Dimensioni della sezione. Imposta campate da 1 a 8, altezze da 100 a 120% con passo 10, limiti assoluti d’altezza a zero. La griglia dei pali non interviene perché la fondazione è bloccata.
+text: Il risultato atteso è 91 tentativi, 70 ammessi e 69 geometrie distinte. Il primo candidato è Cassone in c.a.p., due campate da 60 m, altezza 2,565257 m, costo 2.049.525,73 euro e CO₂ 1.287,035 t. Il risparmio rispetto al riferimento è circa 282.978 euro, pari al 12,13%; la riduzione ambientale è circa 84,904 t, pari al 6,19%. Le molte cifre servono a ripetere l’esempio, non descrivono la precisione della stima reale.
+text: Ripeti con CO₂ minima e poi con Compromesso. In questo caso vince la stessa geometria; non aspettarti sempre questa coincidenza. Puoi cambiare N per osservare altre soluzioni senza eseguire nuovamente il calcolo. Apri il prospetto della selezione e confronta altezza, sezioni, numero di pile e quantità prima di applicarla.
+text: Differenze di costo fra il riferimento e alcuni scenari dell’esempio
+text: Se imposti un minimo di cinque campate, il riferimento a tre campate è escluso. Vince una soluzione a T in c.a. con cinque campate e costo 2.657.209,43 euro. Un vincitore più caro del riferimento è quindi possibile quando il riferimento non soddisfa i nuovi vincoli. Leggi sempre la riga che descrive le esclusioni del progetto corrente.
+text: Moltiplicando tutti i prezzi per 0,8 o per 1,2, senza cambiare altro, la geometria vincente deve restare la stessa, la CO₂ deve restare invariata e il costo deve diventare rispettivamente 1.639.620,59 e 2.459.430,88 euro. Questo è un controllo di coerenza economica, non uno studio completo della sensibilità: per quest’ultimo occorre variare separatamente le voci più incerte, non soltanto tutto il listino dello stesso fattore.
+text: selezionare-applicare-e-conservare-le-alternative
+text: La tabella ordina le soluzioni secondo il punteggio non arrotondato. Se due righe mostrano lo stesso punteggio stampato, possono differire nelle cifre successive. Sono mostrati posizione, famiglia, campate, altezza, costo, differenza dal riferimento, CO₂, punteggio e appartenenza a Pareto.
+text: Seleziona una riga o un punto della nuvola e leggi Variazioni rispetto al progetto corrente. La tabella confronta luci, continuità, fondazione e quote tecniche adottate. Controlla anche gli avvisi: un candidato ammesso conserva comunque i limiti generali del modello e le voci di computo mancanti.
+text: Premendo Applica soluzione selezionata, il progetto adotta gli input del candidato. Se non esiste già un’alternativa A, ANTHEA conserva il progetto precedente come A. Se A esiste, non viene sostituita automaticamente: controlla che il confronto A / B rappresenti ancora ciò che vuoi confrontare. Dopo l’applicazione rivedi Sezioni e quote e salva il documento con un nome che renda riconoscibile la variante.
+text: La ricerca completa non va considerata un registro permanente nel file di progetto. Per documentare la decisione salva il progetto di riferimento e le alternative scelte, esporta i loro computi e annota obiettivo, vincoli e griglie usati. L’export del progetto descrive la soluzione corrente; non sostituisce automaticamente un report dell’intera nuvola di ottimizzazione.
+text: prezzi-geotecnica-e-scenari-da-confrontare
+text: Prima di concludere prepara almeno uno scenario di riferimento e uno cautelativo motivato dai dati disponibili. Varia, per esempio, lunghezza dei pali, resistenze geotecniche di riferimento, costo della carpenteria, incidenza di montaggio e necessità di opere provvisionali. Se il vincitore cambia facilmente, conserva più alternative da approfondire invece di attribuire precisione eccessiva al primo posto.
+text: Non usare la pressione convenzionale del terreno come se fosse automaticamente una portanza certificata. Un aumento della lunghezza del palo accresce l’attrito laterale nel modello, ma non simula il passaggio a uno strato reale. Il progetto geotecnico deve confermare lunghezza, capacità, gruppo, cedimenti e risposta trasversale. Per un ponte in alveo, il fatto che le pile evitino l’ostacolo disegnato non dimostra compatibilità idraulica.
+text: Leggi le note accanto ai prezzi. Pali e cls hanno inclusioni diverse; appoggi e giunti dipendono da forze e movimenti. Gli oneri aggiuntivi e gli imprevisti sono riserve, non l’insieme delle lavorazioni mancanti. Per le famiglie speciali un’offerta di sistema può includere montaggio, terminali e protezioni già computati in altre righe: evita duplicazioni.
+text: usare-le-famiglie-speciali
+text: Arco metallico con catena e reticolare richiedono campate indipendenti. Se tieni bloccata una continuità attiva, queste famiglie non entrano nella ricerca. Per confrontarle devi liberare la continuità o impostare correttamente il riferimento. Il modello comprende arco con catena, non tutte le possibili configurazioni di arco con spinta sulle spalle.
+text: Strallato e sospeso richiedono tre campate, impalcato continuo ed estremi su spalla. Le campate sono L/4, L/2, L/4. I campi di luce usuale si riferiscono alla campata centrale; un ponte complessivamente lungo 150 m non diventa uno strallato ammesso solo perché la lunghezza totale supera 100 m. Le antenne e i cavi hanno parametri avanzati da impostare prima della ricerca.
+text: Per la piastra ortotropa controlla lamiera, altezza e larghezze delle canalette, interasse e spessori del cassone. Per le travi incorporate controlla spazio fra profili e cls sopra e sotto le piattabande. Il prospetto rappresenta un profilo ideale, non un componente commerciale già selezionato.
+text: Su archi, reticolari, strallati e sospesi la mancanza di diagrammi globali non è un errore grafico. Il motore stima equilibri e quantità senza risolvere la deformabilità globale di queste strutture. Se il loro vantaggio economico è interessante, il passo successivo è un modello specialistico, non l’interpretazione della sola inerzia dell’impalcato come rigidezza del ponte completo.
+text: risolvere-i-messaggi-piu-comuni
+text: Messaggio o situazione
+text: Significato
+text: Azione utile
+text: Nessuna soluzione ammessa
+text: Tutti i candidati violano almeno un filtro
+text: Apri i motivi e modifica il vincolo pertinente
+text: Griglia troppo estesa
+text: Superati 50.000 tentativi previsti
+text: Blocca variabili o aumenta il passo
+text: Altezza inferiore alla regola
+text: Quota bloccata troppo bassa
+text: Rivedi altezza o numero di campate
+text: Pile interferenti con ostacolo
+text: Appoggi nella fascia esclusa
+text: Riduci campate o cambia schema
+text: Fondazione oltre soglia
+text: Assiale superiore al riferimento
+text: Rivedi dati terreno e fondazione
+text: Plinto non contiene pali
+text: Griglia dei pali incompatibile
+text: Aumenta il lato imposto o torna in automatico
+text: Pila troppo snella o compressa
+text: Soglia orientativa superata
+text: Aumenta la sezione e verifica il modello reale
+text: Sollevamento
+text: Reazione negativa non gestita
+text: Rivedi schema oppure analizza dispositivi dedicati
+text: Prezzi o dati modificati
+text: La graduatoria è obsoleta
+text: Ripeti la ricerca
+text: Vincitore più caro del riferimento
+text: Il riferimento può essere escluso
+text: Leggi le esclusioni prima di valutare il risparmio
+text: Non eliminare un messaggio aumentando arbitrariamente una resistenza geotecnica o azzerando una voce di costo. Correggi un dato solo quando hai una ragione documentabile. Se la combinazione resta incompatibile, conserva il rifiuto fra gli esiti dello studio.
+text: esportare-un-confronto-leggibile
+text: Usa Esporta quantità CSV per il computo della soluzione corrente e l’export delle quote per ricostruirne dimensioni e sviluppi. Il pulsante Immagine PNG conserva il disegno; la relazione Word del progetto riporta geometria, ipotesi, quantità e avvisi. Per una consegna tecnica aggiungi il PDF e controlla che tabelle, unità e figure siano leggibili.
+text: Accompagna ogni alternativa con obiettivo, dati del sito, blocchi attivati, griglie, listino, fattori ambientali e versione del motore. Riporta numero dei tentativi, delle geometrie ammesse e motivo della selezione. Se scegli la terza alternativa perché più costruibile, scrivilo esplicitamente: la posizione in classifica descrive soltanto il criterio scelto dal software.
+text: quanto-fidarsi-dei-risultati
+text: La revisione documentata ha superato 44.259 asserzioni della suite generale. Una verifica indipendente, senza librerie ANTHEA nel calcolo dei valori attesi, ha controllato 100 travi con un secondo solutore FEM e quantità, costi e graduatoria di 26 geometrie di un caso imposto, con 80.133 confronti numerici.
+text: Questi riscontri aumentano la fiducia nella correttezza delle equazioni implementate e della ricerca discreta. Non validano automaticamente le incidenze convenzionali, i costi consuntivi o la sicurezza di un ponte reale.
+text: Prima di scegliere definitivamente verifica che la configurazione sia fisicamente costruibile, che il modello strutturale dedicato confermi le sezioni e che la valutazione geotecnica confermi le fondazioni. Aggiorna poi quantità e prezzi con le informazioni nuove e ripeti il confronto. Questo passaggio permette al predimensionamento di accompagnare il progetto senza attribuirgli prestazioni che non calcola.

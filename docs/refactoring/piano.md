@@ -134,7 +134,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
 
 ## Fase 3: strato applicativo
 
-- [ ] F3.1 [CP] Decisioni: migrazioni pigre, `str_palo` e chiavi miste congelati con alias, X.Materiali accorpato, figure senza WPF; fixture per gli 11 moduli.
+- [x] F3.1 (13/10): decisioni su delega in f3-strato-applicativo.md; 36 fixture per i 12 moduli effettivi. Doppia cattura WPF D/E: 458 file equivalenti, unico volatile tempi_ms già censito. Dati migrati, risultati, report singoli/brevi/progetto e Wiki congelati in tests/fixtures/f3; nessun codice di produzione spostato. Le decisioni sull’accorpamento e i servizi saranno attuate nei passi successivi.
 - [ ] F3.2 Scheletro, strumento headless, progetto unico di test di architettura.
 - [~] F3.3 Documento, progetti, revisioni, condivisione.
   - [x] F3.3a (12/10): confronto dei default progetto/foglio dei muri corretto. Si normalizzano solo gli ID delle azioni in copie di test, validando formato e unicità; gli ID dei documenti restano indipendenti. Registro TEST-01, prove di mutazione in `tests/ProjectCalculationChecks`. Eliminata l’ultima eccezione in `build/known-failures.json`. Suite progetto: 152 controlli; profilo standard `20261012-195301-f3-defaults-standard`: 48 PASS, 0 KNOWN, 0 NEW-FAIL.

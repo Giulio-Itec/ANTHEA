@@ -1,0 +1,1506 @@
+{
+  "basamento": [
+    {
+      "X": -4,
+      "Y": -4
+    },
+    {
+      "X": 4,
+      "Y": -4
+    },
+    {
+      "X": 4,
+      "Y": 4
+    },
+    {
+      "X": -4,
+      "Y": 4
+    }
+  ],
+  "confronto": [
+    {
+      "Angle": 0,
+      "Available": true,
+      "DirectionId": "X",
+      "DirectionName": "X",
+      "Error": "",
+      "Factor": 0.24999999999999994,
+      "Maximum": 0.24999999999999994,
+      "Method": 0,
+      "Minimum": 0.24999999999999994,
+      "ParallelSpacing": 3,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P2",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P3",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P4",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P5",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P6",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P7",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P8",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P9",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 6
+        }
+      ],
+      "ProjectedRowGaps": [3,3
+      ],
+      "ProjectedTransverseGaps": [3,3
+      ],
+      "Quantity": "Riduzione kh/nh · Rg",
+      "ReductionPercent": 75,
+      "RegularGrid": true,
+      "Source": "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.",
+      "TransverseSpacing": 3,
+      "Warnings": [
+        "Nessuna ulteriore influenza trasversale secondo Davisson per S⊥ ≥ 2.5D (o unica colonna).",
+        "Rg riduce kh/nh; non è un'efficienza di capacità Hgruppo/(N Hsingolo)."
+      ]
+    },
+    {
+      "Angle": 0,
+      "Available": true,
+      "DirectionId": "X",
+      "DirectionName": "X",
+      "Error": "",
+      "Factor": 0.5,
+      "Maximum": 0.8,
+      "Method": 1,
+      "Minimum": 0.3,
+      "ParallelSpacing": 3,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0.3,
+          "Factor": 0.3,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.4,
+          "Factor": 0.4,
+          "Id": "P2",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8,
+          "Factor": 0.8,
+          "Id": "P3",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.3,
+          "Factor": 0.3,
+          "Id": "P4",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.4,
+          "Factor": 0.4,
+          "Id": "P5",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8,
+          "Factor": 0.8,
+          "Id": "P6",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.3,
+          "Factor": 0.3,
+          "Id": "P7",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.4,
+          "Factor": 0.4,
+          "Id": "P8",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8,
+          "Factor": 0.8,
+          "Id": "P9",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 6
+        }
+      ],
+      "ProjectedRowGaps": [3,3
+      ],
+      "ProjectedTransverseGaps": [3,3
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": 50,
+      "RegularGrid": true,
+      "Source": "AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.",
+      "TransverseSpacing": 3,
+      "Warnings": [
+        "Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.",
+        "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+      ]
+    },
+    {
+      "Angle": 0,
+      "Available": true,
+      "DirectionId": "X",
+      "DirectionName": "X",
+      "Error": "",
+      "Factor": 0.5166666666666666,
+      "Maximum": 0.7,
+      "Method": 2,
+      "Minimum": 0.35,
+      "ParallelSpacing": 3,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0.35,
+          "Factor": 0.35,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5,
+          "Factor": 0.5,
+          "Id": "P2",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.7,
+          "Factor": 0.7,
+          "Id": "P3",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.35,
+          "Factor": 0.35,
+          "Id": "P4",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5,
+          "Factor": 0.5,
+          "Id": "P5",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.7,
+          "Factor": 0.7,
+          "Id": "P6",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.35,
+          "Factor": 0.35,
+          "Id": "P7",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5,
+          "Factor": 0.5,
+          "Id": "P8",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.7,
+          "Factor": 0.7,
+          "Id": "P9",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 6
+        }
+      ],
+      "ProjectedRowGaps": [3,3
+      ],
+      "ProjectedTransverseGaps": [3,3
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": 48.33333333333334,
+      "RegularGrid": true,
+      "Source": "FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).",
+      "TransverseSpacing": 3,
+      "Warnings": [
+        "Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.",
+        "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+      ]
+    },
+    {
+      "Angle": 0,
+      "Available": false,
+      "DirectionId": "X",
+      "DirectionName": "X",
+      "Error": "Interasse fuori dal campo del metodo: abilitare esplicitamente le estrapolazioni.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 3,
+      "Minimum": null,
+      "ParallelSpacing": 3,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 6
+        }
+      ],
+      "ProjectedRowGaps": [3,3
+      ],
+      "ProjectedTransverseGaps": [3,3
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": true,
+      "Source": "Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.",
+      "TransverseSpacing": 3,
+      "Warnings": []
+    },
+    {
+      "Angle": 0,
+      "Available": true,
+      "DirectionId": "X",
+      "DirectionName": "X",
+      "Error": "",
+      "Factor": 0.6508194506370582,
+      "Maximum": 0.8660655561294294,
+      "Method": 4,
+      "Minimum": 0.4961536083330007,
+      "ParallelSpacing": 3,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0.5845386060400042,
+          "Factor": 0.5845386060400042,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5790749344773571,
+          "Factor": 0.5790749344773571,
+          "Id": "P2",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8660655561294294,
+          "Factor": 0.8660655561294294,
+          "Id": "P3",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.4965738821179707,
+          "Factor": 0.4965738821179707,
+          "Id": "P4",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.4961536083330007,
+          "Factor": 0.4961536083330007,
+          "Id": "P5",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8052893719889693,
+          "Factor": 0.8052893719889693,
+          "Id": "P6",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5845386060400042,
+          "Factor": 0.5845386060400042,
+          "Id": "P7",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5790749344773571,
+          "Factor": 0.5790749344773571,
+          "Id": "P8",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8660655561294294,
+          "Factor": 0.8660655561294294,
+          "Id": "P9",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 6
+        }
+      ],
+      "ProjectedRowGaps": [3,3
+      ],
+      "ProjectedTransverseGaps": [3,3
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": 34.91805493629418,
+      "RegularGrid": true,
+      "Source": "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).",
+      "TransverseSpacing": 3,
+      "Warnings": [
+        "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+      ]
+    },
+    {
+      "Angle": 0,
+      "Available": true,
+      "DirectionId": "X",
+      "DirectionName": "X",
+      "Error": "",
+      "Factor": 0.5856114209410159,
+      "Maximum": 0.7794590005164864,
+      "Method": 5,
+      "Minimum": 0.3972591056943766,
+      "ParallelSpacing": 3,
+      "Piles": [
+        {
+          "Alpha": 0.8,
+          "Beta": 0.5845386060400042,
+          "Factor": 0.4676308848320034,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5790749344773571,
+          "Factor": 0.5790749344773571,
+          "Id": "P2",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 0.9,
+          "Beta": 0.8660655561294294,
+          "Factor": 0.7794590005164864,
+          "Id": "P3",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 0.8,
+          "Beta": 0.4965738821179707,
+          "Factor": 0.3972591056943766,
+          "Id": "P4",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.4961536083330007,
+          "Factor": 0.4961536083330007,
+          "Id": "P5",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 0.9,
+          "Beta": 0.8052893719889693,
+          "Factor": 0.7247604347900725,
+          "Id": "P6",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 3
+        },
+        {
+          "Alpha": 0.8,
+          "Beta": 0.5845386060400042,
+          "Factor": 0.4676308848320034,
+          "Id": "P7",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5790749344773571,
+          "Factor": 0.5790749344773571,
+          "Id": "P8",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 6
+        },
+        {
+          "Alpha": 0.9,
+          "Beta": 0.8660655561294294,
+          "Factor": 0.7794590005164864,
+          "Id": "P9",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 6
+        }
+      ],
+      "ProjectedRowGaps": [3,3
+      ],
+      "ProjectedTransverseGaps": [3,3
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": 41.43885790589841,
+      "RegularGrid": true,
+      "Source": "California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.",
+      "TransverseSpacing": 3,
+      "Warnings": [
+        "Caltrans 2025: α usa la media degli interassi fra file nella direzione H. Per unica fila α=1; oltre 8D α=1. Non prescrizione NTC.",
+        "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+      ]
+    },
+    {
+      "Angle": 90,
+      "Available": true,
+      "DirectionId": "Y",
+      "DirectionName": "Y",
+      "Error": "",
+      "Factor": 0.24999999999999994,
+      "Maximum": 0.24999999999999994,
+      "Method": 0,
+      "Minimum": 0.24999999999999994,
+      "ParallelSpacing": 3,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P2",
+          "ParallelCoordinate": 1.8369701987210297E-16,
+          "Row": 3,
+          "TransverseCoordinate": -3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P3",
+          "ParallelCoordinate": 3.6739403974420594E-16,
+          "Row": 3,
+          "TransverseCoordinate": -6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P4",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 1.8369701987210297E-16
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P5",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": -3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P6",
+          "ParallelCoordinate": 3.0000000000000004,
+          "Row": 2,
+          "TransverseCoordinate": -6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P7",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 3.6739403974420594E-16
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P8",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": -2.9999999999999996
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.24999999999999994,
+          "Factor": 0.24999999999999994,
+          "Id": "P9",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": -6
+        }
+      ],
+      "ProjectedRowGaps": [3,3
+      ],
+      "ProjectedTransverseGaps": [3,3
+      ],
+      "Quantity": "Riduzione kh/nh · Rg",
+      "ReductionPercent": 75,
+      "RegularGrid": true,
+      "Source": "Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.",
+      "TransverseSpacing": 3,
+      "Warnings": [
+        "Nessuna ulteriore influenza trasversale secondo Davisson per S⊥ ≥ 2.5D (o unica colonna).",
+        "Rg riduce kh/nh; non è un'efficienza di capacità Hgruppo/(N Hsingolo)."
+      ]
+    },
+    {
+      "Angle": 90,
+      "Available": true,
+      "DirectionId": "Y",
+      "DirectionName": "Y",
+      "Error": "",
+      "Factor": 0.4999999999999999,
+      "Maximum": 0.8,
+      "Method": 1,
+      "Minimum": 0.3,
+      "ParallelSpacing": 3,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0.3,
+          "Factor": 0.3,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.3,
+          "Factor": 0.3,
+          "Id": "P2",
+          "ParallelCoordinate": 1.8369701987210297E-16,
+          "Row": 3,
+          "TransverseCoordinate": -3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.3,
+          "Factor": 0.3,
+          "Id": "P3",
+          "ParallelCoordinate": 3.6739403974420594E-16,
+          "Row": 3,
+          "TransverseCoordinate": -6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.4,
+          "Factor": 0.4,
+          "Id": "P4",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 1.8369701987210297E-16
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.4,
+          "Factor": 0.4,
+          "Id": "P5",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": -3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.4,
+          "Factor": 0.4,
+          "Id": "P6",
+          "ParallelCoordinate": 3.0000000000000004,
+          "Row": 2,
+          "TransverseCoordinate": -6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8,
+          "Factor": 0.8,
+          "Id": "P7",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 3.6739403974420594E-16
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8,
+          "Factor": 0.8,
+          "Id": "P8",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": -2.9999999999999996
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8,
+          "Factor": 0.8,
+          "Id": "P9",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": -6
+        }
+      ],
+      "ProjectedRowGaps": [3,3
+      ],
+      "ProjectedTransverseGaps": [3,3
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": 50.000000000000014,
+      "RegularGrid": true,
+      "Source": "AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.",
+      "TransverseSpacing": 3,
+      "Warnings": [
+        "Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.",
+        "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+      ]
+    },
+    {
+      "Angle": 90,
+      "Available": true,
+      "DirectionId": "Y",
+      "DirectionName": "Y",
+      "Error": "",
+      "Factor": 0.5166666666666667,
+      "Maximum": 0.7,
+      "Method": 2,
+      "Minimum": 0.35,
+      "ParallelSpacing": 3,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0.35,
+          "Factor": 0.35,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.35,
+          "Factor": 0.35,
+          "Id": "P2",
+          "ParallelCoordinate": 1.8369701987210297E-16,
+          "Row": 3,
+          "TransverseCoordinate": -3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.35,
+          "Factor": 0.35,
+          "Id": "P3",
+          "ParallelCoordinate": 3.6739403974420594E-16,
+          "Row": 3,
+          "TransverseCoordinate": -6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5,
+          "Factor": 0.5,
+          "Id": "P4",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 1.8369701987210297E-16
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5,
+          "Factor": 0.5,
+          "Id": "P5",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": -3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5,
+          "Factor": 0.5,
+          "Id": "P6",
+          "ParallelCoordinate": 3.0000000000000004,
+          "Row": 2,
+          "TransverseCoordinate": -6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.7,
+          "Factor": 0.7,
+          "Id": "P7",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 3.6739403974420594E-16
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.7,
+          "Factor": 0.7,
+          "Id": "P8",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": -2.9999999999999996
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.7,
+          "Factor": 0.7,
+          "Id": "P9",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": -6
+        }
+      ],
+      "ProjectedRowGaps": [3,3
+      ],
+      "ProjectedTransverseGaps": [3,3
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": 48.33333333333333,
+      "RegularGrid": true,
+      "Source": "FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).",
+      "TransverseSpacing": 3,
+      "Warnings": [
+        "Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.",
+        "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+      ]
+    },
+    {
+      "Angle": 90,
+      "Available": false,
+      "DirectionId": "Y",
+      "DirectionName": "Y",
+      "Error": "Interasse fuori dal campo del metodo: abilitare esplicitamente le estrapolazioni.",
+      "Factor": null,
+      "Maximum": null,
+      "Method": 3,
+      "Minimum": null,
+      "ParallelSpacing": 3,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P2",
+          "ParallelCoordinate": 1.8369701987210297E-16,
+          "Row": 3,
+          "TransverseCoordinate": -3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P3",
+          "ParallelCoordinate": 3.6739403974420594E-16,
+          "Row": 3,
+          "TransverseCoordinate": -6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P4",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 1.8369701987210297E-16
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P5",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": -3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P6",
+          "ParallelCoordinate": 3.0000000000000004,
+          "Row": 2,
+          "TransverseCoordinate": -6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P7",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 3.6739403974420594E-16
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P8",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": -2.9999999999999996
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0,
+          "Factor": 0,
+          "Id": "P9",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": -6
+        }
+      ],
+      "ProjectedRowGaps": [3,3
+      ],
+      "ProjectedTransverseGaps": [3,3
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": null,
+      "RegularGrid": true,
+      "Source": "Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.",
+      "TransverseSpacing": 3,
+      "Warnings": []
+    },
+    {
+      "Angle": 90,
+      "Available": true,
+      "DirectionId": "Y",
+      "DirectionName": "Y",
+      "Error": "",
+      "Factor": 0.6508194506370582,
+      "Maximum": 0.8660655561294295,
+      "Method": 4,
+      "Minimum": 0.4961536083330007,
+      "ParallelSpacing": 3,
+      "Piles": [
+        {
+          "Alpha": 1,
+          "Beta": 0.5845386060400043,
+          "Factor": 0.5845386060400043,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.4965738821179705,
+          "Factor": 0.4965738821179705,
+          "Id": "P2",
+          "ParallelCoordinate": 1.8369701987210297E-16,
+          "Row": 3,
+          "TransverseCoordinate": -3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5845386060400043,
+          "Factor": 0.5845386060400043,
+          "Id": "P3",
+          "ParallelCoordinate": 3.6739403974420594E-16,
+          "Row": 3,
+          "TransverseCoordinate": -6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.579074934477357,
+          "Factor": 0.579074934477357,
+          "Id": "P4",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 1.8369701987210297E-16
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.4961536083330007,
+          "Factor": 0.4961536083330007,
+          "Id": "P5",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": -3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5790749344773573,
+          "Factor": 0.5790749344773573,
+          "Id": "P6",
+          "ParallelCoordinate": 3.0000000000000004,
+          "Row": 2,
+          "TransverseCoordinate": -6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8660655561294295,
+          "Factor": 0.8660655561294295,
+          "Id": "P7",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 3.6739403974420594E-16
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8052893719889695,
+          "Factor": 0.8052893719889695,
+          "Id": "P8",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": -2.9999999999999996
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.8660655561294295,
+          "Factor": 0.8660655561294295,
+          "Id": "P9",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": -6
+        }
+      ],
+      "ProjectedRowGaps": [3,3
+      ],
+      "ProjectedTransverseGaps": [3,3
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": 34.91805493629418,
+      "RegularGrid": true,
+      "Source": "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).",
+      "TransverseSpacing": 3,
+      "Warnings": [
+        "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+      ]
+    },
+    {
+      "Angle": 90,
+      "Available": true,
+      "DirectionId": "Y",
+      "DirectionName": "Y",
+      "Error": "",
+      "Factor": 0.5856114209410159,
+      "Maximum": 0.7794590005164865,
+      "Method": 5,
+      "Minimum": 0.3972591056943764,
+      "ParallelSpacing": 3,
+      "Piles": [
+        {
+          "Alpha": 0.8,
+          "Beta": 0.5845386060400043,
+          "Factor": 0.46763088483200344,
+          "Id": "P1",
+          "ParallelCoordinate": 0,
+          "Row": 3,
+          "TransverseCoordinate": 0
+        },
+        {
+          "Alpha": 0.8,
+          "Beta": 0.4965738821179705,
+          "Factor": 0.3972591056943764,
+          "Id": "P2",
+          "ParallelCoordinate": 1.8369701987210297E-16,
+          "Row": 3,
+          "TransverseCoordinate": -3
+        },
+        {
+          "Alpha": 0.8,
+          "Beta": 0.5845386060400043,
+          "Factor": 0.46763088483200344,
+          "Id": "P3",
+          "ParallelCoordinate": 3.6739403974420594E-16,
+          "Row": 3,
+          "TransverseCoordinate": -6
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.579074934477357,
+          "Factor": 0.579074934477357,
+          "Id": "P4",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": 1.8369701987210297E-16
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.4961536083330007,
+          "Factor": 0.4961536083330007,
+          "Id": "P5",
+          "ParallelCoordinate": 3,
+          "Row": 2,
+          "TransverseCoordinate": -3
+        },
+        {
+          "Alpha": 1,
+          "Beta": 0.5790749344773573,
+          "Factor": 0.5790749344773573,
+          "Id": "P6",
+          "ParallelCoordinate": 3.0000000000000004,
+          "Row": 2,
+          "TransverseCoordinate": -6
+        },
+        {
+          "Alpha": 0.9,
+          "Beta": 0.8660655561294295,
+          "Factor": 0.7794590005164865,
+          "Id": "P7",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": 3.6739403974420594E-16
+        },
+        {
+          "Alpha": 0.9,
+          "Beta": 0.8052893719889695,
+          "Factor": 0.7247604347900726,
+          "Id": "P8",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": -2.9999999999999996
+        },
+        {
+          "Alpha": 0.9,
+          "Beta": 0.8660655561294295,
+          "Factor": 0.7794590005164865,
+          "Id": "P9",
+          "ParallelCoordinate": 6,
+          "Row": 1,
+          "TransverseCoordinate": -6
+        }
+      ],
+      "ProjectedRowGaps": [3,3
+      ],
+      "ProjectedTransverseGaps": [3,3
+      ],
+      "Quantity": "p-multiplier medio",
+      "ReductionPercent": 41.43885790589841,
+      "RegularGrid": true,
+      "Source": "California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.",
+      "TransverseSpacing": 3,
+      "Warnings": [
+        "Caltrans 2025: α usa la media degli interassi fra file nella direzione H. Per unica fila α=1; oltre 8D α=1. Non prescrizione NTC.",
+        "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+      ]
+    }
+  ],
+  "errore": "",
+  "errore_basamento": "",
+  "input": {
+    "angolo": 0,
+    "basamento": {
+      "bordo_d": 1,
+      "tipo": "Contorno palificata"
+    },
+    "diametro": 1,
+    "direzione_selezionata": "X",
+    "direzioni": {
+      "X": true,
+      "X-": false,
+      "Y": true,
+      "Y-": false,
+      "angolo_custom": 45,
+      "custom": false
+    },
+    "estrapolazioni": false,
+    "file_proiettate": false,
+    "generatore": {
+      "anelli": 1,
+      "centro": true,
+      "lato": 3,
+      "nx": 3,
+      "ny": 3,
+      "rotazione": 0,
+      "suddivisioni": 1,
+      "sx_d": 3,
+      "sy_d": 3,
+      "tipo": "Rettangolare"
+    },
+    "interassi": {
+      "X": {},
+      "X-": {},
+      "Y": {},
+      "Y-": {},
+      "custom": {}
+    },
+    "metodo": 4,
+    "pali": [
+      {
+        "id": "P1",
+        "x": -3,
+        "y": -3
+      },
+      {
+        "id": "P2",
+        "x": 0,
+        "y": -3
+      },
+      {
+        "id": "P3",
+        "x": 3,
+        "y": -3
+      },
+      {
+        "id": "P4",
+        "x": -3,
+        "y": 0
+      },
+      {
+        "id": "P5",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "id": "P6",
+        "x": 3,
+        "y": 0
+      },
+      {
+        "id": "P7",
+        "x": -3,
+        "y": 3
+      },
+      {
+        "id": "P8",
+        "x": 0,
+        "y": 3
+      },
+      {
+        "id": "P9",
+        "x": 3,
+        "y": 3
+      }
+    ],
+    "versione": 2
+  },
+  "selezionato": {
+    "Angle": 0,
+    "Available": true,
+    "DirectionId": "X",
+    "DirectionName": "X",
+    "Error": "",
+    "Factor": 0.6508194506370582,
+    "Maximum": 0.8660655561294294,
+    "Method": 4,
+    "Minimum": 0.4961536083330007,
+    "ParallelSpacing": 3,
+    "Piles": [
+      {
+        "Alpha": 1,
+        "Beta": 0.5845386060400042,
+        "Factor": 0.5845386060400042,
+        "Id": "P1",
+        "ParallelCoordinate": 0,
+        "Row": 3,
+        "TransverseCoordinate": 0
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0.5790749344773571,
+        "Factor": 0.5790749344773571,
+        "Id": "P2",
+        "ParallelCoordinate": 3,
+        "Row": 2,
+        "TransverseCoordinate": 0
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0.8660655561294294,
+        "Factor": 0.8660655561294294,
+        "Id": "P3",
+        "ParallelCoordinate": 6,
+        "Row": 1,
+        "TransverseCoordinate": 0
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0.4965738821179707,
+        "Factor": 0.4965738821179707,
+        "Id": "P4",
+        "ParallelCoordinate": 0,
+        "Row": 3,
+        "TransverseCoordinate": 3
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0.4961536083330007,
+        "Factor": 0.4961536083330007,
+        "Id": "P5",
+        "ParallelCoordinate": 3,
+        "Row": 2,
+        "TransverseCoordinate": 3
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0.8052893719889693,
+        "Factor": 0.8052893719889693,
+        "Id": "P6",
+        "ParallelCoordinate": 6,
+        "Row": 1,
+        "TransverseCoordinate": 3
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0.5845386060400042,
+        "Factor": 0.5845386060400042,
+        "Id": "P7",
+        "ParallelCoordinate": 0,
+        "Row": 3,
+        "TransverseCoordinate": 6
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0.5790749344773571,
+        "Factor": 0.5790749344773571,
+        "Id": "P8",
+        "ParallelCoordinate": 3,
+        "Row": 2,
+        "TransverseCoordinate": 6
+      },
+      {
+        "Alpha": 1,
+        "Beta": 0.8660655561294294,
+        "Factor": 0.8660655561294294,
+        "Id": "P9",
+        "ParallelCoordinate": 6,
+        "Row": 1,
+        "TransverseCoordinate": 6
+      }
+    ],
+    "ProjectedRowGaps": [3,3
+    ],
+    "ProjectedTransverseGaps": [3,3
+    ],
+    "Quantity": "p-multiplier medio",
+    "ReductionPercent": 34.91805493629418,
+    "RegularGrid": true,
+    "Source": "Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).",
+    "TransverseSpacing": 3,
+    "Warnings": [
+      "La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo."
+    ]
+  }
+}

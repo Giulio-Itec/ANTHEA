@@ -1,0 +1,670 @@
+# word/document.xml
+¶ ANTHEA — Fixture F3 · geo_palo_orizzontale · single-soil-layer
+¶ Palo singolo: capacità portante orizzontale — Broms-ANTHEA-1
+¶ Metodo omogeneo di Broms
+¶ Modello selezionato automaticamente in base alle proprietà degli strati attraversati e alla falda: Omogeneo.
+¶ Modello e fonti
+¶ Viggiani, Fondazioni, pp. 400–415 (PDF 205–212), §§13.2.2–13.2.5
+¶ Incremento di H con e costante; M applicato = H·e; N costante
+¶ z positivo verso il basso; H positiva; p [kN/m] positiva se opposta a H. V(z)=H−∫p dz; M(z)=M0+Hz−∫(z−s)p(s) ds. Compressione N positiva.
+¶ Coesivo non drenato: p=0 per z<1,5D; p=9CuD al di sotto (Viggiani p.400). Granulare drenato: p=3KpDσ′v; Kp=(1+sinφ′)/(1−sinφ′), σ′v integrata dagli strati sovrastanti; γw=9,81 kN/m³. Nessun modello c–φ. Sequenze miste escluse dal metodo Broms.
+¶ Omogeneo: coesivo testa libera eq.13.23–13.29; impedita eq.13.30–13.36. Granulare libera eq.13.37–13.43; impedita eq.13.44–13.47. L'estensione a strati e falda interna è una scelta ANTHEA sperimentale: integrali esatti a tratti e ricerca delle radici, senza media dei parametri o somma di capacità.
+¶ Nel coesivo il tratto inferiore forma una coppia con risultante nulla. Nel granulare F è una risultante concentrata separata: il completamento sotto la cerniera è idealizzato, non univoco.
+¶ I diagrammi non forniscono spostamenti o rotazioni.
+¶ Lettura dei diagrammi
+¶ σv è la tensione verticale totale da peso proprio; u è la pressione idrostatica; σ′v=σv−u. La pressione laterale equivalente q_lim=p_lim/D [kPa] è distinta dalla reazione lineare p_lim [kN/m]. Le curve p e q rappresentano la distribuzione adottata alla capacità Hu, non il carico HEd. ξ e γR riducono la capacità globale e non le tensioni locali.
+¶ Q(z)=∫p_lim dz individua z_f con Q(z_f)=Hu. z_f (taglio nullo) è distinto da b (inversione delle reazioni). Il tratto sotto la cerniera interna è un completamento idealizzato, mostrato tratteggiato su fondo grigio. Le forze concentrate sono dichiarate separatamente.
+¶ Dati di ingresso
+¶ Geometria e azioni
+[T1 r1 c1] Parametro
+[T1 r1 c2] Valore
+[T1 r2 c1] Diametro D [m]
+[T1 r2 c2] 1
+[T1 r3 c1] Lunghezza infissa L [m]
+[T1 r3 c2] 10
+[T1 r4 c1] Quota forza sopra terreno e [m]
+[T1 r4 c2] 0
+[T1 r5 c1] Rotazione in testa
+[T1 r5 c2] Libera
+[T1 r6 c1] HEd [kN]
+[T1 r6 c2] 100
+[T1 r7 c1] N costante [kN], compressione positiva
+[T1 r7 c2] 0
+[T1 r8 c1] Presenza falda
+[T1 r8 c2] false
+[T1 r9 c1] Origine del momento resistente
+[T1 r9 c2] Sezione c.a.
+[T1 r10 c1] Passo dei diagrammi [m]
+[T1 r10 c2] 0.10
+[T1 r11 c1] Tolleranza delle radici
+[T1 r11 c2] 1e-8
+¶ Sezione circolare e materiali
+[T2 r1 c1] Parametro
+[T2 r1 c2] Valore
+[T2 r2 c1] Copriferro esterno staffa [mm]
+[T2 r2 c2] 70
+[T2 r3 c1] Diametro staffa [mm]
+[T2 r3 c2] 10
+[T2 r4 c1] Numero barre
+[T2 r4 c2] 16
+[T2 r5 c1] Diametro barre [mm]
+[T2 r5 c2] 24
+[T2 r6 c1] fck [MPa]
+[T2 r6 c2] 35
+[T2 r7 c1] fyk [MPa]
+[T2 r7 c2] 450
+[T2 r8 c1] αcc
+[T2 r8 c2] 0.85
+[T2 r9 c1] γc
+[T2 r9 c2] 1.50
+[T2 r10 c1] γs
+[T2 r10 c2] 1.15
+[T2 r11 c1] Es [MPa]
+[T2 r11 c2] 200000
+¶ Diametro e N della sezione corrispondono ai dati generali del palo.
+¶ Coefficienti: verticali indagate 1; ξ3 = 1,70; ξ4 = 1,70; γR = 1,30.
+¶ Efficienza: Manuale; η = 1,000. Rd = η · Rk / γR.
+¶ Stratigrafia 1
+[T3 r1 c1] Tipo
+[T3 r1 c2] S [m]
+[T3 r1 c3] γ
+[T3 r1 c4] γsat
+[T3 r1 c5] φ′ [°]
+[T3 r1 c6] Cu [kPa]
+[T3 r2 c1] Granulare
+[T3 r2 c2] 10
+[T3 r2 c3] 18
+[T3 r2 c4] 20
+[T3 r2 c5] 30
+[T3 r2 c6] 50
+¶ Risultati
+¶ Hu = 599,798 kN; sondaggio governante 1; meccanismo Lungo; My adottato = 1088,112 kNm.
+¶ Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare.
+¶ N=0 kN (compressione positiva); fcd=19,833 MPa; fyd=391,304 MPa; As=7238,229 mm²; residuo N=0,4715 kN; motore=GPCChecker.Concrete; contorno=32 lati.
+¶ Verifica normativa: Incompleta
+¶ Rk = min(Hu,media/ξ3; Hu,min/ξ4) = min(352,8; 352,8) = 352,8 kN; criterio governante: Media / ξ3. Rd = η · Rk/γR = 271,4 kN. HEd = 100,0 kN. Verifica soddisfatta. Non costituisce conformità normativa complessiva automatica.
+¶ Avvisi e limiti
+¶ Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.
+¶ Resistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.
+¶ I diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.
+¶ Terreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.
+¶ Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare.
+¶ Sondaggio 1: Lungo
+¶ Hu=599,798 kN; |M|max=1088,112 kNm a z=2,721 m. Cerniere z [m]: [
+  2.721196969843715
+].
+¶ Residui di equilibrio: forza=0 kN; momento=7,172E-10 kNm. Convergenza: Raggiunta.
+¶ Risultante concentrata F=1199,596 kN a z=4,713 m, positiva nel verso di H. Non è una pressione distribuita.
+[T4 r1 c1] Meccanismo
+[T4 r1 c2] Capacità candidata [kN]
+[T4 r1 c3] Stato
+[T4 r2 c1] Corto
+[T4 r2 c2] 2700
+[T4 r2 c3] Candidato non governante; limite precedente già raggiunto
+[T4 r3 c1] Lungo
+[T4 r3 c2] 599,798
+[T4 r3 c3] Ammissibile, governante
+¶ σv e σ′v da peso proprio; u idrostatica, senza suzione. q_lim=p_lim/D; q=p/D è una pressione laterale equivalente. Nessuna riduzione locale con ξ o γR.
+¶ Legge locale per tratti
+[T5 r1 c1] Strato / tipo
+[T5 r1 c2] da / a [m]
+[T5 r1 c3] σ′v iniz. [kPa]
+[T5 r1 c4] p iniz. [kN/m]
+[T5 r1 c5] dp/dz [kN/m²]
+[T5 r2 c1] 1 / Granulare
+[T5 r2 c2] 0 / 10
+[T5 r2 c3] 0
+[T5 r2 c4] 0
+[T5 r2 c5] 162
+¶ Diagrammi tabellari alla capacità ultima (prima/dopo: lati della quota)
+[T6 r1 c1] z [m]
+[T6 r1 c2] Lato
+[T6 r1 c3] p [kN/m]
+[T6 r1 c4] V [kN]
+[T6 r1 c5] M [kNm]
+[T6 r2 c1] 0
+[T6 r2 c2] nodo
+[T6 r2 c3] 0
+[T6 r2 c4] 599,7979
+[T6 r2 c5] 0
+[T6 r3 c1] 0,1
+[T6 r3 c2] nodo
+[T6 r3 c3] 16,2
+[T6 r3 c4] 598,9879
+[T6 r3 c5] 59,9528
+[T6 r4 c1] 0,2
+[T6 r4 c2] nodo
+[T6 r4 c3] 32,4
+[T6 r4 c4] 596,5579
+[T6 r4 c5] 119,7436
+[T6 r5 c1] 0,3
+[T6 r5 c2] nodo
+[T6 r5 c3] 48,6
+[T6 r5 c4] 592,5079
+[T6 r5 c5] 179,2104
+[T6 r6 c1] 0,4
+[T6 r6 c2] nodo
+[T6 r6 c3] 64,8
+[T6 r6 c4] 586,8379
+[T6 r6 c5] 238,1912
+[T6 r7 c1] 0,5
+[T6 r7 c2] nodo
+[T6 r7 c3] 81
+[T6 r7 c4] 579,5479
+[T6 r7 c5] 296,524
+[T6 r8 c1] 0,6
+[T6 r8 c2] nodo
+[T6 r8 c3] 97,2
+[T6 r8 c4] 570,6379
+[T6 r8 c5] 354,0468
+[T6 r9 c1] 0,7
+[T6 r9 c2] nodo
+[T6 r9 c3] 113,4
+[T6 r9 c4] 560,1079
+[T6 r9 c5] 410,5976
+[T6 r10 c1] 0,8
+[T6 r10 c2] nodo
+[T6 r10 c3] 129,6
+[T6 r10 c4] 547,9579
+[T6 r10 c5] 466,0144
+[T6 r11 c1] 0,9
+[T6 r11 c2] nodo
+[T6 r11 c3] 145,8
+[T6 r11 c4] 534,1879
+[T6 r11 c5] 520,1352
+[T6 r12 c1] 1
+[T6 r12 c2] nodo
+[T6 r12 c3] 162
+[T6 r12 c4] 518,7979
+[T6 r12 c5] 572,7979
+[T6 r13 c1] 1,1
+[T6 r13 c2] nodo
+[T6 r13 c3] 178,2
+[T6 r13 c4] 501,7879
+[T6 r13 c5] 623,8407
+[T6 r14 c1] 1,2
+[T6 r14 c2] nodo
+[T6 r14 c3] 194,4
+[T6 r14 c4] 483,1579
+[T6 r14 c5] 673,1015
+[T6 r15 c1] 1,3
+[T6 r15 c2] nodo
+[T6 r15 c3] 210,6
+[T6 r15 c4] 462,9079
+[T6 r15 c5] 720,4183
+[T6 r16 c1] 1,4
+[T6 r16 c2] nodo
+[T6 r16 c3] 226,8
+[T6 r16 c4] 441,0379
+[T6 r16 c5] 765,6291
+[T6 r17 c1] 1,5
+[T6 r17 c2] nodo
+[T6 r17 c3] 243
+[T6 r17 c4] 417,5479
+[T6 r17 c5] 808,5719
+[T6 r18 c1] 1,6
+[T6 r18 c2] nodo
+[T6 r18 c3] 259,2
+[T6 r18 c4] 392,4379
+[T6 r18 c5] 849,0847
+[T6 r19 c1] 1,7
+[T6 r19 c2] nodo
+[T6 r19 c3] 275,4
+[T6 r19 c4] 365,7079
+[T6 r19 c5] 887,0055
+[T6 r20 c1] 1,8
+[T6 r20 c2] nodo
+[T6 r20 c3] 291,6
+[T6 r20 c4] 337,3579
+[T6 r20 c5] 922,1723
+[T6 r21 c1] 1,9
+[T6 r21 c2] nodo
+[T6 r21 c3] 307,8
+[T6 r21 c4] 307,3879
+[T6 r21 c5] 954,4231
+[T6 r22 c1] 2
+[T6 r22 c2] nodo
+[T6 r22 c3] 324
+[T6 r22 c4] 275,7979
+[T6 r22 c5] 983,5959
+[T6 r23 c1] 2,1
+[T6 r23 c2] nodo
+[T6 r23 c3] 340,2
+[T6 r23 c4] 242,5879
+[T6 r23 c5] 1009,5287
+[T6 r24 c1] 2,2
+[T6 r24 c2] nodo
+[T6 r24 c3] 356,4
+[T6 r24 c4] 207,7579
+[T6 r24 c5] 1032,0595
+[T6 r25 c1] 2,3
+[T6 r25 c2] nodo
+[T6 r25 c3] 372,6
+[T6 r25 c4] 171,3079
+[T6 r25 c5] 1051,0263
+[T6 r26 c1] 2,4
+[T6 r26 c2] nodo
+[T6 r26 c3] 388,8
+[T6 r26 c4] 133,2379
+[T6 r26 c5] 1066,2671
+[T6 r27 c1] 2,5
+[T6 r27 c2] nodo
+[T6 r27 c3] 405
+[T6 r27 c4] 93,5479
+[T6 r27 c5] 1077,6199
+[T6 r28 c1] 2,6
+[T6 r28 c2] nodo
+[T6 r28 c3] 421,2
+[T6 r28 c4] 52,2379
+[T6 r28 c5] 1084,9227
+[T6 r29 c1] 2,7
+[T6 r29 c2] nodo
+[T6 r29 c3] 437,4
+[T6 r29 c4] 9,3079
+[T6 r29 c5] 1088,0135
+[T6 r30 c1] 2,7212
+[T6 r30 c2] nodo
+[T6 r30 c3] 440,8339
+[T6 r30 c4] -0
+[T6 r30 c5] 1088,1122
+[T6 r31 c1] 2,8
+[T6 r31 c2] nodo
+[T6 r31 c3] 453,6
+[T6 r31 c4] -35,2421
+[T6 r31 c5] 1086,7303
+[T6 r32 c1] 2,9
+[T6 r32 c2] nodo
+[T6 r32 c3] 469,8
+[T6 r32 c4] -81,4121
+[T6 r32 c5] 1080,9111
+[T6 r33 c1] 3
+[T6 r33 c2] nodo
+[T6 r33 c3] 486
+[T6 r33 c4] -129,2021
+[T6 r33 c5] 1070,3938
+[T6 r34 c1] 3,1
+[T6 r34 c2] nodo
+[T6 r34 c3] 502,2
+[T6 r34 c4] -178,6121
+[T6 r34 c5] 1055,0166
+[T6 r35 c1] 3,2
+[T6 r35 c2] nodo
+[T6 r35 c3] 518,4
+[T6 r35 c4] -229,6421
+[T6 r35 c5] 1034,6174
+[T6 r36 c1] 3,3
+[T6 r36 c2] nodo
+[T6 r36 c3] 534,6
+[T6 r36 c4] -282,2921
+[T6 r36 c5] 1009,0342
+[T6 r37 c1] 3,4
+[T6 r37 c2] nodo
+[T6 r37 c3] 550,8
+[T6 r37 c4] -336,5621
+[T6 r37 c5] 978,105
+[T6 r38 c1] 3,5
+[T6 r38 c2] nodo
+[T6 r38 c3] 567
+[T6 r38 c4] -392,4521
+[T6 r38 c5] 941,6678
+[T6 r39 c1] 3,6
+[T6 r39 c2] nodo
+[T6 r39 c3] 583,2
+[T6 r39 c4] -449,9621
+[T6 r39 c5] 899,5606
+[T6 r40 c1] 3,7
+[T6 r40 c2] nodo
+[T6 r40 c3] 599,4
+[T6 r40 c4] -509,0921
+[T6 r40 c5] 851,6214
+[T6 r41 c1] 3,8
+[T6 r41 c2] nodo
+[T6 r41 c3] 615,6
+[T6 r41 c4] -569,8421
+[T6 r41 c5] 797,6882
+[T6 r42 c1] 3,9
+[T6 r42 c2] nodo
+[T6 r42 c3] 631,8
+[T6 r42 c4] -632,2121
+[T6 r42 c5] 737,599
+[T6 r43 c1] 4
+[T6 r43 c2] nodo
+[T6 r43 c3] 648
+[T6 r43 c4] -696,2021
+[T6 r43 c5] 671,1918
+[T6 r44 c1] 4,1
+[T6 r44 c2] nodo
+[T6 r44 c3] 664,2
+[T6 r44 c4] -761,8121
+[T6 r44 c5] 598,3046
+[T6 r45 c1] 4,2
+[T6 r45 c2] nodo
+[T6 r45 c3] 680,4
+[T6 r45 c4] -829,0421
+[T6 r45 c5] 518,7754
+[T6 r46 c1] 4,3
+[T6 r46 c2] nodo
+[T6 r46 c3] 696,6
+[T6 r46 c4] -897,8921
+[T6 r46 c5] 432,4422
+[T6 r47 c1] 4,4
+[T6 r47 c2] nodo
+[T6 r47 c3] 712,8
+[T6 r47 c4] -968,3621
+[T6 r47 c5] 339,143
+[T6 r48 c1] 4,5
+[T6 r48 c2] nodo
+[T6 r48 c3] 729
+[T6 r48 c4] -1040,4521
+[T6 r48 c5] 238,7158
+[T6 r49 c1] 4,6
+[T6 r49 c2] nodo
+[T6 r49 c3] 745,2
+[T6 r49 c4] -1114,1621
+[T6 r49 c5] 130,9986
+[T6 r50 c1] 4,7
+[T6 r50 c2] nodo
+[T6 r50 c3] 761,4
+[T6 r50 c4] -1189,4921
+[T6 r50 c5] 15,8294
+[T6 r51 c1] 4,7133
+[T6 r51 c2] prima
+[T6 r51 c3] 763,5467
+[T6 r51 c4] -1199,5959
+[T6 r51 c5] 0
+[T6 r52 c1] 4,7133
+[T6 r52 c2] dopo
+[T6 r52 c3] 0
+[T6 r52 c4] 0
+[T6 r52 c5] 0
+[T6 r53 c1] 4,8
+[T6 r53 c2] nodo
+[T6 r53 c3] 0
+[T6 r53 c4] 0
+[T6 r53 c5] 0
+[T6 r54 c1] 4,9
+[T6 r54 c2] nodo
+[T6 r54 c3] 0
+[T6 r54 c4] 0
+[T6 r54 c5] 0
+[T6 r55 c1] 5
+[T6 r55 c2] nodo
+[T6 r55 c3] 0
+[T6 r55 c4] 0
+[T6 r55 c5] 0
+[T6 r56 c1] 5,1
+[T6 r56 c2] nodo
+[T6 r56 c3] 0
+[T6 r56 c4] 0
+[T6 r56 c5] 0
+[T6 r57 c1] 5,2
+[T6 r57 c2] nodo
+[T6 r57 c3] 0
+[T6 r57 c4] 0
+[T6 r57 c5] 0
+[T6 r58 c1] 5,3
+[T6 r58 c2] nodo
+[T6 r58 c3] 0
+[T6 r58 c4] 0
+[T6 r58 c5] 0
+[T6 r59 c1] 5,4
+[T6 r59 c2] nodo
+[T6 r59 c3] 0
+[T6 r59 c4] 0
+[T6 r59 c5] 0
+[T6 r60 c1] 5,5
+[T6 r60 c2] nodo
+[T6 r60 c3] 0
+[T6 r60 c4] 0
+[T6 r60 c5] 0
+[T6 r61 c1] 5,6
+[T6 r61 c2] nodo
+[T6 r61 c3] 0
+[T6 r61 c4] 0
+[T6 r61 c5] 0
+[T6 r62 c1] 5,7
+[T6 r62 c2] nodo
+[T6 r62 c3] 0
+[T6 r62 c4] 0
+[T6 r62 c5] 0
+[T6 r63 c1] 5,8
+[T6 r63 c2] nodo
+[T6 r63 c3] 0
+[T6 r63 c4] 0
+[T6 r63 c5] 0
+[T6 r64 c1] 5,9
+[T6 r64 c2] nodo
+[T6 r64 c3] 0
+[T6 r64 c4] 0
+[T6 r64 c5] 0
+[T6 r65 c1] 6
+[T6 r65 c2] nodo
+[T6 r65 c3] 0
+[T6 r65 c4] 0
+[T6 r65 c5] 0
+[T6 r66 c1] 6,1
+[T6 r66 c2] nodo
+[T6 r66 c3] 0
+[T6 r66 c4] 0
+[T6 r66 c5] 0
+[T6 r67 c1] 6,2
+[T6 r67 c2] nodo
+[T6 r67 c3] 0
+[T6 r67 c4] 0
+[T6 r67 c5] 0
+[T6 r68 c1] 6,3
+[T6 r68 c2] nodo
+[T6 r68 c3] 0
+[T6 r68 c4] 0
+[T6 r68 c5] 0
+[T6 r69 c1] 6,4
+[T6 r69 c2] nodo
+[T6 r69 c3] 0
+[T6 r69 c4] 0
+[T6 r69 c5] 0
+[T6 r70 c1] 6,5
+[T6 r70 c2] nodo
+[T6 r70 c3] 0
+[T6 r70 c4] 0
+[T6 r70 c5] 0
+[T6 r71 c1] 6,6
+[T6 r71 c2] nodo
+[T6 r71 c3] 0
+[T6 r71 c4] 0
+[T6 r71 c5] 0
+[T6 r72 c1] 6,7
+[T6 r72 c2] nodo
+[T6 r72 c3] 0
+[T6 r72 c4] 0
+[T6 r72 c5] 0
+[T6 r73 c1] 6,8
+[T6 r73 c2] nodo
+[T6 r73 c3] 0
+[T6 r73 c4] 0
+[T6 r73 c5] 0
+[T6 r74 c1] 6,9
+[T6 r74 c2] nodo
+[T6 r74 c3] 0
+[T6 r74 c4] 0
+[T6 r74 c5] 0
+[T6 r75 c1] 7
+[T6 r75 c2] nodo
+[T6 r75 c3] 0
+[T6 r75 c4] 0
+[T6 r75 c5] 0
+[T6 r76 c1] 7,1
+[T6 r76 c2] nodo
+[T6 r76 c3] 0
+[T6 r76 c4] 0
+[T6 r76 c5] 0
+[T6 r77 c1] 7,2
+[T6 r77 c2] nodo
+[T6 r77 c3] 0
+[T6 r77 c4] 0
+[T6 r77 c5] 0
+[T6 r78 c1] 7,3
+[T6 r78 c2] nodo
+[T6 r78 c3] 0
+[T6 r78 c4] 0
+[T6 r78 c5] 0
+[T6 r79 c1] 7,4
+[T6 r79 c2] nodo
+[T6 r79 c3] 0
+[T6 r79 c4] 0
+[T6 r79 c5] 0
+[T6 r80 c1] 7,5
+[T6 r80 c2] nodo
+[T6 r80 c3] 0
+[T6 r80 c4] 0
+[T6 r80 c5] 0
+[T6 r81 c1] 7,6
+[T6 r81 c2] nodo
+[T6 r81 c3] 0
+[T6 r81 c4] 0
+[T6 r81 c5] 0
+[T6 r82 c1] 7,7
+[T6 r82 c2] nodo
+[T6 r82 c3] 0
+[T6 r82 c4] 0
+[T6 r82 c5] 0
+[T6 r83 c1] 7,8
+[T6 r83 c2] nodo
+[T6 r83 c3] 0
+[T6 r83 c4] 0
+[T6 r83 c5] 0
+[T6 r84 c1] 7,9
+[T6 r84 c2] nodo
+[T6 r84 c3] 0
+[T6 r84 c4] 0
+[T6 r84 c5] 0
+[T6 r85 c1] 8
+[T6 r85 c2] nodo
+[T6 r85 c3] 0
+[T6 r85 c4] 0
+[T6 r85 c5] 0
+[T6 r86 c1] 8,1
+[T6 r86 c2] nodo
+[T6 r86 c3] 0
+[T6 r86 c4] 0
+[T6 r86 c5] 0
+[T6 r87 c1] 8,2
+[T6 r87 c2] nodo
+[T6 r87 c3] 0
+[T6 r87 c4] 0
+[T6 r87 c5] 0
+[T6 r88 c1] 8,3
+[T6 r88 c2] nodo
+[T6 r88 c3] 0
+[T6 r88 c4] 0
+[T6 r88 c5] 0
+[T6 r89 c1] 8,4
+[T6 r89 c2] nodo
+[T6 r89 c3] 0
+[T6 r89 c4] 0
+[T6 r89 c5] 0
+[T6 r90 c1] 8,5
+[T6 r90 c2] nodo
+[T6 r90 c3] 0
+[T6 r90 c4] 0
+[T6 r90 c5] 0
+[T6 r91 c1] 8,6
+[T6 r91 c2] nodo
+[T6 r91 c3] 0
+[T6 r91 c4] 0
+[T6 r91 c5] 0
+[T6 r92 c1] 8,7
+[T6 r92 c2] nodo
+[T6 r92 c3] 0
+[T6 r92 c4] 0
+[T6 r92 c5] 0
+[T6 r93 c1] 8,8
+[T6 r93 c2] nodo
+[T6 r93 c3] 0
+[T6 r93 c4] 0
+[T6 r93 c5] 0
+[T6 r94 c1] 8,9
+[T6 r94 c2] nodo
+[T6 r94 c3] 0
+[T6 r94 c4] 0
+[T6 r94 c5] 0
+[T6 r95 c1] 9
+[T6 r95 c2] nodo
+[T6 r95 c3] 0
+[T6 r95 c4] 0
+[T6 r95 c5] 0
+[T6 r96 c1] 9,1
+[T6 r96 c2] nodo
+[T6 r96 c3] 0
+[T6 r96 c4] 0
+[T6 r96 c5] 0
+[T6 r97 c1] 9,2
+[T6 r97 c2] nodo
+[T6 r97 c3] 0
+[T6 r97 c4] 0
+[T6 r97 c5] 0
+[T6 r98 c1] 9,3
+[T6 r98 c2] nodo
+[T6 r98 c3] 0
+[T6 r98 c4] 0
+[T6 r98 c5] 0
+[T6 r99 c1] 9,4
+[T6 r99 c2] nodo
+[T6 r99 c3] 0
+[T6 r99 c4] 0
+[T6 r99 c5] 0
+[T6 r100 c1] 9,5
+[T6 r100 c2] nodo
+[T6 r100 c3] 0
+[T6 r100 c4] 0
+[T6 r100 c5] 0
+[T6 r101 c1] 9,6
+[T6 r101 c2] nodo
+[T6 r101 c3] 0
+[T6 r101 c4] 0
+[T6 r101 c5] 0
+[T6 r102 c1] 9,7
+[T6 r102 c2] nodo
+[T6 r102 c3] 0
+[T6 r102 c4] 0
+[T6 r102 c5] 0
+[T6 r103 c1] 9,8
+[T6 r103 c2] nodo
+[T6 r103 c3] 0
+[T6 r103 c4] 0
+[T6 r103 c5] 0
+[T6 r104 c1] 9,9
+[T6 r104 c2] nodo
+[T6 r104 c3] 0
+[T6 r104 c4] 0
+[T6 r104 c5] 0
+[T6 r105 c1] 10
+[T6 r105 c2] nodo
+[T6 r105 c3] 0
+[T6 r105 c4] 0
+[T6 r105 c5] 0
+¶ Riferimenti bibliografici e attribuzione delle ipotesi
+¶ G. Pacini — approccio al terreno stratificato
+¶ Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce
+¶ Origine dell'estensione stratificata. Equilibrio globale e chiusura distribuita in GPCChecker.Geotechnics (LateralPileCapacity).
+¶ C. Viggiani, Fondazioni
+¶ §§13.2.2–13.2.5, pp. 400–415 del testo fornito
+¶ Leggi locali e meccanismi classici; non attribuisce al testo l'estensione mista.
+¶ B. B. Broms (1964), Lateral Resistance of Piles in Cohesive Soils
+¶ ASCE, Journal of the Soil Mechanics and Foundations Division, 90(SM2)
+¶ Riferimento originale per i terreni coesivi, ripreso attraverso Viggiani.
+¶ https://doi.org/10.1061/JSFEAQ.0000611
+¶ B. B. Broms (1964), Lateral Resistance of Piles in Cohesionless Soils
+¶ ASCE, Journal of the Soil Mechanics and Foundations Division, 90(SM3)
+¶ Riferimento originale per i granulari e la chiusura concentrata, ripreso attraverso Viggiani e Wood.
+¶ https://doi.org/10.1061/JSFEAQ.0000614
+¶ J. Wood (2021), Cantilever Pole Retaining Walls
+¶ New Zealand Geotechnical Society, Geomechanics News 101, 22 giugno 2021; §§2.2–2.3, 2.5, 2.8
+¶ Broms Modified: reazioni opposte distribuite per pali corti rigidi in terreno granulare. Supporta questa ipotesi, non valida l'estensione mista o la chiusura sotto la cerniera dei pali lunghi. Il salto di segno è un'idealizzazione limite, non una legge pressione-spostamento.
+¶ https://www.nzgs.org/libraries/cantilever-pole-retaining-walls/
+¶ FHWA (2018), Geotechnical Engineering Circular No. 9
+¶ Design, Analysis, and Testing of Laterally Loaded Deep Foundations that Support Transportation Facilities; FHWA-HIF-18-031, §§6.3 e 6.5
+¶ Inquadramento dei metodi p-y, della deformabilità e dei limiti di Broms. Le curve p-y non sono implementate qui e richiedono calibrazione appropriata; non sono una validazione del presente modello.
+¶ https://www.fhwa.dot.gov/engineering/geotech/pubs/hif18031.pdf
+¶ Sondaggio 1 · Tensioni e resistenze del terreno
+¶  ⏎ 
+¶ Sondaggio 1 · Equilibrio e sollecitazioni alla capacità ultima

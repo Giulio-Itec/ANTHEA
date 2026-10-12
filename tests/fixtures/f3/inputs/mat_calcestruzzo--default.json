@@ -1,0 +1,9 @@
+{
+  "module": "mat_calcestruzzo",
+  "id": "default",
+  "origin": "default del catalogo (ModuleCatalog.CreateData)",
+  "source": null,
+  "data": {
+    "versione_materiali": 1
+  }
+}

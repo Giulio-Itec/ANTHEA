@@ -951,3 +951,8 @@ U1 disattiva l’opzione di compatibilità che nascondeva BarSpacing nelle sezio
 Il lock globale di costruzione è rimosso soltanto dopo la cattura con il lock attivo. Si riusa il catalogo di 80 mesh e si confrontano esattamente coordinate, numerazione, connettività e ordine. Le sezioni condivise e indipendenti producono gli stessi 36 stati del calcolo seriale. Il lock GPC per la cache della sezione, quello del singolo solutore e quello della cache grafica restano pertinenti. Nessun cambiamento numerico, registro F2-23.
 
 L’utente assegna nove ore di lavoro dal 12/10 alle 22:19 (Europe/Rome), richiede tracciamento persistente e riepilogo a ogni fine fase. Conferma la prosecuzione fino a F4 se il tempo basta; **F5 non deve iniziare**. Ordine: chiusure F2 e finestra 5.2, stage, sezioni, F3, F4. Il punto 5 di collaudo e il punto 5.2 della finestra appartengono al blocco F2, non alla fase F5 esclusa. Restano autorizzati test, versioni, merge e push al completamento dei blocchi. Stato operativo in `stato-notturno-20261012.md`.
+
+
+## F3 — decisioni operative del 13 ottobre
+
+Sulla delega del 12 ottobre si adottano i confini descritti in f3-strato-applicativo.md: migrazioni pigre su copie, decisione elastica pendente, formati conservati, servizi senza WPF, figure tramite renderer e test di equivalenza prima degli spostamenti. Riusati il toolkit e la configurazione UiTests esistenti; 36 fixture coprono i 12 moduli attuali. Il set V resta congelato. Le dipendenze e la compatibilità del test esterno Checker sono considerate prima di eliminare X.Core. Nessuna autorizzazione implicita alla fase F5.

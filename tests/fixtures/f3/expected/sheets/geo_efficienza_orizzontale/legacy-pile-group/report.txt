@@ -1,0 +1,186 @@
+# word/document.xml
+¶ Fixture F3 · geo_efficienza_orizzontale · legacy-pile-group
+¶ Efficienza orizzontale della palificata
+¶ Pali identici. Le grandezze confrontate hanno significato fisico diverso: Davisson riduce kh/nh, gli altri metodi forniscono p-multiplier. Non si calcola la capacità laterale del gruppo.
+¶ Diametro D = 1 m; direzione H = 0° antioraria da +X.
+¶ Estrapolazioni: False; estensione file proiettate: False; S∥ assegnato = — m; S⊥ assegnato = — m.
+¶ Coordinate dei pali
+¶ P1: x = -3 m; y = -3 m.
+¶ P2: x = 0 m; y = -3 m.
+¶ P3: x = 3 m; y = -3 m.
+¶ P4: x = -3 m; y = 0 m.
+¶ P5: x = 0 m; y = 0 m.
+¶ P6: x = 3 m; y = 0 m.
+¶ P7: x = -3 m; y = 3 m.
+¶ P8: x = 0 m; y = 3 m.
+¶ P9: x = 3 m; y = 3 m.
+¶ Davisson (1970) · kh/nh · X
+¶ Min 0,25; media 0,25; max 0,25; riduzione media 75%.
+¶ Riduzione kh/nh · Rg = 0,25
+¶ Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Nessuna ulteriore influenza trasversale secondo Davisson per S⊥ ≥ 2.5D (o unica colonna).
+¶ Rg riduce kh/nh; non è un'efficienza di capacità Hgruppo/(N Hsingolo).
+¶ P1 · fila 3 · Rg = 0,25
+¶ P2 · fila 2 · Rg = 0,25
+¶ P3 · fila 1 · Rg = 0,25
+¶ P4 · fila 3 · Rg = 0,25
+¶ P5 · fila 2 · Rg = 0,25
+¶ P6 · fila 1 · Rg = 0,25
+¶ P7 · fila 3 · Rg = 0,25
+¶ P8 · fila 2 · Rg = 0,25
+¶ P9 · fila 1 · Rg = 0,25
+¶ AASHTO (2014) · p-multiplier · X
+¶ Min 0,3; media 0,5; max 0,8; riduzione media 50%.
+¶ p-multiplier medio = 0,5
+¶ AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,3
+¶ P2 · fila 2 · Pm = 0,4
+¶ P3 · fila 1 · Pm = 0,8
+¶ P4 · fila 3 · Pm = 0,3
+¶ P5 · fila 2 · Pm = 0,4
+¶ P6 · fila 1 · Pm = 0,8
+¶ P7 · fila 3 · Pm = 0,3
+¶ P8 · fila 2 · Pm = 0,4
+¶ P9 · fila 1 · Pm = 0,8
+¶ FHWA (2018) · p-multiplier · X
+¶ Min 0,35; media 0,5167; max 0,7; riduzione media 48,3333%.
+¶ p-multiplier medio = 0,5167
+¶ FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,35
+¶ P2 · fila 2 · Pm = 0,5
+¶ P3 · fila 1 · Pm = 0,7
+¶ P4 · fila 3 · Pm = 0,35
+¶ P5 · fila 2 · Pm = 0,5
+¶ P6 · fila 1 · Pm = 0,7
+¶ P7 · fila 3 · Pm = 0,35
+¶ P8 · fila 2 · Pm = 0,5
+¶ P9 · fila 1 · Pm = 0,7
+¶ Rollins / FEMA · p-multiplier · X
+¶ Min —; media —; max —; riduzione media —%.
+¶ p-multiplier medio = —
+¶ Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Non disponibile: Interasse fuori dal campo del metodo: abilitare esplicitamente le estrapolazioni.
+¶ Reese / Van Impe · interazione palo-palo · X · selezionato
+¶ Min 0,4962; media 0,6508; max 0,8661; riduzione media 34,9181%.
+¶ p-multiplier medio = 0,6508
+¶ Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,5845 · β = 0,5845 · α = 1
+¶ P2 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P3 · fila 1 · Pm = 0,8661 · β = 0,8661 · α = 1
+¶ P4 · fila 3 · Pm = 0,4966 · β = 0,4966 · α = 1
+¶ P5 · fila 2 · Pm = 0,4962 · β = 0,4962 · α = 1
+¶ P6 · fila 1 · Pm = 0,8053 · β = 0,8053 · α = 1
+¶ P7 · fila 3 · Pm = 0,5845 · β = 0,5845 · α = 1
+¶ P8 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P9 · fila 1 · Pm = 0,8661 · β = 0,8661 · α = 1
+¶ Caltrans (2025) · p-multiplier modificato · X
+¶ Min 0,3973; media 0,5856; max 0,7795; riduzione media 41,4389%.
+¶ p-multiplier medio = 0,5856
+¶ California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Caltrans 2025: α usa la media degli interassi fra file nella direzione H. Per unica fila α=1; oltre 8D α=1. Non prescrizione NTC.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,4676 · β = 0,5845 · α = 0,8
+¶ P2 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P3 · fila 1 · Pm = 0,7795 · β = 0,8661 · α = 0,9
+¶ P4 · fila 3 · Pm = 0,3973 · β = 0,4966 · α = 0,8
+¶ P5 · fila 2 · Pm = 0,4962 · β = 0,4962 · α = 1
+¶ P6 · fila 1 · Pm = 0,7248 · β = 0,8053 · α = 0,9
+¶ P7 · fila 3 · Pm = 0,4676 · β = 0,5845 · α = 0,8
+¶ P8 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P9 · fila 1 · Pm = 0,7795 · β = 0,8661 · α = 0,9
+¶ Davisson (1970) · kh/nh · Y
+¶ Min 0,25; media 0,25; max 0,25; riduzione media 75%.
+¶ Riduzione kh/nh · Rg = 0,25
+¶ Davisson (1970), Highway Research Record 333, pp. 104–112; tabella Rg ripresa nel testo di specifica.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Nessuna ulteriore influenza trasversale secondo Davisson per S⊥ ≥ 2.5D (o unica colonna).
+¶ Rg riduce kh/nh; non è un'efficienza di capacità Hgruppo/(N Hsingolo).
+¶ P1 · fila 3 · Rg = 0,25
+¶ P2 · fila 3 · Rg = 0,25
+¶ P3 · fila 3 · Rg = 0,25
+¶ P4 · fila 2 · Rg = 0,25
+¶ P5 · fila 2 · Rg = 0,25
+¶ P6 · fila 2 · Rg = 0,25
+¶ P7 · fila 1 · Rg = 0,25
+¶ P8 · fila 1 · Rg = 0,25
+¶ P9 · fila 1 · Rg = 0,25
+¶ AASHTO (2014) · p-multiplier · Y
+¶ Min 0,3; media 0,5; max 0,8; riduzione media 50%.
+¶ p-multiplier medio = 0,5
+¶ AASHTO LRFD 2014, tabella 3D–5D riprodotta da FHWA GEC 12 (2016), volume I.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,3
+¶ P2 · fila 3 · Pm = 0,3
+¶ P3 · fila 3 · Pm = 0,3
+¶ P4 · fila 2 · Pm = 0,4
+¶ P5 · fila 2 · Pm = 0,4
+¶ P6 · fila 2 · Pm = 0,4
+¶ P7 · fila 1 · Pm = 0,8
+¶ P8 · fila 1 · Pm = 0,8
+¶ P9 · fila 1 · Pm = 0,8
+¶ FHWA (2018) · p-multiplier · Y
+¶ Min 0,35; media 0,5167; max 0,7; riduzione media 48,3333%.
+¶ p-multiplier medio = 0,5167
+¶ FHWA-NHI-18-024 (2018), GEC 10, tabella 10-41 (interassi 3D–6D).
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Metodo per file: non include una legge di interazione trasversale; verificare l'applicabilità alla disposizione dei pali e al terreno.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,35
+¶ P2 · fila 3 · Pm = 0,35
+¶ P3 · fila 3 · Pm = 0,35
+¶ P4 · fila 2 · Pm = 0,5
+¶ P5 · fila 2 · Pm = 0,5
+¶ P6 · fila 2 · Pm = 0,5
+¶ P7 · fila 1 · Pm = 0,7
+¶ P8 · fila 1 · Pm = 0,7
+¶ P9 · fila 1 · Pm = 0,7
+¶ Rollins / FEMA · p-multiplier · Y
+¶ Min —; media —; max —; riduzione media —%.
+¶ p-multiplier medio = —
+¶ Rollins et al. (2006); FEMA P-751 (2012), relazioni logaritmiche per fila.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Non disponibile: Interasse fuori dal campo del metodo: abilitare esplicitamente le estrapolazioni.
+¶ Reese / Van Impe · interazione palo-palo · Y
+¶ Min 0,4962; media 0,6508; max 0,8661; riduzione media 34,9181%.
+¶ p-multiplier medio = 0,6508
+¶ Reese / Van Impe: interazioni palo-palo; equazioni riprodotte in Caltrans 2025 §10.7.2.4, (1)–(5), attribuite a Reese et al. (2006).
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,5845 · β = 0,5845 · α = 1
+¶ P2 · fila 3 · Pm = 0,4966 · β = 0,4966 · α = 1
+¶ P3 · fila 3 · Pm = 0,5845 · β = 0,5845 · α = 1
+¶ P4 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P5 · fila 2 · Pm = 0,4962 · β = 0,4962 · α = 1
+¶ P6 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P7 · fila 1 · Pm = 0,8661 · β = 0,8661 · α = 1
+¶ P8 · fila 1 · Pm = 0,8053 · β = 0,8053 · α = 1
+¶ P9 · fila 1 · Pm = 0,8661 · β = 0,8661 · α = 1
+¶ Caltrans (2025) · p-multiplier modificato · Y
+¶ Min 0,3973; media 0,5856; max 0,7795; riduzione media 41,4389%.
+¶ p-multiplier medio = 0,5856
+¶ California Amendments, settembre 2025, AASHTO LRFD 8th ed., §10.7.2.4, (1)–(6), tabella 10.7.2.4-2. Non prescrizione NTC.
+¶ S∥ = 3 m; S⊥ = 3 m.
+¶ Caltrans 2025: α usa la media degli interassi fra file nella direzione H. Per unica fila α=1; oltre 8D α=1. Non prescrizione NTC.
+¶ La media dei p-multiplier è un indicatore di riduzione per pali identici, non una verifica della capacità laterale del gruppo.
+¶ P1 · fila 3 · Pm = 0,4676 · β = 0,5845 · α = 0,8
+¶ P2 · fila 3 · Pm = 0,3973 · β = 0,4966 · α = 0,8
+¶ P3 · fila 3 · Pm = 0,4676 · β = 0,5845 · α = 0,8
+¶ P4 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P5 · fila 2 · Pm = 0,4962 · β = 0,4962 · α = 1
+¶ P6 · fila 2 · Pm = 0,5791 · β = 0,5791 · α = 1
+¶ P7 · fila 1 · Pm = 0,7795 · β = 0,8661 · α = 0,9
+¶ P8 · fila 1 · Pm = 0,7248 · β = 0,8053 · α = 0,9
+¶ P9 · fila 1 · Pm = 0,7795 · β = 0,8661 · α = 0,9

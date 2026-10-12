@@ -1,0 +1,14 @@
+text: La risposta dinamica dipende da come massa e rigidezza sono distribuite e da come l'azione varia nel tempo. Un modello corretto per un carico statico può essere incompleto per un'analisi dinamica se mancano masse, collegamenti o gradi di libertà rilevanti.
+text: massa-rigidezza-e-modi
+text: Una forma modale descrive un movimento possibile del sistema linearizzato; la frequenza associata dipende da rigidezza e massa. Nel singolo oscillatore elastico non smorzato, T = 2π√(m/k), con unità coerenti. Raddoppiare la massa aumenta il periodo di un fattore √2, mentre raddoppiare la rigidezza lo riduce dello stesso fattore. In un sistema con molti gradi di libertà bisogna considerare i modi che partecipano alla direzione del carico.
+text: La deformata modale è scalata convenzionalmente: la sua ampiezza grafica non è uno spostamento sismico di progetto. Controlla le masse effettivamente assegnate, le direzioni dei modi e l'effetto dei vincoli. Una rotazione locale inattesa può rivelare una release o una connessione non coerente.
+text: azione-e-risposta
+text: Uno spettro collega la risposta di oscillatori alla loro frequenza e allo smorzamento assunto. Un accelerogramma descrive invece una storia temporale: passo, unità, durata e trattamento del segnale influenzano l'analisi. Lo smorzamento non va aggiunto soltanto per ridurre un picco indesiderato; deve rappresentare un'ipotesi motivata del modello.
+text: limiti-e-applicazione
+text: Un'analisi modale elastica non dimostra capacità dissipativa, duttilità dei dettagli o stabilità durante grandi spostamenti. Anthea non espone un solutore dinamico generale; eventuali procedure sismiche o Newmark dei muri hanno campo e input specifici, documentati nei relativi capitoli. Per spettro, combinazioni e verifiche usa la normativa applicabile, senza trasferire coefficienti da un meccanismo all'altro.
+text: controllo-dell-oscillatore
+text: Per m = 1000 kg e k = 40000 N/m si ottengono frequenza angolare 6,3246 rad/s e periodo 0,99346 s. Con massa raddoppiata il periodo diventa 1,40496 s. Questo è un oscillatore elastico non smorzato, non lo spettro di progetto di un sito.
+formula: \omega_n=\sqrt{\frac{k}{m}}
+formula: T=\frac{2\pi}{\omega_n}
+text: Copia LaTeX
+text: La derivazione è nelle lezioni MIT di dinamica strutturale, corso 16.20 Structural Mechanics, Unit 20. I coefficienti normativi e lo smorzamento vanno definiti separatamente.

@@ -1,0 +1,40 @@
+{
+  "classe": "C35/45",
+  "esposizione_principale": "XC3",
+  "esposizioni": [
+    "XC3"
+  ],
+  "esposizioni_precedenti": [
+    "XC3",
+    "XD1"
+  ],
+  "numeri": {
+    "aggregate": "20",
+    "bondAlpha": "1,0",
+    "bondGamma": "1,5",
+    "cementName": "",
+    "diameter": "16"
+  },
+  "opzioni": {
+    "highStrength": false,
+    "ntcQuality": false,
+    "quality": false,
+    "rough": false,
+    "slab": false
+  },
+  "scelte": {
+    "abrasion": "Nessuno",
+    "bondCondition": "Altre · η₁ = 0,7",
+    "cement": "CEM I",
+    "cementClass": "32,5",
+    "cementEarly": "N",
+    "consistency": "Da definire",
+    "coverMethod": "NTC + Circ. 2019",
+    "deviationControl": "Ordinario",
+    "deviationValue": "10 mm",
+    "ground": "Casseratura",
+    "life": "50 anni",
+    "ntcElement": "Trave / pilastro"
+  },
+  "versione_materiali": 1
+}

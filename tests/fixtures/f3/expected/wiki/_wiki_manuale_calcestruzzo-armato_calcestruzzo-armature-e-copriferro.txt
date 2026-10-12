@@ -1,0 +1,51 @@
+text: resistenze-e-diagrammi
+text: Per il calcestruzzo il passaggio dalla resistenza caratteristica a quella di progetto segue il coefficiente αcc e il parziale γc selezionati. Per l'armatura la resistenza di progetto deriva da fy e γs. I diagrammi possono essere di catalogo o personalizzati; l'uso di una classe nominale non autorizza a ignorare il diagramma effettivamente selezionato.
+formula: f_{cd} = \frac{\alpha_{cc} f_{ck}}{\gamma_c}
+formula: f_{yd} = \frac{f_{yk}}{\gamma_s}
+formula: \varepsilon_{yd} = \frac{f_{yd}}{E_s}
+text: Copia LaTeX
+text: Con fck = 30 MPa, αcc = 0,85 e γc = 1,50 si ottiene fcd = 17 MPa. Con fyk = 450 MPa e γs = 1,15 si ottiene fyd = 391,30 MPa. Assumendo Es = 200000 MPa, la deformazione elastica a fyd è 0,0019565, cioè 1,9565 per mille. Sono esempi dei passaggi algebrici, non una scelta universale dei coefficienti.
+text: Il catalogo delle armature comprende classi attuali e storiche. I dati nominali delle classi storiche non sostituiscono prove e valutazioni di un materiale esistente. A5 e deformazione ultima del diagramma hanno definizioni diverse. Quando il motore richiede una deformazione ultima, essa deve provenire da una scelta documentata e coerente con il modello costitutivo.
+text: esposizioni-e-requisiti-del-materiale
+text: Il catalogo della durabilità comprende 18 esposizioni. Le prescrizioni combinate vengono ricavate assumendo il massimo dei requisiti minimi di resistenza, il minimo dei rapporti acqua cemento massimi e il massimo dei contenuti minimi di cemento pertinenti. Le classi minime seguono il prospetto 6 della UNI 11104:2025, in vigore dal 24 luglio 2025, con una sola eccezione: per XF1 resta C32/40 del prospetto 5 dell'edizione 2016, più cautelativo del C30/37 dell'edizione in vigore. Rapporti acqua cemento massimi e contenuti minimi di cemento sono quelli del prospetto 5 della UNI 11104:2016, riportato nel vademecum ATECAP 2020 (p. 19). Il prospetto 6 dell'edizione 2025 ha contenuti minimi di cemento inferiori in tutte le classi e per XF1 un rapporto acqua cemento massimo di 0,55: i limiti implementati sono quindi più restrittivi dell'edizione in vigore.
+text: Esposizione
+text: Classe minima implementata
+text: X0
+text: C12/15
+text: XC1 e XC2
+text: C25/30
+text: XC3
+text: C30/37
+text: XC4
+text: C32/40
+text: XD1
+text: C30/37
+text: XD2
+text: C32/40
+text: XD3
+text: C35/45
+text: XS1
+text: C32/40
+text: XS2 e XS3
+text: C35/45
+text: XF1
+text: C32/40 (UNI 11104:2025: C30/37)
+text: XF2 e XF3
+text: C25/30
+text: XF4
+text: C30/37
+text: XA1
+text: C30/37
+text: XA2
+text: C32/40
+text: XA3
+text: C35/45
+text: L'aria inglobata per XF2, XF3 e XF4 dipende anche dalla dimensione dell'aggregato. L'implementazione documenta il 4% per dimensioni superiori a 20 mm e il 5% nell'intervallo 12–16 mm; gli altri intervalli non devono essere interpolati tacitamente. La proposta Cl 0,4 per armatura ordinaria non deriva semplicemente dal massimo codice di esposizione. Il prospetto aiuta a formulare requisiti, senza calcolare una miscela industriale completa.
+text: copriferro-minimo-e-nominale
+text: Il minimo deve soddisfare aderenza, durabilità e condizioni aggiuntive. Il nominale comprende il margine esecutivo e gli eventuali limiti per la superficie di getto. Nel ramo implementato, il requisito di aderenza parte dal diametro e aumenta di 5 mm quando l'aggregato supera 32 mm. Rugosità e abrasione aggiungono i contributi assegnati.
+formula: c_{\min} = \max(10; c_{bond}; c_{dur}) + c_{rugosita} + c_{abrasione}
+formula: c_{nom} = \max(c_{\min}+\Delta c_{dev}; c_{controterra})
+text: Copia LaTeX
+text: Il ramo EC2 determina la classe strutturale secondo esposizione, vita e opzioni ammesse, poi consulta la tabella di durabilità. Le esposizioni che non definiscono da sole quel requisito richiedono un'associazione pertinente, anziché essere trasformate in una classe equivalente arbitraria.
+text: Il ramo NTC utilizza tre livelli di severità. Il valore tabellare di base è (15 mm per elemento a piastra, 20 mm negli altri casi) più 10 mm per livello di severità; si aggiungono 5 mm se fck è inferiore a C0 = 35 + 5 × severità. La vita di 100 anni aggiunge 10 mm, una resistenza sotto il minimo pertinente aggiunge 5 mm e l'opzione di qualità del copriferro riduce di 5 mm. Il minimo pertinente può essere assegnato nel campo ammesso dal motore e non coincide necessariamente con tutte le prescrizioni di composizione.
+text: Come esempio del ramo NTC, XF2, fck = 30 MPa, elemento non a piastra, vita 50 anni, barra 16 mm, aggregato 20 mm e Δcdev = 10 mm danno 45 mm nominali senza riduzione di qualità. Se si passa a vita 100 anni, lo stesso caso dà 55 mm. I valori sono esempi riproducibili del codice NtcCover, utili per controllare l'input.

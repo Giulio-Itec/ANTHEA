@@ -1,0 +1,55 @@
+{
+  "efficienza": {
+    "eta_compressione": ".8",
+    "eta_trazione": ".7",
+    "interasse_x": "1",
+    "interasse_y": "1.5",
+    "metodo": "Nessuna riduzione",
+    "numero_pali_x": "3",
+    "numero_pali_y": "2"
+  },
+  "generali": {
+    "azione_compressione": "200",
+    "azione_trazione": "100",
+    "considera_punta": true,
+    "considera_sottospinta": false,
+    "diametro": "0.25",
+    "inclinazione": "0",
+    "inizio_aderenza": "1.2",
+    "lunghezza": "10.3",
+    "metodo_micropalo": "BD-VIGGIANI-2026-09-10",
+    "metodo_nq": "Parametrizzata",
+    "percentuale_punta": "15",
+    "peso_palo_favorevole": "1.00",
+    "peso_palo_sfavorevole": "1.30",
+    "peso_specifico_palo": "25",
+    "presenza_falda": false,
+    "pressione_iniezione": "3",
+    "profilo_chs": "CHS 114.3 × 6.3",
+    "profondita_falda": "",
+    "sicurezza_base": "1.35",
+    "sicurezza_laterale_compressione": "1.15",
+    "sicurezza_laterale_trazione": "1.25",
+    "sottotipo_palo_battuto": "Profilato d'acciaio",
+    "tipo_iniezione": "IGU",
+    "tipo_palo": "Trivellato",
+    "verticali_indagate": "1"
+  },
+  "stratigrafie": [
+    [
+      {
+        "alpha": "1.4",
+        "pressione_limite": "2",
+        "spessore": "4",
+        "terreno": "Sabbia media"
+      },
+      {
+        "alpha": "1.8",
+        "pressione_limite": "3",
+        "spessore": "8",
+        "terreno": "Ghiaia"
+      }
+    ]
+  ],
+  "versione": 2
+}

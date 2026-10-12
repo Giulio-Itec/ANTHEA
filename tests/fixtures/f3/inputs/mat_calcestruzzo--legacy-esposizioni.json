@@ -1,0 +1,14 @@
+{
+  "module": "mat_calcestruzzo",
+  "id": "legacy-esposizioni",
+  "origin": "Fixture sintetica di migrazione F3",
+  "source": null,
+  "data": {
+    "versione_materiali": 1,
+    "classe": "C35/45",
+    "esposizioni": [
+      "XC3",
+      "XD1"
+    ]
+  }
+}

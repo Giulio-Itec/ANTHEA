@@ -1,0 +1,48 @@
+{
+  "efficienza": {
+    "eta_compressione": "1",
+    "eta_trazione": "1",
+    "interasse_x": "",
+    "interasse_y": "",
+    "metodo": "Nessuna riduzione",
+    "numero_pali_x": "1",
+    "numero_pali_y": "1"
+  },
+  "generali": {
+    "azione_compressione": "",
+    "azione_trazione": "",
+    "considera_sottospinta": false,
+    "diametro": "1",
+    "lunghezza": "",
+    "metodo_nq": "Parametrizzata",
+    "peso_palo_favorevole": "1.00",
+    "peso_palo_sfavorevole": "1.30",
+    "peso_specifico_palo": "25",
+    "presenza_falda": false,
+    "profondita_falda": "",
+    "sicurezza_base": "1.35",
+    "sicurezza_laterale_compressione": "1.15",
+    "sicurezza_laterale_trazione": "1.25",
+    "sottotipo_palo_battuto": "Profilato d'acciaio",
+    "tipo_palo": "Trivellato",
+    "verticali_indagate": "1"
+  },
+  "stratigrafie": [
+    [
+      {
+        "addensamento": "",
+        "angolo_attrito": "0",
+        "coesione_efficace": "0",
+        "coesione_non_drenata": "0",
+        "laterale_attiva": true,
+        "nc": "9",
+        "peso_specifico": "0",
+        "peso_specifico_saturo": "",
+        "spessore": "0",
+        "tipologia": ""
+      }
+    ]
+  ],
+  "versione": 2,
+  "visibilita_grafici": {}
+}

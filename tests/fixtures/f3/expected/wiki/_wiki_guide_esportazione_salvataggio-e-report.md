@@ -1,0 +1,22 @@
+## Salvataggio e report
+
+### Conservare dati modificabili
+
+Usare il formato proposto dal modulo per il foglio singolo e .programma per il progetto. I formati dei fogli possono variare per modulo; Bridge Design usa l'archivio .anthea. Gli archivi mantengono input e impostazioni necessarie, mentre CSV, PNG e Word sono esportazioni destinate a lettura, controllo o presentazione.
+
+Utilizzare Salva con nome prima di una variante che si desidera mantenere indipendente. Per la storia interna di un progetto usare le revisioni. I file di progetto con revisioni utilizzano un formato aggiornato e richiedono una versione di ANTHEA compatibile; non risalvarli con un eseguibile precedente senza averne verificato il supporto.
+
+### Report del singolo foglio e del progetto
+
+Il report di un foglio riguarda i dati e i risultati di quel modulo. «Genera report» su progetto o sezione comprende invece i fogli diretti e tutte le sottosezioni, nell'ordine dell'albero. Include indice navigabile, dati comuni, dati specifici, risultati e immagini. I riferimenti degli antenati necessari vengono richiamati anche esportando un solo ramo.
+
+La generazione ricalcola i fogli su copie dei dati. Le schede incomplete restano nel documento con segnalazione; non vengono trasformate in verifiche favorevoli. In presenza di conflitti si può aprire il confronto oppure proseguire conservando le segnalazioni. Prima della consegna leggere sempre le pagine degli avvisi e verificare il ramo e la revisione indicati nel titolo.
+
+Un report storico ricalcola i dati della revisione selezionata con il motore della versione in uso. Per la riproducibilità conservare quindi anche versione dell'applicazione, data del report e archivio originario. Lo snapshot dei dati protegge gli input; non contiene una copia autonoma di ogni vecchio motore di calcolo.
+
+### Conservare dati e risultati insieme
+
+Il file riapribile conserva gli input e, per i progetti, le revisioni. Word, PDF e immagini documentano risultati e configurazione al momento dell'esportazione. Non sostituire il file riapribile con un'immagine della schermata.
+
+Per esportare un ramo usa [Progetti e gestione del lavoro](wiki:guida-progetti-e-gestione-del-lavoro#report-del-ramo-e-compatibilita-degli-archivi). Nella Sezione in c.a. il report distingue gli estremi di tensione dai casi governanti: un inviluppo di massimi non è uno stato simultaneo.
+

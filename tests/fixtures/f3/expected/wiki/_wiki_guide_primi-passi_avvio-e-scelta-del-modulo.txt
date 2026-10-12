@@ -1,0 +1,48 @@
+text: avviare-la-versione-aggiornata
+text: Nel repository, Avvia ANTHEA.cmd ricompila il progetto in Release, pubblica nella cartella app e avvia l'eseguibile soltanto se i passaggi riescono. Richiede quindi l'SDK .NET e ANTHEA chiuso durante l'aggiornamento. La distribuzione già pubblicata può essere avviata direttamente da app/ANTHEA.exe. La distribuzione dipendente dal framework richiede il runtime desktop .NET 8. Il sorgente e la distribuzione sono due cose distinte: modificare un file C# non aggiorna un eseguibile già pubblicato.
+text: La Home consente di entrare nel catalogo, riprendere il lavoro della sessione o organizzare i fogli in un progetto. Il pulsante Riprendi conserva l'editor e il suo stato finché l'applicazione resta aperta. Non salva automaticamente un archivio su disco. Prima di chiudere utilizzare Salva o Salva con nome.
+text: scegliere-l-aspetto
+text: Il menu Aspetto, accanto a File, offre Chiaro, Scuro e Molto scuro. Chiaro mantiene i colori originali; Scuro usa superfici blu; Molto scuro usa grigio antracite e nero. La scelta si applica a Home, Progetti, moduli e Wiki senza chiudere il foglio o modificare i dati del calcolo. Nella Wiki la tendina dell’aspetto controlla la stessa preferenza globale.
+text: La scelta è salvata nel profilo Windows e ripristinata al prossimo avvio. Non fa parte dei documenti o delle revisioni di progetto. Le immagini incorporate e le tavole dei grafici conservano i propri colori per mantenere leggibili legende e rappresentazioni tecniche.
+text: scegliere-il-foglio-adatto
+text: Foglio disponibile
+text: Domanda alla quale risponde
+text: Informazione da preparare
+text: Palo verticale
+text: Quale resistenza assiale geotecnica si ottiene con questi terreni e questa lunghezza
+text: Stratigrafie, falda, tecnologia, azioni e coefficienti
+text: Micropalo verticale
+text: Quale resistenza del bulbo iniettato è compatibile con l'abaco scelto
+text: Terreni, p_l, iniezione, diametri, inclinazione e tratto attivo
+text: Palo orizzontale
+text: Quale carico limite laterale risulta dal meccanismo di Broms
+text: Terreno, diametro, lunghezza, vincolo e momento resistente
+text: Micropalo orizzontale
+text: Quale capacità laterale risulta usando una sezione tubolare CHS
+text: Diametro geotecnico, tubo, materiale, N e terreno
+text: Palificata orizzontale
+text: Come cambiano i fattori di riduzione con geometria e direzione del carico
+text: Posizioni, diametro, teoria e interassi rappresentativi
+text: Muri di sostegno
+text: Quali verifiche locali e globali sono applicabili al muro
+text: Geometria, materiali, terreni, acqua, azioni e combinazioni
+text: Sezione in c a
+text: Come risponde e si verifica una sezione assegnata
+text: Geometria, barre, materiali e combinazioni N M V T
+text: Sezione composta
+text: Come si ripartiscono le tensioni in una sezione da ponte attraverso le fasi
+text: Tipo e geometria, soletta, barre, fasi e metodo
+text: Bridge Design
+text: Quale configurazione preliminare, quantità, costo e CO₂ sono plausibili
+text: Sito, campate, larghezza, famiglia, fondazioni e listino
+text: Calcestruzzo e durabilità
+text: Quali requisiti del materiale e del copriferro derivano dalle scelte assegnate
+text: Esposizioni, vita, materiale, diametri e condizioni esecutive
+text: Acciaio per armature
+text: Quali proprietà e diagramma usare per l'armatura
+text: Classe o dati personalizzati e coefficienti
+text: Le altre voci eventualmente presenti nel catalogo possono essere predisposizioni. Una scheda di materiali non verifica una sezione. La sezione composta non analizza un intero ponte; Bridge Design non trasferisce automaticamente un modello verificato alla sezione composta. Per passare dall'uno all'altro occorre scegliere la sezione locale, assegnare le azioni da un'analisi appropriata e controllare nuovamente le unità.
+text: leggere-e-compilare-i-campi
+text: Controllare sempre l'unità a fianco del valore. Nei moduli geotecnici le lunghezze sono generalmente in metri; nelle sezioni strutturali e nelle barre sono in millimetri. Una sezione alta 600 mm non va inserita come 0,60. MPa e N/mm² sono numericamente equivalenti; kPa e kN/m² lo sono altrettanto, e 1 MPa = 1000 kPa: per esprimere in kPa un valore dato in MPa occorre moltiplicarlo per 1000.
+text: I campi vuoti servono anche a rappresentare una bozza incompleta. Non sostituire sistematicamente un dato sconosciuto con zero: in alcuni campi zero ha un significato fisico, in altri attiva un automatismo, in altri è un errore. Bridge Design indica esplicitamente «0 = auto» per i parametri che lo consentono. Quando un campo è temporaneamente incompleto, leggere il messaggio della scheda prima di considerare i risultati.
+text: La finestra segue l'ingrandimento di Windows. I pannelli più stretti si dispongono verticalmente; le tabelle possono mantenere uno scorrimento proprio. I divisori nella composizione dei progetti permettono di allargare l'albero o il catalogo. Cercare prima la barra del pannello che contiene il dato: lo scorrimento della finestra e quello della tabella non sono necessariamente lo stesso comando.

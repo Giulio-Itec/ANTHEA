@@ -1,0 +1,47 @@
+{
+  "module": "geo_micropalo_verticale",
+  "id": "regressione-micropalo_igu_0_nessuna-riduzione",
+  "origin": "caso della regressione (casi_confronto.json, tipo micropalo)",
+  "source": "supporto/test/casi_confronto.json",
+  "data": {
+    "generali": {
+      "metodo_micropalo": "BD-VIGGIANI-2026-09-10",
+      "tipo_iniezione": "IGU",
+      "profilo_chs": "CHS 114.3 × 6.3",
+      "pressione_iniezione": "3",
+      "diametro": "0.25",
+      "lunghezza": "10.3",
+      "inizio_aderenza": "1.2",
+      "considera_punta": true,
+      "percentuale_punta": "15",
+      "azione_compressione": "200",
+      "azione_trazione": "100",
+      "inclinazione": "0"
+    },
+    "stratigrafie": [
+      [
+        {
+          "terreno": "Sabbia media",
+          "spessore": "4",
+          "pressione_limite": "2",
+          "alpha": "1.4"
+        },
+        {
+          "terreno": "Ghiaia",
+          "spessore": "8",
+          "pressione_limite": "3",
+          "alpha": "1.8"
+        }
+      ]
+    ],
+    "efficienza": {
+      "metodo": "Nessuna riduzione",
+      "numero_pali_x": "3",
+      "numero_pali_y": "2",
+      "interasse_x": "1",
+      "interasse_y": "1.5",
+      "eta_compressione": ".8",
+      "eta_trazione": ".7"
+    }
+  }
+}

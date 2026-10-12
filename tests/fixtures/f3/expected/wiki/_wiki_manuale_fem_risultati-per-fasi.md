@@ -1,0 +1,18 @@
+## Risultati dei modelli per fasi
+
+Un risultato di costruzione è identificato dal caso della sorgente, dalla fase, dal passo e dalla revisione del modello. Per gli spostamenti si aggiunge il riferimento restituito dal solutore. Due risultati con lo stesso nome di caso e fasi diverse non rappresentano lo stesso stato e devono restare distinti.
+
+### Stato totale e incremento
+
+Una fase può cambiare rigidezza, vincoli, geometria resistente o età dei materiali. La presenza di un'analisi geometricamente lineare non dimostra, da sola, che gli stati costruttivi siano sovrapponibili come casi statici. La lettura conserva la provenienza e non attribuisce automaticamente questa proprietà.
+
+Il riferimento Accumulative identifica spostamenti accumulati forniti dalla sorgente. Current e Real conservano la propria etichetta e non sono interpretati come incrementi sommabili. Anche per le sollecitazioni il carattere cumulativo rimane non dichiarato finché non è stabilito dai dati della sorgente. Un inviluppo fra fasi, quando implementato, dovrà conservare la fase governante e il vettore concomitante; non potrà essere trattato come uno stato simultaneo.
+
+### Copertura e rappresentazione
+
+La durata di una fase, l'età di attivazione di un elemento e il tempo del passo di output sono grandezze diverse. Il catalogo conserva durata e operazioni sui gruppi; la selezione dei risultati usa le etichette esatte dei passi. Non si ricava la numerazione dei passi dalla durata o dal loro ordine apparente.
+
+L'assenza di un risultato può dipendere dall'inattività dell'oggetto, da un output non richiesto o da dati non disponibili. Non equivale a una sollecitazione o a uno spostamento nullo. La vista associa soltanto i campioni disponibili agli oggetti identificati, con le stesse convenzioni di unità e assi usate per i casi statici. I vincoli temporanei non diventano vincoli permanenti per il solo fatto di comparire nelle tabelle del modello.
+
+In questa versione la geometria completa è un contesto grafico; non è la ricostruzione del sistema resistente attivo nella fase. L'importazione non esegue un'analisi per fasi, non calcola viscosità o ritiro del modello e non aggiorna la rigidezza degli elementi. La finestra di reologia è uno strumento separato di supporto al progettista. Il confronto dei risultati stage con un modello reale rimane una verifica aperta; le prove disponibili riguardano identità, protocollo, unità, segni e conservazione dei dati sintetici.
+

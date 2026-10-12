@@ -1,0 +1,61 @@
+# word/document.xml
+¶ Verifica sintetica della sezione in calcestruzzo armato
+¶ Fixture F3 breve · default
+¶ ANTHEA · <DATA> · Verifiche numeriche riportate soddisfatte
+[T1 r1 c1] Dati essenziali
+[T1 r1 c2] Valori utilizzati
+[T1 r2 c1] Normativa e convenzioni
+[T1 r2 c2] NTC 2018. N negativo a compressione. Geometria mm; N e V kN; M kNm; σ MPa. Azioni già combinate.
+[T1 r3 c1] Geometria
+[T1 r3 c2] Rettangolare; b=600,00; h=800,00; c netto=70; Ac=480000,00 mm²
+[T1 r4 c1] Armature longitudinali
+[T1 r4 c2] As=4775,22 mm²; coordinate nel riferimento geometrico della sezione. ⏎ y=310,00: 4Ø20,00, x=[-210,00; -70,00; 70,00; 210,00] ⏎ y=104,00: 2Ø16,00, x=[-212,00; 212,00] ⏎ y=-104,00: 2Ø16,00, x=[-212,00; 212,00] ⏎ y=-308,00: 6Ø24,00, x=[-208,00; -124,80; -41,60; 41,60; 124,80; 208,00]
+[T1 r5 c1] Staffe
+[T1 r5 c2] Sì; Ø10 / 200 mm; Staffa chiusa; rami x/y=2/2; interni=0
+[T1 r6 c1] Materiali
+[T1 r6 c2] CLS C35/45: fck=35; Parabola-rettangolo. ⏎ Acciaio B450C: fyk=450; Es=200000; fu=540; εu=75 ‰; Elastoplastico.
+[T1 r7 c1] Coefficienti
+[T1 r7 c2] αcc=0,85; γc=1,50; γs=1,15; εud/εuk=0,90; getto sottile=No
+[T1 r8 c1] Resistenze NMM
+[T1 r8 c2] SLU plastico; SLV elastico. Iterativo; N costante; CLS teso=No; assi Locali.
+[T1 r9 c1] Tensioni e fessurazione
+[T1 r9 c2] Lineare; n=5,87; φ=0,00; CLS teso=No; assi Locali. ⏎ Da scegliere; Poco sensibile; durata Lunga; aderenza Migliorata. c e interasse fessure: / mm (vuoto = automatico).
+[T1 r10 c1] Parametri a taglio
+[T1 r10 c2] Con staffe; Automatici da sezione; Asl in mm². ⏎ x: bw=800,00; d=509,91; Asl=1168,67; α=90,00°. ⏎ y: bw=600,00; d=708,00; Asl=1256,64; α=90,00°.
+¶  ⏎ 
+¶ Combinazioni governanti
+¶ Una combinazione per verifica, scelta sul tasso non arrotondato fra tutte le azioni inserite, incluse quelle nascoste. Gli esiti incompleti impediscono una conclusione complessiva.
+[T2 r1 c1] Verifica e azioni
+[T2 r1 c2] Risultati e limiti
+[T2 r1 c3] η
+[T2 r1 c4] Esito
+[T2 r2 c1] SLU N–Mx–My ⏎ Combo 1 ⏎ N=-2500,00; Mx=500,00; My=250,00
+[T2 r2 c2] NRd=-2500,14 kN ⏎ MxRd=934,55; MyRd=467,23 kNm
+[T2 r2 c3] 0.535
+[T2 r2 c4] VERIFICATA
+[T2 r3 c1] SLV N–Mx–My ⏎ Combo 1 ⏎ N=-2500,00; Mx=500,00; My=250,00
+[T2 r3 c2] NRd=-2500,17 kN ⏎ MxRd=719,54; MyRd=359,77 kNm
+[T2 r3 c3] 0.695
+[T2 r3 c4] VERIFICATA
+[T2 r4 c1] Taglio Vx e Vy ⏎ — ⏎ N=—; Mx=—; My=— ⏎ Vx=—; Vy=—
+[T2 r4 c2] x: VRd=— kN; η=—; cotθ=— ⏎ y: VRd=— kN; η=—; cotθ=—
+[T2 r4 c3] —
+[T2 r4 c4] Non richiesta ⏎ Nessuna azione
+[T2 r5 c1] Tensioni rara ⏎ Combo 1 ⏎ N=-2500,00; Mx=500,00; My=250,00
+[T2 r5 c2] σc,min=-20,73 MPa; limite |σc|=21,00 MPa ⏎ |σs|max=96,23 MPa; limite=360,00 MPa
+[T2 r5 c3] 0.987
+[T2 r5 c4] VERIFICATA
+[T2 r6 c1] Fessurazione frequente ⏎ — ⏎ N=—; Mx=—; My=—
+[T2 r6 c2] Tasso wk/wlim non disponibile; verificare dati o criterio senza tasso (decompressione/formazione).
+[T2 r6 c3] —
+[T2 r6 c4] Non richiesta ⏎ Nessuna azione
+[T2 r7 c1] Tensioni quasi permanente ⏎ — ⏎ N=—; Mx=—; My=—
+[T2 r7 c2] σc,min=— MPa; limite |σc|=— MPa
+[T2 r7 c3] —
+[T2 r7 c4] Non richiesta ⏎ Nessuna azione
+[T2 r8 c1] Fessurazione quasi permanente ⏎ — ⏎ N=—; Mx=—; My=—
+[T2 r8 c2] Tasso wk/wlim non disponibile; verificare dati o criterio senza tasso (decompressione/formazione).
+[T2 r8 c3] —
+[T2 r8 c4] Non richiesta ⏎ Nessuna azione
+¶ η ≤ 1: verifica numerica soddisfatta. NMM: tasso secondo il criterio indicato; taglio: max(|Vx|/VRd,x; |Vy|/VRd,y); tensioni rara: max(|σc,comp|/σc,lim; |σs|max/σs,lim); quasi permanente: solo CLS; fessurazione: wk/wlim.
+¶ Ambito: le sette verifiche riportate. Torsione e interazioni, dettagli costruttivi, ancoraggi, domini 2D e momento–curvatura sono nel report completo. Valori arrotondati solo per la stampa.

@@ -1,0 +1,70 @@
+{
+  "azioni_confermate": true,
+  "generali": {
+    "presenza_falda": false,
+    "profondita_falda": 3,
+    "sondaggio_fondazione": 0,
+    "strato_portante_semiinfinito": true
+  },
+  "input": {
+    "Cohesion": 0,
+    "Compression": 0,
+    "Condition": 0,
+    "CoverSaturatedUnitWeight": 20,
+    "CoverUnitWeight": 18,
+    "Depth": 1,
+    "FrictionAngle": 30,
+    "HorizontalX": 0,
+    "HorizontalY": 0,
+    "IncludeDepthFactors": true,
+    "Length": 3,
+    "Method": 0,
+    "MomentX": 0,
+    "MomentY": 0,
+    "Normal": 600,
+    "Profile": 0,
+    "RelativeDensity": 0.5,
+    "RoughBase": true,
+    "SaturatedUnitWeight": 20,
+    "Shape": 0,
+    "Surcharge": 0,
+    "UndrainedStrength": 75,
+    "UnitWeight": 18,
+    "WaterDepth": 3,
+    "WaterEnabled": false,
+    "WaterUnitWeight": 9.81,
+    "Width": 2
+  },
+  "nome_combinazione": "SLU · A1",
+  "sezione": {
+    "classe_cls": "C30/37",
+    "cls_diagramma": "Parabola-rettangolo",
+    "fck_mpa": 30,
+    "materiale_cls_nome": "C30/37"
+  },
+  "stratigrafie": [
+    [
+      {
+        "angolo_attrito": 30,
+        "coesione_efficace": 0,
+        "coesione_non_drenata": 75,
+        "name": "Ricoprimento",
+        "peso_specifico": 18,
+        "peso_specifico_saturo": 20,
+        "spessore": 1,
+        "tipologia": "Granulare"
+      },
+      {
+        "angolo_attrito": 30,
+        "coesione_efficace": 0,
+        "coesione_non_drenata": 75,
+        "name": "Strato portante",
+        "peso_specifico": 18,
+        "peso_specifico_saturo": 20,
+        "spessore": 10,
+        "tipologia": "Granulare"
+      }
+    ]
+  ],
+  "versione_fondazioni": 2
+}

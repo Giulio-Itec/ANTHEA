@@ -1,0 +1,11 @@
+text: Il comportamento di una palificata non si ricava moltiplicando ogni risultato del palo singolo per il numero di pali. Capacità ultima, cedimenti, rigidezza orizzontale e ripartizione delle azioni sono problemi distinti. Un coefficiente di efficienza relativo alla resistenza non è automaticamente un moltiplicatore della rigidezza.
+text: equilibrio-del-plinto-e-compatibilita
+text: Nel modello ideale di plinto rigido con pali verticali di uguale rigidezza assiale, disposti simmetricamente rispetto agli assi principali, la forza sul palo i può essere scritta come N/n più contributi proporzionali alle coordinate. Per flessione attorno a un solo asse, Ni = N/n + M yi/Σyj². La formula presuppone la compatibilità rigida del plinto, linearità e uguale rigidezza; non descrive da sola non linearità, pali inclinati, terreno a contatto o interazione fra pali.
+text: Quattro pali a y = ±1,5 m, due per lato, con N = 4000 kN e M = 1200 kNm hanno Σy² = 9 m². Le azioni diventano 1200 kN sui due pali da un lato e 800 kN sugli altri. La somma è 4000 kN e il momento è 1200 kNm: questi due controlli devono riuscire prima di interpretare le resistenze. Se una combinazione produce trazione, vanno verificati sia il palo sia il collegamento al plinto.
+text: carichi-orizzontali-e-fila-schermata
+text: Lo spostamento della testa e la rotazione del plinto controllano la deformata. L’interazione tra pali modifica la reazione del terreno; direzione del carico, interassi e posizione nella fila possono rendere differenti i pali interni e di bordo. Un’efficienza complessiva non restituisce necessariamente momenti e tagli di ciascun palo.
+text: Nel modulo elastico di ANTHEA controllare EJ, modulo di reazione, discretizzazione e vincoli. Nel modulo di efficienza orizzontale leggere il campo della correlazione selezionata; nel palo verticale distinguere riduzioni di gruppo da coefficienti parziali e fattori di correlazione. L’uso successivo di questi strumenti richiede un modello coerente di ripartizione.
+text: Riferimento bibliografico: FHWA GEC 9, fondazioni profonde caricate lateralmente, FHWA-HIF-18-031. Esempio di equilibrio originale.
+text: proseguire-nella-wiki
+text: - Risposta elastica del palo orizzontale
+text: - Efficienza orizzontale della palificata

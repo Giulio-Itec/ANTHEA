@@ -1,0 +1,8042 @@
+# word/document.xml
+¶ Fixture F3 · geo_palo_orizzontale · single-soil-elastic · Risposta elastica del palo sotto il carico assegnato
+¶ x dalla testa verso la punta; z=x−Llibero dal piano campagna. H e y positivi verso destra; θ=dy/dx; C positivo con θ; M=EI y″; V=dM/dx; q=−k y; dV/dx=q. Mtesta=−C−Rθ. N positivo a compressione; N=Ntesta+w x. Le reazioni laterali sono azioni sul palo.
+¶ Analisi elastica lineare del palo singolo, Euler–Bernoulli/Winkler, piccoli spostamenti, EI costante. Esclusi plasticità, distacco, curve p-y, interazione di gruppo, trasferimento assiale al terreno e secondo ordine. Nessuna verifica della capacità portante. Viggiani §14.4.1: kh costante per argille o.c.; kh=nh·z/D per incoerenti e argille n.c./debolmente o.c. Parametri orientativi: media iniziale della singola riga, modificabile; condizioni drenate/non drenate e applicabilità da documentare.
+¶ m, kN, kNm, rad; kh e nh [kN/m³]; k [kN/m²]. Matrice di fondazione consistente, nessuna molla nodale indipendente.
+¶ C. Viggiani, Fondazioni, §14.4.1; PDF fornito pp. 237–238 e 244–245, libro pp. 464–467 e 478–481. Edizione non identificabile nella scansione; prefazione datata dicembre 1998. Articoli originali citati non consultati.
+¶ Estensione numerica dichiarata: parametri locali a tratti, z globale dal piano campagna; salto di nh ammesso a strati/falda. Il libro non prescrive questo raccordo per i profili stratificati.
+¶ Sforzo normale positivo a compressione: N(x)=Ntesta+w x. Ntesta=0 kN; w=19,63495 kN/m. Nessun trasferimento assiale al terreno, galleggiamento automatico o effetto del secondo ordine. Il peso del c.a. include già l'armatura; nel CHS acciaio e iniezione occupano aree disgiunte.
+¶ Dati comuni: stratigrafia 1; geometria generali; sezione sezione; e dal piano campagna 0 m. Ctesta=H·(Llibero−e_da_pc); M al p.c. da solo H è H·e_da_pc. 
+¶ EJ da sezione: E=34077,15 MPa; J=4,908739E+10 mm⁴; EJ base=1672758, adottato=1672758 kNm². Calcestruzzo fck=35 MPa; Ecm da Model EN1992. Sezione circolare integra lorda: Ecm·J; contributo aggiuntivo delle armature, fessurazione e viscosità esclusi.. Override: 
+[T1 r1 c1] Parametro
+[T1 r1 c2] Valore / unità
+[T1 r2 c1] D [m]
+[T1 r2 c2] 1
+[T1 r3 c1] L totale [m]
+[T1 r3 c2] 10
+[T1 r4 c1] L libero [m]
+[T1 r4 c2] 0
+[T1 r5 c1] EI [kNm²]
+[T1 r5 c2] 1672758
+[T1 r6 c1] Origine EI
+[T1 r6 c2] Calcestruzzo fck=35 MPa; Ecm da Model EN1992; Sezione circolare integra lorda: Ecm·J; contributo aggiuntivo delle armature, fessurazione e viscosità esclusi.
+[T1 r7 c1] H [kN]
+[T1 r7 c2] 100
+[T1 r8 c1] C [kNm]
+[T1 r8 c2] 0
+[T1 r9 c1] Rotazione testa
+[T1 r9 c2] Libera
+[T1 r10 c1] Vincolo punta
+[T1 r10 c2] Libera
+[T1 r11 c1] Passo iniziale [m]
+[T1 r11 c2] 0,5
+[T2 r1 c1] Strato
+[T2 r1 c2] Spessore [m]
+[T2 r1 c3] Modalità
+[T2 r1 c4] Condizioni dichiarate
+[T2 r2 c1] Granulare
+[T2 r2 c2] 10
+[T2 r2 c3] nh = A·γ/1,35 · incoerenti
+[T2 r2 c4] Viggiani, parametri orientativi; verificare condizioni di impiego
+¶ kh e nh [kN/m³]; k distribuito [kN/m²]. Valori adottati riportati di seguito per ciascun tratto. z misurata dal piano campagna per tutti gli strati. Matrice di fondazione integrata: nessuna molla nodale indipendente.
+¶ Falda non presente nel modello.
+¶ Determinazione dei parametri del terreno per tratto
+¶ Strato 1 · Granulare · z=0–10 m · nh = A·γ/1,35 · incoerenti · nh: valore di base 2666,667, adottato 2666,667 kN/m³.
+¶ Tabella 14.5 ed eq. 14.25, libro p. 478 (PDF 244). C. Viggiani, Fondazioni, §14.4.1; PDF fornito pp. 237–238 e 244–245, libro pp. 464–467 e 478–481. Edizione non identificabile nella scansione; prefazione datata dicembre 1998. Articoli originali citati non consultati.
+¶ Terreni incoerenti, sciolto; sopra falda / non immersi. Valori orientativi.
+¶ Condizioni dichiarate: Viggiani, parametri orientativi; verificare condizioni di impiego
+¶ A adottato 200; intervallo 100–300; consigliato 200. γ o γ′ adottato 18 kN/m³; nh=Aγ/1,35.
+¶ Media iniziale del software 200 adimensionale; origine valore adottato: Media iniziale del software. La media non è una raccomandazione attribuita al libro.
+[T3 r1 c1] Grandezza
+[T3 r1 c2] Min
+[T3 r1 c3] x [m]
+[T3 r1 c4] Max
+[T3 r1 c5] x [m]
+[T3 r1 c6] |max|
+[T3 r1 c7] x [m]
+[T3 r2 c1] y [m]
+[T3 r2 c2] -0,001847064
+[T3 r2 c3] 10
+[T3 r2 c4] 0,008419438
+[T3 r2 c5] 0
+[T3 r2 c6] 0,008419438
+[T3 r2 c7] 0
+[T3 r3 c1] theta [rad]
+[T3 r3 c2] -0,00149463
+[T3 r3 c3] 0
+[T3 r3 c4] -0,000666445
+[T3 r3 c5] 9,958824
+[T3 r3 c6] 0,00149463
+[T3 r3 c7] 0
+[T3 r4 c1] N [kN]
+[T3 r4 c2] 0
+[T3 r4 c3] 0
+[T3 r4 c4] 196,3495
+[T3 r4 c5] 10
+[T3 r4 c6] 196,3495
+[T3 r4 c7] 10
+[T3 r5 c1] V [kN]
+[T3 r5 c2] -61,32982
+[T3 r5 c3] 7,303321
+[T3 r5 c4] 100
+[T3 r5 c5] 0
+[T3 r5 c6] 100
+[T3 r5 c7] 0
+[T3 r6 c1] M [kNm]
+[T3 r6 c2] -9,341417E-13
+[T3 r6 c3] 10
+[T3 r6 c4] 242,204
+[T3 r6 c5] 4,016561
+[T3 r6 c6] 242,204
+[T3 r6 c7] 4,016561
+[T3 r7 c1] q [kN/m]
+[T3 r7 c2] -33,55825
+[T3 r7 c3] 3,191819
+[T3 r7 c4] 49,25504
+[T3 r7 c5] 10
+[T3 r7 c6] 49,25504
+[T3 r7 c7] 10
+¶ Testa: y=0,008419438 m; θ=-0,00149463 rad. Reazioni: testa 0 kNm; punta 0 kN e 0 kNm.
+¶ Equilibrio: ΣF=1,441862E-08 kN; ΣMtesta=3,280225E-08 kNm. Terreno: risultante -100 kN e momento 3,280225E-08 kNm.
+¶ Mesh: 40 elementi, confronto 20. Variazioni relative y/M/V: 3,591417E-07/1,031274E-07/5,238689E-12. Soglia 0,001: soddisfatta
+¶ FEM Hermite Euler–Bernoulli, 2 gdl/nodo, matrice di fondazione consistente con quadratura di Gauss. Recupero V e M per equilibrio degli elementi. Estremi dai polinomi degli elementi. Nessuna differenziazione numerica degli spostamenti.
+¶ Fonte FEM consultata: TU Delft, Computational Modelling, §4.1 Euler–Bernoulli beam elements (web, 02/10/2026): https://interactivetextbooks.citg.tudelft.nl/computational-modelling/structural_linear/euler_bernouilli.html . Per il terreno: fonte Viggiani e autori citati riportati sopra; articoli originali non consultati.
+¶ Valori lungo il palo: Above=limite superiore dell'interfaccia; Below=limite inferiore; Interior=interno elemento. x dalla testa, z dal piano campagna. Tabelle dei punti arrotondate a quattro cifre significative per la leggibilità; precisione completa nelle esportazioni CSV e JSON.
+[T4 r1 c1] x [m]
+[T4 r1 c2] z [m]
+[T4 r1 c3] Strato/lato
+[T4 r1 c4] y [m]
+[T4 r1 c5] θ [rad]
+[T4 r1 c6] N [kN]
+[T4 r1 c7] V [kN]
+[T4 r1 c8] M [kNm]
+[T4 r2 c1] 0
+[T4 r2 c2] 0
+[T4 r2 c3] 1 Below
+[T4 r2 c4] 8,419E-3
+[T4 r2 c5] -1,495E-3
+[T4 r2 c6] 0
+[T4 r2 c7] 100
+[T4 r2 c8] 1,419E-10
+[T4 r3 c1] 0,03125
+[T4 r3 c2] 0,03125
+[T4 r3 c3] 1 Interior
+[T4 r3 c4] 8,373E-3
+[T4 r3 c5] -1,495E-3
+[T4 r3 c6] 0,6136
+[T4 r3 c7] 99,99
+[T4 r3 c8] 3,125
+[T4 r4 c1] 0,0625
+[T4 r4 c2] 0,0625
+[T4 r4 c3] 1 Interior
+[T4 r4 c4] 8,326E-3
+[T4 r4 c5] -1,495E-3
+[T4 r4 c6] 1,227
+[T4 r4 c7] 99,96
+[T4 r4 c8] 6,249
+[T4 r5 c1] 0,09375
+[T4 r5 c2] 0,09375
+[T4 r5 c3] 1 Interior
+[T4 r5 c4] 8,279E-3
+[T4 r5 c5] -1,494E-3
+[T4 r5 c6] 1,841
+[T4 r5 c7] 99,9
+[T4 r5 c8] 9,372
+[T4 r6 c1] 0,125
+[T4 r6 c2] 0,125
+[T4 r6 c3] 1 Interior
+[T4 r6 c4] 8,233E-3
+[T4 r6 c5] -1,494E-3
+[T4 r6 c6] 2,454
+[T4 r6 c7] 99,83
+[T4 r6 c8] 12,49
+[T4 r7 c1] 0,1562
+[T4 r7 c2] 0,1562
+[T4 r7 c3] 1 Interior
+[T4 r7 c4] 8,186E-3
+[T4 r7 c5] -1,494E-3
+[T4 r7 c6] 3,068
+[T4 r7 c7] 99,73
+[T4 r7 c8] 15,61
+[T4 r8 c1] 0,1875
+[T4 r8 c2] 0,1875
+[T4 r8 c3] 1 Interior
+[T4 r8 c4] 8,139E-3
+[T4 r8 c5] -1,494E-3
+[T4 r8 c6] 3,682
+[T4 r8 c7] 99,61
+[T4 r8 c8] 18,73
+[T4 r9 c1] 0,2188
+[T4 r9 c2] 0,2188
+[T4 r9 c3] 1 Interior
+[T4 r9 c4] 8,093E-3
+[T4 r9 c5] -1,493E-3
+[T4 r9 c6] 4,295
+[T4 r9 c7] 99,48
+[T4 r9 c8] 21,84
+[T4 r10 c1] 0,25
+[T4 r10 c2] 0,25
+[T4 r10 c3] 1 Above
+[T4 r10 c4] 8,046E-3
+[T4 r10 c5] -1,493E-3
+[T4 r10 c6] 4,909
+[T4 r10 c7] 99,32
+[T4 r10 c8] 24,94
+[T4 r11 c1] 0,25
+[T4 r11 c2] 0,25
+[T4 r11 c3] 1 Below
+[T4 r11 c4] 8,046E-3
+[T4 r11 c5] -1,493E-3
+[T4 r11 c6] 4,909
+[T4 r11 c7] 99,32
+[T4 r11 c8] 24,94
+[T4 r12 c1] 0,2812
+[T4 r12 c2] 0,2812
+[T4 r12 c3] 1 Interior
+[T4 r12 c4] 7,999E-3
+[T4 r12 c5] -1,492E-3
+[T4 r12 c6] 5,522
+[T4 r12 c7] 99,14
+[T4 r12 c8] 28,04
+[T4 r13 c1] 0,3125
+[T4 r13 c2] 0,3125
+[T4 r13 c3] 1 Interior
+[T4 r13 c4] 7,953E-3
+[T4 r13 c5] -1,492E-3
+[T4 r13 c6] 6,136
+[T4 r13 c7] 98,94
+[T4 r13 c8] 31,14
+[T4 r14 c1] 0,3438
+[T4 r14 c2] 0,3438
+[T4 r14 c3] 1 Interior
+[T4 r14 c4] 7,906E-3
+[T4 r14 c5] -1,491E-3
+[T4 r14 c6] 6,75
+[T4 r14 c7] 98,73
+[T4 r14 c8] 34,23
+[T4 r15 c1] 0,375
+[T4 r15 c2] 0,375
+[T4 r15 c3] 1 Interior
+[T4 r15 c4] 7,859E-3
+[T4 r15 c5] -1,49E-3
+[T4 r15 c6] 7,363
+[T4 r15 c7] 98,49
+[T4 r15 c8] 37,31
+[T4 r16 c1] 0,4062
+[T4 r16 c2] 0,4062
+[T4 r16 c3] 1 Interior
+[T4 r16 c4] 7,813E-3
+[T4 r16 c5] -1,49E-3
+[T4 r16 c6] 7,977
+[T4 r16 c7] 98,24
+[T4 r16 c8] 40,38
+[T4 r17 c1] 0,4375
+[T4 r17 c2] 0,4375
+[T4 r17 c3] 1 Interior
+[T4 r17 c4] 7,766E-3
+[T4 r17 c5] -1,489E-3
+[T4 r17 c6] 8,59
+[T4 r17 c7] 97,96
+[T4 r17 c8] 43,45
+[T4 r18 c1] 0,4688
+[T4 r18 c2] 0,4688
+[T4 r18 c3] 1 Interior
+[T4 r18 c4] 7,72E-3
+[T4 r18 c5] -1,488E-3
+[T4 r18 c6] 9,204
+[T4 r18 c7] 97,67
+[T4 r18 c8] 46,51
+[T4 r19 c1] 0,5
+[T4 r19 c2] 0,5
+[T4 r19 c3] 1 Above
+[T4 r19 c4] 7,673E-3
+[T4 r19 c5] -1,487E-3
+[T4 r19 c6] 9,817
+[T4 r19 c7] 97,36
+[T4 r19 c8] 49,55
+[T4 r20 c1] 0,5
+[T4 r20 c2] 0,5
+[T4 r20 c3] 1 Below
+[T4 r20 c4] 7,673E-3
+[T4 r20 c5] -1,487E-3
+[T4 r20 c6] 9,817
+[T4 r20 c7] 97,36
+[T4 r20 c8] 49,55
+[T4 r21 c1] 0,5312
+[T4 r21 c2] 0,5312
+[T4 r21 c3] 1 Interior
+[T4 r21 c4] 7,627E-3
+[T4 r21 c5] -1,486E-3
+[T4 r21 c6] 10,43
+[T4 r21 c7] 97,03
+[T4 r21 c8] 52,59
+[T4 r22 c1] 0,5625
+[T4 r22 c2] 0,5625
+[T4 r22 c3] 1 Interior
+[T4 r22 c4] 7,58E-3
+[T4 r22 c5] -1,485E-3
+[T4 r22 c6] 11,04
+[T4 r22 c7] 96,68
+[T4 r22 c8] 55,62
+[T4 r23 c1] 0,5938
+[T4 r23 c2] 0,5938
+[T4 r23 c3] 1 Interior
+[T4 r23 c4] 7,534E-3
+[T4 r23 c5] -1,484E-3
+[T4 r23 c6] 11,66
+[T4 r23 c7] 96,32
+[T4 r23 c8] 58,63
+[T4 r24 c1] 0,625
+[T4 r24 c2] 0,625
+[T4 r24 c3] 1 Interior
+[T4 r24 c4] 7,488E-3
+[T4 r24 c5] -1,483E-3
+[T4 r24 c6] 12,27
+[T4 r24 c7] 95,94
+[T4 r24 c8] 61,64
+[T4 r25 c1] 0,6562
+[T4 r25 c2] 0,6562
+[T4 r25 c3] 1 Interior
+[T4 r25 c4] 7,441E-3
+[T4 r25 c5] -1,482E-3
+[T4 r25 c6] 12,89
+[T4 r25 c7] 95,54
+[T4 r25 c8] 64,63
+[T4 r26 c1] 0,6875
+[T4 r26 c2] 0,6875
+[T4 r26 c3] 1 Interior
+[T4 r26 c4] 7,395E-3
+[T4 r26 c5] -1,481E-3
+[T4 r26 c6] 13,5
+[T4 r26 c7] 95,12
+[T4 r26 c8] 67,61
+[T4 r27 c1] 0,7188
+[T4 r27 c2] 0,7188
+[T4 r27 c3] 1 Interior
+[T4 r27 c4] 7,349E-3
+[T4 r27 c5] -1,479E-3
+[T4 r27 c6] 14,11
+[T4 r27 c7] 94,69
+[T4 r27 c8] 70,57
+[T4 r28 c1] 0,75
+[T4 r28 c2] 0,75
+[T4 r28 c3] 1 Above
+[T4 r28 c4] 7,303E-3
+[T4 r28 c5] -1,478E-3
+[T4 r28 c6] 14,73
+[T4 r28 c7] 94,24
+[T4 r28 c8] 73,53
+[T4 r29 c1] 0,75
+[T4 r29 c2] 0,75
+[T4 r29 c3] 1 Below
+[T4 r29 c4] 7,303E-3
+[T4 r29 c5] -1,478E-3
+[T4 r29 c6] 14,73
+[T4 r29 c7] 94,24
+[T4 r29 c8] 73,53
+[T4 r30 c1] 0,7812
+[T4 r30 c2] 0,7812
+[T4 r30 c3] 1 Interior
+[T4 r30 c4] 7,256E-3
+[T4 r30 c5] -1,477E-3
+[T4 r30 c6] 15,34
+[T4 r30 c7] 93,78
+[T4 r30 c8] 76,46
+[T4 r31 c1] 0,8125
+[T4 r31 c2] 0,8125
+[T4 r31 c3] 1 Interior
+[T4 r31 c4] 7,21E-3
+[T4 r31 c5] -1,475E-3
+[T4 r31 c6] 15,95
+[T4 r31 c7] 93,3
+[T4 r31 c8] 79,39
+[T4 r32 c1] 0,8438
+[T4 r32 c2] 0,8438
+[T4 r32 c3] 1 Interior
+[T4 r32 c4] 7,164E-3
+[T4 r32 c5] -1,474E-3
+[T4 r32 c6] 16,57
+[T4 r32 c7] 92,8
+[T4 r32 c8] 82,3
+[T4 r33 c1] 0,875
+[T4 r33 c2] 0,875
+[T4 r33 c3] 1 Interior
+[T4 r33 c4] 7,118E-3
+[T4 r33 c5] -1,472E-3
+[T4 r33 c6] 17,18
+[T4 r33 c7] 92,29
+[T4 r33 c8] 85,19
+[T4 r34 c1] 0,9062
+[T4 r34 c2] 0,9062
+[T4 r34 c3] 1 Interior
+[T4 r34 c4] 7,072E-3
+[T4 r34 c5] -1,47E-3
+[T4 r34 c6] 17,79
+[T4 r34 c7] 91,77
+[T4 r34 c8] 88,06
+[T4 r35 c1] 0,9375
+[T4 r35 c2] 0,9375
+[T4 r35 c3] 1 Interior
+[T4 r35 c4] 7,026E-3
+[T4 r35 c5] -1,469E-3
+[T4 r35 c6] 18,41
+[T4 r35 c7] 91,22
+[T4 r35 c8] 90,92
+[T4 r36 c1] 0,9688
+[T4 r36 c2] 0,9688
+[T4 r36 c3] 1 Interior
+[T4 r36 c4] 6,98E-3
+[T4 r36 c5] -1,467E-3
+[T4 r36 c6] 19,02
+[T4 r36 c7] 90,67
+[T4 r36 c8] 93,76
+[T4 r37 c1] 1
+[T4 r37 c2] 1
+[T4 r37 c3] 1 Above
+[T4 r37 c4] 6,935E-3
+[T4 r37 c5] -1,465E-3
+[T4 r37 c6] 19,63
+[T4 r37 c7] 90,1
+[T4 r37 c8] 96,59
+[T4 r38 c1] 1
+[T4 r38 c2] 1
+[T4 r38 c3] 1 Below
+[T4 r38 c4] 6,935E-3
+[T4 r38 c5] -1,465E-3
+[T4 r38 c6] 19,63
+[T4 r38 c7] 90,1
+[T4 r38 c8] 96,59
+[T4 r39 c1] 1,031
+[T4 r39 c2] 1,031
+[T4 r39 c3] 1 Interior
+[T4 r39 c4] 6,889E-3
+[T4 r39 c5] -1,463E-3
+[T4 r39 c6] 20,25
+[T4 r39 c7] 89,51
+[T4 r39 c8] 99,4
+[T4 r40 c1] 1,062
+[T4 r40 c2] 1,062
+[T4 r40 c3] 1 Interior
+[T4 r40 c4] 6,843E-3
+[T4 r40 c5] -1,462E-3
+[T4 r40 c6] 20,86
+[T4 r40 c7] 88,91
+[T4 r40 c8] 102,2
+[T4 r41 c1] 1,094
+[T4 r41 c2] 1,094
+[T4 r41 c3] 1 Interior
+[T4 r41 c4] 6,798E-3
+[T4 r41 c5] -1,46E-3
+[T4 r41 c6] 21,48
+[T4 r41 c7] 88,3
+[T4 r41 c8] 105
+[T4 r42 c1] 1,125
+[T4 r42 c2] 1,125
+[T4 r42 c3] 1 Interior
+[T4 r42 c4] 6,752E-3
+[T4 r42 c5] -1,458E-3
+[T4 r42 c6] 22,09
+[T4 r42 c7] 87,67
+[T4 r42 c8] 107,7
+[T4 r43 c1] 1,156
+[T4 r43 c2] 1,156
+[T4 r43 c3] 1 Interior
+[T4 r43 c4] 6,706E-3
+[T4 r43 c5] -1,456E-3
+[T4 r43 c6] 22,7
+[T4 r43 c7] 87,03
+[T4 r43 c8] 110,4
+[T4 r44 c1] 1,188
+[T4 r44 c2] 1,188
+[T4 r44 c3] 1 Interior
+[T4 r44 c4] 6,661E-3
+[T4 r44 c5] -1,453E-3
+[T4 r44 c6] 23,32
+[T4 r44 c7] 86,38
+[T4 r44 c8] 113,1
+[T4 r45 c1] 1,219
+[T4 r45 c2] 1,219
+[T4 r45 c3] 1 Interior
+[T4 r45 c4] 6,616E-3
+[T4 r45 c5] -1,451E-3
+[T4 r45 c6] 23,93
+[T4 r45 c7] 85,72
+[T4 r45 c8] 115,8
+[T4 r46 c1] 1,25
+[T4 r46 c2] 1,25
+[T4 r46 c3] 1 Above
+[T4 r46 c4] 6,57E-3
+[T4 r46 c5] -1,449E-3
+[T4 r46 c6] 24,54
+[T4 r46 c7] 85,04
+[T4 r46 c8] 118,5
+[T4 r47 c1] 1,25
+[T4 r47 c2] 1,25
+[T4 r47 c3] 1 Below
+[T4 r47 c4] 6,57E-3
+[T4 r47 c5] -1,449E-3
+[T4 r47 c6] 24,54
+[T4 r47 c7] 85,04
+[T4 r47 c8] 118,5
+[T4 r48 c1] 1,281
+[T4 r48 c2] 1,281
+[T4 r48 c3] 1 Interior
+[T4 r48 c4] 6,525E-3
+[T4 r48 c5] -1,447E-3
+[T4 r48 c6] 25,16
+[T4 r48 c7] 84,35
+[T4 r48 c8] 121,1
+[T4 r49 c1] 1,312
+[T4 r49 c2] 1,312
+[T4 r49 c3] 1 Interior
+[T4 r49 c4] 6,48E-3
+[T4 r49 c5] -1,445E-3
+[T4 r49 c6] 25,77
+[T4 r49 c7] 83,65
+[T4 r49 c8] 123,8
+[T4 r50 c1] 1,344
+[T4 r50 c2] 1,344
+[T4 r50 c3] 1 Interior
+[T4 r50 c4] 6,435E-3
+[T4 r50 c5] -1,442E-3
+[T4 r50 c6] 26,38
+[T4 r50 c7] 82,93
+[T4 r50 c8] 126,4
+[T4 r51 c1] 1,375
+[T4 r51 c2] 1,375
+[T4 r51 c3] 1 Interior
+[T4 r51 c4] 6,39E-3
+[T4 r51 c5] -1,44E-3
+[T4 r51 c6] 27
+[T4 r51 c7] 82,2
+[T4 r51 c8] 129
+[T4 r52 c1] 1,406
+[T4 r52 c2] 1,406
+[T4 r52 c3] 1 Interior
+[T4 r52 c4] 6,345E-3
+[T4 r52 c5] -1,437E-3
+[T4 r52 c6] 27,61
+[T4 r52 c7] 81,47
+[T4 r52 c8] 131,5
+[T4 r53 c1] 1,438
+[T4 r53 c2] 1,438
+[T4 r53 c3] 1 Interior
+[T4 r53 c4] 6,3E-3
+[T4 r53 c5] -1,435E-3
+[T4 r53 c6] 28,23
+[T4 r53 c7] 80,72
+[T4 r53 c8] 134
+[T4 r54 c1] 1,469
+[T4 r54 c2] 1,469
+[T4 r54 c3] 1 Interior
+[T4 r54 c4] 6,255E-3
+[T4 r54 c5] -1,432E-3
+[T4 r54 c6] 28,84
+[T4 r54 c7] 79,96
+[T4 r54 c8] 136,6
+[T4 r55 c1] 1,5
+[T4 r55 c2] 1,5
+[T4 r55 c3] 1 Above
+[T4 r55 c4] 6,21E-3
+[T4 r55 c5] -1,43E-3
+[T4 r55 c6] 29,45
+[T4 r55 c7] 79,19
+[T4 r55 c8] 139
+[T4 r56 c1] 1,5
+[T4 r56 c2] 1,5
+[T4 r56 c3] 1 Below
+[T4 r56 c4] 6,21E-3
+[T4 r56 c5] -1,43E-3
+[T4 r56 c6] 29,45
+[T4 r56 c7] 79,19
+[T4 r56 c8] 139
+[T4 r57 c1] 1,531
+[T4 r57 c2] 1,531
+[T4 r57 c3] 1 Interior
+[T4 r57 c4] 6,166E-3
+[T4 r57 c5] -1,427E-3
+[T4 r57 c6] 30,07
+[T4 r57 c7] 78,4
+[T4 r57 c8] 141,5
+[T4 r58 c1] 1,562
+[T4 r58 c2] 1,562
+[T4 r58 c3] 1 Interior
+[T4 r58 c4] 6,121E-3
+[T4 r58 c5] -1,425E-3
+[T4 r58 c6] 30,68
+[T4 r58 c7] 77,61
+[T4 r58 c8] 143,9
+[T4 r59 c1] 1,594
+[T4 r59 c2] 1,594
+[T4 r59 c3] 1 Interior
+[T4 r59 c4] 6,077E-3
+[T4 r59 c5] -1,422E-3
+[T4 r59 c6] 31,29
+[T4 r59 c7] 76,81
+[T4 r59 c8] 146,4
+[T4 r60 c1] 1,625
+[T4 r60 c2] 1,625
+[T4 r60 c3] 1 Interior
+[T4 r60 c4] 6,032E-3
+[T4 r60 c5] -1,419E-3
+[T4 r60 c6] 31,91
+[T4 r60 c7] 76
+[T4 r60 c8] 148,7
+[T4 r61 c1] 1,656
+[T4 r61 c2] 1,656
+[T4 r61 c3] 1 Interior
+[T4 r61 c4] 5,988E-3
+[T4 r61 c5] -1,416E-3
+[T4 r61 c6] 32,52
+[T4 r61 c7] 75,18
+[T4 r61 c8] 151,1
+[T4 r62 c1] 1,688
+[T4 r62 c2] 1,688
+[T4 r62 c3] 1 Interior
+[T4 r62 c4] 5,944E-3
+[T4 r62 c5] -1,414E-3
+[T4 r62 c6] 33,13
+[T4 r62 c7] 74,35
+[T4 r62 c8] 153,4
+[T4 r63 c1] 1,719
+[T4 r63 c2] 1,719
+[T4 r63 c3] 1 Interior
+[T4 r63 c4] 5,9E-3
+[T4 r63 c5] -1,411E-3
+[T4 r63 c6] 33,75
+[T4 r63 c7] 73,51
+[T4 r63 c8] 155,8
+[T4 r64 c1] 1,75
+[T4 r64 c2] 1,75
+[T4 r64 c3] 1 Above
+[T4 r64 c4] 5,856E-3
+[T4 r64 c5] -1,408E-3
+[T4 r64 c6] 34,36
+[T4 r64 c7] 72,66
+[T4 r64 c8] 158
+[T4 r65 c1] 1,75
+[T4 r65 c2] 1,75
+[T4 r65 c3] 1 Below
+[T4 r65 c4] 5,856E-3
+[T4 r65 c5] -1,408E-3
+[T4 r65 c6] 34,36
+[T4 r65 c7] 72,66
+[T4 r65 c8] 158
+[T4 r66 c1] 1,781
+[T4 r66 c2] 1,781
+[T4 r66 c3] 1 Interior
+[T4 r66 c4] 5,812E-3
+[T4 r66 c5] -1,405E-3
+[T4 r66 c6] 34,97
+[T4 r66 c7] 71,8
+[T4 r66 c8] 160,3
+[T4 r67 c1] 1,812
+[T4 r67 c2] 1,812
+[T4 r67 c3] 1 Interior
+[T4 r67 c4] 5,768E-3
+[T4 r67 c5] -1,402E-3
+[T4 r67 c6] 35,59
+[T4 r67 c7] 70,93
+[T4 r67 c8] 162,5
+[T4 r68 c1] 1,844
+[T4 r68 c2] 1,844
+[T4 r68 c3] 1 Interior
+[T4 r68 c4] 5,724E-3
+[T4 r68 c5] -1,399E-3
+[T4 r68 c6] 36,2
+[T4 r68 c7] 70,06
+[T4 r68 c8] 164,7
+[T4 r69 c1] 1,875
+[T4 r69 c2] 1,875
+[T4 r69 c3] 1 Interior
+[T4 r69 c4] 5,68E-3
+[T4 r69 c5] -1,396E-3
+[T4 r69 c6] 36,82
+[T4 r69 c7] 69,17
+[T4 r69 c8] 166,9
+[T4 r70 c1] 1,906
+[T4 r70 c2] 1,906
+[T4 r70 c3] 1 Interior
+[T4 r70 c4] 5,637E-3
+[T4 r70 c5] -1,392E-3
+[T4 r70 c6] 37,43
+[T4 r70 c7] 68,28
+[T4 r70 c8] 169
+[T4 r71 c1] 1,938
+[T4 r71 c2] 1,938
+[T4 r71 c3] 1 Interior
+[T4 r71 c4] 5,593E-3
+[T4 r71 c5] -1,389E-3
+[T4 r71 c6] 38,04
+[T4 r71 c7] 67,38
+[T4 r71 c8] 171,2
+[T4 r72 c1] 1,969
+[T4 r72 c2] 1,969
+[T4 r72 c3] 1 Interior
+[T4 r72 c4] 5,55E-3
+[T4 r72 c5] -1,386E-3
+[T4 r72 c6] 38,66
+[T4 r72 c7] 66,47
+[T4 r72 c8] 173,3
+[T4 r73 c1] 2
+[T4 r73 c2] 2
+[T4 r73 c3] 1 Above
+[T4 r73 c4] 5,507E-3
+[T4 r73 c5] -1,383E-3
+[T4 r73 c6] 39,27
+[T4 r73 c7] 65,56
+[T4 r73 c8] 175,3
+[T4 r74 c1] 2
+[T4 r74 c2] 2
+[T4 r74 c3] 1 Below
+[T4 r74 c4] 5,507E-3
+[T4 r74 c5] -1,383E-3
+[T4 r74 c6] 39,27
+[T4 r74 c7] 65,56
+[T4 r74 c8] 175,3
+[T4 r75 c1] 2,031
+[T4 r75 c2] 2,031
+[T4 r75 c3] 1 Interior
+[T4 r75 c4] 5,464E-3
+[T4 r75 c5] -1,379E-3
+[T4 r75 c6] 39,88
+[T4 r75 c7] 64,64
+[T4 r75 c8] 177,4
+[T4 r76 c1] 2,062
+[T4 r76 c2] 2,062
+[T4 r76 c3] 1 Interior
+[T4 r76 c4] 5,421E-3
+[T4 r76 c5] -1,376E-3
+[T4 r76 c6] 40,5
+[T4 r76 c7] 63,71
+[T4 r76 c8] 179,4
+[T4 r77 c1] 2,094
+[T4 r77 c2] 2,094
+[T4 r77 c3] 1 Interior
+[T4 r77 c4] 5,378E-3
+[T4 r77 c5] -1,373E-3
+[T4 r77 c6] 41,11
+[T4 r77 c7] 62,78
+[T4 r77 c8] 181,3
+[T4 r78 c1] 2,125
+[T4 r78 c2] 2,125
+[T4 r78 c3] 1 Interior
+[T4 r78 c4] 5,335E-3
+[T4 r78 c5] -1,369E-3
+[T4 r78 c6] 41,72
+[T4 r78 c7] 61,83
+[T4 r78 c8] 183,3
+[T4 r79 c1] 2,156
+[T4 r79 c2] 2,156
+[T4 r79 c3] 1 Interior
+[T4 r79 c4] 5,292E-3
+[T4 r79 c5] -1,366E-3
+[T4 r79 c6] 42,34
+[T4 r79 c7] 60,89
+[T4 r79 c8] 185,2
+[T4 r80 c1] 2,188
+[T4 r80 c2] 2,188
+[T4 r80 c3] 1 Interior
+[T4 r80 c4] 5,249E-3
+[T4 r80 c5] -1,362E-3
+[T4 r80 c6] 42,95
+[T4 r80 c7] 59,93
+[T4 r80 c8] 187,1
+[T4 r81 c1] 2,219
+[T4 r81 c2] 2,219
+[T4 r81 c3] 1 Interior
+[T4 r81 c4] 5,207E-3
+[T4 r81 c5] -1,359E-3
+[T4 r81 c6] 43,57
+[T4 r81 c7] 58,97
+[T4 r81 c8] 188,9
+[T4 r82 c1] 2,25
+[T4 r82 c2] 2,25
+[T4 r82 c3] 1 Above
+[T4 r82 c4] 5,164E-3
+[T4 r82 c5] -1,355E-3
+[T4 r82 c6] 44,18
+[T4 r82 c7] 58,01
+[T4 r82 c8] 190,8
+[T4 r83 c1] 2,25
+[T4 r83 c2] 2,25
+[T4 r83 c3] 1 Below
+[T4 r83 c4] 5,164E-3
+[T4 r83 c5] -1,355E-3
+[T4 r83 c6] 44,18
+[T4 r83 c7] 58,01
+[T4 r83 c8] 190,8
+[T4 r84 c1] 2,281
+[T4 r84 c2] 2,281
+[T4 r84 c3] 1 Interior
+[T4 r84 c4] 5,122E-3
+[T4 r84 c5] -1,352E-3
+[T4 r84 c6] 44,79
+[T4 r84 c7] 57,04
+[T4 r84 c8] 192,6
+[T4 r85 c1] 2,312
+[T4 r85 c2] 2,312
+[T4 r85 c3] 1 Interior
+[T4 r85 c4] 5,08E-3
+[T4 r85 c5] -1,348E-3
+[T4 r85 c6] 45,41
+[T4 r85 c7] 56,06
+[T4 r85 c8] 194,3
+[T4 r86 c1] 2,344
+[T4 r86 c2] 2,344
+[T4 r86 c3] 1 Interior
+[T4 r86 c4] 5,038E-3
+[T4 r86 c5] -1,345E-3
+[T4 r86 c6] 46,02
+[T4 r86 c7] 55,08
+[T4 r86 c8] 196,1
+[T4 r87 c1] 2,375
+[T4 r87 c2] 2,375
+[T4 r87 c3] 1 Interior
+[T4 r87 c4] 4,996E-3
+[T4 r87 c5] -1,341E-3
+[T4 r87 c6] 46,63
+[T4 r87 c7] 54,09
+[T4 r87 c8] 197,8
+[T4 r88 c1] 2,406
+[T4 r88 c2] 2,406
+[T4 r88 c3] 1 Interior
+[T4 r88 c4] 4,954E-3
+[T4 r88 c5] -1,337E-3
+[T4 r88 c6] 47,25
+[T4 r88 c7] 53,1
+[T4 r88 c8] 199,5
+[T4 r89 c1] 2,438
+[T4 r89 c2] 2,438
+[T4 r89 c3] 1 Interior
+[T4 r89 c4] 4,912E-3
+[T4 r89 c5] -1,333E-3
+[T4 r89 c6] 47,86
+[T4 r89 c7] 52,1
+[T4 r89 c8] 201,1
+[T4 r90 c1] 2,469
+[T4 r90 c2] 2,469
+[T4 r90 c3] 1 Interior
+[T4 r90 c4] 4,871E-3
+[T4 r90 c5] -1,33E-3
+[T4 r90 c6] 48,47
+[T4 r90 c7] 51,1
+[T4 r90 c8] 202,7
+[T4 r91 c1] 2,5
+[T4 r91 c2] 2,5
+[T4 r91 c3] 1 Above
+[T4 r91 c4] 4,829E-3
+[T4 r91 c5] -1,326E-3
+[T4 r91 c6] 49,09
+[T4 r91 c7] 50,1
+[T4 r91 c8] 204,3
+[T4 r92 c1] 2,5
+[T4 r92 c2] 2,5
+[T4 r92 c3] 1 Below
+[T4 r92 c4] 4,829E-3
+[T4 r92 c5] -1,326E-3
+[T4 r92 c6] 49,09
+[T4 r92 c7] 50,1
+[T4 r92 c8] 204,3
+[T4 r93 c1] 2,531
+[T4 r93 c2] 2,531
+[T4 r93 c3] 1 Interior
+[T4 r93 c4] 4,788E-3
+[T4 r93 c5] -1,322E-3
+[T4 r93 c6] 49,7
+[T4 r93 c7] 49,09
+[T4 r93 c8] 205,8
+[T4 r94 c1] 2,562
+[T4 r94 c2] 2,562
+[T4 r94 c3] 1 Interior
+[T4 r94 c4] 4,747E-3
+[T4 r94 c5] -1,318E-3
+[T4 r94 c6] 50,31
+[T4 r94 c7] 48,08
+[T4 r94 c8] 207,4
+[T4 r95 c1] 2,594
+[T4 r95 c2] 2,594
+[T4 r95 c3] 1 Interior
+[T4 r95 c4] 4,705E-3
+[T4 r95 c5] -1,314E-3
+[T4 r95 c6] 50,93
+[T4 r95 c7] 47,07
+[T4 r95 c8] 208,9
+[T4 r96 c1] 2,625
+[T4 r96 c2] 2,625
+[T4 r96 c3] 1 Interior
+[T4 r96 c4] 4,664E-3
+[T4 r96 c5] -1,31E-3
+[T4 r96 c6] 51,54
+[T4 r96 c7] 46,05
+[T4 r96 c8] 210,3
+[T4 r97 c1] 2,656
+[T4 r97 c2] 2,656
+[T4 r97 c3] 1 Interior
+[T4 r97 c4] 4,624E-3
+[T4 r97 c5] -1,306E-3
+[T4 r97 c6] 52,16
+[T4 r97 c7] 45,02
+[T4 r97 c8] 211,7
+[T4 r98 c1] 2,688
+[T4 r98 c2] 2,688
+[T4 r98 c3] 1 Interior
+[T4 r98 c4] 4,583E-3
+[T4 r98 c5] -1,302E-3
+[T4 r98 c6] 52,77
+[T4 r98 c7] 44
+[T4 r98 c8] 213,1
+[T4 r99 c1] 2,719
+[T4 r99 c2] 2,719
+[T4 r99 c3] 1 Interior
+[T4 r99 c4] 4,542E-3
+[T4 r99 c5] -1,298E-3
+[T4 r99 c6] 53,38
+[T4 r99 c7] 42,97
+[T4 r99 c8] 214,5
+[T4 r100 c1] 2,75
+[T4 r100 c2] 2,75
+[T4 r100 c3] 1 Above
+[T4 r100 c4] 4,502E-3
+[T4 r100 c5] -1,294E-3
+[T4 r100 c6] 54
+[T4 r100 c7] 41,94
+[T4 r100 c8] 215,8
+[T4 r101 c1] 2,75
+[T4 r101 c2] 2,75
+[T4 r101 c3] 1 Below
+[T4 r101 c4] 4,502E-3
+[T4 r101 c5] -1,294E-3
+[T4 r101 c6] 54
+[T4 r101 c7] 41,94
+[T4 r101 c8] 215,8
+[T4 r102 c1] 2,781
+[T4 r102 c2] 2,781
+[T4 r102 c3] 1 Interior
+[T4 r102 c4] 4,461E-3
+[T4 r102 c5] -1,29E-3
+[T4 r102 c6] 54,61
+[T4 r102 c7] 40,91
+[T4 r102 c8] 217,1
+[T4 r103 c1] 2,812
+[T4 r103 c2] 2,812
+[T4 r103 c3] 1 Interior
+[T4 r103 c4] 4,421E-3
+[T4 r103 c5] -1,286E-3
+[T4 r103 c6] 55,22
+[T4 r103 c7] 39,87
+[T4 r103 c8] 218,4
+[T4 r104 c1] 2,844
+[T4 r104 c2] 2,844
+[T4 r104 c3] 1 Interior
+[T4 r104 c4] 4,381E-3
+[T4 r104 c5] -1,282E-3
+[T4 r104 c6] 55,84
+[T4 r104 c7] 38,84
+[T4 r104 c8] 219,6
+[T4 r105 c1] 2,875
+[T4 r105 c2] 2,875
+[T4 r105 c3] 1 Interior
+[T4 r105 c4] 4,341E-3
+[T4 r105 c5] -1,278E-3
+[T4 r105 c6] 56,45
+[T4 r105 c7] 37,8
+[T4 r105 c8] 220,8
+[T4 r106 c1] 2,906
+[T4 r106 c2] 2,906
+[T4 r106 c3] 1 Interior
+[T4 r106 c4] 4,301E-3
+[T4 r106 c5] -1,274E-3
+[T4 r106 c6] 57,06
+[T4 r106 c7] 36,76
+[T4 r106 c8] 222
+[T4 r107 c1] 2,938
+[T4 r107 c2] 2,938
+[T4 r107 c3] 1 Interior
+[T4 r107 c4] 4,261E-3
+[T4 r107 c5] -1,27E-3
+[T4 r107 c6] 57,68
+[T4 r107 c7] 35,71
+[T4 r107 c8] 223,1
+[T4 r108 c1] 2,969
+[T4 r108 c2] 2,969
+[T4 r108 c3] 1 Interior
+[T4 r108 c4] 4,222E-3
+[T4 r108 c5] -1,266E-3
+[T4 r108 c6] 58,29
+[T4 r108 c7] 34,67
+[T4 r108 c8] 224,2
+[T4 r109 c1] 3
+[T4 r109 c2] 3
+[T4 r109 c3] 1 Above
+[T4 r109 c4] 4,182E-3
+[T4 r109 c5] -1,261E-3
+[T4 r109 c6] 58,9
+[T4 r109 c7] 33,63
+[T4 r109 c8] 225,3
+[T4 r110 c1] 3
+[T4 r110 c2] 3
+[T4 r110 c3] 1 Below
+[T4 r110 c4] 4,182E-3
+[T4 r110 c5] -1,261E-3
+[T4 r110 c6] 58,9
+[T4 r110 c7] 33,63
+[T4 r110 c8] 225,3
+[T4 r111 c1] 3,031
+[T4 r111 c2] 3,031
+[T4 r111 c3] 1 Interior
+[T4 r111 c4] 4,143E-3
+[T4 r111 c5] -1,257E-3
+[T4 r111 c6] 59,52
+[T4 r111 c7] 32,58
+[T4 r111 c8] 226,3
+[T4 r112 c1] 3,062
+[T4 r112 c2] 3,062
+[T4 r112 c3] 1 Interior
+[T4 r112 c4] 4,104E-3
+[T4 r112 c5] -1,253E-3
+[T4 r112 c6] 60,13
+[T4 r112 c7] 31,53
+[T4 r112 c8] 227,3
+[T4 r113 c1] 3,094
+[T4 r113 c2] 3,094
+[T4 r113 c3] 1 Interior
+[T4 r113 c4] 4,064E-3
+[T4 r113 c5] -1,249E-3
+[T4 r113 c6] 60,75
+[T4 r113 c7] 30,48
+[T4 r113 c8] 228,3
+[T4 r114 c1] 3,125
+[T4 r114 c2] 3,125
+[T4 r114 c3] 1 Interior
+[T4 r114 c4] 4,026E-3
+[T4 r114 c5] -1,244E-3
+[T4 r114 c6] 61,36
+[T4 r114 c7] 29,44
+[T4 r114 c8] 229,2
+[T4 r115 c1] 3,156
+[T4 r115 c2] 3,156
+[T4 r115 c3] 1 Interior
+[T4 r115 c4] 3,987E-3
+[T4 r115 c5] -1,24E-3
+[T4 r115 c6] 61,97
+[T4 r115 c7] 28,39
+[T4 r115 c8] 230,1
+[T4 r116 c1] 3,188
+[T4 r116 c2] 3,188
+[T4 r116 c3] 1 Interior
+[T4 r116 c4] 3,948E-3
+[T4 r116 c5] -1,236E-3
+[T4 r116 c6] 62,59
+[T4 r116 c7] 27,34
+[T4 r116 c8] 231
+[T4 r117 c1] 3,192
+[T4 r117 c2] 3,192
+[T4 r117 c3] 1 Interior
+[T4 r117 c4] 3,943E-3
+[T4 r117 c5] -1,235E-3
+[T4 r117 c6] 62,67
+[T4 r117 c7] 27,19
+[T4 r117 c8] 231,1
+[T4 r118 c1] 3,219
+[T4 r118 c2] 3,219
+[T4 r118 c3] 1 Interior
+[T4 r118 c4] 3,909E-3
+[T4 r118 c5] -1,232E-3
+[T4 r118 c6] 63,2
+[T4 r118 c7] 26,29
+[T4 r118 c8] 231,8
+[T4 r119 c1] 3,25
+[T4 r119 c2] 3,25
+[T4 r119 c3] 1 Above
+[T4 r119 c4] 3,871E-3
+[T4 r119 c5] -1,227E-3
+[T4 r119 c6] 63,81
+[T4 r119 c7] 25,24
+[T4 r119 c8] 232,6
+[T4 r120 c1] 3,25
+[T4 r120 c2] 3,25
+[T4 r120 c3] 1 Below
+[T4 r120 c4] 3,871E-3
+[T4 r120 c5] -1,227E-3
+[T4 r120 c6] 63,81
+[T4 r120 c7] 25,24
+[T4 r120 c8] 232,6
+[T4 r121 c1] 3,281
+[T4 r121 c2] 3,281
+[T4 r121 c3] 1 Interior
+[T4 r121 c4] 3,833E-3
+[T4 r121 c5] -1,223E-3
+[T4 r121 c6] 64,43
+[T4 r121 c7] 24,19
+[T4 r121 c8] 233,4
+[T4 r122 c1] 3,312
+[T4 r122 c2] 3,312
+[T4 r122 c3] 1 Interior
+[T4 r122 c4] 3,795E-3
+[T4 r122 c5] -1,218E-3
+[T4 r122 c6] 65,04
+[T4 r122 c7] 23,15
+[T4 r122 c8] 234,1
+[T4 r123 c1] 3,344
+[T4 r123 c2] 3,344
+[T4 r123 c3] 1 Interior
+[T4 r123 c4] 3,757E-3
+[T4 r123 c5] -1,214E-3
+[T4 r123 c6] 65,65
+[T4 r123 c7] 22,1
+[T4 r123 c8] 234,8
+[T4 r124 c1] 3,375
+[T4 r124 c2] 3,375
+[T4 r124 c3] 1 Interior
+[T4 r124 c4] 3,719E-3
+[T4 r124 c5] -1,21E-3
+[T4 r124 c6] 66,27
+[T4 r124 c7] 21,05
+[T4 r124 c8] 235,5
+[T4 r125 c1] 3,406
+[T4 r125 c2] 3,406
+[T4 r125 c3] 1 Interior
+[T4 r125 c4] 3,681E-3
+[T4 r125 c5] -1,205E-3
+[T4 r125 c6] 66,88
+[T4 r125 c7] 20,01
+[T4 r125 c8] 236,1
+[T4 r126 c1] 3,438
+[T4 r126 c2] 3,438
+[T4 r126 c3] 1 Interior
+[T4 r126 c4] 3,643E-3
+[T4 r126 c5] -1,201E-3
+[T4 r126 c6] 67,5
+[T4 r126 c7] 18,96
+[T4 r126 c8] 236,8
+[T4 r127 c1] 3,469
+[T4 r127 c2] 3,469
+[T4 r127 c3] 1 Interior
+[T4 r127 c4] 3,606E-3
+[T4 r127 c5] -1,196E-3
+[T4 r127 c6] 68,11
+[T4 r127 c7] 17,92
+[T4 r127 c8] 237,3
+[T4 r128 c1] 3,5
+[T4 r128 c2] 3,5
+[T4 r128 c3] 1 Above
+[T4 r128 c4] 3,569E-3
+[T4 r128 c5] -1,192E-3
+[T4 r128 c6] 68,72
+[T4 r128 c7] 16,88
+[T4 r128 c8] 237,9
+[T4 r129 c1] 3,5
+[T4 r129 c2] 3,5
+[T4 r129 c3] 1 Below
+[T4 r129 c4] 3,569E-3
+[T4 r129 c5] -1,192E-3
+[T4 r129 c6] 68,72
+[T4 r129 c7] 16,88
+[T4 r129 c8] 237,9
+[T4 r130 c1] 3,531
+[T4 r130 c2] 3,531
+[T4 r130 c3] 1 Interior
+[T4 r130 c4] 3,531E-3
+[T4 r130 c5] -1,188E-3
+[T4 r130 c6] 69,34
+[T4 r130 c7] 15,84
+[T4 r130 c8] 238,4
+[T4 r131 c1] 3,562
+[T4 r131 c2] 3,562
+[T4 r131 c3] 1 Interior
+[T4 r131 c4] 3,494E-3
+[T4 r131 c5] -1,183E-3
+[T4 r131 c6] 69,95
+[T4 r131 c7] 14,8
+[T4 r131 c8] 238,9
+[T4 r132 c1] 3,594
+[T4 r132 c2] 3,594
+[T4 r132 c3] 1 Interior
+[T4 r132 c4] 3,458E-3
+[T4 r132 c5] -1,179E-3
+[T4 r132 c6] 70,56
+[T4 r132 c7] 13,76
+[T4 r132 c8] 239,3
+[T4 r133 c1] 3,625
+[T4 r133 c2] 3,625
+[T4 r133 c3] 1 Interior
+[T4 r133 c4] 3,421E-3
+[T4 r133 c5] -1,174E-3
+[T4 r133 c6] 71,18
+[T4 r133 c7] 12,73
+[T4 r133 c8] 239,7
+[T4 r134 c1] 3,656
+[T4 r134 c2] 3,656
+[T4 r134 c3] 1 Interior
+[T4 r134 c4] 3,384E-3
+[T4 r134 c5] -1,17E-3
+[T4 r134 c6] 71,79
+[T4 r134 c7] 11,7
+[T4 r134 c8] 240,1
+[T4 r135 c1] 3,688
+[T4 r135 c2] 3,688
+[T4 r135 c3] 1 Interior
+[T4 r135 c4] 3,348E-3
+[T4 r135 c5] -1,165E-3
+[T4 r135 c6] 72,4
+[T4 r135 c7] 10,67
+[T4 r135 c8] 240,5
+[T4 r136 c1] 3,719
+[T4 r136 c2] 3,719
+[T4 r136 c3] 1 Interior
+[T4 r136 c4] 3,311E-3
+[T4 r136 c5] -1,161E-3
+[T4 r136 c6] 73,02
+[T4 r136 c7] 9,64
+[T4 r136 c8] 240,8
+[T4 r137 c1] 3,75
+[T4 r137 c2] 3,75
+[T4 r137 c3] 1 Above
+[T4 r137 c4] 3,275E-3
+[T4 r137 c5] -1,156E-3
+[T4 r137 c6] 73,63
+[T4 r137 c7] 8,615
+[T4 r137 c8] 241,1
+[T4 r138 c1] 3,75
+[T4 r138 c2] 3,75
+[T4 r138 c3] 1 Below
+[T4 r138 c4] 3,275E-3
+[T4 r138 c5] -1,156E-3
+[T4 r138 c6] 73,63
+[T4 r138 c7] 8,615
+[T4 r138 c8] 241,1
+[T4 r139 c1] 3,781
+[T4 r139 c2] 3,781
+[T4 r139 c3] 1 Interior
+[T4 r139 c4] 3,239E-3
+[T4 r139 c5] -1,152E-3
+[T4 r139 c6] 74,24
+[T4 r139 c7] 7,593
+[T4 r139 c8] 241,3
+[T4 r140 c1] 3,812
+[T4 r140 c2] 3,812
+[T4 r140 c3] 1 Interior
+[T4 r140 c4] 3,203E-3
+[T4 r140 c5] -1,147E-3
+[T4 r140 c6] 74,86
+[T4 r140 c7] 6,574
+[T4 r140 c8] 241,5
+[T4 r141 c1] 3,844
+[T4 r141 c2] 3,844
+[T4 r141 c3] 1 Interior
+[T4 r141 c4] 3,167E-3
+[T4 r141 c5] -1,143E-3
+[T4 r141 c6] 75,47
+[T4 r141 c7] 5,558
+[T4 r141 c8] 241,7
+[T4 r142 c1] 3,875
+[T4 r142 c2] 3,875
+[T4 r142 c3] 1 Interior
+[T4 r142 c4] 3,132E-3
+[T4 r142 c5] -1,138E-3
+[T4 r142 c6] 76,09
+[T4 r142 c7] 4,545
+[T4 r142 c8] 241,9
+[T4 r143 c1] 3,906
+[T4 r143 c2] 3,906
+[T4 r143 c3] 1 Interior
+[T4 r143 c4] 3,096E-3
+[T4 r143 c5] -1,134E-3
+[T4 r143 c6] 76,7
+[T4 r143 c7] 3,535
+[T4 r143 c8] 242
+[T4 r144 c1] 3,938
+[T4 r144 c2] 3,938
+[T4 r144 c3] 1 Interior
+[T4 r144 c4] 3,061E-3
+[T4 r144 c5] -1,129E-3
+[T4 r144 c6] 77,31
+[T4 r144 c7] 2,529
+[T4 r144 c8] 242,1
+[T4 r145 c1] 3,969
+[T4 r145 c2] 3,969
+[T4 r145 c3] 1 Interior
+[T4 r145 c4] 3,026E-3
+[T4 r145 c5] -1,125E-3
+[T4 r145 c6] 77,93
+[T4 r145 c7] 1,527
+[T4 r145 c8] 242,2
+[T4 r146 c1] 4
+[T4 r146 c2] 4
+[T4 r146 c3] 1 Above
+[T4 r146 c4] 2,991E-3
+[T4 r146 c5] -1,12E-3
+[T4 r146 c6] 78,54
+[T4 r146 c7] 0,5277
+[T4 r146 c8] 242,2
+[T4 r147 c1] 4
+[T4 r147 c2] 4
+[T4 r147 c3] 1 Below
+[T4 r147 c4] 2,991E-3
+[T4 r147 c5] -1,12E-3
+[T4 r147 c6] 78,54
+[T4 r147 c7] 0,5277
+[T4 r147 c8] 242,2
+[T4 r148 c1] 4,017
+[T4 r148 c2] 4,017
+[T4 r148 c3] 1 Interior
+[T4 r148 c4] 2,972E-3
+[T4 r148 c5] -1,118E-3
+[T4 r148 c6] 78,86
+[T4 r148 c7] 1,443E-15
+[T4 r148 c8] 242,2
+[T4 r149 c1] 4,031
+[T4 r149 c2] 4,031
+[T4 r149 c3] 1 Interior
+[T4 r149 c4] 2,956E-3
+[T4 r149 c5] -1,116E-3
+[T4 r149 c6] 79,15
+[T4 r149 c7] -0,4671
+[T4 r149 c8] 242,2
+[T4 r150 c1] 4,062
+[T4 r150 c2] 4,062
+[T4 r150 c3] 1 Interior
+[T4 r150 c4] 2,921E-3
+[T4 r150 c5] -1,111E-3
+[T4 r150 c6] 79,77
+[T4 r150 c7] -1,458
+[T4 r150 c8] 242,2
+[T4 r151 c1] 4,094
+[T4 r151 c2] 4,094
+[T4 r151 c3] 1 Interior
+[T4 r151 c4] 2,886E-3
+[T4 r151 c5] -1,106E-3
+[T4 r151 c6] 80,38
+[T4 r151 c7] -2,445
+[T4 r151 c8] 242,1
+[T4 r152 c1] 4,125
+[T4 r152 c2] 4,125
+[T4 r152 c3] 1 Interior
+[T4 r152 c4] 2,852E-3
+[T4 r152 c5] -1,102E-3
+[T4 r152 c6] 80,99
+[T4 r152 c7] -3,427
+[T4 r152 c8] 242
+[T4 r153 c1] 4,156
+[T4 r153 c2] 4,156
+[T4 r153 c3] 1 Interior
+[T4 r153 c4] 2,817E-3
+[T4 r153 c5] -1,097E-3
+[T4 r153 c6] 81,61
+[T4 r153 c7] -4,405
+[T4 r153 c8] 241,9
+[T4 r154 c1] 4,188
+[T4 r154 c2] 4,188
+[T4 r154 c3] 1 Interior
+[T4 r154 c4] 2,783E-3
+[T4 r154 c5] -1,093E-3
+[T4 r154 c6] 82,22
+[T4 r154 c7] -5,379
+[T4 r154 c8] 241,7
+[T4 r155 c1] 4,219
+[T4 r155 c2] 4,219
+[T4 r155 c3] 1 Interior
+[T4 r155 c4] 2,749E-3
+[T4 r155 c5] -1,088E-3
+[T4 r155 c6] 82,83
+[T4 r155 c7] -6,348
+[T4 r155 c8] 241,6
+[T4 r156 c1] 4,25
+[T4 r156 c2] 4,25
+[T4 r156 c3] 1 Above
+[T4 r156 c4] 2,715E-3
+[T4 r156 c5] -1,084E-3
+[T4 r156 c6] 83,45
+[T4 r156 c7] -7,312
+[T4 r156 c8] 241,3
+[T4 r157 c1] 4,25
+[T4 r157 c2] 4,25
+[T4 r157 c3] 1 Below
+[T4 r157 c4] 2,715E-3
+[T4 r157 c5] -1,084E-3
+[T4 r157 c6] 83,45
+[T4 r157 c7] -7,312
+[T4 r157 c8] 241,3
+[T4 r158 c1] 4,281
+[T4 r158 c2] 4,281
+[T4 r158 c3] 1 Interior
+[T4 r158 c4] 2,681E-3
+[T4 r158 c5] -1,079E-3
+[T4 r158 c6] 84,06
+[T4 r158 c7] -8,271
+[T4 r158 c8] 241,1
+[T4 r159 c1] 4,312
+[T4 r159 c2] 4,312
+[T4 r159 c3] 1 Interior
+[T4 r159 c4] 2,648E-3
+[T4 r159 c5] -1,075E-3
+[T4 r159 c6] 84,68
+[T4 r159 c7] -9,225
+[T4 r159 c8] 240,8
+[T4 r160 c1] 4,344
+[T4 r160 c2] 4,344
+[T4 r160 c3] 1 Interior
+[T4 r160 c4] 2,614E-3
+[T4 r160 c5] -1,07E-3
+[T4 r160 c6] 85,29
+[T4 r160 c7] -10,17
+[T4 r160 c8] 240,5
+[T4 r161 c1] 4,375
+[T4 r161 c2] 4,375
+[T4 r161 c3] 1 Interior
+[T4 r161 c4] 2,581E-3
+[T4 r161 c5] -1,066E-3
+[T4 r161 c6] 85,9
+[T4 r161 c7] -11,12
+[T4 r161 c8] 240,2
+[T4 r162 c1] 4,406
+[T4 r162 c2] 4,406
+[T4 r162 c3] 1 Interior
+[T4 r162 c4] 2,547E-3
+[T4 r162 c5] -1,061E-3
+[T4 r162 c6] 86,52
+[T4 r162 c7] -12,06
+[T4 r162 c8] 239,8
+[T4 r163 c1] 4,438
+[T4 r163 c2] 4,438
+[T4 r163 c3] 1 Interior
+[T4 r163 c4] 2,514E-3
+[T4 r163 c5] -1,057E-3
+[T4 r163 c6] 87,13
+[T4 r163 c7] -12,99
+[T4 r163 c8] 239,4
+[T4 r164 c1] 4,469
+[T4 r164 c2] 4,469
+[T4 r164 c3] 1 Interior
+[T4 r164 c4] 2,481E-3
+[T4 r164 c5] -1,052E-3
+[T4 r164 c6] 87,74
+[T4 r164 c7] -13,91
+[T4 r164 c8] 239
+[T4 r165 c1] 4,5
+[T4 r165 c2] 4,5
+[T4 r165 c3] 1 Above
+[T4 r165 c4] 2,449E-3
+[T4 r165 c5] -1,048E-3
+[T4 r165 c6] 88,36
+[T4 r165 c7] -14,84
+[T4 r165 c8] 238,6
+[T4 r166 c1] 4,5
+[T4 r166 c2] 4,5
+[T4 r166 c3] 1 Below
+[T4 r166 c4] 2,449E-3
+[T4 r166 c5] -1,048E-3
+[T4 r166 c6] 88,36
+[T4 r166 c7] -14,84
+[T4 r166 c8] 238,6
+[T4 r167 c1] 4,531
+[T4 r167 c2] 4,531
+[T4 r167 c3] 1 Interior
+[T4 r167 c4] 2,416E-3
+[T4 r167 c5] -1,044E-3
+[T4 r167 c6] 88,97
+[T4 r167 c7] -15,75
+[T4 r167 c8] 238,1
+[T4 r168 c1] 4,562
+[T4 r168 c2] 4,562
+[T4 r168 c3] 1 Interior
+[T4 r168 c4] 2,383E-3
+[T4 r168 c5] -1,039E-3
+[T4 r168 c6] 89,58
+[T4 r168 c7] -16,66
+[T4 r168 c8] 237,6
+[T4 r169 c1] 4,594
+[T4 r169 c2] 4,594
+[T4 r169 c3] 1 Interior
+[T4 r169 c4] 2,351E-3
+[T4 r169 c5] -1,035E-3
+[T4 r169 c6] 90,2
+[T4 r169 c7] -17,56
+[T4 r169 c8] 237,1
+[T4 r170 c1] 4,625
+[T4 r170 c2] 4,625
+[T4 r170 c3] 1 Interior
+[T4 r170 c4] 2,319E-3
+[T4 r170 c5] -1,03E-3
+[T4 r170 c6] 90,81
+[T4 r170 c7] -18,46
+[T4 r170 c8] 236,5
+[T4 r171 c1] 4,656
+[T4 r171 c2] 4,656
+[T4 r171 c3] 1 Interior
+[T4 r171 c4] 2,287E-3
+[T4 r171 c5] -1,026E-3
+[T4 r171 c6] 91,43
+[T4 r171 c7] -19,35
+[T4 r171 c8] 235,9
+[T4 r172 c1] 4,688
+[T4 r172 c2] 4,688
+[T4 r172 c3] 1 Interior
+[T4 r172 c4] 2,255E-3
+[T4 r172 c5] -1,021E-3
+[T4 r172 c6] 92,04
+[T4 r172 c7] -20,24
+[T4 r172 c8] 235,3
+[T4 r173 c1] 4,719
+[T4 r173 c2] 4,719
+[T4 r173 c3] 1 Interior
+[T4 r173 c4] 2,223E-3
+[T4 r173 c5] -1,017E-3
+[T4 r173 c6] 92,65
+[T4 r173 c7] -21,11
+[T4 r173 c8] 234,6
+[T4 r174 c1] 4,75
+[T4 r174 c2] 4,75
+[T4 r174 c3] 1 Above
+[T4 r174 c4] 2,191E-3
+[T4 r174 c5] -1,013E-3
+[T4 r174 c6] 93,27
+[T4 r174 c7] -21,98
+[T4 r174 c8] 234
+[T4 r175 c1] 4,75
+[T4 r175 c2] 4,75
+[T4 r175 c3] 1 Below
+[T4 r175 c4] 2,191E-3
+[T4 r175 c5] -1,013E-3
+[T4 r175 c6] 93,27
+[T4 r175 c7] -21,98
+[T4 r175 c8] 234
+[T4 r176 c1] 4,781
+[T4 r176 c2] 4,781
+[T4 r176 c3] 1 Interior
+[T4 r176 c4] 2,159E-3
+[T4 r176 c5] -1,008E-3
+[T4 r176 c6] 93,88
+[T4 r176 c7] -22,85
+[T4 r176 c8] 233,3
+[T4 r177 c1] 4,812
+[T4 r177 c2] 4,812
+[T4 r177 c3] 1 Interior
+[T4 r177 c4] 2,128E-3
+[T4 r177 c5] -1,004E-3
+[T4 r177 c6] 94,49
+[T4 r177 c7] -23,7
+[T4 r177 c8] 232,5
+[T4 r178 c1] 4,844
+[T4 r178 c2] 4,844
+[T4 r178 c3] 1 Interior
+[T4 r178 c4] 2,097E-3
+[T4 r178 c5] -9,996E-4
+[T4 r178 c6] 95,11
+[T4 r178 c7] -24,55
+[T4 r178 c8] 231,8
+[T4 r179 c1] 4,875
+[T4 r179 c2] 4,875
+[T4 r179 c3] 1 Interior
+[T4 r179 c4] 2,066E-3
+[T4 r179 c5] -9,953E-4
+[T4 r179 c6] 95,72
+[T4 r179 c7] -25,4
+[T4 r179 c8] 231
+[T4 r180 c1] 4,906
+[T4 r180 c2] 4,906
+[T4 r180 c3] 1 Interior
+[T4 r180 c4] 2,035E-3
+[T4 r180 c5] -9,91E-4
+[T4 r180 c6] 96,33
+[T4 r180 c7] -26,23
+[T4 r180 c8] 230,2
+[T4 r181 c1] 4,938
+[T4 r181 c2] 4,938
+[T4 r181 c3] 1 Interior
+[T4 r181 c4] 2,004E-3
+[T4 r181 c5] -9,867E-4
+[T4 r181 c6] 96,95
+[T4 r181 c7] -27,06
+[T4 r181 c8] 229,4
+[T4 r182 c1] 4,969
+[T4 r182 c2] 4,969
+[T4 r182 c3] 1 Interior
+[T4 r182 c4] 1,973E-3
+[T4 r182 c5] -9,824E-4
+[T4 r182 c6] 97,56
+[T4 r182 c7] -27,88
+[T4 r182 c8] 228,5
+[T4 r183 c1] 5
+[T4 r183 c2] 5
+[T4 r183 c3] 1 Above
+[T4 r183 c4] 1,942E-3
+[T4 r183 c5] -9,782E-4
+[T4 r183 c6] 98,17
+[T4 r183 c7] -28,69
+[T4 r183 c8] 227,6
+[T4 r184 c1] 5
+[T4 r184 c2] 5
+[T4 r184 c3] 1 Below
+[T4 r184 c4] 1,942E-3
+[T4 r184 c5] -9,782E-4
+[T4 r184 c6] 98,17
+[T4 r184 c7] -28,69
+[T4 r184 c8] 227,6
+[T4 r185 c1] 5,031
+[T4 r185 c2] 5,031
+[T4 r185 c3] 1 Interior
+[T4 r185 c4] 1,912E-3
+[T4 r185 c5] -9,739E-4
+[T4 r185 c6] 98,79
+[T4 r185 c7] -29,5
+[T4 r185 c8] 226,7
+[T4 r186 c1] 5,062
+[T4 r186 c2] 5,062
+[T4 r186 c3] 1 Interior
+[T4 r186 c4] 1,881E-3
+[T4 r186 c5] -9,697E-4
+[T4 r186 c6] 99,4
+[T4 r186 c7] -30,3
+[T4 r186 c8] 225,8
+[T4 r187 c1] 5,094
+[T4 r187 c2] 5,094
+[T4 r187 c3] 1 Interior
+[T4 r187 c4] 1,851E-3
+[T4 r187 c5] -9,655E-4
+[T4 r187 c6] 100
+[T4 r187 c7] -31,09
+[T4 r187 c8] 224,8
+[T4 r188 c1] 5,125
+[T4 r188 c2] 5,125
+[T4 r188 c3] 1 Interior
+[T4 r188 c4] 1,821E-3
+[T4 r188 c5] -9,613E-4
+[T4 r188 c6] 100,6
+[T4 r188 c7] -31,87
+[T4 r188 c8] 223,8
+[T4 r189 c1] 5,156
+[T4 r189 c2] 5,156
+[T4 r189 c3] 1 Interior
+[T4 r189 c4] 1,791E-3
+[T4 r189 c5] -9,571E-4
+[T4 r189 c6] 101,2
+[T4 r189 c7] -32,64
+[T4 r189 c8] 222,8
+[T4 r190 c1] 5,188
+[T4 r190 c2] 5,188
+[T4 r190 c3] 1 Interior
+[T4 r190 c4] 1,761E-3
+[T4 r190 c5] -9,53E-4
+[T4 r190 c6] 101,9
+[T4 r190 c7] -33,41
+[T4 r190 c8] 221,8
+[T4 r191 c1] 5,219
+[T4 r191 c2] 5,219
+[T4 r191 c3] 1 Interior
+[T4 r191 c4] 1,731E-3
+[T4 r191 c5] -9,488E-4
+[T4 r191 c6] 102,5
+[T4 r191 c7] -34,16
+[T4 r191 c8] 220,7
+[T4 r192 c1] 5,25
+[T4 r192 c2] 5,25
+[T4 r192 c3] 1 Above
+[T4 r192 c4] 1,702E-3
+[T4 r192 c5] -9,447E-4
+[T4 r192 c6] 103,1
+[T4 r192 c7] -34,91
+[T4 r192 c8] 219,7
+[T4 r193 c1] 5,25
+[T4 r193 c2] 5,25
+[T4 r193 c3] 1 Below
+[T4 r193 c4] 1,702E-3
+[T4 r193 c5] -9,447E-4
+[T4 r193 c6] 103,1
+[T4 r193 c7] -34,91
+[T4 r193 c8] 219,7
+[T4 r194 c1] 5,281
+[T4 r194 c2] 5,281
+[T4 r194 c3] 1 Interior
+[T4 r194 c4] 1,672E-3
+[T4 r194 c5] -9,406E-4
+[T4 r194 c6] 103,7
+[T4 r194 c7] -35,65
+[T4 r194 c8] 218,6
+[T4 r195 c1] 5,312
+[T4 r195 c2] 5,312
+[T4 r195 c3] 1 Interior
+[T4 r195 c4] 1,643E-3
+[T4 r195 c5] -9,365E-4
+[T4 r195 c6] 104,3
+[T4 r195 c7] -36,39
+[T4 r195 c8] 217,4
+[T4 r196 c1] 5,344
+[T4 r196 c2] 5,344
+[T4 r196 c3] 1 Interior
+[T4 r196 c4] 1,614E-3
+[T4 r196 c5] -9,325E-4
+[T4 r196 c6] 104,9
+[T4 r196 c7] -37,11
+[T4 r196 c8] 216,3
+[T4 r197 c1] 5,375
+[T4 r197 c2] 5,375
+[T4 r197 c3] 1 Interior
+[T4 r197 c4] 1,585E-3
+[T4 r197 c5] -9,285E-4
+[T4 r197 c6] 105,5
+[T4 r197 c7] -37,82
+[T4 r197 c8] 215,1
+[T4 r198 c1] 5,406
+[T4 r198 c2] 5,406
+[T4 r198 c3] 1 Interior
+[T4 r198 c4] 1,556E-3
+[T4 r198 c5] -9,245E-4
+[T4 r198 c6] 106,2
+[T4 r198 c7] -38,53
+[T4 r198 c8] 213,9
+[T4 r199 c1] 5,438
+[T4 r199 c2] 5,438
+[T4 r199 c3] 1 Interior
+[T4 r199 c4] 1,527E-3
+[T4 r199 c5] -9,205E-4
+[T4 r199 c6] 106,8
+[T4 r199 c7] -39,22
+[T4 r199 c8] 212,7
+[T4 r200 c1] 5,469
+[T4 r200 c2] 5,469
+[T4 r200 c3] 1 Interior
+[T4 r200 c4] 1,498E-3
+[T4 r200 c5] -9,165E-4
+[T4 r200 c6] 107,4
+[T4 r200 c7] -39,91
+[T4 r200 c8] 211,5
+[T4 r201 c1] 5,5
+[T4 r201 c2] 5,5
+[T4 r201 c3] 1 Above
+[T4 r201 c4] 1,47E-3
+[T4 r201 c5] -9,126E-4
+[T4 r201 c6] 108
+[T4 r201 c7] -40,59
+[T4 r201 c8] 210,2
+[T4 r202 c1] 5,5
+[T4 r202 c2] 5,5
+[T4 r202 c3] 1 Below
+[T4 r202 c4] 1,47E-3
+[T4 r202 c5] -9,126E-4
+[T4 r202 c6] 108
+[T4 r202 c7] -40,59
+[T4 r202 c8] 210,2
+[T4 r203 c1] 5,531
+[T4 r203 c2] 5,531
+[T4 r203 c3] 1 Interior
+[T4 r203 c4] 1,441E-3
+[T4 r203 c5] -9,087E-4
+[T4 r203 c6] 108,6
+[T4 r203 c7] -41,26
+[T4 r203 c8] 208,9
+[T4 r204 c1] 5,562
+[T4 r204 c2] 5,562
+[T4 r204 c3] 1 Interior
+[T4 r204 c4] 1,413E-3
+[T4 r204 c5] -9,048E-4
+[T4 r204 c6] 109,2
+[T4 r204 c7] -41,92
+[T4 r204 c8] 207,6
+[T4 r205 c1] 5,594
+[T4 r205 c2] 5,594
+[T4 r205 c3] 1 Interior
+[T4 r205 c4] 1,385E-3
+[T4 r205 c5] -9,009E-4
+[T4 r205 c6] 109,8
+[T4 r205 c7] -42,57
+[T4 r205 c8] 206,3
+[T4 r206 c1] 5,625
+[T4 r206 c2] 5,625
+[T4 r206 c3] 1 Interior
+[T4 r206 c4] 1,357E-3
+[T4 r206 c5] -8,971E-4
+[T4 r206 c6] 110,4
+[T4 r206 c7] -43,21
+[T4 r206 c8] 205
+[T4 r207 c1] 5,656
+[T4 r207 c2] 5,656
+[T4 r207 c3] 1 Interior
+[T4 r207 c4] 1,329E-3
+[T4 r207 c5] -8,932E-4
+[T4 r207 c6] 111,1
+[T4 r207 c7] -43,84
+[T4 r207 c8] 203,6
+[T4 r208 c1] 5,688
+[T4 r208 c2] 5,688
+[T4 r208 c3] 1 Interior
+[T4 r208 c4] 1,301E-3
+[T4 r208 c5] -8,895E-4
+[T4 r208 c6] 111,7
+[T4 r208 c7] -44,46
+[T4 r208 c8] 202,2
+[T4 r209 c1] 5,719
+[T4 r209 c2] 5,719
+[T4 r209 c3] 1 Interior
+[T4 r209 c4] 1,273E-3
+[T4 r209 c5] -8,857E-4
+[T4 r209 c6] 112,3
+[T4 r209 c7] -45,07
+[T4 r209 c8] 200,8
+[T4 r210 c1] 5,75
+[T4 r210 c2] 5,75
+[T4 r210 c3] 1 Above
+[T4 r210 c4] 1,245E-3
+[T4 r210 c5] -8,819E-4
+[T4 r210 c6] 112,9
+[T4 r210 c7] -45,68
+[T4 r210 c8] 199,4
+[T4 r211 c1] 5,75
+[T4 r211 c2] 5,75
+[T4 r211 c3] 1 Below
+[T4 r211 c4] 1,245E-3
+[T4 r211 c5] -8,819E-4
+[T4 r211 c6] 112,9
+[T4 r211 c7] -45,68
+[T4 r211 c8] 199,4
+[T4 r212 c1] 5,781
+[T4 r212 c2] 5,781
+[T4 r212 c3] 1 Interior
+[T4 r212 c4] 1,218E-3
+[T4 r212 c5] -8,782E-4
+[T4 r212 c6] 113,5
+[T4 r212 c7] -46,27
+[T4 r212 c8] 198
+[T4 r213 c1] 5,812
+[T4 r213 c2] 5,812
+[T4 r213 c3] 1 Interior
+[T4 r213 c4] 1,191E-3
+[T4 r213 c5] -8,745E-4
+[T4 r213 c6] 114,1
+[T4 r213 c7] -46,85
+[T4 r213 c8] 196,5
+[T4 r214 c1] 5,844
+[T4 r214 c2] 5,844
+[T4 r214 c3] 1 Interior
+[T4 r214 c4] 1,163E-3
+[T4 r214 c5] -8,709E-4
+[T4 r214 c6] 114,7
+[T4 r214 c7] -47,42
+[T4 r214 c8] 195
+[T4 r215 c1] 5,875
+[T4 r215 c2] 5,875
+[T4 r215 c3] 1 Interior
+[T4 r215 c4] 1,136E-3
+[T4 r215 c5] -8,673E-4
+[T4 r215 c6] 115,4
+[T4 r215 c7] -47,98
+[T4 r215 c8] 193,6
+[T4 r216 c1] 5,906
+[T4 r216 c2] 5,906
+[T4 r216 c3] 1 Interior
+[T4 r216 c4] 1,109E-3
+[T4 r216 c5] -8,637E-4
+[T4 r216 c6] 116
+[T4 r216 c7] -48,53
+[T4 r216 c8] 192
+[T4 r217 c1] 5,938
+[T4 r217 c2] 5,938
+[T4 r217 c3] 1 Interior
+[T4 r217 c4] 1,082E-3
+[T4 r217 c5] -8,601E-4
+[T4 r217 c6] 116,6
+[T4 r217 c7] -49,07
+[T4 r217 c8] 190,5
+[T4 r218 c1] 5,969
+[T4 r218 c2] 5,969
+[T4 r218 c3] 1 Interior
+[T4 r218 c4] 1,055E-3
+[T4 r218 c5] -8,565E-4
+[T4 r218 c6] 117,2
+[T4 r218 c7] -49,6
+[T4 r218 c8] 189
+[T4 r219 c1] 6
+[T4 r219 c2] 6
+[T4 r219 c3] 1 Above
+[T4 r219 c4] 1,029E-3
+[T4 r219 c5] -8,53E-4
+[T4 r219 c6] 117,8
+[T4 r219 c7] -50,12
+[T4 r219 c8] 187,4
+[T4 r220 c1] 6
+[T4 r220 c2] 6
+[T4 r220 c3] 1 Below
+[T4 r220 c4] 1,029E-3
+[T4 r220 c5] -8,53E-4
+[T4 r220 c6] 117,8
+[T4 r220 c7] -50,12
+[T4 r220 c8] 187,4
+[T4 r221 c1] 6,031
+[T4 r221 c2] 6,031
+[T4 r221 c3] 1 Interior
+[T4 r221 c4] 1,002E-3
+[T4 r221 c5] -8,495E-4
+[T4 r221 c6] 118,4
+[T4 r221 c7] -50,63
+[T4 r221 c8] 185,8
+[T4 r222 c1] 6,062
+[T4 r222 c2] 6,062
+[T4 r222 c3] 1 Interior
+[T4 r222 c4] 9,755E-4
+[T4 r222 c5] -8,461E-4
+[T4 r222 c6] 119
+[T4 r222 c7] -51,13
+[T4 r222 c8] 184,3
+[T4 r223 c1] 6,094
+[T4 r223 c2] 6,094
+[T4 r223 c3] 1 Interior
+[T4 r223 c4] 9,491E-4
+[T4 r223 c5] -8,427E-4
+[T4 r223 c6] 119,7
+[T4 r223 c7] -51,62
+[T4 r223 c8] 182,6
+[T4 r224 c1] 6,125
+[T4 r224 c2] 6,125
+[T4 r224 c3] 1 Interior
+[T4 r224 c4] 9,229E-4
+[T4 r224 c5] -8,393E-4
+[T4 r224 c6] 120,3
+[T4 r224 c7] -52,1
+[T4 r224 c8] 181
+[T4 r225 c1] 6,156
+[T4 r225 c2] 6,156
+[T4 r225 c3] 1 Interior
+[T4 r225 c4] 8,967E-4
+[T4 r225 c5] -8,359E-4
+[T4 r225 c6] 120,9
+[T4 r225 c7] -52,56
+[T4 r225 c8] 179,4
+[T4 r226 c1] 6,188
+[T4 r226 c2] 6,188
+[T4 r226 c3] 1 Interior
+[T4 r226 c4] 8,706E-4
+[T4 r226 c5] -8,326E-4
+[T4 r226 c6] 121,5
+[T4 r226 c7] -53,02
+[T4 r226 c8] 177,7
+[T4 r227 c1] 6,219
+[T4 r227 c2] 6,219
+[T4 r227 c3] 1 Interior
+[T4 r227 c4] 8,447E-4
+[T4 r227 c5] -8,293E-4
+[T4 r227 c6] 122,1
+[T4 r227 c7] -53,46
+[T4 r227 c8] 176,1
+[T4 r228 c1] 6,25
+[T4 r228 c2] 6,25
+[T4 r228 c3] 1 Above
+[T4 r228 c4] 8,188E-4
+[T4 r228 c5] -8,26E-4
+[T4 r228 c6] 122,7
+[T4 r228 c7] -53,89
+[T4 r228 c8] 174,4
+[T4 r229 c1] 6,25
+[T4 r229 c2] 6,25
+[T4 r229 c3] 1 Below
+[T4 r229 c4] 8,188E-4
+[T4 r229 c5] -8,26E-4
+[T4 r229 c6] 122,7
+[T4 r229 c7] -53,89
+[T4 r229 c8] 174,4
+[T4 r230 c1] 6,281
+[T4 r230 c2] 6,281
+[T4 r230 c3] 1 Interior
+[T4 r230 c4] 7,93E-4
+[T4 r230 c5] -8,227E-4
+[T4 r230 c6] 123,3
+[T4 r230 c7] -54,31
+[T4 r230 c8] 172,7
+[T4 r231 c1] 6,312
+[T4 r231 c2] 6,312
+[T4 r231 c3] 1 Interior
+[T4 r231 c4] 7,674E-4
+[T4 r231 c5] -8,195E-4
+[T4 r231 c6] 123,9
+[T4 r231 c7] -54,72
+[T4 r231 c8] 171
+[T4 r232 c1] 6,344
+[T4 r232 c2] 6,344
+[T4 r232 c3] 1 Interior
+[T4 r232 c4] 7,418E-4
+[T4 r232 c5] -8,163E-4
+[T4 r232 c6] 124,6
+[T4 r232 c7] -55,12
+[T4 r232 c8] 169,3
+[T4 r233 c1] 6,375
+[T4 r233 c2] 6,375
+[T4 r233 c3] 1 Interior
+[T4 r233 c4] 7,164E-4
+[T4 r233 c5] -8,132E-4
+[T4 r233 c6] 125,2
+[T4 r233 c7] -55,5
+[T4 r233 c8] 167,6
+[T4 r234 c1] 6,406
+[T4 r234 c2] 6,406
+[T4 r234 c3] 1 Interior
+[T4 r234 c4] 6,91E-4
+[T4 r234 c5] -8,101E-4
+[T4 r234 c6] 125,8
+[T4 r234 c7] -55,88
+[T4 r234 c8] 165,8
+[T4 r235 c1] 6,438
+[T4 r235 c2] 6,438
+[T4 r235 c3] 1 Interior
+[T4 r235 c4] 6,657E-4
+[T4 r235 c5] -8,07E-4
+[T4 r235 c6] 126,4
+[T4 r235 c7] -56,24
+[T4 r235 c8] 164,1
+[T4 r236 c1] 6,469
+[T4 r236 c2] 6,469
+[T4 r236 c3] 1 Interior
+[T4 r236 c4] 6,406E-4
+[T4 r236 c5] -8,04E-4
+[T4 r236 c6] 127
+[T4 r236 c7] -56,59
+[T4 r236 c8] 162,3
+[T4 r237 c1] 6,5
+[T4 r237 c2] 6,5
+[T4 r237 c3] 1 Above
+[T4 r237 c4] 6,155E-4
+[T4 r237 c5] -8,009E-4
+[T4 r237 c6] 127,6
+[T4 r237 c7] -56,93
+[T4 r237 c8] 160,5
+[T4 r238 c1] 6,5
+[T4 r238 c2] 6,5
+[T4 r238 c3] 1 Below
+[T4 r238 c4] 6,155E-4
+[T4 r238 c5] -8,009E-4
+[T4 r238 c6] 127,6
+[T4 r238 c7] -56,93
+[T4 r238 c8] 160,5
+[T4 r239 c1] 6,531
+[T4 r239 c2] 6,531
+[T4 r239 c3] 1 Interior
+[T4 r239 c4] 5,905E-4
+[T4 r239 c5] -7,98E-4
+[T4 r239 c6] 128,2
+[T4 r239 c7] -57,26
+[T4 r239 c8] 158,7
+[T4 r240 c1] 6,562
+[T4 r240 c2] 6,562
+[T4 r240 c3] 1 Interior
+[T4 r240 c4] 5,656E-4
+[T4 r240 c5] -7,95E-4
+[T4 r240 c6] 128,9
+[T4 r240 c7] -57,58
+[T4 r240 c8] 157
+[T4 r241 c1] 6,594
+[T4 r241 c2] 6,594
+[T4 r241 c3] 1 Interior
+[T4 r241 c4] 5,408E-4
+[T4 r241 c5] -7,921E-4
+[T4 r241 c6] 129,5
+[T4 r241 c7] -57,88
+[T4 r241 c8] 155,2
+[T4 r242 c1] 6,625
+[T4 r242 c2] 6,625
+[T4 r242 c3] 1 Interior
+[T4 r242 c4] 5,161E-4
+[T4 r242 c5] -7,892E-4
+[T4 r242 c6] 130,1
+[T4 r242 c7] -58,17
+[T4 r242 c8] 153,3
+[T4 r243 c1] 6,656
+[T4 r243 c2] 6,656
+[T4 r243 c3] 1 Interior
+[T4 r243 c4] 4,915E-4
+[T4 r243 c5] -7,864E-4
+[T4 r243 c6] 130,7
+[T4 r243 c7] -58,45
+[T4 r243 c8] 151,5
+[T4 r244 c1] 6,688
+[T4 r244 c2] 6,688
+[T4 r244 c3] 1 Interior
+[T4 r244 c4] 4,669E-4
+[T4 r244 c5] -7,835E-4
+[T4 r244 c6] 131,3
+[T4 r244 c7] -58,72
+[T4 r244 c8] 149,7
+[T4 r245 c1] 6,719
+[T4 r245 c2] 6,719
+[T4 r245 c3] 1 Interior
+[T4 r245 c4] 4,425E-4
+[T4 r245 c5] -7,808E-4
+[T4 r245 c6] 131,9
+[T4 r245 c7] -58,97
+[T4 r245 c8] 147,8
+[T4 r246 c1] 6,75
+[T4 r246 c2] 6,75
+[T4 r246 c3] 1 Above
+[T4 r246 c4] 4,181E-4
+[T4 r246 c5] -7,78E-4
+[T4 r246 c6] 132,5
+[T4 r246 c7] -59,21
+[T4 r246 c8] 146
+[T4 r247 c1] 6,75
+[T4 r247 c2] 6,75
+[T4 r247 c3] 1 Below
+[T4 r247 c4] 4,181E-4
+[T4 r247 c5] -7,78E-4
+[T4 r247 c6] 132,5
+[T4 r247 c7] -59,21
+[T4 r247 c8] 146
+[T4 r248 c1] 6,781
+[T4 r248 c2] 6,781
+[T4 r248 c3] 1 Interior
+[T4 r248 c4] 3,939E-4
+[T4 r248 c5] -7,753E-4
+[T4 r248 c6] 133,1
+[T4 r248 c7] -59,44
+[T4 r248 c8] 144,1
+[T4 r249 c1] 6,812
+[T4 r249 c2] 6,812
+[T4 r249 c3] 1 Interior
+[T4 r249 c4] 3,697E-4
+[T4 r249 c5] -7,726E-4
+[T4 r249 c6] 133,8
+[T4 r249 c7] -59,66
+[T4 r249 c8] 142,3
+[T4 r250 c1] 6,844
+[T4 r250 c2] 6,844
+[T4 r250 c3] 1 Interior
+[T4 r250 c4] 3,456E-4
+[T4 r250 c5] -7,7E-4
+[T4 r250 c6] 134,4
+[T4 r250 c7] -59,86
+[T4 r250 c8] 140,4
+[T4 r251 c1] 6,875
+[T4 r251 c2] 6,875
+[T4 r251 c3] 1 Interior
+[T4 r251 c4] 3,216E-4
+[T4 r251 c5] -7,674E-4
+[T4 r251 c6] 135
+[T4 r251 c7] -60,05
+[T4 r251 c8] 138,5
+[T4 r252 c1] 6,906
+[T4 r252 c2] 6,906
+[T4 r252 c3] 1 Interior
+[T4 r252 c4] 2,976E-4
+[T4 r252 c5] -7,648E-4
+[T4 r252 c6] 135,6
+[T4 r252 c7] -60,23
+[T4 r252 c8] 136,7
+[T4 r253 c1] 6,938
+[T4 r253 c2] 6,938
+[T4 r253 c3] 1 Interior
+[T4 r253 c4] 2,738E-4
+[T4 r253 c5] -7,623E-4
+[T4 r253 c6] 136,2
+[T4 r253 c7] -60,39
+[T4 r253 c8] 134,8
+[T4 r254 c1] 6,969
+[T4 r254 c2] 6,969
+[T4 r254 c3] 1 Interior
+[T4 r254 c4] 2,5E-4
+[T4 r254 c5] -7,598E-4
+[T4 r254 c6] 136,8
+[T4 r254 c7] -60,54
+[T4 r254 c8] 132,9
+[T4 r255 c1] 7
+[T4 r255 c2] 7
+[T4 r255 c3] 1 Above
+[T4 r255 c4] 2,263E-4
+[T4 r255 c5] -7,573E-4
+[T4 r255 c6] 137,4
+[T4 r255 c7] -60,68
+[T4 r255 c8] 131
+[T4 r256 c1] 7
+[T4 r256 c2] 7
+[T4 r256 c3] 1 Below
+[T4 r256 c4] 2,263E-4
+[T4 r256 c5] -7,573E-4
+[T4 r256 c6] 137,4
+[T4 r256 c7] -60,68
+[T4 r256 c8] 131
+[T4 r257 c1] 7,031
+[T4 r257 c2] 7,031
+[T4 r257 c3] 1 Interior
+[T4 r257 c4] 2,026E-4
+[T4 r257 c5] -7,549E-4
+[T4 r257 c6] 138,1
+[T4 r257 c7] -60,81
+[T4 r257 c8] 129,1
+[T4 r258 c1] 7,062
+[T4 r258 c2] 7,062
+[T4 r258 c3] 1 Interior
+[T4 r258 c4] 1,791E-4
+[T4 r258 c5] -7,525E-4
+[T4 r258 c6] 138,7
+[T4 r258 c7] -60,92
+[T4 r258 c8] 127,2
+[T4 r259 c1] 7,094
+[T4 r259 c2] 7,094
+[T4 r259 c3] 1 Interior
+[T4 r259 c4] 1,556E-4
+[T4 r259 c5] -7,501E-4
+[T4 r259 c6] 139,3
+[T4 r259 c7] -61,02
+[T4 r259 c8] 125,3
+[T4 r260 c1] 7,125
+[T4 r260 c2] 7,125
+[T4 r260 c3] 1 Interior
+[T4 r260 c4] 1,322E-4
+[T4 r260 c5] -7,478E-4
+[T4 r260 c6] 139,9
+[T4 r260 c7] -61,1
+[T4 r260 c8] 123,4
+[T4 r261 c1] 7,156
+[T4 r261 c2] 7,156
+[T4 r261 c3] 1 Interior
+[T4 r261 c4] 1,089E-4
+[T4 r261 c5] -7,455E-4
+[T4 r261 c6] 140,5
+[T4 r261 c7] -61,18
+[T4 r261 c8] 121,5
+[T4 r262 c1] 7,188
+[T4 r262 c2] 7,188
+[T4 r262 c3] 1 Interior
+[T4 r262 c4] 8,562E-5
+[T4 r262 c5] -7,433E-4
+[T4 r262 c6] 141,1
+[T4 r262 c7] -61,23
+[T4 r262 c8] 119,6
+[T4 r263 c1] 7,219
+[T4 r263 c2] 7,219
+[T4 r263 c3] 1 Interior
+[T4 r263 c4] 6,242E-5
+[T4 r263 c5] -7,411E-4
+[T4 r263 c6] 141,7
+[T4 r263 c7] -61,28
+[T4 r263 c8] 117,6
+[T4 r264 c1] 7,25
+[T4 r264 c2] 7,25
+[T4 r264 c3] 1 Above
+[T4 r264 c4] 3,93E-5
+[T4 r264 c5] -7,389E-4
+[T4 r264 c6] 142,4
+[T4 r264 c7] -61,31
+[T4 r264 c8] 115,7
+[T4 r265 c1] 7,25
+[T4 r265 c2] 7,25
+[T4 r265 c3] 1 Below
+[T4 r265 c4] 3,93E-5
+[T4 r265 c5] -7,389E-4
+[T4 r265 c6] 142,4
+[T4 r265 c7] -61,31
+[T4 r265 c8] 115,7
+[T4 r266 c1] 7,281
+[T4 r266 c2] 7,281
+[T4 r266 c3] 1 Interior
+[T4 r266 c4] 1,624E-5
+[T4 r266 c5] -7,367E-4
+[T4 r266 c6] 143
+[T4 r266 c7] -61,33
+[T4 r266 c8] 113,8
+[T4 r267 c1] 7,303
+[T4 r267 c2] 7,303
+[T4 r267 c3] 1 Interior
+[T4 r267 c4] -2,846E-19
+[T4 r267 c5] -7,352E-4
+[T4 r267 c6] 143,4
+[T4 r267 c7] -61,33
+[T4 r267 c8] 112,5
+[T4 r268 c1] 7,312
+[T4 r268 c2] 7,312
+[T4 r268 c3] 1 Interior
+[T4 r268 c4] -6,746E-6
+[T4 r268 c5] -7,346E-4
+[T4 r268 c6] 143,6
+[T4 r268 c7] -61,33
+[T4 r268 c8] 111,9
+[T4 r269 c1] 7,344
+[T4 r269 c2] 7,344
+[T4 r269 c3] 1 Interior
+[T4 r269 c4] -2,967E-5
+[T4 r269 c5] -7,326E-4
+[T4 r269 c6] 144,2
+[T4 r269 c7] -61,32
+[T4 r269 c8] 110
+[T4 r270 c1] 7,375
+[T4 r270 c2] 7,375
+[T4 r270 c3] 1 Interior
+[T4 r270 c4] -5,253E-5
+[T4 r270 c5] -7,305E-4
+[T4 r270 c6] 144,8
+[T4 r270 c7] -61,29
+[T4 r270 c8] 108,1
+[T4 r271 c1] 7,406
+[T4 r271 c2] 7,406
+[T4 r271 c3] 1 Interior
+[T4 r271 c4] -7,533E-5
+[T4 r271 c5] -7,285E-4
+[T4 r271 c6] 145,4
+[T4 r271 c7] -61,25
+[T4 r271 c8] 106,1
+[T4 r272 c1] 7,438
+[T4 r272 c2] 7,438
+[T4 r272 c3] 1 Interior
+[T4 r272 c4] -9,806E-5
+[T4 r272 c5] -7,266E-4
+[T4 r272 c6] 146
+[T4 r272 c7] -61,2
+[T4 r272 c8] 104,2
+[T4 r273 c1] 7,469
+[T4 r273 c2] 7,469
+[T4 r273 c3] 1 Interior
+[T4 r273 c4] -1,207E-4
+[T4 r273 c5] -7,246E-4
+[T4 r273 c6] 146,6
+[T4 r273 c7] -61,13
+[T4 r273 c8] 102,3
+[T4 r274 c1] 7,5
+[T4 r274 c2] 7,5
+[T4 r274 c3] 1 Above
+[T4 r274 c4] -1,434E-4
+[T4 r274 c5] -7,227E-4
+[T4 r274 c6] 147,3
+[T4 r274 c7] -61,05
+[T4 r274 c8] 100,4
+[T4 r275 c1] 7,5
+[T4 r275 c2] 7,5
+[T4 r275 c3] 1 Below
+[T4 r275 c4] -1,434E-4
+[T4 r275 c5] -7,227E-4
+[T4 r275 c6] 147,3
+[T4 r275 c7] -61,05
+[T4 r275 c8] 100,4
+[T4 r276 c1] 7,531
+[T4 r276 c2] 7,531
+[T4 r276 c3] 1 Interior
+[T4 r276 c4] -1,659E-4
+[T4 r276 c5] -7,209E-4
+[T4 r276 c6] 147,9
+[T4 r276 c7] -60,95
+[T4 r276 c8] 98,51
+[T4 r277 c1] 7,562
+[T4 r277 c2] 7,562
+[T4 r277 c3] 1 Interior
+[T4 r277 c4] -1,884E-4
+[T4 r277 c5] -7,191E-4
+[T4 r277 c6] 148,5
+[T4 r277 c7] -60,84
+[T4 r277 c8] 96,61
+[T4 r278 c1] 7,594
+[T4 r278 c2] 7,594
+[T4 r278 c3] 1 Interior
+[T4 r278 c4] -2,109E-4
+[T4 r278 c5] -7,173E-4
+[T4 r278 c6] 149,1
+[T4 r278 c7] -60,72
+[T4 r278 c8] 94,71
+[T4 r279 c1] 7,625
+[T4 r279 c2] 7,625
+[T4 r279 c3] 1 Interior
+[T4 r279 c4] -2,332E-4
+[T4 r279 c5] -7,155E-4
+[T4 r279 c6] 149,7
+[T4 r279 c7] -60,57
+[T4 r279 c8] 92,81
+[T4 r280 c1] 7,656
+[T4 r280 c2] 7,656
+[T4 r280 c3] 1 Interior
+[T4 r280 c4] -2,556E-4
+[T4 r280 c5] -7,138E-4
+[T4 r280 c6] 150,3
+[T4 r280 c7] -60,42
+[T4 r280 c8] 90,92
+[T4 r281 c1] 7,688
+[T4 r281 c2] 7,688
+[T4 r281 c3] 1 Interior
+[T4 r281 c4] -2,779E-4
+[T4 r281 c5] -7,121E-4
+[T4 r281 c6] 150,9
+[T4 r281 c7] -60,25
+[T4 r281 c8] 89,03
+[T4 r282 c1] 7,719
+[T4 r282 c2] 7,719
+[T4 r282 c3] 1 Interior
+[T4 r282 c4] -3,001E-4
+[T4 r282 c5] -7,105E-4
+[T4 r282 c6] 151,6
+[T4 r282 c7] -60,06
+[T4 r282 c8] 87,15
+[T4 r283 c1] 7,75
+[T4 r283 c2] 7,75
+[T4 r283 c3] 1 Above
+[T4 r283 c4] -3,223E-4
+[T4 r283 c5] -7,089E-4
+[T4 r283 c6] 152,2
+[T4 r283 c7] -59,86
+[T4 r283 c8] 85,28
+[T4 r284 c1] 7,75
+[T4 r284 c2] 7,75
+[T4 r284 c3] 1 Below
+[T4 r284 c4] -3,223E-4
+[T4 r284 c5] -7,089E-4
+[T4 r284 c6] 152,2
+[T4 r284 c7] -59,86
+[T4 r284 c8] 85,28
+[T4 r285 c1] 7,781
+[T4 r285 c2] 7,781
+[T4 r285 c3] 1 Interior
+[T4 r285 c4] -3,444E-4
+[T4 r285 c5] -7,073E-4
+[T4 r285 c6] 152,8
+[T4 r285 c7] -59,65
+[T4 r285 c8] 83,41
+[T4 r286 c1] 7,812
+[T4 r286 c2] 7,812
+[T4 r286 c3] 1 Interior
+[T4 r286 c4] -3,665E-4
+[T4 r286 c5] -7,057E-4
+[T4 r286 c6] 153,4
+[T4 r286 c7] -59,42
+[T4 r286 c8] 81,55
+[T4 r287 c1] 7,844
+[T4 r287 c2] 7,844
+[T4 r287 c3] 1 Interior
+[T4 r287 c4] -3,885E-4
+[T4 r287 c5] -7,042E-4
+[T4 r287 c6] 154
+[T4 r287 c7] -59,17
+[T4 r287 c8] 79,7
+[T4 r288 c1] 7,875
+[T4 r288 c2] 7,875
+[T4 r288 c3] 1 Interior
+[T4 r288 c4] -4,105E-4
+[T4 r288 c5] -7,028E-4
+[T4 r288 c6] 154,6
+[T4 r288 c7] -58,91
+[T4 r288 c8] 77,86
+[T4 r289 c1] 7,906
+[T4 r289 c2] 7,906
+[T4 r289 c3] 1 Interior
+[T4 r289 c4] -4,324E-4
+[T4 r289 c5] -7,013E-4
+[T4 r289 c6] 155,2
+[T4 r289 c7] -58,63
+[T4 r289 c8] 76,02
+[T4 r290 c1] 7,938
+[T4 r290 c2] 7,938
+[T4 r290 c3] 1 Interior
+[T4 r290 c4] -4,543E-4
+[T4 r290 c5] -6,999E-4
+[T4 r290 c6] 155,9
+[T4 r290 c7] -58,34
+[T4 r290 c8] 74,19
+[T4 r291 c1] 7,969
+[T4 r291 c2] 7,969
+[T4 r291 c3] 1 Interior
+[T4 r291 c4] -4,762E-4
+[T4 r291 c5] -6,986E-4
+[T4 r291 c6] 156,5
+[T4 r291 c7] -58,03
+[T4 r291 c8] 72,37
+[T4 r292 c1] 8
+[T4 r292 c2] 8
+[T4 r292 c3] 1 Above
+[T4 r292 c4] -4,98E-4
+[T4 r292 c5] -6,972E-4
+[T4 r292 c6] 157,1
+[T4 r292 c7] -57,71
+[T4 r292 c8] 70,56
+[T4 r293 c1] 8
+[T4 r293 c2] 8
+[T4 r293 c3] 1 Below
+[T4 r293 c4] -4,98E-4
+[T4 r293 c5] -6,972E-4
+[T4 r293 c6] 157,1
+[T4 r293 c7] -57,71
+[T4 r293 c8] 70,56
+[T4 r294 c1] 8,031
+[T4 r294 c2] 8,031
+[T4 r294 c3] 1 Interior
+[T4 r294 c4] -5,197E-4
+[T4 r294 c5] -6,959E-4
+[T4 r294 c6] 157,7
+[T4 r294 c7] -57,37
+[T4 r294 c8] 68,77
+[T4 r295 c1] 8,062
+[T4 r295 c2] 8,062
+[T4 r295 c3] 1 Interior
+[T4 r295 c4] -5,415E-4
+[T4 r295 c5] -6,947E-4
+[T4 r295 c6] 158,3
+[T4 r295 c7] -57,01
+[T4 r295 c8] 66,98
+[T4 r296 c1] 8,094
+[T4 r296 c2] 8,094
+[T4 r296 c3] 1 Interior
+[T4 r296 c4] -5,632E-4
+[T4 r296 c5] -6,934E-4
+[T4 r296 c6] 158,9
+[T4 r296 c7] -56,64
+[T4 r296 c8] 65,2
+[T4 r297 c1] 8,125
+[T4 r297 c2] 8,125
+[T4 r297 c3] 1 Interior
+[T4 r297 c4] -5,848E-4
+[T4 r297 c5] -6,922E-4
+[T4 r297 c6] 159,5
+[T4 r297 c7] -56,25
+[T4 r297 c8] 63,44
+[T4 r298 c1] 8,156
+[T4 r298 c2] 8,156
+[T4 r298 c3] 1 Interior
+[T4 r298 c4] -6,064E-4
+[T4 r298 c5] -6,91E-4
+[T4 r298 c6] 160,1
+[T4 r298 c7] -55,85
+[T4 r298 c8] 61,69
+[T4 r299 c1] 8,188
+[T4 r299 c2] 8,188
+[T4 r299 c3] 1 Interior
+[T4 r299 c4] -6,28E-4
+[T4 r299 c5] -6,899E-4
+[T4 r299 c6] 160,8
+[T4 r299 c7] -55,43
+[T4 r299 c8] 59,95
+[T4 r300 c1] 8,219
+[T4 r300 c2] 8,219
+[T4 r300 c3] 1 Interior
+[T4 r300 c4] -6,495E-4
+[T4 r300 c5] -6,888E-4
+[T4 r300 c6] 161,4
+[T4 r300 c7] -54,99
+[T4 r300 c8] 58,22
+[T4 r301 c1] 8,25
+[T4 r301 c2] 8,25
+[T4 r301 c3] 1 Above
+[T4 r301 c4] -6,71E-4
+[T4 r301 c5] -6,877E-4
+[T4 r301 c6] 162
+[T4 r301 c7] -54,54
+[T4 r301 c8] 56,51
+[T4 r302 c1] 8,25
+[T4 r302 c2] 8,25
+[T4 r302 c3] 1 Below
+[T4 r302 c4] -6,71E-4
+[T4 r302 c5] -6,877E-4
+[T4 r302 c6] 162
+[T4 r302 c7] -54,54
+[T4 r302 c8] 56,51
+[T4 r303 c1] 8,281
+[T4 r303 c2] 8,281
+[T4 r303 c3] 1 Interior
+[T4 r303 c4] -6,925E-4
+[T4 r303 c5] -6,867E-4
+[T4 r303 c6] 162,6
+[T4 r303 c7] -54,07
+[T4 r303 c8] 54,82
+[T4 r304 c1] 8,312
+[T4 r304 c2] 8,312
+[T4 r304 c3] 1 Interior
+[T4 r304 c4] -7,14E-4
+[T4 r304 c5] -6,857E-4
+[T4 r304 c6] 163,2
+[T4 r304 c7] -53,58
+[T4 r304 c8] 53,13
+[T4 r305 c1] 8,344
+[T4 r305 c2] 8,344
+[T4 r305 c3] 1 Interior
+[T4 r305 c4] -7,354E-4
+[T4 r305 c5] -6,847E-4
+[T4 r305 c6] 163,8
+[T4 r305 c7] -53,08
+[T4 r305 c8] 51,47
+[T4 r306 c1] 8,375
+[T4 r306 c2] 8,375
+[T4 r306 c3] 1 Interior
+[T4 r306 c4] -7,568E-4
+[T4 r306 c5] -6,838E-4
+[T4 r306 c6] 164,4
+[T4 r306 c7] -52,56
+[T4 r306 c8] 49,82
+[T4 r307 c1] 8,406
+[T4 r307 c2] 8,406
+[T4 r307 c3] 1 Interior
+[T4 r307 c4] -7,781E-4
+[T4 r307 c5] -6,828E-4
+[T4 r307 c6] 165,1
+[T4 r307 c7] -52,02
+[T4 r307 c8] 48,18
+[T4 r308 c1] 8,438
+[T4 r308 c2] 8,438
+[T4 r308 c3] 1 Interior
+[T4 r308 c4] -7,994E-4
+[T4 r308 c5] -6,82E-4
+[T4 r308 c6] 165,7
+[T4 r308 c7] -51,47
+[T4 r308 c8] 46,57
+[T4 r309 c1] 8,469
+[T4 r309 c2] 8,469
+[T4 r309 c3] 1 Interior
+[T4 r309 c4] -8,207E-4
+[T4 r309 c5] -6,811E-4
+[T4 r309 c6] 166,3
+[T4 r309 c7] -50,9
+[T4 r309 c8] 44,97
+[T4 r310 c1] 8,5
+[T4 r310 c2] 8,5
+[T4 r310 c3] 1 Above
+[T4 r310 c4] -8,42E-4
+[T4 r310 c5] -6,803E-4
+[T4 r310 c6] 166,9
+[T4 r310 c7] -50,31
+[T4 r310 c8] 43,38
+[T4 r311 c1] 8,5
+[T4 r311 c2] 8,5
+[T4 r311 c3] 1 Below
+[T4 r311 c4] -8,42E-4
+[T4 r311 c5] -6,803E-4
+[T4 r311 c6] 166,9
+[T4 r311 c7] -50,31
+[T4 r311 c8] 43,38
+[T4 r312 c1] 8,531
+[T4 r312 c2] 8,531
+[T4 r312 c3] 1 Interior
+[T4 r312 c4] -8,633E-4
+[T4 r312 c5] -6,795E-4
+[T4 r312 c6] 167,5
+[T4 r312 c7] -49,7
+[T4 r312 c8] 41,82
+[T4 r313 c1] 8,562
+[T4 r313 c2] 8,562
+[T4 r313 c3] 1 Interior
+[T4 r313 c4] -8,845E-4
+[T4 r313 c5] -6,787E-4
+[T4 r313 c6] 168,1
+[T4 r313 c7] -49,08
+[T4 r313 c8] 40,28
+[T4 r314 c1] 8,594
+[T4 r314 c2] 8,594
+[T4 r314 c3] 1 Interior
+[T4 r314 c4] -9,057E-4
+[T4 r314 c5] -6,78E-4
+[T4 r314 c6] 168,7
+[T4 r314 c7] -48,44
+[T4 r314 c8] 38,75
+[T4 r315 c1] 8,625
+[T4 r315 c2] 8,625
+[T4 r315 c3] 1 Interior
+[T4 r315 c4] -9,268E-4
+[T4 r315 c5] -6,773E-4
+[T4 r315 c6] 169,4
+[T4 r315 c7] -47,78
+[T4 r315 c8] 37,25
+[T4 r316 c1] 8,656
+[T4 r316 c2] 8,656
+[T4 r316 c3] 1 Interior
+[T4 r316 c4] -9,48E-4
+[T4 r316 c5] -6,766E-4
+[T4 r316 c6] 170
+[T4 r316 c7] -47,11
+[T4 r316 c8] 35,77
+[T4 r317 c1] 8,688
+[T4 r317 c2] 8,688
+[T4 r317 c3] 1 Interior
+[T4 r317 c4] -9,691E-4
+[T4 r317 c5] -6,759E-4
+[T4 r317 c6] 170,6
+[T4 r317 c7] -46,42
+[T4 r317 c8] 34,31
+[T4 r318 c1] 8,719
+[T4 r318 c2] 8,719
+[T4 r318 c3] 1 Interior
+[T4 r318 c4] -9,902E-4
+[T4 r318 c5] -6,753E-4
+[T4 r318 c6] 171,2
+[T4 r318 c7] -45,71
+[T4 r318 c8] 32,87
+[T4 r319 c1] 8,75
+[T4 r319 c2] 8,75
+[T4 r319 c3] 1 Above
+[T4 r319 c4] -1,011E-3
+[T4 r319 c5] -6,747E-4
+[T4 r319 c6] 171,8
+[T4 r319 c7] -44,98
+[T4 r319 c8] 31,45
+[T4 r320 c1] 8,75
+[T4 r320 c2] 8,75
+[T4 r320 c3] 1 Below
+[T4 r320 c4] -1,011E-3
+[T4 r320 c5] -6,747E-4
+[T4 r320 c6] 171,8
+[T4 r320 c7] -44,98
+[T4 r320 c8] 31,45
+[T4 r321 c1] 8,781
+[T4 r321 c2] 8,781
+[T4 r321 c3] 1 Interior
+[T4 r321 c4] -1,032E-3
+[T4 r321 c5] -6,741E-4
+[T4 r321 c6] 172,4
+[T4 r321 c7] -44,23
+[T4 r321 c8] 30,06
+[T4 r322 c1] 8,812
+[T4 r322 c2] 8,812
+[T4 r322 c3] 1 Interior
+[T4 r322 c4] -1,053E-3
+[T4 r322 c5] -6,736E-4
+[T4 r322 c6] 173
+[T4 r322 c7] -43,47
+[T4 r322 c8] 28,69
+[T4 r323 c1] 8,844
+[T4 r323 c2] 8,844
+[T4 r323 c3] 1 Interior
+[T4 r323 c4] -1,075E-3
+[T4 r323 c5] -6,731E-4
+[T4 r323 c6] 173,6
+[T4 r323 c7] -42,68
+[T4 r323 c8] 27,34
+[T4 r324 c1] 8,875
+[T4 r324 c2] 8,875
+[T4 r324 c3] 1 Interior
+[T4 r324 c4] -1,096E-3
+[T4 r324 c5] -6,726E-4
+[T4 r324 c6] 174,3
+[T4 r324 c7] -41,88
+[T4 r324 c8] 26,02
+[T4 r325 c1] 8,906
+[T4 r325 c2] 8,906
+[T4 r325 c3] 1 Interior
+[T4 r325 c4] -1,117E-3
+[T4 r325 c5] -6,721E-4
+[T4 r325 c6] 174,9
+[T4 r325 c7] -41,06
+[T4 r325 c8] 24,72
+[T4 r326 c1] 8,938
+[T4 r326 c2] 8,938
+[T4 r326 c3] 1 Interior
+[T4 r326 c4] -1,138E-3
+[T4 r326 c5] -6,716E-4
+[T4 r326 c6] 175,5
+[T4 r326 c7] -40,22
+[T4 r326 c8] 23,45
+[T4 r327 c1] 8,969
+[T4 r327 c2] 8,969
+[T4 r327 c3] 1 Interior
+[T4 r327 c4] -1,159E-3
+[T4 r327 c5] -6,712E-4
+[T4 r327 c6] 176,1
+[T4 r327 c7] -39,37
+[T4 r327 c8] 22,21
+[T4 r328 c1] 9
+[T4 r328 c2] 9
+[T4 r328 c3] 1 Above
+[T4 r328 c4] -1,179E-3
+[T4 r328 c5] -6,708E-4
+[T4 r328 c6] 176,7
+[T4 r328 c7] -38,49
+[T4 r328 c8] 20,99
+[T4 r329 c1] 9
+[T4 r329 c2] 9
+[T4 r329 c3] 1 Below
+[T4 r329 c4] -1,179E-3
+[T4 r329 c5] -6,708E-4
+[T4 r329 c6] 176,7
+[T4 r329 c7] -38,49
+[T4 r329 c8] 20,99
+[T4 r330 c1] 9,031
+[T4 r330 c2] 9,031
+[T4 r330 c3] 1 Interior
+[T4 r330 c4] -1,2E-3
+[T4 r330 c5] -6,704E-4
+[T4 r330 c6] 177,3
+[T4 r330 c7] -37,6
+[T4 r330 c8] 19,8
+[T4 r331 c1] 9,062
+[T4 r331 c2] 9,062
+[T4 r331 c3] 1 Interior
+[T4 r331 c4] -1,221E-3
+[T4 r331 c5] -6,701E-4
+[T4 r331 c6] 177,9
+[T4 r331 c7] -36,69
+[T4 r331 c8] 18,64
+[T4 r332 c1] 9,094
+[T4 r332 c2] 9,094
+[T4 r332 c3] 1 Interior
+[T4 r332 c4] -1,242E-3
+[T4 r332 c5] -6,697E-4
+[T4 r332 c6] 178,6
+[T4 r332 c7] -35,75
+[T4 r332 c8] 17,51
+[T4 r333 c1] 9,125
+[T4 r333 c2] 9,125
+[T4 r333 c3] 1 Interior
+[T4 r333 c4] -1,263E-3
+[T4 r333 c5] -6,694E-4
+[T4 r333 c6] 179,2
+[T4 r333 c7] -34,8
+[T4 r333 c8] 16,41
+[T4 r334 c1] 9,156
+[T4 r334 c2] 9,156
+[T4 r334 c3] 1 Interior
+[T4 r334 c4] -1,284E-3
+[T4 r334 c5] -6,691E-4
+[T4 r334 c6] 179,8
+[T4 r334 c7] -33,83
+[T4 r334 c8] 15,34
+[T4 r335 c1] 9,188
+[T4 r335 c2] 9,188
+[T4 r335 c3] 1 Interior
+[T4 r335 c4] -1,305E-3
+[T4 r335 c5] -6,688E-4
+[T4 r335 c6] 180,4
+[T4 r335 c7] -32,84
+[T4 r335 c8] 14,29
+[T4 r336 c1] 9,219
+[T4 r336 c2] 9,219
+[T4 r336 c3] 1 Interior
+[T4 r336 c4] -1,326E-3
+[T4 r336 c5] -6,686E-4
+[T4 r336 c6] 181
+[T4 r336 c7] -31,83
+[T4 r336 c8] 13,28
+[T4 r337 c1] 9,25
+[T4 r337 c2] 9,25
+[T4 r337 c3] 1 Above
+[T4 r337 c4] -1,347E-3
+[T4 r337 c5] -6,683E-4
+[T4 r337 c6] 181,6
+[T4 r337 c7] -30,81
+[T4 r337 c8] 12,3
+[T4 r338 c1] 9,25
+[T4 r338 c2] 9,25
+[T4 r338 c3] 1 Below
+[T4 r338 c4] -1,347E-3
+[T4 r338 c5] -6,683E-4
+[T4 r338 c6] 181,6
+[T4 r338 c7] -30,81
+[T4 r338 c8] 12,3
+[T4 r339 c1] 9,281
+[T4 r339 c2] 9,281
+[T4 r339 c3] 1 Interior
+[T4 r339 c4] -1,368E-3
+[T4 r339 c5] -6,681E-4
+[T4 r339 c6] 182,2
+[T4 r339 c7] -29,76
+[T4 r339 c8] 11,36
+[T4 r340 c1] 9,312
+[T4 r340 c2] 9,312
+[T4 r340 c3] 1 Interior
+[T4 r340 c4] -1,389E-3
+[T4 r340 c5] -6,679E-4
+[T4 r340 c6] 182,9
+[T4 r340 c7] -28,69
+[T4 r340 c8] 10,44
+[T4 r341 c1] 9,344
+[T4 r341 c2] 9,344
+[T4 r341 c3] 1 Interior
+[T4 r341 c4] -1,409E-3
+[T4 r341 c5] -6,677E-4
+[T4 r341 c6] 183,5
+[T4 r341 c7] -27,6
+[T4 r341 c8] 9,564
+[T4 r342 c1] 9,375
+[T4 r342 c2] 9,375
+[T4 r342 c3] 1 Interior
+[T4 r342 c4] -1,43E-3
+[T4 r342 c5] -6,676E-4
+[T4 r342 c6] 184,1
+[T4 r342 c7] -26,5
+[T4 r342 c8] 8,719
+[T4 r343 c1] 9,406
+[T4 r343 c2] 9,406
+[T4 r343 c3] 1 Interior
+[T4 r343 c4] -1,451E-3
+[T4 r343 c5] -6,674E-4
+[T4 r343 c6] 184,7
+[T4 r343 c7] -25,37
+[T4 r343 c8] 7,909
+[T4 r344 c1] 9,438
+[T4 r344 c2] 9,438
+[T4 r344 c3] 1 Interior
+[T4 r344 c4] -1,472E-3
+[T4 r344 c5] -6,673E-4
+[T4 r344 c6] 185,3
+[T4 r344 c7] -24,22
+[T4 r344 c8] 7,134
+[T4 r345 c1] 9,469
+[T4 r345 c2] 9,469
+[T4 r345 c3] 1 Interior
+[T4 r345 c4] -1,493E-3
+[T4 r345 c5] -6,671E-4
+[T4 r345 c6] 185,9
+[T4 r345 c7] -23,05
+[T4 r345 c8] 6,395
+[T4 r346 c1] 9,5
+[T4 r346 c2] 9,5
+[T4 r346 c3] 1 Above
+[T4 r346 c4] -1,514E-3
+[T4 r346 c5] -6,67E-4
+[T4 r346 c6] 186,5
+[T4 r346 c7] -21,86
+[T4 r346 c8] 5,693
+[T4 r347 c1] 9,5
+[T4 r347 c2] 9,5
+[T4 r347 c3] 1 Below
+[T4 r347 c4] -1,514E-3
+[T4 r347 c5] -6,67E-4
+[T4 r347 c6] 186,5
+[T4 r347 c7] -21,86
+[T4 r347 c8] 5,693
+[T4 r348 c1] 9,531
+[T4 r348 c2] 9,531
+[T4 r348 c3] 1 Interior
+[T4 r348 c4] -1,535E-3
+[T4 r348 c5] -6,669E-4
+[T4 r348 c6] 187,1
+[T4 r348 c7] -20,66
+[T4 r348 c8] 5,029
+[T4 r349 c1] 9,562
+[T4 r349 c2] 9,562
+[T4 r349 c3] 1 Interior
+[T4 r349 c4] -1,555E-3
+[T4 r349 c5] -6,668E-4
+[T4 r349 c6] 187,8
+[T4 r349 c7] -19,43
+[T4 r349 c8] 4,402
+[T4 r350 c1] 9,594
+[T4 r350 c2] 9,594
+[T4 r350 c3] 1 Interior
+[T4 r350 c4] -1,576E-3
+[T4 r350 c5] -6,668E-4
+[T4 r350 c6] 188,4
+[T4 r350 c7] -18,18
+[T4 r350 c8] 3,815
+[T4 r351 c1] 9,625
+[T4 r351 c2] 9,625
+[T4 r351 c3] 1 Interior
+[T4 r351 c4] -1,597E-3
+[T4 r351 c5] -6,667E-4
+[T4 r351 c6] 189
+[T4 r351 c7] -16,91
+[T4 r351 c8] 3,267
+[T4 r352 c1] 9,656
+[T4 r352 c2] 9,656
+[T4 r352 c3] 1 Interior
+[T4 r352 c4] -1,618E-3
+[T4 r352 c5] -6,666E-4
+[T4 r352 c6] 189,6
+[T4 r352 c7] -15,61
+[T4 r352 c8] 2,758
+[T4 r353 c1] 9,688
+[T4 r353 c2] 9,688
+[T4 r353 c3] 1 Interior
+[T4 r353 c4] -1,639E-3
+[T4 r353 c5] -6,666E-4
+[T4 r353 c6] 190,2
+[T4 r353 c7] -14,3
+[T4 r353 c8] 2,291
+[T4 r354 c1] 9,719
+[T4 r354 c2] 9,719
+[T4 r354 c3] 1 Interior
+[T4 r354 c4] -1,66E-3
+[T4 r354 c5] -6,666E-4
+[T4 r354 c6] 190,8
+[T4 r354 c7] -12,97
+[T4 r354 c8] 1,865
+[T4 r355 c1] 9,75
+[T4 r355 c2] 9,75
+[T4 r355 c3] 1 Above
+[T4 r355 c4] -1,68E-3
+[T4 r355 c5] -6,665E-4
+[T4 r355 c6] 191,4
+[T4 r355 c7] -11,61
+[T4 r355 c8] 1,481
+[T4 r356 c1] 9,75
+[T4 r356 c2] 9,75
+[T4 r356 c3] 1 Below
+[T4 r356 c4] -1,68E-3
+[T4 r356 c5] -6,665E-4
+[T4 r356 c6] 191,4
+[T4 r356 c7] -11,61
+[T4 r356 c8] 1,481
+[T4 r357 c1] 9,781
+[T4 r357 c2] 9,781
+[T4 r357 c3] 1 Interior
+[T4 r357 c4] -1,701E-3
+[T4 r357 c5] -6,665E-4
+[T4 r357 c6] 192,1
+[T4 r357 c7] -10,24
+[T4 r357 c8] 1,139
+[T4 r358 c1] 9,812
+[T4 r358 c2] 9,812
+[T4 r358 c3] 1 Interior
+[T4 r358 c4] -1,722E-3
+[T4 r358 c5] -6,665E-4
+[T4 r358 c6] 192,7
+[T4 r358 c7] -8,84
+[T4 r358 c8] 0,8411
+[T4 r359 c1] 9,844
+[T4 r359 c2] 9,844
+[T4 r359 c3] 1 Interior
+[T4 r359 c4] -1,743E-3
+[T4 r359 c5] -6,665E-4
+[T4 r359 c6] 193,3
+[T4 r359 c7] -7,421
+[T4 r359 c8] 0,5869
+[T4 r360 c1] 9,875
+[T4 r360 c2] 9,875
+[T4 r360 c3] 1 Interior
+[T4 r360 c4] -1,764E-3
+[T4 r360 c5] -6,665E-4
+[T4 r360 c6] 193,9
+[T4 r360 c7] -5,981
+[T4 r360 c8] 0,3775
+[T4 r361 c1] 9,906
+[T4 r361 c2] 9,906
+[T4 r361 c3] 1 Interior
+[T4 r361 c4] -1,785E-3
+[T4 r361 c5] -6,664E-4
+[T4 r361 c6] 194,5
+[T4 r361 c7] -4,518
+[T4 r361 c8] 0,2133
+[T4 r362 c1] 9,938
+[T4 r362 c2] 9,938
+[T4 r362 c3] 1 Interior
+[T4 r362 c4] -1,805E-3
+[T4 r362 c5] -6,664E-4
+[T4 r362 c6] 195,1
+[T4 r362 c7] -3,034
+[T4 r362 c8] 0,09528
+[T4 r363 c1] 9,959
+[T4 r363 c2] 9,959
+[T4 r363 c3] 1 Interior
+[T4 r363 c4] -1,82E-3
+[T4 r363 c5] -6,664E-4
+[T4 r363 c6] 195,5
+[T4 r363 c7] -2,009
+[T4 r363 c8] 0,04149
+[T4 r364 c1] 9,969
+[T4 r364 c2] 9,969
+[T4 r364 c3] 1 Interior
+[T4 r364 c4] -1,826E-3
+[T4 r364 c5] -6,664E-4
+[T4 r364 c6] 195,7
+[T4 r364 c7] -1,528
+[T4 r364 c8] 0,02394
+[T4 r365 c1] 10
+[T4 r365 c2] 10
+[T4 r365 c3] 1 Above
+[T4 r365 c4] -1,847E-3
+[T4 r365 c5] -6,664E-4
+[T4 r365 c6] 196,3
+[T4 r365 c7] -2,822E-10
+[T4 r365 c8] -9,341E-13
+¶ Rigidezze del terreno e reazione sul palo. nh è riportato soltanto per la legge lineare; z e lato sono definiti nella tabella precedente.
+[T5 r1 c1] x [m]
+[T5 r1 c2] Strato/lato
+[T5 r1 c3] kh [kN/m³]
+[T5 r1 c4] nh [kN/m³]
+[T5 r1 c5] k [kN/m²]
+[T5 r1 c6] q [kN/m]
+[T5 r2 c1] 0
+[T5 r2 c2] 1 Below
+[T5 r2 c3] 0
+[T5 r2 c4] 2666,667
+[T5 r2 c5] 0
+[T5 r2 c6] 0
+[T5 r3 c1] 0,03125
+[T5 r3 c2] 1 Interior
+[T5 r3 c3] 83,33333
+[T5 r3 c4] 2666,667
+[T5 r3 c5] 83,33333
+[T5 r3 c6] -0,6977276
+[T5 r4 c1] 0,0625
+[T5 r4 c2] 1 Interior
+[T5 r4 c3] 166,6667
+[T5 r4 c4] 2666,667
+[T5 r4 c5] 166,6667
+[T5 r4 c6] -1,387671
+[T5 r5 c1] 0,09375
+[T5 r5 c2] 1 Interior
+[T5 r5 c3] 250
+[T5 r5 c4] 2666,667
+[T5 r5 c5] 250
+[T5 r5 c6] -2,069831
+[T5 r6 c1] 0,125
+[T5 r6 c2] 1 Interior
+[T5 r6 c3] 333,3333
+[T5 r6 c4] 2666,667
+[T5 r6 c5] 333,3333
+[T5 r6 c6] -2,74421
+[T5 r7 c1] 0,15625
+[T5 r7 c2] 1 Interior
+[T5 r7 c3] 416,6667
+[T5 r7 c4] 2666,667
+[T5 r7 c5] 416,6667
+[T5 r7 c6] -3,410808
+[T5 r8 c1] 0,1875
+[T5 r8 c2] 1 Interior
+[T5 r8 c3] 500
+[T5 r8 c4] 2666,667
+[T5 r8 c5] 500
+[T5 r8 c6] -4,06963
+[T5 r9 c1] 0,21875
+[T5 r9 c2] 1 Interior
+[T5 r9 c3] 583,3333
+[T5 r9 c4] 2666,667
+[T5 r9 c5] 583,3333
+[T5 r9 c6] -4,720679
+[T5 r10 c1] 0,25
+[T5 r10 c2] 1 Above
+[T5 r10 c3] 666,6667
+[T5 r10 c4] 2666,667
+[T5 r10 c5] 666,6667
+[T5 r10 c6] -5,363958
+[T5 r11 c1] 0,25
+[T5 r11 c2] 1 Below
+[T5 r11 c3] 666,6667
+[T5 r11 c4] 2666,667
+[T5 r11 c5] 666,6667
+[T5 r11 c6] -5,363958
+[T5 r12 c1] 0,28125
+[T5 r12 c2] 1 Interior
+[T5 r12 c3] 750
+[T5 r12 c4] 2666,667
+[T5 r12 c5] 750
+[T5 r12 c6] -5,999471
+[T5 r13 c1] 0,3125
+[T5 r13 c2] 1 Interior
+[T5 r13 c3] 833,3333
+[T5 r13 c4] 2666,667
+[T5 r13 c5] 833,3333
+[T5 r13 c6] -6,627225
+[T5 r14 c1] 0,34375
+[T5 r14 c2] 1 Interior
+[T5 r14 c3] 916,6667
+[T5 r14 c4] 2666,667
+[T5 r14 c5] 916,6667
+[T5 r14 c6] -7,247225
+[T5 r15 c1] 0,375
+[T5 r15 c2] 1 Interior
+[T5 r15 c3] 1000
+[T5 r15 c4] 2666,667
+[T5 r15 c5] 1000
+[T5 r15 c6] -7,859477
+[T5 r16 c1] 0,40625
+[T5 r16 c2] 1 Interior
+[T5 r16 c3] 1083,333
+[T5 r16 c4] 2666,667
+[T5 r16 c5] 1083,333
+[T5 r16 c6] -8,463988
+[T5 r17 c1] 0,4375
+[T5 r17 c2] 1 Interior
+[T5 r17 c3] 1166,667
+[T5 r17 c4] 2666,667
+[T5 r17 c5] 1166,667
+[T5 r17 c6] -9,060765
+[T5 r18 c1] 0,46875
+[T5 r18 c2] 1 Interior
+[T5 r18 c3] 1250
+[T5 r18 c4] 2666,667
+[T5 r18 c5] 1250
+[T5 r18 c6] -9,649818
+[T5 r19 c1] 0,5
+[T5 r19 c2] 1 Above
+[T5 r19 c3] 1333,333
+[T5 r19 c4] 2666,667
+[T5 r19 c5] 1333,333
+[T5 r19 c6] -10,23115
+[T5 r20 c1] 0,5
+[T5 r20 c2] 1 Below
+[T5 r20 c3] 1333,333
+[T5 r20 c4] 2666,667
+[T5 r20 c5] 1333,333
+[T5 r20 c6] -10,23115
+[T5 r21 c1] 0,53125
+[T5 r21 c2] 1 Interior
+[T5 r21 c3] 1416,667
+[T5 r21 c4] 2666,667
+[T5 r21 c5] 1416,667
+[T5 r21 c6] -10,80478
+[T5 r22 c1] 0,5625
+[T5 r22 c2] 1 Interior
+[T5 r22 c3] 1500
+[T5 r22 c4] 2666,667
+[T5 r22 c5] 1500
+[T5 r22 c6] -11,37071
+[T5 r23 c1] 0,59375
+[T5 r23 c2] 1 Interior
+[T5 r23 c3] 1583,333
+[T5 r23 c4] 2666,667
+[T5 r23 c5] 1583,333
+[T5 r23 c6] -11,92896
+[T5 r24 c1] 0,625
+[T5 r24 c2] 1 Interior
+[T5 r24 c3] 1666,667
+[T5 r24 c4] 2666,667
+[T5 r24 c5] 1666,667
+[T5 r24 c6] -12,47953
+[T5 r25 c1] 0,65625
+[T5 r25 c2] 1 Interior
+[T5 r25 c3] 1750
+[T5 r25 c4] 2666,667
+[T5 r25 c5] 1750
+[T5 r25 c6] -13,02243
+[T5 r26 c1] 0,6875
+[T5 r26 c2] 1 Interior
+[T5 r26 c3] 1833,333
+[T5 r26 c4] 2666,667
+[T5 r26 c5] 1833,333
+[T5 r26 c6] -13,55769
+[T5 r27 c1] 0,71875
+[T5 r27 c2] 1 Interior
+[T5 r27 c3] 1916,667
+[T5 r27 c4] 2666,667
+[T5 r27 c5] 1916,667
+[T5 r27 c6] -14,0853
+[T5 r28 c1] 0,75
+[T5 r28 c2] 1 Above
+[T5 r28 c3] 2000
+[T5 r28 c4] 2666,667
+[T5 r28 c5] 2000
+[T5 r28 c6] -14,60529
+[T5 r29 c1] 0,75
+[T5 r29 c2] 1 Below
+[T5 r29 c3] 2000
+[T5 r29 c4] 2666,667
+[T5 r29 c5] 2000
+[T5 r29 c6] -14,60529
+[T5 r30 c1] 0,78125
+[T5 r30 c2] 1 Interior
+[T5 r30 c3] 2083,333
+[T5 r30 c4] 2666,667
+[T5 r30 c5] 2083,333
+[T5 r30 c6] -15,11766
+[T5 r31 c1] 0,8125
+[T5 r31 c2] 1 Interior
+[T5 r31 c3] 2166,667
+[T5 r31 c4] 2666,667
+[T5 r31 c5] 2166,667
+[T5 r31 c6] -15,62244
+[T5 r32 c1] 0,84375
+[T5 r32 c2] 1 Interior
+[T5 r32 c3] 2250
+[T5 r32 c4] 2666,667
+[T5 r32 c5] 2250
+[T5 r32 c6] -16,11964
+[T5 r33 c1] 0,875
+[T5 r33 c2] 1 Interior
+[T5 r33 c3] 2333,333
+[T5 r33 c4] 2666,667
+[T5 r33 c5] 2333,333
+[T5 r33 c6] -16,60927
+[T5 r34 c1] 0,90625
+[T5 r34 c2] 1 Interior
+[T5 r34 c3] 2416,667
+[T5 r34 c4] 2666,667
+[T5 r34 c5] 2416,667
+[T5 r34 c6] -17,09135
+[T5 r35 c1] 0,9375
+[T5 r35 c2] 1 Interior
+[T5 r35 c3] 2500
+[T5 r35 c4] 2666,667
+[T5 r35 c5] 2500
+[T5 r35 c6] -17,56589
+[T5 r36 c1] 0,96875
+[T5 r36 c2] 1 Interior
+[T5 r36 c3] 2583,333
+[T5 r36 c4] 2666,667
+[T5 r36 c5] 2583,333
+[T5 r36 c6] -18,03292
+[T5 r37 c1] 1
+[T5 r37 c2] 1 Above
+[T5 r37 c3] 2666,667
+[T5 r37 c4] 2666,667
+[T5 r37 c5] 2666,667
+[T5 r37 c6] -18,49245
+[T5 r38 c1] 1
+[T5 r38 c2] 1 Below
+[T5 r38 c3] 2666,667
+[T5 r38 c4] 2666,667
+[T5 r38 c5] 2666,667
+[T5 r38 c6] -18,49245
+[T5 r39 c1] 1,03125
+[T5 r39 c2] 1 Interior
+[T5 r39 c3] 2750
+[T5 r39 c4] 2666,667
+[T5 r39 c5] 2750
+[T5 r39 c6] -18,94449
+[T5 r40 c1] 1,0625
+[T5 r40 c2] 1 Interior
+[T5 r40 c3] 2833,333
+[T5 r40 c4] 2666,667
+[T5 r40 c5] 2833,333
+[T5 r40 c6] -19,38908
+[T5 r41 c1] 1,09375
+[T5 r41 c2] 1 Interior
+[T5 r41 c3] 2916,667
+[T5 r41 c4] 2666,667
+[T5 r41 c5] 2916,667
+[T5 r41 c6] -19,82622
+[T5 r42 c1] 1,125
+[T5 r42 c2] 1 Interior
+[T5 r42 c3] 3000
+[T5 r42 c4] 2666,667
+[T5 r42 c5] 3000
+[T5 r42 c6] -20,25593
+[T5 r43 c1] 1,15625
+[T5 r43 c2] 1 Interior
+[T5 r43 c3] 3083,333
+[T5 r43 c4] 2666,667
+[T5 r43 c5] 3083,333
+[T5 r43 c6] -20,67825
+[T5 r44 c1] 1,1875
+[T5 r44 c2] 1 Interior
+[T5 r44 c3] 3166,667
+[T5 r44 c4] 2666,667
+[T5 r44 c5] 3166,667
+[T5 r44 c6] -21,09318
+[T5 r45 c1] 1,21875
+[T5 r45 c2] 1 Interior
+[T5 r45 c3] 3250
+[T5 r45 c4] 2666,667
+[T5 r45 c5] 3250
+[T5 r45 c6] -21,50075
+[T5 r46 c1] 1,25
+[T5 r46 c2] 1 Above
+[T5 r46 c3] 3333,333
+[T5 r46 c4] 2666,667
+[T5 r46 c5] 3333,333
+[T5 r46 c6] -21,90098
+[T5 r47 c1] 1,25
+[T5 r47 c2] 1 Below
+[T5 r47 c3] 3333,333
+[T5 r47 c4] 2666,667
+[T5 r47 c5] 3333,333
+[T5 r47 c6] -21,90098
+[T5 r48 c1] 1,28125
+[T5 r48 c2] 1 Interior
+[T5 r48 c3] 3416,667
+[T5 r48 c4] 2666,667
+[T5 r48 c5] 3416,667
+[T5 r48 c6] -22,2939
+[T5 r49 c1] 1,3125
+[T5 r49 c2] 1 Interior
+[T5 r49 c3] 3500
+[T5 r49 c4] 2666,667
+[T5 r49 c5] 3500
+[T5 r49 c6] -22,67952
+[T5 r50 c1] 1,34375
+[T5 r50 c2] 1 Interior
+[T5 r50 c3] 3583,333
+[T5 r50 c4] 2666,667
+[T5 r50 c5] 3583,333
+[T5 r50 c6] -23,05787
+[T5 r51 c1] 1,375
+[T5 r51 c2] 1 Interior
+[T5 r51 c3] 3666,667
+[T5 r51 c4] 2666,667
+[T5 r51 c5] 3666,667
+[T5 r51 c6] -23,42897
+[T5 r52 c1] 1,40625
+[T5 r52 c2] 1 Interior
+[T5 r52 c3] 3750
+[T5 r52 c4] 2666,667
+[T5 r52 c5] 3750
+[T5 r52 c6] -23,79285
+[T5 r53 c1] 1,4375
+[T5 r53 c2] 1 Interior
+[T5 r53 c3] 3833,333
+[T5 r53 c4] 2666,667
+[T5 r53 c5] 3833,333
+[T5 r53 c6] -24,14953
+[T5 r54 c1] 1,46875
+[T5 r54 c2] 1 Interior
+[T5 r54 c3] 3916,667
+[T5 r54 c4] 2666,667
+[T5 r54 c5] 3916,667
+[T5 r54 c6] -24,49903
+[T5 r55 c1] 1,5
+[T5 r55 c2] 1 Above
+[T5 r55 c3] 4000
+[T5 r55 c4] 2666,667
+[T5 r55 c5] 4000
+[T5 r55 c6] -24,84139
+[T5 r56 c1] 1,5
+[T5 r56 c2] 1 Below
+[T5 r56 c3] 4000
+[T5 r56 c4] 2666,667
+[T5 r56 c5] 4000
+[T5 r56 c6] -24,84139
+[T5 r57 c1] 1,53125
+[T5 r57 c2] 1 Interior
+[T5 r57 c3] 4083,333
+[T5 r57 c4] 2666,667
+[T5 r57 c5] 4083,333
+[T5 r57 c6] -25,17662
+[T5 r58 c1] 1,5625
+[T5 r58 c2] 1 Interior
+[T5 r58 c3] 4166,667
+[T5 r58 c4] 2666,667
+[T5 r58 c5] 4166,667
+[T5 r58 c6] -25,50476
+[T5 r59 c1] 1,59375
+[T5 r59 c2] 1 Interior
+[T5 r59 c3] 4250
+[T5 r59 c4] 2666,667
+[T5 r59 c5] 4250
+[T5 r59 c6] -25,82583
+[T5 r60 c1] 1,625
+[T5 r60 c2] 1 Interior
+[T5 r60 c3] 4333,333
+[T5 r60 c4] 2666,667
+[T5 r60 c5] 4333,333
+[T5 r60 c6] -26,13985
+[T5 r61 c1] 1,65625
+[T5 r61 c2] 1 Interior
+[T5 r61 c3] 4416,667
+[T5 r61 c4] 2666,667
+[T5 r61 c5] 4416,667
+[T5 r61 c6] -26,44686
+[T5 r62 c1] 1,6875
+[T5 r62 c2] 1 Interior
+[T5 r62 c3] 4500
+[T5 r62 c4] 2666,667
+[T5 r62 c5] 4500
+[T5 r62 c6] -26,74688
+[T5 r63 c1] 1,71875
+[T5 r63 c2] 1 Interior
+[T5 r63 c3] 4583,333
+[T5 r63 c4] 2666,667
+[T5 r63 c5] 4583,333
+[T5 r63 c6] -27,03995
+[T5 r64 c1] 1,75
+[T5 r64 c2] 1 Above
+[T5 r64 c3] 4666,667
+[T5 r64 c4] 2666,667
+[T5 r64 c5] 4666,667
+[T5 r64 c6] -27,32608
+[T5 r65 c1] 1,75
+[T5 r65 c2] 1 Below
+[T5 r65 c3] 4666,667
+[T5 r65 c4] 2666,667
+[T5 r65 c5] 4666,667
+[T5 r65 c6] -27,32608
+[T5 r66 c1] 1,78125
+[T5 r66 c2] 1 Interior
+[T5 r66 c3] 4750
+[T5 r66 c4] 2666,667
+[T5 r66 c5] 4750
+[T5 r66 c6] -27,60531
+[T5 r67 c1] 1,8125
+[T5 r67 c2] 1 Interior
+[T5 r67 c3] 4833,333
+[T5 r67 c4] 2666,667
+[T5 r67 c5] 4833,333
+[T5 r67 c6] -27,87767
+[T5 r68 c1] 1,84375
+[T5 r68 c2] 1 Interior
+[T5 r68 c3] 4916,667
+[T5 r68 c4] 2666,667
+[T5 r68 c5] 4916,667
+[T5 r68 c6] -28,14319
+[T5 r69 c1] 1,875
+[T5 r69 c2] 1 Interior
+[T5 r69 c3] 5000
+[T5 r69 c4] 2666,667
+[T5 r69 c5] 5000
+[T5 r69 c6] -28,4019
+[T5 r70 c1] 1,90625
+[T5 r70 c2] 1 Interior
+[T5 r70 c3] 5083,333
+[T5 r70 c4] 2666,667
+[T5 r70 c5] 5083,333
+[T5 r70 c6] -28,65383
+[T5 r71 c1] 1,9375
+[T5 r71 c2] 1 Interior
+[T5 r71 c3] 5166,667
+[T5 r71 c4] 2666,667
+[T5 r71 c5] 5166,667
+[T5 r71 c6] -28,899
+[T5 r72 c1] 1,96875
+[T5 r72 c2] 1 Interior
+[T5 r72 c3] 5250
+[T5 r72 c4] 2666,667
+[T5 r72 c5] 5250
+[T5 r72 c6] -29,13746
+[T5 r73 c1] 2
+[T5 r73 c2] 1 Above
+[T5 r73 c3] 5333,333
+[T5 r73 c4] 2666,667
+[T5 r73 c5] 5333,333
+[T5 r73 c6] -29,36922
+[T5 r74 c1] 2
+[T5 r74 c2] 1 Below
+[T5 r74 c3] 5333,333
+[T5 r74 c4] 2666,667
+[T5 r74 c5] 5333,333
+[T5 r74 c6] -29,36922
+[T5 r75 c1] 2,03125
+[T5 r75 c2] 1 Interior
+[T5 r75 c3] 5416,667
+[T5 r75 c4] 2666,667
+[T5 r75 c5] 5416,667
+[T5 r75 c6] -29,59434
+[T5 r76 c1] 2,0625
+[T5 r76 c2] 1 Interior
+[T5 r76 c3] 5500
+[T5 r76 c4] 2666,667
+[T5 r76 c5] 5500
+[T5 r76 c6] -29,81283
+[T5 r77 c1] 2,09375
+[T5 r77 c2] 1 Interior
+[T5 r77 c3] 5583,333
+[T5 r77 c4] 2666,667
+[T5 r77 c5] 5583,333
+[T5 r77 c6] -30,02472
+[T5 r78 c1] 2,125
+[T5 r78 c2] 1 Interior
+[T5 r78 c3] 5666,667
+[T5 r78 c4] 2666,667
+[T5 r78 c5] 5666,667
+[T5 r78 c6] -30,23006
+[T5 r79 c1] 2,15625
+[T5 r79 c2] 1 Interior
+[T5 r79 c3] 5750
+[T5 r79 c4] 2666,667
+[T5 r79 c5] 5750
+[T5 r79 c6] -30,42888
+[T5 r80 c1] 2,1875
+[T5 r80 c2] 1 Interior
+[T5 r80 c3] 5833,333
+[T5 r80 c4] 2666,667
+[T5 r80 c5] 5833,333
+[T5 r80 c6] -30,6212
+[T5 r81 c1] 2,21875
+[T5 r81 c2] 1 Interior
+[T5 r81 c3] 5916,667
+[T5 r81 c4] 2666,667
+[T5 r81 c5] 5916,667
+[T5 r81 c6] -30,80706
+[T5 r82 c1] 2,25
+[T5 r82 c2] 1 Above
+[T5 r82 c3] 6000
+[T5 r82 c4] 2666,667
+[T5 r82 c5] 6000
+[T5 r82 c6] -30,9865
+[T5 r83 c1] 2,25
+[T5 r83 c2] 1 Below
+[T5 r83 c3] 6000
+[T5 r83 c4] 2666,667
+[T5 r83 c5] 6000
+[T5 r83 c6] -30,9865
+[T5 r84 c1] 2,28125
+[T5 r84 c2] 1 Interior
+[T5 r84 c3] 6083,333
+[T5 r84 c4] 2666,667
+[T5 r84 c5] 6083,333
+[T5 r84 c6] -31,15954
+[T5 r85 c1] 2,3125
+[T5 r85 c2] 1 Interior
+[T5 r85 c3] 6166,667
+[T5 r85 c4] 2666,667
+[T5 r85 c5] 6166,667
+[T5 r85 c6] -31,32623
+[T5 r86 c1] 2,34375
+[T5 r86 c2] 1 Interior
+[T5 r86 c3] 6250
+[T5 r86 c4] 2666,667
+[T5 r86 c5] 6250
+[T5 r86 c6] -31,4866
+[T5 r87 c1] 2,375
+[T5 r87 c2] 1 Interior
+[T5 r87 c3] 6333,333
+[T5 r87 c4] 2666,667
+[T5 r87 c5] 6333,333
+[T5 r87 c6] -31,64068
+[T5 r88 c1] 2,40625
+[T5 r88 c2] 1 Interior
+[T5 r88 c3] 6416,667
+[T5 r88 c4] 2666,667
+[T5 r88 c5] 6416,667
+[T5 r88 c6] -31,78851
+[T5 r89 c1] 2,4375
+[T5 r89 c2] 1 Interior
+[T5 r89 c3] 6500
+[T5 r89 c4] 2666,667
+[T5 r89 c5] 6500
+[T5 r89 c6] -31,93012
+[T5 r90 c1] 2,46875
+[T5 r90 c2] 1 Interior
+[T5 r90 c3] 6583,333
+[T5 r90 c4] 2666,667
+[T5 r90 c5] 6583,333
+[T5 r90 c6] -32,06554
+[T5 r91 c1] 2,5
+[T5 r91 c2] 1 Above
+[T5 r91 c3] 6666,667
+[T5 r91 c4] 2666,667
+[T5 r91 c5] 6666,667
+[T5 r91 c6] -32,19483
+[T5 r92 c1] 2,5
+[T5 r92 c2] 1 Below
+[T5 r92 c3] 6666,667
+[T5 r92 c4] 2666,667
+[T5 r92 c5] 6666,667
+[T5 r92 c6] -32,19483
+[T5 r93 c1] 2,53125
+[T5 r93 c2] 1 Interior
+[T5 r93 c3] 6750
+[T5 r93 c4] 2666,667
+[T5 r93 c5] 6750
+[T5 r93 c6] -32,318
+[T5 r94 c1] 2,5625
+[T5 r94 c2] 1 Interior
+[T5 r94 c3] 6833,333
+[T5 r94 c4] 2666,667
+[T5 r94 c5] 6833,333
+[T5 r94 c6] -32,4351
+[T5 r95 c1] 2,59375
+[T5 r95 c2] 1 Interior
+[T5 r95 c3] 6916,667
+[T5 r95 c4] 2666,667
+[T5 r95 c5] 6916,667
+[T5 r95 c6] -32,54616
+[T5 r96 c1] 2,625
+[T5 r96 c2] 1 Interior
+[T5 r96 c3] 7000
+[T5 r96 c4] 2666,667
+[T5 r96 c5] 7000
+[T5 r96 c6] -32,65122
+[T5 r97 c1] 2,65625
+[T5 r97 c2] 1 Interior
+[T5 r97 c3] 7083,333
+[T5 r97 c4] 2666,667
+[T5 r97 c5] 7083,333
+[T5 r97 c6] -32,75031
+[T5 r98 c1] 2,6875
+[T5 r98 c2] 1 Interior
+[T5 r98 c3] 7166,667
+[T5 r98 c4] 2666,667
+[T5 r98 c5] 7166,667
+[T5 r98 c6] -32,84348
+[T5 r99 c1] 2,71875
+[T5 r99 c2] 1 Interior
+[T5 r99 c3] 7250
+[T5 r99 c4] 2666,667
+[T5 r99 c5] 7250
+[T5 r99 c6] -32,93075
+[T5 r100 c1] 2,75
+[T5 r100 c2] 1 Above
+[T5 r100 c3] 7333,333
+[T5 r100 c4] 2666,667
+[T5 r100 c5] 7333,333
+[T5 r100 c6] -33,01217
+[T5 r101 c1] 2,75
+[T5 r101 c2] 1 Below
+[T5 r101 c3] 7333,333
+[T5 r101 c4] 2666,667
+[T5 r101 c5] 7333,333
+[T5 r101 c6] -33,01217
+[T5 r102 c1] 2,78125
+[T5 r102 c2] 1 Interior
+[T5 r102 c3] 7416,667
+[T5 r102 c4] 2666,667
+[T5 r102 c5] 7416,667
+[T5 r102 c6] -33,08777
+[T5 r103 c1] 2,8125
+[T5 r103 c2] 1 Interior
+[T5 r103 c3] 7500
+[T5 r103 c4] 2666,667
+[T5 r103 c5] 7500
+[T5 r103 c6] -33,15759
+[T5 r104 c1] 2,84375
+[T5 r104 c2] 1 Interior
+[T5 r104 c3] 7583,333
+[T5 r104 c4] 2666,667
+[T5 r104 c5] 7583,333
+[T5 r104 c6] -33,22167
+[T5 r105 c1] 2,875
+[T5 r105 c2] 1 Interior
+[T5 r105 c3] 7666,667
+[T5 r105 c4] 2666,667
+[T5 r105 c5] 7666,667
+[T5 r105 c6] -33,28004
+[T5 r106 c1] 2,90625
+[T5 r106 c2] 1 Interior
+[T5 r106 c3] 7750
+[T5 r106 c4] 2666,667
+[T5 r106 c5] 7750
+[T5 r106 c6] -33,33274
+[T5 r107 c1] 2,9375
+[T5 r107 c2] 1 Interior
+[T5 r107 c3] 7833,333
+[T5 r107 c4] 2666,667
+[T5 r107 c5] 7833,333
+[T5 r107 c6] -33,37981
+[T5 r108 c1] 2,96875
+[T5 r108 c2] 1 Interior
+[T5 r108 c3] 7916,667
+[T5 r108 c4] 2666,667
+[T5 r108 c5] 7916,667
+[T5 r108 c6] -33,42129
+[T5 r109 c1] 3
+[T5 r109 c2] 1 Above
+[T5 r109 c3] 8000
+[T5 r109 c4] 2666,667
+[T5 r109 c5] 8000
+[T5 r109 c6] -33,45721
+[T5 r110 c1] 3
+[T5 r110 c2] 1 Below
+[T5 r110 c3] 8000
+[T5 r110 c4] 2666,667
+[T5 r110 c5] 8000
+[T5 r110 c6] -33,45721
+[T5 r111 c1] 3,03125
+[T5 r111 c2] 1 Interior
+[T5 r111 c3] 8083,333
+[T5 r111 c4] 2666,667
+[T5 r111 c5] 8083,333
+[T5 r111 c6] -33,48762
+[T5 r112 c1] 3,0625
+[T5 r112 c2] 1 Interior
+[T5 r112 c3] 8166,667
+[T5 r112 c4] 2666,667
+[T5 r112 c5] 8166,667
+[T5 r112 c6] -33,51254
+[T5 r113 c1] 3,09375
+[T5 r113 c2] 1 Interior
+[T5 r113 c3] 8250
+[T5 r113 c4] 2666,667
+[T5 r113 c5] 8250
+[T5 r113 c6] -33,53202
+[T5 r114 c1] 3,125
+[T5 r114 c2] 1 Interior
+[T5 r114 c3] 8333,333
+[T5 r114 c4] 2666,667
+[T5 r114 c5] 8333,333
+[T5 r114 c6] -33,5461
+[T5 r115 c1] 3,15625
+[T5 r115 c2] 1 Interior
+[T5 r115 c3] 8416,667
+[T5 r115 c4] 2666,667
+[T5 r115 c5] 8416,667
+[T5 r115 c6] -33,55481
+[T5 r116 c1] 3,1875
+[T5 r116 c2] 1 Interior
+[T5 r116 c3] 8500
+[T5 r116 c4] 2666,667
+[T5 r116 c5] 8500
+[T5 r116 c6] -33,5582
+[T5 r117 c1] 3,191819
+[T5 r117 c2] 1 Interior
+[T5 r117 c3] 8511,518
+[T5 r117 c4] 2666,667
+[T5 r117 c5] 8511,518
+[T5 r117 c6] -33,55825
+[T5 r118 c1] 3,21875
+[T5 r118 c2] 1 Interior
+[T5 r118 c3] 8583,333
+[T5 r118 c4] 2666,667
+[T5 r118 c5] 8583,333
+[T5 r118 c6] -33,55629
+[T5 r119 c1] 3,25
+[T5 r119 c2] 1 Above
+[T5 r119 c3] 8666,667
+[T5 r119 c4] 2666,667
+[T5 r119 c5] 8666,667
+[T5 r119 c6] -33,54913
+[T5 r120 c1] 3,25
+[T5 r120 c2] 1 Below
+[T5 r120 c3] 8666,667
+[T5 r120 c4] 2666,667
+[T5 r120 c5] 8666,667
+[T5 r120 c6] -33,54913
+[T5 r121 c1] 3,28125
+[T5 r121 c2] 1 Interior
+[T5 r121 c3] 8750
+[T5 r121 c4] 2666,667
+[T5 r121 c5] 8750
+[T5 r121 c6] -33,53675
+[T5 r122 c1] 3,3125
+[T5 r122 c2] 1 Interior
+[T5 r122 c3] 8833,333
+[T5 r122 c4] 2666,667
+[T5 r122 c5] 8833,333
+[T5 r122 c6] -33,5192
+[T5 r123 c1] 3,34375
+[T5 r123 c2] 1 Interior
+[T5 r123 c3] 8916,667
+[T5 r123 c4] 2666,667
+[T5 r123 c5] 8916,667
+[T5 r123 c6] -33,49651
+[T5 r124 c1] 3,375
+[T5 r124 c2] 1 Interior
+[T5 r124 c3] 9000
+[T5 r124 c4] 2666,667
+[T5 r124 c5] 9000
+[T5 r124 c6] -33,46872
+[T5 r125 c1] 3,40625
+[T5 r125 c2] 1 Interior
+[T5 r125 c3] 9083,333
+[T5 r125 c4] 2666,667
+[T5 r125 c5] 9083,333
+[T5 r125 c6] -33,43587
+[T5 r126 c1] 3,4375
+[T5 r126 c2] 1 Interior
+[T5 r126 c3] 9166,667
+[T5 r126 c4] 2666,667
+[T5 r126 c5] 9166,667
+[T5 r126 c6] -33,39799
+[T5 r127 c1] 3,46875
+[T5 r127 c2] 1 Interior
+[T5 r127 c3] 9250
+[T5 r127 c4] 2666,667
+[T5 r127 c5] 9250
+[T5 r127 c6] -33,35512
+[T5 r128 c1] 3,5
+[T5 r128 c2] 1 Above
+[T5 r128 c3] 9333,333
+[T5 r128 c4] 2666,667
+[T5 r128 c5] 9333,333
+[T5 r128 c6] -33,3073
+[T5 r129 c1] 3,5
+[T5 r129 c2] 1 Below
+[T5 r129 c3] 9333,333
+[T5 r129 c4] 2666,667
+[T5 r129 c5] 9333,333
+[T5 r129 c6] -33,3073
+[T5 r130 c1] 3,53125
+[T5 r130 c2] 1 Interior
+[T5 r130 c3] 9416,667
+[T5 r130 c4] 2666,667
+[T5 r130 c5] 9416,667
+[T5 r130 c6] -33,25458
+[T5 r131 c1] 3,5625
+[T5 r131 c2] 1 Interior
+[T5 r131 c3] 9500
+[T5 r131 c4] 2666,667
+[T5 r131 c5] 9500
+[T5 r131 c6] -33,19697
+[T5 r132 c1] 3,59375
+[T5 r132 c2] 1 Interior
+[T5 r132 c3] 9583,333
+[T5 r132 c4] 2666,667
+[T5 r132 c5] 9583,333
+[T5 r132 c6] -33,13453
+[T5 r133 c1] 3,625
+[T5 r133 c2] 1 Interior
+[T5 r133 c3] 9666,667
+[T5 r133 c4] 2666,667
+[T5 r133 c5] 9666,667
+[T5 r133 c6] -33,06729
+[T5 r134 c1] 3,65625
+[T5 r134 c2] 1 Interior
+[T5 r134 c3] 9750
+[T5 r134 c4] 2666,667
+[T5 r134 c5] 9750
+[T5 r134 c6] -32,99529
+[T5 r135 c1] 3,6875
+[T5 r135 c2] 1 Interior
+[T5 r135 c3] 9833,333
+[T5 r135 c4] 2666,667
+[T5 r135 c5] 9833,333
+[T5 r135 c6] -32,91856
+[T5 r136 c1] 3,71875
+[T5 r136 c2] 1 Interior
+[T5 r136 c3] 9916,667
+[T5 r136 c4] 2666,667
+[T5 r136 c5] 9916,667
+[T5 r136 c6] -32,83715
+[T5 r137 c1] 3,75
+[T5 r137 c2] 1 Above
+[T5 r137 c3] 10000
+[T5 r137 c4] 2666,667
+[T5 r137 c5] 10000
+[T5 r137 c6] -32,75108
+[T5 r138 c1] 3,75
+[T5 r138 c2] 1 Below
+[T5 r138 c3] 10000
+[T5 r138 c4] 2666,667
+[T5 r138 c5] 10000
+[T5 r138 c6] -32,75108
+[T5 r139 c1] 3,78125
+[T5 r139 c2] 1 Interior
+[T5 r139 c3] 10083,33
+[T5 r139 c4] 2666,667
+[T5 r139 c5] 10083,33
+[T5 r139 c6] -32,6604
+[T5 r140 c1] 3,8125
+[T5 r140 c2] 1 Interior
+[T5 r140 c3] 10166,67
+[T5 r140 c4] 2666,667
+[T5 r140 c5] 10166,67
+[T5 r140 c6] -32,56514
+[T5 r141 c1] 3,84375
+[T5 r141 c2] 1 Interior
+[T5 r141 c3] 10250
+[T5 r141 c4] 2666,667
+[T5 r141 c5] 10250
+[T5 r141 c6] -32,46534
+[T5 r142 c1] 3,875
+[T5 r142 c2] 1 Interior
+[T5 r142 c3] 10333,33
+[T5 r142 c4] 2666,667
+[T5 r142 c5] 10333,33
+[T5 r142 c6] -32,36103
+[T5 r143 c1] 3,90625
+[T5 r143 c2] 1 Interior
+[T5 r143 c3] 10416,67
+[T5 r143 c4] 2666,667
+[T5 r143 c5] 10416,67
+[T5 r143 c6] -32,25226
+[T5 r144 c1] 3,9375
+[T5 r144 c2] 1 Interior
+[T5 r144 c3] 10500
+[T5 r144 c4] 2666,667
+[T5 r144 c5] 10500
+[T5 r144 c6] -32,13905
+[T5 r145 c1] 3,96875
+[T5 r145 c2] 1 Interior
+[T5 r145 c3] 10583,33
+[T5 r145 c4] 2666,667
+[T5 r145 c5] 10583,33
+[T5 r145 c6] -32,02144
+[T5 r146 c1] 4
+[T5 r146 c2] 1 Above
+[T5 r146 c3] 10666,67
+[T5 r146 c4] 2666,667
+[T5 r146 c5] 10666,67
+[T5 r146 c6] -31,89948
+[T5 r147 c1] 4
+[T5 r147 c2] 1 Below
+[T5 r147 c3] 10666,67
+[T5 r147 c4] 2666,667
+[T5 r147 c5] 10666,67
+[T5 r147 c6] -31,89948
+[T5 r148 c1] 4,016561
+[T5 r148 c2] 1 Interior
+[T5 r148 c3] 10710,83
+[T5 r148 c4] 2666,667
+[T5 r148 c5] 10710,83
+[T5 r148 c6] -31,83309
+[T5 r149 c1] 4,03125
+[T5 r149 c2] 1 Interior
+[T5 r149 c3] 10750
+[T5 r149 c4] 2666,667
+[T5 r149 c5] 10750
+[T5 r149 c6] -31,77319
+[T5 r150 c1] 4,0625
+[T5 r150 c2] 1 Interior
+[T5 r150 c3] 10833,33
+[T5 r150 c4] 2666,667
+[T5 r150 c5] 10833,33
+[T5 r150 c6] -31,64261
+[T5 r151 c1] 4,09375
+[T5 r151 c2] 1 Interior
+[T5 r151 c3] 10916,67
+[T5 r151 c4] 2666,667
+[T5 r151 c5] 10916,67
+[T5 r151 c6] -31,50778
+[T5 r152 c1] 4,125
+[T5 r152 c2] 1 Interior
+[T5 r152 c3] 11000
+[T5 r152 c4] 2666,667
+[T5 r152 c5] 11000
+[T5 r152 c6] -31,36872
+[T5 r153 c1] 4,15625
+[T5 r153 c2] 1 Interior
+[T5 r153 c3] 11083,33
+[T5 r153 c4] 2666,667
+[T5 r153 c5] 11083,33
+[T5 r153 c6] -31,22548
+[T5 r154 c1] 4,1875
+[T5 r154 c2] 1 Interior
+[T5 r154 c3] 11166,67
+[T5 r154 c4] 2666,667
+[T5 r154 c5] 11166,67
+[T5 r154 c6] -31,07809
+[T5 r155 c1] 4,21875
+[T5 r155 c2] 1 Interior
+[T5 r155 c3] 11250
+[T5 r155 c4] 2666,667
+[T5 r155 c5] 11250
+[T5 r155 c6] -30,92659
+[T5 r156 c1] 4,25
+[T5 r156 c2] 1 Above
+[T5 r156 c3] 11333,33
+[T5 r156 c4] 2666,667
+[T5 r156 c5] 11333,33
+[T5 r156 c6] -30,771
+[T5 r157 c1] 4,25
+[T5 r157 c2] 1 Below
+[T5 r157 c3] 11333,33
+[T5 r157 c4] 2666,667
+[T5 r157 c5] 11333,33
+[T5 r157 c6] -30,771
+[T5 r158 c1] 4,28125
+[T5 r158 c2] 1 Interior
+[T5 r158 c3] 11416,67
+[T5 r158 c4] 2666,667
+[T5 r158 c5] 11416,67
+[T5 r158 c6] -30,61136
+[T5 r159 c1] 4,3125
+[T5 r159 c2] 1 Interior
+[T5 r159 c3] 11500
+[T5 r159 c4] 2666,667
+[T5 r159 c5] 11500
+[T5 r159 c6] -30,44771
+[T5 r160 c1] 4,34375
+[T5 r160 c2] 1 Interior
+[T5 r160 c3] 11583,33
+[T5 r160 c4] 2666,667
+[T5 r160 c5] 11583,33
+[T5 r160 c6] -30,28008
+[T5 r161 c1] 4,375
+[T5 r161 c2] 1 Interior
+[T5 r161 c3] 11666,67
+[T5 r161 c4] 2666,667
+[T5 r161 c5] 11666,67
+[T5 r161 c6] -30,10849
+[T5 r162 c1] 4,40625
+[T5 r162 c2] 1 Interior
+[T5 r162 c3] 11750
+[T5 r162 c4] 2666,667
+[T5 r162 c5] 11750
+[T5 r162 c6] -29,933
+[T5 r163 c1] 4,4375
+[T5 r163 c2] 1 Interior
+[T5 r163 c3] 11833,33
+[T5 r163 c4] 2666,667
+[T5 r163 c5] 11833,33
+[T5 r163 c6] -29,75362
+[T5 r164 c1] 4,46875
+[T5 r164 c2] 1 Interior
+[T5 r164 c3] 11916,67
+[T5 r164 c4] 2666,667
+[T5 r164 c5] 11916,67
+[T5 r164 c6] -29,57038
+[T5 r165 c1] 4,5
+[T5 r165 c2] 1 Above
+[T5 r165 c3] 12000
+[T5 r165 c4] 2666,667
+[T5 r165 c5] 12000
+[T5 r165 c6] -29,38333
+[T5 r166 c1] 4,5
+[T5 r166 c2] 1 Below
+[T5 r166 c3] 12000
+[T5 r166 c4] 2666,667
+[T5 r166 c5] 12000
+[T5 r166 c6] -29,38333
+[T5 r167 c1] 4,53125
+[T5 r167 c2] 1 Interior
+[T5 r167 c3] 12083,33
+[T5 r167 c4] 2666,667
+[T5 r167 c5] 12083,33
+[T5 r167 c6] -29,1925
+[T5 r168 c1] 4,5625
+[T5 r168 c2] 1 Interior
+[T5 r168 c3] 12166,67
+[T5 r168 c4] 2666,667
+[T5 r168 c5] 12166,67
+[T5 r168 c6] -28,99791
+[T5 r169 c1] 4,59375
+[T5 r169 c2] 1 Interior
+[T5 r169 c3] 12250
+[T5 r169 c4] 2666,667
+[T5 r169 c5] 12250
+[T5 r169 c6] -28,79959
+[T5 r170 c1] 4,625
+[T5 r170 c2] 1 Interior
+[T5 r170 c3] 12333,33
+[T5 r170 c4] 2666,667
+[T5 r170 c5] 12333,33
+[T5 r170 c6] -28,59758
+[T5 r171 c1] 4,65625
+[T5 r171 c2] 1 Interior
+[T5 r171 c3] 12416,67
+[T5 r171 c4] 2666,667
+[T5 r171 c5] 12416,67
+[T5 r171 c6] -28,39191
+[T5 r172 c1] 4,6875
+[T5 r172 c2] 1 Interior
+[T5 r172 c3] 12500
+[T5 r172 c4] 2666,667
+[T5 r172 c5] 12500
+[T5 r172 c6] -28,1826
+[T5 r173 c1] 4,71875
+[T5 r173 c2] 1 Interior
+[T5 r173 c3] 12583,33
+[T5 r173 c4] 2666,667
+[T5 r173 c5] 12583,33
+[T5 r173 c6] -27,96969
+[T5 r174 c1] 4,75
+[T5 r174 c2] 1 Above
+[T5 r174 c3] 12666,67
+[T5 r174 c4] 2666,667
+[T5 r174 c5] 12666,67
+[T5 r174 c6] -27,75321
+[T5 r175 c1] 4,75
+[T5 r175 c2] 1 Below
+[T5 r175 c3] 12666,67
+[T5 r175 c4] 2666,667
+[T5 r175 c5] 12666,67
+[T5 r175 c6] -27,75321
+[T5 r176 c1] 4,78125
+[T5 r176 c2] 1 Interior
+[T5 r176 c3] 12750
+[T5 r176 c4] 2666,667
+[T5 r176 c5] 12750
+[T5 r176 c6] -27,53318
+[T5 r177 c1] 4,8125
+[T5 r177 c2] 1 Interior
+[T5 r177 c3] 12833,33
+[T5 r177 c4] 2666,667
+[T5 r177 c5] 12833,33
+[T5 r177 c6] -27,30964
+[T5 r178 c1] 4,84375
+[T5 r178 c2] 1 Interior
+[T5 r178 c3] 12916,67
+[T5 r178 c4] 2666,667
+[T5 r178 c5] 12916,67
+[T5 r178 c6] -27,08261
+[T5 r179 c1] 4,875
+[T5 r179 c2] 1 Interior
+[T5 r179 c3] 13000
+[T5 r179 c4] 2666,667
+[T5 r179 c5] 13000
+[T5 r179 c6] -26,85212
+[T5 r180 c1] 4,90625
+[T5 r180 c2] 1 Interior
+[T5 r180 c3] 13083,33
+[T5 r180 c4] 2666,667
+[T5 r180 c5] 13083,33
+[T5 r180 c6] -26,6182
+[T5 r181 c1] 4,9375
+[T5 r181 c2] 1 Interior
+[T5 r181 c3] 13166,67
+[T5 r181 c4] 2666,667
+[T5 r181 c5] 13166,67
+[T5 r181 c6] -26,38088
+[T5 r182 c1] 4,96875
+[T5 r182 c2] 1 Interior
+[T5 r182 c3] 13250
+[T5 r182 c4] 2666,667
+[T5 r182 c5] 13250
+[T5 r182 c6] -26,14018
+[T5 r183 c1] 5
+[T5 r183 c2] 1 Above
+[T5 r183 c3] 13333,33
+[T5 r183 c4] 2666,667
+[T5 r183 c5] 13333,33
+[T5 r183 c6] -25,89613
+[T5 r184 c1] 5
+[T5 r184 c2] 1 Below
+[T5 r184 c3] 13333,33
+[T5 r184 c4] 2666,667
+[T5 r184 c5] 13333,33
+[T5 r184 c6] -25,89613
+[T5 r185 c1] 5,03125
+[T5 r185 c2] 1 Interior
+[T5 r185 c3] 13416,67
+[T5 r185 c4] 2666,667
+[T5 r185 c5] 13416,67
+[T5 r185 c6] -25,64876
+[T5 r186 c1] 5,0625
+[T5 r186 c2] 1 Interior
+[T5 r186 c3] 13500
+[T5 r186 c4] 2666,667
+[T5 r186 c5] 13500
+[T5 r186 c6] -25,3981
+[T5 r187 c1] 5,09375
+[T5 r187 c2] 1 Interior
+[T5 r187 c3] 13583,33
+[T5 r187 c4] 2666,667
+[T5 r187 c5] 13583,33
+[T5 r187 c6] -25,14416
+[T5 r188 c1] 5,125
+[T5 r188 c2] 1 Interior
+[T5 r188 c3] 13666,67
+[T5 r188 c4] 2666,667
+[T5 r188 c5] 13666,67
+[T5 r188 c6] -24,88698
+[T5 r189 c1] 5,15625
+[T5 r189 c2] 1 Interior
+[T5 r189 c3] 13750
+[T5 r189 c4] 2666,667
+[T5 r189 c5] 13750
+[T5 r189 c6] -24,62657
+[T5 r190 c1] 5,1875
+[T5 r190 c2] 1 Interior
+[T5 r190 c3] 13833,33
+[T5 r190 c4] 2666,667
+[T5 r190 c5] 13833,33
+[T5 r190 c6] -24,36297
+[T5 r191 c1] 5,21875
+[T5 r191 c2] 1 Interior
+[T5 r191 c3] 13916,67
+[T5 r191 c4] 2666,667
+[T5 r191 c5] 13916,67
+[T5 r191 c6] -24,0962
+[T5 r192 c1] 5,25
+[T5 r192 c2] 1 Above
+[T5 r192 c3] 14000
+[T5 r192 c4] 2666,667
+[T5 r192 c5] 14000
+[T5 r192 c6] -23,82628
+[T5 r193 c1] 5,25
+[T5 r193 c2] 1 Below
+[T5 r193 c3] 14000
+[T5 r193 c4] 2666,667
+[T5 r193 c5] 14000
+[T5 r193 c6] -23,82628
+[T5 r194 c1] 5,28125
+[T5 r194 c2] 1 Interior
+[T5 r194 c3] 14083,33
+[T5 r194 c4] 2666,667
+[T5 r194 c5] 14083,33
+[T5 r194 c6] -23,55323
+[T5 r195 c1] 5,3125
+[T5 r195 c2] 1 Interior
+[T5 r195 c3] 14166,67
+[T5 r195 c4] 2666,667
+[T5 r195 c5] 14166,67
+[T5 r195 c6] -23,27708
+[T5 r196 c1] 5,34375
+[T5 r196 c2] 1 Interior
+[T5 r196 c3] 14250
+[T5 r196 c4] 2666,667
+[T5 r196 c5] 14250
+[T5 r196 c6] -22,99785
+[T5 r197 c1] 5,375
+[T5 r197 c2] 1 Interior
+[T5 r197 c3] 14333,33
+[T5 r197 c4] 2666,667
+[T5 r197 c5] 14333,33
+[T5 r197 c6] -22,71557
+[T5 r198 c1] 5,40625
+[T5 r198 c2] 1 Interior
+[T5 r198 c3] 14416,67
+[T5 r198 c4] 2666,667
+[T5 r198 c5] 14416,67
+[T5 r198 c6] -22,43025
+[T5 r199 c1] 5,4375
+[T5 r199 c2] 1 Interior
+[T5 r199 c3] 14500
+[T5 r199 c4] 2666,667
+[T5 r199 c5] 14500
+[T5 r199 c6] -22,14191
+[T5 r200 c1] 5,46875
+[T5 r200 c2] 1 Interior
+[T5 r200 c3] 14583,33
+[T5 r200 c4] 2666,667
+[T5 r200 c5] 14583,33
+[T5 r200 c6] -21,85058
+[T5 r201 c1] 5,5
+[T5 r201 c2] 1 Above
+[T5 r201 c3] 14666,67
+[T5 r201 c4] 2666,667
+[T5 r201 c5] 14666,67
+[T5 r201 c6] -21,55628
+[T5 r202 c1] 5,5
+[T5 r202 c2] 1 Below
+[T5 r202 c3] 14666,67
+[T5 r202 c4] 2666,667
+[T5 r202 c5] 14666,67
+[T5 r202 c6] -21,55628
+[T5 r203 c1] 5,53125
+[T5 r203 c2] 1 Interior
+[T5 r203 c3] 14750
+[T5 r203 c4] 2666,667
+[T5 r203 c5] 14750
+[T5 r203 c6] -21,25902
+[T5 r204 c1] 5,5625
+[T5 r204 c2] 1 Interior
+[T5 r204 c3] 14833,33
+[T5 r204 c4] 2666,667
+[T5 r204 c5] 14833,33
+[T5 r204 c6] -20,95883
+[T5 r205 c1] 5,59375
+[T5 r205 c2] 1 Interior
+[T5 r205 c3] 14916,67
+[T5 r205 c4] 2666,667
+[T5 r205 c5] 14916,67
+[T5 r205 c6] -20,65573
+[T5 r206 c1] 5,625
+[T5 r206 c2] 1 Interior
+[T5 r206 c3] 15000
+[T5 r206 c4] 2666,667
+[T5 r206 c5] 15000
+[T5 r206 c6] -20,34973
+[T5 r207 c1] 5,65625
+[T5 r207 c2] 1 Interior
+[T5 r207 c3] 15083,33
+[T5 r207 c4] 2666,667
+[T5 r207 c5] 15083,33
+[T5 r207 c6] -20,04085
+[T5 r208 c1] 5,6875
+[T5 r208 c2] 1 Interior
+[T5 r208 c3] 15166,67
+[T5 r208 c4] 2666,667
+[T5 r208 c5] 15166,67
+[T5 r208 c6] -19,72911
+[T5 r209 c1] 5,71875
+[T5 r209 c2] 1 Interior
+[T5 r209 c3] 15250
+[T5 r209 c4] 2666,667
+[T5 r209 c5] 15250
+[T5 r209 c6] -19,41453
+[T5 r210 c1] 5,75
+[T5 r210 c2] 1 Above
+[T5 r210 c3] 15333,33
+[T5 r210 c4] 2666,667
+[T5 r210 c5] 15333,33
+[T5 r210 c6] -19,09713
+[T5 r211 c1] 5,75
+[T5 r211 c2] 1 Below
+[T5 r211 c3] 15333,33
+[T5 r211 c4] 2666,667
+[T5 r211 c5] 15333,33
+[T5 r211 c6] -19,09713
+[T5 r212 c1] 5,78125
+[T5 r212 c2] 1 Interior
+[T5 r212 c3] 15416,67
+[T5 r212 c4] 2666,667
+[T5 r212 c5] 15416,67
+[T5 r212 c6] -18,77692
+[T5 r213 c1] 5,8125
+[T5 r213 c2] 1 Interior
+[T5 r213 c3] 15500
+[T5 r213 c4] 2666,667
+[T5 r213 c5] 15500
+[T5 r213 c6] -18,45392
+[T5 r214 c1] 5,84375
+[T5 r214 c2] 1 Interior
+[T5 r214 c3] 15583,33
+[T5 r214 c4] 2666,667
+[T5 r214 c5] 15583,33
+[T5 r214 c6] -18,12814
+[T5 r215 c1] 5,875
+[T5 r215 c2] 1 Interior
+[T5 r215 c3] 15666,67
+[T5 r215 c4] 2666,667
+[T5 r215 c5] 15666,67
+[T5 r215 c6] -17,79959
+[T5 r216 c1] 5,90625
+[T5 r216 c2] 1 Interior
+[T5 r216 c3] 15750
+[T5 r216 c4] 2666,667
+[T5 r216 c5] 15750
+[T5 r216 c6] -17,4683
+[T5 r217 c1] 5,9375
+[T5 r217 c2] 1 Interior
+[T5 r217 c3] 15833,33
+[T5 r217 c4] 2666,667
+[T5 r217 c5] 15833,33
+[T5 r217 c6] -17,13428
+[T5 r218 c1] 5,96875
+[T5 r218 c2] 1 Interior
+[T5 r218 c3] 15916,67
+[T5 r218 c4] 2666,667
+[T5 r218 c5] 15916,67
+[T5 r218 c6] -16,79754
+[T5 r219 c1] 6
+[T5 r219 c2] 1 Above
+[T5 r219 c3] 16000
+[T5 r219 c4] 2666,667
+[T5 r219 c5] 16000
+[T5 r219 c6] -16,45809
+[T5 r220 c1] 6
+[T5 r220 c2] 1 Below
+[T5 r220 c3] 16000
+[T5 r220 c4] 2666,667
+[T5 r220 c5] 16000
+[T5 r220 c6] -16,45809
+[T5 r221 c1] 6,03125
+[T5 r221 c2] 1 Interior
+[T5 r221 c3] 16083,33
+[T5 r221 c4] 2666,667
+[T5 r221 c5] 16083,33
+[T5 r221 c6] -16,11596
+[T5 r222 c1] 6,0625
+[T5 r222 c2] 1 Interior
+[T5 r222 c3] 16166,67
+[T5 r222 c4] 2666,667
+[T5 r222 c5] 16166,67
+[T5 r222 c6] -15,77114
+[T5 r223 c1] 6,09375
+[T5 r223 c2] 1 Interior
+[T5 r223 c3] 16250
+[T5 r223 c4] 2666,667
+[T5 r223 c5] 16250
+[T5 r223 c6] -15,42365
+[T5 r224 c1] 6,125
+[T5 r224 c2] 1 Interior
+[T5 r224 c3] 16333,33
+[T5 r224 c4] 2666,667
+[T5 r224 c5] 16333,33
+[T5 r224 c6] -15,07351
+[T5 r225 c1] 6,15625
+[T5 r225 c2] 1 Interior
+[T5 r225 c3] 16416,67
+[T5 r225 c4] 2666,667
+[T5 r225 c5] 16416,67
+[T5 r225 c6] -14,72073
+[T5 r226 c1] 6,1875
+[T5 r226 c2] 1 Interior
+[T5 r226 c3] 16500
+[T5 r226 c4] 2666,667
+[T5 r226 c5] 16500
+[T5 r226 c6] -14,36531
+[T5 r227 c1] 6,21875
+[T5 r227 c2] 1 Interior
+[T5 r227 c3] 16583,33
+[T5 r227 c4] 2666,667
+[T5 r227 c5] 16583,33
+[T5 r227 c6] -14,00726
+[T5 r228 c1] 6,25
+[T5 r228 c2] 1 Above
+[T5 r228 c3] 16666,67
+[T5 r228 c4] 2666,667
+[T5 r228 c5] 16666,67
+[T5 r228 c6] -13,6466
+[T5 r229 c1] 6,25
+[T5 r229 c2] 1 Below
+[T5 r229 c3] 16666,67
+[T5 r229 c4] 2666,667
+[T5 r229 c5] 16666,67
+[T5 r229 c6] -13,6466
+[T5 r230 c1] 6,28125
+[T5 r230 c2] 1 Interior
+[T5 r230 c3] 16750
+[T5 r230 c4] 2666,667
+[T5 r230 c5] 16750
+[T5 r230 c6] -13,28334
+[T5 r231 c1] 6,3125
+[T5 r231 c2] 1 Interior
+[T5 r231 c3] 16833,33
+[T5 r231 c4] 2666,667
+[T5 r231 c5] 16833,33
+[T5 r231 c6] -12,91748
+[T5 r232 c1] 6,34375
+[T5 r232 c2] 1 Interior
+[T5 r232 c3] 16916,67
+[T5 r232 c4] 2666,667
+[T5 r232 c5] 16916,67
+[T5 r232 c6] -12,54903
+[T5 r233 c1] 6,375
+[T5 r233 c2] 1 Interior
+[T5 r233 c3] 17000
+[T5 r233 c4] 2666,667
+[T5 r233 c5] 17000
+[T5 r233 c6] -12,178
+[T5 r234 c1] 6,40625
+[T5 r234 c2] 1 Interior
+[T5 r234 c3] 17083,33
+[T5 r234 c4] 2666,667
+[T5 r234 c5] 17083,33
+[T5 r234 c6] -11,8044
+[T5 r235 c1] 6,4375
+[T5 r235 c2] 1 Interior
+[T5 r235 c3] 17166,67
+[T5 r235 c4] 2666,667
+[T5 r235 c5] 17166,67
+[T5 r235 c6] -11,42823
+[T5 r236 c1] 6,46875
+[T5 r236 c2] 1 Interior
+[T5 r236 c3] 17250
+[T5 r236 c4] 2666,667
+[T5 r236 c5] 17250
+[T5 r236 c6] -11,04951
+[T5 r237 c1] 6,5
+[T5 r237 c2] 1 Above
+[T5 r237 c3] 17333,33
+[T5 r237 c4] 2666,667
+[T5 r237 c5] 17333,33
+[T5 r237 c6] -10,66823
+[T5 r238 c1] 6,5
+[T5 r238 c2] 1 Below
+[T5 r238 c3] 17333,33
+[T5 r238 c4] 2666,667
+[T5 r238 c5] 17333,33
+[T5 r238 c6] -10,66823
+[T5 r239 c1] 6,53125
+[T5 r239 c2] 1 Interior
+[T5 r239 c3] 17416,67
+[T5 r239 c4] 2666,667
+[T5 r239 c5] 17416,67
+[T5 r239 c6] -10,28441
+[T5 r240 c1] 6,5625
+[T5 r240 c2] 1 Interior
+[T5 r240 c3] 17500
+[T5 r240 c4] 2666,667
+[T5 r240 c5] 17500
+[T5 r240 c6] -9,898041
+[T5 r241 c1] 6,59375
+[T5 r241 c2] 1 Interior
+[T5 r241 c3] 17583,33
+[T5 r241 c4] 2666,667
+[T5 r241 c5] 17583,33
+[T5 r241 c6] -9,509137
+[T5 r242 c1] 6,625
+[T5 r242 c2] 1 Interior
+[T5 r242 c3] 17666,67
+[T5 r242 c4] 2666,667
+[T5 r242 c5] 17666,67
+[T5 r242 c6] -9,117701
+[T5 r243 c1] 6,65625
+[T5 r243 c2] 1 Interior
+[T5 r243 c3] 17750
+[T5 r243 c4] 2666,667
+[T5 r243 c5] 17750
+[T5 r243 c6] -8,723735
+[T5 r244 c1] 6,6875
+[T5 r244 c2] 1 Interior
+[T5 r244 c3] 17833,33
+[T5 r244 c4] 2666,667
+[T5 r244 c5] 17833,33
+[T5 r244 c6] -8,327244
+[T5 r245 c1] 6,71875
+[T5 r245 c2] 1 Interior
+[T5 r245 c3] 17916,67
+[T5 r245 c4] 2666,667
+[T5 r245 c5] 17916,67
+[T5 r245 c6] -7,928229
+[T5 r246 c1] 6,75
+[T5 r246 c2] 1 Above
+[T5 r246 c3] 18000
+[T5 r246 c4] 2666,667
+[T5 r246 c5] 18000
+[T5 r246 c6] -7,526695
+[T5 r247 c1] 6,75
+[T5 r247 c2] 1 Below
+[T5 r247 c3] 18000
+[T5 r247 c4] 2666,667
+[T5 r247 c5] 18000
+[T5 r247 c6] -7,526695
+[T5 r248 c1] 6,78125
+[T5 r248 c2] 1 Interior
+[T5 r248 c3] 18083,33
+[T5 r248 c4] 2666,667
+[T5 r248 c5] 18083,33
+[T5 r248 c6] -7,122643
+[T5 r249 c1] 6,8125
+[T5 r249 c2] 1 Interior
+[T5 r249 c3] 18166,67
+[T5 r249 c4] 2666,667
+[T5 r249 c5] 18166,67
+[T5 r249 c6] -6,716075
+[T5 r250 c1] 6,84375
+[T5 r250 c2] 1 Interior
+[T5 r250 c3] 18250
+[T5 r250 c4] 2666,667
+[T5 r250 c5] 18250
+[T5 r250 c6] -6,306992
+[T5 r251 c1] 6,875
+[T5 r251 c2] 1 Interior
+[T5 r251 c3] 18333,33
+[T5 r251 c4] 2666,667
+[T5 r251 c5] 18333,33
+[T5 r251 c6] -5,895394
+[T5 r252 c1] 6,90625
+[T5 r252 c2] 1 Interior
+[T5 r252 c3] 18416,67
+[T5 r252 c4] 2666,667
+[T5 r252 c5] 18416,67
+[T5 r252 c6] -5,481282
+[T5 r253 c1] 6,9375
+[T5 r253 c2] 1 Interior
+[T5 r253 c3] 18500
+[T5 r253 c4] 2666,667
+[T5 r253 c5] 18500
+[T5 r253 c6] -5,064656
+[T5 r254 c1] 6,96875
+[T5 r254 c2] 1 Interior
+[T5 r254 c3] 18583,33
+[T5 r254 c4] 2666,667
+[T5 r254 c5] 18583,33
+[T5 r254 c6] -4,645515
+[T5 r255 c1] 7
+[T5 r255 c2] 1 Above
+[T5 r255 c3] 18666,67
+[T5 r255 c4] 2666,667
+[T5 r255 c5] 18666,67
+[T5 r255 c6] -4,223859
+[T5 r256 c1] 7
+[T5 r256 c2] 1 Below
+[T5 r256 c3] 18666,67
+[T5 r256 c4] 2666,667
+[T5 r256 c5] 18666,67
+[T5 r256 c6] -4,223859
+[T5 r257 c1] 7,03125
+[T5 r257 c2] 1 Interior
+[T5 r257 c3] 18750
+[T5 r257 c4] 2666,667
+[T5 r257 c5] 18750
+[T5 r257 c6] -3,799686
+[T5 r258 c1] 7,0625
+[T5 r258 c2] 1 Interior
+[T5 r258 c3] 18833,33
+[T5 r258 c4] 2666,667
+[T5 r258 c5] 18833,33
+[T5 r258 c6] -3,372994
+[T5 r259 c1] 7,09375
+[T5 r259 c2] 1 Interior
+[T5 r259 c3] 18916,67
+[T5 r259 c4] 2666,667
+[T5 r259 c5] 18916,67
+[T5 r259 c6] -2,943782
+[T5 r260 c1] 7,125
+[T5 r260 c2] 1 Interior
+[T5 r260 c3] 19000
+[T5 r260 c4] 2666,667
+[T5 r260 c5] 19000
+[T5 r260 c6] -2,512046
+[T5 r261 c1] 7,15625
+[T5 r261 c2] 1 Interior
+[T5 r261 c3] 19083,33
+[T5 r261 c4] 2666,667
+[T5 r261 c5] 19083,33
+[T5 r261 c6] -2,077784
+[T5 r262 c1] 7,1875
+[T5 r262 c2] 1 Interior
+[T5 r262 c3] 19166,67
+[T5 r262 c4] 2666,667
+[T5 r262 c5] 19166,67
+[T5 r262 c6] -1,640992
+[T5 r263 c1] 7,21875
+[T5 r263 c2] 1 Interior
+[T5 r263 c3] 19250
+[T5 r263 c4] 2666,667
+[T5 r263 c5] 19250
+[T5 r263 c6] -1,201666
+[T5 r264 c1] 7,25
+[T5 r264 c2] 1 Above
+[T5 r264 c3] 19333,33
+[T5 r264 c4] 2666,667
+[T5 r264 c5] 19333,33
+[T5 r264 c6] -0,7598034
+[T5 r265 c1] 7,25
+[T5 r265 c2] 1 Below
+[T5 r265 c3] 19333,33
+[T5 r265 c4] 2666,667
+[T5 r265 c5] 19333,33
+[T5 r265 c6] -0,7598034
+[T5 r266 c1] 7,28125
+[T5 r266 c2] 1 Interior
+[T5 r266 c3] 19416,67
+[T5 r266 c4] 2666,667
+[T5 r266 c5] 19416,67
+[T5 r266 c6] -0,3153982
+[T5 r267 c1] 7,303321
+[T5 r267 c2] 1 Interior
+[T5 r267 c3] 19475,52
+[T5 r267 c4] 2666,667
+[T5 r267 c5] 19475,52
+[T5 r267 c6] 5,662137E-15
+[T5 r268 c1] 7,3125
+[T5 r268 c2] 1 Interior
+[T5 r268 c3] 19500
+[T5 r268 c4] 2666,667
+[T5 r268 c5] 19500
+[T5 r268 c6] 0,131554
+[T5 r269 c1] 7,34375
+[T5 r269 c2] 1 Interior
+[T5 r269 c3] 19583,33
+[T5 r269 c4] 2666,667
+[T5 r269 c5] 19583,33
+[T5 r269 c6] 0,5810587
+[T5 r270 c1] 7,375
+[T5 r270 c2] 1 Interior
+[T5 r270 c3] 19666,67
+[T5 r270 c4] 2666,667
+[T5 r270 c5] 19666,67
+[T5 r270 c6] 1,033121
+[T5 r271 c1] 7,40625
+[T5 r271 c2] 1 Interior
+[T5 r271 c3] 19750
+[T5 r271 c4] 2666,667
+[T5 r271 c5] 19750
+[T5 r271 c6] 1,487748
+[T5 r272 c1] 7,4375
+[T5 r272 c2] 1 Interior
+[T5 r272 c3] 19833,33
+[T5 r272 c4] 2666,667
+[T5 r272 c5] 19833,33
+[T5 r272 c6] 1,944945
+[T5 r273 c1] 7,46875
+[T5 r273 c2] 1 Interior
+[T5 r273 c3] 19916,67
+[T5 r273 c4] 2666,667
+[T5 r273 c5] 19916,67
+[T5 r273 c6] 2,40472
+[T5 r274 c1] 7,5
+[T5 r274 c2] 1 Above
+[T5 r274 c3] 20000
+[T5 r274 c4] 2666,667
+[T5 r274 c5] 20000
+[T5 r274 c6] 2,867079
+[T5 r275 c1] 7,5
+[T5 r275 c2] 1 Below
+[T5 r275 c3] 20000
+[T5 r275 c4] 2666,667
+[T5 r275 c5] 20000
+[T5 r275 c6] 2,867079
+[T5 r276 c1] 7,53125
+[T5 r276 c2] 1 Interior
+[T5 r276 c3] 20083,33
+[T5 r276 c4] 2666,667
+[T5 r276 c5] 20083,33
+[T5 r276 c6] 3,33203
+[T5 r277 c1] 7,5625
+[T5 r277 c2] 1 Interior
+[T5 r277 c3] 20166,67
+[T5 r277 c4] 2666,667
+[T5 r277 c5] 20166,67
+[T5 r277 c6] 3,79958
+[T5 r278 c1] 7,59375
+[T5 r278 c2] 1 Interior
+[T5 r278 c3] 20250
+[T5 r278 c4] 2666,667
+[T5 r278 c5] 20250
+[T5 r278 c6] 4,269738
+[T5 r279 c1] 7,625
+[T5 r279 c2] 1 Interior
+[T5 r279 c3] 20333,33
+[T5 r279 c4] 2666,667
+[T5 r279 c5] 20333,33
+[T5 r279 c6] 4,742513
+[T5 r280 c1] 7,65625
+[T5 r280 c2] 1 Interior
+[T5 r280 c3] 20416,67
+[T5 r280 c4] 2666,667
+[T5 r280 c5] 20416,67
+[T5 r280 c6] 5,217912
+[T5 r281 c1] 7,6875
+[T5 r281 c2] 1 Interior
+[T5 r281 c3] 20500
+[T5 r281 c4] 2666,667
+[T5 r281 c5] 20500
+[T5 r281 c6] 5,695945
+[T5 r282 c1] 7,71875
+[T5 r282 c2] 1 Interior
+[T5 r282 c3] 20583,33
+[T5 r282 c4] 2666,667
+[T5 r282 c5] 20583,33
+[T5 r282 c6] 6,176621
+[T5 r283 c1] 7,75
+[T5 r283 c2] 1 Above
+[T5 r283 c3] 20666,67
+[T5 r283 c4] 2666,667
+[T5 r283 c5] 20666,67
+[T5 r283 c6] 6,659951
+[T5 r284 c1] 7,75
+[T5 r284 c2] 1 Below
+[T5 r284 c3] 20666,67
+[T5 r284 c4] 2666,667
+[T5 r284 c5] 20666,67
+[T5 r284 c6] 6,659951
+[T5 r285 c1] 7,78125
+[T5 r285 c2] 1 Interior
+[T5 r285 c3] 20750
+[T5 r285 c4] 2666,667
+[T5 r285 c5] 20750
+[T5 r285 c6] 7,145943
+[T5 r286 c1] 7,8125
+[T5 r286 c2] 1 Interior
+[T5 r286 c3] 20833,33
+[T5 r286 c4] 2666,667
+[T5 r286 c5] 20833,33
+[T5 r286 c6] 7,63461
+[T5 r287 c1] 7,84375
+[T5 r287 c2] 1 Interior
+[T5 r287 c3] 20916,67
+[T5 r287 c4] 2666,667
+[T5 r287 c5] 20916,67
+[T5 r287 c6] 8,12596
+[T5 r288 c1] 7,875
+[T5 r288 c2] 1 Interior
+[T5 r288 c3] 21000
+[T5 r288 c4] 2666,667
+[T5 r288 c5] 21000
+[T5 r288 c6] 8,620005
+[T5 r289 c1] 7,90625
+[T5 r289 c2] 1 Interior
+[T5 r289 c3] 21083,33
+[T5 r289 c4] 2666,667
+[T5 r289 c5] 21083,33
+[T5 r289 c6] 9,116755
+[T5 r290 c1] 7,9375
+[T5 r290 c2] 1 Interior
+[T5 r290 c3] 21166,67
+[T5 r290 c4] 2666,667
+[T5 r290 c5] 21166,67
+[T5 r290 c6] 9,616222
+[T5 r291 c1] 7,96875
+[T5 r291 c2] 1 Interior
+[T5 r291 c3] 21250
+[T5 r291 c4] 2666,667
+[T5 r291 c5] 21250
+[T5 r291 c6] 10,11842
+[T5 r292 c1] 8
+[T5 r292 c2] 1 Above
+[T5 r292 c3] 21333,33
+[T5 r292 c4] 2666,667
+[T5 r292 c5] 21333,33
+[T5 r292 c6] 10,62335
+[T5 r293 c1] 8
+[T5 r293 c2] 1 Below
+[T5 r293 c3] 21333,33
+[T5 r293 c4] 2666,667
+[T5 r293 c5] 21333,33
+[T5 r293 c6] 10,62335
+[T5 r294 c1] 8,03125
+[T5 r294 c2] 1 Interior
+[T5 r294 c3] 21416,67
+[T5 r294 c4] 2666,667
+[T5 r294 c5] 21416,67
+[T5 r294 c6] 11,13104
+[T5 r295 c1] 8,0625
+[T5 r295 c2] 1 Interior
+[T5 r295 c3] 21500
+[T5 r295 c4] 2666,667
+[T5 r295 c5] 21500
+[T5 r295 c6] 11,6415
+[T5 r296 c1] 8,09375
+[T5 r296 c2] 1 Interior
+[T5 r296 c3] 21583,33
+[T5 r296 c4] 2666,667
+[T5 r296 c5] 21583,33
+[T5 r296 c6] 12,15473
+[T5 r297 c1] 8,125
+[T5 r297 c2] 1 Interior
+[T5 r297 c3] 21666,67
+[T5 r297 c4] 2666,667
+[T5 r297 c5] 21666,67
+[T5 r297 c6] 12,67075
+[T5 r298 c1] 8,15625
+[T5 r298 c2] 1 Interior
+[T5 r298 c3] 21750
+[T5 r298 c4] 2666,667
+[T5 r298 c5] 21750
+[T5 r298 c6] 13,18958
+[T5 r299 c1] 8,1875
+[T5 r299 c2] 1 Interior
+[T5 r299 c3] 21833,33
+[T5 r299 c4] 2666,667
+[T5 r299 c5] 21833,33
+[T5 r299 c6] 13,71121
+[T5 r300 c1] 8,21875
+[T5 r300 c2] 1 Interior
+[T5 r300 c3] 21916,67
+[T5 r300 c4] 2666,667
+[T5 r300 c5] 21916,67
+[T5 r300 c6] 14,23568
+[T5 r301 c1] 8,25
+[T5 r301 c2] 1 Above
+[T5 r301 c3] 22000
+[T5 r301 c4] 2666,667
+[T5 r301 c5] 22000
+[T5 r301 c6] 14,76299
+[T5 r302 c1] 8,25
+[T5 r302 c2] 1 Below
+[T5 r302 c3] 22000
+[T5 r302 c4] 2666,667
+[T5 r302 c5] 22000
+[T5 r302 c6] 14,76299
+[T5 r303 c1] 8,28125
+[T5 r303 c2] 1 Interior
+[T5 r303 c3] 22083,33
+[T5 r303 c4] 2666,667
+[T5 r303 c5] 22083,33
+[T5 r303 c6] 15,29316
+[T5 r304 c1] 8,3125
+[T5 r304 c2] 1 Interior
+[T5 r304 c3] 22166,67
+[T5 r304 c4] 2666,667
+[T5 r304 c5] 22166,67
+[T5 r304 c6] 15,8262
+[T5 r305 c1] 8,34375
+[T5 r305 c2] 1 Interior
+[T5 r305 c3] 22250
+[T5 r305 c4] 2666,667
+[T5 r305 c5] 22250
+[T5 r305 c6] 16,36212
+[T5 r306 c1] 8,375
+[T5 r306 c2] 1 Interior
+[T5 r306 c3] 22333,33
+[T5 r306 c4] 2666,667
+[T5 r306 c5] 22333,33
+[T5 r306 c6] 16,90094
+[T5 r307 c1] 8,40625
+[T5 r307 c2] 1 Interior
+[T5 r307 c3] 22416,67
+[T5 r307 c4] 2666,667
+[T5 r307 c5] 22416,67
+[T5 r307 c6] 17,44267
+[T5 r308 c1] 8,4375
+[T5 r308 c2] 1 Interior
+[T5 r308 c3] 22500
+[T5 r308 c4] 2666,667
+[T5 r308 c5] 22500
+[T5 r308 c6] 17,98733
+[T5 r309 c1] 8,46875
+[T5 r309 c2] 1 Interior
+[T5 r309 c3] 22583,33
+[T5 r309 c4] 2666,667
+[T5 r309 c5] 22583,33
+[T5 r309 c6] 18,53492
+[T5 r310 c1] 8,5
+[T5 r310 c2] 1 Above
+[T5 r310 c3] 22666,67
+[T5 r310 c4] 2666,667
+[T5 r310 c5] 22666,67
+[T5 r310 c6] 19,08548
+[T5 r311 c1] 8,5
+[T5 r311 c2] 1 Below
+[T5 r311 c3] 22666,67
+[T5 r311 c4] 2666,667
+[T5 r311 c5] 22666,67
+[T5 r311 c6] 19,08548
+[T5 r312 c1] 8,53125
+[T5 r312 c2] 1 Interior
+[T5 r312 c3] 22750
+[T5 r312 c4] 2666,667
+[T5 r312 c5] 22750
+[T5 r312 c6] 19,639
+[T5 r313 c1] 8,5625
+[T5 r313 c2] 1 Interior
+[T5 r313 c3] 22833,33
+[T5 r313 c4] 2666,667
+[T5 r313 c5] 22833,33
+[T5 r313 c6] 20,1955
+[T5 r314 c1] 8,59375
+[T5 r314 c2] 1 Interior
+[T5 r314 c3] 22916,67
+[T5 r314 c4] 2666,667
+[T5 r314 c5] 22916,67
+[T5 r314 c6] 20,75501
+[T5 r315 c1] 8,625
+[T5 r315 c2] 1 Interior
+[T5 r315 c3] 23000
+[T5 r315 c4] 2666,667
+[T5 r315 c5] 23000
+[T5 r315 c6] 21,31752
+[T5 r316 c1] 8,65625
+[T5 r316 c2] 1 Interior
+[T5 r316 c3] 23083,33
+[T5 r316 c4] 2666,667
+[T5 r316 c5] 23083,33
+[T5 r316 c6] 21,88306
+[T5 r317 c1] 8,6875
+[T5 r317 c2] 1 Interior
+[T5 r317 c3] 23166,67
+[T5 r317 c4] 2666,667
+[T5 r317 c5] 23166,67
+[T5 r317 c6] 22,45165
+[T5 r318 c1] 8,71875
+[T5 r318 c2] 1 Interior
+[T5 r318 c3] 23250
+[T5 r318 c4] 2666,667
+[T5 r318 c5] 23250
+[T5 r318 c6] 23,02328
+[T5 r319 c1] 8,75
+[T5 r319 c2] 1 Above
+[T5 r319 c3] 23333,33
+[T5 r319 c4] 2666,667
+[T5 r319 c5] 23333,33
+[T5 r319 c6] 23,598
+[T5 r320 c1] 8,75
+[T5 r320 c2] 1 Below
+[T5 r320 c3] 23333,33
+[T5 r320 c4] 2666,667
+[T5 r320 c5] 23333,33
+[T5 r320 c6] 23,598
+[T5 r321 c1] 8,78125
+[T5 r321 c2] 1 Interior
+[T5 r321 c3] 23416,67
+[T5 r321 c4] 2666,667
+[T5 r321 c5] 23416,67
+[T5 r321 c6] 24,17579
+[T5 r322 c1] 8,8125
+[T5 r322 c2] 1 Interior
+[T5 r322 c3] 23500
+[T5 r322 c4] 2666,667
+[T5 r322 c5] 23500
+[T5 r322 c6] 24,75669
+[T5 r323 c1] 8,84375
+[T5 r323 c2] 1 Interior
+[T5 r323 c3] 23583,33
+[T5 r323 c4] 2666,667
+[T5 r323 c5] 23583,33
+[T5 r323 c6] 25,34071
+[T5 r324 c1] 8,875
+[T5 r324 c2] 1 Interior
+[T5 r324 c3] 23666,67
+[T5 r324 c4] 2666,667
+[T5 r324 c5] 23666,67
+[T5 r324 c6] 25,92785
+[T5 r325 c1] 8,90625
+[T5 r325 c2] 1 Interior
+[T5 r325 c3] 23750
+[T5 r325 c4] 2666,667
+[T5 r325 c5] 23750
+[T5 r325 c6] 26,51813
+[T5 r326 c1] 8,9375
+[T5 r326 c2] 1 Interior
+[T5 r326 c3] 23833,33
+[T5 r326 c4] 2666,667
+[T5 r326 c5] 23833,33
+[T5 r326 c6] 27,11157
+[T5 r327 c1] 8,96875
+[T5 r327 c2] 1 Interior
+[T5 r327 c3] 23916,67
+[T5 r327 c4] 2666,667
+[T5 r327 c5] 23916,67
+[T5 r327 c6] 27,70819
+[T5 r328 c1] 9
+[T5 r328 c2] 1 Above
+[T5 r328 c3] 24000
+[T5 r328 c4] 2666,667
+[T5 r328 c5] 24000
+[T5 r328 c6] 28,30799
+[T5 r329 c1] 9
+[T5 r329 c2] 1 Below
+[T5 r329 c3] 24000
+[T5 r329 c4] 2666,667
+[T5 r329 c5] 24000
+[T5 r329 c6] 28,30799
+[T5 r330 c1] 9,03125
+[T5 r330 c2] 1 Interior
+[T5 r330 c3] 24083,33
+[T5 r330 c4] 2666,667
+[T5 r330 c5] 24083,33
+[T5 r330 c6] 28,91099
+[T5 r331 c1] 9,0625
+[T5 r331 c2] 1 Interior
+[T5 r331 c3] 24166,67
+[T5 r331 c4] 2666,667
+[T5 r331 c5] 24166,67
+[T5 r331 c6] 29,5172
+[T5 r332 c1] 9,09375
+[T5 r332 c2] 1 Interior
+[T5 r332 c3] 24250
+[T5 r332 c4] 2666,667
+[T5 r332 c5] 24250
+[T5 r332 c6] 30,12664
+[T5 r333 c1] 9,125
+[T5 r333 c2] 1 Interior
+[T5 r333 c3] 24333,33
+[T5 r333 c4] 2666,667
+[T5 r333 c5] 24333,33
+[T5 r333 c6] 30,73932
+[T5 r334 c1] 9,15625
+[T5 r334 c2] 1 Interior
+[T5 r334 c3] 24416,67
+[T5 r334 c4] 2666,667
+[T5 r334 c5] 24416,67
+[T5 r334 c6] 31,35526
+[T5 r335 c1] 9,1875
+[T5 r335 c2] 1 Interior
+[T5 r335 c3] 24500
+[T5 r335 c4] 2666,667
+[T5 r335 c5] 24500
+[T5 r335 c6] 31,97445
+[T5 r336 c1] 9,21875
+[T5 r336 c2] 1 Interior
+[T5 r336 c3] 24583,33
+[T5 r336 c4] 2666,667
+[T5 r336 c5] 24583,33
+[T5 r336 c6] 32,59693
+[T5 r337 c1] 9,25
+[T5 r337 c2] 1 Above
+[T5 r337 c3] 24666,67
+[T5 r337 c4] 2666,667
+[T5 r337 c5] 24666,67
+[T5 r337 c6] 33,2227
+[T5 r338 c1] 9,25
+[T5 r338 c2] 1 Below
+[T5 r338 c3] 24666,67
+[T5 r338 c4] 2666,667
+[T5 r338 c5] 24666,67
+[T5 r338 c6] 33,2227
+[T5 r339 c1] 9,28125
+[T5 r339 c2] 1 Interior
+[T5 r339 c3] 24750
+[T5 r339 c4] 2666,667
+[T5 r339 c5] 24750
+[T5 r339 c6] 33,85178
+[T5 r340 c1] 9,3125
+[T5 r340 c2] 1 Interior
+[T5 r340 c3] 24833,33
+[T5 r340 c4] 2666,667
+[T5 r340 c5] 24833,33
+[T5 r340 c6] 34,48417
+[T5 r341 c1] 9,34375
+[T5 r341 c2] 1 Interior
+[T5 r341 c3] 24916,67
+[T5 r341 c4] 2666,667
+[T5 r341 c5] 24916,67
+[T5 r341 c6] 35,11989
+[T5 r342 c1] 9,375
+[T5 r342 c2] 1 Interior
+[T5 r342 c3] 25000
+[T5 r342 c4] 2666,667
+[T5 r342 c5] 25000
+[T5 r342 c6] 35,75894
+[T5 r343 c1] 9,40625
+[T5 r343 c2] 1 Interior
+[T5 r343 c3] 25083,33
+[T5 r343 c4] 2666,667
+[T5 r343 c5] 25083,33
+[T5 r343 c6] 36,40135
+[T5 r344 c1] 9,4375
+[T5 r344 c2] 1 Interior
+[T5 r344 c3] 25166,67
+[T5 r344 c4] 2666,667
+[T5 r344 c5] 25166,67
+[T5 r344 c6] 37,04711
+[T5 r345 c1] 9,46875
+[T5 r345 c2] 1 Interior
+[T5 r345 c3] 25250
+[T5 r345 c4] 2666,667
+[T5 r345 c5] 25250
+[T5 r345 c6] 37,69625
+[T5 r346 c1] 9,5
+[T5 r346 c2] 1 Above
+[T5 r346 c3] 25333,33
+[T5 r346 c4] 2666,667
+[T5 r346 c5] 25333,33
+[T5 r346 c6] 38,34876
+[T5 r347 c1] 9,5
+[T5 r347 c2] 1 Below
+[T5 r347 c3] 25333,33
+[T5 r347 c4] 2666,667
+[T5 r347 c5] 25333,33
+[T5 r347 c6] 38,34876
+[T5 r348 c1] 9,53125
+[T5 r348 c2] 1 Interior
+[T5 r348 c3] 25416,67
+[T5 r348 c4] 2666,667
+[T5 r348 c5] 25416,67
+[T5 r348 c6] 39,00467
+[T5 r349 c1] 9,5625
+[T5 r349 c2] 1 Interior
+[T5 r349 c3] 25500
+[T5 r349 c4] 2666,667
+[T5 r349 c5] 25500
+[T5 r349 c6] 39,66398
+[T5 r350 c1] 9,59375
+[T5 r350 c2] 1 Interior
+[T5 r350 c3] 25583,33
+[T5 r350 c4] 2666,667
+[T5 r350 c5] 25583,33
+[T5 r350 c6] 40,32669
+[T5 r351 c1] 9,625
+[T5 r351 c2] 1 Interior
+[T5 r351 c3] 25666,67
+[T5 r351 c4] 2666,667
+[T5 r351 c5] 25666,67
+[T5 r351 c6] 40,99282
+[T5 r352 c1] 9,65625
+[T5 r352 c2] 1 Interior
+[T5 r352 c3] 25750
+[T5 r352 c4] 2666,667
+[T5 r352 c5] 25750
+[T5 r352 c6] 41,66237
+[T5 r353 c1] 9,6875
+[T5 r353 c2] 1 Interior
+[T5 r353 c3] 25833,33
+[T5 r353 c4] 2666,667
+[T5 r353 c5] 25833,33
+[T5 r353 c6] 42,33536
+[T5 r354 c1] 9,71875
+[T5 r354 c2] 1 Interior
+[T5 r354 c3] 25916,67
+[T5 r354 c4] 2666,667
+[T5 r354 c5] 25916,67
+[T5 r354 c6] 43,01177
+[T5 r355 c1] 9,75
+[T5 r355 c2] 1 Above
+[T5 r355 c3] 26000
+[T5 r355 c4] 2666,667
+[T5 r355 c5] 26000
+[T5 r355 c6] 43,69163
+[T5 r356 c1] 9,75
+[T5 r356 c2] 1 Below
+[T5 r356 c3] 26000
+[T5 r356 c4] 2666,667
+[T5 r356 c5] 26000
+[T5 r356 c6] 43,69163
+[T5 r357 c1] 9,78125
+[T5 r357 c2] 1 Interior
+[T5 r357 c3] 26083,33
+[T5 r357 c4] 2666,667
+[T5 r357 c5] 26083,33
+[T5 r357 c6] 44,37495
+[T5 r358 c1] 9,8125
+[T5 r358 c2] 1 Interior
+[T5 r358 c3] 26166,67
+[T5 r358 c4] 2666,667
+[T5 r358 c5] 26166,67
+[T5 r358 c6] 45,06172
+[T5 r359 c1] 9,84375
+[T5 r359 c2] 1 Interior
+[T5 r359 c3] 26250
+[T5 r359 c4] 2666,667
+[T5 r359 c5] 26250
+[T5 r359 c6] 45,75194
+[T5 r360 c1] 9,875
+[T5 r360 c2] 1 Interior
+[T5 r360 c3] 26333,33
+[T5 r360 c4] 2666,667
+[T5 r360 c5] 26333,33
+[T5 r360 c6] 46,44563
+[T5 r361 c1] 9,90625
+[T5 r361 c2] 1 Interior
+[T5 r361 c3] 26416,67
+[T5 r361 c4] 2666,667
+[T5 r361 c5] 26416,67
+[T5 r361 c6] 47,14278
+[T5 r362 c1] 9,9375
+[T5 r362 c2] 1 Interior
+[T5 r362 c3] 26500
+[T5 r362 c4] 2666,667
+[T5 r362 c5] 26500
+[T5 r362 c6] 47,8434
+[T5 r363 c1] 9,958824
+[T5 r363 c2] 1 Interior
+[T5 r363 c3] 26556,86
+[T5 r363 c4] 2666,667
+[T5 r363 c5] 26556,86
+[T5 r363 c6] 48,32347
+[T5 r364 c1] 9,96875
+[T5 r364 c2] 1 Interior
+[T5 r364 c3] 26583,33
+[T5 r364 c4] 2666,667
+[T5 r364 c5] 26583,33
+[T5 r364 c6] 48,54749
+[T5 r365 c1] 10
+[T5 r365 c2] 1 Above
+[T5 r365 c3] 26666,67
+[T5 r365 c4] 2666,667
+[T5 r365 c5] 26666,67
+[T5 r365 c6] 49,25504
+¶ Discretizzazione: K* equivale all'integrale di k sul tratto tributario. Valori illustrativi [kN/m], non molle concentrate impiegate dal FEM.
+[T6 r1 c1] Nodo x [m]
+[T6 r1 c2] Tributaria da [m]
+[T6 r1 c3] a [m]
+[T6 r1 c4] K* [kN/m]
+[T6 r2 c1] 0
+[T6 r2 c2] 0
+[T6 r2 c3] 0,125
+[T6 r2 c4] 20,83333
+[T6 r3 c1] 0,25
+[T6 r3 c2] 0,125
+[T6 r3 c3] 0,375
+[T6 r3 c4] 166,6667
+[T6 r4 c1] 0,5
+[T6 r4 c2] 0,375
+[T6 r4 c3] 0,625
+[T6 r4 c4] 333,3333
+[T6 r5 c1] 0,75
+[T6 r5 c2] 0,625
+[T6 r5 c3] 0,875
+[T6 r5 c4] 500
+[T6 r6 c1] 1
+[T6 r6 c2] 0,875
+[T6 r6 c3] 1,125
+[T6 r6 c4] 666,6667
+[T6 r7 c1] 1,25
+[T6 r7 c2] 1,125
+[T6 r7 c3] 1,375
+[T6 r7 c4] 833,3333
+[T6 r8 c1] 1,5
+[T6 r8 c2] 1,375
+[T6 r8 c3] 1,625
+[T6 r8 c4] 1000
+[T6 r9 c1] 1,75
+[T6 r9 c2] 1,625
+[T6 r9 c3] 1,875
+[T6 r9 c4] 1166,667
+[T6 r10 c1] 2
+[T6 r10 c2] 1,875
+[T6 r10 c3] 2,125
+[T6 r10 c4] 1333,333
+[T6 r11 c1] 2,25
+[T6 r11 c2] 2,125
+[T6 r11 c3] 2,375
+[T6 r11 c4] 1500
+[T6 r12 c1] 2,5
+[T6 r12 c2] 2,375
+[T6 r12 c3] 2,625
+[T6 r12 c4] 1666,667
+[T6 r13 c1] 2,75
+[T6 r13 c2] 2,625
+[T6 r13 c3] 2,875
+[T6 r13 c4] 1833,333
+[T6 r14 c1] 3
+[T6 r14 c2] 2,875
+[T6 r14 c3] 3,125
+[T6 r14 c4] 2000
+[T6 r15 c1] 3,25
+[T6 r15 c2] 3,125
+[T6 r15 c3] 3,375
+[T6 r15 c4] 2166,667
+[T6 r16 c1] 3,5
+[T6 r16 c2] 3,375
+[T6 r16 c3] 3,625
+[T6 r16 c4] 2333,333
+[T6 r17 c1] 3,75
+[T6 r17 c2] 3,625
+[T6 r17 c3] 3,875
+[T6 r17 c4] 2500
+[T6 r18 c1] 4
+[T6 r18 c2] 3,875
+[T6 r18 c3] 4,125
+[T6 r18 c4] 2666,667
+[T6 r19 c1] 4,25
+[T6 r19 c2] 4,125
+[T6 r19 c3] 4,375
+[T6 r19 c4] 2833,333
+[T6 r20 c1] 4,5
+[T6 r20 c2] 4,375
+[T6 r20 c3] 4,625
+[T6 r20 c4] 3000
+[T6 r21 c1] 4,75
+[T6 r21 c2] 4,625
+[T6 r21 c3] 4,875
+[T6 r21 c4] 3166,667
+[T6 r22 c1] 5
+[T6 r22 c2] 4,875
+[T6 r22 c3] 5,125
+[T6 r22 c4] 3333,333
+[T6 r23 c1] 5,25
+[T6 r23 c2] 5,125
+[T6 r23 c3] 5,375
+[T6 r23 c4] 3500
+[T6 r24 c1] 5,5
+[T6 r24 c2] 5,375
+[T6 r24 c3] 5,625
+[T6 r24 c4] 3666,667
+[T6 r25 c1] 5,75
+[T6 r25 c2] 5,625
+[T6 r25 c3] 5,875
+[T6 r25 c4] 3833,333
+[T6 r26 c1] 6
+[T6 r26 c2] 5,875
+[T6 r26 c3] 6,125
+[T6 r26 c4] 4000
+[T6 r27 c1] 6,25
+[T6 r27 c2] 6,125
+[T6 r27 c3] 6,375
+[T6 r27 c4] 4166,667
+[T6 r28 c1] 6,5
+[T6 r28 c2] 6,375
+[T6 r28 c3] 6,625
+[T6 r28 c4] 4333,333
+[T6 r29 c1] 6,75
+[T6 r29 c2] 6,625
+[T6 r29 c3] 6,875
+[T6 r29 c4] 4500
+[T6 r30 c1] 7
+[T6 r30 c2] 6,875
+[T6 r30 c3] 7,125
+[T6 r30 c4] 4666,667
+[T6 r31 c1] 7,25
+[T6 r31 c2] 7,125
+[T6 r31 c3] 7,375
+[T6 r31 c4] 4833,333
+[T6 r32 c1] 7,5
+[T6 r32 c2] 7,375
+[T6 r32 c3] 7,625
+[T6 r32 c4] 5000
+[T6 r33 c1] 7,75
+[T6 r33 c2] 7,625
+[T6 r33 c3] 7,875
+[T6 r33 c4] 5166,667
+[T6 r34 c1] 8
+[T6 r34 c2] 7,875
+[T6 r34 c3] 8,125
+[T6 r34 c4] 5333,333
+[T6 r35 c1] 8,25
+[T6 r35 c2] 8,125
+[T6 r35 c3] 8,375
+[T6 r35 c4] 5500
+[T6 r36 c1] 8,5
+[T6 r36 c2] 8,375
+[T6 r36 c3] 8,625
+[T6 r36 c4] 5666,667
+[T6 r37 c1] 8,75
+[T6 r37 c2] 8,625
+[T6 r37 c3] 8,875
+[T6 r37 c4] 5833,333
+[T6 r38 c1] 9
+[T6 r38 c2] 8,875
+[T6 r38 c3] 9,125
+[T6 r38 c4] 6000
+[T6 r39 c1] 9,25
+[T6 r39 c2] 9,125
+[T6 r39 c3] 9,375
+[T6 r39 c4] 6166,667
+[T6 r40 c1] 9,5
+[T6 r40 c2] 9,375
+[T6 r40 c3] 9,625
+[T6 r40 c4] 6333,333
+[T6 r41 c1] 9,75
+[T6 r41 c2] 9,625
+[T6 r41 c3] 9,875
+[T6 r41 c4] 6500
+[T6 r42 c1] 10
+[T6 r42 c2] 9,875
+[T6 r42 c3] 10
+[T6 r42 c4] 3312,5
+¶ Armature e verifiche per tratto
+¶ Verifiche di sezione N–M e taglio; dettagli costruttivi preliminari
+¶ NTC 2018; azioni concomitanti. MRd nominale a N locale, nei due versi. Taglio: sezione circolare equivalente, bw=D, d dai baricentri delle barre nei semicerchi, z/d assegnato e confermato. Staffe chiuse a 90°, due bracci; nessuna equivalenza automatica della spirale. Dettagli sismici di testa opzionali: risultati nel relativo riepilogo NTC §7.2.5. SLE, sisma globale, duttilità esplicita, confinamento dei giunti e progetto esecutivo esclusi. Barre sovrapposte non sommate alla resistenza nominale. Quote dei tratti come quote finali dei tagli: primo gruppo da 0 alla fine assegnata, successivi da inizio tratto−l0 alla fine assegnata. Nessuna fusione di tratti uguali né prolungamenti automatici oltre testa, confini o punta. Suddivisione interna solo per il limite commerciale. Sviluppo, abbinamento e resistenza restano verifiche distinte; le quote non certificano il dettaglio. Giunti generati al 100%, senza sfalsamento automatico.
+¶ Azioni di progetto: da confermare. Modello di taglio circolare: da confermare; z/d=0,9. Dettagli: Pilastro.
+¶ Aderenza: altre condizioni; barre sovrapposte 100% ; distanza libera 0 mm. Sovrapposizione iniziale: 60 diametri, arrotondata al decimetro superiore.
+¶ Aggregato 20 mm; tolleranza copriferro 10 mm. Sviluppo disponibile esterno: testa 0 m, punta 0 m. Lunghezza minima tratti 3 m; barra commerciale massima 12 m.
+¶ T1: x=0–10 m. Collegato alla sezione principale. Non soddisfatto: dettaglio della sezione 
+¶ Armatura: 16 φ24; Staffe singole φ10/200 mm; copriferro 70 mm.
+¶ Normativa: NTC 2018. Dettagli: Pilastro.
+¶ Durabilità: esposizione non assegnata; cmin,dur da determinare. Esposizione, fck e vita utile dalla sezione principale. 
+¶ NON VERIFICATO
+¶ Non soddisfatti
+¶ Passo staffe pali
+¶ Sviluppo barre insufficiente ad alcune quote: MRd nominale non utilizzabile.
+¶ Da completare
+¶ Da confermare: natura di progetto delle azioni H, N e del peso proprio.
+¶ Taglio non verificato: confermare il modello circolare equivalente e z/d.
+¶ Da completare: Copriferro nominale
+¶ Da completare: Trattenimento barre compresse: disposizione staffe da confermare
+¶ Copriferro non verificato: completare esposizione/durabilità nella sezione principale. Classe di esposizione non assegnata.
+¶ Fuori dal perimetro
+¶ SLE, sisma/zone dissipative, confinamento giunti, ganci e dettagli esecutivi delle staffe.
+[T7 r1 c1] Controllo costruttivo
+[T7 r1 c2] Valore
+[T7 r1 c3] Limite
+[T7 r1 c4] Unità
+[T7 r1 c5] Esito
+[T7 r2 c1] Interferro
+[T7 r2 c2] 135,1937
+[T7 r2 c3] 25
+[T7 r2 c4] mm
+[T7 r2 c5] Soddisfatto
+[T7 r3 c1] Copriferro nominale
+[T7 r3 c2]
+[T7 r3 c3]
+[T7 r3 c4]
+[T7 r3 c5] Da completare
+[T7 r4 c1] Diametro longitudinale
+[T7 r4 c2] 24
+[T7 r4 c3] 12
+[T7 r4 c4] mm
+[T7 r4 c5] Soddisfatto
+[T7 r5 c1] Interasse longitudinale
+[T7 r5 c2] 160,2212
+[T7 r5 c3] 300
+[T7 r5 c4] mm
+[T7 r5 c5] Soddisfatto
+[T7 r6 c1] Armatura minima pilastro (NEd locale)
+[T7 r6 c2] 7238,229
+[T7 r6 c3] 2356,194
+[T7 r6 c4] mm2
+[T7 r6 c5] Soddisfatto
+[T7 r7 c1] Armatura massima
+[T7 r7 c2] 7238,229
+[T7 r7 c3] 31415,93
+[T7 r7 c4] mm2
+[T7 r7 c5] Soddisfatto
+[T7 r8 c1] Diametro staffe pilastro
+[T7 r8 c2] 10
+[T7 r8 c3] 6
+[T7 r8 c4] mm
+[T7 r8 c5] Soddisfatto
+[T7 r9 c1] Passo staffe pilastro
+[T7 r9 c2] 200
+[T7 r9 c3] 250
+[T7 r9 c4] mm
+[T7 r9 c5] Soddisfatto
+[T7 r10 c1] Trattenimento barre compresse: disposizione staffe da confermare
+[T7 r10 c2]
+[T7 r10 c3]
+[T7 r10 c4]
+[T7 r10 c5] Da completare
+[T7 r11 c1] Minimo armatura pali
+[T7 r11 c2] 7238,229
+[T7 r11 c3] 2356,194
+[T7 r11 c4] mm²
+[T7 r11 c5] Soddisfatto
+[T7 r12 c1] Diametro staffe pali
+[T7 r12 c2] 10
+[T7 r12 c3] 8
+[T7 r12 c4] mm
+[T7 r12 c5] Soddisfatto
+[T7 r13 c1] Passo staffe pali
+[T7 r13 c2] 200
+[T7 r13 c3] 192
+[T7 r13 c4] mm
+[T7 r13 c5] Non soddisfatto
+¶ Distinta Staffe singole: 51 φ10 mm, passo non maggiore di 200 mm; passo effettivo 200 mm; spire 0; lunghezza geometrica totale 136,188 m. Geometria nominale all'asse; lunghezza geometrica senza ganci, chiusure, ancoraggi, giunti o sfridi. Non è una lunghezza di taglio esecutiva. La spirale non è equiparata alle staffe singole nel verificatore.
+¶ Sezione critica x=0 m: N=0 kN, V=100 kN, M=1,418812E-10 kNm. MRd nominale +=1088,112, MRd−=-1088,122 kNm; VRd= kN.  Confermare il modello di taglio circolare e z/d. Natura delle azioni di progetto da confermare. Minimi pali NTC 2018 §7.2.5: As≥0,3% Ac, φst≥8 mm, s≤8φL; escluse prescrizioni delle zone dissipative. Sviluppo delle barre o giunti non disponibili: MRd nominale non utilizzabile. Dettaglio locale da definire.
+¶ Lato: sup. = superiore, inf. = inferiore, int. = interno all'elemento.
+[T8 r1 c1] x [m] / lato
+[T8 r1 c2] N [kN]
+[T8 r1 c3] M [kNm]
+[T8 r1 c4] MRd+ util. [kNm]
+[T8 r1 c5] MRd− util. [kNm]
+[T8 r1 c6] V / VRd [kN]
+[T8 r1 c7] Esito
+[T8 r2 c1] 0 inf.
+[T8 r2 c2] 0
+[T8 r2 c3] 1,418812E-10
+[T8 r2 c4]
+[T8 r2 c5]
+[T8 r2 c6] 100 / 
+[T8 r2 c7] Non soddisfatto
+[T8 r3 c1] 0,03125 int.
+[T8 r3 c2] 0,6135923
+[T8 r3 c3] 3,124886
+[T8 r3 c4]
+[T8 r3 c5]
+[T8 r3 c6] 99,98908 / 
+[T8 r3 c7] Non soddisfatto
+[T8 r4 c1] 0,0625 int.
+[T8 r4 c2] 1,227185
+[T8 r4 c3] 6,249092
+[T8 r4 c4]
+[T8 r4 c5]
+[T8 r4 c6] 99,95647 / 
+[T8 r4 c7] Non soddisfatto
+[T8 r5 c1] 0,09375 int.
+[T8 r5 c2] 1,840777
+[T8 r5 c3] 9,371942
+[T8 r5 c4]
+[T8 r5 c5]
+[T8 r5 c6] 99,90243 / 
+[T8 r5 c7] Non soddisfatto
+[T8 r6 c1] 0,125 int.
+[T8 r6 c2] 2,454369
+[T8 r6 c3] 12,49277
+[T8 r6 c4]
+[T8 r6 c5]
+[T8 r6 c6] 99,82719 / 
+[T8 r6 c7] Non soddisfatto
+[T8 r7 c1] 0,1562 int.
+[T8 r7 c2] 3,067962
+[T8 r7 c3] 15,61092
+[T8 r7 c4]
+[T8 r7 c5]
+[T8 r7 c6] 99,731 / 
+[T8 r7 c7] Non soddisfatto
+[T8 r8 c1] 0,1875 int.
+[T8 r8 c2] 3,681554
+[T8 r8 c3] 18,72574
+[T8 r8 c4]
+[T8 r8 c5]
+[T8 r8 c6] 99,6141 / 
+[T8 r8 c7] Non soddisfatto
+[T8 r9 c1] 0,2188 int.
+[T8 r9 c2] 4,295146
+[T8 r9 c3] 21,83659
+[T8 r9 c4]
+[T8 r9 c5]
+[T8 r9 c6] 99,47673 / 
+[T8 r9 c7] Non soddisfatto
+[T8 r10 c1] 0,25 sup.
+[T8 r10 c2] 4,908739
+[T8 r10 c3] 24,94283
+[T8 r10 c4]
+[T8 r10 c5]
+[T8 r10 c6] 99,31913 / 
+[T8 r10 c7] Non soddisfatto
+[T8 r11 c1] 0,25 inf.
+[T8 r11 c2] 4,908739
+[T8 r11 c3] 24,94283
+[T8 r11 c4]
+[T8 r11 c5]
+[T8 r11 c6] 99,31913 / 
+[T8 r11 c7] Non soddisfatto
+[T8 r12 c1] 0,2812 int.
+[T8 r12 c2] 5,522331
+[T8 r12 c3] 28,04383
+[T8 r12 c4]
+[T8 r12 c5]
+[T8 r12 c6] 99,14156 / 
+[T8 r12 c7] Non soddisfatto
+[T8 r13 c1] 0,3125 int.
+[T8 r13 c2] 6,135923
+[T8 r13 c3] 31,13897
+[T8 r13 c4]
+[T8 r13 c5]
+[T8 r13 c6] 98,94425 / 
+[T8 r13 c7] Non soddisfatto
+[T8 r14 c1] 0,3438 int.
+[T8 r14 c2] 6,749515
+[T8 r14 c3] 34,22764
+[T8 r14 c4]
+[T8 r14 c5]
+[T8 r14 c6] 98,72744 / 
+[T8 r14 c7] Non soddisfatto
+[T8 r15 c1] 0,375 int.
+[T8 r15 c2] 7,363108
+[T8 r15 c3] 37,30924
+[T8 r15 c4]
+[T8 r15 c5]
+[T8 r15 c6] 98,49138 / 
+[T8 r15 c7] Non soddisfatto
+[T8 r16 c1] 0,4062 int.
+[T8 r16 c2] 7,9767
+[T8 r16 c3] 40,38315
+[T8 r16 c4]
+[T8 r16 c5]
+[T8 r16 c6] 98,2363 / 
+[T8 r16 c7] Non soddisfatto
+[T8 r17 c1] 0,4375 int.
+[T8 r17 c2] 8,590292
+[T8 r17 c3] 43,44881
+[T8 r17 c4]
+[T8 r17 c5]
+[T8 r17 c6] 97,96246 / 
+[T8 r17 c7] Non soddisfatto
+[T8 r18 c1] 0,4688 int.
+[T8 r18 c2] 9,203885
+[T8 r18 c3] 46,50561
+[T8 r18 c4]
+[T8 r18 c5]
+[T8 r18 c6] 97,67009 / 
+[T8 r18 c7] Non soddisfatto
+[T8 r19 c1] 0,5 sup.
+[T8 r19 c2] 9,817477
+[T8 r19 c3] 49,553
+[T8 r19 c4]
+[T8 r19 c5]
+[T8 r19 c6] 97,35942 / 
+[T8 r19 c7] Non soddisfatto
+[T8 r20 c1] 0,5 inf.
+[T8 r20 c2] 9,817477
+[T8 r20 c3] 49,553
+[T8 r20 c4]
+[T8 r20 c5]
+[T8 r20 c6] 97,35942 / 
+[T8 r20 c7] Non soddisfatto
+[T8 r21 c1] 0,5312 int.
+[T8 r21 c2] 10,43107
+[T8 r21 c3] 52,59039
+[T8 r21 c4]
+[T8 r21 c5]
+[T8 r21 c6] 97,03072 / 
+[T8 r21 c7] Non soddisfatto
+[T8 r22 c1] 0,5625 int.
+[T8 r22 c2] 11,04466
+[T8 r22 c3] 55,61723
+[T8 r22 c4]
+[T8 r22 c5]
+[T8 r22 c6] 96,68421 / 
+[T8 r22 c7] Non soddisfatto
+[T8 r23 c1] 0,5938 int.
+[T8 r23 c2] 11,65825
+[T8 r23 c3] 58,63297
+[T8 r23 c4]
+[T8 r23 c5]
+[T8 r23 c6] 96,32013 / 
+[T8 r23 c7] Non soddisfatto
+[T8 r24 c1] 0,625 int.
+[T8 r24 c2] 12,27185
+[T8 r24 c3] 61,63706
+[T8 r24 c4]
+[T8 r24 c5]
+[T8 r24 c6] 95,93873 / 
+[T8 r24 c7] Non soddisfatto
+[T8 r25 c1] 0,6562 int.
+[T8 r25 c2] 12,88544
+[T8 r25 c3] 64,62896
+[T8 r25 c4]
+[T8 r25 c5]
+[T8 r25 c6] 95,54024 / 
+[T8 r25 c7] Non soddisfatto
+[T8 r26 c1] 0,6875 int.
+[T8 r26 c2] 13,49903
+[T8 r26 c3] 67,60815
+[T8 r26 c4]
+[T8 r26 c5]
+[T8 r26 c6] 95,1249 / 
+[T8 r26 c7] Non soddisfatto
+[T8 r27 c1] 0,7188 int.
+[T8 r27 c2] 14,11262
+[T8 r27 c3] 70,5741
+[T8 r27 c4]
+[T8 r27 c5]
+[T8 r27 c6] 94,69296 / 
+[T8 r27 c7] Non soddisfatto
+[T8 r28 c1] 0,75 sup.
+[T8 r28 c2] 14,72622
+[T8 r28 c3] 73,52629
+[T8 r28 c4]
+[T8 r28 c5]
+[T8 r28 c6] 94,24465 / 
+[T8 r28 c7] Non soddisfatto
+[T8 r29 c1] 0,75 inf.
+[T8 r29 c2] 14,72622
+[T8 r29 c3] 73,52629
+[T8 r29 c4]
+[T8 r29 c5]
+[T8 r29 c6] 94,24465 / 
+[T8 r29 c7] Non soddisfatto
+[T8 r30 c1] 0,7812 int.
+[T8 r30 c2] 15,33981
+[T8 r30 c3] 76,46422
+[T8 r30 c4]
+[T8 r30 c5]
+[T8 r30 c6] 93,78021 / 
+[T8 r30 c7] Non soddisfatto
+[T8 r31 c1] 0,8125 int.
+[T8 r31 c2] 15,9534
+[T8 r31 c3] 79,38739
+[T8 r31 c4]
+[T8 r31 c5]
+[T8 r31 c6] 93,29988 / 
+[T8 r31 c7] Non soddisfatto
+[T8 r32 c1] 0,8438 int.
+[T8 r32 c2] 16,56699
+[T8 r32 c3] 82,2953
+[T8 r32 c4]
+[T8 r32 c5]
+[T8 r32 c6] 92,80389 / 
+[T8 r32 c7] Non soddisfatto
+[T8 r33 c1] 0,875 int.
+[T8 r33 c2] 17,18058
+[T8 r33 c3] 85,18747
+[T8 r33 c4]
+[T8 r33 c5]
+[T8 r33 c6] 92,29248 / 
+[T8 r33 c7] Non soddisfatto
+[T8 r34 c1] 0,9062 int.
+[T8 r34 c2] 17,79418
+[T8 r34 c3] 88,06342
+[T8 r34 c4]
+[T8 r34 c5]
+[T8 r34 c6] 91,76589 / 
+[T8 r34 c7] Non soddisfatto
+[T8 r35 c1] 0,9375 int.
+[T8 r35 c2] 18,40777
+[T8 r35 c3] 90,92268
+[T8 r35 c4]
+[T8 r35 c5]
+[T8 r35 c6] 91,22435 / 
+[T8 r35 c7] Non soddisfatto
+[T8 r36 c1] 0,9688 int.
+[T8 r36 c2] 19,02136
+[T8 r36 c3] 93,76479
+[T8 r36 c4]
+[T8 r36 c5]
+[T8 r36 c6] 90,6681 / 
+[T8 r36 c7] Non soddisfatto
+[T8 r37 c1] 1 sup.
+[T8 r37 c2] 19,63495
+[T8 r37 c3] 96,58929
+[T8 r37 c4]
+[T8 r37 c5]
+[T8 r37 c6] 90,09737 / 
+[T8 r37 c7] Non soddisfatto
+[T8 r38 c1] 1 inf.
+[T8 r38 c2] 19,63495
+[T8 r38 c3] 96,58929
+[T8 r38 c4]
+[T8 r38 c5]
+[T8 r38 c6] 90,09737 / 
+[T8 r38 c7] Non soddisfatto
+[T8 r39 c1] 1,031 int.
+[T8 r39 c2] 20,24855
+[T8 r39 c3] 99,39573
+[T8 r39 c4]
+[T8 r39 c5]
+[T8 r39 c6] 89,5124 / 
+[T8 r39 c7] Non soddisfatto
+[T8 r40 c1] 1,062 int.
+[T8 r40 c2] 20,86214
+[T8 r40 c3] 102,1837
+[T8 r40 c4]
+[T8 r40 c5]
+[T8 r40 c6] 88,91342 / 
+[T8 r40 c7] Non soddisfatto
+[T8 r41 c1] 1,094 int.
+[T8 r41 c2] 21,47573
+[T8 r41 c3] 104,9527
+[T8 r41 c4]
+[T8 r41 c5]
+[T8 r41 c6] 88,30066 / 
+[T8 r41 c7] Non soddisfatto
+[T8 r42 c1] 1,125 int.
+[T8 r42 c2] 22,08932
+[T8 r42 c3] 107,7023
+[T8 r42 c4]
+[T8 r42 c5]
+[T8 r42 c6] 87,67435 / 
+[T8 r42 c7] Non soddisfatto
+[T8 r43 c1] 1,156 int.
+[T8 r43 c2] 22,70292
+[T8 r43 c3] 110,4322
+[T8 r43 c4]
+[T8 r43 c5]
+[T8 r43 c6] 87,03474 / 
+[T8 r43 c7] Non soddisfatto
+[T8 r44 c1] 1,188 int.
+[T8 r44 c2] 23,31651
+[T8 r44 c3] 113,1419
+[T8 r44 c4]
+[T8 r44 c5]
+[T8 r44 c6] 86,38204 / 
+[T8 r44 c7] Non soddisfatto
+[T8 r45 c1] 1,219 int.
+[T8 r45 c2] 23,9301
+[T8 r45 c3] 115,8309
+[T8 r45 c4]
+[T8 r45 c5]
+[T8 r45 c6] 85,71649 / 
+[T8 r45 c7] Non soddisfatto
+[T8 r46 c1] 1,25 sup.
+[T8 r46 c2] 24,54369
+[T8 r46 c3] 118,499
+[T8 r46 c4]
+[T8 r46 c5]
+[T8 r46 c6] 85,03832 / 
+[T8 r46 c7] Non soddisfatto
+[T8 r47 c1] 1,25 inf.
+[T8 r47 c2] 24,54369
+[T8 r47 c3] 118,499
+[T8 r47 c4]
+[T8 r47 c5]
+[T8 r47 c6] 85,03832 / 
+[T8 r47 c7] Non soddisfatto
+[T8 r48 c1] 1,281 int.
+[T8 r48 c2] 25,15728
+[T8 r48 c3] 121,1457
+[T8 r48 c4]
+[T8 r48 c5]
+[T8 r48 c6] 84,34776 / 
+[T8 r48 c7] Non soddisfatto
+[T8 r49 c1] 1,312 int.
+[T8 r49 c2] 25,77088
+[T8 r49 c3] 123,7706
+[T8 r49 c4]
+[T8 r49 c5]
+[T8 r49 c6] 83,64503 / 
+[T8 r49 c7] Non soddisfatto
+[T8 r50 c1] 1,344 int.
+[T8 r50 c2] 26,38447
+[T8 r50 c3] 126,3734
+[T8 r50 c4]
+[T8 r50 c5]
+[T8 r50 c6] 82,93036 / 
+[T8 r50 c7] Non soddisfatto
+[T8 r51 c1] 1,375 int.
+[T8 r51 c2] 26,99806
+[T8 r51 c3] 128,9536
+[T8 r51 c4]
+[T8 r51 c5]
+[T8 r51 c6] 82,20399 / 
+[T8 r51 c7] Non soddisfatto
+[T8 r52 c1] 1,406 int.
+[T8 r52 c2] 27,61165
+[T8 r52 c3] 131,511
+[T8 r52 c4]
+[T8 r52 c5]
+[T8 r52 c6] 81,46613 / 
+[T8 r52 c7] Non soddisfatto
+[T8 r53 c1] 1,438 int.
+[T8 r53 c2] 28,22525
+[T8 r53 c3] 134,0451
+[T8 r53 c4]
+[T8 r53 c5]
+[T8 r53 c6] 80,71701 / 
+[T8 r53 c7] Non soddisfatto
+[T8 r54 c1] 1,469 int.
+[T8 r54 c2] 28,83884
+[T8 r54 c3] 136,5557
+[T8 r54 c4]
+[T8 r54 c5]
+[T8 r54 c6] 79,95686 / 
+[T8 r54 c7] Non soddisfatto
+[T8 r55 c1] 1,5 sup.
+[T8 r55 c2] 29,45243
+[T8 r55 c3] 139,0423
+[T8 r55 c4]
+[T8 r55 c5]
+[T8 r55 c6] 79,18589 / 
+[T8 r55 c7] Non soddisfatto
+[T8 r56 c1] 1,5 inf.
+[T8 r56 c2] 29,45243
+[T8 r56 c3] 139,0423
+[T8 r56 c4]
+[T8 r56 c5]
+[T8 r56 c6] 79,18589 / 
+[T8 r56 c7] Non soddisfatto
+[T8 r57 c1] 1,531 int.
+[T8 r57 c2] 30,06602
+[T8 r57 c3] 141,5047
+[T8 r57 c4]
+[T8 r57 c5]
+[T8 r57 c6] 78,40434 / 
+[T8 r57 c7] Non soddisfatto
+[T8 r58 c1] 1,562 int.
+[T8 r58 c2] 30,67962
+[T8 r58 c3] 143,9425
+[T8 r58 c4]
+[T8 r58 c5]
+[T8 r58 c6] 77,61243 / 
+[T8 r58 c7] Non soddisfatto
+[T8 r59 c1] 1,594 int.
+[T8 r59 c2] 31,29321
+[T8 r59 c3] 146,3554
+[T8 r59 c4]
+[T8 r59 c5]
+[T8 r59 c6] 76,81037 / 
+[T8 r59 c7] Non soddisfatto
+[T8 r60 c1] 1,625 int.
+[T8 r60 c2] 31,9068
+[T8 r60 c3] 148,743
+[T8 r60 c4]
+[T8 r60 c5]
+[T8 r60 c6] 75,99839 / 
+[T8 r60 c7] Non soddisfatto
+[T8 r61 c1] 1,656 int.
+[T8 r61 c2] 32,52039
+[T8 r61 c3] 151,1052
+[T8 r61 c4]
+[T8 r61 c5]
+[T8 r61 c6] 75,1767 / 
+[T8 r61 c7] Non soddisfatto
+[T8 r62 c1] 1,688 int.
+[T8 r62 c2] 33,13399
+[T8 r62 c3] 153,4415
+[T8 r62 c4]
+[T8 r62 c5]
+[T8 r62 c6] 74,34553 / 
+[T8 r62 c7] Non soddisfatto
+[T8 r63 c1] 1,719 int.
+[T8 r63 c2] 33,74758
+[T8 r63 c3] 155,7517
+[T8 r63 c4]
+[T8 r63 c5]
+[T8 r63 c6] 73,50509 / 
+[T8 r63 c7] Non soddisfatto
+[T8 r64 c1] 1,75 sup.
+[T8 r64 c2] 34,36117
+[T8 r64 c3] 158,0355
+[T8 r64 c4]
+[T8 r64 c5]
+[T8 r64 c6] 72,65561 / 
+[T8 r64 c7] Non soddisfatto
+[T8 r65 c1] 1,75 inf.
+[T8 r65 c2] 34,36117
+[T8 r65 c3] 158,0355
+[T8 r65 c4]
+[T8 r65 c5]
+[T8 r65 c6] 72,65561 / 
+[T8 r65 c7] Non soddisfatto
+[T8 r66 c1] 1,781 int.
+[T8 r66 c2] 34,97476
+[T8 r66 c3] 160,2926
+[T8 r66 c4]
+[T8 r66 c5]
+[T8 r66 c6] 71,79729 / 
+[T8 r66 c7] Non soddisfatto
+[T8 r67 c1] 1,812 int.
+[T8 r67 c2] 35,58835
+[T8 r67 c3] 162,5227
+[T8 r67 c4]
+[T8 r67 c5]
+[T8 r67 c6] 70,93035 / 
+[T8 r67 c7] Non soddisfatto
+[T8 r68 c1] 1,844 int.
+[T8 r68 c2] 36,20195
+[T8 r68 c3] 164,7256
+[T8 r68 c4]
+[T8 r68 c5]
+[T8 r68 c6] 70,055 / 
+[T8 r68 c7] Non soddisfatto
+[T8 r69 c1] 1,875 int.
+[T8 r69 c2] 36,81554
+[T8 r69 c3] 166,9011
+[T8 r69 c4] 1100,315
+[T8 r69 c5] -1100,319
+[T8 r69 c6] 69,17147 / 
+[T8 r69 c7] Non soddisfatto
+[T8 r70 c1] 1,906 int.
+[T8 r70 c2] 37,42913
+[T8 r70 c3] 169,0488
+[T8 r70 c4] 1100,519
+[T8 r70 c5] -1100,522
+[T8 r70 c6] 68,27995 / 
+[T8 r70 c7] Non soddisfatto
+[T8 r71 c1] 1,938 int.
+[T8 r71 c2] 38,04272
+[T8 r71 c3] 171,1685
+[T8 r71 c4] 1100,721
+[T8 r71 c5] -1100,725
+[T8 r71 c6] 67,38067 / 
+[T8 r71 c7] Non soddisfatto
+[T8 r72 c1] 1,969 int.
+[T8 r72 c2] 38,65632
+[T8 r72 c3] 173,26
+[T8 r72 c4] 1100,924
+[T8 r72 c5] -1100,928
+[T8 r72 c6] 66,47384 / 
+[T8 r72 c7] Non soddisfatto
+[T8 r73 c1] 2 sup.
+[T8 r73 c2] 39,26991
+[T8 r73 c3] 175,323
+[T8 r73 c4] 1101,128
+[T8 r73 c5] -1101,131
+[T8 r73 c6] 65,55965 / 
+[T8 r73 c7] Non soddisfatto
+[T8 r74 c1] 2 inf.
+[T8 r74 c2] 39,26991
+[T8 r74 c3] 175,323
+[T8 r74 c4] 1101,128
+[T8 r74 c5] -1101,131
+[T8 r74 c6] 65,55965 / 
+[T8 r74 c7] Non soddisfatto
+[T8 r75 c1] 2,031 int.
+[T8 r75 c2] 39,8835
+[T8 r75 c3] 177,3574
+[T8 r75 c4] 1101,33
+[T8 r75 c5] -1101,334
+[T8 r75 c6] 64,63833 / 
+[T8 r75 c7] Non soddisfatto
+[T8 r76 c1] 2,062 int.
+[T8 r76 c2] 40,49709
+[T8 r76 c3] 179,3628
+[T8 r76 c4] 1101,533
+[T8 r76 c5] -1101,537
+[T8 r76 c6] 63,71008 / 
+[T8 r76 c7] Non soddisfatto
+[T8 r77 c1] 2,094 int.
+[T8 r77 c2] 41,11069
+[T8 r77 c3] 181,3392
+[T8 r77 c4] 1101,736
+[T8 r77 c5] -1101,74
+[T8 r77 c6] 62,7751 / 
+[T8 r77 c7] Non soddisfatto
+[T8 r78 c1] 2,125 int.
+[T8 r78 c2] 41,72428
+[T8 r78 c3] 183,2862
+[T8 r78 c4] 1101,939
+[T8 r78 c5] -1101,942
+[T8 r78 c6] 61,8336 / 
+[T8 r78 c7] Non soddisfatto
+[T8 r79 c1] 2,156 int.
+[T8 r79 c2] 42,33787
+[T8 r79 c3] 185,2037
+[T8 r79 c4] 1102,143
+[T8 r79 c5] -1102,145
+[T8 r79 c6] 60,88579 / 
+[T8 r79 c7] Non soddisfatto
+[T8 r80 c1] 2,188 int.
+[T8 r80 c2] 42,95146
+[T8 r80 c3] 187,0915
+[T8 r80 c4] 1102,346
+[T8 r80 c5] -1102,348
+[T8 r80 c6] 59,93186 / 
+[T8 r80 c7] Non soddisfatto
+[T8 r81 c1] 2,219 int.
+[T8 r81 c2] 43,56505
+[T8 r81 c3] 188,9494
+[T8 r81 c4] 1102,548
+[T8 r81 c5] -1102,551
+[T8 r81 c6] 58,97203 / 
+[T8 r81 c7] Non soddisfatto
+[T8 r82 c1] 2,25 sup.
+[T8 r82 c2] 44,17865
+[T8 r82 c3] 190,7772
+[T8 r82 c4] 1102,75
+[T8 r82 c5] -1102,754
+[T8 r82 c6] 58,00649 / 
+[T8 r82 c7] Non soddisfatto
+[T8 r83 c1] 2,25 inf.
+[T8 r83 c2] 44,17865
+[T8 r83 c3] 190,7772
+[T8 r83 c4] 1102,75
+[T8 r83 c5] -1102,754
+[T8 r83 c6] 58,00649 / 
+[T8 r83 c7] Non soddisfatto
+[T8 r84 c1] 2,281 int.
+[T8 r84 c2] 44,79224
+[T8 r84 c3] 192,5747
+[T8 r84 c4] 1102,953
+[T8 r84 c5] -1102,957
+[T8 r84 c6] 57,03544 / 
+[T8 r84 c7] Non soddisfatto
+[T8 r85 c1] 2,312 int.
+[T8 r85 c2] 45,40583
+[T8 r85 c3] 194,3419
+[T8 r85 c4] 1103,156
+[T8 r85 c5] -1103,16
+[T8 r85 c6] 56,05908 / 
+[T8 r85 c7] Non soddisfatto
+[T8 r86 c1] 2,344 int.
+[T8 r86 c2] 46,01942
+[T8 r86 c3] 196,0784
+[T8 r86 c4] 1103,359
+[T8 r86 c5] -1103,362
+[T8 r86 c6] 55,07762 / 
+[T8 r86 c7] Non soddisfatto
+[T8 r87 c1] 2,375 int.
+[T8 r87 c2] 46,63302
+[T8 r87 c3] 197,7842
+[T8 r87 c4] 1103,563
+[T8 r87 c5] -1103,563
+[T8 r87 c6] 54,09124 / 
+[T8 r87 c7] Non soddisfatto
+[T8 r88 c1] 2,406 int.
+[T8 r88 c2] 47,24661
+[T8 r88 c3] 199,459
+[T8 r88 c4] 1103,765
+[T8 r88 c5] -1103,766
+[T8 r88 c6] 53,10014 / 
+[T8 r88 c7] Non soddisfatto
+[T8 r89 c1] 2,438 int.
+[T8 r89 c2] 47,8602
+[T8 r89 c3] 201,1029
+[T8 r89 c4] 1103,968
+[T8 r89 c5] -1103,97
+[T8 r89 c6] 52,10452 / 
+[T8 r89 c7] Non soddisfatto
+[T8 r90 c1] 2,469 int.
+[T8 r90 c2] 48,47379
+[T8 r90 c3] 202,7155
+[T8 r90 c4] 1104,171
+[T8 r90 c5] -1104,173
+[T8 r90 c6] 51,10457 / 
+[T8 r90 c7] Non soddisfatto
+[T8 r91 c1] 2,5 sup.
+[T8 r91 c2] 49,08739
+[T8 r91 c3] 204,2969
+[T8 r91 c4] 1104,373
+[T8 r91 c5] -1104,375
+[T8 r91 c6] 50,10049 / 
+[T8 r91 c7] Non soddisfatto
+[T8 r92 c1] 2,5 inf.
+[T8 r92 c2] 49,08739
+[T8 r92 c3] 204,2969
+[T8 r92 c4] 1104,373
+[T8 r92 c5] -1104,375
+[T8 r92 c6] 50,10049 / 
+[T8 r92 c7] Non soddisfatto
+[T8 r93 c1] 2,531 int.
+[T8 r93 c2] 49,70098
+[T8 r93 c3] 205,8468
+[T8 r93 c4] 1104,576
+[T8 r93 c5] -1104,578
+[T8 r93 c6] 49,09246 / 
+[T8 r93 c7] Non soddisfatto
+[T8 r94 c1] 2,562 int.
+[T8 r94 c2] 50,31457
+[T8 r94 c3] 207,3651
+[T8 r94 c4] 1104,78
+[T8 r94 c5] -1104,781
+[T8 r94 c6] 48,08067 / 
+[T8 r94 c7] Non soddisfatto
+[T8 r95 c1] 2,594 int.
+[T8 r95 c2] 50,92816
+[T8 r95 c3] 208,8518
+[T8 r95 c4] 1104,983
+[T8 r95 c5] -1104,984
+[T8 r95 c6] 47,06533 / 
+[T8 r95 c7] Non soddisfatto
+[T8 r96 c1] 2,625 int.
+[T8 r96 c2] 51,54175
+[T8 r96 c3] 210,3067
+[T8 r96 c4] 1105,186
+[T8 r96 c5] -1105,187
+[T8 r96 c6] 46,0466 / 
+[T8 r96 c7] Non soddisfatto
+[T8 r97 c1] 2,656 int.
+[T8 r97 c2] 52,15535
+[T8 r97 c3] 211,7297
+[T8 r97 c4] 1105,389
+[T8 r97 c5] -1105,39
+[T8 r97 c6] 45,02469 / 
+[T8 r97 c7] Non soddisfatto
+[T8 r98 c1] 2,688 int.
+[T8 r98 c2] 52,76894
+[T8 r98 c3] 213,1207
+[T8 r98 c4] 1105,592
+[T8 r98 c5] -1105,593
+[T8 r98 c6] 43,99977 / 
+[T8 r98 c7] Non soddisfatto
+[T8 r99 c1] 2,719 int.
+[T8 r99 c2] 53,38253
+[T8 r99 c3] 214,4796
+[T8 r99 c4] 1105,795
+[T8 r99 c5] -1105,796
+[T8 r99 c6] 42,97203 / 
+[T8 r99 c7] Non soddisfatto
+[T8 r100 c1] 2,75 sup.
+[T8 r100 c2] 53,99612
+[T8 r100 c3] 215,8064
+[T8 r100 c4] 1105,998
+[T8 r100 c5] -1105,999
+[T8 r100 c6] 41,94166 / 
+[T8 r100 c7] Non soddisfatto
+[T8 r101 c1] 2,75 inf.
+[T8 r101 c2] 53,99612
+[T8 r101 c3] 215,8064
+[T8 r101 c4] 1105,998
+[T8 r101 c5] -1105,999
+[T8 r101 c6] 41,94166 / 
+[T8 r101 c7] Non soddisfatto
+[T8 r102 c1] 2,781 int.
+[T8 r102 c2] 54,60972
+[T8 r102 c3] 217,1009
+[T8 r102 c4] 1106,2
+[T8 r102 c5] -1106,201
+[T8 r102 c6] 40,90883 / 
+[T8 r102 c7] Non soddisfatto
+[T8 r103 c1] 2,812 int.
+[T8 r103 c2] 55,22331
+[T8 r103 c3] 218,3632
+[T8 r103 c4] 1106,403
+[T8 r103 c5] -1106,404
+[T8 r103 c6] 39,87373 / 
+[T8 r103 c7] Non soddisfatto
+[T8 r104 c1] 2,844 int.
+[T8 r104 c2] 55,8369
+[T8 r104 c3] 219,593
+[T8 r104 c4] 1106,606
+[T8 r104 c5] -1106,607
+[T8 r104 c6] 38,83654 / 
+[T8 r104 c7] Non soddisfatto
+[T8 r105 c1] 2,875 int.
+[T8 r105 c2] 56,45049
+[T8 r105 c3] 220,7904
+[T8 r105 c4] 1106,809
+[T8 r105 c5] -1106,809
+[T8 r105 c6] 37,79744 / 
+[T8 r105 c7] Non soddisfatto
+[T8 r106 c1] 2,906 int.
+[T8 r106 c2] 57,06409
+[T8 r106 c3] 221,9553
+[T8 r106 c4] 1107,011
+[T8 r106 c5] -1107,012
+[T8 r106 c6] 36,7566 / 
+[T8 r106 c7] Non soddisfatto
+[T8 r107 c1] 2,938 int.
+[T8 r107 c2] 57,67768
+[T8 r107 c3] 223,0877
+[T8 r107 c4] 1107,214
+[T8 r107 c5] -1107,215
+[T8 r107 c6] 35,7142 / 
+[T8 r107 c7] Non soddisfatto
+[T8 r108 c1] 2,969 int.
+[T8 r108 c2] 58,29127
+[T8 r108 c3] 224,1875
+[T8 r108 c4] 1107,417
+[T8 r108 c5] -1107,418
+[T8 r108 c6] 34,67042 / 
+[T8 r108 c7] Non soddisfatto
+[T8 r109 c1] 3 sup.
+[T8 r109 c2] 58,90486
+[T8 r109 c3] 225,2546
+[T8 r109 c4] 1107,62
+[T8 r109 c5] -1107,62
+[T8 r109 c6] 33,62543 / 
+[T8 r109 c7] Non soddisfatto
+[T8 r110 c1] 3 inf.
+[T8 r110 c2] 58,90486
+[T8 r110 c3] 225,2546
+[T8 r110 c4] 1107,62
+[T8 r110 c5] -1107,62
+[T8 r110 c6] 33,62543 / 
+[T8 r110 c7] Non soddisfatto
+[T8 r111 c1] 3,031 int.
+[T8 r111 c2] 59,51845
+[T8 r111 c3] 226,289
+[T8 r111 c4] 1107,822
+[T8 r111 c5] -1107,823
+[T8 r111 c6] 32,5794 / 
+[T8 r111 c7] Non soddisfatto
+[T8 r112 c1] 3,062 int.
+[T8 r112 c2] 60,13205
+[T8 r112 c3] 227,2908
+[T8 r112 c4] 1108,024
+[T8 r112 c5] -1108,025
+[T8 r112 c6] 31,53251 / 
+[T8 r112 c7] Non soddisfatto
+[T8 r113 c1] 3,094 int.
+[T8 r113 c2] 60,74564
+[T8 r113 c3] 228,2598
+[T8 r113 c4] 1108,227
+[T8 r113 c5] -1108,228
+[T8 r113 c6] 30,48492 / 
+[T8 r113 c7] Non soddisfatto
+[T8 r114 c1] 3,125 int.
+[T8 r114 c2] 61,35923
+[T8 r114 c3] 229,1961
+[T8 r114 c4] 1108,431
+[T8 r114 c5] -1108,431
+[T8 r114 c6] 29,43681 / 
+[T8 r114 c7] Non soddisfatto
+[T8 r115 c1] 3,156 int.
+[T8 r115 c2] 61,97282
+[T8 r115 c3] 230,0996
+[T8 r115 c4] 1108,633
+[T8 r115 c5] -1108,634
+[T8 r115 c6] 28,38835 / 
+[T8 r115 c7] Non soddisfatto
+[T8 r116 c1] 3,188 int.
+[T8 r116 c2] 62,58642
+[T8 r116 c3] 230,9704
+[T8 r116 c4] 1108,836
+[T8 r116 c5] -1108,836
+[T8 r116 c6] 27,33969 / 
+[T8 r116 c7] Non soddisfatto
+[T8 r117 c1] 3,192 int.
+[T8 r117 c2] 62,67123
+[T8 r117 c3] 231,0881
+[T8 r117 c4] 1108,864
+[T8 r117 c5] -1108,864
+[T8 r117 c6] 27,19474 / 
+[T8 r117 c7] Non soddisfatto
+[T8 r118 c1] 3,219 int.
+[T8 r118 c2] 63,20001
+[T8 r118 c3] 231,8083
+[T8 r118 c4] 1109,039
+[T8 r118 c5] -1109,039
+[T8 r118 c6] 26,29102 / 
+[T8 r118 c7] Non soddisfatto
+[T8 r119 c1] 3,25 sup.
+[T8 r119 c2] 63,8136
+[T8 r119 c3] 232,6136
+[T8 r119 c4] 1109,241
+[T8 r119 c5] -1109,241
+[T8 r119 c6] 25,24248 / 
+[T8 r119 c7] Non soddisfatto
+[T8 r120 c1] 3,25 inf.
+[T8 r120 c2] 63,8136
+[T8 r120 c3] 232,6136
+[T8 r120 c4] 1109,241
+[T8 r120 c5] -1109,241
+[T8 r120 c6] 25,24248 / 
+[T8 r120 c7] Non soddisfatto
+[T8 r121 c1] 3,281 int.
+[T8 r121 c2] 64,42719
+[T8 r121 c3] 233,386
+[T8 r121 c4] 1109,445
+[T8 r121 c5] -1109,444
+[T8 r121 c6] 24,19425 / 
+[T8 r121 c7] Non soddisfatto
+[T8 r122 c1] 3,312 int.
+[T8 r122 c2] 65,04079
+[T8 r122 c3] 234,1257
+[T8 r122 c4] 1109,647
+[T8 r122 c5] -1109,647
+[T8 r122 c6] 23,14649 / 
+[T8 r122 c7] Non soddisfatto
+[T8 r123 c1] 3,344 int.
+[T8 r123 c2] 65,65438
+[T8 r123 c3] 234,8327
+[T8 r123 c4] 1109,85
+[T8 r123 c5] -1109,85
+[T8 r123 c6] 22,09935 / 
+[T8 r123 c7] Non soddisfatto
+[T8 r124 c1] 3,375 int.
+[T8 r124 c2] 66,26797
+[T8 r124 c3] 235,5069
+[T8 r124 c4] 1110,053
+[T8 r124 c5] -1110,053
+[T8 r124 c6] 21,05301 / 
+[T8 r124 c7] Non soddisfatto
+[T8 r125 c1] 3,406 int.
+[T8 r125 c2] 66,88156
+[T8 r125 c3] 236,1485
+[T8 r125 c4] 1110,255
+[T8 r125 c5] -1110,256
+[T8 r125 c6] 20,00761 / 
+[T8 r125 c7] Non soddisfatto
+[T8 r126 c1] 3,438 int.
+[T8 r126 c2] 67,49515
+[T8 r126 c3] 236,7574
+[T8 r126 c4] 1110,458
+[T8 r126 c5] -1110,458
+[T8 r126 c6] 18,96332 / 
+[T8 r126 c7] Non soddisfatto
+[T8 r127 c1] 3,469 int.
+[T8 r127 c2] 68,10875
+[T8 r127 c3] 237,3337
+[T8 r127 c4] 1110,661
+[T8 r127 c5] -1110,661
+[T8 r127 c6] 17,92029 / 
+[T8 r127 c7] Non soddisfatto
+[T8 r128 c1] 3,5 sup.
+[T8 r128 c2] 68,72234
+[T8 r128 c3] 237,8774
+[T8 r128 c4] 1110,864
+[T8 r128 c5] -1110,864
+[T8 r128 c6] 16,87868 / 
+[T8 r128 c7] Non soddisfatto
+[T8 r129 c1] 3,5 inf.
+[T8 r129 c2] 68,72234
+[T8 r129 c3] 237,8774
+[T8 r129 c4] 1110,864
+[T8 r129 c5] -1110,864
+[T8 r129 c6] 16,87868 / 
+[T8 r129 c7] Non soddisfatto
+[T8 r130 c1] 3,531 int.
+[T8 r130 c2] 69,33593
+[T8 r130 c3] 238,3886
+[T8 r130 c4] 1111,067
+[T8 r130 c5] -1111,067
+[T8 r130 c6] 15,83863 / 
+[T8 r130 c7] Non soddisfatto
+[T8 r131 c1] 3,562 int.
+[T8 r131 c2] 69,94952
+[T8 r131 c3] 238,8674
+[T8 r131 c4] 1111,269
+[T8 r131 c5] -1111,269
+[T8 r131 c6] 14,80031 / 
+[T8 r131 c7] Non soddisfatto
+[T8 r132 c1] 3,594 int.
+[T8 r132 c2] 70,56312
+[T8 r132 c3] 239,3137
+[T8 r132 c4] 1111,473
+[T8 r132 c5] -1111,472
+[T8 r132 c6] 13,76387 / 
+[T8 r132 c7] Non soddisfatto
+[T8 r133 c1] 3,625 int.
+[T8 r133 c2] 71,17671
+[T8 r133 c3] 239,7276
+[T8 r133 c4] 1111,675
+[T8 r133 c5] -1111,674
+[T8 r133 c6] 12,72946 / 
+[T8 r133 c7] Non soddisfatto
+[T8 r134 c1] 3,656 int.
+[T8 r134 c2] 71,7903
+[T8 r134 c3] 240,1093
+[T8 r134 c4] 1111,877
+[T8 r134 c5] -1111,876
+[T8 r134 c6] 11,69722 / 
+[T8 r134 c7] Non soddisfatto
+[T8 r135 c1] 3,688 int.
+[T8 r135 c2] 72,40389
+[T8 r135 c3] 240,4587
+[T8 r135 c4] 1112,08
+[T8 r135 c5] -1112,078
+[T8 r135 c6] 10,6673 / 
+[T8 r135 c7] Non soddisfatto
+[T8 r136 c1] 3,719 int.
+[T8 r136 c2] 73,01749
+[T8 r136 c3] 240,776
+[T8 r136 c4] 1112,282
+[T8 r136 c5] -1112,281
+[T8 r136 c6] 9,639855 / 
+[T8 r136 c7] Non soddisfatto
+[T8 r137 c1] 3,75 sup.
+[T8 r137 c2] 73,63108
+[T8 r137 c3] 241,0613
+[T8 r137 c4] 1112,485
+[T8 r137 c5] -1112,484
+[T8 r137 c6] 8,615027 / 
+[T8 r137 c7] Non soddisfatto
+[T8 r138 c1] 3,75 inf.
+[T8 r138 c2] 73,63108
+[T8 r138 c3] 241,0613
+[T8 r138 c4] 1112,485
+[T8 r138 c5] -1112,484
+[T8 r138 c6] 8,615027 / 
+[T8 r138 c7] Non soddisfatto
+[T8 r139 c1] 3,781 int.
+[T8 r139 c2] 74,24467
+[T8 r139 c3] 241,3145
+[T8 r139 c4] 1112,687
+[T8 r139 c5] -1112,686
+[T8 r139 c6] 7,592961 / 
+[T8 r139 c7] Non soddisfatto
+[T8 r140 c1] 3,812 int.
+[T8 r140 c2] 74,85826
+[T8 r140 c3] 241,5358
+[T8 r140 c4] 1112,889
+[T8 r140 c5] -1112,888
+[T8 r140 c6] 6,5738 / 
+[T8 r140 c7] Non soddisfatto
+[T8 r141 c1] 3,844 int.
+[T8 r141 c2] 75,47185
+[T8 r141 c3] 241,7254
+[T8 r141 c4] 1113,092
+[T8 r141 c5] -1113,09
+[T8 r141 c6] 5,557687 / 
+[T8 r141 c7] Non soddisfatto
+[T8 r142 c1] 3,875 int.
+[T8 r142 c2] 76,08545
+[T8 r142 c3] 241,8832
+[T8 r142 c4] 1113,3
+[T8 r142 c5] -1113,292
+[T8 r142 c6] 4,544763 / 
+[T8 r142 c7] Non soddisfatto
+[T8 r143 c1] 3,906 int.
+[T8 r143 c2] 76,69904
+[T8 r143 c3] 242,0095
+[T8 r143 c4] 1113,506
+[T8 r143 c5] -1113,495
+[T8 r143 c6] 3,535169 / 
+[T8 r143 c7] Non soddisfatto
+[T8 r144 c1] 3,938 int.
+[T8 r144 c2] 77,31263
+[T8 r144 c3] 242,1042
+[T8 r144 c4] 1113,708
+[T8 r144 c5] -1113,697
+[T8 r144 c6] 2,529043 / 
+[T8 r144 c7] Non soddisfatto
+[T8 r145 c1] 3,969 int.
+[T8 r145 c2] 77,92622
+[T8 r145 c3] 242,1676
+[T8 r145 c4] 1113,91
+[T8 r145 c5] -1113,899
+[T8 r145 c6] 1,526524 / 
+[T8 r145 c7] Non soddisfatto
+[T8 r146 c1] 4 sup.
+[T8 r146 c2] 78,53982
+[T8 r146 c3] 242,1997
+[T8 r146 c4] 1114,055
+[T8 r146 c5] -1114,101
+[T8 r146 c6] 0,5277486 / 
+[T8 r146 c7] Non soddisfatto
+[T8 r147 c1] 4 inf.
+[T8 r147 c2] 78,53982
+[T8 r147 c3] 242,1997
+[T8 r147 c4] 1114,055
+[T8 r147 c5] -1114,101
+[T8 r147 c6] 0,5277486 / 
+[T8 r147 c7] Non soddisfatto
+[T8 r148 c1] 4,017 int.
+[T8 r148 c2] 78,865
+[T8 r148 c3] 242,204
+[T8 r148 c4] 1114,163
+[T8 r148 c5] -1114,204
+[T8 r148 c6] 1,44329E-15 / 
+[T8 r148 c7] Non soddisfatto
+[T8 r149 c1] 4,031 int.
+[T8 r149 c2] 79,15341
+[T8 r149 c3] 242,2006
+[T8 r149 c4] 1114,258
+[T8 r149 c5] -1114,3
+[T8 r149 c6] -0,4671481 / 
+[T8 r149 c7] Non soddisfatto
+[T8 r150 c1] 4,062 int.
+[T8 r150 c2] 79,767
+[T8 r150 c3] 242,1705
+[T8 r150 c4] 1114,46
+[T8 r150 c5] -1114,514
+[T8 r150 c6] -1,458031 / 
+[T8 r150 c7] Non soddisfatto
+[T8 r151 c1] 4,094 int.
+[T8 r151 c2] 80,38059
+[T8 r151 c3] 242,1095
+[T8 r151 c4] 1114,663
+[T8 r151 c5] -1114,659
+[T8 r151 c6] -2,444767 / 
+[T8 r151 c7] Non soddisfatto
+[T8 r152 c1] 4,125 int.
+[T8 r152 c2] 80,99419
+[T8 r152 c3] 242,0178
+[T8 r152 c4] 1114,865
+[T8 r152 c5] -1114,861
+[T8 r152 c6] -3,427223 / 
+[T8 r152 c7] Non soddisfatto
+[T8 r153 c1] 4,156 int.
+[T8 r153 c2] 81,60778
+[T8 r153 c3] 241,8954
+[T8 r153 c4] 1115,068
+[T8 r153 c5] -1115,063
+[T8 r153 c6] -4,405269 / 
+[T8 r153 c7] Non soddisfatto
+[T8 r154 c1] 4,188 int.
+[T8 r154 c2] 82,22137
+[T8 r154 c3] 241,7425
+[T8 r154 c4] 1115,27
+[T8 r154 c5] -1115,266
+[T8 r154 c6] -5,378773 / 
+[T8 r154 c7] Non soddisfatto
+[T8 r155 c1] 4,219 int.
+[T8 r155 c2] 82,83496
+[T8 r155 c3] 241,5592
+[T8 r155 c4] 1115,473
+[T8 r155 c5] -1115,468
+[T8 r155 c6] -6,347607 / 
+[T8 r155 c7] Non soddisfatto
+[T8 r156 c1] 4,25 sup.
+[T8 r156 c2] 83,44855
+[T8 r156 c3] 241,3458
+[T8 r156 c4] 1115,675
+[T8 r156 c5] -1115,67
+[T8 r156 c6] -7,311642 / 
+[T8 r156 c7] Non soddisfatto
+[T8 r157 c1] 4,25 inf.
+[T8 r157 c2] 83,44855
+[T8 r157 c3] 241,3458
+[T8 r157 c4] 1115,675
+[T8 r157 c5] -1115,67
+[T8 r157 c6] -7,311642 / 
+[T8 r157 c7] Non soddisfatto
+[T8 r158 c1] 4,281 int.
+[T8 r158 c2] 84,06215
+[T8 r158 c3] 241,1023
+[T8 r158 c4] 1115,879
+[T8 r158 c5] -1115,872
+[T8 r158 c6] -8,270752 / 
+[T8 r158 c7] Non soddisfatto
+[T8 r159 c1] 4,312 int.
+[T8 r159 c2] 84,67574
+[T8 r159 c3] 240,8289
+[T8 r159 c4] 1116,081
+[T8 r159 c5] -1116,074
+[T8 r159 c6] -9,22481 / 
+[T8 r159 c7] Non soddisfatto
+[T8 r160 c1] 4,344 int.
+[T8 r160 c2] 85,28933
+[T8 r160 c3] 240,5258
+[T8 r160 c4] 1116,283
+[T8 r160 c5] -1116,277
+[T8 r160 c6] -10,17369 / 
+[T8 r160 c7] Non soddisfatto
+[T8 r161 c1] 4,375 int.
+[T8 r161 c2] 85,90292
+[T8 r161 c3] 240,1931
+[T8 r161 c4] 1116,486
+[T8 r161 c5] -1116,479
+[T8 r161 c6] -11,11727 / 
+[T8 r161 c7] Non soddisfatto
+[T8 r162 c1] 4,406 int.
+[T8 r162 c2] 86,51652
+[T8 r162 c3] 239,831
+[T8 r162 c4] 1116,688
+[T8 r162 c5] -1116,682
+[T8 r162 c6] -12,05543 / 
+[T8 r162 c7] Non soddisfatto
+[T8 r163 c1] 4,438 int.
+[T8 r163 c2] 87,13011
+[T8 r163 c3] 239,4397
+[T8 r163 c4] 1116,89
+[T8 r163 c5] -1116,884
+[T8 r163 c6] -12,98805 / 
+[T8 r163 c7] Non soddisfatto
+[T8 r164 c1] 4,469 int.
+[T8 r164 c2] 87,7437
+[T8 r164 c3] 239,0193
+[T8 r164 c4] 1117,094
+[T8 r164 c5] -1117,086
+[T8 r164 c6] -13,91499 / 
+[T8 r164 c7] Non soddisfatto
+[T8 r165 c1] 4,5 sup.
+[T8 r165 c2] 88,35729
+[T8 r165 c3] 238,5701
+[T8 r165 c4] 1117,296
+[T8 r165 c5] -1117,289
+[T8 r165 c6] -14,83615 / 
+[T8 r165 c7] Non soddisfatto
+[T8 r166 c1] 4,5 inf.
+[T8 r166 c2] 88,35729
+[T8 r166 c3] 238,5701
+[T8 r166 c4] 1117,296
+[T8 r166 c5] -1117,289
+[T8 r166 c6] -14,83615 / 
+[T8 r166 c7] Non soddisfatto
+[T8 r167 c1] 4,531 int.
+[T8 r167 c2] 88,97089
+[T8 r167 c3] 238,0922
+[T8 r167 c4] 1117,499
+[T8 r167 c5] -1117,49
+[T8 r167 c6] -15,75141 / 
+[T8 r167 c7] Non soddisfatto
+[T8 r168 c1] 4,562 int.
+[T8 r168 c2] 89,58448
+[T8 r168 c3] 237,5857
+[T8 r168 c4] 1117,701
+[T8 r168 c5] -1117,693
+[T8 r168 c6] -16,66065 / 
+[T8 r168 c7] Non soddisfatto
+[T8 r169 c1] 4,594 int.
+[T8 r169 c2] 90,19807
+[T8 r169 c3] 237,0509
+[T8 r169 c4] 1117,903
+[T8 r169 c5] -1117,896
+[T8 r169 c6] -17,56374 / 
+[T8 r169 c7] Non soddisfatto
+[T8 r170 c1] 4,625 int.
+[T8 r170 c2] 90,81166
+[T8 r170 c3] 236,488
+[T8 r170 c4] 1118,105
+[T8 r170 c5] -1118,097
+[T8 r170 c6] -18,46058 / 
+[T8 r170 c7] Non soddisfatto
+[T8 r171 c1] 4,656 int.
+[T8 r171 c2] 91,42525
+[T8 r171 c3] 235,8972
+[T8 r171 c4] 1118,308
+[T8 r171 c5] -1118,299
+[T8 r171 c6] -19,35105 / 
+[T8 r171 c7] Non soddisfatto
+[T8 r172 c1] 4,688 int.
+[T8 r172 c2] 92,03885
+[T8 r172 c3] 235,2787
+[T8 r172 c4] 1118,51
+[T8 r172 c5] -1118,502
+[T8 r172 c6] -20,23504 / 
+[T8 r172 c7] Non soddisfatto
+[T8 r173 c1] 4,719 int.
+[T8 r173 c2] 92,65244
+[T8 r173 c3] 234,6326
+[T8 r173 c4] 1118,713
+[T8 r173 c5] -1118,704
+[T8 r173 c6] -21,11243 / 
+[T8 r173 c7] Non soddisfatto
+[T8 r174 c1] 4,75 sup.
+[T8 r174 c2] 93,26603
+[T8 r174 c3] 233,9592
+[T8 r174 c4] 1118,915
+[T8 r174 c5] -1118,906
+[T8 r174 c6] -21,98311 / 
+[T8 r174 c7] Non soddisfatto
+[T8 r175 c1] 4,75 inf.
+[T8 r175 c2] 93,26603
+[T8 r175 c3] 233,9592
+[T8 r175 c4] 1118,915
+[T8 r175 c5] -1118,906
+[T8 r175 c6] -21,98311 / 
+[T8 r175 c7] Non soddisfatto
+[T8 r176 c1] 4,781 int.
+[T8 r176 c2] 93,87962
+[T8 r176 c3] 233,2587
+[T8 r176 c4] 1119,118
+[T8 r176 c5] -1119,108
+[T8 r176 c6] -22,84697 / 
+[T8 r176 c7] Non soddisfatto
+[T8 r177 c1] 4,812 int.
+[T8 r177 c2] 94,49322
+[T8 r177 c3] 232,5313
+[T8 r177 c4] 1119,32
+[T8 r177 c5] -1119,31
+[T8 r177 c6] -23,70389 / 
+[T8 r177 c7] Non soddisfatto
+[T8 r178 c1] 4,844 int.
+[T8 r178 c2] 95,10681
+[T8 r178 c3] 231,7773
+[T8 r178 c4] 1119,523
+[T8 r178 c5] -1119,512
+[T8 r178 c6] -24,55378 / 
+[T8 r178 c7] Non soddisfatto
+[T8 r179 c1] 4,875 int.
+[T8 r179 c2] 95,7204
+[T8 r179 c3] 230,9968
+[T8 r179 c4] 1119,726
+[T8 r179 c5] -1119,714
+[T8 r179 c6] -25,39652 / 
+[T8 r179 c7] Non soddisfatto
+[T8 r180 c1] 4,906 int.
+[T8 r180 c2] 96,33399
+[T8 r180 c3] 230,1901
+[T8 r180 c4] 1119,928
+[T8 r180 c5] -1119,916
+[T8 r180 c6] -26,232 / 
+[T8 r180 c7] Non soddisfatto
+[T8 r181 c1] 4,938 int.
+[T8 r181 c2] 96,94759
+[T8 r181 c3] 229,3574
+[T8 r181 c4] 1120,131
+[T8 r181 c5] -1120,118
+[T8 r181 c6] -27,06012 / 
+[T8 r181 c7] Non soddisfatto
+[T8 r182 c1] 4,969 int.
+[T8 r182 c2] 97,56118
+[T8 r182 c3] 228,4989
+[T8 r182 c4] 1120,333
+[T8 r182 c5] -1120,32
+[T8 r182 c6] -27,88077 / 
+[T8 r182 c7] Non soddisfatto
+[T8 r183 c1] 5 sup.
+[T8 r183 c2] 98,17477
+[T8 r183 c3] 227,6149
+[T8 r183 c4] 1120,536
+[T8 r183 c5] -1120,522
+[T8 r183 c6] -28,69385 / 
+[T8 r183 c7] Non soddisfatto
+[T8 r184 c1] 5 inf.
+[T8 r184 c2] 98,17477
+[T8 r184 c3] 227,6149
+[T8 r184 c4] 1120,536
+[T8 r184 c5] -1120,522
+[T8 r184 c6] -28,69385 / 
+[T8 r184 c7] Non soddisfatto
+[T8 r185 c1] 5,031 int.
+[T8 r185 c2] 98,78836
+[T8 r185 c3] 226,7056
+[T8 r185 c4] 1120,738
+[T8 r185 c5] -1120,724
+[T8 r185 c6] -29,49925 / 
+[T8 r185 c7] Non soddisfatto
+[T8 r186 c1] 5,062 int.
+[T8 r186 c2] 99,40196
+[T8 r186 c3] 225,7713
+[T8 r186 c4] 1120,94
+[T8 r186 c5] -1120,996
+[T8 r186 c6] -30,29686 / 
+[T8 r186 c7] Non soddisfatto
+[T8 r187 c1] 5,094 int.
+[T8 r187 c2] 100,0155
+[T8 r187 c3] 224,8121
+[T8 r187 c4] 1121,142
+[T8 r187 c5] -1121,197
+[T8 r187 c6] -31,08659 / 
+[T8 r187 c7] Non soddisfatto
+[T8 r188 c1] 5,125 int.
+[T8 r188 c2] 100,6291
+[T8 r188 c3] 223,8285
+[T8 r188 c4] 1121,344
+[T8 r188 c5] -1121,33
+[T8 r188 c6] -31,86834 / 
+[T8 r188 c7] Non soddisfatto
+[T8 r189 c1] 5,156 int.
+[T8 r189 c2] 101,2427
+[T8 r189 c3] 222,8205
+[T8 r189 c4] 1121,547
+[T8 r189 c5] -1121,532
+[T8 r189 c6] -32,642 / 
+[T8 r189 c7] Non soddisfatto
+[T8 r190 c1] 5,188 int.
+[T8 r190 c2] 101,8563
+[T8 r190 c3] 221,7884
+[T8 r190 c4] 1121,749
+[T8 r190 c5] -1121,735
+[T8 r190 c6] -33,40747 / 
+[T8 r190 c7] Non soddisfatto
+[T8 r191 c1] 5,219 int.
+[T8 r191 c2] 102,4699
+[T8 r191 c3] 220,7326
+[T8 r191 c4] 1121,951
+[T8 r191 c5] -1121,937
+[T8 r191 c6] -34,16465 / 
+[T8 r191 c7] Non soddisfatto
+[T8 r192 c1] 5,25 sup.
+[T8 r192 c2] 103,0835
+[T8 r192 c3] 219,6532
+[T8 r192 c4] 1122,154
+[T8 r192 c5] -1122,14
+[T8 r192 c6] -34,91345 / 
+[T8 r192 c7] Non soddisfatto
+[T8 r193 c1] 5,25 inf.
+[T8 r193 c2] 103,0835
+[T8 r193 c3] 219,6532
+[T8 r193 c4] 1122,154
+[T8 r193 c5] -1122,14
+[T8 r193 c6] -34,91345 / 
+[T8 r193 c7] Non soddisfatto
+[T8 r194 c1] 5,281 int.
+[T8 r194 c2] 103,6971
+[T8 r194 c3] 218,5506
+[T8 r194 c4] 1122,426
+[T8 r194 c5] -1122,342
+[T8 r194 c6] -35,65376 / 
+[T8 r194 c7] Non soddisfatto
+[T8 r195 c1] 5,312 int.
+[T8 r195 c2] 104,3107
+[T8 r195 c3] 217,4249
+[T8 r195 c4] 1122,558
+[T8 r195 c5] -1122,544
+[T8 r195 c6] -36,38549 / 
+[T8 r195 c7] Non soddisfatto
+[T8 r196 c1] 5,344 int.
+[T8 r196 c2] 104,9243
+[T8 r196 c3] 216,2766
+[T8 r196 c4] 1122,761
+[T8 r196 c5] -1122,746
+[T8 r196 c6] -37,10854 / 
+[T8 r196 c7] Non soddisfatto
+[T8 r197 c1] 5,375 int.
+[T8 r197 c2] 105,5379
+[T8 r197 c3] 215,1057
+[T8 r197 c4] 1122,964
+[T8 r197 c5] -1122,948
+[T8 r197 c6] -37,82283 / 
+[T8 r197 c7] Non soddisfatto
+[T8 r198 c1] 5,406 int.
+[T8 r198 c2] 106,1515
+[T8 r198 c3] 213,9127
+[T8 r198 c4] 1123,166
+[T8 r198 c5] -1123,15
+[T8 r198 c6] -38,52824 / 
+[T8 r198 c7] Non soddisfatto
+[T8 r199 c1] 5,438 int.
+[T8 r199 c2] 106,7651
+[T8 r199 c3] 212,6978
+[T8 r199 c4] 1123,368
+[T8 r199 c5] -1123,352
+[T8 r199 c6] -39,22468 / 
+[T8 r199 c7] Non soddisfatto
+[T8 r200 c1] 5,469 int.
+[T8 r200 c2] 107,3787
+[T8 r200 c3] 211,4613
+[T8 r200 c4] 1123,571
+[T8 r200 c5] -1123,553
+[T8 r200 c6] -39,91207 / 
+[T8 r200 c7] Non soddisfatto
+[T8 r201 c1] 5,5 sup.
+[T8 r201 c2] 107,9922
+[T8 r201 c3] 210,2034
+[T8 r201 c4] 1123,772
+[T8 r201 c5] -1123,756
+[T8 r201 c6] -40,59031 / 
+[T8 r201 c7] Non soddisfatto
+[T8 r202 c1] 5,5 inf.
+[T8 r202 c2] 107,9922
+[T8 r202 c3] 210,2034
+[T8 r202 c4] 1123,772
+[T8 r202 c5] -1123,756
+[T8 r202 c6] -40,59031 / 
+[T8 r202 c7] Non soddisfatto
+[T8 r203 c1] 5,531 int.
+[T8 r203 c2] 108,6058
+[T8 r203 c3] 208,9245
+[T8 r203 c4] 1123,975
+[T8 r203 c5] -1123,957
+[T8 r203 c6] -41,25931 / 
+[T8 r203 c7] Non soddisfatto
+[T8 r204 c1] 5,562 int.
+[T8 r204 c2] 109,2194
+[T8 r204 c3] 207,6248
+[T8 r204 c4] 1124,177
+[T8 r204 c5] -1124,159
+[T8 r204 c6] -41,91897 / 
+[T8 r204 c7] Non soddisfatto
+[T8 r205 c1] 5,594 int.
+[T8 r205 c2] 109,833
+[T8 r205 c3] 206,3047
+[T8 r205 c4] 1124,379
+[T8 r205 c5] -1124,361
+[T8 r205 c6] -42,56921 / 
+[T8 r205 c7] Non soddisfatto
+[T8 r206 c1] 5,625 int.
+[T8 r206 c2] 110,4466
+[T8 r206 c3] 204,9643
+[T8 r206 c4] 1124,582
+[T8 r206 c5] -1124,563
+[T8 r206 c6] -43,20993 / 
+[T8 r206 c7] Non soddisfatto
+[T8 r207 c1] 5,656 int.
+[T8 r207 c2] 111,0602
+[T8 r207 c3] 203,6041
+[T8 r207 c4] 1124,783
+[T8 r207 c5] -1124,765
+[T8 r207 c6] -43,84104 / 
+[T8 r207 c7] Non soddisfatto
+[T8 r208 c1] 5,688 int.
+[T8 r208 c2] 111,6738
+[T8 r208 c3] 202,2244
+[T8 r208 c4] 1125,055
+[T8 r208 c5] -1124,967
+[T8 r208 c6] -44,46245 / 
+[T8 r208 c7] Non soddisfatto
+[T8 r209 c1] 5,719 int.
+[T8 r209 c2] 112,2874
+[T8 r209 c3] 200,8253
+[T8 r209 c4] 1125,257
+[T8 r209 c5] -1125,238
+[T8 r209 c6] -45,07408 / 
+[T8 r209 c7] Non soddisfatto
+[T8 r210 c1] 5,75 sup.
+[T8 r210 c2] 112,901
+[T8 r210 c3] 199,4073
+[T8 r210 c4] 1125,459
+[T8 r210 c5] -1125,439
+[T8 r210 c6] -45,67583 / 
+[T8 r210 c7] Non soddisfatto
+[T8 r211 c1] 5,75 inf.
+[T8 r211 c2] 112,901
+[T8 r211 c3] 199,4073
+[T8 r211 c4] 1125,459
+[T8 r211 c5] -1125,439
+[T8 r211 c6] -45,67583 / 
+[T8 r211 c7] Non soddisfatto
+[T8 r212 c1] 5,781 int.
+[T8 r212 c2] 113,5146
+[T8 r212 c3] 197,9707
+[T8 r212 c4] 1125,657
+[T8 r212 c5] -1125,64
+[T8 r212 c6] -46,26762 / 
+[T8 r212 c7] Non soddisfatto
+[T8 r213 c1] 5,812 int.
+[T8 r213 c2] 114,1282
+[T8 r213 c3] 196,5157
+[T8 r213 c4] 1125,858
+[T8 r213 c5] -1125,837
+[T8 r213 c6] -46,84936 / 
+[T8 r213 c7] Non soddisfatto
+[T8 r214 c1] 5,844 int.
+[T8 r214 c2] 114,7418
+[T8 r214 c3] 195,0427
+[T8 r214 c4] 1126,06
+[T8 r214 c5] -1126,039
+[T8 r214 c6] -47,42096 / 
+[T8 r214 c7] Non soddisfatto
+[T8 r215 c1] 5,875 int.
+[T8 r215 c2] 115,3554
+[T8 r215 c3] 193,552
+[T8 r215 c4] 1126,262
+[T8 r215 c5] -1126,24
+[T8 r215 c6] -47,98234 / 
+[T8 r215 c7] Non soddisfatto
+[T8 r216 c1] 5,906 int.
+[T8 r216 c2] 115,9689
+[T8 r216 c3] 192,0439
+[T8 r216 c4] 1126,463
+[T8 r216 c5] -1126,442
+[T8 r216 c6] -48,5334 / 
+[T8 r216 c7] Non soddisfatto
+[T8 r217 c1] 5,938 int.
+[T8 r217 c2] 116,5825
+[T8 r217 c3] 190,5188
+[T8 r217 c4] 1126,664
+[T8 r217 c5] -1126,644
+[T8 r217 c6] -49,07408 / 
+[T8 r217 c7] Non soddisfatto
+[T8 r218 c1] 5,969 int.
+[T8 r218 c2] 117,1961
+[T8 r218 c3] 188,9769
+[T8 r218 c4] 1126,867
+[T8 r218 c5] -1126,846
+[T8 r218 c6] -49,60427 / 
+[T8 r218 c7] Non soddisfatto
+[T8 r219 c1] 6 sup.
+[T8 r219 c2] 117,8097
+[T8 r219 c3] 187,4186
+[T8 r219 c4] 1127,069
+[T8 r219 c5] -1127,048
+[T8 r219 c6] -50,12389 / 
+[T8 r219 c7] Non soddisfatto
+[T8 r220 c1] 6 inf.
+[T8 r220 c2] 117,8097
+[T8 r220 c3] 187,4186
+[T8 r220 c4] 1127,069
+[T8 r220 c5] -1127,048
+[T8 r220 c6] -50,12389 / 
+[T8 r220 c7] Non soddisfatto
+[T8 r221 c1] 6,031 int.
+[T8 r221 c2] 118,4233
+[T8 r221 c3] 185,8443
+[T8 r221 c4] 1127,271
+[T8 r221 c5] -1127,249
+[T8 r221 c6] -50,63287 / 
+[T8 r221 c7] Non soddisfatto
+[T8 r222 c1] 6,062 int.
+[T8 r222 c2] 119,0369
+[T8 r222 c3] 184,2542
+[T8 r222 c4] 1127,473
+[T8 r222 c5] -1127,451
+[T8 r222 c6] -51,13111 / 
+[T8 r222 c7] Non soddisfatto
+[T8 r223 c1] 6,094 int.
+[T8 r223 c2] 119,6505
+[T8 r223 c3] 182,6487
+[T8 r223 c4] 1127,675
+[T8 r223 c5] -1127,652
+[T8 r223 c6] -51,61854 / 
+[T8 r223 c7] Non soddisfatto
+[T8 r224 c1] 6,125 int.
+[T8 r224 c2] 120,2641
+[T8 r224 c3] 181,0281
+[T8 r224 c4] 1127,876
+[T8 r224 c5] -1127,854
+[T8 r224 c6] -52,09506 / 
+[T8 r224 c7] Non soddisfatto
+[T8 r225 c1] 6,156 int.
+[T8 r225 c2] 120,8777
+[T8 r225 c3] 179,3929
+[T8 r225 c4] 1128,078
+[T8 r225 c5] -1128,057
+[T8 r225 c6] -52,56061 / 
+[T8 r225 c7] Non soddisfatto
+[T8 r226 c1] 6,188 int.
+[T8 r226 c2] 121,4913
+[T8 r226 c3] 177,7432
+[T8 r226 c4] 1128,279
+[T8 r226 c5] -1128,258
+[T8 r226 c6] -53,01508 / 
+[T8 r226 c7] Non soddisfatto
+[T8 r227 c1] 6,219 int.
+[T8 r227 c2] 122,1049
+[T8 r227 c3] 176,0795
+[T8 r227 c4] 1128,481
+[T8 r227 c5] -1128,46
+[T8 r227 c6] -53,45841 / 
+[T8 r227 c7] Non soddisfatto
+[T8 r228 c1] 6,25 sup.
+[T8 r228 c2] 122,7185
+[T8 r228 c3] 174,4022
+[T8 r228 c4] 1128,683
+[T8 r228 c5] -1128,663
+[T8 r228 c6] -53,89051 / 
+[T8 r228 c7] Non soddisfatto
+[T8 r229 c1] 6,25 inf.
+[T8 r229 c2] 122,7185
+[T8 r229 c3] 174,4022
+[T8 r229 c4] 1128,683
+[T8 r229 c5] -1128,663
+[T8 r229 c6] -53,89051 / 
+[T8 r229 c7] Non soddisfatto
+[T8 r230 c1] 6,281 int.
+[T8 r230 c2] 123,3321
+[T8 r230 c3] 172,7115
+[T8 r230 c4] 1128,886
+[T8 r230 c5] -1128,864
+[T8 r230 c6] -54,3113 / 
+[T8 r230 c7] Non soddisfatto
+[T8 r231 c1] 6,312 int.
+[T8 r231 c2] 123,9456
+[T8 r231 c3] 171,0078
+[T8 r231 c4] 1129,088
+[T8 r231 c5] -1129,065
+[T8 r231 c6] -54,72069 / 
+[T8 r231 c7] Non soddisfatto
+[T8 r232 c1] 6,344 int.
+[T8 r232 c2] 124,5592
+[T8 r232 c3] 169,2916
+[T8 r232 c4] 1129,29
+[T8 r232 c5] -1129,267
+[T8 r232 c6] -55,11861 / 
+[T8 r232 c7] Non soddisfatto
+[T8 r233 c1] 6,375 int.
+[T8 r233 c2] 125,1728
+[T8 r233 c3] 167,5631
+[T8 r233 c4] 1129,491
+[T8 r233 c5] -1129,468
+[T8 r233 c6] -55,50498 / 
+[T8 r233 c7] Non soddisfatto
+[T8 r234 c1] 6,406 int.
+[T8 r234 c2] 125,7864
+[T8 r234 c3] 165,8226
+[T8 r234 c4] 1129,693
+[T8 r234 c5] -1129,669
+[T8 r234 c6] -55,87971 / 
+[T8 r234 c7] Non soddisfatto
+[T8 r235 c1] 6,438 int.
+[T8 r235 c2] 126,4
+[T8 r235 c3] 164,0707
+[T8 r235 c4] 1129,895
+[T8 r235 c5] -1129,871
+[T8 r235 c6] -56,24273 / 
+[T8 r235 c7] Non soddisfatto
+[T8 r236 c1] 6,469 int.
+[T8 r236 c2] 127,0136
+[T8 r236 c3] 162,3076
+[T8 r236 c4] 1130,097
+[T8 r236 c5] -1130,072
+[T8 r236 c6] -56,59395 / 
+[T8 r236 c7] Non soddisfatto
+[T8 r237 c1] 6,5 sup.
+[T8 r237 c2] 127,6272
+[T8 r237 c3] 160,5337
+[T8 r237 c4] 1130,298
+[T8 r237 c5] -1130,274
+[T8 r237 c6] -56,93329 / 
+[T8 r237 c7] Non soddisfatto
+[T8 r238 c1] 6,5 inf.
+[T8 r238 c2] 127,6272
+[T8 r238 c3] 160,5337
+[T8 r238 c4] 1130,298
+[T8 r238 c5] -1130,274
+[T8 r238 c6] -56,93329 / 
+[T8 r238 c7] Non soddisfatto
+[T8 r239 c1] 6,531 int.
+[T8 r239 c2] 128,2408
+[T8 r239 c3] 158,7494
+[T8 r239 c4] 1130,5
+[T8 r239 c5] -1130,475
+[T8 r239 c6] -57,26069 / 
+[T8 r239 c7] Non soddisfatto
+[T8 r240 c1] 6,562 int.
+[T8 r240 c2] 128,8544
+[T8 r240 c3] 156,955
+[T8 r240 c4] 1130,701
+[T8 r240 c5] -1130,677
+[T8 r240 c6] -57,57604 / 
+[T8 r240 c7] Non soddisfatto
+[T8 r241 c1] 6,594 int.
+[T8 r241 c2] 129,468
+[T8 r241 c3] 155,151
+[T8 r241 c4] 1130,903
+[T8 r241 c5] -1130,879
+[T8 r241 c6] -57,87929 / 
+[T8 r241 c7] Non soddisfatto
+[T8 r242 c1] 6,625 int.
+[T8 r242 c2] 130,0816
+[T8 r242 c3] 153,3377
+[T8 r242 c4] 1131,104
+[T8 r242 c5] -1131,081
+[T8 r242 c6] -58,17034 / 
+[T8 r242 c7] Non soddisfatto
+[T8 r243 c1] 6,656 int.
+[T8 r243 c2] 130,6952
+[T8 r243 c3] 151,5155
+[T8 r243 c4] 1131,306
+[T8 r243 c5] -1131,282
+[T8 r243 c6] -58,44912 / 
+[T8 r243 c7] Non soddisfatto
+[T8 r244 c1] 6,688 int.
+[T8 r244 c2] 131,3088
+[T8 r244 c3] 149,6848
+[T8 r244 c4] 1131,507
+[T8 r244 c5] -1131,485
+[T8 r244 c6] -58,71555 / 
+[T8 r244 c7] Non soddisfatto
+[T8 r245 c1] 6,719 int.
+[T8 r245 c2] 131,9223
+[T8 r245 c3] 147,8459
+[T8 r245 c4] 1131,709
+[T8 r245 c5] -1131,687
+[T8 r245 c6] -58,96954 / 
+[T8 r245 c7] Non soddisfatto
+[T8 r246 c1] 6,75 sup.
+[T8 r246 c2] 132,5359
+[T8 r246 c3] 145,9993
+[T8 r246 c4] 1131,912
+[T8 r246 c5] -1131,889
+[T8 r246 c6] -59,21103 / 
+[T8 r246 c7] Non soddisfatto
+[T8 r247 c1] 6,75 inf.
+[T8 r247 c2] 132,5359
+[T8 r247 c3] 145,9993
+[T8 r247 c4] 1131,912
+[T8 r247 c5] -1131,889
+[T8 r247 c6] -59,21103 / 
+[T8 r247 c7] Non soddisfatto
+[T8 r248 c1] 6,781 int.
+[T8 r248 c2] 133,1495
+[T8 r248 c3] 144,1453
+[T8 r248 c4] 1132,114
+[T8 r248 c5] -1132,091
+[T8 r248 c6] -59,43994 / 
+[T8 r248 c7] Non soddisfatto
+[T8 r249 c1] 6,812 int.
+[T8 r249 c2] 133,7631
+[T8 r249 c3] 142,2844
+[T8 r249 c4] 1132,316
+[T8 r249 c5] -1132,293
+[T8 r249 c6] -59,65617 / 
+[T8 r249 c7] Non soddisfatto
+[T8 r250 c1] 6,844 int.
+[T8 r250 c2] 134,3767
+[T8 r250 c3] 140,417
+[T8 r250 c4] 1132,518
+[T8 r250 c5] -1132,494
+[T8 r250 c6] -59,85966 / 
+[T8 r250 c7] Non soddisfatto
+[T8 r251 c1] 6,875 int.
+[T8 r251 c2] 134,9903
+[T8 r251 c3] 138,5433
+[T8 r251 c4] 1132,719
+[T8 r251 c5] -1132,696
+[T8 r251 c6] -60,05033 / 
+[T8 r251 c7] Non soddisfatto
+[T8 r252 c1] 6,906 int.
+[T8 r252 c2] 135,6039
+[T8 r252 c3] 136,664
+[T8 r252 c4] 1132,921
+[T8 r252 c5] -1132,898
+[T8 r252 c6] -60,2281 / 
+[T8 r252 c7] Non soddisfatto
+[T8 r253 c1] 6,938 int.
+[T8 r253 c2] 136,2175
+[T8 r253 c3] 134,7792
+[T8 r253 c4] 1133,123
+[T8 r253 c5] -1133,099
+[T8 r253 c6] -60,39289 / 
+[T8 r253 c7] Non soddisfatto
+[T8 r254 c1] 6,969 int.
+[T8 r254 c2] 136,8311
+[T8 r254 c3] 132,8895
+[T8 r254 c4] 1133,325
+[T8 r254 c5] -1133,301
+[T8 r254 c6] -60,54461 / 
+[T8 r254 c7] Non soddisfatto
+[T8 r255 c1] 7 sup.
+[T8 r255 c2] 137,4447
+[T8 r255 c3] 130,9953
+[T8 r255 c4] 1133,528
+[T8 r255 c5] -1133,502
+[T8 r255 c6] -60,68321 / 
+[T8 r255 c7] Non soddisfatto
+[T8 r256 c1] 7 inf.
+[T8 r256 c2] 137,4447
+[T8 r256 c3] 130,9953
+[T8 r256 c4] 1133,528
+[T8 r256 c5] -1133,502
+[T8 r256 c6] -60,68321 / 
+[T8 r256 c7] Non soddisfatto
+[T8 r257 c1] 7,031 int.
+[T8 r257 c2] 138,0583
+[T8 r257 c3] 129,097
+[T8 r257 c4] 1133,73
+[T8 r257 c5] -1133,704
+[T8 r257 c6] -60,80858 / 
+[T8 r257 c7] Non soddisfatto
+[T8 r258 c1] 7,062 int.
+[T8 r258 c2] 138,6719
+[T8 r258 c3] 127,1949
+[T8 r258 c4] 1133,931
+[T8 r258 c5] -1133,905
+[T8 r258 c6] -60,92066 / 
+[T8 r258 c7] Non soddisfatto
+[T8 r259 c1] 7,094 int.
+[T8 r259 c2] 139,2855
+[T8 r259 c3] 125,2896
+[T8 r259 c4] 1134,132
+[T8 r259 c5] -1134,107
+[T8 r259 c6] -61,01937 / 
+[T8 r259 c7] Non soddisfatto
+[T8 r260 c1] 7,125 int.
+[T8 r260 c2] 139,899
+[T8 r260 c3] 123,3813
+[T8 r260 c4] 1134,333
+[T8 r260 c5] -1134,308
+[T8 r260 c6] -61,10462 / 
+[T8 r260 c7] Non soddisfatto
+[T8 r261 c1] 7,156 int.
+[T8 r261 c2] 140,5126
+[T8 r261 c3] 121,4707
+[T8 r261 c4] 1134,535
+[T8 r261 c5] -1134,51
+[T8 r261 c6] -61,17634 / 
+[T8 r261 c7] Non soddisfatto
+[T8 r262 c1] 7,188 int.
+[T8 r262 c2] 141,1262
+[T8 r262 c3] 119,558
+[T8 r262 c4] 1134,736
+[T8 r262 c5] -1134,713
+[T8 r262 c6] -61,23445 / 
+[T8 r262 c7] Non soddisfatto
+[T8 r263 c1] 7,219 int.
+[T8 r263 c2] 141,7398
+[T8 r263 c3] 117,6437
+[T8 r263 c4] 1134,934
+[T8 r263 c5] -1134,914
+[T8 r263 c6] -61,27888 / 
+[T8 r263 c7] Non soddisfatto
+[T8 r264 c1] 7,25 sup.
+[T8 r264 c2] 142,3534
+[T8 r264 c3] 115,7282
+[T8 r264 c4] 1135,137
+[T8 r264 c5] -1135,111
+[T8 r264 c6] -61,30953 / 
+[T8 r264 c7] Non soddisfatto
+[T8 r265 c1] 7,25 inf.
+[T8 r265 c2] 142,3534
+[T8 r265 c3] 115,7282
+[T8 r265 c4] 1135,137
+[T8 r265 c5] -1135,111
+[T8 r265 c6] -61,30953 / 
+[T8 r265 c7] Non soddisfatto
+[T8 r266 c1] 7,281 int.
+[T8 r266 c2] 142,967
+[T8 r266 c3] 113,812
+[T8 r266 c4] 1135,339
+[T8 r266 c5] -1135,312
+[T8 r266 c6] -61,32634 / 
+[T8 r266 c7] Non soddisfatto
+[T8 r267 c1] 7,303 int.
+[T8 r267 c2] 143,4004
+[T8 r267 c3] 112,4584
+[T8 r267 c4] 1135,481
+[T8 r267 c5] -1135,455
+[T8 r267 c6] -61,32982 / 
+[T8 r267 c7] Non soddisfatto
+[T8 r268 c1] 7,312 int.
+[T8 r268 c2] 143,5806
+[T8 r268 c3] 111,8954
+[T8 r268 c4] 1135,541
+[T8 r268 c5] -1135,514
+[T8 r268 c6] -61,32922 / 
+[T8 r268 c7] Non soddisfatto
+[T8 r269 c1] 7,344 int.
+[T8 r269 c2] 144,1942
+[T8 r269 c3] 109,979
+[T8 r269 c4] 1135,742
+[T8 r269 c5] -1135,715
+[T8 r269 c6] -61,31809 / 
+[T8 r269 c7] Non soddisfatto
+[T8 r270 c1] 7,375 int.
+[T8 r270 c2] 144,8078
+[T8 r270 c3] 108,0632
+[T8 r270 c4] 1135,943
+[T8 r270 c5] -1135,917
+[T8 r270 c6] -61,29288 / 
+[T8 r270 c7] Non soddisfatto
+[T8 r271 c1] 7,406 int.
+[T8 r271 c2] 145,4214
+[T8 r271 c3] 106,1484
+[T8 r271 c4] 1136,144
+[T8 r271 c5] -1136,119
+[T8 r271 c6] -61,25349 / 
+[T8 r271 c7] Non soddisfatto
+[T8 r272 c1] 7,438 int.
+[T8 r272 c2] 146,035
+[T8 r272 c3] 104,235
+[T8 r272 c4] 1136,345
+[T8 r272 c5] -1136,321
+[T8 r272 c6] -61,19986 / 
+[T8 r272 c7] Non soddisfatto
+[T8 r273 c1] 7,469 int.
+[T8 r273 c2] 146,6486
+[T8 r273 c3] 102,3235
+[T8 r273 c4] 1136,546
+[T8 r273 c5] -1136,524
+[T8 r273 c6] -61,13191 / 
+[T8 r273 c7] Non soddisfatto
+[T8 r274 c1] 7,5 sup.
+[T8 r274 c2] 147,2622
+[T8 r274 c3] 100,4144
+[T8 r274 c4] 1136,748
+[T8 r274 c5] -1136,725
+[T8 r274 c6] -61,04954 / 
+[T8 r274 c7] Non soddisfatto
+[T8 r275 c1] 7,5 inf.
+[T8 r275 c2] 147,2622
+[T8 r275 c3] 100,4144
+[T8 r275 c4] 1136,748
+[T8 r275 c5] -1136,725
+[T8 r275 c6] -61,04954 / 
+[T8 r275 c7] Non soddisfatto
+[T8 r276 c1] 7,531 int.
+[T8 r276 c2] 147,8757
+[T8 r276 c3] 98,50808
+[T8 r276 c4] 1136,949
+[T8 r276 c5] -1136,927
+[T8 r276 c6] -60,95269 / 
+[T8 r276 c7] Non soddisfatto
+[T8 r277 c1] 7,562 int.
+[T8 r277 c2] 148,4893
+[T8 r277 c3] 96,60501
+[T8 r277 c4] 1137,151
+[T8 r277 c5] -1137,129
+[T8 r277 c6] -60,84126 / 
+[T8 r277 c7] Non soddisfatto
+[T8 r278 c1] 7,594 int.
+[T8 r278 c2] 149,1029
+[T8 r278 c3] 94,70565
+[T8 r278 c4] 1137,353
+[T8 r278 c5] -1137,33
+[T8 r278 c6] -60,71519 / 
+[T8 r278 c7] Non soddisfatto
+[T8 r279 c1] 7,625 int.
+[T8 r279 c2] 149,7165
+[T8 r279 c3] 92,81047
+[T8 r279 c4] 1137,555
+[T8 r279 c5] -1137,532
+[T8 r279 c6] -60,57438 / 
+[T8 r279 c7] Non soddisfatto
+[T8 r280 c1] 7,656 int.
+[T8 r280 c2] 150,3301
+[T8 r280 c3] 90,91991
+[T8 r280 c4] 1137,757
+[T8 r280 c5] -1137,734
+[T8 r280 c6] -60,41875 / 
+[T8 r280 c7] Non soddisfatto
+[T8 r281 c1] 7,688 int.
+[T8 r281 c2] 150,9437
+[T8 r281 c3] 89,03445
+[T8 r281 c4] 1137,958
+[T8 r281 c5] -1137,936
+[T8 r281 c6] -60,24823 / 
+[T8 r281 c7] Non soddisfatto
+[T8 r282 c1] 7,719 int.
+[T8 r282 c2] 151,5573
+[T8 r282 c3] 87,15455
+[T8 r282 c4] 1138,159
+[T8 r282 c5] -1138,137
+[T8 r282 c6] -60,06273 / 
+[T8 r282 c7] Non soddisfatto
+[T8 r283 c1] 7,75 sup.
+[T8 r283 c2] 152,1709
+[T8 r283 c3] 85,28069
+[T8 r283 c4] 1138,361
+[T8 r283 c5] -1138,339
+[T8 r283 c6] -59,86216 / 
+[T8 r283 c7] Non soddisfatto
+[T8 r284 c1] 7,75 inf.
+[T8 r284 c2] 152,1709
+[T8 r284 c3] 85,28069
+[T8 r284 c4] 1138,361
+[T8 r284 c5] -1138,339
+[T8 r284 c6] -59,86216 / 
+[T8 r284 c7] Non soddisfatto
+[T8 r285 c1] 7,781 int.
+[T8 r285 c2] 152,7845
+[T8 r285 c3] 83,41332
+[T8 r285 c4] 1138,563
+[T8 r285 c5] -1138,541
+[T8 r285 c6] -59,64645 / 
+[T8 r285 c7] Non soddisfatto
+[T8 r286 c1] 7,812 int.
+[T8 r286 c2] 153,3981
+[T8 r286 c3] 81,55294
+[T8 r286 c4] 1138,764
+[T8 r286 c5] -1138,742
+[T8 r286 c6] -59,41552 / 
+[T8 r286 c7] Non soddisfatto
+[T8 r287 c1] 7,844 int.
+[T8 r287 c2] 154,0117
+[T8 r287 c3] 79,70001
+[T8 r287 c4] 1138,965
+[T8 r287 c5] -1138,943
+[T8 r287 c6] -59,16926 / 
+[T8 r287 c7] Non soddisfatto
+[T8 r288 c1] 7,875 int.
+[T8 r288 c2] 154,6253
+[T8 r288 c3] 77,85502
+[T8 r288 c4] 1139,167
+[T8 r288 c5] -1139,146
+[T8 r288 c6] -58,90761 / 
+[T8 r288 c7] Non soddisfatto
+[T8 r289 c1] 7,906 int.
+[T8 r289 c2] 155,2389
+[T8 r289 c3] 76,01845
+[T8 r289 c4] 1139,369
+[T8 r289 c5] -1139,347
+[T8 r289 c6] -58,63048 / 
+[T8 r289 c7] Non soddisfatto
+[T8 r290 c1] 7,938 int.
+[T8 r290 c2] 155,8524
+[T8 r290 c3] 74,19078
+[T8 r290 c4] 1139,57
+[T8 r290 c5] -1139,549
+[T8 r290 c6] -58,33779 / 
+[T8 r290 c7] Non soddisfatto
+[T8 r291 c1] 7,969 int.
+[T8 r291 c2] 156,466
+[T8 r291 c3] 72,3725
+[T8 r291 c4] 1139,771
+[T8 r291 c5] -1139,752
+[T8 r291 c6] -58,02944 / 
+[T8 r291 c7] Non soddisfatto
+[T8 r292 c1] 8 sup.
+[T8 r292 c2] 157,0796
+[T8 r292 c3] 70,5641
+[T8 r292 c4] 1139,97
+[T8 r292 c5] -1139,953
+[T8 r292 c6] -57,70536 / 
+[T8 r292 c7] Non soddisfatto
+[T8 r293 c1] 8 inf.
+[T8 r293 c2] 157,0796
+[T8 r293 c3] 70,5641
+[T8 r293 c4] 1139,97
+[T8 r293 c5] -1139,953
+[T8 r293 c6] -57,70536 / 
+[T8 r293 c7] Non soddisfatto
+[T8 r294 c1] 8,031 int.
+[T8 r294 c2] 157,6932
+[T8 r294 c3] 68,76608
+[T8 r294 c4] 1140,17
+[T8 r294 c5] -1140,151
+[T8 r294 c6] -57,36545 / 
+[T8 r294 c7] Non soddisfatto
+[T8 r295 c1] 8,062 int.
+[T8 r295 c2] 158,3068
+[T8 r295 c3] 66,97893
+[T8 r295 c4] 1140,372
+[T8 r295 c5] -1140,352
+[T8 r295 c6] -57,00964 / 
+[T8 r295 c7] Non soddisfatto
+[T8 r296 c1] 8,094 int.
+[T8 r296 c2] 158,9204
+[T8 r296 c3] 65,20314
+[T8 r296 c4] 1140,573
+[T8 r296 c5] -1140,553
+[T8 r296 c6] -56,63783 / 
+[T8 r296 c7] Non soddisfatto
+[T8 r297 c1] 8,125 int.
+[T8 r297 c2] 159,534
+[T8 r297 c3] 63,43923
+[T8 r297 c4] 1140,774
+[T8 r297 c5] -1140,754
+[T8 r297 c6] -56,24994 / 
+[T8 r297 c7] Non soddisfatto
+[T8 r298 c1] 8,156 int.
+[T8 r298 c2] 160,1476
+[T8 r298 c3] 61,68769
+[T8 r298 c4]
+[T8 r298 c5]
+[T8 r298 c6] -55,84588 / 
+[T8 r298 c7] Non soddisfatto
+[T8 r299 c1] 8,188 int.
+[T8 r299 c2] 160,7612
+[T8 r299 c3] 59,94903
+[T8 r299 c4]
+[T8 r299 c5]
+[T8 r299 c6] -55,42556 / 
+[T8 r299 c7] Non soddisfatto
+[T8 r300 c1] 8,219 int.
+[T8 r300 c2] 161,3748
+[T8 r300 c3] 58,22376
+[T8 r300 c4]
+[T8 r300 c5]
+[T8 r300 c6] -54,9889 / 
+[T8 r300 c7] Non soddisfatto
+[T8 r301 c1] 8,25 sup.
+[T8 r301 c2] 161,9884
+[T8 r301 c3] 56,5124
+[T8 r301 c4]
+[T8 r301 c5]
+[T8 r301 c6] -54,5358 / 
+[T8 r301 c7] Non soddisfatto
+[T8 r302 c1] 8,25 inf.
+[T8 r302 c2] 161,9884
+[T8 r302 c3] 56,5124
+[T8 r302 c4]
+[T8 r302 c5]
+[T8 r302 c6] -54,5358 / 
+[T8 r302 c7] Non soddisfatto
+[T8 r303 c1] 8,281 int.
+[T8 r303 c2] 162,602
+[T8 r303 c3] 54,81545
+[T8 r303 c4]
+[T8 r303 c5]
+[T8 r303 c6] -54,06618 / 
+[T8 r303 c7] Non soddisfatto
+[T8 r304 c1] 8,312 int.
+[T8 r304 c2] 163,2156
+[T8 r304 c3] 53,13343
+[T8 r304 c4]
+[T8 r304 c5]
+[T8 r304 c6] -53,57995 / 
+[T8 r304 c7] Non soddisfatto
+[T8 r305 c1] 8,344 int.
+[T8 r305 c2] 163,8291
+[T8 r305 c3] 51,46688
+[T8 r305 c4]
+[T8 r305 c5]
+[T8 r305 c6] -53,07702 / 
+[T8 r305 c7] Non soddisfatto
+[T8 r306 c1] 8,375 int.
+[T8 r306 c2] 164,4427
+[T8 r306 c3] 49,8163
+[T8 r306 c4]
+[T8 r306 c5]
+[T8 r306 c6] -52,55729 / 
+[T8 r306 c7] Non soddisfatto
+[T8 r307 c1] 8,406 int.
+[T8 r307 c2] 165,0563
+[T8 r307 c3] 48,18222
+[T8 r307 c4]
+[T8 r307 c5]
+[T8 r307 c6] -52,02068 / 
+[T8 r307 c7] Non soddisfatto
+[T8 r308 c1] 8,438 int.
+[T8 r308 c2] 165,6699
+[T8 r308 c3] 46,56518
+[T8 r308 c4]
+[T8 r308 c5]
+[T8 r308 c6] -51,46709 / 
+[T8 r308 c7] Non soddisfatto
+[T8 r309 c1] 8,469 int.
+[T8 r309 c2] 166,2835
+[T8 r309 c3] 44,96571
+[T8 r309 c4]
+[T8 r309 c5]
+[T8 r309 c6] -50,89644 / 
+[T8 r309 c7] Non soddisfatto
+[T8 r310 c1] 8,5 sup.
+[T8 r310 c2] 166,8971
+[T8 r310 c3] 43,38433
+[T8 r310 c4]
+[T8 r310 c5]
+[T8 r310 c6] -50,30863 / 
+[T8 r310 c7] Non soddisfatto
+[T8 r311 c1] 8,5 inf.
+[T8 r311 c2] 166,8971
+[T8 r311 c3] 43,38433
+[T8 r311 c4]
+[T8 r311 c5]
+[T8 r311 c6] -50,30863 / 
+[T8 r311 c7] Non soddisfatto
+[T8 r312 c1] 8,531 int.
+[T8 r312 c2] 167,5107
+[T8 r312 c3] 41,8216
+[T8 r312 c4]
+[T8 r312 c5]
+[T8 r312 c6] -49,70356 / 
+[T8 r312 c7] Non soddisfatto
+[T8 r313 c1] 8,562 int.
+[T8 r313 c2] 168,1243
+[T8 r313 c3] 40,27804
+[T8 r313 c4]
+[T8 r313 c5]
+[T8 r313 c6] -49,08116 / 
+[T8 r313 c7] Non soddisfatto
+[T8 r314 c1] 8,594 int.
+[T8 r314 c2] 168,7379
+[T8 r314 c3] 38,75421
+[T8 r314 c4]
+[T8 r314 c5]
+[T8 r314 c6] -48,44131 / 
+[T8 r314 c7] Non soddisfatto
+[T8 r315 c1] 8,625 int.
+[T8 r315 c2] 169,3515
+[T8 r315 c3] 37,25064
+[T8 r315 c4]
+[T8 r315 c5]
+[T8 r315 c6] -47,78394 / 
+[T8 r315 c7] Non soddisfatto
+[T8 r316 c1] 8,656 int.
+[T8 r316 c2] 169,9651
+[T8 r316 c3] 35,76789
+[T8 r316 c4]
+[T8 r316 c5]
+[T8 r316 c6] -47,10894 / 
+[T8 r316 c7] Non soddisfatto
+[T8 r317 c1] 8,688 int.
+[T8 r317 c2] 170,5787
+[T8 r317 c3] 34,30652
+[T8 r317 c4]
+[T8 r317 c5]
+[T8 r317 c6] -46,41622 / 
+[T8 r317 c7] Non soddisfatto
+[T8 r318 c1] 8,719 int.
+[T8 r318 c2] 171,1923
+[T8 r318 c3] 32,86707
+[T8 r318 c4]
+[T8 r318 c5]
+[T8 r318 c6] -45,70568 / 
+[T8 r318 c7] Non soddisfatto
+[T8 r319 c1] 8,75 sup.
+[T8 r319 c2] 171,8058
+[T8 r319 c3] 31,4501
+[T8 r319 c4]
+[T8 r319 c5]
+[T8 r319 c6] -44,97723 / 
+[T8 r319 c7] Non soddisfatto
+[T8 r320 c1] 8,75 inf.
+[T8 r320 c2] 171,8058
+[T8 r320 c3] 31,4501
+[T8 r320 c4]
+[T8 r320 c5]
+[T8 r320 c6] -44,97723 / 
+[T8 r320 c7] Non soddisfatto
+[T8 r321 c1] 8,781 int.
+[T8 r321 c2] 172,4194
+[T8 r321 c3] 30,05618
+[T8 r321 c4]
+[T8 r321 c5]
+[T8 r321 c6] -44,23077 / 
+[T8 r321 c7] Non soddisfatto
+[T8 r322 c1] 8,812 int.
+[T8 r322 c2] 173,033
+[T8 r322 c3] 28,68586
+[T8 r322 c4]
+[T8 r322 c5]
+[T8 r322 c6] -43,46621 / 
+[T8 r322 c7] Non soddisfatto
+[T8 r323 c1] 8,844 int.
+[T8 r323 c2] 173,6466
+[T8 r323 c3] 27,33973
+[T8 r323 c4]
+[T8 r323 c5]
+[T8 r323 c6] -42,68345 / 
+[T8 r323 c7] Non soddisfatto
+[T8 r324 c1] 8,875 int.
+[T8 r324 c2] 174,2602
+[T8 r324 c3] 26,01834
+[T8 r324 c4]
+[T8 r324 c5]
+[T8 r324 c6] -41,88238 / 
+[T8 r324 c7] Non soddisfatto
+[T8 r325 c1] 8,906 int.
+[T8 r325 c2] 174,8738
+[T8 r325 c3] 24,72227
+[T8 r325 c4]
+[T8 r325 c5]
+[T8 r325 c6] -41,06292 / 
+[T8 r325 c7] Non soddisfatto
+[T8 r326 c1] 8,938 int.
+[T8 r326 c2] 175,4874
+[T8 r326 c3] 23,4521
+[T8 r326 c4]
+[T8 r326 c5]
+[T8 r326 c6] -40,22497 / 
+[T8 r326 c7] Non soddisfatto
+[T8 r327 c1] 8,969 int.
+[T8 r327 c2] 176,101
+[T8 r327 c3] 22,2084
+[T8 r327 c4]
+[T8 r327 c5]
+[T8 r327 c6] -39,36842 / 
+[T8 r327 c7] Non soddisfatto
+[T8 r328 c1] 9 sup.
+[T8 r328 c2] 176,7146
+[T8 r328 c3] 20,99177
+[T8 r328 c4]
+[T8 r328 c5]
+[T8 r328 c6] -38,49317 / 
+[T8 r328 c7] Non soddisfatto
+[T8 r329 c1] 9 inf.
+[T8 r329 c2] 176,7146
+[T8 r329 c3] 20,99177
+[T8 r329 c4]
+[T8 r329 c5]
+[T8 r329 c6] -38,49317 / 
+[T8 r329 c7] Non soddisfatto
+[T8 r330 c1] 9,031 int.
+[T8 r330 c2] 177,3282
+[T8 r330 c3] 19,80278
+[T8 r330 c4]
+[T8 r330 c5]
+[T8 r330 c6] -37,59913 / 
+[T8 r330 c7] Non soddisfatto
+[T8 r331 c1] 9,062 int.
+[T8 r331 c2] 177,9418
+[T8 r331 c3] 18,64202
+[T8 r331 c4]
+[T8 r331 c5]
+[T8 r331 c6] -36,6862 / 
+[T8 r331 c7] Non soddisfatto
+[T8 r332 c1] 9,094 int.
+[T8 r332 c2] 178,5554
+[T8 r332 c3] 17,51009
+[T8 r332 c4]
+[T8 r332 c5]
+[T8 r332 c6] -35,75427 / 
+[T8 r332 c7] Non soddisfatto
+[T8 r333 c1] 9,125 int.
+[T8 r333 c2] 179,169
+[T8 r333 c3] 16,40758
+[T8 r333 c4]
+[T8 r333 c5]
+[T8 r333 c6] -34,80325 / 
+[T8 r333 c7] Non soddisfatto
+[T8 r334 c1] 9,156 int.
+[T8 r334 c2] 179,7825
+[T8 r334 c3] 15,33508
+[T8 r334 c4]
+[T8 r334 c5]
+[T8 r334 c6] -33,83303 / 
+[T8 r334 c7] Non soddisfatto
+[T8 r335 c1] 9,188 int.
+[T8 r335 c2] 180,3961
+[T8 r335 c3] 14,29321
+[T8 r335 c4]
+[T8 r335 c5]
+[T8 r335 c6] -32,84351 / 
+[T8 r335 c7] Non soddisfatto
+[T8 r336 c1] 9,219 int.
+[T8 r336 c2] 181,0097
+[T8 r336 c3] 13,28257
+[T8 r336 c4]
+[T8 r336 c5]
+[T8 r336 c6] -31,8346 / 
+[T8 r336 c7] Non soddisfatto
+[T8 r337 c1] 9,25 sup.
+[T8 r337 c2] 181,6233
+[T8 r337 c3] 12,30375
+[T8 r337 c4]
+[T8 r337 c5]
+[T8 r337 c6] -30,80617 / 
+[T8 r337 c7] Non soddisfatto
+[T8 r338 c1] 9,25 inf.
+[T8 r338 c2] 181,6233
+[T8 r338 c3] 12,30375
+[T8 r338 c4]
+[T8 r338 c5]
+[T8 r338 c6] -30,80617 / 
+[T8 r338 c7] Non soddisfatto
+[T8 r339 c1] 9,281 int.
+[T8 r339 c2] 182,2369
+[T8 r339 c3] 11,35738
+[T8 r339 c4]
+[T8 r339 c5]
+[T8 r339 c6] -29,75814 / 
+[T8 r339 c7] Non soddisfatto
+[T8 r340 c1] 9,312 int.
+[T8 r340 c2] 182,8505
+[T8 r340 c3] 10,44407
+[T8 r340 c4]
+[T8 r340 c5]
+[T8 r340 c6] -28,6904 / 
+[T8 r340 c7] Non soddisfatto
+[T8 r341 c1] 9,344 int.
+[T8 r341 c2] 183,4641
+[T8 r341 c3] 9,56444
+[T8 r341 c4]
+[T8 r341 c5]
+[T8 r341 c6] -27,60285 / 
+[T8 r341 c7] Non soddisfatto
+[T8 r342 c1] 9,375 int.
+[T8 r342 c2] 184,0777
+[T8 r342 c3] 8,719104
+[T8 r342 c4]
+[T8 r342 c5]
+[T8 r342 c6] -26,49537 / 
+[T8 r342 c7] Non soddisfatto
+[T8 r343 c1] 9,406 int.
+[T8 r343 c2] 184,6913
+[T8 r343 c3] 7,908688
+[T8 r343 c4]
+[T8 r343 c5]
+[T8 r343 c6] -25,36788 / 
+[T8 r343 c7] Non soddisfatto
+[T8 r344 c1] 9,438 int.
+[T8 r344 c2] 185,3049
+[T8 r344 c3] 7,133821
+[T8 r344 c4]
+[T8 r344 c5]
+[T8 r344 c6] -24,22025 / 
+[T8 r344 c7] Non soddisfatto
+[T8 r345 c1] 9,469 int.
+[T8 r345 c2] 185,9185
+[T8 r345 c3] 6,395133
+[T8 r345 c4]
+[T8 r345 c5]
+[T8 r345 c6] -23,0524 / 
+[T8 r345 c7] Non soddisfatto
+[T8 r346 c1] 9,5 sup.
+[T8 r346 c2] 186,5321
+[T8 r346 c3] 5,693258
+[T8 r346 c4]
+[T8 r346 c5]
+[T8 r346 c6] -21,8642 / 
+[T8 r346 c7] Non soddisfatto
+[T8 r347 c1] 9,5 inf.
+[T8 r347 c2] 186,5321
+[T8 r347 c3] 5,693258
+[T8 r347 c4]
+[T8 r347 c5]
+[T8 r347 c6] -21,8642 / 
+[T8 r347 c7] Non soddisfatto
+[T8 r348 c1] 9,531 int.
+[T8 r348 c2] 187,1457
+[T8 r348 c3] 5,028833
+[T8 r348 c4]
+[T8 r348 c5]
+[T8 r348 c6] -20,65557 / 
+[T8 r348 c7] Non soddisfatto
+[T8 r349 c1] 9,562 int.
+[T8 r349 c2] 187,7592
+[T8 r349 c3] 4,402499
+[T8 r349 c4]
+[T8 r349 c5]
+[T8 r349 c6] -19,42638 / 
+[T8 r349 c7] Non soddisfatto
+[T8 r350 c1] 9,594 int.
+[T8 r350 c2] 188,3728
+[T8 r350 c3] 3,8149
+[T8 r350 c4]
+[T8 r350 c5]
+[T8 r350 c6] -18,17653 / 
+[T8 r350 c7] Non soddisfatto
+[T8 r351 c1] 9,625 int.
+[T8 r351 c2] 188,9864
+[T8 r351 c3] 3,266682
+[T8 r351 c4]
+[T8 r351 c5]
+[T8 r351 c6] -16,90592 / 
+[T8 r351 c7] Non soddisfatto
+[T8 r352 c1] 9,656 int.
+[T8 r352 c2] 189,6
+[T8 r352 c3] 2,758497
+[T8 r352 c4]
+[T8 r352 c5]
+[T8 r352 c6] -15,61444 / 
+[T8 r352 c7] Non soddisfatto
+[T8 r353 c1] 9,688 int.
+[T8 r353 c2] 190,2136
+[T8 r353 c3] 2,290998
+[T8 r353 c4]
+[T8 r353 c5]
+[T8 r353 c6] -14,30199 / 
+[T8 r353 c7] Non soddisfatto
+[T8 r354 c1] 9,719 int.
+[T8 r354 c2] 190,8272
+[T8 r354 c3] 1,864842
+[T8 r354 c4]
+[T8 r354 c5]
+[T8 r354 c6] -12,96845 / 
+[T8 r354 c7] Non soddisfatto
+[T8 r355 c1] 9,75 sup.
+[T8 r355 c2] 191,4408
+[T8 r355 c3] 1,480691
+[T8 r355 c4]
+[T8 r355 c5]
+[T8 r355 c6] -11,61372 / 
+[T8 r355 c7] Non soddisfatto
+[T8 r356 c1] 9,75 inf.
+[T8 r356 c2] 191,4408
+[T8 r356 c3] 1,480691
+[T8 r356 c4]
+[T8 r356 c5]
+[T8 r356 c6] -11,61372 / 
+[T8 r356 c7] Non soddisfatto
+[T8 r357 c1] 9,781 int.
+[T8 r357 c2] 192,0544
+[T8 r357 c3] 1,139207
+[T8 r357 c4]
+[T8 r357 c5]
+[T8 r357 c6] -10,23769 / 
+[T8 r357 c7] Non soddisfatto
+[T8 r358 c1] 9,812 int.
+[T8 r358 c2] 192,668
+[T8 r358 c3] 0,8410582
+[T8 r358 c4]
+[T8 r358 c5]
+[T8 r358 c6] -8,840247 / 
+[T8 r358 c7] Non soddisfatto
+[T8 r359 c1] 9,844 int.
+[T8 r359 c2] 193,2816
+[T8 r359 c3] 0,5869155
+[T8 r359 c4]
+[T8 r359 c5]
+[T8 r359 c6] -7,421292 / 
+[T8 r359 c7] Non soddisfatto
+[T8 r360 c1] 9,875 int.
+[T8 r360 c2] 193,8952
+[T8 r360 c3] 0,3774527
+[T8 r360 c4]
+[T8 r360 c5]
+[T8 r360 c6] -5,980714 / 
+[T8 r360 c7] Non soddisfatto
+[T8 r361 c1] 9,906 int.
+[T8 r361 c2] 194,5088
+[T8 r361 c3] 0,2133473
+[T8 r361 c4]
+[T8 r361 c5]
+[T8 r361 c6] -4,518404 / 
+[T8 r361 c7] Non soddisfatto
+[T8 r362 c1] 9,938 int.
+[T8 r362 c2] 195,1224
+[T8 r362 c3] 0,09527996
+[T8 r362 c4]
+[T8 r362 c5]
+[T8 r362 c6] -3,034254 / 
+[T8 r362 c7] Non soddisfatto
+[T8 r363 c1] 9,959 int.
+[T8 r363 c2] 195,541
+[T8 r363 c3] 0,0414916
+[T8 r363 c4]
+[T8 r363 c5]
+[T8 r363 c6] -2,008931 / 
+[T8 r363 c7] Non soddisfatto
+[T8 r364 c1] 9,969 int.
+[T8 r364 c2] 195,7359
+[T8 r364 c3] 0,02393501
+[T8 r364 c4]
+[T8 r364 c5]
+[T8 r364 c6] -1,528156 / 
+[T8 r364 c7] Non soddisfatto
+[T8 r365 c1] 10 sup.
+[T8 r365 c2] 196,3495
+[T8 r365 c3] -9,341417E-13
+[T8 r365 c4]
+[T8 r365 c5]
+[T8 r365 c6] -2,821654E-10 / 
+[T8 r365 c7] Non soddisfatto
+¶ Distinta preliminare: ogni tratto definisce la fine fisica delle proprie barre; il primo gruppo parte da zero, i successivi dall'inizio tratto meno la sovrapposizione adottata. Gruppi identici restano separati; tagli interni soltanto oltre la lunghezza commerciale disponibile. Ogni pezzo compare una sola volta. Giunti raggruppati, nessun contributo resistente aggiuntivo delle barre sovrapposte; sviluppo, staffe, confinamento e disposizione esecutiva dei giunti da completare.
+¶ Gruppo G01 · tratti T1: 16 Ø24. Testa → Punta. lbd=0,9951273 m, a_l=0,8509436 m. Quote di taglio rispettate; sviluppo alle estremità e dettagli da verificare
+¶ NTC 2018 §4.1.6.1 with EC2 §8; NTC 2018 §4.1.6.1 with EC2 §8; traslazione a_l=z cotθ/2 (EN1992-1-1 §9.2.1.3, JRC Arrieta 2011). α1…α5=1, σsd=fyd. Capacità nominale senza contributo aggiuntivo delle barre sovrapposte. Default software richiesto: 60φ (o fattore assegnato), arrotondato per eccesso a 0,10 m; l0 adottata=max(default, richiesta). Schema quote di taglio: primo gruppo 0–fine; successivi inizio−l0 fino a fine. Nessuna fusione fra tratti e nessuno sviluppo aggiunto alle quote assegnate. Verifiche di sviluppo indipendenti dalla geometria scelta.
+[T9 r1 c1] Posizione / n / φ
+[T9 r1 c2] Da–a x [m]
+[T9 r1 c3] Taglio [m]
+[T9 r1 c4] Commerciale [m]
+[T9 r1 c5] Giunto tra pezzi [m]
+[T9 r2 c1] G01.1 / 16 / 24
+[T9 r2 c2] 0–10
+[T9 r2 c3] 10
+[T9 r2 c4] 10
+[T9 r2 c5] 0

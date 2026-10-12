@@ -1,0 +1,964 @@
+# word/document.xml
+¶ ANTHEA · Fixture F3 · geo_muri_sostegno · example-gravity
+¶ Muri di sostegno · Gravità
+¶ Campo di applicazione e verifiche richieste
+¶ Sezione piana per metro di sviluppo. Paramento di monte verticale, riempimento orizzontale granulare (c′ = 0), spinta attiva oppure a riposo nel modello Wood. Fondazione nastriforme superficiale su terreno omogeneo drenato, con due stratigrafie e terreno a valle. Muro a mensola in c.a. o a gravità con sezione trapezia.
+¶ Bishop, cedimenti edometrici e spostamenti sono verifiche separate da attivare con i dati richiesti. Portanza sismica: EN 1998-5 allegato F, base ruvida e terreno granulare asciutto. Newmark: accelerogrammi e soglia di scorrimento assegnati, solo muro libero. Gravità: resistenze assegnate oppure CLS/muratura nel dominio senza trazione; fuori campo occorre analisi non lineare. Il disegno delle armature è un predimensionamento, da completare con dettagli esecutivi. Liquefazione, verifiche idrauliche e degradazione ciclica non incluse. Nessun esito complessivo dell’opera.
+¶ Statica: Rankine per strati (K₀ nel modello Wood), pressioni efficaci e acqua separate. Preset SLU A1+M1+R3: inviluppo γG,muro e γG,terra = 1 / 1,3; γQ = 0 / 1,5; γG,acqua = 1 / 1,3, correlato a spinta e sottospinta. γR scorrimento 1,1, ribaltamento 1,15, portanza 1,4. Portanza: EN 1997-1, allegato D, fondazione nastriforme c′=0, q′ di ricoprimento da valle, Nγ=2(Nq−1)tanφ, iγ=(1−H/V)³; base ruvida δ≥φ/2. Contatto elastico senza trazione; B′=B−2|e|. Oltre |e|=B/3 la portanza è fuori campo. Passiva Rankine opzionale e parzializzabile, esclusa nel sisma.
+¶ GPC.Geometry: area e baricentro; GPC.Model e GPCChecker.Concrete: materiali, equilibrio N–M e tensioni delle sezioni armate. Pressioni geotecniche, equilibrio del muro, combinazioni, esercizio e stabilità globale: GPCChecker.Geotechnics (GPC.Checkers.Geotechnics.Walls).
+¶ Due colonne con profondità dalla rispettiva superficie. Hlib è misurata dalla sommità al terreno di valle; Dv=H+t−Hlib dal piano di posa. Collegare le colonne copia spessori e materiali, non le quote assolute. Peso del terreno sopra la mensola e ricoprimento efficace nella portanza sempre inclusi. Passiva Rankine attivabile con frazione mobilitata 0–1; esclusa nei casi sismici. Il terreno di posa resta un input distinto.
+¶ Automatico: δd=k·atan(tanφcv,k/γMφ), k=1 gettato in opera, 2/3 prefabbricato, 0 liscio. φcv è l’angolo a volume costante, da caratterizzare; non è automaticamente l’angolo di picco. Assegnato: tanδd=tanδk/γMφ. Sul fusto Coulomb/Mononobe–Okabe con attrito; per l’equilibrio con mensola a monte la spinta è sul piano virtuale a tergo della mensola, δ=0. Wood non mobilita δ. Nessun doppio conteggio dell’attrito interno al blocco muro–terreno.
+¶ Passiva applicata al piano verticale esterno a valle e limitata alla spinta motrice; nessuna maggiorazione favorevole γG>1. Diagrammi del fusto: equilibrio della sezione con terreno sul paramento inclinato e attrito di monte. Ricoprimento q′ di valle usato con iq=(1−|H|/V)²; nessuna maggiorazione di profondità.
+¶ A modifica le azioni; M riduce i parametri del terreno (tan φd = tan φk / γMφ); R divide le resistenze. Per i muri NTC 2018 §6.5.3.1.1 il preset locale è Approccio 2: A1+M1+R3, con γR = 1,10 scorrimento, 1,15 ribaltamento, 1,40 portanza. A1+M1+R1 appartiene alla combinazione 1 dell’Approccio 1 e non sostituisce la verifica A2+M2+R2. La stabilità globale A2+M2+R2 richiede un’analisi dedicata. Nella matrice ogni riga espone i fattori realmente usati: modificarli produce una combinazione personalizzata, non una certificazione dell’approccio.
+¶ Azioni indipendenti con ψ propri e gruppi correlati. Matrice Automatiche: fanno fede i coefficienti salvati in ogni riga. Urto: forza statica equivalente assegnata per metro; eventi eccezionali separati, ψ₂ delle variabili e γR=1 nel preset. Resistenze del materiale conservate cautelativamente ai valori ordinari.
+¶ Sezione, terreno e armature · carichi caratteristici; spinte: SLE 1
+¶ Diagrammi Fusto · SLE 1
+¶ Diagrammi Valle · SLE 1
+¶ Diagrammi Monte · SLE 1
+¶ Geometria e dati di ingresso
+[T1 r1 c1] Parametro
+[T1 r1 c2] Valore
+[T1 r1 c3] Unità
+[T1 r2 c1] Altezza sopra fondazione · H
+[T1 r2 c2] 3
+[T1 r2 c3] m
+[T1 r3 c1] Spessore fusto al piede · s₀
+[T1 r3 c2] 2.2
+[T1 r3 c3] m
+[T1 r4 c1] Spessore fusto in testa · s₁
+[T1 r4 c2] 0.55
+[T1 r4 c3] m
+[T1 r5 c1] Spessore fondazione · t
+[T1 r5 c2] 0.45
+[T1 r5 c3] m
+[T1 r6 c1] Mensola a valle · a
+[T1 r6 c2] 0.25
+[T1 r6 c3] m
+[T1 r7 c1] Mensola a monte · b
+[T1 r7 c2] 0.25
+[T1 r7 c3] m
+[T2 r1 c1] Parametro
+[T2 r1 c2] Valore
+[T2 r1 c3] Unità
+[T2 r2 c1] Attrito terreno di posa · φ′f
+[T2 r2 c2] 34
+[T2 r2 c3] °
+[T2 r3 c1] Peso terreno asciutto · γf
+[T2 r3 c2] 19
+[T2 r3 c3] kN/m³
+[T2 r4 c1] Peso terreno saturo · γsat,f
+[T2 r4 c2] 21
+[T2 r4 c3] kN/m³
+[T2 r5 c1] Attrito alla base · δb
+[T2 r5 c2] 26
+[T2 r5 c3] °
+[T3 r1 c1] Parametro
+[T3 r1 c2] Valore
+[T3 r1 c3] Unità
+[T3 r2 c1] Peso specifico muro · γm
+[T3 r2 c2] 25
+[T3 r2 c3] kN/m³
+[T3 r3 c1] Resistenza di progetto a compressione · σRd
+[T3 r3 c2] 5
+[T3 r3 c3] MPa
+[T3 r4 c1] Resistenza di progetto a taglio · τRd
+[T3 r4 c2] 0.2
+[T3 r4 c3] MPa
+[T3 r5 c1] Resistenza di progetto a trazione fondazione · fctd
+[T3 r5 c2] 0.3
+[T3 r5 c3] MPa
+¶ Azioni assegnate per metro di sviluppo
+[T4 r1 c1] Nome / tipo / natura
+[T4 r1 c2] Valore / unità
+[T4 r1 c3] z₀ / z₁ / x [m]
+[T4 r1 c4] ψ₀ / ψ₁ / ψ₂ / gruppo
+[T4 r2 c1] Sovraccarico uniforme ⏎ Sovraccarico uniforme · Q
+[T4 r2 c2] 10 kPa
+[T4 r2 c3] Tutto il riempimento
+[T4 r2 c4] 0.7 / 0.5 / 0.3 / legacy
+¶ z delle azioni dal piano di posa, x dal bordo a valle. H verso valle, N a compressione, momento ribaltante. Urto: azione statica equivalente assegnata. Visibilità nel disegno indipendente dall’abilitazione al calcolo.
+¶ Stratigrafia di monte (dalla sommità)
+[T5 r1 c1] Nome
+[T5 r1 c2] Δz [m]
+[T5 r1 c3] γ [kN/m³]
+[T5 r1 c4] γsat [kN/m³]
+[T5 r1 c5] φ′ [°]
+[T5 r2 c1] Terreno granulare
+[T5 r2 c2] 10
+[T5 r2 c3] 18
+[T5 r2 c4] 20
+[T5 r2 c5] 30
+¶ Stratigrafia di valle (dalla superficie di valle)
+[T6 r1 c1] Nome
+[T6 r1 c2] Δz [m]
+[T6 r1 c3] γ [kN/m³]
+[T6 r1 c4] γsat [kN/m³]
+[T6 r1 c5] φ′ [°]
+[T6 r2 c1] Terreno granulare
+[T6 r2 c2] 10
+[T6 r2 c3] 18
+[T6 r2 c4] 20
+[T6 r2 c5] 30
+¶ Dv=0 m; Hlib=3,45 m. Colonne collegate: False. Passiva richiesta: False; frazione=0.
+¶ Origine degli attriti
+[T7 r1 c1] Parametro
+[T7 r1 c2] Input
+[T7 r2 c1] wall_mode
+[T7 r2 c2] Assegnato
+[T7 r3 c1] wall_delta
+[T7 r3 c2] 0
+[T7 r4 c1] wall_phi_cv
+[T7 r4 c2] 30
+[T7 r5 c1] base_mode
+[T7 r5 c2] Assegnato
+[T7 r6 c1] base_phi_cv
+[T7 r6 c2] 34
+¶ Valori geotecnici effettivamente utilizzati per combinazione
+[T8 r1 c1] Caso
+[T8 r1 c2] Quote e attriti
+[T8 r1 c3] Terreno valle
+[T8 r1 c4] Portanza
+[T8 r2 c1] SLE 1
+[T8 r2 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T8 r2 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T8 r2 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,468 ⏎ igamma = 0,32 ⏎ Base ruvida: True
+[T8 r3 c1] SLE_FREQ 2
+[T8 r3 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T8 r3 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T8 r3 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,519 ⏎ igamma = 0,374 ⏎ Base ruvida: True
+[T8 r4 c1] Quasi permanente 3
+[T8 r4 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T8 r4 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T8 r4 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,54 ⏎ igamma = 0,397 ⏎ Base ruvida: True
+[T8 r5 c1] SLU 4
+[T8 r5 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T8 r5 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T8 r5 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,573 ⏎ igamma = 0,434 ⏎ Base ruvida: True
+[T8 r6 c1] SLU 5
+[T8 r6 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T8 r6 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T8 r6 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,655 ⏎ igamma = 0,53 ⏎ Base ruvida: True
+[T8 r7 c1] SLU 6
+[T8 r7 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T8 r7 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T8 r7 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,48 ⏎ igamma = 0,332 ⏎ Base ruvida: True
+[T8 r8 c1] SLU 7
+[T8 r8 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T8 r8 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T8 r8 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,573 ⏎ igamma = 0,434 ⏎ Base ruvida: True
+[T8 r9 c1] SLU 8
+[T8 r9 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T8 r9 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T8 r9 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,421 ⏎ igamma = 0,273 ⏎ Base ruvida: True
+[T8 r10 c1] SLU 9
+[T8 r10 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T8 r10 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T8 r10 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,522 ⏎ igamma = 0,377 ⏎ Base ruvida: True
+[T8 r11 c1] SLU 10
+[T8 r11 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T8 r11 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T8 r11 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,347 ⏎ igamma = 0,204 ⏎ Base ruvida: True
+[T8 r12 c1] SLU 11
+[T8 r12 c2] Quota terreno di valle Dv = 0 m ⏎ Altezza libera Hlib = 3,45 m ⏎ Attrito muro δd = 0 ° ⏎ Attrito base δb,d = 26 ° ⏎ Coefficiente attrito base μd = 0,488 − ⏎ Attrito piano di equilibrio = 0 °
+[T8 r12 c3] Peso terreno a valle = 0 kN/m ⏎ Momento del peso a valle = 0 kNm/m ⏎ Ricoprimento efficace q′ = 0 kPa ⏎ Passiva disponibile = 0 kN/m ⏎ Passiva utilizzata = 0 kN/m ⏎ Frazione passiva ηp = 0 − ⏎ Riduzione passiva per equilibrio = 0 −
+[T8 r12 c4] Nq = 29,44 ⏎ Ngamma = 38,366 ⏎ iq = 0,453 ⏎ igamma = 0,305 ⏎ Base ruvida: True
+¶ Coefficienti delle spinte sul fusto
+[T9 r1 c1] Caso / z₀–z₁ [m]
+[T9 r1 c2] φd [°]
+[T9 r1 c3] K / Ke
+[T9 r1 c4] Incremento [kPa]
+[T9 r2 c1] SLE 1 / 0–3
+[T9 r2 c2] 30
+[T9 r2 c3] 0,333 / 0,333
+[T9 r2 c4] 0
+[T9 r3 c1] SLE 1 / 3–3,45
+[T9 r3 c2] 30
+[T9 r3 c3] 0,333 / 0,333
+[T9 r3 c4] 0
+[T9 r4 c1] SLE_FREQ 2 / 0–3
+[T9 r4 c2] 30
+[T9 r4 c3] 0,333 / 0,333
+[T9 r4 c4] 0
+[T9 r5 c1] SLE_FREQ 2 / 3–3,45
+[T9 r5 c2] 30
+[T9 r5 c3] 0,333 / 0,333
+[T9 r5 c4] 0
+[T9 r6 c1] Quasi permanente 3 / 0–3
+[T9 r6 c2] 30
+[T9 r6 c3] 0,333 / 0,333
+[T9 r6 c4] 0
+[T9 r7 c1] Quasi permanente 3 / 3–3,45
+[T9 r7 c2] 30
+[T9 r7 c3] 0,333 / 0,333
+[T9 r7 c4] 0
+[T9 r8 c1] SLU 4 / 0–3
+[T9 r8 c2] 30
+[T9 r8 c3] 0,333 / 0,333
+[T9 r8 c4] 0
+[T9 r9 c1] SLU 4 / 3–3,45
+[T9 r9 c2] 30
+[T9 r9 c3] 0,333 / 0,333
+[T9 r9 c4] 0
+[T9 r10 c1] SLU 5 / 0–3
+[T9 r10 c2] 30
+[T9 r10 c3] 0,333 / 0,333
+[T9 r10 c4] 0
+[T9 r11 c1] SLU 5 / 3–3,45
+[T9 r11 c2] 30
+[T9 r11 c3] 0,333 / 0,333
+[T9 r11 c4] 0
+[T9 r12 c1] SLU 6 / 0–3
+[T9 r12 c2] 30
+[T9 r12 c3] 0,333 / 0,333
+[T9 r12 c4] 0
+[T9 r13 c1] SLU 6 / 3–3,45
+[T9 r13 c2] 30
+[T9 r13 c3] 0,333 / 0,333
+[T9 r13 c4] 0
+[T9 r14 c1] SLU 7 / 0–3
+[T9 r14 c2] 30
+[T9 r14 c3] 0,333 / 0,333
+[T9 r14 c4] 0
+[T9 r15 c1] SLU 7 / 3–3,45
+[T9 r15 c2] 30
+[T9 r15 c3] 0,333 / 0,333
+[T9 r15 c4] 0
+[T9 r16 c1] SLU 8 / 0–3
+[T9 r16 c2] 30
+[T9 r16 c3] 0,333 / 0,333
+[T9 r16 c4] 0
+[T9 r17 c1] SLU 8 / 3–3,45
+[T9 r17 c2] 30
+[T9 r17 c3] 0,333 / 0,333
+[T9 r17 c4] 0
+[T9 r18 c1] SLU 9 / 0–3
+[T9 r18 c2] 30
+[T9 r18 c3] 0,333 / 0,333
+[T9 r18 c4] 0
+[T9 r19 c1] SLU 9 / 3–3,45
+[T9 r19 c2] 30
+[T9 r19 c3] 0,333 / 0,333
+[T9 r19 c4] 0
+[T9 r20 c1] SLU 10 / 0–3
+[T9 r20 c2] 30
+[T9 r20 c3] 0,333 / 0,333
+[T9 r20 c4] 0
+[T9 r21 c1] SLU 10 / 3–3,45
+[T9 r21 c2] 30
+[T9 r21 c3] 0,333 / 0,333
+[T9 r21 c4] 0
+[T9 r22 c1] SLU 11 / 0–3
+[T9 r22 c2] 30
+[T9 r22 c3] 0,333 / 0,333
+[T9 r22 c4] 0
+[T9 r23 c1] SLU 11 / 3–3,45
+[T9 r23 c2] 30
+[T9 r23 c3] 0,333 / 0,333
+[T9 r23 c4] 0
+¶ Pressioni sul fusto e resistenza di valle
+[T10 r1 c1] Caso / piano
+[T10 r1 c2] z₀–z₁ [m]
+[T10 r1 c3] p₀–p₁ [kPa]
+[T10 r2 c1] SLE 1 / fusto
+[T10 r2 c2] 0–3
+[T10 r2 c3] 3,333–21,333
+[T10 r3 c1] SLE 1 / fusto
+[T10 r3 c2] 3–3,45
+[T10 r3 c3] 21,333–24,033
+[T10 r4 c1] SLE_FREQ 2 / fusto
+[T10 r4 c2] 0–3
+[T10 r4 c3] 1,667–19,667
+[T10 r5 c1] SLE_FREQ 2 / fusto
+[T10 r5 c2] 3–3,45
+[T10 r5 c3] 19,667–22,367
+[T10 r6 c1] Quasi permanente 3 / fusto
+[T10 r6 c2] 0–3
+[T10 r6 c3] 1–19
+[T10 r7 c1] Quasi permanente 3 / fusto
+[T10 r7 c2] 3–3,45
+[T10 r7 c3] 19–21,7
+[T10 r8 c1] SLU 4 / fusto
+[T10 r8 c2] 0–3
+[T10 r8 c3] 0–18
+[T10 r9 c1] SLU 4 / fusto
+[T10 r9 c2] 3–3,45
+[T10 r9 c3] 18–20,7
+[T10 r10 c1] SLU 5 / fusto
+[T10 r10 c2] 0–3
+[T10 r10 c3] 0–18
+[T10 r11 c1] SLU 5 / fusto
+[T10 r11 c2] 3–3,45
+[T10 r11 c3] 18–20,7
+[T10 r12 c1] SLU 6 / fusto
+[T10 r12 c2] 0–3
+[T10 r12 c3] 0–23,4
+[T10 r13 c1] SLU 6 / fusto
+[T10 r13 c2] 3–3,45
+[T10 r13 c3] 23,4–26,91
+[T10 r14 c1] SLU 7 / fusto
+[T10 r14 c2] 0–3
+[T10 r14 c3] 0–23,4
+[T10 r15 c1] SLU 7 / fusto
+[T10 r15 c2] 3–3,45
+[T10 r15 c3] 23,4–26,91
+[T10 r16 c1] SLU 8 / fusto
+[T10 r16 c2] 0–3
+[T10 r16 c3] 5–23
+[T10 r17 c1] SLU 8 / fusto
+[T10 r17 c2] 3–3,45
+[T10 r17 c3] 23–25,7
+[T10 r18 c1] SLU 9 / fusto
+[T10 r18 c2] 0–3
+[T10 r18 c3] 5–23
+[T10 r19 c1] SLU 9 / fusto
+[T10 r19 c2] 3–3,45
+[T10 r19 c3] 23–25,7
+[T10 r20 c1] SLU 10 / fusto
+[T10 r20 c2] 0–3
+[T10 r20 c3] 5–28,4
+[T10 r21 c1] SLU 10 / fusto
+[T10 r21 c2] 3–3,45
+[T10 r21 c3] 28,4–31,91
+[T10 r22 c1] SLU 11 / fusto
+[T10 r22 c2] 0–3
+[T10 r22 c3] 5–28,4
+[T10 r23 c1] SLU 11 / fusto
+[T10 r23 c2] 3–3,45
+[T10 r23 c3] 28,4–31,91
+¶ Falda assente.
+¶ Analisi sismica non richiesta nel presente calcolo.
+¶ Gravità: compressione e taglio confrontati con resistenze di progetto assegnate, da documentare per il materiale effettivo. Fusto verificato anche per assenza di trazione. Fondazione non armata verificata a flessione con fctd assegnata. Non è una verifica normativa completa di muratura o pietrame.
+¶ Inviluppo verifiche geotecniche
+[T11 r1 c1] Controllo / caso
+[T11 r1 c2] Ed / Rd
+[T11 r1 c3] Unità
+[T11 r1 c4] Ed/Rd
+[T11 r1 c5] Esito
+[T11 r2 c1] Scorrimento ⏎ SLU 10
+[T11 r2 c2] 63,67 / 68,637
+[T11 r2 c3] kN/m
+[T11 r2 c4] 0,928
+[T11 r2 c5] Soddisfatta
+[T11 r3 c1] Ribaltamento ⏎ SLU 10
+[T11 r3 c2] 83,139 / 234,003
+[T11 r3 c3] kNm/m
+[T11 r3 c4] 0,355
+[T11 r3 c5] Soddisfatta
+[T11 r4 c1] Capacità portante ⏎ SLU 10
+[T11 r4 c2] 154,8 / 306,615
+[T11 r4 c3] kN/m
+[T11 r4 c4] 0,505
+[T11 r4 c5] Soddisfatta
+[T11 r5 c1] Contatto fondazione ⏎ SLU 10
+[T11 r5 c2] 0,149 / 1,35
+[T11 r5 c3] m
+[T11 r5 c4] 0,11
+[T11 r5 c5] Contatto in compressione
+¶ Inviluppo verifiche strutturali
+[T12 r1 c1] Controllo / caso
+[T12 r1 c2] Ed / Rd
+[T12 r1 c3] Unità
+[T12 r1 c4] Ed/Rd
+[T12 r1 c5] Esito
+[T12 r2 c1] Fusto z=3.00 m · compressione ⏎ SLU 5
+[T12 r2 c2] 0,082 / 5
+[T12 r2 c3] MPa
+[T12 r2 c4] 0,016
+[T12 r2 c5] Soddisfatta
+[T12 r3 c1] Fusto z=3.00 m · assenza trazione ⏎ SLU 10
+[T12 r3 c2] 23,569 / 37,813
+[T12 r3 c3] kNm/m
+[T12 r3 c4] 0,623
+[T12 r3 c5] Soddisfatta
+[T12 r4 c1] Fusto z=3.00 m · taglio ⏎ SLU 10
+[T12 r4 c2] 0,034 / 0,2
+[T12 r4 c3] MPa
+[T12 r4 c4] 0,171
+[T12 r4 c5] Soddisfatta
+[T12 r5 c1] Valle z=0.25 m · compressione ⏎ SLU 11
+[T12 r5 c2] 0,062 / 5
+[T12 r5 c3] MPa
+[T12 r5 c4] 0,012
+[T12 r5 c5] Soddisfatta
+[T12 r6 c1] Valle z=0.25 m · flessione fondazione ⏎ SLU 11
+[T12 r6 c2] 0,062 / 0,3
+[T12 r6 c3] MPa
+[T12 r6 c4] 0,208
+[T12 r6 c5] Soddisfatta
+[T12 r7 c1] Valle z=0.25 m · taglio ⏎ SLU 11
+[T12 r7 c2] 0,056 / 0,2
+[T12 r7 c3] MPa
+[T12 r7 c4] 0,28
+[T12 r7 c5] Soddisfatta
+[T12 r8 c1] Monte z=0.25 m · compressione ⏎ SLU 10
+[T12 r8 c2] 0,053 / 5
+[T12 r8 c3] MPa
+[T12 r8 c4] 0,011
+[T12 r8 c5] Soddisfatta
+[T12 r9 c1] Monte z=0.25 m · flessione fondazione ⏎ SLU 10
+[T12 r9 c2] 0,053 / 0,3
+[T12 r9 c3] MPa
+[T12 r9 c4] 0,176
+[T12 r9 c5] Soddisfatta
+[T12 r10 c1] Monte z=0.25 m · taglio ⏎ SLU 10
+[T12 r10 c2] 0,047 / 0,2
+[T12 r10 c3] MPa
+[T12 r10 c4] 0,235
+[T12 r10 c5] Soddisfatta
+¶ Combinazioni e equilibrio
+[T13 r1 c1] Caso / stato
+[T13 r1 c2] γ muro / monte / valle / acqua
+[T13 r1 c3] γMφ / γRsc / γRrib / γRport
+[T13 r1 c4] kh / kv
+[T13 r2 c1] SLE 1 ⏎ SLE · SLE
+[T13 r2 c2] 1 / 1 / 1 / 1
+[T13 r2 c3] 1 / 1 / 1 / 1
+[T13 r2 c4] 0 / 0
+[T13 r3 c1] SLE_FREQ 2 ⏎ SLE_FREQ · SLE
+[T13 r3 c2] 1 / 1 / 1 / 1
+[T13 r3 c3] 1 / 1 / 1 / 1
+[T13 r3 c4] 0 / 0
+[T13 r4 c1] Quasi permanente 3 ⏎ SLE_QP · SLE
+[T13 r4 c2] 1 / 1 / 1 / 1
+[T13 r4 c3] 1 / 1 / 1 / 1
+[T13 r4 c4] 0 / 0
+[T13 r5 c1] SLU 4 ⏎ SLU · A1+M1+R3
+[T13 r5 c2] 1 / 1 / 1 / 1
+[T13 r5 c3] 1 / 1.1 / 1.15 / 1.4
+[T13 r5 c4] 0 / 0
+[T13 r6 c1] SLU 5 ⏎ SLU · A1+M1+R3
+[T13 r6 c2] 1,3 / 1 / 1 / 1
+[T13 r6 c3] 1 / 1.1 / 1.15 / 1.4
+[T13 r6 c4] 0 / 0
+[T13 r7 c1] SLU 6 ⏎ SLU · A1+M1+R3
+[T13 r7 c2] 1 / 1,3 / 1 / 1
+[T13 r7 c3] 1 / 1.1 / 1.15 / 1.4
+[T13 r7 c4] 0 / 0
+[T13 r8 c1] SLU 7 ⏎ SLU · A1+M1+R3
+[T13 r8 c2] 1,3 / 1,3 / 1 / 1
+[T13 r8 c3] 1 / 1.1 / 1.15 / 1.4
+[T13 r8 c4] 0 / 0
+[T13 r9 c1] SLU 8 ⏎ SLU · A1+M1+R3
+[T13 r9 c2] 1 / 1 / 1 / 1
+[T13 r9 c3] 1 / 1.1 / 1.15 / 1.4
+[T13 r9 c4] 0 / 0
+[T13 r10 c1] SLU 9 ⏎ SLU · A1+M1+R3
+[T13 r10 c2] 1,3 / 1 / 1 / 1
+[T13 r10 c3] 1 / 1.1 / 1.15 / 1.4
+[T13 r10 c4] 0 / 0
+[T13 r11 c1] SLU 10 ⏎ SLU · A1+M1+R3
+[T13 r11 c2] 1 / 1,3 / 1 / 1
+[T13 r11 c3] 1 / 1.1 / 1.15 / 1.4
+[T13 r11 c4] 0 / 0
+[T13 r12 c1] SLU 11 ⏎ SLU · A1+M1+R3
+[T13 r12 c2] 1,3 / 1,3 / 1 / 1
+[T13 r12 c3] 1 / 1.1 / 1.15 / 1.4
+[T13 r12 c4] 0 / 0
+[T14 r1 c1] Combinazione
+[T14 r1 c2] Fattori γ × ψ delle azioni
+[T14 r2 c1] SLE 1
+[T14 r2 c2] Sovraccarico uniforme: 1
+[T14 r3 c1] SLE_FREQ 2
+[T14 r3 c2] Sovraccarico uniforme: 0,5
+[T14 r4 c1] Quasi permanente 3
+[T14 r4 c2] Sovraccarico uniforme: 0,3
+[T14 r5 c1] SLU 4
+[T14 r5 c2] Sovraccarico uniforme: 0
+[T14 r6 c1] SLU 5
+[T14 r6 c2] Sovraccarico uniforme: 0
+[T14 r7 c1] SLU 6
+[T14 r7 c2] Sovraccarico uniforme: 0
+[T14 r8 c1] SLU 7
+[T14 r8 c2] Sovraccarico uniforme: 0
+[T14 r9 c1] SLU 8
+[T14 r9 c2] Sovraccarico uniforme: 1,5
+[T14 r10 c1] SLU 9
+[T14 r10 c2] Sovraccarico uniforme: 1,5
+[T14 r11 c1] SLU 10
+[T14 r11 c2] Sovraccarico uniforme: 1,5
+[T14 r12 c1] SLU 11
+[T14 r12 c2] Sovraccarico uniforme: 1,5
+¶ Spinte: valori e coefficienti
+¶ Piano virtuale con mensola: Ka=tan²(45°−φd/2). Senza mensola: Coulomb con δd; K e Ke tabulati sono le componenti orizzontali. Fusto: Coulomb/MO con δd; la tabella seguente riguarda il piano esterno. tanφd=tanφk/γMφ. Statica: p=Kaσ′v+KaΣ(fi·qi)+u. Sisma MO: θ=atan[kh/(1−kv)], Kae=cos²(φd−θ)/{cos²θ·[1+√(sinφd·sin(φd−θ)/cosθ)]²}; Δp=(Kae−Ka)(1−kv)γHt/2; pq=Kae(1−kv)Σ(fi·qi). Incremento uniforme; Ht=H+t.
+[T15 r1 c1] Caso / z₀–z₁ [m]
+[T15 r1 c2] φd / K / Kae
+[T15 r1 c3] p terra₀–₁
+[T15 r1 c4] pq / u₀–₁
+[T15 r1 c5] Δp / ptot₀–₁
+[T15 r2 c1] SLE 1 ⏎ 0–3
+[T15 r2 c2] 30 / 0,333 / 0,333
+[T15 r2 c3] 0–18
+[T15 r2 c4] 3,333 / 0–0
+[T15 r2 c5] 0 / 3,333–21,333
+[T15 r3 c1] SLE 1 ⏎ 3–3,45
+[T15 r3 c2] 30 / 0,333 / 0,333
+[T15 r3 c3] 18–20,7
+[T15 r3 c4] 3,333 / 0–0
+[T15 r3 c5] 0 / 21,333–24,033
+[T15 r4 c1] SLE_FREQ 2 ⏎ 0–3
+[T15 r4 c2] 30 / 0,333 / 0,333
+[T15 r4 c3] 0–18
+[T15 r4 c4] 1,667 / 0–0
+[T15 r4 c5] 0 / 1,667–19,667
+[T15 r5 c1] SLE_FREQ 2 ⏎ 3–3,45
+[T15 r5 c2] 30 / 0,333 / 0,333
+[T15 r5 c3] 18–20,7
+[T15 r5 c4] 1,667 / 0–0
+[T15 r5 c5] 0 / 19,667–22,367
+[T15 r6 c1] Quasi permanente 3 ⏎ 0–3
+[T15 r6 c2] 30 / 0,333 / 0,333
+[T15 r6 c3] 0–18
+[T15 r6 c4] 1 / 0–0
+[T15 r6 c5] 0 / 1–19
+[T15 r7 c1] Quasi permanente 3 ⏎ 3–3,45
+[T15 r7 c2] 30 / 0,333 / 0,333
+[T15 r7 c3] 18–20,7
+[T15 r7 c4] 1 / 0–0
+[T15 r7 c5] 0 / 19–21,7
+[T15 r8 c1] SLU 4 ⏎ 0–3
+[T15 r8 c2] 30 / 0,333 / 0,333
+[T15 r8 c3] 0–18
+[T15 r8 c4] 0 / 0–0
+[T15 r8 c5] 0 / 0–18
+[T15 r9 c1] SLU 4 ⏎ 3–3,45
+[T15 r9 c2] 30 / 0,333 / 0,333
+[T15 r9 c3] 18–20,7
+[T15 r9 c4] 0 / 0–0
+[T15 r9 c5] 0 / 18–20,7
+[T15 r10 c1] SLU 5 ⏎ 0–3
+[T15 r10 c2] 30 / 0,333 / 0,333
+[T15 r10 c3] 0–18
+[T15 r10 c4] 0 / 0–0
+[T15 r10 c5] 0 / 0–18
+[T15 r11 c1] SLU 5 ⏎ 3–3,45
+[T15 r11 c2] 30 / 0,333 / 0,333
+[T15 r11 c3] 18–20,7
+[T15 r11 c4] 0 / 0–0
+[T15 r11 c5] 0 / 18–20,7
+[T15 r12 c1] SLU 6 ⏎ 0–3
+[T15 r12 c2] 30 / 0,333 / 0,333
+[T15 r12 c3] 0–23,4
+[T15 r12 c4] 0 / 0–0
+[T15 r12 c5] 0 / 0–23,4
+[T15 r13 c1] SLU 6 ⏎ 3–3,45
+[T15 r13 c2] 30 / 0,333 / 0,333
+[T15 r13 c3] 23,4–26,91
+[T15 r13 c4] 0 / 0–0
+[T15 r13 c5] 0 / 23,4–26,91
+[T15 r14 c1] SLU 7 ⏎ 0–3
+[T15 r14 c2] 30 / 0,333 / 0,333
+[T15 r14 c3] 0–23,4
+[T15 r14 c4] 0 / 0–0
+[T15 r14 c5] 0 / 0–23,4
+[T15 r15 c1] SLU 7 ⏎ 3–3,45
+[T15 r15 c2] 30 / 0,333 / 0,333
+[T15 r15 c3] 23,4–26,91
+[T15 r15 c4] 0 / 0–0
+[T15 r15 c5] 0 / 23,4–26,91
+[T15 r16 c1] SLU 8 ⏎ 0–3
+[T15 r16 c2] 30 / 0,333 / 0,333
+[T15 r16 c3] 0–18
+[T15 r16 c4] 5 / 0–0
+[T15 r16 c5] 0 / 5–23
+[T15 r17 c1] SLU 8 ⏎ 3–3,45
+[T15 r17 c2] 30 / 0,333 / 0,333
+[T15 r17 c3] 18–20,7
+[T15 r17 c4] 5 / 0–0
+[T15 r17 c5] 0 / 23–25,7
+[T15 r18 c1] SLU 9 ⏎ 0–3
+[T15 r18 c2] 30 / 0,333 / 0,333
+[T15 r18 c3] 0–18
+[T15 r18 c4] 5 / 0–0
+[T15 r18 c5] 0 / 5–23
+[T15 r19 c1] SLU 9 ⏎ 3–3,45
+[T15 r19 c2] 30 / 0,333 / 0,333
+[T15 r19 c3] 18–20,7
+[T15 r19 c4] 5 / 0–0
+[T15 r19 c5] 0 / 23–25,7
+[T15 r20 c1] SLU 10 ⏎ 0–3
+[T15 r20 c2] 30 / 0,333 / 0,333
+[T15 r20 c3] 0–23,4
+[T15 r20 c4] 5 / 0–0
+[T15 r20 c5] 0 / 5–28,4
+[T15 r21 c1] SLU 10 ⏎ 3–3,45
+[T15 r21 c2] 30 / 0,333 / 0,333
+[T15 r21 c3] 23,4–26,91
+[T15 r21 c4] 5 / 0–0
+[T15 r21 c5] 0 / 28,4–31,91
+[T15 r22 c1] SLU 11 ⏎ 0–3
+[T15 r22 c2] 30 / 0,333 / 0,333
+[T15 r22 c3] 0–23,4
+[T15 r22 c4] 5 / 0–0
+[T15 r22 c5] 0 / 5–28,4
+[T15 r23 c1] SLU 11 ⏎ 3–3,45
+[T15 r23 c2] 30 / 0,333 / 0,333
+[T15 r23 c3] 23,4–26,91
+[T15 r23 c4] 5 / 0–0
+[T15 r23 c5] 0 / 28,4–31,91
+¶ Pressioni in kPa; φd in gradi; z dalla sommità. σ′v include i fattori dei pesi e (1−kv). Le azioni laterali dirette sono integrate separatamente. Matrice completa e dettagli numerici disponibili anche nel JSON.
+[T16 r1 c1] Caso
+[T16 r1 c2] γ muro/terra/acqua
+[T16 r1 c3] H [kN/m]
+[T16 r1 c4] V′ [kN/m]
+[T16 r1 c5] U [kN/m]
+[T16 r2 c1] SLE 1
+[T16 r2 c2] 1 / 1 / 1 / 1
+[T16 r2 c3] 47,208
+[T16 r2 c4] 149,5
+[T16 r2 c5] 0
+[T16 r3 c1] SLE_FREQ 2
+[T16 r3 c2] 1 / 1 / 1 / 1
+[T16 r3 c3] 41,458
+[T16 r3 c4] 148,25
+[T16 r3 c5] 0
+[T16 r4 c1] Quasi permanente 3
+[T16 r4 c2] 1 / 1 / 1 / 1
+[T16 r4 c3] 39,158
+[T16 r4 c4] 147,75
+[T16 r4 c5] 0
+[T16 r5 c1] SLU 4
+[T16 r5 c2] 1 / 1 / 1 / 1
+[T16 r5 c3] 35,708
+[T16 r5 c4] 147
+[T16 r5 c5] 0
+[T16 r6 c1] SLU 5
+[T16 r6 c2] 1,3 / 1 / 1 / 1
+[T16 r6 c3] 35,708
+[T16 r6 c4] 187,05
+[T16 r6 c5] 0
+[T16 r7 c1] SLU 6
+[T16 r7 c2] 1 / 1,3 / 1 / 1
+[T16 r7 c3] 46,42
+[T16 r7 c4] 151,05
+[T16 r7 c5] 0
+[T16 r8 c1] SLU 7
+[T16 r8 c2] 1,3 / 1,3 / 1 / 1
+[T16 r8 c3] 46,42
+[T16 r8 c4] 191,1
+[T16 r8 c5] 0
+[T16 r9 c1] SLU 8
+[T16 r9 c2] 1 / 1 / 1 / 1
+[T16 r9 c3] 52,958
+[T16 r9 c4] 150,75
+[T16 r9 c5] 0
+[T16 r10 c1] SLU 9
+[T16 r10 c2] 1,3 / 1 / 1 / 1
+[T16 r10 c3] 52,958
+[T16 r10 c4] 190,8
+[T16 r10 c5] 0
+[T16 r11 c1] SLU 10
+[T16 r11 c2] 1 / 1,3 / 1 / 1
+[T16 r11 c3] 63,67
+[T16 r11 c4] 154,8
+[T16 r11 c5] 0
+[T16 r12 c1] SLU 11
+[T16 r12 c2] 1,3 / 1,3 / 1 / 1
+[T16 r12 c3] 63,67
+[T16 r12 c4] 194,85
+[T16 r12 c5] 0
+[T17 r1 c1] Caso
+[T17 r1 c2] Mstab [kNm/m]
+[T17 r1 c3] Mrib [kNm/m]
+[T17 r1 c4] e [m]
+[T17 r1 c5] B′ [m]
+[T17 r1 c6] pmax [kPa]
+[T17 r2 c1] SLE 1
+[T17 r2 c2] 255,456
+[T17 r2 c3] 60,901
+[T17 r2 c4] 0,049
+[T17 r2 c5] 2,603
+[T17 r2 c6] 61,354
+[T17 r3 c1] SLE_FREQ 2
+[T17 r3 c2] 252,238
+[T17 r3 c3] 50,982
+[T17 r3 c4] -0,008
+[T17 r3 c5] 2,685
+[T17 r3 c6] 55,827
+[T17 r4 c1] Quasi permanente 3
+[T17 r4 c2] 250,95
+[T17 r4 c3] 47,015
+[T17 r4 c4] -0,03
+[T17 r4 c5] 2,639
+[T17 r4 c6] 58,403
+[T17 r5 c1] SLU 4
+[T17 r5 c2] 249,019
+[T17 r5 c3] 41,064
+[T17 r5 c4] -0,065
+[T17 r5 c5] 2,571
+[T17 r5 c6] 62,268
+[T17 r6 c1] SLU 5
+[T17 r6 c2] 313,296
+[T17 r6 c3] 41,064
+[T17 r6 c4] -0,105
+[T17 r6 c5] 2,489
+[T17 r6 c6] 85,504
+[T17 r7 c1] SLU 6
+[T17 r7 c2] 259,448
+[T17 r7 c3] 53,383
+[T17 r7 c4] -0,014
+[T17 r7 c5] 2,672
+[T17 r7 c6] 57,712
+[T17 r8 c1] SLU 7
+[T17 r8 c2] 323,724
+[T17 r8 c3] 53,383
+[T17 r8 c4] -0,065
+[T17 r8 c5] 2,571
+[T17 r8 c6] 80,948
+[T17 r9 c1] SLU 8
+[T17 r9 c2] 258,675
+[T17 r9 c3] 70,82
+[T17 r9 c4] 0,104
+[T17 r9 c5] 2,492
+[T17 r9 c6] 68,72
+[T17 r10 c1] SLU 9
+[T17 r10 c2] 322,952
+[T17 r10 c3] 70,82
+[T17 r10 c4] 0,029
+[T17 r10 c5] 2,643
+[T17 r10 c6] 75,151
+[T17 r11 c1] SLU 10
+[T17 r11 c2] 269,104
+[T17 r11 c3] 83,139
+[T17 r11 c4] 0,149
+[T17 r11 c5] 2,403
+[T17 r11 c6] 76,276
+[T17 r12 c1] SLU 11
+[T17 r12 c2] 333,381
+[T17 r12 c3] 83,139
+[T17 r12 c4] 0,066
+[T17 r12 c5] 2,569
+[T17 r12 c6] 82,706
+¶ Convenzioni: x dal bordo a valle, e positivo verso valle, pressioni positive a compressione. N positivo a compressione. M del fusto positivo per trazione a monte; M delle mensole positivo per trazione inferiore. Sottospinta inclusa nel momento ribaltante. B′ è la larghezza efficace per la portanza, distinta dalla larghezza di contatto.
+¶ Sollecitazioni alle radici
+[T18 r1 c1] Caso
+[T18 r1 c2] Elemento
+[T18 r1 c3] N [kN/m]
+[T18 r1 c4] M [kNm/m]
+[T18 r1 c5] V [kN/m]
+[T18 r2 c1] SLE 1
+[T18 r2 c2] Fusto
+[T18 r2 c3] 103,125
+[T18 r2 c4] 7,969
+[T18 r2 c5] 37
+[T18 r3 c1] SLE 1
+[T18 r3 c2] Valle
+[T18 r3 c3] 0
+[T18 r3 c4] 1,554
+[T18 r3 c5] 12,387
+[T18 r4 c1] SLE 1
+[T18 r4 c2] Monte
+[T18 r4 c3] 0
+[T18 r4 c4] -0,797
+[T18 r4 c5] -6,327
+[T18 r5 c1] SLE_FREQ 2
+[T18 r5 c2] Fusto
+[T18 r5 c3] 103,125
+[T18 r5 c4] 0,469
+[T18 r5 c5] 32
+[T18 r6 c1] SLE_FREQ 2
+[T18 r6 c2] Valle
+[T18 r6 c3] 0
+[T18 r6 c4] 1,337
+[T18 r6 c5] 10,706
+[T18 r7 c1] SLE_FREQ 2
+[T18 r7 c2] Monte
+[T18 r7 c3] 0
+[T18 r7 c4] -0,452
+[T18 r7 c5] -3,627
+[T18 r8 c1] Quasi permanente 3
+[T18 r8 c2] Fusto
+[T18 r8 c3] 103,125
+[T18 r8 c4] -2,531
+[T18 r8 c5] 30
+[T18 r9 c1] Quasi permanente 3
+[T18 r9 c2] Valle
+[T18 r9 c3] 0
+[T18 r9 c4] 1,251
+[T18 r9 c5] 10,033
+[T18 r10 c1] Quasi permanente 3
+[T18 r10 c2] Monte
+[T18 r10 c3] 0
+[T18 r10 c4] -0,315
+[T18 r10 c5] -2,547
+[T18 r11 c1] SLU 4
+[T18 r11 c2] Fusto
+[T18 r11 c3] 103,125
+[T18 r11 c4] -7,031
+[T18 r11 c5] 27
+[T18 r12 c1] SLU 4
+[T18 r12 c2] Valle
+[T18 r12 c3] 0
+[T18 r12 c4] 1,12
+[T18 r12 c5] 9,024
+[T18 r13 c1] SLU 4
+[T18 r13 c2] Monte
+[T18 r13 c3] 0
+[T18 r13 c4] -0,108
+[T18 r13 c5] -0,927
+[T18 r14 c1] SLU 5
+[T18 r14 c2] Fusto
+[T18 r14 c3] 134,063
+[T18 r14 c4] -17,241
+[T18 r14 c5] 27
+[T18 r15 c1] SLU 5
+[T18 r15 c2] Valle
+[T18 r15 c3] 0
+[T18 r15 c4] 1,232
+[T18 r15 c5] 9,982
+[T18 r16 c1] SLU 5
+[T18 r16 c2] Monte
+[T18 r16 c3] 0
+[T18 r16 c4] 0,496
+[T18 r16 c5] 3,844
+[T18 r17 c1] SLU 6
+[T18 r17 c2] Fusto
+[T18 r17 c3] 103,125
+[T18 r17 c4] 1,069
+[T18 r17 c5] 35,1
+[T18 r18 c1] SLU 6
+[T18 r18 c2] Valle
+[T18 r18 c3] 0
+[T18 r18 c4] 1,345
+[T18 r18 c5] 10,773
+[T18 r19 c1] SLU 6
+[T18 r19 c2] Monte
+[T18 r19 c3] 0
+[T18 r19 c4] -0,745
+[T18 r19 c5] -5,975
+[T18 r20 c1] SLU 7
+[T18 r20 c2] Fusto
+[T18 r20 c3] 134,063
+[T18 r20 c4] -9,141
+[T18 r20 c5] 35,1
+[T18 r21 c1] SLU 7
+[T18 r21 c2] Valle
+[T18 r21 c3] 0
+[T18 r21 c4] 1,457
+[T18 r21 c5] 11,731
+[T18 r22 c1] SLU 7
+[T18 r22 c2] Monte
+[T18 r22 c3] 0
+[T18 r22 c4] -0,141
+[T18 r22 c5] -1,205
+[T18 r23 c1] SLU 8
+[T18 r23 c2] Fusto
+[T18 r23 c3] 103,125
+[T18 r23 c4] 15,469
+[T18 r23 c5] 42
+[T18 r24 c1] SLU 8
+[T18 r24 c2] Valle
+[T18 r24 c3] 0
+[T18 r24 c4] 1,771
+[T18 r24 c5] 14,069
+[T18 r25 c1] SLU 8
+[T18 r25 c2] Monte
+[T18 r25 c3] 0
+[T18 r25 c4] -1,141
+[T18 r25 c5] -9,028
+[T18 r26 c1] SLU 9
+[T18 r26 c2] Fusto
+[T18 r26 c3] 134,063
+[T18 r26 c4] 5,259
+[T18 r26 c5] 42
+[T18 r27 c1] SLU 9
+[T18 r27 c2] Valle
+[T18 r27 c3] 0
+[T18 r27 c4] 1,883
+[T18 r27 c5] 15,028
+[T18 r28 c1] SLU 9
+[T18 r28 c2] Monte
+[T18 r28 c3] 0
+[T18 r28 c4] -0,536
+[T18 r28 c5] -4,257
+[T18 r29 c1] SLU 10
+[T18 r29 c2] Fusto
+[T18 r29 c3] 103,125
+[T18 r29 c4] 23,569
+[T18 r29 c5] 50,1
+[T18 r30 c1] SLU 10
+[T18 r30 c2] Valle
+[T18 r30 c3] 0
+[T18 r30 c4] 1,996
+[T18 r30 c5] 15,818
+[T18 r31 c1] SLU 10
+[T18 r31 c2] Monte
+[T18 r31 c3] 0
+[T18 r31 c4] -1,778
+[T18 r31 c5] -14,076
+[T18 r32 c1] SLU 11
+[T18 r32 c2] Fusto
+[T18 r32 c3] 134,063
+[T18 r32 c4] 13,359
+[T18 r32 c5] 50,1
+[T18 r33 c1] SLU 11
+[T18 r33 c2] Valle
+[T18 r33 c3] 0
+[T18 r33 c4] 2,107
+[T18 r33 c5] 16,776
+[T18 r34 c1] SLU 11
+[T18 r34 c2] Monte
+[T18 r34 c3] 0
+[T18 r34 c4] -1,173
+[T18 r34 c5] -9,306
+¶ Tutte le sezioni campionate sono disponibili nell’export JSON; il CSV contiene tutti i controlli. Un controllo non disponibile è mantenuto nell’inviluppo e non sostituito da un esito favorevole.
+¶ Portanza sismica con inerzia del terreno
+¶ EN 1998-5:2004 allegato F, modello drenato per fondazione nastriforme su terreno granulare asciutto. Nmax=0,5 γ(1−av/g) B² Nγ; Nγ=2(Nq−1)tanφd. Ricoprimento favorevole escluso. Il dominio considera insieme N, V e M, senza ulteriori riduzioni di B o inclinazione. F=ah/(g tanφd), senza γRD come nella (F.7); N̄=γRD γR N/Nmax; V̄=γRD γR |V|/Nmax; M̄=γRD γR |M|/(B Nmax).
+¶ I=[(1−0,41F)^1,14(2,90V̄)^1,14+(1−0,32F)^1,01(2,80M̄)^1,01] / [N̄^0,92 ((1−0,96F)^0,39−N̄)^1,25] ≤1. 0<N̄<(1−0,96F)^0,39. Il tasso η è l’inverso del moltiplicatore limite lungo il raggio N,V,M; non coincide con I. γR è quello della combinazione; γRD=1.15. Origine accelerazione: Da sito. Da sito: ah/g=ag/g·Ss·St, |av|/g=0,5 ah/g; assegnata: ah/g=, |av|/g=.
+[T19 r1 c1] Caso
+[T19 r1 c2] Nmax / F
+[T19 r1 c3] N̄ / V̄ / M̄
+[T19 r1 c4] I / η
+[T19 r1 c5] Esito
+¶ Cedimenti e spostamenti in esercizio
+¶ Cedimenti richiesti: False; spostamenti richiesti: False. Pressione rimossa= kPa; limite cedimento=25 mm, rotazione=0.002 rad, spostamento testa=20 mm. Rigidezza orizzontale per metro= kN/m². Substrato rigido documentato: False.
+¶ Cedimento finale edometrico s=∫Δσz/M dz; tensioni Boussinesq della striscia con contatto lineare, al netto del terreno rimosso. Moduli assegnati e costanti per strato; niente storia di consolidazione o tempo di drenaggio. Confronto fra due discretizzazioni; profondità sufficiente a Δσz≤10% del carico netto o substrato rigido documentato. La rotazione deriva dal profilo di cedimento libero; non è una soluzione accoppiata della fondazione rigida. Flessione del fusto: doppia integrazione delle curvature GPC fessurate con viscosità per il c.a.; modello elastico senza trazione per gravità. u totale = u fusto + H/K − θ Hmuro. I limiti sono assegnati dal progettista.
+[T20 r1 c1] Strato sotto posa
+[T20 r1 c2] Spessore [m]
+[T20 r1 c3] M edometrico [kPa]
+[T21 r1 c1] Caso
+[T21 r1 c2] s valle/centro/monte [mm]
+[T21 r1 c3] θ [rad]
+[T21 r1 c4] u fusto/totale [mm]
+[T21 r1 c5] Stato
+¶ Contributi degli strati lungo la verticale centrale
+[T22 r1 c1] Caso / strato
+[T22 r1 c2] z₀–z₁ [m]
+[T22 r1 c3] M [kPa]
+[T22 r1 c4] Δs [mm]
+¶ Spostamenti sismici permanenti Newmark
+¶ Integrazione esatta per tratti lineari di a(t)−ky·g, con velocità non negativa verso valle e arresto dopo il termine della registrazione. Modello di blocco rigido libero; escluso Wood. ky/g e compatibilità delle storie con sito e stato limite sono responsabilità dell’analisi geotecnica. Ogni storia SLD o SLV viene controllata singolarmente: non viene dedotta la conformità normativa dell’insieme di accelerogrammi dal solo ag/g.
+[T23 r1 c1] Storia / stato
+[T23 r1 c2] ky/g / scala / PGA/g
+[T23 r1 c3] Campioni
+[T23 r1 c4] d / limite [mm]
+[T23 r1 c5] Esito
+¶ I campioni integrati completi e le curvature sono interrogabili nelle tabelle del modulo e conservati nel risultato JSON; gli accelerogrammi di input restano nel file del muro.
+¶ Materiale del muro a gravità e stabilità strutturale
+[T24 r1 c1] Parametro
+[T24 r1 c2] Input
+[T24 r2 c1] type
+[T24 r2 c2] Resistenze assegnate
+[T24 r3 c1] fk
+[T24 r3 c2]
+[T24 r4 c1] fvk0
+[T24 r4 c2]
+[T24 r5 c1] fvk_limit
+[T24 r5 c2]
+[T24 r6 c1] gamma_m
+[T24 r6 c2] 2.5
+[T24 r7 c1] confidence
+[T24 r7 c2] 1
+[T24 r8 c1] eccentricity
+[T24 r8 c2] 0
+[T24 r9 c1] effective_height
+[T24 r9 c2]
+[T24 r10 c1] elastic_modulus
+[T24 r10 c2]
+¶ CLS non armato: proprietà GPC, NTC 4.1.11 per compressione e taglio; fct1d=0,85 fctk,0.05/γc. Muratura: blocco compresso 0,85 fk/(γM FC), scorrimento giunti min(fvk0+0,4σ; fvk,lim)/(γM FC). Imperfezione ≥H/200. Mensola libera con lunghezza efficace ≥2H ed EI minimo: amplificazione 1/(1−N/Ncr), limitata a N<0,8Ncr e assenza di trazione; altrimenti il controllo resta fuori campo. Nessuna resistenza a trazione della muratura.
+¶ Fonti dei nuovi modelli: JRC Eurocode 8 Seismic Design of Buildings Worked Examples (2011), §4.8; JRC Eurocode 2 Background and Applications, Arrieta, Anchorage and lap splicing (2011); USACE EM 1110-1-1905 (2025); USGS SIR 2007-5196; NTC 2018 §§4.1.11 e 7.8.2.2.3. I motori geotecnici sono separati dall’interfaccia e dai materiali GPC.
+¶ Stabilità globale del complesso muro–terreno
+¶ Analisi non attivata. Nessun esito di stabilità globale disponibile.
+¶ Riferimenti
+¶ D.M. 17/01/2018, NTC 2018 §§4.1, 6.2.4, 6.5 e 7.11: https://www.gazzettaufficiale.it/eli/id/2018/2/20/18A00716/sg
+¶ JRC 2013, Eurocode 7: Geotechnical Design – Worked examples, capitoli 3 e 4: https://eurocodes.jrc.ec.europa.eu/sites/default/files/2022-06/2013_06_WS_GEO.pdf
+¶ Wood, 1973, Earthquake-induced soil pressures on structures: https://authors.library.caltech.edu/records/48499-83239; Yi, 2013, Seismic Design of Restrained Rigid Walls: https://www.cfms-sols.org/sites/default/files/Actes/3521-3524.pdf. Distribuzione uniforme dell’incremento esplicitamente assunta nel presente modello semplificato.
