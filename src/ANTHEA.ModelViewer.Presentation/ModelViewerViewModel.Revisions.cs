@@ -36,7 +36,7 @@ public sealed partial class ModelViewerViewModel
     private ModelRevisionOverlay? revisionOverlay;
     private ModelResultDelta? revisionDelta;
     private string revisionDeltaKey="",revisionDeltaDisplayKey="";
-    partial void OnIsRevisionBusyChanged(bool value){InspectMidasCommand.NotifyCanExecuteChanged();ImportCommand.NotifyCanExecuteChanged();ComparePreviousCommand.NotifyCanExecuteChanged();ComputeRevisionDeltaCommand.NotifyCanExecuteChanged();ClearRevisionCommand.NotifyCanExecuteChanged();OnPropertyChanged(nameof(CanComparePrevious));OnPropertyChanged(nameof(CanComputeRevisionDelta));}
+    partial void OnIsRevisionBusyChanged(bool value){NotifyCombinationCommands();InspectMidasCommand.NotifyCanExecuteChanged();ImportCommand.NotifyCanExecuteChanged();ComparePreviousCommand.NotifyCanExecuteChanged();ComputeRevisionDeltaCommand.NotifyCanExecuteChanged();ClearRevisionCommand.NotifyCanExecuteChanged();OnPropertyChanged(nameof(CanComparePrevious));OnPropertyChanged(nameof(CanComputeRevisionDelta));}
     partial void OnShowRevisionDetailsChanged(bool value){if(value){ShowTable=false;ShowMemberDiagram=false;PauseAnimation();}}
     partial void OnShowRevisionHighlightsChanged(bool value)=>RefreshScene();
     partial void OnShowRemovedRevisionElementsChanged(bool value)=>RefreshScene();

@@ -17,7 +17,7 @@ public sealed partial class ModelViewerViewModel
     partial void OnSelectedUpdateScopeChanged(int value)
     {OnPropertyChanged(nameof(UpdateScopeDescription));OnPropertyChanged(nameof(ImportIncludesResults));ResetStrand7Preparation();ImportCommand.NotifyCanExecuteChanged();}
     [RelayCommand] void OpenImportOptions()
-    {SelectedPanel=0;IsNavigationCollapsed=false;ShowImportOptions=true;}
+    {SelectedPanel=0;IsNavigationCollapsed=false;ShowCombinationManager=false;ShowImportOptions=true;}
     public bool CanCloseImportOptions=>!IsBusy;
     [RelayCommand(CanExecute=nameof(CanCloseImportOptions))] void CloseImportOptions() { if(!IsBusy)ShowImportOptions=false; }
 }

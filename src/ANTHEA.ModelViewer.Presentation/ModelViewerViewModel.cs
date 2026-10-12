@@ -112,9 +112,9 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     partial void OnShowIsolinesChanged(bool value) => RefreshScene();
     partial void OnElementNumberChanged(string value) { QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); }
     partial void OnSelectedSheetChanged(SheetTarget? value) => LinkCommand.NotifyCanExecuteChanged();
-    partial void OnIsBusyChanged(bool value) { CheckStrand7SetupCommand.NotifyCanExecuteChanged();CloseImportOptionsCommand.NotifyCanExecuteChanged();OnPropertyChanged(nameof(CanChooseUpdateScope));OnPropertyChanged(nameof(CanEditImport));InspectMidasCommand.NotifyCanExecuteChanged();ImportCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); ComparePreviousCommand.NotifyCanExecuteChanged();ComputeRevisionDeltaCommand.NotifyCanExecuteChanged();ClearRevisionCommand.NotifyCanExecuteChanged(); }
+    partial void OnIsBusyChanged(bool value) { NotifyCombinationCommands(); CheckStrand7SetupCommand.NotifyCanExecuteChanged();CloseImportOptionsCommand.NotifyCanExecuteChanged();OnPropertyChanged(nameof(CanChooseUpdateScope));OnPropertyChanged(nameof(CanEditImport));InspectMidasCommand.NotifyCanExecuteChanged();ImportCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); ComparePreviousCommand.NotifyCanExecuteChanged();ComputeRevisionDeltaCommand.NotifyCanExecuteChanged();ClearRevisionCommand.NotifyCanExecuteChanged(); }
 
-    private bool CanImport() => !IsReadOnly && !IsBusy && !IsVerificationRunning && !IsReportRunning && !IsRevisionBusy && !disposed && (SelectedUpdateScope!=2 || Snapshot!=null) && HasLiveImportSelection;
+    private bool CanImport() => !IsReadOnly && !IsBusy && !IsCombinationDirty && !IsVerificationRunning && !IsReportRunning && !IsRevisionBusy && !disposed && (SelectedUpdateScope!=2 || Snapshot!=null) && HasLiveImportSelection;
     [RelayCommand(CanExecute = nameof(CanImport),IncludeCancelCommand=true)]
     private async Task ImportAsync(CancellationToken cancellationToken)
     {
@@ -152,6 +152,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
 
     private void SetSnapshot(ModelSnapshot snapshot)
     {
+        combinationService.ClearCache();
         snapshot.Validate(); updating = true; Snapshot = snapshot;
         categoryColors.Clear();
         ResetRevision();
@@ -164,7 +165,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         updating = false; OnPropertyChanged(nameof(Snapshot)); OnPropertyChanged(nameof(ImportLabel));
         OnPropertyChanged(nameof(UpdateProvenance));
         OnPropertyChanged(nameof(UpdateScopeDescription));
-        QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); RefreshScene(); InitializeReport();
+        QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); RefreshScene(); InitializeReport(); RefreshCombinations();
     }
 
     private void RefreshScene()
@@ -190,7 +191,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         if (ShowDeformation) Information += "\n\n" + DeformationHeading + ". " + DeformationMessage;
         if (ShowResults)
         {
-            Information += "\n\n" + (HasResults ? (IsAveragedContour ? ContourAveragingSummary + ".\nMedia solo grafica: tabelle e riferimenti conservano i valori importati. Discontinuità mantenute tra proprietà, materiali e terne differenti." : "Interpolazione grafica interna all’elemento. Discontinuità conservate fra elementi.") + (result?.IsEnvelope == true ? "\n\nInviluppo importato: estremi per componente, non simultanei." : "") : ResultAvailability);
+            Information += "\n\n" + (HasResults ? (IsAveragedContour ? ContourAveragingSummary + ".\nMedia solo grafica: tabelle e riferimenti conservano i valori originali. Discontinuità mantenute tra proprietà, materiali e terne differenti." : "Interpolazione grafica interna all’elemento. Discontinuità conservate fra elementi.") + (result?.IsEnvelope == true ? "\n\nInviluppo: estremi per componente, non simultanei." : "") : ResultAvailability);
             if (IsDisplacementResult) Information += "\n\nSpostamenti nodali globali: gli stessi valori sono condivisi dagli elementi adiacenti. Il colore rappresenta il valore importato, indipendentemente dal fattore della deformata.";
             else if (IsExtruded) Information += "\n\nPlate: il campo è riportato su entrambe le facce e sui bordi; non rappresenta una distribuzione di tensione nello spessore.";
         }
@@ -234,7 +235,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
 
     public void Dispose()
     {
-        if (disposed) return; disposed = true; lifetime.Cancel(); lifetime.Dispose(); MidasApiKey=""; SceneChanged = null;
+        if (disposed) return; disposed = true; lifetime.Cancel(); lifetime.Dispose(); combinationService.ClearCache(); MidasApiKey=""; SceneChanged = null;
         foreach(var chapter in ReportChapters) chapter.PropertyChanged -= ChapterChanged;
         Comparison?.Dispose(); Comparison=null; FocusSelectionRequested=null;PreviousCameraRequested=null;HoverChanged=null;
         ViewSettingsChanged = null; CameraPresetRequested = null;

@@ -26,6 +26,9 @@ static partial class Program
         string[] headers = ["Index", "Node", "Load", "DX", "DY", "DZ"];
         object[][] values = [["1", "1", "A", "3.000e+00", "-4.000e+00", "12.000e+00"], [2, 2, "A", 0, 1, 2], [3, 1, "B(max)", 8, 9, 10]];
         var nodes = new HashSet<int> { 1, 2 };
+        var complete=MidasDisplacementTables.ReadDirectory(Fixture("rotations","MM",[..headers,"RX","RY","RZ"],[[1,1,"A",1,2,3,.001,-.002,.003]]),nodes);
+        Check(complete["A"][0].X==.001&&complete["A"][0].Rotation==new ModelDirection(.001,-.002,.003),"rotations remain radians while translations are converted from mm to m");
+        Reject(()=>MidasDisplacementTables.ReadDirectory(Fixture("partial-rotations","MM",[..headers,"RX"],[[1,1,"A",1,2,3,.001]]),nodes),"partial nodal rotation vectors are rejected");
         var mm = MidasDisplacementTables.ReadDirectory(Fixture("mm", "mm", headers, values), nodes);
         Check(mm.Count == 2 && mm["A"].Length == 2 && mm["A"][0] == new ModelDisplacement(1, .003, -.004, .012), "global nodal import preserves sign, scientific precision and millimetre-to-metre normalization");
         Check(mm["A"][1] == new ModelDisplacement(2, 0, .001, .002), "displacement import accepts JSON numeric cells without locale dependence");

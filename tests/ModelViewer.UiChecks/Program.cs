@@ -167,6 +167,7 @@ static partial class Program
                         state.ShowInspector=false;state.ShowMesh=false;
                     }
                     if(args.Contains("--import-mode")) { state.SelectedImportSource=1;state.OpenImportOptionsCommand.Execute(null); }
+                    if(args.Contains("--combinations")) {state.ShowInspector=false;state.IsNavigationCollapsed=true;state.SelectedCase=state.Snapshot!.Results.FirstOrDefault(r=>r.Combination!=null)?.Name??state.SelectedCase;state.OpenCombinationManagerCommand.Execute(null);}
                     preview.ShowInTaskbar = true; preview.Closed += (_, _) => app.Shutdown();
                     Capture((FrameworkElement)preview.Content, scene, Path.Combine(output, "anteprima-interattiva.png"));
                     File.WriteAllText(Path.Combine(output,"pronta.json"),System.Text.Json.JsonSerializer.Serialize(new
@@ -176,6 +177,25 @@ static partial class Program
                         BindingErrors=bindingLog.ToString(),ReadyUtc=DateTime.UtcNow,ReadyMilliseconds=startup.Elapsed.TotalMilliseconds,Contour=state.ContourValueLabel,Averaging=state.ContourAveragingSummary
                     },new System.Text.Json.JsonSerializerOptions{WriteIndented=true}));
                     app.Run(); return 0;
+                }
+                if(args.Contains("--combination-capture"))
+                {
+                    state.ShowInspector=false;state.IsNavigationCollapsed=true;state.SelectedRepresentation=1;state.ShowMesh=false;
+                    state.SelectedCase=state.Snapshot!.Results.Last(r=>r.Combination!=null).Name;state.SelectedComponent="Mxx";state.SelectedContourValues=1;
+                    state.OpenCombinationManagerCommand.Execute(null);Wait(400);
+                    Capture(isolated,scene,Path.Combine(output,"spalla-combinazione.png"));
+                    state.ShowCombinationGrid=true;state.ToggleCombinationWindowCommand.Execute(null);Wait(250);
+                    var comboWindow=app.Windows.OfType<Window>().Single(w=>w.Title=="ANTHEA · Combinazioni");comboWindow.Width=1600;comboWindow.Height=1000;Wait(250);
+                    CapturePage((FrameworkElement)comboWindow.Content,Path.Combine(output,"spalla-griglia-combinazioni.png"));
+                    comboWindow.Close();listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"real combination view has no binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--combinations"))
+                {
+                    CombinationRenderingChecks(isolated,scene,output);
+                    listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"combination panel has no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
                 }
                 if(args.Contains("--deformations-real"))
                 {

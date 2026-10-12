@@ -24,7 +24,7 @@ Copy-Item -LiteralPath $modelPath -Destination (Join-Path $dataDirectory 'spalla
 $launcher = @'
 [CmdletBinding()]
 param(
-    [ValidateSet('Contouring','Deformata','Aste','Importa')][string]$Vista = 'Contouring',
+    [ValidateSet('Contouring','Deformata','Aste','Importa','Combinazioni')][string]$Vista = 'Contouring',
     [ValidateSet('Chiaro','Scuro','MoltoScuro')][string]$Tema = 'MoltoScuro'
 )
 $ErrorActionPreference = 'Stop'
@@ -40,6 +40,7 @@ try {
     if ($Vista -eq 'Deformata') { $arguments += '--deformed' }
     if ($Vista -eq 'Aste') { $arguments += '--beam-results' }
     if ($Vista -eq 'Importa') { $arguments += '--import-mode' }
+    if ($Vista -eq 'Combinazioni') { $arguments += '--combinations' }
     Start-Process -FilePath $executable -ArgumentList $arguments -WorkingDirectory $PSScriptRoot -WindowStyle Hidden -RedirectStandardOutput (Join-Path $session 'avvio.log') -RedirectStandardError (Join-Path $session 'errore.log')
 } catch {
     Add-Type -AssemblyName PresentationFramework
@@ -48,7 +49,7 @@ try {
 }
 '@
 [IO.File]::WriteAllText((Join-Path $destination 'Avvia-Modelli.ps1'), $launcher, [Text.UTF8Encoding]::new($true))
-foreach ($view in @('Contouring','Deformata','Aste','Importa')) {
+foreach ($view in @('Contouring','Deformata','Aste','Importa','Combinazioni')) {
     $command = '@echo off' + "`r`n" + 'powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "%~dp0Avvia-Modelli.ps1" -Vista ' + $view + "`r`n"
     [IO.File]::WriteAllText((Join-Path $destination ('Apri-' + $view + '.cmd')), $command, [Text.Encoding]::ASCII)
 }

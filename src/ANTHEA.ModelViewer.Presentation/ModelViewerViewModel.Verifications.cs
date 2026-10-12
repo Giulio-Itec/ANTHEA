@@ -23,6 +23,7 @@ public sealed partial class ModelViewerViewModel
     partial void OnHasVerificationProgressChanged(bool value) => DismissVerificationProgressCommand.NotifyCanExecuteChanged();
     partial void OnIsVerificationRunningChanged(bool value)
     {
+        NotifyCombinationCommands();
         InspectMidasCommand.NotifyCanExecuteChanged();
         ImportCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged();
         CancelVerificationCommand.NotifyCanExecuteChanged(); DismissVerificationProgressCommand.NotifyCanExecuteChanged();

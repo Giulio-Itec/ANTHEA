@@ -105,6 +105,7 @@
               </Expander>
               <Expander Header="Check della revisione" Margin="0,8,0,0"><local:ModelRevisionToolsView/></Expander>
               <Button Content="Importazione e aggiornamento…" Command="{Binding OpenImportOptionsCommand}" Margin="0,8,0,0"/>
+              <Button Content="Combinazioni…" Command="{Binding OpenCombinationManagerCommand}" Margin="0,6,0,0"/>
             </StackPanel>
             </ScrollViewer>
             <TreeView x:Name="ModelTree" Grid.Row="1" ItemsSource="{Binding Tree}" SelectedItemChanged="TreeSelectionChanged" PreviewMouseDown="TreeContextSelection" BorderThickness="0" Background="Transparent" Padding="5,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Albero del modello">
@@ -378,6 +379,7 @@
       </DockPanel>
       </StackPanel>
     </Border>
+    <Border Grid.Column="1" Grid.RowSpan="5" Visibility="{Binding ShowCombinationManager, Converter={StaticResource Visible}}" Width="580" Background="{DynamicResource AppearancePaper}" BorderBrush="{DynamicResource AppearanceBorder}" BorderThickness="1,0,0,0"><local:ModelCombinationsView/></Border>
     <Border Grid.Column="1" Grid.RowSpan="5" Visibility="{Binding ShowImportOptions, Converter={StaticResource Visible}}" Width="520" Background="{DynamicResource AppearancePaper}" BorderBrush="{DynamicResource AppearanceBorder}" BorderThickness="1,0,0,0">
       <Grid>
         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>

@@ -7,6 +7,7 @@
       <TextBlock Text="{Binding RepresentationLabel, StringFormat=Rappresentazione: {0}}" FontSize="10" Opacity=".65" Margin="0,0,0,6"/>
       <TextBlock Text="Caso / combinazione" Style="{StaticResource FieldLabel}"/>
       <ComboBox ItemsSource="{Binding Cases}" SelectedItem="{Binding SelectedCase}" AutomationProperties.Name="Caso o combinazione" />
+      <Button Content="Gestisci combinazioni…" Command="{Binding OpenCombinationManagerCommand}" Margin="0,6,0,0"/>
       <TextBlock Text="{Binding ResultKind}" Foreground="#438ED8" FontSize="10" Margin="0,5,0,7" />
       <TextBlock Text="Tipo di risultato" Style="{StaticResource FieldLabel}" Margin="0,3,0,5"/>
       <ComboBox ItemsSource="{Binding ResultTypes}" SelectedIndex="{Binding SelectedResultType}" AutomationProperties.Name="Tipo di risultato" Margin="0,0,0,7"/>
