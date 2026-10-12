@@ -1454,5 +1454,47 @@
     "title": "Fondazioni superficiali",
     "order": 200,
     "summary": "Portanza statica, stratigrafia comune, materiali nei Progetti, area efficace, pressioni e schemi di rottura."
+  },
+  "guide:Reologia del calcestruzzo": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/strumenti/reologia-calcestruzzo",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "reologia-calcestruzzo"
+    ],
+    "key": "guida-reologia-calcestruzzo",
+    "chapterId": "anthea",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "en1992-1-1"
+    ],
+    "title": "Reologia del calcestruzzo",
+    "order": 210,
+    "summary": "Viscosità nel tempo, limite a infinito, maturazione del modulo elastico e limiti di applicazione."
+  },
+  "theory:Reologia del calcestruzzo": {
+    "area": "Calcestruzzo armato",
+    "id": "/wiki/manuale/calcestruzzo/reologia",
+    "modules": [
+      "str_palo"
+    ],
+    "related": [
+      "guida-reologia-calcestruzzo"
+    ],
+    "key": "reologia-calcestruzzo",
+    "chapterId": "materiali",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [
+      "en1992-1-1"
+    ],
+    "title": "Reologia del calcestruzzo",
+    "order": 210,
+    "summary": "Viscosità nel tempo, limite a infinito, maturazione del modulo elastico e limiti di applicazione."
   }
 }

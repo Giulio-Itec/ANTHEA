@@ -83,6 +83,10 @@ public sealed partial class MainWindow : Window
             appearanceMenu.SubmenuOpened += (_, _) => option.IsChecked = Appearance.Current == mode;
             appearanceMenu.Items.Add(option);
         }
+        var tools = new MenuItem { Header = "_Strumenti" };
+        var rheology = new MenuItem { Header = "Reologia del calcestruzzo…" };
+        rheology.Click += (_, _) => Safe(() => ConcreteTimeEffectsView.CreateWindow(this).Show());
+        tools.Items.Add(rheology); menu.Items.Add(tools);
         menu.Items.Add(appearanceMenu);
         return menu;
     }

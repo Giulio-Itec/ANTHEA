@@ -1,12 +1,12 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · Indice aggiornato il 12 ottobre 2026 · Pratica Rev36 e teorica Rev36
+ITEC Engineering · 12 ottobre 2026 · Pratica Rev37 e teorica Rev37
 
-Engineering Handbook: 66 articoli e percorsi in 12 capitoli, ricavati dalle due guide globali. I vecchi indirizzi Wiki raggiungono le pagine correnti. Lo stato editoriale non equivale a una certificazione normativa.
+Engineering Handbook: 68 articoli in 12 capitoli, ricavati dalle due guide globali. I vecchi indirizzi Wiki raggiungono le pagine correnti.
 
 ## Guida pratica ANTHEA
 
-[Word Rev36](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev36.docx) · [PDF Rev36](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev36.pdf)
+[Word Rev37](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev37.docx) · [PDF Rev37](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev37.pdf)
 
 - Avvio e scelta del modulo
 - Progetti e gestione del lavoro
@@ -27,12 +27,13 @@ Engineering Handbook: 66 articoli e percorsi in 12 capitoli, ricavati dalle due 
 - Modulo Sezione in c.a.
 - Interpretazione dei risultati e controlli indipendenti
 - Tutorial dal modello Beam alla verifica di sezione
-- Fondazioni superficiali: documento, stratigrafia, materiali comuni, pressioni e viste grafiche.
-- Modelli e importazione da MIDAS nella versione di prova: connessione, prima acquisizione, scelta dei casi, quattro modalità, aggiornamento e recupero dagli errori.
+- Fondazioni superficiali
+- Modelli e importazione da MIDAS
+- Reologia del calcestruzzo
 
 ## Guida teorica ANTHEA
 
-[Word Rev36](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev36.docx) · [PDF Rev36](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev36.pdf)
+[Word Rev37](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev37.docx) · [PDF Rev37](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev37.pdf)
 
 - Architettura del calcolo e convenzioni
 - Calcestruzzo armature e copriferro
@@ -64,19 +65,6 @@ Engineering Handbook: 66 articoli e percorsi in 12 capitoli, ricavati dalle due 
 - Progettazione parametrica e controllo delle dipendenze
 - Acciaio per armature: proprietà e diagrammi
 - Profili di calcolo del calcestruzzo
-- Fondazioni superficiali: metodi di portanza, contatto e controlli.
-
-- Esempio aggiornato: [palo 20 m, tratti 0–12 / 12–18 / 18–20](../esempi/palo-orizzontale-armature/palo-20m-tagli-12-18-20.programma), con [dati e tagli in PDF](../esempi/palo-orizzontale-armature/palo-20m-tagli-12-18-20.pdf).
-
-- Revisione 26: controlli sismici di testa del palo secondo NTC 2018 §7.2.5, con fonte, campo di applicazione ed esiti nel verificatore.
-
-- Revisione 27: materiali dei muri condivisi con sezioni e schede Materiali; distinta ferri del tratto con tavole, sviluppi, quantità ed esportazioni PDF, Word e CSV.
-
-
-## Biblioteca tecnica
-
-13 lezioni originali di ANTHEA con esempi numerici svolti su geotecnica, calcestruzzo armato e ponti, raccolte nella guida teorica sotto «Biblioteca tecnica lezioni con esempi svolti»:
-
 - Dalle indagini geotecniche ai parametri del modello
 - Cedimenti edometrici tempi di consolidazione e drenaggi
 - Profilo di velocità risposta locale e liquefazione
@@ -90,12 +78,6 @@ Engineering Handbook: 66 articoli e percorsi in 12 capitoli, ricavati dalle due 
 - Cassoni sottili torsione uniforme e distorsione
 - Stralli equilibrio rigidezza geometrica e vibrazioni
 - Freccia controfreccia temperatura e appoggi dei ponti
-
-- Revisione 30: approvazione delle ipotesi del palo, esiti distinti, fonte NTC interna e rappresentazione di staffe e spirali.
-
-- Revisione 31: guide con soli contenuti propri, senza corpus esterno, diario di sviluppo, strumenti di IA, programmi concorrenti e paragrafi duplicati; portanza sismica dei muri secondo EN 1998-5 Annesso F senza γRD sull'inerzia del terreno; γb della punta dei pali secondo la tecnologia (NTC 2018 Tab. 6.4.II).
-
-- Revisione 32: classi minime del calcestruzzo secondo il prospetto 6 della UNI 11104:2025, con XF1 a C32/40 del prospetto 5 dell'edizione 2016; composizione secondo il prospetto 5 dell'edizione 2016.
-
-- Revisione 35 della guida pratica: fondazioni superficiali e procedura di importazione MIDAS nel modulo Modelli in prova. La guida teorica è alla revisione 34.
-- Revisione 36 delle due guide: rilascio GPC S, risultati fuori dominio e coefficienti additivi Hansen. Collegamenti aggiornati alle edizioni correnti.
+- Biblioteca tecnica lezioni con esempi svolti
+- Fondazioni superficiali
+- Reologia del calcestruzzo

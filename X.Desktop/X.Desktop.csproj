@@ -13,13 +13,14 @@
     <AssemblyName>ANTHEA</AssemblyName>
     <Product>ANTHEA</Product>
     <Title>ANTHEA</Title>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
     <Company>ITEC Engineering</Company>
     <Copyright>© 2026 ITEC Engineering</Copyright>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Assets/anthea.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup><ProjectReference Include="../X.Calculations/X.Calculations.csproj" /><ProjectReference Include="../X.Core/X.Core.csproj" /><ProjectReference Include="../X.Materiali/X.Materiali.csproj" /><ProjectReference Include="../src/ANTHEA.ModelViewer.Wpf/ANTHEA.ModelViewer.Wpf.csproj" /></ItemGroup>
+  <ItemGroup><ProjectReference Include="../src/ANTHEA.DesignTools.Presentation/ANTHEA.DesignTools.Presentation.csproj" /></ItemGroup>
   <PropertyGroup><GpcLibraries>all</GpcLibraries></PropertyGroup>
   <ItemGroup><Resource Include="Assets/*.png" /><Resource Include="Assets/anthea.ico" /></ItemGroup>
   <ItemGroup>

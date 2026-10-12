@@ -63,7 +63,7 @@ internal sealed partial class ConcreteWorkspace
             RevisionInspection.Allow(combinationChoice); RevisionInspection.Allow(panel.Regions);
             combinationChoice.SelectionChanged+=(_,_)=>{if(combinationChoice.SelectedIndex>=0)sleTabs.SelectedIndex=combinationChoice.SelectedIndex;};
             sleTabs.SelectionChanged+=(_,e)=>{if(e.Source==sleTabs && sleTabs.SelectedIndex>=0)combinationChoice.SelectedIndex=sleTabs.SelectedIndex;};
-            var optionsPanel = Panel("Opzioni SLE comuni", Scroller(Ui.Stack(Ui.Text("Combinazione SLE",12,true),combinationChoice,panel.Options, nonLinearWarning, instructions)), "Modifiche valide per Rara, Frequente e Quasi permanente. Azioni separate, già combinate.");
+            var optionsPanel = Panel("Opzioni SLE comuni", Scroller(Ui.Stack(Ui.Text("Combinazione SLE",12,true),combinationChoice,panel.Options, Ui.Button("Reologia del calcestruzzo…", () => ConcreteTimeEffectsView.CreateWindow(this, Math.Abs(Input.D("fck_mpa"))).Show(), inspection: true), nonLinearWarning, instructions)), "Modifiche valide per Rara, Frequente e Quasi permanente. Azioni separate, già combinate.");
             var viewport = new ViewportFrame("Mappa tensionale della sezione", panel.View, panel.View.ResetView);
             panel.Regions.SelectionChanged += (_,_)=>{panel.View.EffectiveRegion=panel.Regions.SelectedItem as ConcreteEffectiveRegion;panel.View.InvalidateVisual();};
             panel.Regions.DisplayMemberPath="Name";

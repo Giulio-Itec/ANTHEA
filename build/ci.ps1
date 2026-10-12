@@ -106,6 +106,8 @@ Add-Suite @{ Name = 'FoundationWorkspace.UiChecks'; Stage = 'ui'; Kind = 'run'; 
 # (--rapido), user decision of 9/10.
 Add-Suite @{ Name = 'ConcreteLibraryAdapter.Checks/rapido'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'; Args = @('{out}', '--rapido') }
 Add-Suite @{ Name = 'ANTHEA.ApiReuse.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.ApiReuse.Checks\ANTHEA.ApiReuse.Checks.csproj'; Args = @() }
+Add-Suite @{ Name = 'ConcreteTimeEffects.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ConcreteTimeEffects.Checks\ConcreteTimeEffects.Checks.csproj'; Args = @('{out}'); Timeout = 180 }
+Add-Suite @{ Name = 'ConcreteTimeEffects.UiChecks'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ConcreteTimeEffects.Checks\ConcreteTimeEffects.Checks.csproj'; Args = @('{out}', '--ui'); Timeout = 180 }
 Add-Suite @{ Name = 'ConcreteInput.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ConcreteInput.Checks\ConcreteInput.Checks.csproj'; Args = @('{out}'); Timeout = 180 }
 Add-Suite @{ Name = 'ConcreteInput.UiChecks'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ConcreteInput.Checks\ConcreteInput.Checks.csproj'; Args = @('{out}', '--ui'); Timeout = 180 }
 

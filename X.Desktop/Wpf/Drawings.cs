@@ -68,11 +68,16 @@ internal sealed class Plot : DrawingView
     internal string XLabel { get; set; } = "Forza assiale [kN]";
     internal string YLabel { get; set; } = "Profondità z [m]";
     internal string? AxisNumberFormat { get; set; }
+    internal Func<double, string>? XTickFormat { get; set; }
+    internal Func<double, string>? YTickFormat { get; set; }
+    internal bool FollowAppearance { get; set; }
     internal string Note { get; set; } = "";
     internal bool InvertY { get; set; } = true;
     internal bool Capacity { get; set; }
     internal double CapacityDepth { get; set; }
     internal double? XMinimum { get; set; }
+    internal double? XMaximum { get; set; }
+    internal double? XTickStep { get; set; }
     internal string EmptyMessage { get; set; } = "Premere Calcola";
     private double zoom = 1;
     private Vector offset;
@@ -88,12 +93,16 @@ internal sealed class Plot : DrawingView
     internal void ResetView() { zoom = 1; ScaleX = ScaleY = 1; offset = default; ViewReset?.Invoke(); InvalidateVisual(); }
     protected override void Render(DrawingContext dc, Size size)
     {
-        dc.DrawRectangle(Brushes.White, null, new Rect(size));
+        Brush Background() => FollowAppearance ? Appearance.Paper : Brushes.White;
+        Brush Ink(Brush brush) => FollowAppearance ? Appearance.Foreground(brush) : brush;
+        void Text(DrawingContext context, string value, double x, double y, double size = 12, Brush? brush = null, double width = double.PositiveInfinity, bool bold = false)
+            => DrawingView.Text(context, value, x, y, size, Ink(brush ?? Ui.Muted), width, bold);
+        dc.DrawRectangle(Background(), null, new Rect(size));
         if (size.Width < 100 || size.Height < 100) return;
         Text(dc, Title, 12, 7, 14, Ui.Navy, size.Width - 24, true);
         var points = Series.SelectMany(s => s.Points).Concat(Segments.SelectMany(s => new[] { s.A, s.B })).Concat(FitIncludesMarkers ? Markers.Select(m => new[] { m.X, m.Y }) : []).Where(p => p.Length >= 2 && double.IsFinite(p[0]) && double.IsFinite(p[1])).ToArray();
         if (points.Length == 0) { Text(dc, EmptyMessage, 18, size.Height / 2, 13, width: size.Width - 36); return; }
-        double xmin = XMinimum ?? (Capacity ? 0 : points.Min(p => p[0])), xmax = points.Max(p => p[0]);
+        double xmin = XMinimum ?? (Capacity ? 0 : points.Min(p => p[0])), xmax = XMaximum ?? points.Max(p => p[0]);
         double ymin = Capacity ? 0 : points.Min(p => p[1]), ymax = Capacity && CapacityDepth > 0 ? CapacityDepth : points.Max(p => p[1]);
         if (Capacity && xmax > 0) { double power = Math.Pow(10, Math.Floor(Math.Log10(xmax))); xmax = new[] { 1d, 2d, 5d, 10d }.First(v => xmax / power <= v) * power; }
         if (xmax <= xmin) xmax = xmin + 1; if (ymax <= ymin) ymax = ymin + 1;
@@ -119,20 +128,37 @@ internal sealed class Plot : DrawingView
         for (int i = 0; i <= 4; i++)
         {
             double t = i / 4d, x = area.Left + t * area.Width, y = area.Top + t * area.Height;
-            var pen = new Pen(Ui.Brush("#E8EDF3"), 1);
-            dc.DrawLine(pen, new Point(x, area.Top), new Point(x, area.Bottom)); dc.DrawLine(pen, new Point(area.Left, y), new Point(area.Right, y));
-            Text(dc, F(xmin + (t - offset.X / area.Width) / viewZoom * (xmax - xmin)), x - 15, area.Bottom + 5, 10);
+            var pen = new Pen(FollowAppearance ? Appearance.Outline("#E8EDF3") : Ui.Brush("#E8EDF3"), 1);
+            if (XTickStep is null)
+            {
+                dc.DrawLine(pen, new Point(x, area.Top), new Point(x, area.Bottom));
+                Text(dc, (XTickFormat ?? F)(xmin + (t - offset.X / area.Width) / viewZoom * (xmax - xmin)), x - 15, area.Bottom + 5, 10);
+            }
+            dc.DrawLine(pen, new Point(area.Left, y), new Point(area.Right, y));
             double ordinate = (t - offset.Y / area.Height) / viewZoom;
-            Text(dc, F(InvertY ? ymin + ordinate * (ymax - ymin) : ymax - ordinate * (ymax - ymin)), 1, y - 7, 10, width: 53);
+            Text(dc, (YTickFormat ?? F)(InvertY ? ymin + ordinate * (ymax - ymin) : ymax - ordinate * (ymax - ymin)), 1, y - 7, 10, width: 53);
         }
-        dc.DrawRectangle(null, new Pen(Ui.Navy, 1), area);
+        if (XTickStep is double step && double.IsFinite(step) && step > 0)
+        {
+            double start = xmin - offset.X / area.Width / viewZoom * (xmax - xmin);
+            double end = start + (xmax - xmin) / viewZoom;
+            // Bound drawing work even under extreme input ranges or zoom.
+            step *= Math.Max(1, Math.Ceiling((end - start) / step / 20));
+            for (double value = Math.Ceiling(start / step) * step; value <= end; value += step)
+            {
+                double x = P(value, ymin).X;
+                dc.DrawLine(new Pen(FollowAppearance ? Appearance.Outline("#E8EDF3") : Ui.Brush("#E8EDF3"), 1), new Point(x, area.Top), new Point(x, area.Bottom));
+                Text(dc, (XTickFormat ?? F)(value), x - 15, area.Bottom + 5, 10);
+            }
+        }
+        dc.DrawRectangle(null, new Pen(Ink(Ui.Navy), 1), area);
         Text(dc, YLabel, 10, 28, 10, width: size.Width - 20); Text(dc, XLabel, area.Left + 15, area.Bottom + 23, 11, width: area.Width - 15);
         dc.PushClip(new RectangleGeometry(area));
         if (CenteredAxes)
         {
             var axisPen = new Pen(Ui.Brush("#8796A8"), 1);
             dc.DrawLine(axisPen, P(xmin, 0), P(xmax, 0)); dc.DrawLine(axisPen, P(0, ymin), P(0, ymax));
-            var origin = P(0, 0); dc.DrawEllipse(Brushes.White, new Pen(Ui.Navy, 1), origin, 3, 3); Text(dc, "0,0", origin.X + 5, origin.Y + 4, 10);
+            var origin = P(0, 0); dc.DrawEllipse(Brushes.White, new Pen(Ink(Ui.Navy), 1), origin, 3, 3); Text(dc, "0,0", origin.X + 5, origin.Y + 4, 10);
         }
         foreach (var segment in VerificationSegments) dc.DrawLine(new Pen(Ui.Brush("#9664B5"), 1.4) { DashStyle = DashStyles.Dash }, P(segment.A[0], segment.A[1]), P(segment.B[0], segment.B[1]));
         foreach (var segment in Segments) dc.DrawLine(new Pen(Ui.Blue, 1.8), P(segment.A[0], segment.A[1]), P(segment.B[0], segment.B[1]));
@@ -158,9 +184,9 @@ internal sealed class Plot : DrawingView
         {
             var p = P(m.X, m.Y); if (!area.Contains(p)) continue;
             double labelX = Math.Clamp(p.X - 28, area.Left, Math.Max(area.Left, area.Right - 66));
-            dc.DrawRectangle(Brushes.White, null, new Rect(labelX, area.Bottom + 2, 66, 18));
+            dc.DrawRectangle(Background(), null, new Rect(labelX, area.Bottom + 2, 66, 18));
             Text(dc, m.XCaption ?? $"φ={m.X:0.#}°", labelX, area.Bottom + 3, 11, m.Color, 66, true);
-            dc.DrawRectangle(Brushes.White, null, new Rect(0, p.Y - 15, area.Left - 2, 31));
+            dc.DrawRectangle(Background(), null, new Rect(0, p.Y - 15, area.Left - 2, 31));
             Text(dc, m.YCaption ?? $"Nq\n{m.Y:0.#}", 1, p.Y - 15, 10, m.Color, area.Left - 3, true);
         }
         if (legendHeight > 0)

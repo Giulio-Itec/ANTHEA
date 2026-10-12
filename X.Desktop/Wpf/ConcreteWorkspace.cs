@@ -161,7 +161,9 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         foreach (var item in settings.Array("trefoli").OfType<JsonObject>()) tendons.Rows.Add(TendonRow((JsonObject)item.DeepClone()));
         grids.Add(tendons); grids.Add(barInventory);
         var tendonInput = BuildTendonInput();
-        var materialGroups = Ui.Stack(materials, BuildCustomMaterials()); materialGroups.Margin = new Thickness(14, 0, 0, 0);
+        var materialGroups = Ui.Stack(materials,
+            Ui.Button("Reologia del calcestruzzo…", () => ConcreteTimeEffectsView.CreateWindow(this, Math.Abs(Input.D("fck_mpa"))).Show(), inspection: true),
+            BuildCustomMaterials()); materialGroups.Margin = new Thickness(14, 0, 0, 0);
         var inputStack = Ui.Stack(norm, standardNote, Group("Coefficienti da normativa", BuildCoefficients()), Group("Materiali", materialGroups, true), Group("Geometria", Ui.Stack(geometry,holeToggle,holeForm), true), Group("Armature", Ui.Stack(reinforcement, BuildAdditionalLayers())), Group("Staffe", BuildStirrups()), Group("Trefoli", tendonInput));
         var left = Panel("Definizione della sezione", Scroller(inputStack), "Dati comuni a tutte le verifiche · mm, MPa");
         var viewport = new ViewportFrame("Sezione geometrica", preview, preview.ResetView);

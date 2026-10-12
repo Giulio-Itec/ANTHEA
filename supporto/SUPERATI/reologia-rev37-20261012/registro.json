@@ -1,0 +1,98 @@
+[
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev36.docx",
+    "sha256": "64b50b8ae8ee763253ddfbd905b11c17df44fde85595330d3091e2c2316f536f",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev37.docx"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev36.pdf",
+    "sha256": "45880b8c4f22343c6fe445234e342acf1b138c93b237d99282e2f1c700bab012",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev37.pdf"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev36.docx",
+    "sha256": "3954a2556779d7cde59709e82af17f992c2fd5f7c3449f625ac2c387787a06c7",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev37.docx"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev36.pdf",
+    "sha256": "9172c0062a4e96fba4bbb28b15bbde90c753e5629a279d4a3c6bb3572f0dec1b",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev37.pdf"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "abcce1faa401c143c9948095e77b2061a4f0239e76f732d95b78fddebd54bc7e",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "45880b8c4f22343c6fe445234e342acf1b138c93b237d99282e2f1c700bab012",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.pdf"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "3e4596083b39b259d1cf53b0e38671c3742ec19f76f97e8d83acce6915c444f2",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.md"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "9172c0062a4e96fba4bbb28b15bbde90c753e5629a279d4a3c6bb3572f0dec1b",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/docs/guida-teorica-anthea.pdf"
+  },
+  {
+    "origine": "supporto/README.md",
+    "sha256": "6896ffbd90c1e69de598842f822058f99f1eec27d63a6996a5857e77da9c79e3",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/README.md"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "sha256": "54a3451d1fcde700ccd0eba2c48de202088fcc3f672d2598d77a08d593ca393d",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/README.pdf"
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "sha256": "ee0827dbcedbdc4fdce0d2995f2464110bede67bbb721f4f7e53e93ab47af864",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/installer/README.md"
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "sha256": "097fd18e5cc5513e4b2a78ad2596cb6ed4987c1f1e0a4f5a2197541747e0db98",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/installer/README.pdf"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "sha256": "3e131b291874728935333e5128c9ee3949599430e4dc22f515e3d41a6877b6b5",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/installer/Indice-guide.md"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "sha256": "1d95fd65b9ec22485ad307017354ffb8994ebb5a772a572f2d141fa5e76a69ba",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/installer/Indice-guide.pdf"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "891a6255500572715247beb75fd90cdc24d149606d3e9e24c93ddb911a108923",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/README.md"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "b6e6643a76006f9f01ceda1108e6125e60f0d51636517d4e900bb9bd0c3e6e44",
+    "motivo": "Sostituita dalla revisione 37 con reologia e chiusure F2",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/README.pdf"
+  }
+]

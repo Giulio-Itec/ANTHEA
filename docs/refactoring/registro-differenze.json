@@ -2205,6 +2205,31 @@
         "supporto/artefatti/ci/20261012-221801-f2-concorrenza-prima",
         "supporto/artefatti/ci/20261012-221914-f2-concorrenza-dopo"
       ]
+    },
+    {
+      "id": "F2-24",
+      "data": "2026-10-12",
+      "fase": "F2 punto 5.2",
+      "titolo": "Strumento riutilizzabile di reologia del calcestruzzo",
+      "famiglia": "calcestruzzo/reologia",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Nuova finestra di supporto MVVM basata sulla API Model 5.1; unificato in Model il coefficiente nominale preesistente dopo confronto con la cattura storica. Nessun calcolo normativo nella UI e nessuna scrittura automatica nel documento.",
+      "codice": [
+        "src/ANTHEA.DesignTools.Presentation",
+        "X.Desktop/Wpf/ConcreteTimeEffectsView.cs",
+        "tests/ConcreteTimeEffects.Checks"
+      ],
+      "segno": "API storiche di Model equivalenti ai valori congelati; nuova visualizzazione di phi, limite analitico e maturazione Ecm. Formattazione e campionamento non alterano la lettura diretta.",
+      "test": [
+        "57 controlli ViewModel con costanti indipendenti; 21 WPF su tre temi e vista compatta",
+        "Set T: 2742 test passati, soli 17 fallimenti Steel noti",
+        "Guide globali Rev37: 73/142 pagine, 337 formule editabili preservate"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261012-224554-reologia-finale-vista",
+        "supporto/artefatti/guide_anthea_itec_rev37"
+      ]
     }
   ]
 }

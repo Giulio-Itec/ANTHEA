@@ -1,5 +1,13 @@
 # DLL Checker
 
+**Release T (12 ottobre 2026).** Set non candidato `set-t`, prodotto da `Checker/build/Release-Set.ps1` da checkout puliti dopo merge e push dei quattro repository: Utilities `e57b440b`, Geometry `6734eee1`, Model `94efc9bc`, Checker `8a9021f9`. Installazione tramite `Update-Snapshot.ps1 -ReleaseSet ... -Install`, con confronto delle versioni contro S e dei dodici SHA-256; le dieci DLL usate da ANTHEA sono in questa cartella.
+
+Model 5.1.0.0 introduce l'API riutilizzabile di reologia (φ, φ∞, Ecm e fattore di maturazione). Concrete 0.0.27.2 corregge il raggruppamento degli interassi circolari API-02. Le dipendenze ricompilate cambiano revisione tecnica: ModelData 0.0.2.9, Persistence 3.0.0.2, Converter 2.0.3.2, Steel 2.0.4.2, CompositeBridge 1.5.0.2, Geotechnics 0.1.3.1, ModelChecker 2.1.0.2. Utilities, Geometry e DelaunayMesh restano identiche bit per bit al set S. Versioni motivate nei commit secondo la delega dell'utente.
+
+Test delle DLL del set: Model Core 12 e UnitTest 1186; Checker Concrete 718, Steel 88, CompositeBridge 261, Geotechnics 108, Calculation 174, ShallowFoundation 27, ModelChecker 168. Totale 2742 PASS, 17 fallimenti Steel già censiti, 2 prove native Model escluse come in S; zero fallimenti inattesi. Contratti API senza rimozioni inattese. Nessun Gmsh distribuito. Il manifest completo è `release-set.json`; gli esiti originali sono in `supporto/artefatti/release-t-20261012/set-t` del checkout principale. Il collaudo completo ANTHEA e il confronto finale sono il punto 5 del piano F2.
+
+Il candidato `candidate-final-20261012` è escluso: precedeva la correzione di Release-Set che faceva verificare un checkout diverso da Root. Il candidato corretto e T sono stati ricostruiti e collaudati usando lo stesso Root; versioni e impronte coincidono.
+
 **Release S (12 ottobre 2026).** Installato il set non candidato `set-s`, prodotto da `Checker/build/Release-Set.ps1` alle 16:32:32. Commit pubblicati e verificati su origin/master: Utilities `503e28c0`, Geometry `1f40436c`, Model `eb5790fb`, Checker `8a2c036f`. Manifest completo originale in `release-set.json`; `manifest.json` e `manifest.props` descrivono le dieci DLL installate.
 
 | Libreria | Versione S | Impiego in ANTHEA |
@@ -35,7 +43,7 @@ Evidenze: `supporto/artefatti/ci/20261012-150738-combo-full` e
 
 **Procedura di aggiornamento.** Il rilascio segue `Checker/build/RILASCIO.txt` e usa un solo set coerente per Utilities, Geometry, Model e Checker.
 
-1. L'utente assegna le versioni; i commit di rilascio devono essere pubblicati. Geometry e Utilities forniscono i binari versionati fissati da Model.
+1. Per delega dell'utente, gli agenti incrementano l'ultimo componente per i fix e il secondo negli altri casi; i commit di rilascio devono essere pubblicati. Geometry e Utilities forniscono i binari versionati fissati da Model.
 2. `Checker/build/Release-Set.ps1 -Root <checkout puliti> -Out <cartella nuova> -Previous <manifest precedente>` esegue tutte le suite di Model e Checker, comprese Concrete e Steel net472, e scrive `release-set.json` con dodici DLL, versioni, SHA-256 e risultati. I candidati non sono rilasci.
 3. In ANTHEA eseguire `tools/libs/Update-Snapshot.ps1 -ReleaseSet <cartella> -Install`: ricontrolla impronte e incremento delle versioni e installa le dieci DLL usate dall'applicazione e dagli strumenti. Conservare il manifest completo del set e aggiornare questo registro.
 4. Eseguire `build/ci.ps1 -Profile full`, i confronti baseline e il controllo delle mesh; registrare gli esiti. I test delle librerie devono riferirsi agli stessi binari del set. Nessun nuovo fallimento ammesso senza analisi.

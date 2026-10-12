@@ -88,12 +88,7 @@ internal static class Program
     {
         RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
         var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
-        var document = System.Xml.Linq.XDocument.Load("X.Desktop/App.xaml");
-        var dictionary = document.Root!.Elements().Single().Elements().Single();
-        dictionary.SetAttributeValue(System.Xml.Linq.XNamespace.Xmlns + "x", "http://schemas.microsoft.com/winfx/2006/xaml");
-        dictionary.SetAttributeValue(System.Xml.Linq.XNamespace.Xmlns + "local", "clr-namespace:X.Desktop;assembly=ANTHEA");
-        foreach (var source in dictionary.Descendants().SelectMany(x => x.Attributes("Source"))) source.Value = "/ANTHEA;component/" + source.Value;
-        app.Resources = (ResourceDictionary)System.Windows.Markup.XamlReader.Parse(dictionary.ToString());
+        Anthea.Desktop.Testing.WpfTestResources.Load(app);
         var data = SezioneCA.DefaultData();
         SectionWorkspace.Prepare(data)["trefoli"]!.AsArray().Add(J.Obj(("id", "T1"), ("x", "0"), ("y", "-150"), ("area", "150"),
             ("sigma0", "1000"), ("Ep", "195000"), ("fpyk", "1670"), ("fpk", "1860"), ("eps_u", "35")));
