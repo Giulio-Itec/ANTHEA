@@ -24,7 +24,7 @@ internal sealed partial class ModelSceneRenderer
             var n=PlateNormal(element,p);
             return p.Select(v=>v+n*(float)(prop.Offset-prop.Thickness/2)).Concat(p.Select(v=>v+n*(float)(prop.Offset+prop.Thickness/2)));
         }
-        return lastOptions.Display.SurfaceMode!=2 && LineProfile(element,p) is {} profile ? profile.Concat(profile.Select(v=>v+p[1]-p[0])) : p;
+        return lastOptions.Display.SurfaceMode!=2 && LineProfile(element,p) is {} profile ? profile.Points.Concat(profile.Points.Select(v=>v+p[1]-p[0])) : p;
     }
     (Vector3 Y, Vector3 Z) LineBasis(ModelElement element, Vector3[] p)
     {
@@ -36,13 +36,6 @@ internal sealed partial class ModelSceneRenderer
         var y = Vector3.Normalize(Vector3.Cross(x, Math.Abs(x.Z)>.9 ? Vector3.UnitY : Vector3.UnitZ));
         var z = Vector3.Cross(x,y); float angle=(float)(element.Angle*Math.PI/180);
         return (y*MathF.Cos(angle)+z*MathF.Sin(angle), -y*MathF.Sin(angle)+z*MathF.Cos(angle));
-    }
-    Vector3[]? LineProfile(ModelElement element, Vector3[] p)
-    {
-        var section=model!.Sections.First(s=>s.Id==element.Property);
-        if (!section.Centered || section.Shape!="SB") return null;
-        var basis=LineBasis(element,p); var u=basis.Y*(float)section.Width/2; var v=basis.Z*(float)section.Height/2;
-        return [p[0]-u-v,p[0]+u-v,p[0]+u+v,p[0]-u+v];
     }
     static (double Station,double Value)[] LineSamples(ModelElement element,IEnumerable<ResultValue> values) => values
         .Select(v=>(Station:v.Station??(v.Node==element.Nodes[0]?0:1),v.Value)).OrderBy(v=>v.Station).ToArray();
@@ -71,25 +64,17 @@ internal sealed partial class ModelSceneRenderer
                 for(int k=0;k+1<samples.Length;k++)
                 {
                     var a=samples[k];var b=samples[k+1];
-                    var first=profile.Select(v=>v+delta*(float)a.Station).ToArray();
-                    var last=profile.Select(v=>v+delta*(float)b.Station).ToArray();
-                    for(int i=0;i<4;i++)
-                    {
-                        int j=(i+1)%4;
-                        Contours.Surface(contour,edges,[first[i],first[j],last[j],last[i]],[a.Value,a.Value,b.Value,b.Value],element.Id,min,max,1,false);
-                    }
-                    if(k==0) Contours.Surface(contour,edges,first.Reverse().ToArray(),Enumerable.Repeat(a.Value,4).ToArray(),element.Id,min,max,1,false);
-                    if(k==samples.Length-2) Contours.Surface(contour,edges,last,Enumerable.Repeat(b.Value,4).ToArray(),element.Id,min,max,1,false);
+                    SectionContourSegment(contour,edges,profile,delta,element.Id,a.Station,b.Station,a.Value,b.Value,min,max,k==0,k==samples.Length-2);
                 }
                 // Uncovered parts retain their neutral geometry. Do not extend imported samples to absent endpoints.
-                if(samples[0].Station>0) body.Prism(profile,delta*(float)samples[0].Station,element.Id);
-                if(samples[^1].Station<1) body.Prism(profile.Select(v=>v+delta*(float)samples[^1].Station).ToArray(),delta*(float)(1-samples[^1].Station),element.Id);
+                if(samples[0].Station>0) SectionPrism(body,profile,delta,element.Id,0,samples[0].Station);
+                if(samples[^1].Station<1) SectionPrism(body,profile,delta,element.Id,samples[^1].Station,1);
             }
-            else body.Prism(profile,delta,element.Id);
+            else SectionPrism(body,profile,delta,element.Id);
             if(active && options.LineContour && samples.Length==1)
-                for(int i=0;i<4;i++) ColoredLine(profile[i]+delta*(float)samples[0].Station,profile[(i+1)%4]+delta*(float)samples[0].Station,samples[0].Value);
+                foreach(var loop in profile.Loops) for(int i=0;i<loop.Length;i++) ColoredLine(loop[i]+delta*(float)samples[0].Station,loop[(i+1)%loop.Length]+delta*(float)samples[0].Station,samples[0].Value);
             if(options.ShowMesh || options.Exploration?.Outlines==true)
-                for(int i=0;i<4;i++){int j=(i+1)%4;edges.Line(profile[i],profile[j]);edges.Line(profile[i]+delta,profile[j]+delta);edges.Line(profile[i],profile[i]+delta);}
+                foreach(var loop in profile.Loops) for(int i=0;i<loop.Length;i++){int j=(i+1)%loop.Length;edges.Line(loop[i],loop[j]);edges.Line(loop[i]+delta,loop[j]+delta);edges.Line(loop[i],loop[i]+delta);}
         }
         else
         {

@@ -36,7 +36,7 @@ public partial class ModelViewerControl
                     renderer?.Focus(viewModel.VisibleElementIds??model.Elements.Select(e=>e.Id).ToHashSet());
             }));
         }
-        if(!ReferenceEquals(comparisonSnapshot,state.Snapshot)){comparisonRenderer!.SetModel(state.Snapshot!);comparisonSnapshot=state.Snapshot;}
+        if(!ReferenceEquals(comparisonSnapshot,state.Snapshot)){comparisonRenderer!.SetModel(state.Snapshot!,state.SectionCatalog);comparisonSnapshot=state.Snapshot;}
         SyncComparisonCamera();comparisonViewport.BackgroundColor=(Color)ColorConverter.ConvertFromString(state.SceneBackground);
         comparisonViewport.MSAA=Viewport.MSAA;comparisonViewport.FXAALevel=Viewport.FXAALevel;
         comparisonRenderer!.Render(Options(state));

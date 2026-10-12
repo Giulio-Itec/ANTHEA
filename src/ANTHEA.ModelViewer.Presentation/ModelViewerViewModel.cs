@@ -186,7 +186,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         OnPropertyChanged(nameof(LineRepresentationMessage));
         RefreshTable();
         Information = IsExtruded
-            ? "Piastre: spessori e offset lungo la normale locale. Aste: sezioni rettangolari centrate; offset di estremità non importati. Volumi preliminari."
+            ? "Piastre: spessori e offset lungo la normale locale. Aste: contorni delle sezioni e punto di inserimento condivisi con il dettaglio 2D; fori conservati. Offset di estremità non normalizzati: vista ad asse."
             : "Superficie analitica e connettività originali.";
         if (ShowDeformation) Information += "\n\n" + DeformationHeading + ". " + DeformationMessage;
         if (ShowResults)

@@ -3457,6 +3457,29 @@
         "supporto/artefatti/ci/20261013-003436-sez-detail-reviewed",
         "supporto/artefatti/refactoring/sections"
       ]
+    },
+    {
+      "id": "SEZ-02",
+      "data": "2026-10-13",
+      "fase": "SEZ-3a",
+      "titolo": "Estrusione sui contorni condivisi e punti di inserimento",
+      "famiglia": "modelli/rendering",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Il prisma rettangolare centrato delle aste è sostituito dal contorno GPC disponibile, con triangolazione delle facce che conserva fori e rientranze. Stessa istanza del catalogo nel dettaglio 2D e nel renderer. Profili non risolti e offset estremità non normalizzati restano ad asse. Contouring ripartito sulle pareti e sulle facce solo fra campioni disponibili.",
+      "codice": [
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Sections.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Lines.cs"
+      ],
+      "segno": "Cambia intenzionalmente il volume visualizzato delle sezioni supportate. Risultati, diagrammi e dati salvati invariati. Per composta di prova inserita in testa: Z da -2.28 a 0 m, Y da -1.8 a 1.8 m, area delle facce 1.0654 m².",
+      "test": [
+        "477 controlli dati, 18 WPF sezioni, 33 WPF generali",
+        "Contorni 2D/3D condivisi; vertici GPU, area e orientamento verificati",
+        "Screenshot composte con contouring, tre temi e tabella compatta con righe ad altezza automatica"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-003816-sez-volumes-validation"
+      ]
     }
   ]
 }

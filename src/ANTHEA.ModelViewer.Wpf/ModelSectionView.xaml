@@ -22,7 +22,7 @@
       <TabControl Grid.Column="2">
         <TabItem Header="Proprietà"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="12">
           <TextBlock Text="GEOMETRIA" Style="{StaticResource Caption}"/><TextBlock Text="{Binding SelectedSection.Type, StringFormat=Tipo sorgente: {0}}" Margin="0,8,0,10"/>
-          <DataGrid ItemsSource="{Binding SelectedSection.Quantities}" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" HeadersVisibility="Column" MaxHeight="340" RowHeaderWidth="0">
+          <DataGrid RowHeight="NaN" MinRowHeight="30" ItemsSource="{Binding SelectedSection.Quantities}" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" HeadersVisibility="Column" MaxHeight="340" RowHeaderWidth="0">
             <DataGrid.Columns><DataGridTextColumn Header="Proprietà" Binding="{Binding Name}" Width="85"/><DataGridTextColumn Header="Valore" Binding="{Binding Display}" Width="100"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}" Width="45"/><DataGridTemplateColumn Header="Origine" Width="*" MinWidth="65"><DataGridTemplateColumn.CellTemplate><DataTemplate><TextBlock Text="{Binding Origin}" TextWrapping="Wrap" Margin="4,3"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn></DataGrid.Columns>
             <DataGrid.RowStyle><Style TargetType="DataGridRow"><Setter Property="ToolTip" Value="{Binding Origin}"/></Style></DataGrid.RowStyle>
           </DataGrid>

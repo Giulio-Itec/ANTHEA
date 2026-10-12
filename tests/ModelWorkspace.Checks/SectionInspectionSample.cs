@@ -9,6 +9,8 @@ internal static class SectionInspectionSample
         var model=Sample.Model();model.Source="MIDAS synthetic section inspection";
         model.Sections=[new(2,"Rettangolo","SB",.2,.3,false),new(3,"Scatolare","B",.2,.3,true),new(4,"Profilo I","H",.2,.2,true),new(5,"Offset non risolto","SB",.2,.3,false),new(6,"Sorgente non supportata","PSC",0,0,false),new(100,"Campata · concio 1","I",0,0,false)];
         model.Elements=[..model.Elements.Where(e=>e.Type=="PLATE"),new(12,"BEAM",2,[1,4]),new(13,"BEAM",3,[2,3]),new(14,"BEAM",4,[5,6]),new(15,"BEAM",5,[1,2]),new(16,"BEAM",6,[4,3]),new(1000,"BEAM",100,[2,5])];
+        model.LocalFrames=[new(1000,new(1,0,0),new(0,1,0),new(0,0,1))];
+        model.Results[0]=model.Results[0] with { Fields=[new("BEAM","LOCAL","My",[new(1000,2,-10,0),new(1000,0,20,.5),new(1000,5,-5,1)])] };
         model.SourceTables=new() {
             ["UNIT"]=JsonSerializer.SerializeToElement(new Dictionary<string,object>{["1"]=new {FORCE="KN",DIST="M",TEMPER="C"}}),
             ["SECT"]=JsonSerializer.SerializeToElement(new Dictionary<string,object>{

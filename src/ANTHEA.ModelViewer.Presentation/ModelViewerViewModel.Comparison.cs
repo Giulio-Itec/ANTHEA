@@ -15,7 +15,7 @@ public sealed partial class ModelViewerViewModel
     public bool BeamDiagramAlongY => SelectedBeamDiagramAxis == 1 || SelectedBeamDiagramAxis == 0 && SelectedComponent is "Fy" or "Mz";
     public string LineRepresentationMessage => !IsExtruded || SelectedSurfaceMode == 2
         ? "Contouring lungo l’asse. Diagrammi fra le stazioni importate; un solo campione resta puntuale."
-        : "Contouring sulle sezioni rettangolari centrate disponibili. Profili assenti o non supportati restano sull’asse; offset delle aste non importati.";
+        : "Contouring sui contorni reali delle sezioni disponibili, compresi i fori. Geometria o inserimento non risolti e offset di estremità non normalizzati conservano la vista ad asse.";
     [ObservableProperty] private double beamDiagramScale=1;
     partial void OnShowBeamDiagramChanged(bool value)=>RefreshScene();
     partial void OnShowLineContourChanged(bool value)=>RefreshScene();

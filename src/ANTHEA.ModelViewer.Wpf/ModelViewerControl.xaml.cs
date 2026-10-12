@@ -100,7 +100,7 @@ public partial class ModelViewerControl : UserControl, IDisposable
             Resources["ModelContourPalette"] = palette;
             if (!ReferenceEquals(renderedSnapshot, viewModel.Snapshot))
             {
-                renderer.SetModel(viewModel.Snapshot); renderedSnapshot = viewModel.Snapshot;
+                renderer.SetModel(viewModel.Snapshot,viewModel.SectionCatalog); renderedSnapshot = viewModel.Snapshot;
             }
             var statistics = renderer.Render(Options(viewModel));
             UpdateComparisonScene();

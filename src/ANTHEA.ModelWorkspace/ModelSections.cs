@@ -37,7 +37,7 @@ public sealed class ModelSectionDetail
     public SectionValue[] ReferenceValues { get; internal set; } = [];
     public SectionAttribute[] Attributes { get; internal set; } = [];
     public int[] Elements { get; internal set; } = [];
-    public int[] ElementsWithUnresolvedEndOffset { get; internal set; } = [];
+    public IReadOnlySet<int> ElementsWithUnresolvedEndOffset { get; internal set; } = new HashSet<int>();
     public string[] Materials { get; internal set; } = [];
     public string[] Diagnostics { get; internal set; } = [];
     public SectionPoint? Centroid { get; internal set; }
@@ -71,7 +71,7 @@ public sealed class ModelSectionCatalog
         result.Elements=model.Elements.Where(e=>ElementFamilies.IsLine(e.Type)&&e.Property==property.Id).Select(e=>e.Id).ToArray();
         // OFFS is preserved but not normalized to an analysis geometry yet. Never silently ignore an assignment.
         result.ElementsWithUnresolvedEndOffset=model.SourceTables?.TryGetValue("OFFS",out var offsets)==true
-            ? result.Elements.Where(id=>offsets.TryGetProperty(id.ToString(CultureInfo.InvariantCulture),out _)).ToArray() : [];
+            ? result.Elements.Where(id=>offsets.TryGetProperty(id.ToString(CultureInfo.InvariantCulture),out _)).ToHashSet() : new HashSet<int>();
         result.Attributes=ModelSourceAttributes.Read(model,"SECT",property.Id).ToArray();
         result.Materials=ReadMaterials(model,result.Elements);
         try
@@ -98,7 +98,7 @@ public sealed class ModelSectionCatalog
             var inspection=SectionShapeInspection.Read(source);
             result.IsComposite=inspection.HasMultipleMaterials;
             diagnostics.AddRange(inspection.Diagnostics.Select(d=>d.Code+": "+d.Message));
-            if(result.ElementsWithUnresolvedEndOffset.Length>0) diagnostics.Add($"{result.ElementsWithUnresolvedEndOffset.Length} aste hanno offset di estremità non normalizzati: visualizzazione ad asse.");
+            if(result.ElementsWithUnresolvedEndOffset.Count>0) diagnostics.Add($"{result.ElementsWithUnresolvedEndOffset.Count} aste hanno offset di estremità non normalizzati: visualizzazione ad asse.");
             var shape=inspection.Shape;
             if(shape!=null)
             {

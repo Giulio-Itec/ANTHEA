@@ -36,9 +36,9 @@ internal sealed partial class ModelSceneRenderer : IDisposable
     private readonly Dictionary<MeshGeometryModel3D, IReadOnlyList<int>> meshElements = new();
     private readonly Dictionary<LineGeometryModel3D, IReadOnlyList<int>> lineElements = new();
     public ModelSceneRenderer(Viewport3DX viewport) { this.viewport = viewport; viewport.EffectsManager = new DefaultEffectsManager(); }
-    public void SetModel(ModelSnapshot snapshot)
+    public void SetModel(ModelSnapshot snapshot, ModelSectionCatalog? sectionCatalog = null)
     {
-        model = snapshot;
+        model = snapshot; sections = sectionCatalog ?? ModelSectionCatalog.Create(snapshot);
         cameraInitialized = false;
         double cx = (snapshot.Nodes.Min(n => n.X) + snapshot.Nodes.Max(n => n.X)) / 2, cy = (snapshot.Nodes.Min(n => n.Y) + snapshot.Nodes.Max(n => n.Y)) / 2, cz = (snapshot.Nodes.Min(n => n.Z) + snapshot.Nodes.Max(n => n.Z)) / 2;
         modelOrigin=new(cx,cy,cz);

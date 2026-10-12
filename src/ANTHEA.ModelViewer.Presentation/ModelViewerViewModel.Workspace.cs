@@ -119,7 +119,7 @@ public sealed partial class ModelViewerViewModel
         tableState = null;
         ResetColorScale();
         InitializeSections();
-        allTree = ModelTreeBuilder.Build(Snapshot!); Tree = allTree; SearchText = "";
+        allTree = ModelTreeBuilder.Build(Snapshot!,SectionCatalog); Tree = allTree; SearchText = "";
         InitializeVisibility();
         displayCatalog = new ModelDisplayCatalog(Snapshot!);
         InitializeExploration();
