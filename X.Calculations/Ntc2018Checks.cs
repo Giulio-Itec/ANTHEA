@@ -241,7 +241,7 @@ public static partial class Ntc2018Checks
         double es = effective[0].RebarMaterial.E;
         var concrete = (ConcreteMaterialEuropeanCommon)section.ConcreteMaterial;
         Add("Ecls analisi", concrete.E, "MPa", "Modulo del materiale nell'analisi Checker");
-        Add("n analisi", es * (1 + (native.PsiRebar ?? 0)) / concrete.E, "−", "Es·(1 + φ) / Ecls; distinto da αe usato nella formula di fessurazione");
+        Add("n analisi", Homogenization.ModularRatio(es, concrete.E, native.PsiRebar ?? 0), "−", "Es·(1 + φ) / Ecls; distinto da αe usato nella formula di fessurazione");
         double width = ConcreteCodeChecks.CrackWidth(code, sigma, es, concrete.Ecm, concrete.Fctm, steel / aceff, phi, c, spacing, tensileDepth,
             options.S("durata", "Lunga") == "Breve", options.S("aderenza", "Migliorata") == "Migliorata", k2, details);
         Add("ηw", width / req.Limit, "−", "wk / wlim");

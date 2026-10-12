@@ -922,3 +922,7 @@ funzionali della finestra, non fonti dei calcoli o contenuti da copiare nelle gu
 ### 12 ottobre 2026 — completamento, rilascio e prosecuzione F3
 
 L’utente conferma la chiusura dei punti 1–5 e 5.2 con un commit per punto; autorizza, a collaudo finale superato, versioni, merge e push di ANTHEA e delle librerie coinvolte. Al termine autorizza l’avvio della fase F3 e delega le decisioni operative, con aggiornamenti ai passaggi chiave. Restano obbligatori i confronti prima/dopo e il registro delle differenze.
+
+### 12 ottobre — stage prima di F3 e riuso dei metodi
+
+L’utente richiede di evitare duplicati: controllare le API esistenti e unificare i metodi comuni. Aggiunge lo studio e la prima implementazione degli stage e della lettura dei risultati MIDAS dopo F2 e prima di F3, includendo il contratto per gli altri software. Questo blocco precede l’avvio di F3 precedentemente autorizzato.

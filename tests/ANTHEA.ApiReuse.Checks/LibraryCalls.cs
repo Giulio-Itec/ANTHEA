@@ -17,6 +17,8 @@ internal static class LibraryCalls
         Require(typeof(SectionRegions), "Region", "GPC.Checkers.Concrete.Cracking.CrackSectionGeometry", "Region");
         Require(typeof(RebarMaterial.Values), "get_Fyd", "GPC.Model.Materials.SteelMaterial", "CalculateFyd");
         Require(typeof(RebarMaterial.Values), "get_EpsilonYd", "GPC.Model.Materials.SteelMaterial", "CalculateDesignYieldingStrainTension");
+        foreach (string name in new[] { "Resolve", "ModularRatio", "CreepFromModularRatio" })
+            Require(typeof(Homogenization), name, "GPC.Checkers.Concrete.Serviceability.Homogenization", name);
         if (ConcreteServiceabilityAdapter.Default != ServiceabilityEngine.Library) throw new Exception("SLE production engine is not Checker");
     }
 

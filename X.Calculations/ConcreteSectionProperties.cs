@@ -1,4 +1,6 @@
 using System.Text.Json.Nodes;
+using LibraryHomogenization = GPC.Checkers.Concrete.Serviceability.Homogenization;
+using GPC.Checkers.Concrete.Serviceability;
 
 namespace Anthea.Calculations;
 
@@ -43,12 +45,18 @@ public static class Homogenization
 {
     public static (double Phi, double N) Resolve(double steelModulus, double concreteModulus, bool fromN, double value)
     {
-        if (!double.IsFinite(steelModulus) || steelModulus <= 0 || !double.IsFinite(concreteModulus) || concreteModulus <= 0 || !double.IsFinite(value))
-            throw new ArgumentException("Omogeneizzazione: inserire moduli elastici finiti positivi e un valore numerico.");
-        double phi = fromN ? value * concreteModulus / steelModulus - 1 : value;
-        if (!double.IsFinite(phi) || phi < -1e-12) throw new ArgumentException("Inserire φ ≥ 0 oppure n ≥ Es/Ecm.");
-        phi = Math.Max(0, phi); double n = steelModulus * (1 + phi) / concreteModulus;
-        if (!double.IsFinite(n)) throw new ArgumentException("Omogeneizzazione fuori intervallo numerico.");
-        return (phi, n);
+        try { return LibraryHomogenization.Resolve(steelModulus, concreteModulus, fromN, value); }
+        catch (ArgumentException e) when (e.Data[LibraryHomogenization.RejectionKey] is HomogenizationRejection)
+        {
+            throw new ArgumentException((HomogenizationRejection)e.Data[LibraryHomogenization.RejectionKey]! switch
+            {
+                HomogenizationRejection.InvalidInput => "Omogeneizzazione: inserire moduli elastici finiti positivi e un valore numerico.",
+                HomogenizationRejection.NegativeCreep => "Inserire φ ≥ 0 oppure n ≥ Es/Ecm.",
+                HomogenizationRejection.RatioOutOfRange => "Omogeneizzazione fuori intervallo numerico.",
+                _ => e.Message
+            });
+        }
     }
+    public static double ModularRatio(double es, double ec, double phi) => LibraryHomogenization.ModularRatio(es, ec, phi);
+    public static double CreepFromModularRatio(double n, double es, double ec) => LibraryHomogenization.CreepFromModularRatio(n, es, ec);
 }

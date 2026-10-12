@@ -76,6 +76,7 @@ Tra F1 e F2: regressione in MSTest (464 casi singoli) e `casi_confronto.json` di
   libreria rifiuta e la mappatura non traduce il rifiuto; caso non raggiungibile dalla produzione, segnalato all'utente,
   da decidere prima di A8. Restano: quella decisione, le prove WPF con i due motori (con il profilo full), le due
   revisioni del prototipo, A6-A10 e A12-A13, le correzioni U1, U3, U5, U7 e il profilo full a schermo.
+  - [x] F2.7-A10 (12/10): omogeneizzazione delle proprietà, della scheda SLE e dei riepiloghi tramite le API GPC. Nessuna formula duplicata; messaggi italiani preservati. Chiamate IL verificate, attesi analitici esistenti e confronto 548 file superati (`20261012-212735-f27-a10-dopo`, 7 PASS). Il rifiuto nella vista di φ negativo segue in U5.
   - [x] F2.7-A11 (12/10 sera): esposizioni della UI e validazione dei muri dal catalogo GPC tramite `ConcreteLibraryMapping.ExposureChoices`, immutabile. Il catalogo legacy resta come riferimento indipendente, anch’esso immutabile. 19 voci e ordine invariati; prove 7c, tre suite WPF e catture prima/dopo superate (548 file, 50.996 righe dense; soli tempi e ID casuali). Registro F2-18.
 - [~] F2.8 Dettagli, ancoraggi, aderenza, M–χ. Fatti (8/10): libreria L0-L3 (in S3), cattura A0. Restano B1-B3, T1,
   I1-I3, la correzione U2 (b) e D1.
@@ -106,6 +107,16 @@ Tra F1 e F2: regressione in MSTest (464 casi singoli) e `casi_confronto.json` di
   della revisione (Model 5.0.0.0), dal primo set di rilascio da master. ANTHEA 1.2.0.
 
 Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`; prima, destino di `GPCChecker.Test.BridgeAudit` (referenzia `ANTHEA/X.Core`) e test di libreria nei repository delle librerie.
+
+## Passaggio fra F2 e F3: stage dei modelli di calcolo
+
+Aggiunto dall’utente il 12 ottobre, dopo i punti 1–5 e 5.2 e prima dell’avvio di F3.
+Riusare entità, convertitori e contratti già presenti in GPC Model; nuove formule nelle librerie.
+
+- [ ] STG-1: inventario delle API e dei dati stage già disponibili; studio della documentazione MIDAS e campione dei risultati. Distinguere incremento/cumulato, età e attivazione di elementi, vincoli e carichi.
+- [ ] STG-2: modello comune degli stage e provenienza dei risultati, senza duplicare casi/combinazioni; lettura MIDAS con errori espliciti e test di unità/assi/associazione stage.
+- [ ] STG-3: selezione degli stage nella vista e nell’importazione; predisposizione coerente degli adattatori degli altri software, con capacità dichiarate quando la lettura nativa non è disponibile.
+- [ ] STG-4: collaudo e confronto del modello a stage, commit per punto, quindi prosecuzione della fase 3.
 
 ## Fase 3: strato applicativo
 

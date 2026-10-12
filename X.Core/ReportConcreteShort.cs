@@ -75,7 +75,7 @@ public static class ReportConcreteShort
         var rows=Select(data,result); var sle=ws["sle_comuni"]!;var domain=ws["dominio3d"]!;var shear=(JsonObject)ws["taglio"]!.DeepClone();
         ConcreteCalculationSettings.UpdateAutomaticShear(input,shear);
         double circularLever=shear.S("modello_circolare").StartsWith("Pile") ? (input.B("foro_presente") ? .60 : .75) : shear.D("z_d");
-        double modularRatio=input.D("steel_modulus_mpa")*(1+sle.D("phi"))/ConcreteMaterials.Concrete(input).E;
+        double modularRatio=Homogenization.ModularRatio(input.D("steel_modulus_mpa"),ConcreteMaterials.Concrete(input).E,sle.D("phi"));
         XNamespace w="http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         var body=new XElement(w+"body");
         XElement P(string text,string style="TableText")=>new(w+"p",new XElement(w+"pPr",new XElement(w+"pStyle",new XAttribute(w+"val",style))),

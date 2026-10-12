@@ -2096,6 +2096,31 @@
         "supporto/artefatti/ci/20261012-202517-f211-probe-before",
         "supporto/artefatti/ci/20261012-202856-f211-probe-verified"
       ]
+    },
+    {
+      "id": "F2-20",
+      "data": "2026-10-12",
+      "fase": "F2.7-A10",
+      "titolo": "Omogeneizzazione dalla sola API GPC",
+      "famiglia": "calcestruzzo/SLE",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Eliminate quattro copie aritmetiche tramite Homogenization di GPCChecker.Concrete; facade italiana con rifiuti tipizzati. La vista conserva ancora il comportamento storico fino alla correzione U5 separata.",
+      "codice": [
+        "X.Calculations/ConcreteSectionProperties.cs",
+        "X.Desktop/Wpf/ConcreteStress.cs",
+        "X.Core/ReportConcreteShort.cs",
+        "X.Calculations/Ntc2018Checks.cs"
+      ],
+      "segno": "Valori, rifiuti, testi e archivi invariati; il report mantiene lo stesso contenuto. Nessuna modifica degli attesi indipendenti.",
+      "test": [
+        "Attesi analitici di CalculationLibrary.Checks",
+        "Chiamate reali alle tre API controllate nel codice compilato",
+        "548 file prima/dopo: soli tempi volatili; runner 7 PASS, zero nuovi fallimenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261012-212735-f27-a10-dopo"
+      ]
     }
   ]
 }

@@ -178,12 +178,12 @@ internal sealed partial class ConcreteWorkspace
             {
                 if (changed == nKey)
                 {
-                    double n = SectionWorkspace.Number(options.S(nKey), nKey), phi = n * ec / modulus - 1;
+                    double n = SectionWorkspace.Number(options.S(nKey), nKey), phi = Homogenization.CreepFromModularRatio(n, modulus, ec);
                     options[phiKey] = phi.ToString("G17", System.Globalization.CultureInfo.InvariantCulture); panel.Options.Set(phiKey, EngineeringFormat.Number(phi), true);
                 }
                 else
                 {
-                    double n = modulus * (1 + SectionWorkspace.Number(options.S(phiKey, "0"), phiKey)) / ec;
+                    double n = Homogenization.ModularRatio(modulus, ec, SectionWorkspace.Number(options.S(phiKey, "0"), phiKey));
                     options[nKey] = n.ToString("G17", System.Globalization.CultureInfo.InvariantCulture); panel.Options.Set(nKey, EngineeringFormat.Number(n), true);
                 }
             }
