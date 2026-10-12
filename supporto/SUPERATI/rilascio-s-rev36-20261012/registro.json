@@ -82,5 +82,19 @@
     "sha256": "bcc518d2ca3c70b0621e85b583bcfa64e8cf173f1e9148f39183b596c921dd73",
     "motivo": "Allineamento guide al contratto 2 del rilascio GPC S; conservazione edizione precedente",
     "sostituzione": "Guide globali Rev36"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/rilascio-s-rev36-20261012/supporto/installer/Indice-guide.md",
+    "sha256": "30037c9d7e0bf4a33a0320b359b5205c7b4e828220ca5758dd19df2d701022dd",
+    "motivo": "Indice aggiornato ai collegamenti delle guide Rev36",
+    "sostituzione": "Indice guide Rev36"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/rilascio-s-rev36-20261012/supporto/installer/Indice-guide.pdf",
+    "sha256": "df821a280910d1634b53a74703f6002d4d36f2d1e750d531d2eef8a71b306903",
+    "motivo": "Indice aggiornato ai collegamenti delle guide Rev36",
+    "sostituzione": "Indice guide Rev36"
   }
 ]

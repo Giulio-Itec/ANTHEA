@@ -1,12 +1,12 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · Indice aggiornato il 12 ottobre 2026 · Pratica Rev35 e teorica Rev34
+ITEC Engineering · Indice aggiornato il 12 ottobre 2026 · Pratica Rev36 e teorica Rev36
 
 Engineering Handbook: 66 articoli e percorsi in 12 capitoli, ricavati dalle due guide globali. I vecchi indirizzi Wiki raggiungono le pagine correnti. Lo stato editoriale non equivale a una certificazione normativa.
 
 ## Guida pratica ANTHEA
 
-[Word Rev35](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev35.docx) · [PDF Rev35](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev35.pdf)
+[Word Rev36](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev36.docx) · [PDF Rev36](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev36.pdf)
 
 - Avvio e scelta del modulo
 - Progetti e gestione del lavoro
@@ -32,7 +32,7 @@ Engineering Handbook: 66 articoli e percorsi in 12 capitoli, ricavati dalle due 
 
 ## Guida teorica ANTHEA
 
-[Word Rev34](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev34.docx) · [PDF Rev34](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev34.pdf)
+[Word Rev36](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev36.docx) · [PDF Rev36](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev36.pdf)
 
 - Architettura del calcolo e convenzioni
 - Calcestruzzo armature e copriferro
@@ -98,3 +98,4 @@ Engineering Handbook: 66 articoli e percorsi in 12 capitoli, ricavati dalle due 
 - Revisione 32: classi minime del calcestruzzo secondo il prospetto 6 della UNI 11104:2025, con XF1 a C32/40 del prospetto 5 dell'edizione 2016; composizione secondo il prospetto 5 dell'edizione 2016.
 
 - Revisione 35 della guida pratica: fondazioni superficiali e procedura di importazione MIDAS nel modulo Modelli in prova. La guida teorica è alla revisione 34.
+- Revisione 36 delle due guide: rilascio GPC S, risultati fuori dominio e coefficienti additivi Hansen. Collegamenti aggiornati alle edizioni correnti.
