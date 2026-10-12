@@ -53,3 +53,9 @@ IModuleService usa le identità dell’unico ModuleCatalog; chiama i motori esis
 RecalculationScheduler non dipende da WPF: conserva il contesto del chiamante, serializza anche motori che non interrompono subito, annulla richieste superate e consente la pubblicazione solo della revisione corrente. Prove con barriere esplicite, ritardo annullato, errore osservato, invalidazione, annullamento esterno e chiusura. I timer dei moduli vengono sostituiti uno alla volta nel passo seguente. Il report progetto autonomo e IFigureRenderer restano da completare.
 
 Corsa 20261013-014723-f3-module-services-final: 7 PASS e 185 controlli Application. Dodici default confrontati con l’ingresso di calcolo preesistente; le righe CA nuove vengono preparate una volta per dare alle due esecuzioni le stesse identità, senza normalizzare i risultati numerici. Headless calculate esporta JSON da un foglio singolo e rifiuta di usare il documento originale come destinazione. Collaudo con palificata orizzontale negli artefatti F3.
+
+## F3.6a — pali verticali
+
+SheetEditor dei pali e micropali verticali usa IModuleService, la sessione con cache e RecalculationScheduler. Ritardo iniziale invariato di 450 ms; il calcolo esplicito sostituisce quello in attesa, le modifiche invalidano i lavori precedenti e i motori che non si interrompono subito restano serializzati. Lo stato visuale viene aggiornato soltanto dal risultato corrente.
+
+Corsa 20261013-015056-f3-vertical-service: 10 PASS, smoke WPF generale e confronto di 458 file senza differenze nuove. Nove prove WPF dedicate con un motore di test trattenuto da barriere, due geometrie consecutive e chiusura durante il lavoro. Il test dei timer esistente ora attende la Task della richiesta. Soglie correnti in limits.json: 10 async void e 9 occorrenze DispatcherTimer, cioè 5 timer di calcolo più quelli di gerarchia e Wiki; il riferimento originale rimane immutato.

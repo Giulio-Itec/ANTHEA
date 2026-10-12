@@ -1,3 +1,5 @@
+using Anthea.Application.Modules;
+using Anthea.Application.Scheduling;
 using Anthea.Reports;
 using System.IO;
 using System.Text;
@@ -37,7 +39,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     internal event Action<string, JsonObject, string>? ModuleCopyRequested;
     internal event Action<JsonObject>? SoilReplacementRequested;
     private bool building = true, disposed;
-    private int revision, expanded = -1;
+    private int expanded = -1;
     private bool Micro => Module == "geo_micropalo_verticale";
     private bool Pile => Module == "geo_palo_verticale";
     private bool Geo => Pile || Micro;
@@ -49,7 +51,9 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private readonly TextBlock status = Ui.Text("Dati da verificare · premere Calcola", color: Ui.Muted);
     private readonly TextBox warnings = new() { IsReadOnly = true, TextWrapping = TextWrapping.Wrap, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Background = Appearance.Background("#FFFAEB"), MaxHeight = 62, Visibility = Visibility.Collapsed };
     private readonly Button calculate;
-    private readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(450) };
+    private readonly RecalculationScheduler recalculation = new();
+    private readonly ModuleCalculationSession calculationSession;
+    private Task scheduledCalculation = Task.CompletedTask;
     private readonly Plot plot = new() { Capacity = true }, reference = new() { InvertY = false };
     private readonly StratigraphyDrawing stratigraphy = new();
     private readonly TabControl outputs = new(), sondages = new();
@@ -67,9 +71,10 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private List<Tabella> tables = [];
     private InputForm generalForm = null!, normativeForm = null!, efficiencyForm = null!;
 
-    internal SheetEditor(string module, JsonObject data)
+    internal SheetEditor(string module, JsonObject data, IModuleService? calculationService = null)
     {
         _ = ModuleCatalog.Get(module);
+        calculationSession = new(calculationService ?? ModuleServices.Get(module));
         Module = module; Data = (JsonObject)data.DeepClone(); Background = Appearance.Surface;
         SetValue(WikiContextHelp.ModuleProperty, module);
         KeyDown += (_, e) =>
@@ -128,10 +133,8 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         BuildGeo();
         scroll.SizeChanged += (_, _) => LayoutCards();
         scroll.ScrollChanged += (_, e) => { if (e.Source == scroll && (e.ViewportWidthChange != 0 || e.ViewportHeightChange != 0)) LayoutCards(); };
-        timer.Tick += TimerTick;
         building = false; Preview(); LayoutCards(); if (Geo) QueueCalculation();
     }
-    private async void TimerTick(object? sender, EventArgs args) { if (Busy) return; timer.Stop(); if (!disposed) await CalculateAsync(commitEdits: false); }
     internal void OpenSoilTransfer()
     {
         Commit(); var dialog = new SoilTransferDialog(Window.GetWindow(this), Module, Data);
@@ -141,7 +144,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     }
     private Action? releaseRevisionInspection;
     internal void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
-    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); timer.Stop(); timer.Tick -= TimerTick; concrete?.Dispose(); horizontal?.Dispose(); pileGroup?.Dispose(); bridge?.Dispose(); retainingWall?.Dispose(); }
+    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); recalculation.Dispose(); calculationSession.Clear(); concrete?.Dispose(); horizontal?.Dispose(); pileGroup?.Dispose(); bridge?.Dispose(); retainingWall?.Dispose(); }
     internal void Commit() { if (foundation is not null) foundation.Commit(); else if (pileGroup is not null) pileGroup.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
@@ -218,12 +221,17 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private void Changed()
     {
         if (building || disposed) return;
-        revision++; Result = null; tables = []; tableSelect.Items.Clear(); tableHost.Content = null; warnings.Text = ""; warnings.Visibility = Visibility.Collapsed;
+        recalculation.Invalidate(); Result = null; tables = []; tableSelect.Items.Clear(); tableHost.Content = null; warnings.Text = ""; warnings.Visibility = Visibility.Collapsed;
         status.Text = "Dati modificati · premere Calcola"; allSeries.Clear(); visibility.Clear(); curveChoices.Children.Clear(); plot.Series = []; plot.InvalidateVisual();
         raw.Text = "Dati modificati · risultati da ricalcolare";
         Preview(); LayoutCards(); UpdateVerification(); QueueCalculation(); Modified?.Invoke();
     }
-    private void QueueCalculation() { if (!Geo || building || disposed) return; timer.Stop(); timer.Start(); status.Text = "Aggiornamento automatico in attesa…"; }
+    private void QueueCalculation()
+    {
+        if (!Geo || building || disposed) return;
+        status.Text = "Aggiornamento automatico in attesa…";
+        scheduledCalculation = CalculateScheduledAsync(TimeSpan.FromMilliseconds(450), commitEdits: false);
+    }
     internal async Task CalculateAsync(bool commitEdits = true)
     {
         if (foundation is not null) { foundation.TryCalculate(); return; }
@@ -234,19 +242,34 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         if (materials is not null || rebarMaterial is not null) { Commit(); return; }
         if (horizontal is not null) { await horizontal.CalculateActiveAsync(); return; }
         if (concrete is not null) { await concrete.CalculateAllAsync(); return; }
-        if (Busy || disposed) return; if (commitEdits) Commit(); timer.Stop(); Busy = true; calculate.IsEnabled = false; if (!Geo) canvas.IsEnabled = false;
-        int requested = revision; var snapshot = (JsonObject)Data.DeepClone(); status.Text = "Calcolo in corso…";
-        try
+        scheduledCalculation = CalculateScheduledAsync(TimeSpan.Zero, commitEdits);
+        await scheduledCalculation;
+    }
+    private async Task CalculateScheduledAsync(TimeSpan delay, bool commitEdits)
+    {
+        if (disposed) return;
+        if (commitEdits) Commit();
+        var snapshot = (JsonObject)Data.DeepClone();
+        var completed = await recalculation.ScheduleAsync(async token =>
         {
-            var result = await Task.Run(() => CalculationService.Calculate(Module, snapshot));
-            if (disposed || requested != revision) return;
-            if (result.S("errore") != "") { Result = null; status.Text = "Dati da completare: " + result.S("errore"); SetWarnings(Geo ? "" : result.S("errore")); return; }
-            Result = result; SetWarnings(string.Join(Environment.NewLine, result.Array("avvisi").Select(v => v!.ToString())));
-            ShowGeoResults();
-            raw.Text = Result.ToJsonString(J.Options); status.Text = "Calcolo completato · risultati riferiti ai dati correnti";
-        }
-        catch (Exception ex) { Result = null; status.Text = "Errore: " + ex.Message; SetWarnings(ex.Message); }
-        finally { Busy = false; if (!disposed) { calculate.IsEnabled = true; canvas.IsEnabled = true; if (Geo && requested != revision) timer.Start(); } }
+            Busy = true; calculate.IsEnabled = false; if (!Geo) canvas.IsEnabled = false;
+            status.Text = "Calcolo in corso…";
+            try { return (await Task.Run(() => calculationSession.Calculate(snapshot, token), token)).Values; }
+            finally { Busy = false; if (!disposed) { calculate.IsEnabled = true; canvas.IsEnabled = true; } }
+        }, delay);
+        completed.TryPublish(current =>
+        {
+            try
+            {
+                if (current.Error is not null) throw current.Error;
+                var calculated = current.Value!;
+                if (calculated.S("errore") != "") { Result = null; status.Text = "Dati da completare: " + calculated.S("errore"); SetWarnings(Geo ? "" : calculated.S("errore")); return; }
+                Result = calculated; SetWarnings(string.Join(Environment.NewLine, calculated.Array("avvisi").Select(v => v!.ToString())));
+                ShowGeoResults(); raw.Text = Result.ToJsonString(J.Options);
+                status.Text = "Calcolo completato · risultati riferiti ai dati correnti";
+            }
+            catch (Exception ex) { Result = null; status.Text = "Errore: " + ex.Message; SetWarnings(ex.Message); }
+        });
     }
     private void SetWarnings(string text) { warnings.Text = text; warnings.Visibility = string.IsNullOrWhiteSpace(text) ? Visibility.Collapsed : Visibility.Visible; }
     private void PopulateTables()

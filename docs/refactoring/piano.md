@@ -143,7 +143,8 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
 - [~] F3.5 `IModuleService`, esito comune, `RecalculationScheduler`, cache; report di progetto senza `SheetEditor`; figure tramite `IFigureRenderer` con dati confrontati numericamente.
   - [x] F3.5a (13/10): contratto dei 12 servizi, risultato comune, cache JSON per documento con copie indipendenti e limiti, scheduler seriale con annullamento e protezione dalla pubblicazione obsoleta. 185 controlli Application, 7 PASS; CLI calculate provata, ingresso protetto da sovrascrittura. Collegamento graduale alla UI in F3.6.
   - [ ] F3.5b: servizio report progetto autonomo e renderer delle figure; il percorso attuale usa ancora SheetEditor per preparare calcoli e figure.
-- [ ] F3.6 Moduli uno alla volta: acciaio e palificata; palo verticale; calcestruzzo; orizzontale ed elastico; muri; ponte [CP ricalcolo ritardato]; sezione c.a. [CP report short senza Word].
+- [~] F3.6 Moduli uno alla volta: acciaio e palificata; palo verticale; calcestruzzo; orizzontale ed elastico; muri; ponte [CP ricalcolo ritardato]; sezione c.a. [CP report short senza Word].
+  - [x] F3.6a (13/10): pali e micropali verticali collegati ai servizi, cache e scheduler; ritardo 450 ms conservato. Nove prove WPF con motore volutamente non cooperativo, cambi di geometria e chiusura. Corsa f3-vertical-service: 10 PASS, 458 file equivalenti; async void da 11 a 10, timer di calcolo da 6 a 5, soglie ridotte.
 - [ ] F3.7 [CP] Chiusura: X.Desktop dipende solo dallo strato applicativo.
 
 ## Fase 4: calcoli residui nelle librerie

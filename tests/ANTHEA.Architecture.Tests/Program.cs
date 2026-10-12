@@ -39,19 +39,20 @@ try
     Check(reportSources.Count(f => File.ReadAllText(f).Contains("ZipArchiveMode.Create")) == 1 &&
         reportSources.Where(f => File.ReadAllText(f).Contains("ZipArchiveMode.Create")).All(f => Path.GetFileName(f) == "DocxWriter.cs"), "Scrittori DOCX duplicati");
     Check(!File.ReadAllText(Path.Combine(root, "src/ANTHEA.Reports/ProjectReportComposer.cs")).Contains("ZipArchive"), "Il report progetto riapre DOCX intermedi");
+    var limits = JsonSerializer.Deserialize<ArchitectureLimits>(File.ReadAllText(Path.Combine(root, "tests/ANTHEA.Architecture.Tests/limits.json")))!;
     var observed = desktop.Types.Where(p => p.Key == "ANTHEA.Calculations" || p.Key.StartsWith("GPCChecker", StringComparison.Ordinal)).ToDictionary();
     foreach (var (assembly, types) in observed)
     {
         Check(baseline.TypeRefs.TryGetValue(assembly, out var allowed), "Nuova dipendenza diretta dal calcolo: " + assembly);
-        Check(types.Length <= allowed!.Length, "TypeRef in aumento: " + assembly);
+        Check(types.Length <= allowed!.Length && types.Length <= limits.TypeRefs.GetValueOrDefault(assembly), "TypeRef in aumento: " + assembly);
         Check(types.All(t => allowed.Contains(t, StringComparer.Ordinal)), "Nuovo tipo di calcolo usato direttamente dalla UI: " + assembly);
     }
     var sources = new[] { "X.Desktop", "X.Materiali" }.Where(d => Directory.Exists(Path.Combine(root, d)))
         .SelectMany(d => SourceFiles(Path.Combine(root, d))).ToArray();
     int asynchronousVoid = sources.Sum(f => Regex.Matches(File.ReadAllText(f), @"\basync\s+void\b").Count);
-    Check(asynchronousVoid <= baseline.AsyncVoid.Sum(f => f.Count), "async void in aumento");
+    Check(asynchronousVoid <= limits.AsyncVoid && asynchronousVoid <= baseline.AsyncVoid.Sum(f => f.Count), "async void in aumento");
     int timers = sources.Sum(f => Regex.Matches(File.ReadAllText(f), @"\bDispatcherTimer\b").Count);
-    Check(timers <= baseline.DispatcherTimer.Sum(f => f.Count), "DispatcherTimer in aumento");
+    Check(timers <= limits.DispatcherTimer && timers <= baseline.DispatcherTimer.Sum(f => f.Count), "DispatcherTimer in aumento");
     // Prove del rilevatore: un riferimento proibito o un target Windows devono essere distinguibili.
     Check(IsDesktop("PresentationFramework") && IsDesktop("WindowsBase") && IsDesktop("Microsoft.Office.Interop.Word"), "Rilevatore dei riferimenti desktop");
     Check(!IsDesktop("System.Runtime") && !IsDesktop("ANTHEA.Application"), "Rilevatore troppo esteso");
@@ -82,3 +83,5 @@ static (string[] Assemblies, Dictionary<string, string[]> Types) Metadata(string
 }
 internal sealed record SourceCount(string File, int Count);
 internal sealed record ArchitectureBaseline(Dictionary<string, string[]> TypeRefs, SourceCount[] AsyncVoid, SourceCount[] DispatcherTimer);
+
+internal sealed record ArchitectureLimits(Dictionary<string, int> TypeRefs, int AsyncVoid, int DispatcherTimer);

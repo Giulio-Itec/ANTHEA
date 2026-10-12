@@ -1,4 +1,4 @@
-# Stato del lavoro notturno — checkpoint 13 ottobre, 01:49
+# Stato del lavoro notturno — checkpoint 13 ottobre, 01:54
 
 Mandato fino alle 07:19 Europe/Rome (05:19 UTC): F2 → STG → SEZ → F3 → F4 se completabile. F5 esclusa. Un commit per punto, test/versioni/merge/push autorizzati; nessun agente parallelo. Preservare la finestra primaria con documento non salvato.
 
@@ -15,3 +15,5 @@ F3.3b chiuso: documenti, revisioni e condivisione in Application, Headless valid
 F3.4 chiuso: report trasferiti, DocxWriter unico, progetto senza ZIP intermedi. Core compatibilità solo TypeForwardedTo, assente dal prodotto. Cattura 013734 e confronto profondo 30 DOCX/134 XML/97 immagini senza differenze; tests Reports 14 controlli + confronto corpus. Prossimo F3.5 servizi moduli/scheduler e F3.6 collegamento graduale; Wiki da estrarre.
 
 F3.5a completato: servizi, cache, scheduler, 185 controlli e CLI calculate. F3.5b autonomizzazione report ancora aperto. Prossimo F3.6 primo collegamento UI su pali verticali, poi moduli tipizzati e Wiki.
+
+F3.6a chiuso: pali verticali con servizi/scheduler, 9 prove WPF dedicate, 10 PASS inclusa equivalenza. Prossimi: ingressi di calcolo tipizzati e Wiki. Ultimi commit c35a041 documenti, cadf784 report, 0260dd9 servizi.
