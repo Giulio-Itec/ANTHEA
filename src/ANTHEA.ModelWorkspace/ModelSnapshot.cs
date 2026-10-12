@@ -10,7 +10,12 @@ public sealed record ModelElement(int Id, string Type, int Property, int[] Nodes
 public sealed record PlateProperty(int Id, string Name, double Thickness, double Offset);
 public sealed record SectionProperty(int Id, string Name, string Shape, double Width, double Height, bool Centered);
 public sealed record CornerResult(int Element, int Node, double[] Values);
-public sealed record ModelDisplacement(int Node,double X,double Y,double Z);
+public sealed record ModelDisplacement(int Node,double X,double Y,double Z)
+{
+    // Optional global rotation vector in radians; absent in historical packages.
+    [JsonIgnore(Condition=JsonIgnoreCondition.WhenWritingNull)]
+    public ModelDirection? Rotation {get;init;}
+}
 public sealed record ModelDirection(double X, double Y, double Z);
 public sealed record ModelLocalFrame(int Element, ModelDirection X, ModelDirection Y, ModelDirection Z);
 public sealed record ModelNodeFrame(int Node, ModelDirection X, ModelDirection Y, ModelDirection Z);
@@ -18,6 +23,8 @@ public sealed record ModelBoundary(string SourceRecord, string Kind, int[] Nodes
 public sealed record ModelImportMessage(string Code, string Severity, string Record, string Message);
 public sealed record ModelResultSet(string Name, bool IsEnvelope, CornerResult[] Values)
 {
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelCombinationDerivation? Combination { get; init; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ResultField[]? Fields { get; init; }
     // Optional imported global displacements in metres, never reconstructed from internal forces.
@@ -36,6 +43,10 @@ public sealed class ModelSnapshot
     public PlateProperty[] Plates { get; set; } = [];
     public SectionProperty[] Sections { get; set; } = [];
     public ModelResultSet[] Results { get; set; } = [];
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelCombinationDefinition[]? CustomCombinations { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string[]? ExcludedCombinationIds { get; set; }
     // Optional additions are omitted from old snapshots, preserving their revision fingerprints.
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, JsonElement>? SourceTables { get; set; }
@@ -53,6 +64,14 @@ public sealed class ModelSnapshot
     public static string Unit(string component) => component.StartsWith('M') ? "kN·m/m" : "kN/m";
     public void Validate()
     {
+        if(CustomCombinations!=null)
+        {
+            ModelCombinations.ValidateDefinitions(CustomCombinations);
+            if(CustomCombinations.Any(d=>!d.Editable||!d.Id.StartsWith(d.Source+"/",StringComparison.Ordinal)))
+                throw new InvalidDataException("Combinazioni personalizzate non valide.");
+        }
+        if(ExcludedCombinationIds is {} excluded && (excluded.Length>10000||excluded.Any(string.IsNullOrWhiteSpace)||excluded.Distinct().Count()!=excluded.Length))
+            throw new InvalidDataException("Elenco delle combinazioni escluse non valido.");
         if (Nodes is null || Elements is null || Plates is null || Sections is null || Results is null || Nodes.Any(n => n is null) || Elements.Any(e => e is null || e.Nodes is null) || Plates.Any(p => p is null) || Sections.Any(s => s is null) || Results.Any(r => r is null || r.Values is null || r.Values.Any(v => v is null || v.Values is null))) throw new InvalidDataException("Il modello contiene dati mancanti.");
         if (Version != 1) throw new InvalidDataException("Versione del modello non supportata.");
         if(UpdateInfo is {} update && (!Enum.IsDefined(update.Scope) || update.InputSource is null || update.InputSource.Length>4000 || update.DiscardedResultCases<0 || update.ResultsCompatibilityVerified!=(update.Scope==ModelUpdateScope.Results)))
@@ -98,13 +117,24 @@ public sealed class ModelSnapshot
         if (Results.Select(r => r.Name).Distinct().Count() != Results.Length) throw new InvalidDataException("Casi di risultato duplicati.");
         foreach (var result in Results)
         {
+            if(result.Combination is {} derivation && (string.IsNullOrWhiteSpace(derivation.DefinitionId)||derivation.InputRevision?.Length!=64||string.IsNullOrWhiteSpace(derivation.Engine)||
+                derivation.RequiredCases==null||derivation.RequiredCases.Any(string.IsNullOrWhiteSpace)||derivation.Governing==null||derivation.Governing.Any(g=>g==null||
+                string.IsNullOrWhiteSpace(g.Alternative)||g.ConcomitantValues==null||g.ConcomitantValues.Any(v=>!double.IsFinite(v))||
+                !(g.Family=="PLATE"&&g.ConcomitantValues.Length==8&&elements.TryGetValue(g.Element,out var plate)&&plate.Type=="PLATE"&&plate.Nodes.Contains(g.Node)&&Components.Contains(g.Component)||
+                  g.Family=="BEAM"&&g.ConcomitantValues.Length==6&&elements.TryGetValue(g.Element,out var beam)&&beam.Type=="BEAM"&&g.Station is >=0 and <=1&&ResultFields.Components("BEAM","LOCAL").Contains(g.Component)||
+                  g.Family=="NODE"&&g.ConcomitantValues.Length==6&&ids.Contains(g.Node)&&new[]{"ux","uy","uz"}.Contains(g.Component)))))
+                throw new InvalidDataException("Provenienza o governanti della combinazione non validi.");
             if (string.IsNullOrWhiteSpace(result.Name) || result.Values.Select(v => (v.Element, v.Node)).Distinct().Count() != result.Values.Length || result.Values.Any(v => !elements.TryGetValue(v.Element, out var e) || e.Type != "PLATE" || !e.Nodes.Contains(v.Node) || v.Values.Length != 8 || v.Values.Any(x => !double.IsFinite(x)))) throw new InvalidDataException("Risultati non validi o non associabili agli elementi.");
             ResultFields.Validate(result, elements);
-            if(result.Displacements is {} displacements && (displacements.Any(d=>d==null||!ids.Contains(d.Node)||!double.IsFinite(d.X)||!double.IsFinite(d.Y)||!double.IsFinite(d.Z))||displacements.Select(d=>d.Node).Distinct().Count()!=displacements.Length))
+            if(result.Displacements is {} displacements && (displacements.Any(d=>d==null||!ids.Contains(d.Node)||!double.IsFinite(d.X)||!double.IsFinite(d.Y)||!double.IsFinite(d.Z)||d.Rotation is {} rotation&&(!double.IsFinite(rotation.X)||!double.IsFinite(rotation.Y)||!double.IsFinite(rotation.Z)))||displacements.Select(d=>d.Node).Distinct().Count()!=displacements.Length))
                 throw new InvalidDataException("Spostamenti importati non validi o non associabili ai nodi.");
         }
         if (SourceTables?.Any(t => string.IsNullOrWhiteSpace(t.Key) || t.Value.ValueKind != JsonValueKind.Object) == true)
             throw new InvalidDataException("Tabelle degli attributi non valide.");
+        // Validate metadata consumed by the viewer before an import can replace the project document.
+        try { _ = ModelCombinations.Read(this); _ = ModelCombinations.StaticCaseNames(this); }
+        catch (Exception ex) when (ex is KeyNotFoundException or InvalidOperationException or FormatException or OverflowException)
+        { throw new InvalidDataException("Tabelle dei casi di carico o delle combinazioni non valide. La copia precedente è stata conservata.", ex); }
         if (ImportMessages?.Any(m => m == null || string.IsNullOrWhiteSpace(m.Code)) == true) throw new InvalidDataException("Rapporto di importazione non valido.");
     }
     public string Fingerprint()

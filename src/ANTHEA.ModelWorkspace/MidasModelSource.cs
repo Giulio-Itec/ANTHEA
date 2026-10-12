@@ -99,7 +99,7 @@ public sealed class MidasModelSource : IMidasModelSource, IDisposable
                 {
                     progress?.Report(new("Spostamenti globali · " + name, completed, total));
                     var argument = Argument("DISPLACEMENTG", name, geometry.Nodes.Select(n => n.Id).ToArray());
-                    argument["COMPONENTS"] = new[] { "Node", "Load", "DX", "DY", "DZ" };
+                    argument["COMPONENTS"] = new[] { "Node", "Load", "DX", "DY", "DZ", "RX", "RY", "RZ" };
                     var response = await client.ResultsAsync(argument, token).ConfigureAwait(false);
                     CheckResultCase(response, name);
                     await Store("displacements-global-" + fileNumber++, response).ConfigureAwait(false);
