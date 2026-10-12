@@ -857,3 +857,10 @@ del full già eseguito e della baseline B6 presente nel checkout principale.
 Le attese di merge, rilascio e copia della baseline annotate l’8 ottobre sono
 superate. Le proposte normative e di contenuto restano aperte; la chiusura non
 vale come ratifica. Evidenze in `chiusura-f29-20261012.md`.
+
+Rilascio Modelli: ricondotte allo stato corrente le vecchie attese di integrazione,
+rilascio, guide e merge. Queste attività sono già concluse in main/origin
+`9b42f093`, collaudate con il set S e documentate dalle guide Rev36. Il connettore
+MIDAS e le combinazioni locali sono disponibili; storico completo, worker Straus,
+prestazioni e componenti principali restano voci distinte e aperte. Questo
+aggiornamento del piano non esegue nuovi merge, push o rilasci.
