@@ -30,9 +30,11 @@ public static class SectionMomentResistance
             token.ThrowIfCancellationRequested();
             try
             {
-                // Direct iterative search: neither Domain3D nor GetFailureDomainResult is called.
-                var point = engine.Checker.SectionSolver.CalculateDomainPoint([engine.Force(new(axial, mx, my))])[0];
-                if (point is null) throw new ArgumentException("Punto resistente non trovato.");
+                // Direct iterative search: neither Domain3D nor GetFailureDomainResult is called. The point comes from the ULS adapter,
+                // library engine (architecture review R2, register F2-17).
+                var outcome = ConcreteResistanceAdapter.Points(engine, [engine.Force(new(axial, mx, my))], token)[0];
+                if (outcome.Point is not { } point)
+                    throw new ArgumentException(outcome.Rejection is null ? "Punto resistente non trovato." : char.ToUpperInvariant(outcome.Rejection[0]) + outcome.Rejection[1..] + ".");
                 var r = CheckerSection.Point(point);
                 double moment = mx != 0 ? r.Mx : r.My, transverse = mx != 0 ? r.My : r.Mx;
                 if (!double.IsFinite(r.N + r.Mx + r.My) || Math.Abs(r.N - axial) > AxialToleranceKn(engine, axial)

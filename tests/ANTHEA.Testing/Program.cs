@@ -39,6 +39,8 @@ try
                 null => null, "legacy" => Anthea.Calculations.ServiceabilityEngine.Legacy, "libreria" => Anthea.Calculations.ServiceabilityEngine.Library,
                 var other => throw new ArgumentException("--motore-sle: legacy o libreria, non " + other)
             };
+            // Il punto resistente SLU della sezione c.a. viene solo dal motore della libreria (registro F2-17): '--motore-slu' non esiste più.
+            if (named.ContainsKey("motore-slu")) throw new ArgumentException("--motore-slu tolta: il punto resistente SLU usa solo il motore della libreria (registro F2-17).");
             return new CaptureRunner(new CaptureOptions(root, output, named.GetValueOrDefault("tag", "cattura"), named.GetValueOrDefault("commit"), only, trace, culture.Name, serviceability)).Run();
         }
         case "compare":

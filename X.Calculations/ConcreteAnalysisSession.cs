@@ -11,7 +11,8 @@ public sealed record ConcreteDomainResult(CheckerDomain3D? Three, CheckerDomain2
 /// One session per sheet. Call a given domain/set once at a time, on input snapshots.</summary>
 public sealed class ConcreteAnalysisSession
 {
-    /// <summary>Sessione con il motore SLE indicato, o con quello predefinito dell'adattatore (refactoring F2.7b, commit A4).</summary>
+    /// <summary>Sessione con il motore SLE indicato, o con quello predefinito dell'adattatore (refactoring F2.7b, commit A4). Il punto resistente
+    /// SLU dei domini viene sempre dal motore della libreria (<see cref="ConcreteResistanceAdapter"/>).</summary>
     public ConcreteAnalysisSession(ServiceabilityEngine? engine = null) => Engine = engine ?? ConcreteServiceabilityAdapter.Default;
 
     /// <summary>Motore SLE (limiti tensionali e fessurazione) della sessione: fissato alla costruzione e parte della firma della cache degli

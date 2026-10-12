@@ -44,10 +44,11 @@ public static partial class ConcreteReinforcementDesign
                 else
                 {
                     var force = solver.Force(action);
-                    var point = solver.Checker.SectionSolver.CalculateDomainPoint([force])[0];
+                    // Punto dall'adattatore SLU, motore della libreria (revisione di architettura R2, registro F2-17).
+                    var point = ConcreteResistanceAdapter.Points(solver, [force], token)[0].Point;
                     if (point is not null)
                     {
-                        double value = point.CalculateWorkingRatio(CheckerSection.Criterion("Eccentricità costante"), force, 1e6, 1000);
+                        double value = point.WorkingRatio(CheckerSection.Criterion("Eccentricità costante"));
                         var resistance = CheckerSection.Point(point);
                         if (double.IsFinite(value) && value >= 0 && double.IsFinite(resistance.N + resistance.Mx + resistance.My)) ratio = value;
                     }

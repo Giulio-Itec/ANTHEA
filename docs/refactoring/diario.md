@@ -636,3 +636,54 @@ Branch `refactoring/integrazione-4` (da 45a3193). Prove e log in `supporto/artef
   Segnalato all'utente, non corretto. Saltando il caso tutto il resto di `--checker` passa; 25 righe stampate cambiano solo
   nell'ultima cifra (F2-5).
 - Profilo standard `int4-a5-std` sui commit: PASS 39, KNOWN 1, NEW-FAIL 0.
+
+## Revisione di architettura R2 (11/10/2026)
+
+Branch `claude/revisione-architettura` (da main 7852f67, con T2 9593c69), non unito, non pushato. Punto R2 della revisione
+delle librerie GPC: il calcolo SLU della sezione ha un solo proprietario, la porta `ISectionResistanceSolver` di
+GPCChecker.Concrete. In Checker (5f87a390) i tre ingressi pubblici del punto grezzo sono `[Obsolete]`.
+- `X.Calculations/ConcreteResistanceAdapter.cs`: motori Legacy (punto grezzo, predefinito) e Library; sonda
+  `ServiceabilityProbe`; motore fissato alla costruzione di `CheckerSection`; una sola sessione della libreria per sezione.
+  Dominio 3D (Check e CheckMany), `SectionMomentResistance`, progetto delle armature, sessione di calcolo, calcolo headless e
+  `CalculationService` (solo `str_palo`; muri e palo orizzontale restano sul predefinito) passano dall'adattatore.
+- Cattura prima/dopo con il predefinito: 546 file uguali salvo i 21 tempi volatili. Cattura con `--motore-slu libreria`:
+  uguale anche lei (il corpus ha 11 verifiche 3D, tutte a N costante).
+- Prove 12a-12g in `tests/ConcreteLibraryAdapter.Checks/Resistance.cs`: su 1800 forze di una griglia di 30 configurazioni
+  687 punti grezzi non rispettano i vincoli della ricerca; con la libreria 1113 uguali, 137 spostati (nessun esito
+  cambiato), 550 senza punto, di cui 126 che il legacy dava entro il dominio: 106 hanno la direzione di ricerca nulla (per esempio
+  N = 0 con Mx–My costanti), dove il legacy dà η = 0 qualunque sia il momento, esito non cautelativo segnalato all'utente.
+  Voce F2-17 del registro, da decidere
+  dall'utente; il predefinito resta Legacy, quindi report e risultati non cambiano.
+
+### Decisione F2-17: solo il motore della libreria (11/10/2026, sera)
+
+L'utente: «il motore deve essere solo quello della libreria». Su branch `claude/revisione-architettura`:
+- `ConcreteResistanceAdapter` ha solo il motore della libreria: tolti il motore Legacy, l'enum `ResistanceEngine`, i parametri
+  di `CheckerSection`, `ConcreteAnalysisSession`, `ConcreteAnalysis`, `CalculationService`, `SectionMomentResistance` e
+  `ConcreteDesignOptions`, e l'opzione `--motore-slu` della cattura (la sonda registra il motore «Library»).
+- Prove 12 riscritte: il riferimento è il punto grezzo chiamato direttamente. Griglia uguale a prima (1113 uguali, 137 spostati,
+  550 senza punto, 126 che il punto grezzo dava entro il dominio); nuova 12c: le domande con direzione di ricerca nulla sono
+  rifiutate con il motivo della libreria. 6227 controlli superati.
+- Banco F2.1 (ConcreteBench): 3373 controlli superati. In 2 resistenze con lo stress block la libreria scarta il punto grezzo
+  fuori dai vincoli e il suo valore è più vicino all'atteso indipendente (SLU-R1-SB-N0 −: −69,7202 contro −69,6061, atteso
+  −69,7312 kNm; SLU-C2-SB-N1500 +: 706,566 contro 707,017, atteso 706,486 kNm). Il banco ammette la differenza fra modulo e punto
+  grezzo solo quando il punto grezzo è fuori dai vincoli.
+- Cattura del corpus uguale a quelle di R2 con i due motori su 546 file salvo i 21 tempi volatili. Evidenze in
+  `supporto/artefatti/refactoring/revisione-r2/solo-libreria`. Registro: F2-17 corretto, con la decisione.
+
+## Merge in main e ANTHEA 1.2.0 (12/10/2026)
+
+Richiesta dell'utente: portare tutto in master, aggiornare le dipendenze, unire tutti i branch di ANTHEA, controllare, nuova
+versione e installer 1.2.0.
+- Librerie: master di Utilities, Geometry, Model e Checker portati in fast-forward ai branch `claude/revisione-architettura`
+  e pushati (Utilities 503e28c, Geometry 1f40436, Model d39fbe93, Checker 14ba7116). Primo set di rilascio da master
+  (`Release-Set.ps1`, non candidato): tutte le suite verdi, DLL identiche bit per bit al set candidato dell'11/10.
+- ANTHEA main: fast-forward a `claude/revisione-architettura`, poi merge di `codex/model-viewer-draft` (e6c109f1; conflitto
+  solo nel registro, risolto tenendo F2-17 e le voci MOD), `lib/Checker` dalla release R (10e19346, cambia solo il manifest),
+  versione 1.2.0 (fc632464).
+- Verifiche sul main unito: quick `merge-quick` PASS 27; baseline `rel-baseline` PASS 48, KNOWN 1, NEW-FAIL 0 (cattura del
+  corpus uguale a quella del branch su 546 file salvo i 21 tempi volatili; banco c.a. con le sole differenze attese S4-1 e
+  S4-2); full `rel-full` PASS 81, KNOWN 1 (`verifiche/project-calculations`), NEW-FAIL 0.
+- Installer `ANTHEA-1.2.0-Setup-x64.exe` (59,1 MB, SHA256 7B20009D5AB3AFCE90FA72B2C86EC9FE28E5E85E3FE2F4F2B4FC34148B383344),
+  ANTHEA.exe 1.2.0.0, prodotto `1.2.0+fc632464`, guide Rev32. Compilato da un worktree pulito a fc632464, perché nel checkout
+  principale c'era lavoro di un altro agente non committato (fondazioni superficiali), che non compila ancora.

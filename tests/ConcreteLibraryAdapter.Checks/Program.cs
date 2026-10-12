@@ -21,6 +21,7 @@ using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 //    predefinito (5 norme; torsione NTC su 5 forme e 3 valori di cot θ), con più righe che distinguono i motori.
 // 4. Attesi indipendenti (reference.json, benchmark e forme chiuse di taglio e torsione) sul percorso dell'adattatore, con entrambi i motori.
 // 11. Durabilità e copriferri (refactoring F2.9): Durability.cs.
+// 12. Punto resistente SLU (revisione di architettura R2, registro F2-17): Resistance.cs. '--solo-slu' esegue solo la 12, senza misura.json.
 // 5l (F2.7, commit A2; LegacyServiceability da A3; adattatore SLE e sonda da A4): stato statico di Ntc2018Checks, ConcreteLibraryMapping,
 //    ConcreteShearTorsionAdapter, LegacyServiceability, ConcreteServiceabilityAdapter e ServiceabilityProbe per riflessione (StaticState.cs), con le eccezioni
 //    dichiarate (Ntc2018Checks.Exposures fino ad A11; l'AsyncLocal della sonda). Contata a parte; in misura.json da A4.
@@ -35,10 +36,11 @@ using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 // Uscita 0 con la riga "PASS · …"; 1 con il primo controllo fallito.
 const ShearTorsionEngine ExpectedDefault = ShearTorsionEngine.Library; // F2.5 e cattura di B3: legacy; F2.6: libreria
 const ServiceabilityEngine ExpectedServiceabilityDefault = ServiceabilityEngine.Legacy; // F2.7b A4: legacy; A8: libreria
-string? output = null; bool onlySle = false, quick = false; HashSet<string>? proofs = null;
+string? output = null; bool onlySle = false, onlyUls = false, quick = false; HashSet<string>? proofs = null;
 for (int i = 0; i < args.Length; i++)
 {
     if (args[i] == "--solo-sle") onlySle = true;
+    else if (args[i] == "--solo-slu") onlyUls = true;
     else if (args[i] == "--rapido") quick = true;
     else if (args[i] == "--prove" && i + 1 < args.Length) proofs = args[++i].Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToHashSet();
     else output = args[i];
@@ -166,7 +168,7 @@ try
     };
     int staticMembers = 0; var excepted = new List<string>();
     foreach (var type in new[] { typeof(Ntc2018Checks), typeof(ConcreteLibraryMapping), typeof(ConcreteShearTorsionAdapter), typeof(LegacyServiceability),
-        typeof(ConcreteServiceabilityAdapter), typeof(ServiceabilityProbe) })
+        typeof(ConcreteServiceabilityAdapter), typeof(ServiceabilityProbe), typeof(ConcreteResistanceAdapter) })
     {
         var (members, violations) = StaticState.Inspect(type);
         staticMembers += members;
@@ -188,6 +190,15 @@ try
         foreach (var line in partialSle.Lines) Console.WriteLine(line);
         Console.WriteLine($"PASS · {partialSle.Checks} controlli SLE dell'adattatore ({(proofs is null ? "tutte le prove" : "prove " + string.Join(", ", proofs))}), "
             + $"{staticChecks} della 5l e {thinCastingChecks} della 7a; griglie di taglio e torsione non eseguite.");
+        return 0;
+    }
+
+    // ---------------------------------------------------------------- 12 da sola (revisione di architettura R2), senza misura.json
+    if (onlyUls)
+    {
+        var partialUls = ResistanceChecks.Run(root, Check);
+        Console.WriteLine(partialUls.ToJsonString(J.Options));
+        Console.WriteLine($"PASS · {count} controlli dello SLU (12) e dell'interruttore di taglio e torsione, {staticChecks} della 5l e {thinCastingChecks} della 7a.");
         return 0;
     }
 
@@ -524,13 +535,17 @@ try
     {
         // Interruttore SLE già controllato nella sezione 2; qui quello della durabilità (11b nella corsa completa).
         Check(ConcreteDurabilityAdapter.Default == DurabilityChecks.ExpectedDefault, $"motore della durabilità predefinito {ConcreteDurabilityAdapter.Default}, atteso {DurabilityChecks.ExpectedDefault}");
-        Console.WriteLine($"PASS · {count} controlli (rapido: sezioni 1-4 e interruttori della durabilità e delle SLE; griglie 11 e SLE nello stadio regression), "
+        ResistanceChecks.CheckEngine(Check);
+        Console.WriteLine($"PASS · {count} controlli (rapido: sezioni 1-4 e interruttori della durabilità, delle SLE e dello SLU; griglie 11, 12 e SLE nello stadio regression), "
             + $"{staticChecks} della 5l e {thinCastingChecks} della 7a.");
         return 0;
     }
 
     // ---------------------------------------------------------------- 11. durabilità e copriferri (F2.9): Durability.cs
     var durability = DurabilityChecks.Run(root, Check);
+
+    // ---------------------------------------------------------------- 12. punto resistente SLU (revisione di architettura R2): Resistance.cs
+    var resistance = ResistanceChecks.Run(root, Check);
 
     // ---------------------------------------------------------------- SLE (F2.7, commit A4): prove 5a-5k, 5m e 6 con entrambi i motori
     var sle = ServiceabilityChecks.Run(root, proofs);
@@ -542,8 +557,11 @@ try
         .Append($"taglio del calcolo headless: {headlessShearRouted} righe coincidenti con il motore predefinito {ConcreteShearTorsionAdapter.Default}, {headlessShearDiscriminating} con uscite dei due motori diverse")
         .Append($"torsione del calcolo headless: {headlessRouted} righe coincidenti con l'adattatore del motore predefinito {ConcreteShearTorsionAdapter.Default}, {headlessDiscriminating} con uscite dei due motori diverse (sola torsione e calcolo intero)")
         .Append($"attesi indipendenti: {independent} controlli superati con i motori Legacy e Library")
+        .Append($"punto resistente SLU (12): {resistance["12d_griglia"]!["forze"]} forze, {resistance["12d_griglia"]!["grezzi_fuori_dai_vincoli"]} punti grezzi fuori dai vincoli della ricerca; "
+            + $"libreria: {resistance["12d_griglia"]!["uguali"]} uguali, {resistance["12d_griglia"]!["spostati"]} spostati, {resistance["12d_griglia"]!["rifiutati"]} rifiutati, "
+            + $"{resistance["12d_griglia"]!["recuperati"]} recuperati; motore unico {ConcreteResistanceAdapter.Engine}")
         .Append($"stato statico (5l): {staticChecks} controlli superati, {staticMembers} membri statici di Ntc2018Checks, ConcreteLibraryMapping, ConcreteShearTorsionAdapter, LegacyServiceability, "
-            + $"ConcreteServiceabilityAdapter e ServiceabilityProbe; "
+            + $"ConcreteServiceabilityAdapter, ServiceabilityProbe e ConcreteResistanceAdapter; "
             + $"campione con {sample.Length} violazioni riconosciute; eccezioni dichiarate: {string.Join(", ", declaredStatic.Keys)}")
         .Append($"getti sottili (7a): {thinCastingChecks} controlli superati; griglia di {thinCasting.Cases} casi ({thinCasting.Reduced} con riduzione) e {thinCasting.Rejections} rifiuti "
             + $"uguali all'espressione legacy; {thinCasting.Readers} letture di 'gettato_sottile' con il fattore della mappatura")
@@ -562,6 +580,7 @@ try
         report["casi_minimi_che_distinguono_i_motori"] = MinimumDiscriminating;
         report["attesi_indipendenti"] = independent;
         report["durabilita"] = durability;
+        report["resistenza_slu"] = resistance;
         // Da F2.7b A4: stato statico (5l), getti sottili (7a) e parte SLE dell'adattatore, ciascuno con i propri conteggi; 'controlli' resta quello
         // di taglio e torsione.
         report["stato_statico_5l"] = new JsonObject { ["controlli"] = staticChecks, ["membri_statici"] = staticMembers, ["eccezioni_dichiarate"] = new JsonArray(declaredStatic.Keys.Select(k => (JsonNode)k).ToArray()) };
