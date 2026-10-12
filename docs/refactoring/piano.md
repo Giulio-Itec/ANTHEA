@@ -302,7 +302,7 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] Collaudo della build e25b7ed: standard 43 PASS / 1 KNOWN / 0 nuovi fallimenti; WPF isolato 138 PASS, diagrammi/report 17 PASS, deformate/report 9 PASS, tutte le otto pagine PDF controllate.
 - [x] 12 ottobre: importazione MIDAS API dal modulo Modelli, scelta dei casi, quattro ambiti, progresso/annullamento, controllo completezza e stabilità della sorgente; dati normalizzati riusati solo a input identico. Prova reale G1 identica al riferimento; 381 controlli logici e 17 WPF. MOD-28.
 - [x] 12 ottobre: predisposizione Straus/Strand7 R3 con selezione modello/risultati/API, controllo file e DLL nativa x64 e contratto del futuro worker; importazione esplicitamente disattivata fino all'integrazione del convertitore distribuito. MOD-29.
-- [ ] Modelli: includere i convertitori nel set GPC coerente, completare la normalizzazione della prima importazione MIDAS e attivare il worker Straus/Strand7 con prova nativa. Versioni assegnate dall'utente; nessun aggiornamento isolato delle DLL.
+- [ ] Modelli: includere i convertitori nel set GPC coerente, completare la normalizzazione della prima importazione MIDAS e attivare il worker Straus/Strand7 con prova nativa. Versioni secondo la delega del 12/10; nessun aggiornamento isolato delle DLL.
 - [x] Collaudo finale importazioni: profilo quick 27 PASS, nessun nuovo fallimento; 381 controlli logici, 17 WPF del pannello e 32 WPF di regressione dell'integrazione. Evidenze `20261012-120857-import-midas-straus-finale` e `20261012-121018-import-ui-regressione`.
 - [x] 12 ottobre: guida pratica Rev33, capitolo 20 sull'importazione MIDAS nel modulo Modelli in prova; connessione, quattro ambiti, selezione sostitutiva dei casi, salvataggio, revisione e recupero dagli errori. Aggiornati Word, PDF e indici; Rev32 pratica archiviata con SHA-256. Confronto dei 60 fogli precedenti del corpo del PDF senza variazioni di contenuto. Evidenze `supporto/artefatti/guide_anthea_itec_rev33`.
 
@@ -334,3 +334,16 @@ Attività autorizzata dall'utente, ramo `refactoring/f5-fondazioni-superficiali`
 - [x] Collaudo full: 88 PASS / 1 KNOWN preesistente / 0 NEW-FAIL, nessun file alterato dalle suite. Baseline: 6 PASS, 548 file completi e 50996 righe / 27 file densi senza differenze non ammesse; attesi e tolleranze invariati. DelaunayMesh identica e 39 prove di mesh/contratti del set superate. Evidenze `20261012-170114-release-s-full` e `20261012-165624-release-s-baseline`.
 
 - [x] Adeguato il confine Fondazioni al contratto 2 pubblicato: coefficienti Hansen, dominio esaurito, rapporti indefiniti e viste indisponibili. FON-03; 44 controlli funzionali e 86 WPF passati. Guide globali Rev36 allineate e precedenti conservate.
+
+## Blocco autorizzato il 12 ottobre 2026 — chiusure F2 e supporto reologia
+
+L’utente approva i primi cinque passi proposti e aggiunge il punto 5.2; un commit
+per ogni punto concluso, con aggiornamento ed evidenze. Le voci seguenti coordinano
+le attività già tracciate, senza dichiarare chiusi i residui delle fasi successive.
+
+- [ ] 1. API-02b: set coerente con il fix circolare, collegamento di interassi/dettagli/fessurazione, confronto prima/dopo e collaudo. Distinguere il set candidato sul ramo dal rilascio pubblicato.
+- [ ] 2. Validazioni approvate: F2.7-U5 (φ non negativo nella vista), F2.7-U7 (`staffe_presenti` coerente), F2.8-U2 (rami delle staffe interi fra 2 e 100 quando attivi).
+- [ ] 3. SLE/dettagli: F2.7-U1 (interasse delle sezioni interamente tese), U3 (getti sottili UNI), A10 (omogeneizzazione tramite API GPC); differenze dichiarate prima dell’attivazione.
+- [ ] 4. Mesh e parallelismo: costruzione sicura delle sezioni, stesso risultato bit per bit per le mesh usuali, rimozione del lock soltanto dopo la prova; stato condiviso residuo verificato.
+- [ ] 5. Collaudo del blocco F2: librerie, confronto numerico, WPF, registro delle differenze e build di prova. Il legacy attivo si conserva finché non sono soddisfatte revisione, equivalenza e autorizzazione alla rimozione.
+- [ ] 5.2. Finestra autonoma «Reologia del calcestruzzo», WPF/MVVM, richiamabile dai punti pertinenti: dati del CLS e di maturazione, φ(t,t₀), φ a infinito, E(t) e fattore E(t)/E₂₈, grafici e tabella. Calcoli in GPC Model; separazione fra modulo elastico per maturazione e coefficienti di viscosità. Guide globali e PDF aggiornati; nessun report di calcolo esistente modificato.

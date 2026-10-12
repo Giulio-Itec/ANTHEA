@@ -908,3 +908,13 @@ se la corrente le appartiene. Le sonde annidate mantengono registri separati.
 istantanee, errori e disattivazione. Regressione completa degli adattatori passata;
 548 file e 50.996 righe dense invariati, salvo tempi e identificativi casuali.
 Registro F2-19. Nessuna eliminazione del legacy di calcolo o variazione normativa.
+
+## Blocco F2 e finestra Reologia — autorizzazione del 12 ottobre 2026
+
+L’utente approva i cinque passi proposti (API-02, validazioni, residui SLE,
+mesh/parallelismo e collaudo) e chiede il punto 5.2: finestra di supporto alla
+progettazione per φ nel tempo, φ a infinito e modulo elastico nel tempo, usando
+il codice di Model. La UI è separata e riutilizzabile, con parametri, grafici e
+tabella; E(t)/E₂₈ è mostrato insieme a E(t) per chiarire il significato del fattore.
+Ogni chiusura ha commit e aggiornamento. Le immagini fornite sono riferimenti
+funzionali della finestra, non fonti dei calcoli o contenuti da copiare nelle guide.
