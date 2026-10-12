@@ -1,5 +1,11 @@
 # F2.1 — Matrice di copertura delle API del calcestruzzo armato
 
+> Fotografia storica di F2.1/S1, conservata per la provenienza del refactoring.
+> Stato al 12/10/2026: le API dei dettagli di solette e pareti sono distribuite nel
+> set S e collegate ad ANTHEA (F2.3a, API-01). Per implementazioni e residui correnti
+> leggere [piano](piano.md) e [audit dei contratti](audit-contratti-moduli-20261012.md);
+> le lacune descritte sotto non vanno interpretate come inventario della release attuale.
+
 Passo F2.1 del [piano](piano.md). Per ogni nucleo c.a. legacy di `X.Calculations` chiamato dalla
 produzione: la funzione equivalente di `GPCChecker.Concrete`, l'adattatore ANTHEA che la
 collegherà in F2.5-F2.9, le fixture e i test che la coprono e i buchi da chiudere in F2.3.

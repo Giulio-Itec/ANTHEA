@@ -891,3 +891,11 @@ F2.11a: riconciliata la voce dei sei file geotecnici con il commit `83081a67`,
 già integrato in main e collaudato col set S. La loro eliminazione era autorizzata
 dall’utente il 12 ottobre. Gli altri residui di F2.11 diventano sottopunti distinti;
 non si estende l’autorizzazione alla rimozione dei motori legacy ancora attivi.
+
+F2.3a: chiusa la vecchia attesa delle API dei dettagli di solette e pareti, già
+disponibili nel set S e collegate dal riuso API-01. Verificati l’adattatore, la prova
+delle chiamate IL e i 266 casi congelati della suite, passata anche nella corsa
+standard del 12 ottobre sera. La matrice F2.1 resta una fotografia storica di S1,
+con un rimando esplicito allo stato attuale. Mesh, tracce residue e scostamenti
+normativi restano aperti; il caso circolare API-02 non viene considerato risolto
+nel prodotto per il solo fatto che la correzione è pronta in Checker.
