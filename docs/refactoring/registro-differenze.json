@@ -1961,6 +1961,33 @@
         "api02-geometria-indipendente.json: archi nominali",
         "ANTHEA.ApiReuse.Checks: conservazione del precedente e selezione reale in sessione"
       ]
+    },
+    {
+      "id": "FON-03",
+      "data": "2026-10-12",
+      "fase": "Integrazione rilascio S",
+      "titolo": "Adattatore Fondazioni per il contratto 2 distribuito",
+      "famiglia": "geotecnica/presentazione",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Il set S pubblicato espone ContractVersion 2: il precedente controllo solo sulla versione 1 disabilitava il calcolo. ANTHEA riconosce il contratto distribuito, espone separatamente i coefficienti additivi Hansen e conserva i risultati con resistenza nulla e rapporti indefiniti; nessuna formula trasferita dalla libreria.",
+      "codice": [
+        "src/ANTHEA.FoundationWorkspace/FoundationDocument.cs",
+        "src/ANTHEA.FoundationWorkspace/FoundationPresentation.cs",
+        "X.Desktop/Wpf/FoundationWorkspace.cs",
+        "tests/FoundationWorkspace.Checks/Program.cs"
+      ],
+      "segno": "Esempio EC7 invariato a 1906871.3740371945 N; dominio esaurito distinto da errore di input. Il test ordinario richiede API disponibile e non accetta piu il fallback della DLL precedente.",
+      "test": [
+        "44 controlli funzionali e 86 controlli WPF del rilascio installato passati",
+        "ANTHEA full: 88 PASS, 1 KNOWN preesistente, 0 NEW-FAIL; baseline 6 PASS, nessuna differenza non ammessa",
+        "Attesi numerici indipendenti e fixture preservati"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261012-165204-release-s-foundation-contract2",
+        "supporto/artefatti/release-s-20261012"
+      ],
+      "documento": "docs/sviluppo/fondazioni-superficiali.md"
     }
   ]
 }

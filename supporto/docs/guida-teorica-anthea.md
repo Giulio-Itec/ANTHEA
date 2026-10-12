@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 5 aggiornata il 12 ottobre 2026 — revisione documentale 34
+Edizione 5 aggiornata il 12 ottobre 2026 — revisione documentale 36
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -2961,7 +2961,7 @@ $$ a=H/(N+A'c'\cot\varphi),\quad i_q=(1-a)^m,\quad i_\gamma=(1-a)^{m+1}
 
 $$ i_c=i_q-(1-i_q)/(N_q-1)
 
-Si richiede a minore di uno e ic non negativo. Per Meyerhof sulla striscia, θ = arctan(H/N), ic = iq = (1 − θ/(π/2))²; iγ = (1 − θ/φ)² se θ non supera φ, altrimenti zero. Gli angoli nelle formule sono radianti. Hansen con azioni tangenziali non è implementato: non si applicano i fattori di un altro autore.
+Per una resistenza positiva si richiede a minore di uno e ic non negativo. Azioni oltre questi limiti esauriscono il dominio resistente: la resistenza restituita è nulla, con avviso ed esito negativo nel profilo normativo. Per Meyerhof sulla striscia, θ = arctan(H/N), ic = iq = (1 − θ/(π/2))²; iγ = (1 − θ/φ)² se θ non supera φ, altrimenti zero. Gli angoli nelle formule sono radianti. Hansen con azioni tangenziali non è implementato: non si applicano i fattori di un altro autore.
 
 ### Condizioni non drenate
 
@@ -2971,7 +2971,7 @@ Hansen con carico normale usa invece una forma additiva:
 
 $$ q_{lim}=c_u(\pi+2)(1+0{,}2r+0{,}4k)+q
 
-I valori s e d esposti per questo ramo sono gli incrementi 0,2r e 0,4k, mentre i = 0. Moltiplicarli sarebbe un errore. Il ramo Hansen non drenato inclinato è escluso; non si adotta una correzione non riscontrata del fattore di forma.
+I valori s′ e d′ della tabella additiva sono gli incrementi 0,2r e 0,4k, mentre i′ = 0. La stessa tabella espone il fattore 1 + s′ + d′ − i′. Moltiplicarli sarebbe un errore. Il ramo Hansen non drenato inclinato è escluso; non si adotta una correzione non riscontrata del fattore di forma.
 
 ### Terzaghi e rottura locale
 
@@ -2986,6 +2986,8 @@ La riduzione di Terzaghi per rottura locale pone c′rid = 2c′/3 e tan φrid =
 Il profilo usa terreno, strato e sondaggio comuni ai moduli geotecnici. Le quote sono riferite al piano campagna; i pesi sopra il piano di posa vengono integrati per strato. In drenato si sottrae la pressione interstiziale idrostatica; in non drenato il confinamento resta totale. In caso di interfaccia coincidente con la base si assume il materiale immediatamente sottostante. Profili identici traslati rispetto a un diverso riferimento altimetrico danno lo stesso risultato.
 
 La resistenza richiede proprietà omogenee sotto la base e l'ipotesi esplicita di semispazio. Il fondo disegnato è il limite dei dati inseriti, non un confine resistente rigido. Nessun parametro medio sostituisce materiali diversi. La classe del calcestruzzo e il suo legame sono dati comuni del progetto; non intervengono nel modello geotecnico e non generano automaticamente peso o verifiche strutturali.
+
+Una risultante esterna alla base annulla l’area efficace e la resistenza del metodo, salvo le ipotesi non supportate che restano rifiutate. N/A′ con area nulla e N/R con resistenza nulla restano indefiniti. Il confronto caratteristico conserva la propria etichetta e non costituisce un esito normativo. Il calcolo non estende le formule oltre il loro dominio per ottenere resistenze favorevoli.
 
 ### Pressioni di contatto e area efficace
 

@@ -1,6 +1,6 @@
 # Materiale di supporto ANTHEA
 
-La documentazione utente è raccolta in due guide globali: pratica Rev35 e teorica Rev34 del 12 ottobre 2026.
+La documentazione utente è raccolta in due guide globali: pratica e teorica Rev36 del 12 ottobre 2026.
 
 - [Guida pratica e UI](docs/guida-pratica-anthea.md): procedure e interfaccia di tutti i moduli; il capitolo finale descrive l'importazione da MIDAS nel modulo Modelli in prova.
 - [Guida teorica](docs/guida-teorica-anthea.md): modelli, formule, ipotesi, limiti, approfondimenti e appendici tecniche di tutti i moduli.

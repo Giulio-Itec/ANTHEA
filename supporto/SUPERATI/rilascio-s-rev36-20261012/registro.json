@@ -1,0 +1,86 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/rilascio-s-rev36-20261012/supporto/docs/guida-pratica-anthea.md",
+    "sha256": "d20024b50a2f28c6b348848557169090059bdeefc062674574e39ebe346d879a",
+    "motivo": "Allineamento guide al contratto 2 del rilascio GPC S; conservazione edizione precedente",
+    "sostituzione": "Guide globali Rev36"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/rilascio-s-rev36-20261012/supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "3f59ed3ddc8e2489358e5d5593153219926e61ef499987d1a31fb0412e232edf",
+    "motivo": "Allineamento guide al contratto 2 del rilascio GPC S; conservazione edizione precedente",
+    "sostituzione": "Guide globali Rev36"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "archivio": "supporto/SUPERATI/rilascio-s-rev36-20261012/supporto/docs/guida-teorica-anthea.md",
+    "sha256": "dc2b525f97ad2f9cad137cbf3c123e71ea98d16b577f9ce110ca9bfa1d2c6f60",
+    "motivo": "Allineamento guide al contratto 2 del rilascio GPC S; conservazione edizione precedente",
+    "sostituzione": "Guide globali Rev36"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/rilascio-s-rev36-20261012/supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "bcc518d2ca3c70b0621e85b583bcfa64e8cf173f1e9148f39183b596c921dd73",
+    "motivo": "Allineamento guide al contratto 2 del rilascio GPC S; conservazione edizione precedente",
+    "sostituzione": "Guide globali Rev36"
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/rilascio-s-rev36-20261012/supporto/README.md",
+    "sha256": "668901a4772329b696471c11563be894773541027f7c47d7dbc681a362996cd2",
+    "motivo": "Allineamento guide al contratto 2 del rilascio GPC S; conservazione edizione precedente",
+    "sostituzione": "Guide globali Rev36"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/rilascio-s-rev36-20261012/supporto/README.pdf",
+    "sha256": "95edc689c0fbafc9f6d95eaa76f523a27fb543b67d56e611084b1caa5394b114",
+    "motivo": "Allineamento guide al contratto 2 del rilascio GPC S; conservazione edizione precedente",
+    "sostituzione": "Guide globali Rev36"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/rilascio-s-rev36-20261012/supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "be262bbe1510b39cb8db6d0be788a4f1870b43d5dd16a1a7a954b7dad92ebe29",
+    "motivo": "Allineamento guide al contratto 2 del rilascio GPC S; conservazione edizione precedente",
+    "sostituzione": "Guide globali Rev36"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "archivio": "supporto/SUPERATI/rilascio-s-rev36-20261012/supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "54c903837090cde6a8bf7d161095a8d50be85874232b6aa41cbb36513b0116dc",
+    "motivo": "Allineamento guide al contratto 2 del rilascio GPC S; conservazione edizione precedente",
+    "sostituzione": "Guide globali Rev36"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev35.docx",
+    "archivio": "supporto/SUPERATI/rilascio-s-rev36-20261012/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev35.docx",
+    "sha256": "5bb6fa709e11fcfbe28d2d6c987649d4fc7f5e8d240b2d0676de469c7a423e15",
+    "motivo": "Allineamento guide al contratto 2 del rilascio GPC S; conservazione edizione precedente",
+    "sostituzione": "Guide globali Rev36"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev35.pdf",
+    "archivio": "supporto/SUPERATI/rilascio-s-rev36-20261012/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev35.pdf",
+    "sha256": "3f59ed3ddc8e2489358e5d5593153219926e61ef499987d1a31fb0412e232edf",
+    "motivo": "Allineamento guide al contratto 2 del rilascio GPC S; conservazione edizione precedente",
+    "sostituzione": "Guide globali Rev36"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev34.docx",
+    "archivio": "supporto/SUPERATI/rilascio-s-rev36-20261012/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev34.docx",
+    "sha256": "35efed08e91eb88c71f1c2832c8f8da04e7a863c1a3b411d6079f0f30e421008",
+    "motivo": "Allineamento guide al contratto 2 del rilascio GPC S; conservazione edizione precedente",
+    "sostituzione": "Guide globali Rev36"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev34.pdf",
+    "archivio": "supporto/SUPERATI/rilascio-s-rev36-20261012/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev34.pdf",
+    "sha256": "bcc518d2ca3c70b0621e85b583bcfa64e8cf173f1e9148f39183b596c921dd73",
+    "motivo": "Allineamento guide al contratto 2 del rilascio GPC S; conservazione edizione precedente",
+    "sostituzione": "Guide globali Rev36"
+  }
+]

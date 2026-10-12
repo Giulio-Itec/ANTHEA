@@ -302,11 +302,18 @@ Attività autorizzata dall'utente, ramo `refactoring/f5-fondazioni-superficiali`
 - [x] Profili Soil/SoilLayer/SoilProfile di Model riutilizzati, tabella degli strati come il palo verticale, CLS e terreno condivisi nei Progetti, pagina unica con schede soltanto grafiche; registro FON-02.
 - [x] Pressioni di contatto senza trazione, area efficace nei due assi e schema illustrativo di Prandtl; 23 test Checker, 67 controlli documento/Progetti/UI, input richiudibili senza perdere il risultato.
 - [x] Collaudo estensione: standard 45 PASS / 1 KNOWN / 0 nuovi fallimenti; runner mirato documento/UI tutto PASS. Wiki e guide Rev34 rigenerate, controllo grafico completato, Rev33 archiviate.
-- [ ] Rilascio coerente: altre versioni in attesa dell'assegnazione dell'utente, controllo riproducibilità Model, suite del treno, installazione manifest e runner full. Lo snapshot distribuito resta invariato.
+- [x] Rilascio coerente S con versioni assegnate e pubblicate dall’utente: provenienza e impronte verificate, suite del treno conservate, manifest installati e runner full superato. Adattatore Fondazioni aggiornato al contratto 2; dettagli sotto (FON-03).
 
 ## Integrazione F4 e combinazioni — 12 ottobre 2026
 
 - [x] Su richiesta dell'utente, integrati i contenuti di `refactoring/f4-riuso-api` nel ramo `codex/model-combinations`: nessun conflitto nel codice; conservati i registri di entrambi i rami.
 - [x] Riunite le guide: pratica Rev35 con Fondazioni e importazione Modelli (capitolo 21), teoria Rev34 invariata. Indice Wiki di 66 articoli; revisioni originali archiviate con SHA-256.
 - [x] Compilazione e runner quick dell'integrazione: 31 PASS, 0 NEW-FAIL (`20261012-162043-merge-f4-combinations`), con le DLL distribuite correnti.
-- [ ] Rilascio delle DLL dopo le versioni curate dall'utente, runner full e successivo merge su main e push autorizzati.
+- [x] Installato il set S dopo le versioni curate dall’utente; runner full 88 PASS, 1 KNOWN preesistente, 0 NEW-FAIL. Merge su main e push autorizzati dopo il collaudo.
+
+## Aggiornamento DLL al set S — 12 ottobre 2026
+
+- [x] Verificate le versioni assegnate e pubblicate dall'utente: set coerente S, dodici DLL e nove suite originali, 2698 PASS e 17 fallimenti Steel già censiti. Commit e SHA-256 controllati; installato il sottoinsieme ANTHEA con `Update-Snapshot.ps1 -ReleaseSet`.
+- [x] Collaudo full: 88 PASS / 1 KNOWN preesistente / 0 NEW-FAIL, nessun file alterato dalle suite. Baseline: 6 PASS, 548 file completi e 50996 righe / 27 file densi senza differenze non ammesse; attesi e tolleranze invariati. DelaunayMesh identica e 39 prove di mesh/contratti del set superate. Evidenze `20261012-170114-release-s-full` e `20261012-165624-release-s-baseline`.
+
+- [x] Adeguato il confine Fondazioni al contratto 2 pubblicato: coefficienti Hansen, dominio esaurito, rapporti indefiniti e viste indisponibili. FON-03; 44 controlli funzionali e 86 WPF passati. Guide globali Rev36 allineate e precedenti conservate.

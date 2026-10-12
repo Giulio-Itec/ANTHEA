@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 5 aggiornata il 12 ottobre 2026 — revisione documentale 35
+Edizione 5 aggiornata il 12 ottobre 2026 — revisione documentale 36
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1140,13 +1140,13 @@ Per il metodo Eurocodice 7 usare B = 2 m, L = 3 m, D = 1 m, φ′ = 30°, c′ =
 | Resistenza di progetto | 1906,871374 kN |
 | Indice N/R | 0,314651 circa |
 
-Il caso risulta verificato per la sola capacità portante. La tabella dei contributi separa coesione, confinamento e peso del terreno. Nei casi Hansen non drenati s, d e i sono incrementi additivi: non moltiplicarli. La pressione netta è un dettaglio informativo; il confronto del foglio usa la resistenza lorda e la risultante coerente.
+Il caso risulta verificato per la sola capacità portante. La tabella dei contributi separa coesione, confinamento e peso del terreno. Nei casi Hansen non drenati la tabella dedicata espone gli incrementi s′, d′ e i′ e il fattore 1 + s′ + d′ − i′: non moltiplicare gli incrementi. La pressione netta è un dettaglio informativo; il confronto del foglio usa la resistenza lorda e la risultante coerente.
 
 ### Salvataggio errori e report
 
 Il salvataggio del foglio o del progetto conserva scelte, azioni e nome della combinazione. Dopo una modifica i risultati precedenti sono invalidati; alla riapertura premere Calcola. Report Word e PDF produce le due edizioni affiancate, con dati, coefficienti, esito, campo di applicazione e versione della libreria. F1 o Guida apre questa pagina; la [teoria della portanza](wiki:fondazioni-superficiali) descrive le formule.
 
-Dimensioni efficaci non positive, risultante normale non compressiva, numeri non finiti, coefficienti fuori dominio e combinazioni di ipotesi non implementate arrestano il calcolo. Un messaggio sulla libreria mancante indica che occorre installare il rilascio approvato previsto per il foglio: i dati restano salvabili, ma non viene prodotto alcun risultato.
+Una risultante esterna alla base o azioni oltre il dominio resistente del metodo producono resistenza nulla e, nel profilo normativo, esito Non verificata. Con area efficace nulla la pressione agente è indefinita; con resistenza nulla lo è l’indice N/R. Il foglio mostra un trattino e gli avvisi, senza sostituire tali rapporti con zero. Risultante normale non compressiva, numeri non finiti, dati incoerenti e ipotesi non implementate arrestano invece il calcolo. Le mappe non disponibili sono segnalate. Un messaggio sulla libreria mancante indica che occorre installare il rilascio approvato previsto per il foglio: i dati restano salvabili, ma non viene prodotto alcun risultato.
 
 <!-- pagebreak -->
 
