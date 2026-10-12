@@ -321,7 +321,7 @@
       "differenze_attese": []
     },
     "fixture-checker": {
-      "descrizione": "Cattura densa (CheckerMigration.Capture, modalità tutte) contro le fixture c.a. di Checker/GPCChecker.Test.Concrete/Fixtures, ricatturate il 7/10/2026 dalla cattura supporto/artefatti/baseline/F2-pre-m4-v2/a/tutte (ANTHEA refactoring/integrazione-d7b-d2 d2d3225; Checker develop 06d97733, decisione B dell'utente). Le fixture del 1/10/2026 (ANTHEA fe4652c, ultimo commit ddfe7edf) e le loro classificazioni FC-1…FC-14 restano nella storia di git. Tolleranze allineate ai MigrationTests di Checker (regole 'fixture-checker/' di tolerances.json); ingressi e testi esatti; nessuna differenza attesa.",
+      "descrizione": "Cattura densa (CheckerMigration.Capture, modalità tutte) contro le fixture c.a. di Checker/GPCChecker.Test.Concrete/Fixtures, ricatturate il 7/10/2026 dalla cattura supporto/artefatti/baseline/F2-pre-m4-v2/a/tutte (ANTHEA refactoring/integrazione-d7b-d2 d2d3225; Checker develop 06d97733, decisione B dell'utente). Le fixture del 1/10/2026 (ANTHEA fe4652c, ultimo commit ddfe7edf) e le loro classificazioni FC-1…FC-14 restano nella storia di git. Tolleranze allineate ai MigrationTests di Checker (regole 'fixture-checker/' di tolerances.json); ingressi e testi esatti; sole differenze classificate S4-1/S4-2 e F2-22 (13 interassi NTC già usati nel calcolo ora visibili).",
       "prefisso_tolleranze": "fixture-checker",
       "file": [
         { "nome": "shear-legacy.csv", "chiave": "id", "sha256": "CDFE0CD5C89AD9A44B9699D5A5F5C9F410A0E9462C83BDEE1A454AD0484302CB", "righe_dati": 2016, "test": "Checker/GPCChecker.Test.Concrete/ShearMigrationTests.cs:41-84" },
@@ -342,6 +342,114 @@
         { "file": "-sections\\.xml$", "forma": "guid", "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)" }
       ],
       "differenze_attese": [
+        {
+          "id": "F2-22-1",
+          "categoria": "difetto-legacy",
+          "file": "^crack-legacy\\.csv$",
+          "righe": "^(15|164|169)$",
+          "campo": "^barSpacing$",
+          "classe": "^testo$",
+          "a": "^$",
+          "b": "^180$",
+          "righe_attese": 3,
+          "differenze_attese": 3,
+          "motivo": "U1: interasse già usato nel calcolo e nelle tracce storiche, ora esposto nel risultato NTC interamente teso; wk, tasso e stato invariati.",
+          "registro": "F2-22",
+          "codice": [
+            "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+            "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+          ]
+        },
+        {
+          "id": "F2-22-2",
+          "categoria": "difetto-legacy",
+          "file": "^crack-legacy\\.csv$",
+          "righe": "^(327|329|639|640|641)$",
+          "campo": "^barSpacing$",
+          "classe": "^testo$",
+          "a": "^$",
+          "b": "^160\\.22122533307964$",
+          "righe_attese": 5,
+          "differenze_attese": 5,
+          "motivo": "U1: interasse già usato nel calcolo e nelle tracce storiche, ora esposto nel risultato NTC interamente teso; wk, tasso e stato invariati.",
+          "registro": "F2-22",
+          "codice": [
+            "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+            "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+          ]
+        },
+        {
+          "id": "F2-22-3",
+          "categoria": "difetto-legacy",
+          "file": "^crack-legacy\\.csv$",
+          "righe": "^(482)$",
+          "campo": "^barSpacing$",
+          "classe": "^testo$",
+          "a": "^$",
+          "b": "^83\\.2$",
+          "righe_attese": 1,
+          "differenze_attese": 1,
+          "motivo": "U1: interasse già usato nel calcolo e nelle tracce storiche, ora esposto nel risultato NTC interamente teso; wk, tasso e stato invariati.",
+          "registro": "F2-22",
+          "codice": [
+            "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+            "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+          ]
+        },
+        {
+          "id": "F2-22-4",
+          "categoria": "difetto-legacy",
+          "file": "^crack-legacy\\.csv$",
+          "righe": "^(484|485)$",
+          "campo": "^barSpacing$",
+          "classe": "^testo$",
+          "a": "^$",
+          "b": "^83\\.19999999999999$",
+          "righe_attese": 2,
+          "differenze_attese": 2,
+          "motivo": "U1: interasse già usato nel calcolo e nelle tracce storiche, ora esposto nel risultato NTC interamente teso; wk, tasso e stato invariati.",
+          "registro": "F2-22",
+          "codice": [
+            "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+            "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+          ]
+        },
+        {
+          "id": "F2-22-5",
+          "categoria": "difetto-legacy",
+          "file": "^crack-legacy\\.csv$",
+          "righe": "^(638)$",
+          "campo": "^barSpacing$",
+          "classe": "^testo$",
+          "a": "^$",
+          "b": "^160\\.22122533307945$",
+          "righe_attese": 1,
+          "differenze_attese": 1,
+          "motivo": "U1: interasse già usato nel calcolo e nelle tracce storiche, ora esposto nel risultato NTC interamente teso; wk, tasso e stato invariati.",
+          "registro": "F2-22",
+          "codice": [
+            "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+            "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+          ]
+        },
+        {
+          "id": "F2-22-6",
+          "categoria": "difetto-legacy",
+          "file": "^crack-legacy\\.csv$",
+          "righe": "^(794)$",
+          "campo": "^barSpacing$",
+          "classe": "^testo$",
+          "a": "^$",
+          "b": "^145$",
+          "righe_attese": 1,
+          "differenze_attese": 1,
+          "motivo": "U1: interasse già usato nel calcolo e nelle tracce storiche, ora esposto nel risultato NTC interamente teso; wk, tasso e stato invariati.",
+          "registro": "F2-22",
+          "codice": [
+            "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+            "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+          ]
+        },
         {
           "id": "S4-1", "categoria": "convenzione",
           "file": "^(crack|detailing|stress)-sections\\.xml$", "classe": "^numero$", "campo": "^testo$",

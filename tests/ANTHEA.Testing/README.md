@@ -122,7 +122,7 @@ Classi delle differenze: `file-aggiunto`, `file-rimosso`, `chiave-aggiunta`,
 
 | Confronto | Riferimento | Tolleranze | Uso |
 | --- | --- | --- | --- |
-| `fixture-checker` | `Checker/GPCChecker.Test.Concrete/Fixtures` (ricatturate il 7/10/2026 da `F2-pre-m4-v2/a/tutte`, SHA-256 a fine riga LF fissati nel file; nessuna differenza attesa) | regole `fixture-checker/` di `tolerances.json`, allineate ai MigrationTests | suite `baseline/banco-ca` |
+| `fixture-checker` | `Checker/GPCChecker.Test.Concrete/Fixtures` (ricatturate il 7/10/2026 da `F2-pre-m4-v2/a/tutte`, SHA-256 a fine riga LF fissati nel file; sole differenze classificate S4-1/S4-2 e F2-22) | regole `fixture-checker/` di `tolerances.json`, allineate ai MigrationTests | suite `baseline/banco-ca` |
 | `b0` | `supporto/artefatti/baseline/F0-B0/dense/<modalità>` | esatte (`denso/`) | misura F2.1 rispetto a B0 |
 | `pre-m4` | `supporto/artefatti/baseline/F2-pre-m4-v2/a/<modalità>` (nessuna differenza attesa) | esatte (`denso/`) | doppia corsa; catture con `--motore legacy` (`-DenseSet pre-m4`) |
 | `f2-libreria` | come `pre-m4` (nessuna differenza attesa) | 1e-9 sui soli numeri di taglio e torsione calcolati da GPCChecker.Concrete (regole `f2-libreria/`, registro F2-1), il resto esatto | catture con il motore della libreria (predefinito dal passo F2.6, o `--motore libreria`), passi F2.6-F2.9; predefinito di `-DenseSet` nel runner (`-DenseRef`) |

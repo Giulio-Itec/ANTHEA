@@ -2178,7 +2178,8 @@
       ],
       "evidenze": [
         "supporto/artefatti/ci/20261012-215810-f2-sle-u1-u3",
-        "supporto/artefatti/ci/20261012-220834-f2-sle-chiusura"
+        "supporto/artefatti/ci/20261012-220834-f2-sle-chiusura",
+        "supporto/artefatti/ci/20261012-232515-f2-set-t-fixture-final: stesse 13 differenze F2-22 riconosciute anche contro le fixture Checker; attesi e tolleranze invariati"
       ]
     },
     {

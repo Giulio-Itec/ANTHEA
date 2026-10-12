@@ -1,44 +1,21 @@
-# Checkpoint operativo — 12/13 ottobre 2026
+# Stato del lavoro notturno — checkpoint 12 ottobre, 23:27
 
-Aggiornare ai passaggi chiave; integra il piano, non lo sostituisce.
+## Mandato
 
-- Finestra autorizzata: 12 ottobre 22:19 → 13 ottobre 07:19 Europe/Rome (05:19 UTC).
-- Limite: arrivare a F4 se possibile; NON iniziare F5.
-- Ordine: blocco F2 punti 1–5 e 5.2 → STG → SEZ → F3 → F4.
-- Un commit per punto chiuso, riepilogo a fine fase, test/versioni/merge/push già autorizzati.
-- Niente agenti paralleli: non richiesti. Nessun motore legacy eliminato senza equivalenza e autorizzazione specifica.
+Nove ore dal 12/10 alle 22:19 Europe/Rome: termine 13/10 alle 07:19 (05:19 UTC). Ordine: blocco F2 punti 1–5 e 5.2, STG, SEZ, F3, F4 se possibile. F5 esclusa. Un commit per punto chiuso, test/versioni/merge/push autorizzati. Nessun agente parallelo richiesto. Non eliminare legacy attivo senza equivalenza e autorizzazione specifica.
 
-## Stato
+## Blocco F2
 
-1. API-02: chiuso, 66a9d351.
-2. Validazioni: chiuso, cf33c16e.
-3. SLE: chiuso, fbedb8ca (A10: 1e9998e0).
-4. Mesh/concorrenza: chiuso, c53fd9b; 326 controlli, 80 mesh esatte, 548 file invariati. Registro F2-23.
-5. Collaudo finale e rilascio: da eseguire includendo la finestra 5.2.
-5.2. Model API 94efc9bc e vista MVVM completate; 57 controlli di presentazione e 21 WPF passati. Guide globali Rev37 finalizzate (73/142 pagine, 337 formule editabili). Set T installato da master pubblicati; punto pronto al commit.
+Punti 1–4 e 5.2 committati (66a9d351, cf33c16e, fbedb8ca, c53fd9b, 71aaa60b); punto 5 collaudato e pronto al commit. Set T installato e librerie pubblicate: Model 5.1.0.0, Concrete 0.0.27.2. ANTHEA 1.3.0; guide Rev37 completate. Full: 102 PASS; unico confronto fixture inizialmente senza le 13 classificazioni F2-22, ora risolto con 3 PASS nel runner 20261012-232515-f2-set-t-fixture-final. Nessun fallimento residuo, nessuna eccezione aggiunta. Relazione di sviluppo: chiusura-blocco-f2-20261012.md.
 
-## Rami e set
+La build dell’installer è separata nelle cartelle ignorate supporto/artefatti/installer e rilascio-1.3.0. Main primario ancora 9b42f093; verificato pulito e allineato a origin/main prima del merge. Il worktree attivo è model-viewer-draft/ANTHEA, branch refactoring/f2-chiusure-pendenti.
 
-- ANTHEA: worktree `model-viewer-draft/ANTHEA`, `refactoring/f2-chiusure-pendenti`. Il checkout principale main resta alla release 9b42f093 fino al merge.
-- Model: `codex/f2-reologia`, 94efc9bc, Model 5.1.0.0. API ConcreteTimeEffects con φ(t), φ∞, Ecm(t) e ModulusFactor.
-- Checker: 8a9021f9, Concrete 0.0.27.2; Steel 2.0.4.2, CompositeBridge 1.5.0.2, Geotechnics 0.1.3.1, ModelChecker 2.1.0.2. Corretto anche Release-Set: verifica e packaging usano lo stesso Root.
-- Geometry: `codex/regole-versioni`, 6734eee; Utilities: `codex/regole-versioni`, e57b440.
-- Candidato punti 1–4: `supporto/artefatti/refactoring/api02/lib-candidate/` nel worktree.
-- Candidato UI reologia: `supporto/artefatti/refactoring/reologia/lib-model51/` nel worktree; prodotto e testato da worktree puliti, non ancora distribuito.
-- Ore 22:53: master delle quattro librerie allineati e pushati. Set definitivo T in costruzione da checkout puliti con suite complete e confronto versioni contro S. Candidato valido `candidate-root-checked-20261012`; NON usare `candidate-final-20261012`, che precede il fix del Root. Installazione, full e confronto finale ancora da eseguire.
+## Stage in Model
 
-## Evidenze e precauzioni
+Ramo codex/stg-stages dal master 94efc9bc. STG-1 studio in 6ede622c; dominio in cffd4879; lettore MIDAS in b89ce317. Model 5.2.0.0, Converter 2.1.0.0, ModelData 0.0.2.10, Persistence 3.0.0.3. Non ancora distribuiti in ANTHEA. Riutilizzati ResultState, mapper di risultati, unità/assi/segni, archivio compatto e filtro esistenti. Fasi e passi distinti; vincoli staged conservati come metadati, non permanenti; casi CS esclusi dalle combo statiche. Full Model: 12 + 1212 PASS, due esclusioni native già note; 54 prove mirate finali sulle versioni. Documentazione e limiti nel Model/docs/construction-stages.md.
 
-- Punto 4: `supporto/artefatti/ci/20261012-221801-f2-concorrenza-prima` e `20261012-221914-f2-concorrenza-dopo`.
-- Non modificare file tracciati mentre il runner CI è attivo: verifica l'albero prima/dopo.
-- Il documento utente aperto nella build principale è non salvato: non chiudere né riavviare quella finestra.
-- Combo: rifiuto ENV_SLE_R diagnosticato (somma di inviluppi supera 4096); nessuna modifica al documento. Diagnostica/scalabilità tracciata nel piano.
-- Finestra reologia: riusare Plot/Ui.Dialog, ViewModel senza WPF, formule soltanto in Model. Distinguere maturazione Ecm(t) dal modulo efficace per viscosità. Aggiornare le due guide globali e i relativi Word/PDF/indici.
+MIDAS aperto risponde ma STAG/STCT vuoti: confronto reale a stage ancora da completare. Evidenza worktree supporto/artefatti/refactoring/stages/study-20261012. Non simulare un collaudo reale con fixture sintetiche. Prossimo STG-3: selezione fase/passo nell’importazione e nella vista; contratti degli altri adattatori dichiarati.
 
-## Punto 5.2 — verifiche ultime
+## Precauzioni
 
-- Runner `20261012-224554-reologia-finale-vista`: 8 PASS, nessun fallimento; reologia 57 + 21, input 62 + 20 e Wiki.
-- Guide: Word nativo; parti ITEC preservate, 896/1906 frammenti, 337 formule. Tutte le pagine renderizzate e ispezionate in panoramica, pagine nuove/indici controllate a dimensione leggibile. LibreOffice assente: usata la pipeline Word già presente.
-- Integrazione: menu Strumenti, materiali della sezione e opzioni delle tre schede SLE. Finestra non modale, senza scrivere automaticamente nel documento.
-
-Conferma sul set T installato: `20261012-225749-reologia-set-t`, 8 PASS, nessun fallimento; include la rifinitura delle etichette italiane e delle note specifiche dei grafici.
+Non modificare sorgenti ANTHEA durante un runner attivo. Non chiudere la finestra primaria ANTHEA con documento non salvato. Il rifiuto combo ENV_SLE_R è stato diagnosticato (somma di inviluppi oltre limite 4096): nessuna modifica al documento; preflight/scalabilità restano tracciati. Il modello di prova non ha stage. Per le librerie usare sempre un set coerente da checkout puliti e commit pubblicati; per prove preliminari solo candidati espliciti.
