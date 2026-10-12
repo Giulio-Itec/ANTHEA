@@ -126,7 +126,7 @@ riferimento funzionale: rappresentare i nostri dati e le capacità effettive deg
 importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
 
 - [x] SEZ-1 (13/10): inventario in sezioni-inventario.md; parser e geometrie condivisi in Model 7fd1fe4c, 1234 test superati. Campione reale con due sezioni quadrate; composta I/soletta collaudata come geometria sintetica separata. Offset non risolti distinti da zero. Candidato librerie in verifica prima della distribuzione.
-- [ ] SEZ-2: vista di dettaglio richiamabile dall’albero e dalla selezione degli elementi: anteprima 2D quotata, ID/nome/tipo, dimensioni e unità, materiali delle parti, assi locali/principali e baricentro quando disponibili. Distinguere proprietà importate e calcolate, segnalando quelle non supportate.
+- [x] SEZ-2 (13/10): finestra separata MVVM dall’albero o da un’asta; anteprima quotata, parti/materiali, proprietà con origine, coordinate G/O, assi locali/principali disattivabili, attributi originali. Unificati parser sorgente e proiezione degli attributi. Set V installato; 477 controlli dati e 11 WPF superati, tre temi e finestra compatta controllati graficamente (20261013-003436-sez-detail-reviewed). Full e guide previsti in SEZ-4 prima del merge.
 - [ ] SEZ-3: rappresentazione dell’offset e del punto d’inserimento rispetto all’asse dell’elemento, coerenza con i volumi 3D, evidenziazione/isola degli elementi che usano la sezione. Per le composte, componenti e rapporti elastici già disponibili; collegamento allo stage pertinente quando la sezione cambia per fase.
 - [ ] SEZ-4: collaudo su sezioni usuali e composte, unità/orientamento/offset, screenshot e guide globali aggiornate; un commit per punto concluso. Quindi avvio di F3.
 

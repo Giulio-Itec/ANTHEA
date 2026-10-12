@@ -27,7 +27,7 @@ public sealed partial class ModelViewerViewModel
     public IReadOnlySet<int>? VisibleElementIds { get; private set; }
     public bool HasResults => ActiveValues.Count > 0;
     public bool HasSelection => SelectedElementIds.Count > 0;
-    public bool IsSectionSelected => SelectedTreeItem?.Table == "SECT" && SectionWidth > 0;
+    public bool IsSectionSelected => SelectedSectionDetail != null;
     public double SectionWidth { get; private set; }
     public double SectionHeight { get; private set; }
     public string SectionSize { get; private set; } = "";
@@ -90,11 +90,12 @@ public sealed partial class ModelViewerViewModel
         Attributes = value.Attributes; InspectorTitle = value.Label;
         SelectedElementIds = value.Elements.ToHashSet();
         UpdateSelectedNodes(value);
+        OnPropertyChanged(nameof(SelectedSectionDetail));
         var section = value.Table == "SECT" ? Snapshot?.Sections.FirstOrDefault(s => s.Id == value.Id) : null;
-        SectionWidth = section == null ? 0 : 156 * section.Width / Math.Max(section.Width, section.Height);
-        SectionHeight = section == null ? 0 : 108 * section.Height / Math.Max(section.Width, section.Height);
+        SectionWidth = section == null || section.Width<=0 || section.Height<=0 ? 0 : 156 * section.Width / Math.Max(section.Width, section.Height);
+        SectionHeight = section == null || section.Width<=0 || section.Height<=0 ? 0 : 108 * section.Height / Math.Max(section.Width, section.Height);
         // Keep the same physical scale in both directions.
-        if (section != null) { double scale = Math.Min(156 / section.Width, 108 / section.Height); SectionWidth = section.Width * scale; SectionHeight = section.Height * scale; }
+        if (section != null && section.Width>0 && section.Height>0) { double scale = Math.Min(156 / section.Width, 108 / section.Height); SectionWidth = section.Width * scale; SectionHeight = section.Height * scale; }
         SectionSize = section == null ? "" : $"{section.Width:G4} × {section.Height:G4} m · {section.Shape}";
         foreach (string property in new[] { nameof(HasSelection), nameof(SelectionCount), nameof(IsSectionSelected), nameof(SectionWidth), nameof(SectionHeight), nameof(SectionSize) }) OnPropertyChanged(property);
         IsolateCommand.NotifyCanExecuteChanged(); HideCommand.NotifyCanExecuteChanged(); ShowSelectedCommand.NotifyCanExecuteChanged();
@@ -117,6 +118,7 @@ public sealed partial class ModelViewerViewModel
         contourAverager = null; averagedSource = null; averagedField = null;
         tableState = null;
         ResetColorScale();
+        InitializeSections();
         allTree = ModelTreeBuilder.Build(Snapshot!); Tree = allTree; SearchText = "";
         InitializeVisibility();
         displayCatalog = new ModelDisplayCatalog(Snapshot!);

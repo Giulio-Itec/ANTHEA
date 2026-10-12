@@ -29,6 +29,7 @@ public partial class ModelViewerControl : UserControl, IDisposable
         viewModel.ViewSettingsChanged += ViewSettingsChanged;
         viewModel.CameraPresetRequested += CameraPresetRequested;
         viewModel.CombinationWindowChanged += CombinationWindowChanged;
+        viewModel.SectionWindowChanged += SectionWindowChanged;
         PreviewKeyDown += ViewerKeyDown;
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
@@ -116,6 +117,7 @@ public partial class ModelViewerControl : UserControl, IDisposable
     {
         if (disposed) return;
         disposed = true;
+        viewModel.SectionWindowChanged-=SectionWindowChanged;sectionWindow?.Close();sectionWindow=null;
         viewModel.CombinationWindowChanged-=CombinationWindowChanged;combinationWindow?.Close();combinationWindow=null;
         DetachInteraction(); DetachAnimation(); DisposeComparison();
         Loaded -= OnLoaded; Unloaded -= OnUnloaded; viewModel.SceneChanged -= SceneChanged;

@@ -91,28 +91,11 @@ internal static class ModelTreeBuilder
             Attributes = [new("Voci", children.Count.ToString("N0")), new("Elementi associati", elements.Length.ToString("N0"))] };
     }
 
-    static IEnumerable<AttributeRow> SourceAttributes(ModelSnapshot model, string table, int id)
-    {
-        if (model.SourceTables?.TryGetValue(table, out var data) != true || !data.TryGetProperty(id.ToString(), out var record)) yield break;
-        yield return new("Attributi originali", "Unità della sorgente (vedi sotto)");
-        if (model.SourceTables.TryGetValue("UNIT", out var unit))
-            foreach (var row in Flatten(unit, "UNIT")) yield return row;
-        foreach (var row in Flatten(record)) yield return row;
-    }
+    static IEnumerable<AttributeRow> SourceAttributes(ModelSnapshot model, string table, int id) =>
+        ModelSourceAttributes.Read(model,table,id).Select(r=>new AttributeRow(r.Name,r.Value));
 
-    static IEnumerable<AttributeRow> Flatten(JsonElement value, string path = "")
-    {
-        if (value.ValueKind == JsonValueKind.Object)
-            foreach (var property in value.EnumerateObject())
-                foreach (var row in Flatten(property.Value, path.Length == 0 ? property.Name : path + "." + property.Name)) yield return row;
-        else if (value.ValueKind == JsonValueKind.Array)
-        {
-            int i = 0;
-            foreach (var item in value.EnumerateArray())
-                foreach (var row in Flatten(item, path + "[" + i++ + "]")) yield return row;
-        }
-        else yield return new(path, value.ToString());
-    }
+    static IEnumerable<AttributeRow> Flatten(JsonElement value, string path = "") =>
+        ModelSourceAttributes.Flatten(value,path).Select(r=>new AttributeRow(r.Name,r.Value));
 
     public static IEnumerable<ModelTreeItem> Descendants(IEnumerable<ModelTreeItem> items)
     {

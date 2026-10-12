@@ -40,8 +40,7 @@ public static class ModelConstructionStages
     public static (ModelConstructionPhase[] Phases, string[] Cases) Catalog(IReadOnlyDictionary<string, JsonElement>? tables)
     {
         if (tables == null || !tables.TryGetValue("STAG", out var stages) || !stages.EnumerateObject().Any()) return ([], []);
-        var source = new CivilNxSnapshot(tables.Where(p => p.Key is "STAG" or "STCT").ToDictionary(p => p.Key,
-            p => new CivilNxResponse("db/" + p.Key, JsonSerializer.Serialize(new Dictionary<string, JsonElement> { [p.Key] = p.Value }))));
+        var source = MidasGpcDisplay.FromTables(tables.Where(p => p.Key is "STAG" or "STCT").ToDictionary(p => p.Key, p => p.Value));
         var batch = new CivilNxModelProfile().ReadConstructionStages(source, Identity(source.Hash));
         if (batch.Stages.Select(s => s.Name).Distinct(StringComparer.Ordinal).Count() != batch.Stages.Count)
             throw new InvalidDataException("Nomi delle fasi duplicati: la selezione dei risultati sarebbe ambigua.");

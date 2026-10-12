@@ -108,12 +108,14 @@
                 <local:ModelVisibilityView />
               </Expander>
               <Expander Header="Check della revisione" Margin="0,8,0,0"><local:ModelRevisionToolsView/></Expander>
+              <Button Content="Sezioni del modello…" Command="{Binding OpenSectionDetailsCommand}" Margin="0,8,0,0"/>
               <Button Content="Importazione e aggiornamento…" Command="{Binding OpenImportOptionsCommand}" Margin="0,8,0,0"/>
             </StackPanel>
             </ScrollViewer>
             <TreeView x:Name="ModelTree" Grid.Row="1" ItemsSource="{Binding Tree}" SelectedItemChanged="TreeSelectionChanged" PreviewMouseDown="TreeContextSelection" BorderThickness="0" Background="Transparent" Padding="5,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Albero del modello">
               <TreeView.ContextMenu>
                 <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                  <MenuItem Header="Dettaglio sezione…" Command="{Binding OpenSectionDetailsCommand}"/>
                   <MenuItem Header="Esamina gli elementi associati" Command="{Binding InspectSelectionCommand}" />
                   <Separator />
                   <MenuItem Header="Isola" Command="{Binding IsolateCommand}" />
@@ -347,8 +349,8 @@
         </StackPanel>
         <Border Grid.Row="1" Margin="16,0,16,14" Background="{DynamicResource AppearanceSurface}" CornerRadius="5" Padding="12" Visibility="{Binding IsSectionSelected, Converter={StaticResource Visible}}">
           <StackPanel>
-            <Rectangle Width="{Binding SectionWidth}" Height="{Binding SectionHeight}" Fill="#95BEEA" Stroke="#397ABA" StrokeThickness="1.5" />
-            <TextBlock Text="{Binding SectionSize}" HorizontalAlignment="Center" Margin="0,9,0,0" FontSize="11" />
+            <local:ModelSectionPreview Detail="{Binding SelectedSectionDetail}" Height="145" Ink="{DynamicResource AppearanceInk}" ShowDimensions="False" ShowLocalAxes="False"/>
+            <Button Content="Dettaglio sezione…" Command="{Binding OpenSectionDetailsCommand}" Margin="0,9,0,0"/>
           </StackPanel>
         </Border>
         <DataGrid Grid.Row="2" ItemsSource="{Binding Attributes}" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" HeadersVisibility="Column" GridLinesVisibility="Horizontal" BorderThickness="0" RowHeaderWidth="0" RowHeight="NaN" MinRowHeight="32" FontSize="11" SelectionMode="Single" EnableRowVirtualization="True" Background="Transparent" HorizontalGridLinesBrush="{DynamicResource AppearanceBorder}" AutomationProperties.Name="Attributi della selezione">

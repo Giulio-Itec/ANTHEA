@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-12",
+  "aggiornato": "2026-10-13",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/",
@@ -14,7 +14,12 @@
     "difetto-legacy": "comportamento non voluto del codice esistente",
     "scostamento-normativo": "il codice si discosta dal testo della norma del profilo"
   },
-  "stati": ["da-decidere", "dichiarato", "da-correggere", "corretto"],
+  "stati": [
+    "da-decidere",
+    "dichiarato",
+    "da-correggere",
+    "corretto"
+  ],
   "nota_voci_r": "Le voci R1-R14 vengono dalla ricerca normativa sulla fessurazione (supporto/artefatti/refactoring/ricerca-a/rapporto.md) e dalla revisione dei metodi c.a. per le pagine docs/metodi di Checker (branch locali anthea-metodi-ca-1 e anthea-metodi-ca-2, harness in supporto/artefatti/refactoring/metodi e metodi2). R15 viene dalla revisione di D7-b. Le voci R16-R21 vengono dalla verifica delle pagine dei metodi unite in Checker develop (F2.2: merge c555a3b8 e 1fbaea61 e correzioni successive, riquadri collegati alle voci in e41a803a); stato da-decidere e stessa decisione di R4-R14 (F5.15). Il segno è riferito al testo della norma del profilo; dove il testo primario non è stato letto il grado di certezza è indicato nel campo riscontro.",
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
@@ -26,8 +31,16 @@
       "stato": "dichiarato",
       "descrizione": "Nel ramo NTC, con interasse s > 5 (c + Ø/2), wk = 1,7 · max(Δsm,vicino; 0,75 (h − x)) (εsm − εcm), cioè sr = max(3,4 c + k1 k2 0,425 Ø/ρ; 1,275 (h − x)); senza barre aderenti in Ac,eff il limite superiore usa sr = 1,7 · 0,75 (h − x). La EN 1992-1-1 (7.14) usa 1,3 (h − x) in sostituzione della (7.11). Lo stesso ramo vale per il profilo CNR-DT 200 della libreria.",
       "riferimento_normativo": [
-        { "fonte": "Circolare 21/01/2019 n. 7", "punto": "C4.1.2.2.4.5, eq. [C4.1.5], [C4.1.7], [C4.1.10], Fig. C4.1.11", "riscontro": "testo della G.U. S.O. n. 5 alla n. 35 dell'11/02/2019, pp. 87-88: il codice coincide alla lettera" },
-        { "fonte": "EN 1992-1-1:2004", "punto": "§7.3.4(3), eq. (7.14)", "riscontro": "testo consultato: sr,max = 1,3 (h − x) con spaziatura > 5 (c + φ/2) o senza armatura aderente" }
+        {
+          "fonte": "Circolare 21/01/2019 n. 7",
+          "punto": "C4.1.2.2.4.5, eq. [C4.1.5], [C4.1.7], [C4.1.10], Fig. C4.1.11",
+          "riscontro": "testo della G.U. S.O. n. 5 alla n. 35 dell'11/02/2019, pp. 87-88: il codice coincide alla lettera"
+        },
+        {
+          "fonte": "EN 1992-1-1:2004",
+          "punto": "§7.3.4(3), eq. (7.14)",
+          "riscontro": "testo consultato: sr,max = 1,3 (h − x) con spaziatura > 5 (c + φ/2) o senza armatura aderente"
+        }
       ],
       "codice": [
         "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:58-62",
@@ -39,17 +52,64 @@
       "segno": "rispetto alla Circolare nessuno; rispetto alla EN 1992-1-1 (7.14) non cautelativo (−1,92 % su wk) dove governa la zona distante e cautelativo dove il termine vicino supera 1,3 (h − x)",
       "effetto_quantificato": {
         "sintesi": "Variante A1 (1,3 con il massimo): +1,96 % su wk dove governa la zona distante. Fixture scalare: 79 righe con barre distanziate su 200 (50 zona distante, 29 termine vicino > 1,3 (h − x)). Griglia mirata: 98 376 stati con barre distanziate su 222 696, 77 592 con zona distante; esiti che cambiano con A1 337 (0,15 %), con la regola EC2 completa 4 581 (337 peggiorano, 4 244 migliorano). Limite senza barre aderenti: +1,96 % esatto, 216 stati, nessun esito.",
-        "fixture_scalare": { "righe_ntc": 200, "barre_distanziate": 79, "zona_distante": 50, "vicino_oltre_1_3": 29, "delta_A1_pct": [0, 1.96], "delta_A2_pct": [-95.1, 1.96] },
-        "fixture_sezioni": { "stati_ntc": 177, "parzializzati_analizzati": 34, "barre_distanziate": 0 },
-        "griglia": { "stati": 222696, "barre_distanziate": 98376, "zona_distante": 77592, "esiti_cambiati_A1": 337, "esiti_cambiati_A2": 4581, "esiti_peggiorati_A2": 337, "esiti_migliorati_A2": 4244, "delta_A2_min_pct": -67.4 },
-        "limite_senza_barre_aderenti": { "delta_pct": 1.96, "stati_griglia": 216, "esiti_cambiati": 0 },
-        "evidenze": ["out/a-fixture-scalare.csv", "out/a-b-fixture-sezioni.csv", "out/a-b-griglia.csv", "out/a-b-fessurazione.txt"]
+        "fixture_scalare": {
+          "righe_ntc": 200,
+          "barre_distanziate": 79,
+          "zona_distante": 50,
+          "vicino_oltre_1_3": 29,
+          "delta_A1_pct": [
+            0,
+            1.96
+          ],
+          "delta_A2_pct": [
+            -95.1,
+            1.96
+          ]
+        },
+        "fixture_sezioni": {
+          "stati_ntc": 177,
+          "parzializzati_analizzati": 34,
+          "barre_distanziate": 0
+        },
+        "griglia": {
+          "stati": 222696,
+          "barre_distanziate": 98376,
+          "zona_distante": 77592,
+          "esiti_cambiati_A1": 337,
+          "esiti_cambiati_A2": 4581,
+          "esiti_peggiorati_A2": 337,
+          "esiti_migliorati_A2": 4244,
+          "delta_A2_min_pct": -67.4
+        },
+        "limite_senza_barre_aderenti": {
+          "delta_pct": 1.96,
+          "stati_griglia": 216,
+          "esiti_cambiati": 0
+        },
+        "evidenze": [
+          "out/a-fixture-scalare.csv",
+          "out/a-b-fixture-sezioni.csv",
+          "out/a-b-griglia.csv",
+          "out/a-b-fessurazione.txt"
+        ]
       },
       "opzioni": [
-        { "id": "a1", "descrizione": "coefficiente 1,3 (h − x) mantenendo il massimo fra le due zone" },
-        { "id": "a2", "descrizione": "regola EC2 completa: sr = 1,3 (h − x) con barre distanziate" },
-        { "id": "a3", "descrizione": "dichiarare il ramo della Circolare" },
-        { "id": "a4", "descrizione": "solo limite superiore senza barre aderenti: 1,3 (h − x), con opzione legacy" }
+        {
+          "id": "a1",
+          "descrizione": "coefficiente 1,3 (h − x) mantenendo il massimo fra le due zone"
+        },
+        {
+          "id": "a2",
+          "descrizione": "regola EC2 completa: sr = 1,3 (h − x) con barre distanziate"
+        },
+        {
+          "id": "a3",
+          "descrizione": "dichiarare il ramo della Circolare"
+        },
+        {
+          "id": "a4",
+          "descrizione": "solo limite superiore senza barre aderenti: 1,3 (h − x), con opzione legacy"
+        }
       ],
       "raccomandazione": "a3 per il ramo delle barre distanziate (segue la Circolare alla lettera; a2 non è cautelativa quando governa la zona vicina) e a4 per il limite senza barre aderenti, trattato solo dalla EN 1992-1-1; correggere il rimando «7.3.4(4)» dei commenti",
       "decisione": {
@@ -66,7 +126,13 @@
         "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs:210",
         "supporto/test/X.Verifiche/SectionWorkspaceChecks.cs:90-96"
       ],
-      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:343 (Apertura delle fessure)", "supporto/docs/guida-teorica-anthea.md:2187 (Limiti e confronto con il software)"] },
+      "riquadro_wiki": {
+        "stato": "da-scrivere",
+        "posizioni": [
+          "supporto/docs/guida-teorica-anthea.md:343 (Apertura delle fessure)",
+          "supporto/docs/guida-teorica-anthea.md:2187 (Limiti e confronto con il software)"
+        ]
+      },
       "scheda": "docs/refactoring/scostamenti.md#d7-a-fessurazione-ntc-con-barre-distanziate"
     },
     {
@@ -77,8 +143,16 @@
       "stato": "corretto",
       "descrizione": "Nel ramo NTC k2 vale 0,5 solo se almeno una barra ordinaria è compressa, altrimenti 1,0, anche quando l'asse neutro taglia la sezione (flessione). La Circolare e la EN 1992-1-1 danno 0,5 in flessione; il ramo Eurocodice dello stesso codice usa 0,5.",
       "riferimento_normativo": [
-        { "fonte": "Circolare 21/01/2019 n. 7", "punto": "C4.1.2.2.4.5, k2 e eq. [C4.1.9]", "riscontro": "testo della G.U., p. 88" },
-        { "fonte": "EN 1992-1-1:2004", "punto": "§7.3.4(3), eq. (7.13)", "riscontro": "testo consultato" }
+        {
+          "fonte": "Circolare 21/01/2019 n. 7",
+          "punto": "C4.1.2.2.4.5, k2 e eq. [C4.1.9]",
+          "riscontro": "testo della G.U., p. 88"
+        },
+        {
+          "fonte": "EN 1992-1-1:2004",
+          "punto": "§7.3.4(3), eq. (7.13)",
+          "riscontro": "testo consultato"
+        }
       ],
       "codice": [
         "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:163",
@@ -94,21 +168,73 @@
         "griglia": {
           "stati_k2_uno": 37128,
           "esiti_cambiati": 9282,
-          "semplice_armatura_flessione": { "stati": 8640, "delta_medio_pct": -24.2, "delta_min_pct": -44.2, "esiti_cambiati": 1877 },
-          "soletta_flessione": { "stati": 48, "su": 5544, "delta_medio_pct": -37.8, "delta_min_pct": -39.0, "esiti_cambiati": 24 },
-          "trave_tensoflessione": { "stati": 16200, "su": 144000, "delta_medio_pct": -35.5, "delta_min_pct": -48.0, "esiti_cambiati": 2623 },
-          "soletta_tensoflessione": { "stati": 12240, "su": 28800, "delta_medio_pct": -36.0, "delta_min_pct": -47.2, "esiti_cambiati": 4758 }
+          "semplice_armatura_flessione": {
+            "stati": 8640,
+            "delta_medio_pct": -24.2,
+            "delta_min_pct": -44.2,
+            "esiti_cambiati": 1877
+          },
+          "soletta_flessione": {
+            "stati": 48,
+            "su": 5544,
+            "delta_medio_pct": -37.8,
+            "delta_min_pct": -39.0,
+            "esiti_cambiati": 24
+          },
+          "trave_tensoflessione": {
+            "stati": 16200,
+            "su": 144000,
+            "delta_medio_pct": -35.5,
+            "delta_min_pct": -48.0,
+            "esiti_cambiati": 2623
+          },
+          "soletta_tensoflessione": {
+            "stati": 12240,
+            "su": 28800,
+            "delta_medio_pct": -36.0,
+            "delta_min_pct": -47.2,
+            "esiti_cambiati": 4758
+          }
         },
-        "fixture_sezioni": { "stati_k2_uno": 1, "delta_pct": -40.8, "esiti_cambiati": 0 },
-        "evidenze": ["out/a-b-fixture-sezioni.csv", "out/a-b-griglia.csv", "out/a-b-fessurazione.txt"]
+        "fixture_sezioni": {
+          "stati_k2_uno": 1,
+          "delta_pct": -40.8,
+          "esiti_cambiati": 0
+        },
+        "evidenze": [
+          "out/a-b-fixture-sezioni.csv",
+          "out/a-b-griglia.csv",
+          "out/a-b-fessurazione.txt"
+        ]
       },
       "opzioni": [
-        { "id": "b1", "descrizione": "k2 = 0,5 per ogni sezione parzializzata, con opzione legacy per le fixture" },
-        { "id": "b2", "descrizione": "dichiarare" }
+        {
+          "id": "b1",
+          "descrizione": "k2 = 0,5 per ogni sezione parzializzata, con opzione legacy per le fixture"
+        },
+        {
+          "id": "b2",
+          "descrizione": "dichiarare"
+        }
       ],
       "raccomandazione": "b1, in due commit (collegamento con l'opzione legacy, poi cambio del predefinito)",
-      "decisione_finale": { "data": "2026-10-07", "utente": "per il punto b hai ragione. fallo come lo hai previsto. se l'asse neutro taglia la sezione. occhio però che non si cada nel caso di pura compressione", "opzione": "b1", "esito": "k2 = 0,5 quando l'asse neutro taglia la sezione, per ogni normativa; sezione interamente compressa con wk = 0 prima di ogni uso di k2; opzione legacy solo per le fixture congelate. Attuazione sui branch refactoring/d7b-k2-flessione (ANTHEA) e anthea-d7b-k2 (Checker)." },
-      "attuazione": { "data": "2026-10-07", "commit": ["ANTHEA 1ae68bc (opzione legacy, risultati identici)", "ANTHEA bdea165 (regola nuova)", "ANTHEA 008e237, 708a786, 8b2c239, ec2d836 (revisioni: fasce interne dei fori, traccia, pura compressione)", "Checker 8e65715f, 56ea03ca, 59fc2e0e (0.0.16.0), 499245e6", "fixture c.a. di Checker ricatturate dal comportamento attuale: Checker 06d97733, banco ANTHEA 34e6d58"], "verifica": "pura compressione con wk = 0 e nessun k2 in traccia; libreria e ANTHEA con lo stesso k2, wk ed esito sui 936 stati delle fixture (322 con asse neutro interno, k2 = 0,5); X.Verifiche --checker con le prove dedicate di k2; GPCChecker.Test.Concrete verde; nessuna differenza nel corpus headless (nessuna sezione c.a. con k2 nella traccia); profilo full con prove WPF 67 PASS, 1 KNOWN, 0 NEW-FAIL. Fasce interne dei fori: k2 = (ε1 + ε2)/(2 ε1) della propria distribuzione, confermato dall'utente il 7/10. L'opzione legacy resta solo per i test dedicati e i confronti storici." },
+      "decisione_finale": {
+        "data": "2026-10-07",
+        "utente": "per il punto b hai ragione. fallo come lo hai previsto. se l'asse neutro taglia la sezione. occhio però che non si cada nel caso di pura compressione",
+        "opzione": "b1",
+        "esito": "k2 = 0,5 quando l'asse neutro taglia la sezione, per ogni normativa; sezione interamente compressa con wk = 0 prima di ogni uso di k2; opzione legacy solo per le fixture congelate. Attuazione sui branch refactoring/d7b-k2-flessione (ANTHEA) e anthea-d7b-k2 (Checker)."
+      },
+      "attuazione": {
+        "data": "2026-10-07",
+        "commit": [
+          "ANTHEA 1ae68bc (opzione legacy, risultati identici)",
+          "ANTHEA bdea165 (regola nuova)",
+          "ANTHEA 008e237, 708a786, 8b2c239, ec2d836 (revisioni: fasce interne dei fori, traccia, pura compressione)",
+          "Checker 8e65715f, 56ea03ca, 59fc2e0e (0.0.16.0), 499245e6",
+          "fixture c.a. di Checker ricatturate dal comportamento attuale: Checker 06d97733, banco ANTHEA 34e6d58"
+        ],
+        "verifica": "pura compressione con wk = 0 e nessun k2 in traccia; libreria e ANTHEA con lo stesso k2, wk ed esito sui 936 stati delle fixture (322 con asse neutro interno, k2 = 0,5); X.Verifiche --checker con le prove dedicate di k2; GPCChecker.Test.Concrete verde; nessuna differenza nel corpus headless (nessuna sezione c.a. con k2 nella traccia); profilo full con prove WPF 67 PASS, 1 KNOWN, 0 NEW-FAIL. Fasce interne dei fori: k2 = (ε1 + ε2)/(2 ε1) della propria distribuzione, confermato dall'utente il 7/10. L'opzione legacy resta solo per i test dedicati e i confronti storici."
+      },
       "decisione": {
         "data": "2026-10-06",
         "utente": "per solo armature tese k2 = 1, per flessione 0,5: il comportamento non è corretto? da vedere insieme",
@@ -122,7 +248,13 @@
         "supporto/test/X.Verifiche/SectionWorkspaceChecks.cs:75-77",
         "supporto/test/X.Verifiche/SectionWorkspaceChecks.cs:123-128"
       ],
-      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:354 (regola di k2)", "supporto/docs/guida-teorica-anthea.md:2171 (Procedura per un caso ordinario)"] },
+      "riquadro_wiki": {
+        "stato": "da-scrivere",
+        "posizioni": [
+          "supporto/docs/guida-teorica-anthea.md:354 (regola di k2)",
+          "supporto/docs/guida-teorica-anthea.md:2171 (Procedura per un caso ordinario)"
+        ]
+      },
       "scheda": "docs/refactoring/scostamenti.md#d7-b-k2-del-ramo-ntc-senza-barre-compresse"
     },
     {
@@ -133,7 +265,11 @@
       "stato": "corretto",
       "descrizione": "ANTHEA imposta RetainingWall.ModelFactorOnSoilInertia = true: F̄ = γRd · ag S/(g tan φ'd). Nella (F.7) F̄ non contiene γRd, che compare solo in N̄, V̄ e M̄. La libreria segue la norma per difetto e conserva l'opzione per riprodurre ANTHEA.",
       "riferimento_normativo": [
-        { "fonte": "EN 1998-5:2004", "punto": "Annesso F (informativo), eq. (F.7) e Tab. F.2", "riscontro": "testo non presente nei repository; riscontro del port in Checker/docs/migrazione-anthea/MIGRAZIONE_ANTHEA.txt:358-362" }
+        {
+          "fonte": "EN 1998-5:2004",
+          "punto": "Annesso F (informativo), eq. (F.7) e Tab. F.2",
+          "riscontro": "testo non presente nei repository; riscontro del port in Checker/docs/migrazione-anthea/MIGRAZIONE_ANTHEA.txt:358-362"
+        }
       ],
       "codice": [
         "X.Calculations/RetainingWall.Library.cs:19-20",
@@ -146,17 +282,56 @@
       "segno": "cautelativo",
       "effetto_quantificato": {
         "sintesi": "F̄ aumenta di γRd (15 % con 1,15). Esempio 4 dei muri: η 0,79114 contro 0,76031 (+4,06 %). Documenti dei muri: 15 con portanza sismica, 46 combinazioni; Δη +1,7 … +7,0 % (media +3,8 %) con η(EN) ≤ 1,5, fino a +40 % fuori campo; 3 esiti cambiano in 3 documenti. Nullo con γRd = 1,00.",
-        "esempio_4": { "eta_anthea": 0.79114, "eta_en": 0.76031, "delta_pct": 4.06 },
-        "documenti": { "totale": 112, "con_sisma": 20, "rifiutati": 3, "con_portanza": 15, "combinazioni": 46, "gamma_rd": 1.15, "delta_pct_eta_en_fino_1_5": [1.7, 7.0], "delta_medio_pct": 3.8, "delta_max_fuori_campo_pct": 40.5, "esiti_cambiati": 3 },
-        "evidenze": ["out/c-muri.csv", "out/c-muri.txt"]
+        "esempio_4": {
+          "eta_anthea": 0.79114,
+          "eta_en": 0.76031,
+          "delta_pct": 4.06
+        },
+        "documenti": {
+          "totale": 112,
+          "con_sisma": 20,
+          "rifiutati": 3,
+          "con_portanza": 15,
+          "combinazioni": 46,
+          "gamma_rd": 1.15,
+          "delta_pct_eta_en_fino_1_5": [
+            1.7,
+            7.0
+          ],
+          "delta_medio_pct": 3.8,
+          "delta_max_fuori_campo_pct": 40.5,
+          "esiti_cambiati": 3
+        },
+        "evidenze": [
+          "out/c-muri.csv",
+          "out/c-muri.txt"
+        ]
       },
       "opzioni": [
-        { "id": "c1", "descrizione": "ANTHEA adotta il predefinito della libreria (false); l'opzione legacy resta per le fixture" },
-        { "id": "c2", "descrizione": "dichiarare" }
+        {
+          "id": "c1",
+          "descrizione": "ANTHEA adotta il predefinito della libreria (false); l'opzione legacy resta per le fixture"
+        },
+        {
+          "id": "c2",
+          "descrizione": "dichiarare"
+        }
       ],
       "raccomandazione": "c1, in due commit con il collegamento dei muri",
-      "decisione": { "data": "2026-10-06", "utente": "seguire la norma", "opzione": "c1", "esito": "γRd non applicato a F̄; l'opzione legacy resta nella libreria per le fixture" },
-      "attuazione": { "data": "2026-10-07", "branch": "refactoring/d7-norma-muri-pali", "commit": ["d2cf2f7"], "verifica": "profilo standard PASS 32, KNOWN 1; cattura headless contro B1: cambia solo la riga della formula in 5 relazioni dei muri (il corpus non ha muri con portanza sismica calcolata); effetto numerico quello della scheda" },
+      "decisione": {
+        "data": "2026-10-06",
+        "utente": "seguire la norma",
+        "opzione": "c1",
+        "esito": "γRd non applicato a F̄; l'opzione legacy resta nella libreria per le fixture"
+      },
+      "attuazione": {
+        "data": "2026-10-07",
+        "branch": "refactoring/d7-norma-muri-pali",
+        "commit": [
+          "d2cf2f7"
+        ],
+        "verifica": "profilo standard PASS 32, KNOWN 1; cattura headless contro B1: cambia solo la riga della formula in 5 relazioni dei muri (il corpus non ha muri con portanza sismica calcolata); effetto numerico quello della scheda"
+      },
       "data": "2026-10-06",
       "fase": "F4.9",
       "test": [
@@ -167,7 +342,12 @@
         "Checker/GPCChecker.Test.Geotechnics/GeneralGeotechnicsMigrationTests.cs:256-259 (geotechnics-seismic-bearing.csv)",
         "Checker/GPCChecker.Test.Geotechnics/Fixtures/walls-documents.jsonl.gz"
       ],
-      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:1203 (Portanza sismica)"] },
+      "riquadro_wiki": {
+        "stato": "da-scrivere",
+        "posizioni": [
+          "supporto/docs/guida-teorica-anthea.md:1203 (Portanza sismica)"
+        ]
+      },
       "scheda": "docs/refactoring/scostamenti.md#d7-c-portanza-sismica-dei-muri-secondo-en-1998-5-annesso-f"
     },
     {
@@ -178,7 +358,11 @@
       "stato": "corretto",
       "descrizione": "Il foglio del palo verticale propone e usa γb = 1,35 per ogni tecnologia (valore modificabile e memorizzato negli archivi). La Tab. 6.4.II dà 1,15 per i pali infissi, 1,35 per i trivellati e 1,30 per l'elica continua; StandardNTC2018Geotechnics.PileExecution di Model li contiene ma ANTHEA non lo usa.",
       "riferimento_normativo": [
-        { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "§6.4.3.1.1, Tab. 6.4.II (R3)", "riscontro": "testo della G.U. consultato" }
+        {
+          "fonte": "NTC 2018 (D.M. 17/01/2018)",
+          "punto": "§6.4.3.1.1, Tab. 6.4.II (R3)",
+          "riscontro": "testo della G.U. consultato"
+        }
       ],
       "codice": [
         "X.Calculations/Calcolo.cs:221-223",
@@ -201,25 +385,90 @@
       "effetto_quantificato": {
         "sintesi": "Casi di casi_confronto.json: 85 calcolati (9 rifiuti attesi). Rc,d drenata alla profondità massima: infissi +4,3 … +7,0 % (12 casi, media +6,0 %), elica +1,0 … +1,2 % (8 casi); non drenata +3,3 … +4,6 % e +0,7 … +1,0 %; trivellati (31) e micropali (34) invariati. Verifica metamorfica (Rb,d · 1,35/γb, Rs,d invariata) superata in 85 casi. Nessun esito Ed ≤ Rc,d cambia.",
         "per_tecnologia": {
-          "battuto": { "casi": 12, "delta_drenato_pct": [4.28, 6.97], "delta_drenato_medio_pct": 6.0, "delta_non_drenato_pct": [3.35, 4.63] },
-          "elica_continua": { "casi": 8, "delta_drenato_pct": [1.02, 1.22], "delta_non_drenato_pct": [0.68, 1.01] },
-          "trivellato": { "casi": 31, "delta_pct": 0 },
-          "micropalo": { "casi": 34, "delta_pct": 0 }
+          "battuto": {
+            "casi": 12,
+            "delta_drenato_pct": [
+              4.28,
+              6.97
+            ],
+            "delta_drenato_medio_pct": 6.0,
+            "delta_non_drenato_pct": [
+              3.35,
+              4.63
+            ]
+          },
+          "elica_continua": {
+            "casi": 8,
+            "delta_drenato_pct": [
+              1.02,
+              1.22
+            ],
+            "delta_non_drenato_pct": [
+              0.68,
+              1.01
+            ]
+          },
+          "trivellato": {
+            "casi": 31,
+            "delta_pct": 0
+          },
+          "micropalo": {
+            "casi": 34,
+            "delta_pct": 0
+          }
         },
         "metamorfica_superata": "85/85",
         "esiti_cambiati": 0,
-        "evidenze": ["out/d-pali.csv", "out/d-pali.txt"]
+        "evidenze": [
+          "out/d-pali.csv",
+          "out/d-pali.txt"
+        ]
       },
       "opzioni": [
-        { "id": "d1", "descrizione": "predefinito per tecnologia da PileExecution per i fogli nuovi e al cambio di tecnologia; gli archivi conservano il valore memorizzato" },
-        { "id": "d2", "descrizione": "d1 più migrazione degli archivi con 1,35 e tecnologia infissa o a elica" },
-        { "id": "d3", "descrizione": "dichiarare 1,35 come valore cautelativo unico" }
+        {
+          "id": "d1",
+          "descrizione": "predefinito per tecnologia da PileExecution per i fogli nuovi e al cambio di tecnologia; gli archivi conservano il valore memorizzato"
+        },
+        {
+          "id": "d2",
+          "descrizione": "d1 più migrazione degli archivi con 1,35 e tecnologia infissa o a elica"
+        },
+        {
+          "id": "d3",
+          "descrizione": "dichiarare 1,35 come valore cautelativo unico"
+        }
       ],
       "raccomandazione": "d1 con avviso quando γb differisce da quello della tecnologia, in due commit (equivalenza con l'override 1,35, poi predefinito per tecnologia); i nuovi attesi dei 20 casi infissi ed elica si affiancano a quelli Python",
-      "decisione": { "data": "2026-10-06", "utente": "seguire la norma", "opzione": "d1", "esito": "γb della Tab. 6.4.II per tecnologia come predefinito dei fogli nuovi e al cambio di tecnologia, con la corrispondenza della tabella; gli archivi conservano il valore memorizzato dall'utente (d2, migrazione degli archivi, non scelta: da confermare con l'utente)" },
-      "attuazione": { "data": "2026-10-07", "branch": "refactoring/d7-norma-muri-pali", "commit": ["7c96c04", "e05a05b"], "verifica": "γb da Model (StandardNTC2018Geotechnics.PileExecution); proposto al cambio di tecnologia e dal Reset; avviso nel calcolo se diverso; verifiche/pile-factors 13 controlli; smoke WPF del display; regressione 464/464 con i soli avvisi attesi aggiunti ai 20 casi battuti ed elica (valori numerici invariati); cattura headless contro B1: 20 risultati con l'avviso in più, nessun numero cambiato" },
-      "decisione_finale": { "data": "2026-10-07", "utente": "in questo momento non ci sono ancora file salvati di anthea. quindi puoi effettuare direttamente d2. non è ancora attivo come salvataggio per gli utenti", "opzione": "d2", "esito": "γb della tecnologia anche come valore di riserva (foglio senza γb) in calcolo, relazione, coefficienti dei progetti ed editor; migrazione una tantum dei fogli senza versione con palo battuto o a elica e γb 1,35 (o assente) al valore della tabella, con la versione del foglio 2 come marcatore." },
-      "attuazione_d2": { "data": "2026-10-07", "commit": ["ANTHEA 241b467 (regola spenta, risultati identici)", "ANTHEA b8e07d8 (regola accesa)", "ANTHEA ac81b74 (micropalo riconosciuto dal modulo, γb confrontato per esecuzione, regola in una funzione)"], "verifica": "verifiche/pile-factors con le prove della regola e della migrazione; regressione 464/464 con gli stessi scarti: i 24 casi battuti ed elica dichiarano nell'input sicurezza_base 1.35 e versione 2, ipotesi dei loro attesi Python, che non cambiano; cattura headless: nessun risultato cambiato nel corpus (versione 2 nei fogli nuovi, riga sicurezza_base nelle relazioni dei 20 casi); effetto sui casi senza γb: Rc,d drenata +4,3 … +7,0 % battuti, +1,0 … +1,2 % elica; profilo full con prove WPF verde." },
+      "decisione": {
+        "data": "2026-10-06",
+        "utente": "seguire la norma",
+        "opzione": "d1",
+        "esito": "γb della Tab. 6.4.II per tecnologia come predefinito dei fogli nuovi e al cambio di tecnologia, con la corrispondenza della tabella; gli archivi conservano il valore memorizzato dall'utente (d2, migrazione degli archivi, non scelta: da confermare con l'utente)"
+      },
+      "attuazione": {
+        "data": "2026-10-07",
+        "branch": "refactoring/d7-norma-muri-pali",
+        "commit": [
+          "7c96c04",
+          "e05a05b"
+        ],
+        "verifica": "γb da Model (StandardNTC2018Geotechnics.PileExecution); proposto al cambio di tecnologia e dal Reset; avviso nel calcolo se diverso; verifiche/pile-factors 13 controlli; smoke WPF del display; regressione 464/464 con i soli avvisi attesi aggiunti ai 20 casi battuti ed elica (valori numerici invariati); cattura headless contro B1: 20 risultati con l'avviso in più, nessun numero cambiato"
+      },
+      "decisione_finale": {
+        "data": "2026-10-07",
+        "utente": "in questo momento non ci sono ancora file salvati di anthea. quindi puoi effettuare direttamente d2. non è ancora attivo come salvataggio per gli utenti",
+        "opzione": "d2",
+        "esito": "γb della tecnologia anche come valore di riserva (foglio senza γb) in calcolo, relazione, coefficienti dei progetti ed editor; migrazione una tantum dei fogli senza versione con palo battuto o a elica e γb 1,35 (o assente) al valore della tabella, con la versione del foglio 2 come marcatore."
+      },
+      "attuazione_d2": {
+        "data": "2026-10-07",
+        "commit": [
+          "ANTHEA 241b467 (regola spenta, risultati identici)",
+          "ANTHEA b8e07d8 (regola accesa)",
+          "ANTHEA ac81b74 (micropalo riconosciuto dal modulo, γb confrontato per esecuzione, regola in una funzione)"
+        ],
+        "verifica": "verifiche/pile-factors con le prove della regola e della migrazione; regressione 464/464 con gli stessi scarti: i 24 casi battuti ed elica dichiarano nell'input sicurezza_base 1.35 e versione 2, ipotesi dei loro attesi Python, che non cambiano; cattura headless: nessun risultato cambiato nel corpus (versione 2 nei fogli nuovi, riga sicurezza_base nelle relazioni dei 20 casi); effetto sui casi senza γb: Rc,d drenata +4,3 … +7,0 % battuti, +1,0 … +1,2 % elica; profilo full con prove WPF verde."
+      },
       "data": "2026-10-06",
       "fase": "F4.5",
       "test": [
@@ -228,7 +477,12 @@
         "Checker/GPCChecker.Test.Geotechnics/PileEdgeCaseTests.cs:344-345",
         "Model/UnitTest/GeotechnicsTest.cs:77-79"
       ],
-      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:158 (Più indagini e coefficienti)"] },
+      "riquadro_wiki": {
+        "stato": "da-scrivere",
+        "posizioni": [
+          "supporto/docs/guida-teorica-anthea.md:158 (Più indagini e coefficienti)"
+        ]
+      },
       "scheda": "docs/refactoring/scostamenti.md#d7-d-coefficiente-di-base-dei-pali-uguale-per-ogni-tecnologia"
     },
     {
@@ -239,13 +493,41 @@
       "stato": "dichiarato",
       "descrizione": "La classe minima per esposizione del profilo NTC vale C30/37 per XC3, XD1, XF4 e XA1, come il prospetto 6 della UNI 11104:2025 in vigore (secondo l'estratto del 28/07/2025), il prospetto 5 della UNI 11104:2016 (riportato in ATECAP 2020) e il prospetto F.1 della EN 206; C28/35 per le stesse classi è il valore attribuito all'edizione 2004. Il codice tiene C30/37 (decisione del 7/10) e le citazioni di ANTHEA indicano ora edizione e prospetto. Secondo un estratto pubblicato il 28/07/2025 (fonte secondaria) il prospetto 6 della 2025 differisce dal codice per una sola classe, XF1 (C30/37 contro C32/40 del codice e della 2016), e per i limiti di composizione: voce seguito, con l'opzione e4 da attuare in F2.9 dopo il riscontro del prospetto 6 su una copia con licenza della norma. La classe minima regola l'avviso della scheda Materiali e la maggiorazione di 5 mm del copriferro NTC.",
       "riferimento_normativo": [
-        { "fonte": "UNI 11104:2025", "punto": "punto 6.1 «Requisiti relativi alle classi di esposizione», prospetto 6 «Valori limite per la composizione e le proprietà del calcestruzzo», riga «Classe di resistenza minima»", "riscontro": "indiretto, da completare su una copia con licenza della norma prima di F2.9. (1) Anteprima pubblicata nel catalogo UNI, pagine visibili: indice (pp. III-IV, con il punto 6.1 «Requisiti relativi alle classi di esposizione» a p. 10), introduzione (p. 1), punti 1 e 2 (p. 2), con l'intestazione «UNI 11104:2025»; il frontespizio e il prospetto 6 non sono fra le pagine visibili e l'indice elenca i punti, non i prospetti. (2) Estratto pubblicato il 28/07/2025 (fonte secondaria): XC3, XD1, XF4 e XA1 C30/37 come nella 2016; XF1 C30/37 con A/C 0,55; cemento minimo più basso in tutte le classi che lo prescrivono. La trascrizione completa registrata il 7/10 come «pagina 12 dell'anteprima» veniva da contenuti del file dell'anteprima che il lettore non mostra (residuo di una versione precedente del file): non è una fonte riproducibile e i valori seguenti restano provvisori fino al riscontro. Valori provvisori. Classi minime: X0 C12/15; XC1 e XC2 C25/30; XC3 C30/37; XC4 C32/40; XS1 C32/40; XS2 e XS3 C35/45; XD1 C30/37; XD2 C32/40; XD3 C35/45; XF1 C30/37; XF2 e XF3 C25/30; XF4 C30/37; XA1 C30/37; XA2 C32/40; XA3 C35/45. A/C massimo: XC1-XC2 0,60; XC3 0,55; XC4 0,50; XS1 0,50; XS2-XS3 0,45; XD1 0,55; XD2 0,50; XD3 0,45; XF1 0,55; XF2-XF3 0,50; XF4 0,45; XA1 0,55; XA2 0,50; XA3 0,45. Cemento minimo (kg/m³): XC1-XC2 280; XC3 300; XC4 320; XS1 320; XS2-XS3 350; XD1 300; XD2 320; XD3 350; XF1 300; XF2-XF3 320; XF4 340; XA1 300; XA2 320; XA3 350; X0 senza valore. Nota a) aria 4 % per Dupper > 20 mm, 5 % ad esempio per 12-16 mm; nota b) XF1 aerato con le specifiche di XF2 e XF3" },
-        { "fonte": "Catalogo UNI", "punto": "schede UNI 11104:2025 e UNI 11104:2016", "riscontro": "diretto: UNI 11104:2025 in vigore, entrata in vigore 24/07/2025, sostituisce la UNI 11104:2016; UNI 11104:2016 ritirata con sostituzione, in vigore dal 14/07/2016 al 24/07/2025, sostituisce la UNI 11104:2004. Nessuna edizione o errata corrige successiva trovata" },
-        { "fonte": "UNI 11104:2016", "punto": "prospetto 5 «Valori limite per la composizione e le proprietà del calcestruzzo»", "riscontro": "indiretto: riproduzione in ATECAP 2020, La corretta prescrizione del calcestruzzo, p. 19 (testo letto; il documento indica la 2016 come ultimo aggiornamento della norma). Classi minime uguali al codice per tutte le 18 classi (XF1 C32/40); A/C e cemento uguali a AtecapMix. Concorde per XC1-XC4 un articolo tecnico di settore del 28/04/2024 (XC3 0,55, C30/37, 320 kg/m³). Testo UNI 2016 non consultato: il catalogo non ne pubblica l'anteprima" },
-        { "fonte": "UNI 11104:2004", "punto": "prospetto 4", "riscontro": "non riscontrato in questa ricerca: C28/35 per XC3, XD1, XF4 e XA1 resta l'attribuzione del commento della libreria e della revisione del 6/10" },
-        { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "§11.2.11; Tab. 4.1.I e nota sulle classi C28/35 e C32/40", "riscontro": "testo della G.U. consultato" },
-        { "fonte": "Circolare 21/01/2019 n. 7", "punto": "C4.1.6.1.3, Tab. C4.1.IV", "riscontro": "testo della G.U., p. 90" },
-        { "fonte": "UNI EN 206-1:2006", "punto": "prospetto F.1 (informativo)", "riscontro": "testo consultato: C30/37 per XC3, XD1, XF4, XA1" }
+        {
+          "fonte": "UNI 11104:2025",
+          "punto": "punto 6.1 «Requisiti relativi alle classi di esposizione», prospetto 6 «Valori limite per la composizione e le proprietà del calcestruzzo», riga «Classe di resistenza minima»",
+          "riscontro": "indiretto, da completare su una copia con licenza della norma prima di F2.9. (1) Anteprima pubblicata nel catalogo UNI, pagine visibili: indice (pp. III-IV, con il punto 6.1 «Requisiti relativi alle classi di esposizione» a p. 10), introduzione (p. 1), punti 1 e 2 (p. 2), con l'intestazione «UNI 11104:2025»; il frontespizio e il prospetto 6 non sono fra le pagine visibili e l'indice elenca i punti, non i prospetti. (2) Estratto pubblicato il 28/07/2025 (fonte secondaria): XC3, XD1, XF4 e XA1 C30/37 come nella 2016; XF1 C30/37 con A/C 0,55; cemento minimo più basso in tutte le classi che lo prescrivono. La trascrizione completa registrata il 7/10 come «pagina 12 dell'anteprima» veniva da contenuti del file dell'anteprima che il lettore non mostra (residuo di una versione precedente del file): non è una fonte riproducibile e i valori seguenti restano provvisori fino al riscontro. Valori provvisori. Classi minime: X0 C12/15; XC1 e XC2 C25/30; XC3 C30/37; XC4 C32/40; XS1 C32/40; XS2 e XS3 C35/45; XD1 C30/37; XD2 C32/40; XD3 C35/45; XF1 C30/37; XF2 e XF3 C25/30; XF4 C30/37; XA1 C30/37; XA2 C32/40; XA3 C35/45. A/C massimo: XC1-XC2 0,60; XC3 0,55; XC4 0,50; XS1 0,50; XS2-XS3 0,45; XD1 0,55; XD2 0,50; XD3 0,45; XF1 0,55; XF2-XF3 0,50; XF4 0,45; XA1 0,55; XA2 0,50; XA3 0,45. Cemento minimo (kg/m³): XC1-XC2 280; XC3 300; XC4 320; XS1 320; XS2-XS3 350; XD1 300; XD2 320; XD3 350; XF1 300; XF2-XF3 320; XF4 340; XA1 300; XA2 320; XA3 350; X0 senza valore. Nota a) aria 4 % per Dupper > 20 mm, 5 % ad esempio per 12-16 mm; nota b) XF1 aerato con le specifiche di XF2 e XF3"
+        },
+        {
+          "fonte": "Catalogo UNI",
+          "punto": "schede UNI 11104:2025 e UNI 11104:2016",
+          "riscontro": "diretto: UNI 11104:2025 in vigore, entrata in vigore 24/07/2025, sostituisce la UNI 11104:2016; UNI 11104:2016 ritirata con sostituzione, in vigore dal 14/07/2016 al 24/07/2025, sostituisce la UNI 11104:2004. Nessuna edizione o errata corrige successiva trovata"
+        },
+        {
+          "fonte": "UNI 11104:2016",
+          "punto": "prospetto 5 «Valori limite per la composizione e le proprietà del calcestruzzo»",
+          "riscontro": "indiretto: riproduzione in ATECAP 2020, La corretta prescrizione del calcestruzzo, p. 19 (testo letto; il documento indica la 2016 come ultimo aggiornamento della norma). Classi minime uguali al codice per tutte le 18 classi (XF1 C32/40); A/C e cemento uguali a AtecapMix. Concorde per XC1-XC4 un articolo tecnico di settore del 28/04/2024 (XC3 0,55, C30/37, 320 kg/m³). Testo UNI 2016 non consultato: il catalogo non ne pubblica l'anteprima"
+        },
+        {
+          "fonte": "UNI 11104:2004",
+          "punto": "prospetto 4",
+          "riscontro": "non riscontrato in questa ricerca: C28/35 per XC3, XD1, XF4 e XA1 resta l'attribuzione del commento della libreria e della revisione del 6/10"
+        },
+        {
+          "fonte": "NTC 2018 (D.M. 17/01/2018)",
+          "punto": "§11.2.11; Tab. 4.1.I e nota sulle classi C28/35 e C32/40",
+          "riscontro": "testo della G.U. consultato"
+        },
+        {
+          "fonte": "Circolare 21/01/2019 n. 7",
+          "punto": "C4.1.6.1.3, Tab. C4.1.IV",
+          "riscontro": "testo della G.U., p. 90"
+        },
+        {
+          "fonte": "UNI EN 206-1:2006",
+          "punto": "prospetto F.1 (informativo)",
+          "riscontro": "testo consultato: C30/37 per XC3, XD1, XF4, XA1"
+        }
       ],
       "codice": [
         "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:10-13",
@@ -270,18 +552,51 @@
       "effetto_quantificato": {
         "nota": "Effetto dell'opzione e1 (C28/35), scartata con la decisione del 7/10; resta come misura della differenza fra le edizioni 2004 e 2016/2025.",
         "sintesi": "Classe minima diversa in 46 combinazioni di esposizione su 520. Nel catalogo della scheda Materiali cambia solo C28/35: oggi segnalata come inferiore al minimo in quelle 46 combinazioni. Copriferro nominale NTC: +5 mm in 184 casi su 17 646, tutti con fck fra 28 e 30 MPa. ANTHEA e libreria coincidono. L'etichetta C28/35 manca in MinimumConcrete.Label ma non serve: Label riceve solo valori di MinimumConcrete.Required (12, 25, 30, 32, 35 MPa).",
-        "combinazioni": { "totale": 520, "cambiate": 46, "singole": 4, "doppie": 18, "triple": 24 },
-        "catalogo": { "classi": 16, "classi_che_cambiano": ["C28/35"], "avvisi_cambiati": 46 },
-        "copriferro": { "casi": 17646, "cambiati": 184, "delta_mm": 5 },
-        "evidenze": ["out/e-durabilita.txt", "out/e-copriferri.csv"]
+        "combinazioni": {
+          "totale": 520,
+          "cambiate": 46,
+          "singole": 4,
+          "doppie": 18,
+          "triple": 24
+        },
+        "catalogo": {
+          "classi": 16,
+          "classi_che_cambiano": [
+            "C28/35"
+          ],
+          "avvisi_cambiati": 46
+        },
+        "copriferro": {
+          "casi": 17646,
+          "cambiati": 184,
+          "delta_mm": 5
+        },
+        "evidenze": [
+          "out/e-durabilita.txt",
+          "out/e-copriferri.csv"
+        ]
       },
       "opzioni": [
-        { "id": "e1", "descrizione": "riscontrare la UNI 11104 (2016) e, se confermato, adottare C28/35 nel profilo NTC con la relativa etichetta" },
-        { "id": "e2", "descrizione": "dichiarare i valori del prospetto F.1 della EN 206" },
-        { "id": "e3", "descrizione": "tenere entrambi i riferimenti e lasciare la scelta all'utente nel foglio, con il predefinito sul riferimento in vigore" }
+        {
+          "id": "e1",
+          "descrizione": "riscontrare la UNI 11104 (2016) e, se confermato, adottare C28/35 nel profilo NTC con la relativa etichetta"
+        },
+        {
+          "id": "e2",
+          "descrizione": "dichiarare i valori del prospetto F.1 della EN 206"
+        },
+        {
+          "id": "e3",
+          "descrizione": "tenere entrambi i riferimenti e lasciare la scelta all'utente nel foglio, con il predefinito sul riferimento in vigore"
+        }
       ],
       "raccomandazione": "e1 dopo il riscontro del testo; fino ad allora riquadro dichiarato; decisione prima di F2.9",
-      "decisione_finale": { "data": "2026-10-07", "utente": "confermo la norma più aggiornata", "esito": "UNI 11104 nell'edizione in vigore (2025): C30/37 per XC3, XD1, XF4 e XA1 come oggi, nessuna scelta del riferimento 2004. Restano da riscontrare sul testo 2025 le classi minime di tutte le esposizioni e da aggiornare le citazioni (numero e edizione del prospetto).", "seguito": "e4 in F2.9 dopo riscontro del prospetto 6 su copia con licenza (decisione del coordinatore su delega dell'utente, da ratificare: seguito.decisione_finale)" },
+      "decisione_finale": {
+        "data": "2026-10-07",
+        "utente": "confermo la norma più aggiornata",
+        "esito": "UNI 11104 nell'edizione in vigore (2025): C30/37 per XC3, XD1, XF4 e XA1 come oggi, nessuna scelta del riferimento 2004. Restano da riscontrare sul testo 2025 le classi minime di tutte le esposizioni e da aggiornare le citazioni (numero e edizione del prospetto).",
+        "seguito": "e4 in F2.9 dopo riscontro del prospetto 6 su copia con licenza (decisione del coordinatore su delega dell'utente, da ratificare: seguito.decisione_finale)"
+      },
       "decisione": {
         "data": "2026-10-06",
         "utente": "lasciare entrambi i riferimenti e la possibilità di scelta all'utente",
@@ -292,7 +607,10 @@
       "attuazione": {
         "data": "2026-10-07",
         "branch": "refactoring/d7e-uni11104",
-        "commit": ["6b01da8 (codice, guida teorica, indice della Wiki)", "commit successivo dello stesso branch (registro, scostamenti, decisioni)"],
+        "commit": [
+          "6b01da8 (codice, guida teorica, indice della Wiki)",
+          "commit successivo dello stesso branch (registro, scostamenti, decisioni)"
+        ],
         "anthea": "Nessun valore numerico cambiato. Citazioni corrette: commento di MinimumConcrete (prospetto 6 della UNI 11104:2025, valori trascritti dal prospetto 5 della 2016, eccezione XF1); commento nuovo di AtecapMix (prospetto 5 della 2016 e differenze della 2025); nota della scheda Materiali «UNI 11104:2025, prospetto 6», con la nota su XF1 quando XF1 è attiva; testo «Riferimenti della composizione» della scheda e del report Word dei materiali (prospetto 5 della 2016 e differenze della 2025); README di X.Materiali; guida teorica, paragrafo «Esposizioni e requisiti del materiale» e riga XF1 della tabella (edizioni Word e PDF da rigenerare con le guide); indice della Wiki rigenerato. Etichetta C28/35 non aggiunta: non serve (vedi effetto_quantificato).",
         "libreria": "Da fare nella prossima release di GPCChecker.Concrete (F2.9 durabilità), senza modificare Checker ora per non cambiare la DLL della release S2: commento di ExposureClasses.cs:10-13, :89, :121, :128 e riferimento restituito a :107 «UNI 11104 prospetto 5 (NTC 2018 §11.2.11)», da scrivere con edizione e prospetto (testo proposto nel resoconto del filone e nella scheda); README di GPCChecker.Concrete:163-164 e :176; MIGRAZIONE_ANTHEA.txt:74 e :260-261; commento di DurabilityEdgeCaseTests.cs:122; pagina dei metodi docs/metodi/ca.durabilita-copriferri.md, che in develop 1fbaea61 dava la 2025 uguale al codice anche per a/c e cemento ed è stata allineata in develop 7d86ffc7 (differenze della 2025 dall'estratto del 28/07/2025, fonte secondaria da riscontrare; riquadro C-1 riscritto): con e4 si aggiorna di nuovo in F2.9 dopo il riscontro del prospetto 6.",
         "attesi": "Nessun atteso da aggiornare: i testi cambiati compaiono solo nella scheda WPF e nel report Word dei materiali, che non hanno uscite catturate nel runner (profili quick e standard, baseline headless F2-B2, supporto/test). Il riferimento della libreria a :107 non è usato da ANTHEA.",
@@ -303,8 +621,14 @@
         "descrizione": "Il prospetto 6 della UNI 11104:2025 differisce dai valori del codice (UNI 11104:2016, prospetto 5) in tre punti, tutti con il codice più restrittivo: (1) classe minima di XF1, C30/37 contro C32/40; (2) A/C massimo di XF1, 0,55 contro 0,50; (3) cemento minimo inferiore in tutte le classi: 280 contro 300 (XC1-XC2), 300 contro 320 (XC3, XD1, XF1, XA1), 320 contro 340 (XC4, XS1, XD2, XF2-XF3, XA2), 340 contro 360 (XF4), 350 contro 360 (XS2-XS3, XD3, XA3). I punti (1) e (2) e il verso del punto (3) vengono dall'estratto del 28/07/2025 (fonte secondaria); i valori di cemento per classe sono quelli provvisori del riferimento normativo, da riscontrare sul prospetto 6 di una copia con licenza.",
         "effetto": "Classe minima: con XF1 a C30/37 cambiano 13 combinazioni di esposizione su 520 (1 singola, 5 doppie, 7 triple: XF1 con XC1, XC2, XC3, XD1, XA1), da C32/40 a C30/37; nel catalogo cambia solo C30/37, oggi segnalata inferiore al minimo in quelle 13 combinazioni, e il copriferro nominale NTC di C30/37 in quelle combinazioni perderebbe la maggiorazione di 5 mm. Composizione: cambia il cemento minimo di tutte le combinazioni tranne X0 e l'A/C delle combinazioni in cui XF1 governa.",
         "opzioni": [
-          { "id": "e4", "descrizione": "allineare classe minima e composizione al prospetto 6 della 2025 (ANTHEA in F2.9 insieme alla libreria, con i due commit e la ricattura di durability-legacy.csv: 22 righe MIX con cemento, con classe minima anche per XF1 e XF1+XF3 e A/C per XF1; 36 righe NTC di XF1 e XF1+XF3 con Cmin pertinente da MinimumConcrete.Required, da 32 a 30, di cui 4 con fck 30 senza la maggiorazione di 5 mm; attesi di A/C e cemento in supporto/test/Materiali/MaterialViewChecks.cs:78 da ritrascrivere dal prospetto 6)" },
-          { "id": "e5", "descrizione": "tenere i valori della 2016 come scelta cautelativa dichiarata (stato attuale, già scritto nelle citazioni)" }
+          {
+            "id": "e4",
+            "descrizione": "allineare classe minima e composizione al prospetto 6 della 2025 (ANTHEA in F2.9 insieme alla libreria, con i due commit e la ricattura di durability-legacy.csv: 22 righe MIX con cemento, con classe minima anche per XF1 e XF1+XF3 e A/C per XF1; 36 righe NTC di XF1 e XF1+XF3 con Cmin pertinente da MinimumConcrete.Required, da 32 a 30, di cui 4 con fck 30 senza la maggiorazione di 5 mm; attesi di A/C e cemento in supporto/test/Materiali/MaterialViewChecks.cs:78 da ritrascrivere dal prospetto 6)"
+          },
+          {
+            "id": "e5",
+            "descrizione": "tenere i valori della 2016 come scelta cautelativa dichiarata (stato attuale, già scritto nelle citazioni)"
+          }
         ],
         "raccomandazione": "e4, per coerenza con la decisione «confermo la norma più aggiornata»; decisione dell'utente prima di F2.9",
         "decisione_finale": {
@@ -316,14 +640,25 @@
       },
       "data": "2026-10-06",
       "fase": "F2.9 (citazioni della libreria; attuazione di e4 dopo il riscontro del prospetto 6 su copia con licenza)",
-      "seguito_f29": { "data": "2026-10-08", "decisore": "coordinatore su delega dell'utente, da ratificare (F2.9-D6, decisioni.md)", "esito": "e4 esclusa da F2.9: serve una copia con licenza della UNI 11104:2025 per riscontrare il prospetto 6. Restano i valori della UNI 11104:2016, prospetto 5, in libreria e in ANTHEA; nessun atteso, testo o fixture cambia (durability-legacy.csv, supporto/test/Materiali/MaterialViewChecks.cs:78). La scelta fra e4 ed e5 torna all'utente (proposta F2.9-U1). Le citazioni della libreria senza e4 (ExposureClasses.cs, README, MIGRAZIONE_ANTHEA.txt, DurabilityEdgeCaseTests.cs:122) sono il passo CD1 di F2.9a in Checker: c'è sul branch locale anthea-f2-9-durabilita (975cf006, corsia F2.9a, worktree Temp\\gpc-s3-dev-d\\Checker), non ancora in develop né pushato; attuazione.libreria si aggiorna quando entra in develop. Il riferimento restituito a ExposureClasses.cs:107 non cambia (F2.9-D7, proposta U2)." },
+      "seguito_f29": {
+        "data": "2026-10-08",
+        "decisore": "coordinatore su delega dell'utente, da ratificare (F2.9-D6, decisioni.md)",
+        "esito": "e4 esclusa da F2.9: serve una copia con licenza della UNI 11104:2025 per riscontrare il prospetto 6. Restano i valori della UNI 11104:2016, prospetto 5, in libreria e in ANTHEA; nessun atteso, testo o fixture cambia (durability-legacy.csv, supporto/test/Materiali/MaterialViewChecks.cs:78). La scelta fra e4 ed e5 torna all'utente (proposta F2.9-U1). Le citazioni della libreria senza e4 (ExposureClasses.cs, README, MIGRAZIONE_ANTHEA.txt, DurabilityEdgeCaseTests.cs:122) sono il passo CD1 di F2.9a in Checker: c'è sul branch locale anthea-f2-9-durabilita (975cf006, corsia F2.9a, worktree Temp\\gpc-s3-dev-d\\Checker), non ancora in develop né pushato; attuazione.libreria si aggiorna quando entra in develop. Il riferimento restituito a ExposureClasses.cs:107 non cambia (F2.9-D7, proposta U2)."
+      },
       "test": [
         "Checker/GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122-125",
         "Checker/GPCChecker.Test.Concrete/DurabilityMigrationTests.cs (durability-legacy.csv, righe MIX)",
         "X.Materiali/ExposureSelector.cs:102",
         "X.Materiali/ExposureSelector.cs:109"
       ],
-      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:61 (Esposizioni e requisiti del materiale)", "supporto/docs/guida-teorica-anthea.md:85 (Copriferro minimo e nominale)"], "nota": "7/10: il paragrafo :63 dichiara già edizione, prospetto ed eccezione XF1; il riquadro resta per W1" },
+      "riquadro_wiki": {
+        "stato": "da-scrivere",
+        "posizioni": [
+          "supporto/docs/guida-teorica-anthea.md:61 (Esposizioni e requisiti del materiale)",
+          "supporto/docs/guida-teorica-anthea.md:85 (Copriferro minimo e nominale)"
+        ],
+        "nota": "7/10: il paragrafo :63 dichiara già edizione, prospetto ed eccezione XF1; il riquadro resta per W1"
+      },
       "scheda": "docs/refactoring/scostamenti.md#d7-e-classe-minima-per-xc3-xd1-xf4-e-xa1"
     },
     {
@@ -334,13 +669,36 @@
       "stato": "da-correggere",
       "descrizione": "Il predimensionamento applica γQ = 1,50 al traffico (Tab. 5.1.V: 1,35) e un carico uniforme di 9 kN/m² sull'intera larghezza dell'impalcato, senza i tandem dello Schema 1; γG = 1,35 vale anche per i permanenti portati (Tab. 5.1.V: 1,50 se non ben definiti). Le ipotesi sono modificabili e memorizzate negli archivi; il modulo dichiara di non costituire verifica NTC.",
       "componenti": [
-        { "id": "f1", "oggetto": "γQ 1,50 contro 1,35", "categoria": "scostamento-normativo", "segno": "cautelativo (+11,1 % sulla parte da traffico)" },
-        { "id": "f2", "oggetto": "9 kN/m² sull'intera larghezza, senza tandem", "categoria": "intenzionale", "segno": "non cautelativo per luci sotto 20 m, cautelativo per luci maggiori" },
-        { "id": "f3", "oggetto": "γG 1,35 sui permanenti portati", "categoria": "intenzionale", "segno": "non cautelativo rispetto a 1,50 se non ben definiti" }
+        {
+          "id": "f1",
+          "oggetto": "γQ 1,50 contro 1,35",
+          "categoria": "scostamento-normativo",
+          "segno": "cautelativo (+11,1 % sulla parte da traffico)"
+        },
+        {
+          "id": "f2",
+          "oggetto": "9 kN/m² sull'intera larghezza, senza tandem",
+          "categoria": "intenzionale",
+          "segno": "non cautelativo per luci sotto 20 m, cautelativo per luci maggiori"
+        },
+        {
+          "id": "f3",
+          "oggetto": "γG 1,35 sui permanenti portati",
+          "categoria": "intenzionale",
+          "segno": "non cautelativo rispetto a 1,50 se non ben definiti"
+        }
       ],
       "riferimento_normativo": [
-        { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "Tab. 5.1.V (colonna A1) e nota 2", "riscontro": "testo della G.U. consultato" },
-        { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "§5.1.3.3.5, Tab. 5.1.II (Schema di carico 1)", "riscontro": "testo della G.U. consultato" }
+        {
+          "fonte": "NTC 2018 (D.M. 17/01/2018)",
+          "punto": "Tab. 5.1.V (colonna A1) e nota 2",
+          "riscontro": "testo della G.U. consultato"
+        },
+        {
+          "fonte": "NTC 2018 (D.M. 17/01/2018)",
+          "punto": "§5.1.3.3.5, Tab. 5.1.II (Schema di carico 1)",
+          "riscontro": "testo della G.U. consultato"
+        }
       ],
       "codice": [
         "X.Calculations/BridgeConcept.cs:9",
@@ -351,19 +709,92 @@
       "segno": "γQ cautelativo; carico equivalente misto (non cautelativo sotto 20 m di luce); γG2 non cautelativo",
       "effetto_quantificato": {
         "sintesi": "γQ 1,35 su 225 casi (predefinito e 224 combinazioni di BridgeDesign.Checks): momento positivo −2,5 … −5,5 %; costo invariato per le 10 famiglie a trave; −1,4 … −1,8 % strallati, −3,3 … −3,6 % archi, −3,3 … −3,9 % reticolari, −4,2 … −5,2 % sospesi; pali diversi in 21 casi; ottimizzazione del caso predefinito invariata. Carico equivalente contro Schema 1 sul caso predefinito: rapporto dei momenti 0,65 a 10 m, 1,01 a 20 m, 1,45 a 40 m, 2,29 a 200 m. γG2: qd −2,6 % con γG2 1,50 e γQ 1,35.",
-        "gamma_q": { "casi": 225, "delta_momento_pct": [-5.5, -2.5], "delta_costo_pct": { "cable_stayed": [-1.84, -1.43], "tied_arch": [-3.64, -3.28], "truss": [-3.95, -3.30], "suspension": [-5.21, -4.15], "famiglie_a_trave": 0 }, "delta_acciaio_pct": [-4.4, -1.9], "casi_pali_diversi": 21, "esclusioni_ottimizzazione_diverse": 0, "ottimizzazione_predefinito_invariata": true },
-        "carico_equivalente": { "larghezza_m": 20.2, "q_codice_kN_m": 181.8, "q_schema1_kN_m": 67.5, "rapporto_momento": { "10": 0.652, "15": 0.847, "20": 1.008, "25": 1.144, "30": 1.260, "40": 1.446, "60": 1.704, "100": 1.993, "200": 2.289 } },
-        "gamma_g2": { "g_kN_m": 257.8, "g2_kN_m": 74.5, "qd_codice_kN_m": 620.7, "qd_ntc_kN_m": 604.6, "delta_pct": -2.6 },
-        "evidenze": ["out/f-bridge.csv", "out/f-lm1.csv", "out/f-bridge.txt"]
+        "gamma_q": {
+          "casi": 225,
+          "delta_momento_pct": [
+            -5.5,
+            -2.5
+          ],
+          "delta_costo_pct": {
+            "cable_stayed": [
+              -1.84,
+              -1.43
+            ],
+            "tied_arch": [
+              -3.64,
+              -3.28
+            ],
+            "truss": [
+              -3.95,
+              -3.3
+            ],
+            "suspension": [
+              -5.21,
+              -4.15
+            ],
+            "famiglie_a_trave": 0
+          },
+          "delta_acciaio_pct": [
+            -4.4,
+            -1.9
+          ],
+          "casi_pali_diversi": 21,
+          "esclusioni_ottimizzazione_diverse": 0,
+          "ottimizzazione_predefinito_invariata": true
+        },
+        "carico_equivalente": {
+          "larghezza_m": 20.2,
+          "q_codice_kN_m": 181.8,
+          "q_schema1_kN_m": 67.5,
+          "rapporto_momento": {
+            "10": 0.652,
+            "15": 0.847,
+            "20": 1.008,
+            "25": 1.144,
+            "30": 1.26,
+            "40": 1.446,
+            "60": 1.704,
+            "100": 1.993,
+            "200": 2.289
+          }
+        },
+        "gamma_g2": {
+          "g_kN_m": 257.8,
+          "g2_kN_m": 74.5,
+          "qd_codice_kN_m": 620.7,
+          "qd_ntc_kN_m": 604.6,
+          "delta_pct": -2.6
+        },
+        "evidenze": [
+          "out/f-bridge.csv",
+          "out/f-lm1.csv",
+          "out/f-bridge.txt"
+        ]
       },
       "opzioni": [
-        { "id": "f1", "descrizione": "γQ 1,35 come predefinito dei documenti nuovi; gli archivi conservano il proprio valore" },
-        { "id": "f1'", "descrizione": "dichiarare 1,50 come margine del predimensionamento" },
-        { "id": "f2", "descrizione": "dichiarare il carico uniforme equivalente con avviso per campate sotto 20 m, oppure introdurre il tandem dello Schema 1" },
-        { "id": "f3", "descrizione": "γG2 1,50 sui permanenti portati, oppure dichiararli ben definiti" }
+        {
+          "id": "f1",
+          "descrizione": "γQ 1,35 come predefinito dei documenti nuovi; gli archivi conservano il proprio valore"
+        },
+        {
+          "id": "f1'",
+          "descrizione": "dichiarare 1,50 come margine del predimensionamento"
+        },
+        {
+          "id": "f2",
+          "descrizione": "dichiarare il carico uniforme equivalente con avviso per campate sotto 20 m, oppure introdurre il tandem dello Schema 1"
+        },
+        {
+          "id": "f3",
+          "descrizione": "γG2 1,50 sui permanenti portati, oppure dichiararli ben definiti"
+        }
       ],
       "raccomandazione": "f1; f2 come dichiarazione con avviso, valutando il tandem quando BridgeConcept passa in GPC.Design; f3 come dichiarazione",
-      "decisione_finale": { "data": "2026-10-07", "utente": "se fattibile come costo computazionale (deve essere rapido) prendiamo in considerazione il tandem, linee di influenza, γQ 1,35", "esito": "Schema 1 con tandem e linee di influenza in forma chiusa e γQ = 1,35 in GPC.Design (F4.11), con vincolo di rapidità: tempo di esplorazione e ottimizzazione da misurare contro quello attuale prima di adottarlo come predefinito." },
+      "decisione_finale": {
+        "data": "2026-10-07",
+        "utente": "se fattibile come costo computazionale (deve essere rapido) prendiamo in considerazione il tandem, linee di influenza, γQ 1,35",
+        "esito": "Schema 1 con tandem e linee di influenza in forma chiusa e γQ = 1,35 in GPC.Design (F4.11), con vincolo di rapidità: tempo di esplorazione e ottimizzazione da misurare contro quello attuale prima di adottarlo come predefinito."
+      },
       "decisione": {
         "data": "2026-10-06",
         "utente": "cercare la soluzione più simile al caso reale: 9 kN/m² + tandem, 20 kN/m², un altro metodo semplificato oppure il tandem ripartito come carico distribuito maggiore",
@@ -376,7 +807,12 @@
         "nessun test fissa γQ; supporto/test/BridgeDesign.Checks e supporto/test/BridgeDesign.IndependentChecks usano il predefinito 1,5",
         "supporto/esempi/bridge-design.anthea (gamma_q memorizzato)"
       ],
-      "riquadro_wiki": { "stato": "da-scrivere", "posizioni": ["supporto/docs/guida-teorica-anthea.md:892 (Acciai e carichi equivalenti)"] },
+      "riquadro_wiki": {
+        "stato": "da-scrivere",
+        "posizioni": [
+          "supporto/docs/guida-teorica-anthea.md:892 (Acciai e carichi equivalenti)"
+        ]
+      },
       "scheda": "docs/refactoring/scostamenti.md#d7-f-bridge-design-coefficiente-e-carico-da-traffico"
     },
     {
@@ -404,22 +840,43 @@
           "Storico lineare": "Storico lineare · deformazioni e ritiro incrementali",
           "Storico non lineare": "Storico non lineare · fibre e plasticità dell’acciaio"
         },
-        "evidenze": ["out/g-metodo.txt"]
+        "evidenze": [
+          "out/g-metodo.txt"
+        ]
       },
       "opzioni": [
-        { "id": "g1", "descrizione": "il risultato porta l'etichetta della scelta e il metodo della libreria; il report li scrive entrambi" },
-        { "id": "g2", "descrizione": "ripristinare result.Method" },
-        { "id": "g3", "descrizione": "dichiarare" }
+        {
+          "id": "g1",
+          "descrizione": "il risultato porta l'etichetta della scelta e il metodo della libreria; il report li scrive entrambi"
+        },
+        {
+          "id": "g2",
+          "descrizione": "ripristinare result.Method"
+        },
+        {
+          "id": "g3",
+          "descrizione": "dichiarare"
+        }
       ],
       "raccomandazione": "g1, numeri invariati; il campo Method torna al metodo della libreria e le baseline BridgeAudit non si riscrivono",
-      "decisione": { "data": "2026-10-06", "utente": "ripristinare", "opzione": "g2", "esito": "corretto nel commit ANTHEA 0d861de: il risultato riporta di nuovo result.Method della libreria; l'etichetta scelta resta in data[\"metodo_analisi\"]. Confronto con la baseline B0: cambiano solo le righe del metodo nei report e nei risultati di str_mista_ponte (4 file)." },
+      "decisione": {
+        "data": "2026-10-06",
+        "utente": "ripristinare",
+        "opzione": "g2",
+        "esito": "corretto nel commit ANTHEA 0d861de: il risultato riporta di nuovo result.Method della libreria; l'etichetta scelta resta in data[\"metodo_analisi\"]. Confronto con la baseline B0: cambiano solo le righe del metodo nei report e nei risultati di str_mista_ponte (4 file)."
+      },
       "data": "2026-10-06",
       "fase": "F0.10 o F3.12",
       "test": [
         "Checker/GPCChecker.Test.BridgeAudit/Baselines/bridge-0.json … bridge-7.json (campo Method)",
         "Checker/GPCChecker.Test.BridgeAudit/BridgeMigrationSnapshotTests.cs:38"
       ],
-      "riquadro_wiki": { "stato": "non-richiesto", "posizioni": ["nota sul report nella guida pratica della sezione composta"] },
+      "riquadro_wiki": {
+        "stato": "non-richiesto",
+        "posizioni": [
+          "nota sul report nella guida pratica della sezione composta"
+        ]
+      },
       "scheda": "docs/refactoring/scostamenti.md#d7-g-testo-del-metodo-nei-report-della-sezione-composta"
     },
     {
@@ -429,15 +886,34 @@
       "categoria": "scostamento-normativo",
       "stato": "da-correggere",
       "descrizione": "Il profilo fib Model Code 2010 usa τbms/fctm = 1,8 a breve durata e 1,35 a lunga durata, con βmin = 1 − kt. La Tab. 7.6-2 dà τbms = 1,8 fctm nella fessurazione stabilizzata a ogni durata (β 0,6 breve, 0,4 lunga); 1,35 fctm vale solo nella formazione della singola fessura a lunga durata, con β = 0,6. Il profilo MC2010 non ha regole per barre distanziate; il limite 1,3 (h − x) senza barre aderenti non ha base nel Model Code.",
-      "riferimento_normativo": [ { "fonte": "fib Model Code 2010", "punto": "§7.6.4.4, Tab. 7.6-2", "riscontro": "probabile-alto: fonti secondarie concordi (tesi PoliTo Tab. 2.3, articolo CTU 2022 p. 129); testo originale da riscontrare prima dell'attuazione" } ],
-      "codice": [ "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:74-79" ],
+      "riferimento_normativo": [
+        {
+          "fonte": "fib Model Code 2010",
+          "punto": "§7.6.4.4, Tab. 7.6-2",
+          "riscontro": "probabile-alto: fonti secondarie concordi (tesi PoliTo Tab. 2.3, articolo CTU 2022 p. 129); testo originale da riscontrare prima dell'attuazione"
+        }
+      ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:74-79"
+      ],
       "segno": "cautelativo (τbms minore dà sr maggiore)",
-      "effetto_quantificato": { "sintesi": "+28 % e +50 % sull'apertura negli esempi della ricerca (a lunga durata)", "evidenze": ["supporto/artefatti/refactoring/ricerca-a/rapporto.md §1, §2.9, §6"] },
+      "effetto_quantificato": {
+        "sintesi": "+28 % e +50 % sull'apertura negli esempi della ricerca (a lunga durata)",
+        "evidenze": [
+          "supporto/artefatti/refactoring/ricerca-a/rapporto.md §1, §2.9, §6"
+        ]
+      },
       "raccomandazione": "correggere τbms e β per stadio (formazione / stabilizzata) con opzione legacy, dopo il riscontro sul testo della Tab. 7.6-2",
-      "decisione": { "data": "2026-10-06", "utente": "decisione (a): correggere se è sbagliato", "esito": "da correggere dopo il riscontro del testo" },
+      "decisione": {
+        "data": "2026-10-06",
+        "utente": "decisione (a): correggere se è sbagliato",
+        "esito": "da correggere dopo il riscontro del testo"
+      },
       "data": "2026-10-07",
       "fase": "F2.3",
-      "test": [ "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs (righe MC2010 delle fixture)" ]
+      "test": [
+        "Checker/GPCChecker.Test.Concrete/CrackMigrationTests.cs (righe MC2010 delle fixture)"
+      ]
     },
     {
       "id": "R2",
@@ -446,12 +922,27 @@
       "categoria": "scostamento-normativo",
       "stato": "da-correggere",
       "descrizione": "Il profilo DIN usa kt = 0,4 anche a breve durata (valore fisso della DIN 1045-1, eq. 136). Il NA conserva kt = 0,6 breve / 0,4 lunga come la EN; la bozza 2010-02 contiene una NCI «di regola kt = 0,4» la cui presenza nel testo finale è incerta. sr,max del profilo DIN (k1 k2 = 1, k3 = 0, k4 = 1/3,6, tetto σs φ/(3,6 fct,eff)) è corretto.",
-      "riferimento_normativo": [ { "fonte": "DIN EN 1992-1-1/NA:2013-04", "punto": "NDP e NCI a 7.3.4(2)-(3)", "riscontro": "probabile: testo finale a pagamento non letto; bozza 2010-02 (rapporto DIBt, Anhang C) e manuali di calcolo concordi su 0,6/0,4" } ],
-      "codice": [ "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs", "Checker/GPCChecker.Concrete/Cracking/CrackProfiles.cs" ],
+      "riferimento_normativo": [
+        {
+          "fonte": "DIN EN 1992-1-1/NA:2013-04",
+          "punto": "NDP e NCI a 7.3.4(2)-(3)",
+          "riscontro": "probabile: testo finale a pagamento non letto; bozza 2010-02 (rapporto DIBt, Anhang C) e manuali di calcolo concordi su 0,6/0,4"
+        }
+      ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs",
+        "Checker/GPCChecker.Concrete/Cracking/CrackProfiles.cs"
+      ],
       "segno": "cautelativo",
-      "effetto_quantificato": { "sintesi": "≤ 1 % sull'apertura negli esempi (−0,5 %)" },
+      "effetto_quantificato": {
+        "sintesi": "≤ 1 % sull'apertura negli esempi (−0,5 %)"
+      },
       "raccomandazione": "kt secondo la durata come la EN, con opzione legacy; riscontrare il testo finale per la NCI «di regola 0,4»",
-      "decisione": { "data": "2026-10-06", "utente": "decisione (a): correggere se è sbagliato", "esito": "da correggere" },
+      "decisione": {
+        "data": "2026-10-06",
+        "utente": "decisione (a): correggere se è sbagliato",
+        "esito": "da correggere"
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -462,12 +953,34 @@
       "categoria": "difetto-legacy",
       "stato": "corretto",
       "descrizione": "I commenti e il testo della formula nelle tracce del ramo EN citano «EC2 7.3.4(4)»; nel testo del 2004 la (7.14) è al punto 7.3.4(3). Anche k2 della (7.11) era citato al 7.3.4(2). Solo testo.",
-      "riferimento_normativo": [ { "fonte": "EN 1992-1-1:2004", "punto": "§7.3.4(3), eq. (7.14)", "riscontro": "certo" } ],
-      "codice": [ "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:95", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:123", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:207", "X.Calculations/ConcreteCodeChecks.cs:213" ],
+      "riferimento_normativo": [
+        {
+          "fonte": "EN 1992-1-1:2004",
+          "punto": "§7.3.4(3), eq. (7.14)",
+          "riscontro": "certo"
+        }
+      ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:95",
+        "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:123",
+        "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:207",
+        "X.Calculations/ConcreteCodeChecks.cs:213"
+      ],
       "segno": "nessun effetto numerico",
       "raccomandazione": "correggere il testo in Checker e in ANTHEA",
-      "decisione": { "data": "2026-10-06", "utente": "decisione (a)", "esito": "da correggere (solo testo)" },
-      "attuazione": { "data": "2026-10-07", "commit": ["Checker 7c15cf4f (develop, pushato; in ANTHEA con la release S2 di lib/Checker, GPCChecker.Concrete 0.0.17.0, edc4fce dai commit pushati, candidato f6b6fdf; integrazione 2 b818b20)", "ANTHEA, branch refactoring/d7-norma-muri-pali"], "verifica": "GPCChecker.Test.Concrete 500/500; cattura headless contro B1 senza differenze dovute alla correzione" },
+      "decisione": {
+        "data": "2026-10-06",
+        "utente": "decisione (a)",
+        "esito": "da correggere (solo testo)"
+      },
+      "attuazione": {
+        "data": "2026-10-07",
+        "commit": [
+          "Checker 7c15cf4f (develop, pushato; in ANTHEA con la release S2 di lib/Checker, GPCChecker.Concrete 0.0.17.0, edc4fce dai commit pushati, candidato f6b6fdf; integrazione 2 b818b20)",
+          "ANTHEA, branch refactoring/d7-norma-muri-pali"
+        ],
+        "verifica": "GPCChecker.Test.Concrete 500/500; cattura headless contro B1 senza differenze dovute alla correzione"
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -478,13 +991,31 @@
       "categoria": "scostamento-normativo",
       "stato": "da-decidere",
       "descrizione": "Il profilo MC2010 usa θmin = 20° in ogni caso; MC2010 §7.3.3.3 (livelli di approssimazione II e III) dà θmin = 20° + 10 000 εx.",
-      "riferimento_normativo": [ { "fonte": "fib Model Code 2010", "punto": "§7.3.3.3", "riscontro": "da riscontrare sul testo" } ],
-      "codice": [ "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:164", "Checker/GPCChecker.Concrete/Torsion/TorsionProfiles.cs:81" ],
+      "riferimento_normativo": [
+        {
+          "fonte": "fib Model Code 2010",
+          "punto": "§7.3.3.3",
+          "riscontro": "da riscontrare sul testo"
+        }
+      ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:164",
+        "Checker/GPCChecker.Concrete/Torsion/TorsionProfiles.cs:81"
+      ],
       "segno": "NON cautelativo",
-      "effetto_quantificato": { "sintesi": "resistenza a taglio +38,8 % nell'esempio S5 della pagina ca.taglio", "evidenze": ["supporto/artefatti/refactoring/metodi/esempi.txt"] },
+      "effetto_quantificato": {
+        "sintesi": "resistenza a taglio +38,8 % nell'esempio S5 della pagina ca.taglio",
+        "evidenze": [
+          "supporto/artefatti/refactoring/metodi/esempi.txt"
+        ]
+      },
       "effetto_anthea": "Verificato il 7/10: ANTHEA offre il profilo «Model Code 2010» (X.Calculations/ConcreteStandards.cs:10) e il suo codice legacy del taglio con staffe usa lo stesso θmin = 20° (X.Calculations/ConcreteCodeChecks.cs:107, maxCot = cot 20°). Il profilo NTC predefinito non è coinvolto.",
       "raccomandazione": "riscontrare il testo e correggere con opzione legacy; a sfavore di sicurezza, priorità alta",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -495,13 +1026,29 @@
       "categoria": "scostamento-normativo",
       "stato": "da-decidere",
       "descrizione": "Con il solutore non lineare le tensioni di esercizio si calcolano con le leggi di progetto (σc · αcc/γc, fyd) invece delle leggi di esercizio; StressLimitCheck accetta il risultato senza avviso.",
-      "riferimento_normativo": [ { "fonte": "EN 1992-1-1:2004 / NTC 2018", "punto": "§7.2 / §4.1.2.2.5", "riscontro": "interpretazione: le verifiche di esercizio usano le proprietà medie o caratteristiche dei materiali" } ],
-      "codice": [ "Checker/GPCChecker.Concrete/SectionSolvers/SectionSolverModelCode2010.cs:110-129", "Model/Model/Materials/Concrete/ConcreteMaterialEuropeanCommon.cs:706-740", "Checker/GPCChecker.Concrete/Serviceability/StressLimitCheck.cs:85-88" ],
+      "riferimento_normativo": [
+        {
+          "fonte": "EN 1992-1-1:2004 / NTC 2018",
+          "punto": "§7.2 / §4.1.2.2.5",
+          "riscontro": "interpretazione: le verifiche di esercizio usano le proprietà medie o caratteristiche dei materiali"
+        }
+      ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/SectionSolvers/SectionSolverModelCode2010.cs:110-129",
+        "Model/Model/Materials/Concrete/ConcreteMaterialEuropeanCommon.cs:706-740",
+        "Checker/GPCChecker.Concrete/Serviceability/StressLimitCheck.cs:85-88"
+      ],
       "segno": "NON cautelativo sul calcestruzzo",
-      "effetto_quantificato": { "sintesi": "σc −31 % a 80 kNm; a 150 kNm rapporto 0,83 contro 1,14 dell'analisi lineare (sezione 300×500 dell'esempio)" },
+      "effetto_quantificato": {
+        "sintesi": "σc −31 % a 80 kNm; a 150 kNm rapporto 0,83 contro 1,14 dell'analisi lineare (sezione 300×500 dell'esempio)"
+      },
       "effetto_anthea": "Verificato il 7/10: per default le tensioni SLE della sezione c.a. sono lineari (il predefinito «Lineare · sezione fessurata» è ricondotto a «Lineare» in X.Calculations/SectionWorkspace.cs:64). Se l'utente sceglie «Non lineare» nella scheda Tensioni (X.Desktop/Wpf/ConcreteStress.cs), CheckerSection passa StressAnalysisTypes.NonLinear (X.Calculations/CheckerSection.cs:94) e le tensioni di esercizio usano le leggi di progetto senza avviso; la relazione riporta «Modello: Non lineare» (Ntc2018Checks.cs:42).",
       "raccomandazione": "leggi di esercizio nell'analisi non lineare oppure rifiuto con avviso; a sfavore di sicurezza, priorità alta",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -512,11 +1059,23 @@
       "categoria": "scostamento-normativo",
       "stato": "da-decidere",
       "descrizione": "Il profilo DIN eredita k5 = 0,75 (Model StandardModelCode2010); secondo una fonte secondaria il NA dà 0,65.",
-      "riferimento_normativo": [ { "fonte": "DIN EN 1992-1-1/NA", "punto": "NDP 7.2(5)", "riscontro": "fonte secondaria; da confermare" } ],
-      "codice": [ "Model/Model/Standards/StandardModelCode2010.cs:176" ],
+      "riferimento_normativo": [
+        {
+          "fonte": "DIN EN 1992-1-1/NA",
+          "punto": "NDP 7.2(5)",
+          "riscontro": "fonte secondaria; da confermare"
+        }
+      ],
+      "codice": [
+        "Model/Model/Standards/StandardModelCode2010.cs:176"
+      ],
       "segno": "NON cautelativo se confermato",
       "raccomandazione": "riscontrare il NA; se confermato correggere in Model",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -533,11 +1092,22 @@
         "fonte": "NTC 2018 (D.M. 17/01/2018), §4.1.2.3.6, eq. [4.1.38]: testo della G.U. n. 42 del 20/02/2018, S.O. n. 8, p. 82 (copia locale supporto/artefatti/ponte_taglio_pioli/fonti/NTC2018.txt, non versionata)",
         "esito": "[4.1.38] dà 1 ≤ cot θ ≤ 2,5 anche in torsione e, entro questi limiti, in torsione pura consente cot θ = (al/as)^1/2; il limite 0,4 ≤ cot θ era della NTC 2008. Il campo [1; 2,5] del codice (Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:153-154, cmax da TorsionProfiles.MaximumCotTheta) coincide con la norma: la componente non è uno scostamento ed è tolta dalla descrizione e dal codice della voce. Resta un limite dichiarato, non uno scostamento: cot θ è un dato e la scelta automatica di (al/as)^1/2 in torsione pura non è implementata (pagina ca.torsione, punto 9). Corretto anche il diario della notte 6-7/10, che riportava la stessa componente."
       },
-      "codice": [ "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:111-113", "Checker/GPCChecker.Concrete/Serviceability/StressLimitCheck.cs:100-120", "Checker/GPCChecker.Concrete/Cracking/CrackRequirements.cs:70-78", "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:176", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:183-193", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:205-215" ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:111-113",
+        "Checker/GPCChecker.Concrete/Serviceability/StressLimitCheck.cs:100-120",
+        "Checker/GPCChecker.Concrete/Cracking/CrackRequirements.cs:70-78",
+        "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:176",
+        "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:183-193",
+        "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:205-215"
+      ],
       "segno": "cautelativo per l'interazione delle bielle, le interpretazioni SLE, NS e DS; wk = 0 con asse neutro nel copriferro dichiarato; da stabilire per il limite 1,3 (h − x) con barre tese fuori da Ac,eff (F-4): nel caso di prova della pagina (h − x = 100 mm, barre a 50 mm dal lembo, σs = 100 MPa) wk = 0,039 mm EN e 0,03825 mm NTC, il doppio con la deformazione del lembo",
       "effetto_anthea": "Banco F2.1 (7/10): dal commit ANTHEA 0a63315 (2/10) anche il legacy applica le due interpretazioni dichiarate della fessurazione, wk = 0 con asse neutro nel copriferro (22 stati) e limite superiore EC2 7.3.4(3) con barre tese fuori da Ac,eff (8 stati); le fixture di Checker del 1/10 le precedono e le differenze erano classificate FC-1…FC-5 in tests/ANTHEA.Testing/f2-classificazione.json. Il 7/10 (decisione B) le fixture sono state ricatturate da F2-pre-m4-v2 (ANTHEA d2d3225, Checker 06d97733): il banco non ha più differenze e le classificazioni sono tolte.",
       "raccomandazione": "dichiarare nelle pagine dei metodi (già fatto nei riquadri delle pagine) e nella guida teorica",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
+      },
       "data": "2026-10-07",
       "fase": "F2.2 (pagine), W1.2 (riquadri)"
     },
@@ -548,10 +1118,18 @@
       "categoria": "scostamento-normativo",
       "stato": "da-decidere",
       "descrizione": "MC2010: apertura senza la deformazione di ritiro εcs e con il minimo (1 − kt) σs/Es. DIN: coefficiente di hc,ef (Bild 7.1DE) concorde con una fonte secondaria, mentre un esempio svolto di un'altra fonte legge 3,25 per h/(h − d) = 25 dove il codice dà 4,5. EN: wmax 0,3 mm assegnato a XD3, da controllare sulla tabella base.",
-      "codice": [ "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:74-79", "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs:198", "Checker/GPCChecker.Concrete/Cracking/CrackRequirements.cs:84" ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Cracking/CrackWidthCalculator.cs:74-79",
+        "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs:198",
+        "Checker/GPCChecker.Concrete/Cracking/CrackRequirements.cs:84"
+      ],
       "segno": "da stabilire",
       "raccomandazione": "riscontrare sui testi primari prima di F2.3",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -562,10 +1140,16 @@
       "categoria": "intenzionale",
       "stato": "da-decidere",
       "descrizione": "Il calcolo non controlla VEd ≤ 0,5 bw d ν fcd (EN 6.2.2(6)), non usa ν1 = 0,6 della nota 2 di 6.2.3(3) e non distingue la regola danese per le staffe di classe A.",
-      "codice": [ "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs" ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs"
+      ],
       "segno": "6.2.2(6) non controllato: NON cautelativo per carichi vicini agli appoggi",
       "raccomandazione": "aggiungere il controllo 6.2.2(6); dichiarare gli altri due limiti",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -576,13 +1160,28 @@
       "categoria": "scostamento-normativo",
       "stato": "da-decidere",
       "descrizione": "Il metodo di ancoraggio non applica il limite di fctk,0,05 alla classe C60/75 (EN 8.4.2(2); per la NTC da riscontrare) e lo lascia al chiamante.",
-      "riferimento_normativo": [ { "fonte": "EN 1992-1-1:2004", "punto": "§8.4.2(2)", "riscontro": "testo consultato" } ],
-      "codice": [ "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:7-8", "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:90" ],
+      "riferimento_normativo": [
+        {
+          "fonte": "EN 1992-1-1:2004",
+          "punto": "§8.4.2(2)",
+          "riscontro": "testo consultato"
+        }
+      ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:7-8",
+        "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:90"
+      ],
       "segno": "NON cautelativo oltre C60/75",
-      "effetto_quantificato": { "sintesi": "lb,rqd −11 % con C90/105" },
+      "effetto_quantificato": {
+        "sintesi": "lb,rqd −11 % con C90/105"
+      },
       "effetto_anthea": "Verificato il 7/10: la sezione c.a. limita fck a 60 prima di ricavare fctk (X.Calculations/ConcreteDetailingAnalysis.cs:60-61) e il palo elastico passa fctk della classe limitata (ElasticHorizontalPile.Reinforcement.cs:204); le armature dei muri passano fctk,0,05 senza limite (X.Calculations/RetainingWall.Reinforcement.cs:45-46 e :52): ancoraggi e sovrapposizioni dei muri più corti del dovuto solo con classi oltre C60/75.",
       "raccomandazione": "applicare il limite nella libreria, con opzione legacy; intanto i muri vanno allineati agli altri chiamanti",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -593,12 +1192,23 @@
       "categoria": "difetto-legacy",
       "stato": "da-decidere",
       "descrizione": "Nel profilo NTC, se il chiamante non passa la classe minima pertinente, Cmin vale il valore di tabella invece della classe minima dell'esposizione; la maggiorazione di 5 mm per fck < Cmin può allora mancare.",
-      "codice": [ "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:155" ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:155"
+      ],
       "segno": "NON cautelativo (fino a −5 mm sul copriferro)",
-      "effetto_quantificato": { "sintesi": "esempio XC3 C28/35 trave: cnom 35 mm con il default contro 40 mm con Cmin della UNI 11104 in libreria", "evidenze": ["supporto/artefatti/refactoring/metodi2/out-durability.txt"] },
+      "effetto_quantificato": {
+        "sintesi": "esempio XC3 C28/35 trave: cnom 35 mm con il default contro 40 mm con Cmin della UNI 11104 in libreria",
+        "evidenze": [
+          "supporto/artefatti/refactoring/metodi2/out-durability.txt"
+        ]
+      },
       "effetto_anthea": "Verificato il 7/10: nessuno. Tutti i chiamanti di ANTHEA passano la classe minima pertinente (X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Calculations/Materials/MaterialCover.cs:31, X.Materiali/MaterialDetails.cs:173 con MinimumConcrete.Required; ElasticHorizontalPile.Reinforcement.cs:155 con ExposureClasses.Uni11104MinimumStrength). Il default riguarda solo gli altri utenti della libreria. Riverificato in F2.9 (8/10): con l'adattatore della durabilità i chiamanti sono gli stessi e passano la classe pertinente (X.Calculations/Materials/MaterialCover.cs:34, X.Calculations/ConcreteDetailingAnalysis.cs:37-38, X.Materiali/MaterialDetails.cs:173, ElasticHorizontalPile.Reinforcement.cs:155); il default lo usano solo le prove (supporto/test/Shared/DurabilityReferenceChecks.cs) e la cattura densa, con risultati identici fra i motori (registro F2-13).",
       "raccomandazione": "default = classe minima pertinente dell'esposizione dalla tabella di durabilità (oggi 25 + 5 · severità, cioè i Cmin per ambiente della Tab. C4.1.IV, che la Circolare riferisce alla classe di esposizione pertinente)",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -609,11 +1219,23 @@
       "categoria": "difetto-legacy",
       "stato": "da-decidere",
       "descrizione": "Il controllo dell'interasse massimo delle barre longitudinali dei pilastri NTC misura la distanza fra barre consecutive anche attraverso il nucleo invece che lungo le facce.",
-      "codice": [ "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:152-154", "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs:145-161" ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:152-154",
+        "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs:145-161"
+      ],
       "segno": "cautelativo (esito non soddisfatto indebito)",
-      "effetto_quantificato": { "sintesi": "pilastro 600×600 con 8Ø20: 498 mm calcolati contro 249 mm lungo le facce, limite 300 mm: non soddisfatto indebito", "evidenze": ["supporto/artefatti/refactoring/metodi2/out-spacing.txt"] },
+      "effetto_quantificato": {
+        "sintesi": "pilastro 600×600 con 8Ø20: 498 mm calcolati contro 249 mm lungo le facce, limite 300 mm: non soddisfatto indebito",
+        "evidenze": [
+          "supporto/artefatti/refactoring/metodi2/out-spacing.txt"
+        ]
+      },
       "raccomandazione": "correggere (misura lungo il perimetro), con opzione legacy",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -624,10 +1246,19 @@
       "categoria": "intenzionale",
       "stato": "da-decidere",
       "descrizione": "Riduzione 0,6 dell'interasse delle staffe nelle sovrapposizioni dei pilastri EC anche con Ømax ≤ 14 mm (EN 9.5.3(4)(ii): con 8Ø14 il limite scende a 168 mm invece di 280); sovrapposizione NTC minima 200 mm invece di 150 (§4.1.2.3.10); limite 0,08 Ac nelle giunzioni applicato anche al profilo NTC; nota 2 del prospetto 4.3N (aria inglobata oltre il 4 %) non implementata.",
-      "codice": [ "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:169", "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:97", "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:140", "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:135-139" ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:169",
+        "Checker/GPCChecker.Concrete/Detailing/AnchorageCalculator.cs:97",
+        "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:140",
+        "Checker/GPCChecker.Concrete/Durability/CoverRequirements.cs:135-139"
+      ],
       "segno": "cautelativo",
       "raccomandazione": "correggere la riduzione 0,6 (esito indebito); dichiarare gli altri tre",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -638,10 +1269,20 @@
       "categoria": "intenzionale",
       "stato": "da-decidere",
       "descrizione": "Travi EC: la regola dei 15Ø per le barre compresse (EN 9.2.1.2(3), anche NTC §4.1.6.1.1) è sostituita da una conferma. Momento-curvatura: χu al punto limite e χy al primo snervamento di una barra, senza bilineare equivalente e senza φ(M85 %) della Circolare (Fig. C4.1.12). Citazioni: NTC MinimumTension cita EC2 §9.3.1.1 invece di 9.2.1.1; riferimenti NTC «§4.1.6.1 .3» con uno spazio; equazioni As,min NTC 2018 [4.1.45]-[4.1.46] (non 4.1.43-4.1.44); «UNI 11104 prospetto 5» dipende dall'edizione.",
-      "codice": [ "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:220", "Checker/GPCChecker.Concrete/Response/MomentCurvatureAnalysis.cs:142-164", "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:200", "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:112-117", "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:107" ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:220",
+        "Checker/GPCChecker.Concrete/Response/MomentCurvatureAnalysis.cs:142-164",
+        "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:200",
+        "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:112-117",
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:107"
+      ],
       "segno": "15Ø: da stabilire (la conferma dipende dall'utente); citazioni senza effetto",
       "raccomandazione": "implementare la regola dei 15Ø come controllo; dichiarare le definizioni del momento-curvatura e aggiungere la bilineare come opzione; correggere le citazioni",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5)"
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -652,12 +1293,33 @@
       "categoria": "difetto-legacy",
       "stato": "corretto",
       "descrizione": "Nelle fasce interne dei fori (pareti e anello) h − x era εmax/|∇ε| anche con un gradiente di rumore del solutore (1e-15…1e-12 1/mm) in trazione quasi uniforme: h − x ≈ 1e12 mm e, con barre distanziate (EN (7.14), NTC Δsm,distante = 0,75 (h − x)), wk ≈ 1e9 mm (cassone 1000×1000 con foro 600×600, N = 3000 kN: h − x = 1,65e12 mm, wk = 3,3e9 mm; libreria, cassone 400×600: wk = 238 389 mm). Presente già in 733a77c, rilevato dalla revisione di D7-b. Regola adottata (decisione dell'utente del 7/10/2026, «Altezza lungo il gradiente»; la regola di d2d3225 / Checker da7cf02a, ripristinata con ANTHEA 08c6dcc e Checker 12547700): h − x = min[εmax/|∇ε|; h della sezione lungo il gradiente] (x ≥ 0, come per le facce esterne della sezione interamente tesa); con |∇ε| h ≤ 1e-4 εmax trazione uniforme: fascia intera, k2 = 1, h − x = h della sezione normale alla faccia (diametro per l'anello; prima Max(B, H) con gradiente nullo). Con l'asse neutro dentro la sezione nulla cambia rispetto a prima della correzione (h − x = εmax/|∇ε|, che non supera l'altezza lungo il gradiente). k2 della fascia interna con l'asse neutro che taglia la sezione: la (7.13) della propria distribuzione (decisione confermata). Continuità: quando l'asse neutro entra nella sezione εmax/|∇ε| tende all'altezza lungo il gradiente, quindi h − x e wk delle fasce sono continui in flessione retta e deviata, nei cassoni quadrati e non e nell'anello (X.Verifiche (k): piani prescritti a ±1e-6 mm dall'ingresso, differenze ≤ 2,2e-8; libreria, CrackMigrationTests (i): entro 1e-6). Salto residuo, dichiarato e fissato nelle prove: alla soglia della trazione uniforme (|∇ε| h = 1e-4 εmax, un'eccentricità trascurabile) h − x passa dall'altezza normale alla faccia a quella lungo il gradiente dove le due differiscono, cioè nei cassoni non quadrati e con il gradiente obliquo: cassone 1000×1400 con foro 600×1000, N = 1500 kN, momento intorno a x: fasce ±x 1000 → 1400 mm, wk delle fasce +40 %; momento intorno a y: fasce ±y 1400 → 1000 mm, wk della sezione 1,1538 → 0,8242 mm NTC; cassone 1000×1000, N = 3000 kN, momento lungo (0,6; 0,8): tutte le fasce 1000 → 1372,5 mm, wk della sezione 2,0114 → 2,7608 mm NTC (+37 %); libreria, cassone 400×600 con il gradiente lungo y: fasce ±x 400 → 600 mm (+50 %); nell'anello solo l'effetto del poligono che approssima il cerchio. Regola intermedia ritirata (ANTHEA 76a2062, commenti f2e3830 e guida 348f967; Checker d2f81329 e 984cf849): con la sezione interamente tesa il limite era l'altezza normale alla faccia, continua alla soglia ma con un salto dove l'asse neutro entra nella sezione (cassone 1000×1000, momento lungo (0,6; 0,8), M = 485,4385 kNm: fascia +x 1000 → 1183,68 mm, −y 1000 → 1149,59 mm, wk della sezione 3,9279 → 4,6494 mm NTC e 4,0049 → 4,7406 mm EN, +18,4 %); con la regola adottata la fascia +x vale 1183,68 mm e il wk della sezione 4,6494 mm ai due lati. Anche le facce esterne cambiano regime all'ingresso dell'asse neutro (sezione interamente tesa ↔ flessione): il wk della sezione può cambiare lì per le facce esterne (anello Ø1000: 5,448 → 3,079 mm), non per le fasce.",
-      "riferimento_normativo": [ { "fonte": "EN 1992-1-1:2004", "punto": "§7.3.4(3), eq. (7.13)-(7.14)", "riscontro": "h − x è la profondità della zona tesa (x ≥ 0); k2 = 1 in trazione uniforme" } ],
-      "codice": [ "X.Calculations/ConcreteInnerCracking.cs:24-43", "X.Calculations/ConcreteInnerCracking.cs:61-72", "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:362-414 (12547700)" ],
+      "riferimento_normativo": [
+        {
+          "fonte": "EN 1992-1-1:2004",
+          "punto": "§7.3.4(3), eq. (7.13)-(7.14)",
+          "riscontro": "h − x è la profondità della zona tesa (x ≥ 0); k2 = 1 in trazione uniforme"
+        }
+      ],
+      "codice": [
+        "X.Calculations/ConcreteInnerCracking.cs:24-43",
+        "X.Calculations/ConcreteInnerCracking.cs:61-72",
+        "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:362-414 (12547700)"
+      ],
       "segno": "il difetto dava aperture assurde (cautelative) nei soli casi di trazione quasi uniforme o eccentrica con asse neutro fuori dalla sezione; nessun effetto con l'asse neutro interno. Con la regola adottata h − x delle fasce è limitato all'altezza lungo il gradiente nelle sezioni interamente tese (wk minore o uguale a 733a77c) ed è continuo all'ingresso dell'asse neutro; alla soglia della trazione uniforme, per un'eccentricità trascurabile, wk delle fasce cambia a gradino nel rapporto fra l'altezza lungo il gradiente e quella normale alla faccia (nei casi di prova da −29 % a +50 %)",
       "raccomandazione": "correggere in ANTHEA e nella libreria (fatto, regola scelta dall'utente); salto residuo alla soglia della trazione uniforme dichiarato nella guida teorica",
-      "decisione": { "data": "2026-10-07", "utente": "Altezza lungo il gradiente", "esito": "corretto con h − x = min[εmax/|∇ε|; h della sezione lungo il gradiente] (regola di d2d3225); regola intermedia di 76a2062 ritirata; k2 della fascia con l'asse neutro che taglia la sezione dalla (7.13) della propria distribuzione (confermato)" },
-      "attuazione": { "data": "2026-10-07", "commit": ["Checker da7cf02a; regola intermedia d2f81329 e 984cf849, ritirata con 12547700 (develop, pushati); GPCChecker.Concrete 0.0.17.0 in ANTHEA con la release S2 di lib/Checker (edc4fce dai commit pushati, candidato f6b6fdf, branch refactoring/f2-4-snapshot-s2; integrazione 2 b818b20)", "ANTHEA d2d3225; regola intermedia 76a2062, f2e3830 e 348f967, ritirata con 08c6dcc (branch refactoring/integrazione-d7b-d2)"], "verifica": "Checker 12547700: GPCChecker.Test.Concrete 510/510 (CrackMigrationTests (h) tensione eccentrica, (i) continuità all'ingresso dell'asse neutro con cassone 400×600, 400×400 e anello, (j) salto residuo alla soglia); ModelChecker.Tests 106/106 (Model compilato prima di Checker). ANTHEA 08c6dcc: X.Verifiche --checker (CrackK2Checks 545 controlli; (j) e (k): ingresso dell'asse neutro per bisezione a 1e-6 kNm, stati del solutore entro 1e-3 per il rumore di convergenza del piano, fino a ≈ 3e-5, piani prescritti entro 1e-6; salto residuo alla soglia fissato); profilo standard PASS 33, KNOWN 1 (verifiche/project-calculations), NEW-FAIL 0; profilo baseline -Only '^baseline/' con -DenseRef F2-pre-m4-v2/a/tutte e -BaselineRef F2-B2/headless: PASS 6, banco c.a. senza differenze (27 698 righe contro le fixture, 32 564 contro F2-pre-m4-v2, solo identificativi casuali), cattura headless uguale a B2 su 432 file salvo 21 tempi volatili. Esiti in supporto/artefatti/refactoring/r15/regola-gradiente. Banco c.a. di d2d3225: 4 stati C1000H con la sola N = 300 kN (B0-8, B0-9), anello interno +2,8e-8 relativo, esiti invariati" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "Altezza lungo il gradiente",
+        "esito": "corretto con h − x = min[εmax/|∇ε|; h della sezione lungo il gradiente] (regola di d2d3225); regola intermedia di 76a2062 ritirata; k2 della fascia con l'asse neutro che taglia la sezione dalla (7.13) della propria distribuzione (confermato)"
+      },
+      "attuazione": {
+        "data": "2026-10-07",
+        "commit": [
+          "Checker da7cf02a; regola intermedia d2f81329 e 984cf849, ritirata con 12547700 (develop, pushati); GPCChecker.Concrete 0.0.17.0 in ANTHEA con la release S2 di lib/Checker (edc4fce dai commit pushati, candidato f6b6fdf, branch refactoring/f2-4-snapshot-s2; integrazione 2 b818b20)",
+          "ANTHEA d2d3225; regola intermedia 76a2062, f2e3830 e 348f967, ritirata con 08c6dcc (branch refactoring/integrazione-d7b-d2)"
+        ],
+        "verifica": "Checker 12547700: GPCChecker.Test.Concrete 510/510 (CrackMigrationTests (h) tensione eccentrica, (i) continuità all'ingresso dell'asse neutro con cassone 400×600, 400×400 e anello, (j) salto residuo alla soglia); ModelChecker.Tests 106/106 (Model compilato prima di Checker). ANTHEA 08c6dcc: X.Verifiche --checker (CrackK2Checks 545 controlli; (j) e (k): ingresso dell'asse neutro per bisezione a 1e-6 kNm, stati del solutore entro 1e-3 per il rumore di convergenza del piano, fino a ≈ 3e-5, piani prescritti entro 1e-6; salto residuo alla soglia fissato); profilo standard PASS 33, KNOWN 1 (verifiche/project-calculations), NEW-FAIL 0; profilo baseline -Only '^baseline/' con -DenseRef F2-pre-m4-v2/a/tutte e -BaselineRef F2-B2/headless: PASS 6, banco c.a. senza differenze (27 698 righe contro le fixture, 32 564 contro F2-pre-m4-v2, solo identificativi casuali), cattura headless uguale a B2 su 432 file salvo 21 tempi volatili. Esiti in supporto/artefatti/refactoring/r15/regola-gradiente. Banco c.a. di d2d3225: 4 stati C1000H con la sola N = 300 kN (B0-8, B0-9), anello interno +2,8e-8 relativo, esiti invariati"
+      },
       "data": "2026-10-07",
       "fase": "F2.3"
     },
@@ -668,13 +1330,29 @@
       "categoria": "scostamento-normativo",
       "stato": "da-decidere",
       "descrizione": "Nel profilo DS la resistenza delle bielle in torsione usa in ogni caso ν = νv = max(0,45; 0,7 − fck/200), il fattore del taglio (SectionShearCalculator.StrutEfficiency), anche per le sezioni piene armate sulla sola faccia esterna. DK NA 5.6.1(3)P (informazione supplementare) dà per la torsione νt = 0,7 (0,7 − fck/200) (5.104 NA); νt si può porre uguale a νv solo se le pareti del profilo resistente hanno staffe chiuse sul perimetro e barre longitudinali distribuite su entrambe le facce; con taglio e torsione insieme si usa la media di νv e νt pesata sulle due azioni. L'indicatore HollowWithReinforcementOnBothFaces non è usato dal profilo DS.",
-      "riferimento_normativo": [ { "fonte": "DS/EN 1992-1-1 con DK NA:2024", "punto": "5.6.1(3)P, informazione supplementare, eq. (5.103 NA) e (5.104 NA)", "riscontro": "testo (pagina ca.torsione di Checker, riquadro R-4)" } ],
-      "codice": [ "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:90-94", "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:214-219" ],
+      "riferimento_normativo": [
+        {
+          "fonte": "DS/EN 1992-1-1 con DK NA:2024",
+          "punto": "5.6.1(3)P, informazione supplementare, eq. (5.103 NA) e (5.104 NA)",
+          "riscontro": "testo (pagina ca.torsione di Checker, riquadro R-4)"
+        }
+      ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Torsion/SectionTorsionCalculator.cs:90-94",
+        "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs:214-219"
+      ],
       "segno": "NON cautelativo: TRcd e la parte di torsione dell'interazione delle bielle valgono 1/0,7 = 1,43 volte quelli della norma fino a fck = 50 MPa e 1,61 volte con fck = 60 MPa (νv limitato a 0,45, νt no); nessuno scostamento per i profili armati su entrambe le facce delle pareti",
-      "effetto_quantificato": { "sintesi": "esempio della pagina ca.torsione (DS, fcd = 30/1,45 MPa, cot θ = 1,5): TRcd = 83,11 kNm con νv = 0,55 invece di 58,17 kNm con νt = 0,385 (+42,9 %)" },
+      "effetto_quantificato": {
+        "sintesi": "esempio della pagina ca.torsione (DS, fcd = 30/1,45 MPa, cot θ = 1,5): TRcd = 83,11 kNm con νv = 0,55 invece di 58,17 kNm con νt = 0,385 (+42,9 %)"
+      },
       "effetto_anthea": "Verificato il 7/10 sull'integrazione 2: nessuno oggi, il modulo calcola la torsione solo con NTC 2018 (X.Calculations/ConcreteShearAnalysis.cs:60). Da riesaminare se il collegamento alla libreria (F2.6) apre la torsione agli altri profili.",
       "raccomandazione": "νt della (5.104 NA) per i profili non armati su entrambe le facce e media pesata con taglio e torsione insieme, con opzione legacy; a sfavore di sicurezza",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)", "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)",
+        "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare"
+      },
       "data": "2026-10-07",
       "fase": "F2.3 (libreria); decisione in F5.15"
     },
@@ -686,15 +1364,33 @@
       "stato": "da-decidere",
       "descrizione": "Nei profili EN e UNI la classe minima di resistenza viene dal prospetto E.1N (appendice E informativa). Il catalogo assegna a XC3 C25/30, cioè legge le celle unite del prospetto come XC2-XC3. Il prospetto E.1N del DM 31/07/2012 dà per XC3 e XC4 una sola cella con C30/37 (XC1 e XC2 hanno celle proprie, C25/30); il DM riproduce l'impaginazione del prospetto E.1N della EN 1992-1-1 cambiando i valori nazionali, quindi anche per la EN la classe di XC3 è probabilmente C30/37. Gli attesi dei test della libreria per XC3 vengono dalla stessa lettura del codice e non sono indipendenti.",
       "riferimento_normativo": [
-        { "fonte": "UNI EN 1992-1-1, appendice nazionale (DM 31/07/2012)", "punto": "E.1(2), prospetto E.1N", "riscontro": "testo: XC3 e XC4 in una cella con C30/37 (pagina ca.durabilita-copriferri di Checker, riquadro C-3)" },
-        { "fonte": "EN 1992-1-1:2004 + AC:2010", "punto": "appendice E (informativa), prospetto E.1N", "riscontro": "testo; impaginazione delle celle di XC2-XC4 da riscontrare" }
+        {
+          "fonte": "UNI EN 1992-1-1, appendice nazionale (DM 31/07/2012)",
+          "punto": "E.1(2), prospetto E.1N",
+          "riscontro": "testo: XC3 e XC4 in una cella con C30/37 (pagina ca.durabilita-copriferri di Checker, riquadro C-3)"
+        },
+        {
+          "fonte": "EN 1992-1-1:2004 + AC:2010",
+          "punto": "appendice E (informativa), prospetto E.1N",
+          "riscontro": "testo; impaginazione delle celle di XC2-XC4 da riscontrare"
+        }
       ],
-      "codice": [ "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:61" ],
-      "test": [ "Checker/GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122-123 (XC3: EN e UNI C25/30, dalla stessa lettura)", "Model/ModelChecker.Tests/DurabilityDetailingTest.cs:98 (XC3, profilo EN: «Table E.1N C25/30 = fck», dalla stessa lettura)" ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Durability/ExposureClasses.cs:61"
+      ],
+      "test": [
+        "Checker/GPCChecker.Test.Concrete/DurabilityEdgeCaseTests.cs:122-123 (XC3: EN e UNI C25/30, dalla stessa lettura)",
+        "Model/ModelChecker.Tests/DurabilityDetailingTest.cs:98 (XC3, profilo EN: «Table E.1N C25/30 = fck», dalla stessa lettura)"
+      ],
       "segno": "NON cautelativo: con XC3 sola o combinata con classi meno severe il controllo della classe minima dei profili EN e UNI accetta C25/30 e C28/35; nessun effetto sui copriferri",
       "effetto_anthea": "Nessuno, verificato in F2.9 (8/10): nessun sorgente di produzione né di prova di ANTHEA chiama ExposureClasses.MinimumStrength (classe minima per profilo); la scheda Materiali, i dettagli della sezione c.a. e i muri usano solo la classe UNI 11104 (MinimumConcrete.Required, ConcreteDurabilityAdapter.MinimumStrength, ExposureClasses.Uni11104MinimumStrength) e il palo elastico ExposureClasses.Uni11104MinimumStrength (ElasticHorizontalPile.Reinforcement.cs:155). La scansione 11i di tests/ConcreteLibraryAdapter.Checks (regola classe-minima-per-profilo) lo rende permanente.",
       "raccomandazione": "C30/37 per XC3 nei profili EN e UNI dopo il riscontro dell'impaginazione della EN, con opzione legacy; gli attesi dei due test si correggono dal testo del prospetto",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)", "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)",
+        "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare"
+      },
       "data": "2026-10-07",
       "fase": "F2.9 (durabilità); decisione in F5.15"
     },
@@ -705,13 +1401,28 @@
       "categoria": "scostamento-normativo",
       "stato": "da-decidere",
       "descrizione": "Oltre lo snervamento la legge di progetto dell'acciaio di Model (SteelMaterial) usa la curva caratteristica traslata lungo la retta elastica e abbassata di fyk − fyd: σ(ε) = σk(ε + (fyk − fyd)/Es) − (fyk − fyd). L'incremento di incrudimento è quindi riferito a fyk, mentre il ramo inclinato di EN 1992-1-1 3.2.7(2) e Fig. 3.8 va da fyd in εyd a k fyk/γs in εuk, con il limite εud. Riguarda il momento-curvatura e il dominio di rottura del solutore con acciaio incrudente.",
-      "riferimento_normativo": [ { "fonte": "EN 1992-1-1:2004 + AC:2010", "punto": "3.2.7(2), Fig. 3.8 (anche NTC 2018 Fig. 4.1.3(a))", "riscontro": "testo (pagina ca.momento-curvatura di Checker, riquadro M-2)" } ],
-      "codice": [ "Model/Model/Materials/Steel/SteelMaterial.cs:857-880" ],
+      "riferimento_normativo": [
+        {
+          "fonte": "EN 1992-1-1:2004 + AC:2010",
+          "punto": "3.2.7(2), Fig. 3.8 (anche NTC 2018 Fig. 4.1.3(a))",
+          "riscontro": "testo (pagina ca.momento-curvatura di Checker, riquadro M-2)"
+        }
+      ],
+      "codice": [
+        "Model/Model/Materials/Steel/SteelMaterial.cs:857-880"
+      ],
       "segno": "NON cautelativo con acciaio incrudente: il ramo di progetto supera quello della norma di circa (k − 1)(fyk − fyd)(ε − εyd)/(εuk − εyd); nessun effetto con il ramo superiore orizzontale",
-      "effetto_quantificato": { "sintesi": "B450C con k = 1,15 ed εuk = 7,5 %: circa 8 MPa (+2 %) in εud" },
+      "effetto_quantificato": {
+        "sintesi": "B450C con k = 1,15 ed εuk = 7,5 %: circa 8 MPa (+2 %) in εud"
+      },
       "effetto_anthea": "Da verificare: dipende dalla legge dell'acciaio delle sezioni di ANTHEA (con o senza incrudimento).",
       "raccomandazione": "ramo inclinato della norma in Model, con opzione legacy, e ricattura delle fixture coinvolte",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)", "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)",
+        "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare"
+      },
       "data": "2026-10-07",
       "fase": "F2.8 (momento-curvatura, libreria Model); decisione in F5.15"
     },
@@ -723,13 +1434,29 @@
       "stato": "da-decidere",
       "descrizione": "TorsionProfiles.Reference restituisce per NTC 2018 «NTC 2018 §4.1.2.3.6 (4.1.27-4.1.32)», ma in NTC 2018 [4.1.27]-[4.1.32] sono equazioni del taglio (§4.1.2.3.5.2 e 4.1.2.3.5.3) e la torsione è in [4.1.34]-[4.1.40]; per DS cita «θ 6.7a NA» mentre il limite applicato è cot θ ≤ 2 della (6.7b NA). Solo testo.",
       "riferimento_normativo": [
-        { "fonte": "NTC 2018 (D.M. 17/01/2018)", "punto": "§4.1.2.3.5.2-4.1.2.3.5.3, eq. [4.1.27]-[4.1.32]; §4.1.2.3.6, eq. [4.1.34]-[4.1.40]", "riscontro": "testo della G.U. n. 42 del 20/02/2018, S.O. n. 8, pp. 80-82" },
-        { "fonte": "DS/EN 1992-1-1 con DK NA:2024", "punto": "6.2.3(2), eq. (6.7b NA)", "riscontro": "testo (pagina ca.torsione di Checker)" }
+        {
+          "fonte": "NTC 2018 (D.M. 17/01/2018)",
+          "punto": "§4.1.2.3.5.2-4.1.2.3.5.3, eq. [4.1.27]-[4.1.32]; §4.1.2.3.6, eq. [4.1.34]-[4.1.40]",
+          "riscontro": "testo della G.U. n. 42 del 20/02/2018, S.O. n. 8, pp. 80-82"
+        },
+        {
+          "fonte": "DS/EN 1992-1-1 con DK NA:2024",
+          "punto": "6.2.3(2), eq. (6.7b NA)",
+          "riscontro": "testo (pagina ca.torsione di Checker)"
+        }
       ],
-      "codice": [ "Checker/GPCChecker.Concrete/Torsion/TorsionProfiles.cs:93", "Checker/GPCChecker.Concrete/Torsion/TorsionProfiles.cs:98" ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Torsion/TorsionProfiles.cs:93",
+        "Checker/GPCChecker.Concrete/Torsion/TorsionProfiles.cs:98"
+      ],
       "segno": "nessun effetto numerico",
       "raccomandazione": "correggere il testo nella prossima release di GPCChecker.Concrete: NTC 2018 §4.1.2.3.6 [4.1.34]-[4.1.40]; DS cot θ ≤ 2 della (6.7b NA)",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)", "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)",
+        "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare"
+      },
       "data": "2026-10-07",
       "fase": "F2.3 (citazioni della libreria)"
     },
@@ -740,11 +1467,24 @@
       "categoria": "intenzionale",
       "stato": "da-decidere",
       "descrizione": "Nel profilo DS i controlli MinimumLinks:<faccia> delle travi (come MinimumTension:<faccia>) restano in sospeso con NotImplemented = true («DK NA national value of ρw,min not available in this implementation»). DK NA:2024 9.2.2(5) fissa ρw,min = 0,063 √fck/fyk (9.5N NA); la scelta nazionale di 9.2.1.1(1) prescrive nelle anime alte un'armatura distribuita sulle facce con lo stesso rapporto; 9.2.1.2(3) estende alle travi la regola 9.5.3(6), che il codice tratta come una conferma.",
-      "riferimento_normativo": [ { "fonte": "DS/EN 1992-1-1 con DK NA:2024", "punto": "9.2.2(5), eq. (9.5N NA); 9.2.1.1(1); 9.2.1.2(3)", "riscontro": "testo (pagina ca.dettagli di Checker, riquadro D-5)" } ],
-      "codice": [ "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:209" ],
+      "riferimento_normativo": [
+        {
+          "fonte": "DS/EN 1992-1-1 con DK NA:2024",
+          "punto": "9.2.2(5), eq. (9.5N NA); 9.2.1.1(1); 9.2.1.2(3)",
+          "riscontro": "testo (pagina ca.dettagli di Checker, riquadro D-5)"
+        }
+      ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Detailing/MemberDetailingCalculator.cs:209"
+      ],
       "segno": "nessun esito errato: l'esito complessivo DS delle travi resta in sospeso (verifica incompleta)",
       "raccomandazione": "implementare ρw,min = 0,063 √fck/fyk, il cui valore è nel testo; poi As,min di 9.2.1.1(1) e la regola 9.5.3(6)",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)", "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)",
+        "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare"
+      },
       "data": "2026-10-07",
       "fase": "F2.3 (libreria); decisione in F5.15"
     },
@@ -755,11 +1495,25 @@
       "categoria": "difetto-legacy",
       "stato": "da-decidere",
       "descrizione": "Nel profilo DIN hc,eff = min[β (h − d); h/2] si riduce a (h − x)/3 se (h − x)/3 ≥ c + 20 mm (Bild 7.1DE). Il codice valuta la condizione con il copriferro nominale del dato NominalCover anche quando il copriferro della formula di wk è assegnato con CoverOverride: nello stesso calcolo valgono due copriferri diversi.",
-      "riferimento_normativo": [ { "fonte": "DIN EN 1992-1-1/NA:2013-04", "punto": "NCI a 7.3.2(3), Bild 7.1DE", "riscontro": "fonte secondaria (pagina ca.fessurazione di Checker, (F.5) e riquadro F-7)" } ],
-      "codice": [ "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:231", "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs:200" ],
+      "riferimento_normativo": [
+        {
+          "fonte": "DIN EN 1992-1-1/NA:2013-04",
+          "punto": "NCI a 7.3.2(3), Bild 7.1DE",
+          "riscontro": "fonte secondaria (pagina ca.fessurazione di Checker, (F.5) e riquadro F-7)"
+        }
+      ],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Cracking/SectionCrackCheck.cs:231",
+        "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs:200"
+      ],
       "segno": "da stabilire: con copriferro assegnato maggiore di NominalCover la condizione vale più spesso che con il copriferro assegnato, hc,eff si riduce a (h − x)/3, ρp,eff cresce e wk in genere diminuisce (a sfavore); con copriferro assegnato minore l'opposto (a favore); nessun effetto senza CoverOverride",
       "raccomandazione": "usare nella condizione lo stesso copriferro della formula di wk (CoverOverride se assegnato), con opzione legacy",
-      "decisione": { "data": "2026-10-07", "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne", "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)", "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare" },
+      "decisione": {
+        "data": "2026-10-07",
+        "utente": "le voci sfavorevoli le guardiamo a fine refactoring. segna di ridiscuterne",
+        "esito": "da ridiscutere alla chiusura del refactoring (dopo F5, passo F5.15)",
+        "estensione": "decisione di R4-R14 estesa alle voci R16-R21 dal coordinatore su delega dell'utente («esegui tutto te»), da ratificare"
+      },
       "data": "2026-10-07",
       "fase": "F2.3 (libreria), F2.7 (collegamento); decisione in F5.15"
     },
@@ -801,9 +1555,29 @@
           "supporto/artefatti/refactoring/integrazione-2/f26/LEGGIMI.txt"
         ]
       },
-      "attuazione": { "data": "2026-10-07", "commit": ["ANTHEA 2583225 (F2.5, motore legacy, risultati identici; profilo resistente e torsione del modulo non ancora collegati)", "ANTHEA 7176c0c (primo interruttore, ritirato: con la libreria il modulo cambiava solo il taglio)", "ANTHEA f5b5f50 (correzione di F2.5: torsione del modulo attraverso l'adattatore, interruttore sul legacy)", "ANTHEA 8f991b4 (tolleranze dense f2-libreria, commit dedicato)", "ANTHEA 85314a6 (secondo interruttore sulla libreria, sospeso da 8c95d9b)", "ANTHEA 8c95d9b (interruttore di nuovo sul legacy per catturare B3; prove 3e e 3f rafforzate)", "ANTHEA 256714d e dcde952 (casi del corpus headless con taglio e torsione; baseline B3 catturata su dcde952 con il legacy)", "ANTHEA ea6e0ac (tolleranze headless dei risultati str_palo, commit dedicato)", "ANTHEA ca6530d (F2.6, interruttore sulla libreria; branch refactoring/f2-taglio-torsione, non su main)", "ANTHEA 63cda73, 2b2f16b e 4e8b30b (prove 3d e 3e rafforzate: 63cda73 aveva per errore il messaggio di 8c95d9b ed è ritirato da 2b2f16b; 4e8b30b ha lo stesso contenuto con il messaggio corretto; nessun cambio di produzione)", "ANTHEA ea4c51e (merge di refactoring/f2-taglio-torsione, punta db4da92, nell'integrazione 2 con lib/Checker S2)"], "verifica": "Su 4e8b30b: tests/ConcreteLibraryAdapter.Checks 17 880 controlli; runner -Profile baseline contro B3 e F2-pre-m4-v2 PASS 41, KNOWN 1, NEW-FAIL 0 con le stesse misure di ca6530d (headless: 452 file, 5 numeri entro 1e-9, 21 tempi volatili; densa e fixture: 1083 righe entro 1e-9, nessuna non classificata); prove negative: calcolo headless con il motore legacy esplicito (fallisce la 3e) e taglio del modulo sempre legacy (fallisce la 3d; le prove di 801e11c passano); profilo standard sui documenti 660e1f7 PASS 35, KNOWN 1, NEW-FAIL 0. Cattura headless di 17b6c98 con il corpus di dcde952 (runner -Only '^baseline/(cattura|confronto)$'): uguale a B3. Su ca6530d: tests/ConcreteLibraryAdapter.Checks (stadio fast, prove 3a-3f e 4, 17 696 controlli con il motore predefinito Library); runner -Profile baseline con -BaselineRef F2-B3\\headless e -DenseRef F2-pre-m4-v2\\a\\tutte (DenseSet f2-libreria): PASS 41, KNOWN 1 (verifiche/project-calculations), NEW-FAIL 0; cattura headless contro B3 uguale entro le tolleranze (452 file, 5 numeri entro 1e-9, 21 tempi volatili); banco denso f2-libreria e fixture-checker (Checker 06d97733): 1083 righe entro 1e-9, nessuna non classificata; profilo standard PASS 35, KNOWN 1, NEW-FAIL 0. Con il motore legacy (dcde952): cattura densa identica a F2-pre-m4-v2 (confronto esatto pre-m4, 32 564 righe, 1244 con soli identificativi casuali) e cattura headless uguale a B2 sui 432 file comuni salvo le voci dei casi nuovi in fallbacks.json. Prove negative su ca6530d: calcolo headless che ignora l'interruttore (fallisce la 3e) e torsione del modulo dal legacy diretto (fallisce la 3f). Le misure precedenti sono con S1 (lib/Checker di main 17b6c98, GPCChecker.Concrete 0.0.15.0). Integrazione 2 (merge ea4c51e, lib/Checker S2 dai commit pushati: GPCChecker.Concrete 0.0.17.0, manifest 5489C912…): tests/ConcreteLibraryAdapter.Checks PASS, 17 880 controlli, misura.json identico byte per byte a quello di 4e8b30b; runner -Profile standard (int2-f26-std) PASS 35, KNOWN 1 (verifiche/project-calculations), NEW-FAIL 0; runner -Profile baseline con -BaselineRef F2-B3\\headless e -DenseRef F2-pre-m4-v2\\a\\tutte (int2-f26-base) PASS 41, KNOWN 1, NEW-FAIL 0 con le stesse misure di S1 (headless: 452 file, gli stessi 5 numeri entro 1e-9, 21 tempi volatili; densa: 32 564 righe, 1083 entro 1e-9, nessuna non classificata; fixture di Checker: 27 698 righe, 1083 entro 1e-9); conteggi di tutte le suite uguali alle corse di S1. Catture con S2 confrontate con quelle con S1: densa identica salvo 1244 righe con soli identificativi casuali (shear-legacy.csv e torsion-legacy.csv identici), headless uguale salvo i 21 tempi volatili; cambiano solo i metadati (commit, manifest di lib/Checker, assembly ricompilati). Motivo: Shear/ e Torsion/ di GPCChecker.Concrete sono identici fra Checker b994e188 (S1) e 0d7ba50b (S2), che cambiano solo la fessurazione (D7-b, R15) e le versioni; Model cambia solo le versioni." },
+      "attuazione": {
+        "data": "2026-10-07",
+        "commit": [
+          "ANTHEA 2583225 (F2.5, motore legacy, risultati identici; profilo resistente e torsione del modulo non ancora collegati)",
+          "ANTHEA 7176c0c (primo interruttore, ritirato: con la libreria il modulo cambiava solo il taglio)",
+          "ANTHEA f5b5f50 (correzione di F2.5: torsione del modulo attraverso l'adattatore, interruttore sul legacy)",
+          "ANTHEA 8f991b4 (tolleranze dense f2-libreria, commit dedicato)",
+          "ANTHEA 85314a6 (secondo interruttore sulla libreria, sospeso da 8c95d9b)",
+          "ANTHEA 8c95d9b (interruttore di nuovo sul legacy per catturare B3; prove 3e e 3f rafforzate)",
+          "ANTHEA 256714d e dcde952 (casi del corpus headless con taglio e torsione; baseline B3 catturata su dcde952 con il legacy)",
+          "ANTHEA ea6e0ac (tolleranze headless dei risultati str_palo, commit dedicato)",
+          "ANTHEA ca6530d (F2.6, interruttore sulla libreria; branch refactoring/f2-taglio-torsione, non su main)",
+          "ANTHEA 63cda73, 2b2f16b e 4e8b30b (prove 3d e 3e rafforzate: 63cda73 aveva per errore il messaggio di 8c95d9b ed è ritirato da 2b2f16b; 4e8b30b ha lo stesso contenuto con il messaggio corretto; nessun cambio di produzione)",
+          "ANTHEA ea4c51e (merge di refactoring/f2-taglio-torsione, punta db4da92, nell'integrazione 2 con lib/Checker S2)"
+        ],
+        "verifica": "Su 4e8b30b: tests/ConcreteLibraryAdapter.Checks 17 880 controlli; runner -Profile baseline contro B3 e F2-pre-m4-v2 PASS 41, KNOWN 1, NEW-FAIL 0 con le stesse misure di ca6530d (headless: 452 file, 5 numeri entro 1e-9, 21 tempi volatili; densa e fixture: 1083 righe entro 1e-9, nessuna non classificata); prove negative: calcolo headless con il motore legacy esplicito (fallisce la 3e) e taglio del modulo sempre legacy (fallisce la 3d; le prove di 801e11c passano); profilo standard sui documenti 660e1f7 PASS 35, KNOWN 1, NEW-FAIL 0. Cattura headless di 17b6c98 con il corpus di dcde952 (runner -Only '^baseline/(cattura|confronto)$'): uguale a B3. Su ca6530d: tests/ConcreteLibraryAdapter.Checks (stadio fast, prove 3a-3f e 4, 17 696 controlli con il motore predefinito Library); runner -Profile baseline con -BaselineRef F2-B3\\headless e -DenseRef F2-pre-m4-v2\\a\\tutte (DenseSet f2-libreria): PASS 41, KNOWN 1 (verifiche/project-calculations), NEW-FAIL 0; cattura headless contro B3 uguale entro le tolleranze (452 file, 5 numeri entro 1e-9, 21 tempi volatili); banco denso f2-libreria e fixture-checker (Checker 06d97733): 1083 righe entro 1e-9, nessuna non classificata; profilo standard PASS 35, KNOWN 1, NEW-FAIL 0. Con il motore legacy (dcde952): cattura densa identica a F2-pre-m4-v2 (confronto esatto pre-m4, 32 564 righe, 1244 con soli identificativi casuali) e cattura headless uguale a B2 sui 432 file comuni salvo le voci dei casi nuovi in fallbacks.json. Prove negative su ca6530d: calcolo headless che ignora l'interruttore (fallisce la 3e) e torsione del modulo dal legacy diretto (fallisce la 3f). Le misure precedenti sono con S1 (lib/Checker di main 17b6c98, GPCChecker.Concrete 0.0.15.0). Integrazione 2 (merge ea4c51e, lib/Checker S2 dai commit pushati: GPCChecker.Concrete 0.0.17.0, manifest 5489C912…): tests/ConcreteLibraryAdapter.Checks PASS, 17 880 controlli, misura.json identico byte per byte a quello di 4e8b30b; runner -Profile standard (int2-f26-std) PASS 35, KNOWN 1 (verifiche/project-calculations), NEW-FAIL 0; runner -Profile baseline con -BaselineRef F2-B3\\headless e -DenseRef F2-pre-m4-v2\\a\\tutte (int2-f26-base) PASS 41, KNOWN 1, NEW-FAIL 0 con le stesse misure di S1 (headless: 452 file, gli stessi 5 numeri entro 1e-9, 21 tempi volatili; densa: 32 564 righe, 1083 entro 1e-9, nessuna non classificata; fixture di Checker: 27 698 righe, 1083 entro 1e-9); conteggi di tutte le suite uguali alle corse di S1. Catture con S2 confrontate con quelle con S1: densa identica salvo 1244 righe con soli identificativi casuali (shear-legacy.csv e torsion-legacy.csv identici), headless uguale salvo i 21 tempi volatili; cambiano solo i metadati (commit, manifest di lib/Checker, assembly ricompilati). Motivo: Shear/ e Torsion/ di GPCChecker.Concrete sono identici fra Checker b994e188 (S1) e 0d7ba50b (S2), che cambiano solo la fessurazione (D7-b, R15) e le versioni; Model cambia solo le versioni."
+      },
       "raccomandazione": "accettare: tolleranza 1e-9 relativa dei MigrationTests e del banco (tests/ANTHEA.Testing/tolerances.json)",
-      "decisione": { "data": "2026-10-07", "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente («esegui tutto te», 7/10 pomeriggio), da ratificare", "esito": "si ratifica F2-1 così com'è: per i ripieghi cambia solo il chiamante registrato del ripiego J.B(\"foro_presente\") = False dei fogli senza la chiave (ConcreteShearTorsionAdapter.TorsionGeometryOf invece di ConcreteTorsionCalculator.Geometry), con la stessa chiave e lo stesso valore; nessun caso senza la chiave aggiunto al corpus di B3" },
+      "decisione": {
+        "data": "2026-10-07",
+        "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente («esegui tutto te», 7/10 pomeriggio), da ratificare",
+        "esito": "si ratifica F2-1 così com'è: per i ripieghi cambia solo il chiamante registrato del ripiego J.B(\"foro_presente\") = False dei fogli senza la chiave (ConcreteShearTorsionAdapter.TorsionGeometryOf invece di ConcreteTorsionCalculator.Geometry), con la stessa chiave e lo stesso valore; nessun caso senza la chiave aggiunto al corpus di B3"
+      },
       "data": "2026-10-07",
       "fase": "F2.5, F2.6",
       "test": [
@@ -830,8 +1604,19 @@
         "sintesi": "Testi, stati, riferimenti, modelli, unità e messaggi identici al legacy in tutte le prove dell'adattatore, nelle catture dense (shear-legacy.csv: colonne status e details; torsion-legacy.csv: status e messaggi), nel JSON 'taglio', 'torsione' ed 'errori_calcolo' del calcolo headless, nel testo delle relazioni completa e sintetica (X.Core ReportConcrete e ReportConcreteShort, 5 norme, con torsione NTC e rifiuti) e nella cattura headless contro B3 (12 relazioni dei 4 casi del corpus e messaggi dei rifiuti identici, ca6530d)."
       },
       "raccomandazione": "mantenere finché le relazioni non useranno tracce localizzate della libreria (F2.3, tracce per i report)",
-      "decisione": { "data": "2026-10-07", "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente (7/10 pomeriggio, verifica avversaria di F2.5-F2.6), da ratificare", "esito": "la traccia NTC della libreria non è esposta nel JSON 'taglio' né nelle relazioni, come oggi; si riprende con le tracce in italiano per i report (F2.3)" },
-      "attuazione": { "data": "2026-10-07", "commit": ["ANTHEA 2583225 (ConcreteLibraryMapping: testi, riferimenti, modelli, espressioni e rifiuti del legacy)", "ANTHEA ca6530d (F2.6, interruttore sulla libreria)"], "verifica": "Su ca6530d: tests/ConcreteLibraryAdapter.Checks (prove 1 e 3a-3f, testi e rifiuti identici; relazioni di 5 norme identiche); cattura headless contro B3: 12 relazioni e messaggi dei rifiuti dei 4 casi del corpus identici; cattura densa: colonne di testo di shear-legacy.csv e torsion-legacy.csv identiche" },
+      "decisione": {
+        "data": "2026-10-07",
+        "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente (7/10 pomeriggio, verifica avversaria di F2.5-F2.6), da ratificare",
+        "esito": "la traccia NTC della libreria non è esposta nel JSON 'taglio' né nelle relazioni, come oggi; si riprende con le tracce in italiano per i report (F2.3)"
+      },
+      "attuazione": {
+        "data": "2026-10-07",
+        "commit": [
+          "ANTHEA 2583225 (ConcreteLibraryMapping: testi, riferimenti, modelli, espressioni e rifiuti del legacy)",
+          "ANTHEA ca6530d (F2.6, interruttore sulla libreria)"
+        ],
+        "verifica": "Su ca6530d: tests/ConcreteLibraryAdapter.Checks (prove 1 e 3a-3f, testi e rifiuti identici; relazioni di 5 norme identiche); cattura headless contro B3: 12 relazioni e messaggi dei rifiuti dei 4 casi del corpus identici; cattura densa: colonne di testo di shear-legacy.csv e torsion-legacy.csv identiche"
+      },
       "data": "2026-10-07",
       "fase": "F2.5, F2.6",
       "test": [
@@ -855,8 +1640,20 @@
         "sintesi": "1 caso di torsion-legacy.csv (riga 581) e 1 caso con cot θ del taglio diverso nelle prove dell'adattatore: stesso rifiuto e stesso messaggio."
       },
       "raccomandazione": "mantenere il rifiuto finché l'interfaccia non mostrerà la verifica non soddisfatta (scelta dell'utente)",
-      "decisione": { "data": "2026-10-07", "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente (7/10 pomeriggio, verifica avversaria di F2.5-F2.6), da ratificare", "esito": "la torsione senza staffe chiuse resta un rifiuto con il messaggio di oggi, controllato dall'adattatore prima della libreria" },
-      "attuazione": { "data": "2026-10-07", "commit": ["ANTHEA 2583225 (controllo nell'adattatore, ConcreteShearTorsionAdapter.Torsion)", "ANTHEA f5b5f50 (torsione del modulo attraverso l'adattatore)", "ANTHEA ca6530d (F2.6, interruttore sulla libreria)"], "verifica": "Su ca6530d: tests/ConcreteLibraryAdapter.Checks prova 3b (riga 581 di torsion-legacy.csv e caso con cot θ del taglio diverso: stesso rifiuto e messaggio con i due motori); cattura densa f2-libreria: stessi 50 rifiuti di torsione" },
+      "decisione": {
+        "data": "2026-10-07",
+        "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente (7/10 pomeriggio, verifica avversaria di F2.5-F2.6), da ratificare",
+        "esito": "la torsione senza staffe chiuse resta un rifiuto con il messaggio di oggi, controllato dall'adattatore prima della libreria"
+      },
+      "attuazione": {
+        "data": "2026-10-07",
+        "commit": [
+          "ANTHEA 2583225 (controllo nell'adattatore, ConcreteShearTorsionAdapter.Torsion)",
+          "ANTHEA f5b5f50 (torsione del modulo attraverso l'adattatore)",
+          "ANTHEA ca6530d (F2.6, interruttore sulla libreria)"
+        ],
+        "verifica": "Su ca6530d: tests/ConcreteLibraryAdapter.Checks prova 3b (riga 581 di torsion-legacy.csv e caso con cot θ del taglio diverso: stesso rifiuto e messaggio con i due motori); cattura densa f2-libreria: stessi 50 rifiuti di torsione"
+      },
       "data": "2026-10-07",
       "fase": "F2.5, F2.6",
       "test": [
@@ -882,8 +1679,19 @@
         "sintesi": "Nessun caso delle griglie (2016 + 986 + 10) né del modulo cambia esito o messaggio; prova 3d: con fck = 95 MPa e torsione i due motori danno lo stesso rifiuto del taglio."
       },
       "raccomandazione": "nessuna azione; da rivedere se l'interfaccia aprirà la torsione ad altre norme (punto aperto 5 di f2-matrice-api.md)",
-      "decisione": { "data": "2026-10-07", "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente (7/10 pomeriggio, verifica avversaria di F2.5-F2.6), da ratificare", "esito": "limiti e rifiuti propri della libreria non raggiungibili dal modulo accettati, nessuna azione" },
-      "attuazione": { "data": "2026-10-07", "commit": ["ANTHEA 2583225 (messaggi della mappatura per i rifiuti della libreria)", "ANTHEA ca6530d (F2.6, interruttore sulla libreria)"], "verifica": "Su ca6530d: tests/ConcreteLibraryAdapter.Checks prove 3b (torsione oltre C90/105 solo nella libreria), 3c (profili resistenti identici, 11 risultati e 5 rifiuti) e 3d (fck = 95 MPa con torsione: stesso rifiuto del taglio con i due motori); nessun caso delle griglie dense, del modulo e di B3 cambia esito o messaggio" },
+      "decisione": {
+        "data": "2026-10-07",
+        "coordinatore": "deciso dal coordinatore dei workflow su delega dell'utente (7/10 pomeriggio, verifica avversaria di F2.5-F2.6), da ratificare",
+        "esito": "limiti e rifiuti propri della libreria non raggiungibili dal modulo accettati, nessuna azione"
+      },
+      "attuazione": {
+        "data": "2026-10-07",
+        "commit": [
+          "ANTHEA 2583225 (messaggi della mappatura per i rifiuti della libreria)",
+          "ANTHEA ca6530d (F2.6, interruttore sulla libreria)"
+        ],
+        "verifica": "Su ca6530d: tests/ConcreteLibraryAdapter.Checks prove 3b (torsione oltre C90/105 solo nella libreria), 3c (profili resistenti identici, 11 risultati e 5 rifiuti) e 3d (fck = 95 MPa con torsione: stesso rifiuto del taglio con i due motori); nessun caso delle griglie dense, del modulo e di B3 cambia esito o messaggio"
+      },
       "data": "2026-10-07",
       "fase": "F2.5, F2.6",
       "test": [
@@ -918,8 +1726,24 @@
         ]
       },
       "raccomandazione": "nessuna azione; eliminazione del legacy di durabilità in F2.11 [CP], dopo la revisione della pagina del metodo (proposta F2.9-U6)",
-      "decisione": { "data": "2026-10-08", "coordinatore": "deciso dal coordinatore su delega dell'utente (F2.9-D1…D14, progetto F29-progetto.md), da ratificare", "esito": "interruttore unico sulla libreria; legacy raggiungibile con DurabilityEngine.Legacy e '--motore-durabilita legacy' fino a F2.11" },
-      "attuazione": { "data": "2026-10-08", "branch": "refactoring/f2-9-durabilita (worktree Temp\\aw-f29, non unito, non pushato)", "commit": ["ANTHEA c77f80a (E1, nucleo legacy con nome, contratti e facciate)", "ANTHEA f53205b (E2, mappatura, adattatore e sonda, motore Legacy)", "ANTHEA 55e51ac (E3, controlli di riferimento con entrambi i motori)", "ANTHEA adb6121 (E4, corpus di durabilità; baseline B6 catturata con il legacy)", "ANTHEA 5c06124 (E5, interruttore sulla libreria, con questa voce)", "ANTHEA d02e890 (revisione: scansione 11i per nome qualificato, rami legacy dell'adattatore)", "ANTHEA 1c2c88b (revisione: terzo muro a mensola di B3 nelle prove 11e e 11f)"] },
+      "decisione": {
+        "data": "2026-10-08",
+        "coordinatore": "deciso dal coordinatore su delega dell'utente (F2.9-D1…D14, progetto F29-progetto.md), da ratificare",
+        "esito": "interruttore unico sulla libreria; legacy raggiungibile con DurabilityEngine.Legacy e '--motore-durabilita legacy' fino a F2.11"
+      },
+      "attuazione": {
+        "data": "2026-10-08",
+        "branch": "refactoring/f2-9-durabilita (worktree Temp\\aw-f29, non unito, non pushato)",
+        "commit": [
+          "ANTHEA c77f80a (E1, nucleo legacy con nome, contratti e facciate)",
+          "ANTHEA f53205b (E2, mappatura, adattatore e sonda, motore Legacy)",
+          "ANTHEA 55e51ac (E3, controlli di riferimento con entrambi i motori)",
+          "ANTHEA adb6121 (E4, corpus di durabilità; baseline B6 catturata con il legacy)",
+          "ANTHEA 5c06124 (E5, interruttore sulla libreria, con questa voce)",
+          "ANTHEA d02e890 (revisione: scansione 11i per nome qualificato, rami legacy dell'adattatore)",
+          "ANTHEA 1c2c88b (revisione: terzo muro a mensola di B3 nelle prove 11e e 11f)"
+        ]
+      },
       "data": "2026-10-08",
       "fase": "F2.9",
       "test": [
@@ -948,8 +1772,18 @@
         "sintesi": "Nessun caso della cattura densa, della griglia degli errori della prova 11c, del corpus di B6 e delle prove dell'adattatore raggiunge questi casi; i codici sconosciuti delle funzioni per codice (NtcCover.Severity, MinimumConcrete.Fck, AtecapMix.Limits, anche con codice vuoto, in minuscolo e nullo) e delle combinazioni passate a NtcCover.Calculate, MinimumConcrete.Required e AtecapMix.Required danno lo stesso rifiuto con i due motori (prove 11a, 11b, 11d)."
       },
       "raccomandazione": "nessuna azione; da rivedere se la scheda aprirà i profili UNI, DS o CNR-DT (cambio di contratto)",
-      "decisione": { "data": "2026-10-08", "coordinatore": "deciso dal coordinatore su delega dell'utente (F2.9-D3, progetto F29-progetto.md §6.4), da ratificare", "esito": "casi dichiarati, nessuna azione" },
-      "attuazione": { "data": "2026-10-08", "commit": ["ANTHEA f53205b (E2, adattatore e mappatura)", "ANTHEA 5c06124 (E5, interruttore sulla libreria, con questa voce)"] },
+      "decisione": {
+        "data": "2026-10-08",
+        "coordinatore": "deciso dal coordinatore su delega dell'utente (F2.9-D3, progetto F29-progetto.md §6.4), da ratificare",
+        "esito": "casi dichiarati, nessuna azione"
+      },
+      "attuazione": {
+        "data": "2026-10-08",
+        "commit": [
+          "ANTHEA f53205b (E2, adattatore e mappatura)",
+          "ANTHEA 5c06124 (E5, interruttore sulla libreria, con questa voce)"
+        ]
+      },
       "data": "2026-10-08",
       "fase": "F2.9",
       "test": [
@@ -972,7 +1806,11 @@
       "effetto_quantificato": {
         "sintesi": "Palo orizzontale C35/45 16Ø24, N = 0: da D 1,6 m a 2,5 m prima rifiutato, ora calcolato con NRd e MRd identici ai punti della libreria (sonda di Checker, 20 punti). Campione di S-1 (8840 punti, 13 sezioni, 4 legami): nessun punto passa da accettato a rifiutato; con lo stress block a SLU da 784 a 847 punti accettati su 884. Banco F2.1: la divergenza S-1 non c'è più (C2 stress block, N = −1500 kN: MxRd 707,02 kNm, atteso 706,49)."
       },
-      "decisione": { "data": "2026-10-08", "utente": "tolleranza di convergenza che dipende dal legame costitutivo del materiale. stress block tolleranza maggiore. metti nota che potrebbe essere meno preciso; poi, per il palo: correggi quel punto", "esito": "regola nella libreria (release S3), ANTHEA la usa" },
+      "decisione": {
+        "data": "2026-10-08",
+        "utente": "tolleranza di convergenza che dipende dal legame costitutivo del materiale. stress block tolleranza maggiore. metti nota che potrebbe essere meno preciso; poi, per il palo: correggi quel punto",
+        "esito": "regola nella libreria (release S3), ANTHEA la usa"
+      },
       "data": "2026-10-08",
       "fase": "F2.1 (banco), release S3",
       "test": [
@@ -1018,14 +1856,31 @@
       "categoria": "intenzionale",
       "stato": "dichiarato",
       "descrizione": "Aggiunta autonoma su branch dedicato: più modelli e fogli nello stesso contenitore, archivio della copia importata, riferimento versionato senza applicare sollecitazioni, tre viste WPF con renderer separato e ViewModel senza WPF. Nessuno spostamento o cambiamento del motore legacy. L'adattatore offline è temporaneo fino al contratto GPC Model; non calcola inviluppi. Il confronto testuale legacy delle revisioni non include ancora le modifiche ai modelli: attività successiva dichiarata.",
-      "codice": ["src/ANTHEA.ModelWorkspace", "src/ANTHEA.ModelViewer.Presentation", "src/ANTHEA.ModelViewer.Wpf", "X.Desktop/Wpf/ProjectModels.cs"],
+      "codice": [
+        "src/ANTHEA.ModelWorkspace",
+        "src/ANTHEA.ModelViewer.Presentation",
+        "src/ANTHEA.ModelViewer.Wpf",
+        "X.Desktop/Wpf/ProjectModels.cs"
+      ],
       "segno": "nessuna variazione dei calcoli esistenti; nuova rappresentazione grafica dei dati importati",
-      "effetto_quantificato": { "sintesi": "Prima prova sul laboratorio: 3755 nodi, 3616 elementi, 13718 risultati nodali; offset piastre -0.70, +0.45, +0.35 m conservati; scene preparate in circa 22/16/90 ms per geometria/volumi/risultati alta qualità, esclusi import, GPU e valutazione degli inviluppi." },
-      "decisione": { "data": "2026-10-09", "utente": "creare la bozza in un ramo di ANTHEA; WPF con MVVM; non toccare gli altri progetti, segnalare soltanto le integrazioni future", "esito": "tre nuovi progetti in src, due suite in tests e soli agganci UI in X.Desktop; librerie GPC e moduli di calcolo invariati" },
+      "effetto_quantificato": {
+        "sintesi": "Prima prova sul laboratorio: 3755 nodi, 3616 elementi, 13718 risultati nodali; offset piastre -0.70, +0.45, +0.35 m conservati; scene preparate in circa 22/16/90 ms per geometria/volumi/risultati alta qualità, esclusi import, GPU e valutazione degli inviluppi."
+      },
+      "decisione": {
+        "data": "2026-10-09",
+        "utente": "creare la bozza in un ramo di ANTHEA; WPF con MVVM; non toccare gli altri progetti, segnalare soltanto le integrazioni future",
+        "esito": "tre nuovi progetti in src, due suite in tests e soli agganci UI in X.Desktop; librerie GPC e moduli di calcolo invariati"
+      },
       "data": "2026-10-09",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["tests/ModelWorkspace.Checks", "tests/ModelViewer.UiChecks"],
-      "evidenze": ["supporto/artefatti/model-viewer/checks", "supporto/artefatti/model-viewer/ui"],
+      "test": [
+        "tests/ModelWorkspace.Checks",
+        "tests/ModelViewer.UiChecks"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/checks",
+        "supporto/artefatti/model-viewer/ui"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -1035,14 +1890,40 @@
       "categoria": "intenzionale",
       "stato": "dichiarato",
       "descrizione": "Il branch incorpora main ANTHEA 1.1.0 e sviluppa uno spazio Modelli autonomo con tre tab, albero degli attributi, assi e assegnazioni da GPC, risultati con famiglia/assi/unità/stazioni, selezione, ID, colori per attributo, isolamento e wireframe dei nascosti. Le tabelle proiettano i dati salvati e si collegano alla scena; nessun aggiornamento dei calcoli legacy. Il Converter GPC viene esteso nel branch separato codex/viewer-boundary-data, commit 14a0c859, su autorizzazione successiva dell'utente. Nessun rilascio del Converter sperimentale in lib/Checker. Il successivo merge a83c92d acquisisce integralmente da main il bundle S4/Model 4 descritto in S4-1; full 79 PASS, 1 KNOWN già censito, 0 NEW-FAIL e 1196 test GPC superati.",
-      "codice": ["src/ANTHEA.ModelWorkspace", "src/ANTHEA.ModelViewer.Presentation", "src/ANTHEA.ModelViewer.Wpf", "X.Desktop/Wpf/ProjectModels.cs", "tools/ModelViewer.Prepare", "tools/model-viewer"],
+      "codice": [
+        "src/ANTHEA.ModelWorkspace",
+        "src/ANTHEA.ModelViewer.Presentation",
+        "src/ANTHEA.ModelViewer.Wpf",
+        "X.Desktop/Wpf/ProjectModels.cs",
+        "tools/ModelViewer.Prepare",
+        "tools/model-viewer"
+      ],
       "segno": "nessuna variazione ai risultati importati oltre alla conversione delle unità di visualizzazione; nessun trasferimento automatico ai fogli",
-      "effetto_quantificato": { "sintesi": "Copia reale: 3755 nodi, 181 beam, 3435 plate, 3616 terne, 1645 simboli di assegnazione; 13718 campioni plate e 905 campioni beam. Sei cambi di componente fino a OnRendered: 98.97-122.22 ms, mediana 108.70 ms; esclusi acquisizione, solver e calcolo inviluppo. Attesi offset -0.85/-0.55 m e interpolazione 25 invariati." },
-      "decisione": { "data": "2026-10-09", "utente": "allineare main nel branch; gestione stile tree del modello, assi/vincoli/release/link e truss, opzioni di visualizzazione e tabelle basate sui valori salvati", "esito": "implementazione MVVM isolata, estensioni additive dello snapshot, ponte GPC di sviluppo e limiti espliciti; nessun push né merge verso main/master" },
+      "effetto_quantificato": {
+        "sintesi": "Copia reale: 3755 nodi, 181 beam, 3435 plate, 3616 terne, 1645 simboli di assegnazione; 13718 campioni plate e 905 campioni beam. Sei cambi di componente fino a OnRendered: 98.97-122.22 ms, mediana 108.70 ms; esclusi acquisizione, solver e calcolo inviluppo. Attesi offset -0.85/-0.55 m e interpolazione 25 invariati."
+      },
+      "decisione": {
+        "data": "2026-10-09",
+        "utente": "allineare main nel branch; gestione stile tree del modello, assi/vincoli/release/link e truss, opzioni di visualizzazione e tabelle basate sui valori salvati",
+        "esito": "implementazione MVVM isolata, estensioni additive dello snapshot, ponte GPC di sviluppo e limiti espliciti; nessun push né merge verso main/master"
+      },
       "data": "2026-10-09",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["build/ci.ps1 -Profile quick: 25 PASS", "ModelWorkspace.Checks: 46 PASS", "ModelViewer.UiChecks sintetico: 20 PASS", "ModelViewer.UiChecks reale: 38 PASS", "GPC: 90 test importazione/assegnazioni/persistenza"],
-      "evidenze": ["supporto/artefatti/ci/20261009-231939-modelli-workspace-v2", "supporto/artefatti/model-viewer/logic-validated", "supporto/artefatti/model-viewer/synthetic-validated", "supporto/artefatti/model-viewer/review-measured", "supporto/artefatti/model-viewer/delivery", "supporto/artefatti/model-viewer/gpc-boundary/extended"],
+      "test": [
+        "build/ci.ps1 -Profile quick: 25 PASS",
+        "ModelWorkspace.Checks: 46 PASS",
+        "ModelViewer.UiChecks sintetico: 20 PASS",
+        "ModelViewer.UiChecks reale: 38 PASS",
+        "GPC: 90 test importazione/assegnazioni/persistenza"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261009-231939-modelli-workspace-v2",
+        "supporto/artefatti/model-viewer/logic-validated",
+        "supporto/artefatti/model-viewer/synthetic-validated",
+        "supporto/artefatti/model-viewer/review-measured",
+        "supporto/artefatti/model-viewer/delivery",
+        "supporto/artefatti/model-viewer/gpc-boundary/extended"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -1122,14 +2003,35 @@
       "categoria": "intenzionale",
       "stato": "dichiarato",
       "descrizione": "Estensione del visualizzatore su richiesta dell'utente di considerare anche RFEM come riferimento funzionale. Visibilità per famiglia/materiale/sezione/spessore/gruppo con intersezione o unione; insiemi di ID richiamabili con nome nella sessione. Scala colori automatica, globale per caso e campo, simmetrica o manuale. La saturazione avviene al pixel senza modificare campioni, tabelle o snapshot. Corretto inoltre il filtro implicito delle sezioni e degli spessori: la tabella senza filtri include anche le proprietà salvate non assegnate. Nessun cambiamento al motore di calcolo o alle librerie distribuite.",
-      "codice": ["src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Visibility.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ColorScale.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Tables.cs", "src/ANTHEA.ModelViewer.Wpf/ModelVisibilityView.xaml", "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.cs"],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Visibility.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ColorScale.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Tables.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelVisibilityView.xaml",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.cs"
+      ],
       "segno": "sola rappresentazione grafica e completezza delle tabelle senza filtri; impronta e valori del modello invariati",
-      "effetto_quantificato": { "sintesi": "Fixture: l'intersezione di plate e sezione beam è vuota, l'unione contiene i 3 elementi. Limiti grafici 15,5/30,5 non tagliano i valori 10/40 della tabella; cambiando unità diventano 15500/30500. Prima della correzione la tabella senza filtri perdeva la sezione non assegnata (prova fallita catturata); dopo mostra entrambe le sezioni e entrambi gli spessori. Contouring sintetico: valore bilineare centrale 25 invariato e coordinata colore 0,5 con limiti 15/35; offset attesi -0,85/-0,55 m invariati. Sul modello reale l'intersezione plate/spessore 3 contiene 320 elementi in scena e tabella." },
-      "decisione": { "data": "2026-10-11", "utente": "continua da dove ti sei interrotta; come consigli su visualizzatori, opzioni e filtri usa anche RFEM", "esito": "funzioni MVVM nel branch separato, dati indipendenti dal solutore, nessun contenuto esterno copiato nelle guide e nessun push o nuovo merge verso main" },
+      "effetto_quantificato": {
+        "sintesi": "Fixture: l'intersezione di plate e sezione beam è vuota, l'unione contiene i 3 elementi. Limiti grafici 15,5/30,5 non tagliano i valori 10/40 della tabella; cambiando unità diventano 15500/30500. Prima della correzione la tabella senza filtri perdeva la sezione non assegnata (prova fallita catturata); dopo mostra entrambe le sezioni e entrambi gli spessori. Contouring sintetico: valore bilineare centrale 25 invariato e coordinata colore 0,5 con limiti 15/35; offset attesi -0,85/-0,55 m invariati. Sul modello reale l'intersezione plate/spessore 3 contiene 320 elementi in scena e tabella."
+      },
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "continua da dove ti sei interrotta; come consigli su visualizzatori, opzioni e filtri usa anche RFEM",
+        "esito": "funzioni MVVM nel branch separato, dati indipendenti dal solutore, nessun contenuto esterno copiato nelle guide e nessun push o nuovo merge verso main"
+      },
       "data": "2026-10-11",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["ModelWorkspace.Checks: 67 PASS", "ModelViewer.UiChecks sintetico: 21 PASS", "ModelViewer.UiChecks reale: 44 PASS"],
-      "evidenze": ["supporto/artefatti/model-viewer/visibility-scale/before-table-fix", "supporto/artefatti/model-viewer/visibility-scale/logic", "supporto/artefatti/model-viewer/visibility-scale/synthetic", "supporto/artefatti/model-viewer/visibility-scale/real"],
+      "test": [
+        "ModelWorkspace.Checks: 67 PASS",
+        "ModelViewer.UiChecks sintetico: 21 PASS",
+        "ModelViewer.UiChecks reale: 44 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/visibility-scale/before-table-fix",
+        "supporto/artefatti/model-viewer/visibility-scale/logic",
+        "supporto/artefatti/model-viewer/visibility-scale/synthetic",
+        "supporto/artefatti/model-viewer/visibility-scale/real"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -1139,14 +2041,35 @@
       "categoria": "intenzionale",
       "stato": "dichiarato",
       "descrizione": "Navigazione e proprietà riducibili a barre mantenendo lo stato della vista. Il menu contestuale agisce sul ramo sotto il puntatore e apre la tabella degli elementi associati. Terne nodali opzionali nello snapshot, orientate dal ponte GPC esistente, separate dalle terne degli elementi. Interruttori e ambito selezione per assi, restrain, constraint, link e release; spegnimento collettivo dei sei livelli e opzioni separate per assi globali e cubo vista. Nessuna variazione dei calcoli o delle DLL distribuite.",
-      "codice": ["src/ANTHEA.ModelWorkspace/ModelSnapshot.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Panels.cs", "src/ANTHEA.ModelViewer.Presentation/ModelTreeItem.cs", "src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.xaml", "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.cs", "tools/ModelViewer.Prepare"],
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelSnapshot.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Panels.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelTreeItem.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.xaml",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.cs",
+        "tools/ModelViewer.Prepare"
+      ],
       "segno": "estensione opzionale della copia importata e sola rappresentazione; vecchie impronte invariate quando le terne nodali sono assenti",
-      "effetto_quantificato": { "sintesi": "Barre da 44 pixel, oltre 400 pixel restituiti alla scena a 1600 pixel di larghezza. Copia reale con 3755 terne nodali globali (SKEW acquisita vuota). Fixture ruotata X=(0,1,0) verificata nella geometria WPF; selezionare un nodo mostra una sola terna. Spegnimento collettivo con un aggiornamento scena. Attesi di offset e interpolazione invariati. Cambio campo già caricato: 120.74-150.78 ms fino a OnRendered, mediana 130.64 ms, esclusi acquisizione e calcolo inviluppi." },
-      "decisione": { "data": "2026-10-11", "utente": "alberi riducibili a barra laterale, selezione/isola/nascondi di gruppi e proprietà, vista vincoli e assi nodali/elementi, tutto disattivabile", "esito": "implementazione MVVM nel ramo separato; quattro modalità del futuro aggiornamento concordate nella specifica: Solo geometria, Geometria + attributi + carichi, Solo risultati, Tutto" },
+      "effetto_quantificato": {
+        "sintesi": "Barre da 44 pixel, oltre 400 pixel restituiti alla scena a 1600 pixel di larghezza. Copia reale con 3755 terne nodali globali (SKEW acquisita vuota). Fixture ruotata X=(0,1,0) verificata nella geometria WPF; selezionare un nodo mostra una sola terna. Spegnimento collettivo con un aggiornamento scena. Attesi di offset e interpolazione invariati. Cambio campo già caricato: 120.74-150.78 ms fino a OnRendered, mediana 130.64 ms, esclusi acquisizione e calcolo inviluppi."
+      },
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "alberi riducibili a barra laterale, selezione/isola/nascondi di gruppi e proprietà, vista vincoli e assi nodali/elementi, tutto disattivabile",
+        "esito": "implementazione MVVM nel ramo separato; quattro modalità del futuro aggiornamento concordate nella specifica: Solo geometria, Geometria + attributi + carichi, Solo risultati, Tutto"
+      },
       "data": "2026-10-11",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["ModelWorkspace.Checks reale: 78 PASS", "ModelViewer.UiChecks sintetico: 27 PASS", "ModelViewer.UiChecks reale: 49 PASS"],
-      "evidenze": ["supporto/artefatti/model-viewer/panels-node-axes/logic", "supporto/artefatti/model-viewer/panels-node-axes/synthetic-final", "supporto/artefatti/model-viewer/panels-node-axes/real-final"],
+      "test": [
+        "ModelWorkspace.Checks reale: 78 PASS",
+        "ModelViewer.UiChecks sintetico: 27 PASS",
+        "ModelViewer.UiChecks reale: 49 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/panels-node-axes/logic",
+        "supporto/artefatti/model-viewer/panels-node-axes/synthetic-final",
+        "supporto/artefatti/model-viewer/panels-node-axes/real-final"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -1156,14 +2079,31 @@
       "categoria": "intenzionale",
       "stato": "dichiarato",
       "descrizione": "Contratto di avanzamento senza WPF e barra indipendente dai pannelli laterali: preparazione indeterminata, conteggio attività, annullamento cooperativo, esecuzione completata/annullata/fallita. Il lavoro futuro è delegato a un runner e non contiene calcoli nel ViewModel. Il comando di esecuzione rimane disabilitato finché il motore GPC non è collegato. Il test WPF alimenta una sola anteprima grafica esplicitamente etichettata; nessun risultato ingegneristico simulato.",
-      "codice": ["src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Verifications.cs", "src/ANTHEA.ModelViewer.Wpf/ModelVerificationProgressView.xaml", "tests/ModelWorkspace.Checks/VerificationProgressChecks.cs", "tests/ModelViewer.UiChecks/Program.cs"],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Verifications.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelVerificationProgressView.xaml",
+        "tests/ModelWorkspace.Checks/VerificationProgressChecks.cs",
+        "tests/ModelViewer.UiChecks/Program.cs"
+      ],
       "segno": "sola predisposizione della UI; nessuna variazione dei dati o dei calcoli",
-      "effetto_quantificato": { "sintesi": "11 nuovi controlli di ciclo asincrono: totale sconosciuto, conteggio, dati incoerenti, doppio avvio, annullamento in attesa, mancato 100% su annullamento/errore, notifiche tardive, chiusura della vista. WPF verifica un avanzamento 37/100 simulato dal test con pannelli chiusi e arresto a 37 dopo annullamento." },
-      "decisione": { "data": "2026-10-11", "utente": "preparare la progress bar per le verifiche; impostare la vista e fermarsi a un punto utilizzabile per provare il modello; rispettare MVVM", "esito": "UI e aggancio asincrono predisposti, motore e assegnazioni rimandati; modalità interattiva del controllo reale su una copia del modello di prova" },
+      "effetto_quantificato": {
+        "sintesi": "11 nuovi controlli di ciclo asincrono: totale sconosciuto, conteggio, dati incoerenti, doppio avvio, annullamento in attesa, mancato 100% su annullamento/errore, notifiche tardive, chiusura della vista. WPF verifica un avanzamento 37/100 simulato dal test con pannelli chiusi e arresto a 37 dopo annullamento."
+      },
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "preparare la progress bar per le verifiche; impostare la vista e fermarsi a un punto utilizzabile per provare il modello; rispettare MVVM",
+        "esito": "UI e aggancio asincrono predisposti, motore e assegnazioni rimandati; modalità interattiva del controllo reale su una copia del modello di prova"
+      },
       "data": "2026-10-11",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["ModelWorkspace.Checks: 87 PASS", "ModelViewer.UiChecks reale: 56 PASS"],
-      "evidenze": ["supporto/artefatti/model-viewer/verification-progress/logic", "supporto/artefatti/model-viewer/verification-progress/validated"],
+      "test": [
+        "ModelWorkspace.Checks: 87 PASS",
+        "ModelViewer.UiChecks reale: 56 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/verification-progress/logic",
+        "supporto/artefatti/model-viewer/verification-progress/validated"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -1173,14 +2113,33 @@
       "categoria": "intenzionale",
       "stato": "dichiarato",
       "descrizione": "Camera regolabile, viste standard e a 45 gradi, sfondo, antialiasing, materiali e palette continue. Esc deseleziona. Errori della sorgente tipizzati e banner MVVM con recupero, senza sostituzione della copia valida o esposizione dei corpi HTTP. Confronto documentale di revisioni disponibile come servizio iniziale, non ancora collegato alla UI. Nessun calcolo ingegneristico o modifica alle DLL distribuite.",
-      "codice": ["src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ViewSettings.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ImportFailure.cs", "src/ANTHEA.ModelViewer.Wpf/ModelViewSettingsView.xaml", "src/ANTHEA.ModelWorkspace/ModelSourceException.cs", "src/ANTHEA.ModelWorkspace/ModelRevisionComparison.cs"],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ViewSettings.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ImportFailure.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelViewSettingsView.xaml",
+        "src/ANTHEA.ModelWorkspace/ModelSourceException.cs",
+        "src/ANTHEA.ModelWorkspace/ModelRevisionComparison.cs"
+      ],
       "segno": "sola rappresentazione e gestione documentale; dati ingegneristici invariati",
-      "effetto_quantificato": { "sintesi": "Isolinee opzionali inizialmente spente, tre palette con stesso campo scalare, Z stabile e inerzia disattivata. 105 controlli di logica e 65 WPF superati. Sei cambi di componente già caricato: mediana 92,89 ms fino a OnRendered, massimo 104,79 ms. Il banner MIDAS è provato con un errore simulato; il connettore diretto nel prodotto resta da integrare." },
-      "decisione": { "data": "2026-10-11", "utente": "migliorare rendering, navigazione e contouring; predisporre check revisione e messaggi quando MIDAS non risponde", "esito": "impostazioni e feedback MVVM nel branch; priorità successiva al benchmark con 49 casi base; nessun push o merge verso main" },
+      "effetto_quantificato": {
+        "sintesi": "Isolinee opzionali inizialmente spente, tre palette con stesso campo scalare, Z stabile e inerzia disattivata. 105 controlli di logica e 65 WPF superati. Sei cambi di componente già caricato: mediana 92,89 ms fino a OnRendered, massimo 104,79 ms. Il banner MIDAS è provato con un errore simulato; il connettore diretto nel prodotto resta da integrare."
+      },
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "migliorare rendering, navigazione e contouring; predisporre check revisione e messaggi quando MIDAS non risponde",
+        "esito": "impostazioni e feedback MVVM nel branch; priorità successiva al benchmark con 49 casi base; nessun push o merge verso main"
+      },
       "data": "2026-10-11",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["ModelWorkspace.Checks: 105 PASS", "ModelViewer.UiChecks reale: 65 PASS", "quick: 27 PASS, 0 nuovi fallimenti"],
-      "evidenze": ["supporto/artefatti/model-viewer/base-case-benchmark/ui", "supporto/artefatti/ci/20261011-104113-modelli-casi-base"],
+      "test": [
+        "ModelWorkspace.Checks: 105 PASS",
+        "ModelViewer.UiChecks reale: 65 PASS",
+        "quick: 27 PASS, 0 nuovi fallimenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/base-case-benchmark/ui",
+        "supporto/artefatti/ci/20261011-104113-modelli-casi-base"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -1190,14 +2149,34 @@
       "categoria": "intenzionale",
       "stato": "dichiarato",
       "descrizione": "Acquisizione in sola lettura di 49 casi statici su 3435 plate e 181 beam. Prototipo C# isolato in tools, senza riferimenti dai progetti di produzione, per Add ed Envelope locali con dipendenze annidate e segni. Nessun risultato calcolato dal prototipo sostituisce attesi o dati del progetto. Modello MIDAS e librerie GPC invariati.",
-      "codice": ["tools/ModelViewer.CombinationBench", "tools/model-viewer/Read-MidasBaseCases.ps1", "tools/model-viewer/Read-MidasBenchmarkReferences.ps1", "tests/ModelViewer.CombinationBench.Checks"],
+      "codice": [
+        "tools/ModelViewer.CombinationBench",
+        "tools/model-viewer/Read-MidasBaseCases.ps1",
+        "tools/model-viewer/Read-MidasBenchmarkReferences.ps1",
+        "tests/ModelViewer.CombinationBench.Checks"
+      ],
       "segno": "esperimento e misure; nessuna modifica delle formule o dei risultati di produzione",
-      "effetto_quantificato": { "sintesi": "Acquisizione 517,02 s; 115174 scalari per caso. Mediane a dati caricati: SLU_Q1_1 9,657 ms, ENV_SLU 57,864 ms, ENV_SLV 63,755 ms, tutte le 73 definizioni 139,888 ms. Confronto campione 5408 scalari e combinazione completa plate 109744 scalari: zero scarti fuori tolleranza. Inviluppo completo MIDAS non ottenuto entro 180 s; confronto completo inviluppi/beam ancora aperto. UI/GPU, principali e CBall esclusi dal benchmark." },
-      "decisione": { "data": "2026-10-11", "utente": "guarda cosa ottieni con solo i 49 casi; misura i tempi per creare le combo; da lì partiamo con le considerazioni", "esito": "misure reali e limiti salvati; motore sperimentale tenuto fuori dal prodotto, nessuna modifica agli altri repository e nessun push" },
+      "effetto_quantificato": {
+        "sintesi": "Acquisizione 517,02 s; 115174 scalari per caso. Mediane a dati caricati: SLU_Q1_1 9,657 ms, ENV_SLU 57,864 ms, ENV_SLV 63,755 ms, tutte le 73 definizioni 139,888 ms. Confronto campione 5408 scalari e combinazione completa plate 109744 scalari: zero scarti fuori tolleranza. Inviluppo completo MIDAS non ottenuto entro 180 s; confronto completo inviluppi/beam ancora aperto. UI/GPU, principali e CBall esclusi dal benchmark."
+      },
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "guarda cosa ottieni con solo i 49 casi; misura i tempi per creare le combo; da lì partiamo con le considerazioni",
+        "esito": "misure reali e limiti salvati; motore sperimentale tenuto fuori dal prodotto, nessuna modifica agli altri repository e nessun push"
+      },
       "data": "2026-10-11",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["attesi manuali indipendenti del prototipo PASS", "5408 confronti sul campione PASS", "109744 confronti sulla combinazione completa plate PASS", "quick: 27 PASS, 0 nuovi fallimenti"],
-      "evidenze": ["supporto/artefatti/model-viewer/base-case-benchmark/run-01/source", "supporto/artefatti/model-viewer/base-case-benchmark/full-01", "supporto/artefatti/model-viewer/base-case-benchmark/full-combination-validation"],
+      "test": [
+        "attesi manuali indipendenti del prototipo PASS",
+        "5408 confronti sul campione PASS",
+        "109744 confronti sulla combinazione completa plate PASS",
+        "quick: 27 PASS, 0 nuovi fallimenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/base-case-benchmark/run-01/source",
+        "supporto/artefatti/model-viewer/base-case-benchmark/full-01",
+        "supporto/artefatti/model-viewer/base-case-benchmark/full-combination-validation"
+      ],
       "documento": "docs/sviluppo/modelli-benchmark-casi-base.md"
     },
     {
@@ -1207,14 +2186,37 @@
       "categoria": "intenzionale",
       "stato": "dichiarato",
       "descrizione": "Media aritmetica esclusivamente grafica dei contributi nodali delle plate complete. Proprietà, materiali importati e terne locali compatibili delimitano il vicinato. Visibilità indipendente dalla media; legenda e isolinee seguono il campo visualizzato, mentre tabelle, query, CSV, riferimenti e snapshot conservano gli originali. Stato e servizio senza WPF nella presentazione; nessuna modifica al motore o alle DLL GPC.",
-      "codice": ["src/ANTHEA.ModelViewer.Presentation/PlateContourAverager.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Contouring.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ColorScale.cs", "src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.xaml", "tests/ModelWorkspace.Checks/ContourAveragingChecks.cs", "tests/ModelViewer.UiChecks/ContourRenderingChecks.cs"],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/PlateContourAverager.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Contouring.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.ColorScale.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.xaml",
+        "tests/ModelWorkspace.Checks/ContourAveragingChecks.cs",
+        "tests/ModelViewer.UiChecks/ContourRenderingChecks.cs"
+      ],
       "segno": "modifica intenzionale e reversibile della sola rappresentazione grafica; dati ingegneristici invariati",
-      "effetto_quantificato": { "sintesi": "Attesi manuali: (20-200)/2=-90 e (30-30)/2=0, anche con aree diverse. GPU: campi 10 e 30 condividono il bordo al valore 20 (UV 0,5). Spalla reale: 3531 vertici mediati, 8244 contributi modificati su 13718; minimo Myy grafico da -563,353972 a -496,819197, massimo 1832,324824 invariato. Prima attivazione: 53,51 ms di preparazione sincrona, esclusi completamento GPU e acquisizione." },
-      "decisione": { "data": "2026-10-11", "utente": "aggiungere la possibilità di avere il contouring con i punti mediati sui vertici", "esito": "opzione MVVM nel branch separato, controllo delle discontinuità, prove e finestra interattiva; nessun push o merge su main" },
+      "effetto_quantificato": {
+        "sintesi": "Attesi manuali: (20-200)/2=-90 e (30-30)/2=0, anche con aree diverse. GPU: campi 10 e 30 condividono il bordo al valore 20 (UV 0,5). Spalla reale: 3531 vertici mediati, 8244 contributi modificati su 13718; minimo Myy grafico da -563,353972 a -496,819197, massimo 1832,324824 invariato. Prima attivazione: 53,51 ms di preparazione sincrona, esclusi completamento GPU e acquisizione."
+      },
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "aggiungere la possibilità di avere il contouring con i punti mediati sui vertici",
+        "esito": "opzione MVVM nel branch separato, controllo delle discontinuità, prove e finestra interattiva; nessun push o merge su main"
+      },
       "data": "2026-10-11",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["ModelWorkspace.Checks: 129 PASS", "ModelViewer.UiChecks reale: 74 PASS, nessun errore di binding", "ModelViewer.UiChecks sintetico: 32 PASS", "quick: 27 PASS, nessun nuovo fallimento"],
-      "evidenze": ["supporto/artefatti/model-viewer/nodal-averaging/logic", "supporto/artefatti/model-viewer/nodal-averaging/real", "supporto/artefatti/ci/20261011-111122-modelli-media-vertici", "supporto/artefatti/ci/20261011-111314-modelli-media-vertici-wpf"],
+      "test": [
+        "ModelWorkspace.Checks: 129 PASS",
+        "ModelViewer.UiChecks reale: 74 PASS, nessun errore di binding",
+        "ModelViewer.UiChecks sintetico: 32 PASS",
+        "quick: 27 PASS, nessun nuovo fallimento"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/nodal-averaging/logic",
+        "supporto/artefatti/model-viewer/nodal-averaging/real",
+        "supporto/artefatti/ci/20261011-111122-modelli-media-vertici",
+        "supporto/artefatti/ci/20261011-111314-modelli-media-vertici-wpf"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -1322,7 +2324,10 @@
       },
       "data": "2026-10-11",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["ModelViewer.UiChecks esplorazione: 33 PASS, nessun errore di binding", "Runner quick mirato ModelWorkspace: 2 PASS inclusa build; 177 controlli logici"],
+      "test": [
+        "ModelViewer.UiChecks esplorazione: 33 PASS, nessun errore di binding",
+        "Runner quick mirato ModelWorkspace: 2 PASS inclusa build; 177 controlli logici"
+      ],
       "evidenze": [
         "supporto/artefatti/model-viewer/reports/final/scheda-vista-unificata.png",
         "supporto/artefatti/model-viewer/view-mode-tab/ui"
@@ -1371,14 +2376,38 @@
       "stato": "dichiarato",
       "descrizione": "Importazione delle traslazioni nodali globali, contouring in mm/cm/m, forma deformata su assi e volumi, fattore automatico/reale/manuale, sagoma e mesh originali opzionali, animazione grafica con buffer riutilizzati. Temi Scuro e Molto scuro verificati nelle cinque schede, nelle tabelle e nei menu. Viste e report conservano campo, fase e impostazioni.",
       "riferimento_normativo": [],
-      "codice": ["src/ANTHEA.ModelWorkspace/MidasDisplacementTables.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Deformations.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Animation.cs", "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Deformations.cs", "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Animation.cs"],
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/MidasDisplacementTables.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Deformations.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Animation.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Deformations.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.Animation.cs"
+      ],
       "segno": "solo importazione e rappresentazione; valori originali invariati. Sostituita la precedente sovrapposizione magenta con la geometria realmente traslata. Nessuna ricostruzione di rotazioni, curvature o forme da estremi non simultanei.",
-      "effetto_quantificato": {"sintesi": "49 casi reali, 183995 vettori nodali acquisiti in 139,4 s. Cambio caso con volume deformato già caricato: circa 0,13–0,24 s nelle prime prove. Offset mantenuti nella direzione originale in assenza di rotazioni importate."},
-      "decisione": {"data": "2026-10-11", "utente": "confrontare le funzioni di RFEM e MIDAS NX, verificare Scuro/Molto scuro e introdurre le deformate", "esito": "implementazione nel branch del visualizzatore, senza modifiche alle librerie GPC"},
+      "effetto_quantificato": {
+        "sintesi": "49 casi reali, 183995 vettori nodali acquisiti in 139,4 s. Cambio caso con volume deformato già caricato: circa 0,13–0,24 s nelle prime prove. Offset mantenuti nella direzione originale in assenza di rotazioni importate."
+      },
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "confrontare le funzioni di RFEM e MIDAS NX, verificare Scuro/Molto scuro e introdurre le deformate",
+        "esito": "implementazione nel branch del visualizzatore, senza modifiche alle librerie GPC"
+      },
       "data": "2026-10-11",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["Spostamenti e importazione: controlli logici dedicati", "Deformate sintetiche: 36 PASS", "Temi: 53 PASS", "Deformate reali: 14 PASS", "Regressione WPF: 138 PASS"],
-      "evidenze": ["supporto/artefatti/model-viewer/deformations/before", "supporto/artefatti/model-viewer/deformations/static-final", "supporto/artefatti/model-viewer/deformations/real-refined", "supporto/artefatti/model-viewer/deformations/themes-check", "supporto/artefatti/model-viewer/deformations/regression"],
+      "test": [
+        "Spostamenti e importazione: controlli logici dedicati",
+        "Deformate sintetiche: 36 PASS",
+        "Temi: 53 PASS",
+        "Deformate reali: 14 PASS",
+        "Regressione WPF: 138 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/deformations/before",
+        "supporto/artefatti/model-viewer/deformations/static-final",
+        "supporto/artefatti/model-viewer/deformations/real-refined",
+        "supporto/artefatti/model-viewer/deformations/themes-check",
+        "supporto/artefatti/model-viewer/deformations/regression"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -1389,13 +2418,27 @@
       "stato": "dichiarato",
       "descrizione": "Limite del pacchetto aumentato da 64 MB a 256 MiB, lettura da stream con cancellazione e SHA-256 senza copia completa del JSON. Formato e impronta precedenti conservati.",
       "riferimento_normativo": [],
-      "codice": ["src/ANTHEA.ModelWorkspace/ModelSnapshotFiles.cs", "src/ANTHEA.ModelWorkspace/ModelSnapshot.cs"],
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelSnapshotFiles.cs",
+        "src/ANTHEA.ModelWorkspace/ModelSnapshot.cs"
+      ],
       "segno": "accettati pacchetti più grandi entro un limite esplicito; nessuna differenza nei valori o nell'identità delle revisioni",
-      "decisione": {"data": "2026-10-11", "utente": "view con tutti i casi disponibili e nuove deformate", "esito": "apertura del pacchetto reale di 123821818 byte verificata nel progetto di prova"},
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "view con tutti i casi disponibili e nuove deformate",
+        "esito": "apertura del pacchetto reale di 123821818 byte verificata nel progetto di prova"
+      },
       "data": "2026-10-11",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["ModelWorkspace.Checks: 216 PASS, inclusa equivalenza SHA-256 con la serializzazione precedente", "ModelViewer.UiChecks su pacchetto completo: 14 PASS"],
-      "evidenze": ["supporto/artefatti/model-viewer/deformations/fresh-source", "supporto/artefatti/model-viewer/deformations/real-complete", "supporto/artefatti/ci/20261011-181542-modelli-pacchetto-stream"],
+      "test": [
+        "ModelWorkspace.Checks: 216 PASS, inclusa equivalenza SHA-256 con la serializzazione precedente",
+        "ModelViewer.UiChecks su pacchetto completo: 14 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/deformations/fresh-source",
+        "supporto/artefatti/model-viewer/deformations/real-complete",
+        "supporto/artefatti/ci/20261011-181542-modelli-pacchetto-stream"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -1406,13 +2449,30 @@
       "stato": "dichiarato",
       "descrizione": "Grafici 2D delle componenti locali importate con cursore comune, unità condivise, campioni e interpolazioni distinguibili, CSV e figure di report. Pannello adattivo e legenda leggibile nei viewport ridotti.",
       "riferimento_normativo": [],
-      "codice": ["src/ANTHEA.ModelViewer.Presentation/MemberDiagram.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.MemberDiagrams.cs", "src/ANTHEA.ModelViewer.Wpf/MemberDiagramPlot.cs", "src/ANTHEA.ModelViewer.Wpf/MemberDiagramReportRenderer.cs", "src/ANTHEA.ModelReports/ModelReportDocument.cs"],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Presentation/MemberDiagram.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.MemberDiagrams.cs",
+        "src/ANTHEA.ModelViewer.Wpf/MemberDiagramPlot.cs",
+        "src/ANTHEA.ModelViewer.Wpf/MemberDiagramReportRenderer.cs",
+        "src/ANTHEA.ModelReports/ModelReportDocument.cs"
+      ],
       "segno": "nessuna modifica dei valori; interpolazione solo grafica fra stazioni disponibili, nessuna media di valori ambigui o estrapolazione",
-      "decisione": {"data": "2026-10-11", "utente": "aggiungere le funzioni utili di RFEM/MIDAS NX e i grafici delle aste", "esito": "diagramma selezionabile e rigenerabile nel report, condividendo i selettori della scheda Risultati"},
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "aggiungere le funzioni utili di RFEM/MIDAS NX e i grafici delle aste",
+        "esito": "diagramma selezionabile e rigenerabile nel report, condividendo i selettori della scheda Risultati"
+      },
       "data": "2026-10-11",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["ModelWorkspace.Checks: 235 PASS", "ModelViewer.UiChecks: 17 PASS, report e tre temi, nessun errore di binding"],
-      "evidenze": ["supporto/artefatti/model-viewer/member-diagrams/real", "supporto/artefatti/model-viewer/member-diagrams/reviewed", "supporto/artefatti/ci/20261011-182619-diagrammi-report-logica"],
+      "test": [
+        "ModelWorkspace.Checks: 235 PASS",
+        "ModelViewer.UiChecks: 17 PASS, report e tre temi, nessun errore di binding"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/member-diagrams/real",
+        "supporto/artefatti/model-viewer/member-diagrams/reviewed",
+        "supporto/artefatti/ci/20261011-182619-diagrammi-report-logica"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -1722,13 +2782,27 @@
       "stato": "dichiarato",
       "descrizione": "ViewModel delega modulo delle traslazioni e lunghezza dell'asta a ModelMeasurements, adattatore senza WPF delle operazioni Vector3d di GPC già distribuite.",
       "riferimento_normativo": [],
-      "codice": ["src/ANTHEA.ModelWorkspace/ModelMeasurements.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Deformations.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.MemberDiagrams.cs"],
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelMeasurements.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Deformations.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.MemberDiagrams.cs"
+      ],
       "segno": "Nessuna differenza nelle catture numeriche; nessun cambio delle DLL o degli attesi indipendenti.",
-      "decisione": {"data": "2026-10-11", "utente": "architettura MVVM e operazioni geometriche nelle librerie GPC", "esito": "riuso dell'adattatore, confronto prima/dopo identico"},
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "architettura MVVM e operazioni geometriche nelle librerie GPC",
+        "esito": "riuso dell'adattatore, confronto prima/dopo identico"
+      },
       "data": "2026-10-11",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["322 controlli logici", "Catture numeriche identiche: sei vettori con scala da 1e-150 a 1e150, posizione e lunghezza dell'asta"],
-      "evidenze": ["supporto/artefatti/ci/20261011-202042-modelli-gpc-letture-baseline", "supporto/artefatti/ci/20261011-202133-modelli-gpc-letture-dopo"],
+      "test": [
+        "322 controlli logici",
+        "Catture numeriche identiche: sei vettori con scala da 1e-150 a 1e150, posizione e lunghezza dell'asta"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261011-202042-modelli-gpc-letture-baseline",
+        "supporto/artefatti/ci/20261011-202133-modelli-gpc-letture-dopo"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -1739,13 +2813,30 @@
       "stato": "dichiarato",
       "descrizione": "Cattura WPF corretta per offset e limiti Direct3D obsoleti, temi al primo avvio, store delle viste iniettabile, confezionamento locale Release con modello e tre avviatori.",
       "riferimento_normativo": [],
-      "codice": ["src/ANTHEA.ModelViewer.Wpf/ViewerImageExporter.cs", "src/ANTHEA.ModelViewer.Wpf/WpfModelViewerServices.cs", "tests/ModelViewer.UiChecks/Program.cs", "tools/model-viewer/Publish-Preview.ps1"],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Wpf/ViewerImageExporter.cs",
+        "src/ANTHEA.ModelViewer.Wpf/WpfModelViewerServices.cs",
+        "tests/ModelViewer.UiChecks/Program.cs",
+        "tools/model-viewer/Publish-Preview.ps1"
+      ],
       "segno": "Corretti ritaglio/scalatura della schermata e barre di scorrimento inizialmente chiare nella preview; nessuna modifica ai dati strutturali o alle preferenze globali.",
-      "decisione": {"data": "2026-10-11", "utente": "finestra di prova, temi scuro/molto scuro e schermate del visualizzatore", "esito": "correzioni e pacchetto locale collaudati"},
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "finestra di prova, temi scuro/molto scuro e schermate del visualizzatore",
+        "esito": "correzioni e pacchetto locale collaudati"
+      },
       "data": "2026-10-11",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["10 controlli WPF di esportazione incorporata, tema iniziale e persistenza separata", "Build Release fuori dai sorgenti: 14 controlli deformate, 62 controlli temi", "Avviatore interattivo reale: 49 casi, nessun errore di binding"],
-      "evidenze": ["supporto/artefatti/model-viewer/export-layout/before", "supporto/artefatti/model-viewer/export-layout/preferences", "supporto/artefatti/model-viewer/preview-qa-20261011"],
+      "test": [
+        "10 controlli WPF di esportazione incorporata, tema iniziale e persistenza separata",
+        "Build Release fuori dai sorgenti: 14 controlli deformate, 62 controlli temi",
+        "Avviatore interattivo reale: 49 casi, nessun errore di binding"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/export-layout/before",
+        "supporto/artefatti/model-viewer/export-layout/preferences",
+        "supporto/artefatti/model-viewer/preview-qa-20261011"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -1756,13 +2847,25 @@
       "stato": "dichiarato",
       "descrizione": "Completamento del layout e aggiornamento del render host prima della cattura completa; il frame segue immediatamente il ridimensionamento dovuto ai pannelli.",
       "riferimento_normativo": [],
-      "codice": ["src/ANTHEA.ModelViewer.Wpf/ViewerImageExporter.cs", "tests/ModelViewer.UiChecks/ExportLayoutRenderingChecks.cs"],
+      "codice": [
+        "src/ANTHEA.ModelViewer.Wpf/ViewerImageExporter.cs",
+        "tests/ModelViewer.UiChecks/ExportLayoutRenderingChecks.cs"
+      ],
       "segno": "Rimossa la compressione del vecchio frame: esempio 870 pixel catturati per una viewport da 270 pixel fisici; nessun cambio dei dati.",
-      "decisione": {"data": "2026-10-11", "utente": "vista e schermate del visualizzatore", "esito": "sincronizzazione verificata anche senza attese fra apertura del pannello ed esportazione"},
+      "decisione": {
+        "data": "2026-10-11",
+        "utente": "vista e schermate del visualizzatore",
+        "esito": "sincronizzazione verificata anche senza attese fra apertura del pannello ed esportazione"
+      },
       "data": "2026-10-11",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["12 controlli WPF di layout, esportazione, prima apertura scura e store dedicato"],
-      "evidenze": ["supporto/artefatti/model-viewer/preview-20261011/prove/20261011-203826-a46b06", "supporto/artefatti/model-viewer/export-layout/synchronized"],
+      "test": [
+        "12 controlli WPF di layout, esportazione, prima apertura scura e store dedicato"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/preview-20261011/prove/20261011-203826-a46b06",
+        "supporto/artefatti/model-viewer/export-layout/synchronized"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -1772,13 +2875,31 @@
       "stato": "dichiarato",
       "descrizione": "Collegamento MIDAS API in sola lettura dal pannello Modelli: controllo connessione, selezione dei casi statici, quattro modalità, avanzamento, annullamento e applicazione atomica della copia.",
       "riferimento_normativo": [],
-      "codice": ["src/ANTHEA.ModelWorkspace/MidasModelSource.cs", "src/ANTHEA.ModelWorkspace/MidasNormalizationReuse.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.LiveImport.cs", "src/ANTHEA.ModelViewer.Wpf/ModelImportOptionsView.xaml"],
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/MidasModelSource.cs",
+        "src/ANTHEA.ModelWorkspace/MidasNormalizationReuse.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.LiveImport.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelImportOptionsView.xaml"
+      ],
       "segno": "Nuova sorgente e pannello affiancato; nessun cambio delle formule. Lettura reale G1: geometria, tabelle, forze e spostamenti identici alla copia dell'11 ottobre. Normalizzazioni precedenti conservate soltanto a input completo e identico.",
-      "decisione": {"data": "2026-10-12", "utente": "impostiamo l'import da modello", "esito": "MIDAS collegato senza modifiche al software sorgente o alle librerie distribuite"},
+      "decisione": {
+        "data": "2026-10-12",
+        "utente": "impostiamo l'import da modello",
+        "esito": "MIDAS collegato senza modifiche al software sorgente o alle librerie distribuite"
+      },
       "data": "2026-10-12",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["381 controlli di logica complessivi", "17 controlli WPF del pannello e dei tre temi", "G1 reale: 13718 vertici plate, 3755 spostamenti e sei campi beam identici al riferimento", "Interruzione reale della sessione durante il tentativo di tutti i 49 casi: nessuna copia parziale pubblicata"],
-      "evidenze": ["supporto/artefatti/ci/20261012-120445-import-midas-straus", "supporto/artefatti/ci/20261012-120619-import-ui-finale", "supporto/artefatti/model-viewer/live-import/20261012-reale-un-caso-02"],
+      "test": [
+        "381 controlli di logica complessivi",
+        "17 controlli WPF del pannello e dei tre temi",
+        "G1 reale: 13718 vertici plate, 3755 spostamenti e sei campi beam identici al riferimento",
+        "Interruzione reale della sessione durante il tentativo di tutti i 49 casi: nessuna copia parziale pubblicata"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261012-120445-import-midas-straus",
+        "supporto/artefatti/ci/20261012-120619-import-ui-finale",
+        "supporto/artefatti/model-viewer/live-import/20261012-reale-un-caso-02"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -1788,13 +2909,31 @@
       "stato": "dichiarato",
       "descrizione": "Gestione combinazioni importate e locali nella scheda sinistra, editor MVVM, griglia coefficienti e finestra staccabile; ordine Vista/Modello/Combinazioni/Risultati/Verifiche/Report, calcolo e inviluppi tramite motore GPC rilasciato.",
       "riferimento_normativo": [],
-      "codice": ["src/ANTHEA.ModelWorkspace/ModelCombinations.cs", "src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Combinations.cs", "src/ANTHEA.ModelViewer.Wpf/ModelCombinationsView.xaml"],
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelCombinations.cs",
+        "src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Combinations.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelCombinationsView.xaml"
+      ],
       "segno": "Nuova gestione locale senza modifiche a MIDAS o ai sorgenti GPC. Conservazione degli originali, governanti e stati concomitanti, invalidazione dei derivati e cache normalizzata indipendente dai coefficienti. Nuova lettura delle rotazioni nodali per il contratto completo GPC.",
-      "decisione": {"data": "2026-10-12", "utente": "implementa le combo nella gestione del modello; importate o create/eliminate dalla UI; griglia e finestra staccabile", "esito": "implementazione nel branch, generatore automatico e principali rinviati"},
+      "decisione": {
+        "data": "2026-10-12",
+        "utente": "implementa le combo nella gestione del modello; importate o create/eliminate dalla UI; griglia e finestra staccabile",
+        "esito": "implementazione nel branch, generatore automatico e principali rinviati"
+      },
       "data": "2026-10-12",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["Attesi manuali plate/beam/nodi, inviluppi annidati, governanti diversi, ID sorgente non coincidenti con quelli interni", "109744 valori SLU_Q1_1(max) plate: zero differenze oltre tolleranza, massimo scarto assoluto 1.006e-9", "WPF nei tre temi, griglia, stacco e riaggancio"],
-      "evidenze": ["supporto/artefatti/model-viewer/combinations-20261012", "supporto/artefatti/ci/20261012-150738-combo-full", "supporto/artefatti/ci/20261012-152635-combo-finale", "supporto/artefatti/ci/20261012-154019-combo-tab-sinistra-finale"],
+      "test": [
+        "Attesi manuali plate/beam/nodi, inviluppi annidati, governanti diversi, ID sorgente non coincidenti con quelli interni",
+        "109744 valori SLU_Q1_1(max) plate: zero differenze oltre tolleranza, massimo scarto assoluto 1.006e-9",
+        "WPF nei tre temi, griglia, stacco e riaggancio"
+      ],
+      "evidenze": [
+        "supporto/artefatti/model-viewer/combinations-20261012",
+        "supporto/artefatti/ci/20261012-150738-combo-full",
+        "supporto/artefatti/ci/20261012-152635-combo-finale",
+        "supporto/artefatti/ci/20261012-154019-combo-tab-sinistra-finale"
+      ],
       "documento": "docs/sviluppo/modelli-combinazioni.md"
     },
     {
@@ -1804,13 +2943,27 @@
       "stato": "dichiarato",
       "descrizione": "Predisposizione Straus/Strand7 R3: selezione ST7/LSA/API, controllo file e formato nativo x64, contratto del worker. Lettura nativa non ancora attiva e pulsante disabilitato con motivo esplicito.",
       "riferimento_normativo": [],
-      "codice": ["src/ANTHEA.ModelWorkspace/Strand7ImportSetup.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Strand7Import.cs"],
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/Strand7ImportSetup.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Strand7Import.cs"
+      ],
       "segno": "Nessuna chiamata alla DLL, gestione della licenza, lettura del modello nativo o modifica del set GPC. File preparati non sono dichiarati come modello importato.",
-      "decisione": {"data": "2026-10-12", "utente": "poi predisponi anche quello per straus", "esito": "predisposizione completata; attivazione dopo integrazione del convertitore GPC R3 nel rilascio coerente"},
+      "decisione": {
+        "data": "2026-10-12",
+        "utente": "poi predisponi anche quello per straus",
+        "esito": "predisposizione completata; attivazione dopo integrazione del convertitore GPC R3 nel rilascio coerente"
+      },
       "data": "2026-10-12",
       "fase": "bozza Modelli, indipendente dal refactoring",
-      "test": ["Controllo della DLL R31 x64 installata senza caricarla", "Percorsi errati, file mancanti, annullamento, sorgenti distinte e pulsante non attivo", "Pannello WPF nei temi dell'applicazione"],
-      "evidenze": ["supporto/artefatti/ci/20261012-120445-import-midas-straus", "supporto/artefatti/ci/20261012-120619-import-ui-finale"],
+      "test": [
+        "Controllo della DLL R31 x64 installata senza caricarla",
+        "Percorsi errati, file mancanti, annullamento, sorgenti distinte e pulsante non attivo",
+        "Pannello WPF nei temi dell'applicazione"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261012-120445-import-midas-straus",
+        "supporto/artefatti/ci/20261012-120619-import-ui-finale"
+      ],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     },
     {
@@ -2278,6 +3431,31 @@
         "supporto/artefatti/release-stg-20261012/candidate-u",
         "supporto/artefatti/release-stg-20261012/candidate-v",
         "supporto/artefatti/release-stg-20261012/set-u"
+      ]
+    },
+    {
+      "id": "SEZ-01",
+      "data": "2026-10-13",
+      "fase": "SEZ-2",
+      "titolo": "Vista delle sezioni e offset non risolti",
+      "famiglia": "modelli/sezioni",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Catalogo grafico da Converter 2.2 con parser condiviso. Source/FromTables e Flatten/Read degli attributi estratti senza variazioni; prima full STG 102 PASS, dopo 477 controlli dati. Fix in Model 7fd1fe4c: offset personalizzati non supportati restano non risolti e non diventano zero. Geometria fisica composta distinta da analisi omogeneizzata.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelSections.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Sections.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSectionPreview.cs"
+      ],
+      "segno": "Nessuna modifica a risultati, formule, attesi storici o mesh delle sezioni. La mesh grafica usa nuove copie dei contorni. Un refuso nel nuovo test dello scatolare (10960) corretto con la formula indipendente 200*300-180*272 = 11040, senza usare risultati del codice.",
+      "test": [
+        "477 controlli dati, 11 WPF, nessun binding fallito",
+        "Fori e rientranze: area della mesh confrontata con geometrie indipendenti",
+        "Tema chiaro/scuro/molto scuro e 850x620 controllati graficamente"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-003436-sez-detail-reviewed",
+        "supporto/artefatti/refactoring/sections"
       ]
     }
   ]

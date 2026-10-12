@@ -12,9 +12,12 @@ internal static class MidasGpcDisplay
     {
         if(snapshot.SourceTables==null||new[]{"UNIT","NODE","ELEM","STLD"}.Any(t=>!snapshot.SourceTables.ContainsKey(t)))
             throw new InvalidDataException("Per questo collegamento GPC servono le tabelle sorgente MIDAS complete. Reimporta geometria, attributi e risultati.");
-        return new(snapshot.SourceTables.ToDictionary(p=>p.Key,p=>new CivilNxResponse("db/"+p.Key,
-            JsonSerializer.Serialize(new Dictionary<string,JsonElement>{{p.Key,p.Value}}))));
+        return FromTables(snapshot.SourceTables);
     }
+
+    internal static CivilNxSnapshot FromTables(IReadOnlyDictionary<string,JsonElement> tables) =>
+        new(tables.ToDictionary(p=>p.Key,p=>new CivilNxResponse("db/"+p.Key,
+            JsonSerializer.Serialize(new Dictionary<string,JsonElement>{{p.Key,p.Value}}))));
 
     internal static void ValidateGeometry(ModelSnapshot snapshot,GPC.Model.Models.Model model)
     {
