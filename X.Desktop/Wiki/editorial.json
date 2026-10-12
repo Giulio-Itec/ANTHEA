@@ -1412,7 +1412,7 @@
     ],
     "title": "Fondazioni superficiali",
     "order": 200,
-    "summary": "Capacità portante statica su terreno omogeneo: metodi, dati, coefficienti e limiti."
+    "summary": "Portanza statica, stratigrafia comune, materiali nei Progetti, area efficace, pressioni e schemi di rottura."
   },
   "theory:Fondazioni superficiali": {
     "area": "Fondazioni e geotecnica",
@@ -1434,6 +1434,6 @@
     ],
     "title": "Fondazioni superficiali",
     "order": 200,
-    "summary": "Capacità portante statica su terreno omogeneo: metodi, dati, coefficienti e limiti."
+    "summary": "Portanza statica, stratigrafia comune, materiali nei Progetti, area efficace, pressioni e schemi di rottura."
   }
 }

@@ -284,4 +284,8 @@ Attività autorizzata dall'utente, ramo `refactoring/f5-fondazioni-superficiali`
 - [x] Documento e report nella libreria senza WPF, foglio ANTHEA, archivio, dettagli e aiuto contestuale; test sorgente isolato.
 - [x] Due capitoli nelle guide globali, esempio verificato, figura originale e indice Wiki rigenerato.
 - [x] Guide Rev33 rigenerate e controllate, Rev32 archiviate. Standard: 45 PASS, 1 KNOWN già censito, 0 nuovi fallimenti.
-- [ ] Rilascio coerente: versione dell'utente, merge e push autorizzati, suite del treno, installazione manifest e runner full. Lo snapshot distribuito resta invariato.
+- [x] Geotechnics 0.1.2.0 assegnata dall'utente, prima implementazione integrata e pushata su Checker; estensioni sul ramo `codex/fondazioni-visualizzazioni`.
+- [x] Profili Soil/SoilLayer/SoilProfile di Model riutilizzati, tabella degli strati come il palo verticale, CLS e terreno condivisi nei Progetti, pagina unica con schede soltanto grafiche; registro FON-02.
+- [x] Pressioni di contatto senza trazione, area efficace nei due assi e schema illustrativo di Prandtl; 23 test Checker, 67 controlli documento/Progetti/UI, input richiudibili senza perdere il risultato.
+- [x] Collaudo estensione: standard 45 PASS / 1 KNOWN / 0 nuovi fallimenti; runner mirato documento/UI tutto PASS. Wiki e guide Rev34 rigenerate, controllo grafico completato, Rev33 archiviate.
+- [ ] Rilascio coerente: altre versioni in attesa dell'assegnazione dell'utente, controllo riproducibilità Model, suite del treno, installazione manifest e runner full. Lo snapshot distribuito resta invariato.

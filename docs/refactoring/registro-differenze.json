@@ -1800,6 +1800,49 @@
         "supporto/artefatti/fondazioni-superficiali"
       ],
       "documento": "docs/sviluppo/fondazioni-superficiali.md"
+    },
+    {
+      "id": "FON-02",
+      "titolo": "Materiali comuni e viste grafiche della fondazione",
+      "famiglia": "geotecnica/interfaccia/progetti",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Riutilizzo diretto Soil, SoilLayer e SoilProfile di Model; tabella come il palo verticale; terreno e CLS nei Progetti. Pagina unica, schede limitate ai grafici. Contatto affine senza trazione e schema di Prandtl illustrativo in Checker.",
+      "riferimento_normativo": [
+        "NTC 2018 6.4.2.1",
+        "EN 1997-1:2004/AC:2009 allegato D"
+      ],
+      "codice": [
+        "src/ANTHEA.FoundationWorkspace",
+        "X.Desktop/Wpf/FoundationWorkspace.cs",
+        "X.Desktop/Wpf/FoundationWorkspace.Materials.cs",
+        "X.Desktop/Wpf/FoundationViews.cs",
+        "X.Core/ProjectSharedData.cs",
+        "X.Core/ProjectSharedSoils.cs",
+        "X.Core/SoilProfileTransfer.cs",
+        "Checker/GPCChecker.Geotechnics/Foundations/FoundationGraphics.cs",
+        "Checker/GPCChecker.Geotechnics/Foundations/FoundationSoilProfile.cs"
+      ],
+      "segno": "Caso di riferimento: 26 campi del risultato di portanza identici prima/dopo. Nuovi dati canonici conservano i vecchi input e li sostituiscono come sorgente del terreno. Nessuna modifica ai motori precedenti o agli attesi indipendenti.",
+      "decisione": {
+        "data": "2026-10-12",
+        "utente": "riutilizzare le classi di terreno, uniformare gli strati al palo verticale e i materiali ai Progetti; unica pagina con schede solo grafiche",
+        "esito": "implementato nei sorgenti; rilascio fermo alle versioni richieste all’utente"
+      },
+      "data": "2026-10-12",
+      "fase": "F5, modulo autonomo",
+      "test": [
+        "23 test Checker e 108 regressioni geotecniche passati",
+        "67 controlli adattatore, Progetti, archivio, report e UI",
+        "26 campi di portanza identici prima/dopo",
+        "Runner standard: 45 PASS, 1 KNOWN, 0 NEW-FAIL",
+        "Runner mirato dopo migrazione D=0: build, documento e UI PASS",
+        "Guide Rev34: 183 pagine con corpo identico; controllo visivo pagine cambiate e formule"
+      ],
+      "evidenze": [
+        "supporto/artefatti/fondazioni-superficiali/visualizzazioni"
+      ],
+      "documento": "docs/sviluppo/fondazioni-superficiali.md"
     }
   ]
 }

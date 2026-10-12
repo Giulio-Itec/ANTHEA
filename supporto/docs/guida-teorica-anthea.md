@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 5 aggiornata il 12 ottobre 2026 — revisione documentale 33
+Edizione 5 aggiornata il 12 ottobre 2026 — revisione documentale 34
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -2981,8 +2981,36 @@ I fattori sc sono 1 per striscia e 1,3 per quadrato e cerchio; sγ vale rispetti
 
 La riduzione di Terzaghi per rottura locale pone c′rid = 2c′/3 e tan φrid = 2 tan φ′/3. La riduzione per densità relativa di Vesić, solo per sabbie con c′ = 0 e 0 ≤ Dr ≤ 2/3, pone tan φrid = (2/3 + Dr − 3Dr²/4)tan φ′. Sono riduzioni dei parametri selezionate consapevolmente; il modello non calcola fattori di compressibilità da modulo di taglio, deformazione volumetrica o indice di rigidezza.
 
+### Stratigrafia e materiali comuni
+
+Il profilo usa terreno, strato e sondaggio comuni ai moduli geotecnici. Le quote sono riferite al piano campagna; i pesi sopra il piano di posa vengono integrati per strato. In drenato si sottrae la pressione interstiziale idrostatica; in non drenato il confinamento resta totale. In caso di interfaccia coincidente con la base si assume il materiale immediatamente sottostante. Profili identici traslati rispetto a un diverso riferimento altimetrico danno lo stesso risultato.
+
+La resistenza richiede proprietà omogenee sotto la base e l'ipotesi esplicita di semispazio. Il fondo disegnato è il limite dei dati inseriti, non un confine resistente rigido. Nessun parametro medio sostituisce materiali diversi. La classe del calcestruzzo e il suo legame sono dati comuni del progetto; non intervengono nel modello geotecnico e non generano automaticamente peso o verifiche strutturali.
+
+### Pressioni di contatto e area efficace
+
+Per una fondazione rettangolare rigida si adotta una distribuzione convenzionale affine, annullata dove il terreno sarebbe teso. Le coordinate x e y sono centrate sull'impronta geometrica. I coefficienti a, b e c sono determinati imponendo equilibrio della forza e dei due momenti sulla parte compressa Ac.
+
+$$ p(x,y)=\max(0,a+bx+cy)
+
+$$ \int_{A_c}p\,dA=N,\qquad \int_{A_c}xp\,dA=M_y,\qquad \int_{A_c}yp\,dA=M_x
+
+Il calcolo integra esattamente area, momenti primi e secondi del poligono di contatto; risolve il sistema con coordinate e pressioni normalizzate e controlla il residuo di equilibrio. Una mancata convergenza viene segnalata e la mappa non viene mostrata. Il disegno campiona la soluzione su una griglia; i valori estremi derivano dai vertici e non dalla risoluzione grafica.
+
+A contatto completo, la relazione restituisce p = N/(BL) [1 + 12ex x/B² + 12ey y/L²]. Se una parte perde contatto non si tronca semplicemente questa prima distribuzione: si risolvono nuovamente a, b e c sulla zona compressa. Per eccentricità lungo X superiore a B/6 la soluzione monoassiale triangolare ha larghezza compressa 3(B/2 − |ex|), mentre la larghezza efficace vale B − 2|ex|. La distinzione spiega perché Ac e A′ differiscono.
+
+La distribuzione è coerente con una piastra rigida su appoggio elastico locale uniforme senza trazione, a meno di una rigidezza moltiplicativa che non serve a determinarne le pressioni. Non è la soluzione elastica di un semispazio, non usa moduli del terreno e non consente di dedurre cedimenti. Per il cerchio, ammesso solo con risultante centrata, la pressione è uniforme. Per la striscia si considera un metro di lunghezza. La portanza confronta N con A′qlim/γR; pmax non sostituisce N/A′ in questa verifica.
+
+### Schema illustrativo del meccanismo di rottura
+
+La vista Rottura rappresenta il riferimento di Prandtl per una striscia su terreno omogeneo privo di peso. Non è ottenuta ottimizzando una superficie per Terzaghi, Meyerhof, Hansen, Vesić o Eurocodice 7. Si usa il lato efficace nella sezione scelta e l'angolo adottato nel calcolo; in non drenato φ = 0. Il cuneo centrale è inclinato di α = π/4 + φ/2; la zona passiva termina con inclinazione β = π/4 − φ/2. Nel ventaglio:
+
+$$ r=r_0e^{\theta\tan\varphi},\qquad r_0=\frac{B'}{2\cos\alpha},\qquad 0\leq\theta\leq\pi/2
+
+Le sezioni X e Y sono rappresentazioni separate, non una superficie tridimensionale. Il disegno non incorpora peso proprio del terreno, profondità di posa o componenti tangenziali; non dimostra l'estensione della zona di rottura reale né giustifica una profondità d'indagine. La dipendenza della geometria critica dal peso del terreno impedisce di interpretare questo riferimento come superficie universale per il termine Nγ.
+
 ### Limiti e riferimenti tecnici
 
-La scelta di φ′ e cu deve derivare dall'indagine e dal meccanismo pertinente; il foglio non converte automaticamente resistenza di picco in critica né ricava parametri da prove. Non sono coperti terreno stratificato resistente, base inclinata, pendio, falda in pressione, trazione, interazione tra fondazioni, sisma o carico ciclico. Un rapporto di utilizzo favorevole non sana queste condizioni. Un metodo non supportato deve essere verificato separatamente con un modello appropriato.
+La scelta di φ′ e cu deve derivare dall'indagine e dal meccanismo pertinente; il foglio non converte automaticamente resistenza di picco in critica né ricava parametri da prove. Non sono coperti terreno resistente eterogeneo sotto la base, base inclinata, pendio, falda in pressione, trazione, interazione tra fondazioni, sisma o carico ciclico. Un rapporto di utilizzo favorevole non sana queste condizioni. Un metodo non supportato deve essere verificato separatamente con un modello appropriato.
 
-Riferimenti: Terzaghi, Theoretical Soil Mechanics (1943); Meyerhof, Some Recent Research on the Bearing Capacity of Foundations (1963); Brinch Hansen, A Revised and Extended Formula for Bearing Capacity, Bulletin 28 (1970); Vesić, Bearing Capacity of Shallow Foundations, Foundation Engineering Handbook (1975); USACE EM 1110-1-1905, Bearing Capacity of Soils (1992), capitolo 4; EN 1997-1:2004/AC:2009, allegato D; DM 17 gennaio 2018, §§6.2 e 6.4.2. La [procedura del foglio](wiki:guida-fondazioni-superficiali) contiene un esempio numerico verificato.
+Riferimenti: Terzaghi, Theoretical Soil Mechanics (1943); Meyerhof, Some Recent Research on the Bearing Capacity of Foundations (1963); Brinch Hansen, A Revised and Extended Formula for Bearing Capacity, Bulletin 28 (1970); Vesić, Bearing Capacity of Shallow Foundations, Foundation Engineering Handbook (1975); USACE EM 1110-1-1905, Bearing Capacity of Soils (1992), capitolo 4; Hjiaj, Lyamin e Sloan, Numerical limit analysis solutions for the bearing capacity factor Nγ, International Journal of Solids and Structures 42 (2005), 1681–1704, DOI 10.1016/j.ijsolstr.2004.08.002; EN 1997-1:2004/AC:2009, allegato D; DM 17 gennaio 2018, §§6.2 e 6.4.2. La [procedura del foglio](wiki:guida-fondazioni-superficiali) contiene un esempio numerico verificato.
