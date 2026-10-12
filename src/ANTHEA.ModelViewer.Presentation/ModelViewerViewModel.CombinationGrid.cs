@@ -28,7 +28,11 @@ public sealed partial class ModelViewerViewModel
     partial void OnIsCombinationDetachedChanged(bool value)
     {OnPropertyChanged(nameof(CombinationWindowLabel));CombinationWindowChanged?.Invoke(this,EventArgs.Empty);}
     [RelayCommand] void ToggleCombinationWindow()
-    {ShowCombinationManager=IsCombinationDetached;IsCombinationDetached=!IsCombinationDetached;}
+    {
+        bool redock=IsCombinationDetached;IsCombinationDetached=!redock;
+        if(redock)OpenCombinationManager();
+        else {ShowCombinationManager=false;IsNavigationCollapsed=true;}
+    }
 
     void BuildCombinationGrid()
     {

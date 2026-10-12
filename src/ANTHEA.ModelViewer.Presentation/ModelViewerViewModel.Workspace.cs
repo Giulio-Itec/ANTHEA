@@ -59,7 +59,13 @@ public sealed partial class ModelViewerViewModel
     [ObservableProperty] private string inspectorTitle = "Proprietà del modello";
     [ObservableProperty] private string resultAvailability = "Importa un modello con risultati.";
 
-    partial void OnSelectedPanelChanged(int value) { if (value == 1 && !updating) ShowResults = true; if(value == 4) RefreshReportChoices(); }
+    partial void OnSelectedPanelChanged(int value)
+    {
+        if (value == 1 && !updating) ShowResults = true;
+        if(value == 4) RefreshReportChoices();
+        if(value == ModelViewerPanels.Combinations) OpenCombinationManager();
+        else ShowCombinationManager=false;
+    }
     partial void OnSelectedFamilyChanged(int value)
     {
         bool prior = updating; updating = true; ShowContext = value == 0; updating = prior;

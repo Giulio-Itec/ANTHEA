@@ -13,6 +13,9 @@ partial class Program
         var state=(ModelViewerViewModel)view.DataContext;
         state.ShowInspector=false;state.IsNavigationCollapsed=true;
         state.OpenCombinationManagerCommand.Execute(null);state.NewCombinationCommand.Execute(null);Wait(200);
+        var tabs=Children<TabControl>(view).Single(t=>AutomationProperties.GetName(t)=="Schede del modello");
+        Check(tabs.Items.OfType<TabItem>().Select(t=>t.Header.ToString()).SequenceEqual(new[]{"Vista","Modello","Combinazioni","Risultati","Verifiche","Report"}),"left tabs follow the requested order with stable panel identities");
+        Check(((TabItem)tabs.SelectedItem).Header.ToString()=="Combinazioni"&&!state.IsNavigationCollapsed,"combination manager opens inside the left navigation tab");
         var name=Children<TextBox>(view).Single(c=>AutomationProperties.GetName(c)=="Nome combinazione");
         name.Text="Combinazione di prova";Wait(100);
         Check(state.CombinationName==name.Text&&state.IsCombinationDirty,"WPF name editor updates the MVVM draft");

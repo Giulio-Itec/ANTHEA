@@ -6,8 +6,10 @@ di ritorno. Il generatore automatico e il calcolo delle principali sono attivit�
 
 ## Gestione e persistenza
 
-Il comando **Combinazioni…** nella scheda Modello e quello nella scheda Risultati aprono lo stesso
-gestore MVVM. Elenco delle definizioni importate e locali, nome, tipo, termini e coefficienti;
+La scheda **Combinazioni** ospita il gestore MVVM nella navigazione sinistra. Ordine richiesto:
+**Vista · Modello · Combinazioni · Risultati · Verifiche · Report**, mantenuto anche nella barra ridotta.
+Le identità dei pannelli restano stabili e distinte dalla posizione grafica. Elenco delle definizioni
+importate e locali, nome, tipo, termini e coefficienti;
 creazione, duplicazione, modifica, eliminazione, annullamento della bozza e calcolo esplicito.
 Le definizioni importate possono essere modificate mediante una sostituzione locale con identità
 stabile. Eliminazione e ripristino agiscono sulla copia ANTHEA; le tabelle sorgente rimangono integre.
@@ -98,6 +100,11 @@ le tre suite WPF Modelli passate, senza errori di binding.
 Rifiniture di formattazione dei coefficienti e tema della finestra staccata ricontrollate nella
 corsa `20261012-153046-combo-finiture` (426 controlli logici e suite WPF combinazioni). Catture
 del modello reale in `combinations-20261012/real-ui-02`; preview con avviatore `Apri-Combinazioni.cmd`.
+Spostamento finale nella scheda sinistra: corsa `20261012-154019-combo-tab-sinistra-finale`,
+426 controlli logici e tre suite WPF passate, incluso ordine, apertura, riduzione e riaggancio.
+La prova del clic contestuale nell'albero chiude prima il gruppo geometria per rendere visibile
+la proprietà nel viewport virtualizzato, ridotto dalla nuova intestazione; attesi numerici invariati.
+I coefficienti sono formattati senza code decimali superflue; nessun arrotondamento dei dati di calcolo.
 
 Rieseguite le suite Model sui sorgenti del commit rilasciato, estratti in una cartella di prova
 isolata e collegati alle DLL del set: UnitTest **1186 PASS, 2 esclusi**, Model.Core.Tests **6 PASS**.

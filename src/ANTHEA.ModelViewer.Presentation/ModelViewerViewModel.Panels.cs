@@ -32,9 +32,11 @@ public sealed partial class ModelViewerViewModel
     [RelayCommand] void ToggleInspector() => ShowInspector = !ShowInspector;
     [RelayCommand] void OpenNavigation(string? panel)
     {
-        if (int.TryParse(panel, out int index) && index is >= 0 and <= 4) SelectedPanel = index;
+        if (int.TryParse(panel, out int index) && index is >= 0 and <= ModelViewerPanels.Combinations) SelectedPanel = index;
         IsNavigationCollapsed = false;
     }
+    partial void OnIsNavigationCollapsedChanged(bool value)
+    {ShowCombinationManager=!value&&SelectedPanel==ModelViewerPanels.Combinations&&!IsCombinationDetached;}
     [RelayCommand] void DisableOverlays()
     {
         bool previous = updating; updating = true;

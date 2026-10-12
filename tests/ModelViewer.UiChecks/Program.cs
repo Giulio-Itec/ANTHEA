@@ -557,6 +557,10 @@ static partial class Program
                 Check(viewport.Items.OfType<LineGeometryModel3D>().Any(l => l.Color == Color.FromRgb(201,155,238) && l.Geometry?.Positions?.Count > 0), "constraint overlay has its own visible geometry");
                 vm.DisableOverlaysCommand.Execute(null); Wait(100);
                 Check(!viewport.Items.OfType<LineGeometryModel3D>().Any(l => (l.Color == Color.FromRgb(236,116,111) || l.Color == Color.FromRgb(201,155,238)) && l.Geometry?.Positions?.Count > 0), "disabling layers removes axes and constraints while retaining the model");
+                var navigation=Children<TabControl>(view).Single(t=>System.Windows.Automation.AutomationProperties.GetName(t)=="Schede del modello");
+                Check(((TabItem)navigation.SelectedItem).Header.ToString()=="Modello","model command selects its tab independently of the new visual order");
+                // Keep the property under test in the virtualized viewport when tab headers occupy two rows.
+                vm.FindTreeItem("geometry")!.IsExpanded=false;
                 vm.SelectedTreeItem = vm.FindTreeItem("SECT:2"); Wait(150);
                 var treeItem = Children<TreeViewItem>(view).First(t => t.DataContext is ModelTreeItem item && item.Key == "SECT:2");
                 var header = Children<TextBlock>(treeItem).First(t => t.Text.Contains("Rettangolare")); vm.ClearSelectionCommand.Execute(null);

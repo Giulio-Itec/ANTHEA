@@ -111,11 +111,12 @@ public sealed partial class ModelViewerViewModel
     [RelayCommand] void OpenCombinationManager()
     {
         if(Snapshot==null)return;
-        ShowImportOptions=false;ShowCombinationManager=!IsCombinationDetached;PauseAnimation();
+        if(SelectedPanel!=ModelViewerPanels.Combinations){SelectedPanel=ModelViewerPanels.Combinations;return;}
+        ShowImportOptions=false;IsNavigationCollapsed=false;ShowCombinationManager=!IsCombinationDetached;PauseAnimation();
         if(IsCombinationDetached)CombinationWindowChanged?.Invoke(this,EventArgs.Empty);
         if(!IsCombinationDirty&&!IsCombinationBusy)RefreshCombinations(SelectedTreeItem?.Table=="COMBINATION"?SelectedTreeItem.Key[6..]:Snapshot.Results.FirstOrDefault(r=>r.Name==SelectedCase)?.Combination?.DefinitionId??SelectedCombination?.Definition.Id);
     }
-    [RelayCommand] void CloseCombinationManager(){ShowCombinationManager=false;IsCombinationDetached=false;}
+    [RelayCommand] void CloseCombinationManager(){IsNavigationCollapsed=true;ShowCombinationManager=false;IsCombinationDetached=false;}
     bool CanStartCombination()=>CanManageCombinations&&!IsCombinationDirty;
     [RelayCommand(CanExecute=nameof(CanStartCombination))] void NewCombination()
     {
