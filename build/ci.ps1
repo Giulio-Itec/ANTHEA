@@ -1,4 +1,4 @@
-<#
+﻿<#
 Single runner for the ANTHEA verifications (refactoring, phase F0).
 
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1                          # profile quick
@@ -96,6 +96,7 @@ Add-Suite @{ Name = 'CalculationLibrary.Checks'; Stage = 'fast'; Kind = 'run'; P
 Add-Suite @{ Name = 'ModelWorkspace.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelWorkspace.Checks\ModelWorkspace.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ModelViewer.CombinationBench.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelViewer.CombinationBench.Checks\ModelViewer.CombinationBench.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Architecture.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Architecture.Tests\ANTHEA.Architecture.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' }; Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }
+Add-Suite @{ Name = 'Application.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Application.Tests\ANTHEA.Application.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Headless/help'; Stage = 'fast'; Kind = 'run'; Project = 'tools\ANTHEA.Headless\ANTHEA.Headless.csproj'; Args = @('--help') }
 Add-Suite @{ Name = 'ModelViewer.UiChecks'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ModelViewer.UiChecks\ModelViewer.UiChecks.csproj'; Args = @('{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ModelViewer.Combinations.UiChecks'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ModelViewer.UiChecks\ModelViewer.UiChecks.csproj'; Args = @('{out}', '--viewer-only', '--combinations'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }

@@ -1,3 +1,4 @@
+using Anthea.Application.Documents;
 using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -381,7 +382,7 @@ public sealed partial class MainWindow : Window
     private void Open() { var d = new OpenFileDialog { Filter = "File ANTHEA|*.programma;*.anthea|Tutti i file|*.*" }; if (d.ShowDialog(this) == true) LoadFile(d.FileName); }
     internal void LoadFile(string filename)
     {
-        var loaded = Archivio.Leggi(filename); if (!ConfirmDiscard()) return;
+        var loaded = DocumentService.Open(filename); if (!ConfirmDiscard()) return;
         ExitRevisionPreview();
         editor?.Dispose(); editor = null; currentSheet = null; document = loaded; path = filename; dirty = false; sheetContent.Content = null;
         if (document.S("tipo") == "calcolo") ShowSheet(document); else ShowProjects(); RefreshTree(); UpdateTitle();
@@ -390,13 +391,13 @@ public sealed partial class MainWindow : Window
     {
         Commit(); string? target = path;
         if (asNew || target is null) { var d = new SaveFileDialog { Filter = "File ANTHEA|*.programma", FileName = path is null ? "Calcolo.programma" : Path.GetFileName(path) }; if (d.ShowDialog(this) != true) return false; target = d.FileName; }
-        try { Archivio.Scrivi(target, WorkingProjectDocument); path = target; dirty = false; UpdateTitle(); return true; }
+        try { DocumentService.Save(target, WorkingProjectDocument); path = target; dirty = false; UpdateTitle(); return true; }
         catch (Exception ex) { MessageBox.Show(this, ex.Message, "Salvataggio non riuscito", MessageBoxButton.OK, MessageBoxImage.Error); return false; }
     }
     private void ExportSheet()
     {
         Commit(); if (currentSheet is null) return; var d = new SaveFileDialog { Filter = "File ANTHEA|*.programma", FileName = "Foglio.programma" };
-        if (d.ShowDialog(this) == true) Archivio.Scrivi(d.FileName, J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", currentSheet["modulo_id"]), ("dati", currentSheet["dati"])));
+        if (d.ShowDialog(this) == true) DocumentService.Save(d.FileName, J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", currentSheet["modulo_id"]), ("dati", currentSheet["dati"])));
     }
     private void ExportJson()
     {

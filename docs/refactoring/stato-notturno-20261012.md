@@ -1,4 +1,4 @@
-# Stato del lavoro notturno — checkpoint 13 ottobre, 01:26
+# Stato del lavoro notturno — checkpoint 13 ottobre, 01:34
 
 Mandato fino alle 07:19 Europe/Rome (05:19 UTC): F2 → STG → SEZ → F3 → F4 se completabile. F5 esclusa. Un commit per punto, test/versioni/merge/push autorizzati; nessun agente parallelo. Preservare la finestra primaria con documento non salvato.
 
@@ -9,3 +9,5 @@ SEZ su refactoring/sez-modelli: d44ba4d inventario, a64a4c1 dettaglio, f58abeb v
 Installer 1.5.0 pronto, SHA-256 FC7B90F71807CE0AC038901E947A3D7D400A2D73A1D93ECA298AC6E50C7F2631. Ramo corrente refactoring/f3-strato-applicativo. F3.1 chiuso: 36 fixture, 458 file equivalenti nella doppia cattura D/E, 71 articoli Wiki e 30 ricerche; riferimento congelato in tests/fixtures/f3. Guardia automatica ricollaudata: 20261013-012127-f3-baseline-guard, 2 PASS. F3.1 commit a35a7413. F3.2 chiuso: scheletro, tool Headless/help, suite Architecture.Tests e controllo distribuzione; 7 PASS con equivalenza e 5 PASS finali. Prossimo F3.3b: documenti, progetti, revisioni e servizio di apertura/salvataggio. Audit F3: 12 moduli effettivi; toolkit ANTHEA.Testing da riusare, UiTests resta configurazione separata. Baseline TypeRef Desktop: 145 Calculations, 36 CompositeBridge, 3 Concrete, 6 Geotechnics; 11 async void. Sei timer di calcolo, distinti da gerarchia/Wiki. Preparazione delle catture nei soli artefatti primari supporto/artefatti/refactoring/f3/preparation. Non ancora spostato codice di produzione F3.
 
 Combo della finestra utente: limite cartesiano 4096 diagnosticato, preflight/scalabilità tracciati e aperti; documento intatto. Principali e generatore automatico restano in coda. Conservare archivi e attesi indipendenti, non duplicare metodi già presenti.
+
+F3.3b chiuso: documenti, revisioni e condivisione in Application, Headless validate/inspect; 121 controlli dedicati, 12 PASS e 458 file equivalenti (013204-f3-documents-built). Prossimo F3.4: report condivisi e composizione senza serializzare/riaprire i singoli DOCX.

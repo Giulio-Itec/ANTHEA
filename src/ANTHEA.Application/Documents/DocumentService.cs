@@ -1,23 +1,25 @@
 using System.Text;
 using System.Text.Json.Nodes;
 
-namespace X.Core;
+using X.Core;
 
-public static class Archivio
+namespace Anthea.Application.Documents;
+
+public static class DocumentService
 {
-    public static readonly string[] Moduli = ModuleCatalog.All.Select(m => m.Id).ToArray();
-    public static JsonObject Leggi(string path)
+    public static readonly string[] ModuleIds = ModuleCatalog.All.Select(m => m.Id).ToArray();
+    public static JsonObject Open(string path)
     {
         var doc=JsonNode.Parse(File.ReadAllText(path,Encoding.UTF8)) as JsonObject??throw new ArgumentException("Contenuto non riconosciuto.");
         if(doc.S("formato")==Encoding.ASCII.GetString(Convert.FromHexString("414E54484541")))doc["formato"]="X";
-        ProjectRevisions.Unpack(doc); Valida(doc); ProjectRevisions.Validate(doc); return doc;
+        ProjectRevisions.Unpack(doc); Validate(doc); ProjectRevisions.Validate(doc); return doc;
     }
-    public static void Valida(JsonObject doc)
+    public static void Validate(JsonObject doc)
     {
         if(doc.S("formato")!="X"||doc.D("versione")!=1)throw new ArgumentException("Formato o versione del file non supportati.");
         void Sheet(JsonNode? sheet,bool allowEmpty)
         {
-            if(sheet is not JsonObject||!Moduli.Contains(sheet.S("modulo_id")))throw new ArgumentException("Modulo del foglio non disponibile.");
+            if(sheet is not JsonObject||!ModuleIds.Contains(sheet.S("modulo_id")))throw new ArgumentException("Modulo del foglio non disponibile.");
             if(sheet["dati_ref"] is not null)throw new ArgumentException("Riferimento ai dati del foglio non risolto.");
             var data=sheet["dati"];if(data is null&&allowEmpty)return;
             if(data is not JsonObject)throw new ArgumentException("Dati del foglio mancanti.");
@@ -49,26 +51,12 @@ public static class Archivio
             Sections(structures);
         }
     }
-    public static void Scrivi(string path,JsonObject document)
+    public static void Save(string path,JsonObject document)
     {
-        Valida(document); ProjectRevisions.Validate(document); ScriviAtomico(path,Encoding.UTF8.GetBytes(ProjectRevisions.Pack(document).ToJsonString(J.Options)));
+        Validate(document); ProjectRevisions.Validate(document); AtomicFile.Write(path,Encoding.UTF8.GetBytes(ProjectRevisions.Pack(document).ToJsonString(J.Options)));
     }
-    public static void ScriviAtomico(string path,byte[] bytes)
-    {
-        path=Path.GetFullPath(path);string temp=Path.Combine(Path.GetDirectoryName(path)!,".x_"+Guid.NewGuid().ToString("N")+".tmp");
-        try
-        {
-            using(var stream=new FileStream(temp,FileMode.CreateNew,FileAccess.Write,FileShare.None)){stream.Write(bytes);stream.Flush(true);}
-            // Office documents are copied from the temporary file instead of renamed: the ransomware protection of the behaviour monitoring
-            // (Trend Micro Security Agent, 27/09/2026) terminates an unsigned program that renames temporary files into documents (the third
-            // report of a session closed ANTHEA without errors). The archives keep the atomic rename
-            if(Path.GetExtension(path).ToLowerInvariant() is ".docx" or ".xlsx" or ".pptx" or ".pdf")File.Copy(temp,path,true);
-            else File.Move(temp,path,true);
-        }
-        finally{if(File.Exists(temp))File.Delete(temp);}
-    }
-    public static JsonObject NuovoFoglio(string module) => ModuleCatalog.CreateData(module);
-    public static JsonObject NuovoStratoMicropalo() => CalculationDefaults.NuovoStratoMicropalo();
-    public static JsonObject NuovoStratoPalo() => CalculationDefaults.NuovoStratoPalo();
-    public static JsonObject Documento(string module)=>J.Obj(("formato","X"),("versione",1),("tipo","calcolo"),("modulo_id",module),("dati",NuovoFoglio(module)));
+    public static JsonObject CreateSheet(string module) => ModuleCatalog.CreateData(module);
+    public static JsonObject CreateMicropileLayer() => CalculationDefaults.NuovoStratoMicropalo();
+    public static JsonObject CreatePileLayer() => CalculationDefaults.NuovoStratoPalo();
+    public static JsonObject CreateDocument(string module)=>J.Obj(("formato","X"),("versione",1),("tipo","calcolo"),("modulo_id",module),("dati",CreateSheet(module)));
 }
