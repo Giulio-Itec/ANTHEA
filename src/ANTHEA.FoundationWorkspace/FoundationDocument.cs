@@ -108,7 +108,7 @@ public sealed class FoundationLibrary
     readonly Assembly assembly;
     const string Prefix="GPC.Checkers.Geotechnics.Foundations.";
     public FoundationLibrary(Assembly? library=null) => assembly=library ?? typeof(GPC.Checkers.Geotechnics.Foundations.ShallowFoundationSeismic).Assembly;
-    public bool Available => assembly.GetType(Prefix+"ShallowFoundationBearing")?.GetField("ContractVersion")?.GetRawConstantValue() as string == "1"
+    public bool Available => assembly.GetType(Prefix+"ShallowFoundationBearing")?.GetField("ContractVersion")?.GetRawConstantValue() as string == "2"
         && assembly.GetType(Prefix+"ShallowFoundationInput")?.GetProperty("SoilProfile") is not null;
     public JsonObject Calculate(JsonObject data)
     {

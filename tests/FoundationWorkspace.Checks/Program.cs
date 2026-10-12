@@ -35,15 +35,16 @@ internal static class Program
             roundtrip["input"]!["Width"]="abc";FoundationDocument.ValidateShape(roundtrip);Reject(()=>FoundationDocument.LibraryInput(roundtrip),"testo incompleto conservato e rifiutato dal calcolo");
             roundtrip["input"]!["Width"]="NaN";Reject(()=>FoundationDocument.LibraryInput(roundtrip),"NaN");
             roundtrip["input"]!["Method"]=99;Reject(()=>FoundationDocument.ValidateShape(roundtrip),"metodo sconosciuto in archivio");
-            var old=new FoundationLibrary();
-            if(!old.Available) {bool blocked=false;try{old.Calculate(data);}catch(NotSupportedException){blocked=true;}Check(blocked,"DLL precedente: nessun risultato simulato");}
-            else
-            {
-                VerifyCalculation(output,data,old);
-                var routed=CalculationService.Calculate(FoundationDocument.Module,data);
-                Check(Math.Abs(routed["Resistance"]!.GetValue<double>()-1906871.3740371945)<.001,"calcolo dalla DLL installata attraverso il servizio ANTHEA");
-            }
-            if(args.Contains("--ui"))Ui(output,data,old);
+            var installed=new FoundationLibrary();
+            Check(installed.Available,"contratto del rilascio distribuito disponibile: nessun fallback silenzioso");
+            var unavailable=new FoundationLibrary(typeof(Program).Assembly);
+            bool blocked=false;try{unavailable.Calculate(data);}catch(NotSupportedException){blocked=true;}
+            Check(!unavailable.Available && blocked,"API assente: nessun risultato simulato");
+            VerifyCalculation(output,data,installed);
+            var routed=CalculationService.Calculate(FoundationDocument.Module,data);
+            Check(Math.Abs(routed["Resistance"]!.GetValue<double>()-1906871.3740371945)<.001,"calcolo dalla DLL installata attraverso il servizio ANTHEA");
+            ContractChecks(output,data,installed,args.Contains("--ui"));
+            if(args.Contains("--ui"))Ui(output,data,installed);
             int candidate=Array.IndexOf(args,"--candidate");
             if(candidate>=0)
             {
@@ -109,6 +110,32 @@ internal static class Program
         File.WriteAllBytes(Path.Combine(output,"esempio.pdf"),FoundationReport.Pdf("Fondazione rettangolare",result));
         Check(FoundationReport.Pdf("Seconda esportazione",result).Length>5000,"esportazione PDF ripetibile nella sessione");
         Check(File.ReadAllBytes(Path.Combine(output,"esempio.pdf")).Length>5000,"edizioni Word e PDF generate");
+    }
+    static void ContractChecks(string output,JsonObject data,FoundationLibrary library,bool ui)
+    {
+        var outside=data.DeepClone().AsObject();outside["input"]!["MomentY"]=660;
+        var result=CalculationService.Calculate(FoundationDocument.Module,outside);
+        Check(result["Status"]!.ToString()=="Non verificata" && result["DomainExhausted"]!.GetValue<bool>() && result["Resistance"]!.GetValue<double>()==0,"risultante esterna: esito negativo conservato dal servizio");
+        Check(result["DemandPressure"] is null && result["Utilization"] is null && result["EffectiveArea"]!.GetValue<double>()==0,"area nulla: rapporti indefiniti restano nulli");
+        Check(FoundationPresentation.Summary(result).Single(x=>x.Label=="Indice N/R").Value=="—","indice indefinito non visualizzato come zero");
+        File.WriteAllText(Path.Combine(output,"fuori-dominio.json"),result.ToJsonString(new(){WriteIndented=true}));
+        File.WriteAllBytes(Path.Combine(output,"fuori-dominio.pdf"),FoundationReport.Pdf("Risultante esterna",result));
+        File.WriteAllBytes(Path.Combine(output,"fuori-dominio.docx"),FoundationReport.Word("Risultante esterna",result));
+        Check(FoundationPresentation.ReportLines(result).Contains("Esito: Non verificata"),"report conserva esito negativo");
+        var hansen=data.DeepClone().AsObject();hansen["input"]!["Method"]=3;hansen["input"]!["Condition"]=1;
+        result=library.Calculate(hansen);var term=result["Cohesion"]!;
+        // Independent reference: Checker/tests/ShallowFoundation.Tests/independent.py,
+        // B=2 m, L=3 m, D=1 m: s'=0.2*2/3, d'=0.4*0.5, i'=0.
+        Check(term["Additive"]!.GetValue<bool>() && Math.Abs(term["AdditiveShape"]!.GetValue<double>()-2d/15)<1e-14 && Math.Abs(term["AdditiveDepth"]!.GetValue<double>()-.2)<1e-14,"Hansen: incrementi additivi distinti dai moltiplicatori");
+        Check(FoundationPresentation.AdditiveRows(result).Single().SequenceEqual(new[]{"Coesione","0,133","0,2","0","1,333"}),"Hansen: stessi coefficienti in tabella e relazione");
+        Check(FoundationPresentation.CoefficientRows(result).First().Skip(2).Take(3).All(v=>v=="—"),"Hansen: nessun moltiplicatore fittizio in tabella");
+        Check(FoundationPresentation.ReportLines(result).Any(v=>v.Contains("s′=0,133, d′=0,2, i′=0")),"Hansen: relazione con incrementi effettivi");
+        Check(!FoundationPresentation.AdditiveRows(library.Calculate(data)).Any(),"EC7: nessuna correzione Hansen estranea al metodo");
+        File.WriteAllText(Path.Combine(output,"hansen.json"),result.ToJsonString(new(){WriteIndented=true}));
+        File.WriteAllBytes(Path.Combine(output,"hansen.pdf"),FoundationReport.Pdf("Hansen non drenato",result));
+        File.WriteAllBytes(Path.Combine(output,"hansen.docx"),FoundationReport.Word("Hansen non drenato",result));
+        if(ui)foreach(var sample in new[]{("fuori-dominio",outside),("hansen",hansen)})
+        {string folder=Path.Combine(output,sample.Item1);Directory.CreateDirectory(folder);Ui(folder,sample.Item2,library);}
     }
     static void Ui(string output,JsonObject data,FoundationLibrary library)
     {

@@ -143,12 +143,19 @@ internal sealed partial class FoundationWorkspace : UserControl
             results.Children.Add(Ui.Text(Result["Status"]+"     N = "+FoundationPresentation.Value(input["Normal"])+" kN     R = "+FoundationPresentation.Value(Result["Resistance"],.001)+" kN     N/R = "+FoundationPresentation.Value(Result["Utilization"],1,"0.000")+"     A′ = "+FoundationPresentation.Value(Result["EffectiveArea"],1e-6)+" m²",16,true));
             var details=new StackPanel();
             foreach(var row in FoundationPresentation.Summary(Result))details.Children.Add(Ui.Text(row.Label+"   "+row.Value,12));
-            details.Children.Add(Ui.Table(["Contributo","N","s","d","i","kPa"],new[]{"Cohesion","Surcharge","Weight"}.Select(k=>new[]{k=="Cohesion"?"Coesione":k=="Surcharge"?"Sovraccarico":"Peso terreno",FoundationPresentation.Value(Result[k]!["N"]),FoundationPresentation.Value(Result[k]!["Shape"]),FoundationPresentation.Value(Result[k]!["Depth"]),FoundationPresentation.Value(Result[k]!["Inclination"]),FoundationPresentation.Value(Result[k]!["Pressure"],1000)})));
-            details.Children.Add(Ui.Text("Hansen non drenato: s, d, i additivi. Verifica statica di portanza; scorrimento, cedimenti, stabilità globale, sisma e struttura esclusi.",12,color:Ui.Muted));
+            details.Children.Add(Ui.Table(["Contributo","N","s","d","i","kPa"],FoundationPresentation.CoefficientRows(Result)));
+            var additive=FoundationPresentation.AdditiveRows(Result).ToArray();
+            if(additive.Length>0)
+            {
+                details.Children.Add(Ui.Text("Hansen non drenato · correzioni additive",12,true));
+                details.Children.Add(Ui.Table(["Contributo","s′ (+)","d′ (+)","i′ (−)","1+s′+d′−i′"],additive));
+            }
+            details.Children.Add(Ui.Text("Verifica statica di portanza; scorrimento, cedimenti, stabilità globale, sisma e struttura esclusi.",12,color:Ui.Muted));
             details.Children.Add(Ui.Text(Result["Reference"]!.ToString(),12,color:Ui.Muted));
             foreach(var warning in Result["Warnings"]!.AsArray())details.Children.Add(Ui.Text(warning!.ToString(),12,color:Ui.Muted));
             results.Children.Add(new Expander { Header="Dettagli della verifica, coefficienti e limiti",Content=new ScrollViewer { Content=details,MaxHeight=200,VerticalScrollBarVisibility=ScrollBarVisibility.Auto } });
             if(Result["Graphics"] is JsonObject graphics)AddGraphics(graphics);
+            else for(int i=1;i<graphicsHosts.Count;i++)graphicsHosts[i].Content=Ui.Text("Vista non disponibile per questo stato di carico. Consultare gli avvisi della verifica.",14,color:Ui.Muted);
             state.Text="Calcolato · sondaggio "+(survey.SelectedIndex+1)+" · unica combinazione: "+data["nome_combinazione"];
         }
         catch(Exception e){Result=null;state.Text=e.Message;}

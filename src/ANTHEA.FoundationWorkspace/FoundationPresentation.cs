@@ -44,17 +44,34 @@ public static class FoundationPresentation
         ("φ adottato [°]",Value(r["AdoptedFrictionAngle"],180/Math.PI)),
         ("c / cu adottato [kPa]",Value(r["AdoptedCohesion"],1000))
     ];
+    public static IEnumerable<string[]> CoefficientRows(JsonObject r)
+    {
+        foreach(string key in new[]{"Cohesion","Surcharge","Weight"})
+        {
+            var t=r[key]!;bool additive=t["Additive"]?.GetValue<bool>()==true;
+            yield return [key=="Cohesion"?"Coesione":key=="Surcharge"?"Sovraccarico":"Peso terreno",Value(t["N"]),
+                additive?"—":Value(t["Shape"]),additive?"—":Value(t["Depth"]),additive?"—":Value(t["Inclination"]),Value(t["Pressure"],1000)];
+        }
+    }
+    public static IEnumerable<string[]> AdditiveRows(JsonObject r)
+    {
+        foreach(string key in new[]{"Cohesion","Surcharge","Weight"})
+        {
+            var t=r[key]!;
+            if(t["Additive"]?.GetValue<bool>()==true)
+                yield return [key=="Cohesion"?"Coesione":key=="Surcharge"?"Sovraccarico":"Peso terreno",Value(t["AdditiveShape"]),Value(t["AdditiveDepth"]),Value(t["AdditiveInclination"]),Value(t["AdditiveFactor"])];
+        }
+    }
     public static string[] ReportLines(JsonObject r)
     {
         var lines=new List<string> { "Capacità portante · fondazioni superficiali",r["Profile"]!.ToString(),r["Reference"]!.ToString(),
             "Unica combinazione esaminata; nessun inviluppo automatico delle combinazioni." };
         lines.AddRange(Summary(r).Select(x=>x.Label+": "+x.Value));
         lines.Add("Coefficienti e contributi");
-        foreach(string key in new[]{"Cohesion","Surcharge","Weight"})
-        {
-            var t=r[key]!;lines.Add($"{(key=="Cohesion"?"Coesione":key=="Surcharge"?"Sovraccarico":"Peso terreno")}: N={Value(t["N"])}, s={Value(t["Shape"])}, d={Value(t["Depth"])}, i={Value(t["Inclination"])}, contributo={Value(t["Pressure"],1000)} kPa");
-        }
-        lines.Add("Hansen non drenato: s, d e i sono incrementi additivi; il contributo non è il loro prodotto.");
+        foreach(var row in CoefficientRows(r))
+            lines.Add($"{row[0]}: N={row[1]}, s={row[2]}, d={row[3]}, i={row[4]}, contributo={row[5]} kPa");
+        foreach(var row in AdditiveRows(r))
+            lines.Add($"{row[0]} · correzioni additive Hansen: s′={row[1]}, d′={row[2]}, i′={row[3]}; fattore 1+s′+d′−i′={row[4]}.");
         lines.Add("Dati al piano di posa già combinati e comprensivi dei pesi. Drenato: N efficace al netto della sottospinta; non drenato: N totale senza sottrarre la pressione interstiziale alla base. q non viene aggiunto nuovamente a N.");
         var data=r["dati"]!.AsObject();var input=data["input"]!.AsObject();
         bool commonSoils=data["stratigrafie"] is not null;

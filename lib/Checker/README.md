@@ -1,5 +1,24 @@
 # DLL Checker
 
+**Release S (12 ottobre 2026).** Installato il set non candidato `set-s`, prodotto da `Checker/build/Release-Set.ps1` alle 16:32:32. Commit pubblicati e verificati su origin/master: Utilities `503e28c0`, Geometry `1f40436c`, Model `eb5790fb`, Checker `8a2c036f`. Manifest completo originale in `release-set.json`; `manifest.json` e `manifest.props` descrivono le dieci DLL installate.
+
+| Libreria | Versione S | Impiego in ANTHEA |
+|---|---|---|
+| GPCUtilities | 3.0.0.0 | Installata, identica alla R |
+| GPCGeometry | 2.3.0.0 | Installata, identica alla R |
+| DelaunayMesh | 2.0.0.14 | Installata, identica alla R |
+| GPCModel | 5.0.0.1 | Installata |
+| GPCModelData | 0.0.2.8 | Installata |
+| GPC.Model.Persistence | 3.0.0.1 | Strumenti di archivio e cattura |
+| GPC.Converter | 2.0.3.1 | Importazione e combinazioni |
+| GPCChecker.Concrete | 0.0.27.1 | Installata |
+| GPCChecker.Geotechnics | 0.1.3.0 | Installata, include le fondazioni superficiali |
+| GPCChecker.CompositeBridge | 1.5.0.1 | Installata |
+| GPCChecker.Steel | 2.0.4.1 | Verificata nel set, non referenziata |
+| GPCModelChecker | 2.1.0.1 | Verificata nel set, non referenziata |
+
+Controllati i dodici SHA-256, le versioni e i nove TRX originali: Model Core 6 e UnitTest 1186; Checker Concrete 680, Steel 88, CompositeBridge 261, Geotechnics 108, Calculation 174, ShallowFoundation 27, ModelChecker 168. Totale 2698 PASS; 17 fallimenti Steel già censiti per nome, nessun inatteso. API compatibili. Nessuna nuova versione assegnata dall'agente. Evidenze conservate in `supporto/artefatti/release-s-20261012` con copia integrale del set. Collaudo ANTHEA completato: full 88 PASS / 1 KNOWN preesistente / 0 NEW-FAIL (`20261012-170114-release-s-full`); baseline 6 PASS (`20261012-165624-release-s-baseline`), 548 file e 27 file densi / 50996 righe senza differenze non ammesse. DelaunayMesh identica bit per bit alla R; 39 prove specifiche di mesh e contratti del set superate. Adeguato il confine Fondazioni al contratto 2 (FON-03), con 44 controlli funzionali e 86 WPF mirati. Attesi e tolleranze conservati.
+
 **Completamento della Release R per Modelli (12 ottobre 2026).** Aggiunto `GPC.Converter 2.0.3.0`
 dal medesimo `set-rel` non candidato prodotto da `Checker/build/Release-Set.ps1`, Model
 `d39fbe93bd5b1f138aa75f9e728aef3725cfbf90`, già su origin/master. Installazione con
@@ -14,36 +33,14 @@ Model UnitTest 1186 PASS (2 esclusi) e Core 6 PASS sulle DLL del set, con SHA-25
 Evidenze: `supporto/artefatti/ci/20261012-150738-combo-full` e
 `supporto/artefatti/model-viewer/combinations-20261012/library-checks`.
 
-**Procedura di aggiornamento.** Le DLL di questa cartella si producono solo con `tools/libs/Update-Snapshot.ps1
--FromUpstream`, cioè dai commit pushati delle librerie (AGENTS.md).
+**Procedura di aggiornamento.** Il rilascio segue `Checker/build/RILASCIO.txt` e usa un solo set coerente per Utilities, Geometry, Model e Checker.
 
-1. Nelle librerie (Utilities, Geometry, Model, Checker): commit con le versioni nuove e push. Ogni DLL ricompilata da
-   un commit nuovo cambia SHA-256 anche a sorgente invariato (SourceLink scrive il commit nel PDB e, con l'id del PDB,
-   nella DLL), quindi richiede una versione più alta (almeno la revisione, ultima cifra). Poi `git fetch` nei checkout
-   locali, perché lo script legge i rami remoti all'ultimo fetch.
-2. Dal checkout di ANTHEA: `powershell -NoProfile -ExecutionPolicy Bypass -File tools\libs\Update-Snapshot.ps1
-   -FromUpstream [-Staging <cartella>] [-Install]` (staging predefinito: `supporto/artefatti/lib-staging/<data-ora>`).
-   Per ciascun repository lo script risolve il commit del ramo remoto tracciato dal ramo estratto (`@{u}`), lo estrae
-   con `git worktree add --detach` in `<TEMP>\gpc-snapshot\<Repo>` (worktree fratelli, quindi HintPath e
-   ProjectReference fra repository funzionano), usa i binari versionati di Utilities e Geometry, compila Model e Checker
-   in Release con l'SDK di global.json, controlla che nessun worktree differisca dal suo commit dopo la build, scrive
-   nello staging le 9 DLL (dalla S4 anche `GPC.Model.Persistence`), `GPCChecker.Geotechnics.xml`, `manifest.json` (commit e ramo remoti, `pushed: true`,
-   `fromUpstream`, `buildRoot`) e `manifest.props`, poi rimuove i soli worktree creati (`git worktree remove`, `git
-   worktree prune`) e la radice, anche dopo un errore. Lo stato dei checkout locali non conta (commit locali, merge in
-   corso, modifiche). Da un worktree di ANTHEA che non sta accanto alle librerie: `-Repos <cartella dei repository>` e
-   `-Lib <lib\Checker di riferimento>`.
-3. Controllo di versione: una DLL con SHA-256 diverso da quello del manifest in `-Lib` (predefinito: questa cartella)
-   deve avere una versione assembly più alta, altrimenti lo script si ferma. `-Install` copia in `-Lib` DLL, xml,
-   `manifest.json` e `manifest.props`; senza `-Install` si copia a mano dallo staging.
-4. Verifiche: `build\ci.ps1 -Profile full`, profilo baseline contro i riferimenti, impronta delle mesh DelaunayMesh, test
-   delle librerie; voce in questo README.
+1. L'utente assegna le versioni; i commit di rilascio devono essere pubblicati. Geometry e Utilities forniscono i binari versionati fissati da Model.
+2. `Checker/build/Release-Set.ps1 -Root <checkout puliti> -Out <cartella nuova> -Previous <manifest precedente>` esegue tutte le suite di Model e Checker, comprese Concrete e Steel net472, e scrive `release-set.json` con dodici DLL, versioni, SHA-256 e risultati. I candidati non sono rilasci.
+3. In ANTHEA eseguire `tools/libs/Update-Snapshot.ps1 -ReleaseSet <cartella> -Install`: ricontrolla impronte e incremento delle versioni e installa le dieci DLL usate dall'applicazione e dagli strumenti. Conservare il manifest completo del set e aggiornare questo registro.
+4. Eseguire `build/ci.ps1 -Profile full`, i confronti baseline e il controllo delle mesh; registrare gli esiti. I test delle librerie devono riferirsi agli stessi binari del set. Nessun nuovo fallimento ammesso senza analisi.
 
-Dal 9 ottobre 2026 il ramo principale di Checker è master (non più develop). Model 4 compila solo dal bundle fissato in
-`build/dependencies.props`: lo script lo prepara nel worktree da `-ModelDependencies <cartella>` (predefinito: la cache
-`.dependencies` del checkout Model in `-Repos`), validando ogni file per SHA-256, e si ferma se la Geometry o la
-Utilities fissate da Model non sono quelle dello snapshot. `-At Repo=commit` compila un commit già pushato più vecchio
-della testa del ramo remoto. Gmsh (GMsh.Net, UnsafeEx, gmsh-*.dll, GMesh) non entra mai in questa cartella: solo negli
-unit test.
+Il manifest della cartella descrive il sottoinsieme installato. Steel e ModelChecker sono verificati nel treno completo e non vengono aggiunti come dipendenze inutilizzate. Gmsh, UnsafeEx e GMesh restano esclusi dalla distribuzione.
 
 **Release R (12 ottobre 2026, librerie della revisione di architettura).** Primo set di rilascio da master con
 `Checker/build/Release-Set.ps1` (non candidato), installato con `tools/libs/Update-Snapshot.ps1 -ReleaseSet <set-rel>
@@ -334,8 +331,7 @@ aprire un foglio esistente conserva i valori salvati. I coefficienti normativi
 restano separati dai materiali. Applicare un materiale trefolo modifica il
 predefinito per i nuovi cavi; il menu materiale nella singola riga consente
 di assegnarlo a un cavo esistente senza modificare gli altri.
-Per aggiornare: vedere la procedura in testa a questo file (dal 7 ottobre 2026
-`Update-Snapshot.ps1 -FromUpstream`). Non copiare DLL a mano dalle cartelle bin esterne.
+Per aggiornare: vedere la procedura in testa a questo file (`Update-Snapshot.ps1 -ReleaseSet <cartella> -Install`). Non copiare DLL a mano dalle cartelle bin esterne.
 
 Le DLL proprietarie restano soggette alle condizioni del titolare. Questo snapshot
 non assegna nuove licenze ai componenti terzi (GMsh.Net, DelaunayMesh, UnsafeEx);

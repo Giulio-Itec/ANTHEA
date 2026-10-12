@@ -25,6 +25,17 @@
             with the factors of another check or standard.
             </summary>
         </member>
+        <member name="T:GPC.Checkers.Geotechnics.Foundations.FoundationPlotPoint">
+            <summary>Coordinates in mm, pressures in MPa. X/Y in plan; Y is depth in a mechanism section.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Foundations.FoundationGraphics">
+            <summary>
+            Conventional affine contact pressure, no tensile reaction: p=max(0,a+b x+c y).
+            Exact polygon moments enforce N, Mx, My; this is not an elastic half-space solution.
+            A' for bearing capacity remains separate from the compressed contact polygon.
+            Prandtl coordinates are illustrative, not an optimization of the actual failure surface.
+            </summary>
+        </member>
         <member name="T:GPC.Checkers.Geotechnics.Foundations.SettlementLayer">
             <summary>Layer below the foundation for the oedometric settlement: thickness, mm, and constrained modulus Eoed, MPa.</summary>
         </member>
@@ -62,6 +73,75 @@
             footingWidth), through the layers from the foundation level down. Each layer has at least the given subdivisions, more when it is thicker
             than the footing width. A net unloading needs a recompression modulus: ArgumentException, no fictitious settlement.
             </summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Foundations.ShallowFoundationInput">
+            <summary>
+            Homogeneous bearing stratum; horizontal ground and base. Units: mm, N, N mm, MPa, N/mm³, radians.
+            Actions are already combined DESIGN resultants at the underside, including foundation/cover weight
+            and the appropriate water actions. Drained: N and q effective; undrained: N and q total.
+            Do not subtract base pore pressure from N in the undrained total-stress expression.
+            Strip actions refer to a 1000 mm run, with no longitudinal shear or eccentricity.
+            No settlement, sliding, structural or seismic check is implied by the result.
+            </summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Foundations.ShallowFoundationInput.MomentX">
+            <summary>Moment about X, causing eccentricity along Y (Length).</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Foundations.ShallowFoundationInput.MomentY">
+            <summary>Moment about Y, causing eccentricity along X (Width).</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Foundations.ShallowFoundationInput.RoughBase">
+            <summary>Required for drained EN 1997-1 Annex D: base friction δ ≥ φ/2.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Foundations.ShallowFoundationInput.SoilProfile">
+            <summary>Optional canonical Model profile; when assigned, its soil and groundwater data take precedence over the legacy scalar inputs.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Foundations.FoundationTerm">
+            <summary>
+            One term of the trinomial expression: Pressure = strength × N × Shape × Depth × Inclination × AdditiveFactor.
+            Multiplicative corrections are 1 when absent. Additive corrections (Brinch Hansen undrained, Califfo 3.26) are 0 when absent
+            and are never stored in the multiplicative fields.
+            </summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Foundations.FoundationTerm.Additive">
+            <summary>True when the term uses the additive corrections; Shape, Depth and Inclination then stay 1.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Foundations.FoundationTerm.AdditiveShape">
+            <summary>Additive shape correction s′c, added.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Foundations.FoundationTerm.AdditiveDepth">
+            <summary>Additive depth correction d′c, added.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Foundations.FoundationTerm.AdditiveInclination">
+            <summary>Additive inclination correction i′c, subtracted.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Foundations.FoundationTerm.AdditiveFactor">
+            <summary>1 + s′c + d′c − i′c; 1 when the term is multiplicative.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Foundations.ShallowFoundationResult.DemandPressure">
+            <summary>N / A′; null when the effective area is zero (resultant outside the base).</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Foundations.ShallowFoundationResult.DomainExhausted">
+            <summary>
+            The actions exceed the domain of the method: resultant outside the base, tangential load beyond the inclination formula
+            or a negative inclination factor. Resistance is zero and the reason is in Warnings (reference manual: null bearing capacity).
+            </summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Foundations.ShallowFoundationBearing">
+            <summary>
+            Separate method families, no modifications to the wall or seismic engines.
+            EN 1997-1:2004/AC:2009 Annex D; Terzaghi Nγ table: USACE EM 1110-1-1905 (1992), Table 4-1.
+            Generalized methods and their restrictions are documented in docs/metodi/fondazioni-superficiali.md.
+            </summary>
+        </member>
+        <member name="F:GPC.Checkers.Geotechnics.Foundations.ShallowFoundationBearing.ContractVersion">
+            <summary>
+            2: actions beyond the method domain give DomainExhausted with zero resistance; DemandPressure nullable;
+            additive corrections of Hansen undrained in their own FoundationTerm fields.
+            </summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Foundations.ShallowFoundationBearing.Exhaust(GPC.Checkers.Geotechnics.Foundations.ShallowFoundationResult,System.String)">
+            <summary>Califfo §3.4.1: no inclination factor may be negative; otherwise the bearing capacity is taken as zero.</summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Foundations.SeismicBearingStatus">
             <summary>Verdict of the seismic bearing capacity.</summary>
