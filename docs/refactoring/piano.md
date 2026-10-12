@@ -125,7 +125,7 @@ Aggiunto dall’utente il 12 ottobre dopo il blocco stage. L’immagine fornita 
 riferimento funzionale: rappresentare i nostri dati e le capacità effettive degli
 importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
 
-- [ ] SEZ-1: inventario delle sezioni, proprietà e rappresentazioni già presenti in Model e negli adattatori; riuso dei metodi comuni. Coprire prima le sezioni del modello MIDAS di prova, comprese le composte acciaio-calcestruzzo.
+- [x] SEZ-1 (13/10): inventario in sezioni-inventario.md; parser e geometrie condivisi in Model 7fd1fe4c, 1234 test superati. Campione reale con due sezioni quadrate; composta I/soletta collaudata come geometria sintetica separata. Offset non risolti distinti da zero. Candidato librerie in verifica prima della distribuzione.
 - [ ] SEZ-2: vista di dettaglio richiamabile dall’albero e dalla selezione degli elementi: anteprima 2D quotata, ID/nome/tipo, dimensioni e unità, materiali delle parti, assi locali/principali e baricentro quando disponibili. Distinguere proprietà importate e calcolate, segnalando quelle non supportate.
 - [ ] SEZ-3: rappresentazione dell’offset e del punto d’inserimento rispetto all’asse dell’elemento, coerenza con i volumi 3D, evidenziazione/isola degli elementi che usano la sezione. Per le composte, componenti e rapporti elastici già disponibili; collegamento allo stage pertinente quando la sezione cambia per fase.
 - [ ] SEZ-4: collaudo su sezioni usuali e composte, unità/orientamento/offset, screenshot e guide globali aggiornate; un commit per punto concluso. Quindi avvio di F3.
