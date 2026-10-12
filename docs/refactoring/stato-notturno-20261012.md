@@ -1,4 +1,4 @@
-# Stato del lavoro notturno — checkpoint 13 ottobre, 01:42
+# Stato del lavoro notturno — checkpoint 13 ottobre, 01:49
 
 Mandato fino alle 07:19 Europe/Rome (05:19 UTC): F2 → STG → SEZ → F3 → F4 se completabile. F5 esclusa. Un commit per punto, test/versioni/merge/push autorizzati; nessun agente parallelo. Preservare la finestra primaria con documento non salvato.
 
@@ -13,3 +13,5 @@ Combo della finestra utente: limite cartesiano 4096 diagnosticato, preflight/sca
 F3.3b chiuso: documenti, revisioni e condivisione in Application, Headless validate/inspect; 121 controlli dedicati, 12 PASS e 458 file equivalenti (013204-f3-documents-built). Prossimo F3.4: report condivisi e composizione senza serializzare/riaprire i singoli DOCX.
 
 F3.4 chiuso: report trasferiti, DocxWriter unico, progetto senza ZIP intermedi. Core compatibilità solo TypeForwardedTo, assente dal prodotto. Cattura 013734 e confronto profondo 30 DOCX/134 XML/97 immagini senza differenze; tests Reports 14 controlli + confronto corpus. Prossimo F3.5 servizi moduli/scheduler e F3.6 collegamento graduale; Wiki da estrarre.
+
+F3.5a completato: servizi, cache, scheduler, 185 controlli e CLI calculate. F3.5b autonomizzazione report ancora aperto. Prossimo F3.6 primo collegamento UI su pali verticali, poi moduli tipizzati e Wiki.

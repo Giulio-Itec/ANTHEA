@@ -79,6 +79,7 @@ try
     var imported = SectionActionsExcel.Read(SectionActionsExcel.Write(rows));
     Check(rows.SequenceEqual(imported.Rows), "Segni, valori o campi opzionali Excel alterati");
     Check(imported.FormulaCells == 0, "Export a valori contiene formule");
+    checks += await ModuleServiceChecks.Run();
     string result = $"PASS {checks} controlli Application, documenti e revisioni";
     File.WriteAllText(Path.Combine(output, "esito.txt"), result);
     Console.WriteLine(result);
