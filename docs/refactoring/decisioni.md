@@ -869,3 +869,10 @@ API-02a: correzione della libreria pronta e verificata, commit Checker `e1a9c78e
 La prova geometrica riproduce il difetto prima della modifica e controlla il
 risultato indipendente dopo. Non si assegnano versioni e non si installano DLL
 intermedie: API-02b resta aperto per il rilascio coerente e l’attivazione in ANTHEA.
+
+F2.7-A11: prosecuzione del codice di fase 2 su `refactoring/f2-chiusure-pendenti`,
+derivato dalle prime chiusure; il ramo F3 resta disponibile. Le viste e la
+validazione dei muri leggono il catalogo di sola lettura della libreria tramite
+la mappatura. Il riferimento legacy resta indipendente e immutabile. Nessun
+cambiamento di risultato nei 548 file e nelle 50.996 righe dense; tre suite WPF
+superate. Rimossa la relativa eccezione del controllo sullo stato statico.

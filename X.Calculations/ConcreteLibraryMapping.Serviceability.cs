@@ -1,4 +1,5 @@
 using System.Collections.Frozen;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using GPC.Checkers.Concrete.Cracking;
@@ -15,6 +16,9 @@ namespace Anthea.Calculations;
 /// </summary>
 public static partial class ConcreteLibraryMapping
 {
+    /// <summary>Scelte della UI: segnaposto italiano e catalogo GPC, nello stesso ordine dei gruppi ambientali.</summary>
+    public static ImmutableArray<string> ExposureChoices { get; } = ["Da scegliere", ..CrackRequirements.ExposureClasses];
+
     // ------------------------------------------------------------------ insiemi e combinazioni
     /// <summary>Insiemi SLE di ANTHEA → combinazioni della libreria. Gli altri insiemi (ED, CURVA, LIMITE, BENCH, SLU, SLV) non sono combinazioni SLE.</summary>
     static readonly FrozenDictionary<string, ServiceabilityCombination> Combinations = new Dictionary<string, ServiceabilityCombination>(StringComparer.Ordinal)

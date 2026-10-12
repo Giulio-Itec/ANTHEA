@@ -24,7 +24,7 @@ using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 // 12. Punto resistente SLU (revisione di architettura R2, registro F2-17): Resistance.cs. '--solo-slu' esegue solo la 12, senza misura.json.
 // 5l (F2.7, commit A2; LegacyServiceability da A3; adattatore SLE e sonda da A4): stato statico di Ntc2018Checks, ConcreteLibraryMapping,
 //    ConcreteShearTorsionAdapter, LegacyServiceability, ConcreteServiceabilityAdapter e ServiceabilityProbe per riflessione (StaticState.cs), con le eccezioni
-//    dichiarate (Ntc2018Checks.Exposures fino ad A11; l'AsyncLocal della sonda). Contata a parte; in misura.json da A4.
+//    dichiarate (solo l'AsyncLocal diagnostico della sonda dopo A11). Contata a parte; in misura.json da A4.
 // 7a (F2.7, commit A3): fattore dei getti sottili dalla libreria attraverso la mappatura per limite SLE, αcc e fcd (ThinCastingGrid.cs): griglia di
 //    9 norme × 4 valori di 'gettato_sottile' uguale all'espressione legacy, ordine dei rifiuti e fonte unica. Contata a parte, come la 5l.
 // SLE (F2.7, commit A4; ServiceabilityChecks.cs e ServiceabilityPaths.cs): prove 5a-5k, 5m e 6 dell'adattatore delle verifiche SLE con entrambi i
@@ -153,6 +153,8 @@ try
     if (ConcreteServiceabilityAdapter.Default != ExpectedServiceabilityDefault)
         throw new Exception($"motore SLE predefinito {ConcreteServiceabilityAdapter.Default}, atteso {ExpectedServiceabilityDefault}");
 
+    ExposureChoicesChecks.Run(root, StaticCheck);
+
     // ---------------------------------------------------------------- 2b. stato statico (prova 5l)
     // Prima il campione: la prova riconosce ogni forma di stato statico (una prova che non trova nulla non deve passare per vuota).
     var sample = StaticState.Inspect(typeof(StaticStateSample)).Violations.Select(v => v.Member).OrderBy(m => m, StringComparer.Ordinal).ToArray();
@@ -161,8 +163,6 @@ try
     // Eccezioni dichiarate (membro → motivo e scadenza). Un'eccezione che non trova più la sua violazione è superata e va tolta.
     var declaredStatic = new Dictionary<string, string>(StringComparer.Ordinal)
     {
-        ["Ntc2018Checks.Exposures"] = "array pubblico letto da file WPF (HorizontalWorkspace.cs:118, RetainingWallWorkspace.Materials.cs:26, ConcreteStress.cs:42): "
-            + "eccezione dichiarata fino al commit di F2.7c che può toccare i file WPF (A11), progetto F2.7 §0 punto 2",
         ["ServiceabilityProbe.current"] = "AsyncLocal diagnostico della sonda degli adattatori, nullo in produzione: unica eccezione dichiarata della 5l per l'adattatore SLE "
             + "(progetto F2.7 §6.2 e §9)"
     };

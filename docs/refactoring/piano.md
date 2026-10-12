@@ -73,7 +73,8 @@ Tra F1 e F2: regressione in MSTest (464 casi singoli) e `casi_confronto.json` di
   (`--checker`): con le tensioni delle barre mancanti su una sezione interamente compressa il legacy dà wk = 0, la
   libreria rifiuta e la mappatura non traduce il rifiuto; caso non raggiungibile dalla produzione, segnalato all'utente,
   da decidere prima di A8. Restano: quella decisione, le prove WPF con i due motori (con il profilo full), le due
-  revisioni del prototipo, A6-A13, le correzioni U1, U3, U5, U7 e il profilo full a schermo.
+  revisioni del prototipo, A6-A10 e A12-A13, le correzioni U1, U3, U5, U7 e il profilo full a schermo.
+  - [x] F2.7-A11 (12/10 sera): esposizioni della UI e validazione dei muri dal catalogo GPC tramite `ConcreteLibraryMapping.ExposureChoices`, immutabile. Il catalogo legacy resta come riferimento indipendente, anch’esso immutabile. 19 voci e ordine invariati; prove 7c, tre suite WPF e catture prima/dopo superate (548 file, 50.996 righe dense; soli tempi e ID casuali). Registro F2-18.
 - [~] F2.8 Dettagli, ancoraggi, aderenza, M–χ. Fatti (8/10): libreria L0-L3 (in S3), cattura A0. Restano B1-B3, T1,
   I1-I3, la correzione U2 (b) e D1.
 - [x] Release S3 di `lib/Checker` (8/10): Checker develop 0ad8314b (F2.7, F2.8, F2.9, S-1), Model M1 6005d180;

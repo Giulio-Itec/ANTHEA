@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using System.Collections.Immutable;
 using GPC.Checkers.Concrete.Results;
 using GPC.Geometry;
 using GPC.Geometry.Meshes;
@@ -9,7 +10,7 @@ namespace Anthea.Calculations;
 /// <summary>Port of Rhino2Midas concrete checks, with documented NTC2018/Circolare2019 corrections.</summary>
 public static partial class Ntc2018Checks
 {
-    public static readonly string[] Exposures = ["Da scegliere", "X0", "XC1", "XC2", "XC3", "XF1", "XC4", "XD1", "XS1", "XA1", "XA2", "XF2", "XF3", "XD2", "XD3", "XS2", "XS3", "XA3", "XF4"];
+    public static readonly ImmutableArray<string> Exposures = ["Da scegliere", "X0", "XC1", "XC2", "XC3", "XF1", "XC4", "XD1", "XS1", "XA1", "XA2", "XF2", "XF3", "XD2", "XD3", "XS2", "XS3", "XA3", "XF4"];
     public sealed record CrackResult(double? Width, double? Limit, double? Ratio, bool? Passed, string Status, double? EffectiveArea = null, double? EffectiveSteel = null, double? BarSpacing = null, string? SpacingSource = null)
     {
         public CrackCalculationDetail[] Details { get; init; } = [];
@@ -21,7 +22,7 @@ public static partial class Ntc2018Checks
     public static (string Kind, double? Limit) CrackRequirement(string set, string exposure, bool sensitive)
     {
         if (set == "SLE") return ("Non richiesta nella rara", null);
-        int index = Array.IndexOf(Exposures, exposure);
+        int index = Exposures.IndexOf(exposure);
         if (index <= 0) return ("Selezionare la classe di esposizione", null);
         bool qp = set == "SLE_QP"; int environment = index <= 5 ? 0 : index <= 12 ? 1 : 2;
         if (sensitive && environment >= 1 && qp) return ("Decompressione", null);

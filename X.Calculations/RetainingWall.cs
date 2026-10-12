@@ -90,7 +90,7 @@ public static partial class RetainingWall
         if (g.D("stem_top") > g.D("stem_base")) throw new ArgumentException("Lo spessore in testa deve essere ≤ quello al piede.");
         ValidateSoils(d);
         if (d.D("version") == 1 && d["loads"].D("psi2") > d["loads"].D("psi1")) throw new ArgumentException("Deve risultare ψ₂ ≤ ψ₁.");
-        if (d.S("family") == "cantilever" && !Ntc2018Checks.Exposures.Skip(1).Contains(matExposure(d))) throw new ArgumentException("Selezionare la classe di esposizione del calcestruzzo.");
+        if (d.S("family") == "cantilever" && !ConcreteLibraryMapping.ExposureChoices.Skip(1).Contains(matExposure(d))) throw new ArgumentException("Selezionare la classe di esposizione del calcestruzzo.");
         foreach (var l in d.Array("layers"))
         {
             foreach (string k in new[] { "thickness", "gamma", "gamma_sat", "phi" }) l!.Required(k, strict: true);

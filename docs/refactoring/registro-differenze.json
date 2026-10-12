@@ -2025,6 +2025,37 @@
         "supporto/artefatti/ci/20261012-195218-f3-defaults-after-fixed",
         "supporto/artefatti/ci/20261012-195301-f3-defaults-standard"
       ]
+    },
+    {
+      "id": "F2-18",
+      "data": "2026-10-12",
+      "fase": "F2.7-A11",
+      "titolo": "Esposizioni della UI dal catalogo GPC immutabile",
+      "famiglia": "calcestruzzo/interfaccia",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Le viste SLE, palo orizzontale e materiali dei muri e la validazione del muro leggono ExposureChoices dalla mappatura GPC. La lista conserva il segnaposto e lo stesso ordine. Ntc2018Checks.Exposures resta immutabile per il solo legacy e i confronti, con i propri valori congelati.",
+      "codice": [
+        "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+        "X.Calculations/Ntc2018Checks.cs",
+        "X.Calculations/RetainingWall.cs",
+        "X.Desktop/Wpf/ConcreteStress.cs",
+        "X.Desktop/Wpf/HorizontalWorkspace.cs",
+        "X.Desktop/Wpf/RetainingWallWorkspace.Materials.cs",
+        "tests/ConcreteLibraryAdapter.Checks/ExposureChoicesChecks.cs"
+      ],
+      "segno": "Nessun cambio di voci, ordine, coefficienti, calcoli o archivi. Rimossa l'eccezione dell'array pubblico modificabile dal controllo dello stato statico.",
+      "test": [
+        "7c: 19 voci nell'ordine precedente, cataloghi non modificabili e copie UI indipendenti",
+        "Tre suite WPF dei moduli coinvolti superate; corsa mirata 6 PASS",
+        "548 file prima/dopo: soltanto 21 tempi volatili",
+        "27 file densi e 50996 righe: 48511 identiche, 2485 con soli identificativi casuali; nessuna differenza numerica"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261012-200917-f27-exposures-before",
+        "supporto/artefatti/ci/20261012-201221-f27-exposures-ui",
+        "supporto/artefatti/ci/20261012-201351-f27-exposures-after"
+      ]
     }
   ]
 }
