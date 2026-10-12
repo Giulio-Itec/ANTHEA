@@ -100,7 +100,9 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
 
 - [ ] F3.1 [CP] Decisioni: migrazioni pigre, `str_palo` e chiavi miste congelati con alias, X.Materiali accorpato, figure senza WPF; fixture per gli 11 moduli.
 - [ ] F3.2 Scheletro, strumento headless, progetto unico di test di architettura.
-- [ ] F3.3 Documento, progetti, revisioni, condivisione; correzione dei default progetto/foglio dei muri.
+- [~] F3.3 Documento, progetti, revisioni, condivisione.
+  - [x] F3.3a (12/10): confronto dei default progetto/foglio dei muri corretto. Si normalizzano solo gli ID delle azioni in copie di test, validando formato e unicità; gli ID dei documenti restano indipendenti. Registro TEST-01, prove di mutazione in `tests/ProjectCalculationChecks`. Eliminata l’ultima eccezione in `build/known-failures.json`. Suite progetto: 152 controlli; profilo standard `20261012-195301-f3-defaults-standard`: 48 PASS, 0 KNOWN, 0 NEW-FAIL.
+  - [ ] F3.3b: trasferire documenti, progetti, revisioni e condivisione nello strato Application; nessun trasferimento incluso in F3.3a.
 - [ ] F3.4 [CP] Report: un solo `DocxWriter`; report di progetto senza rifusione; eliminazione di X.Core.
 - [ ] F3.5 `IModuleService`, esito comune, `RecalculationScheduler`, cache; report di progetto senza `SheetEditor`; figure tramite `IFigureRenderer` con dati confrontati numericamente.
 - [ ] F3.6 Moduli uno alla volta: acciaio e palificata; palo verticale; calcestruzzo; orizzontale ed elastico; muri; ponte [CP ricalcolo ritardato]; sezione c.a. [CP report short senza Word].

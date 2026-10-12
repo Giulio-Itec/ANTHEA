@@ -1988,6 +1988,32 @@
         "supporto/artefatti/release-s-20261012"
       ],
       "documento": "docs/sviluppo/fondazioni-superficiali.md"
+    },
+    {
+      "id": "TEST-01",
+      "data": "2026-10-12",
+      "fase": "F3.3a",
+      "titolo": "Default dei muri: confronto dei dati senza confondere identità indipendenti",
+      "famiglia": "infrastruttura/test",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Due documenti nuovi generano ID diversi per le azioni. Il test normalizza esclusivamente actions[*].id su copie, dopo validazione di formato e unicità, e mantiene esatti tutti gli altri campi e riferimenti. Nessuna modifica ai default o ai calcoli di produzione.",
+      "codice": [
+        "tests/ProjectCalculationChecks/DefaultDataComparison.cs",
+        "tests/ProjectCalculationChecks/DefaultDataComparisonChecks.cs",
+        "supporto/test/X.Verifiche/ProjectCalculationChecks.cs",
+        "build/known-failures.json"
+      ],
+      "segno": "Eliminato il falso fallimento noto; numeri, testi, archivi, DLL e attesi indipendenti invariati.",
+      "test": [
+        "Prima: verifiche/project-calculations KNOWN sul solo confronto default dei muri",
+        "Dopo: 152 controlli progetto PASS; mutazioni di geometria, carichi, coefficienti, identità malformate, ordine e riferimenti rilevate; standard 48 PASS, 0 KNOWN, 0 NEW-FAIL"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261012-194854-f3-defaults-before",
+        "supporto/artefatti/ci/20261012-195218-f3-defaults-after-fixed",
+        "supporto/artefatti/ci/20261012-195301-f3-defaults-standard"
+      ]
     }
   ]
 }

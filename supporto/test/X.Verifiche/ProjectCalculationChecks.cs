@@ -48,12 +48,13 @@ internal static class ProjectCalculationChecks
                 var single = Archivio.Documento(module.Id);
                 var group = ProjectDocuments.AddSection(project, module.Id);
                 var sheet = ProjectDocuments.AddSheet(group, module.Id);
-                Check(JsonNode.DeepEquals(single["dati"], sheet["dati"]), "Default progetto e foglio diversi: " + module.Id);
+                Check(DefaultDataComparison.Equals(module.Id, single["dati"], sheet["dati"]), "Default progetto e foglio diversi: " + module.Id);
                 Archivio.Valida(single); Archivio.Valida(document);
                 var another = ModuleCatalog.CreateData(module.Id);
                 sheet["dati"]!["nota_test"] = "indipendente";
                 Check(another["nota_test"] is null && single["dati"]!["nota_test"] is null, "Dati condivisi per riferimento: " + module.Id);
             });
+        log.Group("Confronto default e identità", () => DefaultDataComparisonChecks.Run(log));
         log.Group("Operazioni rifiutate", () =>
         {
             Check(ProjectRevisions.Nodes(document).Select(n => n.S("id")).Distinct().Count() == ProjectRevisions.Nodes(document).Count(), "ID duplicati");

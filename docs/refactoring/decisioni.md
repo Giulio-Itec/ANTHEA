@@ -838,3 +838,16 @@ resta l'attesa delle versioni esplicitamente riservate all'utente.
 L'utente autorizza l'unione dei rami, l'aggiornamento coerente delle DLL, la compilazione e, solo con verifiche positive, il merge su main e il push. Le versioni delle librerie sono curate direttamente dall'utente: nessuna versione assegnata dall'agente e nessun nuovo snapshot installato prima del suo avviso.
 
 I conflitti riguardano la documentazione condivisa: si conservano entrambi i contributi e si rigenera l'indice Wiki. La guida pratica Rev35 riunisce fondazioni e importazione Modelli; la teorica resta alla Rev34. Le revisioni di origine sono archiviate, con impronte, in `supporto/SUPERATI/merge-f4-modelli-rev35-20261012`. Il tentativo di merge avviato anche nel checkout principale è conservato in `supporto/artefatti/merge-f4-combinations-20261012/backup-tentativo-utente`; il checkout sarà allineato all'unico commit di integrazione completato.
+
+## Chiusure pendenti — 12 ottobre 2026, sera
+
+L’utente chiede di completare i punti già avviati, con un commit per punto chiuso e
+un aggiornamento dopo ogni passaggio; al termine si concordano le attività nuove.
+Si lavora su `refactoring/f3-chiusure-pendenti`, senza merge o push di questa fase.
+
+F3.3a: il test dei default confronta i dati, mantenendo casuali e indipendenti gli
+identificativi delle azioni create. Solo `actions[*].id` dei nuovi default dei muri
+viene proiettato per posizione, dopo il controllo di GUID non vuoti e univoci.
+Tutti gli altri valori e riferimenti restano soggetti a uguaglianza esatta. Il
+confronto opera su copie e non modifica né il documento né gli attesi numerici.
+La chiusura elimina l’eccezione del runner; non anticipa lo spostamento in Application.
