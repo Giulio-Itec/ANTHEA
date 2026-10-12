@@ -864,3 +864,8 @@ rilascio, guide e merge. Queste attività sono già concluse in main/origin
 MIDAS e le combinazioni locali sono disponibili; storico completo, worker Straus,
 prestazioni e componenti principali restano voci distinte e aperte. Questo
 aggiornamento del piano non esegue nuovi merge, push o rilasci.
+
+API-02a: correzione della libreria pronta e verificata, commit Checker `e1a9c78e`.
+La prova geometrica riproduce il difetto prima della modifica e controlla il
+risultato indipendente dopo. Non si assegnano versioni e non si installano DLL
+intermedie: API-02b resta aperto per il rilascio coerente e l’attivazione in ANTHEA.

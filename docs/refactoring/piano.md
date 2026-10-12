@@ -117,7 +117,9 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
 
 - [x] 12 ottobre: [audit dei contratti dei 12 moduli](audit-contratti-moduli-20261012.md), delle classi di terreno/materiale e dei Progetti; inventario dei sorgenti effettivamente compilati e confronto con le API delle DLL distribuite.
 - [x] 12 ottobre: riuso verificato delle API per aderenza/ancoraggi, dettagli non circolari, M–χ, regioni, interassi non circolari, acciaio e SLE; sei vecchi file geotecnici esclusi rimossi su consenso esplicito. Ramo `refactoring/f4-riuso-api`, registro API-01. Runner baseline: 52 PASS, 1 KNOWN, 0 NEW-FAIL; confronto completo di 548 file e denso di 50.996 righe passato; soluzione e app Release compilate. Residui e contratti incompleti nell'audit; non chiude F4.1–F4.16 né il rilascio delle fondazioni.
-- [ ] API-02: correggere il raggruppamento degli interassi circolari in Checker e rilasciare il set coerente; fino ad allora interassi, dettagli e fessurazione circolari conservano il percorso precedente. Caso indipendente e discrepanza riproducibile documentati nell'audit.
+- [~] API-02: interassi circolari.
+  - [x] API-02a (12/10 sera): correzione geometrica in Checker `e1a9c78e`, branch `codex/f2-api02-interassi`. 38 nuove prove indipendenti (7 fallivano prima), suite complete 1544 PASS, 17 Steel già noti, zero nuovi fallimenti. Atteso del caso C400R2: 115.19173586761349 mm; contratti e fixture preservati.
+  - [ ] API-02b: versione da assegnare dall’utente, rilascio coerente da commit pushati e attivazione in ANTHEA con cattura prima/confronto dopo. Fino ad allora i percorsi circolari precedenti restano nel prodotto. Registro e audit distinguono correzione dei sorgenti da distribuzione.
 
 - [ ] F4.1 Catture aggiornate dopo F3.
 - [ ] F4.2 Regole automatiche estese.

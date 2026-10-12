@@ -248,3 +248,17 @@ Evidenze: `supporto/artefatti/riuso-api-20261012/conclusivo/`,
 Le prime corse di preparazione e quelle interrotte non sono le attestazioni finali:
 sono conservate, incluse la limitazione di accesso NuGet nel sandbox e la discrepanza
 circolare trovata prima di restringere la migrazione.
+
+## Aggiornamento API-02 — 12 ottobre, sera
+
+La correzione dei sorgenti Checker è nel commit `e1a9c78e`, branch
+`codex/f2-api02-interassi`: raggruppamento per estensione radiale limitata,
+senza confini di arrotondamento; una barra isolata non produce un interasse.
+Il caso indipendente restituisce 115.19173586761349 mm. 38 prove nuove
+(7 fallivano prima), Concrete 718 PASS e ModelChecker 168 PASS; suite Checker
+complete 1544 PASS e 17 soli fallimenti Steel già noti. Fixture non modificate.
+
+**Non ancora attivo in ANTHEA**: le DLL installate restano quelle del set S.
+La versione, il rilascio coerente e il successivo confronto d’integrazione sono
+il punto API-02b del piano. Le limitazioni dell’audit continuano quindi a valere
+per il prodotto attuale, anche se il difetto è corretto nel branch della libreria.

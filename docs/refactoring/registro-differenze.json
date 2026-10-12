@@ -1935,7 +1935,8 @@
       "fase": "F4, riuso API autorizzato",
       "documento": "docs/refactoring/audit-contratti-moduli-20261012.md",
       "evidenze": [
-        "supporto/artefatti/riuso-api-20261012/"
+        "supporto/artefatti/riuso-api-20261012/",
+        "supporto/artefatti/refactoring/api02/{prima,dopo,checker-tutte} del checkout principale"
       ],
       "id": "API-02",
       "titolo": "Interassi circolari instabili sul confine del raggruppamento per raggio",
@@ -1960,7 +1961,17 @@
         "Caso riproducibile C400R2-r5a della cattura densa",
         "api02-geometria-indipendente.json: archi nominali",
         "ANTHEA.ApiReuse.Checks: conservazione del precedente e selezione reale in sessione"
-      ]
+      ],
+      "attuazione_libreria": {
+        "data": "2026-10-12",
+        "repository": "Checker",
+        "branch": "codex/f2-api02-interassi",
+        "commit": "e1a9c78e",
+        "stato": "corretto-e-testato-non-distribuito",
+        "descrizione": "Raggruppamento per estensione radiale massima 1e-5 mm ancorata al minimo; nessun interasse da gruppi con una sola barra. Coordinate e fixture immutate.",
+        "prove": "38 prove geometriche indipendenti: 7 FAIL prima, 38 PASS dopo. Checker completo: 1544 PASS, 17 Steel noti, zero nuovi fallimenti; API compatibili.",
+        "residuo": "Versione assegnata dall'utente, set coerente da commit pushati, collegamento ANTHEA e confronto prima/dopo. Lo stato globale resta da-correggere finché il prodotto usa il percorso precedente."
+      }
     },
     {
       "id": "FON-03",
