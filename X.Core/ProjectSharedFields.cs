@@ -27,7 +27,7 @@ public static partial class ProjectSharedData
         AddSoilFields(module, data, result);
         if (module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module)
             Add("verticali_indagate", "Terreno", (module.EndsWith("_orizzontale") ? "verifica/" : "generali/") + "verticali_indagate", JsonValue.Create("1"));
-        if (module is "geo_palo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module)
+        if (module is "geo_palo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or Anthea.FoundationWorkspace.FoundationDocument.Module)
         {
             Add("presenza_falda", "Terreno", "generali/presenza_falda", JsonValue.Create(false));
             Add("profondita_falda", "Terreno", "generali/profondita_falda");

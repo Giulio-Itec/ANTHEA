@@ -108,6 +108,10 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
 
 ## Fase 4: calcoli residui nelle librerie
 
+- [x] 12 ottobre: [audit dei contratti dei 12 moduli](audit-contratti-moduli-20261012.md), delle classi di terreno/materiale e dei Progetti; inventario dei sorgenti effettivamente compilati e confronto con le API delle DLL distribuite.
+- [x] 12 ottobre: riuso verificato delle API per aderenza/ancoraggi, dettagli non circolari, M–χ, regioni, interassi non circolari, acciaio e SLE; sei vecchi file geotecnici esclusi rimossi su consenso esplicito. Ramo `refactoring/f4-riuso-api`, registro API-01. Runner baseline: 52 PASS, 1 KNOWN, 0 NEW-FAIL; confronto completo di 548 file e denso di 50.996 righe passato; soluzione e app Release compilate. Residui e contratti incompleti nell'audit; non chiude F4.1–F4.16 né il rilascio delle fondazioni.
+- [ ] API-02: correggere il raggruppamento degli interassi circolari in Checker e rilasciare il set coerente; fino ad allora interassi, dettagli e fessurazione circolari conservano il percorso precedente. Caso indipendente e discrepanza riproducibile documentati nell'audit.
+
 - [ ] F4.1 Catture aggiornate dopo F3.
 - [ ] F4.2 Regole automatiche estese.
 - [ ] F4.3 [CP] Collocazione di GPC.Design, Concrete/Walls, muratura, σcp, CRd,c/k1/vmin, esiti dei pali.
@@ -247,7 +251,12 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [ ] Storico completo delle copie e dei risultati nel progetto e connettori live: integrazione successiva. Aggiornamenti parziali delle copie disponibili, MOD-21.
 - [ ] Rilascio, guide globali e merge: dopo il collaudo e l'approvazione dell'utente.
 - [x] 11 ottobre: esperimento sui 49 casi statici completi, 73 definizioni Add/Envelope, misure C# e confronto numerico. Somma delle combinazioni fuori dalla UI e dalle librerie di produzione; dettagli e limiti in [benchmark casi base](../sviluppo/modelli-benchmark-casi-base.md), registro MOD-07.
-- [ ] Trasferire il metodo validato in GPC dopo la decisione sul contratto, ampliare confronto a inviluppi completi/beam, governanti e simultaneità, quindi collegare archivio e renderer. L'inviluppo completo MIDAS ha superato 180 s nella prova.
+- [x] 12 ottobre: gestione delle combo importate e locali, CRUD, griglia coefficienti, finestra staccabile, persistenza e risultati GPC collegati a vista/tabelle. Cache del modello normalizzato, governanti e stati concomitanti; GPC.Converter acquisito dallo stesso set R. Confronto di 109744 valori plate riuscito. [Dettagli e limiti](../sviluppo/modelli-combinazioni.md), MOD-30.
+- [x] Collaudo combinazioni: full 83 PASS / 1 KNOWN / 0 nuovi fallimenti; 426 controlli logici finali e tre suite WPF Modelli passate. Model rieseguito sul set rilasciato: 1192 PASS, 2 esclusi; importazione malformata rifiutata prima di modificare il documento.
+- [x] Combinazioni nella scheda sinistra, ordine Vista/Modello/Combinazioni/Risultati/Verifiche/Report e barra ridotta coerente; finestra staccabile conservata. Coefficienti ripuliti solo nella visualizzazione. Corsa finale `20261012-154019-combo-tab-sinistra-finale`, nessun nuovo fallimento.
+- [ ] Ottimizzare il motore integrato e ampliare il confronto a ENV_SLU completo e beam reali: ricostruzione a caldo misurata 7,606 s, obiettivo 5 s non ancora raggiunto. Il precedente inviluppo MIDAS completo ha superato 180 s; i tempi del prototipo non certificano quelli GPC.
+- [ ] Generatore automatico delle combinazioni: fase successiva richiesta dall'utente, con regole e coefficienti nelle librerie GPC e collegamento al medesimo catalogo/editor. Non implementato nella gestione manuale.
+- [ ] **In coda dopo combinazioni e inviluppi — richiesta del 12 ottobre:** calcolo GPC delle componenti principali dei plate (`Mmax`, `Mmin`, `Fmax`, `Fmin`) e collegamento al selettore Principali, contouring, tabelle e report. Per ogni combinazione calcolare prima lo stato locale combinato e poi le principali; per gli inviluppi valutare le principali dei singoli stati simultanei e conservarne estremi e governanti. Non sommare le principali dei casi base né ricavarle da estremi locali non simultanei. Confronti indipendenti e MIDAS; distinguere disponibilità dei dati e supporto al calcolo nella UI. Gli assi principali delle sezioni delle aste richiedono una copertura distinta.
 - [x] 11 ottobre: contouring plate con media opzionale ai vertici condivisi, confini per proprietà/materiale/terne, legenda sul campo grafico e dati originali invariati. Attesi manuali e verifica dei valori nel buffer GPU; 129 controlli di logica e 74 WPF reali, registro MOD-08.
 
 - [x] 11 ottobre: schede Modello/Risultati/Vista/Verifiche, selezione grafica/per ID/per valore, clipping, opacità, letture/estremi, confronto con camera comune, viste locali persistenti e PNG; carichi riconosciuti e deformata solo da dati espliciti. Verifiche ingegneristiche invariate. Registro MOD-09.
@@ -274,3 +283,37 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: esportazione del controllo incorporato e ridimensionato corretta, tema applicato al primo avvio, preferenze della preview separate e strumento di confezionamento con tre avviatori; MOD-26.
 - [x] 11 ottobre: sincronizzazione del layout prima della cattura Direct3D, verificata aprendo i diagrammi ed esportando immediatamente; 12 controlli WPF. MOD-27.
 - [x] Collaudo della build e25b7ed: standard 43 PASS / 1 KNOWN / 0 nuovi fallimenti; WPF isolato 138 PASS, diagrammi/report 17 PASS, deformate/report 9 PASS, tutte le otto pagine PDF controllate.
+- [x] 12 ottobre: importazione MIDAS API dal modulo Modelli, scelta dei casi, quattro ambiti, progresso/annullamento, controllo completezza e stabilità della sorgente; dati normalizzati riusati solo a input identico. Prova reale G1 identica al riferimento; 381 controlli logici e 17 WPF. MOD-28.
+- [x] 12 ottobre: predisposizione Straus/Strand7 R3 con selezione modello/risultati/API, controllo file e DLL nativa x64 e contratto del futuro worker; importazione esplicitamente disattivata fino all'integrazione del convertitore distribuito. MOD-29.
+- [ ] Modelli: includere i convertitori nel set GPC coerente, completare la normalizzazione della prima importazione MIDAS e attivare il worker Straus/Strand7 con prova nativa. Versioni assegnate dall'utente; nessun aggiornamento isolato delle DLL.
+- [x] Collaudo finale importazioni: profilo quick 27 PASS, nessun nuovo fallimento; 381 controlli logici, 17 WPF del pannello e 32 WPF di regressione dell'integrazione. Evidenze `20261012-120857-import-midas-straus-finale` e `20261012-121018-import-ui-regressione`.
+- [x] 12 ottobre: guida pratica Rev33, capitolo 20 sull'importazione MIDAS nel modulo Modelli in prova; connessione, quattro ambiti, selezione sostitutiva dei casi, salvataggio, revisione e recupero dagli errori. Aggiornati Word, PDF e indici; Rev32 pratica archiviata con SHA-256. Confronto dei 60 fogli precedenti del corpo del PDF senza variazioni di contenuto. Evidenze `supporto/artefatti/guide_anthea_itec_rev33`.
+
+## Fondazioni superficiali — 12 ottobre 2026
+
+Attività autorizzata dall'utente, ramo `refactoring/f5-fondazioni-superficiali`; registro FON-01 e [scheda tecnica](../sviluppo/fondazioni-superficiali.md).
+
+- [x] Lettura integrale del manuale e riscontro visivo delle formule, mappa delle API e delle lacune.
+- [x] Nuova API statica in Checker con coefficienti normativi da Model, dieci test indipendenti; 108 regressioni esistenti invariate.
+- [x] Documento e report nella libreria senza WPF, foglio ANTHEA, archivio, dettagli e aiuto contestuale; test sorgente isolato.
+- [x] Due capitoli nelle guide globali, esempio verificato, figura originale e indice Wiki rigenerato.
+- [x] Guide Rev33 rigenerate e controllate, Rev32 archiviate. Standard: 45 PASS, 1 KNOWN già censito, 0 nuovi fallimenti.
+- [x] Geotechnics 0.1.2.0 assegnata dall'utente, prima implementazione integrata e pushata su Checker; estensioni sul ramo `codex/fondazioni-visualizzazioni`.
+- [x] Profili Soil/SoilLayer/SoilProfile di Model riutilizzati, tabella degli strati come il palo verticale, CLS e terreno condivisi nei Progetti, pagina unica con schede soltanto grafiche; registro FON-02.
+- [x] Pressioni di contatto senza trazione, area efficace nei due assi e schema illustrativo di Prandtl; 23 test Checker, 67 controlli documento/Progetti/UI, input richiudibili senza perdere il risultato.
+- [x] Collaudo estensione: standard 45 PASS / 1 KNOWN / 0 nuovi fallimenti; runner mirato documento/UI tutto PASS. Wiki e guide Rev34 rigenerate, controllo grafico completato, Rev33 archiviate.
+- [x] Rilascio coerente S con versioni assegnate e pubblicate dall’utente: provenienza e impronte verificate, suite del treno conservate, manifest installati e runner full superato. Adattatore Fondazioni aggiornato al contratto 2; dettagli sotto (FON-03).
+
+## Integrazione F4 e combinazioni — 12 ottobre 2026
+
+- [x] Su richiesta dell'utente, integrati i contenuti di `refactoring/f4-riuso-api` nel ramo `codex/model-combinations`: nessun conflitto nel codice; conservati i registri di entrambi i rami.
+- [x] Riunite le guide: pratica Rev35 con Fondazioni e importazione Modelli (capitolo 21), teoria Rev34 invariata. Indice Wiki di 66 articoli; revisioni originali archiviate con SHA-256.
+- [x] Compilazione e runner quick dell'integrazione: 31 PASS, 0 NEW-FAIL (`20261012-162043-merge-f4-combinations`), con le DLL distribuite correnti.
+- [x] Installato il set S dopo le versioni curate dall’utente; runner full 88 PASS, 1 KNOWN preesistente, 0 NEW-FAIL. Merge su main e push autorizzati dopo il collaudo.
+
+## Aggiornamento DLL al set S — 12 ottobre 2026
+
+- [x] Verificate le versioni assegnate e pubblicate dall'utente: set coerente S, dodici DLL e nove suite originali, 2698 PASS e 17 fallimenti Steel già censiti. Commit e SHA-256 controllati; installato il sottoinsieme ANTHEA con `Update-Snapshot.ps1 -ReleaseSet`.
+- [x] Collaudo full: 88 PASS / 1 KNOWN preesistente / 0 NEW-FAIL, nessun file alterato dalle suite. Baseline: 6 PASS, 548 file completi e 50996 righe / 27 file densi senza differenze non ammesse; attesi e tolleranze invariati. DelaunayMesh identica e 39 prove di mesh/contratti del set superate. Evidenze `20261012-170114-release-s-full` e `20261012-165624-release-s-baseline`.
+
+- [x] Adeguato il confine Fondazioni al contratto 2 pubblicato: coefficienti Hansen, dominio esaurito, rapporti indefiniti e viste indisponibili. FON-03; 44 controlli funzionali e 86 WPF passati. Guide globali Rev36 allineate e precedenti conservate.

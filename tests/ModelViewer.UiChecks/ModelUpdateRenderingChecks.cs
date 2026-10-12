@@ -14,9 +14,9 @@ static partial class Program
     static void ModelUpdateRenderingChecks(ModelViewerControl control,Viewport3DX viewport,string output)
     {
         var state=(ModelViewerViewModel)control.DataContext;var current=state.Snapshot!;string before=current.Fingerprint();
-        var button=Children<Button>(control).Single(b=>b.Command==state.OpenImportOptionsCommand);
+        var button=Children<Button>(control).Single(b=>b.Command==state.OpenImportOptionsCommand && Equals(b.Content,state.ImportLabel));
         ((IInvokeProvider)new ButtonAutomationPeer(button).GetPattern(PatternInterface.Invoke)).Invoke();Wait(100);
-        Check(state.SelectedPanel==0 && state.ShowImportOptions && !state.IsNavigationCollapsed,"update toolbar opens the single import settings location in the model tab");
+        Check(state.SelectedPanel==0 && state.ShowImportOptions && !state.IsNavigationCollapsed,"update toolbar opens the single import settings drawer");
         var view=Children<ModelImportOptionsView>(control).Single();var modes=Children<ComboBox>(view).Single(c=>AutomationProperties.GetName(c)=="Modalità di aggiornamento");
         Check(modes.Items.Count==4 && modes.SelectedIndex==3,"all four update modes are available with full import selected initially");
         modes.SelectedIndex=2;Wait(50);Check(state.SelectedUpdateScope==2 && state.UpdateScopeDescription.Contains("coincidere"),"results-only choice exposes its compatibility requirement before reading a file");

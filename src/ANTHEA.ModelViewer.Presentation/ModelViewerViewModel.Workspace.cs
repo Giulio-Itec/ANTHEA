@@ -35,7 +35,8 @@ public sealed partial class ModelViewerViewModel
     public string SampleLocation => IsDisplacementResult ? "Nodi · traslazioni globali" : SelectedFamily == 0 ? IsAveragedContour ? "Nodi condivisi · media grafica" : "Nodi dell’elemento · valori non mediati" : BeamLocations[Math.Clamp(SelectedBeamLocation, 0, 5)] + " · campioni importati";
     public string SelectionCount => !HasSelection && SelectedNodeIds.Count>0 ? $"{SelectedNodeIds.Count:N0} nodi selezionati" : HasSelection ? $"{SelectedElementIds.Count:N0} elementi selezionati" : "Nessuna selezione";
     public string VisibilitySummary => Snapshot == null ? "Nessun modello" : $"{Snapshot.Elements.Count(e => (VisibleElementIds == null || VisibleElementIds.Contains(e.Id)) && (!ShowResults || ShowContext || IsDisplacementResult || e.Type == Family)):N0} / {Snapshot.Elements.Length:N0} elementi visibili";
-    public string ResultKind => Snapshot?.Results.FirstOrDefault(r => r.Name == SelectedCase)?.IsEnvelope == true ? "INVILUPPO IMPORTATO" : "RISULTATO IMPORTATO";
+    public string ResultKind => Snapshot?.Results.FirstOrDefault(r => r.Name == SelectedCase) is {} r
+        ? r.Combination!=null ? r.IsEnvelope?"INVILUPPO CALCOLATO · GPC":"COMBINAZIONE CALCOLATA · GPC" : r.IsEnvelope?"INVILUPPO IMPORTATO":"RISULTATO IMPORTATO" : "NESSUN RISULTATO";
     public string Middle => HasResults ? ((ActiveValues.Min(v => v.Value) + ActiveValues.Max(v => v.Value)) / 2).ToString("G5") : "—";
 
     [ObservableProperty] private int selectedPanel;
@@ -58,7 +59,13 @@ public sealed partial class ModelViewerViewModel
     [ObservableProperty] private string inspectorTitle = "Proprietà del modello";
     [ObservableProperty] private string resultAvailability = "Importa un modello con risultati.";
 
-    partial void OnSelectedPanelChanged(int value) { if (value == 1 && !updating) ShowResults = true; if(value == 4) RefreshReportChoices(); }
+    partial void OnSelectedPanelChanged(int value)
+    {
+        if (value == 1 && !updating) ShowResults = true;
+        if(value == 4) RefreshReportChoices();
+        if(value == ModelViewerPanels.Combinations) OpenCombinationManager();
+        else ShowCombinationManager=false;
+    }
     partial void OnSelectedFamilyChanged(int value)
     {
         bool prior = updating; updating = true; ShowContext = value == 0; updating = prior;

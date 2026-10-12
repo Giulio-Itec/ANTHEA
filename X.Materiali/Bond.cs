@@ -29,7 +29,7 @@ public sealed partial class MaterialView
             double fck=Classes[choice.SelectedIndex].Fck,eta1=choices["bondCondition"].SelectedIndex==0?1:.7;
             var b=Bond(fck,diameter,eta1,alpha,gamma);
             bondValue.Text=$"fbd = {b.Fbd:0.00} MPa";
-            bondDetails.Text=$"φ = {diameter:0.##} mm  ·  η₁ = {eta1:0.00}  ·  η₂ = {b.Eta2:0.00}\nfctk,0.05 per aderenza = {b.Fct:0.00} MPa\nfctd = {b.Fctd:0.00} MPa"+(fck>60?"\nLimite C60/75 applicato.":"");
+            bondDetails.Text=$"φ = {diameter:0.##} mm  ·  η₁ = {eta1:0.00}  ·  η₂ = {b.Eta2:0.00}\nfctk,0.05 per aderenza = {b.Fct:0.00} MPa\nfctd = {b.Fctd:0.00} MPa"+(b.Capped?"\nLimite C60/75 applicato.":"");
         }
         catch(ArgumentException ex) {bondDetails.Text=ex.Message;}
     }

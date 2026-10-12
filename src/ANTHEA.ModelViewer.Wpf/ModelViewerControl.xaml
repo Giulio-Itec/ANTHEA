@@ -9,6 +9,7 @@
     </ResourceDictionary>
   </UserControl.Resources>
   <Grid>
+    <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
@@ -55,7 +56,10 @@
           <ColumnDefinition.Style>
             <Style TargetType="ColumnDefinition">
               <Setter Property="Width" Value="330" /><Setter Property="MinWidth" Value="290" /><Setter Property="MaxWidth" Value="460" />
-              <Style.Triggers><DataTrigger Binding="{Binding IsNavigationCollapsed}" Value="True"><Setter Property="Width" Value="44" /><Setter Property="MinWidth" Value="44" /><Setter Property="MaxWidth" Value="44" /></DataTrigger></Style.Triggers>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding ShowCombinationManager}" Value="True"><Setter Property="Width" Value="580"/><Setter Property="MinWidth" Value="540"/><Setter Property="MaxWidth" Value="800"/></DataTrigger>
+                <DataTrigger Binding="{Binding IsNavigationCollapsed}" Value="True"><Setter Property="Width" Value="44" /><Setter Property="MinWidth" Value="44" /><Setter Property="MaxWidth" Value="44" /></DataTrigger>
+              </Style.Triggers>
             </Style>
           </ColumnDefinition.Style>
         </ColumnDefinition>
@@ -86,8 +90,9 @@
           <Button Content="‹" Command="{Binding ToggleNavigationCommand}" DockPanel.Dock="Right" Padding="9,1" MinHeight="24" ToolTip="Riduci la navigazione a barra laterale" AutomationProperties.Name="Riduci navigazione" />
           <TextBlock Text="NAVIGAZIONE" FontSize="10" Opacity="0.6" VerticalAlignment="Center" />
         </DockPanel>
-      <TabControl Grid.Row="1" SelectedIndex="{Binding SelectedPanel}" BorderThickness="0" Background="{DynamicResource AppearancePaper}" Padding="0" HorizontalContentAlignment="Stretch">
-        <TabItem Header="Modello">
+      <TabControl Grid.Row="1" SelectedValue="{Binding SelectedPanel}" SelectedValuePath="Tag" BorderThickness="0" Background="{DynamicResource AppearancePaper}" Padding="0" HorizontalContentAlignment="Stretch" AutomationProperties.Name="Schede del modello">
+        <TabItem Header="Vista" Tag="{x:Static p:ModelViewerPanels.View}"><local:ModelViewToolsView /></TabItem>
+        <TabItem Header="Modello" Tag="{x:Static p:ModelViewerPanels.Model}">
           <Grid>
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />
@@ -103,7 +108,7 @@
                 <local:ModelVisibilityView />
               </Expander>
               <Expander Header="Check della revisione" Margin="0,8,0,0"><local:ModelRevisionToolsView/></Expander>
-              <Expander Header="Importazione e aggiornamento" IsExpanded="{Binding ShowImportOptions}" Margin="0,8,0,0"><local:ModelImportOptionsView/></Expander>
+              <Button Content="Importazione e aggiornamento…" Command="{Binding OpenImportOptionsCommand}" Margin="0,8,0,0"/>
             </StackPanel>
             </ScrollViewer>
             <TreeView x:Name="ModelTree" Grid.Row="1" ItemsSource="{Binding Tree}" SelectedItemChanged="TreeSelectionChanged" PreviewMouseDown="TreeContextSelection" BorderThickness="0" Background="Transparent" Padding="5,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Albero del modello">
@@ -160,9 +165,18 @@
             </ScrollViewer>
           </Grid>
         </TabItem>
-        <TabItem Header="Risultati"><local:ModelResultsView /></TabItem>
-        <TabItem Header="Vista"><local:ModelViewToolsView /></TabItem>
-        <TabItem Header="Verifiche">
+        <TabItem Header="Combinazioni" Tag="{x:Static p:ModelViewerPanels.Combinations}">
+          <Grid>
+            <local:ModelCombinationsView Visibility="{Binding ShowCombinationManager,Converter={StaticResource Visible}}"/>
+            <StackPanel Margin="16" Visibility="{Binding IsCombinationDetached,Converter={StaticResource Visible}}">
+              <TextBlock Text="Combinazioni nella finestra separata" FontWeight="SemiBold" TextWrapping="Wrap"/>
+              <Button Content="Porta in primo piano" Command="{Binding OpenCombinationManagerCommand}" Margin="0,12,0,6"/>
+              <Button Content="Riaggancia qui" Command="{Binding ToggleCombinationWindowCommand}"/>
+            </StackPanel>
+          </Grid>
+        </TabItem>
+        <TabItem Header="Risultati" Tag="{x:Static p:ModelViewerPanels.Results}"><local:ModelResultsView /></TabItem>
+        <TabItem Header="Verifiche" Tag="{x:Static p:ModelViewerPanels.Checks}">
           <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="18,0,18,18">
               <TextBlock Text="VERIFICHE SUL MODELLO" Style="{StaticResource Caption}" />
@@ -191,15 +205,17 @@
             </StackPanel>
           </ScrollViewer>
         </TabItem>
-        <TabItem Header="Report"><local:ModelReportView /></TabItem>
+        <TabItem Header="Report" Tag="{x:Static p:ModelViewerPanels.Report}"><local:ModelReportView /></TabItem>
       </TabControl>
       </Grid>
       <Border x:Name="NavigationRail" Visibility="{Binding IsNavigationCollapsed, Converter={StaticResource Visible}}" Background="{DynamicResource AppearanceSurface}">
         <StackPanel Margin="4,6">
           <Button Content="›" Command="{Binding ToggleNavigationCommand}" Padding="4" ToolTip="Espandi navigazione" AutomationProperties.Name="Espandi navigazione" />
-          <Button Content="M" Command="{Binding OpenNavigationCommand}" CommandParameter="0" Padding="4,10" Margin="0,8,0,4" ToolTip="Modello e filtri" AutomationProperties.Name="Apri albero modello" />
+          <Button Content="◈" Command="{Binding OpenNavigationCommand}" CommandParameter="2" Padding="4,10" Margin="0,8,0,4" ToolTip="Vista" />
+          <Button Content="M" Command="{Binding OpenNavigationCommand}" CommandParameter="0" Padding="4,10" Margin="0,0,0,4" ToolTip="Modello e filtri" AutomationProperties.Name="Apri albero modello" />
+          <Button Content="Σ" Command="{Binding OpenNavigationCommand}" CommandParameter="5" Padding="4,10" Margin="0,0,0,4" ToolTip="Combinazioni" AutomationProperties.Name="Apri combinazioni" />
           <Button Content="S" Command="{Binding OpenNavigationCommand}" CommandParameter="1" Padding="4,10" Margin="0,0,0,4" ToolTip="Sollecitazioni" AutomationProperties.Name="Apri sollecitazioni" />
-          <Button Content="◈" Command="{Binding OpenNavigationCommand}" CommandParameter="2" Padding="4,10" ToolTip="Vista" /><Button Content="V" Command="{Binding OpenNavigationCommand}" CommandParameter="3" Padding="4,10" ToolTip="Verifiche" AutomationProperties.Name="Apri verifiche" />
+          <Button Content="V" Command="{Binding OpenNavigationCommand}" CommandParameter="3" Padding="4,10" ToolTip="Verifiche" AutomationProperties.Name="Apri verifiche" />
         <Button Content="R" ToolTip="Report" Command="{Binding OpenNavigationCommand}" CommandParameter="4" Margin="4,6" />
         </StackPanel>
       </Border>
@@ -376,6 +392,16 @@
         <TextBlock Text="{Binding Status}" FontSize="11" TextTrimming="CharacterEllipsis" />
       </DockPanel>
       </StackPanel>
+    </Border>
+    <Border Grid.Column="1" Grid.RowSpan="5" Visibility="{Binding ShowImportOptions, Converter={StaticResource Visible}}" Width="520" Background="{DynamicResource AppearancePaper}" BorderBrush="{DynamicResource AppearanceBorder}" BorderThickness="1,0,0,0">
+      <Grid>
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <Border Padding="18,14" BorderBrush="{DynamicResource AppearanceBorder}" BorderThickness="0,0,0,1">
+          <DockPanel><Button Content="Chiudi" Command="{Binding CloseImportOptionsCommand}" DockPanel.Dock="Right"/><StackPanel><TextBlock Text="IMPORTAZIONE DEL MODELLO" FontSize="11" Opacity=".7"/><TextBlock Text="Sorgente e contenuto" FontSize="19" FontWeight="SemiBold" Margin="0,4,0,0"/></StackPanel></DockPanel>
+        </Border>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><local:ModelImportOptionsView Margin="18,6,18,14"/></ScrollViewer>
+        <TextBlock Grid.Row="2" Text="La copia corrente viene sostituita solo dopo il controllo dell’intera acquisizione." TextWrapping="Wrap" FontSize="11" Opacity=".75" Margin="18,10,18,14"/>
+      </Grid>
     </Border>
   </Grid>
 </UserControl>

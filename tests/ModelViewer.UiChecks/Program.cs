@@ -90,7 +90,7 @@ static partial class Program
             else
             {
             string archive;
-            if (args.Length > 1) archive = Path.GetFullPath(args[1]);
+            if (args.Length > 1 && !args[1].StartsWith("--",StringComparison.Ordinal)) archive = Path.GetFullPath(args[1]);
             else
             {
                 var doc = ProjectDocuments.CreateArchive(); var p = ProjectDocuments.AddProject(doc, "Progetto UI"); var sf = ProjectDocuments.AddSection(p, "Sottofase UI");
@@ -166,6 +166,8 @@ static partial class Program
                         state.SelectedComponent="|u|";state.ShowDeformation=true;state.SelectedRepresentation=1;state.SelectedPanel=1;
                         state.ShowInspector=false;state.ShowMesh=false;
                     }
+                    if(args.Contains("--import-mode")) { state.SelectedImportSource=1;state.OpenImportOptionsCommand.Execute(null); }
+                    if(args.Contains("--combinations")) {state.ShowInspector=false;state.IsNavigationCollapsed=true;state.SelectedCase=state.Snapshot!.Results.FirstOrDefault(r=>r.Combination!=null)?.Name??state.SelectedCase;state.OpenCombinationManagerCommand.Execute(null);}
                     preview.ShowInTaskbar = true; preview.Closed += (_, _) => app.Shutdown();
                     Capture((FrameworkElement)preview.Content, scene, Path.Combine(output, "anteprima-interattiva.png"));
                     File.WriteAllText(Path.Combine(output,"pronta.json"),System.Text.Json.JsonSerializer.Serialize(new
@@ -175,6 +177,25 @@ static partial class Program
                         BindingErrors=bindingLog.ToString(),ReadyUtc=DateTime.UtcNow,ReadyMilliseconds=startup.Elapsed.TotalMilliseconds,Contour=state.ContourValueLabel,Averaging=state.ContourAveragingSummary
                     },new System.Text.Json.JsonSerializerOptions{WriteIndented=true}));
                     app.Run(); return 0;
+                }
+                if(args.Contains("--combination-capture"))
+                {
+                    state.ShowInspector=false;state.IsNavigationCollapsed=true;state.SelectedRepresentation=1;state.ShowMesh=false;
+                    state.SelectedCase=state.Snapshot!.Results.Last(r=>r.Combination!=null).Name;state.SelectedComponent="Mxx";state.SelectedContourValues=1;
+                    state.OpenCombinationManagerCommand.Execute(null);Wait(400);
+                    Capture(isolated,scene,Path.Combine(output,"spalla-combinazione.png"));
+                    state.ShowCombinationGrid=true;state.ToggleCombinationWindowCommand.Execute(null);Wait(250);
+                    var comboWindow=app.Windows.OfType<Window>().Single(w=>w.Title=="ANTHEA · Combinazioni");comboWindow.Width=1600;comboWindow.Height=1000;Wait(250);
+                    CapturePage((FrameworkElement)comboWindow.Content,Path.Combine(output,"spalla-griglia-combinazioni.png"));
+                    comboWindow.Close();listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"real combination view has no binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--combinations"))
+                {
+                    CombinationRenderingChecks(isolated,scene,output);
+                    listener.Flush();Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"combination panel has no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
                 }
                 if(args.Contains("--deformations-real"))
                 {
@@ -258,6 +279,13 @@ static partial class Program
                 {
                     CategoryColorRenderingChecks(isolated,scene,output);
                     listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"category color views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--live-import"))
+                {
+                    LiveImportRenderingChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"live import panel has no WPF binding errors");
                     File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
                     preview.Close();app.Shutdown();return 0;
                 }
@@ -529,6 +557,10 @@ static partial class Program
                 Check(viewport.Items.OfType<LineGeometryModel3D>().Any(l => l.Color == Color.FromRgb(201,155,238) && l.Geometry?.Positions?.Count > 0), "constraint overlay has its own visible geometry");
                 vm.DisableOverlaysCommand.Execute(null); Wait(100);
                 Check(!viewport.Items.OfType<LineGeometryModel3D>().Any(l => (l.Color == Color.FromRgb(236,116,111) || l.Color == Color.FromRgb(201,155,238)) && l.Geometry?.Positions?.Count > 0), "disabling layers removes axes and constraints while retaining the model");
+                var navigation=Children<TabControl>(view).Single(t=>System.Windows.Automation.AutomationProperties.GetName(t)=="Schede del modello");
+                Check(((TabItem)navigation.SelectedItem).Header.ToString()=="Modello","model command selects its tab independently of the new visual order");
+                // Keep the property under test in the virtualized viewport when tab headers occupy two rows.
+                vm.FindTreeItem("geometry")!.IsExpanded=false;
                 vm.SelectedTreeItem = vm.FindTreeItem("SECT:2"); Wait(150);
                 var treeItem = Children<TreeViewItem>(view).First(t => t.DataContext is ModelTreeItem item && item.Key == "SECT:2");
                 var header = Children<TextBlock>(treeItem).First(t => t.Text.Contains("Rettangolare")); vm.ClearSelectionCommand.Execute(null);

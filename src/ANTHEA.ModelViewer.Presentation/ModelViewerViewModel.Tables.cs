@@ -82,6 +82,8 @@ public sealed partial class ModelViewerViewModel
                 }
                 break;
             case 5:
+                var derivation=Snapshot.Results.FirstOrDefault(r=>r.Name==SelectedCase)?.Combination;
+                var governants=derivation?.Governing.Where(g=>g.Component==SelectedComponent&&g.Family==Family).ToDictionary(g=>(g.Element,g.Node,g.Station));
                 if (IsDisplacementResult)
                 {
                     Columns(("Nodo", typeof(int)), ("Caso", typeof(string)), ("Assi", typeof(string)), ("Componente", typeof(string)), ("Unità", typeof(string)), ("Valore", typeof(double)));
@@ -90,9 +92,20 @@ public sealed partial class ModelViewerViewModel
                     break;
                 }
                 Columns(("Elemento", typeof(int)), ("Nodo", typeof(int)), ("x/L", typeof(double)), ("Caso", typeof(string)), ("Famiglia", typeof(string)), ("Assi", typeof(string)), ("Componente", typeof(string)), ("Unità", typeof(string)), ("Valore", typeof(double)));
+                if(governants?.Count>0)Columns(("Governante",typeof(string)),("Alternativa",typeof(string)),("Stato concomitante [kN, m]",typeof(string)));
                 // Use exactly the displayed field and units; never average shared nodes or combine envelope extrema.
                 foreach (var v in ActiveValues.Where(v => !TableOnlySelected || SelectedElementIds.Contains(v.Element)))
-                    Add("ELEM:" + v.Element, v.Element, v.Node == 0 ? null : v.Node, v.Station, SelectedCase, Family, Axes, SelectedComponent, ResultUnit, v.Value);
+                {
+                    object?[] row=[v.Element,v.Node==0?null:v.Node,v.Station,SelectedCase,Family,Axes,SelectedComponent,ResultUnit,v.Value];
+                    if(governants?.Count>0)
+                    {
+                        governants.TryGetValue((v.Element,v.Node,v.Station),out var g);
+                        string label=g?.Alternative??"";
+                        string alternative=int.TryParse(label.AsSpan(Math.Min(1,label.Length)),out int n)&&derivation?.Alternatives is {} alternatives&&n>0&&n<=alternatives.Length?alternatives[n-1]:label;
+                        row=[..row,label,alternative,g==null?"":string.Join("; ",ANTHEA.ModelWorkspace.ResultFields.Components(Family,"LOCAL").Zip(g.ConcomitantValues,(c,x)=>c+"="+x.ToString("G9",CultureInfo.CurrentCulture)))];
+                    }
+                    Add("ELEM:"+v.Element,row);
+                }
                 break;
             default:
                 Columns(("Attributo", typeof(string)), ("Valore", typeof(string)));

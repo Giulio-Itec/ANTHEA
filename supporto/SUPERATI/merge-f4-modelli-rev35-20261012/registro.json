@@ -1,0 +1,109 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "ramo": "model-combinations",
+    "commit": "ba31793e3e87137197abf3ec9583acf67bfb1714",
+    "archivio": "supporto/SUPERATI/merge-f4-modelli-rev35-20261012/model-combinations/supporto/docs/guida-pratica-anthea.md",
+    "motivo": "Unione dei capitoli Fondazioni e Modelli nella guida pratica Rev35",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "2311b1a56b78ba41930d358d905df74965bdd97a0106faf6040b87723e56eed7"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "ramo": "model-combinations",
+    "commit": "ba31793e3e87137197abf3ec9583acf67bfb1714",
+    "archivio": "supporto/SUPERATI/merge-f4-modelli-rev35-20261012/model-combinations/supporto/docs/guida-pratica-anthea.pdf",
+    "motivo": "Unione dei capitoli Fondazioni e Modelli nella guida pratica Rev35",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "feece2c8b145616c46a4923147a6629f68d9246f66b6f41d990d9c855aed44f8"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev33.docx",
+    "ramo": "model-combinations",
+    "commit": "ba31793e3e87137197abf3ec9583acf67bfb1714",
+    "archivio": "supporto/SUPERATI/merge-f4-modelli-rev35-20261012/model-combinations/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev33.docx",
+    "motivo": "Unione dei capitoli Fondazioni e Modelli nella guida pratica Rev35",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "2b29992fb3ab8d7e22cae81b105acf04266d7926fea33d4eed6ff93747223c43"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev33.pdf",
+    "ramo": "model-combinations",
+    "commit": "ba31793e3e87137197abf3ec9583acf67bfb1714",
+    "archivio": "supporto/SUPERATI/merge-f4-modelli-rev35-20261012/model-combinations/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev33.pdf",
+    "motivo": "Unione dei capitoli Fondazioni e Modelli nella guida pratica Rev35",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "feece2c8b145616c46a4923147a6629f68d9246f66b6f41d990d9c855aed44f8"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "ramo": "f4",
+    "commit": "b7339f4a96aecc2d3d8045fabdebbeb47f550aa3",
+    "archivio": "supporto/SUPERATI/merge-f4-modelli-rev35-20261012/f4/supporto/docs/guida-pratica-anthea.md",
+    "motivo": "Unione dei capitoli Fondazioni e Modelli nella guida pratica Rev35",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "e0ba4df06708aa113f26c6fe84b48e72e0303498906a04960d8113ca89d6aa29"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "ramo": "f4",
+    "commit": "b7339f4a96aecc2d3d8045fabdebbeb47f550aa3",
+    "archivio": "supporto/SUPERATI/merge-f4-modelli-rev35-20261012/f4/supporto/docs/guida-pratica-anthea.pdf",
+    "motivo": "Unione dei capitoli Fondazioni e Modelli nella guida pratica Rev35",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "fcd58ffe4e01d50a7ab4f5880338e0e001ac4aff30a44112ad960d1183b357a5"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev34.docx",
+    "ramo": "f4",
+    "commit": "b7339f4a96aecc2d3d8045fabdebbeb47f550aa3",
+    "archivio": "supporto/SUPERATI/merge-f4-modelli-rev35-20261012/f4/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev34.docx",
+    "motivo": "Unione dei capitoli Fondazioni e Modelli nella guida pratica Rev35",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "18b9bb1eb136416fc2a29410144b0e30cfd32616b03b5c4367bdad9d3c3aee9d"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev34.pdf",
+    "ramo": "f4",
+    "commit": "b7339f4a96aecc2d3d8045fabdebbeb47f550aa3",
+    "archivio": "supporto/SUPERATI/merge-f4-modelli-rev35-20261012/f4/supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev34.pdf",
+    "motivo": "Unione dei capitoli Fondazioni e Modelli nella guida pratica Rev35",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "fcd58ffe4e01d50a7ab4f5880338e0e001ac4aff30a44112ad960d1183b357a5"
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/merge-f4-modelli-rev35-20261012/indici-prima-del-merge/supporto/README.md",
+    "motivo": "Aggiornamento indice alle guide riunite, pratica Rev35 e teorica Rev34",
+    "sostituzione": "supporto/README.md",
+    "sha256": "187f038ac10f19f317857464a53cd1bbf35162eca5ca76362130793dab032686"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/merge-f4-modelli-rev35-20261012/indici-prima-del-merge/supporto/README.pdf",
+    "motivo": "Aggiornamento indice alle guide riunite, pratica Rev35 e teorica Rev34",
+    "sostituzione": "supporto/README.pdf",
+    "sha256": "d81be5f02e3d400b1f36d04f244f38a0831d32406a6e59468052b4ad37468d98"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/merge-f4-modelli-rev35-20261012/indici-prima-del-merge/supporto/installer/Indice-guide.md",
+    "motivo": "Aggiornamento indice alle guide riunite, pratica Rev35 e teorica Rev34",
+    "sostituzione": "supporto/installer/Indice-guide.md",
+    "sha256": "a65d76edfe8faf2b2fcca37400d3f703b3e0e72729c366f973e0d8ca9f203e81"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/merge-f4-modelli-rev35-20261012/indici-prima-del-merge/supporto/installer/Indice-guide.pdf",
+    "motivo": "Aggiornamento indice alle guide riunite, pratica Rev35 e teorica Rev34",
+    "sostituzione": "supporto/installer/Indice-guide.pdf",
+    "sha256": "1d4d162db3dc2500caf32fb192de7c73d7cd87a718ba0e50caed3aa17168edbf"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/merge-f4-modelli-rev35-20261012/indici-prima-del-merge/supporto/documentazione/Guide_ANTHEA/README.md",
+    "motivo": "Aggiornamento indice alle guide riunite, pratica Rev35 e teorica Rev34",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "200e7ceb2335275ff9c1301ce8c64e965a5b3481a497c3abeda4c462edf09bff"
+  }
+]

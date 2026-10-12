@@ -1,0 +1,58 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/import-modelli-rev33-20261012/docs/guida-pratica-anthea.md",
+    "motivo": "Guida operativa importazione MIDAS nel modulo Modelli in prova",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "C8ABD7A4280959DDDB2C772381E282927B94422BA067CCF9C0586FDBF4A67473"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/import-modelli-rev33-20261012/docs/guida-pratica-anthea.pdf",
+    "motivo": "Guida operativa importazione MIDAS nel modulo Modelli in prova",
+    "sostituzione": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "7A98AC1B5CB12E0F4061CFF10676AC15B6E01CF2A1E7171D74517486E2C0B1C7"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev32.docx",
+    "archivio": "supporto/SUPERATI/import-modelli-rev33-20261012/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev32.docx",
+    "motivo": "Guida operativa importazione MIDAS nel modulo Modelli in prova",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev33.docx",
+    "sha256": "E684DBAEFEEF55F3526EB318C6744734749D57C74F98CBA1B4A5D80ED60B13B2"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev32.pdf",
+    "archivio": "supporto/SUPERATI/import-modelli-rev33-20261012/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev32.pdf",
+    "motivo": "Guida operativa importazione MIDAS nel modulo Modelli in prova",
+    "sostituzione": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev33.pdf",
+    "sha256": "7A98AC1B5CB12E0F4061CFF10676AC15B6E01CF2A1E7171D74517486E2C0B1C7"
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/import-modelli-rev33-20261012/README.md",
+    "motivo": "Guida operativa importazione MIDAS nel modulo Modelli in prova",
+    "sostituzione": "supporto/README.md",
+    "sha256": "02E11EFDA07733A7DE17C033A718F147D8DF9661394798CAB33860BA95FE089F"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/import-modelli-rev33-20261012/README.pdf",
+    "motivo": "Guida operativa importazione MIDAS nel modulo Modelli in prova",
+    "sostituzione": "supporto/README.pdf",
+    "sha256": "6FC392B7D409234DE451DA489FA94BE8C3D120DB37DD8DF28566CB37D4ADAE2C"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/import-modelli-rev33-20261012/installer/Indice-guide.md",
+    "motivo": "Guida operativa importazione MIDAS nel modulo Modelli in prova",
+    "sostituzione": "supporto/installer/Indice-guide.md",
+    "sha256": "D38A9E7A9E8521B08BEB64FCE8A631D0E1ADE94AD9896AAC724FA0ABE0C75190"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/import-modelli-rev33-20261012/installer/Indice-guide.pdf",
+    "motivo": "Guida operativa importazione MIDAS nel modulo Modelli in prova",
+    "sostituzione": "supporto/installer/Indice-guide.pdf",
+    "sha256": "20441733F90AC638D0CE3F4F3EAD1D3B0484F9F35289E04A606E41CC1EFCD138"
+  }
+]

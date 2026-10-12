@@ -67,8 +67,9 @@ internal static class ModelTreeBuilder
             }).ToArray();
             return Group(table, label, icon, children);
         }
-        var combinations = new[] { "LCOM-CONC", "LCOM-GEN", "LCOM-STEEL", "LCOM-SRC", "LCOM-SEISMIC", "LCOM-STLCOMP" }
-            .Where(t => model.SourceTables?.ContainsKey(t) == true).Select(t => Source(t, t[5..], "Σ")).ToArray();
+        var combinations = ModelCombinations.Read(model).GroupBy(d=>d.Source).Select(g=>Group("combo-source/"+g.Key,g.Key,"Σ",
+            g.Select(d=>new ModelTreeItem {Key="combo/"+d.Id,Table="COMBINATION",Label=d.Name,Icon="Σ",Badge=d.Editable?"locale":"importata",
+                Attributes=[new("Operazione",d.Kind.ToString()),new("Sorgente",d.Source),..d.Terms.Select(t=>new AttributeRow(t.Reference,t.Factor.ToString("G9")))]}).ToArray())).ToArray();
         return [
             Group("geometry", "Geometria", "⌘", new[] { Group("nodes", "Nodi", "○", nodes) }.Concat(model.Elements.Select(e => e.Type).Distinct().Order().Select(type => Group(type, ElementFamilies.Label(type), type == "PLATE" ? "▱" : "╱", Elements(type)))).ToArray(), true),
             Group("properties", "Proprietà", "◇", [Source("MATL", "Materiali", "◇"), Group("sections", "Sezioni", "▣", sections), Group("thickness", "Spessori e offset", "▤", plates)], true),

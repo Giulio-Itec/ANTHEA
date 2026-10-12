@@ -53,7 +53,7 @@ public static partial class ProjectSharedData
         return updates.Count;
     }
 
-    public static bool SupportsSharedSoils(JsonObject sheet) => sheet.S("modulo_id") is "geo_palo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module;
+    public static bool SupportsSharedSoils(JsonObject sheet) => sheet.S("modulo_id") is "geo_palo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or Anthea.FoundationWorkspace.FoundationDocument.Module;
 
     // Compare the shared input schema, never the complete serialized row (which also contains
     // method-specific inputs, calculated columns and internal linking identifiers).
@@ -115,7 +115,7 @@ public static partial class ProjectSharedData
 
     static void AddSoilFields(string module, JsonObject data, Dictionary<string, Field> fields)
     {
-        if (module is not ("geo_palo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module)) return;
+        if (module is not ("geo_palo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or Anthea.FoundationWorkspace.FoundationDocument.Module)) return;
         var surveys = data.Array("stratigrafie");
         for (int survey = 0; survey < surveys.Count; survey++)
         {

@@ -12,7 +12,14 @@ public static class ModelSnapshotUpdate
     {
         if(!Enum.IsDefined(scope))throw new InvalidDataException("Modalità di aggiornamento non valida.");
         token.ThrowIfCancellationRequested();incoming.Validate();
-        if(scope==ModelUpdateScope.Everything)return incoming;
+        if(scope==ModelUpdateScope.Everything)
+        {
+            if(current?.CustomCombinations==null&&current?.ExcludedCombinationIds==null)return incoming;
+            var copy=ModelCombinations.Copy(incoming);
+            copy.CustomCombinations=(current?.CustomCombinations??[]).Concat(incoming.CustomCombinations??[]).GroupBy(d=>d.Id).Select(g=>g.Last()).ToArray();
+            copy.ExcludedCombinationIds=(current?.ExcludedCombinationIds??[]).Concat(incoming.ExcludedCombinationIds??[]).Distinct().ToArray();
+            copy.Results=copy.Results.Where(r=>r.Combination==null).ToArray();copy.Validate();return copy;
+        }
         if(scope==ModelUpdateScope.Results)
         {
             if(current==null)throw new InvalidDataException("Apri prima il modello al quale associare i risultati.");
@@ -29,7 +36,9 @@ public static class ModelSnapshotUpdate
             LocalFrames=basis.LocalFrames?.ToArray(),NodeFrames=basis.NodeFrames?.ToArray(),
             Boundaries=geometryOnly?null:basis.Boundaries?.ToArray(),
             SourceTables=geometryOnly?null:basis.SourceTables?.ToDictionary(p=>p.Key,p=>p.Value),
-            Results=scope==ModelUpdateScope.Results?incoming.Results.ToArray():[],
+            Results=scope==ModelUpdateScope.Results?incoming.Results.Where(r=>r.Combination==null).ToArray():[],
+            CustomCombinations=(current?.CustomCombinations??incoming.CustomCombinations)?.ToArray(),
+            ExcludedCombinationIds=(current?.ExcludedCombinationIds??incoming.ExcludedCombinationIds)?.ToArray(),
             ImportMessages=(basis.ImportMessages??[]).Where(m=>m.Code!="UPDATE-SCOPE").Append(new("UPDATE-SCOPE","info","Importazione",Description(scope))).ToArray(),
             UpdateInfo=new(scope,incoming.Source,scope==ModelUpdateScope.Results,scope==ModelUpdateScope.Results?0:current?.Results.Length??0)
         };
@@ -41,7 +50,7 @@ public static class ModelSnapshotUpdate
         ModelUpdateScope.Geometry=>"Solo geometria: nodi, elementi, sezioni, spessori, offset e terne geometriche. Materiali, gruppi, vincoli, carichi e risultati esclusi. Le vecchie sollecitazioni non vengono conservate.",
         ModelUpdateScope.ModelWithoutResults=>"Geometria, attributi e carichi della copia scelta. Le vecchie sollecitazioni vengono rimosse; nessun risultato viene importato.",
         ModelUpdateScope.Results=>"Solo risultati: sostituisce l’intero insieme dei casi, incluse le traslazioni nodali. Geometria, attributi e tabelle devono coincidere con la copia aperta. Nessuna rimappatura per vicinanza o numero rinumerato.",
-        _=>"Tutto: sostituisce la copia del modello con geometria, attributi, carichi e risultati presenti nel pacchetto scelto."
+        _=>"Tutto: sostituisce la copia del modello con geometria, attributi, carichi e risultati acquisiti dalla sorgente scelta."
     };
 
     static void EnsureCompatible(ModelSnapshot current,ModelSnapshot incoming,CancellationToken token)

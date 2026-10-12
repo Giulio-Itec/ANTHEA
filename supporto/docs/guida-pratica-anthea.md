@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 5 aggiornata il 7 ottobre 2026 — revisione documentale 32
+Edizione 5 aggiornata il 12 ottobre 2026 — revisione documentale 36
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1087,3 +1087,142 @@ Usa Apri esempio in Anthea. Nella Sezione in c.a. verifica la terna 0, 200, 0 e 
 ### Osserva e archivia
 
 Confronta i due risultati descrivendo quale ipotesi è cambiata e quale è rimasta assegnata. Non usare il controllo di resistenza per concludere sulla freccia o sulla fessurazione: richiedono analisi e combinazioni proprie. Salva il documento modificabile e annota il riferimento alla pagina Wiki. La [guida Sezione in c.a.](/wiki/guide/moduli/sezione-ca) descrive input, default e problemi frequenti.
+
+## Fondazioni superficiali
+
+Il foglio Geotecnica → Fondazioni superficiali verifica la capacità portante statica di una fondazione su strato portante omogeneo, con piano campagna e base orizzontali. Esamina una combinazione e un sondaggio alla volta: la condizione governante dell'opera deve essere individuata confrontando tutti i casi pertinenti. Non esegue verifiche di scorrimento, cedimento, stabilità globale, sisma o resistenza strutturale.
+
+La pagina mantiene insieme dati, tabella degli strati ed esito. Le schede cambiano soltanto il riquadro grafico: Geometria mostra vista laterale e pianta; Stratigrafia amplia il profilo; Area efficace, Tensioni, Andamenti e Rottura mostrano le letture del calcolo. Nei riquadri più piccoli i campi scorrono senza cambiare pagina. I gruppi Metodo e verifica, Geometria, Azioni e Stratigrafia si possono richiudere. Raccogli input nasconde temporaneamente i pannelli e amplia il grafico; Mostra input li ripristina. La disposizione viene salvata nel foglio e non invalida un calcolo già eseguito. I dettagli della verifica si espandono sotto il riepilogo.
+
+### Preparazione e scelta del metodo
+
+Scegliere geometria, drenaggio, metodo e profilo. Eurocodice 7 indica le espressioni dell'allegato D della EN 1997-1:2004/AC:2009. Il profilo NTC 2018 applica M1 e R3 alla portanza; richiede azioni A1 già combinate. La modalità Confronto caratteristico non produce un esito di conformità normativa. Non confrontare la resistenza caratteristica con azioni di progetto attribuendo al rapporto il significato di una verifica SLU.
+
+Le formulazioni disponibili hanno campi differenti. Terzaghi accetta carichi verticali centrati e una striscia, un quadrato o un cerchio con D/B non maggiore di 1. Brinch Hansen accetta soltanto carichi normali. Meyerhof accetta carichi inclinati soltanto sulla striscia. Eurocodice 7 e Vesić trattano l'inclinazione delle azioni nei due assi. Il cerchio deve essere centrato; la sua larghezza è il diametro. Queste restrizioni sono controllate dal calcolo.
+
+### Geometria terreno falda e azioni
+
+Inserire B e L in metri e D come profondità positiva dal piano campagna. X è parallelo a B e Y a L. My produce eccentricità lungo B; Mx lungo L. La compressione N è positiva; le azioni trasversali e i momenti possono avere entrambi i segni. Per la striscia tutti i valori si riferiscono a un metro di sviluppo: Hy e Mx devono essere nulli. B′ e L′ nei risultati sono ordinati dal lato efficace minore al maggiore; ex ed ey mantengono gli assi originali.
+
+La tabella usa la gestione degli strati del palo a portanza verticale: sondaggi selezionabili, aggiunta e rimozione degli strati, colori, spessore in metri, tipologia Granulare o Coesivo, γ e γsat in kN/m³, φ′ in gradi, c′ e cu in kPa. Lo spessore è verticale dal piano campagna verso il basso. Un γsat vuoto segue γ dello stesso strato, come nel palo verticale; non equivale a un valore saturo misurato. Assegnarlo quando disponibile. La tipologia non converte automaticamente c′ in cu: il drenaggio scelto stabilisce quali resistenze usa il calcolo.
+
+La falda è idrostatica e la sua profondità è non negativa dal piano campagna. Sopra la base sono ammessi materiali diversi, integrati nel confinamento q. Sotto la base tutti gli strati devono avere proprietà resistenti e pesi omogenei: confermare l'ipotesi di semispazio, estesa oltre la profondità rappresentata. All'interfaccia il terreno portante è quello inferiore. Un profilo eterogeneo sotto la base viene conservato, ma il calcolo si arresta senza ricorrere a medie. Il profilo deve raggiungere una quota inferiore al piano di posa.
+
+Invia / carica terreno trasferisce una copia del sondaggio verso gli altri fogli compatibili, mantenendo parametri, falda e quota di riferimento. Nei Progetti gli stessi campi partecipano al confronto e all'applicazione dei dati comuni; spessori e numero degli strati devono essere coerenti. Non vengono trasferite azioni o formule specifiche del palo. La classe del calcestruzzo, fck e il diagramma usano catalogo e denominazioni comuni. Restano dati descrittivi del progetto: non modificano la capacità portante e non introducono una verifica strutturale o un peso proprio automatico.
+
+N, Hx, Hy in kN e Mx, My in kNm sono risultanti al piano di posa già combinate, comprensive dei pesi della fondazione e del ricoprimento. Nel drenato N è efficace al netto della sottospinta; nel non drenato è totale, senza sottrarre la pressione interstiziale al piano di posa. Il foglio non genera le combinazioni né aggiunge automaticamente questi pesi. Il sovraccarico esterno inserito in kPa contribuisce al confinamento laterale q: non viene aggiunto a N. Per NTC 2018 confermare esplicitamente la preparazione delle azioni A1.
+
+Il meccanismo di rottura è una scelta del progettista. Le riduzioni di Terzaghi e Vesić modificano i parametri drenati; non costituiscono un calcolo dei cedimenti o una diagnosi della compressibilità. La riduzione per densità relativa ammette solo sabbie con c′ nullo e Dr tra 0 e 2/3. I parametri pertinenti compaiono dopo la selezione. Azioni non ammissibili già presenti rimangono visibili per essere corrette.
+
+### Lettura delle viste grafiche
+
+Area efficace mostra l'impronta geometrica, il rettangolo efficace traslato sulla risultante e il contorno tratteggiato della zona compressa. Le dimensioni B′X e L′Y mantengono gli assi della pianta, anche quando i lati vengono riordinati nel calcolo dei coefficienti. L'area efficace A′ della portanza non coincide in generale con la zona a pressione positiva.
+
+Tensioni mostra la mappa in kPa, i valori ai vertici, minimo e massimo; il puntatore legge il campione più vicino. Andamenti presenta due tagli passanti per la risultante. Sono pressioni efficaci nel drenato e totali nel non drenato, coerenti con N assegnato. Il modello convenzionale è affine senza trazione: rappresenta l'equilibrio del contatto, non calcola cedimenti. Il confronto di portanza usa N/A′, non il massimo della mappa.
+
+Rottura mostra un riferimento di Prandtl per striscia su terreno privo di peso, con cuneo e ventagli logaritmici nelle sezioni X e Y. È uno schema illustrativo; non è la superficie critica calcolata per il metodo selezionato, non descrive una rottura tridimensionale e non determina profondità o estensione dell'indagine.
+
+Come controllo delle pressioni, usare B = 2 m, L = 3 m, N = 600 kN, My = 300 kNm e Mx = 0. L'eccentricità X vale 0,5 m; A′ = 3 m². Il contatto triangolare ha larghezza 1,5 m e area compressa 4,5 m², con pmin = 0 e pmax = 266,667 kPa. Il valore N/A′ è invece 200 kPa. Il confronto distingue quindi tre grandezze con significato diverso.
+
+### Esempio verificato e lettura dei risultati
+
+Per il metodo Eurocodice 7 usare B = 2 m, L = 3 m, D = 1 m, φ′ = 30°, c′ = 0, γ = 18 kN/m³ sopra e sotto la base, assenza di falda e sovraccarico esterno, N = 600 kN e altre azioni nulle. Assumere base ruvida, rottura generale e profilo NTC 2018; confermare che i 600 kN siano la risultante A1 completa.
+
+| Quantità | Atteso indipendente |
+|---|---:|
+| Nq | 18,401122 |
+| Nγ | 20,093085 |
+| sq / sγ | 1,333333 / 0,8 |
+| q efficace | 18 kPa |
+| Pressione limite lorda | 730,967360 kPa |
+| Area efficace | 6 m² |
+| γR | 2,3 |
+| Resistenza di progetto | 1906,871374 kN |
+| Indice N/R | 0,314651 circa |
+
+Il caso risulta verificato per la sola capacità portante. La tabella dei contributi separa coesione, confinamento e peso del terreno. Nei casi Hansen non drenati la tabella dedicata espone gli incrementi s′, d′ e i′ e il fattore 1 + s′ + d′ − i′: non moltiplicare gli incrementi. La pressione netta è un dettaglio informativo; il confronto del foglio usa la resistenza lorda e la risultante coerente.
+
+### Salvataggio errori e report
+
+Il salvataggio del foglio o del progetto conserva scelte, azioni e nome della combinazione. Dopo una modifica i risultati precedenti sono invalidati; alla riapertura premere Calcola. Report Word e PDF produce le due edizioni affiancate, con dati, coefficienti, esito, campo di applicazione e versione della libreria. F1 o Guida apre questa pagina; la [teoria della portanza](wiki:fondazioni-superficiali) descrive le formule.
+
+Una risultante esterna alla base o azioni oltre il dominio resistente del metodo producono resistenza nulla e, nel profilo normativo, esito Non verificata. Con area efficace nulla la pressione agente è indefinita; con resistenza nulla lo è l’indice N/R. Il foglio mostra un trattino e gli avvisi, senza sostituire tali rapporti con zero. Risultante normale non compressiva, numeri non finiti, dati incoerenti e ipotesi non implementate arrestano invece il calcolo. Le mappe non disponibili sono segnalate. Un messaggio sulla libreria mancante indica che occorre installare il rilascio approvato previsto per il foglio: i dati restano salvabili, ma non viene prodotto alcun risultato.
+
+<!-- pagebreak -->
+
+## Modelli e importazione da MIDAS
+
+Questa procedura riguarda la versione di prova del modulo Modelli disponibile al 12 ottobre 2026. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX, con i risultati selezionati; non esegue l'analisi e non modifica il modello sorgente.
+
+### Entrare nel modulo
+
+In ANTHEA apri **Modelli** dalla navigazione principale. Se non hai ancora un archivio progetti, usa **Nuovo archivio progetti**, crea il progetto e organizza le eventuali fasi o sottofasi; in alternativa usa **Apri progetto…**. Torna a **Modelli** e premi **+ Modello** nella scheda del contenitore desiderato. Puoi arrivare allo stesso spazio anche dal riepilogo della fase o sottofase, con **+ Importa un modello**.
+
+Ogni contenitore può ospitare più modelli e più fogli. Il visualizzatore ha uno spazio dedicato, mentre la copia importata appartiene all'archivio progetti. Un archivio aperto in sola lettura non permette l'importazione. Per il primo modello compare **Importa modello…**; su una copia già presente compare **Aggiorna modello…**.
+
+### Preparare la connessione
+
+Apri in MIDAS il modello da acquisire. Per leggere le sollecitazioni e la deformata occorrono risultati di analisi già disponibili per i casi che intendi importare. Lascia terminare le operazioni in corso e mantieni aperto il modello durante la lettura.
+
+Attiva il collegamento API della sessione MIDAS e recupera i due valori richiesti dal pannello di ANTHEA: **Base URL** e **MAPI-Key**. Usa i valori della sessione corrente, anche se hai già importato lo stesso modello in precedenza. Non modificare il modello e non avviare nuove analisi mentre ANTHEA lo sta leggendo.
+
+### Eseguire la prima importazione
+
+1. Premi **Importa modello…**. Nel pannello seleziona **MIDAS Civil NX · modello aperto** in **Sorgente del modello**.
+
+2. Incolla l'indirizzo in **Base URL** e la chiave nel campo **Chiave MAPI · solo per questa sessione**. La chiave resta nella sessione del visualizzatore e non viene salvata nel progetto.
+
+3. Premi **Controlla connessione e casi**. Attendi il riepilogo del modello e l'elenco dei casi statici. Dopo un controllo riuscito i casi risultano tutti selezionati; se cambi URL o chiave devi ripetere il controllo.
+
+4. In **Contenuto da acquisire** scegli **Tutto** per ottenere geometria, attributi, carichi e risultati. Per una prima prova limitata alla forma del modello puoi scegliere **Solo geometria**.
+
+5. Se acquisisci i risultati, lascia attive **Sollecitazioni locali · beam e plate** e **Spostamenti globali · deformata** secondo ciò che vuoi visualizzare. Usa **Tutti**, **Nessuno** o le caselle dei singoli casi. Occorrono almeno un caso e almeno un tipo di risultato selezionati.
+
+6. Premi **Importa dal modello aperto**. Il pannello mostra avanzamento e operazione corrente. **Annulla importazione** interrompe la lettura: una copia precedente valida rimane disponibile, senza un aggiornamento parziale.
+
+7. Al termine controlla il modello, i messaggi di acquisizione e i casi disponibili. Usa **Inquadra** se la geometria è fuori dalla vista. Per assegnare un nome riconoscibile apri **Nome del modello** e premi **Rinomina**.
+
+8. Premi **Salva progetto**. L'acquisizione nel visualizzatore non equivale al salvataggio dell'archivio su disco. Dopo il salvataggio puoi riaprire la copia e visualizzarla senza tenere MIDAS collegato.
+
+Per collaudare il collegamento puoi iniziare con **Tutto**, il solo caso **G1** e i due tipi di risultato attivi. Successivamente ripeti l'aggiornamento scegliendo tutti i casi necessari. Il numero dei casi dipende dal modello aperto: i 49 casi del modello di prova non sono un limite dell'interfaccia.
+
+### Scegliere il contenuto da acquisire
+
+| Modalità | Contenuto della copia dopo l'importazione |
+| --- | --- |
+| Solo geometria | Nodi, elementi e dati geometrici disponibili per sezioni, spessori, offset e terne. Materiali, gruppi, vincoli e carichi esclusi. **Risultati precedenti rimossi.** |
+| Geometria + attributi + carichi | Geometria e dati del modello acquisiti dalla sorgente, senza risultati. **Risultati precedenti rimossi.** |
+| Solo risultati | Risultati dei casi selezionati. Richiede una copia già aperta con geometria, attributi e tabelle compatibili. **Risultati precedenti sostituiti integralmente.** |
+| Tutto | Geometria, attributi, carichi e risultati selezionati della sorgente. **Risultati precedenti sostituiti integralmente.** |
+
+**La selezione dei casi sostituisce l'intero insieme dei risultati della copia.** Se prima erano presenti 49 casi e ora selezioni soltanto G1, al termine resteranno i risultati di G1. Per conservare l'insieme completo seleziona tutti i casi necessari a ogni aggiornamento. Le modalità prive di risultati eliminano le vecchie sollecitazioni per evitare di mostrarle su una geometria diversa.
+
+### Controllare il modello acquisito
+
+Le schede laterali seguono l'ordine **Vista**, **Modello**, **Combinazioni**, **Risultati**, **Verifiche**, **Report**. In **Vista** scegli rappresentazione e visibilità; in **Modello** esplora le proprietà e controlla i dati acquisiti. Le informazioni presenti nelle tabelle originali possono essere più complete dei simboli già disponibili nella scena.
+
+In **Risultati** seleziona caso, famiglia di elementi, componente e unità. Per controllare un plate scegli, ad esempio, G1, la famiglia plate e Mxx negli assi locali. Confronta un elemento noto, tenendo conto della posizione di lettura e dell'eventuale media ai vertici: un colore mediato non è il valore grezzo di ogni campione. Attiva **Mostra modello deformato** per la deformata; controlla il fattore applicato, perché la scala automatica amplifica gli spostamenti per renderli leggibili.
+
+Le combinazioni vengono acquisite come definizioni. La loro presenza nella scheda **Combinazioni** non significa che tutti i relativi campi di risultato siano già stati scaricati o calcolati. Il calcolo locale richiede i risultati dei casi base richiamati e un tipo di combinazione supportato. Puoi quindi acquisire i casi base e gestire successivamente le combinazioni in ANTHEA.
+
+### Aggiornare una copia esistente
+
+Apri il modello dall'archivio e premi **Aggiorna modello…**. Seleziona la sorgente MIDAS, controlla nuovamente la connessione e scegli contenuto e casi. Per aggiornare soltanto le sollecitazioni usa **Solo risultati**: ANTHEA controlla la corrispondenza dei dati del modello prima di sostituirli. Se sono cambiati geometria, attributi o tabelle, l'operazione può essere rifiutata; usa **Tutto** per acquisire la nuova revisione e controllare le differenze.
+
+Il comando **Revisione** serve a esaminare il confronto disponibile dopo l'aggiornamento; non avvia una nuova lettura da MIDAS. Controlla gli elementi aggiunti, modificati o eliminati e salva il progetto quando hai verificato la nuova copia. Le definizioni di combinazione create in ANTHEA vengono conservate, ma i risultati derivati possono dover essere ricalcolati sui nuovi casi base.
+
+### Risolvere le interruzioni e conoscere i limiti
+
+| Messaggio o situazione | Operazione da eseguire |
+| --- | --- |
+| Collegamento MIDAS non più disponibile | Riattiva il collegamento API; se la chiave è cambiata incolla quella nuova. Ripeti Controlla connessione e casi. |
+| Nessun modello aperto in MIDAS | Apri il modello, attendi che sia pronto e ripeti il controllo. |
+| Accesso a MIDAS rifiutato | Verifica Base URL e chiave della sessione corrente. |
+| MIDAS non ha risposto entro il tempo previsto | Attendi che MIDAS sia nuovamente disponibile; prova un insieme più piccolo di casi. |
+| Importazione o pulsante non disponibile | Verifica che l'archivio sia modificabile, il controllo della connessione sia riuscito e, se richiesti, siano selezionati casi e tipi di risultato. |
+
+Quando una lettura fallisce, ANTHEA mantiene l'ultima copia valida e indica il recupero possibile. Dopo aver ripristinato la sessione ripeti il controllo e avvia nuovamente l'importazione. Un'operazione annullata o fallita non produce una copia parzialmente aggiornata.
+
+**Limiti della versione di prova.** Il collegamento acquisisce i casi statici, le sollecitazioni locali beam e plate e gli spostamenti globali disponibili. Non costituisce un importatore completo di ogni famiglia di risultato. Nel primo import diretto la trasformazione delle tabelle in terne locali, vincoli, rilasci e link del visualizzatore è ancora incompleta: i dati originali vengono conservati, ma i relativi simboli possono non essere presenti. Le informazioni già normalizzate di una copia precedente vengono riutilizzate soltanto quando i dati confrontati coincidono. Leggi gli avvisi prima di interpretare l'assenza di un simbolo come assenza del relativo attributo nel modello.
+
+Per aprire una copia già acquisita scegli **File o copia già acquisita**: sono previsti il pacchetto **.antheamodel** oppure **NODE.json** della cartella di acquisizione MIDAS completa. Questa scelta non è l'apertura diretta di un file nativo MIDAS; per il modello nativo usa il collegamento al modello aperto descritto sopra.

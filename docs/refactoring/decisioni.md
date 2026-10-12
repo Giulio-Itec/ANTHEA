@@ -770,3 +770,71 @@ nessun nuovo fallimento. La prima batteria intensiva di schermate non ha prodott
 finale durante l'esecuzione parallela e non è conteggiata come superata. La ripetizione
 isolata, con attesa esplicita del processo, termina con codice 0 e 138 controlli PASS.
 Diagrammi/report: 17 PASS; deformate/report: 9 PASS; otto pagine PDF ispezionate.
+
+## Collegamenti dei modelli — 12 ottobre 2026
+
+Su richiesta dell'utente, il ramo `codex/model-live-import` aggiunge il collegamento MIDAS
+nel modulo e predispone Straus/Strand7. Trasporto, lettura, preparazione dei file e confronto
+dei dati rimangono in ANTHEA.ModelWorkspace; stato e comandi nella Presentation, dialoghi e
+PasswordBox nella WPF. Nessun nuovo calcolo strutturale, modifica del set GPC o degli altri progetti.
+
+Una lettura fallita non aggiorna il documento. Non si ritenta automaticamente una query risultati
+che potrebbe essere ancora in esecuzione in MIDAS. Il confronto finale delle tabelle intercetta
+modifiche dell'input, ma non certifica l'identità di un'analisi rieseguita a input invariato.
+La selezione dei casi sostituisce l'intero insieme dei risultati, come le modalità già concordate.
+
+Non distribuire DLL del convertitore prese dal checkout locale per aggirare il rilascio coerente.
+Se i dati sorgente sono identici e completi, conservare le normalizzazioni della copia precedente;
+in caso contrario dichiarare le informazioni non normalizzate. Straus R3 viene predisposto con
+controllo dei file e contratto del worker, senza simulare disponibilità di importazione, ABI o licenza.
+Il primo collaudo reale di tutti i 49 casi MIDAS ha incontrato una sessione interrotta; la nuova
+acquisizione completa del solo G1 coincide esattamente con il riferimento. MOD-28 e MOD-29.
+
+## Gestione delle combinazioni — 12 ottobre 2026
+
+Il ramo `codex/model-combinations` integra il catalogo delle combo nel modello, con editor e griglia
+WPF, pannello riducibile e finestra staccabile. Le modifiche alle definizioni importate sono
+sostituzioni locali; le cancellazioni conservano le tabelle originali e possono essere ripristinate.
+Il generatore automatico è rinviato come richiesto. Il calcolo delle principali resta il passo dopo
+combinazioni e inviluppi, senza sommare principali o vettori di estremi indipendenti.
+
+Si usa GPC.Converter 2.0.3.0 del set R già rilasciato, con Model 5 e tutte le altre DLL immutate:
+nessuna versione o sorgente esterna modificata. Preparazione di geometria/casi base una sola volta
+per input; calcoli GPC senza attaccare risultati al modello preparato, pubblicazione atomica della
+copia ANTHEA. Le definizioni sono separate dall'identità della cache di normalizzazione.
+Si conservano riferimenti, alternativi governanti e vettori simultanei. Le rotazioni mancanti dei
+vecchi pacchetti non vengono inventate. Contratti e limiti in `docs/sviluppo/modelli-combinazioni.md`.
+
+La prova completa SLU_Q1_1(max) plate coincide con MIDAS su 109744 valori. La ricostruzione a caldo
+misurata è 7,606 s: non è dichiarato raggiunto l'obiettivo di 5 s. Ottimizzazioni ulteriori del motore
+GPC richiedono una fase nelle librerie e un successivo rilascio coerente; nessuna scorciatoia numerica
+nella UI o dichiarazione di supporto per famiglie/analisi non collegate. MOD-30.
+
+## Riuso delle API distribuite e rimozione dei sei motori esclusi (12 ottobre 2026)
+
+L'utente chiede di usare le API di Model/Checker, eliminare i duplicati sostituibili,
+segnalare i residui e compilare tutto. Autorizza poi espressamente la cancellazione
+di BishopSolver, FoundationSettlement, NewmarkSliding, ShallowFoundationSeismic,
+SlopeGeometry e SlopeStability. Erano già esclusi dalla compilazione: le funzioni
+sono in GPCChecker.Geotechnics con test di migrazione. Rimossi solo questi sei file.
+
+Riuso completato entro il perimetro provato nell'[audit](audit-contratti-moduli-20261012.md),
+registro API-01. La cattura estesa rivela un difetto di raggruppamento degli interassi
+circolari (API-02): nessuna tolleranza allargata per accettarlo. Conservo interassi,
+dettagli e fessurazione circolari sul percorso precedente fino alla correzione della
+libreria e al rilascio coerente. È una scelta conservativa dell'intervento, non
+un'approvazione dell'utente del valore errato. Il confronto non è una nuova
+validazione normativa dei metodi e non chiude i residui F4.
+
+Verifica conclusiva: runner baseline 52 PASS, 1 KNOWN già censito, 0 NEW-FAIL;
+548 file e 50.996 righe confrontati, nessuna differenza non ammessa. Tolleranze
+relative 1e-12 limitate ai campi mutati, registrate nei commit 1b3c38f e d69b97d
+prima dell'implementazione. Attesi indipendenti immutati. Build soluzione e app
+Release completate. Nessun push, cambio di versione o aggiornamento di lib/Checker;
+resta l'attesa delle versioni esplicitamente riservate all'utente.
+
+## Integrazione F4 e combinazioni (12 ottobre 2026)
+
+L'utente autorizza l'unione dei rami, l'aggiornamento coerente delle DLL, la compilazione e, solo con verifiche positive, il merge su main e il push. Le versioni delle librerie sono curate direttamente dall'utente: nessuna versione assegnata dall'agente e nessun nuovo snapshot installato prima del suo avviso.
+
+I conflitti riguardano la documentazione condivisa: si conservano entrambi i contributi e si rigenera l'indice Wiki. La guida pratica Rev35 riunisce fondazioni e importazione Modelli; la teorica resta alla Rev34. Le revisioni di origine sono archiviate, con impronte, in `supporto/SUPERATI/merge-f4-modelli-rev35-20261012`. Il tentativo di merge avviato anche nel checkout principale è conservato in `supporto/artefatti/merge-f4-combinations-20261012/backup-tentativo-utente`; il checkout sarà allineato all'unico commit di integrazione completato.

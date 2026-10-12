@@ -16,6 +16,7 @@ public static class CalculationService
         var snapshot = (JsonObject)data.DeepClone();
         var result = module switch
         {
+            Anthea.FoundationWorkspace.FoundationDocument.Module => Anthea.FoundationWorkspace.FoundationDocument.Calculate(snapshot),
             HorizontalPileGroup.Module => HorizontalPileGroup.Calculate(snapshot),
             "geo_palo_verticale" => Calcolo.Calcola(snapshot),
             "geo_micropalo_verticale" => Calcolo.Calcola(snapshot, true),

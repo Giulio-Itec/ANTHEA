@@ -28,6 +28,9 @@ public static class MidasDisplacementTables
             }
             // Capitalization distinguishes the documented global DX/DY/DZ table from local Dx/Dy/Dz.
             int node = Column("Node"), load = Column("Load"), x = Column("DX"), y = Column("DY"), z = Column("DZ");
+            bool rotations=new[]{"RX","RY","RZ"}.All(headers.Contains);
+            if(!rotations&&new[]{"RX","RY","RZ"}.Any(headers.Contains))throw new InvalidDataException("Rotazioni nodali incomplete: servono RX, RY e RZ.");
+            int rx=rotations?Column("RX"):-1,ry=rotations?Column("RY"):-1,rz=rotations?Column("RZ"):-1;
             foreach (var row in table.GetProperty("DATA").EnumerateArray())
             {
                 if (row.ValueKind != JsonValueKind.Array || row.GetArrayLength() != headers.Length)
@@ -37,14 +40,14 @@ public static class MidasDisplacementTables
                     throw new InvalidDataException("Spostamento non associabile a un nodo del modello.");
                 string name = Text(load);
                 if (string.IsNullOrWhiteSpace(name)) throw new InvalidDataException("Caso degli spostamenti non identificato.");
-                double Number(int column)
+                double Number(int column,double unitScale)
                 {
-                    if (!double.TryParse(Text(column), NumberStyles.Float, CultureInfo.InvariantCulture, out double value) || !double.IsFinite(value * scale))
+                    if (!double.TryParse(Text(column), NumberStyles.Float, CultureInfo.InvariantCulture, out double value) || !double.IsFinite(value * unitScale))
                         throw new InvalidDataException("Componente di spostamento non numerica o non finita.");
-                    return value * scale;
+                    return value * unitScale;
                 }
                 if (!result.TryGetValue(name, out var values)) result[name] = values = [];
-                if (!values.TryAdd(id, new(id, Number(x), Number(y), Number(z))))
+                if (!values.TryAdd(id, new(id, Number(x,scale), Number(y,scale), Number(z,scale)){Rotation=rotations?new(Number(rx,1),Number(ry,1),Number(rz,1)):null}))
                     throw new InvalidDataException($"Spostamento duplicato: caso {name}, nodo {id}.");
             }
         }

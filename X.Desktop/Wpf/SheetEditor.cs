@@ -21,10 +21,11 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private readonly ConcreteWorkspace? concrete;
     private readonly HorizontalWorkspace? horizontal;
     private readonly HorizontalPileGroupWorkspace? pileGroup;
+    private readonly FoundationWorkspace? foundation;
     internal readonly BridgeWorkspace? bridge;
     internal readonly BridgeDesignWorkspace? bridgeDesign;
     internal readonly RetainingWallWorkspace? retainingWall;
-    internal JsonObject? Result { get => pileGroup is not null ? pileGroup.Result : retainingWall is not null ? retainingWall.Result : bridgeDesign is not null ? bridgeDesign.Result : bridge is not null ? bridge.Result : horizontal is not null ? horizontal.ActiveResult : concrete is null ? result : concrete.Result; private set => result = value; }
+    internal JsonObject? Result { get => foundation is not null ? foundation.Result : pileGroup is not null ? pileGroup.Result : retainingWall is not null ? retainingWall.Result : bridgeDesign is not null ? bridgeDesign.Result : bridge is not null ? bridge.Result : horizontal is not null ? horizontal.ActiveResult : concrete is null ? result : concrete.Result; private set => result = value; }
     internal bool HasResults => concrete is not null ? concrete.HasResults : Result is not null;
     internal bool Busy { get => retainingWall?.Busy ?? bridge?.Busy ?? horizontal?.Busy ?? concrete?.Busy ?? busy; private set => busy = value; }
     internal event Action? Modified;
@@ -77,6 +78,11 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         };
         calculate = Ui.Button("Calcola", async () => await CalculateAsync(), true, inspection: true); calculate.Width = 120; calculate.Visibility = Geo ? Visibility.Collapsed : Visibility.Visible;
         RevisionInspection.Allow(tableSelect); RevisionInspection.Allow(capacityView); RevisionInspection.Allow(curveChoices);
+        if (module == Anthea.FoundationWorkspace.FoundationDocument.Module)
+        {
+            foundation = new FoundationWorkspace(Data); foundation.Modified += () => Modified?.Invoke();
+            foundation.ReportRequested += () => ReportRequested?.Invoke(); foundation.SoilTransferRequested += OpenSoilTransfer; Content = foundation; building = false; return;
+        }
         if (module == HorizontalPileGroup.Module) { pileGroup = new HorizontalPileGroupWorkspace(Data); pileGroup.Modified += () => Modified?.Invoke(); Content = pileGroup; building = false; return; }
         if (module == RetainingWall.Module)
         {
@@ -135,7 +141,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private Action? releaseRevisionInspection;
     internal void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
     public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); timer.Stop(); timer.Tick -= TimerTick; concrete?.Dispose(); horizontal?.Dispose(); pileGroup?.Dispose(); bridge?.Dispose(); retainingWall?.Dispose(); }
-    internal void Commit() { if (pileGroup is not null) pileGroup.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
+    internal void Commit() { if (foundation is not null) foundation.Commit(); else if (pileGroup is not null) pileGroup.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
         int index = cards.Count; var header = new DockPanel { Margin = new Thickness(0, 0, 0, 8), MinHeight = 28 };
@@ -219,6 +225,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private void QueueCalculation() { if (!Geo || building || disposed) return; timer.Stop(); timer.Start(); status.Text = "Aggiornamento automatico in attesa…"; }
     internal async Task CalculateAsync(bool commitEdits = true)
     {
+        if (foundation is not null) { foundation.TryCalculate(); return; }
         if (pileGroup is not null) { pileGroup.TryCalculate(); return; }
         if (retainingWall is not null) { await retainingWall.CalculateAsync(); return; }
         if (bridgeDesign is not null) { bridgeDesign.Recalculate(); return; }
@@ -296,6 +303,14 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     }
     internal void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
     {
+        if (foundation is not null)
+        {
+            var current = Result ?? throw new InvalidOperationException("Calcolare prima di esportare.");
+            var word = Anthea.FoundationWorkspace.FoundationReport.Word(title, current);
+            var pdf = Anthea.FoundationWorkspace.FoundationReport.Pdf(title, current);
+            Archivio.ScriviAtomico(filename, word);
+            Archivio.ScriviAtomico(Path.ChangeExtension(filename, ".pdf"), pdf); return;
+        }
         if (materials is not null || rebarMaterial is not null)
         {
             Commit();
@@ -330,6 +345,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     }
     internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false)
     {
+        if (foundation is not null) return Anthea.FoundationWorkspace.FoundationReport.Word(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));
         if (pileGroup is not null) return ReportPileGroup.Create(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));
         if (retainingWall is not null) return retainingWall.BuildReport(title);
         if (bridgeDesign is not null) return bridgeDesign.BuildReport(title);
