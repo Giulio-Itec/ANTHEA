@@ -13,8 +13,16 @@ public interface IStrand7ModelSource
     Task<Strand7ModelCatalog> InspectAsync(Strand7ImportRequest request, IProgress<ModelImportProgress>? progress, CancellationToken token);
     Task<ModelSnapshot> ReadAsync(Strand7ImportRequest request, IProgress<ModelImportProgress>? progress, CancellationToken token);
 }
-public sealed record Strand7ResultCase(int Number, string Name);
-public sealed record Strand7ModelCatalog(int Nodes, int Elements, IReadOnlyList<Strand7ResultCase> Cases, string SourceSignature);
+public sealed record Strand7ResultCase(int Number, string Name)
+{
+    // Native stage association must be supplied by the worker; zero/null is never inferred from a case label.
+    public int? StageNumber { get; init; }
+}
+public sealed record Strand7ModelCatalog(int Nodes, int Elements, IReadOnlyList<Strand7ResultCase> Cases, string SourceSignature)
+{
+    public IReadOnlyList<ModelConstructionPhase> Phases { get; init; } = [];
+    public bool StageResultsAvailable { get; init; }
+}
 
 /// <summary>Read-only preparation. Does not load or invoke native code, open a model, claim a licence or save files.</summary>
 public static class Strand7ImportSetup

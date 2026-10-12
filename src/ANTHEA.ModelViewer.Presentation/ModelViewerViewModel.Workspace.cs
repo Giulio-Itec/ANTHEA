@@ -36,7 +36,7 @@ public sealed partial class ModelViewerViewModel
     public string SelectionCount => !HasSelection && SelectedNodeIds.Count>0 ? $"{SelectedNodeIds.Count:N0} nodi selezionati" : HasSelection ? $"{SelectedElementIds.Count:N0} elementi selezionati" : "Nessuna selezione";
     public string VisibilitySummary => Snapshot == null ? "Nessun modello" : $"{Snapshot.Elements.Count(e => (VisibleElementIds == null || VisibleElementIds.Contains(e.Id)) && (!ShowResults || ShowContext || IsDisplacementResult || e.Type == Family)):N0} / {Snapshot.Elements.Length:N0} elementi visibili";
     public string ResultKind => Snapshot?.Results.FirstOrDefault(r => r.Name == SelectedCase) is {} r
-        ? r.Combination!=null ? r.IsEnvelope?"INVILUPPO CALCOLATO · GPC":"COMBINAZIONE CALCOLATA · GPC" : r.IsEnvelope?"INVILUPPO IMPORTATO":"RISULTATO IMPORTATO" : "NESSUN RISULTATO";
+        ? r.Stage!=null ? "STAGE IMPORTATO · FASE E PASSO ESPLICITI" : r.Combination!=null ? r.IsEnvelope?"INVILUPPO CALCOLATO · GPC":"COMBINAZIONE CALCOLATA · GPC" : r.IsEnvelope?"INVILUPPO IMPORTATO":"RISULTATO IMPORTATO" : "NESSUN RISULTATO";
     public string Middle => HasResults ? ((ActiveValues.Min(v => v.Value) + ActiveValues.Max(v => v.Value)) / 2).ToString("G5") : "—";
 
     [ObservableProperty] private int selectedPanel;

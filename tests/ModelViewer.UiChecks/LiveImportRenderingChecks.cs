@@ -46,6 +46,16 @@ static partial class Program
         Invoke(Children<Button>(panel).Single(b => b.Command == vm.ClearImportCasesCommand)); Wait(40);
         Check(vm.ImportCases.All(c => !c.IsSelected) && !vm.ImportCommand.CanExecute(null), "clear selection disables result import through the actual button");
         Invoke(Children<Button>(panel).Single(b => b.Command == vm.SelectAllImportCasesCommand)); Wait(40);
+        vm.ClearImportCasesCommand.Execute(null); vm.ImportConstructionStages = true; Wait(30);
+        var stageToggle = Children<CheckBox>(panel).Single(c => AutomationProperties.GetName(c) == "Importa risultati stage");
+        Check(stageToggle.IsChecked == true && vm.HasImportStages && !vm.ImportCommand.CanExecute(null), "stage selection is visible and requires an exact step");
+        vm.ImportStages[0].IsSelected = true; vm.ImportStages[0].StepsText = "001(last)"; Wait(30);
+        var reference = Children<ComboBox>(panel).Single(c => AutomationProperties.GetName(c) == "Riferimento spostamenti stage");
+        reference.SelectedItem = "Current"; Wait(30);
+        Check(vm.ImportCommand.CanExecute(null) && vm.ImportDisplacementReference == "Current", "stage controls bind phase, step and displacement reference to MVVM");
+        ((ScrollViewer)host.Content).ScrollToEnd(); Wait(40);
+        CapturePage(host, Path.Combine(output, "importazione-stage-passi.png"));
+        vm.ImportConstructionStages = false; vm.SelectAllImportCasesCommand.Execute(null); ((ScrollViewer)host.Content).ScrollToTop();
         foreach (string mode in new[] { "Light", "Dark", "VeryDark" })
         {
             SetAppearance(mode); Wait(70); CapturePage(host, Path.Combine(output, "importazione-casi-" + mode + ".png"));
@@ -62,13 +72,32 @@ static partial class Program
         Check(Children<TextBox>(panel).Any(t=>AutomationProperties.GetName(t)=="Modello Straus ST7" && t.IsVisible) && !vm.ImportCommand.CanExecute(null), "Straus preparation displays native file settings with import explicitly unavailable");
         CapturePage(host,Path.Combine(output,"importazione-straus-predisposizione.png"));
         host.Close(); state.SelectedImportSource = 0; SetAppearance("Light");
+        var staged = Sample.Model(); staged.Version = 2;
+        var sourceResult = staged.Results[0];
+        staged.Results = new[] { "Getto", "Completamento" }.Select((phase, index) => {
+            var context = new ModelStageResult("Summation", phase, "001(last)", null, new string('A', 64));
+            return sourceResult with { Name = context.Label, IsEnvelope = false, Combination = null, Stage = context,
+                Values = sourceResult.Values.Select(v => v with { Values = v.Values.Select(x => x * (index + 1)).ToArray() }).ToArray(), Displacements = null };
+        }).ToArray();
+        using (var stagedView = new ModelViewerViewModel(staged, [], false, services, _ => { }, (_, _, _, _) => { }))
+        {
+            control.DataContext = stagedView; stagedView.SelectedPanel = 1; stagedView.SelectedResultScope = 2;
+            SetAppearance("VeryDark"); Wait(130);
+            var phaseChoice = Children<ComboBox>(control).Single(c => AutomationProperties.GetName(c) == "Fase costruttiva");
+            phaseChoice.SelectedItem = "Completamento"; Wait(80);
+            Check(stagedView.FilteredCases.Count == 1 && stagedView.SelectedCase!.Contains("Completamento") && phaseChoice.IsVisible,
+                "production results panel filters the render by the selected construction phase");
+            Capture(control, viewport, Path.Combine(output, "modelli-stage-risultati.png"));
+            control.DataContext = state; Wait(50);
+        }
+        SetAppearance("Light");
     }
 
     sealed class ImportUiServices : IModelViewerServices
     {
         public Task<ModelSnapshot?> ImportAsync(CancellationToken token) => Task.FromResult<ModelSnapshot?>(null);
         public Task<MidasModelCatalog> InspectMidasAsync(MidasConnection connection, IProgress<ModelImportProgress> progress, CancellationToken token) =>
-            Task.FromResult(new MidasModelCatalog(4, 2, ["Peso proprio", "Permanenti", "Variabile"], ["BEAM", "PLATE"], "ui-fixture"));
+            Task.FromResult(new MidasModelCatalog(4, 2, ["Peso proprio", "Permanenti", "Variabile"], ["BEAM", "PLATE"], "ui-fixture") { Phases = [new(1, "Getto", 0, true, 1), new(2, "Completamento", 28, true, 2)], StageCases = ["Summation"] });
         public async Task<ModelSnapshot> ImportMidasAsync(MidasImportRequest request, IProgress<ModelImportProgress> progress, CancellationToken token)
         {
             progress.Report(new("Scaricamento simulato · Peso proprio", 2, 10));

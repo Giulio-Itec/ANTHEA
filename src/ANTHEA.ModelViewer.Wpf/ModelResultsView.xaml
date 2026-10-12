@@ -5,8 +5,17 @@
       <TextBlock Text="CAMPO DI RISULTATO" Style="{StaticResource Caption}" />
       <CheckBox Content="Mostra risultati sul modello" IsChecked="{Binding ShowResults}" AutomationProperties.Name="Mostra risultati sul modello" />
       <TextBlock Text="{Binding RepresentationLabel, StringFormat=Rappresentazione: {0}}" FontSize="10" Opacity=".65" Margin="0,0,0,6"/>
+      <StackPanel Visibility="{Binding HasStageResults, Converter={StaticResource Visible}}">
+        <TextBlock Text="Ambito dei risultati" Style="{StaticResource FieldLabel}"/>
+        <ComboBox ItemsSource="{Binding ResultScopes}" SelectedIndex="{Binding SelectedResultScope}" AutomationProperties.Name="Ambito dei risultati"/>
+        <StackPanel Visibility="{Binding ShowStageResultFilters, Converter={StaticResource Visible}}" Margin="0,7,0,0">
+          <ComboBox ItemsSource="{Binding ResultStagePhases}" SelectedItem="{Binding SelectedStagePhase}" AutomationProperties.Name="Fase costruttiva"/>
+          <ComboBox ItemsSource="{Binding ResultStageSteps}" SelectedItem="{Binding SelectedStageStep}" Margin="0,5,0,0" AutomationProperties.Name="Passo della fase"/>
+        </StackPanel>
+      </StackPanel>
       <TextBlock Text="Caso / combinazione" Style="{StaticResource FieldLabel}"/>
-      <ComboBox ItemsSource="{Binding Cases}" SelectedItem="{Binding SelectedCase}" AutomationProperties.Name="Caso o combinazione" />
+      <ComboBox ItemsSource="{Binding FilteredCases}" SelectedItem="{Binding SelectedCase}" AutomationProperties.Name="Caso o combinazione" />
+      <TextBlock Text="{Binding StageResultDescription}" Visibility="{Binding IsStageResult, Converter={StaticResource Visible}}" TextWrapping="Wrap" FontSize="10" Opacity=".75" Margin="0,6"/>
       <TextBlock Text="{Binding ResultKind}" Foreground="#438ED8" FontSize="10" Margin="0,5,0,7" />
       <TextBlock Text="Tipo di risultato" Style="{StaticResource FieldLabel}" Margin="0,3,0,5"/>
       <ComboBox ItemsSource="{Binding ResultTypes}" SelectedIndex="{Binding SelectedResultType}" AutomationProperties.Name="Tipo di risultato" Margin="0,0,0,7"/>
@@ -88,7 +97,15 @@
       <TextBlock Text="Passa su un elemento; premi P per fissare il campione vicino. Le letture indicano sempre il caso di origine." FontSize="10" TextWrapping="Wrap" Opacity=".65" Margin="0,7"/>
       <Expander Header="Confronto affiancato" Margin="0,10"><StackPanel Margin="0,6">
         <CheckBox Content="Apri seconda vista" IsChecked="{Binding CompareEnabled}"/>
-        <TextBlock Text="Caso / combinazione" Style="{StaticResource FieldLabel}"/>
+        <StackPanel Visibility="{Binding HasStageResults, Converter={StaticResource Visible}}">
+        <TextBlock Text="Ambito dei risultati" Style="{StaticResource FieldLabel}"/>
+        <ComboBox ItemsSource="{Binding ResultScopes}" SelectedIndex="{Binding SelectedResultScope}" AutomationProperties.Name="Ambito dei risultati"/>
+        <StackPanel Visibility="{Binding ShowStageResultFilters, Converter={StaticResource Visible}}" Margin="0,7,0,0">
+          <ComboBox ItemsSource="{Binding ResultStagePhases}" SelectedItem="{Binding SelectedStagePhase}" AutomationProperties.Name="Fase costruttiva"/>
+          <ComboBox ItemsSource="{Binding ResultStageSteps}" SelectedItem="{Binding SelectedStageStep}" Margin="0,5,0,0" AutomationProperties.Name="Passo della fase"/>
+        </StackPanel>
+      </StackPanel>
+      <TextBlock Text="Caso / combinazione" Style="{StaticResource FieldLabel}"/>
       <ComboBox ItemsSource="{Binding Cases}" SelectedItem="{Binding CompareCase}"/>
         <ComboBox ItemsSource="{Binding Components}" SelectedItem="{Binding CompareComponent}" Margin="0,6,0,0"/>
         <ComboBox ItemsSource="{Binding ContourValueModes}" SelectedIndex="{Binding CompareAveraging}" IsEnabled="{Binding CanAverageContours}" Margin="0,6,0,0"/>

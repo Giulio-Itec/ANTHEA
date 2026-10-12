@@ -24,6 +24,8 @@ public sealed record ModelImportMessage(string Code, string Severity, string Rec
 public sealed record ModelResultSet(string Name, bool IsEnvelope, CornerResult[] Values)
 {
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ModelStageResult? Stage { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ModelCombinationDerivation? Combination { get; init; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ResultField[]? Fields { get; init; }
@@ -73,7 +75,8 @@ public sealed class ModelSnapshot
         if(ExcludedCombinationIds is {} excluded && (excluded.Length>10000||excluded.Any(string.IsNullOrWhiteSpace)||excluded.Distinct().Count()!=excluded.Length))
             throw new InvalidDataException("Elenco delle combinazioni escluse non valido.");
         if (Nodes is null || Elements is null || Plates is null || Sections is null || Results is null || Nodes.Any(n => n is null) || Elements.Any(e => e is null || e.Nodes is null) || Plates.Any(p => p is null) || Sections.Any(s => s is null) || Results.Any(r => r is null || r.Values is null || r.Values.Any(v => v is null || v.Values is null))) throw new InvalidDataException("Il modello contiene dati mancanti.");
-        if (Version != 1) throw new InvalidDataException("Versione del modello non supportata.");
+        if (Version is not (1 or 2)) throw new InvalidDataException("Versione del modello non supportata.");
+        if (Version < 2 && Results.Any(r => r.Stage != null)) throw new InvalidDataException("I risultati per fase richiedono il formato modello 2: non possono essere letti come casi statici da versioni precedenti.");
         if(UpdateInfo is {} update && (!Enum.IsDefined(update.Scope) || update.InputSource is null || update.InputSource.Length>4000 || update.DiscardedResultCases<0 || update.ResultsCompatibilityVerified!=(update.Scope==ModelUpdateScope.Results)))
             throw new InvalidDataException("Provenienza dell’aggiornamento non valida.");
         if (Nodes.Length == 0 || Nodes.Length > 500000 || Elements.Length > 500000) throw new InvalidDataException("Dimensione del modello non supportata dalla bozza.");
@@ -115,6 +118,7 @@ public sealed class ModelSnapshot
             }
         }
         if (Results.Select(r => r.Name).Distinct().Count() != Results.Length) throw new InvalidDataException("Casi di risultato duplicati.");
+        ModelConstructionStages.ValidateResults(Results);
         foreach (var result in Results)
         {
             if(result.Combination is {} derivation && (string.IsNullOrWhiteSpace(derivation.DefinitionId)||derivation.InputRevision?.Length!=64||string.IsNullOrWhiteSpace(derivation.Engine)||

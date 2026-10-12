@@ -72,7 +72,7 @@ public static class ModelCombinations
     {
         var definitions=Read(snapshot);var records=definitions.Select(ToGpc).ToArray();
         string? revision=snapshot.Results.Any(r=>r.Combination!=null)?InputRevision(snapshot):null;
-        var cases=snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null).Select(r=>r.Name).ToHashSet(StringComparer.Ordinal);
+        var cases=snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null&&r.Stage==null).Select(r=>r.Name).ToHashSet(StringComparer.Ordinal);
         return definitions.Select(d=>
         {
             try
@@ -130,7 +130,7 @@ public static class ModelCombinations
             ?cases.EnumerateObject().Select(p=>p.Value.GetProperty("NAME").GetString()!).ToArray():[];
         if(names.Any(string.IsNullOrWhiteSpace)||names.Distinct(StringComparer.Ordinal).Count()!=names.Length)
             throw new InvalidDataException("Nomi dei casi di carico mancanti o duplicati nella tabella sorgente.");
-        return names.Concat(snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null).Select(r=>r.Name)).Distinct(StringComparer.Ordinal).ToArray();
+        return names.Concat(snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null&&r.Stage==null).Select(r=>r.Name)).Distinct(StringComparer.Ordinal).ToArray();
     }
 
     internal static ModelSnapshot Copy(ModelSnapshot s)=>new()

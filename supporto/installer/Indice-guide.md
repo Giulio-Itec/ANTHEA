@@ -1,12 +1,12 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · 12 ottobre 2026 · Pratica Rev37 e teorica Rev37
+ITEC Engineering · 12 ottobre 2026 · Pratica Rev38 e teorica Rev38
 
-Engineering Handbook: 68 articoli in 12 capitoli, ricavati dalle due guide globali. I vecchi indirizzi Wiki raggiungono le pagine correnti.
+Guide globali consultabili anche nella Wiki. Aggiornate con importazione e visualizzazione dei risultati per fase.
 
 ## Guida pratica ANTHEA
 
-[Word Rev37](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev37.docx) · [PDF Rev37](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev37.pdf)
+[Word Rev38](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev38.docx) · [PDF Rev38](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev38.pdf)
 
 - Avvio e scelta del modulo
 - Progetti e gestione del lavoro
@@ -33,7 +33,7 @@ Engineering Handbook: 68 articoli in 12 capitoli, ricavati dalle due guide globa
 
 ## Guida teorica ANTHEA
 
-[Word Rev37](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev37.docx) · [PDF Rev37](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev37.pdf)
+[Word Rev38](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev38.docx) · [PDF Rev38](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev38.pdf)
 
 - Architettura del calcolo e convenzioni
 - Calcestruzzo armature e copriferro
@@ -81,3 +81,4 @@ Engineering Handbook: 68 articoli in 12 capitoli, ricavati dalle due guide globa
 - Biblioteca tecnica lezioni con esempi svolti
 - Fondazioni superficiali
 - Reologia del calcestruzzo
+- Risultati dei modelli per fasi

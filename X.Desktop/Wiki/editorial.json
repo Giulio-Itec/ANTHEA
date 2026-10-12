@@ -1496,5 +1496,20 @@
     "title": "Reologia del calcestruzzo",
     "order": 210,
     "summary": "Viscosità nel tempo, limite a infinito, maturazione del modulo elastico e limiti di applicazione."
+  },
+  "theory:Risultati dei modelli per fasi": {
+    "area": "FEM e modellazione",
+    "id": "/wiki/manuale/fem/risultati-per-fasi",
+    "modules": [],
+    "related": [],
+    "key": "risultati-per-fasi",
+    "chapterId": "fem",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "title": "Risultati dei modelli per fasi",
+    "order": 211,
+    "summary": "Identità di fase e passo, riferimento degli spostamenti, copertura e limiti della lettura degli stage."
   }
 }

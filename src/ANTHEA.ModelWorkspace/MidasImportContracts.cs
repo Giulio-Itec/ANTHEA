@@ -21,11 +21,16 @@ public sealed class MidasConnection
 public sealed record MidasModelCatalog(int Nodes, int Elements, IReadOnlyList<string> StaticCases,
     IReadOnlyList<string> ElementFamilies, string Signature)
 {
-    public string Summary => $"{Nodes:N0} nodi · {Elements:N0} elementi · {StaticCases.Count} casi statici";
+    public IReadOnlyList<ModelConstructionPhase> Phases { get; init; } = [];
+    public IReadOnlyList<string> StageCases { get; init; } = [];
+    public string Summary => $"{Nodes:N0} nodi · {Elements:N0} elementi · {StaticCases.Count} casi statici · {Phases.Count} fasi";
 }
 
 public sealed record MidasImportRequest(MidasConnection Connection, ModelUpdateScope Scope,
-    string ExpectedSignature, IReadOnlyList<string> StaticCases, bool Forces, bool Displacements);
+    string ExpectedSignature, IReadOnlyList<string> StaticCases, bool Forces, bool Displacements)
+{
+    public MidasStageReadRequest? Stages { get; init; }
+}
 public sealed record ModelImportProgress(string Message, int Completed, int Total)
 {
     public double Percent => Total > 0 ? 100.0 * Completed / Total : 0;

@@ -19,7 +19,7 @@ static partial class Program
         using var source = new MidasModelSource(http);
         var catalog = await source.InspectAsync(connection, null, default);
         Check(catalog.Nodes == 4 && catalog.Elements == 2 && catalog.StaticCases.SequenceEqual(["Dead", "Live"]), "live catalog reads model counts and static case names without results");
-        Check(handler.Requests.Count == 4 && handler.Requests.All(r => r.Method == "GET"), "checking a connection never requests or mutates analysis results");
+        Check(handler.Requests.Count == 6 && handler.Requests.All(r => r.Method == "GET"), "checking a connection never requests or mutates analysis results");
         var request = new MidasImportRequest(connection, ModelUpdateScope.Everything, catalog.Signature, ["Dead"], true, true);
         var snapshot = await source.ReadAsync(request, null, default);
         Check(snapshot.Nodes[1].X == 2 && snapshot.Plates[0].Thickness == .2 && snapshot.Plates[0].Offset == -.1, "live acquisition preserves geometry units and plate offsets");

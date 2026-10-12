@@ -106,7 +106,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         OnPropertyChanged(nameof(IsResultsView)); OnPropertyChanged(nameof(SelectedMode)); RefreshScene();
     }
     partial void OnSelectedQualityChanged(int value) => RefreshScene();
-    partial void OnSelectedCaseChanged(string? value) { RefreshScene(); LinkCommand.NotifyCanExecuteChanged(); }
+    partial void OnSelectedCaseChanged(string? value) { NotifySelectedStage(); RefreshScene(); LinkCommand.NotifyCanExecuteChanged(); }
     partial void OnSelectedComponentChanged(string value) => RefreshScene();
     partial void OnShowMeshChanged(bool value) => RefreshScene();
     partial void OnShowIsolinesChanged(bool value) => RefreshScene();

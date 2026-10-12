@@ -6,14 +6,6 @@ namespace ANTHEA.ModelWorkspace;
 
 public sealed partial class GpcModelCombinationService
 {
-    static CivilNxSnapshot Source(ModelSnapshot snapshot)
-    {
-        if(snapshot.SourceTables==null||new[]{"UNIT","NODE","ELEM","STLD"}.Any(t=>!snapshot.SourceTables.ContainsKey(t)))
-            throw new InvalidDataException("Per questo collegamento GPC servono le tabelle sorgente MIDAS complete. Reimporta geometria, attributi e risultati.");
-        return new(snapshot.SourceTables.ToDictionary(p=>p.Key,p=>new CivilNxResponse("db/"+p.Key,
-            JsonSerializer.Serialize(new Dictionary<string,JsonElement>{{p.Key,p.Value}}))));
-    }
-
     static List<CivilNxResponse> ResultTables(ModelSnapshot snapshot,ModelResultSet[] basis,List<string> warnings,CancellationToken token)
     {
         var tables=new List<CivilNxResponse>();var elements=snapshot.Elements.ToDictionary(e=>e.Id);

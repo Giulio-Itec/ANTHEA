@@ -85,6 +85,7 @@ static partial class Program
             await ImportFailureChecks();
             await ModelUpdateChecks();
             await MidasLiveImportChecks();
+            await ConstructionStageChecks(output);
             await Strand7ImportSetupChecks(output);
             ViewSettingsAndRevisionChecks();
             await ContourAveragingChecks();

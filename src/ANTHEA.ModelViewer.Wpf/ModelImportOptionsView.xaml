@@ -13,7 +13,7 @@
       </StackPanel>
       <WrapPanel><Button Content="Controlla i file" Command="{Binding CheckStrand7SetupCommand}"/><Button Content="Annulla controllo" Command="{Binding CheckStrand7SetupCancelCommand}" Margin="5,0,0,0"/></WrapPanel>
       <TextBlock Text="{Binding Strand7PreparationSummary}" TextWrapping="Wrap" FontSize="11" Margin="0,8,0,0"/>
-      <TextBlock Text="L’elenco dei casi, la corrispondenza modello/risultati e la disponibilità della licenza saranno verificati dal collegamento nativo. Importazione disattivata fino alla sua integrazione." TextWrapping="Wrap" FontSize="10" Opacity=".75" Margin="0,8,0,0"/>
+      <TextBlock Text="L’elenco dei casi, la corrispondenza modello/risultati e la disponibilità della licenza saranno verificati dal collegamento nativo. Importazione disattivata fino alla sua integrazione. Anche gli stage nativi restano da collegare: non vengono trattati come casi statici." TextWrapping="Wrap" FontSize="10" Opacity=".75" Margin="0,8,0,0"/>
     </StackPanel>
     <StackPanel Visibility="{Binding IsMidasImport, Converter={StaticResource Visible}}" Margin="0,8,0,10">
       <TextBlock Text="In MIDAS: Apps → API Settings → Connect. Copia qui Base URL e MAPI-Key." TextWrapping="Wrap" FontSize="11" Margin="0,0,0,8"/>
@@ -42,6 +42,30 @@
           <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem"><Setter Property="Foreground" Value="{DynamicResource AppearanceInk}"/><Setter Property="Background" Value="Transparent"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/><Setter Property="Padding" Value="5,3"/></Style></ListBox.ItemContainerStyle>
           <ListBox.ItemTemplate><DataTemplate><CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}"/></DataTemplate></ListBox.ItemTemplate>
         </ListBox>
+        <Expander Header="Fasi costruttive · stage" Visibility="{Binding HasImportStages, Converter={StaticResource Visible}}" IsExpanded="True" Margin="0,5,0,10">
+          <StackPanel Margin="0,8,0,0">
+            <CheckBox Content="Acquisisci anche risultati per fase" IsChecked="{Binding ImportConstructionStages}" AutomationProperties.Name="Importa risultati stage"/>
+            <StackPanel IsEnabled="{Binding ImportConstructionStages}">
+              <TextBlock Text="Seleziona le fasi e scrivi le etichette esatte dei passi riportate dalla sorgente, ad esempio 001(last). Separa più passi con ;. La numerazione non viene dedotta dalla durata." TextWrapping="Wrap" FontSize="10" Margin="0,4,0,7"/>
+              <ScrollViewer MaxHeight="210" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding ImportStages}"><ItemsControl.ItemTemplate><DataTemplate>
+                  <Border BorderBrush="{DynamicResource AppearanceBorder}" BorderThickness="0,0,0,1" Padding="0,4,0,7">
+                    <StackPanel>
+                      <CheckBox Content="{Binding Label}" IsChecked="{Binding IsSelected}" IsEnabled="{Binding CanRead}"/>
+                      <TextBox Text="{Binding StepsText, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsSelected}" Margin="20,4,0,0" AutomationProperties.Name="Passi stage da importare" ToolTip="Etichette dei passi separate da ;"/>
+                    </StackPanel>
+                  </Border>
+                </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+              </ScrollViewer>
+              <TextBlock Text="Casi di risultato degli stage" FontWeight="SemiBold" Margin="0,8,0,4"/>
+              <ItemsControl ItemsSource="{Binding ImportStageCases}"><ItemsControl.ItemTemplate><DataTemplate><CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+              <TextBlock Text="Riferimento degli spostamenti" Margin="0,8,0,4"/>
+              <ComboBox ItemsSource="{Binding StageDisplacementReferences}" SelectedItem="{Binding ImportDisplacementReference}" IsEnabled="{Binding ImportDisplacements}" AutomationProperties.Name="Riferimento spostamenti stage"/>
+              <TextBlock Text="{Binding ImportStageReferenceHelp}" TextWrapping="Wrap" FontSize="10" Opacity=".75" Margin="0,4,0,7"/>
+              <TextBlock Text="{Binding ImportStageSummary}" FontSize="11"/>
+            </StackPanel>
+          </StackPanel>
+        </Expander>
         <TextBlock Text="I casi selezionati sostituiscono l’intero insieme dei risultati della copia. Non avviare analisi o modificare il modello durante la lettura." TextWrapping="Wrap" FontSize="10" Margin="0,0,0,8"/>
       </StackPanel>
       <TextBlock Text="{Binding LiveImportLimitations}" TextWrapping="Wrap" FontSize="10" Opacity=".75" Margin="0,0,0,8"/>

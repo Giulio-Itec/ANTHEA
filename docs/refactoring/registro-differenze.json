@@ -2231,6 +2231,54 @@
         "supporto/artefatti/ci/20261012-224554-reologia-finale-vista",
         "supporto/artefatti/guide_anthea_itec_rev37"
       ]
+    },
+    {
+      "id": "STG-01",
+      "data": "2026-10-12",
+      "fase": "STG-3",
+      "titolo": "Risultati distinti per fase, passo e riferimento",
+      "famiglia": "modelli/importazione",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Importazione esplicita dei risultati costruttivi, formato archivio 2 solo quando contiene stage; nessuna conversione implicita in caso statico o in risultato nullo. Estrazione senza variazioni di Source, ValidateGeometry e DisplayVector da GpcModelCombinationService in MidasGpcDisplay, riusati dal nuovo adattatore.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelConstructionStages.cs",
+        "src/ANTHEA.ModelWorkspace/MidasGpcDisplay.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Stages.cs"
+      ],
+      "segno": "Valori statici, unità e segni invariati. Risultati stage distinti; i vecchi lettori rifiutano esplicitamente il nuovo formato. Attivazione della geometria e confronto reale non dichiarati collaudati.",
+      "test": [
+        "Cattura dei controlli esistenti prima del trasferimento: 20261012-233557-stg-before-adapter-valid",
+        "Dopo: 461 controlli dei dati, inclusi confronti numerici, e 21 WPF; 20261012-234913-stg-format2-final"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/stages",
+        "supporto/artefatti/ci/20261012-234913-stg-format2-final"
+      ]
+    },
+    {
+      "id": "STG-02",
+      "data": "2026-10-12",
+      "fase": "Rilascio U",
+      "titolo": "Registro del solutore protetto anche nella ricerca iterativa",
+      "famiglia": "calcestruzzo/concorrenza",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Tre aggiunte al registro del solutore passavano dalla lista mutabile invece che dal metodo sincronizzato già esistente. Unificate in SectionSolver.AddLog e rimosso il suo accessore mutabile interno. Checker d0106349.",
+      "codice": [
+        "Checker/GPCChecker.Concrete/SectionSolvers/SectionSolver.cs",
+        "Checker/GPCChecker.Concrete/SectionSolvers/DomainPointStrategyIterative.cs"
+      ],
+      "segno": "Nessuna formula cambiata; il test esistente osservava 939 righe invece di 940 in una corsa concorrente.",
+      "test": [
+        "Test concorrenti del solutore: 2 PASS",
+        "Suite complete del candidato V e del rilascio U senza nuovi fallimenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/release-stg-20261012/candidate-u",
+        "supporto/artefatti/release-stg-20261012/candidate-v",
+        "supporto/artefatti/release-stg-20261012/set-u"
+      ]
     }
   ]
 }

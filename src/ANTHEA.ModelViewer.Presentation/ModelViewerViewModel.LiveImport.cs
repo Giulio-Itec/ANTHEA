@@ -35,7 +35,7 @@ public sealed partial class ModelViewerViewModel
     public bool CanEditImport => !IsBusy && !IsReadOnly;
     public string ImportActionLabel => IsMidasImport ? "Importa dal modello aperto" : IsStrand7Import ? "Import Straus · da attivare" : "Scegli copia e importa…";
     public string ImportCasesSummary => $"{ImportCases.Count(c => c.IsSelected)} di {ImportCases.Count} casi selezionati";
-    public string LiveImportLimitations => "Casi statici: sollecitazioni locali BEAM/PLATE e spostamenti globali. Le combinazioni sono acquisite come definizioni. Terne e simboli di vincoli/link richiedono ancora il convertitore GPC distribuito.";
+    public string LiveImportLimitations => "Casi statici: sollecitazioni locali BEAM/PLATE e spostamenti globali. Stage: scegli fasi, passi e riferimento della deformata; nessuna somma automatica fra stati. Le combinazioni sono acquisite come definizioni. Terne e simboli di vincoli/link richiedono ancora il convertitore GPC distribuito.";
 
     partial void OnSelectedImportSourceChanged(int value)
     {
@@ -50,13 +50,13 @@ public sealed partial class ModelViewerViewModel
     partial void OnImportDisplacementsChanged(bool value) => ImportCommand.NotifyCanExecuteChanged();
     void InvalidateConnection()
     {
-        liveCatalog = null; ImportCases.Clear(); ConnectionSummary = "Connessione da controllare.";
+        liveCatalog = null; ImportCases.Clear(); ResetImportStages(); ConnectionSummary = "Connessione da controllare.";
         OnPropertyChanged(nameof(HasImportCases)); OnPropertyChanged(nameof(ImportCasesSummary));
         ImportCommand.NotifyCanExecuteChanged(); InspectMidasCommand.NotifyCanExecuteChanged();
     }
     void ImportCaseSelectionChanged() { OnPropertyChanged(nameof(ImportCasesSummary)); ImportCommand.NotifyCanExecuteChanged(); }
     bool HasLiveImportSelection => IsFileImport || IsMidasImport && liveCatalog != null && (!ImportIncludesResults ||
-        ImportCases.Any(c => c.IsSelected) && (ImportForces || ImportDisplacements));
+        (ImportCases.Any(c => c.IsSelected) || HasValidStageSelection) && (!ImportConstructionStages || HasValidStageSelection) && (ImportForces || ImportDisplacements));
     bool CanInspectMidas() => IsMidasImport && CanEditImport && !disposed && !IsVerificationRunning && !IsReportRunning && !IsRevisionBusy &&
         !string.IsNullOrWhiteSpace(MidasBaseUrl) && !string.IsNullOrWhiteSpace(MidasApiKey);
 
@@ -65,14 +65,14 @@ public sealed partial class ModelViewerViewModel
     {
         using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token, cancellationToken);
         var token = cancellation.Token;
-        IsBusy = true; ImportFailure = null; liveCatalog = null; ImportCases.Clear();
+        IsBusy = true; ImportFailure = null; liveCatalog = null; ImportCases.Clear(); ResetImportStages();
         OnPropertyChanged(nameof(HasImportCases)); OnPropertyChanged(nameof(ImportCasesSummary));
         try
         {
             var connection = new MidasConnection(MidasBaseUrl, MidasApiKey);
             var catalog = await services.InspectMidasAsync(connection, BeginImportProgress(), token);
             token.ThrowIfCancellationRequested(); if (disposed) return;
-            liveCatalog = catalog;
+            liveCatalog = catalog; PopulateImportStages(catalog);
             foreach (string name in catalog.StaticCases) ImportCases.Add(new(name, ImportCaseSelectionChanged));
             ConnectionSummary = catalog.Summary + " · " + string.Join(", ", catalog.ElementFamilies);
             ImportProgressMessage = "Connessione pronta. Scegli il contenuto da acquisire."; ImportPercent = 100; ImportProgressIndeterminate = false;
@@ -99,7 +99,7 @@ public sealed partial class ModelViewerViewModel
     {
         var request = new MidasImportRequest(new(MidasBaseUrl, MidasApiKey), scope,
             liveCatalog?.Signature ?? throw new InvalidOperationException("Controlla prima la connessione."),
-            ImportCases.Where(c => c.IsSelected).Select(c => c.Name).ToArray(), ImportForces, ImportDisplacements);
+            ImportCases.Where(c => c.IsSelected).Select(c => c.Name).ToArray(), ImportForces, ImportDisplacements) { Stages = StageImportRequest() };
         return services.ImportMidasAsync(request, BeginImportProgress(), token);
     }
 }

@@ -21,6 +21,8 @@ internal static class MidasResultTables
             if (!string.Equals(table.GetProperty("FORCE").GetString(), "N", StringComparison.OrdinalIgnoreCase) || !string.Equals(table.GetProperty("DIST").GetString(), "MM", StringComparison.OrdinalIgnoreCase))
                 throw new InvalidDataException("Attese tabelle in N e mm.");
             var heads = table.GetProperty("HEAD").EnumerateArray().Select(h => h.GetString()!).ToArray();
+            if (heads.Contains("Stage") || heads.Contains("Step")) throw new InvalidDataException("Risultati per fase: usa l’importazione stage con fase e passo espliciti.");
+            if (heads.Distinct(StringComparer.Ordinal).Count() != heads.Length) throw new InvalidDataException("Colonne dei risultati duplicate.");
             int Column(string name) => Array.IndexOf(heads, name) is var index && index >= 0 ? index : throw new InvalidDataException("Colonna mancante: " + name);
             int elementColumn = Column("Elem"), loadColumn = Column("Load"), positionColumn = Column(family == "plate" ? "Node" : "Part");
             foreach (var row in table.GetProperty("DATA").EnumerateArray())

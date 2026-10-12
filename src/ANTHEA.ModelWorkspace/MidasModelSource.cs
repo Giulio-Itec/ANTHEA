@@ -1,14 +1,15 @@
+using GPC.Converter.CivilNx;
 using System.Net.Http;
 using System.Text.Json;
 
 namespace ANTHEA.ModelWorkspace;
 
 /// <summary>Acquires an isolated copy and rechecks source tables before publishing it.</summary>
-public sealed class MidasModelSource : IMidasModelSource, IDisposable
+public sealed partial class MidasModelSource : IMidasModelSource, IDisposable
 {
-    static readonly string[] CatalogTables = ["UNIT", "NODE", "ELEM", "STLD"];
-    static readonly string[] GeometryTables = ["UNIT", "NODE", "ELEM", "STLD", "SECT", "THIK", "SKEW", "OFFS"];
-    static readonly string[] AllTables = ["UNIT", "NODE", "ELEM", "STLD", "SECT", "THIK", "MATL", "GRUP", "SKEW", "CONS", "OFFS", "FRLS", "PRLS", "ELNK", "RIGD", "MCON", "NSPR", "NLNK", "NLLP", "STAG", "BNGR", "LDGR", "CNLD", "BMLD", "PRES", "BODF", "NBOF", "LCOM-GEN", "LCOM-CONC", "LCOM-STEEL", "LCOM-SRC", "LCOM-STLCOMP", "LCOM-SEISMIC"];
+    static readonly string[] CatalogTables = ["UNIT", "NODE", "ELEM", "STLD", "STAG", "STCT"];
+    static readonly string[] GeometryTables = ["UNIT", "NODE", "ELEM", "STLD", "STAG", "STCT", "SECT", "THIK", "SKEW", "OFFS"];
+    static readonly string[] AllTables = ["UNIT", "NODE", "ELEM", "STLD", "STAG", "STCT", "SECT", "THIK", "MATL", "GRUP", "SKEW", "CONS", "OFFS", "FRLS", "PRLS", "ELNK", "RIGD", "MCON", "NSPR", "NLNK", "NLLP", "BNGR", "LDGR", "CNLD", "BMLD", "PRES", "BODF", "NBOF", "LCOM-GEN", "LCOM-CONC", "LCOM-STEEL", "LCOM-SRC", "LCOM-STLCOMP", "LCOM-SEISMIC"];
     readonly HttpClient http;
     readonly bool ownsHttp;
     readonly TimeSpan databaseTimeout;
@@ -31,7 +32,7 @@ public sealed class MidasModelSource : IMidasModelSource, IDisposable
             tables.Add(table, await client.DatabaseAsync(table, token).ConfigureAwait(false));
         }
         var catalog = Catalog(tables);
-        progress?.Report(new(catalog.Summary, 4, 4));
+        progress?.Report(new(catalog.Summary, CatalogTables.Length, CatalogTables.Length));
         return catalog;
     }
 
@@ -40,8 +41,9 @@ public sealed class MidasModelSource : IMidasModelSource, IDisposable
         if (!Enum.IsDefined(request.Scope)) throw new ArgumentException("Modalità di importazione non valida.");
         bool results = request.Scope is ModelUpdateScope.Everything or ModelUpdateScope.Results;
         var cases = request.StaticCases.ToArray();
-        if (results && (cases.Length == 0 || cases.Distinct(StringComparer.Ordinal).Count() != cases.Length || !request.Forces && !request.Displacements))
+        if (results && (cases.Length == 0 && request.Stages == null || cases.Distinct(StringComparer.Ordinal).Count() != cases.Length || !request.Forces && !request.Displacements))
             throw new InvalidDataException("Seleziona almeno un caso e un tipo di risultato, oppure scegli Geometria + attributi + carichi.");
+        if (results && request.Stages != null) _ = request.Stages.Selection();
         var client = new MidasReadOnlyClient(http, request.Connection, databaseTimeout, resultsTimeout);
         var names = request.Scope == ModelUpdateScope.Geometry ? GeometryTables : AllTables;
         var tables = new Dictionary<string, JsonElement>();
@@ -65,6 +67,8 @@ public sealed class MidasModelSource : IMidasModelSource, IDisposable
                 {
                     var catalog = Catalog(tables);
                     if (catalog.Signature != request.ExpectedSignature) throw new InvalidDataException("Il modello o l’elenco dei casi è cambiato. Premi Controlla connessione e casi prima di importare.");
+                    if (results && request.Stages != null && (request.Stages.Steps.Any(s => !catalog.Phases.Any(p => p.Name == s.Phase)) || request.Stages.Cases.Any(c => !catalog.StageCases.Contains(c))))
+                        throw new InvalidDataException("Fasi o casi stage non presenti nel catalogo controllato. Rileggi il modello.");
                     if (results && cases.Any(c => !catalog.StaticCases.Contains(c, StringComparer.Ordinal))) throw new InvalidDataException("Un caso selezionato non esiste più in MIDAS. Rileggi l’elenco dei casi.");
                 }
             }
@@ -106,6 +110,7 @@ public sealed class MidasModelSource : IMidasModelSource, IDisposable
                     completed++;
                 }
             }
+            var staged = results && request.Stages != null ? await ReadStageTablesAsync(client, geometry, request, progress, token).ConfigureAwait(false) : [];
             foreach (string table in names)
             {
                 progress?.Report(new("Controllo finale del modello · " + table, completed, total));
@@ -118,12 +123,17 @@ public sealed class MidasModelSource : IMidasModelSource, IDisposable
             token.ThrowIfCancellationRequested();
             progress?.Report(new("Preparazione e controllo della copia", completed, total));
             var snapshot = results ? MidasSnapshotImporter.ReadDirectory(temporary.FullName) : geometry;
-            if (results) CheckCoverage(snapshot, cases, request.Forces, request.Displacements);
+            if (results && cases.Length > 0) CheckCoverage(snapshot, cases, request.Forces, request.Displacements);
+            if (request.Stages != null && results)
+            {
+                snapshot.Results = [.. snapshot.Results, .. ModelConstructionStages.Import(snapshot, staged, request.Stages, request.Displacements, token)];
+                snapshot.Version = 2;
+            }
             snapshot.Source = "MIDAS Civil NX · API · " + DateTimeOffset.UtcNow.ToString("u");
-            snapshot.ImportMessages = [
-                new("MIDAS-LIVE", "info", "Importazione", "Lettura API completata; tabelle del modello ricontrollate. Casi statici selezionati: " + (results ? cases.Length : 0) + "."),
+            snapshot.ImportMessages = [.. snapshot.ImportMessages ?? [],
+                new("MIDAS-LIVE", "info", "Importazione", "Lettura API completata; tabelle del modello ricontrollate. Casi statici selezionati: " + (results ? cases.Length : 0) + "; stati stage: " + snapshot.Results.Count(r => r.Stage != null) + "."),
                 new("MIDAS-CONVERTER-PENDING", "warning", "Geometria", "Le tabelle originali sono conservate. La normalizzazione GPC di terne locali, vincoli, rilasci e link richiede il convertitore nel set di librerie distribuito; i relativi simboli non sono ancora acquisiti da questo collegamento."),
-                new("MIDAS-RESULT-SCOPE", "info", "Risultati", "Sollecitazioni locali PLATE/BEAM e traslazioni nodali globali dei casi statici. Combinazioni conservate come definizioni; inviluppi, fasi e risultati di altre famiglie non acquisiti.")];
+                new("MIDAS-RESULT-SCOPE", "info", "Risultati", "Sollecitazioni locali PLATE/BEAM e traslazioni nodali globali dei casi statici. Combinazioni conservate come definizioni; stage distinti per fase/passo, senza sovrapposizione statica né ricostruzione degli elementi attivi. Assenza di risultati non significa valore nullo. Reazioni e altre famiglie non acquisite dalla vista.")];
             snapshot.Validate(); token.ThrowIfCancellationRequested();
             progress?.Report(new("Acquisizione completata", total, total));
             return snapshot;
@@ -143,8 +153,9 @@ public sealed class MidasModelSource : IMidasModelSource, IDisposable
         if (nodes == 0) throw new InvalidDataException("Il modello aperto in MIDAS non contiene nodi.");
         var cases = tables["STLD"].EnumerateObject().Select(p => p.Value.GetProperty("NAME").GetString() ?? "").ToArray();
         if (cases.Any(string.IsNullOrWhiteSpace) || cases.Distinct(StringComparer.Ordinal).Count() != cases.Length) throw new InvalidDataException("L’elenco dei casi MIDAS contiene nomi mancanti o duplicati.");
+        var stageCatalog = ModelConstructionStages.Catalog(tables);
         return new(nodes, elements, cases, tables["ELEM"].EnumerateObject().Select(p => p.Value.GetProperty("TYPE").GetString() ?? "").Distinct().ToArray(),
-            MidasReadOnlyClient.Signature(tables.Where(p => CatalogTables.Contains(p.Key))));
+            MidasReadOnlyClient.Signature(tables.Where(p => CatalogTables.Contains(p.Key)))) { Phases = stageCatalog.Phases, StageCases = stageCatalog.Cases };
     }
     static Dictionary<string, object> Argument(string type, string name, int[] ids) => new()
     {

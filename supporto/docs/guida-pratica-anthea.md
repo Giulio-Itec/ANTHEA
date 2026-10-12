@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 5 aggiornata il 12 ottobre 2026 — revisione documentale 37
+Edizione 5 aggiornata il 12 ottobre 2026 — revisione documentale 38
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1172,7 +1172,7 @@ Attiva il collegamento API della sessione MIDAS e recupera i due valori richiest
 
 2. Incolla l'indirizzo in **Base URL** e la chiave nel campo **Chiave MAPI · solo per questa sessione**. La chiave resta nella sessione del visualizzatore e non viene salvata nel progetto.
 
-3. Premi **Controlla connessione e casi**. Attendi il riepilogo del modello e l'elenco dei casi statici. Dopo un controllo riuscito i casi risultano tutti selezionati; se cambi URL o chiave devi ripetere il controllo.
+3. Premi **Controlla connessione e casi**. Attendi il riepilogo del modello e l'elenco dei casi statici e delle eventuali fasi costruttive. Dopo un controllo riuscito i casi risultano tutti selezionati; se cambi URL o chiave devi ripetere il controllo.
 
 4. In **Contenuto da acquisire** scegli **Tutto** per ottenere geometria, attributi, carichi e risultati. Per una prima prova limitata alla forma del modello puoi scegliere **Solo geometria**.
 
@@ -1205,6 +1205,20 @@ In **Risultati** seleziona caso, famiglia di elementi, componente e unità. Per 
 
 Le combinazioni vengono acquisite come definizioni. La loro presenza nella scheda **Combinazioni** non significa che tutti i relativi campi di risultato siano già stati scaricati o calcolati. Il calcolo locale richiede i risultati dei casi base richiamati e un tipo di combinazione supportato. Puoi quindi acquisire i casi base e gestire successivamente le combinazioni in ANTHEA.
 
+### Importare e visualizzare i risultati per fase
+
+Se il modello contiene fasi costruttive, il pannello di importazione mostra **Fasi costruttive · stage**. Attiva **Acquisisci anche risultati per fase**, seleziona le fasi e indica le etichette esatte dei passi disponibili nella sorgente. Per esempio, `001(last)` identifica un passo con quella precisa etichetta; non è un valore proposto automaticamente. Per più passi della stessa fase usa il punto e virgola. La durata della fase non permette di dedurre con certezza i numeri dei passi salvati.
+
+Seleziona i casi di risultato degli stage elencati e il riferimento degli spostamenti: **Accumulative**, **Current** oppure **Real**. Il riferimento rimane associato ai dati acquisiti. ANTHEA non somma gli spostamenti di fasi diverse e non ricostruisce i riferimenti mancanti. Per importare soltanto stage puoi deselezionare tutti i casi statici, lasciando almeno una fase, un passo, un caso stage e un tipo di risultato.
+
+Nella scheda **Risultati**, **Ambito dei risultati** separa tutti i risultati, casi statici e combinazioni, oppure fasi costruttive. I filtri della fase e del passo restringono l'elenco dei campi già acquisiti; non interrogano nuovamente il software sorgente. Ogni campo conserva caso, fase, passo e riferimento della deformata. La selezione resta riconoscibile anche nelle viste salvate e nei report.
+
+La geometria completa rimane in contesto. Questa versione non simula l'attivazione degli elementi, dei vincoli e dei carichi lungo la costruzione. Un oggetto privo di risultati non riceve valori nulli inventati; le deformate richiedono gli spostamenti effettivamente importati. Le definizioni delle fasi sono conservate, mentre i risultati di fase sono esclusi dalle somme statiche del gestore combinazioni.
+
+I modelli con risultati per fase usano il formato modello 2. Le versioni precedenti di ANTHEA lo rifiutano; questa versione continua a leggere i modelli statici nel formato 1. **Solo risultati** controlla anche le tabelle delle fasi: se la copia precedente non contiene i metadati necessari, usa **Tutto** e verifica la revisione. Gli export tabellari privi di un contesto stage esplicito non vengono confusi con casi statici.
+
+La lettura per fasi è stata collaudata sul protocollo e su dati sintetici. Il confronto con un modello reale dotato di stage resta da completare. Per Straus il catalogo è predisposto, ma la lettura nativa dei risultati stage non è ancora attiva.
+
 ### Aggiornare una copia esistente
 
 Apri il modello dall'archivio e premi **Aggiorna modello…**. Seleziona la sorgente MIDAS, controlla nuovamente la connessione e scegli contenuto e casi. Per aggiornare soltanto le sollecitazioni usa **Solo risultati**: ANTHEA controlla la corrispondenza dei dati del modello prima di sostituirli. Se sono cambiati geometria, attributi o tabelle, l'operazione può essere rifiutata; usa **Tutto** per acquisire la nuova revisione e controllare le differenze.
@@ -1223,7 +1237,7 @@ Il comando **Revisione** serve a esaminare il confronto disponibile dopo l'aggio
 
 Quando una lettura fallisce, ANTHEA mantiene l'ultima copia valida e indica il recupero possibile. Dopo aver ripristinato la sessione ripeti il controllo e avvia nuovamente l'importazione. Un'operazione annullata o fallita non produce una copia parzialmente aggiornata.
 
-**Limiti della versione di prova.** Il collegamento acquisisce i casi statici, le sollecitazioni locali beam e plate e gli spostamenti globali disponibili. Non costituisce un importatore completo di ogni famiglia di risultato. Nel primo import diretto la trasformazione delle tabelle in terne locali, vincoli, rilasci e link del visualizzatore è ancora incompleta: i dati originali vengono conservati, ma i relativi simboli possono non essere presenti. Le informazioni già normalizzate di una copia precedente vengono riutilizzate soltanto quando i dati confrontati coincidono. Leggi gli avvisi prima di interpretare l'assenza di un simbolo come assenza del relativo attributo nel modello.
+**Limiti della versione di prova.** Il collegamento acquisisce casi statici e stati costruttivi esplicitamente selezionati, le sollecitazioni locali beam e plate e gli spostamenti globali disponibili. Non costituisce un importatore completo di ogni famiglia di risultato. Nel primo import diretto la trasformazione delle tabelle in terne locali, vincoli, rilasci e link del visualizzatore è ancora incompleta: i dati originali vengono conservati, ma i relativi simboli possono non essere presenti. Le informazioni già normalizzate di una copia precedente vengono riutilizzate soltanto quando i dati confrontati coincidono. Leggi gli avvisi prima di interpretare l'assenza di un simbolo come assenza del relativo attributo nel modello.
 
 Per aprire una copia già acquisita scegli **File o copia già acquisita**: sono previsti il pacchetto **.antheamodel** oppure **NODE.json** della cartella di acquisizione MIDAS completa. Questa scelta non è l'apertura diretta di un file nativo MIDAS; per il modello nativo usa il collegamento al modello aperto descritto sopra.
 

@@ -42,6 +42,7 @@ public static class MidasSnapshotImporter
                 var table = tables[0].Value;
                 if (table.GetProperty("FORCE").GetString()!.ToUpperInvariant() != "N" || table.GetProperty("DIST").GetString()!.ToUpperInvariant() != "MM") throw new InvalidDataException("Risultati della copia: attese unità N e mm.");
                 var headers = table.GetProperty("HEAD").EnumerateArray().Select(v => v.GetString()!).ToArray();
+                if (headers.Contains("Stage") || headers.Contains("Step")) throw new InvalidDataException("Risultati per fase: usa l’importazione stage con fase e passo espliciti.");
                 int Column(string name) { var positions = headers.Select((s, i) => (s, i)).Where(p => p.s == name).ToArray(); if (positions.Length != 1) throw new InvalidDataException("Colonna mancante o ambigua: " + name); return positions[0].i; }
                 int elem = Column("Elem"), node = Column("Node"), load = Column("Load"); var columns = ModelSnapshot.Components.Select(Column).ToArray();
                 var rows = table.GetProperty("DATA").EnumerateArray().ToArray();
@@ -52,7 +53,7 @@ public static class MidasSnapshotImporter
         }
         result.SourceTables = new();
         // Preserve every acquired attribute. Missing exports remain missing, never an invented empty model category.
-        foreach (string name in new[] { "UNIT", "NODE", "ELEM", "THIK", "SECT", "MATL", "STLD", "LCOM-CONC", "LCOM-GEN", "LCOM-STEEL", "LCOM-SRC", "LCOM-SEISMIC", "LCOM-STLCOMP", "CONS", "ELNK", "RIGD", "FRLS", "PRLS", "NLNK", "NSPR", "MCON", "SKEW", "OFFS", "GRUP", "BNGR", "LDGR", "CNLD", "BMLD", "PRES", "STAG", "BODF", "NBOF", "NLLP" })
+        foreach (string name in new[] { "UNIT", "NODE", "ELEM", "THIK", "SECT", "MATL", "STLD", "LCOM-CONC", "LCOM-GEN", "LCOM-STEEL", "LCOM-SRC", "LCOM-SEISMIC", "LCOM-STLCOMP", "CONS", "ELNK", "RIGD", "FRLS", "PRLS", "NLNK", "NSPR", "MCON", "SKEW", "OFFS", "GRUP", "BNGR", "LDGR", "CNLD", "BMLD", "PRES", "STAG", "STCT", "BODF", "NBOF", "NLLP" })
             if (File.Exists(Path.Combine(directory, name + ".json")))
             {
                 var root = Read(name);

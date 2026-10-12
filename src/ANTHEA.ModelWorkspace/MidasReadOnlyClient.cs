@@ -23,6 +23,9 @@ internal sealed class MidasReadOnlyClient(HttpClient http, MidasConnection conne
     public Task<JsonElement> ResultsAsync(Dictionary<string, object> argument, CancellationToken token) =>
         SendAsync("post/TABLE", JsonSerializer.Serialize(new { Argument = argument }), token);
 
+    public Task<JsonElement> ResultsAsync(GPC.Converter.CivilNx.CivilNxTableRequest request, CancellationToken token) =>
+        SendAsync("post/TABLE", request.ToJson(), token);
+
     async Task<JsonElement> SendAsync(string endpoint, string? body, CancellationToken token)
     {
         using var deadline = CancellationTokenSource.CreateLinkedTokenSource(token);

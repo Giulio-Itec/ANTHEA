@@ -1,3 +1,4 @@
+using static ANTHEA.ModelWorkspace.MidasGpcDisplay;
 using System.Diagnostics;
 using System.Globalization;
 using GPC.Converter;
@@ -35,7 +36,7 @@ public sealed partial class GpcModelCombinationService
         var records=definitions.Select(ModelCombinations.ToGpc).ToArray();
         var required=CombinationExpansion.StaticCases(records,definitionId).ToArray();
         if(required.Length==0)throw new InvalidDataException("La combinazione non contiene casi statici.");
-        var bases=required.Select(c=>snapshot.Results.SingleOrDefault(r=>r.Name==c&&!r.IsEnvelope&&r.Combination==null)
+        var bases=required.Select(c=>snapshot.Results.SingleOrDefault(r=>r.Name==c&&!r.IsEnvelope&&r.Combination==null&&r.Stage==null)
             ??throw new InvalidDataException("Risultati del caso base mancanti: "+c)).ToArray();
         progress?.Report(new("Risoluzione delle dipendenze della combinazione…"));
         // Bound expansion before allocating result states. This limit is explicit rather than a silent truncation.
@@ -81,7 +82,7 @@ public sealed partial class GpcModelCombinationService
         if(import.Model==null||import.Status==ImportStatus.Rejected)throw new InvalidDataException("Modello GPC non disponibile: "+Messages(import.Diagnostics));
         var model=import.Model;ValidateGeometry(snapshot,model);
         var warnings=import.Diagnostics.Where(d=>d.Severity!=DiagnosticSeverity.Information).Select(d=>d.Code+": "+d.Message).ToList();
-        var cases=snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null&&model.LoadCases.ContainsKey(r.Name)).ToArray();
+        var cases=snapshot.Results.Where(r=>!r.IsEnvelope&&r.Combination==null&&r.Stage==null&&model.LoadCases.ContainsKey(r.Name)).ToArray();
         progress?.Report(new($"Preparazione iniziale · {cases.Length} casi base GPC. Saranno riutilizzati per le altre combinazioni…"));
         var tables=ResultTables(snapshot,cases,warnings,token);
         var imported=CivilNxResults.Import(model,source,tables,"anthea-static",cancellationToken:token);
@@ -109,24 +110,6 @@ public sealed partial class GpcModelCombinationService
             // The named user definition and its input revision belong to the ANTHEA document, not this scratch model.
             batch.Combinations.Add(new(){Id="ANTHEA/runtime",Name="ANTHEA runtime",Kind=CombinationKind.Envelope,Source="ANTHEA",Status="",Terms=[]});
             return batch;
-        }
-    }
-
-    static void ValidateGeometry(ModelSnapshot snapshot,GPC.Model.Models.Model model)
-    {
-        var nodes=model.NodesElements.Values.Where(n=>n.Source!=null).ToDictionary(n=>int.Parse(n.Source.OriginalId,CultureInfo.InvariantCulture));
-        if(nodes.Count!=snapshot.Nodes.Length)throw new InvalidDataException("Numero di nodi diverso dalle tabelle sorgente MIDAS.");
-        foreach(var n in snapshot.Nodes)
-            if(!nodes.TryGetValue(n.Id,out var native)||Math.Abs(native.Position.X-n.X*1000)>1e-5||Math.Abs(native.Position.Y-n.Y*1000)>1e-5||Math.Abs(native.Position.Z-n.Z*1000)>1e-5)
-                throw new InvalidDataException("La geometria salvata non coincide con le tabelle sorgente MIDAS. Aggiorna il modello prima di calcolare le combinazioni.");
-        var source=snapshot.SourceTables!["ELEM"];
-        foreach(var element in snapshot.Elements)
-        {
-            if(!source.TryGetProperty(element.Id.ToString(CultureInfo.InvariantCulture),out var e)||
-                e.GetProperty("TYPE").GetString()!=element.Type||e.GetProperty("SECT").GetInt32()!=element.Property||
-                !e.GetProperty("NODE").EnumerateArray().Select(n=>n.GetInt32()).Where(n=>n>0).SequenceEqual(element.Nodes)||
-                (e.TryGetProperty("ANGLE",out var angle)?angle.GetDouble():0)!=element.Angle)
-                throw new InvalidDataException("Connettività, assegnazioni o assi diversi dalle tabelle sorgente MIDAS. Aggiorna il modello prima del calcolo.");
         }
     }
 
@@ -182,11 +165,5 @@ public sealed partial class GpcModelCombinationService
         if(!text.StartsWith("Governs ",StringComparison.Ordinal)||end<8)throw new InvalidDataException("Formato dei governanti GPC non riconosciuto.");
         return text[8..end].Split(", ",StringSplitOptions.None);
     }
-    static double[] DisplayVector(ResultLocation sample)=>sample switch
-    {
-        PointResultPlateForces p=>[-p.Forces.Mxx*.001,-p.Forces.Myy*.001,-p.Forces.Mxy*.001,p.Forces.Fxx,p.Forces.Fyy,p.Forces.Fxy,p.Forces.Fxz,p.Forces.Fyz],
-        StationResultBeamForces b=>[b.ResultBeamForces.N*.001,b.ResultBeamForces.V1*.001,b.ResultBeamForces.V2*.001,b.ResultBeamForces.T*1e-6,-b.ResultBeamForces.M1*1e-6,b.ResultBeamForces.M2*1e-6],
-        NodeResultDisplacement d=>[d.ResultDisplacement.D1*.001,d.ResultDisplacement.D2*.001,d.ResultDisplacement.D3*.001,d.ResultDisplacement.R1,d.ResultDisplacement.R2,d.ResultDisplacement.R3],
-        _=>throw new InvalidDataException("Famiglia dei risultati GPC non gestita dalla vista.")
-    };
+
 }
