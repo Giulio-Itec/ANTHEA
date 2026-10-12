@@ -1843,6 +1843,76 @@
         "supporto/artefatti/fondazioni-superficiali/visualizzazioni"
       ],
       "documento": "docs/sviluppo/fondazioni-superficiali.md"
+    },
+    {
+      "data": "2026-10-12",
+      "fase": "F4, riuso API autorizzato",
+      "documento": "docs/refactoring/audit-contratti-moduli-20261012.md",
+      "evidenze": [
+        "supporto/artefatti/riuso-api-20261012/"
+      ],
+      "id": "API-01",
+      "titolo": "Delega alle API GPC distribuite e rimozione dei motori geotecnici esclusi",
+      "famiglia": "architettura/calcestruzzo/materiali/geotecnica",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Aderenza, ancoraggi, dettagli non circolari, M-chi, geometria delle regioni, interassi non circolari, proprietà acciaio e SLE dalle API GPC. Sei motori geotecnici già esclusi da Compile rimossi su consenso esplicito. Contratti UI e archivi conservati; eccezione circolare API-02.",
+      "codice": [
+        "X.Calculations/ConcreteBond.cs",
+        "X.Calculations/ConcreteDetailing.cs",
+        "X.Calculations/MomentCurvature.cs",
+        "X.Calculations/TensionBarSpacing.cs",
+        "X.Calculations/SectionRegions.cs",
+        "X.Calculations/RebarMaterial.cs",
+        "X.Calculations/ConcreteServiceabilityAdapter.cs",
+        "X.Calculations/ConcreteAnalysisSession.cs",
+        "X.Calculations/X.Calculations.csproj"
+      ],
+      "segno": "Esiti, errori, testi e input invariati. Nel confronto completo 1421 differenze numeriche, massimo relativo 1.1436e-15; tolleranza relativa 1e-12 solo nei campi dichiarati. Nessun effetto sui verdetti. Nessuna DLL modificata.",
+      "decisione": {
+        "data": "2026-10-12",
+        "utente": "usa le API disponibili, rimuovi i duplicati e segnala i residui; cancella i sei file esclusi; compila tutto",
+        "esito": "riuso provato e compilato; residui elencati, nessun push"
+      },
+      "test": [
+        "Runner baseline: 52 PASS, 1 KNOWN, 0 NEW-FAIL",
+        "266 casi congelati e due attesi a mano; chiamate IL e percorsi di sessione",
+        "27 file densi / 50996 righe: zero differenze non ammesse",
+        "548 file completi: zero differenze non ammesse",
+        "Soluzione e applicazione Release: zero errori"
+      ]
+    },
+    {
+      "data": "2026-10-12",
+      "fase": "F4, riuso API autorizzato",
+      "documento": "docs/refactoring/audit-contratti-moduli-20261012.md",
+      "evidenze": [
+        "supporto/artefatti/riuso-api-20261012/"
+      ],
+      "id": "API-02",
+      "titolo": "Interassi circolari instabili sul confine del raggruppamento per raggio",
+      "famiglia": "calcestruzzo/geometria",
+      "categoria": "difetto-legacy",
+      "stato": "da-correggere",
+      "descrizione": "Il raggruppamento per Math.Round(r,5) separa barre della stessa corona vicino alla soglia. La norma euclidea del legacy e quella della DLL distribuita producono gruppi diversi; non è un arrotondamento ammissibile.",
+      "codice": [
+        "X.Calculations/TensionBarSpacing.cs",
+        "X.Calculations/LegacyCircularDetailing.cs",
+        "X.Calculations/ConcreteServiceabilityAdapter.cs",
+        "Checker/GPCChecker.Concrete/Cracking/CrackSectionGeometry.cs"
+      ],
+      "segno": "D=400, 8Ø16, c=39.999995, staffa8, seconda corona6Ø12 e gap20 mm: interasse geometrico115.19173586761349 mm; legacy452.3893578248936, DLL904.778715649787. Quattro fogli densi interessati, verdetto negativo invariato ma valore errato in entrambi.",
+      "raccomandazione": "Correggere il raggruppamento in Checker con attesi geometrici indipendenti, poi rilasciare il set coerente. Non modificare coordinate o risultati per forzare equivalenza.",
+      "decisione": {
+        "data": "2026-10-12",
+        "utente": "segnala quello che non può essere sostituito",
+        "esito": "mantengo il percorso precedente per interassi/dettagli/fessurazione circolari; non presentato come corretto"
+      },
+      "test": [
+        "Caso riproducibile C400R2-r5a della cattura densa",
+        "api02-geometria-indipendente.json: archi nominali",
+        "ANTHEA.ApiReuse.Checks: conservazione del precedente e selezione reale in sessione"
+      ]
     }
   ]
 }

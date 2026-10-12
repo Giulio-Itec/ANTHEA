@@ -68,14 +68,26 @@ void Compare(JsonNode? a, JsonNode? b, string path)
     }
     else if (a is JsonValue va && b is JsonValue vb && va.TryGetValue<double>(out var x) && vb.TryGetValue<double>(out var y))
     {
-        numbers++; double error = Math.Abs(x - y), scale = Math.Max(1, Math.Max(Math.Abs(x), Math.Abs(y)));
-        if (error > 1e-9 * scale) throw new Exception($"{path}: {x:R} != {y:R}");
+        numbers++; double error = Math.Abs(x - y), scale = Math.Max(Math.Abs(x), Math.Abs(y));
+        if (error > 1e-12 * scale) throw new Exception($"{path}: {x:R} != {y:R}");
         if (x != y) rounded++;
-        maxRelative = Math.Max(maxRelative, error / scale);
+        if (scale > 0) maxRelative = Math.Max(maxRelative, error / scale);
     }
     else if (!JsonNode.DeepEquals(a, b)) throw new Exception(path + ": " + a + " != " + b);
 }
 Compare(expected, snapshot, "cases");
+LibraryCalls.Check();
+ProductionPaths.Check();
+// API-02: reference result from the frozen dense capture, NOT a correct geometric oracle.
+// Both old/native radius grouping need correction; until release, do not change the production result.
+var ringInput = SezioneCA.DefaultInput();
+foreach (var (key, value) in new[] { ("shape", "Circolare"), ("diameter_mm", "400"), ("longitudinal_bar_count", "8"),
+    ("longitudinal_bar_diameter_mm", "16"), ("cover_mm", "39.999995"), ("transverse_bar_diameter_mm", "8"),
+    ("second_inner_count", "6"), ("second_inner_diameter", "12"), ("second_inner_gap", "20") }) ringInput[key] = value;
+ringInput["second_inner_enabled"] = true;
+var ringSection = new SezioneCA(ringInput);
+double ringSpacing = new TensionBarSpacing().Maximum(ringSection, Enumerable.Range(0, ringSection.Bars.Count).ToArray())!.Value;
+if (Math.Abs(ringSpacing - 452.3893578248936) > 1e-12 * ringSpacing) throw new Exception("API-02: circular compatibility changed");
 // Hand calculation: fbd=2.25*2/1.5=3 MPa; lb=16*300/(4*3)=400 mm;
 // NTC straight bar minimum 320 mm, lap with 100% has alpha6=1.5 and l0=600 mm.
 var anchor = new ConcreteAnchorageCalculator().Calculate(new(16, 300, 2, 1.5, true, 400, false, 100, 0));

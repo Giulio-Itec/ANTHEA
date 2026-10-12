@@ -13,7 +13,12 @@ public sealed class ConcreteAnalysisSession
 {
     /// <summary>Sessione con il motore SLE indicato, o con quello predefinito dell'adattatore (refactoring F2.7b, commit A4). Il punto resistente
     /// SLU dei domini viene sempre dal motore della libreria (<see cref="ConcreteResistanceAdapter"/>).</summary>
-    public ConcreteAnalysisSession(ServiceabilityEngine? engine = null) => Engine = engine ?? ConcreteServiceabilityAdapter.Default;
+    public ConcreteAnalysisSession(ServiceabilityEngine? engine = null)
+    {
+        requestedEngine = engine;
+        Engine = engine ?? ConcreteServiceabilityAdapter.Default;
+    }
+    private readonly ServiceabilityEngine? requestedEngine;
 
     /// <summary>Motore SLE (limiti tensionali e fessurazione) della sessione: fissato alla costruzione e parte della firma della cache degli
     /// stati tensionali, così due sessioni con motori diversi non condividono stati (prova 5m).</summary>
@@ -125,7 +130,7 @@ public sealed class ConcreteAnalysisSession
                 }
                 var engine = cached.Engine; var state = cached.State;
                 Ntc2018Checks.CrackResult crack;
-                try { crack = ConcreteServiceabilityAdapter.Cracking(engine, state, force, input, workspace, options, key, Engine); }
+                try { crack = ConcreteServiceabilityAdapter.Cracking(engine, state, force, input, workspace, options, key, requestedEngine); }
                 catch (Exception ex) { crack = new(null, null, null, null, "Fessurazione non calcolata: " + ex.Message); }
                 results[request.Id] = new(state, state.Ratio, state.Status, crack.Status, crack);
             }

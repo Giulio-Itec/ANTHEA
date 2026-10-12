@@ -8,7 +8,8 @@ using GPC.Checkers.Concrete.Serviceability;
 
 /// <summary>
 /// Prove della parte SLE dell'adattatore (refactoring F2.7b, commit A4; progetto F2.7 §6.1-§6.3): limiti tensionali e fessurazione
-/// attraverso <see cref="ConcreteServiceabilityAdapter"/>, con ENTRAMBI i motori scelti in modo esplicito (il predefinito è Legacy fino ad A8).
+/// attraverso <see cref="ConcreteServiceabilityAdapter"/>, con ENTRAMBI i motori scelti in modo esplicito.
+/// Produzione: Library, salvo fessurazione circolare conservata sul legacy per API-02.
 /// - 5a strato di mappatura (letterali, traduzioni lette per riflessione, testo non tradotto = errore di programma);
 /// - 5b motore Legacy dell'adattatore uguale al legacy diretto bit per bit; 5c motore Library contro legacy (griglie della cattura densa:
 ///   936 stati di fessurazione, 2016 tensionali, tabella dei requisiti con valori non validi; culture it-IT e invariante);
@@ -50,8 +51,8 @@ sealed partial class ServiceabilityChecks
 
     void All()
     {
-        // Interruttore: Legacy fino al commit A8 di F2.7b; le prove scelgono il motore in modo esplicito.
-        Check(ConcreteServiceabilityAdapter.Default == ServiceabilityEngine.Legacy, "motore SLE predefinito " + ConcreteServiceabilityAdapter.Default + ", atteso Legacy");
+        // Production uses Checker; both engines remain explicit comparison paths in these tests.
+        Check(ConcreteServiceabilityAdapter.Default == ServiceabilityEngine.Library, "motore SLE predefinito " + ConcreteServiceabilityAdapter.Default + ", atteso Library");
         if (Selected("5a")) MappingLayer();
         if (Selected("5b", "5c")) { CrackGrid(); RequirementTable(); StressGrid(); }
         if (Selected("5d")) Session();

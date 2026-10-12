@@ -57,8 +57,8 @@ public static class ConcreteDetailingAnalysis
         double sigma = a.S("sigma").Trim() == "" ? section.Fyd : Number("sigma");
         if (sigma > section.Fyd) throw new ArgumentException("La tensione di ancoraggio non può superare fyd.");
         if (a.S("lunghezza").Trim() == "") throw new ArgumentException("Inserire la lunghezza disponibile per eseguire la verifica.");
-        var bondInput = (JsonObject)input.DeepClone(); bondInput["fck_mpa"] = Math.Min(input.D("fck_mpa"), 60);
-        double fct = Math.Abs(ConcreteMaterials.Concrete(bondInput).Fctk05);
+        _ = ConcreteMaterials.Concrete(input); // Preserve material/diagram validation; the bond cap belongs to Checker.
+        double fct = GPC.Checkers.Concrete.Detailing.AnchorageCalculator.BondFctk05(input.D("fck_mpa"));
         bool lap = a.S("tipo").StartsWith("Sovrapposizione");
         var result = new ConcreteAnchorageCalculator().Calculate(new(phi, sigma, fct, input.D("gamma_c"),
             a.S("aderenza") == "Buona", Number("lunghezza"), lap, lap ? Number("percentuale") : 100, lap ? Number("interferro") : 0));

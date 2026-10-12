@@ -134,6 +134,8 @@ internal sealed partial class RetainingWallWorkspace
     }
     internal static string RebarLabel(JsonObject d, string key)
     {
-        if (d.S("family") != "cantilever") return "non armato"; var r = d["reinforcement"]?[key]; return $"{r.D("count"):0} Ø{r.D("diameter"):0}/m/faccia · As={r.D("count") * Math.PI * Math.Pow(r.D("diameter"), 2) / 4:0} mm²/m";
+        if (d.S("family") != "cantilever") return "non armato"; var r = d["reinforcement"]?[key];
+        var bar = new GPC.Model.Sections.SectionCircular(r.D("diameter"));
+        return $"{r.D("count"):0} Ø{r.D("diameter"):0}/m/faccia · As={r.D("count") * bar.Area:0} mm²/m";
     }
 }

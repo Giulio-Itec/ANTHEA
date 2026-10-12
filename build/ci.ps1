@@ -102,6 +102,7 @@ Add-Suite @{ Name = 'FoundationWorkspace.UiChecks'; Stage = 'ui'; Kind = 'run'; 
 # (durability and SLE grids, about 2.5 minutes) is in the regression stage; the fast stage runs sections 1-4 and the switches
 # (--rapido), user decision of 9/10.
 Add-Suite @{ Name = 'ConcreteLibraryAdapter.Checks/rapido'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'; Args = @('{out}', '--rapido') }
+Add-Suite @{ Name = 'ANTHEA.ApiReuse.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.ApiReuse.Checks\ANTHEA.ApiReuse.Checks.csproj'; Args = @() }
 Add-Suite @{ Name = 'ConcreteLibraryAdapter.Checks'; Stage = 'regression'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'; Args = @('{out}')
     Proof = @{ File = '{out}\misura.json'; Pattern = '"strumento": "ConcreteLibraryAdapter.Checks"' } }
 # F2.1 bench: legacy against GPCChecker.Concrete near the branch thresholds and on closed-form sections (independent Python

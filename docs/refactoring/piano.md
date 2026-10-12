@@ -109,7 +109,8 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
 ## Fase 4: calcoli residui nelle librerie
 
 - [x] 12 ottobre: [audit dei contratti dei 12 moduli](audit-contratti-moduli-20261012.md), delle classi di terreno/materiale e dei Progetti; inventario dei sorgenti effettivamente compilati e confronto con le API delle DLL distribuite.
-- [~] Su richiesta successiva dell'utente, riuso delle API già disponibili ed eliminazione dei duplicati dopo confronto prima/dopo; ramo `refactoring/f4-riuso-api`. Le parti senza contratto equivalente restano elencate nell'audit. Non chiude automaticamente F4.1–F4.16 né il rilascio delle fondazioni.
+- [x] 12 ottobre: riuso verificato delle API per aderenza/ancoraggi, dettagli non circolari, M–χ, regioni, interassi non circolari, acciaio e SLE; sei vecchi file geotecnici esclusi rimossi su consenso esplicito. Ramo `refactoring/f4-riuso-api`, registro API-01. Runner baseline: 52 PASS, 1 KNOWN, 0 NEW-FAIL; confronto completo di 548 file e denso di 50.996 righe passato; soluzione e app Release compilate. Residui e contratti incompleti nell'audit; non chiude F4.1–F4.16 né il rilascio delle fondazioni.
+- [ ] API-02: correggere il raggruppamento degli interassi circolari in Checker e rilasciare il set coerente; fino ad allora interassi, dettagli e fessurazione circolari conservano il percorso precedente. Caso indipendente e discrepanza riproducibile documentati nell'audit.
 
 - [ ] F4.1 Catture aggiornate dopo F3.
 - [ ] F4.2 Regole automatiche estese.

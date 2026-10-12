@@ -770,3 +770,26 @@ nessun nuovo fallimento. La prima batteria intensiva di schermate non ha prodott
 finale durante l'esecuzione parallela e non è conteggiata come superata. La ripetizione
 isolata, con attesa esplicita del processo, termina con codice 0 e 138 controlli PASS.
 Diagrammi/report: 17 PASS; deformate/report: 9 PASS; otto pagine PDF ispezionate.
+
+## Riuso delle API distribuite e rimozione dei sei motori esclusi (12 ottobre 2026)
+
+L'utente chiede di usare le API di Model/Checker, eliminare i duplicati sostituibili,
+segnalare i residui e compilare tutto. Autorizza poi espressamente la cancellazione
+di BishopSolver, FoundationSettlement, NewmarkSliding, ShallowFoundationSeismic,
+SlopeGeometry e SlopeStability. Erano già esclusi dalla compilazione: le funzioni
+sono in GPCChecker.Geotechnics con test di migrazione. Rimossi solo questi sei file.
+
+Riuso completato entro il perimetro provato nell'[audit](audit-contratti-moduli-20261012.md),
+registro API-01. La cattura estesa rivela un difetto di raggruppamento degli interassi
+circolari (API-02): nessuna tolleranza allargata per accettarlo. Conservo interassi,
+dettagli e fessurazione circolari sul percorso precedente fino alla correzione della
+libreria e al rilascio coerente. È una scelta conservativa dell'intervento, non
+un'approvazione dell'utente del valore errato. Il confronto non è una nuova
+validazione normativa dei metodi e non chiude i residui F4.
+
+Verifica conclusiva: runner baseline 52 PASS, 1 KNOWN già censito, 0 NEW-FAIL;
+548 file e 50.996 righe confrontati, nessuna differenza non ammessa. Tolleranze
+relative 1e-12 limitate ai campi mutati, registrate nei commit 1b3c38f e d69b97d
+prima dell'implementazione. Attesi indipendenti immutati. Build soluzione e app
+Release completate. Nessun push, cambio di versione o aggiornamento di lib/Checker;
+resta l'attesa delle versioni esplicitamente riservate all'utente.
