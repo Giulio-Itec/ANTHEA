@@ -165,8 +165,9 @@ Il pacchetto successivo `panels-node-axes/spalla-assi-nodali.antheamodel`, otten
 aggiunge le 3.755 terne nodali. Nel modello reale SKEW è vuota e le terne sono globali; una fixture indipendente
 con X=(0,1,0), Y=(-1,0,0), Z=(0,0,1) verifica in WPF l'orientamento ruotato.
 
-Il pulsante «Aggiorna modello» della bozza rilegge un pacchetto .antheamodel o una copia MIDAS già acquisita;
-non è ancora collegato direttamente a MIDAS/Straus. La rilettura dal software sorgente è il flusso previsto.
+Il pulsante «Aggiorna modello» apre il pannello di importazione: pacchetto .antheamodel, copia MIDAS già
+acquisita o modello MIDAS aperto tramite API (dal 12 ottobre, MOD-28). Straus/Strand7 è predisposto
+con selezione dei file e controllo dei prerequisiti, ma la lettura nativa non è ancora attiva (MOD-29).
 Modalità concordate con l'utente l'11 ottobre:
 
 | Modalità | Contenuto acquisito | Uso |
@@ -239,8 +240,8 @@ grafiche nelle viste e ricette aggiunta nei passi MOD-09/10.
 Il contratto di errore della sorgente distingue sessione MIDAS assente, documento chiuso, accesso rifiutato,
 timeout e indisponibilità. La vista espone il motivo e il recupero, conserva l'ultima copia valida e non
 applica importazioni parziali. I corpi HTTP e le credenziali non diventano testo della vista. Il collegamento
-diretto MIDAS nel prodotto è ancora da integrare: il banner è collaudato con un adattatore simulato, mentre
-le acquisizioni reali di questa fase usano gli strumenti di laboratorio.
+diretto MIDAS, inizialmente simulato e affiancato agli strumenti di laboratorio, è stato integrato
+il 12 ottobre in MOD-28. Sono conservati i test del contratto e aggiunte prove del protocollo HTTP.
 
 Preparato nella libreria senza WPF il confronto di snapshot per ID, con tolleranza sulle coordinate,
 attributi, aggiunte/rimozioni e delta di un campo esplicitamente richiesto. La visualizzazione dei cambiamenti
@@ -749,6 +750,73 @@ La cattura completa sincronizza inoltre layout e render host prima del frame: un
 immediata del pannello dei diagrammi non comprime più la vecchia immagine nella viewport
 ridotta. Prova senza attesa intermedia e dimensioni native verificate; 12 controlli in
 `export-layout/synchronized`. MOD-27.
+
+## Importazione dal software e predisposizione Straus — 12 ottobre 2026
+
+Ramo `codex/model-live-import`, derivato da `codex/model-viewer-draft`. Nessuna modifica a
+X.Desktop, X.Core, X.Calculations, ai sorgenti degli altri repository o al set di DLL GPC.
+
+Un solo pannello affiancato alla vista contiene la sorgente, le quattro modalità di aggiornamento,
+il controllo della connessione, i casi statici selezionabili e i tipi di risultato. L'albero rimane
+disponibile e il pannello non si sovrappone alla viewport né alle immagini esportate. Chiave MAPI
+mascherata e mantenuta esclusivamente nella sessione del viewmodel; non inclusa in documenti,
+report, viste, messaggi di errore o pacchetti di prova.
+
+`MidasModelSource` e il trasporto HTTP risiedono in ANTHEA.ModelWorkspace, senza WPF. Le sole
+richieste sono GET delle tabelle e POST di interrogazione a `post/TABLE`, senza esportazione
+remota, analisi, salvataggi o modifiche al modello MIDAS. Redirect disabilitati; richieste sequenziali,
+timeout distinti per input e risultati, limite di 32 MB per risposta e 512 MB per acquisizione.
+I file temporanei appartengono alla singola operazione e vengono eliminati alla fine.
+
+Il controllo iniziale acquisisce nodi, elementi, unità e nomi dei casi STLD. L'importazione controlla
+nuovamente questa identità e rilegge alla fine tutte le tabelle acquisite, compresi attributi e carichi.
+I risultati devono corrispondere ai casi richiesti e coprire ogni vertice dei plate, le estremità delle
+beam e tutti i nodi per gli spostamenti selezionati. Duplicati, casi inattesi, dati incompleti, cambio
+del modello, annullamento o perdita della sessione impediscono la pubblicazione della copia.
+Non è possibile rilevare una nuova analisi eseguita durante la lettura se tutte le tabelle di input
+restano identiche: il pannello chiede di non eseguire analisi durante l'acquisizione.
+
+Supporto attuale: risultati locali BEAM/PLATE e traslazioni nodali globali dei casi statici.
+Definizioni delle combinazioni conservate; risultati delle combinazioni, inviluppi, fasi, tensioni,
+reazioni e altre famiglie non richiesti dal collegamento di questa versione. Il lettore della
+geometria conserva i limiti documentati del prototipo: le formulazioni non gestite vengono rifiutate.
+
+Il convertitore GPC usato per normalizzare la vecchia copia di laboratorio non è incluso nel
+set di librerie distribuito. Una prima acquisizione API conserva le tabelle originali e dichiara
+esplicitamente terne e simboli di vincoli/rilasci/link ancora da normalizzare. Per una copia già
+normalizzata, le assegnazioni esistenti vengono conservate **solo** quando tutte le tabelle
+necessarie sono presenti, tutte le tabelle sorgente coincidono e coincidono nodi, elementi,
+sezioni, spessori e offset. Nessun ricalcolo o riuso dopo una modifica. Questo consente anche
+l'aggiornamento dei soli risultati di una copia compatibile.
+
+Straus/Strand7 R3: scelta `.st7`, `.lsa` per gli aggiornamenti con risultati, e `St7api.dll`.
+Rilevamento dell'installazione locale R3/R31, controllo dell'esistenza/leggibilità dei file e del
+formato PE nativo x64, senza caricare la DLL. Il controllo dei file non valida modello, risultati,
+versione ABI o licenza. Il pulsante di importazione rimane disattivato con motivo visibile.
+Contratto `IStrand7ModelSource` predisposto con numeri e nomi dei casi, firma della sorgente,
+annullamento e avanzamento. Passo successivo: worker separato con il convertitore GPC R3,
+pubblicato nel set coerente secondo le regole del repository, e mappatura nel documento Modelli.
+
+Collaudo: 381 controlli logici e 17 controlli WPF del nuovo pannello, inclusi tre temi, selezione,
+annullamento, prerequisiti Straus e assenza di sovrapposizione alla viewport. Evidenze in
+`supporto/artefatti/ci/20261012-120445-import-midas-straus` e
+`supporto/artefatti/ci/20261012-120619-import-ui-finale`.
+Profilo quick finale: 27 PASS, nessun nuovo fallimento
+(`supporto/artefatti/ci/20261012-120857-import-midas-straus-finale`). Regressione WPF
+dell'integrazione: 32 PASS (`supporto/artefatti/ci/20261012-121018-import-ui-regressione`).
+
+Prova MIDAS reale: 3.755 nodi, 3.616 elementi, 49 casi individuati. Il primo tentativo con tutti
+i casi si è interrotto durante Q4+ per indisponibilità della sessione; nessun pacchetto parziale
+pubblicato. Dopo la riattivazione, il caso G1 completo è stato acquisito in **93,073 s**, compresi
+7,338 s di controllo iniziale, input, risultati, ricontrollo e scrittura: 13.718 vertici plate,
+3.755 traslazioni nodali e sei campi beam. Geometria, tutte le tabelle sorgente e tutti i valori
+del caso coincidono esattamente con il pacchetto di riferimento dell'11 ottobre, confrontato
+senza modificarlo. Questi tempi riguardano l'acquisizione dal software, non la visualizzazione
+di dati già caricati. Evidenze: `supporto/artefatti/model-viewer/live-import/20261012-reale-un-caso-02`.
+
+Riferimenti di protocollo, solo per sviluppo:
+[API MIDAS](https://support.midasuser.com/hc/en-us/articles/33016922742937-MIDAS-API-Online-Manual),
+[impostazioni API](https://support.midasuser.com/hc/en-us/articles/27745256204057-API-Settings).
 
 Collaudo di e25b7ed: `ci/20261011-203008-modelli-preview-finale`, standard 43 PASS / 1 KNOWN
 già censito / 0 nuovi fallimenti; `preview-20261011/collaudo/regressione-isolata`, 138 WPF

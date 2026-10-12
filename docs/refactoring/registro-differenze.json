@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-11",
+  "aggiornato": "2026-10-12",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/",
@@ -1719,6 +1719,38 @@
       "fase": "bozza Modelli, indipendente dal refactoring",
       "test": ["12 controlli WPF di layout, esportazione, prima apertura scura e store dedicato"],
       "evidenze": ["supporto/artefatti/model-viewer/preview-20261011/prove/20261011-203826-a46b06", "supporto/artefatti/model-viewer/export-layout/synchronized"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-28",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Collegamento MIDAS API in sola lettura dal pannello Modelli: controllo connessione, selezione dei casi statici, quattro modalità, avanzamento, annullamento e applicazione atomica della copia.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelWorkspace/MidasModelSource.cs", "src/ANTHEA.ModelWorkspace/MidasNormalizationReuse.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.LiveImport.cs", "src/ANTHEA.ModelViewer.Wpf/ModelImportOptionsView.xaml"],
+      "segno": "Nuova sorgente e pannello affiancato; nessun cambio delle formule. Lettura reale G1: geometria, tabelle, forze e spostamenti identici alla copia dell'11 ottobre. Normalizzazioni precedenti conservate soltanto a input completo e identico.",
+      "decisione": {"data": "2026-10-12", "utente": "impostiamo l'import da modello", "esito": "MIDAS collegato senza modifiche al software sorgente o alle librerie distribuite"},
+      "data": "2026-10-12",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["381 controlli di logica complessivi", "17 controlli WPF del pannello e dei tre temi", "G1 reale: 13718 vertici plate, 3755 spostamenti e sei campi beam identici al riferimento", "Interruzione reale della sessione durante il tentativo di tutti i 49 casi: nessuna copia parziale pubblicata"],
+      "evidenze": ["supporto/artefatti/ci/20261012-120445-import-midas-straus", "supporto/artefatti/ci/20261012-120619-import-ui-finale", "supporto/artefatti/model-viewer/live-import/20261012-reale-un-caso-02"],
+      "documento": "docs/sviluppo/modelli-visualizzatore.md"
+    },
+    {
+      "id": "MOD-29",
+      "famiglia": "interfaccia/modelli",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Predisposizione Straus/Strand7 R3: selezione ST7/LSA/API, controllo file e formato nativo x64, contratto del worker. Lettura nativa non ancora attiva e pulsante disabilitato con motivo esplicito.",
+      "riferimento_normativo": [],
+      "codice": ["src/ANTHEA.ModelWorkspace/Strand7ImportSetup.cs", "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Strand7Import.cs"],
+      "segno": "Nessuna chiamata alla DLL, gestione della licenza, lettura del modello nativo o modifica del set GPC. File preparati non sono dichiarati come modello importato.",
+      "decisione": {"data": "2026-10-12", "utente": "poi predisponi anche quello per straus", "esito": "predisposizione completata; attivazione dopo integrazione del convertitore GPC R3 nel rilascio coerente"},
+      "data": "2026-10-12",
+      "fase": "bozza Modelli, indipendente dal refactoring",
+      "test": ["Controllo della DLL R31 x64 installata senza caricarla", "Percorsi errati, file mancanti, annullamento, sorgenti distinte e pulsante non attivo", "Pannello WPF nei temi dell'applicazione"],
+      "evidenze": ["supporto/artefatti/ci/20261012-120445-import-midas-straus", "supporto/artefatti/ci/20261012-120619-import-ui-finale"],
       "documento": "docs/sviluppo/modelli-visualizzatore.md"
     }
   ]

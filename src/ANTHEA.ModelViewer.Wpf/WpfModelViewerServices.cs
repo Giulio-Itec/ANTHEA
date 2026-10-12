@@ -52,6 +52,22 @@ internal sealed class WpfModelViewerServices(Func<Window?> owner, Action fit, Ac
         if (dialog.ShowDialog(owner()) != true) return null;
         return await Task.Run(() => ModelSnapshotFiles.Read(dialog.FileName, cancellationToken), cancellationToken);
     }
+    public async Task<MidasModelCatalog> InspectMidasAsync(MidasConnection connection,IProgress<ModelImportProgress> progress,CancellationToken token)
+    {
+        using var source=new MidasModelSource();
+        return await Task.Run(()=>source.InspectAsync(connection,progress,token),token);
+    }
+    public string? ChooseStrand7File(Strand7ImportFile kind)
+    {
+        var dialog=new OpenFileDialog {Title="Predisponi importazione Straus / Strand7",Filter=kind switch
+        {Strand7ImportFile.Model=>"Modello Straus / Strand7|*.st7",Strand7ImportFile.Results=>"Risultati statici lineari|*.lsa",_=>"API Straus / Strand7 R3|St7api.dll|Librerie native|*.dll"}};
+        return dialog.ShowDialog(owner())==true?dialog.FileName:null;
+    }
+    public async Task<ModelSnapshot> ImportMidasAsync(MidasImportRequest request,IProgress<ModelImportProgress> progress,CancellationToken token)
+    {
+        using var source=new MidasModelSource();
+        return await Task.Run(()=>source.ReadAsync(request,progress,token),token);
+    }
     public async Task<ModelSnapshot?> OpenPreviousModelAsync(CancellationToken cancellationToken)
     {
         var dialog=new OpenFileDialog {Title="Confronta con una copia precedente del modello",Filter="Modello ANTHEA|*.antheamodel|Copia del laboratorio (NODE.json)|NODE.json"};

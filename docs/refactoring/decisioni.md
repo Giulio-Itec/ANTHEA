@@ -770,3 +770,22 @@ nessun nuovo fallimento. La prima batteria intensiva di schermate non ha prodott
 finale durante l'esecuzione parallela e non è conteggiata come superata. La ripetizione
 isolata, con attesa esplicita del processo, termina con codice 0 e 138 controlli PASS.
 Diagrammi/report: 17 PASS; deformate/report: 9 PASS; otto pagine PDF ispezionate.
+
+## Collegamenti dei modelli — 12 ottobre 2026
+
+Su richiesta dell'utente, il ramo `codex/model-live-import` aggiunge il collegamento MIDAS
+nel modulo e predispone Straus/Strand7. Trasporto, lettura, preparazione dei file e confronto
+dei dati rimangono in ANTHEA.ModelWorkspace; stato e comandi nella Presentation, dialoghi e
+PasswordBox nella WPF. Nessun nuovo calcolo strutturale, modifica del set GPC o degli altri progetti.
+
+Una lettura fallita non aggiorna il documento. Non si ritenta automaticamente una query risultati
+che potrebbe essere ancora in esecuzione in MIDAS. Il confronto finale delle tabelle intercetta
+modifiche dell'input, ma non certifica l'identità di un'analisi rieseguita a input invariato.
+La selezione dei casi sostituisce l'intero insieme dei risultati, come le modalità già concordate.
+
+Non distribuire DLL del convertitore prese dal checkout locale per aggirare il rilascio coerente.
+Se i dati sorgente sono identici e completi, conservare le normalizzazioni della copia precedente;
+in caso contrario dichiarare le informazioni non normalizzate. Straus R3 viene predisposto con
+controllo dei file e contratto del worker, senza simulare disponibilità di importazione, ABI o licenza.
+Il primo collaudo reale di tutti i 49 casi MIDAS ha incontrato una sessione interrotta; la nuova
+acquisizione completa del solo G1 coincide esattamente con il riferimento. MOD-28 e MOD-29.

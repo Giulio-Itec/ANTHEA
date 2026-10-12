@@ -90,7 +90,7 @@ static partial class Program
             else
             {
             string archive;
-            if (args.Length > 1) archive = Path.GetFullPath(args[1]);
+            if (args.Length > 1 && !args[1].StartsWith("--",StringComparison.Ordinal)) archive = Path.GetFullPath(args[1]);
             else
             {
                 var doc = ProjectDocuments.CreateArchive(); var p = ProjectDocuments.AddProject(doc, "Progetto UI"); var sf = ProjectDocuments.AddSection(p, "Sottofase UI");
@@ -166,6 +166,7 @@ static partial class Program
                         state.SelectedComponent="|u|";state.ShowDeformation=true;state.SelectedRepresentation=1;state.SelectedPanel=1;
                         state.ShowInspector=false;state.ShowMesh=false;
                     }
+                    if(args.Contains("--import-mode")) { state.SelectedImportSource=1;state.OpenImportOptionsCommand.Execute(null); }
                     preview.ShowInTaskbar = true; preview.Closed += (_, _) => app.Shutdown();
                     Capture((FrameworkElement)preview.Content, scene, Path.Combine(output, "anteprima-interattiva.png"));
                     File.WriteAllText(Path.Combine(output,"pronta.json"),System.Text.Json.JsonSerializer.Serialize(new
@@ -258,6 +259,13 @@ static partial class Program
                 {
                     CategoryColorRenderingChecks(isolated,scene,output);
                     listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"category color views have no WPF binding errors");
+                    File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
+                    preview.Close();app.Shutdown();return 0;
+                }
+                if(args.Contains("--live-import"))
+                {
+                    LiveImportRenderingChecks(isolated,scene,output);
+                    listener.Flush(); Check(string.IsNullOrWhiteSpace(bindingLog.ToString()),"live import panel has no WPF binding errors");
                     File.WriteAllText(Path.Combine(output,"esito.txt"),$"PASS {checks} checks");
                     preview.Close();app.Shutdown();return 0;
                 }

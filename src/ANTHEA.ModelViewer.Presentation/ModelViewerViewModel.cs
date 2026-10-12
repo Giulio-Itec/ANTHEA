@@ -14,6 +14,9 @@ public interface IModelViewerServices
 {
     Task<ModelSnapshot?> ImportAsync(CancellationToken cancellationToken);
     Task<ModelSnapshot?> ImportAsync(ModelUpdateScope scope,CancellationToken cancellationToken)=>ImportAsync(cancellationToken);
+    Task<MidasModelCatalog> InspectMidasAsync(MidasConnection connection,IProgress<ModelImportProgress> progress,CancellationToken token)=>throw new NotSupportedException("Collegamento MIDAS non disponibile in questa finestra.");
+    Task<ModelSnapshot> ImportMidasAsync(MidasImportRequest request,IProgress<ModelImportProgress> progress,CancellationToken token)=>throw new NotSupportedException("Collegamento MIDAS non disponibile in questa finestra.");
+    string? ChooseStrand7File(Strand7ImportFile kind)=>null;
     Task<ModelSnapshot?> OpenPreviousModelAsync(CancellationToken cancellationToken)=>ImportAsync(cancellationToken);
     ModelReportDocument? OpenReport(bool hasChanges) => null;
     bool SaveReport(ModelReportDocument document) => false;
@@ -75,7 +78,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
 
     [ObservableProperty] private string title = "Nessun modello importato";
     [ObservableProperty] private string summary = "Importa una copia del modello nella fase o sottofase selezionata.";
-    [ObservableProperty] private string information = "La bozza legge pacchetti .antheamodel e la copia acquisita nel laboratorio. L’importazione tramite GPC Model è il passo successivo.";
+    [ObservableProperty] private string information = "Importa dal modello aperto in MIDAS o scegli un pacchetto .antheamodel. La copia viene applicata solo dopo il controllo dei dati.";
     [ObservableProperty] private string status = "Pronto";
     [ObservableProperty] private string selectionInformation = "Indica il numero di un elemento per leggerne proprietà e valori.";
     [ObservableProperty] private string minimum = "—";
@@ -109,21 +112,27 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     partial void OnShowIsolinesChanged(bool value) => RefreshScene();
     partial void OnElementNumberChanged(string value) { QueryCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); }
     partial void OnSelectedSheetChanged(SheetTarget? value) => LinkCommand.NotifyCanExecuteChanged();
-    partial void OnIsBusyChanged(bool value) { OnPropertyChanged(nameof(CanChooseUpdateScope));ImportCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); ComparePreviousCommand.NotifyCanExecuteChanged();ComputeRevisionDeltaCommand.NotifyCanExecuteChanged();ClearRevisionCommand.NotifyCanExecuteChanged(); }
+    partial void OnIsBusyChanged(bool value) { CheckStrand7SetupCommand.NotifyCanExecuteChanged();CloseImportOptionsCommand.NotifyCanExecuteChanged();OnPropertyChanged(nameof(CanChooseUpdateScope));OnPropertyChanged(nameof(CanEditImport));InspectMidasCommand.NotifyCanExecuteChanged();ImportCommand.NotifyCanExecuteChanged(); LinkCommand.NotifyCanExecuteChanged(); ComparePreviousCommand.NotifyCanExecuteChanged();ComputeRevisionDeltaCommand.NotifyCanExecuteChanged();ClearRevisionCommand.NotifyCanExecuteChanged(); }
 
-    private bool CanImport() => !IsReadOnly && !IsBusy && !IsVerificationRunning && !IsReportRunning && !IsRevisionBusy && !disposed && (SelectedUpdateScope!=2 || Snapshot!=null);
+    private bool CanImport() => !IsReadOnly && !IsBusy && !IsVerificationRunning && !IsReportRunning && !IsRevisionBusy && !disposed && (SelectedUpdateScope!=2 || Snapshot!=null) && HasLiveImportSelection;
     [RelayCommand(CanExecute = nameof(CanImport),IncludeCancelCommand=true)]
     private async Task ImportAsync(CancellationToken cancellationToken)
     {
         using var linkedCancellation=CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token,cancellationToken);
         var token=linkedCancellation.Token;
         var scope=(ModelUpdateScope)SelectedUpdateScope;
+        bool liveImport=IsMidasImport;
         IsBusy = true; ImportFailure = null; Status = "Lettura e controllo del modello…";
+        if(!liveImport){++importOperation;ImportProgressMessage=Status;ImportPercent=0;ImportProgressIndeterminate=true;}
         try
         {
-            var incoming = await services.ImportAsync(scope,token);
+            var incoming = liveImport ? await ReadLiveModelAsync(scope,token) : await services.ImportAsync(scope,token);
             if (incoming == null || disposed) { if (!disposed) Status = "Importazione annullata"; return; }
-            var snapshot=await Task.Run(()=>ModelSnapshotUpdate.Apply(Snapshot,incoming,scope,token),token);
+            var snapshot=await Task.Run(()=>
+            {
+                if(liveImport)MidasNormalizationReuse.TryApply(Snapshot,incoming,token);
+                return ModelSnapshotUpdate.Apply(Snapshot,incoming,scope,token);
+            },token);
             var previousView=scope==ModelUpdateScope.Results?CaptureView("Vista corrente"):null;
             (ModelRevisionReview Review,ModelRevisionOverlay Overlay)? review=Snapshot is {} previous?await CreateRevisionAsync(previous,snapshot,token):null;
             token.ThrowIfCancellationRequested();if(disposed)return;
@@ -131,6 +140,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
             if(previousView!=null)ApplyView(previousView with {Case=Cases.Contains(previousView.Case)?previousView.Case:Cases.FirstOrDefault(),RevisionOverlay=null});
             if(review!=null)ApplyRevision(review.Value.Review,review.Value.Overlay);
             if(scope!=ModelUpdateScope.Results)services.FitView();
+            ImportPercent=100;ImportProgressIndeterminate=false;ImportProgressMessage="Importazione completata";
             ShowImportOptions=false;
             Status = UpdateScopeLabels[(int)scope]+" completato. Salva il progetto per conservare la copia e i riferimenti.";
         }
@@ -224,7 +234,7 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
 
     public void Dispose()
     {
-        if (disposed) return; disposed = true; lifetime.Cancel(); lifetime.Dispose(); SceneChanged = null;
+        if (disposed) return; disposed = true; lifetime.Cancel(); lifetime.Dispose(); MidasApiKey=""; SceneChanged = null;
         foreach(var chapter in ReportChapters) chapter.PropertyChanged -= ChapterChanged;
         Comparison?.Dispose(); Comparison=null; FocusSelectionRequested=null;PreviousCameraRequested=null;HoverChanged=null;
         ViewSettingsChanged = null; CameraPresetRequested = null;

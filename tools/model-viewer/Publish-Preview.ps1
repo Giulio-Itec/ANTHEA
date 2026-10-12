@@ -24,7 +24,7 @@ Copy-Item -LiteralPath $modelPath -Destination (Join-Path $dataDirectory 'spalla
 $launcher = @'
 [CmdletBinding()]
 param(
-    [ValidateSet('Contouring','Deformata','Aste')][string]$Vista = 'Contouring',
+    [ValidateSet('Contouring','Deformata','Aste','Importa')][string]$Vista = 'Contouring',
     [ValidateSet('Chiaro','Scuro','MoltoScuro')][string]$Tema = 'MoltoScuro'
 )
 $ErrorActionPreference = 'Stop'
@@ -39,6 +39,7 @@ try {
     $arguments = @('"'+$session+'"','"'+$snapshot+'"','--viewer-only','--direct-model','--interactive','--appearance',$appearance,'--averaged','--extruded','--preferences','"'+$preferences+'"')
     if ($Vista -eq 'Deformata') { $arguments += '--deformed' }
     if ($Vista -eq 'Aste') { $arguments += '--beam-results' }
+    if ($Vista -eq 'Importa') { $arguments += '--import-mode' }
     Start-Process -FilePath $executable -ArgumentList $arguments -WorkingDirectory $PSScriptRoot -WindowStyle Hidden -RedirectStandardOutput (Join-Path $session 'avvio.log') -RedirectStandardError (Join-Path $session 'errore.log')
 } catch {
     Add-Type -AssemblyName PresentationFramework
@@ -47,7 +48,7 @@ try {
 }
 '@
 [IO.File]::WriteAllText((Join-Path $destination 'Avvia-Modelli.ps1'), $launcher, [Text.UTF8Encoding]::new($true))
-foreach ($view in @('Contouring','Deformata','Aste')) {
+foreach ($view in @('Contouring','Deformata','Aste','Importa')) {
     $command = '@echo off' + "`r`n" + 'powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "%~dp0Avvia-Modelli.ps1" -Vista ' + $view + "`r`n"
     [IO.File]::WriteAllText((Join-Path $destination ('Apri-' + $view + '.cmd')), $command, [Text.Encoding]::ASCII)
 }
@@ -56,6 +57,6 @@ $dirty = [bool](& git -C $repositoryRoot status --porcelain)
 $files = @(Get-ChildItem -LiteralPath $destination -File -Recurse | ForEach-Object {
     [ordered]@{Path=$_.FullName.Substring($destination.Length+1);Bytes=$_.Length;SHA256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash}
 })
-[ordered]@{CreatedUtc=[DateTime]::UtcNow.ToString('o');Commit=$commit;UncommittedChanges=$dirty;Runtime='.NET Desktop Runtime 8 x64';Offline=$true;Files=$files} |
+[ordered]@{CreatedUtc=[DateTime]::UtcNow.ToString('o');Commit=$commit;UncommittedChanges=$dirty;Runtime='.NET Desktop Runtime 8 x64';OfflineModelIncluded=$true;OptionalMidasReadOnlyImport=$true;Files=$files} |
     ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $destination 'manifest.json') -Encoding UTF8
 Write-Output $destination

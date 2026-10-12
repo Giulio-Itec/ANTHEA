@@ -1,12 +1,60 @@
 <UserControl x:Class="ANTHEA.ModelViewer.Wpf.ModelImportOptionsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <UserControl.Resources><ResourceDictionary><ResourceDictionary.MergedDictionaries><ResourceDictionary Source="ModelViewerStyles.xaml"/></ResourceDictionary.MergedDictionaries></ResourceDictionary></UserControl.Resources>
   <StackPanel Margin="0,8,0,4">
+    <TextBlock Text="Sorgente del modello" Margin="0,0,0,5"/>
+    <ComboBox ItemsSource="{Binding ImportSourceLabels}" SelectedIndex="{Binding SelectedImportSource}" IsEnabled="{Binding CanEditImport}" AutomationProperties.Name="Sorgente del modello"/>
+    <StackPanel Visibility="{Binding IsStrand7Import, Converter={StaticResource Visible}}" Margin="0,10,0,10">
+      <TextBlock Text="STRAUS / STRAND7 R3" FontWeight="SemiBold"/>
+      <TextBlock Text="Preparazione della sorgente nativa. Modello e risultati rimangono nei file originali; il collegamento GPC sarà eseguito in un processo dedicato." TextWrapping="Wrap" FontSize="11" Margin="0,5,0,8"/>
+      <StackPanel IsEnabled="{Binding CanEditImport}">
+        <TextBlock Text="Modello .st7"/><DockPanel Margin="0,3,0,7"><Button Content="Sfoglia…" Command="{Binding ChooseStrand7ModelCommand}" DockPanel.Dock="Right" Margin="5,0,0,0"/><TextBox Text="{Binding Strand7ModelPath, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Modello Straus ST7"/></DockPanel>
+        <TextBlock Text="Risultati statici lineari .lsa"/><DockPanel Margin="0,3,0,7"><Button Content="Sfoglia…" Command="{Binding ChooseStrand7ResultsCommand}" DockPanel.Dock="Right" Margin="5,0,0,0"/><TextBox Text="{Binding Strand7ResultsPath, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Risultati Straus LSA"/></DockPanel>
+        <TextBlock Text="API R3 a 64 bit · St7api.dll"/><DockPanel Margin="0,3,0,7"><Button Content="Sfoglia…" Command="{Binding ChooseStrand7ApiCommand}" DockPanel.Dock="Right" Margin="5,0,0,0"/><TextBox Text="{Binding Strand7ApiPath, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="API Straus R3"/></DockPanel>
+      </StackPanel>
+      <WrapPanel><Button Content="Controlla i file" Command="{Binding CheckStrand7SetupCommand}"/><Button Content="Annulla controllo" Command="{Binding CheckStrand7SetupCancelCommand}" Margin="5,0,0,0"/></WrapPanel>
+      <TextBlock Text="{Binding Strand7PreparationSummary}" TextWrapping="Wrap" FontSize="11" Margin="0,8,0,0"/>
+      <TextBlock Text="L’elenco dei casi, la corrispondenza modello/risultati e la disponibilità della licenza saranno verificati dal collegamento nativo. Importazione disattivata fino alla sua integrazione." TextWrapping="Wrap" FontSize="10" Opacity=".75" Margin="0,8,0,0"/>
+    </StackPanel>
+    <StackPanel Visibility="{Binding IsMidasImport, Converter={StaticResource Visible}}" Margin="0,8,0,10">
+      <TextBlock Text="In MIDAS: Apps → API Settings → Connect. Copia qui Base URL e MAPI-Key." TextWrapping="Wrap" FontSize="11" Margin="0,0,0,8"/>
+      <StackPanel IsEnabled="{Binding CanEditImport}">
+        <TextBlock Text="Base URL"/>
+        <TextBox Text="{Binding MidasBaseUrl, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Base URL MIDAS" Margin="0,3,0,6"/>
+        <TextBlock Text="Chiave MAPI · solo per questa sessione"/>
+        <PasswordBox x:Name="MidasKey" PasswordChanged="MidasKeyChanged" AutomationProperties.Name="Chiave MAPI MIDAS" Margin="0,3,0,8" Padding="5"/>
+      </StackPanel>
+      <WrapPanel>
+        <Button Content="Controlla connessione e casi" Command="{Binding InspectMidasCommand}"/>
+        <Button Content="Annulla controllo" Command="{Binding InspectMidasCancelCommand}" Margin="4,0,0,0"/>
+      </WrapPanel>
+      <TextBlock Text="{Binding ConnectionSummary}" TextWrapping="Wrap" Margin="0,7,0,0" FontSize="11"/>
+    </StackPanel>
     <TextBlock Text="Contenuto da acquisire" Margin="0,0,0,5"/>
     <ComboBox ItemsSource="{Binding UpdateScopeLabels}" SelectedIndex="{Binding SelectedUpdateScope}" IsEnabled="{Binding CanChooseUpdateScope}" AutomationProperties.Name="Modalità di aggiornamento"/>
     <TextBlock Text="{Binding UpdateScopeDescription}" TextWrapping="Wrap" FontSize="11" Margin="0,7,0,8"/>
-    <WrapPanel><Button Content="Scegli copia e importa…" Command="{Binding ImportCommand}" Margin="0,0,5,0"/><Button Content="Annulla" Command="{Binding ImportCancelCommand}"/></WrapPanel>
-    <ProgressBar Height="4" IsIndeterminate="True" Margin="0,8,0,0" Visibility="{Binding IsBusy, Converter={StaticResource Visible}}"/>
-    <TextBlock Text="Pacchetto .antheamodel o cartella MIDAS già acquisita. Il collegamento diretto ai software sarà integrato successivamente." TextWrapping="Wrap" FontSize="10" Opacity=".65" Margin="0,8,0,0"/>
+    <StackPanel Visibility="{Binding IsMidasImport, Converter={StaticResource Visible}}">
+      <StackPanel Visibility="{Binding ImportIncludesResults, Converter={StaticResource Visible}}" IsEnabled="{Binding CanEditImport}">
+        <CheckBox Content="Sollecitazioni locali · beam e plate" IsChecked="{Binding ImportForces}"/>
+        <CheckBox Content="Spostamenti globali · deformata" IsChecked="{Binding ImportDisplacements}"/>
+        <TextBlock Text="{Binding ImportCasesSummary}" Margin="0,8,0,4"/>
+        <WrapPanel><Button Content="Tutti" Command="{Binding SelectAllImportCasesCommand}"/><Button Content="Nessuno" Command="{Binding ClearImportCasesCommand}" Margin="4,0,0,0"/></WrapPanel>
+        <ListBox ItemsSource="{Binding ImportCases}" MaxHeight="160" MinHeight="45" Margin="0,4,0,8" Background="{DynamicResource AppearanceSurface}" Foreground="{DynamicResource AppearanceInk}" BorderBrush="{DynamicResource AppearanceBorder}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Casi statici da importare">
+          <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem"><Setter Property="Foreground" Value="{DynamicResource AppearanceInk}"/><Setter Property="Background" Value="Transparent"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/><Setter Property="Padding" Value="5,3"/></Style></ListBox.ItemContainerStyle>
+          <ListBox.ItemTemplate><DataTemplate><CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}"/></DataTemplate></ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Text="I casi selezionati sostituiscono l’intero insieme dei risultati della copia. Non avviare analisi o modificare il modello durante la lettura." TextWrapping="Wrap" FontSize="10" Margin="0,0,0,8"/>
+      </StackPanel>
+      <TextBlock Text="{Binding LiveImportLimitations}" TextWrapping="Wrap" FontSize="10" Opacity=".75" Margin="0,0,0,8"/>
+    </StackPanel>
+    <Border Visibility="{Binding HasImportFailure, Converter={StaticResource Visible}}" Padding="10" Margin="0,0,0,8" BorderBrush="{DynamicResource AppearanceBorder}" BorderThickness="1" Background="{DynamicResource AppearanceSurface}">
+      <StackPanel><TextBlock Text="{Binding ImportFailure.Title}" FontWeight="SemiBold" TextWrapping="Wrap"/><TextBlock Text="{Binding ImportFailure.Recovery}" TextWrapping="Wrap" Margin="0,5,0,0"/><TextBlock Text="{Binding ImportFailure.RetainedData}" TextWrapping="Wrap" FontSize="10" Margin="0,5,0,0"/></StackPanel>
+    </Border>
+    <WrapPanel><Button Content="{Binding ImportActionLabel}" Command="{Binding ImportCommand}" Margin="0,0,5,0"/><Button Content="Annulla importazione" Command="{Binding ImportCancelCommand}"/></WrapPanel>
+    <StackPanel Visibility="{Binding IsBusy, Converter={StaticResource Visible}}" Margin="0,8,0,0">
+      <ProgressBar Height="5" IsIndeterminate="{Binding ImportProgressIndeterminate}" Value="{Binding ImportPercent}" Maximum="100"/>
+      <TextBlock Text="{Binding ImportProgressMessage}" FontSize="11" TextWrapping="Wrap" Margin="0,4,0,0"/>
+    </StackPanel>
+    <TextBlock Text="Pacchetto .antheamodel o copia MIDAS già acquisita (seleziona NODE.json)." Visibility="{Binding IsFileImport, Converter={StaticResource Visible}}" TextWrapping="Wrap" FontSize="10" Opacity=".65" Margin="0,8,0,0"/>
     <TextBlock Text="{Binding UpdateProvenance}" TextWrapping="Wrap" FontSize="10" Opacity=".65" Margin="0,5,0,0"/>
   </StackPanel>
 </UserControl>

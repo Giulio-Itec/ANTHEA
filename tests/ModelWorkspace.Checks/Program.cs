@@ -13,6 +13,7 @@ static partial class Program
     static async Task<int> Main(string[] args)
     {
         string output = Path.GetFullPath(args.FirstOrDefault() ?? "supporto/artefatti/model-viewer/checks"); Directory.CreateDirectory(output);
+        if (args.Contains("--capture-midas")) return await CaptureLiveMidas(output, args);
         try
         {
             var model = Sample.Model(); model.Validate();
@@ -81,6 +82,8 @@ static partial class Program
             await VerificationProgressChecks();
             await ImportFailureChecks();
             await ModelUpdateChecks();
+            await MidasLiveImportChecks();
+            await Strand7ImportSetupChecks(output);
             ViewSettingsAndRevisionChecks();
             await ContourAveragingChecks();
             ExplorationChecks(output);

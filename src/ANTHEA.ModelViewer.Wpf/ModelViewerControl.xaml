@@ -9,6 +9,7 @@
     </ResourceDictionary>
   </UserControl.Resources>
   <Grid>
+    <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
@@ -103,7 +104,7 @@
                 <local:ModelVisibilityView />
               </Expander>
               <Expander Header="Check della revisione" Margin="0,8,0,0"><local:ModelRevisionToolsView/></Expander>
-              <Expander Header="Importazione e aggiornamento" IsExpanded="{Binding ShowImportOptions}" Margin="0,8,0,0"><local:ModelImportOptionsView/></Expander>
+              <Button Content="Importazione e aggiornamento…" Command="{Binding OpenImportOptionsCommand}" Margin="0,8,0,0"/>
             </StackPanel>
             </ScrollViewer>
             <TreeView x:Name="ModelTree" Grid.Row="1" ItemsSource="{Binding Tree}" SelectedItemChanged="TreeSelectionChanged" PreviewMouseDown="TreeContextSelection" BorderThickness="0" Background="Transparent" Padding="5,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Albero del modello">
@@ -376,6 +377,16 @@
         <TextBlock Text="{Binding Status}" FontSize="11" TextTrimming="CharacterEllipsis" />
       </DockPanel>
       </StackPanel>
+    </Border>
+    <Border Grid.Column="1" Grid.RowSpan="5" Visibility="{Binding ShowImportOptions, Converter={StaticResource Visible}}" Width="520" Background="{DynamicResource AppearancePaper}" BorderBrush="{DynamicResource AppearanceBorder}" BorderThickness="1,0,0,0">
+      <Grid>
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <Border Padding="18,14" BorderBrush="{DynamicResource AppearanceBorder}" BorderThickness="0,0,0,1">
+          <DockPanel><Button Content="Chiudi" Command="{Binding CloseImportOptionsCommand}" DockPanel.Dock="Right"/><StackPanel><TextBlock Text="IMPORTAZIONE DEL MODELLO" FontSize="11" Opacity=".7"/><TextBlock Text="Sorgente e contenuto" FontSize="19" FontWeight="SemiBold" Margin="0,4,0,0"/></StackPanel></DockPanel>
+        </Border>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><local:ModelImportOptionsView Margin="18,6,18,14"/></ScrollViewer>
+        <TextBlock Grid.Row="2" Text="La copia corrente viene sostituita solo dopo il controllo dell’intera acquisizione." TextWrapping="Wrap" FontSize="11" Opacity=".75" Margin="18,10,18,14"/>
+      </Grid>
     </Border>
   </Grid>
 </UserControl>
