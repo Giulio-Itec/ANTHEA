@@ -41,7 +41,7 @@ public static class ModelSnapshotUpdate
         ModelUpdateScope.Geometry=>"Solo geometria: nodi, elementi, sezioni, spessori, offset e terne geometriche. Materiali, gruppi, vincoli, carichi e risultati esclusi. Le vecchie sollecitazioni non vengono conservate.",
         ModelUpdateScope.ModelWithoutResults=>"Geometria, attributi e carichi della copia scelta. Le vecchie sollecitazioni vengono rimosse; nessun risultato viene importato.",
         ModelUpdateScope.Results=>"Solo risultati: sostituisce l’intero insieme dei casi, incluse le traslazioni nodali. Geometria, attributi e tabelle devono coincidere con la copia aperta. Nessuna rimappatura per vicinanza o numero rinumerato.",
-        _=>"Tutto: sostituisce la copia del modello con geometria, attributi, carichi e risultati presenti nel pacchetto scelto."
+        _=>"Tutto: sostituisce la copia del modello con geometria, attributi, carichi e risultati acquisiti dalla sorgente scelta."
     };
 
     static void EnsureCompatible(ModelSnapshot current,ModelSnapshot incoming,CancellationToken token)
