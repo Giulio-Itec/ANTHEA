@@ -48,10 +48,9 @@ public static partial class ConcreteLibraryMapping
     public const string TorsionStandardName = "NTC 2018";
 
     // ------------------------------------------------------------------ getti sottili
-    /// <summary>Regola dei getti sottili di ANTHEA (decisione F2.7-D2): la regola predefinita della libreria, con i valori usati da
-    /// ANTHEA prima di F2.7 (riduzione solo per NTC 2018). L'estensione a UNI EN 1992-1-1 con l'appendice italiana (scostamento R22,
-    /// proposta U3) è una decisione dell'utente e si applica dopo l'interruttore, non qui.</summary>
-    public const ThinCastingRule ThinCastingRuleOfAnthea = ThinCastingRule.Ntc2018Only;
+    /// <summary>Regola GPC dei getti sottili per NTC 2018 e UNI EN 1992-1-1 con appendice italiana.
+    /// U3 approvata: dal 12/10 si supera il comportamento storico limitato a NTC 2018 (scostamento R22).</summary>
+    public const ThinCastingRule ThinCastingRuleOfAnthea = ThinCastingRule.Ntc2018AndItalianAnnex;
 
     /// <summary>Fattore del getto sottile (piano gettato in opera di spessore inferiore a 50 mm) per la norma dell'analisi, riconosciuta
     /// dalla classe effettiva (<see cref="ConcreteStandards.Effective"/>, coefficienti personalizzati compresi). Unica fonte del limite SLE

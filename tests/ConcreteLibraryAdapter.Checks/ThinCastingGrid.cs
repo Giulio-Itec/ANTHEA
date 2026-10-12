@@ -9,7 +9,8 @@ using Anthea.Calculations;
 /// 1. Griglia: 9 norme × 'gettato_sottile' ∈ {«Sì», «No», «si», assente}, analisi lineare, più NTC 2018 «Sì» e «No» non lineari. Limiti SLE
 ///    (rara e quasi permanente), tassi e stati, αcc e fcd della sezione, fcd di DesignValues uguali bit per bit all'espressione legacy
 ///    di prima di A3, scritta qui come atteso: fattore 0,8 con normativa «NTC 2018» e 'gettato_sottile' = «Sì», altrimenti 1
-///    (CheckerSection.cs:77 e ConcreteMaterials.cs:11 a 955b48b).
+///    (CheckerSection.cs:77 e ConcreteMaterials.cs:11 a 955b48b). U3 approvata: l'atteso UNI con Sì è ora 0,8;
+///    l'espressione storica resta visibile e tutti gli altri profili conservano i loro valori.
 /// 2. Ordine dei rifiuti: il fattore si calcola dopo ConcreteStandards.Effective; con assi non validi e norma sconosciuta il primo rifiuto
 ///    resta quello degli assi, con assi validi quello della norma (come prima di A3).
 /// 3. Fonte unica: nei sorgenti di X.Calculations, X.Core e X.Desktop la regola non è più scritta in linea (nessun nome di norma e nessun
@@ -32,7 +33,9 @@ static class ThinCastingGrid
             var (input, settings) = Section(name, flag);
             model ??= CheckerSection.PrepareModel(input, settings); // geometria e materiali uguali in tutta la griglia
             double legacy = name == "NTC 2018" && flag == "Sì" ? .8 : 1; // espressione legacy (atteso)
-            if (legacy != 1) reduced++;
+            // U3 approved: DM 31/07/2012 7.2, Italian annex; explicit expected value independent of the selected library rule.
+            double expected = name == "UNI EN 1992-1-1" && flag == "Sì" ? .8 : legacy;
+            if (expected != 1) reduced++;
             string id = $"7a {name} · gettato_sottile {flag ?? "assente"} · {(linear ? "lineare" : "non lineare")}";
             var errors = new List<string>();
             // Uguaglianza bit per bit (null con null).
@@ -45,26 +48,26 @@ static class ThinCastingGrid
             var effective = ConcreteStandards.Effective(input, settings);
             var concrete = ConcreteMaterials.Concrete(input); var steel = ConcreteMaterials.Rebar(input);
             // fcd dei calcoli di taglio, torsione, muri, pali e sezione orizzontale.
-            Same(ConcreteMaterials.DesignValues(input, settings).Fcd, Math.Abs(concrete.CalculateFcd(effective)) * legacy, "fcd di DesignValues");
+            Same(ConcreteMaterials.DesignValues(input, settings).Fcd, Math.Abs(concrete.CalculateFcd(effective)) * expected, "fcd di DesignValues");
 
             var options = (JsonObject)settings["sle"]!["SLE"]!.DeepClone();
             options["modello"] = linear ? "Lineare" : "Non lineare";
             var engine = new CheckerSection(model, input, settings, options);
-            var reducedStandard = ConcreteStandards.Effective(input, settings); reducedStandard.AlphaCC *= legacy;
-            Same(engine.Checker.StandardModelCode2010.AlphaCC, effective.AlphaCC * legacy, "αcc della sezione");
+            var reducedStandard = ConcreteStandards.Effective(input, settings); reducedStandard.AlphaCC *= expected;
+            Same(engine.Checker.StandardModelCode2010.AlphaCC, effective.AlphaCC * expected, "αcc della sezione");
             double phi = engine.Checker.SectionCheckerOptions.PsiCoefficientRebar, phiT = engine.Checker.SectionCheckerOptions.PsiCoefficientTendon;
             double steelLimit = effective.ServiceabilityStressSteelCoefficientForCharacteristicCombination * Math.Abs(steel.Fyk);
             // Tasso del CLS della regola legacy (CheckerSection.cs:192, :194 a 955b48b): vertici compressi, rapporto diviso per il fattore.
             double ConcreteRatio(IEnumerable<(double tension, double workingRatio)> points)
-                => points.Where(p => p.tension < 0).Select(p => p.workingRatio / legacy).DefaultIfEmpty(0).Max();
+                => points.Where(p => p.tension < 0).Select(p => p.workingRatio / expected).DefaultIfEmpty(0).Max();
             string Status(double? ratio) => ratio is null ? "Stato tensionale calcolato" : ratio <= 1 ? "Entro limiti tensionali" : "Oltre limiti tensionali";
             foreach (var set in new[] { "SLE", "SLE_QP", "SLE_FREQ" })
             {
                 var state = engine.Stress(action, set); var native = state.Native;
                 double? limit = set switch
                 {
-                    "SLE" => effective.ServiceabilityStressConcreteCoefficientForCharacteristicCombination * Math.Abs(concrete.Fck) * legacy,
-                    "SLE_QP" => effective.ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination * Math.Abs(concrete.Fck) * legacy,
+                    "SLE" => effective.ServiceabilityStressConcreteCoefficientForCharacteristicCombination * Math.Abs(concrete.Fck) * expected,
+                    "SLE_QP" => effective.ServiceabilityStressConcreteCoefficientForQuasiPermanentCombination * Math.Abs(concrete.Fck) * expected,
                     _ => null
                 };
                 double? ratio = set switch
@@ -84,7 +87,7 @@ static class ThinCastingGrid
             check(errors.Count == 0, id + ": " + string.Join("; ", errors));
             cases++;
         }
-        check(cases == 38 && reduced == 2, $"7a: {cases} casi, {reduced} con riduzione (attesi 38 e 2)");
+        check(cases == 38 && reduced == 3, $"7a: {cases} casi, {reduced} con riduzione (attesi 38 e 3)");
 
         // ---- ordine dei rifiuti
         static string Rejection(Func<object?> run)
@@ -117,7 +120,7 @@ static class ThinCastingGrid
                 }
             }
         }
-        Console.WriteLine($"7a griglia: {cases} casi ({reduced} con riduzione) e {rejections} rifiuti uguali all'espressione legacy");
+        Console.WriteLine($"7a griglia: {cases} casi ({reduced} con riduzione) e {rejections} rifiuti invariati; valori legacy salvo estensione U3 alla UNI");
 
         // ---- fonte unica
         var read = new Regex(@"\bS\(""gettato_sottile""[^)]*\)\s*==\s*""Sì""");

@@ -2153,6 +2153,33 @@
         "supporto/artefatti/ci/20261012-214555-f2-input-collaudo",
         "supporto/artefatti/ci/20261012-215329-f2-input-chiusura"
       ]
+    },
+    {
+      "id": "F2-22",
+      "data": "2026-10-12",
+      "fase": "F2.7-U1/U3",
+      "titolo": "Interasse NTC visibile e getti sottili con appendice italiana",
+      "famiglia": "calcestruzzo/SLE",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Opzione legacy BarSpacing disattivata; regola GPC getti sottili estesa a UNI EN 1992-1-1 con appendice italiana come approvato. Motore legacy di confronto e attesi originali preservati.",
+      "codice": [
+        "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+        "X.Calculations/ConcreteLibraryMapping.cs",
+        "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs",
+        "tests/ConcreteLibraryAdapter.Checks/ThinCastingGrid.cs"
+      ],
+      "segno": "13 interassi NTC da null al valore già nella traccia, wk e tassi invariati. UNI con getto sottile: limiti CLS e αcc/fcd ridotti del 20%; tutti gli altri profili invariati.",
+      "test": [
+        "548 file headless: soli tempi volatili",
+        "27 file, 50996 righe dense: esattamente 13 BarSpacing classificati, zero differenze ignote",
+        "157808 controlli generali, 673640 SLE, 27 stato statico, 369 getti sottili",
+        "Runner finale 6 PASS, zero nuovi fallimenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261012-215810-f2-sle-u1-u3",
+        "supporto/artefatti/ci/20261012-220834-f2-sle-chiusura"
+      ]
     }
   ]
 }

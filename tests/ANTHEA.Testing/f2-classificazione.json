@@ -8,6 +8,132 @@
     "rumore-numerico": "differenza oltre la tolleranza dovuta all'aritmetica in virgola mobile, senza effetto sugli esiti"
   },
   "confronti": {
+    "sle-u1-u3": {
+      "descrizione": "Chiusura F2.7-U1/U3: solo 13 interassi NTC interamente tesi ora esposti. Valori già presenti nelle tracce legacy, confrontati nella suite SLE. Getti sottili UNI collaudati separatamente contro fattore approvato 0,8; corpus denso privo di tale opzione. Riferimento dopo F2-21, nessuna riscrittura degli attesi.",
+      "prefisso_tolleranze": "riuso-api",
+      "identificativi_casuali": [
+        {
+          "file": "-sections\\.xml$",
+          "forma": "guid",
+          "motivo": "GUID degli oggetti dell'archivio del Model creati a ogni corsa (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)"
+        },
+        {
+          "file": "^walls-(combinations|documents)\\.jsonl",
+          "forma": "hex32",
+          "motivo": "id delle azioni creati da RetainingWall.Upgrade per i documenti dei muri in versione 1 (supporto/test/CheckerMigration.Capture/README.md, Riproducibilità)"
+        }
+      ],
+      "differenze_attese": [
+        {
+          "id": "F2-22-1",
+          "categoria": "difetto-legacy",
+          "file": "^crack-legacy\\.csv$",
+          "righe": "^(15|164|169)$",
+          "campo": "^barSpacing$",
+          "classe": "^testo$",
+          "a": "^$",
+          "b": "^180$",
+          "righe_attese": 3,
+          "differenze_attese": 3,
+          "motivo": "U1: interasse già usato nel calcolo e nelle tracce storiche, ora esposto nel risultato NTC interamente teso; wk, tasso e stato invariati.",
+          "registro": "F2-22",
+          "codice": [
+            "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+            "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+          ]
+        },
+        {
+          "id": "F2-22-2",
+          "categoria": "difetto-legacy",
+          "file": "^crack-legacy\\.csv$",
+          "righe": "^(327|329|639|640|641)$",
+          "campo": "^barSpacing$",
+          "classe": "^testo$",
+          "a": "^$",
+          "b": "^160\\.22122533307964$",
+          "righe_attese": 5,
+          "differenze_attese": 5,
+          "motivo": "U1: interasse già usato nel calcolo e nelle tracce storiche, ora esposto nel risultato NTC interamente teso; wk, tasso e stato invariati.",
+          "registro": "F2-22",
+          "codice": [
+            "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+            "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+          ]
+        },
+        {
+          "id": "F2-22-3",
+          "categoria": "difetto-legacy",
+          "file": "^crack-legacy\\.csv$",
+          "righe": "^(482)$",
+          "campo": "^barSpacing$",
+          "classe": "^testo$",
+          "a": "^$",
+          "b": "^83\\.2$",
+          "righe_attese": 1,
+          "differenze_attese": 1,
+          "motivo": "U1: interasse già usato nel calcolo e nelle tracce storiche, ora esposto nel risultato NTC interamente teso; wk, tasso e stato invariati.",
+          "registro": "F2-22",
+          "codice": [
+            "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+            "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+          ]
+        },
+        {
+          "id": "F2-22-4",
+          "categoria": "difetto-legacy",
+          "file": "^crack-legacy\\.csv$",
+          "righe": "^(484|485)$",
+          "campo": "^barSpacing$",
+          "classe": "^testo$",
+          "a": "^$",
+          "b": "^83\\.19999999999999$",
+          "righe_attese": 2,
+          "differenze_attese": 2,
+          "motivo": "U1: interasse già usato nel calcolo e nelle tracce storiche, ora esposto nel risultato NTC interamente teso; wk, tasso e stato invariati.",
+          "registro": "F2-22",
+          "codice": [
+            "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+            "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+          ]
+        },
+        {
+          "id": "F2-22-5",
+          "categoria": "difetto-legacy",
+          "file": "^crack-legacy\\.csv$",
+          "righe": "^(638)$",
+          "campo": "^barSpacing$",
+          "classe": "^testo$",
+          "a": "^$",
+          "b": "^160\\.22122533307945$",
+          "righe_attese": 1,
+          "differenze_attese": 1,
+          "motivo": "U1: interasse già usato nel calcolo e nelle tracce storiche, ora esposto nel risultato NTC interamente teso; wk, tasso e stato invariati.",
+          "registro": "F2-22",
+          "codice": [
+            "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+            "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+          ]
+        },
+        {
+          "id": "F2-22-6",
+          "categoria": "difetto-legacy",
+          "file": "^crack-legacy\\.csv$",
+          "righe": "^(794)$",
+          "campo": "^barSpacing$",
+          "classe": "^testo$",
+          "a": "^$",
+          "b": "^145$",
+          "righe_attese": 1,
+          "differenze_attese": 1,
+          "motivo": "U1: interasse già usato nel calcolo e nelle tracce storiche, ora esposto nel risultato NTC interamente teso; wk, tasso e stato invariati.",
+          "registro": "F2-22",
+          "codice": [
+            "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
+            "tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs"
+          ]
+        }
+      ]
+    },
     "input-validation": {
       "descrizione": "F2 validazioni contro API-02 chiusa: rami negativi rifiutati in 2 fogli e 3 chiamate dirette di travi con staffe. Il solo catalogo diagnostico è verificato da baseline/input-catalogo: testi invariati, conteggi precedenti meno questi cinque casi; cambia l’ordine della prima comparsa.",
       "prefisso_tolleranze": "riuso-api",

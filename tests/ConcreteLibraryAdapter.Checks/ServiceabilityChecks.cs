@@ -331,7 +331,7 @@ sealed partial class ServiceabilityChecks
 
     void CrackGrid()
     {
-        int checksBefore = Checks, states = 0, rejected = 0, discriminating = 0, ntcEntirelyTensile = 0, ntcEntirelyTensileNullSpacing = 0, notesDifferent = 0, compressed = 0,
+        int checksBefore = Checks, states = 0, rejected = 0, discriminating = 0, ntcEntirelyTensile = 0, ntcEntirelyTensileCorrectedSpacing = 0, notesDifferent = 0, compressed = 0,
             libraryValues = 0;
         var stats = new Stats("fessurazione (griglia della cattura densa e stati mirati)");
         var outcomes = new Dictionary<string, int>(StringComparer.Ordinal);
@@ -388,7 +388,8 @@ sealed partial class ServiceabilityChecks
                 Check(direct.Outcome == library.Outcome && direct.Message == library.Message, $"{tag}: rifiuto «{direct.Message}» ({direct.Outcome}) con il legacy, «{library.Message}» ({library.Outcome}) con la libreria"
                     + (library.Error is { } error and not ArgumentException ? Environment.NewLine + error : ""));
                 if (direct.Value is null) { if (culture == Italian) rejected++; continue; }
-                notesDifferent += CompareCrack(tag, J.Node(direct.Value)!, J.Node(library.Value)!, stats);
+                notesDifferent += CompareCrack(tag, J.Node(direct.Value)!, J.Node(library.Value)!, stats,
+                    s.Standard == "NTC 2018" && direct.Value.Status.StartsWith("Interamente tesa"));
                 if (culture != Italian) continue;
                 stats.Results++;
                 if (Text(direct.Value) != Text(library.Value)) discriminating++;
@@ -397,15 +398,15 @@ sealed partial class ServiceabilityChecks
                 if (s.Standard == "NTC 2018" && direct.Value.Status.StartsWith("Interamente tesa"))
                 {
                     ntcEntirelyTensile++;
-                    if (library.Value!.BarSpacing is null && direct.Value.BarSpacing is null) ntcEntirelyTensileNullSpacing++;
+                    if (library.Value!.BarSpacing is > 0 && direct.Value.BarSpacing is null) ntcEntirelyTensileCorrectedSpacing++;
                 }
             }
             CultureInfo.CurrentCulture = Italian;
         }
         CultureInfo.CurrentCulture = Italian;
         Check(states == 936, "griglia della fessurazione: " + states + " stati invece di 936");
-        // Opzione legacy nominata del BarSpacing (F2.7-D5): le 13 righe NTC interamente tese con BarSpacing nullo, nei due motori.
-        Check(ntcEntirelyTensileNullSpacing == 13, $"5c: BarSpacing nullo in {ntcEntirelyTensileNullSpacing} righe NTC interamente tese su {ntcEntirelyTensile}, attese 13");
+        // U1: le 13 righe NTC interamente tese conservano il null storico nel Legacy e mostrano l’interasse nella Library.
+        Check(ntcEntirelyTensileCorrectedSpacing == 13, $"5c: BarSpacing corretto in {ntcEntirelyTensileCorrectedSpacing} righe NTC interamente tese su {ntcEntirelyTensile}, attese 13");
         Check(discriminating >= MinimumDiscriminating, $"5c: {discriminating} stati con uscite dei due motori diverse");
         // Ogni risultato della libreria è passato dalla sonda (autoverifica della sonda); la sezione interamente compressa c'è; ogni stato mirato raggiunge il suo ramo.
         Check(withTargeted.Results == libraryValues && libraryValues > 0 && compressed > 0,
@@ -420,10 +421,10 @@ sealed partial class ServiceabilityChecks
         Report["fessurazione_griglia"]!["stati"] = states;
         Report["fessurazione_griglia"]!["uscite_dei_motori_diverse"] = discriminating;
         Report["fessurazione_griglia"]!["note_con_numeri_diversi"] = notesDifferent;
-        Report["fessurazione_griglia"]!["ntc_interamente_tese_barspacing_nullo"] = ntcEntirelyTensileNullSpacing;
+        Report["fessurazione_griglia"]!["ntc_interamente_tese_barspacing_corretto"] = ntcEntirelyTensileCorrectedSpacing;
         Report["fessurazione_griglia"]!["stati_per_esito"] = new JsonObject(outcomes.OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => KeyValuePair.Create(p.Key, (JsonNode?)p.Value)));
         Lines.Add(stats.Line() + $"; {states} stati, {discriminating} con uscite dei due motori diverse, {notesDifferent} note con numeri diversi entro 1e-9, "
-            + $"BarSpacing nullo in {ntcEntirelyTensileNullSpacing} righe NTC interamente tese (opzione legacy F2.7-D5); {Checks - checksBefore} controlli (5b, 5c; it-IT e invariante)");
+            + $"BarSpacing corretto in {ntcEntirelyTensileCorrectedSpacing} righe NTC interamente tese (correzione U1); {Checks - checksBefore} controlli (5b, 5c; it-IT e invariante)");
         Lines.Add("griglia · " + coverage.Line() + $"; {compressed} sezioni interamente compresse dal motivo della libreria");
         Lines.Add($"griglia e {targeted.Length} stati mirati ({string.Join("; ", reachedBranches)}) · " + withTargeted.Line());
     }
@@ -432,7 +433,7 @@ sealed partial class ServiceabilityChecks
     /// Confronto di due CrackResult: traccia voce per voce (simbolo, unità, espressione esatti; valore entro la tolleranza; nota con i numeri
     /// entro la tolleranza), poi il resto (stati, regioni, esiti) con <see cref="Json.Compare"/>. Restituisce il numero di note diverse.
     /// </summary>
-    int CompareCrack(string id, JsonNode legacyNode, JsonNode libraryNode, Stats stats)
+    int CompareCrack(string id, JsonNode legacyNode, JsonNode libraryNode, Stats stats, bool correctedNtcSpacing = false)
     {
         var a = (JsonObject)legacyNode.DeepClone(); var b = (JsonObject)libraryNode.DeepClone();
         var da = a["Details"]!.AsArray(); var db = b["Details"]!.AsArray();
@@ -449,6 +450,18 @@ sealed partial class ServiceabilityChecks
             string na = x["Note"]!.GetValue<string>(), nb = y["Note"]!.GetValue<string>();
             Check(NoteText.Same(na, nb, Tolerance), $"{id}: voce {i} ({x["Symbol"]}): nota «{na}» con il legacy, «{nb}» con la libreria");
             if (na != nb) notes++;
+        }
+        if (correctedNtcSpacing)
+        {
+            // Independent of the new mapping: the old engine already used and recorded this spacing
+            // in the governing face formula, but forgot to expose it in BarSpacing. Keep both captures intact.
+            var historicalSpacing = da.Single(x => x!["Symbol"]!.GetValue<string>() == "s (formula)")!["Value"];
+            Check(a["BarSpacing"] is null && historicalSpacing?.GetValue<double>() > 0 && b["BarSpacing"]?.GetValue<double>() > 0,
+                id + ": U1 attende null storico e interasse positivo della formula");
+            var spacingErrors = new List<string>();
+            Json.Compare(historicalSpacing, b["BarSpacing"], id + ".BarSpacing (U1)", stats, spacingErrors, Tolerance);
+            Check(spacingErrors.Count == 0, string.Join("; ", spacingErrors));
+            a.Remove("BarSpacing"); b.Remove("BarSpacing");
         }
         a.Remove("Details"); b.Remove("Details");
         var rest = new List<string>();

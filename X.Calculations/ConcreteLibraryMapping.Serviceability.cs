@@ -185,11 +185,11 @@ public static partial class ConcreteLibraryMapping
 
     // ------------------------------------------------------------------ opzione legacy nominata del BarSpacing (F2.7-D5)
     /// <summary>
-    /// Difetto del legacy conservato (decisione F2.7-D5, proposta U1 dell'utente da applicare dopo l'interruttore): nella sezione interamente
+    /// Difetto storico corretto in produzione con U1 (opzione F2.7-D5 disattivata): nella sezione interamente
     /// tesa con la formula NTC il legacy cerca il simbolo «s» nella traccia della faccia governante (ConcreteTensionCracking.cs:75), ma la
-    /// formula NTC scrive «s (formula)», quindi 'BarSpacing' resta nullo. Attiva: stesso risultato del legacy.
+    /// formula NTC scrive «s (formula)», quindi 'BarSpacing' resta nullo. U1 approvata e attuata: la libreria espone il valore reale; il motore Legacy resta confrontabile con le catture storiche.
     /// </summary>
-    public const bool LegacyEntirelyTensileNtcBarSpacing = true;
+    public const bool LegacyEntirelyTensileNtcBarSpacing = false;
 
     // ------------------------------------------------------------------ esito della fessurazione
     // Stati del legacy delle verifiche fermate senza ampiezza (Ntc2018Checks.cs:94-167) e testi delle superfici interne incomplete
