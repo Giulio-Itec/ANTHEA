@@ -114,7 +114,7 @@ Finestra di layout [CP] tra F2 e F3: spostamento in `src/ tests/ tools/ build/`;
 Aggiunto dall’utente il 12 ottobre, dopo i punti 1–5 e 5.2 e prima dell’avvio di F3.
 Riusare entità, convertitori e contratti già presenti in GPC Model; nuove formule nelle librerie.
 
-- [ ] STG-1: inventario delle API e dei dati stage già disponibili; studio della documentazione MIDAS e campione dei risultati. Distinguere incremento/cumulato, età e attivazione di elementi, vincoli e carichi.
+- [x] STG-1 (12/10, Model `6ede622c`): inventario delle API e dei dati stage già disponibili; studio della documentazione MIDAS e campione dei risultati. Distinguere incremento/cumulato, età e attivazione di elementi, vincoli e carichi. Studio e fixture sintetica completati; la sessione reale risponde con STAG/STCT vuoti, quindi il confronto con un modello reale resta esplicitamente in STG-4.
 - [ ] STG-2: modello comune degli stage e provenienza dei risultati, senza duplicare casi/combinazioni; lettura MIDAS con errori espliciti e test di unità/assi/associazione stage.
 - [ ] STG-3: selezione degli stage nella vista e nell’importazione; predisposizione coerente degli adattatori degli altri software, con capacità dichiarate quando la lettura nativa non è disponibile.
 - [ ] STG-4: collaudo e confronto del modello a stage, commit per punto, quindi visualizzazione delle sezioni (SEZ) prima della fase 3.
