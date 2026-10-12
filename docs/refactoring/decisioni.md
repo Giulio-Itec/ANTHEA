@@ -886,3 +886,8 @@ altri casi, azzerando i successivi. API-02 è un fix geometrico: Concrete passa 
 numeri; non sostituisce i controlli del rilascio coerente né autorizza nuovi merge
 o push. Le precedenti annotazioni sulla riserva delle versioni descrivono lo stato
 storico e sono superate da questa decisione.
+
+F2.11a: riconciliata la voce dei sei file geotecnici con il commit `83081a67`,
+già integrato in main e collaudato col set S. La loro eliminazione era autorizzata
+dall’utente il 12 ottobre. Gli altri residui di F2.11 diventano sottopunti distinti;
+non si estende l’autorizzazione alla rimozione dei motori legacy ancora attivi.

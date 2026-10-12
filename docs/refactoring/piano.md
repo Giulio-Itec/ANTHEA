@@ -89,7 +89,10 @@ Tra F1 e F2: regressione in MSTest (464 casi singoli) e `casi_confronto.json` di
   Restano separati: proposte F2.9-U1…U7 e ratifiche normative, F4.13 per le regole residue della scheda,
   F2.11 per la sonda comune e per ogni eventuale eliminazione del legacy. Nessuna nuova scelta normativa fatta con questa chiusura.
 - [ ] F2.10 [CP] Registro delle differenze e accettazione dell'equivalenza.
-- [ ] F2.11 [CP] Eliminazione dei duplicati, dello stato statico, del lock e dei 6 file geotecnici esclusi.
+- [~] F2.11 [CP] Eliminazione dei duplicati, dello stato statico e del lock.
+  - [x] F2.11a — sei file geotecnici esclusi: rimossi su autorizzazione esplicita con `83081a67`, già in main/set S. BishopSolver, FoundationSettlement, NewmarkSliding, ShallowFoundationSeismic, SlopeGeometry e SlopeStability non sono più nel progetto. Nessuna nuova eliminazione con questa riconciliazione del piano; `SlopeStability.Models.cs` e `WallRecords.cs` restano contratti usati.
+  - [ ] F2.11b — unificazione della sonda di durabilità (F2.9-D14) con quella comune degli adattatori.
+  - [ ] F2.11c — altri duplicati, stato statico e lock: richiedono ancora confronto di equivalenza e accordo prima dell’eliminazione del legacy attivo.
 - [ ] F2.12 [CP] Rimozione del solutore legacy a fibre conservando l'oracolo Python.
 - [ ] F2.13 Registri di migrazione, chiusura.
 - [x] Revisione di architettura R2 (11/10, unita in main il 12/10): punto resistente SLU con un
