@@ -115,7 +115,7 @@ Aggiunto dall’utente il 12 ottobre, dopo i punti 1–5 e 5.2 e prima dell’av
 Riusare entità, convertitori e contratti già presenti in GPC Model; nuove formule nelle librerie.
 
 - [x] STG-1 (12/10, Model `6ede622c`): inventario delle API e dei dati stage già disponibili; studio della documentazione MIDAS e campione dei risultati. Distinguere incremento/cumulato, età e attivazione di elementi, vincoli e carichi. Studio e fixture sintetica completati; la sessione reale risponde con STAG/STCT vuoti, quindi il confronto con un modello reale resta esplicitamente in STG-4.
-- [ ] STG-2: modello comune degli stage e provenienza dei risultati, senza duplicare casi/combinazioni; lettura MIDAS con errori espliciti e test di unità/assi/associazione stage.
+- [x] STG-2 (12/10, Model `cffd4879`, `b89ce317`, `3c357622`): modello comune degli stage e provenienza dei risultati, senza duplicare casi/combinazioni; lettura MIDAS con errori espliciti e test di unità/assi/associazione stage. Riutilizzati ResultState e convertitore comune; conservati i metadati delle attivazioni senza applicarli come vincoli permanenti. API catalogo riusabile senza geometria. Archivio legacy e impronte invariati; 1224 prove Model e 17 prove finali catalogo superate; set candidato in collaudo prima della distribuzione in ANTHEA.
 - [ ] STG-3: selezione degli stage nella vista e nell’importazione; predisposizione coerente degli adattatori degli altri software, con capacità dichiarate quando la lettura nativa non è disponibile.
 - [ ] STG-4: collaudo e confronto del modello a stage, commit per punto, quindi visualizzazione delle sezioni (SEZ) prima della fase 3.
 
