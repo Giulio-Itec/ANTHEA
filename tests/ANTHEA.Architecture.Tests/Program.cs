@@ -41,6 +41,17 @@ try
     using var fixtureManifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "tests/fixtures/f3/manifest.json")));
     string manifestHash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(Path.Combine(root, "lib/Checker/manifest.json"))));
     Check(manifestHash.Equals(fixtureManifest.RootElement.GetProperty("library_manifest_sha256").GetString(), StringComparison.OrdinalIgnoreCase), "Set GPC cambiato durante F3: il riferimento va riesaminato prima degli spostamenti");
+    var desktopProject = XDocument.Load(Path.Combine(root, "X.Desktop/X.Desktop.csproj"));
+    Check(desktopProject.Descendants("GpcRuntimeOnly").Any(e => e.Value == "true" && e.Attribute("Condition")?.Value == "'$(Configuration)' != 'UiTests'"), "Desktop deve distribuire GPC senza riferimenti diretti di compilazione");
+    Check(!desktopProject.Descendants("ProjectReference").Any(e => (e.Attribute("Include")?.Value ?? "").Contains("X.Calculations")), "Riferimento di progetto Desktop al motore legacy");
+    using (var runtimeManifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "lib/Checker/manifest.json"))))
+        foreach (var assembly in runtimeManifest.RootElement.GetProperty("assemblies").EnumerateArray())
+        {
+            string file = assembly.GetProperty("file").GetString()!;
+            string path = Path.Combine(root, "X.Desktop/bin/Release/net8.0-windows", file);
+            Check(File.Exists(path), "Libreria runtime mancante: " + file);
+            Check(Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(path))).Equals(assembly.GetProperty("sha256").GetString(), StringComparison.OrdinalIgnoreCase), "Libreria runtime diversa dal set coerente: " + file);
+        }
     var desktop = Metadata(Path.Combine(root, "X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll"));
     // Metadata records constructors/methods actually referenced by the built product, including target-typed new.
     // This inventory does not classify all engineering semantics: getters and data adapters remain visible.

@@ -3715,6 +3715,32 @@
         "supporto/artefatti/ci/20261013-130137-f3-final-full",
         "supporto/artefatti/ci/20261013-132011-f3-final-test-adapters"
       ]
+    },
+    {
+      "id": "F3-10",
+      "data": "2026-10-13",
+      "fase": "F3.7b.23",
+      "titolo": "Set runtime completo senza riferimenti diretti nella UI",
+      "famiglia": "confezionamento e confine applicativo",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Il Desktop Release non riceve più riferimenti GPC diretti dal target comune. Copia le dieci DLL del manifest, aggiungendo GPC.Model.Persistence che non era presente nel vecchio sottoinsieme distribuito. L’overload nativo Bridge dell’asse neutro è interno. Nessun calcolo, versione DLL, valore o atteso modificato. UiTests conserva i riferimenti nativi dei soli test.",
+      "codice": [
+        "Directory.Build.targets",
+        "X.Desktop/X.Desktop.csproj",
+        "src/ANTHEA.Application/Presentation/NeutralAxisPresentation.cs"
+      ],
+      "test": [
+        "Release senza riferimenti diretti, metadata senza GPC/Calculations",
+        "1178 controlli Application PASS",
+        "10/10 SHA-256 della pubblicazione uguali al manifest",
+        "Installer e controllo assenza codice test PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-133956-f3-runtime-manifest",
+        "supporto/artefatti/refactoring/f3/runtime-manifest-publish.json",
+        "supporto/artefatti/refactoring/f3/installer-1.6.0.log"
+      ]
     }
   ]
 }

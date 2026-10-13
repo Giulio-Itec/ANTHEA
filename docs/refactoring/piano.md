@@ -197,6 +197,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
   - [x] F3-TST1 (13/10): banchi adattati ai contratti posseduti con sonda nativa condivisa solo nei test e scansioni estese a src. Intero adattatore: 158018 controlli taglio/torsione, 673640 SLE, 30 + 579 controlli aggiuntivi; API reuse, report breve Word e confronto F3 passati. Attesi e tolleranze invariati.
   - [x] F3-TST2 (13/10): corretta la fixture di condivisione materiali che sostituiva un documento valido con dati senza versione_materiali. Nessuna validazione del prodotto allentata; smoke-sharing passato, registro F3-09.
   - [x] F3.7b.22 (13/10): cambio norma del ponte spostato identico nel backend; parser accelerogrammi e riepilogo stratigrafie nei servizi; angolo sismico riusa la API GPC esistente. 1178 controlli Application, undici suite passate, 37 capitoli e 458 file equivalenti. Catture: 27 identiche, 68 con dimensioni diverse e una scrollbar in hover; F3-07/F3-08.
+  - [x] F3.7b.23 (13/10): Release/Desktop compila senza riferimenti GPC diretti, set runtime copiato dal manifest verificato. Overload nativo dell’asse neutro reso interno; dieci DLL pubblicate con SHA-256 corretti, nessun codice test o Gmsh. Quattro controlli finali PASS e installer 1.6.0 prodotto; F3-10.
   - [ ] F3.7b: rimuovere i restanti accessi ai motori e i contratti concreti dalla UI; collaudo e rilascio della fase.
 
 ## Coda dopo F3: input delle sollecitazioni da Excel

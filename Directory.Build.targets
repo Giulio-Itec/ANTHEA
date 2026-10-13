@@ -8,6 +8,7 @@
     the DLLs used only by their dependencies (DelaunayMesh, used by GPCChecker.Concrete, is never referenced by
     ANTHEA code and was therefore not copied to the projects that reference only X.Calculations).
     Projects under supporto\tmp, supporto\artefatti and supporto\SUPERATI are left untouched.
+    GpcRuntimeOnly=true copies the coherent set at build/publish without injecting direct compiler references.
     -p:GpcVerifyHashes=false disables the check (only for diagnosis, never in a commit).
   -->
   <PropertyGroup>
@@ -20,10 +21,18 @@
 
   <ItemGroup Condition="'$(_GpcEnabled)' == 'true'">
     <_GpcLibraryName Include="$(GpcLibraries)" />
-    <Reference Include="@(_GpcLibraryName)" HintPath="$(GpcLibDir)%(Identity).dll" Private="true" />
+    <Reference Include="@(_GpcLibraryName)" HintPath="$(GpcLibDir)%(Identity).dll" Private="true" Condition="'$(GpcRuntimeOnly)' != 'true'" />
   </ItemGroup>
 
   <Import Project="$(GpcManifestProps)" Condition="'$(_GpcEnabled)' == 'true' and Exists('$(GpcManifestProps)')" />
+
+  <ItemGroup Condition="'$(_GpcEnabled)' == 'true' and '$(GpcRuntimeOnly)' == 'true'">
+    <Content Include="@(GpcLibraryFile)">
+      <Link>%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 
   <Target Name="VerifyGpcLibraries" BeforeTargets="ResolveAssemblyReferences" Condition="'$(_GpcEnabled)' == 'true' and '$(GpcVerifyHashes)' == 'true'">
     <Error Condition="!Exists('$(GpcManifestProps)')" Text="Manca $(GpcManifestProps): rigenerarlo con tools\libs\Write-ManifestProps.ps1." />
