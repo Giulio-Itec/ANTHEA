@@ -9,108 +9,18 @@ public static partial class BridgeConcept
     public const string Scope = "Predimensionamento a spanne · geometria ideale, stime parametriche e carichi equivalenti. Non costituisce verifica NTC, Eurocodici o AASHTO.";
     public sealed record Parameter(string Key, string Label, string Unit, double Default, double Min, double Max, double Step = .1);
     public sealed record Family(string Id, string Name, double MinSpan, double MaxSpan, double Ratio, double MinDepth, double Slab, double Spacing, bool Steel = false, bool Prestressed = false);
-    public static readonly Family[] Families = [
-        new("slab", "Soletta piena in c.a.", 6, 15, 18, .35, 0, 1),
-        new("tee", "Travi a T in c.a.", 12, 30, 17, .70, .22, 2.5),
-        new("psc_i", "Travi a I in c.a.p.", 20, 50, 22.22, 1, .22, 2.5, Prestressed: true),
-        new("psc_u", "Travi a U in c.a.p.", 25, 50, 22.22, 1.1, .22, 4, Prestressed: true),
-        new("psc_box", "Cassone in c.a.p.", 35, 80, 22.22, 1.3, .25, 0, Prestressed: true),
-        new("fcm", "Cassone a conci · altezza variabile", 80, 200, 45, 2, .28, 0, Prestressed: true),
-        new("steel_i", "Travi a I acciaio–cls", 30, 90, 25, 1, .25, 3.2, Steel: true),
-        new("steel_box", "Cassone acciaio–cls", 40, 150, 25, 1.2, .25, 0, Steel: true),
-        new("filler_beam", "Travi incorporate nel calcestruzzo", 8, 40, 28, .45, 0, .8, Steel: true),
-        new("orthotropic", "Cassone con piastra ortotropa", 40, 200, 30, 1.2, 0, 0, Steel: true),
-        new("tied_arch", "Arco metallico con catena", 40, 250, 120, .8, .25, 3, Steel: true),
-        new("cable_stayed", "Ponte strallato · due antenne", 100, 700, 150, 1, .25, 3, Steel: true),
-        new("suspension", "Ponte sospeso · ancoraggi a terra", 200, 1200, 200, 1.2, 0, 3, Steel: true),
-        new("truss", "Ponte reticolare metallico", 30, 150, 100, .7, .25, 3, Steel: true)
-    ];
-    public static readonly Parameter[] Site = [
-        new("length", "Lunghezza totale", "m", 105, 10, 2000, 5),
-        new("height", "Quota impalcato sul terreno", "m", 20, 3, 100, 1),
-        new("obstacle_width", "Larghezza ostacolo", "m", 20, 0, 1000, 1),
-        new("lanes", "Corsie complessive", "n.", 4, 1, 8, 1),
-        new("lane_width", "Larghezza corsia", "m", 3.65, 2.5, 4.5, .05),
-        new("shoulder", "Banchina per lato", "m", 1.5, 0, 4, .1),
-        new("median", "Spartitraffico", "m", 1.6, 0, 5, .1),
-        new("barrier_width", "Ingombro barriera per lato", "m", .5, .2, 1.5, .05)
-    ];
+    public static readonly Family[] Families = GPC.Design.Bridges.BridgeConcept.Families.Select(FromNative).ToArray();
+    public static readonly Parameter[] Site = GPC.Design.Bridges.BridgeConcept.Site.Select(FromNative).ToArray();
     // Zero denotes an automatic dimension. It is preserved in the archive, never replaced by a computed value.
-    public static readonly Parameter[] Layout = [new("spans", "Numero campate · 0 = auto", "n.", 5, 0, 30, 1)];
-    public static readonly Parameter[] Section = [
-        new("depth", "Altezza totale · 0 = auto", "m", 0, 0, 15, .05),
-        new("slab", "Spessore soletta · 0 = auto", "m", 0, 0, 1, .01),
-        new("spacing", "Interasse travi · 0 = auto", "m", 0, 0, 8, .1),
-        new("web", "Spessore anima cls · 0 = auto", "m", 0, 0, 1.5, .01),
-        new("bottom", "Soletta inferiore · 0 = auto", "m", 0, 0, 1.5, .01),
-        new("bottom_ratio", "Larghezza fondo / impalcato", "—", .55, .3, .85, .05),
-        new("cells", "Celle del cassone", "n.", 2, 1, 5, 1),
-        new("boxes", "Cassoni metallici · 0 = auto", "n.", 0, 0, 6, 1),
-        new("flange_width", "Larghezza piattabanda", "m", .55, .2, 2, .05),
-        new("flange_mm", "Spessore piattabande", "mm", 24, 8, 150, 1),
-        new("web_mm", "Spessore anima acciaio", "mm", 12, 6, 80, 1),
-        new("web_slope", "Inclinazione anime · H per 4V", "—", 1, 0, 2, .1),
-        new("haunch", "Rialzo sotto soletta", "m", .05, 0, .3, .01),
-        new("u_top", "Larghezza superiore U", "m", 2.4, 1, 6, .1),
-        new("u_bottom", "Larghezza inferiore U", "m", 1.4, .5, 5, .1),
-        new("fc", "Resistenza cls impalcato", "MPa", 45, 20, 90, 5)
-    ];
-    public static readonly Parameter[] Substructure = [
-        new("pile_length", "Lunghezza pali · 0 = auto", "m", 0, 0, 80, 1),
-        new("pier_size", "Diametro / spessore pila · 0 = auto", "m", 0, 0, 8, .1),
-        new("pile_count", "Pali per appoggio · 0 = auto", "n.", 0, 0, 64, 1),
-        new("footing_size", "Lato fondazione · 0 = auto", "m", 0, 0, 40, .25),
-        new("fc_sub", "Resistenza cls sottostrutture", "MPa", 35, 20, 60, 5)
-    ];
-    public static readonly Parameter[] Rates = [
-        new("concrete_deck", "Cls impalcato", "€/m³", 260, 0, 10000, 5),
-        new("concrete_sub", "Cls sottostrutture e plinti", "€/m³", 240, 0, 10000, 5),
-        new("rebar", "Armatura ordinaria", "€/t", 1660, 0, 50000, 50),
-        new("prestress", "Acciaio da precompressione", "€/t", 3600, 0, 50000, 50),
-        new("steel", "Carpenteria metallica", "€/t", 3500, 0, 50000, 50),
-        new("steel_box", "Carpenteria cassoni", "€/t", 4000, 0, 50000, 50),
-        new("formwork", "Casseforme", "€/m²", 50, 0, 1000, 5),
-        new("pile_1", "Palo Ø 1,0 · esclusa armatura", "€/m", 300, 0, 10000, 10),
-        new("pile_15", "Palo Ø 1,5 · esclusa armatura", "€/m", 550, 0, 10000, 10),
-        new("bearing", "Apparecchio d'appoggio", "€/cad", 5000, 0, 100000, 100),
-        new("joint", "Giunto di dilatazione", "€/m", 2400, 0, 50000, 100),
-        new("barrier", "Barriera", "€/m", 360, 0, 10000, 10),
-        new("surfacing", "Pavimentazione", "€/m²", 32, 0, 1000, 1),
-        new("steel_ortho", "Carpenteria impalcato ortotropo", "€/t", 5000, 0, 50000, 50),
-        new("cables", "Cavi e pendini installati, inclusi terminali", "€/t", 16000, 0, 100000, 100),
-        new("erection_special", "Montaggio aggiuntivo strutture speciali", "€/t", 1000, 0, 50000, 50)
-    ];
-    public static readonly Parameter[] Assumptions = [
-        new("prelims", "Oneri aggiuntivi non computati", "%", 12, 0, 100, 1),
-        new("contingency", "Imprevisti", "%", 15, 0, 100, 1),
-        new("uncertainty", "Intervallo indicativo costo ±", "%", 30, 0, 90, 5),
-        new("co2_concrete", "CO₂ cls ordinario", "kg/m³", 320, 0, 2000, 10),
-        new("co2_rebar", "CO₂ armatura", "kg/kg", 1.4, 0, 10, .1),
-        new("co2_steel", "CO₂ carpenteria", "kg/kg", 2, 0, 10, .1),
-        new("co2_pt", "CO₂ precompressione", "kg/kg", 2.5, 0, 10, .1),
-        new("co2_site", "Trasporti e cantiere / materiali", "%", 15, 0, 100, 1),
-        new("low_carbon_factor", "Fattore cls a ridotta CO₂", "—", .6, .1, 1, .05),
-        new("recycled_factor", "Fattore acciaio riciclato", "—", .35, .1, 1, .05),
-        new("rebar_rc", "Armatura impalcato c.a.", "kg/m³", 140, 30, 500, 10),
-        new("rebar_psc", "Armatura impalcato c.a.p.", "kg/m³", 110, 30, 500, 10),
-        new("rebar_sub", "Armatura sottostrutture", "kg/m³", 150, 30, 500, 10),
-        new("rebar_found", "Armatura fondazioni", "kg/m³", 120, 30, 500, 10),
-        new("pt_density", "Precompressione", "kg/m³", 30, 5, 150, 5),
-        new("wear_load", "Permanenti portati", "kN/m²", 2.5, 0, 20, .5),
-        new("traffic_load", "Traffico uniforme equivalente", "kN/m²", 9, 0, 50, .5),
-        new("gamma_g", "Moltiplicatore permanenti", "—", 1.35, 1, 2, .05),
-        new("gamma_q", "Moltiplicatore traffico", "—", 1.5, 1, 2, .05),
-        new("soil_pressure", "Pressione terreno · 0 = classe", "kPa", 0, 0, 5000, 25),
-        new("pile_skin", "Resistenza laterale · 0 = classe", "kPa", 0, 0, 500, 5),
-        new("pile_base", "Resistenza punta · 0 = classe", "kPa", 0, 0, 20000, 100),
-        new("months_base", "Durata: avvio cantiere", "mesi", 4, 0, 36, .5),
-        new("months_span", "Durata per campata", "mesi", 1.2, .1, 12, .1),
-        new("months_pier", "Durata per pila", "mesi", .4, 0, 6, .1)
-    ];
-    public static readonly string[] Obstacles = ["Nessuno", "Fiume", "Strada / ferrovia"];
-    public static readonly string[] Soils = ["Roccia", "Sabbia / ghiaia densa", "Terreno medio", "Argilla soffice"];
-    public static readonly string[] Piers = ["Telaio a colonne", "Colonna circolare", "Setto", "Testa a martello"];
-    public static readonly string[] Foundations = ["Automatica", "Plinto diretto", "Pali Ø 1,0 m", "Pali Ø 1,5 m"];
+    public static readonly Parameter[] Layout = GPC.Design.Bridges.BridgeConcept.Layout.Select(FromNative).ToArray();
+    public static readonly Parameter[] Section = GPC.Design.Bridges.BridgeConcept.Section.Select(FromNative).ToArray();
+    public static readonly Parameter[] Substructure = GPC.Design.Bridges.BridgeConcept.Substructure.Select(FromNative).ToArray();
+    public static readonly Parameter[] Rates = GPC.Design.Bridges.BridgeConcept.Rates.Select(FromNative).ToArray();
+    public static readonly Parameter[] Assumptions = GPC.Design.Bridges.BridgeConcept.Assumptions.Select(FromNative).ToArray();
+    public static readonly string[] Obstacles = GPC.Design.Bridges.BridgeConcept.Obstacles.ToArray();
+    public static readonly string[] Soils = GPC.Design.Bridges.BridgeConcept.Soils.ToArray();
+    public static readonly string[] Piers = GPC.Design.Bridges.BridgeConcept.Piers.ToArray();
+    public static readonly string[] Foundations = GPC.Design.Bridges.BridgeConcept.Foundations.ToArray();
     public static JsonObject Defaults()
     {
         JsonObject Numbers(IEnumerable<Parameter> fields) => J.Obj(fields.Select(p => (p.Key, (object?)p.Default)).ToArray());

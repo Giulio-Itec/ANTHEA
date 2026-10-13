@@ -43,7 +43,7 @@ public static partial class BridgeConcept
     public const string OptimizationScope = "Migliore soluzione tra le combinazioni esplorate dal modello ANTHEA. Filtri geometrici e soglie orientative; non è un progetto verificato né un ottimo strutturale globale.";
 
     /// <summary>Deterministic discrete search, no UI and no mutations of the caller's data.</summary>
-    public static OptimizationResult Optimize(JsonObject source, OptimizationOptions options, CancellationToken cancellation = default,
+    public static OptimizationResult LegacyOptimize(JsonObject source, OptimizationOptions options, CancellationToken cancellation = default,
         IProgress<OptimizationProgress>? progress = null)
     {
         if (!Enum.IsDefined(options.Objective) || options.MinSpans < 1 || options.MaxSpans > 30 || options.MaxSpans < options.MinSpans
@@ -53,11 +53,11 @@ public static partial class BridgeConcept
             throw new ArgumentException("Limiti di ricerca non validi: 1–30 campate, altezza massima 0–15 m, 1–50 alternative.");
         if (options.KeepSection && !options.KeepFamily)
             throw new ArgumentException("Per mantenere la sezione occorre mantenere anche la tipologia.");
-        var depths = OptimizationRange(options.DepthPercentMin, options.DepthPercentMax, options.DepthPercentStep);
-        var piles = OptimizationRange(options.PilePercentMin, options.PilePercentMax, options.PilePercentStep);
+        var depths = LegacyOptimizationRange(options.DepthPercentMin, options.DepthPercentMax, options.DepthPercentStep);
+        var piles = LegacyOptimizationRange(options.PilePercentMin, options.PilePercentMax, options.PilePercentStep);
         cancellation.ThrowIfCancellationRequested();
         var baselineData = (JsonObject)source.DeepClone(); baselineData.Remove("alternative_a");
-        var baseline = Calculate(baselineData); var input = baselineData["input"]!;
+        var baseline = LegacyCalculate(baselineData); var input = baselineData["input"]!;
         var accepted = new List<(JsonObject Data, Result Result, OptimizationTrial Trial)>();
         var trials = new List<OptimizationTrial>();
         var excluded = new Dictionary<string, int>(); var seen = new HashSet<string>(); int evaluated = 0;
@@ -101,7 +101,7 @@ public static partial class BridgeConcept
             Result? r = null; string[] reasons;
             try
             {
-                r = Calculate(candidate); reasons = OptimizationExclusions(candidate, r, options);
+                r = LegacyCalculate(candidate); reasons = LegacyOptimizationExclusions(candidate, r, options);
             }
             catch (ArgumentException ex)
             {
@@ -164,14 +164,14 @@ public static partial class BridgeConcept
                 {
                     // Span coordinates can put an exact 5 cm step a few ulps
                     // above its boundary; do not add an unintended extra step.
-                    try { i["depth"] = Math.Ceiling(Calculate(d).Depth * depthFactor * 20 - 1e-10) / 20; }
+                    try { i["depth"] = Math.Ceiling(LegacyCalculate(d).Depth * depthFactor * 20 - 1e-10) / 20; }
                     catch (ArgumentException) { /* Add records the invalid candidate and its reason. */ }
                 }
                 Add(d);
             }
         }
         cancellation.ThrowIfCancellationRequested(); Report(true); cancellation.ThrowIfCancellationRequested();
-        var baseReasons = OptimizationExclusions(baselineData, baseline, options);
+        var baseReasons = LegacyOptimizationExclusions(baselineData, baseline, options);
         if (accepted.Count == 0) return new(baseline, [], evaluated, 0, excluded, baseReasons, options) { Trials = trials.ToArray() };
         double minCost = accepted.Min(c => c.Result.TotalCost), minCarbon = accepted.Min(c => c.Result.Carbon);
         var ordered = accepted.OrderBy(c => Score(c.Result, minCost, minCarbon)).ThenBy(c => c.Result.TotalCost).ThenBy(c => c.Result.Carbon)
@@ -198,7 +198,7 @@ public static partial class BridgeConcept
     }
 
     /// <summary>Inclusive percentage grid, with the upper endpoint included even when the step does not divide the interval.</summary>
-    public static double[] OptimizationRange(double min, double max, double step)
+    public static double[] LegacyOptimizationRange(double min, double max, double step)
     {
         if (!double.IsFinite(min) || !double.IsFinite(max) || !double.IsFinite(step) || min < 100 || max > 200 || min > max || step < 1 || step > 100)
             throw new ArgumentException("Intervalli percentuali: 100 ≤ minimo ≤ massimo ≤ 200; passo da 1 a 100 punti percentuali.");
@@ -209,7 +209,7 @@ public static partial class BridgeConcept
         values.Add(max / 100); return values.ToArray();
     }
 
-    public static string[] OptimizationExclusions(JsonObject data, Result r, OptimizationOptions options)
+    public static string[] LegacyOptimizationExclusions(JsonObject data, Result r, OptimizationOptions options)
     {
         var reasons = new List<string>(); var i = data["input"]!;
         if (r.Spans.Length < options.MinSpans || r.Spans.Length > options.MaxSpans) reasons.Add("Numero campate fuori dai limiti richiesti");

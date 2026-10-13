@@ -57,8 +57,8 @@ public static partial class BridgeConcept
         }
         double permanent = deckPermanent + extraMass / length * 9.81, q = permanent + live, qd = a.D("gamma_g") * permanent + a.D("gamma_q") * live;
         double ec = 22000 * Math.Pow((i.D("fc") + 8) / 10, .3);
-        var service = upper ? (ExtendedReactions(id, spans, q, structure), Array.Empty<Station>()) : Analyze(spans, q, ec * 1000 * deck.Inertia, i.B("continuous"));
-        var factored = upper ? (ExtendedReactions(id, spans, qd, structure), Array.Empty<Station>()) : Analyze(spans, qd, ec * 1000 * deck.Inertia, i.B("continuous"));
+        var service = upper ? (ExtendedReactions(id, spans, q, structure), Array.Empty<Station>()) : LegacyAnalyze(spans, q, ec * 1000 * deck.Inertia, i.B("continuous"));
+        var factored = upper ? (ExtendedReactions(id, spans, qd, structure), Array.Empty<Station>()) : LegacyAnalyze(spans, qd, ec * 1000 * deck.Inertia, i.B("continuous"));
         var reactions = service.Item1;
         int soil = Array.IndexOf(Soils, i.S("soil"));
         double pressure = Auto(a, "soil_pressure", new double[] { 1000, 400, 200, 100 }[soil]);

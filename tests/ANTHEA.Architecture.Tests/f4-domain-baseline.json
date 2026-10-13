@@ -902,296 +902,296 @@
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.Analyze",
-      "Fingerprint": "75C532BF497A3001C4796C2EA29EB4F872E27CB1C7F328CECD94B50B51716DAA",
+      "Owner": "BridgeConcept.LegacyAnalyze",
+      "Fingerprint": "2C1B90207E5A1F55FF20872CBDA2E78F48FA12F495FECA44471442AE21CA4D68",
       "Count": 1,
       "Example": "Math . Pow ( spans [ k ] , 3 )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.Analyze",
-      "Fingerprint": "B9774E46C33548C124D5DA128047FFF26DEA90E6E14512C92A1051E8DE052D38",
+      "Owner": "BridgeConcept.LegacyAnalyze",
+      "Fingerprint": "60F09731A58C228B9231CF0224A36CDE18E190C8F2F9C89140AEBA60CC120129",
       "Count": 1,
       "Example": "Math . Pow ( spans [ k + 1 ] , 3 )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.Analyze",
-      "Fingerprint": "D61765DD922A5307B9FC371716AD969C2FADBC474EE9DA2A274D7F2C0F724A46",
+      "Owner": "BridgeConcept.LegacyAnalyze",
+      "Fingerprint": "ADF944AD61B47181020645B00FD818C32078AE6FA8F634987DE1FDABD70651D7",
       "Count": 1,
       "Example": "Math . Pow ( x , 4 )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.Analyze",
-      "Fingerprint": "D972F4FB94937F063D29745BB608F78500398E00A696DF28FB42FFE478C4949C",
+      "Owner": "BridgeConcept.LegacyAnalyze",
+      "Fingerprint": "2F6E5E74931679038E98C9046148C74ED7739D22C02F620754865D759FED5B4F",
       "Count": 1,
       "Example": "Math . Pow ( l , 4 )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "382133021FE36C3607A0E001E7EFEAD0AAE90E0F124563B296F23B7E150E10C5",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "24D8FC9D6D9D191CCD91AAF05AF36C1C1DBF3420ED94F4264E3F15A42CE3907E",
       "Count": 1,
       "Example": "Math . Pow ( ( i . D ( \"fc\" ) + 8 ) / 10 , .3 )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "9502C02C721C23C652CACD283B04FC145A430C09A3F1BE50DDB952C69686C101",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "966AB11B74BDD032439870518C3070D846CABA1B741FA82924EB1191FD71A0C2",
       "Count": 1,
       "Example": "Math . Pow ( p . Y - centroid , 2 )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "A6A3456B8940E1CCF8316FC8BAA8A1560916BA78C924E18A5F9DE25F4A89A6FF",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "7B3F1EE314522F737B309220F1A83B6B25A7011A6A583EB305A6FE69CDB0E9BB",
       "Count": 2,
       "Example": "Math . Sqrt ( Math . Pow ( h - bottom , 2 ) + Math . Pow ( ( ut - ub ) / 2 , 2 ) )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "B741A06A5B43B636F1A01CEF93E2C788DBB5FCF4A1B6AAF1EB8672802EC8B624",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "9E0CFA600B9E046764EA47332727966BA0C5B3356AAD4CBF63E943141B911329",
       "Count": 1,
       "Example": "Math . Sqrt ( wh * wh + run * run )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "B8EF4BDCCB42F83A012E9D1659102CA5803CAB89A41AE97B68276B199139B404",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "07E7D8DABD8EF3BFA92864C9ECC79C10ADE0663364F1112BC8788B666F497BB6",
       "Count": 2,
       "Example": "Math . Pow ( ( ut - ub ) / 2 , 2 )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "D31D3CD22FFA5081E712AF3260729770F3E78E53E0A90FBAC555F010F3F10D37",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "CC2049B76435737146BC6A18797598A74ED911FD843A6E5F48E059B6A2508D49",
       "Count": 3,
       "Example": "Math . Pow ( h - bottom , 2 )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "EDA2E02B0EDAEF87A7F108788E0C42EBE6F5CD7EF0DB3C3E234CF7673C54E889",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "5F3E92232EFEE9CBEA3BB7EC3E9752BAB44F393F6B4C62588CB9427DF4FACD99",
       "Count": 1,
       "Example": "Math . Sqrt ( 12 )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Analyze",
-      "Fingerprint": "231F970C1DAC145FE4450F95B9175727CC7EBD2381C9C22C24F7419E666AAECB",
+      "Owner": "BridgeConcept.LegacyAnalyze",
+      "Fingerprint": "036DC63F8C8E255AEC370BAB184FBB6EFF2E021176AEDFBEA9A2162A54011C98",
       "Count": 1,
       "Example": "40"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Analyze",
-      "Fingerprint": "41A351F701F7C35C0C01F51B9AC57140E8BDC86AE742B9D14E534A33ACBFF3DC",
+      "Owner": "BridgeConcept.LegacyAnalyze",
+      "Fingerprint": "D3F120FD18D82221F0B4346AB7F7BB6B43035DED1A093FF2DFD2F6687692D733",
       "Count": 2,
       "Example": "6"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Analyze",
-      "Fingerprint": "5C3C228C1E2DB59503DB8818635AAEC8732797605127CA5D16D83AEDA8C23818",
+      "Owner": "BridgeConcept.LegacyAnalyze",
+      "Fingerprint": "55F1A47EA3D5D17D3BA71B3F44980D066B3A66418D59C10010540BD7E242D11B",
       "Count": 2,
       "Example": "24"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Analyze",
-      "Fingerprint": "842A50B53A6ED27B610086D1D488990D0D7C2590633D70D9F16342DCD05E6ADF",
+      "Owner": "BridgeConcept.LegacyAnalyze",
+      "Fingerprint": "9698AA7C57021CC6094F0C237B6A06B849D09E2C46D56FE7A26FBEC30610967E",
       "Count": 1,
       "Example": "4"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Analyze",
-      "Fingerprint": "E83D4065554C7C60EB81A752B612523AB8A1D5381BBA93BF9C5B725F081D6D13",
+      "Owner": "BridgeConcept.LegacyAnalyze",
+      "Fingerprint": "2197A3894F655E69BF3DC7D9EF6446327B5362AD7962F0FCAA44AD969E6BDE0F",
       "Count": 1,
       "Example": "1000"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate.Rect",
-      "Fingerprint": "1876949A897FD478A015FF712A4C15FB4639AEBA40A102C39DC0717A25E1FC52",
+      "Owner": "BridgeConcept.LegacyCalculate.Rect",
+      "Fingerprint": "2E63FAA59465B94641F3326A9B0D17BFA6956318B984EDB59AFB6DAD00C5CC7E",
       "Count": 1,
       "Example": "12"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "07D0E2ED3ABACF3E34F6771EE466742F734660426DB684410A63831EEE743DF3",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "90667F9A12DD3744EC031915855E3AF8D29B62EB84A0D48DDF0A7B82F9A81F81",
       "Count": 1,
       "Example": "18"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "2953BD2FF346ECC859CFDF7C92F7551033735968D2BA68DB8628EA33A07376AA",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "608E766E78189D3EEAD6B9F891A1FAEF4F6CFDEF597D665A92599FB6059DAF39",
       "Count": 1,
       "Example": "1.4"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "2D976D3856A166C993B1BB7274E1F98CED6FCC975F5E1F3B155E30C6DDB64E7B",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "8D8F092733DE90C3F48F138A949D7CA599A0369CE0C3BA1DD9DF2E2628865186",
       "Count": 1,
       "Example": ".4"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "4A10D942DAF58926185542F496E13411CCE2FD5620BF679009626BA3D687B41C",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "28B8DAE99AC3B376719120B294FA5F6500F6F4943E2DAFF75AB8BC61C4FB02E7",
       "Count": 2,
       "Example": "25"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "576849864870A318F66E403D4F2145AA7B7A0520447263444DE1BD437E28847B",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "C0BFFCB5A3D1540D78E2705E262C60B7AE271405E49151899D11CE3AE4212C27",
       "Count": 14,
       "Example": "1000"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "6277F8D45F80753305AD0F5277DFE2DCA46F0721A845E3E1B34E7733E08DD8E8",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "38A9768ABC60F05A460352629450650D8174BC46378C3C17B0034026D4E95AA9",
       "Count": 1,
       "Example": "7.85"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "647991D10D5DA7F55D766F7A75D7730DFDD6010477DD125D69DDD60064264A01",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "EDDE8B6C3B49C32719FE94CC08FA2866D77E8C76D52501585617AAE3D14539A5",
       "Count": 2,
       "Example": "10"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "656B8C44F6CD811F5282D5E41A814B289137C09FB4DD38386D7E3C9ED15CC76D",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "9F7C28DABAD465F07DEED7F5999D5D85ACF3B3E4BB8BEB7EBA09963A2AB13D74",
       "Count": 2,
       "Example": "8"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "67551F50F7DA485D6CB597774D93B780351EF27715BAF43169A75A15FBB95D93",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "45ABDA2E40991650868B645CA98B3198EE27A21D8DBE390352D0D6B96BED4916",
       "Count": 2,
       "Example": "1.5"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "67C138B9A0438D533AE9EBF0985618E025F2F3838A0355A0A324654FB610EFA3",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "10EF71F512273612958DEAC01230490205FC1CC86CA0494A95FAA24B1C1A12D4",
       "Count": 2,
       "Example": "3"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "6AE8DDE8CF97D3966449FA34700E2F45A2FD55727C5A473AE404932E4DF9DEC9",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "11CEEFA4986B9F0BFBFB49CFA3ABCC764D00E51D2DF4C32290CE87B84A6D27F4",
       "Count": 6,
       "Example": "4"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "7A21886E44E9E714ED3D89E2B2171C29E753D6F536B107677FC83ECE2C7B147F",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "DD018949838204EC74C37AFA4FE643EA7E6A21F02A31874A0E813F710A422F2F",
       "Count": 1,
       "Example": "1.15"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "96249D6AF274BCC3BEAC6912DA2FA187B7A35848DE4F853298E87ADBB55365F0",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "B852966814B8B9DD1E71D2D6DB3AB539351962DFFE3FE48D50EF2554917CBCDE",
       "Count": 3,
       "Example": "7"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "9ABD1D7A84E698BC60748CF16973AAE032493AA85328F6BA250E0E6FC8B28702",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "6C4052D86D5A508A5164A69D9F13C1EFEB6B403AE9CEDC09C71C70B8EB342E4F",
       "Count": 1,
       "Example": "9.81"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "9CD57E98176402C5E671A3957D9173D81640CA71CB61938988091F3B736DBADE",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "DAD3DB02DF4194F849982EB44DBF27C04AC55BCD718094BB60F9A3474BFBE8C0",
       "Count": 2,
       "Example": "12"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "A3CB289BD782AB4AB8D13B887A2E4A58E478FE2E561D572E4FBD9583F0852538",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "ECDA788306455BFC2AF2600BD5D90757D9AD173FA38AABF11FF52AC20FE0CA43",
       "Count": 1,
       "Example": "1.8"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "A5734BA3933A90C5536B2028ABF8C441F4D6D68CA178D26966666489813C1064",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "B578ABEF7B0670D75637A34E5DB4D28EC0574A1032E5542E7385951E17A3FEFB",
       "Count": 1,
       "Example": ".1"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "ADD1CCCEAB3BF91721AE9F68C9849F6500BEEC8D357A23C1D38206219F17F23F",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "59CD959E8A818547A91C727A531AAE0908909D694F3E39A0C6B59FA47A689A9C",
       "Count": 1,
       "Example": ".7"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "DF7C7664D729488BB02C3D2C70ACAF13E1E98972671645DAA2D4A60E0E13572E",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "431480F542EF14574402C054B283086045659F18224821AA9F0E52CD2DEB9F89",
       "Count": 1,
       "Example": "22000"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "EBB9EBB7FAB77644235DA5D57E27A763AECF19706D96F39C70F88B59916A0A4B",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "0603E5338E456C4A0D74537A48C3F16487446B72CA070D854FC03EAD468D4CBD",
       "Count": 1,
       "Example": ".001"
     },
@@ -1206,384 +1206,384 @@
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate.Add",
-      "Fingerprint": "C0EB8FEC8D180B6D204C3AD328A31A14654A870E27CDD01E48BEE3B8924BE217",
+      "Owner": "BridgeConcept.LegacyCalculate.Add",
+      "Fingerprint": "EDB25ACB3C99F245537BEEFC7B4A5C4BC57A5FE47386E11167EFAA28CBB334BD",
       "Count": 2,
       "Example": "rates . D ( rateKey )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "05E22549E8D00B44DA7570F402727CEB44D30163878B2E45E52B2E768F799572",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "EE009426FD5B1DBFE7C6C77A4B198883625E81F26B6E0F939B6F5B2AF3BBC9D6",
       "Count": 1,
       "Example": "i . D ( \"height\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "08C669A6E323D312850C05BDC49CA9E3ECB209A3EC06F19DAC85E7599AA71174",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "475CB3F83ECE5F18F18ECB58D7B1A5E81F34EAE1475EB0DF810E7D3579584D9D",
       "Count": 1,
       "Example": "a . D ( \"co2_concrete\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "09CACF83A94C72D992204EA7FB36036B5E4C71BB21ADB30745D6C11C500614F1",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "EED9E7810840D0EF7E50852BBB38091FBEC455B662E8A55D7E44B58C9C4D3579",
       "Count": 2,
       "Example": "i . D ( \"obstacle_width\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "0C191EB9727BDFE901F464CFE371F149F0DAFE59BB80E7E6FDD908933F357421",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "AD00F7BDCD896793D00FCC8E3280049A3627FE71D8FF19564C53395594C31394",
       "Count": 1,
       "Example": "i . D ( \"lane_width\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "19B51752AF35434A3DC9FEC244397AAE3008C191F2206142FF5ED2FE6B7492A4",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "C02EB65DE8C895A921D1399A18C8AC541F8AF0BB25E1ABEB2B86835D890DF603",
       "Count": 1,
       "Example": "a . D ( \"pt_density\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "2AEA0D5145342D3E87E644B0335645C883FCB696EA7D4D9318DA8E923E7FD552",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "97F672BEE38835A06B6743F724F06E5DCAE58291B15A91F0F6561881663883E9",
       "Count": 1,
       "Example": "a . D ( \"co2_pt\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "31AE2D2C44ECD9C461572109E4E2AEBAFC0AB449290678EDD6DB58F10BCE6A33",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "D415B0061ABB7004A18B5AEE8508782025514FD1CFB14BD0C0365924F5DCE238",
       "Count": 1,
       "Example": "i . D ( \"haunch\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "38BF16772635E015253A7E5704491266604321D5111C8857FE85E6CB4493D5E8",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "EAE4830DFA8B35398117F634CFD70F1355FF21F39E48DF10335E2BAD5ABBD938",
       "Count": 3,
       "Example": "i . D ( \"median\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "565B13E9554EC154D5BF3DD980A8FBF2B9067C67A09542355FE0DDCE06D172E4",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "66AF59EE2583D2C6C2869DD9947F6FD4C34BF7D8459193A48518E71C38275C81",
       "Count": 1,
       "Example": "a . D ( \"rebar_rc\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "5771795E79A1E2808425179C9A04D7B1F4DE7C17FBB45E9C1C5F8624DBAB56FE",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "367D12295E193D19EDFE2DA69A10FF7749243EC132E07620670C3C99DD2859AF",
       "Count": 1,
       "Example": "a . D ( \"months_span\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "580548C9FB467EE105E130E9CBD868C148C499A67D4C86C74AE1D8BC4C4C3392",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "6EC72E540C34CABD25BC46669DCD7291870D825A36E4CF5D696C5C0CA9CB7205",
       "Count": 1,
       "Example": "a . D ( \"co2_steel\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "5CA9EFDCA2809204C6561812E32135969C63DE58550813F485E2D169048C0117",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "FCE1E0CC5BA592BE7035D416B336968D411CB32975B8EF5AB97D3FB708173D7A",
       "Count": 1,
       "Example": "a . D ( \"months_pier\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "5DF597DB7FBE81030D1FC2E1BA3B31A88EB3D663D3A5D3303FA897361928CB91",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "AFBA5A8A74E0AF36CF3EB96DC85FA36F3E042BD387368A8FF773095F23B9ABE5",
       "Count": 1,
       "Example": "a . D ( \"contingency\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "62B2328DA53B43650F32E682E8D0B0B6BA375661C15BD03BD1A844CCC26288AD",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "2A35E957790E0AEA5DAB6CBE7CDCEAB2A3490061CE90DF9B8112357318EF8CDB",
       "Count": 2,
       "Example": "i . D ( \"u_top\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "662E6533190AC11D8991656D4397ED8046D1A0BE3040CF455500676DB8A632A7",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "487A6A7DE4BC0A753867EF507E91D0C12C45F43616CA3BFD4D3CCFA67461E062",
       "Count": 1,
       "Example": "a . D ( \"rebar_psc\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "6B1CA5CC3D3083C08DC665B1EF1B7479B2D8063F0C5A2392E78B2B6B6205E524",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "E65C6FE36A6073FE28AB7F9F98EABCC183EC593AD0B71881AE4CE04EF2816CA2",
       "Count": 1,
       "Example": "a . D ( \"wear_load\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "6D96F01B57B5A0082522A4633FC8593B9C2D41B2A6C90077DB3894DC3019DD78",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "E254114DAC194B7CE657B13FE3E55025C00B628356C462A7BAE88F1C03C1B493",
       "Count": 1,
       "Example": "i . D ( \"shoulder\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "764F0166D156380A4FDFDFFD82CE29CB41D20E9DA68042388BD506C10BE0023C",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "0C56BF4ACEBA9B6BBBB2BA71F624E4698B0AE5B59F5A0C672C8847EAC77A7D94",
       "Count": 1,
       "Example": "a . D ( \"low_carbon_factor\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "790AAB496998D5D6A1EDBDA8B42711FDFD879A1841EFB4B34D53E8BF7E0AC208",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "0028312EA04F87408EBD883CFB413573B66BA97534782959821D0A995EF83BF7",
       "Count": 3,
       "Example": "a . D ( \"co2_rebar\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "7C6638A7AFD6714E17DFD8E0AD028D22A45FFC61AB9C1E56C4C8701FD8D1DBB3",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "77C97D2C25BFCCADE9B81FC3B240B5A58D848E5F1DC947FDFBEE10EEC51E4FE6",
       "Count": 3,
       "Example": "i . D ( \"depth\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "7CFB794E808AE362E50FC2EA1E9F04F6290D140AF0AAD99F923BA020BFB5DDD6",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "F5C36504D284699C671DB010BBF0C87A28102E21B185208E6647712E5A7A4757",
       "Count": 1,
       "Example": "a . D ( \"recycled_factor\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "7D4A2152D13C34DA7CD920D554437DD5773A45A6B565A433BFA00ED113E7AEE4",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "0009351ABF0F543AD235FD16A138D400ACF820FF96972392A30E69CF425F4807",
       "Count": 2,
       "Example": "i . D ( \"u_bottom\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "8829321CF67A3097D2C677467AF20C9D2F071AB1E487371A1DF315B851E17597",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "19E6EC78642A9AE6A4796B41F5C4834254C96542F10C9A1AE0DCE64BE9999B03",
       "Count": 2,
       "Example": "a . D ( \"uncertainty\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "8C7AED1911EB6324036C91E63FFF03BA8EEC22BCB08E046AF68220799BEA495B",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "663320E1B0AF6D6A8E5285932864548FD37CEFAEF033E2168E3140D746D17C92",
       "Count": 1,
       "Example": "i . D ( \"spans\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "8EC0B3E2E71001934115092213FB6016C4C03F43F5684035738DC9838537CB93",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "C21E631BEB0CE4C0C9E93C7356CD194B2057CA036EC4D9C61FC36CE2423F9E30",
       "Count": 1,
       "Example": "rates . D ( \"bearing\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "91F48932B4FC54F21B83EC3344A0359685EC8462E50858A1760599E7D6523BF2",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "7D9D01294017FDCE6C7420564989C61ABC3394B2231C265D2749C61F23C53238",
       "Count": 1,
       "Example": "a . D ( \"gamma_q\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "94E74C8A1E3E7956C0E7A96462507F4633BA7DC6FA670CE6B7195D0AC70731F4",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "3BFF8950648A01FC54C4455128D76627A865F54EEBD2BC5523ABAE55EF5FB587",
       "Count": 1,
       "Example": "a . D ( \"rebar_found\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "A88BC2C29B2C5F42DEE06DA5F97EE9B6C2B7DE5697210670BB058D956FF0C51A",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "88714580DB5D99EE5693C1E87C72493514E2D8C963E9E01D63E571013C4189B2",
       "Count": 1,
       "Example": "i . D ( \"cells\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "B72A17E13C60421806BDEC82B5AA2F4C6130348A250B97E53DF31A69318ECFAB",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "ACC57E1B8AF4E7868BF9DBF7477AF9953C00C7EC5E2BA58D7A673D65DDDAF47E",
       "Count": 1,
       "Example": "a . D ( \"months_base\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "B88298950504A246CD69FC632BA43512DFA032BB7D609C6CF6E89D8E35F6EB33",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "759A2BDFA71EE4B244252F176E5E9DAE3A9B1F49B0969D5DC54BB579E801D960",
       "Count": 1,
       "Example": "i . D ( \"length\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "BE8BB11067BD1A6F8AD5667901BAC5E072FAAEF2F904E37C3A53A7EF9F37F4E7",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "47DAB4397B4D7B0B95628D46DD8415F64BDB31E8A7DBE03C3A95B5198213F63E",
       "Count": 1,
       "Example": "a . D ( \"co2_site\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "C5A3D271049B9D49897700861EB4602D80B34B671518DE9450F5E4BD2ED27960",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "78471AA7844BA887DD9CF5CC0469F1A0E09D2E8B416DB07E4646EBB90F1000AF",
       "Count": 1,
       "Example": "i . D ( \"fc\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "C772BC7545AFF86FB751E0C65E0F50A2F8553F78571059FC1BC5BE99528C8D77",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "765E5731850E2F139F10CC7CBBBA70CA22B07DA97A30A433D6B8DB4920BC7DF0",
       "Count": 1,
       "Example": "i . D ( \"web_mm\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "CC4EB741120F1F5FE646AD2BC817FB76B77FBD7B2A449F18CB2677C92D73E13E",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "484ED384BF835CAD0AE57997C377888816BB9C675EEA94E2B451E0B6279CAAAD",
       "Count": 1,
       "Example": "a . D ( \"prelims\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "CDBF13C858D14E6F52737B40CE33271315A2F3480C0525C292662D3075E7EDF9",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "CD4CA10D529142A8B180D29DD2C9B93A930DD80139A505BE41B88030726ED467",
       "Count": 1,
       "Example": "a . D ( \"traffic_load\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "CDEAA0659383ECE9FAD6B0BEF94CAB84FA01D1A7C41560D9A6987E4C55CF46F2",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "87F31020CAC8F2420AEAB251D83E31FFE89DBD6290BB2E7FFE5F5043B8E8C945",
       "Count": 2,
       "Example": "i . D ( \"flange_mm\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "D40FD3B8D5B246DA142484C056C12D645F629E6D984E2E288A5897AB30C41032",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "5D8B68025DC1B2FEA1786F8D7B4218100886ED9CFA1CEAE7D5D53BAEC7523A44",
       "Count": 1,
       "Example": "i . D ( \"bottom_ratio\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "E0A4C1E28081B8CF3C4EC6B576060D708EF7755C7BFBBCC6B71A37D7683775DF",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "161D0A0BD66FF75644234BE1A4382E7320CDB863828C11D1AB9E9A808922F2BC",
       "Count": 1,
       "Example": "i . D ( \"web_slope\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "E1C0362C1F10D6DA8FCB8FCAEFB74BD608C3B4E7F3EEB734796795C441F01557",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "4D666FAF776C02F0983696537857B1AEA55155B94038FD630F6BD3A235800408",
       "Count": 1,
       "Example": "a . D ( \"rebar_sub\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "E1CE9BEAF9A47392C88F37987FA9CC72D8DCD59000961D21EEFE685C7CB1F79D",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "B5838F520B66534B2C1044A9D8C2BE678C7DBB4716144F5F2BACCB64F0972D4C",
       "Count": 2,
       "Example": "i . D ( \"barrier_width\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "E1D5122562E66105F883B40F722BDC4F2A2906A344929BFBFAA7C13F6142B457",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "BD8562D70C359A16EC3666AF1FCECA769D828EAA72D5E17C6C1F2AC9A05F4FC4",
       "Count": 1,
       "Example": "a . D ( \"gamma_g\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "E8929ED66B6F083D0542BA6C3A8E571C72EA5EB302AD6D33541F9D411795DB2E",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "710E3ADC11C922236E38D78AEFA755649431A2C6B0C1E0F2E82BA3ED07FAE5D8",
       "Count": 1,
       "Example": "i . D ( \"flange_width\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "F6555D6EA8708FDF38AE4CAAD33453914522E3375EBE0BBEA4A6D4692CFEC08C",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "812EA06AC3FD18D0EE0E5BAA75A0538BF4C2B0DE9AB246885213D8D3CD30594B",
       "Count": 1,
       "Example": "i . D ( \"fc_sub\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "FB56CD2BCAD525DFBCB92333AE0A8B592F224C1AB719A57579DE30038CEF15EE",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "2F415DD1AC965E367827179ED59C61544CC6F5BD88399AC74C8A9722D7EFBD92",
       "Count": 1,
       "Example": "i . D ( \"lanes\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R6-unit-factor",
-      "Owner": "BridgeConcept.Analyze",
-      "Fingerprint": "E83D4065554C7C60EB81A752B612523AB8A1D5381BBA93BF9C5B725F081D6D13",
+      "Owner": "BridgeConcept.LegacyAnalyze",
+      "Fingerprint": "2197A3894F655E69BF3DC7D9EF6446327B5362AD7962F0FCAA44AD969E6BDE0F",
       "Count": 1,
       "Example": "1000"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R6-unit-factor",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "576849864870A318F66E403D4F2145AA7B7A0520447263444DE1BD437E28847B",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "C0BFFCB5A3D1540D78E2705E262C60B7AE271405E49151899D11CE3AE4212C27",
       "Count": 14,
       "Example": "1000"
     },
     {
       "File": "X.Calculations/BridgeConcept.Calculation.cs",
       "Rule": "R6-unit-factor",
-      "Owner": "BridgeConcept.Calculate",
-      "Fingerprint": "EBB9EBB7FAB77644235DA5D57E27A763AECF19706D96F39C70F88B59916A0A4B",
+      "Owner": "BridgeConcept.LegacyCalculate",
+      "Fingerprint": "0603E5338E456C4A0D74537A48C3F16487446B72CA070D854FC03EAD468D4CBD",
       "Count": 1,
       "Example": ".001"
     },
@@ -1774,368 +1774,368 @@
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "EF209FE6C45002B71053FAA55F83FC3BEF5B4D90A5DFD0F3CC2D689BB5501498",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "F6B7DE1748DB6D74EC2E1AB771235C360AEB1B02CE4EC8CAFBA34DAD6C96EB2A",
       "Count": 1,
       "Example": "Math . Sqrt ( s . Piles )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "2CFF7FFED1C812C3E72FA699D2E3C69C4272C1C65080635E9002A51CD6D0E4AF",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "5351C4A3103F106036F90BCCBA8856F48E75864281BF02D3718D658376F2FD7B",
       "Count": 1,
       "Example": ".3"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "31102300FE4C807931DF2764863DC494FE6A994D7AC7836F699A065FDD0B93A7",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "89224B34F3E53520E54DE4D0A48D6CBE9A8EF14AE27E44C5B0FCEFED773F2E98",
       "Count": 1,
       "Example": "3"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "4A220E81F2C9B2EECD38E127E1836BE7DC3A493107CC9B0918FF21E880B8658E",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "E5BEDBD6D8CC78E0CBE195B80C2307B036EC324DFC53470BF153F931366C6E2A",
       "Count": 1,
       "Example": "4"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "76D7080CA22AEA42A3A5FA464CC7AAAC7D0001B380016BA8A95E62EDD91AA3FA",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "08D307035A9460F1C1B4919D9467115FDB96E4EA2F49A9E5A6E5418B8B790F34",
       "Count": 1,
       "Example": ".4"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "A8E4AF863770C2EC1EF277A601DB6F166FD671E4E7FD8DB3899CF4CDCE177972",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "998C128F1E083AC99CB2D7DE858C8D5CEBEDA1F058778D47736A65D6FCB800FD",
       "Count": 1,
       "Example": "1000"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "F8782BB118CEF8BD6192AD31E1F8109F081C9D43D769CDDC985C51421DEA4F20",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "7774FF3E44534F40590122ADF9F44C0C4EA8409A1D49A8AA56BF524018467833",
       "Count": 1,
       "Example": ".001"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "FB3264E52DA5FB3F482FC15BE2A642C5885EB69181D9A12ED4BD05D67A8ADEFF",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "8D661A0FCBB31642F9091511A77830F64B78D33B3DDACBA72D256B004E5B0B3D",
       "Count": 12,
       "Example": "1e-8"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.OptimizationRange",
-      "Fingerprint": "EB79C8EBACB7C1F0721537E3AE5BDE55FC6572B9810B5CB4BBFD342153CFDD3E",
+      "Owner": "BridgeConcept.LegacyOptimizationRange",
+      "Fingerprint": "6E367EFDF07F83755087F91F100BE96E5A750D78EABD3275E08D6ECAA0144034",
       "Count": 1,
       "Example": "1e-9"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Optimize.Score",
-      "Fingerprint": "F63C391305D0C2EC143C2B88AC2D23B804AC03B2454E687FB5F994E193A8E103",
+      "Owner": "BridgeConcept.LegacyOptimize.Score",
+      "Fingerprint": "A2E698909BC48584B2C0EAD36C7AC343B086BFB76AB99C9F5332AEB3942012BE",
       "Count": 1,
       "Example": ".5"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Optimize",
-      "Fingerprint": "36EFC0B2370EF08AD219EF9C43D8C381C2E7EF6134D99712B6F453BD39EAEF52",
+      "Owner": "BridgeConcept.LegacyOptimize",
+      "Fingerprint": "C8621BF8BFCDD92E89B5E037DBAB0CAAA02AF0D2F958FCD0E3B862AC723F874F",
       "Count": 1,
       "Example": "1e-10"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.Optimize",
-      "Fingerprint": "5F7214B4DAD0EA67219400477BC01A65244BCB396350AC3BD4EF295E557AF937",
+      "Owner": "BridgeConcept.LegacyOptimize",
+      "Fingerprint": "BDE77E285717C278AE522B3414963491765FE4CB92AA88903A63B393D1EFBA52",
       "Count": 2,
       "Example": "20"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "31E5DDD82D742507DD9AFFCD9AF8CF38BD702BDDB7E7D9351D0320597EC2D7C7",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "F8D0254451FAD09BCC817B481E69285609DDDCA30B74CBC2C8B031CD86EFEB99",
       "Count": 1,
       "Example": "i . D ( \"u_top\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "459B747671263878637026F66B97CAA444E26B9BFB3F479D507662DD5976114F",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "15A178486AB0F2960BA03D89AEAC59855CA5A0F9AEB3AAEFA70BF76799384637",
       "Count": 2,
       "Example": "i . D ( \"obstacle_width\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "67244B57EB35A0597905EF8EE5A1C32193E5C9333CDE194CF9E805FA67A0D8F7",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "5AB969D4DA2034D9C30AF25164EF3CE5ABDAA7752A8909552268EB92D6E256B5",
       "Count": 1,
       "Example": "i . D ( \"flange_width\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "C209C1241B7435D680364BEDDD0255D34747B8CE684727F6450BC76D4A3FD99F",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "78606FF7A1EE25BC9E49740D929E006DD516F7F31BC01F0134A2CD0BB4E34A25",
       "Count": 1,
       "Example": "i . D ( \"web_slope\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "E2825E89DA203C484DE058CB2EE665E22DA9DB8866C9C074B7292F9EF6F63551",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "CDD6EF20798DE33D51EA14BB9BB167D46404F48BCF8596DC431284888125B412",
       "Count": 1,
       "Example": "i . D ( \"flange_mm\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Optimize.Add",
-      "Fingerprint": "6DF9F2072C80CDF4DE1EB6BA75D3604EEF7481762114B0DEDD396F3EFC81B9E4",
+      "Owner": "BridgeConcept.LegacyOptimize.Add",
+      "Fingerprint": "99599982519E47E843E7DC8D9C2FDF15A9CCE225B7126D815E4781FC117041AD",
       "Count": 1,
       "Example": "ci . D ( \"spans\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.Optimize",
-      "Fingerprint": "58CE7AB4B888EE177F4849DAB02DAA036516559A65B190F75D5F4CFE146DB852",
+      "Owner": "BridgeConcept.LegacyOptimize",
+      "Fingerprint": "3F8F8A22700D6C81CD1ABDADDB08D811BC26DEB8A6F34E35CB4EACD84F14C064",
       "Count": 1,
       "Example": "input . D ( \"boxes\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R6-unit-factor",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "A8E4AF863770C2EC1EF277A601DB6F166FD671E4E7FD8DB3899CF4CDCE177972",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "998C128F1E083AC99CB2D7DE858C8D5CEBEDA1F058778D47736A65D6FCB800FD",
       "Count": 1,
       "Example": "1000"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R6-unit-factor",
-      "Owner": "BridgeConcept.OptimizationExclusions",
-      "Fingerprint": "F8782BB118CEF8BD6192AD31E1F8109F081C9D43D769CDDC985C51421DEA4F20",
+      "Owner": "BridgeConcept.LegacyOptimizationExclusions",
+      "Fingerprint": "7774FF3E44534F40590122ADF9F44C0C4EA8409A1D49A8AA56BF524018467833",
       "Count": 1,
       "Example": ".001"
     },
     {
       "File": "X.Calculations/BridgeConcept.Optimization.cs",
       "Rule": "R6-unit-factor",
-      "Owner": "BridgeConcept.OptimizationRange",
-      "Fingerprint": "EB79C8EBACB7C1F0721537E3AE5BDE55FC6572B9810B5CB4BBFD342153CFDD3E",
+      "Owner": "BridgeConcept.LegacyOptimizationRange",
+      "Fingerprint": "6E367EFDF07F83755087F91F100BE96E5A750D78EABD3275E08D6ECAA0144034",
       "Count": 1,
       "Example": "1e-9"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "ADDE0E8B1DA77BA2FC8C63A13F93F58B6CCEC24725356051C86AB422F837E1B2",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "EC5128F955ABC5B3974E200F1F9154043BD952377D3B9FBAA721EFE49DFAF9B4",
       "Count": 1,
       "Example": "Math . Pow ( h - r . Bottom , 2 )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "B2B502CEA3D66D3655BEF45FA243BAC55E851CF441DFA8244709015C39D510DD",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "DE03EFDFCBC962289A8BDE206D2F152FDA79DD2546EC0F0837EBBB1500876B68",
       "Count": 1,
       "Example": "Math . Sqrt ( Math . Pow ( h - r . Bottom , 2 ) + Math . Pow ( ( i . D ( \"u_top\" ) - i . D ( \"u_bottom\" ) ) / 2 , 2 ) )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "CED849A452FD4B7CE19C5FCE9A705EF238D91B0CF71D6E289343BBDA2D46CAF6",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "EEBE496A3706FABBFBE86B0A07445F45D01E6B675B421399E9F926D974C3ADA5",
       "Count": 1,
       "Example": "Math . Sqrt ( wh * wh + run * run )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R1-math",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "DDF5505EF2DCF9B225FD9EA87D789441D39F48F8516193AEC92730251C29E43E",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "F0AE5E3DB99F13E65D93F96FDB5FD67099332C25AC74FF940204D8B8C46204CF",
       "Count": 1,
       "Example": "Math . Pow ( ( i . D ( \"u_top\" ) - i . D ( \"u_bottom\" ) ) / 2 , 2 )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.SupportSchedule",
-      "Fingerprint": "5B658BEBDE062CFBE947D3627C8B66AF3704AC013C4A4E8E115ACA57FEDBBAD5",
+      "Owner": "BridgeConcept.LegacySupportSchedule",
+      "Fingerprint": "3F7A80FDEE2442786962FF48C57908A3D4786FD9879056DB4E26E6A6DF94D2DA",
       "Count": 1,
       "Example": "1.5"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.SupportSchedule",
-      "Fingerprint": "915188354100B1E30C58982136DF6E6DE86AD82F3480C3068CA1A6D43B21A7EF",
+      "Owner": "BridgeConcept.LegacySupportSchedule",
+      "Fingerprint": "E61180F660431408536C2CDBD86A9B80ECB853B543086DB7B1A21B7CE6AECB6E",
       "Count": 1,
       "Example": "6"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "A33705B34265783844A9C5726B4D8B5F5EFE0472C15494EA3E7D490C1EC0D865",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "25DEC0F7037C1B36EFABA0684E4E92E7612EF46D689B6BE75E2AD907ACEC2BE1",
       "Count": 1,
       "Example": ".7"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "AFD9DBF296CCE61FFD74CFCFD3420BF13CA570D6CAB66C393AB9AACED7864BCA",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "65FE2CE2B72B4E3D47CB69C9ED8737A69EEBF6AA29625C2ABFDB7CBC4C9CDF4A",
       "Count": 2,
       "Example": "4"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "BED886D5927784274BFF2972CD1880EA0D8C6D0D2E3E2B72A6D7CE4A122016D4",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "5E872EA8DC738AD0D5C989D59B1B3EE62FC641EAEA106A0D35BAFD985EB76E20",
       "Count": 12,
       "Example": "1000"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "CA45DA2FB133155A2000B701A9CBC668006F974EDCF0290C94FDAE176787E662",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "B705FBE3985BA1DD9DEAD345D25AA9670BBC67E2DA648553D844D7615BA49560",
       "Count": 1,
       "Example": ".4"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "E89501F64DA7F72BCD6D5F254FA3FDC98A12D4C30DFCA8A55E10FBD915EEDD22",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "80946E84440895A4F39A8EC9281DC9863962E7CD804129CE4CAD7A2F6715330B",
       "Count": 1,
       "Example": "3"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.TechnicalSchedule.Source",
-      "Fingerprint": "752F04DB95E75B5E007702E4A7EFC0B36ECA77497C408E287B5C1A94407722A9",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule.Source",
+      "Fingerprint": "EA3FFE8A8E6C5B950C31422FD4180C1FF053B23941B189901AD789C3EBC653B1",
       "Count": 1,
       "Example": "i . D ( key )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "1FA1517B0296EBD9908CD51CEC517CC9996D32B4F2E84AFFAE151F6E2BCCD505",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "D2FF0E75CB111CF9CDD9FC700B702CE0C8F3F6589BC1ADAA315E23F16A21D0D7",
       "Count": 1,
       "Example": "i . D ( \"fc_sub\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "206D75B5044B720E0DD40F31F3B6B76CA941861DAD39BB6A8605A13AA0A331A4",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "4E602C4E2AED4AD9BB3559781CA212F95D8A0CEAA0FF8ECB966A12F6FB13E007",
       "Count": 2,
       "Example": "i . D ( \"u_top\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "25A147BA10FEE5D1A2A7F9472921E90D8F17D354FD40BC13385578C85E125418",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "59D767E853F7454B3272F240F897F5BEDDE5BADDA72C6F1CBFB6DAFF57C306CE",
       "Count": 1,
       "Example": "i . D ( \"cells\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "3EAA11D292177884C99B1A1E657445BE9B3039D180443FB45D1F1DF731F90E65",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "EC9F86BCF478CFA0091EDF418D90B3BDE04E41D37CC5F53DFA02295EC8FDCA5A",
       "Count": 2,
       "Example": "i . D ( \"web_slope\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "4786DF5164B1CFC18099B49DA2C6EFFD709BEA09C2A6CC6F38EBFA4C9D0818D2",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "B8ADCCC88A968C26F868E0FB0A1068F099CF91DAAAD3E434D702512A63FE086B",
       "Count": 1,
       "Example": "i . D ( \"flange_width\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "7A61A7D7CDB689BC68014C6645774A017A0C338388E563B3DDF3131AEE84775E",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "F699D0A20056849FA7CF5AD310AD28BDD6A4522AD8A7D3E255137495518B3892",
       "Count": 2,
       "Example": "i . D ( \"u_bottom\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "90A256DE2F5DB036B24FF797F22E8481115DFD227BCA7DB5E3A57267E9EA98BF",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "8BF9F1FE3BBD91587302D8B95A3B246D266C8B177F444B19A77CC5715880B5B7",
       "Count": 2,
       "Example": "i . D ( \"flange_mm\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "93D7DDA4833E500D795D39A5F49FF9F957E11CC15E214CCB763AD873E0D012F5",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "FC49F7A3CDFF17EF7B144634EBD5691377F38F0FE943D81CB8C7A67B74B1DC80",
       "Count": 1,
       "Example": "i . D ( \"bottom_ratio\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "BF814C06B81D61FDF6C9457421C906AEEB8A07BFE50EDC213ADA1C99A6211572",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "4092830C2CF29291716A9BC6A325D8C02060F4ECD0D9DD47B87099D96FB630D1",
       "Count": 1,
       "Example": "i . D ( \"fc\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "D80F97A8F80B9BD16E316932AEEA5F7508EACA2BBBA6B0753649CE5D6BE83063",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "91F55A5DE7C41C6D248A44CF92E4BF9ACAB153A4930BF90B015423928F23F2AB",
       "Count": 1,
       "Example": "i . D ( \"web_mm\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "EB1F6198C4E7033C481A2C79135AE8AD6A53D6214E7F2E20497C0594FE2E4D18",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "4F482D2D45A8104FFE48E09E22467450D3157E99142C583D4184686069FD3989",
       "Count": 1,
       "Example": "i . D ( \"haunch\" )"
     },
     {
       "File": "X.Calculations/BridgeConcept.Technical.cs",
       "Rule": "R6-unit-factor",
-      "Owner": "BridgeConcept.TechnicalSchedule",
-      "Fingerprint": "BED886D5927784274BFF2972CD1880EA0D8C6D0D2E3E2B72A6D7CE4A122016D4",
+      "Owner": "BridgeConcept.LegacyTechnicalSchedule",
+      "Fingerprint": "5E872EA8DC738AD0D5C989D59B1B3EE62FC641EAEA106A0D35BAFD985EB76E20",
       "Count": 12,
       "Example": "1000"
     },

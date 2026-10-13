@@ -4,7 +4,7 @@ namespace Anthea.Calculations;
 
 public static partial class BridgeConcept
 {
-    public static Result Calculate(JsonObject data)
+    public static Result LegacyCalculate(JsonObject data)
     {
         if (data["input"] is JsonObject input && (AdvancedSection.Any(p => !input.ContainsKey(p.Key)) || !input.ContainsKey("deck_type"))
             || data["rates"] is JsonObject ratesInput && new[] { "cables", "steel_ortho", "erection_special" }.Any(k => !ratesInput.ContainsKey(k))
@@ -101,8 +101,8 @@ public static partial class BridgeConcept
         double pt = family.Prestressed ? volumeDeck * a.D("pt_density") / 1000 : 0;
         double permanent = areaConcrete * 25 + massSteel / length * 9.81 + width * a.D("wear_load") + (i.D("median") > 0 ? 3 : 2) * 8;
         double live = width * a.D("traffic_load"), q = permanent + live;
-        var service = Analyze(spans, q, ec * 1000 * inertia, i.B("continuous"));
-        var factored = Analyze(spans, a.D("gamma_g") * permanent + a.D("gamma_q") * live, ec * 1000 * inertia, i.B("continuous"));
+        var service = LegacyAnalyze(spans, q, ec * 1000 * inertia, i.B("continuous"));
+        var factored = LegacyAnalyze(spans, a.D("gamma_g") * permanent + a.D("gamma_q") * live, ec * 1000 * inertia, i.B("continuous"));
         int soil = Array.IndexOf(Soils, i.S("soil"));
         double pressure = Auto(a, "soil_pressure", new double[] { 1000, 400, 200, 100 }[soil]);
         double skin = Auto(a, "pile_skin", new double[] { 150, 70, 45, 25 }[soil]);
@@ -211,7 +211,7 @@ public static partial class BridgeConcept
     private static double Auto(JsonNode n, string key, double automatic) => n.D(key) > 0 ? n.D(key) : automatic;
 
     /// <summary>Exact prismatic Euler–Bernoulli beam under one uniform load on all spans; no moving-load envelope.</summary>
-    public static (double[] Reactions, Station[] Stations) Analyze(double[] spans, double q, double ei, bool continuous)
+    public static (double[] Reactions, Station[] Stations) LegacyAnalyze(double[] spans, double q, double ei, bool continuous)
     {
         if (spans.Length == 0 || spans.Any(l => !double.IsFinite(l) || l <= 0) || !double.IsFinite(q) || !double.IsFinite(ei) || ei <= 0)
             throw new ArgumentException("Dati della trave non validi.");

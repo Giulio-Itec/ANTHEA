@@ -11,7 +11,7 @@ public static partial class BridgeConcept
         double FootingThickness, int Piles, double PileDiameter, double PileLength);
 
     /// <summary>Adopted dimensions of the calculation, independent of formatting and UI.</summary>
-    public static TechnicalItem[] TechnicalSchedule(JsonObject data, Result r)
+    public static TechnicalItem[] LegacyTechnicalSchedule(JsonObject data, Result r)
     {
         var i = data["input"]!; var rows = new List<TechnicalItem>();
         string Source(string key) => i.D(key) > 0 ? "Impostato" : "Automatico";
@@ -79,10 +79,10 @@ public static partial class BridgeConcept
         return rows.ToArray();
     }
 
-    public static SpanGeometry[] SpanSchedule(Result r) => r.Spans.Select((l, k) =>
+    public static SpanGeometry[] LegacySpanSchedule(Result r) => r.Spans.Select((l, k) =>
         new SpanGeometry(k + 1, r.Supports[k].X, r.Supports[k + 1].X, l, r.Girders, l * r.Girders)).ToArray();
 
-    public static SupportGeometry[] SupportSchedule(JsonObject data, Result r) => r.Advanced?.FoundationSchedule ?? r.Supports.Select(s =>
+    public static SupportGeometry[] LegacySupportSchedule(JsonObject data, Result r) => r.Advanced?.FoundationSchedule ?? r.Supports.Select(s =>
     {
         bool abutment = s.Type == "Spalla", hammer = s.Type == "Testa a martello";
         return new SupportGeometry(s.Index + 1, s.Type, s.X, s.PierHeight, abutment ? 0 : s.Columns, s.PierSize,

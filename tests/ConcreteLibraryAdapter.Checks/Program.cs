@@ -8,6 +8,7 @@ using GPC.Checkers.Concrete.Shear;
 using GPC.Checkers.Concrete.Torsion;
 using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 
+if (args.Length == 3 && args[0] == "--f4-bridge") return F4BridgeChecks.Run(args[1], args[2]);
 if (args.Length == 3 && args[0] == "--f4-bridge-capture") return F4BridgeCapture.Run(args[1], args[2]);
 if (args.Length == 3 && args[0] == "--f4-input-contracts") return F4InputContractChecks.Run(args[1], args[2]);
 if (args.Length == 3 && args[0] == "--f4-input-contract-capture") return F4InputContractsCapture.Run(args[1], args[2]);

@@ -25,6 +25,25 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-23",
+      "data": "2026-10-14",
+      "fase": "F4.11a",
+      "titolo": "Motore BridgeConcept in GPC.Design e campionamento stabile",
+      "famiglia": "Bridge Design",
+      "categoria": "difetto-legacy",
+      "stato": "dichiarato",
+      "descrizione": "Motore e ricerca trasferiti con contratti immutabili, mappatura esplicita del documento e conservazione del percorso diagnostico. Corretto un punto quasi duplicato all'estremo analitico della trave: 33 stazioni ridondanti del corpus eliminate solo dopo confronto di tutte le ordinate con la tolleranza originale. Nessun cambio di quantità, esiti, proposte o Pareto oltre tolleranza; attesi SHA invariati. 131 impronte architetturali cambiano soltanto proprietario per il prefisso Legacy, senza nuove eccezioni. Riuso Ecm/densità, cataloghi e traffico restano punti distinti.",
+      "test": [
+        "39 test nativi PASS, API compatibili",
+        "31 calcoli/17 ricerche, 161550 numeri nell'adattatore, nessuna differenza oltre 1e-10; input immutato, metadati archivio conservati, annullamento/progresso e dati errati"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/bridge-native-sampling",
+        "supporto/artefatti/refactoring/f4/bridge-adapter-direct/comparison.json",
+        "../Checker/docs/refactoring/f4-bridge-port.md"
+      ]
+    },
+    {
       "id": "F4-22",
       "data": "2026-10-14",
       "fase": "F4.12e.2",
