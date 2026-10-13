@@ -40,6 +40,7 @@ param(
     [string] $Only,
     [string] $BaselineRef,
     [string] $CaptureCandidate,
+    [string] $F4CaptureCandidate,
     [switch] $CaptureConcreteFigures,
     [string] $CheckerFixtures,
     [string] $DenseRef,
@@ -150,6 +151,8 @@ Add-Suite @{ Name = 'wiki/manuale'; Stage = 'wiki'; Kind = 'python'; Script = 's
 
 # Placeholders of the baseline suites: {root} repository, {output} run folder, {tag}, {commit}.
 $Testing = 'tests\ANTHEA.Testing\ANTHEA.Testing.csproj'
+Add-Suite @{ Name = 'baseline/f4'; Stage = 'baseline'; Kind = 'powershell'; Script = 'tools\qa\Invoke-F4Capture.ps1'; Args = @('-Output', '{out}') + $(if ($F4CaptureCandidate) { @('-CapturedRoot', [IO.Path]::GetFullPath($F4CaptureCandidate)) }); Timeout = 1800
+    Builds = @(@{ Project = $Testing; Configuration = 'Release' }); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS F4:' } }
 if (-not $CaptureCandidate) { Add-Suite @{ Name = 'baseline/cattura'; Stage = 'baseline'; Kind = 'run'; Project = $Testing; Timeout = 3600
     Args = @('capture', '{out}\cattura', '--root', '{root}', '--tag', '{tag}', '--commit', '{commit}')
     Proof = @{ File = '{out}\cattura\manifest.json'; Pattern = '"strumento": "ANTHEA.Testing"' } } }

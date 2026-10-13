@@ -287,9 +287,9 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [x] API-02a (12/10 sera): correzione geometrica in Checker `e1a9c78e`, branch `codex/f2-api02-interassi`. 38 nuove prove indipendenti (7 fallivano prima), suite complete 1544 PASS, 17 Steel già noti, zero nuovi fallimenti. Atteso del caso C400R2: 115.19173586761349 mm; contratti e fixture preservati.
   - [x] API-02b: Concrete 0.0.27.2 distribuita nel set T da master pushati, installata con manifest e confronto completo. Attivazione in ANTHEA 1.3.0 verificata: 548 file headless, 50996 righe dense, prove WPF e librerie. Chiusura nel [collaudo F2](chiusura-blocco-f2-20261012.md).
 
-- [~] F4.1 Catture aggiornate dopo F3.
+- [x] F4.1 Catture aggiornate dopo F3 per i cinque ambiti autorizzati; Bridge Design resta sospesa.
   - [x] F4.1a (13/10): [matrice API e prove](f4-matrice-api.md), riscontrata sui sorgenti dei commit distribuiti nel set V. Individuati i riusi e le lacune di cattura; nessun nuovo motore.
-  - [ ] F4.1b: catture e confronto dei cinque ambiti autorizzati; Bridge Design sospesa per richiesta successiva dell’utente.
+  - [x] F4.1b (13/10): [115 casi e 14 rifiuti attesi](f4-catture.md), 234 file identici byte per byte nelle due esecuzioni (141,7/142,1 s), progetto CA identico con uno/quattro worker. Runner 1 PASS, zero nuovi fallimenti; fonte immutabile e SHA versionati, nessun calcolo modificato.
 - [ ] F4.2 Regole automatiche estese.
 - [ ] F4.3 [CP] Collocazione di GPC.Design, Concrete/Walls, muratura, σcp, CRd,c/k1/vmin, esiti dei pali.
 - [ ] F4.4 Esito comune tipizzato in pali e muri.

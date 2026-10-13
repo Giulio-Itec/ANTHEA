@@ -1,0 +1,1209 @@
+{
+  "schema": 1,
+  "type": "observed-regression-reference",
+  "captured_from": "5cb01170c7ae3f4874e73a23584a91818bfebb9a plus F4Capture source hashed in manifest",
+  "path": "supporto/artefatti/refactoring/f4/before-port-1.7.1",
+  "note": "Immutable observation before F4 ports, not independent normative expectations. Bridge Design excluded by user.",
+  "files": [
+    {
+      "file": "inputs/piles/cancelled.json",
+      "sha256": "78F751DD637C0F6F359392E62D2C348F7D83BCF67C2863723F1A8852B865AE9A",
+      "bytes": 3818
+    },
+    {
+      "file": "inputs/piles/design-not-confirmed.json",
+      "sha256": "D08BB953A1E6815300F4933B34147AA165E418829AC8F8E2486833ECABFC047F",
+      "bytes": 3819
+    },
+    {
+      "file": "inputs/piles/design-segment.json",
+      "sha256": "78F751DD637C0F6F359392E62D2C348F7D83BCF67C2863723F1A8852B865AE9A",
+      "bytes": 3818
+    },
+    {
+      "file": "inputs/piles/invalid-length.json",
+      "sha256": "39B7F7142750FBF1E3A36EAD344E55ACD95C6A0633470A905F575C5447A392CE",
+      "bytes": 3816
+    },
+    {
+      "file": "inputs/piles/law-0-water-False.json",
+      "sha256": "FDCE5F39566F88D698A839DBE437336D57359C732884CAB45C66478E39793026",
+      "bytes": 3828
+    },
+    {
+      "file": "inputs/piles/law-0-water-True.json",
+      "sha256": "36ECA4CA5DA9FA13872ACE1F16C58AEA77A5CB6648588F202102EDC5B3947105",
+      "bytes": 3827
+    },
+    {
+      "file": "inputs/piles/law-1-water-False.json",
+      "sha256": "06DD1638BAC0A8F4C095D07527C27194ABF7D59F4705830C87C3A8885C82F66A",
+      "bytes": 3848
+    },
+    {
+      "file": "inputs/piles/law-1-water-True.json",
+      "sha256": "719DCDD3D8EE15E29A3D8AD46BDA8879C3E7E49C2EB948666D5CBCFF29C75D4A",
+      "bytes": 3847
+    },
+    {
+      "file": "inputs/piles/law-2-water-False.json",
+      "sha256": "F81AC54AA0ABA7833D14FD45E978A6619B044AAE849C5E6387F7F499FB47845F",
+      "bytes": 3850
+    },
+    {
+      "file": "inputs/piles/law-2-water-True.json",
+      "sha256": "AA48AAC96EECD4DB6C2F96921A8E5CDCF5FAB2864F91DD945B34E6B2F896B158",
+      "bytes": 3849
+    },
+    {
+      "file": "inputs/piles/law-3-water-False.json",
+      "sha256": "A5FCF6CDD2D780F7169FC20ABA35A06E5AB38F82D133050F55593DCFB54CC75A",
+      "bytes": 3842
+    },
+    {
+      "file": "inputs/piles/law-3-water-True.json",
+      "sha256": "3A07E7BFE952A4D6B60885DE7A921F8E2B5A18225EC0DEE021DF2F5B5D1D6225",
+      "bytes": 3841
+    },
+    {
+      "file": "inputs/piles/law-4-water-False.json",
+      "sha256": "55D14D7E1C13030CDCE5021B4EFD058EA853328D1C29AFF1891F91FD8AEB6F04",
+      "bytes": 3872
+    },
+    {
+      "file": "inputs/piles/law-4-water-True.json",
+      "sha256": "569AFF2358A1E56D46A2731D3F2A8CC9AA60634DB669D43FC293A00DF608AFB2",
+      "bytes": 3871
+    },
+    {
+      "file": "inputs/piles/law-5-water-False.json",
+      "sha256": "8FEC08728D9B88048945ECAA8BCBB205DC314FE85DB820EAF10386FE4DDD2263",
+      "bytes": 3844
+    },
+    {
+      "file": "inputs/piles/law-5-water-True.json",
+      "sha256": "F3E38998B212411B35C5DF516AEFF47F6A54B6BB188C11D5BEF6F084D381373D",
+      "bytes": 3843
+    },
+    {
+      "file": "inputs/piles/segments-0.json",
+      "sha256": "7413FD999C43CF08EED53C211996EE23B383A201D538ADE5206227F2773BF958",
+      "bytes": 3939
+    },
+    {
+      "file": "inputs/piles/segments-1.json",
+      "sha256": "07A96A3E8CDBB6C6DBB1BFEBCBE0D9234192160C942E33EB46B9264A247AFDC5",
+      "bytes": 3949
+    },
+    {
+      "file": "inputs/piles/segments-2.json",
+      "sha256": "2DBC61923AD0714BDDB9C6A4379322B4E43EE66EEC4976085BB923BA78FBAE0A",
+      "bytes": 3945
+    },
+    {
+      "file": "inputs/piles/segments-3.json",
+      "sha256": "FE518116D5D4E808DC007192B988594C1D9385A706A5B9E07171595D0D2293B5",
+      "bytes": 3942
+    },
+    {
+      "file": "inputs/piles/segments-4.json",
+      "sha256": "E78627E0A9C017E2003B635D24F6BDCF456C4600AE2153691E9F99ADD0508D41",
+      "bytes": 3947
+    },
+    {
+      "file": "inputs/piles/segments-5.json",
+      "sha256": "AF5ABF48E6BBC9C1C469EE2BB6F13C37FDFDBC1340E2AE16621F700E6BD497CF",
+      "bytes": 3945
+    },
+    {
+      "file": "inputs/piles/segments-6.json",
+      "sha256": "DAC4F902D7F75911ECA9C6A8F2CEB464CAE86879D3936D223BAB91BECA6A3AFE",
+      "bytes": 3940
+    },
+    {
+      "file": "inputs/piles/segments-7.json",
+      "sha256": "D0569E9F8BF51848A127A68A59B5B8E8414C15F29CA36E1481267AE8D1943282",
+      "bytes": 3948
+    },
+    {
+      "file": "inputs/schedules/invalid-panel.json",
+      "sha256": "D0CB2542CB9C79FFE29A7A6F3D8F28BC5F1E3AD9BC4DAE48DA9EC3B430DAEED7",
+      "bytes": 5893
+    },
+    {
+      "file": "inputs/schedules/panel-00.json",
+      "sha256": "79CA59226E43653ECC597E9F0D011D88F8E8D1BF6D3595FB2326930A402848CD",
+      "bytes": 5891
+    },
+    {
+      "file": "inputs/schedules/panel-01.json",
+      "sha256": "D8AE63B34C870A8EF0F77750CAF81FF95219552DCB75DBB659037D0AA18EF163",
+      "bytes": 5895
+    },
+    {
+      "file": "inputs/schedules/panel-02.json",
+      "sha256": "6778C017DC52C21D66F05C8DEED3E2728533586028BE0F7900898EBC3F1E86AD",
+      "bytes": 5894
+    },
+    {
+      "file": "inputs/schedules/panel-03.json",
+      "sha256": "9462FF5C5768FDAA566AED0EAA04AA3329FA34A72D8315E6A06E5E5E4E219113",
+      "bytes": 5892
+    },
+    {
+      "file": "inputs/schedules/panel-04.json",
+      "sha256": "F21FD69A7BDED30915142E6C709646A128E3D7020AD25D7F4625C980F53A9B49",
+      "bytes": 5894
+    },
+    {
+      "file": "inputs/schedules/panel-05.json",
+      "sha256": "05EC9EA38FCDC34BDAAB3E27D87BEBE5E043399EE5D2DD54C97C010CF54FB95E",
+      "bytes": 5895
+    },
+    {
+      "file": "inputs/schedules/panel-06.json",
+      "sha256": "7C7D31A3C64FC3D10013DC146522858B6508F15DAEBA86C1E218C89FF5FA5568",
+      "bytes": 5891
+    },
+    {
+      "file": "inputs/schedules/panel-07.json",
+      "sha256": "8715705AE10D764C82DC1A40FEC4F92B82FBC7139FFDFF2C9F094FF93FC0A0AB",
+      "bytes": 5895
+    },
+    {
+      "file": "inputs/schedules/panel-08.json",
+      "sha256": "0DEE696EF172F8D5447E72B1EAC87852396927BC26D4ABA50C18D1579233C5C1",
+      "bytes": 5894
+    },
+    {
+      "file": "inputs/schedules/panel-09.json",
+      "sha256": "38A897D2DB8E9B521AD8A77FCC3F67948D35740477111090A8A6D3C32776104E",
+      "bytes": 5892
+    },
+    {
+      "file": "inputs/schedules/panel-10.json",
+      "sha256": "3742F6CAB5E1DB731786D961E3BC92D393491417949DBFC6E5D1367FEE444BAC",
+      "bytes": 5894
+    },
+    {
+      "file": "inputs/schedules/panel-11.json",
+      "sha256": "C855D052BDD38C351EF96D776151844241F2CCCBBA7AB278EEC14E1C503A3759",
+      "bytes": 5895
+    },
+    {
+      "file": "inputs/schedules/panel-12.json",
+      "sha256": "1EE49405CC7A0ABA4A76D4449A2AEAE10B60C9C1C4B14E5FC567B4465BCCB1CB",
+      "bytes": 5891
+    },
+    {
+      "file": "inputs/schedules/panel-13.json",
+      "sha256": "4569E1B4B75B6F1985D1EDA83175D0EC12A023607281987FDB32D8C977338B6C",
+      "bytes": 5895
+    },
+    {
+      "file": "inputs/schedules/panel-14.json",
+      "sha256": "5B5249BFABC15BC4BFA529B1DC8D7B9D85DA9F3F15460BBEB03AC4D8811EDBB8",
+      "bytes": 5894
+    },
+    {
+      "file": "inputs/schedules/panel-15.json",
+      "sha256": "EE843A11EEFF082DCBD2406C277BF81AB21EF84D5CF7965388B217D58550A75F",
+      "bytes": 5892
+    },
+    {
+      "file": "inputs/schedules/panel-16.json",
+      "sha256": "0484B25D0715AB709DC2E55CE847B1C0CBB44596F4FE573D11A05410C6EB82FC",
+      "bytes": 5894
+    },
+    {
+      "file": "inputs/schedules/panel-17.json",
+      "sha256": "5AEDBFF9F2BC8AB498E18013AECD581AF2B7208BD38B43497952C4F24921E459",
+      "bytes": 5895
+    },
+    {
+      "file": "inputs/schedules/panel-18.json",
+      "sha256": "E2C9718DFE9C33448D2298C7CD893C3E15D1CD1C8517AC077D911A3C308DB6E6",
+      "bytes": 5891
+    },
+    {
+      "file": "inputs/schedules/panel-19.json",
+      "sha256": "CA1FD4E584F245A6061322169F81751AE9CC027548B7BC973753CD3BC3695A5A",
+      "bytes": 5895
+    },
+    {
+      "file": "inputs/schedules/panel-20.json",
+      "sha256": "3E0A98CA45F6BCB9A3C8CDF43C851B9CDF4861E697C628E124C112909341ABEA",
+      "bytes": 5894
+    },
+    {
+      "file": "inputs/schedules/panel-21.json",
+      "sha256": "074F42E252258C3D30E42DB0AEC772B2F56C1BD4B53896378B3850404E2F703B",
+      "bytes": 5892
+    },
+    {
+      "file": "inputs/schedules/panel-22.json",
+      "sha256": "CBDF9D3DA8B380F663D5BF3B68E8CD53316106E0D2C48845F160804EADA071F3",
+      "bytes": 5894
+    },
+    {
+      "file": "inputs/schedules/panel-23.json",
+      "sha256": "21A49BC6BF4196E9776838CE682F63EFCA8183D71A81A9834F5752E459131FBC",
+      "bytes": 5895
+    },
+    {
+      "file": "inputs/schedules/panel-24.json",
+      "sha256": "A8AA41FD055343DB701EBDD3E06373EC11E6B285741AE54BCA3277F2008D2806",
+      "bytes": 5891
+    },
+    {
+      "file": "inputs/schedules/panel-25.json",
+      "sha256": "1935051095DE22EA269E1DCE03C4D7917C97B0BC88C52F2F2BA5E2B4A3AE7768",
+      "bytes": 5895
+    },
+    {
+      "file": "inputs/schedules/panel-26.json",
+      "sha256": "00B63367B45557C9A98B3347A7588C2982A386DFD438DA708E5AD1C395B2213B",
+      "bytes": 5894
+    },
+    {
+      "file": "inputs/schedules/panel-27.json",
+      "sha256": "0F9C2DD44E4DEA2BDF04EBD653CE54E7F2D3239B326C4731CD4C783849480DFC",
+      "bytes": 5892
+    },
+    {
+      "file": "inputs/schedules/panel-28.json",
+      "sha256": "3C740BDAE2C09CED43383B630C4641016818FC2221CC93D8B82D19CAC7B2561F",
+      "bytes": 5894
+    },
+    {
+      "file": "inputs/schedules/panel-29.json",
+      "sha256": "0D0BFB8CD2970EDBDA3958260DF92248EBC9FE3C7C2AB8AF9F8D0C279D195632",
+      "bytes": 5895
+    },
+    {
+      "file": "inputs/schedules/unsupported-family.json",
+      "sha256": "F1CDEE385F943A9CF9151F4C5014F29942A5D6CD10758B166FEFF11C2EA66C75",
+      "bytes": 5892
+    },
+    {
+      "file": "inputs/section-design/budget-limited.json",
+      "sha256": "57529E6009CDBDD9CDF256D1079F93973A983F8251D50501F7607F096CD9F7E6",
+      "bytes": 11468
+    },
+    {
+      "file": "inputs/section-design/cancelled.json",
+      "sha256": "7A5ED0F7D83D0D64B0355C56A7BAEF2B3F77B5CC58A95D0738633807F5060AE6",
+      "bytes": 11471
+    },
+    {
+      "file": "inputs/section-design/Circolare-workers-1.json",
+      "sha256": "A6D8C0896764729EBE0D8B73AEF79981E4CD0E08621BAE24E05C5B2FED9A8353",
+      "bytes": 11478
+    },
+    {
+      "file": "inputs/section-design/Circolare-workers-4.json",
+      "sha256": "E2FACDB5C63C8AA7913F474A24A10472A8DE313AA76FD4F51C0565B1377C78BE",
+      "bytes": 11478
+    },
+    {
+      "file": "inputs/section-design/invalid-diameter.json",
+      "sha256": "5767E42F6C34CA3B4584EB4CFFB1BB5DBD51846C255E0B06FF6C75A1C2D975AA",
+      "bytes": 11479
+    },
+    {
+      "file": "inputs/section-design/missing-exposure.json",
+      "sha256": "A74D70103DD5F11AF46E9D497611FC6AA5DC9F75B60129A6320892C0F40144BF",
+      "bytes": 11480
+    },
+    {
+      "file": "inputs/section-design/no-solution.json",
+      "sha256": "A1D7D2E49713ED90A4D4648FADCF79121211AF5B3D5B41FF991A4605415E811F",
+      "bytes": 11473
+    },
+    {
+      "file": "inputs/section-design/Rettangolare-workers-1.json",
+      "sha256": "F7A9DBAA55091CB4670A4679D780F716A9AA39FFC397A31B4B7AAF4F7903F009",
+      "bytes": 11478
+    },
+    {
+      "file": "inputs/section-design/Rettangolare-workers-4.json",
+      "sha256": "F3A28859889D7815D22B74CA0721AB83058CF00A423C4E91FD5CE1D7EAA49FC7",
+      "bytes": 11478
+    },
+    {
+      "file": "inputs/wall-design/cancelled.json",
+      "sha256": "AAE987007A66A471F51AC2D9471A71BE3AFCA4E3AE19FCDDD91DCC94AECCAAD0",
+      "bytes": 5893
+    },
+    {
+      "file": "inputs/wall-design/catalog-00.json",
+      "sha256": "18970021EA56C7B212AE25A4CB0D1600D760662D7CF239DFFE000B30EC9D25DF",
+      "bytes": 5889
+    },
+    {
+      "file": "inputs/wall-design/catalog-01.json",
+      "sha256": "6006F33C8DDDAC0984C5A06EE8686AF3486C163670849527915A8F9EC459D456",
+      "bytes": 5892
+    },
+    {
+      "file": "inputs/wall-design/catalog-02.json",
+      "sha256": "1E8FC92AA8388B73B2EAF5A283335A94329203409CE024C2B2FD48DB84A6D8BE",
+      "bytes": 5889
+    },
+    {
+      "file": "inputs/wall-design/catalog-03.json",
+      "sha256": "56806EED381D7FB3EA58AE1DD749B862ACAA79614936FF6C3F2FFFE35D8D1E2E",
+      "bytes": 5892
+    },
+    {
+      "file": "inputs/wall-design/catalog-04.json",
+      "sha256": "AA9DFD0546A13B8659B71EA68B55B0CEDDEF66393FC51DC9FF02A0D598435D2F",
+      "bytes": 5889
+    },
+    {
+      "file": "inputs/wall-design/catalog-05.json",
+      "sha256": "373C512C0FB35BC24B16078BEDF9A9188BA71BA992008B62C0CDFD6292C34941",
+      "bytes": 5892
+    },
+    {
+      "file": "inputs/wall-design/catalog-06.json",
+      "sha256": "ABC3D5AFBA88534893405FAD55641DEC2F6354BC2B6ABCBD3E38595A84BB7722",
+      "bytes": 5888
+    },
+    {
+      "file": "inputs/wall-design/catalog-07.json",
+      "sha256": "E11201196237D939BFBACEFD748DF4DB36CCADB2ED3AF8697B1867130365E069",
+      "bytes": 5891
+    },
+    {
+      "file": "inputs/wall-design/catalog-08.json",
+      "sha256": "F99FB86FFD6DBE55F4EC1AC667972884AD87466E0B713C254D59F42DA0EA6D0A",
+      "bytes": 5888
+    },
+    {
+      "file": "inputs/wall-design/catalog-09.json",
+      "sha256": "7D647FCF9A90A0D62869B03705F0E24C3BAED1596784F9C35FB1137E7A67C825",
+      "bytes": 5891
+    },
+    {
+      "file": "inputs/wall-design/catalog-10.json",
+      "sha256": "0937EDA68E21162E1F652143C148924019E188E3C67641D6CE6814C43BE27B4D",
+      "bytes": 5888
+    },
+    {
+      "file": "inputs/wall-design/catalog-11.json",
+      "sha256": "AB610C1A3893A1687A493472C3DC76D2C35F8B8F4791265DEC7AC7713BC3C6FF",
+      "bytes": 5891
+    },
+    {
+      "file": "inputs/wall-design/invalid-count.json",
+      "sha256": "A01CEACD968D0AEE77915E659138EC20CCAF90C9449F9F73228BE3CA72A9F83D",
+      "bytes": 5894
+    },
+    {
+      "file": "inputs/wall-design/unsupported-family.json",
+      "sha256": "F1CDEE385F943A9CF9151F4C5014F29942A5D6CD10758B166FEFF11C2EA66C75",
+      "bytes": 5892
+    },
+    {
+      "file": "inputs/walls/cancelled.json",
+      "sha256": "AAE987007A66A471F51AC2D9471A71BE3AFCA4E3AE19FCDDD91DCC94AECCAAD0",
+      "bytes": 5893
+    },
+    {
+      "file": "inputs/walls/gravity-0-e0.json",
+      "sha256": "7476D25F9AA20686E81D7443337562807E5BD63872FFA7DEF6E71EC28CCEA15F",
+      "bytes": 5884
+    },
+    {
+      "file": "inputs/walls/gravity-0-e30.json",
+      "sha256": "8C332DAC325C718078FEF8179CAF60AB7AEF0885CB3BD5376962542BC623288D",
+      "bytes": 5885
+    },
+    {
+      "file": "inputs/walls/gravity-1-e0.json",
+      "sha256": "D162D99321A49CDA7BD110B9308E0CD4E2ED1CAC7C83D712287C5FB8D689AF92",
+      "bytes": 5899
+    },
+    {
+      "file": "inputs/walls/gravity-1-e30.json",
+      "sha256": "ABE5BCFD51161F9D7C825D8ECFFB2D2797B9A1A41DA43A05D1442FFA99B33881",
+      "bytes": 5900
+    },
+    {
+      "file": "inputs/walls/gravity-2-e0.json",
+      "sha256": "A0E653052B6C4D4B29352A77B613E19B48093AB1BFAD345010814B05A86747F0",
+      "bytes": 5896
+    },
+    {
+      "file": "inputs/walls/gravity-2-e30.json",
+      "sha256": "3496861C18B2EFBA6319B3C3ADC7F0D1EBC14F9EAEEC27D603002415BF09D671",
+      "bytes": 5897
+    },
+    {
+      "file": "inputs/walls/invalid-effective-height.json",
+      "sha256": "DD03DA73A738EE445A6FEC9D9A9BD9796E6AE782C1D42F606C4E4EB46533ADAD",
+      "bytes": 5894
+    },
+    {
+      "file": "inputs/walls/invalid-height.json",
+      "sha256": "5C5988D076A82836AA319DA3742EA067CC9A3E2D208063F305BFAA1301002CC3",
+      "bytes": 5894
+    },
+    {
+      "file": "inputs/walls/XC1-C25.json",
+      "sha256": "6E399B3D9A4289464BA7D203A9728746E4A86EC80843829A9E2BA592EB9D3349",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XC1-C35.json",
+      "sha256": "701396F82B91FA8722E38255EBEDCC4995719B81F82BA1FAAE7727EAA3D22759",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XC1-C45.json",
+      "sha256": "C6588182EF41E68AEC5A99674B0AAE347387CBF03E339F4473BBA1B91EF27C57",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XC3-C25.json",
+      "sha256": "A609844B63893D0171CA71592E718AE43C363FD1B2B006F8AF3439E69EA6C25F",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XC3-C35.json",
+      "sha256": "F546A1A728EB4BD632AA012919065D59941A178124CA0E3F49E8F1AA057210CC",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XC3-C45.json",
+      "sha256": "663E736ACB7A78707A7A28394FA370023D446E38953DBC450FB01492754467D8",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XC4-C25.json",
+      "sha256": "1AD591E0379900CB998C7EF42193C36513FC0853192E1E32CC87F72A4DCE59FC",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XC4-C35.json",
+      "sha256": "500DA016C583682DDCF28D7D1D7E4A0B338E89D470686126D459659AD43E608D",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XC4-C45.json",
+      "sha256": "699C56E3F0AAC9D319AFFAB4B162A6E628C8F724050C73236688C1A89CDE677C",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XD1-C25.json",
+      "sha256": "99909A8EA4A58AD9DD798306046150CD1941C1CE4B5F815B6D1F373291EBF790",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XD1-C35.json",
+      "sha256": "3D6EF191ADED767950D64794DFB1CF1DE13742704B6511E27BD8E90D86BBAA82",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XD1-C45.json",
+      "sha256": "1FB6B90BCD24F7A827C61644CF46735626E4B4FB581F4A0966614EA7FF5BBB6C",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XF4-C25.json",
+      "sha256": "04B244A7A762F654597154BCF271F5CD9A44CB65778A2D60F1FE5387CC32F429",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XF4-C35.json",
+      "sha256": "AD2D387C948E2BC61238090A598FAC932E4CA9BCD13DF4FAD31D2084F1DAE522",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XF4-C45.json",
+      "sha256": "EECD7B3127470650422C256A001726CFBB1F54BE9A278810C01E803EF3BBB2D3",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XS1-C25.json",
+      "sha256": "159C03D05A350154A73F676F80C7193F44ECB7827E29E68A9F34D87754203417",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XS1-C35.json",
+      "sha256": "DF83F36F59419F1F623B1C7AFCBF892A65503106332E5B79895E4ECA3BB74E06",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/XS1-C45.json",
+      "sha256": "0F50724C5E12E1C5811E40C43BA1F9C9BACFD02E412E1FA1DE5FF2E3996E3B34",
+      "bytes": 5901
+    },
+    {
+      "file": "inputs/walls/zones-False-symmetric-False-details-False.json",
+      "sha256": "8697F5A567744760BE5607B44EAC76D22BDC9E25A06112988DE39BEF79966A85",
+      "bytes": 5897
+    },
+    {
+      "file": "inputs/walls/zones-False-symmetric-False-details-True.json",
+      "sha256": "2B82DB2107E907FB9B59F8FAB50C3FE50995508CB4315FF7428A7825089FCA23",
+      "bytes": 5896
+    },
+    {
+      "file": "inputs/walls/zones-False-symmetric-True-details-False.json",
+      "sha256": "74B22D799DD67A2F3559F78C0F068FA8FD4638956AFBA58372AEC9F38338534E",
+      "bytes": 5893
+    },
+    {
+      "file": "inputs/walls/zones-False-symmetric-True-details-True.json",
+      "sha256": "06B4CEE5DE61B0817A85964AFACAA60C4CBA24016244570C1098F958E3D8D977",
+      "bytes": 5892
+    },
+    {
+      "file": "inputs/walls/zones-True-symmetric-False-details-False.json",
+      "sha256": "BEEE2760C2E85A7C346C05E325274D2E232F2113C8C15109F25BB9E7D20A2912",
+      "bytes": 5896
+    },
+    {
+      "file": "inputs/walls/zones-True-symmetric-False-details-True.json",
+      "sha256": "E1A4A060B87F8E3592038C79400F169252564ECF6111C6E3E6E7103ABEC6617E",
+      "bytes": 5895
+    },
+    {
+      "file": "inputs/walls/zones-True-symmetric-True-details-False.json",
+      "sha256": "A3EFD761C7779F8831BD2E4DCF7BD74CC51D33A89F6D86C125FE32E55FA9CE6D",
+      "bytes": 5892
+    },
+    {
+      "file": "inputs/walls/zones-True-symmetric-True-details-True.json",
+      "sha256": "5485C812BB72450CDE46A75B994DBDBD553FA72DE3D3AFB2581AA0D60F02D3BD",
+      "bytes": 5891
+    },
+    {
+      "file": "manifest.json",
+      "sha256": "E8F45FCBB04615CA965827DE45805E1FA743184BF29E8371F2A73AD8AC65AA02",
+      "bytes": 43260
+    },
+    {
+      "file": "raw/timings.json",
+      "sha256": "C7A3DBA93DDFFD6FC0B9DEC2083AB3CE53399ADB7DABB64A2FCCBF44247BBC1A",
+      "bytes": 22420
+    },
+    {
+      "file": "raw/walls-gravity-0-e0.docx",
+      "sha256": "73002FD0835C82D4BE3DAB212F8D7F500B76B5E2DA10778EBAE68D1D8364B561",
+      "bytes": 25418
+    },
+    {
+      "file": "raw/walls-gravity-1-e0.docx",
+      "sha256": "62F04CE8867630BBF4AAB1ECDB45CAB8A999E4FE7117A23141A301FEB5CBB87D",
+      "bytes": 25528
+    },
+    {
+      "file": "raw/walls-gravity-2-e0.docx",
+      "sha256": "21E1CA45D654DB19BD98EF27DCAD00D5603224779E363CB910ED880522FF6111",
+      "bytes": 18885
+    },
+    {
+      "file": "raw/walls-XC1-C35.docx",
+      "sha256": "5A3BFB4C9D182D1C4AB6831EB21C3F459FFDD9F32FE97195E33D9F9DE66A3377",
+      "bytes": 25351
+    },
+    {
+      "file": "reports/walls/gravity-0-e0.txt",
+      "sha256": "6521A7D7AE69D29CF78CC3985EA23DF5085121A2D70FE810F6CE73C9320BC022",
+      "bytes": 63907
+    },
+    {
+      "file": "reports/walls/gravity-1-e0.txt",
+      "sha256": "45A1F456C6C0FD8846608C8C68B0CD117E40700D4C84B410C4299631F2F192A4",
+      "bytes": 63859
+    },
+    {
+      "file": "reports/walls/gravity-2-e0.txt",
+      "sha256": "F80E31896E94819DAD8EEFD32738685DC1534C74E5AC0397A122B04B810495C6",
+      "bytes": 36865
+    },
+    {
+      "file": "reports/walls/XC1-C35.txt",
+      "sha256": "86F34AE4D18031B3D9A23757A9303E15652798A2C062B4E244D1A8EE5A9A4DAC",
+      "bytes": 52413
+    },
+    {
+      "file": "results/piles/cancelled.json",
+      "sha256": "343898A04299C7C8A78862931FBEABEF7259C0C9D4F521F98242675B4AE59772",
+      "bytes": 145
+    },
+    {
+      "file": "results/piles/design-not-confirmed.json",
+      "sha256": "93A9072F6EC43D7BA1AEA173199D7F8271AEB9E5D73F415C836A3AF4F171A822",
+      "bytes": 173
+    },
+    {
+      "file": "results/piles/design-segment.json",
+      "sha256": "E2B099EA6FB1FB8BEC6602ADC454033CCE36B5D1CF36E9CDF35FC5F5BAF43D57",
+      "bytes": 521
+    },
+    {
+      "file": "results/piles/invalid-length.json",
+      "sha256": "7C9CBFF8A4A799DD06AB9ECA62E04E8030FAAD2F6714B8EDBB5401C3DFB00E9F",
+      "bytes": 160
+    },
+    {
+      "file": "results/piles/law-0-water-False.json",
+      "sha256": "154D86E6D035053782B6F772169E1A73978A4E6A02ACB3285AD76F9873A84535",
+      "bytes": 389973
+    },
+    {
+      "file": "results/piles/law-0-water-True.json",
+      "sha256": "7A836B4C06996CA2F5A9FFA398814FC005A08B477B12E4DA1495A02AA9C63081",
+      "bytes": 389971
+    },
+    {
+      "file": "results/piles/law-1-water-False.json",
+      "sha256": "517A8DB4E7DC79F552DE5BF6F48CBED5B5DAFCA3B8FE2421989FAF4E9FA9F083",
+      "bytes": 391903
+    },
+    {
+      "file": "results/piles/law-1-water-True.json",
+      "sha256": "A9A5C5043CA196C41768C3445F1B466492228C14B138013656DFB718A1BF83DD",
+      "bytes": 391901
+    },
+    {
+      "file": "results/piles/law-2-water-False.json",
+      "sha256": "6DB0CD7CE45A1678567D31D8E131AEABC795E914A3A1D14858878168F48598AE",
+      "bytes": 389976
+    },
+    {
+      "file": "results/piles/law-2-water-True.json",
+      "sha256": "7FD1ABE23D3910F262686A1D1D412F65AAC8543EC16A2220DA16D3D2404D3A40",
+      "bytes": 389974
+    },
+    {
+      "file": "results/piles/law-3-water-False.json",
+      "sha256": "DBC622531B0410D87FA162BF1B25CA398510D8C0F8A2A9F221BA968533E8A710",
+      "bytes": 389921
+    },
+    {
+      "file": "results/piles/law-3-water-True.json",
+      "sha256": "A0E4E399FFC59BF016EBB1E10CD5B5A0E62D3630AD393386FC17820D17CDFAD2",
+      "bytes": 391138
+    },
+    {
+      "file": "results/piles/law-4-water-False.json",
+      "sha256": "2333A10899A34F2C4EFE906BC4F2226C81324A64354CEC05A4CE69CFED1C5873",
+      "bytes": 389121
+    },
+    {
+      "file": "results/piles/law-4-water-True.json",
+      "sha256": "A63F817BEB07B7B8BFBBD8488944CD71626E598C4F43C906C2A9F805C47F1E54",
+      "bytes": 389119
+    },
+    {
+      "file": "results/piles/law-5-water-False.json",
+      "sha256": "FE730211961725AE3A3001A338F21DBB831F5C498C441B435C4B6877C437DC94",
+      "bytes": 395408
+    },
+    {
+      "file": "results/piles/law-5-water-True.json",
+      "sha256": "2BDF44773F5E78A1B3CA1364123DC53D5446E2E3D12ADA04452878EB56DBC017",
+      "bytes": 397873
+    },
+    {
+      "file": "results/piles/segments-0.json",
+      "sha256": "A60F15FE26F20B22ED555997B640C39D34FB21D50BA892DB6DA83B2FD73AA6DA",
+      "bytes": 457473
+    },
+    {
+      "file": "results/piles/segments-1.json",
+      "sha256": "261B723BE8DB9D9CDD93E397B856B2F472414BA55BB26F046EB53B9C34373372",
+      "bytes": 457770
+    },
+    {
+      "file": "results/piles/segments-2.json",
+      "sha256": "28FF492539BE92420B6BA1264D7CCC11B2CEAA2E5569AD406EA285EC51C01CD4",
+      "bytes": 457474
+    },
+    {
+      "file": "results/piles/segments-3.json",
+      "sha256": "95FB5FD0FEE57DFC5C9D92FD0ADBB287CFC1D2F5F68F7A29D4710CC89F20C8FE",
+      "bytes": 457757
+    },
+    {
+      "file": "results/piles/segments-4.json",
+      "sha256": "46BAB0BEA1E68CA3283DC1066753BE0F10ADCBB177876AFA7E507F427F1AF5C6",
+      "bytes": 474496
+    },
+    {
+      "file": "results/piles/segments-5.json",
+      "sha256": "64108CA4521E2AE49C220717BDBEF1D3AD7656510BD35537F33B5AAA81BC8D5E",
+      "bytes": 474763
+    },
+    {
+      "file": "results/piles/segments-6.json",
+      "sha256": "1F40F981D72B4544FC303C28EB672DE913A6B4710666F78E9DBFB7B7C099351A",
+      "bytes": 474506
+    },
+    {
+      "file": "results/piles/segments-7.json",
+      "sha256": "AC3834BFBF7E255139BA8601CA5ED38909675464DB9E253E235A9852A50C7650",
+      "bytes": 474772
+    },
+    {
+      "file": "results/schedules/invalid-panel.json",
+      "sha256": "7B8207B4596FF675431A6982CAC609167EB8C9B0024FFF643081633FDEE95A5A",
+      "bytes": 163
+    },
+    {
+      "file": "results/schedules/panel-00.json",
+      "sha256": "CCF26B3ACD19B1D895FA518035F1209C5034806D336010D60449EF7A1914BECA",
+      "bytes": 22071
+    },
+    {
+      "file": "results/schedules/panel-01.json",
+      "sha256": "688BC91851B11FD2E413A1C984A35CB15B0E7A7C43F9701FE9106220BFAEE720",
+      "bytes": 16784
+    },
+    {
+      "file": "results/schedules/panel-02.json",
+      "sha256": "44AC0835566944A41C5A1F8F916F24A9E6A32AED499FA6AA3123169E4E5DDFBC",
+      "bytes": 22085
+    },
+    {
+      "file": "results/schedules/panel-03.json",
+      "sha256": "A58548CF6E45B99DF8291837FA778EDE54A500C2C4AA4EBA3D26C8CE84ED8451",
+      "bytes": 16887
+    },
+    {
+      "file": "results/schedules/panel-04.json",
+      "sha256": "2BDF979287FCB944722A80C7F0E480FD7B7F21CB814CABC46BC21FFA97F2896E",
+      "bytes": 22018
+    },
+    {
+      "file": "results/schedules/panel-05.json",
+      "sha256": "9B4CFD557940668BE6C7C4756921628312E2B5F7050057E2D9FA9C3E93795DCF",
+      "bytes": 16873
+    },
+    {
+      "file": "results/schedules/panel-06.json",
+      "sha256": "8DDBE4593853B217F8AB9EA16E137F8682D142A620EC335610FC061DBC52CAD3",
+      "bytes": 22069
+    },
+    {
+      "file": "results/schedules/panel-07.json",
+      "sha256": "E03CFE3049A0617F6F735EE8852179BE3C8F0D459A53CC8DD05C4DFF2126FF2B",
+      "bytes": 16902
+    },
+    {
+      "file": "results/schedules/panel-08.json",
+      "sha256": "40816BC9EFEB11FE27C23E394B1CF937448A330C28F3161735F6E5E5773DCFC0",
+      "bytes": 22002
+    },
+    {
+      "file": "results/schedules/panel-09.json",
+      "sha256": "04780977476073395B6784ED69DEE7AC9F2D2BFF49F879298468BDFF75EEF75E",
+      "bytes": 16911
+    },
+    {
+      "file": "results/schedules/panel-10.json",
+      "sha256": "4E6B59FD3870B17BED3C809BE88A2F37D1D11EA173098E5DCBF1C43BD15AFC46",
+      "bytes": 22043
+    },
+    {
+      "file": "results/schedules/panel-11.json",
+      "sha256": "B3849F4FE664493D883F62F214A63F901A185D75D5CCADD5883BC270D5AB5531",
+      "bytes": 16878
+    },
+    {
+      "file": "results/schedules/panel-12.json",
+      "sha256": "0233AFD22E393EB3FB32F6D361EA9656654D1109A95E448D1D71635D9909102A",
+      "bytes": 21926
+    },
+    {
+      "file": "results/schedules/panel-13.json",
+      "sha256": "89CC2909804467AAEC302EAF63110CCFF1E07EF936A4225207DD98E8F0445C90",
+      "bytes": 16866
+    },
+    {
+      "file": "results/schedules/panel-14.json",
+      "sha256": "A04C1B99A3E9CA539619052831078920EDD6BD361A23CEC353188ED1FE47D9CB",
+      "bytes": 21889
+    },
+    {
+      "file": "results/schedules/panel-15.json",
+      "sha256": "2CE7D337DF94BD0A74DE5EF2D20CB3FD280844B00ADDC3ED7400BE5A5226672D",
+      "bytes": 16879
+    },
+    {
+      "file": "results/schedules/panel-16.json",
+      "sha256": "8020D857044801E4961836D7DCDD12A4DB3BFD49B23CD4A4A2120DB86CE413F1",
+      "bytes": 22044
+    },
+    {
+      "file": "results/schedules/panel-17.json",
+      "sha256": "7479CF291366F6F29FC951FB0C3FCD78E5299366F473D561781461A3C275F5F4",
+      "bytes": 16905
+    },
+    {
+      "file": "results/schedules/panel-18.json",
+      "sha256": "C5FB0EE54F9AC4B3164693065070B085412F45F401DFED5ECC24DCD98BD3C0E0",
+      "bytes": 22095
+    },
+    {
+      "file": "results/schedules/panel-19.json",
+      "sha256": "EB740D41760A350CD74E183DA76E2AE1BD89DB0486D393AD00094DC981F8739D",
+      "bytes": 16901
+    },
+    {
+      "file": "results/schedules/panel-20.json",
+      "sha256": "91C00DC645404414E81B498199F068AE6E499C781A7E98BFCC917D19E4933B27",
+      "bytes": 22020
+    },
+    {
+      "file": "results/schedules/panel-21.json",
+      "sha256": "2A408DB95A27615379F1B5E26EEB0FB628766B3EF6BF270F9093FD7112D21A3E",
+      "bytes": 16911
+    },
+    {
+      "file": "results/schedules/panel-22.json",
+      "sha256": "45681B866DC32ACFFFBCDB9EFC4B2530DBFE103450929E3D8094EFFE213883B2",
+      "bytes": 22056
+    },
+    {
+      "file": "results/schedules/panel-23.json",
+      "sha256": "AE61476106130D2FEF33317DEA3C3C991A8D3009AFFC88D4D09A801BB323C74C",
+      "bytes": 16882
+    },
+    {
+      "file": "results/schedules/panel-24.json",
+      "sha256": "0C42E74C537B643C365456AB811AFE48D25499873A003C1337FC759FF475015D",
+      "bytes": 22155
+    },
+    {
+      "file": "results/schedules/panel-25.json",
+      "sha256": "3FEA03E1B930E28625F9FC3D8FF62FA349FA40CC131887A904243794D10FF449",
+      "bytes": 16872
+    },
+    {
+      "file": "results/schedules/panel-26.json",
+      "sha256": "E54325C9D1D4EE4E7A691AF73D48C3F96DF02B578F8750BC82D67B31AEF91F74",
+      "bytes": 22035
+    },
+    {
+      "file": "results/schedules/panel-27.json",
+      "sha256": "12D4E632C7A1D64FD1C0A70A03D4CC6D6DE6C1C58589ED04E6B24A4648B54D76",
+      "bytes": 16799
+    },
+    {
+      "file": "results/schedules/panel-28.json",
+      "sha256": "CA9571DD37F2216487D65D84F4C92CFE48CC812178D8DF98235642B419C50769",
+      "bytes": 22014
+    },
+    {
+      "file": "results/schedules/panel-29.json",
+      "sha256": "98E254AB593CD1FBC3CFF00AA74A3BB87DEE27014966A80A41C4628636222D6F",
+      "bytes": 16885
+    },
+    {
+      "file": "results/schedules/unsupported-family.json",
+      "sha256": "C1A7F76263F273F8510E1D954E47EE88F2C150C32E01880DFC06ED189F73A5B7",
+      "bytes": 177
+    },
+    {
+      "file": "results/section-design/budget-limited.json",
+      "sha256": "AF99D886B2341977E5AA48F7BFA7655B1D431C4E49B47720A1F876F6661CA31A",
+      "bytes": 12858
+    },
+    {
+      "file": "results/section-design/cancelled.json",
+      "sha256": "343898A04299C7C8A78862931FBEABEF7259C0C9D4F521F98242675B4AE59772",
+      "bytes": 145
+    },
+    {
+      "file": "results/section-design/Circolare-workers-1.json",
+      "sha256": "70F6D822A9C9BFF3EA40FBCDFAD3E657501AEB56B5D55A4FC7537CB5AF74CA0B",
+      "bytes": 72966
+    },
+    {
+      "file": "results/section-design/Circolare-workers-4.json",
+      "sha256": "70F6D822A9C9BFF3EA40FBCDFAD3E657501AEB56B5D55A4FC7537CB5AF74CA0B",
+      "bytes": 72966
+    },
+    {
+      "file": "results/section-design/invalid-diameter.json",
+      "sha256": "15413CABC9B6D38CF042E6258DB18658A768A2AC9DFEC9FBC9DBC734AB8C7F55",
+      "bytes": 150
+    },
+    {
+      "file": "results/section-design/missing-exposure.json",
+      "sha256": "9C04E94CA89474C0B5B782FD604928A9C2A101A5266D2269B2E4A718E27B1AF4",
+      "bytes": 172
+    },
+    {
+      "file": "results/section-design/no-solution.json",
+      "sha256": "DE08749C46EB7E9C76B9FF795D35480D8AE5B1ABCDA3E91F0738F831504217E7",
+      "bytes": 2955
+    },
+    {
+      "file": "results/section-design/Rettangolare-workers-1.json",
+      "sha256": "A64F2AE47F835F7E63A0031781736C090F37FED4C4206AFDBFEB40D7BB9C7526",
+      "bytes": 340443
+    },
+    {
+      "file": "results/section-design/Rettangolare-workers-4.json",
+      "sha256": "A64F2AE47F835F7E63A0031781736C090F37FED4C4206AFDBFEB40D7BB9C7526",
+      "bytes": 340443
+    },
+    {
+      "file": "results/wall-design/cancelled.json",
+      "sha256": "343898A04299C7C8A78862931FBEABEF7259C0C9D4F521F98242675B4AE59772",
+      "bytes": 145
+    },
+    {
+      "file": "results/wall-design/catalog-00.json",
+      "sha256": "D14F4239036B3DCE36DDF68996EE2847D013E57372FC0C9D8B0C54379D626669",
+      "bytes": 459433
+    },
+    {
+      "file": "results/wall-design/catalog-01.json",
+      "sha256": "223026606654604E6155810D0CFC43776BA0047019C53A9824E7FBAB7148EB9A",
+      "bytes": 459435
+    },
+    {
+      "file": "results/wall-design/catalog-02.json",
+      "sha256": "46BB71AFA9E939E0152228A5EC2B4B6D88D0A960F165F8032245808DC49203E4",
+      "bytes": 459497
+    },
+    {
+      "file": "results/wall-design/catalog-03.json",
+      "sha256": "9D4CEB638E0EFFA55E63975C08EA55BE293334F231E4A424BBF7196416845E83",
+      "bytes": 459436
+    },
+    {
+      "file": "results/wall-design/catalog-04.json",
+      "sha256": "50196F5134C3D3F2BC34745933FFEE14B132E30B53853C99BA79F8433A0CD1DB",
+      "bytes": 459432
+    },
+    {
+      "file": "results/wall-design/catalog-05.json",
+      "sha256": "A04106FE5507526EF09336649E92E6E0AD126093F89BA46CE93BCE4B1BD6BE3E",
+      "bytes": 459500
+    },
+    {
+      "file": "results/wall-design/catalog-06.json",
+      "sha256": "97E3A2D16A799275C04AB47693D735E7E9FFC9888009DA452B83B99014DF267A",
+      "bytes": 478755
+    },
+    {
+      "file": "results/wall-design/catalog-07.json",
+      "sha256": "64DC3C8A025F6097D6F68889AC233D57C0C63EABF336C9ED2E434D2EDAF428AC",
+      "bytes": 478765
+    },
+    {
+      "file": "results/wall-design/catalog-08.json",
+      "sha256": "ED1ECCBD754838B444A3F56A28CE25CE694CB96F65F46D3DEA59EBA44762EBEA",
+      "bytes": 478859
+    },
+    {
+      "file": "results/wall-design/catalog-09.json",
+      "sha256": "183A295786E437954C0001BED437D475CB3CE4127B117F6539728802DB284D01",
+      "bytes": 478758
+    },
+    {
+      "file": "results/wall-design/catalog-10.json",
+      "sha256": "CFF7DD0E08568BD2D4306A6BDBA5F73598BA7BAC629427D6F34FB8CD766D86A5",
+      "bytes": 478762
+    },
+    {
+      "file": "results/wall-design/catalog-11.json",
+      "sha256": "1F51941C49192B3D2A8E614F1AD84475A7080B95F927305D8C99C526EB46E499",
+      "bytes": 478862
+    },
+    {
+      "file": "results/wall-design/invalid-count.json",
+      "sha256": "6847B7E6EC90A14934D451582840FFF099B4ED3A01A174995DC4AF9C024E39A3",
+      "bytes": 153
+    },
+    {
+      "file": "results/wall-design/unsupported-family.json",
+      "sha256": "05AA7DFB11787083682488B018CD5D9210D77A87AE9ABD7959383A51ABF6D5A8",
+      "bytes": 180
+    },
+    {
+      "file": "results/walls/cancelled.json",
+      "sha256": "343898A04299C7C8A78862931FBEABEF7259C0C9D4F521F98242675B4AE59772",
+      "bytes": 145
+    },
+    {
+      "file": "results/walls/gravity-0-e0.json",
+      "sha256": "ABF13CFF28EDB801DA23BB9DED8D753D1864EC5C2EB6854EA087ED74F15FFEAF",
+      "bytes": 732918
+    },
+    {
+      "file": "results/walls/gravity-0-e30.json",
+      "sha256": "BC247B57876286FEBC9B6511F91FC283AF8A1C3848C3ED5B150C463E97097B00",
+      "bytes": 732913
+    },
+    {
+      "file": "results/walls/gravity-1-e0.json",
+      "sha256": "2DCF1396A524926FA770A509426C0EC594160043BD0D51D82F692717B13E84A7",
+      "bytes": 741531
+    },
+    {
+      "file": "results/walls/gravity-1-e30.json",
+      "sha256": "B8A2009C461732298861FF8B3B05376981F347C8C467D82203E0E00455A7D137",
+      "bytes": 741504
+    },
+    {
+      "file": "results/walls/gravity-2-e0.json",
+      "sha256": "B1DEF0FA76CF5FBEC48E6A6FB49AA56E0E9087D64B7AC78493D20FF9AEED41EC",
+      "bytes": 705194
+    },
+    {
+      "file": "results/walls/gravity-2-e30.json",
+      "sha256": "07E6F6E0615B4CAEBF29D04EBEEAAE608832677C2C2FD1E575850CDAE79CFF22",
+      "bytes": 705195
+    },
+    {
+      "file": "results/walls/invalid-effective-height.json",
+      "sha256": "4CC3306FAA1FFE394EA16C8251F1A8073C00CE21FA788E7BA19A961CC6C6F7ED",
+      "bytes": 189
+    },
+    {
+      "file": "results/walls/invalid-height.json",
+      "sha256": "5A2F6E728BEBB4A8B49101FB4F17266E1D4E6DB8CA238B6A0D91E0F60600338C",
+      "bytes": 169
+    },
+    {
+      "file": "results/walls/XC1-C25.json",
+      "sha256": "E35E51963B6C9C715480CB0FA18624263E7BF22C85A40201C875FA530D751519",
+      "bytes": 702315
+    },
+    {
+      "file": "results/walls/XC1-C35.json",
+      "sha256": "3C94332EB43140981D26652553C9B86334C109B5203C8237FD45436CEC10CBB4",
+      "bytes": 701746
+    },
+    {
+      "file": "results/walls/XC1-C45.json",
+      "sha256": "3525976B8BE8D357F8A39185E1DE214ED15828B5AEA30B1959D58B314FEE31C6",
+      "bytes": 702262
+    },
+    {
+      "file": "results/walls/XC3-C25.json",
+      "sha256": "D944A8707412DF59EAD82A21539D72EB2D3A3BED3DE3E833AD199741765FAAB0",
+      "bytes": 702441
+    },
+    {
+      "file": "results/walls/XC3-C35.json",
+      "sha256": "54F116F69060B8316E4A83C243FB6624D0ACD483421338A333C9ABD5EBBE3A69",
+      "bytes": 701746
+    },
+    {
+      "file": "results/walls/XC3-C45.json",
+      "sha256": "24EE013EE01DAC0826D6BF024662EE92DD40C92AB15297EC00694DA6B095E331",
+      "bytes": 702262
+    },
+    {
+      "file": "results/walls/XC4-C25.json",
+      "sha256": "35DEC6C4969D3DA2434326D79E0AE328A6527AB425D0F95823E333448618DDC4",
+      "bytes": 702329
+    },
+    {
+      "file": "results/walls/XC4-C35.json",
+      "sha256": "5403940D0DF91D667A85374416E0FA3CF77623333F4FF53D76DC7217A851DD52",
+      "bytes": 701728
+    },
+    {
+      "file": "results/walls/XC4-C45.json",
+      "sha256": "1FE47547EC072DED648C36E71E2074A594E6F728674FB9CD5935FC573A8D4B02",
+      "bytes": 702240
+    },
+    {
+      "file": "results/walls/XD1-C25.json",
+      "sha256": "FD699D012E63C3F773CDD1209F3E7F19CD285871DE26ECF53425E44DEA164279",
+      "bytes": 702329
+    },
+    {
+      "file": "results/walls/XD1-C35.json",
+      "sha256": "3945EB319E8A00B1A5BFC563F067917B351EEA2E42B4D4ED9C032EF7393C62DB",
+      "bytes": 701728
+    },
+    {
+      "file": "results/walls/XD1-C45.json",
+      "sha256": "5D3EEC557CBD9DF5BD810CBDF6846F50174707C8FD3C19A2768E04B1074B1F0C",
+      "bytes": 702240
+    },
+    {
+      "file": "results/walls/XF4-C25.json",
+      "sha256": "FB374F1B0250C1F67BED06E381F36DAFB1A890B980191B6B8E8152FAA65C4AC1",
+      "bytes": 702407
+    },
+    {
+      "file": "results/walls/XF4-C35.json",
+      "sha256": "6EED4189CB8ED4314651DB35841BE018EC0C9265721359A8A1CD9E9F19A689DE",
+      "bytes": 701705
+    },
+    {
+      "file": "results/walls/XF4-C45.json",
+      "sha256": "058BE7C1ED05F78165D7EE7E18F2AB9E92131CAAA3A4716821481EB28BC1BC70",
+      "bytes": 702146
+    },
+    {
+      "file": "results/walls/XS1-C25.json",
+      "sha256": "39A3988A9475484AEACB9A5125F300B4916A0E1AEC80CF5FF667B0700B6F9DAB",
+      "bytes": 702329
+    },
+    {
+      "file": "results/walls/XS1-C35.json",
+      "sha256": "315DC2C86C488F7520D4E08CF4B1E9AAF666F0EAC75A9E446C19936E123B39B4",
+      "bytes": 701728
+    },
+    {
+      "file": "results/walls/XS1-C45.json",
+      "sha256": "BBEA0BB58A895E1AEE1B7419FC8C3D19DC45AC69219ADB0A7AA2429A238AD839",
+      "bytes": 702240
+    },
+    {
+      "file": "results/walls/zones-False-symmetric-False-details-False.json",
+      "sha256": "0E0A6B2BB0AE2D3F7D76AC167EDE9BA96E2D4A31B722B2FBF8BBB3C0F2C53F79",
+      "bytes": 701544
+    },
+    {
+      "file": "results/walls/zones-False-symmetric-False-details-True.json",
+      "sha256": "4B394608063E9EAA10E53592BB74C8E41D544449D980A91EAD0FDC2DD98F1F55",
+      "bytes": 715972
+    },
+    {
+      "file": "results/walls/zones-False-symmetric-True-details-False.json",
+      "sha256": "B68A0810ADE4F2D97C408D6D1C96D3D9101824DA1E81804BCED29BA1ED47E7C0",
+      "bytes": 701584
+    },
+    {
+      "file": "results/walls/zones-False-symmetric-True-details-True.json",
+      "sha256": "FF7D9E8EA05257EB000631EA7BAD74C8AC4D82F955FBA18546C989DB8A22AF6A",
+      "bytes": 716037
+    },
+    {
+      "file": "results/walls/zones-True-symmetric-False-details-False.json",
+      "sha256": "3BC2382312840E1D4EDFC85C320C6A80DAC59AA1DC87FB0059DA4E99095E1861",
+      "bytes": 725969
+    },
+    {
+      "file": "results/walls/zones-True-symmetric-False-details-True.json",
+      "sha256": "F40D7B6EB6BAF1FE0ACD24A6D804E23E2F4699BE11AE29DF4F6E04BFAB89D9F9",
+      "bytes": 751789
+    },
+    {
+      "file": "results/walls/zones-True-symmetric-True-details-False.json",
+      "sha256": "0DC25A8438F449D286465711C9DDD04733092F113545D3AB443FF6F0F190E222",
+      "bytes": 726018
+    },
+    {
+      "file": "results/walls/zones-True-symmetric-True-details-True.json",
+      "sha256": "3FC7ADE627AAEC02CBFC89287C450852A1CB485C92BAB847810EA36D5938946C",
+      "bytes": 751876
+    }
+  ]
+}

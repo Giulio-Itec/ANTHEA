@@ -19,6 +19,12 @@ try
 {
     switch (args[0])
     {
+        case "capture-f4":
+        {
+            if (positional.Count != 1) return Usage();
+            new F4Capture(named.TryGetValue("root", out var f4Root) ? Path.GetFullPath(f4Root) : FindRoot(), Path.GetFullPath(positional[0])).Run();
+            return 0;
+        }
         case "fixtures-f3":
         {
             if (positional.Count != 1) return Usage();
@@ -98,6 +104,7 @@ static int Usage()
         ANTHEA.Testing compare <a> <b> [--tolerances <file>] [--report <file.json>] [--max <n>]
         ANTHEA.Testing compare-dense <riferimento> <candidato> --confronto <nome> [--classificazione <file>] [--tolerances <file>] [--report <file.json>] [--max <n>]
         ANTHEA.Testing fixtures-f3 <out> [--root <repo>]   (crea solo input, mai attesi)
+        ANTHEA.Testing capture-f4 <out> [--root <repo>]    (cinque ambiti F4; Bridge Design esclusa)
         ANTHEA.Testing normalize <in> <out>
         """);
     return 2;
