@@ -966,3 +966,18 @@ Le guide Rev40 aggiornano procedure e descrizione dell’architettura, senza for
 ## 13 ottobre — chiusura F3 richiesta
 
 L’utente richiede di completare F3, con un commit per ogni fix, e vieta di iniziare F4. La candidata 1.6.0 resta sul ramo della fase fino al collaudo finale. Restano in vigore il confronto prima/dopo, il set V congelato e la conservazione del legacy di calcolo: F3 separa accessi e contratti applicativi, senza anticipare il trasferimento ingegneristico di F4.
+
+
+## 13 ottobre — input unificato delle sollecitazioni da Excel
+
+Attività EXCEL-SOL accodata dopo i punti F3 già concordati; nessun avvio di F4. Requisiti espressi dall'utente:
+
+- Colonne: `Elemento`, `Nome combo`, `Stato limite`, `N`, `Vx`, `Vy`, `T`, `Mx`, `My`, in questo ordine. `Elemento` è facoltativo.
+- Ogni riga conserva tutte e sei le componenti della combinazione, disponibili insieme a tutte le verifiche pertinenti. SLU alimenta domini 2D/3D e taglio/torsione; SLV alimenta i controlli associati e anche taglio/torsione. Rara, Frequente e Quasi permanente alimentano i rispettivi controlli SLE secondo le regole già implementate.
+- Eliminare la famiglia di input `Taglio`: taglio e torsione operano sulle combinazioni SLU e SLV. Le viste e i risultati delle verifiche restano distinti dove necessario.
+
+Impostazione applicativa proposta: una sola registrazione per riga, con filtri per le verifiche, senza duplicare i dati né ricombinare o coefficientare sollecitazioni già combinate. Un elemento vuoto usa il contesto del foglio di verifica destinatario e non assegna la riga indiscriminatamente a tutti gli elementi. Un elemento valorizzato deve mantenere la propria associazione; combinazioni omonime di elementi diversi non vanno fuse. Unità, assi locali e convenzione dei segni devono essere espliciti nel template e nell'anteprima. Un valore numerico mancante non va confuso silenziosamente con uno zero.
+
+Compatibilità da risolvere in implementazione: i vecchi file con famiglia Taglio non indicano se la riga appartiene a SLU o SLV. Conservare i dati e rendere esplicita l'assegnazione, senza scartarla né indovinarne lo stato limite. Inoltre oggi SectionWorkspace presenta SLU come Plastico e SLV come Elastico e CheckerSection seleziona così il dominio: classificazione della combinazione e criterio del dominio vanno tenuti distinti, senza introdurre implicitamente nuove regole sismiche nella sola importazione. Riutilizzare parser, validazioni e servizi esistenti. Collaudare lo stesso insieme di componenti nei diversi controlli e il percorso di migrazione, senza sostituire gli attesi indipendenti.
+
+Sono registrati requisiti e proposta, non una funzionalità già realizzata. Al termine di F3 chiedere soltanto le decisioni residue necessarie per la riscrittura.

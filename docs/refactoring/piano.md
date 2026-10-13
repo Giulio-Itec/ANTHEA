@@ -190,7 +190,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
 
 ## Coda dopo F3: input delle sollecitazioni da Excel
 
-- [ ] EXCEL-SOL (richiesta del 13/10): riscrittura degli input delle sollecitazioni tramite Excel. Attività accodata alla chiusura dei punti F3 già concordati; requisiti ancora da definire. Terminata F3, chiedere all'utente di spiegare il flusso desiderato prima di progettare o implementare la riscrittura. Non anticipare modifiche al formato, alla lettura o all'interfaccia di importazione.
+- [ ] EXCEL-SOL (richiesta del 13/10, requisiti precisati dall'utente): riscrittura degli input delle sollecitazioni tramite Excel, dopo la chiusura dei punti F3 già concordati. Colonne nell'ordine: `Elemento` (facoltativo), `Nome combo`, `Stato limite`, `N`, `Vx`, `Vy`, `T`, `Mx`, `My`. Un solo insieme di sei componenti per riga/combinazione alimenta tutte le verifiche pertinenti allo stato limite. SLU e SLV alimentano anche taglio e torsione; Rara, Frequente e Quasi permanente alimentano i rispettivi controlli SLE. Eliminare la famiglia di input separata `Taglio`, conservando l'accesso alle verifiche di taglio/torsione. Requisiti e cautele di compatibilità in [decisioni.md](decisioni.md#13-ottobre--input-unificato-delle-sollecitazioni-da-excel). I requisiti principali sono già forniti: a fine F3 discutere soltanto le eventuali ambiguità residue, senza chiedere nuovamente il formato. Implementazione non iniziata.
 - F4 resta ferma per indicazione esplicita dell'utente; la chiusura di F3 e questa attività accodata non ne autorizzano l'avvio.
 
 ## Fase 4: calcoli residui nelle librerie

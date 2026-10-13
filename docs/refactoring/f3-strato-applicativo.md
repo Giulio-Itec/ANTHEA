@@ -16,7 +16,7 @@ Decisioni operative del 13 ottobre 2026, sulla delega dell’utente del 12 ottob
 
 ## Attività accodata alla chiusura di F3
 
-Il 13 ottobre l'utente ha richiesto di accodare la riscrittura degli input delle sollecitazioni via Excel (EXCEL-SOL nel piano). Si completano prima i punti F3 già concordati; a chiusura della fase si chiedono all'utente i requisiti, prima di iniziare questa riscrittura. Nessuna scelta preventiva su formato, associazione dei dati o interfaccia. F4 resta esplicitamente esclusa.
+Il 13 ottobre l'utente ha accodato la riscrittura degli input delle sollecitazioni via Excel (EXCEL-SOL nel piano), poi ne ha precisato il formato: Elemento facoltativo, Nome combo, Stato limite, N, Vx, Vy, T, Mx, My. Una riga alimenta tutti i controlli pertinenti allo stato limite; SLU e SLV alimentano anche taglio e torsione, senza una famiglia Taglio separata. Prima si completano i punti F3 già concordati. I requisiti acquisiti e le cautele per la compatibilità sono in decisioni.md; a fine F3 si discutono solo gli eventuali dettagli ancora ambigui. La riscrittura non è iniziata e F4 resta esplicitamente esclusa.
 
 ## Banco unico
 
