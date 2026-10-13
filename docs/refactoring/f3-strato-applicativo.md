@@ -177,3 +177,9 @@ Corsa 20261013-034045-f3-report-horizontal: 5 PASS, smoke orizzontale/progetto, 
 ConcreteSheetPreparation condivide valori iniziali, strati di armatura, materiali, lettura e serializzazione delle azioni e sincronizzazione φ/n. Quest’ultima conserva il campo sorgente invalido, azzera solo il derivato e restituisce alla vista il messaggio esistente. La preparazione autonoma conserva i dati derivati persistiti e le migrazioni già adottate dalla finestra.
 
 Corsa 034430: 458 file equivalenti e ricerca armature passati; il nuovo confronto dei dati aveva ID diversi, generati dalle due copie di un input legacy senza identificativi. Banco corretto creando le identità una volta prima delle copie, come nella suite dei servizi. Corsa finale 20261013-034639-f3-concrete-preparation-identities: 2 PASS; quattro preparazioni CA uguali alla vista, 33 capitoli precedenti ancora equivalenti. Nessun atteso o tolleranza modificati.
+
+## F3.5b.2h.2 — risultato CA e riferimento grafico
+
+ConcreteReportAnalysis riusa il batch domini/SLE e prepara l’esportazione completa con riepiloghi, dettagli e ancoraggi. ConcreteResultExport è condiviso con la vista; il contratto più piccolo della CLI calculate rimane distinto. ConcreteShearBatch elimina il doppio ciclo di calcolo per riga e conserva errori locali ed esiti parziali.
+
+Corsa 034827: 3 PASS, quattro risultati CA identici alla finestra e 458 file equivalenti. Corsa 035103: 4 PASS, risultato con ciclo taglio condiviso, 33 capitoli, 458 file e cattura di quattro configurazioni grafiche CA. Riferimenti in tests/fixtures/f3-concrete-figures: SLU/SLV, quattro filtri, punti resistenti e colori. Ripetibilità esatta in 035255 prima di estrarre i grafici; nessun atteso precedente modificato. L’acquisizione è esplicita con CaptureConcreteFigures e non scrive nelle fixture.

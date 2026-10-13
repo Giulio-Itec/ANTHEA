@@ -371,21 +371,9 @@ internal sealed partial class ConcreteWorkspace
     private void RebuildExport()
     {
         if (domainResults.Count == 0 && stressResults.Count == 0 && shearResults.Count == 0) { Result = null; return; }
-        var domains = new JsonObject(); foreach (var (key, rows) in domainResults) domains[key] = J.Node(rows);
-        var stresses = new JsonObject();
-        foreach (var (key, rows) in stressResults) stresses[key] = ConcreteAnalysisSession.ExportStress(rows);
-        // Attach freshly created nodes directly: J.Obj would deep-clone them again.
-        Result = new JsonObject
-        {
-            ["errore"] = "", ["motore"] = "GPCChecker.Concrete.dll",
-            ["normativa_riferimento"] = settings.S("normativa"), ["verifica_normativa_completa"] = false,
-            ["riepilogo_verifiche"] = J.Node(CollectVerificationSummaries()),
-            ["domini"] = domains, ["tensioni"] = stresses, ["taglio"] = J.Node(shearResults),
-            ["torsione"] = J.Node(torsionResults), ["dettagli_costruttivi"] = J.Node(detailingResults), ["dettagli_esito"] = detailingText.Text + string.Join("\n",detailingTopics.Values.Select(cards=>cards.Text)),
-            ["ancoraggio"] = J.Node(anchorageResult), ["ancoraggio_esito"] = anchorageText.Text, ["momento_curvatura"] = J.Node(curvatureResult),
-            ["dati"] = Data.DeepClone(), ["errori_calcolo"] = J.Node(calculationErrors),
-            ["avvisi"] = J.Node(new[] { "Compressione negativa; azioni in kN e kNm", "Taglio e fessurazione: vedere esiti specifici e limiti di applicabilità" })
-        };
+        Result = Anthea.Application.Concrete.ConcreteResultExport.Create(Data, CollectVerificationSummaries(), domainResults, stressResults,
+            shearResults, torsionResults, detailingResults, detailingText.Text + string.Join("\n", detailingTopics.Values.Select(cards => cards.Text)),
+            anchorageResult, anchorageText.Text, curvatureResult, calculationErrors);
     }
     private void RefreshSummary() => RefreshVerificationSummaries();
 }

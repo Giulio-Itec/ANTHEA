@@ -33,6 +33,10 @@ internal static class F3ReportChapterChecks
                     File.WriteAllText(Path.Combine(output, Path.GetFileNameWithoutExtension(file) + "-prepared.json"), prepared.ToJsonString(J.Options));
                     File.WriteAllText(Path.Combine(output, Path.GetFileNameWithoutExtension(file) + "-view.json"), reference.Data.ToJsonString(J.Options));
                     Check(JsonNode.DeepEquals(reference.Data, prepared), "Preparazione CA diversa: " + file);
+                    var analysis = await Anthea.Application.Concrete.ConcreteReportAnalysis.CalculateAsync(prepared, default);
+                    File.WriteAllText(Path.Combine(output, Path.GetFileNameWithoutExtension(file) + "-analysis.json"), analysis.Result.ToJsonString(J.Options));
+                    File.WriteAllText(Path.Combine(output, Path.GetFileNameWithoutExtension(file) + "-view-result.json"), reference.Result!.ToJsonString(J.Options));
+                    Check(JsonNode.DeepEquals(reference.Result, analysis.Result), "Risultato CA diverso: " + file);
                 }
                 continue;
             }
