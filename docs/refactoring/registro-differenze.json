@@ -25,6 +25,22 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-02",
+      "titolo": "Copertura del palo entro tolleranza genera un elemento spurio quasi nullo",
+      "famiglia": "pali/mesh",
+      "categoria": "difetto-legacy",
+      "stato": "da-correggere",
+      "descrizione": "ElasticPile accetta il fondo degli strati fino a L-1e-10 L, ma se il fondo è appena inferiore a L aggiunge sia quel confine sia la punta: nasce un elemento quasi nullo e il sistema viene rifiutato per condizionamento. Riprodotto sia in kN/m sia in N/mm; nessun errore di conversione delle unità.",
+      "riferimento_normativo": [],
+      "codice": ["Checker/GPCChecker.Geotechnics/Piles/ElasticPile.cs"],
+      "segno": "Rifiuto spurio di un input ammesso dalla tolleranza geometrica già esistente.",
+      "effetto_quantificato": "L=12 m, strato lungo L*(1-5e-11): copertura ammessa, poi errore di matrice mal condizionata. L*(1-2e-10) correttamente rifiutato per copertura. Cinque prove dei bordi della soglia concordano nei due sistemi di unità.",
+      "decisione": "13/10/2026: F4.6c separata dall'inventario F4.6a; prima regressione che fallisce, poi coincidenza della sola estremità finale entro la tolleranza già dichiarata. Nessun aumento delle tolleranze o modifica dei confini interni.",
+      "test": ["Checker/tests/Geotechnics.Checks/ElasticPileUnitsTests.cs"],
+      "evidenze": "supporto/artefatti/refactoring/f4/pile-units-final/geotechnics.trx",
+      "wiki": "Correzione da attivare con il successivo set coerente; nessuna modifica runtime nella 1.7.1."
+    },
+    {
       "id": "F4-01",
       "titolo": "Esiti tipizzati dei pali e dei muri, API additive nelle librerie",
       "famiglia": "esiti/pali-muri",

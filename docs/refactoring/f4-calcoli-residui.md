@@ -224,6 +224,7 @@ del merge 1.7.1 non è un’approvazione anticipata di qualsiasi futuro merge F4
 - [x] F4.3a: [collocazione e contratti](f4-contratti.md); F4.3b sul confronto numerico σcp rimane aperta.
 - [x] F4.4a: [esiti tipizzati nelle librerie](../../../Checker/docs/refactoring/f4-esiti.md), commit Checker `c6f10056`, suite complete e catture legacy identiche. F4.4b rimane aperta per l'attivazione con set coerente.
 - [ ] F4.5–F4.15: secondo ordine e criteri sopra descritti, esclusa F4.11 sospesa.
+- [x] F4.6a: inventario delle soglie e 56 nuove prove di unità (Checker `7c3ce910`), suite geotecnica 173 PASS. F4.6b aperta; F4.6c correggerà il difetto di mesh vicino alla punta individuato nel banco.
 - [ ] F4.16: chiusura sospesa su richiesta dell’utente, anche se altri punti risultassero conclusi.
 
 F4.1 e F4.2 sono concluse nel perimetro autorizzato; si procede con **F4.3–F4.4**. Ogni punto

@@ -298,7 +298,10 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [x] F4.4a (13/10): Checker `c6f10056`, API additive Outcome/Execution/Data con enum Model; selezione e sviluppo del palo senza confronti di testo. 1565 PASS, 17 Steel già noti, zero nuovi fallimenti; 18 casi legacy identici byte per byte. Concrete candidata 0.1.0.0, Geotechnics candidata 0.2.0.0.
   - [ ] F4.4b: adozione nei consumatori e negli esiti strutturali locali dei muri con set coerente; DLL ANTHEA ancora set V. Nessun rilascio/merge di fase anticipato.
 - [~] F4.5 Coefficienti dalle norme (γ dei pali da PileExecution); scostamento (d) in due commit. Anticipato il 7/10: D7-d opzioni d1 e d2 (γb da Model per tecnologia, valore di riserva e migrazione una tantum dei fogli).
-- [ ] F4.6 Inventario delle soglie dipendenti dalle unità; palo elastico in N e mm.
+- [~] F4.6 Inventario delle soglie e confini delle unità del palo elastico.
+  - [x] F4.6a (13/10): [inventario e 56 prove dimensionali](../../../Checker/docs/refactoring/f4-unita-palo.md), Checker `7c3ce910`; 173/173 prove geotecniche. Il solutore conserva il contratto a unità coerenti, senza duplicazioni. Campioni adattivi ed estremi non unici distinti dai valori fisici.
+  - [ ] F4.6b: conversioni nominate negli adattatori e completamento dei contratti delle armature, riusando GPC.Model.Units.
+  - [ ] F4.6c: correggere l'elemento spurio alla punta quando la copertura è ammessa entro la tolleranza relativa; difetto F4-02 individuato dalle nuove prove.
 - [ ] F4.7 Muri in c.a. in `Concrete/Walls` (tre passi).
 - [ ] F4.8 Muri a gravità e dettagli.
 - [ ] F4.9 [CP] Collegamento dei muri e rilascio `lib/Checker`. Anticipato il 7/10 lo scostamento D7-c (γRd non applicato a F̄).
