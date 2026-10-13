@@ -25,6 +25,19 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-09",
+      "data": "2026-10-13",
+      "fase": "F4.8a",
+      "titolo": "Port equivalente dei muri a gravità nei verificatori e in Design",
+      "famiglia": "muri/gravità",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Checker b5e40cca separa CLS non armato in Concrete/Walls e muratura in GPCChecker.Masonry, con coordinamento tipizzato in GPC.Design. Conservati resistenze assegnate, campo elastico non fessurato, stabilità, segni e assenza di capacità nei casi fuori campo. Nessuna modifica delle DLL o dei risultati runtime ANTHEA.",
+      "effetto_quantificato": "Sei modelli congelati: 8672 verifiche e 240 curvature equivalenti entro le tolleranze preesistenti 1e-9 assoluta + relativa; disponibilità, rapporti e giudizi confrontati. Fixture derivata esclusivamente dalle osservazioni originali e protetta da SHA256, senza ricalcolo degli attesi.",
+      "test": ["4 test Design.Checks PASS", "Checker completo: 1655 PASS, 17 Steel già censiti, zero nuovi fallimenti, API compatibili", "ANTHEA runner: 5 PASS"],
+      "evidenze": ["supporto/artefatti/refactoring/f4/gravity-verify", "supporto/artefatti/refactoring/f4/gravity-source-final.log", "Checker/docs/refactoring/f4-gravity-walls.md"]
+    },
+    {
       "id": "F4-08",
       "data": "2026-10-13",
       "fase": "F4.7b.3",

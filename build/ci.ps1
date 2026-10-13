@@ -1,4 +1,4 @@
-﻿<#
+<#
 Single runner for the ANTHEA verifications (refactoring, phase F0).
 
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1                          # profile quick
@@ -42,6 +42,7 @@ param(
     [string] $CaptureCandidate,
     [string] $F4CaptureCandidate,
     [string] $F4CandidateConcrete,
+    [switch] $F4GravityCapture,
     [switch] $CaptureConcreteFigures,
     [string] $CheckerFixtures,
     [string] $DenseRef,
@@ -151,6 +152,10 @@ foreach ($name in 'BridgeDesign.Checks', 'BridgeDesign.IndependentChecks', 'Glob
 Add-Suite @{ Name = 'wiki/indice'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\scripts\wiki\build-wiki-index.py'; Args = @('--check') }
 Add-Suite @{ Name = 'wiki/manuale'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\test\wiki-handbook-checks.py'; Args = @() }
 
+if ($F4GravityCapture) {
+    Add-Suite @{ Name = 'baseline/f4-gravity-reference'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-gravity-capture', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 120 }
+}
 # Optional diagnostic candidate: no production snapshot replacement.
 if ($F4CandidateConcrete) {
     Add-Suite @{ Name = 'baseline/f4-wall-port'; Stage = 'baseline'; Kind = 'powershell'; Script = 'tools\qa\Invoke-F4WallPort.ps1'

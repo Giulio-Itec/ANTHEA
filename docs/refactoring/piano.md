@@ -310,7 +310,9 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
     - [x] F4.7b.2: taglio GPC con σcp, 12512 confronti con gli attesi Python invariati e 22 test mirati PASS. 4192 capacità corrette, nessun cambio di giudizio nel corpus; F4-03. Concrete candidata 0.4.0.1, attivazione ancora F4.9.
     - [x] F4.7b.3: Checker `2a9e2d84`, curvatura totale con viscosità corretta nella candidata Concrete 0.4.0.2; sei regressioni indipendenti (quattro fallivano prima), 28 test mirati e 6 PASS del runner. 1572 curvature e 78 forme confrontate, variazione flessionale massima 3.541154 mm; 94114 confronti complessivi, zero differenze non ammesse. Suite complete Checker: 1651 PASS, 17 Steel già censiti, nessun nuovo fallimento e API compatibili. F4-08; runtime ancora invariato. [Verbale aggiornato](f4-sessione-20261013.md).
   - [ ] F4.7c: adattatore, confronto del percorso completo e integrazione con set coerente F4.9.
-- [ ] F4.8 Muri a gravità e dettagli.
+- [~] F4.8 Muri a gravità e dettagli.
+  - [x] F4.8a: Checker `b5e40cca`, servizi distinti per resistenze assegnate, CLS non armato e muratura; coordinamento in GPC.Design senza JSON/WPF. 8672 verifiche e 240 curvature equivalenti su sei muri congelati, quattro prove native e suite complete 1655 PASS / 17 Steel già noti / zero nuovi fallimenti. 5 PASS ANTHEA; registro F4-09. Concrete candidata 0.5.0.0, prime Design/Masonry 0.1.0.0; nessuna attivazione runtime.
+  - [ ] F4.8b: dettagli delle armature, ancoraggi, sovrapposizioni e copriferri condivisi; confronto e collegamento con distinta F4.10.
 - [ ] F4.9 [CP] Collegamento dei muri e rilascio `lib/Checker`. Anticipato il 7/10 lo scostamento D7-c (γRd non applicato a F̄).
 - [ ] F4.10 GPC.Design: armature e distinta dei muri, tratti dei pali.
 - [ ] F4.11 GPC.Design: BridgeConcept con listini e CO₂ come dati versionati. **Riattivata il 13/10 sera**: cataloghi sostituibili, associazioni alle lavorazioni, prezzi personalizzati e revisioni; calcolo e ottimizzazione in GPC.Design, gestione documentale/UI in ANTHEA.
