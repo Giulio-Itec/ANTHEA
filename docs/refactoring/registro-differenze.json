@@ -25,6 +25,24 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-13",
+      "data": "2026-10-13",
+      "fase": "F4.7c.1",
+      "titolo": "Adattatore completo dei muri in c.a.",
+      "famiglia": "muri in c.a.",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Percorso candidato sui servizi GPC condivisi. Zero differenze oltre taglio con sigma_cp (F4-03) e curvatura totale (F4-08). Fattori di conversione nominati con ordine aritmetico storico; selettore legacy conservato. Distribuzione e rilascio ancora F4.9.",
+      "test": [
+        "26 muri, 285743 confronti numerici, 12512 tagli indipendenti, 1572 curvature, tre forme SLE e annullamento",
+        "6 PASS runner, nessuna tolleranza o eccezione nuova"
+      ],
+      "evidenze": [
+        "docs/refactoring/f4-adattatori-muri.md",
+        "supporto/artefatti/refactoring/f4/structures-b.log"
+      ]
+    },
+    {
       "id": "F4-12",
       "data": "2026-10-13",
       "fase": "F4.8b.3/F4.10a.1",
@@ -34,8 +52,16 @@
       "stato": "attuato",
       "descrizione": "Dettagli e distinta della build candidata delegano alle API Design; legacy selezionabile esplicitamente per le prove. Input obbligatori validati con il lettore esistente, profilo di copriferro sconosciuto rifiutato. Nessuna nuova formula in ANTHEA e nessuna eccezione alla baseline architetturale. Snapshot candidato fuori lib/Checker; integrazione distribuita ancora F4.9.",
       "effetto_quantificato": "56 modelli, 30 distinte/CSV e 26127 valori confrontati, zero differenze non ammesse; scarto massimo 5.684341886080802e-14. Tre rifiuti espliciti senza mutazione del documento.",
-      "test": ["Runner 20261013-f4-detail-final: 5 PASS", "273 controlli architetturali PASS", "Set candidato con tutte le suite Model e Checker, soli 17 Steel noti"],
-      "evidenze": ["docs/refactoring/f4-adattatori-muri.md", "supporto/artefatti/refactoring/f4/detail-final.log", "supporto/artefatti/f4-set-a/coherent-complete/release-set.json"]
+      "test": [
+        "Runner 20261013-f4-detail-final: 5 PASS",
+        "273 controlli architetturali PASS",
+        "Set candidato con tutte le suite Model e Checker, soli 17 Steel noti"
+      ],
+      "evidenze": [
+        "docs/refactoring/f4-adattatori-muri.md",
+        "supporto/artefatti/refactoring/f4/detail-final.log",
+        "supporto/artefatti/f4-set-a/coherent-complete/release-set.json"
+      ]
     },
     {
       "id": "F4-11",
@@ -47,8 +73,15 @@
       "stato": "attuato",
       "descrizione": "Checker b8763b87: WallBarScheduling riusa il servizio dei dettagli; contratti e avvisi tipizzati, proprietà del confine fra zone conservata. Peso parziale se manca lo sviluppo dei collegamenti, nessun taglio automatico oltre la barra commerciale. Runtime ANTHEA e set V invariati.",
       "effetto_quantificato": "30 distinte congelate: 435 barre, 600 tratti e 1680 punti equivalenti; quantità intere esatte, sviluppo/peso/interassi entro 1e-9 assoluta più relativa. Attesi invariati.",
-      "test": ["13 Design PASS", "API compatibili, zero rimozioni", "Confini condivisi, estremità pannello, peso parziale, stock e annullamento"],
-      "evidenze": ["supporto/artefatti/refactoring/f4/schedule-final", "Checker/docs/refactoring/f4-wall-schedule.md"]
+      "test": [
+        "13 Design PASS",
+        "API compatibili, zero rimozioni",
+        "Confini condivisi, estremità pannello, peso parziale, stock e annullamento"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/schedule-final",
+        "Checker/docs/refactoring/f4-wall-schedule.md"
+      ]
     },
     {
       "id": "F4-10",
@@ -60,8 +93,15 @@
       "stato": "attuato",
       "descrizione": "Checker bd3b2483: coordinamento tipizzato in Design, riuso di ancoraggi e copriferro Concrete, interassi e minimi secondari condivisi con MemberDetailingCalculator. Conservati criteri per faccia, sagome, archi analitici, domande assolute ed esiti indisponibili con capacità negativa. Nessuna modifica al runtime ANTHEA o al set V.",
       "effetto_quantificato": "56 input: 374 barre, 2316 punti delle sagome, 3260 controlli e 56 pesi equivalenti con tolleranza preesistente 1e-9 assoluta più relativa. Fixture con SHA fisso; nessun atteso sostituito. Differenza XC3/C25 nel primo adattatore di test risolta passando il pertinente Cmin UNI 11104 già usato dal legacy (35 mm, non il default 30).",
-      "test": ["4 prove dettagli PASS", "Suite Checker complete: 1660 PASS, 17 Steel noti, zero nuovi fallimenti; API compatibili", "Cattura ANTHEA: 2 PASS"],
-      "evidenze": ["supporto/artefatti/refactoring/f4/details-verify", "Checker/docs/refactoring/f4-wall-details.md"]
+      "test": [
+        "4 prove dettagli PASS",
+        "Suite Checker complete: 1660 PASS, 17 Steel noti, zero nuovi fallimenti; API compatibili",
+        "Cattura ANTHEA: 2 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/details-verify",
+        "Checker/docs/refactoring/f4-wall-details.md"
+      ]
     },
     {
       "id": "F4-09",
@@ -73,8 +113,16 @@
       "stato": "attuato",
       "descrizione": "Checker b5e40cca separa CLS non armato in Concrete/Walls e muratura in GPCChecker.Masonry, con coordinamento tipizzato in GPC.Design. Conservati resistenze assegnate, campo elastico non fessurato, stabilità, segni e assenza di capacità nei casi fuori campo. Nessuna modifica delle DLL o dei risultati runtime ANTHEA. Regressione aggiuntiva F4.8a.1: la trazione assiale con resistenze assegnate conserva il valore assoluto della domanda storico; Checker 34e8f823, Design 0.1.0.1, cinque test PASS.",
       "effetto_quantificato": "Sei modelli congelati: 8672 verifiche e 240 curvature equivalenti entro le tolleranze preesistenti 1e-9 assoluta + relativa; disponibilità, rapporti e giudizi confrontati. Fixture derivata esclusivamente dalle osservazioni originali e protetta da SHA256, senza ricalcolo degli attesi.",
-      "test": ["4 test Design.Checks PASS", "Checker completo: 1655 PASS, 17 Steel già censiti, zero nuovi fallimenti, API compatibili", "ANTHEA runner: 5 PASS"],
-      "evidenze": ["supporto/artefatti/refactoring/f4/gravity-verify", "supporto/artefatti/refactoring/f4/gravity-source-final.log", "Checker/docs/refactoring/f4-gravity-walls.md"]
+      "test": [
+        "4 test Design.Checks PASS",
+        "Checker completo: 1655 PASS, 17 Steel già censiti, zero nuovi fallimenti, API compatibili",
+        "ANTHEA runner: 5 PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/gravity-verify",
+        "supporto/artefatti/refactoring/f4/gravity-source-final.log",
+        "Checker/docs/refactoring/f4-gravity-walls.md"
+      ]
     },
     {
       "id": "F4-08",
@@ -87,9 +135,20 @@
       "descrizione": "RetainingWall.Structures integra il ChiY del piano elastico equivalente. La deformazione totale nativa GetVerticeStrain(point,phi) è invece quella del piano moltiplicata per 1+phi. A phi=2 viene omesso un fattore 3 nella curvatura e nella sua integrazione. Il port equivalente è conservato nella proprietà diagnostica ElasticEquivalentCurvature; Curvature del nuovo servizio candidato restituisce la curvatura totale. Runtime ANTHEA ancora invariato, attivazione F4.9.",
       "effetto_quantificato": "1572 curvature e 78 forme flessionali nel corpus: delta massimo 0.001496934767347093 1/m e 3.5411539587512513 mm. Il fattore riguarda la sola componente flessionale, non traslazione e rotazione della fondazione. Sei attesi cinematici indipendenti da sigma/Eeff: 2 PASS e 4 FAIL prima, 6 PASS dopo con tolleranza invariata. Banco completo 94114 confronti senza differenze non ammesse, scarto massimo 5.684341886080802e-14.",
       "decisione": "Correzione separata F4.7b.3 in Concrete candidata 0.4.0.2. Riuso del fattore di omogeneizzazione anche nell'accessore nativo, senza duplicare l'amplificazione della fessurazione. Attesi congelati e motore legacy non modificati.",
-      "test": ["28 test mirati muri PASS", "6 PASS runner 20261013-f4-wall-curvature-final"],
-      "codice": ["X.Calculations/RetainingWall.Structures.cs", "Checker/GPCChecker.Concrete/Results/ResultType/StressAnalysisResult.cs"],
-      "evidenze": ["supporto/artefatti/refactoring/f4/curvature-before", "supporto/artefatti/refactoring/f4/curvature-after", "supporto/artefatti/refactoring/f4/wall-curvature-final.log", "Checker/docs/refactoring/f4-muri-ca.md"]
+      "test": [
+        "28 test mirati muri PASS",
+        "6 PASS runner 20261013-f4-wall-curvature-final"
+      ],
+      "codice": [
+        "X.Calculations/RetainingWall.Structures.cs",
+        "Checker/GPCChecker.Concrete/Results/ResultType/StressAnalysisResult.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/curvature-before",
+        "supporto/artefatti/refactoring/f4/curvature-after",
+        "supporto/artefatti/refactoring/f4/wall-curvature-final.log",
+        "Checker/docs/refactoring/f4-muri-ca.md"
+      ]
     },
     {
       "id": "F4-07",
@@ -101,8 +160,14 @@
       "stato": "attuato",
       "descrizione": "WallSectionSession riusa i motori GPC di resistenza, limiti tensionali e fessurazione, con cache N/segno, annullamento e risultati separati per metodo. Sessione proprietaria, input immutabili, controlli geometrici; nessun nuovo solutore. Concrete candidata 0.4.0.0, non distribuita in ANTHEA.",
       "effetto_quantificato": "62568 confronti su 26 muri, 576 sezioni e 286 combinazioni: zero differenze non ammesse, scarto massimo 7.105427357601002e-15. Riferimenti originali verificati con SHA. Il corpus non esercita la prova integrativa non fessurata, che resta un limite esplicito della copertura.",
-      "test": ["33 prove mirate Concrete PASS", "6 PASS runner, zero nuovi fallimenti"],
-      "evidenze": ["supporto/artefatti/refactoring/f4/wall-port-equivalent.log", "Checker/docs/refactoring/f4-muri-ca.md"]
+      "test": [
+        "33 prove mirate Concrete PASS",
+        "6 PASS runner, zero nuovi fallimenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/wall-port-equivalent.log",
+        "Checker/docs/refactoring/f4-muri-ca.md"
+      ]
     },
     {
       "id": "F4-06",
@@ -114,8 +179,14 @@
       "stato": "attuato",
       "descrizione": "Checker 1033ed05 introduce WallStrip immutabile e controlli minimi/massimi con coefficienti riusati da MemberDetailingCalculator. Conservata la policy storica del maggiore d per entrambe le facce; gli esiti non certificano i dettagli non calcolati. Concrete candidata 0.3.0.0, ANTHEA ancora sul set V.",
       "effetto_quantificato": "576 sezioni del riferimento F4 equivalenti entro 1e-12 relativo sulle aree, giudizi identici. Geometrie impossibili e dati non finiti rifiutati dal nuovo contratto; nessun cambiamento runtime.",
-      "test": ["4 nuovi test dei muri", "23 test mirati PASS inclusi dettagli, ancoraggi e piastre esistenti"],
-      "evidenze": ["Checker/docs/refactoring/f4-muri-ca.md", "supporto/artefatti/refactoring/f4/wall-strip-a"]
+      "test": [
+        "4 nuovi test dei muri",
+        "23 test mirati PASS inclusi dettagli, ancoraggi e piastre esistenti"
+      ],
+      "evidenze": [
+        "Checker/docs/refactoring/f4-muri-ca.md",
+        "supporto/artefatti/refactoring/f4/wall-strip-a"
+      ]
     },
     {
       "id": "F4-05",
@@ -127,8 +198,15 @@
       "stato": "attuato",
       "descrizione": "Conversioni nominate con fattori GPC, ordine numerico conservato. ANTHEA riusa il proprio adattatore; Checker 0cb1c206 completa i confini delle armature. Precisata la descrizione della tolleranza N senza modificarla. Concrete candidata 0.2.0.0, runtime set V ancora invariato.",
       "effetto_quantificato": "548 file generali e 234 file F4 equivalenti; 11 casi di palo con SHA invariato. Sei rilievi architetturali eliminati (4604 residui), zero aggiunte.",
-      "test": ["735 Concrete PASS", "48 controlli bit per bit delle conversioni", "5 PASS runner mirato e 1 PASS baseline/f4"],
-      "evidenze": ["docs/refactoring/f4-unita-adattatori.md", "supporto/artefatti/refactoring/f4/units-f4-before-after.json"]
+      "test": [
+        "735 Concrete PASS",
+        "48 controlli bit per bit delle conversioni",
+        "5 PASS runner mirato e 1 PASS baseline/f4"
+      ],
+      "evidenze": [
+        "docs/refactoring/f4-unita-adattatori.md",
+        "supporto/artefatti/refactoring/f4/units-f4-before-after.json"
+      ]
     },
     {
       "id": "F4-04",
@@ -140,8 +218,16 @@
       "stato": "corretto",
       "descrizione": "I quattro coefficienti mancanti di attrito e peso provengono da PileResistanceFactors.FromStandard. Override, validazione, migrazione gammaB e registrazione dei fallback conservati; nessun dato persistito modificato.",
       "effetto_quantificato": "548 file del corpus prima/dopo equivalenti salvo tempi già esclusi. Quattro impronte aggiornate nella baseline architetturale senza aumento delle 4610 occorrenze; attesi invariati.",
-      "test": ["76 nuovi controlli Application", "verifiche/pile-factors", "ConcreteLibraryAdapter.Checks/rapido", "12 PASS del runner, zero nuovi fallimenti"],
-      "evidenze": ["supporto/artefatti/refactoring/f4/coeff-final.log", "docs/refactoring/f4-coefficienti.md"]
+      "test": [
+        "76 nuovi controlli Application",
+        "verifiche/pile-factors",
+        "ConcreteLibraryAdapter.Checks/rapido",
+        "12 PASS del runner, zero nuovi fallimenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/coeff-final.log",
+        "docs/refactoring/f4-coefficienti.md"
+      ]
     },
     {
       "id": "F4-03",
@@ -150,12 +236,24 @@
       "categoria": "scostamento-normativo",
       "stato": "corretto",
       "descrizione": "La formula locale del muro senza staffe omette sigma_cp e non rifiuta la trazione. SectionShearCalculator include il contributo e il limite in compressione, rifiutando automaticamente tutti i casi in trazione. Studio indipendente concluso; correzione ora nella sessione candidata GPC, runtime ANTHEA ancora invariato.",
-      "riferimento_normativo": [{"fonte": "NTC 2018", "punto": "4.1.2.3.5.1, formula 4.1.23", "riscontro": "Gazzetta Ufficiale 20/02/2018, S.O. 8, capitolo 4 pagina 79: contributo 0,15 sigma_cp in entrambi i rami, limite 0,2 fcd, condizioni di ancoraggio e trazione; testo primario letto il 13/10/2026."}],
-      "codice": ["X.Calculations/RetainingWall.Structures.cs", "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs"],
+      "riferimento_normativo": [
+        {
+          "fonte": "NTC 2018",
+          "punto": "4.1.2.3.5.1, formula 4.1.23",
+          "riscontro": "Gazzetta Ufficiale 20/02/2018, S.O. 8, capitolo 4 pagina 79: contributo 0,15 sigma_cp in entrambi i rami, limite 0,2 fcd, condizioni di ancoraggio e trazione; testo primario letto il 13/10/2026."
+        }
+      ],
+      "codice": [
+        "X.Calculations/RetainingWall.Structures.cs",
+        "Checker/GPCChecker.Concrete/Shear/SectionShearCalculator.cs"
+      ],
       "segno": "Resistenza locale ridotta in compressione; mancanza di rifiuto automatico in trazione.",
       "effetto_quantificato": "Studio Python su 12512 controlli di 26 muri: 4192 capacità aumenterebbero, massimo 4,301578125 kN/m e 2,80197%; nessun esito cambia nel corpus. Cinque vettori indipendenti verificano N nullo, compressione, limite e trazione contro la API GPC. F4.7b.2: il nuovo servizio è confrontato con tutti i 12512 attesi indipendenti, zero differenze non ammesse; 22 test mirati PASS.",
       "decisione": "F4.3b del 13/10/2026: adottare il percorso GPC nel successivo F4.7, in commit separato dal port equivalente; conservare faccia e armatura efficace e non certificare dettagli o casi rifiutati. Il rifiuto GPC per ogni N positivo è una restrizione del supporto automatico, non una soglia normativa. API candidata Concrete 0.4.0.1 implementata in un commit distinto dal port; attivazione ANTHEA ancora F4.9.",
-      "test": ["Checker/tests/Concrete.Checks/WallShearAxialTests.cs", "tools/qa/Study-F4WallShear.py"],
+      "test": [
+        "Checker/tests/Concrete.Checks/WallShearAxialTests.cs",
+        "tools/qa/Study-F4WallShear.py"
+      ],
       "evidenze": "supporto/artefatti/refactoring/f4/wall-sigma-study/independent.json; supporto/artefatti/refactoring/f4/wall-sigma-tests/wall-sigma.trx",
       "wiki": "Da aggiornare con l'attivazione runtime F4.7; nessuna variazione della 1.7.1."
     },
@@ -167,11 +265,15 @@
       "stato": "corretto",
       "descrizione": "ElasticPile accetta il fondo degli strati fino a L-1e-10 L, ma se il fondo è appena inferiore a L aggiunge sia quel confine sia la punta: nasce un elemento quasi nullo e il sistema viene rifiutato per condizionamento. Riprodotto sia in kN/m sia in N/mm; nessun errore di conversione delle unità.",
       "riferimento_normativo": [],
-      "codice": ["Checker/GPCChecker.Geotechnics/Piles/ElasticPile.cs"],
+      "codice": [
+        "Checker/GPCChecker.Geotechnics/Piles/ElasticPile.cs"
+      ],
       "segno": "Rifiuto spurio di un input ammesso dalla tolleranza geometrica già esistente.",
       "effetto_quantificato": "L=12 m, strato lungo L*(1-5e-11): prima errore di matrice mal condizionata, dopo risultato serializzato identico alla copertura esatta. Quattro regressioni kN/m e N/mm su terreno uniforme/stratificato: 24/25 elementi, interfaccia interna a 4,13 m e input invariati. L*(1-2e-10) resta rifiutato per copertura. Le catture degli 11 pali e 7 muri legacy restano identiche byte per byte.",
       "decisione": "13/10/2026: F4.6c, Checker 164e4836, regressione fallita prima del fix e coincidenza della sola estremità finale entro la tolleranza già dichiarata. Nessun aumento delle tolleranze o modifica dei confini interni. Geotechnics candidata 0.2.0.1; attivazione runtime rinviata al set coerente. Suite complete: 1625 PASS, 17 Steel già censiti, nessun nuovo fallimento; API compatibili.",
-      "test": ["Checker/tests/Geotechnics.Checks/ElasticPileUnitsTests.cs"],
+      "test": [
+        "Checker/tests/Geotechnics.Checks/ElasticPileUnitsTests.cs"
+      ],
       "evidenze": "supporto/artefatti/refactoring/f4/tip-fix-before; supporto/artefatti/refactoring/f4/tip-fix-final/checker-verify/summary.json",
       "wiki": "Correzione da attivare con il successivo set coerente; nessuna modifica runtime nella 1.7.1."
     },
@@ -183,11 +285,17 @@
       "stato": "attuato",
       "descrizione": "Checker c6f10056 aggiunge Outcome, Execution e Data usando gli enum Model. Selezione e sviluppo dei pali non interpretano Status. Le stringhe compatibili restano invariate sui casi reali; scrivere un'etichetta positiva non certifica una verifica non eseguita. Nei muri i nuovi esiti non certificano dati non finiti, anche se il vecchio factory restituisce ancora la propria etichetta. Attuato nelle API candidate, non ancora nel set runtime ANTHEA: attivazione F4.4b.",
       "riferimento_normativo": [],
-      "codice": ["Checker/GPCChecker.Concrete/Piles/PileReinforcement.cs", "Checker/GPCChecker.Geotechnics/Walls/WallResults.cs"],
+      "codice": [
+        "Checker/GPCChecker.Concrete/Piles/PileReinforcement.cs",
+        "Checker/GPCChecker.Geotechnics/Walls/WallResults.cs"
+      ],
       "segno": "Nessuna variazione dei valori di calcolo; nuova rappresentazione degli esiti e protezione dai falsi PASS testuali/non finiti.",
       "effetto_quantificato": "11 casi di palo e 7 di muro prima/dopo: tutti i campi legacy identici byte per byte. SHA palo 5E75A6432480694166F77216554D772AF00FFFB079495F6A45BF12458851985E; muro 14A345FB46085EDDBA07C889BFF0468356138FFC9EF5732D0B508B9B84D9043E. Suite Checker 1565 PASS, 17 fallimenti Steel già ammessi, zero nuovi fallimenti; API pubbliche senza rimozioni.",
       "decisione": "13/10/2026: eseguire F4 esclusi Bridge Design e chiusura; F4.3a distingue esito, disponibilità ed esecuzione. API additive Concrete 0.1.0.0 e Geotechnics 0.2.0.0, attivazione ANTHEA con set coerente separato.",
-      "test": ["Checker/tests/Concrete.Checks/PileOutcomeTests.cs", "Checker/tests/Geotechnics.Checks/WallOutcomeTests.cs"],
+      "test": [
+        "Checker/tests/Concrete.Checks/PileOutcomeTests.cs",
+        "Checker/tests/Geotechnics.Checks/WallOutcomeTests.cs"
+      ],
       "evidenze": "supporto/artefatti/refactoring/f4/outcomes-before e outcomes-after/checker-verify/summary.json",
       "wiki": "Da aggiornare all'attivazione F4.4b; il comportamento UI di ANTHEA 1.7.1 non cambia."
     },

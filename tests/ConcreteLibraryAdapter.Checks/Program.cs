@@ -12,6 +12,7 @@ if (args.Length == 4 && args[0] == "--f4-details") return F4DetailAdapterChecks.
 if (args.Length == 4 && args[0] == "--f4-detail-capture") { F4DetailCapture.Export(args[1], args[2], args[3]); return 0; }
 if (args.Length == 4 && args[0] == "--f4-gravity-capture") { F4GravityCapture.Export(args[1], args[2], args[3]); return 0; }
 
+if (args.Length == 4 && args[0] == "--f4-structures") return F4StructuralAdapterChecks.Run(args[1], args[2], args[3]);
 if (args.Length == 4 && args[0] == "--f4-wall-port") return F4WallPortChecks.Run(args[1], args[2], args[3]);
 
 // Prove dell'adattatore di taglio e torsione verso GPCChecker.Concrete (refactoring F2.5-F2.6, docs/refactoring/piano.md).

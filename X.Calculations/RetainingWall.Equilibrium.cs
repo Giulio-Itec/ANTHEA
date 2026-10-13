@@ -18,7 +18,7 @@ public static partial class RetainingWall
     /// </summary>
     /// <param name="serviceabilityEngine">Motore SLE delle sezioni in c.a. (tensioni e fessurazione); null = predefinito dell'adattatore
     /// (refactoring F2.7b, commit A4).</param>
-    public static Result Calculate(JsonObject data, CancellationToken token = default, ServiceabilityEngine? serviceabilityEngine = null)
+    public static Result Calculate(JsonObject data, CancellationToken token = default, ServiceabilityEngine? serviceabilityEngine = null, WallCalculationEngine wallEngine = WallCalculationEngine.Library)
     {
         ValidateShape(data); var d = (JsonObject)data.DeepClone(); CompleteSoilInput(d); CompleteAdvancedInput(d); CompleteMaterialInput(d); ResolveSeismic(d); Validate(d);
         bool modern = d.D("version") >= 2;
@@ -44,9 +44,9 @@ public static partial class RetainingWall
             else notes.Add("kh e kv assegnati: il preset manuale mantiene γR statici e non maggiora kh per il ribaltamento. Il progettista deve predisporre le combinazioni appropriate o usare Da parametri del sito (SLV).");
         }
         notes.AddRange(wall.Warnings);
-        var structural = StructuralChecks(d, cases.Where(c => c.Factors.S("purpose") != "Ribaltamento").ToList(), token, out double steel, serviceabilityEngine);
+        var structural = StructuralChecks(d, cases.Where(c => c.Factors.S("purpose") != "Ribaltamento").ToList(), token, out double steel, serviceabilityEngine, wallEngine);
         var service = CalculateService(d, input, wall, cases, checks, token);
-        var detailing = d.S("family") == "cantilever" ? CalculateReinforcementDetails(d) : null;
+        var detailing = d.S("family") == "cantilever" ? CalculateReinforcementDetails(d, wallEngine) : null;
         if (d["detailing"].B("enabled") && detailing is not null) { structural.AddRange(detailing.Checks); steel = detailing.SteelKg; }
         double area = wall.Area / (Mm * Mm);
         Geotechnics.SlopeResult? global = null; string? globalError = null;

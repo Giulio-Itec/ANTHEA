@@ -24,8 +24,11 @@ public static partial class RetainingWall
     }
     /// <param name="engine">Motore SLE delle sezioni (tensioni e fessurazione, refactoring F2.7b, commit A4); null = predefinito dell'adattatore.
     /// Restano regole dei muri, fuori dall'adattatore, armatura minima e massima, taglio senza staffe e criterio «Non fessurata» (F2.7-D4).</param>
-    private static List<Check> StructuralChecks(JsonObject d, List<LoadCase> cases, CancellationToken token, out double steelKg, ServiceabilityEngine? engine = null)
+    private static List<Check> StructuralChecks(JsonObject d, List<LoadCase> cases, CancellationToken token, out double steelKg, ServiceabilityEngine? engine = null, WallCalculationEngine wallEngine = WallCalculationEngine.Library)
     {
+        // An explicit SLE engine retains the complete historical path for F2 diagnostics.
+        if (wallEngine == WallCalculationEngine.Library && engine is null && d.S("family") != "gravity")
+            return StructuralChecksNative(d, cases, token, out steelKg);
         var result = new List<Check>(); steelKg = 0; var m = d["materials"]!;
         void Stamp(int start, SectionForce force) { for (int i = start; i < result.Count; i++) result[i] = result[i] with { Member = force.Name, Position = force.Position }; }
         if (d.S("family") == "gravity")

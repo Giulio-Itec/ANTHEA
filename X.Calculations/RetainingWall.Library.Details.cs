@@ -14,7 +14,7 @@ public static partial class RetainingWall
     { [WallRebarZone.Stem]="stem",[WallRebarZone.StemUpper]="stem_upper",[WallRebarZone.Toe]="toe",[WallRebarZone.Heel]="heel" };
     private static string NativeFaceText(WallRebarFace face) => face switch
     { WallRebarFace.Upstream=>"monte",WallRebarFace.Downstream=>"valle",WallRebarFace.Bottom=>"inferiore",WallRebarFace.Top=>"superiore",_=>throw new ArgumentOutOfRangeException(nameof(face)) };
-    private static WallDetailInput NativeDetailInput(JsonObject d)
+    private static WallDetailInput NativeDetailInput(JsonObject d, bool includeInactiveQuantities = false)
     {
         var g=d["geometry"]!;var m=d["materials"]!;var r=d["reinforcement"]!;var opt=d["detailing"]!;
         var section=SectionInput(d,"Fusto",g.Required("stem_base"));
@@ -23,7 +23,7 @@ public static partial class RetainingWall
         var zones=new Dictionary<WallRebarZone,WallZoneBars>();
         foreach(var (zone,key) in NativeZoneKeys)
         {
-            if (zone == WallRebarZone.StemUpper && !r.B("two_zones") || zone == WallRebarZone.Toe && g.Required("toe") == 0 || zone == WallRebarZone.Heel && g.Required("heel") == 0) continue;
+            if (zone == WallRebarZone.StemUpper && !r.B("two_zones") || !includeInactiveQuantities && (zone == WallRebarZone.Toe && g.Required("toe") == 0 || zone == WallRebarZone.Heel && g.Required("heel") == 0)) continue;
             var a=r[key]!;bool symmetric=a.B("symmetric",true);
             WallFaceBars Face(bool first)
             {

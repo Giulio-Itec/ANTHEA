@@ -48,3 +48,12 @@ per F4.9/F4.16; l'attivazione distribuita e il collaudo full restano aperti.
 Prossimi: collegamento delle sezioni in c.a. e dei muri a gravità, esiti
 condivisi, ricerca delle armature. Le guide utente saranno aggiornate con il
 comportamento finale prima della chiusura F4.
+
+
+## Percorso completo delle sezioni in c.a. (F4.7c.1)
+
+`RetainingWall.Library.Structures.cs` adatta documenti, unità, etichette e risultati. Ogni sezione preparata con il percorso storico passa in proprietà esclusiva alla sessione GPC; nessuna nuova mesh. Aree minime/massime, N–M, taglio, SLE, curvature e massa principale provengono dai servizi condivisi. Il selettore `WallCalculationEngine.Legacy` conserva il percorso precedente; un `ServiceabilityEngine` esplicito mantiene il banco F2 storico.
+
+Il confronto `baseline/f4-structural-adapter` (`-F4StructuralAdapter`) verifica l'intero risultato contro la cattura immutabile: 26 muri, 285743 numeri. Solo due predizioni sono applicate in memoria, senza riscrivere attesi: i 12512 tagli dello studio Python con SHA protetto (F4-03), e 1572 curvature moltiplicate per (1+φ), come dimostrato in F4-08. Una prova separata confronta tre forme SLE e lo spostamento di testa mantenendo separato il contributo della base; provato anche l'annullamento.
+
+Prima corsa: 2341 scostamenti, massimo 0.00010763292549142989, dovuti alla conversione del momento in due moltiplicazioni successive. Usando i fattori nominati risolti da `Units` e una sola moltiplicazione si conserva l'ordine della cattura e del solutore. Seconda corsa: zero differenze, massimo errore numerico 1.8189894035458565e-12. Tolleranze invariate (1e-9 assoluta + 1e-9 relativa); nessun nuovo fallimento ammesso. Evidenza: CI `20261013-f4-structures-b`, 6 PASS, entrambe le suite architetturali comprese.
