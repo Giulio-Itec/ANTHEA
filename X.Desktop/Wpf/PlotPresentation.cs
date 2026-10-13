@@ -13,4 +13,18 @@ internal static class PlotPresentation
         target.Markers = source.Markers.Select(m => new PlotMarker(m.X, m.Y, m.Label, Ui.Brush(m.Color), m.ProjectToAxes, m.XCaption, m.YCaption, m.Radius)).ToList();
         target.InvalidateVisual();
     }
+    internal static void ApplyDomainGeometry(Plot target, Anthea.Application.Concrete.DomainChartGeometry source)
+    {
+        target.Series = []; target.Markers = []; target.Segments = source.Segments; target.EmptyMessage = source.EmptyMessage;
+        if (source.Title is not null) target.Title = source.Title;
+        if (source.XLabel is not null) target.XLabel = source.XLabel;
+        if (source.YLabel is not null) target.YLabel = source.YLabel;
+        if (source.Note is not null) target.Note = source.Note;
+        target.InvalidateVisual();
+    }
+    internal static void ApplyDomainActions(Plot target, Anthea.Application.Concrete.DomainChartActions source)
+    {
+        target.Markers = source.Markers.Select(m => new PlotMarker(m.X, m.Y, m.Label, Ui.Brush(m.Color), m.ProjectToAxes, m.XCaption, m.YCaption, m.Radius)).ToList();
+        target.VerificationSegments = source.Lines; target.ToolTip = UtilizationColors.Legend; target.InvalidateVisual();
+    }
 }

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
-    <RootNamespace>Anthea.Application</RootNamespace><GpcLibraries>GPCModel;GPCChecker.CompositeBridge</GpcLibraries>
+    <RootNamespace>Anthea.Application</RootNamespace><GpcLibraries>GPCModel;GPCChecker.CompositeBridge;GPCChecker.Concrete</GpcLibraries>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../ANTHEA.Reports/ANTHEA.Reports.csproj" />

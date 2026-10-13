@@ -133,7 +133,7 @@ internal sealed partial class ConcreteWorkspace
             if (item is not JsonRow row) return false;
             domainResults.TryGetValue(panel.Prefix + panel.Key, out var results); results?.TryGetValue(row.Values.S("id"), out _);
             DomainCheck? check = results?.GetValueOrDefault(row.Values.S("id"));
-            return panel.Options.S("filtro") switch { "Entro il dominio" => check?.Utilization is <= 1, "Fuori dominio" => check?.Utilization is > 1, "Da controllare" => check?.Utilization is null, _ => true };
+            return Anthea.Application.Concrete.ConcreteDomainChart.Includes(panel.Options, check);
         };
         panel.NeedsVisualRefresh = true; panel.AttachingRows = true;
         try
@@ -144,11 +144,7 @@ internal sealed partial class ConcreteWorkspace
         }
         finally { panel.AttachingRows = false; }
     }
-    private static ActionPoint ReadAction(JsonRow row)
-    {
-        if (string.IsNullOrWhiteSpace(row.Values.S("nome"))) throw new ArgumentException("Assegnare un nome alla combinazione.");
-        return new(SectionWorkspace.Number(row.Values.S("N"), "N"), SectionWorkspace.Number(row.Values.S("Mx"), "Mx"), SectionWorkspace.Number(row.Values.S("My"), "My"));
-    }
+    private static ActionPoint ReadAction(JsonRow row) => Anthea.Application.Concrete.ConcreteDomainChart.ReadNamedAction(row.Values);
     private async Task CalculateDomain(DomainPanel panel, CancellationToken token, string? requestedKey = null, CheckerSectionModel? prepared = null, JsonObject? preparedInput = null, JsonObject? preparedWorkspace = null)
     {
         string key = requestedKey ?? panel.Key;
@@ -190,28 +186,11 @@ internal sealed partial class ConcreteWorkspace
         }
         else
         {
-            panel.Plot.Series = []; panel.Plot.Markers = [];
-            if (checker2D.TryGetValue(panel.Key, out var section2d))
-            {
-                try
-                {
-                    bool nm = panel.Options.S("tipo") == "N–M";
-                    double value = SectionWorkspace.Number(panel.Options.S(nm ? "theta" : "N"), nm ? "θ" : "N") * (nm ? Math.PI / 180 : 1);
-                    var segments = section2d.Segments.Select(s => (section2d.Project(s.A), section2d.Project(s.B))).ToArray();
-                    panel.Plot.Segments = segments;
-                    panel.Plot.Title = $"{SectionWorkspace.Label(panel.Key)} · " + (nm ? $"N–M, θ = {value * 180 / Math.PI:0.00}°" : $"Mx–My, N = {value:0.00} kN");
-                    panel.Plot.XLabel = nm ? "Mθ [kNm]" : "Mx [kNm]"; panel.Plot.YLabel = nm ? "N [kN]" : "My [kNm]";
-                    panel.Plot.Note = "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita";
-                    panel.Plot.EmptyMessage = "Nessuna intersezione del dominio con il piano selezionato";
-                }
-                catch (ArgumentException ex) { panel.Plot.Segments = []; panel.Plot.EmptyMessage = ex.Message; }
-            }
-            else { panel.Plot.Segments = []; panel.Plot.EmptyMessage = calculationErrors.GetValueOrDefault(panel.Prefix + panel.Key, "Dominio in attesa di aggiornamento automatico"); }
-            panel.Plot.InvalidateVisual();
+            PlotPresentation.ApplyDomainGeometry(panel.Plot, Anthea.Application.Concrete.ConcreteDomainChart.Geometry(panel.Key, panel.Options,
+                checker2D.GetValueOrDefault(panel.Key), calculationErrors.GetValueOrDefault(panel.Prefix + panel.Key)));
         }
         UpdateSelection(panel, renderHidden);
     }
-    private static double[] Project(ActionPoint p, bool nm, double value) => nm ? [p.Mx * Math.Cos(value) + p.My * Math.Sin(value), p.N] : [p.Mx, p.My];
     private void UpdateSelection(DomainPanel panel, bool renderHidden = false)
     {
         panel.NeedsVisualRefresh = true;
@@ -219,17 +198,9 @@ internal sealed partial class ConcreteWorkspace
         panel.NeedsVisualRefresh = false;
         UpdateSectionInspection(panel);
         var row = panel.Grid.SelectedItem as JsonRow; string? id = row?.Values.S("id"); domainResults.TryGetValue(panel.Prefix + panel.Key, out var checks); DomainCheck? selectedCheck = id is null ? null : checks?.GetValueOrDefault(id);
-        var visible = new List<(string Id, ActionPoint Force, bool Pass)>();
-        foreach (var item in panel.Grid.Items.OfType<JsonRow>())
-        {
-            if (!item.Values.B("visible", true) || panel.Options.B("solo_selezionata") && !panel.Options.B("tutte_rd") && item.Values.S("id") != id) continue;
-            try {
-                var force = ReadAction(item);
-                if (panel.ThreeD && checker3D.TryGetValue(panel.Key, out var d3)) force = CheckerSection.Point(d3.Section.Force(force));
-                if (!panel.ThreeD && checker2D.TryGetValue(panel.Key, out var d2)) force = d2.LocalAction(force);
-                visible.Add((item.Values.S("id"), force, checks?.GetValueOrDefault(item.Values.S("id"))?.Utilization is <= 1));
-            } catch (ArgumentException) { }
-        }
+        var visible = Anthea.Application.Concrete.ConcreteDomainChart.VisibleActions(panel.Options,
+            panel.Grid.Items.OfType<JsonRow>().Select(r => r.Values), id, checks,
+            panel.ThreeD ? checker3D.GetValueOrDefault(panel.Key) : null, panel.ThreeD ? null : checker2D.GetValueOrDefault(panel.Key));
         if (panel.ThreeD)
         {
             panel.View3D!.ActionPointSize = panel.Options.D("dimensione_ed", 5); panel.View3D.ResistancePointSize = panel.Options.D("dimensione_rd", 5);
@@ -244,29 +215,8 @@ internal sealed partial class ConcreteWorkspace
         }
         else
         {
-            panel.Plot.Markers = []; panel.Plot.VerificationSegments = [];
-            try
-            {
-                bool nm = panel.Options.S("tipo") == "N–M"; double value = SectionWorkspace.Number(panel.Options.S(nm ? "theta" : "N"), "Piano") * (nm ? Math.PI / 180 : 1);
-                foreach (var action in visible)
-                {
-                    var p = checker2D.TryGetValue(panel.Key, out var d2) ? d2.Project(action.Force) : Project(action.Force, nm, value);
-                    if (panel.Options.B("mostra_ed", true) && (!panel.Options.B("solo_selezionata") || action.Id == id)) panel.Plot.Markers.Add(new(p[0], p[1], action.Id == id ? "Ed" : "", panel.Options.B("colora_eta") ? RatioColor(checks?.GetValueOrDefault(action.Id)?.Utilization) : action.Id == id ? Ui.Brush("#E09620") : Ui.Blue, Radius: panel.Options.D("dimensione_ed", 5)));
-                    if ((action.Id == id || panel.Options.B("tutte_rd")) && panel.Options.B("mostra_linee", true))
-                    {
-                        panel.Plot.VerificationSegments.Add((new double[] { 0, 0 }, p));
-                        if (checks?.GetValueOrDefault(action.Id)?.Resistance is ActionPoint resistance)
-                            panel.Plot.VerificationSegments.Add((p, d2 is not null ? d2.Project(resistance) : Project(resistance, nm, value)));
-                    }
-                }
-                if (panel.Options.B("mostra_rd", true))
-                    foreach (var item in panel.Grid.Items.OfType<JsonRow>().Where(r => r.Values.B("visible", true) && (panel.Options.B("tutte_rd") || r.Values.S("id") == id)))
-                        if (checks?.GetValueOrDefault(item.Values.S("id")) is { Resistance: ActionPoint r } check)
-                        { var p = checker2D.TryGetValue(panel.Key, out var d2) ? d2.Project(r) : Project(r, nm, value); panel.Plot.Markers.Add(new(p[0], p[1], item.Values.S("id") == id ? "Rd" : "", RatioColor(check.Utilization), Radius: panel.Options.D("dimensione_rd", 5))); }
-                panel.Plot.ToolTip = UtilizationPalette.Legend;
-            }
-            catch (ArgumentException) { }
-            panel.Plot.InvalidateVisual();
+            PlotPresentation.ApplyDomainActions(panel.Plot, Anthea.Application.Concrete.ConcreteDomainChart.Actions(panel.Options,
+                checker2D.GetValueOrDefault(panel.Key), panel.Grid.Items.OfType<JsonRow>().Select(r => r.Values).ToArray(), id, checks));
         }
         if (row is null) { panel.Detail.Text = "Nessuna combinazione selezionata"; return; }
         try

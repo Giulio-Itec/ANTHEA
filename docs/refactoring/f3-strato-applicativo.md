@@ -183,3 +183,9 @@ Corsa 034430: 458 file equivalenti e ricerca armature passati; il nuovo confront
 ConcreteReportAnalysis riusa il batch domini/SLE e prepara l’esportazione completa con riepiloghi, dettagli e ancoraggi. ConcreteResultExport è condiviso con la vista; il contratto più piccolo della CLI calculate rimane distinto. ConcreteShearBatch elimina il doppio ciclo di calcolo per riga e conserva errori locali ed esiti parziali.
 
 Corsa 034827: 3 PASS, quattro risultati CA identici alla finestra e 458 file equivalenti. Corsa 035103: 4 PASS, risultato con ciclo taglio condiviso, 33 capitoli, 458 file e cattura di quattro configurazioni grafiche CA. Riferimenti in tests/fixtures/f3-concrete-figures: SLU/SLV, quattro filtri, punti resistenti e colori. Ripetibilità esatta in 035255 prima di estrarre i grafici; nessun atteso precedente modificato. L’acquisizione è esplicita con CaptureConcreteFigures e non scrive nelle fixture.
+
+## F3.5b.2h.3 — grafici dei domini CA
+
+ConcreteDomainChart prepara contorni, proiezioni, punti Ed/Rd e linee di verifica usando i domini già calcolati. I filtri, la validazione delle azioni visualizzate e i colori sono condivisi; WPF converte soltanto dati e colori nel Plot. Conservati scala, selezione, livelli e comportamento con azioni invalide.
+
+Corsa 035446: 5 PASS, quattro riferimenti grafici esatti, 33 capitoli e quattro risultati CA equivalenti alla vista, smoke CA e 458 file invariati. La prima build chiedeva il riferimento Concrete del tipo nativo trasferito: aggiunto ad Application, senza nuove dipendenze della UI. Nessuna nuova tolleranza o modifica alle fixture.
