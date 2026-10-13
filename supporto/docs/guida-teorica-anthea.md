@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 13 ottobre 2026 — revisione documentale 40
+Edizione 6 aggiornata il 13 ottobre 2026 — revisione documentale 41
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -2385,9 +2385,22 @@ con i predefiniti e usare il ripristino per aggiornare un vecchio foglio.
 
 ### Dati condivisi e aggiornamento
 
-- Le combinazioni di taglio conservano nome, N, Mx, My, Vx, Vy, T anche in
-  archivio, Excel e report. I vecchi file restano leggibili; momenti assenti
-  vengono inizializzati a zero nell'interfaccia.
+- Nel nuovo schema ogni combinazione conserva insieme N, Vx, Vy, T, Mx e My,
+  nome, stato limite e riferimento elemento facoltativo. SLU e SLV alimentano
+  domini, taglio e torsione dalla stessa riga; i tre stati SLE alimentano i
+  controlli pertinenti. Non si costruiscono stati concomitanti da estremi
+  indipendenti e non si riapplicano coefficienti alle azioni.
+- Il criterio resistente Plastico o Elastico è scelto nella verifica,
+  separatamente dallo stato limite e dal percorso di ricerca della resistenza.
+  L’etichetta SLV non attiva da sola gerarchie sismiche o altri controlli
+  dell’elemento non rappresentati nel modulo.
+- Elemento identifica la provenienza delle azioni; non assegna una geometria
+  differente. Tutte le righe sono verificate sulla sezione del foglio. I nomi
+  delle combinazioni non sono usati come chiave per fondere le righe.
+- I documenti precedenti mantengono il comportamento originario fino alla
+  conversione esplicita. I vecchi gruppi Plastico/Elastico e Taglio richiedono
+  l’assegnazione dello stato limite. Le componenti mancanti nel nuovo elenco
+  devono essere compilate; non sono trasformate implicitamente in zero.
 - N negativo a compressione. Mx è associato a Vy, My a Vx nel livello II MC.
   Le azioni sono già combinate/coefficientate: non vengono moltiplicate ancora.
   γc e γs operano sulle resistenze.

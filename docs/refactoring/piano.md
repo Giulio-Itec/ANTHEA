@@ -441,5 +441,7 @@ Punto 5.2: implementato in `ANTHEA.DesignTools.Presentation` senza WPF e vista c
 
 - [x] Contratto unico, instradamento e criterio resistente indipendente; EXCEL-SOL-01, controlli prima/dopo PASS.
 - [x] Nuovo Excel, editor MVVM, conversione esplicita e report; EXCEL-SOL-02, 1229 controlli Application e suite WPF passati.
-- [ ] Report, guide, collaudo e rilascio.
-`n- [x] EXCEL-SOL-UI: contenitore opaco e spaziatura della finestra verificati anche in esportazione immagine; suite WPF dedicata PASS (20261013-144358-excel-sol-window-final).
+- [x] Guide Rev41, indici e Wiki aggiornati; Word/PDF controllati su 222 pagine, 337 formule conservate. Rev40 archiviata con impronte. Versione applicazione 1.7.0 per la nuova funzionalità; DLL GPC invariate.
+- [ ] Collaudo generale e rilascio.
+
+- [x] EXCEL-SOL-UI: contenitore opaco e spaziatura della finestra verificati anche in esportazione immagine; suite WPF dedicata PASS (20261013-144358-excel-sol-window-final).
