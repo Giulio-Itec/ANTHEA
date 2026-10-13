@@ -301,7 +301,7 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
 - [~] F4.6 Inventario delle soglie e confini delle unità del palo elastico.
   - [x] F4.6a (13/10): [inventario e 56 prove dimensionali](../../../Checker/docs/refactoring/f4-unita-palo.md), Checker `7c3ce910`; 173/173 prove geotecniche. Il solutore conserva il contratto a unità coerenti, senza duplicazioni. Campioni adattivi ed estremi non unici distinti dai valori fisici.
   - [ ] F4.6b: conversioni nominate negli adattatori e completamento dei contratti delle armature, riusando GPC.Model.Units.
-  - [ ] F4.6c: correggere l'elemento spurio alla punta quando la copertura è ammessa entro la tolleranza relativa; difetto F4-02 individuato dalle nuove prove.
+  - [x] F4.6c (13/10): Checker `164e4836`, eliminato l'elemento spurio alla punta entro la tolleranza già esistente, senza alterare interfacce interne/input; registro F4-02. Quattro regressioni, 1625 PASS nelle suite complete e soli 17 Steel già censiti; catture legacy identiche. Geotechnics candidata 0.2.0.1, attivazione ANTHEA con il successivo set coerente.
 - [ ] F4.7 Muri in c.a. in `Concrete/Walls` (tre passi).
 - [ ] F4.8 Muri a gravità e dettagli.
 - [ ] F4.9 [CP] Collegamento dei muri e rilascio `lib/Checker`. Anticipato il 7/10 lo scostamento D7-c (γRd non applicato a F̄).
