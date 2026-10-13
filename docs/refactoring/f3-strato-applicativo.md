@@ -165,3 +165,9 @@ Corsa 032911: 5 PASS, smoke muri/progetto, 20 capitoli e 458 file equivalenti. C
 BridgeSheetPresentation condivide con la vista i valori iniziali, migrazione delle opzioni, fase selezionata, omogeneizzazione e amplificazione delle tensioni. I metodi ingegneristici chiamati restano quelli già esistenti. ModuleFigureRenderer disegna geometria e fasi dai risultati senza costruire BridgeWorkspace; la relazione interattiva riusa lo stesso renderer.
 
 Corsa 20261013-033428-f3-report-composite-bridge: 8 PASS, smoke ponte, curve, predalle, Bridge Design e progetto; capitoli autonomi confrontati integralmente con quelli della vista e 458 file F3 equivalenti. Nessuna modifica agli attesi o nuova eccezione.
+
+## F3.5b.2g — pali orizzontali ed elastici
+
+HorizontalSheetPresentation riusa preparazione generale, coefficienti, materiali e vista elastica nei due percorsi. La relazione segue vista_orizzontale; l’elastico usa la sessione applicativa con annullamento, la capacità il servizio del modulo. Nessuna risoluzione implicita della migrazione legacy. Il disegno di capacità è condiviso con la relazione interattiva; le figure elastiche erano già portabili.
+
+Corsa 20261013-034045-f3-report-horizontal: 5 PASS, smoke orizzontale/progetto, 33 capitoli autonomi (anche input incompleti e migrazioni pendenti), equivalenza completa di 458 file. Nessuna formula, atteso o tolleranza modificati. Undici moduli autonomi su dodici; rimane la sezione CA.

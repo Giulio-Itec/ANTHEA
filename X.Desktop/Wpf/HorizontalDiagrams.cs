@@ -166,8 +166,6 @@ internal sealed partial class HorizontalWorkspace
     internal IReadOnlyList<ReportOrizzontale.Figure> ReportFigures()
     {
         if (Result is null) return [];
-        return Enumerable.Range(0, Result.Array("sondaggi").Count).SelectMany(i => new[] { true, false }.Select(soil =>
-            new ReportOrizzontale.Figure(i + 1, soil ? "Tensioni e resistenze del terreno" : "Equilibrio e sollecitazioni alla capacità ultima",
-                new HorizontalDiagrams(Result, i, soil).Png(1000, 660), 1000d / 660))).ToArray();
+        return ModuleFigureRenderer.HorizontalFigures(Result).Select(f => new ReportOrizzontale.Figure(f.Index!.Value, f.Caption, f.Png, f.AspectRatio)).ToArray();
     }
 }

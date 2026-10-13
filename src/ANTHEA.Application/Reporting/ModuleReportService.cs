@@ -18,7 +18,7 @@ public interface IFigureRenderer
 
 public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectReportChapterBuilder
 {
-    public static bool Supports(string module) => module is "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo" or RetainingWall.Module or BridgeSection.Module;
+    public static bool Supports(string module) => module is "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo" or RetainingWall.Module or BridgeSection.Module or PaloOrizzontale.Module or MicropaloOrizzontale.Module;
     public static HashSet<string> DefaultSections(string module) => module == BridgeSection.Module ? ReportBridge.DefaultSections()
         : module == "str_palo" ? ReportConcrete.Sections.Where(s => s.Key is not ("dettagli" or "sle_tutte")).Select(s => s.Key).ToHashSet()
         : ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
@@ -31,6 +31,7 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
         var source = sheet["dati"] as JsonObject ?? ModuleCatalog.CreateData(module);
         var data = (JsonObject)source.DeepClone();
         if (module == "mat_calcestruzzo") data = Materiali.MaterialSheetInput.NormalizeState(data);
+        else if (module is PaloOrizzontale.Module or MicropaloOrizzontale.Module) Anthea.Application.Presentation.HorizontalSheetPresentation.PrepareReport(data);
         else if (module == BridgeConcept.Module) ModuleSheetPreparation.PrepareBridgeDesign(data);
         else if (module == BridgeSection.Module) Anthea.Application.Presentation.BridgeSheetPresentation.PrepareReport(data);
         else if (module == RetainingWall.Module) Anthea.Application.Presentation.WallSheetPresentation.Prepare(data);
@@ -41,7 +42,16 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
         sheet["dati"] = data;
         if (module is RebarMaterial.Module or "mat_calcestruzzo") return Materiali.MaterialReportChapter.Create(module, data);
         ModuleCalculation calculation;
-        try { calculation = await Task.Run(() => ModuleServices.Get(module).Calculate(data, cancellation), cancellation); }
+        try
+        {
+            if (module is PaloOrizzontale.Module or MicropaloOrizzontale.Module && data.S("vista_orizzontale") == "elastico")
+            {
+                using var analysis = new ElasticPileAnalysisSession();
+                var result = await analysis.CalculateAsync(data, _ => { }, cancellation: cancellation);
+                calculation = new(module, (JsonObject)data.DeepClone(), result);
+            }
+            else calculation = await Task.Run(() => ModuleServices.Get(module).Calculate(data, cancellation), cancellation);
+        }
         catch (Exception error) when (error is not OperationCanceledException && error is not IOException && error is not UnauthorizedAccessException)
         { throw new ArgumentException("Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.", error); }
         if (calculation.HasError) throw new ArgumentException("Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.");
@@ -55,7 +65,7 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
             context = await Task.Run(() => WallReportPresentation.ForProject(wall), cancellation);
         }
         var request = new ModuleReportRequest(sheet.S("nome"), calculation, DefaultSections(module), true, context);
-        IReadOnlyList<ReportFigure> figures = module is HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module
+        IReadOnlyList<ReportFigure> figures = (module is HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module) || calculation.Values.S("tipo_risultato") == "palo_elastico"
             ? Array.Empty<ReportFigure>() : await renderer.RenderAsync(request, cancellation);
         cancellation.ThrowIfCancellationRequested();
         return new(Document: CreateDocument(request, figures));
@@ -63,6 +73,10 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
     public static DocxDocument CreateDocument(ModuleReportRequest request, IReadOnlyList<ReportFigure> figures)
     {
         var c = request.Calculation;
+        if (c.ModuleId is PaloOrizzontale.Module or MicropaloOrizzontale.Module)
+            return c.Values.S("tipo_risultato") == "palo_elastico" ? ReportElasticPile.CreateDocument(request.Title, c.Values)
+                : ReportOrizzontale.CreateDocument(request.Title, c.Values, !request.ProjectReport,
+                    figures.Select(f => new ReportOrizzontale.Figure(f.Index!.Value, f.Caption, f.Png, f.AspectRatio)).ToList());
         if (c.ModuleId == BridgeSection.Module) return ReportBridge.CreateDocument(request.Title, c.NativeAs<BridgeResult>(), request.Options.ToHashSet(), figures.Select(f => f.Image()).ToList());
         if (c.ModuleId == RetainingWall.Module) return ReportRetainingWall.CreateDocument(request.Title, c.NativeAs<RetainingWall.Result>(),
             figures.Select(f => new ReportRetainingWall.Figure(f.Caption, f.Png, f.AspectRatio)).ToList());

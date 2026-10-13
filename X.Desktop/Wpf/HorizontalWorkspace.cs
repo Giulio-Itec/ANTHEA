@@ -47,13 +47,9 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
 
     internal HorizontalWorkspace(JsonObject data)
     {
-        PaloOrizzontale.ValidateShape(data); ElasticHorizontalPile.PrepareShared(data); Data = data; profile.Data = data; SetValue(InputForm.CommitOnFocusLossProperty, false);
-        foreach (var (key, value) in MicroHorizontal ? new JsonObject() : SezioneCA.DefaultInput())
-            if (!data["sezione"]!.AsObject().ContainsKey(key)) data["sezione"]![key] = value?.DeepClone();
+        Anthea.Application.Presentation.HorizontalSheetPresentation.PrepareGeneral(data);
+        Data = data; profile.Data = data; SetValue(InputForm.CommitOnFocusLossProperty, false);
         var g = data["generali"]!.AsObject();
-        if (!g.ContainsKey("metodo_calcolo")) g["metodo_calcolo"] = PaloOrizzontale.BromsMethod;
-        g["metodo_calcolo"] = PaloOrizzontale.NormalizeMethod(g.S("metodo_calcolo"));
-        g["modalita"] = "Automatica";
         details = Ui.Button("Diagrammi e dettagli", ShowResults, inspection: true); details.IsEnabled = false;
         csv = Ui.Button("Esporta CSV", ExportCsv, inspection: true); csv.IsEnabled = false;
         general = new(g, [new("diametro", MicroHorizontal ? "Diametro geotecnico micropalo" : "Diametro palo", "m", Symbol: "D"), new("lunghezza", "Lunghezza infissa", "m", Symbol: "L"),
@@ -66,10 +62,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         ((Grid)model.Content).ColumnDefinitions[2].Width = new GridLength(150);
         advanced.Content = model; advanced.Expanded += (_, _) => LayoutCards(); advanced.Collapsed += (_, _) => LayoutCards();
         var coefficients = data["verifica"]!.AsObject();
-        if (!coefficients.ContainsKey("verticali_indagate")) coefficients["verticali_indagate"] = "1";
-        foreach (var (key, value) in new Dictionary<string, string> { ["efficienza_metodo"] = "Manuale", ["efficienza_eta"] = "1",
-            ["interasse_anteriore"] = "", ["interasse_posteriore"] = "", ["interasse_sinistro"] = "", ["interasse_destro"] = "" })
-            if (!coefficients.ContainsKey(key)) coefficients[key] = value;
+        Anthea.Application.Presentation.HorizontalSheetPresentation.PrepareFactors(coefficients);
         factors = new(coefficients, [new("verticali_indagate", "Verticali indagate", Choices: Calcolo.Verticali.Keys.ToArray()),
             new("__xi3", "Correlazione", Symbol: "ξ3", ReadOnly: true), new("__xi4", "Correlazione", Symbol: "ξ4", ReadOnly: true),
             new("__gamma_r", "Sicurezza resistenza", Symbol: "γR", ReadOnly: true)], _ => Changed(), compact: true, symbolColumns: true);
@@ -93,13 +86,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         var sectionData = data["sezione"]!.AsObject();
         if (MicroHorizontal) sectionFields = CreateChsForm(sectionData);
         else {
-        // Preserve the previous perfect-plastic material unless a shared material already supplies its full law.
-        RebarMaterial.CompleteLegacyInput(sectionData);
-        if (!sectionData.ContainsKey("cls_diagramma")) sectionData["cls_diagramma"] = "Parabola-rettangolo";
-        sectionData["shape"] = "Circolare";
-        sectionData["diameter_mm"] = g.D("diametro", 1) * 1000;
-        sectionData["classe_cls"] = ConcreteClass(sectionData.D("fck_mpa"));
-        if(sectionData["coefficienti_unitari"]==null)sectionData["coefficienti_unitari"]=false;
+        Anthea.Application.Presentation.HorizontalSheetPresentation.PrepareSection(data);
         sectionFields = new InputForm(sectionData, [
             new("classe_cls", "Calcestruzzo", Choices: ConcreteMaterialCatalog.Concrete().Select(m=>m.S("nome")).Append(sectionData.S("classe_cls")).Append("Personalizzato").Distinct().ToArray()),
             new("fck_mpa", "fck del materiale", "MPa", ReadOnly:true),

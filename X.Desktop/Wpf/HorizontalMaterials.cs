@@ -4,9 +4,7 @@ namespace X.Desktop;
 
 internal sealed partial class HorizontalWorkspace
 {
-    private static readonly Dictionary<string, double> PileConcreteClasses = ConcreteMaterialCatalog.MaterialSheetClasses().ToDictionary(m => m.Name, m => m.Fck);
-
-    private static string ConcreteClass(double strength) => PileConcreteClasses.FirstOrDefault(p => p.Value == strength).Key ?? "Personalizzato";
+    private static string ConcreteClass(double strength) => Anthea.Application.Presentation.HorizontalSheetPresentation.ConcreteClass(strength);
 
     private void SectionMaterialChanged(string key)
     {

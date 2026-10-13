@@ -11,6 +11,7 @@ internal sealed partial class ModuleFigureRenderer : IFigureRenderer
         cancellation.ThrowIfCancellationRequested();
         await Dispatcher.Yield(DispatcherPriority.Background);
         var c = request.Calculation;
+        if (c.ModuleId is PaloOrizzontale.Module or MicropaloOrizzontale.Module) return HorizontalFigures(c.Values);
         if (c.ModuleId == BridgeSection.Module)
             return BridgeFigures(c.NativeAs<BridgeResult>(), c.Data["ui_mista"]!.AsObject(), request.Options);
         if (c.ModuleId == RetainingWall.Module)

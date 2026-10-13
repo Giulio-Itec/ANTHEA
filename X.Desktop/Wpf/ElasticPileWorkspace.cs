@@ -52,7 +52,7 @@ internal sealed class ElasticPileWorkspace : UserControl,IDisposable
             void Resolve(bool legacy){try{ElasticHorizontalPile.ResolveMigration(parent,legacy);BuildHeader();migrated?.Invoke();InvalidateShared();}catch(ArgumentException ex){status.Text=ex.Message;}}
             migration.Content=Ui.Paper(Ui.Stack(Ui.Text("Confronto archivio precedente",17,true),text,Ui.Bar(Ui.Button("Usa dati comuni e conserva legacy",()=>Resolve(false)),Ui.Button("Importa legacy nei dati comuni",()=>Resolve(true))),Ui.Button("Mostra confronto completo",()=>Info("Confronto completo",parent.ToJsonString(J.Options)))),14);return;
         }
-        var e=parent["elastico"]!.AsObject();if(e["visualizzazione"] is not JsonObject)e["visualizzazione"]=new JsonObject();var view=e["visualizzazione"]!.AsObject();drawing.Options=view;
+        var e=parent["elastico"]!.AsObject();var view=Anthea.Application.Presentation.HorizontalSheetPresentation.PrepareElasticView(parent);drawing.Options=view;
         var choice=new ComboBox{ItemsSource=Enumerable.Range(0,surveyCount).Select(i=>$"Stratigrafia {i+1}").ToArray(),SelectedIndex=(int)e.D("stratigrafia",-1),MinWidth=180,Margin=new Thickness(8,0,10,0)};
         choice.SelectionChanged+=(_,_)=>{e["stratigrafia"]=choice.SelectedIndex;InvalidateShared();};
         options=new InputForm(e,[new("passo","Passo iniziale FEM","m"),new("punta","Vincolo alla punta",Choices:["Libera","Cerniera","Incastro"])],_=>InvalidateShared(),compact:true);
