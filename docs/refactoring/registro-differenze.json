@@ -3546,6 +3546,28 @@
         "supporto/artefatti/ci/20261013-041739-f3-concrete-inspection-built",
         "supporto/artefatti/ci/20261013-042027-f3-inspection-final"
       ]
+    },
+    {
+      "id": "F3-03",
+      "data": "2026-10-13",
+      "fase": "F3.7b.2",
+      "titolo": "Parametri del muro: revisione verificata anche dopo il calcolo",
+      "famiglia": "interfaccia/integrità del documento",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Il riepilogo modificabile verificava la revisione solo prima del controllo asincrono. Un aggiornamento del foglio durante tale attesa poteva essere sovrascritto. Ora il controllo è ripetuto all’applicazione; un conflitto mantiene il foglio corrente e segnala di riaprire il riepilogo. Chiusura e disposizione invalidano la richiesta.",
+      "codice": [
+        "X.Desktop/Wpf/RetainingWallWorkspace.Parameters.cs",
+        "src/ANTHEA.Application/Presentation/WallParameterTable.cs"
+      ],
+      "segno": "Nessuna variazione numerica per richieste valide. Le proposte obsolete non vengono più applicate.",
+      "test": [
+        "Quattro prove WPF con motore trattenuto da barriera",
+        "Undici prove portabili; 24 PNG identici"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-042707-f3-wall-parameters-final"
+      ]
     }
   ]
 }

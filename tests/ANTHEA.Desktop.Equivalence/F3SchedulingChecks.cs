@@ -37,6 +37,7 @@ internal sealed partial class SheetEditor
         Check(data["generali"].D("diametro") != 1.35, "Vista ha modificato il documento di ingresso");
         checks += await BridgeWorkspace.CheckF3Scheduling();
         checks += await RetainingWallWorkspace.CheckF3Scheduling();
+        checks += await RetainingWallWorkspace.CheckParameterRevision();
         checks += await BridgeDesignWorkspace.CheckF3Scheduling();
         checks += await ConcreteWorkspace.CheckF3Scheduling();
         File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF ricalcolo e chiusura");

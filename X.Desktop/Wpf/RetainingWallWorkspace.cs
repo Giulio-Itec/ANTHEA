@@ -129,6 +129,6 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
         var figures = ModuleFigureRenderer.WallFigures(Calculation, context).Select(f => new ReportRetainingWall.Figure(f.Caption, f.Png, f.AspectRatio)).ToList();
         return ReportRetainingWall.CreateDocument(title, Calculation, figures);
     }
-    public void Dispose() { disposed = true; recalculation.Dispose(); }
+    public void Dispose() { disposed = true; recalculation.Dispose(); foreach (var session in parameterSessions) session.Dispose(); parameterSessions.Clear(); }
 }
 
