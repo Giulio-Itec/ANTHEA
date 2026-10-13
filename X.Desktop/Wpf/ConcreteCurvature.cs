@@ -9,7 +9,7 @@ using X.Core;
 namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
 {
-    private readonly Plot curvaturePlot = new() { Title="Momento–curvatura",XLabel="Curvatura χ [1/m]",YLabel="Momento M [kNm]",AxisNumberFormat="G4",InvertY=false,EmptyMessage="Impostare N e direzione per calcolare la curva" };
+    private readonly Plot curvaturePlot = PlotPresentation.CurvaturePlot();
     private readonly TextBox curvatureText = new() {IsReadOnly=true,AcceptsReturn=true,TextWrapping=TextWrapping.Wrap,VerticalScrollBarVisibility=ScrollBarVisibility.Auto};
     private readonly Anthea.Application.Scheduling.RecalculationScheduler curvatureScheduler = new();
     private ConcreteResults.CurvatureResult? curvatureResult;
@@ -46,7 +46,7 @@ internal sealed partial class ConcreteWorkspace
                 if (current.Error is not null) { curvatureText.Text="Curva non disponibile: "+current.Error.Message; return; }
                 var result = current.Value!;
                 curvatureResult=result;curvatureSignature=signature;
-                curvaturePlot.Series=[new("M–χ",result.Points.Select(p=>new[]{p.Curvature,p.Moment}).ToList(),Ui.Blue)];curvaturePlot.InvalidateVisual();
+                PlotPresentation.ApplyCurvature(curvaturePlot, result);
                 var b=new StringBuilder(result.Status);b.AppendLine($"\n\nMRd = {result.LimitMoment:0.###} kNm\nχy = {result.YieldCurvature?.ToString("G6")??"non raggiunta"} 1/m\nχu = {result.UltimateCurvature?.ToString("G6")??"non raggiunta"} 1/m");
                 if(result.YieldCurvature is >0&&result.UltimateCurvature is double u)b.AppendLine($"μχ = {u/result.YieldCurvature:0.###}");
                 b.AppendLine("\nM [kNm]   χ [1/m]   ε0 [‰]   εc,comp [‰]   |εs|max [‰]");

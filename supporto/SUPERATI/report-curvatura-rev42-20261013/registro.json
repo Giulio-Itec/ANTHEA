@@ -1,0 +1,100 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/report-curvatura-rev42-20261013/docs/guida-pratica-anthea.md",
+    "motivo": "Report di progetto M-chi",
+    "sostituzione": "Guide Rev42",
+    "sha256": "F543F843B51A579BF0FE4D36FBCFDFDD30BFAAF65D1AD524F08556923AD92638"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/report-curvatura-rev42-20261013/docs/guida-pratica-anthea.pdf",
+    "motivo": "Report di progetto M-chi",
+    "sostituzione": "Guide Rev42",
+    "sha256": "EAD7CB36A41719664EE016208CBC1B44D47DEAFE1EE05264F09D6C6F4D54FCC5"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "archivio": "supporto/SUPERATI/report-curvatura-rev42-20261013/docs/guida-teorica-anthea.md",
+    "motivo": "Report di progetto M-chi",
+    "sostituzione": "Guide Rev42",
+    "sha256": "70BDE21E6A5A421D820BD6D24D9FF98259FA7A3E4392775E30B18BF618222817"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/report-curvatura-rev42-20261013/docs/guida-teorica-anthea.pdf",
+    "motivo": "Report di progetto M-chi",
+    "sostituzione": "Guide Rev42",
+    "sha256": "8FA06DF76A6514E5828D34D89280F389E6F4930D59365ED558ABD830D5F2AE71"
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/report-curvatura-rev42-20261013/README.md",
+    "motivo": "Report di progetto M-chi",
+    "sostituzione": "Guide Rev42",
+    "sha256": "35490523DDDD25C4499FCEA29A1C4A86AB75B31B7BE28E7BF18CB5686927B4B4"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/report-curvatura-rev42-20261013/README.pdf",
+    "motivo": "Report di progetto M-chi",
+    "sostituzione": "Guide Rev42",
+    "sha256": "AEC5F919F1541116E676C145A371A226996DA3F24FA98862B28D0D7A3930CB4B"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/report-curvatura-rev42-20261013/installer/Indice-guide.md",
+    "motivo": "Report di progetto M-chi",
+    "sostituzione": "Guide Rev42",
+    "sha256": "A23E727F578EEB6E28655CD858C5AFA4AE8E3E4E4B31D871C735AAEC7E2D0A4A"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/report-curvatura-rev42-20261013/installer/Indice-guide.pdf",
+    "motivo": "Report di progetto M-chi",
+    "sostituzione": "Guide Rev42",
+    "sha256": "00FFA1C709CF6E8505313D3D203700D301280F486000ADCAF25E22C5C098AF4E"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/report-curvatura-rev42-20261013/documentazione/Guide_ANTHEA/README.md",
+    "motivo": "Report di progetto M-chi",
+    "sostituzione": "Guide Rev42",
+    "sha256": "5AAFC36A76DEAE5BDF46ED19A41A42F99C776A8F1B894CD0F3C412A4A25D1A4F"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "archivio": "supporto/SUPERATI/report-curvatura-rev42-20261013/documentazione/Guide_ANTHEA/README.pdf",
+    "motivo": "Report di progetto M-chi",
+    "sostituzione": "Guide Rev42",
+    "sha256": "881DC50EA29EF789F151AED74830BF5450949B50E27436741D43F7C8E6E1A8E6"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev41.docx",
+    "archivio": "supporto/SUPERATI/report-curvatura-rev42-20261013/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev41.docx",
+    "motivo": "Report di progetto M-chi",
+    "sostituzione": "Guide Rev42",
+    "sha256": "FA092BC5F40F263D9555EB3F2C1F8448EC6AF025FD2858A079E9EC5CD76F0279"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev41.pdf",
+    "archivio": "supporto/SUPERATI/report-curvatura-rev42-20261013/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev41.pdf",
+    "motivo": "Report di progetto M-chi",
+    "sostituzione": "Guide Rev42",
+    "sha256": "EAD7CB36A41719664EE016208CBC1B44D47DEAFE1EE05264F09D6C6F4D54FCC5"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev41.docx",
+    "archivio": "supporto/SUPERATI/report-curvatura-rev42-20261013/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev41.docx",
+    "motivo": "Report di progetto M-chi",
+    "sostituzione": "Guide Rev42",
+    "sha256": "5BA82E71B6047207ECB32446FB0460948610BC0B94A44A90674DFA989BD0084F"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev41.pdf",
+    "archivio": "supporto/SUPERATI/report-curvatura-rev42-20261013/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev41.pdf",
+    "motivo": "Report di progetto M-chi",
+    "sostituzione": "Guide Rev42",
+    "sha256": "8FA06DF76A6514E5828D34D89280F389E6F4930D59365ED558ABD830D5F2AE71"
+  }
+]

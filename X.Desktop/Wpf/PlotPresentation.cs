@@ -4,6 +4,16 @@ namespace X.Desktop;
 
 internal static class PlotPresentation
 {
+    internal static Plot CurvaturePlot() => new()
+    {
+        Title = "Momento–curvatura", XLabel = "Curvatura χ [1/m]", YLabel = "Momento M [kNm]",
+        AxisNumberFormat = "G4", InvertY = false, EmptyMessage = "Impostare N e direzione per calcolare la curva"
+    };
+    internal static void ApplyCurvature(Plot target, Anthea.Application.Concrete.ConcreteResults.CurvatureResult source)
+    {
+        target.Series = [new("M–χ", source.Points.Select(p => new[] { p.Curvature, p.Moment }).ToList(), Ui.Blue)];
+        target.InvalidateVisual();
+    }
     internal static Serie Series(PlotSeriesData source) => new(source.Name, source.Points, Ui.Brush(source.Color), source.Dashed, source.Highlighted,
         source.DashPattern switch { "Dash" => DashStyles.Dash, "Dot" => DashStyles.Dot, null => null, _ => throw new ArgumentException("Tratteggio non disponibile.") });
     internal static void Apply(Plot target, PlotData source)

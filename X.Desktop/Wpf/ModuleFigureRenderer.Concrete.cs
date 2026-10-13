@@ -47,7 +47,13 @@ internal sealed partial class ModuleFigureRenderer
         var stresses = ConcreteEditor.Sets.Skip(2).ToDictionary(key => key, key => new ConcreteStressGraphic(
             new ConcreteSectionViewport { Section = section, Stirrups = shear, Tendons = tendons, Contour = settings["sle"]![key].S("contour", ConcreteSectionViewport.Contours[0]) },
             analysis.StressChecks.GetValueOrDefault(key), analysis.Actions[key]));
-        return new(data, analysis.Result, preview, domains, stresses);
+        Plot? curve = null;
+        if (analysis.Curvature is { } curvature)
+        {
+            curve = PlotPresentation.CurvaturePlot();
+            PlotPresentation.ApplyCurvature(curve, curvature);
+        }
+        return new(data, analysis.Result, preview, domains, stresses, curve);
     }
     internal static IReadOnlyList<ReportFigure> ConcreteFigures(ConcreteReportGraphics graphics, IReadOnlySet<string> options)
     {

@@ -3779,6 +3779,34 @@
         "supporto/artefatti/ci/20261013-143704-excel-sol-ui",
         "supporto/artefatti/ci/20261013-144104-excel-sol-ready"
       ]
+    },
+    {
+      "id": "F3-11",
+      "data": "2026-10-13",
+      "fase": "F3.4-U5",
+      "titolo": "Calcolo M–χ nel report di progetto CA",
+      "famiglia": "report e orchestrazione",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Il report selezionava il capitolo ma esportava una curva nulla. Application richiama il servizio esistente, il renderer riceve il risultato posseduto; configurazione grafica condivisa con la vista. Tabella, figura e motivi di indisponibilità inclusi. Annullamento conserva il documento precedente. Nessuna nuova formula, DLL o variazione dei risultati precedenti.",
+      "decisione": "13/10: completare la correzione F3 e fermarsi, senza avviare altri punti o F4.",
+      "codice": [
+        "src/ANTHEA.Application/Concrete/ConcreteReportAnalysis.cs",
+        "X.Desktop/Wpf/ModuleFigureRenderer.Concrete.cs",
+        "X.Desktop/Wpf/PlotPresentation.cs",
+        "src/ANTHEA.Reports/Generators/ReportConcrete.cs"
+      ],
+      "test": [
+        "1274 controlli Application, 45 specifici M–χ",
+        "37 capitoli e 89 immagini confrontati con la vista; 94 controlli WPF",
+        "46 DOCX prima/dopo invariati fuori M–χ; numeri preesistenti identici salvo ID delle righe",
+        "15 PASS nella corsa mirata finale; nessuna eccezione aggiunta"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f3-u5/before-after.json",
+        "supporto/artefatti/refactoring/f3-u5/closure-summary.json",
+        "supporto/artefatti/refactoring/f3-u5/qa/pages.json"
+      ]
     }
   ]
 }

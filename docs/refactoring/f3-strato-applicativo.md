@@ -2,7 +2,7 @@
 
 Decisioni operative del 13 ottobre 2026, sulla delega dell’utente del 12 ottobre. Base bce1e337, ANTHEA 1.5.0 e set V congelato. Il numero effettivo è 12 moduli: alle undici voci del piano iniziale si sono aggiunte le fondazioni superficiali. F5 esclusa; la separazione della logica non comporta un rifacimento della shell o dei ViewModel.
 
-Audit successivo al rilascio 1.7.0: estrazione e confronti F3 confermati, ma riaperta nel [piano](piano.md) la richiesta F3.4-U5 (M–χ nel report di progetto CA). Il capitolo esiste, mentre `ConcreteReportAnalysis` passa un risultato di curva nullo. Il confronto di equivalenza dell'estrazione non copriva l'aggiunta funzionale richiesta. F4 resta ferma.
+Audit successivo al rilascio 1.7.0: la richiesta F3.4-U5 (M–χ nel report di progetto CA), riaperta perché il servizio passava una curva nulla, è stata corretta e collaudata il 13/10. Calcolo condiviso esistente, risultato posseduto, tabella, figura, errori locali e annullamento verificati; [integrazione al verbale](chiusura-f3-20261013.md#integrazione-di-chiusura-f34-u5). F3 è chiusa; F4 resta ferma e non vengono iniziati altri residui.
 
 ## Decisioni
 

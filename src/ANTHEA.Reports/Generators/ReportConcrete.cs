@@ -267,7 +267,8 @@ public static class ReportConcrete
             if(settings["momento_curvatura"] is JsonObject curveOptions)Parameters("Percorso di carico",curveOptions,[("N","N costante [kN]"),("theta","Direzione momento [°]"),("passi","Passi"),("frazione","Frazione di MRd"),("campionamento","Campionamento"),("trazione_cls","CLS a trazione")]);
             if(result["momento_curvatura"] is JsonObject curve)
             {P(curve.S("Status"));P($"MRd = {F(curve["LimitMoment"])} kNm; χy = {F(curve["YieldCurvature"])} 1/m; χu = {F(curve["UltimateCurvature"])} 1/m.");Figures("curvatura");Table(["M [kNm]","χ [1/m]","ε0 [‰]","εc,comp [‰]","|εs|max [‰]"],curve.Array("Points").Select(p=>new[]{F(p?["Moment"]),F(p?["Curvature"]),F(p?["Epsilon0"]),F(p?["ConcreteCompressionStrain"]),F(p?["SteelStrain"])}));}
-            else P("Curva non calcolata con i dati correnti.");
+            else P(result["errori_calcolo"].S("Momento–curvatura") is { Length: > 0 } curveError
+                ? "Curva non disponibile: " + curveError : "Curva non calcolata con i dati correnti.");
         }
         void Figures(string category)
         {
