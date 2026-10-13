@@ -253,3 +253,7 @@ BridgePreview prepara geometria, copia dell’input, testi dei materiali e rifer
 Riferimento 20261013-045542-f3-structural-preview-before; dieci suite passate in 045645 oltre al falso negativo dell’orario risolto separatamente in F3-05. Otto suite finali in 050137, 37 capitoli e 458 file equivalenti. 17 immagini di predalle/materiali dei muri identiche byte per byte, evidenza structural-preview-images.json. Soglia Calculations 125; vietati anche i ritorni delle chiamate Materials del ponte e DesignValues nelle viste. F3.7b resta aperto per i contratti e gli accessi residui.
 
 F3.7b.6, chiarimento del seguito: la sessione possiede la fotografia all’apertura. Il messaggio di revisione cambiata indica quindi di riaprire la finestra e ripetere la ricerca, anziché suggerire un nuovo tentativo sulla stessa fotografia. Testo condiviso fra controllo applicativo e vista; nessuna modifica al calcolo.
+
+## F3-BLD — supporto WPF dei test
+
+La prima corsa full 20261013-052527-f3-services-release-full trova il conflitto fra il namespace Anthea.Application e il tipo WPF Application in WpfTestResources, compilato da due suite non incluse nei controlli mirati precedenti. Corsa interrotta, errore conservato; tipo qualificato esplicitamente con System.Windows.Application. Corsa 20261013-052807-f3-wpf-test-namespace-fix: due build e due suite PASS. Nessuna modifica di calcolo, prodotto, attesi o known-failures.

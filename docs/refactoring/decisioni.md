@@ -962,3 +962,7 @@ Sulla delega del 12 ottobre si adottano i confini descritti in f3-strato-applica
 Sulla delega operativa e di rilascio già concessa, si prepara ANTHEA 1.6.0: incremento del secondo componente per la separazione applicativa e i nuovi servizi senza interfaccia, con protezioni delle revisioni. Il set GPC V resta invariato. Si integrano soltanto i punti conclusi e collaudati; F3.7b resta aperto sui contratti concreti e sugli accessi residui delle viste, censiti nei metadati della Release. Non si dichiara chiusa la fase 3 e non si anticipa F4 prima di quel confine. F5 resta esclusa. L’integrazione e il push dipendono dal collaudo completo; l’applicazione primaria con dati non salvati non viene riavviata o ricompilata.
 
 Le guide Rev40 aggiornano procedure e descrizione dell’architettura, senza formule nuove. Le modifiche dei soli riferimenti Wiki nel banco F3 saranno tracciate separatamente dalla cattura iniziale; gli attesi ingegneristici rimangono immutati.
+
+## 13 ottobre — chiusura F3 richiesta
+
+L’utente richiede di completare F3, con un commit per ogni fix, e vieta di iniziare F4. La candidata 1.6.0 resta sul ramo della fase fino al collaudo finale. Restano in vigore il confronto prima/dopo, il set V congelato e la conservazione del legacy di calcolo: F3 separa accessi e contratti applicativi, senza anticipare il trasferimento ingegneristico di F4.
