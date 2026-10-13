@@ -78,7 +78,7 @@ public static partial class RetainingWall
                 bool unstamped=check.Member is null||assigned&&check.Method==GravityCheckMethod.Contact;
                 result.Add(new(name,c.Id,Convert(check.Demand),check.Capacity is double capacity?Convert(capacity):null,unit,check.Ratio,
                     check.Capacity is null or <0?unavailable:NativeOutcomeText(check.Outcome,check.Capacity))
-                    {Member=unstamped?null:member,Position=unstamped?null:position});
+                    {Member=unstamped?null:member,Position=unstamped?null:position,Outcome=check.Outcome,Execution=check.Execution,Data=check.Data});
             }
         }
         return result;

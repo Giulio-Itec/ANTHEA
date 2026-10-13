@@ -4438,22 +4438,6 @@
     {
       "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "ElasticHorizontalPile.PendingChecks",
-      "Fingerprint": "5C0A655DBB1EFEBD164F88B177FB1A354AE01637327F39B70BCA56847B962C90",
-      "Count": 1,
-      "Example": "c . D ( \"ShearRatio\" )"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ElasticHorizontalPile.PendingChecks",
-      "Fingerprint": "ACFDA256157F3972344D6479944BE84C510D7D3047EE86D6A05E81FCE5EE692A",
-      "Count": 1,
-      "Example": "c . D ( \"BendingRatio\" )"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R4-implicit-number",
       "Owner": "ElasticHorizontalPile.PileDurability",
       "Fingerprint": "3F139ADB5688ECBAFE8BE1438B2214176785DC49A1DBA009C8EAEEA7479C50EF",
       "Count": 2,
@@ -4490,46 +4474,6 @@
       "Fingerprint": "C25BC48AD4D4CED4DE4B414942C74F7C7415A52FF686053513600AD3983AA38D",
       "Count": 1,
       "Example": "root [ \"generali\" ] . D ( \"diametro\" )"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R5-text-outcome",
-      "Owner": "ElasticHorizontalPile.CalculateReinforcementCore",
-      "Fingerprint": "015435E9BD042BB958483A074425E7A13B4FAEA957E1F369BD5D2F84AC709870",
-      "Count": 1,
-      "Example": "c . Status == \"Non soddisfatto\""
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R5-text-outcome",
-      "Owner": "ElasticHorizontalPile.CalculateReinforcementCore",
-      "Fingerprint": "60D1A1D9CB7FF556B97144004B4D56C9A4F6206B4B0A510004DFF158183A1F6D",
-      "Count": 3,
-      "Example": "record . S ( \"stato\" ) . StartsWith ( \"Soddisfatto\" )"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R5-text-outcome",
-      "Owner": "ElasticHorizontalPile.CalculateReinforcementCore",
-      "Fingerprint": "98C3B0193D9424FCB9E709A365CB1CA0B924DC0F2248D7D6220BCFB74E0E7591",
-      "Count": 1,
-      "Example": "c . Status . StartsWith ( \"Soddisfatto\" )"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R5-text-outcome",
-      "Owner": "ElasticHorizontalPile.DesignSegment",
-      "Fingerprint": "2C29F488793D3F284CD0CED3FE333FA9AB656ECD7489BC56A874F38146F25B6E",
-      "Count": 1,
-      "Example": "c . Status . StartsWith ( \"Soddisfatto\" )"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R5-text-outcome",
-      "Owner": "ElasticHorizontalPile.DesignSegment",
-      "Fingerprint": "A158459A969FC98BA4E94F5505446DECA9FF440A24414D3999DFAD21FF32A84F",
-      "Count": 1,
-      "Example": "service . Check ( a ) . Status . StartsWith ( \"Soddisfatto\" )"
     },
     {
       "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
@@ -18988,14 +18932,6 @@
       "Example": "Data ! [ \"geometry\" ] . D ( \"toe\" )"
     },
     {
-      "File": "X.Desktop/Wpf/RetainingWallDrawing.Inspection.cs",
-      "Rule": "R5-text-outcome",
-      "Owner": "RetainingWallDrawing.DrawUtilization",
-      "Fingerprint": "A2556F336D7ED18FB0D4A798A4B60CC9F12DAE2A9F6BD547CB8F5D8A206D091C",
-      "Count": 2,
-      "Example": "c . Status . StartsWith ( \"Non soddisfatta\" )"
-    },
-    {
       "File": "X.Desktop/Wpf/RetainingWallDrawing.Reinforcement.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "RetainingWallDrawing.DrawReinforcementSection.P",
@@ -19994,14 +19930,6 @@
       "Fingerprint": "BAB9A056FEFE1B5E3459CC62B4CB7CD66704B8C80A46FADF41E36ED59AB64D23",
       "Count": 1,
       "Example": "31"
-    },
-    {
-      "File": "X.Desktop/Wpf/RetainingWallWorkspace.cs",
-      "Rule": "R5-text-outcome",
-      "Owner": "RetainingWallWorkspace.CalculateScheduledAsync",
-      "Fingerprint": "CB7E7F1CA89D9DC34EE842870A4437EB4A1DC26A154D644DE14577D0EB871F36",
-      "Count": 2,
-      "Example": "c . Status . StartsWith ( \"Non soddisfatta\" )"
     },
     {
       "File": "X.Desktop/Wpf/SheetEditor.cs",

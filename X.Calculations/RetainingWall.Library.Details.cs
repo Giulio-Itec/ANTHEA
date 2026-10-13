@@ -67,7 +67,7 @@ public static partial class RetainingWall
         var bars=native.Bars.Select(b=>new BarDetail(b.Mark,NativeZoneKeys[b.Zone],NativeFaceText(b.Face),b.Diameter,b.Count,b.Spacing,b.Area,b.Length,
             b.RequiredAnchor,b.Anchor,b.RequiredLap,b.Lap,b.Mandrel,b.Fbd,b.Path.Select(p=>new BarPoint(p.X,p.Y)).ToArray())).ToArray();
         var checks=native.Checks.Select(c=>new Check((c.Zone.HasValue?NativeZoneKeys[c.Zone.Value]+" · "+NativeFaceText(c.Face!.Value):"Giunzione")+" · "+NativeDetailLabels[c.Rule],
-            "Dettagli",c.Demand,c.Capacity,c.Unit=="bars"?"barre":c.Unit,c.Ratio,NativeOutcomeText(c.Outcome,c.Capacity))).ToArray();
+            "Dettagli",c.Demand,c.Capacity,c.Unit=="bars"?"barre":c.Unit,c.Ratio,NativeOutcomeText(c.Outcome,c.Capacity)) {Outcome=c.Outcome,Execution=c.Execution,Data=c.Data}).ToArray();
         return new(bars,checks,native.SteelKg,DetailingScopeNote);
     }
     private static BarSchedule CalculateBarScheduleNative(JsonObject input)

@@ -29,7 +29,7 @@ static partial class Program
         Check(records[1]!.Array("verifiche").All(c=>c?["VRd"]==null)&&records[1]!["riepilogo"].Array("da_completare").Any(x=>x!.ToString().Contains("spirale")),"approve all does not certify unsupported spiral shear");
         Check(records[1]!.Array("verifiche").All(c=>c.S("Message").Contains("Taglio con spirale non verificato")&&!c.S("Message").Contains("Confermare il modello di taglio")),"section messages identify unsupported spiral instead of requesting an already approved assumption");
         Check(records.All(r=>r?["riepilogo"].Array("non_soddisfatti").Count>0),"insufficient bar development remains clearly nonverified after approval");
-        var successful=ElasticHorizontalPile.ReinforcementSummary(J.Obj(("verifiche",new JsonArray(J.Obj(("Status","Soddisfatto")))),("da_completare",new JsonArray("Non eseguiti: SLE"))));
+        var successful=ElasticHorizontalPile.ReinforcementSummary(J.Obj(("verifiche",new JsonArray(J.Obj(("Status","Soddisfatto")))),("da_completare",new JsonArray("Non eseguiti: SLE")),("da_completare_tipizzati",new JsonArray(J.Obj(("Kind",2),("Text","Non eseguiti: SLE"),("Summary","SLE"))))));
         Check(successful.B("eseguiti_soddisfatti")&&successful.Array("esclusi").Count==1&&successful.Array("non_soddisfatti").Count==0,"green success explicitly restricted to executed checks");
         var archived=JsonNode.Parse(root.ToJsonString())!.AsObject();ElasticHorizontalPile.PrepareReinforcement(archived);
         Check(ElasticHorizontalPile.TransverseKind(archived,archived["elastico"]!.Array("tratti")[1])=="Spirale","custom spiral persists in archive");

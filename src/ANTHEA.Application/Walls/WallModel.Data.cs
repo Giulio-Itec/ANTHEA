@@ -131,6 +131,9 @@ public static partial class WallModel
         public string Status { get; }
         public string? Member { get; }
         public double? Position { get; }
+        [System.Text.Json.Serialization.JsonIgnore] public bool IsSatisfied => Source.IsSatisfied;
+        [System.Text.Json.Serialization.JsonIgnore] public bool IsNotSatisfied => Source.IsNotSatisfied;
+        [System.Text.Json.Serialization.JsonIgnore] public bool IsNotEvaluated => Source.IsNotEvaluated;
         internal Check(global::Anthea.Calculations.RetainingWall.Check source)
         {
             Source = source;

@@ -65,7 +65,7 @@ internal sealed partial class RetainingWallDrawing
         {
             var f = stations[j]; var previous = stations[j - 1]; string location = "Fusto z=" + f.Position.ToString("0.00", CultureInfo.InvariantCulture) + " m";
             var local = Calculation!.Structural.Where(c => c.Name.StartsWith(location) && (c.Combination == Case.Name || c.Combination == "Dettagli")).ToArray();
-            double ratio = local.Select(c => c.Status.StartsWith("Non soddisfatta") && c.Ratio is null ? double.PositiveInfinity : c.Ratio ?? 0).DefaultIfEmpty(0).Max(); bool missing = local.Length == 0 || local.Any(c => c.Ratio is null);
+            double ratio = local.Select(c => c.IsNotSatisfied && c.Ratio is null ? double.PositiveInfinity : c.Ratio ?? 0).DefaultIfEmpty(0).Max(); bool missing = local.Length == 0 || local.Any(c => c.IsNotEvaluated);
             var color = UtilizationPalette.Brush(ratio > 1 ? 2 : missing ? null : ratio);
             Polygon(dc, [p(back - previous.Thickness, ht - previous.Position), p(back, ht - previous.Position), p(back, ht - f.Position), p(back - f.Thickness, ht - f.Position)], color);
             hits.Add((new Rect(p(back - f.Thickness, ht - previous.Position), p(back, ht - f.Position)), location + $" · ηmax={ratio:0.000}" + (missing ? " · controlli da completare" : "") + "\n" + string.Join("; ", local.Select(c => c.Name.Split('·').Last() + ": " + (c.Ratio is double r ? r.ToString("0.000") : c.Status))), null));
@@ -75,7 +75,7 @@ internal sealed partial class RetainingWallDrawing
         {
             if (end <= left) continue;
             var local = Calculation!.Structural.Where(c => c.Name.StartsWith(member) && (c.Combination == Case.Name || c.Combination == "Dettagli")).ToArray();
-            double ratio = local.Select(c => c.Status.StartsWith("Non soddisfatta") && c.Ratio is null ? double.PositiveInfinity : c.Ratio ?? 0).DefaultIfEmpty(0).Max(); bool missing = local.Length == 0 || local.Any(c => c.Ratio is null);
+            double ratio = local.Select(c => c.IsNotSatisfied && c.Ratio is null ? double.PositiveInfinity : c.Ratio ?? 0).DefaultIfEmpty(0).Max(); bool missing = local.Length == 0 || local.Any(c => c.IsNotEvaluated);
             var rect = new Rect(p(left, slab), p(end, 0)); var color = UtilizationPalette.Brush(ratio > 1 ? 2 : missing ? null : ratio); dc.DrawRectangle(color, null, rect);
             hits.Add((rect, $"{member}: ηmax={ratio:0.000}" + (missing ? " · verifiche da completare" : "") + "\n" + string.Join("; ", local.OrderByDescending(c => c.Ratio ?? double.PositiveInfinity).Take(3).Select(c => c.Name + " " + c.Status)), null));
         }

@@ -236,7 +236,7 @@ public static partial class RetainingWall
             WallCheckKind.Newmark => (c.Resistance is null ? "Spostamento Newmark" : "Scorrimento permanente Newmark · " + record, "mm", 1),
             _ => ("Stabilità globale · Bishop", "−", 1)
         };
-        return new Check(name, c.Combination, c.Demand / scale, c.Resistance / scale, unit, c.Ratio, c.Message);
+        return new Check(name, c.Combination, c.Demand / scale, c.Resistance / scale, unit, c.Ratio, c.Message) { Outcome = c.Outcome, Execution = c.Execution, Data = c.Data };
     }
 
     // Methods of the library in the units of the document, for the drawings, the tables and the checks of ANTHEA.

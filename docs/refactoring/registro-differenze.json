@@ -25,6 +25,24 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-15",
+      "data": "2026-10-14",
+      "fase": "F4.4b",
+      "titolo": "Esiti tipizzati nei consumatori pali e muri",
+      "famiglia": "presentazione verifiche",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Nessun esito positivo dedotto da etichette. Risultati pali privi di criticità tipizzate richiedono ricalcolo. Capacità nulla con domanda positiva classificata come fallimento, contatto valido senza rapporto non classificato come dato mancante. Proprietà muro non serializzate; legacy diagnostico conservato. Attivazione distribuita F4.9.",
+      "test": [
+        "10 PASS runner, 1358 controlli Application, WPF PASS",
+        "20 pali, 28 tratti, 3698 verifiche, 22188 numeri equivalenti; traduzioni e vecchi risultati non tipizzati"
+      ],
+      "evidenze": [
+        "docs/refactoring/f4-adattatori-muri.md",
+        "supporto/artefatti/refactoring/f4/outcomes-final.log"
+      ]
+    },
+    {
       "id": "F4-14",
       "data": "2026-10-14",
       "fase": "F4.8a.4",

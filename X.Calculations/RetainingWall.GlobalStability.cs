@@ -166,5 +166,5 @@ public static partial class RetainingWall
     }
     /// <summary>The checks of the global stability (WallGlobalStability.Checks): demand γR, resistance F, ratio only when it is a verdict.</summary>
     public static IEnumerable<Check> GlobalChecks(SlopeResult global) => WallGlobalStability.Checks(global.Source ?? throw new ArgumentException("Risultato globale senza il calcolo della libreria."))
-        .Select((c, i) => new Check("Stabilità globale · Bishop", c.Combination, c.Demand, c.Resistance, "−", c.Ratio, global.Cases[i].Status));
+        .Select((c, i) => new Check("Stabilità globale · Bishop", c.Combination, c.Demand, c.Resistance, "−", c.Ratio, global.Cases[i].Status) { Outcome = c.Outcome, Execution = c.Execution, Data = c.Data });
 }

@@ -11,6 +11,18 @@ internal static class WallContractChecks
     {
         int checks = 0, walls = 0, globalCases = 0, schedules = 0;
         void Check(bool condition, string message) { if (!condition) throw new InvalidOperationException(message); checks++; }
+        var unknown = new RetainingWall.Check("test", "combo", 0, 0, "kN", 0, "Soddisfatta");
+        Check(new WallModel.Check(unknown).IsNotEvaluated, "Una etichetta non certifica una verifica non eseguita");
+        foreach (var check in new[] { RetainingWall.CheckValue("test", "combo", 0, 0, "kN"),
+            RetainingWall.CheckValue("test", "combo", 1, 0, "kN"), RetainingWall.CheckValue("test", "combo", 1, null, "kN"),
+            RetainingWall.CheckValue("test", "combo", 1, 2, "kN") })
+        {
+            var view = new WallModel.Check(check); var translated = new WallModel.Check(check with { Status = "any translated text" });
+            Check(view.IsSatisfied == translated.IsSatisfied && view.IsNotSatisfied == translated.IsNotSatisfied
+                && view.IsNotEvaluated == translated.IsNotEvaluated, "Esito dipendente dal testo");
+            Check(new[] { view.IsSatisfied, view.IsNotSatisfied, view.IsNotEvaluated }.Count(v => v) == 1, "Classificazione ambigua");
+        }
+        Check(new WallModel.Check(RetainingWall.CheckValue("test", "combo", 1, 0, "kN")).IsNotSatisfied, "Capacità nulla confusa con dato mancante");
         var comparison = new OwnedProjectionComparison();
         static bool Exact(double a, double b) => BitConverter.DoubleToInt64Bits(a) == BitConverter.DoubleToInt64Bits(b);
         var inputs = Directory.GetFiles(Path.Combine(root, "tests/fixtures/f3/inputs"), "*.json")

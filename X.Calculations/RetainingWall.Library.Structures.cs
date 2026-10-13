@@ -105,7 +105,7 @@ public static partial class RetainingWall
                 string unit = check.Unit switch { "Nmm" => "kNm/m", "N" => "kN/m", "mm2" => "mm²/m", _ => check.Unit };
                 result.Add(new(label + " · " + suffix, combination, Convert(check.Demand), check.Capacity is double capacity ? Convert(capacity) : null,
                     unit, check.Ratio, displayStatus ?? (check.Capacity.HasValue ? NativeOutcomeText(check.Outcome, check.Capacity) : unavailable ?? check.Diagnostic ?? "Non disponibile"))
-                    { Member = f.Name, Position = f.Position });
+                    { Member = f.Name, Position = f.Position, Outcome = check.Outcome, Execution = check.Execution, Data = check.Data });
             }
         }
         return result;

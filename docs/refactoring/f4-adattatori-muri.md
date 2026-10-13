@@ -66,3 +66,12 @@ La candidata B usa Checker `0b2285bf`, Design 0.4.0.2. Set coerente in `supporto
 `RetainingWall.Library.Gravity.cs` mappa materiali, casi, unità e testi verso i servizi PlainConcrete, Masonry e GravityWallAnalysis. Il ramo assegnato non richiede E e ignora i parametri di instabilità inapplicabili, come il percorso storico. Dati mancanti di muratura producono la verifica materiale non disponibile. Resistenze negative non diventano verifiche soddisfatte. Conservato il ramo legacy per le prove.
 
 Runner `20261014-f4-gravity-adapter-a`: 7 PASS, include i 26 muri c.a. ancora equivalenti. Ultima corsa `20261014-f4-gravity-adapter-b`: 6 PASS, sei muri a gravità congelati più due casi di contratto, 82568 numeri e 240 curvature, zero differenze; errore massimo 1.4551915228366852e-11 con tolleranze invariate. `-F4GravityAdapter` abilita il banco sul runner. Produzione sempre set V; il rilascio completo rimane aperto.
+
+
+## Esiti dei consumatori (F4.4b, 14/10)
+
+I controlli dei muri trasportano Outcome/Execution/Data dalle librerie e offrono tre proprietà di presentazione ad Application; i testi non determinano il giudizio. Nei pali la progressione del tratto e i riepiloghi usano esiti/criticità tipizzati. Le etichette storiche restano compatibili; il selettore legacy del riepilogo è solo diagnostico. Un risultato vecchio senza le criticità strutturate non riceve un esito positivo ricostruito dalle parole: viene richiesto il ricalcolo. Nessun calcolo numerico nuovo.
+
+Differenze intenzionali UI: capacità nulla con domanda positiva è un fallimento, non un dato mancante; un contatto valido senza rapporto numerico non è incompleto. Le proprietà nuove dei muri sono JsonIgnore, senza variazioni degli archivi storici. Il riepilogo dei pali salva anche le criticità tipizzate.
+
+Runner `20261014-f4-outcomes-final`: 10 PASS, zero nuovi fallimenti, comprese Application (1358 controlli), architettura e ElasticPile.UiChecks. Venti pali congelati, 28 tratti, 3698 verifiche e 22188 numeri: zero differenze; provate traduzioni arbitrarie e rifiuto dell'esito positivo di risultati non tipizzati. La baseline architetturale è stata ridotta di 13 occorrenze (11 confronti testuali e due default numerici), senza aggiunte né indebolimenti dei controlli.

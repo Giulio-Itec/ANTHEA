@@ -1,3 +1,5 @@
+using GPC.Model.Checking.Contracts;
+using GPC.Model.Core.Diagnostics;
 using System.Text.Json.Nodes;
 using GPC.Checkers.Geotechnics.Walls;
 
@@ -60,7 +62,7 @@ public static partial class RetainingWall
     public static Check CheckValue(string name, string combo, double demand, double? resistance, string unit, string unavailable = "Non disponibile")
     {
         double? ratio = resistance is > 0 ? Math.Abs(demand) / resistance : null;
-        if (resistance == 0) return new(name, combo, Math.Abs(demand), 0, unit, demand == 0 ? 0 : null, demand == 0 ? "Soddisfatta" : "Non soddisfatta: resistenza nulla");
-        return new(name, combo, Math.Abs(demand), resistance, unit, ratio, ratio is null ? unavailable : ratio <= 1 ? "Soddisfatta" : "Non soddisfatta");
+        if (resistance == 0) return new(name, combo, Math.Abs(demand), 0, unit, demand == 0 ? 0 : null, demand == 0 ? "Soddisfatta" : "Non soddisfatta: resistenza nulla") { Outcome = demand == 0 ? EngineeringOutcome.Satisfied : EngineeringOutcome.NotSatisfied, Execution = ExecutionStatus.Completed, Data = DataStatus.Ready };
+        return new(name, combo, Math.Abs(demand), resistance, unit, ratio, ratio is null ? unavailable : ratio <= 1 ? "Soddisfatta" : "Non soddisfatta") { Outcome = ratio is null ? EngineeringOutcome.NotEvaluated : ratio <= 1 ? EngineeringOutcome.Satisfied : EngineeringOutcome.NotSatisfied, Execution = ratio is null ? ExecutionStatus.NotExecuted : ExecutionStatus.Completed, Data = ratio is null ? DataStatus.Insufficient : DataStatus.Ready };
     }
 }
