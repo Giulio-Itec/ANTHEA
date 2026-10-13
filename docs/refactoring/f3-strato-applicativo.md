@@ -14,6 +14,10 @@ Decisioni operative del 13 ottobre 2026, sulla delega dell’utente del 12 ottob
 - Scheduler comune con annullamento cooperativo e controllo della revisione: un risultato vecchio non può sostituire quello corrente. Ritardi dei moduli conservati inizialmente; Bridge Design può adottare il ricalcolo ritardato dopo confronto dei risultati.
 - I tre temi e la disposizione dei controlli non cambiano in questa fase. Nessuna libreria GPC viene aggiornata durante gli spostamenti.
 
+## Attività accodata alla chiusura di F3
+
+Il 13 ottobre l'utente ha richiesto di accodare la riscrittura degli input delle sollecitazioni via Excel (EXCEL-SOL nel piano). Si completano prima i punti F3 già concordati; a chiusura della fase si chiedono all'utente i requisiti, prima di iniziare questa riscrittura. Nessuna scelta preventiva su formato, associazione dei dati o interfaccia. F4 resta esplicitamente esclusa.
+
 ## Banco unico
 
 Si estende ANTHEA.Testing anziché creare il duplicato TestSupport ipotizzato nel piano iniziale. Le nuove catture WPF stanno in tests/ANTHEA.Desktop.Equivalence e sono compilate soltanto nella configurazione UiTests già esistente. Release non include il toolkit né i comandi di prova. Le nuove suite passano da build/ci.ps1.

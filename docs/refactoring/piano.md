@@ -188,6 +188,11 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
   - [x] F3.7b.13 (13/10): contratti posseduti di geometria, fasi, verifiche e fibre del ponte; letture native confinate in Application, stesso risultato riusato da viste e report. 87.462 valori confrontati esattamente, 677 controlli applicativi, 12 suite e cinque finali passate. Zero riferimenti Desktop a Checker; soglia Calculations 113. Differenze transitorie delle catture censite F3-07.
   - [ ] F3.7b: rimuovere i restanti accessi ai motori e i contratti concreti dalla UI; collaudo e rilascio della fase.
 
+## Coda dopo F3: input delle sollecitazioni da Excel
+
+- [ ] EXCEL-SOL (richiesta del 13/10): riscrittura degli input delle sollecitazioni tramite Excel. Attività accodata alla chiusura dei punti F3 già concordati; requisiti ancora da definire. Terminata F3, chiedere all'utente di spiegare il flusso desiderato prima di progettare o implementare la riscrittura. Non anticipare modifiche al formato, alla lettura o all'interfaccia di importazione.
+- F4 resta ferma per indicazione esplicita dell'utente; la chiusura di F3 e questa attività accodata non ne autorizzano l'avvio.
+
 ## Fase 4: calcoli residui nelle librerie
 
 - [x] 12 ottobre: [audit dei contratti dei 12 moduli](audit-contratti-moduli-20261012.md), delle classi di terreno/materiale e dei Progetti; inventario dei sorgenti effettivamente compilati e confronto con le API delle DLL distribuite.
