@@ -293,13 +293,12 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         SezioneCA? engine = null;
         try
         {
-            engine = new SezioneCA(Input); preview.Message = "";
-            var concrete = ConcreteMaterials.Concrete(Input); var steel = ConcreteMaterials.Rebar(Input);
-            var strengths = ConcreteMaterials.DesignValues(Input, settings);
-            materials.Set("__fcd", EngineeringFormat.Number(strengths.Fcd), true); materials.Set("__fyd", EngineeringFormat.Number(strengths.Fyd), true);
-            materials.Set("__ecm", EngineeringFormat.Number(concrete.E), true); materials.Set("__ec2", EngineeringFormat.Number(Math.Abs(concrete.StrainYCompression) * 1000), true); materials.Set("__ecu", EngineeringFormat.Number(Math.Abs(concrete.StrainUCompression) * 1000), true);
+            var values = Anthea.Application.Concrete.ConcretePreview.Read(Input, settings);
+            engine = values.Geometry; preview.Message = "";
+            materials.Set("__fcd", EngineeringFormat.Number(values.Fcd), true); materials.Set("__fyd", EngineeringFormat.Number(values.Fyd), true);
+            materials.Set("__ecm", EngineeringFormat.Number(values.Ecm), true); materials.Set("__ec2", EngineeringFormat.Number(values.Ec2), true); materials.Set("__ecu", EngineeringFormat.Number(values.Ecu), true);
             materials.Set("__nmode", "φ nelle schede SLE", true);
-            materials.Set("n", EngineeringFormat.Number(steel.E / concrete.E), true);
+            materials.Set("n", EngineeringFormat.Number(values.N), true);
         }
         catch (ArgumentException ex) { engine = null; preview.Message = ex.Message; foreach (string key in materials.Editors.Keys.Where(k => k.StartsWith("__"))) materials.Set(key, "—", true); }
         preview.Section = engine; preview.Tendons = [];

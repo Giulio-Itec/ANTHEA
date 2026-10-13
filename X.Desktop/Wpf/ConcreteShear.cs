@@ -134,7 +134,7 @@ internal sealed partial class ConcreteWorkspace
     private void UpdateShearSelection()
     {
         if (synchronizing || shearGrid?.IsVisible != true) return;
-        try { shearView.Section = new SezioneCA(Input); } catch (ArgumentException) { shearView.Section = null; }
+        try { shearView.Section = Anthea.Application.Concrete.ConcretePreview.PrepareGeometry(Input); } catch (ArgumentException) { shearView.Section = null; }
         shearView.InvalidateVisual();
         if (shearGrid?.SelectedItem is not JsonRow row) { shearDetail.Text = "Inserire o selezionare una combinazione N–Vx–Vy."; return; }
         shearDetail.Text = $"{row.Values.S("nome")} · {ShearOptions.S("modello")}\nN = {EngineeringFormat.Number(J.Number(row.Values["N"]))} kN (compressione negativa)\nVx / Vy = {EngineeringFormat.Number(J.Number(row.Values["Vx"]))} / {EngineeringFormat.Number(J.Number(row.Values["Vy"]))} kN\n\n";

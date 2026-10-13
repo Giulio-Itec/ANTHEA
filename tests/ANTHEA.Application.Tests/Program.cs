@@ -85,6 +85,7 @@ try
     checks += BridgeDesignAnalysisChecks.Run();
     checks += await ConcreteBatchChecks.Run(root);
     checks += ConcretePresentationChecks.Run(root);
+    checks += await ConcretePropertyChecks.Run();
     checks += await ProjectReportServiceChecks.Run(output);
     string result = $"PASS {checks} controlli Application, documenti e revisioni";
     File.WriteAllText(Path.Combine(output, "esito.txt"), result);

@@ -183,7 +183,7 @@ internal sealed partial class ConcreteWorkspace
     }
     private void SelectDesign(ConcreteDesignCandidate c)
     {
-        designSelection = c; designPreview.Section = new SezioneCA(c.Input); designPreview.Stirrups = c.Shear; designPreview.InvalidateVisual();
+        designSelection = c; designPreview.Section = Anthea.Application.Concrete.ConcretePreview.PrepareGeometry(c.Input); designPreview.Stirrups = c.Shear; designPreview.InvalidateVisual();
         designDescription.Text = c.Description;
         designMetrics.Start();
         designMetrics.AddValue("Peso stimato", $"{c.Metrics.KgPerM:0.###} kg/m", $"Longitudinali {c.Metrics.LongitudinalKgPerM:0.###}; staffe e ortogonali {c.Metrics.TransverseKgPerM:0.###} kg/m. Esclusi sfridi e sovrapposizioni.");

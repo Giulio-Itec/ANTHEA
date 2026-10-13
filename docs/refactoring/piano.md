@@ -168,7 +168,9 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
   - [x] F3.6h.1 (13/10): sessione CA e ingresso headless in Application, coordinamento incrementale di domini/SLE e cache della sezione preparata fuori da WPF. Scheduler condiviso e pubblicazione protetta; stesso modello per i quattro domini. 311 controlli Application, 35 WPF di scheduling, smoke CA e 458 file equivalenti. TypeRef Calculations ridotti a 140. Dettagli e riepiloghi per report autonomi nel passo seguente.
   - [x] F3.6h.2 (13/10): dettagli costruttivi, ancoraggi e riepiloghi CA portabili, con un solo formato dei riquadri condiviso fra UI e report. Conservati dati derivati, conferme manuali ed errori parziali. 330 controlli Application, smoke CA e 458 file equivalenti passati.
   - [x] F3.6h.3 (13/10): curve M–χ, resistenze rapide e ricerca armature tramite StructuralQueries. Scheduler comune per curve/resistenze; ricerche interrotte conservano i risultati parziali esplicitamente marcati, senza aggiornamenti dopo chiusura. 12 PASS con smoke, ricerca armature e 458 file equivalenti; 37 prove WPF di concorrenza/chiusura finali. TypeRef Calculations 133, async void 5.
-- [ ] F3.7 [CP] Chiusura: X.Desktop dipende solo dallo strato applicativo.
+- [~] F3.7 [CP] Chiusura: X.Desktop dipende solo dallo strato applicativo.
+  - [x] F3.7a (13/10): preparazione delle preview CA e sessione delle proprietà in Application. Modello riusato, richieste seriali e risultati tardivi scartati; tredici controlli di copie/recupero/chiusura, smoke CA e 458 file equivalenti. TypeRef Calculations 127, async void 4.
+  - [ ] F3.7b: rimuovere i restanti accessi ai motori e i contratti concreti dalla UI; collaudo e rilascio della fase.
 
 ## Fase 4: calcoli residui nelle librerie
 
