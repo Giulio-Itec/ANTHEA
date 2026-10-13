@@ -9,7 +9,6 @@ using GPC.Model.Materials;
 
 namespace Materiali;
 
-public record PropertyRow(string Nome, string Simbolo, string Valore, string Unita);
 public sealed partial class MaterialView : UserControl
 {
     static readonly Brush Navy = Brush("#0B2A4A"), Blue = Brush("#0B5CAD"), Muted = Brush("#64748B");
@@ -91,27 +90,6 @@ public sealed partial class MaterialView : UserControl
         card.Margin=new Thickness(column==0?0:7,0,column==2?0:7,14);
         Grid.SetColumn(card,column); cards.Children.Add(card);
     }
-    static ConcreteMaterialEN1992 Material(double fck) => ConcreteMaterialCatalog.Material(fck);
-    static string Number(double value) => Math.Abs(value).ToString("N2",CultureInfo.CurrentCulture);
-    void Refresh()
-    {
-        if(choice.SelectedIndex<0) return;
-        var selected=Classes[choice.SelectedIndex];
-        var m=Material(selected.Fck);
-        strength.Text=Number(m.Fck); tension.Text=Number(m.Fctm); modulus.Text=Number(m.Ecm/1000);
-        table.ItemsSource=new PropertyRow[] {
-            new("Resistenza caratteristica cilindrica","fck",Number(m.Fck),"MPa"),
-            new("Resistenza caratteristica cubica (classe)","Rck",selected.Name.Split('/')[1],"MPa"),
-            new("Resistenza media a compressione","fcm",Number(m.Fcm),"MPa"),
-            new("Resistenza media a trazione","fctm",Number(m.Fctm),"MPa"),
-            new("Resistenza caratteristica a trazione · 5%","fctk,0.05",Number(m.Fctk05),"MPa"),
-            new("Resistenza caratteristica a trazione · 95%","fctk,0.95",Number(m.Fctk95),"MPa"),
-            new("Modulo elastico secante","Ecm",Number(m.Ecm),"MPa"),
-            new("Deformazione al picco · parabola-rettangolo","εc2",Number(m.StrainYCompression*1000),"‰"),
-            new("Deformazione ultima · parabola-rettangolo","εcu2",Number(m.StrainUCompression*1000),"‰"),
-            new("Coefficiente di Poisson","ν",Number(m.Ni),"—")
-        };
-        status.Text=selected.Name+"  ·  EN 1992-1-1:2004 / UNI EN 206-1:2006";
-        RefreshDetails();
-    }
+    MaterialSheetPresentation? presentation;
+    void Refresh() { if(choice.SelectedIndex>=0)RefreshDetails(); }
 }

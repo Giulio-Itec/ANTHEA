@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -34,13 +34,13 @@ public sealed partial class MaterialView
         control.Margin=new Thickness(0,0,8,0); control.MinHeight=25; Grid.SetColumn(control,1); g.Children.Add(control);
         var u=Text(unit,12); Grid.SetColumn(u,2); g.Children.Add(u); return g;
     }
-    UIElement Numeric(string key,string label,string value,string unit)
+    UIElement Numeric(string key,string label,string unit)
     {
-        var box=new TextBox { Text=value }; numbers.Add(key,box); box.TextChanged+=(_,_)=>RefreshDetails(); return Field(label,box,unit,key);
+        var box=new TextBox { Text=MaterialSheetInput.InitialNumber(key) }; numbers.Add(key,box); box.TextChanged+=(_,_)=>RefreshDetails(); return Field(label,box,unit,key);
     }
-    UIElement Select(string key,string label,string[] values,int selected=0)
+    UIElement Select(string key,string label)
     {
-        var box=new ComboBox {ItemsSource=values,SelectedIndex=selected}; choices.Add(key,box); box.SelectionChanged+=(_,_)=>RefreshDetails(); return Field(label,box,key:key);
+        var box=new ComboBox {ItemsSource=MaterialSheetInput.Options(key),SelectedIndex=MaterialSheetInput.InitialSelection(key)}; choices.Add(key,box); box.SelectionChanged+=(_,_)=>RefreshDetails(); return Field(label,box,key:key);
     }
     UIElement BuildDetails(UIElement properties)
     {
@@ -54,22 +54,22 @@ public sealed partial class MaterialView
         foreach(var cb in new[]{highStrength,slab,quality,rough,ntcQuality}) {cb.Content=Text(cb.Content.ToString()!,12);cb.Checked+=(_,_)=>RefreshDetails();cb.Unchecked+=(_,_)=>RefreshDetails();}
         var exposure=BuildExposureSelector(checks);
         ntcOptions=Stack(
-            Select("ntcElement","Tipo di elemento",["Trave / pilastro","Piastra / soletta / parete"]),
+            Select("ntcElement","Tipo di elemento"),
             Field("Classe minima del calcestruzzo",minimumConcreteClass),
             minimumConcreteNote,
             ntcQuality);
         ec2Options=new Expander{Header="Riduzioni della classe strutturale EC2",Margin=new Thickness(0,6,0,6),Content=Stack(highStrength,slab,quality,Text("Base S4 per 50 anni; +2 per 100 anni. Riduzioni di una classe, con minimo S1.",12))};
         var cover=Paper(Stack(Text("Dati per il copriferro",15,true),Text("Armatura ordinaria a barre isolate · calcestruzzo normale",12),
-            Select("coverMethod","Criterio copriferro",["NTC + Circ. 2019","EC2 2004"]),
+            Select("coverMethod","Criterio copriferro"),
             ntcOptions,
-            Select("life","Vita utile di progetto",["50 anni","100 anni"]),
-            Numeric("diameter","Diametro della barra da verificare · φ","16","mm"),
-            Numeric("aggregate","Dimensione massima aggregato · Dmax","20","mm"),
-            Select("deviationControl","Controllo di esecuzione",["Ordinario","Misura copriferri","Misura accurata + scarto"]),
-            Select("deviationValue","Tolleranza di posa · Δcdev",["10 mm"]),
+            Select("life","Vita utile di progetto"),
+            Numeric("diameter","Diametro della barra da verificare · φ","mm"),
+            Numeric("aggregate","Dimensione massima aggregato · Dmax","mm"),
+            Select("deviationControl","Controllo di esecuzione"),
+            Select("deviationValue","Tolleranza di posa · Δcdev"),
             deviationNote,
-            Select("ground","Superficie di getto",["Casseratura","Terreno preparato","Direttamente su terra"]),
-            Select("abrasion","Strato per abrasione",["Nessuno","XM1 · +5 mm","XM2 · +10 mm","XM3 · +15 mm"]),
+            Select("ground","Superficie di getto"),
+            Select("abrasion","Strato per abrasione"),
             rough,ec2Options));
         var coverDiagram=new Image
         {
@@ -98,48 +98,23 @@ public sealed partial class MaterialView
         Grid.SetColumn(panel,index); sections.Children.Add(panel);
     }
     string Selected(string key)=>choices[key].SelectedItem?.ToString()??"";
-    double Read(string key,string label,double min=0,double max=double.MaxValue)
-    {
-        var raw=numbers[key].Text.Trim().Replace(',','.');
-        if(!double.TryParse(raw,NumberStyles.Float,CultureInfo.InvariantCulture,out double value)||!double.IsFinite(value)||value<min||value>max)
-            throw new ArgumentException($"{label}: inserire un numero tra {min:g} e {(max==double.MaxValue?"un valore finito":max.ToString("g"))}.");
-        return value;
-    }
     Exposure[] Active()=>Durability.Exposures.Where(e=>exposureChecks[e.Code].IsChecked==true).ToArray();
     void RefreshDetails()
     {
         if(!detailsReady || choice.SelectedIndex<0 || updatingDeviation || updatingExposure) return;
         UpdateDeviation();
-        RefreshBond();
-        var active=Active(); var fck=Classes[choice.SelectedIndex].Fck;
-        RefreshMinimumConcrete(active);
-        RefreshExposureSelector(active);
-        coverHeadline.Text="Da completare"; coverSteps.Text=""; coverHeadline.Foreground=Themed("foreground","#0B2A4A");
+        var active=Active(); RefreshExposureSelector(active);
+        var value=presentation=MaterialSheetPresentation.Evaluate(CaptureState(),active.Select(e=>e.Code));
+        strength.Text=value.Strength;tension.Text=value.Tension;modulus.Text=value.Modulus;status.Text=value.Status;table.ItemsSource=value.Properties;
+        bondValue.Text=value.BondValue;bondDetails.Text=value.BondDetails;
+        minimumConcreteClass.Text=value.MinimumConcreteClass;minimumConcreteNote.Text=value.MinimumConcreteNote;
+        coverHeadline.Text=value.CoverHeadline;coverSteps.Text=value.CoverSteps;coverNotes.Text=value.CoverNotes;
+        coverHeadline.Foreground=Themed("foreground",value.CoverError?"#9A4D0A":"#0B2A4A");
         bool ntc=choices["coverMethod"].SelectedIndex==0;
-        ntcOptions!.Visibility=ntc?Visibility.Visible:Visibility.Collapsed;
-        ec2Options!.Visibility=ntc?Visibility.Collapsed:Visibility.Visible;
-        coverNotes.Text="EN 1992-1-1:2004, §4.4.1 e tabelle 4.2–4.4N: valori raccomandati, senza annesso nazionale. Δcdur,γ = Δcdur,st = Δcdur,add = 0. Copriferro misurato fino all'armatura più vicina alla superficie, staffe comprese. Verificare ciascuna barra e superficie; requisiti d'incendio secondo EN 1992-1-2 da valutare separatamente.";
-        try
-        {
-            double delta=double.Parse(Selected("deviationValue").Replace(" mm",""),CultureInfo.InvariantCulture);
-            var p=new CoverInput(choices["life"].SelectedIndex==0?50:100,highStrength.IsChecked==true,slab.IsChecked==true,quality.IsChecked==true,
-                Read("diameter","Diametro",.1,1000),Read("aggregate","Dmax",.1,1000),delta,rough.IsChecked==true,choices["abrasion"].SelectedIndex*5,
-                choices["ground"].SelectedIndex switch{1=>40,2=>75,_=>0});
-            if(ntc) RenderNtcCover(active,fck,p);
-            else
-            {
-            var c=Durability.Cover(active,fck,p);
-            coverHeadline.Text=$"cnom = {c.Nominal:0.##} mm";
-            coverSteps.Text=string.Join("\n",c.Lines.Select(l=>$"{l.Exposure}: classe strutturale S{l.StructuralClass} → cmin,dur = {l.Durability:0.##} mm"))+
-                $"\n\ncmin,b = φ{(p.Aggregate>32?" + 5 mm (Dmax > 32 mm)":"")} = {c.Bond:0.##} mm"+
-                $"\ncmin = max(cmin,b; cmin,dur; 10 mm) + superficie + abrasione = {c.Minimum:0.##} mm"+
-                $"\ncnom = cmin + Δcdev = {c.Minimum+delta:0.##} mm"+
-                (p.Ground>0?$"\nLimite per il getto: {p.Ground} mm → cnom adottato {c.Nominal:0.##} mm":"");
-            if(active.Any(e=>e.CoverColumn<0)) coverSteps.Text+="\nXF/XA: requisiti aggiuntivi della miscela nella colonna Composizione.";
-            }
-        }
-        catch(ArgumentException ex) {coverSteps.Text=ex.Message;coverHeadline.Foreground=Themed("foreground","#9A4D0A");}
-        RefreshMix(active,fck);
+        ntcOptions!.Visibility=ntc?Visibility.Visible:Visibility.Collapsed;ec2Options!.Visibility=ntc?Visibility.Collapsed:Visibility.Visible;
+        foreach(var (key,text) in value.Composition)compositionValues[key].Text=text;
+        compositionSource.Text=value.CompositionSource;compositionAirNote.Text=value.CompositionAirNote;
+        compositionRequirements.Text=value.CompositionRequirements;consistencyInfo.Text=value.ConsistencyInfo;
     }
     void UpdateDeviation()
     {
@@ -149,11 +124,7 @@ public sealed partial class MaterialView
             updatingDeviation=true;
             try
             {
-                var values=mode switch {
-                    0=>new[]{"10 mm"},
-                    1=>Enumerable.Range(5,6).Reverse().Select(x=>x+" mm").ToArray(),
-                    _=>Enumerable.Range(0,11).Reverse().Select(x=>x+" mm").ToArray()
-                };
+                var values=MaterialSheetInput.DeviationOptions(mode);
                 choices["deviationValue"].ItemsSource=values;
                 choices["deviationValue"].SelectedIndex=0;
                 choices["deviationValue"].IsEnabled=mode!=0;
@@ -167,24 +138,5 @@ public sealed partial class MaterialView
             _=>"Δcdev da 0 a 10 mm: misure molto accurate e scarto degli elementi non conformi, ad esempio prefabbricati (EC2 §4.4.1.3). Selezionare il valore previsto dal controllo adottato."
         };
         deviationNote.ToolTip="La tolleranza di posa è distinta dalla riduzione del copriferro tabellare per controllo qualità.";
-    }
-    void RenderNtcCover(Exposure[] active,double fck,CoverInput p)
-    {
-        var n=NtcCover.Calculate(active,fck,p,choices["ntcElement"].SelectedIndex==1,ntcQuality.IsChecked==true,MinimumConcrete.Required(active));
-        var c=n.Cover;
-        coverNotes.Text="NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese.";
-        coverHeadline.Text=$"cnom = {c.Nominal:0.##} mm";
-        coverSteps.Text=$"NTC + Circolare · ambiente {n.Environment.ToLower()}"+
-            $"\n{string.Join(" + ",active.Select(e=>e.Code))} · {Selected("ntcElement")}"+
-            $"\nCmin (fck) = {n.Cmin:0.##} MPa · C0 (fck) = {n.C0:0.##} MPa"+
-            $"\nMinimo tabellare = {n.TableCover:0.##} mm"+
-            $"\nVita utile: +{n.LifeExtra:0.##} mm; classe < Cmin: +{n.LowStrengthExtra:0.##} mm"+
-            $"\nControllo dei copriferri: −{n.QualityReduction:0.##} mm"+
-            $"\nMinimo per durabilità = {c.Durability:0.##} mm"+
-            $"\nMinimo per aderenza = {c.Bond:0.##} mm"+
-            $"\ncmin = max(durabilità; aderenza; 10) + superficie/abrasione = {c.Minimum:0.##} mm"+
-            $"\ncnom = cmin + Δcdev = {c.Minimum+p.Deviation:0.##} mm"+
-            (p.Ground>0?$"\nLimite getto {p.Ground} mm → adottato {c.Nominal:0.##} mm":"");
-        if(fck<n.Cmin) coverSteps.Text+="\nClasse inferiore a Cmin: verificare anche la specifica del calcestruzzo.";
     }
 }

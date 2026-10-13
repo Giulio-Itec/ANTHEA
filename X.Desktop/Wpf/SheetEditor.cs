@@ -348,24 +348,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     }
     internal ReportProject.SheetContent MaterialReportContent()
     {
-        Commit();
-        var derived = new List<ProjectReportPlan.InputValue>();
-        if (materials is not null)
-        {
-            foreach (var row in materials.ReportProperties())
-                derived.Add(new("Calcestruzzo", row.Nome + (row.Simbolo.Length > 0 ? " · " + row.Simbolo : "") + (row.Unita.Length > 0 ? " [" + row.Unita + "]" : ""), JsonValue.Create(row.Valore)));
-            return new(Error: derived.Any(v => v.Value?.ToString() == "Da completare") ? "Completare i dati per aderenza o copriferro; vedere i dettagli della scheda." : null, Derived: derived);
-        }
-        if (rebarMaterial is null) throw new InvalidOperationException("La scheda non è un materiale.");
-        try
-        {
-            var values = ModuleServices.Get(RebarMaterial.Module).Calculate(Data).NativeAs<RebarMaterial.Values>();
-            derived.Add(new("Acciaio", "Resistenza di progetto fyd [MPa]", JsonValue.Create(values.Fyd)));
-            derived.Add(new("Acciaio", "Deformazione εyd [‰]", JsonValue.Create(values.EpsilonYd)));
-            derived.Add(new("Acciaio", "Rapporto fu / fyk", JsonValue.Create(values.Ratio)));
-            return new(Derived: derived);
-        }
-        catch (ArgumentException ex) { return new(Error: ex.Message); }
+        Commit(); return Materiali.MaterialReportChapter.Create(Module, Data);
     }
     internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => DocxWriter.Write(BuildReportDocument(title, options, projectReport));
     internal DocxDocument BuildReportDocument(string title, HashSet<string> options, bool projectReport = false)

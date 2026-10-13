@@ -150,6 +150,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
   - [x] F3.6c (13/10): catalogo, ricerca, alias, progressi e parser Wiki nella libreria portabile; rendering WPF conserva grafica e formule. 11 file di contenuto identici byte per byte, 240 controlli senza WPF, 71 articoli e 30 ricerche nel confronto F3 senza differenze. Wiki completa e aiuto fondazioni collaudati.
   - [x] F3.6d (13/10): ponte composto e muri con servizi e scheduler comuni, ritardi 500/450 ms conservati; curve del ponte, stabilità globale e ricerca armature protette da annullamento/revisione. 11 PASS, smoke completi e 458 file equivalenti. 21 prove WPF di ricalcolo e chiusura su pali, ponte e muri; 6 PASS finali, async void 8 e due soli timer di calcolo residui.
   - [x] F3.6e (13/10): pali orizzontali ed elastici su scheduler comune; sessione Application proprietaria di FEM e cache delle sezioni, diagrammi disponibili prima delle verifiche, riuso dopo cambio armature. 199 controlli Application, prove WPF complete, 458 file equivalenti. Corsa finale f3-piles-regression-final: 4 PASS; zero timer di calcolo, TypeRef 143 e async void 6.
+  - [x] F3.6f.1 (13/10): presentazione e capitoli materiali senza WPF; catalogo dei valori iniziali condiviso e mappatura del copriferro riusata. 291 controlli Application, prove materiali/report e 458 file equivalenti; adattatori CLS rapidi passati. Accorpamento fisico della vista nel Desktop nel punto seguente.
 - [ ] F3.7 [CP] Chiusura: X.Desktop dipende solo dallo strato applicativo.
 
 ## Fase 4: calcoli residui nelle librerie

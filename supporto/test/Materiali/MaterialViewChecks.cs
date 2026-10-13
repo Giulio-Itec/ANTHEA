@@ -5,6 +5,9 @@ namespace Materiali;
 // ExposureSelector.cs; Durability.Check and NtcCover.Check are now DurabilityReferenceChecks (supporto/test/Shared).
 public sealed partial class MaterialView
 {
+    static GPC.Model.Materials.ConcreteMaterialEN1992 Material(double fck)=>ConcreteMaterialCatalog.Material(fck);
+    static string Number(double value)=>Math.Abs(value).ToString("N2",System.Globalization.CultureInfo.CurrentCulture);
+    static ConcreteBond.Result Bond(double fck,double diameter,double eta1,double alpha,double gamma)=>ConcreteBond.Calculate(fck,diameter,eta1,alpha,gamma);
     public void Check()
     {
 

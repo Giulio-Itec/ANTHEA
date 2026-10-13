@@ -81,6 +81,7 @@ try
     Check(imported.FormulaCells == 0, "Export a valori contiene formule");
     checks += await ModuleServiceChecks.Run();
     checks += await ElasticPileSessionChecks.Run(root);
+    checks += MaterialPresentationChecks.Run(root);
     string result = $"PASS {checks} controlli Application, documenti e revisioni";
     File.WriteAllText(Path.Combine(output, "esito.txt"), result);
     Console.WriteLine(result);

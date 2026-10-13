@@ -4,7 +4,7 @@
     <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><AssemblyName>Materiali</AssemblyName>
     <GpcLibraries>GPCModel;GPCUtilities</GpcLibraries>
   </PropertyGroup>
-  <ItemGroup><ProjectReference Include="../X.Calculations/X.Calculations.csproj" /></ItemGroup>
+  <ItemGroup><ProjectReference Include="../src/ANTHEA.Application/ANTHEA.Application.csproj" /></ItemGroup>
   <ItemGroup>
     <Resource Include="Assets/*.png" />
   </ItemGroup>
