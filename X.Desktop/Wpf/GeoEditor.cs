@@ -1,3 +1,4 @@
+using Anthea.Application.Presentation;
 using Anthea.Application.Modules;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -15,9 +16,9 @@ internal sealed partial class SheetEditor
         ModuleSheetPreparation.PrepareVertical(Data, Module);
         var defaults = Archivio.NuovoFoglio(Module); var g = Data["generali"]!.AsObject();
         var fields = new List<Field>();
-        if (!Micro) fields.AddRange([new("tipo_palo", "Tipo di palo", Choices: ["Trivellato", "Elica continua", "Battuto"]), new("sottotipo_palo_battuto", "Tipo battuto", Choices: Calcolo.Parametri.Keys.Where(k => k is not ("Trivellato" or "Elica continua")).ToArray())]);
+        if (!Micro) fields.AddRange([new("tipo_palo", "Tipo di palo", Choices: ["Trivellato", "Elica continua", "Battuto"]), new("sottotipo_palo_battuto", "Tipo battuto", Choices: PileInputCatalog.DrivenPileTypes)]);
         fields.AddRange([new("diametro", Micro ? "Diametro perforazione Db" : "Diametro palo D", "m"), new("lunghezza", "Lunghezza palo L", "m"), new("peso_specifico_palo", "Peso specifico CLS / palo", "kN/m³"), new("azione_compressione", "Azione assiale di progetto — Compressione", "kN"), new("azione_trazione", "Azione assiale di progetto — Trazione", "kN")]);
-        if (Micro) fields.AddRange([new("metodo_micropalo", "Metodo (richiesto)", Choices: [BustamanteDoix.Versione]), new("tipo_iniezione", "Iniezione", Choices: ["IGU", "IRS"]), new("profilo_chs", "Profilo CHS", Choices: Chs.Catalogo.Keys.ToArray()), new("pressione_iniezione", "Pressione p_i = p_l", "MPa"), new("inclinazione", "Inclinazione dalla verticale θ", "°"), new("inizio_aderenza", "Inizio aderenza sb lungo asse", "m"), new("considera_punta", "Considera punta", Bool: true), new("percentuale_punta", "Punta rispetto alla laterale", "%")]);
+        if (Micro) fields.AddRange([new("metodo_micropalo", "Metodo (richiesto)", Choices: [PileInputCatalog.MicropileMethod]), new("tipo_iniezione", "Iniezione", Choices: ["IGU", "IRS"]), new("profilo_chs", "Profilo CHS", Choices: PileInputCatalog.ChsProfiles), new("pressione_iniezione", "Pressione p_i = p_l", "MPa"), new("inclinazione", "Inclinazione dalla verticale θ", "°"), new("inizio_aderenza", "Inizio aderenza sb lungo asse", "m"), new("considera_punta", "Considera punta", Bool: true), new("percentuale_punta", "Punta rispetto alla laterale", "%")]);
         else fields.AddRange([new("presenza_falda", "Presenza falda", Bool: true), new("profondita_falda", "Profondità falda zf", "m"), new("considera_sottospinta", "Considera sottospinta", Bool: true), new("metodo_nq", "Metodo Nq", Choices: ["Parametrizzata"])]);
         string[] order = Micro ? ["tipo_iniezione", "diametro", "lunghezza", "inizio_aderenza", "considera_punta", "percentuale_punta", "pressione_iniezione", "profilo_chs", "peso_specifico_palo", "azione_compressione", "azione_trazione", "inclinazione", "metodo_micropalo"] : ["tipo_palo", "sottotipo_palo_battuto", "diametro", "lunghezza", "peso_specifico_palo", "presenza_falda", "profondita_falda", "considera_sottospinta", "azione_compressione", "azione_trazione", "metodo_nq"];
         if (Micro)
@@ -36,7 +37,7 @@ internal sealed partial class SheetEditor
         generalForm.ShowField(Micro ? "metodo_micropalo" : "metodo_nq", false); AddCard("Dati generali", generalForm);
         efficiencyForm = new(Data["efficienza"]!.AsObject(), [new("metodo", "Metodo", Choices: ["Nessuna riduzione", "Converse-Labarre", "Feld", "Definita dall'utente"]), new("numero_pali_x", "Pali in X"), new("numero_pali_y", "Pali in Y"), new("interasse_x", "Interasse X", "m"), new("interasse_y", "Interasse Y", "m"), new("eta_compressione", "ηg,c manuale"), new("eta_trazione", "ηg,t manuale")], _ => Changed(), true, symbolColumns: true);
         AddCard("Efficienza", Ui.Dock(efficiencyForm, bottom: effLabel));
-        Field[] norm = [new("verticali_indagate", "Verticali indagate", Choices: Calcolo.Verticali.Keys.ToArray()), new("__xi3", "Correlazione ξ3", ReadOnly: true), new("__xi4", "Correlazione ξ4", ReadOnly: true), new("sicurezza_laterale_compressione", "Sicurezza laterale — Compressione γs"), new("sicurezza_laterale_trazione", "Sicurezza laterale — Trazione γt"), new("sicurezza_base", "Sicurezza di base γb"), new("peso_palo_sfavorevole", "Peso proprio palo — Sfavorevole γG"), new("peso_palo_favorevole", "Peso proprio palo — Favorevole γG")];
+        Field[] norm = [new("verticali_indagate", "Verticali indagate", Choices: PileInputCatalog.InvestigatedProfiles), new("__xi3", "Correlazione ξ3", ReadOnly: true), new("__xi4", "Correlazione ξ4", ReadOnly: true), new("sicurezza_laterale_compressione", "Sicurezza laterale — Compressione γs"), new("sicurezza_laterale_trazione", "Sicurezza laterale — Trazione γt"), new("sicurezza_base", "Sicurezza di base γb"), new("peso_palo_sfavorevole", "Peso proprio palo — Sfavorevole γG"), new("peso_palo_favorevole", "Peso proprio palo — Favorevole γG")];
         normativeForm = new(g, norm, _ => Changed(), true, symbolColumns: true);
         AddCard("Coefficienti normativa", normativeForm, action: Ui.Button("Reset", () => { foreach (var f in norm.Where(f => !f.ReadOnly)) normativeForm.Set(f.Key, f.Key == "sicurezza_base" ? NormativeBase(g) : defaults["generali"].S(f.Key)); }));
         AddCard("Verifica", Ui.Dock(verification, bottom: Ui.Text("Valori in kN · Util. = NEd / Rd", 13, color: Ui.Muted)));
@@ -63,11 +64,10 @@ internal sealed partial class SheetEditor
         AddCard("Grafici capacità portante", Ui.Dock(outputs, capacityView), true); UpdateVerification();
     }
     /// <summary>γb of NTC Tab. 6.4.II for the technology of the sheet, in the invariant format of the stored coefficients.</summary>
-    private string NormativeBase(JsonNode g) => Calcolo.SicurezzaBaseNormativa(g, Micro).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+    private string NormativeBase(JsonNode g) => VerticalPilePreview.NormativeBase(g, Micro);
     private void ResetAlphas()
     {
-        foreach (var rows in Data.Array("stratigrafie")) foreach (var row in rows!.AsArray())
-            if (BustamanteDoix.Terreni.ContainsKey(row.S("terreno")) && Data["generali"].S("tipo_iniezione") is "IGU" or "IRS") row!["alpha"] = BustamanteDoix.IntervalloAlpha(row.S("terreno"), Data["generali"].S("tipo_iniezione"))[0].ToString(System.Globalization.CultureInfo.InvariantCulture);
+        VerticalPilePreview.ResetAlphas(Data);
         RebuildSondages();
     }
     private void RebuildSondages(int? selection = null)
@@ -76,7 +76,7 @@ internal sealed partial class SheetEditor
         foreach (var rowsNode in Data.Array("stratigrafie"))
         {
             var rows = rowsNode!.AsArray();
-            var fields = Micro ? new List<Field> { new("laterale_attiva", "Laterale", Bool: true), new("terreno", "Terreno", Choices: BustamanteDoix.Terreni.Keys.ToArray()), new("spessore", "Spessore verticale [m]"), new("alpha", "α adottato"), new("__tau", "Aderenza τ [kPa]", ReadOnly: true) } :
+            var fields = Micro ? new List<Field> { new("laterale_attiva", "Laterale", Bool: true), new("terreno", "Terreno", Choices: PileInputCatalog.MicropileSoils), new("spessore", "Spessore verticale [m]"), new("alpha", "α adottato"), new("__tau", "Aderenza τ [kPa]", ReadOnly: true) } :
                 [new("__strato", "Strato", ReadOnly: true), new("laterale_attiva", "Laterale attiva", Bool: true), new("tipologia", "Tipologia", Choices: ["Granulare", "Coesivo"]), new("addensamento", "Addensamento", Choices: ["Sciolto", "Denso"]), new("spessore", "Spessore S [m]"), new("peso_specifico", "γ [kN/m³]"), new("peso_specifico_saturo", "γsat [kN/m³]"), new("angolo_attrito", "φ′ [°]"), new("coesione_efficace", "c′ [kPa]"), new("coesione_non_drenata", "Cu [kPa]"), new("__k", "Coeff. k [-]", ReadOnly: true), new("__mu", "Coeff. μ [-]", ReadOnly: true), new("__alfa", "Coeff. α [-]", ReadOnly: true), new("__nq", "Fattore Nq [-]", ReadOnly: true), new("nc", "Fattore Nc [-]")];
             // Include legacy values in selectors without silently replacing user data.
             for (int i = 0; i < fields.Count; i++) if (fields[i].Choices is not null) fields[i] = fields[i] with { Choices = fields[i].Choices!.Concat(rows.Select(r => r.S(fields[i].Key))).Where(v => !string.IsNullOrWhiteSpace(v)).Distinct().ToArray() };
@@ -88,8 +88,8 @@ internal sealed partial class SheetEditor
                 JsonRow? bound = null;
                 bound = new JsonRow(display, key =>
                 {
-                    if (Micro && key == "terreno" && BustamanteDoix.Terreni.ContainsKey(display.S("terreno")) && Data["generali"].S("tipo_iniezione") is "IGU" or "IRS")
-                        bound!.Output("alpha", BustamanteDoix.IntervalloAlpha(display.S("terreno"), Data["generali"].S("tipo_iniezione"))[0].ToString(System.Globalization.CultureInfo.InvariantCulture));
+                    if (Micro && key == "terreno" && VerticalPilePreview.InitialAlpha(display.S("terreno"), Data["generali"].S("tipo_iniezione")) is { } alpha)
+                        bound!.Output("alpha", alpha);
                     foreach (var f in fields.Where(f => !f.ReadOnly)) data[f.Key] = display[f.Key]?.DeepClone();
                     Changed();
                 });
@@ -161,16 +161,14 @@ internal sealed partial class SheetEditor
     private void Preview()
     {
         if (Section) return;
+        var values = VerticalPilePreview.Read(Data, Micro);
         if (Micro)
         {
-            string weight = "—";
-            try { weight = Chs.Peso(Data["generali"].S("profilo_chs"), Data["generali"].D("diametro"), Data["generali"]!.Required("peso_specifico_palo", strict: true)).D("q_totale").ToString("0.0", System.Globalization.CultureInfo.GetCultureInfo("it-IT")); }
-            catch (ArgumentException) { }
-            generalForm.Set("__peso_lineare", weight, display: true);
+            generalForm.Set("__peso_lineare", values.Weight, display: true);
             generalForm.Editors["__peso_lineare"].ToolTip = "Peso calcolato da diametro, profilo CHS e peso specifico del riempimento. La visualizzazione è arrotondata; il calcolo usa la precisione completa.";
         }
-        var g = Data["generali"]!; var efficiency = Calcolo.Efficienza(Data); effLabel.Text = efficiency.S("errore") != "" ? efficiency.S("errore") : $"ηg,c = {efficiency.D("eta_compressione"):F3}\nηg,t = {efficiency.D("eta_trazione"):F3}";
-        if (Calcolo.Verticali.TryGetValue(g.S("verticali_indagate"), out var xi)) { normativeForm.Set("__xi3", xi.Xi3.ToString("F2"), true); normativeForm.Set("__xi4", xi.Xi4.ToString("F2"), true); }
+        var g = Data["generali"]!; effLabel.Text = values.Efficiency;
+        foreach (var (key, value) in values.Correlation) normativeForm.Set(key, value, true);
         if (Micro) { generalForm.Enable("percentuale_punta", g.B("considera_punta"), dim: true); normativeForm.Enable("sicurezza_base", g.B("considera_punta"), dim: true); }
         else { generalForm.Enable("sottotipo_palo_battuto", g.S("tipo_palo") == "Battuto", dim: true); generalForm.Enable("profondita_falda", g.B("presenza_falda"), dim: true); generalForm.Enable("considera_sottospinta", g.B("presenza_falda"), dim: true); }
         string method = Data["efficienza"].S("metodo"); foreach (string key in efficiencyForm.Editors.Keys.Where(k => k != "metodo")) efficiencyForm.ShowField(key, key.StartsWith("numero_") ? method is "Feld" or "Converse-Labarre" : key.StartsWith("interasse") ? method == "Converse-Labarre" : method == "Definita dall'utente");
@@ -181,35 +179,15 @@ internal sealed partial class SheetEditor
     { if (Section) return; stratigraphy.SelectedIndex = sondages.SelectedIndex; stratigraphy.ShowAll = expanded == 5; stratigraphy.InvalidateVisual(); }
     private void UpdatePileCoefficients()
     {
-        if (!Geo) return; var g = Data["generali"]!; double diameter = g.D("diametro");
+        if (!Geo) return;
         foreach (var grid in layerGrids)
         {
-            double depth = 0; bool valid = true; int i = 0;
-            foreach (var row in grid.Rows)
+            var fields = VerticalPilePreview.LayerFields(Data["generali"]!, grid.Rows.Select(row => row.Values), Micro);
+            for (int index = 0; index < grid.Rows.Count; index++)
             {
-                var d = row.Values;
-                row.Output("__color", StratigraphyDrawing.LayerColors[i % StratigraphyDrawing.LayerColors.Length]);
-                row.Output("__strato", d.S("strato", ((char)('A' + i++ % 26)).ToString()));
-                if (Micro)
-                {
-                    string tau = "—";
-                    if (!d.B("laterale_attiva", true)) tau = "0,0";
-                    else
-                    {
-                        try
-                        {
-                            var parameter = BustamanteDoix.Parametro(d.S("terreno"), g.S("tipo_iniezione"), g.Required("pressione_iniezione", strict: true), d.Required("alpha", strict: true));
-                            tau = parameter.D("s").ToString("0.0", System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
-                        }
-                        catch (ArgumentException) { /* Dati incompleti o fuori abaco: nessun valore applicabile. */ }
-                    }
-                    row.Output("__tau", tau);
-                    continue;
-                }
-                var (k, mu) = Calcolo.CoefficientiLaterali(g, d); double? cu = J.Number(d["coesione_non_drenata"]), thickness = J.Number(d["spessore"]), phi = J.Number(d["angolo_attrito"]);
-                row.Output("__k", k?.ToString("0.###") ?? "—"); row.Output("__mu", mu?.ToString("0.###") ?? "—"); row.Output("__alfa", d.S("tipologia") == "Coesivo" && cu >= 0 ? Calcolo.CoefficienteAlfa(g, cu.Value).ToString("0.###") : "—");
-                valid &= thickness > 0; if (valid) depth += thickness!.Value;
-                row.Output("__nq", valid && double.IsFinite(depth) && diameter > 0 && phi is not null ? Nq.Dettaglio(phi.Value, depth / diameter, diameter > .8).D("nq").ToString("0.###") : "—");
+                var row = grid.Rows[index];
+                row.Output("__color", StratigraphyDrawing.LayerColors[index % StratigraphyDrawing.LayerColors.Length]);
+                foreach (var (key, value) in fields[index]) row.Output(key, value);
             }
         }
     }

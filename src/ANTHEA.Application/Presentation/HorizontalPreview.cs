@@ -29,9 +29,7 @@ public static class HorizontalPreview
             hint = "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe.";
         }
         catch (ArgumentException ex) { label = "Modello automatico · dati da completare"; hint = ex.Message; }
-        var factors = new Dictionary<string, string>();
-        if (Calcolo.Verticali.TryGetValue(data["verifica"].S("verticali_indagate", "1"), out var xi))
-        { factors["__xi3"] = xi.Xi3.ToString("F2"); factors["__xi4"] = xi.Xi4.ToString("F2"); }
+        var factors = new Dictionary<string, string>(PileInputCatalog.CorrelationFields(data["verifica"], "1"));
         // Preserve the historical displayed value; normative consolidation belongs to F4.
         factors["__gamma_r"] = "1,30";
         try { efficiency = PaloOrizzontale.Efficiency(data).D("eta").ToString("F3"); }

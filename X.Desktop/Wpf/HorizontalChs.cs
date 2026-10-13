@@ -12,7 +12,7 @@ internal sealed partial class HorizontalWorkspace
     {
         var form = new InputForm(input, [
             new("modo_chs", "Inserimento CHS", Choices: ["Catalogo", "Manuale"]),
-            new("profilo_chs", "Catalogo ANTHEA", Choices: Chs.Catalogo.Keys.ToArray()),
+            new("profilo_chs", "Catalogo ANTHEA", Choices: Anthea.Application.Presentation.PileInputCatalog.ChsProfiles),
             new("diametro_chs_mm", "Diametro esterno manuale", "mm", Symbol: "De"),
             new("spessore_chs_mm", "Spessore manuale", "mm", Symbol: "t"),
             new("fy_chs_mpa", "Snervamento acciaio", "MPa", Symbol: "fy"),

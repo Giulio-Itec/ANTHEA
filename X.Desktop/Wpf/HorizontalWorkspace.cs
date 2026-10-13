@@ -64,7 +64,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         advanced.Content = model; advanced.Expanded += (_, _) => LayoutCards(); advanced.Collapsed += (_, _) => LayoutCards();
         var coefficients = data["verifica"]!.AsObject();
         Anthea.Application.Presentation.HorizontalSheetPresentation.PrepareFactors(coefficients);
-        factors = new(coefficients, [new("verticali_indagate", "Verticali indagate", Choices: Calcolo.Verticali.Keys.ToArray()),
+        factors = new(coefficients, [new("verticali_indagate", "Verticali indagate", Choices: Anthea.Application.Presentation.PileInputCatalog.InvestigatedProfiles),
             new("__xi3", "Correlazione", Symbol: "ξ3", ReadOnly: true), new("__xi4", "Correlazione", Symbol: "ξ4", ReadOnly: true),
             new("__gamma_r", "Sicurezza resistenza", Symbol: "γR", ReadOnly: true)], _ => Changed(), compact: true, symbolColumns: true);
         efficiency = new(coefficients, [
