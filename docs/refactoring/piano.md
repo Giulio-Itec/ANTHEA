@@ -288,6 +288,7 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [x] API-02b: Concrete 0.0.27.2 distribuita nel set T da master pushati, installata con manifest e confronto completo. Attivazione in ANTHEA 1.3.0 verificata: 548 file headless, 50996 righe dense, prove WPF e librerie. Chiusura nel [collaudo F2](chiusura-blocco-f2-20261012.md).
 
 - [x] F4.1 Catture aggiornate dopo F3 per i cinque ambiti autorizzati; Bridge Design resta sospesa.
+  - Riepilogo della finestra del 13/10: [passi, commit, collaudi e ripresa](f4-sessione-20261013.md). Quick 47 PASS; Checker 1625 PASS e 17 Steel già censiti. F4 aperta, nessuna attivazione anticipata delle DLL candidate.
   - [x] F4.1a (13/10): [matrice API e prove](f4-matrice-api.md), riscontrata sui sorgenti dei commit distribuiti nel set V. Individuati i riusi e le lacune di cattura; nessun nuovo motore.
   - [x] F4.1b (13/10): [115 casi e 14 rifiuti attesi](f4-catture.md), 234 file identici byte per byte nelle due esecuzioni (141,7/142,1 s), progetto CA identico con uno/quattro worker. Runner 1 PASS, zero nuovi fallimenti; fonte immutabile e SHA versionati, nessun calcolo modificato.
 - [x] F4.2 (13/10): [controlli sintattici e baseline puntuale](f4-architettura.md), sette regole su 507 sorgenti, 4610 occorrenze censite; modifiche/duplicazioni falliscono, rimozioni richiedono riduzione della baseline. 26 prove del rilevatore; runner 5 PASS, nessun nuovo fallimento.

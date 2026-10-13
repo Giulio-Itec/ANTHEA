@@ -14,6 +14,11 @@ temporaneamente il blocco 5 (F4.11, Bridge Design e prezzari) e la chiusura
 F4.16. Finestra operativa di 90 minuti dalle 19:40 circa, ora italiana.
 Le nuove catture coprono quindi cinque ambiti; Bridge Design rimane separato.
 
+Avanzamento e collaudi della finestra autorizzata:
+[riepilogo della sessione del 13 ottobre](f4-sessione-20261013.md).
+F4.1–F4.3 concluse, F4.4a/F4.6a/F4.6c concluse nelle librerie; integrazione
+runtime e restanti port ancora aperti. Nessuna chiusura di fase.
+
 ## Obiettivo e confini
 
 Portare nelle librerie GPC il calcolo ingegneristico ancora attivo in ANTHEA.
