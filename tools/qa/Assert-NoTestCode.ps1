@@ -28,7 +28,7 @@ param(
     [string[]] $Literal = @('^--smoke', '^--check', '^--capture', 'esito-smoke-completo')
 )
 $ErrorActionPreference = 'Stop'
-$DefaultAssemblies = 'ANTHEA.dll', 'ANTHEA.Core.dll', 'ANTHEA.Calculations.dll', 'Materiali.dll', 'ANTHEA.Application.dll', 'ANTHEA.Reports.dll', 'ANTHEA.Wiki.dll'
+$DefaultAssemblies = 'ANTHEA.dll', 'ANTHEA.Core.dll', 'ANTHEA.Calculations.dll', 'Materiali.dll', 'ANTHEA.Application.dll', 'ANTHEA.Reports.dll', 'ANTHEA.Wiki.dll', 'ANTHEA.Serialization.dll'
 
 function Read-Heaps([string] $file) {
     $b = [IO.File]::ReadAllBytes($file)

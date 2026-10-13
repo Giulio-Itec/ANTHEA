@@ -61,13 +61,7 @@ public static class J
     }
     public static JsonArray Array(this JsonNode? n, string key) => n?[key] as JsonArray ?? new JsonArray();
     public static JsonObject Error(string message) => Obj(("errore", message));
-    public static double Sum(IEnumerable<double> values)
-    {
-        // Somma compensata: corrisponde alla somma accurata delle versioni Python recenti.
-        double sum = 0, correction = 0;
-        foreach (var value in values) { var next = sum + value; correction += Math.Abs(sum) >= Math.Abs(value) ? (sum - next) + value : (value - next) + sum; sum = next; }
-        return sum + correction;
-    }
+
 }
 
 /// <summary>

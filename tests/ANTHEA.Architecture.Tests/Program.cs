@@ -13,7 +13,7 @@ try
     string root = directory?.FullName ?? throw new DirectoryNotFoundException("ANTHEA.sln non trovato.");
     string output = args.Length == 0 ? Path.Combine(root, "supporto/artefatti/refactoring/f3/architecture") : Path.GetFullPath(args[0]);
     Directory.CreateDirectory(output);
-    string[] modules = ["ANTHEA.Application", "ANTHEA.Reports", "ANTHEA.Wiki"];
+    string[] modules = ["ANTHEA.Application", "ANTHEA.Reports", "ANTHEA.Wiki", "ANTHEA.Serialization"];
     foreach (string module in modules)
     {
         var project = XDocument.Load(Path.Combine(root, "src", module, module + ".csproj"));
@@ -24,6 +24,7 @@ try
         if (module == "ANTHEA.Wiki") Check(!projectReferences.Any(n => n.StartsWith("ANTHEA.", StringComparison.Ordinal)), "Wiki: riferimento di progetto verso ANTHEA");
         string[] references = Metadata(Path.Combine(AppContext.BaseDirectory, module + ".dll")).Assemblies;
         Check(!references.Any(IsDesktop), module + ": dipendenza WPF/Office");
+        if (module == "ANTHEA.Serialization") Check(!references.Any(a => a.StartsWith("ANTHEA.", StringComparison.Ordinal) || a.StartsWith("GPC", StringComparison.Ordinal)), "Serialization dipende da un motore o modulo applicativo");
         if (module == "ANTHEA.Reports") Check(!references.Contains("ANTHEA.Application"), "Reports dipende da Application");
         if (module == "ANTHEA.Wiki") Check(!references.Any(a => a.StartsWith("ANTHEA.", StringComparison.Ordinal)), "Wiki dipende da un altro modulo ANTHEA");
         foreach (string file in SourceFiles(Path.Combine(root, "src", module)))

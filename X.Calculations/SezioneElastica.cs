@@ -31,25 +31,25 @@ public static class SezioneElastica
             double[] force=new double[3];double[,] stiffness=new double[3,3];
             foreach(var (area,u,steel) in points)
             {
-                double stress=J.Sum(q.Zip(u,(v,w)=>v*w));bool active=stress>0||uncracked;double factor=steel?n-(active?1:0):active?1:0;
+                double stress=LegacyNumerics.Sum(q.Zip(u,(v,w)=>v*w));bool active=stress>0||uncracked;double factor=steel?n-(active?1:0):active?1:0;
                 for(int i=0;i<3;i++){force[i]+=area*factor*stress*u[i];for(int j=0;j<3;j++)stiffness[i,j]+=area*factor*u[i]*u[j];}
             }
             return(force,stiffness);
         }
-        var (_,initial)=Response([0,0,0],true);double[] q=Risolvi3(initial,target);double norm=Math.Max(1,Math.Sqrt(J.Sum(target.Select(v=>v*v)))),error=0;int iteration;
+        var (_,initial)=Response([0,0,0],true);double[] q=Risolvi3(initial,target);double norm=Math.Max(1,Math.Sqrt(LegacyNumerics.Sum(target.Select(v=>v*v)))),error=0;int iteration;
         for(iteration=0;iteration<80;iteration++)
         {
-            var (force,stiffness)=Response(q);var residual=target.Zip(force,(v,w)=>v-w).ToArray();error=Math.Sqrt(J.Sum(residual.Select(v=>v*v)))/norm;if(error<1e-9)break;
+            var (force,stiffness)=Response(q);var residual=target.Zip(force,(v,w)=>v-w).ToArray();error=Math.Sqrt(LegacyNumerics.Sum(residual.Select(v=>v*v)))/norm;if(error<1e-9)break;
             var delta=Risolvi3(stiffness,residual);bool improved=false;
             for(int step=0;step<20;step++)
             {
-                var candidate=q.Zip(delta,(v,w)=>v+w*Math.Pow(.5,step)).ToArray();var (trial,_)=Response(candidate);double trialError=Math.Sqrt(J.Sum(target.Zip(trial,(v,w)=>(v-w)*(v-w))))/norm;
+                var candidate=q.Zip(delta,(v,w)=>v+w*Math.Pow(.5,step)).ToArray();var (trial,_)=Response(candidate);double trialError=Math.Sqrt(LegacyNumerics.Sum(target.Zip(trial,(v,w)=>(v-w)*(v-w))))/norm;
                 if(trialError<error){q=candidate;improved=true;break;}
             }
             if(!improved)throw new ArgumentException("Metodo n: mancata convergenza dell’equilibrio.");
         }
         if(iteration==80)throw new ArgumentException("Metodo n: superato il limite di 80 iterazioni.");
-        double[] steelStresses=points.Where(p=>p.Steel).Select(p=>n*J.Sum(q.Zip(p.U,(v,w)=>v*w))).ToArray();
+        double[] steelStresses=points.Where(p=>p.Steel).Select(p=>n*LegacyNumerics.Sum(q.Zip(p.U,(v,w)=>v*w))).ToArray();
         double cls=Math.Max(0,engine.Outline.Max(p=>q[0]+q[1]*p[1]/length-q[2]*p[0]/length));
         return new(q,length,cls,steelStresses.Select(Math.Abs).DefaultIfEmpty(0).Max(),steelStresses,error);
     }
