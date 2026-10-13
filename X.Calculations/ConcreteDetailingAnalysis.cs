@@ -11,6 +11,10 @@ public sealed record ConcreteAnchorageResult(double Diameter, double Stress, dou
 public static class ConcreteDetailingAnalysis
 {
     public static ConcreteDetailingResult Calculate(JsonObject input, JsonObject settings, IEnumerable<JsonObject> actions)
+        => Calculate(input, settings, actions, legacyActions: false);
+
+    /// <param name="legacyActions">Diagnostic comparison only: ignore the shear-table axial actions, as before F4.12d.</param>
+    public static ConcreteDetailingResult Calculate(JsonObject input, JsonObject settings, IEnumerable<JsonObject> actions, bool legacyActions)
     {
         if (settings.S("normativa") != "NTC 2018")
             throw new ArgumentException("I dettagli implementati sono riferiti a NTC 2018 con integrazioni EC2.");
@@ -38,7 +42,10 @@ public static class ConcreteDetailingAnalysis
                 o.S("qualita_copriferro") == "Sì", MinimumConcrete.Required(exposures));
         }
         catch (Exception ex) when (ex is not OperationCanceledException) { durabilityError = ex.Message; }
-        double n = actions.Select(row => Math.Max(0, -SectionWorkspace.Number(row.S("N"), "N"))).DefaultIfEmpty(0).Max();
+        // Legacy shear rows explicitly allow an omitted axial component (= 0). A present malformed value is rejected.
+        var ultimateActions = legacyActions ? actions : actions.Concat(settings["taglio"]!.Array("azioni").OfType<JsonObject>()
+            .Select(row => J.Obj(("N", row.S("N", "0")))));
+        double n = ultimateActions.Select(row => Math.Max(0, -SectionWorkspace.Number(row.S("N"), "N"))).DefaultIfEmpty(0).Max();
         bool hasStirrups = ConcreteCalculationSettings.HasStirrups(input);
         int legs = kind == ConcreteMemberKind.Beam && hasStirrups
             ? ConcreteCalculationSettings.StirrupLegs(settings["taglio"], "rami_y") : 0;

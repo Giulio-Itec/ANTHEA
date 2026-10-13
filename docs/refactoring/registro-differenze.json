@@ -25,6 +25,25 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-20",
+      "data": "2026-10-14",
+      "fase": "F4.12d.1 / F2.8-U4",
+      "titolo": "NEd comune fra scheda dettagli e progetto armature",
+      "famiglia": "sezioni c.a.",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "La scheda dettagli ora include le componenti N delle righe taglio, come il progetto armature. Cattura preservata: con N=-100 kN nelle azioni ultime e -6000 kN nel taglio, NEd passa da 100 a 6000 kN e As,min da 720 a 1533.333333 mm². Il segno positivo resta trazione; N presente non numerico è rifiutato. Ramo diagnostico conservato. Nessuna modifica alle formule normative.",
+      "test": [
+        "11 PASS runner, inclusi Application, ConcreteDesign, contratti input e ricerca sezioni",
+        "Caso N=-20000 kN: As,min=5111.111111111111 mm² ed esito negativo; immutabilità e letture errate controllate"
+      ],
+      "evidenze": [
+        "tests/fixtures/f4/input-contracts-reference.json",
+        "tests/ConcreteLibraryAdapter.Checks/F4InputContractChecks.cs",
+        "supporto/artefatti/refactoring/f4/ned-a.log"
+      ]
+    },
+    {
       "id": "F4-19",
       "data": "2026-10-14",
       "fase": "F4.12c.2",
