@@ -1,6 +1,6 @@
 # Stato aggiornato — chiusura F3, 13 ottobre 2026
 
-**Questo aggiornamento sostituisce le istruzioni operative del checkpoint storico sotto.** F3 è chiusa, ANTHEA 1.6.0 e guide Rev40 pronte; collaudo completo con riprese mirate risolto, installer verificato. Dettagli in [chiusura-f3-20261013.md](chiusura-f3-20261013.md). Merge/push già autorizzati seguono la chiusura.
+**Questo aggiornamento sostituisce le istruzioni operative del checkpoint storico sotto.** F3 è chiusa, ANTHEA 1.6.0 e guide Rev40 pronte; collaudo completo con riprese mirate risolto, installer verificato. Dettagli in [chiusura-f3-20261013.md](chiusura-f3-20261013.md). Merge e push conclusi in 812d8ab6; setup definitivo costruito dal commit pulito e pubblicato 8b0da2a2.
 
 F4 e F5 non devono iniziare. EXCEL-SOL è accodata con Elemento facoltativo; resta da distinguere il criterio Plastico/Elastico dallo stato limite importato. STG-4 reale e SEZ-3b ancora aperte. Set V invariato. Non modificare il processo ANTHEA dell’utente né avviare build nel checkout principale.
 
