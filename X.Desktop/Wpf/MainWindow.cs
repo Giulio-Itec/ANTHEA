@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using Anthea.Application.BridgeDesign;
 using Anthea.Application.Documents;
 using System.IO;
@@ -67,7 +68,7 @@ public sealed partial class MainWindow : Window
         Add("Nuovo palo", () => NewCalculation("geo_palo_verticale"), Key.N); Add("Nuovo micropalo", () => NewCalculation("geo_micropalo_verticale")); Add("Nuova sezione in c.a.", () => NewCalculation("str_palo")); Add("Nuovo archivio progetti", NewProjects);
         Add("Nuova sezione composta da ponte", () => NewCalculation(BridgeEditor.Module));
         Add("Nuovo Bridge Design", () => NewCalculation(BridgeDesignModel.Module));
-        Add("Nuovo muro di sostegno", () => NewCalculation(RetainingWall.Module));
+        Add("Nuovo muro di sostegno", () => NewCalculation(WallModel.Module));
         Add("Nuovo palo orizzontale", () => NewCalculation(PaloOrizzontale.Module));
         Add("Nuova palificata orizzontale", () => NewCalculation(HorizontalPileGroup.Module));
         Add("Nuovo micropalo orizzontale", () => NewCalculation(MicropaloOrizzontale.Module));
@@ -241,7 +242,7 @@ public sealed partial class MainWindow : Window
         editor.SoilReplacementRequested += data => Safe(() => ReplaceCurrentSoil(data));
         if (projectReadOnly) editor.InspectRevision();
         sharedBaseline = (JsonObject)sheet.DeepClone(); sharedBaseline["dati"] = editor.Data.DeepClone();
-        sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or RetainingWall.Module or "mat_calcestruzzo" or RebarMaterial.Module or BridgeEditor.Module or BridgeDesignModel.Module
+        sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or WallModel.Module or "mat_calcestruzzo" or RebarMaterial.Module or BridgeEditor.Module or BridgeDesignModel.Module
             ? editor : DisplayAdaptation.Viewport(editor, 1120, 600);
         heading.Text = SheetHeading(sheet); UpdateBackButton();
         RefreshModelReference(sheet);
@@ -422,11 +423,11 @@ public sealed partial class MainWindow : Window
             return;
         }
         Commit(); if (editor?.HasResults != true || editor.Busy) { MessageBox.Show(this, editor?.Module == "str_palo" ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi." : "Completare il calcolo prima di esportare il report."); return; }
-        if (editor.Module is HorizontalPileGroup.Module or PaloOrizzontale.Module or MicropaloOrizzontale.Module or BridgeDesignModel.Module or RetainingWall.Module)
+        if (editor.Module is HorizontalPileGroup.Module or PaloOrizzontale.Module or MicropaloOrizzontale.Module or BridgeDesignModel.Module or WallModel.Module)
         {
             var save = new SaveFileDialog {
                 Filter = "Documento Word|*.docx",
-                FileName = editor.Module == HorizontalPileGroup.Module ? "Relazione_palificata_orizzontale.docx" : editor.Module == RetainingWall.Module ? "Relazione_muro_sostegno.docx" : editor.Module == BridgeDesignModel.Module ? "BridgeDesign.docx" : editor.Module == MicropaloOrizzontale.Module
+                FileName = editor.Module == HorizontalPileGroup.Module ? "Relazione_palificata_orizzontale.docx" : editor.Module == WallModel.Module ? "Relazione_muro_sostegno.docx" : editor.Module == BridgeDesignModel.Module ? "BridgeDesign.docx" : editor.Module == MicropaloOrizzontale.Module
                     ? "Relazione_micropalo_orizzontale.docx" : "Relazione_palo_orizzontale.docx"
             };
             if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []);

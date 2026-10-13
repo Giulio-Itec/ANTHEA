@@ -94,6 +94,7 @@ try
     checks += StrainDiagramChecks.Run();
     checks += await ConcreteInspectionChecks.Run();
     checks += await WallParameterChecks.Run();
+    checks += WallContractChecks.Run(root);
     checks += HorizontalPreviewChecks.Run(root);
     checks += HorizontalSoilChecks.Run();
     checks += VerticalPilePreviewChecks.Run();

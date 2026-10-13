@@ -140,7 +140,7 @@ public sealed partial class MainWindow
         document = ProjectDocuments.CreateArchive(); var project = ProjectDocuments.AddProject(document, "Test trasferimento muro"); var wallSheet = ProjectDocuments.AddSheet(project, RetainingWall.Module); wallSheet["dati"] = wallData;
         currentSheet = null; ShowSheet(wallSheet); await editor!.CalculateAsync(); var projectWall = editor.retainingWall!;
         var projectResult = projectWall.Calculation!; var selectedCase = projectResult.Cases[0]; var selectedForce = selectedCase.Sections.Last(s => s.Name == "Fusto");
-        OpenWallConcreteSection(RetainingWall.ExportSection(projectResult, "Fusto", selectedForce.Position, selectedCase.Name), "Sezione dal muro"); await Settle();
+        OpenWallConcreteSection(Anthea.Application.Walls.WallModel.ExportSection(projectResult, "Fusto", selectedForce.Position, selectedCase.Name), "Sezione dal muro"); await Settle();
         Check(project.Array("fogli").Count == 2 && editor!.Module == "str_palo" && wallSheet["dati"]!["actions"]![0].D("value") == 35, "Invio nel progetto crea un nuovo foglio e conserva il muro");
         OpenModuleCopy("geo_palo_verticale", SoilProfileTransfer.Create("geo_palo_verticale", SoilProfileTransfer.Extract(RetainingWall.Module, wallData)), "Terreno dal muro"); await Settle();
         Check(project.Array("fogli").Count == 3 && editor!.Module == "geo_palo_verticale", "Invio terreno nel progetto crea un foglio palo nella stessa sezione");

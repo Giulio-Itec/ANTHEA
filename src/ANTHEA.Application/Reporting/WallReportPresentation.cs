@@ -1,15 +1,16 @@
-using Anthea.Calculations.Geotechnics;
+using Anthea.Application.Walls;
 namespace Anthea.Application.Reporting;
 
-public sealed record WallReportPresentation(RetainingWall.LoadCase Case, SlopeCaseResult? GlobalCase, RetainingWall.BarSchedule? Schedule)
+public sealed record WallReportPresentation(WallModel.LoadCase Case, SlopeCaseResult? GlobalCase, WallModel.BarSchedule? Schedule)
 {
-    public static WallReportPresentation ForProject(RetainingWall.Result result) => Prepare(result, result.Cases[0],
+    internal static WallReportPresentation ForProject(RetainingWall.Result result) => ForProject(new WallModel.Result(result));
+    private static WallReportPresentation ForProject(WallModel.Result result) => Prepare(result, result.Cases[0],
         result.GlobalStability?.Cases.OrderByDescending(c => c.Critical?.Ratio ?? double.PositiveInfinity).FirstOrDefault());
-    public static WallReportPresentation Prepare(RetainingWall.Result result, RetainingWall.LoadCase selected, SlopeCaseResult? global)
+    public static WallReportPresentation Prepare(WallModel.Result result, WallModel.LoadCase selected, SlopeCaseResult? global)
     {
-        RetainingWall.BarSchedule? schedule = null;
+        WallModel.BarSchedule? schedule = null;
         if (result.Input.S("family") == "cantilever")
-            try { schedule = RetainingWall.CalculateBarSchedule(result); }
+            try { schedule = WallModel.CalculateBarSchedule(result); }
             catch (ArgumentException) { /* Report tables already record invalid schedule inputs. */ }
         return new(selected, global, schedule);
     }

@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using Anthea.Application.Walls;
+using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Media;
@@ -8,8 +9,8 @@ namespace X.Desktop;
 internal sealed partial class RetainingWallDrawing : FrameworkElement
 {
     internal JsonObject? Data;
-    internal RetainingWall.Result? Calculation;
-    internal RetainingWall.LoadCase? Case;
+    internal WallModel.Result? Calculation;
+    internal WallModel.LoadCase? Case;
     internal bool Diagrams;
     internal bool SelectedValley;
     private static void Text(DrawingContext dc, string text, double x, double y, Brush? color = null, double size = 12)
@@ -51,8 +52,8 @@ internal sealed partial class RetainingWallDrawing : FrameworkElement
             }
             z = bottom; if (z >= h + t) break;
         }
-        double dv = RetainingWall.ValleyHeight(Data), vz = 0; int vi = 0;
-        foreach (var layer in RetainingWall.ValleyLayers(Data))
+        double dv = WallModel.ValleyHeight(Data), vz = 0; int vi = 0;
+        foreach (var layer in WallModel.ValleyLayers(Data))
         {
             double low = Math.Max(0, dv - vz - layer.D("thickness")), high = dv - vz;
             if (high <= 0) break;
@@ -69,7 +70,7 @@ internal sealed partial class RetainingWallDrawing : FrameworkElement
         dc.DrawLine(new Pen(Ui.Muted, 1), P(-.8, dv), P(a, dv));
         if (ShowLabels) Text(dc, $"Hlib={h+t-dv:0.##} m · Dv={dv:0.##} m", 8, height - 83, size: 10);
         dc.DrawLine(new Pen(Ui.Muted, 1), P(-.25, 0), P(b + extra, 0));
-        Polygon(dc, RetainingWall.Outline(Data).Select(p => P(p[0], p[1])), Ui.Brush("#CCD5DE"), new Pen(Ui.Navy, 1.7));
+        Polygon(dc, WallModel.Outline(Data).Select(p => P(p[0], p[1])), Ui.Brush("#CCD5DE"), new Pen(Ui.Navy, 1.7));
  
         hits.Add((new Rect(P(a, h + t), P(back, t)), $"H={h:0.###} m; s₀={s:0.###} m; s₁={g.D("stem_top"):0.###} m; t={t:0.###} m; a={a:0.###} m; b={g.D("heel"):0.###} m\nγ muro={Data["materials"].D("gamma"):0.##} kN/m³; fck={Data["materials"].D("fck"):0.#} MPa; fyk={Data["materials"].D("fyk"):0.#} MPa", null));
         if (Mode == "Tassi di lavoro" && Calculation is not null && Case is not null) DrawUtilization(dc, P, back, h + t, width * .72);
@@ -91,7 +92,7 @@ internal sealed partial class RetainingWallDrawing : FrameworkElement
         if (ShowLoads && Data["seismic"].B("enabled") && (!CombinedLoads || Case?.State == "SISMA"))
         {
             bool seismicReady = true; double? siteKh = null, siteKv = null;
-            try { if (RetainingWall.DeriveSeismic(Data) is { } site) { siteKh = site.Kh; siteKv = site.Kv; } }
+            try { if (WallModel.DeriveSeismic(Data) is { } site) { siteKh = site.Kh; siteKv = site.Kv; } }
             catch (ArgumentException) { seismicReady = false; }
             if (seismicReady)
             {
@@ -99,7 +100,7 @@ internal sealed partial class RetainingWallDrawing : FrameworkElement
             double kh = CombinedLoads ? Case!.Kh : siteKh ?? Data["seismic"].D("kh"), kv = CombinedLoads ? Case!.Kv : siteKv ?? Data["seismic"].D("kv");
             Arrow(dc, new(mid.X - 15, mid.Y), new(mid.X - 15, mid.Y + (kv < 0 ? 25 : -25)), Ui.Blue, 2);
             string seismic = $"{(Data["seismic"].S("method") == "Wood semplificato" ? "Wood (sempl.)" : "MO")}\nkh={kh:0.###}; {(CombinedLoads ? "kv" : "|kv|")}={kv:0.###}";
-            Text(dc, seismic, 7, 26, Ui.Blue, 10); hits.Add((new Rect(5, 25, 160, 42), RetainingWall.SeismicHelp, null));
+            Text(dc, seismic, 7, 26, Ui.Blue, 10); hits.Add((new Rect(5, 25, 160, 42), WallModel.SeismicHelp, null));
             }
             else Text(dc, "Sisma: input\nincompleti", 7, 26, Brushes.DarkGoldenrod, 10);
         }
@@ -149,7 +150,7 @@ internal sealed partial class RetainingWallDrawing : FrameworkElement
             var x0 = P(c.Contact.Start, 0); var x1 = P(c.Contact.End, 0);
             Polygon(dc, [x0, x1, new(x1.X, x1.Y + 32 * c.Contact.Heel / c.Contact.Peak), new(x0.X, x0.Y + 32 * c.Contact.Toe / c.Contact.Peak)], Ui.Brush("#E7C4BA"), new Pen(Ui.Brush("#B75043"), 1));
             Text(dc, $"pmax = {c.Contact.Peak:0.0} kPa", width * .5, height - 20, size: 10);
-            plots.Add((new Rect(P(0, 0).X, P(0, 0).Y, b * scale, 32), point => $"Contatto: x={(point.X - 38) / scale - .8:0.000} m; p={RetainingWall.Pressure(c.Contact, (point.X - 38) / scale - .8):0.000} kPa; e={c.Eccentricity:0.000} m; B′={c.EffectiveWidth:0.000} m"));
+            plots.Add((new Rect(P(0, 0).X, P(0, 0).Y, b * scale, 32), point => $"Contatto: x={(point.X - 38) / scale - .8:0.000} m; p={WallModel.Pressure(c.Contact, (point.X - 38) / scale - .8):0.000} kPa; e={c.Eccentricity:0.000} m; B′={c.EffectiveWidth:0.000} m"));
         }
         else Text(dc, "PERDITA DI EQUILIBRIO", 75, height - 36, Brushes.Firebrick, 12);
     }
@@ -159,7 +160,7 @@ internal sealed partial class RetainingWallDrawing : FrameworkElement
         if (Member != "Fusto" && !Case.Contact.Valid) { Text(dc, "Reazioni non disponibili: perdita di equilibrio", 20, 25, Brushes.Firebrick); return; }
         var cuts = Case.Sections.Where(s => s.Name == Member).OrderBy(s => s.Position).ToArray(); if (cuts.Length == 0) { Text(dc, "Elemento assente", 20, 25); return; }
         h = Math.Max(.01, cuts.Max(s => s.Position));
-        foreach (var (title, selector, col, color) in new (string, Func<RetainingWall.SectionForce, double>, int, Brush)[] {
+        foreach (var (title, selector, col, color) in new (string, Func<WallModel.SectionForce, double>, int, Brush)[] {
             ("M " + Member + " [kNm/m]", s => s.M, 0, Ui.Blue), ("V " + Member + " [kN/m]", s => s.V, 1, Ui.Brush("#AA5544")), ("N " + Member + " [kN/m]", s => s.N, 2, Ui.Brush("#407D62")) })
         {
             double w = ActualWidth / 3, left = w * col + 30, y = 40, hh = ActualHeight - 90;

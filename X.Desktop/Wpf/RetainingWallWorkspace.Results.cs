@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using Anthea.Application.Walls;
+using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using X.Core;
@@ -10,13 +11,13 @@ internal sealed partial class RetainingWallWorkspace
     internal void GenerateMatrix()
     {
         Commit();
-        try { Data["combinations"] = RetainingWall.GenerateCombinations(Data); Data["combination_mode"] = "Automatiche"; Data["combination_signature"] = RetainingWall.CombinationSignature(Data); BuildMatrix(); Changed(); }
+        try { Data["combinations"] = WallModel.GenerateCombinations(Data); Data["combination_mode"] = "Automatiche"; Data["combination_signature"] = WallModel.CombinationSignature(Data); BuildMatrix(); Changed(); }
         catch (Exception ex) { matrixStatus.Text = ex.Message; }
     }
     private void ConfirmMatrix()
     {
-        Commit(); Data["combination_mode"] = "Personalizzate"; Data["combination_signature"] = RetainingWall.CombinationSignature(Data);
-        try { RetainingWall.ValidateActions(Data); matrixStatus.Text = "Matrice personalizzata confermata"; Changed(); }
+        Commit(); Data["combination_mode"] = "Personalizzate"; Data["combination_signature"] = WallModel.CombinationSignature(Data);
+        try { WallModel.ValidateActions(Data); matrixStatus.Text = "Matrice personalizzata confermata"; Changed(); }
         catch (Exception ex) { matrixStatus.Text = ex.Message; }
     }
     private void CopyCombination()
@@ -32,7 +33,7 @@ internal sealed partial class RetainingWallWorkspace
     private void BuildMatrix()
     {
         if (MatrixGrid is not null) grids.Remove(MatrixGrid);
-        var fields = new List<Field> { new("enabled", "Usa", Bool: true), new("name", "Combinazione"), new("state", "Stato", Choices: RetainingWall.States), new("approach", "A / M / R", ReadOnly: true), new("wall", "γ muro"), new("soil", "γ monte"), new("valley_soil", "γ valle"), new("water", "γ acqua") };
+        var fields = new List<Field> { new("enabled", "Usa", Bool: true), new("name", "Combinazione"), new("state", "Stato", Choices: WallModel.States), new("approach", "A / M / R", ReadOnly: true), new("wall", "γ muro"), new("soil", "γ monte"), new("valley_soil", "γ valle"), new("water", "γ acqua") };
         foreach (var (a, i) in Data.Array("actions").Select((a, i) => (a, i))) fields.Add(new("a_" + a.S("id"), $"{i + 1} · {a.S("name")}\nγ × ψ"));
         fields.AddRange([new("mphi", "γMφ"), new("rslide", "γR\nscorr."), new("rover", "γR\nribalt."), new("rbearing", "γR\nport."), new("kh", "kh"), new("kv", "kv")]);
         if (Data.Array("combinations").Any(c => c.S("purpose") != "")) fields.Add(new("purpose", "Uso sisma", Choices: ["", "Generale", "Ribaltamento"]));
@@ -45,7 +46,7 @@ internal sealed partial class RetainingWallWorkspace
             var flat = (JsonObject)c.DeepClone(); flat.Remove("coefficients"); foreach (var a in Data.Array("actions")) flat["a_" + a.S("id")] = c["coefficients"]?[a.S("id")]?.DeepClone();
             var row = new JsonRow(flat, key =>
             {
-                if (Data.S("combination_mode") == "Automatiche") Data["combination_signature"] = RetainingWall.CombinationSignature(Data);
+                if (Data.S("combination_mode") == "Automatiche") Data["combination_signature"] = WallModel.CombinationSignature(Data);
                 Data["combination_mode"] = "Personalizzate";
                 if (key.StartsWith("a_")) c["coefficients"]![key[2..]] = flat[key]?.DeepClone(); else c[key] = flat[key]?.DeepClone();
                 c["approach"] = "Personalizzato"; flat["approach"] = "Personalizzato";
@@ -78,14 +79,14 @@ internal sealed partial class RetainingWallWorkspace
         pressures.Content = PressurePanel(c);
         ShowCheckTable(); RefreshViews();
     }
-    private FrameworkElement PressurePanel(RetainingWall.LoadCase c)
+    private FrameworkElement PressurePanel(WallModel.LoadCase c)
     {
         var table = Table(["z₀ [m]", "z₁ [m]", "φk [°]", "φd [°]", "Ka / K₀", "Kae", "σ′v₀ [kPa]", "σ′v₁ [kPa]", "p terra₀", "p terra₁", "p q", "u₀", "u₁", "Δp sisma", "p tot₀", "p tot₁"],
             c.PressureDetails.Select(p => new[] { F(p.Z0), F(p.Z1), F(p.Phi), F(p.PhiDesign), p.K.ToString("0.0000", It), p.Ke.ToString("0.0000", It), F(p.Sigma0), F(p.Sigma1), F(p.Soil0), F(p.Soil1), F(p.Surcharge), F(p.Water0), F(p.Water1), F(p.Dynamic), F(p.Total0), F(p.Total1) }));
         table.Height = 175;
         table.SelectionChanged += (_, _) => { Drawing.SelectedPressure = table.SelectedIndex; Drawing.InvalidateVisual(); };
         bool wood = Data["seismic"].B("enabled") && Data["seismic"].S("method") == "Wood semplificato";
-        var thrust = RetainingWall.Integrate(c.Pressures, 0, Data["geometry"].D("height") + Data["geometry"].D("slab"), Data["geometry"].D("height") + Data["geometry"].D("slab"));
+        var thrust = WallModel.Integrate(c.Pressures, 0, Data["geometry"].D("height") + Data["geometry"].D("slab"), Data["geometry"].D("height") + Data["geometry"].D("slab"));
         string formula = wood ? "K₀=1−sinφd; Δp=kh·γ·Ht (Wood semplificato, uniforme); p=K₀σ′v+K₀Σ(fᵢqᵢ)+u+Δp." : "Coulomb/MO: Kh=cos²(φd−θ)cosδd/{cosθ cos(δd+θ)[1+√(sin(φd+δd)sin(φd−θ)/cos(δd+θ))]²}; θ=atan[kh/(1−kv)]. Con δ=θ=0: Rankine. Δp=(Ke−K)(1−kv)γHt/2. Piano virtuale con mensola: δ=0; fusto: δ muro.";
         var stem = Table(["Fusto z₀–z₁ [m]", "φd [°]", "K", "Ke", "p₀–p₁ [kPa]"], c.StemPressureDetails.Select(p => new[] { F(p.Z0) + "–" + F(p.Z1), F(p.PhiDesign), p.K.ToString("0.0000", It), p.Ke.ToString("0.0000", It), F(p.Total0) + "–" + F(p.Total1) })); stem.Height = 130;
         var valley = Table(["Valle z₀–z₁ [m]", "Pressione usata p₀–p₁ [kPa]"], c.ValleyPressures.Select(p => new[] { F(p.Z0) + "–" + F(p.Z1), F(p.P0) + "–" + F(p.P1) })); valley.Height = 110;
@@ -114,7 +115,7 @@ internal sealed partial class RetainingWallWorkspace
         if ((string)CheckFilter.SelectedItem == "Calcolo delle spinte") { checks.Content = PressurePanel(c); return; }
         if ((string)CheckFilter.SelectedItem == "Sollecitazioni numeriche")
         {
-            var table = Table(["Elemento", "z/l [m]", "s [m]", "N [kN/m]", "M [kNm/m]", "V [kN/m]", "Armatura"], c.Sections.Select(s => new[] { s.Name, F(s.Position), F(s.Thickness), F(s.N), F(s.M), F(s.V), RebarLabel(Data, RetainingWall.ReinforcementKey(Data, s.Name, s.Position)) })); table.Height = 285;
+            var table = Table(["Elemento", "z/l [m]", "s [m]", "N [kN/m]", "M [kNm/m]", "V [kN/m]", "Armatura"], c.Sections.Select(s => new[] { s.Name, F(s.Position), F(s.Thickness), F(s.N), F(s.M), F(s.V), RebarLabel(Data, WallModel.ReinforcementKey(Data, s.Name, s.Position)) })); table.Height = 285;
             table.SelectionChanged += (_, _) => { var f = table.SelectedIndex >= 0 ? c.Sections[table.SelectedIndex] : null; SelectSection(f is not null && (f.Name == "Fusto" || c.Contact.Valid) ? (f.Name, f.Position, c.Name) : null); };
             SelectedResultsGrid = table; checks.Content = table; return;
         }

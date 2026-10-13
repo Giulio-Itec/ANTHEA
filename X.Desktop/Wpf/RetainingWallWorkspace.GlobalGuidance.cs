@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,7 +41,7 @@ internal sealed partial class RetainingWallWorkspace
     private void RefreshGlobalSearch()
     {
         var g = Data["global_stability"]!; bool automatic = g.S("search_mode") == "Automatica";
-        if (automatic) RetainingWall.ProposeGlobalSearch(Data);
+        if (automatic) WallModel.ProposeGlobalSearch(Data);
         if (Forms.TryGetValue("global_search", out var form)) foreach (string key in GlobalSearchLimits)
         {
             form.Enable(key, !automatic, true);

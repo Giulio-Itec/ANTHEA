@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using Anthea.Application.Modules;
 using Anthea.Application.Scheduling;
 using Anthea.Reports;
@@ -16,7 +17,7 @@ namespace X.Desktop;
 internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
 {
     internal JsonObject Data { get; }
-    internal RetainingWall.Result? Calculation { get; private set; }
+    internal WallModel.Result? Calculation { get; private set; }
     internal JsonObject? Result => Calculation?.Json();
     internal bool Busy { get; private set; }
     internal event Action? Modified;
@@ -65,7 +66,7 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
         var completed = await recalculation.ScheduleAsync(async token =>
         {
             Busy = true; status.Text = "Calcolo di equilibrio e verifiche GPC…";
-            try { return (await Task.Run(() => calculationService.Calculate(snapshot, token), token)).NativeAs<RetainingWall.Result>(); }
+            try { return WallModel.Read(await Task.Run(() => calculationService.Calculate(snapshot, token), token)); }
             finally { Busy = false; }
         }, delay);
         completed.TryPublish(current =>
@@ -87,7 +88,7 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
         building = true;
         try
         {
-            var d = RetainingWall.Example(family); Data.Clear(); foreach (var p in d) Data[p.Key] = p.Value?.DeepClone();
+            var d = WallModel.Example(family); Data.Clear(); foreach (var p in d) Data[p.Key] = p.Value?.DeepClone();
             Family.SelectedItem = Family.Items.Cast<ComboBoxItem>().Single(i => (string)i.Tag == family); BuildInputs(); BuildMatrix(); UpdateFields();
         }
         finally { building = false; }
@@ -99,9 +100,9 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
         foreach (var column in grid.Columns) column.Width = DataGridLength.Auto;
         return grid;
     }
-    private static DataGrid CheckTable(IEnumerable<RetainingWall.Check> checks) => Table(["Verifica", "Combinazione", "Ed", "Rd", "Unità", "Ed/Rd", "Esito"],
+    private static DataGrid CheckTable(IEnumerable<WallModel.Check> checks) => Table(["Verifica", "Combinazione", "Ed", "Rd", "Unità", "Ed/Rd", "Esito"],
         checks.Select(c => new[] { c.Name, c.Combination, F(c.Demand), c.Resistance is double r ? F(r) : "—", c.Unit, c.Ratio is double q ? q.ToString("0.000", It) : "—", c.Status }));
-    internal static IEnumerable<RetainingWall.Check> Envelope(IEnumerable<RetainingWall.Check> checks) => ReportRetainingWall.Envelope(checks);
+    internal static IEnumerable<WallModel.Check> Envelope(IEnumerable<WallModel.Check> checks) => WallExports.Envelope(checks);
     private void SelectSection((string Member, double Position, string Combination)? selected)
     {
         selectedSection = selected;
@@ -111,7 +112,7 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
     internal void SendSelectedSection()
     {
         if (selectedSection is not { } s || Calculation is null || Busy || Data.S("family") != "cantilever") return;
-        var output = RetainingWall.ExportSection(Calculation, s.Member, s.Position, s.Combination);
+        var output = WallModel.ExportSection(Calculation, s.Member, s.Position, s.Combination);
         SectionRequested?.Invoke(output, $"Muro · {s.Member} · z/l {s.Position:0.###} m");
     }
     private void ExportCsv()
@@ -119,7 +120,7 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
         bool global = (string?)ViewMode.SelectedItem == "Stabilità globale" && GlobalResult is not null;
         if ((!global && Calculation is null) || Busy) { MessageBox.Show(Window.GetWindow(this), "Attendere il calcolo e correggere i dati prima di esportare."); return; }
         var dialog = new SaveFileDialog { Filter = "Tabelle CSV|*.csv", FileName = global ? "Muro_stabilita_globale_conci.csv" : "Muro_verifiche.csv" };
-        if (dialog.ShowDialog(Window.GetWindow(this)) == true) Archivio.ScriviAtomico(dialog.FileName, Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(global ? ReportRetainingWall.GlobalCsv(GlobalResult!) : ReportRetainingWall.Csv(Calculation!))).ToArray());
+        if (dialog.ShowDialog(Window.GetWindow(this)) == true) Archivio.ScriviAtomico(dialog.FileName, Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(global ? WallExports.GlobalCsv(GlobalResult!) : WallExports.Csv(Calculation!))).ToArray());
     }
     internal byte[] BuildReport(string title) => DocxWriter.Write(BuildReportDocument(title));
     internal DocxDocument BuildReportDocument(string title)
@@ -127,7 +128,7 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
         if (Calculation is null || Busy) throw new InvalidOperationException("Attendere il calcolo del muro.");
         var context = Anthea.Application.Reporting.WallReportPresentation.Prepare(Calculation, Drawing.Case ?? Calculation.Cases[0], GlobalCase);
         var figures = ModuleFigureRenderer.WallFigures(Calculation, context).Select(f => new ReportRetainingWall.Figure(f.Caption, f.Png, f.AspectRatio)).ToList();
-        return ReportRetainingWall.CreateDocument(title, Calculation, figures);
+        return WallExports.CreateDocument(title, Calculation, figures);
     }
     public void Dispose() { disposed = true; recalculation.Dispose(); foreach (var session in parameterSessions) session.Dispose(); parameterSessions.Clear(); }
 }

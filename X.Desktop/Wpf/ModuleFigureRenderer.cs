@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using Anthea.Application.BridgeDesign;
 using Anthea.Application.Presentation;
 using Anthea.Application.Reporting;
@@ -16,8 +17,8 @@ internal sealed partial class ModuleFigureRenderer : IFigureRenderer
         if (c.ModuleId is PaloOrizzontale.Module or MicropaloOrizzontale.Module) return HorizontalFigures(c.Values);
         if (c.ModuleId == BridgeEditor.Module)
             return BridgeFigures(BridgeResultView.Read(c), c.Data["ui_mista"]!.AsObject(), request.Options);
-        if (c.ModuleId == RetainingWall.Module)
-            return WallFigures(c.NativeAs<RetainingWall.Result>(), (WallReportPresentation)request.Context!);
+        if (c.ModuleId == WallModel.Module)
+            return WallFigures(WallModel.Read(c), (WallReportPresentation)request.Context!);
         if (c.ModuleId == BridgeDesignModel.Module)
         {
             var drawing = new BridgeDesignDrawing { Data = c.Data, Result = BridgeDesignModel.Read(c) };

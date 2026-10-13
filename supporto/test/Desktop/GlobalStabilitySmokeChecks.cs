@@ -43,8 +43,8 @@ public sealed partial class MainWindow
             Check(WallAdvancedChecks.ReportHasFigures(File.ReadAllBytes(Path.Combine(directory, "muro-con-globale.docx")), reportCaptions), "Relazione completa include la figura globale: " + string.Join(" | ", reportCaptions));
             w.Forms["foundation"].Set("delta", "40"); await w.CalculateAsync(); Check(w.Calculation is null, "Input locale fuori campo invalida solo il calcolo ordinario");
             await w.CalculateGlobalAsync(); Check(w.GlobalResult is not null && w.Calculation is null, "Calcola solo globale indipendente dalle verifiche locali");
-            File.WriteAllBytes(Path.Combine(directory, "globale-autonoma.docx"), ReportRetainingWall.CreateGlobal(w.Data, w.GlobalResult!, new("Superficie critica", Ui.Snapshot(w.GlobalDrawing), w.GlobalDrawing.ActualWidth / w.GlobalDrawing.ActualHeight)));
-            File.WriteAllText(Path.Combine(directory, "globale-conci.csv"), ReportRetainingWall.GlobalCsv(w.GlobalResult!));
+            File.WriteAllBytes(Path.Combine(directory, "globale-autonoma.docx"), Anthea.Application.Walls.WallExports.CreateGlobal(w.Data, w.GlobalResult!, new("Superficie critica", Ui.Snapshot(w.GlobalDrawing), w.GlobalDrawing.ActualWidth / w.GlobalDrawing.ActualHeight)));
+            File.WriteAllText(Path.Combine(directory, "globale-conci.csv"), Anthea.Application.Walls.WallExports.GlobalCsv(w.GlobalResult!));
             w.Forms["global_search"].Set("depth_max", "100"); Check(w.GlobalResult is null, "Una modifica invalida il risultato globale autonomo");
             await w.CalculateGlobalAsync(); Check(w.GlobalResult is null, "Errore nella profondità non mantiene un risultato obsoleto");
             w.Forms["global_search"].Set("depth_max", "6.9"); w.Forms["foundation"].Set("delta", "26"); await w.CalculateAsync();

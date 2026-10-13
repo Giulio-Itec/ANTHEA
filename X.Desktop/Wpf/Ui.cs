@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using Anthea.Application.BridgeDesign;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -85,7 +86,7 @@ internal static class Ui
     internal static FrameworkElement ModuleIcon(string module)
     {
         if (module == Anthea.FoundationWorkspace.FoundationDocument.Module) return new FoundationIcon { Width = 80, Height = 80 };
-        if (module == RetainingWall.Module) return new RetainingWallIcon { Width = 80, Height = 80 };
+        if (module == WallModel.Module) return new RetainingWallIcon { Width = 80, Height = 80 };
         if (module is BridgeEditor.Module or BridgeDesignModel.Module) return new BridgeIcon { Width = 80, Height = 80 };
         if (module == RebarMaterial.Module) return new RebarIcon { Width = 80, Height = 80 };
         if (module is "mat_calcestruzzo" or "geo_micropalo_orizzontale")

@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Media;
-using Anthea.Calculations.Geotechnics;
+using Anthea.Application.Walls;
 
 namespace X.Desktop;
 
@@ -29,7 +29,7 @@ internal sealed class GlobalStabilityDrawing : FrameworkElement
         if (valley.Length < 2 || uphill.Length < 2 || g.Array("layers").Count == 0) { Text("Precompilare e completare il profilo globale", 12, 20); return; }
         if (valley.Concat(uphill).Any(p => !double.IsFinite(p.X) || !double.IsFinite(p.Y))) { Text("Completa le coordinate del profilo", 12, 20); return; }
         var geometry = Data["geometry"]!; double t = geometry.D("slab"), a = geometry.D("toe"), back = a + geometry.D("stem_base"), ht = geometry.D("height") + t;
-        var surface = Result?.Section.Surface ?? RetainingWall.GlobalSurface(Data, valley, uphill);
+        var surface = Result?.Section.Surface ?? WallModel.GlobalSurface(Data, valley, uphill);
         var chosen = Case ?? Result?.Cases.OrderByDescending(c => c.Critical?.Ratio ?? double.PositiveInfinity).FirstOrDefault();
         var allLayers = g.Array("layers").Concat(g.S("soil_mode") == "Due colonne" ? g.Array("valley_layers") : new JsonArray());
         double knownBottom = allLayers.Select(l => J.Number(l?["bottom"]) ?? 0).Where(double.IsFinite).DefaultIfEmpty(0).Min();
@@ -98,7 +98,7 @@ internal sealed class GlobalStabilityDrawing : FrameworkElement
             if (depth > 0) dc.DrawLine(new Pen(Ui.Blue, 1) { DashStyle = DashStyles.Dash }, P(xmin, -depth), P(xmax, -depth));
             SearchDrawn = true;
         }
-        dc.DrawGeometry(Ui.Brush("#CAD2DD"), new Pen(Ui.Navy, 1.6), Polygon(RetainingWall.Outline(Data).Select(p => new SlopePoint(p[0], p[1]))));
+        dc.DrawGeometry(Ui.Brush("#CAD2DD"), new Pen(Ui.Navy, 1.6), Polygon(WallModel.Outline(Data).Select(p => new SlopePoint(p[0], p[1]))));
         if (g.B("water_enabled"))
         {
             var water = g.Array("water").ToArray(); var pen = new Pen(Ui.Blue, 2) { DashStyle = DashStyles.Dash };

@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -116,8 +117,8 @@ internal sealed partial class RetainingWallDrawing
             else if (type == "Momento")
             { dc.DrawEllipse(null, new Pen(color, thick), point, 13, 13); Arrow(dc, new(point.X + 9, point.Y - 11), new(point.X + 13, point.Y), color, thick); area = new Rect(point.X - 17, point.Y - 19, 115, 38); point = new(point.X + 17, point.Y - 15); }
             else { Arrow(dc, new(point.X + 42, point.Y), point, color, thick); area = new Rect(point.X, point.Y - 22, 145, 28); point = new(point.X + 44, point.Y - 17); }
-            if (ShowLabels) Text(dc, $"{index}: {a.D("value") * (CombinedLoads ? factor : 1):0.##} {RetainingWall.ActionUnit(type)}", point.X, point.Y, color, 10);
-            hits.Add((area, $"{index}. {a.S("name")} · {type} · {a.S("category")}\nValore={a.D("value"):0.###} {RetainingWall.ActionUnit(type)}; z={a.D("z"):0.###} m; x={a.D("x"):0.###} m; fattore combinazione={factor:0.###}; valore combinato={factor * a.D("value"):0.###}", a.S("id")));
+            if (ShowLabels) Text(dc, $"{index}: {a.D("value") * (CombinedLoads ? factor : 1):0.##} {WallModel.ActionUnit(type)}", point.X, point.Y, color, 10);
+            hits.Add((area, $"{index}. {a.S("name")} · {type} · {a.S("category")}\nValore={a.D("value"):0.###} {WallModel.ActionUnit(type)}; z={a.D("z"):0.###} m; x={a.D("x"):0.###} m; fattore combinazione={factor:0.###}; valore combinato={factor * a.D("value"):0.###}", a.S("id")));
         }
     }
 }

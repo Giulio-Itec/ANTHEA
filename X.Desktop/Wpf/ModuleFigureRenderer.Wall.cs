@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using Anthea.Application.Reporting;
 using System.Windows;
 using X.Core;
@@ -5,7 +6,7 @@ namespace X.Desktop;
 
 internal sealed partial class ModuleFigureRenderer
 {
-    internal static IReadOnlyList<ReportFigure> WallFigures(RetainingWall.Result calculation, WallReportPresentation context)
+    internal static IReadOnlyList<ReportFigure> WallFigures(WallModel.Result calculation, WallReportPresentation context)
     {
         var figures = new List<ReportFigure>(); var c = context.Case;
         foreach (var member in new[] { "Geometria", "Fusto", "Valle", "Monte", "Armature" })

@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using System.Globalization;
 using System.IO;
 using System.Text.Json.Nodes;
@@ -88,7 +89,7 @@ internal sealed partial class RetainingWallWorkspace
                 var bars = Table(["Zona", "Proposta per faccia", "Secondarie Ø / passo"], new[] { "stem", "stem_upper", "toe", "heel" }.Where(k => k != "stem_upper" || proposal.Input["reinforcement"].B("two_zones")).Select(k =>
                 {
                     var a = proposal.Input["reinforcement"]![k]!;
-                    return new[] { RetainingWall.RebarZoneName(k), $"{a.D("count")} Ø{a.D("diameter")}/m", $"{a.D("secondary_diameter")} / {a.D("secondary_spacing")} mm" };
+                    return new[] { WallModel.RebarZoneName(k), $"{a.D("count")} Ø{a.D("diameter")}/m", $"{a.D("secondary_diameter")} / {a.D("secondary_spacing")} mm" };
                 })); bars.Height = 140;
                 designPreview.Content = Ui.Stack(Ui.Text(proposal.Message, 12, true), bars, table, Ui.Button("Applica proposta", () =>
                 {
@@ -153,13 +154,13 @@ internal sealed partial class RetainingWallWorkspace
         return samples;
     }
 
-    private FrameworkElement AdvancedResults(string mode, RetainingWall.Result r, RetainingWall.LoadCase c)
+    private FrameworkElement AdvancedResults(string mode, WallModel.Result r, WallModel.LoadCase c)
     {
         if (mode == "Dettagli armature")
         {
             var detail = r.Detailing;
             if (detail is null) return Ui.Text("Armature disponibili per muri a mensola in c.a.", 12);
-            var bars = Table(["Marca / zona", "Faccia", "n Ø", "As [mm²/m]", "L barra [m]", "lbd richiesto/usato [mm]", "l0 richiesto/usato [mm]", "Mandrino [mm]", "fbd [MPa]"], detail.Bars.Select(b => new[] { b.Mark + " " + RetainingWall.RebarZoneName(b.Zone), b.Face, $"{b.Count} Ø{b.Diameter}", F(b.Area), F(b.Length), F(b.RequiredAnchor) + " / " + F(b.Anchor), F(b.RequiredLap) + " / " + F(b.Lap), F(b.Mandrel), F(b.Fbd) })); bars.Height = 220;
+            var bars = Table(["Marca / zona", "Faccia", "n Ø", "As [mm²/m]", "L barra [m]", "lbd richiesto/usato [mm]", "l0 richiesto/usato [mm]", "Mandrino [mm]", "fbd [MPa]"], detail.Bars.Select(b => new[] { b.Mark + " " + WallModel.RebarZoneName(b.Zone), b.Face, $"{b.Count} Ø{b.Diameter}", F(b.Area), F(b.Length), F(b.RequiredAnchor) + " / " + F(b.Anchor), F(b.RequiredLap) + " / " + F(b.Lap), F(b.Mandrel), F(b.Fbd) })); bars.Height = 220;
             var checksGrid = CheckTable(detail.Checks); checksGrid.Height = 220;
             return Ui.Stack(Ui.Text(detail.Note, 11), Ui.Text($"Acciaio stimato incluse sovrapposizioni, ancoraggi e secondarie: {detail.SteelKg:0.0} kg/m", 12, true), bars, checksGrid);
         }

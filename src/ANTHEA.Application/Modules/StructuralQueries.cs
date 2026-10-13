@@ -5,11 +5,11 @@ namespace Anthea.Application.Modules;
 /// <summary>Optional analyses of a module. They do not modify the document or replace its primary result.</summary>
 public static class StructuralQueries
 {
-    public static RetainingWall.ReinforcementProposal WallReinforcement(JsonObject source, CancellationToken cancellation = default)
+    public static Anthea.Application.Walls.WallModel.ReinforcementProposal WallReinforcement(JsonObject source, CancellationToken cancellation = default)
     {
         var snapshot = ModuleServices.Get(RetainingWall.Module).Prepare(source);
         cancellation.ThrowIfCancellationRequested();
-        return RetainingWall.DesignReinforcement(snapshot, cancellation);
+        return new(RetainingWall.DesignReinforcement(snapshot, cancellation));
     }
     public static Anthea.Application.Bridge.SectionResponseResult BridgeResponse(JsonObject source, JsonObject request, CancellationToken cancellation = default)
     {
@@ -17,11 +17,11 @@ public static class StructuralQueries
         cancellation.ThrowIfCancellationRequested();
         return new Anthea.Application.Bridge.BridgeProjection().Read(BridgeSection.CalculateResponse(snapshot, (JsonObject)request.DeepClone(), cancellation))!;
     }
-    public static SlopeResult WallGlobal(JsonObject source, CancellationToken cancellation = default)
+    public static Anthea.Application.Walls.SlopeResult WallGlobal(JsonObject source, CancellationToken cancellation = default)
     {
         var snapshot = ModuleServices.Get(RetainingWall.Module).Prepare(source);
         cancellation.ThrowIfCancellationRequested();
-        return RetainingWall.CalculateGlobal(snapshot, cancellation);
+        return new(RetainingWall.CalculateGlobal(snapshot, cancellation));
     }
 
     public static PrincipalMomentResistance[] ConcreteQuickResistance(JsonObject input, JsonObject workspace,

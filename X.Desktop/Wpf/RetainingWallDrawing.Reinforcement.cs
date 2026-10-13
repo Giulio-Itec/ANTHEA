@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using System.Windows;
 using System.Windows.Media;
 
@@ -9,13 +10,13 @@ internal sealed partial class RetainingWallDrawing
     {
         if (Data is null) return;
         if (Data.S("family") != "cantilever") { Text(dc, "Muro a gravità: nessuna armatura strutturale.", 20, 20); return; }
-        RetainingWall.ReinforcementDetails details;
-        try { details = Calculation?.Detailing ?? RetainingWall.CalculateReinforcementDetails(Data); }
+        WallModel.ReinforcementDetails details;
+        try { details = Calculation?.Detailing ?? WallModel.CalculateReinforcementDetails(Data); }
         catch (ArgumentException ex) { WrappedText(dc, ex.Message, 20, 20, ActualWidth - 40); return; }
         var g = Data["geometry"]!; double h = g.D("height"), t = g.D("slab"), a = g.D("toe"), back = a + g.D("stem_base"), b = back + g.D("heel");
         double scale = Math.Min((ActualWidth * .56 - 50) / Math.Max(b, 1), (ActualHeight - 100) / (h + t));
         Point P(double x, double y) => new(35 + x * scale, ActualHeight - 48 - y * scale);
-        Polygon(dc, RetainingWall.Outline(Data).Select(p => P(p[0], p[1])), Ui.Brush("#F1F4F7"), new Pen(Ui.Muted, 1.2));
+        Polygon(dc, WallModel.Outline(Data).Select(p => P(p[0], p[1])), Ui.Brush("#F1F4F7"), new Pen(Ui.Muted, 1.2));
         Text(dc, "SEZIONE ARMATURE · misure in mm", 15, 10, size: 12);
         bool two = Data["reinforcement"].B("two_zones"); double split = Data["reinforcement"].D("lower_height");
         if (two)
@@ -31,15 +32,15 @@ internal sealed partial class RetainingWallDrawing
             Brush color = bar.Zone switch { "stem" => Ui.Brush("#B84539"), "stem_upper" => Ui.Brush("#C67A10"), "toe" => Ui.Brush("#1B6A9A"), _ => Ui.Brush("#298361") };
             var pen = new Pen(color, 2.2);
             // Upper bars are projected with a small screen offset: their out-of-plane lap pairing is explicit.
-            Point Project(RetainingWall.BarPoint point) { var p = P(point.X, point.Y); return bar.Zone == "stem_upper" ? new(p.X + (bar.Face == "monte" ? -4 : 4), p.Y) : p; }
+            Point Project(WallModel.BarPoint point) { var p = P(point.X, point.Y); return bar.Zone == "stem_upper" ? new(p.X + (bar.Face == "monte" ? -4 : 4), p.Y) : p; }
             var points = bar.Path.Select(Project).ToArray();
             for (int i = 1; i < points.Length; i++) dc.DrawLine(pen, points[i - 1], points[i]);
             var min = new Point(points.Min(p => p.X) - 4, points.Min(p => p.Y) - 4); var max = new Point(points.Max(p => p.X) + 4, points.Max(p => p.Y) + 4);
-            string info = $"{bar.Mark} · {RetainingWall.RebarZoneName(bar.Zone)} {bar.Face}: {bar.Count} Ø{bar.Diameter}/m; As={bar.Area:0} mm²/m\nL={bar.Length:0.###} m; lbd richiesto/usato={bar.RequiredAnchor:0}/{bar.Anchor:0} mm; l0={bar.Lap:0} mm; mandrino={bar.Mandrel:0} mm; fbd={bar.Fbd:0.##} MPa";
+            string info = $"{bar.Mark} · {WallModel.RebarZoneName(bar.Zone)} {bar.Face}: {bar.Count} Ø{bar.Diameter}/m; As={bar.Area:0} mm²/m\nL={bar.Length:0.###} m; lbd richiesto/usato={bar.RequiredAnchor:0}/{bar.Anchor:0} mm; l0={bar.Lap:0} mm; mandrino={bar.Mandrel:0} mm; fbd={bar.Fbd:0.##} MPa";
             hits.Add((new Rect(min, max), info, null));
             Text(dc, bar.Mark, points[0].X + (bar.Face is "monte" or "superiore" ? 5 : -20), points[0].Y - 13, color, 10);
             double lx = ActualWidth * .60, ly = 39 + index++ * 34;
-            Text(dc, $"{bar.Mark}  {RetainingWall.RebarZoneName(bar.Zone)} · {bar.Face}   {bar.Count} Ø{bar.Diameter}/m", lx, ly, color, 12);
+            Text(dc, $"{bar.Mark}  {WallModel.RebarZoneName(bar.Zone)} · {bar.Face}   {bar.Count} Ø{bar.Diameter}/m", lx, ly, color, 12);
             Text(dc, $"lbd {bar.Anchor:0} / l0 {bar.Lap:0} · L {bar.Length:0.00} m", lx, ly + 15, Ui.Muted, 11);
         }
         // Orthogonal bars are represented by their circular sections on both faces.

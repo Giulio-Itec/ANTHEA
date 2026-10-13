@@ -29,7 +29,9 @@ public static class WallSheetPresentation
         UpdateColumnDepths(data.Array("layers").OfType<JsonObject>());
         UpdateColumnDepths(data["valley"]!.Array("layers").OfType<JsonObject>());
     }
-    public static (bool GlobalUpdated, string? GlobalError, bool LocalUpdated) ApplyResult(JsonObject data, RetainingWall.Result result)
+    public static (bool GlobalUpdated, string? GlobalError, bool LocalUpdated) ApplyResult(JsonObject data, Anthea.Application.Walls.WallModel.Result result)
+        => ApplyResult(data, result.Source);
+    internal static (bool GlobalUpdated, string? GlobalError, bool LocalUpdated) ApplyResult(JsonObject data, RetainingWall.Result result)
     {
         bool globalUpdated = false; string? globalError = null;
         if (data["global_stability"].B("enabled") && data["global_stability"].S("combination_mode") == "Automatiche")

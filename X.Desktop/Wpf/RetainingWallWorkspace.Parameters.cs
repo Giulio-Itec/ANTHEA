@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -28,7 +29,7 @@ internal sealed partial class RetainingWallWorkspace
             if (Calculation?.Cases.FirstOrDefault(c => c.Name == combo.SelectedItem as string) is not { } c) { derived.Content = Ui.Text("Ricalcolare per interrogare i valori derivati.", 12); return; }
             var values = new List<string[]>();
             void Add(string key, string value, string source) => values.Add([key, value, source]);
-            foreach (var p in c.SoilAudit) { var meaning = RetainingWall.AuditMeaning(p.Key); Add(meaning.Label, (J.Number(p.Value) is double n ? n.ToString("0.#####", It) : p.Value?.ToString() ?? "") + " " + meaning.Unit, meaning.Origin); }
+            foreach (var p in c.SoilAudit) { var meaning = WallModel.AuditMeaning(p.Key); Add(meaning.Label, (J.Number(p.Value) is double n ? n.ToString("0.#####", It) : p.Value?.ToString() ?? "") + " " + meaning.Unit, meaning.Origin); }
             foreach (var p in c.Factors ?? new()) if (p.Value is JsonValue) Add(p.Key, p.Value.ToString(), "Coefficiente della combinazione selezionata");
             foreach (var p in c.PressureDetails) Add($"Monte z={F(p.Z0)}–{F(p.Z1)} m", $"φd={F(p.PhiDesign)}°; K={p.K:0.00000}; Ke={p.Ke:0.00000}; σ′={F(p.Sigma0)}–{F(p.Sigma1)}; p={F(p.Total0)}–{F(p.Total1)} kPa", "Piano esterno di equilibrio; acqua e incremento inclusi");
             foreach (var p in c.StemPressureDetails) Add($"Coefficienti fusto z={F(p.Z0)}–{F(p.Z1)} m", $"φd={F(p.PhiDesign)}°; K={p.K:0.00000}; Ke={p.Ke:0.00000}; Δp={F(p.Dynamic)} kPa", "Coulomb/MO con δ muro, oppure K₀ Wood");
