@@ -34,12 +34,7 @@ internal sealed partial class ConcreteWorkspace
     {
         var concreteCatalog = ConcreteMaterialCatalog.Concrete(settings.S("normativa"));
         var steelCatalog = ConcreteMaterialCatalog.Steel(false, settings.S("normativa"));
-        // Never replace saved numerical properties merely by opening an existing sheet.
-        if (!Input.ContainsKey("classe_acciaio")) Input["classe_acciaio"] = "Personalizzato";
-        if (!Input.ContainsKey("steel_fu_mpa")) Input["steel_fu_mpa"] = Input["fyk_mpa"]?.DeepClone();
-        if (!Input.ContainsKey("steel_eps_u")) Input["steel_eps_u"] = "100";
-        if (!Input.ContainsKey("steel_diagramma")) Input["steel_diagramma"] = "Elastoplastico";
-        if (!Input.ContainsKey("cls_diagramma")) Input["cls_diagramma"] = ConcreteMaterials.ConcreteDiagrams[0];
+        Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareMaterials(Input);
         string[] Choices(JsonObject[] catalog, string key) => catalog.Select(m => m.S("nome"))
             .Append(Input.S(key)).Append("Personalizzato").Where(s => s.Length > 0).Distinct().ToArray();
         materials = new InputForm(Input, [

@@ -12,8 +12,7 @@ internal sealed partial class ConcreteWorkspace
     private InputForm? quickResistanceForm;
     private UIElement BuildQuickResistance()
     {
-        if (settings["resistenze_rapide"] is not JsonObject)
-            settings["resistenze_rapide"] = J.Obj(("N", "0"), ("tipo", "Plastico"));
+        Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareQuickResistance(settings);
         quickResistanceForm = new(settings["resistenze_rapide"]!.AsObject(),
             [new("N", "N (− compressione)", "kN"), new("tipo", "Resistenza", Choices: ["Plastico", "Elastico"])],
             key => { _ = RefreshQuickResistance(); Modified?.Invoke(); }, true, true);

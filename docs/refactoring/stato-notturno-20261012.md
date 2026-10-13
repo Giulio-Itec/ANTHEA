@@ -1,4 +1,4 @@
-# Stato del lavoro notturno — checkpoint 13 ottobre, 03:46
+# Stato del lavoro notturno — checkpoint 13 ottobre, 03:48
 
 Mandato fino alle 07:19 Europe/Rome (05:19 UTC): F2 → STG → SEZ → F3 → F4 se completabile. F5 esclusa. Un commit per punto, test/versioni/merge/push autorizzati; nessun agente parallelo. Preservare la finestra primaria con documento non salvato: non chiudere, non riavviare, non compilare nel checkout primario.
 
@@ -32,7 +32,7 @@ Soglie correnti: 133 TypeRef Calculations, 36 CompositeBridge, 3 Concrete, 6 Geo
 
 1. BridgeDesign F3.6g 339281e completato: ricalcolo ritardato, confronto/proposte su servizi e annullamento alla chiusura; 31 prove WPF, smoke e Application superati. Commit nel log.
 2. CA F3.6h.1 f8023b3 completato: sessione e batch domini/SLE in Application, scheduler comune, 311 controlli Application e 35 WPF; 458 file equivalenti. F3.6h.2 060bb8c completato: dettagli/ancoraggi/riepiloghi portabili, 330 controlli Application. F3.6h.3 ecad955 completato: analisi opzionali e chiusura sicura, 37 prove WPF; ricerca armature e 458 file equivalenti. Segue report autonomo.
-3. F3.5b.1 6bab13c completato. F3.5b.2a 1b6e4a0: cattura esatta di sei grafici; 2b abd8f94: curve in Application; 2c 33a2a62: pali/micropali/BridgeDesign autonomi con IFigureRenderer, 30 DOCX/97 immagini uguali a prima; 2d ffb28be: materiali/palificata/fondazioni, 343 controlli Application. 2e completato: muro autonomo, 21 capitoli e 55 immagini esatti, inclusa globale. 2f completato: ponte composto autonomo, corsa 033428 con 8 PASS. 2g completato: orizzontali/elastici autonomi, 33 capitoli e 458 file equivalenti nella corsa 034045. Resta CA prima di eliminare l’adattatore temporaneo SheetEditorReportChapterBuilder. Corsa 033130 tutta PASS.
+3. F3.5b.1 6bab13c completato. F3.5b.2a 1b6e4a0: cattura esatta di sei grafici; 2b abd8f94: curve in Application; 2c 33a2a62: pali/micropali/BridgeDesign autonomi con IFigureRenderer, 30 DOCX/97 immagini uguali a prima; 2d ffb28be: materiali/palificata/fondazioni, 343 controlli Application. 2e completato: muro autonomo, 21 capitoli e 55 immagini esatti, inclusa globale. 2f completato: ponte composto autonomo, corsa 033428 con 8 PASS. 2g completato: orizzontali/elastici autonomi, 33 capitoli e 458 file equivalenti nella corsa 034045. 2h.1 completato: preparazione CA identica alla vista, riuso dei metodi e confronto nella corsa 034639. Resta il report CA prima di eliminare l’adattatore temporaneo SheetEditorReportChapterBuilder. Corsa 033130 tutta PASS.
 4. F3.7: verificare il confine effettivo, aggiornare guide del tool, suite complete, versione e integrazione/push a fase conclusa. Nessuna dichiarazione di chiusura se rimangono dipendenze concrete.
 5. F4 solo dopo F3, entro il mandato. F5 esclusa.
 

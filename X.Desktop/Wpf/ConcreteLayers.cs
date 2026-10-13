@@ -12,8 +12,7 @@ internal sealed partial class ConcreteWorkspace
         foreach (var (key, title, source) in new[] { ("top", "Seconda fila superiore", "top"), ("bottom", "Seconda fila inferiore", "bottom"), ("inner", "Secondo anello interno", "longitudinal") })
         {
             string prefix = "second_" + key;
-            foreach (var (suffix, value) in new[] { ("count", Input.S(source + "_bar_count")), ("diameter", Input.S(source + "_bar_diameter_mm")), ("gap", "30") })
-                if (!Input.ContainsKey(prefix + "_" + suffix)) Input[prefix + "_" + suffix] = value;
+            Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareLayer(Input, prefix, source);
             var form = new InputForm(Input, [new(prefix + "_count", "Numero barre"), new(prefix + "_diameter", "Diametro", "mm"), new(prefix + "_gap", "Distanza libera dalla prima fila", "mm")], _ => Invalidate(), true);
             var toggle = Ui.Button("", () => { Input[prefix + "_enabled"] = !Input.B(prefix + "_enabled"); Invalidate(); });
             toggle.Tag = title;

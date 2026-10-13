@@ -45,7 +45,7 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
     internal SezioneCA? Section { get; set; }
     internal List<TendonPoint> Tendons { get; set; } = [];
     internal CheckerStressState? Stress { get; set; }
-    internal static readonly string[] Contours = ["CLS · gradiente tensioni", "CLS · bande tensioni", "CLS · scala resistenza", "Barre · tensioni", "Barre · tasso resistenza", "Sezione · tasso resistenza", "CLS · deformazioni", "Solo geometria"];
+    internal static readonly string[] Contours = Anthea.Application.Concrete.ConcreteSheetPreparation.Contours;
     internal string Contour { get; set; } = Contours[0];
     internal string ContourLegend { get; private set; } = "";
     internal bool Labels { get; set; } = true;

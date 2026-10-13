@@ -20,7 +20,22 @@ internal static class F3ReportChapterChecks
         foreach (var (file, fixture) in Inputs(root))
         {
             string module = fixture.S("module");
-            if (!ModuleReportService.Supports(module)) continue;
+            // Missing legacy row identities are created once, before the independent copies.
+            if (module == "str_palo") SectionWorkspace.Prepare(fixture["data"]!.AsObject());
+            if (!ModuleReportService.Supports(module))
+            {
+                if (module == "str_palo")
+                {
+                    using var reference = new SheetEditor(module, fixture["data"]!.AsObject());
+                    await reference.CalculateAsync(); reference.Commit();
+                    var prepared = (JsonObject)fixture["data"]!.DeepClone();
+                    Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareReport(prepared);
+                    File.WriteAllText(Path.Combine(output, Path.GetFileNameWithoutExtension(file) + "-prepared.json"), prepared.ToJsonString(J.Options));
+                    File.WriteAllText(Path.Combine(output, Path.GetFileNameWithoutExtension(file) + "-view.json"), reference.Data.ToJsonString(J.Options));
+                    Check(JsonNode.DeepEquals(reference.Data, prepared), "Preparazione CA diversa: " + file);
+                }
+                continue;
+            }
             string title = "F3 capitolo " + fixture.S("id");
             var sheet = J.Obj(("nome", title), ("modulo_id", module), ("dati", fixture["data"]!.DeepClone()));
             string original = fixture.ToJsonString();

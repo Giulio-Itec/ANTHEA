@@ -175,31 +175,13 @@ internal sealed partial class ConcreteWorkspace
     private void SynchronizeHomogenization(string key, string? changed = null)
     {
         if (!stressPanels.TryGetValue(key, out var panel) || panel.Options is null) return;
-        var options = settings["sle"]![key]!;
-        foreach (var (nKey, phiKey) in new[] { ("n_armature", "phi"), ("n_trefoli", "phi_trefoli") })
+        foreach (var update in Anthea.Application.Concrete.ConcreteSheetPreparation.SynchronizeHomogenization(Input, settings, key, changed))
         {
-            // Keep the last edited invalid source when the paired derived field has been cleared.
-            bool fromN = changed == nKey || changed != phiKey && options.S(phiKey) == "" && options.S(nKey) != "";
-            string source = fromN ? nKey : phiKey, target = fromN ? phiKey : nKey;
-            homogenizationErrors.Remove(nKey); homogenizationErrors.Remove(phiKey);
-            try
-            {
-                double ec = ConcreteMaterials.Concrete(Input).E;
-                double modulus = nKey == "n_armature" ? Input.Required("steel_modulus_mpa", strict: true)
-                    : settings.Array("trefoli").FirstOrDefault()?.D("Ep", 195000) ?? settings["materiale_trefolo"].D("Ep", 195000);
-                var ratio = Homogenization.Resolve(modulus, ec, fromN, SectionWorkspace.Number(options.S(source, "0"), source));
-                double value = fromN ? ratio.Phi : ratio.N;
-                options[target] = value.ToString("G17", System.Globalization.CultureInfo.InvariantCulture);
-                panel.Options.Set(target, EngineeringFormat.Number(value), true);
-                if (nKey == "n_trefoli") panel.Options.Set("__ep_ref", EngineeringFormat.Number(modulus), true);
-            }
-            catch (ArgumentException error)
-            {
-                // Preserve the input for correction; never display a stale or negative derived coefficient.
-                options[target] = ""; panel.Options.Set(target, "", true);
-                homogenizationErrors[source] = error.Message;
-            }
-            panel.Options.UpdateNote(nKey); panel.Options.UpdateNote(phiKey);
+            homogenizationErrors.Remove(update.NKey); homogenizationErrors.Remove(update.PhiKey);
+            panel.Options.Set(update.Target, update.Value is double value ? EngineeringFormat.Number(value) : "", true);
+            if (update.Modulus is double modulus) panel.Options.Set("__ep_ref", EngineeringFormat.Number(modulus), true);
+            if (update.Error is not null) homogenizationErrors[update.Source] = update.Error;
+            panel.Options.UpdateNote(update.NKey); panel.Options.UpdateNote(update.PhiKey);
         }
     }
 }

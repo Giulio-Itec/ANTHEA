@@ -171,3 +171,9 @@ Corsa 20261013-033428-f3-report-composite-bridge: 8 PASS, smoke ponte, curve, pr
 HorizontalSheetPresentation riusa preparazione generale, coefficienti, materiali e vista elastica nei due percorsi. La relazione segue vista_orizzontale; l’elastico usa la sessione applicativa con annullamento, la capacità il servizio del modulo. Nessuna risoluzione implicita della migrazione legacy. Il disegno di capacità è condiviso con la relazione interattiva; le figure elastiche erano già portabili.
 
 Corsa 20261013-034045-f3-report-horizontal: 5 PASS, smoke orizzontale/progetto, 33 capitoli autonomi (anche input incompleti e migrazioni pendenti), equivalenza completa di 458 file. Nessuna formula, atteso o tolleranza modificati. Undici moduli autonomi su dodici; rimane la sezione CA.
+
+## F3.5b.2h.1 — preparazione della sezione CA
+
+ConcreteSheetPreparation condivide valori iniziali, strati di armatura, materiali, lettura e serializzazione delle azioni e sincronizzazione φ/n. Quest’ultima conserva il campo sorgente invalido, azzera solo il derivato e restituisce alla vista il messaggio esistente. La preparazione autonoma conserva i dati derivati persistiti e le migrazioni già adottate dalla finestra.
+
+Corsa 034430: 458 file equivalenti e ricerca armature passati; il nuovo confronto dei dati aveva ID diversi, generati dalle due copie di un input legacy senza identificativi. Banco corretto creando le identità una volta prima delle copie, come nella suite dei servizi. Corsa finale 20261013-034639-f3-concrete-preparation-identities: 2 PASS; quattro preparazioni CA uguali alla vista, 33 capitoli precedenti ancora equivalenti. Nessun atteso o tolleranza modificati.

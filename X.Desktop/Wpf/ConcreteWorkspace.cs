@@ -148,7 +148,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     {
         var norm = new InputForm(settings, [new("normativa", "Normativa", Choices: ConcreteStandards.OrdinaryNames), new("nota", "Nota del foglio")], key => { if (key == "normativa") { ResetCoefficients(); RefreshStandardMaterialChoices(); } Invalidate(); });
         geometry = new(Input, [new("shape", "Sezione", Choices: ["Circolare", "Rettangolare", "A T", "Generica (da definire)"]), new("diameter_mm", "Diametro D", "mm"), new("circular_sides", "Lati del contorno (12–720, multipli di 4)"), new("width_mm", "Larghezza b", "mm"), new("height_mm", "Altezza h", "mm"), new("flange_width_mm", "Larghezza ala bf", "mm"), new("web_width_mm", "Larghezza anima bw", "mm"), new("flange_thickness_mm", "Spessore ala hf", "mm"), new("cover_mm", "Copriferro netto", "mm")], _ => Invalidate(), true, wikiModule: "str_palo");
-        foreach(var(k,v) in new[]{("inner_diameter_mm","500"),("inner_width_mm","300"),("inner_height_mm","400")})if(!Input.ContainsKey(k))Input[k]=v;
+        Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareHoles(Input);
         var holeToggle=new CheckBox{Content="Foro centrale",IsChecked=Input.B("foro_presente"),Margin=new Thickness(4)};
         var holeForm=new InputForm(Input,[new("inner_diameter_mm","Diametro foro","mm"),new("inner_width_mm","Larghezza foro","mm"),new("inner_height_mm","Altezza foro","mm")],_=>Invalidate(),true);
         void UpdateHoleFields(){bool enabled=Input.B("foro_presente");holeForm.Visibility=enabled?Visibility.Visible:Visibility.Collapsed;holeForm.ShowField("inner_diameter_mm",Input.S("shape")=="Circolare");holeForm.ShowField("inner_width_mm",Input.S("shape")=="Rettangolare");holeForm.ShowField("inner_height_mm",Input.S("shape")=="Rettangolare");}
@@ -156,7 +156,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         refreshHoleControls=()=>{holeToggle.IsChecked=Input.B("foro_presente");holeToggle.IsEnabled=Input.S("shape") is "Circolare" or "Rettangolare";UpdateHoleFields();};
         geometry.IsVisibleChanged+=(_,_)=>refreshHoleControls();UpdateHoleFields();
         BuildMaterialFields();
-        foreach (var (key, value) in new[] { ("flange_bottom_count", "0"), ("flange_bottom_diameter_mm", Input.S("top_bar_diameter_mm")), ("flange_bottom_offset_mm", (Input.D("cover_mm") + Input.D("transverse_bar_diameter_mm") + Input.D("top_bar_diameter_mm") / 2).ToString(System.Globalization.CultureInfo.InvariantCulture)) }) if (!Input.ContainsKey(key)) Input[key] = value;
+        Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareFlange(Input);
         reinforcement = new(Input, [new("longitudinal_bar_count", "Barre circolari"), new("longitudinal_bar_diameter_mm", "Diametro", "mm"), new("top_bar_count", "Barre superiori"), new("top_bar_diameter_mm", "Ø superiori", "mm"), new("flange_bottom_count", "Barre intradosso ala (0: assenti)"), new("flange_bottom_diameter_mm", "Ø intradosso ala", "mm"), new("flange_bottom_offset_mm", "Intradosso ala → asse barra", "mm"), new("bottom_bar_count", "Barre inferiori"), new("bottom_bar_diameter_mm", "Ø inferiori", "mm"), new("side_bar_count_per_side", "Barre laterali / lato"), new("side_bar_diameter_mm", "Ø laterali", "mm")], _ => Invalidate(), true);
         foreach (var item in settings.Array("trefoli").OfType<JsonObject>()) tendons.Rows.Add(TendonRow((JsonObject)item.DeepClone()));
         grids.Add(tendons); grids.Add(barInventory);
@@ -216,14 +216,14 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     }
     private void SyncActions(string key)
     {
-        Data["combinazioni"]![key] = new JsonArray(actions[key].Select(row => (JsonNode)J.Obj(("id", row.Values.S("id")), ("nome", row.Values.S("nome")), ("azioni", new[] { row.Values.S("N"), row.Values.S("Mx"), row.Values.S("My") }), ("visible", row.Values.B("visible", true)))).ToArray());
+        Data["combinazioni"]![key] = Anthea.Application.Concrete.ConcreteSheetPreparation.StoreActions(actions[key].Select(r => r.Values));
     }
     private void TendonsChanged() { settings["trefoli"] = new JsonArray(tendons.Rows.Select(r => r.Values.DeepClone()).ToArray()); Invalidate(); }
     internal void Commit()
     {
         foreach (var form in Ui.Descendants<InputForm>(this).ToArray()) form.Commit();
         foreach (var grid in grids) grid.Commit(); foreach (string key in actions.Keys) SyncActions(key);
-        if (shearGrid is not null) ShearOptions["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Mx",r.Values.S("Mx","0")),("My",r.Values.S("My","0")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")),("T",r.Values.S("T","0")))).ToArray());
+        if (shearGrid is not null) ShearOptions["azioni"] = Anthea.Application.Concrete.ConcreteSheetPreparation.StoreShearRows(shearGrid.Rows.Select(r => r.Values));
     }
     internal void SetGeometry(string value) => geometry.Set("diameter_mm", value);
     private void Invalidate(bool geometryChanged = true)
