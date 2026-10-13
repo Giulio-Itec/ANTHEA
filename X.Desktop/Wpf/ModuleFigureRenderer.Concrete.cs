@@ -7,7 +7,7 @@ using X.Core;
 namespace X.Desktop;
 
 internal sealed record ConcreteDomainGraphic(bool ThreeD, JsonObject Options, IReadOnlyList<JsonObject> Rows, string? Selected,
-    CheckerDomain3D? Three, CheckerDomain2D? Two, IReadOnlyDictionary<string, DomainCheck>? Checks, Plot Plot)
+    ConcreteResults.Domain3D? Three, ConcreteResults.Domain2D? Two, IReadOnlyDictionary<string, ConcreteResults.Check>? Checks, Plot Plot)
 {
     internal string Key => Options.S("stato", "SLU");
 }

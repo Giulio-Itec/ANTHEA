@@ -127,6 +127,7 @@ public static class BridgeSheetPresentation
         settings["fase"] = settings.B("segui_ultima_fase", !settings.ContainsKey("fase")) ? result.Stages.Count - 1
             : previous >= 0 && previous < result.Stages.Count ? previous : result.Stages.Count - 1;
     }
+    public static (double Factor, string Source) StressScale(JsonObject settings) => StressScale(null, settings);
     public static (double Factor, string Source) StressScale(BridgeResult? result, JsonObject settings)
     {
         var all = result?.Stages.LastOrDefault()?.Contributions;

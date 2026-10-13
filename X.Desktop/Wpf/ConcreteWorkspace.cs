@@ -41,10 +41,10 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private readonly Dictionary<string, JsonRows> actions = new();
     private readonly List<JsonGrid> grids = [];
     private readonly Dictionary<string, VerificationCards> summaries = new();
-    private readonly Dictionary<string, SectionDomainMesh> meshes = new();
-    private readonly Dictionary<string, CheckerDomain3D> checker3D = new();
-    private readonly Dictionary<string, CheckerDomain2D> checker2D = new();
-    private readonly Dictionary<string, Dictionary<string, DomainCheck>> domainResults = new();
+    private readonly Dictionary<string, ConcreteResults.Mesh> meshes = new();
+    private readonly Dictionary<string, ConcreteResults.Domain3D> checker3D = new();
+    private readonly Dictionary<string, ConcreteResults.Domain2D> checker2D = new();
+    private readonly Dictionary<string, Dictionary<string, ConcreteResults.Check>> domainResults = new();
     private readonly Dictionary<string, Dictionary<string, StressOutcome>> stressResults = new();
     private readonly ConcreteSectionViewport preview = new();
     private readonly JsonGrid barInventory = new([new("id", "Barra", ReadOnly: true), new("x", "x [mm]"), new("y", "y [mm]"), new("phi", "Ø [mm]")], true);

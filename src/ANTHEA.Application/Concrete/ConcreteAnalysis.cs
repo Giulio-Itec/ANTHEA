@@ -35,7 +35,7 @@ public static class ConcreteAnalysis
                 Step(label, () =>
                 {
                     var result = session.Domain(input, settings, settings[three ? "dominio3d" : "dominio2d"]!.AsObject(), key, three, Rows(key), token, prepared);
-                    domains[label] = J.Node(result.Checks);
+                    domains[label] = J.Node(result.Checks.ToDictionary(p => p.Key, p => p.Value.Source));
                     foreach (var (id, check) in result.Checks.Where(r => r.Value.Utilization is null))
                         errors[label + "/" + id] = check.Status;
                 });

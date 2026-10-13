@@ -66,7 +66,7 @@ internal sealed partial class ConcreteWorkspace
             sleTabs.SelectionChanged+=(_,e)=>{if(e.Source==sleTabs && sleTabs.SelectedIndex>=0)combinationChoice.SelectedIndex=sleTabs.SelectedIndex;};
             var optionsPanel = Panel("Opzioni SLE comuni", Scroller(Ui.Stack(Ui.Text("Combinazione SLE",12,true),combinationChoice,panel.Options, Ui.Button("Reologia del calcestruzzo…", () => ConcreteTimeEffectsView.CreateWindow(this, Math.Abs(Input.D("fck_mpa"))).Show(), inspection: true), nonLinearWarning, instructions)), "Modifiche valide per Rara, Frequente e Quasi permanente. Azioni separate, già combinate.");
             var viewport = new ViewportFrame("Mappa tensionale della sezione", panel.View, panel.View.ResetView);
-            panel.Regions.SelectionChanged += (_,_)=>{panel.View.EffectiveRegion=panel.Regions.SelectedItem as ConcreteEffectiveRegion;panel.View.InvalidateVisual();};
+            panel.Regions.SelectionChanged += (_,_)=>{panel.View.EffectiveRegion=panel.Regions.SelectedItem as ConcreteResults.EffectiveRegion;panel.View.InvalidateVisual();};
             panel.Regions.DisplayMemberPath="Name";
             panel.Regions.ToolTip="Zona efficace per la fessurazione · barre incluse evidenziate in arancione";
             viewport.Toolbar.Children.Add(panel.Regions);
@@ -107,12 +107,12 @@ internal sealed partial class ConcreteWorkspace
         sleTabs.SelectedIndex=0;
         return sleTabs;
     }
-    private async Task CalculateStress(string key, CancellationToken token, CheckerSectionModel? prepared = null, JsonObject? preparedInput = null, JsonObject? preparedWorkspace = null)
+    private async Task CalculateStress(string key, CancellationToken token)
     {
         status.Text = "Analisi tensionale · " + ConcreteEditor.Label(key) + "…"; var settingsSle = settings["sle"]![key]!;
-        var input = preparedInput ?? (JsonObject)Input.DeepClone(); var workspace = preparedWorkspace ?? (JsonObject)settings.DeepClone(); var options = (JsonObject)settingsSle.DeepClone();
+        var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone(); var options = (JsonObject)settingsSle.DeepClone();
         var requests = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
-        var outcomes = await Task.Run(() => analysisSession.Stress(input, workspace, options, key, requests, token, prepared), token);
+        var outcomes = await Task.Run(() => analysisSession.Stress(input, workspace, options, key, requests, token), token);
         token.ThrowIfCancellationRequested(); PublishStress(key, outcomes);
     }
     private void PublishStress(string key, Dictionary<string, StressOutcome> outcomes)
@@ -135,15 +135,15 @@ internal sealed partial class ConcreteWorkspace
         using var barsRefresh = panel.Bars.Rows.DeferRefresh();
         using var concreteRefresh = panel.Concrete.Rows.DeferRefresh();
         var row = panel.Grid.SelectedItem as JsonRow; var outcome = row is null ? null : stressResults.GetValueOrDefault(key)?.GetValueOrDefault(row.Values.S("id"));
-        panel.CrackDetail.Text = (row is null ? "" : ConcreteEditor.Label(key) + " · " + row.Values.S("nome") + "\n\n") + CrackCalculationSummary.Format(outcome?.CrackResult, outcome?.Cracking ?? "Selezionare una combinazione calcolata.");
+        panel.CrackDetail.Text = (row is null ? "" : ConcreteEditor.Label(key) + " · " + row.Values.S("nome") + "\n\n") + ConcreteEditor.CrackSummary(outcome?.CrackResult, outcome?.Cracking ?? "Selezionare una combinazione calcolata.");
         if(outcome?.CrackResult is { } crackTrace && crackTrace.Regions.Length>0)
             panel.CrackDetail.Text+="\n\nZONE EFFICACI\n"+string.Join("\n",crackTrace.Regions.Select(r=>$"{r.Name}: Ac,eff={r.Area:0.###} mm²; As,eff={r.SteelArea:0.###} mm²; wk={r.Width:0.######} mm · "+string.Join(", ",r.BarIndices.Select(i=>$"B{i+1:00}"))))+"\n\nPASSAGGI COMPLETI\n"+string.Join("\n\n",crackTrace.Details.Select(d=>d.Format()));
         panel.View.Stress = outcome?.State;
         panel.Regions.ItemsSource=outcome?.CrackResult?.Regions??[];
         panel.Regions.SelectedIndex=panel.Regions.Items.Count>0?0:-1;
-        panel.View.EffectiveRegion=panel.Regions.SelectedItem as ConcreteEffectiveRegion;
+        panel.View.EffectiveRegion=panel.Regions.SelectedItem as ConcreteResults.EffectiveRegion;
         panel.View.InvalidateVisual(); panel.Bars.Rows.Clear(); panel.Concrete.Rows.Clear();
-        if (outcome?.State is CheckerStressState state)
+        if (outcome?.State is ConcreteResults.StressState state)
         {
             panel.Detail.Text = $"{row!.Values.S("nome")}\n\nσc,min = {state.sigma_cls:0.00} MPa\n|σs|max = {state.sigma_acciaio:0.00} MPa\nησ = {outcome.Ratio?.ToString("0.00") ?? "—"}\n\n{outcome.Status}\n\n{outcome.Cracking}\nwk = {outcome.CrackResult?.Width?.ToString("0.00") ?? "—"} mm\nLimite = {outcome.CrackResult?.Limit?.ToString("0.00") ?? "—"} mm\nηw = {outcome.CrackResult?.Ratio?.ToString("0.00") ?? "—"}";
             var options = settings["sle"]![key]!; var force = ReadAction(row);

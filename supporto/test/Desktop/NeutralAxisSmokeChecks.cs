@@ -48,7 +48,7 @@ public sealed partial class MainWindow
         var settings = SectionWorkspace.Prepare(data); var input = data["input"]!.AsObject();
         var engine = new CheckerSection(input, settings, settings["sle"]!["SLE"]!.AsObject());
         var stress = await Task.Run(() => engine.Stress(new(-100, 80, 35), "TEST"));
-        var view = new ConcreteSectionViewport { Section = Anthea.Application.Concrete.ConcretePreview.PrepareGeometry(input), Stress = stress, Labels = false };
+        var view = new ConcreteSectionViewport { Section = Anthea.Application.Concrete.ConcretePreview.PrepareGeometry(input), Stress = stress.ViewForTest(), Labels = false };
         File.WriteAllBytes(Path.Combine(directory,"cls_asse_inclinato.png"),view.Png(900,650));
         Check(view.NeutralAxisDisplay?.Start is not null, "CLS: asse sullo stato reale Checker con flessione deviata");
         view.ShowNeutralAxis = false; _ = view.Png();

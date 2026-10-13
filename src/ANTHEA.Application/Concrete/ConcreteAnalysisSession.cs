@@ -1,11 +1,12 @@
+using Anthea.Application.Concrete;
 using System.Collections.Concurrent;
 using System.Text.Json.Nodes;
 
 namespace Anthea.Calculations;
 
-public sealed record StressOutcome(CheckerStressState? State, double? Ratio, string Status,
-    string Cracking = "Da calcolare", Ntc2018Checks.CrackResult? CrackResult = null);
-public sealed record ConcreteDomainResult(CheckerDomain3D? Three, CheckerDomain2D? Two, Dictionary<string, DomainCheck> Checks);
+public sealed record StressOutcome(ConcreteResults.StressState? State, double? Ratio, string Status,
+    string Cracking = "Da calcolare", ConcreteResults.CrackResult? CrackResult = null);
+public sealed record ConcreteDomainResult(ConcreteResults.Domain3D? Three, ConcreteResults.Domain2D? Two, Dictionary<string, ConcreteResults.Check> Checks);
 
 /// <summary>Numerical work and caches shared by WPF, diagnostics and project report calculations.
 /// One session per sheet. Call a given domain/set once at a time, on input snapshots.</summary>
@@ -13,7 +14,8 @@ public sealed partial class ConcreteAnalysisSession
 {
     /// <summary>Sessione con il motore SLE indicato, o con quello predefinito dell'adattatore (refactoring F2.7b, commit A4). Il punto resistente
     /// SLU dei domini viene sempre dal motore della libreria (<see cref="ConcreteResistanceAdapter"/>).</summary>
-    public ConcreteAnalysisSession(ServiceabilityEngine? engine = null)
+    public ConcreteAnalysisSession() : this(null) { }
+    public ConcreteAnalysisSession(ServiceabilityEngine? engine)
     {
         requestedEngine = engine;
         Engine = engine ?? ConcreteServiceabilityAdapter.Default;
@@ -29,7 +31,7 @@ public sealed partial class ConcreteAnalysisSession
         var result = new JsonObject();
         foreach (var (id, outcome) in rows)
         {
-            var s = outcome.State;
+            var s = outcome.State?.Source;
             result[id] = J.Node(new
             {
                 State = s is null ? null : new
@@ -46,18 +48,23 @@ public sealed partial class ConcreteAnalysisSession
                 outcome.Ratio,
                 outcome.Status,
                 outcome.Cracking,
-                outcome.CrackResult
+                CrackResult = outcome.CrackResult?.Source
             });
         }
         return result;
     }
+    private readonly ConcreteProjection projection = new();
     private readonly ConcurrentDictionary<string, (string Signature, CheckerDomain3D? Three, CheckerDomain2D? Two)> domainCache = new();
     private readonly ConcurrentDictionary<string, (string Signature, CheckerSection Engine, CheckerStressState State)> stressCache = new();
     public static readonly string[] CrackFields = ["esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure", "limite_fessure"];
-    public static ActionPoint ReadAction(JsonObject row) => SectionWorkspace.ReadAction(row);
+    public static ConcreteResults.Action ReadAction(JsonObject row) => new(SectionWorkspace.ReadAction(row));
 
     public ConcreteDomainResult Domain(JsonObject input, JsonObject workspace, JsonObject options, string key,
-        bool threeD, JsonObject[] snapshots, CancellationToken token = default, CheckerSectionModel? prepared = null)
+        bool threeD, JsonObject[] snapshots, CancellationToken token = default)
+        => Domain(input, workspace, options, key, threeD, snapshots, token, null);
+
+    public ConcreteDomainResult Domain(JsonObject input, JsonObject workspace, JsonObject options, string key,
+        bool threeD, JsonObject[] snapshots, CancellationToken token, CheckerSectionModel? prepared)
     {
         token.ThrowIfCancellationRequested();
         var computationOptions = (JsonObject)options.DeepClone();
@@ -82,7 +89,7 @@ public sealed partial class ConcreteAnalysisSession
             token.ThrowIfCancellationRequested();
             try
             {
-                var force = ReadAction(snapshot);
+                var force = SectionWorkspace.ReadAction(snapshot);
                 if (three is not null) valid.Add((snapshot.S("id"), force));
                 else results[snapshot.S("id")] = two!.Check(force);
             }
@@ -95,12 +102,16 @@ public sealed partial class ConcreteAnalysisSession
         }
         token.ThrowIfCancellationRequested();
         domainCache[(threeD ? "3D:" : "2D:") + key] = (signature, three, two);
-        return new(three, two, results);
+        return new(projection.Read(three), projection.Read(two), results.ToDictionary(p => p.Key, p => new ConcreteResults.Check(p.Value)));
 
     }
 
     public Dictionary<string, StressOutcome> Stress(JsonObject input, JsonObject workspace, JsonObject options, string key,
-        JsonObject[] rows, CancellationToken token = default, CheckerSectionModel? prepared = null)
+        JsonObject[] rows, CancellationToken token = default)
+        => Stress(input, workspace, options, key, rows, token, null);
+
+    public Dictionary<string, StressOutcome> Stress(JsonObject input, JsonObject workspace, JsonObject options, string key,
+        JsonObject[] rows, CancellationToken token, CheckerSectionModel? prepared)
     {
         token.ThrowIfCancellationRequested();
         var requests = rows.Select(row => (Id: row.S("id"), Values: row)).ToArray();
@@ -118,7 +129,7 @@ public sealed partial class ConcreteAnalysisSession
             token.ThrowIfCancellationRequested();
             try
             {
-                var force = ReadAction(request.Values);
+                var force = SectionWorkspace.ReadAction(request.Values);
                 string cacheKey = key + ":" + request.Id, signature = analysisSignature + J.Node(force)?.ToJsonString();
                 if (!stressCache.TryGetValue(cacheKey, out var cached) || cached.Signature != signature)
                 {
@@ -130,7 +141,7 @@ public sealed partial class ConcreteAnalysisSession
                 Ntc2018Checks.CrackResult crack;
                 try { crack = ConcreteServiceabilityAdapter.Cracking(engine, state, force, input, workspace, options, key, requestedEngine); }
                 catch (Exception ex) { crack = new(null, null, null, null, "Fessurazione non calcolata: " + ex.Message); }
-                results[request.Id] = new(state, state.Ratio, state.Status, crack.Status, crack);
+                results[request.Id] = new(projection.Read(state), state.Ratio, state.Status, crack.Status, new ConcreteResults.CrackResult(crack));
             }
             catch (Exception ex) when (ex is not OperationCanceledException) { results[request.Id] = new(null, null, "Checker: " + ex.Message); }
             return workerEngine;

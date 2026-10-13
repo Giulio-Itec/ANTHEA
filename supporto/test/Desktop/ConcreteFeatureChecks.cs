@@ -124,11 +124,11 @@ internal sealed partial class ConcreteWorkspace
         }
         var bar0 = barInventory.Rows[0]; double originalX = bar0.Values.D("x");
         bar0["x"] = Exact(originalX + 5); await Update();
-        Check(Input.Array("barre_manuali").Count == barInventory.Rows.Count && Math.Abs(checker3D["SLU"].Section.Geometry.Bars[0].X - originalX - 5) < 1e-8, "Barre manuali collegate al motore");
+        Check(Input.Array("barre_manuali").Count == barInventory.Rows.Count && Math.Abs(checker3D["SLU"].GetNativeForTest().Section.Geometry.Bars[0].X - originalX - 5) < 1e-8, "Barre manuali collegate al motore");
         using (var reopened = new ConcreteWorkspace(JsonNode.Parse(Data.ToJsonString())!.AsObject()))
             Check(Math.Abs(reopened.barInventory.Rows[0].Values.D("x") - originalX - 5) < 1e-8, "Coordinate manuali conservate al salvataggio");
         Input.Remove("barre_manuali"); Invalidate(); await Update();
-        var nativeProperties = checker3D["SLU"].Section.Section.GetHomogeneizedMechanicalProperties();
+        var nativeProperties = checker3D["SLU"].GetNativeForTest().Section.Section.GetHomogeneizedMechanicalProperties();
         Check(nativeProperties.areaH > preview.Section!.AreaCls && double.IsFinite(nativeProperties.JxxH), "Proprietà omogeneizzate della DLL disponibili");
         var standaloneProperties = CheckerSection.PrepareModel(Input, settings).Section.GetHomogeneizedMechanicalProperties();
         Check(double.IsFinite(standaloneProperties.JxxH) && Math.Abs(standaloneProperties.areaH - nativeProperties.areaH) < 1e-6, "Proprietà disponibili senza ricostruire un solver");
@@ -174,7 +174,7 @@ internal sealed partial class ConcreteWorkspace
         SyncActions("SLE"); InvalidateActions("SLE"); await Update();
         var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone(); var options = (JsonObject)settings["sle"]!["SLE"]!.DeepClone();
         var forces = actions["SLE"].Select(ReadAction).ToArray();
-        var expected = await Task.Run(() => { var engine = new CheckerSection(input, workspace, options, engine: sle); return forces.Select(f => engine.Stress(f, "SLE")).ToArray(); });
+        var expected = await Task.Run(() => { var engine = new CheckerSection(input, workspace, options, engine: sle); return forces.Select(f => engine.Stress(f.GetNativeForTest(), "SLE")).ToArray(); });
         for (int i = 0; i < expected.Length; i++)
         {
             var state = stressResults["SLE"][actions["SLE"][i].Values.S("id")].State;
@@ -195,7 +195,7 @@ internal sealed partial class ConcreteWorkspace
         panel.Options.Set("modello", "Non lineare"); await Update();
         Check(nonLinearWarning.Visibility == Visibility.Visible, "Avviso con analisi non lineare");
         options = (JsonObject)settings["sle"]!["SLE"]!.DeepClone();
-        var nonlinearExpected = await Task.Run(() => { var engine = new CheckerSection(input, workspace, options, engine: sle); return forces.Select(f => engine.Stress(f, "SLE")).ToArray(); });
+        var nonlinearExpected = await Task.Run(() => { var engine = new CheckerSection(input, workspace, options, engine: sle); return forces.Select(f => engine.Stress(f.GetNativeForTest(), "SLE")).ToArray(); });
         for (int i = 0; i < nonlinearExpected.Length; i++) Check(Math.Abs(stressResults["SLE"][actions["SLE"][i].Values.S("id")].State!.sigma_cls - nonlinearExpected[i].sigma_cls) < 1e-8, "Parallelo non lineare identico al seriale");
         panel.Options.Set("modello", "Lineare"); await Update();
         Check(nonLinearWarning.Visibility == Visibility.Collapsed, "Avviso tolto tornando all'analisi lineare");

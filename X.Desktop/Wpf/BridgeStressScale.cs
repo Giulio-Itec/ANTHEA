@@ -63,7 +63,7 @@ internal sealed partial class BridgeWorkspace
     }
 
     internal static (double Factor, string Source) StressScale(BridgeResultView? result, JsonObject settings)
-        => result?.StressScale(settings) ?? Anthea.Application.Presentation.BridgeSheetPresentation.StressScale(null, settings);
+        => result?.StressScale(settings) ?? Anthea.Application.Presentation.BridgeSheetPresentation.StressScale(settings);
 
     private void RefreshStressScale()
     {

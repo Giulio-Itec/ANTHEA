@@ -7,6 +7,10 @@ namespace Anthea.Application.Concrete;
 public static class ConcreteEditor
 {
     public static string[] ExposureChoices => ConcreteLibraryMapping.ExposureChoices.ToArray();
+    public static ConcreteResults.Action VerificationOrigin(ConcreteResults.Action action, string criterion)
+        => new(SectionMomentResistance.VerificationOrigin(action.Source, criterion));
+    public static string CrackSummary(ConcreteResults.CrackResult? result, string fallback = "Fessurazione non calcolata")
+        => CrackCalculationSummary.Format(result?.Source, fallback);
     public static string[] Sets => SectionWorkspace.Sets.ToArray();
     public static string[] SharedSleFields => SectionWorkspace.SharedSleFields.ToArray();
     public static string[] Standards => ConcreteStandards.OrdinaryNames.ToArray();

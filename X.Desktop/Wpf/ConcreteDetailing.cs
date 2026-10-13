@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,8 +10,8 @@ internal sealed partial class ConcreteWorkspace
     private readonly VerificationCards detailingText = new();
     private readonly VerificationCards anchorageText = new(2);
     private InputForm? detailingForm;
-    private IReadOnlyList<DetailingCheck> detailingResults = [];
-    private AnchorageResult? anchorageResult;
+    private IReadOnlyList<ConcreteResults.DetailingCheck> detailingResults = [];
+    private ConcreteResults.AnchorageResult? anchorageResult;
     private JsonObject DetailingOptions => settings["dettagli_costruttivi"]!.AsObject();
     private readonly Dictionary<string, VerificationCards> detailingTopics = new();
     private readonly List<InputForm> detailingForms = [];

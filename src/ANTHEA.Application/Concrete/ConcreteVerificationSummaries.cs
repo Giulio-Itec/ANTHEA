@@ -7,7 +7,7 @@ public static class ConcreteVerificationSummaries
 {
     public static Dictionary<string, VerificationSummary> Create(JsonObject settings,
         IReadOnlyDictionary<string, JsonObject[]> actions,
-        IReadOnlyDictionary<string, Dictionary<string, DomainCheck>> domainResults,
+        IReadOnlyDictionary<string, Dictionary<string, ConcreteResults.Check>> domainResults,
         IReadOnlyDictionary<string, Dictionary<string, StressOutcome>> stressResults,
         IReadOnlyList<JsonObject> shearRows, IReadOnlyDictionary<string, ConcreteResults.ShearResult[]> shearResults,
         IReadOnlyDictionary<string, ConcreteResults.TorsionResult> torsionResults)

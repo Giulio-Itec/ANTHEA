@@ -68,8 +68,8 @@ try
         Check(!accesses.Any(m => m.Type == "Anthea.Calculations." + name), "Editor di calcolo ritornato nella UI: " + name);
     foreach (string call in transferredCalls)
         Check(!accesses.Any(m => m.Type + "::" + m.Name == call), "Chiamata al motore ritornata nella UI: " + call);
-    Check(accesses.Any(m => m.Name.StartsWith("get_", StringComparison.Ordinal)) && accesses.Any(m => m.Kind == "Method" && !m.Name.StartsWith("get_", StringComparison.Ordinal)),
-        "Inventario non distingue accessi ai dati e metodi residui");
+    Check(desktop.Members.Any(m => m.Name.StartsWith("get_", StringComparison.Ordinal)) && desktop.Members.Any(m => m.Kind == "Method" && !m.Name.StartsWith("get_", StringComparison.Ordinal)),
+        "Inventario non distingue accessi ai dati e metodi");
     File.WriteAllText(Path.Combine(output, "desktop-accesses.json"), JsonSerializer.Serialize(new {
         Kind = "metadata-inventory-not-semantic-compliance", Members = accesses,
         Counts = accesses.GroupBy(m => m.Assembly).ToDictionary(g => g.Key, g => new {
@@ -91,6 +91,7 @@ try
         Check(!Regex.IsMatch(source, @"new\s+(SheetEditor|ConcreteWorkspace|SezioneCA|BridgeWorkspace|WallWorkspace)\b"), "Il renderer costruisce un editor o un motore: " + file);
     }
     var limits = JsonSerializer.Deserialize<ArchitectureLimits>(File.ReadAllText(Path.Combine(root, "tests/ANTHEA.Architecture.Tests/limits.json")))!;
+    Check(!desktop.Assemblies.Contains("ANTHEA.Calculations"), "La UI dipende ancora direttamente dal motore legacy");
     var observed = desktop.Types.Where(p => p.Key == "ANTHEA.Calculations" || p.Key.StartsWith("GPCChecker", StringComparison.Ordinal)).ToDictionary();
     foreach (var (assembly, types) in observed)
     {

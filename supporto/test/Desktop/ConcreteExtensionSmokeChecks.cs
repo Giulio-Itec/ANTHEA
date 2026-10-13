@@ -148,7 +148,7 @@ internal sealed partial class ConcreteWorkspace
         Check(checker3D.ContainsKey("SLU"),"Dominio circolare forato calcolato");
         Check(preview.Section!.Outline.Count==32&&preview.Section.Holes[0].Length==32,"Anteprima circolare: default 32 lati per contorno");
         geometry.Set("circular_sides","64");await Updated();
-        Check(checker3D["SLU"].Section.Geometry.Outline.Count==64&&preview.Section!.Holes[0].Length==64,"Modifica dei lati: anteprima e verificatore aggiornati");
+        Check(checker3D["SLU"].GetNativeForTest().Section.Geometry.Outline.Count==64&&preview.Section!.Holes[0].Length==64,"Modifica dei lati: anteprima e verificatore aggiornati");
         geometry.Editors["circular_sides"].BringIntoView();await Capture("07_lati_circolari");
         shearGrid!.Rows.Add(ShearRow(J.Obj(("id","circle_shear"),("nome","Taglio circolare"),("N","-100"),("Vx","20"),("Vy","30"))));
         CalculateShear();Check(!shearResults.ContainsKey("circle_shear"),"Circolare senza scelta del modello non verificata");

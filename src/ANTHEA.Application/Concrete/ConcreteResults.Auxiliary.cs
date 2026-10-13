@@ -351,12 +351,13 @@ public static partial class ConcreteResults
         }
     }
 
-    public sealed class Action
+    public readonly record struct Action
     {
         internal Native.ActionPoint Source { get; }
         public double N { get; }
         public double Mx { get; }
         public double My { get; }
+        public Action(double n, double mx, double my) : this(new Native.ActionPoint(n, mx, my)) { }
         internal Action(Native.ActionPoint value)
         {
             Source = value;

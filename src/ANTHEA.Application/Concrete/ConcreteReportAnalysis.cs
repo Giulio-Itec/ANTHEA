@@ -3,9 +3,9 @@ namespace Anthea.Application.Concrete;
 
 public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result, ConcreteGeometry Geometry,
     IReadOnlyDictionary<string, JsonObject[]> Actions,
-    IReadOnlyDictionary<string, CheckerDomain3D> Domains3D,
-    IReadOnlyDictionary<string, CheckerDomain2D> Domains2D,
-    IReadOnlyDictionary<string, Dictionary<string, DomainCheck>> DomainChecks,
+    IReadOnlyDictionary<string, ConcreteResults.Domain3D> Domains3D,
+    IReadOnlyDictionary<string, ConcreteResults.Domain2D> Domains2D,
+    IReadOnlyDictionary<string, Dictionary<string, ConcreteResults.Check>> DomainChecks,
     IReadOnlyDictionary<string, Dictionary<string, StressOutcome>> StressChecks)
 {
     public static async Task<ConcreteReportAnalysis> CalculateAsync(JsonObject preparedData, CancellationToken cancellation)
@@ -13,8 +13,8 @@ public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result, 
         var data = (JsonObject)preparedData.DeepClone();
         var input = data["input"]!.AsObject(); var settings = data["workspace_ca"]!.AsObject();
         var actions = ConcreteSheetPreparation.ReadActions(data);
-        var domains = new Dictionary<string, Dictionary<string, DomainCheck>>();
-        var three = new Dictionary<string, CheckerDomain3D>(); var two = new Dictionary<string, CheckerDomain2D>();
+        var domains = new Dictionary<string, Dictionary<string, ConcreteResults.Check>>();
+        var three = new Dictionary<string, ConcreteResults.Domain3D>(); var two = new Dictionary<string, ConcreteResults.Domain2D>();
         var stresses = new Dictionary<string, Dictionary<string, StressOutcome>>();
         var shear = new Dictionary<string, ConcreteResults.ShearResult[]>(); var torsion = new Dictionary<string, ConcreteResults.TorsionResult>();
         var errors = new Dictionary<string, string>();

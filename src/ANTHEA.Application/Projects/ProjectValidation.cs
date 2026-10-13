@@ -6,10 +6,13 @@ namespace X.Core;
 public static class ProjectValidation
 {
     // Refactoring F2.9-D2: the optional durability engine reaches every cover minimum (ConcreteCoverAnalysis, MaterialCover); default the adapter's.
+    public static string[] Warnings(JsonObject section) => Warnings(section, null);
     public static string[] Warnings(JsonObject section, DurabilityEngine? engine = null) => ProjectSharedData.Limitations(section)
         .Concat(CoverChecks(section, null, engine).Where(c => c.Passed != true).Select(c => c.Text)).Distinct().ToArray();
     public sealed record CoverStatus(string Text, bool? Passed);
 
+    public static List<CoverStatus> CoverChecks(JsonObject section) => CoverChecks(section, null, null);
+    public static List<CoverStatus> CoverChecks(JsonObject section, JsonObject? only) => CoverChecks(section, only, null);
     public static List<CoverStatus> CoverChecks(JsonObject section, JsonObject? only = null, DurabilityEngine? engine = null)
     {
         var sheets = ProjectSharedData.SubtreeSheets(section).ToArray();

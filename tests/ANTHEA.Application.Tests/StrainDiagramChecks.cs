@@ -18,7 +18,7 @@ internal static class StrainDiagramChecks
             var engine = new CheckerSection(input, settings, settings["sle"]!["SLE"]!.AsObject());
             foreach (var force in new[] { new ActionPoint(-100, 80, 35), new ActionPoint(-100, 0, 0) })
             {
-                var native = engine.Stress(force, "TEST"); var diagram = ConcreteStrainDiagram.Read(native, geometry);
+                var native = engine.Stress(force, "TEST"); var diagram = ConcreteStrainDiagram.Read(new ConcreteResults.StressState(native), geometry);
                 var plane = native.Native.StrainPlane;
                 Check(Exact(diagram.StrainReferencePoint, plane.StrainReferencePoint) && Exact(diagram.ChiX, plane.ChiX)
                     && Exact(diagram.ChiY, plane.ChiY) && Exact(diagram.Width, geometry.Width) && Exact(diagram.Height, geometry.Height), "Piano o ingombro alterati");
@@ -27,7 +27,7 @@ internal static class StrainDiagramChecks
                 Check(actual.Length == expected.Length && actual.Zip(expected).All(r => r.First.Count == r.Second.Count
                     && r.First.Zip(r.Second).All(p => Exact(p.First.X, p.Second[0]) && Exact(p.First.Y, p.Second[1])
                         && Exact(p.First.Strain, plane.GetStrain(p.Second[0], p.Second[1])))), "Campioni del piano diversi dal nativo");
-                var axis = NeutralAxisPresentation.Concrete(native); var nativeAxis = SectionNeutralAxis.Concrete(plane);
+                var axis = NeutralAxisPresentation.Concrete(new ConcreteResults.StressState(native)); var nativeAxis = SectionNeutralAxis.Concrete(plane);
                 Check(axis.Caption == nativeAxis.Caption && axis.Explanation == nativeAxis.Explanation && ((axis.Line is null && nativeAxis.Line is null)
                     || (axis.Line is { } a && nativeAxis.Line is { } n && Exact(a.Start.X,n.Start.X) && Exact(a.Start.Y,n.Start.Y)
                         && Exact(a.End.X,n.End.X) && Exact(a.End.Y,n.End.Y))), "Asse neutro diverso dal nativo");

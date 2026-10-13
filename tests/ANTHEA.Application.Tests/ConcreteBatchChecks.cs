@@ -18,7 +18,7 @@ internal static class ConcreteBatchChecks
         await session.CalculateBatchAsync(input, settings, rows, steps, x => first.Add(x.Name, x));
         Check(first.Count == 3 && first.Values.All(x => x.Error is null), "Analisi incrementale incompleta");
         Check(before == data.ToJsonString(), "Batch muta il foglio sorgente");
-        Check(ReferenceEquals(first["2D:SLU"].Domain!.Two!.Section.Section, first["2D:SLV"].Domain!.Two!.Section.Section),
+        Check(ReferenceEquals(first["2D:SLU"].Domain!.Two!.Source.Section.Section, first["2D:SLV"].Domain!.Two!.Source.Section.Section),
             "Domini non condividono il modello di sezione");
         var second = new Dictionary<string, ConcreteAnalysisStep>();
         settings["dominio2d"]!["filtro"] = "Fuori dominio";

@@ -5,6 +5,7 @@
     <RootNamespace>Anthea.Application</RootNamespace><GpcLibraries>GPCModel;GPCGeometry;GPCChecker.CompositeBridge;GPCChecker.Concrete;GPCChecker.Geotechnics</GpcLibraries>
   </PropertyGroup>
   <ItemGroup>
+    <InternalsVisibleTo Include="ANTHEA.Application.Tests" />
     <ProjectReference Include="../ANTHEA.Reports/ANTHEA.Reports.csproj" />
     <ProjectReference Include="../../X.Calculations/X.Calculations.csproj" />
     <EmbeddedResource Include="Templates/ANTHEA_Sollecitazioni.xlsx" LogicalName="ANTHEA.Sollecitazioni.xlsx" />

@@ -24,7 +24,7 @@ internal sealed partial class ConcreteWorkspace
         internal Slider? Transparency;
         internal bool NeedsVisualRefresh = true, AttachingRows;
         internal string? OutputKey;
-        internal Dictionary<string, DomainCheck>? OutputChecks;
+        internal Dictionary<string, ConcreteResults.Check>? OutputChecks;
         internal readonly Plot Plot = new() { InvertY = false, CenteredAxes = true, Title = "Sezione del dominio", EmptyMessage = "Dominio in attesa di aggiornamento automatico" };
         internal readonly TextBlock Detail = Ui.Text("Selezionare una combinazione", 12);
         internal readonly VerificationCards Summary = new();
@@ -133,7 +133,7 @@ internal sealed partial class ConcreteWorkspace
         {
             if (item is not JsonRow row) return false;
             domainResults.TryGetValue(panel.Prefix + panel.Key, out var results); results?.TryGetValue(row.Values.S("id"), out _);
-            DomainCheck? check = results?.GetValueOrDefault(row.Values.S("id"));
+            ConcreteResults.Check? check = results?.GetValueOrDefault(row.Values.S("id"));
             return Anthea.Application.Concrete.ConcreteDomainChart.Includes(panel.Options, check);
         };
         panel.NeedsVisualRefresh = true; panel.AttachingRows = true;
@@ -145,14 +145,14 @@ internal sealed partial class ConcreteWorkspace
         }
         finally { panel.AttachingRows = false; }
     }
-    private static ActionPoint ReadAction(JsonRow row) => Anthea.Application.Concrete.ConcreteDomainChart.ReadNamedAction(row.Values);
-    private async Task CalculateDomain(DomainPanel panel, CancellationToken token, string? requestedKey = null, CheckerSectionModel? prepared = null, JsonObject? preparedInput = null, JsonObject? preparedWorkspace = null)
+    private static ConcreteResults.Action ReadAction(JsonRow row) => Anthea.Application.Concrete.ConcreteDomainChart.ReadNamedAction(row.Values);
+    private async Task CalculateDomain(DomainPanel panel, CancellationToken token, string? requestedKey = null)
     {
         string key = requestedKey ?? panel.Key;
         status.Text = $"GPC Engine · {ConcreteEditor.Label(key)} · dominio {(panel.ThreeD ? "3D" : "2D")}…";
-        var input = preparedInput ?? (JsonObject)Input.DeepClone(); var workspace = preparedWorkspace ?? (JsonObject)settings.DeepClone(); var options = (JsonObject)panel.Options.DeepClone();
+        var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone(); var options = (JsonObject)panel.Options.DeepClone();
         var snapshots = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
-        var calculated = await Task.Run(() => analysisSession.Domain(input, workspace, options, key, panel.ThreeD, snapshots, token, prepared), token);
+        var calculated = await Task.Run(() => analysisSession.Domain(input, workspace, options, key, panel.ThreeD, snapshots, token), token);
         token.ThrowIfCancellationRequested();
         PublishDomain(panel, key, calculated);
     }
@@ -198,7 +198,7 @@ internal sealed partial class ConcreteWorkspace
         if (synchronizing || panel.AttachingRows || panel.Grid is null || !renderHidden && !panel.Grid.IsVisible) return;
         panel.NeedsVisualRefresh = false;
         _ = UpdateSectionInspection(panel);
-        var row = panel.Grid.SelectedItem as JsonRow; string? id = row?.Values.S("id"); domainResults.TryGetValue(panel.Prefix + panel.Key, out var checks); DomainCheck? selectedCheck = id is null ? null : checks?.GetValueOrDefault(id);
+        var row = panel.Grid.SelectedItem as JsonRow; string? id = row?.Values.S("id"); domainResults.TryGetValue(panel.Prefix + panel.Key, out var checks); ConcreteResults.Check? selectedCheck = id is null ? null : checks?.GetValueOrDefault(id);
         if (panel.ThreeD)
         {
             var visible = Anthea.Application.Concrete.ConcreteDomainChart.VisibleActions(panel.Options,
@@ -223,7 +223,7 @@ internal sealed partial class ConcreteWorkspace
         {
             var a = ReadAction(row); panel.Detail.Text = $"{row.Values.S("nome")}\n\nNEd = {a.N:0.00} kN\nMx,Ed = {a.Mx:0.00} kNm\nMy,Ed = {a.My:0.00} kNm\n\n" + (selectedCheck is null ? "Da calcolare" : $"η = {selectedCheck.Utilization?.ToString("0.00") ?? "—"}\n{selectedCheck.Status}");
             panel.Detail.Text = ConcreteEditor.Label(panel.Key) + " · " + (panel.ThreeD ? panel.Options.S("criterio") + " / " + panel.Options.S("strategia") : panel.Options.S("tipo") + (panel.Options.S("proietta") == "Sì" ? " · proiezione attiva" : " · senza proiezione")) + "\n\nAZIONI · " + panel.Options.S("assi", "Locali") + "\n" + panel.Detail.Text;
-            if (selectedCheck?.Resistance is ActionPoint r) panel.Detail.Text += $"\n\nRESISTENZA · assi locali\nNRd = {r.N:0.00} kN\nMx,Rd = {r.Mx:0.00} kNm\nMy,Rd = {r.My:0.00} kNm\n" + ResponseSummary(selectedCheck.Response, "STATO AL PUNTO RESISTENTE");
+            if (selectedCheck?.Resistance is ConcreteResults.Action r) panel.Detail.Text += $"\n\nRESISTENZA · assi locali\nNRd = {r.N:0.00} kN\nMx,Rd = {r.Mx:0.00} kNm\nMy,Rd = {r.My:0.00} kNm\n" + ResponseSummary(selectedCheck.Response, "STATO AL PUNTO RESISTENTE");
             var vertices = panel.ThreeD ? meshes.GetValueOrDefault(panel.Key)?.Vertices.AsEnumerable() : checker2D.GetValueOrDefault(panel.Key)?.Segments.SelectMany(s => new[] { s.A, s.B });
             if (vertices?.ToArray() is { Length: > 0 } extrema)
                 panel.Detail.Text += $"\n\nESTREMI {(panel.ThreeD ? "MESH" : "CURVA")}\nN: {extrema.Min(p => p.N):0.00} … {extrema.Max(p => p.N):0.00} kN\nMx: {extrema.Min(p => p.Mx):0.00} … {extrema.Max(p => p.Mx):0.00} kNm\nMy: {extrema.Min(p => p.My):0.00} … {extrema.Max(p => p.My):0.00} kNm\nEstremi campionati; non sono resistenze al N della riga.";
@@ -232,7 +232,7 @@ internal sealed partial class ConcreteWorkspace
         catch (ArgumentException ex) { panel.Detail.Text = ex.Message; }
     }
     private static Brush RatioColor(double? ratio) => UtilizationPalette.Brush(ratio);
-    private static string ResponseSummary(SectionResponse? r, string title)
+    private static string ResponseSummary(ConcreteResults.SectionState? r, string title)
         => Anthea.Application.Concrete.ConcreteResponsePresentation.ResponseSummary(r, title);
     private async Task RunAnalysis(Func<CancellationToken, Task> work)
     {

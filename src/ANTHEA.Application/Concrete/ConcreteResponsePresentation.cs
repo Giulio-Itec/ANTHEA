@@ -3,9 +3,9 @@ namespace Anthea.Application.Concrete;
 
 public static class ConcreteResponsePresentation
 {
-    public static string InspectionText(CheckerStressState state, ActionPoint force, string title, ConcreteGeometry section)
+    public static string InspectionText(ConcreteResults.StressState state, ConcreteResults.Action force, string title, ConcreteGeometry section)
     {
-        var p = state.Native.StrainPlane;
+        var p = state.Source.Native.StrainPlane;
         var b = new StringBuilder(title);
         b.AppendLine($"\nN = {force.N:G8} kN · Mx = {force.Mx:G8} kNm · My = {force.My:G8} kNm");
         b.AppendLine($"\nPIANO DI DEFORMAZIONE · coordinate geometriche in mm\nε(x,y) = ε0 + gx (x − x0) + gy (y − y0)\nε0 = {p.StrainReferencePoint:G9}\nx0 = {p.ReferencePoint.X:G9} mm · y0 = {p.ReferencePoint.Y:G9} mm\ngx = {p.ChiX:G9} mm⁻¹ · gy = {p.ChiY:G9} mm⁻¹\nAsse neutro: ε(x,y) = 0. Deformazioni positive a trazione.");
@@ -15,7 +15,7 @@ public static class ConcreteResponsePresentation
         foreach (var v in state.ConcreteVertices) b.AppendLine($"{v.Id}: ({v.X:0.###}; {v.Y:0.###}) mm · σ = {v.Stress:0.######} MPa · ε = {v.Strain:0.######} ‰");
         return b.ToString();
     }
-    public static string ResponseSummary(SectionResponse? r, string title)
+    public static string ResponseSummary(ConcreteResults.SectionState? r, string title)
     {
         if (r is null) return title + "\nRiepilogo nativo non disponibile";
         static string V(double? v) => EngineeringFormat.Number(v);

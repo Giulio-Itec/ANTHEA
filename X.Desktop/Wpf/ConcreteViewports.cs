@@ -46,7 +46,7 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
 {
     internal ConcreteGeometry? Section { get; set; }
     internal List<TendonPoint> Tendons { get; set; } = [];
-    internal CheckerStressState? Stress { get; set; }
+    internal ConcreteResults.StressState? Stress { get; set; }
     internal static readonly string[] Contours = Anthea.Application.Concrete.ConcreteSheetPreparation.Contours;
     internal string Contour { get; set; } = Contours[0];
     internal string ContourLegend { get; private set; } = "";
@@ -58,11 +58,11 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
     internal bool TendonValues { get; set; }
     internal bool ConcreteValues { get; set; }
     internal JsonObject? Stirrups { get; set; }
-    private CheckerStressState? rasterState;
+    private ConcreteResults.StressState? rasterState;
     private string rasterContour = "";
     private BitmapSource? rasterImage;
     internal string SelectedBar { get; set; } = "";
-    internal ConcreteEffectiveRegion? EffectiveRegion { get; set; }
+    internal ConcreteResults.EffectiveRegion? EffectiveRegion { get; set; }
     internal string Message { get; set; } = "Inserire la geometria della sezione";
     internal event Action<int>? BarSelected;
     private readonly List<Point> barLocations = [];
@@ -100,7 +100,7 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
         foreach(var hole in section.Holes)shape.Children.Add(Path(hole.Select(p=>P(p[0],p[1])),true));
         dc.DrawGeometry(Ui.Brush("#E3EAF1"), new Pen(Ui.Navy, 1.6), shape);
         double[] concreteValues = [], barValues = []; double lower = 0, upper = 1; bool ratios = false, bands = false;
-        if (Stress is CheckerStressState stress && Contour != "Solo geometria")
+        if (Stress is ConcreteResults.StressState stress && Contour != "Solo geometria")
         {
             bool onlyBars = Contour.StartsWith("Barre"); ratios = Contour.Contains("tasso"); bands = Contour.Contains("bande");
             bool strains = Contour.Contains("deformazioni"), fixedScale = Contour.Contains("scala resistenza");
@@ -117,7 +117,7 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
             lower = fixedScale ? -stress.ConcreteCompressionStrength : ratios ? 0 : Math.Min(0, values.DefaultIfEmpty(0).Min());
             upper = fixedScale ? stress.ConcreteTensionStrength : Math.Max(ratios ? 1 : 0, values.DefaultIfEmpty(0).Max());
             if (lower == upper) upper = lower + 1;
-            if (!onlyBars && stress.Raster is StressRaster raster)
+            if (!onlyBars && stress.Raster is ConcreteResults.StressRaster raster)
             {
                 if (!ReferenceEquals(rasterState, stress) || rasterContour != Contour)
                 {
@@ -277,10 +277,10 @@ internal sealed class DomainViewport3D : Grid
     private readonly DomainWireOverlay wireOverlay = new() { IsHitTestVisible = false };
     private readonly TextBlock note = Ui.Text("Dominio in attesa di aggiornamento automatico", 12, color: Ui.Muted);
     private readonly Dictionary<GeometryModel3D, string> pickTargets = new();
-    private readonly List<(string Id, ActionPoint Force, bool Pass)> actionPoints = [];
+    private readonly List<(string Id, ConcreteResults.Action Force, bool Pass)> actionPoints = [];
     private readonly List<(string Id, Point Position)> screenPoints = [];
     private string? selectedId;
-    private SectionDomainMesh? mesh;
+    private ConcreteResults.Mesh? mesh;
     private MeshGeometry3D? surfaceGeometry;
     private GeometryModel3D? surfaceModel;
     private double yaw = -40, elevation = 25, distance = 5.5;
@@ -311,7 +311,7 @@ internal sealed class DomainViewport3D : Grid
     internal double ResistancePointSize { get; set; } = 5;
     internal bool ColorByRatio { get; set; }
     internal IReadOnlyDictionary<string, double?>? Ratios { get; set; }
-    internal IReadOnlyDictionary<string, ActionPoint>? Resistances { get; set; }
+    internal IReadOnlyDictionary<string, ConcreteResults.Action>? Resistances { get; set; }
     private Brush ActionColor(string id, bool chosen, bool pass)
     {
         if (!ColorByRatio) return chosen ? Ui.Brush("#E09620") : Ui.Blue;
@@ -322,8 +322,8 @@ internal sealed class DomainViewport3D : Grid
     internal event Action<string>? ActionSelected;
     internal bool Wireframe { get; private set; }
     internal int TriangleCount => mesh?.Triangles.Count / 3 ?? 0;
-    internal ActionPoint? SelectedAction { get; private set; }
-    internal ActionPoint? SelectedResistance { get; private set; }
+    internal ConcreteResults.Action? SelectedAction { get; private set; }
+    internal ConcreteResults.Action? SelectedResistance { get; private set; }
     internal DomainViewport3D()
     {
         Background = Appearance.Background("#F8FAFD"); ClipToBounds = true; MinHeight = 180;
@@ -368,7 +368,7 @@ internal sealed class DomainViewport3D : Grid
     {
         userNavigated = false;
         var points = (mesh?.Vertices.Select(World) ?? []).Concat(AxisLines().SelectMany(a => new[] { a.Start, a.End })).ToList();
-        if (FitIncludesActions) { if (ShowActions) points.AddRange(actionPoints.Select(p => World(p.Force))); if (ShowResistance && SelectedResistance is ActionPoint r) points.Add(World(r)); if (ShowResistance && Resistances is not null) points.AddRange(Resistances.Values.Select(World)); }
+        if (FitIncludesActions) { if (ShowActions) points.AddRange(actionPoints.Select(p => World(p.Force))); if (ShowResistance && SelectedResistance is ConcreteResults.Action r) points.Add(World(r)); if (ShowResistance && Resistances is not null) points.AddRange(Resistances.Values.Select(World)); }
         target = new Point3D((points.Min(p => p.X) + points.Max(p => p.X)) / 2, (points.Min(p => p.Y) + points.Max(p => p.Y)) / 2, (points.Min(p => p.Z) + points.Max(p => p.Z)) / 2);
         double half = camera.FieldOfView * Math.PI / 360;
         double verticalHalf = Math.Atan(Math.Tan(half) / Math.Max(.1, ActualWidth / Math.Max(1, ActualHeight)));
@@ -385,7 +385,7 @@ internal sealed class DomainViewport3D : Grid
     }
     internal void StandardView(string axis)
     { userNavigated = true; (yaw, elevation) = axis switch { "Mx–My" => (0, 85), "N–Mx" => (0, 0), "N–My" => (90, 0), _ => (-40, 25) }; UpdateCamera(); }
-    internal void SetMesh(SectionDomainMesh? value, bool force = false)
+    internal void SetMesh(ConcreteResults.Mesh? value, bool force = false)
     {
         if (!force && ReferenceEquals(mesh, value) && value is not null) return;
         bool first = mesh is null; mesh = value; surfaceGeometry = null; surfaceModel = null; surfaces.Children.Clear(); wire.Children.Clear(); markings.Children.Clear(); pickTargets.Clear(); actionPoints.Clear(); SelectedAction = SelectedResistance = null;
@@ -429,20 +429,20 @@ internal sealed class DomainViewport3D : Grid
     {
         wire.Children.Clear(); UpdateLabels();
     }
-    private Point3D World(ActionPoint p) => mesh is null ? new() : new Point3D(p.Mx / mesh.Scale.Mx * scaleMx, p.N / mesh.Scale.N * scaleN, p.My / mesh.Scale.My * scaleMy);
+    private Point3D World(ConcreteResults.Action p) => mesh is null ? new() : new Point3D(p.Mx / mesh.Scale.Mx * scaleMx, p.N / mesh.Scale.N * scaleN, p.My / mesh.Scale.My * scaleMy);
     private IEnumerable<(Point3D Start, Point3D End, Point3D LabelPoint, Brush Color, string Label)> AxisLines()
     {
-        var points = mesh?.Vertices.ToArray() ?? [new ActionPoint(-1, -1, -1), new ActionPoint(1, 1, 1)];
+        var points = mesh?.Vertices.ToArray() ?? [new ConcreteResults.Action(-1, -1, -1), new ConcreteResults.Action(1, 1, 1)];
         // The view is dark in the dark appearances: the axes keep their hue, lightened (Light colours in the exported images).
         foreach (var (axis, name, color) in new[] { (0, "Mx", Appearance.Series(Ui.Brush("#BF5545"))), (1, "N", Appearance.Series(Ui.Brush("#218463"))), (2, "My", Appearance.Series(Ui.Blue)) })
         {
-            double Value(ActionPoint p) => axis == 0 ? p.Mx : axis == 1 ? p.N : p.My;
+            double Value(ConcreteResults.Action p) => axis == 0 ? p.Mx : axis == 1 ? p.N : p.My;
             double min = Math.Min(0, points.Min(Value)), max = Math.Max(0, points.Max(Value)), label = Math.Abs(min) > Math.Abs(max) ? min : max;
             Point3D P(double v) => mesh is null ? axis == 0 ? new(v, 0, 0) : axis == 1 ? new(0, v, 0) : new(0, 0, v) : World(axis == 0 ? new(0, v, 0) : axis == 1 ? new(v, 0, 0) : new(0, 0, v));
             yield return (P(min * 1.08), P(max * 1.08), P(label * 1.08), color, name + "  " + EngineeringFormat.Number(label) + (axis == 1 ? " kN" : " kNm"));
         }
     }
-    internal void SetActions(IEnumerable<(string Id, ActionPoint Force, bool Pass)> actions, string? selected, ActionPoint? resistant)
+    internal void SetActions(IEnumerable<(string Id, ConcreteResults.Action Force, bool Pass)> actions, string? selected, ConcreteResults.Action? resistant)
     {
         markings.Children.Clear(); pickTargets.Clear(); actionPoints.Clear(); actionPoints.AddRange(actions); selectedId = selected; SelectedAction = null; SelectedResistance = resistant; if (mesh is null) { UpdateLabels(); return; }
         foreach (var line in AxisLines())
@@ -459,8 +459,8 @@ internal sealed class DomainViewport3D : Grid
             if (ShowActions && (!OnlySelectedActions || chosen)) { markings.Children.Add(model); pickTargets[model] = action.Id; }
             if (chosen || Resistances?.ContainsKey(action.Id) == true)
             {
-                if (chosen) SelectedAction = action.Force; var vector = new MeshGeometry3D(); Tube(vector, World(SectionMomentResistance.VerificationOrigin(action.Force, VerificationCriterion)), point, .006); if (ShowVerificationLines) markings.Children.Add(Model(vector, Ui.Brush("#E09620")));
-                if ((chosen ? resistant : Resistances?.GetValueOrDefault(action.Id)) is ActionPoint r)
+                if (chosen) SelectedAction = action.Force; var vector = new MeshGeometry3D(); Tube(vector, World(ConcreteEditor.VerificationOrigin(action.Force, VerificationCriterion)), point, .006); if (ShowVerificationLines) markings.Children.Add(Model(vector, Ui.Brush("#E09620")));
+                if ((chosen ? resistant : Resistances?.GetValueOrDefault(action.Id)) is ConcreteResults.Action r)
                 { var rp = World(r); if (ShowResistance && chosen) markings.Children.Add(Model(Sphere(rp, .01 * ResistancePointSize), UtilizationPalette.Brush(Ratios?.GetValueOrDefault(selected ?? "")))); var segment = new MeshGeometry3D(); Tube(segment, point, rp, .006); if (ShowVerificationLines) markings.Children.Add(Model(segment, Ui.Brush("#A23BC4"))); }
             }
         }
@@ -506,9 +506,9 @@ internal sealed class DomainViewport3D : Grid
             if (Project(World(action.Force)) is not Point point) continue; if (ShowActions && (!OnlySelectedActions || action.Id == selectedId)) screenPoints.Add((action.Id, point));
             bool chosen = action.Id == selectedId;
             if (ShowVerificationLines && (chosen || Resistances?.ContainsKey(action.Id) == true)
-                && Project(World(SectionMomentResistance.VerificationOrigin(action.Force, VerificationCriterion))) is Point origin)
+                && Project(World(ConcreteEditor.VerificationOrigin(action.Force, VerificationCriterion))) is Point origin)
                 labels.Children.Add(new System.Windows.Shapes.Line { X1 = origin.X, Y1 = origin.Y, X2 = point.X, Y2 = point.Y, Stroke = Ui.Brush("#E09620"), StrokeThickness = 1.5 });
-            if ((chosen ? SelectedResistance : Resistances?.GetValueOrDefault(action.Id)) is ActionPoint r && Project(World(r)) is Point rp)
+            if ((chosen ? SelectedResistance : Resistances?.GetValueOrDefault(action.Id)) is ConcreteResults.Action r && Project(World(r)) is Point rp)
             {
                 if (ShowVerificationLines) labels.Children.Add(new System.Windows.Shapes.Line { X1 = point.X, Y1 = point.Y, X2 = rp.X, Y2 = rp.Y, Stroke = Ui.Brush("#A23BC4"), StrokeThickness = 1.5, StrokeDashArray = new DoubleCollection([4, 3]) });
                 if (ShowResistance && chosen) Marker(rp, UtilizationPalette.Brush(Ratios?.GetValueOrDefault(action.Id)), "Rd", ResistancePointSize + 1);

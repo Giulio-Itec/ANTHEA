@@ -7,11 +7,11 @@ namespace Anthea.Application.Concrete;
 public sealed class ConcreteInspectionSession : IDisposable
 {
     private readonly RecalculationScheduler scheduler = new();
-    private DomainCheck? cachedCheck;
-    private Lazy<CheckerStressState>? applied;
+    private ConcreteResults.Check? cachedCheck;
+    private Lazy<ConcreteResults.StressState>? applied;
 
-    public Task<ScheduledCalculation<CheckerStressState>> CalculateAsync(DomainCheck check, bool limit,
-        JsonObject input, JsonObject workspace, JsonObject options, string key, ActionPoint action,
+    public Task<ScheduledCalculation<ConcreteResults.StressState>> CalculateAsync(ConcreteResults.Check check, bool limit,
+        JsonObject input, JsonObject workspace, JsonObject options, string key, ConcreteResults.Action action,
         CancellationToken cancellation = default)
     {
         var sectionInput = (JsonObject)input.DeepClone(); var settings = (JsonObject)workspace.DeepClone();
@@ -21,7 +21,7 @@ public sealed class ConcreteInspectionSession : IDisposable
             token.ThrowIfCancellationRequested();
             if (!ReferenceEquals(cachedCheck, check)) { cachedCheck = check; applied = null; }
             if (limit) return check.LimitState?.Value ?? throw new ArgumentException("Selezionare una combinazione calcolata.");
-            applied ??= new(() => new CheckerSection(sectionInput, settings, analysisOptions, key).Stress(action, "ED"));
+            applied ??= new(() => new ConcreteResults.StressState(new CheckerSection(sectionInput, settings, analysisOptions, key).Stress(action.Source, "ED")));
             return applied.Value;
         }, token), cancellation: cancellation);
     }

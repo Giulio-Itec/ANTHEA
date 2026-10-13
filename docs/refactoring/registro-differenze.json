@@ -3677,7 +3677,7 @@
       "famiglia": "strumentazione dei test",
       "categoria": "volatile",
       "stato": "corretto",
-      "descrizione": "Sette delle 52 immagini identiche; le altre 45 hanno dimensioni diverse fra le due corse (viewport 1904x993 rispetto a 1586x953 e finestre secondarie con differenza di due pixel). Il confronto delle finestre non è usato per attestare equivalenza grafica. Nessun ricampionamento, maschera, tolleranza o atteso sostituito; confronto dei dati grafici e dei report mantenuto nel banco F3.",
+      "descrizione": "Sette delle 52 immagini identiche; le altre 45 hanno dimensioni diverse fra le due corse (viewport 1904x993 rispetto a 1586x953 e finestre secondarie con differenza di due pixel). Il confronto delle finestre non è usato per attestare equivalenza grafica. Nessun ricampionamento, maschera, tolleranza o atteso sostituito; confronto dei dati grafici e dei report mantenuto nel banco F3. Seguito F3.7b.20: 38/52 catture identiche; 14 finestre con dimensioni diverse, inventariate senza ricampionamento. I 116.992 valori dei contratti e i report restano esatti.",
       "codice": [
         "supporto/test/Desktop/ConcreteExtensionSmokeChecks.cs"
       ],
@@ -3689,7 +3689,8 @@
       "evidenze": [
         "supporto/artefatti/refactoring/f3/concrete-editor-images.json",
         "supporto/artefatti/refactoring/f3/concrete-editor-moves.json",
-        "supporto/artefatti/ci/20261013-113848-f3-concrete-editor"
+        "supporto/artefatti/ci/20261013-113848-f3-concrete-editor",
+        "supporto/artefatti/refactoring/f3/domain-contract-images.json"
       ]
     }
   ]

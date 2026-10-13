@@ -5,7 +5,7 @@ using Anthea.Application.Presentation;
 
 namespace Anthea.Application.Concrete;
 
-public sealed record ConcreteDetailingPresentation(IReadOnlyList<DetailingCheck> Checks, AnchorageResult? Anchorage,
+public sealed record ConcreteDetailingPresentation(IReadOnlyList<ConcreteResults.DetailingCheck> Checks, ConcreteResults.AnchorageResult? Anchorage,
     VerificationDetails Summary, IReadOnlyDictionary<string, VerificationDetails> Topics,
     VerificationDetails AnchorageDetails, JsonNode? DurabilityCover, string? Exposure, string DurabilityNote,
     bool? LargeBarPrecautions)
@@ -79,7 +79,8 @@ public sealed record ConcreteDetailingPresentation(IReadOnlyList<DetailingCheck>
             }
         }
         catch(Exception ex){anchorageText.Start();anchorageText.AddDetail("Ancoraggi e giunzioni",null,"Dati da completare",ex.Message,"NTC capitolo 4 / EC2 §§8.4 e 8.7");}
-        return new(detailingResults, anchorageResult, detailingText, detailingTopics, anchorageText,
+        return new(detailingResults.Select(value => new ConcreteResults.DetailingCheck(value)).ToArray(),
+            anchorageResult is null ? null : new ConcreteResults.AnchorageResult(anchorageResult), detailingText, detailingTopics, anchorageText,
             o["cmin_dur"]?.DeepClone(), exposureValue, durabilityNote, largeBars);
     }
 }
