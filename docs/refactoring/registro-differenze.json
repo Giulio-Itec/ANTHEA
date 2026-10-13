@@ -3591,6 +3591,29 @@
       "evidenze": [
         "supporto/artefatti/ci/20261013-045043-f3-pile-segment-protection"
       ]
+    },
+    {
+      "id": "F3-05",
+      "data": "2026-10-13",
+      "fase": "F3.7b.7a",
+      "titolo": "Ora di generazione nei capitoli confrontati a cavallo del minuto",
+      "famiglia": "strumentazione dei test",
+      "categoria": "volatile",
+      "stato": "corretto",
+      "descrizione": "Il confronto XML dei capitoli normalizzava core.xml ma non la riga data/ora del corpo. Due esecuzioni equivalenti fra 04:58 e 04:59 fallivano. Si riusa TextNormalizer soltanto sui quattro prefissi generati e sul formato esatto dd/MM/yyyy HH:mm della riga; date di input, date normative e numeri tecnici non sono esclusi.",
+      "codice": [
+        "tests/ANTHEA.Testing/Normalization/TextNormalizer.cs",
+        "tests/ANTHEA.Desktop.Equivalence/F3ReportChapterChecks.cs"
+      ],
+      "segno": "Nessuna modifica al prodotto, ai risultati o agli attesi. Correzione del confronto di un volatile già censito.",
+      "test": [
+        "Nove prove: prefissi, cambio giorno, numeri e testi utente, date normative",
+        "37 capitoli e 85 immagini equivalenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-045645-f3-structural-preview",
+        "supporto/artefatti/ci/20261013-050137-f3-report-timestamp-fix"
+      ]
     }
   ]
 }

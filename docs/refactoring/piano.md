@@ -176,6 +176,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
   - [x] F3.7b.4 (13/10): anteprime dei pali orizzontali in Application, con modello automatico, coefficienti, materiali, CHS e geometria circolare. Dodici controlli portabili aggiunti, undici suite e cinque finali passate; 76 PNG identici e 458 file equivalenti.
   - [x] F3.7b.5 (13/10): inventario dei membri realmente referenziati dalla Release e protezione di dieci ingressi di calcolo trasferiti. Distinti campi, proprietà e costruttori; tre suite passate. Il conteggio non certifica la separazione semantica, F3.7b resta aperto.
   - [x] F3.7b.6 (13/10): divisione, proposte e sessione di dimensionamento dei tratti in Application. Fotografie dei dati/cataloghi, verifica della risposta FEM, applicazione atomica e per revisione, chiusura protetta. 401 controlli Application, 47 WPF e 458 file equivalenti; registro F3-04.
+  - [x] F3.7b.7a (13/10): confronto dei capitoli corretto per il cambio di minuto/data nella sola riga generata. Nove prove del normalizzatore e otto suite passate; valori, date normative e immagini restano esatti. Registro F3-05.
   - [ ] F3.7b: rimuovere i restanti accessi ai motori e i contratti concreti dalla UI; collaudo e rilascio della fase.
 
 ## Fase 4: calcoli residui nelle librerie

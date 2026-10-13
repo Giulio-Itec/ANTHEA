@@ -57,8 +57,12 @@ internal static class F3ReportChapterChecks
                     using var oldStream = part.Open(); using var newStream = a.GetEntry(part.FullName)!.Open();
                     using var oldBytes = new MemoryStream(); using var newBytes = new MemoryStream();
                     oldStream.CopyTo(oldBytes); newStream.CopyTo(newBytes);
-                    bool equal = part.FullName == "docProps/core.xml"
-                        ? new TextNormalizer().Normalize(Encoding.UTF8.GetString(oldBytes.ToArray())) == new TextNormalizer().Normalize(Encoding.UTF8.GetString(newBytes.ToArray()))
+                    var normalizer = new TextNormalizer();
+                    string Normalize(byte[] bytes) => part.FullName == "docProps/core.xml"
+                        ? normalizer.Normalize(Encoding.UTF8.GetString(bytes))
+                        : normalizer.NormalizeReportTimestamps(Encoding.UTF8.GetString(bytes));
+                    bool equal = part.FullName is "docProps/core.xml" or "word/document.xml"
+                        ? Normalize(oldBytes.ToArray()) == Normalize(newBytes.ToArray())
                         : oldBytes.ToArray().SequenceEqual(newBytes.ToArray());
                     Check(equal, "Parte diversa " + file + ": " + part.FullName);
                     if (part.FullName.StartsWith("word/media/")) images++;
