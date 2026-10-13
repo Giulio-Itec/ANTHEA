@@ -331,7 +331,8 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [x] F4.10b.2 (14/10): adattatore tratti collegato a Design 0.5.0.0 nel set candidato C. Proposta congelata e due cataloghi estesi identici con uno/due worker; annullamento, avanzamento, conferme e input mancanti provati. Runner 8 PASS, compresa Application; errore iniziale del lettore sui segni corretto prima del commit. Motore legacy conservato, distribuzione F4.9. Registro F4-16.
   - [x] F4.10a: Checker `b8763b87`, distinta basata sul servizio condiviso dei dettagli. 30 distinte, 435 barre, 600 tratti e 1680 punti equivalenti; quantità intere identiche. 13 test Design PASS, API compatibili; Design candidata 0.3.0.0. Ricerche e integrazione ancora aperte.
 - [ ] F4.11 GPC.Design: BridgeConcept con listini e CO₂ come dati versionati. **Riattivata il 13/10 sera**: cataloghi sostituibili, associazioni alle lavorazioni, prezzi personalizzati e revisioni; calcolo e ottimizzazione in GPC.Design, gestione documentale/UI in ANTHEA.
-- [ ] F4.12 GPC.Design: ricerca delle armature di sezione.
+- [~] F4.12 GPC.Design: ricerca delle armature di sezione.
+  - [x] F4.12a (14/10): Checker `cb0ef314`, servizi condivisi per quantità, obiettivi, graduatoria/Pareto, campionamento, rete ortogonale e riserva torsionale. Design 0.7.0.0, 27 test PASS e API compatibili. Adattatore, coordinamento completo e NEd ancora da chiudere.
 - [ ] F4.13 Logica ingegneristica delle viste verso librerie o Application.
 - [ ] F4.14 [CP] Norme tipizzate negli adattatori residui; validazione esplicita.
 - [ ] F4.15 Copriferro di progetto in un validatore di Application.
