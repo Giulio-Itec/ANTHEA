@@ -101,14 +101,16 @@ public sealed partial class MainWindow
             if (drawing is DrawingGroup group)
                 foreach (Drawing child in group.Children) foreach (var item in Areas(child)) yield return item;
         }
+        var nativeForDrawing = BridgeSection.Calculate((System.Text.Json.Nodes.JsonObject)result.Input.DeepClone());
         foreach (var sample in new (string Name, double Stress, double Slope, bool Blue, bool Red)[] { ("nulle", 0d, 0d, false, false),
             ("compressione", -10d, 0d, true, false), ("trazione", 10d, 0d, false, true), ("cambio_segno", 0d, .1, true, true) })
         {
-            var source = result.Stages.Last();
+            var source = nativeForDrawing.Stages.Last();
             var c = source.Contributions.Last() with { UniformStress = sample.Stress, StressSlope = sample.Slope, Centroid = result.Geometry.SlabHeight / 2 };
             var points = source.Points.Select(p => p with { Stress = c.Stress(p.Material, p.Y), Contributions = [c.Stress(p.Material, p.Y)], Active = true }).ToList();
             var stage = source with { Contributions = [c], Points = points };
-            var drawing = new BridgeDrawing { Geometry = result.Geometry, Stage = stage, ConcreteAmplification = n, Width = 1200, Height = 640 };
+            var sampleView = BridgeContractTestData.Project(nativeForDrawing with { Stages = [stage] });
+            var drawing = new BridgeDrawing { Geometry = sampleView.Geometry, Stage = sampleView.Stages[0], ConcreteAmplification = n, Width = 1200, Height = 640 };
             drawing.Measure(new Size(1200, 640)); drawing.Arrange(new Rect(0, 0, 1200, 640)); drawing.UpdateLayout();
             File.WriteAllBytes(Path.Combine(directory, "diagramma_" + sample.Name + ".png"), Ui.Snapshot(drawing));
             var colors = Areas(VisualTreeHelper.GetDrawing(drawing)!).Where(p => p.Geometry is StreamGeometry && p.Brush is SolidColorBrush)

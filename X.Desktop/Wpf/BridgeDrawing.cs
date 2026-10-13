@@ -78,7 +78,7 @@ internal sealed partial class BridgeDrawing : FrameworkElement
         }
         Text(IsStale ? "ULTIMO CALCOLO · DA AGGIORNARE" : "SEZIONE  ·  mm", 12, 7, IsStale ? Ui.Brush("#8B5916") : Ui.Muted, 10);
         Rectangle(0, 0, g.Width, g.SlabHeight, Concrete);
-        if (Input is { } slabInput && BridgeSection.SlabLayout(slabInput) is { HasPredalle: true } slabLayout)
+        if (Input is { } slabInput && BridgeEditor.SlabLayout(slabInput) is { HasPredalle: true } slabLayout)
         {
             var band = R(0, 0, g.Width, slabLayout.PredalleThickness); PredalleBounds = band;
             // Keep the stress contour visible; the dashed boundary is a geometric reference only.

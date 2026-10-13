@@ -70,7 +70,8 @@ public sealed partial class MainWindow
                 double residual = stage.GetHistory() is { } h ? h.State.TotalPlane.At(line.Start.Y) : stage.Contributions.Sum(c => c.SteelStress(line.Start.Y));
                 Check(Math.Abs(residual) < 1e-8, "Ponte: zero coerente con risultato della fase, " + method);
             }
-            var drawing = new BridgeDrawing { Geometry = result.Geometry, Stage = result.Stages.Last(), Width = 1100, Height = 700 };
+            var resultView = BridgeContractTestData.Project(result);
+            var drawing = new BridgeDrawing { Geometry = resultView.Geometry, Stage = resultView.Stages.Last(), Width = 1100, Height = 700 };
             drawing.Measure(new Size(1100,700)); drawing.Arrange(new Rect(0,0,1100,700)); drawing.UpdateLayout();
             File.WriteAllBytes(Path.Combine(directory,"ponte_" + Array.IndexOf(BridgeSection.CalculationMethods,method) + ".png"),Ui.Snapshot(drawing));
             Check(drawing.NeutralAxisDisplay?.Start is not null, "Ponte: asse visibile " + method);

@@ -102,7 +102,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         {
             bridgeDesign = new BridgeDesignWorkspace(Data); bridgeDesign.Modified += () => Modified?.Invoke(); Content = bridgeDesign; building = false; return;
         }
-        if (module == BridgeSection.Module)
+        if (module == BridgeEditor.Module)
         {
             bridge = new BridgeWorkspace(Data); bridge.Modified += () => Modified?.Invoke(); Content = bridge; building = false; return;
         }

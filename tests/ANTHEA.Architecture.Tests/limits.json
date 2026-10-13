@@ -1,7 +1,7 @@
 {
   "TypeRefs": {
-    "GPCChecker.CompositeBridge": 36,
-    "ANTHEA.Calculations": 115,
+    "GPCChecker.CompositeBridge": 0,
+    "ANTHEA.Calculations": 113,
     "GPCChecker.Concrete": 0,
     "GPCChecker.Geotechnics": 0
   },

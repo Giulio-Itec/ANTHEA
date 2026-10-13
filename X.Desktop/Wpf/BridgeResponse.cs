@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
-using GPC.Checkers.CompositeBridge.History;
 using Microsoft.Win32;
 using X.Core;
 
@@ -32,8 +31,8 @@ internal sealed partial class BridgeWorkspace
     private UIElement BuildResponsePage()
     {
         ResponseData = Anthea.Application.Presentation.BridgeSheetPresentation.PrepareResponse(Data);
-        ResponseForm = new InputForm(ResponseData, [new("tipo", "Curva", Choices: BridgeSection.ResponseModes, Wide: true),
-            new("origine", "Stato di partenza", Choices: BridgeSection.ResponseOrigins, Wide: true),
+        ResponseForm = new InputForm(ResponseData, [new("tipo", "Curva", Choices: BridgeEditor.ResponseModes, Wide: true),
+            new("origine", "Stato di partenza", Choices: BridgeEditor.ResponseOrigins, Wide: true),
             new("y", "Quota di riferimento", "mm"), new("n_storico", "Mantieni N dello stato iniziale", Bool: true, Wide: true), new("N", "N costante", "kN"),
             new("k_storico", "Mantieni κ dello stato iniziale", Bool: true, Wide: true), new("k", "κ costante", "1/m"),
             new("incremento_k", "Incremento finale Δκ", "1/m"), new("incremento_e", "Incremento finale Δε", "µε"),
@@ -60,7 +59,7 @@ internal sealed partial class BridgeWorkspace
     }
     private void RefreshResponseFields()
     {
-        bool mc = ResponseData.S("tipo") == BridgeSection.ResponseModes[0], history = ResponseData.S("origine") == BridgeSection.ResponseOrigins[1];
+        bool mc = ResponseData.S("tipo") == BridgeEditor.ResponseModes[0], history = ResponseData.S("origine") == BridgeEditor.ResponseOrigins[1];
         ResponseForm.ShowField("n_storico", mc); ResponseForm.ShowField("N", mc && !ResponseData.B("n_storico"));
         ResponseForm.ShowField("k_storico", !mc); ResponseForm.ShowField("k", !mc && !ResponseData.B("k_storico"));
         ResponseForm.ShowField("incremento_k", mc); ResponseForm.ShowField("incremento_e", !mc);
@@ -115,7 +114,7 @@ internal sealed partial class BridgeWorkspace
         });
     }
     private sealed record FiberChoice(string Id, string Label) { public override string ToString() => Label; }
-    private static string ComponentName(string id) => id switch { HBridgeHistoryAnalysis.Concrete => "Calcestruzzo", HBridgeHistoryAnalysis.Rebars => "Armatura", HBridgeHistoryAnalysis.Top => "Piattabanda superiore", HBridgeHistoryAnalysis.Web => "Anima", HBridgeHistoryAnalysis.Bottom => "Piattabanda inferiore", _ => id };
+    private static string ComponentName(string id) => BridgeEditor.ComponentName(id);
     private void RefreshResponsePlots()
     {
         if (ResponseCalculation is not { } r || r.Points.Count == 0)
@@ -141,6 +140,6 @@ internal sealed partial class BridgeWorkspace
     {
         if (ResponseCalculation is not { } result || !responseExport.IsEnabled) return;
         var dialog = new SaveFileDialog { Filter = "CSV|*.csv", FileName = "Curve_sezione_ponte.csv" };
-        if (dialog.ShowDialog(Window.GetWindow(this)) == true) File.WriteAllText(dialog.FileName, BridgeSection.ResponseCsv(result), new UTF8Encoding(true));
+        if (dialog.ShowDialog(Window.GetWindow(this)) == true) File.WriteAllText(dialog.FileName, BridgeEditor.ResponseCsv(result), new UTF8Encoding(true));
     }
 }

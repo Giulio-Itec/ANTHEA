@@ -7,6 +7,7 @@ public sealed record NeutralAxisPresentation(SectionLine? Line, string Caption, 
 {
     public static NeutralAxisPresentation Concrete(CheckerStressState state) => Project(SectionNeutralAxis.Concrete(state.Native.StrainPlane));
     public static NeutralAxisPresentation Bridge(BridgeStage stage) => Project(SectionNeutralAxis.Bridge(stage));
+    public static NeutralAxisPresentation Bridge(Anthea.Application.Bridge.BridgeStage stage) => stage.NeutralAxis;
     private static NeutralAxisPresentation Project(SectionNeutralAxis value) => new(value.Line is { } line
         ? new(new(line.Start.X, line.Start.Y), new(line.End.X, line.End.Y)) : null, value.Caption, value.Explanation);
 }

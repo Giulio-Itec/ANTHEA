@@ -13,8 +13,8 @@ internal sealed partial class ModuleFigureRenderer : IFigureRenderer
         var c = request.Calculation;
         if (c.ModuleId == "str_palo") return ConcreteFigures(ConcreteGraphics(c.NativeAs<Anthea.Application.Concrete.ConcreteReportAnalysis>()), request.Options);
         if (c.ModuleId is PaloOrizzontale.Module or MicropaloOrizzontale.Module) return HorizontalFigures(c.Values);
-        if (c.ModuleId == BridgeSection.Module)
-            return BridgeFigures(c.NativeAs<BridgeResult>(), c.Data["ui_mista"]!.AsObject(), request.Options);
+        if (c.ModuleId == BridgeEditor.Module)
+            return BridgeFigures(BridgeResultView.Read(c), c.Data["ui_mista"]!.AsObject(), request.Options);
         if (c.ModuleId == RetainingWall.Module)
             return WallFigures(c.NativeAs<RetainingWall.Result>(), (WallReportPresentation)request.Context!);
         if (c.ModuleId == BridgeConcept.Module)

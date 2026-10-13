@@ -185,6 +185,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
   - [x] F3.7b.10 (13/10): coefficienti e valori delle anteprime di pali/micropali verticali preparati nei servizi; cataloghi e correlazioni condivisi con i pali orizzontali. 511 controlli applicativi, 11 suite UI/report/figure passate e 458 file equivalenti. Soglia Calculations 119.
   - [x] F3.7b.11 (13/10): cataloghi e anteprime dei materiali condivisi nello strato applicativo, con curve trasferite senza modifiche e valori derivati preparati fuori dalla UI. 589 controlli Application, 13 suite passate, 37 capitoli e 458 file equivalenti. Soglia Calculations 116.
   - [x] F3.7b.12 (13/10): piano delle deformazioni e assi neutri ricevono dati grafici posseduti, senza interrogare i motori in WPF. Campioni identici bit per bit, 606 controlli applicativi; cinque immagini dei viewport identiche, 37 capitoli e 458 file equivalenti. Zero riferimenti Desktop a Checker.Concrete; soglia Calculations 115.
+  - [x] F3.7b.13 (13/10): contratti posseduti di geometria, fasi, verifiche e fibre del ponte; letture native confinate in Application, stesso risultato riusato da viste e report. 87.462 valori confrontati esattamente, 677 controlli applicativi, 12 suite e cinque finali passate. Zero riferimenti Desktop a Checker; soglia Calculations 113. Differenze transitorie delle catture censite F3-07.
   - [ ] F3.7b: rimuovere i restanti accessi ai motori e i contratti concreti dalla UI; collaudo e rilascio della fase.
 
 ## Fase 4: calcoli residui nelle librerie

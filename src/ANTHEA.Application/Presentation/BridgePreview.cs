@@ -1,5 +1,5 @@
 using System.Text.Json.Nodes;
-using GPC.Checkers.CompositeBridge;
+using Anthea.Application.Bridge;
 namespace Anthea.Application.Presentation;
 
 public sealed record BridgePreview(BridgeGeometry Geometry, JsonObject Input, string MaterialText, string GeometryError)
@@ -7,7 +7,7 @@ public sealed record BridgePreview(BridgeGeometry Geometry, JsonObject Input, st
     private static string F(double value) => BridgePropertyPresentation.Number(value);
     public static BridgePreview Read(JsonObject data)
     {
-        var geometry = BridgeSection.Geometry(data); var snapshot = (JsonObject)data.DeepClone();
+        var geometry = new BridgeProjection().Read(BridgeSection.Geometry(data))!; var snapshot = (JsonObject)data.DeepClone();
         try
         {
             var m = BridgeSection.Materials(data);

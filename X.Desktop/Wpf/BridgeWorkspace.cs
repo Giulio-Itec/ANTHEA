@@ -16,8 +16,8 @@ namespace X.Desktop;
 internal sealed partial class BridgeWorkspace : UserControl, IDisposable
 {
     internal JsonObject Data { get; }
-    internal BridgeResult? Calculation { get; private set; }
-    internal BridgeResult? DisplayedCalculation { get; private set; }
+    internal BridgeResultView? Calculation { get; private set; }
+    internal BridgeResultView? DisplayedCalculation { get; private set; }
     internal bool ResultsAreStale => Calculation is null && DisplayedCalculation is not null;
     internal JsonObject? Result => Calculation?.Json();
     internal bool Busy { get; private set; }
@@ -45,8 +45,8 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
     private string geometryError = "";
     internal BridgeWorkspace(JsonObject data, IModuleService? calculationService = null)
     {
-        this.calculationService = calculationService ?? ModuleServices.Get(BridgeSection.Module);
-        Data = data; BridgeSection.ValidateShape(data); BridgeSection.EnsureAccessoryDefaults(data); Background = Appearance.Surface;
+        this.calculationService = calculationService ?? ModuleServices.Get(BridgeEditor.Module);
+        Data = data; BridgeEditor.ValidateShape(data); BridgeEditor.EnsureAccessoryDefaults(data); Background = Appearance.Surface;
         RevisionInspection.Allow(StageChoice); RevisionInspection.Allow(DisplayChoice);
         SetValue(InputForm.CommitOnFocusLossProperty, true);
         SetValue(NumericPresentation.EnabledProperty, true);
@@ -86,7 +86,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
     }
     private void BuildInputs()
     {
-        var norm = Form(Data, [new("nome", "Nome della sezione", Wide: true), new("normativa", "Normativa", Choices: BridgeSection.Standards)], key =>
+        var norm = Form(Data, [new("nome", "Nome della sezione", Wide: true), new("normativa", "Normativa", Choices: BridgeEditor.Standards)], key =>
             {
                 if (key == "normativa")
                 {
@@ -99,8 +99,8 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             });
         var coefficients = Form(Data, [new("gamma_m0", "Acciaio strutturale γM0"), new("gamma_m1", "Instabilità γM1"), new("eta_taglio", "Taglio η"), new("gamma_v", "Pioli γV"), new("gamma_m2", "Saldature γM2"), new("gamma_c", "Calcestruzzo γc"), new("alpha_cc", "Calcestruzzo αcc"), new("gamma_s", "Armature γs")]);
         InputForm? materials = null;
-        materials = Form(Data, [new("classe_cls", "Calcestruzzo", Choices: BridgeSection.ConcreteNames), new("acciaio", "Carpenteria", Choices: BridgeSection.SteelNames),
-            new("armatura", "Armatura ordinaria", Choices: BridgeSection.RebarNames), new("fy_override", "Sovrascrivi fy per tutta la carpenteria", Bool: true), new("fy", "fy assegnato", "MPa")],
+        materials = Form(Data, [new("classe_cls", "Calcestruzzo", Choices: BridgeEditor.ConcreteNames), new("acciaio", "Carpenteria", Choices: BridgeEditor.SteelNames),
+            new("armatura", "Armatura ordinaria", Choices: BridgeEditor.RebarNames), new("fy_override", "Sovrascrivi fy per tutta la carpenteria", Bool: true), new("fy", "fy assegnato", "MPa")],
             _ => materials?.ShowField("fy", Data.B("fy_override")));
         materials.ShowField("fy", Data.B("fy_override"));
         foreach (string key in new[] { "fy_override", "fy" }) materials.Editors[key].ToolTip =
@@ -120,15 +120,15 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         // the type of section: the offset of the webs for the inclined web and the box, the spacing of the webs and no second plate for the box
         void ShowSectionFields()
         {
-            string kind = Data.S("sezione", BridgeSection.SectionTypes[0]);
-            bool h = kind == BridgeSection.SectionTypes[0];
+            string kind = Data.S("sezione", BridgeEditor.SectionTypes[0]);
+            bool h = kind == BridgeEditor.SectionTypes[0];
             sectionType?.ShowField("offset_anima", !h);
-            sectionType?.ShowField("interasse_anime", kind == BridgeSection.SectionTypes[2]);
+            sectionType?.ShowField("interasse_anime", kind == BridgeEditor.SectionTypes[2]);
             if (plate is not null) plate.Visibility = h ? Visibility.Visible : Visibility.Collapsed;
             if (plateNote is not null) plateNote.Visibility = h ? Visibility.Visible : Visibility.Collapsed;
-            if (boxInputs is not null) boxInputs.Visibility = kind == BridgeSection.SectionTypes[2] ? Visibility.Visible : Visibility.Collapsed;
+            if (boxInputs is not null) boxInputs.Visibility = kind == BridgeEditor.SectionTypes[2] ? Visibility.Visible : Visibility.Collapsed;
         }
-        sectionType = Form(Data, [new("sezione", "Tipo di sezione", Choices: BridgeSection.SectionTypes), new("offset_anima", "Scostamento anima al piede", "mm"),
+        sectionType = Form(Data, [new("sezione", "Tipo di sezione", Choices: BridgeEditor.SectionTypes), new("offset_anima", "Scostamento anima al piede", "mm"),
             new("interasse_anime", "Interasse anime in sommità", "mm")], key => { ShowSectionFields(); RefreshSteelHeight(); if (key == "sezione") Dispatcher.BeginInvoke(BuildPhases); });
         plate = Form(Data, [new("plate2", "Seconda piattabanda inferiore", Bool: true), new("b_bottom2", "Larghezza inferiore 2", "mm"), new("t_bottom2", "Spessore inferiore 2", "mm")],
             _ => { plate?.ShowField("b_bottom2", Data.B("plate2")); plate?.ShowField("t_bottom2", Data.B("plate2")); RefreshSteelHeight(); });
@@ -182,14 +182,14 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         {
             Anthea.Application.Presentation.BridgeSheetPresentation.PreparePhase(p);
             int i = index++;
-            var form = Form(p, [new("nome", "Nome", Wide: true), new("attiva", "Includi nella somma", Bool: true), new("tipo", "Sezione reagente", Choices: BridgeSection.PhaseKinds),
+            var form = Form(p, [new("nome", "Nome", Wide: true), new("attiva", "Includi nella somma", Bool: true), new("tipo", "Sezione reagente", Choices: BridgeEditor.PhaseKinds),
                 new("N", "Forza assiale N", "kN"), new("Mx", "Momento Mx", "kNm"), new("V", "Taglio V", "kN"), new("T", "Momento torcente T · cassoncino", "kNm"),
                 new("q_conn", "Scorrimento aggiuntivo Δq", "kN/m"), new("epsilon_cs", "Ritiro Δεcs · negativo = accorciamento", "µε"),
-                new("riferimento_N", "Punto di applicazione N e riferimento Mx", Choices: BridgeSection.LoadReferences)], key =>
-                { if (key == "tipo") { if (p.S("tipo") == BridgeSection.ShrinkageKind) { p["psi"] = .55; p["modo"] = "Da φ"; } Dispatcher.BeginInvoke(BuildPhases); } });
-            bool shrinkage = p.S("tipo") == BridgeSection.ShrinkageKind;
+                new("riferimento_N", "Punto di applicazione N e riferimento Mx", Choices: BridgeEditor.LoadReferences)], key =>
+                { if (key == "tipo") { if (p.S("tipo") == BridgeEditor.ShrinkageKind) { p["psi"] = .55; p["modo"] = "Da φ"; } Dispatcher.BeginInvoke(BuildPhases); } });
+            bool shrinkage = p.S("tipo") == BridgeEditor.ShrinkageKind;
             foreach (string key in new[] { "N", "Mx", "V", "riferimento_N" }) form.ShowField(key, !shrinkage);
-            form.ShowField("T", !shrinkage && BridgeSection.TorsionEnabled(Data));
+            form.ShowField("T", !shrinkage && BridgeEditor.TorsionEnabled(Data));
             form.Editors["T"].ToolTip = "Incremento del momento torcente della fase nella sezione, dal modello globale. Fasi di solo acciaio: cella chiusa dal controvento superiore (t* > 0); fasi composte: cella chiusa dalla soletta.";
             form.ShowField("epsilon_cs", shrinkage);
             form.ShowField("q_conn", Data.B("pioli") && p.S("tipo") != "Solo acciaio");
@@ -261,7 +261,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         {
             Busy = true; progress.Visibility = Visibility.Visible;
             status.Text = "Calcolo delle fasi e della sezione efficace…";
-            try { return (await Task.Run(() => calculationService.Calculate(snapshot, token), token)).NativeAs<BridgeResult>(); }
+            try { return BridgeResultView.Read(await Task.Run(() => calculationService.Calculate(snapshot, token), token)); }
             finally { Busy = false; if (!disposed) progress.Visibility = Visibility.Collapsed; }
         }, delay);
         completed.TryPublish(current =>
@@ -314,7 +314,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
                 .Select(c => new[] { c.Name, result.Input.S("stato"), F(c.Demand) + " " + c.Unit, F(c.Resistance) + " " + c.Unit, c.Ratio is {} r ? F(r) : "—", c.Status, c.Note })));
         propertiesTable.Content = ResultTable(["Fase", "n₀", "n = Ea/Ec,eff", "φ", "ψLφ", "Ec,eff [MPa]", "A* [mm²]", "yG [mm]", "Ix* [mm⁴]", "Wsup* [mm³]", "Winf* [mm³]", "yσ=0 [mm]", "κ [1/m]"],
             stage.Contributions.Select(c => new[] { c.Name, Dash(c.N0), Dash(c.HomogenizationN), c.HasConcrete ? F(c.Phi) : "—", c.HasConcrete ? F(c.EffectivePhi) : "—",
-                c.HasConcrete ? F(BridgeDerivedResults.EffectiveConcreteModulus(result.Materials.Ea, c.HomogenizationN)) : "—", F(c.Area), F(c.Centroid), E(c.Inertia), E(c.WTop), E(c.WBottom), c.NeutralAxis is { } z ? F(z) : "—", E(c.Curvature(result.Materials.Ea) * 1000) }));
+                c.HasConcrete ? F(BridgeEditor.EffectiveConcreteModulus(result.Materials.Ea, c.HomogenizationN)) : "—", F(c.Area), F(c.Centroid), E(c.Inertia), E(c.WTop), E(c.WBottom), c.NeutralAxis is { } z ? F(z) : "—", E(c.Curvature(result.Materials.Ea) * 1000) }));
         classTable.Content = ResultTable(["Pannello", "b [mm]", "t [mm]", "σ₁ [MPa]", "σ₂ [MPa]", "ψ", "kσ", "λp", "ρ", "bc [mm]", "b₁ eff [mm]", "b₂ eff [mm]"],
             new[] { ("Anima · sup → inf", stage.Effective.Web), ("Sbalzo superiore", stage.Effective.Top), (stage.Effective.SecondBottom is null ? "Sbalzo inferiore" : "Sbalzo inferiore · piastra 1", stage.Effective.Bottom) }.Concat(stage.Effective.SecondBottom is { } second ? new[] { ("Sbalzo inferiore · piastra 2", second) } : []).Select(x =>
                 new[] { x.Item1, F(x.Item2.Width), F(x.Item2.Thickness), F(x.Item2.StartStress), F(x.Item2.EndStress), F(x.Item2.Psi), F(x.Item2.KSigma), F(x.Item2.Lambda), F(x.Item2.Rho), F(x.Item2.CompressedWidth), F(x.Item2.EffectiveAtStart), F(x.Item2.EffectiveAtEnd) }));
@@ -332,7 +332,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             new[] { "Piattabanda inferiore · b equivalente (solo confronto)", F(g.BottomEquivalentWidth), "mm" }, new[] { "Piattabanda inferiore · t equivalente (solo confronto)", F(g.BottomEquivalentThickness), "mm" },
             new[] { "Piastre inferiori · area reale = equivalente", F(g.BottomArea), "mm²" }, new[] { "Piastre inferiori · yG reale", F(g.BottomRealCentroid), "mm" },
             new[] { "Piastre inferiori · yG equivalente (solo confronto)", F(-g.Height + g.BottomEquivalentThickness / 2), "mm" }, new[] { "Piastre inferiori · Ix reale al proprio G", E(g.BottomRealInertia), "mm⁴" },
-            new[] { "Piattabanda equivalente · Ix al proprio G (solo confronto)", E(g.EquivalentBottomPlate().Ix), "mm⁴" },
+            new[] { "Piattabanda equivalente · Ix al proprio G (solo confronto)", E(BridgeEditor.EquivalentBottomInertia(g)), "mm⁴" },
             new[] { "Area soletta lorda", F(g.Width * g.SlabHeight), "mm²" }, new[] { "Barre complessive", g.Bars.Length.ToString(), "n." }, new[] { "Area armature", F(g.Bars.Sum(b => b.Area)), "mm²" },
             new[] { "Altezza complessiva", F(g.Height + g.SlabHeight), "mm" }, new[] { "Asse neutro delle tensioni totali nell’acciaio", stage.SteelNeutralAxis is { } z ? F(z) : "—", "mm" }
         }.Concat(g.Bars.GroupBy(b => b.Y).Select(r => new[] { $"Fila y={F(r.Key)} mm · {r.Count()} barre Ø{F(r.First().Diameter)}", F(r.Sum(b => b.Area)), "mm²" })));
@@ -342,7 +342,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
     }
     private void UpdateCommonReferenceField()
     {
-        bool used = Data.Array("fasi").OfType<JsonObject>().Any(p => p.B("attiva") && p.S("tipo") != BridgeSection.ShrinkageKind && BridgeSection.LoadReference(p) == BridgeSection.CommonLoadReference);
+        bool used = Data.Array("fasi").OfType<JsonObject>().Any(p => p.B("attiva") && p.S("tipo") != BridgeEditor.ShrinkageKind && BridgeEditor.LoadReference(p) == BridgeEditor.CommonLoadReference);
         foreach (var form in inputForms.Where(f => f.Editors.ContainsKey("y_ref"))) form.Enable("y_ref", used, dim: true);
     }
     private void RefreshDrawing()
@@ -406,7 +406,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             string R(double x) => x.ToString("R", CultureInfo.GetCultureInfo("it-IT"));
             foreach (var s in Calculation.Stages) foreach (var f in s.GetHistory()!.State.Fibers)
                 lines.Add(string.Join(";", Q(s.Name), Q(f.Fiber.Id), Q(f.ComponentId), f.Active, R(f.Fiber.Y), R(f.EffectiveArea), R(f.TotalStrain), R(f.ActivationStrain), R(f.ImposedStrain), R(f.MechanicalStrain),
-                    f.MaterialState is GPC.Checkers.CompositeBridge.History.HistoryPlasticState p ? R(p.PlasticStrain) : "", R(f.Stress), R(f.StressIncrement)));
+                    f.MaterialState is HistoryPlasticState p ? R(p.PlasticStrain) : "", R(f.Stress), R(f.StressIncrement)));
         }
         Archivio.ScriviAtomico(dialog.FileName, Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(string.Join(Environment.NewLine, lines))).ToArray());
     }

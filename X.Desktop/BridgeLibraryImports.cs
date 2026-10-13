@@ -1,1 +1,1 @@
-global using GPC.Checkers.CompositeBridge;
+global using Anthea.Application.Bridge;

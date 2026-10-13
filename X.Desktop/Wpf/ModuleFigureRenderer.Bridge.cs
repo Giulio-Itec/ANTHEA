@@ -5,10 +5,10 @@ namespace X.Desktop;
 
 internal sealed partial class ModuleFigureRenderer
 {
-    internal static IReadOnlyList<ReportFigure> BridgeFigures(BridgeResult result, JsonObject viewSettings, IReadOnlySet<string> options)
+    internal static IReadOnlyList<ReportFigure> BridgeFigures(BridgeResultView result, JsonObject viewSettings, IReadOnlySet<string> options)
     {
         var images = new List<ReportFigure>();
-        var concreteScale = Anthea.Application.Presentation.BridgeSheetPresentation.StressScale(result, viewSettings);
+        var concreteScale = result.StressScale(viewSettings);
         void Image(string caption, string category, BridgeStage? stage, int mode)
         {
             var drawing = new BridgeDrawing { Geometry = result.Geometry, Stage = stage, Input = result.Input,

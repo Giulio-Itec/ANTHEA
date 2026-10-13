@@ -62,8 +62,8 @@ internal sealed partial class BridgeWorkspace
         ConcreteScaleEditor.ClearValue(Control.BorderBrushProperty); ConcreteScaleEditor.ToolTip = ScaleHelp;
     }
 
-    internal static (double Factor, string Source) StressScale(BridgeResult? result, JsonObject settings)
-        => Anthea.Application.Presentation.BridgeSheetPresentation.StressScale(result, settings);
+    internal static (double Factor, string Source) StressScale(BridgeResultView? result, JsonObject settings)
+        => result?.StressScale(settings) ?? Anthea.Application.Presentation.BridgeSheetPresentation.StressScale(null, settings);
 
     private void RefreshStressScale()
     {

@@ -3638,6 +3638,30 @@
         "supporto/artefatti/refactoring/f3/rev40-reference-update.json",
         "supporto/artefatti/guide_anthea_itec_rev40/qa"
       ]
+    },
+    {
+      "id": "F3-07",
+      "data": "2026-10-13",
+      "fase": "F3.7b.13",
+      "titolo": "Stati transitori nelle catture delle finestre del ponte",
+      "famiglia": "strumentazione dei test",
+      "categoria": "volatile",
+      "stato": "corretto",
+      "descrizione": "56 delle 78 immagini prima/dopo identiche. Le 22 restanti differiscono per rettangolo del focus, hover di controlli e scrollbar o testo di preparazione rispetto al calcolo già terminato. Ritagli ispezionati; nessuna maschera o tolleranza aggiunta. Le immagini non identiche non sono usate per attestare equivalenza pixel per pixel. Report, geometrie e risultati confrontati separatamente restano esatti.",
+      "codice": [
+        "supporto/test/Desktop/BridgeSmokeChecks.cs",
+        "supporto/test/Desktop/BridgeResponseUiSmokeChecks.cs"
+      ],
+      "test": [
+        "87.462 valori confrontati esattamente nei contratti",
+        "37 capitoli e 458 file equivalenti",
+        "56 immagini identiche; inventario delle 22 differenze transitorie"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f3/bridge-contracts-images.json",
+        "supporto/artefatti/refactoring/f3/bridge-diffs",
+        "supporto/artefatti/ci/20261013-090512-f3-bridge-contracts-owned"
+      ]
     }
   ]
 }

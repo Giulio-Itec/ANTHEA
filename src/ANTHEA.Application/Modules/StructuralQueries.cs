@@ -11,11 +11,11 @@ public static class StructuralQueries
         cancellation.ThrowIfCancellationRequested();
         return RetainingWall.DesignReinforcement(snapshot, cancellation);
     }
-    public static GPC.Checkers.CompositeBridge.History.SectionResponseResult BridgeResponse(JsonObject source, JsonObject request, CancellationToken cancellation = default)
+    public static Anthea.Application.Bridge.SectionResponseResult BridgeResponse(JsonObject source, JsonObject request, CancellationToken cancellation = default)
     {
         var snapshot = ModuleServices.Get(BridgeSection.Module).Prepare(source);
         cancellation.ThrowIfCancellationRequested();
-        return BridgeSection.CalculateResponse(snapshot, (JsonObject)request.DeepClone(), cancellation);
+        return new Anthea.Application.Bridge.BridgeProjection().Read(BridgeSection.CalculateResponse(snapshot, (JsonObject)request.DeepClone(), cancellation))!;
     }
     public static SlopeResult WallGlobal(JsonObject source, CancellationToken cancellation = default)
     {

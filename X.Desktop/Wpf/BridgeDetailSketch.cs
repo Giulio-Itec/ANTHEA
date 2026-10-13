@@ -38,8 +38,8 @@ internal sealed class BridgeDetailSketch : FrameworkElement
         Text("PROSPETTO · schema non in scala", 10, 5, Ui.Muted, 9);
         bool enabled = d.B(AtSupport ? "appoggio" : "irrigidimenti");
         if (!enabled) { Text(AtSupport ? "Appoggio non inserito" : "Intermedi assenti · pannello lungo", 15, 64, Ui.Muted, 12); return; }
-        bool endLeft = AtSupport && d.S("pos_app") == BridgeSection.SupportLocations[1];
-        bool endRight = AtSupport && d.S("pos_app") == BridgeSection.SupportLocations[2];
+        bool endLeft = AtSupport && d.S("pos_app") == BridgeEditor.SupportLocations[1];
+        bool endRight = AtSupport && d.S("pos_app") == BridgeEditor.SupportLocations[2];
         if (endLeft) mid = w * .26; if (endRight) mid = w * .74;
         dc.DrawRectangle(Ui.Brush("#DCE7EF"), pen, new Rect(x0, top, x1 - x0, bottom - top));
         dc.DrawLine(new Pen(ink, 3), new(x0, top), new(x1, top)); dc.DrawLine(new Pen(ink, 3), new(x0, bottom), new(x1, bottom));

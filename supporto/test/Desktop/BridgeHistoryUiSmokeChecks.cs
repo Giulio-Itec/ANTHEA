@@ -58,7 +58,7 @@ public sealed partial class MainWindow
             Check(!ReferenceEquals(result, bridge.Calculation) && bridge.Drawing.Stage == bridge.Calculation!.Stages.Last(), "ricalcolo non aggiorna finestra staccata");
             detached.Close(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); window.UpdateLayout();
             Check(bridge.detachedWindow is null && Ui.Descendants<BridgeDrawing>(bridge).Single() == bridge.Drawing, "riaggancio");
-            byte[] report = ReportBridge.Create("Prova del metodo storico non lineare", bridge.Calculation!, ReportBridge.DefaultSections());
+            byte[] report = Anthea.Reports.DocxWriter.Write(bridge.Calculation!.Report("Prova del metodo storico non lineare", ReportBridge.DefaultSections(), []));
             File.WriteAllBytes(Path.Combine(directory, "storico_non_lineare.docx"), report);
             using (var zip = new ZipArchive(new MemoryStream(report)))
             using (var reader = new StreamReader(zip.GetEntry("word/document.xml")!.Open()))

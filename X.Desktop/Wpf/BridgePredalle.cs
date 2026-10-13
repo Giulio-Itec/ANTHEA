@@ -13,12 +13,12 @@ internal sealed partial class BridgeWorkspace
     private UIElement BuildPredalleInputs()
     {
         predalleForm = Form(Data, [new("predalle", "Predalle presente · solo geometria", Bool: true),
-            new("h_predalle", "Spessore predalle", "mm"), new("rif_ferri_inf", "Riferimento ferri inferiori", Choices: BridgeSection.BottomRebarReferences)]);
-        predalleForm.Editors["predalle"].ToolTip = BridgeSection.PredalleScope;
+            new("h_predalle", "Spessore predalle", "mm"), new("rif_ferri_inf", "Riferimento ferri inferiori", Choices: BridgeEditor.BottomRebarReferences)]);
+        predalleForm.Editors["predalle"].ToolTip = BridgeEditor.PredalleScope;
         predalleForm.Editors["h_predalle"].ToolTip = "Quota dell'estradosso predalle rispetto a y=0. Compresa nello spessore totale della soletta, non aggiunta.";
         predalleForm.Editors["rif_ferri_inf"].ToolTip = "Estradosso predalle: y dei ferri = spessore predalle + distanza all'asse. Intradosso soletta: y = distanza all'asse. Cambiare il riferimento conserva la distanza inserita e sposta la fila.";
         RefreshSlabLayout();
-        return Ui.Stack(predalleForm, slabLayoutInfo, Ui.Text(BridgeSection.PredalleScope, 11, color: Ui.Muted));
+        return Ui.Stack(predalleForm, slabLayoutInfo, Ui.Text(BridgeEditor.PredalleScope, 11, color: Ui.Muted));
     }
 
     private void RefreshSlabLayout()

@@ -17,7 +17,7 @@ internal sealed partial class BridgeDrawing
         if (ShowGeometryLabels)
         {
             tags.Add(new("Soletta collaborante", $"{F(g.Width)} × {F(g.SlabHeight)} mm", point(0, g.SlabHeight / 2), true, Ui.Navy));
-            if (Input is { } slabInput && BridgeSection.SlabLayout(slabInput) is { HasPredalle: true } slab)
+            if (Input is { } slabInput && BridgeEditor.SlabLayout(slabInput) is { HasPredalle: true } slab)
                 tags.Add(new("Predalle · geometria", $"t = {F(slab.PredalleThickness)} mm · inclusa in h", point(0, slab.PredalleThickness / 2), true, Ui.Brush("#506B7E")));
             if (g.SectionType == BridgeSteelSectionType.H)
             {
@@ -41,7 +41,7 @@ internal sealed partial class BridgeDrawing
             {
                 try
                 {
-                    var p = BridgeSection.StiffenerPlates(data, DetailAtSupport ? "app" : "irr");
+                    var p = BridgeEditor.StiffenerPlates(data, DetailAtSupport ? "app" : "irr");
                     string left = p.LeftWidth > 0 ? $"SX {F(p.LeftWidth)}×{F(p.LeftThickness)}" : "SX assente";
                     string right = p.RightWidth > 0 ? $"DX {F(p.RightWidth)}×{F(p.RightThickness)}" : "DX assente";
                     tags.Add(new(DetailAtSupport ? "Irrigidimento d’appoggio" : "Irrigidimento intermedio", left + "\n" + right + " mm",
@@ -55,7 +55,7 @@ internal sealed partial class BridgeDrawing
             foreach (string side in new[] { "top", "bottom" })
             {
                 if (Input is null || !Input.B("rebars_" + side)) continue;
-                var layout = BridgeSection.SlabLayout(Input);
+                var layout = BridgeEditor.SlabLayout(Input);
                 double y = side == "top" ? layout.TopAxisY : layout.BottomAxisY;
                 var bars = g.Bars.Where(b => Math.Abs(b.Y - y) < 1e-6).OrderBy(b => b.X).ToArray();
                 if (bars.Length == 0) continue;

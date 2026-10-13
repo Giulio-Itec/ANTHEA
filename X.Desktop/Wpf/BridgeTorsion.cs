@@ -18,7 +18,7 @@ internal sealed partial class BridgeWorkspace
             new("t_controvento", "Controvento superiore · spessore equivalente t*", "mm"),
             new("L_campata", "Distorsione · luce della campata (0 = non analizzata)", "mm"),
             new("m_t_dist", "Distorsione · torcente distribuito m_t", "kNm/m"), new("T_c_dist", "Distorsione · torcente concentrato T_c", "kNm"),
-            new("passo_diaframmi", "Diaframmi intermedi · passo (0 = assenti)", "mm"), new("tipo_diaframma", "Diaframmi intermedi · tipo", Choices: BridgeSection.DiaphragmKinds),
+            new("passo_diaframmi", "Diaframmi intermedi · passo (0 = assenti)", "mm"), new("tipo_diaframma", "Diaframmi intermedi · tipo", Choices: BridgeEditor.DiaphragmKinds),
             new("t_diaframma", "Piastra · spessore", "mm"), new("A_diagonale", "Controvento a X · area di una diagonale", "mm²"),
             new("i_diagonale", "Controvento a X · raggio d'inerzia minimo", "mm"), new("beta_diagonale", "Controvento a X · Lcr / L diagonale"),
             new("T_app", "Appoggio · torcente trasferito agli apparecchi", "kNm"), new("e_appoggi", "Appoggio · interasse trasversale apparecchi", "mm"),
@@ -31,7 +31,7 @@ internal sealed partial class BridgeWorkspace
         {
             if (f is null) return;
             bool on = Data.B("torsione_cassoncino"), span = on && Data.D("L_campata") > 0, diaphragms = span && Data.D("passo_diaframmi") > 0;
-            bool plate = Data.S("tipo_diaframma") == BridgeSection.DiaphragmKinds[0], support = on && J.Number(Data["T_app"]) is double t && t != 0;
+            bool plate = Data.S("tipo_diaframma") == BridgeEditor.DiaphragmKinds[0], support = on && J.Number(Data["T_app"]) is double t && t != 0;
             foreach (string key in f.Editors.Keys) if (key != "torsione_cassoncino") f.ShowField(key, key switch
             {
                 "t_controvento" or "L_campata" or "T_app" => on,
@@ -51,7 +51,7 @@ internal sealed partial class BridgeWorkspace
             Ui.Text("Torsione: cella chiusa di Bredt, q = T/(2A0), con la soletta (fasi composte) o il controvento (fasi di solo acciaio). q si somma al taglio delle anime, al fondo, ai pioli e alla soletta. " +
                 "Distorsione: trave su suolo elastico sulla campata appoggiata, diaframmi intermedi come molle; σdw oltre il 10% della flessione entra nelle verifiche del fondo (EN 1993-2 §6.2.7). " +
                 "Diaframmi a piastra (taglio e imbozzamento) o controventi a X (diagonale compressa); diaframma d'appoggio a taglio e coppia degli apparecchi sugli irrigidimenti d'appoggio.", 11, color: Ui.Muted)));
-        group.Visibility = Data.S("sezione", BridgeSection.SectionTypes[0]) == BridgeSection.SectionTypes[2] ? Visibility.Visible : Visibility.Collapsed;
+        group.Visibility = Data.S("sezione", BridgeEditor.SectionTypes[0]) == BridgeEditor.SectionTypes[2] ? Visibility.Visible : Visibility.Collapsed;
         return group;
     }
 

@@ -14,6 +14,6 @@ internal sealed partial class BridgeWorkspace
         if (!projectReport) { viewSettings["report_sezioni"] = J.Node(options.OrderBy(k => k).ToArray()); Modified?.Invoke(); }
         var images = ModuleFigureRenderer.BridgeFigures(result, viewSettings, options).Select(f => f.Image()).ToList();
         // ProjectReportPlan does not consolidate the bridge's flat inputs. Preserve them in its chapter.
-        return ReportBridge.CreateDocument(title, result, options, images);
+        return result.Report(title, options, images);
     }
 }

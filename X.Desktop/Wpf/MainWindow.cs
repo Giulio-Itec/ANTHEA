@@ -64,7 +64,7 @@ public sealed partial class MainWindow : Window
             if (key is Key k) { var command = new RoutedCommand(); CommandBindings.Add(new CommandBinding(command, (_, _) => Safe(action))); InputBindings.Add(new KeyBinding(command, k, modifiers)); item.InputGestureText = new KeyGesture(k, modifiers).GetDisplayStringForCulture(System.Globalization.CultureInfo.CurrentCulture); }
         }
         Add("Nuovo palo", () => NewCalculation("geo_palo_verticale"), Key.N); Add("Nuovo micropalo", () => NewCalculation("geo_micropalo_verticale")); Add("Nuova sezione in c.a.", () => NewCalculation("str_palo")); Add("Nuovo archivio progetti", NewProjects);
-        Add("Nuova sezione composta da ponte", () => NewCalculation(BridgeSection.Module));
+        Add("Nuova sezione composta da ponte", () => NewCalculation(BridgeEditor.Module));
         Add("Nuovo Bridge Design", () => NewCalculation(BridgeConcept.Module));
         Add("Nuovo muro di sostegno", () => NewCalculation(RetainingWall.Module));
         Add("Nuovo palo orizzontale", () => NewCalculation(PaloOrizzontale.Module));
@@ -240,7 +240,7 @@ public sealed partial class MainWindow : Window
         editor.SoilReplacementRequested += data => Safe(() => ReplaceCurrentSoil(data));
         if (projectReadOnly) editor.InspectRevision();
         sharedBaseline = (JsonObject)sheet.DeepClone(); sharedBaseline["dati"] = editor.Data.DeepClone();
-        sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or RetainingWall.Module or "mat_calcestruzzo" or RebarMaterial.Module or BridgeSection.Module or BridgeConcept.Module
+        sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or RetainingWall.Module or "mat_calcestruzzo" or RebarMaterial.Module or BridgeEditor.Module or BridgeConcept.Module
             ? editor : DisplayAdaptation.Viewport(editor, 1120, 600);
         heading.Text = SheetHeading(sheet); UpdateBackButton();
         RefreshModelReference(sheet);
@@ -432,10 +432,10 @@ public sealed partial class MainWindow : Window
             return;
         }
         var list = new StackPanel { Margin = new Thickness(16) }; var checks = new Dictionary<string, CheckBox>();
-        var saved = editor.Data[editor.Module == BridgeSection.Module ? "ui_mista" : "workspace_ca"]?["report_sezioni"] as JsonArray;
-        var sections = editor.Module == BridgeSection.Module ? ReportBridge.Sections : editor.Module == "str_palo" ? ReportConcrete.Sections : ReportWord.Sezioni;
-        foreach (var (key, label) in sections) { var check = new CheckBox { Content = label, IsChecked = saved is not null ? saved.Any(v => v?.ToString() == key) : editor.Module == BridgeSection.Module || (editor.Module == "str_palo" ? key is not ("dettagli" or "sle_tutte") : !key.StartsWith("grafico")), Margin = new Thickness(4) }; checks[key] = check; list.Children.Add(check); }
-        if (editor.Module == BridgeSection.Module) list.Children.Add(Ui.Text("Stampa tutte le situazioni e i rispettivi contributi, indipendentemente dalla fase visualizzata. Ambito, riepilogo e avvisi sono sempre inclusi. I grafici riportano la geometria e la somma dei contributi di ogni situazione.", 11));
+        var saved = editor.Data[editor.Module == BridgeEditor.Module ? "ui_mista" : "workspace_ca"]?["report_sezioni"] as JsonArray;
+        var sections = editor.Module == BridgeEditor.Module ? ReportBridge.Sections : editor.Module == "str_palo" ? ReportConcrete.Sections : ReportWord.Sezioni;
+        foreach (var (key, label) in sections) { var check = new CheckBox { Content = label, IsChecked = saved is not null ? saved.Any(v => v?.ToString() == key) : editor.Module == BridgeEditor.Module || (editor.Module == "str_palo" ? key is not ("dettagli" or "sle_tutte") : !key.StartsWith("grafico")), Margin = new Thickness(4) }; checks[key] = check; list.Children.Add(check); }
+        if (editor.Module == BridgeEditor.Module) list.Children.Add(Ui.Text("Stampa tutte le situazioni e i rispettivi contributi, indipendentemente dalla fase visualizzata. Ambito, riepilogo e avvisi sono sempre inclusi. I grafici riportano la geometria e la somma dei contributi di ogni situazione.", 11));
         if (editor.Module == "str_palo") list.Children.Add(Ui.Text("SLE: di default inviluppo degli estremi con combinazione di origine e casi governanti distinti per tensioni e fessurazione. Nessun esito non determinato viene escluso. In modalità completa si stampano tutte le combinazioni; i grafici SLE restano riferiti ai casi governanti. Ambito, avvisi ed errori sono sempre inclusi.", 11));
         var window = Ui.Dialog(this, "Contenuti del report Word", new ChainedScrollViewer { Content = list, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 590, 650); var ok = Ui.Button("Esporta", () => { if (checks.Any(c => c.Value.IsChecked == true && c.Key is not ("sle_tutte" or "dettagli" or "grafici"))) window.DialogResult = true; }, true); list.Children.Add(ok); if (window.ShowDialog() != true) return;
         var d = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = "Relazione.docx" }; if (d.ShowDialog(this) == true) editor.ExportReport(d.FileName, heading.Text, checks.Where(p => p.Value.IsChecked == true).Select(p => p.Key).ToHashSet());

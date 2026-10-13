@@ -13,7 +13,7 @@ internal sealed partial class BridgeWorkspace
     {
         InputForm? f = null;
         f = Form(Data, [new("irrigidimenti", "Irrigidimenti intermedi", Bool: true),
-            new("lati_irr", "Piatti sulle facce dell’anima", Choices: BridgeSection.StiffenerSides),
+            new("lati_irr", "Piatti sulle facce dell’anima", Choices: BridgeEditor.StiffenerSides),
             new("b_irr", "Sporgenza sinistra / piatto unico", "mm"), new("t_irr", "Spessore sinistro / piatto unico", "mm"),
             new("b_irr_dx", "Sporgenza destra", "mm"), new("t_irr_dx", "Spessore destro", "mm"),
             new("pannelli_uguali", "Pannelli adiacenti uguali", Bool: true), new("a_irr", "Pannello sinistro aL / passo", "mm"),
@@ -23,7 +23,7 @@ internal sealed partial class BridgeWorkspace
         void Update()
         {
             if (f is null) return;
-            bool on = Data.B("irrigidimenti"), different = Data.S("lati_irr") == BridgeSection.StiffenerSides[3];
+            bool on = Data.B("irrigidimenti"), different = Data.S("lati_irr") == BridgeEditor.StiffenerSides[3];
             foreach (string key in f.Editors.Keys) if (key != "irrigidimenti") f.ShowField(key, on
                 && (key is not ("b_irr_dx" or "t_irr_dx") || different)
                 && (key != "a_irr_dx" || !Data.B("pannelli_uguali")) && (key != "aw_irr" || Data.B("saldature_irr")));
@@ -38,8 +38,8 @@ internal sealed partial class BridgeWorkspace
     {
         InputForm? f = null;
         f = Form(Data, [new("appoggio", "Verifica irrigidimento d’appoggio", Bool: true),
-            new("pos_app", "Posizione lungo la trave", Choices: BridgeSection.SupportLocations),
-            new("lati_app", "Piatti sulle facce dell’anima", Choices: BridgeSection.StiffenerSides),
+            new("pos_app", "Posizione lungo la trave", Choices: BridgeEditor.SupportLocations),
+            new("lati_app", "Piatti sulle facce dell’anima", Choices: BridgeEditor.StiffenerSides),
             new("b_app", "Sporgenza sinistra / piatto unico", "mm"), new("t_app", "Spessore sinistro / piatto unico", "mm"),
             new("b_app_dx", "Sporgenza destra", "mm"), new("t_app_dx", "Spessore destro", "mm"),
             new("a_app_sx", "Pannello a sinistra dell’appoggio", "mm"), new("a_app_dx", "Pannello a destra dell’appoggio", "mm"),
@@ -51,13 +51,13 @@ internal sealed partial class BridgeWorkspace
         void Update()
         {
             if (f is null) return;
-            bool on = Data.B("appoggio"), end = Data.S("pos_app") != BridgeSection.SupportLocations[0], different = Data.S("lati_app") == BridgeSection.StiffenerSides[3];
+            bool on = Data.B("appoggio"), end = Data.S("pos_app") != BridgeEditor.SupportLocations[0], different = Data.S("lati_app") == BridgeEditor.StiffenerSides[3];
             foreach (string key in f.Editors.Keys) if (key != "appoggio") f.ShowField(key, on
                 && (key is not ("b_app_dx" or "t_app_dx") || different)
                 && (key is not ("c_app" or "terminale_rigido") || end)
                 && (key != "e_term" || end && Data.B("terminale_rigido"))
-                && (key != "a_app_sx" || Data.S("pos_app") != BridgeSection.SupportLocations[1])
-                && (key != "a_app_dx" || Data.S("pos_app") != BridgeSection.SupportLocations[2])
+                && (key != "a_app_sx" || Data.S("pos_app") != BridgeEditor.SupportLocations[1])
+                && (key != "a_app_dx" || Data.S("pos_app") != BridgeEditor.SupportLocations[2])
                 && (key != "aw_app" || Data.B("saldature_app")));
         }
         f.Editors["R_app"].ToolTip = "Reazione di progetto positiva in compressione, già combinata. È un inviluppo indipendente: non viene ricavata da V e non si somma alle fasi della sezione.";
