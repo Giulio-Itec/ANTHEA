@@ -373,3 +373,9 @@ Ripresa 20261013-132011-f3-final-test-adapters: build, API reuse, report breve W
 ## F3-TST2 — versione della fixture materiali
 
 ProjectCoverWarningSmokeChecks costruiva un foglio valido, poi ne sostituiva i dati con un oggetto privo del campo obbligatorio versione_materiali. Il full rifiutava correttamente il documento. Aggiunta la versione 1 alla sola fixture; nessuna migrazione o validazione del prodotto modificata. ui/smoke-sharing passato nella corsa 20261013-132011-f3-final-test-adapters (12,1 s). Differenza di strumentazione F3-09.
+
+## F3.7b.22 — ultime regole di preparazione nella vista
+
+L’audit del sorgente oltre ai metadati trova il cambio norma del ponte, il parser accelerogrammi e la preparazione delle profondità. Spostati mantenendo valori, messaggi e ordine dei dati; nessuna regola nuova. ApplyStandardDefaults conserva le tre assegnazioni storiche nel backend legacy: consolidamento normativo in F4, che resta ferma. Per l’angolo delle spinte si riusa EarthPressure.SeismicAngle già distribuito, bit per bit equivalente nell’intervallo provato. I sorgenti precedenti sono conservati in final-ui-rules-before.json.
+
+Corsa 20261013-133221-f3-final-ui-rules: undici PASS, 1178 controlli Application (29 nuovi), 37 capitoli e 458 file equivalenti. Provati testi e soglie del parser, 200000 campioni, segni, tempi duplicati/non finiti, cambi norma e conservazione degli altri coefficienti, angolo e quote stratigrafiche. Catture final-ui-rules-images.json: 27/96 identiche; 68 con dimensioni diverse (F3-08), una con sola scrollbar in hover (F3-07), ispezionata. Nessuna normalizzazione grafica, atteso riscritto o tolleranza aggiunta.

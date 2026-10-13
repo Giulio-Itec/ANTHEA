@@ -27,6 +27,7 @@ public static class BridgeEditor
     public static string[] SteelNames => Native.SteelNames.ToArray();
     public static string[] StiffenerSides => Native.StiffenerSides.ToArray();
     public static string[] SupportLocations => Native.SupportLocations.ToArray();
+    public static void ApplyStandardDefaults(JsonObject data) => Native.ApplyStandardDefaults(data);
     public static void EnsureAccessoryDefaults(JsonObject data) => Native.EnsureAccessoryDefaults(data);
     public static void ValidateShape(JsonObject data) => Native.ValidateShape(data);
     public static bool IsHistory(JsonObject data) => Native.IsHistory(data);

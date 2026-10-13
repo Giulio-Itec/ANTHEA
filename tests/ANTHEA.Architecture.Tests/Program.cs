@@ -90,6 +90,9 @@ try
         string source = File.ReadAllText(file);
         Check(!Regex.IsMatch(source, @"new\s+(SheetEditor|ConcreteWorkspace|SezioneCA|BridgeWorkspace|WallWorkspace)\b"), "Il renderer costruisce un editor o un motore: " + file);
     }
+    Check(!File.ReadAllText(Path.Combine(root, "X.Desktop/Wpf/BridgeWorkspace.cs")).Contains("Data[\"gamma_m0\"] ="), "Regola cambio norma nella UI");
+    Check(!File.ReadAllText(Path.Combine(root, "X.Desktop/Wpf/RetainingWallWorkspace.Advanced.cs")).Contains("double.TryParse"), "Parser accelerogramma nella UI");
+    Check(!File.ReadAllText(Path.Combine(root, "X.Desktop/Wpf/RetainingWallWorkspace.Results.cs")).Contains("Math.Atan2"), "Angolo sismico duplicato nella UI");
     var limits = JsonSerializer.Deserialize<ArchitectureLimits>(File.ReadAllText(Path.Combine(root, "tests/ANTHEA.Architecture.Tests/limits.json")))!;
     Check(!desktop.Assemblies.Contains("ANTHEA.Calculations"), "La UI dipende ancora direttamente dal motore legacy");
     Check(!desktop.Assemblies.Any(a => a.StartsWith("GPC", StringComparison.Ordinal)), "La UI dipende direttamente dai tipi GPC");

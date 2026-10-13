@@ -90,10 +90,8 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
             {
                 if (key == "normativa")
                 {
-                    Data["gamma_m0"] = Data.S("normativa").StartsWith("NTC") ? "1.05" : "1.0";
-                    Data["gamma_m1"] = "1.1"; // NTC Table 4.2.VII and EN 1993-2:2006 §6.1, bridges.
+                    BridgeEditor.ApplyStandardDefaults(Data);
                     Dispatcher.BeginInvoke(BuildPhases);
-                    Data["alpha_cc"] = Data.S("normativa").StartsWith("NTC") ? "0.85" : "1.0";
                     Dispatcher.BeginInvoke(() => { foreach (var f in inputForms) { f.Set("gamma_m0", Data.S("gamma_m0"), true); f.Set("gamma_m1", Data.S("gamma_m1"), true); f.Set("alpha_cc", Data.S("alpha_cc"), true); } });
                 }
             });

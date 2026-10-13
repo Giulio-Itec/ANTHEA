@@ -94,6 +94,7 @@ try
     checks += ConcreteAuxiliaryContractChecks.Run(root);
     checks += ConcreteDomainContractChecks.Run(root);
     checks += EditorContractChecks.Run(root);
+    checks += FinalUiRuleChecks.Run();
     checks += StrainDiagramChecks.Run();
     checks += await ConcreteInspectionChecks.Run();
     checks += await WallParameterChecks.Run();

@@ -136,23 +136,7 @@ internal sealed partial class RetainingWallWorkspace
         }
         catch (Exception ex) { status.Text = "Accelerogramma non importato: " + ex.Message; }
     }
-    internal static JsonArray ParseHistory(string text)
-    {
-        var samples = new JsonArray(); int line = 0;
-        foreach (var raw in text.Split('\n'))
-        {
-            line++; string row = raw.Trim(); if (row == "" || row.StartsWith('#')) continue;
-            var fields = row.Split([';', '\t'], StringSplitOptions.TrimEntries);
-            if (fields.Length != 2 || !double.TryParse(fields[0].Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double t)
-                || !double.TryParse(fields[1].Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double a))
-            { if (samples.Count == 0 && row.StartsWith("t", StringComparison.OrdinalIgnoreCase)) continue; throw new ArgumentException($"Riga {line}: usare due colonne separate da ; (secondi; g)."); }
-            if (!double.IsFinite(t + a) || t < 0 || Math.Abs(a) > 10 || samples.Count > 0 && t <= samples[^1].D("t")) throw new ArgumentException($"Riga {line}: tempi crescenti e accelerazioni finite richiesti.");
-            if (samples.Count >= 200000) throw new ArgumentException("Massimo 200000 campioni.");
-            samples.Add(J.Obj(("t", t), ("a_g", a)));
-        }
-        if (samples.Count < 2) throw new ArgumentException("Inserire almeno due campioni.");
-        return samples;
-    }
+    internal static JsonArray ParseHistory(string text) => Anthea.Application.Presentation.WallSheetPresentation.ParseHistory(text);
 
     private FrameworkElement AdvancedResults(string mode, WallModel.Result r, WallModel.LoadCase c)
     {

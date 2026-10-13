@@ -74,14 +74,14 @@ internal sealed partial class RetainingWallWorkspace
     private void UpdateColumnDepths()
     {
         if (LayerGrid is null || ValleyLayerGrid is null) return;
-        double ht = Data["geometry"].D("height") + Data["geometry"].D("slab"), dv = WallModel.ValleyHeight(Data); var labels = new List<string>(); bool valid = true;
-        foreach (var (grid, name, need) in new[] { (ValleyLayerGrid, "Valle", dv), (LayerGrid, "Monte", ht) })
+        var summary = Anthea.Application.Presentation.WallSheetPresentation.DescribeColumnDepths(Data,
+            ValleyLayerGrid.Rows.Select(r => r.Values), LayerGrid.Rows.Select(r => r.Values));
+        foreach (var grid in new[] { ValleyLayerGrid, LayerGrid })
         {
-            double z = Anthea.Application.Presentation.WallSheetPresentation.UpdateColumnDepths(grid.Rows.Select(r => r.Values));
             foreach (var row in grid.Rows) row.Refresh();
-            grid.Height = Math.Min(200, 72 + 31 * grid.Rows.Count); valid &= z + 1e-9 >= need; labels.Add($"{name}: {F(z)} m / {F(need)} m richiesti");
+            grid.Height = Math.Min(200, 72 + 31 * grid.Rows.Count);
         }
-        layerStatus.Text = string.Join(" · ", labels) + $"\nHlib={F(ht - dv)} m · terreno di valle Dv={F(dv)} m sopra il piano di posa"; layerStatus.Foreground = Appearance.Foreground(valid ? Ui.Muted : Brushes.Firebrick);
+        layerStatus.Text = summary.Text; layerStatus.Foreground = Appearance.Foreground(summary.Valid ? Ui.Muted : Brushes.Firebrick);
     }
     private void UpdateSoilFields()
     {
