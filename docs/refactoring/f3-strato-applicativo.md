@@ -189,3 +189,9 @@ Corsa 034827: 3 PASS, quattro risultati CA identici alla finestra e 458 file equ
 ConcreteDomainChart prepara contorni, proiezioni, punti Ed/Rd e linee di verifica usando i domini già calcolati. I filtri, la validazione delle azioni visualizzate e i colori sono condivisi; WPF converte soltanto dati e colori nel Plot. Conservati scala, selezione, livelli e comportamento con azioni invalide.
 
 Corsa 035446: 5 PASS, quattro riferimenti grafici esatti, 33 capitoli e quattro risultati CA equivalenti alla vista, smoke CA e 458 file invariati. La prima build chiedeva il riferimento Concrete del tipo nativo trasferito: aggiunto ad Application, senza nuove dipendenze della UI. Nessuna nuova tolleranza o modifica alle fixture.
+
+## F3.5b.2 — tutti i capitoli autonomi
+
+Anche CA usa il servizio applicativo e il renderer comune. La geometria viene preparata nel servizio; filtri, ordinamento delle azioni e figure sono condivisi con la finestra. Il percorso interattivo conserva selezione, grafici correnti e curva opzionale. Il report di progetto non costruisce più SheetEditor né workspace. Le regole di architettura impediscono di reintrodurre editor o costruzione di motori nei renderer. Errori parziali conservati nel capitolo.
+
+Corsa finale 20261013-040439-f3-all-chapters-final: 8 PASS; 37 capitoli dei dodici moduli e 85 immagini, ogni parte XML identica alla vista; quattro riferimenti grafici CA e 458 file F3 equivalenti. Confronto aggiuntivo con la cattura precedente all’estrazione dei grafici: 30 DOCX, 97 immagini identiche byte per byte (all-chapters-images-final.json). Nessuna differenza ingegneristica, nuova tolleranza o modifica alle fixture. Una prima invocazione passava erroneamente l’elenco degli stadi come singola stringa ed è stata rifiutata prima dell’esecuzione.

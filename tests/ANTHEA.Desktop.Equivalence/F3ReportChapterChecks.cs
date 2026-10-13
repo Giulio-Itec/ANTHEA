@@ -22,24 +22,7 @@ internal static class F3ReportChapterChecks
             string module = fixture.S("module");
             // Missing legacy row identities are created once, before the independent copies.
             if (module == "str_palo") SectionWorkspace.Prepare(fixture["data"]!.AsObject());
-            if (!ModuleReportService.Supports(module))
-            {
-                if (module == "str_palo")
-                {
-                    using var reference = new SheetEditor(module, fixture["data"]!.AsObject());
-                    await reference.CalculateAsync(); reference.Commit();
-                    var prepared = (JsonObject)fixture["data"]!.DeepClone();
-                    Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareReport(prepared);
-                    File.WriteAllText(Path.Combine(output, Path.GetFileNameWithoutExtension(file) + "-prepared.json"), prepared.ToJsonString(J.Options));
-                    File.WriteAllText(Path.Combine(output, Path.GetFileNameWithoutExtension(file) + "-view.json"), reference.Data.ToJsonString(J.Options));
-                    Check(JsonNode.DeepEquals(reference.Data, prepared), "Preparazione CA diversa: " + file);
-                    var analysis = await Anthea.Application.Concrete.ConcreteReportAnalysis.CalculateAsync(prepared, default);
-                    File.WriteAllText(Path.Combine(output, Path.GetFileNameWithoutExtension(file) + "-analysis.json"), analysis.Result.ToJsonString(J.Options));
-                    File.WriteAllText(Path.Combine(output, Path.GetFileNameWithoutExtension(file) + "-view-result.json"), reference.Result!.ToJsonString(J.Options));
-                    Check(JsonNode.DeepEquals(reference.Result, analysis.Result), "Risultato CA diverso: " + file);
-                }
-                continue;
-            }
+            Check(ModuleReportService.Supports(module), "Modulo privo di capitolo autonomo: " + module);
             string title = "F3 capitolo " + fixture.S("id");
             var sheet = J.Obj(("nome", title), ("modulo_id", module), ("dati", fixture["data"]!.DeepClone()));
             string original = fixture.ToJsonString();
@@ -60,9 +43,13 @@ internal static class F3ReportChapterChecks
             else
             {
                 Check(error is null && chapter?.Document is not null, "Capitolo assente: " + error);
+                string? expectedError = editor.Result?["errori_calcolo"] is JsonObject errors && errors.Count > 0
+                    ? string.Join("; ", errors.Select(e => e.Key + ": " + e.Value)) : null;
+                Check(chapter!.Error == expectedError, "Errori parziali diversi: " + file);
                 byte[] expected = editor.BuildReport(title, ModuleReportService.DefaultSections(module), true);
                 byte[] actual = DocxWriter.Write(chapter!.Document!);
                 File.WriteAllBytes(Path.Combine(output, Path.GetFileNameWithoutExtension(file) + ".docx"), actual);
+                File.WriteAllBytes(Path.Combine(output, Path.GetFileNameWithoutExtension(file) + "-view.docx"), expected);
                 using var a = new ZipArchive(new MemoryStream(actual)); using var e = new ZipArchive(new MemoryStream(expected));
                 Check(a.Entries.Select(v => v.FullName).Order().SequenceEqual(e.Entries.Select(v => v.FullName).Order()), "Parti del documento diverse");
                 foreach (var part in e.Entries)

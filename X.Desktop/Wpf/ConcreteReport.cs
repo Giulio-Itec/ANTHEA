@@ -21,62 +21,17 @@ internal sealed partial class ConcreteWorkspace
         if (!projectReport) { settings["report_sezioni"] = J.Node(options.OrderBy(k => k).ToArray()); Modified?.Invoke(); }
         RefreshDetailing();var result = Result!;
         result["dati"] = Data.DeepClone();
-        var images = new List<ImmagineReport>();
-        if (options.Contains("grafici"))
+        var domains = domainPanels.Select(panel =>
         {
-            if (options.Contains("geometria")) images.Add(new("Sezione e schema indicativo delle staffe", preview.Png(), "geometria"));
-            foreach (var panel in domainPanels)
-            {
-                string category = panel.ThreeD ? "dominio3d" : "dominio2d";
-                if (!options.Contains(category)) continue;
-                if (panel.ThreeD && checker3D.TryGetValue(panel.Key, out var domain))
-                {
-                    var mesh = domain.DisplayMesh(panel.Options);
-                    // A detached viewport gives consistent image dimensions even when its tab is not active.
-                    var view = new DomainViewport3D { Width = 1200, Height = 750, ShowActions = panel.Options.B("mostra_ed", true), ShowResistance = panel.Options.B("mostra_rd", true), ShowVerificationLines = panel.Options.B("mostra_linee", true), ColorByRatio = panel.Options.B("colora_eta"), ActionPointSize = panel.Options.D("dimensione_ed", 5), ResistancePointSize = panel.Options.D("dimensione_rd", 5) };
-                    view.Measure(new Size(1200, 750)); view.Arrange(new Rect(0, 0, 1200, 750)); view.SetMesh(mesh);
-                    var selected = (panel.Grid.SelectedItem as JsonRow)?.Values.S("id"); var checks = domainResults.GetValueOrDefault(panel.Prefix + panel.Key);
-                    var points = new List<(string, ActionPoint, bool)>();
-                    foreach (var row in panel.Grid.Items.OfType<JsonRow>().Where(row => row.Values.B("visible", true) && (!panel.Options.B("solo_selezionata") || row.Values.S("id") == selected)))
-                        try { points.Add((row.Values.S("id"), CheckerSection.Point(checker3D[panel.Key].Section.Force(ReadAction(row))), checks?.GetValueOrDefault(row.Values.S("id"))?.Utilization is <= 1)); } catch (ArgumentException) { /* Invalid actions remain documented in the results table. */ }
-                    view.Ratios = checks?.ToDictionary(kv => kv.Key, kv => kv.Value.Utilization);
-                    view.Resistances = panel.Options.B("tutte_rd") ? panel.Grid.Items.OfType<JsonRow>().Where(r => r.Values.B("visible", true)).Select(r => (Id: r.Values.S("id"), Check: checks?.GetValueOrDefault(r.Values.S("id")))).Where(r => r.Check?.Resistance is not null).ToDictionary(r => r.Id, r => r.Check!.Resistance!.Value) : null;
-                    view.SetActions(points, selected, selected is null ? null : checks?.GetValueOrDefault(selected)?.Resistance); view.SurfaceOpacity = 1 - panel.Options.D("trasparenza", 35) / 100; view.UpdateLayout();
-                    images.Add(new("Dominio 3D " + SectionWorkspace.Label(panel.Key) + " in vista isometrica con filtri e livelli correnti", Ui.DocumentSnapshot(view), category));
-                }
-                else if (!panel.ThreeD && checker2D.ContainsKey(panel.Key))
-                {
-                    RefreshDomainPanel(panel, renderHidden: true);
-                    images.Add(new(panel.Plot.Title + " nella configurazione grafica corrente", panel.Plot.Png(), category));
-                }
-            }
-            foreach (var (key, panel) in stressPanels)
-            {
-                if (!options.Contains(key) || !stressResults.TryGetValue(key, out var outcomes)) continue;
-                var rows = result["tensioni"]?[key] as System.Text.Json.Nodes.JsonObject ?? new();
-                var governors = new Dictionary<string, string>();
-                foreach (bool cracking in new[] { false, true })
-                    if ((cracking ? SleCheckScope.Cracking(key, settings) : SleCheckScope.Stress(key)) && ReportConcrete.Governing(rows, cracking) is { } governing)
-                    {
-                        string reason = cracking ? "fessurazione" : "tensioni";
-                        governors[governing.Key] = governors.TryGetValue(governing.Key, out var previous) ? previous + " e " + reason : reason;
-                    }
-                // No arbitrary current selection is substituted when a numerical governor is unavailable.
-                foreach (var (id, reason) in governors)
-                {
-                    if (outcomes.GetValueOrDefault(id)?.State is not { } state) continue;
-                    var view = new ConcreteSectionViewport { Section = panel.View.Section, Stirrups = panel.View.Stirrups, Tendons = panel.View.Tendons, Stress = state, Contour = panel.View.Contour, Axes = true, Labels = true };
-                    string name = actions[key].FirstOrDefault(row => row.Values.S("id") == id)?.Values.S("nome") ?? id;
-                    images.Add(new("SLE " + SectionWorkspace.Label(key) + " · governante " + reason + " · " + name + " · " + view.Contour, view.Png(), key));
-                }
-            }
-            if (options.Contains("taglio"))
-            {
-                var view = new ConcreteSectionViewport { Section = new SezioneCA(Input), Stirrups = ShearOptions };
-                images.Add(new("Schema indicativo delle staffe · diametro rappresentato in scala", view.Png(), "taglio"));
-            }
-            if(options.Contains("curvatura")&&curvatureResult is not null)images.Add(new("Momento–curvatura · percorso assegnato",curvaturePlot.Png(),"curvatura"));
-        }
+            if (options.Contains("grafici") && options.Contains("dominio2d") && !panel.ThreeD && checker2D.ContainsKey(panel.Key)) RefreshDomainPanel(panel, renderHidden: true);
+            return new ConcreteDomainGraphic(panel.ThreeD, panel.Options, panel.Grid.Items.OfType<JsonRow>().Select(r => r.Values).ToArray(),
+                (panel.Grid.SelectedItem as JsonRow)?.Values.S("id"), checker3D.GetValueOrDefault(panel.Key), checker2D.GetValueOrDefault(panel.Key),
+                domainResults.GetValueOrDefault(panel.Prefix + panel.Key), panel.Plot);
+        }).ToArray();
+        var stresses = stressPanels.ToDictionary(p => p.Key, p => new ConcreteStressGraphic(p.Value.View,
+            stressResults.GetValueOrDefault(p.Key), actions[p.Key].Select(r => r.Values).ToArray()));
+        var graphics = new ConcreteReportGraphics(Data, result, preview, domains, stresses, curvatureResult is null ? null : curvaturePlot);
+        var images = ModuleFigureRenderer.ConcreteFigures(graphics, options).Select(f => f.Image()).ToList();
         return ReportConcrete.CreateDocument(title, Data, result, options, images, !projectReport);
     }
 }

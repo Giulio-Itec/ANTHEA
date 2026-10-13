@@ -198,11 +198,10 @@ internal sealed partial class ConcreteWorkspace
         panel.NeedsVisualRefresh = false;
         UpdateSectionInspection(panel);
         var row = panel.Grid.SelectedItem as JsonRow; string? id = row?.Values.S("id"); domainResults.TryGetValue(panel.Prefix + panel.Key, out var checks); DomainCheck? selectedCheck = id is null ? null : checks?.GetValueOrDefault(id);
-        var visible = Anthea.Application.Concrete.ConcreteDomainChart.VisibleActions(panel.Options,
-            panel.Grid.Items.OfType<JsonRow>().Select(r => r.Values), id, checks,
-            panel.ThreeD ? checker3D.GetValueOrDefault(panel.Key) : null, panel.ThreeD ? null : checker2D.GetValueOrDefault(panel.Key));
         if (panel.ThreeD)
         {
+            var visible = Anthea.Application.Concrete.ConcreteDomainChart.VisibleActions(panel.Options,
+                panel.Grid.Items.OfType<JsonRow>().Select(r => r.Values), id, checks, checker3D.GetValueOrDefault(panel.Key));
             panel.View3D!.ActionPointSize = panel.Options.D("dimensione_ed", 5); panel.View3D.ResistancePointSize = panel.Options.D("dimensione_rd", 5);
             panel.View3D.OnlySelectedActions = panel.Options.B("solo_selezionata"); panel.View3D.ShowActions = panel.Options.B("mostra_ed", true); panel.View3D.ShowResistance = panel.Options.B("mostra_rd", true); panel.View3D.ShowVerificationLines = panel.Options.B("mostra_linee", true); panel.View3D.ColorByRatio = panel.Options.B("colora_eta");
             panel.View3D.Ratios = checks?.ToDictionary(kv => kv.Key, kv => kv.Value.Utilization);

@@ -1,7 +1,7 @@
 using System.Text.Json.Nodes;
 namespace Anthea.Application.Concrete;
 
-public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result,
+public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result, SezioneCA Geometry,
     IReadOnlyDictionary<string, JsonObject[]> Actions,
     IReadOnlyDictionary<string, CheckerDomain3D> Domains3D,
     IReadOnlyDictionary<string, CheckerDomain2D> Domains2D,
@@ -56,6 +56,7 @@ public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result,
         var summary = ConcreteVerificationSummaries.Create(settings, actions, domains, stresses, shearRows, shear, torsion);
         var exported = ConcreteResultExport.Create(data, summary, domains, stresses, shear, torsion, details.Checks,
             details.DetailsText, details.Anchorage, details.AnchorageDetails.Text, null, errors);
-        return new(data, exported, actions, three, two, domains, stresses);
+        var geometry = await Task.Run(() => new SezioneCA(input), cancellation);
+        return new(data, exported, geometry, actions, three, two, domains, stresses);
     }
 }

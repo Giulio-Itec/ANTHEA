@@ -67,7 +67,7 @@ internal sealed partial class ConcreteWorkspace
         public int Compare(object? x, object? y)
         {
             string a = (x as JsonRow)?.Values.S(key) ?? "", b = (y as JsonRow)?.Values.S(key) ?? "";
-            int result = J.Number(System.Text.Json.Nodes.JsonValue.Create(a)) is double na && J.Number(System.Text.Json.Nodes.JsonValue.Create(b)) is double nb ? na.CompareTo(nb) : StringComparer.CurrentCultureIgnoreCase.Compare(a, b);
+            int result = Anthea.Application.Presentation.TableValues.Compare(a, b);
             return descending ? -result : result;
         }
     }

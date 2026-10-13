@@ -40,6 +40,12 @@ try
     Check(reportSources.Count(f => File.ReadAllText(f).Contains("ZipArchiveMode.Create")) == 1 &&
         reportSources.Where(f => File.ReadAllText(f).Contains("ZipArchiveMode.Create")).All(f => Path.GetFileName(f) == "DocxWriter.cs"), "Scrittori DOCX duplicati");
     Check(!File.ReadAllText(Path.Combine(root, "src/ANTHEA.Reports/ProjectReportComposer.cs")).Contains("ZipArchive"), "Il report progetto riapre DOCX intermedi");
+    Check(!File.ReadAllText(Path.Combine(root, "X.Desktop/Wpf/ProjectReport.cs")).Contains("SheetEditor"), "Il report progetto crea editor nascosti");
+    foreach (string file in Directory.EnumerateFiles(Path.Combine(root, "X.Desktop/Wpf"), "ModuleFigureRenderer*.cs"))
+    {
+        string source = File.ReadAllText(file);
+        Check(!Regex.IsMatch(source, @"new\s+(SheetEditor|ConcreteWorkspace|SezioneCA|BridgeWorkspace|WallWorkspace)\b"), "Il renderer costruisce un editor o un motore: " + file);
+    }
     var limits = JsonSerializer.Deserialize<ArchitectureLimits>(File.ReadAllText(Path.Combine(root, "tests/ANTHEA.Architecture.Tests/limits.json")))!;
     var observed = desktop.Types.Where(p => p.Key == "ANTHEA.Calculations" || p.Key.StartsWith("GPCChecker", StringComparison.Ordinal)).ToDictionary();
     foreach (var (assembly, types) in observed)

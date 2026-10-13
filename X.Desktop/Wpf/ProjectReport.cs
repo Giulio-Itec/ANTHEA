@@ -67,27 +67,5 @@ public sealed partial class MainWindow
 
     private static Task<int> GenerateSectionReport(JsonObject snapshot, string filename, Action<string> progress, CancellationToken cancellation)
         => Anthea.Application.Reporting.ProjectReportService.WriteSnapshotAsync(snapshot, filename,
-            new SheetEditorReportChapterBuilder(), progress, cancellation);
-}
-
-/// <summary>Temporary chapter adapter while module figure renderers are extracted (F3.5b.2).</summary>
-internal sealed class SheetEditorReportChapterBuilder : Anthea.Application.Reporting.IProjectReportChapterBuilder
-{
-    public async Task<ReportProject.SheetContent> BuildAsync(JsonObject sheet, CancellationToken cancellation)
-    {
-        string module = sheet.S("modulo_id");
-        if (Anthea.Application.Reporting.ModuleReportService.Supports(module))
-            return await new Anthea.Application.Reporting.ModuleReportService(new ModuleFigureRenderer()).BuildAsync(sheet, cancellation);
-        await Dispatcher.Yield(DispatcherPriority.Background);
-        using var reportEditor = new SheetEditor(module, sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(module));
-        await reportEditor.CalculateAsync(); reportEditor.Commit();
-        sheet["dati"] = reportEditor.Data.DeepClone(); cancellation.ThrowIfCancellationRequested();
-        if (module is RebarMaterial.Module or "mat_calcestruzzo") return reportEditor.MaterialReportContent();
-        if (!reportEditor.HasResults) throw new ArgumentException("Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.");
-        string? error = reportEditor.Result?["errori_calcolo"] is JsonObject errors && errors.Count > 0
-            ? string.Join("; ", errors.Select(p => p.Key + ": " + p.Value)) : null;
-        var options = Anthea.Application.Reporting.ModuleReportService.DefaultSections(module);
-        var document = reportEditor.BuildReportDocument(sheet.S("nome"), options, projectReport: true);
-        return new(Error: error, Document: document);
-    }
+            new Anthea.Application.Reporting.ModuleReportService(new ModuleFigureRenderer()), progress, cancellation);
 }
