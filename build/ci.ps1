@@ -41,6 +41,7 @@ param(
     [string] $BaselineRef,
     [string] $CaptureCandidate,
     [string] $F4CaptureCandidate,
+    [string] $F4CandidateConcrete,
     [switch] $CaptureConcreteFigures,
     [string] $CheckerFixtures,
     [string] $DenseRef,
@@ -150,6 +151,12 @@ foreach ($name in 'BridgeDesign.Checks', 'BridgeDesign.IndependentChecks', 'Glob
 Add-Suite @{ Name = 'wiki/indice'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\scripts\wiki\build-wiki-index.py'; Args = @('--check') }
 Add-Suite @{ Name = 'wiki/manuale'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\test\wiki-handbook-checks.py'; Args = @() }
 
+# Optional diagnostic candidate: no production snapshot replacement.
+if ($F4CandidateConcrete) {
+    Add-Suite @{ Name = 'baseline/f4-wall-port'; Stage = 'baseline'; Kind = 'powershell'; Script = 'tools\qa\Invoke-F4WallPort.ps1'
+        Args = @('-Output', '{out}', '-CandidateConcrete', [IO.Path]::GetFullPath($F4CandidateConcrete)); Timeout = 1800
+        Builds = @(@{ Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'; Configuration = 'Release' }) }
+}
 # Placeholders of the baseline suites: {root} repository, {output} run folder, {tag}, {commit}.
 $Testing = 'tests\ANTHEA.Testing\ANTHEA.Testing.csproj'
 Add-Suite @{ Name = 'baseline/f4'; Stage = 'baseline'; Kind = 'powershell'; Script = 'tools\qa\Invoke-F4Capture.ps1'; Args = @('-Output', '{out}') + $(if ($F4CaptureCandidate) { @('-CapturedRoot', [IO.Path]::GetFullPath($F4CaptureCandidate)) }); Timeout = 1800

@@ -305,7 +305,10 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [x] F4.6c (13/10): Checker `164e4836`, eliminato l'elemento spurio alla punta entro la tolleranza già esistente, senza alterare interfacce interne/input; registro F4-02. Quattro regressioni, 1625 PASS nelle suite complete e soli 17 Steel già censiti; catture legacy identiche. Geotechnics candidata 0.2.0.1, attivazione ANTHEA con il successivo set coerente.
 - [~] F4.7 Muri in c.a. in `Concrete/Walls` (tre passi).
   - [x] F4.7a: Checker `1033ed05`, sezioni immutabili ed esiti tipizzati; primi controlli longitudinali con formule condivise. 576 sezioni catturate prima del port e 23 test equivalenti, inclusi dettagli preesistenti. Concrete candidata 0.3.0.0; [contratti ed evidenze](../../../Checker/docs/refactoring/f4-muri-ca.md), registro F4-06.
-  - [ ] F4.7b: N–M, taglio, SLE e curvature mediante servizi GPC esistenti; correzione σcp distinta dal port equivalente.
+  - [~] F4.7b: N–M, taglio, SLE e curvature mediante servizi GPC esistenti.
+    - [x] F4.7b.1: sessione nativa N–M/SLE equivalente, 62568 confronti su 26 muri/576 sezioni/286 combinazioni, 33 test di libreria e 6 PASS del runner; registro F4-07. Candidata Concrete 0.4.0.0, runtime invariato.
+    - [ ] F4.7b.2: collegamento del taglio GPC con σcp; correzione distinta F4-03.
+    - [ ] F4.7b.3: curvatura totale con viscosità, anziché il gradiente elastico equivalente usato dal legacy; difetto F4-08 scoperto nelle nuove prove. Quantificare anche l'effetto sugli spostamenti prima dell'attivazione.
   - [ ] F4.7c: adattatore, confronto del percorso completo e integrazione con set coerente F4.9.
 - [ ] F4.8 Muri a gravità e dettagli.
 - [ ] F4.9 [CP] Collegamento dei muri e rilascio `lib/Checker`. Anticipato il 7/10 lo scostamento D7-c (γRd non applicato a F̄).

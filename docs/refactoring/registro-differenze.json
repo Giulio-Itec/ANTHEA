@@ -25,6 +25,32 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-08",
+      "data": "2026-10-13",
+      "fase": "F4.7b.3",
+      "titolo": "Curvatura del muro senza amplificazione delle deformazioni per viscosità",
+      "famiglia": "muri/SLE/spostamenti",
+      "categoria": "difetto-legacy",
+      "stato": "da-correggere",
+      "descrizione": "RetainingWall.Structures integra il ChiY del piano elastico equivalente. La deformazione totale nativa GetVerticeStrain(point,phi) è invece quella del piano moltiplicata per 1+phi. A phi=2 viene omesso un fattore 3 nella curvatura e nella sua integrazione. Il port equivalente conserva e dichiara il comportamento; fix separato in F4.7b.3.",
+      "effetto_quantificato": "Striscia C30 1000x400 mm, 6phi16/faccia, cover 40 mm, N=-20 kN, M=20 kNm: gradiente equivalente con phi=2 3.05444663396217e-7/mm; curvatura totale 9.16333990188651e-7/mm. Con phi=0 7.53355399971232e-7/mm. Effetto sul corpus da quantificare separatamente.",
+      "codice": ["X.Calculations/RetainingWall.Structures.cs", "Checker/GPCChecker.Concrete/Results/ResultType/StressAnalysisResult.cs"],
+      "evidenze": ["supporto/artefatti/refactoring/f4/wall-session-diagnostic", "Checker/docs/refactoring/f4-muri-ca.md"]
+    },
+    {
+      "id": "F4-07",
+      "data": "2026-10-13",
+      "fase": "F4.7b.1",
+      "titolo": "Sessione nativa dei muri, port equivalente N–M e SLE",
+      "famiglia": "muri/sezioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "WallSectionSession riusa i motori GPC di resistenza, limiti tensionali e fessurazione, con cache N/segno, annullamento e risultati separati per metodo. Sessione proprietaria, input immutabili, controlli geometrici; nessun nuovo solutore. Concrete candidata 0.4.0.0, non distribuita in ANTHEA.",
+      "effetto_quantificato": "62568 confronti su 26 muri, 576 sezioni e 286 combinazioni: zero differenze non ammesse, scarto massimo 7.105427357601002e-15. Riferimenti originali verificati con SHA. Il corpus non esercita la prova integrativa non fessurata, che resta un limite esplicito della copertura.",
+      "test": ["33 prove mirate Concrete PASS", "6 PASS runner, zero nuovi fallimenti"],
+      "evidenze": ["supporto/artefatti/refactoring/f4/wall-port-equivalent.log", "Checker/docs/refactoring/f4-muri-ca.md"]
+    },
+    {
       "id": "F4-06",
       "data": "2026-10-13",
       "fase": "F4.7a",
