@@ -315,6 +315,8 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
 - [~] F4.8 Muri a gravità e dettagli.
   - [x] F4.8a: Checker `b5e40cca`, servizi distinti per resistenze assegnate, CLS non armato e muratura; coordinamento in GPC.Design senza JSON/WPF. 8672 verifiche e 240 curvature equivalenti su sei muri congelati, quattro prove native e suite complete 1655 PASS / 17 Steel già noti / zero nuovi fallimenti. 5 PASS ANTHEA; registro F4-09. Concrete candidata 0.5.0.0, prime Design/Masonry 0.1.0.0; nessuna attivazione runtime.
   - [x] F4.8a.1: Checker `34e8f823`, domanda assoluta del ramo assegnato anche in trazione assiale; cinque test PASS, corpus invariato. Design candidata 0.1.0.1.
+  - [x] F4.8a.2: Checker `c31b9201`, resistenze assegnate senza modulo elastico, assenza di rigidezza esplicita; 16 prove Design PASS. Design 0.4.0.1.
+  - [x] F4.8a.3: Checker `0b2285bf`, limite negativo di assenza trazione non valutabile; regressione falliva prima e passa dopo, 17 prove Design PASS e API compatibili. Design 0.4.0.2. Attivazione nel prossimo set candidato.
   - [~] F4.8b: dettagli delle armature, ancoraggi, sovrapposizioni e copriferri condivisi; confronto e collegamento con distinta F4.10.
     - [x] F4.8b.1: cattura diagnostica esplicita di 56 muri/distinte dal percorso legacy invariato, con controllo SHA degli input congelati; 2 PASS del runner. Nessuna sovrascrittura degli attesi. Il confronto nativo e il collegamento restano separati.
     - [x] F4.8b.2: Checker `bd3b2483`, dettagli tipizzati in Design e regole elementari condivise in Concrete. 374 barre, 2316 punti, 3260 controlli e 56 pesi equivalenti; suite complete 1660 PASS, soli 17 Steel noti. Concrete 0.6.0.0 / Design 0.2.0.0; integrazione ancora F4.9, registro F4-10.
