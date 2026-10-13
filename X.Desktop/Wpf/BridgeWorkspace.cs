@@ -387,7 +387,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         }
         return table;
     }
-    internal static string F(double x) => x.ToString("0.###", CultureInfo.GetCultureInfo("it-IT"));
+    internal static string F(double x) => Anthea.Application.Presentation.BridgePropertyPresentation.Number(x);
     private static string E(double? x) => x?.ToString("0.#####E+0", CultureInfo.GetCultureInfo("it-IT")) ?? "—";
     private static string Dash(double x) => x > 0 ? F(x) : "—";
     private void ExportCsv()

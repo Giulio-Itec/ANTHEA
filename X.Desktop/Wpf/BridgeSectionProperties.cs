@@ -1,3 +1,4 @@
+using Anthea.Application.Presentation;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -36,14 +37,10 @@ internal sealed partial class BridgeWorkspace
         SectionPropertyTabs.SelectedIndex = 0;
         propertiesSidebar = Panel("Proprietà della sezione", Ui.Dock(SectionPropertyTabs, propertyNotice), "Sezione lorda · quote rispetto a y = 0");
     }
-    private UIElement PropertyValues(BridgeSectionProperties p)
+    private UIElement PropertyTable(PresentationTable table)
     {
-        string V(double? v) => v.HasValue ? F(v.Value) : "—";
-        return ResultTable(["Proprietà", "Valore", "Unità"], new[] {
-            new[] { "A", V(p.Area / 100), "cm²" }, new[] { "xG", V(p.X), "mm" }, new[] { "yG", V(p.Y), "mm" },
-            new[] { "Ix", V(p.Ix / 1e4), "cm⁴" }, new[] { "Iy", V(p.Iy / 1e4), "cm⁴" }, new[] { "Ixy", "0", "cm⁴" },
-            new[] { "Wx sup", V(p.WTop / 1000), "cm³" }, new[] { "Wx inf", V(p.WBottom / 1000), "cm³" },
-            new[] { "ix", V(p.Rx), "mm" }, new[] { "iy", V(p.Ry), "mm" } });
+        var body = ResultTable(table.Columns, table.Rows);
+        return table.Collapsible ? Group(table.Title, body) : Block(table.Title, body, table.Note);
     }
     private void RefreshSlabProperties()
     {
@@ -52,15 +49,7 @@ internal sealed partial class BridgeWorkspace
         {
             var h = Anthea.Application.Presentation.BridgeSheetPresentation.UpdateHomogenization(Data, slabPropertyOptions, false); string derived = slabPropertyOptions.S("modo") == "Da n" ? "phi" : "n";
             slabPropertyForm.Set(derived, slabPropertyOptions.S(derived), true);
-            var g = BridgeSection.Geometry(Data); var m = BridgeSection.Materials(Data);
-            var gross = BridgeSection.RectangleProperties("Solo calcestruzzo · lordo", g.Width, g.SlabHeight, 0, g.Width / 2);
-            var transformed = BridgeSection.GrossPhaseProperties(Data, slabPropertyOptions, slabOnly: true);
-            var layout = BridgeSection.SlabLayout(Data);
-            UIElement[] layers = layout.HasPredalle ? [Block("Quote predalle · solo geometria", ResultTable(["Riferimento", "y [mm]"], new[] {
-                new[] { "Intradosso soletta", "0" }, new[] { "Estradosso predalle", F(layout.PredalleThickness) }, new[] { "Estradosso soletta", F(layout.Height) } }), BridgeSection.PredalleScope)] : [];
-            slabPropertyBody.Content = Ui.Stack([..layers, Block(gross.Name, PropertyValues(gross)),
-                Block("Armature", ResultTable(["Fila", "As [cm²]", "y [mm]"], g.Bars.GroupBy(b => b.Y).OrderByDescending(p => p.Key).Select(p => new[] { p.Count() + " barre", F(p.Sum(b => b.Area) / 100), F(p.Key) }))),
-                Block(transformed.Name, PropertyValues(transformed), $"n barre = {F(BridgeDerivedResults.RebarModularRatio(h.N, m.Rebar.ElasticModulusTension, m.Steel.ElasticModulusTension))} · Ec,eff = {F(BridgeDerivedResults.EffectiveConcreteModulus(m.Steel.ElasticModulusTension, h.N))} MPa")]);
+            slabPropertyBody.Content = Ui.Stack(BridgePropertyPresentation.Slab(Data, slabPropertyOptions, h.N).Select(PropertyTable).ToArray());
         }
         catch (Exception ex) { slabPropertyBody.Content = Ui.Text(ex.Message, 12, color: Ui.Muted); }
     }
@@ -69,21 +58,9 @@ internal sealed partial class BridgeWorkspace
         if (propertiesSidebar is null) return;
         try
         {
-            var g = BridgeSection.Geometry(Data); var parts = BridgeSection.SteelPartProperties(g);
-            var real = BridgeSection.RealSteelSection(g);
-            // inclined web and box: the properties of the calculation are about the horizontal axis (equivalent H); the plane ones of the real section
-            UIElement[] plane = real is null ? [] : [Block("Sezione reale nel piano (Model)", ResultTable(["Proprietà", "Valore", "Unità"], new[] {
-                new[] { "A", F(real.Area / 100), "cm²" }, new[] { "Ix", F(real.Jxx / 1e4), "cm⁴" }, new[] { "Iy", F(real.Jyy / 1e4), "cm⁴" },
-                new[] { "Ixy", F(real.Jxy / 1e4), "cm⁴" }, new[] { "Asse principale 1 da x", F(real.AngleX1 * 180 / Math.PI), "°" } }),
-                "Il calcolo N–Mx è in flessione retta attorno all'asse orizzontale: Ixy e la rotazione degli assi principali della sola carpenteria non sono considerati.")];
-            steelPropertyBody.Content = Ui.Stack([
-                real is null ? Block("Carpenteria reale", PropertyValues(BridgeSection.CombineProperties("Reale", parts)))
-                    : Block("Carpenteria · asse orizzontale (calcolo)", PropertyValues(BridgeSection.CombineProperties("Reale", parts)),
-                        "A, yG, Ix e W sono quelli della sezione reale; Iy e iy sono delle anime rese verticali (per la sezione reale vedere sotto)."),
-                ..plane,
-                ..parts.Select(p => Group(p.Name, PropertyValues(p))),
-                Group("Carpenteria equivalente di calcolo", PropertyValues(BridgeSection.CombineProperties("Equivalente", BridgeSection.SteelPartProperties(g, true))))]);
-            propertyNotice.Text = BridgeSection.IsNonlinear(Data) ? "Proprietà geometriche con φ/n memorizzati. Nel non lineare istantaneo il calcolo usa φ=0; i valori adottati sono in Fasi e proprietà." : "Proprietà geometriche, indipendenti dai carichi. Le riduzioni efficaci dipendono dalle sollecitazioni e sono nella scheda Fasi e tensioni.";
+            var properties = BridgePropertyPresentation.Steel(Data);
+            steelPropertyBody.Content = Ui.Stack(properties.Tables.Select(PropertyTable).ToArray());
+            propertyNotice.Text = properties.Notice;
         }
         catch (Exception ex) { propertyNotice.Text = "Proprietà da aggiornare: " + ex.Message; }
         RefreshSlabProperties();
@@ -95,15 +72,11 @@ internal sealed partial class BridgeWorkspace
             var body = new StackPanel();
             try
             {
-                var props = BridgeSection.GrossPhaseProperties(Data, phase);
-                body.Children.Add(Ui.Text(phase.S("nome"), 14, true));
-                body.Children.Add(Ui.Text(phase.S("tipo") + (phase.B("attiva") ? " · attiva" : " · esclusa dalla somma"), 11, color: Ui.Muted));
-                if (BridgeSection.HasConcrete(phase.S("tipo")))
-                {
-                    var h = BridgeSection.Homogenization(Data, phase);
-                    body.Children.Add(Ui.Text($"φ = {F(h.Phi)} · ψL = {F(phase.D("psi"))} · n = {F(h.N)}", 12));
-                }
-                body.Children.Add(Block(props.Name, PropertyValues(props), "Geometria e omogeneizzazione della fase; stessi dati della tabella Sollecitazioni."));
+                var properties = BridgePropertyPresentation.Phase(Data, phase);
+                body.Children.Add(Ui.Text(properties.Title, 14, true));
+                body.Children.Add(Ui.Text(properties.Description, 11, color: Ui.Muted));
+                if (properties.Homogenization is not null) body.Children.Add(Ui.Text(properties.Homogenization, 12));
+                body.Children.Add(PropertyTable(properties.Properties));
             }
             catch (Exception ex) { body.Children.Add(Ui.Text(ex.Message, 12, color: Ui.Muted)); }
             var item = new TabItem { Header = $"{++i:00} · {phase.S("nome")}", Tag = phase, Content = Scroll(body) };
