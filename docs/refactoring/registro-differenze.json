@@ -25,6 +25,19 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-04",
+      "data": "2026-10-13",
+      "fase": "F4.5",
+      "titolo": "Coefficienti di riserva dei pali dalla norma tipizzata",
+      "famiglia": "pali/coefficienti",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "I quattro coefficienti mancanti di attrito e peso provengono da PileResistanceFactors.FromStandard. Override, validazione, migrazione gammaB e registrazione dei fallback conservati; nessun dato persistito modificato.",
+      "effetto_quantificato": "548 file del corpus prima/dopo equivalenti salvo tempi già esclusi. Quattro impronte aggiornate nella baseline architetturale senza aumento delle 4610 occorrenze; attesi invariati.",
+      "test": ["76 nuovi controlli Application", "verifiche/pile-factors", "ConcreteLibraryAdapter.Checks/rapido", "12 PASS del runner, zero nuovi fallimenti"],
+      "evidenze": ["supporto/artefatti/refactoring/f4/coeff-final.log", "docs/refactoring/f4-coefficienti.md"]
+    },
+    {
       "id": "F4-03",
       "titolo": "Taglio dei muri CA: contributo assiale omesso nel percorso locale",
       "famiglia": "muri/taglio",

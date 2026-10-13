@@ -229,12 +229,13 @@ del merge 1.7.1 non è un’approvazione anticipata di qualsiasi futuro merge F4
 - [x] F4.3a: [collocazione e contratti](f4-contratti.md).
 - [x] F4.3b: [confronto numerico indipendente σcp](f4-taglio-muri.md), 12512 controlli e cinque vettori sintetici; decisione per il port, registro F4-03. Formula runtime ancora invariata.
 - [x] F4.4a: [esiti tipizzati nelle librerie](../../../Checker/docs/refactoring/f4-esiti.md), commit Checker `c6f10056`, suite complete e catture legacy identiche. F4.4b rimane aperta per l'attivazione con set coerente.
-- [ ] F4.5–F4.15: secondo ordine e criteri sopra descritti, esclusa F4.11 sospesa.
+- [x] F4.5: [coefficienti dei pali e profili esistenti](f4-coefficienti.md); 76 nuovi controlli, 12 PASS, 548 file confrontati senza differenze di calcolo/report. Registro F4-04.
+- [ ] F4.7–F4.15: secondo ordine e criteri sopra descritti, esclusa F4.11 sospesa.
 - [x] F4.6a: inventario delle soglie e 56 nuove prove di unità (Checker `7c3ce910`), suite geotecnica 173 PASS. F4.6b rimane aperta.
 - [x] F4.6c: fix della mesh vicino alla punta (Checker `164e4836`, Geotechnics 0.2.0.1), quattro regressioni esatte e 1625 PASS delle suite complete, soli 17 Steel già noti; registro F4-02. Attivazione in ANTHEA da eseguire con set coerente.
 - [ ] F4.16: chiusura sospesa su richiesta dell’utente, anche se altri punti risultassero conclusi.
 
-F4.1–F4.3 sono concluse nel perimetro autorizzato; si procede con **F4.4b/F4.5 e port F4.7**. Ogni punto
+F4.1–F4.3 e F4.5 sono concluse nel perimetro autorizzato; si procede con **F4.6b e port F4.7**, lasciando F4.4b al set coerente. Ogni punto
 chiuso ha il proprio commit con evidenze e aggiornamento del piano; un punto
 ampio può avere sottopassi autonomi. Dopo ciascuno si comunica all’utente
 cosa è cambiato, quali prove sono passate e cosa resta aperto.

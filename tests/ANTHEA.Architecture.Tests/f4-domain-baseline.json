@@ -2359,9 +2359,9 @@
       "File": "X.Calculations/Calcolo.cs",
       "Rule": "R4-implicit-number",
       "Owner": "Calcolo.Motore.Esegui",
-      "Fingerprint": "2DF0E0CC8F56259C8B338D9F2094CF9E0B2BDF148DA3FF742337832E5FBDD187",
+      "Fingerprint": "B802846683B5B754D7DC2CD451F73485D67723AB2401F9AB266386F13FDFC3DF",
       "Count": 1,
-      "Example": "g . D ( \"peso_palo_favorevole\" , 1 )"
+      "Example": "g . D ( \"peso_palo_favorevole\" , normativeFactors . WeightFavourable )"
     },
     {
       "File": "X.Calculations/Calcolo.cs",
@@ -2375,25 +2375,25 @@
       "File": "X.Calculations/Calcolo.cs",
       "Rule": "R4-implicit-number",
       "Owner": "Calcolo.Motore.Esegui",
-      "Fingerprint": "8D5B7C798429FF9998F518197EA263D212622064B78244B7B16A3A5ABCF58F72",
+      "Fingerprint": "A2FC2269DA941AC5D84DCDB33E39B9D058933DF57A64018772D3D347CCBE0718",
       "Count": 1,
-      "Example": "g . D ( \"peso_palo_sfavorevole\" , 1.30 )"
+      "Example": "g . D ( \"peso_palo_sfavorevole\" , normativeFactors . WeightUnfavourable )"
     },
     {
       "File": "X.Calculations/Calcolo.cs",
       "Rule": "R4-implicit-number",
       "Owner": "Calcolo.Motore.Esegui",
-      "Fingerprint": "8E8CBE6632A8FFE4BE4A26779A77EB9E6478DA0B1DA98E143FDD1E5654B31517",
+      "Fingerprint": "D8806D493C48829C636C4404152A2A122A13487A80D3E2C3AE1B14BEB97A7B98",
       "Count": 1,
-      "Example": "g . D ( \"sicurezza_laterale_trazione\" , 1.25 )"
+      "Example": "g . D ( \"sicurezza_laterale_trazione\" , normativeFactors . ShaftTension )"
     },
     {
       "File": "X.Calculations/Calcolo.cs",
       "Rule": "R4-implicit-number",
       "Owner": "Calcolo.Motore.Esegui",
-      "Fingerprint": "F6DD6ABD409C3C3F770581813769A777A8F4E50C9A267F32F3C38B1A585B3781",
+      "Fingerprint": "C1752CA5991C1C7C5B45D02026DBB0DE674EFD9175AF5C4E12D016DF57D48422",
       "Count": 1,
-      "Example": "g . D ( \"sicurezza_laterale_compressione\" , 1.15 )"
+      "Example": "g . D ( \"sicurezza_laterale_compressione\" , normativeFactors . ShaftCompression )"
     },
     {
       "File": "X.Calculations/Calcolo.cs",
