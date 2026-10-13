@@ -6,13 +6,13 @@
 *.bat text eol=crlf
 *.ps1 text eol=crlf
 
-# The Wiki index stores byte offsets into the two guides (X.Desktop/Wiki/index.json), and
-# X.Desktop/Wiki/sources.props the SHA-256 of these files computed with CRLF line endings: the
-# X.Desktop build stops if they differ. They must be CRLF in every checkout, on any system.
+# The Wiki index stores byte offsets into the two guides (src/ANTHEA.Wiki/Content/index.json), and
+# src/ANTHEA.Wiki/Content/sources.props the SHA-256 of these files computed with CRLF line endings: the
+# ANTHEA.Wiki build stops if they differ. They must be CRLF in every checkout, on any system.
 supporto/docs/guida-pratica-anthea.md text eol=crlf
 supporto/docs/guida-teorica-anthea.md text eol=crlf
-X.Desktop/Wiki/*.json text eol=crlf
-X.Desktop/Wiki/sources.props text eol=crlf
+src/ANTHEA.Wiki/Content/*.json text eol=crlf
+src/ANTHEA.Wiki/Content/sources.props text eol=crlf
 
 *.png binary
 *.jpg binary

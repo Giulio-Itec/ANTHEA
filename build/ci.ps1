@@ -105,6 +105,7 @@ Add-Suite @{ Name = 'ModelViewer.CombinationBench.Checks'; Stage = 'fast'; Kind 
 Add-Suite @{ Name = 'Architecture.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Architecture.Tests\ANTHEA.Architecture.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' }; Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }
 Add-Suite @{ Name = 'Reports.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Reports.Tests\ANTHEA.Reports.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Application.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Application.Tests\ANTHEA.Application.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'Wiki.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Wiki.Tests\ANTHEA.Wiki.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Testing.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Testing.Tests\ANTHEA.Testing.Tests.csproj'; Args = @() }
 Add-Suite @{ Name = 'Headless/help'; Stage = 'fast'; Kind = 'run'; Project = 'tools\ANTHEA.Headless\ANTHEA.Headless.csproj'; Args = @('--help') }
 Add-Suite @{ Name = 'ModelViewer.UiChecks'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ModelViewer.UiChecks\ModelViewer.UiChecks.csproj'; Args = @('{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }

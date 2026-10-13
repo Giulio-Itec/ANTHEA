@@ -43,8 +43,8 @@ GUIDES = {
 
 def printed_links(value):
     """Internal routes are UI addresses, not useful printed references."""
-    catalog=json.loads((ROOT/'X.Desktop/Wiki/index.json').read_text(encoding='utf-8'))
-    aliases=json.loads((ROOT/'X.Desktop/Wiki/aliases.json').read_text(encoding='utf-8'))
+    catalog=json.loads((ROOT/'src/ANTHEA.Wiki/Content/index.json').read_text(encoding='utf-8'))
+    aliases=json.loads((ROOT/'src/ANTHEA.Wiki/Content/aliases.json').read_text(encoding='utf-8'))
     def label(match):
         text,uri=match.groups()
         if uri.startswith(('wiki:','/wiki/')):

@@ -21,3 +21,5 @@ F3.6a chiuso: pali verticali con servizi/scheduler, 9 prove WPF dedicate, 10 PAS
 F3.6b completato: acciaio, palificata, fondazioni; corsa 015601 12 PASS/0 nuovi. Prima di altri moduli conviene unificare l’ingresso CalculationService che resta in X.Calculations con l’orchestrazione Application; nessun caller dentro X.Calculations, solo UI e test. I confronti numerici sono congelati, non aggiornare attesi.
 
 Checkpoint 02:12: unificazione CalculationService completata, 548 file headless equivalenti; rinomine diagnostiche F3-01 registrate e collaudate. Prossimo: estrazione Wiki, script preparato solo negli artefatti f3/extract-wiki.py. F3.5b/report autonomi e F3.6 resto moduli ancora aperti, F4 non iniziata, F5 esclusa.
+
+Checkpoint 02:15: F3.6c Wiki chiuso; 240 controlli portabili, 458 file equivalenti, rendering Wiki e aiuto fondazioni passati. Prossimi moduli: ponte composto e muri con coordinamento comune; restano report autonomi, materiali CLS, orizzontale/elastico, CA e chiusura F3.

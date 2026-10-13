@@ -151,8 +151,8 @@ internal static class Program
         Check((t.GetProperty("Result",BindingFlags.Instance|BindingFlags.NonPublic)!.GetValue(control)!=null)==library.Available,"UI: risultato presente solo con API disponibile");
         var width=Descendants(control).OfType<TextBox>().First(x=>x.Tag?.ToString()=="Width");width.Text="2,5";
         Check(t.GetProperty("Result",BindingFlags.Instance|BindingFlags.NonPublic)!.GetValue(control)==null,"modifica invalida risultato");width.Text="2";
-        var wiki=assembly.GetType("X.Desktop.WikiCatalog")!;Check(wiki.GetMethod("ForModule",BindingFlags.Static|BindingFlags.NonPublic)!.Invoke(null,[FoundationDocument.Module])!=null,"aiuto contestuale Wiki");
-        var found=(Array)wiki.GetMethod("Search",BindingFlags.Static|BindingFlags.NonPublic)!.Invoke(null,["fondazioni superficiali"] )!;
+        Check(Anthea.Wiki.WikiCatalog.ForModule(FoundationDocument.Module)!=null,"aiuto contestuale Wiki");
+        var found=Anthea.Wiki.WikiCatalog.Search("fondazioni superficiali");
         Check(found.Length>=2,"ricerca Wiki teoria e pratica");
         Check(root.DesiredSize.Width==1250,"layout WPF");
         if(library.Available)

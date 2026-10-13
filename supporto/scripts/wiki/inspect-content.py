@@ -3,7 +3,7 @@ from pathlib import Path
 import json,sys,re
 sys.stdout.reconfigure(encoding='utf-8')
 ROOT=Path(__file__).resolve().parents[3]
-articles=json.loads((ROOT/'X.Desktop/Wiki/index.json').read_text(encoding='utf-8'))
+articles=json.loads((ROOT/'src/ANTHEA.Wiki/Content/index.json').read_text(encoding='utf-8'))
 for a in articles:
     selected=[x for x in sys.argv[1:] if x.split('#')[0] in (a['key'],a['id'])]
     if selected:

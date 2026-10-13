@@ -4,7 +4,7 @@ import sys,json,copy,math,unittest
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'supporto/scripts/wiki'))
 from validate_wiki import validate
 import re
-W=ROOT/'X.Desktop/Wiki'
+W=ROOT/'src/ANTHEA.Wiki/Content'
 GUIDES=[ROOT/'supporto/docs/guida-pratica-anthea.md',ROOT/'supporto/docs/guida-teorica-anthea.md']
 def read(n):return json.loads((W/n).read_text(encoding='utf-8'))
 # W0.4 (7/10/2026): no development diary, AI tools, competing programs or sites. Normative citations
@@ -90,7 +90,7 @@ class HandbookChecks(unittest.TestCase):
         # Decision of 6/10/2026: guides and Wiki keep only content written for ANTHEA; norms and bibliography stay as citations.
         terms=['Approfondimento ·','Letture tecniche','De Pisapia','CC BY-NC','marcodepisapia','geostru','simonecaffe','amazon.','Madosoft','MAX 16','TheBridgeEng']
         docs=[ROOT/'supporto/docs/guida-pratica-anthea.md',ROOT/'supporto/docs/guida-teorica-anthea.md',ROOT/'supporto/docs/wiki-riscontri.json',*sorted(W.glob('*.json'))]
-        for path in docs+sorted((ROOT/'X.Desktop/Wpf').glob('Wiki*.cs')):
+        for path in docs+sorted((ROOT/'X.Desktop/Wpf').glob('Wiki*.cs'))+sorted((ROOT/'src/ANTHEA.Wiki').glob('*.cs')):
             text=path.read_text(encoding='utf-8').lower()
             for term in terms:self.assertNotIn(term.lower(),text,f'{path.name}: {term}')
         for path in docs:self.assertNotRegex(path.read_text(encoding='utf-8'),r'https?://',path.name)
@@ -112,7 +112,7 @@ class HandbookChecks(unittest.TestCase):
                 for key,entry in read(name).items():
                     self.assertEqual(diary_violations(json.dumps({key:entry},ensure_ascii=False),import_source=key=='guide:'+IMPORT_GUIDE_TITLE),[],key)
             else:self.assertEqual(diary_violations((W/name).read_text(encoding='utf-8')),[],name)
-        for path in [ROOT/'supporto/docs/wiki-riscontri.json',*sorted(W.glob('*.json')),*sorted((ROOT/'X.Desktop/Wpf').glob('Wiki*.cs'))]:
+        for path in [ROOT/'supporto/docs/wiki-riscontri.json',*sorted(W.glob('*.json')),*sorted((ROOT/'X.Desktop/Wpf').glob('Wiki*.cs')),*sorted((ROOT/'src/ANTHEA.Wiki').glob('*.cs'))]:
             data=path.read_text(encoding='utf-8')
             if path.name=='editorial.json':continue  # checked with stricter guide rules above
             if path.name=='index.json':

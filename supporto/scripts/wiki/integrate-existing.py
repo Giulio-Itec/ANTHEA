@@ -5,7 +5,7 @@ _sys.exit('Script di migrazione superato, non rieseguire: rigenererebbe contenut
 from pathlib import Path
 import json,re,shutil,hashlib,unicodedata,sys
 sys.stdout.reconfigure(encoding='utf-8')
-ROOT=Path(__file__).resolve().parents[3]; S=ROOT/'supporto'; W=ROOT/'X.Desktop/Wiki'
+ROOT=Path(__file__).resolve().parents[3]; S=ROOT/'supporto'; W=ROOT/'src/ANTHEA.Wiki/Content'
 ARCH=S/'SUPERATI/wiki-integrazione-rev15-20261004'; ART=S/'artefatti/wiki-integrazione'
 def read(p):return p.read_text(encoding='utf-8').replace('\r','')
 def dump(p,data):p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
@@ -259,7 +259,7 @@ evidence={
     'ponti':['X.Calculations/BridgeConcept.Calculation.cs','X.Calculations/BridgeConcept.AdvancedCalculation.cs','X.Calculations/BridgeConcept.Optimization.cs','X.Calculations/BridgeSection.Analysis.cs','X.Calculations/BridgeSection.Shear.cs','X.Calculations/SectionNeutralAxis.cs'],
     'fem':['supporto/test/wiki-handbook-checks.py'],'meccanica':['supporto/test/wiki-handbook-checks.py'],
     'acciaio':['supporto/test/wiki-handbook-checks.py'],'sismica':['X.Calculations/RetainingWall.Actions.cs'],
-    'bim':['X.Desktop/Wiki/references.json'],'computational':['X.Desktop/Wiki/references.json']}
+    'bim':['src/ANTHEA.Wiki/Content/references.json'],'computational':['src/ANTHEA.Wiki/Content/references.json']}
 
 # Remove stale release prose from the retained pages, not the archived evidence.
 replace('guida-avvio-e-scelta-del-modulo','ma un valore in MPa è mille volte il corrispondente valore espresso in kPa.','e 1 MPa = 1000 kPa: per esprimere in kPa un valore dato in MPa occorre moltiplicarlo per 1000.')

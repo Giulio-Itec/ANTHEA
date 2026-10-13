@@ -6,9 +6,9 @@ from pypdf import PdfReader
 
 ROOT = Path(__file__).resolve().parents[3]
 OUT = ROOT / 'supporto/artefatti/wiki-integrazione'
-articles = json.loads((ROOT/'X.Desktop/Wiki/index.json').read_text(encoding='utf-8'))
+articles = json.loads((ROOT/'src/ANTHEA.Wiki/Content/index.json').read_text(encoding='utf-8'))
 inventory = json.loads((OUT/'inventario-integrazione.json').read_text(encoding='utf-8'))
-aliases = json.loads((ROOT/'X.Desktop/Wiki/aliases.json').read_text(encoding='utf-8'))
+aliases = json.loads((ROOT/'src/ANTHEA.Wiki/Content/aliases.json').read_text(encoding='utf-8'))
 states = Counter(a['status'] for a in articles)
 actions = Counter(a['action'] for a in inventory)
 pages={k:len(PdfReader(ROOT/f'supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_{k}_ITEC_Rev15.pdf').pages) for k in ['pratica','teorica']}

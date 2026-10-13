@@ -14,7 +14,7 @@ public sealed record CaptureCase(string Module, string Id, string Origin, string
 
 /// <summary>
 /// The B0 corpus: the defaults of the 11 modules of ModuleCatalog.All (and the elastic view of the two horizontal modules), the Wiki
-/// examples (X.Desktop/Wiki/Examples, applied as MainWindow.WikiExamples does), the documents of supporto/esempi read with
+/// examples (src/ANTHEA.Wiki/Content/Examples, applied as MainWindow.WikiExamples does), the documents of supporto/esempi read with
 /// Archivio.Leggi, the vertical pile cases of supporto/test/casi_confronto.json and RetainingWall.Example("gravity"/"cantilever").
 /// From B3 (refactoring F2.6) also the cases of tests/ANTHEA.Testing/corpus: concrete sections with shear and torsion; from B6
 /// (refactoring F2.9) the durability cases verifica-durabilita-*.json (material sheets, cantilever walls, detailing of sections).
@@ -35,7 +35,7 @@ public static class Corpus
                 var data = ModuleCatalog.CreateData(module); ElasticHorizontalPile.PrepareShared(data); data["vista_orizzontale"] = "elastico"; return data;
             }));
 
-        string wiki = Path.Combine(root, "X.Desktop", "Wiki", "Examples");
+        string wiki = Path.Combine(root, "src", "ANTHEA.Wiki", "Content", "Examples");
         if (Directory.Exists(wiki))
             foreach (var file in Directory.EnumerateFiles(wiki, "*.json").OrderBy(f => f, StringComparer.Ordinal))
             {
