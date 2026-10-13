@@ -116,30 +116,10 @@ internal sealed partial class ConcreteWorkspace
         }));
     }
     private Dictionary<string, VerificationSummary> CollectVerificationSummaries()
-    {
-        var result = new Dictionary<string, VerificationSummary>();
-        string Name(string key, string id) => actions[key].FirstOrDefault(r => r.Values.S("id") == id)?.Values.S("nome") ?? id;
-        foreach (string key in new[] { "SLU", "SLV" }) foreach (string prefix in new[] { "3D", "2D" })
-            result[prefix + ":" + key] = VerificationSummary.Create(prefix + " · " + SectionWorkspace.Label(key), actions[key].Count,
-                domainResults.GetValueOrDefault(prefix + ":" + key)?.Select(kv => (Name(key, kv.Key), kv.Value.Utilization, (bool?)null)) ?? []);
-        foreach (string key in SectionWorkspace.Sets.Skip(2))
-        {
-            var values = stressResults.GetValueOrDefault(key);
-            if (SleCheckScope.Stress(key)) result[key + ":tensioni"] = VerificationSummary.Create(SectionWorkspace.Label(key) + " · tensioni", actions[key].Count, values?.Select(kv => (Name(key, kv.Key), kv.Value.Ratio, (bool?)null)) ?? []);
-            if (SleCheckScope.Cracking(key, settings)) result[key + ":fessurazione"] = VerificationSummary.Create(SectionWorkspace.Label(key) + " · fessurazione", actions[key].Count, values?.Select(kv => (Name(key, kv.Key), kv.Value.CrackResult?.Ratio, kv.Value.CrackResult?.Passed)) ?? []);
-        }
-        for (int axis = 0; axis < 2; axis++)
-        {
-            int index = axis;
-            result[axis == 0 ? "Taglio:x" : "Taglio:y"] = VerificationSummary.Create(axis == 0 ? "Taglio Vx" : "Taglio Vy", shearGrid?.Rows.Count ?? 0, shearResults.Select(kv =>
-                (shearGrid?.Rows.FirstOrDefault(r => r.Values.S("id") == kv.Key)?.Values.S("nome") ?? kv.Key, kv.Value[index].Ratio, (bool?)null)));
-        }
-        int torques = shearGrid?.Rows.Count(r => J.Number(r.Values["T"]) is double t && t != 0) ?? 0;
-        if (torques > 0) result["Taglio:torsione"] = VerificationSummary.Create("Torsione e interazione V–T", torques, torsionResults.Select(kv =>
-            (shearGrid?.Rows.FirstOrDefault(r => r.Values.S("id") == kv.Key)?.Values.S("nome") ?? kv.Key,
-                kv.Value.TorsionRatio is double et && kv.Value.ConcreteCombinedRatio is double ec && kv.Value.SteelCombinedRatio is double es ? (double?)Math.Max(et, Math.Max(ec, es)) : null, (bool?)kv.Value.Passed)));
-        return result;
-    }
+        => Anthea.Application.Concrete.ConcreteVerificationSummaries.Create(settings,
+            actions.ToDictionary(p => p.Key, p => p.Value.Select(r => r.Values).ToArray()),
+            domainResults, stressResults, shearGrid?.Rows.Select(r => r.Values).ToArray() ?? [],
+            shearResults, torsionResults);
     private void RefreshVerificationSummaries()
     {
         var results = CollectVerificationSummaries();
