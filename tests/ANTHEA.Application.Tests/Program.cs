@@ -80,6 +80,7 @@ try
     Check(rows.SequenceEqual(imported.Rows), "Segni, valori o campi opzionali Excel alterati");
     Check(imported.FormulaCells == 0, "Export a valori contiene formule");
     checks += await ModuleServiceChecks.Run();
+    checks += await ElasticPileSessionChecks.Run(root);
     string result = $"PASS {checks} controlli Application, documenti e revisioni";
     File.WriteAllText(Path.Combine(output, "esito.txt"), result);
     Console.WriteLine(result);

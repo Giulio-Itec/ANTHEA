@@ -25,3 +25,5 @@ Checkpoint 02:12: unificazione CalculationService completata, 548 file headless 
 Checkpoint 02:15: F3.6c Wiki chiuso; 240 controlli portabili, 458 file equivalenti, rendering Wiki e aiuto fondazioni passati. Prossimi moduli: ponte composto e muri con coordinamento comune; restano report autonomi, materiali CLS, orizzontale/elastico, CA e chiusura F3.
 
 Checkpoint 02:22: F3.6d ponte/muri chiuso, 11 PASS + 6 PASS di schedulazione, 21 controlli WPF e 458 file invariati. F3.6c Wiki in 463f4cb, unificazione dispatch in c8286da. Prossimo orizzontale/elastico: preservare cache FEM e cache delle sezioni, migrazione elastica sempre esplicita. Restano F3.5b/report, CLS, CA, BridgeDesign ritardato e chiusura; F4 non iniziata, F5 esclusa. La sessione utente primaria resta intatta.
+
+Checkpoint 02:31: F3.6e pali orizzontali/elastici completato, 199 controlli Application e tutte le prove dei pali passate; 458 file equivalenti. Zero timer di calcolo residui. Prossimo F3.6f: separare la presentazione dei materiali CLS per riusarla nei report autonomi; poi CA, BridgeDesign, report progetto e chiusura F3. F4 non iniziata, F5 esclusa.

@@ -4,7 +4,8 @@ using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
+using Anthea.Application.Modules;
+using Anthea.Application.Scheduling;
 using Microsoft.Win32;
 using X.Core;
 
@@ -24,8 +25,8 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
     internal bool Busy { get; private set; }
     internal event Action? Modified;
     private bool disposed, building = true;
-    private int revision;
-    private readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(450) };
+    private readonly RecalculationScheduler recalculation = new();
+    private Task scheduledCalculation = Task.CompletedTask;
     private readonly List<JsonGrid> grids = [];
     private readonly List<HorizontalSoilEditor> soilEditors = [];
     private readonly InputForm ejForm;
@@ -158,13 +159,12 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         Ui.Tab(analyses, "Dati comuni e capacità · Broms / stratificato", Ui.Dock(scroll, bottom: footer));
         Ui.Tab(analyses, "Risposta elastica · trave su molle", elastic);
         analyses.SelectedIndex = data.S("vista_orizzontale") == "elastico" ? 1 : 0;
-        analyses.SelectionChanged += (_, e) => { if(e.Source != analyses || building) return; Commit(); data["vista_orizzontale"] = analyses.SelectedIndex == 1 ? "elastico" : "capacita"; if(analyses.SelectedIndex == 1) timer.Stop(); else { LayoutCards(); if(Result is null) QueueCalculation(); } Modified?.Invoke(); };
+        analyses.SelectionChanged += (_, e) => { if(e.Source != analyses || building) return; Commit(); data["vista_orizzontale"] = analyses.SelectedIndex == 1 ? "elastico" : "capacita"; if(analyses.SelectedIndex == 1) recalculation.Invalidate(); else { LayoutCards(); if(Result is null) QueueCalculation(); } Modified?.Invoke(); };
         var engineReference = Ui.Text("Motore di calcolo: GPC Engine", 12, true, Ui.Muted);
         engineReference.Margin = new Thickness(16, 8, 16, 0); engineReference.HorizontalAlignment = HorizontalAlignment.Right;
         Content = Ui.Dock(analyses, top: engineReference);
         scroll.SizeChanged += (_, _) => LayoutCards();
         scroll.ScrollChanged += (_, e) => { if (e.Source == scroll && (e.ViewportWidthChange != 0 || e.ViewportHeightChange != 0)) LayoutCards(); };
-        timer.Tick += TimerTick;
         building = false; Preview(); UpdateVerification(); LayoutCards(); QueueCalculation();
     }
     private void RebuildSurveys(int selected = 0)
@@ -244,19 +244,15 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
     private void Changed()
     {
         if (building || disposed) return;
-        revision++; Result = null; summary.Text = "Dati modificati · aggiornamento automatico"; momentValue.Text = "Aggiornamento automatico del momento…";
+        recalculation.Invalidate(); Result = null; summary.Text = "Dati modificati · aggiornamento automatico"; momentValue.Text = "Aggiornamento automatico del momento…";
         details.IsEnabled = csv.IsEnabled = false; warnings.Text = ""; elastic?.InvalidateShared(); Preview(); UpdateVerification(); QueueCalculation(); Modified?.Invoke();
     }
     internal void Commit() { general.Commit(); model.Commit(); factors.Commit(); efficiency.Commit(); moment.Commit(); sectionFields.Commit(); ejForm?.Commit(); foreach(var editor in soilEditors)editor.Commit(); foreach (var grid in grids) grid.Commit(); elastic?.Commit(); }
     private void QueueCalculation()
     {
         if (building || disposed || analyses.SelectedIndex == 1) return;
-        timer.Stop(); timer.Start(); status.Text = "Aggiornamento automatico in attesa…";
-    }
-    private async void TimerTick(object? sender, EventArgs args)
-    {
-        if (Busy) return;
-        timer.Stop(); if (!disposed) await CalculateAsync(commitEdits: false);
+        status.Text = "Aggiornamento automatico in attesa…";
+        scheduledCalculation = CalculateScheduledAsync(TimeSpan.FromMilliseconds(450), false);
     }
     private void DisplayMoment(JsonObject result)
     {
@@ -264,42 +260,41 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         momentValue.Text = $"MRd = {result.D("momento_knm"):N1} kNm · N = {result.D("n_kn"):N1} kN\nChecker · {result.D("lati_contorno"):0} lati · residuo N = {result.D("residuo_n_kn"):G3} kN (tol. {result.D("tolleranza_n_kn"):G3})";
         momentValue.Text+="\n"+result.S("normativa","NTC 2018");momentValue.ToolTip = result.S("modello");
     }
-    internal async Task CalculateAsync(bool commitEdits = true)
+    internal Task CalculateAsync(bool commitEdits = true) => scheduledCalculation = CalculateScheduledAsync(TimeSpan.Zero, commitEdits);
+    private async Task CalculateScheduledAsync(TimeSpan delay, bool commitEdits)
     {
-        if (Busy || disposed) return;
-        if (commitEdits) Commit(); timer.Stop();
-        var snapshot = (JsonObject)Data.DeepClone(); int requested = revision; Busy = true;
-        snapshot.Remove("vista_orizzontale");
-        status.Text = "Calcolo di sezione ed equilibri in corso…";
-        try
+        if (disposed) return;
+        if (commitEdits) Commit();
+        var snapshot = (JsonObject)Data.DeepClone();
+        var completed = await recalculation.ScheduleAsync(async token =>
         {
-            var computed = await Task.Run(() =>
+            Busy = true; status.Text = "Calcolo di sezione ed equilibri in corso…";
+            try { return await Task.Run(() => HorizontalPileAnalysis.Calculate(snapshot, token), token); }
+            finally { Busy = false; }
+        }, delay);
+        completed.TryPublish(current =>
+        {
+            try
             {
-                var capacity = CalculationService.Calculate(MicroHorizontal ? MicropaloOrizzontale.Module : PaloOrizzontale.Module, snapshot);
-                JsonObject? section = capacity["sezione"] as JsonObject; string sectionError = "";
-                // Show a valid section moment even while the stratigraphy is still incomplete.
-                if (section is null && snapshot["generali"].S("origine_momento") is "Sezione c.a." or "Sezione CHS")
-                    try { section = PaloOrizzontale.Section(snapshot); } catch (ArgumentException ex) { sectionError = ex.Message; }
-                return (capacity, section, sectionError);
-            });
-            if (disposed || requested != revision) return;
-            var result = computed.capacity;
-            if (computed.section is not null) DisplayMoment(computed.section);
-            else if (snapshot["generali"].S("origine_momento") == "Manuale" && J.Number(snapshot["generali"]!["momento_resistente"]) is double manual && manual > 0)
-                momentValue.Text = $"My inserito manualmente = {manual:N1} kNm";
-            else momentValue.Text = "Momento non disponibile" + (computed.sectionError == "" ? "" : ": " + computed.sectionError);
-            Result = result.S("errore") == "" ? result : null;
-            if (Result is null) { summary.Text = "Calcolo non disponibile: " + result.S("errore"); warnings.Text = result.S("errore"); status.Text = "Correggere i dati indicati"; details.IsEnabled = csv.IsEnabled = false; UpdateVerification(); return; }
-            if (result["sezione"] is JsonObject section) DisplayMoment(section);
-            else momentValue.Text = $"My adottato manualmente = {result.D("momento_resistente_knm"):N1} kNm";
-            summary.Text = $"{result.S("meccanismo")} · stratigrafia {result.D("sondaggio_governante")}\nMy = {result.D("momento_resistente_knm"):N1} kNm\nHEd / Hu = {100 * result.D("rapporto_meccanico"):0.0}%\nVerifica normativa incompleta." +
-                (result.B("sperimentale") ? "\nMODELLO SPERIMENTALE" : "");
-            UpdateVerification();
-            warnings.Text = string.Join("\n", result.Array("avvisi").Select(v => v!.ToString()));
-            status.Text = "Calcolo completato · diagrammi alla capacità ultima"; details.IsEnabled = csv.IsEnabled = true;
-        }
-        catch (Exception ex) { if (!disposed && requested == revision) { Result = null; summary.Text = "Calcolo fallito"; momentValue.Text = "Momento non disponibile"; status.Text = ex.Message; details.IsEnabled = csv.IsEnabled = false; UpdateVerification(); } }
-        finally { Busy = false; if (!disposed && requested != revision) QueueCalculation(); }
+                if (current.Error is not null) throw current.Error;
+                var computed = current.Value!;
+                var result = computed.Capacity;
+                if (computed.Section is not null) DisplayMoment(computed.Section);
+                else if (snapshot["generali"].S("origine_momento") == "Manuale" && J.Number(snapshot["generali"]!["momento_resistente"]) is double manual && manual > 0)
+                    momentValue.Text = $"My inserito manualmente = {manual:N1} kNm";
+                else momentValue.Text = "Momento non disponibile" + (computed.SectionError == "" ? "" : ": " + computed.SectionError);
+                Result = result.S("errore") == "" ? result : null;
+                if (Result is null) { summary.Text = "Calcolo non disponibile: " + result.S("errore"); warnings.Text = result.S("errore"); status.Text = "Correggere i dati indicati"; details.IsEnabled = csv.IsEnabled = false; UpdateVerification(); return; }
+                if (result["sezione"] is JsonObject section) DisplayMoment(section);
+                else momentValue.Text = $"My adottato manualmente = {result.D("momento_resistente_knm"):N1} kNm";
+                summary.Text = $"{result.S("meccanismo")} · stratigrafia {result.D("sondaggio_governante")}\nMy = {result.D("momento_resistente_knm"):N1} kNm\nHEd / Hu = {100 * result.D("rapporto_meccanico"):0.0}%\nVerifica normativa incompleta." +
+                    (result.B("sperimentale") ? "\nMODELLO SPERIMENTALE" : "");
+                UpdateVerification();
+                warnings.Text = string.Join("\n", result.Array("avvisi").Select(v => v!.ToString()));
+                status.Text = "Calcolo completato · diagrammi alla capacità ultima"; details.IsEnabled = csv.IsEnabled = true;
+            }
+            catch (Exception ex) { Result = null; summary.Text = "Calcolo fallito"; momentValue.Text = "Momento non disponibile"; status.Text = ex.Message; details.IsEnabled = csv.IsEnabled = false; UpdateVerification(); }
+        });
     }
     private TabControl ResultsTabs()
     {
@@ -339,5 +334,5 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         try { Archivio.ScriviAtomico(save.FileName, Encoding.UTF8.GetBytes(PaloOrizzontale.Csv(Result))); }
         catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message, "Esportazione non riuscita"); }
     }
-    public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= TimerTick; elastic.Dispose(); }
+    public void Dispose() { disposed = true; recalculation.Dispose(); elastic.Dispose(); }
 }
