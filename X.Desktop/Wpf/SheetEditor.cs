@@ -144,7 +144,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     }
     private Action? releaseRevisionInspection;
     internal void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
-    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); recalculation.Dispose(); calculationSession.Clear(); concrete?.Dispose(); horizontal?.Dispose(); pileGroup?.Dispose(); bridge?.Dispose(); retainingWall?.Dispose(); }
+    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); recalculation.Dispose(); calculationSession.Clear(); concrete?.Dispose(); horizontal?.Dispose(); pileGroup?.Dispose(); bridge?.Dispose(); retainingWall?.Dispose(); bridgeDesign?.Dispose(); }
     internal void Commit() { if (foundation is not null) foundation.Commit(); else if (pileGroup is not null) pileGroup.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
@@ -237,7 +237,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         if (foundation is not null) { foundation.TryCalculate(); return; }
         if (pileGroup is not null) { pileGroup.TryCalculate(); return; }
         if (retainingWall is not null) { await retainingWall.CalculateAsync(); return; }
-        if (bridgeDesign is not null) { bridgeDesign.Recalculate(); return; }
+        if (bridgeDesign is not null) { await bridgeDesign.CalculateAsync(); return; }
         if (bridge is not null) { await bridge.CalculateAsync(commitEdits); return; }
         if (materials is not null || rebarMaterial is not null) { Commit(); return; }
         if (horizontal is not null) { await horizontal.CalculateActiveAsync(); return; }

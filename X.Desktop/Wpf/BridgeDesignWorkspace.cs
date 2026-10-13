@@ -1,4 +1,6 @@
 using Anthea.Reports;
+using Anthea.Application.Modules;
+using Anthea.Application.Scheduling;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -13,7 +15,7 @@ using X.Core;
 
 namespace X.Desktop;
 
-internal sealed partial class BridgeDesignWorkspace : UserControl
+internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
 {
     internal JsonObject Data { get; }
     internal BridgeConcept.Result? Calculation { get; private set; }
@@ -32,12 +34,19 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
     private StackPanel sectionPanel = new();
     private readonly Stack<JsonObject> history = new();
     private JsonObject previous;
-    private bool refreshing;
+    private bool refreshing, disposed;
+    internal bool Busy { get; private set; }
+    private readonly RecalculationScheduler recalculation = new();
+    private readonly IModuleService calculationService;
+    private Task scheduledCalculation = Task.CompletedTask;
+    private BridgeDesignAnalysis? analysis;
     private static readonly CultureInfo It = CultureInfo.GetCultureInfo("it-IT");
     internal static string F(double n, string format = "N1") => n.ToString(format, It);
 
-    internal BridgeDesignWorkspace(JsonObject data)
+    internal BridgeDesignWorkspace(JsonObject data) : this(data, null) { }
+    internal BridgeDesignWorkspace(JsonObject data, IModuleService? service)
     {
+        calculationService = service ?? ModuleServices.Get(BridgeConcept.Module);
         var completed = BridgeConcept.WithAdvancedDefaults(data);
         foreach (string group in new[] { "input", "rates", "assumptions" })
             if (data[group] is JsonObject target && completed[group] is JsonObject fields)
@@ -95,7 +104,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
             inputCard.Margin = compact ? new Thickness(0, 0, 0, 12) : new Thickness(0, 0, 12, 0);
             Inputs.MinHeight = compact ? 330 : 470; metrics.Columns = ActualWidth < 850 ? 2 : 4;
         };
-        Recalculate();
+        QueueCalculation(TimeSpan.Zero);
     }
     private static ScrollViewer Scroll(UIElement content, double max = double.PositiveInfinity) => new ChainedScrollViewer
     { Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled, MaxHeight = max };
@@ -238,9 +247,9 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
     }
     private void Changed()
     {
-        if (refreshing) return;
+        if (refreshing || disposed) return;
         if (!JsonNode.DeepEquals(previous, Data)) { history.Push(previous); if (history.Count > 80) { var recent = history.Take(60).Reverse().ToArray(); history.Clear(); foreach (var h in recent) history.Push(h); } previous = Clone(Data); }
-        Recalculate(); Modified?.Invoke();
+        QueueCalculation(TimeSpan.FromMilliseconds(450)); Modified?.Invoke();
     }
     private void Mutate(Action change, bool rebuild = false)
     {
@@ -257,27 +266,61 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
         }
         finally { refreshing = false; }
     }
-    internal void Recalculate()
+    private void QueueCalculation(TimeSpan delay)
     {
-        try
+        if(disposed)return;
+        recalculation.Invalidate(); ClearCalculation(); InvalidateOptimization();
+        status.Text="Dati modificati · aggiornamento automatico in attesa…";
+        status.Foreground=Appearance.Foreground(Ui.Muted);
+        scheduledCalculation=CalculateScheduledAsync(delay);
+    }
+    internal Task CalculateAsync()=>scheduledCalculation=CalculateScheduledAsync(TimeSpan.Zero);
+    internal async Task WaitForCalculationAsync()
+    {
+        Task pending;
+        do { pending=scheduledCalculation; await pending; }
+        while(!ReferenceEquals(pending,scheduledCalculation));
+    }
+    private async Task CalculateScheduledAsync(TimeSpan delay)
+    {
+        if(disposed)return;var snapshot=Clone(Data);
+        var completed=await recalculation.ScheduleAsync(async token=>
         {
-            Calculation = BridgeConcept.Calculate(Data); Drawing.Data = Data; Drawing.Result = Calculation; Drawing.InvalidateVisual();
-            var r = Calculation;
-            values[0].Text = F(r.TotalCost / 1e6, "0.00") + " M€"; captions[0].Text = $"{F(r.TotalCost / r.Area, "N0")} €/m² · {F(r.CostLow / 1e6, "0.00")}–{F(r.CostHigh / 1e6, "0.00")} M€";
-            values[1].Text = F(r.Carbon, "N0") + " tCO₂e"; captions[1].Text = F(r.Carbon * 1000 / r.Area, "N0") + " kgCO₂e/m² · stima parziale";
-            values[2].Text = F(r.Depth, "0.00") + " m"; captions[2].Text = $"L/d ≈ {F(r.Spans.Max() / r.Depth, "0")} · {r.Spans.Length} campate";
-            values[3].Text = F(r.Duration, "0") + " mesi"; captions[3].Text = $"±25% · {r.Supports.Count(s => s.Type != "Spalla")} pile · {r.Supports.Count(s => s.Type == "Spalla")} spalle";
-            configuration.Text = $"L {F(r.Length)} m · W {F(r.Width)} m · {r.Family.Name} · {r.Girders} elementi · {r.Foundation}" + (r.PileLength > 0 ? $" × {F(r.PileLength, "0")} m" : "");
-            ShowQuantities(r); ShowDetails(r); ShowComparison(); ShowAdvice(r); ShowTechnical(r); InvalidateOptimization();
-            status.Text = BridgeConcept.Scope; status.Foreground = Appearance.Foreground(Ui.Muted);
-        }
-        catch (ArgumentException ex)
+            Busy=true;status.Text="Aggiornamento del ponte e delle alternative…";
+            try{return await Task.Run(()=>BridgeDesignAnalysis.Calculate(snapshot,token,calculationService),token);}
+            finally{Busy=false;}
+        },delay);
+        completed.TryPublish(current=>
         {
-            Calculation = null; Drawing.Result = null; Drawing.InvalidateVisual();
-            foreach (var v in values) v.Text = "—"; foreach (var c in captions) c.Text = "Dati da completare";
-            quantities.Content = detail.Content = comparison.Content = advice.Content = technical.Content = null; configuration.Text = ""; InvalidateOptimization();
-            status.Text = ex.Message; status.Foreground = Appearance.Foreground(Brushes.Firebrick);
-        }
+            try
+            {
+                if(current.Error is not null){ClearCalculation();status.Text=current.Error.Message;status.Foreground=Appearance.Foreground(Brushes.Firebrick);return;}
+                analysis=current.Value!;Calculation=analysis.Current;Drawing.Data=Data;Drawing.Result=Calculation;Drawing.InvalidateVisual();
+                var r=Calculation;
+                values[0].Text = F(r.TotalCost / 1e6, "0.00") + " M€"; captions[0].Text = $"{F(r.TotalCost / r.Area, "N0")} €/m² · {F(r.CostLow / 1e6, "0.00")}–{F(r.CostHigh / 1e6, "0.00")} M€";
+                values[1].Text = F(r.Carbon, "N0") + " tCO₂e"; captions[1].Text = F(r.Carbon * 1000 / r.Area, "N0") + " kgCO₂e/m² · stima parziale";
+                values[2].Text = F(r.Depth, "0.00") + " m"; captions[2].Text = $"L/d ≈ {F(r.Spans.Max() / r.Depth, "0")} · {r.Spans.Length} campate";
+                values[3].Text = F(r.Duration, "0") + " mesi"; captions[3].Text = $"±25% · {r.Supports.Count(s => s.Type != "Spalla")} pile · {r.Supports.Count(s => s.Type == "Spalla")} spalle";
+                configuration.Text = $"L {F(r.Length)} m · W {F(r.Width)} m · {r.Family.Name} · {r.Girders} elementi · {r.Foundation}" + (r.PileLength > 0 ? $" × {F(r.PileLength, "0")} m" : "");
+                ShowQuantities(r); ShowDetails(r); ShowComparison(); ShowAdvice(); ShowTechnical(r); InvalidateOptimization();
+                status.Text = BridgeConcept.Scope; status.Foreground = Appearance.Foreground(Ui.Muted);
+            }
+            catch (ArgumentException error)
+            {
+                ClearCalculation(); status.Text = error.Message;
+                status.Foreground = Appearance.Foreground(Brushes.Firebrick);
+            }
+        });
+    }
+    private void ClearCalculation()
+    {
+        analysis=null;Calculation=null;Drawing.Result=null;Drawing.InvalidateVisual();
+        foreach(var v in values)v.Text="—";foreach(var c in captions)c.Text="Dati da completare";
+        quantities.Content=detail.Content=comparison.Content=advice.Content=technical.Content=null;configuration.Text="";
+    }
+    public void Dispose()
+    {
+        if(disposed)return;disposed=true;recalculation.Dispose();optimizationCancellation?.Cancel();
     }
     private static DataGrid Table(string[] headers, IEnumerable<string[]> rows, double height = 300)
     {
@@ -316,7 +359,8 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
         if (Data["alternative_a"] is not JsonObject a || Calculation is null) { comparison.Content = Ui.Text("Fissa una configurazione con “Fissa A”, poi modifica il ponte. Qui appariranno gli scostamenti della soluzione B corrente.", 14); return; }
         try
         {
-            var old = BridgeConcept.Calculate(a); var r = Calculation;
+            if (analysis?.ComparisonError is { } error) throw new ArgumentException(error);
+            var old = analysis?.Comparison ?? throw new ArgumentException("Confronto non disponibile."); var r = Calculation;
             var rows = new[] { ("Costo totale [€]", old.TotalCost, r.TotalCost), ("CO₂ [t]", old.Carbon, r.Carbon), ("Calcestruzzo [m³]", old.Concrete, r.Concrete), ("Acciaio strutturale [t]", old.Steel, r.Steel), ("Durata [mesi]", old.Duration, r.Duration), ("Altezza [m]", old.Depth, r.Depth) };
             comparison.Content = Ui.Stack(Ui.Text($"A: {old.Family.Name}, {old.Spans.Length} campate  →  B: {r.Family.Name}, {r.Spans.Length} campate", 14, true),
                 Table(["Indicatore", "A salvata", "B corrente", "Δ B − A", "Δ %"], rows.Select(v => new[] { v.Item1, F(v.Item2), F(v.Item3), F(v.Item3 - v.Item2), v.Item2 != 0 ? F((v.Item3 / v.Item2 - 1) * 100) + "%" : "—" })),
@@ -324,35 +368,21 @@ internal sealed partial class BridgeDesignWorkspace : UserControl
         }
         catch (ArgumentException ex) { comparison.Content = Ui.Text("Alternativa A non calcolabile: " + ex.Message, color: Brushes.Firebrick); }
     }
-    private void ShowAdvice(BridgeConcept.Result r)
+    private void ShowAdvice()
     {
         var panel = Ui.Stack(Ui.Text("Alternative per ridurre le quantità e le emissioni", 15, true)); panel.Margin = new Thickness(0, 14, 0, 0);
-        void Option(string label, Action<JsonObject> change)
+        foreach(var alternative in analysis!.Alternatives)
         {
-            var candidate = Clone(Data); change(candidate["input"]!.AsObject());
-            try
-            {
-                var alternate = BridgeConcept.Calculate(candidate); double saving = r.Carbon - alternate.Carbon;
-                if (saving <= .01) return;
-                var button = Ui.Button($"{label}   ·   −{F(saving, "N0")} tCO₂e   ·   Δ {F(alternate.TotalCost - r.TotalCost, "N0")} €", () => Mutate(() => change(Input), true));
-                button.HorizontalContentAlignment = HorizontalAlignment.Left; panel.Children.Add(button);
-            }
-            catch (ArgumentException) { /* An infeasible alternative is not presented as a saving. */ }
-        }
-        if (!Input.B("low_carbon")) Option("Cls a ridotta impronta", n => n["low_carbon"] = true);
-        if (r.Steel > 0 && !Input.B("recycled")) Option("Acciaio ad alto riciclato", n => n["recycled"] = true);
-        if (Input.D("shoulder") > 1) Option("Banchine a 1,0 m", n => n["shoulder"] = 1);
-        if (r.Spans.Length > 1)
-        {
-            var candidate = Clone(Data); candidate["input"]!["spans"] = r.Spans.Length - 1;
-            try { var test = BridgeConcept.Calculate(candidate); if (test.Spans.Max() <= test.Family.MaxSpan) Option("Una campata in meno", n => n["spans"] = r.Spans.Length - 1); } catch (ArgumentException) { }
+            var button=Ui.Button($"{alternative.Label}   ·   −{F(alternative.CarbonSaving, "N0")} tCO₂e   ·   Δ {F(alternative.CostDifference, "N0")} €",()=>Mutate(()=>
+            { foreach(var (key,value) in alternative.InputChanges)Input[key]=value?.DeepClone(); },true));
+            button.HorizontalContentAlignment=HorizontalAlignment.Left;panel.Children.Add(button);
         }
         panel.Children.Add(Ui.Text("Confronti sul modello corrente: disponibilità dei materiali, resistenza iniziale e larghezze stradali vanno valutate per il progetto. I prezzi restano quelli del listino impostato.", 11, color: Ui.Muted));
         if (Input.B("low_carbon") || Input.B("recycled")) panel.Children.Add(Ui.Button("Ripristina fattori ambientali ordinari", () => Mutate(() => { Input["low_carbon"] = false; Input["recycled"] = false; })));
         advice.Content = panel;
     }
     internal void AutoSize() => Mutate(() => { foreach (string k in new[] { "depth", "slab", "spacing", "web", "bottom", "boxes", "pier_size", "pile_count", "footing_size", "pile_length", "tower_height" }) Input[k] = 0; }, true);
-    internal void Undo() { if (!history.TryPop(out var snapshot)) return; refreshing = true; try { Data.Clear(); foreach (var pair in snapshot) Data[pair.Key] = pair.Value?.DeepClone(); previous = Clone(Data); } finally { refreshing = false; } RefreshInputs(); Recalculate(); Modified?.Invoke(); }
+    internal void Undo() { if (!history.TryPop(out var snapshot)) return; refreshing = true; try { Data.Clear(); foreach (var pair in snapshot) Data[pair.Key] = pair.Value?.DeepClone(); previous = Clone(Data); } finally { refreshing = false; } RefreshInputs(); QueueCalculation(TimeSpan.FromMilliseconds(450)); Modified?.Invoke(); }
     private void Restore(JsonObject source)
     {
         var copy = Clone(source); var pinned = Data["alternative_a"]?.DeepClone();

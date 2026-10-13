@@ -1,4 +1,4 @@
-# Stato del lavoro notturno — checkpoint 13 ottobre, 02:41
+# Stato del lavoro notturno — checkpoint 13 ottobre, 02:51
 
 Mandato fino alle 07:19 Europe/Rome (05:19 UTC): F2 → STG → SEZ → F3 → F4 se completabile. F5 esclusa. Un commit per punto, test/versioni/merge/push autorizzati; nessun agente parallelo. Preservare la finestra primaria con documento non salvato: non chiudere, non riavviare, non compilare nel checkout primario.
 
@@ -24,13 +24,13 @@ Punti chiusi e commit:
 - F3.6d d35a20c: ponte/muri e analisi opzionali, 21 prove WPF di aggiornamento e chiusura.
 - F3.6e 2565132: orizzontale/elastico; risposta FEM e cache sezioni fuori dalla vista, riuso FEM al cambio armature.
 - F3.6f.1 04793a5: presentazione e capitoli materiali portabili, dati iniziali condivisi e mappatura copriferro riusata. 291 controlli Application e adattatori CLS rapidi passati.
-- F3.6f.2 in commit: vista Materiali accorpata nel Desktop, prove materiali/report e 458 file equivalenti; report brevi WPF passati in 024042-f3-material-move-short-final.
+- F3.6f.2 4240dfb: vista Materiali accorpata nel Desktop, prove materiali/report e 458 file equivalenti; report brevi WPF passati in 024042-f3-material-move-short-final.
 
 Soglie correnti: 143 TypeRef Calculations, 36 CompositeBridge, 3 Concrete, 6 Geotechnics; 6 async void; 4 DispatcherTimer, solo gerarchia/Wiki. Nessun timer di calcolo residuo. Le fixture ingegneristiche non sono state aggiornate.
 
 ## Seguito
 
-1. BridgeDesign: ricalcolo ritardato, confronto/proposte su servizi e annullamento alla chiusura.
+1. BridgeDesign F3.6g completato: ricalcolo ritardato, confronto/proposte su servizi e annullamento alla chiusura; 31 prove WPF, smoke e Application superati. Commit nel log.
 2. CA: coordinamento di domini, SLE, taglio e cache nello strato Application. Preservare attesi, dettagli, riepiloghi e stato delle tabelle.
 3. F3.5b: report progetto autonomo, senza SheetEditor; figure tramite contratto condiviso. Materiali sono già autonomi, altri moduli ancora da completare.
 4. F3.7: verificare il confine effettivo, aggiornare guide del tool, suite complete, versione e integrazione/push a fase conclusa. Nessuna dichiarazione di chiusura se rimangono dipendenze concrete.

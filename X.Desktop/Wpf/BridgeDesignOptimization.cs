@@ -1,4 +1,5 @@
 using System.Globalization;
+using Anthea.Application.Modules;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -49,7 +50,7 @@ internal sealed partial class BridgeDesignWorkspace
         optimizationStatus.Text = "Intervallo suggerito dalle luci usuali e dalla lunghezza totale. Ostacoli e luce delle singole campate saranno controllati durante la ricerca.";
     }
     private static JsonObject OptimizationSnapshot(JsonObject source)
-    { var result = Clone(source); result.Remove("alternative_a"); result.Remove("scene"); return result; }
+    => BridgeDesignAnalysis.OptimizationSnapshot(source);
     private void ResetOptimizationDisplay()
     {
         Optimization = null; selectedSolution = -1; optimizationRanking = null; optimizationResults.Content = null; optimizationChanges.Content = null;
@@ -70,46 +71,56 @@ internal sealed partial class BridgeDesignWorkspace
     }
     internal async Task RunOptimization(BridgeConcept.OptimizationOptions? requested = null)
     {
-        if (optimizationCancellation is not null) return;
-        if (Calculation is null) { optimizationStatus.Text = "Completa prima i dati del ponte."; return; }
-        bool Keep(string k) => optimizationLocks[k].IsChecked == true;
-        double Read(TextBox box) => double.Parse(box.Text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture);
-        BridgeConcept.OptimizationOptions options;
+        if (disposed || optimizationCancellation is not null) return;
+        using var operation = new CancellationTokenSource();
+        optimizationCancellation = operation;
+        var token = operation.Token;
+        optimizationRun.IsEnabled = false;
         try
         {
-            options = requested ?? new BridgeConcept.OptimizationOptions {
-                Objective = (BridgeConcept.OptimizationObjective)Math.Max(0, optimizationObjective.SelectedIndex),
-                KeepFamily = Keep("family"), KeepSpans = Keep("spans"), KeepDepth = Keep("depth"), KeepSection = Keep("section"),
-                KeepPier = Keep("pier"), KeepFoundation = Keep("foundation"), KeepContinuity = Keep("continuous"),
-                MinSpans = int.Parse(optimizationMin.Text), MaxSpans = int.Parse(optimizationMax.Text), MinDepth = Read(optimizationMinDepth), MaxDepth = Read(optimizationDepth),
-                DepthPercentMin = Keep("depth") ? 100 : Read(depthFrom), DepthPercentMax = Keep("depth") ? 115 : Read(depthTo), DepthPercentStep = Keep("depth") ? 15 : Read(depthStep),
-                PilePercentMin = Keep("foundation") ? 100 : Read(pileFrom), PilePercentMax = Keep("foundation") ? 150 : Read(pileTo), PilePercentStep = Keep("foundation") ? 25 : Read(pileStep)
-            };
-        }
-        catch (Exception ex) when (ex is FormatException or OverflowException) { optimizationStatus.Text = "Inserire numeri validi nei limiti di ricerca."; return; }
-        ResetOptimizationDisplay(); var snapshot = OptimizationSnapshot(Data); optimizationSource = snapshot;
-        optimizationCancellation = new CancellationTokenSource(); var token = optimizationCancellation.Token;
-        optimizationRun.IsEnabled = false; optimizationStatus.Text = "Ricerca in corso…";
-        var watch = System.Diagnostics.Stopwatch.StartNew(); long previewTime = -500; string? previewKey = null;
-        var progress = new Progress<BridgeConcept.OptimizationProgress>(p => {
-            if (token.IsCancellationRequested || Optimization is not null || !ReferenceEquals(snapshot, optimizationSource) || optimizationCancellation is null) return;
-            liveTrials.AddRange(p.NewTrials); OptimizationTrace.SetData(liveTrials.ToArray(), [], Calculation);
-            OptimizationCloud.SetData(liveTrials.Where(t => t.Admissible).ToArray(), [], Calculation);
-            optimizationProgress.Maximum = p.Planned; optimizationProgress.Value = p.Evaluated;
-            optimizationStatus.Text = $"{p.Evaluated:N0} calcolate · {p.Admissible:N0} ammesse · griglia fino a {p.Planned:N0} tentativi (prima dei duplicati).";
-            if (p.Best is { } best && watch.ElapsedMilliseconds - previewTime >= 500 && best.Data["input"]!.ToJsonString() != previewKey)
+            if (Calculation is null)
             {
-                previewTime = watch.ElapsedMilliseconds; previewKey = best.Data["input"]!.ToJsonString();
-                OptimizationPreview.Data = best.Data; OptimizationPreview.Result = best.Result; OptimizationPreview.InvalidateVisual();
-                optimizationSelection.Text = "Migliore provvisorio · " + best.Result.Family.Name;
-                optimizationBest.Text = $"{F(best.Result.TotalCost, "N0")} € · {F(best.Result.Carbon, "N0")} tCO₂e · graduatoria in corso";
+                optimizationStatus.Text = "Attesa dell’aggiornamento del ponte…";
+                await WaitForCalculationAsync().WaitAsync(token);
             }
-        });
-        try
-        {
-            var result = await Task.Run(() => BridgeConcept.Optimize(snapshot, options, token, progress), token);
             token.ThrowIfCancellationRequested();
-            if (!ReferenceEquals(snapshot, optimizationSource) || !JsonNode.DeepEquals(snapshot, OptimizationSnapshot(Data))) return;
+            if (disposed) return;
+            if (Calculation is null) { optimizationStatus.Text = "Completa prima i dati del ponte."; return; }
+            bool Keep(string k) => optimizationLocks[k].IsChecked == true;
+            double Read(TextBox box) => double.Parse(box.Text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture);
+            BridgeConcept.OptimizationOptions options;
+            try
+            {
+                options = requested ?? new BridgeConcept.OptimizationOptions {
+                    Objective = (BridgeConcept.OptimizationObjective)Math.Max(0, optimizationObjective.SelectedIndex),
+                    KeepFamily = Keep("family"), KeepSpans = Keep("spans"), KeepDepth = Keep("depth"), KeepSection = Keep("section"),
+                    KeepPier = Keep("pier"), KeepFoundation = Keep("foundation"), KeepContinuity = Keep("continuous"),
+                    MinSpans = int.Parse(optimizationMin.Text), MaxSpans = int.Parse(optimizationMax.Text), MinDepth = Read(optimizationMinDepth), MaxDepth = Read(optimizationDepth),
+                    DepthPercentMin = Keep("depth") ? 100 : Read(depthFrom), DepthPercentMax = Keep("depth") ? 115 : Read(depthTo), DepthPercentStep = Keep("depth") ? 15 : Read(depthStep),
+                    PilePercentMin = Keep("foundation") ? 100 : Read(pileFrom), PilePercentMax = Keep("foundation") ? 150 : Read(pileTo), PilePercentStep = Keep("foundation") ? 25 : Read(pileStep)
+                };
+            }
+            catch (Exception ex) when (ex is FormatException or OverflowException) { optimizationStatus.Text = "Inserire numeri validi nei limiti di ricerca."; return; }
+            ResetOptimizationDisplay(); var snapshot = OptimizationSnapshot(Data); optimizationSource = snapshot;
+            optimizationStatus.Text = "Ricerca in corso…";
+            var watch = System.Diagnostics.Stopwatch.StartNew(); long previewTime = -500; string? previewKey = null;
+            var progress = new Progress<BridgeConcept.OptimizationProgress>(p => {
+                if (disposed || token.IsCancellationRequested || Optimization is not null || !ReferenceEquals(snapshot, optimizationSource) || optimizationCancellation is null) return;
+                liveTrials.AddRange(p.NewTrials); OptimizationTrace.SetData(liveTrials.ToArray(), [], Calculation);
+                OptimizationCloud.SetData(liveTrials.Where(t => t.Admissible).ToArray(), [], Calculation);
+                optimizationProgress.Maximum = p.Planned; optimizationProgress.Value = p.Evaluated;
+                optimizationStatus.Text = $"{p.Evaluated:N0} calcolate · {p.Admissible:N0} ammesse · griglia fino a {p.Planned:N0} tentativi (prima dei duplicati).";
+                if (p.Best is { } best && watch.ElapsedMilliseconds - previewTime >= 500 && best.Data["input"]!.ToJsonString() != previewKey)
+                {
+                    previewTime = watch.ElapsedMilliseconds; previewKey = best.Data["input"]!.ToJsonString();
+                    OptimizationPreview.Data = best.Data; OptimizationPreview.Result = best.Result; OptimizationPreview.InvalidateVisual();
+                    optimizationSelection.Text = "Migliore provvisorio · " + best.Result.Family.Name;
+                    optimizationBest.Text = $"{F(best.Result.TotalCost, "N0")} € · {F(best.Result.Carbon, "N0")} tCO₂e · graduatoria in corso";
+                }
+            });
+            var result = await Task.Run(() => BridgeDesignAnalysis.Optimize(snapshot, options, token, progress), token);
+            token.ThrowIfCancellationRequested();
+            if (disposed || !ReferenceEquals(snapshot, optimizationSource) || !JsonNode.DeepEquals(snapshot, OptimizationSnapshot(Data))) return;
             Optimization = result; optimizationProgress.Maximum = Math.Max(1, result.Evaluated); optimizationProgress.Value = result.Evaluated;
             OptimizationTrace.SetData(result.Trials, result.Solutions, result.Baseline); OptimizationCloud.SetData(result.Trials, result.Solutions, result.Baseline);
             optimizationStatus.Text = $"{result.Evaluated:N0} calcolate · {result.Admissible:N0} ammesse · {result.Solutions.Length:N0} geometrie distinte · {result.Evaluated - result.Admissible:N0} escluse.";
@@ -122,9 +133,13 @@ internal sealed partial class BridgeDesignWorkspace
             else { OptimizationPreview.Result = null; OptimizationPreview.Data = null; OptimizationPreview.InvalidateVisual(); optimizationBest.Text = "Nessuna soluzione ammessa: esamina i motivi di esclusione."; optimizationSelection.Text = "Nessuna anteprima disponibile"; }
             RefreshOptimizationRanking();
         }
-        catch (OperationCanceledException) { ResetOptimizationDisplay(); optimizationStatus.Text = "Ricerca interrotta. Nessuna modifica applicata al ponte."; }
-        catch (ArgumentException ex) { ResetOptimizationDisplay(); optimizationStatus.Text = ex.Message; }
-        finally { optimizationCancellation.Dispose(); optimizationCancellation = null; optimizationRun.IsEnabled = true; }
+        catch (OperationCanceledException) { if(disposed)return; ResetOptimizationDisplay(); optimizationStatus.Text = "Ricerca interrotta. Nessuna modifica applicata al ponte."; }
+        catch (ArgumentException ex) { if(disposed)return; ResetOptimizationDisplay(); optimizationStatus.Text = ex.Message; }
+        finally
+        {
+            if (ReferenceEquals(optimizationCancellation, operation)) optimizationCancellation = null;
+            if (!disposed) optimizationRun.IsEnabled = true;
+        }
     }
     private void RefreshOptimizationRanking()
     {
@@ -145,7 +160,7 @@ internal sealed partial class BridgeDesignWorkspace
     internal void SelectOptimization(int index)
     {
         if (Optimization is not { } result || index < 0 || index >= result.Solutions.Length) return;
-        selectedSolution = index; var c = result.Solutions[index]; var r = BridgeConcept.Calculate(c.Data);
+        selectedSolution = index; var c = result.Solutions[index]; var r = ModuleServices.Get(BridgeConcept.Module).Calculate(c.Data).NativeAs<BridgeConcept.Result>();
         OptimizationPreview.Data = c.Data; OptimizationPreview.Result = r; OptimizationPreview.InvalidateVisual(); optimizationApply.IsEnabled = true;
         OptimizationCloud.SelectedRank = c.Rank; OptimizationCloud.InvalidateVisual();
         if (optimizationRanking is not null) optimizationRanking.SelectedIndex = index < optimizationRanking.Items.Count ? index : -1;
