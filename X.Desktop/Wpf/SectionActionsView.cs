@@ -48,7 +48,8 @@ internal static class SectionActionsView
         var footer = Ui.Stack(status, Ui.Bar(Ui.Button("Applica", () => { Commit(); if (vm.Apply()) dialog!.DialogResult = true; }, true), Ui.Button("Annulla", () => dialog!.DialogResult = false)));
         dialog = Ui.Dialog(owner, "Sollecitazioni della sezione", Ui.Dock(grid, top: Ui.Stack(Ui.Text(vm.Guidance, 12), notice, commands, files), bottom: footer), 1280, 720);
         dialog.Background = Appearance.Surface;
-        ((FrameworkElement)dialog.Content).Margin = new Thickness(14);
+        var body = (UIElement)dialog.Content; dialog.Content = null;
+        dialog.Content = new Border { Background = Appearance.Surface, Padding = new Thickness(14), Child = body };
         dialog.DataContext = vm;
         return dialog;
     }
