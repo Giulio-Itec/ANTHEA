@@ -25,6 +25,23 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-17",
+      "data": "2026-10-14",
+      "fase": "F4.10c.2",
+      "titolo": "Ricerca armature muri nel motore Design",
+      "famiglia": "muri",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Catalogo, filtro superiore, rete secondaria, ammissibilità e continuità conteggi nel motore GPC.Design. Adattatore documentale con sezioni GPC condivise; nessuna mutazione input. Proposte/esiti identici al congelato, 68184 confronti completi con ricerca precedente sugli stessi servizi meccanici. Verifiche vuote/rapporti non finiti rifiutati. Legacy diagnostico conservato; distribuzione F4.9.",
+      "test": [
+        "6 PASS runner, 12 cataloghi, 3 rifiuti, scarto numerico zero"
+      ],
+      "evidenze": [
+        "tests/ConcreteLibraryAdapter.Checks/F4WallDesignChecks.cs",
+        "supporto/artefatti/refactoring/f4/wall-design-a.log"
+      ]
+    },
+    {
       "id": "F4-16",
       "data": "2026-10-14",
       "fase": "F4.10b.2",

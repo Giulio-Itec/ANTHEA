@@ -127,8 +127,9 @@ public static partial class RetainingWall
 
     /// <param name="serviceabilityEngine">Motore SLE delle sezioni (tensioni e fessurazione) di ogni candidato e del calcolo finale; null =
     /// predefinito dell'adattatore (refactoring F2.7b, commit A4).</param>
-    public static ReinforcementProposal DesignReinforcement(JsonObject input, CancellationToken token = default, ServiceabilityEngine? serviceabilityEngine = null)
+    public static ReinforcementProposal DesignReinforcement(JsonObject input, CancellationToken token = default, ServiceabilityEngine? serviceabilityEngine = null, bool legacy = false)
     {
+        if (!legacy && serviceabilityEngine is null) return DesignReinforcementNative(input, token);
         var d = (JsonObject)input.DeepClone(); Upgrade(d);
         if (d.S("family") != "cantilever") throw new ArgumentException("Il predimensionamento delle armature richiede un muro a mensola in c.a.");
         var original = Calculate(d, token, serviceabilityEngine); var opt = d["detailing"]!;
