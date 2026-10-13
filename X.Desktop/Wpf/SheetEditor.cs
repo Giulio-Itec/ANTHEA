@@ -1,3 +1,9 @@
+using Anthea.Application.Materials;
+using Anthea.Application.Walls;
+using Anthea.Application.BridgeDesign;
+using Anthea.Application.Modules;
+using Anthea.Application.Scheduling;
+using Anthea.Reports;
 using System.IO;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -36,7 +42,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     internal event Action<string, JsonObject, string>? ModuleCopyRequested;
     internal event Action<JsonObject>? SoilReplacementRequested;
     private bool building = true, disposed;
-    private int revision, expanded = -1;
+    private int expanded = -1;
     private bool Micro => Module == "geo_micropalo_verticale";
     private bool Pile => Module == "geo_palo_verticale";
     private bool Geo => Pile || Micro;
@@ -48,7 +54,9 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private readonly TextBlock status = Ui.Text("Dati da verificare · premere Calcola", color: Ui.Muted);
     private readonly TextBox warnings = new() { IsReadOnly = true, TextWrapping = TextWrapping.Wrap, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Background = Appearance.Background("#FFFAEB"), MaxHeight = 62, Visibility = Visibility.Collapsed };
     private readonly Button calculate;
-    private readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(450) };
+    private readonly RecalculationScheduler recalculation = new();
+    private readonly ModuleCalculationSession calculationSession;
+    private Task scheduledCalculation = Task.CompletedTask;
     private readonly Plot plot = new() { Capacity = true }, reference = new() { InvertY = false };
     private readonly StratigraphyDrawing stratigraphy = new();
     private readonly TabControl outputs = new(), sondages = new();
@@ -66,9 +74,10 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private List<Tabella> tables = [];
     private InputForm generalForm = null!, normativeForm = null!, efficiencyForm = null!;
 
-    internal SheetEditor(string module, JsonObject data)
+    internal SheetEditor(string module, JsonObject data, IModuleService? calculationService = null)
     {
-        _ = ModuleCatalog.Get(module);
+        _ = ModuleDirectory.Get(module);
+        calculationSession = new(calculationService ?? ModuleServices.Get(module));
         Module = module; Data = (JsonObject)data.DeepClone(); Background = Appearance.Surface;
         SetValue(WikiContextHelp.ModuleProperty, module);
         KeyDown += (_, e) =>
@@ -83,8 +92,8 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
             foundation = new FoundationWorkspace(Data); foundation.Modified += () => Modified?.Invoke();
             foundation.ReportRequested += () => ReportRequested?.Invoke(); foundation.SoilTransferRequested += OpenSoilTransfer; Content = foundation; building = false; return;
         }
-        if (module == HorizontalPileGroup.Module) { pileGroup = new HorizontalPileGroupWorkspace(Data); pileGroup.Modified += () => Modified?.Invoke(); Content = pileGroup; building = false; return; }
-        if (module == RetainingWall.Module)
+        if (module == HorizontalPileGroupEditor.Module) { pileGroup = new HorizontalPileGroupWorkspace(Data); pileGroup.Modified += () => Modified?.Invoke(); Content = pileGroup; building = false; return; }
+        if (module == WallModel.Module)
         {
             retainingWall = new RetainingWallWorkspace(Data); retainingWall.Modified += () => Modified?.Invoke();
             retainingWall.SectionRequested += (section, name) => ConcreteSectionRequested?.Invoke(section, name);
@@ -92,24 +101,24 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
             retainingWall.SoilTransferRequested += OpenSoilTransfer;
             Content = retainingWall; building = false; return;
         }
-        if (module == BridgeConcept.Module)
+        if (module == BridgeDesignModel.Module)
         {
             bridgeDesign = new BridgeDesignWorkspace(Data); bridgeDesign.Modified += () => Modified?.Invoke(); Content = bridgeDesign; building = false; return;
         }
-        if (module == BridgeSection.Module)
+        if (module == BridgeEditor.Module)
         {
             bridge = new BridgeWorkspace(Data); bridge.Modified += () => Modified?.Invoke(); Content = bridge; building = false; return;
         }
-        if (module is PaloOrizzontale.Module or MicropaloOrizzontale.Module)
+        if (module is HorizontalPileEditor.Module or MicropaloOrizzontale.Module)
         {
             horizontal = new HorizontalWorkspace(Data); horizontal.Modified += () => Modified?.Invoke(); Content = Ui.Dock(horizontal, Ui.Bar(Ui.Button("Invia / carica terreno…", OpenSoilTransfer))); building = false; return;
         }
         if (module == "mat_calcestruzzo")
         {
-            materials = new Materiali.MaterialView((label, key) => WikiContextHelp.Label(label, key, "mat_calcestruzzo")); materials.RestoreState(Data);
+            materials = new Materiali.MaterialView((label, key) => WikiContextHelp.Label(label, key, "mat_calcestruzzo")); materials.RestoreState(Materiali.MaterialSheetInput.NormalizeState(Data));
             materials.Modified += () => Modified?.Invoke(); Content = materials; building = false; return;
         }
-        if (module == RebarMaterial.Module)
+        if (module == RebarEditor.Module)
         {
             rebarMaterial = new RebarMaterialView(Data); rebarMaterial.Modified += () => Modified?.Invoke(); Content = rebarMaterial; building = false; return;
         }
@@ -127,20 +136,18 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         BuildGeo();
         scroll.SizeChanged += (_, _) => LayoutCards();
         scroll.ScrollChanged += (_, e) => { if (e.Source == scroll && (e.ViewportWidthChange != 0 || e.ViewportHeightChange != 0)) LayoutCards(); };
-        timer.Tick += TimerTick;
         building = false; Preview(); LayoutCards(); if (Geo) QueueCalculation();
     }
-    private async void TimerTick(object? sender, EventArgs args) { if (Busy) return; timer.Stop(); if (!disposed) await CalculateAsync(commitEdits: false); }
     internal void OpenSoilTransfer()
     {
         Commit(); var dialog = new SoilTransferDialog(Window.GetWindow(this), Module, Data);
         if (dialog.ShowDialog() != true || dialog.Output is null) return;
         if (dialog.Replace) SoilReplacementRequested?.Invoke(dialog.Output);
-        else if (dialog.DestinationModule is string target) ModuleCopyRequested?.Invoke(target, dialog.Output, "Terreno da " + ModuleCatalog.Get(Module).Element);
+        else if (dialog.DestinationModule is string target) ModuleCopyRequested?.Invoke(target, dialog.Output, "Terreno da " + ModuleDirectory.Get(Module).Element);
     }
     private Action? releaseRevisionInspection;
     internal void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);
-    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); timer.Stop(); timer.Tick -= TimerTick; concrete?.Dispose(); horizontal?.Dispose(); pileGroup?.Dispose(); bridge?.Dispose(); retainingWall?.Dispose(); }
+    public void Dispose() { disposed = true; releaseRevisionInspection?.Invoke(); recalculation.Dispose(); calculationSession.Clear(); concrete?.Dispose(); horizontal?.Dispose(); pileGroup?.Dispose(); bridge?.Dispose(); retainingWall?.Dispose(); bridgeDesign?.Dispose(); }
     internal void Commit() { if (foundation is not null) foundation.Commit(); else if (pileGroup is not null) pileGroup.Commit(); else if (retainingWall is not null) retainingWall.Commit(); else if (materials is not null) { var state = materials.CaptureState(); Data.Clear(); foreach (var pair in state) Data[pair.Key] = pair.Value?.DeepClone(); } else if (bridge is not null) bridge.Commit(); else if (rebarMaterial is not null) rebarMaterial.Commit(); else if (horizontal is not null) horizontal.Commit(); else if (concrete is not null) concrete.Commit(); else foreach (var grid in layerGrids) grid.Commit(); }
     private void AddCard(string title, UIElement content, bool expandable = false, UIElement? action = null)
     {
@@ -217,35 +224,55 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private void Changed()
     {
         if (building || disposed) return;
-        revision++; Result = null; tables = []; tableSelect.Items.Clear(); tableHost.Content = null; warnings.Text = ""; warnings.Visibility = Visibility.Collapsed;
+        recalculation.Invalidate(); Result = null; tables = []; tableSelect.Items.Clear(); tableHost.Content = null; warnings.Text = ""; warnings.Visibility = Visibility.Collapsed;
         status.Text = "Dati modificati · premere Calcola"; allSeries.Clear(); visibility.Clear(); curveChoices.Children.Clear(); plot.Series = []; plot.InvalidateVisual();
         raw.Text = "Dati modificati · risultati da ricalcolare";
         Preview(); LayoutCards(); UpdateVerification(); QueueCalculation(); Modified?.Invoke();
     }
-    private void QueueCalculation() { if (!Geo || building || disposed) return; timer.Stop(); timer.Start(); status.Text = "Aggiornamento automatico in attesa…"; }
+    private void QueueCalculation()
+    {
+        if (!Geo || building || disposed) return;
+        status.Text = "Aggiornamento automatico in attesa…";
+        scheduledCalculation = CalculateScheduledAsync(TimeSpan.FromMilliseconds(450), commitEdits: false);
+    }
     internal async Task CalculateAsync(bool commitEdits = true)
     {
         if (foundation is not null) { foundation.TryCalculate(); return; }
         if (pileGroup is not null) { pileGroup.TryCalculate(); return; }
         if (retainingWall is not null) { await retainingWall.CalculateAsync(); return; }
-        if (bridgeDesign is not null) { bridgeDesign.Recalculate(); return; }
+        if (bridgeDesign is not null) { await bridgeDesign.CalculateAsync(); return; }
         if (bridge is not null) { await bridge.CalculateAsync(commitEdits); return; }
         if (materials is not null || rebarMaterial is not null) { Commit(); return; }
         if (horizontal is not null) { await horizontal.CalculateActiveAsync(); return; }
         if (concrete is not null) { await concrete.CalculateAllAsync(); return; }
-        if (Busy || disposed) return; if (commitEdits) Commit(); timer.Stop(); Busy = true; calculate.IsEnabled = false; if (!Geo) canvas.IsEnabled = false;
-        int requested = revision; var snapshot = (JsonObject)Data.DeepClone(); status.Text = "Calcolo in corso…";
-        try
+        scheduledCalculation = CalculateScheduledAsync(TimeSpan.Zero, commitEdits);
+        await scheduledCalculation;
+    }
+    private async Task CalculateScheduledAsync(TimeSpan delay, bool commitEdits)
+    {
+        if (disposed) return;
+        if (commitEdits) Commit();
+        var snapshot = (JsonObject)Data.DeepClone();
+        var completed = await recalculation.ScheduleAsync(async token =>
         {
-            var result = await Task.Run(() => CalculationService.Calculate(Module, snapshot));
-            if (disposed || requested != revision) return;
-            if (result.S("errore") != "") { Result = null; status.Text = "Dati da completare: " + result.S("errore"); SetWarnings(Geo ? "" : result.S("errore")); return; }
-            Result = result; SetWarnings(string.Join(Environment.NewLine, result.Array("avvisi").Select(v => v!.ToString())));
-            ShowGeoResults();
-            raw.Text = Result.ToJsonString(J.Options); status.Text = "Calcolo completato · risultati riferiti ai dati correnti";
-        }
-        catch (Exception ex) { Result = null; status.Text = "Errore: " + ex.Message; SetWarnings(ex.Message); }
-        finally { Busy = false; if (!disposed) { calculate.IsEnabled = true; canvas.IsEnabled = true; if (Geo && requested != revision) timer.Start(); } }
+            Busy = true; calculate.IsEnabled = false; if (!Geo) canvas.IsEnabled = false;
+            status.Text = "Calcolo in corso…";
+            try { return (await Task.Run(() => calculationSession.Calculate(snapshot, token), token)).Values; }
+            finally { Busy = false; if (!disposed) { calculate.IsEnabled = true; canvas.IsEnabled = true; } }
+        }, delay);
+        completed.TryPublish(current =>
+        {
+            try
+            {
+                if (current.Error is not null) throw current.Error;
+                var calculated = current.Value!;
+                if (calculated.S("errore") != "") { Result = null; status.Text = "Dati da completare: " + calculated.S("errore"); SetWarnings(Geo ? "" : calculated.S("errore")); return; }
+                Result = calculated; SetWarnings(string.Join(Environment.NewLine, calculated.Array("avvisi").Select(v => v!.ToString())));
+                ShowGeoResults(); raw.Text = Result.ToJsonString(J.Options);
+                status.Text = "Calcolo completato · risultati riferiti ai dati correnti";
+            }
+            catch (Exception ex) { Result = null; status.Text = "Errore: " + ex.Message; SetWarnings(ex.Message); }
+        });
     }
     private void SetWarnings(string text) { warnings.Text = text; warnings.Visibility = string.IsNullOrWhiteSpace(text) ? Visibility.Collapsed : Visibility.Visible; }
     private void PopulateTables()
@@ -324,58 +351,22 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     }
     internal ReportProject.SheetContent MaterialReportContent()
     {
-        Commit();
-        var derived = new List<ProjectReportPlan.InputValue>();
-        if (materials is not null)
-        {
-            foreach (var row in materials.ReportProperties())
-                derived.Add(new("Calcestruzzo", row.Nome + (row.Simbolo.Length > 0 ? " · " + row.Simbolo : "") + (row.Unita.Length > 0 ? " [" + row.Unita + "]" : ""), JsonValue.Create(row.Valore)));
-            return new(Error: derived.Any(v => v.Value?.ToString() == "Da completare") ? "Completare i dati per aderenza o copriferro; vedere i dettagli della scheda." : null, Derived: derived);
-        }
-        if (rebarMaterial is null) throw new InvalidOperationException("La scheda non è un materiale.");
-        try
-        {
-            var values = RebarMaterial.Evaluate(Data["input"]!.AsObject());
-            derived.Add(new("Acciaio", "Resistenza di progetto fyd [MPa]", JsonValue.Create(values.Fyd)));
-            derived.Add(new("Acciaio", "Deformazione εyd [‰]", JsonValue.Create(values.EpsilonYd)));
-            derived.Add(new("Acciaio", "Rapporto fu / fyk", JsonValue.Create(values.Ratio)));
-            return new(Derived: derived);
-        }
-        catch (ArgumentException ex) { return new(Error: ex.Message); }
+        Commit(); return Materiali.MaterialReportChapter.Create(Module, Data);
     }
-    internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false)
+    internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => DocxWriter.Write(BuildReportDocument(title, options, projectReport));
+    internal DocxDocument BuildReportDocument(string title, HashSet<string> options, bool projectReport = false)
     {
-        if (foundation is not null) return Anthea.FoundationWorkspace.FoundationReport.Word(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));
-        if (pileGroup is not null) return ReportPileGroup.Create(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));
-        if (retainingWall is not null) return retainingWall.BuildReport(title);
-        if (bridgeDesign is not null) return bridgeDesign.BuildReport(title);
-        if (bridge is not null) return bridge.BuildReport(title, options, projectReport);
-        if (concrete is not null) return concrete.BuildReport(title, options, projectReport);
+        if (foundation is not null) return Anthea.FoundationWorkspace.FoundationReport.WordDocument(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));
+        if (pileGroup is not null) return ReportPileGroup.CreateDocument(title, Result ?? throw new InvalidOperationException("Calcolare prima di esportare."));
+        if (retainingWall is not null) return retainingWall.BuildReportDocument(title);
+        if (bridgeDesign is not null) return bridgeDesign.BuildReportDocument(title);
+        if (bridge is not null) return bridge.BuildReportDocument(title, options, projectReport);
+        if (concrete is not null) return concrete.BuildReportDocument(title, options, projectReport);
         if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
-        if (horizontal is not null && Result.S("tipo_risultato") == "palo_elastico") return ReportElasticPile.Create(title, Result);
-        if (horizontal is not null) return ReportOrizzontale.Create(title, Result, !projectReport, horizontal.ReportFigures());
-        var images = new List<ImmagineReport> { new(plot.Title, plot.Png(), "grafico_capacita") };
-        if (Micro)
-        {
-            try
-            {
-                for (int i = 0; i < Data.Array("stratigrafie").Count; i++)
-                {
-                    BuildReferencePlot(i);
-                    images.Add(new($"Abachi Bustamante–Doix del sondaggio {i + 1}", reference.Png(), "grafico_nq"));
-                }
-            }
-            finally { BuildReferencePlot(); }
-        }
-        else images.Add(new(reference.Title, reference.Png(), "grafico_nq"));
-        for (int i = 0; i < Data.Array("stratigrafie").Count; i++)
-        {
-            var profile = new StratigraphyDrawing { Data = Data, Micro = Micro, SelectedIndex = i, ShowAll = false };
-            images.Add(new($"Profilo del sondaggio {i + 1}", profile.Png(720, Micro ? 600 : 900), "stratigrafia", i));
-        }
-        bool old = stratigraphy.ShowAll; stratigraphy.ShowAll = true;
-        try { images.Add(new("Profilo stratigrafico", stratigraphy.Png(), "grafico_profilo")); } finally { stratigraphy.ShowAll = old; }
-        return ReportWord.Create(title, Module, Data, Result, options, images, !projectReport);
+        if (horizontal is not null && Result.S("tipo_risultato") == "palo_elastico") return ReportElasticPile.CreateDocument(title, Result);
+        if (horizontal is not null) return ReportOrizzontale.CreateDocument(title, Result, !projectReport, horizontal.ReportFigures());
+        var images = ModuleFigureRenderer.VerticalFigures(Data, Result, Micro, plot, reference);
+        return ReportWord.CreateDocument(title, Module, Data, Result, options, images.Select(f => f.Image()).ToList(), !projectReport);
     }
     private void SavePlot()
     { var save = new SaveFileDialog { Filter = "Immagine PNG|*.png", FileName = "capacita.png" }; if (save.ShowDialog(Window.GetWindow(this)) == true) Archivio.ScriviAtomico(save.FileName, plot.Png()); }

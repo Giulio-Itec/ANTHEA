@@ -1,0 +1,12 @@
+## Percorso completo per un primo progetto
+
+1. Avviare ANTHEA, creare un progetto e assegnargli un nome riconoscibile. Salvare subito l'archivio in una cartella di commessa.
+2. Definire i materiali comuni e organizzare i rami prima di moltiplicare i fogli. Controllare il significato della condivisione ai livelli scelti.
+3. Per un ponte preliminare aprire Bridge Design, impostare sito, larghezza e famiglia, quindi sostituire il listino. Fissare A e costruire una seconda configurazione.
+4. Leggere gli avvisi, le campate effettive e il dettaglio delle quantità. Salvare la soluzione prescelta con una nota che descriva le ipotesi ancora da consolidare.
+5. Creare i fogli di verifica locale necessari. Per la sezione composta assegnare geometria e azioni locali da analisi; per le fondazioni inserire indagini e dati geotecnici effettivi. Non trasferire indiscriminatamente i carichi uniformi di Bridge Design.
+6. Esaminare risultati, convergenza e verifiche mancanti. Fare almeno un controllo manuale di unità ed equilibrio per ciascun tipo di modello.
+7. Risolvere i conflitti dei dati comuni, creare una revisione e generare il report del ramo o del progetto. Conservare insieme archivio, report e identificazione della versione.
+
+Questo percorso può essere abbreviato per un controllo isolato: il progetto non è obbligatorio per usare un singolo foglio. Diventa utile quando più calcoli devono restare coerenti e quando si vogliono confrontare modifiche nel tempo.
+

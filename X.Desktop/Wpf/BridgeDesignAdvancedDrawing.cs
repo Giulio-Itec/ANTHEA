@@ -1,3 +1,4 @@
+using Anthea.Application.BridgeDesign;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Media;
@@ -6,7 +7,7 @@ namespace X.Desktop;
 
 internal sealed partial class BridgeDesignDrawing
 {
-    private static void DrawUpperStructure(DrawingContext dc, BridgeConcept.Result r, BridgeConcept.AdvancedGeometry a, double start, double xs, double deckY, double ground)
+    private static void DrawUpperStructure(DrawingContext dc, BridgeDesignModel.Result r, BridgeDesignModel.AdvancedGeometry a, double start, double xs, double deckY, double ground)
     {
         if (a.Members.Length == 0) return;
         double maxZ = Math.Max(a.TowerHeight, a.Members.Max(m => Math.Max(m.Z1, m.Z2))), zs = 118 / Math.Max(1, maxZ);
@@ -25,7 +26,7 @@ internal sealed partial class BridgeDesignDrawing
         { Box(dc, x - 18, deckY + 18, 36, 22, Concrete); dc.DrawLine(new Pen(Accent, 2), new(x, deckY), new(x, deckY + 25)); }
         if (r.Family.Id is "tied_arch" or "truss" or "suspension") Text(dc, (r.Family.Id == "truss" ? "h reticolare = " : "f = ") + F(a.Rise) + " m", 435, 43, 12, Accent, true);
     }
-    private static void DrawExtendedSection(DrawingContext dc, BridgeConcept.Result r, JsonNode i)
+    private static void DrawExtendedSection(DrawingContext dc, BridgeDesignModel.Result r, JsonNode i)
     {
         var a = r.Advanced!; double left = 100, width = 800, xs = width / r.Width, top = 150;
         double ys = Math.Min(115, 150 / r.Depth), d = r.Depth * ys;

@@ -1,3 +1,6 @@
+using Anthea.Application.Concrete;
+using Anthea.Application.Walls;
+using Anthea.Application.Materials;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,23 +18,23 @@ internal sealed partial class RetainingWallWorkspace
         string[] Choices(JsonObject[] catalog, string key) => catalog.Select(x => x.S("nome")).Append(m.S(key)).Append("Personalizzato").Distinct().ToArray();
         var form = Form("materials", new Field[] {
             new("gamma", "Peso specifico muro", "kN/m³"),
-            new("classe_cls", "Calcestruzzo da normativa", Choices: Choices(ConcreteMaterialCatalog.Concrete("NTC 2018"), "classe_cls")),
+            new("classe_cls", "Calcestruzzo da normativa", Choices: Choices(MaterialInputCatalog.Concrete("NTC 2018"), "classe_cls")),
             new("materiale_cls_nome", "Nome CLS personalizzato"), new("fck", "fck", "MPa"),
-            new("cls_diagramma", "Diagramma CLS", Choices: ConcreteMaterials.ConcreteDiagrams, Note: FieldNotes.StressBlock),
+            new("cls_diagramma", "Diagramma CLS", Choices: MaterialInputCatalog.ConcreteDiagrams, Note: FieldNotes.StressBlock),
             new("__fcd", "fcd", "MPa", ReadOnly: true), new("__ecm", "Ecm", "MPa", ReadOnly: true),
-            new("classe_acciaio", "Acciaio da normativa", Choices: Choices(ConcreteMaterialCatalog.Steel(false, "NTC 2018"), "classe_acciaio")),
+            new("classe_acciaio", "Acciaio da normativa", Choices: Choices(MaterialInputCatalog.Steel(false, "NTC 2018"), "classe_acciaio")),
             new("materiale_acciaio_nome", "Nome acciaio personalizzato"), new("fyk", "fyk", "MPa"), new("steel_modulus_mpa", "Es", "MPa"),
             new("steel_fu_mpa", "fu", "MPa"), new("steel_eps_u", "εu", "‰"), new("steel_diagramma", "Diagramma acciaio", Choices: ["Elastoplastico", "Incrudente"]),
             new("__fyd", "fyd", "MPa", ReadOnly: true), new("alpha_cc", "αcc"), new("gamma_c", "γc"), new("gamma_s", "γs"),
-            new("cover", "Copriferro netto adottato", "mm"), new("exposure", "Esposizione", Choices: ConcreteLibraryMapping.ExposureChoices.Skip(1).ToArray()),
+            new("cover", "Copriferro netto adottato", "mm"), new("exposure", "Esposizione", Choices: ConcreteEditor.ExposureChoices.Skip(1).ToArray()),
             new("creep", "Viscosità SLE", "−")
-        }.Concat(Fields(RetainingWall.MaterialFields.Where(f => f.Key.EndsWith("_rd")))), handler: key =>
+        }.Concat(Fields(WallModel.MaterialFields.Where(f => f.Key.EndsWith("_rd")))), handler: key =>
         {
             if (key is "classe_cls" or "classe_acciaio")
             {
-                var catalog = key == "classe_cls" ? ConcreteMaterialCatalog.Concrete("NTC 2018") : ConcreteMaterialCatalog.Steel(false, "NTC 2018");
+                var catalog = key == "classe_cls" ? MaterialInputCatalog.Concrete("NTC 2018") : MaterialInputCatalog.Steel(false, "NTC 2018");
                 var preset = catalog.FirstOrDefault(x => x.S("nome") == m.S(key));
-                if (preset is not null) RetainingWall.ApplyMaterialPreset(Data, preset);
+                if (preset is not null) WallModel.ApplyMaterialPreset(Data, preset);
                 else m[key == "classe_cls" ? "materiale_cls_nome" : "materiale_acciaio_nome"] = key == "classe_cls" ? "CLS personalizzato" : "Acciaio personalizzato";
                 foreach (string field in Forms["materials"].Editors.Keys.Where(k => !k.StartsWith("__"))) Forms["materials"].Set(field, m.S(field), true);
             }
@@ -48,13 +51,13 @@ internal sealed partial class RetainingWallWorkspace
             new("cover_ec_quality", "Controllo qualità EC2", Bool: true), new("cover_rough", "Superficie irregolare", Bool: true)], Data["detailing"]!.AsObject());
         return Ui.Stack(Ui.Text("Stessi cataloghi GPC, legami e proprietà del verificatore delle sezioni in calcestruzzo. Nei progetti i materiali e la durabilità seguono i dati comuni del ramo; le differenze sono segnalate nel confronto.", 11, color: Ui.Muted),
             form, Group("Durabilità e copriferro · scheda Materiali", Ui.Stack(cover, wallCoverStatus,
-                Ui.Button("Adotta copriferro minimo", () => { try { Commit(); m["cover"] = RetainingWall.RequiredCover(Data); form.Set("cover", m.S("cover"), true); UpdateFields(); Changed(); } catch (ArgumentException ex) { wallCoverStatus.Text = ex.Message; } })), false),
+                Ui.Button("Adotta copriferro minimo", () => { try { Commit(); m["cover"] = WallModel.RequiredCover(Data); form.Set("cover", m.S("cover"), true); UpdateFields(); Changed(); } catch (ArgumentException ex) { wallCoverStatus.Text = ex.Message; } })), false),
             BuildGravityMaterial());
     }
     private void UpdateWallMaterials()
     {
         var form = Forms["materials"]; var m = Data["materials"]!;
-        bool concrete = RetainingWall.UsesConcrete(Data), rc = Data.S("family") == "cantilever";
+        bool concrete = WallModel.UsesConcrete(Data), rc = Data.S("family") == "cantilever";
         foreach (string key in new[] { "classe_cls", "fck", "cls_diagramma", "alpha_cc", "gamma_c", "__fcd", "__ecm" }) form.ShowField(key, concrete);
         foreach (string key in new[] { "classe_acciaio", "fyk", "steel_modulus_mpa", "steel_fu_mpa", "steel_eps_u", "steel_diagramma", "gamma_s", "__fyd", "cover", "exposure" }) form.ShowField(key, rc);
         form.ShowField("materiale_cls_nome", concrete && m.S("classe_cls") == "Personalizzato");
@@ -70,10 +73,9 @@ internal sealed partial class RetainingWallWorkspace
         }
         try
         {
-            var input = RetainingWall.MaterialSectionInput(Data); var values = ConcreteMaterials.DesignValues(input, J.Obj(("normativa", "NTC 2018")));
-            form.Set("__fcd", F(values.Fcd), true); form.Set("__fyd", F(values.Fyd), true); form.Set("__ecm", F(ConcreteMaterials.Concrete(input).Ecm), true);
-            double required = RetainingWall.RequiredCover(Data);
-            wallCoverStatus.Text = $"Minimo nominale {required:0.##} mm · adottato {m.D("cover"):0.##} mm · Ø massimo {RetainingWall.MaximumBarDiameter(Data):0.##} mm. " + (m.D("cover") < required ? "Copriferro insufficiente." : "Minimo rispettato.");
+            var preview = Anthea.Application.Presentation.WallMaterialPreview.Read(Data);
+            foreach (var (key, value) in preview.Fields) form.Set(key, value, true);
+            wallCoverStatus.Text = preview.CoverDescription;
         }
         catch (ArgumentException ex) { foreach (string key in new[] { "__fcd", "__fyd", "__ecm" }) form.Set(key, "—", true); wallCoverStatus.Text = ex.Message; }
     }

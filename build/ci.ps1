@@ -1,4 +1,4 @@
-<#
+﻿<#
 Single runner for the ANTHEA verifications (refactoring, phase F0).
 
   powershell -NoProfile -ExecutionPolicy Bypass -File build\ci.ps1                          # profile quick
@@ -12,6 +12,7 @@ Stages: build, fast, regression, wiki, baseline, ui, word (word needs Microsoft 
 Profiles: quick = build fast wiki; standard = quick + regression; baseline = standard + baseline; full = standard + ui.
 Stage baseline: headless capture of the corpus with tests\ANTHEA.Testing (results, engines, report text, archives, fallbacks);
 with -BaselineRef <capture folder> also its comparison with that reference capture (tests\ANTHEA.Testing\tolerances.json).
+With -CaptureCandidate <existing capture> only compare that immutable capture, without recalculating the corpus. Requires -BaselineRef.
 Bench of the concrete migration (F2.1, docs\refactoring\f2.1-banco.md), also in the stage baseline: dense capture of
 supporto\test\CheckerMigration.Capture (mode tutte) compared with the concrete fixtures of Checker, recaptured on 7/10/2026 from
 the dense capture F2-pre-m4-v2 (compare-dense, comparison 'fixture-checker' of tests\ANTHEA.Testing\f2-classificazione.json, no
@@ -38,6 +39,8 @@ param(
     [string] $CompareTo,
     [string] $Only,
     [string] $BaselineRef,
+    [string] $CaptureCandidate,
+    [switch] $CaptureConcreteFigures,
     [string] $CheckerFixtures,
     [string] $DenseRef,
     [string] $ConcurrencyRef,
@@ -46,6 +49,11 @@ param(
 $ErrorActionPreference = 'Stop'
 $Root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 Set-Location $Root
+if ($CaptureCandidate) {
+    if (-not $BaselineRef) { throw 'CaptureCandidate richiede BaselineRef.' }
+    $CaptureCandidate = [IO.Path]::GetFullPath($CaptureCandidate)
+    if (-not (Test-Path -LiteralPath (Join-Path $CaptureCandidate 'manifest.json') -PathType Leaf)) { throw "Cattura candidata senza manifest: $CaptureCandidate" }
+}
 
 if (-not $Stage) {
     $Stage = switch ($Profile) {
@@ -95,6 +103,12 @@ Add-Suite @{ Name = 'verifiche/micropalo'; Stage = 'fast'; Kind = 'run'; Project
 Add-Suite @{ Name = 'CalculationLibrary.Checks'; Stage = 'fast'; Kind = 'run'; Project = (TestProject 'CalculationLibrary.Checks'); Args = @() }
 Add-Suite @{ Name = 'ModelWorkspace.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelWorkspace.Checks\ModelWorkspace.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ModelViewer.CombinationBench.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelViewer.CombinationBench.Checks\ModelViewer.CombinationBench.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'Architecture.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Architecture.Tests\ANTHEA.Architecture.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' }; Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }
+Add-Suite @{ Name = 'Reports.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Reports.Tests\ANTHEA.Reports.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'Application.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Application.Tests\ANTHEA.Application.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'Wiki.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Wiki.Tests\ANTHEA.Wiki.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'Testing.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Testing.Tests\ANTHEA.Testing.Tests.csproj'; Args = @() }
+Add-Suite @{ Name = 'Headless/help'; Stage = 'fast'; Kind = 'run'; Project = 'tools\ANTHEA.Headless\ANTHEA.Headless.csproj'; Args = @('--help') }
 Add-Suite @{ Name = 'ModelViewer.UiChecks'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ModelViewer.UiChecks\ModelViewer.UiChecks.csproj'; Args = @('{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ModelViewer.Combinations.UiChecks'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ModelViewer.UiChecks\ModelViewer.UiChecks.csproj'; Args = @('{out}', '--viewer-only', '--combinations'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ModelViewer.LiveImport.UiChecks'; Stage = 'ui'; Kind = 'run'; Project = 'tests\ModelViewer.UiChecks\ModelViewer.UiChecks.csproj'; Args = @('{out}', '--viewer-only', '--live-import'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
@@ -136,12 +150,12 @@ Add-Suite @{ Name = 'wiki/manuale'; Stage = 'wiki'; Kind = 'python'; Script = 's
 
 # Placeholders of the baseline suites: {root} repository, {output} run folder, {tag}, {commit}.
 $Testing = 'tests\ANTHEA.Testing\ANTHEA.Testing.csproj'
-Add-Suite @{ Name = 'baseline/cattura'; Stage = 'baseline'; Kind = 'run'; Project = $Testing; Timeout = 3600
+if (-not $CaptureCandidate) { Add-Suite @{ Name = 'baseline/cattura'; Stage = 'baseline'; Kind = 'run'; Project = $Testing; Timeout = 3600
     Args = @('capture', '{out}\cattura', '--root', '{root}', '--tag', '{tag}', '--commit', '{commit}')
-    Proof = @{ File = '{out}\cattura\manifest.json'; Pattern = '"strumento": "ANTHEA.Testing"' } }
+    Proof = @{ File = '{out}\cattura\manifest.json'; Pattern = '"strumento": "ANTHEA.Testing"' } } }
 if ($BaselineRef) {
     Add-Suite @{ Name = 'baseline/confronto'; Stage = 'baseline'; Kind = 'run'; Project = $Testing; Timeout = 1800
-        Args = @('compare', $(if ([IO.Path]::IsPathRooted($BaselineRef)) { $BaselineRef } else { Join-Path $Root $BaselineRef }), '{output}\baseline_cattura\cattura', '--report', '{out}\confronto.json') }
+        Args = @('compare', $(if ([IO.Path]::IsPathRooted($BaselineRef)) { $BaselineRef } else { Join-Path $Root $BaselineRef }), $(if ($CaptureCandidate) { $CaptureCandidate } else { '{output}\baseline_cattura\cattura' }), '--report', '{out}\confronto.json') }
 }
 
 # Bench of the concrete migration (F2.1): the Before step writes the dense capture (mode tutte) in {out}\cattura, then compare-dense.
@@ -195,6 +209,12 @@ foreach ($c in 'check-appearance', 'check-global-guidance-offscreen', 'check-wal
     Add-Suite @{ Name = "ui/$c"; Stage = 'ui'; Kind = 'check'; Args = @("--$c", '{out}'); Timeout = 600 }
 }
 Add-Suite @{ Name = 'ui/check-error-log-offscreen'; Stage = 'ui'; Kind = 'check'; Args = @('--check-error-log-offscreen', '{out}'); Timeout = 300; Proof = @{ File = '{out}\test.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ui/f3-report-chapters'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-report-chapters', '{root}', '{out}'); Timeout = 600; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ui/f3-figures'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-figures', '{root}', '{out}'); Timeout = 120; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ui/f3-concrete-figures'; Stage = 'ui'; Kind = 'check'; Args = @($(if ($CaptureConcreteFigures) { '--check-f3-concrete-figures-capture' } else { '--check-f3-concrete-figures' }), '{root}', '{out}'); Timeout = 120; Proof = @{ File = '{out}\esito.txt'; Pattern = $(if ($CaptureConcreteFigures) { '^CAPTURE ' } else { '^PASS ' }) } }
+
+Add-Suite @{ Name = 'ui/f3-scheduling'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-scheduling', '{root}', '{out}'); Timeout = 120; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ui/f3-equivalence'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-equivalence', '{root}', '{out}\cattura'); Timeout = 1800; Proof = @{ File = '{out}\cattura\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/check-wiki-offscreen'; Stage = 'ui'; Kind = 'check'; Args = @('--check-wiki-offscreen', '{out}'); Timeout = 600; Proof = @{ File = '{out}\exit-code.txt'; Pattern = '^0\s*$' } }
 foreach ($name in 'HorizontalPileGroup.Checks', 'ElasticPile.UiChecks', 'ConcreteShort.UiChecks') {
     Add-Suite @{ Name = $name; Stage = 'ui'; Kind = 'run'; Project = (TestProject $name); Args = @('{out}'); Timeout = 900 }

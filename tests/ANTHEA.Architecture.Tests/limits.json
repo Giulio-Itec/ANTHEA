@@ -1,0 +1,10 @@
+{
+  "TypeRefs": {
+    "GPCChecker.CompositeBridge": 0,
+    "ANTHEA.Calculations": 0,
+    "GPCChecker.Concrete": 0,
+    "GPCChecker.Geotechnics": 0
+  },
+  "AsyncVoid": 2,
+  "DispatcherTimer": 4
+}

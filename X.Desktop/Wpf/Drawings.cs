@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Globalization;
 using System.IO;
 using System.Text.Json.Nodes;
@@ -210,7 +211,7 @@ internal sealed class SectionDrawing : DrawingView
     internal string LinkCaption { get; set; } = "Staffa";
     internal bool ShowAxes { get; set; }
     internal List<double[]> Outline { get; set; } = [];
-    internal List<Barra> Bars { get; set; } = [];
+    internal List<ReinforcementBar> Bars { get; set; } = [];
     internal double[]? Plane { get; set; }
     protected override void Render(DrawingContext dc, Size size)
     {

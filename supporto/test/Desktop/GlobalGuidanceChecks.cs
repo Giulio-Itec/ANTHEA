@@ -105,7 +105,7 @@ internal static class GlobalGuidanceChecks
             var soilPaper = Ui.Paper(soilPanel, 10); soilPaper.Measure(new Size(680, double.PositiveInfinity)); Render(soilPaper, "esempio-stratificato-editor", 680, soilPaper.DesiredSize.Height);
             await illustrated.CalculateGlobalAsync(); Check(illustrated.GlobalResult is not null, "Esempio stratificato della guida ricalcolato dal percorso reale");
             doc = Archivio.Documento(RetainingWall.Module); doc["dati"] = layered.DeepClone(); Archivio.Scrivi(Path.Combine(directory, "esempio-stratificato.anthea"), doc);
-            File.WriteAllText(Path.Combine(directory, "esempio-stratificato-conci.csv"), ReportRetainingWall.GlobalCsv(illustrated.GlobalResult!));
+            File.WriteAllText(Path.Combine(directory, "esempio-stratificato-conci.csv"), Anthea.Application.Walls.WallExports.GlobalCsv(illustrated.GlobalResult!));
             Render(new GlobalStabilityDrawing { Data = layered, Result = illustrated.GlobalResult }, "esempio-stratificato-esito", 640, 350);
             File.WriteAllText(Path.Combine(directory, "esempio-stratificato-esito.txt"), string.Join("\n", illustrated.GlobalResult!.Cases.Select(c => $"{c.Factors.Name}; F={c.Critical?.Factor:G10}; eta={c.Critical?.Ratio:G10}; {c.Status}")));
             Check(Application.Current.Windows.Count == 0, "Controlli conclusi senza aprire finestre");

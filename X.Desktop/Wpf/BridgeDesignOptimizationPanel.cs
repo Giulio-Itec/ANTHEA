@@ -1,3 +1,4 @@
+using Anthea.Application.BridgeDesign;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -48,15 +49,15 @@ internal sealed partial class BridgeDesignWorkspace
         variable.SelectionChanged += (_, _) => { OptimizationTrace.Variable = variable.SelectedIndex; OptimizationTrace.InvalidateVisual(); }; OptimizationTrace.Variable = 2;
         var traceCard = Ui.Paper(Ui.Stack(Ui.Text("2 · Variabili esplorate", 17, true), variable, OptimizationTrace,
             Ui.Text("Ogni punto è un tentativo calcolato. Grigio = escluso. Nei grafici costo e CO₂ la linea scura è il minimo progressivo. Le quote non calcolabili sono omesse.", 11, color: Ui.Muted)));
-        var filter = Ui.Choice(new[] { "Tutte le tipologie" }.Concat(BridgeConcept.Families.Select(f => f.Name)), "Tutte le tipologie");
+        var filter = Ui.Choice(new[] { "Tutte le tipologie" }.Concat(BridgeDesignModel.Families.Select(f => f.Name)), "Tutte le tipologie");
         var pareto = new CheckBox { Content = "Solo frontiera Pareto", Margin = new Thickness(5) };
-        void Filter() { OptimizationCloud.FamilyFilter = filter.SelectedIndex <= 0 ? null : BridgeConcept.Families[filter.SelectedIndex - 1].Id; OptimizationCloud.ParetoOnly = pareto.IsChecked == true; OptimizationCloud.InvalidateVisual(); }
+        void Filter() { OptimizationCloud.FamilyFilter = filter.SelectedIndex <= 0 ? null : BridgeDesignModel.Families[filter.SelectedIndex - 1].Id; OptimizationCloud.ParetoOnly = pareto.IsChecked == true; OptimizationCloud.InvalidateVisual(); }
         filter.SelectionChanged += (_, _) => Filter(); pareto.Checked += (_, _) => Filter(); pareto.Unchecked += (_, _) => Filter();
         OptimizationCloud.Selected += rank => { SelectOptimization(rank - 1); optimizationSelection.BringIntoView(); };
         var cloudCard = Ui.Paper(Ui.Stack(Ui.Text("3 · Famiglia di soluzioni plausibili", 17, true), Ui.Bar(filter, pareto), OptimizationCloud,
             Ui.Text("In basso a sinistra: meno costo e CO₂. Anello = Pareto; stella = ottimo; croce = progetto corrente. Clicca un punto per esaminarlo, anche fuori dalle prime N.", 11, color: Ui.Muted)));
         var legend = new WrapPanel();
-        foreach (var family in BridgeConcept.Families) legend.Children.Add(Ui.Text("● " + family.Name + "   ", 11, color: Appearance.Series(BridgeOptimizationPlot.FamilyBrush(family.Id))));
+        foreach (var family in BridgeDesignModel.Families) legend.Children.Add(Ui.Text("● " + family.Name + "   ", 11, color: Appearance.Series(BridgeOptimizationPlot.FamilyBrush(family.Id))));
         var chartGrid = new Grid(); chartGrid.ColumnDefinitions.Add(new()); chartGrid.ColumnDefinitions.Add(new());
         chartGrid.RowDefinitions.Add(new() { Height = GridLength.Auto }); chartGrid.RowDefinitions.Add(new() { Height = GridLength.Auto });
         chartGrid.Children.Add(traceCard); chartGrid.Children.Add(cloudCard);
@@ -65,7 +66,7 @@ internal sealed partial class BridgeDesignWorkspace
             upperGrid, chartGrid, legend, Ui.Text("4 · Alternative ordinate per l’obiettivo scelto", 17, true),
             Ui.Bar(Ui.Text("Mostra le prime N", 12, true), OptimizationTop, Ui.Button("Aggiorna elenco", RefreshOptimizationRanking, inspection: true)),
             optimizationResults, Ui.Text("Pareto: nessun’altra soluzione esplorata migliora costo o CO₂ senza peggiorare l’altro indicatore. Compromesso: 0,5 C/Cmin + 0,5 CO₂/CO₂min.", 11, color: Ui.Muted),
-            Ui.Text(BridgeConcept.OptimizationScope + " Il motore non è equivalente al sito di riferimento; la graduatoria è interna al modello ANTHEA.", 12, true));
+            Ui.Text(BridgeDesignModel.OptimizationScope + " Il motore non è equivalente al sito di riferimento; la graduatoria è interna al modello ANTHEA.", 12, true));
         stack.Margin = new Thickness(20, 16, 20, 20); OptimizationScroll = Scroll(stack);
         void Layout()
         {

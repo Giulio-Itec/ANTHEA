@@ -363,7 +363,7 @@ internal static class ResistanceChecks
     {
         var raw = new Regex(@"\.(CalculateDomainPoint|CalculateFailureDomainPoint|CalculateForce)\s*\(", RegexOptions.CultureInvariant);
         int files = 0;
-        foreach (string project in new[] { "X.Calculations", "X.Core", "X.Desktop" })
+        foreach (string project in new[] { "X.Calculations", "X.Core", "X.Desktop", "src" })
             foreach (var file in Directory.EnumerateFiles(Path.Combine(root, project), "*.cs", SearchOption.AllDirectories))
             {
                 if (file.Contains(Path.DirectorySeparatorChar + "obj" + Path.DirectorySeparatorChar) || file.Contains(Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar)) continue;

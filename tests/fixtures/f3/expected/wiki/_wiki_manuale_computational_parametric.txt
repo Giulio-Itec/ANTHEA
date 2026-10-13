@@ -1,0 +1,19 @@
+text: Un modello parametrico conserva la relazione fra dati e risultati. Se una luce cambia, devono aggiornarsi geometria, carichi dipendenti e quantità; una variabile non collegata resta invece un input separato. L'automazione è affidabile solo quando queste dipendenze sono esplicite e verificabili.
+text: separare-quattro-passaggi
+text: La generazione definisce geometria e identificativi. L'analisi determina la risposta per le ipotesi e le azioni assegnate. La verifica confronta domanda e capacità secondo il metodo pertinente. L'ottimizzazione ordina le alternative ammissibili rispetto a obiettivi dichiarati. Un valore basso di costo non dimostra che una soluzione sia ammissibile; una verifica favorevole non prova l'ottimalità.
+text: un-esempio-di-dipendenza
+text: In una trave semplicemente appoggiata con carico uniforme assegnato  , il momento massimo cresce col quadrato della luce. Se invece   include un peso proprio che cambia con la sezione, modificare la sezione richiede ricalcolare anche il carico. Una cache indicizzata solo dalla luce conserva allora risultati obsoleti.
+formula: q
+formula: q
+formula: M_{max}=\frac{qL^2}{8}
+formula: \frac{M_{max}(1{,}1L)}{M_{max}(L)}=1{,}21
+text: Copia LaTeX
+text: Il secondo rapporto vale soltanto a   costante. Per   e   il momento è 200 kNm; a 8,8 m diventa 242 kNm. Il 10% in più di luce introduce il 21% in più di domanda flessionale in questo modello. Il confronto discende dall'equilibrio della trave, non da una regola generale di dimensionamento.
+formula: q
+formula: q=25\,\mathrm{kN/m}
+formula: L=8\,\mathrm{m}
+text: dati-strutturati-e-identita
+text: In un grafo parametrico o in uno script, ogni record deve associare identificativo, unità e provenienza. Non accoppiare carichi e sezioni soltanto per posizione in una lista se un filtro può cambiarne l'ordine. Nelle strutture di dati ad albero anche il percorso del ramo è informazione: appiattire i rami può accoppiare campate e combinazioni estranee. Controlla le cardinalità prima e dopo ogni join o filtro.
+text: riproducibilita-e-limiti
+text: Salva versione degli input, versione del metodo, criteri di arresto e motivi di esclusione. Confronta un caso semplice con soluzione indipendente e ripeti il processo cambiando un parametro per volta. Le sensibilità dipendono dal punto di partenza; una graduatoria fra candidati campionati non è la prova di un minimo globale.
+text: In Anthea il motore numerico resta nei progetti di calcolo e nelle librerie previste. La Wiki espone esempi didattici e collega i moduli, senza diventare una seconda implementazione del solutore. Per formulazione e benchmark della trave, prosegui con Elementi Beam.

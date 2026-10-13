@@ -12,7 +12,8 @@ internal sealed class WikiVector : FrameworkElement
     private readonly double width, height;
     internal WikiVector(string name)
     {
-        using var stream = WikiCatalog.Resource("figures." + name);
+        using var stream = typeof(WikiVector).Assembly.GetManifestResourceStream("Wiki.figures." + name)
+            ?? throw new InvalidOperationException("Figura Wiki mancante: " + name);
         svg = XElement.Load(stream);
         var box = svg.Attribute("viewBox")!.Value.Split(' ').Select(Parse).ToArray();
         width = box[2]; height = box[3];

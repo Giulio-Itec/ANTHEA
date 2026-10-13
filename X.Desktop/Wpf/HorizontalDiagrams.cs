@@ -1,3 +1,4 @@
+using Anthea.Application.Modules;
 using System.Diagnostics;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -154,7 +155,7 @@ internal sealed partial class HorizontalWorkspace
     {
         var panel = new StackPanel { Margin = new Thickness(18) };
         panel.Children.Add(Ui.Text("Riferimenti e ruolo nel modello", 18, true));
-        foreach (var r in PaloOrizzontale.References())
+        foreach (var r in HorizontalPileEditor.References())
         {
             var block = Ui.Stack(Ui.Text(r.S("titolo"), 13, true), Ui.Text(r.S("dettaglio"), 11), Ui.Text(r.S("uso"), 12));
             if (r.S("url") is string url && url != "") block.Children.Add(Ui.Button("Apri riferimento", () => Process.Start(new ProcessStartInfo(url) { UseShellExecute = true })));
@@ -166,8 +167,6 @@ internal sealed partial class HorizontalWorkspace
     internal IReadOnlyList<ReportOrizzontale.Figure> ReportFigures()
     {
         if (Result is null) return [];
-        return Enumerable.Range(0, Result.Array("sondaggi").Count).SelectMany(i => new[] { true, false }.Select(soil =>
-            new ReportOrizzontale.Figure(i + 1, soil ? "Tensioni e resistenze del terreno" : "Equilibrio e sollecitazioni alla capacità ultima",
-                new HorizontalDiagrams(Result, i, soil).Png(1000, 660), 1000d / 660))).ToArray();
+        return ModuleFigureRenderer.HorizontalFigures(Result).Select(f => new ReportOrizzontale.Figure(f.Index!.Value, f.Caption, f.Png, f.AspectRatio)).ToArray();
     }
 }

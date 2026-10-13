@@ -5,6 +5,7 @@
     <GpcLibraries>all</GpcLibraries>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="../src/ANTHEA.Serialization/ANTHEA.Serialization.csproj" />
     <ProjectReference Include="../src/ANTHEA.FoundationWorkspace/ANTHEA.FoundationWorkspace.csproj" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
   </ItemGroup>

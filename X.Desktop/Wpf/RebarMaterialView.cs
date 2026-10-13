@@ -1,3 +1,5 @@
+using Anthea.Application.Materials;
+using Anthea.Application.Modules;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -23,7 +25,7 @@ internal sealed class RebarMaterialView : UserControl
     internal RebarMaterialView(JsonObject data)
     {
         Data = data;
-        Selection = Ui.Choice(RebarMaterial.Catalog().Select(p => p.Name).Append("Personalizzato"));
+        Selection = Ui.Choice(RebarEditor.Catalog().Select(p => p.Name).Append("Personalizzato"));
         Selection.MinHeight = 28; Selection.FontSize = 14;
         Selection.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, "Tipo di acciaio");
         identity = new InputForm(Input, [new("materiale_acciaio_nome", "Nome", Wide: true)], _ => Changed(), compact: true);
@@ -56,7 +58,7 @@ internal sealed class RebarMaterialView : UserControl
         Selection.SelectionChanged += (_, _) =>
         {
             if (refreshing || Selection.SelectedItem is not string name) return;
-            RebarMaterial.Select(Input, name); RefreshEditors(); Refresh(); Modified?.Invoke();
+            RebarEditor.Select(Input, name); RefreshEditors(); Refresh(); Modified?.Invoke();
         };
         Refresh();
     }
@@ -64,7 +66,7 @@ internal sealed class RebarMaterialView : UserControl
     private void Changed()
     {
         if (refreshing) return;
-        if (RebarMaterial.Match(Input) is null && Input.S("classe_acciaio") != "Personalizzato")
+        if (RebarEditor.Match(Input) is null && Input.S("classe_acciaio") != "Personalizzato")
         { Input["classe_acciaio"] = "Personalizzato"; Input["materiale_acciaio_nome"] = "Acciaio personalizzato"; identity.Set("materiale_acciaio_nome", Input.S("materiale_acciaio_nome"), true); }
         Refresh(); Modified?.Invoke();
     }
@@ -77,7 +79,7 @@ internal sealed class RebarMaterialView : UserControl
     }
     private void Refresh()
     {
-        var preset = RebarMaterial.Match(Input); bool custom = preset is null, historical = preset?.A5 is not null;
+        var preset = RebarEditor.Match(Input); bool custom = preset is null, historical = preset?.A5 is not null;
         refreshing = true; Selection.SelectedItem = preset?.Name ?? "Personalizzato"; refreshing = false;
         foreach (string key in new[] { "fyk_mpa", "steel_fu_mpa", "steel_modulus_mpa", "steel_eps_u" })
         {
@@ -95,12 +97,13 @@ internal sealed class RebarMaterialView : UserControl
             : "Proprietà dal catalogo dei materiali già utilizzato dalla verifica in c.a. Per modificarle scegliere Personalizzato.";
         try
         {
-            var v = RebarMaterial.Evaluate(Input);
+            var calculated = ModuleServices.Get(RebarEditor.Module).Calculate(Data);
+            var v = RebarEditor.Read(calculated);
             string F(double n) => n.ToString("0.##", CultureInfo.GetCultureInfo("it-IT"));
             results.Text = $"fyd     {F(v.Fyd)} MPa\nεyd     {F(v.EpsilonYd)} ‰\nfu / fyk     {F(v.Ratio)}";
             Status.Text = historical ? "Dati completi. Per strutture esistenti verificare i valori adottati e i coefficienti applicabili." : "✓ Proprietà coerenti";
             Status.Foreground = Appearance.Foreground(Ui.Brush(historical ? "#9A6700" : "#18794E"));
-            diagram.Series = [new(Input.S("materiale_acciaio_nome"), RebarMaterial.Curve(Input), Ui.Blue)];
+            diagram.Series = [new(Input.S("materiale_acciaio_nome"), calculated.Values.Array("diagramma").Select(p => p!.AsArray().Select(v => v!.GetValue<double>()).ToArray()).ToList(), Ui.Blue)];
         }
         catch (ArgumentException ex)
         {

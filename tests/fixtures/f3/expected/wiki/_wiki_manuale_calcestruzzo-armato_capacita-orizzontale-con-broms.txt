@@ -1,0 +1,44 @@
+text: idealizzazione-e-pressione-limite
+text: Il palo viene analizzato attraverso meccanismi limite compatibili con la resistenza del terreno e un momento plastico My assegnato. Non si introduce una legge di spostamento delle molle; il risultato principale è il carico limite H. Il terreno omogeneo costituisce il riferimento più diretto, mentre stratificazioni della stessa famiglia e falda sono estensioni sperimentali della procedura integrale.
+text: Nei coesivi la resistenza laterale per unità di lunghezza è nulla nei primi 1,5D dal piano campagna e vale poi 9CuD. Il tratto escluso non ricomincia a ogni cambio di strato. Nei granulari la resistenza è 3KpDσ′v. Le unità di p sono kN/m.
+formula: p(z) = 9 C_u D\;\;\;\mathrm{per}\,z\geq1{,}5D\,\mathrm{nei\,coesivi}
+formula: p(z) = 3 K_p D\sigma'_v(z)\;\;\;\mathrm{nei\,granulari}
+formula: K_p = \frac{1+\sin\varphi}{1-\sin\varphi}
+text: Copia LaTeX
+text: Si definiscono Q come integrale delle forze, S come integrale dei momenti rispetto al piano campagna e A come momento rispetto alla sezione alla profondità z. Queste funzioni permettono di formulare in modo uniforme equilibrio e criteri limite.
+formula: Q(z) = \int_0^z p(s)\,ds
+formula: S(z) = \int_0^z s p(s)\,ds
+formula: A(z) = z Q(z)-S(z)
+formula: V(z) = H-Q(z)
+formula: M(z) = M_0+H z-A(z)
+text: Copia LaTeX
+text: Con testa libera M0 = He. La profondità zf del massimo momento soddisfa Q(zf) = H. Per il terreno coesivo omogeneo zf = 1,5D + H/(9CuD). I rami vengono confrontati in base a equilibrio e capacità, non soltanto mediante una soglia geometrica L/D.
+text: meccanismi-granulari
+text: Per la testa libera e il palo corto H = A(L)/(L+e). Nel ramo lungo il momento massimo raggiunge My: He + S(zf) = My. Per testa impedita il ramo corto ha H = Q(L), M0 = −S(L), ed è ammissibile quando il momento alla testa non supera My.
+text: Nel ramo intermedio impedito H = [My + A(L)]/L con momento in testa −My. Nel ramo lungo impedito la condizione è S(zf) = 2My. L'equilibrio può richiedere una forza concentrata al piede F = Q(L) − H nei regimi corti e intermedi. Tale forza spiega il salto del taglio e non deve essere rimossa per rendere il diagramma visivamente continuo.
+text: Per un palo lungo, la porzione mobilitata e l'eventuale chiusura del diagramma oltre il massimo derivano dall'idealizzazione del meccanismo; non costituiscono una distribuzione elastica univoca delle reazioni del terreno.
+text: meccanismi-coesivi
+text: La coppia resistente inferiore C fra zf e t è ottenuta dividendo la distribuzione al punto che ne equilibra le risultanti. Nel coesivo omogeneo vale 9CuD(t−zf)²/4. Più in generale, individuato b in modo che Q(b) sia la media di Q(zf) e Q(t), si usa C = S(t) + S(zf) − 2S(b).
+text: Per testa libera corta si impone He + S(zf) = C(zf,L); per il ramo lungo He + S(zf) = My e C(zf,t) = My con t ≤ L. Con testa impedita, nel ramo intermedio −My + S(zf) = C(zf,L), mentre nel lungo S(zf) = 2My. Il ramo corto impedito resta H = Q(L) con controllo del momento alla testa.
+text: La ricerca numerica usa bisezione e verifiche dell'equilibrio. La tolleranza della radice è dell'ordine di 10⁻⁸ con massimo 100 iterazioni; i residui di equilibrio sono controllati rispetto alle scale delle azioni. Il regime governante è quello ammissibile con capacità minore.
+text: da-hu-alla-resistenza-di-progetto
+text: Le capacità dei sondaggi vengono combinate tramite media e minimo e i fattori ξ selezionati. La riduzione di gruppo e il coefficiente di resistenza vengono applicati successivamente. Nel percorso implementato il parziale di resistenza laterale vale 1,3.
+formula: R_k = \min\left(\frac{H_{u,medio}}{\xi_3};\frac{H_{u,\min}}{\xi_4}\right)
+formula: R_d = \frac{\eta R_k}{1{,}3}
+text: Copia LaTeX
+text: HEd è già un'azione di progetto assegnata. Il motore non genera l'intero percorso delle combinazioni normative. L'efficienza di gruppo basata su Reese e Van Impe usa fattori direzionali: davanti min[1; 0,7(s/D)^0,26], dietro min[1; 0,48(s/D)^0,38], lateralmente min[1; 0,64(s/D)^0,34]. I contributi diagonali combinano i fattori longitudinali e laterali secondo l'angolo; il prodotto dei vicini attivi dà η. Questa riduzione agisce su Rd, senza ridisegnare il meccanismo Hu del singolo palo.
+text: momento-resistente-del-palo-in-c-a
+text: La procedura automatica considera una sezione circolare con 4–512 barre uniformemente distribuite. La distanza dell'asse delle barre dal bordo comprende copriferro, diametro della staffa e mezzo diametro longitudinale. N è positivo a compressione in questo motore.
+text: Si assume conservazione delle sezioni piane, calcestruzzo compresso a parabola rettangolo senza contributo teso e acciaio elastico perfettamente plastico. Si sottrae il calcestruzzo sostituito dalle barre. L'equilibrio assiale viene ricercato nel campo con asse neutro interno, 0 < x < D. Non è quindi una procedura generale per qualsiasi stato assiale, inclusi i campi interamente tesi o compressi.
+text: Due integrazioni, 28 × 96 e 56 × 192, vengono confrontate. Se lo scarto supera il 2% il momento automatico non è accettato. Un My manuale può essere utilizzato con provenienza esplicita, ma il meccanismo di Broms non dimostra la duttilità necessaria a sviluppare la cerniera.
+text: tubo-chs-del-micropalo
+text: La sezione resistente è il solo tubo; la boiacca non contribuisce. Le formule geometriche sono esatte per l'anello, con De e Di in millimetri. Il diametro geotecnico usato in p(z) resta un parametro separato.
+formula: A = \frac{\pi(D_e^2-D_i^2)}{4}
+formula: I = \frac{\pi(D_e^4-D_i^4)}{64}
+formula: W_{el} = \frac{2I}{D_e}
+formula: W_{pl} = \frac{D_e^3-D_i^3}{6}
+formula: N_{pl} = \frac{A f_y}{\gamma_{M0}}
+formula: M_{pl} = \frac{W_{pl}f_y}{\gamma_{M0}}
+formula: M_y(N) = M_{pl}\left(1-\frac{|N|}{N_{pl}}\right)
+text: Copia LaTeX
+text: L'ultimo rapporto va valutato con N e Npl nelle stesse unità; i risultati di forza e momento sono convertiti in kN e kNm. Il ramo automatico richiede classe 1 secondo De/t ≤ 50ε², con ε² = 235/fy. Le soglie 70ε² e 90ε² identificano i campi successivi, senza abilitarli come sezione plastica automatica. La relazione lineare N M è la semplificazione adottata; non verifica instabilità globale, fatica o ovalizzazione locale.

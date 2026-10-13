@@ -7,7 +7,7 @@ namespace Anthea.Desktop.Testing;
 /// <summary>Loads production styles without starting the product or writing user preferences.</summary>
 internal static class WpfTestResources
 {
-    internal static void Load(Application app, string source = "X.Desktop/App.xaml")
+    internal static void Load(System.Windows.Application app, string source = "X.Desktop/App.xaml")
     {
         var document = XDocument.Load(source);
         var dictionary = document.Root!.Elements().Single().Elements().Single();

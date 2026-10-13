@@ -38,7 +38,7 @@ internal sealed partial class BridgeWorkspace
                 Ui.Text("Le due piattabande inferiori sono disegnate separatamente. Nel calcolo si usa un rettangolo equivalente con area e spessore complessivi uguali: non conserva in generale baricentro e inerzia delle due piastre reali. Le proprietà di confronto restano disponibili nei risultati.", 13),
                 Ui.Text("Model fornisce materiali, sezione da ponte, distribuzione delle barre e proprietà omogeneizzate. Tutti i metodi di calcolo, i riferimenti di N e le iterazioni efficaci risiedono in GPCChecker.CompositeBridge. ANTHEA presenta ingressi, risultati e report.", 13),
                 Ui.Text("GPC Engine integra la carpenteria sulle linee medie delle pareti e le barre come aree concentrate. Per questo Ix geometrico completo e Ix di integrazione possono differire: sono entrambi esposti e l’audit dell’equilibrio usa le ipotesi di integrazione del solver.", 13),
-                Notice(BridgeSection.Scope),
+                Notice(BridgeEditor.Scope),
                 Ui.Text("Calcolo in GPCChecker.CompositeBridge: HSections per il metodo precedente, History per lo storico. Validazione e limiti sono descritti nella guida teorica (sezione composta da ponte) e nei test della libreria.", 12)), true),
             Group("06 · Ritiro della soletta", Ui.Stack(
                 Ui.Text("Ogni fase Ritiro assegna un incremento uniforme Δεcs al solo CLS: negativo per accorciamento, in µε (−250 µε = −0,25‰). Puoi inserire più fasi e spostarle nell’ordine desiderato. Ogni fase possiede φ, ψL e n; il valore iniziale di ψL è 0,55, modificabile.", 13),

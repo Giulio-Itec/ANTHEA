@@ -1,0 +1,121 @@
+{
+  "module": "str_palo",
+  "id": "corpus-sezione-ca-taglio-din-rettangolare",
+  "origin": "caso del corpus (tests/ANTHEA.Testing/corpus) applicato ai default",
+  "source": "tests/ANTHEA.Testing/corpus/sezione-ca-taglio-din-rettangolare.json",
+  "data": {
+    "versione_sezione": 2,
+    "input": {
+      "shape": "Rettangolare",
+      "diameter_mm": "1000",
+      "circular_sides": "32",
+      "width_mm": "600",
+      "height_mm": "800",
+      "flange_width_mm": "1200",
+      "web_width_mm": "400",
+      "flange_thickness_mm": "250",
+      "cover_mm": "70",
+      "longitudinal_bar_count": "16",
+      "longitudinal_bar_diameter_mm": "24",
+      "top_bar_count": "4",
+      "top_bar_diameter_mm": "20",
+      "bottom_bar_count": "6",
+      "bottom_bar_diameter_mm": "24",
+      "side_bar_count_per_side": "2",
+      "side_bar_diameter_mm": "16",
+      "transverse_bar_diameter_mm": "10",
+      "transverse_spacing_mm": "200",
+      "apply_pile_requirements": false,
+      "dissipative_zone": false,
+      "fck_mpa": 35,
+      "fyk_mpa": 450,
+      "alpha_cc": "0.85",
+      "gamma_c": "1.50",
+      "gamma_s": "1.15",
+      "steel_modulus_mpa": 200000,
+      "axial_force_kn": "2500",
+      "moment_x_knm": "500",
+      "moment_y_knm": "250",
+      "apply_minimum_eccentricity": false,
+      "minimum_eccentricity_mm": "0",
+      "classe_cls": "C35/45",
+      "n": "",
+      "materiale_cls_nome": "C35/45",
+      "cls_diagramma": "Parabola-rettangolo",
+      "classe_acciaio": "B450C",
+      "materiale_acciaio_nome": "B450C",
+      "steel_fu_mpa": 540,
+      "steel_eps_u": 75,
+      "steel_diagramma": "Elastoplastico",
+      "foro_presente": false
+    },
+    "n_automatico": true,
+    "combinazioni": {
+      "SLU": [
+        {
+          "nome": "SLU 1",
+          "azioni": [
+            "-1200",
+            "250",
+            "60"
+          ]
+        }
+      ],
+      "SLV": [],
+      "SLE": [],
+      "SLE_FREQ": [],
+      "SLE_QP": []
+    },
+    "workspace_ca": {
+      "versione": 2,
+      "normativa": "DIN EN 1992-1-1",
+      "taglio": {
+        "modello": "Con staffe",
+        "cot_x": "2.5",
+        "cot_y": "2.5",
+        "azioni": [
+          {
+            "id": "D1",
+            "nome": "Taglio basso",
+            "N": "-1000",
+            "Mx": "200",
+            "My": "50",
+            "Vx": "150",
+            "Vy": "100",
+            "T": "0"
+          },
+          {
+            "id": "D2",
+            "nome": "Taglio alto, cot θ oltre il limite",
+            "N": "-1000",
+            "Mx": "200",
+            "My": "50",
+            "Vx": "1200",
+            "Vy": "900",
+            "T": "0"
+          },
+          {
+            "id": "D3",
+            "nome": "Trazione",
+            "N": "200",
+            "Mx": "-50",
+            "My": "10",
+            "Vx": "100",
+            "Vy": "-60",
+            "T": "0"
+          },
+          {
+            "id": "D4",
+            "nome": "Torsione non NTC",
+            "N": "-1000",
+            "Mx": "200",
+            "My": "50",
+            "Vx": "150",
+            "Vy": "100",
+            "T": "20"
+          }
+        ]
+      }
+    }
+  }
+}

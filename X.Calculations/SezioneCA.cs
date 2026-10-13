@@ -55,7 +55,7 @@ public sealed class SezioneCA
         Geometry(Math.Max(12,radialDivisions),Math.Max(36,angularDivisions));
         if(Input.B("foro_presente"))BuildHole(Math.Max(12,radialDivisions),Math.Max(36,angularDivisions));
         Width=Outline.Max(p=>p[0])-Outline.Min(p=>p[0]);Height=Outline.Max(p=>p[1])-Outline.Min(p=>p[1]);
-        BuildBars();AreaSteel=J.Sum(Bars.Select(b=>b.Area));
+        BuildBars();AreaSteel=LegacyNumerics.Sum(Bars.Select(b=>b.Area));
         if(Holes.Count>0&&Bars.Any(b=>SectionRegions.BarCover(this,b)<-1e-8))throw new ArgumentException("Una barra interseca il foro o il contorno della sezione.");
         if(AreaSteel>=AreaCls)throw new ArgumentException("L'area delle armature deve essere inferiore all'area lorda della sezione.");
         for(int i=0;i<Bars.Count;i++)for(int j=i+1;j<Bars.Count;j++)if(Hypot(Bars[i].X-Bars[j].X,Bars[i].Y-Bars[j].Y)<=(Bars[i].Diametro+Bars[j].Diametro)/2)throw new ArgumentException("La disposizione scelta provoca la sovrapposizione di due barre.");

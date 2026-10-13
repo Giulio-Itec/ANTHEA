@@ -1,4 +1,3 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><GpcLibraries>GPCChecker.Geotechnics;GPCModel</GpcLibraries></PropertyGroup>
-  <ItemGroup><PackageReference Include="PDFsharp-MigraDoc" Version="6.2.4" /></ItemGroup>
 </Project>

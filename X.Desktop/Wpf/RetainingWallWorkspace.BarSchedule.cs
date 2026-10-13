@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -13,22 +14,10 @@ internal sealed partial class RetainingWallWorkspace
     internal RetainingWallBarDrawing CreateBarDrawing()
     {
         if (Calculation is null || Busy) throw new ArgumentException("Attendere il calcolo aggiornato prima di aprire la distinta.");
-        return new(Calculation.Input, RetainingWall.CalculateBarSchedule(Calculation));
+        return new(Calculation.Input, WallModel.CalculateBarSchedule(Calculation));
     }
     internal static IReadOnlyList<ReportRetainingWall.Figure> BarFigures(RetainingWallBarDrawing drawing)
-    {
-        int oldPage = drawing.Page; var figures = new List<ReportRetainingWall.Figure>();
-        try
-        {
-            for (int i = 0; i < drawing.PageCount; i++)
-            {
-                drawing.Page = i;
-                figures.Add(new("Tavola armature e distinta ferri · " + (i + 1), drawing.Png(3360, 2370), 1120d / 790));
-            }
-        }
-        finally { drawing.Page = oldPage; }
-        return figures;
-    }
+        => ModuleFigureRenderer.BarFigures(drawing);
     private void ShowBarSchedule()
     {
         Commit();
@@ -48,8 +37,8 @@ internal sealed partial class RetainingWallWorkspace
             }
             var bar = Ui.Bar(Ui.Text("Pagina", 12), pages, Ui.Text("Zoom", 12), zoom,
                 Ui.Button("PDF completo", () => Save("pdf", () => DrawingPdf.Create(BarFigures(sheet).Select(f => f.Png))), inspection: true),
-                Ui.Button("Word completo", () => Save("docx", () => ReportRetainingWall.CreateBarSchedule(sheet.Data, sheet.Schedule, BarFigures(sheet))), inspection: true),
-                Ui.Button("CSV distinta", () => Save("csv", () => Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(ReportRetainingWall.BarScheduleCsv(sheet.Schedule))).ToArray()), inspection: true),
+                Ui.Button("Word completo", () => Save("docx", () => WallExports.CreateBarSchedule(sheet.Data, sheet.Schedule, BarFigures(sheet))), inspection: true),
+                Ui.Button("CSV distinta", () => Save("csv", () => Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(WallExports.BarScheduleCsv(sheet.Schedule))).ToArray()), inspection: true),
                 Ui.Button("PNG pagina", () => Save("png", () => sheet.Png(3360, 2370)), inspection: true));
             var view = new ScrollViewer { Content = sheet, HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
             Ui.Dialog(this, "Armature del muro · sezione e distinta ferri", Ui.Dock(view, top: bar), 1270, 920).ShowDialog();

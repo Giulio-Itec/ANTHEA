@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,7 +11,6 @@ namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
 {
     private readonly ConcreteAnalysisSession analysisSession = new();
-    private (string Signature, CheckerSectionModel Model)? preparedSection;
     private readonly Dictionary<string, string> calculationErrors = new();
     private sealed class DomainPanel
     {
@@ -24,7 +24,7 @@ internal sealed partial class ConcreteWorkspace
         internal Slider? Transparency;
         internal bool NeedsVisualRefresh = true, AttachingRows;
         internal string? OutputKey;
-        internal Dictionary<string, DomainCheck>? OutputChecks;
+        internal Dictionary<string, ConcreteResults.Check>? OutputChecks;
         internal readonly Plot Plot = new() { InvertY = false, CenteredAxes = true, Title = "Sezione del dominio", EmptyMessage = "Dominio in attesa di aggiornamento automatico" };
         internal readonly TextBlock Detail = Ui.Text("Selezionare una combinazione", 12);
         internal readonly VerificationCards Summary = new();
@@ -36,7 +36,7 @@ internal sealed partial class ConcreteWorkspace
     {
         var panel = new DomainPanel { ThreeD = threeD, Options = settings[threeD ? "dominio3d" : "dominio2d"]!.AsObject() }; domainPanels.Add(panel);
         var fields = new List<Field> { new("stato", "Tipo di dominio", Choices: ["SLU", "SLV"]) };
-        if (threeD) fields.AddRange([new("criterio", "Ricerca resistenza", Choices: CheckerSection.Criteria), new("strategia", "Metodo", Choices: ["Iterativo", "Intersezione"]), new("interpolazione", "Interpolazione mesh", Choices: ["Quadratica", "Lineare"]), new("suddivisioni_n", "Suddivisioni N (mesh)")]);
+        if (threeD) fields.AddRange([new("criterio", "Ricerca resistenza", Choices: ConcreteEditor.ResistanceCriteria), new("strategia", "Metodo", Choices: ["Iterativo", "Intersezione"]), new("interpolazione", "Interpolazione mesh", Choices: ["Quadratica", "Lineare"]), new("suddivisioni_n", "Suddivisioni N (mesh)")]);
         else fields.AddRange([new("tipo", "Sezione dominio", Choices: ["N–M", "Mx–My"]), new("theta", "Direzione θ", "°"), new("N", "N fissato", "kN")]);
         fields.AddRange([new("angoli", "Direzioni angolari"), new("trazione_cls", "CLS resistente a trazione", Choices: ["No", "Sì"]), new("assi", "Assi delle azioni", Choices: ["Locali", "Principali", "Personalizzati"]), new("origine_x", "Origine x", "mm"), new("origine_y", "Origine y", "mm"), new("rotazione", "Rotazione assi", "°")]);
         if (!threeD) fields.Add(new("proietta", "Proietta azioni sul piano", Choices: ["No", "Sì"]));
@@ -133,8 +133,8 @@ internal sealed partial class ConcreteWorkspace
         {
             if (item is not JsonRow row) return false;
             domainResults.TryGetValue(panel.Prefix + panel.Key, out var results); results?.TryGetValue(row.Values.S("id"), out _);
-            DomainCheck? check = results?.GetValueOrDefault(row.Values.S("id"));
-            return panel.Options.S("filtro") switch { "Entro il dominio" => check?.Utilization is <= 1, "Fuori dominio" => check?.Utilization is > 1, "Da controllare" => check?.Utilization is null, _ => true };
+            ConcreteResults.Check? check = results?.GetValueOrDefault(row.Values.S("id"));
+            return Anthea.Application.Concrete.ConcreteDomainChart.Includes(panel.Options, check);
         };
         panel.NeedsVisualRefresh = true; panel.AttachingRows = true;
         try
@@ -145,19 +145,19 @@ internal sealed partial class ConcreteWorkspace
         }
         finally { panel.AttachingRows = false; }
     }
-    private static ActionPoint ReadAction(JsonRow row)
-    {
-        if (string.IsNullOrWhiteSpace(row.Values.S("nome"))) throw new ArgumentException("Assegnare un nome alla combinazione.");
-        return new(SectionWorkspace.Number(row.Values.S("N"), "N"), SectionWorkspace.Number(row.Values.S("Mx"), "Mx"), SectionWorkspace.Number(row.Values.S("My"), "My"));
-    }
-    private async Task CalculateDomain(DomainPanel panel, CancellationToken token, string? requestedKey = null, CheckerSectionModel? prepared = null, JsonObject? preparedInput = null, JsonObject? preparedWorkspace = null)
+    private static ConcreteResults.Action ReadAction(JsonRow row) => Anthea.Application.Concrete.ConcreteDomainChart.ReadNamedAction(row.Values);
+    private async Task CalculateDomain(DomainPanel panel, CancellationToken token, string? requestedKey = null)
     {
         string key = requestedKey ?? panel.Key;
-        status.Text = $"GPC Engine · {SectionWorkspace.Label(key)} · dominio {(panel.ThreeD ? "3D" : "2D")}…";
-        var input = preparedInput ?? (JsonObject)Input.DeepClone(); var workspace = preparedWorkspace ?? (JsonObject)settings.DeepClone(); var options = (JsonObject)panel.Options.DeepClone();
+        status.Text = $"GPC Engine · {ConcreteEditor.Label(key)} · dominio {(panel.ThreeD ? "3D" : "2D")}…";
+        var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone(); var options = (JsonObject)panel.Options.DeepClone();
         var snapshots = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
-        var calculated = await Task.Run(() => analysisSession.Domain(input, workspace, options, key, panel.ThreeD, snapshots, token, prepared), token);
+        var calculated = await Task.Run(() => analysisSession.Domain(input, workspace, options, key, panel.ThreeD, snapshots, token), token);
         token.ThrowIfCancellationRequested();
+        PublishDomain(panel, key, calculated);
+    }
+    private void PublishDomain(DomainPanel panel, string key, ConcreteDomainResult calculated)
+    {
         if (calculated.Three is not null) checker3D[key] = calculated.Three;
         if (calculated.Two is not null) checker2D[key] = calculated.Two;
         domainResults[panel.Prefix + key] = calculated.Checks;
@@ -187,48 +187,22 @@ internal sealed partial class ConcreteWorkspace
         }
         else
         {
-            panel.Plot.Series = []; panel.Plot.Markers = [];
-            if (checker2D.TryGetValue(panel.Key, out var section2d))
-            {
-                try
-                {
-                    bool nm = panel.Options.S("tipo") == "N–M";
-                    double value = SectionWorkspace.Number(panel.Options.S(nm ? "theta" : "N"), nm ? "θ" : "N") * (nm ? Math.PI / 180 : 1);
-                    var segments = section2d.Segments.Select(s => (section2d.Project(s.A), section2d.Project(s.B))).ToArray();
-                    panel.Plot.Segments = segments;
-                    panel.Plot.Title = $"{SectionWorkspace.Label(panel.Key)} · " + (nm ? $"N–M, θ = {value * 180 / Math.PI:0.00}°" : $"Mx–My, N = {value:0.00} kN");
-                    panel.Plot.XLabel = nm ? "Mθ [kNm]" : "Mx [kNm]"; panel.Plot.YLabel = nm ? "N [kN]" : "My [kNm]";
-                    panel.Plot.Note = "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita";
-                    panel.Plot.EmptyMessage = "Nessuna intersezione del dominio con il piano selezionato";
-                }
-                catch (ArgumentException ex) { panel.Plot.Segments = []; panel.Plot.EmptyMessage = ex.Message; }
-            }
-            else { panel.Plot.Segments = []; panel.Plot.EmptyMessage = calculationErrors.GetValueOrDefault(panel.Prefix + panel.Key, "Dominio in attesa di aggiornamento automatico"); }
-            panel.Plot.InvalidateVisual();
+            PlotPresentation.ApplyDomainGeometry(panel.Plot, Anthea.Application.Concrete.ConcreteDomainChart.Geometry(panel.Key, panel.Options,
+                checker2D.GetValueOrDefault(panel.Key), calculationErrors.GetValueOrDefault(panel.Prefix + panel.Key)));
         }
         UpdateSelection(panel, renderHidden);
     }
-    private static double[] Project(ActionPoint p, bool nm, double value) => nm ? [p.Mx * Math.Cos(value) + p.My * Math.Sin(value), p.N] : [p.Mx, p.My];
     private void UpdateSelection(DomainPanel panel, bool renderHidden = false)
     {
         panel.NeedsVisualRefresh = true;
         if (synchronizing || panel.AttachingRows || panel.Grid is null || !renderHidden && !panel.Grid.IsVisible) return;
         panel.NeedsVisualRefresh = false;
-        UpdateSectionInspection(panel);
-        var row = panel.Grid.SelectedItem as JsonRow; string? id = row?.Values.S("id"); domainResults.TryGetValue(panel.Prefix + panel.Key, out var checks); DomainCheck? selectedCheck = id is null ? null : checks?.GetValueOrDefault(id);
-        var visible = new List<(string Id, ActionPoint Force, bool Pass)>();
-        foreach (var item in panel.Grid.Items.OfType<JsonRow>())
-        {
-            if (!item.Values.B("visible", true) || panel.Options.B("solo_selezionata") && !panel.Options.B("tutte_rd") && item.Values.S("id") != id) continue;
-            try {
-                var force = ReadAction(item);
-                if (panel.ThreeD && checker3D.TryGetValue(panel.Key, out var d3)) force = CheckerSection.Point(d3.Section.Force(force));
-                if (!panel.ThreeD && checker2D.TryGetValue(panel.Key, out var d2)) force = d2.LocalAction(force);
-                visible.Add((item.Values.S("id"), force, checks?.GetValueOrDefault(item.Values.S("id"))?.Utilization is <= 1));
-            } catch (ArgumentException) { }
-        }
+        _ = UpdateSectionInspection(panel);
+        var row = panel.Grid.SelectedItem as JsonRow; string? id = row?.Values.S("id"); domainResults.TryGetValue(panel.Prefix + panel.Key, out var checks); ConcreteResults.Check? selectedCheck = id is null ? null : checks?.GetValueOrDefault(id);
         if (panel.ThreeD)
         {
+            var visible = Anthea.Application.Concrete.ConcreteDomainChart.VisibleActions(panel.Options,
+                panel.Grid.Items.OfType<JsonRow>().Select(r => r.Values), id, checks, checker3D.GetValueOrDefault(panel.Key));
             panel.View3D!.ActionPointSize = panel.Options.D("dimensione_ed", 5); panel.View3D.ResistancePointSize = panel.Options.D("dimensione_rd", 5);
             panel.View3D.OnlySelectedActions = panel.Options.B("solo_selezionata"); panel.View3D.ShowActions = panel.Options.B("mostra_ed", true); panel.View3D.ShowResistance = panel.Options.B("mostra_rd", true); panel.View3D.ShowVerificationLines = panel.Options.B("mostra_linee", true); panel.View3D.ColorByRatio = panel.Options.B("colora_eta");
             panel.View3D.Ratios = checks?.ToDictionary(kv => kv.Key, kv => kv.Value.Utilization);
@@ -241,36 +215,15 @@ internal sealed partial class ConcreteWorkspace
         }
         else
         {
-            panel.Plot.Markers = []; panel.Plot.VerificationSegments = [];
-            try
-            {
-                bool nm = panel.Options.S("tipo") == "N–M"; double value = SectionWorkspace.Number(panel.Options.S(nm ? "theta" : "N"), "Piano") * (nm ? Math.PI / 180 : 1);
-                foreach (var action in visible)
-                {
-                    var p = checker2D.TryGetValue(panel.Key, out var d2) ? d2.Project(action.Force) : Project(action.Force, nm, value);
-                    if (panel.Options.B("mostra_ed", true) && (!panel.Options.B("solo_selezionata") || action.Id == id)) panel.Plot.Markers.Add(new(p[0], p[1], action.Id == id ? "Ed" : "", panel.Options.B("colora_eta") ? RatioColor(checks?.GetValueOrDefault(action.Id)?.Utilization) : action.Id == id ? Ui.Brush("#E09620") : Ui.Blue, Radius: panel.Options.D("dimensione_ed", 5)));
-                    if ((action.Id == id || panel.Options.B("tutte_rd")) && panel.Options.B("mostra_linee", true))
-                    {
-                        panel.Plot.VerificationSegments.Add((new double[] { 0, 0 }, p));
-                        if (checks?.GetValueOrDefault(action.Id)?.Resistance is ActionPoint resistance)
-                            panel.Plot.VerificationSegments.Add((p, d2 is not null ? d2.Project(resistance) : Project(resistance, nm, value)));
-                    }
-                }
-                if (panel.Options.B("mostra_rd", true))
-                    foreach (var item in panel.Grid.Items.OfType<JsonRow>().Where(r => r.Values.B("visible", true) && (panel.Options.B("tutte_rd") || r.Values.S("id") == id)))
-                        if (checks?.GetValueOrDefault(item.Values.S("id")) is { Resistance: ActionPoint r } check)
-                        { var p = checker2D.TryGetValue(panel.Key, out var d2) ? d2.Project(r) : Project(r, nm, value); panel.Plot.Markers.Add(new(p[0], p[1], item.Values.S("id") == id ? "Rd" : "", RatioColor(check.Utilization), Radius: panel.Options.D("dimensione_rd", 5))); }
-                panel.Plot.ToolTip = UtilizationPalette.Legend;
-            }
-            catch (ArgumentException) { }
-            panel.Plot.InvalidateVisual();
+            PlotPresentation.ApplyDomainActions(panel.Plot, Anthea.Application.Concrete.ConcreteDomainChart.Actions(panel.Options,
+                checker2D.GetValueOrDefault(panel.Key), panel.Grid.Items.OfType<JsonRow>().Select(r => r.Values).ToArray(), id, checks));
         }
         if (row is null) { panel.Detail.Text = "Nessuna combinazione selezionata"; return; }
         try
         {
             var a = ReadAction(row); panel.Detail.Text = $"{row.Values.S("nome")}\n\nNEd = {a.N:0.00} kN\nMx,Ed = {a.Mx:0.00} kNm\nMy,Ed = {a.My:0.00} kNm\n\n" + (selectedCheck is null ? "Da calcolare" : $"η = {selectedCheck.Utilization?.ToString("0.00") ?? "—"}\n{selectedCheck.Status}");
-            panel.Detail.Text = SectionWorkspace.Label(panel.Key) + " · " + (panel.ThreeD ? panel.Options.S("criterio") + " / " + panel.Options.S("strategia") : panel.Options.S("tipo") + (panel.Options.S("proietta") == "Sì" ? " · proiezione attiva" : " · senza proiezione")) + "\n\nAZIONI · " + panel.Options.S("assi", "Locali") + "\n" + panel.Detail.Text;
-            if (selectedCheck?.Resistance is ActionPoint r) panel.Detail.Text += $"\n\nRESISTENZA · assi locali\nNRd = {r.N:0.00} kN\nMx,Rd = {r.Mx:0.00} kNm\nMy,Rd = {r.My:0.00} kNm\n" + ResponseSummary(selectedCheck.Response, "STATO AL PUNTO RESISTENTE");
+            panel.Detail.Text = ConcreteEditor.Label(panel.Key) + " · " + (panel.ThreeD ? panel.Options.S("criterio") + " / " + panel.Options.S("strategia") : panel.Options.S("tipo") + (panel.Options.S("proietta") == "Sì" ? " · proiezione attiva" : " · senza proiezione")) + "\n\nAZIONI · " + panel.Options.S("assi", "Locali") + "\n" + panel.Detail.Text;
+            if (selectedCheck?.Resistance is ConcreteResults.Action r) panel.Detail.Text += $"\n\nRESISTENZA · assi locali\nNRd = {r.N:0.00} kN\nMx,Rd = {r.Mx:0.00} kNm\nMy,Rd = {r.My:0.00} kNm\n" + ResponseSummary(selectedCheck.Response, "STATO AL PUNTO RESISTENTE");
             var vertices = panel.ThreeD ? meshes.GetValueOrDefault(panel.Key)?.Vertices.AsEnumerable() : checker2D.GetValueOrDefault(panel.Key)?.Segments.SelectMany(s => new[] { s.A, s.B });
             if (vertices?.ToArray() is { Length: > 0 } extrema)
                 panel.Detail.Text += $"\n\nESTREMI {(panel.ThreeD ? "MESH" : "CURVA")}\nN: {extrema.Min(p => p.N):0.00} … {extrema.Max(p => p.N):0.00} kN\nMx: {extrema.Min(p => p.Mx):0.00} … {extrema.Max(p => p.Mx):0.00} kNm\nMy: {extrema.Min(p => p.My):0.00} … {extrema.Max(p => p.My):0.00} kNm\nEstremi campionati; non sono resistenze al N della riga.";
@@ -279,34 +232,36 @@ internal sealed partial class ConcreteWorkspace
         catch (ArgumentException ex) { panel.Detail.Text = ex.Message; }
     }
     private static Brush RatioColor(double? ratio) => UtilizationPalette.Brush(ratio);
-    private static string ResponseSummary(SectionResponse? r, string title)
-    {
-        if (r is null) return title + "\nRiepilogo nativo non disponibile";
-        static string V(double? v) => EngineeringFormat.Number(v);
-        string s = $"\n{title}\nσc min / max: {V(r.CMin)} / {V(r.CMax)} MPa\nσs min / max: {V(r.SMin)} / {V(r.SMax)} MPa\nεc min / max: {V(r.EcMin)} / {V(r.EcMax)} ‰\nεs min / max: {V(r.EsMin)} / {V(r.EsMax)} ‰";
-        if (r.PMin is not null) s += $"\nσp min / max: {V(r.PMin)} / {V(r.PMax)} MPa\nεp min / max: {V(r.EpMin)} / {V(r.EpMax)} ‰";
-        return s + $"\n\nd utile: {V(r.UsefulDepth)} mm\nDistanza asse neutro dal lembo (GPC Engine): {V(r.NeutralDistance)} mm\nInclinazione asse neutro: {V(r.NeutralAngle)}°\n— indica dato non disponibile (es. deformazione uniforme).";
-    }
+    private static string ResponseSummary(ConcreteResults.SectionState? r, string title)
+        => Anthea.Application.Concrete.ConcreteResponsePresentation.ResponseSummary(r, title);
     private async Task RunAnalysis(Func<CancellationToken, Task> work)
     {
-        if (Busy || disposed) return; calculationQueued = false; int requested = revision; Busy = true; cancellation = new CancellationTokenSource(); var token = cancellation.Token;
+        if (Busy || disposed) return;
+        calculationQueued = false; int requested = revision; Busy = true;
         progress.Visibility = Visibility.Visible;
         try
         {
-            await work(token); token.ThrowIfCancellationRequested();
-            if (disposed || requested != revision) return;
-            status.Text = "Aggiornamento tabelle e riepiloghi…";
-            RefreshDomainViews(); RefreshSummary();
-            exportResult = null;
-            HasResults = domainResults.Count != 0 || stressResults.Count != 0 || shearResults.Count != 0;
-            status.Text = calculationErrors.Count == 0 ? "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità" : "Aggiornamento parziale · " + string.Join(" · ", calculationErrors.Select(e => e.Key + ": " + e.Value));
+            var completion = await analysisScheduler.ScheduleAsync(async token => { await work(token); return true; });
+            if (disposed) return;
+            if (completion.Cancelled) { status.Text = "Nuove modifiche · aggiornamento in attesa…"; return; }
+            completion.TryPublish(current =>
+            {
+                if (current.Error is not null) throw current.Error;
+                status.Text = "Aggiornamento tabelle e riepiloghi…";
+                RefreshDomainViews(); RefreshSummary();
+                exportResult = null;
+                HasResults = domainResults.Count != 0 || stressResults.Count != 0 || shearResults.Count != 0;
+                status.Text = calculationErrors.Count == 0 ? "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità" : "Aggiornamento parziale · " + string.Join(" · ", calculationErrors.Select(e => e.Key + ": " + e.Value));
+            });
         }
-        catch (OperationCanceledException) { status.Text = "Nuove modifiche · aggiornamento in attesa…"; }
-        catch (Exception ex) { status.Text = "Dati non validi · calcolo bloccato: " + ex.Message; calculationErrors["Dati"] = ex.Message; Result = null; RefreshSummary(); }
+        catch (Exception ex)
+        {
+            if (!disposed) { status.Text = "Dati non validi · calcolo bloccato: " + ex.Message; calculationErrors["Dati"] = ex.Message; Result = null; RefreshSummary(); }
+        }
         finally
         {
-            Busy = false; progress.Visibility = Visibility.Collapsed; cancellation.Dispose(); cancellation = null;
-            if (requested != revision) QueueCalculation();
+            Busy = false;
+            if (!disposed) { progress.Visibility = Visibility.Collapsed; if (requested != revision) QueueCalculation(); }
         }
     }
     internal async Task CalculateAllAsync()
@@ -339,23 +294,20 @@ internal sealed partial class ConcreteWorkspace
             {
                 await Step("Taglio", () => { CalculateShear(); return Task.CompletedTask; }); return;
             }
-            var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone();
-            string sectionSignature = input.ToJsonString() + workspace["trefoli"]?.ToJsonString();
-            CheckerSectionModel prepared;
-            if (preparedSection is { } cached && cached.Signature == sectionSignature) prepared = cached.Model;
-            else
+            var rows = actions.ToDictionary(p => p.Key, p => p.Value.Select(r => (JsonObject)r.Values.DeepClone()).ToArray());
+            await analysisSession.CalculateBatchAsync(Input, settings, rows, requestedCalculations, outcome =>
             {
-                status.Text = "GPC Engine · preparazione unica della sezione…";
-                prepared = await Task.Run(() => CheckerSection.PrepareModel(input, workspace), token);
-                token.ThrowIfCancellationRequested(); preparedSection = (sectionSignature, prepared);
-            }
-            token.ThrowIfCancellationRequested();
-            var domainTasks = from key in new[] { "SLU", "SLV" } from panel in domainPanels
-                              where requestedCalculations.Contains(panel.Prefix + key)
-                              select Step(panel.Prefix + key, () => CalculateDomain(panel, token, key, prepared, input, workspace));
-            await Task.WhenAll(domainTasks);
-            var stressTasks = SectionWorkspace.Sets.Skip(2).Where(requestedCalculations.Contains).Select(key => Step(key, () => CalculateStress(key, token, prepared, input, workspace)));
-            await Task.WhenAll(stressTasks);
+                token.ThrowIfCancellationRequested();
+                calculationErrors.Remove(outcome.Name);
+                if (outcome.Error is not null) calculationErrors[outcome.Name] = outcome.Error;
+                else if (outcome.Domain is { } domain)
+                {
+                    var panel = domainPanels.Single(p => outcome.Name.StartsWith(p.Prefix, StringComparison.Ordinal));
+                    PublishDomain(panel, outcome.Name[3..], domain);
+                }
+                else if (outcome.Stress is { } stresses) PublishStress(outcome.Name, stresses);
+                pendingCalculations.Remove(outcome.Name);
+            }, running => status.Text = "GPC Engine · in corso: " + string.Join(" · ", running), token);
             token.ThrowIfCancellationRequested();
             if (requestedCalculations.Contains("Taglio")) await Step("Taglio", () => { status.Text = "Verifiche a taglio…"; CalculateShear(); return Task.CompletedTask; });
         });
@@ -363,21 +315,9 @@ internal sealed partial class ConcreteWorkspace
     private void RebuildExport()
     {
         if (domainResults.Count == 0 && stressResults.Count == 0 && shearResults.Count == 0) { Result = null; return; }
-        var domains = new JsonObject(); foreach (var (key, rows) in domainResults) domains[key] = J.Node(rows);
-        var stresses = new JsonObject();
-        foreach (var (key, rows) in stressResults) stresses[key] = ConcreteAnalysisSession.ExportStress(rows);
-        // Attach freshly created nodes directly: J.Obj would deep-clone them again.
-        Result = new JsonObject
-        {
-            ["errore"] = "", ["motore"] = "GPCChecker.Concrete.dll",
-            ["normativa_riferimento"] = settings.S("normativa"), ["verifica_normativa_completa"] = false,
-            ["riepilogo_verifiche"] = J.Node(CollectVerificationSummaries()),
-            ["domini"] = domains, ["tensioni"] = stresses, ["taglio"] = J.Node(shearResults),
-            ["torsione"] = J.Node(torsionResults), ["dettagli_costruttivi"] = J.Node(detailingResults), ["dettagli_esito"] = detailingText.Text + string.Join("\n",detailingTopics.Values.Select(cards=>cards.Text)),
-            ["ancoraggio"] = J.Node(anchorageResult), ["ancoraggio_esito"] = anchorageText.Text, ["momento_curvatura"] = J.Node(curvatureResult),
-            ["dati"] = Data.DeepClone(), ["errori_calcolo"] = J.Node(calculationErrors),
-            ["avvisi"] = J.Node(new[] { "Compressione negativa; azioni in kN e kNm", "Taglio e fessurazione: vedere esiti specifici e limiti di applicabilità" })
-        };
+        Result = Anthea.Application.Concrete.ConcreteResultExport.Create(Data, CollectVerificationSummaries(), domainResults, stressResults,
+            shearResults, torsionResults, detailingResults, detailingText.Text + string.Join("\n", detailingTopics.Values.Select(cards => cards.Text)),
+            anchorageResult, anchorageText.Text, curvatureResult, calculationErrors);
     }
     private void RefreshSummary() => RefreshVerificationSummaries();
 }

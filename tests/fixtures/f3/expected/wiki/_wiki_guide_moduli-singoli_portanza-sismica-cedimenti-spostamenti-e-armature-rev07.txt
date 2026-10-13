@@ -1,0 +1,45 @@
+text: Le verifiche usano modelli distinti. Prima di attivarle completa geometria, stratigrafie, falda e combinazioni del muro. Un risultato favorevole a scorrimento non sostituisce portanza, cedimenti, stabilità globale o verifica strutturale.
+text: scegliere-il-controllo
+text: Domanda
+text: Dati da controllare
+text: Risultato da leggere
+text: Portanza della fondazione
+text: Terreno di posa, carico verticale efficace, eccentricità, inclinazione e sisma
+text: Campo di applicabilità e resistenza per combinazione
+text: Cedimento
+text: Parametri deformativi e modello del terreno, combinazione di esercizio
+text: Spostamento e ipotesi, separatamente dalla resistenza
+text: Spostamento permanente
+text: Accelerogramma e parametri Newmark richiesti
+text: Spostamento accumulato, soglia e unità temporali
+text: Armature
+text: Materiali, sezioni critiche, sollecitazioni, copriferro e disposizione
+text: Proposta, controlli eseguiti e condizioni incomplete
+text: Muro a gravità
+text: Materiale, peso e resistenze pertinenti
+text: Equilibrio e verifiche coerenti con calcestruzzo o muratura
+text: procedura-e-lettura
+text: Apri i controlli pertinenti nella scheda Verifiche e leggi le ipotesi prima dell'esito. Inserisci i dati mancanti; non sostituire un parametro deformativo con un parametro di resistenza. Per il sisma distingue i coefficienti delle spinte da quelli del terreno di fondazione e della stabilità globale.
+text: Calcola armature produce una proposta da controllare, non il dettaglio esecutivo completo. Verifica le sezioni critiche, l'armatura disponibile e le condizioni non coperte. Se trasferisci una sezione al modulo c.a., controlla segni, assi e combinazione del foglio risultante.
+text: Conserva nel report la combinazione, i parametri effettivi e l'eventuale stato fuori campo. Consulta Portanza, cedimenti, spostamenti e armature dei muri per formule e limiti e Muri di sostegno e stabilità globale per il modello Bishop.
+text: dati-della-portanza-sismica
+text: In Terreno aprire Portanza sismica. Con Da sito si usa ah/g=ag/g·Ss·St, prima della riduzione β del muro; av/g=±0,5ah/g. In alternativa assegnare entrambe le accelerazioni. Il fattore γRD è modificabile: 1 per sabbia medio densa, 1,15 per sabbia sciolta asciutta. Non è un valore ricavato automaticamente dal solo angolo di attrito.
+text: In Verifiche scegliere una combinazione SISMA e Portanza sismica nel riepilogo. Sono leggibili Nmax, F, N̄, V̄, M̄, limite verticale, interazione, tasso ed esito. Un’accelerazione mancante, un terreno fuori campo o una risultante non ammissibile restano esplicitamente non verificati.
+text: dati-dei-cedimenti
+text: In Terreno attivare Calcola cedimenti finali e inserire, a partire dal piano di posa, nome, spessore e modulo edometrico M di ciascuno strato. M è espresso in kPa: per esempio 30 MPa corrispondono a 30000 kPa. Non viene dedotto da φ o riempito con un valore presunto. La pressione del terreno rimosso è il carico geostatico eliminato con lo scavo, da valutare nel modello scelto; zero è una scelta esplicita.
+text: Limiti iniziali modificabili: 25 mm per cedimento, 0,002 rad per rotazione e 20 mm per spostamento in testa. Sono valori di avvio da valutare per l’opera, non limiti normativi universali. In Verifiche scegliere Cedimenti e spostamenti per la tabella per combinazione, i contributi degli strati e le curvature.
+text: importare-una-storia-newmark
+text: In Azioni aprire Spostamenti permanenti e aggiungere una storia. Scegliere SLD o SLV, inserire ky/g, fattore di scala e limite di spostamento. ky/g è la soglia di inizio scorrimento del muro, da ricavare da un’analisi di equilibrio: non coincide con ag/g e non viene dedotta automaticamente dal coefficiente kh.
+text: Importare un CSV a due colonne separate da punto e virgola: tempo in secondi e accelerazione verso valle in g. È ammessa una prima riga t;a_g e il separatore decimale italiano. I tempi devono essere crescenti. Confermare che storia e scala siano compatibili con sito e stato limite. I campioni restano salvati nel file del muro.
+text: disporre-e-proporre-le-armature
+text: In Geometria si possono mantenere le facce simmetriche o assegnare due armature indipendenti. La prima faccia è monte nel fusto e inferiore nelle solette; la seconda è valle nel fusto e superiore nelle solette. Rimangono disponibili le due zone verticali separate da h₁.
+text: Ogni zona contiene barre principali, diametro e passo delle secondarie, lunghezza di ancoraggio, sovrapposizione e mandrino. Zero nelle lunghezze significa calcolo automatico, non lunghezza nulla. Il pannello dei dettagli espone aggregato, aderenza, vita nominale, tolleranza del copriferro e collegamenti della giunzione.
+text: Calcola armature cerca diametri e numeri interi di barre entro i limiti impostati. Ogni candidato viene controllato con GPC a N–M, a taglio e in SLE; la proposta usa armature simmetriche per zona, poi modificabili. L’area stimata dalla flessione serve soltanto a scartare candidati impossibili. La verifica finale include i dettagli: una sezione resistente può avere una piega o una giunzione che non entra. In tal caso l’esito lo segnala e può occorrere aumentare lo spessore. La ricerca è interrompibile. Premere Applica proposta per sostituire le barre inserite; prima di applicare restano conservate.
+text: In Vista dei risultati scegliere Armature: si vedono i percorsi delle barre, le pieghe, la fascia di sovrapposizione e le marche. Le barre giuntate sono affiancate lungo lo sviluppo del muro; le proiezioni sono leggermente distanziate sul disegno per leggibilità. Dettagli armature riporta la distinta, fbd, lunghezze richieste e usate, mandrini, quantità e tutti i controlli. I pesi sono stime per metro comprensive di ancoraggi, giunzioni e secondarie. Restano da definire il disegno esecutivo, i giunti di costruzione, i bordi lungo il muro, le interferenze tridimensionali e gli sfridi: la vista non è una distinta di officina.
+text: tavola-delle-armature-e-distinta-ferri-del-muro
+text: In Input, sotto le armature, aprire Distinta ferri del tratto di muro. Inserire la lunghezza reale del tratto, il copriferro alle sue estremità e la lunghezza commerciale delle barre. La lunghezza del tratto cambia soltanto il computo: le verifiche strutturali rimangono riferite a una striscia di 1 m. Con due zone, indicare anche i collegamenti per fila e per metro. Lo sviluppo di un collegamento comprende tutti i tratti e i ganci della sagoma scelta; zero significa da definire e produce un peso parziale.
+text: Dopo il ricalcolo, premere Tavola armature e distinta ferri nel riquadro di input oppure Distinta ferri in Verifiche. La finestra ha selezione della pagina e zoom. La prima tavola presenta la sezione quotata con le marche delle principali e la tabella dei pezzi del tratto. Le pagine successive separano le sagome e riportano diametro, faccia, tratti A/B/C, arco, mandrino, sviluppo totale, passo e sovrapposizione. P identifica le principali, S le secondarie lungo muro e C i collegamenti. Le due zone del fusto mantengono marche distinte.
+text: PDF completo esporta tutte le tavole in A3 orizzontale. Word completo aggiunge tabelle modificabili; CSV distinta conserva quantità, impostazioni e note; PNG pagina esporta la pagina visualizzata. Anche la relazione Word del muro contiene la distinta del tratto e le tavole. Se si modificano i dati occorre attendere il nuovo calcolo prima di esportare.
+text: Le barre oltre la lunghezza commerciale sono segnalate: il programma non introduce giunti automatici. Le secondarie sono conteggiate come barre rettilinee lungo muro; estremità, raccordi, ganci e disposizione degli strati richiedono il dettaglio esecutivo. Un computo completo non equivale a verifiche soddisfatte: gli esiti mancanti o sfavorevoli restano indicati nella tavola delle note.
+text: Esempio di distinta del muro con due zone di armatura e tratto di quattro metri
+text: Esempio riapribile: supporto/artefatti/muri-materiali-distinta-20261005/interfaccia/distinta-due-zone.anthea. Il muro ha H=3 m, due zone con cambio a 1,5 m e un tratto lungo 4 m. La distinta mostra 23 pezzi per ciascuna marca principale e segnala lo sviluppo mancante dei collegamenti C1. I PDF e i Word della stessa cartella consentono di ripercorrere la lettura. L'esempio illustra input e computo, non costituisce un muro esecutivo verificato.

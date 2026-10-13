@@ -1,0 +1,14 @@
+{
+  "input": {
+    "classe_acciaio": "B450C",
+    "fyk_mpa": 450,
+    "gamma_s": "1.15",
+    "materiale_acciaio_nome": "B450C",
+    "steel_diagramma": "Elastoplastico",
+    "steel_eps_u": 75,
+    "steel_fu_mpa": 540,
+    "steel_modulus_mpa": 200000
+  },
+  "riferimento": "",
+  "versione_acciaio": 1
+}

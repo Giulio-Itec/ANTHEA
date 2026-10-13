@@ -1,0 +1,113 @@
+# word/document.xml
+¶ Scheda materiale
+¶ Fixture F3 · mat_calcestruzzo · legacy-esposizioni
+¶ ANTHEA · <DATA> <ORA>
+¶ Parametri impostati e proprietà ricavate dai dati correnti della scheda. Le indicazioni di applicabilità e gli eventuali dati da completare sono riportati nel documento.
+¶ Modulo: Calcestruzzo
+¶ Materiali
+[T1 r1 c1] Proprietà
+[T1 r1 c2] Valore
+[T1 r2 c1] CLS · fck [MPa]
+[T1 r2 c2] 35
+[T1 r3 c1] Diametro della barra di riferimento [mm]
+[T1 r3 c2] 16
+[T1 r4 c1] Durabilità · vita utile [anni]
+[T1 r4 c2] 50
+[T1 r5 c1] Coefficiente di trazione αct
+[T1 r5 c2] 1
+[T1 r6 c1] Coefficiente parziale γc per aderenza
+[T1 r6 c2] 1,5
+[T1 r7 c1] Tipo di elemento
+[T1 r7 c2] Trave / pilastro
+[T1 r8 c1] Criterio del copriferro
+[T1 r8 c2] NTC + Circ. 2019
+[T1 r9 c1] Durabilità · qualità copriferri
+[T1 r9 c2] No
+[T1 r10 c1] Controllo di esecuzione
+[T1 r10 c2] Ordinario
+[T1 r11 c1] Superficie di getto
+[T1 r11 c2] Casseratura
+[T1 r12 c1] Strato per abrasione
+[T1 r12 c2] Nessuno
+[T1 r13 c1] Consistenza al getto
+[T1 r13 c2] Da definire
+[T1 r14 c1] Famiglia del cemento
+[T1 r14 c2] CEM I
+[T1 r15 c1] Classe del cemento
+[T1 r15 c2] 32,5
+[T1 r16 c1] Resistenza iniziale del cemento
+[T1 r16 c2] N
+[T1 r17 c1] Condizioni di aderenza
+[T1 r17 c2] Altre · η₁ = 0,7
+[T1 r18 c1] Riduzione EC2 per classe di resistenza
+[T1 r18 c2] No
+[T1 r19 c1] Riduzione EC2 per geometria a piastra
+[T1 r19 c2] No
+[T1 r20 c1] Controllo speciale della produzione
+[T1 r20 c2] No
+[T1 r21 c1] Superficie irregolare
+[T1 r21 c2] No
+[T1 r22 c1] Durabilità · tolleranza [mm]
+[T1 r22 c2] 10
+[T1 r23 c1] Classe di esposizione
+[T1 r23 c2] XC3
+[T1 r24 c1] Durabilità · aggregato [mm]
+[T1 r24 c2] 20
+¶ Proprietà di calcolo
+[T2 r1 c1] Proprietà
+[T2 r1 c2] Valore
+[T2 r2 c1] Resistenza caratteristica cubica (classe) · Rck [MPa]
+[T2 r2 c2] 45
+[T2 r3 c1] Resistenza media a compressione · fcm [MPa]
+[T2 r3 c2] 43
+[T2 r4 c1] Resistenza media a trazione · fctm [MPa]
+[T2 r4 c2] 3,21
+[T2 r5 c1] Resistenza caratteristica a trazione · 5% · fctk,0.05 [MPa]
+[T2 r5 c2] 2,25
+[T2 r6 c1] Resistenza caratteristica a trazione · 95% · fctk,0.95 [MPa]
+[T2 r6 c2] 4,17
+[T2 r7 c1] Modulo elastico secante · Ecm [MPa]
+[T2 r7 c2] 34.077,15
+[T2 r8 c1] Deformazione al picco · parabola-rettangolo · εc2 [‰]
+[T2 r8 c2] 2
+[T2 r9 c1] Deformazione ultima · parabola-rettangolo · εcu2 [‰]
+[T2 r9 c2] 3,5
+[T2 r10 c1] Coefficiente di Poisson · ν [—]
+[T2 r10 c2] 0,2
+[T2 r11 c1] Aderenza
+[T2 r11 c2] fbd = 2,36 MPa
+[T2 r12 c1] Dettagli aderenza
+[T2 r12 c2] φ = 16 mm  ·  η₁ = 0,70  ·  η₂ = 1,00
+fctk,0.05 per aderenza = 2,25 MPa
+fctd = 1,50 MPa
+[T2 r13 c1] Copriferro nominale
+[T2 r13 c2] cnom = 30 mm
+[T2 r14 c1] Dettagli copriferro
+[T2 r14 c2] NTC + Circolare · ambiente ordinario
+XC3 · Trave / pilastro
+Cmin (fck) = 30 MPa · C0 (fck) = 35 MPa
+Minimo tabellare = 20 mm
+Vita utile: +0 mm; classe < Cmin: +0 mm
+Controllo dei copriferri: −0 mm
+Minimo per durabilità = 20 mm
+Minimo per aderenza = 16 mm
+cmin = max(durabilità; aderenza; 10) + superficie/abrasione = 20 mm
+cnom = cmin + Δcdev = 30 mm
+[T2 r15 c1] Applicabilità copriferro
+[T2 r15 c2] NTC 2018 tab. 4.1.III; Circolare 7/2019 §C4.1.6.1.3 e tab. C4.1.IV, barre ordinarie. Requisiti integrativi di aderenza, Dmax, superficie, abrasione e getto su terreno: EC2 §4.4.1. Verifiche al fuoco separate. Copriferro riferito all'armatura più vicina, staffe comprese.
+[T2 r16 c1] Classe cloruri
+[T2 r16 c2] Cl 0,40
+[T2 r17 c1] Rapporto A/C massimo
+[T2 r17 c2] 0,55
+[T2 r18 c1] Dosaggio minimo di cemento [kg/m³]
+[T2 r18 c2] 320
+[T2 r19 c1] Contenuto minimo di aria [%]
+[T2 r19 c2] Non prescritto
+[T2 r20 c1] Indicazioni cloruri
+[T2 r20 c2] Cl 0,40: proposta per armatura ordinaria dagli esempi ATECAP, pp. 43–50; non è una classe dedotta dall’esposizione e va confermata nella prescrizione.
+[T2 r21 c1] Riferimenti della composizione
+[T2 r21 c2] UNI 11104:2016, prospetto 5 (riportato in ATECAP 2020, p. 19). Nella UNI 11104:2025 in vigore (prospetto 6) i dosaggi minimi di cemento sono inferiori e per XF1 l’A/C massimo è 0,55: i valori adottati sono più restrittivi. Per esposizioni concomitanti: il minore A/C massimo e il maggiore dosaggio minimo. Valori senza applicazione del concetto k per le aggiunte (nota d).
+
+Esposizioni: XC3. Classe minima: C30/37.
+# word/footer.xml
+¶ ANTHEA · Pagina 1

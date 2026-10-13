@@ -1,0 +1,107 @@
+{
+  "module": "geo_micropalo_orizzontale",
+  "id": "single-soil-elastic",
+  "origin": "Fixture sintetica di migrazione F3",
+  "source": null,
+  "data": {
+    "versione_orizzontale": 1,
+    "generali": {
+      "diametro": "0.24",
+      "lunghezza": "10",
+      "eccentricita": "0",
+      "vincolo": "Libera",
+      "modalita": "Automatica",
+      "metodo_calcolo": "Broms",
+      "azione_orizzontale": "100",
+      "presenza_falda": false,
+      "profondita_falda": "0",
+      "origine_momento": "Sezione CHS",
+      "momento_resistente": "1000",
+      "provenienza_momento": "",
+      "azione_assiale": "0",
+      "passo": "0.10",
+      "tolleranza": "1e-8",
+      "tratto_libero": 0,
+      "gamma_acqua": 9.81
+    },
+    "sezione": {
+      "modo_chs": "Catalogo",
+      "profilo_chs": "CHS 139.7 × 8",
+      "diametro_chs_mm": "139.7",
+      "spessore_chs_mm": "8",
+      "fy_chs_mpa": "355",
+      "gamma_m0": "1.05",
+      "modulo_chs_mpa": 210000,
+      "vita_durabilita": 50,
+      "gamma_ca": 25,
+      "gamma_acciaio": 78.5,
+      "gamma_iniezione": 0
+    },
+    "verifica": {
+      "verticali_indagate": "1",
+      "efficienza_metodo": "Manuale",
+      "efficienza_eta": "1"
+    },
+    "stratigrafie": [
+      [
+        {
+          "tipologia": "Granulare",
+          "spessore": "10",
+          "peso_specifico": "18",
+          "peso_specifico_saturo": "20",
+          "angolo_attrito": "30",
+          "coesione_non_drenata": "50",
+          "coesione_efficace": "0",
+          "reazione_orizzontale": {
+            "legge": "nh = A·γ/1,35 · incoerenti",
+            "densita": "Sciolto",
+            "riga_146": "clay-reese-1956",
+            "fonte": "Viggiani, parametri orientativi; verificare condizioni di impiego",
+            "A": 200,
+            "origine_scelta": "Media iniziale del software",
+            "scelta_per": "nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956",
+            "media_iniziale": 200,
+            "categoria": "Argilla n.c. o lievemente o.c."
+          }
+        }
+      ]
+    ],
+    "tipo_sezione": "CHS",
+    "elastico": {
+      "versione": 2,
+      "stratigrafia": 0,
+      "punta": "Libera",
+      "passo": 0.5,
+      "visualizzazione": {},
+      "tratti": [
+        {
+          "id": "T1",
+          "fine": null,
+          "collegato": true
+        }
+      ],
+      "dettagli": {
+        "azioni_progetto": false,
+        "taglio_confermato": false,
+        "z_d": 0.9,
+        "aderenza_buona": false,
+        "percentuale_sovrapposta": 100,
+        "distanza_barre": 0,
+        "ancoraggio_testa": 0,
+        "ancoraggio_punta": 0,
+        "lunghezza_gabbia": 12,
+        "lunghezza_minima": 3,
+        "lunghezza_barra": 12,
+        "fattore_sovrapposizione": 60,
+        "aggregato": 20,
+        "delta_c": 10,
+        "elemento": "Pilastro",
+        "copriferro_override": false,
+        "minimi_pali": true,
+        "sisma_testa": false,
+        "sisma_staffe": "Staffe singole"
+      }
+    },
+    "vista_orizzontale": "elastico"
+  }
+}

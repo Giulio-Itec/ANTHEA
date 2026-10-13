@@ -1,0 +1,288 @@
+using System.IO.Compression;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Xml.Linq;
+
+namespace X.Core;
+
+/// <summary>DOCX of the current Checker results; no analysis or rounding of stored data occurs here.</summary>
+public static class ReportConcrete
+{
+    public static readonly (string Key, string Label)[] Sections = [("geometria", "Input: geometria, armature, staffe e trefoli"), ("materiali", "Materiali"), ("coefficienti", "Coefficienti normativi e modifiche"), ("azioni", "Tutte le sollecitazioni"), ("dominio3d", "Verifiche dominio 3D"), ("dominio2d", "Verifiche dominio 2D"), ("SLE", "SLE rara"), ("SLE_FREQ", "SLE frequente"), ("SLE_QP", "SLE quasi permanente"), ("taglio", "Verifiche a taglio e torsione"), ("costruttivi", "Dettagli costruttivi e ancoraggi"), ("curvatura", "Momento–curvatura"), ("sle_tutte", "SLE: stampa tutte le combinazioni (anziché inviluppo)"), ("dettagli", "Dettagli tensioni e deformazioni di barre e vertici"), ("grafici", "Grafici nelle rispettive sezioni")];
+    public sealed record EnvelopeValue(string Label, string Id, double Value);
+    public static KeyValuePair<string, JsonNode?>? Governing(JsonObject rows, bool cracking)
+    {
+        var candidates = rows.Where(kv => J.Number(cracking ? kv.Value?["CrackResult"]?["Ratio"] : kv.Value?["Ratio"]) is double n && double.IsFinite(n));
+        return candidates.OrderByDescending(kv => J.Number(cracking ? kv.Value?["CrackResult"]?["Ratio"] : kv.Value?["Ratio"])).Select(kv => (KeyValuePair<string, JsonNode?>?)kv).FirstOrDefault();
+    }
+    public static IReadOnlyList<EnvelopeValue> Envelope(JsonObject rows, bool tendons)
+    {
+        var values = new List<EnvelopeValue>();
+        foreach (var (prefix, material) in new[] { ("C", "CLS"), ("S", "Acciaio"), ("P", "Trefoli") }.Where(m => tendons || m.Item1 != "P"))
+            foreach (bool strain in new[] { false, true }) foreach (bool minimum in new[] { true, false })
+            {
+                string field = (strain ? "E" + prefix.ToLowerInvariant() : prefix) + (minimum ? "Min" : "Max");
+                var candidates = rows.Select(kv => (kv.Key, Value: J.Number(kv.Value?["State"]?["Response"]?[field]))).Where(v => v.Value is double n && double.IsFinite(n));
+                var extreme = (minimum ? candidates.OrderBy(v => v.Value) : candidates.OrderByDescending(v => v.Value)).FirstOrDefault();
+                if (extreme.Value is double value) values.Add(new($"{material} · {(strain ? "ε" : "σ")}{(minimum ? "min" : "max")} [{(strain ? "‰" : "MPa")}]", extreme.Key, value));
+            }
+        return values;
+    }
+    public static void Write(string path, string title, JsonObject data, JsonObject result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null, bool includeInputs = true)
+        => DocumentFile.Write(path, Create(title, data, result, options, images, includeInputs));
+    public static byte[] Create(string title, JsonObject data, JsonObject result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null, bool includeInputs = true) => DocxWriter.Write(CreateDocument(title, data, result, options, images, includeInputs));
+    public static DocxDocument CreateDocument(string title, JsonObject data, JsonObject result, HashSet<string> options, IReadOnlyList<ImmagineReport>? images = null, bool includeInputs = true)
+    {
+        if (options.Count == 0) throw new ArgumentException("Selezionare almeno un contenuto del report.");
+        if (result.S("motore") != "GPCChecker.Concrete.dll") throw new ArgumentException("Risultati GPC Engine aggiornati non disponibili.");
+        XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main", r = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+        var body = new XElement(w + "body"); var input = data["input"]!; var settings = data["workspace_ca"]!;
+        var selected = options.Contains("grafici") ? (images ?? []).Where(i => options.Contains(i.Categoria)).ToArray() : [];
+        XElement Paragraph(string text, string style = "Normal") => new(w + "p", new XElement(w + "pPr", new XElement(w + "pStyle", new XAttribute(w + "val", style))),
+            new XElement(w + "r", new XElement(w + "t", new XAttribute(XNamespace.Xml + "space", "preserve"), text)));
+        void P(string text, string style = "Normal") => body.Add(Paragraph(text, style));
+        void Heading(string text) => P(text, "Heading1");
+        void Subheading(string text) => P(text, "Heading2");
+        string F(JsonNode? node) => EngineeringFormat.Number(J.Number(node));
+        void Table(string[] headers, IEnumerable<string[]> source)
+        {
+            var rows = source.ToArray(); if (rows.Length == 0) { P("Nessun dato inserito o risultato disponibile."); return; }
+            var weights = headers.Select(h => h.Contains("Esito") || h == "Avviso" ? 2.4 : h == "Grandezza" ? 2.2 : h.Contains("Combinazione") ? 1.8 : h == "Parametro" ? 1.3 : 1d).ToArray();
+            var widths = weights.Select(v => (int)Math.Round(9360 * v / weights.Sum())).ToArray(); widths[^1] += 9360 - widths.Sum();
+            var table = new XElement(w + "tbl", new XElement(w + "tblPr", new XElement(w + "tblW", new XAttribute(w + "w", 9360), new XAttribute(w + "type", "dxa")),
+                new XElement(w + "tblLayout", new XAttribute(w + "type", "fixed")),
+                new XElement(w + "tblCellMar", new[] { "top", "left", "bottom", "right" }.Select(s => new XElement(w + s, new XAttribute(w + "w", 70), new XAttribute(w + "type", "dxa")))),
+                new XElement(w + "tblBorders", new[] { "top", "bottom", "insideH" }.Select(s => new XElement(w + s, new XAttribute(w + "val", "single"), new XAttribute(w + "sz", 4), new XAttribute(w + "color", "D9E0E8"))))),
+                new XElement(w + "tblGrid", widths.Select(width => new XElement(w + "gridCol", new XAttribute(w + "w", width)))));
+            foreach (var (cells, i) in new[] { headers }.Concat(rows).Select((cells, i) => (cells, i)))
+                table.Add(new XElement(w + "tr", new XElement(w + "trPr", new XElement(w + "cantSplit"), i == 0 ? new XElement(w + "tblHeader") : null),
+                    cells.Select((text, column) => {
+                        var p = Paragraph(text, i == 0 ? "TableHeader" : "TableText");
+                        if (J.Number(JsonValue.Create(text)) is double) p.Element(w + "pPr")!.Add(new XElement(w + "jc", new XAttribute(w + "val", "center")));
+                        return new XElement(w + "tc", new XElement(w + "tcPr", new XElement(w + "tcW", new XAttribute(w + "w", widths[column]), new XAttribute(w + "type", "dxa")), new XElement(w + "vAlign", new XAttribute(w + "val", "center")), i == 0 ? new XElement(w + "shd", new XAttribute(w + "fill", "E8EFF7")) : null), p);
+                    })));
+            body.Add(table); P("");
+        }
+        void Parameters(string heading, JsonNode values, (string Key, string Label)[] fields)
+        { Subheading(heading); Table(["Parametro", "Valore"], fields.Where(f => values[f.Key] is not null).Select(f => new[] { f.Label, J.Number(values[f.Key]) is double n ? EngineeringFormat.Number(n) : values.S(f.Key) })); }
+        var names = SectionWorkspace.Sets.ToDictionary(family => family,
+            family => data["combinazioni"]!.Array(family).GroupBy(row => row.S("id")).ToDictionary(g => g.Key, g => g.First().S("nome", g.Key)));
+        string Name(string family, string id) => names[family].GetValueOrDefault(id, id);
+        P("Relazione della sezione in calcestruzzo armato", "Title"); P(title, "Subtitle"); P("ANTHEA · " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+        P("Motore di calcolo: GPC Engine · libreria GPCChecker.Concrete.");
+        Heading("Ambito e limiti");
+        P("Normativa selezionata: " + settings.S("normativa") + ". Compressione negativa; geometria in mm, tensioni in MPa, deformazioni in ‰, azioni N e V in kN, momenti in kNm. Arrotondamenti solo di presentazione.");
+        P(ConcreteStandards.Note(settings.S("normativa")));
+        P("Questo report non attesta una verifica normativa completa. La presenza di un dominio o di tensioni calcolate non implica la conformità delle altre verifiche. I filtri e le opzioni grafiche non escludono combinazioni dai calcoli. Leggere gli esiti non determinati, fuori piano e non implementati.");
+        P("Taglio nelle due direzioni secondo la norma selezionata; Model Code 2010 usa il livello II con N, M, V, Asl e granulometria. Per le circolari il modello e i parametri sono espliciti. Fessurazione lineare con CLS teso escluso: inviluppo delle superfici esterne e interne, comprese le sezioni interamente tese. Le superfici prive di armatura efficace restano senza verifica conclusa. Torsione accoppiata, dettagli costruttivi e ancoraggi automatici restano nel campo NTC documentato. Gerarchia sismica, appoggi e punzonamento richiedono il modello dell’elemento.");
+        P(ConcreteStandards.Note(settings.S("normativa", "NTC 2018")));
+        if (!string.IsNullOrWhiteSpace(settings.S("nota"))) P("Nota del foglio: " + settings.S("nota"));
+        if (result["errori_calcolo"] is JsonObject errors) foreach (var (key, value) in errors) P("Calcolo non disponibile — " + key + ": " + value);
+        if (result["riepilogo_verifiche"] is JsonObject summaries)
+        {
+            string Category(string key) => key.StartsWith("3D:") ? "dominio3d" : key.StartsWith("2D:") ? "dominio2d" : key.StartsWith("Taglio:") ? "taglio" : key.Split(':')[0];
+            var selectedSummaries = summaries.Where(p => options.Contains(Category(p.Key))).ToArray();
+            if (selectedSummaries.Length > 0)
+            {
+                Heading("Riepilogo delle verifiche");
+                Table(["Verifica", "Esito", "η", "Governa", "Complete / totali"], selectedSummaries.Select(p => new[] {
+                    p.Value.S("Title"), p.Value.S("Status"), F(p.Value?["Ratio"]), p.Value.S("Governing"), p.Value.S("Completed") + " / " + p.Value.S("Total") }));
+            }
+        }
+        if (!includeInputs && options.Contains("geometria")) Figures("geometria");
+        if (includeInputs && options.Contains("geometria"))
+        {
+            Heading("Input");
+            Parameters("Geometria della sezione", input, new (string, string)[] { ("shape", "Forma"), ("diameter_mm", "D [mm]"), ("width_mm", "b [mm]"), ("height_mm", "h [mm]"), ("flange_width_mm", "bf [mm]"), ("web_width_mm", "bw [mm]"), ("flange_thickness_mm", "hf [mm]"), ("cover_mm", "Copriferro netto [mm]") }.Where(f => f.Item1 switch { "diameter_mm" => input.S("shape") == "Circolare", "width_mm" => input.S("shape") == "Rettangolare", "height_mm" => input.S("shape") != "Circolare", "flange_width_mm" or "web_width_mm" or "flange_thickness_mm" => input.S("shape") == "A T", _ => true }).ToArray());
+            var geometry = new SezioneCA(input.AsObject());
+            if(geometry.Shape=="Circolare")P($"Discretizzazione circolare: {geometry.CircularSides} lati per contorno, compreso l’eventuale foro. Poligoni inscritti nelle circonferenze assegnate.");
+            if(input.B("foro_presente"))Parameters("Foro centrale",input,input.S("shape")=="Circolare"?[("inner_diameter_mm","Diametro interno [mm]")]:[("inner_width_mm","Larghezza interna [mm]"),("inner_height_mm","Altezza interna [mm]")]);
+            Figures("geometria");
+            Subheading("Armature longitudinali"); Table(["ID", "x [mm]", "y [mm]", "Ø [mm]"], geometry.Bars.Select((b, i) => new[] { "B" + (i + 1).ToString("D2"), EngineeringFormat.Number(b.X), EngineeringFormat.Number(b.Y), EngineeringFormat.Number(b.Diametro) }));
+            Parameters("Staffe", input, [("staffe_presenti","Presenti"),("transverse_bar_diameter_mm", "Ø [mm]"), ("transverse_spacing_mm", "Passo [mm]")]);
+            if (settings["taglio"] is JsonObject stirrups) Table(["Parametro", "Valore"], new[] { "tipo_staffa", "rami_x", "rami_y", "rami_interni" }.Select(k => new[] { k.Replace('_', ' '), stirrups.S(k) }));
+            if (settings.Array("trefoli").Count > 0) { Subheading("Trefoli"); Table(["ID", "x [mm]", "y [mm]", "Ap [mm²]", "σp0 [MPa]"], settings.Array("trefoli").Select(t => new[] { t.S("id"), F(t?["x"]), F(t?["y"]), F(t?["area"]), F(t?["sigma0"]) })); }
+        }
+        if (includeInputs && options.Contains("materiali"))
+        {
+            Heading("Materiali");
+            Parameters("Calcestruzzo", input, [("classe_cls", "Classe CLS"), ("materiale_cls_nome", "Materiale CLS custom"), ("cls_diagramma", "Diagramma CLS"), ("fck_mpa", "fck [MPa]"), ("gettato_sottile", "Riduzione NTC per getto sottile")]);
+            Parameters("Acciaio per armature", input, [("materiale_acciaio_nome", "Acciaio custom"), ("fyk_mpa", "fyk [MPa]"), ("steel_modulus_mpa", "Es [MPa]"), ("steel_fu_mpa", "fu [MPa]"), ("steel_eps_u", "εu [‰]"), ("steel_diagramma", "Diagramma acciaio")]);
+            if (settings.Array("trefoli").Count > 0) { Subheading("Acciaio da precompressione"); Table(["Trefolo", "Ep [MPa]", "fpyk [MPa]", "fpk [MPa]", "εpu [‰]"], settings.Array("trefoli").Select(t => new[] { t.S("id"), F(t?["Ep"]), F(t?["fpyk"]), F(t?["fpk"]), F(t?["eps_u"]) })); }
+        }
+        if (options.Contains("coefficienti"))
+        {
+            Heading("Coefficienti normativi"); var defaults = ConcreteStandards.Defaults(settings.S("normativa")); var effective = ConcreteStandards.Effective(input.AsObject(), settings.AsObject());
+            Table(["Coefficiente", "Predefinito DLL", "Applicato", "Modifica"], ConcreteStandards.Coefficients.Select(c =>
+            { double value = (double)effective.GetType().GetProperty(c.Key)!.GetValue(effective)!; return new[] { c.Label, F(defaults[c.Key]), EngineeringFormat.Number(value), Math.Abs(value - defaults.D(c.Key)) > 1e-12 ? "Personalizzato" : "No" }; }));
+            P("I coefficienti accidentali/FRC esposti non attivano automaticamente verifiche accidentali o materiali fibrorinforzati. L’eventuale fattore NTC 0,80 per getti sottili è applicato separatamente ai parametri pertinenti.");
+        }
+        if (options.Contains("azioni"))
+        {
+            Heading("Sollecitazioni");
+            foreach (string family in SectionWorkspace.Sets)
+            { Subheading(SectionWorkspace.Label(family)); Table(["Combinazione", "N [kN]", "Mx [kNm]", "My [kNm]"], data["combinazioni"]!.Array(family).Select(c => new[] { c.S("nome"), F(c!.Array("azioni").ElementAtOrDefault(0)), F(c.Array("azioni").ElementAtOrDefault(1)), F(c.Array("azioni").ElementAtOrDefault(2)) })); }
+            Subheading("Taglio e torsione"); Table(["Combinazione", "N [kN]", "Mx [kNm]", "My [kNm]", "Vx [kN]", "Vy [kN]", "T [kNm]"], settings["taglio"].Array("azioni").Select(c => new[] { c.S("nome"), F(c?["N"]), F(c?["Mx"]), F(c?["My"]), F(c?["Vx"]), F(c?["Vy"]), F(c?["T"]) }));
+        }
+        foreach (string dimension in new[] { "3D", "2D" }) if (options.Contains("dominio" + dimension.ToLowerInvariant()))
+        {
+            Heading("Verifiche dominio " + dimension);
+            var domainOptions = settings["dominio" + dimension.ToLowerInvariant()]!;
+            Parameters("Opzioni dominio " + dimension, domainOptions, [("criterio", "Criterio"), ("strategia", "Strategia"), ("tipo", "Piano"), ("N", "N piano [kN]"), ("theta", "θ [°]"), ("assi", "Assi"), ("origine_x", "Origine x [mm]"), ("origine_y", "Origine y [mm]"), ("rotazione", "Rotazione [°]"), ("proietta", "Proiezione sul piano"), ("trazione_cls", "CLS teso"), ("angoli", "Direzioni"), ("interpolazione", "Interpolazione mesh")]);
+            foreach (string family in new[] { "SLU", "SLV" })
+            {
+                Subheading("Dominio " + dimension + " " + SectionWorkspace.Label(family));
+                var rows = result["domini"]?[dimension + ":" + family] as JsonObject ?? new();
+                Table(["Combinazione", "NRd [kN]", "MxRd [kNm]", "MyRd [kNm]", "η [-]", "Esito"], rows.Select(kv => new[] { Name(family, kv.Key), F(kv.Value?["Resistance"]?["N"]), F(kv.Value?["Resistance"]?["Mx"]), F(kv.Value?["Resistance"]?["My"]), F(kv.Value?["Utilization"]), kv.Value.S("Status") }));
+            }
+            Figures("dominio" + dimension.ToLowerInvariant());
+        }
+        bool commonSle = settings["sle_comuni"] is JsonObject;
+        void SleParameters(JsonNode values)
+        {
+            bool tendonsPresent = settings.Array("trefoli").Count > 0;
+            Parameters("Opzioni di verifica SLE", values, new (string Key, string Label)[] { ("modello", "Analisi"), ("n_armature", "n armature"), ("phi", "φ armature"), ("n_trefoli", "n trefoli riferimento"), ("phi_trefoli", "φ trefoli"), ("trazione_cls", "CLS teso"), ("assi", "Assi"), ("origine_x", "Origine x [mm]"), ("origine_y", "Origine y [mm]"), ("rotazione", "Rotazione [°]"), ("esposizione", "Esposizione"), ("durata", "Durata"), ("sensibilita", "Sensibilità"), ("aderenza", "Aderenza") }
+                .Where(f => tendonsPresent || f.Key is not ("n_trefoli" or "phi_trefoli"))
+                .Where(f => values.S("assi") == "Personalizzati" || f.Key is not ("origine_x" or "origine_y" or "rotazione"))
+                .Where(f => values.S("modello") != "Non lineare" || f.Key is not ("n_armature" or "phi" or "n_trefoli" or "phi_trefoli")).ToArray());
+        }
+        if (commonSle && SectionWorkspace.Sets.Skip(2).Any(options.Contains))
+        {
+            Heading("Impostazioni comuni SLE");
+            SleParameters(settings["sle_comuni"]!);
+            P("Questi parametri sono comuni alle famiglie SLE selezionate; le azioni e gli esiti restano distinti per combinazione.");
+        }
+        foreach (string family in SectionWorkspace.Sets.Skip(2)) if (options.Contains(family))
+        {
+            Heading("SLE " + SectionWorkspace.Label(family));
+            bool hasTendons = settings.Array("trefoli").Count > 0;
+            if (!commonSle) SleParameters(settings["sle"]![family]!);
+            var rows = result["tensioni"]?[family] as JsonObject ?? new();
+            bool stressRequired = SleCheckScope.Stress(family), crackRequired = SleCheckScope.Cracking(family, settings);
+            var envelope = stressRequired ? Envelope(rows, hasTendons) : [];
+            var worstStress = stressRequired ? Governing(rows, false) : null; var worstCrack = crackRequired ? Governing(rows, true) : null;
+            bool all = options.Contains("sle_tutte");
+            P(all ? "Stampa completa delle combinazioni." : "Inviluppo delle combinazioni calcolate: ogni estremo proviene dalla combinazione indicata. Gli estremi non costituiscono uno stato simultaneo e non sostituiscono le verifiche. Le combinazioni con esito non determinato sono riportate separatamente.");
+            if (stressRequired)
+            {
+            Subheading("Tensioni · " + (all ? "tutte le combinazioni" : "combinazione governante"));
+            var stressRows = all ? rows.ToArray() : worstStress is { } ws ? new[] { ws } : [];
+            Table(["Combinazione", "σc,min [MPa]", "|σs|max [MPa]", "ησ [-]", "Esito tensioni"], stressRows.Select(kv => new[] { Name(family, kv.Key), F(kv.Value?["State"]?["sigma_cls"]), F(kv.Value?["State"]?["sigma_acciaio"]), F(kv.Value?["Ratio"]), kv.Value.S("Status") }));
+            if (!all && worstStress is null) P("Nessuna combinazione governante tensionale determinabile: consultare gli esiti sotto riportati.");
+            Subheading("Inviluppo tensioni e deformazioni");
+            Table(["Grandezza", "Estremo", "Combinazione di origine"], envelope.Select(v => new[] { v.Label, EngineeringFormat.Number(v.Value), Name(family, v.Id) }));
+            P("Compressione negativa: min e max sono estremi algebrici. Le deformazioni sono quelle incrementali native di GPC Engine, senza la deformazione iniziale dei trefoli.");
+            }
+            if (crackRequired)
+            {
+            Subheading("Fessurazione · " + (all ? "tutte le combinazioni" : "combinazione governante"));
+            var crackRows = all ? rows.ToArray() : worstCrack is { } wc ? new[] { wc } : [];
+            Table(["Combinazione", "wk [mm]", "Limite [mm]", "ηw [-]", "Esito fessurazione"], crackRows.Select(kv => new[] { Name(family, kv.Key), F(kv.Value?["CrackResult"]?["Width"]), F(kv.Value?["CrackResult"]?["Limit"]), F(kv.Value?["CrackResult"]?["Ratio"]), kv.Value.S("Cracking") }));
+            if (!all && worstCrack is null) P("Nessuna combinazione governante per ηw determinabile: sono conservati gli esiti di decompressione, non applicabilità o calcolo non disponibile.");
+            }
+            if (!all)
+            {
+                var notices = rows.SelectMany(kv => new[] { (Check: "Tensioni", Ratio: J.Number(kv.Value?["Ratio"]), Status: kv.Value.S("Status")), (Check: "Fessurazione", Ratio: J.Number(kv.Value?["CrackResult"]?["Ratio"]), Status: kv.Value.S("Cracking")) }.Where(v => (v.Check == "Tensioni" ? stressRequired : crackRequired) && (v.Ratio is null || !double.IsFinite(v.Ratio.Value))).Select(v => new[] { Name(family, kv.Key), v.Check, v.Status })).ToArray();
+                if (notices.Length > 0) { Subheading("Esiti senza tasso numerico / verifiche non determinate"); Table(["Combinazione", "Verifica", "Esito"], notices); }
+                var missing = data["combinazioni"]!.Array(family).Where(c => !rows.ContainsKey(c.S("id"))).Select(c => new[] { c.S("nome"), "Risultato non disponibile" }).ToArray();
+                if (missing.Length > 0) Table(["Combinazione", "Avviso"], missing);
+            }
+            Figures(family);
+            var detailIds = envelope.Select(v => v.Id).ToHashSet();
+            if (worstStress is { } stress) detailIds.Add(stress.Key); if (worstCrack is { } crack) detailIds.Add(crack.Key);
+            if (options.Contains("dettagli")) foreach (var (id, outcome) in rows.Where(kv => all || detailIds.Contains(kv.Key)))
+            {
+                if (outcome?["State"] is not JsonObject state) continue;
+                Subheading("Dettagli " + SectionWorkspace.Label(family) + " " + Name(family, id));
+                if (crackRequired && outcome?["CrackResult"]?["Details"] is JsonArray crackDetails && crackDetails.Count > 0)
+                {
+                    Subheading("Fessurazione · coefficienti e passaggi");
+                    P("Riepilogo essenziale: massimo 30 valori. " + settings.S("normativa") + ". Deformazioni adimensionali; formule e coefficienti della verifica, traccia completa nel JSON.");
+                    var compactCrack = outcome!["CrackResult"]!.Deserialize<Ntc2018Checks.CrackResult>()!;
+                    Table(["Parametro", "Valore / unità", "Formula / origine"], CrackCalculationSummary.Values(compactCrack).Select(v => new[] {
+                        v.Symbol,
+                        CrackCalculationSummary.Number(v.Value) + " " + v.Unit,
+                        v.Expression
+                    }));
+                }
+                P("Deformazioni native incrementali di GPC Engine, senza εp iniziale dei trefoli. n trefoli è riferito al primo Ep presente; con moduli diversi il coefficiente φp resta comune.");
+                Table(["Barra / trefolo", "σ [MPa]", "ε [‰]"], state.Array("tensioni_barre").Select((v, i) => new[] { "Armatura " + (i + 1), F(v), F(state.Array("BarStrains").ElementAtOrDefault(i)) }));
+                Table(["Vertice CLS", "x [mm]", "y [mm]", "σ [MPa]", "ε [‰]"], state.Array("ConcreteVertices").Select(v => new[] { v.S("Id"), F(v?["X"]), F(v?["Y"]), F(v?["Stress"]), F(v?["Strain"]) }));
+            }
+        }
+        if (options.Contains("taglio"))
+        {
+            Heading("Verifiche a taglio");
+            var shear = settings["taglio"] as JsonObject ?? new();
+            P("Azioni SLU già combinate e coefficientate dal progettista: il modulo non moltiplica nuovamente N, M, V e T. I coefficienti parziali dei materiali entrano nelle resistenze. Le due direzioni di taglio sono controlli separati; non costituiscono una verifica biassiale generale.");
+            if (settings.S("normativa") is "Model Code 2010" or "NS EN 1992-1-1")
+                Parameters("Granulometria comune ai dettagli", settings["dettagli_costruttivi"] as JsonObject ?? new(), [("aggregato", "dg [mm]")]);
+            if (settings.S("normativa") == "Model Code 2010")
+                Parameters("Eccentricità della risultante MC2010", shear, [("eccentricita_mc_x", "Δe per Vx [mm]"), ("eccentricita_mc_y", "Δe per Vy [mm]")]);
+            Parameters("Modello a taglio", shear, [("modello", "Modello"), ("bw_x", "bw,x [mm]"), ("d_x", "dx [mm]"), ("asl_x", "Asl,x [mm²]"), ("alpha_x", "αx [°]"), ("cot_x", "cot θx"), ("bw_y", "bw,y [mm]"), ("d_y", "dy [mm]"), ("asl_y", "Asl,y [mm²]"), ("alpha_y", "αy [°]"), ("cot_y", "cot θy")]);
+            var rows = new List<string[]>();
+            foreach (var action in shear.Array("azioni")) foreach (var (axis, index) in new[] { ("x", 0), ("y", 1) })
+            {
+                var check = result["taglio"]?[action.S("id")]?.AsArray().ElementAtOrDefault(index);
+                rows.Add([action.S("nome") + " · " + axis, F(action?["N"]), F(action?["V" + axis]), F(check?["VRd"]), F(check?["Ratio"]), check.S("Status", "Non calcolata / modello non supportato o dati incompleti")]);
+            }
+            Table(["Combinazione", "N [kN]", "VEd [kN]", "VRd [kN]", "η [-]", "Esito"], rows);
+            if (options.Contains("dettagli"))
+                foreach (var action in shear.Array("azioni")) foreach (var (axis, index) in new[] { ("x", 0), ("y", 1) })
+                {
+                    var check = result["taglio"]?[action.S("id")]?.AsArray().ElementAtOrDefault(index);
+                    if (check is null) continue;
+                    Subheading(action.S("nome") + " · V" + axis + " · " + check.S("Reference"));
+                    Table(["Parametro", "Valore / unità", "Formula"], check.Array("Details").Select(d => new[] { d.S("Symbol"), F(d?["Value"]) + " " + d.S("Unit"), d.S("Expression") }));
+                }
+            Parameters("Torsione e modello circolare",shear,[("modello_circolare","Modello circolare"),("parametri","Parametri geometrici"),("z_d","z/d assegnato (modello manuale)"),("cot_torsione","cot θ comune"),("as_torsione","As,l disponibile [mm²]"),("chiusura_torsione","Configurazione resistente confermata")]);
+            P("Modello pile NTC §7.9.5.2: z/d = 0,75 per piena, 0,60 per cava; per altre norme scegliere parametri assegnati. Torsione solo NTC: TRcd = 2 Ak t (0,5 fcd) cot θ/(1+cot²θ); TRsd = 2 Ak (Asta/s) fyd cot θ; TRld = 2 Ak (As,l/uk) fyd/cot θ. As,l aggiuntiva rispetto alla pressoflessione.");
+            Table(["Combinazione","TRd [kNm]","ηT","ηc,V+T","ηs,V+T","Esito"],shear.Array("azioni").Where(a=>J.Number(a?["T"]) is double t&&t!=0).Select(a=>{var t=result["torsione"]?[a.S("id")];return new[]{a.S("nome"),F(t?["TRd"]),F(t?["TorsionRatio"]),F(t?["ConcreteCombinedRatio"]),F(t?["SteelCombinedRatio"]),t.S("Status","Non calcolata / dati incompleti")};}));
+            foreach(var item in (result["torsione"] as JsonObject??new()))
+            {var t=item.Value;P($"{shear.Array("azioni").FirstOrDefault(a=>a.S("id")==item.Key).S("nome",item.Key)}: Ak = {F(t?["Geometry"]?["Area"])} mm²; uk = {F(t?["Geometry"]?["Perimeter"])} mm; t = {F(t?["Geometry"]?["Thickness"])} mm; As,l richiesta = {F(t?["RequiredLongitudinalArea"])} mm².");}
+            Figures("taglio");
+        }
+        if(options.Contains("costruttivi"))
+        {
+            Heading("Dettagli costruttivi e ancoraggi");
+            foreach(string line in result.S("dettagli_esito","Controlli non disponibili.").Split('\n',StringSplitOptions.RemoveEmptyEntries))P(line.TrimEnd('\r'));
+            Subheading("Ancoraggi e giunzioni");
+            foreach(string line in result.S("ancoraggio_esito","Ancoraggio non calcolato.").Split('\n',StringSplitOptions.RemoveEmptyEntries))P(line.TrimEnd('\r'));
+        }
+        if(options.Contains("curvatura"))
+        {
+            Heading("Diagramma momento–curvatura");
+            if(settings["momento_curvatura"] is JsonObject curveOptions)Parameters("Percorso di carico",curveOptions,[("N","N costante [kN]"),("theta","Direzione momento [°]"),("passi","Passi"),("frazione","Frazione di MRd"),("campionamento","Campionamento"),("trazione_cls","CLS a trazione")]);
+            if(result["momento_curvatura"] is JsonObject curve)
+            {P(curve.S("Status"));P($"MRd = {F(curve["LimitMoment"])} kNm; χy = {F(curve["YieldCurvature"])} 1/m; χu = {F(curve["UltimateCurvature"])} 1/m.");Figures("curvatura");Table(["M [kNm]","χ [1/m]","ε0 [‰]","εc,comp [‰]","|εs|max [‰]"],curve.Array("Points").Select(p=>new[]{F(p?["Moment"]),F(p?["Curvature"]),F(p?["Epsilon0"]),F(p?["ConcreteCompressionStrain"]),F(p?["SteelStrain"])}));}
+            else P("Curva non calcolata con i dati correnti.");
+        }
+        void Figures(string category)
+        {
+          XNamespace wp = "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing", a = "http://schemas.openxmlformats.org/drawingml/2006/main", pic = "http://schemas.openxmlformats.org/drawingml/2006/picture";
+          for (int i = 0; i < selected.Length; i++)
+          {
+            if (selected[i].Categoria != category) continue;
+            P(selected[i].Titolo, "Caption"); long cx = 5800000, cy = 3625000;
+            body.Add(new XElement(w + "p", new XElement(w + "r", new XElement(w + "drawing", new XElement(wp + "inline", new XElement(wp + "extent", new XAttribute("cx", cx), new XAttribute("cy", cy)), new XElement(wp + "docPr", new XAttribute("id", i + 1), new XAttribute("name", selected[i].Titolo)), new XElement(a + "graphic", new XElement(a + "graphicData", new XAttribute("uri", pic.NamespaceName), new XElement(pic + "pic", new XElement(pic + "nvPicPr", new XElement(pic + "cNvPr", new XAttribute("id", i + 1), new XAttribute("name", "image.png")), new XElement(pic + "cNvPicPr")), new XElement(pic + "blipFill", new XElement(a + "blip", new XAttribute(r + "embed", "img" + i)), new XElement(a + "stretch", new XElement(a + "fillRect"))), new XElement(pic + "spPr", new XElement(a + "xfrm", new XElement(a + "off", new XAttribute("x", 0), new XAttribute("y", 0)), new XElement(a + "ext", new XAttribute("cx", cx), new XAttribute("cy", cy))), new XElement(a + "prstGeom", new XAttribute("prst", "rect"), new XElement(a + "avLst")))))))))));
+          }
+        }
+        body.Add(new XElement(w + "sectPr", new XElement(w + "pgSz", new XAttribute(w + "w", 11906), new XAttribute(w + "h", 16838)), new XElement(w + "pgMar", new XAttribute(w + "top", 1134), new XAttribute(w + "bottom", 1134), new XAttribute(w + "left", 1273), new XAttribute(w + "right", 1273))));
+        var package = new DocxDocument();
+        {
+            void Entry(string name, string content) => package.SetXml(name, content);
+            Entry("[Content_Types].xml", "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Default Extension=\"png\" ContentType=\"image/png\"/><Override PartName=\"/word/document.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml\"/><Override PartName=\"/word/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml\"/></Types>");
+            Entry("_rels/.rels", "<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"doc\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"word/document.xml\"/></Relationships>");
+            var relationships = new XElement(XName.Get("Relationships", "http://schemas.openxmlformats.org/package/2006/relationships"));
+            relationships.Add(new XElement(relationships.Name.Namespace + "Relationship", new XAttribute("Id", "styles"), new XAttribute("Type", r.NamespaceName + "/styles"), new XAttribute("Target", "styles.xml")));
+            for (int i = 0; i < selected.Length; i++) { relationships.Add(new XElement(relationships.Name.Namespace + "Relationship", new XAttribute("Id", "img" + i), new XAttribute("Type", r.NamespaceName + "/image"), new XAttribute("Target", $"media/image{i}.png"))); package.SetBytes($"word/media/image{i}.png", selected[i].Png); }
+            var styles = new XElement(w + "styles");
+            foreach (var (id, size, bold, before, after) in new[] { ("Normal", 21, false, 0, 100), ("Title", 36, true, 0, 100), ("Subtitle", 26, false, 0, 180), ("Heading1", 28, true, 250, 130), ("Heading2", 23, true, 180, 90), ("Caption", 21, false, 0, 100), ("TableText", 19, false, 0, 45), ("TableHeader", 19, true, 0, 45) })
+                styles.Add(new XElement(w + "style", new XAttribute(w + "type", "paragraph"), new XAttribute(w + "styleId", id), new XElement(w + "name", new XAttribute(w + "val", id)), new XElement(w + "pPr", new XElement(w + "spacing", new XAttribute(w + "before", before), new XAttribute(w + "after", after)), new XElement(w + "widowControl"), id is "Heading1" or "Heading2" or "Title" or "Subtitle" or "Caption" or "TableHeader" ? new XElement(w + "keepNext") : null, id.StartsWith("Heading") ? new XElement(w + "outlineLvl", new XAttribute(w + "val", id == "Heading1" ? 0 : 1)) : null), new XElement(w + "rPr", new XElement(w + "rFonts", new XAttribute(w + "ascii", "Calibri"), new XAttribute(w + "hAnsi", "Calibri")), new XElement(w + "sz", new XAttribute(w + "val", size)), new XElement(w + "color", new XAttribute(w + "val", "000000")), bold ? new XElement(w + "b") : null)));
+            Entry("word/styles.xml", styles.ToString()); Entry("word/_rels/document.xml.rels", relationships.ToString());
+            Entry("word/document.xml", new XDocument(new XElement(w + "document", new XAttribute(XNamespace.Xmlns + "w", w), new XAttribute(XNamespace.Xmlns + "r", r), body)).ToString());
+        }
+        return package;
+    }
+}

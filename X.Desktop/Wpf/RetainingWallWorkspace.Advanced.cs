@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using System.Globalization;
 using System.IO;
 using System.Text.Json.Nodes;
@@ -64,26 +65,31 @@ internal sealed partial class RetainingWallWorkspace
                 new("tie_spacing", "Passo collegamenti della giunzione", "mm"), new("max_diameter", "Ø massimo nel predimensionamento", "mm"),
                 new("max_count", "Numero massimo barre per metro", "−"), new("target_ratio", "Tasso massimo ricercato", "−")]),
             Ui.Text("Il pulsante ricerca barre simmetriche per zona e le verifica con GPC in SLU e SLE. La proposta resta separata finché si preme Applica. Diametri, numero barre e facce restano modificabili. Controllare ingombro delle pieghe e giunzioni.", 11),
-            Ui.Bar(DesignButton, Ui.Button("Interrompi ricerca", () => cancellation?.Cancel())), designPreview), false));
+            Ui.Bar(DesignButton, Ui.Button("Interrompi ricerca", () => { recalculation.Invalidate(); status.Text = "Ricerca interrotta; armature inserite conservate."; })), designPreview), false));
     }
 
-    internal async Task DesignRebarAsync()
+    internal Task DesignRebarAsync() => scheduledCalculation = DesignRebarScheduledAsync();
+    private async Task DesignRebarScheduledAsync()
     {
-        if (Busy || disposed) return; Commit(); timer.Stop(); int request = revision;
-        var snapshot = (JsonObject)Data.DeepClone(); cancellation?.Dispose(); cancellation = new(); var token = cancellation.Token;
-        Busy = true; DesignButton.IsEnabled = false; status.Text = "Ricerca armature: controlli N–M GPC, taglio, SLE e dettagli…";
-        running = Run(); await running;
-        async Task Run()
+        if (Busy || disposed) return; Commit(); int request = revision;
+        var snapshot = (JsonObject)Data.DeepClone();
+        var completed = await recalculation.ScheduleAsync(async token =>
+        {
+            Busy = true; DesignButton.IsEnabled = false; status.Text = "Ricerca armature: controlli N–M GPC, taglio, SLE e dettagli…";
+            try { return await Task.Run(() => Anthea.Application.Modules.StructuralQueries.WallReinforcement(snapshot, token), token); }
+            finally { Busy = false; if (!disposed) DesignButton.IsEnabled = true; }
+        });
+        completed.TryPublish(current =>
         {
             try
             {
-                var proposal = await Task.Run(() => RetainingWall.DesignReinforcement(snapshot, token));
-                if (disposed || request != revision) return;
+                if (current.Error is not null) throw current.Error;
+                var proposal = current.Value!;
                 var table = CheckTable(Envelope(proposal.Checks)); table.Height = 200;
                 var bars = Table(["Zona", "Proposta per faccia", "Secondarie Ø / passo"], new[] { "stem", "stem_upper", "toe", "heel" }.Where(k => k != "stem_upper" || proposal.Input["reinforcement"].B("two_zones")).Select(k =>
                 {
                     var a = proposal.Input["reinforcement"]![k]!;
-                    return new[] { RetainingWall.RebarZoneName(k), $"{a.D("count")} Ø{a.D("diameter")}/m", $"{a.D("secondary_diameter")} / {a.D("secondary_spacing")} mm" };
+                    return new[] { WallModel.RebarZoneName(k), $"{a.D("count")} Ø{a.D("diameter")}/m", $"{a.D("secondary_diameter")} / {a.D("secondary_spacing")} mm" };
                 })); bars.Height = 140;
                 designPreview.Content = Ui.Stack(Ui.Text(proposal.Message, 12, true), bars, table, Ui.Button("Applica proposta", () =>
                 {
@@ -93,10 +99,8 @@ internal sealed partial class RetainingWallWorkspace
                 }));
                 status.Text = proposal.Message;
             }
-            catch (OperationCanceledException) { status.Text = "Ricerca interrotta; armature inserite conservate."; }
             catch (Exception ex) { status.Text = "Predimensionamento: " + ex.Message; }
-            finally { Busy = false; DesignButton.IsEnabled = true; if (request != revision) timer.Start(); }
-        }
+        });
     }
 
     private UIElement BuildHistories()
@@ -132,31 +136,15 @@ internal sealed partial class RetainingWallWorkspace
         }
         catch (Exception ex) { status.Text = "Accelerogramma non importato: " + ex.Message; }
     }
-    internal static JsonArray ParseHistory(string text)
-    {
-        var samples = new JsonArray(); int line = 0;
-        foreach (var raw in text.Split('\n'))
-        {
-            line++; string row = raw.Trim(); if (row == "" || row.StartsWith('#')) continue;
-            var fields = row.Split([';', '\t'], StringSplitOptions.TrimEntries);
-            if (fields.Length != 2 || !double.TryParse(fields[0].Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double t)
-                || !double.TryParse(fields[1].Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double a))
-            { if (samples.Count == 0 && row.StartsWith("t", StringComparison.OrdinalIgnoreCase)) continue; throw new ArgumentException($"Riga {line}: usare due colonne separate da ; (secondi; g)."); }
-            if (!double.IsFinite(t + a) || t < 0 || Math.Abs(a) > 10 || samples.Count > 0 && t <= samples[^1].D("t")) throw new ArgumentException($"Riga {line}: tempi crescenti e accelerazioni finite richiesti.");
-            if (samples.Count >= 200000) throw new ArgumentException("Massimo 200000 campioni.");
-            samples.Add(J.Obj(("t", t), ("a_g", a)));
-        }
-        if (samples.Count < 2) throw new ArgumentException("Inserire almeno due campioni.");
-        return samples;
-    }
+    internal static JsonArray ParseHistory(string text) => Anthea.Application.Presentation.WallSheetPresentation.ParseHistory(text);
 
-    private FrameworkElement AdvancedResults(string mode, RetainingWall.Result r, RetainingWall.LoadCase c)
+    private FrameworkElement AdvancedResults(string mode, WallModel.Result r, WallModel.LoadCase c)
     {
         if (mode == "Dettagli armature")
         {
             var detail = r.Detailing;
             if (detail is null) return Ui.Text("Armature disponibili per muri a mensola in c.a.", 12);
-            var bars = Table(["Marca / zona", "Faccia", "n Ø", "As [mm²/m]", "L barra [m]", "lbd richiesto/usato [mm]", "l0 richiesto/usato [mm]", "Mandrino [mm]", "fbd [MPa]"], detail.Bars.Select(b => new[] { b.Mark + " " + RetainingWall.RebarZoneName(b.Zone), b.Face, $"{b.Count} Ø{b.Diameter}", F(b.Area), F(b.Length), F(b.RequiredAnchor) + " / " + F(b.Anchor), F(b.RequiredLap) + " / " + F(b.Lap), F(b.Mandrel), F(b.Fbd) })); bars.Height = 220;
+            var bars = Table(["Marca / zona", "Faccia", "n Ø", "As [mm²/m]", "L barra [m]", "lbd richiesto/usato [mm]", "l0 richiesto/usato [mm]", "Mandrino [mm]", "fbd [MPa]"], detail.Bars.Select(b => new[] { b.Mark + " " + WallModel.RebarZoneName(b.Zone), b.Face, $"{b.Count} Ø{b.Diameter}", F(b.Area), F(b.Length), F(b.RequiredAnchor) + " / " + F(b.Anchor), F(b.RequiredLap) + " / " + F(b.Lap), F(b.Mandrel), F(b.Fbd) })); bars.Height = 220;
             var checksGrid = CheckTable(detail.Checks); checksGrid.Height = 220;
             return Ui.Stack(Ui.Text(detail.Note, 11), Ui.Text($"Acciaio stimato incluse sovrapposizioni, ancoraggi e secondarie: {detail.SteelKg:0.0} kg/m", 12, true), bars, checksGrid);
         }

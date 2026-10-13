@@ -138,7 +138,7 @@ internal sealed class FoundationSoilView : FoundationPlot
         Frame(dc,"Stratigrafia · vista laterale");if(Data is null||ActualHeight<160)return;
         try
         {
-            var profile=FoundationMaterials.Profile(Data)??throw new ArgumentException();
+            var profile=FoundationPresentation.SoilProfile(Data)??throw new ArgumentException();
             var input=Data["input"]!;double d=FoundationDocument.Number(input["Depth"],"D"),b=FoundationDocument.Number(input["Width"],"B");
             if(d<0||b<=0)throw new ArgumentException();
             bool wide=ActualWidth>440;double left=48,right=wide?ActualWidth*.48:ActualWidth-18,y0=72,h=ActualHeight-170;

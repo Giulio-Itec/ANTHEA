@@ -14,7 +14,7 @@ public sealed partial class MainWindow
         Directory.CreateDirectory(directory); WindowState = WindowState.Normal; Width = 1600; Height = 990;
         document = Archivio.Documento(BridgeConcept.Module); dirty = false; currentSheet = null; ShowSheet(document);
         var workspace = editor!.bridgeDesign ?? throw new Exception("Bridge Design non aperto.");
-        async Task Settle() { await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); }
+        async Task Settle() { await workspace.WaitForCalculationAsync(); await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); UpdateLayout(); }
         void Check(bool ok, string error) { if (!ok) throw new Exception(error); }
         await Settle();
         Check(workspace.Calculation is not null, "Risultato iniziale assente.");
@@ -33,7 +33,7 @@ public sealed partial class MainWindow
         workspace.Undo(); await Settle(); Check(workspace.Editors["rates/rebar"].Text == "1234", "Undo listino perde prezzo personale");
         workspace.Undo(); await Settle();
         workspace.Editors["input/length"].Text = ""; Check(workspace.Calculation is null && editor.Result is null, "Risultati obsoleti con input vuoto.");
-        workspace.Undo(); Check(workspace.Calculation is not null, "Ripristino da input invalido fallito.");
+        workspace.Undo(); await Settle(); Check(workspace.Calculation is not null, "Ripristino da input invalido fallito.");
         for (int tab = 0; tab < 4; tab++)
         {
             workspace.Inputs.SelectedIndex = tab; workspace.Outputs.SelectedIndex = 0; await Settle();
@@ -114,9 +114,9 @@ public sealed partial class MainWindow
         workspace.Editors["rates/concrete_deck"].Text = "333";
         Check(workspace.Optimization is null, "Listino modificato non invalida le alternative."); workspace.Undo();
         Check(workspace.OptimizationPreview.Result is null, "Invalidazione lascia una preview obsoleta.");
-        await workspace.RunOptimization(new BridgeConcept.OptimizationOptions { MaxDepth = .1 }); await Settle();
+        await workspace.RunOptimization(new Anthea.Application.BridgeDesign.BridgeDesignModel.OptimizationOptions { MaxDepth = .1 }); await Settle();
         Check(workspace.Optimization?.Solutions.Length == 0 && workspace.OptimizationPreview.Result is null, "Ricerca vuota mostra un vecchio candidato.");
-        await workspace.RunOptimization(new BridgeConcept.OptimizationOptions { MinDepth = 3, MaxDepth = 2 }); await Settle();
+        await workspace.RunOptimization(new Anthea.Application.BridgeDesign.BridgeDesignModel.OptimizationOptions { MinDepth = 3, MaxDepth = 2 }); await Settle();
         Check(workspace.Optimization is null && workspace.OptimizationPreview.Result is null, "Range invalido conserva risultati applicabili.");
         var running = workspace.RunOptimization();
         Ui.Descendants<Button>(workspace).Single(b => b.Content is string s && s == "Interrompi").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
@@ -137,6 +137,7 @@ public sealed partial class MainWindow
         // Save through the shell to exercise normal archive integration, then reopen an independent editor.
         Commit(); string archive = Path.Combine(directory, "BridgeDesign.anthea"); Archivio.Scrivi(archive, document);
         var reopened = Archivio.Leggi(archive); using var restored = new SheetEditor(BridgeConcept.Module, reopened["dati"]!.AsObject());
+        await restored.CalculateAsync();
         Check(restored.HasResults && restored.Data["alternative_a"] is JsonObject, "Archivio incompleto al riavvio.");
         File.WriteAllBytes(Path.Combine(directory, "BridgeDesign.docx"), workspace.BuildReport("Predimensionamento del ponte"));
         var section = J.Obj(("nome", "Opera di prova"), ("fogli", new JsonArray(J.Obj(("nome", "Bridge Design"), ("modulo_id", BridgeConcept.Module), ("dati", workspace.Data)))), ("strutture", new JsonArray()));

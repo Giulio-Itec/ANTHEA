@@ -32,6 +32,11 @@ public sealed class TextNormalizer
     static readonly Regex Duration = new(@"\b\d+(?:[.,]\d+)?\s?(?:ms|millisecondi)\b", RegexOptions.Compiled);
     static readonly Regex WindowsPath = new(@"(?<![\p{L}\p{N}])[A-Za-z]:\\(?:[^\\/:*?""<>|\r\n\t ]+\\)*[^\\/:*?""<>|\r\n\t ]*", RegexOptions.Compiled);
 
+    // Only the exact generated report line, never arbitrary dates in the document body.
+    static readonly Regex ReportTimestamp = new(@"(?<prefix><w:t(?:\s+xml:space=""preserve"")?>(?:ANTHEA|Bridge Design|Micropalo — Bustamante–Doix|Palo — capacità portante) · )(?<stamp>\d{2}/\d{2}/\d{4} \d{2}:\d{2})(?=</w:t>)", RegexOptions.Compiled);
+    public string NormalizeReportTimestamps(string xml) => ReportTimestamp.Replace(xml,
+        m => m.Groups["prefix"].Value + Normalize(m.Groups["stamp"].Value));
+
     readonly (string Value, string Placeholder)[] roots;
     readonly DateOnly first, last;
 

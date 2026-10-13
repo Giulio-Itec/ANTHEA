@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +12,7 @@ internal sealed partial class RetainingWallWorkspace
     private bool syncingSoils;
     private FrameworkElement BuildSoilColumns()
     {
-        RetainingWall.CompleteSoilInput(Data);
+        WallModel.CompleteSoilInput(Data);
         var valley = Data["valley"]!.AsObject();
         var mode = Form("valley", [new("height_mode", "Tratto libero a valle", Choices: ["Interamente libero", "Assegnato"]),
             new("free_height", "Dalla sommità al terreno di valle", "m", Symbol: "Hlib"), new("linked", "Modifica insieme le due colonne", Bool: true),
@@ -32,11 +33,11 @@ internal sealed partial class RetainingWallWorkspace
         var columns = new Grid(); columns.ColumnDefinitions.Add(new()); columns.ColumnDefinitions.Add(new());
         var left = Column(true); var right = Column(false); left.Margin = new Thickness(0, 0, 8, 0); Grid.SetColumn(right, 1); columns.Children.Add(left); columns.Children.Add(right);
         SoilButton = Ui.Button("Invia / carica terreno…", () => SoilTransferRequested?.Invoke());
-        var interfaces = Form("interfaces", [new("wall_mode", "Attrito muro–terreno", Choices: RetainingWall.FrictionModes), new("wall_delta", "δ muro caratteristico assegnato", "°"),
-            new("wall_phi_cv", "φcv,k terreno a contatto col muro", "°"), new("base_mode", "Attrito terreno–fondazione", Choices: RetainingWall.FrictionModes), new("base_phi_cv", "φcv,k terreno di fondazione", "°")]);
+        var interfaces = Form("interfaces", [new("wall_mode", "Attrito muro–terreno", Choices: WallModel.FrictionModes), new("wall_delta", "δ muro caratteristico assegnato", "°"),
+            new("wall_phi_cv", "φcv,k terreno a contatto col muro", "°"), new("base_mode", "Attrito terreno–fondazione", Choices: WallModel.FrictionModes), new("base_phi_cv", "φcv,k terreno di fondazione", "°")]);
         var water = Form("water", [new("enabled", "Presenza falda", Bool: true), new("depth", "Profondità da sommità monte", "m", Symbol: "zf"), new("front_head", "Battente a valle dal piano di posa", "m", Symbol: "hw,v")]);
-        return Ui.Stack(mode, columns, layerStatus, Ui.Bar(SoilButton), Ui.Text(RetainingWall.SoilHelp, 11, color: Ui.Muted),
-            Group("Attriti e terreno di fondazione", Ui.Stack(interfaces, Form("foundation", Fields(RetainingWall.FoundationFields)), Ui.Text(RetainingWall.FrictionHelp, 11, color: Ui.Muted)), false),
+        return Ui.Stack(mode, columns, layerStatus, Ui.Bar(SoilButton), Ui.Text(WallModel.SoilHelp, 11, color: Ui.Muted),
+            Group("Attriti e terreno di fondazione", Ui.Stack(interfaces, Form("foundation", Fields(WallModel.FoundationFields)), Ui.Text(WallModel.FrictionHelp, 11, color: Ui.Muted)), false),
             Group("Falda e sottospinta", water, false), GlobalCard());
     }
     internal void SyncSoils(bool fromValley)
@@ -56,7 +57,7 @@ internal sealed partial class RetainingWallWorkspace
     internal void AddSoilLayer(bool front)
     {
         var grid = front ? ValleyLayerGrid : LayerGrid; var array = front ? Data["valley"]!.Array("layers") : Data.Array("layers"); if (array.Count >= 50) return;
-        var layer = RetainingWall.Layer(); layer["thickness"] = 1;
+        var layer = WallModel.Layer(); layer["thickness"] = 1;
         AddRow(grid, array, layer, _ => { SyncSoils(front); UpdateColumnDepths(); }); SyncSoils(front); UpdateColumnDepths(); Changed();
     }
     private void RemoveSoilLayer(bool front)
@@ -73,14 +74,14 @@ internal sealed partial class RetainingWallWorkspace
     private void UpdateColumnDepths()
     {
         if (LayerGrid is null || ValleyLayerGrid is null) return;
-        double ht = Data["geometry"].D("height") + Data["geometry"].D("slab"), dv = RetainingWall.ValleyHeight(Data); var labels = new List<string>(); bool valid = true;
-        foreach (var (grid, name, need) in new[] { (ValleyLayerGrid, "Valle", dv), (LayerGrid, "Monte", ht) })
+        var summary = Anthea.Application.Presentation.WallSheetPresentation.DescribeColumnDepths(Data,
+            ValleyLayerGrid.Rows.Select(r => r.Values), LayerGrid.Rows.Select(r => r.Values));
+        foreach (var grid in new[] { ValleyLayerGrid, LayerGrid })
         {
-            double z = 0; int i = 0;
-            foreach (var row in grid.Rows) { row.Output("__index", ++i); row.Output("__from", F(z)); z += row.Values.D("thickness"); row.Output("__to", F(z)); }
-            grid.Height = Math.Min(200, 72 + 31 * grid.Rows.Count); valid &= z + 1e-9 >= need; labels.Add($"{name}: {F(z)} m / {F(need)} m richiesti");
+            foreach (var row in grid.Rows) row.Refresh();
+            grid.Height = Math.Min(200, 72 + 31 * grid.Rows.Count);
         }
-        layerStatus.Text = string.Join(" · ", labels) + $"\nHlib={F(ht - dv)} m · terreno di valle Dv={F(dv)} m sopra il piano di posa"; layerStatus.Foreground = Appearance.Foreground(valid ? Ui.Muted : Brushes.Firebrick);
+        layerStatus.Text = summary.Text; layerStatus.Foreground = Appearance.Foreground(summary.Valid ? Ui.Muted : Brushes.Firebrick);
     }
     private void UpdateSoilFields()
     {

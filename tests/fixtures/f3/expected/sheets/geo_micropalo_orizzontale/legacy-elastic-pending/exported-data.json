@@ -1,0 +1,58 @@
+{
+  "elastico": {
+    "EI": "25000",
+    "migrazione_richiesta": true,
+    "strati": []
+  },
+  "elastico_legacy": {
+    "EI": "25000",
+    "strati": []
+  },
+  "generali": {
+    "azione_assiale": "0",
+    "azione_orizzontale": "100",
+    "diametro": "0.24",
+    "eccentricita": "0",
+    "gamma_acqua": 9.81,
+    "lunghezza": "10",
+    "metodo_calcolo": "Broms",
+    "modalita": "Automatica",
+    "momento_resistente": "1000",
+    "origine_momento": "Sezione CHS",
+    "passo": "0.10",
+    "presenza_falda": false,
+    "profondita_falda": "0",
+    "provenienza_momento": "",
+    "tolleranza": "1e-8",
+    "tratto_libero": 0,
+    "vincolo": "Libera"
+  },
+  "sezione": {
+    "diametro_chs_mm": "139.7",
+    "fy_chs_mpa": "355",
+    "gamma_acciaio": 78.5,
+    "gamma_ca": 25,
+    "gamma_iniezione": 0,
+    "gamma_m0": "1.05",
+    "modo_chs": "Catalogo",
+    "modulo_chs_mpa": 210000,
+    "profilo_chs": "CHS 139.7 × 8",
+    "spessore_chs_mm": "8",
+    "vita_durabilita": 50
+  },
+  "stratigrafie": [
+    []
+  ],
+  "tipo_sezione": "CHS",
+  "verifica": {
+    "efficienza_eta": "1",
+    "efficienza_metodo": "Manuale",
+    "interasse_anteriore": "",
+    "interasse_destro": "",
+    "interasse_posteriore": "",
+    "interasse_sinistro": "",
+    "verticali_indagate": "1"
+  },
+  "versione_orizzontale": 1,
+  "vista_orizzontale": "elastico"
+}

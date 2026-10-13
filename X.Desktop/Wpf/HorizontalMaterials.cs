@@ -1,19 +1,18 @@
+using Anthea.Application.Materials;
 using X.Core;
 
 namespace X.Desktop;
 
 internal sealed partial class HorizontalWorkspace
 {
-    private static readonly Dictionary<string, double> PileConcreteClasses = ConcreteMaterialCatalog.MaterialSheetClasses().ToDictionary(m => m.Name, m => m.Fck);
-
-    private static string ConcreteClass(double strength) => PileConcreteClasses.FirstOrDefault(p => p.Value == strength).Key ?? "Personalizzato";
+    private static string ConcreteClass(double strength) => Anthea.Application.Presentation.HorizontalSheetPresentation.ConcreteClass(strength);
 
     private void SectionMaterialChanged(string key)
     {
         var input = Data["sezione"]!;
         if(key is "classe_cls" or "classe_acciaio")
         {
-            var catalog=key=="classe_cls"?ConcreteMaterialCatalog.Concrete():ConcreteMaterialCatalog.Steel(false,"NTC 2018");
+            var catalog=key=="classe_cls"?MaterialInputCatalog.Concrete():MaterialInputCatalog.Steel(false,"NTC 2018");
             var material=catalog.FirstOrDefault(m=>m.S("nome")==input.S(key));
             if(material!=null)foreach(var (field,value) in material.Where(v=>v.Key!="nome")){input[field]=value?.DeepClone();sectionFields.Set(field,input.S(field),true);}
         }
@@ -45,12 +44,7 @@ internal sealed partial class HorizontalWorkspace
     private void UpdateSectionMaterialValues()
     {
         var input = Data["sezione"]!.AsObject();
-        try
-        {
-            var strengths = ConcreteMaterials.DesignValues(input, ConcreteStandards.PileWorkspace(input));
-            sectionFields.Set("__fcd", strengths.Fcd.ToString("F1"), true);
-            sectionFields.Set("__fyd", strengths.Fyd.ToString("F1"), true);
-        }
-        catch (ArgumentException) { sectionFields.Set("__fcd", "—", true); sectionFields.Set("__fyd", "—", true); }
+        foreach (var (key, value) in Anthea.Application.Presentation.HorizontalPreview.ConcreteStrengths(input))
+            sectionFields.Set(key, value, true);
     }
 }

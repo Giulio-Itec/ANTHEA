@@ -189,7 +189,7 @@ for kind, chapter in [('pratica', pratica), ('teorica', teorica)]:
     text = re.sub(r'^\$\$(.+)\$\$$', lambda m: '$$ ' + m[1], text, flags=re.M)
     text = text.replace(r'\qquad 3\leq', r'\quad\text{per }3\leq').replace(r'\qquad 1\leq', r'\quad\text{per }1\leq')
     path.write_text(text, encoding='utf-8')
-editorial_path = ROOT / 'X.Desktop/Wiki/editorial.json'
+editorial_path = ROOT/'src/ANTHEA.Wiki/Content/editorial.json'
 editorial = json.loads(editorial_path.read_text(encoding='utf-8'))
 for prefix, area in [('guide', 'Moduli singoli'), ('theory', 'Fondazioni e geotecnica')]:
     editorial[prefix + ':Efficienza orizzontale della palificata'] = dict(area=area, id=f'/wiki/{prefix}/palificata-orizzontale', modules=['geo_efficienza_orizzontale'], related=[f'/wiki/{"theory" if prefix == "guide" else "guide"}/palificata-orizzontale'], keywords=['Davisson', 'AASHTO', 'FHWA', 'Rollins', 'Reese', 'Caltrans', 'p-multiplier'])

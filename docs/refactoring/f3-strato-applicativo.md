@@ -1,0 +1,387 @@
+# F3 — confini e riferimento di equivalenza
+
+Decisioni operative del 13 ottobre 2026, sulla delega dell’utente del 12 ottobre. Base bce1e337, ANTHEA 1.5.0 e set V congelato. Il numero effettivo è 12 moduli: alle undici voci del piano iniziale si sono aggiunte le fondazioni superficiali. F5 esclusa; la separazione della logica non comporta un rifacimento della shell o dei ViewModel.
+
+## Decisioni
+
+- Migrazioni pigre: apertura del documento non riscrive tutti i fogli; la preparazione lavora sulla copia della scheda aperta o del calcolo/report. Le revisioni congelate non vengono migrate sul posto. `str_palo`, chiavi miste e nomi di archivio restano compatibili. I dati derivati oggi persistiti, come cmin_dur e scelte del report, restano fino a una modifica esplicitamente classificata.
+- Scelta del modello elastico precedente: stato di decisione pendente, dati originali conservati; il servizio non sceglie automaticamente per l’utente.
+- Calcoli e metodi normativi restano in GPC o, per i residui già censiti, dietro X.Calculations fino a F4. In F3 si spostano orchestrazione, documenti, migrazioni, cache e presentazione dei report; nessuna formula nuova nella UI.
+- Application senza WPF governa documenti, servizi dei moduli e calcoli. Reports senza WPF governa composizione e scrittura dei documenti. Wiki senza WPF governa catalogo, ricerca e parsing. Nessuna dipendenza Reports → Application: il progetto passa ai report una proiezione dei dati. Il generatore delle fondazioni si separa dalla libreria usata dal calcolo per evitare un ciclo fra Reports e X.Calculations.
+- La rimozione di X.Core dalla catena di produzione può lasciare temporaneamente il progetto di compatibilità per il test esterno Checker/GPCChecker.Test.BridgeAudit, che lo referenzia direttamente. Non si dichiara eliminato ciò che resta necessario; il seguito viene tracciato. Namespace storici possono essere conservati durante il trasferimento per preservare l’API.
+- X.Materiali: dati e report fuori da WPF, vista accorpata al progetto desktop nella finestra di spostamento autorizzata. UI e logica restano separate; nessun secondo catalogo materiali.
+- Figure tramite un contratto del servizio: il percorso desktop conserva le figure correnti; un processo senza renderer dichiara l’indisponibilità, senza inventare immagini o calcoli. PDF breve con Word resta un adattatore desktop finché l’alternativa non è collaudata.
+- Scheduler comune con annullamento cooperativo e controllo della revisione: un risultato vecchio non può sostituire quello corrente. Ritardi dei moduli conservati inizialmente; Bridge Design può adottare il ricalcolo ritardato dopo confronto dei risultati.
+- I tre temi e la disposizione dei controlli non cambiano in questa fase. Nessuna libreria GPC viene aggiornata durante gli spostamenti.
+
+## Attività accodata alla chiusura di F3
+
+Il 13 ottobre l'utente ha accodato la riscrittura degli input delle sollecitazioni via Excel (EXCEL-SOL nel piano), poi ne ha precisato il formato: Elemento facoltativo, Nome combo, Stato limite, N, Vx, Vy, T, Mx, My. Una riga alimenta tutti i controlli pertinenti allo stato limite; SLU e SLV alimentano anche taglio e torsione, senza una famiglia Taglio separata. Prima si completano i punti F3 già concordati. I requisiti acquisiti e le cautele per la compatibilità sono in decisioni.md; a fine F3 si discutono solo gli eventuali dettagli ancora ambigui. La riscrittura non è iniziata e F4 resta esplicitamente esclusa.
+
+## Banco unico
+
+Si estende ANTHEA.Testing anziché creare il duplicato TestSupport ipotizzato nel piano iniziale. Le nuove catture WPF stanno in tests/ANTHEA.Desktop.Equivalence e sono compilate soltanto nella configurazione UiTests già esistente. Release non include il toolkit né i comandi di prova. Le nuove suite passano da build/ci.ps1.
+
+36 input sintetici congelati in tests/fixtures/f3/inputs. Catture D/E: 20261013-011723-f3-baseline-d e 20261013-011837-f3-baseline-e. 458 file confrontati, zero differenze non ammesse e un solo tempo volatile già censito. Coperti dati dopo costruzione, visita di schede/pannelli, calcolo, export e riapertura; report singoli, brevi e di progetto, 71 articoli renderizzati testualmente e 30 ricerche Wiki. Le acquisizioni non sostituiscono gli attesi ingegneristici indipendenti.
+
+Il primo confronto B/C mostrava differenze soltanto nell’ordine dei conflitti del progetto sintetico: il banco generava nuovi ID ad ogni corsa. Gli ID della fixture sono ora fissi; nessuna esclusione numerica, di testo o di ordinamento aggiunta. La verifica B/C resta negli artefatti per trasparenza.
+
+Soglie iniziali misurate sulla Release: 145 TypeRef verso ANTHEA.Calculations, 36 CompositeBridge, 3 Concrete, 6 Geotechnics; 11 metodi async void. Sei timer di calcolo (10 occorrenze complessive DispatcherTimer includendo gerarchia e Wiki). Nove creazioni DOCX in X.Core, più quella delle fondazioni. Le soglie si riducono con i trasferimenti e non aumentano senza motivazione tracciata.
+
+I confronti preesistenti restano attivi: corpus headless, banco denso, mesh/concorrenza, regressioni e prove WPF. Un punto si chiude solo dopo la prova pertinente; nuove differenze vengono classificate prima di proseguire.
+
+## F3.2 — scheletro e regole
+
+Tre progetti net8.0 aggiunti alla soluzione, con un solo progetto di test di architettura e un ingresso console esplicitamente limitato all’aiuto finché i servizi non sono collegati. La suite controlla riferimenti di progetto e metadati degli assembly, target, WPF/Office/COM, inventario dei tipi di calcolo usati dalla UI, conteggi async void/timer e impronta del manifest GPC. Le suite funzionali Application/Reports/Wiki si aggiungono quando esistono servizi da provare, evitando progetti vuoti di test. Regole sul codice ingegneristico residuo e sui ripieghi normativi restano nel percorso F4; il loro trasferimento non viene mascherato come una semplice regola sulle dipendenze.
+
+Corsa 20261013-012323-f3-scaffold: 7 PASS, compreso il riferimento F3. Controllo finale 20261013-012535-f3-architecture-final: 5 PASS; distribuzione Release senza marcatori di test. Le soglie di dipendenza non sono aumentate.
+
+## F3.3b — documenti e revisioni
+
+Spostati 17 sorgenti e il template Excel, con impronte prima del trasferimento negli artefatti f3/document-moves.json. DocumentService è il punto di apertura, validazione e salvataggio; Archivio delega per compatibilità. MainWindow usa il servizio; conservato il percorso di scrittura Office richiesto dalla protezione endpoint, distinto dalla rinomina atomica degli archivi. Il tool Headless valida e descrive documenti senza WPF, senza modificare i file.
+
+121 controlli nuovi: 36 input storici aperti e risalvati senza migrazioni anticipate, revisione congelata indipendente dal foglio corrente, corruzione del pool rifiutata, scrittura invalida senza perdita del documento precedente, template Excel identico e segni conservati. Suite progetto passate. Corsa 20261013-013204-f3-documents-built: 12 PASS; 458 file equivalenti, unico tempo volatile già ammesso. La prima invocazione selezionava gli stadi senza build e non trovava il nuovo eseguibile di test; conservata come errore di invocazione, risolto eseguendo anche build. Nessuna eccezione aggiunta.
+
+## F3.4 — report e scrittore condiviso
+
+Tutti i generatori Core e il report delle fondazioni sono in Reports. Dieci punti di creazione ZIP e la riscrittura del report breve passano dal solo DocxWriter. Ogni generatore può fornire un DocxDocument in memoria; i metodi che restituiscono byte restano compatibili e delegano. Il compositore progetto riceve una proiezione Application di dati comuni, conflitti e input, senza dipendere dai servizi del documento. I capitoli condividono direttamente le parti XML e le immagini: nessun DOCX temporaneo viene compresso e riaperto nel percorso del prodotto. Il vecchio ingresso a byte resta un adattatore per i consumatori precedenti, non il percorso UI. DocumentFile contiene l’unica politica di scrittura durevole, riusata da archivi e report.
+
+Report delle fondazioni e PDFsharp si spostano insieme per evitare il ciclo con la libreria di calcolo. Core non è più referenziato da Desktop né dal manifest delle dipendenze distribuite. Rimane il progetto di compatibilità composto da TypeForwardedTo per il test esterno Checker/BridgeAudit e per gli strumenti precedenti; non contiene logica. Nessun motore legacy viene eliminato.
+
+Verifiche: 13 PASS nella corsa 20261013-013734-f3-reports, compresi 458 file del riferimento F3. Ulteriori controlli su proprietà dei buffer, caratteri, rimappatura delle immagini, livelli dei titoli, sorgenti non mutati, annullamento e rifiuto di collegamenti esterni. Corsa 20261013-014033-f3-report-parts-final: 5 PASS. Comparazione profonda nei report-parts-comparison: 30 DOCX, 134 parti XML e 97 immagini, zero differenze; riuso di TextNormalizer per i soli volatili già censiti. Nessuna variazione ingegneristica o del formato degli archivi.
+
+## F3.5a — servizi e coordinamento
+
+IModuleService usa le identità dell’unico ModuleCatalog; chiama i motori esistenti su copie, conservando gli esiti tipizzati dove servono alla presentazione. ModuleCalculation non equipara calcolo eseguito a verifica strutturale soddisfatta. Cache LRU per documento: massimo quattro esiti e 8 MiB di JSON serializzato; esiti tipizzati mutabili ed errori esclusi, restituzione sempre su copia. Non è una stima della memoria totale del processo.
+
+RecalculationScheduler non dipende da WPF: conserva il contesto del chiamante, serializza anche motori che non interrompono subito, annulla richieste superate e consente la pubblicazione solo della revisione corrente. Prove con barriere esplicite, ritardo annullato, errore osservato, invalidazione, annullamento esterno e chiusura. I timer dei moduli vengono sostituiti uno alla volta nel passo seguente. Il report progetto autonomo e IFigureRenderer restano da completare.
+
+Corsa 20261013-014723-f3-module-services-final: 7 PASS e 185 controlli Application. Dodici default confrontati con l’ingresso di calcolo preesistente; le righe CA nuove vengono preparate una volta per dare alle due esecuzioni le stesse identità, senza normalizzare i risultati numerici. Headless calculate esporta JSON da un foglio singolo e rifiuta di usare il documento originale come destinazione. Collaudo con palificata orizzontale negli artefatti F3.
+
+## F3.6a — pali verticali
+
+SheetEditor dei pali e micropali verticali usa IModuleService, la sessione con cache e RecalculationScheduler. Ritardo iniziale invariato di 450 ms; il calcolo esplicito sostituisce quello in attesa, le modifiche invalidano i lavori precedenti e i motori che non si interrompono subito restano serializzati. Lo stato visuale viene aggiornato soltanto dal risultato corrente.
+
+Corsa 20261013-015056-f3-vertical-service: 10 PASS, smoke WPF generale e confronto di 458 file senza differenze nuove. Nove prove WPF dedicate con un motore di test trattenuto da barriere, due geometrie consecutive e chiusura durante il lavoro. Il test dei timer esistente ora attende la Task della richiesta. Soglie correnti in limits.json: 10 async void e 9 occorrenze DispatcherTimer, cioè 5 timer di calcolo più quelli di gerarchia e Wiki; il riferimento originale rimane immutato.
+
+## F3.6b — acciaio, palificata e fondazioni
+
+Proprietà e curva dell’acciaio e proprietà derivate del report usano il servizio del modulo. La palificata conserva il calcolo breve sincrono, le modifiche alla direzione selezionata e il ritardo di 180 ms, ora coordinato dallo scheduler senza DispatcherTimer. La fondazione passa al servizio mantenendo la stessa FoundationLibrary iniettata, anche quando l’API non è disponibile.
+
+Corsa 20261013-015601-f3-steel-group-foundations: 12 PASS; 185 controlli Application, controlli fondazioni anche WPF, smoke acciaio e report materiali, 458 file F3 equivalenti. Soglia DispatcherTimer ridotta a 8 occorrenze, quattro timer di calcolo residui. Nessuna formula cambiata.
+
+## F3.5a.2 — un solo ingresso di calcolo
+
+CalculationService è trasferito in Application, con la stessa firma e lo stesso namespace per i consumatori ricompilati. Il tipo cambia assembly: non si promette compatibilità binaria per eventuali eseguibili esterni non ricompilati. Moduli e facciata JSON condividono ora un solo dispatch, inclusi i risultati tipizzati e la FoundationLibrary iniettata; nessuna formula cambiata. I test dei motori restano riferiti ai calcoli, quelli dell’ingresso applicativo referenziano Application. TypeRef Desktop verso Calculations ridotti da 145 a 144.
+
+Corsa 020239-f3-unified-dispatch-built: 14 PASS, 458 file F3 equivalenti. Muri e BridgeDesign superati nella corsa headless. La prima build richiedeva il riferimento esplicito Model ora aggiunto; nessuna eccezione. Il primo confronto numerico puntava erroneamente alla vecchia B3, anteriore alle chiusure F2: conservato ma non usato per attestare equivalenza. Sul riferimento finale F2 risultano solo 633 rinomine dei chiamanti diagnostici dei report, tutte classificate F3-01; le otto identità esatte sono normalizzate dal banco, con TSV originali conservati e 18 prove, senza sostituzioni generiche né tolleranze nuove. Il runner accetta CaptureCandidate per riutilizzare una cattura esistente. Lo strumento copia tutte le DLL del manifest, anche i convertitori non caricati: elimina un falso indicatore di incoerenza dovuto alle due DLL non necessarie al corpus ma assenti accanto all’eseguibile.
+
+Corsa finale 20261013-020922-f3-dispatch-final: 5 PASS; 548 file equivalenti, soli 21 tempi volatili già censiti. Le librerie copiate coincidono tutte con il manifest. Attesi indipendenti e fixture F3 immutati.
+
+## F3.6c — Wiki indipendente da WPF
+
+WikiCatalog, ricerca, alias e WikiProgress trasferiti in ANTHEA.Wiki. WikiMarkup restituisce blocchi e span tipizzati, con gli stessi delimitatori e le stesse regole di collegamento del lettore precedente. WikiEditorial interpreta solo questi blocchi con i controlli WPF; LaTeX originale conservato per copia e formule. Le figure grafiche rimangono nel progetto desktop che le disegna. Cataloghi, esempio e hash dei sorgenti appartengono ora a src/ANTHEA.Wiki/Content; i percorsi degli strumenti correnti sono aggiornati, quelli degli archivi storici restano originali. Gli undici file JSON spostati hanno la stessa impronta prima e dopo, registrata in f3/wiki-moves.json; cambiano soltanto i percorsi di sources.props. Nessuna modifica alle guide e ai loro PDF.
+
+Corsa 20261013-021305-f3-wiki-extracted: 240 controlli portabili, indice e controlli editoriali, rendering completo Wiki e 458 file F3 equivalenti, tutti superati. La prima build del test fondazioni aveva ancora una seconda chiamata reflection al catalogo precedente: corretta usando la API pubblica, senza modifiche al prodotto. Corsa finale 20261013-021454-f3-wiki-foundation-final: build e prove WPF fondazioni passate. Nessuna tolleranza, atteso o testo applicativo cambiato.
+
+## F3.6d — ponte composto e muri
+
+Il calcolo principale usa il servizio del modulo. RecalculationScheduler sostituisce i timer da 500 e 450 ms, conservandone i ritardi; non si sovrappongono motori che ignorano temporaneamente l’annullamento. Curve del ponte su scheduler dedicato; stabilità globale e predimensionamento delle armature del muro condividono lo scheduler locale, con richieste opzionali in StructuralQueries. Input e richieste sono copiati prima dei calcoli. Le proposte non vengono applicate se cambia la revisione. Ripristino della fase selezionata nel ponte con callback di selezione sospese, come nel percorso precedente.
+
+Corsa 20261013-021755-f3-bridge-wall-built: 11 PASS, smoke ponte e curve, muri, guida globale e muro avanzato, più 458 file F3 equivalenti. La prima build aveva rilevato riferimenti al timer/annullamento nella ricerca armature, poi migrata sullo stesso coordinatore. Corsa 20261013-022126-f3-typed-scheduling: 6 PASS; 21 prove WPF con barriere e motori deliberatamente non cooperativi su pali, ponte e muri, modifiche reali dei campi geometrici, sostituzione del lavoro in attesa e chiusura. Helper del motore di prova condiviso fra i tre moduli. Soglie: 8 async void, 6 occorrenze DispatcherTimer, di cui solo due per calcoli (orizzontale ed elastico). Risultati e report invariati.
+
+## F3.6e — capacità orizzontale e risposta elastica
+
+Gli ultimi due timer di calcolo sono sostituiti dallo scheduler comune, con ritardi 450/300 ms conservati. HorizontalPileAnalysis mantiene il momento della sezione disponibile anche con terreno incompleto. ElasticPileAnalysisSession possiede risposta FEM e cache delle resistenze già esistente: pubblica prima i diagrammi, poi le verifiche; variazioni delle armature riusano il FEM, variazioni dei carichi lo invalidano. Copie indipendenti in ingresso, callback ed esito; migrazione legacy ancora esplicita. Una chiusura annulla le richieste e ripulisce la cache anche quando il motore sta terminando.
+
+Corsa 20261013-022732-f3-horizontal-elastic-final: 458 file F3 equivalenti, prove elastiche complete, secondo anello e nota stress-block passate. Due problemi del banco risolti senza cambiare attesi: la prova del terreno incompleto ora usa uno strato di spessore nullo invece di un archivio strutturalmente invalido; il ripristino diretto del JSON nel test di editing notifica la revisione, perché il calcolo usa una fotografia acquisita alla richiesta. Le prime build evidenziavano riferimenti di test al timer rimosso, sostituiti con attesa della Task. Corsa finale 20261013-022945-f3-piles-regression-final: 4 PASS, 199 controlli Application, smoke orizzontale passato. Soglie Desktop: 143 TypeRef Calculations, 6 async void e 4 DispatcherTimer, tutti per gerarchia/Wiki; nessun timer di calcolo residuo.
+
+## F3.6f.1 — materiali e capitoli portabili
+
+MaterialSheetInput e MaterialSheetPresentation contengono i dati iniziali condivisi, validazione, proprietà meccaniche, aderenza, copriferro e testi della composizione prima costruiti nei controlli WPF. I motori restano quelli esistenti. La mappatura JSON → CoverInput è estratta dal MaterialCover già usato da sezioni e muri: UI e ingresso precedente riusano lo stesso metodo, senza un secondo elenco di coefficienti. Le scelte e i valori iniziali dei controlli provengono dall’unico catalogo applicativo. MaterialReportChapter produce i capitoli calcestruzzo/acciaio senza una vista, usato anche da SheetEditor.
+
+Corsa 20261013-023321-f3-material-presentation-built: 9 PASS, inclusi materiali, report e 458 file F3 equivalenti. Il collegamento dei capitoli passa nelle stesse prove della corsa 023520. Il nuovo confronto portabile inizialmente confrontava stringhe numeriche formattate (38,00) con celle numeriche del report (38): ora confronta i valori delle celle per etichetta, numericamente quando entrambe sono numeri, testualmente altrimenti; nessuna modifica alle fixture. Corsa finale 20261013-023645-f3-material-service-final: 4 PASS, 291 controlli Application e suite rapida ConcreteLibraryAdapter passata. Input incompleti, validità della tolleranza, errore locale senza perdita dei valori indipendenti e isolamento dell’archivio coperti. La prima compilazione aveva un riferimento locale Flag rimosso durante l’estrazione, corretto prima dei test. Nessun nuovo fallimento ammesso.
+
+## F3.6f.2 — vista Materiali nel Desktop
+
+La vista, gli stili di ripiego e le risorse grafiche sono in X.Desktop/Wpf/Materials e Assets/Materials. Namespace e API della vista conservati per i sorgenti ricompilati; l’assembly Materiali separato non è più una dipendenza del prodotto. Il catalogo delle esposizioni presenta alla UI solo codice, descrizione e severità già calcolata dal servizio: nessuna nuova dipendenza diretta dai tipi dei motori. Le impronte dei file trasferiti sono in f3/material-view-moves.json. Rimosso l’adattatore finestre Materiali inutilizzato e duplicato; rimane quello del Desktop. README e RIFERIMENTI della vecchia applicazione, già superati, archiviati con registro e rimando alle guide Rev39. Nessun contenuto della guida corrente cambia.
+
+Corsa 20261013-023905-f3-material-view-move: architettura, 291 controlli Application, materiali, report e 458 file equivalenti passati. Il test dei report brevi disabilita i riferimenti transitivi e richiedeva quindi quelli espliciti ad Application/Reports al posto di Core e Materiali. Corsa finale 20261013-024042-f3-material-move-short-final: build e prova WPF passate. I conteggi delle dipendenze e dei timer restano invariati. Il progetto della vista viene eliminato, nessun motore di calcolo legacy viene eliminato.
+
+## F3.6g — Bridge Design
+
+BridgeDesignAnalysis prepara il ponte, il confronto fissato e le proposte sulla stessa fotografia dei dati, usando i servizi esistenti. La vista invalida subito gli esiti e ricalcola dopo 450 ms. La proposta con una campata in meno viene calcolata una sola volta; risultati, soglia di risparmio e filtri restano identici. L’ottimizzazione possiede la sua richiesta fin dall’attesa del calcolo iniziale: avvii doppi ignorati, annullamento e chiusura impediscono pubblicazioni tardive. SheetEditor attende la Task e dispone anche questo workspace.
+
+Corsa 20261013-024321-f3-bridge-design: 9 PASS, inclusi 458 file equivalenti. Corsa finale 024915-f3-bridge-design-final: smoke completo e 31 controlli WPF di scheduling/chiusura passati. Prove portabili aggiunte per alternative applicabili, delta coerenti, confronto invalido circoscritto, proprietà delle copie e annullamento. In 025100 il test mancava del namespace Anthea.Calculations, corretto; 025112-f3-bridge-design-application-final: build e suite Application passate. Nessun atteso modificato, nessuna eccezione aggiunta.
+
+## F3.6h.1 — sessione delle sezioni in calcestruzzo
+
+ConcreteAnalysis e ConcreteAnalysisSession sono in Application, namespace e firme precedenti conservati per i consumatori ricompilati. La lettura comune N–Mx–My resta in SectionWorkspace e viene riusata dal progetto delle armature, evitando una dipendenza circolare. Hash prima dello spostamento in f3/concrete-moves.json. CalculateBatchAsync governa i domini e le famiglie SLE richiesti, su copie, con pubblicazioni progressive e cache della sezione preparata; le richieste alla stessa sessione sono serializzate. I callback conservano il contesto del chiamante e sono serializzati anche senza contesto UI. Gli errori locali non impediscono le altre famiglie. Il workspace usa lo scheduler comune per annullamento e revisione.
+
+Corsa 025316-f3-concrete-batch-built: 13 PASS, adattatori CLS, riuso API, funzioni CA e 458 file equivalenti. La prima build segnalava un test che accedeva alla vecchia cache privata: la verifica ora confronta direttamente l’identità della sezione condivisa dai quattro domini. Corsa finale 20261013-025551-f3-concrete-session-final: 11 PASS, 311 controlli Application, 35 WPF scheduling/chiusura, smoke generale e CA, 458 file equivalenti. Nuove prove su riuso dei domini e degli stati SLE, filtri grafici, input modificati dopo la richiesta, errore parziale, annullamento e recupero della sessione. Soglia TypeRef Calculations ridotta da 143 a 140; nessuna tolleranza nuova.
+
+## F3.6h.2 — dettagli e riepiloghi delle sezioni
+
+ConcreteDetailingPresentation costruisce testi, esiti degli ancoraggi e raggruppamenti dei dettagli chiamando gli stessi adattatori. I valori derivati si applicano esplicitamente al workspace; il calcolo non modifica il documento di ingresso. La distinzione fra controlli numerici e conferme manuali resta intatta, così come l’indipendenza dell’ancoraggio da un errore nei dettagli. VerificationDetail è l’unico formato testuale dei riquadri; WPF ne interpreta stato e contenuto. ConcreteVerificationSummaries riusa l’aggregatore già esistente e mantiene ordine, conteggi e criteri dei riepiloghi.
+
+Corsa 030001-f3-concrete-presentation-built: 9 PASS, smoke CA e 458 file equivalenti. Il primo build ha individuato il vecchio nome Children nel conteggio dei riquadri, ora Items. Corsa finale 20261013-030206-f3-concrete-presentation-tests: 330 controlli Application; prove dirette sui quattro output CA congelati, nessuna riscrittura degli attesi, prova della mancata mutazione, applicazione idempotente dei derivati, dettagli validi e errore parziale. Le figure e i testi dei report mantengono il riferimento F3.
+
+## F3.6h.3 — analisi opzionali delle sezioni
+
+StructuralQueries governa gli ingressi di curve M–χ, resistenze nelle quattro direzioni e ricerca delle armature, su copie dei dati e tramite gli stessi motori. Le resistenze rapide ora annullano e serializzano le richieste superate, invece di eseguire ogni modifica in parallelo e scartare solo la visualizzazione. Le curve usano lo scheduler e restituiscono una Task osservata dai test; nessun async void di calcolo. La ricerca armature mantiene l’esito parziale previsto quando il motore termina dopo l’interruzione; i progressi controllano l’identità della richiesta e il risultato viene assegnato solo se la vista è ancora aperta. Le risorse della richiesta vengono liberate al termine.
+
+Corsa 20261013-030344-f3-concrete-queries: 12 PASS, 330 controlli Application, smoke CA, ricerca armature e 458 file equivalenti. Corsa finale 030616-f3-concrete-queries-close: 5 PASS e 37 controlli WPF, compresa chiusura con calcolo principale, curva e resistenze rapide in corso; nessun testo o risultato tardivo nella vista chiusa. Soglie: 133 TypeRef Calculations, 5 async void, 4 DispatcherTimer non di calcolo. Nessuna modifica numerica o agli attesi.
+
+## F3.5b.1 — orchestrazione del report progetto
+
+ProjectReportService possiede cattura del ramo con la sua ascendenza, ordine dei capitoli, segnalazione degli errori e composizione finale. WriteSnapshotAsync riceve esplicitamente una fotografia posseduta dal report e vi conserva i dati preparati per diagnosi; l’archivio aperto non viene passato al costruttore dei capitoli. IProjectReportChapterBuilder è il contratto per i moduli. Nel Desktop resta temporaneamente SheetEditorReportChapterBuilder: la sua sostituzione con preparazioni e renderer autonomi è ancora aperta, non mascherata dal trasferimento del ciclo.
+
+Corsa 20261013-030829-f3-project-report-service: 8 PASS, 337 controlli Application, smoke gerarchico del report e 458 file equivalenti. Prove portabili su ascendenza, ordine, capitoli incompleti visibili, archivi non mutati, dati preparati nella fotografia, annullamento a metà e errori I/O che conservano il file precedente. Nessun formato o testo del report modificato.
+
+## F3.5b.2a — riferimento grafico
+
+Prima di spostare la preparazione delle figure sono congelati sei input di pali/micropali, tutte le serie numeriche, i filtri di capacità, le stratigrafie, i marcatori, colori, tratteggi e opzioni degli assi. Confronto esatto senza tolleranze nuove in ui/f3-figures; acquisizione esplicita distinta dalla verifica. Corsa 031523-f3-figures-baseline-repeat passata; i 458 file F3 restano equivalenti (031405). Due invocazioni iniziali del solo stadio build non selezionavano alcuna suite: non usate come prova. Nessun atteso ingegneristico sostituito.
+
+## F3.5b.2b — curve portabili
+
+VerticalPileCharts prepara le stesse serie di capacità, visibilità, filtri, abachi e marcatori; PlotPresentation traduce soltanto colori e stili WPF. I valori Nq e Bustamante–Doix provengono dagli stessi motori. Nessuna formula o atteso aggiornato. Corsa 031655-f3-vertical-charts-final: 6 PASS, sei fixture grafiche esatte, 458 file F3 equivalenti e regole architetturali superate. Primo errore di compilazione dovuto al nome di un tipo trasferito, corretto prima dei confronti.
+
+## F3.5b.2c — primi capitoli autonomi
+
+ModuleReportService prepara e calcola pali, micropali e Bridge Design senza creare controlli; IFigureRenderer riceve il risultato già calcolato. ModuleSheetPreparation riusa le migrazioni pigre della vista. Il renderer costruisce solo disegni e la vista usa il medesimo generatore delle figure verticali, preservando selezione e visibilità correnti. Altri moduli restano sull’adattatore temporaneo, senza dichiarare concluso F3.5b.2.
+
+Corsa 032000: 5 PASS, report progetto, sei catture grafiche, 458 file equivalenti. Nuova suite ui/f3-report-chapters: otto fixture, dati preparati, XML e dieci immagini identici alla vista; metadati normalizzati esclusivamente dal normalizzatore comune (032128). Confronto aggiuntivo con cattura prima dello spostamento: 30 DOCX, 97 immagini identiche byte per byte. Nessuna variazione ingegneristica; correzione iniziale del namespace del preparatore prima delle prove.
+
+## F3.5b.2d — materiali, palificata e fondazioni
+
+Sette moduli su dodici producono ora capitoli senza editor. I materiali condividono lo stato iniziale portabile; RestoreState conserva il comportamento delle restaurazioni parziali. Palificata: migrazione, coordinate numeriche e selezione risultante conservate, parser comune con la vista. Fondazioni: stesso completamento dei dati e stesso report portabile già esistenti.
+
+Corsa 032514: 7 PASS, 343 controlli Application, smoke materiali/progetto, 16 capitoli autonomi confrontati con la vista e 458 file equivalenti. Un confronto intermedio ha rilevato soltanto l’ordine di cinque proprietà materiali nel capitolo progetto: ripristinato l’ordine storico di inserimento; attesi immutati, nessuna tolleranza aggiunta. Correzione sintattica iniziale del ramo senza figure prima del collaudo.
+
+## F3.5b.2e — muri autonomi
+
+Ottavo modulo separato: dati globali, quote degli strati persistite e matrici risultanti condivisi in WallSheetPresentation; scelta della combinazione e preparazione distinta in WallReportPresentation. Il renderer disegna soltanto sezioni, diagrammi, superficie critica e tavole della distinta, senza dipendenze dagli editor. Il report interattivo conserva la combinazione scelta; il progetto adotta la stessa selezione iniziale precedente.
+
+Corsa 032911: 5 PASS, smoke muri/progetto, 20 capitoli e 458 file equivalenti. Corsa 033130: 3 PASS, smoke stabilità globale ed equivalenza di 21 capitoli (55 immagini e tutte le parti XML), compreso un caso aggiuntivo con profilo globale confermato. Nessuna differenza o eccezione aggiunta.
+
+## F3.5b.2f — ponte composto autonomo
+
+BridgeSheetPresentation condivide con la vista i valori iniziali, migrazione delle opzioni, fase selezionata, omogeneizzazione e amplificazione delle tensioni. I metodi ingegneristici chiamati restano quelli già esistenti. ModuleFigureRenderer disegna geometria e fasi dai risultati senza costruire BridgeWorkspace; la relazione interattiva riusa lo stesso renderer.
+
+Corsa 20261013-033428-f3-report-composite-bridge: 8 PASS, smoke ponte, curve, predalle, Bridge Design e progetto; capitoli autonomi confrontati integralmente con quelli della vista e 458 file F3 equivalenti. Nessuna modifica agli attesi o nuova eccezione.
+
+## F3.5b.2g — pali orizzontali ed elastici
+
+HorizontalSheetPresentation riusa preparazione generale, coefficienti, materiali e vista elastica nei due percorsi. La relazione segue vista_orizzontale; l’elastico usa la sessione applicativa con annullamento, la capacità il servizio del modulo. Nessuna risoluzione implicita della migrazione legacy. Il disegno di capacità è condiviso con la relazione interattiva; le figure elastiche erano già portabili.
+
+Corsa 20261013-034045-f3-report-horizontal: 5 PASS, smoke orizzontale/progetto, 33 capitoli autonomi (anche input incompleti e migrazioni pendenti), equivalenza completa di 458 file. Nessuna formula, atteso o tolleranza modificati. Undici moduli autonomi su dodici; rimane la sezione CA.
+
+## F3.5b.2h.1 — preparazione della sezione CA
+
+ConcreteSheetPreparation condivide valori iniziali, strati di armatura, materiali, lettura e serializzazione delle azioni e sincronizzazione φ/n. Quest’ultima conserva il campo sorgente invalido, azzera solo il derivato e restituisce alla vista il messaggio esistente. La preparazione autonoma conserva i dati derivati persistiti e le migrazioni già adottate dalla finestra.
+
+Corsa 034430: 458 file equivalenti e ricerca armature passati; il nuovo confronto dei dati aveva ID diversi, generati dalle due copie di un input legacy senza identificativi. Banco corretto creando le identità una volta prima delle copie, come nella suite dei servizi. Corsa finale 20261013-034639-f3-concrete-preparation-identities: 2 PASS; quattro preparazioni CA uguali alla vista, 33 capitoli precedenti ancora equivalenti. Nessun atteso o tolleranza modificati.
+
+## F3.5b.2h.2 — risultato CA e riferimento grafico
+
+ConcreteReportAnalysis riusa il batch domini/SLE e prepara l’esportazione completa con riepiloghi, dettagli e ancoraggi. ConcreteResultExport è condiviso con la vista; il contratto più piccolo della CLI calculate rimane distinto. ConcreteShearBatch elimina il doppio ciclo di calcolo per riga e conserva errori locali ed esiti parziali.
+
+Corsa 034827: 3 PASS, quattro risultati CA identici alla finestra e 458 file equivalenti. Corsa 035103: 4 PASS, risultato con ciclo taglio condiviso, 33 capitoli, 458 file e cattura di quattro configurazioni grafiche CA. Riferimenti in tests/fixtures/f3-concrete-figures: SLU/SLV, quattro filtri, punti resistenti e colori. Ripetibilità esatta in 035255 prima di estrarre i grafici; nessun atteso precedente modificato. L’acquisizione è esplicita con CaptureConcreteFigures e non scrive nelle fixture.
+
+## F3.5b.2h.3 — grafici dei domini CA
+
+ConcreteDomainChart prepara contorni, proiezioni, punti Ed/Rd e linee di verifica usando i domini già calcolati. I filtri, la validazione delle azioni visualizzate e i colori sono condivisi; WPF converte soltanto dati e colori nel Plot. Conservati scala, selezione, livelli e comportamento con azioni invalide.
+
+Corsa 035446: 5 PASS, quattro riferimenti grafici esatti, 33 capitoli e quattro risultati CA equivalenti alla vista, smoke CA e 458 file invariati. La prima build chiedeva il riferimento Concrete del tipo nativo trasferito: aggiunto ad Application, senza nuove dipendenze della UI. Nessuna nuova tolleranza o modifica alle fixture.
+
+## F3.5b.2 — tutti i capitoli autonomi
+
+Anche CA usa il servizio applicativo e il renderer comune. La geometria viene preparata nel servizio; filtri, ordinamento delle azioni e figure sono condivisi con la finestra. Il percorso interattivo conserva selezione, grafici correnti e curva opzionale. Il report di progetto non costruisce più SheetEditor né workspace. Le regole di architettura impediscono di reintrodurre editor o costruzione di motori nei renderer. Errori parziali conservati nel capitolo.
+
+Corsa finale 20261013-040439-f3-all-chapters-final: 8 PASS; 37 capitoli dei dodici moduli e 85 immagini, ogni parte XML identica alla vista; quattro riferimenti grafici CA e 458 file F3 equivalenti. Confronto aggiuntivo con la cattura precedente all’estrazione dei grafici: 30 DOCX, 97 immagini identiche byte per byte (all-chapters-images-final.json). Nessuna differenza ingegneristica, nuova tolleranza o modifica alle fixture. Una prima invocazione passava erroneamente l’elenco degli stadi come singola stringa ed è stata rifiutata prima dell’esecuzione.
+
+## F3.7a — anteprime e proprietà CA
+
+ConcretePreview prepara geometria e proprietà attraverso gli stessi motori; la finestra aggiorna soltanto i controlli. ConcretePropertySession possiede la fotografia della sezione, riusa il modello e serializza le richieste con lo scheduler comune. Testi del report invariati; la chiusura invalida anche un lavoro già dentro il motore. Nessuna copia delle formule. I tipi grafici nativi ancora esposti restano un residuo esplicito di F3.7b.
+
+Corsa 20261013-041008-f3-concrete-property-service: 9 PASS, proprietà della finestra, tutti i capitoli autonomi e 458 file F3 equivalenti. Corsa finale 041258-f3-concrete-properties-final: 5 PASS, tredici nuovi controlli su copie di input e opzioni, conversione φ/n, errore locale/recupero, annullamento, chiusura e indipendenza della geometria. TypeRef Calculations ridotti da 133 a 127; async void da 5 a 4. Nessuna modifica agli attesi.
+
+## F3.7b.1 — ispezione della sezione
+
+ConcreteInspectionSession possiede cache e richieste Ed/Rd; l’azione Ed conserva tutte le componenti anche nel dominio 2D proiettato, Rd legge il piano nativo salvato. Richieste seriali, annullamento, invalidazione e chiusura usano lo scheduler comune; le notifiche tardive non aggiornano la vista. Testi dell’ispezione e riepiloghi condivisi in ConcreteResponsePresentation. Nessuna ricerca di resistenza aggiunta.
+
+Cattura prima 041441-f3-inspection-before; dopo 041739-f3-concrete-inspection-built: 9 PASS, 458 file equivalenti, scheduling e ispezione WPF. Tutti i 32 PNG sono identici byte per byte, anche contouring 2D/3D e piano di deformazione. Corsa finale 042027-f3-inspection-final: 5 PASS; nove nuovi controlli portabili con barriera, riuso del piano limite/Ed, copie e chiusura. Async void ridotti a 3. La prima build richiedeva il riferimento Geometry nel progetto Application: aggiunto, senza cambiare il set GPC.
+
+Corretto anche il registro: la voce F3-01 era stata inserita nell’elenco degli stati anziché fra le voci; ora è nella posizione prevista, con contenuto invariato. Dichiarato lo stato attuato già presente nelle voci storiche. Quattro controlli impediscono voci spostate, duplicati e stati non dichiarati. La serializzazione delle richieste è classificata F3-02; non cambia i risultati numerici.
+
+## F3.7b.2 — parametri del muro
+
+WallParameterTable conserva la fotografia iniziale, la proiezione e la conversione dei campi, i collegamenti tra colonne e le firme delle combinazioni; costruisce copie indipendenti e valida con il servizio del modulo. Nessuna formula duplicata. La finestra applica la proposta soltanto se la revisione è ancora quella di apertura; chiusura e disposizione del workspace invalidano la richiesta. Corretto il controllo precedente, che verificava la revisione soltanto prima del lavoro in background (F3-03). La Task di applicazione è osservabile anche dal banco.
+
+Prima: 042325-f3-wall-parameters-before. Dopo: 042449-f3-wall-parameters-service, 9 PASS e 458 file equivalenti. Finale 042707-f3-wall-parameters-final: 8 PASS, 376 controlli Application, undici nuovi su copie, parsing, colonne collegate, combinazioni e annullamento; quattro WPF con barriera provano modifica concorrente e chiusura. Tutti i 24 PNG, inclusa la tabella dei parametri, identici byte per byte. Async void ridotti a 2; TypeRef 127 invariati.
+
+## F3.7b.3 — proprietà della sezione composta
+
+BridgePropertyPresentation prepara le tabelle di carpenteria reale/equivalente, soletta e fasi richiamando gli stessi metodi nativi. PresentationTable contiene soltanto titolo, colonne, righe e nota; la vista ne decide la resa. Un solo formato numerico condiviso con BridgeWorkspace. Omogeneizzazione aggiornata nello stesso ordine, unità, testi, ordinamento delle barre e scelta della fase conservati; nessuna formula nuova.
+
+Prima: 20261013-043128-f3-bridge-properties-before. Dopo: 20261013-043222-f3-bridge-property-service, dieci suite PASS, incluse Application/Architecture, ponte, predalle, 37 capitoli autonomi e 458 file F3. Quattro PNG della prova predalle identici byte per byte; evidenza bridge-properties-images.json. Nessuna differenza agli attesi o nuova eccezione. I contratti nativi residui della UI restano aperti in F3.7b.
+
+## F3.7b.4 — anteprime dei pali orizzontali
+
+HorizontalPreview prepara modello automatico, coefficienti, efficienza, Kp, proprietà CHS, resistenze e geometria circolare tramite le API esistenti. Per la geometria riusa ConcretePreview; restituisce dati posseduti senza mutare il foglio. Le invalidità locali conservano i precedenti messaggi/campi vuoti e non bloccano le proprietà indipendenti. Il valore γR mostrato storicamente è conservato e resta da unificare con la norma in F4; nessuna nuova formula in Application.
+
+Cattura prima 20261013-043832-f3-horizontal-preview-before; dopo 044003-f3-horizontal-preview: undici suite PASS, 458 file e capitoli autonomi equivalenti. Settantasei PNG dello smoke orizzontale identici, evidenza horizontal-preview-images.json; quattro BMP dell’anello interno identici in horizontal-preview-ring-images.json. Corsa 044250-f3-horizontal-preview-checks: cinque PASS, 388 controlli Application. Dodici nuove prove su copie, quote indipendenti del cerchio/armature, input parziali, limiti e recupero della preview CHS. Nessuna modifica agli attesi congelati.
+
+## F3.7b.5 — confine effettivo nei metadati
+
+Architecture.Tests ora produce desktop-accesses.json dai riferimenti dei membri della Release: namespace e tipi annidati risolti, campi, proprietà e costruttori distinti. Non è una certificazione semantica: non copre i membri con parent TypeSpecification e non qualifica automaticamente un getter come privo di calcolo. Impedisce il ritorno di dieci ingressi principali già trasferiti, compreso il costruttore SezioneCA anche se scritto con new implicito.
+
+Corsa 20261013-044409-f3-engine-boundary-audit, tre PASS. Riferimenti distinti: Calculations 783 (589 accessori, 56 campi, quattro costruttori di dati); CompositeBridge 237 (229 accessori), Concrete cinque (quattro accessori), Geotechnics 25 (21 accessori). Restano fra gli altri dettagli/distinte dei muri, proposte delle armature dei pali, preview del ponte, coefficienti dei verticali, interpolazioni nei disegni e cataloghi/adattatori. F3.7b rimane aperto: trasferire soltanto i riferimenti nel file di progetto non lo chiuderebbe. Nessuna modifica al prodotto o alle fixture scientifiche.
+
+## F3.7b.6 — tratti e proposte di armatura dei pali
+
+PileReinforcementOperations governa la divisione e l’applicazione delle suddivisioni, conservando la validazione nativa e l’archivio dei tratti precedenti. PileSegmentDesignSession possiede dati, risposta e cataloghi dei candidati; usa lo scheduler comune, controlla la chiave FEM già esistente e chiama lo stesso DesignSegment. L’applicazione verifica la revisione e completa la lettura dei valori prima di mutare la sezione. La vista conserva un Task osservabile e non aggiorna testo, progressi o pulsanti dopo la chiusura. Nessun nuovo algoritmo ingegneristico.
+
+Corsa 20261013-044738-f3-pile-segment-operations: nove PASS, comprese le prove elastiche preesistenti. Corsa 045043-f3-pile-segment-protection: nove PASS, 401 controlli Application, 47 WPF, 37 capitoli e 458 file equivalenti; cinque suite ripassate in 045250. Tredici controlli portabili, incluso confronto esatto della proposta con il motore precedente, e sei WPF che modificano/chiudono al primo progresso del motore reale. Nessuna sostituzione degli attesi. La vecchia suite ElasticPile.UiChecks non cattura PNG senza richiesta esplicita: non è stata usata per affermare un confronto di immagini inesistenti. Riferimenti scesi a 126 Calculations, due Concrete e quattro Geotechnics; tredici ingressi trasferiti protetti dall’architettura. Differenze intenzionali di sicurezza delle proposte registrate come F3-04.
+
+## F3.7b.7a — confronto a cavallo del minuto
+
+La corsa 20261013-045645-f3-structural-preview ha individuato un difetto del banco: il report autonomo era datato 04:58 e quello della vista 04:59. L’unica differenza in word/document.xml era la riga generata ANTHEA con data e ora. TextNormalizer ora espone la normalizzazione circoscritta a quattro prefissi generati e al formato esatto della data/ora, riusando la regola già esistente per il giorno della corsa. Testi utente, numeri e date normative restano esatti; core.xml continua a usare la politica preesistente.
+
+Corsa 20261013-050137-f3-report-timestamp-fix: otto suite PASS, 27 controlli del normalizzatore (nove nuovi), 37 capitoli/85 immagini e 458 file F3 equivalenti. Nessuna nuova tolleranza scientifica, nessun atteso riscritto e nessuna eccezione in known-failures. Registro F3-05 documenta l’errore di strumentazione.
+
+## F3.7b.7b — materiali e anteprime strutturali
+
+BridgePreview prepara geometria, copia dell’input, testi dei materiali e riferimenti della soletta, mantenendo anche la geometria valida quando fallisce la lettura dei materiali. Le altezze riusano UpdateWebHeight e la sua scrittura storica del derivato. WallMaterialPreview prepara resistenze, modulo e stato del copriferro con le API precedenti. Formattazione condivisa con le rispettive viste; nessuna formula nuova.
+
+Riferimento 20261013-045542-f3-structural-preview-before; dieci suite passate in 045645 oltre al falso negativo dell’orario risolto separatamente in F3-05. Otto suite finali in 050137, 37 capitoli e 458 file equivalenti. 17 immagini di predalle/materiali dei muri identiche byte per byte, evidenza structural-preview-images.json. Soglia Calculations 125; vietati anche i ritorni delle chiamate Materials del ponte e DesignValues nelle viste. F3.7b resta aperto per i contratti e gli accessi residui.
+
+F3.7b.6, chiarimento del seguito: la sessione possiede la fotografia all’apertura. Il messaggio di revisione cambiata indica quindi di riaprire la finestra e ripetere la ricerca, anziché suggerire un nuovo tentativo sulla stessa fotografia. Testo condiviso fra controllo applicativo e vista; nessuna modifica al calcolo.
+
+## F3-BLD — supporto WPF dei test
+
+La prima corsa full 20261013-052527-f3-services-release-full trova il conflitto fra il namespace Anthea.Application e il tipo WPF Application in WpfTestResources, compilato da due suite non incluse nei controlli mirati precedenti. Corsa interrotta, errore conservato; tipo qualificato esplicitamente con System.Windows.Application. Corsa 20261013-052807-f3-wpf-test-namespace-fix: due build e due suite PASS. Nessuna modifica di calcolo, prodotto, attesi o known-failures.
+
+## F3.7b.8 — catalogo dei terreni e rigidezza dei pali
+
+HorizontalSoilPresentation prepara categorie, leggi disponibili, intervalli, descrizioni e tabelle con righe indipendenti dal catalogo GPC. Le scelte esplicite, la provenienza e le medie riusano le operazioni esistenti; nessuna regola o tabella numerica viene replicata. HorizontalPreview prepara la descrizione di EJ da una copia dei dati. La vista conserva soltanto i controlli e gli eventi. Sorgenti precedenti e SHA-256 in supporto/artefatti/refactoring/f3/soil-boundary-before.
+
+Corsa 20261013-064605-f3-soil-boundary: 13 PASS, 443 controlli applicativi, equivalenza dei 37 capitoli e dei 458 file F3, prove orizzontali e anello interno passate. Nessuna differenza di valori, testo o report e nessuna modifica agli attesi. La soglia Checker.Geotechnics scende da quattro a zero. Il full preliminare 063604 è stato interrotto volontariamente dopo build, suite rapide e primi banchi CA superati, per proseguire gli spostamenti: non è attestato come collaudo finale.
+
+## F3.7b.9 — geometria posseduta dalle viste
+
+ConcreteGeometry contiene soltanto dati geometrici copiati, senza solver, leggi dei materiali o calcoli differiti. Sezioni CA, anteprime dei pali e figure dei report condividono il contratto; ReinforcementBar conserva coordinate, area e diametro. L'aggiornamento automatico del taglio passa dallo stesso servizio di preparazione senza esporre SezioneCA. Impronte dei sorgenti precedenti in geometry-boundary-before. Non cambia l'algoritmo della mesh.
+
+Corsa 20261013-065029-f3-geometry-boundary-final: 14 PASS, 474 controlli Application (31 nuovi), cinque forme piene/cave con coordinate, ordine, quote e aree identici bit per bit; copie indipendenti. Equivalenza dei 37 capitoli e dei 458 file F3, prove assi neutri e pali passate. Prima build fermata dal test dell'asse neutro che assegnava direttamente il motore al viewport: adattato al medesimo contratto grafico senza cambiare l'oracolo. Nessun atteso sostituito o differenza numerica. La soglia Calculations scende a 123; vietato il ritorno dell'aggiornamento automatico del taglio nella UI.
+
+## F3.7b.10 — anteprime dei pali verticali
+
+VerticalPilePreview prepara peso, efficienza, valori normativi, alpha iniziali e campi derivati degli strati. I metodi di calcolo preesistenti restano invariati nella libreria; la vista assegna i valori ai controlli. PileInputCatalog riusa cataloghi e correlazioni anche per i pali orizzontali. Ordine, formati culturali, marker dei dati incompleti e scelta manuale conservati; nessuna tabella numerica nuova. Sorgente precedente e impronta in vertical-preview-before.
+
+Corsa 20261013-065458-f3-vertical-preview: 11 PASS, smoke generale/orizzontale, sei riferimenti numerici dei grafici, 37 capitoli e 458 file equivalenti. Controlli aggiuntivi 20261013-083241-f3-vertical-preview-inputs: cinque PASS e 511 controlli Application, inclusi spessore invalido che interrompe le quote successive, aderenza inattiva distinta da quella indisponibile e copie dei cataloghi. Nessun atteso o limite numerico cambiato. La soglia Calculations scende a 119.
+
+## F3.7b.11 — cataloghi e diagrammi dei materiali
+
+MaterialInputCatalog condivide i selettori fra sezioni, pali, muri, fondazioni e fogli Materiali. MaterialEditorPreview prepara le descrizioni derivate attraverso le API esistenti. MaterialDiagram è trasferito senza modifiche in Application: nessuna curva, formula o tabella duplicata. La vista conserva soltanto formattazione grafica e interazione. Impronte dei sorgenti precedenti in material-boundary-before/sha256.json.
+
+Corsa 20261013-083617-f3-material-boundary: 13 PASS, 589 controlli Application (78 nuovi), cataloghi di sette norme, tre famiglie e 241 campioni per curva; indipendenza di copie/input e rifiuto del materiale invalido. Materiali, fondazioni, pali orizzontali, 37 capitoli e 458 file F3 equivalenti. Nessun atteso o coefficiente cambiato. Soglia Calculations ridotta da 119 a 116.
+
+## F3.7b.12 — piano delle deformazioni e assi neutri
+
+ConcreteStrainDiagram prepara i campioni del piano su contorno e fori attraverso GetStrain nativo, conservando ordine e valori esatti. NeutralAxisPresentation copia estremi e descrizione dell'asse già determinato dal motore; nessuna nuova interpolazione o ricerca di equilibrio. WPF conserva proiezione, clipping e colori. Impronte precedenti in strain-boundary-before.
+
+Corsa 20261013-084517-f3-strain-boundary: nove PASS, incluse le viste, 37 capitoli e 458 file equivalenti; fallita la nuova prova con foro per dimensioni mancanti nell'input sintetico. Corretto soltanto quell'input: 084914-f3-strain-boundary-final, cinque PASS e 606 controlli applicativi; 085007-f3-strain-plane-render, estensioni CA passate. Quattro viewport degli assi e il piano delle deformazioni sono identici byte per byte (strain-boundary-images.json). Le catture di finestre complete hanno dimensioni diverse di due pixel e non sono usate come prova di identità; non è stata introdotta alcuna normalizzazione grafica. La UI non referenzia più Checker.Concrete; soglia Calculations 115. Attesi scientifici invariati.
+
+## F3.7b.13 — contratti del ponte composto
+
+BridgeResultView conserva un unico risultato originale per report/esportazioni e proietta dati posseduti di geometria, verifiche, fasi, fibre e curve. Identità delle proiezioni condivise nella stessa lettura preservata; letture puntuali delle tensioni delegate alle API originali, senza interpolazioni duplicate. Cataloghi ed operazioni degli editor passano da BridgeEditor; le copie dei selettori non modificano il catalogo. Nessun algoritmo o DLL GPC cambiato. Il pubblico del namespace Bridge non espone tipi del motore.
+
+Cattura preventiva 085218-f3-bridge-contracts-before, tre suite passate. Dopo: 20261013-085900-f3-bridge-contracts-final, 12 PASS, 37 capitoli e 458 file equivalenti. Corsa 090512-f3-bridge-contracts-owned: cinque PASS, 677 controlli Application e 87.462 valori confrontati esattamente nei tre metodi del ponte, comprese fibre, assi, tensioni, curve e CSV. Le prime build hanno segnalato firme da adattare e banchi che costruivano direttamente risultati sintetici nativi: i campi dei banchi sono conservati, proiettati prima del rendering.
+
+56 PNG su 78 identici byte per byte. Gli altri sono catture di finestre con focus, hover, scrollbar o testo transitorio di ricalcolo diverso (F3-07); non sono dichiarati equivalenti pixel per pixel né normalizzati. Ispezione dei ritagli in bridge-diffs, inventario completo in bridge-contracts-images.json. Il confronto dei report e dei dati grafici resta esatto. Zero TypeRef Desktop verso Checker; residui Calculations 113, ancora aperti. Il solo cambio dei riferimenti di progetto non è usato per dichiarare chiusa F3.
+
+
+## F3.7b.14 — preparazione degli input CA
+
+ConcreteEditor espone cataloghi copiati e operazioni di preparazione/validazione mediante gli adattatori esistenti. Norme, coefficienti, regole SLE e conversioni area/diametro hanno una sola implementazione. CalculationHelp e VerificationSummary trasferiti integralmente in Application, con impronte dei sorgenti identiche. Le viste e il renderer usano il contratto applicativo; nove tipi legacy non sono più referenziati dalla Release.
+
+Prima: 20261013-113620-f3-concrete-editor-before, due smoke CA passati. Dopo: 20261013-113848-f3-concrete-editor, 12 PASS; 745 controlli applicativi (68 nuovi), validazioni e copie dei cataloghi, quattro fixture preparate esattamente, 37 capitoli e 458 file F3 equivalenti. Soglia Calculations 104. Delle 52 immagini, sette sono identiche; 45 hanno dimensioni diverse delle finestre, misurate prima/dopo in concrete-editor-images.json e registrate F3-08. Queste ultime non attestano equivalenza pixel per pixel; nessuna maschera o aggiornamento degli attesi. I dati e le immagini dei capitoli restano verificati dal banco di equivalenza.
+
+
+## F3.7b.15 — contratti di Bridge Design
+
+BridgeDesignModel proietta esplicitamente risultati e geometrie, comprese strutture superiori, quantità, opzioni e progressi della ricerca. Le grandezze derivate sono copiate dal motore; distinte, CSV e report interrogano il medesimo risultato, senza ricalcolo. Copie indipendenti di array, JSON e cataloghi; opzioni predefinite lette dalla sola implementazione originale. Il progresso usa il contesto del chiamante. La stessa proiezione di un ModuleCalculation viene riusata; le viste non referenziano più BridgeConcept o i suoi contratti. Nessun cambiamento dei motori o delle formule.
+
+Prima: 20261013-114306-f3-design-contract-before, smoke completo passato. Dopo: 20261013-114540-f3-design-contracts, dieci PASS, inclusi scheduling/chiusura, report e 458 file equivalenti. 20261013-115045-f3-design-contract-values: cinque PASS, 825 controlli Application (80 nuovi), 24.043 valori esatti per tutte le 14 famiglie, distinte e ottimizzazione, comprese opzioni, avanzamento e annullamento. Comparatore dei contratti condiviso con il ponte composto; il suo conteggio passa da 87.462 a 87.466 perché conta anche i quattro valori enumerati, precedentemente già confrontati ma non conteggiati. Nessun atteso sostituito. Soglia Calculations 84.
+
+60 delle 61 immagini identiche byte per byte. Unica differenza nel contorno della scheda Sito selezionata, rettangolo (34,230)-(95,259), ispezionato in bridge-design-contract-diff.png e classificato F3-07. Non si dichiara identica quell'immagine, nessuna maschera introdotta. Corretto inoltre il solo nome del sorgente della prova CA nella voce F3-08 (ConcreteExtensionSmokeChecks.cs).
+
+
+## F3.7b.16 — contratti dei muri e stabilità globale
+
+WallModel proietta dati posseduti di muri, verifiche, contatti, pressioni, sisma, superfici di scorrimento e distinte. Editor e disegni ricevono copie indipendenti; le interrogazioni puntuali e WallExports delegano al risultato originale senza duplicare calcoli. Conservata l'assenza della derivazione sismica nella modalità manuale. DTO e API pubbliche del namespace Walls non espongono motori nativi. Nessuna DLL GPC o formula modificata.
+
+Prima: 20261013-115452-f3-wall-contract-before, due smoke passati. Dopo la correzione della nullabilità: 20261013-120500-f3-wall-contracts-nullable, tutte le undici altre suite passate, inclusi muro, stabilità globale, materiali, scheduling, 37 capitoli e 458 file equivalenti; la nuova prova Application aveva un input sintetico incompleto. Corretta soltanto la fixture sintetica conservando i parametri di ricerca predefiniti e richiedendo esplicitamente assenza di GlobalError. Finale 20261013-121208-f3-wall-contracts-verified: cinque PASS, 1003 controlli Application (178 nuovi), 97.959 valori esatti in cinque input, due combinazioni globali e quattro distinte. Nessun atteso precedente sostituito o fallimento ammesso. Le prime build hanno richiesto l'adattamento dei banchi alla nuova API e delle costanti precedentemente inlined.
+
+Sei delle 29 immagini identiche byte per byte; le altre differiscono soltanto nel selettore SLE 1, con hover/focus azzurro rispetto al grigio, rettangolo (154,133)-(363,168), ispezionato nel ritaglio wall-contract-diff.png. Disegni autonomi identici; nessuna maschera o tolleranza. Evidenza wall-contract-images.json, classificazione F3-07. TypeRef Desktop verso Calculations ridotti da 84 a 48.
+
+
+## F3.7b.17 — catalogo, acciaio e operazioni dei pali
+
+ModuleDirectory espone metadati immutabili e richiama le sole definizioni originali per default e validazione. RebarEditor copia cataloghi e valori derivati dell'acciaio. Gli editor dei pali delegano preparazione, migrazioni, selezioni, trasferimenti ed esportazioni alle operazioni preesistenti. PileProgress possiede il messaggio e i conteggi, inoltrando il progresso al contesto del chiamante senza una seconda cattura; le prove con barriera conservano annullamento e protezione della revisione. Nessun algoritmo, catalogo numerico o formula copiato.
+
+Prima: 20261013-121447-f3-input-contract-before. Dopo: 20261013-121624-f3-input-contracts, 15 PASS, incluse tutte le prove elastiche, 37 capitoli e 458 file equivalenti. Finale 20261013-121957-f3-editor-contract-values: nove PASS, prove WPF acciaio/palificata e 1050 controlli Application (47 nuovi), 182 valori esatti dei cataloghi e dei materiali. Verificata indipendenza dei dati dei nuovi fogli, dei preset e dei selettori. Tutte le 80 immagini prima/dopo sono identiche byte per byte, editor-contract-images.json. Soglia Calculations da 48 a 39. Nessun atteso modificato o nuova differenza.
+
+
+## F3.7b.18 — serializzazione e formattazione condivise
+
+ANTHEA.Serialization contiene J, JsonFallbackTrace ed EngineeringFormat, senza dipendenze dai motori, da WPF o dai moduli applicativi. Conservati i nomi pubblici storici per compatibilità delle estensioni e dei chiamanti registrati nelle tracce. La somma compensata non appartiene alla serializzazione: il suo corpo rimane identico in LegacyNumerics dentro Calculations, con i sei richiami aggiornati. Nessuna formula nuova, algoritmo sostituito o copia parallela degli helper. Architettura e controllo del codice distribuito includono la nuova DLL.
+
+Cattura dei quattro sorgenti originali con SHA-256 e confronto dei corpi in serialization-before; JSON identico salvo l'estrazione della somma, somma e classe di formattazione identiche. Verifica 20261013-122226-f3-serialization-boundary: undici PASS, 1050 controlli Application, 548 file headless senza differenze non ammesse (soltanto 21 tempi già classificati), tracce dei ripieghi invariate, 37 capitoli e 458 file F3 equivalenti. Nessuna modifica agli attesi o alle tolleranze. TypeRef Desktop verso Calculations da 39 a 37; i due helper ora provengono realmente dalla libreria condivisa.
+
+
+## F3.7b.19 — taglio, torsione, curva e progetto armature
+
+ConcreteResults contiene copie dei risultati ausiliari, incluse tracce dettagliate, proposte, scarti e avanzamento. Le grandezze derivate sono lette dall'originale, senza formule replicate. StructuralQueries e ConcreteShearBatch proiettano l'esito; i report serializzano il risultato originale per conservare integralmente il contratto storico. Il progresso inoltra i dati allo stesso contesto del chiamante. Catalogo esposizioni condiviso attraverso ConcreteEditor; nessun nuovo coefficiente o aggiornamento GPC.
+
+Prima: 20261013-122853-f3-concrete-auxiliary-before, due smoke CA. Dopo: 20261013-123044-f3-concrete-auxiliary-contracts, undici PASS con 37 capitoli, scheduling e 458 file equivalenti. Il banco specifico di progetto armature passa in 20261013-123456-f3-concrete-auxiliary-values, insieme alle 104 prove native preparatorie. Il nuovo test dei contratti inizialmente non copriva una torsione valida (il solo caso DIN la rifiuta correttamente); aggiunto un input NTC esplicito e corretto il test di mutazione per gli array dettagli vuoti, mantenendo obbligatoria la copertura di quelli non vuoti. Finale 20261013-123724-f3-concrete-auxiliary-verified: cinque PASS, 1104 controlli Application, 5625 valori esatti, tre righe taglio, una torsione, 32 proposte e 12 punti curva. Verificati annullamento parziale e indipendenza delle proposte; nessun atteso sostituito.
+
+51 delle 52 immagini identiche byte per byte. Il pannello materiali è catturato prima del termine delle quattro resistenze rapide nel riferimento e dopo il termine nella nuova corsa: valori nuovi occupano il riquadro prima coperto dal messaggio di avanzamento. Differenza transitoria ispezionata e classificata F3-07, senza maschere né tolleranze. Inventario e ritaglio concrete-auxiliary-images.json/concrete-auxiliary-diff.png. Soglia Calculations da 37 a 22; domini e stati tensionali ancora da trasferire.
+
+
+## F3.7b.20 — domini e stati tensionali posseduti
+
+ConcreteResults proietta domini, verifiche, tensioni, fessurazione, dettagli e ancoraggi. Le cache mantengono l'identità per sessione; mesh 3D, raster e piano limite restano differiti. Copie indipendenti di vertici, triangoli e campioni; report ed esportazioni conservano gli originali. Firme brevi dei servizi non espongono parametri nativi; quelle estese restano per la compatibilità del backend e dei test. Nessuna formula o DLL modificata. Rimosso il riferimento diretto del Desktop a Calculations; l'architettura ne verifica l'assenza nei metadati della Release.
+
+20261013-124748-f3-domain-boundary-verified: 13 PASS, inclusi viste CA, assi neutri, 37 capitoli, scheduling e 458 file equivalenti. I test esistenti accedono all'originale solo nel banco tramite helper escluso dalla produzione; nessun atteso numerico sostituito. Il vecchio controllo dell'inventario presumeva ancora chiamate native: ora verifica il riconoscimento dei membri sul totale della UI e vieta l'assembly legacy. Il test delle firme senza argomenti opzionali ha rilevato ambiguità, corretta rendendo obbligatori i parametri della firma estesa. Completati gli input sintetici per dettagli e piano limite 3D, assenti nelle quattro fixture di partenza.
+
+20261013-125454-f3-domain-values-complete: cinque PASS, 1149 controlli Application; 116.992 valori esatti, quattro raster, un piano limite 3D, quattro fessurazioni e 14 dettagli. Verificati differimento, identità delle cache e indipendenza degli array. Confronto con 123044-f3-concrete-auxiliary-contracts: 38/52 immagini identiche; 14 hanno dimensioni diverse delle finestre, censite F3-08 senza ricampionamento. Inventario domain-contract-images.json. F3 resta aperta per i contratti residui Model e per il collaudo complessivo.
+
+
+## F3.7b.21 — ultimi contratti grafici Model
+
+ConcreteTimePointView e SoilProfileView contengono solo copie dei risultati già prodotti da Model. La selezione e le curve della reologia mantengono la stessa precisione, verificata bit per bit per tutti i campioni oltre agli attesi Python indipendenti. Fondazioni conserva quote, unità e parametri del profilo originale. L'etichetta dei ferri dei muri è trasferita identica al backend esistente (impronta e testo in model-boundary-before.json); nessuna nuova formula e nessun accorpamento con helper che cambierebbe numero di barre o validazione. Il successivo riordino dei calcoli del backend resta F4. Rimossa la selezione diretta GpcLibraries del Desktop, vietati dai test di architettura tutti gli assembly GPC, inclusa Model finora non censita nel sottoinsieme Checker.
+
+Prima: 20261013-125640-f3-model-boundary-before, quattro PASS delle viste. Dopo: 20261013-125801-f3-model-owned-contracts, dodici PASS, 1149 controlli applicativi, fondazioni, muri, 37 capitoli e 458 file equivalenti; solo il nuovo test reologico non compilava per omonimia di variabile. Corretto il nome, corsa finale 20261013-130052-f3-model-boundary-verified: sei PASS, entrambe le prove reologiche e architettura. Le catture prima/dopo di fondazioni e reologia sono inventariate in model-contract-images.json. Nessun atteso scientifico o DLL modificato. F3.7 resta aperta solo per collaudo complessivo e rilascio.
+
+## F3-TST1 — banchi sui contratti posseduti
+
+Il full 20261013-130137-f3-final-full trova tre progetti di test ancora legati ai tipi nativi pubblici precedenti. ConcreteContractProbe diventa un supporto condiviso solo dai test: accede agli originali per mantenere gli oracoli dei motori senza esporli al prodotto. Gli scanner includono src, il catalogo esposizioni è verificato attraverso il confine applicativo e nella sua origine comune. Nessun atteso scientifico, allowlist o tolleranza modificato.
+
+Ripresa 20261013-132011-f3-final-test-adapters: build, API reuse, report breve Word (13 assert e limite di due pagine), confronto F3 e assenza di codice test in Release passati. Le scansioni obsolete rilevate nell’adattatore sono corrette e rieseguite in 20261013-132314-f3-adapter-scan-layout: tre PASS, 158018 controlli taglio/torsione, 673640 SLE, ulteriori 30 + 579. Il full originario resta documentato con i suoi fallimenti, chiusi da riprese mirate; non è riscritto come corsa pulita.
+
+## F3-TST2 — versione della fixture materiali
+
+ProjectCoverWarningSmokeChecks costruiva un foglio valido, poi ne sostituiva i dati con un oggetto privo del campo obbligatorio versione_materiali. Il full rifiutava correttamente il documento. Aggiunta la versione 1 alla sola fixture; nessuna migrazione o validazione del prodotto modificata. ui/smoke-sharing passato nella corsa 20261013-132011-f3-final-test-adapters (12,1 s). Differenza di strumentazione F3-09.
+
+## F3.7b.22 — ultime regole di preparazione nella vista
+
+L’audit del sorgente oltre ai metadati trova il cambio norma del ponte, il parser accelerogrammi e la preparazione delle profondità. Spostati mantenendo valori, messaggi e ordine dei dati; nessuna regola nuova. ApplyStandardDefaults conserva le tre assegnazioni storiche nel backend legacy: consolidamento normativo in F4, che resta ferma. Per l’angolo delle spinte si riusa EarthPressure.SeismicAngle già distribuito, bit per bit equivalente nell’intervallo provato. I sorgenti precedenti sono conservati in final-ui-rules-before.json.
+
+Corsa 20261013-133221-f3-final-ui-rules: undici PASS, 1178 controlli Application (29 nuovi), 37 capitoli e 458 file equivalenti. Provati testi e soglie del parser, 200000 campioni, segni, tempi duplicati/non finiti, cambi norma e conservazione degli altri coefficienti, angolo e quote stratigrafiche. Catture final-ui-rules-images.json: 27/96 identiche; 68 con dimensioni diverse (F3-08), una con sola scrollbar in hover (F3-07), ispezionata. Nessuna normalizzazione grafica, atteso riscritto o tolleranza aggiunta.
+
+## F3.7b.23 — riferimenti di compilazione e insieme runtime
+
+Directory.Build.targets iniettava ancora i riferimenti GPC nel Desktop in quanto eseguibile, benché la Release non usasse più quei tipi. GpcRuntimeOnly elimina questi riferimenti diretti e copia l’insieme dichiarato nel manifest, dopo la verifica SHA-256. UiTests mantiene le sonde native dei banchi. La prima build 133715 rileva un overload pubblico nativo di NeutralAxisPresentation.Bridge: reso interno, senza modificarne il corpo. La corsa 133834 compila e supera 1178 controlli Application; il nuovo controllo dei file trova GPC.Model.Persistence assente nell’output storico. La copia runtime ora segue tutte le dieci voci del manifest, non il sottoinsieme storico di otto riferimenti.
+
+Corsa finale 20261013-133956-f3-runtime-manifest: quattro PASS, zero fallimenti. Pubblicazione self-contained tramite lo script installer, build isolata, dieci SHA-256 esatti (runtime-manifest-publish.json), dipendenze usate registrate nel deps.json; nessun Gmsh o codice di prova. Installer 1.6.0 di 62653603 byte, SHA-256 32390FF32DF4FFD31E43A3CF1507F7B0FDA10B9E8A7F653FE7CD00A4DB93EB6E. Nessuna installazione o riapertura dell’app primaria. Registro F3-10; set GPC V e sorgenti delle librerie invariati.

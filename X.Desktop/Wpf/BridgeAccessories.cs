@@ -29,8 +29,7 @@ internal sealed partial class BridgeWorkspace
             transverseInputs, fatigueInputs)), boxInputs = BuildBoxInputs());
     }
 
-    private bool PhaseHomogenizationNeeded(string kind) => BridgeSection.HasConcrete(kind)
-        || kind == "Soletta esclusa" && Data.B("pioli") && !Data.S("normativa").StartsWith("NTC");
+    private bool PhaseHomogenizationNeeded(string kind) => Anthea.Application.Presentation.BridgeSheetPresentation.PhaseHomogenizationNeeded(Data, kind);
     private void ShowAccessoryResults(BridgeStage stage)
     {
         shearResults.Content = Ui.Text("Taglio e irrigidimenti non verificati nel metodo selezionato.", 12, color: Ui.Muted);

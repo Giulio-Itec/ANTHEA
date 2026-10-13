@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+using Anthea.Application.Materials;
+using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using X.Core;
@@ -8,7 +9,7 @@ internal sealed partial class ConcreteWorkspace
 {
     private void RefreshStandardMaterialChoices()
     {
-        foreach (var (key, catalog) in new[] { ("classe_cls", ConcreteMaterialCatalog.Concrete(settings.S("normativa"))), ("classe_acciaio", ConcreteMaterialCatalog.Steel(false, settings.S("normativa"))) })
+        foreach (var (key, catalog) in new[] { ("classe_cls", MaterialInputCatalog.Concrete(settings.S("normativa"))), ("classe_acciaio", MaterialInputCatalog.Steel(false, settings.S("normativa"))) })
         {
             var combo = (ComboBox)materials.Editors[key]; string current = Input.S(key);
             if (current != "Personalizzato")
@@ -32,19 +33,14 @@ internal sealed partial class ConcreteWorkspace
 
     private void BuildMaterialFields()
     {
-        var concreteCatalog = ConcreteMaterialCatalog.Concrete(settings.S("normativa"));
-        var steelCatalog = ConcreteMaterialCatalog.Steel(false, settings.S("normativa"));
-        // Never replace saved numerical properties merely by opening an existing sheet.
-        if (!Input.ContainsKey("classe_acciaio")) Input["classe_acciaio"] = "Personalizzato";
-        if (!Input.ContainsKey("steel_fu_mpa")) Input["steel_fu_mpa"] = Input["fyk_mpa"]?.DeepClone();
-        if (!Input.ContainsKey("steel_eps_u")) Input["steel_eps_u"] = "100";
-        if (!Input.ContainsKey("steel_diagramma")) Input["steel_diagramma"] = "Elastoplastico";
-        if (!Input.ContainsKey("cls_diagramma")) Input["cls_diagramma"] = ConcreteMaterials.ConcreteDiagrams[0];
+        var concreteCatalog = MaterialInputCatalog.Concrete(settings.S("normativa"));
+        var steelCatalog = MaterialInputCatalog.Steel(false, settings.S("normativa"));
+        Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareMaterials(Input);
         string[] Choices(JsonObject[] catalog, string key) => catalog.Select(m => m.S("nome"))
             .Append(Input.S(key)).Append("Personalizzato").Where(s => s.Length > 0).Distinct().ToArray();
         materials = new InputForm(Input, [
             new("classe_cls", "Calcestruzzo da normativa", Choices: Choices(concreteCatalog, "classe_cls")),
-            new("fck_mpa", "fck", "MPa", ReadOnly: true), new("cls_diagramma", "Diagramma CLS", Choices: ConcreteMaterials.ConcreteDiagrams, Note: FieldNotes.StressBlock),
+            new("fck_mpa", "fck", "MPa", ReadOnly: true), new("cls_diagramma", "Diagramma CLS", Choices: MaterialInputCatalog.ConcreteDiagrams, Note: FieldNotes.StressBlock),
             new("gettato_sottile", "Piano gettato in opera < 50 mm", Choices: ["No", "Sì"]),
             new("__fcd", "fcd", "MPa", ReadOnly: true), new("__ecm", "Ecm", "MPa", ReadOnly: true),
             new("__ec2", "εc,y (diagramma)", "‰", ReadOnly: true), new("__ecu", "εc,u (diagramma)", "‰", ReadOnly: true),
@@ -58,7 +54,7 @@ internal sealed partial class ConcreteWorkspace
             if (initializing) return;
             if (key is "classe_cls" or "classe_acciaio")
             {
-                var selected = (key == "classe_cls" ? ConcreteMaterialCatalog.Concrete(settings.S("normativa")) : ConcreteMaterialCatalog.Steel(false, settings.S("normativa"))).FirstOrDefault(m => m.S("nome") == Input.S(key));
+                var selected = (key == "classe_cls" ? MaterialInputCatalog.Concrete(settings.S("normativa")) : MaterialInputCatalog.Steel(false, settings.S("normativa"))).FirstOrDefault(m => m.S("nome") == Input.S(key));
                 if (selected is not null) ApplyStandardMaterial(selected);
             }
             else if (key is "fck_mpa")

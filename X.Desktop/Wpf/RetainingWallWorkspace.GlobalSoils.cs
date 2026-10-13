@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,7 +11,7 @@ internal sealed partial class RetainingWallWorkspace
     private double GlobalSoilTop(bool valley)
     {
         var points = Data["global_stability"]!.Array(valley ? "valley" : "uphill");
-        return points.Count > 0 ? (valley ? points[^1] : points[0]).D("y") : valley ? RetainingWall.ValleyHeight(Data) : Data["geometry"].D("height") + Data["geometry"].D("slab");
+        return points.Count > 0 ? (valley ? points[^1] : points[0]).D("y") : valley ? WallModel.ValleyHeight(Data) : Data["geometry"].D("height") + Data["geometry"].D("slab");
     }
     private FrameworkElement BuildGlobalSoilEditor(bool valley)
     {

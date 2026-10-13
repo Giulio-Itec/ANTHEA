@@ -1,3 +1,4 @@
+using Anthea.Application.Materials;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,13 +9,13 @@ internal sealed partial class ConcreteWorkspace
 {
     internal Window CreateMaterialDialog(string type, Action<JsonObject> save)
     {
-        var catalog = type == "Calcestruzzo" ? ConcreteMaterialCatalog.Concrete(settings.S("normativa")) : ConcreteMaterialCatalog.Steel(type == "Trefoli", settings.S("normativa"));
+        var catalog = type == "Calcestruzzo" ? MaterialInputCatalog.Concrete(settings.S("normativa")) : MaterialInputCatalog.Steel(type == "Trefoli", settings.S("normativa"));
         string current = type == "Calcestruzzo" ? Input.S("classe_cls") : type == "Acciaio" ? Input.S("classe_acciaio") : settings["materiale_trefolo"].S("nome");
         var preset = catalog.FirstOrDefault(m => m.S("nome") == current) ?? catalog[0];
         var value = (JsonObject)preset.DeepClone();
         value["nome"] = type + " personalizzato"; value["tipo"] = type; value["id"] = Guid.NewGuid().ToString("N");
         value["origine"] = "Personalizzato"; value["normativa_origine"] = settings.S("normativa");
-        Field[] parameters = type == "Calcestruzzo" ? [new("fck_mpa", "fck", "MPa"), new("cls_diagramma", "Diagramma", Choices: ConcreteMaterials.ConcreteDiagrams, Note: FieldNotes.StressBlock)]
+        Field[] parameters = type == "Calcestruzzo" ? [new("fck_mpa", "fck", "MPa"), new("cls_diagramma", "Diagramma", Choices: MaterialInputCatalog.ConcreteDiagrams, Note: FieldNotes.StressBlock)]
             : type == "Acciaio" ? [new("steel_modulus_mpa", "Es", "MPa"), new("fyk_mpa", "fyk", "MPa"), new("steel_fu_mpa", "fu", "MPa"), new("steel_eps_u", "εu", "‰"), new("steel_diagramma", "Diagramma", Choices: ["Elastoplastico", "Incrudente"])]
             : [new("Ep", "Ep", "MPa"), new("fpyk", "fpyk", "MPa"), new("fpk", "fpk", "MPa"), new("eps_u", "εpu", "‰"), new("diagramma", "Diagramma", Choices: ["Elastoplastico", "Incrudente"])];
         var plot = new Plot { Title = "Diagramma σ–ε", XLabel = "ε [‰]", YLabel = "σ [MPa]", InvertY = false, NegateAxisLabels = type == "Calcestruzzo", VerticalLegend = true, FitPadding = .06, Note = type == "Calcestruzzo" ? "Compressione (−ε, −σ) nel primo quadrante · sola rappresentazione" : "Compressione negativa · curve native della DLL" };
@@ -25,15 +26,11 @@ internal sealed partial class ConcreteWorkspace
         {
             try
             {
-                var curves = MaterialDiagram.Create(type, value, Input, settings);
+                var prepared = MaterialEditorPreview.Read(type, value, Input, settings);
+                var curves = prepared.Curves;
                 List<double[]> Display(double[][] points) => points.Select(p => type == "Calcestruzzo" ? new[] { -p[0], -p[1] } : p).ToList();
                 plot.Series = [new("Caratteristica", Display(curves.Characteristic), Ui.Blue), new("Progetto · " + settings.S("normativa"), Display(curves.Design), Ui.Brush("#CE4F44"), true)];
-                if (type == "Calcestruzzo")
-                {
-                    var native = ConcreteMaterials.Concrete(value);
-                    derived.Text = $"Ecm = {EngineeringFormat.Number(native.E)} MPa\nεc,y = {EngineeringFormat.Number(Math.Abs(native.StrainYCompression) * 1000)} ‰\nεc,u = {EngineeringFormat.Number(Math.Abs(native.StrainUCompression) * 1000)} ‰";
-                }
-                else derived.Text = "Proprietà caratteristiche dal materiale; valori di progetto con i coefficienti del foglio.";
+                derived.Text = prepared.Description;
                 error.Text = ""; valid = true;
             }
             catch (ArgumentException ex) { plot.Series = []; error.Text = ex.Message; valid = false; derived.Text = ""; }

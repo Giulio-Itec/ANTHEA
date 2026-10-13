@@ -1,7 +1,7 @@
 """Register the authored pilot chapters without duplicating their canonical bodies."""
 from pathlib import Path
 import json
-ROOT=Path(__file__).resolve().parents[3]; W=ROOT/'X.Desktop/Wiki'
+ROOT=Path(__file__).resolve().parents[3]; W=ROOT/'src/ANTHEA.Wiki/Content'
 def read(name):return json.loads((W/name).read_text(encoding='utf-8'))
 def write(name,value):(W/name).write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 m=read('editorial.json')

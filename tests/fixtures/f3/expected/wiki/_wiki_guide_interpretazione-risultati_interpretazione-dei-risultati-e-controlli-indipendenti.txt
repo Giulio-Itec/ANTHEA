@@ -1,0 +1,7 @@
+text: Un risultato è utilizzabile quando sono chiari input, stato limite, metodo e combinazione. Comincia dal titolo della scheda e dagli avvisi, poi confronta il dato decisivo con un controllo semplice. La precisione delle cifre mostrate non misura la precisione del modello.
+text: dalla-domanda-alla-capacita
+text: Un rapporto fra domanda e capacità ha significato solo se le due grandezze descrivono lo stesso meccanismo. Non confrontare un momento elastico, una capacità plastica e un limite di fessurazione come se fossero tre versioni dello stesso controllo. Un esito verde riguarda il controllo indicato nella scheda e non l'intera opera.
+text: controllo-numerico-e-fisico
+text: Controlla unità e segni con un valore manuale. Per la trave appoggiata dell'esempio Beam, la somma delle reazioni è qL e il momento di mezzeria è qL²/8. Per una sezione osserva quale bordo è compresso. Per un problema geotecnico confronta quote, strati attraversati e verso dell'azione. Se il risultato cambia radicalmente per una piccola modifica, verifica se hai attraversato un limite fisico o una scelta discreta del modello.
+text: archiviazione
+text: Conserva il documento modificabile insieme al report e alla revisione degli input. Se un warning dichiara una parte fuori campo, documenta quale controllo aggiuntivo serve. Una tabella vuota o un risultato non aggiornato non costituiscono una verifica favorevole.

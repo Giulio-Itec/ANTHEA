@@ -1,0 +1,3529 @@
+{
+  "avvisi": [
+    "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.",
+    "Resistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.",
+    "I diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.",
+    "Terreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.",
+    "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+  ],
+  "azione_kn": 100,
+  "capacita_kn": 599.7979488436158,
+  "capacita_media_kn": 599.7979488436158,
+  "criterio_governante": "Media / ξ3",
+  "efficienza": {
+    "eta": 1,
+    "metodo": "Manuale"
+  },
+  "errore": "",
+  "esito_manuale": "Verifica soddisfatta",
+  "fonte": "Viggiani, Fondazioni, pp. 400–415 (PDF 205–212), §§13.2.2–13.2.5",
+  "gamma_r": 1.3,
+  "input": {
+    "elastico": {
+      "dettagli": {
+        "aderenza_buona": false,
+        "aggregato": 20,
+        "ancoraggio_punta": 0,
+        "ancoraggio_testa": 0,
+        "azioni_progetto": false,
+        "copriferro_override": false,
+        "delta_c": 10,
+        "distanza_barre": 0,
+        "elemento": "Pilastro",
+        "fattore_sovrapposizione": 60,
+        "lunghezza_barra": 12,
+        "lunghezza_gabbia": 12,
+        "lunghezza_minima": 3,
+        "minimi_pali": true,
+        "percentuale_sovrapposta": 100,
+        "sisma_staffe": "Staffe singole",
+        "sisma_testa": false,
+        "taglio_confermato": false,
+        "z_d": 0.9
+      },
+      "passo": 0.5,
+      "punta": "Libera",
+      "stratigrafia": 0,
+      "tratti": [
+        {
+          "collegato": true,
+          "fine": null,
+          "id": "T1"
+        }
+      ],
+      "versione": 2,
+      "visualizzazione": {}
+    },
+    "generali": {
+      "azione_assiale": "0",
+      "azione_orizzontale": "100",
+      "diametro": "1",
+      "eccentricita": "0",
+      "gamma_acqua": 9.81,
+      "lunghezza": "10",
+      "metodo_calcolo": "Broms",
+      "modalita": "Automatica",
+      "momento_resistente": "1000",
+      "origine_momento": "Sezione c.a.",
+      "passo": "0.10",
+      "presenza_falda": false,
+      "profondita_falda": "0",
+      "provenienza_momento": "",
+      "tolleranza": "1e-8",
+      "tratto_libero": 0,
+      "vincolo": "Libera"
+    },
+    "sezione": {
+      "alpha_cc": "0.85",
+      "apply_minimum_eccentricity": false,
+      "apply_pile_requirements": false,
+      "axial_force_kn": "2500",
+      "bottom_bar_count": "6",
+      "bottom_bar_diameter_mm": "24",
+      "circular_sides": "32",
+      "classe_acciaio": "B450C",
+      "classe_cls": "C35/45",
+      "cls_diagramma": "Parabola-rettangolo",
+      "coefficienti_unitari": false,
+      "cover_mm": "70",
+      "diameter_mm": 1000,
+      "dissipative_zone": false,
+      "fck_mpa": 35,
+      "flange_thickness_mm": "250",
+      "flange_width_mm": "1200",
+      "fyk_mpa": 450,
+      "gamma_acciaio": 78.5,
+      "gamma_c": "1.50",
+      "gamma_ca": 25,
+      "gamma_iniezione": 0,
+      "gamma_s": "1.15",
+      "height_mm": "800",
+      "longitudinal_bar_count": "16",
+      "longitudinal_bar_diameter_mm": "24",
+      "materiale_acciaio_nome": "B450C",
+      "materiale_cls_nome": "C35/45",
+      "minimum_eccentricity_mm": "0",
+      "modulo_chs_mpa": 210000,
+      "moment_x_knm": "500",
+      "moment_y_knm": "250",
+      "n": "",
+      "shape": "Circolare",
+      "side_bar_count_per_side": "2",
+      "side_bar_diameter_mm": "16",
+      "steel_diagramma": "Elastoplastico",
+      "steel_eps_u": 75,
+      "steel_fu_mpa": 540,
+      "steel_modulus_mpa": 200000,
+      "top_bar_count": "4",
+      "top_bar_diameter_mm": "20",
+      "transverse_bar_diameter_mm": "10",
+      "transverse_spacing_mm": "200",
+      "vita_durabilita": 50,
+      "web_width_mm": "400",
+      "width_mm": "600"
+    },
+    "stratigrafie": [
+      [
+        {
+          "angolo_attrito": "30",
+          "coesione_efficace": "0",
+          "coesione_non_drenata": "50",
+          "peso_specifico": "18",
+          "peso_specifico_saturo": "20",
+          "reazione_orizzontale": {
+            "A": 200,
+            "categoria": "Argilla n.c. o lievemente o.c.",
+            "densita": "Sciolto",
+            "fonte": "Viggiani, parametri orientativi; verificare condizioni di impiego",
+            "legge": "nh = A·γ/1,35 · incoerenti",
+            "media_iniziale": 200,
+            "origine_scelta": "Media iniziale del software",
+            "riga_146": "clay-reese-1956",
+            "scelta_per": "nh = A·γ/1,35 · incoerenti|Sciolto|clay-reese-1956"
+          },
+          "spessore": "10",
+          "tipologia": "Granulare"
+        }
+      ]
+    ],
+    "verifica": {
+      "efficienza_eta": "1",
+      "efficienza_metodo": "Manuale",
+      "interasse_anteriore": "",
+      "interasse_destro": "",
+      "interasse_posteriore": "",
+      "interasse_sinistro": "",
+      "verticali_indagate": "1"
+    },
+    "versione_orizzontale": 1
+  },
+  "meccanismo": "Lungo",
+  "metodo_calcolo": "Broms",
+  "modello_adottato": "Omogeneo",
+  "momento_resistente_knm": 1088.1122406098054,
+  "percorso": "Incremento di H con e costante; M applicato = H·e; N costante",
+  "ramo_media_kn": 352.8223228491858,
+  "ramo_minimo_kn": 352.8223228491858,
+  "rapporto_meccanico": 0.16672281089456145,
+  "resistenza_caratteristica_manuale_kn": 352.8223228491858,
+  "resistenza_progetto_manuale_kn": 271.401786807066,
+  "riferimenti": [
+    {
+      "dettaglio": "Checker/PileCalculator.cs; diagrammi per strato e FindDepthForForce",
+      "id": "Pacini",
+      "titolo": "G. Pacini — approccio al terreno stratificato",
+      "url": "",
+      "uso": "Origine dell'estensione stratificata. Equilibrio globale e chiusura distribuita in GPCChecker.Geotechnics (LateralPileCapacity)."
+    },
+    {
+      "dettaglio": "§§13.2.2–13.2.5, pp. 400–415 del testo fornito",
+      "id": "Viggiani",
+      "titolo": "C. Viggiani, Fondazioni",
+      "url": "",
+      "uso": "Leggi locali e meccanismi classici; non attribuisce al testo l'estensione mista."
+    },
+    {
+      "dettaglio": "ASCE, Journal of the Soil Mechanics and Foundations Division, 90(SM2)",
+      "id": "Broms-C",
+      "titolo": "B. B. Broms (1964), Lateral Resistance of Piles in Cohesive Soils",
+      "url": "https://doi.org/10.1061/JSFEAQ.0000611",
+      "uso": "Riferimento originale per i terreni coesivi, ripreso attraverso Viggiani."
+    },
+    {
+      "dettaglio": "ASCE, Journal of the Soil Mechanics and Foundations Division, 90(SM3)",
+      "id": "Broms-G",
+      "titolo": "B. B. Broms (1964), Lateral Resistance of Piles in Cohesionless Soils",
+      "url": "https://doi.org/10.1061/JSFEAQ.0000614",
+      "uso": "Riferimento originale per i granulari e la chiusura concentrata, ripreso attraverso Viggiani e Wood."
+    },
+    {
+      "dettaglio": "New Zealand Geotechnical Society, Geomechanics News 101, 22 giugno 2021; §§2.2–2.3, 2.5, 2.8",
+      "id": "NZGS",
+      "titolo": "J. Wood (2021), Cantilever Pole Retaining Walls",
+      "url": "https://www.nzgs.org/libraries/cantilever-pole-retaining-walls/",
+      "uso": "Broms Modified: reazioni opposte distribuite per pali corti rigidi in terreno granulare. Supporta questa ipotesi, non valida l'estensione mista o la chiusura sotto la cerniera dei pali lunghi. Il salto di segno è un'idealizzazione limite, non una legge pressione-spostamento."
+    },
+    {
+      "dettaglio": "Design, Analysis, and Testing of Laterally Loaded Deep Foundations that Support Transportation Facilities; FHWA-HIF-18-031, §§6.3 e 6.5",
+      "id": "FHWA",
+      "titolo": "FHWA (2018), Geotechnical Engineering Circular No. 9",
+      "url": "https://www.fhwa.dot.gov/engineering/geotech/pubs/hif18031.pdf",
+      "uso": "Inquadramento dei metodi p-y, della deformabilità e dei limiti di Broms. Le curve p-y non sono implementate qui e richiedono calibrazione appropriata; non sono una validazione del presente modello."
+    }
+  ],
+  "selezione_modello": "Automatica",
+  "sezione": {
+    "area_acciaio_mm2": 7238.229473870883,
+    "asse_neutro_mm": 198.53685115833073,
+    "bars": [
+      [408,0,452.3893421169302,24
+      ],
+      [376.942849264605,156.13484040495663,452.3893421169302,24
+      ],
+      [288.4995667241114,288.4995667241114,452.3893421169302,24
+      ],
+      [156.13484040495666,376.942849264605,452.3893421169302,24
+      ],
+      [2.4982794702606005E-14,408,452.3893421169302,24
+      ],
+      [-156.1348404049566,376.942849264605,452.3893421169302,24
+      ],
+      [-288.4995667241114,288.4995667241114,452.3893421169302,24
+      ],
+      [-376.942849264605,156.13484040495666,452.3893421169302,24
+      ],
+      [-408,4.996558940521201E-14,452.3893421169302,24
+      ],
+      [-376.94284926460506,-156.13484040495658,452.3893421169302,24
+      ],
+      [-288.49956672411145,-288.4995667241114,452.3893421169302,24
+      ],
+      [-156.13484040495686,-376.9428492646049,452.3893421169302,24
+      ],
+      [-7.494838410781801E-14,-408,452.3893421169302,24
+      ],
+      [156.13484040495672,-376.94284926460494,452.3893421169302,24
+      ],
+      [288.49956672411133,-288.49956672411145,452.3893421169302,24
+      ],
+      [376.9428492646049,-156.1348404049569,452.3893421169302,24
+      ]
+    ],
+    "coefficienti_unitari": false,
+    "direzioni": [
+      {
+        "Direction": "Mx+",
+        "Moment": 1088.1122406098054,
+        "Resistance": {
+          "Length": 1088.112342743476,
+          "Mx": 1088.1122406098054,
+          "My": -0.00013606924999166222,
+          "N": -0.47145072485203854
+        },
+        "Section": {
+          "CMax": 0,
+          "CMin": -19.833333333333332,
+          "EcMax": 14.12896900022986,
+          "EcMin": -3.5,
+          "EpMax": null,
+          "EpMin": null,
+          "EsMax": 12.507103852208711,
+          "EsMin": -1.878134851978853,
+          "NeutralAngle": -0.0032198096472389644,
+          "NeutralDistance": 198.53685115833073,
+          "PMax": null,
+          "PMin": null,
+          "SMax": 391.304347826087,
+          "SMin": -375.6269703957706,
+          "UsefulDepth": 919.999998566258
+        },
+        "Status": "Resistenza a N costante · assi locali"
+      },
+      {
+        "Direction": "Mx−",
+        "Moment": -1088.1222418197608,
+        "Resistance": {
+          "Length": 1088.1223468811477,
+          "Mx": -1088.1222418197608,
+          "My": -0.000989103411240827,
+          "N": -0.47816137068904935
+        },
+        "Section": {
+          "CMax": 0,
+          "CMin": -19.833333333333332,
+          "EcMax": 14.125845354777029,
+          "EcMin": -3.5,
+          "EpMax": null,
+          "EpMin": null,
+          "EsMax": 12.504267582137542,
+          "EsMin": -1.8784222273605136,
+          "NeutralAngle": -180.00074166531832,
+          "NeutralDistance": 198.5720360787226,
+          "PMax": null,
+          "PMin": null,
+          "SMax": 391.304347826087,
+          "SMin": -375.6844454721027,
+          "UsefulDepth": 919.9999999239276
+        },
+        "Status": "Resistenza a N costante · assi locali"
+      }
+    ],
+    "fcd_mpa": 19.833333333333332,
+    "fyd_mpa": 391.304347826087,
+    "lati_contorno": 32,
+    "modello": "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare.",
+    "momento_knm": 1088.1122406098054,
+    "motore": "GPCChecker.Concrete",
+    "n_checker_kn": -0,
+    "n_kn": 0,
+    "normativa": "NTC 2018",
+    "outline": [
+      [500,0
+      ],
+      [490.3926402016152,97.54516100806413
+      ],
+      [461.93976625564335,191.3417161825449
+      ],
+      [415.7348061512726,277.78511650980107
+      ],
+      [353.5533905932738,353.5533905932738
+      ],
+      [277.7851165098011,415.7348061512726
+      ],
+      [191.34171618254493,461.93976625564335
+      ],
+      [97.54516100806417,490.3926402016152
+      ],
+      [3.061616997868383E-14,500
+      ],
+      [-97.5451610080641,490.3926402016152
+      ],
+      [-191.34171618254487,461.93976625564335
+      ],
+      [-277.78511650980096,415.73480615127266
+      ],
+      [-353.5533905932737,353.5533905932738
+      ],
+      [-415.73480615127266,277.78511650980107
+      ],
+      [-461.93976625564335,191.34171618254496
+      ],
+      [-490.3926402016152,97.5451610080643
+      ],
+      [-500,6.123233995736766E-14
+      ],
+      [-490.3926402016152,-97.54516100806418
+      ],
+      [-461.9397662556434,-191.34171618254484
+      ],
+      [-415.7348061512727,-277.78511650980096
+      ],
+      [-353.55339059327383,-353.5533905932737
+      ],
+      [-277.78511650980107,-415.7348061512726
+      ],
+      [-191.34171618254516,-461.93976625564324
+      ],
+      [-97.54516100806433,-490.39264020161517
+      ],
+      [-9.184850993605149E-14,-500
+      ],
+      [97.54516100806416,-490.3926402016152
+      ],
+      [191.341716182545,-461.9397662556433
+      ],
+      [277.7851165098009,-415.7348061512727
+      ],
+      [353.55339059327366,-353.55339059327383
+      ],
+      [415.7348061512726,-277.78511650980107
+      ],
+      [461.93976625564324,-191.34171618254518
+      ],
+      [490.39264020161517,-97.54516100806435
+      ]
+    ],
+    "residuo_n_kn": 0.47145072485203854,
+    "tolleranza_n_kn": 1.75
+  },
+  "sondaggi": [
+    {
+      "candidati": [
+        {
+          "capacita_kn": 2700,
+          "governante": false,
+          "meccanismo": "Corto",
+          "stato": "Candidato non governante; limite precedente già raggiunto"
+        },
+        {
+          "capacita_kn": 599.7979488436158,
+          "governante": true,
+          "meccanismo": "Lungo",
+          "stato": "Ammissibile, governante"
+        }
+      ],
+      "capacita_kn": 599.7979488436158,
+      "cerniere_m": [2.721196969843715
+      ],
+      "chiusura_equilibrio": "Concentrata",
+      "coesivo": false,
+      "convergenza": "Raggiunta",
+      "diagramma_limite": [
+        {
+          "a_m": 10,
+          "da_m": 0,
+          "momento_primo_knm": 54000,
+          "p_iniziale_kn_m": 0,
+          "pendenza_kn_m2": 162,
+          "risultante_kn": 8100,
+          "sigma_eff_iniziale_kpa": 0,
+          "strato": 1,
+          "tipologia": "Granulare"
+        }
+      ],
+      "diagramma_terreno": [
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 0,
+          "q_integrale_kn": 0,
+          "q_lim_kpa": 0,
+          "sigma_eff_kpa": 0,
+          "sigma_v_kpa": 0,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 16.2,
+          "q_integrale_kn": 0.81,
+          "q_lim_kpa": 16.2,
+          "sigma_eff_kpa": 1.7999999999999998,
+          "sigma_v_kpa": 1.7999999999999998,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 16.2,
+          "q_integrale_kn": 0.81,
+          "q_lim_kpa": 16.2,
+          "sigma_eff_kpa": 1.7999999999999998,
+          "sigma_v_kpa": 1.7999999999999998,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 32.4,
+          "q_integrale_kn": 3.24,
+          "q_lim_kpa": 32.4,
+          "sigma_eff_kpa": 3.5999999999999996,
+          "sigma_v_kpa": 3.5999999999999996,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 32.4,
+          "q_integrale_kn": 3.24,
+          "q_lim_kpa": 32.4,
+          "sigma_eff_kpa": 3.5999999999999996,
+          "sigma_v_kpa": 3.5999999999999996,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 48.6,
+          "q_integrale_kn": 7.29,
+          "q_lim_kpa": 48.6,
+          "sigma_eff_kpa": 5.4,
+          "sigma_v_kpa": 5.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 48.6,
+          "q_integrale_kn": 7.29,
+          "q_lim_kpa": 48.6,
+          "sigma_eff_kpa": 5.4,
+          "sigma_v_kpa": 5.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 64.8,
+          "q_integrale_kn": 12.96,
+          "q_lim_kpa": 64.8,
+          "sigma_eff_kpa": 7.199999999999999,
+          "sigma_v_kpa": 7.199999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 64.8,
+          "q_integrale_kn": 12.96,
+          "q_lim_kpa": 64.8,
+          "sigma_eff_kpa": 7.199999999999999,
+          "sigma_v_kpa": 7.199999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 81,
+          "q_integrale_kn": 20.25,
+          "q_lim_kpa": 81,
+          "sigma_eff_kpa": 9,
+          "sigma_v_kpa": 9,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 81,
+          "q_integrale_kn": 20.25,
+          "q_lim_kpa": 81,
+          "sigma_eff_kpa": 9,
+          "sigma_v_kpa": 9,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 97.2,
+          "q_integrale_kn": 29.16,
+          "q_lim_kpa": 97.2,
+          "sigma_eff_kpa": 10.8,
+          "sigma_v_kpa": 10.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 97.2,
+          "q_integrale_kn": 29.16,
+          "q_lim_kpa": 97.2,
+          "sigma_eff_kpa": 10.8,
+          "sigma_v_kpa": 10.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 113.4,
+          "q_integrale_kn": 39.69,
+          "q_lim_kpa": 113.39999999999999,
+          "sigma_eff_kpa": 12.6,
+          "sigma_v_kpa": 12.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 113.4,
+          "q_integrale_kn": 39.69,
+          "q_lim_kpa": 113.39999999999999,
+          "sigma_eff_kpa": 12.6,
+          "sigma_v_kpa": 12.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 129.6,
+          "q_integrale_kn": 51.84,
+          "q_lim_kpa": 129.6,
+          "sigma_eff_kpa": 14.399999999999999,
+          "sigma_v_kpa": 14.399999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 129.6,
+          "q_integrale_kn": 51.84,
+          "q_lim_kpa": 129.6,
+          "sigma_eff_kpa": 14.399999999999999,
+          "sigma_v_kpa": 14.399999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 145.8,
+          "q_integrale_kn": 65.61,
+          "q_lim_kpa": 145.8,
+          "sigma_eff_kpa": 16.2,
+          "sigma_v_kpa": 16.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 145.8,
+          "q_integrale_kn": 65.61,
+          "q_lim_kpa": 145.8,
+          "sigma_eff_kpa": 16.2,
+          "sigma_v_kpa": 16.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 0.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 162,
+          "q_integrale_kn": 81,
+          "q_lim_kpa": 162,
+          "sigma_eff_kpa": 18,
+          "sigma_v_kpa": 18,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 162,
+          "q_integrale_kn": 81,
+          "q_lim_kpa": 162,
+          "sigma_eff_kpa": 18,
+          "sigma_v_kpa": 18,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 178.20000000000002,
+          "q_integrale_kn": 98.01000000000002,
+          "q_lim_kpa": 178.20000000000002,
+          "sigma_eff_kpa": 19.8,
+          "sigma_v_kpa": 19.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 178.20000000000002,
+          "q_integrale_kn": 98.01000000000002,
+          "q_lim_kpa": 178.20000000000002,
+          "sigma_eff_kpa": 19.8,
+          "sigma_v_kpa": 19.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 194.4,
+          "q_integrale_kn": 116.64,
+          "q_lim_kpa": 194.4,
+          "sigma_eff_kpa": 21.6,
+          "sigma_v_kpa": 21.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 194.4,
+          "q_integrale_kn": 116.64,
+          "q_lim_kpa": 194.4,
+          "sigma_eff_kpa": 21.6,
+          "sigma_v_kpa": 21.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 210.6,
+          "q_integrale_kn": 136.89,
+          "q_lim_kpa": 210.59999999999997,
+          "sigma_eff_kpa": 23.4,
+          "sigma_v_kpa": 23.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 210.6,
+          "q_integrale_kn": 136.89,
+          "q_lim_kpa": 210.59999999999997,
+          "sigma_eff_kpa": 23.4,
+          "sigma_v_kpa": 23.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 226.8,
+          "q_integrale_kn": 158.76,
+          "q_lim_kpa": 226.79999999999998,
+          "sigma_eff_kpa": 25.2,
+          "sigma_v_kpa": 25.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 226.8,
+          "q_integrale_kn": 158.76,
+          "q_lim_kpa": 226.79999999999998,
+          "sigma_eff_kpa": 25.2,
+          "sigma_v_kpa": 25.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 243,
+          "q_integrale_kn": 182.25,
+          "q_lim_kpa": 243,
+          "sigma_eff_kpa": 27,
+          "sigma_v_kpa": 27,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 243,
+          "q_integrale_kn": 182.25,
+          "q_lim_kpa": 243,
+          "sigma_eff_kpa": 27,
+          "sigma_v_kpa": 27,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 259.2,
+          "q_integrale_kn": 207.36,
+          "q_lim_kpa": 259.2,
+          "sigma_eff_kpa": 28.799999999999997,
+          "sigma_v_kpa": 28.799999999999997,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 259.2,
+          "q_integrale_kn": 207.36,
+          "q_lim_kpa": 259.2,
+          "sigma_eff_kpa": 28.799999999999997,
+          "sigma_v_kpa": 28.799999999999997,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 275.40000000000003,
+          "q_integrale_kn": 234.09000000000003,
+          "q_lim_kpa": 275.40000000000003,
+          "sigma_eff_kpa": 30.6,
+          "sigma_v_kpa": 30.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 275.40000000000003,
+          "q_integrale_kn": 234.09000000000003,
+          "q_lim_kpa": 275.40000000000003,
+          "sigma_eff_kpa": 30.6,
+          "sigma_v_kpa": 30.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 291.6,
+          "q_integrale_kn": 262.44,
+          "q_lim_kpa": 291.6,
+          "sigma_eff_kpa": 32.4,
+          "sigma_v_kpa": 32.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 291.6,
+          "q_integrale_kn": 262.44,
+          "q_lim_kpa": 291.6,
+          "sigma_eff_kpa": 32.4,
+          "sigma_v_kpa": 32.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 307.8,
+          "q_integrale_kn": 292.41,
+          "q_lim_kpa": 307.8,
+          "sigma_eff_kpa": 34.2,
+          "sigma_v_kpa": 34.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 307.8,
+          "q_integrale_kn": 292.41,
+          "q_lim_kpa": 307.8,
+          "sigma_eff_kpa": 34.2,
+          "sigma_v_kpa": 34.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 1.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 324,
+          "q_integrale_kn": 324,
+          "q_lim_kpa": 324,
+          "sigma_eff_kpa": 36,
+          "sigma_v_kpa": 36,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 324,
+          "q_integrale_kn": 324,
+          "q_lim_kpa": 324,
+          "sigma_eff_kpa": 36,
+          "sigma_v_kpa": 36,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 340.2,
+          "q_integrale_kn": 357.21,
+          "q_lim_kpa": 340.2,
+          "sigma_eff_kpa": 37.8,
+          "sigma_v_kpa": 37.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 340.2,
+          "q_integrale_kn": 357.21,
+          "q_lim_kpa": 340.2,
+          "sigma_eff_kpa": 37.8,
+          "sigma_v_kpa": 37.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 356.40000000000003,
+          "q_integrale_kn": 392.0400000000001,
+          "q_lim_kpa": 356.40000000000003,
+          "sigma_eff_kpa": 39.6,
+          "sigma_v_kpa": 39.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 356.40000000000003,
+          "q_integrale_kn": 392.0400000000001,
+          "q_lim_kpa": 356.40000000000003,
+          "sigma_eff_kpa": 39.6,
+          "sigma_v_kpa": 39.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 372.6,
+          "q_integrale_kn": 428.49,
+          "q_lim_kpa": 372.6,
+          "sigma_eff_kpa": 41.4,
+          "sigma_v_kpa": 41.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 372.6,
+          "q_integrale_kn": 428.49,
+          "q_lim_kpa": 372.6,
+          "sigma_eff_kpa": 41.4,
+          "sigma_v_kpa": 41.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 388.8,
+          "q_integrale_kn": 466.56,
+          "q_lim_kpa": 388.8,
+          "sigma_eff_kpa": 43.2,
+          "sigma_v_kpa": 43.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 388.8,
+          "q_integrale_kn": 466.56,
+          "q_lim_kpa": 388.8,
+          "sigma_eff_kpa": 43.2,
+          "sigma_v_kpa": 43.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 405,
+          "q_integrale_kn": 506.25,
+          "q_lim_kpa": 405,
+          "sigma_eff_kpa": 45,
+          "sigma_v_kpa": 45,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 405,
+          "q_integrale_kn": 506.25,
+          "q_lim_kpa": 405,
+          "sigma_eff_kpa": 45,
+          "sigma_v_kpa": 45,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 421.2,
+          "q_integrale_kn": 547.56,
+          "q_lim_kpa": 421.19999999999993,
+          "sigma_eff_kpa": 46.8,
+          "sigma_v_kpa": 46.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 421.2,
+          "q_integrale_kn": 547.56,
+          "q_lim_kpa": 421.19999999999993,
+          "sigma_eff_kpa": 46.8,
+          "sigma_v_kpa": 46.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 437.40000000000003,
+          "q_integrale_kn": 590.49,
+          "q_lim_kpa": 437.4,
+          "sigma_eff_kpa": 48.6,
+          "sigma_v_kpa": 48.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 437.40000000000003,
+          "q_integrale_kn": 590.49,
+          "q_lim_kpa": 437.4,
+          "sigma_eff_kpa": 48.6,
+          "sigma_v_kpa": 48.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 440.8339091146819,
+          "q_integrale_kn": 599.797948843616,
+          "q_lim_kpa": 440.8339091146819,
+          "sigma_eff_kpa": 48.98154545718687,
+          "sigma_v_kpa": 48.98154545718687,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.721196969843715
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 440.8339091146819,
+          "q_integrale_kn": 599.797948843616,
+          "q_lim_kpa": 440.8339091146819,
+          "sigma_eff_kpa": 48.98154545718687,
+          "sigma_v_kpa": 48.98154545718687,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.721196969843715
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 453.6,
+          "q_integrale_kn": 635.04,
+          "q_lim_kpa": 453.59999999999997,
+          "sigma_eff_kpa": 50.4,
+          "sigma_v_kpa": 50.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 453.6,
+          "q_integrale_kn": 635.04,
+          "q_lim_kpa": 453.59999999999997,
+          "sigma_eff_kpa": 50.4,
+          "sigma_v_kpa": 50.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 469.8,
+          "q_integrale_kn": 681.21,
+          "q_lim_kpa": 469.8,
+          "sigma_eff_kpa": 52.2,
+          "sigma_v_kpa": 52.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 469.8,
+          "q_integrale_kn": 681.21,
+          "q_lim_kpa": 469.8,
+          "sigma_eff_kpa": 52.2,
+          "sigma_v_kpa": 52.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 2.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 486,
+          "q_integrale_kn": 729,
+          "q_lim_kpa": 486,
+          "sigma_eff_kpa": 54,
+          "sigma_v_kpa": 54,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 486,
+          "q_integrale_kn": 729,
+          "q_lim_kpa": 486,
+          "sigma_eff_kpa": 54,
+          "sigma_v_kpa": 54,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 502.2,
+          "q_integrale_kn": 778.41,
+          "q_lim_kpa": 502.2,
+          "sigma_eff_kpa": 55.800000000000004,
+          "sigma_v_kpa": 55.800000000000004,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 502.2,
+          "q_integrale_kn": 778.41,
+          "q_lim_kpa": 502.2,
+          "sigma_eff_kpa": 55.800000000000004,
+          "sigma_v_kpa": 55.800000000000004,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 518.4,
+          "q_integrale_kn": 829.44,
+          "q_lim_kpa": 518.4,
+          "sigma_eff_kpa": 57.599999999999994,
+          "sigma_v_kpa": 57.599999999999994,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 518.4,
+          "q_integrale_kn": 829.44,
+          "q_lim_kpa": 518.4,
+          "sigma_eff_kpa": 57.599999999999994,
+          "sigma_v_kpa": 57.599999999999994,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 534.6,
+          "q_integrale_kn": 882.09,
+          "q_lim_kpa": 534.6,
+          "sigma_eff_kpa": 59.4,
+          "sigma_v_kpa": 59.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 534.6,
+          "q_integrale_kn": 882.09,
+          "q_lim_kpa": 534.6,
+          "sigma_eff_kpa": 59.4,
+          "sigma_v_kpa": 59.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 550.8000000000001,
+          "q_integrale_kn": 936.3600000000001,
+          "q_lim_kpa": 550.8000000000001,
+          "sigma_eff_kpa": 61.2,
+          "sigma_v_kpa": 61.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 550.8000000000001,
+          "q_integrale_kn": 936.3600000000001,
+          "q_lim_kpa": 550.8000000000001,
+          "sigma_eff_kpa": 61.2,
+          "sigma_v_kpa": 61.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 567,
+          "q_integrale_kn": 992.25,
+          "q_lim_kpa": 566.9999999999999,
+          "sigma_eff_kpa": 63,
+          "sigma_v_kpa": 63,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 567,
+          "q_integrale_kn": 992.25,
+          "q_lim_kpa": 566.9999999999999,
+          "sigma_eff_kpa": 63,
+          "sigma_v_kpa": 63,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 583.2,
+          "q_integrale_kn": 1049.76,
+          "q_lim_kpa": 583.2,
+          "sigma_eff_kpa": 64.8,
+          "sigma_v_kpa": 64.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 583.2,
+          "q_integrale_kn": 1049.76,
+          "q_lim_kpa": 583.2,
+          "sigma_eff_kpa": 64.8,
+          "sigma_v_kpa": 64.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 599.4,
+          "q_integrale_kn": 1108.89,
+          "q_lim_kpa": 599.3999999999999,
+          "sigma_eff_kpa": 66.60000000000001,
+          "sigma_v_kpa": 66.60000000000001,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 599.4,
+          "q_integrale_kn": 1108.89,
+          "q_lim_kpa": 599.3999999999999,
+          "sigma_eff_kpa": 66.60000000000001,
+          "sigma_v_kpa": 66.60000000000001,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 615.6,
+          "q_integrale_kn": 1169.64,
+          "q_lim_kpa": 615.6,
+          "sigma_eff_kpa": 68.4,
+          "sigma_v_kpa": 68.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 615.6,
+          "q_integrale_kn": 1169.64,
+          "q_lim_kpa": 615.6,
+          "sigma_eff_kpa": 68.4,
+          "sigma_v_kpa": 68.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 631.8000000000001,
+          "q_integrale_kn": 1232.0100000000002,
+          "q_lim_kpa": 631.8000000000001,
+          "sigma_eff_kpa": 70.2,
+          "sigma_v_kpa": 70.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 631.8000000000001,
+          "q_integrale_kn": 1232.0100000000002,
+          "q_lim_kpa": 631.8000000000001,
+          "sigma_eff_kpa": 70.2,
+          "sigma_v_kpa": 70.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 3.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 648,
+          "q_integrale_kn": 1296,
+          "q_lim_kpa": 648,
+          "sigma_eff_kpa": 72,
+          "sigma_v_kpa": 72,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 648,
+          "q_integrale_kn": 1296,
+          "q_lim_kpa": 648,
+          "sigma_eff_kpa": 72,
+          "sigma_v_kpa": 72,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 664.2,
+          "q_integrale_kn": 1361.61,
+          "q_lim_kpa": 664.2,
+          "sigma_eff_kpa": 73.8,
+          "sigma_v_kpa": 73.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 664.2,
+          "q_integrale_kn": 1361.61,
+          "q_lim_kpa": 664.2,
+          "sigma_eff_kpa": 73.8,
+          "sigma_v_kpa": 73.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 680.4,
+          "q_integrale_kn": 1428.84,
+          "q_lim_kpa": 680.4,
+          "sigma_eff_kpa": 75.6,
+          "sigma_v_kpa": 75.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 680.4,
+          "q_integrale_kn": 1428.84,
+          "q_lim_kpa": 680.4,
+          "sigma_eff_kpa": 75.6,
+          "sigma_v_kpa": 75.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 696.6,
+          "q_integrale_kn": 1497.69,
+          "q_lim_kpa": 696.6,
+          "sigma_eff_kpa": 77.39999999999999,
+          "sigma_v_kpa": 77.39999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 696.6,
+          "q_integrale_kn": 1497.69,
+          "q_lim_kpa": 696.6,
+          "sigma_eff_kpa": 77.39999999999999,
+          "sigma_v_kpa": 77.39999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 712.8000000000001,
+          "q_integrale_kn": 1568.1600000000003,
+          "q_lim_kpa": 712.8000000000001,
+          "sigma_eff_kpa": 79.2,
+          "sigma_v_kpa": 79.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 712.8000000000001,
+          "q_integrale_kn": 1568.1600000000003,
+          "q_lim_kpa": 712.8000000000001,
+          "sigma_eff_kpa": 79.2,
+          "sigma_v_kpa": 79.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 729,
+          "q_integrale_kn": 1640.25,
+          "q_lim_kpa": 729,
+          "sigma_eff_kpa": 81,
+          "sigma_v_kpa": 81,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 729,
+          "q_integrale_kn": 1640.25,
+          "q_lim_kpa": 729,
+          "sigma_eff_kpa": 81,
+          "sigma_v_kpa": 81,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 745.2,
+          "q_integrale_kn": 1713.96,
+          "q_lim_kpa": 745.2,
+          "sigma_eff_kpa": 82.8,
+          "sigma_v_kpa": 82.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 745.2,
+          "q_integrale_kn": 1713.96,
+          "q_lim_kpa": 745.2,
+          "sigma_eff_kpa": 82.8,
+          "sigma_v_kpa": 82.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 761.4,
+          "q_integrale_kn": 1789.29,
+          "q_lim_kpa": 761.4,
+          "sigma_eff_kpa": 84.60000000000001,
+          "sigma_v_kpa": 84.60000000000001,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 761.4,
+          "q_integrale_kn": 1789.29,
+          "q_lim_kpa": 761.4,
+          "sigma_eff_kpa": 84.60000000000001,
+          "sigma_v_kpa": 84.60000000000001,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 763.5467282857328,
+          "q_integrale_kn": 1799.3938465303909,
+          "q_lim_kpa": 763.5467282857328,
+          "sigma_eff_kpa": 84.83852536508142,
+          "sigma_v_kpa": 84.83852536508142,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.71325140917119
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 763.5467282857328,
+          "q_integrale_kn": 1799.3938465303909,
+          "q_lim_kpa": 763.5467282857328,
+          "sigma_eff_kpa": 84.83852536508142,
+          "sigma_v_kpa": 84.83852536508142,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.71325140917119
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 777.6,
+          "q_integrale_kn": 1866.24,
+          "q_lim_kpa": 777.6,
+          "sigma_eff_kpa": 86.4,
+          "sigma_v_kpa": 86.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 777.6,
+          "q_integrale_kn": 1866.24,
+          "q_lim_kpa": 777.6,
+          "sigma_eff_kpa": 86.4,
+          "sigma_v_kpa": 86.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 793.8000000000001,
+          "q_integrale_kn": 1944.8100000000002,
+          "q_lim_kpa": 793.8000000000001,
+          "sigma_eff_kpa": 88.2,
+          "sigma_v_kpa": 88.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 793.8000000000001,
+          "q_integrale_kn": 1944.8100000000002,
+          "q_lim_kpa": 793.8000000000001,
+          "sigma_eff_kpa": 88.2,
+          "sigma_v_kpa": 88.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 4.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 810,
+          "q_integrale_kn": 2025,
+          "q_lim_kpa": 810,
+          "sigma_eff_kpa": 90,
+          "sigma_v_kpa": 90,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 810,
+          "q_integrale_kn": 2025,
+          "q_lim_kpa": 810,
+          "sigma_eff_kpa": 90,
+          "sigma_v_kpa": 90,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 826.2,
+          "q_integrale_kn": 2106.81,
+          "q_lim_kpa": 826.2,
+          "sigma_eff_kpa": 91.80000000000001,
+          "sigma_v_kpa": 91.80000000000001,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 826.2,
+          "q_integrale_kn": 2106.81,
+          "q_lim_kpa": 826.2,
+          "sigma_eff_kpa": 91.80000000000001,
+          "sigma_v_kpa": 91.80000000000001,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 842.4,
+          "q_integrale_kn": 2190.24,
+          "q_lim_kpa": 842.3999999999999,
+          "sigma_eff_kpa": 93.6,
+          "sigma_v_kpa": 93.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 842.4,
+          "q_integrale_kn": 2190.24,
+          "q_lim_kpa": 842.3999999999999,
+          "sigma_eff_kpa": 93.6,
+          "sigma_v_kpa": 93.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 858.6,
+          "q_integrale_kn": 2275.29,
+          "q_lim_kpa": 858.6,
+          "sigma_eff_kpa": 95.39999999999999,
+          "sigma_v_kpa": 95.39999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 858.6,
+          "q_integrale_kn": 2275.29,
+          "q_lim_kpa": 858.6,
+          "sigma_eff_kpa": 95.39999999999999,
+          "sigma_v_kpa": 95.39999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 874.8000000000001,
+          "q_integrale_kn": 2361.96,
+          "q_lim_kpa": 874.8,
+          "sigma_eff_kpa": 97.2,
+          "sigma_v_kpa": 97.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 874.8000000000001,
+          "q_integrale_kn": 2361.96,
+          "q_lim_kpa": 874.8,
+          "sigma_eff_kpa": 97.2,
+          "sigma_v_kpa": 97.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 891,
+          "q_integrale_kn": 2450.25,
+          "q_lim_kpa": 891,
+          "sigma_eff_kpa": 99,
+          "sigma_v_kpa": 99,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 891,
+          "q_integrale_kn": 2450.25,
+          "q_lim_kpa": 891,
+          "sigma_eff_kpa": 99,
+          "sigma_v_kpa": 99,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 907.2,
+          "q_integrale_kn": 2540.16,
+          "q_lim_kpa": 907.1999999999999,
+          "sigma_eff_kpa": 100.8,
+          "sigma_v_kpa": 100.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 907.2,
+          "q_integrale_kn": 2540.16,
+          "q_lim_kpa": 907.1999999999999,
+          "sigma_eff_kpa": 100.8,
+          "sigma_v_kpa": 100.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 923.4,
+          "q_integrale_kn": 2631.69,
+          "q_lim_kpa": 923.4,
+          "sigma_eff_kpa": 102.6,
+          "sigma_v_kpa": 102.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 923.4,
+          "q_integrale_kn": 2631.69,
+          "q_lim_kpa": 923.4,
+          "sigma_eff_kpa": 102.6,
+          "sigma_v_kpa": 102.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 939.6,
+          "q_integrale_kn": 2724.84,
+          "q_lim_kpa": 939.6,
+          "sigma_eff_kpa": 104.4,
+          "sigma_v_kpa": 104.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 939.6,
+          "q_integrale_kn": 2724.84,
+          "q_lim_kpa": 939.6,
+          "sigma_eff_kpa": 104.4,
+          "sigma_v_kpa": 104.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 955.8000000000001,
+          "q_integrale_kn": 2819.61,
+          "q_lim_kpa": 955.8000000000001,
+          "sigma_eff_kpa": 106.2,
+          "sigma_v_kpa": 106.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 955.8000000000001,
+          "q_integrale_kn": 2819.61,
+          "q_lim_kpa": 955.8000000000001,
+          "sigma_eff_kpa": 106.2,
+          "sigma_v_kpa": 106.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 5.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 972,
+          "q_integrale_kn": 2916,
+          "q_lim_kpa": 972,
+          "sigma_eff_kpa": 108,
+          "sigma_v_kpa": 108,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 972,
+          "q_integrale_kn": 2916,
+          "q_lim_kpa": 972,
+          "sigma_eff_kpa": 108,
+          "sigma_v_kpa": 108,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 988.2,
+          "q_integrale_kn": 3014.01,
+          "q_lim_kpa": 988.2,
+          "sigma_eff_kpa": 109.80000000000001,
+          "sigma_v_kpa": 109.80000000000001,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 988.2,
+          "q_integrale_kn": 3014.01,
+          "q_lim_kpa": 988.2,
+          "sigma_eff_kpa": 109.80000000000001,
+          "sigma_v_kpa": 109.80000000000001,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1004.4,
+          "q_integrale_kn": 3113.64,
+          "q_lim_kpa": 1004.4,
+          "sigma_eff_kpa": 111.60000000000001,
+          "sigma_v_kpa": 111.60000000000001,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1004.4,
+          "q_integrale_kn": 3113.64,
+          "q_lim_kpa": 1004.4,
+          "sigma_eff_kpa": 111.60000000000001,
+          "sigma_v_kpa": 111.60000000000001,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1020.6,
+          "q_integrale_kn": 3214.89,
+          "q_lim_kpa": 1020.5999999999999,
+          "sigma_eff_kpa": 113.39999999999999,
+          "sigma_v_kpa": 113.39999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1020.6,
+          "q_integrale_kn": 3214.89,
+          "q_lim_kpa": 1020.5999999999999,
+          "sigma_eff_kpa": 113.39999999999999,
+          "sigma_v_kpa": 113.39999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1036.8,
+          "q_integrale_kn": 3317.76,
+          "q_lim_kpa": 1036.8,
+          "sigma_eff_kpa": 115.19999999999999,
+          "sigma_v_kpa": 115.19999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1036.8,
+          "q_integrale_kn": 3317.76,
+          "q_lim_kpa": 1036.8,
+          "sigma_eff_kpa": 115.19999999999999,
+          "sigma_v_kpa": 115.19999999999999,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1053,
+          "q_integrale_kn": 3422.25,
+          "q_lim_kpa": 1053,
+          "sigma_eff_kpa": 117,
+          "sigma_v_kpa": 117,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1053,
+          "q_integrale_kn": 3422.25,
+          "q_lim_kpa": 1053,
+          "sigma_eff_kpa": 117,
+          "sigma_v_kpa": 117,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1069.2,
+          "q_integrale_kn": 3528.36,
+          "q_lim_kpa": 1069.2,
+          "sigma_eff_kpa": 118.8,
+          "sigma_v_kpa": 118.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1069.2,
+          "q_integrale_kn": 3528.36,
+          "q_lim_kpa": 1069.2,
+          "sigma_eff_kpa": 118.8,
+          "sigma_v_kpa": 118.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1085.4,
+          "q_integrale_kn": 3636.0900000000006,
+          "q_lim_kpa": 1085.4,
+          "sigma_eff_kpa": 120.6,
+          "sigma_v_kpa": 120.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1085.4,
+          "q_integrale_kn": 3636.0900000000006,
+          "q_lim_kpa": 1085.4,
+          "sigma_eff_kpa": 120.6,
+          "sigma_v_kpa": 120.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1101.6000000000001,
+          "q_integrale_kn": 3745.4400000000005,
+          "q_lim_kpa": 1101.6000000000001,
+          "sigma_eff_kpa": 122.4,
+          "sigma_v_kpa": 122.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1101.6000000000001,
+          "q_integrale_kn": 3745.4400000000005,
+          "q_lim_kpa": 1101.6000000000001,
+          "sigma_eff_kpa": 122.4,
+          "sigma_v_kpa": 122.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1117.8,
+          "q_integrale_kn": 3856.41,
+          "q_lim_kpa": 1117.8,
+          "sigma_eff_kpa": 124.2,
+          "sigma_v_kpa": 124.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1117.8,
+          "q_integrale_kn": 3856.41,
+          "q_lim_kpa": 1117.8,
+          "sigma_eff_kpa": 124.2,
+          "sigma_v_kpa": 124.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 6.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1134,
+          "q_integrale_kn": 3969,
+          "q_lim_kpa": 1133.9999999999998,
+          "sigma_eff_kpa": 126,
+          "sigma_v_kpa": 126,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1134,
+          "q_integrale_kn": 3969,
+          "q_lim_kpa": 1133.9999999999998,
+          "sigma_eff_kpa": 126,
+          "sigma_v_kpa": 126,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1150.2,
+          "q_integrale_kn": 4083.21,
+          "q_lim_kpa": 1150.2,
+          "sigma_eff_kpa": 127.8,
+          "sigma_v_kpa": 127.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1150.2,
+          "q_integrale_kn": 4083.21,
+          "q_lim_kpa": 1150.2,
+          "sigma_eff_kpa": 127.8,
+          "sigma_v_kpa": 127.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1166.4,
+          "q_integrale_kn": 4199.04,
+          "q_lim_kpa": 1166.4,
+          "sigma_eff_kpa": 129.6,
+          "sigma_v_kpa": 129.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1166.4,
+          "q_integrale_kn": 4199.04,
+          "q_lim_kpa": 1166.4,
+          "sigma_eff_kpa": 129.6,
+          "sigma_v_kpa": 129.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1182.6000000000001,
+          "q_integrale_kn": 4316.490000000001,
+          "q_lim_kpa": 1182.6000000000001,
+          "sigma_eff_kpa": 131.4,
+          "sigma_v_kpa": 131.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1182.6000000000001,
+          "q_integrale_kn": 4316.490000000001,
+          "q_lim_kpa": 1182.6000000000001,
+          "sigma_eff_kpa": 131.4,
+          "sigma_v_kpa": 131.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1198.8,
+          "q_integrale_kn": 4435.56,
+          "q_lim_kpa": 1198.7999999999997,
+          "sigma_eff_kpa": 133.20000000000002,
+          "sigma_v_kpa": 133.20000000000002,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1198.8,
+          "q_integrale_kn": 4435.56,
+          "q_lim_kpa": 1198.7999999999997,
+          "sigma_eff_kpa": 133.20000000000002,
+          "sigma_v_kpa": 133.20000000000002,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1215,
+          "q_integrale_kn": 4556.25,
+          "q_lim_kpa": 1215,
+          "sigma_eff_kpa": 135,
+          "sigma_v_kpa": 135,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1215,
+          "q_integrale_kn": 4556.25,
+          "q_lim_kpa": 1215,
+          "sigma_eff_kpa": 135,
+          "sigma_v_kpa": 135,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1231.2,
+          "q_integrale_kn": 4678.56,
+          "q_lim_kpa": 1231.2,
+          "sigma_eff_kpa": 136.8,
+          "sigma_v_kpa": 136.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1231.2,
+          "q_integrale_kn": 4678.56,
+          "q_lim_kpa": 1231.2,
+          "sigma_eff_kpa": 136.8,
+          "sigma_v_kpa": 136.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1247.4,
+          "q_integrale_kn": 4802.49,
+          "q_lim_kpa": 1247.4,
+          "sigma_eff_kpa": 138.6,
+          "sigma_v_kpa": 138.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1247.4,
+          "q_integrale_kn": 4802.49,
+          "q_lim_kpa": 1247.4,
+          "sigma_eff_kpa": 138.6,
+          "sigma_v_kpa": 138.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1263.6000000000001,
+          "q_integrale_kn": 4928.040000000001,
+          "q_lim_kpa": 1263.6000000000001,
+          "sigma_eff_kpa": 140.4,
+          "sigma_v_kpa": 140.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1263.6000000000001,
+          "q_integrale_kn": 4928.040000000001,
+          "q_lim_kpa": 1263.6000000000001,
+          "sigma_eff_kpa": 140.4,
+          "sigma_v_kpa": 140.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1279.8,
+          "q_integrale_kn": 5055.21,
+          "q_lim_kpa": 1279.8,
+          "sigma_eff_kpa": 142.2,
+          "sigma_v_kpa": 142.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1279.8,
+          "q_integrale_kn": 5055.21,
+          "q_lim_kpa": 1279.8,
+          "sigma_eff_kpa": 142.2,
+          "sigma_v_kpa": 142.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 7.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1296,
+          "q_integrale_kn": 5184,
+          "q_lim_kpa": 1296,
+          "sigma_eff_kpa": 144,
+          "sigma_v_kpa": 144,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1296,
+          "q_integrale_kn": 5184,
+          "q_lim_kpa": 1296,
+          "sigma_eff_kpa": 144,
+          "sigma_v_kpa": 144,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1312.2,
+          "q_integrale_kn": 5314.41,
+          "q_lim_kpa": 1312.2,
+          "sigma_eff_kpa": 145.8,
+          "sigma_v_kpa": 145.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1312.2,
+          "q_integrale_kn": 5314.41,
+          "q_lim_kpa": 1312.2,
+          "sigma_eff_kpa": 145.8,
+          "sigma_v_kpa": 145.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1328.4,
+          "q_integrale_kn": 5446.44,
+          "q_lim_kpa": 1328.4,
+          "sigma_eff_kpa": 147.6,
+          "sigma_v_kpa": 147.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1328.4,
+          "q_integrale_kn": 5446.44,
+          "q_lim_kpa": 1328.4,
+          "sigma_eff_kpa": 147.6,
+          "sigma_v_kpa": 147.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1344.6000000000001,
+          "q_integrale_kn": 5580.090000000001,
+          "q_lim_kpa": 1344.6000000000001,
+          "sigma_eff_kpa": 149.4,
+          "sigma_v_kpa": 149.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1344.6000000000001,
+          "q_integrale_kn": 5580.090000000001,
+          "q_lim_kpa": 1344.6000000000001,
+          "sigma_eff_kpa": 149.4,
+          "sigma_v_kpa": 149.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1360.8,
+          "q_integrale_kn": 5715.36,
+          "q_lim_kpa": 1360.8,
+          "sigma_eff_kpa": 151.2,
+          "sigma_v_kpa": 151.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1360.8,
+          "q_integrale_kn": 5715.36,
+          "q_lim_kpa": 1360.8,
+          "sigma_eff_kpa": 151.2,
+          "sigma_v_kpa": 151.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1377,
+          "q_integrale_kn": 5852.25,
+          "q_lim_kpa": 1377,
+          "sigma_eff_kpa": 153,
+          "sigma_v_kpa": 153,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1377,
+          "q_integrale_kn": 5852.25,
+          "q_lim_kpa": 1377,
+          "sigma_eff_kpa": 153,
+          "sigma_v_kpa": 153,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1393.2,
+          "q_integrale_kn": 5990.76,
+          "q_lim_kpa": 1393.2,
+          "sigma_eff_kpa": 154.79999999999998,
+          "sigma_v_kpa": 154.79999999999998,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1393.2,
+          "q_integrale_kn": 5990.76,
+          "q_lim_kpa": 1393.2,
+          "sigma_eff_kpa": 154.79999999999998,
+          "sigma_v_kpa": 154.79999999999998,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1409.4,
+          "q_integrale_kn": 6130.89,
+          "q_lim_kpa": 1409.3999999999999,
+          "sigma_eff_kpa": 156.60000000000002,
+          "sigma_v_kpa": 156.60000000000002,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1409.4,
+          "q_integrale_kn": 6130.89,
+          "q_lim_kpa": 1409.3999999999999,
+          "sigma_eff_kpa": 156.60000000000002,
+          "sigma_v_kpa": 156.60000000000002,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1425.6000000000001,
+          "q_integrale_kn": 6272.640000000001,
+          "q_lim_kpa": 1425.6000000000001,
+          "sigma_eff_kpa": 158.4,
+          "sigma_v_kpa": 158.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1425.6000000000001,
+          "q_integrale_kn": 6272.640000000001,
+          "q_lim_kpa": 1425.6000000000001,
+          "sigma_eff_kpa": 158.4,
+          "sigma_v_kpa": 158.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1441.8,
+          "q_integrale_kn": 6416.01,
+          "q_lim_kpa": 1441.8,
+          "sigma_eff_kpa": 160.20000000000002,
+          "sigma_v_kpa": 160.20000000000002,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1441.8,
+          "q_integrale_kn": 6416.01,
+          "q_lim_kpa": 1441.8,
+          "sigma_eff_kpa": 160.20000000000002,
+          "sigma_v_kpa": 160.20000000000002,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 8.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1458,
+          "q_integrale_kn": 6561,
+          "q_lim_kpa": 1458,
+          "sigma_eff_kpa": 162,
+          "sigma_v_kpa": 162,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1458,
+          "q_integrale_kn": 6561,
+          "q_lim_kpa": 1458,
+          "sigma_eff_kpa": 162,
+          "sigma_v_kpa": 162,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1474.2,
+          "q_integrale_kn": 6707.61,
+          "q_lim_kpa": 1474.1999999999998,
+          "sigma_eff_kpa": 163.8,
+          "sigma_v_kpa": 163.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.1
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1474.2,
+          "q_integrale_kn": 6707.61,
+          "q_lim_kpa": 1474.1999999999998,
+          "sigma_eff_kpa": 163.8,
+          "sigma_v_kpa": 163.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.1
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1490.4,
+          "q_integrale_kn": 6855.84,
+          "q_lim_kpa": 1490.4,
+          "sigma_eff_kpa": 165.6,
+          "sigma_v_kpa": 165.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.2
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1490.4,
+          "q_integrale_kn": 6855.84,
+          "q_lim_kpa": 1490.4,
+          "sigma_eff_kpa": 165.6,
+          "sigma_v_kpa": 165.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.2
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1506.6000000000001,
+          "q_integrale_kn": 7005.6900000000005,
+          "q_lim_kpa": 1506.6000000000001,
+          "sigma_eff_kpa": 167.39999999999998,
+          "sigma_v_kpa": 167.39999999999998,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.3
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1506.6000000000001,
+          "q_integrale_kn": 7005.6900000000005,
+          "q_lim_kpa": 1506.6000000000001,
+          "sigma_eff_kpa": 167.39999999999998,
+          "sigma_v_kpa": 167.39999999999998,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.3
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1522.8,
+          "q_integrale_kn": 7157.16,
+          "q_lim_kpa": 1522.8,
+          "sigma_eff_kpa": 169.20000000000002,
+          "sigma_v_kpa": 169.20000000000002,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.4
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1522.8,
+          "q_integrale_kn": 7157.16,
+          "q_lim_kpa": 1522.8,
+          "sigma_eff_kpa": 169.20000000000002,
+          "sigma_v_kpa": 169.20000000000002,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.4
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1539,
+          "q_integrale_kn": 7310.25,
+          "q_lim_kpa": 1539,
+          "sigma_eff_kpa": 171,
+          "sigma_v_kpa": 171,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.5
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1539,
+          "q_integrale_kn": 7310.25,
+          "q_lim_kpa": 1539,
+          "sigma_eff_kpa": 171,
+          "sigma_v_kpa": 171,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.5
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1555.2,
+          "q_integrale_kn": 7464.96,
+          "q_lim_kpa": 1555.2,
+          "sigma_eff_kpa": 172.8,
+          "sigma_v_kpa": 172.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.6
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1555.2,
+          "q_integrale_kn": 7464.96,
+          "q_lim_kpa": 1555.2,
+          "sigma_eff_kpa": 172.8,
+          "sigma_v_kpa": 172.8,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.6
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1571.4,
+          "q_integrale_kn": 7621.29,
+          "q_lim_kpa": 1571.4,
+          "sigma_eff_kpa": 174.6,
+          "sigma_v_kpa": 174.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.7
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1571.4,
+          "q_integrale_kn": 7621.29,
+          "q_lim_kpa": 1571.4,
+          "sigma_eff_kpa": 174.6,
+          "sigma_v_kpa": 174.6,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.7
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1587.6000000000001,
+          "q_integrale_kn": 7779.240000000001,
+          "q_lim_kpa": 1587.6000000000001,
+          "sigma_eff_kpa": 176.4,
+          "sigma_v_kpa": 176.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.8
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1587.6000000000001,
+          "q_integrale_kn": 7779.240000000001,
+          "q_lim_kpa": 1587.6000000000001,
+          "sigma_eff_kpa": 176.4,
+          "sigma_v_kpa": 176.4,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.8
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1603.8,
+          "q_integrale_kn": 7938.81,
+          "q_lim_kpa": 1603.8,
+          "sigma_eff_kpa": 178.2,
+          "sigma_v_kpa": 178.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.9
+        },
+        {
+          "lato": "dopo",
+          "p_lim_kn_m": 1603.8,
+          "q_integrale_kn": 7938.81,
+          "q_lim_kpa": 1603.8,
+          "sigma_eff_kpa": 178.2,
+          "sigma_v_kpa": 178.2,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 9.9
+        },
+        {
+          "lato": "prima",
+          "p_lim_kn_m": 1620,
+          "q_integrale_kn": 8100,
+          "q_lim_kpa": 1620,
+          "sigma_eff_kpa": 180,
+          "sigma_v_kpa": 180,
+          "strato": 1,
+          "u_kpa": 0,
+          "z": 10
+        }
+      ],
+      "diagrammi": [
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 599.7979488436158,
+          "z": 0
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 59.95279488436158,
+          "p_kn_m": 16.2,
+          "q_kpa": 16.2,
+          "v_kn": 598.9879488436159,
+          "z": 0.1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 119.74358976872315,
+          "p_kn_m": 32.4,
+          "q_kpa": 32.4,
+          "v_kn": 596.5579488436158,
+          "z": 0.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 179.21038465308476,
+          "p_kn_m": 48.6,
+          "q_kpa": 48.6,
+          "v_kn": 592.5079488436158,
+          "z": 0.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 238.19117953744632,
+          "p_kn_m": 64.8,
+          "q_kpa": 64.8,
+          "v_kn": 586.8379488436158,
+          "z": 0.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 296.5239744218079,
+          "p_kn_m": 81,
+          "q_kpa": 81,
+          "v_kn": 579.5479488436158,
+          "z": 0.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 354.0467693061695,
+          "p_kn_m": 97.2,
+          "q_kpa": 97.2,
+          "v_kn": 570.6379488436158,
+          "z": 0.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 410.5975641905311,
+          "p_kn_m": 113.4,
+          "q_kpa": 113.39999999999999,
+          "v_kn": 560.1079488436159,
+          "z": 0.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 466.01435907489264,
+          "p_kn_m": 129.6,
+          "q_kpa": 129.6,
+          "v_kn": 547.9579488436158,
+          "z": 0.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 520.1351539592542,
+          "p_kn_m": 145.8,
+          "q_kpa": 145.8,
+          "v_kn": 534.1879488436158,
+          "z": 0.9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 572.7979488436158,
+          "p_kn_m": 162,
+          "q_kpa": 162,
+          "v_kn": 518.7979488436158,
+          "z": 1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 623.8407437279774,
+          "p_kn_m": 178.20000000000002,
+          "q_kpa": 178.20000000000002,
+          "v_kn": 501.7879488436158,
+          "z": 1.1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 673.101538612339,
+          "p_kn_m": 194.4,
+          "q_kpa": 194.4,
+          "v_kn": 483.1579488436158,
+          "z": 1.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 720.4183334967005,
+          "p_kn_m": 210.6,
+          "q_kpa": 210.59999999999997,
+          "v_kn": 462.9079488436158,
+          "z": 1.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 765.6291283810622,
+          "p_kn_m": 226.8,
+          "q_kpa": 226.79999999999998,
+          "v_kn": 441.0379488436158,
+          "z": 1.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 808.5719232654237,
+          "p_kn_m": 243,
+          "q_kpa": 243,
+          "v_kn": 417.5479488436158,
+          "z": 1.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 849.0847181497853,
+          "p_kn_m": 259.2,
+          "q_kpa": 259.2,
+          "v_kn": 392.4379488436158,
+          "z": 1.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 887.0055130341469,
+          "p_kn_m": 275.40000000000003,
+          "q_kpa": 275.40000000000003,
+          "v_kn": 365.70794884361584,
+          "z": 1.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 922.1723079185085,
+          "p_kn_m": 291.6,
+          "q_kpa": 291.6,
+          "v_kn": 337.3579488436158,
+          "z": 1.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 954.4231028028701,
+          "p_kn_m": 307.8,
+          "q_kpa": 307.8,
+          "v_kn": 307.38794884361585,
+          "z": 1.9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 983.5958976872315,
+          "p_kn_m": 324,
+          "q_kpa": 324,
+          "v_kn": 275.7979488436158,
+          "z": 2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 1009.5286925715933,
+          "p_kn_m": 340.2,
+          "q_kpa": 340.2,
+          "v_kn": 242.58794884361583,
+          "z": 2.1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 1032.0594874559547,
+          "p_kn_m": 356.40000000000003,
+          "q_kpa": 356.40000000000003,
+          "v_kn": 207.75794884361576,
+          "z": 2.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 1051.0262823403164,
+          "p_kn_m": 372.6,
+          "q_kpa": 372.6,
+          "v_kn": 171.30794884361583,
+          "z": 2.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 1066.2670772246781,
+          "p_kn_m": 388.8,
+          "q_kpa": 388.8,
+          "v_kn": 133.23794884361584,
+          "z": 2.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 1077.6198721090395,
+          "p_kn_m": 405,
+          "q_kpa": 405,
+          "v_kn": 93.54794884361583,
+          "z": 2.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 1084.922666993401,
+          "p_kn_m": 421.2,
+          "q_kpa": 421.19999999999993,
+          "v_kn": 52.237948843615825,
+          "z": 2.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 1088.013461877763,
+          "p_kn_m": 437.40000000000003,
+          "q_kpa": 437.4,
+          "v_kn": 9.307948843615828,
+          "z": 2.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 1088.1122406078152,
+          "p_kn_m": 440.8339091146819,
+          "q_kpa": 440.8339091146819,
+          "v_kn": -2.3283064365386963E-13,
+          "z": 2.721196969843715
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 1086.7302567621243,
+          "p_kn_m": 453.6,
+          "q_kpa": 453.59999999999997,
+          "v_kn": -35.24205115638417,
+          "z": 2.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 1080.9110516464857,
+          "p_kn_m": 469.8,
+          "q_kpa": 469.8,
+          "v_kn": -81.41205115638417,
+          "z": 2.9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 1070.3938465308474,
+          "p_kn_m": 486,
+          "q_kpa": 486,
+          "v_kn": -129.20205115638416,
+          "z": 3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 1055.016641415209,
+          "p_kn_m": 502.2,
+          "q_kpa": 502.2,
+          "v_kn": -178.61205115638418,
+          "z": 3.1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 1034.6174362995705,
+          "p_kn_m": 518.4,
+          "q_kpa": 518.4,
+          "v_kn": -229.64205115638418,
+          "z": 3.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 1009.0342311839323,
+          "p_kn_m": 534.6,
+          "q_kpa": 534.6,
+          "v_kn": -282.29205115638416,
+          "z": 3.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 978.1050260682936,
+          "p_kn_m": 550.8000000000001,
+          "q_kpa": 550.8000000000001,
+          "v_kn": -336.5620511563843,
+          "z": 3.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 941.6678209526553,
+          "p_kn_m": 567,
+          "q_kpa": 566.9999999999999,
+          "v_kn": -392.4520511563842,
+          "z": 3.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 899.560615837017,
+          "p_kn_m": 583.2,
+          "q_kpa": 583.2,
+          "v_kn": -449.9620511563842,
+          "z": 3.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 851.6214107213783,
+          "p_kn_m": 599.4,
+          "q_kpa": 599.3999999999999,
+          "v_kn": -509.0920511563842,
+          "z": 3.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 797.6882056057401,
+          "p_kn_m": 615.6,
+          "q_kpa": 615.6,
+          "v_kn": -569.8420511563842,
+          "z": 3.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 737.5990004901014,
+          "p_kn_m": 631.8000000000001,
+          "q_kpa": 631.8000000000001,
+          "v_kn": -632.2120511563844,
+          "z": 3.9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 671.191795374463,
+          "p_kn_m": 648,
+          "q_kpa": 648,
+          "v_kn": -696.2020511563842,
+          "z": 4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 598.3045902588249,
+          "p_kn_m": 664.2,
+          "q_kpa": 664.2,
+          "v_kn": -761.8120511563842,
+          "z": 4.1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 518.7753851431866,
+          "p_kn_m": 680.4,
+          "q_kpa": 680.4,
+          "v_kn": -829.0420511563842,
+          "z": 4.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 432.44218002754786,
+          "p_kn_m": 696.6,
+          "q_kpa": 696.6,
+          "v_kn": -897.8920511563841,
+          "z": 4.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 339.14297491190956,
+          "p_kn_m": 712.8000000000001,
+          "q_kpa": 712.8000000000001,
+          "v_kn": -968.3620511563844,
+          "z": 4.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 238.71576979627133,
+          "p_kn_m": 729,
+          "q_kpa": 729,
+          "v_kn": -1040.4520511563842,
+          "z": 4.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 130.9985646806326,
+          "p_kn_m": 745.2,
+          "q_kpa": 745.2,
+          "v_kn": -1114.1620511563842,
+          "z": 4.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 15.829359564994336,
+          "p_kn_m": 761.4,
+          "q_kpa": 761.4,
+          "v_kn": -1189.4920511563842,
+          "z": 4.7
+        },
+        {
+          "lato": "prima",
+          "m_knm": 7.171630859375E-10,
+          "p_kn_m": 763.5467282857328,
+          "q_kpa": 763.5467282857328,
+          "v_kn": -1199.595897686775,
+          "z": 4.71325140917119
+        },
+        {
+          "lato": "dopo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 4.71325140917119
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 4.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 4.9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 5.1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 5.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 5.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 5.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 5.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 5.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 5.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 5.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 5.9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 6.1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 6.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 6.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 6.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 6.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 6.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 6.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 6.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 6.9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 7.1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 7.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 7.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 7.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 7.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 7.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 7.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 7.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 7.9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 8.1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 8.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 8.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 8.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 8.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 8.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 8.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 8.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 8.9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 9.1
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 9.2
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 9.3
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 9.4
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 9.5
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 9.6
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 9.7
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 9.8
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 9.9
+        },
+        {
+          "lato": "nodo",
+          "m_knm": 0,
+          "p_kn_m": 0,
+          "q_kpa": 0,
+          "v_kn": 0,
+          "z": 10
+        }
+      ],
+      "fine_reazioni_m": 4.71325140917119,
+      "inversione_reazioni_m": null,
+      "meccanismo": "Lungo",
+      "misto": false,
+      "modello_adottato": "Omogeneo",
+      "momento_massimo_knm": 1088.1122406078152,
+      "momento_testa_knm": 0,
+      "nota_tensioni": "σv e σ′v da peso proprio; u idrostatica, senza suzione. q_lim=p_lim/D; q=p/D è una pressione laterale equivalente. Nessuna riduzione locale con ξ o γR.",
+      "quota_momento_massimo_m": 2.721196969843715,
+      "quota_risultante_m": 4.71325140917119,
+      "quota_taglio_nullo_m": 2.721196969843715,
+      "residuo_forza_kn": 0,
+      "residuo_momento_knm": 7.171630859375E-10,
+      "risultante_concentrata_kn": 1199.595897686775,
+      "tensioni_disponibili": true
+    }
+  ],
+  "sondaggio_governante": 1,
+  "sperimentale": false,
+  "utilizzo_manuale": 0.36845741207698074,
+  "verifica_normativa": "Incompleta",
+  "versione_motore": "Broms-ANTHEA-1",
+  "verticali_indagate": "1",
+  "xi3": 1.7,
+  "xi4": 1.7
+}

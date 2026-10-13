@@ -1,0 +1,9 @@
+text: La connettività stabilisce quali incognite sono condivise fra elementi; una release stabilisce quali azioni non vengono trasmesse a un'estremità. Queste due decisioni determinano il percorso dei carichi prima ancora di assegnare una rigidezza.
+text: controllare-un-nodo
+text: Individua sul disegno le traslazioni e rotazioni possibili, quindi verifica se il modello permette proprio quei movimenti. Una cerniera ideale nel piano trasmette due forze e non trasmette il momento coniugato alla rotazione libera. Un link elastico trasmette una forza proporzionale allo spostamento relativo: una rigidezza enorme è un'approssimazione che può peggiorare il condizionamento numerico.
+text: meccanismi-e-collegamenti-rigidi
+text: Se una parte può muoversi rigidamente senza deformare nessun elemento, il modello ha un meccanismo. Non correggerlo con una molla casuale. Verifica prima i vincoli fisici e le release. Al contrario, troppe connessioni rigide possono impedire deformazioni reali e generare azioni spurie. Un collegamento rigido deve trasferire anche i momenti prodotti dal braccio geometrico.
+text: riepilogo
+text: Confronta il modello numerico con uno schizzo cinematico. Usa un carico unitario per verificare il movimento consentito e la distribuzione delle reazioni. Conserva una descrizione delle ipotesi del nodo accanto ai risultati.
+text: riferimento-del-modello
+text: La formulazione dei telai piani del testo TU Delft Computational Modelling distingue traslazioni e rotazione del nodo e l’assemblaggio delle rigidezze. Questa pagina riguarda l’interpretazione del modello esterno: non introduce un editor generale di release in Anthea.

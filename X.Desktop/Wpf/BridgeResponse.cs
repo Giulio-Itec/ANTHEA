@@ -1,9 +1,10 @@
+using Anthea.Application.Scheduling;
+using Anthea.Application.Modules;
 using System.IO;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
-using GPC.Checkers.CompositeBridge.History;
 using Microsoft.Win32;
 using X.Core;
 
@@ -21,6 +22,7 @@ internal sealed partial class BridgeWorkspace
     private readonly BridgeResponsePlot responsePlot = new(), fiberPlot = new() { CurveBrush = Ui.Brush("#A35320") };
     private readonly ContentControl responseTable = new();
     private readonly TextBlock responseNotice = Ui.Text("Nessuna curva calcolata", 12, true), responsePointInfo = Ui.Text("", 12);
+    private readonly RecalculationScheduler responseRecalculation = new();
     private CancellationTokenSource? responseCancellation;
     private Button responseRun = null!, responseExport = null!;
     private int responseRevision;
@@ -28,11 +30,9 @@ internal sealed partial class BridgeWorkspace
 
     private UIElement BuildResponsePage()
     {
-        if (Data["curve_sezione"] is not JsonObject) Data["curve_sezione"] = BridgeSection.ResponseDefaults();
-        ResponseData = Data["curve_sezione"]!.AsObject();
-        foreach (var pair in BridgeSection.ResponseDefaults()) if (!ResponseData.ContainsKey(pair.Key)) ResponseData[pair.Key] = pair.Value?.DeepClone();
-        ResponseForm = new InputForm(ResponseData, [new("tipo", "Curva", Choices: BridgeSection.ResponseModes, Wide: true),
-            new("origine", "Stato di partenza", Choices: BridgeSection.ResponseOrigins, Wide: true),
+        ResponseData = Anthea.Application.Presentation.BridgeSheetPresentation.PrepareResponse(Data);
+        ResponseForm = new InputForm(ResponseData, [new("tipo", "Curva", Choices: BridgeEditor.ResponseModes, Wide: true),
+            new("origine", "Stato di partenza", Choices: BridgeEditor.ResponseOrigins, Wide: true),
             new("y", "Quota di riferimento", "mm"), new("n_storico", "Mantieni N dello stato iniziale", Bool: true, Wide: true), new("N", "N costante", "kN"),
             new("k_storico", "Mantieni κ dello stato iniziale", Bool: true, Wide: true), new("k", "κ costante", "1/m"),
             new("incremento_k", "Incremento finale Δκ", "1/m"), new("incremento_e", "Incremento finale Δε", "µε"),
@@ -59,7 +59,7 @@ internal sealed partial class BridgeWorkspace
     }
     private void RefreshResponseFields()
     {
-        bool mc = ResponseData.S("tipo") == BridgeSection.ResponseModes[0], history = ResponseData.S("origine") == BridgeSection.ResponseOrigins[1];
+        bool mc = ResponseData.S("tipo") == BridgeEditor.ResponseModes[0], history = ResponseData.S("origine") == BridgeEditor.ResponseOrigins[1];
         ResponseForm.ShowField("n_storico", mc); ResponseForm.ShowField("N", mc && !ResponseData.B("n_storico"));
         ResponseForm.ShowField("k_storico", !mc); ResponseForm.ShowField("k", !mc && !ResponseData.B("k_storico"));
         ResponseForm.ShowField("incremento_k", mc); ResponseForm.ShowField("incremento_e", !mc);
@@ -74,7 +74,7 @@ internal sealed partial class BridgeWorkspace
     }
     private void InvalidateResponse()
     {
-        responseRevision++; responseCancellation?.Cancel();
+        responseRevision++; responseRecalculation.Invalidate(); responseCancellation?.Cancel();
         if (responseExport is not null) responseExport.IsEnabled = false;
         if (ResponseCalculation is not null) responseNotice.Text = "Dati modificati · curva precedente da ricalcolare";
     }
@@ -84,11 +84,20 @@ internal sealed partial class BridgeWorkspace
         Commit(); ResponseForm.Commit();
         var data = (JsonObject)Data.DeepClone(); var request = (JsonObject)ResponseData.DeepClone();
         int version = responseRevision; responseCancellation?.Dispose(); responseCancellation = new(); var token = responseCancellation.Token;
-        responseBusy = true; responseRun.IsEnabled = false; responseNotice.Text = "Calcolo del percorso e dello storico di partenza…";
-        try
+        var completed = await responseRecalculation.ScheduleAsync(async currentToken =>
         {
-            var result = await Task.Run(() => BridgeSection.CalculateResponse(data, request, token), token);
-            if (disposed || version != responseRevision) return;
+            responseBusy = true; responseRun.IsEnabled = false; responseNotice.Text = "Calcolo del percorso e dello storico di partenza…";
+            try { return await Task.Run(() => StructuralQueries.BridgeResponse(data, request, currentToken), currentToken); }
+            finally { responseBusy = false; if (!disposed) responseRun.IsEnabled = true; }
+        }, cancellation: token);
+        if (completed.Cancelled && !disposed && version == responseRevision)
+            responseNotice.Text = "Calcolo annullato · eventuale curva precedente da ricalcolare";
+        completed.TryPublish(current =>
+        {
+            try
+            {
+                if (current.Error is not null) throw current.Error;
+                var result = current.Value!;
             ResponseCalculation = result; responseExport.IsEnabled = true;
             responseNotice.Text = $"{result.Points.Count} stati accettati · " + result.Message;
             ResponsePoint.Maximum = Math.Max(0, result.Points.Count - 1); ResponsePoint.Value = ResponsePoint.Maximum;
@@ -100,13 +109,12 @@ internal sealed partial class BridgeWorkspace
                     F(p.State.Fibers.Where(f => f.Active).Min(f => f.MechanicalStrain) * 1e6), F(p.State.Fibers.Where(f => f.Active).Max(f => f.MechanicalStrain) * 1e6),
                     F(p.State.Fibers.Where(f => f.Active).Min(f => f.Stress)), F(p.State.Fibers.Where(f => f.Active).Max(f => f.Stress)), E(p.State.ForceResidual) }));
             RefreshResponsePlots();
-        }
-        catch (OperationCanceledException) { if (!disposed) responseNotice.Text = "Calcolo annullato · eventuale curva precedente da ricalcolare"; }
-        catch (Exception ex) { responseNotice.Text = "Curva non calcolata: " + ex.Message; responseExport.IsEnabled = false; }
-        finally { responseBusy = false; responseRun.IsEnabled = true; }
+            }
+            catch (Exception ex) { responseNotice.Text = "Curva non calcolata: " + ex.Message; responseExport.IsEnabled = false; }
+        });
     }
     private sealed record FiberChoice(string Id, string Label) { public override string ToString() => Label; }
-    private static string ComponentName(string id) => id switch { HBridgeHistoryAnalysis.Concrete => "Calcestruzzo", HBridgeHistoryAnalysis.Rebars => "Armatura", HBridgeHistoryAnalysis.Top => "Piattabanda superiore", HBridgeHistoryAnalysis.Web => "Anima", HBridgeHistoryAnalysis.Bottom => "Piattabanda inferiore", _ => id };
+    private static string ComponentName(string id) => BridgeEditor.ComponentName(id);
     private void RefreshResponsePlots()
     {
         if (ResponseCalculation is not { } r || r.Points.Count == 0)
@@ -132,6 +140,6 @@ internal sealed partial class BridgeWorkspace
     {
         if (ResponseCalculation is not { } result || !responseExport.IsEnabled) return;
         var dialog = new SaveFileDialog { Filter = "CSV|*.csv", FileName = "Curve_sezione_ponte.csv" };
-        if (dialog.ShowDialog(Window.GetWindow(this)) == true) File.WriteAllText(dialog.FileName, BridgeSection.ResponseCsv(result), new UTF8Encoding(true));
+        if (dialog.ShowDialog(Window.GetWindow(this)) == true) File.WriteAllText(dialog.FileName, BridgeEditor.ResponseCsv(result), new UTF8Encoding(true));
     }
 }

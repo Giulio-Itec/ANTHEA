@@ -1,0 +1,77 @@
+text: Il modello valuta il carico limite di una fondazione rigida su terreno resistente omogeneo. Base e piano campagna sono orizzontali. La verifica riguarda una singola combinazione statica e non comprende scorrimento, cedimenti, stabilità globale o resistenza strutturale. Le condizioni drenate descrivono la resistenza mediante c′ e φ′; quelle non drenate mediante cu, con φ = 0.
+text: convenzioni-e-area-efficace
+text: Fondazione superficiale e convenzioni delle azioni nei due assi. Schema originale ANTHEA.
+text: Le unità del foglio sono m, kN, kNm, kPa e gradi. B e L sono i lati lungo X e Y; D è la profondità di posa. N positivo è la risultante normale compressiva al piano di posa; Hx e Hy sono le componenti tangenziali. Il modello usa H come modulo della risultante e conserva l'associazione tra azioni e lati quando ordina le dimensioni efficaci.
+formula: e_x=M_y/N,\;\;\;\;\;\; e_y=M_x/N
+text: Copia LaTeX
+formula: B'=B-2|e_x|,\;\;\;\;\;\; L'=L-2|e_y|,\;\;\;\;\;\; A'=B'L'
+text: Copia LaTeX
+text: Le due dimensioni devono essere positive. Il metodo dell'area efficace è una rappresentazione del carico limite e non un diagramma elastico delle pressioni. Per il cerchio centrato A′ = πB²/4; il caso eccentrico circolare è escluso. Per la striscia si usa un metro di sviluppo e rapporto di forma nullo. Si pone r = B′/L′ dopo aver ordinato i lati; il lato minore governa il termine di peso. Eccentricità maggiori di un terzo del lato originale generano l'avviso previsto dalla EN 1997-1 §6.5.4; la portanza da sola non conclude il progetto.
+text: falda-domanda-e-coefficienti-parziali
+text: Il confinamento q è il sovraccarico esterno più la tensione verticale alla quota di posa: efficace nel drenato, totale nel non drenato. Sopra la falda si usa γ; sotto si usa γsat − γw nel drenato e γsat nel non drenato. Nel termine di peso si assume il peso efficace medio nello spessore B′ sotto la base, interpolando secondo la parte di tale spessore sopra e sotto la falda. È un'approssimazione per falda idrostatica, senza gradienti di filtrazione né sovrapressioni interstiziali.
+text: La domanda N include tutti i pesi e le pertinenti azioni idrauliche. In condizioni drenate N è efficace, al netto della sottospinta. In condizioni non drenate si usa N totale, senza sottrarre la pressione interstiziale alla base, coerentemente con q totale della EN 1997-1 D.3. Non trasferire la stessa risultante tra le due analisi senza riesaminare la convenzione: con coefficienti parziali sulla resistenza lo spostamento della pressione interstiziale fra i due membri non è neutro.
+text: Il profilo implementato è NTC 2018, DM 17 gennaio 2018, §6.4.2.1, Approccio 2 A1+M1+R3. I coefficienti M1 sono unitari e γR per carico limite è 2,3 (tabella 6.4.I). Le azioni A1 sono fornite già combinate: il foglio non applica un secondo fattore alle risultanti. Il riferimento Eurocodice 7 identifica esclusivamente le espressioni dell'allegato D della EN 1997-1:2004/AC:2009; non dichiara una verifica secondo la seconda generazione né applica un allegato nazionale europeo diverso dal profilo NTC scelto.
+formula: R_d=A'q_{lim}/\gamma_R,\;\;\;\;\;\; E_d=N,\;\;\;\;\;\; \eta=E_d/R_d
+text: Copia LaTeX
+text: La verifica usa qlim lordo. Il valore netto qlim − q è esposto separatamente e non sostituisce il valore lordo nel confronto. Se Rd è nullo l'indice non è definito e la verifica con N positivo non è soddisfatta. La modalità caratteristica pone γR = 1 e restituisce un confronto privo di dichiarazione normativa.
+text: espressione-drenata-e-fattori-di-capacita-portante
+formula: q_{lim}=c'N_cs_cd_ci_c+qN_qs_qd_qi_q+\frac{1}{2}\gamma B'N_\gamma s_\gamma d_\gamma i_\gamma
+text: Copia LaTeX
+text: I fattori di inclinazione di base e piano campagna valgono uno perché tali piani sono orizzontali. Non sono opzioni implicite per fondazioni su pendio. Per Meyerhof, Hansen, Vesić ed Eurocodice 7:
+formula: N_q=e^{\pi\tan\varphi}\tan^2(\pi/4+\varphi/2),\;\;\;\;\;\; N_c=(N_q-1)/\tan\varphi
+text: Copia LaTeX
+text: Metodo
+text: Nγ
+text: Meyerhof
+text: (Nq − 1) tan(1,4φ)
+text: Hansen
+text: 1,5 (Nq − 1) tan φ
+text: Vesić
+text: 2 (Nq + 1) tan φ
+text: Eurocodice 7
+text: 2 (Nq − 1) tan φ
+text: Per angoli molto piccoli il codice valuta esponenziale meno uno e logaritmo di uno più x con espressioni numericamente stabili. Il limite di Nc è π + 2. Il ramo drenato generalizzato richiede φ′ positivo; per φ = 0 il foglio richiede il ramo non drenato con cu esplicito. Non è quindi disponibile una distinta analisi drenata a resistenza puramente coesiva. Sono ammessi angoli fino a 50°.
+text: forma-e-profondita
+text: Eurocodice 7 usa sq = 1 + r sin φ, sc = 1 + r sin φ Nq/(Nq − 1), sγ = 1 − 0,3r e d = 1. La base deve essere sufficientemente ruvida, δ almeno φ′/2. Per la geometria circolare centrata r = 1.
+text: Per Hansen il foglio adotta la variante correlata sc = 1 + (sq − 1)Nq/(Nq − 1), con sq = 1 + r sin φ e sγ = 1 − 0,4r. Per Vesić usa sq = 1 + r tan φ, sc = 1 + r Nq/Nc e sγ = 1 − 0,4r. Non sono combinazioni intercambiabili.
+text: Definito k = D/B per D/B non maggiore di uno, e k = arctan(D/B) oltre tale limite, per Hansen e Vesić si applicano dq = 1 + 2 tan φ (1 − sin φ)²k, dc = 1 + 2(1 − sin φ)²k (tan φ + 1/Nc), dγ = 1. B in questo rapporto è la larghezza geometrica corrispondente al lato efficace minore. La legge empirica di k è discontinua in D/B = 1: il foglio la conserva senza introdurre raccordi arbitrari. Disabilitando i fattori di profondità si pone k = 0.
+text: Meyerhof usa Kp = tan²(π/4 + φ/2), sc = 1 + 0,2Kp r e dc = 1 + 0,2√Kp D/B. Per φ almeno 10°: sq = sγ = 1 + 0,1Kp r e dq = dγ = 1 + 0,1√Kp D/B. Fra zero e 10° gli incrementi q e γ sono interpolati linearmente fra zero e il valore a 10°, secondo USACE EM 1110-1-1905, tabella 4-3. Non si interpola Nc o Nq. Non si associa tale serie di fattori di forma a carichi inclinati su una fondazione finita.
+text: La relazione correlata tra singoli fattori c e q non dimostra l'equivalenza di un prodotto di più correzioni: compaiono termini incrociati. Per questo il foglio identifica la variante scelta e non presenta una differenza tra varianti come errore universale della teoria.
+text: inclinazione-delle-azioni
+text: Per Eurocodice 7 e Vesić si definiscono mB = (2 + r)/(1 + r), mL = (1 + 2r)/(1 + r) e m = mB(Hx/H)² + mL(Hy/H)² negli assi ordinati. Per H nullo i fattori valgono uno; per la striscia m = 2.
+formula: a=H/(N+A'c'\cot\varphi),\;\;\; i_q=(1-a)^m,\;\;\; i_\gamma=(1-a)^{m+1}
+text: Copia LaTeX
+formula: i_c=i_q-(1-i_q)/(N_q-1)
+text: Copia LaTeX
+text: Per una resistenza positiva si richiede a minore di uno e ic non negativo. Azioni oltre questi limiti esauriscono il dominio resistente: la resistenza restituita è nulla, con avviso ed esito negativo nel profilo normativo. Per Meyerhof sulla striscia, θ = arctan(H/N), ic = iq = (1 − θ/(π/2))²; iγ = (1 − θ/φ)² se θ non supera φ, altrimenti zero. Gli angoli nelle formule sono radianti. Hansen con azioni tangenziali non è implementato: non si applicano i fattori di un altro autore.
+text: condizioni-non-drenate
+text: Per Eurocodice 7 Nc = π + 2, sc = 1 + 0,2r, dc = 1 e ic = (1 + √(1 − H/(A′cu)))/2, con H non maggiore di A′cu. La pressione limite è cu Nc sc ic + q. Per Vesić si usano sc = 1 + 0,2r, dc = 1 + 0,4k, ic = 1 − mH/(A′cuNc), non negativo, in forma moltiplicativa. Meyerhof usa sc = 1 + 0,2r, dc = 1 + 0,2D/B e il fattore di inclinazione sopra descritto, limitato alla striscia quando H non è nullo.
+text: Hansen con carico normale usa invece una forma additiva:
+formula: q_{lim}=c_u(\pi+2)(1+0{,}2r+0{,}4k)+q
+text: Copia LaTeX
+text: I valori s′ e d′ della tabella additiva sono gli incrementi 0,2r e 0,4k, mentre i′ = 0. La stessa tabella espone il fattore 1 + s′ + d′ − i′. Moltiplicarli sarebbe un errore. Il ramo Hansen non drenato inclinato è escluso; non si adotta una correzione non riscontrata del fattore di forma.
+text: terzaghi-e-rottura-locale
+text: Il ramo Terzaghi è limitato a striscia, quadrato e cerchio con carico verticale centrato e D/B non maggiore di uno. Per φ positivo la base è ruvida e Nq = exp[(3π/2 − φ)tanφ]/(1 − sinφ), Nc = (Nq − 1)/tanφ. Nγ è interpolato linearmente nella tabella 4-1 di USACE EM 1110-1-1905 (1992), per 0°–50°. Non si usa un'espressione interpolante non documentata. Per φ = 0 si adottano Nq = 1, Nγ = 0, Nc = 1 + 3π/2 per base ruvida oppure Nc = π + 2 per base liscia.
+text: I fattori sc sono 1 per striscia e 1,3 per quadrato e cerchio; sγ vale rispettivamente 1, 0,8 e 0,6. Gli altri fattori sono unitari. Nγ è spesso determinante nei terreni incoerenti e non viene trascurato.
+text: La riduzione di Terzaghi per rottura locale pone c′rid = 2c′/3 e tan φrid = 2 tan φ′/3. La riduzione per densità relativa di Vesić, solo per sabbie con c′ = 0 e 0 ≤ Dr ≤ 2/3, pone tan φrid = (2/3 + Dr − 3Dr²/4)tan φ′. Sono riduzioni dei parametri selezionate consapevolmente; il modello non calcola fattori di compressibilità da modulo di taglio, deformazione volumetrica o indice di rigidezza.
+text: stratigrafia-e-materiali-comuni
+text: Il profilo usa terreno, strato e sondaggio comuni ai moduli geotecnici. Le quote sono riferite al piano campagna; i pesi sopra il piano di posa vengono integrati per strato. In drenato si sottrae la pressione interstiziale idrostatica; in non drenato il confinamento resta totale. In caso di interfaccia coincidente con la base si assume il materiale immediatamente sottostante. Profili identici traslati rispetto a un diverso riferimento altimetrico danno lo stesso risultato.
+text: La resistenza richiede proprietà omogenee sotto la base e l'ipotesi esplicita di semispazio. Il fondo disegnato è il limite dei dati inseriti, non un confine resistente rigido. Nessun parametro medio sostituisce materiali diversi. La classe del calcestruzzo e il suo legame sono dati comuni del progetto; non intervengono nel modello geotecnico e non generano automaticamente peso o verifiche strutturali.
+text: Una risultante esterna alla base annulla l’area efficace e la resistenza del metodo, salvo le ipotesi non supportate che restano rifiutate. N/A′ con area nulla e N/R con resistenza nulla restano indefiniti. Il confronto caratteristico conserva la propria etichetta e non costituisce un esito normativo. Il calcolo non estende le formule oltre il loro dominio per ottenere resistenze favorevoli.
+text: pressioni-di-contatto-e-area-efficace
+text: Per una fondazione rettangolare rigida si adotta una distribuzione convenzionale affine, annullata dove il terreno sarebbe teso. Le coordinate x e y sono centrate sull'impronta geometrica. I coefficienti a, b e c sono determinati imponendo equilibrio della forza e dei due momenti sulla parte compressa Ac.
+formula: p(x,y)=\max(0,a+bx+cy)
+text: Copia LaTeX
+formula: \int_{A_c}p\,dA=N,\;\;\;\;\;\; \int_{A_c}xp\,dA=M_y,\;\;\;\;\;\; \int_{A_c}yp\,dA=M_x
+text: Copia LaTeX
+text: Il calcolo integra esattamente area, momenti primi e secondi del poligono di contatto; risolve il sistema con coordinate e pressioni normalizzate e controlla il residuo di equilibrio. Una mancata convergenza viene segnalata e la mappa non viene mostrata. Il disegno campiona la soluzione su una griglia; i valori estremi derivano dai vertici e non dalla risoluzione grafica.
+text: A contatto completo, la relazione restituisce p = N/(BL) [1 + 12ex x/B² + 12ey y/L²]. Se una parte perde contatto non si tronca semplicemente questa prima distribuzione: si risolvono nuovamente a, b e c sulla zona compressa. Per eccentricità lungo X superiore a B/6 la soluzione monoassiale triangolare ha larghezza compressa 3(B/2 − |ex|), mentre la larghezza efficace vale B − 2|ex|. La distinzione spiega perché Ac e A′ differiscono.
+text: La distribuzione è coerente con una piastra rigida su appoggio elastico locale uniforme senza trazione, a meno di una rigidezza moltiplicativa che non serve a determinarne le pressioni. Non è la soluzione elastica di un semispazio, non usa moduli del terreno e non consente di dedurre cedimenti. Per il cerchio, ammesso solo con risultante centrata, la pressione è uniforme. Per la striscia si considera un metro di lunghezza. La portanza confronta N con A′qlim/γR; pmax non sostituisce N/A′ in questa verifica.
+text: schema-illustrativo-del-meccanismo-di-rottura
+text: La vista Rottura rappresenta il riferimento di Prandtl per una striscia su terreno omogeneo privo di peso. Non è ottenuta ottimizzando una superficie per Terzaghi, Meyerhof, Hansen, Vesić o Eurocodice 7. Si usa il lato efficace nella sezione scelta e l'angolo adottato nel calcolo; in non drenato φ = 0. Il cuneo centrale è inclinato di α = π/4 + φ/2; la zona passiva termina con inclinazione β = π/4 − φ/2. Nel ventaglio:
+formula: r=r_0e^{\theta\tan\varphi},\;\;\;\;\;\; r_0=\frac{B'}{2\cos\alpha},\;\;\;\;\;\; 0\leq\theta\leq\pi/2
+text: Copia LaTeX
+text: Le sezioni X e Y sono rappresentazioni separate, non una superficie tridimensionale. Il disegno non incorpora peso proprio del terreno, profondità di posa o componenti tangenziali; non dimostra l'estensione della zona di rottura reale né giustifica una profondità d'indagine. La dipendenza della geometria critica dal peso del terreno impedisce di interpretare questo riferimento come superficie universale per il termine Nγ.
+text: limiti-e-riferimenti-tecnici
+text: La scelta di φ′ e cu deve derivare dall'indagine e dal meccanismo pertinente; il foglio non converte automaticamente resistenza di picco in critica né ricava parametri da prove. Non sono coperti terreno resistente eterogeneo sotto la base, base inclinata, pendio, falda in pressione, trazione, interazione tra fondazioni, sisma o carico ciclico. Un rapporto di utilizzo favorevole non sana queste condizioni. Un metodo non supportato deve essere verificato separatamente con un modello appropriato.
+text: Riferimenti: Terzaghi, Theoretical Soil Mechanics (1943); Meyerhof, Some Recent Research on the Bearing Capacity of Foundations (1963); Brinch Hansen, A Revised and Extended Formula for Bearing Capacity, Bulletin 28 (1970); Vesić, Bearing Capacity of Shallow Foundations, Foundation Engineering Handbook (1975); USACE EM 1110-1-1905, Bearing Capacity of Soils (1992), capitolo 4; Hjiaj, Lyamin e Sloan, Numerical limit analysis solutions for the bearing capacity factor Nγ, International Journal of Solids and Structures 42 (2005), 1681–1704, DOI 10.1016/j.ijsolstr.2004.08.002; EN 1997-1:2004/AC:2009, allegato D; DM 17 gennaio 2018, §§6.2 e 6.4.2. La Fondazioni superficiali contiene un esempio numerico verificato.

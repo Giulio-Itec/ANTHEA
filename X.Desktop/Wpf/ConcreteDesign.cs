@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,8 +9,8 @@ namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
 {
     private JsonObject DesignOptions => settings["calcola_armature"]!.AsObject();
-    private ConcreteDesignResult? designResult;
-    private ConcreteDesignCandidate? designSelection;
+    private ConcreteResults.DesignResult? designResult;
+    private ConcreteResults.DesignCandidate? designSelection;
     private CancellationTokenSource? designCancellation;
     private string? designSignature;
     private bool designRunning, designStale;
@@ -27,7 +28,7 @@ internal sealed partial class ConcreteWorkspace
 
     private UIElement BuildDesignPanel()
     {
-        ConcreteReinforcementDesign.Prepare(settings);
+        ConcreteEditor.PrepareDesign(settings);
         designRun = Ui.Button("Calcola armature", () => _ = RunDesignAsync());
         designStop = Ui.Button("Ferma ricerca", () => designCancellation?.Cancel()); designStop.IsEnabled = false;
         designApply = Ui.Button("Applica configurazione", ApplyDesign); designApply.IsEnabled = false;
@@ -47,7 +48,7 @@ internal sealed partial class ConcreteWorkspace
          new("ancoraggio_confermato", "Confermo Asl ancorata per proposte senza staffe", Bool: true),
          new("torsione_confermata", "Confermo schema periferico chiuso per torsione", Bool: true)], _ =>
          { MarkDesignStale(); RefreshDesignInputs(); Modified?.Invoke(); }, true, true);
-        var limits = new InputForm(DesignOptions, ConcreteReinforcementDesign.Targets.Select(t => new Field(t.Key, t.Name, "η max")), _ => { MarkDesignStale(); Modified?.Invoke(); }, true);
+        var limits = new InputForm(DesignOptions, ConcreteEditor.DesignTargets.Select(t => new Field(t.Key, t.Name, "η max")), _ => { MarkDesignStale(); Modified?.Invoke(); }, true);
         var common = Ui.Stack(Ui.Text("Geometria, materiali, copriferro e azioni sono quelli del foglio. Il tipo di elemento e l’esposizione vanno compilati nelle schede comuni. Resistenza 3D iterativa a eccentricità costante.", 11),
             Ui.Bar(Ui.Button("Sezione →", () => tabs.SelectedIndex = 0), Ui.Button("Dettagli →", () => tabs.SelectedIndex = 5)),
             Ui.Button("SLE / esposizione →", () => tabs.SelectedIndex = 3));
@@ -114,21 +115,21 @@ internal sealed partial class ConcreteWorkspace
         designDescription.Text = "Ricerca in corso…"; designScope.Text = ""; designPreview.Section = null; designPreview.InvalidateVisual();
         try
         {
-            var options = ConcreteDesignOptions.Read(DesignOptions);
             var snapshot = (JsonObject)Data.DeepClone();
             designSignature = DesignFingerprint(); designRunning = true; designRun.IsEnabled = false; designStop.IsEnabled = true;
             designCancellation?.Dispose(); designCancellation = new CancellationTokenSource();
             var token = designCancellation.Token;
-            var updates = new Progress<ConcreteDesignProgress>(p =>
+            var updates = new Progress<ConcreteResults.DesignProgress>(p =>
             {
-                if (disposed || designStale || !designRunning) return;
+                if (disposed || designStale || !designRunning || token.IsCancellationRequested || designCancellation?.Token != token) return;
                 designProgress.Value = p.Planned == 0 ? 0 : (double)p.Evaluated / p.Planned;
                 designStatus.Text = $"{p.Evaluated:N0} / {p.Planned:N0} configurazioni · {p.Accepted:N0} ammissibili · {p.Seconds:0.#} s\n{p.Phase}" +
                     (p.Phase.StartsWith("Controlli preliminari") ? $" ({p.PreliminaryChecked:N0} esaminati)" : "") + $" · fino a {p.Workers} calcoli contemporanei";
                 if (p.Best is not null && designSelection?.Id != p.Best.Id) SelectDesign(p.Best);
             });
-            designResult = await Task.Run(() => ConcreteReinforcementDesign.Optimize(snapshot, options, token, updates));
+            var calculated = await Task.Run(() => Anthea.Application.Modules.StructuralQueries.ConcreteReinforcement(snapshot, token, updates));
             if (disposed) return;
+            designResult = calculated;
             designRunning = false; RefreshDesignFreshness();
             RefreshDesignRanking();
             var r = designResult;
@@ -164,6 +165,7 @@ internal sealed partial class ConcreteWorkspace
         finally
         {
             designRunning = false;
+            designCancellation?.Dispose(); designCancellation = null;
             if (!disposed) { designRun.IsEnabled = true; designStop.IsEnabled = false; designApply.IsEnabled = designSelection is not null && designResult is not null && !designStale; }
         }
     }
@@ -180,9 +182,9 @@ internal sealed partial class ConcreteWorkspace
                 ("diametri", c.Metrics.Diameters), ("pareto", c.Pareto ? "Sì" : ""), ("esito", c.NeedsReview ? "Da completare" : "Completati")), _ => { }));
         if (designRanking.Rows.Count > 0) designRanking.SelectedItem = designRanking.Rows.FirstOrDefault(r => r.Values.S("id") == selectedId?.ToString()) ?? designRanking.Rows[0];
     }
-    private void SelectDesign(ConcreteDesignCandidate c)
+    private void SelectDesign(ConcreteResults.DesignCandidate c)
     {
-        designSelection = c; designPreview.Section = new SezioneCA(c.Input); designPreview.Stirrups = c.Shear; designPreview.InvalidateVisual();
+        designSelection = c; designPreview.Section = Anthea.Application.Concrete.ConcretePreview.PrepareGeometry(c.Input); designPreview.Stirrups = c.Shear; designPreview.InvalidateVisual();
         designDescription.Text = c.Description;
         designMetrics.Start();
         designMetrics.AddValue("Peso stimato", $"{c.Metrics.KgPerM:0.###} kg/m", $"Longitudinali {c.Metrics.LongitudinalKgPerM:0.###}; staffe e ortogonali {c.Metrics.TransverseKgPerM:0.###} kg/m. Esclusi sfridi e sovrapposizioni.");

@@ -30,12 +30,13 @@ internal sealed class VerificationCards : Grid
     };
     internal void AddDetail(string title, bool? passed, string values, string explanation, string reference)
     {
-        string state = passed is null ? "DA COMPLETARE" : passed.Value ? "VERIFICATA" : "NON VERIFICATA";
+        var detail = new Anthea.Application.Presentation.VerificationDetail(title, passed, values, explanation, reference);
+        string state = detail.State;
         Brush color = passed is null ? UtilizationPalette.Brush(null) : passed.Value ? Ui.Brush("#39A879") : UtilizationPalette.Brush(2);
         var body = Ui.Stack(Ui.Text(title + " · " + state, 10, true), Ui.Text(values, 12), Ui.Text(explanation, 11), Ui.Text(reference, 10, color: Ui.Muted));
         body.Margin = new Thickness(0, 3, 0, 5);
         AddCard(Card(body, color, state + "\n" + explanation + "\n" + reference));
-        text += $"{title}\n{state}\n{values}\n{explanation}\n{reference}\n\n";
+        text += detail.Text;
     }
     internal void AddCheck(string title, int total, IEnumerable<(string Name, double? Ratio, bool? Passed)> checks)
         => AddSummary(VerificationSummary.Create(title, total, checks));

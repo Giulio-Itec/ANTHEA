@@ -1,0 +1,26 @@
+## Dalle indagini geotecniche ai parametri del modello
+
+Un parametro geotecnico è significativo soltanto insieme a stato tensionale, drenaggio, deformazione e volume di terreno rappresentato. Una correlazione può dare un numero plausibile senza rappresentare il meccanismo che si sta verificando. Le indagini devono quindi essere lette come informazioni su un modello geologico e geotecnico, non come un catalogo automatico di resistenze.
+
+### Tensioni efficaci e condizioni di drenaggio
+
+Per il terreno saturo, σ′ = σ − u separa tensione totale e pressione interstiziale. In condizioni drenate si impiegano parametri efficaci coerenti, ad esempio τf = c′ + σ′n tan φ′. Una descrizione non drenata in tensioni totali può usare su per il problema e percorso di carico considerati: non si deve sommare arbitrariamente su alla resistenza efficace. La scelta dipende dal rapporto fra durata dell’azione e tempi di dissipazione, non soltanto dal nome litologico.
+
+Per una falda idrostatica a piano campagna, γsat = 20 kN/m³, γw = 9,81 kN/m³ e z = 6 m, σv = 120 kPa, u = 58,86 kPa e σ′v = 61,14 kPa. Con c′ = 0 e φ′ = 30 gradi, una superficie orizzontale soggetta a tale tensione normale efficace avrebbe τf ≈ 35,30 kPa nel criterio di Mohr-Coulomb. Usare 120 kPa al posto di 61,14 kPa quasi raddoppierebbe il contributo di attrito. L’esempio riguarda il criterio locale, non la capacità portante di una fondazione.
+
+### Che cosa misurano CPT e SPT
+
+La CPT distingue resistenza alla punta e attrito laterale; una CPTu aggiunge pressione interstiziale e può richiedere correzioni della resistenza di punta. I rapporti normalizzati dipendono dalle tensioni di riferimento. Lo SPT restituisce un conteggio di colpi nelle condizioni della prova: energia, attrezzatura, diametro del foro, aste e sovraccarico possono richiedere correzioni prima dell’uso in una specifica correlazione. Il valore grezzo non è intercambiabile con N60 o con un valore normalizzato alla pressione di riferimento.
+
+Una discontinuità nei segnali può suggerire un cambio di unità geotecnica, ma l’interpretazione va confrontata con sondaggi, campioni, falda e storia geologica. Strati sottili e terreni cementati richiedono particolare attenzione. Una correlazione empirica deve conservare autore, campo di calibrazione e unità.
+
+### Dal profilo alle verifiche ANTHEA
+
+Per pali e micropali distinguere strati attraversati e tratto resistente, resistenza di base e laterale, compressione e trazione. Nel palo elastico il modulo di reazione è una rigidezza del modello d’interazione: non è il modulo di Young del terreno. Per i muri, il modello locale attuale richiede riempimento granulare con c′ = 0; inserire una stratigrafia non estende automaticamente il modello a un’argilla non drenata.
+
+Il testo e l’esempio sono una trattazione originale.
+
+### Proseguire nella Wiki
+
+- [Capacità portante delle fondazioni superficiali](wiki:bearing-capacity)
+

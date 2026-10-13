@@ -13,12 +13,9 @@ internal sealed partial class HorizontalWorkspace
 {
     internal async Task WaitForAutomatic()
     {
-        var until = DateTime.UtcNow.AddSeconds(25);
-        while (Busy || timer.IsEnabled)
-        {
-            if (DateTime.UtcNow > until) throw new Exception("Ricalcolo automatico non terminato");
-            await Task.Delay(30);
-        }
+        Task pending;
+        do { pending = scheduledCalculation; await pending.WaitAsync(TimeSpan.FromSeconds(25)); }
+        while (!ReferenceEquals(pending, scheduledCalculation));
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
     }
 
@@ -133,7 +130,7 @@ internal sealed partial class HorizontalWorkspace
         grids[0].Rows[0]["spessore"] = thickness; await WaitForAutomatic();
         var independent = new HorizontalWorkspace((JsonObject)Data.DeepClone());
         var pending = independent.CalculateAsync(); independent.Dispose(); await pending;
-        if (independent.Result is not null || independent.timer.IsEnabled) throw new Exception("Calcolo pubblicato dopo Dispose");
+        if (independent.Result is not null || !independent.scheduledCalculation.IsCompleted) throw new Exception("Calcolo pubblicato dopo Dispose");
     }
 
     internal async Task VerifyLayout(string directory, string size)
@@ -229,6 +226,7 @@ internal sealed partial class HorizontalWorkspace
         Data["elastico"]!["stratigrafia"] = JsonNode.Parse(original)!["elastico"]!["stratigrafia"]!.DeepClone();
         Data["stratigrafie"] = backup; RebuildSurveys(); Preview(); expanded = -1; LayoutCards();
         if (Data.ToJsonString() != original) throw new Exception("Metadati di presentazione salvati nei dati");
+        Changed(); // The test restored JSON directly: notify the same revision boundary as a real edit.
         await WaitForAutomatic();
         if (!JsonNode.DeepEquals(Result, expected)) throw new Exception("Presentazione modifica il risultato");
         var actual = Result;

@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione 6 aggiornata il 13 ottobre 2026 — revisione documentale 39
+Edizione 6 aggiornata il 13 ottobre 2026 — revisione documentale 40
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -16,7 +16,9 @@ I nuovi fogli del palo inizializzano l’acciaio B450C dal catalogo comune alla 
 
 Il riferimento GPC Engine nel palo orizzontale identifica il motore delle librerie di calcolo; la presentazione dei materiali usa i nomi Calcestruzzo e Acciaio. Formulazioni, parametri e risultati rimangono quelli descritti nelle sezioni teoriche del modulo.
 
-X.Calculations contiene i motori e le funzioni di calcolo indipendenti da WPF. X.Core gestisce archivi, integrazioni e report. X.Desktop presenta editor e grafici; X.Materiali presenta le schede dei materiali. I motori di sezione CA e composta utilizzano anche le librerie Model e Checker distribuite con il progetto. Il disegno non è il modello resistente: la discretizzazione della vista può essere diversa da quella usata per l'equilibrio.
+ANTHEA.Application gestisce documenti, preparazione dei fogli, revisioni e coordinamento dei calcoli senza dipendere da WPF. ANTHEA.Reports compone i report e condivide lo scrittore Word; ANTHEA.Wiki gestisce catalogo, ricerca e lettura delle guide. X.Desktop presenta editor, grafici e schede dei materiali. X.Core conserva soltanto un ingresso di compatibilità per strumenti precedenti. I metodi ingegneristici sono nelle librerie GPC e negli adattatori residui di X.Calculations, ancora in refactoring; la separazione completa dei contratti delle viste non è conclusa. Il disegno non è il modello resistente: la discretizzazione della vista può essere diversa da quella usata per l’equilibrio.
+
+Ogni ricalcolo lavora su una fotografia degli ingressi. La pubblicazione richiede che la revisione sia ancora corrente; la sola interruzione di una richiesta non garantisce che ogni motore smetta subito di lavorare. Questo controllo riguarda la coerenza del documento e non modifica formule, coefficienti o criteri di verifica. I capitoli di progetto usano gli stessi esiti dei moduli, con un renderer dedicato alle sole figure.
 
 Bridge Design utilizza un proprio motore puro, BridgeConcept.Calculate. Riceve input, listino e ipotesi e restituisce un risultato con geometria, quantità, dettagli, diagrammi e avvisi. Lo stesso risultato alimenta interfaccia e report. Il motore non modifica gli input: un parametro impostato a zero per richiedere la scelta automatica resta zero nell'archivio, mentre il valore adottato è riportato nel risultato.
 

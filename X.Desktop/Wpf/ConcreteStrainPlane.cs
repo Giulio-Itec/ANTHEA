@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Windows;
 using System.Windows.Media;
 using X.Core;
@@ -5,26 +6,25 @@ using X.Core;
 namespace X.Desktop;
 internal sealed class ConcreteStrainPlaneView : DrawingView
 {
-    internal CheckerStressState? State { get; set; }
-    internal SezioneCA? Section { get; set; }
+    internal ConcreteStrainDiagram? Diagram { get; set; }
     protected override void Render(DrawingContext dc,Size size)
     {
         dc.DrawRectangle(Ui.Brush("#F8FAFD"),null,new Rect(size));
-        if(State is null||Section is null){Text(dc,"Selezionare una soluzione calcolata",15,30,12);return;}
-        var plane=State.Native.StrainPlane;var outline=Section.Outline;
-        double span=Math.Max(Section.Width,Section.Height),scale=Math.Min(size.Width/(span*1.8),size.Height/(span*1.65));
-        double strainMax=outline.Max(v=>Math.Abs(plane.GetStrain(v[0],v[1])));
+        if(Diagram is null){Text(dc,"Selezionare una soluzione calcolata",15,30,12);return;}
+        var plane=Diagram;var outline=plane.Outline;
+        double span=Math.Max(plane.Width,plane.Height),scale=Math.Min(size.Width/(span*1.8),size.Height/(span*1.65));
+        double strainMax=outline.Max(v=>Math.Abs(v.Strain));
         double amplitude=Math.Min(100,size.Height*.22);
         Point P(double x,double y,double e)=>new(size.Width*.48+(x-.55*y)*scale,size.Height*.62+(.26*x+.45*y)*scale-(strainMax>0?e/strainMax*amplitude:0));
-        var baseShape=new GeometryGroup{FillRule=FillRule.EvenOdd};baseShape.Children.Add(Path(outline.Select(v=>P(v[0],v[1],0)),true));
-        var strainShape=new GeometryGroup{FillRule=FillRule.EvenOdd};strainShape.Children.Add(Path(outline.Select(v=>P(v[0],v[1],plane.GetStrain(v[0],v[1]))),true));
-        foreach(var h in Section.Holes){baseShape.Children.Add(Path(h.Select(v=>P(v[0],v[1],0)),true));strainShape.Children.Add(Path(h.Select(v=>P(v[0],v[1],plane.GetStrain(v[0],v[1]))),true));}
+        var baseShape=new GeometryGroup{FillRule=FillRule.EvenOdd};baseShape.Children.Add(Path(outline.Select(v=>P(v.X,v.Y,0)),true));
+        var strainShape=new GeometryGroup{FillRule=FillRule.EvenOdd};strainShape.Children.Add(Path(outline.Select(v=>P(v.X,v.Y,v.Strain)),true));
+        foreach(var h in plane.Holes){baseShape.Children.Add(Path(h.Select(v=>P(v.X,v.Y,0)),true));strainShape.Children.Add(Path(h.Select(v=>P(v.X,v.Y,v.Strain)),true));}
         dc.DrawGeometry(Ui.Brush("#E3EAF1"),new Pen(Ui.Muted,1),baseShape);
-        foreach(var v in outline.Where((_,i)=>outline.Count<10||i%Math.Max(1,outline.Count/12)==0))dc.DrawLine(new Pen(Ui.Muted,.7){DashStyle=DashStyles.Dash},P(v[0],v[1],0),P(v[0],v[1],plane.GetStrain(v[0],v[1])));
+        foreach(var v in outline.Where((_,i)=>outline.Count<10||i%Math.Max(1,outline.Count/12)==0))dc.DrawLine(new Pen(Ui.Muted,.7){DashStyle=DashStyles.Dash},P(v.X,v.Y,0),P(v.X,v.Y,v.Strain));
         dc.DrawGeometry(new SolidColorBrush(Color.FromArgb(100,47,113,170)),new Pen(Ui.Blue,1.5),strainShape);
         foreach(var v in outline.Where((_,i)=>outline.Count<10||i%Math.Max(1,outline.Count/4)==0))
         {
-            double e=plane.GetStrain(v[0],v[1]);var q=P(v[0],v[1],e);
+            double e=v.Strain;var q=P(v.X,v.Y,e);
             Text(dc,$"{e*1000:0.###} ‰",q.X+3,q.Y-18,10,e<0?Brushes.Firebrick:Ui.Blue);
         }
         var origin=P(0,0,0);var x=P(span*.45,0,0);var y=P(0,span*.45,0);

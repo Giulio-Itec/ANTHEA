@@ -1,3 +1,4 @@
+using Anthea.Application.BridgeDesign;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -7,7 +8,7 @@ namespace X.Desktop;
 
 internal sealed partial class BridgeDesignDrawing : FrameworkElement
 {
-    internal BridgeConcept.Result? Result;
+    internal BridgeDesignModel.Result? Result;
     internal JsonObject? Data;
     internal bool Section;
     private static readonly Brush Ink = Ui.Navy, Line = Ui.Brush("#536F87"), Concrete = Ui.Brush("#D5E1EA"), Steel = Ui.Brush("#4C789B"), Accent = Ui.Brush("#168B94");
@@ -33,7 +34,7 @@ internal sealed partial class BridgeDesignDrawing : FrameworkElement
         }
         dc.Pop(); dc.Pop(); dc.Pop();
     }
-    private static void DrawElevation(DrawingContext dc, BridgeConcept.Result r, JsonObject data)
+    private static void DrawElevation(DrawingContext dc, BridgeDesignModel.Result r, JsonObject data)
     {
         var i = data["input"]!; var random = new Random((int)data.D("scene", 1));
         // Seed affects scenery only. All bridge coordinates come from the calculation result.
@@ -44,7 +45,7 @@ internal sealed partial class BridgeDesignDrawing : FrameworkElement
             pts.Add(new(1000, 420)); pts.Add(new(0, 420));
             Poly(dc, pts, Ui.Brush(new[] { "#EBF0F6", "#E3EBF1", "#DCE6EA" }[band]));
         }
-        double start = 90, spanScale = 820 / r.Length, deckY = BridgeConcept.HasUpperStructure(r.Family.Id) ? 185 : 148, ground = 285, visualHeight = ground - deckY;
+        double start = 90, spanScale = 820 / r.Length, deckY = BridgeDesignModel.HasUpperStructure(r.Family.Id) ? 185 : 148, ground = 285, visualHeight = ground - deckY;
         double depth = Math.Clamp(r.Depth / i.D("height") * visualHeight, 9, 58);
         double pierDepth = Math.Clamp(r.PierDepth / i.D("height") * visualHeight, depth, 70);
         bool obstacle = i.S("obstacle") != "Nessuno" && i.D("obstacle_width") > 0;
@@ -105,7 +106,7 @@ internal sealed partial class BridgeDesignDrawing : FrameworkElement
             }
             else Box(dc, offset, deckY, l, depth, Concrete);
             if (!i.B("continuous") && k > 0) dc.DrawLine(new Pen(Brushes.White, 3), new Point(offset, deckY), new Point(offset, deckY + depth));
-            Dimension(dc, offset, offset + l, BridgeConcept.HasUpperStructure(r.Family.Id) ? 348 : deckY - 34, F(r.Spans[k]) + " m"); offset += l;
+            Dimension(dc, offset, offset + l, BridgeDesignModel.HasUpperStructure(r.Family.Id) ? 348 : deckY - 34, F(r.Spans[k]) + " m"); offset += l;
         }
         if (r.Advanced is { } advanced) DrawUpperStructure(dc, r, advanced, start, spanScale, deckY, ground);
         dc.DrawLine(new Pen(Ink, 1.5), new Point(start - 18, deckY - 9), new Point(930, deckY - 9));
@@ -117,7 +118,7 @@ internal sealed partial class BridgeDesignDrawing : FrameworkElement
         Text(dc, $"{r.Spans.Length} campate   /   {r.Foundation}" + (r.PileLength > 0 ? " × " + F(r.PileLength, "0") + " m" : ""), 24, 399, 11, Line);
         Text(dc, "L = " + F(r.Length) + " m", 834, 399, 11, Line);
     }
-    private static void DrawSection(DrawingContext dc, BridgeConcept.Result r, JsonNode i)
+    private static void DrawSection(DrawingContext dc, BridgeDesignModel.Result r, JsonNode i)
     {
         if (r.Advanced is not null) { DrawExtendedSection(dc, r, i); return; }
         double x0 = 120, width = 760, scale = width / r.Width, top = 150;
@@ -209,8 +210,8 @@ internal sealed class BridgeFamilyIcon : FrameworkElement
     internal Brush Ink = Ui.Navy;
     protected override void OnRender(DrawingContext dc)
     {
-        double w = ActualWidth, h = ActualHeight; var p = new Pen(Ink, 1.5); if (!BridgeConcept.HasUpperStructure(Family)) dc.DrawRectangle(null, p, new Rect(8, 5, w - 16, 5));
-        if (BridgeConcept.HasUpperStructure(Family))
+        double w = ActualWidth, h = ActualHeight; var p = new Pen(Ink, 1.5); if (!BridgeDesignModel.HasUpperStructure(Family)) dc.DrawRectangle(null, p, new Rect(8, 5, w - 16, 5));
+        if (BridgeDesignModel.HasUpperStructure(Family))
         {
             double y = h - 6;
             dc.DrawLine(p, new(8, y), new(w - 8, y));
@@ -240,7 +241,7 @@ internal sealed class BridgeFamilyIcon : FrameworkElement
 
 internal sealed class BridgeConceptMomentPlot : FrameworkElement
 {
-    internal BridgeConcept.Result? Result;
+    internal BridgeDesignModel.Result? Result;
     protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);

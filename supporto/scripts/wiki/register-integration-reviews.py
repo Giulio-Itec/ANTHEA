@@ -2,7 +2,7 @@
 from pathlib import Path
 import json
 ROOT=Path(__file__).resolve().parents[3]
-W=ROOT/'X.Desktop/Wiki'
+W=ROOT/'src/ANTHEA.Wiki/Content'
 articles=json.loads((W/'index.json').read_text(encoding='utf-8'))
 reviews={}
 def record(keys,scope,evidence,status='reviewed',open_points=None):
@@ -19,7 +19,7 @@ guida-problemi-frequenti-e-controlli-finali''',
 ['X.Core/ProjectRevisions.cs','X.Core/ProjectSharedHierarchy.cs','X.Desktop/Wpf/ProjectReport.cs','supporto/test/Desktop/ProjectWorkspaceSmokeChecks.cs','supporto/test/Desktop/ProjectHierarchySmokeChecks.cs','supporto/test/Desktop/ProjectReportSmokeChecks.cs'])
 record('guida-wiki-e-centro-della-conoscenza guida-tutorial-dal-modello-beam-alla-verifica-di-sezione guida-interpretazione-dei-risultati-e-controlli-indipendenti tracciabilita-e-riferimenti',
 'Percorsi e limiti del lettore verificati in WPF. Tutorial: reazioni 100 kN, momento 200 kNm, azioni e geometria del foglio generato controllate. Archivio e vecchi indirizzi confrontati con le 85 origini.',
-['supporto/test/Desktop/WikiChecks.cs','supporto/test/wiki-handbook-checks.py','X.Desktop/Wpf/WikiCatalog.cs'])
+['supporto/test/Desktop/WikiChecks.cs','supporto/test/wiki-handbook-checks.py','src/ANTHEA.Wiki/WikiCatalog.cs'])
 record('architettura-del-calcolo-e-convenzioni esempi-trasversali-e-lettura-critica load-path azioni-e-combinazioni-del-modello',
 'Riviste convenzioni, conversioni dimensionali, equilibrio, simultaneità delle azioni e confini dei motori. Esempi aritmetici controllati; nessun coefficiente normativo assegnato universalmente.',
 ['supporto/test/CalculationLibrary.Checks/Program.cs','supporto/test/wiki-handbook-checks.py','X.Calculations/ModuleCatalog.cs','X.Core/SectionActionsExcel.cs'])

@@ -1,3 +1,5 @@
+using Anthea.Application.Modules;
+using Anthea.Application.Scheduling;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.Json.Nodes;
@@ -22,7 +24,9 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
     readonly TextBlock coordinateHelp = Ui.Text("", 11, color: Ui.Muted);
     readonly PileGroupPlan plan = new() { Height = 345 };
     readonly DataGrid comparison = OutputGrid(305), details = OutputGrid(235);
-    readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(180) };
+    readonly RecalculationScheduler recalculation = new();
+    readonly ModuleCalculationSession calculationSession = new(ModuleServices.Get(HorizontalPileGroupEditor.Module));
+    Task scheduledCalculation = Task.CompletedTask;
     bool loading = true, selecting, calculating, disposed;
     string spacingDirection = "X";
     internal JsonObject? Result { get; private set; }
@@ -41,7 +45,7 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
         public int Method => (int)Node.D("Method");
         public string DirectionId => Node.S("DirectionId");
         public string Direction => Node.S("DirectionName") + " · " + F(J.Number(Node["Angle"])) + "°";
-        public string MethodName => HorizontalPileGroup.MethodNames[Method];
+        public string MethodName => HorizontalPileGroupEditor.MethodNames[Method];
         public string Minimum => F(J.Number(Node["Minimum"]));
         public string Mean => F(J.Number(Node["Factor"]));
         public string Maximum => F(J.Number(Node["Maximum"]));
@@ -50,12 +54,12 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
     }
     static DataGrid OutputGrid(double height) => new() { IsReadOnly = true, AutoGenerateColumns = false, CanUserAddRows = false, CanUserDeleteRows = false, Height = height, HeadersVisibility = DataGridHeadersVisibility.Column };
     static string F(double? x) => x?.ToString("0.###", CultureInfo.CurrentCulture) ?? "—";
-    static JsonNode Value(string text) => double.TryParse(text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double x) && double.IsFinite(x) ? JsonValue.Create(x)! : JsonValue.Create(text)!;
+    static JsonNode Value(string text) => ModuleSheetPreparation.NumericText(text);
     static void Column(DataGrid grid, string header, string property, double width) => grid.Columns.Add(new DataGridTextColumn { Header = header, Binding = new Binding(property) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged }, Width = width });
     TextBox Field(Panel parent, string label, JsonObject owner, string key, bool optional = false)
     {
         var row = new Grid { Margin = new Thickness(0, 3, 0, 4) }; row.ColumnDefinitions.Add(new ColumnDefinition()); row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(94) });
-        row.Children.Add(WikiContextHelp.Label(Ui.Text(label, 12), key, HorizontalPileGroup.Module));
+        row.Children.Add(WikiContextHelp.Label(Ui.Text(label, 12), key, HorizontalPileGroupEditor.Module));
         var box = new TextBox { Text = owner[key]?.ToString() ?? "", Margin = new Thickness(8, 0, 0, 0), Tag = key, VerticalAlignment = VerticalAlignment.Center, HorizontalContentAlignment = HorizontalAlignment.Right };
         box.TextChanged += (_, _) => { if (optional && string.IsNullOrWhiteSpace(box.Text)) owner.Remove(key); else owner[key] = Value(box.Text); Queue(); };
         Grid.SetColumn(box, 1); row.Children.Add(box); parent.Children.Add(row); return box;
@@ -68,10 +72,10 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
     static void Heading(Panel parent, string text) { var title = Ui.Text(text, 16, true); title.Margin = new Thickness(0, 12, 0, 8); parent.Children.Add(title); }
     internal HorizontalPileGroupWorkspace(JsonObject data)
     {
-        this.data = data; HorizontalPileGroup.Upgrade(data); Background = Appearance.Surface;
+        this.data = data; HorizontalPileGroupEditor.Upgrade(data); Background = Appearance.Surface;
         var input = new StackPanel { Margin = new Thickness(14) };
         Heading(input, "Disposizione dei pali");
-        var shape = new ComboBox { ItemsSource = HorizontalPileGroup.LayoutNames, SelectedItem = data["generatore"].S("tipo"), Margin = new Thickness(0, 0, 0, 8), Tag = "geometria" };
+        var shape = new ComboBox { ItemsSource = HorizontalPileGroupEditor.LayoutNames, SelectedItem = data["generatore"].S("tipo"), Margin = new Thickness(0, 0, 0, 8), Tag = "geometria" };
         shape.SelectionChanged += (_, _) => { if (shape.SelectedItem is string choice) { data["generatore"]!["tipo"] = choice; BuildGenerator(); Queue(); } }; input.Children.Add(shape);
         Field(input, "Diametro comune D [m]", data, "diametro"); input.Children.Add(generator); BuildGenerator();
         Heading(input, "Coordinate dei pali [m]"); coordinates.ItemsSource = piles;
@@ -107,7 +111,7 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
         var comparisonPanel = new StackPanel(); Heading(comparisonPanel, "Confronto · seleziona un risultato per visualizzarlo");
         comparisonPanel.Children.Add(Ui.Text("Rg riduce kh/nh; Pm riduce la reazione p. Non sono verifiche della capacità del gruppo.", 11, color: Ui.Muted));
         Column(comparison, "Direzione", "Direction", 110); Column(comparison, "Metodo / grandezza", "MethodName", 260); Column(comparison, "Min", "Minimum", 60); Column(comparison, "Media", "Mean", 65); Column(comparison, "Max", "Maximum", 60); Column(comparison, "Riduzione", "Reduction", 85); Column(comparison, "Applicabilità", "Status", 360);
-        comparison.SelectionChanged += (_, _) => { if (selecting || Result is null || comparison.SelectedItem is not ComparisonRow row) return; data["metodo"] = row.Method; data["direzione_selezionata"] = row.DirectionId; data["angolo"] = row.Node.D("Angle"); HorizontalPileGroup.Select(Result, row.Method, row.DirectionId); Present(); Modified?.Invoke(); };
+        comparison.SelectionChanged += (_, _) => { if (selecting || Result is null || comparison.SelectedItem is not ComparisonRow row) return; data["metodo"] = row.Method; data["direzione_selezionata"] = row.DirectionId; data["angolo"] = row.Node.D("Angle"); HorizontalPileGroupEditor.Select(Result, row.Method, row.DirectionId); Present(); Modified?.Invoke(); };
         RevisionInspection.Allow(comparison); comparisonPanel.Children.Add(comparison); comparisonPanel.Children.Add(source); comparisonPanel.Children.Add(notes);
         var paper = Ui.Paper(comparisonPanel, 14); paper.Margin = new Thickness(0, 12, 0, 0); output.Children.Add(paper);
         var detailPanel = new StackPanel(); Heading(detailPanel, "Valori per palo del risultato selezionato");
@@ -116,7 +120,7 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
         var columns = new Grid(); columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(355) }); columns.ColumnDefinitions.Add(new ColumnDefinition());
         columns.Children.Add(new ScrollViewer { Content = input, Background = Appearance.Paper, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled });
         var right = new ScrollViewer { Content = output, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled }; Grid.SetColumn(right, 1); columns.Children.Add(right); Content = columns;
-        timer.Tick += Tick; loading = false; TryCalculate();
+        loading = false; TryCalculate();
     }
     void BuildGenerator()
     {
@@ -140,17 +144,31 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
         if (loading || data["generatore"].S("tipo") != "Generica") return false;
         var rows = new JsonArray(piles.Select(p => (JsonNode)J.Obj(("id", p.Id), ("x", Value(p.X)), ("y", Value(p.Y)))).ToArray()); if (JsonNode.DeepEquals(rows, data["pali"])) return false; data["pali"] = rows; return true;
     }
-    void Queue() { if (loading || disposed) return; Result = null; Clear("Aggiornamento automatico…"); Modified?.Invoke(); if (calculating) return; timer.Stop(); timer.Start(); }
-    void Tick(object? sender, EventArgs e) { timer.Stop(); TryCalculate(); }
+    void Queue()
+    {
+        if (loading || disposed) return;
+        Result = null; Clear("Aggiornamento automatico…"); Modified?.Invoke();
+        if (!calculating) scheduledCalculation = DelayedCalculation();
+    }
+    async Task DelayedCalculation()
+    {
+        var completed = await recalculation.ScheduleAsync(_ => { CalculateCurrent(); return Task.FromResult(true); }, TimeSpan.FromMilliseconds(180));
+        completed.TryPublish(result => { if (result.Error is not null) { Result = null; Clear("Dati da completare: " + result.Error.Message); } });
+    }
     void Clear(string message) { title.Text = "Effetto di gruppo della palificata"; state.Text = message; source.Text = notes.Text = geometry.Text = ""; minValue.Text = meanValue.Text = maxValue.Text = reduction.Text = "—"; selecting = true; comparison.ItemsSource = null; selecting = false; details.ItemsSource = null; plan.Set(data, null, null); }
-    internal void Commit() { coordinates.CommitEdit(DataGridEditingUnit.Cell, true); coordinates.CommitEdit(DataGridEditingUnit.Row, true); if (CapturePiles()) Queue(); if (!calculating && (timer.IsEnabled || Result is null)) TryCalculate(); }
+    internal void Commit() { coordinates.CommitEdit(DataGridEditingUnit.Cell, true); coordinates.CommitEdit(DataGridEditingUnit.Row, true); if (CapturePiles()) Queue(); if (!calculating && (!scheduledCalculation.IsCompleted || Result is null)) TryCalculate(); }
     internal void TryCalculate()
     {
-        if (loading || disposed || calculating) return; timer.Stop(); calculating = true;
+        if (loading || disposed || calculating) return;
+        recalculation.Invalidate(); CalculateCurrent();
+    }
+    void CalculateCurrent()
+    {
+        if (loading || disposed || calculating) return; calculating = true;
         try
         {
-            coordinates.CommitEdit(DataGridEditingUnit.Cell, true); coordinates.CommitEdit(DataGridEditingUnit.Row, true); CapturePiles(); HorizontalPileGroup.Regenerate(data); if (data["generatore"].S("tipo") != "Generica") LoadPiles();
-            Result = HorizontalPileGroup.Calculate(data); var selected = Result["selezionato"]!; data["direzione_selezionata"] = selected.S("DirectionId"); data["angolo"] = selected.D("Angle");
+            coordinates.CommitEdit(DataGridEditingUnit.Cell, true); coordinates.CommitEdit(DataGridEditingUnit.Row, true); CapturePiles(); HorizontalPileGroupEditor.Regenerate(data); if (data["generatore"].S("tipo") != "Generica") LoadPiles();
+            Result = calculationSession.Calculate(data).Values; ModuleSheetPreparation.ApplyPileGroupSelection(data, Result);
             var rows = Result.Array("confronto").Select(n => new ComparisonRow { Node = n! }).ToArray(); selecting = true; comparison.ItemsSource = rows; comparison.SelectedItem = rows.First(r => r.Method == data.D("metodo") && r.DirectionId == data.S("direzione_selezionata")); selecting = false; Present();
         }
         catch (Exception ex) { Result = null; Clear("Dati da completare: " + ex.Message); }
@@ -159,12 +177,12 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
     void Present()
     {
         if (Result is null) return; var selected = Result["selezionato"]!; int method = (int)selected.D("Method"); bool available = selected["Factor"] is not null;
-        title.Text = HorizontalPileGroup.MethodNames[method] + " · " + selected.S("DirectionName") + " " + F(J.Number(selected["Angle"])) + "°";
+        title.Text = HorizontalPileGroupEditor.MethodNames[method] + " · " + selected.S("DirectionName") + " " + F(J.Number(selected["Angle"])) + "°";
         state.Text = $"{data.Array("pali").Count} pali · calcolo automatico · " + (available ? (method == 0 ? "coefficiente Rg di kh/nh" : "coefficiente Pm di reazione p") : "metodo non applicabile: valori non disponibili");
         minValue.Text = F(J.Number(selected["Minimum"])); meanValue.Text = F(J.Number(selected["Factor"])); maxValue.Text = F(J.Number(selected["Maximum"])); reduction.Text = F(J.Number(selected["ReductionPercent"])) + (available ? "%" : "");
         geometry.Text = "S∥ · distanza fra file lungo H: " + F(J.Number(selected["ParallelSpacing"])) + " m   |   S⊥ · interasse ortogonale a H: " + F(J.Number(selected["TransverseSpacing"])) + " m\n" + "Asse–bordo basamento = " + F(J.Number(data["basamento"]?["bordo_d"]) * data.D("diametro")) + " m; margine libero dal palo = " + F((J.Number(data["basamento"]?["bordo_d"]) - .5) * data.D("diametro")) + " m.";
         source.Text = selected.S("Source"); notes.Text = string.Join("\n", new[] { selected.S("Error"), Result.S("errore_basamento") }.Concat(selected.Array("Warnings").Select(w => w!.ToString())).Where(s => s.Length > 0));
         details.ItemsSource = selected.Array("Piles").Select(p => new { Palo = p.S("Id"), Fila = p.D("Row"), Q = F(J.Number(p!["ParallelCoordinate"])), T = F(J.Number(p["TransverseCoordinate"])), Beta = method >= 4 && available ? F(J.Number(p["Beta"])) : "—", Alfa = method == 5 && available ? F(J.Number(p["Alpha"])) : "—", Coefficiente = available ? F(J.Number(p["Factor"])) : "—", Riduzione = available ? F((1 - J.Number(p["Factor"])) * 100) + "%" : "—" }).ToArray(); plan.Set(data, selected, Result["basamento"] as JsonArray);
     }
-    public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= Tick; foreach (var row in piles) row.Changed = null; }
+    public void Dispose() { disposed = true; recalculation.Dispose(); calculationSession.Clear(); foreach (var row in piles) row.Changed = null; }
 }

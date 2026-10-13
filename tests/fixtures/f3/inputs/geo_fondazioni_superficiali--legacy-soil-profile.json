@@ -1,0 +1,40 @@
+{
+  "module": "geo_fondazioni_superficiali",
+  "id": "legacy-soil-profile",
+  "origin": "Fixture sintetica di migrazione F3",
+  "source": null,
+  "data": {
+    "versione_fondazioni": 1,
+    "input": {
+      "Width": 2,
+      "Length": 3,
+      "Depth": 1,
+      "FrictionAngle": 30,
+      "Cohesion": 0,
+      "UndrainedStrength": 75,
+      "UnitWeight": 18,
+      "SaturatedUnitWeight": 20,
+      "CoverUnitWeight": 17,
+      "CoverSaturatedUnitWeight": 20,
+      "WaterDepth": 3,
+      "WaterUnitWeight": 9.81,
+      "Surcharge": 0,
+      "RelativeDensity": 0.5,
+      "Normal": 600,
+      "HorizontalX": 0,
+      "HorizontalY": 0,
+      "MomentX": 0,
+      "MomentY": 0,
+      "Method": 0,
+      "Shape": 0,
+      "Condition": 0,
+      "Profile": 0,
+      "Compression": 0,
+      "WaterEnabled": false,
+      "RoughBase": true,
+      "IncludeDepthFactors": true
+    },
+    "nome_combinazione": "SLU · A1",
+    "azioni_confermate": true
+  }
+}

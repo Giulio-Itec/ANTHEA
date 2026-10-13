@@ -73,7 +73,7 @@ internal sealed partial class BridgeDrawing
         if (g.SectionType == BridgeSteelSectionType.H && data.B(DetailAtSupport ? "appoggio" : "irrigidimenti"))
         {
             (double LeftWidth, double LeftThickness, double RightWidth, double RightThickness) plates;
-            try { plates = BridgeSection.StiffenerPlates(data, suffix); } catch (ArgumentException) { return; }
+            try { plates = BridgeEditor.StiffenerPlates(data, suffix); } catch (ArgumentException) { return; }
             var pen = new Pen(Ui.Brush("#788C9C"), 1) { DashStyle = DashStyles.Dot };
             foreach (int side in new[] { -1, 1 })
             {

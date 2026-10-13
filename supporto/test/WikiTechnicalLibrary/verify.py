@@ -21,7 +21,7 @@ check(abs((3000/.72-3000*.35/.144+1000/.144)/1000-3.8194444)<1e-6,'Precompressio
 check(abs((1000e3/(80e9*(4*8**2/(12/.02))))*30*180/math.pi-.0503576)<1e-6,'Rotazione cassone')
 check(abs(5*30000*30**4/(384*210e9*.3)*1000-5.022321)<1e-5,'Freccia impalcato')
 check(abs(.848*2**2/1e-7/86400-392.5926)<.001,'Tempo di consolidazione')
-index=json.loads((ROOT/'X.Desktop/Wiki/index.json').read_text(encoding='utf-8'))
+index=json.loads((ROOT/'src/ANTHEA.Wiki/Content/index.json').read_text(encoding='utf-8'))
 # External corpus removed on 6/10/2026 (W0.5): only content written for ANTHEA.
 check(not [x for x in index if x['key'].startswith(('mdp-','letture-'))],'Nessun contributo esterno nel catalogo')
 theory=(ROOT/'supporto/docs/guida-teorica-anthea.md').read_text(encoding='utf-8').lower()

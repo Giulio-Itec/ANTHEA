@@ -36,9 +36,9 @@ public sealed partial class ConcreteTimeEffectsViewModel : ObservableObject, IDa
     [ObservableProperty] private bool logX = true;
     [ObservableProperty] private bool logY;
     [ObservableProperty] private CurveChoice selectedCurve = null!;
-    [ObservableProperty] private IReadOnlyList<ConcreteTimePoint> points = [];
-    [ObservableProperty] private ConcreteTimePoint? queryPoint;
-    [ObservableProperty] private ConcreteTimePoint? selectedPoint;
+    [ObservableProperty] private IReadOnlyList<ConcreteTimePointView> points = [];
+    [ObservableProperty] private ConcreteTimePointView? queryPoint;
+    [ObservableProperty] private ConcreteTimePointView? selectedPoint;
     [ObservableProperty] private string status = "Imposta i dati e aggiorna le curve.";
     [ObservableProperty] private string queryError = "";
     [ObservableProperty] private bool hasResults;
@@ -76,11 +76,11 @@ public sealed partial class ConcreteTimeEffectsViewModel : ObservableObject, IDa
         if (e.PropertyName is nameof(LogX) or nameof(LogY) or nameof(SelectedCurve)) OnPropertyChanged(nameof(GraphNote));
     }
     partial void OnQueryAgeChanged(string value) => ReadAge();
-    partial void OnQueryPointChanged(ConcreteTimePoint? value)
+    partial void OnQueryPointChanged(ConcreteTimePointView? value)
     {
         OnPropertyChanged(nameof(QueryPhiText)); OnPropertyChanged(nameof(QueryEText)); OnPropertyChanged(nameof(QueryFactorText));
     }
-    partial void OnSelectedPointChanged(ConcreteTimePoint? value)
+    partial void OnSelectedPointChanged(ConcreteTimePointView? value)
     {
         if (value is not null) QueryAge = value.AgeDays.ToString("G17", Italian);
     }
@@ -131,7 +131,7 @@ public sealed partial class ConcreteTimeEffectsViewModel : ObservableObject, IDa
                     }
                 }
                 foreach (double age in new[] { t0, 28d }) if (age >= first && age <= last) ages.Add(age);
-                var rows = ages.Select(candidate.AtAge).ToArray();
+                var rows = ages.Select(age => ConcreteTimePointView.Read(candidate.AtAge(age))).ToArray();
                 if (rows.Any(p => !double.IsFinite(p.CreepCoefficient) || !double.IsFinite(p.EcmMpa) || !double.IsFinite(p.ModulusFactor)))
                     throw new ArgumentException("L'intervallo scelto non produce valori rappresentabili: ridurre le età estreme.");
                 calculation = candidate; HasResults = true; Points = rows;
@@ -162,6 +162,13 @@ public sealed partial class ConcreteTimeEffectsViewModel : ObservableObject, IDa
         if (calculation is null) return;
         if (!double.TryParse(QueryAge.Trim().Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double age) || !double.IsFinite(age) || age <= 0)
         { QueryError = "Età di lettura: inserire un numero positivo e finito."; return; }
-        QueryPoint = calculation.AtAge(age);
+        QueryPoint = ConcreteTimePointView.Read(calculation.AtAge(age));
     }
+}
+
+
+public sealed record ConcreteTimePointView(double AgeDays, double CreepCoefficient, double EcmMpa, double ModulusFactor)
+{
+    internal static ConcreteTimePointView Read(ConcreteTimePoint value)
+        => new(value.AgeDays, value.CreepCoefficient, value.EcmMpa, value.ModulusFactor);
 }

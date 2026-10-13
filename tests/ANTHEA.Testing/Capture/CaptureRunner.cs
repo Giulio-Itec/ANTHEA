@@ -267,6 +267,7 @@ public sealed partial class CaptureRunner
                 .Distinct(StringComparer.Ordinal).OrderBy(l => l, StringComparer.Ordinal).ToArray() : [];
             count = lines.Length;
             var rows = lines.Select(l => l.Split('\t')).Where(p => p.Length >= 6).ToArray();
+            foreach (var row in rows) row[5] = FallbackCallers.StableIdentity(row[5]);
             node["voci"] = new JsonArray(rows.Select(p => (JsonNode)new JsonObject
             {
                 ["contesto"] = p[0], ["tipo"] = p[1], ["chiave"] = p[2], ["ripiego"] = p[3], ["genitore"] = p[4], ["chiamante"] = p[5]

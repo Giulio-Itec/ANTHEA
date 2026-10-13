@@ -1,3 +1,4 @@
+using Anthea.Application.Walls;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -10,14 +11,14 @@ internal sealed class RetainingWallBarDrawing : DrawingView
 {
     internal static readonly Size SheetSize = new(1120, 790);
     internal JsonObject Data { get; }
-    internal RetainingWall.BarSchedule Schedule { get; }
+    internal WallModel.BarSchedule Schedule { get; }
     internal int Page { get; set; }
     int ShapePages => (int)Math.Ceiling(Schedule.Bars.Count / 4d);
     internal int PageCount => 1 + ShapePages + Math.Max(1, (int)Math.Ceiling(Schedule.Warnings.Count / 8d));
     static readonly Brush Ink = Brushes.Black, Blue = Ui.Brush("#165DA0"), Red = Ui.Brush("#AA3E26");
     static readonly Pen Thin = new(Brushes.Gray, .7), Outline = new(Ink, 1.3);
     static string N(double v) => v.ToString("0.###", CultureInfo.GetCultureInfo("it-IT"));
-    internal RetainingWallBarDrawing(JsonObject data, RetainingWall.BarSchedule schedule)
+    internal RetainingWallBarDrawing(JsonObject data, WallModel.BarSchedule schedule)
     { Data = data; Schedule = schedule; Width = SheetSize.Width; Height = SheetSize.Height; }
     internal void RenderPage(DrawingContext dc, Size size) => Render(dc, size);
     protected override void Render(DrawingContext dc, Size size)
@@ -95,16 +96,16 @@ internal sealed class RetainingWallBarDrawing : DrawingView
         Text(dc, $"{(Schedule.CompleteQuantities ? "Peso delle barre definite" : "Peso parziale delle barre definite")}: {N(Schedule.KnownWeight)} kg", 560, y + 16, 14, Ink, 515, true);
         Text(dc, $"Barra commerciale {N(Schedule.StockLength)} m. Quantità nette, sfridi esclusi. I valori del tratto includono i pezzi alle estremità e non coincidono necessariamente con la stima continua kg/m del calcolo.", 560, y + 46, 12, Ink, 515);
     }
-    void Card(DrawingContext dc, RetainingWall.ScheduledBar b, Rect box)
+    void Card(DrawingContext dc, WallModel.ScheduledBar b, Rect box)
     {
         dc.DrawRectangle(null, Thin, box); double x = box.X + 13, y = box.Y + 10;
         Text(dc, $"{b.Mark}   Ø{N(b.Diameter)}   {b.Quantity} pezzi", x, y, 16, Blue, bold: true);
-        Text(dc, RetainingWall.RebarZoneName(b.Zone) + " · " + b.Face + " · " + b.Kind, x, y + 25, 12, Ink, box.Width - 24);
+        Text(dc, WallModel.RebarZoneName(b.Zone) + " · " + b.Face + " · " + b.Kind, x, y + 25, 12, Ink, box.Width - 24);
         if (b.Shape.Count > 1)
         {
             double minX = b.Shape.Min(p => p.X), maxX = b.Shape.Max(p => p.X), minY = b.Shape.Min(p => p.Y), maxY = b.Shape.Max(p => p.Y);
             double scale = Math.Min(275 / Math.Max(.01, maxX - minX), 104 / Math.Max(.01, maxY - minY));
-            Point P(RetainingWall.BarPoint p) => new(x + 48 + (p.X - minX) * scale, y + 161 - (p.Y - minY) * scale);
+            Point P(WallModel.BarPoint p) => new(x + 48 + (p.X - minX) * scale, y + 161 - (p.Y - minY) * scale);
             dc.DrawGeometry(null, new Pen(Blue, 2), Path(b.Shape.Select(P), false));
             if (b.Mandrel > 0)
             {

@@ -1,7 +1,7 @@
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
-using Anthea.Calculations.Geotechnics;
+using Anthea.Application.Walls;
 
 namespace X.Desktop;
 
@@ -23,17 +23,14 @@ internal sealed partial class RetainingWallWorkspace
 
     internal void PrepareGlobal()
     {
-        Commit(); RetainingWall.PrepareGlobalProfile(Data); Data["global_stability"]!["enabled"] = true; BuildInputs(); UpdateFields(); Changed();
+        Commit(); WallModel.PrepareGlobalProfile(Data); Data["global_stability"]!["enabled"] = true; BuildInputs(); UpdateFields(); Changed();
         Cards["Stabilità globale"].IsExpanded = true; ScrollGlobalSetup();
     }
     private FrameworkElement BuildGlobalCard()
     {
         foreach (FrameworkElement shared in new FrameworkElement[] { globalMatrixHost, globalMessage, globalReadiness, globalSearchSummary }) if (shared.Parent is Panel parent) parent.Children.Remove(shared);
         var g = Data["global_stability"]!.AsObject();
-        g["valley_layers"] ??= new JsonArray(); g["soil_mode"] ??= "Profilo unico";
-        g["soil_split_x"] ??= Data["geometry"].D("toe") + Data["geometry"].D("stem_base");
-        // Existing documents retain their exact search limits until the user chooses automatic mode.
-        g["search_mode"] ??= "Assegnata";
+        Anthea.Application.Presentation.WallSheetPresentation.PrepareGlobalSettings(Data);
         var form = Form("global", [new("enabled", "Attiva la verifica globale", Bool: true),
             new("condition", "Condizione del terreno", Choices: ["Drenata", "Non drenata"]),
             new("profile_confirmed", "Ho controllato profilo, strati e falda del sito", Bool: true),
@@ -70,15 +67,15 @@ internal sealed partial class RetainingWallWorkspace
             Ui.Text("3 · Ricerca delle superfici", 13, true), searchMode, globalSearchSummary,
             Group("Limiti e precisione · dettagli modificabili", Ui.Stack(
                 Ui.Text("In Automatica i limiti seguono il profilo e gli strati noti, fino a 2(H+t). Passa ad Assegnata per modificarli. Il minimo sul bordo richiede una ricerca più ampia, sempre coperta dalle indagini.", 11, color: Ui.Muted), search), false),
-            Group("Combinazioni globali · A2–M2–R2 in statica", Ui.Stack(Ui.Bar(Ui.Button("Genera globali", GenerateGlobalMatrix), Ui.Button("Conferma matrice globale", () => { Commit(); g["combination_mode"] = "Personalizzate"; g["combination_signature"] = RetainingWall.GlobalSignature(Data); Changed(); })), globalMessage, globalMatrixHost), false),
+            Group("Combinazioni globali · A2–M2–R2 in statica", Ui.Stack(Ui.Bar(Ui.Button("Genera globali", GenerateGlobalMatrix), Ui.Button("Conferma matrice globale", () => { Commit(); g["combination_mode"] = "Personalizzate"; g["combination_signature"] = WallModel.GlobalSignature(Data); Changed(); })), globalMessage, globalMatrixHost), false),
             Ui.Text("Dopo il controllo, spunta la conferma dei dati in alto e calcola. Il risultato si apre in Verifiche → Stabilità globale.", 11),
             Ui.Bar(Ui.Button("Calcola globale", async () => await CalculateGlobalAsync(), inspection: true), Ui.Button("Word globale", ExportGlobalWord, inspection: true)),
-            Group("Metodo e coefficienti utilizzati", Ui.Text(RetainingWall.GlobalHelp, 11), false));
+            Group("Metodo e coefficienti utilizzati", Ui.Text(WallModel.GlobalHelp, 11), false));
     }
     internal void GenerateGlobalMatrix()
     {
         Commit();
-        try { var g = Data["global_stability"]!; g["combinations"] = RetainingWall.GenerateGlobalCombinations(Data); g["combination_mode"] = "Automatiche"; BuildGlobalMatrix(); Changed(); }
+        try { var g = Data["global_stability"]!; g["combinations"] = WallModel.GenerateGlobalCombinations(Data); g["combination_mode"] = "Automatiche"; BuildGlobalMatrix(); Changed(); }
         catch (ArgumentException ex) { globalMessage.Text = ex.Message; }
     }
     private void BuildGlobalMatrix()
@@ -93,7 +90,7 @@ internal sealed partial class RetainingWallWorkspace
             var flat = (JsonObject)row!.DeepClone(); flat.Remove("coefficients"); foreach (var action in Data.Array("actions")) flat["a_" + action.S("id")] = row["coefficients"]?[action.S("id")]?.DeepClone();
             GlobalMatrix.Rows.Add(new JsonRow(flat, key =>
             {
-                if (g.S("combination_mode") == "Automatiche") g["combination_signature"] = RetainingWall.GlobalSignature(Data);
+                if (g.S("combination_mode") == "Automatiche") g["combination_signature"] = WallModel.GlobalSignature(Data);
                 g["combination_mode"] = "Personalizzate";
                 if (key.StartsWith("a_")) row["coefficients"]![key[2..]] = flat[key]?.DeepClone(); else row[key] = flat[key]?.DeepClone();
                 globalMessage.Text = "Matrice globale personalizzata: fanno fede i coefficienti di ogni riga."; Changed();
@@ -131,29 +128,29 @@ internal sealed partial class RetainingWallWorkspace
         }
         panel.Children.Add(Ui.Text(string.Join("\n", result.Notes.Skip(1)), 11, color: Ui.Muted)); return panel;
     }
-    internal async Task CalculateGlobalAsync()
+    internal Task CalculateGlobalAsync() => scheduledCalculation = CalculateGlobalScheduledAsync();
+    private async Task CalculateGlobalScheduledAsync()
     {
-        if (disposed) return; Commit(); timer.Stop();
-        while (Busy) await running;
-        if (disposed) return;
-        int request = revision; var snapshot = (JsonObject)Data.DeepClone(); cancellation?.Dispose(); cancellation = new(); var token = cancellation.Token;
-        Busy = true; status.Text = "Ricerca delle superfici globali…"; independentGlobal = null; independentGlobalInput = null; independentGlobalError = null;
-        running = Run(); await running;
-        async Task Run()
+        if (disposed) return; Commit();
+        var snapshot = (JsonObject)Data.DeepClone();
+        var completed = await recalculation.ScheduleAsync(async token =>
+        {
+            Busy = true; status.Text = "Ricerca delle superfici globali…"; independentGlobal = null; independentGlobalInput = null; independentGlobalError = null;
+            try { return await Task.Run(() => Anthea.Application.Modules.StructuralQueries.WallGlobal(snapshot, token), token); }
+            finally { Busy = false; }
+        });
+        completed.TryPublish(current =>
         {
             try
             {
-                var result = await Task.Run(() => RetainingWall.CalculateGlobal(snapshot, token));
-                if (disposed || request != revision) return;
-                independentGlobal = result; independentGlobalInput = snapshot;
+                if (current.Error is not null) throw current.Error;
+                var result = current.Value!; independentGlobal = result; independentGlobalInput = snapshot;
                 GlobalCombination.ItemsSource = result.Cases.Select(c => c.Factors.Name).ToArray(); GlobalCombination.SelectedItem = result.Cases.OrderByDescending(c => c.Critical?.Ratio ?? double.PositiveInfinity).First().Factors.Name;
                 ViewMode.SelectedItem = "Stabilità globale"; CheckFilter.SelectedItem = "Stabilità globale"; Pages.SelectedIndex = 1; RefreshGlobal(); ShowCheckTable();
                 status.Text = "Stabilità globale aggiornata · " + result.Cases.Length + " combinazioni. Le verifiche locali hanno un calcolo indipendente.";
             }
-            catch (OperationCanceledException) { }
-            catch (ArgumentException ex) { if (!disposed && request == revision) { independentGlobalError = ex.Message; status.Text = "Stabilità globale: " + ex.Message; RefreshGlobal(); ShowCheckTable(); } }
-            finally { Busy = false; if (!disposed && request != revision) timer.Start(); }
-        }
+            catch (Exception ex) { independentGlobalError = ex.Message; status.Text = "Stabilità globale: " + ex.Message; RefreshGlobal(); ShowCheckTable(); }
+        });
     }
     private void ExportGlobalWord()
     {
@@ -163,6 +160,6 @@ internal sealed partial class RetainingWallWorkspace
         var input = independentGlobalInput ?? Calculation!.Input;
         var drawing = new GlobalStabilityDrawing { Data = input, Result = result, Case = GlobalCase, Width = 1100, Height = 460 };
         drawing.Measure(new Size(1100, 460)); drawing.Arrange(new Rect(0, 0, 1100, 460)); drawing.UpdateLayout();
-        X.Core.Archivio.ScriviAtomico(dialog.FileName, X.Core.ReportRetainingWall.CreateGlobal(input, result, new("Stabilità globale · superficie visualizzata", Ui.DocumentSnapshot(drawing), 1100d / 460)));
+        X.Core.Archivio.ScriviAtomico(dialog.FileName, WallExports.CreateGlobal(input, result, new("Stabilità globale · superficie visualizzata", Ui.DocumentSnapshot(drawing), 1100d / 460)));
     }
 }

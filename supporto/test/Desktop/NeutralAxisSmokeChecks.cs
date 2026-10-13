@@ -1,3 +1,4 @@
+using Anthea.Testing;
 using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -17,6 +18,8 @@ public sealed partial class MainWindow
         Directory.CreateDirectory(directory);
         var checks = new List<string>();
         void Check(bool ok, string message) { if (!ok) throw new Exception(message); checks.Add("OK: " + message); }
+        static Anthea.Application.Presentation.NeutralAxisPresentation DrawingAxis(SectionNeutralAxis value) =>
+            new(value.Line is { } line ? new(new(line.Start.X, line.Start.Y), new(line.End.X, line.End.Y)) : null, value.Caption, value.Explanation);
         // Known affine fields, including a translated reference: the oracle is epsilon(x,y)=0.
         foreach (var sample in new[] { ("orizzontale", 0d, -.00001, .001), ("verticale", .00001, 0d, .001),
             ("inclinato", .00002, -.00001, .001), ("passante_riferimento", .00002, -.00001, 0d) })
@@ -28,7 +31,7 @@ public sealed partial class MainWindow
             var visual = new DrawingVisual();
             using (var dc = visual.RenderOpen())
             {
-                var display = NeutralAxisOverlay.Draw(dc, axis, (x,y) => new Point(400+x, 300-y), new Rect(150,100,500,400), new Rect(20,60,760,480), 30);
+                var display = NeutralAxisOverlay.Draw(dc, DrawingAxis(axis), (x,y) => new Point(400+x, 300-y), new Rect(150,100,500,400), new Rect(20,60,760,480), 30);
                 Check(display.Start.HasValue && display.End.HasValue && (display.Start.Value-display.End.Value).Length > 100, "Tracciamento asse " + sample.Item1);
                 foreach (var point in new[] { display.Start!.Value, display.End!.Value })
                     Check(Math.Abs(plane.GetStrain(point.X-400, 300-point.Y)) < 1e-12, "Ritaglio conserva ε=0: " + sample.Item1);
@@ -39,14 +42,14 @@ public sealed partial class MainWindow
         using (var dc = new DrawingVisual().RenderOpen())
         {
             var outside = SectionNeutralAxis.Concrete(new StrainPlane(0, -.00001, new Point2d(0,0), .1));
-            var display = NeutralAxisOverlay.Draw(dc, outside, (x,y) => new Point(400+x,300-y), new Rect(150,100,500,400), new Rect(20,60,760,480),30);
+            var display = NeutralAxisOverlay.Draw(dc, DrawingAxis(outside), (x,y) => new Point(400+x,300-y), new Rect(150,100,500,400), new Rect(20,60,760,480),30);
             Check(display.Start is null && display.Caption.Contains("esterno"), "Asse esterno segnalato senza falsa linea sulla sezione");
         }
         var data = Archivio.Documento("str_palo");
         var settings = SectionWorkspace.Prepare(data); var input = data["input"]!.AsObject();
         var engine = new CheckerSection(input, settings, settings["sle"]!["SLE"]!.AsObject());
         var stress = await Task.Run(() => engine.Stress(new(-100, 80, 35), "TEST"));
-        var view = new ConcreteSectionViewport { Section = engine.Geometry, Stress = stress, Labels = false };
+        var view = new ConcreteSectionViewport { Section = Anthea.Application.Concrete.ConcretePreview.PrepareGeometry(input), Stress = stress.ViewForTest(), Labels = false };
         File.WriteAllBytes(Path.Combine(directory,"cls_asse_inclinato.png"),view.Png(900,650));
         Check(view.NeutralAxisDisplay?.Start is not null, "CLS: asse sullo stato reale Checker con flessione deviata");
         view.ShowNeutralAxis = false; _ = view.Png();
@@ -68,7 +71,8 @@ public sealed partial class MainWindow
                 double residual = stage.GetHistory() is { } h ? h.State.TotalPlane.At(line.Start.Y) : stage.Contributions.Sum(c => c.SteelStress(line.Start.Y));
                 Check(Math.Abs(residual) < 1e-8, "Ponte: zero coerente con risultato della fase, " + method);
             }
-            var drawing = new BridgeDrawing { Geometry = result.Geometry, Stage = result.Stages.Last(), Width = 1100, Height = 700 };
+            var resultView = BridgeContractTestData.Project(result);
+            var drawing = new BridgeDrawing { Geometry = resultView.Geometry, Stage = resultView.Stages.Last(), Width = 1100, Height = 700 };
             drawing.Measure(new Size(1100,700)); drawing.Arrange(new Rect(0,0,1100,700)); drawing.UpdateLayout();
             File.WriteAllBytes(Path.Combine(directory,"ponte_" + Array.IndexOf(BridgeSection.CalculationMethods,method) + ".png"),Ui.Snapshot(drawing));
             Check(drawing.NeutralAxisDisplay?.Start is not null, "Ponte: asse visibile " + method);

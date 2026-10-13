@@ -7,7 +7,8 @@ try
     void Check(bool value, string text) { if (!value) throw new Exception(text); count++; }
     void Near(double actual, double expected, string text) => Check(Math.Abs(actual - expected) <= 1e-10 * Math.Max(1, Math.Abs(expected)), text);
     void Reject(Action action, string text) { try { action(); } catch (ArgumentException) { count++; return; } throw new Exception(text); }
-    var assembly = typeof(CalculationService).Assembly;
+    var assembly = typeof(Calcolo).Assembly;
+    Check(typeof(CalculationService).Assembly.GetName().Name == "ANTHEA.Application", "Coordinamento fuori dallo strato applicativo");
     Check(assembly.GetName().Name == "ANTHEA.Calculations", "Assembly non autonomo");
     Check(!assembly.GetReferencedAssemblies().Any(a => a.Name is "ANTHEA.Core" or "ANTHEA" or "Materiali" or "PresentationFramework" or "PresentationCore" or "WindowsBase"), "Dipendenza da archivio/UI");
     foreach (var module in ModuleCatalog.All)

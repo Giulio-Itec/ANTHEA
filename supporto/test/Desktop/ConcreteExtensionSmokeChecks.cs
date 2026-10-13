@@ -1,3 +1,4 @@
+using Anthea.Testing;
 using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -70,7 +71,7 @@ internal sealed partial class ConcreteWorkspace
         await Capture("00_resistenze_rapide");
         tabs.SelectedIndex=1;await Idle();var panel=domainPanels.First(p=>p.ThreeD);panel.Grid.SelectedIndex=0;
         await Capture("00b_linea_verifica");
-        panel.Inspection.Tabs.SelectedIndex=1;UpdateSectionInspection(panel);
+        panel.Inspection.Tabs.SelectedIndex=1;await UpdateSectionInspection(panel);
         for(int i=0;i<200&&panel.Inspection.View.Stress is null;i++)await Task.Delay(25);
         Check(panel.Inspection.View.Stress is not null,"Mappa del punto limite: "+panel.Inspection.Message.Text);
         await Capture("01_limite");
@@ -85,7 +86,7 @@ internal sealed partial class ConcreteWorkspace
             }
             inspectedPanel.Grid.SelectedIndex = 0;
             inspectedPanel.Inspection.Tabs.SelectedIndex = 1;
-            UpdateSectionInspection(inspectedPanel);
+            await UpdateSectionInspection(inspectedPanel);
             for(int i=0;i<200&&inspectedPanel.Inspection.View.Stress is null;i++)await Task.Delay(25);
             Check(inspectedPanel.Inspection.View.Stress is not null, "Soluzione disponibile per il test del menu " + inspectedPanel.Prefix);
             await Idle();
@@ -140,7 +141,7 @@ internal sealed partial class ConcreteWorkspace
         anchorageText.BringIntoView();await Capture("04c_ancoraggi");
         Check(detailingResults.Any(r=>r.Name=="Diametro staffe"),"Controlli pilastro eseguiti");
         curvatureForm.Set("N","-500");curvatureForm.Set("passi","12");curvatureForm.Set("angoli","16");
-        tabs.SelectedIndex=6;CalculateCurvature();while(curvatureRunning)await Task.Delay(40);
+        tabs.SelectedIndex=6;await CalculateCurvature();
         Check(curvatureResult?.Points.Count>=13,"Diagramma fino al limite: "+curvatureText.Text);await Capture("05_curvatura");
         Input["foro_presente"]=true;Input["inner_width_mm"]="200";Input["inner_height_mm"]="300";Invalidate();await Updated();
         tabs.SelectedIndex=0;await Capture("06_rettangolare_forata");Check(preview.Section!.Holes.Count==1,"Foro rettangolare in anteprima");
@@ -148,7 +149,7 @@ internal sealed partial class ConcreteWorkspace
         Check(checker3D.ContainsKey("SLU"),"Dominio circolare forato calcolato");
         Check(preview.Section!.Outline.Count==32&&preview.Section.Holes[0].Length==32,"Anteprima circolare: default 32 lati per contorno");
         geometry.Set("circular_sides","64");await Updated();
-        Check(checker3D["SLU"].Section.Geometry.Outline.Count==64&&preview.Section!.Holes[0].Length==64,"Modifica dei lati: anteprima e verificatore aggiornati");
+        Check(checker3D["SLU"].GetNativeForTest().Section.Geometry.Outline.Count==64&&preview.Section!.Holes[0].Length==64,"Modifica dei lati: anteprima e verificatore aggiornati");
         geometry.Editors["circular_sides"].BringIntoView();await Capture("07_lati_circolari");
         shearGrid!.Rows.Add(ShearRow(J.Obj(("id","circle_shear"),("nome","Taglio circolare"),("N","-100"),("Vx","20"),("Vy","30"))));
         CalculateShear();Check(!shearResults.ContainsKey("circle_shear"),"Circolare senza scelta del modello non verificata");
@@ -164,7 +165,7 @@ internal sealed partial class ConcreteWorkspace
         tabs.SelectedIndex=3;sleTabs.SelectedIndex=2;await Idle();stressPanels["SLE_QP"].Grid.SelectedItem=row;UpdateStressSelection("SLE_QP");await Capture("09_fasce_tese");
         Check(stressPanels["SLE_QP"].Regions.Items.Count==4,"Quattro zone efficaci selezionabili");
         Check(Result?["torsione"]?["test_t"] is not null&&Result?["dettagli_costruttivi"] is JsonArray,"Esportazione dei nuovi risultati");
-        tabs.SelectedIndex=6;CalculateCurvature();while(curvatureRunning)await Task.Delay(40);
+        tabs.SelectedIndex=6;await CalculateCurvature();
         Check(Result?["momento_curvatura"]?["Points"] is JsonArray points&&points.Count>=13,"Esportazione della curva");
         var curveReport = BuildReport("Momento curvatura", ["curvatura", "grafici"]);
         using (var zip = new System.IO.Compression.ZipArchive(new MemoryStream(curveReport)))

@@ -1,3 +1,8 @@
+using Anthea.Application.Materials;
+using Anthea.Application.Modules;
+using Anthea.Application.Walls;
+using Anthea.Application.BridgeDesign;
+using Anthea.Application.Documents;
 using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -53,7 +58,7 @@ public sealed partial class MainWindow : Window
 
     }
     internal void Safe(Action action) { try { action(); } catch (Exception ex) { services.Messages.ReportFailure("Operazione non completata", ex); } }
-    internal static string ModuleName(string module) => ModuleCatalog.Get(module).Name;
+    internal static string ModuleName(string module) => ModuleDirectory.Get(module).Name;
     private Menu BuildMenu()
     {
         var menu = new Menu { Background = Appearance.Paper }; var file = new MenuItem { Header = "_File" }; menu.Items.Add(file);
@@ -63,11 +68,11 @@ public sealed partial class MainWindow : Window
             if (key is Key k) { var command = new RoutedCommand(); CommandBindings.Add(new CommandBinding(command, (_, _) => Safe(action))); InputBindings.Add(new KeyBinding(command, k, modifiers)); item.InputGestureText = new KeyGesture(k, modifiers).GetDisplayStringForCulture(System.Globalization.CultureInfo.CurrentCulture); }
         }
         Add("Nuovo palo", () => NewCalculation("geo_palo_verticale"), Key.N); Add("Nuovo micropalo", () => NewCalculation("geo_micropalo_verticale")); Add("Nuova sezione in c.a.", () => NewCalculation("str_palo")); Add("Nuovo archivio progetti", NewProjects);
-        Add("Nuova sezione composta da ponte", () => NewCalculation(BridgeSection.Module));
-        Add("Nuovo Bridge Design", () => NewCalculation(BridgeConcept.Module));
-        Add("Nuovo muro di sostegno", () => NewCalculation(RetainingWall.Module));
-        Add("Nuovo palo orizzontale", () => NewCalculation(PaloOrizzontale.Module));
-        Add("Nuova palificata orizzontale", () => NewCalculation(HorizontalPileGroup.Module));
+        Add("Nuova sezione composta da ponte", () => NewCalculation(BridgeEditor.Module));
+        Add("Nuovo Bridge Design", () => NewCalculation(BridgeDesignModel.Module));
+        Add("Nuovo muro di sostegno", () => NewCalculation(WallModel.Module));
+        Add("Nuovo palo orizzontale", () => NewCalculation(HorizontalPileEditor.Module));
+        Add("Nuova palificata orizzontale", () => NewCalculation(HorizontalPileGroupEditor.Module));
         Add("Nuovo micropalo orizzontale", () => NewCalculation(MicropaloOrizzontale.Module));
         file.Items.Add(new Separator()); Add("Apri…", Open, Key.O); Add("Salva", () => Save(false), Key.S); Add("Salva con nome…", () => Save(true), Key.S, ModifierKeys.Control | ModifierKeys.Shift);
         Add("Esporta foglio selezionato…", ExportSheet); file.Items.Add(new Separator()); Add("Report Word…", ExportReport); Add("Report short CLS…", () => _ = ExportShortReport()); Add("Risultati JSON…", ExportJson); Add("Esci", Close);
@@ -182,7 +187,7 @@ public sealed partial class MainWindow : Window
         var filters = Ui.Stack(Ui.Text("DISCIPLINE", 13, true)); filters.Width = 185; foreach (string name in new[] { "Tutti", "Geotecnica", "Strutture", "Materiali" }) filters.Children.Add(Ui.Button(name, () => ShowModules(name), discipline == name));
         var fp = Ui.Paper(filters, 16); fp.Margin = new Thickness(0, 0, 16, 0); DockPanel.SetDock(fp, System.Windows.Controls.Dock.Left); root.Children.Add(fp);
         var list = new StackPanel();
-        var modules = ModuleCatalog.All.Select(m => (m.Area, m.Element, m.Description, m.Id)).ToArray();
+        var modules = ModuleDirectory.All.Select(m => (m.Area, m.Element, m.Description, m.Id)).ToArray();
         foreach (string area in new[] { "Geotecnica", "Strutture", "Materiali" }.Where(a => discipline == "Tutti" || a == discipline))
         {
             var label = Ui.Text(area, 21, true); label.Margin = new Thickness(0, 10, 0, 14); list.Children.Add(label);
@@ -239,7 +244,7 @@ public sealed partial class MainWindow : Window
         editor.SoilReplacementRequested += data => Safe(() => ReplaceCurrentSoil(data));
         if (projectReadOnly) editor.InspectRevision();
         sharedBaseline = (JsonObject)sheet.DeepClone(); sharedBaseline["dati"] = editor.Data.DeepClone();
-        sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or PaloOrizzontale.Module or MicropaloOrizzontale.Module or RetainingWall.Module or "mat_calcestruzzo" or RebarMaterial.Module or BridgeSection.Module or BridgeConcept.Module
+        sheetContent.Content = module is "geo_palo_verticale" or "geo_micropalo_verticale" or HorizontalPileEditor.Module or MicropaloOrizzontale.Module or WallModel.Module or "mat_calcestruzzo" or RebarEditor.Module or BridgeEditor.Module or BridgeDesignModel.Module
             ? editor : DisplayAdaptation.Viewport(editor, 1120, 600);
         heading.Text = SheetHeading(sheet); UpdateBackButton();
         RefreshModelReference(sheet);
@@ -381,7 +386,7 @@ public sealed partial class MainWindow : Window
     private void Open() { var d = new OpenFileDialog { Filter = "File ANTHEA|*.programma;*.anthea|Tutti i file|*.*" }; if (d.ShowDialog(this) == true) LoadFile(d.FileName); }
     internal void LoadFile(string filename)
     {
-        var loaded = Archivio.Leggi(filename); if (!ConfirmDiscard()) return;
+        var loaded = DocumentService.Open(filename); if (!ConfirmDiscard()) return;
         ExitRevisionPreview();
         editor?.Dispose(); editor = null; currentSheet = null; document = loaded; path = filename; dirty = false; sheetContent.Content = null;
         if (document.S("tipo") == "calcolo") ShowSheet(document); else ShowProjects(); RefreshTree(); UpdateTitle();
@@ -390,17 +395,17 @@ public sealed partial class MainWindow : Window
     {
         Commit(); string? target = path;
         if (asNew || target is null) { var d = new SaveFileDialog { Filter = "File ANTHEA|*.programma", FileName = path is null ? "Calcolo.programma" : Path.GetFileName(path) }; if (d.ShowDialog(this) != true) return false; target = d.FileName; }
-        try { Archivio.Scrivi(target, WorkingProjectDocument); path = target; dirty = false; UpdateTitle(); return true; }
+        try { DocumentService.Save(target, WorkingProjectDocument); path = target; dirty = false; UpdateTitle(); return true; }
         catch (Exception ex) { MessageBox.Show(this, ex.Message, "Salvataggio non riuscito", MessageBoxButton.OK, MessageBoxImage.Error); return false; }
     }
     private void ExportSheet()
     {
         Commit(); if (currentSheet is null) return; var d = new SaveFileDialog { Filter = "File ANTHEA|*.programma", FileName = "Foglio.programma" };
-        if (d.ShowDialog(this) == true) Archivio.Scrivi(d.FileName, J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", currentSheet["modulo_id"]), ("dati", currentSheet["dati"])));
+        if (d.ShowDialog(this) == true) DocumentService.Save(d.FileName, J.Obj(("formato", "X"), ("versione", 1), ("tipo", "calcolo"), ("modulo_id", currentSheet["modulo_id"]), ("dati", currentSheet["dati"])));
     }
     private void ExportJson()
     {
-        if (editor?.Module is "mat_calcestruzzo" or RebarMaterial.Module) { MessageBox.Show(this, "Per conservare la scheda materiali usa Salva o Esporta foglio selezionato."); return; }
+        if (editor?.Module is "mat_calcestruzzo" or RebarEditor.Module) { MessageBox.Show(this, "Per conservare la scheda materiali usa Salva o Esporta foglio selezionato."); return; }
         Commit(); if (editor?.HasResults != true) { MessageBox.Show(this, editor?.Module == "str_palo" ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi." : "Premere Calcola prima di esportare i risultati."); return; }
         var d = new SaveFileDialog { Filter = "Risultati JSON|*.json", FileName = "Risultati.json" }; if (d.ShowDialog(this) == true) editor.ExportResult(d.FileName);
     }
@@ -412,7 +417,7 @@ public sealed partial class MainWindow : Window
             var save = new SaveFileDialog { Filter = "Word e PDF affiancati|*.docx", FileName = "Fondazioni_superficiali.docx" };
             if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []); return;
         }
-        if (editor?.Module is "mat_calcestruzzo" or RebarMaterial.Module)
+        if (editor?.Module is "mat_calcestruzzo" or RebarEditor.Module)
         {
             Commit();
             var save = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = editor.Module == "mat_calcestruzzo" ? "Scheda_calcestruzzo.docx" : "Scheda_acciaio_armature.docx" };
@@ -420,21 +425,21 @@ public sealed partial class MainWindow : Window
             return;
         }
         Commit(); if (editor?.HasResults != true || editor.Busy) { MessageBox.Show(this, editor?.Module == "str_palo" ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati non validi." : "Completare il calcolo prima di esportare il report."); return; }
-        if (editor.Module is HorizontalPileGroup.Module or PaloOrizzontale.Module or MicropaloOrizzontale.Module or BridgeConcept.Module or RetainingWall.Module)
+        if (editor.Module is HorizontalPileGroupEditor.Module or HorizontalPileEditor.Module or MicropaloOrizzontale.Module or BridgeDesignModel.Module or WallModel.Module)
         {
             var save = new SaveFileDialog {
                 Filter = "Documento Word|*.docx",
-                FileName = editor.Module == HorizontalPileGroup.Module ? "Relazione_palificata_orizzontale.docx" : editor.Module == RetainingWall.Module ? "Relazione_muro_sostegno.docx" : editor.Module == BridgeConcept.Module ? "BridgeDesign.docx" : editor.Module == MicropaloOrizzontale.Module
+                FileName = editor.Module == HorizontalPileGroupEditor.Module ? "Relazione_palificata_orizzontale.docx" : editor.Module == WallModel.Module ? "Relazione_muro_sostegno.docx" : editor.Module == BridgeDesignModel.Module ? "BridgeDesign.docx" : editor.Module == MicropaloOrizzontale.Module
                     ? "Relazione_micropalo_orizzontale.docx" : "Relazione_palo_orizzontale.docx"
             };
             if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []);
             return;
         }
         var list = new StackPanel { Margin = new Thickness(16) }; var checks = new Dictionary<string, CheckBox>();
-        var saved = editor.Data[editor.Module == BridgeSection.Module ? "ui_mista" : "workspace_ca"]?["report_sezioni"] as JsonArray;
-        var sections = editor.Module == BridgeSection.Module ? ReportBridge.Sections : editor.Module == "str_palo" ? ReportConcrete.Sections : ReportWord.Sezioni;
-        foreach (var (key, label) in sections) { var check = new CheckBox { Content = label, IsChecked = saved is not null ? saved.Any(v => v?.ToString() == key) : editor.Module == BridgeSection.Module || (editor.Module == "str_palo" ? key is not ("dettagli" or "sle_tutte") : !key.StartsWith("grafico")), Margin = new Thickness(4) }; checks[key] = check; list.Children.Add(check); }
-        if (editor.Module == BridgeSection.Module) list.Children.Add(Ui.Text("Stampa tutte le situazioni e i rispettivi contributi, indipendentemente dalla fase visualizzata. Ambito, riepilogo e avvisi sono sempre inclusi. I grafici riportano la geometria e la somma dei contributi di ogni situazione.", 11));
+        var saved = editor.Data[editor.Module == BridgeEditor.Module ? "ui_mista" : "workspace_ca"]?["report_sezioni"] as JsonArray;
+        var sections = editor.Module == BridgeEditor.Module ? ReportBridge.Sections : editor.Module == "str_palo" ? ReportConcrete.Sections : ReportWord.Sezioni;
+        foreach (var (key, label) in sections) { var check = new CheckBox { Content = label, IsChecked = saved is not null ? saved.Any(v => v?.ToString() == key) : editor.Module == BridgeEditor.Module || (editor.Module == "str_palo" ? key is not ("dettagli" or "sle_tutte") : !key.StartsWith("grafico")), Margin = new Thickness(4) }; checks[key] = check; list.Children.Add(check); }
+        if (editor.Module == BridgeEditor.Module) list.Children.Add(Ui.Text("Stampa tutte le situazioni e i rispettivi contributi, indipendentemente dalla fase visualizzata. Ambito, riepilogo e avvisi sono sempre inclusi. I grafici riportano la geometria e la somma dei contributi di ogni situazione.", 11));
         if (editor.Module == "str_palo") list.Children.Add(Ui.Text("SLE: di default inviluppo degli estremi con combinazione di origine e casi governanti distinti per tensioni e fessurazione. Nessun esito non determinato viene escluso. In modalità completa si stampano tutte le combinazioni; i grafici SLE restano riferiti ai casi governanti. Ambito, avvisi ed errori sono sempre inclusi.", 11));
         var window = Ui.Dialog(this, "Contenuti del report Word", new ChainedScrollViewer { Content = list, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 590, 650); var ok = Ui.Button("Esporta", () => { if (checks.Any(c => c.Value.IsChecked == true && c.Key is not ("sle_tutte" or "dettagli" or "grafici"))) window.DialogResult = true; }, true); list.Children.Add(ok); if (window.ShowDialog() != true) return;
         var d = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = "Relazione.docx" }; if (d.ShowDialog(this) == true) editor.ExportReport(d.FileName, heading.Text, checks.Where(p => p.Value.IsChecked == true).Select(p => p.Key).ToHashSet());

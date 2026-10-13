@@ -1,0 +1,95 @@
+using Anthea.Application.Materials;
+using System.Globalization;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+
+namespace Materiali;
+
+public sealed partial class MaterialView : UserControl
+{
+    static readonly Brush Navy = Brush("#0B2A4A"), Blue = Brush("#0B5CAD"), Muted = Brush("#64748B");
+    static readonly (string Name, double Fck)[] Classes = MaterialInputCatalog.MaterialSheetClasses();
+    readonly ComboBox choice = new() { MinWidth=130, Margin=new Thickness(0,4,0,6) };
+    readonly TextBlock strength = Text("",32,true), modulus = Text("",32,true), tension = Text("",32,true);
+    readonly TextBlock status = Text("",12);
+    readonly DataGrid table = new() { IsReadOnly=true, CanUserSortColumns=false, RowHeight=double.NaN, MinRowHeight=34, HorizontalScrollBarVisibility=ScrollBarVisibility.Auto };
+    readonly Grid cards = new();
+    static Brush Brush(string value) => new SolidColorBrush((Color)ColorConverter.ConvertFromString(value));
+    // Colours assigned after the view is built: inside ANTHEA the palette brushes (Appearance.<ruolo>.<colore>)
+    // follow the light and dark appearances; elsewhere the plain colour.
+    static Brush Themed(string role, string value) => Application.Current?.TryFindResource($"Appearance.{role}.{value.TrimStart('#')}") as Brush ?? Brush(value);
+    static TextBlock Text(string text, double size=13, bool bold=false) => new() {
+        Text=text,FontSize=size,FontWeight=bold?FontWeights.SemiBold:FontWeights.Normal,
+        Foreground=Navy,TextWrapping=TextWrapping.Wrap,Margin=new Thickness(0,3,0,3)
+    };
+    static Border Paper(UIElement child) => new() {
+        Child=child,Background=Brushes.White,BorderBrush=Brush("#D8E0EB"),BorderThickness=new Thickness(1),
+        Padding=new Thickness(10),Margin=new Thickness(0,0,0,8)
+    };
+    static StackPanel Stack(params UIElement[] items) { var panel=new StackPanel(); foreach(var item in items) panel.Children.Add(item); return panel; }
+
+    private readonly Func<TextBlock, string, FrameworkElement>? wikiLabel;
+    public MaterialView() : this(null) { }
+    public MaterialView(Func<TextBlock, string, FrameworkElement>? wikiLabel)
+    {
+        this.wikiLabel = wikiLabel;
+        // Inside ANTHEA the application styles apply: the same values, plus the dark appearances.
+        if (Application.Current?.TryFindResource(typeof(DataGrid)) is null)
+            Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/ANTHEA;component/Wpf/Materials/Styles.xaml") });
+        var root=new DockPanel { Background=Brush("#F3F5F8") };
+        var footer=new Border { Padding=new Thickness(24,8,24,8),Background=Brushes.White,Child=status };
+        DockPanel.SetDock(footer,Dock.Bottom); root.Children.Add(footer);
+        choice.ItemsSource=Classes.Select(x=>x.Name).ToArray();
+        choice.SelectionChanged+=(_,_)=>Refresh();
+        var input=Field("Classe del calcestruzzo",choice);
+        choice.HorizontalAlignment=HorizontalAlignment.Stretch;
+        var intro=Stack(Text("Calcestruzzo",28,true),Text("Proprietà meccaniche del materiale",14));
+        intro.Margin=new Thickness(0,0,0,18);
+        foreach(var (header,path,width) in new[]{("Proprietà","Nome",2.6),("Simbolo","Simbolo",1.0),("Valore","Valore",1.1),("Unità","Unita",.7)})
+            table.Columns.Add(new DataGridTextColumn { Header=header,Binding=new Binding(path),Width=new DataGridLength(width,DataGridLengthUnitType.Star),MinWidth=38 });
+        var note=Text("Proprietà derivate dal materiale EN1992 della libreria Checker già utilizzata da ANTHEA. Deformazioni riferite al diagramma parabola-rettangolo. Resistenze e deformazioni di compressione mostrate in valore assoluto.",12);
+        note.Foreground=Muted;
+        var cellStyle=new Style(typeof(TextBlock));
+        cellStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty,TextWrapping.Wrap));
+        cellStyle.Setters.Add(new Setter(TextBlock.TextAlignmentProperty,TextAlignment.Center));
+        cellStyle.Setters.Add(new Setter(FrameworkElement.VerticalAlignmentProperty,VerticalAlignment.Center));
+        var headers=new Style(typeof(System.Windows.Controls.Primitives.DataGridColumnHeader), (Style)FindResource(typeof(System.Windows.Controls.Primitives.DataGridColumnHeader)));
+        headers.Setters.Add(new Setter(Control.HorizontalContentAlignmentProperty,HorizontalAlignment.Center));
+        table.ColumnHeaderStyle=headers;
+        cellStyle.Setters.Add(new Setter(FrameworkElement.MarginProperty,new Thickness(3,4,3,4)));
+        foreach(DataGridTextColumn column in table.Columns) column.ElementStyle=cellStyle;
+        var properties=Stack(Paper(input),Paper(table),new Expander { Header="Riferimenti delle proprietà", Content=note });
+        var body=BuildDetails(properties);
+        properties.Children.Insert(2,BuildBond());
+        var outer=new ScrollViewer { Content=body, HorizontalScrollBarVisibility=ScrollBarVisibility.Auto, VerticalScrollBarVisibility=ScrollBarVisibility.Disabled };
+        outer.SizeChanged+=(_,_)=>ResizeColumns(outer.ActualWidth-20);
+        ResizeColumns(1140);
+        root.Children.Add(outer);
+        
+        Content=root; choice.SelectedItem="C30/37"; AttachStateEvents();
+    }
+    void ResizeColumns(double available)
+    {
+        sections.Width=Math.Max(1140,available);
+        foreach(var col in sections.ColumnDefinitions) col.Width=new GridLength(sections.Width/3);
+        table.Width=sections.Width/3-62; FitTable();
+    }
+    void FitTable()
+    {
+        var available=Math.Max(290,table.Width-4);
+        double[] fractions=[.45,.18,.23,.14];
+        for(int i=0;i<4;i++) table.Columns[i].Width=new DataGridLength(available*fractions[i]);
+    }
+    void AddCard(int column,string label,TextBlock value,string unit)
+    {
+        var card=Paper(Stack(Text(label,12),value,Text(unit,12)));
+        card.Margin=new Thickness(column==0?0:7,0,column==2?0:7,14);
+        Grid.SetColumn(card,column); cards.Children.Add(card);
+    }
+    MaterialSheetPresentation? presentation;
+    void Refresh() { if(choice.SelectedIndex>=0)RefreshDetails(); }
+}

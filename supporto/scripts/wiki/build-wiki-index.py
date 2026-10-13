@@ -6,7 +6,7 @@ from pathlib import Path
 import re, json, unicodedata, sys, hashlib, shutil
 from validate_wiki import validate
 ROOT = Path(__file__).resolve().parents[3]
-OUT = ROOT / 'X.Desktop/Wiki'
+OUT = ROOT/'src/ANTHEA.Wiki/Content'
 def normalize(s):
     s=s.lower()
     for symbol,name in {'σ':'sigma','τ':'tau','π':'pi','λ':'lambda','γ':'gamma','κ':'kappa','θ':'theta','δ':'delta','ρ':'rho'}.items(): s=s.replace(symbol,name)
@@ -85,8 +85,8 @@ for name,obj in [('index.json',articles),('search.json',postings),('areas.json',
     if '--check' in sys.argv: assert path.read_text(encoding='utf-8')==text,f'Indice obsoleto: {path}'
     else: path.write_text(text,encoding='utf-8',newline='\r\n')
 tracked=['editorial.json','chapters.json','references.json','glossary.json','aliases.json','index.json','search.json','assets.json','areas.json']
-tracked+=['../Assets/Wiki/'+name for name in sorted(set(assets.values()))]
-props='<Project><ItemGroup>'+''.join(f'<WikiSource Include="$(MSBuildThisFileDirectory)../../supporto/docs/guida-{kind}-anthea.md"><ExpectedHash>{value}</ExpectedHash></WikiSource>' for kind,value in hashes.items())+''.join(f'<WikiSource Include="$(MSBuildThisFileDirectory){name}"><ExpectedHash>{hashlib.sha256((OUT/name).read_bytes()).hexdigest().upper()}</ExpectedHash></WikiSource>' for name in tracked)+'</ItemGroup></Project>\n'
+tracked+=['../../../X.Desktop/Assets/Wiki/'+name for name in sorted(set(assets.values()))]
+props='<Project><ItemGroup>'+''.join(f'<WikiSource Include="$(MSBuildThisFileDirectory)../../../supporto/docs/guida-{kind}-anthea.md"><ExpectedHash>{value}</ExpectedHash></WikiSource>' for kind,value in hashes.items())+''.join(f'<WikiSource Include="$(MSBuildThisFileDirectory){name}"><ExpectedHash>{hashlib.sha256((OUT/name).read_bytes()).hexdigest().upper()}</ExpectedHash></WikiSource>' for name in tracked)+'</ItemGroup></Project>\n'
 if '--check' in sys.argv: assert (OUT/'sources.props').read_text(encoding='utf-8')==props,'Hash sorgenti obsoleti'
 else: (OUT/'sources.props').write_text(props,encoding='utf-8',newline='\r\n')
 print(f'{len(articles)} capitoli, {len(postings)} termini indicizzati')

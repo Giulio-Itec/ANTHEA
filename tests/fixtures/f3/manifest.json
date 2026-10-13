@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "source_commit": "bce1e33713765e04ae576ed675b568801c8b4405",
+  "release": "V",
+  "library_manifest_sha256": "64dedf03c1df331cfaca79d044ed04c0975bccec0b53d23eac3f02d55adb14e0",
+  "inputs": 36,
+  "expected_files": 458,
+  "captures": [
+    "20261013-011723-f3-baseline-d",
+    "20261013-011837-f3-baseline-e"
+  ],
+  "comparison": "458 file, 0 differenze non ammesse; unico volatile tempi_ms già censito",
+  "files": {
+    "inputs/geo_efficienza_orizzontale--default.json": "5a6b62717777df539758b4ac61d5045b783481b195dc2e4b0b806de302fd4ee1",
+    "inputs/geo_efficienza_orizzontale--legacy-pile-group.json": "231ae9ff6a97f9e112b612fa02361ff0bec968ca6a6698fc494ce5300ca15794",
+    "inputs/geo_fondazioni_superficiali--confirmed-actions.json": "3dedc9d11bb4aa6446bbae32ea101cb28850a06699bab7de4ba03c3abf1a33c0",
+    "inputs/geo_fondazioni_superficiali--default.json": "048cb3316cd0e9084efe0ef827781a155ef3d118d6f0a7b93ad38b7839a65fbd",
+    "inputs/geo_fondazioni_superficiali--legacy-soil-profile.json": "a23bafe1ef2f3ceb9a785e5206c4083bd272a30db9e9de56c17a1898f6bf8351",
+    "inputs/geo_micropalo_orizzontale--default-elastico.json": "7f0d39e9f98f6b6bcfea4ae680a7f87937becf24f57534e4cfbea21cee09a9f9",
+    "inputs/geo_micropalo_orizzontale--default.json": "fc10d3210d1872c63933f6ccb4ff473cf8e52288482f8180fdde20ecdc7ef7e0",
+    "inputs/geo_micropalo_orizzontale--legacy-elastic-pending.json": "c68c921f32d82c02fb9a114f7263958429b168b4ea3e8ae8d01f90a7156a61a8",
+    "inputs/geo_micropalo_orizzontale--single-soil-elastic.json": "1258bb4a3b4568f871fa5dc7994b03fae4f78b2b41c4adc9546f479acb7103e4",
+    "inputs/geo_micropalo_orizzontale--single-soil-layer.json": "994f052222e18f73e76b1a1335430a8d1c90a181a7d4f461daac9f647af93256",
+    "inputs/geo_micropalo_verticale--default.json": "9c72decba64015f0908a8265a3a89a3ad9e744471a2534f45acf536f7f46341d",
+    "inputs/geo_micropalo_verticale--legacy-peso-lineare.json": "21e985b920cd0a9de5acc889d89d0d2e1dd55b5608e7aaf38cfca047641a1c43",
+    "inputs/geo_micropalo_verticale--regressione-micropalo_igu_0_nessuna-riduzione.json": "90865081a5bc65f35debc52df7c7df8841fdb2b28d22a8676de9246888868b22",
+    "inputs/geo_muri_sostegno--default.json": "42d89976a2219728eba18ebbba2438923d4d474ad9e7337a5e1406487c312945",
+    "inputs/geo_muri_sostegno--example-cantilever.json": "7b5cde15421bcda4208961d042a9d87945228822bf56b3b924af9d5ab7d3f7f4",
+    "inputs/geo_muri_sostegno--example-gravity.json": "8b15ff420656c29b57273d6641b14bd453a7447e454c9e44c2c292da5007a621",
+    "inputs/geo_muri_sostegno--legacy-global-defaults.json": "b39adc29de54ea9eeda0143209840169cb5982a9d15d3b0208b1ff309687b2f8",
+    "inputs/geo_palo_orizzontale--default-elastico.json": "2c445147aea483ca5af6afdf0f5f6972397d5d5a1c6d7ff9c4e34f1416cc49b8",
+    "inputs/geo_palo_orizzontale--default.json": "cc9604800f137597bbbf1b1b95c7c8358234fd4f53a37fa5a9edeada6e0ebc1d",
+    "inputs/geo_palo_orizzontale--legacy-elastic-pending.json": "51fd5a93548198adb1a0ee614432ac7bf933072469de40a21203ed10ea55634e",
+    "inputs/geo_palo_orizzontale--single-soil-elastic.json": "d628c076c6c63c7bab18a5b202fe8eac3700dcbeb0c0f0759013fde78b48182a",
+    "inputs/geo_palo_orizzontale--single-soil-layer.json": "fcceabb5277cd694f2a577adc70597e22e2ab57ab1b2fab848a1626c4efd7e25",
+    "inputs/geo_palo_verticale--default.json": "9ab3b8aad76f1c8982d539159cec17762a147f7d464db865b5313e802d389223",
+    "inputs/geo_palo_verticale--legacy-nq-gamma.json": "368c849f913df8ab3744763f8560e7485b8183b6110c3560eab9db406fe96565",
+    "inputs/geo_palo_verticale--regressione-palo_storico_0.json": "f2a5af29367a2810329892bfa0564b88f6573e1a27527b39068b2d4d632b2301",
+    "inputs/mat_acciaio_armatura--default.json": "fcebe0fabc0217db1af677e0c6ee50d12fa7bec89a628046d1862169449ed600",
+    "inputs/mat_calcestruzzo--default.json": "d32cce8d611473cd28e0bb2314efc96637bbd8aac2970df537c567b45c7ecf71",
+    "inputs/mat_calcestruzzo--legacy-esposizioni.json": "3638721c5a304b63c10828faca2b195da6788e77e8e83cf4b950229399db976d",
+    "inputs/str_bridge_design--default.json": "d60427925c2b7f57cd5ff5dd8bb53fcf0aab9273e142c20ff6ae1e68771b4833",
+    "inputs/str_bridge_design--legacy-advanced-defaults.json": "76185f1da103da24cf0f953e0d3aea4112240cae5401ed5d019c1184eb5cc8a2",
+    "inputs/str_mista_ponte--default.json": "0472104e70323b91f1ff4282b1212b83dde85d22f529ce29fde1b8cec1e9bfe2",
+    "inputs/str_mista_ponte--legacy-web-and-accessories.json": "5017f7d1757a886dd9f2dba9309ae82973e8946ad8c949ab198a961002ac3d67",
+    "inputs/str_palo--corpus-sezione-ca-taglio-din-rettangolare.json": "0336af6a0e65f7369f1f5a5be590a95a4d908f13bf81ebdb20fedd49ffa162bf",
+    "inputs/str_palo--default.json": "68b5bfd77984f0e516340ce47b84f2a48ffbb3f7773af1e53abd4fdcb2763ad2",
+    "inputs/str_palo--legacy-calculation-settings.json": "280f7afd8d662f070054d3cdf7a84d24560963c1504b6fe0f99cdab7ee354332",
+    "inputs/str_palo--legacy-workspace-segni.json": "f1b95f8323e3bccf729fd1225af4fde4810378871e7d3c01319986df4201e3d7"
+  },
+  "editorial_updates": [
+    {
+      "revision": 40,
+      "record": "F3-06",
+      "capture": "supporto/artefatti/ci/20261013-051212-f3-rev40-editorial-capture/ui_f3-equivalence/cattura",
+      "reason": "Aggiornamento intenzionale delle guide e della ricerca Wiki; nessun atteso ingegneristico modificato.",
+      "files": [
+        {
+          "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.md",
+          "before_sha256": "300dd8b7bc322856abcac9b72f8ba78284a42683486b341dd21385c307acfa74",
+          "after_sha256": "12c57e27dec4cb7b1f354637176a28a8847beaca2d77e192dde26320214384a3"
+        },
+        {
+          "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.txt",
+          "before_sha256": "65c0441ac76bafcdcd688fec1c22b8a06c3702a5d099cd0fe03f7d7622d1aab3",
+          "after_sha256": "d7702da98141d11bea7d8e41bab2d87d03c4b379b976a88464bf8c6bbad9754f"
+        },
+        {
+          "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+          "before_sha256": "748aa55974673bb6874a1370b9d96e5e60d67c9732d03dde6daf499327559410",
+          "after_sha256": "766c587a1670a4d69ad7c8079d87f521288017bc15d15a80180440d60dbf5db5"
+        },
+        {
+          "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+          "before_sha256": "17cadc0361beb5b498a98562d8539ed8842510a107b2b544bfe133d22d3f19cb",
+          "after_sha256": "ee467ae2b7ed1c55008d1d090dcdd1602f0a7176befe0abf1db2d75567518e7c"
+        },
+        {
+          "file": "wiki/search.json",
+          "before_sha256": "04d6e8b8d962bb5147f496cd2031675fa71b66e9bf72312d5825181f2a90b79d",
+          "after_sha256": "58026d2de9a032d0438b709711f88ae492cd6374064ddce2d230ea3c8c8104ef"
+        }
+      ]
+    }
+  ]
+}

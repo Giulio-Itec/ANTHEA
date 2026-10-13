@@ -1,0 +1,53 @@
+{
+  "module": "geo_palo_verticale",
+  "id": "regressione-palo_storico_0",
+  "origin": "caso della regressione (casi_confronto.json, tipo palo)",
+  "source": "supporto/test/casi_confronto.json",
+  "data": {
+    "generali": {
+      "diametro": "1",
+      "lunghezza": "12.3",
+      "presenza_falda": false,
+      "profondita_falda": "3.2",
+      "considera_sottospinta": true,
+      "azione_compressione": "500",
+      "azione_trazione": "100",
+      "verticali_indagate": "2"
+    },
+    "efficienza": {
+      "metodo": "Nessuna riduzione",
+      "numero_pali_x": "3",
+      "numero_pali_y": "2",
+      "interasse_x": "3",
+      "interasse_y": "3",
+      "eta_compressione": "0.8",
+      "eta_trazione": "0.9"
+    },
+    "stratigrafie": [
+      [
+        {
+          "tipologia": "Granulare",
+          "addensamento": "Denso",
+          "spessore": "6",
+          "peso_specifico": "19",
+          "peso_specifico_saturo": "21",
+          "angolo_attrito": "31",
+          "coesione_efficace": "2",
+          "coesione_non_drenata": "50",
+          "nc": "9"
+        },
+        {
+          "tipologia": "Granulare",
+          "addensamento": "Sciolto",
+          "spessore": "10",
+          "peso_specifico": "20",
+          "peso_specifico_saturo": "22",
+          "angolo_attrito": "35",
+          "coesione_efficace": "0",
+          "coesione_non_drenata": "0",
+          "nc": "9"
+        }
+      ]
+    ]
+  }
+}

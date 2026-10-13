@@ -1,0 +1,25 @@
+## Fasi costruttive e percorso dei carichi
+
+La struttura durante il montaggio può lavorare in modo diverso dalla struttura completata. Un puntello, un getto successivo o la collaborazione di una soletta modificano i vincoli e le rigidezze disponibili quando il carico viene applicato. Per questo l'ordine delle fasi fa parte del modello, non soltanto del programma dei lavori.
+
+### Carichi e sezioni attive
+
+In una trave composta, il peso del calcestruzzo fresco può essere portato dall'acciaio prima che la soletta collabori. I carichi successivi agiscono su una sezione diversa. Sommare tutti i carichi e applicarli direttamente alla sezione finale può sottostimare tensioni accumulate nella parte inizialmente resistente.
+
+Dichiara per ciascuna fase elementi attivi, vincoli, materiali, carichi introdotti e carichi rimossi. Il disarmo e la rimozione di un appoggio provvisorio producono ridistribuzioni. La deformazione già maturata non è necessariamente cancellata dalla modifica del sistema.
+
+### Fenomeni differiti
+
+Ritiro e viscosità dipendono dal tempo e dalla storia di carico; nella sezione composta possono produrre tensioni interne anche senza aumentare la risultante esterna. Un coefficiente di omogeneizzazione unico non descrive automaticamente tutte le fasi. Controlla età, durata e metodo previsto dal modulo.
+
+### Controlli e riepilogo
+
+> REGOLA PRATICA
+> Scrivi una tabella delle fasi prima di compilare il modello. Per ogni carico identifica la sezione che lo porta al momento dell'applicazione e il percorso fino agli appoggi disponibili.
+
+Il modulo Sezione composta da ponte di Anthea documenta l'analisi per fasi nella guida globale. I dettagli costruttivi, i vincoli provvisori e le verifiche del montaggio richiedono comunque i dati del progetto reale. Una verifica favorevole della configurazione finale non implica che ogni fase intermedia sia sicura.
+
+### Riferimento e campo
+
+La trattazione SCI sulla costruzione composta distingue la fase non puntellata, in cui l’acciaio sostiene il calcestruzzo fresco, dalla fase composta. È un riferimento sul modello; non sostituisce le norme applicabili al ponte né verifica puntelli, stabilità laterale o procedure di montaggio del progetto concreto.
+

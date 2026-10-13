@@ -19,6 +19,12 @@ try
 {
     switch (args[0])
     {
+        case "fixtures-f3":
+        {
+            if (positional.Count != 1) return Usage();
+            F3Fixtures.Write(named.TryGetValue("root", out var root) ? Path.GetFullPath(root) : FindRoot(), Path.GetFullPath(positional[0]));
+            return 0;
+        }
         case "capture":
         {
             if (positional.Count != 1) return Usage();
@@ -91,6 +97,7 @@ static int Usage()
         ANTHEA.Testing capture <out> [--root <repo>] [--tag <nome>] [--commit <sha>] [--only <regex modulo/caso>] [--no-trace] [--culture it-IT] [--motore-sle legacy|libreria]
         ANTHEA.Testing compare <a> <b> [--tolerances <file>] [--report <file.json>] [--max <n>]
         ANTHEA.Testing compare-dense <riferimento> <candidato> --confronto <nome> [--classificazione <file>] [--tolerances <file>] [--report <file.json>] [--max <n>]
+        ANTHEA.Testing fixtures-f3 <out> [--root <repo>]   (crea solo input, mai attesi)
         ANTHEA.Testing normalize <in> <out>
         """);
     return 2;

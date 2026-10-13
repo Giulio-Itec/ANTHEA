@@ -1,0 +1,295 @@
+text: Il modello costruisce e confronta alternative parametriche. La graduatoria riguarda soltanto le combinazioni ammesse ed esplorate: non dimostra la sicurezza del ponte né l’ottimo fra tutte le soluzioni realizzabili.
+text: ambito-del-motore-e-significato-di-ottimizzazione
+text: Bridge Design usa il motore parametrico BridgeConcept di ANTHEA. I moduli Sezione in c.a. e Sezione composta da ponte impiegano invece le librerie indicate nell’interfaccia come GPC Engine. L’ottimizzazione di Bridge Design non richiama automaticamente quelle verifiche di sezione. La presenza delle librerie GPC non trasforma il predimensionamento in una verifica strutturale completa.
+text: L’ottimizzatore è una ricerca discreta deterministica: genera combinazioni, calcola ciascuna, applica filtri e ordina quelle rimaste. Non usa apprendimento automatico, un algoritmo genetico o una ricerca continua per gradiente. A parità di dati, opzioni e versione del motore produce gli stessi risultati. Non promette di trovare una soluzione compresa fra due valori della griglia o appartenente a una tipologia non modellata.
+text: La soluzione ammissibile è una soluzione che supera i filtri interni elencati nel seguito. Il termine non equivale a verificata secondo NTC, Eurocodici o AASHTO. Nel modello non esiste un filtro generale che confronti il momento flettente con la resistenza dell’impalcato, né un limite automatico di freccia per tutte le tipologie. Una graduatoria economica può quindi favorire una sezione che richiederà un aumento di materiale nel progetto strutturale.
+text: dati-esterni-e-loro-ingresso-nel-calcolo
+text: I dati esterni entrano attraverso i campi del progetto e il listino. Durante la ricerca non vengono interrogati servizi esterni, come prezzari, servizi geologici o banche dati di ponti. I valori iniziali sono contenuti nel codice e restano modificabili; un archivio riaperto conserva i propri prezzi e coefficienti. L’utente deve aggiornare consapevolmente le ipotesi quando cambia sito, anno economico, fornitore o prestazione richiesta.
+text: Dato
+text: Origine prevista
+text: Effetto nel modello
+text: Lunghezza quota e larghezza
+text: Rilievo e requisiti funzionali
+text: Geometria campate volumi e carichi
+text: Ostacolo e sua larghezza
+text: Vincoli del sito
+text: Spostamento o esclusione degli appoggi interferenti
+text: Classe del terreno e resistenze
+text: Valori convenzionali oppure studio geotecnico
+text: Fondazione automatica e soglie assiali
+text: Carichi equivalenti e moltiplicatori
+text: Ipotesi dell’utente
+text: Sollecitazioni reazioni e dimensioni automatiche
+text: Prezzi unitari
+text: Prezzari e preventivi
+text: Costo a parità di quantità
+text: Fattori ambientali
+text: Convenzioni oppure EPD coerenti
+text: Indicatore parziale di CO₂
+text: Per dati geotecnici reali non basta scegliere la classe più simile al terreno. Pressione di riferimento, resistenza laterale e resistenza di punta devono essere coerenti con il tipo di fondazione, le profondità, la falda e il livello di cautela adottato. Il modello usa valori uniformi e non ricostruisce una stratigrafia. Non applica automaticamente i coefficienti geotecnici di una combinazione normativa: i valori di classe sono già trattati come riferimenti convenzionali ridotti, senza una tracciabilità normativa completa.
+text: I prezzari servono a verificare l’ordine di grandezza delle tariffe e le inclusioni delle lavorazioni. Non forniscono la geometria ottima.
+text: variabili-libere-e-grandezze-conservate
+text: Restano sempre costanti la lunghezza totale, la quota sul terreno, la composizione della larghezza, l’ostacolo, il terreno, le resistenze dei materiali, i carichi, i prezzi, i fattori ambientali e gli estremi su spalla o pila. I parametri delle strutture speciali, come freccia dell’arco, altezza antenna, freccia dei cavi e canalette, sono ereditati dal progetto: non sono assi autonomi della griglia.
+text: Si possono liberare tipologia, numero di campate, altezza, sezione standard, schema di pila, fondazione e continuità. La continuità è bloccata per impostazione iniziale. Liberare la sezione significa adottare i parametri standard della famiglia per i campi ordinari della sezione; non significa ottimizzare individualmente ogni spessore metallico o ogni interasse. I parametri avanzati rimangono quelli del progetto anche quando si libera la sezione.
+text: Bloccare la sezione richiede di bloccare la tipologia. Il programma congela le quote ordinarie adottate, inclusi soletta, interasse, anima e fondo ove pertinenti. Bloccare l’altezza congela quella in campata; per il cassone variabile l’altezza sulle pile continua a dipendere dalla luce. Bloccare il numero delle campate non introduce una scelta libera delle singole luci: queste seguono la distribuzione prevista dal modello e l’eventuale ostacolo.
+text: Il blocco di pile e fondazioni conserva le quote manuali. Le quote lasciate a zero rimangono regole automatiche e possono cambiare se cambiano le reazioni. Il blocco della fondazione conserva il tipo effettivamente adottato e la lunghezza dei pali; numero dei pali e dimensione del plinto restano automatici se lo erano all’origine. Questo comportamento va distinto dal congelamento di un intero progetto esecutivo delle fondazioni.
+text: costruzione-della-griglia-di-ricerca
+text: Il numero di campate esplorabile va da 1 a 30, entro minimo e massimo impostati. Per ciascuna famiglia si fa un primo controllo sulla luce media L/n; successivamente vengono controllate le luci effettive, che possono essere diverse dalla media. Strallato e sospeso usano soltanto tre campate, con luce centrale pari a metà della lunghezza totale. La griglia completa preliminare non può superare 50.000 tentativi.
+text: Le griglie percentuali dell’altezza e della lunghezza dei pali ammettono valori da 100% a 200%, con passo da 1 a 100 punti percentuali e al massimo 11 valori per griglia. L’estremo superiore è incluso anche quando il passo non divide l’intervallo: 100–115 con passo 10 genera 100, 110 e 115%. Il riferimento dell’altezza è il predimensionamento della singola combinazione; quello dei pali è la lunghezza convenzionale della classe del terreno.
+text: L’impostazione iniziale esplora altezze 100 e 115%, pali 100, 125 e 150%, campate da 1 a 12. Per i pali la lunghezza generata non supera 80 m. Le fondazioni libere sono plinto diretto, pali da 1,0 m e pali da 1,5 m; la voce Automatica viene risolta e non costituisce un quarto tipo da classificare.
+text: Le altezze aumentate vengono arrotondate verso l’alto a passi di 0,05 m; il valore al 100% conserva la quota automatica non arrotondata. La tolleranza numerica evita che una quota teorica esatta sul passo venga aumentata per il solo rumore di rappresentazione.
+text: La configurazione corrente viene aggiunta come riferimento prima della griglia, anche se fuori dagli intervalli percentuali. Deve comunque soddisfare i filtri, compresi i limiti assoluti di campate e altezza. Il numero di tentativi previsto è un limite superiore: salti di combinazioni incompatibili e rimozione di duplicati possono ridurlo. I tentativi ammessi possono essere più delle geometrie distinte, perché la stessa geometria può essere rappresentata con quote automatiche o esplicite.
+text: geometria-longitudinale-e-larghezza
+text: Indicando con nc il numero delle corsie, bc la larghezza della corsia, b la banchina per lato, m lo spartitraffico e bb l’ingombro della barriera per lato, la larghezza complessiva W è:
+formula: W = n_c\cdot b_c+2b+m+2b_b
+text: Copia LaTeX
+text: Per le famiglie ordinarie, n campate semplicemente appoggiate sono uguali. Se l’impalcato è continuo e n è maggiore di 2, le due campate terminali hanno peso 0,8 e le interne peso 1. La lunghezza di ciascuna campata è la lunghezza totale moltiplicata per il proprio peso e divisa per la somma dei pesi. I ponti con antenne adottano invece L/4, L/2, L/4. Arco con catena e reticolare hanno campate indipendenti.
+text: L’ostacolo è centrato sulla lunghezza del ponte e viene ampliato di 1 m per lato. Il programma prova a spostare gli appoggi interni ai bordi di questa fascia, senza creare campate inferiori a 2 m. Se non può farlo, conserva o segnala la disposizione incompatibile e la ricerca la esclude. Non vengono letti un tracciato planimetrico, una curva d’alveo, il franco idraulico o l’erosione. Il margine di 1 m è geometrico e non costituisce un franco di progetto.
+text: regole-di-altezza-per-le-quattordici-famiglie
+text: Per le famiglie senza struttura superiore l’altezza automatica d è il maggiore fra un minimo e Lmax/r moltiplicato per 0,95 in continuità o 1,10 con campate indipendenti. Per arco, reticolare, strallato e sospeso il moltiplicatore è 1. Per strallato e sospeso Lmax indica la luce centrale. Sono regole convenzionali interne, non risultati di una verifica resistente né rapporti prescritti universalmente dalle norme.
+formula: d = \max\left(d_{\min};\frac{k L_{\max}}{r}\right)
+text: Copia LaTeX
+text: Tipologia
+text: Campo luce m
+text: Rapporto r
+text: Minimo d m
+text: Soletta piena in c.a.
+text: 6–15
+text: 18
+text: 0,35
+text: Travi a T in c.a.
+text: 12–30
+text: 17
+text: 0,70
+text: Travi a I in c.a.p.
+text: 20–50
+text: 22,22
+text: 1,00
+text: Travi a U in c.a.p.
+text: 25–50
+text: 22,22
+text: 1,10
+text: Cassone in c.a.p.
+text: 35–80
+text: 22,22
+text: 1,30
+text: Cassone a conci variabile
+text: 80–200
+text: 45
+text: 2,00
+text: Travi a I acciaio cls
+text: 30–90
+text: 25
+text: 1,00
+text: Cassone acciaio cls
+text: 40–150
+text: 25
+text: 1,20
+text: Travi incorporate
+text: 8–40
+text: 28
+text: 0,45
+text: Piastra ortotropa
+text: 40–200
+text: 30
+text: 1,20
+text: Arco con catena
+text: 40–250
+text: 120
+text: 0,80
+text: Strallato
+text: 100–700 centrale
+text: 150
+text: 1,00
+text: Sospeso
+text: 200–1200 centrale
+text: 200
+text: 1,20
+text: Reticolare
+text: 30–150
+text: 100
+text: 0,70
+text: Nel cassone variabile l’altezza sulle pile vale max(d; Lmax/18). Quantità e inerzia sono calcolate con altezza equivalente deq = d + (dpila − d)/3. Il motore non integra una legge reale di variazione lungo l’asse e non simula la costruzione a sbalzo. Il limite massimo di altezza nell’ottimizzazione si applica anche a dpila, cioè all’altezza dell’impalcato in corrispondenza delle pile, non all’altezza del fusto sul terreno.
+text: sezioni-ideali-quantita-e-inerzie
+text: Il calcolo usa metri per le dimensioni generali, m² per le aree, m³ per i volumi, m⁴ per le inerzie e tonnellate per gli acciai. Gli spessori metallici inseriti in mm sono divisi per 1.000. Il numero ordinario di travi è max(2; parte intera di W/interasse); soletta e cassone in c.a.p. hanno un elemento longitudinale equivalente, mentre i cassoni metallici usano il numero impostato o una regola sulla larghezza.
+text: La soletta piena ha area Wd. Le travi a T sommano soletta e anime rettangolari. Le travi a I in c.a.p. sono profili ideali: piattabande di spessore min(0,18; h/4), larghezza min(0,70; 0,70W/ng), anima min(0,20; bf/2) e rialzo configurabile. Non sono sezioni di catalogo del produttore. Il cassone in c.a.p. somma soletta, fondo di larghezza W per il rapporto impostato e numero di anime pari al numero delle celle più uno.
+text: Per una trave metallica a I, tf e tw sono gli spessori di piattabanda e anima, bf è la larghezza delle piattabande e h l’altezza sotto soletta. L’area per trave è:
+formula: A_a = 2b_f t_f+t_w(h-2t_f)
+text: Copia LaTeX
+text: Per il cassone metallico ordinario il fondo per cassone vale 0,40W/ng; le due piattabande superiori e le due anime sono conteggiate separatamente. Se s è il parametro H per 4V, lo scarto orizzontale di ogni anima è hw × s/4. Lo sviluppo reale dell’anima inclinata è:
+formula: \ell_w = \sqrt{h_w^2+(h_w s/4)^2}
+text: Copia LaTeX
+text: L’area delle anime è 2ng tw lw. L’inerzia verticale locale delle anime sottili usa A hw²/12: lo sviluppo reale determina l’area, mentre la proiezione verticale determina la distribuzione delle quote. Il medesimo criterio è usato per le anime delle U, con scarto orizzontale pari a metà della differenza fra larghezza superiore e inferiore. Non si aggiunge l’inerzia microscopica nello spessore della parete: resta una schematizzazione a parete sottile.
+text: Il calcestruzzo usa Ec = 22.000((fc + 8)/10)^0,3 MPa, senza viscosità. L’acciaio usa Es = 200.000 MPa. Il baricentro e l’inerzia sono omogeneizzati a calcestruzzo, con rapporto nj = Ej/Ec. Per ogni componente si somma l’inerzia locale e il termine di trasporto. La rigidezza per l’analisi longitudinale è Ec × 1.000 × I, in kN m².
+formula: y_G = \frac{\sum_j n_j A_j y_j}{\sum_j n_j A_j}
+formula: I_{eq} = \sum_j n_j\left[I_j+A_j(y_j-y_G)^2\right]
+text: Copia LaTeX
+text: Per le travi incorporate, Ac = Wd − Aa: il volume d’acciaio sostituisce calcestruzzo. L’inerzia usa il rettangolo lordo in cls più l’apporto dell’acciaio con coefficiente Es/Ec − 1, evitando di conteggiare due volte la stessa area. Si assume collaborazione perfetta; adesione, fasi di getto e verifiche dei profili non sono risolte.
+text: La piastra ortotropa somma lamiera superiore, canalette, fondi e due anime verticali per cassone. La lunghezza dei lati inclinati delle canalette è calcolata geometricamente. Il numero delle canalette deriva dalla parte intera di W/interasse e il prospetto espone l’interasse adottato W/n. La massa riceve un’aggiunta per traversi e accessori, ma il modello non esegue una verifica locale ortotropa o delle saldature. Il manuale FHWA [R3] documenta la necessità di trattare distintamente flessione locale, distorsione e fatica; citarlo non significa che queste verifiche siano implementate.
+text: acciai-e-carichi-equivalenti
+text: Il volume di calcestruzzo dell’impalcato è l’area della sezione per la lunghezza. La massa di carpenteria è 7,85 t/m³ per il volume geometrico, maggiorata del 15% per traversi, irrigidimenti e connessioni; nelle travi incorporate l’aggiunta è 5%. Questa maggiorazione entra in massa, costo e peso proprio, ma non nell’inerzia flessionale.
+text: Le armature sono stimate per incidenza: 140 kg/m³ per impalcati in c.a., 110 per c.a.p., 120 per soletta mista e famiglie estese; 150 per sottostrutture e 120 per fondazioni. La precompressione vale inizialmente 30 kg/m³ di impalcato precompresso. I parametri editabili sono riportati nell’interfaccia; l’incidenza 120 delle solette miste è una convenzione del motore. Non vengono ricavati numero, tracciato, tesatura o perdite dei cavi di precompressione.
+text: Indicando con ma la massa totale di carpenteria dell’impalcato in t, con g2 il carico permanente portato in kN/m² e con nb il numero convenzionale di barriere, i carichi sull’intera larghezza sono:
+formula: G = 25A_c+\frac{9{,}81m_a}{L}+g_2 W+8n_b
+formula: Q = q_{traffico}\cdot W
+formula: q_s = G+Q
+formula: q_d = \gamma_G G+\gamma_Q Q
+text: Copia LaTeX
+text: I valori iniziali sono g2 = 2,5 kN/m², qtraffico = 9 kN/m², γG = 1,35 e γQ = 1,50. nb vale 2, oppure 3 in presenza di spartitraffico. Il traffico è uniforme e contemporaneo su tutte le campate: non è un inviluppo di assi mobili né un modello di corsie caricate alternativamente. L’impalcato è rappresentato come un’unica trave equivalente per tutta la larghezza.
+text: analisi-della-trave-equivalente
+text: Per le famiglie senza struttura superiore, ANTHEA risolve una trave di Euler Bernoulli con EI costante, appoggi verticali e rotazioni libere alle estremità. Nella continuità i momenti sugli appoggi interni sono ottenuti con il teorema dei tre momenti. Per due campate adiacenti a e b, con momenti Ml, Mi e Mr e carico uniforme q:
+formula: M_l a+2M_i(a+b)+M_r b = -\frac{q(a^3+b^3)}{4}
+text: Copia LaTeX
+text: Una volta noti i momenti agli estremi della campata di lunghezza l, la reazione locale sinistra, il taglio e il momento sono:
+formula: R_l = \frac{ql}{2}+\frac{M_r-M_l}{l}
+formula: V(x) = R_l-qx
+formula: M(x) = M_l+R_l x-\frac{qx^2}{2}
+text: Copia LaTeX
+text: La freccia è ricavata integrando M/EI due volte e imponendo spostamento nullo ai due appoggi. Il motore campiona 41 punti per campata e aggiunge il punto di taglio nullo per individuare l’estremo del momento. L’estremo della freccia resta campionato: il valore visualizzato non è sempre il massimo analitico esatto. I diagrammi delle azioni usano qd; la freccia indicativa e le reazioni usate nel dimensionamento ordinario delle fondazioni sono riferite a qs.
+text: Per una campata appoggiata valgono R = ql/2, Mmax = ql²/8 e vmax = 5ql⁴/(384EI). Per due campate uguali continue, il momento centrale è −ql²/8, la reazione esterna 3ql/8, quella centrale 5ql/4 e il massimo positivo 9ql²/128. Questi casi sono controllati direttamente dalla suite. La formulazione FEM adottata nella verifica indipendente è documentata da TU Delft [R4].
+text: Il modello trascura deformazione a taglio, fessurazione, viscosità, ritiro, effetti reali della precompressione, rigidezza variabile, cedimenti degli appoggi e fasi costruttive. La buona concordanza fra due solutori con queste ipotesi dimostra la corretta soluzione del problema ideale, non la validità delle ipotesi per qualsiasi ponte.
+text: pile-spalle-e-fondazioni
+text: La quota del terreno è schematica. Per una pila ordinaria l’altezza H è la quota dell’impalcato meno l’altezza della sezione sull’appoggio; per una spalla si usa min(7 m; quota meno altezza impalcato). Sono richiesti almeno 1 m di spazio verticale. Una pila a telaio ha max(2; arrotondamento superiore di W/7) colonne, una pila circolare o a martello ha un fusto, il setto ha lunghezza trasversale max(1; W − 2).
+text: Il pulvino ordinario vale W × 1,5 × 1,4 m³; la testa a martello W × 2 × 1,8 m³. La spalla ha volume convenzionale W[H max(0,6; H/7) + 3]. Il termine 3 è un’area equivalente in m² per metro di larghezza, non una misura completa di paraghiaia, muri d’ala e mensole. La spalla non è verificata per spinta del terreno o stabilità.
+text: Il dimensionamento automatico della pila ordinaria soddisfa una snellezza convenzionale non maggiore di 90 e una compressione media non maggiore di 0,30fc,sub. Considerando il peso proprio del fusto, l’area minima si ricava da:
+formula: A_{req} = \frac{\max(0;R+25V_{pulvino})}{300f_{c,sub}-25H}
+text: Copia LaTeX
+text: R è la reazione di servizio in kN e fc,sub è in MPa. Per colonne circolari il diametro è almeno max(1,2; 8H/90; √(4Areq/(πnc))) m; per il setto lo spessore è almeno max(1; 2H√12/90; Areq/max(1; W − 2)). La misura automatica è arrotondata verso l’alto a 0,05 m. La snellezza diagnostica è 2H/r, con r = D/4 per la colonna o t/√12 per il setto. La ricerca esclude valori maggiori di 100: la soglia 90 è un margine della regola automatica, 100 è la soglia di esclusione.
+text: Classe convenzionale
+text: Pressione kPa
+text: Attrito palo kPa
+text: Punta palo kPa
+text: Lunghezza palo m
+text: Roccia
+text: 1.000
+text: 150
+text: 8.000
+text: 10
+text: Sabbia o ghiaia densa
+text: 400
+text: 70
+text: 2.500
+text: 15
+text: Terreno medio
+text: 200
+text: 45
+text: 1.500
+text: 22
+text: Argilla soffice
+text: 100
+text: 25
+text: 500
+text: 30
+text: La fondazione Automatica delle otto famiglie ordinarie sceglie il plinto in roccia, oppure in terreno denso se la quota è inferiore a 15 m; negli altri casi sceglie pali da 1,0 m. Le sei famiglie estese usano plinto su roccia o terreno denso con quota inferiore a 25 m, altrimenti pali da 1,5 m. Sono convenzioni differenti del software: per confronti controllati conviene imporre esplicitamente il tipo di fondazione.
+text: Per un palo di diametro D e lunghezza Lp, la resistenza assiale di riferimento è:
+formula: R_{pal} = \pi D L_p q_{s,palo}+\frac{\pi D^2 q_b}{4}
+text: Copia LaTeX
+text: L’azione comprende reazione dell’impalcato, peso della sottostruttura e peso del plinto. Nel plinto diretto il rapporto indicativo è N/(B T p); su pali è N/(np Rpal). B e T sono i lati della fondazione, p la pressione di riferimento e np il numero dei pali. Il peso del plinto viene aggiornato durante il dimensionamento; non è trascurato nel numeratore.
+text: Per il plinto diretto si parte da una dimensione basata su √(N/(0,85p)), con minimo geometrico e arrotondamento a 0,25 m; lo spessore è max(0,60; B/6). La dimensione viene aumentata a passi di 0,25 m finché il rapporto è non maggiore di 1. Per i pali il numero automatico è pari e non inferiore a 4; aumenta di almeno due unità quando necessario. Il plinto su pali ha spessore 1,5D e deve contenere una griglia a interasse 3D con ingombro minimo [ceil(√np) − 1]3D + 2D. Il lato trasversale tiene conto anche della larghezza della sottostruttura.
+text: Il ciclo di fondazione ha un limite di 1.024 aggiornamenti e rifiuta casi non convergenti. Quote e numeri imposti dall’utente vengono rispettati, esponendo l’eventuale superamento del rapporto. Restano esclusi eccentricità, pressoflessione dei pali, carichi orizzontali, effetto di gruppo, cedimenti, attrito negativo, liquefazione e scalzamento. Il quadro delle verifiche reali è distinto da queste formule e va ricondotto alle norme applicabili [R5].
+text: archi-reticolari-stralli-e-sospensioni
+text: Le strutture superiori sono predimensionate con equilibri ideali e aree pari alla forza assiale divisa per una tensione di riferimento. I valori iniziali sono 180 MPa per elementi tesi di carpenteria, 100 MPa per archi e aste compresse, 600 MPa per cavi e 6 MPa per antenne in cls. Non sono resistenze di progetto derivanti da una verifica completa. La carpenteria superiore riceve un’aggiunta iniziale del 20% per collegamenti; cavi e pendini sono conteggiati a parte.
+formula: A = \max\left(0{,}00001;\frac{|N|}{\sigma_{rif}}\right)
+text: Copia LaTeX
+text: N e σrif devono essere in unità coerenti: nel codice σrif in MPa viene moltiplicata per 1.000 per ottenere kN/m². La massa superiore aumenta il peso proprio; il motore aggiorna massa e carico fino a variazione relativa non maggiore di 10⁻⁸, con massimo 80 iterazioni. Un mancato equilibrio del ciclo produce un rifiuto esplicito. Queste sono iterazioni interne di un singolo candidato, diverse dai tentativi dell’ottimizzazione.
+text: Nell’arco con catena, due archi parabolici hanno freccia f = rapporto impostato × luce. Ogni piano porta metà del carico totale. La componente orizzontale per arco è H = qd l²/(16f); la compressione adottata per l’intero arco è √[H² + (qd l/4)²], la catena porta H e ogni pendino porta qd Δx/2. Gli archi sono divisi in 80 segmenti per stimarne lo sviluppo. Si assume la forza massima lungo ciascun arco; instabilità e pressoflessione reale non sono calcolate.
+text: Nel reticolare l’altezza è il rapporto impostato per la luce. Due piani resistenti sono stimati con forza nei correnti qd l²/(16h). Le diagonali usano una forza convenzionale ottenuta dal massimo taglio e dall’inclinazione, applicata a tutti i pannelli. Questa regola dà quantità orientative e non risolve un reticolo con carichi mobili, nodi e controventi reali.
+text: Nello strallato lo schema è simmetrico, L/4–L/2–L/4, con due antenne. L’altezza sopra impalcato è quella imposta oppure max(10 m; 0,20 della luce centrale). Gli stralli a ventaglio sostengono le fasce di lunghezza Δx e, per ciascun piano, hanno forza T = qd Δx/(2 sin α). Il modello assegna a ciascuna antenna metà del carico verticale complessivo e reazioni verticali nulle alle spalle per il solo impalcato. Non risolve la rigidezza relativa impalcato stralli antenne né la tesatura.
+text: Nel sospeso la freccia del cavo principale è un rapporto della luce centrale; l’antenna deve superarla di almeno 2 m. Per ciascuno dei due cavi H = qd l²/(16f), T = √[H² + (qd l/4)²]. I cavi di riva sono anch’essi parabolici e i pendini sostengono anche le campate laterali. Il computo include i cavi di riva, non soltanto la campata centrale.
+text: Per le reazioni del sospeso, Htot è la componente orizzontale dei due cavi calcolata con il carico pertinente; indicando con a la campata di riva e ht l’altezza antenna sopra impalcato, la reazione all’estremo è qa/2 − Htot ht/a. Può risultare negativa. La stima dei due blocchi è Vanc = 2[max(0; −Restremo,d) + Htot,d/μ]/25, con μ iniziale 0,5. Si tratta di peso stabilizzante convenzionale: non comprende una verifica di ribaltamento, pressioni eccentriche o stabilità geotecnica dell’ancoraggio.
+text: Le antenne sono due fusti quadrati con traverso. La loro area tiene conto della reazione amplificata, del peso proprio amplificato e della tensione di riferimento; si applica anche una regola di snellezza. L’inerzia mostrata resta quella del solo impalcato. Per arco, reticolare, strallato e sospeso non vengono prodotti diagrammi globali di momento e freccia, perché richiederebbero un modello diverso. Non vanno sostituiti mentalmente con i diagrammi della trave ordinaria.
+text: computo-prezzi-e-indicatore-ambientale
+text: Il costo diretto è la somma delle quantità per i prezzi. Al risultato vengono applicati in successione oneri aggiuntivi e imprevisti. Con i valori iniziali 12% e 15%, il fattore complessivo è 1,288, non 1,27. L’intervallo iniziale ±30% è una fascia convenzionale scelta dall’utente, non un intervallo statistico di confidenza e non un vincolo dell’ottimizzazione.
+formula: C_{diretto} = \sum_j Q_j p_j
+formula: C_{totale} = C_{diretto}(1+oneri/100)(1+imprevisti/100)
+text: Copia LaTeX
+text: I valori correnti sono stati confrontati con ANAS NC MP 2026 Rev 1 [R1] e con Emilia Romagna 2026 [R2]. Le tariffe ANTHEA sono aggregate e arrotondate: si devono leggere inclusioni, esclusioni e unità. Il confronto non rende automatico l’adeguamento alla classe del calcestruzzo, all’esposizione, al varo o alla corsa degli appoggi.
+text: Voce ANTHEA
+text: Prezzo iniziale
+text: Natura del riferimento
+text: Cls impalcato
+text: 260 €/m³
+text: Confronto C45/55 ANAS
+text: Cls sottostrutture
+text: 240 €/m³
+text: Aggregato fondazioni ed elevazioni
+text: Armatura ordinaria
+text: 1.660 €/t
+text: ANAS 1,66 €/kg
+text: Precompressione
+text: 3.600 €/t
+text: Riserva di sistema con accessori
+text: Carpenteria ordinaria
+text: 3.500 €/t
+text: Base ANAS con varo ordinario
+text: Carpenteria cassoni
+text: 4.000 €/t
+text: Maggiorazione convenzionale
+text: Casseforme
+text: 50 €/m²
+text: Superfici equivalenti e prezzo medio
+text: Pali da 1,0 e 1,5 m
+text: 300 e 550 €/m
+text: Perforazione e cls armatura separata
+text: Appoggi
+text: 5.000 €/cad
+text: Indennità media non dimensionamento
+text: Giunti
+text: 2.400 €/m
+text: Corsa moderata da confermare
+text: Barriere
+text: 360 €/m
+text: Confronto bordo ponte H4
+text: Pavimentazione
+text: 32 €/m²
+text: Pacchetto convenzionale
+text: Carpenteria ortotropa
+text: 5.000 €/t
+text: Aggregato non singola voce ANAS
+text: Cavi e pendini
+text: 16.000 €/t
+text: Sistema installato da preventivare
+text: Montaggio speciale
+text: 1.000 €/t
+text: Aggiunta per complessità speciale
+text: Il cls dei pali è incluso nella tariffa al metro e non viene nuovamente addebitato a volume; il volume resta conteggiato per l’impronta ambientale e per l’armatura. Gli appoggi ANAS sono articolati per forza e movimento, mentre qui si usa un importo medio a dispositivo. Le casseforme sono equivalenti; scavi, rinterri, drenaggi, impermeabilizzazione, protezioni, accessi, centine alte e sicurezza specifica non sono computati analiticamente. Per la carpenteria ortotropa la maggiorazione ANAS riguarda la lamiera interessata, mentre ANTHEA adotta un prezzo aggregato del sistema.
+text: Il listino ANAS dichiara spese generali 15% e utile 10% già inclusi e tratta la sicurezza specifica separatamente [R1]. Per questo il 12% ANTHEA deve coprire soltanto oneri aggiuntivi non computati; aggiungerlo come nuova percentuale generale di impresa può produrre un doppio conteggio. Il montaggio speciale va azzerato o adattato quando già compreso nel preventivo.
+text: La CO₂ somma cls e acciai e applica una maggiorazione convenzionale di trasporti e cantiere. Con masse in tonnellate e fattori dell’acciaio in kg/kg, il prodotto restituisce tonnellate di CO₂ equivalente. Il cls usa kg/m³ e richiede divisione per 1.000. I fattori iniziali sono 320 kg/m³ per cls, 1,4 kg/kg per armatura, 2 per carpenteria, 2,5 per precompressione e cavi; il cantiere aggiunge 15%.
+formula: E_{CO2} = \left(\frac{V_{cls}f_{cls}}{1000}+\sum_s m_s f_s\right)(1+cantiere/100)
+text: Copia LaTeX
+text: Le opzioni cls a ridotta CO₂ e acciaio riciclato moltiplicano rispettivamente il fattore del cls per 0,60 e quello della carpenteria per 0,35. Non riducono automaticamente armature, cavi o prezzi. I fattori non provengono da EPD specifiche; finiture, manutenzione, esercizio e fine vita restano esclusi. Una scelta a CO₂ minima è quindi minima per questo indicatore parziale, non per un’analisi completa del ciclo di vita.
+text: La durata ordinaria è ceil(avvio + n × coefficiente campata + npile × coefficiente pila + aggiunte). I valori iniziali sono 4 mesi, 1,2 mesi/campata e 0,4 mesi/pila; i pali aggiungono 1,5 mesi, il cassone a conci altri 1,5 mesi/campata, le strutture superiori 6 + luce principale/50 mesi. È una stima parametrica, non un cronoprogramma e non è un obiettivo selezionabile della ricerca.
+text: filtri-di-ammissibilita
+text: Una combinazione viene esclusa se non è calcolabile o supera uno dei filtri seguenti. Le motivazioni sono registrate; una combinazione può avere più motivi, quindi la somma delle occorrenze per motivo può superare il numero delle combinazioni escluse.
+text: 1. Numero di campate fuori dai limiti, luci effettive fuori dal campo della famiglia, altezza sotto il minimo richiesto o la regola di predimensionamento, oppure altezza massima dell’impalcato superata.
+text: 2. Appoggi interni dentro l’ostacolo ampliato di 1 m per lato; schemi di continuità incompatibili con la tipologia; geometrie impossibili.
+text: 3. Rapporto assiale della fondazione maggiore di 1, snellezza delle pile maggiore di 100, compressione media maggiore di 0,30fc,sub o antenna oltre la tensione di riferimento.
+text: 4. Fusto non contenuto nel plinto, più di 64 pali per appoggio o griglia a interasse 3D non contenuta nel plinto.
+text: 5. Reazione negativa per tipologie diverse dal sospeso, quando servirebbero dispositivi antisollevamento non dimensionati; risultante di fondazione non compressa dopo i pesi propri.
+text: 6. Sovrapposizione delle travi a U, cassoni metallici ordinari oltre la larghezza disponibile, costo o CO₂ negativi o non finiti.
+text: I controlli applicano piccole tolleranze numeriche ai confronti. Non sono filtri di resistenza a flessione o taglio dell’impalcato, fatica, instabilità locale, dinamica, sisma, vento, comfort, montaggio, trasporto o manutenzione. Allargare i range aumenta le alternative esplorate ma non aggiunge queste verifiche.
+text: punteggi-graduatoria-e-frontiera-pareto
+text: Con Costo minimo il punteggio coincide con C; con CO₂ minima coincide con E. Il compromesso usa i minimi Cmin ed Emin delle soluzioni ammesse della stessa ricerca:
+formula: S = \frac{0{,}5C}{\max(1;C_{\min})}+\frac{0{,}5E}{\max(10^{-9};E_{\min})}
+text: Copia LaTeX
+text: Il punteggio di compromesso è adimensionale e va minimizzato. I denominatori sono limitati inferiormente per gestire anche indicatori nulli. Non è una monetizzazione della CO₂ e non attribuisce un prezzo in euro a una tonnellata emessa. Il punteggio non va confrontato direttamente fra ricerche con minimi diversi. A parità di punteggio non arrotondato, l’ordinamento usa costo, CO₂, identificativo della famiglia e numero di campate; l’enumerazione è deterministica.
+text: Una soluzione appartiene alla frontiera Pareto quando nessun’altra soluzione distinta ammessa ha costo e CO₂ entrambi non maggiori e almeno uno strettamente minore. Una soluzione dominata può comunque interessare per aspetti non rappresentati nei due indicatori, ad esempio costruibilità o minor interferenza idraulica; tali motivazioni devono essere valutate esternamente.
+text: Il motore conserva l’elenco completo delle soluzioni distinte e una selezione iniziale delle prime alternative. La casella Mostra le prime N dell’interfaccia agisce sull’elenco completo, da 1 a 50.000 righe, e non ripete la ricerca. Il limite 1–50 dell’opzione tecnica Alternatives riguarda soltanto la selezione restituita dall’API, non il numero dei punti disponibili nella nuvola della finestra.
+text: cosa-rimane-da-validare-prima-dell-uso-progettuale
+text: Non sono disponibili confronti sperimentali, consuntivi economici di ponti costruiti, una calibrazione statistica dei rapporti luce altezza, verifiche normative complete di tutte le alternative o una validazione indipendente completa delle strutture speciali. I test delle famiglie speciali controllano geometrie, equilibri ideali, masse, filtri e riproducibilità, ma non sostituiscono un’analisi strutturale dedicata.
+text: Per portare un’alternativa allo studio di fattibilità occorre almeno definire il reale schema statico e costruttivo, l’inviluppo di traffico, i materiali, i dettagli di impalcato, il modello geotecnico, i vincoli territoriali e le lavorazioni mancanti. I controlli di sezioni, fasi, fatica, stabilità, fondazioni e appoggi devono essere eseguiti con modelli adeguati. Se queste verifiche aumentano le quantità, vanno riportate nel computo e nel confronto delle alternative.
+text: Un buon uso del modulo consiste nel restringere un insieme di idee a poche alternative leggibili e riproducibili. Il risultato da conservare è l’insieme dati ipotesi soluzione quantità avvisi, insieme al motivo per cui è stata scelta un’alternativa. La sola etichetta ottimo non è una giustificazione progettuale.
+text: riferimenti
+text: [R1] ANAS, Elenco prezzi 2026 Rev 1, Nuove costruzioni e manutenzione programmata, giugno 2026. Consultato il 30 settembre 2026. Usato per il riscontro delle tariffe e delle inclusioni, non per le regole di dimensionamento.
+text: [R2] Regione Emilia Romagna, Elenco regionale prezzi 2026 e correzioni 2026. Riscontro territoriale delle tariffe; non attribuisce una localizzazione al progetto.
+text: [R3] FHWA IF 12 027, Manual for Design Construction and Maintenance of Orthotropic Steel Deck Bridges, febbraio 2012. Riferimento tecnico per l’estensione reale delle verifiche ortotrope.
+text: [R4] TU Delft, Computational Modelling, Euler Bernoulli beam elements, capitolo 4.1. Riferimento della formulazione per rigidezze e funzioni di Hermite del verificatore indipendente.
+text: [R5] Decreto 17 gennaio 2018, Aggiornamento delle Norme tecniche per le costruzioni, pubblicazione in GU 20 febbraio 2018. Riferimento del quadro normativo, non certificazione del predimensionamento.
+text: controllo-manuale-della-trave-equivalente
+text: Per una campata appoggiata di 20 m con carico uniforme 100 kN/m, ogni reazione vale 1000 kN e il momento massimo è 5000 kNm. Il carico è riferito all'intero impalcato equivalente. Per due campate uguali continue, entrambe caricate:
+formula: M_{appoggio}=-\frac{qL^2}{8}=-5000\,\mathrm{kNm}
+formula: R_{estremo}=\frac{3qL}{8}=750\,\mathrm{kN}
+formula: R_{centrale}=\frac{5qL}{4}=2500\,\mathrm{kN}
+formula: M_{positivo}=\frac{9qL^2}{128}=2812{,}5\,\mathrm{kNm}
+text: Copia LaTeX
+text: La somma delle reazioni è 4000 kN, uguale al carico sulle due campate. Il controllo riguarda una trave a EI costante: non valida lo schema globale di uno strallato, le fasi costruttive o l'inviluppo di carichi mobili.

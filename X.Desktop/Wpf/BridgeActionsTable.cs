@@ -10,9 +10,9 @@ namespace X.Desktop;
 internal sealed partial class BridgeWorkspace
 {
     internal readonly JsonGrid ActionsTable = new([
-        new("attiva", "Attiva", Bool: true), new("nome", "Fase"), new("tipo", "Sezione / azione", Choices: BridgeSection.PhaseKinds),
+        new("attiva", "Attiva", Bool: true), new("nome", "Fase"), new("tipo", "Sezione / azione", Choices: BridgeEditor.PhaseKinds),
         new("N", "ΔN [kN]"), new("Mx", "ΔMx [kNm]"), new("V", "ΔV [kN]"), new("T", "ΔT [kNm]"),
-        new("riferimento_N", "Punto N / riferimento Mx", Choices: BridgeSection.LoadReferences),
+        new("riferimento_N", "Punto N / riferimento Mx", Choices: BridgeEditor.LoadReferences),
         new("phi", "φ"), new("psi", "ψL"), new("n", "n = Ea/Ec,eff"), new("epsilon_cs", "Δεcs [µε]" ), new("q_conn", "Δq pioli [kN/m]")]);
     private readonly TextBlock loadConvention = Ui.Text("", 11, color: Ui.Muted);
     private readonly TextBlock phaseCount = Ui.Text("", 11, true);
@@ -28,9 +28,9 @@ internal sealed partial class BridgeWorkspace
         ActionsTable.BeginningEdit += (_, e) =>
         {
             var row = (JsonRow)e.Row.Item; string key = e.Column.SortMemberPath;
-            bool shrinkage = row.Values.S("tipo") == BridgeSection.ShrinkageKind;
+            bool shrinkage = row.Values.S("tipo") == BridgeEditor.ShrinkageKind;
             e.Cancel = shrinkage && key is "N" or "Mx" or "V" or "T" or "riferimento_N"
-                || key == "T" && !BridgeSection.TorsionEnabled(Data)
+                || key == "T" && !BridgeEditor.TorsionEnabled(Data)
                 || row.Values.S("tipo") == "Solo acciaio" && key == "q_conn"
                 || !shrinkage && key == "epsilon_cs" || !PhaseHomogenizationNeeded(row.Values.S("tipo")) && key is "phi" or "psi" or "n";
         };
@@ -45,7 +45,7 @@ internal sealed partial class BridgeWorkspace
     private void ConfigureActionCells()
     {
         // ΔT only for the box girder, editable with the torsion checks
-        bool box = Data.S("sezione", BridgeSection.SectionTypes[0]) == BridgeSection.SectionTypes[2], torsion = BridgeSection.TorsionEnabled(Data);
+        bool box = Data.S("sezione", BridgeEditor.SectionTypes[0]) == BridgeEditor.SectionTypes[2], torsion = BridgeEditor.TorsionEnabled(Data);
         string styleKey = Data.S("normativa") + Data.B("pioli") + box + torsion;
         if (actionStyleKey == styleKey) return;
         actionStyleKey = styleKey;
@@ -53,10 +53,10 @@ internal sealed partial class BridgeWorkspace
         {
             string key = column.SortMemberPath;
             if (key == "T") column.Visibility = box ? Visibility.Visible : Visibility.Collapsed;
-            var inactiveKinds = BridgeSection.PhaseKinds.Where(kind =>
-                kind == BridgeSection.ShrinkageKind && key is "N" or "Mx" or "V" or "T" or "riferimento_N"
+            var inactiveKinds = BridgeEditor.PhaseKinds.Where(kind =>
+                kind == BridgeEditor.ShrinkageKind && key is "N" or "Mx" or "V" or "T" or "riferimento_N"
                 || key == "T" && !torsion
-                || kind != BridgeSection.ShrinkageKind && key == "epsilon_cs"
+                || kind != BridgeEditor.ShrinkageKind && key == "epsilon_cs"
                 || kind == "Solo acciaio" && key == "q_conn"
                 || !PhaseHomogenizationNeeded(kind) && key is "phi" or "psi" or "n");
             var style = new Style(typeof(DataGridCell), ActionsTable.TryFindResource(typeof(DataGridCell)) as Style);
@@ -73,10 +73,10 @@ internal sealed partial class BridgeWorkspace
     }
     private void AddPhase(bool shrinkage)
     {
-        if (!BridgeSection.IsHistory(Data) && Data.Array("fasi").Count >= 20)
+        if (!BridgeEditor.IsHistory(Data) && Data.Array("fasi").Count >= 20)
         { status.Text = "Il metodo cumulativo ammette 20 fasi. Selezionare un metodo con storico per aggiungerne altre."; return; }
         ActionsTable.Commit();
-        var phase = shrinkage ? BridgeSection.ShrinkagePhase() : BridgeSection.Phase(reference: BridgeSection.GrossLoadReference);
+        var phase = shrinkage ? BridgeEditor.ShrinkagePhase() : BridgeEditor.Phase(reference: BridgeEditor.GrossLoadReference);
         Data.Array("fasi").Add(phase); selectedPhase = phase; followLatestStage = true;
         BuildPhases(); Changed(); ActionsTable.SelectedIndex = ActionsTable.Rows.Count - 1;
         ActionsTable.ScrollIntoView(ActionsTable.SelectedItem);
@@ -109,7 +109,7 @@ internal sealed partial class BridgeWorkspace
                 {
                     if (refreshingActions) return;
                     if (key is "phi" or "psi" or "n") phase["modo"] = key == "n" ? "Da n" : "Da φ";
-                    if (key == "tipo" && phase.S("tipo") == BridgeSection.ShrinkageKind) { phase["psi"] = .55; phase["modo"] = "Da φ"; }
+                    if (key == "tipo" && phase.S("tipo") == BridgeEditor.ShrinkageKind) { phase["psi"] = .55; phase["modo"] = "Da φ"; }
                     Changed();
                     // Rebuild the detail editors after the grid has committed the current cell.
                     Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(BuildPhases));
@@ -123,7 +123,7 @@ internal sealed partial class BridgeWorkspace
         loadConvention.Text = Data.S("stato") == "SLU"
             ? "SLU: inserire incrementi di progetto già combinati e coefficientati (γF e ψ). Il modulo non applica altri coefficienti ai carichi; γM0, γc e γs riducono le resistenze."
             : Data.S("stato") + ": inserire gli incrementi della corrispondente combinazione di esercizio, già con i relativi ψ. Il selettore cambia i limiti, non genera combinazioni di carico.";
-        if (BridgeSection.IsNonlinear(Data)) loadConvention.Text = "Non lineare: carichi incrementali già combinati, legami caratteristici senza γM. SLU/SLE seleziona soltanto le linee di confronto tensionali: non assegna una verifica normativa. φ/n memorizzati: vedere l’opzione di viscosità sopra.";
+        if (BridgeEditor.IsNonlinear(Data)) loadConvention.Text = "Non lineare: carichi incrementali già combinati, legami caratteristici senza γM. SLU/SLE seleziona soltanto le linee di confronto tensionali: non assegna una verifica normativa. φ/n memorizzati: vedere l’opzione di viscosità sopra.";
         }
         finally { refreshingActions = false; }
     }

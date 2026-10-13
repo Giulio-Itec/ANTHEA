@@ -1,0 +1,14 @@
+[
+  {
+    "origine": "X.Materiali/README.md",
+    "destinazione": "supporto/SUPERATI/X.Materiali/README.md",
+    "motivo": "Documenti della vecchia app separata, già superati dalle guide globali; vista accorpata nel Desktop in F3.6f.2.",
+    "revisione_sostitutiva": "supporto/docs/guida-pratica-anthea.md e guida-teorica-anthea.md, Rev39"
+  },
+  {
+    "origine": "X.Materiali/RIFERIMENTI.md",
+    "destinazione": "supporto/SUPERATI/X.Materiali/RIFERIMENTI.md",
+    "motivo": "Documenti della vecchia app separata, già superati dalle guide globali; vista accorpata nel Desktop in F3.6f.2.",
+    "revisione_sostitutiva": "supporto/docs/guida-pratica-anthea.md e guida-teorica-anthea.md, Rev39"
+  }
+]

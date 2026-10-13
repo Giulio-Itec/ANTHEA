@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Prove degli adattatori verso GPCChecker.Concrete: taglio e torsione (refactoring F2.5-F2.6), verifiche SLE (F2.7b, commit A4); suite del runner 'fast'. -->
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
-  <ItemGroup><ProjectReference Include="../../X.Calculations/X.Calculations.csproj" /><ProjectReference Include="../../X.Core/X.Core.csproj" /></ItemGroup>
+  <ItemGroup><ProjectReference Include="../../src/ANTHEA.Application/ANTHEA.Application.csproj" /><ProjectReference Include="../../X.Core/X.Core.csproj" /></ItemGroup>
   <!-- Controlli di riferimento della durabilità (valori a mano), con entrambi i motori nella prova 11h (refactoring F2.9). -->
   <ItemGroup><Compile Include="../../supporto/test/Shared/DurabilityReferenceChecks.cs" Link="Shared/DurabilityReferenceChecks.cs" /></ItemGroup>
+  <ItemGroup><Compile Include="../Shared/ConcreteContractProbe.cs" Link="Shared/ConcreteContractProbe.cs" /></ItemGroup>
 </Project>

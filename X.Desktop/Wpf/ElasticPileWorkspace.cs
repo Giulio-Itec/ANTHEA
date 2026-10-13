@@ -1,12 +1,14 @@
+using Anthea.Application.Concrete;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
+using Anthea.Application.Modules;
+using Anthea.Application.Scheduling;
 using Microsoft.Win32;
 using System.Threading;
 using X.Core;
-using GPC.Checkers.Geotechnics.Piles;
+using Anthea.Application.Presentation;
 namespace X.Desktop;
 internal sealed class ElasticPileWorkspace : UserControl,IDisposable
 {
@@ -23,35 +25,35 @@ internal sealed class ElasticPileWorkspace : UserControl,IDisposable
     readonly ProgressBar calculationProgress=new(){Height=8,Maximum=100,Visibility=Visibility.Collapsed,Margin=new Thickness(0,5,0,5)};
     JsonNode? selectedPoint;
     void CalculationState(string text,bool running,int done=0,int total=0){status.Text=text;calculationProgress.Visibility=running?Visibility.Visible:Visibility.Collapsed;calculationProgress.IsIndeterminate=running&&total==0;calculationProgress.Value=total>0?100d*done/total:0;reinforcementEditor.SetCalculationState(text,running,done,total);}
-    readonly Button csv;readonly DispatcherTimer timer=new(){Interval=TimeSpan.FromMilliseconds(300)};
-    InputForm? options;bool busy,disposed;int revision;int surveyCount=-1;
-    readonly ElasticPileVerificationCache resistanceCache=new();
-    CancellationTokenSource? calculationCancellation;
+    readonly Button csv;readonly RecalculationScheduler recalculation=new();
+    Task scheduledCalculation=Task.CompletedTask;
+    InputForm? options;bool busy,disposed;int surveyCount=-1;
+    readonly ElasticPileAnalysisSession analysis=new();
     internal JsonObject? Response{get;private set;}
-    internal int ResponseCalculations{get;private set;}
+    internal int ResponseCalculations=>analysis.ResponseCalculations;
     internal JsonObject? Result{get;private set;}
     internal event Action? Modified;
     internal ElasticPileWorkspace(JsonObject root,Action? editInputs=null,Action? migrated=null)
     {
-        parent=root;this.editInputs=editInputs;this.migrated=migrated;Background = Appearance.Surface;ElasticHorizontalPile.PrepareShared(root);SetValue(InputForm.CommitOnFocusLossProperty,false);
+        parent=root;this.editInputs=editInputs;this.migrated=migrated;Background = Appearance.Surface;ElasticPileEditor.PrepareShared(root);SetValue(InputForm.CommitOnFocusLossProperty,false);
         csv=Ui.Button("Esporta CSV",Export,inspection:true);csv.IsEnabled=false;
         reinforcementEditor=new(root,InvalidateShared,()=>Result,()=>migrated?.Invoke());
         drawing.Selected+=p=>{selectedPoint=p;if(p==null){selection.Text="";return;}selection.Text=$"x={p.D("Depth"):G5} m · z={p.D("GroundDepth"):G5} m · strato {p.D("Layer")} · {p.S("Side")} · kh={p.D("Kh"):G6} kN/m³ · k={p.D("DistributedStiffness"):G6} kN/m²\ny={p.D("Displacement"):G6} m · θ={p.D("Rotation"):G6} rad · N={p.D("AxialForce"):G6} kN · V={p.D("Shear"):G6} kN · M={p.D("Moment"):G6} kNm · q={p.D("SoilReaction"):G6} kN/m.";};
         Content=new ScrollViewer{VerticalScrollBarVisibility=ScrollBarVisibility.Auto,Content=Ui.Stack(migration,Ui.Paper(Ui.Stack(header,section,status,calculationProgress),12),Ui.Paper(Ui.Stack(new ScrollViewer{Content=drawing,HorizontalScrollBarVisibility=ScrollBarVisibility.Auto,VerticalScrollBarVisibility=ScrollBarVisibility.Disabled},selection),12),Ui.Paper(reinforcementEditor,12),new Expander{Header="Verifiche per tratto e sezioni critiche",IsExpanded=true,Content=reinforcementSummary},new Expander{Header="Tavola armature e distinta ferri",IsExpanded=true,Content=Ui.Stack(Ui.Bar(Ui.Button("Apri tavola armature…",ShowReinforcement,inspection:true)),new ScrollViewer{Content=reinforcementDrawing,HorizontalScrollBarVisibility=ScrollBarVisibility.Auto,VerticalScrollBarVisibility=ScrollBarVisibility.Disabled})},new Expander{Header="Sezione trasversale alla quota selezionata",IsExpanded=true,Content=Ui.Bar(sectionPreview,sectionDetail)},new Expander{Header="Estremi, equilibrio e convergenza",Content=summary},new Expander{Header="Valori per quota · N–V–M concomitanti",Content=Ui.Stack(csv,table)})};
-        timer.Tick+=Tick;BuildHeader();InvalidateShared();
+        BuildHeader();InvalidateShared();
         drawing.Selected+=ShowSection;
     }
     void BuildHeader()
     {
         surveyCount=parent.Array("stratigrafie").Count;header.Content=null;migration.Content=null;
-        if(ElasticHorizontalPile.NeedsMigration(parent))
+        if(ElasticPileEditor.NeedsMigration(parent))
         {
             var old=parent["elastico_legacy"]!;var g=parent["generali"]!;
             var text=Ui.Text($"Questo archivio contiene input elastici separati. Confrontare prima di proseguire.\nDati comuni: D={g.S("diametro")} m; L infissa={g.S("lunghezza")} m; H={g.S("azione_orizzontale")} kN; e da p.c.={g.S("eccentricita")} m.\nLegacy: D={old.S("diametro")} m; L totale={old.S("lunghezza")} m; libero={old.S("libero")} m; H={old.S("H")} kN; C={old.S("C")} kNm; e dalla testa={old.S("e")} m; EJ={old.S("EI")} kNm².\nGli originali vengono conservati. Importare aggiunge una stratigrafia e imposta EJ come override: completare poi la classificazione per Broms.",13);
-            void Resolve(bool legacy){try{ElasticHorizontalPile.ResolveMigration(parent,legacy);BuildHeader();migrated?.Invoke();InvalidateShared();}catch(ArgumentException ex){status.Text=ex.Message;}}
+            void Resolve(bool legacy){try{ElasticPileEditor.ResolveMigration(parent,legacy);BuildHeader();migrated?.Invoke();InvalidateShared();}catch(ArgumentException ex){status.Text=ex.Message;}}
             migration.Content=Ui.Paper(Ui.Stack(Ui.Text("Confronto archivio precedente",17,true),text,Ui.Bar(Ui.Button("Usa dati comuni e conserva legacy",()=>Resolve(false)),Ui.Button("Importa legacy nei dati comuni",()=>Resolve(true))),Ui.Button("Mostra confronto completo",()=>Info("Confronto completo",parent.ToJsonString(J.Options)))),14);return;
         }
-        var e=parent["elastico"]!.AsObject();if(e["visualizzazione"] is not JsonObject)e["visualizzazione"]=new JsonObject();var view=e["visualizzazione"]!.AsObject();drawing.Options=view;
+        var e=parent["elastico"]!.AsObject();var view=Anthea.Application.Presentation.HorizontalSheetPresentation.PrepareElasticView(parent);drawing.Options=view;
         var choice=new ComboBox{ItemsSource=Enumerable.Range(0,surveyCount).Select(i=>$"Stratigrafia {i+1}").ToArray(),SelectedIndex=(int)e.D("stratigrafia",-1),MinWidth=180,Margin=new Thickness(8,0,10,0)};
         choice.SelectionChanged+=(_,_)=>{e["stratigrafia"]=choice.SelectedIndex;InvalidateShared();};
         options=new InputForm(e,[new("passo","Passo iniziale FEM","m"),new("punta","Vincolo alla punta",Choices:["Libera","Cerniera","Incastro"])],_=>InvalidateShared(),compact:true);
@@ -74,40 +76,43 @@ internal sealed class ElasticPileWorkspace : UserControl,IDisposable
         var view=new ScrollViewer{Content=sheet,HorizontalScrollBarVisibility=ScrollBarVisibility.Auto,VerticalScrollBarVisibility=ScrollBarVisibility.Auto};
         Ui.Dialog(this,"Armature del palo · elevazione e distinta",Ui.Dock(view,top:bar),1250,900).ShowDialog();
     }
-    void ShowInfo()=>Info("Info · risposta elastica del palo",ElasticHorizontalPile.Limits+"\n\n"+ViggianiHorizontalSoil.Source+"\n\n"+ViggianiHorizontalSoil.StratificationConvention+"\n\n"+ElasticHorizontalPile.Signs+"\n\nFEM Euler–Bernoulli: due gdl/nodo, matrice consistente ∫k NᵀN dx. kh=nh z/D; k=kh D=nh z. 1 N/cm³=1000 kN/m³. K* nodale illustrativa = integrale di k sulle mezze lunghezze degli elementi adiacenti [kN/m]; non sostituisce la matrice del solutore.\n\nCtesta=H(Llibero−e_da_pc): nessun doppio conteggio del braccio. La media degli estremi della singola riga è un valore iniziale del software, non un valore consigliato dall'autore. Fonti e modifiche sono registrate.\n\nEJ: sezione circolare integra lorda con Ecm da Model; CHS solo acciaio. Override motivato nelle opzioni della sezione. Broms è una capacità limite distinta. N=Ntesta+w x: peso proprio dai materiali, senza galleggiamento automatico, attrito laterale o secondo ordine. Le verifiche N–M e taglio sono distinte dai dettagli costruttivi. MRd tratteggiato è interrotto nelle zone prive di sviluppo delle barre. Le fasce colorate richiedono dettagli locali; giunti e confinamento restano preliminari. Minimi pali NTC §7.2.5 selezionabili; zone dissipative, confinamento dei giunti e SLE richiedono completamento. Le proposte non sostituiscono automaticamente i dati personalizzati.");
+    void ShowInfo()=>Info("Info · risposta elastica del palo",ElasticPileEditor.Limits+"\n\n"+HorizontalSoilPresentation.Source+"\n\n"+HorizontalSoilPresentation.StratificationConvention+"\n\n"+ElasticPileEditor.Signs+"\n\nFEM Euler–Bernoulli: due gdl/nodo, matrice consistente ∫k NᵀN dx. kh=nh z/D; k=kh D=nh z. 1 N/cm³=1000 kN/m³. K* nodale illustrativa = integrale di k sulle mezze lunghezze degli elementi adiacenti [kN/m]; non sostituisce la matrice del solutore.\n\nCtesta=H(Llibero−e_da_pc): nessun doppio conteggio del braccio. La media degli estremi della singola riga è un valore iniziale del software, non un valore consigliato dall'autore. Fonti e modifiche sono registrate.\n\nEJ: sezione circolare integra lorda con Ecm da Model; CHS solo acciaio. Override motivato nelle opzioni della sezione. Broms è una capacità limite distinta. N=Ntesta+w x: peso proprio dai materiali, senza galleggiamento automatico, attrito laterale o secondo ordine. Le verifiche N–M e taglio sono distinte dai dettagli costruttivi. MRd tratteggiato è interrotto nelle zone prive di sviluppo delle barre. Le fasce colorate richiedono dettagli locali; giunti e confinamento restano preliminari. Minimi pali NTC §7.2.5 selezionabili; zone dissipative, confinamento dei giunti e SLE richiedono completamento. Le proposte non sostituiscono automaticamente i dati personalizzati.");
     internal void InvalidateShared()
     {
-        if(disposed)return;revision++;calculationCancellation?.Cancel();Result=null;reinforcementDrawing.Set(null);reinforcementSummary.Text="Verifiche e armature da aggiornare";sectionPreview.Outline=[];sectionPreview.Bars=[];sectionPreview.InvalidateVisual();sectionDetail.Text="Sezione da verificare";csv.IsEnabled=false;timer.Stop();if(surveyCount!=parent.Array("stratigrafie").Count){if(surveyCount>=0 && !ElasticHorizontalPile.NeedsMigration(parent))parent["elastico"]!["stratigrafia"]=-1;BuildHeader();}
-        bool retain=false;try{retain=Response!=null&&Response.S("chiave_risposta")==ElasticHorizontalPile.ResponseKey(parent);}catch(ArgumentException){}
+        if(disposed)return;recalculation.Invalidate();Result=null;reinforcementDrawing.Set(null);reinforcementSummary.Text="Verifiche e armature da aggiornare";sectionPreview.Outline=[];sectionPreview.Bars=[];sectionPreview.InvalidateVisual();sectionDetail.Text="Sezione da verificare";csv.IsEnabled=false;if(surveyCount!=parent.Array("stratigrafie").Count){if(surveyCount>=0 && !ElasticPileEditor.NeedsMigration(parent))parent["elastico"]!["stratigrafia"]=-1;BuildHeader();}
+        bool retain=ElasticPileAnalysisSession.Matches(Response,parent);
         reinforcementEditor.InvalidateResults();
         if(retain)drawing.Set(Response,preserveSelection:true);
         else{Response=null;drawing.Set(null);table.ItemsSource=null;selection.Text=summary.Text="";}
-        try{var s=ElasticHorizontalPile.SectionStiffness(parent);section.Text=$"EJ={s.EI:G7} kNm² · E={s.ModulusMpa:G7} MPa · J={s.InertiaMm4:G7} mm⁴\n{s.Assumption}"+(s.OverrideReason==""?"":" · OVERRIDE: "+s.OverrideReason);}catch(ArgumentException ex){section.Text="EJ da completare nei dati iniziali: "+ex.Message;}
-        CalculationState(retain?"FEM conservato (N, V, M invariati) · verifiche di sezione in coda":"Dati modificati · analisi FEM e convergenza in coda",true);if(!ElasticHorizontalPile.NeedsMigration(parent))timer.Start();Modified?.Invoke();
+        section.Text=HorizontalPreview.StiffnessDescription(parent);
+        CalculationState(retain?"FEM conservato (N, V, M invariati) · verifiche di sezione in coda":"Dati modificati · analisi FEM e convergenza in coda",true);if(!ElasticPileEditor.NeedsMigration(parent))scheduledCalculation=CalculateScheduledAsync(TimeSpan.FromMilliseconds(300),false);Modified?.Invoke();
     }
     internal void Commit(){options?.Commit();reinforcementEditor.Commit();}
-    async void Tick(object? sender,EventArgs e){if(busy)return;timer.Stop();await CalculateAsync();}
-    internal async Task CalculateAsync()
+    internal Task CalculateAsync()=>scheduledCalculation=CalculateScheduledAsync(TimeSpan.Zero,true);
+    async Task CalculateScheduledAsync(TimeSpan delay,bool commit)
     {
-        if(busy||disposed)return;Commit();timer.Stop();busy=true;int request=revision;var snapshot=(JsonObject)parent.DeepClone();
-        using var cancellation=new CancellationTokenSource();calculationCancellation=cancellation;
-        try
+        if(disposed)return;if(commit)Commit();var snapshot=(JsonObject)parent.DeepClone();
+        var completed=await recalculation.ScheduleAsync(async token=>
         {
-            if(Response==null)
+            busy=true;
+            if(Response==null)CalculationState("1/2 · FEM su Winkler: spostamenti, N–V–M, equilibrio e confronto delle mesh",true);
+            var updates=new Progress<PileProgress>(p=>{if(!disposed&&!token.IsCancellationRequested&&busy&&Result==null)CalculationState("2/2 · "+p.Phase,true,p.Completed,p.Total);});
+            try
             {
-                CalculationState("1/2 · FEM su Winkler: spostamenti, N–V–M, equilibrio e confronto delle mesh",true);
-                var response=await Task.Run(()=>ElasticHorizontalPile.CalculateResponse(snapshot,cancellation.Token));if(disposed||request!=revision)return;
-                Response=response;ResponseCalculations++;PresentResponse();
+                return await analysis.CalculateAsync(snapshot,response=>
+                {
+                    if(disposed||token.IsCancellationRequested)return;
+                    if(!ElasticPileAnalysisSession.Matches(Response,snapshot)){Response=response;PresentResponse();}
+                    CalculationState("2/2 · FEM aggiornato · preparazione del calcolo parallelo MRd",true);
+                },updates,token);
             }
-            CalculationState("2/2 · FEM aggiornato · preparazione del calcolo parallelo MRd",true);
-            var updates=new Progress<PileCalculationProgress>(p=>{if(!disposed&&request==revision&&busy&&Result==null)CalculationState("2/2 · "+p.Phase,true,p.Completed,p.Total);});
-            var currentResponse=(JsonObject)Response.DeepClone();
-            var result=await Task.Run(()=>ElasticHorizontalPile.CompleteReinforcement(snapshot,currentResponse,resistanceCache,cancellation.Token,progress:updates));
-            if(disposed||request!=revision)return;Result=result;Present();
-        }
-        catch(OperationCanceledException){}
-        catch(Exception ex){if(!disposed&&request==revision){Result=null;drawing.Set(Response,preserveSelection:true);reinforcementDrawing.Set(null,"Distinta non disponibile: "+ex.Message);csv.IsEnabled=false;CalculationState("Calcolo non disponibile: "+ex.Message,false);}}
-        finally{if(ReferenceEquals(calculationCancellation,cancellation))calculationCancellation=null;busy=false;if(!disposed&&request!=revision)timer.Start();}
+            finally{busy=false;}
+        },delay);
+        completed.TryPublish(current=>
+        {
+            if(current.Error is not null){Result=null;drawing.Set(Response,preserveSelection:true);reinforcementDrawing.Set(null,"Distinta non disponibile: "+current.Error.Message);csv.IsEnabled=false;CalculationState("Calcolo non disponibile: "+current.Error.Message,false);return;}
+            Result=current.Value;Present();
+        });
     }
     void Present()
     {
@@ -123,12 +128,12 @@ internal sealed class ElasticPileWorkspace : UserControl,IDisposable
         foreach(var (key,unit) in new[]{("y","m"),("theta","rad"),("N","kN"),("V","kN"),("M","kNm"),("q","kN/m")}){var ex=r["Extrema"]![key]!;lines.Add($"{key} [{unit}]: min {ex.D("Minimum"):G6} a x={ex.D("MinimumDepth"):G5}; max {ex.D("Maximum"):G6} a x={ex.D("MaximumDepth"):G5}; |max|={ex.D("AbsoluteMaximum"):G6} a x={ex.D("AbsoluteMaximumDepth"):G5} m.");}summary.Text=string.Join("\n",lines);
         table.ItemsSource=r.Array("Points").Select(p=>new{X_m=p.D("Depth"),Z_m=p.D("GroundDepth"),Strato=p.D("Layer"),Lato=p.S("Side"),Kh_kNm3=p.D("Kh"),K_kNm2=p.D("DistributedStiffness"),Y_m=p.D("Displacement"),Theta_rad=p.D("Rotation"),N_kN=p.D("AxialForce"),V_kN=p.D("Shear"),M_kNm=p.D("Moment"),Q_kNm=p.D("SoilReaction")}).ToArray();
     }
-    void Export(){Commit();if(Result==null)return;var save=new SaveFileDialog{Filter="CSV|*.csv",FileName="Palo_risposta_elastica.csv"};if(save.ShowDialog(Window.GetWindow(this))==true)Archivio.ScriviAtomico(save.FileName,Encoding.UTF8.GetBytes(ElasticHorizontalPile.Csv(Result)));}
+    void Export(){Commit();if(Result==null)return;var save=new SaveFileDialog{Filter="CSV|*.csv",FileName="Palo_risposta_elastica.csv"};if(save.ShowDialog(Window.GetWindow(this))==true)Archivio.ScriviAtomico(save.FileName,Encoding.UTF8.GetBytes(ElasticPileEditor.Csv(Result)));}
     void ShowSection(JsonNode? p)
     {
         sectionPreview.Outline=[];sectionPreview.Bars=[];sectionPreview.CircularLinkRadius=0;sectionDetail.Text="Nessuna quota selezionata. Fare clic sul profilo o su un diagramma: la linea arancione identifica la sezione trasversale.";
-        if(p!=null&&Result?["armature"] is JsonNode arm){double x=p.D("Depth");var matching=arm.Array("tratti").Where(t=>x>=t.D("inizio")&&x<=t.D("fine")).ToArray();var s=p.S("Side")=="Below"?matching.LastOrDefault():matching.FirstOrDefault();if(s!=null){sectionPreview.Outline=s.Array("contorno_sezione").Select(a=>a!.AsArray().Select(v=>J.Number(v)??0).ToArray()).ToList();sectionPreview.Bars=s.Array("barre_sezione").Select(a=>{var b=a!.AsArray().Select(v=>J.Number(v)??0).ToArray();return new Barra(b[0],b[1],b[2],b[3]);}).ToList();var section=s["sezione"]!;sectionPreview.CircularLinkRadius=s.D("staffa_raggio_mm");sectionPreview.LinkDiameter=section.D("transverse_bar_diameter_mm");sectionPreview.LinkCaption=section.S("tipo_trasversale")=="Spirale"?"Spirale":"Staffa";sectionPreview.ShowAxes=true;sectionPreview.Caption=$"Sez. {s.S("id")} · x={x:0.000} m dalla testa";sectionDetail.Text=$"{s.S("id")} · x={x:G6} m DALLA TESTA · z={p.D("GroundDepth"):G6} m DAL PIANO CAMPAGNA\nLato {p.S("Side")} · riferimento: linea arancione sui diagrammi · {s.S("stato")}\n{section.D("longitudinal_bar_count")} φ{section.D("longitudinal_bar_diameter_mm")} · {section.S("tipo_trasversale","Staffe singole")} φ{section.D("transverse_bar_diameter_mm")}/{section.D("transverse_spacing_mm")} mm\nCopriferro {section.D("cover_mm")} mm\n"+s["dettaglio"].S("Status");}}
+        if(p!=null&&Result?["armature"] is JsonNode arm){double x=p.D("Depth");var matching=arm.Array("tratti").Where(t=>x>=t.D("inizio")&&x<=t.D("fine")).ToArray();var s=p.S("Side")=="Below"?matching.LastOrDefault():matching.FirstOrDefault();if(s!=null){sectionPreview.Outline=s.Array("contorno_sezione").Select(a=>a!.AsArray().Select(v=>J.Number(v)??0).ToArray()).ToList();sectionPreview.Bars=s.Array("barre_sezione").Select(a=>{var b=a!.AsArray().Select(v=>J.Number(v)??0).ToArray();return new ReinforcementBar(b[0],b[1],b[2],b[3]);}).ToList();var section=s["sezione"]!;sectionPreview.CircularLinkRadius=s.D("staffa_raggio_mm");sectionPreview.LinkDiameter=section.D("transverse_bar_diameter_mm");sectionPreview.LinkCaption=section.S("tipo_trasversale")=="Spirale"?"Spirale":"Staffa";sectionPreview.ShowAxes=true;sectionPreview.Caption=$"Sez. {s.S("id")} · x={x:0.000} m dalla testa";sectionDetail.Text=$"{s.S("id")} · x={x:G6} m DALLA TESTA · z={p.D("GroundDepth"):G6} m DAL PIANO CAMPAGNA\nLato {p.S("Side")} · riferimento: linea arancione sui diagrammi · {s.S("stato")}\n{section.D("longitudinal_bar_count")} φ{section.D("longitudinal_bar_diameter_mm")} · {section.S("tipo_trasversale","Staffe singole")} φ{section.D("transverse_bar_diameter_mm")}/{section.D("transverse_spacing_mm")} mm\nCopriferro {section.D("cover_mm")} mm\n"+s["dettaglio"].S("Status");}}
         sectionPreview.InvalidateVisual();
     }
-    public void Dispose(){disposed=true;calculationCancellation?.Cancel();resistanceCache.Clear();timer.Stop();timer.Tick-=Tick;}
+    public void Dispose(){disposed=true;recalculation.Dispose();analysis.Dispose();}
 }

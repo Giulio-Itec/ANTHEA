@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,7 +7,7 @@ using X.Core;
 namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
 {
-    private readonly Dictionary<string, Ntc2018Checks.ShearResult[]> shearResults = new();
+    private readonly Dictionary<string, ConcreteResults.ShearResult[]> shearResults = new();
     private readonly TextBlock shearSummary = Ui.Text("Taglio · da calcolare", 12);
     private readonly VerificationCards shearDashboard = new();
     private readonly TextBlock shearDetail = Ui.Text("Selezionare una combinazione", 13);
@@ -29,7 +30,7 @@ internal sealed partial class ConcreteWorkspace
         if (!automatic) { shearAutomaticNote.Text = "Parametri manuali: verificare geometria, armatura tesa e ancoraggio."; return; }
         try
         {
-            var geometry = ConcreteCalculationSettings.UpdateAutomaticShear(Input, ShearOptions);
+            var geometry = Anthea.Application.Concrete.ConcreteSheetPreparation.UpdateAutomaticShear(Input, ShearOptions);
             foreach (string axis in new[] { "x", "y" })
                 foreach (string field in new[] { "bw_", "d_", "asl_" })
                     shearForm.Set(field + axis, EngineeringFormat.Number(J.Number(ShearOptions[field + axis])), true);
@@ -44,7 +45,7 @@ internal sealed partial class ConcreteWorkspace
     }
     private UIElement BuildShearPanel()
     {
-        ConcreteCalculationSettings.Prepare(Input, settings);
+        ConcreteEditor.PrepareParameters(Input, settings);
         var options = ShearOptions;
         void EnableFields()
         {
@@ -105,12 +106,11 @@ internal sealed partial class ConcreteWorkspace
         if (shearGrid is null) return; shearGrid.Commit(); RefreshAutomaticShear();
         using var notifications = JsonRow.DeferNotifications(shearGrid.Rows);
         InvalidateShear();
-        ValidateStirrups();
-        foreach (var row in shearGrid.Rows)
+        Anthea.Application.Concrete.ConcreteShearBatch.Calculate(Input, settings, shearGrid.Rows.Select(r => r.Values).ToArray(), (index, calculated, error) =>
         {
-            try
+            var row = shearGrid.Rows[index];
+            if (calculated is not null)
             {
-                var calculated = ConcreteShearAnalysis.Calculate(Input, settings, ShearOptions, row.Values);
                 var results = calculated.Shear;
                 shearResults[row.Values.S("id")] = results;
                 for (int i = 0; i < results.Length; i++)
@@ -122,8 +122,8 @@ internal sealed partial class ConcreteWorkspace
                 row.Output("esito", string.Join(" · ", results.Select((r, i) => (i == 0 ? "x: " : "y: ") + r.Status)));
                 ShowTorsion(row, calculated.Torsion);
             }
-            catch (ArgumentException ex) { shearResults.Remove(row.Values.S("id"));torsionResults.Remove(row.Values.S("id"));foreach (var key in new[] {"VRdx","VRdy","eta_x","eta_y","eta_t","eta_vt"}) row.Output(key,"—"); row.Output("esito",ex.Message); }
-        }
+            else { shearResults.Remove(row.Values.S("id"));torsionResults.Remove(row.Values.S("id"));foreach (var key in new[] {"VRdx","VRdy","eta_x","eta_y","eta_t","eta_vt"}) row.Output(key,"—"); row.Output("esito",error); }
+        });
         shearSummary.Text = shearDashboard.Text = $"Taglio: {shearResults.Count}/{shearGrid.Rows.Count} combinazioni calcolate · {shearResults.Values.Count(r=>r.Any(v=>v.Ratio>1))} oltre resistenza · {shearResults.Values.Count(r=>r.Any(v=>v.Ratio is null))} senza esito · dettagli da verificare.";
         shearSummary.Text += $" Torsione: {torsionResults.Count} calcolate, {torsionResults.Values.Count(r=>!r.Passed)} non soddisfatte.";
         shearWorst.Text = string.Join("\n\n", new[] { 0, 1 }.Select(i => WorstSummary(i == 0 ? "Taglio Vx" : "Taglio Vy", shearGrid.Rows.Count,
@@ -135,7 +135,7 @@ internal sealed partial class ConcreteWorkspace
     private void UpdateShearSelection()
     {
         if (synchronizing || shearGrid?.IsVisible != true) return;
-        try { shearView.Section = new SezioneCA(Input); } catch (ArgumentException) { shearView.Section = null; }
+        try { shearView.Section = Anthea.Application.Concrete.ConcretePreview.PrepareGeometry(Input); } catch (ArgumentException) { shearView.Section = null; }
         shearView.InvalidateVisual();
         if (shearGrid?.SelectedItem is not JsonRow row) { shearDetail.Text = "Inserire o selezionare una combinazione N–Vx–Vy."; return; }
         shearDetail.Text = $"{row.Values.S("nome")} · {ShearOptions.S("modello")}\nN = {EngineeringFormat.Number(J.Number(row.Values["N"]))} kN (compressione negativa)\nVx / Vy = {EngineeringFormat.Number(J.Number(row.Values["Vx"]))} / {EngineeringFormat.Number(J.Number(row.Values["Vy"]))} kN\n\n";

@@ -1,3 +1,4 @@
+using Anthea.Application.Modules;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -49,7 +50,7 @@ internal sealed class ElasticPileDrawing : FrameworkElement
             // Segment endpoint kh comes from the solver, selecting the correct side of each discontinuity.
             var first=segment.FirstOrDefault(r=>Math.Abs(r.D("Depth")-z)<1e-9&&r.S("Side")=="Below")??segment.FirstOrDefault();
             var last=segment.LastOrDefault(r=>Math.Abs(r.D("Depth")-end)<1e-9&&r.S("Side")=="Above")??segment.LastOrDefault();
-            if(first!=null&&last!=null)Text($"kh {first.D("Kh"):G4} → {last.D("Kh"):G4} kN/m³\n{ElasticHorizontalPile.ParameterLabel(p.S("Law"))}={p.D("AdoptedValue"):G4} {p.S("Unit")}\n{ElasticHorizontalPile.MethodLabel(p.S("Method"))}",90,Y(z)+22,10,200);
+            if(first!=null&&last!=null)Text($"kh {first.D("Kh"):G4} → {last.D("Kh"):G4} kN/m³\n{ElasticPileEditor.ParameterLabel(p.S("Law"))}={p.D("AdoptedValue"):G4} {p.S("Unit")}\n{ElasticPileEditor.MethodLabel(p.S("Method"))}",90,Y(z)+22,10,200);
         }
         dc.DrawLine(new Pen(Ui.Navy,8),new Point(76,Y(0)),new Point(76,Y(length)));dc.DrawLine(new Pen(Brushes.SaddleBrown,1),new Point(36,Y(free)),new Point(ActualWidth,Y(free)));Text("p.c.",2,Y(free)+4);
         if(On("falda")&&input.B("falda")&&free+input.D("z_falda")<=length){double y=Y(free+input.D("z_falda"));dc.DrawLine(new Pen(Brushes.SteelBlue,1){DashStyle=DashStyles.Dash},new Point(35,y),new Point(ActualWidth,y));Text("falda",92,y-15);}

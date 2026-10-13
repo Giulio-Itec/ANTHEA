@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-13",
+  "reason": "Revisione 40: ricalcolo per revisione, proposte dei tratti e nuova separazione applicativa dei report",
+  "files": [
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev39.docx",
+      "sha256": "b93fbc1ef63b5caddb8a36add2bac1ff6612f62a2b3be22382447cc159110a94",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev40.docx"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev39.pdf",
+      "sha256": "3dbb4562357ec0b552ee8d2c41f53f8fa8aeda18c5cd13be4c04a5ede495b617",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev40.pdf"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev39.docx",
+      "sha256": "0e3ed76bd2ba30b25638f4b55f7eb68e84b6b34b7c03263dc6ce662b1390a422",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev40.docx"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev39.pdf",
+      "sha256": "f11c27c1aab035bb8b862a1b40f80d8f205da72cc0c61a5b3e6ceb21c59e239d",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev40.pdf"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/README.md",
+      "sha256": "dc6e45194ec1aa97ac07fdcdd22be60535f4ef23213ab291868685d8d88a45a7",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/README.md"
+    },
+    {
+      "origin": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+      "sha256": "7cb79bd7c5f23ff831149f4fc9d57f163d67eba59cd4d8aa82304357f8f265cc",
+      "replacement": "supporto/documentazione/Guide_ANTHEA/README.pdf"
+    },
+    {
+      "origin": "supporto/README.md",
+      "sha256": "2be54cea6f175524aa2a8f1762c46fa285019ee4f1feef1c1e9bb24199225723",
+      "replacement": "supporto/README.md"
+    },
+    {
+      "origin": "supporto/README.pdf",
+      "sha256": "91bfcf0634f09cbc49ce82f0a62401a21bed011683128f51711a962afb3b6f2a",
+      "replacement": "supporto/README.pdf"
+    },
+    {
+      "origin": "supporto/installer/Indice-guide.md",
+      "sha256": "ed22eb479bd6d70d36a080acd79f9fdd4a2053410b4acf902fbaccf8df3c86a6",
+      "replacement": "supporto/installer/Indice-guide.md"
+    },
+    {
+      "origin": "supporto/installer/Indice-guide.pdf",
+      "sha256": "45be1b65cfb89a0ed23bc612ca8a121b768114d1e0ec8a8f4ce08767839508bc",
+      "replacement": "supporto/installer/Indice-guide.pdf"
+    },
+    {
+      "origin": "supporto/docs/guida-pratica-anthea.md",
+      "sha256": "19137d6e71081311db00d8f4a8281472484a66763cc1dd4876cf317e28263c78",
+      "replacement": "supporto/docs/guida-pratica-anthea.md"
+    },
+    {
+      "origin": "supporto/docs/guida-pratica-anthea.pdf",
+      "sha256": "3dbb4562357ec0b552ee8d2c41f53f8fa8aeda18c5cd13be4c04a5ede495b617",
+      "replacement": "supporto/docs/guida-pratica-anthea.pdf"
+    },
+    {
+      "origin": "supporto/docs/guida-teorica-anthea.md",
+      "sha256": "6febd235e69b09345e78ae40c3fc375923e79483b81b134019cd978f5c371265",
+      "replacement": "supporto/docs/guida-teorica-anthea.md"
+    },
+    {
+      "origin": "supporto/docs/guida-teorica-anthea.pdf",
+      "sha256": "f11c27c1aab035bb8b862a1b40f80d8f205da72cc0c61a5b3e6ceb21c59e239d",
+      "replacement": "supporto/docs/guida-teorica-anthea.pdf"
+    }
+  ]
+}

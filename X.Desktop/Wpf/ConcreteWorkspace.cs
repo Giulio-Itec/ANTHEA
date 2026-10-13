@@ -1,3 +1,5 @@
+using Anthea.Application.Materials;
+using Anthea.Application.Concrete;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.Json.Nodes;
@@ -33,20 +35,20 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private bool calculationQueued;
     private static readonly string[] AllCalculations = ["3D:SLU", "2D:SLU", "3D:SLV", "2D:SLV", "SLE", "SLE_FREQ", "SLE_QP", "Taglio"];
     private readonly HashSet<string> pendingCalculations = new(AllCalculations);
-    private CancellationTokenSource? cancellation;
+    private readonly Anthea.Application.Scheduling.RecalculationScheduler analysisScheduler = new();
     private bool initializing = true, disposed, synchronizing;
     private int revision;
     private readonly Dictionary<string, JsonRows> actions = new();
     private readonly List<JsonGrid> grids = [];
     private readonly Dictionary<string, VerificationCards> summaries = new();
-    private readonly Dictionary<string, SectionDomainMesh> meshes = new();
-    private readonly Dictionary<string, CheckerDomain3D> checker3D = new();
-    private readonly Dictionary<string, CheckerDomain2D> checker2D = new();
-    private readonly Dictionary<string, Dictionary<string, DomainCheck>> domainResults = new();
+    private readonly Dictionary<string, ConcreteResults.Mesh> meshes = new();
+    private readonly Dictionary<string, ConcreteResults.Domain3D> checker3D = new();
+    private readonly Dictionary<string, ConcreteResults.Domain2D> checker2D = new();
+    private readonly Dictionary<string, Dictionary<string, ConcreteResults.Check>> domainResults = new();
     private readonly Dictionary<string, Dictionary<string, StressOutcome>> stressResults = new();
     private readonly ConcreteSectionViewport preview = new();
     private readonly JsonGrid barInventory = new([new("id", "Barra", ReadOnly: true), new("x", "x [mm]"), new("y", "y [mm]"), new("phi", "Ø [mm]")], true);
-    private readonly JsonGrid tendons = new([new("id", "ID"), new("x", "x [mm]"), new("y", "y [mm]"), new("diametro", "Øeq cavo [mm]"), new("area", "Ap totale [mm²]"), new("materiale", "Materiale", Choices: ConcreteMaterialCatalog.Steel(true).Select(m => m.S("nome")).ToArray()), new("diagramma", "Diagramma", Choices: ["Elastoplastico","Incrudente"]), new("sigma0", "σp0 [MPa]"), new("Ep", "Ep [MPa]", ReadOnly: true), new("fpyk", "fpyk [MPa]", ReadOnly: true), new("fpk", "fpk [MPa]", ReadOnly: true), new("eps_u", "εpu [‰]", ReadOnly: true)]);
+    private readonly JsonGrid tendons = new([new("id", "ID"), new("x", "x [mm]"), new("y", "y [mm]"), new("diametro", "Øeq cavo [mm]"), new("area", "Ap totale [mm²]"), new("materiale", "Materiale", Choices: MaterialInputCatalog.Steel(true).Select(m => m.S("nome")).ToArray()), new("diagramma", "Diagramma", Choices: ["Elastoplastico","Incrudente"]), new("sigma0", "σp0 [MPa]"), new("Ep", "Ep [MPa]", ReadOnly: true), new("fpyk", "fpyk [MPa]", ReadOnly: true), new("fpk", "fpk [MPa]", ReadOnly: true), new("eps_u", "εpu [‰]", ReadOnly: true)]);
     private InputForm geometry = null!, materials = null!, reinforcement = null!;
     private Action? refreshHoleControls;
     private readonly List<DomainPanel> domainPanels = [];
@@ -54,11 +56,11 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
 
     internal ConcreteWorkspace(JsonObject data)
     {
-        Data = data; settings = SectionWorkspace.Prepare(Data); Background = Appearance.Surface;
+        Data = data; settings = ConcreteEditor.PrepareWorkspace(Data); Background = Appearance.Surface;
         SetValue(InputForm.CommitOnFocusLossProperty, true);
         SetValue(NumericPresentation.EnabledProperty, true);
         PrepareCoefficients(); PrepareStirrups();
-        foreach (string key in SectionWorkspace.Sets)
+        foreach (string key in ConcreteEditor.Sets)
         {
             var rows = new JsonRows(); actions[key] = rows;
             foreach (var item in Data["combinazioni"]![key]!.AsArray())
@@ -146,9 +148,9 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
 
     private UIElement BuildControlPanel()
     {
-        var norm = new InputForm(settings, [new("normativa", "Normativa", Choices: ConcreteStandards.OrdinaryNames), new("nota", "Nota del foglio")], key => { if (key == "normativa") { ResetCoefficients(); RefreshStandardMaterialChoices(); } Invalidate(); });
+        var norm = new InputForm(settings, [new("normativa", "Normativa", Choices: ConcreteEditor.Standards), new("nota", "Nota del foglio")], key => { if (key == "normativa") { ResetCoefficients(); RefreshStandardMaterialChoices(); } Invalidate(); });
         geometry = new(Input, [new("shape", "Sezione", Choices: ["Circolare", "Rettangolare", "A T", "Generica (da definire)"]), new("diameter_mm", "Diametro D", "mm"), new("circular_sides", "Lati del contorno (12–720, multipli di 4)"), new("width_mm", "Larghezza b", "mm"), new("height_mm", "Altezza h", "mm"), new("flange_width_mm", "Larghezza ala bf", "mm"), new("web_width_mm", "Larghezza anima bw", "mm"), new("flange_thickness_mm", "Spessore ala hf", "mm"), new("cover_mm", "Copriferro netto", "mm")], _ => Invalidate(), true, wikiModule: "str_palo");
-        foreach(var(k,v) in new[]{("inner_diameter_mm","500"),("inner_width_mm","300"),("inner_height_mm","400")})if(!Input.ContainsKey(k))Input[k]=v;
+        Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareHoles(Input);
         var holeToggle=new CheckBox{Content="Foro centrale",IsChecked=Input.B("foro_presente"),Margin=new Thickness(4)};
         var holeForm=new InputForm(Input,[new("inner_diameter_mm","Diametro foro","mm"),new("inner_width_mm","Larghezza foro","mm"),new("inner_height_mm","Altezza foro","mm")],_=>Invalidate(),true);
         void UpdateHoleFields(){bool enabled=Input.B("foro_presente");holeForm.Visibility=enabled?Visibility.Visible:Visibility.Collapsed;holeForm.ShowField("inner_diameter_mm",Input.S("shape")=="Circolare");holeForm.ShowField("inner_width_mm",Input.S("shape")=="Rettangolare");holeForm.ShowField("inner_height_mm",Input.S("shape")=="Rettangolare");}
@@ -156,7 +158,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         refreshHoleControls=()=>{holeToggle.IsChecked=Input.B("foro_presente");holeToggle.IsEnabled=Input.S("shape") is "Circolare" or "Rettangolare";UpdateHoleFields();};
         geometry.IsVisibleChanged+=(_,_)=>refreshHoleControls();UpdateHoleFields();
         BuildMaterialFields();
-        foreach (var (key, value) in new[] { ("flange_bottom_count", "0"), ("flange_bottom_diameter_mm", Input.S("top_bar_diameter_mm")), ("flange_bottom_offset_mm", (Input.D("cover_mm") + Input.D("transverse_bar_diameter_mm") + Input.D("top_bar_diameter_mm") / 2).ToString(System.Globalization.CultureInfo.InvariantCulture)) }) if (!Input.ContainsKey(key)) Input[key] = value;
+        Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareFlange(Input);
         reinforcement = new(Input, [new("longitudinal_bar_count", "Barre circolari"), new("longitudinal_bar_diameter_mm", "Diametro", "mm"), new("top_bar_count", "Barre superiori"), new("top_bar_diameter_mm", "Ø superiori", "mm"), new("flange_bottom_count", "Barre intradosso ala (0: assenti)"), new("flange_bottom_diameter_mm", "Ø intradosso ala", "mm"), new("flange_bottom_offset_mm", "Intradosso ala → asse barra", "mm"), new("bottom_bar_count", "Barre inferiori"), new("bottom_bar_diameter_mm", "Ø inferiori", "mm"), new("side_bar_count_per_side", "Barre laterali / lato"), new("side_bar_diameter_mm", "Ø laterali", "mm")], _ => Invalidate(), true);
         foreach (var item in settings.Array("trefoli").OfType<JsonObject>()) tendons.Rows.Add(TendonRow((JsonObject)item.DeepClone()));
         grids.Add(tendons); grids.Add(barInventory);
@@ -192,11 +194,11 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
             var heading = new DockPanel(); DockPanel.SetDock(open, Dock.Right); heading.Children.Add(open); heading.Children.Add(Ui.Text(title, 12, true));
             return new Border { Background = Appearance.Paper, BorderBrush = Ui.Brush("#DCE2E9"), BorderThickness = new Thickness(1), Padding = new Thickness(7, 4, 7, 3), Margin = new Thickness(0, 0, 0, 4), Child = Ui.Stack(heading, value) };
         }
-        foreach (string key in SectionWorkspace.Sets)
+        foreach (string key in ConcreteEditor.Sets)
         {
             var value = new VerificationCards(); summaries[key] = value;
-            string title = key.StartsWith("SLE") ? "SLE · " + SectionWorkspace.Label(key) : SectionWorkspace.Label(key);
-            var button = Ui.Button("Apri →", () => { tabs.SelectedIndex = key.StartsWith("SLE") ? 3 : 1; if (key.StartsWith("SLE")) sleTabs.SelectedIndex = Array.IndexOf(SectionWorkspace.Sets, key) - 2; else domainPanels[0].Mode.SelectedItem = key; }, inspection: true); button.HorizontalAlignment = HorizontalAlignment.Right;
+            string title = key.StartsWith("SLE") ? "SLE · " + ConcreteEditor.Label(key) : ConcreteEditor.Label(key);
+            var button = Ui.Button("Apri →", () => { tabs.SelectedIndex = key.StartsWith("SLE") ? 3 : 1; if (key.StartsWith("SLE")) sleTabs.SelectedIndex = Array.IndexOf(ConcreteEditor.Sets, key) - 2; else domainPanels[0].Mode.SelectedItem = key; }, inspection: true); button.HorizontalAlignment = HorizontalAlignment.Right;
             summary.Children.Add(SummaryBlock(title, value, button));
         }
         summary.Children.Add(SummaryBlock("Taglio", shearDashboard, Ui.Button("Apri →", () => tabs.SelectedIndex = 4, inspection: true)));
@@ -216,14 +218,14 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     }
     private void SyncActions(string key)
     {
-        Data["combinazioni"]![key] = new JsonArray(actions[key].Select(row => (JsonNode)J.Obj(("id", row.Values.S("id")), ("nome", row.Values.S("nome")), ("azioni", new[] { row.Values.S("N"), row.Values.S("Mx"), row.Values.S("My") }), ("visible", row.Values.B("visible", true)))).ToArray());
+        Data["combinazioni"]![key] = Anthea.Application.Concrete.ConcreteSheetPreparation.StoreActions(actions[key].Select(r => r.Values));
     }
     private void TendonsChanged() { settings["trefoli"] = new JsonArray(tendons.Rows.Select(r => r.Values.DeepClone()).ToArray()); Invalidate(); }
     internal void Commit()
     {
         foreach (var form in Ui.Descendants<InputForm>(this).ToArray()) form.Commit();
         foreach (var grid in grids) grid.Commit(); foreach (string key in actions.Keys) SyncActions(key);
-        if (shearGrid is not null) ShearOptions["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Mx",r.Values.S("Mx","0")),("My",r.Values.S("My","0")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")),("T",r.Values.S("T","0")))).ToArray());
+        if (shearGrid is not null) ShearOptions["azioni"] = Anthea.Application.Concrete.ConcreteSheetPreparation.StoreShearRows(shearGrid.Rows.Select(r => r.Values));
     }
     internal void SetGeometry(string value) => geometry.Set("diameter_mm", value);
     private void Invalidate(bool geometryChanged = true)
@@ -231,7 +233,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         using var notifications = JsonRow.DeferNotifications(actions.Values.SelectMany(r => r));
         if (initializing || disposed || synchronizing) return;
         pendingCalculations.UnionWith(AllCalculations);
-        revision++; cancellation?.Cancel(); Result = null; meshes.Clear(); checker3D.Clear(); checker2D.Clear(); domainResults.Clear(); stressResults.Clear(); InvalidateShear();
+        revision++; analysisScheduler.Invalidate(); Result = null; meshes.Clear(); checker3D.Clear(); checker2D.Clear(); domainResults.Clear(); stressResults.Clear(); InvalidateShear();
         synchronizing = true;
         try { foreach (var row in actions.Values.SelectMany(r => r)) foreach (string key in new[] { "eta3d", "eta2d", "esito3d", "esito2d", "sigma_c", "sigma_s", "eta_sigma", "stress_status", "wk" }) row.Output(key, key.StartsWith("esito") || key == "stress_status" ? "Da calcolare" : key == "wk" ? "Da calcolare" : "—"); }
         finally { synchronizing = false; }
@@ -239,7 +241,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         foreach (var panel in stressPanels.Values) { panel.View.Stress = null; panel.View.EffectiveRegion=null;panel.Regions.ItemsSource=null;panel.View.InvalidateVisual(); panel.Detail.Text = "Nessun risultato aggiornato"; panel.CrackDetail.Text = "Dati modificati: passaggi in attesa di aggiornamento."; panel.Bars.Rows.Clear(); panel.Concrete.Rows.Clear(); }
         InvalidateCurvature();
         if (!geometryChanged) _ = RefreshQuickResistance();
-        foreach(var panel in domainPanels)UpdateSectionInspection(panel);
+        foreach(var panel in domainPanels) _ = UpdateSectionInspection(panel);
         if (geometryChanged) RefreshPreview(); RefreshSummary(); status.Text = "Modifiche acquisite · aggiornamento automatico in attesa…"; Modified?.Invoke(); QueueCalculation();
     }
     private void QueueCalculation()
@@ -258,7 +260,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     {
         if (initializing || disposed || synchronizing) return;
         pendingCalculations.UnionWith(affected.Length == 0 ? AllCalculations : affected);
-        revision++; cancellation?.Cancel(); Result = null; QueueCalculation(); Modified?.Invoke();
+        revision++; analysisScheduler.Invalidate(); Result = null; QueueCalculation(); Modified?.Invoke();
     }
     private void InvalidateActions(string key)
     {
@@ -290,16 +292,15 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         reinforcement.ToolTip = reinforcement.IsEnabled ? null : "Sono attive le coordinate delle barre. Ripristina le barre da wizard per usare questi parametri.";
         foreach (string key in new[] { "diameter_mm", "circular_sides", "width_mm", "height_mm", "flange_width_mm", "web_width_mm", "flange_thickness_mm" }) geometry.ShowField(key, key switch { "diameter_mm" or "circular_sides" => shape == "Circolare", "width_mm" => shape == "Rettangolare", "height_mm" => shape != "Circolare", _ => shape == "A T" });
         foreach (string key in reinforcement.Editors.Keys.Where(k => !k.StartsWith("transverse"))) reinforcement.ShowField(key, key.StartsWith("flange_bottom") ? shape == "A T" : key.StartsWith("longitudinal") ? shape == "Circolare" : shape != "Circolare");
-        SezioneCA? engine = null;
+        ConcreteGeometry? engine = null;
         try
         {
-            engine = new SezioneCA(Input); preview.Message = "";
-            var concrete = ConcreteMaterials.Concrete(Input); var steel = ConcreteMaterials.Rebar(Input);
-            var strengths = ConcreteMaterials.DesignValues(Input, settings);
-            materials.Set("__fcd", EngineeringFormat.Number(strengths.Fcd), true); materials.Set("__fyd", EngineeringFormat.Number(strengths.Fyd), true);
-            materials.Set("__ecm", EngineeringFormat.Number(concrete.E), true); materials.Set("__ec2", EngineeringFormat.Number(Math.Abs(concrete.StrainYCompression) * 1000), true); materials.Set("__ecu", EngineeringFormat.Number(Math.Abs(concrete.StrainUCompression) * 1000), true);
+            var values = Anthea.Application.Concrete.ConcretePreview.Read(Input, settings);
+            engine = values.Geometry; preview.Message = "";
+            materials.Set("__fcd", EngineeringFormat.Number(values.Fcd), true); materials.Set("__fyd", EngineeringFormat.Number(values.Fyd), true);
+            materials.Set("__ecm", EngineeringFormat.Number(values.Ecm), true); materials.Set("__ec2", EngineeringFormat.Number(values.Ec2), true); materials.Set("__ecu", EngineeringFormat.Number(values.Ecu), true);
             materials.Set("__nmode", "φ nelle schede SLE", true);
-            materials.Set("n", EngineeringFormat.Number(steel.E / concrete.E), true);
+            materials.Set("n", EngineeringFormat.Number(values.N), true);
         }
         catch (ArgumentException ex) { engine = null; preview.Message = ex.Message; foreach (string key in materials.Editors.Keys.Where(k => k.StartsWith("__"))) materials.Set(key, "—", true); }
         preview.Section = engine; preview.Tendons = [];
@@ -309,7 +310,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
             if (x is double xx && y is double yy && a is > 0) preview.Tendons.Add(new(t.S("id"), xx, yy, a.Value));
         }
         SynchronizeStirrups(); foreach (string key in stressPanels.Keys) SynchronizeHomogenization(key);
-        foreach (string field in SectionWorkspace.SharedSleFields) settings["sle_comuni"]![field] = settings["sle"]!["SLE"]![field]?.DeepClone();
+        foreach (string field in ConcreteEditor.SharedSleFields) settings["sle_comuni"]![field] = settings["sle"]!["SLE"]![field]?.DeepClone();
         RefreshTendonOptions(); RefreshAutomaticShear();
         RefreshDetailing();
         preview.InvalidateVisual();
@@ -352,11 +353,11 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
             if (cells.Length == 4 && cells[1].Trim().StartsWith("N", StringComparison.OrdinalIgnoreCase)) continue;
             if (cells.Length == 3) cells = new[] { "", cells[0], cells[1], cells[2] };
             if (cells.Length != 4) throw new ArgumentException("Usare 3 colonne N–Mx–My oppure 4 colonne Nome–N–Mx–My, separate da tabulazioni.");
-            for (int i = 1; i < 4; i++) SectionWorkspace.Number(cells[i], "Riga " + (result.Count + 1));
+            for (int i = 1; i < 4; i++) ConcreteEditor.Number(cells[i], "Riga " + (result.Count + 1));
             result.Add(cells);
         }
         if (result.Count == 0) throw new ArgumentException("Nessuna combinazione da incollare.");
         return result;
     }
-    public void Dispose() { disposed = true; calculationQueued = false; cancellation?.Cancel(); curvatureCancellation?.Cancel(); designCancellation?.Cancel(); }
+    public void Dispose() { disposed = true; calculationQueued = false; analysisScheduler.Dispose(); curvatureScheduler.Dispose(); quickResistanceScheduler.Dispose(); designCancellation?.Cancel(); foreach (var panel in domainPanels) panel.Inspection.Session.Dispose(); }
 }

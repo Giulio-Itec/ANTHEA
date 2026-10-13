@@ -18,7 +18,7 @@ archive.mkdir(parents=True,exist_ok=True)
 records=[]
 paths=[SUPPORT/x for x in ['docs/guida-pratica-anthea.md','docs/guida-pratica-anthea.pdf','docs/guida-teorica-anthea.md','docs/guida-teorica-anthea.pdf','README.md','README.pdf','installer/Indice-guide.md','installer/Indice-guide.pdf']]
 paths+=list((SUPPORT/'documentazione/Guide_ANTHEA').glob('*Rev28.*'))
-paths+=[ROOT/'X.Desktop/Wiki'/x for x in ['editorial.json','references.json','index.json']]
+paths+=[ROOT/'src/ANTHEA.Wiki/Content'/x for x in ['editorial.json','references.json','index.json']]
 for p in paths:
     relative=p.relative_to(ROOT);dest=archive/relative
     dest.parent.mkdir(parents=True,exist_ok=True)
@@ -26,12 +26,12 @@ for p in paths:
     records.append(dict(origine=str(relative),archivio=str(dest.relative_to(ROOT)),sha256=sha256(dest.read_bytes()).hexdigest(),motivo='Sostituzione con biblioteca tecnica e aiuti contestuali',revisione_sostitutiva=REV))
 (archive/'registro.json').write_text(json.dumps(records,ensure_ascii=False,indent=2),encoding='utf-8')
 
-editorialPath=ROOT/'X.Desktop/Wiki/editorial.json';refsPath=ROOT/'X.Desktop/Wiki/references.json'
+editorialPath=ROOT/'src/ANTHEA.Wiki/Content/editorial.json';refsPath=ROOT/'src/ANTHEA.Wiki/Content/references.json'
 editorial=json.loads((archive/'X.Desktop/Wiki/editorial.json').read_text(encoding='utf-8'))
 refs=json.loads((archive/'X.Desktop/Wiki/references.json').read_text(encoding='utf-8'))
 mdp=json.loads((PREP/'mdp-articles.json').read_text(encoding='utf-8'))
 resources=json.loads((PREP/'reading-resources.json').read_text(encoding='utf-8'))
-chapters=json.loads((ROOT/'X.Desktop/Wiki/chapters.json').read_text(encoding='utf-8'))
+chapters=json.loads((ROOT/'src/ANTHEA.Wiki/Content/chapters.json').read_text(encoding='utf-8'))
 allNew=list(content.CHAPTERS)
 originalKeys=[x['key'] for x in allNew]
 

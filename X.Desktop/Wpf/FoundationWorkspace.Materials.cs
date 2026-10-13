@@ -1,3 +1,4 @@
+using Anthea.Application.Materials;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,8 +46,8 @@ internal sealed partial class FoundationWorkspace
     }
     FrameworkElement ConcreteEditor()
     {
-        var section=data["sezione"]!.AsObject();var catalog=ConcreteMaterialCatalog.Concrete();InputForm? form=null;
-        form=new InputForm(section,[new("classe_cls","Calcestruzzo",Choices:catalog.Select(m=>m["nome"]!.ToString()).Append(section["classe_cls"]!.ToString()).Append("Personalizzato").Distinct().ToArray()),new("fck_mpa","Resistenza fck","MPa"),new("cls_diagramma","Diagramma",Choices:ConcreteMaterials.ConcreteDiagrams)],key=>
+        var section=data["sezione"]!.AsObject();var catalog=MaterialInputCatalog.Concrete();InputForm? form=null;
+        form=new InputForm(section,[new("classe_cls","Calcestruzzo",Choices:catalog.Select(m=>m["nome"]!.ToString()).Append(section["classe_cls"]!.ToString()).Append("Personalizzato").Distinct().ToArray()),new("fck_mpa","Resistenza fck","MPa"),new("cls_diagramma","Diagramma",Choices:MaterialInputCatalog.ConcreteDiagrams)],key=>
         {
             if(key=="classe_cls" && catalog.FirstOrDefault(m=>m["nome"]?.ToString()==section[key]?.ToString()) is {} selected)
                 foreach(var (k,v) in selected.Where(p=>p.Key!="nome")){section[k]=v?.DeepClone();form!.Set(k,v?.ToString()??"",true);}

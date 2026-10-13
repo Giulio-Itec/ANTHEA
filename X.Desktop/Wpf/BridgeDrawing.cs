@@ -1,3 +1,4 @@
+using Anthea.Application.Presentation;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -77,7 +78,7 @@ internal sealed partial class BridgeDrawing : FrameworkElement
         }
         Text(IsStale ? "ULTIMO CALCOLO · DA AGGIORNARE" : "SEZIONE  ·  mm", 12, 7, IsStale ? Ui.Brush("#8B5916") : Ui.Muted, 10);
         Rectangle(0, 0, g.Width, g.SlabHeight, Concrete);
-        if (Input is { } slabInput && BridgeSection.SlabLayout(slabInput) is { HasPredalle: true } slabLayout)
+        if (Input is { } slabInput && BridgeEditor.SlabLayout(slabInput) is { HasPredalle: true } slabLayout)
         {
             var band = R(0, 0, g.Width, slabLayout.PredalleThickness); PredalleBounds = band;
             // Keep the stress contour visible; the dashed boundary is a geometric reference only.
@@ -171,7 +172,7 @@ internal sealed partial class BridgeDrawing : FrameworkElement
         else
         Text(realPlates ? "Lamiere reali · N–Mx con H equivalente (anime tw/cos α)" : g.Bottom2Thickness > 0 ? "Due piastre reali = geometria di calcolo" : "Geometria reale = geometria di calcolo", 12, h - 19, Ui.Muted, 10);
         if (ShowNeutralAxis && Stage is { } selectedStage)
-            NeutralAxisDisplay = NeutralAxisOverlay.Draw(dc, SectionNeutralAxis.Bridge(selectedStage), P,
+            NeutralAxisDisplay = NeutralAxisOverlay.Draw(dc, NeutralAxisPresentation.Bridge(selectedStage), P,
                 new Rect(P(0, g.SlabHeight), P(g.Width, -g.Height)), new Rect(12, 78, Math.Max(30, geoWidth - 24), Math.Max(20, h - 150)), 57);
         if (!chart || Stage is not { } stage) return;
         DrawStressDiagram(dc, g, stage, geoWidth, w, h, y => P(0, y).Y);

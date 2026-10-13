@@ -18,7 +18,8 @@
     "da-decidere",
     "dichiarato",
     "da-correggere",
-    "corretto"
+    "corretto",
+    "attuato"
   ],
   "nota_voci_r": "Le voci R1-R14 vengono dalla ricerca normativa sulla fessurazione (supporto/artefatti/refactoring/ricerca-a/rapporto.md) e dalla revisione dei metodi c.a. per le pagine docs/metodi di Checker (branch locali anthea-metodi-ca-1 e anthea-metodi-ca-2, harness in supporto/artefatti/refactoring/metodi e metodi2). R15 viene dalla revisione di D7-b. Le voci R16-R21 vengono dalla verifica delle pagine dei metodi unite in Checker develop (F2.2: merge c555a3b8 e 1fbaea61 e correzioni successive, riquadri collegati alle voci in e41a803a); stato da-decidere e stessa decisione di R4-R14 (F5.15). Il segno è riferito al testo della norma del profilo; dove il testo primario non è stato letto il grado di certezza è indicato nel campo riscontro.",
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
@@ -3504,6 +3505,241 @@
       "evidenze": [
         "supporto/artefatti/ci/20261013-004459-sez-set-v-full",
         "supporto/artefatti/guide_anthea_itec_rev39"
+      ]
+    },
+    {
+      "id": "F3-01",
+      "data": "2026-10-13",
+      "fase": "F3.4/F3.5",
+      "titolo": "Identità diagnostiche dei generatori DOCX trasferiti",
+      "famiglia": "tracce diagnostiche",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Otto rinomine esatte Create → CreateDocument nelle sole identità dei chiamanti del banco, comprese tre lambda. Tracce TSV originali conservate. Nessuna sostituzione generica, nessuna tolleranza numerica nuova. Confronto F2 finale: 633 differenze, tutte limitate al campo chiamante di fallbacks.json (562 ReportWord, 49 Concrete, 10 RetainingWall, 7 Orizzontale, 3 ElasticPile, 2 Bridge).",
+      "codice": [
+        "tests/ANTHEA.Testing/Normalization/FallbackCallers.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-020742-f3-dispatch-headless-current"
+      ]
+    },
+    {
+      "id": "F3-02",
+      "data": "2026-10-13",
+      "fase": "F3.5/F3.6/F3.7",
+      "titolo": "Richieste applicative seriali e pubblicazione per revisione",
+      "famiglia": "interfaccia/orchestrazione",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Scheduler comune senza WPF: sostituzione dei timer di calcolo, serializzazione anche per motori non cooperativi, annullamento e pubblicazione solo della revisione corrente. Proprietà e ispezione della sezione riusano il modello/piano esistente e non aggiornano finestre chiuse. Risultati e immagini restano equivalenti; cambiano coordinamento e gestione delle richieste superate.",
+      "codice": [
+        "src/ANTHEA.Application/Scheduling/RecalculationScheduler.cs",
+        "src/ANTHEA.Application/Concrete/ConcretePropertySession.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteInspectionSession.cs"
+      ],
+      "segno": "Nessuna differenza numerica o grafica nelle catture. Richieste superate non pubblicate; ritardi dei moduli conservati, Bridge Design passa al ritardo pianificato di 450 ms.",
+      "test": [
+        "Prove con barriere, motori non cooperativi, modifiche e chiusura",
+        "458 file F3 equivalenti; 32 PNG ispezione identici byte per byte"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-041739-f3-concrete-inspection-built",
+        "supporto/artefatti/ci/20261013-042027-f3-inspection-final"
+      ]
+    },
+    {
+      "id": "F3-03",
+      "data": "2026-10-13",
+      "fase": "F3.7b.2",
+      "titolo": "Parametri del muro: revisione verificata anche dopo il calcolo",
+      "famiglia": "interfaccia/integrità del documento",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Il riepilogo modificabile verificava la revisione solo prima del controllo asincrono. Un aggiornamento del foglio durante tale attesa poteva essere sovrascritto. Ora il controllo è ripetuto all’applicazione; un conflitto mantiene il foglio corrente e segnala di riaprire il riepilogo. Chiusura e disposizione invalidano la richiesta.",
+      "codice": [
+        "X.Desktop/Wpf/RetainingWallWorkspace.Parameters.cs",
+        "src/ANTHEA.Application/Presentation/WallParameterTable.cs"
+      ],
+      "segno": "Nessuna variazione numerica per richieste valide. Le proposte obsolete non vengono più applicate.",
+      "test": [
+        "Quattro prove WPF con motore trattenuto da barriera",
+        "Undici prove portabili; 24 PNG identici"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-042707-f3-wall-parameters-final"
+      ]
+    },
+    {
+      "id": "F3-04",
+      "data": "2026-10-13",
+      "fase": "F3.7b.6",
+      "titolo": "Proposte dei tratti protette da revisione, chiusura e FEM obsoleto",
+      "famiglia": "interfaccia/integrità del documento",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "La suddivisione proposta non controllava la revisione all’applicazione; il dimensionamento poteva completare gli aggiornamenti di testo dopo la chiusura. Ora le proposte possiedono input e risposta, applicano solo sulla revisione iniziale, rifiutano una chiave FEM non coerente e non pubblicano dopo la chiusura. I campi della proposta sono letti tutti prima di mutare la sezione.",
+      "codice": [
+        "src/ANTHEA.Application/Modules/PileReinforcementOperations.cs",
+        "X.Desktop/Wpf/PileReinforcementEditor.cs"
+      ],
+      "segno": "Nessuna differenza numerica per proposte valide; rifiuto esplicito di proposte obsolete o incomplete.",
+      "test": [
+        "Tredici controlli portabili con confronto esatto con il motore precedente",
+        "Sei WPF con modifica/chiusura al progresso reale",
+        "458 file F3 equivalenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-045043-f3-pile-segment-protection"
+      ]
+    },
+    {
+      "id": "F3-05",
+      "data": "2026-10-13",
+      "fase": "F3.7b.7a",
+      "titolo": "Ora di generazione nei capitoli confrontati a cavallo del minuto",
+      "famiglia": "strumentazione dei test",
+      "categoria": "volatile",
+      "stato": "corretto",
+      "descrizione": "Il confronto XML dei capitoli normalizzava core.xml ma non la riga data/ora del corpo. Due esecuzioni equivalenti fra 04:58 e 04:59 fallivano. Si riusa TextNormalizer soltanto sui quattro prefissi generati e sul formato esatto dd/MM/yyyy HH:mm della riga; date di input, date normative e numeri tecnici non sono esclusi.",
+      "codice": [
+        "tests/ANTHEA.Testing/Normalization/TextNormalizer.cs",
+        "tests/ANTHEA.Desktop.Equivalence/F3ReportChapterChecks.cs"
+      ],
+      "segno": "Nessuna modifica al prodotto, ai risultati o agli attesi. Correzione del confronto di un volatile già censito.",
+      "test": [
+        "Nove prove: prefissi, cambio giorno, numeri e testi utente, date normative",
+        "37 capitoli e 85 immagini equivalenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-045645-f3-structural-preview",
+        "supporto/artefatti/ci/20261013-050137-f3-report-timestamp-fix"
+      ]
+    },
+    {
+      "id": "F3-06",
+      "data": "2026-10-13",
+      "fase": "F3-documentazione",
+      "titolo": "Guide Rev40 e riferimenti editoriali Wiki",
+      "famiglia": "documentazione e ricerca",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "33 differenze editoriali in cinque file: procedure di ricalcolo e proposte, architettura dei servizi, inserimento del relativo articolo al decimo posto della ricerca palo. Le altre 29 ricerche restano identiche. Riferimenti originari conservati in Git, sorgenti e guide Rev39 archiviati; hash prima/dopo nel manifest. Nessun input o atteso ingegneristico aggiornato.",
+      "codice": [
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md",
+        "tests/fixtures/f3/manifest.json"
+      ],
+      "test": [
+        "Confronto circoscritto ai cinque file editoriali; hash invariati per tutti gli altri riferimenti",
+        "337 formule Word e 26 parti ITEC conservate; PDF 78/144 pagine"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-051212-f3-rev40-editorial-capture/ui_f3-equivalence/cattura",
+        "supporto/artefatti/refactoring/f3/rev40-reference-update.json",
+        "supporto/artefatti/guide_anthea_itec_rev40/qa"
+      ]
+    },
+    {
+      "id": "F3-07",
+      "data": "2026-10-13",
+      "fase": "F3.7b.13",
+      "titolo": "Stati transitori nelle catture delle finestre del ponte",
+      "famiglia": "strumentazione dei test",
+      "categoria": "volatile",
+      "stato": "corretto",
+      "descrizione": "56 delle 78 immagini prima/dopo identiche. Le 22 restanti differiscono per rettangolo del focus, hover di controlli e scrollbar o testo di preparazione rispetto al calcolo già terminato. Ritagli ispezionati; nessuna maschera o tolleranza aggiunta. Le immagini non identiche non sono usate per attestare equivalenza pixel per pixel. Report, geometrie e risultati confrontati separatamente restano esatti. Seguito F3.7b.15: Bridge Design ha 60/61 immagini identiche; la sola bridge_design_1600.png differisce nel contorno della scheda Sito selezionata, rettangolo (34,230)-(95,259), ispezionato nel ritaglio. Nessuna modifica ai disegni, maschera o tolleranza. Seguito F3.7b.16: muri e stabilità globale hanno 6/29 immagini identiche; le altre 23 differiscono solo per hover/focus azzurro del selettore SLE 1, rettangolo (154,133)-(363,168), verificato nel ritaglio. Disegni autonomi identici; nessuna maschera o tolleranza. Seguito F3.7b.19: CA ha 51/52 immagini identiche. Il pannello materiali del riferimento è catturato durante il calcolo delle quattro resistenze, la nuova immagine dopo il completamento; il riquadro dei valori sposta i riepiloghi sottostanti. Ritaglio ispezionato, valori e report verificati separatamente, nessuna maschera. Seguito F3.7b.22: una cattura muri differisce solo nella scrollbar orizzontale (33,877)-(1517,894), ispezionata; nessuna modifica ai dati o ai disegni.",
+      "codice": [
+        "supporto/test/Desktop/BridgeSmokeChecks.cs",
+        "supporto/test/Desktop/BridgeResponseUiSmokeChecks.cs"
+      ],
+      "test": [
+        "87.462 valori confrontati esattamente nei contratti",
+        "37 capitoli e 458 file equivalenti",
+        "56 immagini identiche; inventario delle 22 differenze transitorie"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f3/bridge-contracts-images.json",
+        "supporto/artefatti/refactoring/f3/bridge-diffs",
+        "supporto/artefatti/ci/20261013-090512-f3-bridge-contracts-owned",
+        "supporto/artefatti/refactoring/f3/bridge-design-contract-images.json",
+        "supporto/artefatti/refactoring/f3/bridge-design-contract-diff.png",
+        "supporto/artefatti/refactoring/f3/wall-contract-images.json",
+        "supporto/artefatti/refactoring/f3/wall-contract-diff.png",
+        "supporto/artefatti/refactoring/f3/concrete-auxiliary-images.json",
+        "supporto/artefatti/refactoring/f3/concrete-auxiliary-diff.png",
+        "supporto/artefatti/refactoring/f3/final-ui-rules-images.json"
+      ]
+    },
+    {
+      "id": "F3-08",
+      "data": "2026-10-13",
+      "fase": "F3.7b.14",
+      "titolo": "Dimensioni delle finestre nelle catture CA",
+      "famiglia": "strumentazione dei test",
+      "categoria": "volatile",
+      "stato": "corretto",
+      "descrizione": "Sette delle 52 immagini identiche; le altre 45 hanno dimensioni diverse fra le due corse (viewport 1904x993 rispetto a 1586x953 e finestre secondarie con differenza di due pixel). Il confronto delle finestre non è usato per attestare equivalenza grafica. Nessun ricampionamento, maschera, tolleranza o atteso sostituito; confronto dei dati grafici e dei report mantenuto nel banco F3. Seguito F3.7b.20: 38/52 catture identiche; 14 finestre con dimensioni diverse, inventariate senza ricampionamento. I 116.992 valori dei contratti e i report restano esatti. Seguito F3.7b.22: 68 catture del ponte hanno dimensioni diverse per viewport/schermo; 27 delle 96 totali sono identiche, la sola altra differenza è censita F3-07. Nessuna maschera o ricampionamento.",
+      "codice": [
+        "supporto/test/Desktop/ConcreteExtensionSmokeChecks.cs"
+      ],
+      "test": [
+        "68 nuovi controlli applicativi sui cataloghi e sugli input",
+        "37 capitoli e 458 file F3 equivalenti",
+        "Inventario dimensioni di tutte le 52 catture"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f3/concrete-editor-images.json",
+        "supporto/artefatti/refactoring/f3/concrete-editor-moves.json",
+        "supporto/artefatti/ci/20261013-113848-f3-concrete-editor",
+        "supporto/artefatti/refactoring/f3/domain-contract-images.json",
+        "supporto/artefatti/refactoring/f3/final-ui-rules-images.json"
+      ]
+    },
+    {
+      "id": "F3-09",
+      "data": "2026-10-13",
+      "fase": "F3-TST2",
+      "titolo": "Versione esplicita nella fixture di condivisione materiali",
+      "famiglia": "strumentazione dei test",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "La fixture sostituiva i dati generati dalla factory con un oggetto incompleto. Aggiunta versione_materiali=1; rifiuto di documenti non versionati e controlli del prodotto invariati.",
+      "codice": [
+        "supporto/test/Desktop/ProjectCoverWarningSmokeChecks.cs"
+      ],
+      "segno": "Nessuna modifica ai valori ingegneristici o agli attesi indipendenti.",
+      "test": [
+        "ui/smoke-sharing PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-130137-f3-final-full",
+        "supporto/artefatti/ci/20261013-132011-f3-final-test-adapters"
+      ]
+    },
+    {
+      "id": "F3-10",
+      "data": "2026-10-13",
+      "fase": "F3.7b.23",
+      "titolo": "Set runtime completo senza riferimenti diretti nella UI",
+      "famiglia": "confezionamento e confine applicativo",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Il Desktop Release non riceve più riferimenti GPC diretti dal target comune. Copia le dieci DLL del manifest, aggiungendo GPC.Model.Persistence che non era presente nel vecchio sottoinsieme distribuito. L’overload nativo Bridge dell’asse neutro è interno. Nessun calcolo, versione DLL, valore o atteso modificato. UiTests conserva i riferimenti nativi dei soli test.",
+      "codice": [
+        "Directory.Build.targets",
+        "X.Desktop/X.Desktop.csproj",
+        "src/ANTHEA.Application/Presentation/NeutralAxisPresentation.cs"
+      ],
+      "test": [
+        "Release senza riferimenti diretti, metadata senza GPC/Calculations",
+        "1178 controlli Application PASS",
+        "10/10 SHA-256 della pubblicazione uguali al manifest",
+        "Installer e controllo assenza codice test PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-133956-f3-runtime-manifest",
+        "supporto/artefatti/refactoring/f3/runtime-manifest-publish.json",
+        "supporto/artefatti/refactoring/f3/installer-1.6.0.log"
       ]
     }
   ]

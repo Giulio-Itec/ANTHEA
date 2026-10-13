@@ -951,3 +951,37 @@ U1 disattiva l’opzione di compatibilità che nascondeva BarSpacing nelle sezio
 Il lock globale di costruzione è rimosso soltanto dopo la cattura con il lock attivo. Si riusa il catalogo di 80 mesh e si confrontano esattamente coordinate, numerazione, connettività e ordine. Le sezioni condivise e indipendenti producono gli stessi 36 stati del calcolo seriale. Il lock GPC per la cache della sezione, quello del singolo solutore e quello della cache grafica restano pertinenti. Nessun cambiamento numerico, registro F2-23.
 
 L’utente assegna nove ore di lavoro dal 12/10 alle 22:19 (Europe/Rome), richiede tracciamento persistente e riepilogo a ogni fine fase. Conferma la prosecuzione fino a F4 se il tempo basta; **F5 non deve iniziare**. Ordine: chiusure F2 e finestra 5.2, stage, sezioni, F3, F4. Il punto 5 di collaudo e il punto 5.2 della finestra appartengono al blocco F2, non alla fase F5 esclusa. Restano autorizzati test, versioni, merge e push al completamento dei blocchi. Stato operativo in `stato-notturno-20261012.md`.
+
+
+## F3 — decisioni operative del 13 ottobre
+
+Sulla delega del 12 ottobre si adottano i confini descritti in f3-strato-applicativo.md: migrazioni pigre su copie, decisione elastica pendente, formati conservati, servizi senza WPF, figure tramite renderer e test di equivalenza prima degli spostamenti. Riusati il toolkit e la configurazione UiTests esistenti; 36 fixture coprono i 12 moduli attuali. Il set V resta congelato. Le dipendenze e la compatibilità del test esterno Checker sono considerate prima di eliminare X.Core. Nessuna autorizzazione implicita alla fase F5.
+
+## 13 ottobre — rilascio intermedio dei servizi F3
+
+Sulla delega operativa e di rilascio già concessa, si prepara ANTHEA 1.6.0: incremento del secondo componente per la separazione applicativa e i nuovi servizi senza interfaccia, con protezioni delle revisioni. Il set GPC V resta invariato. Si integrano soltanto i punti conclusi e collaudati; F3.7b resta aperto sui contratti concreti e sugli accessi residui delle viste, censiti nei metadati della Release. Non si dichiara chiusa la fase 3 e non si anticipa F4 prima di quel confine. F5 resta esclusa. L’integrazione e il push dipendono dal collaudo completo; l’applicazione primaria con dati non salvati non viene riavviata o ricompilata.
+
+Le guide Rev40 aggiornano procedure e descrizione dell’architettura, senza formule nuove. Le modifiche dei soli riferimenti Wiki nel banco F3 saranno tracciate separatamente dalla cattura iniziale; gli attesi ingegneristici rimangono immutati.
+
+## 13 ottobre — chiusura F3 richiesta
+
+L’utente richiede di completare F3, con un commit per ogni fix, e vieta di iniziare F4. La candidata 1.6.0 resta sul ramo della fase fino al collaudo finale. Restano in vigore il confronto prima/dopo, il set V congelato e la conservazione del legacy di calcolo: F3 separa accessi e contratti applicativi, senza anticipare il trasferimento ingegneristico di F4.
+
+
+## 13 ottobre — input unificato delle sollecitazioni da Excel
+
+Attività EXCEL-SOL accodata dopo i punti F3 già concordati; nessun avvio di F4. Requisiti espressi dall'utente:
+
+- Colonne: `Elemento`, `Nome combo`, `Stato limite`, `N`, `Vx`, `Vy`, `T`, `Mx`, `My`, in questo ordine. `Elemento` è facoltativo.
+- Ogni riga conserva tutte e sei le componenti della combinazione, disponibili insieme a tutte le verifiche pertinenti. SLU alimenta domini 2D/3D e taglio/torsione; SLV alimenta i controlli associati e anche taglio/torsione. Rara, Frequente e Quasi permanente alimentano i rispettivi controlli SLE secondo le regole già implementate.
+- Eliminare la famiglia di input `Taglio`: taglio e torsione operano sulle combinazioni SLU e SLV. Le viste e i risultati delle verifiche restano distinti dove necessario.
+
+Impostazione applicativa proposta: una sola registrazione per riga, con filtri per le verifiche, senza duplicare i dati né ricombinare o coefficientare sollecitazioni già combinate. Un elemento vuoto usa il contesto del foglio di verifica destinatario e non assegna la riga indiscriminatamente a tutti gli elementi. Un elemento valorizzato deve mantenere la propria associazione; combinazioni omonime di elementi diversi non vanno fuse. Unità, assi locali e convenzione dei segni devono essere espliciti nel template e nell'anteprima. Un valore numerico mancante non va confuso silenziosamente con uno zero.
+
+Compatibilità da risolvere in implementazione: i vecchi file con famiglia Taglio non indicano se la riga appartiene a SLU o SLV. Conservare i dati e rendere esplicita l'assegnazione, senza scartarla né indovinarne lo stato limite. Inoltre oggi SectionWorkspace presenta SLU come Plastico e SLV come Elastico e CheckerSection seleziona così il dominio: classificazione della combinazione e criterio del dominio vanno tenuti distinti, senza introdurre implicitamente nuove regole sismiche nella sola importazione. Riutilizzare parser, validazioni e servizi esistenti. Collaudare lo stesso insieme di componenti nei diversi controlli e il percorso di migrazione, senza sostituire gli attesi indipendenti.
+
+Sono registrati requisiti e proposta, non una funzionalità già realizzata. Al termine di F3 chiedere soltanto le decisioni residue necessarie per la riscrittura.
+
+## 13 ottobre — chiusura effettiva F3
+
+Completati contratti, servizi, report e confine Desktop. Verifica sorgenti oltre ai metadati, compilazione Release senza riferimenti GPC diretti e distribuzione dal manifest. Set V e legacy conservati, nessun avvio di F4. ANTHEA 1.6.0 pronta con guide Rev40; 122 voci del full risolte tramite riprese mirate tracciate, installer verificato. Merge e push restano quelli già autorizzati; nessun intervento sul processo utente. EXCEL-SOL rimane la prossima attività separata: Elemento facoltativo e distinzione fra stato limite e criterio resistente, come specificato sopra.

@@ -1,3 +1,4 @@
+using Anthea.Testing;
 using System.Globalization;
 using System.Reflection;
 using System.Text.Json.Nodes;
@@ -646,7 +647,7 @@ sealed partial class ServiceabilityChecks
             && allowlist.All(a => !string.IsNullOrWhiteSpace(a.Reason) && !string.IsNullOrWhiteSpace(a.Expiry) && (a.WholeFile ? a.Calls is null : a.Calls > 0 && a.Texts.Length > 0)),
             "5k: voci di legacy-allowlist.json ripetute o incomplete (file, chiamate e testo oppure tutto il file, motivo, scadenza)");
         int files = 0, suiteFiles = 0; var found = new SortedDictionary<string, List<string>>(StringComparer.Ordinal);
-        foreach (var (folder, production) in new[] { ("X.Calculations", true), ("X.Core", true), ("X.Desktop", true), ("supporto/test", false), ("tests", false) })
+        foreach (var (folder, production) in new[] { ("X.Calculations", true), ("X.Core", true), ("X.Desktop", true), ("src", true), ("supporto/test", false), ("tests", false) })
             foreach (var path in Directory.EnumerateFiles(Path.Combine(root, folder), "*.cs", SearchOption.AllDirectories))
             {
                 string relative = Path.GetRelativePath(root, path).Replace('\\', '/');
@@ -693,7 +694,7 @@ sealed partial class ServiceabilityChecks
         {
             var library = outcomes[ServiceabilityEngine.Library][id];
             if (legacy.State is null) continue;
-            Check(!ReferenceEquals(legacy.State, library.State) && legacy.State.Engine == ServiceabilityEngine.Legacy && library.State!.Engine == ServiceabilityEngine.Library,
+            Check(!ReferenceEquals(legacy.State, library.State) && legacy.State.GetNativeForTest().Engine == ServiceabilityEngine.Legacy && library.State!.GetNativeForTest().Engine == ServiceabilityEngine.Library,
                 "5m: due sessioni con motori diversi condividono uno stato o hanno lo stesso marcatore: " + id);
         }
         // La firma della cache contiene il motore: cambiando per riflessione il motore della sessione, gli stati si ricalcolano.
@@ -703,7 +704,7 @@ sealed partial class ServiceabilityChecks
         Check(first.All(p => p.Value.State is null || ReferenceEquals(p.Value.State, again[p.Key].State)), "5m: la cache della sessione non riusa gli stati");
         field!.SetValue(session, ServiceabilityEngine.Library);
         var switched = session.Stress(input, settings, options, "SLE_QP", rows);
-        Check(first.All(p => p.Value.State is null || !ReferenceEquals(p.Value.State, switched[p.Key].State) && switched[p.Key].State!.Engine == ServiceabilityEngine.Library),
+        Check(first.All(p => p.Value.State is null || !ReferenceEquals(p.Value.State, switched[p.Key].State) && switched[p.Key].State!.GetNativeForTest().Engine == ServiceabilityEngine.Library),
             "5m: la firma della cache non contiene il motore della sessione");
         Report["sessione_5m"] = new JsonObject { ["righe"] = rows.Length, ["controlli"] = Checks - checksBefore };
         Lines.Add($"5m motore della sessione: di sola lettura, nella firma della cache ({rows.Length} righe), sessioni con motori diversi senza stati comuni; {Checks - checksBefore} controlli");

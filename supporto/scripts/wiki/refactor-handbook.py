@@ -2,7 +2,7 @@
 from pathlib import Path
 import json, shutil, hashlib, re
 ROOT=Path(__file__).resolve().parents[3]
-W=ROOT/'X.Desktop/Wiki'; S=ROOT/'supporto'
+W=ROOT/'src/ANTHEA.Wiki/Content'; S=ROOT/'supporto'
 ARCH=S/'SUPERATI/wiki-handbook-rev14-20261003'
 if ARCH.exists(): raise SystemExit('Migration already started: use the edited canonical sources.')
 paths=[S/f'docs/guida-{k}-anthea.{e}' for k in ('pratica','teorica') for e in ('md','pdf')]

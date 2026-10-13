@@ -1,0 +1,21 @@
+text: La biblioteca raccoglie le lezioni tecniche di ANTHEA su geotecnica, calcestruzzo armato e ponti. Ogni pagina sviluppa esempi numerici originali e dichiara ipotesi, unità, limiti e funzioni effettivamente disponibili nei moduli.
+text: nuove-lezioni-con-esempi-svolti
+text: - Dalle indagini geotecniche ai parametri del modello
+text: - Cedimenti edometrici tempi di consolidazione e drenaggi
+text: - Profilo di velocità risposta locale e liquefazione
+text: - Pali in gruppo interazione e rigidezza della fondazione
+text: - Muri di sostegno metodi disponibili e perimetro del modello
+text: - Ripercorrere un esempio strutturale con controlli indipendenti
+text: - Taglio nel calcestruzzo armato e scelta del traliccio
+text: - Solette da ponte e percorso locale delle azioni
+text: - Travi metalliche da ponte fra montaggio fatica e sezione composta
+text: - Precompressione delle travi da ponte e perdite nel tempo
+text: - Cassoni sottili torsione uniforme e distorsione
+text: - Stralli equilibrio rigidezza geometrica e vibrazioni
+text: - Freccia controfreccia temperatura e appoggi dei ponti
+text: come-confrontare-le-fonti
+text: Prima di trasferire un procedimento al progetto, controllare edizione normativa, campo geometrico, unità, segni, stato limite e ipotesi costitutive. NTC, Eurocodici, AASHTO e ACI non costituiscono un unico insieme di coefficienti. Un testo riferito a una norma diversa da quella del progetto può restare utile per il modello meccanico, non per i coefficienti.
+text: Un collegamento a un modulo indica pertinenza tecnica, non l’implementazione automatica di tutto l’argomento. Le pagine contrassegnate come da completare nei riscontri conservano questo stato anche quando sono leggibili e ricercabili. Per comprendere il risultato del programma, partire dalla guida del modulo e dai suoi limiti correnti.
+text: proseguire-nella-wiki
+text: - Tracciabilità, fonti e archivio
+text: - Esempi trasversali e lettura critica

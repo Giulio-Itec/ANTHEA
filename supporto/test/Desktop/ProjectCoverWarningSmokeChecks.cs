@@ -24,7 +24,7 @@ public sealed partial class MainWindow
         var material = Sheet("mat_calcestruzzo", "CLS di riferimento");
         var rc = Sheet("str_palo", "Verifica CA"); var pile = Sheet(PaloOrizzontale.Module, "Palo orizzontale");
         foreach (var sheet in new[] { material, rc, pile }) section.Array("fogli").Add(sheet);
-        material["dati"] = J.Obj(("classe", "C30/37"), ("esposizione_principale", "XC1"),
+        material["dati"] = J.Obj(("versione_materiali", 1), ("classe", "C30/37"), ("esposizione_principale", "XC1"),
             ("numeri", J.Obj(("diameter", "40"), ("aggregate", "20"))));
         rc["dati"]!["input"]!["shape"] = "Circolare";
         rc["dati"]!["input"]!["longitudinal_bar_diameter_mm"] = "16";

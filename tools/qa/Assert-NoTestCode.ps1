@@ -1,4 +1,4 @@
-<#
+﻿<#
 Checks that shipped assemblies contain no test code (refactoring F1.2).
 
   powershell -NoProfile -ExecutionPolicy Bypass -File tools\qa\Assert-NoTestCode.ps1 -Path X.Desktop\bin\Release\net8.0-windows
@@ -17,7 +17,7 @@ param(
     [Parameter(Mandatory)] [string[]] $Path,
     # Regular expressions on the names of the #Strings heap (case sensitive).
     [string[]] $Identifier = @(
-        'Smoke', 'WikiChecks', 'GlobalGuidanceChecks', 'WallAdvancedChecks', 'WallMaterialChecks', 'CheckAppearance', 'CheckWikiIntegration',
+        'F3EquivalenceCapture', 'CheckF3Scheduling', 'GatedModuleService', 'CaptureF3Project', 'Smoke', 'WikiChecks', 'GlobalGuidanceChecks', 'WallAdvancedChecks', 'WallMaterialChecks', 'CheckAppearance', 'CheckWikiIntegration',
         'RunTestHarness', 'CheckErrorLog', 'VerifyChs', 'VerifyHorizontal', 'WaitForAutomatic', 'BoxInputsVisible', 'TorsionResultsVisible',
         'TorqueColumnVisible', 'RevealTorsion', 'CheckBond', 'CheckAutomaticMix', 'CheckExposureSelector', 'DurabilityReferenceChecks',
         'CheckDurability', 'CheckNtcCover', 'ForTest', 'TestServices', 'ScriptedConfirmations', 'RethrowingMessages', 'ValidationCapture',
@@ -28,7 +28,7 @@ param(
     [string[]] $Literal = @('^--smoke', '^--check', '^--capture', 'esito-smoke-completo')
 )
 $ErrorActionPreference = 'Stop'
-$DefaultAssemblies = 'ANTHEA.dll', 'ANTHEA.Core.dll', 'ANTHEA.Calculations.dll', 'Materiali.dll'
+$DefaultAssemblies = 'ANTHEA.dll', 'ANTHEA.Core.dll', 'ANTHEA.Calculations.dll', 'Materiali.dll', 'ANTHEA.Application.dll', 'ANTHEA.Reports.dll', 'ANTHEA.Wiki.dll', 'ANTHEA.Serialization.dll'
 
 function Read-Heaps([string] $file) {
     $b = [IO.File]::ReadAllBytes($file)

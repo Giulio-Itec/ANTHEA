@@ -1,3 +1,4 @@
+using Anthea.Testing;
 using System.IO;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -36,9 +37,9 @@ internal sealed partial class ConcreteWorkspace
         Assert(actions["SLE_FREQ"].Count==0 && actions["SLE_QP"].Count==0,"Nessuna combinazione inventata");
         Assert(actions["SLU"][0].Values.D("N")<0,"Compressione negativa");
         Assert(checker3D.Count==2 && checker2D.Count==2,"Domini nativi 3D e 2D");
-        var sharedSection = preparedSection?.Model.Section ?? throw new Exception("Workspace Checker: sezione condivisa non preparata");
+        var sharedSection = checker3D.Values.First().GetNativeForTest().Section.Section;
         checks++;
-        Assert(checker3D.Values.All(c => ReferenceEquals(c.Section.Section, sharedSection)) && checker2D.Values.All(c => ReferenceEquals(c.Section.Section, sharedSection)), "Unica sezione nativa condivisa fra i domini");
+        Assert(checker3D.Values.All(c => ReferenceEquals(c.GetNativeForTest().Section.Section, sharedSection)) && checker2D.Values.All(c => ReferenceEquals(c.GetNativeForTest().Section.Section, sharedSection)), "Unica sezione nativa condivisa fra i domini");
         var three=domainPanels[0]; var two=domainPanels[1];
         foreach(var mode in new[]{"SLU","SLV"})
         {
@@ -88,7 +89,7 @@ internal sealed partial class ConcreteWorkspace
             await Capture("tensioni_"+key);
         }
         var rare=stressPanels["SLE"]; rare.Options.Set("modello","Non lineare"); await RunAnalysis(t=>CalculateStress("SLE",t));
-        Assert(stressResults["SLE"].Values.First().State?.Native.LinearElasticAnalysis==false,"Non lineare nativo");
+        Assert(stressResults["SLE"].Values.First().State?.GetNativeForTest().Native.LinearElasticAnalysis==false,"Non lineare nativo");
         rare.Options.Set("modello","Lineare");
         actions["SLE"][0]["N"]="-2510";
         Assert(Result is null && checker3D.Count==2 && stressResults.Count==0 && domainResults.ContainsKey("3D:SLU"),"Invalidazione SLE conserva domini indipendenti");
@@ -122,7 +123,7 @@ internal sealed partial class ConcreteWorkspace
         actions["SLE"][0]["N"] = "-2511"; actions["SLE"][0]["N"] = "-2512";
         Assert(Result is null && calculationQueued, "Conferma input invalida e pianifica il calcolo");
         await Automatic();
-        Assert(stressResults["SLE"].Values.First().State?.Native.Force.N == -2512000, "Ultima modifica ricalcolata senza pulsanti");
+        Assert(stressResults["SLE"].Values.First().State?.GetNativeForTest().Native.Force.N == -2512000, "Ultima modifica ricalcolata senza pulsanti");
         Assert(ReferenceEquals(cachedMesh, checker3D["SLU"]), "Cambio azioni riusa il dominio nativo");
         actions["SLU"][0]["N"] = "numero incompleto"; await Automatic();
         // the summary uses the common wording of VerificationSummary for missing outcomes ("DA COMPLETARE"; before, "da controllare")
@@ -132,7 +133,7 @@ internal sealed partial class ConcreteWorkspace
         var canceled = RunAnalysis(async token => await Task.Delay(400, token));
         Assert(Busy && tabs.IsEnabled, "Input utilizzabili durante il calcolo");
         actions["SLE"][0]["N"] = "-2513"; await canceled; await Automatic();
-        Assert(stressResults["SLE"].Values.First().State?.Native.Force.N == -2513000, "Risultato superato scartato");
+        Assert(stressResults["SLE"].Values.First().State?.GetNativeForTest().Native.Force.N == -2513000, "Risultato superato scartato");
         for (int i = 0; i < 5; i++)
         {
             tabs.SelectedIndex = i; await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
@@ -247,7 +248,7 @@ internal sealed partial class ConcreteWorkspace
         var oldShearRows = shearResults.ToDictionary(kv => kv.Key, kv => kv.Value);
         rare.Options.Set("modello", "Non lineare"); await Automatic();
         Assert(unchangedDomains.All(kv => ReferenceEquals(kv.Value, domainResults[kv.Key])) && oldShearRows.All(kv => ReferenceEquals(kv.Value, shearResults[kv.Key])), "Cambio modello SLE conserva verifiche SLU/SLV e taglio senza ricalcolarle");
-        Assert(unchangedStress.All(kv => !ReferenceEquals(kv.Value, stressResults[kv.Key])) && stressResults.Values.SelectMany(v => v.Values).Where(v => v.State is not null).All(v => !v.State!.Native.LinearElasticAnalysis), "Modello non lineare applicato solo alle tre famiglie SLE");
+        Assert(unchangedStress.All(kv => !ReferenceEquals(kv.Value, stressResults[kv.Key])) && stressResults.Values.SelectMany(v => v.Values).Where(v => v.State is not null).All(v => !v.State!.GetNativeForTest().Native.LinearElasticAnalysis), "Modello non lineare applicato solo alle tre famiglie SLE");
         rare.Options.Set("modello", "Lineare");
         stirrupForms.First(f => f.Editors.ContainsKey("rami_x")).Set("rami_x", "4");
         await Automatic();
@@ -282,7 +283,7 @@ internal sealed partial class ConcreteWorkspace
         three.Form.Set("criterio", "Eccentricità costante");
         Assert(ReferenceEquals(checker3D["SLU"], oldDomain) && three.View3D.TriangleCount > 100 && Result is null, "Cambio criterio conserva subito la mesh e invalida solo esiti");
         await Automatic();
-        Assert(ReferenceEquals(checker3D["SLU"], oldDomain) && ReferenceEquals(meshes["SLU"], oldMesh) && oldDomain.Native.FailureAnalysisType == CheckerSection.Criterion("Eccentricità costante"), "Criterio aggiornato nella DLL senza ricostruire dominio");
+        Assert(ReferenceEquals(checker3D["SLU"], oldDomain) && ReferenceEquals(meshes["SLU"], oldMesh) && oldDomain.GetNativeForTest().Native.FailureAnalysisType == CheckerSection.Criterion("Eccentricità costante"), "Criterio aggiornato nella DLL senza ricostruire dominio");
         Assert(ReferenceEquals(stressResults["SLE"], oldStress) && ReferenceEquals(checker2D["SLU"], oldTwo), "Cambio criterio non ricalcola SLE né altro dominio");
         three.Form.Set("criterio", "N costante"); await Automatic();
         two.Form.Set("proietta", "No"); await Automatic();

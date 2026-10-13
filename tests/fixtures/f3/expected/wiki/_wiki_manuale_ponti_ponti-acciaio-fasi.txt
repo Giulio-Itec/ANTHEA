@@ -1,0 +1,15 @@
+text: Una trave metallica da ponte attraversa più sistemi resistenti durante la costruzione. Prima della maturazione della soletta porta carichi con la sola sezione in acciaio; dopo l’attivazione della connessione può rispondere come sezione composta. La verifica finale deve conservare memoria della fase in cui ciascun carico è stato applicato.
+text: sommare-le-tensioni-delle-fasi
+text: In un esempio elastico semplificato, la tensione nella stessa fibra d’acciaio si ricava sommando i contributi. W1 e W2 sono i moduli resistenti riferiti proprio a quella fibra e allo stesso materiale, con omogeneizzazione coerente.
+formula: \sigma_s=\frac{M_1}{W_1}+\frac{M_2}{W_2}
+text: Copia LaTeX
+text: Per L = 30 m, q1 = 25 kN/m applicato prima della collaborazione e q2 = 15 kN/m dopo la collaborazione, si hanno M1 = 2812,50 kNm e M2 = 1687,50 kNm. Con W1 = 0,020 m³ e W2 = 0,040 m³ risulta σs = 182,81 MPa. Applicare erroneamente tutto il carico alla sezione composta darebbe 112,50 MPa: una sottostima di circa il 38%. Si tratta di un esempio lineare senza puntellazione, ritiro o viscosità, non di una sezione verificata.
+text: stabilita-durante-il-getto
+text: Il vincolo laterale della piattabanda compressa dipende da controventi e collegamenti effettivamente presenti in ciascuna fase. La soletta fresca non garantisce da sola il ritegno della trave. La sequenza di getto può modificare torsione, imperfezioni e lunghezze non controventate; il montaggio richiede quindi verifiche proprie. Anche gli irrigidimenti d’anima e la diffusione delle reazioni agli appoggi hanno un ruolo locale che il solo controllo della tensione normale non risolve.
+text: la-fatica-e-sensibile-al-dettaglio
+text: Una connessione saldata e una lamiera continua con la stessa tensione nominale non hanno necessariamente la stessa resistenza a fatica. Contano categoria del dettaglio, intervallo di tensione, numero di cicli e modo di valutare le tensioni. Su un ramo idealizzato della curva S–N con esponente m, N è proporzionale a Δσ elevato a −m. Con m = 3, passare da 60 a 80 MPa riduce il numero di cicli a (60/80)³ = 0,422 del precedente. Il valore m = 3 è qui un’ipotesi illustrativa, non una scelta valida per ogni dettaglio e regime.
+text: Il controllo richiede lo spettro delle escursioni dovute al traffico e le regole della norma adottata. Non basta sostituire il carico massimo SLU nella formula della fatica. In ANTHEA la costruzione delle fasi della sezione composta serve a separare i contributi; non equivale a una verifica completa di fatica del ponte o di stabilità durante il montaggio.
+text: Fonti: FHWA, esempio di progetto LRFD di un impalcato a travi metalliche, passo 3 sulla trave metallica; SCI, Fatigue design of bridges. Esempio numerico originale.
+text: proseguire-nella-wiki
+text: - Sezione composta da ponte
+text: - Instabilità delle aste compresse
