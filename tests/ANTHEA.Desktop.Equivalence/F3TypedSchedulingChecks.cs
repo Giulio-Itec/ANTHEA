@@ -89,11 +89,18 @@ internal sealed partial class ConcreteWorkspace
         Check(view.Busy, "CA non segnala il calcolo in corso");
         view.SetGeometry("1350");
         Check(view.Result is null, "CA conserva risultati dopo modifica");
+        var curve = view.CalculateCurvature();
+        var quick = view.RefreshQuickResistance();
         view.Dispose();
-        string status = view.status.Text;
-        release.SetResult(); await work.WaitAsync(TimeSpan.FromSeconds(15));
+        string status = view.status.Text, curveStatus = view.curvatureText.Text, quickStatus = view.quickResistanceText.Text;
+        int quickCards = view.quickResistanceResults.Children.Count;
+        release.SetResult(); await Task.WhenAll(work, curve, quick).WaitAsync(TimeSpan.FromSeconds(20));
         Check(!view.Busy && !view.calculationQueued && view.Result is null, "Chiusura CA lascia calcoli o risultati in coda");
         Check(view.status.Text == status, "CA aggiorna lo stato dopo la chiusura");
+        Check(view.curvatureResult is null && !view.curvatureRunning && view.curvatureText.Text == curveStatus,
+            "Curva M–χ pubblicata nella vista chiusa");
+        Check(view.quickResistanceResults.Children.Count == quickCards && view.quickResistanceText.Text == quickStatus,
+            "Resistenze rapide aggiornate nella vista chiusa");
         return checks;
     }
 }

@@ -140,7 +140,7 @@ internal sealed partial class ConcreteWorkspace
         anchorageText.BringIntoView();await Capture("04c_ancoraggi");
         Check(detailingResults.Any(r=>r.Name=="Diametro staffe"),"Controlli pilastro eseguiti");
         curvatureForm.Set("N","-500");curvatureForm.Set("passi","12");curvatureForm.Set("angoli","16");
-        tabs.SelectedIndex=6;CalculateCurvature();while(curvatureRunning)await Task.Delay(40);
+        tabs.SelectedIndex=6;await CalculateCurvature();
         Check(curvatureResult?.Points.Count>=13,"Diagramma fino al limite: "+curvatureText.Text);await Capture("05_curvatura");
         Input["foro_presente"]=true;Input["inner_width_mm"]="200";Input["inner_height_mm"]="300";Invalidate();await Updated();
         tabs.SelectedIndex=0;await Capture("06_rettangolare_forata");Check(preview.Section!.Holes.Count==1,"Foro rettangolare in anteprima");
@@ -164,7 +164,7 @@ internal sealed partial class ConcreteWorkspace
         tabs.SelectedIndex=3;sleTabs.SelectedIndex=2;await Idle();stressPanels["SLE_QP"].Grid.SelectedItem=row;UpdateStressSelection("SLE_QP");await Capture("09_fasce_tese");
         Check(stressPanels["SLE_QP"].Regions.Items.Count==4,"Quattro zone efficaci selezionabili");
         Check(Result?["torsione"]?["test_t"] is not null&&Result?["dettagli_costruttivi"] is JsonArray,"Esportazione dei nuovi risultati");
-        tabs.SelectedIndex=6;CalculateCurvature();while(curvatureRunning)await Task.Delay(40);
+        tabs.SelectedIndex=6;await CalculateCurvature();
         Check(Result?["momento_curvatura"]?["Points"] is JsonArray points&&points.Count>=13,"Esportazione della curva");
         var curveReport = BuildReport("Momento curvatura", ["curvatura", "grafici"]);
         using (var zip = new System.IO.Compression.ZipArchive(new MemoryStream(curveReport)))

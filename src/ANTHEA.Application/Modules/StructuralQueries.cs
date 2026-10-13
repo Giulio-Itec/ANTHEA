@@ -23,4 +23,21 @@ public static class StructuralQueries
         cancellation.ThrowIfCancellationRequested();
         return RetainingWall.CalculateGlobal(snapshot, cancellation);
     }
+
+    public static PrincipalMomentResistance[] ConcreteQuickResistance(JsonObject input, JsonObject workspace,
+        double axial, bool elastic, CancellationToken cancellation = default)
+        => SectionMomentResistance.Calculate((JsonObject)input.DeepClone(), (JsonObject)workspace.DeepClone(), axial, elastic, cancellation);
+
+    public static MomentCurvatureResult ConcreteCurvature(JsonObject input, JsonObject workspace,
+        JsonObject options, CancellationToken cancellation = default)
+        => ConcreteCurvatureAnalysis.Calculate((JsonObject)input.DeepClone(), (JsonObject)workspace.DeepClone(),
+            (JsonObject)options.DeepClone(), cancellation);
+
+    public static ConcreteDesignResult ConcreteReinforcement(JsonObject source, CancellationToken cancellation = default,
+        IProgress<ConcreteDesignProgress>? progress = null)
+    {
+        var snapshot = ModuleServices.Get("str_palo").Prepare(source);
+        var options = ConcreteDesignOptions.Read(snapshot["workspace_ca"]!["calcola_armature"]!.AsObject());
+        return ConcreteReinforcementDesign.Optimize(snapshot, options, cancellation, progress);
+    }
 }

@@ -358,5 +358,5 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         if (result.Count == 0) throw new ArgumentException("Nessuna combinazione da incollare.");
         return result;
     }
-    public void Dispose() { disposed = true; calculationQueued = false; analysisScheduler.Dispose(); curvatureCancellation?.Cancel(); designCancellation?.Cancel(); }
+    public void Dispose() { disposed = true; calculationQueued = false; analysisScheduler.Dispose(); curvatureScheduler.Dispose(); quickResistanceScheduler.Dispose(); designCancellation?.Cancel(); }
 }

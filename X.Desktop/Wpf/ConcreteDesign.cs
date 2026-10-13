@@ -114,21 +114,21 @@ internal sealed partial class ConcreteWorkspace
         designDescription.Text = "Ricerca in corso…"; designScope.Text = ""; designPreview.Section = null; designPreview.InvalidateVisual();
         try
         {
-            var options = ConcreteDesignOptions.Read(DesignOptions);
             var snapshot = (JsonObject)Data.DeepClone();
             designSignature = DesignFingerprint(); designRunning = true; designRun.IsEnabled = false; designStop.IsEnabled = true;
             designCancellation?.Dispose(); designCancellation = new CancellationTokenSource();
             var token = designCancellation.Token;
             var updates = new Progress<ConcreteDesignProgress>(p =>
             {
-                if (disposed || designStale || !designRunning) return;
+                if (disposed || designStale || !designRunning || token.IsCancellationRequested || designCancellation?.Token != token) return;
                 designProgress.Value = p.Planned == 0 ? 0 : (double)p.Evaluated / p.Planned;
                 designStatus.Text = $"{p.Evaluated:N0} / {p.Planned:N0} configurazioni · {p.Accepted:N0} ammissibili · {p.Seconds:0.#} s\n{p.Phase}" +
                     (p.Phase.StartsWith("Controlli preliminari") ? $" ({p.PreliminaryChecked:N0} esaminati)" : "") + $" · fino a {p.Workers} calcoli contemporanei";
                 if (p.Best is not null && designSelection?.Id != p.Best.Id) SelectDesign(p.Best);
             });
-            designResult = await Task.Run(() => ConcreteReinforcementDesign.Optimize(snapshot, options, token, updates));
+            var calculated = await Task.Run(() => Anthea.Application.Modules.StructuralQueries.ConcreteReinforcement(snapshot, token, updates));
             if (disposed) return;
+            designResult = calculated;
             designRunning = false; RefreshDesignFreshness();
             RefreshDesignRanking();
             var r = designResult;
@@ -164,6 +164,7 @@ internal sealed partial class ConcreteWorkspace
         finally
         {
             designRunning = false;
+            designCancellation?.Dispose(); designCancellation = null;
             if (!disposed) { designRun.IsEnabled = true; designStop.IsEnabled = false; designApply.IsEnabled = designSelection is not null && designResult is not null && !designStale; }
         }
     }

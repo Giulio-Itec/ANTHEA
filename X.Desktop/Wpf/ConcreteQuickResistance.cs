@@ -8,7 +8,7 @@ internal sealed partial class ConcreteWorkspace
 {
     private readonly TextBlock quickResistanceText = Ui.Text("Inserire N per calcolare le quattro resistenze.", 11);
     private readonly Grid quickResistanceResults = new();
-    private int quickResistanceGeneration;
+    private readonly Anthea.Application.Scheduling.RecalculationScheduler quickResistanceScheduler = new();
     private InputForm? quickResistanceForm;
     private UIElement BuildQuickResistance()
     {
@@ -27,16 +27,20 @@ internal sealed partial class ConcreteWorkspace
     private async Task RefreshQuickResistance()
     {
         if (initializing || disposed || quickResistanceForm is null) return;
-        int generation = ++quickResistanceGeneration;
+        quickResistanceScheduler.Invalidate();
         quickResistanceResults.Children.Clear(); quickResistanceText.Visibility = Visibility.Visible;
         quickResistanceText.Text = "Calcolo delle quattro direzioni…";
-        try
+        var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone();
+        var completion = await quickResistanceScheduler.ScheduleAsync(async token =>
         {
-            var o = settings["resistenze_rapide"]!;
+            var o = workspace["resistenze_rapide"]!;
             double n = SectionWorkspace.Number(o.S("N"), "N"); bool elastic = o.S("tipo") == "Elastico";
-            var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone();
-            var result = await Task.Run(() => SectionMomentResistance.Calculate(input, workspace, n, elastic));
-            if (disposed || generation != quickResistanceGeneration) return;
+            return await Task.Run(() => Anthea.Application.Modules.StructuralQueries.ConcreteQuickResistance(input, workspace, n, elastic, token), token);
+        });
+        completion.TryPublish(current =>
+        {
+            if (current.Error is not null) { quickResistanceText.Text = "Resistenze non disponibili: " + current.Error.Message; return; }
+            var result = current.Value!;
             quickResistanceText.Text = string.Join("\n", result.Select(r => $"{r.Direction}   {(r.Moment is double m ? EngineeringFormat.Number(m) + " kNm" : "— · " + r.Status)}"));
             quickResistanceText.Visibility = Visibility.Collapsed;
             for(int i=0;i<result.Length;i++)
@@ -46,7 +50,6 @@ internal sealed partial class ConcreteWorkspace
                 card.Margin=new Thickness(i%2==0?0:4,4,i%2==0?4:0,0);
                 Grid.SetColumn(card,i%2);Grid.SetRow(card,i/2);quickResistanceResults.Children.Add(card);
             }
-        }
-        catch (Exception ex) { if (!disposed && generation == quickResistanceGeneration) quickResistanceText.Text = "Resistenze non disponibili: " + ex.Message; }
+        });
     }
 }

@@ -50,7 +50,7 @@ internal sealed partial class ConcreteWorkspace
         else if(mode=="detail"||mode=="anchor"||mode=="cover")
         {RefreshDetailing();await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);if(mode=="anchor"&&((TabItem)tabs.Items[5]).Content is ScrollViewer scroller){scroller.ScrollToBottom();workspaceScroll.ScrollToTop();}else if(mode=="cover")detailingTopics["cover"].BringIntoView();}
         else if(mode=="quick")await RefreshQuickResistance();
-        else if(mode=="curve"){CalculateCurvature();while(curvatureRunning)await Task.Delay(100);}
+        else if(mode=="curve"){await CalculateCurvature();}
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);UpdateLayout();
         File.WriteAllBytes(Path.Combine(output,id+".png"),Ui.Snapshot(Window.GetWindow(this)));
         File.WriteAllText(Path.Combine(output,id+"-actual.json"),(Result??new JsonObject()).ToJsonString());

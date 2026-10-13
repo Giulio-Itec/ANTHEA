@@ -1,4 +1,4 @@
-# Stato del lavoro notturno — checkpoint 13 ottobre, 03:02
+# Stato del lavoro notturno — checkpoint 13 ottobre, 03:07
 
 Mandato fino alle 07:19 Europe/Rome (05:19 UTC): F2 → STG → SEZ → F3 → F4 se completabile. F5 esclusa. Un commit per punto, test/versioni/merge/push autorizzati; nessun agente parallelo. Preservare la finestra primaria con documento non salvato: non chiudere, non riavviare, non compilare nel checkout primario.
 
@@ -26,12 +26,12 @@ Punti chiusi e commit:
 - F3.6f.1 04793a5: presentazione e capitoli materiali portabili, dati iniziali condivisi e mappatura copriferro riusata. 291 controlli Application e adattatori CLS rapidi passati.
 - F3.6f.2 4240dfb: vista Materiali accorpata nel Desktop, prove materiali/report e 458 file equivalenti; report brevi WPF passati in 024042-f3-material-move-short-final.
 
-Soglie correnti: 140 TypeRef Calculations, 36 CompositeBridge, 3 Concrete, 6 Geotechnics; 6 async void; 4 DispatcherTimer, solo gerarchia/Wiki. Nessun timer di calcolo residuo. Le fixture ingegneristiche non sono state aggiornate.
+Soglie correnti: 133 TypeRef Calculations, 36 CompositeBridge, 3 Concrete, 6 Geotechnics; 5 async void; 4 DispatcherTimer, solo gerarchia/Wiki. Nessun timer di calcolo residuo. Le fixture ingegneristiche non sono state aggiornate.
 
 ## Seguito
 
 1. BridgeDesign F3.6g 339281e completato: ricalcolo ritardato, confronto/proposte su servizi e annullamento alla chiusura; 31 prove WPF, smoke e Application superati. Commit nel log.
-2. CA F3.6h.1 f8023b3 completato: sessione e batch domini/SLE in Application, scheduler comune, 311 controlli Application e 35 WPF; 458 file equivalenti. F3.6h.2 completato: dettagli/ancoraggi/riepiloghi portabili, 330 controlli Application. Seguono analisi opzionali e report autonomo.
+2. CA F3.6h.1 f8023b3 completato: sessione e batch domini/SLE in Application, scheduler comune, 311 controlli Application e 35 WPF; 458 file equivalenti. F3.6h.2 060bb8c completato: dettagli/ancoraggi/riepiloghi portabili, 330 controlli Application. F3.6h.3 completato: analisi opzionali e chiusura sicura, 37 prove WPF; ricerca armature e 458 file equivalenti. Segue report autonomo.
 3. F3.5b: report progetto autonomo, senza SheetEditor; figure tramite contratto condiviso. Materiali sono già autonomi, altri moduli ancora da completare.
 4. F3.7: verificare il confine effettivo, aggiornare guide del tool, suite complete, versione e integrazione/push a fase conclusa. Nessuna dichiarazione di chiusura se rimangono dipendenze concrete.
 5. F4 solo dopo F3, entro il mandato. F5 esclusa.
