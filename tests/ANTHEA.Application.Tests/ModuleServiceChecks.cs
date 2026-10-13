@@ -22,7 +22,7 @@ internal static class ModuleServiceChecks
             JsonObject? expected = null, actual = null; string? expectedError = null, actualError = null;
             try { expected = CalculationService.Calculate(definition.Id, source); } catch (ArgumentException ex) { expectedError = ex.Message; }
             try { actual = service.Calculate(source).Values; } catch (ArgumentException ex) { actualError = ex.Message; }
-            Check(expectedError == actualError && JsonNode.DeepEquals(expected, actual), "Servizio discorda dall’ingresso esistente: " + definition.Id);
+            Check(expectedError == actualError && JsonNode.DeepEquals(expected, actual), "Facciata JSON discorda dal servizio: " + definition.Id);
             Check(source.ToJsonString() == before, "Calcolo muta il documento: " + definition.Id);
         }
         var fake = new CountingService(); var session = new ModuleCalculationSession(fake, capacity: 2);

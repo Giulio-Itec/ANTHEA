@@ -26,24 +26,6 @@ public static class ModuleServices
             return (JsonObject)source.DeepClone();
         }
         public ModuleCalculation Calculate(JsonObject source, CancellationToken cancellation = default)
-        {
-            cancellation.ThrowIfCancellationRequested();
-            var snapshot = Prepare(source);
-            object? native = null;
-            JsonObject result;
-            // Preserve typed outcomes needed for presentation without evaluating an engine twice.
-            if (module == BridgeSection.Module) { var value = BridgeSection.Calculate(snapshot, cancellation); native = value; result = value.Json(); }
-            else if (module == RetainingWall.Module) { var value = RetainingWall.Calculate(snapshot, cancellation); native = value; result = value.Json(); }
-            else if (module == BridgeConcept.Module) { var value = BridgeConcept.Calculate(snapshot); native = value; result = value.Json(); }
-            else if (module == RebarMaterial.Module)
-            {
-                var value = RebarMaterial.Evaluate(snapshot["input"]!.AsObject()); native = value;
-                result = J.Obj(("errore", ""), ("materiale", value), ("diagramma", RebarMaterial.Curve(snapshot["input"]!.AsObject())));
-            }
-            else if (foundation is not null) result = foundation.Calculate(snapshot);
-            else result = CalculationService.Calculate(module, snapshot, cancellation);
-            cancellation.ThrowIfCancellationRequested();
-            return new(module, snapshot, result, native);
-        }
+            => CalculationService.CalculateModule(module, source, cancellation, foundation: foundation);
     }
 }

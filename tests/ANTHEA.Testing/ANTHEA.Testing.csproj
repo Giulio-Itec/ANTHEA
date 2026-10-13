@@ -20,4 +20,8 @@
     <None Include="tolerances.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="f2-classificazione.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+  <!-- The capture records every DLL in the coherent snapshot, including unloaded converters. -->
+  <Target Name="CopyCaptureSnapshot" AfterTargets="Build">
+    <Copy SourceFiles="@(GpcLibraryFile)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
 </Project>

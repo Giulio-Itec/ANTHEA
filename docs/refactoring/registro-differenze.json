@@ -18,7 +18,23 @@
     "da-decidere",
     "dichiarato",
     "da-correggere",
-    "corretto"
+    "corretto",
+    {
+      "id": "F3-01",
+      "data": "2026-10-13",
+      "fase": "F3.4/F3.5",
+      "titolo": "Identità diagnostiche dei generatori DOCX trasferiti",
+      "famiglia": "tracce diagnostiche",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Otto rinomine esatte Create → CreateDocument nelle sole identità dei chiamanti del banco, comprese tre lambda. Tracce TSV originali conservate. Nessuna sostituzione generica, nessuna tolleranza numerica nuova. Confronto F2 finale: 633 differenze, tutte limitate al campo chiamante di fallbacks.json (562 ReportWord, 49 Concrete, 10 RetainingWall, 7 Orizzontale, 3 ElasticPile, 2 Bridge).",
+      "codice": [
+        "tests/ANTHEA.Testing/Normalization/FallbackCallers.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-020742-f3-dispatch-headless-current"
+      ]
+    }
   ],
   "nota_voci_r": "Le voci R1-R14 vengono dalla ricerca normativa sulla fessurazione (supporto/artefatti/refactoring/ricerca-a/rapporto.md) e dalla revisione dei metodi c.a. per le pagine docs/metodi di Checker (branch locali anthea-metodi-ca-1 e anthea-metodi-ca-2, harness in supporto/artefatti/refactoring/metodi e metodi2). R15 viene dalla revisione di D7-b. Le voci R16-R21 vengono dalla verifica delle pagine dei metodi unite in Checker develop (F2.2: merge c555a3b8 e 1fbaea61 e correzioni successive, riquadri collegati alle voci in e41a803a); stato da-decidere e stessa decisione di R4-R14 (F5.15). Il segno è riferito al testo della norma del profilo; dove il testo primario non è stato letto il grado di certezza è indicato nel campo riscontro.",
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
