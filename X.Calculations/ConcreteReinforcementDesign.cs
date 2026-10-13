@@ -195,8 +195,9 @@ public static partial class ConcreteReinforcementDesign
     }
 
     /// <summary>In a limited run, sample across the entire sorted grid instead of exhausting the lightest prefix.</summary>
-    private static IEnumerable<int> SearchIndices(int planned, int budget)
+    private static IEnumerable<int> SearchIndices(int planned, int budget, bool legacy = false)
     {
+        if (!legacy) { foreach (int index in GPC.Design.Sections.SectionDesignSelection.SampleIndices(planned, budget)) yield return index; yield break; }
         int count = Math.Min(planned, budget);
         if (count == 1) { yield return planned - 1; yield break; }
         for (int i = 0; i < count; i++) yield return (int)((long)i * (planned - 1) / (count - 1));
@@ -262,15 +263,20 @@ public static partial class ConcreteReinforcementDesign
         var d = new[] { p.TopPhi, p.BottomPhi, p.SidePhi }.Concat(p.Stirrups ? [p.StirrupPhi] : []).Distinct().Count();
         return Score(new(area, area * .00785, p.Stirrups ? Math.PI * p.StirrupPhi * p.StirrupPhi / 4 * perimeter / p.Spacing * .00785 : 0, p.Top + p.Bottom + 2 * p.Side, d, p.Top + p.Bottom + 2 * p.Side + (p.Stirrups ? 1000 / p.Spacing : 0)), o);
     }
-    public static double Score(ConcreteDesignMetrics m, ConcreteDesignOptions o) => o.Objective switch
+    public static double Score(ConcreteDesignMetrics m, ConcreteDesignOptions o, bool legacy = false)
+    {
+        if (!legacy) return ScoreNative(m, o);
+        return o.Objective switch
     {
         "Peso" => m.KgPerM,
         "Numero barre" => m.PiecesPerM,
         "Numero diametri" => m.Diameters,
         _ => o.WeightCost * m.KgPerM + o.BarCost * m.PiecesPerM + o.DiameterCost * m.Diameters
     };
-    public static ConcreteDesignCandidate[] Rank(IEnumerable<ConcreteDesignCandidate> source, ConcreteDesignOptions o)
+    }
+    public static ConcreteDesignCandidate[] Rank(IEnumerable<ConcreteDesignCandidate> source, ConcreteDesignOptions o, bool legacy = false)
     {
+        if (!legacy) return RankNative(source, o);
         var rows = source.Select(c => c with { Score = Score(c.Metrics, o) }).OrderBy(c => c.Score).ThenBy(c => c.Metrics.KgPerM)
             .ThenBy(c => c.Metrics.PiecesPerM).ThenBy(c => c.Metrics.Diameters).ThenBy(c => c.Id).ToArray();
         // Weight-ordered sweep; dominated points never need to remain in the frontier.

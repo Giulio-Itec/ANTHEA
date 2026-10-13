@@ -8,6 +8,7 @@ using GPC.Checkers.Concrete.Shear;
 using GPC.Checkers.Concrete.Torsion;
 using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 
+if (args.Length == 4 && args[0] == "--f4-section-design") return F4SectionDesignChecks.Run(args[1], args[2], args[3]);
 if (args.Length == 4 && args[0] == "--f4-wall-design") return F4WallDesignChecks.Run(args[1], args[2], args[3]);
 if (args.Length == 4 && args[0] == "--f4-pile-design") return F4PileDesignChecks.Run(args[1], args[2], args[3]);
 if (args.Length == 4 && args[0] == "--f4-pile-outcomes") return F4PileOutcomeChecks.Run(args[1], args[2], args[3]);
@@ -798,6 +799,12 @@ sealed class Stats(string name)
 
 static class Json
 {
+    public static JsonNode? Sort(JsonNode? node)=>node switch
+    {
+        JsonObject obj=>new JsonObject(obj.OrderBy(p=>p.Key,StringComparer.Ordinal).Select(p=>KeyValuePair.Create(p.Key,Sort(p.Value)))),
+        JsonArray array=>new JsonArray(array.Select(Sort).ToArray()),_=>node?.DeepClone()
+    };
+
     // Strutture e testi identici; numeri entro abs + rel · max(|a|, |b|) con abs = rel = tolleranza.
     public static void Compare(JsonNode? a, JsonNode? b, string path, Stats stats, List<string> errors, double tolerance)
     {

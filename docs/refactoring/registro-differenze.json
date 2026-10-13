@@ -25,6 +25,24 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-18",
+      "data": "2026-10-14",
+      "fase": "F4.12b.1",
+      "titolo": "Servizi comuni della ricerca sezioni collegati",
+      "famiglia": "sezioni c.a.",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Quantità, obiettivi, graduatoria/Pareto, rete secondaria, distribuzione torsionale e campionamento in GPC.Design. Densità da Model, regole di dettaglio condivise; rami diagnostici conservati. Nove casi, 81 candidati e 18039 numeri equivalenti, scarto relativo massimo 4.82e-16, nessun esito/candidato/ordine alterato. Dati mancanti/non finiti rifiutati. Distribuzione F4.9.",
+      "test": [
+        "8 PASS runner, regressioni ConcreteDesign e architettura",
+        "Corpus SHA congelato, 3 rifiuti e quattro obiettivi confrontati"
+      ],
+      "evidenze": [
+        "tests/ConcreteLibraryAdapter.Checks/F4SectionDesignChecks.cs",
+        "supporto/artefatti/refactoring/f4/section-helpers-a.log"
+      ]
+    },
+    {
       "id": "F4-17",
       "data": "2026-10-14",
       "fase": "F4.10c.2",

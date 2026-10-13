@@ -50,6 +50,7 @@ param(
     [switch] $F4PileOutcomes,
     [switch] $F4PileDesign,
     [switch] $F4WallDesign,
+    [switch] $F4SectionDesign,
     [switch] $CaptureConcreteFigures,
     [string] $CheckerFixtures,
     [string] $DenseRef,
@@ -159,6 +160,10 @@ foreach ($name in 'BridgeDesign.Checks', 'BridgeDesign.IndependentChecks', 'Glob
 Add-Suite @{ Name = 'wiki/indice'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\scripts\wiki\build-wiki-index.py'; Args = @('--check') }
 Add-Suite @{ Name = 'wiki/manuale'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\test\wiki-handbook-checks.py'; Args = @() }
 
+if ($F4SectionDesign) {
+    Add-Suite @{ Name = 'baseline/f4-section-design'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-section-design', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 900 }
+}
 if ($F4WallDesign) {
     Add-Suite @{ Name = 'baseline/f4-wall-design'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-wall-design', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 900 }

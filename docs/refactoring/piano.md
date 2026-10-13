@@ -333,6 +333,7 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
 - [ ] F4.11 GPC.Design: BridgeConcept con listini e CO₂ come dati versionati. **Riattivata il 13/10 sera**: cataloghi sostituibili, associazioni alle lavorazioni, prezzi personalizzati e revisioni; calcolo e ottimizzazione in GPC.Design, gestione documentale/UI in ANTHEA.
 - [~] F4.12 GPC.Design: ricerca delle armature di sezione.
   - [x] F4.12a (14/10): Checker `cb0ef314`, servizi condivisi per quantità, obiettivi, graduatoria/Pareto, campionamento, rete ortogonale e riserva torsionale. Design 0.7.0.0, 27 test PASS e API compatibili. Adattatore, coordinamento completo e NEd ancora da chiudere.
+  - [x] F4.12b.1 (14/10): collegati quantità, obiettivi, Pareto, rete secondaria, distribuzione torsionale e campionamento; mantenuti rami diagnostici. Nove casi congelati, tre rifiuti, 81 candidati e 18039 numeri equivalenti; regressioni progetto sezioni e architettura PASS, runner 8 PASS. Registro F4-18. Coordinatore completo/NEd/distribuzione ancora aperti.
 - [ ] F4.13 Logica ingegneristica delle viste verso librerie o Application.
 - [ ] F4.14 [CP] Norme tipizzate negli adattatori residui; validazione esplicita.
 - [ ] F4.15 Copriferro di progetto in un validatore di Application.

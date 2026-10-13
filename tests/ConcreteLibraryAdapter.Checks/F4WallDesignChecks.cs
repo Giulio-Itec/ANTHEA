@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -41,11 +41,6 @@ internal static class F4WallDesignChecks
         Directory.CreateDirectory(output);File.WriteAllText(Path.Combine(output,"comparison.json"),JsonSerializer.Serialize(new{walls,refused,numbers=stats.Numbers,maxRelative=stats.MaxRelative,errors},new JsonSerializerOptions{WriteIndented=true}));
         Console.WriteLine(stats.Line());Console.WriteLine($"{walls} walls, {refused} refusals, {errors.Count} differences");foreach(string error in errors.Take(20))Console.Error.WriteLine(error);
         return errors.Count==0?0:1;
-        void Compare(JsonNode? a,JsonNode? b,string name)=>Json.Compare(Sort(a),Sort(b),name,stats,errors,1e-9);
+        void Compare(JsonNode? a,JsonNode? b,string name)=>Json.Compare(Json.Sort(a),Json.Sort(b),name,stats,errors,1e-9);
     }
-    static JsonNode? Sort(JsonNode? node)=>node switch
-    {
-        JsonObject obj=>new JsonObject(obj.OrderBy(p=>p.Key,StringComparer.Ordinal).Select(p=>KeyValuePair.Create(p.Key,Sort(p.Value)))),
-        JsonArray array=>new JsonArray(array.Select(Sort).ToArray()),_=>node?.DeepClone()
-    };
 }
