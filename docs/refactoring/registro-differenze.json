@@ -32,7 +32,7 @@
       "famiglia": "muri/gravità",
       "categoria": "intenzionale",
       "stato": "attuato",
-      "descrizione": "Checker b5e40cca separa CLS non armato in Concrete/Walls e muratura in GPCChecker.Masonry, con coordinamento tipizzato in GPC.Design. Conservati resistenze assegnate, campo elastico non fessurato, stabilità, segni e assenza di capacità nei casi fuori campo. Nessuna modifica delle DLL o dei risultati runtime ANTHEA.",
+      "descrizione": "Checker b5e40cca separa CLS non armato in Concrete/Walls e muratura in GPCChecker.Masonry, con coordinamento tipizzato in GPC.Design. Conservati resistenze assegnate, campo elastico non fessurato, stabilità, segni e assenza di capacità nei casi fuori campo. Nessuna modifica delle DLL o dei risultati runtime ANTHEA. Regressione aggiuntiva F4.8a.1: la trazione assiale con resistenze assegnate conserva il valore assoluto della domanda storico; Checker 34e8f823, Design 0.1.0.1, cinque test PASS.",
       "effetto_quantificato": "Sei modelli congelati: 8672 verifiche e 240 curvature equivalenti entro le tolleranze preesistenti 1e-9 assoluta + relativa; disponibilità, rapporti e giudizi confrontati. Fixture derivata esclusivamente dalle osservazioni originali e protetta da SHA256, senza ricalcolo degli attesi.",
       "test": ["4 test Design.Checks PASS", "Checker completo: 1655 PASS, 17 Steel già censiti, zero nuovi fallimenti, API compatibili", "ANTHEA runner: 5 PASS"],
       "evidenze": ["supporto/artefatti/refactoring/f4/gravity-verify", "supporto/artefatti/refactoring/f4/gravity-source-final.log", "Checker/docs/refactoring/f4-gravity-walls.md"]

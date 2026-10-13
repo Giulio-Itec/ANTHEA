@@ -312,6 +312,7 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [ ] F4.7c: adattatore, confronto del percorso completo e integrazione con set coerente F4.9.
 - [~] F4.8 Muri a gravità e dettagli.
   - [x] F4.8a: Checker `b5e40cca`, servizi distinti per resistenze assegnate, CLS non armato e muratura; coordinamento in GPC.Design senza JSON/WPF. 8672 verifiche e 240 curvature equivalenti su sei muri congelati, quattro prove native e suite complete 1655 PASS / 17 Steel già noti / zero nuovi fallimenti. 5 PASS ANTHEA; registro F4-09. Concrete candidata 0.5.0.0, prime Design/Masonry 0.1.0.0; nessuna attivazione runtime.
+  - [x] F4.8a.1: Checker `34e8f823`, domanda assoluta del ramo assegnato anche in trazione assiale; cinque test PASS, corpus invariato. Design candidata 0.1.0.1.
   - [ ] F4.8b: dettagli delle armature, ancoraggi, sovrapposizioni e copriferri condivisi; confronto e collegamento con distinta F4.10.
 - [ ] F4.9 [CP] Collegamento dei muri e rilascio `lib/Checker`. Anticipato il 7/10 lo scostamento D7-c (γRd non applicato a F̄).
 - [ ] F4.10 GPC.Design: armature e distinta dei muri, tratti dei pali.
