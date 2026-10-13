@@ -257,3 +257,9 @@ F3.7b.6, chiarimento del seguito: la sessione possiede la fotografia all’apert
 ## F3-BLD — supporto WPF dei test
 
 La prima corsa full 20261013-052527-f3-services-release-full trova il conflitto fra il namespace Anthea.Application e il tipo WPF Application in WpfTestResources, compilato da due suite non incluse nei controlli mirati precedenti. Corsa interrotta, errore conservato; tipo qualificato esplicitamente con System.Windows.Application. Corsa 20261013-052807-f3-wpf-test-namespace-fix: due build e due suite PASS. Nessuna modifica di calcolo, prodotto, attesi o known-failures.
+
+## F3.7b.8 — catalogo dei terreni e rigidezza dei pali
+
+HorizontalSoilPresentation prepara categorie, leggi disponibili, intervalli, descrizioni e tabelle con righe indipendenti dal catalogo GPC. Le scelte esplicite, la provenienza e le medie riusano le operazioni esistenti; nessuna regola o tabella numerica viene replicata. HorizontalPreview prepara la descrizione di EJ da una copia dei dati. La vista conserva soltanto i controlli e gli eventi. Sorgenti precedenti e SHA-256 in supporto/artefatti/refactoring/f3/soil-boundary-before.
+
+Corsa 20261013-064605-f3-soil-boundary: 13 PASS, 443 controlli applicativi, equivalenza dei 37 capitoli e dei 458 file F3, prove orizzontali e anello interno passate. Nessuna differenza di valori, testo o report e nessuna modifica agli attesi. La soglia Checker.Geotechnics scende da quattro a zero. Il full preliminare 063604 è stato interrotto volontariamente dopo build, suite rapide e primi banchi CA superati, per proseguire gli spostamenti: non è attestato come collaudo finale.

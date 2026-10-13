@@ -12,6 +12,10 @@ internal static class HorizontalPreviewChecks
             "tests/fixtures/f3/inputs/" + module + "--default.json")))!["data"]!.AsObject();
         var data = Fixture("geo_palo_orizzontale"); HorizontalSheetPresentation.PrepareReport(data);
         string original = data.ToJsonString();
+        var stiffness = ElasticHorizontalPile.SectionStiffness(data);
+        string text = $"EJ={stiffness.EI:G7} kNm² · E={stiffness.ModulusMpa:G7} MPa · J={stiffness.InertiaMm4:G7} mm⁴\n{stiffness.Assumption}"
+            + (stiffness.OverrideReason == "" ? "" : " · OVERRIDE: " + stiffness.OverrideReason);
+        Check(HorizontalPreview.StiffnessDescription(data) == text, "Descrizione della rigidezza modificata");
         var section = HorizontalPreview.ConcreteSection(data);
         var materials = HorizontalPreview.ConcreteStrengths(data["sezione"]!.AsObject());
         var model = HorizontalPreview.ReadModel(data);

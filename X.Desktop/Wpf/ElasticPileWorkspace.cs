@@ -7,7 +7,7 @@ using Anthea.Application.Scheduling;
 using Microsoft.Win32;
 using System.Threading;
 using X.Core;
-using GPC.Checkers.Geotechnics.Piles;
+using Anthea.Application.Presentation;
 namespace X.Desktop;
 internal sealed class ElasticPileWorkspace : UserControl,IDisposable
 {
@@ -75,7 +75,7 @@ internal sealed class ElasticPileWorkspace : UserControl,IDisposable
         var view=new ScrollViewer{Content=sheet,HorizontalScrollBarVisibility=ScrollBarVisibility.Auto,VerticalScrollBarVisibility=ScrollBarVisibility.Auto};
         Ui.Dialog(this,"Armature del palo · elevazione e distinta",Ui.Dock(view,top:bar),1250,900).ShowDialog();
     }
-    void ShowInfo()=>Info("Info · risposta elastica del palo",ElasticHorizontalPile.Limits+"\n\n"+ViggianiHorizontalSoil.Source+"\n\n"+ViggianiHorizontalSoil.StratificationConvention+"\n\n"+ElasticHorizontalPile.Signs+"\n\nFEM Euler–Bernoulli: due gdl/nodo, matrice consistente ∫k NᵀN dx. kh=nh z/D; k=kh D=nh z. 1 N/cm³=1000 kN/m³. K* nodale illustrativa = integrale di k sulle mezze lunghezze degli elementi adiacenti [kN/m]; non sostituisce la matrice del solutore.\n\nCtesta=H(Llibero−e_da_pc): nessun doppio conteggio del braccio. La media degli estremi della singola riga è un valore iniziale del software, non un valore consigliato dall'autore. Fonti e modifiche sono registrate.\n\nEJ: sezione circolare integra lorda con Ecm da Model; CHS solo acciaio. Override motivato nelle opzioni della sezione. Broms è una capacità limite distinta. N=Ntesta+w x: peso proprio dai materiali, senza galleggiamento automatico, attrito laterale o secondo ordine. Le verifiche N–M e taglio sono distinte dai dettagli costruttivi. MRd tratteggiato è interrotto nelle zone prive di sviluppo delle barre. Le fasce colorate richiedono dettagli locali; giunti e confinamento restano preliminari. Minimi pali NTC §7.2.5 selezionabili; zone dissipative, confinamento dei giunti e SLE richiedono completamento. Le proposte non sostituiscono automaticamente i dati personalizzati.");
+    void ShowInfo()=>Info("Info · risposta elastica del palo",ElasticHorizontalPile.Limits+"\n\n"+HorizontalSoilPresentation.Source+"\n\n"+HorizontalSoilPresentation.StratificationConvention+"\n\n"+ElasticHorizontalPile.Signs+"\n\nFEM Euler–Bernoulli: due gdl/nodo, matrice consistente ∫k NᵀN dx. kh=nh z/D; k=kh D=nh z. 1 N/cm³=1000 kN/m³. K* nodale illustrativa = integrale di k sulle mezze lunghezze degli elementi adiacenti [kN/m]; non sostituisce la matrice del solutore.\n\nCtesta=H(Llibero−e_da_pc): nessun doppio conteggio del braccio. La media degli estremi della singola riga è un valore iniziale del software, non un valore consigliato dall'autore. Fonti e modifiche sono registrate.\n\nEJ: sezione circolare integra lorda con Ecm da Model; CHS solo acciaio. Override motivato nelle opzioni della sezione. Broms è una capacità limite distinta. N=Ntesta+w x: peso proprio dai materiali, senza galleggiamento automatico, attrito laterale o secondo ordine. Le verifiche N–M e taglio sono distinte dai dettagli costruttivi. MRd tratteggiato è interrotto nelle zone prive di sviluppo delle barre. Le fasce colorate richiedono dettagli locali; giunti e confinamento restano preliminari. Minimi pali NTC §7.2.5 selezionabili; zone dissipative, confinamento dei giunti e SLE richiedono completamento. Le proposte non sostituiscono automaticamente i dati personalizzati.");
     internal void InvalidateShared()
     {
         if(disposed)return;recalculation.Invalidate();Result=null;reinforcementDrawing.Set(null);reinforcementSummary.Text="Verifiche e armature da aggiornare";sectionPreview.Outline=[];sectionPreview.Bars=[];sectionPreview.InvalidateVisual();sectionDetail.Text="Sezione da verificare";csv.IsEnabled=false;if(surveyCount!=parent.Array("stratigrafie").Count){if(surveyCount>=0 && !ElasticHorizontalPile.NeedsMigration(parent))parent["elastico"]!["stratigrafia"]=-1;BuildHeader();}
@@ -83,7 +83,7 @@ internal sealed class ElasticPileWorkspace : UserControl,IDisposable
         reinforcementEditor.InvalidateResults();
         if(retain)drawing.Set(Response,preserveSelection:true);
         else{Response=null;drawing.Set(null);table.ItemsSource=null;selection.Text=summary.Text="";}
-        try{var s=ElasticHorizontalPile.SectionStiffness(parent);section.Text=$"EJ={s.EI:G7} kNm² · E={s.ModulusMpa:G7} MPa · J={s.InertiaMm4:G7} mm⁴\n{s.Assumption}"+(s.OverrideReason==""?"":" · OVERRIDE: "+s.OverrideReason);}catch(ArgumentException ex){section.Text="EJ da completare nei dati iniziali: "+ex.Message;}
+        section.Text=HorizontalPreview.StiffnessDescription(parent);
         CalculationState(retain?"FEM conservato (N, V, M invariati) · verifiche di sezione in coda":"Dati modificati · analisi FEM e convergenza in coda",true);if(!ElasticHorizontalPile.NeedsMigration(parent))scheduledCalculation=CalculateScheduledAsync(TimeSpan.FromMilliseconds(300),false);Modified?.Invoke();
     }
     internal void Commit(){options?.Commit();reinforcementEditor.Commit();}

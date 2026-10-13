@@ -180,6 +180,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
   - [x] F3.7b.7b (13/10): anteprime del ponte, testi predalle/altezze e materiali/copriferro dei muri in Application. Formattazione condivisa, ordine delle invalidità preservato; 17 immagini identiche e 458 file equivalenti. TypeRef Calculations 125.
   - [x] F3-DOC (13/10): guide Rev40, Wiki e istruzioni del tool headless aggiornate. PDF 78/144 pagine, 337 formule e 26 parti ITEC conservate; revisione grafica eseguita. Dieci suite passate; cinque riferimenti editoriali classificati F3-06, 453 altri riferimenti e 36 input immutati.
   - [x] F3-BLD (13/10): qualificato System.Windows.Application nel supporto WPF condiviso dei test, dopo il conflitto con Anthea.Application trovato dal full. Due build e due suite reologia/input passate; nessuna modifica al prodotto o nuova eccezione ammessa.
+  - [x] F3.7b.8 (13/10): preparazione dei parametri del terreno, cataloghi e rigidezza del palo fuori dalla UI; nessuna tabella o formula duplicata. 443 controlli Application, 13 suite passate, 37 capitoli e 458 file equivalenti. Zero riferimenti diretti Desktop a Checker.Geotechnics.
   - [ ] F3.7b: rimuovere i restanti accessi ai motori e i contratti concreti dalla UI; collaudo e rilascio della fase.
 
 ## Fase 4: calcoli residui nelle librerie

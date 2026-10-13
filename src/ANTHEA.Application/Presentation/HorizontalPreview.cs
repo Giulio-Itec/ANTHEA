@@ -9,6 +9,16 @@ public sealed record HorizontalConcretePreview(SezioneCA Geometry, double LinkRa
 /// <summary>Sheet preview data from the existing pile and material engines. No WPF or new engineering rules.</summary>
 public static class HorizontalPreview
 {
+    public static string StiffnessDescription(JsonObject data)
+    {
+        try
+        {
+            var s = ElasticHorizontalPile.SectionStiffness((JsonObject)data.DeepClone());
+            return $"EJ={s.EI:G7} kNm² · E={s.ModulusMpa:G7} MPa · J={s.InertiaMm4:G7} mm⁴\n{s.Assumption}"
+                + (s.OverrideReason == "" ? "" : " · OVERRIDE: " + s.OverrideReason);
+        }
+        catch (ArgumentException ex) { return "EJ da completare nei dati iniziali: " + ex.Message; }
+    }
     private static readonly string[] ChsKeys = ["diametro_mm", "spessore_mm", "area_mm2", "inerzia_mm4", "wel_mm3", "wpl_mm3", "massa_kg_m", "classe", "npl_kn", "mpl_knm"];
     public static HorizontalModelPreview ReadModel(JsonObject data)
     {
