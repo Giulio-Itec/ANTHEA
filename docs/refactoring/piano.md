@@ -268,6 +268,19 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
 
 ## Fase 4: calcoli residui nelle librerie
 
+**Ripresa autorizzata il 13/10 dopo il merge della 1.7.1.** Piano aggiornato:
+[F4 — calcoli residui](f4-calcoli-residui.md), ramo
+`refactoring/f4-calcoli-residui`. Ordine operativo: F4.1–F4.9, F4.10,
+F4.12, F4.11, F4.13–F4.16. Si completa insieme il progetto delle armature
+prima di Bridge Design; gli identificativi storici non cambiano. Le
+precedenti annotazioni «F4 ferma» sono storiche e superate da questa richiesta.
+F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
+
+- [x] F4-P0 (13/10): pianificazione e inventario dopo F3, 13 progetti e
+  507 voci Compile, 606 sorgenti di libreria. Strumenti di audit e test di
+  architettura esistenti riusati; nessuna modifica ai motori o alle DLL.
+  Questo passo non chiude F4.1: mancano matrice semantica e catture aggiornate.
+
 - [x] 12 ottobre: [audit dei contratti dei 12 moduli](audit-contratti-moduli-20261012.md), delle classi di terreno/materiale e dei Progetti; inventario dei sorgenti effettivamente compilati e confronto con le API delle DLL distribuite.
 - [x] 12 ottobre: riuso verificato delle API per aderenza/ancoraggi, dettagli non circolari, M–χ, regioni, interassi non circolari, acciaio e SLE; sei vecchi file geotecnici esclusi rimossi su consenso esplicito. Ramo `refactoring/f4-riuso-api`, registro API-01. Runner baseline: 52 PASS, 1 KNOWN, 0 NEW-FAIL; confronto completo di 548 file e denso di 50.996 righe passato; soluzione e app Release compilate. Residui e contratti incompleti nell'audit; non chiude F4.1–F4.16 né il rilascio delle fondazioni.
 - [x] API-02: interassi circolari.

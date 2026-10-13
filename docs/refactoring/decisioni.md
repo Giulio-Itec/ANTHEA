@@ -991,3 +991,25 @@ Completati contratti, servizi, report e confine Desktop. Verifica sorgenti oltre
 L’utente sceglie Plastico/Elastico nella verifica, indipendentemente dallo stato limite della riga. Sei componenti memorizzate una volta; proiezioni per SLU/SLV, SLE e taglio/torsione. Elemento è un riferimento facoltativo: tutte le righe sono verificate sulla sezione del foglio, anche se riferite a elementi differenti. Non si assegnano automaticamente geometrie del modello. I nomi uguali restano righe distinte con ID propri.
 Conversione dei dati storici esplicita: le vecchie famiglie Plastico/Elastico e Taglio richiedono l’assegnazione dello stato limite; le componenti mancanti devono essere compilate. Nessun coefficiente o cambio di segno aggiuntivo. L’apertura dei documenti precedenti non cambia il comportamento.
 Cattura preventiva: `20261013-142103-excel-sol-before`, Application.Tests e verifiche/ca-data PASS. F4 non avviata.
+
+## 13 ottobre — ANTHEA 1.7.1 e ripresa della pianificazione F4
+
+Dopo la correzione F3.4-U5 l’utente richiede «merge in master, versione 1.7.1».
+ANTHEA usa `main`: integrazione completata in `46b4c918`, versione patch
+`2c06ab46`, installer e DLL verificati come nel verbale F3. Nessun push in
+questo passaggio. Non sono state modificate le librerie GPC.
+
+La successiva richiesta «poi parti con la F4. pianifichiamo i punti» supera
+l’arresto della fase. Si apre `refactoring/f4-calcoli-residui` da quella 1.7.1.
+Il [piano aggiornato](f4-calcoli-residui.md) mantiene F4.1–F4.16, propone F4.12
+dopo F4.10 per completare la ricerca delle armature prima di Bridge Design,
+e parte da inventario, catture e protezioni automatiche. L’inventario iniziale
+è eseguito, ma non costituisce equivalenza né chiusura di F4.1.
+
+GPC.Design nel repository Checker è la proposta di collocazione da rendere
+concreta in F4.3; non è una libreria già creata. Si riusano esiti, coefficienti,
+servizi Application e test presenti. Le decisioni normative già registrate
+non si richiedono di nuovo; le questioni ancora aperte richiedono prima una
+scheda con fonte ed effetto numerico. Trasferimento equivalente e correzione
+numerica hanno commit distinti. Un aggiornamento per punto concluso; F5 e
+la rimozione indiscriminata del legacy restano esclusi.
