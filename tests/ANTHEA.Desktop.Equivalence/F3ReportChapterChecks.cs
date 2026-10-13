@@ -17,9 +17,9 @@ internal static class F3ReportChapterChecks
         CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("it-IT");
         int count = 0, images = 0;
         var builder = new ModuleReportService(new ModuleFigureRenderer());
-        foreach (string file in Directory.EnumerateFiles(Path.Combine(root, "tests/fixtures/f3/inputs"), "*.json").Order(StringComparer.Ordinal))
+        foreach (var (file, fixture) in Inputs(root))
         {
-            var fixture = JsonNode.Parse(File.ReadAllText(file))!.AsObject(); string module = fixture.S("module");
+            string module = fixture.S("module");
             if (!ModuleReportService.Supports(module)) continue;
             string title = "F3 capitolo " + fixture.S("id");
             var sheet = J.Obj(("nome", title), ("modulo_id", module), ("dati", fixture["data"]!.DeepClone()));
@@ -61,6 +61,16 @@ internal static class F3ReportChapterChecks
             count++;
         }
         File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {count} capitoli autonomi, {images} immagini e tutte le parti XML confrontate con la vista.");
+    }
+    private static IEnumerable<(string File, JsonObject Fixture)> Inputs(string root)
+    {
+        foreach (string file in Directory.EnumerateFiles(Path.Combine(root, "tests/fixtures/f3/inputs"), "*.json").Order(StringComparer.Ordinal))
+            yield return (file, JsonNode.Parse(File.ReadAllText(file))!.AsObject());
+        var wall = RetainingWall.Example("cantilever"); wall.Array("layers")[0]!["thickness"] = 25;
+        RetainingWall.PrepareGlobalProfile(wall);
+        var global = wall["global_stability"]!; global["enabled"] = true; global["profile_confirmed"] = true;
+        global["search_mode"] = "Assegnata"; global["depth_min"] = .1;
+        yield return ("wall-global.json", J.Obj(("id", "globale-confermata"), ("module", RetainingWall.Module), ("data", wall)));
     }
     private static void Check(bool valid, string message) { if (!valid) throw new InvalidOperationException(message); }
 }

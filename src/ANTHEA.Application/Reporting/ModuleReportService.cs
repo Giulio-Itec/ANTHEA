@@ -8,7 +8,7 @@ public sealed record ReportFigure(string Caption, byte[] Png, string Category, i
 {
     public ImmagineReport Image() => new(Caption, Png, Category, Index);
 }
-public sealed record ModuleReportRequest(string Title, ModuleCalculation Calculation, IReadOnlySet<string> Options, bool ProjectReport);
+public sealed record ModuleReportRequest(string Title, ModuleCalculation Calculation, IReadOnlySet<string> Options, bool ProjectReport, object? Context = null);
 
 /// <summary>The application requests figures; a renderer owns only graphics and never creates an editor or calculates a sheet.</summary>
 public interface IFigureRenderer
@@ -18,7 +18,7 @@ public interface IFigureRenderer
 
 public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectReportChapterBuilder
 {
-    public static bool Supports(string module) => module is "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo";
+    public static bool Supports(string module) => module is "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo" or RetainingWall.Module;
     public static HashSet<string> DefaultSections(string module) => module == BridgeSection.Module ? ReportBridge.DefaultSections()
         : module == "str_palo" ? ReportConcrete.Sections.Where(s => s.Key is not ("dettagli" or "sle_tutte")).Select(s => s.Key).ToHashSet()
         : ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
@@ -32,6 +32,7 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
         var data = (JsonObject)source.DeepClone();
         if (module == "mat_calcestruzzo") data = Materiali.MaterialSheetInput.NormalizeState(data);
         else if (module == BridgeConcept.Module) ModuleSheetPreparation.PrepareBridgeDesign(data);
+        else if (module == RetainingWall.Module) Anthea.Application.Presentation.WallSheetPresentation.Prepare(data);
         else if (module == HorizontalPileGroup.Module) ModuleSheetPreparation.PreparePileGroup(data);
         else if (module == Anthea.FoundationWorkspace.FoundationDocument.Module)
         { Anthea.FoundationWorkspace.FoundationDocument.ValidateShape(data); Anthea.FoundationWorkspace.FoundationMaterials.Complete(data); }
@@ -44,7 +45,14 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
         { throw new ArgumentException("Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.", error); }
         if (calculation.HasError) throw new ArgumentException("Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.");
         if (module == HorizontalPileGroup.Module) ModuleSheetPreparation.ApplyPileGroupSelection(data, calculation.Values);
-        var request = new ModuleReportRequest(sheet.S("nome"), calculation, DefaultSections(module), true);
+        object? context = null;
+        if (module == RetainingWall.Module)
+        {
+            var wall = calculation.NativeAs<RetainingWall.Result>();
+            Anthea.Application.Presentation.WallSheetPresentation.ApplyResult(data, wall);
+            context = await Task.Run(() => WallReportPresentation.ForProject(wall), cancellation);
+        }
+        var request = new ModuleReportRequest(sheet.S("nome"), calculation, DefaultSections(module), true, context);
         IReadOnlyList<ReportFigure> figures = module is HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module
             ? Array.Empty<ReportFigure>() : await renderer.RenderAsync(request, cancellation);
         cancellation.ThrowIfCancellationRequested();
@@ -53,6 +61,8 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
     public static DocxDocument CreateDocument(ModuleReportRequest request, IReadOnlyList<ReportFigure> figures)
     {
         var c = request.Calculation;
+        if (c.ModuleId == RetainingWall.Module) return ReportRetainingWall.CreateDocument(request.Title, c.NativeAs<RetainingWall.Result>(),
+            figures.Select(f => new ReportRetainingWall.Figure(f.Caption, f.Png, f.AspectRatio)).ToList());
         if (c.ModuleId == HorizontalPileGroup.Module) return ReportPileGroup.CreateDocument(request.Title, c.Values);
         if (c.ModuleId == Anthea.FoundationWorkspace.FoundationDocument.Module) return Anthea.FoundationWorkspace.FoundationReport.WordDocument(request.Title, c.Values);
         if (c.ModuleId == BridgeConcept.Module)

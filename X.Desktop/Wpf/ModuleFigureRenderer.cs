@@ -4,13 +4,15 @@ using System.Text.Json.Nodes;
 using System.Windows.Threading;
 namespace X.Desktop;
 
-internal sealed class ModuleFigureRenderer : IFigureRenderer
+internal sealed partial class ModuleFigureRenderer : IFigureRenderer
 {
     public async Task<IReadOnlyList<ReportFigure>> RenderAsync(ModuleReportRequest request, CancellationToken cancellation)
     {
         cancellation.ThrowIfCancellationRequested();
         await Dispatcher.Yield(DispatcherPriority.Background);
         var c = request.Calculation;
+        if (c.ModuleId == RetainingWall.Module)
+            return WallFigures(c.NativeAs<RetainingWall.Result>(), (WallReportPresentation)request.Context!);
         if (c.ModuleId == BridgeConcept.Module)
         {
             var drawing = new BridgeDesignDrawing { Data = c.Data, Result = c.NativeAs<BridgeConcept.Result>() };

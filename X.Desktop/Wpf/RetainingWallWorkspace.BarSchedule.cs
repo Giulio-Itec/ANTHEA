@@ -16,19 +16,7 @@ internal sealed partial class RetainingWallWorkspace
         return new(Calculation.Input, RetainingWall.CalculateBarSchedule(Calculation));
     }
     internal static IReadOnlyList<ReportRetainingWall.Figure> BarFigures(RetainingWallBarDrawing drawing)
-    {
-        int oldPage = drawing.Page; var figures = new List<ReportRetainingWall.Figure>();
-        try
-        {
-            for (int i = 0; i < drawing.PageCount; i++)
-            {
-                drawing.Page = i;
-                figures.Add(new("Tavola armature e distinta ferri · " + (i + 1), drawing.Png(3360, 2370), 1120d / 790));
-            }
-        }
-        finally { drawing.Page = oldPage; }
-        return figures;
-    }
+        => ModuleFigureRenderer.BarFigures(drawing);
     private void ShowBarSchedule()
     {
         Commit();

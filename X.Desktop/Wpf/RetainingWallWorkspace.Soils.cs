@@ -76,8 +76,8 @@ internal sealed partial class RetainingWallWorkspace
         double ht = Data["geometry"].D("height") + Data["geometry"].D("slab"), dv = RetainingWall.ValleyHeight(Data); var labels = new List<string>(); bool valid = true;
         foreach (var (grid, name, need) in new[] { (ValleyLayerGrid, "Valle", dv), (LayerGrid, "Monte", ht) })
         {
-            double z = 0; int i = 0;
-            foreach (var row in grid.Rows) { row.Output("__index", ++i); row.Output("__from", F(z)); z += row.Values.D("thickness"); row.Output("__to", F(z)); }
+            double z = Anthea.Application.Presentation.WallSheetPresentation.UpdateColumnDepths(grid.Rows.Select(r => r.Values));
+            foreach (var row in grid.Rows) row.Refresh();
             grid.Height = Math.Min(200, 72 + 31 * grid.Rows.Count); valid &= z + 1e-9 >= need; labels.Add($"{name}: {F(z)} m / {F(need)} m richiesti");
         }
         layerStatus.Text = string.Join(" · ", labels) + $"\nHlib={F(ht - dv)} m · terreno di valle Dv={F(dv)} m sopra il piano di posa"; layerStatus.Foreground = Appearance.Foreground(valid ? Ui.Muted : Brushes.Firebrick);

@@ -30,10 +30,7 @@ internal sealed partial class RetainingWallWorkspace
     {
         foreach (FrameworkElement shared in new FrameworkElement[] { globalMatrixHost, globalMessage, globalReadiness, globalSearchSummary }) if (shared.Parent is Panel parent) parent.Children.Remove(shared);
         var g = Data["global_stability"]!.AsObject();
-        g["valley_layers"] ??= new JsonArray(); g["soil_mode"] ??= "Profilo unico";
-        g["soil_split_x"] ??= Data["geometry"].D("toe") + Data["geometry"].D("stem_base");
-        // Existing documents retain their exact search limits until the user chooses automatic mode.
-        g["search_mode"] ??= "Assegnata";
+        Anthea.Application.Presentation.WallSheetPresentation.PrepareGlobalSettings(Data);
         var form = Form("global", [new("enabled", "Attiva la verifica globale", Bool: true),
             new("condition", "Condizione del terreno", Choices: ["Drenata", "Non drenata"]),
             new("profile_confirmed", "Ho controllato profilo, strati e falda del sito", Bool: true),

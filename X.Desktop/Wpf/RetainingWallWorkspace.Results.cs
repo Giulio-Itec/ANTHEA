@@ -60,17 +60,12 @@ internal sealed partial class RetainingWallWorkspace
     {
         var r = Calculation!; string? name = Combination.SelectedItem as string; independentGlobal = null; independentGlobalInput = null; independentGlobalError = null;
         string? globalName = GlobalCombination.SelectedItem as string;
-        if (Data["global_stability"].B("enabled") && Data["global_stability"].S("combination_mode") == "Automatiche")
-        {
-            try { Data["global_stability"]!["combinations"] = RetainingWall.GenerateGlobalCombinations(Data); BuildGlobalMatrix(); } catch (ArgumentException ex) { globalMessage.Text = ex.Message; }
-        }
+        var prepared = Anthea.Application.Presentation.WallSheetPresentation.ApplyResult(Data, r);
+        if (prepared.GlobalUpdated) BuildGlobalMatrix();
+        if (prepared.GlobalError is { } globalError) globalMessage.Text = globalError;
         GlobalCombination.ItemsSource = r.GlobalStability?.Cases.Select(c => c.Factors.Name).ToArray();
         GlobalCombination.SelectedItem = r.GlobalStability?.Cases.FirstOrDefault(c => c.Factors.Name == globalName)?.Factors.Name ?? r.GlobalStability?.Cases.OrderByDescending(c => c.Critical?.Ratio ?? double.PositiveInfinity).FirstOrDefault()?.Factors.Name;
-        if (Data.S("combination_mode") == "Automatiche")
-        {
-            Data["combinations"] = r.Input["combinations"]!.DeepClone(); Data["combination_signature"] = RetainingWall.CombinationSignature(Data); BuildMatrix();
-        }
-        else if (MatrixGrid is null) BuildMatrix();
+        if (prepared.LocalUpdated || MatrixGrid is null) BuildMatrix();
         Combination.ItemsSource = r.Cases.Select(c => c.Name).ToArray(); Combination.SelectedItem = name is not null && r.Cases.Any(c => c.Name == name) ? name : r.Cases[0].Name;
         ShowCombination();
         UpdateSeismicStatus();

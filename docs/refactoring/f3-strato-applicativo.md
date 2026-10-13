@@ -153,3 +153,9 @@ Corsa 032000: 5 PASS, report progetto, sei catture grafiche, 458 file equivalent
 Sette moduli su dodici producono ora capitoli senza editor. I materiali condividono lo stato iniziale portabile; RestoreState conserva il comportamento delle restaurazioni parziali. Palificata: migrazione, coordinate numeriche e selezione risultante conservate, parser comune con la vista. Fondazioni: stesso completamento dei dati e stesso report portabile già esistenti.
 
 Corsa 032514: 7 PASS, 343 controlli Application, smoke materiali/progetto, 16 capitoli autonomi confrontati con la vista e 458 file equivalenti. Un confronto intermedio ha rilevato soltanto l’ordine di cinque proprietà materiali nel capitolo progetto: ripristinato l’ordine storico di inserimento; attesi immutati, nessuna tolleranza aggiunta. Correzione sintattica iniziale del ramo senza figure prima del collaudo.
+
+## F3.5b.2e — muri autonomi
+
+Ottavo modulo separato: dati globali, quote degli strati persistite e matrici risultanti condivisi in WallSheetPresentation; scelta della combinazione e preparazione distinta in WallReportPresentation. Il renderer disegna soltanto sezioni, diagrammi, superficie critica e tavole della distinta, senza dipendenze dagli editor. Il report interattivo conserva la combinazione scelta; il progetto adotta la stessa selezione iniziale precedente.
+
+Corsa 032911: 5 PASS, smoke muri/progetto, 20 capitoli e 458 file equivalenti. Corsa 033130: 3 PASS, smoke stabilità globale ed equivalenza di 21 capitoli (55 immagini e tutte le parti XML), compreso un caso aggiuntivo con profilo globale confermato. Nessuna differenza o eccezione aggiunta.
