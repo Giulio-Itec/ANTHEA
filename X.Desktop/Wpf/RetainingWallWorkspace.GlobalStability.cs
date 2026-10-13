@@ -131,29 +131,29 @@ internal sealed partial class RetainingWallWorkspace
         }
         panel.Children.Add(Ui.Text(string.Join("\n", result.Notes.Skip(1)), 11, color: Ui.Muted)); return panel;
     }
-    internal async Task CalculateGlobalAsync()
+    internal Task CalculateGlobalAsync() => scheduledCalculation = CalculateGlobalScheduledAsync();
+    private async Task CalculateGlobalScheduledAsync()
     {
-        if (disposed) return; Commit(); timer.Stop();
-        while (Busy) await running;
-        if (disposed) return;
-        int request = revision; var snapshot = (JsonObject)Data.DeepClone(); cancellation?.Dispose(); cancellation = new(); var token = cancellation.Token;
-        Busy = true; status.Text = "Ricerca delle superfici globali…"; independentGlobal = null; independentGlobalInput = null; independentGlobalError = null;
-        running = Run(); await running;
-        async Task Run()
+        if (disposed) return; Commit();
+        var snapshot = (JsonObject)Data.DeepClone();
+        var completed = await recalculation.ScheduleAsync(async token =>
+        {
+            Busy = true; status.Text = "Ricerca delle superfici globali…"; independentGlobal = null; independentGlobalInput = null; independentGlobalError = null;
+            try { return await Task.Run(() => Anthea.Application.Modules.StructuralQueries.WallGlobal(snapshot, token), token); }
+            finally { Busy = false; }
+        });
+        completed.TryPublish(current =>
         {
             try
             {
-                var result = await Task.Run(() => RetainingWall.CalculateGlobal(snapshot, token));
-                if (disposed || request != revision) return;
-                independentGlobal = result; independentGlobalInput = snapshot;
+                if (current.Error is not null) throw current.Error;
+                var result = current.Value!; independentGlobal = result; independentGlobalInput = snapshot;
                 GlobalCombination.ItemsSource = result.Cases.Select(c => c.Factors.Name).ToArray(); GlobalCombination.SelectedItem = result.Cases.OrderByDescending(c => c.Critical?.Ratio ?? double.PositiveInfinity).First().Factors.Name;
                 ViewMode.SelectedItem = "Stabilità globale"; CheckFilter.SelectedItem = "Stabilità globale"; Pages.SelectedIndex = 1; RefreshGlobal(); ShowCheckTable();
                 status.Text = "Stabilità globale aggiornata · " + result.Cases.Length + " combinazioni. Le verifiche locali hanno un calcolo indipendente.";
             }
-            catch (OperationCanceledException) { }
-            catch (ArgumentException ex) { if (!disposed && request == revision) { independentGlobalError = ex.Message; status.Text = "Stabilità globale: " + ex.Message; RefreshGlobal(); ShowCheckTable(); } }
-            finally { Busy = false; if (!disposed && request != revision) timer.Start(); }
-        }
+            catch (Exception ex) { independentGlobalError = ex.Message; status.Text = "Stabilità globale: " + ex.Message; RefreshGlobal(); ShowCheckTable(); }
+        });
     }
     private void ExportGlobalWord()
     {

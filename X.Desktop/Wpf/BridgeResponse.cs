@@ -1,3 +1,5 @@
+using Anthea.Application.Scheduling;
+using Anthea.Application.Modules;
 using System.IO;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -21,6 +23,7 @@ internal sealed partial class BridgeWorkspace
     private readonly BridgeResponsePlot responsePlot = new(), fiberPlot = new() { CurveBrush = Ui.Brush("#A35320") };
     private readonly ContentControl responseTable = new();
     private readonly TextBlock responseNotice = Ui.Text("Nessuna curva calcolata", 12, true), responsePointInfo = Ui.Text("", 12);
+    private readonly RecalculationScheduler responseRecalculation = new();
     private CancellationTokenSource? responseCancellation;
     private Button responseRun = null!, responseExport = null!;
     private int responseRevision;
@@ -74,7 +77,7 @@ internal sealed partial class BridgeWorkspace
     }
     private void InvalidateResponse()
     {
-        responseRevision++; responseCancellation?.Cancel();
+        responseRevision++; responseRecalculation.Invalidate(); responseCancellation?.Cancel();
         if (responseExport is not null) responseExport.IsEnabled = false;
         if (ResponseCalculation is not null) responseNotice.Text = "Dati modificati · curva precedente da ricalcolare";
     }
@@ -84,11 +87,20 @@ internal sealed partial class BridgeWorkspace
         Commit(); ResponseForm.Commit();
         var data = (JsonObject)Data.DeepClone(); var request = (JsonObject)ResponseData.DeepClone();
         int version = responseRevision; responseCancellation?.Dispose(); responseCancellation = new(); var token = responseCancellation.Token;
-        responseBusy = true; responseRun.IsEnabled = false; responseNotice.Text = "Calcolo del percorso e dello storico di partenza…";
-        try
+        var completed = await responseRecalculation.ScheduleAsync(async currentToken =>
         {
-            var result = await Task.Run(() => BridgeSection.CalculateResponse(data, request, token), token);
-            if (disposed || version != responseRevision) return;
+            responseBusy = true; responseRun.IsEnabled = false; responseNotice.Text = "Calcolo del percorso e dello storico di partenza…";
+            try { return await Task.Run(() => StructuralQueries.BridgeResponse(data, request, currentToken), currentToken); }
+            finally { responseBusy = false; if (!disposed) responseRun.IsEnabled = true; }
+        }, cancellation: token);
+        if (completed.Cancelled && !disposed && version == responseRevision)
+            responseNotice.Text = "Calcolo annullato · eventuale curva precedente da ricalcolare";
+        completed.TryPublish(current =>
+        {
+            try
+            {
+                if (current.Error is not null) throw current.Error;
+                var result = current.Value!;
             ResponseCalculation = result; responseExport.IsEnabled = true;
             responseNotice.Text = $"{result.Points.Count} stati accettati · " + result.Message;
             ResponsePoint.Maximum = Math.Max(0, result.Points.Count - 1); ResponsePoint.Value = ResponsePoint.Maximum;
@@ -100,10 +112,9 @@ internal sealed partial class BridgeWorkspace
                     F(p.State.Fibers.Where(f => f.Active).Min(f => f.MechanicalStrain) * 1e6), F(p.State.Fibers.Where(f => f.Active).Max(f => f.MechanicalStrain) * 1e6),
                     F(p.State.Fibers.Where(f => f.Active).Min(f => f.Stress)), F(p.State.Fibers.Where(f => f.Active).Max(f => f.Stress)), E(p.State.ForceResidual) }));
             RefreshResponsePlots();
-        }
-        catch (OperationCanceledException) { if (!disposed) responseNotice.Text = "Calcolo annullato · eventuale curva precedente da ricalcolare"; }
-        catch (Exception ex) { responseNotice.Text = "Curva non calcolata: " + ex.Message; responseExport.IsEnabled = false; }
-        finally { responseBusy = false; responseRun.IsEnabled = true; }
+            }
+            catch (Exception ex) { responseNotice.Text = "Curva non calcolata: " + ex.Message; responseExport.IsEnabled = false; }
+        });
     }
     private sealed record FiberChoice(string Id, string Label) { public override string ToString() => Label; }
     private static string ComponentName(string id) => id switch { HBridgeHistoryAnalysis.Concrete => "Calcestruzzo", HBridgeHistoryAnalysis.Rebars => "Armatura", HBridgeHistoryAnalysis.Top => "Piattabanda superiore", HBridgeHistoryAnalysis.Web => "Anima", HBridgeHistoryAnalysis.Bottom => "Piattabanda inferiore", _ => id };

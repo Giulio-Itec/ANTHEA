@@ -35,13 +35,18 @@ internal sealed partial class SheetEditor
         Check(editor.Result is null, "Vista chiusa aggiornata da un calcolo completato tardi");
         Check(!editor.Busy && service.Calls == 3, "Chiusura lascia un lavoro in coda");
         Check(data["generali"].D("diametro") != 1.35, "Vista ha modificato il documento di ingresso");
+        checks += await BridgeWorkspace.CheckF3Scheduling();
+        checks += await RetainingWallWorkspace.CheckF3Scheduling();
         File.WriteAllText(Path.Combine(output, "esito.txt"), $"PASS {checks} controlli WPF ricalcolo e chiusura");
     }
-    private sealed class GatedModuleService : IModuleService, IDisposable
+}
+
+internal sealed class GatedModuleService : IModuleService, IDisposable
     {
-        private readonly IModuleService inner = ModuleServices.Get("geo_palo_verticale");
+        private readonly IModuleService inner;
+        public GatedModuleService(string module = "geo_palo_verticale") => inner = ModuleServices.Get(module);
         private readonly ManualResetEventSlim release = new(false);
-        private bool holding = true;
+        private volatile bool holding = true;
         private int calls;
         public int Calls => Volatile.Read(ref calls);
         public TaskCompletionSource Started { get; private set; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -59,9 +64,8 @@ internal sealed partial class SheetEditor
             }
             // Deliberately emulate an engine which completes before observing cancellation.
             var result = inner.Calculate(source);
-            result.Values["test_diametro_snapshot"] = source["generali"].D("diametro");
+            if (ModuleId == "geo_palo_verticale") result.Values["test_diametro_snapshot"] = source["generali"].D("diametro");
             return result;
         }
         public void Dispose() => release.Dispose();
     }
-}

@@ -1,3 +1,5 @@
+using Anthea.Application.Modules;
+using Anthea.Application.Scheduling;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -5,7 +7,6 @@ using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
 using Microsoft.Win32;
 using X.Core;
 
@@ -29,20 +30,21 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
     private readonly ContentControl stressTable = new(), propertiesTable = new(), classTable = new(), phaseTable = new(), geometryTable = new();
     private readonly StackPanel phaseForms = new();
     private readonly TextBox details = new() { IsReadOnly = true, TextWrapping = TextWrapping.Wrap, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, BorderThickness = new Thickness(0), Padding = new Thickness(12) };
-    private readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(500) };
+    private readonly RecalculationScheduler recalculation = new();
+    private readonly IModuleService calculationService;
+    private Task scheduledCalculation = Task.CompletedTask;
     private readonly List<InputForm> inputForms = [], phaseInputForms = [];
     internal IReadOnlyList<InputForm> InputForms => inputForms;
-    private CancellationTokenSource? cancellation;
     private JsonObject[] displayedPhases = [];
     private JsonObject? selectedPhase;
     private bool followLatestStage = true;
-    private int revision;
     private bool building = true, disposed;
     private BridgeGeometry? previewGeometry;
     private JsonObject? previewInput;
     private string geometryError = "";
-    internal BridgeWorkspace(JsonObject data)
+    internal BridgeWorkspace(JsonObject data, IModuleService? calculationService = null)
     {
+        this.calculationService = calculationService ?? ModuleServices.Get(BridgeSection.Module);
         Data = data; BridgeSection.ValidateShape(data); BridgeSection.EnsureAccessoryDefaults(data); Background = Appearance.Surface;
         RevisionInspection.Allow(StageChoice); RevisionInspection.Allow(DisplayChoice);
         SetValue(InputForm.CommitOnFocusLossProperty, true);
@@ -68,7 +70,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         };
         DisplayChoice.SelectionChanged += (_, _) => { RefreshDrawing(); ViewChanged(); };
         Results.SelectionChanged += (_, e) => { if (ReferenceEquals(e.Source, Results)) ViewChanged(); };
-        timer.Tick += Tick; building = false; RefreshPreview(); timer.Start();
+        building = false; RefreshPreview(); QueueCalculation();
     }
     private static ScrollViewer Scroll(UIElement body) => new ChainedScrollViewer { Content = body, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled };
     private static UIElement Block(string title, UIElement body, string? subtitle = null)
@@ -227,11 +229,11 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         SynchronizeHomogenization();
         UpdateCommonReferenceField();
         RefreshActionsTable();
-        revision++; cancellation?.Cancel(); Calculation = null;
+        recalculation.Invalidate(); Calculation = null;
         InvalidateResponse();
         if (DisplayedCalculation is null) ClearResults();
         RefreshPreview(); UpdateResultNotice();
-        status.Text = "Dati modificati · aggiornamento automatico in attesa…"; timer.Stop(); timer.Start(); Modified?.Invoke();
+        status.Text = "Dati modificati · aggiornamento automatico in attesa…"; QueueCalculation(); Modified?.Invoke();
     }
     private void RefreshPreview()
     {
@@ -247,28 +249,40 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         RefreshDetailSketch();
         RefreshDrawing();
     }
-    private async void Tick(object? sender, EventArgs e) { timer.Stop(); if (!Busy) await CalculateAsync(false); else timer.Start(); }
-    internal async Task CalculateAsync(bool commit = true)
+    private void QueueCalculation() => scheduledCalculation = CalculateScheduledAsync(TimeSpan.FromMilliseconds(500), false);
+    internal Task CalculateAsync(bool commit = true) => scheduledCalculation = CalculateScheduledAsync(TimeSpan.Zero, commit);
+    private async Task CalculateScheduledAsync(TimeSpan delay, bool commit)
     {
-        if (disposed || Busy) return; if (commit) Commit(); timer.Stop(); Busy = true; progress.Visibility = Visibility.Visible;
-        int requested = revision; cancellation?.Dispose(); cancellation = new(); var token = cancellation.Token;
-        var snapshot = (JsonObject)Data.DeepClone(); status.Text = "Calcolo delle fasi e della sezione efficace…";
+        if (disposed) return;
+        if (commit) Commit();
+        var snapshot = (JsonObject)Data.DeepClone();
         var activePhases = Data.Array("fasi").OfType<JsonObject>().Where(p => p.B("attiva")).ToArray();
-        try
+        var completed = await recalculation.ScheduleAsync(async token =>
         {
-            var computed = await Task.Run(() => BridgeSection.Calculate(snapshot, token), token);
-            if (disposed || requested != revision) return;
-            int previous = selectedPhase is null ? StageChoice.SelectedIndex : Array.IndexOf(activePhases, selectedPhase);
-            Calculation = computed; DisplayedCalculation = computed; displayedPhases = activePhases;
-            StageChoice.ItemsSource = computed.Stages.Select((s, i) => $"{i + 1:00} · Dopo {s.Name}").ToArray();
-            if (previous < 0 && selectedPhase is null) previous = (int)viewSettings.D("fase", -1);
-            StageChoice.SelectedIndex = followLatestStage ? computed.Stages.Count - 1 : previous >= 0 && previous < computed.Stages.Count ? previous : computed.Stages.Count - 1;
-            selectedPhase = activePhases[StageChoice.SelectedIndex];
-            ShowResults(); UpdateResultNotice(); status.Text = $"Aggiornato · {computed.Stages.Count} situazioni · geometria e risultati coerenti con i dati correnti";
-        }
-        catch (OperationCanceledException) { }
-        catch (Exception ex) { if (!disposed && requested == revision) { Calculation = null; if (DisplayedCalculation is null) ClearResults(); UpdateResultNotice(); status.Text = "Dati da verificare: " + ex.Message; } }
-        finally { Busy = false; progress.Visibility = Visibility.Collapsed; if (!disposed && requested != revision) timer.Start(); }
+            Busy = true; progress.Visibility = Visibility.Visible;
+            status.Text = "Calcolo delle fasi e della sezione efficace…";
+            try { return (await Task.Run(() => calculationService.Calculate(snapshot, token), token)).NativeAs<BridgeResult>(); }
+            finally { Busy = false; if (!disposed) progress.Visibility = Visibility.Collapsed; }
+        }, delay);
+        completed.TryPublish(current =>
+        {
+            // Suppress selection callbacks while restoring the selected construction phase.
+            Busy = true;
+            try
+            {
+                if (current.Error is not null) throw current.Error;
+                var computed = current.Value!;
+                int previous = selectedPhase is null ? StageChoice.SelectedIndex : Array.IndexOf(activePhases, selectedPhase);
+                Calculation = computed; DisplayedCalculation = computed; displayedPhases = activePhases;
+                StageChoice.ItemsSource = computed.Stages.Select((s, i) => $"{i + 1:00} · Dopo {s.Name}").ToArray();
+                if (previous < 0 && selectedPhase is null) previous = (int)viewSettings.D("fase", -1);
+                StageChoice.SelectedIndex = followLatestStage ? computed.Stages.Count - 1 : previous >= 0 && previous < computed.Stages.Count ? previous : computed.Stages.Count - 1;
+                selectedPhase = activePhases[StageChoice.SelectedIndex];
+                ShowResults(); UpdateResultNotice(); status.Text = $"Aggiornato · {computed.Stages.Count} situazioni · geometria e risultati coerenti con i dati correnti";
+            }
+            catch (Exception ex) { Calculation = null; if (DisplayedCalculation is null) ClearResults(); UpdateResultNotice(); status.Text = "Dati da verificare: " + ex.Message; }
+            finally { Busy = false; }
+        });
     }
     private void ClearResults()
     {
@@ -396,5 +410,5 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         }
         Archivio.ScriviAtomico(dialog.FileName, Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(string.Join(Environment.NewLine, lines))).ToArray());
     }
-    public void Dispose() { disposed = true; revision++; timer.Stop(); timer.Tick -= Tick; cancellation?.Cancel(); responseCancellation?.Cancel(); detachedWindow?.Close(); }
+    public void Dispose() { disposed = true; recalculation.Dispose(); responseRecalculation.Dispose(); responseCancellation?.Cancel(); detachedWindow?.Close(); }
 }

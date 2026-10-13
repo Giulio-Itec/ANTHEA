@@ -23,3 +23,5 @@ F3.6b completato: acciaio, palificata, fondazioni; corsa 015601 12 PASS/0 nuovi.
 Checkpoint 02:12: unificazione CalculationService completata, 548 file headless equivalenti; rinomine diagnostiche F3-01 registrate e collaudate. Prossimo: estrazione Wiki, script preparato solo negli artefatti f3/extract-wiki.py. F3.5b/report autonomi e F3.6 resto moduli ancora aperti, F4 non iniziata, F5 esclusa.
 
 Checkpoint 02:15: F3.6c Wiki chiuso; 240 controlli portabili, 458 file equivalenti, rendering Wiki e aiuto fondazioni passati. Prossimi moduli: ponte composto e muri con coordinamento comune; restano report autonomi, materiali CLS, orizzontale/elastico, CA e chiusura F3.
+
+Checkpoint 02:22: F3.6d ponte/muri chiuso, 11 PASS + 6 PASS di schedulazione, 21 controlli WPF e 458 file invariati. F3.6c Wiki in 463f4cb, unificazione dispatch in c8286da. Prossimo orizzontale/elastico: preservare cache FEM e cache delle sezioni, migrazione elastica sempre esplicita. Restano F3.5b/report, CLS, CA, BridgeDesign ritardato e chiusura; F4 non iniziata, F5 esclusa. La sessione utente primaria resta intatta.

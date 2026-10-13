@@ -64,21 +64,26 @@ internal sealed partial class RetainingWallWorkspace
                 new("tie_spacing", "Passo collegamenti della giunzione", "mm"), new("max_diameter", "Ø massimo nel predimensionamento", "mm"),
                 new("max_count", "Numero massimo barre per metro", "−"), new("target_ratio", "Tasso massimo ricercato", "−")]),
             Ui.Text("Il pulsante ricerca barre simmetriche per zona e le verifica con GPC in SLU e SLE. La proposta resta separata finché si preme Applica. Diametri, numero barre e facce restano modificabili. Controllare ingombro delle pieghe e giunzioni.", 11),
-            Ui.Bar(DesignButton, Ui.Button("Interrompi ricerca", () => cancellation?.Cancel())), designPreview), false));
+            Ui.Bar(DesignButton, Ui.Button("Interrompi ricerca", () => { recalculation.Invalidate(); status.Text = "Ricerca interrotta; armature inserite conservate."; })), designPreview), false));
     }
 
-    internal async Task DesignRebarAsync()
+    internal Task DesignRebarAsync() => scheduledCalculation = DesignRebarScheduledAsync();
+    private async Task DesignRebarScheduledAsync()
     {
-        if (Busy || disposed) return; Commit(); timer.Stop(); int request = revision;
-        var snapshot = (JsonObject)Data.DeepClone(); cancellation?.Dispose(); cancellation = new(); var token = cancellation.Token;
-        Busy = true; DesignButton.IsEnabled = false; status.Text = "Ricerca armature: controlli N–M GPC, taglio, SLE e dettagli…";
-        running = Run(); await running;
-        async Task Run()
+        if (Busy || disposed) return; Commit(); int request = revision;
+        var snapshot = (JsonObject)Data.DeepClone();
+        var completed = await recalculation.ScheduleAsync(async token =>
+        {
+            Busy = true; DesignButton.IsEnabled = false; status.Text = "Ricerca armature: controlli N–M GPC, taglio, SLE e dettagli…";
+            try { return await Task.Run(() => Anthea.Application.Modules.StructuralQueries.WallReinforcement(snapshot, token), token); }
+            finally { Busy = false; if (!disposed) DesignButton.IsEnabled = true; }
+        });
+        completed.TryPublish(current =>
         {
             try
             {
-                var proposal = await Task.Run(() => RetainingWall.DesignReinforcement(snapshot, token));
-                if (disposed || request != revision) return;
+                if (current.Error is not null) throw current.Error;
+                var proposal = current.Value!;
                 var table = CheckTable(Envelope(proposal.Checks)); table.Height = 200;
                 var bars = Table(["Zona", "Proposta per faccia", "Secondarie Ø / passo"], new[] { "stem", "stem_upper", "toe", "heel" }.Where(k => k != "stem_upper" || proposal.Input["reinforcement"].B("two_zones")).Select(k =>
                 {
@@ -93,10 +98,8 @@ internal sealed partial class RetainingWallWorkspace
                 }));
                 status.Text = proposal.Message;
             }
-            catch (OperationCanceledException) { status.Text = "Ricerca interrotta; armature inserite conservate."; }
             catch (Exception ex) { status.Text = "Predimensionamento: " + ex.Message; }
-            finally { Busy = false; DesignButton.IsEnabled = true; if (request != revision) timer.Start(); }
-        }
+        });
     }
 
     private UIElement BuildHistories()

@@ -1,3 +1,5 @@
+using Anthea.Application.Modules;
+using Anthea.Application.Scheduling;
 using Anthea.Reports;
 using System.Globalization;
 using System.IO;
@@ -6,7 +8,6 @@ using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
 using Microsoft.Win32;
 using X.Core;
 
@@ -35,10 +36,10 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
     private readonly TextBlock status = Ui.Text("Dati da verificare", 12), summary = Ui.Text("", 14, true);
     private readonly ContentControl checks = new(), pressures = new(), forces = new(), actionDetails = new(), matrixHost = new();
     private readonly List<JsonGrid> grids = [];
-    private readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(450) };
+    private readonly RecalculationScheduler recalculation = new();
+    private readonly IModuleService calculationService;
+    private Task scheduledCalculation = Task.CompletedTask;
     private readonly Grid upper = new();
-    private CancellationTokenSource? cancellation;
-    private Task running = Task.CompletedTask;
     private int revision;
     private bool building = true, disposed;
     private static readonly CultureInfo It = CultureInfo.GetCultureInfo("it-IT");
@@ -47,36 +48,39 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
     private void Changed()
     {
         if (building || disposed) return;
-        revision++; cancellation?.Cancel(); Calculation = null; UpdateSeismicStatus(); checks.Content = null; pressures.Content = null; forces.Content = null;
+        revision++; recalculation.Invalidate(); Calculation = null; UpdateSeismicStatus(); checks.Content = null; pressures.Content = null; forces.Content = null;
         independentGlobal = null; independentGlobalInput = null; independentGlobalError = null; GlobalCombination.ItemsSource = null; RefreshGlobal();
         SelectSection(null);
         Combination.ItemsSource = null; summary.Text = "Risultati da aggiornare"; Diagrams.Data = Data; Diagrams.Calculation = null; Diagrams.Case = null; Diagrams.InvalidateVisual(); Preview();
-        status.Text = "Aggiornamento in attesa…"; timer.Stop(); timer.Start(); Modified?.Invoke();
+        status.Text = "Aggiornamento in attesa…"; QueueCalculation(); Modified?.Invoke();
     }
-    private async void Tick(object? sender, EventArgs e) { timer.Stop(); await CalculateAsync(); }
+    private void QueueCalculation() => scheduledCalculation = CalculateScheduledAsync(TimeSpan.FromMilliseconds(450), false);
     internal void Commit() { foreach (var form in Forms.Values) form.Commit(); foreach (var grid in grids) grid.Commit(); }
-    internal async Task CalculateAsync()
+    internal Task CalculateAsync() => scheduledCalculation = CalculateScheduledAsync(TimeSpan.Zero, true);
+    private async Task CalculateScheduledAsync(TimeSpan delay, bool commit)
     {
-        if (disposed) return; Commit(); timer.Stop();
-        while (Busy) { await running; if (disposed || Calculation is not null) return; }
-        int request = revision; var snapshot = (JsonObject)Data.DeepClone(); cancellation?.Dispose(); cancellation = new(); var token = cancellation.Token;
-        Busy = true; status.Text = "Calcolo di equilibrio e verifiche GPC…";
-        running = Run(); await running;
-        async Task Run()
+        if (disposed) return;
+        if (commit) Commit();
+        var snapshot = (JsonObject)Data.DeepClone();
+        var completed = await recalculation.ScheduleAsync(async token =>
+        {
+            Busy = true; status.Text = "Calcolo di equilibrio e verifiche GPC…";
+            try { return (await Task.Run(() => calculationService.Calculate(snapshot, token), token)).NativeAs<RetainingWall.Result>(); }
+            finally { Busy = false; }
+        }, delay);
+        completed.TryPublish(current =>
         {
             try
             {
-                var result = await Task.Run(() => RetainingWall.Calculate(snapshot, token));
-                if (disposed || request != revision) return; Calculation = result; ShowResults();
+                if (current.Error is not null) throw current.Error;
+                var result = current.Value!; Calculation = result; ShowResults();
                 var all = result.Checks.Concat(result.Structural).ToArray();
                 int failed = all.Count(c => c.Ratio > 1 || c.Status.StartsWith("Non soddisfatta") || c.Status == "Perdita di equilibrio"), missing = all.Count(c => c.Ratio is null && !c.Status.StartsWith("Non soddisfatta"));
                 status.Text = $"Calcolo aggiornato · {result.Cases.Count} combinazioni · {failed} controlli non soddisfatti · {missing} non disponibili";
                 status.Foreground = Appearance.Foreground(failed > 0 ? Brushes.Firebrick : missing > 0 ? Brushes.DarkGoldenrod : Ui.Navy);
             }
-            catch (OperationCanceledException) { }
-            catch (Exception ex) { if (!disposed && request == revision) { Calculation = null; status.Text = "Dati da correggere: " + ex.Message; } }
-            finally { Busy = false; if (!disposed && request != revision) timer.Start(); }
-        }
+            catch (Exception ex) { Calculation = null; status.Text = "Dati da correggere: " + ex.Message; }
+        });
     }
     internal void Example(string family)
     {
@@ -145,6 +149,6 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
         }
         return ReportRetainingWall.CreateDocument(title, Calculation, figures);
     }
-    public void Dispose() { disposed = true; timer.Stop(); timer.Tick -= Tick; cancellation?.Cancel(); }
+    public void Dispose() { disposed = true; recalculation.Dispose(); }
 }
 

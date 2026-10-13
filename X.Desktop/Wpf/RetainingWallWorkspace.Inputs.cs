@@ -19,8 +19,9 @@ internal sealed partial class RetainingWallWorkspace
     private readonly TextBlock matrixStatus = Ui.Text("", 11), layerStatus = Ui.Text("", 11), probe = Ui.Text("Passare sul disegno per leggere i dati; clic per selezionare un carico.", 11, color: Ui.Muted);
     private JsonObject? selectedAction;
     private readonly Grid inputLayout = new();
-    internal RetainingWallWorkspace(JsonObject data)
+    internal RetainingWallWorkspace(JsonObject data, Anthea.Application.Modules.IModuleService? calculationService = null)
     {
+        this.calculationService = calculationService ?? Anthea.Application.Modules.ModuleServices.Get(RetainingWall.Module);
         RetainingWall.Upgrade(data); Data = data; Background = Appearance.Surface;
         SetValue(NumericPresentation.EnabledProperty, true);
         foreach (var f in RetainingWall.Families) Family.Items.Add(new ComboBoxItem { Content = f.Name + (f.Available ? "" : " · previsto"), Tag = f.Id, IsEnabled = f.Available });
@@ -63,7 +64,7 @@ internal sealed partial class RetainingWallWorkspace
         Content = Ui.Dock(Pages, Ui.Stack(header, comboBar), status);
         SizeChanged += (_, _) => { bool narrow = ActualWidth < 1450; inputLayout.ColumnDefinitions[0].Width = new GridLength(1.05, GridUnitType.Star); inputLayout.ColumnDefinitions[1].Width = narrow ? new GridLength(0) : new GridLength(1, GridUnitType.Star); Grid.SetColumn(inputView, narrow ? 0 : 1); Grid.SetRow(inputView, narrow ? 1 : 0); inputView.Margin = narrow ? new Thickness(0, 10, 0, 0) : new Thickness(10, 0, 0, 0); };
         if (Data.Array("combinations").Count > 0) BuildMatrix();
-        timer.Tick += Tick; building = false; UpdateFields(); Preview(); timer.Start();
+        building = false; UpdateFields(); Preview(); QueueCalculation();
     }
     private static CheckBox Toggle(string title, bool value, Action<bool> changed)
     {
