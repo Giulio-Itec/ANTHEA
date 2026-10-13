@@ -3614,6 +3614,30 @@
         "supporto/artefatti/ci/20261013-045645-f3-structural-preview",
         "supporto/artefatti/ci/20261013-050137-f3-report-timestamp-fix"
       ]
+    },
+    {
+      "id": "F3-06",
+      "data": "2026-10-13",
+      "fase": "F3-documentazione",
+      "titolo": "Guide Rev40 e riferimenti editoriali Wiki",
+      "famiglia": "documentazione e ricerca",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "33 differenze editoriali in cinque file: procedure di ricalcolo e proposte, architettura dei servizi, inserimento del relativo articolo al decimo posto della ricerca palo. Le altre 29 ricerche restano identiche. Riferimenti originari conservati in Git, sorgenti e guide Rev39 archiviati; hash prima/dopo nel manifest. Nessun input o atteso ingegneristico aggiornato.",
+      "codice": [
+        "supporto/docs/guida-pratica-anthea.md",
+        "supporto/docs/guida-teorica-anthea.md",
+        "tests/fixtures/f3/manifest.json"
+      ],
+      "test": [
+        "Confronto circoscritto ai cinque file editoriali; hash invariati per tutti gli altri riferimenti",
+        "337 formule Word e 26 parti ITEC conservate; PDF 78/144 pagine"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-051212-f3-rev40-editorial-capture/ui_f3-equivalence/cattura",
+        "supporto/artefatti/refactoring/f3/rev40-reference-update.json",
+        "supporto/artefatti/guide_anthea_itec_rev40/qa"
+      ]
     }
   ]
 }

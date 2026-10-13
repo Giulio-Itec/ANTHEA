@@ -178,6 +178,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
   - [x] F3.7b.6 (13/10): divisione, proposte e sessione di dimensionamento dei tratti in Application. Fotografie dei dati/cataloghi, verifica della risposta FEM, applicazione atomica e per revisione, chiusura protetta. 401 controlli Application, 47 WPF e 458 file equivalenti; registro F3-04. Il messaggio indica di riaprire la finestra per acquisire la nuova fotografia.
   - [x] F3.7b.7a (13/10): confronto dei capitoli corretto per il cambio di minuto/data nella sola riga generata. Nove prove del normalizzatore e otto suite passate; valori, date normative e immagini restano esatti. Registro F3-05.
   - [x] F3.7b.7b (13/10): anteprime del ponte, testi predalle/altezze e materiali/copriferro dei muri in Application. Formattazione condivisa, ordine delle invalidità preservato; 17 immagini identiche e 458 file equivalenti. TypeRef Calculations 125.
+  - [x] F3-DOC (13/10): guide Rev40, Wiki e istruzioni del tool headless aggiornate. PDF 78/144 pagine, 337 formule e 26 parti ITEC conservate; revisione grafica eseguita. Dieci suite passate; cinque riferimenti editoriali classificati F3-06, 453 altri riferimenti e 36 input immutati.
   - [ ] F3.7b: rimuovere i restanti accessi ai motori e i contratti concreti dalla UI; collaudo e rilascio della fase.
 
 ## Fase 4: calcoli residui nelle librerie

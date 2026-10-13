@@ -47,5 +47,40 @@
     "inputs/str_palo--default.json": "68b5bfd77984f0e516340ce47b84f2a48ffbb3f7773af1e53abd4fdcb2763ad2",
     "inputs/str_palo--legacy-calculation-settings.json": "280f7afd8d662f070054d3cdf7a84d24560963c1504b6fe0f99cdab7ee354332",
     "inputs/str_palo--legacy-workspace-segni.json": "f1b95f8323e3bccf729fd1225af4fde4810378871e7d3c01319986df4201e3d7"
-  }
+  },
+  "editorial_updates": [
+    {
+      "revision": 40,
+      "record": "F3-06",
+      "capture": "supporto/artefatti/ci/20261013-051212-f3-rev40-editorial-capture/ui_f3-equivalence/cattura",
+      "reason": "Aggiornamento intenzionale delle guide e della ricerca Wiki; nessun atteso ingegneristico modificato.",
+      "files": [
+        {
+          "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.md",
+          "before_sha256": "300dd8b7bc322856abcac9b72f8ba78284a42683486b341dd21385c307acfa74",
+          "after_sha256": "12c57e27dec4cb7b1f354637176a28a8847beaca2d77e192dde26320214384a3"
+        },
+        {
+          "file": "wiki/_wiki_guide_esportazione_salvataggio-e-report.txt",
+          "before_sha256": "65c0441ac76bafcdcd688fec1c22b8a06c3702a5d099cd0fe03f7d7622d1aab3",
+          "after_sha256": "d7702da98141d11bea7d8e41bab2d87d03c4b379b976a88464bf8c6bbad9754f"
+        },
+        {
+          "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+          "before_sha256": "748aa55974673bb6874a1370b9d96e5e60d67c9732d03dde6daf499327559410",
+          "after_sha256": "766c587a1670a4d69ad7c8079d87f521288017bc15d15a80180440d60dbf5db5"
+        },
+        {
+          "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+          "before_sha256": "17cadc0361beb5b498a98562d8539ed8842510a107b2b544bfe133d22d3f19cb",
+          "after_sha256": "ee467ae2b7ed1c55008d1d090dcdd1602f0a7176befe0abf1db2d75567518e7c"
+        },
+        {
+          "file": "wiki/search.json",
+          "before_sha256": "04d6e8b8d962bb5147f496cd2031675fa71b66e9bf72312d5825181f2a90b79d",
+          "after_sha256": "58026d2de9a032d0438b709711f88ae492cd6374064ddce2d230ea3c8c8104ef"
+        }
+      ]
+    }
+  ]
 }

@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 13 ottobre 2026 — revisione documentale 39
+Edizione 6 aggiornata il 13 ottobre 2026 — revisione documentale 40
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -515,6 +515,16 @@ Il report di un foglio riguarda i dati e i risultati di quel modulo. «Genera re
 La generazione ricalcola i fogli su copie dei dati. Le schede incomplete restano nel documento con segnalazione; non vengono trasformate in verifiche favorevoli. In presenza di conflitti si può aprire il confronto oppure proseguire conservando le segnalazioni. Prima della consegna leggere sempre le pagine degli avvisi e verificare il ramo e la revisione indicati nel titolo.
 
 Un report storico ricalcola i dati della revisione selezionata con il motore della versione in uso. Per la riproducibilità conservare quindi anche versione dell'applicazione, data del report e archivio originario. Lo snapshot dei dati protegge gli input; non contiene una copia autonoma di ogni vecchio motore di calcolo.
+
+### Ricalcolo e proposte da applicare
+
+Dopo una modifica il foglio invalida i risultati precedenti e programma il ricalcolo. Una richiesta più recente sostituisce quella in attesa; un calcolo già avviato può terminare internamente, ma il suo risultato non sostituisce quello della revisione corrente. Chiudere una finestra di approfondimento impedisce che un risultato tardivo la aggiorni.
+
+Le proposte di suddivisione e armatura dei tratti del palo restano esplicite. Se il foglio cambia mentre la finestra è aperta, chiudere e riaprire la proposta prima di ripetere la ricerca: così si acquisiscono dati e sollecitazioni aggiornati. L’applicazione della suddivisione conserva nello storico i tratti precedenti. Una proposta incompleta non applica soltanto una parte dei campi.
+
+Anche il riepilogo modificabile dei parametri dei muri ricontrolla la revisione dopo la validazione. Se nel frattempo il foglio è cambiato, mantiene i dati correnti e chiede di riaprire il riepilogo.
+
+Il report di un ramo prepara i capitoli su una copia dei dati, usando gli stessi calcoli e le stesse figure dei fogli. Non occorre visitare prima tutte le schede. Eventuali capitoli incompleti e limiti di verifica restano indicati nel report; il completamento della generazione non equivale al superamento di tutte le verifiche.
 
 ### Conservare dati e risultati insieme
 
