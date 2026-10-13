@@ -1,3 +1,4 @@
+using Anthea.Testing;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using Anthea.Calculations;
@@ -45,12 +46,12 @@ sealed partial class ServiceabilityChecks
     {
         try
         {
-            var force = ConcreteAnalysisSession.ReadAction(row);
+            var force = ConcreteAnalysisSession.ReadAction(row).GetNativeForTest();
             var state = section.Stress(force, set);
             Ntc2018Checks.CrackResult crack;
             try { crack = ConcreteServiceabilityAdapter.Cracking(section, state, force, input, settings, options, set, engine); }
             catch (Exception ex) { crack = new(null, null, null, null, "Fessurazione non calcolata: " + ex.Message); }
-            return new(state, state.Ratio, state.Status, crack.Status, crack);
+            return new(state.ViewForTest(), state.Ratio, state.Status, crack.Status, crack.ViewForTest());
         }
         catch (Exception ex) { return new(null, null, "Checker: " + ex.Message); }
     }
@@ -62,12 +63,12 @@ sealed partial class ServiceabilityChecks
     {
         try
         {
-            var force = ConcreteAnalysisSession.ReadAction(row);
+            var force = ConcreteAnalysisSession.ReadAction(row).GetNativeForTest();
             var state = section.Stress(force, set);
             Ntc2018Checks.CrackResult crack;
             try { crack = Ntc2018Checks.Cracking(section, state, force, input, settings, options, set); }
             catch (Exception ex) { crack = new(null, null, null, null, "Fessurazione non calcolata: " + ex.Message); }
-            return new(state, state.Ratio, state.Status, crack.Status, crack);
+            return new(state.ViewForTest(), state.Ratio, state.Status, crack.Status, crack.ViewForTest());
         }
         catch (Exception ex) { return new(null, null, "Checker: " + ex.Message); }
     }
@@ -102,8 +103,8 @@ sealed partial class ServiceabilityChecks
                             // 5b sui calcoli del modulo: con il motore Legacy la sessione coincide con la fessurazione legacy chiamata direttamente.
                             if (engine == ServiceabilityEngine.Legacy)
                                 Check(Export(id, outcome) == Export(id, LegacyDirect(section, row, input, settings, options, set)), $"5b {norm} {shape} {set} {id}: la sessione Legacy non coincide con il legacy diretto");
-                            if (outcome.State is not null) { Check(outcome.State.Engine == engine, $"5d {id} ({engine}): marcatore dello stato"); markers++; }
-                            if (outcome.CrackResult is { } crack && !crack.Status.StartsWith("Fessurazione non calcolata")) { Check(crack.Engine == engine, $"5d {id} ({engine}): marcatore della fessurazione"); markers++; }
+                            if (outcome.State is not null) { Check(outcome.State.GetNativeForTest().Engine == engine, $"5d {id} ({engine}): marcatore dello stato"); markers++; }
+                            if (outcome.CrackResult is { } crack && !crack.Status.StartsWith("Fessurazione non calcolata")) { Check(crack.GetNativeForTest().Engine == engine, $"5d {id} ({engine}): marcatore della fessurazione"); markers++; }
                         }
                     }
                     foreach (var row in sessionRows)

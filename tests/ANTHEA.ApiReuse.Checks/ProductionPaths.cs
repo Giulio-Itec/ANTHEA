@@ -1,3 +1,4 @@
+using Anthea.Testing;
 using Anthea.Calculations;
 using System.Text.Json.Nodes;
 
@@ -17,7 +18,7 @@ internal static class ProductionPaths
             var results = new ConcreteAnalysisSession(requested).Stress(input, settings, settings["sle"]!["SLE_QP"]!.AsObject(),
                 "SLE_QP", [J.Obj(("id", "test"), ("N", "-100"), ("Mx", "10"), ("My", "0"))]);
             var expected = requested ?? ServiceabilityEngine.Library;
-            if (results["test"].CrackResult?.Engine != expected || !probe.Entries.Any(e => e.Operation == "Cracking" && e.Engine == expected.ToString()))
+            if (results["test"].CrackResult?.GetNativeForTest().Engine != expected || !probe.Entries.Any(e => e.Operation == "Cracking" && e.Engine == expected.ToString()))
                 throw new Exception($"Wrong production cracking path: {shape}, requested {requested}; {results["test"].Cracking}");
         }
     }

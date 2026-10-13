@@ -4,4 +4,5 @@
   <ItemGroup><ProjectReference Include="../../src/ANTHEA.Application/ANTHEA.Application.csproj" /><ProjectReference Include="../../X.Core/X.Core.csproj" /></ItemGroup>
   <!-- Controlli di riferimento della durabilità (valori a mano), con entrambi i motori nella prova 11h (refactoring F2.9). -->
   <ItemGroup><Compile Include="../../supporto/test/Shared/DurabilityReferenceChecks.cs" Link="Shared/DurabilityReferenceChecks.cs" /></ItemGroup>
+  <ItemGroup><Compile Include="../Shared/ConcreteContractProbe.cs" Link="Shared/ConcreteContractProbe.cs" /></ItemGroup>
 </Project>

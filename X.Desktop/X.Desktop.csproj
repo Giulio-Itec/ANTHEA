@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'UiTests'">
     <ProjectReference Include="../tests/ANTHEA.Testing/ANTHEA.Testing.csproj" />
+    <Compile Include="../tests/Shared/ConcreteContractProbe.cs" Link="Tests/Shared/ConcreteContractProbe.cs" />
     <Compile Include="../tests/ANTHEA.Desktop.Equivalence/*.cs" Link="Tests/F3/%(Filename)%(Extension)" />
     <Compile Include="../supporto/test/Materiali/*.cs" Link="Tests/Materiali/%(Filename)%(Extension)" />
     <Compile Include="../supporto/test/Shared/DurabilityReferenceChecks.cs" Link="Tests/Materiali/DurabilityReferenceChecks.cs" />

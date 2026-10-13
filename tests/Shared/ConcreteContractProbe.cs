@@ -1,7 +1,7 @@
 using System.Reflection;
 using Anthea.Application.Concrete;
 using Anthea.Calculations;
-namespace X.Desktop;
+namespace Anthea.Testing;
 
 /// <summary>Test-only access to retained originals: numerical and cache assertions keep their old oracle.</summary>
 internal static class ConcreteContractProbe
@@ -10,7 +10,10 @@ internal static class ConcreteContractProbe
     internal static CheckerDomain3D GetNativeForTest(this ConcreteResults.Domain3D view) => Original<CheckerDomain3D>(view);
     internal static CheckerDomain2D GetNativeForTest(this ConcreteResults.Domain2D view) => Original<CheckerDomain2D>(view);
     internal static CheckerStressState GetNativeForTest(this ConcreteResults.StressState view) => Original<CheckerStressState>(view);
+    internal static Ntc2018Checks.CrackResult GetNativeForTest(this ConcreteResults.CrackResult view) => Original<Ntc2018Checks.CrackResult>(view);
     internal static ActionPoint GetNativeForTest(this ConcreteResults.Action view) => new(view.N, view.Mx, view.My);
+    internal static ConcreteResults.CrackResult ViewForTest(this Ntc2018Checks.CrackResult result)
+        => (ConcreteResults.CrackResult)Activator.CreateInstance(typeof(ConcreteResults.CrackResult), BindingFlags.Instance | BindingFlags.NonPublic, null, [result], null)!;
     internal static ConcreteResults.StressState ViewForTest(this CheckerStressState state)
         => (ConcreteResults.StressState)Activator.CreateInstance(typeof(ConcreteResults.StressState), BindingFlags.Instance | BindingFlags.NonPublic, null, [state], null)!;
 }

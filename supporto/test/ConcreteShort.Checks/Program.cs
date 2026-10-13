@@ -1,3 +1,4 @@
+using Anthea.Testing;
 using System.Text.Json.Nodes;
 using System.IO.Compression;
 using System.Xml.Linq;
@@ -35,7 +36,7 @@ foreach(string family in SectionWorkspace.Sets)
         {
             var a=row!.Array("azioni");var force=new ActionPoint(double.Parse(a[0]!.GetValue<string>()),double.Parse(a[1]!.GetValue<string>()),double.Parse(a[2]!.GetValue<string>()));
             var s=engine.Stress(force,family);var crack=ConcreteServiceabilityAdapter.Cracking(engine,s,force,input,ws,options,family,sle);
-            checks[row.S("id")]=new(s,s.Ratio,s.Status,crack.Status,crack);
+            checks[row.S("id")]=new(s.ViewForTest(),s.Ratio,s.Status,crack.Status,crack.ViewForTest());
         }
         result["tensioni"]![family]=ConcreteAnalysisSession.ExportStress(checks);
     }
