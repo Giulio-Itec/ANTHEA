@@ -33,6 +33,7 @@ public static partial class RetainingWall
         void Stamp(int start, SectionForce force) { for (int i = start; i < result.Count; i++) result[i] = result[i] with { Member = force.Name, Position = force.Position }; }
         if (d.S("family") == "gravity")
         {
+            if (wallEngine == WallCalculationEngine.Library) return GravityChecksNative(d, cases, token);
             if (d["gravity_design"].S("type") != "Resistenze assegnate") return GravityChecks(d, cases);
             foreach (var c in cases.Where(c => c.State is "SLU" or "SISMA" or "ECCEZIONALE")) foreach (var f in c.Sections)
             {

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-10-13",
+  "aggiornato": "2026-10-14",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/",
@@ -24,6 +24,24 @@
   "nota_voci_r": "Le voci R1-R14 vengono dalla ricerca normativa sulla fessurazione (supporto/artefatti/refactoring/ricerca-a/rapporto.md) e dalla revisione dei metodi c.a. per le pagine docs/metodi di Checker (branch locali anthea-metodi-ca-1 e anthea-metodi-ca-2, harness in supporto/artefatti/refactoring/metodi e metodi2). R15 viene dalla revisione di D7-b. Le voci R16-R21 vengono dalla verifica delle pagine dei metodi unite in Checker develop (F2.2: merge c555a3b8 e 1fbaea61 e correzioni successive, riquadri collegati alle voci in e41a803a); stato da-decidere e stessa decisione di R4-R14 (F5.15). Il segno è riferito al testo della norma del profilo; dove il testo primario non è stato letto il grado di certezza è indicato nel campo riscontro.",
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
+    {
+      "id": "F4-14",
+      "data": "2026-10-14",
+      "fase": "F4.8a.4",
+      "titolo": "Adattatore completo dei muri a gravità",
+      "famiglia": "muri a gravità",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Percorso candidato sulle librerie Concrete/Masonry/Design. 82568 confronti numerici e 240 curvature equivalenti; nessun modulo E inventato per resistenze assegnate, rifiuti espliciti e limite negativo non valutabile. Ramo legacy conservato. Distribuzione ancora F4.9.",
+      "test": [
+        "Sei muri congelati, due casi di contratto, annullamento, 6 PASS runner",
+        "1668 Checker PASS e soli 17 Steel noti nel set B; API compatibili"
+      ],
+      "evidenze": [
+        "docs/refactoring/f4-adattatori-muri.md",
+        "supporto/artefatti/refactoring/f4/gravity-adapter-b.log"
+      ]
+    },
     {
       "id": "F4-13",
       "data": "2026-10-13",
