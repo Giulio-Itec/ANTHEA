@@ -211,7 +211,7 @@ internal sealed partial class PileReinforcementEditor : ContentControl
                 calculation.TryPublish(value =>
                 {
                     if (closed) return;
-                    if (!session.Matches(root)) { status.Text = "Input cambiati: ripetere la ricerca."; return; }
+                    if (!session.Matches(root)) { status.Text = PileReinforcementOperations.RevisionChangedMessage; return; }
                     if (value.Error is not null) { status.Text = value.Error.Message; return; }
                     proposal = value.Value; status.Text = proposal!.ToJsonString(J.Options); apply.IsEnabled = true;
                 });

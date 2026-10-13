@@ -8,6 +8,7 @@ public sealed record PileSegmentProposal(string SourceSignature, JsonArray Segme
 /// <summary>Document operations around the native segment engine; each proposal owns its data.</summary>
 public static class PileReinforcementOperations
 {
+    public const string RevisionChangedMessage = "Input cambiati: riaprire la finestra e ripetere la ricerca.";
     public static JsonArray Split(JsonObject source, int index, double cut)
     {
         var snapshot = (JsonObject)source.DeepClone();
@@ -33,7 +34,7 @@ public static class PileReinforcementOperations
     }
     internal static void RequireRevision(JsonObject source, string signature)
     {
-        if (source.ToJsonString() != signature) throw new ArgumentException("Input cambiati: ripetere la ricerca.");
+        if (source.ToJsonString() != signature) throw new ArgumentException(RevisionChangedMessage);
     }
     internal static void ApplyDesign(JsonObject source, string signature, int index, JsonObject proposal)
     {
