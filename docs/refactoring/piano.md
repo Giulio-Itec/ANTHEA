@@ -307,7 +307,7 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [x] F4.7a: Checker `1033ed05`, sezioni immutabili ed esiti tipizzati; primi controlli longitudinali con formule condivise. 576 sezioni catturate prima del port e 23 test equivalenti, inclusi dettagli preesistenti. Concrete candidata 0.3.0.0; [contratti ed evidenze](../../../Checker/docs/refactoring/f4-muri-ca.md), registro F4-06.
   - [~] F4.7b: N–M, taglio, SLE e curvature mediante servizi GPC esistenti.
     - [x] F4.7b.1: sessione nativa N–M/SLE equivalente, 62568 confronti su 26 muri/576 sezioni/286 combinazioni, 33 test di libreria e 6 PASS del runner; registro F4-07. Candidata Concrete 0.4.0.0, runtime invariato.
-    - [ ] F4.7b.2: collegamento del taglio GPC con σcp; correzione distinta F4-03.
+    - [x] F4.7b.2: taglio GPC con σcp, 12512 confronti con gli attesi Python invariati e 22 test mirati PASS. 4192 capacità corrette, nessun cambio di giudizio nel corpus; F4-03. Concrete candidata 0.4.0.1, attivazione ancora F4.9.
     - [ ] F4.7b.3: curvatura totale con viscosità, anziché il gradiente elastico equivalente usato dal legacy; difetto F4-08 scoperto nelle nuove prove. Quantificare anche l'effetto sugli spostamenti prima dell'attivazione.
   - [ ] F4.7c: adattatore, confronto del percorso completo e integrazione con set coerente F4.9.
 - [ ] F4.8 Muri a gravità e dettagli.

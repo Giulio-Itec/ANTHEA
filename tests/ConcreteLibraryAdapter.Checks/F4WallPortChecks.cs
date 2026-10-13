@@ -10,13 +10,22 @@ internal static class F4WallPortChecks
 {
     internal static int Run(string root, string reference, string output)
     {
-        var errors = new List<string>(); int checks = 0, sections = 0, cases = 0, walls = 0, uncrackedCount = 0;
+        var errors = new List<string>(); int checks = 0, sections = 0, cases = 0, walls = 0, uncrackedCount = 0, shearChecks = 0, shearChanged = 0;
         double maximumError = 0;
         try
         {
             var assembly = typeof(SectionShearCalculator).Assembly;
             Type Api(string name) => assembly.GetType("GPC.Checkers.Concrete.Walls." + name, true)!;
             Type stripType = Api("WallStrip"), memberType = Api("WallMember"), sessionType = Api("WallSectionSession"), actionsType = Api("WallSectionActions");
+            bool hasShear = sessionType.GetMethod("CheckShear") is not null;
+            var shearReference = new Dictionary<(string, string, string, double), JsonObject>();
+            if (hasShear)
+            {
+                byte[] study = File.ReadAllBytes(Path.Combine(root, "supporto/artefatti/refactoring/f4/wall-sigma-study/independent.json"));
+                if (Convert.ToHexString(SHA256.HashData(study)) != "4D6837431389ED7D0C71D8206047961B1D81C55EBE580A86A446C2FB223B5F8C") throw new InvalidOperationException("Independent shear expectations changed");
+                foreach (var r in JsonNode.Parse(study)!["rows"]!.AsArray().OfType<JsonObject>())
+                    shearReference.Add((r.S("case"), r.S("combination"), r.S("member"), r.D("position_m")), r);
+            }
             var index = JsonNode.Parse(File.ReadAllText(Path.Combine(root, "tests/fixtures/f4/reference.json")))!;
             var hashes = index["files"]!.AsArray().ToDictionary(f => f!["file"]!.GetValue<string>(), f => f!["sha256"]!.GetValue<string>());
             JsonObject Read(string relative)
@@ -65,7 +74,20 @@ internal static class F4WallPortChecks
                         dynamic native = session;
                         dynamic action = Activator.CreateInstance(actionsType, -f.D("N") * 1000, f.D("V") * 1000, f.D("M") * 1e6)!;
                         string state = c.S("State"); var observed = new Dictionary<string, object>();
-                        if (state is "SLU" or "SISMA" or "ECCEZIONALE") observed["N–M GPC"] = native.CheckMoment(action, CancellationToken.None);
+                        if (state is "SLU" or "SISMA" or "ECCEZIONALE")
+                        {
+                            observed["N–M GPC"] = native.CheckMoment(action, CancellationToken.None);
+                            if (hasShear)
+                            {
+                                dynamic shear = native.CheckShear(action, CancellationToken.None);
+                                var independent = shearReference[(Path.GetFileNameWithoutExtension(id), c.S("Name"), member, position)];
+                                var predicted = J.Number(independent["predicted_kn_per_m"]);
+                                Same(predicted, ((double?)shear.Check.Capacity) / 1000, id + "/shear-independent");
+                                Same(independent.D("demand_kn_per_m"), (double)shear.Check.Demand / 1000, id + "/shear-demand");
+                                shearChecks++;
+                                if (Math.Abs(independent.D("delta_kn_per_m")) > 1e-9) shearChanged++;
+                            }
+                        }
                         else
                         {
                             var combination = state == "SLE" ? ServiceabilityCombination.Characteristic : state == "SLE_FREQ" ? ServiceabilityCombination.Frequent : ServiceabilityCombination.QuasiPermanent;
@@ -108,7 +130,8 @@ internal static class F4WallPortChecks
                 Console.WriteLine($"{id}: {errors.Count} differences accumulated");
             }
             if (walls != 26 || sections == 0 || checks == 0) errors.Add("Incomplete wall corpus");
-            var report = new { walls, sections, cases, checks, uncrackedCount, maximumError, differences = errors.Count, errors = errors.Take(100), candidate = assembly.FullName };
+            if (hasShear && (shearChecks != 12512 || shearChanged != 4192)) errors.Add("Incomplete independent shear comparison");
+            var report = new { walls, sections, cases, checks, shearChecks, shearChanged, uncrackedCount, maximumError, differences = errors.Count, errors = errors.Take(100), candidate = assembly.FullName };
             File.WriteAllText(Path.Combine(output, "comparison.json"), JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true }));
             Console.WriteLine(JsonSerializer.Serialize(report)); return errors.Count == 0 ? 0 : 1;
         }
