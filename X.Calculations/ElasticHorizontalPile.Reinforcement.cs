@@ -221,8 +221,9 @@ public static partial class ElasticHorizontalPile
     }
     public static JsonObject DesignSegment(JsonObject root,JsonObject result,int index,int[] counts,double[] spacings)
         =>DesignSegment(root,result,index,counts,[SegmentSection(root,root["elastico"]!.Array("tratti")[index]!.AsObject()).D("longitudinal_bar_diameter_mm")],[SegmentSection(root,root["elastico"]!.Array("tratti")[index]!.AsObject()).D("transverse_bar_diameter_mm")],spacings);
-    public static JsonObject DesignSegment(JsonObject root,JsonObject result,int index,int[] counts,double[] diameters,double[] linkDiameters,double[] spacings,CancellationToken cancellation=default,IProgress<PileCalculationProgress>? progress=null)
+    public static JsonObject DesignSegment(JsonObject root,JsonObject result,int index,int[] counts,double[] diameters,double[] linkDiameters,double[] spacings,CancellationToken cancellation=default,IProgress<PileCalculationProgress>? progress=null,bool legacy=false,int maximumParallelism=0)
     {
+        if(!legacy)return DesignSegmentWithLibrary(root,result,index,counts,diameters,linkDiameters,spacings,cancellation,progress,maximumParallelism);
         var source=root["elastico"]!.Array("tratti")[index]!.AsObject();var segment=ReadSegments(root)[index];var settings=root["elastico"]!["dettagli"]!;
         if(!settings.B("azioni_progetto")||!settings.B("taglio_confermato"))throw new ArgumentException("Confermare azioni di progetto e modello di taglio nelle ipotesi.");
         var seismicSettings=SeismicSettings(root);seismicSettings.Links=LinkKind(TransverseKind(root,source));

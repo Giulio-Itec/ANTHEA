@@ -25,6 +25,23 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-16",
+      "data": "2026-10-14",
+      "fase": "F4.10b.2",
+      "titolo": "Ricerca armature tratti sui servizi GPC",
+      "famiglia": "pali",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Adattatore sui contratti PileSegmentDesign; legacy diagnostico conservato. Cinque proposte confrontate esattamente incluse due ricerche estese con uno/due worker. Azioni con segno validate senza default a zero; dati mancanti rifiutati. Distribuzione F4.9.",
+      "test": [
+        "8 PASS runner; cancellazione prima/durante, progressi, conferme, input mancanti, input invariato"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/pile-design-c.log",
+        "tests/ConcreteLibraryAdapter.Checks/F4PileDesignChecks.cs"
+      ]
+    },
+    {
       "id": "F4-15",
       "data": "2026-10-14",
       "fase": "F4.4b",
