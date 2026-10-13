@@ -1,12 +1,12 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · 13 ottobre 2026 · Pratica Rev41 e teorica Rev41
+ITEC Engineering · 13 ottobre 2026 · Pratica Rev42 e teorica Rev42
 
 Guide globali consultabili anche nella Wiki. Aggiornate con ricalcolo per revisione, proposte dei tratti e report dei rami, oltre a sezioni, offset e risultati per fase.
 
 ## Guida pratica ANTHEA
 
-[Word Rev41](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev41.docx) · [PDF Rev41](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev41.pdf)
+[Word Rev42](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev42.docx) · [PDF Rev42](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev42.pdf)
 
 - Avvio e scelta del modulo
 - Progetti e gestione del lavoro
@@ -33,7 +33,7 @@ Guide globali consultabili anche nella Wiki. Aggiornate con ricalcolo per revisi
 
 ## Guida teorica ANTHEA
 
-[Word Rev41](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev41.docx) · [PDF Rev41](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev41.pdf)
+[Word Rev42](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev42.docx) · [PDF Rev42](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev42.pdf)
 
 - Architettura del calcolo e convenzioni
 - Calcestruzzo armature e copriferro

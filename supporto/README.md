@@ -1,6 +1,6 @@
 # Materiale di supporto ANTHEA
 
-La documentazione utente è raccolta in due guide globali: pratica e teorica Rev41 del 13 ottobre 2026.
+La documentazione utente è raccolta in due guide globali: pratica e teorica Rev42 del 13 ottobre 2026.
 
 - [Guida pratica e UI](docs/guida-pratica-anthea.md): procedure e interfaccia di tutti i moduli; comprende importazione dei modelli e finestra di supporto per la reologia del calcestruzzo.
 - [Guida teorica](docs/guida-teorica-anthea.md): modelli, formule, ipotesi, limiti, approfondimenti e appendici tecniche di tutti i moduli.
