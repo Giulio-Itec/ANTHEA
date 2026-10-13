@@ -44,7 +44,7 @@ try
     var desktop = Metadata(Path.Combine(root, "X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll"));
     // Metadata records constructors/methods actually referenced by the built product, including target-typed new.
     // This inventory does not classify all engineering semantics: getters and data adapters remain visible.
-    var accesses = desktop.Members.Where(m => m.Assembly == "ANTHEA.Calculations" || m.Assembly.StartsWith("GPCChecker", StringComparison.Ordinal)).ToArray();
+    var accesses = desktop.Members.Where(m => m.Assembly == "ANTHEA.Calculations" || m.Assembly.StartsWith("GPC", StringComparison.Ordinal)).ToArray();
     string[] transferredCalls = [
         "Anthea.Calculations.SezioneCA::.ctor", "Anthea.Calculations.Barra::.ctor",
         "Anthea.Calculations.ConcreteCalculationSettings::UpdateAutomaticShear", "Anthea.Calculations.CheckerSection::PrepareModel",
@@ -92,7 +92,8 @@ try
     }
     var limits = JsonSerializer.Deserialize<ArchitectureLimits>(File.ReadAllText(Path.Combine(root, "tests/ANTHEA.Architecture.Tests/limits.json")))!;
     Check(!desktop.Assemblies.Contains("ANTHEA.Calculations"), "La UI dipende ancora direttamente dal motore legacy");
-    var observed = desktop.Types.Where(p => p.Key == "ANTHEA.Calculations" || p.Key.StartsWith("GPCChecker", StringComparison.Ordinal)).ToDictionary();
+    Check(!desktop.Assemblies.Any(a => a.StartsWith("GPC", StringComparison.Ordinal)), "La UI dipende direttamente dai tipi GPC");
+    var observed = desktop.Types.Where(p => p.Key == "ANTHEA.Calculations" || p.Key.StartsWith("GPC", StringComparison.Ordinal)).ToDictionary();
     foreach (var (assembly, types) in observed)
     {
         Check(baseline.TypeRefs.TryGetValue(assembly, out var allowed), "Nuova dipendenza diretta dal calcolo: " + assembly);

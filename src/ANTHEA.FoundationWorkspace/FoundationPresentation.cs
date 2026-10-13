@@ -6,6 +6,15 @@ namespace Anthea.FoundationWorkspace;
 /// <summary>Display units, visibility and report text; no engineering formula is evaluated here.</summary>
 public static class FoundationPresentation
 {
+    public static SoilProfileView? SoilProfile(JsonObject data)
+    {
+        var source = FoundationMaterials.Profile(data);
+        return source is null ? null : new(source.Base, source.GroundwaterElevation,
+            source.Layers.Select(layer => new SoilLayerView(layer.Top, layer.Bottom,
+                new SoilView(layer.Soil.Name, layer.Soil.UnitWeight, layer.Soil.SaturatedUnitWeight,
+                    layer.Soil.FrictionAngle, layer.Soil.EffectiveCohesion))).ToArray());
+    }
+
     static readonly CultureInfo Italian=CultureInfo.GetCultureInfo("it-IT");
     public static string Value(JsonNode? node,double scale=1,string format="0.###") => node is null ? "—" : (FoundationDocument.Number(node,"Valore")*scale).ToString(format,Italian);
     public static bool Visible(string key,JsonObject input)
@@ -104,3 +113,8 @@ public static class FoundationPresentation
         return lines.ToArray();
     }
 }
+
+
+public sealed record SoilView(string Name, double UnitWeight, double SaturatedUnitWeight, double FrictionAngle, double EffectiveCohesion);
+public sealed record SoilLayerView(double Top, double Bottom, SoilView Soil);
+public sealed record SoilProfileView(double Base, double? GroundwaterElevation, IReadOnlyList<SoilLayerView> Layers);

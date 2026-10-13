@@ -25,6 +25,10 @@ internal static class Program
             var input=FoundationDocument.LibraryInput(data);
             Check(input["Width"]!.GetValue<double>()==2000 && input["Normal"]!.GetValue<double>()==600000,"m e kN convertiti");
             Check(Math.Abs(FoundationMaterials.Profile(data)!.LayerAt(-1000).Soil.FrictionAngle-Math.PI/6)<1e-14,"classi Model riutilizzate e gradi convertiti");
+            var originalProfile = FoundationMaterials.Profile(data)!; var viewProfile = FoundationPresentation.SoilProfile(data)!;
+            Check(originalProfile.Base == viewProfile.Base && originalProfile.GroundwaterElevation == viewProfile.GroundwaterElevation && originalProfile.Layers.Count == viewProfile.Layers.Count, "profilo grafico posseduto identico");
+            foreach (var pair in originalProfile.Layers.Zip(viewProfile.Layers))
+                Check(pair.First.Top == pair.Second.Top && pair.First.Bottom == pair.Second.Bottom && pair.First.Soil.Name == pair.Second.Soil.Name && pair.First.Soil.UnitWeight == pair.Second.Soil.UnitWeight && pair.First.Soil.SaturatedUnitWeight == pair.Second.Soil.SaturatedUnitWeight && pair.First.Soil.FrictionAngle == pair.Second.Soil.FrictionAngle && pair.First.Soil.EffectiveCohesion == pair.Second.Soil.EffectiveCohesion, "valori dello strato grafico invariati");
             MaterialChecks(output,data);
             data["input"]!["MomentX"]="12,5";Check(FoundationDocument.LibraryInput(data)["MomentX"]!.GetValue<double>()==12.5e6,"kNm e virgola italiana");
             data["input"]!["MomentX"]=0;

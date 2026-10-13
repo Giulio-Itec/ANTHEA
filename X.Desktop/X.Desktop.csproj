@@ -16,7 +16,6 @@
   </PropertyGroup>
   <ItemGroup><ProjectReference Include="../src/ANTHEA.Application/ANTHEA.Application.csproj" /><ProjectReference Include="../src/ANTHEA.ModelViewer.Wpf/ANTHEA.ModelViewer.Wpf.csproj" /></ItemGroup>
   <ItemGroup><ProjectReference Include="../src/ANTHEA.Wiki/ANTHEA.Wiki.csproj" /><ProjectReference Include="../src/ANTHEA.DesignTools.Presentation/ANTHEA.DesignTools.Presentation.csproj" /></ItemGroup>
-  <PropertyGroup><GpcLibraries>all</GpcLibraries></PropertyGroup>
   <ItemGroup><Resource Include="Assets/*.png" /><Resource Include="Assets/anthea.ico" /></ItemGroup>
   <ItemGroup>
     <Content Include="Wiki/Licenses/*.txt"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><TargetPath>Licenses/%(Filename)%(Extension)</TargetPath></Content>

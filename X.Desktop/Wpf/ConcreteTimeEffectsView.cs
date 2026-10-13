@@ -118,7 +118,7 @@ internal sealed class ConcreteTimeEffectsView : UserControl
     private void RefreshPlot()
     {
         var type = model.SelectedCurve.Value;
-        double Value(GPC.Model.Materials.ConcreteTimePoint p) => type switch { ConcreteTimeCurve.Modulus => p.EcmMpa, ConcreteTimeCurve.ModulusFactor => p.ModulusFactor, _ => p.CreepCoefficient };
+        double Value(ConcreteTimePointView p) => type switch { ConcreteTimeCurve.Modulus => p.EcmMpa, ConcreteTimeCurve.ModulusFactor => p.ModulusFactor, _ => p.CreepCoefficient };
         double X(double value) => model.LogX ? Math.Log10(value) : value;
         double Y(double value) => model.LogY ? Math.Log10(value) : value;
         bool Visible(double value) => !model.LogY || value > 0;

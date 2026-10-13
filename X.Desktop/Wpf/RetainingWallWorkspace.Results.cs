@@ -128,10 +128,6 @@ internal sealed partial class RetainingWallWorkspace
         var text = Ui.Text($"{c.Name} · {factor.S("approach")} · γMφ={factor.D("mphi", 1):0.##}; γR scorr./ribalt./port.={factor.D("rslide", 1):0.##}/{factor.D("rover", 1):0.##}/{factor.D("rbearing", 1):0.##}" + $"\nRd scorr.={F(c.SlidingResistance)} kN/m · MRd ribalt.={F(c.OverturningResistance)} kNm/m · Rd port.={(c.BearingResistance is double b ? F(b) : "da verificare")} kN/m · U={F(c.Uplift)} kN/m", 12);
         checks.Content = Ui.Stack(text, grid, Ui.Text("Riepilogo: inviluppo delle verifiche locali e della stabilità globale, se attivata. Un controllo non disponibile resta visibile. Per la globale selezionare la vista dedicata e la sua combinazione. Cedimenti da valutare separatamente.", 11, color: Ui.Muted));
     }
-    internal static string RebarLabel(JsonObject d, string key)
-    {
-        if (d.S("family") != "cantilever") return "non armato"; var r = d["reinforcement"]?[key];
-        var bar = new GPC.Model.Sections.SectionCircular(r.D("diameter"));
-        return $"{r.D("count"):0} Ø{r.D("diameter"):0}/m/faccia · As={r.D("count") * bar.Area:0} mm²/m";
-    }
+    internal static string RebarLabel(JsonObject d, string key) => WallModel.RebarLabel(d, key);
+
 }

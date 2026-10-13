@@ -8,6 +8,7 @@ public static partial class WallModel
 {
     private static readonly ConditionalWeakTable<ModuleCalculation, Result> Views = new();
     public static Result Read(ModuleCalculation calculation) => Views.GetValue(calculation, c => new(c.NativeAs<Native.Result>()));
+    public static string RebarLabel(JsonObject data, string key) => Native.RebarLabel(data, key);
     public const string AmplificationCalculated = Native.AmplificationCalculated;
     public const string ApproachHelp = Native.ApproachHelp;
     public const string FrictionHelp = Native.FrictionHelp;
