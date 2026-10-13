@@ -981,3 +981,7 @@ Impostazione applicativa proposta: una sola registrazione per riga, con filtri p
 Compatibilità da risolvere in implementazione: i vecchi file con famiglia Taglio non indicano se la riga appartiene a SLU o SLV. Conservare i dati e rendere esplicita l'assegnazione, senza scartarla né indovinarne lo stato limite. Inoltre oggi SectionWorkspace presenta SLU come Plastico e SLV come Elastico e CheckerSection seleziona così il dominio: classificazione della combinazione e criterio del dominio vanno tenuti distinti, senza introdurre implicitamente nuove regole sismiche nella sola importazione. Riutilizzare parser, validazioni e servizi esistenti. Collaudare lo stesso insieme di componenti nei diversi controlli e il percorso di migrazione, senza sostituire gli attesi indipendenti.
 
 Sono registrati requisiti e proposta, non una funzionalità già realizzata. Al termine di F3 chiedere soltanto le decisioni residue necessarie per la riscrittura.
+
+## 13 ottobre — chiusura effettiva F3
+
+Completati contratti, servizi, report e confine Desktop. Verifica sorgenti oltre ai metadati, compilazione Release senza riferimenti GPC diretti e distribuzione dal manifest. Set V e legacy conservati, nessun avvio di F4. ANTHEA 1.6.0 pronta con guide Rev40; 122 voci del full risolte tramite riprese mirate tracciate, installer verificato. Merge e push restano quelli già autorizzati; nessun intervento sul processo utente. EXCEL-SOL rimane la prossima attività separata: Elemento facoltativo e distinzione fra stato limite e criterio resistente, come specificato sopra.
