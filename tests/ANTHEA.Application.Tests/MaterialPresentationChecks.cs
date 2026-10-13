@@ -19,6 +19,12 @@ internal static class MaterialPresentationChecks
             {
                 string directory = Path.Combine(root, "tests/fixtures/f3/expected/sheets/mat_calcestruzzo", id);
                 var state = JsonNode.Parse(File.ReadAllText(Path.Combine(directory, "calculated-data.json")))!.AsObject();
+                var fixture = JsonNode.Parse(File.ReadAllText(Path.Combine(root, "tests/fixtures/f3/inputs", "mat_calcestruzzo--" + id + ".json")))!["data"]!.AsObject();
+                string sourceState = fixture.ToJsonString();
+                var normalized = MaterialSheetInput.NormalizeState(fixture);
+                Check(JsonNode.DeepEquals(state, normalized), "Preparazione materiali diversa dal riferimento storico");
+                Check(JsonNode.DeepEquals(normalized, MaterialSheetInput.NormalizeState(normalized)), "Preparazione materiali non idempotente");
+                Check(fixture.ToJsonString() == sourceState, "Preparazione materiali ha mutato la sorgente");
                 string before = state.ToJsonString();
                 string report = File.ReadAllText(Path.Combine(directory, "report.txt"));
                 var cells = Regex.Matches(report, @"^\[T2 r(\d+) c1\] (.*?)\r?\n\[T2 r\1 c2\] (.*?)(?=^\[|^#|\z)", RegexOptions.Multiline | RegexOptions.Singleline)

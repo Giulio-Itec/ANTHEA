@@ -18,7 +18,7 @@ public interface IFigureRenderer
 
 public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectReportChapterBuilder
 {
-    public static bool Supports(string module) => module is "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module;
+    public static bool Supports(string module) => module is "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo";
     public static HashSet<string> DefaultSections(string module) => module == BridgeSection.Module ? ReportBridge.DefaultSections()
         : module == "str_palo" ? ReportConcrete.Sections.Where(s => s.Key is not ("dettagli" or "sle_tutte")).Select(s => s.Key).ToHashSet()
         : ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
@@ -30,22 +30,31 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
         if (!Supports(module)) throw new NotSupportedException("Capitolo autonomo non ancora disponibile: " + module);
         var source = sheet["dati"] as JsonObject ?? ModuleCatalog.CreateData(module);
         var data = (JsonObject)source.DeepClone();
-        if (module == BridgeConcept.Module) ModuleSheetPreparation.PrepareBridgeDesign(data);
-        else ModuleSheetPreparation.PrepareVertical(data, module);
+        if (module == "mat_calcestruzzo") data = Materiali.MaterialSheetInput.NormalizeState(data);
+        else if (module == BridgeConcept.Module) ModuleSheetPreparation.PrepareBridgeDesign(data);
+        else if (module == HorizontalPileGroup.Module) ModuleSheetPreparation.PreparePileGroup(data);
+        else if (module == Anthea.FoundationWorkspace.FoundationDocument.Module)
+        { Anthea.FoundationWorkspace.FoundationDocument.ValidateShape(data); Anthea.FoundationWorkspace.FoundationMaterials.Complete(data); }
+        else if (module is "geo_palo_verticale" or "geo_micropalo_verticale") ModuleSheetPreparation.PrepareVertical(data, module);
         sheet["dati"] = data;
+        if (module is RebarMaterial.Module or "mat_calcestruzzo") return Materiali.MaterialReportChapter.Create(module, data);
         ModuleCalculation calculation;
         try { calculation = await Task.Run(() => ModuleServices.Get(module).Calculate(data, cancellation), cancellation); }
         catch (Exception error) when (error is not OperationCanceledException && error is not IOException && error is not UnauthorizedAccessException)
         { throw new ArgumentException("Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.", error); }
         if (calculation.HasError) throw new ArgumentException("Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.");
+        if (module == HorizontalPileGroup.Module) ModuleSheetPreparation.ApplyPileGroupSelection(data, calculation.Values);
         var request = new ModuleReportRequest(sheet.S("nome"), calculation, DefaultSections(module), true);
-        var figures = await renderer.RenderAsync(request, cancellation);
+        IReadOnlyList<ReportFigure> figures = module is HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module
+            ? Array.Empty<ReportFigure>() : await renderer.RenderAsync(request, cancellation);
         cancellation.ThrowIfCancellationRequested();
         return new(Document: CreateDocument(request, figures));
     }
     public static DocxDocument CreateDocument(ModuleReportRequest request, IReadOnlyList<ReportFigure> figures)
     {
         var c = request.Calculation;
+        if (c.ModuleId == HorizontalPileGroup.Module) return ReportPileGroup.CreateDocument(request.Title, c.Values);
+        if (c.ModuleId == Anthea.FoundationWorkspace.FoundationDocument.Module) return Anthea.FoundationWorkspace.FoundationReport.WordDocument(request.Title, c.Values);
         if (c.ModuleId == BridgeConcept.Module)
             return BridgeConceptExport.ReportDocument(request.Title, c.Data, c.NativeAs<BridgeConcept.Result>(),
                 figures.Single(f => f.Category == "prospetto").Png, figures.Single(f => f.Category == "sezione").Png);

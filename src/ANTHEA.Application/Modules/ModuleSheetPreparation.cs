@@ -4,6 +4,22 @@ namespace Anthea.Application.Modules;
 /// <summary>Lazy defaults of the editable sheet, applied to an explicitly owned snapshot.</summary>
 public static class ModuleSheetPreparation
 {
+    public static JsonNode NumericText(string text) => double.TryParse(text.Replace(',', '.'), System.Globalization.NumberStyles.Float,
+        System.Globalization.CultureInfo.InvariantCulture, out double value) && double.IsFinite(value) ? JsonValue.Create(value)! : JsonValue.Create(text)!;
+    public static void PreparePileGroup(JsonObject data)
+    {
+        HorizontalPileGroup.Upgrade(data);
+        if (data["generatore"].S("tipo") == "Generica")
+            data["pali"] = new JsonArray(data.Array("pali").Select(p => (JsonNode)J.Obj(("id", p.S("id")),
+                ("x", NumericText(p!["x"]!.ToString())), ("y", NumericText(p["y"]!.ToString())))).ToArray());
+        HorizontalPileGroup.Regenerate(data);
+    }
+    public static void ApplyPileGroupSelection(JsonObject data, JsonObject result)
+    {
+        var selected = result["selezionato"]!;
+        data["direzione_selezionata"] = selected.S("DirectionId"); data["angolo"] = selected.D("Angle");
+    }
+
     public static void PrepareVertical(JsonObject data, string module)
     {
         bool micro = module == "geo_micropalo_verticale";

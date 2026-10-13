@@ -147,3 +147,9 @@ VerticalPileCharts prepara le stesse serie di capacità, visibilità, filtri, ab
 ModuleReportService prepara e calcola pali, micropali e Bridge Design senza creare controlli; IFigureRenderer riceve il risultato già calcolato. ModuleSheetPreparation riusa le migrazioni pigre della vista. Il renderer costruisce solo disegni e la vista usa il medesimo generatore delle figure verticali, preservando selezione e visibilità correnti. Altri moduli restano sull’adattatore temporaneo, senza dichiarare concluso F3.5b.2.
 
 Corsa 032000: 5 PASS, report progetto, sei catture grafiche, 458 file equivalenti. Nuova suite ui/f3-report-chapters: otto fixture, dati preparati, XML e dieci immagini identici alla vista; metadati normalizzati esclusivamente dal normalizzatore comune (032128). Confronto aggiuntivo con cattura prima dello spostamento: 30 DOCX, 97 immagini identiche byte per byte. Nessuna variazione ingegneristica; correzione iniziale del namespace del preparatore prima delle prove.
+
+## F3.5b.2d — materiali, palificata e fondazioni
+
+Sette moduli su dodici producono ora capitoli senza editor. I materiali condividono lo stato iniziale portabile; RestoreState conserva il comportamento delle restaurazioni parziali. Palificata: migrazione, coordinate numeriche e selezione risultante conservate, parser comune con la vista. Fondazioni: stesso completamento dei dati e stesso report portabile già esistenti.
+
+Corsa 032514: 7 PASS, 343 controlli Application, smoke materiali/progetto, 16 capitoli autonomi confrontati con la vista e 458 file equivalenti. Un confronto intermedio ha rilevato soltanto l’ordine di cinque proprietà materiali nel capitolo progetto: ripristinato l’ordine storico di inserimento; attesi immutati, nessuna tolleranza aggiunta. Correzione sintattica iniziale del ramo senza figure prima del collaudo.

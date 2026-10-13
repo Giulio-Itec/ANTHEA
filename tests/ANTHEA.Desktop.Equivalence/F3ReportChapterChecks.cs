@@ -30,7 +30,13 @@ internal static class F3ReportChapterChecks
             try { chapter = await builder.BuildAsync(sheet, default); } catch (ArgumentException ex) { error = ex; }
             Check(fixture.ToJsonString() == original, "Input originale modificato");
             Check(JsonNode.DeepEquals(editor.Data, sheet["dati"]), "Dati preparati diversi: " + file);
-            if (!editor.HasResults)
+            if (module is "mat_calcestruzzo" or RebarMaterial.Module)
+            {
+                var expected = editor.MaterialReportContent();
+                Check(error is null && expected.Error == chapter?.Error, "Esito del capitolo materiali diverso");
+                Check(JsonNode.DeepEquals(System.Text.Json.JsonSerializer.SerializeToNode(expected.Derived), System.Text.Json.JsonSerializer.SerializeToNode(chapter?.Derived)), "Proprietà materiali diverse");
+            }
+            else if (!editor.HasResults)
                 Check(error?.Message == "Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.", "Capitolo incompleto non segnalato");
             else
             {

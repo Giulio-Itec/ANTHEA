@@ -112,7 +112,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         }
         if (module == "mat_calcestruzzo")
         {
-            materials = new Materiali.MaterialView((label, key) => WikiContextHelp.Label(label, key, "mat_calcestruzzo")); materials.RestoreState(Data);
+            materials = new Materiali.MaterialView((label, key) => WikiContextHelp.Label(label, key, "mat_calcestruzzo")); materials.RestoreState(Materiali.MaterialSheetInput.NormalizeState(Data));
             materials.Modified += () => Modified?.Invoke(); Content = materials; building = false; return;
         }
         if (module == RebarMaterial.Module)

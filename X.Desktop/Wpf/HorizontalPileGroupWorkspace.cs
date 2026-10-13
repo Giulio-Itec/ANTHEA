@@ -54,7 +54,7 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
     }
     static DataGrid OutputGrid(double height) => new() { IsReadOnly = true, AutoGenerateColumns = false, CanUserAddRows = false, CanUserDeleteRows = false, Height = height, HeadersVisibility = DataGridHeadersVisibility.Column };
     static string F(double? x) => x?.ToString("0.###", CultureInfo.CurrentCulture) ?? "—";
-    static JsonNode Value(string text) => double.TryParse(text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double x) && double.IsFinite(x) ? JsonValue.Create(x)! : JsonValue.Create(text)!;
+    static JsonNode Value(string text) => ModuleSheetPreparation.NumericText(text);
     static void Column(DataGrid grid, string header, string property, double width) => grid.Columns.Add(new DataGridTextColumn { Header = header, Binding = new Binding(property) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged }, Width = width });
     TextBox Field(Panel parent, string label, JsonObject owner, string key, bool optional = false)
     {
@@ -168,7 +168,7 @@ internal sealed class HorizontalPileGroupWorkspace : UserControl, IDisposable
         try
         {
             coordinates.CommitEdit(DataGridEditingUnit.Cell, true); coordinates.CommitEdit(DataGridEditingUnit.Row, true); CapturePiles(); HorizontalPileGroup.Regenerate(data); if (data["generatore"].S("tipo") != "Generica") LoadPiles();
-            Result = calculationSession.Calculate(data).Values; var selected = Result["selezionato"]!; data["direzione_selezionata"] = selected.S("DirectionId"); data["angolo"] = selected.D("Angle");
+            Result = calculationSession.Calculate(data).Values; ModuleSheetPreparation.ApplyPileGroupSelection(data, Result);
             var rows = Result.Array("confronto").Select(n => new ComparisonRow { Node = n! }).ToArray(); selecting = true; comparison.ItemsSource = rows; comparison.SelectedItem = rows.First(r => r.Method == data.D("metodo") && r.DirectionId == data.S("direzione_selezionata")); selecting = false; Present();
         }
         catch (Exception ex) { Result = null; Clear("Dati da completare: " + ex.Message); }

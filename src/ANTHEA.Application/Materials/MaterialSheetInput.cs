@@ -63,6 +63,22 @@ public sealed class MaterialSheetInput
         if (!DeviationOptions(Index("deviationControl")).Contains(Selected("deviationValue")))
             throw new ArgumentException("Scelta materiali non valida: deviationValue");
     }
+    /// <summary>Canonical persisted state formerly assembled by the material view. Unknown UI keys are not copied.</summary>
+    public static JsonObject NormalizeState(JsonObject source)
+    {
+        var input = new MaterialSheetInput(source);
+        string exposure = source.S("esposizione_principale", (source["esposizioni"] as JsonArray)?.FirstOrDefault()?.ToString() ?? "XC1");
+        if (source["esposizioni"] is JsonArray oldExposures && oldExposures.Any(e => !ExposureChoices.Any(c => c.Code == e!.GetValue<string>())))
+            throw new ArgumentException("Classe di esposizione non riconosciuta.");
+        var values = new JsonObject(); foreach (string key in new[] { "diameter", "aggregate", "cementName", "bondAlpha", "bondGamma" }) values[key] = source["numeri"]?[key]?.GetValue<string>() ?? InitialNumber(key);
+        var choices = new JsonObject(); foreach (string key in ChoiceCatalog.Keys.Where(k => k != "bondCondition").Append("bondCondition")) choices[key] = input.Selected(key);
+        var flags = new JsonObject(); foreach (string key in new[] { "highStrength", "slab", "quality", "rough", "ntcQuality" }) flags[key] = source["opzioni"]?[key]?.GetValue<bool>() ?? false;
+        var state = new JsonObject { ["versione_materiali"] = 1, ["classe"] = input.ClassName, ["esposizione_principale"] = exposure,
+            ["numeri"] = values, ["scelte"] = choices, ["opzioni"] = flags, ["esposizioni"] = new JsonArray(exposure) };
+        var legacy = source["esposizioni"] is JsonArray old && old.Count > 1 ? old : source["esposizioni_precedenti"] as JsonArray;
+        if (legacy is not null) state["esposizioni_precedenti"] = legacy.DeepClone();
+        return state;
+    }
     public string Selected(string key) => State["scelte"]?.S(key, ChoiceCatalog[key].Values[ChoiceCatalog[key].Initial])
         ?? ChoiceCatalog[key].Values[ChoiceCatalog[key].Initial];
     public int Index(string key)
