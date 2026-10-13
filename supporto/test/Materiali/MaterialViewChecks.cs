@@ -1,6 +1,6 @@
 namespace Materiali;
 
-// UiTests configuration only (X.Materiali.csproj): self-checks of the materials sheet, called by --smoke-materials
+// UiTests configuration only (X.Desktop.csproj): self-checks of the materials sheet, called by --smoke-materials
 // (MaterialsSmokeChecks: active.Check()). Moved unchanged out of App.xaml.cs, Bond.cs, MixAutomation.cs and
 // ExposureSelector.cs; Durability.Check and NtcCover.Check are now DurabilityReferenceChecks (supporto/test/Shared).
 public sealed partial class MaterialView

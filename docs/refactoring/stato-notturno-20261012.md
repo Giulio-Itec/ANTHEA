@@ -1,31 +1,39 @@
-# Stato del lavoro notturno — checkpoint 13 ottobre, 01:59
+# Stato del lavoro notturno — checkpoint 13 ottobre, 02:41
 
-Mandato fino alle 07:19 Europe/Rome (05:19 UTC): F2 → STG → SEZ → F3 → F4 se completabile. F5 esclusa. Un commit per punto, test/versioni/merge/push autorizzati; nessun agente parallelo. Preservare la finestra primaria con documento non salvato.
+Mandato fino alle 07:19 Europe/Rome (05:19 UTC): F2 → STG → SEZ → F3 → F4 se completabile. F5 esclusa. Un commit per punto, test/versioni/merge/push autorizzati; nessun agente parallelo. Preservare la finestra primaria con documento non salvato: non chiudere, non riavviare, non compilare nel checkout primario.
 
-F2 approvato chiuso, main a701af8a, ANTHEA 1.3.0; rapporto chiusura-blocco-f2-20261012.md. STG-3 chiuso, main 22f6a1a, ANTHEA 1.4.0; rapporto chiusura-stage-20261012.md. STG-4 resta parziale: modello reale senza STAG/STCT. Nessuna simulazione della geometria attiva, reazione stage o lettura nativa stage Strand7 dichiarata disponibile.
+## Rilasci conclusi
 
-SEZ su refactoring/sez-modelli: d44ba4d inventario, a64a4c1 dettaglio, f58abeb volumi condivisi. SEZ-4 chiuso, main/origin bce1e337: full 104 PASS/0 fallimenti, 478 controlli dati e 18 WPF sezioni. Guide Rev39, 76/144 pagine; ANTHEA 1.5.0. Set V installato da Model master/origin 7fd1fe4c e Checker master/origin 75e9adaa; 2778 test delle librerie superati, 17 Steel noti e due native skip. SEZ-3b legato alla geometria di fase resta aperto.
+- F2: main a701af8a, ANTHEA 1.3.0; rapporto chiusura-blocco-f2-20261012.md.
+- STG-3: main 22f6a1a, ANTHEA 1.4.0. STG-4 parziale: modello reale senza STAG/STCT; geometria attiva, reazioni stage e lettura nativa Strand7 da completare con un caso reale.
+- SEZ-4: main/origin bce1e337, ANTHEA 1.5.0. Full 104 PASS, nessun fallimento nuovo; 478 controlli dati e 18 WPF sezioni. Guide Rev39, 76/144 pagine. SEZ-3b dipende dalla geometria di fase, resta aperto.
+- Set V congelato: Model master/origin 7fd1fe4c; Checker master/origin 75e9adaa. 2778 test delle librerie superati, 17 Steel noti e due native skip. Installer 1.5.0 pronto, SHA-256 FC7B90F71807CE0AC038901E947A3D7D400A2D73A1D93ECA298AC6E50C7F2631.
 
-Installer 1.5.0 pronto, SHA-256 FC7B90F71807CE0AC038901E947A3D7D400A2D73A1D93ECA298AC6E50C7F2631. Ramo corrente refactoring/f3-strato-applicativo. F3.1 chiuso: 36 fixture, 458 file equivalenti nella doppia cattura D/E, 71 articoli Wiki e 30 ricerche; riferimento congelato in tests/fixtures/f3. Guardia automatica ricollaudata: 20261013-012127-f3-baseline-guard, 2 PASS. F3.1 commit a35a7413. F3.2 chiuso: scheletro, tool Headless/help, suite Architecture.Tests e controllo distribuzione; 7 PASS con equivalenza e 5 PASS finali. Prossimo F3.3b: documenti, progetti, revisioni e servizio di apertura/salvataggio. Audit F3: 12 moduli effettivi; toolkit ANTHEA.Testing da riusare, UiTests resta configurazione separata. Baseline TypeRef Desktop: 145 Calculations, 36 CompositeBridge, 3 Concrete, 6 Geotechnics; 11 async void. Sei timer di calcolo, distinti da gerarchia/Wiki. Preparazione delle catture nei soli artefatti primari supporto/artefatti/refactoring/f3/preparation. Non ancora spostato codice di produzione F3.
+## F3 in corso sul worktree separato
 
-Combo della finestra utente: limite cartesiano 4096 diagnosticato, preflight/scalabilità tracciati e aperti; documento intatto. Principali e generatore automatico restano in coda. Conservare archivi e attesi indipendenti, non duplicare metodi già presenti.
+Ramo refactoring/f3-strato-applicativo in model-viewer-draft/ANTHEA; non ancora integrato in main. F3.1 riferimento congelato: 36 fixture, 458 file, 71 articoli Wiki e 30 ricerche. Ultimo riferimento headless prima di F3: corsa 20261012-225933-f2-set-t-full/baseline_cattura/cattura, 548 file. Non usare la vecchia B3 per il confronto corrente.
 
-F3.3b chiuso: documenti, revisioni e condivisione in Application, Headless validate/inspect; 121 controlli dedicati, 12 PASS e 458 file equivalenti (013204-f3-documents-built). Prossimo F3.4: report condivisi e composizione senza serializzare/riaprire i singoli DOCX.
+Punti chiusi e commit:
 
-F3.4 chiuso: report trasferiti, DocxWriter unico, progetto senza ZIP intermedi. Core compatibilità solo TypeForwardedTo, assente dal prodotto. Cattura 013734 e confronto profondo 30 DOCX/134 XML/97 immagini senza differenze; tests Reports 14 controlli + confronto corpus. Prossimo F3.5 servizi moduli/scheduler e F3.6 collegamento graduale; Wiki da estrarre.
+- F3.1 a35a7413, F3.2 1d1b45e: catture, progetti e regole automatiche.
+- F3.3b c35a041: documenti, revisioni e condivisione in Application; Headless validate/inspect.
+- F3.4 cadf784: report portabili e DocxWriter unico. 30 DOCX/134 XML/97 immagini equivalenti. Core è solo compatibilità TypeForwardedTo, assente dal prodotto; necessario ai vecchi consumatori esterni.
+- F3.5a 0260dd9 e F3.5a.2 c8286da: moduli, scheduler, cache e unico dispatch Application; CLI calculate. 548 file equivalenti, rinomine diagnostiche esatte F3-01 registrate e provate.
+- F3.6a 507dc8f e F3.6b c94ac699: pali verticali, acciaio, palificata e fondazioni.
+- F3.6c 463f4cb: catalogo, ricerca e parser Wiki portabili; 240 controlli.
+- F3.6d d35a20c: ponte/muri e analisi opzionali, 21 prove WPF di aggiornamento e chiusura.
+- F3.6e 2565132: orizzontale/elastico; risposta FEM e cache sezioni fuori dalla vista, riuso FEM al cambio armature.
+- F3.6f.1 04793a5: presentazione e capitoli materiali portabili, dati iniziali condivisi e mappatura copriferro riusata. 291 controlli Application e adattatori CLS rapidi passati.
+- F3.6f.2 in commit: vista Materiali accorpata nel Desktop, prove materiali/report e 458 file equivalenti; report brevi WPF passati in 024042-f3-material-move-short-final.
 
-F3.5a completato: servizi, cache, scheduler, 185 controlli e CLI calculate. F3.5b autonomizzazione report ancora aperto. Prossimo F3.6 primo collegamento UI su pali verticali, poi moduli tipizzati e Wiki.
+Soglie correnti: 143 TypeRef Calculations, 36 CompositeBridge, 3 Concrete, 6 Geotechnics; 6 async void; 4 DispatcherTimer, solo gerarchia/Wiki. Nessun timer di calcolo residuo. Le fixture ingegneristiche non sono state aggiornate.
 
-F3.6a chiuso: pali verticali con servizi/scheduler, 9 prove WPF dedicate, 10 PASS inclusa equivalenza. Prossimi: ingressi di calcolo tipizzati e Wiki. Ultimi commit c35a041 documenti, cadf784 report, 0260dd9 servizi.
+## Seguito
 
-F3.6b completato: acciaio, palificata, fondazioni; corsa 015601 12 PASS/0 nuovi. Prima di altri moduli conviene unificare l’ingresso CalculationService che resta in X.Calculations con l’orchestrazione Application; nessun caller dentro X.Calculations, solo UI e test. I confronti numerici sono congelati, non aggiornare attesi.
+1. BridgeDesign: ricalcolo ritardato, confronto/proposte su servizi e annullamento alla chiusura.
+2. CA: coordinamento di domini, SLE, taglio e cache nello strato Application. Preservare attesi, dettagli, riepiloghi e stato delle tabelle.
+3. F3.5b: report progetto autonomo, senza SheetEditor; figure tramite contratto condiviso. Materiali sono già autonomi, altri moduli ancora da completare.
+4. F3.7: verificare il confine effettivo, aggiornare guide del tool, suite complete, versione e integrazione/push a fase conclusa. Nessuna dichiarazione di chiusura se rimangono dipendenze concrete.
+5. F4 solo dopo F3, entro il mandato. F5 esclusa.
 
-Checkpoint 02:12: unificazione CalculationService completata, 548 file headless equivalenti; rinomine diagnostiche F3-01 registrate e collaudate. Prossimo: estrazione Wiki, script preparato solo negli artefatti f3/extract-wiki.py. F3.5b/report autonomi e F3.6 resto moduli ancora aperti, F4 non iniziata, F5 esclusa.
-
-Checkpoint 02:15: F3.6c Wiki chiuso; 240 controlli portabili, 458 file equivalenti, rendering Wiki e aiuto fondazioni passati. Prossimi moduli: ponte composto e muri con coordinamento comune; restano report autonomi, materiali CLS, orizzontale/elastico, CA e chiusura F3.
-
-Checkpoint 02:22: F3.6d ponte/muri chiuso, 11 PASS + 6 PASS di schedulazione, 21 controlli WPF e 458 file invariati. F3.6c Wiki in 463f4cb, unificazione dispatch in c8286da. Prossimo orizzontale/elastico: preservare cache FEM e cache delle sezioni, migrazione elastica sempre esplicita. Restano F3.5b/report, CLS, CA, BridgeDesign ritardato e chiusura; F4 non iniziata, F5 esclusa. La sessione utente primaria resta intatta.
-
-Checkpoint 02:31: F3.6e pali orizzontali/elastici completato, 199 controlli Application e tutte le prove dei pali passate; 458 file equivalenti. Zero timer di calcolo residui. Prossimo F3.6f: separare la presentazione dei materiali CLS per riusarla nei report autonomi; poi CA, BridgeDesign, report progetto e chiusura F3. F4 non iniziata, F5 esclusa.
-
-Checkpoint 02:38: F3.6f.1 materiali portabili e capitoli senza vista completato: 291 controlli Application, prove WPF e 458 file equivalenti, adattatori CLS passati. Prossimo accorpamento fisico della vista Materiali nel Desktop; poi BridgeDesign e CA/report.
+La combo della finestra utente resta intatta. Limite cartesiano 4096 e preflight/scalabilità tracciati nel piano; ENV_SLU originale ha 26168 alternative. Principali e generatore automatico in coda. Nessuna modifica automatica delle combinazioni dal loro nome.

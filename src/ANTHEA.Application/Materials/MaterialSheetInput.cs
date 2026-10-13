@@ -4,8 +4,12 @@ using Anthea.Calculations;
 namespace Materiali;
 
 /// <summary>Persisted material-sheet choices and parsing, shared by the view and report service.</summary>
+public sealed record MaterialExposureChoice(string Code, string Description, int Severity);
+
 public sealed class MaterialSheetInput
 {
+    public static IReadOnlyList<MaterialExposureChoice> ExposureChoices { get; } = Array.AsReadOnly(Durability.Exposures
+        .Select(e => new MaterialExposureChoice(e.Code, e.Description, NtcCover.Severity(e.Code))).ToArray());
     private static readonly IReadOnlyDictionary<string, (string[] Values, int Initial)> ChoiceCatalog = new Dictionary<string, (string[], int)>
     {
         ["ntcElement"] = (["Trave / pilastro","Piastra / soletta / parete"], 0),

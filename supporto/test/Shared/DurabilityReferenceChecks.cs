@@ -6,7 +6,7 @@ namespace Materiali;
 /// Reference checks of durability and NTC cover, formerly Durability.Check and NtcCover.Check in
 /// X.Calculations/Materials (refactoring F1.3). The bodies are unchanged; only the calls are qualified.
 /// Linked into CalculationLibrary.Checks, X.Verifiche (--project-calculations), tests/ConcreteLibraryAdapter.Checks (11h) and, in the
-/// UiTests configuration, into X.Materiali (MaterialView.Check, --smoke-materials).
+/// UiTests configuration, into X.Desktop (MaterialView.Check, --smoke-materials).
 /// Refactoring F2.9 (E3): the checks go through the facades with the given durability engine of ConcreteDurabilityAdapter (null = the
 /// default engine); the expected values (by hand) are unchanged.
 /// </summary>

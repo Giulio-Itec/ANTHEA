@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using GPC.Model.Materials;
 
 namespace Materiali;
 
@@ -39,7 +38,7 @@ public sealed partial class MaterialView : UserControl
         this.wikiLabel = wikiLabel;
         // Inside ANTHEA the application styles apply: the same values, plus the dark appearances.
         if (Application.Current?.TryFindResource(typeof(DataGrid)) is null)
-            Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/Materiali;component/Styles.xaml") });
+            Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/ANTHEA;component/Wpf/Materials/Styles.xaml") });
         var root=new DockPanel { Background=Brush("#F3F5F8") };
         var footer=new Border { Padding=new Thickness(24,8,24,8),Background=Brushes.White,Child=status };
         DockPanel.SetDock(footer,Dock.Bottom); root.Children.Add(footer);

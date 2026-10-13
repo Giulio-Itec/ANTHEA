@@ -56,7 +56,7 @@ public sealed partial class MaterialView
     static string Aggressiveness(int severity)=>severity switch{0=>"ordinaria",1=>"aggressiva",2=>"molto aggressiva",_=>throw new ArgumentOutOfRangeException(nameof(severity))};
     UIElement BuildExposureSelector(UIElement checks)
     {
-        exposureSelector.ItemsSource=Durability.Exposures.Select(e=>e.Code).ToArray();
+        exposureSelector.ItemsSource=MaterialSheetInput.ExposureChoices.Select(e=>e.Code).ToArray();
         exposureSelector.SelectedItem="XC1";
         System.Windows.Automation.AutomationProperties.SetName(exposureSelector,"Classe di esposizione");
         var row=new Grid{Margin=new Thickness(0,5,0,8)};
@@ -75,7 +75,7 @@ public sealed partial class MaterialView
         return Paper(Stack(Text("Classe di esposizione",15,true),row,exposureAggressiveness,combinedExposure,
             Text("Descrizione ed esempi: ATECAP 2020, p. 7, prospetto 1.\nAggressività: NTC 2018, tab. 4.1.III.",11)));
     }
-    void RefreshExposureSelector(Exposure[] active)
+    void RefreshExposureSelector(MaterialExposureChoice[] active)
     {
         updatingExposure=true;
         try
@@ -84,9 +84,9 @@ public sealed partial class MaterialView
             if(!active.Any(e=>e.Code==selected)){selected=active.FirstOrDefault()?.Code;exposureSelector.SelectedItem=selected;}
             exposureDetails.Text=selected is null?"Selezionare una classe di esposizione.":ExposureDescriptions[selected];
             exposureExamples.Text=selected is null?"":ExposureExamples[selected];
-            exposureAggressiveness.Text=selected is null?"Aggressività: da definire":"Aggressività: "+Aggressiveness(NtcCover.Severity(selected));
+            exposureAggressiveness.Text=selected is null?"Aggressività: da definire":"Aggressività: "+Aggressiveness(MaterialSheetInput.ExposureChoices.Single(e=>e.Code==selected).Severity);
             combinedExposure.Text=active.Length>1?"Classi attive: "+string.Join(" + ",active.Select(e=>e.Code))+
-                (active.Any(e=>e.Code=="X0")?" · combinazione non valida: X0 deve essere isolata.":"\nAggressività complessiva: "+Aggressiveness(active.Max(e=>NtcCover.Severity(e.Code)))):"";
+                (active.Any(e=>e.Code=="X0")?" · combinazione non valida: X0 deve essere isolata.":"\nAggressività complessiva: "+Aggressiveness(active.Max(e=>e.Severity))):"";
             if (legacyExposures is not null && active.Length == 1)
                 combinedExposure.Text="Archivio precedente con più esposizioni: " + string.Join(" + ", legacyExposures.Select(v=>v?.ToString())) + ". Classe attiva unica: " + selected + ".";
             combinedExposure.Visibility=active.Length>1 || legacyExposures is not null?Visibility.Visible:Visibility.Collapsed;

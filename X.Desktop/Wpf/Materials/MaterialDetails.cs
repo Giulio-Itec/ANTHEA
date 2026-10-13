@@ -46,7 +46,7 @@ public sealed partial class MaterialView
     {
         AddColumn("PROPRIETÀ MECCANICHE",properties);
         var checks=new WrapPanel();
-        foreach(var e in Durability.Exposures)
+        foreach(var e in MaterialSheetInput.ExposureChoices)
         {
             var cb=new CheckBox {Content=e.Code,Width=55,Margin=new Thickness(0,4,0,4),ToolTip=e.Description,IsChecked=e.Code=="XC1"};
             exposureChecks.Add(e.Code,cb); checks.Children.Add(cb); cb.Checked+=(_,_)=>RefreshDetails(); cb.Unchecked+=(_,_)=>RefreshDetails();
@@ -73,7 +73,7 @@ public sealed partial class MaterialView
             rough,ec2Options));
         var coverDiagram=new Image
         {
-            Source=new System.Windows.Media.Imaging.BitmapImage(new Uri("pack://application:,,,/Materiali;component/Assets/copriferro.png")),
+            Source=new System.Windows.Media.Imaging.BitmapImage(new Uri("pack://application:,,,/ANTHEA;component/Assets/Materials/copriferro.png")),
             Stretch=Stretch.Uniform, HorizontalAlignment=HorizontalAlignment.Stretch,
             Margin=new Thickness(0,12,0,4),
             ToolTip="Schema del copriferro nominale e della posizione delle armature"
@@ -98,7 +98,7 @@ public sealed partial class MaterialView
         Grid.SetColumn(panel,index); sections.Children.Add(panel);
     }
     string Selected(string key)=>choices[key].SelectedItem?.ToString()??"";
-    Exposure[] Active()=>Durability.Exposures.Where(e=>exposureChecks[e.Code].IsChecked==true).ToArray();
+    MaterialExposureChoice[] Active()=>MaterialSheetInput.ExposureChoices.Where(e=>exposureChecks[e.Code].IsChecked==true).ToArray();
     void RefreshDetails()
     {
         if(!detailsReady || choice.SelectedIndex<0 || updatingDeviation || updatingExposure) return;

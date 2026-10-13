@@ -7,8 +7,8 @@
   <PropertyGroup><DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences></PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../../../X.Desktop/X.Desktop.csproj" SetConfiguration="Configuration=UiTests" />
-    <ProjectReference Include="../../../X.Core/X.Core.csproj" SetConfiguration="Configuration=UiTests" />
+    <ProjectReference Include="../../../src/ANTHEA.Application/ANTHEA.Application.csproj" SetConfiguration="Configuration=UiTests" />
+    <ProjectReference Include="../../../src/ANTHEA.Reports/ANTHEA.Reports.csproj" SetConfiguration="Configuration=UiTests" />
     <ProjectReference Include="../../../X.Calculations/X.Calculations.csproj" SetConfiguration="Configuration=UiTests" />
-    <ProjectReference Include="../../../X.Materiali/X.Materiali.csproj" SetConfiguration="Configuration=UiTests" />
   </ItemGroup>
 </Project>

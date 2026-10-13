@@ -34,6 +34,7 @@ try
     string manifestHash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(Path.Combine(root, "lib/Checker/manifest.json"))));
     Check(manifestHash.Equals(fixtureManifest.RootElement.GetProperty("library_manifest_sha256").GetString(), StringComparison.OrdinalIgnoreCase), "Set GPC cambiato durante F3: il riferimento va riesaminato prima degli spostamenti");
     var desktop = Metadata(Path.Combine(root, "X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll"));
+    Check(!desktop.Assemblies.Contains("Materiali"), "Progetto WPF Materiali ancora separato dal Desktop");
     Check(!desktop.Assemblies.Contains("ANTHEA.Core"), "Core ancora presente nel prodotto desktop");
     var reportSources = SourceFiles(Path.Combine(root, "src/ANTHEA.Reports")).ToArray();
     Check(reportSources.Count(f => File.ReadAllText(f).Contains("ZipArchiveMode.Create")) == 1 &&
