@@ -317,7 +317,8 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
     - [x] F4.8b.1: cattura diagnostica esplicita di 56 muri/distinte dal percorso legacy invariato, con controllo SHA degli input congelati; 2 PASS del runner. Nessuna sovrascrittura degli attesi. Il confronto nativo e il collegamento restano separati.
     - [x] F4.8b.2: Checker `bd3b2483`, dettagli tipizzati in Design e regole elementari condivise in Concrete. 374 barre, 2316 punti, 3260 controlli e 56 pesi equivalenti; suite complete 1660 PASS, soli 17 Steel noti. Concrete 0.6.0.0 / Design 0.2.0.0; integrazione ancora F4.9, registro F4-10.
 - [ ] F4.9 [CP] Collegamento dei muri e rilascio `lib/Checker`. Anticipato il 7/10 lo scostamento D7-c (γRd non applicato a F̄).
-- [ ] F4.10 GPC.Design: armature e distinta dei muri, tratti dei pali.
+- [~] F4.10 GPC.Design: armature e distinta dei muri, tratti dei pali.
+  - [x] F4.10a: Checker `b8763b87`, distinta basata sul servizio condiviso dei dettagli. 30 distinte, 435 barre, 600 tratti e 1680 punti equivalenti; quantità intere identiche. 13 test Design PASS, API compatibili; Design candidata 0.3.0.0. Ricerche e integrazione ancora aperte.
 - [ ] F4.11 GPC.Design: BridgeConcept con listini e CO₂ come dati versionati. **Riattivata il 13/10 sera**: cataloghi sostituibili, associazioni alle lavorazioni, prezzi personalizzati e revisioni; calcolo e ottimizzazione in GPC.Design, gestione documentale/UI in ANTHEA.
 - [ ] F4.12 GPC.Design: ricerca delle armature di sezione.
 - [ ] F4.13 Logica ingegneristica delle viste verso librerie o Application.

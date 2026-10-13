@@ -25,6 +25,19 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-11",
+      "data": "2026-10-13",
+      "fase": "F4.10a",
+      "titolo": "Distinta muri con dettagli condivisi e quantità tipizzate",
+      "famiglia": "muri/distinta",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Checker b8763b87: WallBarScheduling riusa il servizio dei dettagli; contratti e avvisi tipizzati, proprietà del confine fra zone conservata. Peso parziale se manca lo sviluppo dei collegamenti, nessun taglio automatico oltre la barra commerciale. Runtime ANTHEA e set V invariati.",
+      "effetto_quantificato": "30 distinte congelate: 435 barre, 600 tratti e 1680 punti equivalenti; quantità intere esatte, sviluppo/peso/interassi entro 1e-9 assoluta più relativa. Attesi invariati.",
+      "test": ["13 Design PASS", "API compatibili, zero rimozioni", "Confini condivisi, estremità pannello, peso parziale, stock e annullamento"],
+      "evidenze": ["supporto/artefatti/refactoring/f4/schedule-final", "Checker/docs/refactoring/f4-wall-schedule.md"]
+    },
+    {
       "id": "F4-10",
       "data": "2026-10-13",
       "fase": "F4.8b",
