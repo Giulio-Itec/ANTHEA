@@ -1,4 +1,4 @@
-<Project>
+<Project TreatAsLocalProperty="GpcLibDir">
   <!--
     Common properties of every ANTHEA project. Keep this file free of global compiler settings
     (Nullable, LangVersion, Deterministic...): they would change the binaries without a review.
