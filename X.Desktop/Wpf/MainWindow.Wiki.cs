@@ -1,3 +1,4 @@
+using Anthea.Application.Modules;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -61,7 +62,7 @@ public sealed partial class MainWindow
     {
         if (example is null) { OpenModule(module); return; }
         var data = WikiExamples.Create(module, example);
-        ModuleCatalog.ValidateData(module, data);
+        ModuleDirectory.ValidateData(module, data);
         if (!ConfirmDiscard()) return;
         ExitRevisionPreview(); document = Archivio.Documento(module); document["dati"] = data;
         path = null; dirty = true; currentSheet = null; ShowSheet(document); RefreshTree(); UpdateTitle();
@@ -78,7 +79,7 @@ public sealed partial class MainWindow
         {
             var definition = Definition(example);
             if (definition.S("moduleId") != module) throw new ArgumentException("Esempio non compatibile con il modulo richiesto.");
-            var data = ModuleCatalog.CreateData(module);
+            var data = ModuleDirectory.CreateData(module);
             void Apply(JsonObject target, JsonObject values)
             {
                 foreach (var (key, value) in values)
@@ -89,7 +90,7 @@ public sealed partial class MainWindow
             }
             // Replace combination families as a whole, avoiding residual factory load cases.
             Apply(data, definition["overrides"]!.AsObject());
-            ModuleCatalog.ValidateData(module, data); return data;
+            ModuleDirectory.ValidateData(module, data); return data;
         }
     }
 }

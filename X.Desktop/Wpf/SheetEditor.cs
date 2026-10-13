@@ -1,3 +1,4 @@
+using Anthea.Application.Materials;
 using Anthea.Application.Walls;
 using Anthea.Application.BridgeDesign;
 using Anthea.Application.Modules;
@@ -75,7 +76,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
 
     internal SheetEditor(string module, JsonObject data, IModuleService? calculationService = null)
     {
-        _ = ModuleCatalog.Get(module);
+        _ = ModuleDirectory.Get(module);
         calculationSession = new(calculationService ?? ModuleServices.Get(module));
         Module = module; Data = (JsonObject)data.DeepClone(); Background = Appearance.Surface;
         SetValue(WikiContextHelp.ModuleProperty, module);
@@ -91,7 +92,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
             foundation = new FoundationWorkspace(Data); foundation.Modified += () => Modified?.Invoke();
             foundation.ReportRequested += () => ReportRequested?.Invoke(); foundation.SoilTransferRequested += OpenSoilTransfer; Content = foundation; building = false; return;
         }
-        if (module == HorizontalPileGroup.Module) { pileGroup = new HorizontalPileGroupWorkspace(Data); pileGroup.Modified += () => Modified?.Invoke(); Content = pileGroup; building = false; return; }
+        if (module == HorizontalPileGroupEditor.Module) { pileGroup = new HorizontalPileGroupWorkspace(Data); pileGroup.Modified += () => Modified?.Invoke(); Content = pileGroup; building = false; return; }
         if (module == WallModel.Module)
         {
             retainingWall = new RetainingWallWorkspace(Data); retainingWall.Modified += () => Modified?.Invoke();
@@ -108,7 +109,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         {
             bridge = new BridgeWorkspace(Data); bridge.Modified += () => Modified?.Invoke(); Content = bridge; building = false; return;
         }
-        if (module is PaloOrizzontale.Module or MicropaloOrizzontale.Module)
+        if (module is HorizontalPileEditor.Module or MicropaloOrizzontale.Module)
         {
             horizontal = new HorizontalWorkspace(Data); horizontal.Modified += () => Modified?.Invoke(); Content = Ui.Dock(horizontal, Ui.Bar(Ui.Button("Invia / carica terreno…", OpenSoilTransfer))); building = false; return;
         }
@@ -117,7 +118,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
             materials = new Materiali.MaterialView((label, key) => WikiContextHelp.Label(label, key, "mat_calcestruzzo")); materials.RestoreState(Materiali.MaterialSheetInput.NormalizeState(Data));
             materials.Modified += () => Modified?.Invoke(); Content = materials; building = false; return;
         }
-        if (module == RebarMaterial.Module)
+        if (module == RebarEditor.Module)
         {
             rebarMaterial = new RebarMaterialView(Data); rebarMaterial.Modified += () => Modified?.Invoke(); Content = rebarMaterial; building = false; return;
         }
@@ -142,7 +143,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         Commit(); var dialog = new SoilTransferDialog(Window.GetWindow(this), Module, Data);
         if (dialog.ShowDialog() != true || dialog.Output is null) return;
         if (dialog.Replace) SoilReplacementRequested?.Invoke(dialog.Output);
-        else if (dialog.DestinationModule is string target) ModuleCopyRequested?.Invoke(target, dialog.Output, "Terreno da " + ModuleCatalog.Get(Module).Element);
+        else if (dialog.DestinationModule is string target) ModuleCopyRequested?.Invoke(target, dialog.Output, "Terreno da " + ModuleDirectory.Get(Module).Element);
     }
     private Action? releaseRevisionInspection;
     internal void InspectRevision() => releaseRevisionInspection = RevisionInspection.Protect(this);

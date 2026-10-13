@@ -21,7 +21,7 @@ public sealed class ElasticPileAnalysisSession : IDisposable
 
     /// <summary>The response callback runs on the caller's context before the section checks start.</summary>
     public async Task<JsonObject> CalculateAsync(JsonObject source, Action<JsonObject> responseReady,
-        IProgress<PileCalculationProgress>? progress = null, CancellationToken cancellation = default)
+        IProgress<PileProgress>? progress = null, CancellationToken cancellation = default)
     {
         ObjectDisposedException.ThrowIf(disposed, this);
         ArgumentNullException.ThrowIfNull(responseReady);
@@ -45,7 +45,7 @@ public sealed class ElasticPileAnalysisSession : IDisposable
             responseReady((JsonObject)response!.DeepClone());
             token.ThrowIfCancellationRequested();
             var result = await Task.Run(() => ElasticHorizontalPile.CompleteReinforcement(snapshot, response,
-                resistanceCache, token, progress: progress), token);
+                resistanceCache, token, progress: PileProgress.Adapt(progress)), token);
             token.ThrowIfCancellationRequested();
             return result;
         }

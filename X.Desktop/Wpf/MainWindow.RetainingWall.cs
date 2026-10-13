@@ -1,3 +1,4 @@
+using Anthea.Application.Modules;
 using System.Text.Json.Nodes;
 using X.Core;
 
@@ -9,7 +10,7 @@ public sealed partial class MainWindow
         => OpenModuleCopy("str_palo", data, name);
     internal void OpenModuleCopy(string module, JsonObject data, string name)
     {
-        ModuleCatalog.ValidateData(module, data);
+        ModuleDirectory.ValidateData(module, data);
         Commit();
         if (!projectReadOnly && document.S("tipo") == "progetti" && currentSheet?.Parent?.Parent is JsonObject section)
         {
@@ -24,7 +25,7 @@ public sealed partial class MainWindow
     internal void ReplaceCurrentSoil(JsonObject data)
     {
         if (projectReadOnly || currentSheet is null || editor is null) return;
-        ModuleCatalog.ValidateData(editor.Module, data); currentSheet["dati"] = data.DeepClone();
+        ModuleDirectory.ValidateData(editor.Module, data); currentSheet["dati"] = data.DeepClone();
         var sheet = currentSheet; currentSheet = null; ShowSheet(sheet); MarkDirty();
     }
 }

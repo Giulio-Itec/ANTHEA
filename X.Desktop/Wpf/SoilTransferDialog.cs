@@ -1,3 +1,4 @@
+using Anthea.Application.Modules;
 using Anthea.Application.Walls;
 using System.IO;
 using System.Text;
@@ -30,7 +31,7 @@ internal sealed class SoilTransferDialog : Window
         Appearance.Watch(this);
         survey = Ui.Choice(module == WallModel.Module ? new[] { "Monte", "Valle" } : Enumerable.Range(1, SoilProfileTransfer.SurveyCount(module, data)).Select(i => "Profilo " + i), module == WallModel.Module ? "Monte" : "Profilo 1");
         Destination = new ComboBox { MinWidth = 300, SelectedValuePath = "Tag" };
-        foreach (var target in SoilProfileTransfer.Modules) { var info = ModuleCatalog.Get(target); Destination.Items.Add(new ComboBoxItem { Content = info.Element + " · " + info.Description, Tag = target }); }
+        foreach (var target in SoilProfileTransfer.Modules) { var info = ModuleDirectory.Get(target); Destination.Items.Add(new ComboBoxItem { Content = info.Element + " · " + info.Description, Tag = target }); }
         Destination.SelectedValue = module == "geo_palo_verticale" ? WallModel.Module : "geo_palo_verticale";
         SendButton = Ui.Button("Invia a un nuovo foglio", () => Try(() => { DestinationModule = (string)Destination.SelectedValue; Output = SoilProfileTransfer.Create(DestinationModule, profile!); DialogResult = true; }), true);
         var apply = Ui.Button("Sostituisci il terreno del foglio corrente", () => Try(() => { Output = SoilProfileTransfer.Apply(module, original, profile!, survey.SelectedIndex); Replace = true; DialogResult = true; }));

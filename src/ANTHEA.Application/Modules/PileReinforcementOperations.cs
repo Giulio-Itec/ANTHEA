@@ -63,14 +63,14 @@ public sealed class PileSegmentDesignSession : IDisposable
     }
     public bool Matches(JsonObject current) => !disposed && current.ToJsonString() == signature;
     public Task<ScheduledCalculation<JsonObject>> CalculateAsync(int[] counts, double[] diameters, double[] links, double[] spacings,
-        IProgress<PileCalculationProgress>? progress = null, CancellationToken cancellation = default)
+        IProgress<PileProgress>? progress = null, CancellationToken cancellation = default)
     {
         var ns = counts.ToArray(); var ds = diameters.ToArray(); var ts = links.ToArray(); var ss = spacings.ToArray();
         return scheduler.ScheduleAsync(token => Task.Run(() =>
         {
             token.ThrowIfCancellationRequested();
             if (!ElasticPileAnalysisSession.Matches(result, source)) throw new ArgumentException("Risposta FEM obsoleta rispetto ai dati comuni.");
-            return ElasticHorizontalPile.DesignSegment(source, result, index, ns, ds, ts, ss, token, progress);
+            return ElasticHorizontalPile.DesignSegment(source, result, index, ns, ds, ts, ss, token, PileProgress.Adapt(progress));
         }, token), cancellation: cancellation);
     }
     public void Apply(JsonObject current, JsonObject proposal)

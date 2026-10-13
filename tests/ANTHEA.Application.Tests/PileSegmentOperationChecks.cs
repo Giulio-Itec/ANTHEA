@@ -70,6 +70,6 @@ internal static class PileSegmentOperationChecks
         Check(refused.Error is ArgumentException && refused.Error.Message.Contains("obsoleta"), "Ricerca usa sollecitazioni FEM obsolete");
         return checks;
     }
-    private sealed class InlineProgress(Action<PileCalculationProgress> action) : IProgress<PileCalculationProgress>
-    { public void Report(PileCalculationProgress value) => action(value); }
+    private sealed class InlineProgress(Action<PileProgress> action) : IProgress<PileProgress>
+    { public void Report(PileProgress value) => action(value); }
 }

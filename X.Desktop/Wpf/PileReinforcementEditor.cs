@@ -34,7 +34,7 @@ internal sealed partial class PileReinforcementEditor : ContentControl
     void Build()
     {
         if(message.Parent is Panel old)old.Children.Remove(message);if(phase.Parent is Panel owner)owner.Children.Remove(phase);if(progress.Parent is Panel pp)pp.Children.Remove(progress);resultCommands.Clear();
-        if(ElasticHorizontalPile.NeedsMigration(root))return;ElasticHorizontalPile.PrepareReinforcement(root);
+        if(ElasticPileEditor.NeedsMigration(root))return;ElasticPileEditor.PrepareReinforcement(root);
         var e=root["elastico"]!.AsObject();var rows=e.Array("tratti");bills.Clear();selected=Math.Clamp(selected,0,Math.Max(0,rows.Count-1));var stack=Ui.Stack(Ui.Text("Tratti di armatura",16,true),Ui.Text("Quote dalla testa [m]. Le barre terminano alla fine del proprio tratto. Dal secondo tratto l’inizio arretra di l₀; nessuna fusione automatica. Il primo tratto usa la sezione principale.",12));
         phase.Text=calculationState;stack.Children.Add(phase);stack.Children.Add(progress);
         stack.Children.Add(Ui.Bar(ApproveButton(false),Ui.Button("NTC §7.2.5",()=>CreateNtcWindow().ShowDialog())));
@@ -48,9 +48,9 @@ internal sealed partial class PileReinforcementEditor : ContentControl
             var line=new WrapPanel();
             FrameworkElement Field(string title,FrameworkElement input,double width=115){input.Width=width;var field=Ui.Stack(Ui.Text(title,11,true),input);field.Margin=new Thickness(0,4,10,4);return field;}
             var end=new TextBox{Text=row.S("fine"),ToolTip="Quota di taglio finale dalla testa, in metri; vuoto = punta. La barra successiva inizia a questa quota meno l₀."};end.TextChanged+=(_,_)=>{row["fine"]=string.IsNullOrWhiteSpace(end.Text)?null:JsonValue.Create(end.Text);changed();};line.Children.Add(Field("Fine tratto / barre [m]",end));
-            var inherit=new CheckBox{Content="Usa principale",IsChecked=row.B("collegato"),IsEnabled=i>0,VerticalAlignment=VerticalAlignment.Center};inherit.Click+=(_,_)=>{if(inherit.IsChecked!=true){foreach(var key in ElasticHorizontalPile.ReinforcementKeys)if(row[key]==null)row[key]=root["sezione"]![key]?.DeepClone();foreach(var key in ElasticHorizontalPile.InnerRingKeys)if(row[key]==null&&root["sezione"]![key] is JsonNode ring)row[key]=ring.DeepClone();}row["collegato"]=inherit.IsChecked==true;changed();Build();};line.Children.Add(Field("Origine armatura",inherit,140));
-            var labels=new[]{"Numero barre","φ barre [mm]","φ staffe [mm]","Passo staffe [mm]"};var adoptedSection=ElasticHorizontalPile.SegmentSection(root,row);
-            foreach(var (key,j) in ElasticHorizontalPile.ReinforcementKeys.Select((key,j)=>(key,j))){var box=new TextBox{Text=adoptedSection.S(key),IsReadOnly=row.B("collegato"),Background=row.B("collegato")?Ui.Bg:Brushes.White,ToolTip=row.B("collegato")?"Valore condiviso: modificare la sezione principale o scollegare questo tratto.":labels[j]+(row[key]==null?" · campo non assegnato: valore dalla sezione principale":"")};box.TextChanged+=(_,_)=>{row[key]=box.Text;changed();};line.Children.Add(Field(labels[j],box,95));}
+            var inherit=new CheckBox{Content="Usa principale",IsChecked=row.B("collegato"),IsEnabled=i>0,VerticalAlignment=VerticalAlignment.Center};inherit.Click+=(_,_)=>{if(inherit.IsChecked!=true){foreach(var key in ElasticPileEditor.ReinforcementKeys)if(row[key]==null)row[key]=root["sezione"]![key]?.DeepClone();foreach(var key in ElasticPileEditor.InnerRingKeys)if(row[key]==null&&root["sezione"]![key] is JsonNode ring)row[key]=ring.DeepClone();}row["collegato"]=inherit.IsChecked==true;changed();Build();};line.Children.Add(Field("Origine armatura",inherit,140));
+            var labels=new[]{"Numero barre","φ barre [mm]","φ staffe [mm]","Passo staffe [mm]"};var adoptedSection=ElasticPileEditor.SegmentSection(root,row);
+            foreach(var (key,j) in ElasticPileEditor.ReinforcementKeys.Select((key,j)=>(key,j))){var box=new TextBox{Text=adoptedSection.S(key),IsReadOnly=row.B("collegato"),Background=row.B("collegato")?Ui.Bg:Brushes.White,ToolTip=row.B("collegato")?"Valore condiviso: modificare la sezione principale o scollegare questo tratto.":labels[j]+(row[key]==null?" · campo non assegnato: valore dalla sezione principale":"")};box.TextChanged+=(_,_)=>{row[key]=box.Text;changed();};line.Children.Add(Field(labels[j],box,95));}
             // Second ring of bars, as in the c.a. section: active from this card, the main section or the c.a. verifier of the segment.
             bool linked=row.B("collegato"),ring=adoptedSection.B("second_inner_enabled");
             var ringBox=new CheckBox{Content="Secondo anello interno",IsChecked=ring,IsEnabled=!linked,VerticalAlignment=VerticalAlignment.Center,ToolTip=linked?"Valore condiviso: modificare la sezione principale o scollegare questo tratto.":"Seconda corona di barre all'interno della prima, come nella sezione in c.a."};
@@ -58,7 +58,7 @@ internal sealed partial class PileReinforcementEditor : ContentControl
             line.Children.Add(Field("Anello interno",ringBox,170));
             if(ring)foreach(var (key,label) in new[]{("second_inner_count","Barre anello interno"),("second_inner_diameter","φ anello interno [mm]"),("second_inner_gap","Distanza libera [mm]")})
             {var box=new TextBox{Text=adoptedSection.S(key),IsReadOnly=linked,Background=linked?Ui.Bg:Brushes.White,ToolTip=linked?"Valore condiviso: modificare la sezione principale o scollegare questo tratto.":label};box.TextChanged+=(_,_)=>{row[key]=box.Text;changed();};line.Children.Add(Field(label,box,95));}
-            var kind=Ui.Choice(new[]{"Da definire","Staffe singole","Spirale"},ElasticHorizontalPile.TransverseKind(root,row));kind.IsEnabled=!row.B("collegato");kind.SelectionChanged+=(_,_)=>{row["tipo_trasversale"]=kind.SelectedItem?.ToString();changed();};line.Children.Add(Field("Tipo trasversale",kind,145));
+            var kind=Ui.Choice(new[]{"Da definire","Staffe singole","Spirale"},ElasticPileEditor.TransverseKind(root,row));kind.IsEnabled=!row.B("collegato");kind.SelectionChanged+=(_,_)=>{row["tipo_trasversale"]=kind.SelectedItem?.ToString();changed();};line.Children.Add(Field("Tipo trasversale",kind,145));
             card.Children.Add(line);var commands=Ui.Bar(Ui.Button("Verifiche →",()=>{selected=index;UpdateSummary();}),Ui.Button("Apri verificatore c.a.",()=>OpenConcrete(index)),ResultButton("Dimensiona…",()=>Design(index)),Ui.Button("Dividi…",()=>Split(index)));
             if(i>0)commands.Children.Add(Ui.Button("Unisci ←",()=>{rows[index-1]!["fine"]=row["fine"]?.DeepClone();rows.RemoveAt(index);changed();Build();}));card.Children.Add(commands);
             string id=row.S("id");var bill=Ui.Text(BillFor(id),11);bills.Add(id,bill);
@@ -134,7 +134,7 @@ internal sealed partial class PileReinforcementEditor : ContentControl
             }
             else if(checkMode!="Riepilogo")foreach(var c in record.Array("controlli_costruttivi").Where(c=>checkMode=="Interferro"?c.S("Key")=="ClearSpacing":checkMode=="Minimi armatura"?c.S("Key").StartsWith("Pile")||c.S("Key").Contains("Longitudinal"):checkMode=="Dettagli pilastro / trave"?!c.S("Key").Contains("Cover")&&c.S("Key")!="ClearSpacing":c.S("Key").Contains("Cover")))
             {
-                string name=ElasticHorizontalPile.ConstructionLabel(c.S("Key"));
+                string name=ElasticPileEditor.ConstructionLabel(c.S("Key"));
                 string verdict=c?["Passed"]==null?"Da completare":c.B("Passed")?"Soddisfatto":"Non soddisfatto";
                 content.Children.Add(Ui.Text($"{name} · {verdict}\nValore {Number(c,"Actual")} / limite {Number(c,"Limit")} {c.S("Unit")}\n{c.S("Explanation")}\n{c.S("Reference")}",12));
             }
@@ -147,10 +147,10 @@ internal sealed partial class PileReinforcementEditor : ContentControl
     {
         try
         {
-            Commit();var sheet=ElasticHorizontalPile.CreateConcreteSheet(root,result(),index);var workspace=new ConcreteWorkspace(sheet);var row=root["elastico"]!.Array("tratti")[index]!.AsObject();
+            Commit();var sheet=ElasticPileEditor.CreateConcreteSheet(root,result(),index);var workspace=new ConcreteWorkspace(sheet);var row=root["elastico"]!.Array("tratti")[index]!.AsObject();
             var note=Ui.Text("Scheda di approfondimento: puoi modificare le azioni (N negativo a compressione). Alla chiusura vengono conservate per questo tratto. L'applicazione trasferisce solo l'armatura al palo; geometria, materiali e carichi del foglio restano indipendenti.",12);
-            if(ElasticHorizontalPile.TransverseKind(root,row)=="Spirale")note.Text+=" Il foglio c.a. usa il modello di taglio a staffe singole: non certifica la resistenza della spirale.";
-            var apply=Ui.Button(index==0?"Applica armatura alla sezione principale":"Applica armatura al tratto",()=>{try{workspace.Commit();ElasticHorizontalPile.ApplyConcreteSheetReinforcement(root,sheet,index);if(index==0)sharedSectionChanged?.Invoke();changed();note.Text="Armatura applicata. FEM conservato; verifiche del palo in aggiornamento.";}catch(ArgumentException ex){note.Text=ex.Message;}});
+            if(ElasticPileEditor.TransverseKind(root,row)=="Spirale")note.Text+=" Il foglio c.a. usa il modello di taglio a staffe singole: non certifica la resistenza della spirale.";
+            var apply=Ui.Button(index==0?"Applica armatura alla sezione principale":"Applica armatura al tratto",()=>{try{workspace.Commit();ElasticPileEditor.ApplyConcreteSheetReinforcement(root,sheet,index);if(index==0)sharedSectionChanged?.Invoke();changed();note.Text="Armatura applicata. FEM conservato; verifiche del palo in aggiornamento.";}catch(ArgumentException ex){note.Text=ex.Message;}});
             var dialog=Ui.Dialog(this,$"Verificatore c.a. · {row.S("id")}",Ui.Dock(workspace,Ui.Stack(note,apply)),1280,900);
             dialog.Closed+=(_,_)=>{workspace.Commit();workspace.Dispose();row["foglio_cls"]=sheet.DeepClone();changed();Build();};dialog.ShowDialog();
         }
@@ -202,7 +202,7 @@ internal sealed partial class PileReinforcementEditor : ContentControl
                 double[] Values(TextBox box) => box.Text.Split(';').Select(s => J.Number(JsonValue.Create(s)) ?? throw new ArgumentException("Catalogo non numerico.")).ToArray();
                 var ns = counts.Text.Split(';').Select(int.Parse).ToArray(); var ss = Values(spacings); var ds = Values(diameters); var ts = Values(links);
                 status.Text = "Ricerca con Checker…"; designProgress.Visibility = Visibility.Visible; designProgress.IsIndeterminate = true;
-                var updates = new Progress<PileCalculationProgress>(p =>
+                var updates = new Progress<PileProgress>(p =>
                 {
                     if (closed || run.IsEnabled || requested != generation) return;
                     status.Text = p.Phase; designProgress.IsIndeterminate = p.Total == 0;

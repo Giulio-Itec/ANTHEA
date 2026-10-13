@@ -1,3 +1,4 @@
+using Anthea.Application.Modules;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +12,7 @@ internal sealed partial class PileReinforcementEditor
     {
         var button=Ui.Button(seismic?"Approva tutto · sisma":"Approva tutto · ipotesi",()=>
         {
-            Commit();ElasticHorizontalPile.ApproveReinforcementAssumptions(root,seismic);changed();Build();
+            Commit();ElasticPileEditor.ApproveReinforcementAssumptions(root,seismic);changed();Build();
         });
         button.ToolTip=seismic?"Conferma anche le ipotesi ordinarie, N/V sismici e M elastico q=1 con N concomitante. Non modifica azioni, staffe, coefficienti o risultati.":"Conferma azioni di progetto, modello di taglio, barre trattenute, zone di estremità e buona aderenza. Non modifica i valori numerici o gli esiti dei controlli.";
         return button;
@@ -26,7 +27,7 @@ internal sealed partial class PileReinforcementEditor
             Ui.Text("Perimetro",15,true),
             Ui.Text("Restano separati: zone dissipative profonde (5D presso i contatti pertinenti), generazione delle azioni sismiche, interazione cinematica, duttilità esplicita, nodo palo-plinto, SLE, ganci e confinamento dei giunti. L'esito generale distingue controlli non soddisfatti, dati da completare e verifiche escluse.",14),
             Ui.Text("Fonte consultata: D.M. 17 gennaio 2018, G.U. 20 febbraio 2018, S.O. n.8. Pagina PDF 217, pagina stampata 213. La scheda Pagina originale contiene la copia locale della pagina consultata; è leggibile senza Internet.",12),
-            Ui.Text(ElasticHorizontalPile.SeismicSourceUrl,11,color:Ui.Muted));
+            Ui.Text(ElasticPileEditor.SeismicSourceUrl,11,color:Ui.Muted));
         var page=new Image{Source=Ui.Asset("ntc-pali-7-2-5.png"),Width=1000,Stretch=Stretch.Uniform,HorizontalAlignment=HorizontalAlignment.Left};
         var zoom=new Slider{Minimum=600,Maximum=1800,Value=1000,Width=210,TickFrequency=200,IsSnapToTickEnabled=true};zoom.ValueChanged+=(_,_)=>page.Width=zoom.Value;
         var original=Ui.Dock(new ScrollViewer{Content=page,HorizontalScrollBarVisibility=ScrollBarVisibility.Auto,VerticalScrollBarVisibility=ScrollBarVisibility.Auto},bottom:Ui.Bar(Ui.Text("Zoom pagina originale",12),zoom));
@@ -36,7 +37,7 @@ internal sealed partial class PileReinforcementEditor
     static Brush SummaryColor(JsonNode summary)=>summary.S("colore") switch{"rosso"=>Brushes.Firebrick,"verde"=>Brushes.DarkGreen,_=>Brushes.DarkGoldenrod};
     void AddVerdict(StackPanel content,JsonNode record)
     {
-        var value=record["riepilogo"]??ElasticHorizontalPile.ReinforcementSummary(record.AsObject());
+        var value=record["riepilogo"]??ElasticPileEditor.ReinforcementSummary(record.AsObject());
         content.Children.Add(new Border{BorderBrush=SummaryColor(value),BorderThickness=new Thickness(2),CornerRadius=new CornerRadius(4),Padding=new Thickness(8),Margin=new Thickness(0,6,0,6),Child=Ui.Text(value.S("stato"),13,true,SummaryColor(value))});
         foreach(var (key,title,color) in new[]{("non_soddisfatti","NON SODDISFATTI",Brushes.Firebrick),("da_completare","DA COMPLETARE",Brushes.DarkGoldenrod),("esclusi","FUORI DAL PERIMETRO",Brushes.SlateGray)})
         {

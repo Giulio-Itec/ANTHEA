@@ -1,3 +1,4 @@
+using Anthea.Application.Modules;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -52,7 +53,7 @@ public sealed partial class MainWindow
     }
     private static (string Title, string Subtitle) ProjectModuleLabel(string module)
     {
-        var definition = ModuleCatalog.Get(module);
+        var definition = ModuleDirectory.Get(module);
         return (definition.ProjectTitle, definition.ProjectSubtitle);
     }
     private UIElement BuildProjectCatalog()
@@ -70,7 +71,7 @@ public sealed partial class MainWindow
         var header = Ui.Stack(title, searchFrame, Ui.Text("Trascina una scheda nella struttura.", 12, color: Ui.Muted));
         header.Margin = new Thickness(0, 0, 0, 8);
         var catalog = new StackPanel(); var groups = new List<(Expander View, List<(Border Card, string Search)> Rows)>();
-        foreach (var group in Archivio.Moduli.GroupBy(id => ModuleCatalog.Get(id).Area.ToUpperInvariant()))
+        foreach (var group in Archivio.Moduli.GroupBy(id => ModuleDirectory.Get(id).Area.ToUpperInvariant()))
         {
             var cards = new StackPanel(); var rows = new List<(Border Card, string Search)>();
             foreach (string id in group)

@@ -59,7 +59,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             new("azione_orizzontale", "Forza orizzontale", "kN", Symbol: "HEd"), new("azione_assiale", "Forza assiale (+ compressione)", "kN", Symbol: "N"),
             new("presenza_falda", "Presenza falda", Bool: true), new("profondita_falda", "Profondità falda", "m"), new("gamma_acqua", "Peso unitario acqua", "kN/m³")], _ => Changed(), compact: true, symbolColumns: true);
         general.GroupFields("Dati opzionali · peso acqua",["gamma_acqua"]);
-        model = new(g, [new("metodo_calcolo", "Metodo di calcolo", Choices: [PaloOrizzontale.BromsMethod, PaloOrizzontale.StratifiedMethod]),
+        model = new(g, [new("metodo_calcolo", "Metodo di calcolo", Choices: [HorizontalPileEditor.BromsMethod, HorizontalPileEditor.StratifiedMethod]),
             new("passo", "Passo diagrammi", "m", Symbol: "Δz"), new("tolleranza", "Tolleranza radici", Symbol: "ε")], _ => Changed(), compact: true, symbolColumns: true);
         ((Grid)model.Content).ColumnDefinitions[2].Width = new GridLength(150);
         advanced.Content = model; advanced.Expanded += (_, _) => LayoutCards(); advanced.Collapsed += (_, _) => LayoutCards();
@@ -316,7 +316,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         if (Result is null) return;
         var save = new SaveFileDialog { Filter = "Tabelle CSV|*.csv", FileName = "Palo_orizzontale.csv" };
         if (save.ShowDialog(Window.GetWindow(this)) != true) return;
-        try { Archivio.ScriviAtomico(save.FileName, Encoding.UTF8.GetBytes(PaloOrizzontale.Csv(Result))); }
+        try { Archivio.ScriviAtomico(save.FileName, Encoding.UTF8.GetBytes(HorizontalPileEditor.Csv(Result))); }
         catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message, "Esportazione non riuscita"); }
     }
     public void Dispose() { disposed = true; recalculation.Dispose(); elastic.Dispose(); }

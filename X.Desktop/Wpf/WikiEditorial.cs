@@ -1,3 +1,4 @@
+using Anthea.Application.Modules;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -119,7 +120,7 @@ internal static class WikiEditorial
         var stack = Ui.Stack(Ui.Text("Applica nel modulo", 20, true));
         foreach (var module in article.Modules)
         {
-            var definition = ModuleCatalog.Get(module);
+            var definition = ModuleDirectory.Get(module);
             stack.Children.Add(Ui.Button("Apri · " + definition.Name, () => openModule(module, null), true));
             if (article.Example is not null)
             {
