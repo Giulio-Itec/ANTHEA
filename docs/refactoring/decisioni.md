@@ -956,3 +956,9 @@ L’utente assegna nove ore di lavoro dal 12/10 alle 22:19 (Europe/Rome), richie
 ## F3 — decisioni operative del 13 ottobre
 
 Sulla delega del 12 ottobre si adottano i confini descritti in f3-strato-applicativo.md: migrazioni pigre su copie, decisione elastica pendente, formati conservati, servizi senza WPF, figure tramite renderer e test di equivalenza prima degli spostamenti. Riusati il toolkit e la configurazione UiTests esistenti; 36 fixture coprono i 12 moduli attuali. Il set V resta congelato. Le dipendenze e la compatibilità del test esterno Checker sono considerate prima di eliminare X.Core. Nessuna autorizzazione implicita alla fase F5.
+
+## 13 ottobre — rilascio intermedio dei servizi F3
+
+Sulla delega operativa e di rilascio già concessa, si prepara ANTHEA 1.6.0: incremento del secondo componente per la separazione applicativa e i nuovi servizi senza interfaccia, con protezioni delle revisioni. Il set GPC V resta invariato. Si integrano soltanto i punti conclusi e collaudati; F3.7b resta aperto sui contratti concreti e sugli accessi residui delle viste, censiti nei metadati della Release. Non si dichiara chiusa la fase 3 e non si anticipa F4 prima di quel confine. F5 resta esclusa. L’integrazione e il push dipendono dal collaudo completo; l’applicazione primaria con dati non salvati non viene riavviata o ricompilata.
+
+Le guide Rev40 aggiornano procedure e descrizione dell’architettura, senza formule nuove. Le modifiche dei soli riferimenti Wiki nel banco F3 saranno tracciate separatamente dalla cattura iniziale; gli attesi ingegneristici rimangono immutati.

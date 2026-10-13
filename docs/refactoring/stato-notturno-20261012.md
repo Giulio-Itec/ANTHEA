@@ -1,4 +1,4 @@
-# Stato del lavoro notturno — checkpoint 13 ottobre, 05:04
+# Stato del lavoro notturno — checkpoint 13 ottobre, 05:24
 
 Mandato fino alle 07:19 Europe/Rome (05:19 UTC): F2 → STG → SEZ → F3 → F4 se completabile. F5 esclusa. Un commit per punto, test/versioni/merge/push autorizzati; nessun agente parallelo. Preservare la finestra primaria con documento non salvato: non chiudere, non riavviare, non compilare nel checkout primario.
 
@@ -37,3 +37,13 @@ Soglie correnti: 125 TypeRef Calculations, 36 CompositeBridge, 2 Concrete, 4 Geo
 5. F4 solo dopo F3, entro il mandato. F5 esclusa.
 
 La combo della finestra utente resta intatta. Limite cartesiano 4096 e preflight/scalabilità tracciati nel piano; ENV_SLU originale ha 26168 alternative. Principali e generatore automatico in coda. Nessuna modifica automatica delle combinazioni dal loro nome.
+
+## Rilascio intermedio in preparazione
+
+HEAD 1c783d0 sul ramo F3. Ultimi punti: b754bf1 proprietà ponte; f0cd462 anteprime pali; 8a4f9b6 audit accessi; e3f61eb tratti e proposte; 07ac496 solo timestamp nel banco report; fc89e8c preview strutturali; 1c783d0 messaggio di riapertura. Tutti con test e commit. 401 controlli Application, 47 WPF, 27 normalizzatore; 37 capitoli/85 immagini e 458 file equivalenti prima dell’aggiornamento editoriale.
+
+Candidato 1.6.0 e guide Rev40 NON ancora committati. Docx e PDF finalizzati con Word: 78/144 pagine, 337 formule e 26 parti ITEC conservate. Skill documents/pdf lette e annunciate; marcatori eseguiti (PDF con quello del plugin PDF). Il renderer confezionato fallisce per assenza di LibreOffice: usare le pagine PDF native di Word già generate, rasterizzate con pdfium, conservando la diagnosi. Riferimenti di stile e Rev39 già verificati nelle attività precedenti; nuove pagine da controllare.
+
+Archiviati 14 file Rev39 in supporto/SUPERATI/servizi-f3-rev40-20261013 con hash. Sorgenti Wiki indicizzati (71 articoli); le sole due sezioni editoriali cambiano (architettura e salvataggio/report). Prossimi: cattura F3, classificare e aggiornare esclusivamente i riferimenti Wiki derivati cambiati (non gli attesi ingegneristici), visual QA dei PDF, commit guide/versione, full con baseline headless aggiornata F2, installer, merge/push autorizzati del blocco concluso. F3.7b resta aperto, F4 non anticipata, F5 esclusa. Main primaria resta bce1e337 e app non toccata.
+
+Documentazione F3-DOC conclusa: guide e indici controllati visivamente, copie PDF identiche. Cinque riferimenti Wiki editoriali aggiornati con hash e registro F3-06; 453 altri file e 36 input invariati. Corsa 20261013-051954-f3-rev40-classified-final: 10 PASS, zero fallimenti. Segue full della candidata 1.6.0; nessuna nuova modifica di calcolo prevista durante il collaudo.
