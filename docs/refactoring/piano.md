@@ -191,6 +191,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
   - [x] F3.7b.16 (13/10): contratti posseduti dei muri, stabilità globale, sisma e distinte; interrogazioni e report delegati al risultato originale. 97.959 valori esatti, 1003 controlli applicativi, tutte le suite UI/report/equivalenza passate. Sei immagini identiche su 29; le altre differiscono soltanto per hover del selettore (F3-07). Soglia Calculations 48.
   - [x] F3.7b.17 (13/10): metadati del catalogo, acciaio per armature, editor e progressi dei pali espongono contratti applicativi; nessun calcolo duplicato. 1050 controlli Application, 15 suite e nove finali passate, 80 immagini identiche e 458 file equivalenti. Soglia Calculations 39.
   - [x] F3.7b.18 (13/10): lettura JSON, traccia dei ripieghi e formattazione condivise in Serialization, senza motori né WPF. Implementazioni trasferite identiche; somma compensata conservata nel legacy. Undici suite passate, 548 file headless e 458 file F3 equivalenti. Soglia Calculations 37.
+  - [x] F3.7b.19 (13/10): risultati posseduti di taglio/torsione, momento-curvatura, resistenze rapide e progetto armature; progressi copiati nel contesto esistente, esportazioni originali conservate. 5625 valori esatti, 1104 controlli Application, 32 proposte e 12 punti curva; tutte le suite UI passate, 51/52 immagini identiche e 458 file equivalenti. Soglia Calculations 22.
   - [ ] F3.7b: rimuovere i restanti accessi ai motori e i contratti concreti dalla UI; collaudo e rilascio della fase.
 
 ## Coda dopo F3: input delle sollecitazioni da Excel

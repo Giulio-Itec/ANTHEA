@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using Anthea.Application.Walls;
 using Anthea.Application.Materials;
 using System.Text.Json.Nodes;
@@ -25,7 +26,7 @@ internal sealed partial class RetainingWallWorkspace
             new("materiale_acciaio_nome", "Nome acciaio personalizzato"), new("fyk", "fyk", "MPa"), new("steel_modulus_mpa", "Es", "MPa"),
             new("steel_fu_mpa", "fu", "MPa"), new("steel_eps_u", "εu", "‰"), new("steel_diagramma", "Diagramma acciaio", Choices: ["Elastoplastico", "Incrudente"]),
             new("__fyd", "fyd", "MPa", ReadOnly: true), new("alpha_cc", "αcc"), new("gamma_c", "γc"), new("gamma_s", "γs"),
-            new("cover", "Copriferro netto adottato", "mm"), new("exposure", "Esposizione", Choices: ConcreteLibraryMapping.ExposureChoices.Skip(1).ToArray()),
+            new("cover", "Copriferro netto adottato", "mm"), new("exposure", "Esposizione", Choices: ConcreteEditor.ExposureChoices.Skip(1).ToArray()),
             new("creep", "Viscosità SLE", "−")
         }.Concat(Fields(WallModel.MaterialFields.Where(f => f.Key.EndsWith("_rd")))), handler: key =>
         {

@@ -60,7 +60,7 @@ try
         "GPC.Checkers.Geotechnics.Piles.PileSegments::Split", "GPC.Checkers.Geotechnics.Piles.PileSegments::Validate"
     ];
     string[] transferredEditors = ["CalculationHelp", "VerificationSummary", "SectionWorkspace", "ConcreteStandards",
-        "ConcreteCalculationSettings", "ConcreteReinforcementDesign", "SleCheckScope", "ReinforcementGeometry", "CheckerSection", "ModuleCatalog", "ModuleDefinition", "RebarMaterial", "ElasticHorizontalPile", "HorizontalPileGroup", "PaloOrizzontale", "PileCalculationProgress"];
+        "ConcreteCalculationSettings", "ConcreteReinforcementDesign", "SleCheckScope", "ReinforcementGeometry", "CheckerSection", "ModuleCatalog", "ModuleDefinition", "RebarMaterial", "ElasticHorizontalPile", "HorizontalPileGroup", "PaloOrizzontale", "PileCalculationProgress", "ConcreteShearResult", "TorsionResult", "TorsionGeometry", "MomentCurvaturePoint", "MomentCurvatureResult", "PrincipalMomentResistance", "ConcreteDesignCandidate", "ConcreteDesignCheck", "ConcreteDesignMetrics", "ConcreteDesignProgress", "ConcreteDesignPerformance", "ConcreteDesignStage", "ConcreteDesignResult", "ConcreteLibraryMapping"];
     Check(!accesses.Any(m => m.Type == "Anthea.Calculations.BridgeConcept" || m.Type.StartsWith("Anthea.Calculations.BridgeConcept+", StringComparison.Ordinal)), "Contratti Bridge Design nativi nella UI");
     Check(!accesses.Any(m => m.Type == "Anthea.Calculations.RetainingWall" || m.Type.StartsWith("Anthea.Calculations.RetainingWall+", StringComparison.Ordinal)
         || m.Type.StartsWith("Anthea.Calculations.Geotechnics.", StringComparison.Ordinal)), "Contratti muri nativi nella UI");

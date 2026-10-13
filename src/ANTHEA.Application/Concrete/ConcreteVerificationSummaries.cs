@@ -9,8 +9,8 @@ public static class ConcreteVerificationSummaries
         IReadOnlyDictionary<string, JsonObject[]> actions,
         IReadOnlyDictionary<string, Dictionary<string, DomainCheck>> domainResults,
         IReadOnlyDictionary<string, Dictionary<string, StressOutcome>> stressResults,
-        IReadOnlyList<JsonObject> shearRows, IReadOnlyDictionary<string, Ntc2018Checks.ShearResult[]> shearResults,
-        IReadOnlyDictionary<string, TorsionResult> torsionResults)
+        IReadOnlyList<JsonObject> shearRows, IReadOnlyDictionary<string, ConcreteResults.ShearResult[]> shearResults,
+        IReadOnlyDictionary<string, ConcreteResults.TorsionResult> torsionResults)
     {
         var result = new Dictionary<string, VerificationSummary>();
         string Name(string key, string id) => actions[key].FirstOrDefault(r => r.S("id") == id)?.S("nome") ?? id;

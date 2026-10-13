@@ -9,8 +9,8 @@ namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
 {
     private JsonObject DesignOptions => settings["calcola_armature"]!.AsObject();
-    private ConcreteDesignResult? designResult;
-    private ConcreteDesignCandidate? designSelection;
+    private ConcreteResults.DesignResult? designResult;
+    private ConcreteResults.DesignCandidate? designSelection;
     private CancellationTokenSource? designCancellation;
     private string? designSignature;
     private bool designRunning, designStale;
@@ -119,7 +119,7 @@ internal sealed partial class ConcreteWorkspace
             designSignature = DesignFingerprint(); designRunning = true; designRun.IsEnabled = false; designStop.IsEnabled = true;
             designCancellation?.Dispose(); designCancellation = new CancellationTokenSource();
             var token = designCancellation.Token;
-            var updates = new Progress<ConcreteDesignProgress>(p =>
+            var updates = new Progress<ConcreteResults.DesignProgress>(p =>
             {
                 if (disposed || designStale || !designRunning || token.IsCancellationRequested || designCancellation?.Token != token) return;
                 designProgress.Value = p.Planned == 0 ? 0 : (double)p.Evaluated / p.Planned;
@@ -182,7 +182,7 @@ internal sealed partial class ConcreteWorkspace
                 ("diametri", c.Metrics.Diameters), ("pareto", c.Pareto ? "Sì" : ""), ("esito", c.NeedsReview ? "Da completare" : "Completati")), _ => { }));
         if (designRanking.Rows.Count > 0) designRanking.SelectedItem = designRanking.Rows.FirstOrDefault(r => r.Values.S("id") == selectedId?.ToString()) ?? designRanking.Rows[0];
     }
-    private void SelectDesign(ConcreteDesignCandidate c)
+    private void SelectDesign(ConcreteResults.DesignCandidate c)
     {
         designSelection = c; designPreview.Section = Anthea.Application.Concrete.ConcretePreview.PrepareGeometry(c.Input); designPreview.Stirrups = c.Shear; designPreview.InvalidateVisual();
         designDescription.Text = c.Description;

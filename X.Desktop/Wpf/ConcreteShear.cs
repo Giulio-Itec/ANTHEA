@@ -7,7 +7,7 @@ using X.Core;
 namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
 {
-    private readonly Dictionary<string, Ntc2018Checks.ShearResult[]> shearResults = new();
+    private readonly Dictionary<string, ConcreteResults.ShearResult[]> shearResults = new();
     private readonly TextBlock shearSummary = Ui.Text("Taglio · da calcolare", 12);
     private readonly VerificationCards shearDashboard = new();
     private readonly TextBlock shearDetail = Ui.Text("Selezionare una combinazione", 13);

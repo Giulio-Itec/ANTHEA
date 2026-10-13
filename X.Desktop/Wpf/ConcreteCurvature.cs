@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Globalization;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -11,7 +12,7 @@ internal sealed partial class ConcreteWorkspace
     private readonly Plot curvaturePlot = new() { Title="Momento–curvatura",XLabel="Curvatura χ [1/m]",YLabel="Momento M [kNm]",AxisNumberFormat="G4",InvertY=false,EmptyMessage="Impostare N e direzione per calcolare la curva" };
     private readonly TextBox curvatureText = new() {IsReadOnly=true,AcceptsReturn=true,TextWrapping=TextWrapping.Wrap,VerticalScrollBarVisibility=ScrollBarVisibility.Auto};
     private readonly Anthea.Application.Scheduling.RecalculationScheduler curvatureScheduler = new();
-    private MomentCurvatureResult? curvatureResult;
+    private ConcreteResults.CurvatureResult? curvatureResult;
     private string? curvatureSignature;
     private bool curvatureRunning;
     private InputForm curvatureForm=null!;

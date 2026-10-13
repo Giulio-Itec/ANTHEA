@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Text.Json.Nodes;
 using Anthea.Calculations.Geotechnics;
 namespace Anthea.Application.Modules;
@@ -24,20 +25,25 @@ public static class StructuralQueries
         return new(RetainingWall.CalculateGlobal(snapshot, cancellation));
     }
 
-    public static PrincipalMomentResistance[] ConcreteQuickResistance(JsonObject input, JsonObject workspace,
+    public static ConcreteResults.PrincipalResistance[] ConcreteQuickResistance(JsonObject input, JsonObject workspace,
         double axial, bool elastic, CancellationToken cancellation = default)
-        => SectionMomentResistance.Calculate((JsonObject)input.DeepClone(), (JsonObject)workspace.DeepClone(), axial, elastic, cancellation);
+        => SectionMomentResistance.Calculate((JsonObject)input.DeepClone(), (JsonObject)workspace.DeepClone(), axial, elastic, cancellation).Select(value => new ConcreteResults.PrincipalResistance(value)).ToArray();
 
-    public static MomentCurvatureResult ConcreteCurvature(JsonObject input, JsonObject workspace,
+    public static ConcreteResults.CurvatureResult ConcreteCurvature(JsonObject input, JsonObject workspace,
         JsonObject options, CancellationToken cancellation = default)
-        => ConcreteCurvatureAnalysis.Calculate((JsonObject)input.DeepClone(), (JsonObject)workspace.DeepClone(),
-            (JsonObject)options.DeepClone(), cancellation);
+        => new(ConcreteCurvatureAnalysis.Calculate((JsonObject)input.DeepClone(), (JsonObject)workspace.DeepClone(),
+            (JsonObject)options.DeepClone(), cancellation));
 
-    public static ConcreteDesignResult ConcreteReinforcement(JsonObject source, CancellationToken cancellation = default,
-        IProgress<ConcreteDesignProgress>? progress = null)
+    public static ConcreteResults.DesignResult ConcreteReinforcement(JsonObject source, CancellationToken cancellation = default,
+        IProgress<ConcreteResults.DesignProgress>? progress = null)
     {
         var snapshot = ModuleServices.Get("str_palo").Prepare(source);
         var options = ConcreteDesignOptions.Read(snapshot["workspace_ca"]!["calcola_armature"]!.AsObject());
-        return ConcreteReinforcementDesign.Optimize(snapshot, options, cancellation, progress);
+        return new(ConcreteReinforcementDesign.Optimize(snapshot, options, cancellation,
+            progress is null ? null : new DesignProgressForward(progress)));
+    }
+    private sealed class DesignProgressForward(IProgress<ConcreteResults.DesignProgress> target) : IProgress<ConcreteDesignProgress>
+    {
+        public void Report(ConcreteDesignProgress value) => target.Report(new(value));
     }
 }

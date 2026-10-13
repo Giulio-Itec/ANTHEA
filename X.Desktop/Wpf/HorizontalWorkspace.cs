@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using Anthea.Application.Materials;
 using System.IO;
 using System.Text;
@@ -109,7 +110,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             new("transverse_spacing_mm", "Passo staffe", "mm"),
             new("gamma_ca", "Peso unitario c.a. adottato (acciaio incluso)", "kN/m³"),
             new("cover_mm", "Copriferro netto", "mm", Symbol: "c"),
-            new("esposizione", "Esposizione", Choices: ConcreteLibraryMapping.ExposureChoices.ToArray()),
+            new("esposizione", "Esposizione", Choices: ConcreteEditor.ExposureChoices.ToArray()),
             new("vita_durabilita", "Vita utile per durabilità", "anni", Choices:["50","100"]),
             new("qualita_copriferro", "Controllo qualità copriferro confermato", Bool:true),
             new("steel_modulus_mpa", "Modulo elastico acciaio", "MPa", Symbol: "Es"),

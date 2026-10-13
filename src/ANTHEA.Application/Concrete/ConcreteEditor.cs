@@ -6,6 +6,7 @@ namespace Anthea.Application.Concrete;
 /// <summary>Editor preparation and catalogs. Existing adapters remain the sole source of calculation rules.</summary>
 public static class ConcreteEditor
 {
+    public static string[] ExposureChoices => ConcreteLibraryMapping.ExposureChoices.ToArray();
     public static string[] Sets => SectionWorkspace.Sets.ToArray();
     public static string[] SharedSleFields => SectionWorkspace.SharedSleFields.ToArray();
     public static string[] Standards => ConcreteStandards.OrdinaryNames.ToArray();

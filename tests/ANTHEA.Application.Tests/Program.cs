@@ -91,6 +91,7 @@ try
     checks += await ConcretePropertyChecks.Run();
     checks += ConcreteGeometryChecks.Run();
     checks += ConcreteEditorChecks.Run(root);
+    checks += ConcreteAuxiliaryContractChecks.Run(root);
     checks += EditorContractChecks.Run(root);
     checks += StrainDiagramChecks.Run();
     checks += await ConcreteInspectionChecks.Run();

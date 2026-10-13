@@ -16,7 +16,7 @@ public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result, 
         var domains = new Dictionary<string, Dictionary<string, DomainCheck>>();
         var three = new Dictionary<string, CheckerDomain3D>(); var two = new Dictionary<string, CheckerDomain2D>();
         var stresses = new Dictionary<string, Dictionary<string, StressOutcome>>();
-        var shear = new Dictionary<string, Ntc2018Checks.ShearResult[]>(); var torsion = new Dictionary<string, TorsionResult>();
+        var shear = new Dictionary<string, ConcreteResults.ShearResult[]>(); var torsion = new Dictionary<string, ConcreteResults.TorsionResult>();
         var errors = new Dictionary<string, string>();
         var session = new ConcreteAnalysisSession();
         await session.CalculateBatchAsync(input, settings, actions,
