@@ -26,6 +26,9 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     }
     internal bool Busy { get; private set; }
     internal event Action? Modified;
+    internal event Action? ReloadRequested;
+    private bool UnifiedActions => SectionActionInputs.Unified(Data);
+    private string ActionSetLabel(string key) => SectionActionInputs.Label(key, settings);
     private readonly JsonObject settings;
     private JsonObject Input => Data["input"]!.AsObject();
     private readonly TabControl tabs = new() { Margin = new Thickness(12, 8, 12, 0), BorderThickness = new Thickness(0), Background = Appearance.Surface };
@@ -63,14 +66,16 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         foreach (string key in ConcreteEditor.Sets)
         {
             var rows = new JsonRows(); actions[key] = rows;
-            foreach (var item in Data["combinazioni"]![key]!.AsArray())
+            foreach (var item in ConcreteSheetPreparation.ReadActions(Data)[key])
             {
-                var a = item!.Array("azioni");
-                rows.Add(CreateAction(key, item.S("nome"), a.ElementAtOrDefault(0)?.ToString() ?? "", a.ElementAtOrDefault(1)?.ToString() ?? "", a.ElementAtOrDefault(2)?.ToString() ?? "", item.S("id"), item.B("visible", true)));
+                var row = CreateAction(key, item.S("nome"), item.S("N"), item.S("Mx"), item.S("My"), item.S("id"), item.B("visible", true));
+                if (UnifiedActions) foreach (string field in new[] { "elemento", "stato", "Vx", "Vy", "T" }) row.Values[field] = item[field]?.DeepClone();
+                rows.Add(row);
             }
         }
         Loaded += (_, _) => { if (!HasResults) QueueCalculation(); };
         var footer = new DockPanel { Margin = new Thickness(16, 4, 16, 8) }; footer.Children.Add(status);
+        footer.Children.Add(Ui.Button("Sollecitazioni…", OpenActionEditor));
         footer.Children.Add(Ui.Button("Modello e dati comuni…", () => CalculationHelpView.Show(this, false), inspection: true));
         var engineReference = Ui.Text("Motore di calcolo: GPC Engine", 12, true, Ui.Muted);
         engineReference.Margin = new Thickness(16, 8, 16, 0); engineReference.HorizontalAlignment = HorizontalAlignment.Right;
@@ -197,7 +202,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         foreach (string key in ConcreteEditor.Sets)
         {
             var value = new VerificationCards(); summaries[key] = value;
-            string title = key.StartsWith("SLE") ? "SLE · " + ConcreteEditor.Label(key) : ConcreteEditor.Label(key);
+            string title = key.StartsWith("SLE") ? "SLE · " + ActionSetLabel(key) : ActionSetLabel(key);
             var button = Ui.Button("Apri →", () => { tabs.SelectedIndex = key.StartsWith("SLE") ? 3 : 1; if (key.StartsWith("SLE")) sleTabs.SelectedIndex = Array.IndexOf(ConcreteEditor.Sets, key) - 2; else domainPanels[0].Mode.SelectedItem = key; }, inspection: true); button.HorizontalAlignment = HorizontalAlignment.Right;
             summary.Children.Add(SummaryBlock(title, value, button));
         }
@@ -225,7 +230,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     {
         foreach (var form in Ui.Descendants<InputForm>(this).ToArray()) form.Commit();
         foreach (var grid in grids) grid.Commit(); foreach (string key in actions.Keys) SyncActions(key);
-        if (shearGrid is not null) ShearOptions["azioni"] = Anthea.Application.Concrete.ConcreteSheetPreparation.StoreShearRows(shearGrid.Rows.Select(r => r.Values));
+        if (shearGrid is not null && !UnifiedActions) ShearOptions["azioni"] = Anthea.Application.Concrete.ConcreteSheetPreparation.StoreShearRows(shearGrid.Rows.Select(r => r.Values));
     }
     internal void SetGeometry(string value) => geometry.Set("diameter_mm", value);
     private void Invalidate(bool geometryChanged = true)
@@ -331,6 +336,12 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
             if (disposed) return;
             if (grid.ItemsSource is ListCollectionView view && !view.IsEditingItem && !view.IsAddingNew) view.Refresh();
         }));
+        if (UnifiedActions)
+        {
+            foreach (var column in grid.Columns) if (column.SortMemberPath != "visible") column.IsReadOnly = true;
+            grid.Columns.Insert(0, new DataGridTextColumn { Header = "Elemento", SortMemberPath = "elemento", Binding = new Binding("[elemento]"), IsReadOnly = true, MinWidth = 75 });
+            return Ui.Dock(WithFilters(grid), bottom: Ui.Bar(Ui.Button("Gestisci sollecitazioni…", OpenActionEditor)));
+        }
         string ActiveKey() => grid.Tag as string ?? key;
         string NextName(string set)
         { int n = 1; while (actions[set].Any(r => r.Values.S("nome") == "Combo " + n)) n++; return "Combo " + n; }

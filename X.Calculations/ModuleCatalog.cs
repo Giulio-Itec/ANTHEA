@@ -64,15 +64,18 @@ public static class ModuleCatalog
                 if (node is not null && (node is not JsonArray array || array.Any(r => r is not JsonObject)))
                     throw new ArgumentException("Elenco CA non valido: " + label);
         }
+        var version = data["workspace_ca"]?["sollecitazioni_versione"];
+        if (version is not null && version.ToString() != "1") throw new ArgumentException("Versione delle sollecitazioni non supportata.");
+        int componentCount = version is null ? 3 : 6;
         foreach (string set in SectionWorkspace.Sets)
         {
             var value = data["combinazioni"]?[set];
             if (value is null) continue;
             if (value is not JsonArray rows) throw new ArgumentException("Combinazioni " + set + ": elenco non valido.");
             foreach (var row in rows)
-                if (row is not JsonObject || row["azioni"] is not JsonArray { Count: 3 } actions ||
+                if (row is not JsonObject || row["azioni"] is not JsonArray actions || actions.Count != componentCount ||
                     actions.Any(a => a is not JsonValue))
-                    throw new ArgumentException("Combinazioni " + set + ": attese tre azioni N, Mx, My.");
+                    throw new ArgumentException("Combinazioni " + set + ": attese " + componentCount + " componenti.");
         }
     }
     private static void ValidateMaterial(JsonObject data)

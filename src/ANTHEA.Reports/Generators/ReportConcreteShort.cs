@@ -15,6 +15,7 @@ public static class ReportConcreteShort
     }
     private static double? Number(JsonNode? value) => J.Number(value) is double n && double.IsFinite(n) && n >= 0 ? n : null;
     private static string F(JsonNode? value) => EngineeringFormat.Number(J.Number(value));
+    private static string ActionName(JsonNode? row) => (row.S("elemento").Length > 0 ? row.S("elemento") + " · " : "") + row.S("nome", "—");
     private static string N(double? value) => EngineeringFormat.Number(value);
     private static string Actions(JsonNode? row, bool shear = false) => shear
         ? $"N={F(row?["N"])}; Mx={F(row?["Mx"])}; My={F(row?["My"])}\nVx={F(row?["Vx"])}; Vy={F(row?["Vy"])}"
@@ -28,7 +29,7 @@ public static class ReportConcreteShort
             var valid = actions.Select(a => (Action:a, Result:results?[a.S("id")])).Where(x => Number(x.Result?["Utilization"]) is not null).ToArray();
             var chosen = valid.OrderByDescending(x => Number(x.Result?["Utilization"])).FirstOrDefault();
             var rd = chosen.Result?["Resistance"];
-            output.Add(new(family + " N–Mx–My", chosen.Action.S("nome", "—"), Actions(chosen.Action),
+            output.Add(new(family + " N–Mx–My" + (data["workspace_ca"]?["sollecitazioni_versione"] is null ? "" : " · " + data["workspace_ca"]?["dominio3d"].S("modello_resistente")), ActionName(chosen.Action), Actions(chosen.Action),
                 rd is null ? "Resistenza non disponibile" : $"NRd={F(rd["N"])} kN\nMxRd={F(rd["Mx"])}; MyRd={F(rd["My"])} kNm",
                 Number(chosen.Result?["Utilization"]), valid.Length, actions.Count));
         }
@@ -41,7 +42,7 @@ public static class ReportConcreteShort
             var r = worst.Results?.ElementAtOrDefault(i);
             return $"{axis}: VRd={F(r?["VRd"])} kN; η={F(r?["Ratio"])}; cotθ={F(r?["CotTheta"])}";
         }
-        output.Add(new("Taglio Vx e Vy", worst.Action.S("nome", "—"), Actions(worst.Action, true),
+        output.Add(new("Taglio Vx e Vy", ActionName(worst.Action), Actions(worst.Action, true),
             ShearValue(0,"x") + "\n" + ShearValue(1,"y"), ShearRatio(worst.Results),
             shear.Count(x => x.Results?.Count == 2 && x.Results.All(r => Number(r?["Ratio"]) is not null)), shearActions.Count));
         foreach (var (family, cracking, label) in new[] { ("SLE", false, "Tensioni rara"), ("SLE_FREQ", true, "Fessurazione frequente"),
@@ -63,7 +64,7 @@ public static class ReportConcreteShort
             }
             else values = $"σc,min={F(state?["sigma_cls"])} MPa; limite |σc|={F(state?["ConcreteStressLimit"])} MPa" +
                 (family=="SLE" ? $"\n|σs|max={F(state?["sigma_acciaio"])} MPa; limite={F(state?["SteelStressLimit"])} MPa" : "");
-            output.Add(new(label, worstSle.Action.S("nome", "—"), Actions(worstSle.Action), values, Ratio(worstSle.Result),valid.Length,actions.Count));
+            output.Add(new(label, ActionName(worstSle.Action), Actions(worstSle.Action), values, Ratio(worstSle.Result),valid.Length,actions.Count));
         }
         return output.ToArray();
     }

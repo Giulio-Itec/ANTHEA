@@ -9,7 +9,7 @@ internal sealed partial class ConcreteWorkspace
     {
         Commit();
         if (Busy || !HasResults || calculationQueued) throw new InvalidOperationException("Attendere l’aggiornamento delle verifiche prima di esportare.");
-        return ReportConcreteShort.Create(title, Data, Result!);
+        return ReportConcreteShort.Create(title, Anthea.Application.Concrete.SectionActionInputs.CalculationCopy(Data), Result!);
     }
     internal void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
         => Archivio.ScriviAtomico(filename, BuildReport(title, options, projectReport));
@@ -32,6 +32,6 @@ internal sealed partial class ConcreteWorkspace
             stressResults.GetValueOrDefault(p.Key), actions[p.Key].Select(r => r.Values).ToArray()));
         var graphics = new ConcreteReportGraphics(Data, result, preview, domains, stresses, curvatureResult is null ? null : curvaturePlot);
         var images = ModuleFigureRenderer.ConcreteFigures(graphics, options).Select(f => f.Image()).ToList();
-        return ReportConcrete.CreateDocument(title, Data, result, options, images, !projectReport);
+        return ReportConcrete.CreateDocument(title, Anthea.Application.Concrete.SectionActionInputs.CalculationCopy(Data), result, options, images, !projectReport);
     }
 }

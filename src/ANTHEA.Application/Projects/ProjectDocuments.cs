@@ -45,7 +45,7 @@ public static class ProjectDocuments
         bool hadSheets = parent.ContainsKey("fogli");
         var sheets = parent["fogli"] as JsonArray ?? new JsonArray();
         var sheet = J.Obj(("id", Guid.NewGuid().ToString("N")), ("nome", Name(name ?? NextName(sheets, definition.Name))),
-            ("modulo_id", module), ("dati", ModuleCatalog.CreateData(module)));
+            ("modulo_id", module), ("dati", Anthea.Application.Modules.ModuleDirectory.CreateData(module)));
         // Inheritance needs the real ancestry; roll back the insertion if preparation fails.
         if (!hadSheets) parent["fogli"] = sheets;
         sheets.Add(sheet);

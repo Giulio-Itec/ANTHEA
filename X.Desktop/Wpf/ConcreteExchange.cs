@@ -51,7 +51,7 @@ internal sealed partial class ConcreteWorkspace
         buttons.Children.Add(Ui.Button("Template Excel", SaveActionTemplate, inspection: true));
         buttons.Children.Add(Ui.Button("Importa Excel", ImportActionWorkbook));
         buttons.Children.Add(Ui.Button("Esporta Excel", ExportActionWorkbook, inspection: true));
-        var path = new TextBox { Text = settings.S("file_sollecitazioni"), Width = 210, IsReadOnly = true, ToolTip = "File da reimportare. Template ed esportazione aggiornano questo percorso; Sfoglia permette di scegliere un altro file." };
+        var path = new TextBox { Text = settings.S("file_sollecitazioni"), Width = 210, IsReadOnly = true, ToolTip = "Percorso proposto nella finestra Sollecitazioni quando si importa Excel. Sfoglia permette di scegliere un altro file." };
         excelPaths.Add(path); buttons.Children.Add(path); buttons.Children.Add(Ui.Button("Sfoglia…", () => ChooseExcel()));
         grid.PreviewKeyDown += (_, e) =>
         {
@@ -122,36 +122,33 @@ internal sealed partial class ConcreteWorkspace
     {
         var dialog = new SaveFileDialog { Filter = "Cartella Excel|*.xlsx", FileName = "ANTHEA_Sollecitazioni.xlsx" };
         if (dialog.ShowDialog(Window.GetWindow(this)) != true) return;
-        try { Archivio.ScriviAtomico(dialog.FileName, SectionActionsExcel.Write([])); RememberExcel(dialog.FileName); status.Text = "Template salvato: Importa Excel rileggerà questo file. Usare Sfoglia per cambiarlo."; }
+        try { Archivio.ScriviAtomico(dialog.FileName, SectionActionsExcel.Template()); RememberExcel(dialog.FileName); status.Text = "Template salvato. Importa Excel apre la finestra Sollecitazioni: scegliere Importa e sostituisci oppure Importa e aggiungi."; }
         catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message, "Template Excel"); }
     }
     private void ImportActionWorkbook()
     {
-        string? path = settings.S("file_sollecitazioni");
-        if (string.IsNullOrWhiteSpace(path) || !File.Exists(path)) path = ChooseExcel();
-        if (path is null) return;
-        try
-        {
-            if (new FileInfo(path).Length > 20_000_000) throw new ArgumentException("File troppo grande: massimo 20 MB.");
-            var import = SectionActionsExcel.Read(File.ReadAllBytes(path));
-            if (import.Rows.Count == 0) { status.Text = "Il foglio Azioni è vuoto: nessuna modifica."; return; }
-            string summary = string.Join("\n", import.Rows.GroupBy(r => r.Family).Select(g => (g.Key == "Taglio" ? g.Key : ConcreteEditor.Label(g.Key)) + ": " + g.Count() + " combinazioni"));
-            string formulas = import.FormulaCells > 0 ? $"\n\n{import.FormulaCells} formule: si importano i valori memorizzati nel file. Confermare solo se il file è stato ricalcolato e salvato in Excel." : "";
-            var choice = MessageBox.Show(Window.GetWindow(this), summary + formulas + "\n\nSì = sostituisci le combinazioni delle sole famiglie elencate.\nNo = aggiungi alle combinazioni presenti.\nAnnulla = nessuna modifica.\n\nN negativo a compressione; kN e kNm. Nessun cambio automatico di segno o unità.", "Importazione sollecitazioni", MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
-            if (choice == MessageBoxResult.Cancel) return;
-            ApplyImport(import, choice == MessageBoxResult.Yes);
-            status.Text = $"Importate {import.Rows.Count} combinazioni · aggiornamento automatico in attesa…";
-        }
-        catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message + "\nImportazione non eseguita.", "Importazione Excel", MessageBoxButton.OK, MessageBoxImage.Warning); }
+        OpenActionEditor();
+    }
+    private void OpenActionEditor()
+    {
+        Commit();
+        var vm = new SectionActionsViewModel(Data);
+        var dialog = SectionActionsView.Create(this, vm, settings.S("file_sollecitazioni"));
+        if (dialog.ShowDialog() != true || vm.Result is null) return;
+        revision++; analysisScheduler.Invalidate(); Result = null;
+        Data["combinazioni"] = vm.Result["combinazioni"]!.DeepClone();
+        Data["workspace_ca"] = vm.Result["workspace_ca"]!.DeepClone();
+        Modified?.Invoke(); ReloadRequested?.Invoke();
     }
     private void ExportActionWorkbook()
     {
         try
         {
-            Commit(); var bytes = SectionActionsExcel.Write(ExportActionRows());
+            if (!UnifiedActions) { OpenActionEditor(); return; }
+            Commit(); var bytes = new SectionActionsViewModel(Data).Export();
             var dialog = new SaveFileDialog { Filter = "Cartella Excel|*.xlsx", FileName = "ANTHEA_Sollecitazioni_compilate.xlsx" };
             if (dialog.ShowDialog(Window.GetWindow(this)) != true) return;
-            Archivio.ScriviAtomico(dialog.FileName, bytes); RememberExcel(dialog.FileName); status.Text = "Esportate tutte le combinazioni, anche quelle nascoste dai filtri. Importa rileggerà il file esportato.";
+            Archivio.ScriviAtomico(dialog.FileName, bytes); RememberExcel(dialog.FileName); status.Text = "Esportate tutte le combinazioni, anche quelle nascoste dai filtri. Per rileggerle aprire Sollecitazioni e scegliere il comando di importazione.";
         }
         catch (Exception ex) { MessageBox.Show(Window.GetWindow(this), ex.Message, "Esportazione Excel"); }
     }

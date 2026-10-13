@@ -202,7 +202,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
 
 ## Coda dopo F3: input delle sollecitazioni da Excel
 
-- [ ] EXCEL-SOL (richiesta del 13/10, requisiti precisati dall'utente): riscrittura degli input delle sollecitazioni tramite Excel, dopo la chiusura dei punti F3 già concordati. Colonne nell'ordine: `Elemento` (facoltativo), `Nome combo`, `Stato limite`, `N`, `Vx`, `Vy`, `T`, `Mx`, `My`. Un solo insieme di sei componenti per riga/combinazione alimenta tutte le verifiche pertinenti allo stato limite. SLU e SLV alimentano anche taglio e torsione; Rara, Frequente e Quasi permanente alimentano i rispettivi controlli SLE. Eliminare la famiglia di input separata `Taglio`, conservando l'accesso alle verifiche di taglio/torsione. Requisiti e cautele di compatibilità in [decisioni.md](decisioni.md#13-ottobre--input-unificato-delle-sollecitazioni-da-excel). I requisiti principali sono già forniti: a fine F3 discutere soltanto le eventuali ambiguità residue, senza chiedere nuovamente il formato. Implementazione non iniziata.
+- [x] EXCEL-SOL (richiesta del 13/10, requisiti precisati dall'utente): riscrittura degli input delle sollecitazioni tramite Excel, dopo la chiusura dei punti F3 già concordati. Colonne nell'ordine: `Elemento` (facoltativo), `Nome combo`, `Stato limite`, `N`, `Vx`, `Vy`, `T`, `Mx`, `My`. Un solo insieme di sei componenti per riga/combinazione alimenta tutte le verifiche pertinenti allo stato limite. SLU e SLV alimentano anche taglio e torsione; Rara, Frequente e Quasi permanente alimentano i rispettivi controlli SLE. Eliminare la famiglia di input separata `Taglio`, conservando l'accesso alle verifiche di taglio/torsione. Requisiti e cautele di compatibilità in [decisioni.md](decisioni.md#13-ottobre--input-unificato-delle-sollecitazioni-da-excel). I requisiti principali sono già forniti: a fine F3 discutere soltanto le eventuali ambiguità residue, senza chiedere nuovamente il formato. Implementazione sul ramo `codex/section-actions-excel`; criterio Plastico/Elastico selezionabile nella verifica approvato il 13/10. Sottopassi: contratto e instradamento, Excel/editor, collaudo e guide.
 - F4 resta ferma per indicazione esplicita dell'utente; la chiusura di F3 e questa attività accodata non ne autorizzano l'avvio.
 
 ## Fase 4: calcoli residui nelle librerie
@@ -436,3 +436,16 @@ le attività già tracciate, senza dichiarare chiusi i residui delle fasi succes
 - [x] 5.2. Finestra autonoma «Reologia del calcestruzzo», WPF/MVVM, richiamabile dai punti pertinenti: dati del CLS e di maturazione, φ(t,t₀), φ a infinito, E(t) e fattore E(t)/E₂₈, grafici e tabella. Calcoli in GPC Model; separazione fra modulo elastico per maturazione e coefficienti di viscosità. Guide globali e PDF aggiornati; nessun report di calcolo esistente modificato.
 
 Punto 5.2: implementato in `ANTHEA.DesignTools.Presentation` senza WPF e vista che riusa Plot/Ui.Dialog. Richiami da Strumenti, materiali e SLE; 57 controlli di stato/numerici e 21 WPF, guide Rev37 e Wiki aggiornate. [Architettura ed evidenze](f2.5-reologia.md). Model 5.1 e set T da commit pubblicati; ANTHEA 1.3.0 per la nuova funzionalità. Il collaudo full e il confronto finale sono conclusi nel punto 5.
+
+### EXCEL-SOL — avanzamento
+
+- [x] Contratto unico, instradamento e criterio resistente indipendente; EXCEL-SOL-01, controlli prima/dopo PASS.
+- [x] Nuovo Excel, editor MVVM, conversione esplicita e report; EXCEL-SOL-02, 1229 controlli Application e suite WPF passati.
+- [x] Guide Rev41, indici e Wiki aggiornati; Word/PDF controllati su 222 pagine, 337 formule conservate. Rev40 archiviata con impronte. Versione applicazione 1.7.0 per la nuova funzionalità; DLL GPC invariate.
+- [x] Collaudo standard e quattro suite WPF conclusi: 71 esiti finali PASS, con ripresa del solo controllo sul registro. Installer 1.7.0 da sorgente pulito e pubblicato 68330851; dieci DLL identiche al manifest. [Verbale e limiti](chiusura-excel-sol-20261013.md). F4 ferma.
+
+- [x] EXCEL-SOL-UI: contenitore opaco e spaziatura della finestra verificati anche in esportazione immagine; suite WPF dedicata PASS (20261013-144358-excel-sol-window-final).
+
+- [x] EXCEL-SOL-UX: percorso Excel storico proposto nel nuovo editor, messaggi coerenti con sostituzione/aggiunta; avviso di migrazione aggiornato anche quando si elimina l’ultima riga storica.
+
+- [x] EXCEL-SOL-REG: corretto il posizionamento delle voci 01/02 nel registro, intercettato dalla suite architetturale. Il collaudo standard ha 66 PASS e questo solo errore documentale; quattro suite WPF PASS. Nessun atteso o tolleranza modificato.

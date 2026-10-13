@@ -82,7 +82,7 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
     public static DocxDocument CreateDocument(ModuleReportRequest request, IReadOnlyList<ReportFigure> figures)
     {
         var c = request.Calculation;
-        if (c.ModuleId == "str_palo") return ReportConcrete.CreateDocument(request.Title, c.Data, c.Values, request.Options.ToHashSet(), figures.Select(f => f.Image()).ToList(), !request.ProjectReport);
+        if (c.ModuleId == "str_palo") return ReportConcrete.CreateDocument(request.Title, Anthea.Application.Concrete.SectionActionInputs.CalculationCopy(c.Data), c.Values, request.Options.ToHashSet(), figures.Select(f => f.Image()).ToList(), !request.ProjectReport);
         if (c.ModuleId is PaloOrizzontale.Module or MicropaloOrizzontale.Module)
             return c.Values.S("tipo_risultato") == "palo_elastico" ? ReportElasticPile.CreateDocument(request.Title, c.Values)
                 : ReportOrizzontale.CreateDocument(request.Title, c.Values, !request.ProjectReport,

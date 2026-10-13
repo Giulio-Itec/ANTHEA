@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Text.Json.Nodes;
 
 namespace Anthea.Calculations;
@@ -48,7 +49,7 @@ public static class ConcreteAnalysis
                 foreach (var (id, row) in result.Where(r => r.Value.State is null)) errors[key + "/" + id] = row.Status;
             });
         var shear = settings["taglio"]!.AsObject();
-        foreach (var row in shear.Array("azioni").OfType<JsonObject>().Select((value, index) => (value, index)))
+        foreach (var row in SectionActionInputs.ShearRows(data).Select((value, index) => (value, index)))
         {
             string id = row.value.S("id", "riga-" + (row.index + 1));
             Step("Taglio/" + id, () =>

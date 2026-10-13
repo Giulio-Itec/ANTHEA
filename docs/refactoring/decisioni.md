@@ -985,3 +985,9 @@ Sono registrati requisiti e proposta, non una funzionalità già realizzata. Al 
 ## 13 ottobre — chiusura effettiva F3
 
 Completati contratti, servizi, report e confine Desktop. Verifica sorgenti oltre ai metadati, compilazione Release senza riferimenti GPC diretti e distribuzione dal manifest. Set V e legacy conservati, nessun avvio di F4. ANTHEA 1.6.0 pronta con guide Rev40; 122 voci del full risolte tramite riprese mirate tracciate, installer verificato. Merge e push restano quelli già autorizzati; nessun intervento sul processo utente. EXCEL-SOL rimane la prossima attività separata: Elemento facoltativo e distinzione fra stato limite e criterio resistente, come specificato sopra.
+
+
+### 13 ottobre — criterio resistente selezionabile (EXCEL-SOL)
+L’utente sceglie Plastico/Elastico nella verifica, indipendentemente dallo stato limite della riga. Sei componenti memorizzate una volta; proiezioni per SLU/SLV, SLE e taglio/torsione. Elemento è un riferimento facoltativo: tutte le righe sono verificate sulla sezione del foglio, anche se riferite a elementi differenti. Non si assegnano automaticamente geometrie del modello. I nomi uguali restano righe distinte con ID propri.
+Conversione dei dati storici esplicita: le vecchie famiglie Plastico/Elastico e Taglio richiedono l’assegnazione dello stato limite; le componenti mancanti devono essere compilate. Nessun coefficiente o cambio di segno aggiuntivo. L’apertura dei documenti precedenti non cambia il comportamento.
+Cattura preventiva: `20261013-142103-excel-sol-before`, Application.Tests e verifiche/ca-data PASS. F4 non avviata.

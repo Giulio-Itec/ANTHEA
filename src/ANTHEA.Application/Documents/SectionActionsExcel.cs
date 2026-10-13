@@ -9,19 +9,20 @@ namespace X.Core;
 public static class SectionActionsExcel
 {
     public static readonly string[] Headers = ["Famiglia", "Nome", "N [kN]", "Mx [kNm]", "My [kNm]", "Vx [kN]", "Vy [kN]", "T [kNm]"];
-    public sealed record Row(string Family, string Name, double N, double? Mx, double? My, double? Vx, double? Vy, double? T = null);
-    public sealed record Import(IReadOnlyList<Row> Rows, int FormulaCells);
-    public static byte[] Template()
+    public static readonly string[] UnifiedHeaders = ["Elemento", "Nome combo", "Stato limite", "N [kN]", "Vx [kN]", "Vy [kN]", "T [kNm]", "Mx [kNm]", "My [kNm]"];
+    public sealed record Row(string Family, string Name, double N, double? Mx, double? My, double? Vx, double? Vy, double? T = null, string Element = "");
+    public sealed record Import(IReadOnlyList<Row> Rows, int FormulaCells, bool Legacy = false);
+    public static byte[] Template(bool legacy = false)
     {
-        using var stream = typeof(SectionActionsExcel).Assembly.GetManifestResourceStream("ANTHEA.Sollecitazioni.xlsx") ?? throw new InvalidOperationException("Template Excel non disponibile.");
+        using var stream = typeof(SectionActionsExcel).Assembly.GetManifestResourceStream(legacy ? "ANTHEA.Sollecitazioni.Legacy.xlsx" : "ANTHEA.Sollecitazioni.xlsx") ?? throw new InvalidOperationException("Template Excel non disponibile.");
         using var buffer = new MemoryStream(); stream.CopyTo(buffer); return buffer.ToArray();
     }
-    public static byte[] Write(IEnumerable<Row> source)
+    public static byte[] Write(IEnumerable<Row> source, bool unified = false)
     {
         var rows = source.ToArray();
         if (rows.Length > 10000) throw new ArgumentException("Massimo 10.000 combinazioni per esportazione.");
         XNamespace ns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
-        using var buffer = new MemoryStream(); buffer.Write(Template());
+        using var buffer = new MemoryStream(); buffer.Write(Template(!unified));
         using (var zip = new ZipArchive(buffer, ZipArchiveMode.Update, true))
         {
             var entry = zip.GetEntry("xl/worksheets/sheet1.xml")!; XDocument document;
@@ -33,7 +34,9 @@ public static class SectionActionsExcel
             {
                 var item = rows[i]; var row = new XElement(ns + "row", new XAttribute("r", i + 7));
                 string family = Family(item.Family);
-                object?[] values = [family switch { "SLE" => "Rara", "SLE_FREQ" => "Frequente", "SLE_QP" => "Quasi permanente", _ => family }, item.Name, item.N, item.Mx, item.My, item.Vx, item.Vy, item.T];
+                if (unified && (family == "Taglio" || item.Mx is null || item.My is null || item.Vx is null || item.Vy is null || item.T is null)) throw new ArgumentException("Indicare lo stato limite e tutte le sei componenti, anche quando nulle (0).");
+                string label = family switch { "SLE" => "Rara", "SLE_FREQ" => "Frequente", "SLE_QP" => "Quasi permanente", _ => family };
+                object?[] values = unified ? [item.Element, item.Name, label, item.N, item.Vx, item.Vy, item.T, item.Mx, item.My] : [label, item.Name, item.N, item.Mx, item.My, item.Vx, item.Vy, item.T];
                 for (int c = 0; c < values.Length; c++)
                 {
                     var cell = new XElement(ns + "c", new XAttribute("r", $"{(char)('A' + c)}{i + 7}"));
@@ -45,21 +48,30 @@ public static class SectionActionsExcel
                 body.Add(row);
             }
             int end = Math.Max(7, rows.Length + 6);
-            var header=body.Elements(ns+"row").First(r=>(int?)r.Attribute("r")==6);
-            header.Elements(ns+"c").Where(c=>(string?)c.Attribute("r")=="H6").Remove();
-            header.Add(new XElement(ns+"c",new XAttribute("r","H6"),new XAttribute("t","inlineStr"),new XElement(ns+"is",new XElement(ns+"t",Headers[7]))));
-            document.Root.Element(ns + "dimension")?.SetAttributeValue("ref", "A1:H" + end);
-            document.Root.Element(ns + "autoFilter")?.SetAttributeValue("ref", "A6:H" + end);
-            foreach (var validation in document.Descendants(ns + "dataValidation")) validation.SetAttributeValue("sqref", "A7:A" + Math.Max(10006, end));
+            string last = unified ? "I" : "H";
+            var headers = unified ? UnifiedHeaders : Headers;
+            var header = body.Elements(ns + "row").First(r => (int?)r.Attribute("r") == 6);
+            var headerStyle = header.Elements(ns + "c").FirstOrDefault()?.Attribute("s")?.Value;
+            header.RemoveNodes();
+            for (int c = 0; c < headers.Length; c++)
+            {
+                var cell = new XElement(ns + "c", new XAttribute("r", $"{(char)('A' + c)}6"), new XAttribute("t", "inlineStr"), new XElement(ns + "is", new XElement(ns + "t", headers[c])));
+                if (headerStyle is not null) cell.SetAttributeValue("s", headerStyle);
+                header.Add(cell);
+            }
+            document.Root.Element(ns + "dimension")?.SetAttributeValue("ref", "A1:" + last + end);
+            document.Root.Element(ns + "autoFilter")?.SetAttributeValue("ref", "A6:" + last + end);
+            foreach (var validation in document.Descendants(ns + "dataValidation")) validation.SetAttributeValue("sqref", (unified ? "C7:C" : "A7:A") + Math.Max(10006, end));
             entry.Delete(); using (var stream = zip.CreateEntry("xl/worksheets/sheet1.xml").Open()) document.Save(stream);
             foreach (var tableEntry in zip.Entries.Where(e => e.FullName.StartsWith("xl/tables/") && e.FullName.EndsWith(".xml")).ToArray())
             {
                 XDocument table; using (var stream = tableEntry.Open()) table = XDocument.Load(stream);
-                table.Root!.SetAttributeValue("ref", "A6:H" + end); table.Root.Element(ns + "autoFilter")?.SetAttributeValue("ref", "A6:H" + end);
+                table.Root!.SetAttributeValue("ref", "A6:" + last + end); table.Root.Element(ns + "autoFilter")?.SetAttributeValue("ref", "A6:" + last + end);
                 if(table.Root.Element(ns+"tableColumns") is {} columns)
                 {
-                    columns.Elements(ns+"tableColumn").Where(c=>(int?)c.Attribute("id")==8).Remove();
-                    columns.Add(new XElement(ns+"tableColumn",new XAttribute("id",8),new XAttribute("name",Headers[7])));columns.SetAttributeValue("count",8);
+                    columns.RemoveNodes();
+                    for (int c = 0; c < headers.Length; c++) columns.Add(new XElement(ns + "tableColumn", new XAttribute("id", c + 1), new XAttribute("name", headers[c])));
+                    columns.SetAttributeValue("count", headers.Length);
                 }
                 string name = tableEntry.FullName; tableEntry.Delete(); using var streamOut = zip.CreateEntry(name).Open(); table.Save(streamOut);
             }
@@ -119,13 +131,15 @@ public static class SectionActionsExcel
             if (result == 0) throw new ArgumentException("Indirizzo cella non valido.");
             return result;
         }
-        var rows = new List<Row>(); bool headerFound = false, torqueHeader = false; int visited = 0;
+        var rows = new List<Row>(); bool headerFound = false, torqueHeader = false, unified = false; int visited = 0;
         foreach (var row in document.Descendants(ns + "sheetData").Elements(ns + "row"))
         {
             if (++visited > 10050) throw new ArgumentException("Massimo 10.000 combinazioni per importazione.");
             var cells = row.Elements(ns + "c").ToDictionary(Column, Cell);
             if (!headerFound)
             {
+                unified = Enumerable.Range(1, 9).All(i => string.Equals(cells.GetValueOrDefault(i)?.Trim(), UnifiedHeaders[i - 1], StringComparison.OrdinalIgnoreCase));
+                if (unified) { headerFound = true; continue; }
                 headerFound = Enumerable.Range(1, 7).All(i => string.Equals(cells.GetValueOrDefault(i)?.Trim(), Headers[i - 1], StringComparison.OrdinalIgnoreCase));
                 if(headerFound)
                 {
@@ -139,6 +153,17 @@ public static class SectionActionsExcel
             string context = "Riga Excel " + ((string?)row.Attribute("r") ?? visited.ToString(CultureInfo.InvariantCulture));
             try
             {
+                if (unified)
+                {
+                    if (cells.Any(c => c.Key > 9 && !string.IsNullOrWhiteSpace(c.Value))) throw new ArgumentException("Dati oltre la colonna I.");
+                    string state = Family(cells.GetValueOrDefault(3) ?? "");
+                    if (state == "Taglio") throw new ArgumentException("Taglio non è uno stato limite: scegliere SLU o SLV.");
+                    string combo = cells.GetValueOrDefault(2)?.Trim() ?? "";
+                    if (combo.Length == 0) throw new ArgumentException("Nome combinazione mancante.");
+                    double Value(int c) => SectionWorkspace.Number(cells.GetValueOrDefault(c) ?? "", UnifiedHeaders[c - 1]);
+                    rows.Add(new(state, combo, Value(4), Value(8), Value(9), Value(5), Value(6), Value(7), cells.GetValueOrDefault(1)?.Trim() ?? ""));
+                    continue;
+                }
                 if (cells.Any(c => c.Key > 8 && !string.IsNullOrWhiteSpace(c.Value))) throw new ArgumentException("Dati oltre la colonna H: importazione ambigua.");
                 if(!torqueHeader&&!string.IsNullOrWhiteSpace(cells.GetValueOrDefault(8)))throw new ArgumentException("Torsione senza intestazione T [kNm].");
                 string family = Family(cells.GetValueOrDefault(1) ?? ""), name = cells.GetValueOrDefault(2)?.Trim() ?? "";
@@ -154,6 +179,6 @@ public static class SectionActionsExcel
             catch (ArgumentException ex) { throw new ArgumentException(context + ": " + ex.Message, ex); }
         }
         if (!headerFound) throw new ArgumentException("Intestazioni non riconosciute: usare il template ANTHEA.");
-        return new(rows, formulas);
+        return new(rows, formulas, !unified);
     }
 }

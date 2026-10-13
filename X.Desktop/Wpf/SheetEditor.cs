@@ -24,7 +24,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
     private bool busy;
     internal readonly Materiali.MaterialView? materials;
     internal readonly RebarMaterialView? rebarMaterial;
-    private readonly ConcreteWorkspace? concrete;
+    private ConcreteWorkspace? concrete;
     private readonly HorizontalWorkspace? horizontal;
     private readonly HorizontalPileGroupWorkspace? pileGroup;
     private readonly FoundationWorkspace? foundation;
@@ -124,7 +124,12 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         }
         if (Section)
         {
-            concrete = new ConcreteWorkspace(Data); concrete.Modified += () => Modified?.Invoke(); Content = concrete; building = false; return;
+            void OpenConcrete()
+            {
+                concrete?.Dispose(); concrete = new ConcreteWorkspace(Data);
+                concrete.Modified += () => Modified?.Invoke(); concrete.ReloadRequested += OpenConcrete; Content = concrete;
+            }
+            OpenConcrete(); building = false; return;
         }
         var footer = Ui.Dock(status, bottom: null); DockPanel.SetDock(calculate, System.Windows.Controls.Dock.Right); footer.Children.Insert(0, calculate); footer.Margin = new Thickness(24, 4, 24, 4);
         var theory = Ui.Button("Modello e dati comuni…", () => CalculationHelpView.Show(this, true), inspection: true);

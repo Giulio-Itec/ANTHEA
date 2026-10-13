@@ -72,7 +72,7 @@ internal sealed partial class ModuleFigureRenderer
                     view.Ratios = checks?.ToDictionary(kv => kv.Key, kv => kv.Value.Utilization);
                     view.Resistances = panel.Options.B("tutte_rd") ? panel.Rows.Where(r => r.B("visible", true)).Select(r => (Id: r.S("id"), Check: checks?.GetValueOrDefault(r.S("id")))).Where(r => r.Check?.Resistance is not null).ToDictionary(r => r.Id, r => r.Check!.Resistance!.Value) : null;
                     view.SetActions(points, selected, selected is null ? null : checks?.GetValueOrDefault(selected)?.Resistance); view.SurfaceOpacity = 1 - panel.Options.D("trasparenza", 35) / 100; view.UpdateLayout();
-                    images.Add(new("Dominio 3D " + ConcreteEditor.Label(panel.Key) + " in vista isometrica con filtri e livelli correnti", Ui.DocumentSnapshot(view), category));
+                    images.Add(new("Dominio 3D " + (panel.Options.ContainsKey("modello_resistente") ? panel.Key + " · " + panel.Options.S("modello_resistente") : ConcreteEditor.Label(panel.Key)) + " in vista isometrica con filtri e livelli correnti", Ui.DocumentSnapshot(view), category));
                 }
                 else if (!panel.ThreeD && panel.Two is not null)
                 {

@@ -10,7 +10,7 @@ public sealed partial class MainWindow
     internal async Task SmokeConcreteFeatures(string directory)
     {
         Directory.CreateDirectory(directory);
-        document = Archivio.Documento("str_palo"); currentSheet = null; ShowSheet(document);
+        document = Archivio.Documento("str_palo"); document["dati"] = SezioneCA.DefaultData(); currentSheet = null; ShowSheet(document);
         await editor!.CalculateAsync();
         await editor.VerifyConcreteFeatures(directory);
         dirty = false;

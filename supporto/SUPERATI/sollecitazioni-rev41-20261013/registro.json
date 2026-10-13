@@ -1,0 +1,100 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\sollecitazioni-rev41-20261013\\docs\\guida-pratica-anthea.md",
+    "motivo": "Sostituita dalla revisione 41 sulle sollecitazioni unificate",
+    "sostituzione": "Guide globali Rev41",
+    "sha256": "e7fe5cecf3c6a06585b1a32bb59d57023e1a711b87b66179f9645e1fb17c09cb"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\sollecitazioni-rev41-20261013\\docs\\guida-pratica-anthea.pdf",
+    "motivo": "Sostituita dalla revisione 41 sulle sollecitazioni unificate",
+    "sostituzione": "Guide globali Rev41",
+    "sha256": "dc9173373c5c996f9fe13d4aa683cfb254c4eb0aa23317cf5a96eb77628b65a3"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "archivio": "supporto\\SUPERATI\\sollecitazioni-rev41-20261013\\docs\\guida-teorica-anthea.md",
+    "motivo": "Sostituita dalla revisione 41 sulle sollecitazioni unificate",
+    "sostituzione": "Guide globali Rev41",
+    "sha256": "6700a6f4bb26b3442b5865791d276179c8d3fbe16cb2b1b1d55bf458c6f112df"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "archivio": "supporto\\SUPERATI\\sollecitazioni-rev41-20261013\\docs\\guida-teorica-anthea.pdf",
+    "motivo": "Sostituita dalla revisione 41 sulle sollecitazioni unificate",
+    "sostituzione": "Guide globali Rev41",
+    "sha256": "b422edf240080f17af3053399e28a52c28cbb12334a30ef17af33dbb713c72b2"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev40.docx",
+    "archivio": "supporto\\SUPERATI\\sollecitazioni-rev41-20261013\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev40.docx",
+    "motivo": "Sostituita dalla revisione 41 sulle sollecitazioni unificate",
+    "sostituzione": "Guide globali Rev41",
+    "sha256": "636dc4167edd6c947b952610114a3900c321e68787e154eb83b678c179978401"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev40.pdf",
+    "archivio": "supporto\\SUPERATI\\sollecitazioni-rev41-20261013\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev40.pdf",
+    "motivo": "Sostituita dalla revisione 41 sulle sollecitazioni unificate",
+    "sostituzione": "Guide globali Rev41",
+    "sha256": "dc9173373c5c996f9fe13d4aa683cfb254c4eb0aa23317cf5a96eb77628b65a3"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev40.docx",
+    "archivio": "supporto\\SUPERATI\\sollecitazioni-rev41-20261013\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev40.docx",
+    "motivo": "Sostituita dalla revisione 41 sulle sollecitazioni unificate",
+    "sostituzione": "Guide globali Rev41",
+    "sha256": "c1eadfb7a162a46f828fac57fc0294f6b2816a29619e1c43713ac1a7181ea90e"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev40.pdf",
+    "archivio": "supporto\\SUPERATI\\sollecitazioni-rev41-20261013\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev40.pdf",
+    "motivo": "Sostituita dalla revisione 41 sulle sollecitazioni unificate",
+    "sostituzione": "Guide globali Rev41",
+    "sha256": "b422edf240080f17af3053399e28a52c28cbb12334a30ef17af33dbb713c72b2"
+  },
+  {
+    "origine": "supporto\\README.md",
+    "archivio": "supporto\\SUPERATI\\sollecitazioni-rev41-20261013\\README.md",
+    "motivo": "Sostituita dalla revisione 41 sulle sollecitazioni unificate",
+    "sostituzione": "Guide globali Rev41",
+    "sha256": "c2b627808b9094bf46d4b06f19f48e3ef7106c13785febcdecc11fe4a1443012"
+  },
+  {
+    "origine": "supporto\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\sollecitazioni-rev41-20261013\\README.pdf",
+    "motivo": "Sostituita dalla revisione 41 sulle sollecitazioni unificate",
+    "sostituzione": "Guide globali Rev41",
+    "sha256": "3921bd5972fed23f67864fdbfd4c39b7d64b512d858cc75654fae00b06021cc4"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.md",
+    "archivio": "supporto\\SUPERATI\\sollecitazioni-rev41-20261013\\installer\\Indice-guide.md",
+    "motivo": "Sostituita dalla revisione 41 sulle sollecitazioni unificate",
+    "sostituzione": "Guide globali Rev41",
+    "sha256": "d89f382a04e22b4b8df1d34efe05fd8792d6bd3468d5960659c3576680d6992b"
+  },
+  {
+    "origine": "supporto\\installer\\Indice-guide.pdf",
+    "archivio": "supporto\\SUPERATI\\sollecitazioni-rev41-20261013\\installer\\Indice-guide.pdf",
+    "motivo": "Sostituita dalla revisione 41 sulle sollecitazioni unificate",
+    "sostituzione": "Guide globali Rev41",
+    "sha256": "222e888124680c0497dd3c192cf3d1829cbd22a63405561f604e0a19811575ac"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\README.md",
+    "archivio": "supporto\\SUPERATI\\sollecitazioni-rev41-20261013\\documentazione\\Guide_ANTHEA\\README.md",
+    "motivo": "Sostituita dalla revisione 41 sulle sollecitazioni unificate",
+    "sostituzione": "Guide globali Rev41",
+    "sha256": "f3329e0997b62c4969e73c06a5b0d2bd6be1f0917d5300e8d27ee67731791fb1"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\README.pdf",
+    "archivio": "supporto\\SUPERATI\\sollecitazioni-rev41-20261013\\documentazione\\Guide_ANTHEA\\README.pdf",
+    "motivo": "Sostituita dalla revisione 41 sulle sollecitazioni unificate",
+    "sostituzione": "Guide globali Rev41",
+    "sha256": "0ab5aad9f9868eaefa467cf1fc57ae1574e75383e1b7763e37bf7bb783e47e28"
+  }
+]

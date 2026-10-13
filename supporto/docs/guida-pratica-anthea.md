@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 13 ottobre 2026 — revisione documentale 40
+Edizione 6 aggiornata il 13 ottobre 2026 — revisione documentale 41
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1012,7 +1012,9 @@ Le schede dominio 3D e dominio 2D permettono di esaminare le resistenze della se
 
 Un dominio bidimensionale è una sezione o una proiezione del problema. Se il punto ha componenti fuori dal piano rappresentato, leggere l'indicazione di proiezione e non trattare l'immagine come una verifica completa della pressoflessione deviata. I quattro momenti rapidi Mx positivo e negativo, My positivo e negativo sono utili per orientarsi, ma non descrivono da soli l'intero dominio N Mx My.
 
-I nomi Plastico ed Elastico descrivono i modelli disponibili. Eventuali chiavi storiche SLU e SLV nei file non vanno interpretate come una generazione automatica di verifiche sismiche a un livello di danno.
+Nei nuovi fogli scegliere separatamente lo Stato limite (SLU o SLV) e il Criterio resistente (Plastico o Elastico). Il criterio si imposta nella verifica, nelle schede dominio 3D e dominio 2D, e si applica alle combinazioni dei due stati limite. Cambiarlo aggiorna i domini e i risultati. Non vengono calcolati sempre entrambi i criteri. La ricerca della resistenza, ad esempio N costante, rimane una scelta distinta.
+
+I documenti precedenti mantengono i gruppi Plastico ed Elastico fino alla conversione esplicita delle sollecitazioni. In quei documenti le chiavi interne SLU e SLV indicavano tali gruppi: non assegnavano automaticamente uno stato limite sismico.
 
 ### Tensioni e fessurazione
 
@@ -1024,7 +1026,7 @@ La trazione dell'intera sezione segue un ramo specifico con regioni di bordo. Le
 
 ### Taglio torsione e dettagli
 
-Nella scheda taglio e torsione inserire azioni, staffe, passo, inclinazione e armatura longitudinale pertinente. Controllare bw, d e braccio interno ricavati. Per sezioni circolari il ramo adottato è quello specifico per pali descritto nella guida teorica; non coincide automaticamente con una formula generica per travi rettangolari.
+Nella scheda taglio e torsione impostare staffe, passo, inclinazione e armatura longitudinale pertinente. Le azioni dei nuovi fogli provengono dalle stesse righe SLU e SLV usate nei domini; modificarle con Gestisci sollecitazioni. Controllare bw, d e braccio interno ricavati. Per sezioni circolari il ramo adottato è quello specifico per pali descritto nella guida teorica; non coincide automaticamente con una formula generica per travi rettangolari.
 
 La torsione richiede un dettaglio chiuso compatibile e armatura longitudinale disponibile dopo le esigenze di flessione. Non assegnare come disponibile tutta l'armatura senza aver verificato questa condizione. La verifica combinata usa anche un'interazione conservativa fra torsione e i due tagli, esplicitata nel dettaglio.
 
@@ -1040,13 +1042,21 @@ Le tabelle CA consentono copia e incolla e dispongono dei comandi di template e 
 
 ### Importare ed esportare le azioni
 
-Le tabelle offrono Template Excel, Importa Excel ed Esporta Excel. Il foglio Azioni usa le colonne Famiglia, Nome, N [kN], Mx [kNm], My [kNm], Vx [kN], Vy [kN] e T [kNm]. N è negativo a compressione. I nomi SLU e SLV nei file corrispondono ai domini Plastico ed Elastico; Rara, Frequente e Quasi permanente conservano azioni distinte.
+Aprire Sollecitazioni nella barra inferiore del foglio, oppure Gestisci sollecitazioni nelle schede di verifica. La finestra contiene un unico elenco per tutti gli stati limite. I nuovi fogli partono senza combinazioni precompilate.
 
-Nella famiglia Taglio sono richiesti N, Vx e Vy; Mx e My possono accompagnarli, ad esempio per il Model Code, e T identifica la torsione. Nelle altre famiglie si usano N, Mx e My: tagli e torsione devono essere vuoti o nulli. I vecchi file a sette colonne restano leggibili senza torsione; per introdurla occorre l'intestazione T [kNm].
+Il comando Template Excel salva una cartella con il foglio Azioni. Le intestazioni sono, nell’ordine: Elemento, Nome combo, Stato limite, N [kN], Vx [kN], Vy [kN], T [kNm], Mx [kNm], My [kNm]. Elemento è facoltativo: vuoto significa il contesto del foglio corrente. Se indicato, conserva il riferimento dell’elemento nelle tabelle e nei report; non cambia automaticamente geometria o sezione. Tutte le righe dell’elenco sono verificate con la sezione del foglio. Combinazioni con lo stesso nome e riferimenti elemento diversi restano righe distinte.
 
-L'importazione controlla tutte le righe prima di modificare il foglio. Si possono aggiungere le righe o sostituire le famiglie presenti. Sono ammessi fino a 10.000 combinazioni e file fino a 20 MB. Le formule Excel non vengono eseguite: servono risultati già calcolati e salvati, oppure valori. Errori di cella e formule prive di risultato memorizzato impediscono l'importazione.
+Sono ammesse SLU, SLV, Rara, Frequente e Quasi permanente. Ogni riga deve contenere tutte le sei componenti, anche se alcune non sono utilizzate da una specifica verifica. Scrivere 0 per una componente nulla; una cella vuota non è uno zero. N è negativo a compressione. Le azioni devono essere già combinate e coefficientate: il programma non riapplica i coefficienti dei carichi.
 
-Filtri e ordinamenti cambiano la vista, non eliminano le azioni dal calcolo. Dopo l'importazione verifica numero di combinazioni, unità, segni e corrispondenza dei nomi. Non importare un inviluppo di massimi come se fosse una terna simultanea.
+SLU e SLV alimentano i domini 2D e 3D e le verifiche di taglio e torsione. Le tre combinazioni SLE alimentano i rispettivi controlli tensionali e di fessurazione previsti dalle impostazioni. La famiglia di input Taglio non esiste nel nuovo schema; la scheda Taglio e torsione resta disponibile per impostazioni ed esiti.
+
+Importa e sostituisci sostituisce l’intero elenco della finestra; Importa e aggiungi conserva le righe già presenti. Aggiungi, Duplica ed Elimina permettono l’editing manuale. Le modifiche restano nella finestra fino ad Applica; Annulla conserva il foglio. Dopo Applica le verifiche vengono aggiornate. Esporta Excel salva tutte le righe del nuovo elenco.
+
+I vecchi file Excel con Famiglia e i vecchi documenti restano leggibili. Nell’editor la colonna Origine precedente identifica Plastico, Elastico o Taglio: assegnare esplicitamente SLU o SLV alle rispettive righe e completare le componenti mancanti. Per la riga selezionata, Vuoti a zero è un’assegnazione esplicita da usare soltanto quando le componenti sono effettivamente nulle. Le righe storiche non vengono fuse dal nome e il criterio resistente rimane selezionabile nella verifica.
+
+L’importazione controlla tutte le righe prima di modificare l’elenco. Sono ammessi fino a 10.000 combinazioni e file fino a 20 MB. Le formule Excel non vengono eseguite: vengono segnalati e letti i valori memorizzati nel file. Ricalcolare e salvare il file in Excel prima dell’importazione. Errori di cella e formule senza risultato memorizzato impediscono l’importazione.
+
+Filtri e ordinamenti delle tabelle di verifica cambiano la vista, non eliminano azioni dal calcolo. Controllare numero di righe, stato limite, unità, segni e riferimenti elemento. Non importare un inviluppo di massimi indipendenti come se fosse un insieme simultaneo di sei componenti.
 
 ### Report short della sezione in calcestruzzo armato
 

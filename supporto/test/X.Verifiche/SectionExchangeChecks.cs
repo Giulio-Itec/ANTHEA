@@ -10,7 +10,7 @@ internal static class SectionExchangeChecks
         int count = 0;
         void Assert(bool ok, string label) { if (!ok) throw new Exception("Excel azioni: " + label); count++; }
         void Reject(byte[] data, string label) { try { SectionActionsExcel.Read(data); } catch (ArgumentException) { count++; return; } throw new Exception("Excel accettato: " + label); }
-        byte[] template = SectionActionsExcel.Template();
+        byte[] template = SectionActionsExcel.Template(legacy: true);
         Assert(SectionActionsExcel.Read(template).Rows.Count == 0, "Template senza azioni inventate");
         XNamespace ns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
         byte[] FileFor(string[][] rows, Action<XDocument>? change = null)

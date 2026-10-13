@@ -35,7 +35,8 @@ internal sealed partial class ConcreteWorkspace
     private UIElement BuildDomainPanel(bool threeD)
     {
         var panel = new DomainPanel { ThreeD = threeD, Options = settings[threeD ? "dominio3d" : "dominio2d"]!.AsObject() }; domainPanels.Add(panel);
-        var fields = new List<Field> { new("stato", "Tipo di dominio", Choices: ["SLU", "SLV"]) };
+        var fields = new List<Field> { new("stato", UnifiedActions ? "Stato limite" : "Tipo di dominio precedente", Choices: ["SLU", "SLV"]) };
+        if (UnifiedActions) fields.Add(new("modello_resistente", "Criterio resistente", Choices: ["Plastico", "Elastico"]));
         if (threeD) fields.AddRange([new("criterio", "Ricerca resistenza", Choices: ConcreteEditor.ResistanceCriteria), new("strategia", "Metodo", Choices: ["Iterativo", "Intersezione"]), new("interpolazione", "Interpolazione mesh", Choices: ["Quadratica", "Lineare"]), new("suddivisioni_n", "Suddivisioni N (mesh)")]);
         else fields.AddRange([new("tipo", "Sezione dominio", Choices: ["N–M", "Mx–My"]), new("theta", "Direzione θ", "°"), new("N", "N fissato", "kN")]);
         fields.AddRange([new("angoli", "Direzioni angolari"), new("trazione_cls", "CLS resistente a trazione", Choices: ["No", "Sì"]), new("assi", "Assi delle azioni", Choices: ["Locali", "Principali", "Personalizzati"]), new("origine_x", "Origine x", "mm"), new("origine_y", "Origine y", "mm"), new("rotazione", "Rotazione assi", "°")]);
@@ -54,7 +55,7 @@ internal sealed partial class ConcreteWorkspace
         panel.Mode = (ComboBox)panel.Form.Editors["stato"];
         RevisionInspection.Allow(panel.Mode); RevisionInspection.Allow(panel.Form.Editors["filtro"]);
         var modeText = new FrameworkElementFactory(typeof(TextBlock)); modeText.SetBinding(TextBlock.TextProperty, new Binding { Converter = new DomainLabelConverter() });
-        panel.Mode.ItemTemplate = new DataTemplate { VisualTree = modeText };
+        if (!UnifiedActions) panel.Mode.ItemTemplate = new DataTemplate { VisualTree = modeText };
         panel.Form.GroupFields("Discretizzazione e interpolazione", ["angoli", "interpolazione", "suddivisioni_n"]);
         panel.Form.GroupFields("Modello e assi delle azioni", ["trazione_cls", "assi", "origine_x", "origine_y", "rotazione"]);
         var options = Ui.Stack(panel.Form);
@@ -115,7 +116,7 @@ internal sealed partial class ConcreteWorkspace
         string ratio = threeD ? "eta3d" : "eta2d", outcome = threeD ? "esito3d" : "esito2d";
         panel.Grid = new JsonGrid([new("visible", "Mostra", Bool: true), new("nome", "Combinazione"), new("N", "N [kN]"), new("Mx", "Mx [kNm]"), new("My", "My [kNm]"), new(ratio, "η [-]", ReadOnly: true), new(outcome, "Esito", ReadOnly: true)], true, actions[panel.Key]);
         panel.Grid.Columns[^1].Width = new DataGridLength(2, DataGridLengthUnitType.Star);
-        var table = Panel("Combinazioni N–Mx–My", ActionTable(panel.Key, panel.Grid, () => UpdateSelection(panel)), "Le azioni Plastico / Elastico sono condivise fra le schede 3D e 2D");
+        var table = Panel("Combinazioni N–Mx–My", ActionTable(panel.Key, panel.Grid, () => UpdateSelection(panel)), UnifiedActions ? "Sollecitazioni SLU / SLV condivise anche con taglio e torsione" : "Le azioni Plastico / Elastico sono condivise fra le schede 3D e 2D");
         var detailTabs = new TabControl { SelectedIndex = 1 }; Ui.Tab(detailTabs, "Dettagli combinazione", Scroller(panel.Detail)); Ui.Tab(detailTabs, "Riepilogo verifiche", Scroller(panel.Summary));
         var body = AnalysisLayout(left, BuildSectionInspection(panel, viewport), detailTabs, table);
         panel.Grid.IsVisibleChanged += (_, _) => { if (panel.Grid.IsVisible && panel.NeedsVisualRefresh) RefreshDomainPanel(panel); };
@@ -149,7 +150,7 @@ internal sealed partial class ConcreteWorkspace
     private async Task CalculateDomain(DomainPanel panel, CancellationToken token, string? requestedKey = null)
     {
         string key = requestedKey ?? panel.Key;
-        status.Text = $"GPC Engine · {ConcreteEditor.Label(key)} · dominio {(panel.ThreeD ? "3D" : "2D")}…";
+        status.Text = $"GPC Engine · {ActionSetLabel(key)} · dominio {(panel.ThreeD ? "3D" : "2D")}…";
         var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone(); var options = (JsonObject)panel.Options.DeepClone();
         var snapshots = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
         var calculated = await Task.Run(() => analysisSession.Domain(input, workspace, options, key, panel.ThreeD, snapshots, token), token);
@@ -222,7 +223,7 @@ internal sealed partial class ConcreteWorkspace
         try
         {
             var a = ReadAction(row); panel.Detail.Text = $"{row.Values.S("nome")}\n\nNEd = {a.N:0.00} kN\nMx,Ed = {a.Mx:0.00} kNm\nMy,Ed = {a.My:0.00} kNm\n\n" + (selectedCheck is null ? "Da calcolare" : $"η = {selectedCheck.Utilization?.ToString("0.00") ?? "—"}\n{selectedCheck.Status}");
-            panel.Detail.Text = ConcreteEditor.Label(panel.Key) + " · " + (panel.ThreeD ? panel.Options.S("criterio") + " / " + panel.Options.S("strategia") : panel.Options.S("tipo") + (panel.Options.S("proietta") == "Sì" ? " · proiezione attiva" : " · senza proiezione")) + "\n\nAZIONI · " + panel.Options.S("assi", "Locali") + "\n" + panel.Detail.Text;
+            panel.Detail.Text = ActionSetLabel(panel.Key) + " · " + (panel.ThreeD ? panel.Options.S("criterio") + " / " + panel.Options.S("strategia") : panel.Options.S("tipo") + (panel.Options.S("proietta") == "Sì" ? " · proiezione attiva" : " · senza proiezione")) + "\n\nAZIONI · " + panel.Options.S("assi", "Locali") + "\n" + panel.Detail.Text;
             if (selectedCheck?.Resistance is ConcreteResults.Action r) panel.Detail.Text += $"\n\nRESISTENZA · assi locali\nNRd = {r.N:0.00} kN\nMx,Rd = {r.Mx:0.00} kNm\nMy,Rd = {r.My:0.00} kNm\n" + ResponseSummary(selectedCheck.Response, "STATO AL PUNTO RESISTENTE");
             var vertices = panel.ThreeD ? meshes.GetValueOrDefault(panel.Key)?.Vertices.AsEnumerable() : checker2D.GetValueOrDefault(panel.Key)?.Segments.SelectMany(s => new[] { s.A, s.B });
             if (vertices?.ToArray() is { Length: > 0 } extrema)

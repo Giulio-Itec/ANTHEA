@@ -24,7 +24,7 @@ public static class ConcreteDomainChart
             bool nm = options.S("tipo") == "N–M";
             double value = SectionWorkspace.Number(options.S(nm ? "theta" : "N"), nm ? "θ" : "N") * (nm ? Math.PI / 180 : 1);
             return new(section2d.Segments.Select(s => (section2d.Project(s.A), section2d.Project(s.B))).ToArray(),
-                $"{SectionWorkspace.Label(key)} · " + (nm ? $"N–M, θ = {value * 180 / Math.PI:0.00}°" : $"Mx–My, N = {value:0.00} kN"),
+                (options.ContainsKey("modello_resistente") ? key + " · " + options.S("modello_resistente") : SectionWorkspace.Label(key)) + " · " + (nm ? $"N–M, θ = {value * 180 / Math.PI:0.00}°" : $"Mx–My, N = {value:0.00} kN"),
                 nm ? "Mθ [kNm]" : "Mx [kNm]", nm ? "N [kN]" : "My [kNm]",
                 "Sezione calcolata da GPC Engine · azioni fuori piano escluse salvo proiezione esplicita",
                 "Nessuna intersezione del dominio con il piano selezionato");
