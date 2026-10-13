@@ -53,7 +53,7 @@ aggiunto nell'ottimizzatore. `CancellationToken` e avanzamento sono indipendenti
 dalla UI. Annullamento non pubblica un lotto resistente incompleto; un risultato
 parziale, se previsto dal contratto, dichiara chiaramente i candidati valutati.
 
-## F4.3b e modifiche numeriche ancora aperte
+## F4.3b conclusa; modifiche numeriche runtime ancora aperte
 
 Il taglio senza staffe del muro in `RetainingWall.Structures` contiene ancora
 una formula locale con CRd,c=0.18/γc e vmin=0.035 k^1.5 √fck, senza σcp.
@@ -61,10 +61,10 @@ una formula locale con CRd,c=0.18/γc e vmin=0.035 k^1.5 √fck, senza σcp.
 trazione. Sostituire direttamente quella chiamata cambierebbe quindi risultati
 e ammissibilità. Non è un port equivalente e non viene eseguito qui.
 
-F4.3b/F4.5 richiedono una scheda del confronto per N nullo, compressione,
-trazione e limite di σcp, con fonti normative, attesi indipendenti ed effetto
-sui muri catturati. D7-c e D7-d restano le decisioni già ratificate; nessuna
-nuova scelta sui coefficienti è nascosta in questa decisione architetturale.
+Il [confronto F4.3b](f4-taglio-muri.md) ora copre N nullo, compressione,
+trazione e limite di σcp, con fonte primaria, attesi indipendenti ed effetto
+sui muri catturati. La decisione di riusare la API completa va attuata in
+F4.5/F4.7, separando correzione e port equivalente. D7-c e D7-d restano valide.
 
 F4.4 viene articolata in **a)** API tipizzate additive nelle librerie e test,
 **b)** set coerente e adozione nei consumatori ANTHEA/report. Le stringhe legacy

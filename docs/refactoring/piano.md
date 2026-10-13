@@ -291,9 +291,9 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [x] F4.1a (13/10): [matrice API e prove](f4-matrice-api.md), riscontrata sui sorgenti dei commit distribuiti nel set V. Individuati i riusi e le lacune di cattura; nessun nuovo motore.
   - [x] F4.1b (13/10): [115 casi e 14 rifiuti attesi](f4-catture.md), 234 file identici byte per byte nelle due esecuzioni (141,7/142,1 s), progetto CA identico con uno/quattro worker. Runner 1 PASS, zero nuovi fallimenti; fonte immutabile e SHA versionati, nessun calcolo modificato.
 - [x] F4.2 (13/10): [controlli sintattici e baseline puntuale](f4-architettura.md), sette regole su 507 sorgenti, 4610 occorrenze censite; modifiche/duplicazioni falliscono, rimozioni richiedono riduzione della baseline. 26 prove del rilevatore; runner 5 PASS, nessun nuovo fallimento.
-- [~] F4.3 [CP] Collocazione di GPC.Design, Concrete/Walls, muratura, σcp, CRd,c/k1/vmin, esiti dei pali.
+- [x] F4.3 [CP] Decisioni su collocazione di GPC.Design, Concrete/Walls, muratura, σcp, CRd,c/k1/vmin, esiti dei pali; implementazione nei passi successivi.
   - [x] F4.3a (13/10): [dipendenze, collocazioni e contratti](f4-contratti.md), unità/segni, input immutabili, esiti comuni, annullamento e compatibilità. Nessun assembly vuoto o calcolo duplicato.
-  - [ ] F4.3b: confronto indipendente dell'effetto σcp e coefficienti sui muri prima della decisione numerica; separato dal port equivalente.
+  - [x] F4.3b (13/10): [studio indipendente σcp](f4-taglio-muri.md), fonte NTC primaria e decisione di riuso della API GPC nel port; 12512 controlli su 26 muri, 4192 capacità diverse fino a +2,80197%, nessun cambio di esito. Cinque attesi Python e suite taglio Checker `9ff8b494`: 12 PASS. Registro F4-03; formula runtime ancora invariata, attivazione F4.7.
 - [~] F4.4 Esito comune tipizzato in pali e muri.
   - [x] F4.4a (13/10): Checker `c6f10056`, API additive Outcome/Execution/Data con enum Model; selezione e sviluppo del palo senza confronti di testo. 1565 PASS, 17 Steel già noti, zero nuovi fallimenti; 18 casi legacy identici byte per byte. Concrete candidata 0.1.0.0, Geotechnics candidata 0.2.0.0.
   - [ ] F4.4b: adozione nei consumatori e negli esiti strutturali locali dei muri con set coerente; DLL ANTHEA ancora set V. Nessun rilascio/merge di fase anticipato.
