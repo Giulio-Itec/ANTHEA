@@ -10,7 +10,6 @@ namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
 {
     private readonly ConcreteAnalysisSession analysisSession = new();
-    private (string Signature, CheckerSectionModel Model)? preparedSection;
     private readonly Dictionary<string, string> calculationErrors = new();
     private sealed class DomainPanel
     {
@@ -158,6 +157,10 @@ internal sealed partial class ConcreteWorkspace
         var snapshots = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
         var calculated = await Task.Run(() => analysisSession.Domain(input, workspace, options, key, panel.ThreeD, snapshots, token, prepared), token);
         token.ThrowIfCancellationRequested();
+        PublishDomain(panel, key, calculated);
+    }
+    private void PublishDomain(DomainPanel panel, string key, ConcreteDomainResult calculated)
+    {
         if (calculated.Three is not null) checker3D[key] = calculated.Three;
         if (calculated.Two is not null) checker2D[key] = calculated.Two;
         domainResults[panel.Prefix + key] = calculated.Checks;
@@ -289,24 +292,32 @@ internal sealed partial class ConcreteWorkspace
     }
     private async Task RunAnalysis(Func<CancellationToken, Task> work)
     {
-        if (Busy || disposed) return; calculationQueued = false; int requested = revision; Busy = true; cancellation = new CancellationTokenSource(); var token = cancellation.Token;
+        if (Busy || disposed) return;
+        calculationQueued = false; int requested = revision; Busy = true;
         progress.Visibility = Visibility.Visible;
         try
         {
-            await work(token); token.ThrowIfCancellationRequested();
-            if (disposed || requested != revision) return;
-            status.Text = "Aggiornamento tabelle e riepiloghi…";
-            RefreshDomainViews(); RefreshSummary();
-            exportResult = null;
-            HasResults = domainResults.Count != 0 || stressResults.Count != 0 || shearResults.Count != 0;
-            status.Text = calculationErrors.Count == 0 ? "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità" : "Aggiornamento parziale · " + string.Join(" · ", calculationErrors.Select(e => e.Key + ": " + e.Value));
+            var completion = await analysisScheduler.ScheduleAsync(async token => { await work(token); return true; });
+            if (disposed) return;
+            if (completion.Cancelled) { status.Text = "Nuove modifiche · aggiornamento in attesa…"; return; }
+            completion.TryPublish(current =>
+            {
+                if (current.Error is not null) throw current.Error;
+                status.Text = "Aggiornamento tabelle e riepiloghi…";
+                RefreshDomainViews(); RefreshSummary();
+                exportResult = null;
+                HasResults = domainResults.Count != 0 || stressResults.Count != 0 || shearResults.Count != 0;
+                status.Text = calculationErrors.Count == 0 ? "Aggiornamento automatico completato · risultati riferiti ai dati correnti · controllare esiti e limiti di applicabilità" : "Aggiornamento parziale · " + string.Join(" · ", calculationErrors.Select(e => e.Key + ": " + e.Value));
+            });
         }
-        catch (OperationCanceledException) { status.Text = "Nuove modifiche · aggiornamento in attesa…"; }
-        catch (Exception ex) { status.Text = "Dati non validi · calcolo bloccato: " + ex.Message; calculationErrors["Dati"] = ex.Message; Result = null; RefreshSummary(); }
+        catch (Exception ex)
+        {
+            if (!disposed) { status.Text = "Dati non validi · calcolo bloccato: " + ex.Message; calculationErrors["Dati"] = ex.Message; Result = null; RefreshSummary(); }
+        }
         finally
         {
-            Busy = false; progress.Visibility = Visibility.Collapsed; cancellation.Dispose(); cancellation = null;
-            if (requested != revision) QueueCalculation();
+            Busy = false;
+            if (!disposed) { progress.Visibility = Visibility.Collapsed; if (requested != revision) QueueCalculation(); }
         }
     }
     internal async Task CalculateAllAsync()
@@ -339,23 +350,20 @@ internal sealed partial class ConcreteWorkspace
             {
                 await Step("Taglio", () => { CalculateShear(); return Task.CompletedTask; }); return;
             }
-            var input = (JsonObject)Input.DeepClone(); var workspace = (JsonObject)settings.DeepClone();
-            string sectionSignature = input.ToJsonString() + workspace["trefoli"]?.ToJsonString();
-            CheckerSectionModel prepared;
-            if (preparedSection is { } cached && cached.Signature == sectionSignature) prepared = cached.Model;
-            else
+            var rows = actions.ToDictionary(p => p.Key, p => p.Value.Select(r => (JsonObject)r.Values.DeepClone()).ToArray());
+            await analysisSession.CalculateBatchAsync(Input, settings, rows, requestedCalculations, outcome =>
             {
-                status.Text = "GPC Engine · preparazione unica della sezione…";
-                prepared = await Task.Run(() => CheckerSection.PrepareModel(input, workspace), token);
-                token.ThrowIfCancellationRequested(); preparedSection = (sectionSignature, prepared);
-            }
-            token.ThrowIfCancellationRequested();
-            var domainTasks = from key in new[] { "SLU", "SLV" } from panel in domainPanels
-                              where requestedCalculations.Contains(panel.Prefix + key)
-                              select Step(panel.Prefix + key, () => CalculateDomain(panel, token, key, prepared, input, workspace));
-            await Task.WhenAll(domainTasks);
-            var stressTasks = SectionWorkspace.Sets.Skip(2).Where(requestedCalculations.Contains).Select(key => Step(key, () => CalculateStress(key, token, prepared, input, workspace)));
-            await Task.WhenAll(stressTasks);
+                token.ThrowIfCancellationRequested();
+                calculationErrors.Remove(outcome.Name);
+                if (outcome.Error is not null) calculationErrors[outcome.Name] = outcome.Error;
+                else if (outcome.Domain is { } domain)
+                {
+                    var panel = domainPanels.Single(p => outcome.Name.StartsWith(p.Prefix, StringComparison.Ordinal));
+                    PublishDomain(panel, outcome.Name[3..], domain);
+                }
+                else if (outcome.Stress is { } stresses) PublishStress(outcome.Name, stresses);
+                pendingCalculations.Remove(outcome.Name);
+            }, running => status.Text = "GPC Engine · in corso: " + string.Join(" · ", running), token);
             token.ThrowIfCancellationRequested();
             if (requestedCalculations.Contains("Taglio")) await Step("Taglio", () => { status.Text = "Verifiche a taglio…"; CalculateShear(); return Task.CompletedTask; });
         });

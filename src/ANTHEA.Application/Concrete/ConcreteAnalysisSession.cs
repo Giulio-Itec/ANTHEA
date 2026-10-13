@@ -9,7 +9,7 @@ public sealed record ConcreteDomainResult(CheckerDomain3D? Three, CheckerDomain2
 
 /// <summary>Numerical work and caches shared by WPF, diagnostics and project report calculations.
 /// One session per sheet. Call a given domain/set once at a time, on input snapshots.</summary>
-public sealed class ConcreteAnalysisSession
+public sealed partial class ConcreteAnalysisSession
 {
     /// <summary>Sessione con il motore SLE indicato, o con quello predefinito dell'adattatore (refactoring F2.7b, commit A4). Il punto resistente
     /// SLU dei domini viene sempre dal motore della libreria (<see cref="ConcreteResistanceAdapter"/>).</summary>
@@ -54,9 +54,7 @@ public sealed class ConcreteAnalysisSession
     private readonly ConcurrentDictionary<string, (string Signature, CheckerDomain3D? Three, CheckerDomain2D? Two)> domainCache = new();
     private readonly ConcurrentDictionary<string, (string Signature, CheckerSection Engine, CheckerStressState State)> stressCache = new();
     public static readonly string[] CrackFields = ["esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure", "limite_fessure"];
-    public static ActionPoint ReadAction(JsonObject row) => new(
-        SectionWorkspace.Number(row.S("N"), "N"), SectionWorkspace.Number(row.S("Mx"), "Mx"),
-        SectionWorkspace.Number(row.S("My"), "My"));
+    public static ActionPoint ReadAction(JsonObject row) => SectionWorkspace.ReadAction(row);
 
     public ConcreteDomainResult Domain(JsonObject input, JsonObject workspace, JsonObject options, string key,
         bool threeD, JsonObject[] snapshots, CancellationToken token = default, CheckerSectionModel? prepared = null)

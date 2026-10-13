@@ -74,3 +74,26 @@ internal static class F3SchedulingProbe
         return checks;
     }
 }
+
+internal sealed partial class ConcreteWorkspace
+{
+    internal static async Task<int> CheckF3Scheduling()
+    {
+        int checks = 0;
+        void Check(bool ok, string message) { if (!ok) throw new InvalidOperationException(message); checks++; }
+        using var view = new ConcreteWorkspace(ModuleCatalog.CreateData("str_palo"));
+        var started = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var work = view.RunAnalysis(async token => { started.SetResult(); await release.Task; });
+        await started.Task.WaitAsync(TimeSpan.FromSeconds(15));
+        Check(view.Busy, "CA non segnala il calcolo in corso");
+        view.SetGeometry("1350");
+        Check(view.Result is null, "CA conserva risultati dopo modifica");
+        view.Dispose();
+        string status = view.status.Text;
+        release.SetResult(); await work.WaitAsync(TimeSpan.FromSeconds(15));
+        Check(!view.Busy && !view.calculationQueued && view.Result is null, "Chiusura CA lascia calcoli o risultati in coda");
+        Check(view.status.Text == status, "CA aggiorna lo stato dopo la chiusura");
+        return checks;
+    }
+}

@@ -37,7 +37,7 @@ public static partial class ConcreteReinforcementDesign
                 : new CheckerSection(resistanceModel, reduced, workspace, localOptions, set);
             foreach (var row in rows[set])
             {
-                token.ThrowIfCancellationRequested(); var action = ConcreteAnalysisSession.ReadAction(row);
+                token.ThrowIfCancellationRequested(); var action = SectionWorkspace.ReadAction(row);
                 var solver = row.B("__locali") ? localEngine : engine;
                 double? ratio = null;
                 if (action.Length == 0) ratio = 0;
@@ -67,7 +67,7 @@ public static partial class ConcreteReinforcementDesign
             var engine = new CheckerSection(full, input, workspace, o, "SLU", options.ServiceabilityEngine);
             foreach (var row in rows[set])
             {
-                token.ThrowIfCancellationRequested(); var action = ConcreteAnalysisSession.ReadAction(row);
+                token.ThrowIfCancellationRequested(); var action = SectionWorkspace.ReadAction(row);
                 var s = engine.Stress(action, set);
                 if (set is "SLE" or "SLE_QP")
                     AddRatio(checks, set == "SLE" ? "sigma_c_rara" : "sigma_c_qp", row.S("nome"), s.ConcreteStressLimit is > 0 ? Math.Max(0, -s.sigma_cls) / s.ConcreteStressLimit : null, options,

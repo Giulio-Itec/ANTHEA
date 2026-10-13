@@ -112,7 +112,11 @@ internal sealed partial class ConcreteWorkspace
         var input = preparedInput ?? (JsonObject)Input.DeepClone(); var workspace = preparedWorkspace ?? (JsonObject)settings.DeepClone(); var options = (JsonObject)settingsSle.DeepClone();
         var requests = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
         var outcomes = await Task.Run(() => analysisSession.Stress(input, workspace, options, key, requests, token, prepared), token);
-        token.ThrowIfCancellationRequested(); stressResults[key] = outcomes;
+        token.ThrowIfCancellationRequested(); PublishStress(key, outcomes);
+    }
+    private void PublishStress(string key, Dictionary<string, StressOutcome> outcomes)
+    {
+        stressResults[key] = outcomes;
         using var notifications = JsonRow.DeferNotifications(actions[key]);
         foreach (var row in actions[key])
         {

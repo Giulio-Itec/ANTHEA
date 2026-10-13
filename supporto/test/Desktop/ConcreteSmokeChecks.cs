@@ -36,7 +36,7 @@ internal sealed partial class ConcreteWorkspace
         Assert(actions["SLE_FREQ"].Count==0 && actions["SLE_QP"].Count==0,"Nessuna combinazione inventata");
         Assert(actions["SLU"][0].Values.D("N")<0,"Compressione negativa");
         Assert(checker3D.Count==2 && checker2D.Count==2,"Domini nativi 3D e 2D");
-        var sharedSection = preparedSection?.Model.Section ?? throw new Exception("Workspace Checker: sezione condivisa non preparata");
+        var sharedSection = checker3D.Values.First().Section.Section;
         checks++;
         Assert(checker3D.Values.All(c => ReferenceEquals(c.Section.Section, sharedSection)) && checker2D.Values.All(c => ReferenceEquals(c.Section.Section, sharedSection)), "Unica sezione nativa condivisa fra i domini");
         var three=domainPanels[0]; var two=domainPanels[1];

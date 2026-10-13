@@ -43,7 +43,7 @@ internal sealed partial class ConcreteWorkspace
         Assert(Input.S("bottom_bar_count") == chosen.Input.S("bottom_bar_count") && Input.S("top_bar_diameter_mm") == chosen.Input.S("top_bar_diameter_mm"), "Apply not transferred");
         Assert(settings["proposta_armature_applicata"] is JsonObject, "Applied audit missing");
         Assert(!designApply.IsEnabled, "Applied result still reusable");
-        cancellation?.Cancel(); pendingCalculations.Clear(); calculationQueued = false;
+        analysisScheduler.Invalidate(); pendingCalculations.Clear(); calculationQueued = false;
         var roundtrip = JsonNode.Parse(Data.ToJsonString())!.AsObject(); SectionWorkspace.Prepare(roundtrip);
         Assert(roundtrip["workspace_ca"]!["calcola_armature"].S("diametri") == "16;20", "Search settings not persisted");
         designForm.Set("parallelismo", "2");
@@ -52,7 +52,7 @@ internal sealed partial class ConcreteWorkspace
         string before = Input.ToJsonString(); actions["SLU"][0]["Mx"] = "9000";
         Assert(!designApply.IsEnabled && designStale, "Stale proposal not disabled");
         ApplyDesign(); Assert(Input.ToJsonString() == before, "Stale candidate applied");
-        cancellation?.Cancel(); pendingCalculations.Clear(); calculationQueued = false;
+        analysisScheduler.Invalidate(); pendingCalculations.Clear(); calculationQueued = false;
         await RunDesignAsync();
         Assert(designResult is { Completed: true, Candidates.Count: 0 }, "Expected fully searched infeasible case");
         Assert(designScope.Text.Contains("Primi motivi di scarto") && designDiagnostics!.Text.Contains("obiettivo ≤"), "Failed search hides its actual check and target");

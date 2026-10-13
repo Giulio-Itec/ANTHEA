@@ -19,12 +19,12 @@ public static partial class ConcreteReinforcementDesign
         ConcreteCalculationSettings.ValidateStirrups(input, workspace["taglio"]!.AsObject());
         var rows = SectionWorkspace.Sets.ToDictionary(k => k, k => data["combinazioni"]!.Array(k).OfType<JsonObject>()
             .Select(r => J.Obj(("nome", r.S("nome")), ("N", r["azioni"]?[0]), ("Mx", r["azioni"]?[1]), ("My", r["azioni"]?[2]))).ToArray());
-        foreach (var row in rows.Values.SelectMany(r => r)) _ = ConcreteAnalysisSession.ReadAction(row);
+        foreach (var row in rows.Values.SelectMany(r => r)) _ = SectionWorkspace.ReadAction(row);
         var shearRows = workspace["taglio"]!.Array("azioni").OfType<JsonObject>().ToArray();
         // Shear/torsion rows also carry N/M: the design must not ignore those simultaneous actions.
         rows["SLU"] = rows["SLU"].Concat(shearRows.Select(r => J.Obj(("nome", "Taglio · " + r.S("nome")),
             ("N", r.S("N", "0")), ("Mx", r.S("Mx", "0")), ("My", r.S("My", "0")), ("__locali", true)))).ToArray();
-        foreach (var row in rows["SLU"]) _ = ConcreteAnalysisSession.ReadAction(row);
+        foreach (var row in rows["SLU"]) _ = SectionWorkspace.ReadAction(row);
         bool torsion = shearRows.Any(r => SectionWorkspace.Number(r.S("T", "0"), "T") != 0);
         if (torsion && !options.TorsionLayoutConfirmed) throw new ArgumentException("Torsione: confermare nella ricerca lo schema periferico con staffe chiuse e barre di spigolo.");
         var accepted = new List<ConcreteDesignCandidate>(); var exclusions = new Dictionary<string, int>();

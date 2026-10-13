@@ -33,7 +33,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private bool calculationQueued;
     private static readonly string[] AllCalculations = ["3D:SLU", "2D:SLU", "3D:SLV", "2D:SLV", "SLE", "SLE_FREQ", "SLE_QP", "Taglio"];
     private readonly HashSet<string> pendingCalculations = new(AllCalculations);
-    private CancellationTokenSource? cancellation;
+    private readonly Anthea.Application.Scheduling.RecalculationScheduler analysisScheduler = new();
     private bool initializing = true, disposed, synchronizing;
     private int revision;
     private readonly Dictionary<string, JsonRows> actions = new();
@@ -231,7 +231,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         using var notifications = JsonRow.DeferNotifications(actions.Values.SelectMany(r => r));
         if (initializing || disposed || synchronizing) return;
         pendingCalculations.UnionWith(AllCalculations);
-        revision++; cancellation?.Cancel(); Result = null; meshes.Clear(); checker3D.Clear(); checker2D.Clear(); domainResults.Clear(); stressResults.Clear(); InvalidateShear();
+        revision++; analysisScheduler.Invalidate(); Result = null; meshes.Clear(); checker3D.Clear(); checker2D.Clear(); domainResults.Clear(); stressResults.Clear(); InvalidateShear();
         synchronizing = true;
         try { foreach (var row in actions.Values.SelectMany(r => r)) foreach (string key in new[] { "eta3d", "eta2d", "esito3d", "esito2d", "sigma_c", "sigma_s", "eta_sigma", "stress_status", "wk" }) row.Output(key, key.StartsWith("esito") || key == "stress_status" ? "Da calcolare" : key == "wk" ? "Da calcolare" : "—"); }
         finally { synchronizing = false; }
@@ -258,7 +258,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     {
         if (initializing || disposed || synchronizing) return;
         pendingCalculations.UnionWith(affected.Length == 0 ? AllCalculations : affected);
-        revision++; cancellation?.Cancel(); Result = null; QueueCalculation(); Modified?.Invoke();
+        revision++; analysisScheduler.Invalidate(); Result = null; QueueCalculation(); Modified?.Invoke();
     }
     private void InvalidateActions(string key)
     {
@@ -358,5 +358,5 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         if (result.Count == 0) throw new ArgumentException("Nessuna combinazione da incollare.");
         return result;
     }
-    public void Dispose() { disposed = true; calculationQueued = false; cancellation?.Cancel(); curvatureCancellation?.Cancel(); designCancellation?.Cancel(); }
+    public void Dispose() { disposed = true; calculationQueued = false; analysisScheduler.Dispose(); curvatureCancellation?.Cancel(); designCancellation?.Cancel(); }
 }

@@ -5,6 +5,10 @@ namespace Anthea.Calculations;
 /// <summary>Persisted workspace settings. Legacy SLE combinations become Rara without duplicating loads.</summary>
 public static class SectionWorkspace
 {
+    public static ActionPoint ReadAction(JsonObject row) => new(
+        SectionWorkspace.Number(row.S("N"), "N"), SectionWorkspace.Number(row.S("Mx"), "Mx"),
+        SectionWorkspace.Number(row.S("My"), "My"));
+
     public static readonly string[] Sets = ["SLU", "SLV", "SLE", "SLE_FREQ", "SLE_QP"];
     public static string Label(string key) => key switch { "SLU" => "Plastico", "SLV" => "Elastico", "SLE" => "Rara", "SLE_FREQ" => "Frequente", "SLE_QP" => "Quasi permanente", _ => key };
     public static readonly string[] SharedSleFields = ["modello", "phi", "phi_trefoli", "n_armature", "n_trefoli", "trazione_cls", "assi", "origine_x", "origine_y", "rotazione", "esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure", "limite_fessure"];
