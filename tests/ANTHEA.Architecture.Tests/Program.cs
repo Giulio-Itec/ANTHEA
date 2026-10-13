@@ -13,6 +13,11 @@ try
     string root = directory?.FullName ?? throw new DirectoryNotFoundException("ANTHEA.sln non trovato.");
     string output = args.Length == 0 ? Path.Combine(root, "supporto/artefatti/refactoring/f3/architecture") : Path.GetFullPath(args[0]);
     Directory.CreateDirectory(output);
+    var productionSources = Directory.EnumerateDirectories(root, "X.*")
+        .Concat(Directory.EnumerateDirectories(Path.Combine(root, "src"))).SelectMany(SourceFiles);
+    bool f4Inventory = args.Contains("--f4-inventory", StringComparer.Ordinal);
+    checks += F4DomainRules.Run(root, output, productionSources, f4Inventory);
+    if (f4Inventory) return 0;
     string[] modules = ["ANTHEA.Application", "ANTHEA.Reports", "ANTHEA.Wiki", "ANTHEA.Serialization"];
     foreach (string module in modules)
     {

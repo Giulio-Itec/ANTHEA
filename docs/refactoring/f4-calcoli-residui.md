@@ -220,11 +220,11 @@ del merge 1.7.1 non è un’approvazione anticipata di qualsiasi futuro merge F4
 - [x] F4-P0: piano aggiornato e inventario iniziale sul ramo dedicato.
 - [x] F4.1a: [matrice verificata dei servizi/API/prove](f4-matrice-api.md) e copertura mancante; API e chiamanti riscontrati sul set V, nessun calcolo trasferito.
 - [x] F4.1b: [catture dei cinque ambiti autorizzati](f4-catture.md), 115 casi, 14 rifiuti, 234 file identici, determinismo con uno/quattro worker e tempi; Bridge Design sospesa.
-- [ ] F4.2: estensione dei controlli automatici esistenti.
+- [x] F4.2: [controlli automatici estesi](f4-architettura.md), baseline per espressione e 26 prove del rilevatore; 5 PASS del runner.
 - [ ] F4.3–F4.15: secondo ordine e criteri sopra descritti, esclusa F4.11 sospesa.
 - [ ] F4.16: chiusura sospesa su richiesta dell’utente, anche se altri punti risultassero conclusi.
 
-F4.1a e F4.1b sono concluse nel perimetro autorizzato; si procede con **F4.2**, prima dei trasferimenti. Ogni punto
+F4.1 e F4.2 sono concluse nel perimetro autorizzato; si procede con **F4.3–F4.4**. Ogni punto
 chiuso ha il proprio commit con evidenze e aggiornamento del piano; un punto
 ampio può avere sottopassi autonomi. Dopo ciascuno si comunica all’utente
 cosa è cambiato, quali prove sono passate e cosa resta aperto.
