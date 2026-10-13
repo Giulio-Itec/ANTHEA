@@ -201,3 +201,11 @@ Corsa finale 20261013-040439-f3-all-chapters-final: 8 PASS; 37 capitoli dei dodi
 ConcretePreview prepara geometria e proprietà attraverso gli stessi motori; la finestra aggiorna soltanto i controlli. ConcretePropertySession possiede la fotografia della sezione, riusa il modello e serializza le richieste con lo scheduler comune. Testi del report invariati; la chiusura invalida anche un lavoro già dentro il motore. Nessuna copia delle formule. I tipi grafici nativi ancora esposti restano un residuo esplicito di F3.7b.
 
 Corsa 20261013-041008-f3-concrete-property-service: 9 PASS, proprietà della finestra, tutti i capitoli autonomi e 458 file F3 equivalenti. Corsa finale 041258-f3-concrete-properties-final: 5 PASS, tredici nuovi controlli su copie di input e opzioni, conversione φ/n, errore locale/recupero, annullamento, chiusura e indipendenza della geometria. TypeRef Calculations ridotti da 133 a 127; async void da 5 a 4. Nessuna modifica agli attesi.
+
+## F3.7b.1 — ispezione della sezione
+
+ConcreteInspectionSession possiede cache e richieste Ed/Rd; l’azione Ed conserva tutte le componenti anche nel dominio 2D proiettato, Rd legge il piano nativo salvato. Richieste seriali, annullamento, invalidazione e chiusura usano lo scheduler comune; le notifiche tardive non aggiornano la vista. Testi dell’ispezione e riepiloghi condivisi in ConcreteResponsePresentation. Nessuna ricerca di resistenza aggiunta.
+
+Cattura prima 041441-f3-inspection-before; dopo 041739-f3-concrete-inspection-built: 9 PASS, 458 file equivalenti, scheduling e ispezione WPF. Tutti i 32 PNG sono identici byte per byte, anche contouring 2D/3D e piano di deformazione. Corsa finale 042027-f3-inspection-final: 5 PASS; nove nuovi controlli portabili con barriera, riuso del piano limite/Ed, copie e chiusura. Async void ridotti a 3. La prima build richiedeva il riferimento Geometry nel progetto Application: aggiunto, senza cambiare il set GPC.
+
+Corretto anche il registro: la voce F3-01 era stata inserita nell’elenco degli stati anziché fra le voci; ora è nella posizione prevista, con contenuto invariato. Dichiarato lo stato attuato già presente nelle voci storiche. Quattro controlli impediscono voci spostate, duplicati e stati non dichiarati. La serializzazione delle richieste è classificata F3-02; non cambia i risultati numerici.

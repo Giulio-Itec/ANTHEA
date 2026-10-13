@@ -170,6 +170,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
   - [x] F3.6h.3 (13/10): curve M–χ, resistenze rapide e ricerca armature tramite StructuralQueries. Scheduler comune per curve/resistenze; ricerche interrotte conservano i risultati parziali esplicitamente marcati, senza aggiornamenti dopo chiusura. 12 PASS con smoke, ricerca armature e 458 file equivalenti; 37 prove WPF di concorrenza/chiusura finali. TypeRef Calculations 133, async void 5.
 - [~] F3.7 [CP] Chiusura: X.Desktop dipende solo dallo strato applicativo.
   - [x] F3.7a (13/10): preparazione delle preview CA e sessione delle proprietà in Application. Modello riusato, richieste seriali e risultati tardivi scartati; tredici controlli di copie/recupero/chiusura, smoke CA e 458 file equivalenti. TypeRef Calculations 127, async void 4.
+  - [x] F3.7b.1 (13/10): ispezione σ/ε in Application, cache per verifica e lettura del piano limite nativo; richieste seriali, revisione e chiusura protette. Nove suite e cinque finali passate, 32 PNG identici prima/dopo, nove prove portabili con barriere. Async void 3.
   - [ ] F3.7b: rimuovere i restanti accessi ai motori e i contratti concreti dalla UI; collaudo e rilascio della fase.
 
 ## Fase 4: calcoli residui nelle librerie

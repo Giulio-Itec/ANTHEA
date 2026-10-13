@@ -239,7 +239,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         foreach (var panel in stressPanels.Values) { panel.View.Stress = null; panel.View.EffectiveRegion=null;panel.Regions.ItemsSource=null;panel.View.InvalidateVisual(); panel.Detail.Text = "Nessun risultato aggiornato"; panel.CrackDetail.Text = "Dati modificati: passaggi in attesa di aggiornamento."; panel.Bars.Rows.Clear(); panel.Concrete.Rows.Clear(); }
         InvalidateCurvature();
         if (!geometryChanged) _ = RefreshQuickResistance();
-        foreach(var panel in domainPanels)UpdateSectionInspection(panel);
+        foreach(var panel in domainPanels) _ = UpdateSectionInspection(panel);
         if (geometryChanged) RefreshPreview(); RefreshSummary(); status.Text = "Modifiche acquisite · aggiornamento automatico in attesa…"; Modified?.Invoke(); QueueCalculation();
     }
     private void QueueCalculation()
@@ -357,5 +357,5 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         if (result.Count == 0) throw new ArgumentException("Nessuna combinazione da incollare.");
         return result;
     }
-    public void Dispose() { disposed = true; calculationQueued = false; analysisScheduler.Dispose(); curvatureScheduler.Dispose(); quickResistanceScheduler.Dispose(); designCancellation?.Cancel(); }
+    public void Dispose() { disposed = true; calculationQueued = false; analysisScheduler.Dispose(); curvatureScheduler.Dispose(); quickResistanceScheduler.Dispose(); designCancellation?.Cancel(); foreach (var panel in domainPanels) panel.Inspection.Session.Dispose(); }
 }

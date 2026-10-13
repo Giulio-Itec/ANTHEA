@@ -19,22 +19,7 @@
     "dichiarato",
     "da-correggere",
     "corretto",
-    {
-      "id": "F3-01",
-      "data": "2026-10-13",
-      "fase": "F3.4/F3.5",
-      "titolo": "Identità diagnostiche dei generatori DOCX trasferiti",
-      "famiglia": "tracce diagnostiche",
-      "categoria": "intenzionale",
-      "stato": "corretto",
-      "descrizione": "Otto rinomine esatte Create → CreateDocument nelle sole identità dei chiamanti del banco, comprese tre lambda. Tracce TSV originali conservate. Nessuna sostituzione generica, nessuna tolleranza numerica nuova. Confronto F2 finale: 633 differenze, tutte limitate al campo chiamante di fallbacks.json (562 ReportWord, 49 Concrete, 10 RetainingWall, 7 Orizzontale, 3 ElasticPile, 2 Bridge).",
-      "codice": [
-        "tests/ANTHEA.Testing/Normalization/FallbackCallers.cs"
-      ],
-      "evidenze": [
-        "supporto/artefatti/ci/20261013-020742-f3-dispatch-headless-current"
-      ]
-    }
+    "attuato"
   ],
   "nota_voci_r": "Le voci R1-R14 vengono dalla ricerca normativa sulla fessurazione (supporto/artefatti/refactoring/ricerca-a/rapporto.md) e dalla revisione dei metodi c.a. per le pagine docs/metodi di Checker (branch locali anthea-metodi-ca-1 e anthea-metodi-ca-2, harness in supporto/artefatti/refactoring/metodi e metodi2). R15 viene dalla revisione di D7-b. Le voci R16-R21 vengono dalla verifica delle pagine dei metodi unite in Checker develop (F2.2: merge c555a3b8 e 1fbaea61 e correzioni successive, riquadri collegati alle voci in e41a803a); stato da-decidere e stessa decisione di R4-R14 (F5.15). Il segno è riferito al testo della norma del profilo; dove il testo primario non è stato letto il grado di certezza è indicato nel campo riscontro.",
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
@@ -3520,6 +3505,46 @@
       "evidenze": [
         "supporto/artefatti/ci/20261013-004459-sez-set-v-full",
         "supporto/artefatti/guide_anthea_itec_rev39"
+      ]
+    },
+    {
+      "id": "F3-01",
+      "data": "2026-10-13",
+      "fase": "F3.4/F3.5",
+      "titolo": "Identità diagnostiche dei generatori DOCX trasferiti",
+      "famiglia": "tracce diagnostiche",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Otto rinomine esatte Create → CreateDocument nelle sole identità dei chiamanti del banco, comprese tre lambda. Tracce TSV originali conservate. Nessuna sostituzione generica, nessuna tolleranza numerica nuova. Confronto F2 finale: 633 differenze, tutte limitate al campo chiamante di fallbacks.json (562 ReportWord, 49 Concrete, 10 RetainingWall, 7 Orizzontale, 3 ElasticPile, 2 Bridge).",
+      "codice": [
+        "tests/ANTHEA.Testing/Normalization/FallbackCallers.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-020742-f3-dispatch-headless-current"
+      ]
+    },
+    {
+      "id": "F3-02",
+      "data": "2026-10-13",
+      "fase": "F3.5/F3.6/F3.7",
+      "titolo": "Richieste applicative seriali e pubblicazione per revisione",
+      "famiglia": "interfaccia/orchestrazione",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Scheduler comune senza WPF: sostituzione dei timer di calcolo, serializzazione anche per motori non cooperativi, annullamento e pubblicazione solo della revisione corrente. Proprietà e ispezione della sezione riusano il modello/piano esistente e non aggiornano finestre chiuse. Risultati e immagini restano equivalenti; cambiano coordinamento e gestione delle richieste superate.",
+      "codice": [
+        "src/ANTHEA.Application/Scheduling/RecalculationScheduler.cs",
+        "src/ANTHEA.Application/Concrete/ConcretePropertySession.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteInspectionSession.cs"
+      ],
+      "segno": "Nessuna differenza numerica o grafica nelle catture. Richieste superate non pubblicate; ritardi dei moduli conservati, Bridge Design passa al ritardo pianificato di 450 ms.",
+      "test": [
+        "Prove con barriere, motori non cooperativi, modifiche e chiusura",
+        "458 file F3 equivalenti; 32 PNG ispezione identici byte per byte"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-041739-f3-concrete-inspection-built",
+        "supporto/artefatti/ci/20261013-042027-f3-inspection-final"
       ]
     }
   ]

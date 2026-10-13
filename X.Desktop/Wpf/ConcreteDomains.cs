@@ -196,7 +196,7 @@ internal sealed partial class ConcreteWorkspace
         panel.NeedsVisualRefresh = true;
         if (synchronizing || panel.AttachingRows || panel.Grid is null || !renderHidden && !panel.Grid.IsVisible) return;
         panel.NeedsVisualRefresh = false;
-        UpdateSectionInspection(panel);
+        _ = UpdateSectionInspection(panel);
         var row = panel.Grid.SelectedItem as JsonRow; string? id = row?.Values.S("id"); domainResults.TryGetValue(panel.Prefix + panel.Key, out var checks); DomainCheck? selectedCheck = id is null ? null : checks?.GetValueOrDefault(id);
         if (panel.ThreeD)
         {
@@ -232,13 +232,7 @@ internal sealed partial class ConcreteWorkspace
     }
     private static Brush RatioColor(double? ratio) => UtilizationPalette.Brush(ratio);
     private static string ResponseSummary(SectionResponse? r, string title)
-    {
-        if (r is null) return title + "\nRiepilogo nativo non disponibile";
-        static string V(double? v) => EngineeringFormat.Number(v);
-        string s = $"\n{title}\nσc min / max: {V(r.CMin)} / {V(r.CMax)} MPa\nσs min / max: {V(r.SMin)} / {V(r.SMax)} MPa\nεc min / max: {V(r.EcMin)} / {V(r.EcMax)} ‰\nεs min / max: {V(r.EsMin)} / {V(r.EsMax)} ‰";
-        if (r.PMin is not null) s += $"\nσp min / max: {V(r.PMin)} / {V(r.PMax)} MPa\nεp min / max: {V(r.EpMin)} / {V(r.EpMax)} ‰";
-        return s + $"\n\nd utile: {V(r.UsefulDepth)} mm\nDistanza asse neutro dal lembo (GPC Engine): {V(r.NeutralDistance)} mm\nInclinazione asse neutro: {V(r.NeutralAngle)}°\n— indica dato non disponibile (es. deformazione uniforme).";
-    }
+        => Anthea.Application.Concrete.ConcreteResponsePresentation.ResponseSummary(r, title);
     private async Task RunAnalysis(Func<CancellationToken, Task> work)
     {
         if (Busy || disposed) return;

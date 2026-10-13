@@ -29,6 +29,13 @@ try
         foreach (string file in SourceFiles(Path.Combine(root, "src", module)))
             Check(!File.ReadAllText(file).Contains("Type.GetTypeFromProgID", StringComparison.Ordinal), "COM nello strato applicativo: " + file);
     }
+    using var differences = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "docs/refactoring/registro-differenze.json")));
+    var states = differences.RootElement.GetProperty("stati").EnumerateArray().ToArray();
+    Check(states.All(s => s.ValueKind == JsonValueKind.String), "Voci di differenza inserite nell’elenco degli stati");
+    var entries = differences.RootElement.GetProperty("voci").EnumerateArray().ToArray();
+    Check(entries.Select(e => e.GetProperty("id").GetString()).Distinct().Count() == entries.Length, "Identità duplicate nel registro");
+    Check(entries.All(e => states.Any(s => s.GetString() == e.GetProperty("stato").GetString())), "Stato non dichiarato nel registro");
+    Check(entries.Any(e => e.GetProperty("id").GetString() == "F3-01"), "Rinomine diagnostiche F3 non registrate fra le differenze");
     var baseline = JsonSerializer.Deserialize<ArchitectureBaseline>(File.ReadAllText(Path.Combine(root, "tests/fixtures/f3/architecture.json")))!;
     using var fixtureManifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "tests/fixtures/f3/manifest.json")));
     string manifestHash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(Path.Combine(root, "lib/Checker/manifest.json"))));

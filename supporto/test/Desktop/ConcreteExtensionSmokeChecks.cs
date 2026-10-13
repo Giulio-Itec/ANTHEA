@@ -70,7 +70,7 @@ internal sealed partial class ConcreteWorkspace
         await Capture("00_resistenze_rapide");
         tabs.SelectedIndex=1;await Idle();var panel=domainPanels.First(p=>p.ThreeD);panel.Grid.SelectedIndex=0;
         await Capture("00b_linea_verifica");
-        panel.Inspection.Tabs.SelectedIndex=1;UpdateSectionInspection(panel);
+        panel.Inspection.Tabs.SelectedIndex=1;await UpdateSectionInspection(panel);
         for(int i=0;i<200&&panel.Inspection.View.Stress is null;i++)await Task.Delay(25);
         Check(panel.Inspection.View.Stress is not null,"Mappa del punto limite: "+panel.Inspection.Message.Text);
         await Capture("01_limite");
@@ -85,7 +85,7 @@ internal sealed partial class ConcreteWorkspace
             }
             inspectedPanel.Grid.SelectedIndex = 0;
             inspectedPanel.Inspection.Tabs.SelectedIndex = 1;
-            UpdateSectionInspection(inspectedPanel);
+            await UpdateSectionInspection(inspectedPanel);
             for(int i=0;i<200&&inspectedPanel.Inspection.View.Stress is null;i++)await Task.Delay(25);
             Check(inspectedPanel.Inspection.View.Stress is not null, "Soluzione disponibile per il test del menu " + inspectedPanel.Prefix);
             await Idle();
