@@ -46,6 +46,7 @@ public sealed partial class SectionActionsViewModel : ObservableObject
     public JsonObject? Result { get; private set; }
     public SectionActionsViewModel(JsonObject data)
     {
+        Rows.CollectionChanged += (_, _) => OnPropertyChanged(nameof(HasOrigins));
         source = (JsonObject)data.DeepClone(); SectionWorkspace.Prepare(source);
         Legacy = !SectionActionInputs.Unified(source);
         foreach (var (key, rows) in ConcreteSheetPreparation.ReadActions(source))
@@ -81,7 +82,6 @@ public sealed partial class SectionActionsViewModel : ObservableObject
         if (drafts.Length + (replace ? 0 : Rows.Count) > 10000) throw new ArgumentException("Massimo 10.000 combinazioni.");
         if (replace) Rows.Clear();
         foreach (var row in drafts) Rows.Add(row);
-        OnPropertyChanged(nameof(HasOrigins));
         Status = $"Lette {drafts.Length} righe. " + (import.FormulaCells > 0 ? $"{import.FormulaCells} formule: usati i valori memorizzati; verificare che Excel sia stato ricalcolato e salvato. " : "") + "Applica per confermare.";
     }
     public bool Apply()

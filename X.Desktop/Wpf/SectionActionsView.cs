@@ -10,7 +10,7 @@ namespace X.Desktop;
 
 internal static class SectionActionsView
 {
-    internal static Window Create(FrameworkElement owner, SectionActionsViewModel vm)
+    internal static Window Create(FrameworkElement owner, SectionActionsViewModel vm, string importPath = "")
     {
         var grid = new DataGrid { AutoGenerateColumns = false, CanUserAddRows = false, CanUserDeleteRows = false,
             ItemsSource = vm.Rows, SelectionMode = DataGridSelectionMode.Single, EnableRowVirtualization = true, MinHeight = 250 };
@@ -34,7 +34,7 @@ internal static class SectionActionsView
         { var button = Ui.Button(label, () => { }); button.Command = command; return button; }
         void Import(bool replace)
         {
-            var file = new OpenFileDialog { Filter = "Cartella Excel|*.xlsx" };
+            var file = new OpenFileDialog { Filter = "Cartella Excel|*.xlsx", FileName = importPath };
             if (file.ShowDialog(dialog) != true) return;
             Run(() => { if (new FileInfo(file.FileName).Length > 20_000_000) throw new ArgumentException("Massimo 20 MB."); vm.Import(File.ReadAllBytes(file.FileName), replace); });
         }
