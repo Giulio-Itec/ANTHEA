@@ -202,7 +202,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
 
 ## Coda dopo F3: input delle sollecitazioni da Excel
 
-- [ ] EXCEL-SOL (richiesta del 13/10, requisiti precisati dall'utente): riscrittura degli input delle sollecitazioni tramite Excel, dopo la chiusura dei punti F3 già concordati. Colonne nell'ordine: `Elemento` (facoltativo), `Nome combo`, `Stato limite`, `N`, `Vx`, `Vy`, `T`, `Mx`, `My`. Un solo insieme di sei componenti per riga/combinazione alimenta tutte le verifiche pertinenti allo stato limite. SLU e SLV alimentano anche taglio e torsione; Rara, Frequente e Quasi permanente alimentano i rispettivi controlli SLE. Eliminare la famiglia di input separata `Taglio`, conservando l'accesso alle verifiche di taglio/torsione. Requisiti e cautele di compatibilità in [decisioni.md](decisioni.md#13-ottobre--input-unificato-delle-sollecitazioni-da-excel). I requisiti principali sono già forniti: a fine F3 discutere soltanto le eventuali ambiguità residue, senza chiedere nuovamente il formato. Implementazione sul ramo `codex/section-actions-excel`; criterio Plastico/Elastico selezionabile nella verifica approvato il 13/10. Sottopassi: contratto e instradamento, Excel/editor, collaudo e guide.
+- [x] EXCEL-SOL (richiesta del 13/10, requisiti precisati dall'utente): riscrittura degli input delle sollecitazioni tramite Excel, dopo la chiusura dei punti F3 già concordati. Colonne nell'ordine: `Elemento` (facoltativo), `Nome combo`, `Stato limite`, `N`, `Vx`, `Vy`, `T`, `Mx`, `My`. Un solo insieme di sei componenti per riga/combinazione alimenta tutte le verifiche pertinenti allo stato limite. SLU e SLV alimentano anche taglio e torsione; Rara, Frequente e Quasi permanente alimentano i rispettivi controlli SLE. Eliminare la famiglia di input separata `Taglio`, conservando l'accesso alle verifiche di taglio/torsione. Requisiti e cautele di compatibilità in [decisioni.md](decisioni.md#13-ottobre--input-unificato-delle-sollecitazioni-da-excel). I requisiti principali sono già forniti: a fine F3 discutere soltanto le eventuali ambiguità residue, senza chiedere nuovamente il formato. Implementazione sul ramo `codex/section-actions-excel`; criterio Plastico/Elastico selezionabile nella verifica approvato il 13/10. Sottopassi: contratto e instradamento, Excel/editor, collaudo e guide.
 - F4 resta ferma per indicazione esplicita dell'utente; la chiusura di F3 e questa attività accodata non ne autorizzano l'avvio.
 
 ## Fase 4: calcoli residui nelle librerie
@@ -442,7 +442,7 @@ Punto 5.2: implementato in `ANTHEA.DesignTools.Presentation` senza WPF e vista c
 - [x] Contratto unico, instradamento e criterio resistente indipendente; EXCEL-SOL-01, controlli prima/dopo PASS.
 - [x] Nuovo Excel, editor MVVM, conversione esplicita e report; EXCEL-SOL-02, 1229 controlli Application e suite WPF passati.
 - [x] Guide Rev41, indici e Wiki aggiornati; Word/PDF controllati su 222 pagine, 337 formule conservate. Rev40 archiviata con impronte. Versione applicazione 1.7.0 per la nuova funzionalità; DLL GPC invariate.
-- [ ] Collaudo generale e rilascio.
+- [x] Collaudo standard e quattro suite WPF conclusi: 71 esiti finali PASS, con ripresa del solo controllo sul registro. Installer 1.7.0 da sorgente pulito e pubblicato 68330851; dieci DLL identiche al manifest. [Verbale e limiti](chiusura-excel-sol-20261013.md). F4 ferma.
 
 - [x] EXCEL-SOL-UI: contenitore opaco e spaziatura della finestra verificati anche in esportazione immagine; suite WPF dedicata PASS (20261013-144358-excel-sol-window-final).
 
