@@ -11,11 +11,7 @@ namespace X.Desktop;
 public sealed partial class MainWindow
 {
     private static JsonObject SectionReportSnapshot(JsonObject section)
-    {
-        var top = ProjectSharedData.Ancestors(section).LastOrDefault() ?? section;
-        int index = ProjectSharedData.Sections(top).ToList().IndexOf(section);
-        return ProjectSharedData.Sections((JsonObject)top.DeepClone()).ElementAt(index);
-    }
+        => Anthea.Application.Reporting.ProjectReportService.Snapshot(section);
 
     private void ExportSectionReport(JsonObject section)
     {
@@ -69,38 +65,29 @@ public sealed partial class MainWindow
 
     private static string[] SectionReportWarnings(JsonObject section) => ProjectValidation.Warnings(section);
 
-    private static async Task<int> GenerateSectionReport(JsonObject snapshot, string filename, Action<string> progress, CancellationToken cancellation)
+    private static Task<int> GenerateSectionReport(JsonObject snapshot, string filename, Action<string> progress, CancellationToken cancellation)
+        => Anthea.Application.Reporting.ProjectReportService.WriteSnapshotAsync(snapshot, filename,
+            new SheetEditorReportChapterBuilder(), progress, cancellation);
+}
+
+/// <summary>Temporary chapter adapter while module figure renderers are extracted (F3.5b.2).</summary>
+internal sealed class SheetEditorReportChapterBuilder : Anthea.Application.Reporting.IProjectReportChapterBuilder
+{
+    public async Task<ReportProject.SheetContent> BuildAsync(JsonObject sheet, CancellationToken cancellation)
     {
-        var sheets = ProjectSharedData.SubtreeSheets(snapshot).ToArray();
-        if (sheets.Length == 0) throw new ArgumentException("La sezione non contiene schede.");
-        var reports = new Dictionary<JsonObject, ReportProject.SheetContent>();
-        for (int i = 0; i < sheets.Length; i++)
-        {
-            cancellation.ThrowIfCancellationRequested(); var sheet = sheets[i]; string module = sheet.S("modulo_id");
-            progress($"Scheda {i + 1} di {sheets.Length}: {sheet.S("nome")}\nAggiornamento dei calcoli e preparazione del report…");
-            await Dispatcher.Yield(DispatcherPriority.Background);
-            try
-            {
-                using var reportEditor = new SheetEditor(module, sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(module));
-                await reportEditor.CalculateAsync(); reportEditor.Commit();
-                progress($"Scheda {i + 1} di {sheets.Length}: {sheet.S("nome")}\nCalcolo completato, composizione del capitolo…");
-                sheet["dati"] = reportEditor.Data.DeepClone(); cancellation.ThrowIfCancellationRequested();
-                if (module is RebarMaterial.Module or "mat_calcestruzzo")
-                { reports[sheet] = reportEditor.MaterialReportContent(); continue; }
-                if (!reportEditor.HasResults) throw new ArgumentException("Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.");
-                string? error = reportEditor.Result?["errori_calcolo"] is JsonObject errors && errors.Count > 0 ? string.Join("; ", errors.Select(p => p.Key + ": " + p.Value)) : null;
-                var options = module == BridgeSection.Module ? ReportBridge.DefaultSections() : module == "str_palo" ? ReportConcrete.Sections.Where(s => s.Key is not ("dettagli" or "sle_tutte")).Select(s => s.Key).ToHashSet() :
-                    ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
-                var document = reportEditor.BuildReportDocument(sheet.S("nome"), options, projectReport: true);
-                progress($"Scheda {i + 1} di {sheets.Length}: capitolo pronto.");
-                reports[sheet] = new(Error: error, Document: document);
-            }
-            catch (Exception ex) when (ex is not OperationCanceledException && ex is not IOException && ex is not UnauthorizedAccessException)
-            { reports[sheet] = new(Error: ex.Message); }
-        }
-        cancellation.ThrowIfCancellationRequested(); progress("Unione dei dati comuni e impaginazione…");
-        var plan = new ProjectReportPlan(snapshot); var warnings = SectionReportWarnings(snapshot);
-        await Task.Run(() => { cancellation.ThrowIfCancellationRequested(); ReportProject.Write(filename, plan, reports, warnings, cancellation); }, cancellation);
-        return reports.Values.Count(r => r.Error is not null);
+        string module = sheet.S("modulo_id");
+        await Dispatcher.Yield(DispatcherPriority.Background);
+        using var reportEditor = new SheetEditor(module, sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(module));
+        await reportEditor.CalculateAsync(); reportEditor.Commit();
+        sheet["dati"] = reportEditor.Data.DeepClone(); cancellation.ThrowIfCancellationRequested();
+        if (module is RebarMaterial.Module or "mat_calcestruzzo") return reportEditor.MaterialReportContent();
+        if (!reportEditor.HasResults) throw new ArgumentException("Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.");
+        string? error = reportEditor.Result?["errori_calcolo"] is JsonObject errors && errors.Count > 0
+            ? string.Join("; ", errors.Select(p => p.Key + ": " + p.Value)) : null;
+        var options = module == BridgeSection.Module ? ReportBridge.DefaultSections() : module == "str_palo"
+            ? ReportConcrete.Sections.Where(s => s.Key is not ("dettagli" or "sle_tutte")).Select(s => s.Key).ToHashSet()
+            : ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
+        var document = reportEditor.BuildReportDocument(sheet.S("nome"), options, projectReport: true);
+        return new(Error: error, Document: document);
     }
 }
