@@ -41,6 +41,28 @@ try
     string manifestHash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(Path.Combine(root, "lib/Checker/manifest.json"))));
     Check(manifestHash.Equals(fixtureManifest.RootElement.GetProperty("library_manifest_sha256").GetString(), StringComparison.OrdinalIgnoreCase), "Set GPC cambiato durante F3: il riferimento va riesaminato prima degli spostamenti");
     var desktop = Metadata(Path.Combine(root, "X.Desktop/bin/Release/net8.0-windows/ANTHEA.dll"));
+    // Metadata records constructors/methods actually referenced by the built product, including target-typed new.
+    // This inventory does not classify all engineering semantics: getters and data adapters remain visible.
+    var accesses = desktop.Members.Where(m => m.Assembly == "ANTHEA.Calculations" || m.Assembly.StartsWith("GPCChecker", StringComparison.Ordinal)).ToArray();
+    string[] transferredCalls = [
+        "Anthea.Calculations.SezioneCA::.ctor", "Anthea.Calculations.CheckerSection::PrepareModel",
+        "Anthea.Calculations.ConcreteSectionProperties::Calculate", "Anthea.Calculations.ConcreteCurvatureAnalysis::Calculate",
+        "Anthea.Calculations.ConcreteReinforcementDesign::Optimize", "Anthea.Calculations.SectionMomentResistance::Calculate",
+        "Anthea.Calculations.BridgeSection::Calculate", "Anthea.Calculations.PaloOrizzontale::Calculate",
+        "Anthea.Calculations.MicropaloOrizzontale::Calculate", "Anthea.Calculations.RetainingWall::Calculate"
+    ];
+    foreach (string call in transferredCalls)
+        Check(!accesses.Any(m => m.Type + "::" + m.Name == call), "Chiamata al motore ritornata nella UI: " + call);
+    Check(accesses.Any(m => m.Name.StartsWith("get_", StringComparison.Ordinal)) && accesses.Any(m => m.Kind == "Method" && !m.Name.StartsWith("get_", StringComparison.Ordinal)),
+        "Inventario non distingue accessi ai dati e metodi residui");
+    File.WriteAllText(Path.Combine(output, "desktop-accesses.json"), JsonSerializer.Serialize(new {
+        Kind = "metadata-inventory-not-semantic-compliance", Members = accesses,
+        Counts = accesses.GroupBy(m => m.Assembly).ToDictionary(g => g.Key, g => new {
+            Total = g.Count(), Fields = g.Count(m => m.Kind == "Field"),
+            PropertyAccessors = g.Count(m => m.Kind == "Method" && (m.Name.StartsWith("get_") || m.Name.StartsWith("set_"))),
+            Constructors = g.Count(m => m.Name == ".ctor")
+        })
+    }, new JsonSerializerOptions { WriteIndented = true }));
     Check(!desktop.Assemblies.Contains("Materiali"), "Progetto WPF Materiali ancora separato dal Desktop");
     Check(!desktop.Assemblies.Contains("ANTHEA.Core"), "Core ancora presente nel prodotto desktop");
     var reportSources = SourceFiles(Path.Combine(root, "src/ANTHEA.Reports")).ToArray();
@@ -83,19 +105,31 @@ static bool IsDesktop(string name) => name is "PresentationCore" or "Presentatio
     || name.StartsWith("Microsoft.Office", StringComparison.Ordinal);
 static IEnumerable<string> SourceFiles(string directory) => Directory.EnumerateFiles(directory, "*.cs", SearchOption.AllDirectories)
     .Where(f => !Path.GetRelativePath(directory, f).Split(Path.DirectorySeparatorChar).Any(p => p is "bin" or "obj"));
-static (string[] Assemblies, Dictionary<string, string[]> Types) Metadata(string path)
+static (string[] Assemblies, Dictionary<string, string[]> Types, MemberAccess[] Members) Metadata(string path)
 {
     using var stream = File.OpenRead(path); using var reader = new PEReader(stream); var metadata = reader.GetMetadataReader();
     string Assembly(EntityHandle handle) => handle.Kind switch {
         HandleKind.AssemblyReference => metadata.GetString(metadata.GetAssemblyReference((AssemblyReferenceHandle)handle).Name),
         HandleKind.TypeReference => Assembly(metadata.GetTypeReference((TypeReferenceHandle)handle).ResolutionScope), _ => ""
     };
+    string TypeName(TypeReferenceHandle handle)
+    {
+        var type = metadata.GetTypeReference(handle); string name = metadata.GetString(type.Name);
+        if (type.ResolutionScope.Kind == HandleKind.TypeReference) return TypeName((TypeReferenceHandle)type.ResolutionScope) + "+" + name;
+        string ns = metadata.GetString(type.Namespace); return ns.Length == 0 ? name : ns + "." + name;
+    }
+    var members = metadata.MemberReferences.Select(h => metadata.GetMemberReference(h))
+        .Where(m => m.Parent.Kind == HandleKind.TypeReference)
+        .Select(m => new MemberAccess(Assembly(m.Parent), TypeName((TypeReferenceHandle)m.Parent), metadata.GetString(m.Name), m.GetKind().ToString()))
+        .Distinct().OrderBy(m => m.Assembly, StringComparer.Ordinal).ThenBy(m => m.Type, StringComparer.Ordinal).ThenBy(m => m.Name, StringComparer.Ordinal).ToArray();
     var types = metadata.TypeReferences.Select(h => metadata.GetTypeReference(h)).Select(t => new {
         Assembly = Assembly(t.ResolutionScope), Type = metadata.GetString(t.Namespace) + "." + metadata.GetString(t.Name)
     }).GroupBy(t => t.Assembly).ToDictionary(g => g.Key, g => g.Select(t => t.Type).Order(StringComparer.Ordinal).ToArray());
-    return (metadata.AssemblyReferences.Select(h => metadata.GetString(metadata.GetAssemblyReference(h).Name)).ToArray(), types);
+    return (metadata.AssemblyReferences.Select(h => metadata.GetString(metadata.GetAssemblyReference(h).Name)).ToArray(), types, members);
 }
 internal sealed record SourceCount(string File, int Count);
 internal sealed record ArchitectureBaseline(Dictionary<string, string[]> TypeRefs, SourceCount[] AsyncVoid, SourceCount[] DispatcherTimer);
 
 internal sealed record ArchitectureLimits(Dictionary<string, int> TypeRefs, int AsyncVoid, int DispatcherTimer);
+
+internal sealed record MemberAccess(string Assembly, string Type, string Name, string Kind);
