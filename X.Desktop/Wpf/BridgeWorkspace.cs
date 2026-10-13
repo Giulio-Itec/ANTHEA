@@ -1,3 +1,4 @@
+using Anthea.Application.Presentation;
 using Anthea.Application.Modules;
 using Anthea.Application.Scheduling;
 using System.Globalization;
@@ -353,7 +354,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         Drawing.Input = geometryPage || stage is null ? previewInput : result!.Input;
         Drawing.Stage = geometryPage ? null : stage;
         NeutralAxisToggle.Visibility = geometryPage ? Visibility.Collapsed : Visibility.Visible;
-        NeutralAxisToggle.ToolTip = stage is null ? "Asse neutro del risultato selezionato." : SectionNeutralAxis.Bridge(stage).Explanation;
+        NeutralAxisToggle.ToolTip = stage is null ? "Asse neutro del risultato selezionato." : NeutralAxisPresentation.Bridge(stage).Explanation;
         Drawing.Mode = geometryPage ? 2 : DisplayChoice.SelectedIndex;
         GeometryLabels.Visibility = RebarLabels.Visibility = Drawing.Mode == 2 ? Visibility.Visible : Visibility.Collapsed;
         Drawing.IsStale = !geometryPage && ResultsAreStale;

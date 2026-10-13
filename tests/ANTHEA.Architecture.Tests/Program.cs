@@ -47,6 +47,8 @@ try
     string[] transferredCalls = [
         "Anthea.Calculations.SezioneCA::.ctor", "Anthea.Calculations.Barra::.ctor",
         "Anthea.Calculations.ConcreteCalculationSettings::UpdateAutomaticShear", "Anthea.Calculations.CheckerSection::PrepareModel",
+        "Anthea.Calculations.SectionNeutralAxis::Concrete", "Anthea.Calculations.SectionNeutralAxis::Bridge",
+        "GPC.Checkers.Concrete.Results.StrainPlane::GetStrain",
         "Anthea.Calculations.ConcreteSectionProperties::Calculate", "Anthea.Calculations.ConcreteCurvatureAnalysis::Calculate",
         "Anthea.Calculations.ConcreteReinforcementDesign::Optimize", "Anthea.Calculations.SectionMomentResistance::Calculate",
         "Anthea.Calculations.BridgeSection::Materials", "Anthea.Calculations.ConcreteMaterials::DesignValues",

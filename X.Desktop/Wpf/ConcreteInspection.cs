@@ -57,7 +57,7 @@ internal sealed partial class ConcreteWorkspace
     {
         var s = panel.Inspection; s.Session.Invalidate();
         s.View.Stress = null; s.View.Section = preview.Section; s.View.Tendons = preview.Tendons; s.View.InvalidateVisual();
-        s.Plane.State=null;s.Plane.Section=preview.Section;s.Plane.InvalidateVisual();
+        s.Plane.Diagram=null;s.Plane.InvalidateVisual();
         s.Values.Text = "Nessuna soluzione aggiornata disponibile.";
         if (initializing || disposed || s.Tabs.SelectedIndex != 1) return;
         var row = panel.Grid?.SelectedItem as JsonRow;
@@ -75,7 +75,7 @@ internal sealed partial class ConcreteWorkspace
                 if (current.Error is not null) { s.Message.Text = "Soluzione non disponibile: " + current.Error.Message; s.Values.Text = s.Message.Text; return; }
                 var state = current.Value!;
                 s.View.Stress = state; s.View.InvalidateVisual();
-                s.Plane.State = state; s.Plane.InvalidateVisual();
+                s.Plane.Diagram = Anthea.Application.Concrete.ConcreteStrainDiagram.Read(state, preview.Section!); s.Plane.InvalidateVisual();
                 var force = limit ? check.Resistance!.Value : action;
                 s.Values.Text = Anthea.Application.Concrete.ConcreteResponsePresentation.InspectionText(state, force,
                     limit ? "PUNTO LIMITE · assi locali" : "AZIONE INSERITA · assi " + panel.Options.S("assi"), preview.Section!);

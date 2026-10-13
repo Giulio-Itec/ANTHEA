@@ -17,6 +17,8 @@ public sealed partial class MainWindow
         Directory.CreateDirectory(directory);
         var checks = new List<string>();
         void Check(bool ok, string message) { if (!ok) throw new Exception(message); checks.Add("OK: " + message); }
+        static Anthea.Application.Presentation.NeutralAxisPresentation DrawingAxis(SectionNeutralAxis value) =>
+            new(value.Line is { } line ? new(new(line.Start.X, line.Start.Y), new(line.End.X, line.End.Y)) : null, value.Caption, value.Explanation);
         // Known affine fields, including a translated reference: the oracle is epsilon(x,y)=0.
         foreach (var sample in new[] { ("orizzontale", 0d, -.00001, .001), ("verticale", .00001, 0d, .001),
             ("inclinato", .00002, -.00001, .001), ("passante_riferimento", .00002, -.00001, 0d) })
@@ -28,7 +30,7 @@ public sealed partial class MainWindow
             var visual = new DrawingVisual();
             using (var dc = visual.RenderOpen())
             {
-                var display = NeutralAxisOverlay.Draw(dc, axis, (x,y) => new Point(400+x, 300-y), new Rect(150,100,500,400), new Rect(20,60,760,480), 30);
+                var display = NeutralAxisOverlay.Draw(dc, DrawingAxis(axis), (x,y) => new Point(400+x, 300-y), new Rect(150,100,500,400), new Rect(20,60,760,480), 30);
                 Check(display.Start.HasValue && display.End.HasValue && (display.Start.Value-display.End.Value).Length > 100, "Tracciamento asse " + sample.Item1);
                 foreach (var point in new[] { display.Start!.Value, display.End!.Value })
                     Check(Math.Abs(plane.GetStrain(point.X-400, 300-point.Y)) < 1e-12, "Ritaglio conserva ε=0: " + sample.Item1);
@@ -39,7 +41,7 @@ public sealed partial class MainWindow
         using (var dc = new DrawingVisual().RenderOpen())
         {
             var outside = SectionNeutralAxis.Concrete(new StrainPlane(0, -.00001, new Point2d(0,0), .1));
-            var display = NeutralAxisOverlay.Draw(dc, outside, (x,y) => new Point(400+x,300-y), new Rect(150,100,500,400), new Rect(20,60,760,480),30);
+            var display = NeutralAxisOverlay.Draw(dc, DrawingAxis(outside), (x,y) => new Point(400+x,300-y), new Rect(150,100,500,400), new Rect(20,60,760,480),30);
             Check(display.Start is null && display.Caption.Contains("esterno"), "Asse esterno segnalato senza falsa linea sulla sezione");
         }
         var data = Archivio.Documento("str_palo");

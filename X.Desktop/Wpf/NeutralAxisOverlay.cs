@@ -1,3 +1,4 @@
+using Anthea.Application.Presentation;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
@@ -8,7 +9,7 @@ namespace X.Desktop;
 internal static class NeutralAxisOverlay
 {
     internal sealed record Display(string Caption, Point? Start, Point? End);
-    internal static Display Draw(DrawingContext dc, SectionNeutralAxis axis, Func<double, double, Point> map,
+    internal static Display Draw(DrawingContext dc, NeutralAxisPresentation axis, Func<double, double, Point> map,
         Rect sectionBounds, Rect plot, double captionY)
     {
         Point? start = null, end = null;
