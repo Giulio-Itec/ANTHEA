@@ -42,17 +42,9 @@ internal sealed partial class HorizontalWorkspace
         bool catalog = Data["sezione"].S("modo_chs") == "Catalogo";
         sectionFields.Enable("profilo_chs", catalog, true);
         sectionFields.Enable("diametro_chs_mm", !catalog, true); sectionFields.Enable("spessore_chs_mm", !catalog, true);
-        string[] keys = ["diametro_mm", "spessore_mm", "area_mm2", "inerzia_mm4", "wel_mm3", "wpl_mm3", "massa_kg_m", "classe", "npl_kn", "mpl_knm"];
-        try {
-            var p = MicropaloOrizzontale.Properties(Data);
-            foreach (string key in keys) sectionFields.Set("__" + key, p.D(key).ToString(key == "classe" ? "0" : "N1"), true);
-            sectionFields.Set("__fyd", p.D("fyd_mpa").ToString("N1"), true);
-            chsDrawing.Properties = p;
-        }
-        catch (ArgumentException) {
-            foreach (string key in keys) sectionFields.Set("__" + key, "—", true);
-            sectionFields.Set("__fyd", "—", true); chsDrawing.Properties = null;
-        }
+        var preview = Anthea.Application.Presentation.HorizontalPreview.ChsSection(Data);
+        foreach (var (key, value) in preview.Fields) sectionFields.Set(key, value, true);
+        chsDrawing.Properties = preview.Geometry;
         chsDrawing.InvalidateVisual();
     }
 }

@@ -221,3 +221,9 @@ Prima: 042325-f3-wall-parameters-before. Dopo: 042449-f3-wall-parameters-service
 BridgePropertyPresentation prepara le tabelle di carpenteria reale/equivalente, soletta e fasi richiamando gli stessi metodi nativi. PresentationTable contiene soltanto titolo, colonne, righe e nota; la vista ne decide la resa. Un solo formato numerico condiviso con BridgeWorkspace. Omogeneizzazione aggiornata nello stesso ordine, unità, testi, ordinamento delle barre e scelta della fase conservati; nessuna formula nuova.
 
 Prima: 20261013-043128-f3-bridge-properties-before. Dopo: 20261013-043222-f3-bridge-property-service, dieci suite PASS, incluse Application/Architecture, ponte, predalle, 37 capitoli autonomi e 458 file F3. Quattro PNG della prova predalle identici byte per byte; evidenza bridge-properties-images.json. Nessuna differenza agli attesi o nuova eccezione. I contratti nativi residui della UI restano aperti in F3.7b.
+
+## F3.7b.4 — anteprime dei pali orizzontali
+
+HorizontalPreview prepara modello automatico, coefficienti, efficienza, Kp, proprietà CHS, resistenze e geometria circolare tramite le API esistenti. Per la geometria riusa ConcretePreview; restituisce dati posseduti senza mutare il foglio. Le invalidità locali conservano i precedenti messaggi/campi vuoti e non bloccano le proprietà indipendenti. Il valore γR mostrato storicamente è conservato e resta da unificare con la norma in F4; nessuna nuova formula in Application.
+
+Cattura prima 20261013-043832-f3-horizontal-preview-before; dopo 044003-f3-horizontal-preview: undici suite PASS, 458 file e capitoli autonomi equivalenti. Settantasei PNG identici fra smoke orizzontale e anello interno, evidenza horizontal-preview-images.json. Corsa 044250-f3-horizontal-preview-checks: cinque PASS, 388 controlli Application. Dodici nuove prove su copie, quote indipendenti del cerchio/armature, input parziali, limiti e recupero della preview CHS. Nessuna modifica agli attesi congelati.

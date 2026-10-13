@@ -88,6 +88,7 @@ try
     checks += await ConcretePropertyChecks.Run();
     checks += await ConcreteInspectionChecks.Run();
     checks += await WallParameterChecks.Run();
+    checks += HorizontalPreviewChecks.Run(root);
     checks += await ProjectReportServiceChecks.Run(output);
     string result = $"PASS {checks} controlli Application, documenti e revisioni";
     File.WriteAllText(Path.Combine(output, "esito.txt"), result);

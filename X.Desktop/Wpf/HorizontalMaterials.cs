@@ -43,12 +43,7 @@ internal sealed partial class HorizontalWorkspace
     private void UpdateSectionMaterialValues()
     {
         var input = Data["sezione"]!.AsObject();
-        try
-        {
-            var strengths = ConcreteMaterials.DesignValues(input, ConcreteStandards.PileWorkspace(input));
-            sectionFields.Set("__fcd", strengths.Fcd.ToString("F1"), true);
-            sectionFields.Set("__fyd", strengths.Fyd.ToString("F1"), true);
-        }
-        catch (ArgumentException) { sectionFields.Set("__fcd", "—", true); sectionFields.Set("__fyd", "—", true); }
+        foreach (var (key, value) in Anthea.Application.Presentation.HorizontalPreview.ConcreteStrengths(input))
+            sectionFields.Set(key, value, true);
     }
 }

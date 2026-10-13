@@ -173,6 +173,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
   - [x] F3.7b.1 (13/10): ispezione σ/ε in Application, cache per verifica e lettura del piano limite nativo; richieste seriali, revisione e chiusura protette. Nove suite e cinque finali passate, 32 PNG identici prima/dopo, nove prove portabili con barriere. Async void 3.
   - [x] F3.7b.2 (13/10): tabella modificabile dei parametri dei muri in Application, validazione con servizio comune; applicazione protetta da revisione e chiusura. 376 controlli Application e quattro nuove prove WPF, 24 PNG identici; F3-03. Async void 2.
   - [x] F3.7b.3 (13/10): tabelle delle proprietà di carpenteria, soletta e fasi preparate in Application; rendering WPF dai dati, formattazione numerica condivisa. Dieci suite passate, 458 file equivalenti e quattro PNG predalle identici.
+  - [x] F3.7b.4 (13/10): anteprime dei pali orizzontali in Application, con modello automatico, coefficienti, materiali, CHS e geometria circolare. Dodici controlli portabili aggiunti, undici suite e cinque finali passate; 76 PNG identici e 458 file equivalenti.
   - [ ] F3.7b: rimuovere i restanti accessi ai motori e i contratti concreti dalla UI; collaudo e rilascio della fase.
 
 ## Fase 4: calcoli residui nelle librerie

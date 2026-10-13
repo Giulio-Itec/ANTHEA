@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Anthea.Application.Modules;
+using Anthea.Application.Presentation;
 using Anthea.Application.Scheduling;
 using Microsoft.Win32;
 using X.Core;
@@ -192,38 +193,34 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
     private void Preview()
     {
         if (MicroHorizontal) UpdateChsPreview(); else UpdateSectionMaterialValues();
-        try { modelLabel.Text = "Modello automatico: " + PaloOrizzontale.ModelloAutomatico(Data); modelLabel.ToolTip = "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."; }
-        catch (ArgumentException ex) { modelLabel.Text = "Modello automatico · dati da completare"; modelLabel.ToolTip = ex.Message; }
+        var preview = HorizontalPreview.ReadModel(Data);
+        modelLabel.Text = preview.Label; modelLabel.ToolTip = preview.Hint;
         var g = Data["generali"]!; general.Enable("profondita_falda", g.B("presenza_falda"), dim: true);
         // Keep a legacy nonzero eccentricity editable so it can be corrected, never silently overwrite it.
         general.Enable("eccentricita", true);
         bool manual = g.S("origine_momento") == "Manuale";
         moment.Enable("momento_resistente", manual, dim: true); moment.Enable("provenienza_momento", manual, dim: true);
         sectionFields.IsEnabled = true; sectionFields.Opacity = 1; ejForm?.ShowField("ej_assegnato",Data["sezione"].B("ej_override")); ejForm?.ShowField("ej_motivo",Data["sezione"].B("ej_override"));
-        if (Calcolo.Verticali.TryGetValue(Data["verifica"].S("verticali_indagate", "1"), out var xi))
-        { factors.Set("__xi3", xi.Xi3.ToString("F2"), true); factors.Set("__xi4", xi.Xi4.ToString("F2"), true); }
-        factors.Set("__gamma_r", "1,30", true);
+        foreach (var (key, value) in preview.Factors) factors.Set(key, value, true);
         bool manualEfficiency = Data["verifica"].S("efficienza_metodo") == "Manuale";
         efficiency.Enable("efficienza_eta", manualEfficiency, dim: true);
         foreach (string key in new[] { "interasse_anteriore", "interasse_posteriore", "interasse_sinistro", "interasse_destro" })
             efficiency.Enable(key, !manualEfficiency, dim: true);
-        try { efficiency.Set("__eta", PaloOrizzontale.Efficiency(Data).D("eta").ToString("F3"), true); }
-        catch (ArgumentException) { efficiency.Set("__eta", "—", true); }
+        efficiency.Set("__eta", preview.Efficiency, true);
         foreach (var grid in grids) for (int i = 0; i < grid.Rows.Count; i++)
         {
             grid.Rows[i].Output("__strato", ((char)('A' + i % 26)).ToString());
             grid.Rows[i].Output("__color", StratigraphyDrawing.LayerColors[i % StratigraphyDrawing.LayerColors.Length]);
             var row = grid.Rows[i].Values;
-            double? phi = J.Number(row["angolo_attrito"]);
-            grid.Rows[i].Output("__kp", row.S("tipologia") == "Granulare" && phi is >= 0 and < 90
-                ? PaloOrizzontale.PassivePressureCoefficient(phi.Value).ToString("F1") : "—");
+            grid.Rows[i].Output("__kp", HorizontalPreview.PassivePressure(row));
         }
         profile.InvalidateVisual();
         if (!MicroHorizontal) try
         {
-            var input = (JsonObject)Data["sezione"]!.DeepClone(); input["shape"] = "Circolare"; input["diameter_mm"] = g.Required("diametro", strict: true) * 1000;
-            if (input.D("longitudinal_bar_count") > 512) throw new ArgumentException("Numero barre fuori campo");
-            var section = new SezioneCA(input, 12, 36); sectionDrawing.Outline = section.Outline; sectionDrawing.Bars = section.Bars;sectionDrawing.CircularLinkRadius=GPC.Checkers.Concrete.Piles.PileReinforcement.CircularLinkRadius(input.D("diameter_mm"),input.D("cover_mm"),input.D("transverse_bar_diameter_mm"));sectionDrawing.LinkDiameter=input.D("transverse_bar_diameter_mm");sectionDrawing.ShowAxes=true;sectionDrawing.Caption="Sezione principale · staffa verde";
+            var section = HorizontalPreview.ConcreteSection(Data);
+            sectionDrawing.Outline = section.Geometry.Outline; sectionDrawing.Bars = section.Geometry.Bars;
+            sectionDrawing.CircularLinkRadius = section.LinkRadius; sectionDrawing.LinkDiameter = section.LinkDiameter;
+            sectionDrawing.ShowAxes = true; sectionDrawing.Caption = "Sezione principale · staffa verde";
         }
         catch (ArgumentException) { sectionDrawing.Outline = []; sectionDrawing.Bars = [];sectionDrawing.CircularLinkRadius=0; }
         sectionDrawing.InvalidateVisual();
