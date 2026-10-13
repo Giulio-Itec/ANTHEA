@@ -337,7 +337,8 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [x] F4.12c.1 (14/10): Checker `b974777e`, catalogo e coordinatore in GPC.Design 0.8.0.0. Trenta test PASS, API compatibili; graduatoria/esclusioni indipendenti dai worker, riuso longitudinale, budget e cancellazione. Collegamento applicativo e residui NEd ancora aperti.
 - [ ] F4.13 Logica ingegneristica delle viste verso librerie o Application.
 - [ ] F4.14 [CP] Norme tipizzate negli adattatori residui; validazione esplicita.
-- [ ] F4.15 Copriferro di progetto in un validatore di Application.
+- [~] F4.15 Copriferro di progetto in un validatore di Application.
+  - [x] F4.15a (14/10): servizio CoverAssessment in Concrete 0.7.0.0, requisiti materiali/barre condivisi ed esiti comuni; dati mancanti non certificano un copriferro. Tre prove indipendenti PASS, API compatibili. Collegamento e confronto Application ancora aperti.
 - [ ] F4.16 [CP] Chiusura, pagine dei metodi, eliminazione del legacy su autorizzazione. **Riattivata il 13/10 sera**: richiesta di completare F4 durante la notte, con commit e aggiornamento a ogni passo. Confronti, guide, treno coerente e collaudo full restano obbligatori; F5 esclusa.
 
 ## Fase 5: interfaccia MVVM
