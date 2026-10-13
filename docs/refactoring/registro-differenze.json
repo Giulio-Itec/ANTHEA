@@ -25,6 +25,19 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-12",
+      "data": "2026-10-13",
+      "fase": "F4.8b.3/F4.10a.1",
+      "titolo": "Adattatore dettagli e distinta sul set coerente candidato",
+      "famiglia": "muri/adattatori",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Dettagli e distinta della build candidata delegano alle API Design; legacy selezionabile esplicitamente per le prove. Input obbligatori validati con il lettore esistente, profilo di copriferro sconosciuto rifiutato. Nessuna nuova formula in ANTHEA e nessuna eccezione alla baseline architetturale. Snapshot candidato fuori lib/Checker; integrazione distribuita ancora F4.9.",
+      "effetto_quantificato": "56 modelli, 30 distinte/CSV e 26127 valori confrontati, zero differenze non ammesse; scarto massimo 5.684341886080802e-14. Tre rifiuti espliciti senza mutazione del documento.",
+      "test": ["Runner 20261013-f4-detail-final: 5 PASS", "273 controlli architetturali PASS", "Set candidato con tutte le suite Model e Checker, soli 17 Steel noti"],
+      "evidenze": ["docs/refactoring/f4-adattatori-muri.md", "supporto/artefatti/refactoring/f4/detail-final.log", "supporto/artefatti/f4-set-a/coherent-complete/release-set.json"]
+    },
+    {
       "id": "F4-11",
       "data": "2026-10-13",
       "fase": "F4.10a",

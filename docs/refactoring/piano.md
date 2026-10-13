@@ -317,6 +317,7 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [~] F4.8b: dettagli delle armature, ancoraggi, sovrapposizioni e copriferri condivisi; confronto e collegamento con distinta F4.10.
     - [x] F4.8b.1: cattura diagnostica esplicita di 56 muri/distinte dal percorso legacy invariato, con controllo SHA degli input congelati; 2 PASS del runner. Nessuna sovrascrittura degli attesi. Il confronto nativo e il collegamento restano separati.
     - [x] F4.8b.2: Checker `bd3b2483`, dettagli tipizzati in Design e regole elementari condivise in Concrete. 374 barre, 2316 punti, 3260 controlli e 56 pesi equivalenti; suite complete 1660 PASS, soli 17 Steel noti. Concrete 0.6.0.0 / Design 0.2.0.0; integrazione ancora F4.9, registro F4-10.
+    - [x] F4.8b.3 / F4.10a.1: adattatore dettagli/distinta collegato nella build candidata, legacy conservato. 56 modelli, 30 distinte/CSV e 26127 numeri equivalenti; tre rifiuti espliciti, 5 PASS del runner con architettura. [Provenienza e limiti](f4-adattatori-muri.md); distribuzione ancora da completare in F4.9.
 - [~] F4.9 [CP] Collegamento dei muri e rilascio `lib/Checker`. Anticipato il 7/10 lo scostamento D7-c (γRd non applicato a F̄).
   - [x] F4.9a.1: corretto GpcLibDir passato da riga di comando senza separatore finale: MSBuild può normalizzare la proprietà locale. Prima due build fallivano cercando snapshotmanifest.props; dopo build e banco dettagli PASS con lo stesso argomento. Nessuna disattivazione dei controlli SHA.
 - [~] F4.10 GPC.Design: armature e distinta dei muri, tratti dei pali.

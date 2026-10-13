@@ -162,7 +162,7 @@ public static class ConcreteDurabilityAdapter
     // ------------------------------------------------------------------ conversioni
     static string[] Codes(Exposure[] values) => values.Select(e => e.Code).ToArray();
 
-    static LibraryCoverInput Input(IEnumerable<string> codes, double fck, CoverInput p, bool plate, bool ntcQuality, double? pertinentCmin)
+    internal static LibraryCoverInput Input(IEnumerable<string> codes, double fck, CoverInput p, bool plate, bool ntcQuality, double? pertinentCmin)
         => new(codes, fck, p.Life, p.StrengthReduction, p.Slab, p.Quality, p.Diameter, p.Aggregate, p.Deviation, p.Rough, p.Abrasion, p.Ground,
             plate, ntcQuality, pertinentCmin);
 

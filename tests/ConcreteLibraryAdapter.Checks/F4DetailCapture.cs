@@ -27,7 +27,7 @@ internal static class F4DetailCapture
             var section = RetainingWall.SectionInput(input, "Fusto", input["geometry"].D("stem_base"));
             var strengths = ConcreteMaterials.DesignValues(section, SectionWorkspace.Prepare(SezioneCA.DefaultData()));
             var concrete = ConcreteMaterials.Concrete(section);
-            var details = RetainingWall.CalculateReinforcementDetails(input);
+            var details = RetainingWall.CalculateReinforcementDetails(input, WallCalculationEngine.Legacy);
             if (input.ToJsonString() != before) throw new InvalidOperationException("Legacy details changed input");
             rows.Add(new JsonObject { ["id"] = id, ["input"] = input,
                 ["material"] = new JsonObject { ["fcd"] = strengths.Fcd, ["fyd"] = strengths.Fyd, ["fctk05"] = concrete.Fctk05, ["gammaC"] = section.D("gamma_c") },

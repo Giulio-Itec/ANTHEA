@@ -96,6 +96,8 @@ $libraries = @(
     @{ File = 'GPC.Model.Persistence.dll'; Repo = 'Model'; Project = 'GPC.Model.Persistence\GPC.Model.Persistence.csproj'; Output = 'GPC.Model.Persistence\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     @{ File = 'GPCChecker.Concrete.dll'; Repo = 'Checker'; Project = 'GPCChecker.Concrete\GPCChecker.Concrete.csproj'; Output = 'GPCChecker.Concrete\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
     @{ File = 'GPCChecker.Geotechnics.dll'; Repo = 'Checker'; Project = 'GPCChecker.Geotechnics\GPCChecker.Geotechnics.csproj'; Output = 'GPCChecker.Geotechnics\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true; Doc = 'GPCChecker.Geotechnics.xml' },
+    @{ File = 'GPCChecker.Masonry.dll'; Repo = 'Checker'; Project = 'src\GPCChecker.Masonry\GPCChecker.Masonry.csproj'; Output = 'src\GPCChecker.Masonry\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true },
+    @{ File = 'GPC.Design.dll'; Repo = 'Checker'; Project = 'src\GPC.Design\GPC.Design.csproj'; Output = 'src\GPC.Design\bin\Release\net8.0'; TrackedBin = $false; Build = $true; Doc = 'GPC.Design.xml' },
     @{ File = 'GPCChecker.CompositeBridge.dll'; Repo = 'Checker'; Project = 'GPCChecker.CompositeBridge\GPCChecker.CompositeBridge.csproj'; Output = 'GPCChecker.CompositeBridge\bin\Release\netstandard2.0'; TrackedBin = $false; Build = $true }
 )
 $installed = @{}
@@ -142,7 +144,7 @@ if ($ReleaseSet) {
             repository = $l.Repo; branch = $repo.branch; commit = $repo.commit; pushed = [bool] $repo.onOriginMaster; sdk = $set.dotnetSdk }
     }
     $manifest = [ordered]@{ snapshotDate = (Get-Date -Format 'yyyy-MM-dd'); generator = 'tools/libs/Update-Snapshot.ps1 -ReleaseSet'
-        releaseSet = $setDir; releaseSetCreated = $set.created; candidate = [bool] $set.candidate; targetFramework = 'netstandard2.0'
+        releaseSet = $setDir; releaseSetCreated = $set.created; candidate = [bool] $set.candidate; targetFramework = 'netstandard2.0;net8.0'
         nuget = @(@{ name = 'MathNet.Numerics'; version = '5.0.0' }); assemblies = @($assemblies) }
     [IO.File]::WriteAllText((Join-Path $Staging 'manifest.json'), ($manifest | ConvertTo-Json -Depth 5), (New-Object Text.UTF8Encoding($false)))
     & (Join-Path $PSScriptRoot 'Write-ManifestProps.ps1') -LibDir $Staging | Out-Null
@@ -302,7 +304,7 @@ try {
     $manifest = [ordered]@{ snapshotDate = (Get-Date -Format 'yyyy-MM-dd'); generator = 'tools/libs/Update-Snapshot.ps1' }
     if ($FromUpstream) { $manifest.fromUpstream = $true; $manifest.buildRoot = $buildRepos }
     if ($atCommits.Count) { $manifest.at = @($atCommits.Keys | Sort-Object | ForEach-Object { "$_=$($atCommits[$_])" }) }
-    $manifest.targetFramework = 'netstandard2.0'
+    $manifest.targetFramework = 'netstandard2.0;net8.0'
     $manifest.nuget = @(@{ name = 'MathNet.Numerics'; version = '5.0.0' })
     $manifest.assemblies = @($assemblies)
     $json = $manifest | ConvertTo-Json -Depth 5

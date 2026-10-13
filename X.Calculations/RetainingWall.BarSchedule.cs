@@ -20,8 +20,10 @@ public static partial class RetainingWall
     }
 
     // This take-off is separate from both section checks and rendering. Units: m, mm for diameters/spacing.
-    public static BarSchedule CalculateBarSchedule(JsonObject input)
+    public static BarSchedule CalculateBarSchedule(JsonObject input, WallCalculationEngine wallEngine = WallCalculationEngine.Library)
     {
+        if (wallEngine == WallCalculationEngine.Library) return CalculateBarScheduleNative(input);
+        if (wallEngine != WallCalculationEngine.Legacy) throw new ArgumentOutOfRangeException(nameof(wallEngine));
         var d = (JsonObject)input.DeepClone(); Upgrade(d);
         if (d.S("family") != "cantilever") throw new ArgumentException("La distinta ferri richiede un muro a mensola in calcestruzzo armato.");
         var o = d["bar_schedule"]!; var g = d["geometry"]!; var r = d["reinforcement"]!;
@@ -32,7 +34,7 @@ public static partial class RetainingWall
         double h = g.D("height"), t = g.D("slab"), a = g.D("toe"), s = g.D("stem_base"), heel = g.D("heel");
         bool two = r.B("two_zones"); double split = two ? r.D("lower_height") : h;
         if (two && (!double.IsFinite(split) || split <= 0 || split >= h)) throw new ArgumentException("Altezza dell’armatura inferiore compresa fra 0 e H.");
-        var details = CalculateReinforcementDetails(d); var bars = new List<ScheduledBar>(); var warnings = new List<string>();
+        var details = CalculateReinforcementDetails(d, WallCalculationEngine.Legacy); var bars = new List<ScheduledBar>(); var warnings = new List<string>();
         foreach (var b in details.Bars)
         {
             double span = length * 1000 - 2 * endCover - b.Diameter;

@@ -49,7 +49,10 @@ try
     var desktopProject = XDocument.Load(Path.Combine(root, "X.Desktop/X.Desktop.csproj"));
     Check(desktopProject.Descendants("GpcRuntimeOnly").Any(e => e.Value == "true" && e.Attribute("Condition")?.Value == "'$(Configuration)' != 'UiTests'"), "Desktop deve distribuire GPC senza riferimenti diretti di compilazione");
     Check(!desktopProject.Descendants("ProjectReference").Any(e => (e.Attribute("Include")?.Value ?? "").Contains("X.Calculations")), "Riferimento di progetto Desktop al motore legacy");
-    using (var runtimeManifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "lib/Checker/manifest.json"))))
+    int gpcArgument = Array.IndexOf(args, "--gpc-snapshot");
+    string runtimeSnapshot = gpcArgument < 0 ? Path.Combine(root, "lib/Checker")
+        : gpcArgument + 1 < args.Length ? Path.GetFullPath(args[gpcArgument + 1]) : throw new ArgumentException("Missing explicit GPC snapshot directory.");
+    using (var runtimeManifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(runtimeSnapshot, "manifest.json"))))
         foreach (var assembly in runtimeManifest.RootElement.GetProperty("assemblies").EnumerateArray())
         {
             string file = assembly.GetProperty("file").GetString()!;

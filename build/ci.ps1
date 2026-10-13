@@ -44,6 +44,7 @@ param(
     [string] $F4CandidateConcrete,
     [switch] $F4GravityCapture,
     [switch] $F4DetailCapture,
+    [switch] $F4DetailAdapter,
     [switch] $CaptureConcreteFigures,
     [string] $CheckerFixtures,
     [string] $DenseRef,
@@ -107,7 +108,7 @@ Add-Suite @{ Name = 'verifiche/micropalo'; Stage = 'fast'; Kind = 'run'; Project
 Add-Suite @{ Name = 'CalculationLibrary.Checks'; Stage = 'fast'; Kind = 'run'; Project = (TestProject 'CalculationLibrary.Checks'); Args = @() }
 Add-Suite @{ Name = 'ModelWorkspace.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelWorkspace.Checks\ModelWorkspace.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ModelViewer.CombinationBench.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelViewer.CombinationBench.Checks\ModelViewer.CombinationBench.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
-Add-Suite @{ Name = 'Architecture.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Architecture.Tests\ANTHEA.Architecture.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' }; Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }
+Add-Suite @{ Name = 'Architecture.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Architecture.Tests\ANTHEA.Architecture.Tests.csproj'; Args = @('{out}') + $(if ($GpcLibDir) { @('--gpc-snapshot', [IO.Path]::GetFullPath($GpcLibDir)) }); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' }; Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }
 Add-Suite @{ Name = 'Reports.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Reports.Tests\ANTHEA.Reports.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Application.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Application.Tests\ANTHEA.Application.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Wiki.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Wiki.Tests\ANTHEA.Wiki.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
@@ -153,6 +154,10 @@ foreach ($name in 'BridgeDesign.Checks', 'BridgeDesign.IndependentChecks', 'Glob
 Add-Suite @{ Name = 'wiki/indice'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\scripts\wiki\build-wiki-index.py'; Args = @('--check') }
 Add-Suite @{ Name = 'wiki/manuale'; Stage = 'wiki'; Kind = 'python'; Script = 'supporto\test\wiki-handbook-checks.py'; Args = @() }
 
+if ($F4DetailAdapter) {
+    Add-Suite @{ Name = 'baseline/f4-detail-adapter'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
+        Args = @('--f4-details', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 120 }
+}
 if ($F4DetailCapture) {
     Add-Suite @{ Name = 'baseline/f4-detail-reference'; Stage = 'baseline'; Kind = 'run'; Project = 'tests\ConcreteLibraryAdapter.Checks\ConcreteLibraryAdapter.Checks.csproj'
         Args = @('--f4-detail-capture', '{root}', (Join-Path $Root 'supporto\artefatti\refactoring\f4\before-port-1.7.1'), '{out}'); Timeout = 120 }
@@ -310,7 +315,7 @@ $selected = @($Suites | Where-Object { $Stage -contains $_.Stage -and (-not $Onl
 $results = New-Object System.Collections.ArrayList
 $statusBefore = Tracked-Status
 $commit = if ($Git) { (& $Git -C $Root rev-parse HEAD).Trim() } else { '' }
-$manifest = Join-Path $Root 'lib\Checker\manifest.json'
+$manifest = if ($GpcLibDir) { Join-Path $GpcLibDir 'manifest.json' } else { Join-Path $Root 'lib\Checker\manifest.json' }
 $started = Get-Date
 
 function Say([string] $text) { Write-Host $text; Add-Content -LiteralPath (Join-Path $Output 'summary.txt') -Value $text -Encoding UTF8 }

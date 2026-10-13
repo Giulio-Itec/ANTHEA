@@ -11,10 +11,13 @@ public static partial class RetainingWall
         double Spacing, double Area, double Length, double RequiredAnchor, double Anchor,
         double RequiredLap, double Lap, double Mandrel, double Fbd, IReadOnlyList<BarPoint> Path);
     public sealed record ReinforcementDetails(IReadOnlyList<BarDetail> Bars, IReadOnlyList<Check> Checks, double SteelKg, string Note);
+    private const string DetailingScopeNote = "Schema di predimensionamento per metro: principali, rete secondaria e collegamenti della giunzione. Ancoraggi a fyd senza riduzioni favorevoli; 100% giunzioni a h₁. Sfridi, giunti di costruzione, estremità lungo muro e piano di posa delle barre fuori piano richiedono il disegno esecutivo. Non è una distinta di officina.";
     public sealed record ReinforcementProposal(JsonObject Input, IReadOnlyList<Check> Checks, bool Passed, string Message);
 
-    public static ReinforcementDetails CalculateReinforcementDetails(JsonObject input)
+    public static ReinforcementDetails CalculateReinforcementDetails(JsonObject input, WallCalculationEngine wallEngine = WallCalculationEngine.Library)
     {
+        if (wallEngine == WallCalculationEngine.Library) return CalculateReinforcementDetailsNative(input);
+        if (wallEngine != WallCalculationEngine.Legacy) throw new ArgumentOutOfRangeException(nameof(wallEngine));
         var d = (JsonObject)input.DeepClone(); CompleteAdvancedInput(d);
         var g = d["geometry"]!; var m = d["materials"]!; var opt = d["detailing"]!; var r = d["reinforcement"]!;
         double h = g.D("height"), t = g.D("slab"), a = g.D("toe"), s = g.D("stem_base"), b = a + s + g.D("heel"), back = a + s;
@@ -119,7 +122,7 @@ public static partial class RetainingWall
             Min("Giunzione · area trasversale in ciascun terzo estremo", Math.Floor(l0 / 3 / step) * Math.PI * ties * ties / 4, .5 * Math.PI * phi * phi / 4, "mm²");
             kg += 2 * (s + .1) * Math.Ceiling(l0 / step) * Math.PI * ties * ties / 4 * 1e-6 * 7850;
         }
-        return new(bars, checks, kg, "Schema di predimensionamento per metro: principali, rete secondaria e collegamenti della giunzione. Ancoraggi a fyd senza riduzioni favorevoli; 100% giunzioni a h₁. Sfridi, giunti di costruzione, estremità lungo muro e piano di posa delle barre fuori piano richiedono il disegno esecutivo. Non è una distinta di officina.");
+        return new(bars, checks, kg, DetailingScopeNote);
     }
 
     /// <param name="serviceabilityEngine">Motore SLE delle sezioni (tensioni e fessurazione) di ogni candidato e del calcolo finale; null =
