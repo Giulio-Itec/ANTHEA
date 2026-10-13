@@ -45,12 +45,6 @@ internal sealed partial class BridgeWorkspace
         viewSettings = Data["ui_mista"]!.AsObject();
         followLatestStage = viewSettings.B("segui_ultima_fase", !viewSettings.ContainsKey("fase"));
         MigrateViewSettings();
-        if (viewSettings.D("layout_version") < 4)
-        {
-            foreach (string key in new[] { "risultato_0", "risultato_1" })
-                if (viewSettings.ContainsKey(key)) viewSettings[key] = new[] { 3, 1, 2 }[Math.Clamp((int)viewSettings.D(key), 0, 2)];
-            viewSettings["layout_version"] = 4;
-        }
         BuildSectionProperties();
         foreach (var (number, title) in new[] { ("01", "Pannello di controllo"), ("02", "Fasi e tensioni"), ("03", "Curve della sezione") })
             Pages.Items.Add(new TabItem { Header = Ui.Bar(Ui.Text(number, 11, true, Ui.Muted), Ui.Text("  " + title, 14, true)), Padding = new Thickness(14, 9, 14, 9) });
@@ -122,41 +116,7 @@ internal sealed partial class BridgeWorkspace
         SelectPage();
         Pages.SelectionChanged += (_, e) => { if (ReferenceEquals(e.Source, Pages) && !building) { Commit(); SelectPage(); Modified?.Invoke(); } };
     }
-    private void MigrateViewSettings()
-    {
-        if (viewSettings.D("layout_version") >= 3) return;
-        if (!viewSettings.ContainsKey("tab") && !viewSettings.ContainsKey("layout_version"))
-        { viewSettings["layout_version"] = 3; return; }
-        if (viewSettings.D("layout_version") < 2)
-        {
-            var previous = (JsonObject)viewSettings.DeepClone();
-            int selected = Math.Clamp((int)previous.D("tab"), 0, 3);
-            // The two former phase pages share one page now; retain the active one's view.
-            int[] sources = [0, selected == 2 ? 2 : 1, 3];
-            int[] resultMap = [0, 1, 2, 1, 2, 2];
-            for (int page = 0; page < sources.Length; page++)
-            {
-                int oldPage = sources[page];
-                if (previous["vista_" + oldPage] is { } view) viewSettings["vista_" + page] = view.DeepClone();
-                else viewSettings.Remove("vista_" + page);
-                int result = Math.Clamp((int)previous.D("risultato_" + oldPage, new[] { 4, 3, 1, 0 }[oldPage]), 0, 5);
-                viewSettings["risultato_" + page] = resultMap[result];
-            }
-            viewSettings.Remove("vista_3"); viewSettings.Remove("risultato_3");
-            viewSettings["tab"] = new[] { 0, 1, 1, 2 }[selected];
-            viewSettings["layout_version"] = 2;
-        }
-        // Merge the former phase and analysis pages, retaining the active page's view.
-        int active = Math.Clamp((int)viewSettings.D("tab"), 0, 2);
-        if (active == 2)
-        {
-            viewSettings["vista_1"] = (int)viewSettings.D("vista_2", 0);
-            viewSettings["risultato_1"] = (int)viewSettings.D("risultato_2", 0);
-        }
-        viewSettings.Remove("vista_2"); viewSettings.Remove("risultato_2");
-        viewSettings["tab"] = Math.Min(active, 1);
-        viewSettings["layout_version"] = 3;
-    }
+    private void MigrateViewSettings() => Anthea.Application.Presentation.BridgeSheetPresentation.MigrateViewSettings(viewSettings);
     private void SelectPage()
     {
         selectingPage = true;
@@ -189,13 +149,8 @@ internal sealed partial class BridgeWorkspace
     }
     private void SaveView()
     {
-        if (currentPage < 0 || currentPage == 2) return;
-        viewSettings["vista_" + currentPage] = DisplayChoice.SelectedIndex;
-        viewSettings["risultato_" + currentPage] = Results.SelectedIndex;
-        viewSettings["quote_" + currentPage] = GeometryLabels.IsChecked == true;
-        viewSettings["armature_" + currentPage] = RebarLabels.IsChecked == true;
-        if (StageChoice.SelectedIndex >= 0) viewSettings["fase"] = StageChoice.SelectedIndex;
-        viewSettings["segui_ultima_fase"] = followLatestStage;
+        Anthea.Application.Presentation.BridgeSheetPresentation.SaveView(viewSettings, currentPage, DisplayChoice.SelectedIndex,
+            Results.SelectedIndex, GeometryLabels.IsChecked == true, RebarLabels.IsChecked == true, StageChoice.SelectedIndex, followLatestStage);
     }
     private void ViewChanged()
     {

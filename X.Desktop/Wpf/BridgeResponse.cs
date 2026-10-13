@@ -31,9 +31,7 @@ internal sealed partial class BridgeWorkspace
 
     private UIElement BuildResponsePage()
     {
-        if (Data["curve_sezione"] is not JsonObject) Data["curve_sezione"] = BridgeSection.ResponseDefaults();
-        ResponseData = Data["curve_sezione"]!.AsObject();
-        foreach (var pair in BridgeSection.ResponseDefaults()) if (!ResponseData.ContainsKey(pair.Key)) ResponseData[pair.Key] = pair.Value?.DeepClone();
+        ResponseData = Anthea.Application.Presentation.BridgeSheetPresentation.PrepareResponse(Data);
         ResponseForm = new InputForm(ResponseData, [new("tipo", "Curva", Choices: BridgeSection.ResponseModes, Wide: true),
             new("origine", "Stato di partenza", Choices: BridgeSection.ResponseOrigins, Wide: true),
             new("y", "Quota di riferimento", "mm"), new("n_storico", "Mantieni N dello stato iniziale", Bool: true, Wide: true), new("N", "N costante", "kN"),

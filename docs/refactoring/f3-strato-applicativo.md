@@ -159,3 +159,9 @@ Corsa 032514: 7 PASS, 343 controlli Application, smoke materiali/progetto, 16 ca
 Ottavo modulo separato: dati globali, quote degli strati persistite e matrici risultanti condivisi in WallSheetPresentation; scelta della combinazione e preparazione distinta in WallReportPresentation. Il renderer disegna soltanto sezioni, diagrammi, superficie critica e tavole della distinta, senza dipendenze dagli editor. Il report interattivo conserva la combinazione scelta; il progetto adotta la stessa selezione iniziale precedente.
 
 Corsa 032911: 5 PASS, smoke muri/progetto, 20 capitoli e 458 file equivalenti. Corsa 033130: 3 PASS, smoke stabilità globale ed equivalenza di 21 capitoli (55 immagini e tutte le parti XML), compreso un caso aggiuntivo con profilo globale confermato. Nessuna differenza o eccezione aggiunta.
+
+## F3.5b.2f — ponte composto autonomo
+
+BridgeSheetPresentation condivide con la vista i valori iniziali, migrazione delle opzioni, fase selezionata, omogeneizzazione e amplificazione delle tensioni. I metodi ingegneristici chiamati restano quelli già esistenti. ModuleFigureRenderer disegna geometria e fasi dai risultati senza costruire BridgeWorkspace; la relazione interattiva riusa lo stesso renderer.
+
+Corsa 20261013-033428-f3-report-composite-bridge: 8 PASS, smoke ponte, curve, predalle, Bridge Design e progetto; capitoli autonomi confrontati integralmente con quelli della vista e 458 file F3 equivalenti. Nessuna modifica agli attesi o nuova eccezione.

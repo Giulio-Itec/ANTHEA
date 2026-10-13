@@ -27,8 +27,7 @@ internal sealed partial class BridgeWorkspace
         scroll.AppendChild(headers); dock.AppendChild(scroll);
         var presenter = new FrameworkElementFactory(typeof(ContentPresenter)); presenter.SetValue(ContentPresenter.ContentSourceProperty, "SelectedContent"); dock.AppendChild(presenter);
         SectionPropertyTabs.Template = new ControlTemplate(typeof(TabControl)) { VisualTree = dock };
-        viewSettings["soletta_proprieta"] ??= J.Obj(("phi", "0"), ("psi", "1"), ("n", "6"), ("modo", "Da φ"));
-        slabPropertyOptions = viewSettings["soletta_proprieta"]!.AsObject();
+        slabPropertyOptions = Anthea.Application.Presentation.BridgeSheetPresentation.SlabOptions(viewSettings);
         slabPropertyForm = new InputForm(slabPropertyOptions, [new("phi", "Viscosità φ"), new("psi", "Moltiplicatore ψL"), new("n", "n = Ea / Ec,eff")], key =>
         { slabPropertyOptions["modo"] = key == "n" ? "Da n" : "Da φ"; RefreshSlabProperties(); Modified?.Invoke(); }, true);
         SectionPropertyTabs.Items.Add(new TabItem { Header = "Acciaio", Content = Scroll(steelPropertyBody) });
@@ -51,8 +50,8 @@ internal sealed partial class BridgeWorkspace
         if (slabPropertyOptions is null) return;
         try
         {
-            var h = BridgeSection.Homogenization(Data, slabPropertyOptions); string derived = slabPropertyOptions.S("modo") == "Da n" ? "phi" : "n";
-            slabPropertyOptions[derived] = (derived == "phi" ? h.Phi : h.N).ToString("R", CultureInfo.InvariantCulture); slabPropertyForm.Set(derived, slabPropertyOptions.S(derived), true);
+            var h = Anthea.Application.Presentation.BridgeSheetPresentation.UpdateHomogenization(Data, slabPropertyOptions, false); string derived = slabPropertyOptions.S("modo") == "Da n" ? "phi" : "n";
+            slabPropertyForm.Set(derived, slabPropertyOptions.S(derived), true);
             var g = BridgeSection.Geometry(Data); var m = BridgeSection.Materials(Data);
             var gross = BridgeSection.RectangleProperties("Solo calcestruzzo · lordo", g.Width, g.SlabHeight, 0, g.Width / 2);
             var transformed = BridgeSection.GrossPhaseProperties(Data, slabPropertyOptions, slabOnly: true);

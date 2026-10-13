@@ -39,8 +39,7 @@ internal sealed partial class BridgeWorkspace
         if (steelHeightInfo is null) return;
         try
         {
-            double clear = BridgeSection.ClearWebHeight(Data);
-            Data["h_web"] = clear.ToString("G17", System.Globalization.CultureInfo.InvariantCulture);
+            double clear = Anthea.Application.Presentation.BridgeSheetPresentation.UpdateWebHeight(Data);
             double second = Data.B("plate2") && Data.S("sezione", BridgeSection.SectionTypes[0]) == BridgeSection.SectionTypes[0] ? Data.D("t_bottom2") : 0;
             steelHeightInfo.Text = $"H = {F(Data.D("h_trave"))} mm · h anima = H − t sup − t inf{(second > 0 ? " − t inf.2" : "")} = {F(clear)} mm.";
         }

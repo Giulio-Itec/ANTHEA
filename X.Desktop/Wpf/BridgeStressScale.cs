@@ -63,14 +63,7 @@ internal sealed partial class BridgeWorkspace
     }
 
     internal static (double Factor, string Source) StressScale(BridgeResult? result, JsonObject settings)
-    {
-        var all = result?.Stages.LastOrDefault()?.Contributions;
-        var phase = all?.LastOrDefault(c => c.Kind == "Composta") ?? all?.LastOrDefault(c => c.HasConcrete);
-        if (settings.B("amplificazione_cls_auto", true))
-            return phase is not null ? (phase.HomogenizationN, "n · " + phase.Name) : (1, "nessuna fase composta");
-        double manual = settings.D("amplificazione_cls", 1);
-        return (double.IsFinite(manual) && manual is >= .01 and <= 1000 ? manual : 1, "manuale");
-    }
+        => Anthea.Application.Presentation.BridgeSheetPresentation.StressScale(result, settings);
 
     private void RefreshStressScale()
     {

@@ -18,7 +18,7 @@ public interface IFigureRenderer
 
 public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectReportChapterBuilder
 {
-    public static bool Supports(string module) => module is "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo" or RetainingWall.Module;
+    public static bool Supports(string module) => module is "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo" or RetainingWall.Module or BridgeSection.Module;
     public static HashSet<string> DefaultSections(string module) => module == BridgeSection.Module ? ReportBridge.DefaultSections()
         : module == "str_palo" ? ReportConcrete.Sections.Where(s => s.Key is not ("dettagli" or "sle_tutte")).Select(s => s.Key).ToHashSet()
         : ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
@@ -32,6 +32,7 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
         var data = (JsonObject)source.DeepClone();
         if (module == "mat_calcestruzzo") data = Materiali.MaterialSheetInput.NormalizeState(data);
         else if (module == BridgeConcept.Module) ModuleSheetPreparation.PrepareBridgeDesign(data);
+        else if (module == BridgeSection.Module) Anthea.Application.Presentation.BridgeSheetPresentation.PrepareReport(data);
         else if (module == RetainingWall.Module) Anthea.Application.Presentation.WallSheetPresentation.Prepare(data);
         else if (module == HorizontalPileGroup.Module) ModuleSheetPreparation.PreparePileGroup(data);
         else if (module == Anthea.FoundationWorkspace.FoundationDocument.Module)
@@ -45,6 +46,7 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
         { throw new ArgumentException("Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.", error); }
         if (calculation.HasError) throw new ArgumentException("Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.");
         if (module == HorizontalPileGroup.Module) ModuleSheetPreparation.ApplyPileGroupSelection(data, calculation.Values);
+        if (module == BridgeSection.Module) Anthea.Application.Presentation.BridgeSheetPresentation.ApplyReportResult(data, calculation.NativeAs<BridgeResult>());
         object? context = null;
         if (module == RetainingWall.Module)
         {
@@ -61,6 +63,7 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
     public static DocxDocument CreateDocument(ModuleReportRequest request, IReadOnlyList<ReportFigure> figures)
     {
         var c = request.Calculation;
+        if (c.ModuleId == BridgeSection.Module) return ReportBridge.CreateDocument(request.Title, c.NativeAs<BridgeResult>(), request.Options.ToHashSet(), figures.Select(f => f.Image()).ToList());
         if (c.ModuleId == RetainingWall.Module) return ReportRetainingWall.CreateDocument(request.Title, c.NativeAs<RetainingWall.Result>(),
             figures.Select(f => new ReportRetainingWall.Figure(f.Caption, f.Png, f.AspectRatio)).ToList());
         if (c.ModuleId == HorizontalPileGroup.Module) return ReportPileGroup.CreateDocument(request.Title, c.Values);

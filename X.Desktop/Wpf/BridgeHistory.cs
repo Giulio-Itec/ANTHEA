@@ -12,9 +12,7 @@ internal sealed partial class BridgeWorkspace
     private UIElement? meshControls;
     private UIElement BuildCalculationOptions()
     {
-        Data["metodo_analisi"] ??= BridgeSection.CalculationMethods[0];
-        Data["viscosita_nl"] ??= BridgeSection.NonlinearCreepModes[0];
-        Data["fibre_anima"] ??= 160; Data["fibre_flange"] ??= 8; Data["fibre_cls"] ??= 64; Data["sottopassi"] ??= 8;
+        Anthea.Application.Presentation.BridgeSheetPresentation.PrepareCalculationOptions(Data);
         methodForm = Form(Data, [new("metodo_analisi", "Metodo di calcolo", Choices: BridgeSection.CalculationMethods, Wide: true),
             new("viscosita_nl", "Viscosità nel non lineare", Choices: BridgeSection.NonlinearCreepModes, Wide: true)], _ => { RefreshCalculationOptions(); Dispatcher.BeginInvoke(BuildPhases); });
         meshControls = Group("Discretizzazione e sottopassi", Ui.Stack(Form(Data, [new("fibre_anima", "Strisce anima"), new("fibre_flange", "Strisce per piattabanda"),

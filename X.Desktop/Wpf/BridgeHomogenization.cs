@@ -18,12 +18,8 @@ internal sealed partial class BridgeWorkspace
             string derived = phase.S("modo") == "Da n" ? "phi" : "n";
             try
             {
-                var h = BridgeSection.Homogenization(Data, phase);
-                double value = derived == "phi" ? h.Phi : h.N;
-                if (!double.IsFinite(value) || !double.IsFinite(h.PhiEffective)) throw new ArgumentException("Omogeneizzazione fuori intervallo.");
-                // Update the archive and the editor together without recursively triggering Changed.
-                string raw = value.ToString("R", CultureInfo.InvariantCulture);
-                phase[derived] = raw;
+                var h = Anthea.Application.Presentation.BridgeSheetPresentation.UpdateHomogenization(Data, phase);
+                string raw = phase.S(derived);
                 form.Set(derived, raw, display: true);
                 info.Text = $"n₀ = {F(h.N0)}   ·   φeff = ψL · φ = {F(h.PhiEffective)}";
             }

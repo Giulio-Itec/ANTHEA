@@ -179,9 +179,7 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         int index = 0;
         foreach (JsonObject p in Data.Array("fasi").OfType<JsonObject>().ToArray())
         {
-            // Old archives keep the original common application point.
-            p["riferimento_N"] ??= BridgeSection.CommonLoadReference;
-            p["V"] ??= 0; p["T"] ??= 0; p["epsilon_cs"] ??= 0; p["q_conn"] ??= 0;
+            Anthea.Application.Presentation.BridgeSheetPresentation.PreparePhase(p);
             int i = index++;
             var form = Form(p, [new("nome", "Nome", Wide: true), new("attiva", "Includi nella somma", Bool: true), new("tipo", "Sezione reagente", Choices: BridgeSection.PhaseKinds),
                 new("N", "Forza assiale N", "kN"), new("Mx", "Momento Mx", "kNm"), new("V", "Taglio V", "kN"), new("T", "Momento torcente T · cassoncino", "kNm"),
