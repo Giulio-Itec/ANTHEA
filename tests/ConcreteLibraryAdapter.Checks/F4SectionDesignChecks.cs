@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -31,6 +31,11 @@ internal static class F4SectionDesignChecks
                 if(expected.S("status")!="ok"){errors.Add(id+": expected refusal");continue;}
                 var actual=JsonSerializer.SerializeToNode(result)!.AsObject();actual.Remove("Performance");
                 Compare(expected["value"],actual,id);candidates+=result.Candidates.Count;
+                var old=ConcreteReinforcementDesign.Optimize(input,options,legacy:true);
+                var previous=JsonSerializer.SerializeToNode(old)!.AsObject();previous.Remove("Performance");
+                Compare(previous,actual,id+"/legacy-search");
+                if(old.Performance!.LongitudinalCalculations!=result.Performance!.LongitudinalCalculations||old.Performance.LongitudinalReuses!=result.Performance.LongitudinalReuses||old.Performance.ProbeSections!=result.Performance.ProbeSections)
+                    errors.Add(id+": search reuse counters differ");
                 foreach(var c in result.Candidates)
                 {
                     var section=new SezioneCA(c.Input);

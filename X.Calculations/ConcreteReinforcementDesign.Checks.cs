@@ -5,8 +5,13 @@ namespace Anthea.Calculations;
 public static partial class ConcreteReinforcementDesign
 {
     private static void AddRatio(List<ConcreteDesignCheck> checks, string key, string combination, double? value,
-        ConcreteDesignOptions o, string detail)
+        ConcreteDesignOptions o, string detail, bool legacy = false)
     {
+        if(!legacy)
+        {
+            var check=GPC.Design.Sections.SectionDesignCheck.FromRatio(key,Targets.Single(t=>t.Key==key).Name,combination,value,o.Target(key),detail);
+            checks.Add(DisplayCheck(check with {Detail=detail+(check.Ratio.HasValue?"":" · Esito numerico mancante: proposta esclusa.")}));return;
+        }
         bool finite = value is double v && double.IsFinite(v) && v >= 0;
         checks.Add(new(key, Targets.Single(t => t.Key == key).Name, combination, finite ? value : null, o.Target(key),
             finite && value <= o.Target(key) + 1e-10, detail + (finite ? "" : " · Esito numerico mancante: proposta esclusa.")));
@@ -21,7 +26,7 @@ public static partial class ConcreteReinforcementDesign
         {
             reduced = (JsonObject)input.DeepClone();
             // Reserve the same area fraction of EVERY bar, rather than double-counting total As.
-            double factor = Math.Sqrt(1 - options.TorsionReservePercent / 100);
+            double factor = GPC.Design.Sections.SectionDesignQuantities.ReservedDiameterFactor(options.TorsionReservePercent);
             reduced["barre_manuali"] = new JsonArray(full.Geometry.Bars.Select(b => (JsonNode)J.Obj(("x", b.X), ("y", b.Y), ("phi", b.Diametro * factor))).ToArray());
         }
         var resistanceModel = torsion ? CheckerSection.PrepareModel(reduced, workspace) : full;

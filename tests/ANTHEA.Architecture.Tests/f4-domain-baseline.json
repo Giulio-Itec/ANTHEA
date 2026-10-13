@@ -3557,14 +3557,6 @@
     },
     {
       "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
-      "Rule": "R1-math",
-      "Owner": "ConcreteReinforcementDesign.LongitudinalChecks",
-      "Fingerprint": "11C46C057ECC1B1ACB6B6ED8C0A37D41D120571064A0587274A94C5D75620F9C",
-      "Count": 1,
-      "Example": "Math . Sqrt ( 1 - options . TorsionReservePercent / 100 )"
-    },
-    {
-      "File": "X.Calculations/ConcreteReinforcementDesign.Checks.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "ConcreteReinforcementDesign.AddRatio",
       "Fingerprint": "3A8B6E11507CB7739B262DE290DC65E88072D88E3AE797846F28FE6060FD11FC",

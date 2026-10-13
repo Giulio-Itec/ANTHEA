@@ -11,22 +11,12 @@ public static partial class ConcreteReinforcementDesign
     private sealed record Layout(int Top, int Bottom, int Side, double TopPhi, double BottomPhi, double SidePhi,
         bool Stirrups, double StirrupPhi, double Spacing);
     public static ConcreteDesignResult Optimize(JsonObject source, ConcreteDesignOptions options,
-        CancellationToken token = default, IProgress<ConcreteDesignProgress>? progress = null)
+        CancellationToken token = default, IProgress<ConcreteDesignProgress>? progress = null, bool legacy = false)
     {
-        options.Validate(); token.ThrowIfCancellationRequested();
-        var data = (JsonObject)source.DeepClone(); var workspace = SectionWorkspace.Prepare(data); var input = data["input"]!.AsObject();
-        ValidateScope(data, workspace);
-        ConcreteCalculationSettings.ValidateStirrups(input, workspace["taglio"]!.AsObject());
-        var rows = SectionWorkspace.Sets.ToDictionary(k => k, k => data["combinazioni"]!.Array(k).OfType<JsonObject>()
-            .Select(r => J.Obj(("nome", r.S("nome")), ("N", r["azioni"]?[0]), ("Mx", r["azioni"]?[1]), ("My", r["azioni"]?[2]))).ToArray());
-        foreach (var row in rows.Values.SelectMany(r => r)) _ = SectionWorkspace.ReadAction(row);
-        var shearRows = workspace["taglio"]!.Array("azioni").OfType<JsonObject>().ToArray();
-        // Shear/torsion rows also carry N/M: the design must not ignore those simultaneous actions.
-        rows["SLU"] = rows["SLU"].Concat(shearRows.Select(r => J.Obj(("nome", "Taglio · " + r.S("nome")),
-            ("N", r.S("N", "0")), ("Mx", r.S("Mx", "0")), ("My", r.S("My", "0")), ("__locali", true)))).ToArray();
-        foreach (var row in rows["SLU"]) _ = SectionWorkspace.ReadAction(row);
-        bool torsion = shearRows.Any(r => SectionWorkspace.Number(r.S("T", "0"), "T") != 0);
-        if (torsion && !options.TorsionLayoutConfirmed) throw new ArgumentException("Torsione: confermare nella ricerca lo schema periferico con staffe chiuse e barre di spigolo.");
+        if (!legacy) return OptimizeNative(source,options,token,progress);
+        var context=PrepareDesignInput(source,options,token);
+        var data=context.Data;var workspace=context.Workspace;var input=context.Input;
+        var rows=context.Rows;var shearRows=context.ShearRows;bool torsion=context.Torsion;
         var accepted = new List<ConcreteDesignCandidate>(); var exclusions = new Dictionary<string, int>();
         var exclusionExamples = new Dictionary<string, ConcreteDesignCheck>(); var exampleIds = new Dictionary<string, int>();
         var prepared = new ConcurrentBag<PreparedDesign>(); var gate = new object(); var timers = new DesignTimers();
@@ -180,16 +170,7 @@ public static partial class ConcreteReinforcementDesign
         bool completed = evaluated == plans.Length && !token.IsCancellationRequested;
         Report(true);
         return new(ordered, evaluated, plans.Length, completed, exclusions, baseline,
-        [ "Migliore tra le configurazioni calcolate; ricerca discreta, nessuna garanzia di minimo fuori dagli elenchi assegnati.",
-          "Geometria, materiali, copriferro e sollecitazioni mantenuti. Barre su una fila per faccia / un anello; barre laterali con il diametro inferiore. Le armature manuali e i secondi strati vengono sostituiti solo con Applica.",
-          "Peso per metro: acciaio 7850 kg/m³, staffe con sviluppo geometrico e maggiorazione ganci impostata; escluse sovrapposizioni, ancoraggi longitudinali, sfridi e armature locali.",
-          "Numero barre: pezzi equivalenti per metro, con una barra longitudinale continua contata come un pezzo, più staffe, bracci aggiunti e barre ortogonali. Compromesso: p_peso·kg/m + p_barre·pezzi/m + p_diametri·numero diametri. I pesi sono coefficienti assegnati dall’utente, senza normalizzazione automatica.",
-          "Dettagli NTC capitolo 4 / EC2: i controlli numerici sono obbligatori. Le verifiche esecutive non deducibili dalla sezione restano da completare.",
-          "Solette / pareti: rete ortogonale uguale sulle due facce; per ogni disposizione principale si conserva la rete ammissibile migliore per l’obiettivo. La verifica della direzione ortogonale sotto proprie azioni richiede un’altra sezione.",
-          torsion ? "Torsione: quota uniforme di area riservata su OGNI barra; distribuzione controllata per lunghezza tributaria periferica. Resistenza N–Mx–My calcolata solo con l’area residua, alle stesse coordinate. SLE usa l’area totale." : "Nessuna torsione nelle azioni assegnate.",
-          "Tutte le combinazioni compilate sono considerate, anche se nascoste nei grafici. Non si aggiungono azioni, effetti del secondo ordine o verifiche sismiche non presenti nel foglio.",
-          "Ricerca completa: tutte le disposizioni ammesse. Con limite tentativi, il campione copre l’intero elenco ordinato per obiettivo, comprese le disposizioni più armate; nessuna conclusione sulle configurazioni non calcolate.",
-          "Ordine: dettagli, ancoraggi, taglio/torsione, poi resistenza e SLE. Dopo il primo controllo negativo la configurazione è esclusa. Le prove su estremi e valori intermedi delle sezioni sopravvissute orientano solo l’ordine, senza eliminare intervalli. Risultati longitudinali riusati per i passi staffa compatibili." ])
+        DesignNotes(torsion))
           { ExclusionExamples = exclusionExamples,
             Performance = new(watch.Elapsed.TotalSeconds, firstSolution, options.Workers, nativeCalculations, reuses, probeSections, timers.Results()) };
     }

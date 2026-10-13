@@ -25,6 +25,24 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-19",
+      "data": "2026-10-14",
+      "fase": "F4.12c.2",
+      "titolo": "Coordinamento nativo della ricerca sezioni",
+      "famiglia": "sezioni c.a.",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Generazione catalogo e coordinamento in GPC.Design con avanzamento, budget, annullamento e raggruppamento delle verifiche longitudinali. Dati e note comuni ai rami nuovo/diagnostico. Riserva torsionale e soglie centralizzate. Stessi candidati, esclusioni, ordine e contatori di riuso; 21579 numeri entro tolleranza 1e-9, massimo relativo 4.82e-16. Distribuzione F4.9.",
+      "test": [
+        "10 PASS runner; Application e ConcreteDesign",
+        "9 casi SHA, 81 candidati, 3 rifiuti; confronto completo vecchio/nuovo e quattro obiettivi"
+      ],
+      "evidenze": [
+        "tests/ConcreteLibraryAdapter.Checks/F4SectionDesignChecks.cs",
+        "supporto/artefatti/refactoring/f4/section-search-a.log"
+      ]
+    },
+    {
       "id": "F4-18",
       "data": "2026-10-14",
       "fase": "F4.12b.1",
