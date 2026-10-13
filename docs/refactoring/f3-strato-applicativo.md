@@ -2,6 +2,8 @@
 
 Decisioni operative del 13 ottobre 2026, sulla delega dell’utente del 12 ottobre. Base bce1e337, ANTHEA 1.5.0 e set V congelato. Il numero effettivo è 12 moduli: alle undici voci del piano iniziale si sono aggiunte le fondazioni superficiali. F5 esclusa; la separazione della logica non comporta un rifacimento della shell o dei ViewModel.
 
+Audit successivo al rilascio 1.7.0: estrazione e confronti F3 confermati, ma riaperta nel [piano](piano.md) la richiesta F3.4-U5 (M–χ nel report di progetto CA). Il capitolo esiste, mentre `ConcreteReportAnalysis` passa un risultato di curva nullo. Il confronto di equivalenza dell'estrazione non copriva l'aggiunta funzionale richiesta. F4 resta ferma.
+
 ## Decisioni
 
 - Migrazioni pigre: apertura del documento non riscrive tutti i fogli; la preparazione lavora sulla copia della scheda aperta o del calcolo/report. Le revisioni congelate non vengono migrate sul posto. `str_palo`, chiavi miste e nomi di archivio restano compatibili. I dati derivati oggi persistiti, come cmin_dur e scelte del report, restano fino a una modifica esplicitamente classificata.
@@ -16,7 +18,7 @@ Decisioni operative del 13 ottobre 2026, sulla delega dell’utente del 12 ottob
 
 ## Attività accodata alla chiusura di F3
 
-Il 13 ottobre l'utente ha accodato la riscrittura degli input delle sollecitazioni via Excel (EXCEL-SOL nel piano), poi ne ha precisato il formato: Elemento facoltativo, Nome combo, Stato limite, N, Vx, Vy, T, Mx, My. Una riga alimenta tutti i controlli pertinenti allo stato limite; SLU e SLV alimentano anche taglio e torsione, senza una famiglia Taglio separata. Prima si completano i punti F3 già concordati. I requisiti acquisiti e le cautele per la compatibilità sono in decisioni.md; a fine F3 si discutono solo gli eventuali dettagli ancora ambigui. La riscrittura non è iniziata e F4 resta esplicitamente esclusa.
+Il 13 ottobre l'utente ha accodato la riscrittura degli input delle sollecitazioni via Excel (EXCEL-SOL nel piano), poi ne ha precisato il formato: Elemento facoltativo, Nome combo, Stato limite, N, Vx, Vy, T, Mx, My. Una riga alimenta tutti i controlli pertinenti allo stato limite; SLU e SLV alimentano anche taglio e torsione, senza una famiglia Taglio separata. Dopo la chiusura di F3, EXCEL-SOL è stata implementata e rilasciata in ANTHEA 1.7.0 (`main` 90550d7e), con criterio Plastico/Elastico selezionabile nella verifica come deciso dall'utente. [Verbale, compatibilità ed esiti](chiusura-excel-sol-20261013.md). La precedente annotazione «non iniziata» è superata; F4 resta esplicitamente esclusa.
 
 ## Banco unico
 
