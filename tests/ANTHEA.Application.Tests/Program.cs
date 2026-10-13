@@ -85,6 +85,7 @@ try
     checks += MaterialEditorChecks.Run();
     checks += BridgeDesignAnalysisChecks.Run();
     checks += BridgeContractChecks.Run();
+    checks += BridgeDesignContractChecks.Run();
     checks += await ConcreteBatchChecks.Run(root);
     checks += ConcretePresentationChecks.Run(root);
     checks += await ConcretePropertyChecks.Run();

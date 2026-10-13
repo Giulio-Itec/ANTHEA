@@ -13,27 +13,8 @@ internal static class BridgeContractChecks
         int checks = 0, values = 0;
         void Check(bool condition, string message) { if (!condition) throw new InvalidOperationException(message); checks++; }
         static bool Exact(double a, double b) => BitConverter.DoubleToInt64Bits(a) == BitConverter.DoubleToInt64Bits(b);
-        void Compare(object? native, object? copy, string path)
-        {
-            if (native is null || copy is null) { if (native != copy) throw new Exception(path + ": null cambiato"); return; }
-            if (native is double number) { if (!Exact(number, (double)copy)) throw new Exception(path + ": valore cambiato"); values++; return; }
-            if (native is string || native is bool || native is int) { if (!native.Equals(copy)) throw new Exception(path + ": dato cambiato"); values++; return; }
-            if (native.GetType().IsEnum) { if (native.ToString() != copy.ToString() || Convert.ToInt64(native) != Convert.ToInt64(copy)) throw new Exception(path + ": enumerazione cambiata"); return; }
-            if (ReferenceEquals(native, copy)) throw new Exception(path + ": oggetto del motore esposto alla vista");
-            if (native is IEnumerable sequence && copy is IEnumerable projection)
-            {
-                var a = sequence.Cast<object?>().ToArray(); var b = projection.Cast<object?>().ToArray();
-                if (a.Length != b.Length) throw new Exception(path + ": conteggio cambiato");
-                for (int i = 0; i < a.Length; i++) Compare(a[i], b[i], path + "[" + i + "]");
-                return;
-            }
-            foreach (var p in copy.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if (p.Name == "NeutralAxis") continue; // Compared separately with the original axis adapter.
-                var sourceProperty = native.GetType().GetProperty(p.Name) ?? throw new Exception(path + ": campo inatteso " + p.Name);
-                Compare(sourceProperty.GetValue(native), p.GetValue(copy), path + "." + p.Name);
-            }
-        }
+        var comparison = new OwnedProjectionComparison("NeutralAxis"); // Axis checked separately below.
+        void Compare(object? native, object? copy, string path) { comparison.Compare(native, copy, path); values = comparison.Values; }
         foreach (string method in BridgeSection.CalculationMethods)
         {
             var input = BridgeSection.Defaults(); input["metodo_analisi"] = method; input["classe4"] = false;

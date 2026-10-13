@@ -1,3 +1,4 @@
+using Anthea.Application.BridgeDesign;
 using System.Globalization;
 using Anthea.Application.Modules;
 using System.Text.Json.Nodes;
@@ -22,7 +23,7 @@ internal sealed partial class BridgeDesignWorkspace
     internal readonly BridgeOptimizationPlot OptimizationTrace = new() { Height = 310 };
     internal ScrollViewer OptimizationScroll { get; private set; } = new();
     private readonly ProgressBar optimizationProgress = new() { Height = 5, Margin = new Thickness(0, 8, 0, 8) };
-    private readonly List<BridgeConcept.OptimizationTrial> liveTrials = new();
+    private readonly List<BridgeDesignModel.OptimizationTrial> liveTrials = new();
     private ComboBox optimizationObjective = new();
     private Button optimizationRun = new(), optimizationApply = new();
     private CancellationTokenSource? optimizationCancellation;
@@ -31,7 +32,7 @@ internal sealed partial class BridgeDesignWorkspace
     private int selectedSolution = -1;
     internal int SelectedOptimizationRank => selectedSolution + 1;
     internal int DisplayedOptimizationCount => optimizationRanking?.Items.Count ?? 0;
-    internal BridgeConcept.OptimizationResult? Optimization { get; private set; }
+    internal BridgeDesignModel.OptimizationResult? Optimization { get; private set; }
     private static TextBox SearchEdit(string value) => new() { Text = value, Width = 58, Margin = new Thickness(3), VerticalContentAlignment = VerticalAlignment.Center };
 
     private void UpdateRangeAvailability()
@@ -43,8 +44,8 @@ internal sealed partial class BridgeDesignWorkspace
     {
         if (Calculation is not { } r) return;
         if (optimizationLocks["spans"].IsChecked == true) { optimizationMin.Text = optimizationMax.Text = r.Spans.Length.ToString(); return; }
-        var families = optimizationLocks["family"].IsChecked == true ? new[] { r.Family } : BridgeConcept.Families;
-        var counts = Enumerable.Range(1, 30).Where(n => families.Any(f => BridgeConcept.HasTowers(f.Id) ? n == 3 && r.Length / 2 >= f.MinSpan && r.Length / 2 <= f.MaxSpan : r.Length / n >= f.MinSpan && r.Length / n <= f.MaxSpan)).ToArray();
+        var families = optimizationLocks["family"].IsChecked == true ? new[] { r.Family } : BridgeDesignModel.Families;
+        var counts = Enumerable.Range(1, 30).Where(n => families.Any(f => BridgeDesignModel.HasTowers(f.Id) ? n == 3 && r.Length / 2 >= f.MinSpan && r.Length / 2 <= f.MaxSpan : r.Length / n >= f.MinSpan && r.Length / n <= f.MaxSpan)).ToArray();
         if (counts.Length == 0) { optimizationStatus.Text = "Nessun numero di campate tra 1 e 30 compatibile con le luci usuali. Rivedere la tipologia."; return; }
         optimizationMin.Text = counts.Min().ToString(); optimizationMax.Text = counts.Max().ToString();
         optimizationStatus.Text = "Intervallo suggerito dalle luci usuali e dalla lunghezza totale. Ostacoli e luce delle singole campate saranno controllati durante la ricerca.";
@@ -69,7 +70,7 @@ internal sealed partial class BridgeDesignWorkspace
         if (optimizationSource is not null && !JsonNode.DeepEquals(optimizationSource, OptimizationSnapshot(Data)))
         { ClearOptimizationChoice(); optimizationStatus.Text = "Dati o listino modificati: ripetere l’ottimizzazione."; }
     }
-    internal async Task RunOptimization(BridgeConcept.OptimizationOptions? requested = null)
+    internal async Task RunOptimization(BridgeDesignModel.OptimizationOptions? requested = null)
     {
         if (disposed || optimizationCancellation is not null) return;
         using var operation = new CancellationTokenSource();
@@ -88,11 +89,11 @@ internal sealed partial class BridgeDesignWorkspace
             if (Calculation is null) { optimizationStatus.Text = "Completa prima i dati del ponte."; return; }
             bool Keep(string k) => optimizationLocks[k].IsChecked == true;
             double Read(TextBox box) => double.Parse(box.Text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture);
-            BridgeConcept.OptimizationOptions options;
+            BridgeDesignModel.OptimizationOptions options;
             try
             {
-                options = requested ?? new BridgeConcept.OptimizationOptions {
-                    Objective = (BridgeConcept.OptimizationObjective)Math.Max(0, optimizationObjective.SelectedIndex),
+                options = requested ?? new BridgeDesignModel.OptimizationOptions {
+                    Objective = (BridgeDesignModel.OptimizationObjective)Math.Max(0, optimizationObjective.SelectedIndex),
                     KeepFamily = Keep("family"), KeepSpans = Keep("spans"), KeepDepth = Keep("depth"), KeepSection = Keep("section"),
                     KeepPier = Keep("pier"), KeepFoundation = Keep("foundation"), KeepContinuity = Keep("continuous"),
                     MinSpans = int.Parse(optimizationMin.Text), MaxSpans = int.Parse(optimizationMax.Text), MinDepth = Read(optimizationMinDepth), MaxDepth = Read(optimizationDepth),
@@ -104,7 +105,7 @@ internal sealed partial class BridgeDesignWorkspace
             ResetOptimizationDisplay(); var snapshot = OptimizationSnapshot(Data); optimizationSource = snapshot;
             optimizationStatus.Text = "Ricerca in corso…";
             var watch = System.Diagnostics.Stopwatch.StartNew(); long previewTime = -500; string? previewKey = null;
-            var progress = new Progress<BridgeConcept.OptimizationProgress>(p => {
+            var progress = new Progress<BridgeDesignModel.OptimizationProgress>(p => {
                 if (disposed || token.IsCancellationRequested || Optimization is not null || !ReferenceEquals(snapshot, optimizationSource) || optimizationCancellation is null) return;
                 liveTrials.AddRange(p.NewTrials); OptimizationTrace.SetData(liveTrials.ToArray(), [], Calculation);
                 OptimizationCloud.SetData(liveTrials.Where(t => t.Admissible).ToArray(), [], Calculation);
@@ -149,7 +150,7 @@ internal sealed partial class BridgeDesignWorkspace
         var panel = Ui.Stack(Ui.Text($"{Math.Min(n, result.Solutions.Length):N0} di {result.Solutions.Length:N0} soluzioni distinte · obiettivo: {new[] { "costo", "CO₂", "compromesso 50/50" }[(int)result.Options.Objective]}. Cambiare N non ripete il calcolo.", 12, true));
         if (result.BaselineExclusions.Length > 0) panel.Children.Add(Ui.Text("Il progetto corrente non soddisfa i filtri: " + string.Join("; ", result.BaselineExclusions), 12, color: Ui.Brush("#895C17")));
         optimizationRanking = Table(["# / tipologia", "n / d [m]", "Costo [€]", "Δ costo [€]", "CO₂ [t]", "Punteggio", "Pareto"], result.Solutions.Take(n).Select(c =>
-            new[] { $"{c.Rank} · {BridgeConcept.Families.Single(f => f.Id == c.Trial.Family).Name}", $"{c.Trial.Spans} / {F(c.Trial.Depth!.Value, "N2")}", F(c.Trial.Cost!.Value, "N0"), F(c.Trial.Cost.Value - result.Baseline.TotalCost, "N0"), F(c.Trial.Carbon!.Value, "N0"), F(c.Score, "N3"), c.Pareto ? "Sì" : "—" }), 350);
+            new[] { $"{c.Rank} · {BridgeDesignModel.Families.Single(f => f.Id == c.Trial.Family).Name}", $"{c.Trial.Spans} / {F(c.Trial.Depth!.Value, "N2")}", F(c.Trial.Cost!.Value, "N0"), F(c.Trial.Cost.Value - result.Baseline.TotalCost, "N0"), F(c.Trial.Carbon!.Value, "N0"), F(c.Score, "N3"), c.Pareto ? "Sì" : "—" }), 350);
         optimizationRanking.CanUserSortColumns = false; optimizationRanking.SelectedIndex = selectedSolution < Math.Min(n, result.Solutions.Length) ? selectedSolution : -1;
         optimizationRanking.SelectionChanged += (_, _) => { if (optimizationRanking.SelectedIndex >= 0 && optimizationRanking.SelectedIndex != selectedSolution) SelectOptimization(optimizationRanking.SelectedIndex); };
         panel.Children.Add(optimizationRanking);
@@ -160,7 +161,7 @@ internal sealed partial class BridgeDesignWorkspace
     internal void SelectOptimization(int index)
     {
         if (Optimization is not { } result || index < 0 || index >= result.Solutions.Length) return;
-        selectedSolution = index; var c = result.Solutions[index]; var r = ModuleServices.Get(BridgeConcept.Module).Calculate(c.Data).NativeAs<BridgeConcept.Result>();
+        selectedSolution = index; var c = result.Solutions[index]; var r = BridgeDesignModel.Read(ModuleServices.Get(BridgeDesignModel.Module).Calculate(c.Data));
         OptimizationPreview.Data = c.Data; OptimizationPreview.Result = r; OptimizationPreview.InvalidateVisual(); optimizationApply.IsEnabled = true;
         OptimizationCloud.SelectedRank = c.Rank; OptimizationCloud.InvalidateVisual();
         if (optimizationRanking is not null) optimizationRanking.SelectedIndex = index < optimizationRanking.Items.Count ? index : -1;
@@ -171,10 +172,10 @@ internal sealed partial class BridgeDesignWorkspace
         Row("Tipologia", result.Baseline.Family.Name, r.Family.Name);
         Numeric("Costo [€]", result.Baseline.TotalCost, r.TotalCost, "N0"); Numeric("CO₂ [t]", result.Baseline.Carbon, r.Carbon, "N1");
         Row("Luci [m]", string.Join(" + ", result.Baseline.Spans.Select(s => F(s, "N2"))), string.Join(" + ", r.Spans.Select(s => F(s, "N2"))));
-        Row("Schema pila", BridgeConcept.HasTowers(result.Baseline.Family.Id) ? "Antenna · 2 fusti quadrati" : optimizationSource!["input"].S("pier"), c.Trial.Pier); Row("Fondazione", result.Baseline.Foundation, r.Foundation);
+        Row("Schema pila", BridgeDesignModel.HasTowers(result.Baseline.Family.Id) ? "Antenna · 2 fusti quadrati" : optimizationSource!["input"].S("pier"), c.Trial.Pier); Row("Fondazione", result.Baseline.Foundation, r.Foundation);
         Row("Continuità", optimizationSource!["input"].B("continuous") ? "Continua" : "Indipendente", c.Data["input"].B("continuous") ? "Continua" : "Indipendente");
-        var old = BridgeConcept.TechnicalSchedule(optimizationSource!, result.Baseline).ToDictionary(t => (t.Component, t.Symbol, t.Unit));
-        foreach (var t in BridgeConcept.TechnicalSchedule(c.Data, r))
+        var old = BridgeDesignModel.TechnicalSchedule(optimizationSource!, result.Baseline).ToDictionary(t => (t.Component, t.Symbol, t.Unit));
+        foreach (var t in BridgeDesignModel.TechnicalSchedule(c.Data, r))
         {
             if (old.TryGetValue((t.Component, t.Symbol, t.Unit), out var b)) Numeric($"{t.Component} · {t.Symbol} [{t.Unit}]", b.Value, t.Value, t.Unit == "n." ? "N0" : t.Unit == "mm" ? "N1" : "N3");
             else Row($"{t.Component} · {t.Symbol} [{t.Unit}]", "n.a.", F(t.Value, "N3"));

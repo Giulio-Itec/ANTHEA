@@ -114,9 +114,9 @@ public sealed partial class MainWindow
         workspace.Editors["rates/concrete_deck"].Text = "333";
         Check(workspace.Optimization is null, "Listino modificato non invalida le alternative."); workspace.Undo();
         Check(workspace.OptimizationPreview.Result is null, "Invalidazione lascia una preview obsoleta.");
-        await workspace.RunOptimization(new BridgeConcept.OptimizationOptions { MaxDepth = .1 }); await Settle();
+        await workspace.RunOptimization(new Anthea.Application.BridgeDesign.BridgeDesignModel.OptimizationOptions { MaxDepth = .1 }); await Settle();
         Check(workspace.Optimization?.Solutions.Length == 0 && workspace.OptimizationPreview.Result is null, "Ricerca vuota mostra un vecchio candidato.");
-        await workspace.RunOptimization(new BridgeConcept.OptimizationOptions { MinDepth = 3, MaxDepth = 2 }); await Settle();
+        await workspace.RunOptimization(new Anthea.Application.BridgeDesign.BridgeDesignModel.OptimizationOptions { MinDepth = 3, MaxDepth = 2 }); await Settle();
         Check(workspace.Optimization is null && workspace.OptimizationPreview.Result is null, "Range invalido conserva risultati applicabili.");
         var running = workspace.RunOptimization();
         Ui.Descendants<Button>(workspace).Single(b => b.Content is string s && s == "Interrompi").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));

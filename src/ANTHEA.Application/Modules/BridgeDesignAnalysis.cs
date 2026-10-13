@@ -1,9 +1,11 @@
+using Anthea.Application.BridgeDesign;
+using NativeDesign = Anthea.Calculations.BridgeConcept;
 using System.Text.Json.Nodes;
 namespace Anthea.Application.Modules;
 
-public sealed record BridgeDesignAlternative(string Label, JsonObject InputChanges, BridgeConcept.Result Result,
+public sealed record BridgeDesignAlternative(string Label, JsonObject InputChanges, BridgeDesignModel.Result Result,
     double CarbonSaving, double CostDifference);
-public sealed record BridgeDesignAnalysis(BridgeConcept.Result Current, BridgeConcept.Result? Comparison,
+public sealed record BridgeDesignAnalysis(BridgeDesignModel.Result Current, BridgeDesignModel.Result? Comparison,
     string? ComparisonError, IReadOnlyList<BridgeDesignAlternative> Alternatives)
 {
     public static BridgeDesignAnalysis Calculate(JsonObject source, CancellationToken cancellation = default,
@@ -11,10 +13,10 @@ public sealed record BridgeDesignAnalysis(BridgeConcept.Result Current, BridgeCo
     {
         var data = (JsonObject)source.DeepClone();
         var standard = ModuleServices.Get(BridgeConcept.Module);
-        var current = (mainService ?? standard).Calculate(data, cancellation).NativeAs<BridgeConcept.Result>();
-        BridgeConcept.Result? comparison = null; string? comparisonError = null;
+        var current = BridgeDesignModel.Read((mainService ?? standard).Calculate(data, cancellation));
+        BridgeDesignModel.Result? comparison = null; string? comparisonError = null;
         if (data["alternative_a"] is JsonObject pinned)
-            try { comparison = standard.Calculate(pinned, cancellation).NativeAs<BridgeConcept.Result>(); }
+            try { comparison = BridgeDesignModel.Read(standard.Calculate(pinned, cancellation)); }
             catch (ArgumentException ex) { comparisonError = ex.Message; }
         var alternatives = new List<BridgeDesignAlternative>();
         void Consider(string label, string key, JsonNode change, bool checkSpan = false)
@@ -23,7 +25,7 @@ public sealed record BridgeDesignAnalysis(BridgeConcept.Result Current, BridgeCo
             var candidate = (JsonObject)data.DeepClone(); candidate["input"]![key] = change.DeepClone();
             try
             {
-                var result = standard.Calculate(candidate, cancellation).NativeAs<BridgeConcept.Result>();
+                var result = BridgeDesignModel.Read(standard.Calculate(candidate, cancellation));
                 if (checkSpan && result.Spans.Max() > result.Family.MaxSpan) return;
                 double saving = current.Carbon - result.Carbon;
                 if (saving > .01) alternatives.Add(new(label, new JsonObject { [key] = change.DeepClone() }, result, saving, result.TotalCost - current.TotalCost));
@@ -40,7 +42,13 @@ public sealed record BridgeDesignAnalysis(BridgeConcept.Result Current, BridgeCo
     }
     public static JsonObject OptimizationSnapshot(JsonObject source)
     { var result = (JsonObject)source.DeepClone(); result.Remove("alternative_a"); result.Remove("scene"); return result; }
-    public static BridgeConcept.OptimizationResult Optimize(JsonObject source, BridgeConcept.OptimizationOptions options,
-        CancellationToken cancellation, IProgress<BridgeConcept.OptimizationProgress>? progress = null)
-        => BridgeConcept.Optimize(OptimizationSnapshot(source), options, cancellation, progress);
+    public static BridgeDesignModel.OptimizationResult Optimize(JsonObject source, BridgeDesignModel.OptimizationOptions options,
+        CancellationToken cancellation, IProgress<BridgeDesignModel.OptimizationProgress>? progress = null)
+        => new(NativeDesign.Optimize(OptimizationSnapshot(source), options.ToNative(), cancellation,
+            progress is null ? null : new ProgressProjection(progress)));
+    // Forward through the caller's IProgress; do not capture another synchronization context.
+    private sealed class ProgressProjection(IProgress<BridgeDesignModel.OptimizationProgress> target) : IProgress<NativeDesign.OptimizationProgress>
+    {
+        public void Report(NativeDesign.OptimizationProgress value) => target.Report(new(value));
+    }
 }

@@ -1,3 +1,4 @@
+using Anthea.Application.BridgeDesign;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,16 +14,16 @@ internal sealed class BridgeOptimizationPlot : FrameworkElement
     internal int Variable, SelectedRank;
     internal string? FamilyFilter;
     internal event Action<int>? Selected;
-    private BridgeConcept.OptimizationTrial[] trials = [];
-    private BridgeConcept.OptimizationSolution[] solutions = [];
-    private BridgeConcept.Result? baseline;
-    private readonly List<(Point Point, BridgeConcept.OptimizationTrial Trial, int Rank)> hits = new();
+    private BridgeDesignModel.OptimizationTrial[] trials = [];
+    private BridgeDesignModel.OptimizationSolution[] solutions = [];
+    private BridgeDesignModel.Result? baseline;
+    private readonly List<(Point Point, BridgeDesignModel.OptimizationTrial Trial, int Rank)> hits = new();
     private static readonly Brush[] Palette = [Ui.Brush("#0B5CAD"), Ui.Brush("#168B94"), Ui.Brush("#8462AB"), Ui.Brush("#C26817"), Ui.Brush("#337E46"), Ui.Brush("#B44866"), Ui.Brush("#526680"), Ui.Brush("#98682D"), Ui.Brush("#557C19"), Ui.Brush("#0082C2"), Ui.Brush("#BF3737"), Ui.Brush("#5724A3"), Ui.Brush("#BD277A"), Ui.Brush("#1D5951")];
     private static readonly string[] FamilyLabels = ["Soletta", "Travi T", "Travi I c.a.p.", "Travi U", "Cassone c.a.p.", "Conci FCM", "Travi I acc.", "Cassone acc.", "Incorporate", "Ortotropa", "Arco", "Strallato", "Sospeso", "Reticolare"];
-    internal static Brush FamilyBrush(string id) => Palette[Math.Max(0, Array.FindIndex(BridgeConcept.Families, f => f.Id == id)) % Palette.Length];
+    internal static Brush FamilyBrush(string id) => Palette[Math.Max(0, Array.FindIndex(BridgeDesignModel.Families, f => f.Id == id)) % Palette.Length];
     internal int PointCount => hits.Count;
-    internal IReadOnlyList<(Point Point, BridgeConcept.OptimizationTrial Trial, int Rank)> Points => hits;
-    internal void SetData(BridgeConcept.OptimizationTrial[] attempted, BridgeConcept.OptimizationSolution[] admitted, BridgeConcept.Result? reference)
+    internal IReadOnlyList<(Point Point, BridgeDesignModel.OptimizationTrial Trial, int Rank)> Points => hits;
+    internal void SetData(BridgeDesignModel.OptimizationTrial[] attempted, BridgeDesignModel.OptimizationSolution[] admitted, BridgeDesignModel.Result? reference)
     { trials = attempted; solutions = admitted; baseline = reference; SelectedRank = 0; InvalidateVisual(); }
     internal BridgeOptimizationPlot()
     {
@@ -30,7 +31,7 @@ internal sealed class BridgeOptimizationPlot : FrameworkElement
         MouseMove += (_, e) =>
         {
             var hit = Nearest(e.GetPosition(this));
-            ToolTip = hit is { } p ? $"{(p.Rank > 0 ? "Soluzione #" + p.Rank : "Tentativo " + p.Trial.Iteration)} · {BridgeConcept.Families.Single(f => f.Id == p.Trial.Family).Name}\n" +
+            ToolTip = hit is { } p ? $"{(p.Rank > 0 ? "Soluzione #" + p.Rank : "Tentativo " + p.Trial.Iteration)} · {BridgeDesignModel.Families.Single(f => f.Id == p.Trial.Family).Name}\n" +
                 $"{p.Trial.Spans} campate · d = {Value(p.Trial.Depth)} m · pali {Value(p.Trial.PileLength)} m\n{Value(p.Trial.Cost, "N0")} € · {Value(p.Trial.Carbon, "N1")} tCO₂e\n{p.Trial.Pier} · {p.Trial.Foundation} · {(p.Trial.Continuous ? "Continuo" : "Indipendente")}\n" +
                 (p.Trial.Admissible ? "Ammessa dai filtri" : string.Join("; ", p.Trial.Exclusions)) : null;
         };
@@ -38,17 +39,17 @@ internal sealed class BridgeOptimizationPlot : FrameworkElement
     }
     internal void SelectAt(Point location)
     { var hit = Nearest(location); if (Scatter && hit is { Rank: > 0 } p) Selected?.Invoke(p.Rank); }
-    private (Point Point, BridgeConcept.OptimizationTrial Trial, int Rank)? Nearest(Point p)
+    private (Point Point, BridgeDesignModel.OptimizationTrial Trial, int Rank)? Nearest(Point p)
     {
         if (hits.Count == 0) return null;
         var nearest = hits.OrderBy(h => (h.Point - p).LengthSquared).ThenBy(h => h.Rank).First();
         return (nearest.Point - p).Length <= 12 ? nearest : null;
     }
     private static string Value(double? value, string format = "N2") => value?.ToString(format, CultureInfo.GetCultureInfo("it-IT")) ?? "—";
-    private double? Y(BridgeConcept.OptimizationTrial t) => Scatter ? t.Carbon : Variable switch {
+    private double? Y(BridgeDesignModel.OptimizationTrial t) => Scatter ? t.Carbon : Variable switch {
         0 => t.Cost / 1e6, 1 => t.Carbon, 2 => t.Depth, 3 => t.Spans, 4 => t.PileLength,
-        5 => Array.FindIndex(BridgeConcept.Families, f => f.Id == t.Family), 6 => t.Pier.StartsWith("Antenna") ? 4 : Array.IndexOf(BridgeConcept.Piers, t.Pier),
-        7 => Array.IndexOf(BridgeConcept.Foundations, t.Foundation), _ => t.Continuous ? 1 : 0
+        5 => Array.FindIndex(BridgeDesignModel.Families, f => f.Id == t.Family), 6 => t.Pier.StartsWith("Antenna") ? 4 : Array.IndexOf(BridgeDesignModel.Piers, t.Pier),
+        7 => Array.IndexOf(BridgeDesignModel.Foundations, t.Foundation), _ => t.Continuous ? 1 : 0
     };
     protected override void OnRender(DrawingContext dc)
     {
@@ -63,7 +64,7 @@ internal sealed class BridgeOptimizationPlot : FrameworkElement
                 && (!ParetoOnly || rankByTrial.TryGetValue(t.Iteration, out var s) && s.Pareto)))
             .Where(t => Y(t) is double y && double.IsFinite(y) && (!Scatter || t.Cost is double cost && double.IsFinite(cost))).ToArray();
         if (shown.Length == 0) { Text(dc, trials.Length == 0 ? "Avvia la ricerca per popolare il grafico" : "Nessun punto con questi filtri", 18, h / 2, 12, Ui.Muted); return; }
-        double X(BridgeConcept.OptimizationTrial t) => Scatter ? t.Cost!.Value / 1e6 : t.Iteration;
+        double X(BridgeDesignModel.OptimizationTrial t) => Scatter ? t.Cost!.Value / 1e6 : t.Iteration;
         double xmin = shown.Min(X), xmax = shown.Max(X), ymin = shown.Min(t => Y(t)!.Value), ymax = shown.Max(t => Y(t)!.Value);
         if (Scatter && baseline is not null) { xmin = Math.Min(xmin, baseline.TotalCost / 1e6); xmax = Math.Max(xmax, baseline.TotalCost / 1e6); ymin = Math.Min(ymin, baseline.Carbon); ymax = Math.Max(ymax, baseline.Carbon); }
         if (!Scatter) { xmin = 1; xmax = Math.Max(2, trials.LastOrDefault()?.Iteration ?? 2); }

@@ -1,3 +1,4 @@
+using Anthea.Application.BridgeDesign;
 using Anthea.Reports;
 using Anthea.Application.Modules;
 using Anthea.Application.Scheduling;
@@ -18,7 +19,7 @@ namespace X.Desktop;
 internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
 {
     internal JsonObject Data { get; }
-    internal BridgeConcept.Result? Calculation { get; private set; }
+    internal BridgeDesignModel.Result? Calculation { get; private set; }
     internal JsonObject? Result => Calculation?.Json();
     internal event Action? Modified;
     internal readonly TabControl Inputs = new(), Outputs = new(), WorkspaceTabs = new();
@@ -46,7 +47,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
     internal BridgeDesignWorkspace(JsonObject data) : this(data, null) { }
     internal BridgeDesignWorkspace(JsonObject data, IModuleService? service)
     {
-        calculationService = service ?? ModuleServices.Get(BridgeConcept.Module);
+        calculationService = service ?? ModuleServices.Get(BridgeDesignModel.Module);
         ModuleSheetPreparation.PrepareBridgeDesign(data);
         Data = data; previous = Clone(Data); Background = Appearance.Surface;
         var title = Ui.Stack(Ui.Text("BRIDGE DESIGN", 24, true), Ui.Text("Dal sito al ponte · geometria, quantità e ordini di grandezza", 13, color: Ui.Muted));
@@ -81,8 +82,8 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
         Ui.Tab(Outputs, "Quantità e costi", quantities);
         Ui.Tab(Outputs, "Dettagli del predimensionamento", detail);
         Ui.Tab(Outputs, "Confronto A / B", comparison);
-        Ui.Tab(Outputs, "Prezzi unitari", Scroll(ParameterPanel("rates", BridgeConcept.Rates), 365));
-        Ui.Tab(Outputs, "Ipotesi e coefficienti", Scroll(ParameterPanel("assumptions", BridgeConcept.Assumptions.Concat(BridgeConcept.AdvancedAssumptions)), 365));
+        Ui.Tab(Outputs, "Prezzi unitari", Scroll(ParameterPanel("rates", BridgeDesignModel.Rates), 365));
+        Ui.Tab(Outputs, "Ipotesi e coefficienti", Scroll(ParameterPanel("assumptions", BridgeDesignModel.Assumptions.Concat(BridgeDesignModel.AdvancedAssumptions)), 365));
         Ui.Tab(Outputs, "Sezioni e quote", technical);
         Outputs.MinHeight = 330;
         var bottom = Ui.Stack(Ui.Paper(Outputs, 12), advice);
@@ -113,21 +114,21 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
         foreach (string key in Editors.Keys.Where(k => k.StartsWith("input/")).ToArray()) Editors.Remove(key);
         sectionPanel = new StackPanel();
         var site = new StackPanel();
-        Choice(site, "obstacle", "Ostacolo da attraversare", BridgeConcept.Obstacles);
-        Choice(site, "soil", "Terreno convenzionale", BridgeConcept.Soils);
-        foreach (var p in BridgeConcept.Site) site.Children.Add(Number("input", p, true));
+        Choice(site, "obstacle", "Ostacolo da attraversare", BridgeDesignModel.Obstacles);
+        Choice(site, "soil", "Terreno convenzionale", BridgeDesignModel.Soils);
+        foreach (var p in BridgeDesignModel.Site) site.Children.Add(Number("input", p, true));
         Ui.Tab(Inputs, "1 · Sito", Scroll(site, 490));
-        var layout = ParameterPanel("input", BridgeConcept.Layout, true);
+        var layout = ParameterPanel("input", BridgeDesignModel.Layout, true);
         Toggle(layout, "continuous", "Impalcato continuo"); Toggle(layout, "start_pier", "Inizio su pila · viadotto prosegue"); Toggle(layout, "end_pier", "Fine su pila · viadotto prosegue");
         layout.Children.Add(Ui.Text("Campate terminali = 0,8 × interne per schemi continui con almeno 3 campate. Le pile vengono spostate fuori dall'ostacolo, ove possibile.", 12, color: Ui.Muted));
         layout.Children.Add(Ui.Button("Ripristina dimensioni automatiche", AutoSize));
         Ui.Tab(Inputs, "2 · Campate", Scroll(layout, 490));
         BuildSection(); Ui.Tab(Inputs, "3 · Sezione", Scroll(sectionPanel, 490));
         var sub = new StackPanel();
-        if (BridgeConcept.HasTowers(Input.S("family"))) sub.Children.Add(Ui.Text("Antenne a due fusti quadrati: la quota sopra impalcato è nella Sezione. La dimensione pila imposta indica il lato del fusto; 0 = predimensionamento.", 12));
-        else Choice(sub, "pier", "Tipologia pila", BridgeConcept.Piers);
-        Choice(sub, "foundation", "Fondazioni", BridgeConcept.Foundations);
-        foreach (var p in BridgeConcept.Substructure) sub.Children.Add(Number("input", p, true));
+        if (BridgeDesignModel.HasTowers(Input.S("family"))) sub.Children.Add(Ui.Text("Antenne a due fusti quadrati: la quota sopra impalcato è nella Sezione. La dimensione pila imposta indica il lato del fusto; 0 = predimensionamento.", 12));
+        else Choice(sub, "pier", "Tipologia pila", BridgeDesignModel.Piers);
+        Choice(sub, "foundation", "Fondazioni", BridgeDesignModel.Foundations);
+        foreach (var p in BridgeDesignModel.Substructure) sub.Children.Add(Number("input", p, true));
         sub.Children.Add(Ui.Text("0 mantiene il dimensionamento automatico. Le classi di terreno sono parametri convenzionali modificabili nelle ipotesi.", 11, color: Ui.Muted));
         Ui.Tab(Inputs, "4 · Pile", Scroll(sub, 490));
     }
@@ -135,13 +136,13 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
     {
         sectionPanel.Children.Clear();
         var families = new UniformGrid { Columns = 2 };
-        foreach (var f in BridgeConcept.Families)
+        foreach (var f in BridgeDesignModel.Families)
         {
             var button = Ui.Button("", () => Mutate(() => {
                 Input["family"] = f.Id;
-                if (BridgeConcept.HasTowers(f.Id)) { Input["spans"] = 3; Input["continuous"] = true; Input["start_pier"] = false; Input["end_pier"] = false; }
+                if (BridgeDesignModel.HasTowers(f.Id)) { Input["spans"] = 3; Input["continuous"] = true; Input["start_pier"] = false; Input["end_pier"] = false; }
                 if (f.Id is "tied_arch" or "truss") Input["continuous"] = false;
-                if (f.Id == "suspension") Input["deck_type"] = BridgeConcept.DeckTypes[1];
+                if (f.Id == "suspension") Input["deck_type"] = BridgeDesignModel.DeckTypes[1];
             }, true));
             bool selected = Input.S("family") == f.Id;
             Ui.SetSelected(button, selected);
@@ -150,7 +151,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
         }
         sectionPanel.Children.Add(families);
         string id = Input.S("family");
-        if (BridgeConcept.HasUpperStructure(id)) Choice(sectionPanel, "deck_type", "Piano carrabile", BridgeConcept.DeckTypes);
+        if (BridgeDesignModel.HasUpperStructure(id)) Choice(sectionPanel, "deck_type", "Piano carrabile", BridgeDesignModel.DeckTypes);
         var active = new HashSet<string> { "depth", "fc" };
         if (id != "slab") active.Add("slab");
         if (id is "tee" or "psc_i" or "psc_u" or "steel_i") active.Add("spacing");
@@ -161,49 +162,49 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
         if (id == "steel_box") { active.Add("boxes"); active.Add("web_slope"); }
         if (id == "psc_i") active.Add("haunch");
         if (id == "psc_u") { active.Add("u_top"); active.Add("u_bottom"); }
-        if (BridgeConcept.IsExtended(id))
+        if (BridgeDesignModel.IsExtended(id))
         {
-            bool ortho = id == "orthotropic" || BridgeConcept.HasUpperStructure(id) && Input.S("deck_type") == BridgeConcept.DeckTypes[1];
+            bool ortho = id == "orthotropic" || BridgeDesignModel.HasUpperStructure(id) && Input.S("deck_type") == BridgeDesignModel.DeckTypes[1];
             active.UnionWith(new[] { "flange_mm", "web_mm" });
             if (ortho) { active.Remove("slab"); active.Add("boxes"); }
             else { active.Add("flange_width"); active.Add("spacing"); if (id == "filler_beam") active.Remove("slab"); }
         }
-        foreach (var p in BridgeConcept.Section.Where(p => active.Contains(p.Key))) sectionPanel.Children.Add(Number("input", p, true));
-        if (BridgeConcept.IsExtended(id))
+        foreach (var p in BridgeDesignModel.Section.Where(p => active.Contains(p.Key))) sectionPanel.Children.Add(Number("input", p, true));
+        if (BridgeDesignModel.IsExtended(id))
         {
             var extra = new HashSet<string>();
             if (id == "tied_arch") extra.Add("arch_rise");
-            if (BridgeConcept.HasTowers(id)) extra.Add("tower_height");
+            if (BridgeDesignModel.HasTowers(id)) extra.Add("tower_height");
             if (id == "suspension") extra.Add("cable_sag");
-            if (BridgeConcept.HasUpperStructure(id)) extra.Add("suspender_spacing");
+            if (BridgeDesignModel.HasUpperStructure(id)) extra.Add("suspender_spacing");
             if (id == "truss") extra.Add("truss_ratio");
             if (id == "filler_beam") extra.Add("embedded_cover");
-            if (id == "orthotropic" || BridgeConcept.HasUpperStructure(id) && Input.S("deck_type") == BridgeConcept.DeckTypes[1])
+            if (id == "orthotropic" || BridgeDesignModel.HasUpperStructure(id) && Input.S("deck_type") == BridgeDesignModel.DeckTypes[1])
                 extra.UnionWith(new[] { "deck_plate_mm", "rib_height", "rib_top", "rib_bottom", "rib_mm", "rib_spacing" });
-            foreach (var p in BridgeConcept.AdvancedSection.Where(p => extra.Contains(p.Key))) sectionPanel.Children.Add(Number("input", p, true));
-            sectionPanel.Children.Add(Ui.Text(BridgeConcept.HasTowers(id) ? "Tre campate simmetriche: L/4 + L/2 + L/4. Gli appoggi non vengono spostati per aggirare l’ostacolo." : "Geometria ideale di predimensionamento; parametri e tensioni di riferimento nelle Ipotesi.", 11, color: Ui.Muted));
+            foreach (var p in BridgeDesignModel.AdvancedSection.Where(p => extra.Contains(p.Key))) sectionPanel.Children.Add(Number("input", p, true));
+            sectionPanel.Children.Add(Ui.Text(BridgeDesignModel.HasTowers(id) ? "Tre campate simmetriche: L/4 + L/2 + L/4. Gli appoggi non vengono spostati per aggirare l’ostacolo." : "Geometria ideale di predimensionamento; parametri e tensioni di riferimento nelle Ipotesi.", 11, color: Ui.Muted));
         }
         sectionPanel.Children.Add(Ui.Button("Sezione automatica", AutoSize));
     }
-    private StackPanel ParameterPanel(string group, IEnumerable<BridgeConcept.Parameter> parameters, bool sliders = false)
+    private StackPanel ParameterPanel(string group, IEnumerable<BridgeDesignModel.Parameter> parameters, bool sliders = false)
     {
         var panel = new StackPanel { Margin = new Thickness(4) };
         if (group == "rates")
         {
-            panel.Children.Add(Ui.Text(BridgeConcept.PriceBasis, 12, color: Ui.Muted));
+            panel.Children.Add(Ui.Text(BridgeDesignModel.PriceBasis, 12, color: Ui.Muted));
             panel.Children.Add(Ui.Button("Applica valori orientativi 2026", () => Mutate(() => {
-                foreach (var rate in BridgeConcept.Rates) Data["rates"]![rate.Key] = rate.Default;
+                foreach (var rate in BridgeDesignModel.Rates) Data["rates"]![rate.Key] = rate.Default;
             }, true)));
         }
         if (group == "assumptions") panel.Children.Add(Ui.Text("Ipotesi del modello di stima. I carichi sono equivalenti uniformi; i moltiplicatori non definiscono una combinazione normativa completa.", 12, color: Ui.Muted));
         foreach (var p in parameters)
         {
             panel.Children.Add(Number(group, p, sliders));
-            if (group == "rates" && BridgeConcept.RateNotes.TryGetValue(p.Key, out var note)) panel.Children.Add(Ui.Text(note, 11, color: Ui.Muted));
+            if (group == "rates" && BridgeDesignModel.RateNotes.TryGetValue(p.Key, out var note)) panel.Children.Add(Ui.Text(note, 11, color: Ui.Muted));
         }
         return panel;
     }
-    private FrameworkElement Number(string group, BridgeConcept.Parameter p, bool slider)
+    private FrameworkElement Number(string group, BridgeDesignModel.Parameter p, bool slider)
     {
         var row = new Grid { Margin = new Thickness(3, 6, 3, 3) };
         row.ColumnDefinitions.Add(new ColumnDefinition()); row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(76) }); row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(44) });
@@ -300,7 +301,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
                 values[3].Text = F(r.Duration, "0") + " mesi"; captions[3].Text = $"±25% · {r.Supports.Count(s => s.Type != "Spalla")} pile · {r.Supports.Count(s => s.Type == "Spalla")} spalle";
                 configuration.Text = $"L {F(r.Length)} m · W {F(r.Width)} m · {r.Family.Name} · {r.Girders} elementi · {r.Foundation}" + (r.PileLength > 0 ? $" × {F(r.PileLength, "0")} m" : "");
                 ShowQuantities(r); ShowDetails(r); ShowComparison(); ShowAdvice(); ShowTechnical(r); InvalidateOptimization();
-                status.Text = BridgeConcept.Scope; status.Foreground = Appearance.Foreground(Ui.Muted);
+                status.Text = BridgeDesignModel.Scope; status.Foreground = Appearance.Foreground(Ui.Muted);
             }
             catch (ArgumentException error)
             {
@@ -330,15 +331,15 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
         }
         grid.RowHeight = double.NaN; return grid;
     }
-    private void ShowQuantities(BridgeConcept.Result r)
+    private void ShowQuantities(BridgeDesignModel.Result r)
     {
         var table = Table(["Voce", "Parte", "Quantità", "Unità", "Prezzo €", "Importo €"], r.Quantities.Select(q => new[] { q.Item, q.Group, F(q.Amount), q.Unit, F(q.Rate), F(q.Cost, "N0") }));
         double prelims = r.DirectCost * Data["assumptions"].D("prelims") / 100;
         quantities.Content = Ui.Stack(table, Ui.Text($"Diretto {F(r.DirectCost, "N0")} €   +   cantiere {F(prelims, "N0")} €   +   imprevisti {F(r.TotalCost - r.DirectCost - prelims, "N0")} €   =   {F(r.TotalCost, "N0")} €", 13, true));
     }
-    private void ShowDetails(BridgeConcept.Result r)
+    private void ShowDetails(BridgeDesignModel.Result r)
     {
-        var panel = Ui.Stack(Ui.Text(BridgeConcept.Scope, 12, true), Ui.Text(r.Stations.Length == 0 ? "Struttura superiore: equilibrio ideale e quantità. Non viene prodotto un diagramma globale da trave per archi, cavi o reticolari." : "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico.", 12, color: Ui.Muted), new BridgeConceptMomentPlot { Result = r, Height = 180 });
+        var panel = Ui.Stack(Ui.Text(BridgeDesignModel.Scope, 12, true), Ui.Text(r.Stations.Length == 0 ? "Struttura superiore: equilibrio ideale e quantità. Non viene prodotto un diagramma globale da trave per archi, cavi o reticolari." : "Carico uniforme su tutte le campate. Diagramma riferito all'intero impalcato; non è l'inviluppo di un treno di carico.", 12, color: Ui.Muted), new BridgeConceptMomentPlot { Result = r, Height = 180 });
         panel.Children.Add(Table(["Grandezza", "Valore", "Unità", "Regola / ipotesi"], r.Details.Select(d => new[] { d.Name, F(d.Value, "N3"), d.Unit, d.Rule }), 600));
         panel.Children.Add(Table(["Appoggio", "x [m]", "Tipo", "R G+Q [kN]", "H [m]", "Plinto B×W [m]", "Pali"], r.Supports.Select(s => new[] { (s.Index + 1).ToString(), F(s.X), s.Type, F(s.Reaction), F(s.PierHeight), F(s.FootingSize) + "×" + F(s.FootingWidth), s.Piles.ToString() }), 500));
         foreach (string warning in r.Warnings) panel.Children.Add(Ui.Text("• " + warning, 12, color: Ui.Brush("#895C17")));
@@ -388,20 +389,20 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
     internal void Randomize() => Randomize(Random.Shared);
     internal void Randomize(Random random)
     {
-        var f = BridgeConcept.Families[random.Next(BridgeConcept.Families.Length)];
+        var f = BridgeDesignModel.Families[random.Next(BridgeDesignModel.Families.Length)];
         Mutate(() =>
         {
-            var defaults = BridgeConcept.Defaults()["input"]!.AsObject(); Data["input"] = defaults.DeepClone();
+            var defaults = BridgeDesignModel.Defaults()["input"]!.AsObject(); Data["input"] = defaults.DeepClone();
             Input["family"] = f.Id; int spans = random.Next(2, 7); Input["spans"] = spans;
             Input["length"] = Math.Round((f.MinSpan + (f.MaxSpan - f.MinSpan) * (.2 + random.NextDouble() * .45)) * (spans - .4));
-            Input["height"] = Math.Max(random.Next(8, 31), Math.Ceiling(Input.D("length") / (spans - .4) / 18 + 5)); Input["lanes"] = random.Next(2, 7); Input["obstacle"] = BridgeConcept.Obstacles[random.Next(3)];
-            Input["soil"] = BridgeConcept.Soils[random.Next(4)]; Input["pier"] = BridgeConcept.Piers[random.Next(4)];
-            if (BridgeConcept.HasUpperStructure(f.Id))
+            Input["height"] = Math.Max(random.Next(8, 31), Math.Ceiling(Input.D("length") / (spans - .4) / 18 + 5)); Input["lanes"] = random.Next(2, 7); Input["obstacle"] = BridgeDesignModel.Obstacles[random.Next(3)];
+            Input["soil"] = BridgeDesignModel.Soils[random.Next(4)]; Input["pier"] = BridgeDesignModel.Piers[random.Next(4)];
+            if (BridgeDesignModel.HasUpperStructure(f.Id))
             {
-                bool towers = BridgeConcept.HasTowers(f.Id); Input["spans"] = towers ? 3 : 1; Input["continuous"] = towers;
+                bool towers = BridgeDesignModel.HasTowers(f.Id); Input["spans"] = towers ? 3 : 1; Input["continuous"] = towers;
                 Input["length"] = Math.Round(towers ? Math.Min(450, (f.MinSpan + f.MaxSpan) / 2) * 2 : (f.MinSpan + f.MaxSpan) / 2);
                 Input["height"] = 30; Input["obstacle"] = "Nessuno";
-                if (f.Id == "suspension") Input["deck_type"] = BridgeConcept.DeckTypes[1];
+                if (f.Id == "suspension") Input["deck_type"] = BridgeDesignModel.DeckTypes[1];
             }
             Input["obstacle_width"] = Math.Min(20, Input.D("length") / 8); Data["scene"] = random.Next(10000);
         }, true);
@@ -413,10 +414,10 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
         if (dialog.ShowDialog(Window.GetWindow(this)) != true) return;
         try { write(dialog.FileName); } catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { MessageBox.Show(Window.GetWindow(this), ex.Message, "Esportazione non riuscita"); }
     }
-    private void ExportCsv() => Save("Quantità CSV|*.csv", "BridgeDesign_quantita.csv", filename => Archivio.ScriviAtomico(filename, Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(BridgeConceptExport.Csv(Calculation!))).ToArray()));
+    private void ExportCsv() => Save("Quantità CSV|*.csv", "BridgeDesign_quantita.csv", filename => Archivio.ScriviAtomico(filename, Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(BridgeDesignModel.Csv(Calculation!))).ToArray()));
     private void ExportPng() => Save("Immagine PNG|*.png", "BridgeDesign.png", filename => Archivio.ScriviAtomico(filename, Drawing.Png()));
     internal byte[] BuildReport(string title) => DocxWriter.Write(BuildReportDocument(title));
-    internal DocxDocument BuildReportDocument(string title) => BridgeConceptExport.ReportDocument(title, Data, Calculation ?? throw new InvalidOperationException("Completare i dati del ponte."), Drawing.Png(false), Drawing.Png(true));
+    internal DocxDocument BuildReportDocument(string title) => BridgeDesignModel.ReportDocument(title, Data, Calculation ?? throw new InvalidOperationException("Completare i dati del ponte."), Drawing.Png(false), Drawing.Png(true));
     private void Print()
     {
         if (Calculation is null) return;
@@ -429,7 +430,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
     {
         var r = Calculation ?? throw new InvalidOperationException("Completare i dati del ponte.");
         var drawing = new BridgeDesignDrawing { Data = Data, Result = r, Width = 1000, Height = 420 };
-        var panel = Ui.Stack(Ui.Text("ANTHEA · Bridge Design", 26, true), Ui.Text(BridgeConcept.Scope, 14), drawing,
+        var panel = Ui.Stack(Ui.Text("ANTHEA · Bridge Design", 26, true), Ui.Text(BridgeDesignModel.Scope, 14), drawing,
             Ui.Text($"{r.Family.Name} · L {F(r.Length)} m · W {F(r.Width)} m · d {F(r.Depth)} m", 16),
             Ui.Text($"Costo {F(r.TotalCost, "N0")} € · CO₂ {F(r.Carbon, "N0")} t · Durata {r.Duration:0} mesi", 18, true));
         foreach (var q in r.Quantities) panel.Children.Add(Ui.Text($"{q.Group} / {q.Item}: {F(q.Amount)} {q.Unit} × {F(q.Rate)} € = {F(q.Cost, "N0")} €", 14));

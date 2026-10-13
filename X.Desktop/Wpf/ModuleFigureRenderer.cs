@@ -1,3 +1,4 @@
+using Anthea.Application.BridgeDesign;
 using Anthea.Application.Presentation;
 using Anthea.Application.Reporting;
 using System.Text.Json.Nodes;
@@ -17,9 +18,9 @@ internal sealed partial class ModuleFigureRenderer : IFigureRenderer
             return BridgeFigures(BridgeResultView.Read(c), c.Data["ui_mista"]!.AsObject(), request.Options);
         if (c.ModuleId == RetainingWall.Module)
             return WallFigures(c.NativeAs<RetainingWall.Result>(), (WallReportPresentation)request.Context!);
-        if (c.ModuleId == BridgeConcept.Module)
+        if (c.ModuleId == BridgeDesignModel.Module)
         {
-            var drawing = new BridgeDesignDrawing { Data = c.Data, Result = c.NativeAs<BridgeConcept.Result>() };
+            var drawing = new BridgeDesignDrawing { Data = c.Data, Result = BridgeDesignModel.Read(c) };
             return [new("Prospetto", drawing.Png(false), "prospetto"), new("Sezione", drawing.Png(true), "sezione")];
         }
         if (c.ModuleId is not ("geo_palo_verticale" or "geo_micropalo_verticale")) throw new NotSupportedException("Figure del modulo non disponibili: " + c.ModuleId);

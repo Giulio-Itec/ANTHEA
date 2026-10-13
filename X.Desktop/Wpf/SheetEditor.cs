@@ -1,3 +1,4 @@
+using Anthea.Application.BridgeDesign;
 using Anthea.Application.Modules;
 using Anthea.Application.Scheduling;
 using Anthea.Reports;
@@ -98,7 +99,7 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
             retainingWall.SoilTransferRequested += OpenSoilTransfer;
             Content = retainingWall; building = false; return;
         }
-        if (module == BridgeConcept.Module)
+        if (module == BridgeDesignModel.Module)
         {
             bridgeDesign = new BridgeDesignWorkspace(Data); bridgeDesign.Modified += () => Modified?.Invoke(); Content = bridgeDesign; building = false; return;
         }

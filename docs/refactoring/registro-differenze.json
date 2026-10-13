@@ -3647,7 +3647,7 @@
       "famiglia": "strumentazione dei test",
       "categoria": "volatile",
       "stato": "corretto",
-      "descrizione": "56 delle 78 immagini prima/dopo identiche. Le 22 restanti differiscono per rettangolo del focus, hover di controlli e scrollbar o testo di preparazione rispetto al calcolo già terminato. Ritagli ispezionati; nessuna maschera o tolleranza aggiunta. Le immagini non identiche non sono usate per attestare equivalenza pixel per pixel. Report, geometrie e risultati confrontati separatamente restano esatti.",
+      "descrizione": "56 delle 78 immagini prima/dopo identiche. Le 22 restanti differiscono per rettangolo del focus, hover di controlli e scrollbar o testo di preparazione rispetto al calcolo già terminato. Ritagli ispezionati; nessuna maschera o tolleranza aggiunta. Le immagini non identiche non sono usate per attestare equivalenza pixel per pixel. Report, geometrie e risultati confrontati separatamente restano esatti. Seguito F3.7b.15: Bridge Design ha 60/61 immagini identiche; la sola bridge_design_1600.png differisce nel contorno della scheda Sito selezionata, rettangolo (34,230)-(95,259), ispezionato nel ritaglio. Nessuna modifica ai disegni, maschera o tolleranza.",
       "codice": [
         "supporto/test/Desktop/BridgeSmokeChecks.cs",
         "supporto/test/Desktop/BridgeResponseUiSmokeChecks.cs"
@@ -3660,7 +3660,9 @@
       "evidenze": [
         "supporto/artefatti/refactoring/f3/bridge-contracts-images.json",
         "supporto/artefatti/refactoring/f3/bridge-diffs",
-        "supporto/artefatti/ci/20261013-090512-f3-bridge-contracts-owned"
+        "supporto/artefatti/ci/20261013-090512-f3-bridge-contracts-owned",
+        "supporto/artefatti/refactoring/f3/bridge-design-contract-images.json",
+        "supporto/artefatti/refactoring/f3/bridge-design-contract-diff.png"
       ]
     },
     {
@@ -3673,7 +3675,7 @@
       "stato": "corretto",
       "descrizione": "Sette delle 52 immagini identiche; le altre 45 hanno dimensioni diverse fra le due corse (viewport 1904x993 rispetto a 1586x953 e finestre secondarie con differenza di due pixel). Il confronto delle finestre non è usato per attestare equivalenza grafica. Nessun ricampionamento, maschera, tolleranza o atteso sostituito; confronto dei dati grafici e dei report mantenuto nel banco F3.",
       "codice": [
-        "supporto/test/Desktop/ConcreteExtensionsSmokeChecks.cs"
+        "supporto/test/Desktop/ConcreteExtensionSmokeChecks.cs"
       ],
       "test": [
         "68 nuovi controlli applicativi sui cataloghi e sugli input",
