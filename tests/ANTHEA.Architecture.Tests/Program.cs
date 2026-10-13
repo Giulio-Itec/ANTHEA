@@ -48,6 +48,7 @@ try
         "Anthea.Calculations.SezioneCA::.ctor", "Anthea.Calculations.CheckerSection::PrepareModel",
         "Anthea.Calculations.ConcreteSectionProperties::Calculate", "Anthea.Calculations.ConcreteCurvatureAnalysis::Calculate",
         "Anthea.Calculations.ConcreteReinforcementDesign::Optimize", "Anthea.Calculations.SectionMomentResistance::Calculate",
+        "Anthea.Calculations.BridgeSection::Materials", "Anthea.Calculations.ConcreteMaterials::DesignValues",
         "Anthea.Calculations.BridgeSection::Calculate", "Anthea.Calculations.PaloOrizzontale::Calculate",
         "Anthea.Calculations.MicropaloOrizzontale::Calculate", "Anthea.Calculations.RetainingWall::Calculate",
         "Anthea.Calculations.ElasticHorizontalPile::DesignSegment",

@@ -27,9 +27,7 @@ internal sealed partial class BridgeWorkspace
         predalleForm?.ShowField("rif_ferri_inf", Data.B("predalle") && Data.B("rebars_bottom"));
         try
         {
-            var slab = BridgeSection.SlabLayout(Data);
-            string lower = Data.B("rebars_bottom") ? $"Ferri inferiori: {slab.BottomReference} + {F(Data.D("cover_bottom"))} mm → y = {F(slab.BottomAxisY)} mm." : "Ferri inferiori assenti.";
-            slabLayoutInfo.Text = (slab.HasPredalle ? $"Predalle: y = 0…{F(slab.PredalleThickness)} mm; getto sovrastante: {F(slab.Height - slab.PredalleThickness)} mm.\n" : "y = 0 all'intradosso della soletta.\n") + lower;
+            slabLayoutInfo.Text = Anthea.Application.Presentation.BridgePreview.SlabDescription(Data);
         }
         catch (ArgumentException ex) { slabLayoutInfo.Text = ex.Message; }
     }
@@ -39,9 +37,7 @@ internal sealed partial class BridgeWorkspace
         if (steelHeightInfo is null) return;
         try
         {
-            double clear = Anthea.Application.Presentation.BridgeSheetPresentation.UpdateWebHeight(Data);
-            double second = Data.B("plate2") && Data.S("sezione", BridgeSection.SectionTypes[0]) == BridgeSection.SectionTypes[0] ? Data.D("t_bottom2") : 0;
-            steelHeightInfo.Text = $"H = {F(Data.D("h_trave"))} mm · h anima = H − t sup − t inf{(second > 0 ? " − t inf.2" : "")} = {F(clear)} mm.";
+            steelHeightInfo.Text = Anthea.Application.Presentation.BridgePreview.UpdateSteelHeightDescription(Data);
         }
         catch (ArgumentException ex) { steelHeightInfo.Text = ex.Message; }
     }

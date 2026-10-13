@@ -4,6 +4,7 @@ namespace Anthea.Application.Presentation;
 
 public static class WallSheetPresentation
 {
+    public static string Number(double value) => value.ToString("0.00", CultureInfo.GetCultureInfo("it-IT"));
     public static void PrepareGlobalSettings(JsonObject data)
     {
         var g = data["global_stability"]!.AsObject();

@@ -70,10 +70,9 @@ internal sealed partial class RetainingWallWorkspace
         }
         try
         {
-            var input = RetainingWall.MaterialSectionInput(Data); var values = ConcreteMaterials.DesignValues(input, J.Obj(("normativa", "NTC 2018")));
-            form.Set("__fcd", F(values.Fcd), true); form.Set("__fyd", F(values.Fyd), true); form.Set("__ecm", F(ConcreteMaterials.Concrete(input).Ecm), true);
-            double required = RetainingWall.RequiredCover(Data);
-            wallCoverStatus.Text = $"Minimo nominale {required:0.##} mm · adottato {m.D("cover"):0.##} mm · Ø massimo {RetainingWall.MaximumBarDiameter(Data):0.##} mm. " + (m.D("cover") < required ? "Copriferro insufficiente." : "Minimo rispettato.");
+            var preview = Anthea.Application.Presentation.WallMaterialPreview.Read(Data);
+            foreach (var (key, value) in preview.Fields) form.Set(key, value, true);
+            wallCoverStatus.Text = preview.CoverDescription;
         }
         catch (ArgumentException ex) { foreach (string key in new[] { "__fcd", "__fyd", "__ecm" }) form.Set(key, "—", true); wallCoverStatus.Text = ex.Message; }
     }

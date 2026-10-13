@@ -239,8 +239,9 @@ internal sealed partial class BridgeWorkspace : UserControl, IDisposable
         RefreshSlabLayout();
         try
         {
-            previewGeometry = BridgeSection.Geometry(Data); previewInput = (JsonObject)Data.DeepClone(); geometryError = ""; var m = BridgeSection.Materials(Data);
-            materialInfo.Text = $"{m.Concrete.Name}   fck = {F(Math.Abs(m.Concrete.Fck))} MPa\nEcm = {F(m.Concrete.ElasticModulusCompression)} MPa\n\n{m.Steel.Name}   fy = {F(m.Steel.Fyk)} MPa\nEa = {F(m.Steel.ElasticModulusTension)} MPa\n\n{m.Rebar.Name}   fyk = {F(m.Rebar.Fyk)} MPa\nEs = {F(m.Rebar.ElasticModulusTension)} MPa";
+            var preview = Anthea.Application.Presentation.BridgePreview.Read(Data);
+            previewGeometry = preview.Geometry; previewInput = preview.Input;
+            geometryError = preview.GeometryError; materialInfo.Text = preview.MaterialText;
         }
         catch (Exception ex) { geometryError = ex.Message; materialInfo.Text = ex.Message; }
         RefreshSectionProperties();

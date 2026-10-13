@@ -43,7 +43,7 @@ internal sealed partial class RetainingWallWorkspace : UserControl, IDisposable
     private int revision;
     private bool building = true, disposed;
     private static readonly CultureInfo It = CultureInfo.GetCultureInfo("it-IT");
-    internal static string F(double d) => d.ToString("0.00", It);
+    internal static string F(double d) => Anthea.Application.Presentation.WallSheetPresentation.Number(d);
     private void Preview() { Drawing.Data = Data; Drawing.Calculation = null; Drawing.Case = null; Drawing.InvalidateVisual(); }
     private void Changed()
     {

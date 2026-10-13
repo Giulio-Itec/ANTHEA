@@ -245,3 +245,9 @@ Corsa 20261013-044738-f3-pile-segment-operations: nove PASS, comprese le prove e
 La corsa 20261013-045645-f3-structural-preview ha individuato un difetto del banco: il report autonomo era datato 04:58 e quello della vista 04:59. L’unica differenza in word/document.xml era la riga generata ANTHEA con data e ora. TextNormalizer ora espone la normalizzazione circoscritta a quattro prefissi generati e al formato esatto della data/ora, riusando la regola già esistente per il giorno della corsa. Testi utente, numeri e date normative restano esatti; core.xml continua a usare la politica preesistente.
 
 Corsa 20261013-050137-f3-report-timestamp-fix: otto suite PASS, 27 controlli del normalizzatore (nove nuovi), 37 capitoli/85 immagini e 458 file F3 equivalenti. Nessuna nuova tolleranza scientifica, nessun atteso riscritto e nessuna eccezione in known-failures. Registro F3-05 documenta l’errore di strumentazione.
+
+## F3.7b.7b — materiali e anteprime strutturali
+
+BridgePreview prepara geometria, copia dell’input, testi dei materiali e riferimenti della soletta, mantenendo anche la geometria valida quando fallisce la lettura dei materiali. Le altezze riusano UpdateWebHeight e la sua scrittura storica del derivato. WallMaterialPreview prepara resistenze, modulo e stato del copriferro con le API precedenti. Formattazione condivisa con le rispettive viste; nessuna formula nuova.
+
+Riferimento 20261013-045542-f3-structural-preview-before; dieci suite passate in 045645 oltre al falso negativo dell’orario risolto separatamente in F3-05. Otto suite finali in 050137, 37 capitoli e 458 file equivalenti. 17 immagini di predalle/materiali dei muri identiche byte per byte, evidenza structural-preview-images.json. Soglia Calculations 125; vietati anche i ritorni delle chiamate Materials del ponte e DesignValues nelle viste. F3.7b resta aperto per i contratti e gli accessi residui.
