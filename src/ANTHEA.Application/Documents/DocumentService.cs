@@ -55,7 +55,7 @@ public static class DocumentService
     {
         Validate(document); ProjectRevisions.Validate(document); Anthea.Reports.DocumentFile.Write(path,Encoding.UTF8.GetBytes(ProjectRevisions.Pack(document).ToJsonString(J.Options)));
     }
-    public static JsonObject CreateSheet(string module) => ModuleCatalog.CreateData(module);
+    public static JsonObject CreateSheet(string module) => Anthea.Application.Modules.ModuleDirectory.CreateData(module);
     public static JsonObject CreateMicropileLayer() => CalculationDefaults.NuovoStratoMicropalo();
     public static JsonObject CreatePileLayer() => CalculationDefaults.NuovoStratoPalo();
     public static JsonObject CreateDocument(string module)=>J.Obj(("formato","X"),("versione",1),("tipo","calcolo"),("modulo_id",module),("dati",CreateSheet(module)));

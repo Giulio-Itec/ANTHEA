@@ -101,15 +101,27 @@ public static class ConcreteSheetPreparation
         key => data["combinazioni"]!.Array(key).OfType<JsonObject>().Select(item =>
         {
             var a = item.Array("azioni");
-            return J.Obj(("id", item.S("id")), ("nome", item.S("nome")), ("N", a.ElementAtOrDefault(0)?.ToString() ?? ""),
+            var row = J.Obj(("id", item.S("id")), ("nome", item.S("nome")), ("N", a.ElementAtOrDefault(0)?.ToString() ?? ""),
                 ("Mx", a.ElementAtOrDefault(1)?.ToString() ?? ""), ("My", a.ElementAtOrDefault(2)?.ToString() ?? ""), ("visible", item.B("visible", true)));
+            if (a.Count == 6)
+            {
+                for (int i = 3; i < 6; i++) row[SectionActionInputs.Components[i]] = a[i]?.DeepClone();
+                row["elemento"] = item.S("elemento"); row["stato"] = key;
+            }
+            return row;
         }).ToArray());
     public static void CommitRows(JsonObject data)
     {
         foreach (var (key, rows) in ReadActions(data)) data["combinazioni"]![key] = StoreActions(rows);
         var options = data["workspace_ca"]!["taglio"]!;
-        options["azioni"] = StoreShearRows(options.Array("azioni").OfType<JsonObject>());
+        options["azioni"] = SectionActionInputs.Unified(data) ? new JsonArray() : StoreShearRows(options.Array("azioni").OfType<JsonObject>());
     }
-    public static JsonArray StoreActions(IEnumerable<JsonObject> rows) => new(rows.Select(row => (JsonNode)J.Obj(("id", row.S("id")), ("nome", row.S("nome")), ("azioni", new[] { row.S("N"), row.S("Mx"), row.S("My") }), ("visible", row.B("visible", true)))).ToArray());
+    public static JsonArray StoreActions(IEnumerable<JsonObject> rows) => new(rows.Select(row =>
+    {
+        bool full = row.ContainsKey("Vx");
+        var stored = J.Obj(("id", row.S("id")), ("nome", row.S("nome")), ("azioni", (full ? SectionActionInputs.Components : ["N", "Mx", "My"]).Select(k => row.S(k)).ToArray()), ("visible", row.B("visible", true)));
+        if (full) stored["elemento"] = row.S("elemento");
+        return (JsonNode)stored;
+    }).ToArray());
     public static JsonArray StoreShearRows(IEnumerable<JsonObject> rows) => new(rows.Select(row => (JsonNode)J.Obj(("id",row.S("id")),("nome",row.S("nome")),("N",row.S("N")),("Mx",row.S("Mx","0")),("My",row.S("My","0")),("Vx",row.S("Vx")),("Vy",row.S("Vy")),("T",row.S("T","0")))).ToArray());
 }

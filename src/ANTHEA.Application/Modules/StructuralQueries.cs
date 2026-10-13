@@ -37,7 +37,7 @@ public static class StructuralQueries
     public static ConcreteResults.DesignResult ConcreteReinforcement(JsonObject source, CancellationToken cancellation = default,
         IProgress<ConcreteResults.DesignProgress>? progress = null)
     {
-        var snapshot = ModuleServices.Get("str_palo").Prepare(source);
+        var snapshot = Anthea.Application.Concrete.SectionActionInputs.CalculationCopy(ModuleServices.Get("str_palo").Prepare(source));
         var options = ConcreteDesignOptions.Read(snapshot["workspace_ca"]!["calcola_armature"]!.AsObject());
         return new(ConcreteReinforcementDesign.Optimize(snapshot, options, cancellation,
             progress is null ? null : new DesignProgressForward(progress)));

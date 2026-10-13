@@ -32,7 +32,7 @@ public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result, 
                 }
                 else if (outcome.Stress is { } rows) stresses[outcome.Name] = rows;
             }, cancellation: cancellation);
-        var shearRows = settings["taglio"]!.Array("azioni").OfType<JsonObject>().ToArray();
+        var shearRows = SectionActionInputs.ShearRows(data);
         await Task.Run(() =>
         {
             try

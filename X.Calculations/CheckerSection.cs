@@ -104,7 +104,12 @@ public sealed partial class CheckerSection
         bool tensile = options.S("trazione_cls", "No") == "Sì";
         int subdivisions = SectionWorkspace.Subdivisions(options.S("angoli", "32"), "Direzioni angolari", 4, 360);
         var settings = new SectionCheckerModelCode2010.SectionOptionsModelCode2010(Local, Criterion(options.S("criterio", "N costante")),
-            state == "SLV" ? SectionSolver.FailureDomainTypes.Elastic : SectionSolver.FailureDomainTypes.Plastic,
+            options.S("modello_resistente", state == "SLV" ? "Elastico" : "Plastico") switch
+            {
+                "Elastico" => SectionSolver.FailureDomainTypes.Elastic,
+                "Plastico" => SectionSolver.FailureDomainTypes.Plastic,
+                _ => throw new ArgumentException("Criterio resistente: scegliere Plastico o Elastico.")
+            },
             options.S("modello", "Non lineare") == "Lineare" ? SectionSolver.StressAnalysisTypes.Linear : SectionSolver.StressAnalysisTypes.NonLinear,
             Nonnegative("phi"), workspace.Array("trefoli").Count > 0 ? Nonnegative("phi_trefoli") : 0, tensile, subdivisions);
         // GPC owns the per-section mesh cache lock; independent checker instances may be constructed concurrently.

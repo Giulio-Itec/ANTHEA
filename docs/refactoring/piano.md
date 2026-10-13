@@ -202,7 +202,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
 
 ## Coda dopo F3: input delle sollecitazioni da Excel
 
-- [ ] EXCEL-SOL (richiesta del 13/10, requisiti precisati dall'utente): riscrittura degli input delle sollecitazioni tramite Excel, dopo la chiusura dei punti F3 già concordati. Colonne nell'ordine: `Elemento` (facoltativo), `Nome combo`, `Stato limite`, `N`, `Vx`, `Vy`, `T`, `Mx`, `My`. Un solo insieme di sei componenti per riga/combinazione alimenta tutte le verifiche pertinenti allo stato limite. SLU e SLV alimentano anche taglio e torsione; Rara, Frequente e Quasi permanente alimentano i rispettivi controlli SLE. Eliminare la famiglia di input separata `Taglio`, conservando l'accesso alle verifiche di taglio/torsione. Requisiti e cautele di compatibilità in [decisioni.md](decisioni.md#13-ottobre--input-unificato-delle-sollecitazioni-da-excel). I requisiti principali sono già forniti: a fine F3 discutere soltanto le eventuali ambiguità residue, senza chiedere nuovamente il formato. Implementazione non iniziata.
+- [ ] EXCEL-SOL (richiesta del 13/10, requisiti precisati dall'utente): riscrittura degli input delle sollecitazioni tramite Excel, dopo la chiusura dei punti F3 già concordati. Colonne nell'ordine: `Elemento` (facoltativo), `Nome combo`, `Stato limite`, `N`, `Vx`, `Vy`, `T`, `Mx`, `My`. Un solo insieme di sei componenti per riga/combinazione alimenta tutte le verifiche pertinenti allo stato limite. SLU e SLV alimentano anche taglio e torsione; Rara, Frequente e Quasi permanente alimentano i rispettivi controlli SLE. Eliminare la famiglia di input separata `Taglio`, conservando l'accesso alle verifiche di taglio/torsione. Requisiti e cautele di compatibilità in [decisioni.md](decisioni.md#13-ottobre--input-unificato-delle-sollecitazioni-da-excel). I requisiti principali sono già forniti: a fine F3 discutere soltanto le eventuali ambiguità residue, senza chiedere nuovamente il formato. Implementazione sul ramo `codex/section-actions-excel`; criterio Plastico/Elastico selezionabile nella verifica approvato il 13/10. Sottopassi: contratto e instradamento, Excel/editor, collaudo e guide.
 - F4 resta ferma per indicazione esplicita dell'utente; la chiusura di F3 e questa attività accodata non ne autorizzano l'avvio.
 
 ## Fase 4: calcoli residui nelle librerie
@@ -436,3 +436,9 @@ le attività già tracciate, senza dichiarare chiusi i residui delle fasi succes
 - [x] 5.2. Finestra autonoma «Reologia del calcestruzzo», WPF/MVVM, richiamabile dai punti pertinenti: dati del CLS e di maturazione, φ(t,t₀), φ a infinito, E(t) e fattore E(t)/E₂₈, grafici e tabella. Calcoli in GPC Model; separazione fra modulo elastico per maturazione e coefficienti di viscosità. Guide globali e PDF aggiornati; nessun report di calcolo esistente modificato.
 
 Punto 5.2: implementato in `ANTHEA.DesignTools.Presentation` senza WPF e vista che riusa Plot/Ui.Dialog. Richiami da Strumenti, materiali e SLE; 57 controlli di stato/numerici e 21 WPF, guide Rev37 e Wiki aggiornate. [Architettura ed evidenze](f2.5-reologia.md). Model 5.1 e set T da commit pubblicati; ANTHEA 1.3.0 per la nuova funzionalità. Il collaudo full e il confronto finale sono conclusi nel punto 5.
+
+### EXCEL-SOL — avanzamento
+
+- [x] Contratto unico, instradamento e criterio resistente indipendente; EXCEL-SOL-01, controlli prima/dopo PASS.
+- [ ] Nuovo Excel, editor MVVM e conversione esplicita.
+- [ ] Report, guide, collaudo e rilascio.

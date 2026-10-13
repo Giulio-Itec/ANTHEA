@@ -19,7 +19,25 @@
     "dichiarato",
     "da-correggere",
     "corretto",
-    "attuato"
+    "attuato",
+    {
+      "id": "EXCEL-SOL-01",
+      "data": "2026-10-13",
+      "fase": "EXCEL-SOL",
+      "titolo": "Sollecitazioni uniche e criterio resistente indipendente",
+      "famiglia": "contratto delle sollecitazioni",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "Nuovo schema versionato con sei componenti e riferimento elemento facoltativo. SLU/SLV alimentano taglio/torsione dalla stessa riga, SLE separate per stato limite. Criterio Plastico/Elastico indipendente con fallback storico. Nuovi fogli vuoti, nessun carico inventato. Documenti precedenti invariati fino a conversione esplicita. Nessuna nuova formula o DLL.",
+      "test": [
+        "Contratto, atomicità, nessuna perdita di componenti, Elemento opzionale, omonimi, criteri indipendenti",
+        "Application.Tests e verifiche/ca-data PASS prima/dopo"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-142103-excel-sol-before",
+        "supporto/artefatti/ci/20261013-142457-excel-sol-contract"
+      ]
+    }
   ],
   "nota_voci_r": "Le voci R1-R14 vengono dalla ricerca normativa sulla fessurazione (supporto/artefatti/refactoring/ricerca-a/rapporto.md) e dalla revisione dei metodi c.a. per le pagine docs/metodi di Checker (branch locali anthea-metodi-ca-1 e anthea-metodi-ca-2, harness in supporto/artefatti/refactoring/metodi e metodi2). R15 viene dalla revisione di D7-b. Le voci R16-R21 vengono dalla verifica delle pagine dei metodi unite in Checker develop (F2.2: merge c555a3b8 e 1fbaea61 e correzioni successive, riquadri collegati alle voci in e41a803a); stato da-decidere e stessa decisione di R4-R14 (F5.15). Il segno è riferito al testo della norma del profilo; dove il testo primario non è stato letto il grado di certezza è indicato nel campo riscontro.",
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
