@@ -25,6 +25,22 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-01",
+      "titolo": "Esiti tipizzati dei pali e dei muri, API additive nelle librerie",
+      "famiglia": "esiti/pali-muri",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Checker c6f10056 aggiunge Outcome, Execution e Data usando gli enum Model. Selezione e sviluppo dei pali non interpretano Status. Le stringhe compatibili restano invariate sui casi reali; scrivere un'etichetta positiva non certifica una verifica non eseguita. Nei muri i nuovi esiti non certificano dati non finiti, anche se il vecchio factory restituisce ancora la propria etichetta. Attuato nelle API candidate, non ancora nel set runtime ANTHEA: attivazione F4.4b.",
+      "riferimento_normativo": [],
+      "codice": ["Checker/GPCChecker.Concrete/Piles/PileReinforcement.cs", "Checker/GPCChecker.Geotechnics/Walls/WallResults.cs"],
+      "segno": "Nessuna variazione dei valori di calcolo; nuova rappresentazione degli esiti e protezione dai falsi PASS testuali/non finiti.",
+      "effetto_quantificato": "11 casi di palo e 7 di muro prima/dopo: tutti i campi legacy identici byte per byte. SHA palo 5E75A6432480694166F77216554D772AF00FFFB079495F6A45BF12458851985E; muro 14A345FB46085EDDBA07C889BFF0468356138FFC9EF5732D0B508B9B84D9043E. Suite Checker 1565 PASS, 17 fallimenti Steel già ammessi, zero nuovi fallimenti; API pubbliche senza rimozioni.",
+      "decisione": "13/10/2026: eseguire F4 esclusi Bridge Design e chiusura; F4.3a distingue esito, disponibilità ed esecuzione. API additive Concrete 0.1.0.0 e Geotechnics 0.2.0.0, attivazione ANTHEA con set coerente separato.",
+      "test": ["Checker/tests/Concrete.Checks/PileOutcomeTests.cs", "Checker/tests/Geotechnics.Checks/WallOutcomeTests.cs"],
+      "evidenze": "supporto/artefatti/refactoring/f4/outcomes-before e outcomes-after/checker-verify/summary.json",
+      "wiki": "Da aggiornare all'attivazione F4.4b; il comportamento UI di ANTHEA 1.7.1 non cambia."
+    },
+    {
       "id": "D7-a",
       "titolo": "Fessurazione NTC con barre distanziate: 1,7 · 0,75 (h − x) e massimo fra zona vicina e distante",
       "famiglia": "calcestruzzo/fessurazione",

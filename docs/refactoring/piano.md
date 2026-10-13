@@ -294,7 +294,9 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
 - [~] F4.3 [CP] Collocazione di GPC.Design, Concrete/Walls, muratura, σcp, CRd,c/k1/vmin, esiti dei pali.
   - [x] F4.3a (13/10): [dipendenze, collocazioni e contratti](f4-contratti.md), unità/segni, input immutabili, esiti comuni, annullamento e compatibilità. Nessun assembly vuoto o calcolo duplicato.
   - [ ] F4.3b: confronto indipendente dell'effetto σcp e coefficienti sui muri prima della decisione numerica; separato dal port equivalente.
-- [ ] F4.4 Esito comune tipizzato in pali e muri.
+- [~] F4.4 Esito comune tipizzato in pali e muri.
+  - [x] F4.4a (13/10): Checker `c6f10056`, API additive Outcome/Execution/Data con enum Model; selezione e sviluppo del palo senza confronti di testo. 1565 PASS, 17 Steel già noti, zero nuovi fallimenti; 18 casi legacy identici byte per byte. Concrete candidata 0.1.0.0, Geotechnics candidata 0.2.0.0.
+  - [ ] F4.4b: adozione nei consumatori e negli esiti strutturali locali dei muri con set coerente; DLL ANTHEA ancora set V. Nessun rilascio/merge di fase anticipato.
 - [~] F4.5 Coefficienti dalle norme (γ dei pali da PileExecution); scostamento (d) in due commit. Anticipato il 7/10: D7-d opzioni d1 e d2 (γb da Model per tecnologia, valore di riserva e migrazione una tantum dei fogli).
 - [ ] F4.6 Inventario delle soglie dipendenti dalle unità; palo elastico in N e mm.
 - [ ] F4.7 Muri in c.a. in `Concrete/Walls` (tre passi).
