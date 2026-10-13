@@ -29,7 +29,7 @@ internal sealed partial class ConcreteWorkspace
         if (!automatic) { shearAutomaticNote.Text = "Parametri manuali: verificare geometria, armatura tesa e ancoraggio."; return; }
         try
         {
-            var geometry = ConcreteCalculationSettings.UpdateAutomaticShear(Input, ShearOptions);
+            var geometry = Anthea.Application.Concrete.ConcreteSheetPreparation.UpdateAutomaticShear(Input, ShearOptions);
             foreach (string axis in new[] { "x", "y" })
                 foreach (string field in new[] { "bw_", "d_", "asl_" })
                     shearForm.Set(field + axis, EngineeringFormat.Number(J.Number(ShearOptions[field + axis])), true);

@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Windows;
 using System.Windows.Media;
 using X.Core;
@@ -9,7 +10,7 @@ internal sealed partial class ConcreteSectionViewport
     internal bool CoverDimensions { get; set; }
     internal bool SpacingDimensions { get; set; }
     internal readonly List<string> DimensionLabels = [];
-    private void DrawDimensions(DrawingContext dc, SezioneCA s, Func<double, double, Point> p)
+    private void DrawDimensions(DrawingContext dc, ConcreteGeometry s, Func<double, double, Point> p)
     {
         DimensionLabels.Clear();
         var brush = Ui.Brush("#66788A"); var pen = new Pen(brush, .8);
@@ -59,7 +60,7 @@ internal sealed partial class ConcreteSectionViewport
         }
         if (SpacingDimensions && s.Bars.Count > 1)
         {
-            (Barra A, Barra B, double Gap)? nearest = null;
+            (ReinforcementBar A, ReinforcementBar B, double Gap)? nearest = null;
             for (int i = 0; i < s.Bars.Count; i++) for (int j = i + 1; j < s.Bars.Count; j++)
             {
                 var a = s.Bars[i]; var b = s.Bars[j]; double gap = double.Hypot(a.X - b.X, a.Y - b.Y) - (a.Diametro + b.Diametro) / 2;

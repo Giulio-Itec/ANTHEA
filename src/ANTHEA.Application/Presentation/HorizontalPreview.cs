@@ -4,7 +4,7 @@ namespace Anthea.Application.Presentation;
 
 public sealed record HorizontalModelPreview(string Label, string Hint, IReadOnlyDictionary<string, string> Factors, string Efficiency);
 public sealed record HorizontalChsPreview(JsonObject? Geometry, IReadOnlyDictionary<string, string> Fields);
-public sealed record HorizontalConcretePreview(SezioneCA Geometry, double LinkRadius, double LinkDiameter);
+public sealed record HorizontalConcretePreview(ConcreteGeometry Geometry, double LinkRadius, double LinkDiameter);
 
 /// <summary>Sheet preview data from the existing pile and material engines. No WPF or new engineering rules.</summary>
 public static class HorizontalPreview

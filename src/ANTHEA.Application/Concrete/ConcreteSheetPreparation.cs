@@ -84,10 +84,13 @@ public static class ConcreteSheetPreparation
         ConcreteDetailingPresentation.Calculate(input, settings, ReadActions(data)["SLU"].Concat(ReadActions(data)["SLV"])).ApplyDerivedValues(settings);
         CommitRows(data);
     }
-    public static SezioneCA? RefreshAutomaticShear(JsonObject input, JsonObject options)
+    public static ConcreteGeometry UpdateAutomaticShear(JsonObject input, JsonObject options)
+        => new(ConcreteCalculationSettings.UpdateAutomaticShear(input, options));
+
+    public static ConcreteGeometry? RefreshAutomaticShear(JsonObject input, JsonObject options)
     {
         if (options.S("parametri", "Automatici da sezione") != "Automatici da sezione") return null;
-        try { return ConcreteCalculationSettings.UpdateAutomaticShear(input, options); }
+        try { return UpdateAutomaticShear(input, options); }
         catch (ArgumentException)
         {
             foreach (string axis in new[] { "x", "y" }) foreach (string field in new[] { "bw_", "d_", "asl_" }) options[field + axis] = "";

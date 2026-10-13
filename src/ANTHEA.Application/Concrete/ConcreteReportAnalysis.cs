@@ -1,7 +1,7 @@
 using System.Text.Json.Nodes;
 namespace Anthea.Application.Concrete;
 
-public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result, SezioneCA Geometry,
+public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result, ConcreteGeometry Geometry,
     IReadOnlyDictionary<string, JsonObject[]> Actions,
     IReadOnlyDictionary<string, CheckerDomain3D> Domains3D,
     IReadOnlyDictionary<string, CheckerDomain2D> Domains2D,

@@ -45,7 +45,8 @@ try
     // This inventory does not classify all engineering semantics: getters and data adapters remain visible.
     var accesses = desktop.Members.Where(m => m.Assembly == "ANTHEA.Calculations" || m.Assembly.StartsWith("GPCChecker", StringComparison.Ordinal)).ToArray();
     string[] transferredCalls = [
-        "Anthea.Calculations.SezioneCA::.ctor", "Anthea.Calculations.CheckerSection::PrepareModel",
+        "Anthea.Calculations.SezioneCA::.ctor", "Anthea.Calculations.Barra::.ctor",
+        "Anthea.Calculations.ConcreteCalculationSettings::UpdateAutomaticShear", "Anthea.Calculations.CheckerSection::PrepareModel",
         "Anthea.Calculations.ConcreteSectionProperties::Calculate", "Anthea.Calculations.ConcreteCurvatureAnalysis::Calculate",
         "Anthea.Calculations.ConcreteReinforcementDesign::Optimize", "Anthea.Calculations.SectionMomentResistance::Calculate",
         "Anthea.Calculations.BridgeSection::Materials", "Anthea.Calculations.ConcreteMaterials::DesignValues",

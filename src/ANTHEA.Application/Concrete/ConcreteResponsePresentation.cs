@@ -3,7 +3,7 @@ namespace Anthea.Application.Concrete;
 
 public static class ConcreteResponsePresentation
 {
-    public static string InspectionText(CheckerStressState state, ActionPoint force, string title, SezioneCA section)
+    public static string InspectionText(CheckerStressState state, ActionPoint force, string title, ConcreteGeometry section)
     {
         var p = state.Native.StrainPlane;
         var b = new StringBuilder(title);

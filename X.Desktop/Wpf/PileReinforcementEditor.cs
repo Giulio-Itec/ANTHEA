@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -103,7 +104,7 @@ internal sealed partial class PileReinforcementEditor : ContentControl
         if(record==null)content.Children.Add(Ui.Text("Verifiche da aggiornare. I diagrammi FEM validi rimangono disponibili.",12));
         else
         {
-            var preview=new SectionDrawing{Width=205,Height=175,Caption=$"{record.S("id")} · sezione costante x={record.D("inizio"):0.00}–{record.D("fine"):0.00} m",CircularLinkRadius=record.D("staffa_raggio_mm"),LinkDiameter=record["sezione"].D("transverse_bar_diameter_mm"),LinkCaption=record["sezione"].S("tipo_trasversale")=="Spirale"?"Spirale":"Staffa",ShowAxes=true,Outline=record.Array("contorno_sezione").Select(a=>a!.AsArray().Select(v=>J.Number(v)??0).ToArray()).ToList(),Bars=record.Array("barre_sezione").Select(a=>{var b=a!.AsArray().Select(v=>J.Number(v)??0).ToArray();return new Barra(b[0],b[1],b[2],b[3]);}).ToList()};content.Children.Add(preview);
+            var preview=new SectionDrawing{Width=205,Height=175,Caption=$"{record.S("id")} · sezione costante x={record.D("inizio"):0.00}–{record.D("fine"):0.00} m",CircularLinkRadius=record.D("staffa_raggio_mm"),LinkDiameter=record["sezione"].D("transverse_bar_diameter_mm"),LinkCaption=record["sezione"].S("tipo_trasversale")=="Spirale"?"Spirale":"Staffa",ShowAxes=true,Outline=record.Array("contorno_sezione").Select(a=>a!.AsArray().Select(v=>J.Number(v)??0).ToArray()).ToList(),Bars=record.Array("barre_sezione").Select(a=>{var b=a!.AsArray().Select(v=>J.Number(v)??0).ToArray();return new ReinforcementBar(b[0],b[1],b[2],b[3]);}).ToList()};content.Children.Add(preview);
             content.Children.Add(Ui.Text("Dettagli: "+record.S("comportamento_dettagli")+" · esposizione "+record["durabilita"].S("esposizione")+" · cmin,dur "+Number(record["durabilita"],"cmin_dur")+" mm",11));
             AddVerdict(content,record);
             if(checkMode=="N–M"||checkMode=="Taglio")

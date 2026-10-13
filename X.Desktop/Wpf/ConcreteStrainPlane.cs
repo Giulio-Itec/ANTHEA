@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Windows;
 using System.Windows.Media;
 using X.Core;
@@ -6,7 +7,7 @@ namespace X.Desktop;
 internal sealed class ConcreteStrainPlaneView : DrawingView
 {
     internal CheckerStressState? State { get; set; }
-    internal SezioneCA? Section { get; set; }
+    internal ConcreteGeometry? Section { get; set; }
     protected override void Render(DrawingContext dc,Size size)
     {
         dc.DrawRectangle(Ui.Brush("#F8FAFD"),null,new Rect(size));

@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -42,7 +43,7 @@ internal sealed class ViewportFrame : Border
 internal sealed record TendonPoint(string Id, double X, double Y, double Area);
 internal sealed partial class ConcreteSectionViewport : DrawingView
 {
-    internal SezioneCA? Section { get; set; }
+    internal ConcreteGeometry? Section { get; set; }
     internal List<TendonPoint> Tendons { get; set; } = [];
     internal CheckerStressState? Stress { get; set; }
     internal static readonly string[] Contours = Anthea.Application.Concrete.ConcreteSheetPreparation.Contours;
@@ -86,7 +87,7 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
     protected override void Render(DrawingContext dc, Size size)
     {
         dc.DrawRectangle(Ui.Brush("#F8FAFD"), null, new Rect(size)); barLocations.Clear(); NeutralAxisDisplay = null;
-        if (Section is not SezioneCA section || size.Width < 100 || size.Height < 100) { Text(dc, Message, 18, size.Height / 2, 13, width: size.Width - 36); return; }
+        if (Section is not ConcreteGeometry section || size.Width < 100 || size.Height < 100) { Text(dc, Message, 18, size.Height / 2, 13, width: size.Width - 36); return; }
         double xmin = section.Outline.Min(p => p[0]), xmax = section.Outline.Max(p => p[0]), ymin = section.Outline.Min(p => p[1]), ymax = section.Outline.Max(p => p[1]);
         bool hasLegend = Stress is not null && Contour != "Solo geometria";
         double plotWidth = size.Width - (hasLegend ? 105 : 0);
@@ -218,7 +219,7 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
         dc.DrawRoundedRectangle(new SolidColorBrush(Color.FromArgb(220, 255, 255, 255)), new Pen(Ui.Brush("#D7DFE8"), .5), new Rect(p.X + 7, p.Y - 13, 150, 31), 3, 3);
         Text(dc, label, p.X + 10, p.Y - 12, 9, Ui.Navy, 148);
     }
-    private void DrawStirrups(DrawingContext dc, SezioneCA section, Func<double, double, Point> p, double scale)
+    private void DrawStirrups(DrawingContext dc, ConcreteGeometry section, Func<double, double, Point> p, double scale)
     {
         if (Stirrups is null || section.Input.S("staffe_presenti","Sì")=="No") return;
         double cover = section.Input.D("cover_mm"), phi = section.Input.D("transverse_bar_diameter_mm"), inset = cover + phi / 2;
