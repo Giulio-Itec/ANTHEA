@@ -11,13 +11,15 @@ internal static class F4WallPortChecks
     internal static int Run(string root, string reference, string output)
     {
         var errors = new List<string>(); int checks = 0, sections = 0, cases = 0, walls = 0, uncrackedCount = 0, shearChecks = 0, shearChanged = 0;
-        double maximumError = 0;
+        double maximumError = 0, maximumCurvatureChange = 0, maximumBendingDisplacementChangeMm = 0;
+        int curvatureChecks = 0, curvatureChanged = 0, bendingShapes = 0;
         try
         {
             var assembly = typeof(SectionShearCalculator).Assembly;
             Type Api(string name) => assembly.GetType("GPC.Checkers.Concrete.Walls." + name, true)!;
             Type stripType = Api("WallStrip"), memberType = Api("WallMember"), sessionType = Api("WallSectionSession"), actionsType = Api("WallSectionActions");
             bool hasShear = sessionType.GetMethod("CheckShear") is not null;
+            bool hasTotalCurvature = Api("WallServiceabilityResult").GetProperty("ElasticEquivalentCurvature") is not null;
             var shearReference = new Dictionary<(string, string, string, double), JsonObject>();
             if (hasShear)
             {
@@ -53,6 +55,8 @@ internal static class F4WallPortChecks
                 foreach (var c in value["Cases"]!.AsArray().OfType<JsonObject>())
                 {
                     cases++;
+                    var totalCurvatures = new List<RetainingWall.CurvaturePoint>();
+                    double creepFactor = 1 + original["materials"].D("creep");
                     foreach (var f in c["Sections"]!.AsArray().OfType<JsonObject>())
                     {
                         string member = f.S("Name"); double position = f.D("Position"), thickness = f.D("Thickness");
@@ -103,7 +107,21 @@ internal static class F4WallPortChecks
                             {
                                 double y = original["geometry"].D("height") - position;
                                 var curve = c["Curvatures"]!.AsArray().OfType<JsonObject>().Single(x => x.D("Y") == y);
-                                Same(curve.D("Curvature"), ((double?)response.Curvature) * 1000, id + "/curvature/" + position);
+                                double? equivalent = hasTotalCurvature ? (double?)response.ElasticEquivalentCurvature : (double?)response.Curvature;
+                                Same(curve.D("Curvature"), equivalent * 1000, id + "/equivalent-curvature/" + position);
+                                if (hasTotalCurvature)
+                                {
+                                    double? total = ((double?)response.Curvature) * 1000;
+                                    Same(curve.D("Curvature") * creepFactor, total, id + "/total-curvature/" + position);
+                                    curvatureChecks++;
+                                    if (total.HasValue)
+                                    {
+                                        double change = Math.Abs(total.Value - curve.D("Curvature"));
+                                        maximumCurvatureChange = Math.Max(maximumCurvatureChange, change);
+                                        if (change > 1e-12) curvatureChanged++;
+                                        totalCurvatures.Add(new(y, total.Value));
+                                    }
+                                }
                             }
                             bool expectedUncracked = expected.Any(x => x.S("Status").StartsWith("Non fessurata:", StringComparison.Ordinal));
                             if (expectedUncracked != (bool)response.ProvenUncracked) errors.Add(id + ": uncracked proof differs");
@@ -125,13 +143,33 @@ internal static class F4WallPortChecks
                             Same(J.Number(old["Ratio"]), (double?)check.Ratio, key + "/ratio");
                         }
                     }
+                    if (hasTotalCurvature && totalCurvatures.Count > 0)
+                    {
+                        var oldCurvatures = c["Curvatures"]!.AsArray().OfType<JsonObject>()
+                            .Select(p => new RetainingWall.CurvaturePoint(p.D("Y"), p.D("Curvature"))).ToArray();
+                        var oldShape = RetainingWall.IntegrateCurvature(oldCurvatures, original["geometry"].D("height"));
+                        var totalShape = RetainingWall.IntegrateCurvature(totalCurvatures, original["geometry"].D("height"));
+                        if (oldShape.Count != totalShape.Count) errors.Add(id + ": bending shape size differs");
+                        else for (int p = 0; p < oldShape.Count; p++)
+                        {
+                            Same(oldShape[p].Y, totalShape[p].Y, id + "/bending-height");
+                            Same(oldShape[p].Rotation * creepFactor, totalShape[p].Rotation, id + "/bending-rotation");
+                            Same(oldShape[p].DisplacementMm * creepFactor, totalShape[p].DisplacementMm, id + "/bending-displacement");
+                            maximumBendingDisplacementChangeMm = Math.Max(maximumBendingDisplacementChangeMm,
+                                Math.Abs(totalShape[p].DisplacementMm - oldShape[p].DisplacementMm));
+                        }
+                        bendingShapes++;
+                    }
                 }
                 if (original.ToJsonString() != before) throw new InvalidOperationException(id + ": input mutated");
                 Console.WriteLine($"{id}: {errors.Count} differences accumulated");
             }
             if (walls != 26 || sections == 0 || checks == 0) errors.Add("Incomplete wall corpus");
             if (hasShear && (shearChecks != 12512 || shearChanged != 4192)) errors.Add("Incomplete independent shear comparison");
-            var report = new { walls, sections, cases, checks, shearChecks, shearChanged, uncrackedCount, maximumError, differences = errors.Count, errors = errors.Take(100), candidate = assembly.FullName };
+            if (hasTotalCurvature && (curvatureChecks == 0 || bendingShapes == 0)) errors.Add("Missing creep-curvature comparison");
+            var report = new { walls, sections, cases, checks, shearChecks, shearChanged, uncrackedCount, curvatureChecks, curvatureChanged,
+                bendingShapes, maximumCurvatureChange, maximumBendingDisplacementChangeMm, maximumError,
+                differences = errors.Count, errors = errors.Take(100), candidate = assembly.FullName };
             File.WriteAllText(Path.Combine(output, "comparison.json"), JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true }));
             Console.WriteLine(JsonSerializer.Serialize(report)); return errors.Count == 0 ? 0 : 1;
         }

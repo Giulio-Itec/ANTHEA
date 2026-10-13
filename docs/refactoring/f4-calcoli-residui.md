@@ -231,13 +231,18 @@ del merge 1.7.1 non è un’approvazione anticipata di qualsiasi futuro merge F4
 - [x] F4.4a: [esiti tipizzati nelle librerie](../../../Checker/docs/refactoring/f4-esiti.md), commit Checker `c6f10056`, suite complete e catture legacy identiche. F4.4b rimane aperta per l'attivazione con set coerente.
 - [x] F4.5: [coefficienti dei pali e profili esistenti](f4-coefficienti.md); 76 nuovi controlli, 12 PASS, 548 file confrontati senza differenze di calcolo/report. Registro F4-04.
 - [x] F4.7a: Checker `1033ed05`, contratti delle sezioni dei muri e controlli longitudinali con coefficienti condivisi; 576 sezioni e 23 test PASS. [Evidenze](../../../Checker/docs/refactoring/f4-muri-ca.md), registro F4-06; nessuna attivazione runtime.
-- [ ] F4.7b/c–F4.15: secondo ordine e criteri sopra descritti, esclusa F4.11 sospesa.
+- [x] F4.7b.1: port N–M/SLE equivalente, Checker `0eb50b22` / ANTHEA `76656951`; 62568 confronti e 33 prove mirate, registro F4-07.
+- [x] F4.7b.2: taglio con σcp, Checker `c28f2c2e` / ANTHEA `1b4abf09`; 12512 attesi Python confrontati, correzione F4-03 separata dal port.
+- [x] F4.7b.3: curvatura totale e componente flessionale degli spostamenti; sei regressioni indipendenti, 1572 curvature/78 forme, 94114 confronti complessivi senza differenze non ammesse. F4-08 corretto nella candidata Concrete 0.4.0.2, attivazione ancora F4.9.
+- [ ] F4.7c–F4.15: adattatore completo e integrazione, poi ordine e criteri sopra descritti; esclusa F4.11 sospesa.
 - [x] F4.6a: inventario delle soglie e 56 nuove prove di unità (Checker `7c3ce910`), suite geotecnica 173 PASS.
 - [x] F4.6b: [conversioni nominate e contratti delle armature](f4-unita-adattatori.md), Checker `0cb1c206`; 735 prove Concrete, 48 controlli delle conversioni e corpus completi equivalenti. Sei segnalazioni architetturali eliminate; registro F4-05.
 - [x] F4.6c: fix della mesh vicino alla punta (Checker `164e4836`, Geotechnics 0.2.0.1), quattro regressioni esatte e 1625 PASS delle suite complete, soli 17 Steel già noti; registro F4-02. Attivazione in ANTHEA da eseguire con set coerente.
 - [ ] F4.16: chiusura sospesa su richiesta dell’utente, anche se altri punti risultassero conclusi.
 
-F4.1–F4.3 e F4.5 sono concluse nel perimetro autorizzato; si procede con **F4.6b e port F4.7**, lasciando F4.4b al set coerente. Ogni punto
+F4.1–F4.3, F4.5 e F4.6 sono concluse nel perimetro sorgenti autorizzato.
+F4.7a/b hanno API candidate confrontate; restano **F4.7c e F4.8**, poi adozione
+F4.4b e integrazione con set coerente F4.9. Ogni punto
 chiuso ha il proprio commit con evidenze e aggiornamento del piano; un punto
 ampio può avere sottopassi autonomi. Dopo ciascuno si comunica all’utente
 cosa è cambiato, quali prove sono passate e cosa resta aperto.

@@ -31,11 +31,13 @@
       "titolo": "Curvatura del muro senza amplificazione delle deformazioni per viscosità",
       "famiglia": "muri/SLE/spostamenti",
       "categoria": "difetto-legacy",
-      "stato": "da-correggere",
-      "descrizione": "RetainingWall.Structures integra il ChiY del piano elastico equivalente. La deformazione totale nativa GetVerticeStrain(point,phi) è invece quella del piano moltiplicata per 1+phi. A phi=2 viene omesso un fattore 3 nella curvatura e nella sua integrazione. Il port equivalente conserva e dichiara il comportamento; fix separato in F4.7b.3.",
-      "effetto_quantificato": "Striscia C30 1000x400 mm, 6phi16/faccia, cover 40 mm, N=-20 kN, M=20 kNm: gradiente equivalente con phi=2 3.05444663396217e-7/mm; curvatura totale 9.16333990188651e-7/mm. Con phi=0 7.53355399971232e-7/mm. Effetto sul corpus da quantificare separatamente.",
+      "stato": "corretto",
+      "descrizione": "RetainingWall.Structures integra il ChiY del piano elastico equivalente. La deformazione totale nativa GetVerticeStrain(point,phi) è invece quella del piano moltiplicata per 1+phi. A phi=2 viene omesso un fattore 3 nella curvatura e nella sua integrazione. Il port equivalente è conservato nella proprietà diagnostica ElasticEquivalentCurvature; Curvature del nuovo servizio candidato restituisce la curvatura totale. Runtime ANTHEA ancora invariato, attivazione F4.9.",
+      "effetto_quantificato": "1572 curvature e 78 forme flessionali nel corpus: delta massimo 0.001496934767347093 1/m e 3.5411539587512513 mm. Il fattore riguarda la sola componente flessionale, non traslazione e rotazione della fondazione. Sei attesi cinematici indipendenti da sigma/Eeff: 2 PASS e 4 FAIL prima, 6 PASS dopo con tolleranza invariata. Banco completo 94114 confronti senza differenze non ammesse, scarto massimo 5.684341886080802e-14.",
+      "decisione": "Correzione separata F4.7b.3 in Concrete candidata 0.4.0.2. Riuso del fattore di omogeneizzazione anche nell'accessore nativo, senza duplicare l'amplificazione della fessurazione. Attesi congelati e motore legacy non modificati.",
+      "test": ["28 test mirati muri PASS", "6 PASS runner 20261013-f4-wall-curvature-final"],
       "codice": ["X.Calculations/RetainingWall.Structures.cs", "Checker/GPCChecker.Concrete/Results/ResultType/StressAnalysisResult.cs"],
-      "evidenze": ["supporto/artefatti/refactoring/f4/wall-session-diagnostic", "Checker/docs/refactoring/f4-muri-ca.md"]
+      "evidenze": ["supporto/artefatti/refactoring/f4/curvature-before", "supporto/artefatti/refactoring/f4/curvature-after", "supporto/artefatti/refactoring/f4/wall-curvature-final.log", "Checker/docs/refactoring/f4-muri-ca.md"]
     },
     {
       "id": "F4-07",
