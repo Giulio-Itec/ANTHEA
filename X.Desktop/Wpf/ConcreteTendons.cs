@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+using Anthea.Application.Materials;
+using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,7 +9,7 @@ namespace X.Desktop;
 internal sealed partial class ConcreteWorkspace
 {
     private Action? reloadTendonMaterials;
-    private IEnumerable<JsonObject> AvailableTendonMaterials() => ConcreteMaterialCatalog.Steel(true, settings.S("normativa"))
+    private IEnumerable<JsonObject> AvailableTendonMaterials() => MaterialInputCatalog.Steel(true, settings.S("normativa"))
         .Concat(settings.Array("materiali_custom").OfType<JsonObject>().Where(m => m.S("tipo") == "Trefoli"))
         .Select(m=>{var copy=(JsonObject)m.DeepClone();string? diagram=settings["legami_trefoli"]?[m.S("id")]?.ToString();if(diagram is "Elastoplastico" or "Incrudente")copy["diagramma"]=diagram;return copy;});
     private static string Exact(double value) => value.ToString("R", CultureInfo.InvariantCulture);

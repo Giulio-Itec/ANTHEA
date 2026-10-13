@@ -183,6 +183,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
   - [x] F3.7b.8 (13/10): preparazione dei parametri del terreno, cataloghi e rigidezza del palo fuori dalla UI; nessuna tabella o formula duplicata. 443 controlli Application, 13 suite passate, 37 capitoli e 458 file equivalenti. Zero riferimenti diretti Desktop a Checker.Geotechnics.
   - [x] F3.7b.9 (13/10): contratto grafico delle sezioni con copie di contorni, fori e barre; nessun motore nella geometria della vista. Quote e coordinate di cinque forme identiche bit per bit, 474 controlli Application, 14 suite passate, 37 capitoli e 458 file equivalenti. Soglia Calculations 123.
   - [x] F3.7b.10 (13/10): coefficienti e valori delle anteprime di pali/micropali verticali preparati nei servizi; cataloghi e correlazioni condivisi con i pali orizzontali. 511 controlli applicativi, 11 suite UI/report/figure passate e 458 file equivalenti. Soglia Calculations 119.
+  - [x] F3.7b.11 (13/10): cataloghi e anteprime dei materiali condivisi nello strato applicativo, con curve trasferite senza modifiche e valori derivati preparati fuori dalla UI. 589 controlli Application, 13 suite passate, 37 capitoli e 458 file equivalenti. Soglia Calculations 116.
   - [ ] F3.7b: rimuovere i restanti accessi ai motori e i contratti concreti dalla UI; collaudo e rilascio della fase.
 
 ## Fase 4: calcoli residui nelle librerie

@@ -1,3 +1,4 @@
+using Anthea.Application.Materials;
 using X.Core;
 
 namespace X.Desktop;
@@ -11,7 +12,7 @@ internal sealed partial class HorizontalWorkspace
         var input = Data["sezione"]!;
         if(key is "classe_cls" or "classe_acciaio")
         {
-            var catalog=key=="classe_cls"?ConcreteMaterialCatalog.Concrete():ConcreteMaterialCatalog.Steel(false,"NTC 2018");
+            var catalog=key=="classe_cls"?MaterialInputCatalog.Concrete():MaterialInputCatalog.Steel(false,"NTC 2018");
             var material=catalog.FirstOrDefault(m=>m.S("nome")==input.S(key));
             if(material!=null)foreach(var (field,value) in material.Where(v=>v.Key!="nome")){input[field]=value?.DeepClone();sectionFields.Set(field,input.S(field),true);}
         }

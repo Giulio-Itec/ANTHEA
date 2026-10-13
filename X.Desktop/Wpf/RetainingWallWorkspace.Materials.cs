@@ -1,3 +1,4 @@
+using Anthea.Application.Materials;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,11 +16,11 @@ internal sealed partial class RetainingWallWorkspace
         string[] Choices(JsonObject[] catalog, string key) => catalog.Select(x => x.S("nome")).Append(m.S(key)).Append("Personalizzato").Distinct().ToArray();
         var form = Form("materials", new Field[] {
             new("gamma", "Peso specifico muro", "kN/m³"),
-            new("classe_cls", "Calcestruzzo da normativa", Choices: Choices(ConcreteMaterialCatalog.Concrete("NTC 2018"), "classe_cls")),
+            new("classe_cls", "Calcestruzzo da normativa", Choices: Choices(MaterialInputCatalog.Concrete("NTC 2018"), "classe_cls")),
             new("materiale_cls_nome", "Nome CLS personalizzato"), new("fck", "fck", "MPa"),
-            new("cls_diagramma", "Diagramma CLS", Choices: ConcreteMaterials.ConcreteDiagrams, Note: FieldNotes.StressBlock),
+            new("cls_diagramma", "Diagramma CLS", Choices: MaterialInputCatalog.ConcreteDiagrams, Note: FieldNotes.StressBlock),
             new("__fcd", "fcd", "MPa", ReadOnly: true), new("__ecm", "Ecm", "MPa", ReadOnly: true),
-            new("classe_acciaio", "Acciaio da normativa", Choices: Choices(ConcreteMaterialCatalog.Steel(false, "NTC 2018"), "classe_acciaio")),
+            new("classe_acciaio", "Acciaio da normativa", Choices: Choices(MaterialInputCatalog.Steel(false, "NTC 2018"), "classe_acciaio")),
             new("materiale_acciaio_nome", "Nome acciaio personalizzato"), new("fyk", "fyk", "MPa"), new("steel_modulus_mpa", "Es", "MPa"),
             new("steel_fu_mpa", "fu", "MPa"), new("steel_eps_u", "εu", "‰"), new("steel_diagramma", "Diagramma acciaio", Choices: ["Elastoplastico", "Incrudente"]),
             new("__fyd", "fyd", "MPa", ReadOnly: true), new("alpha_cc", "αcc"), new("gamma_c", "γc"), new("gamma_s", "γs"),
@@ -29,7 +30,7 @@ internal sealed partial class RetainingWallWorkspace
         {
             if (key is "classe_cls" or "classe_acciaio")
             {
-                var catalog = key == "classe_cls" ? ConcreteMaterialCatalog.Concrete("NTC 2018") : ConcreteMaterialCatalog.Steel(false, "NTC 2018");
+                var catalog = key == "classe_cls" ? MaterialInputCatalog.Concrete("NTC 2018") : MaterialInputCatalog.Steel(false, "NTC 2018");
                 var preset = catalog.FirstOrDefault(x => x.S("nome") == m.S(key));
                 if (preset is not null) RetainingWall.ApplyMaterialPreset(Data, preset);
                 else m[key == "classe_cls" ? "materiale_cls_nome" : "materiale_acciaio_nome"] = key == "classe_cls" ? "CLS personalizzato" : "Acciaio personalizzato";

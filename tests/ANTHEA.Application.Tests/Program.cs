@@ -82,6 +82,7 @@ try
     checks += await ModuleServiceChecks.Run();
     checks += await ElasticPileSessionChecks.Run(root);
     checks += MaterialPresentationChecks.Run(root);
+    checks += MaterialEditorChecks.Run();
     checks += BridgeDesignAnalysisChecks.Run();
     checks += await ConcreteBatchChecks.Run(root);
     checks += ConcretePresentationChecks.Run(root);

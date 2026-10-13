@@ -275,3 +275,9 @@ Corsa 20261013-065029-f3-geometry-boundary-final: 14 PASS, 474 controlli Applica
 VerticalPilePreview prepara peso, efficienza, valori normativi, alpha iniziali e campi derivati degli strati. I metodi di calcolo preesistenti restano invariati nella libreria; la vista assegna i valori ai controlli. PileInputCatalog riusa cataloghi e correlazioni anche per i pali orizzontali. Ordine, formati culturali, marker dei dati incompleti e scelta manuale conservati; nessuna tabella numerica nuova. Sorgente precedente e impronta in vertical-preview-before.
 
 Corsa 20261013-065458-f3-vertical-preview: 11 PASS, smoke generale/orizzontale, sei riferimenti numerici dei grafici, 37 capitoli e 458 file equivalenti. Controlli aggiuntivi 20261013-083241-f3-vertical-preview-inputs: cinque PASS e 511 controlli Application, inclusi spessore invalido che interrompe le quote successive, aderenza inattiva distinta da quella indisponibile e copie dei cataloghi. Nessun atteso o limite numerico cambiato. La soglia Calculations scende a 119.
+
+## F3.7b.11 — cataloghi e diagrammi dei materiali
+
+MaterialInputCatalog condivide i selettori fra sezioni, pali, muri, fondazioni e fogli Materiali. MaterialEditorPreview prepara le descrizioni derivate attraverso le API esistenti. MaterialDiagram è trasferito senza modifiche in Application: nessuna curva, formula o tabella duplicata. La vista conserva soltanto formattazione grafica e interazione. Impronte dei sorgenti precedenti in material-boundary-before/sha256.json.
+
+Corsa 20261013-083617-f3-material-boundary: 13 PASS, 589 controlli Application (78 nuovi), cataloghi di sette norme, tre famiglie e 241 campioni per curva; indipendenza di copie/input e rifiuto del materiale invalido. Materiali, fondazioni, pali orizzontali, 37 capitoli e 458 file F3 equivalenti. Nessun atteso o coefficiente cambiato. Soglia Calculations ridotta da 119 a 116.

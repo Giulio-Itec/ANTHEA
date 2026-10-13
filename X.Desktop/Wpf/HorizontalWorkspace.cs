@@ -1,3 +1,4 @@
+using Anthea.Application.Materials;
 using System.IO;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -89,11 +90,11 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
         else {
         Anthea.Application.Presentation.HorizontalSheetPresentation.PrepareSection(data);
         sectionFields = new InputForm(sectionData, [
-            new("classe_cls", "Calcestruzzo", Choices: ConcreteMaterialCatalog.Concrete().Select(m=>m.S("nome")).Append(sectionData.S("classe_cls")).Append("Personalizzato").Distinct().ToArray()),
+            new("classe_cls", "Calcestruzzo", Choices: MaterialInputCatalog.Concrete().Select(m=>m.S("nome")).Append(sectionData.S("classe_cls")).Append("Personalizzato").Distinct().ToArray()),
             new("fck_mpa", "fck del materiale", "MPa", ReadOnly:true),
             new("alpha_cc", "αcc archivio",ReadOnly:true), new("gamma_c", "γc archivio",ReadOnly:true),
             new("__fcd", "Resistenza di progetto a compressione", "MPa", Symbol: "fcd", ReadOnly: true),
-            new("classe_acciaio","Acciaio", Choices:ConcreteMaterialCatalog.Steel(false,"NTC 2018").Select(m=>m.S("nome")).Append(sectionData.S("classe_acciaio")).Append("Personalizzato").Distinct().ToArray()),
+            new("classe_acciaio","Acciaio", Choices:MaterialInputCatalog.Steel(false,"NTC 2018").Select(m=>m.S("nome")).Append(sectionData.S("classe_acciaio")).Append("Personalizzato").Distinct().ToArray()),
             new("fyk_mpa", "fyk del materiale", "MPa", ReadOnly:true),
             new("gamma_s", "γs archivio",ReadOnly:true),
             new("coefficienti_unitari","Coefficienti unitari",Bool:true),
@@ -112,7 +113,7 @@ internal sealed partial class HorizontalWorkspace : UserControl, IDisposable
             new("vita_durabilita", "Vita utile per durabilità", "anni", Choices:["50","100"]),
             new("qualita_copriferro", "Controllo qualità copriferro confermato", Bool:true),
             new("steel_modulus_mpa", "Modulo elastico acciaio", "MPa", Symbol: "Es"),
-            new("cls_diagramma", "Legame calcestruzzo", Choices: ConcreteMaterials.ConcreteDiagrams, Note: FieldNotes.StressBlock),
+            new("cls_diagramma", "Legame calcestruzzo", Choices: MaterialInputCatalog.ConcreteDiagrams, Note: FieldNotes.StressBlock),
             new("steel_diagramma", "Legame acciaio", Choices: ["Elastoplastico", "Incrudente"]),
             new("steel_fu_mpa", "Resistenza ultima", "MPa", Symbol: "fu"),
             new("steel_eps_u", "Deformazione ultima", "‰", Symbol: "εu"),

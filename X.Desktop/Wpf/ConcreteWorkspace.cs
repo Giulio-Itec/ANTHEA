@@ -1,3 +1,4 @@
+using Anthea.Application.Materials;
 using Anthea.Application.Concrete;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -47,7 +48,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
     private readonly Dictionary<string, Dictionary<string, StressOutcome>> stressResults = new();
     private readonly ConcreteSectionViewport preview = new();
     private readonly JsonGrid barInventory = new([new("id", "Barra", ReadOnly: true), new("x", "x [mm]"), new("y", "y [mm]"), new("phi", "Ø [mm]")], true);
-    private readonly JsonGrid tendons = new([new("id", "ID"), new("x", "x [mm]"), new("y", "y [mm]"), new("diametro", "Øeq cavo [mm]"), new("area", "Ap totale [mm²]"), new("materiale", "Materiale", Choices: ConcreteMaterialCatalog.Steel(true).Select(m => m.S("nome")).ToArray()), new("diagramma", "Diagramma", Choices: ["Elastoplastico","Incrudente"]), new("sigma0", "σp0 [MPa]"), new("Ep", "Ep [MPa]", ReadOnly: true), new("fpyk", "fpyk [MPa]", ReadOnly: true), new("fpk", "fpk [MPa]", ReadOnly: true), new("eps_u", "εpu [‰]", ReadOnly: true)]);
+    private readonly JsonGrid tendons = new([new("id", "ID"), new("x", "x [mm]"), new("y", "y [mm]"), new("diametro", "Øeq cavo [mm]"), new("area", "Ap totale [mm²]"), new("materiale", "Materiale", Choices: MaterialInputCatalog.Steel(true).Select(m => m.S("nome")).ToArray()), new("diagramma", "Diagramma", Choices: ["Elastoplastico","Incrudente"]), new("sigma0", "σp0 [MPa]"), new("Ep", "Ep [MPa]", ReadOnly: true), new("fpyk", "fpyk [MPa]", ReadOnly: true), new("fpk", "fpk [MPa]", ReadOnly: true), new("eps_u", "εpu [‰]", ReadOnly: true)]);
     private InputForm geometry = null!, materials = null!, reinforcement = null!;
     private Action? refreshHoleControls;
     private readonly List<DomainPanel> domainPanels = [];
