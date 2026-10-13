@@ -25,6 +25,24 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-24",
+      "data": "2026-10-14",
+      "fase": "F4.11c.1",
+      "titolo": "Lettura OOXML condivisa",
+      "famiglia": "importazioni Excel",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Parsing celle, stringhe, formule memorizzate e relazioni trasferito in ANTHEA.Serialization.WorkbookCells. Import Azioni preservato e lettore disponibile ai prezzari. Nessun nuovo calcolo o parser duplicato; unica impronta della base alfabetica 26 spostata senza nuove esenzioni.",
+      "test": [
+        "Application prima/dopo PASS, architettura PASS",
+        "Contratti XLSX e editor delle sollecitazioni invariati"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/table-reader-before.log",
+        "supporto/artefatti/refactoring/f4/table-reader-after-b.log"
+      ]
+    },
+    {
       "id": "F4-23",
       "data": "2026-10-14",
       "fase": "F4.11a",

@@ -86,56 +86,12 @@ public static class SectionActionsExcel
     };
     public static Import Read(byte[] bytes)
     {
-        if (bytes.Length > 20_000_000) throw new ArgumentException("File Excel troppo grande (massimo 20 MB).");
-        using var stream = new MemoryStream(bytes, false);
-        using var zip = new ZipArchive(stream, ZipArchiveMode.Read);
-        if (zip.Entries.Count > 2000 || zip.Entries.Sum(e => e.Length) > 80_000_000) throw new ArgumentException("Cartella Excel troppo grande o non valida.");
-        XDocument Xml(string name)
-        {
-            var entry = zip.GetEntry(name) ?? throw new ArgumentException("Componente Excel mancante: " + name);
-            using var source = entry.Open();
-            using var reader = XmlReader.Create(source, new XmlReaderSettings { DtdProcessing = DtdProcessing.Prohibit, XmlResolver = null, MaxCharactersInDocument = 40_000_000 });
-            return XDocument.Load(reader);
-        }
-        XNamespace ns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main", rel = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
-        var workbook = Xml("xl/workbook.xml");
-        var sheet = workbook.Descendants(ns + "sheet").FirstOrDefault(s => string.Equals((string?)s.Attribute("name"), "Azioni", StringComparison.OrdinalIgnoreCase)) ?? throw new ArgumentException("Manca il foglio Azioni. Usare il template ANTHEA.");
-        string? id = (string?)sheet.Attribute(rel + "id");
-        var relation = Xml("xl/_rels/workbook.xml.rels").Root?.Elements().FirstOrDefault(r => (string?)r.Attribute("Id") == id);
-        if (relation is null || (string?)relation.Attribute("TargetMode") == "External") throw new ArgumentException("Riferimento al foglio non valido.");
-        string target = (string?)relation.Attribute("Target") ?? throw new ArgumentException("Percorso foglio mancante.");
-        var uri = new Uri(new Uri("https://xlsx.local/xl/workbook.xml"), target);
-        if (uri.Host != "xlsx.local" || uri.Query.Length > 0) throw new ArgumentException("Percorso del foglio non valido.");
-        var document = Xml(Uri.UnescapeDataString(uri.AbsolutePath.TrimStart('/')));
-        string[] strings = zip.GetEntry("xl/sharedStrings.xml") is null ? [] : Xml("xl/sharedStrings.xml").Descendants(ns + "si").Select(s => string.Concat(s.Descendants(ns + "t").Select(t => t.Value))).ToArray();
-        int formulas = 0;
-        string Cell(XElement c)
-        {
-            string type = (string?)c.Attribute("t") ?? "n", value = c.Element(ns + "v")?.Value ?? "";
-            if (type == "e") throw new ArgumentException("Errore Excel nella cella " + c.Attribute("r")?.Value + ": " + value);
-            if (c.Element(ns + "f") is not null)
-            {
-                if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("Formula senza valore salvato in " + c.Attribute("r")?.Value + ". Ricalcolare e salvare il file in Excel, oppure incollare solo valori.");
-                formulas++;
-            }
-            if (type == "s") return int.TryParse(value, out int index) && index >= 0 && index < strings.Length ? strings[index] : throw new ArgumentException("Testo Excel non valido.");
-            if (type == "inlineStr") return string.Concat(c.Descendants(ns + "t").Select(t => t.Value));
-            if (type is "b" or "d") throw new ArgumentException("Valore booleano/data non ammesso in " + c.Attribute("r")?.Value);
-            return value;
-        }
-        static int Column(XElement cell)
-        {
-            string address = (string?)cell.Attribute("r") ?? throw new ArgumentException("Indirizzo cella mancante.");
-            int result = 0;
-            foreach (char ch in address.TakeWhile(char.IsLetter)) result = checked(result * 26 + char.ToUpperInvariant(ch) - 'A' + 1);
-            if (result == 0) throw new ArgumentException("Indirizzo cella non valido.");
-            return result;
-        }
+        var sheet = Anthea.Serialization.WorkbookCells.Read(bytes, "Azioni");
         var rows = new List<Row>(); bool headerFound = false, torqueHeader = false, unified = false; int visited = 0;
-        foreach (var row in document.Descendants(ns + "sheetData").Elements(ns + "row"))
+        foreach (var row in sheet.Rows)
         {
             if (++visited > 10050) throw new ArgumentException("Massimo 10.000 combinazioni per importazione.");
-            var cells = row.Elements(ns + "c").ToDictionary(Column, Cell);
+            var cells = row.Cells;
             if (!headerFound)
             {
                 unified = Enumerable.Range(1, 9).All(i => string.Equals(cells.GetValueOrDefault(i)?.Trim(), UnifiedHeaders[i - 1], StringComparison.OrdinalIgnoreCase));
@@ -150,7 +106,7 @@ public static class SectionActionsExcel
                 continue;
             }
             if (cells.Values.All(string.IsNullOrWhiteSpace)) continue;
-            string context = "Riga Excel " + ((string?)row.Attribute("r") ?? visited.ToString(CultureInfo.InvariantCulture));
+            string context = "Riga Excel " + row.Number;
             try
             {
                 if (unified)
@@ -179,6 +135,6 @@ public static class SectionActionsExcel
             catch (ArgumentException ex) { throw new ArgumentException(context + ": " + ex.Message, ex); }
         }
         if (!headerFound) throw new ArgumentException("Intestazioni non riconosciute: usare il template ANTHEA.");
-        return new(rows, formulas, !unified);
+        return new(rows, sheet.FormulaCells, !unified);
     }
 }

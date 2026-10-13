@@ -20236,10 +20236,10 @@
       "Example": "doc . D ( \"versione\" )"
     },
     {
-      "File": "src/ANTHEA.Application/Documents/SectionActionsExcel.cs",
+      "File": "src/ANTHEA.Serialization/WorkbookCells.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "SectionActionsExcel.Read.Column",
-      "Fingerprint": "09F00896F1831F2AE427895E2BF40F50AD90BDFFC70FC82D958BF89FD7D91291",
+      "Owner": "WorkbookCells.Read.Column",
+      "Fingerprint": "0FF856BB84238ADFC9A0AB2ED71CAA83AEE1CC28EE33477DCDB10BCEFA7BE75B",
       "Count": 1,
       "Example": "26"
     },
