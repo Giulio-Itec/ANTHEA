@@ -25,6 +25,19 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-10",
+      "data": "2026-10-13",
+      "fase": "F4.8b",
+      "titolo": "Dettagli delle armature dei muri con regole condivise",
+      "famiglia": "muri/dettagli/copriferro",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Checker bd3b2483: coordinamento tipizzato in Design, riuso di ancoraggi e copriferro Concrete, interassi e minimi secondari condivisi con MemberDetailingCalculator. Conservati criteri per faccia, sagome, archi analitici, domande assolute ed esiti indisponibili con capacità negativa. Nessuna modifica al runtime ANTHEA o al set V.",
+      "effetto_quantificato": "56 input: 374 barre, 2316 punti delle sagome, 3260 controlli e 56 pesi equivalenti con tolleranza preesistente 1e-9 assoluta più relativa. Fixture con SHA fisso; nessun atteso sostituito. Differenza XC3/C25 nel primo adattatore di test risolta passando il pertinente Cmin UNI 11104 già usato dal legacy (35 mm, non il default 30).",
+      "test": ["4 prove dettagli PASS", "Suite Checker complete: 1660 PASS, 17 Steel noti, zero nuovi fallimenti; API compatibili", "Cattura ANTHEA: 2 PASS"],
+      "evidenze": ["supporto/artefatti/refactoring/f4/details-verify", "Checker/docs/refactoring/f4-wall-details.md"]
+    },
+    {
       "id": "F4-09",
       "data": "2026-10-13",
       "fase": "F4.8a",

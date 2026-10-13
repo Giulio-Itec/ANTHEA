@@ -9,10 +9,12 @@ Questo documento precisa i punti F4.1–F4.16 di [piano.md](piano.md), senza
 rinumerare le attività storiche. Stato iniziale: pianificazione e inventario;
 nessun trasferimento di calcolo o aggiornamento GPC eseguito in questo passo.
 
-**Istruzione successiva del 13/10:** procedere sugli altri punti, sospendendo
+**Prima finestra del 13/10 (storico):** procedere sugli altri punti, sospendendo
 temporaneamente il blocco 5 (F4.11, Bridge Design e prezzari) e la chiusura
 F4.16. Finestra operativa di 90 minuti dalle 19:40 circa, ora italiana.
-Le nuove catture coprono quindi cinque ambiti; Bridge Design rimane separato.
+Le prime catture coprono cinque ambiti; Bridge Design rimane separato da catturare.
+
+**Prosecuzione notturna autorizzata:** completare tutta F4, compresi F4.11 e F4.16. Prezzari sostituibili gestiti da ANTHEA; calcolo e ottimizzazione in GPC.Design. F5 esclusa.
 
 Avanzamento e collaudi della finestra autorizzata:
 [riepilogo della sessione del 13 ottobre](f4-sessione-20261013.md).
@@ -234,11 +236,11 @@ del merge 1.7.1 non è un’approvazione anticipata di qualsiasi futuro merge F4
 - [x] F4.7b.1: port N–M/SLE equivalente, Checker `0eb50b22` / ANTHEA `76656951`; 62568 confronti e 33 prove mirate, registro F4-07.
 - [x] F4.7b.2: taglio con σcp, Checker `c28f2c2e` / ANTHEA `1b4abf09`; 12512 attesi Python confrontati, correzione F4-03 separata dal port.
 - [x] F4.7b.3: curvatura totale e componente flessionale degli spostamenti; sei regressioni indipendenti, 1572 curvature/78 forme, 94114 confronti complessivi senza differenze non ammesse. F4-08 corretto nella candidata Concrete 0.4.0.2, attivazione ancora F4.9.
-- [ ] F4.7c–F4.15: adattatore completo e integrazione, poi ordine e criteri sopra descritti; esclusa F4.11 sospesa.
+- [ ] F4.7c–F4.15: adattatore completo e integrazione, poi ordine e criteri sopra descritti; F4.11 riattivata dalla richiesta notturna.
 - [x] F4.6a: inventario delle soglie e 56 nuove prove di unità (Checker `7c3ce910`), suite geotecnica 173 PASS.
 - [x] F4.6b: [conversioni nominate e contratti delle armature](f4-unita-adattatori.md), Checker `0cb1c206`; 735 prove Concrete, 48 controlli delle conversioni e corpus completi equivalenti. Sei segnalazioni architetturali eliminate; registro F4-05.
 - [x] F4.6c: fix della mesh vicino alla punta (Checker `164e4836`, Geotechnics 0.2.0.1), quattro regressioni esatte e 1625 PASS delle suite complete, soli 17 Steel già noti; registro F4-02. Attivazione in ANTHEA da eseguire con set coerente.
-- [ ] F4.16: chiusura sospesa su richiesta dell’utente, anche se altri punti risultassero conclusi.
+- [ ] F4.16: chiusura riattivata dalla richiesta notturna; necessari confronti, guide, set coerente e collaudo full.
 
 F4.1–F4.3, F4.5 e F4.6 sono concluse nel perimetro sorgenti autorizzato.
 F4.7a/b hanno API candidate confrontate; restano **F4.7c e F4.8**, poi adozione
