@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "sourceCommit": "e1d47060",
+  "capture": "20261014-f4-input-capture-a",
+  "file": "supporto/artefatti/refactoring/f4/input-contracts-before/input-contracts-before.json",
+  "sha256": "E0FC4718A0DF0CDAC208BA6B2E52340FFF94A28668C9A41316B2F6CB47DD6CA3",
+  "cases": 13,
+  "note": "Before NEd and cover consumer changes. Snapshot G, original results never overwritten."
+}
