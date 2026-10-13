@@ -9,7 +9,7 @@ public sealed partial class MainWindow
 {
     internal async Task SmokeConcreteExtensions(string directory)
     {
-        Directory.CreateDirectory(directory);document=Archivio.Documento("str_palo");currentSheet=null;ShowSheet(document);
+        Directory.CreateDirectory(directory);document = Archivio.Documento("str_palo"); document["dati"] = SezioneCA.DefaultData();currentSheet=null;ShowSheet(document);
         await editor!.CalculateAsync();await editor.VerifyConcreteExtensions(directory);dirty=false;
     }
 }

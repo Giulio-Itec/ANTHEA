@@ -72,11 +72,18 @@ internal sealed partial class ConcreteWorkspace
         var outputStyle = new Style(typeof(TextBlock));
         outputStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
         ((DataGridTextColumn)shearGrid.Columns[^1]).ElementStyle = outputStyle;
-        foreach (var row in options.Array("azioni").OfType<JsonObject>()) shearGrid.Rows.Add(ShearRow((JsonObject)row.DeepClone()));
+        foreach (var row in SectionActionInputs.ShearRows(Data)) shearGrid.Rows.Add(ShearRow((JsonObject)row.DeepClone()));
         void Store() { options["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Mx",r.Values.S("Mx","0")),("My",r.Values.S("My","0")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")),("T",r.Values.S("T","0")))).ToArray()); }
         var buttons = Ui.Bar(Ui.Button("+ Combinazione", () => { var row = ShearRow(J.Obj(("id",Guid.NewGuid().ToString("N")),("nome","Taglio "+(shearGrid.Rows.Count+1)),("N","0"),("Vx","0"),("Vy","0"))); shearGrid.Rows.Add(row); shearGrid.SelectedItem = row; Store(); InvalidateActions("Taglio"); }),
             Ui.Button("−", () => { shearGrid.Commit(); if (shearGrid.SelectedItem is JsonRow row) shearGrid.Rows.Remove(row); Store(); InvalidateActions("Taglio"); }));
-        AttachClipboard(shearGrid, () => "Taglio", buttons);
+        if (UnifiedActions)
+        {
+            shearGrid.IsReadOnly = true;
+            shearGrid.Columns.Insert(0, new DataGridTextColumn { Header = "Elemento", SortMemberPath = "elemento", Binding = new System.Windows.Data.Binding("[elemento]"), IsReadOnly = true, MinWidth = 75 });
+            shearGrid.Columns.Insert(1, new DataGridTextColumn { Header = "Stato limite", SortMemberPath = "stato", Binding = new System.Windows.Data.Binding("[stato]"), IsReadOnly = true, MinWidth = 80 });
+            buttons.Children.Clear(); buttons.Children.Add(Ui.Button("Gestisci sollecitazioni…", OpenActionEditor));
+        }
+        else AttachClipboard(shearGrid, () => "Taglio", buttons);
         shearGrid.SelectionChanged += (_, _) => UpdateShearSelection();
         shearGrid.IsVisibleChanged += (_, _) => { if (shearGrid.IsVisible) UpdateShearSelection(); };
         var detailTabs = new TabControl { SelectedIndex = 1 }; Ui.Tab(detailTabs, "Dettagli combinazione", Scroller(shearDetail)); Ui.Tab(detailTabs, "Riepilogo verifiche", Scroller(shearWorst));
@@ -89,7 +96,7 @@ internal sealed partial class ConcreteWorkspace
         foreach (string key in new[] { "T", "Mx", "My" }) if(!values.ContainsKey(key)) values[key]="0";
         return new(values, _ =>
         {
-        if (shearGrid is null || synchronizing) return;
+        if (shearGrid is null || synchronizing || UnifiedActions) return;
         ShearOptions["azioni"] = new JsonArray(shearGrid.Rows.Select(r => (JsonNode)J.Obj(("id",r.Values.S("id")),("nome",r.Values.S("nome")),("N",r.Values.S("N")),("Mx",r.Values.S("Mx","0")),("My",r.Values.S("My","0")),("Vx",r.Values.S("Vx")),("Vy",r.Values.S("Vy")),("T",r.Values.S("T","0")))).ToArray());
         InvalidateActions("Taglio");
         });

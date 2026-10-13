@@ -5,9 +5,11 @@
     <RootNamespace>Anthea.Application</RootNamespace><GpcLibraries>GPCModel;GPCGeometry;GPCChecker.CompositeBridge;GPCChecker.Concrete;GPCChecker.Geotechnics</GpcLibraries>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
     <InternalsVisibleTo Include="ANTHEA.Application.Tests" />
     <ProjectReference Include="../ANTHEA.Reports/ANTHEA.Reports.csproj" />
     <ProjectReference Include="../../X.Calculations/X.Calculations.csproj" />
+    <EmbeddedResource Include="Templates/ANTHEA_Sollecitazioni_legacy.xlsx" LogicalName="ANTHEA.Sollecitazioni.Legacy.xlsx" />
     <EmbeddedResource Include="Templates/ANTHEA_Sollecitazioni.xlsx" LogicalName="ANTHEA.Sollecitazioni.xlsx" />
   </ItemGroup>
 </Project>

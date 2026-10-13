@@ -440,5 +440,5 @@ Punto 5.2: implementato in `ANTHEA.DesignTools.Presentation` senza WPF e vista c
 ### EXCEL-SOL — avanzamento
 
 - [x] Contratto unico, instradamento e criterio resistente indipendente; EXCEL-SOL-01, controlli prima/dopo PASS.
-- [ ] Nuovo Excel, editor MVVM e conversione esplicita.
+- [x] Nuovo Excel, editor MVVM, conversione esplicita e report; EXCEL-SOL-02, 1229 controlli Application e suite WPF passati.
 - [ ] Report, guide, collaudo e rilascio.

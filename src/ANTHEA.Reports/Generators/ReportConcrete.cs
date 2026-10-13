@@ -38,6 +38,9 @@ public static class ReportConcrete
         if (result.S("motore") != "GPCChecker.Concrete.dll") throw new ArgumentException("Risultati GPC Engine aggiornati non disponibili.");
         XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main", r = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
         var body = new XElement(w + "body"); var input = data["input"]!; var settings = data["workspace_ca"]!;
+        bool unified = settings["sollecitazioni_versione"]?.ToString() == "1";
+        string Label(string family) => unified && family is "SLU" or "SLV" ? family : SectionWorkspace.Label(family);
+        string ActionName(JsonNode? row) => (row.S("elemento").Length > 0 ? row.S("elemento") + " · " : "") + row.S("nome");
         var selected = options.Contains("grafici") ? (images ?? []).Where(i => options.Contains(i.Categoria)).ToArray() : [];
         XElement Paragraph(string text, string style = "Normal") => new(w + "p", new XElement(w + "pPr", new XElement(w + "pStyle", new XAttribute(w + "val", style))),
             new XElement(w + "r", new XElement(w + "t", new XAttribute(XNamespace.Xml + "space", "preserve"), text)));
@@ -67,7 +70,7 @@ public static class ReportConcrete
         void Parameters(string heading, JsonNode values, (string Key, string Label)[] fields)
         { Subheading(heading); Table(["Parametro", "Valore"], fields.Where(f => values[f.Key] is not null).Select(f => new[] { f.Label, J.Number(values[f.Key]) is double n ? EngineeringFormat.Number(n) : values.S(f.Key) })); }
         var names = SectionWorkspace.Sets.ToDictionary(family => family,
-            family => data["combinazioni"]!.Array(family).GroupBy(row => row.S("id")).ToDictionary(g => g.Key, g => g.First().S("nome", g.Key)));
+            family => data["combinazioni"]!.Array(family).GroupBy(row => row.S("id")).ToDictionary(g => g.Key, g => ActionName(g.First())));
         string Name(string family, string id) => names[family].GetValueOrDefault(id, id);
         P("Relazione della sezione in calcestruzzo armato", "Title"); P(title, "Subtitle"); P("ANTHEA · " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
         P("Motore di calcolo: GPC Engine · libreria GPCChecker.Concrete.");
@@ -122,17 +125,25 @@ public static class ReportConcrete
         {
             Heading("Sollecitazioni");
             foreach (string family in SectionWorkspace.Sets)
-            { Subheading(SectionWorkspace.Label(family)); Table(["Combinazione", "N [kN]", "Mx [kNm]", "My [kNm]"], data["combinazioni"]!.Array(family).Select(c => new[] { c.S("nome"), F(c!.Array("azioni").ElementAtOrDefault(0)), F(c.Array("azioni").ElementAtOrDefault(1)), F(c.Array("azioni").ElementAtOrDefault(2)) })); }
-            Subheading("Taglio e torsione"); Table(["Combinazione", "N [kN]", "Mx [kNm]", "My [kNm]", "Vx [kN]", "Vy [kN]", "T [kNm]"], settings["taglio"].Array("azioni").Select(c => new[] { c.S("nome"), F(c?["N"]), F(c?["Mx"]), F(c?["My"]), F(c?["Vx"]), F(c?["Vy"]), F(c?["T"]) }));
+            {
+                Subheading(Label(family));
+                if (unified) Table(["Elemento", "Combinazione", "N [kN]", "Vx [kN]", "Vy [kN]", "T [kNm]", "Mx [kNm]", "My [kNm]"],
+                    data["combinazioni"]!.Array(family).Select(c => new[] { c.S("elemento"), c.S("nome"), F(c!.Array("azioni")[0]), F(c.Array("azioni")[3]), F(c.Array("azioni")[4]), F(c.Array("azioni")[5]), F(c.Array("azioni")[1]), F(c.Array("azioni")[2]) }));
+                else Table(["Combinazione", "N [kN]", "Mx [kNm]", "My [kNm]"], data["combinazioni"]!.Array(family).Select(c => new[] { c.S("nome"), F(c!.Array("azioni").ElementAtOrDefault(0)), F(c.Array("azioni").ElementAtOrDefault(1)), F(c.Array("azioni").ElementAtOrDefault(2)) }));
+            }
+            if (!unified)
+            {
+                Subheading("Taglio e torsione"); Table(["Combinazione", "N [kN]", "Mx [kNm]", "My [kNm]", "Vx [kN]", "Vy [kN]", "T [kNm]"], settings["taglio"].Array("azioni").Select(c => new[] { c.S("nome"), F(c?["N"]), F(c?["Mx"]), F(c?["My"]), F(c?["Vx"]), F(c?["Vy"]), F(c?["T"]) }));
+            }
         }
         foreach (string dimension in new[] { "3D", "2D" }) if (options.Contains("dominio" + dimension.ToLowerInvariant()))
         {
             Heading("Verifiche dominio " + dimension);
             var domainOptions = settings["dominio" + dimension.ToLowerInvariant()]!;
-            Parameters("Opzioni dominio " + dimension, domainOptions, [("criterio", "Criterio"), ("strategia", "Strategia"), ("tipo", "Piano"), ("N", "N piano [kN]"), ("theta", "θ [°]"), ("assi", "Assi"), ("origine_x", "Origine x [mm]"), ("origine_y", "Origine y [mm]"), ("rotazione", "Rotazione [°]"), ("proietta", "Proiezione sul piano"), ("trazione_cls", "CLS teso"), ("angoli", "Direzioni"), ("interpolazione", "Interpolazione mesh")]);
+            Parameters("Opzioni dominio " + dimension, domainOptions, [("modello_resistente", "Criterio resistente"), ("criterio", unified ? "Ricerca resistenza" : "Criterio"), ("strategia", "Strategia"), ("tipo", "Piano"), ("N", "N piano [kN]"), ("theta", "θ [°]"), ("assi", "Assi"), ("origine_x", "Origine x [mm]"), ("origine_y", "Origine y [mm]"), ("rotazione", "Rotazione [°]"), ("proietta", "Proiezione sul piano"), ("trazione_cls", "CLS teso"), ("angoli", "Direzioni"), ("interpolazione", "Interpolazione mesh")]);
             foreach (string family in new[] { "SLU", "SLV" })
             {
-                Subheading("Dominio " + dimension + " " + SectionWorkspace.Label(family));
+                Subheading("Dominio " + dimension + " " + Label(family));
                 var rows = result["domini"]?[dimension + ":" + family] as JsonObject ?? new();
                 Table(["Combinazione", "NRd [kN]", "MxRd [kNm]", "MyRd [kNm]", "η [-]", "Esito"], rows.Select(kv => new[] { Name(family, kv.Key), F(kv.Value?["Resistance"]?["N"]), F(kv.Value?["Resistance"]?["Mx"]), F(kv.Value?["Resistance"]?["My"]), F(kv.Value?["Utilization"]), kv.Value.S("Status") }));
             }
@@ -155,7 +166,7 @@ public static class ReportConcrete
         }
         foreach (string family in SectionWorkspace.Sets.Skip(2)) if (options.Contains(family))
         {
-            Heading("SLE " + SectionWorkspace.Label(family));
+            Heading("SLE " + Label(family));
             bool hasTendons = settings.Array("trefoli").Count > 0;
             if (!commonSle) SleParameters(settings["sle"]![family]!);
             var rows = result["tensioni"]?[family] as JsonObject ?? new();
@@ -194,7 +205,7 @@ public static class ReportConcrete
             if (options.Contains("dettagli")) foreach (var (id, outcome) in rows.Where(kv => all || detailIds.Contains(kv.Key)))
             {
                 if (outcome?["State"] is not JsonObject state) continue;
-                Subheading("Dettagli " + SectionWorkspace.Label(family) + " " + Name(family, id));
+                Subheading("Dettagli " + Label(family) + " " + Name(family, id));
                 if (crackRequired && outcome?["CrackResult"]?["Details"] is JsonArray crackDetails && crackDetails.Count > 0)
                 {
                     Subheading("Fessurazione · coefficienti e passaggi");
@@ -215,7 +226,7 @@ public static class ReportConcrete
         {
             Heading("Verifiche a taglio");
             var shear = settings["taglio"] as JsonObject ?? new();
-            P("Azioni SLU già combinate e coefficientate dal progettista: il modulo non moltiplica nuovamente N, M, V e T. I coefficienti parziali dei materiali entrano nelle resistenze. Le due direzioni di taglio sono controlli separati; non costituiscono una verifica biassiale generale.");
+            P((unified ? "Azioni SLU/SLV" : "Azioni SLU") + " già combinate e coefficientate dal progettista: il modulo non moltiplica nuovamente N, M, V e T. I coefficienti parziali dei materiali entrano nelle resistenze. Le due direzioni di taglio sono controlli separati; non costituiscono una verifica biassiale generale.");
             if (settings.S("normativa") is "Model Code 2010" or "NS EN 1992-1-1")
                 Parameters("Granulometria comune ai dettagli", settings["dettagli_costruttivi"] as JsonObject ?? new(), [("aggregato", "dg [mm]")]);
             if (settings.S("normativa") == "Model Code 2010")
@@ -225,7 +236,7 @@ public static class ReportConcrete
             foreach (var action in shear.Array("azioni")) foreach (var (axis, index) in new[] { ("x", 0), ("y", 1) })
             {
                 var check = result["taglio"]?[action.S("id")]?.AsArray().ElementAtOrDefault(index);
-                rows.Add([action.S("nome") + " · " + axis, F(action?["N"]), F(action?["V" + axis]), F(check?["VRd"]), F(check?["Ratio"]), check.S("Status", "Non calcolata / modello non supportato o dati incompleti")]);
+                rows.Add([ActionName(action) + " · " + axis, F(action?["N"]), F(action?["V" + axis]), F(check?["VRd"]), F(check?["Ratio"]), check.S("Status", "Non calcolata / modello non supportato o dati incompleti")]);
             }
             Table(["Combinazione", "N [kN]", "VEd [kN]", "VRd [kN]", "η [-]", "Esito"], rows);
             if (options.Contains("dettagli"))
@@ -233,7 +244,7 @@ public static class ReportConcrete
                 {
                     var check = result["taglio"]?[action.S("id")]?.AsArray().ElementAtOrDefault(index);
                     if (check is null) continue;
-                    Subheading(action.S("nome") + " · V" + axis + " · " + check.S("Reference"));
+                    Subheading(ActionName(action) + " · V" + axis + " · " + check.S("Reference"));
                     Table(["Parametro", "Valore / unità", "Formula"], check.Array("Details").Select(d => new[] { d.S("Symbol"), F(d?["Value"]) + " " + d.S("Unit"), d.S("Expression") }));
                 }
             Parameters("Torsione e modello circolare",shear,[("modello_circolare","Modello circolare"),("parametri","Parametri geometrici"),("z_d","z/d assegnato (modello manuale)"),("cot_torsione","cot θ comune"),("as_torsione","As,l disponibile [mm²]"),("chiusura_torsione","Configurazione resistente confermata")]);

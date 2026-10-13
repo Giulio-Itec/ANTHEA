@@ -151,7 +151,10 @@ internal sealed partial class PileReinforcementEditor : ContentControl
             var note=Ui.Text("Scheda di approfondimento: puoi modificare le azioni (N negativo a compressione). Alla chiusura vengono conservate per questo tratto. L'applicazione trasferisce solo l'armatura al palo; geometria, materiali e carichi del foglio restano indipendenti.",12);
             if(ElasticPileEditor.TransverseKind(root,row)=="Spirale")note.Text+=" Il foglio c.a. usa il modello di taglio a staffe singole: non certifica la resistenza della spirale.";
             var apply=Ui.Button(index==0?"Applica armatura alla sezione principale":"Applica armatura al tratto",()=>{try{workspace.Commit();ElasticPileEditor.ApplyConcreteSheetReinforcement(root,sheet,index);if(index==0)sharedSectionChanged?.Invoke();changed();note.Text="Armatura applicata. FEM conservato; verifiche del palo in aggiornamento.";}catch(ArgumentException ex){note.Text=ex.Message;}});
-            var dialog=Ui.Dialog(this,$"Verificatore c.a. · {row.S("id")}",Ui.Dock(workspace,Ui.Stack(note,apply)),1280,900);
+            var host = new ContentControl { Content = workspace };
+            void Reload() { workspace.Dispose(); workspace = new ConcreteWorkspace(sheet); workspace.ReloadRequested += Reload; host.Content = workspace; }
+            workspace.ReloadRequested += Reload;
+            var dialog=Ui.Dialog(this,$"Verificatore c.a. · {row.S("id")}",Ui.Dock(host,Ui.Stack(note,apply)),1280,900);
             dialog.Closed+=(_,_)=>{workspace.Commit();workspace.Dispose();row["foglio_cls"]=sheet.DeepClone();changed();Build();};dialog.ShowDialog();
         }
         catch(ArgumentException ex){message.Text=ex.Message;}
