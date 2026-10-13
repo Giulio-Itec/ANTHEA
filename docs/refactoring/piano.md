@@ -291,7 +291,9 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [x] F4.1a (13/10): [matrice API e prove](f4-matrice-api.md), riscontrata sui sorgenti dei commit distribuiti nel set V. Individuati i riusi e le lacune di cattura; nessun nuovo motore.
   - [x] F4.1b (13/10): [115 casi e 14 rifiuti attesi](f4-catture.md), 234 file identici byte per byte nelle due esecuzioni (141,7/142,1 s), progetto CA identico con uno/quattro worker. Runner 1 PASS, zero nuovi fallimenti; fonte immutabile e SHA versionati, nessun calcolo modificato.
 - [x] F4.2 (13/10): [controlli sintattici e baseline puntuale](f4-architettura.md), sette regole su 507 sorgenti, 4610 occorrenze censite; modifiche/duplicazioni falliscono, rimozioni richiedono riduzione della baseline. 26 prove del rilevatore; runner 5 PASS, nessun nuovo fallimento.
-- [ ] F4.3 [CP] Collocazione di GPC.Design, Concrete/Walls, muratura, σcp, CRd,c/k1/vmin, esiti dei pali.
+- [~] F4.3 [CP] Collocazione di GPC.Design, Concrete/Walls, muratura, σcp, CRd,c/k1/vmin, esiti dei pali.
+  - [x] F4.3a (13/10): [dipendenze, collocazioni e contratti](f4-contratti.md), unità/segni, input immutabili, esiti comuni, annullamento e compatibilità. Nessun assembly vuoto o calcolo duplicato.
+  - [ ] F4.3b: confronto indipendente dell'effetto σcp e coefficienti sui muri prima della decisione numerica; separato dal port equivalente.
 - [ ] F4.4 Esito comune tipizzato in pali e muri.
 - [~] F4.5 Coefficienti dalle norme (γ dei pali da PileExecution); scostamento (d) in due commit. Anticipato il 7/10: D7-d opzioni d1 e d2 (γb da Model per tecnologia, valore di riserva e migrazione una tantum dei fogli).
 - [ ] F4.6 Inventario delle soglie dipendenti dalle unità; palo elastico in N e mm.
