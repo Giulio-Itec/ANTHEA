@@ -447,3 +447,5 @@ Punto 5.2: implementato in `ANTHEA.DesignTools.Presentation` senza WPF e vista c
 - [x] EXCEL-SOL-UI: contenitore opaco e spaziatura della finestra verificati anche in esportazione immagine; suite WPF dedicata PASS (20261013-144358-excel-sol-window-final).
 
 - [x] EXCEL-SOL-UX: percorso Excel storico proposto nel nuovo editor, messaggi coerenti con sostituzione/aggiunta; avviso di migrazione aggiornato anche quando si elimina l’ultima riga storica.
+
+- [x] EXCEL-SOL-REG: corretto il posizionamento delle voci 01/02 nel registro, intercettato dalla suite architetturale. Il collaudo standard ha 66 PASS e questo solo errore documentale; quattro suite WPF PASS. Nessun atteso o tolleranza modificato.
