@@ -25,6 +25,25 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-21",
+      "data": "2026-10-14",
+      "fase": "F4.15b",
+      "titolo": "Giudizio condiviso sul copriferro",
+      "famiglia": "durabilità e progetto",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Sezioni, pali e muri condividono CoverAssessment tramite ConcreteDurabilityAdapter. Nessun calcolo dei minimi nel validatore di progetto; requisito effettivo e del materiale combinati dalla libreria. Dati mancanti non certificano il copriferro né nascondono un minimo noto insufficiente. Tutti i testi/esiti/valori congelati restano identici. Collegamento alla candidata H, distribuzione F4.9.",
+      "test": [
+        "11 PASS runner, regressione adattatori/SLE completa",
+        "12 casi congelati, 247 percorsi con sonda, ricerca muri e distinta equivalenti",
+        "Nessuna nuova eccezione delle scansioni architetturali"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/cover-b.log",
+        "tests/ConcreteLibraryAdapter.Checks/F4InputContractChecks.cs"
+      ]
+    },
+    {
       "id": "F4-20",
       "data": "2026-10-14",
       "fase": "F4.12d.1 / F2.8-U4",

@@ -159,6 +159,25 @@ public static class ConcreteDurabilityAdapter
             r.NtcLowStrengthExtra!.Value, r.NtcQualityReduction!.Value, new CoverResult(r.Bond, r.Durability, r.Minimum, r.Nominal, []));
     }
 
+    /// <summary>Shared outcome for requirements already resolved by the selected durability engine.</summary>
+    public static (double Required, bool? Passed) AssessCover(double adopted, double materialMinimum, double? actualBarsMinimum)
+    {
+        var assessment = CoverAssessment.Evaluate(adopted, materialMinimum, actualBarsMinimum);
+        return (assessment.Required, assessment.Passed);
+    }
+
+    /// <summary>Document values for the native wall detail service; reuse the instrumented material catalogue and requirement.</summary>
+    internal static (DurabilityProfile Profile, LibraryCoverInput Input) WallCoverInput(string method, string code,
+        double fck, CoverInput cover, bool plate, bool quality)
+    {
+        var exposure = Exposures().FirstOrDefault(e => e.Code == code)
+            ?? throw new ArgumentException("Classe di esposizione non riconosciuta: " + code);
+        var input = Input([code], fck, cover, plate, quality, MinimumStrength([exposure]));
+        var profile = method switch { "EC2 2004" => DurabilityProfile.EN1992p11, "NTC + Circ. 2019" => DurabilityProfile.Ntc2018,
+            _ => throw new ArgumentException("Metodo di copriferro non riconosciuto.") };
+        return (profile, input);
+    }
+
     // ------------------------------------------------------------------ conversioni
     static string[] Codes(Exposure[] values) => values.Select(e => e.Code).ToArray();
 

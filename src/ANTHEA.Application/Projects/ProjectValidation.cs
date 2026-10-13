@@ -47,8 +47,8 @@ public static class ProjectValidation
                     if (wall)
                     {
                         var wallData = (JsonObject)sheet["dati"]!.DeepClone(); RetainingWall.Upgrade(wallData);
-                        double wallBarDiameter = RetainingWall.MaximumBarDiameter(wallData), minimum = Materiali.MaterialCover.Required(state, fck, engine);
-                        check = new(input.Required("cover_mm"), minimum, Math.Max(minimum, Materiali.MaterialCover.Required(state, fck, wallBarDiameter, engine)), wallBarDiameter, null);
+                        check = ConcreteCoverAnalysis.CalculateForBars(input.Required("cover_mm"), state, fck,
+                            RetainingWall.MaximumBarDiameter(wallData), engine);
                     }
                     else check = ConcreteCoverAnalysis.Calculate(input, state, fck, engine);
                     double materialRequired = check.MaterialMinimum, adopted = check.Adopted;

@@ -1,5 +1,4 @@
 using System.Text.Json.Nodes;
-using GPC.Checkers.Concrete.Durability;
 using GPC.Design.Walls;
 using GPC.Model.Checking.Contracts;
 
@@ -38,10 +37,8 @@ public static partial class RetainingWall
         var state=CoverMaterialState(d);
         var cover=Materiali.MaterialCover.Input(state,m.Required("cover"),opt.Required("aggregate"));
         string code=m.S("exposure");
-        var specification=ConcreteDurabilityAdapter.Input([code],m.Required("fck"),cover,opt.S("cover_element")=="Piastra / soletta / parete",
-            opt.B("cover_quality"),ExposureClasses.Uni11104MinimumStrength([code]));
-        var profile=opt.S("cover_method") switch {"EC2 2004"=>DurabilityProfile.EN1992p11,"NTC + Circ. 2019"=>DurabilityProfile.Ntc2018,
-            _=>throw new ArgumentException("Metodo di copriferro non riconosciuto.")};
+        var (profile,specification)=ConcreteDurabilityAdapter.WallCoverInput(opt.S("cover_method"),code,m.Required("fck"),cover,
+            opt.S("cover_element")=="Piastra / soletta / parete",opt.B("cover_quality"));
         return new(new(g.Required("height"),g.Required("slab"),g.Required("toe"),g.Required("stem_base"),g.Required("stem_top"),g.Required("heel")),
             new(r.B("two_zones"),r.Required("lower_height"),zones),new(strengths.Fcd,strengths.Fyd,concrete.Fctk05,section.Required("gamma_c")),m.Required("cover"),
             new(opt.Required("aggregate"),opt.Required("lap_clear"),opt.Required("lap_percent"),opt.B("good_bond"),opt.Required("tie_diameter"),opt.Required("tie_spacing"),profile,specification));
