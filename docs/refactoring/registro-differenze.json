@@ -25,6 +25,19 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-05",
+      "data": "2026-10-13",
+      "fase": "F4.6b",
+      "titolo": "Confini di unità espliciti per pali e armature",
+      "famiglia": "pali/unità",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Conversioni nominate con fattori GPC, ordine numerico conservato. ANTHEA riusa il proprio adattatore; Checker 0cb1c206 completa i confini delle armature. Precisata la descrizione della tolleranza N senza modificarla. Concrete candidata 0.2.0.0, runtime set V ancora invariato.",
+      "effetto_quantificato": "548 file generali e 234 file F4 equivalenti; 11 casi di palo con SHA invariato. Sei rilievi architetturali eliminati (4604 residui), zero aggiunte.",
+      "test": ["735 Concrete PASS", "48 controlli bit per bit delle conversioni", "5 PASS runner mirato e 1 PASS baseline/f4"],
+      "evidenze": ["docs/refactoring/f4-unita-adattatori.md", "supporto/artefatti/refactoring/f4/units-f4-before-after.json"]
+    },
+    {
       "id": "F4-04",
       "data": "2026-10-13",
       "fase": "F4.5",

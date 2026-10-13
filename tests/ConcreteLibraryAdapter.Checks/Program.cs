@@ -105,7 +105,7 @@ try
 
     // ---------------------------------------------------------------- 1. strato di mappatura
     // Nessuna costante normativa nei file di mappatura: fuori da testi e commenti solo i fattori delle conversioni con nome
-    // (1000 N/kN, 1e6 N·mm/kNm) e, nell'adattatore, 0 (staffe assenti) e 2 (raggio = diametro / 2 della barra più grossa).
+    // (un solo valore unitario passato al convertitore GPC) e, nell'adattatore, 0 (staffe assenti) e 2 (raggio = diametro / 2 della barra più grossa).
     // Letterali anche nella forma con il punto iniziale (.85, .9e-3), lo stile del codice legacy.
     static string[] Literals(string source)
     {
@@ -117,13 +117,24 @@ try
     const string Sample = "double k = .85 * fck, x = a.Length, y = (.9 + 1e6) / 2.5m, w = Item2; // .7";
     Check(Literals(Sample).OrderBy(s => s, StringComparer.Ordinal).SequenceEqual(new[] { ".85", ".9", "1e6", "2.5m" }.OrderBy(s => s, StringComparer.Ordinal)),
         "controllo dei letterali su un caso sintetico: trovati " + string.Join(", ", Literals(Sample)) + ", attesi .85, .9, 1e6, 2.5m");
-    foreach (var (file, allowed) in new[] { ("X.Calculations/ConcreteLibraryMapping.cs", new[] { "1000", "1e6" }), ("X.Calculations/ConcreteShearTorsionAdapter.cs", new[] { "0", "2" }) })
+    foreach (var (file, allowed) in new[] { ("X.Calculations/ConcreteLibraryMapping.cs", new[] { "1" }), ("X.Calculations/ConcreteShearTorsionAdapter.cs", new[] { "0", "2" }) })
     {
         var literals = Literals(File.ReadAllText(Path.Combine(root, file)));
         Check(literals.All(allowed.Contains), file + ": numeri non ammessi nel file di mappatura: " + string.Join(", ", literals.Except(allowed)));
     }
     Check(ConcreteLibraryMapping.NewtonsFromKilonewtons(1.25) == 1250 && ConcreteLibraryMapping.KilonewtonsFromNewtons(1250) == 1.25, "conversione kN ↔ N");
     Check(ConcreteLibraryMapping.NewtonMillimetresFromKilonewtonMetres(2.5) == 2.5e6 && ConcreteLibraryMapping.KilonewtonMetresFromNewtonMillimetres(2.5e6) == 2.5, "conversione kNm ↔ N·mm");
+    // The boundary refactor must preserve operation order and signed values bit for bit.
+    foreach (double value in new[] { -123.456789, -1e-12, -0.0, 0.0, 1e-12, 0.813579, 12.3456789, 1e9 })
+    {
+        void SameUnitBits(double actual, double expected, string unit) => Check(BitConverter.DoubleToInt64Bits(actual) == BitConverter.DoubleToInt64Bits(expected), "confine unità " + unit);
+        SameUnitBits(ConcreteLibraryMapping.NewtonsFromKilonewtons(value), value * 1000, "kN → N");
+        SameUnitBits(ConcreteLibraryMapping.KilonewtonsFromNewtons(value), value / 1000, "N → kN");
+        SameUnitBits(ConcreteLibraryMapping.NewtonMillimetresFromKilonewtonMetres(value), value * 1e6, "kNm → Nmm");
+        SameUnitBits(ConcreteLibraryMapping.KilonewtonMetresFromNewtonMillimetres(value), value / 1e6, "Nmm → kNm");
+        SameUnitBits(ConcreteLibraryMapping.MillimetresFromMetres(value), value * 1000, "m → mm");
+        SameUnitBits(ConcreteLibraryMapping.MetresFromMillimetres(value), value / 1000, "mm → m");
+    }
     var profiles = new Dictionary<string, (ShearProfile Shear, TorsionProfile Torsion)>
     {
         ["NTC 2018"] = (ShearProfile.Ntc2018, TorsionProfile.Ntc2018), ["Model Code 2010"] = (ShearProfile.ModelCode2010, TorsionProfile.ModelCode2010),

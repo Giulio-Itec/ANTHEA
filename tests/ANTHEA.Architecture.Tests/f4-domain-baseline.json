@@ -4317,14 +4317,6 @@
     },
     {
       "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ElasticHorizontalPile.SegmentSection",
-      "Fingerprint": "65D2B6467A996340D95990976B01B172BBE9118341783A4888A5AD3AF64DF86E",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
       "Rule": "R3-standard-fallback",
       "Owner": "ElasticHorizontalPile.CalculateReinforcementCore",
       "Fingerprint": "DDA53B202BB52B542E99AC0D0B3AD78F169C6FF3DA59C32895607370320BDE9F",
@@ -4564,36 +4556,12 @@
       "Example": "1e-9"
     },
     {
-      "File": "X.Calculations/ElasticHorizontalPile.Reinforcement.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "ElasticHorizontalPile.SegmentSection",
-      "Fingerprint": "65D2B6467A996340D95990976B01B172BBE9118341783A4888A5AD3AF64DF86E",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
       "File": "X.Calculations/ElasticHorizontalPile.ReinforcementPresentation.cs",
       "Rule": "R5-text-outcome",
       "Owner": "ElasticHorizontalPile.ReinforcementSummary",
       "Fingerprint": "AA570E218BD9734CE14C2F2F57FA89D80FB970A51C26D6D2794E2BCBF5B2E5AA",
       "Count": 1,
       "Example": "issue . StartsWith ( \"NON SODDISFATTO:\" )"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Shared.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ElasticHorizontalPile.SectionStiffness",
-      "Fingerprint": "B6A80F9082EBF4FDEA6B8AEFC1F59193CAB3064A93A0FC5CAE4F12075536EC95",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Shared.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ElasticHorizontalPile.SharedCalculationInput",
-      "Fingerprint": "EDAE0AB6197112E1EE4A86025B1878DEAA186C810700E5D510C5D9170D2F279D",
-      "Count": 1,
-      "Example": "1000"
     },
     {
       "File": "X.Calculations/ElasticHorizontalPile.Shared.cs",
@@ -4642,22 +4610,6 @@
       "Fingerprint": "A0E0BD87847965D6E70804A7899A8B3372019A71C3063FA7D3D1D0DCC151D9DD",
       "Count": 1,
       "Example": "e . D ( \"stratigrafia\" , - 1 )"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Shared.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "ElasticHorizontalPile.SectionStiffness",
-      "Fingerprint": "B6A80F9082EBF4FDEA6B8AEFC1F59193CAB3064A93A0FC5CAE4F12075536EC95",
-      "Count": 1,
-      "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/ElasticHorizontalPile.Shared.cs",
-      "Rule": "R6-unit-factor",
-      "Owner": "ElasticHorizontalPile.SharedCalculationInput",
-      "Fingerprint": "EDAE0AB6197112E1EE4A86025B1878DEAA186C810700E5D510C5D9170D2F279D",
-      "Count": 1,
-      "Example": "1000"
     },
     {
       "File": "X.Calculations/ElasticHorizontalPile.cs",

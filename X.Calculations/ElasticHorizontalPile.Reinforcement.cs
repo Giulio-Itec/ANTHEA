@@ -36,7 +36,7 @@ public static partial class ElasticHorizontalPile
     }
     public static JsonObject SegmentSection(JsonObject root,JsonObject segment)
     {
-        var input=(JsonObject)root["sezione"]!.DeepClone();input["shape"]="Circolare";input["diameter_mm"]=root["generali"].D("diametro")*1000;
+        var input=(JsonObject)root["sezione"]!.DeepClone();input["shape"]="Circolare";input["diameter_mm"]=ConcreteLibraryMapping.MillimetresFromMetres(root["generali"].D("diametro"));
         if(!segment.B("collegato"))foreach(string key in SegmentKeys)if(segment[key]!=null)input[key]=segment[key]!.DeepClone();input["tipo_trasversale"]=TransverseKind(root,segment);return input;
     }
     static JsonObject CalculateReinforcement(JsonObject root,JsonObject result)=>CalculateReinforcementCore(root,result,new(),default,0);

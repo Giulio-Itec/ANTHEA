@@ -25,13 +25,16 @@ namespace Anthea.Calculations;
 public static partial class ConcreteLibraryMapping
 {
     // ------------------------------------------------------------------ unità
-    const double NewtonsPerKilonewton = 1000;
-    const double NewtonMillimetresPerKilonewtonMetre = 1e6;
+    static readonly double NewtonsPerKilonewton = GPC.Model.Units.ConvertForceToDefault(1, GPC.Model.Units.Knm);
+    static readonly double NewtonMillimetresPerKilonewtonMetre = GPC.Model.Units.ConverMomentToDefault(1, GPC.Model.Units.Knm);
+    static readonly double MillimetresPerMetre = GPC.Model.Units.ConvertLengthToDefault(1, GPC.Model.Units.Knm);
 
     public static double NewtonsFromKilonewtons(double kilonewtons) => kilonewtons * NewtonsPerKilonewton;
     public static double KilonewtonsFromNewtons(double newtons) => newtons / NewtonsPerKilonewton;
     public static double NewtonMillimetresFromKilonewtonMetres(double kilonewtonMetres) => kilonewtonMetres * NewtonMillimetresPerKilonewtonMetre;
     public static double KilonewtonMetresFromNewtonMillimetres(double newtonMillimetres) => newtonMillimetres / NewtonMillimetresPerKilonewtonMetre;
+    public static double MillimetresFromMetres(double metres) => metres * MillimetresPerMetre;
+    public static double MetresFromMillimetres(double millimetres) => millimetres / MillimetresPerMetre;
 
     // ------------------------------------------------------------------ norme
     /// <summary>Nome della norma di ANTHEA → classe della libreria. Il taglio e la torsione della sezione sono ammessi soltanto per

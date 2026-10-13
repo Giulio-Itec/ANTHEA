@@ -231,7 +231,8 @@ del merge 1.7.1 non è un’approvazione anticipata di qualsiasi futuro merge F4
 - [x] F4.4a: [esiti tipizzati nelle librerie](../../../Checker/docs/refactoring/f4-esiti.md), commit Checker `c6f10056`, suite complete e catture legacy identiche. F4.4b rimane aperta per l'attivazione con set coerente.
 - [x] F4.5: [coefficienti dei pali e profili esistenti](f4-coefficienti.md); 76 nuovi controlli, 12 PASS, 548 file confrontati senza differenze di calcolo/report. Registro F4-04.
 - [ ] F4.7–F4.15: secondo ordine e criteri sopra descritti, esclusa F4.11 sospesa.
-- [x] F4.6a: inventario delle soglie e 56 nuove prove di unità (Checker `7c3ce910`), suite geotecnica 173 PASS. F4.6b rimane aperta.
+- [x] F4.6a: inventario delle soglie e 56 nuove prove di unità (Checker `7c3ce910`), suite geotecnica 173 PASS.
+- [x] F4.6b: [conversioni nominate e contratti delle armature](f4-unita-adattatori.md), Checker `0cb1c206`; 735 prove Concrete, 48 controlli delle conversioni e corpus completi equivalenti. Sei segnalazioni architetturali eliminate; registro F4-05.
 - [x] F4.6c: fix della mesh vicino alla punta (Checker `164e4836`, Geotechnics 0.2.0.1), quattro regressioni esatte e 1625 PASS delle suite complete, soli 17 Steel già noti; registro F4-02. Attivazione in ANTHEA da eseguire con set coerente.
 - [ ] F4.16: chiusura sospesa su richiesta dell’utente, anche se altri punti risultassero conclusi.
 
