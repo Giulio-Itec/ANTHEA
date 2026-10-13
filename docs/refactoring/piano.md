@@ -287,7 +287,9 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [x] API-02a (12/10 sera): correzione geometrica in Checker `e1a9c78e`, branch `codex/f2-api02-interassi`. 38 nuove prove indipendenti (7 fallivano prima), suite complete 1544 PASS, 17 Steel già noti, zero nuovi fallimenti. Atteso del caso C400R2: 115.19173586761349 mm; contratti e fixture preservati.
   - [x] API-02b: Concrete 0.0.27.2 distribuita nel set T da master pushati, installata con manifest e confronto completo. Attivazione in ANTHEA 1.3.0 verificata: 548 file headless, 50996 righe dense, prove WPF e librerie. Chiusura nel [collaudo F2](chiusura-blocco-f2-20261012.md).
 
-- [ ] F4.1 Catture aggiornate dopo F3.
+- [~] F4.1 Catture aggiornate dopo F3.
+  - [x] F4.1a (13/10): [matrice API e prove](f4-matrice-api.md), riscontrata sui sorgenti dei commit distribuiti nel set V. Individuati i riusi e le lacune di cattura; nessun nuovo motore.
+  - [ ] F4.1b: catture e confronto dei cinque ambiti autorizzati; Bridge Design sospesa per richiesta successiva dell’utente.
 - [ ] F4.2 Regole automatiche estese.
 - [ ] F4.3 [CP] Collocazione di GPC.Design, Concrete/Walls, muratura, σcp, CRd,c/k1/vmin, esiti dei pali.
 - [ ] F4.4 Esito comune tipizzato in pali e muri.
@@ -297,12 +299,12 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
 - [ ] F4.8 Muri a gravità e dettagli.
 - [ ] F4.9 [CP] Collegamento dei muri e rilascio `lib/Checker`. Anticipato il 7/10 lo scostamento D7-c (γRd non applicato a F̄).
 - [ ] F4.10 GPC.Design: armature e distinta dei muri, tratti dei pali.
-- [ ] F4.11 GPC.Design: BridgeConcept con listini e CO₂ come dati versionati.
+- [ ] F4.11 GPC.Design: BridgeConcept con listini e CO₂ come dati versionati. **Sospesa il 13/10 su richiesta dell’utente**, che vuole prima definire la gestione dei prezzari.
 - [ ] F4.12 GPC.Design: ricerca delle armature di sezione.
 - [ ] F4.13 Logica ingegneristica delle viste verso librerie o Application.
 - [ ] F4.14 [CP] Norme tipizzate negli adattatori residui; validazione esplicita.
 - [ ] F4.15 Copriferro di progetto in un validatore di Application.
-- [ ] F4.16 [CP] Chiusura, pagine dei metodi, eliminazione del legacy su autorizzazione.
+- [ ] F4.16 [CP] Chiusura, pagine dei metodi, eliminazione del legacy su autorizzazione. **Chiusura sospesa il 13/10**, in attesa della possibile inclusione di F4.11; gli altri punti possono procedere.
 
 ## Fase 5: interfaccia MVVM
 

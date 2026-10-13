@@ -1013,3 +1013,12 @@ non si richiedono di nuovo; le questioni ancora aperte richiedono prima una
 scheda con fonte ed effetto numerico. Trasferimento equivalente e correzione
 numerica hanno commit distinti. Un aggiornamento per punto concluso; F5 e
 la rimozione indiscriminata del legacy restano esclusi.
+
+### F4 — finestra operativa e sospensione Bridge Design
+
+L’utente autorizza l’esecuzione degli altri punti per 1,5 ore e sospende il
+blocco 5 del piano operativo (F4.11): vuole definire prima la gestione dei
+prezzari. Chiede inoltre di attendere per la chiusura F4.16, che potrebbe
+includere successivamente Bridge Design. La sospensione non riguarda F4.5,
+che resta il punto tecnico dei coefficienti normativi. Nessun rilascio finale
+di fase né avvio F5; commit e aggiornamento per ogni passo concluso.

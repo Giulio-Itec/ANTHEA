@@ -9,6 +9,11 @@ Questo documento precisa i punti F4.1–F4.16 di [piano.md](piano.md), senza
 rinumerare le attività storiche. Stato iniziale: pianificazione e inventario;
 nessun trasferimento di calcolo o aggiornamento GPC eseguito in questo passo.
 
+**Istruzione successiva del 13/10:** procedere sugli altri punti, sospendendo
+temporaneamente il blocco 5 (F4.11, Bridge Design e prezzari) e la chiusura
+F4.16. Finestra operativa di 90 minuti dalle 19:40 circa, ora italiana.
+Le nuove catture coprono quindi cinque ambiti; Bridge Design rimane separato.
+
 ## Obiettivo e confini
 
 Portare nelle librerie GPC il calcolo ingegneristico ancora attivo in ANTHEA.
@@ -213,10 +218,11 @@ del merge 1.7.1 non è un’approvazione anticipata di qualsiasi futuro merge F4
 ## Tracciamento e prossimo passo
 
 - [x] F4-P0: piano aggiornato e inventario iniziale sul ramo dedicato.
-- [ ] F4.1a: matrice verificata dei servizi/API/prove e copertura mancante.
+- [x] F4.1a: [matrice verificata dei servizi/API/prove](f4-matrice-api.md) e copertura mancante; API e chiamanti riscontrati sul set V, nessun calcolo trasferito.
 - [ ] F4.1b: catture aggiornate nei sei ambiti, determinismo e tempi.
 - [ ] F4.2: estensione dei controlli automatici esistenti.
-- [ ] F4.3–F4.16: secondo ordine e criteri sopra descritti.
+- [ ] F4.3–F4.15: secondo ordine e criteri sopra descritti, esclusa F4.11 sospesa.
+- [ ] F4.16: chiusura sospesa su richiesta dell’utente, anche se altri punti risultassero conclusi.
 
 Si parte da **F4.1a**, poi F4.1b e F4.2, prima dei trasferimenti. Ogni punto
 chiuso ha il proprio commit con evidenze e aggiornamento del piano; un punto
