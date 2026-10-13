@@ -76,6 +76,8 @@ internal sealed class SheetEditorReportChapterBuilder : Anthea.Application.Repor
     public async Task<ReportProject.SheetContent> BuildAsync(JsonObject sheet, CancellationToken cancellation)
     {
         string module = sheet.S("modulo_id");
+        if (Anthea.Application.Reporting.ModuleReportService.Supports(module))
+            return await new Anthea.Application.Reporting.ModuleReportService(new ModuleFigureRenderer()).BuildAsync(sheet, cancellation);
         await Dispatcher.Yield(DispatcherPriority.Background);
         using var reportEditor = new SheetEditor(module, sheet["dati"] as JsonObject ?? Archivio.NuovoFoglio(module));
         await reportEditor.CalculateAsync(); reportEditor.Commit();
@@ -84,9 +86,7 @@ internal sealed class SheetEditorReportChapterBuilder : Anthea.Application.Repor
         if (!reportEditor.HasResults) throw new ArgumentException("Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.");
         string? error = reportEditor.Result?["errori_calcolo"] is JsonObject errors && errors.Count > 0
             ? string.Join("; ", errors.Select(p => p.Key + ": " + p.Value)) : null;
-        var options = module == BridgeSection.Module ? ReportBridge.DefaultSections() : module == "str_palo"
-            ? ReportConcrete.Sections.Where(s => s.Key is not ("dettagli" or "sle_tutte")).Select(s => s.Key).ToHashSet()
-            : ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
+        var options = Anthea.Application.Reporting.ModuleReportService.DefaultSections(module);
         var document = reportEditor.BuildReportDocument(sheet.S("nome"), options, projectReport: true);
         return new(Error: error, Document: document);
     }

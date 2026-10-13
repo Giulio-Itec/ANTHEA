@@ -141,3 +141,9 @@ Prima di spostare la preparazione delle figure sono congelati sei input di pali/
 ## F3.5b.2b — curve portabili
 
 VerticalPileCharts prepara le stesse serie di capacità, visibilità, filtri, abachi e marcatori; PlotPresentation traduce soltanto colori e stili WPF. I valori Nq e Bustamante–Doix provengono dagli stessi motori. Nessuna formula o atteso aggiornato. Corsa 031655-f3-vertical-charts-final: 6 PASS, sei fixture grafiche esatte, 458 file F3 equivalenti e regole architetturali superate. Primo errore di compilazione dovuto al nome di un tipo trasferito, corretto prima dei confronti.
+
+## F3.5b.2c — primi capitoli autonomi
+
+ModuleReportService prepara e calcola pali, micropali e Bridge Design senza creare controlli; IFigureRenderer riceve il risultato già calcolato. ModuleSheetPreparation riusa le migrazioni pigre della vista. Il renderer costruisce solo disegni e la vista usa il medesimo generatore delle figure verticali, preservando selezione e visibilità correnti. Altri moduli restano sull’adattatore temporaneo, senza dichiarare concluso F3.5b.2.
+
+Corsa 032000: 5 PASS, report progetto, sei catture grafiche, 458 file equivalenti. Nuova suite ui/f3-report-chapters: otto fixture, dati preparati, XML e dieci immagini identici alla vista; metadati normalizzati esclusivamente dal normalizzatore comune (032128). Confronto aggiuntivo con cattura prima dello spostamento: 30 DOCX, 97 immagini identiche byte per byte. Nessuna variazione ingegneristica; correzione iniziale del namespace del preparatore prima delle prove.

@@ -47,10 +47,7 @@ internal sealed partial class BridgeDesignWorkspace : UserControl, IDisposable
     internal BridgeDesignWorkspace(JsonObject data, IModuleService? service)
     {
         calculationService = service ?? ModuleServices.Get(BridgeConcept.Module);
-        var completed = BridgeConcept.WithAdvancedDefaults(data);
-        foreach (string group in new[] { "input", "rates", "assumptions" })
-            if (data[group] is JsonObject target && completed[group] is JsonObject fields)
-                foreach (var field in fields) if (!target.ContainsKey(field.Key)) target[field.Key] = field.Value?.DeepClone();
+        ModuleSheetPreparation.PrepareBridgeDesign(data);
         Data = data; previous = Clone(Data); Background = Appearance.Surface;
         var title = Ui.Stack(Ui.Text("BRIDGE DESIGN", 24, true), Ui.Text("Dal sito al ponte · geometria, quantità e ordini di grandezza", 13, color: Ui.Muted));
         title.Margin = new Thickness(2, 0, 0, 10);

@@ -362,28 +362,8 @@ internal sealed partial class SheetEditor : UserControl, IDisposable
         if (Result is null) throw new InvalidOperationException(concrete is not null ? "Attendere l’aggiornamento automatico e correggere gli eventuali dati incompleti prima di esportare." : "Premere Calcola prima di esportare.");
         if (horizontal is not null && Result.S("tipo_risultato") == "palo_elastico") return ReportElasticPile.CreateDocument(title, Result);
         if (horizontal is not null) return ReportOrizzontale.CreateDocument(title, Result, !projectReport, horizontal.ReportFigures());
-        var images = new List<ImmagineReport> { new(plot.Title, plot.Png(), "grafico_capacita") };
-        if (Micro)
-        {
-            try
-            {
-                for (int i = 0; i < Data.Array("stratigrafie").Count; i++)
-                {
-                    BuildReferencePlot(i);
-                    images.Add(new($"Abachi Bustamante–Doix del sondaggio {i + 1}", reference.Png(), "grafico_nq"));
-                }
-            }
-            finally { BuildReferencePlot(); }
-        }
-        else images.Add(new(reference.Title, reference.Png(), "grafico_nq"));
-        for (int i = 0; i < Data.Array("stratigrafie").Count; i++)
-        {
-            var profile = new StratigraphyDrawing { Data = Data, Micro = Micro, SelectedIndex = i, ShowAll = false };
-            images.Add(new($"Profilo del sondaggio {i + 1}", profile.Png(720, Micro ? 600 : 900), "stratigrafia", i));
-        }
-        bool old = stratigraphy.ShowAll; stratigraphy.ShowAll = true;
-        try { images.Add(new("Profilo stratigrafico", stratigraphy.Png(), "grafico_profilo")); } finally { stratigraphy.ShowAll = old; }
-        return ReportWord.CreateDocument(title, Module, Data, Result, options, images, !projectReport);
+        var images = ModuleFigureRenderer.VerticalFigures(Data, Result, Micro, plot, reference);
+        return ReportWord.CreateDocument(title, Module, Data, Result, options, images.Select(f => f.Image()).ToList(), !projectReport);
     }
     private void SavePlot()
     { var save = new SaveFileDialog { Filter = "Immagine PNG|*.png", FileName = "capacita.png" }; if (save.ShowDialog(Window.GetWindow(this)) == true) Archivio.ScriviAtomico(save.FileName, plot.Png()); }

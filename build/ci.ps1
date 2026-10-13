@@ -208,6 +208,7 @@ foreach ($c in 'check-appearance', 'check-global-guidance-offscreen', 'check-wal
     Add-Suite @{ Name = "ui/$c"; Stage = 'ui'; Kind = 'check'; Args = @("--$c", '{out}'); Timeout = 600 }
 }
 Add-Suite @{ Name = 'ui/check-error-log-offscreen'; Stage = 'ui'; Kind = 'check'; Args = @('--check-error-log-offscreen', '{out}'); Timeout = 300; Proof = @{ File = '{out}\test.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ui/f3-report-chapters'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-report-chapters', '{root}', '{out}'); Timeout = 600; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/f3-figures'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-figures', '{root}', '{out}'); Timeout = 120; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/f3-scheduling'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-scheduling', '{root}', '{out}'); Timeout = 120; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ui/f3-equivalence'; Stage = 'ui'; Kind = 'check'; Args = @('--check-f3-equivalence', '{root}', '{out}\cattura'); Timeout = 1800; Proof = @{ File = '{out}\cattura\esito.txt'; Pattern = '^PASS ' } }

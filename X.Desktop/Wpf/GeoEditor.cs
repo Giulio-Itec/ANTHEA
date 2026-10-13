@@ -1,3 +1,4 @@
+using Anthea.Application.Modules;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,14 +12,8 @@ internal sealed partial class SheetEditor
 {
     private void BuildGeo()
     {
-        var defaults = Archivio.NuovoFoglio(Module); if (Data["generali"] is not JsonObject) Data["generali"] = new JsonObject(); var g = Data["generali"]!.AsObject();
-        string previous = Micro ? "" : Nq.MetodoPrecedente(g);
-        if (Micro) g.Remove("peso_lineare_micropalo"); // Superseded manual input; weight is always derived from geometry.
-        Calcolo.AggiornaFoglio(Data, Micro); // D7-d (d2): one-off migration of γb of the sheets saved before version 2.
-        // A missing γb is completed with the effective value of the calculation (that of the technology), not with the default of the bored pile.
-        foreach (var (k, v) in defaults["generali"]!.AsObject()) if (!g.ContainsKey(k) && k != "metodo_micropalo") g[k] = k == "sicurezza_base" ? Calcolo.SicurezzaBaseTesto(Data, Micro) : v?.DeepClone();
-        if (!Micro) { g["metodo_nq"] = "Parametrizzata"; if (previous != "") g["metodo_nq_precedente"] = previous; }
-        if (Data["efficienza"] is not JsonObject) Data["efficienza"] = defaults["efficienza"]!.DeepClone();
+        ModuleSheetPreparation.PrepareVertical(Data, Module);
+        var defaults = Archivio.NuovoFoglio(Module); var g = Data["generali"]!.AsObject();
         var fields = new List<Field>();
         if (!Micro) fields.AddRange([new("tipo_palo", "Tipo di palo", Choices: ["Trivellato", "Elica continua", "Battuto"]), new("sottotipo_palo_battuto", "Tipo battuto", Choices: Calcolo.Parametri.Keys.Where(k => k is not ("Trivellato" or "Elica continua")).ToArray())]);
         fields.AddRange([new("diametro", Micro ? "Diametro perforazione Db" : "Diametro palo D", "m"), new("lunghezza", "Lunghezza palo L", "m"), new("peso_specifico_palo", "Peso specifico CLS / palo", "kN/m³"), new("azione_compressione", "Azione assiale di progetto — Compressione", "kN"), new("azione_trazione", "Azione assiale di progetto — Trazione", "kN")]);
