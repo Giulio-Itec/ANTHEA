@@ -303,7 +303,10 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [x] F4.6a (13/10): [inventario e 56 prove dimensionali](../../../Checker/docs/refactoring/f4-unita-palo.md), Checker `7c3ce910`; 173/173 prove geotecniche. Il solutore conserva il contratto a unità coerenti, senza duplicazioni. Campioni adattivi ed estremi non unici distinti dai valori fisici.
   - [x] F4.6b (13/10): conversioni nominate e fattori da GPC.Model.Units; Checker `0cb1c206`, Concrete candidata 0.2.0.0. 735 prove Concrete, cattura dei pali identica; ANTHEA 48 controlli aggiunti, 548 file generali e 234 file F4 equivalenti. Sei residui architetturali rimossi. [Contratti ed evidenze](f4-unita-adattatori.md), registro F4-05.
   - [x] F4.6c (13/10): Checker `164e4836`, eliminato l'elemento spurio alla punta entro la tolleranza già esistente, senza alterare interfacce interne/input; registro F4-02. Quattro regressioni, 1625 PASS nelle suite complete e soli 17 Steel già censiti; catture legacy identiche. Geotechnics candidata 0.2.0.1, attivazione ANTHEA con il successivo set coerente.
-- [ ] F4.7 Muri in c.a. in `Concrete/Walls` (tre passi).
+- [~] F4.7 Muri in c.a. in `Concrete/Walls` (tre passi).
+  - [x] F4.7a: Checker `1033ed05`, sezioni immutabili ed esiti tipizzati; primi controlli longitudinali con formule condivise. 576 sezioni catturate prima del port e 23 test equivalenti, inclusi dettagli preesistenti. Concrete candidata 0.3.0.0; [contratti ed evidenze](../../../Checker/docs/refactoring/f4-muri-ca.md), registro F4-06.
+  - [ ] F4.7b: N–M, taglio, SLE e curvature mediante servizi GPC esistenti; correzione σcp distinta dal port equivalente.
+  - [ ] F4.7c: adattatore, confronto del percorso completo e integrazione con set coerente F4.9.
 - [ ] F4.8 Muri a gravità e dettagli.
 - [ ] F4.9 [CP] Collegamento dei muri e rilascio `lib/Checker`. Anticipato il 7/10 lo scostamento D7-c (γRd non applicato a F̄).
 - [ ] F4.10 GPC.Design: armature e distinta dei muri, tratti dei pali.

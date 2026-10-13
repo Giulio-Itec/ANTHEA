@@ -25,6 +25,19 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-06",
+      "data": "2026-10-13",
+      "fase": "F4.7a",
+      "titolo": "Contratti delle sezioni dei muri e dettagli longitudinali condivisi",
+      "famiglia": "muri/sezioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Checker 1033ed05 introduce WallStrip immutabile e controlli minimi/massimi con coefficienti riusati da MemberDetailingCalculator. Conservata la policy storica del maggiore d per entrambe le facce; gli esiti non certificano i dettagli non calcolati. Concrete candidata 0.3.0.0, ANTHEA ancora sul set V.",
+      "effetto_quantificato": "576 sezioni del riferimento F4 equivalenti entro 1e-12 relativo sulle aree, giudizi identici. Geometrie impossibili e dati non finiti rifiutati dal nuovo contratto; nessun cambiamento runtime.",
+      "test": ["4 nuovi test dei muri", "23 test mirati PASS inclusi dettagli, ancoraggi e piastre esistenti"],
+      "evidenze": ["Checker/docs/refactoring/f4-muri-ca.md", "supporto/artefatti/refactoring/f4/wall-strip-a"]
+    },
+    {
       "id": "F4-05",
       "data": "2026-10-13",
       "fase": "F4.6b",
