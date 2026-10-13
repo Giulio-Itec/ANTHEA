@@ -137,3 +137,7 @@ Corsa 20261013-030829-f3-project-report-service: 8 PASS, 337 controlli Applicati
 ## F3.5b.2a — riferimento grafico
 
 Prima di spostare la preparazione delle figure sono congelati sei input di pali/micropali, tutte le serie numeriche, i filtri di capacità, le stratigrafie, i marcatori, colori, tratteggi e opzioni degli assi. Confronto esatto senza tolleranze nuove in ui/f3-figures; acquisizione esplicita distinta dalla verifica. Corsa 031523-f3-figures-baseline-repeat passata; i 458 file F3 restano equivalenti (031405). Due invocazioni iniziali del solo stadio build non selezionavano alcuna suite: non usate come prova. Nessun atteso ingegneristico sostituito.
+
+## F3.5b.2b — curve portabili
+
+VerticalPileCharts prepara le stesse serie di capacità, visibilità, filtri, abachi e marcatori; PlotPresentation traduce soltanto colori e stili WPF. I valori Nq e Bustamante–Doix provengono dagli stessi motori. Nessuna formula o atteso aggiornato. Corsa 031655-f3-vertical-charts-final: 6 PASS, sei fixture grafiche esatte, 458 file F3 equivalenti e regole architetturali superate. Primo errore di compilazione dovuto al nome di un tipo trasferito, corretto prima dei confronti.

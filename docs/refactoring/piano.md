@@ -146,6 +146,7 @@ importatori, senza copiare schermate o introdurre nuovi calcoli nella UI.
   - [~] F3.5b: servizio report progetto autonomo e renderer delle figure.
     - [x] F3.5b.1 (13/10): orchestrazione progetto in ProjectReportService, snapshot con ascendenza, capitoli ordinati, errori per foglio e scrittura protetta dall’annullamento. 337 controlli Application, smoke report progetto e 458 file equivalenti. Resta un adattatore temporaneo SheetEditorReportChapterBuilder, da sostituire nei passi successivi: il punto F3.5b non è chiuso.
     - [x] F3.5b.2a (13/10): cattura numerica esatta dei grafici di pali e micropali, sei fixture con tutte le serie, modalità e stratigrafie; ripetibilità verificata prima degli spostamenti.
+    - [x] F3.5b.2b (13/10): curve di capacità e abachi preparati in Application; adattatore WPF condiviso. Sei fixture grafiche esatte e 458 file equivalenti.
     - [ ] F3.5b.2: preparazione portabile dei capitoli e contratto IFigureRenderer; eliminare l’adattatore SheetEditor.
 - [~] F3.6 Moduli uno alla volta: acciaio e palificata; palo verticale; calcestruzzo; orizzontale ed elastico; muri; ponte [CP ricalcolo ritardato]; sezione c.a. [CP report short senza Word].
   - [x] F3.6a (13/10): pali e micropali verticali collegati ai servizi, cache e scheduler; ritardo 450 ms conservato. Nove prove WPF con motore volutamente non cooperativo, cambi di geometria e chiusura. Corsa f3-vertical-service: 10 PASS, 458 file equivalenti; async void da 11 a 10, timer di calcolo da 6 a 5, soglie ridotte.
