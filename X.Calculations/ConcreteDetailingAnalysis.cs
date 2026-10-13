@@ -45,7 +45,7 @@ public static class ConcreteDetailingAnalysis
         // Legacy shear rows explicitly allow an omitted axial component (= 0). A present malformed value is rejected.
         var ultimateActions = legacyActions ? actions : actions.Concat(settings["taglio"]!.Array("azioni").OfType<JsonObject>()
             .Select(row => J.Obj(("N", row.S("N", "0")))));
-        double n = ultimateActions.Select(row => Math.Max(0, -SectionWorkspace.Number(row.S("N"), "N"))).DefaultIfEmpty(0).Max();
+        double n = GPC.Design.Sections.SectionDesignDemand.MaximumCompression(ultimateActions.Select(row => SectionWorkspace.Number(row.S("N"), "N")));
         bool hasStirrups = ConcreteCalculationSettings.HasStirrups(input);
         int legs = kind == ConcreteMemberKind.Beam && hasStirrups
             ? ConcreteCalculationSettings.StirrupLegs(settings["taglio"], "rami_y") : 0;

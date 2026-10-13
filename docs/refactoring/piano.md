@@ -339,6 +339,7 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [x] F4.12d.0 / F4.15b.0 (14/10): cattura prima della correzione degli input: 13 casi, 2 PASS runner, SHA in `tests/fixtures/f4/input-contracts-reference.json`. Riprodotta NEd scheda 100 kN contro progetto 6000 kN, As,min 720 contro 1533.333333 mm². Dodici casi di copriferro/progetto congelati per il confronto successivo.
   - [x] F4.12d.1 (14/10): corretto NEd nella scheda dettagli, includendo le righe del taglio già considerate dal progetto. Corpus prima/dopo SHA preservato, trazione/dati errati/input invariato provati; caso gravoso porta As,min a 5111.111111 mm² e fallisce correttamente. Runner 11 PASS, nessuna regressione delle proposte. Registro F4-20; chiuso F2.8-U4.
   - [x] F4.12e.1 (14/10): Checker `89ec3fc6`, domande e rapporti nel coordinatore GPC.Design 0.10.0.0; 34 test PASS e API compatibili. Collegamento e confronto applicativo successivi.
+  - [x] F4.12e.2 (14/10): collegate le ultime proiezioni numeriche a Design 0.10.0.0: NEd, rapporti SLE, ancoraggi e capacità obiettivo. 11 controlli pertinenti PASS, corpus 21579 numeri equivalente e prove NEd PASS; ridotta di una occorrenza la baseline. Ricerca sezioni completata nei sorgenti/candidata; rimangono distribuzione F4.9 e full finale. Registro F4-22.
 - [ ] F4.13 Logica ingegneristica delle viste verso librerie o Application.
 - [ ] F4.14 [CP] Norme tipizzate negli adattatori residui; validazione esplicita.
 - [~] F4.15 Copriferro di progetto in un validatore di Application.

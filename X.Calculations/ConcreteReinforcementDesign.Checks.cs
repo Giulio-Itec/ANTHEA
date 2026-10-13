@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using GPC.Design.Sections;
 
 namespace Anthea.Calculations;
 
@@ -75,9 +76,9 @@ public static partial class ConcreteReinforcementDesign
                 token.ThrowIfCancellationRequested(); var action = SectionWorkspace.ReadAction(row);
                 var s = engine.Stress(action, set);
                 if (set is "SLE" or "SLE_QP")
-                    AddRatio(checks, set == "SLE" ? "sigma_c_rara" : "sigma_c_qp", row.S("nome"), s.ConcreteStressLimit is > 0 ? Math.Max(0, -s.sigma_cls) / s.ConcreteStressLimit : null, options,
-                        $"|σc,compressione| = {Math.Max(0, -s.sigma_cls):0.###} MPa; limite = {s.ConcreteStressLimit:0.###} MPa.");
-                if (set == "SLE") AddRatio(checks, "sigma_s_rara", row.S("nome"), s.SteelStressLimit > 0 ? s.sigma_acciaio / s.SteelStressLimit : null, options,
+                    AddRatio(checks, set == "SLE" ? "sigma_c_rara" : "sigma_c_qp", row.S("nome"), SectionDesignDemand.Ratio(SectionDesignDemand.Compression(s.sigma_cls), s.ConcreteStressLimit), options,
+                        $"|σc,compressione| = {SectionDesignDemand.Compression(s.sigma_cls):0.###} MPa; limite = {s.ConcreteStressLimit:0.###} MPa.");
+                if (set == "SLE") AddRatio(checks, "sigma_s_rara", row.S("nome"), SectionDesignDemand.Ratio(s.sigma_acciaio, s.SteelStressLimit), options,
                     $"|σs|max = {s.sigma_acciaio:0.###} MPa; limite = {s.SteelStressLimit:0.###} MPa.");
                 if (checks.Any(c => c.Passed == false)) return checks;
                 if (set != "SLE")
@@ -111,9 +112,9 @@ public static partial class ConcreteReinforcementDesign
         {
             a["diametro"] = phi; var r = ConcreteDetailingAnalysis.Anchorage(input, copy).Check;
             string detail = $"Ø{phi:0.#}; l richiesta = {r.RequiredLength:0.#} mm; lb,rqd = {r.BasicLength:0.#} mm; fbd = {r.Fbd:0.###} MPa. σsd = fyd. {r.Expression}";
-            if (available) AddRatio(checks, "ancoraggio", "Ø" + phi, anchor.D("lunghezza") > 0 ? r.RequiredLength / anchor.D("lunghezza") : null, options, detail);
+            if (available) AddRatio(checks, "ancoraggio", "Ø" + phi, SectionDesignDemand.Ratio(r.RequiredLength, anchor.D("lunghezza")), options, detail);
             else checks.Add(new("ancoraggio", "Ancoraggio / giunzione Ø" + phi, "Dettaglio esecutivo", null, options.Target("ancoraggio"), null,
-                detail + $" Lunghezza da predisporre per η obiettivo: {r.RequiredLength / options.Target("ancoraggio"):0.#} mm. Inserire la lunghezza disponibile nei dettagli costruttivi."));
+                detail + $" Lunghezza da predisporre per η obiettivo: {SectionDesignDemand.RequiredCapacity(r.RequiredLength, options.Target("ancoraggio")):0.#} mm. Inserire la lunghezza disponibile nei dettagli costruttivi."));
             if (a.S("tipo").StartsWith("Sovrapposizione")) checks.Add(new("giunzione", "Interferro giunzione", "Ø" + phi, null, 1, r.LapClearDistancePassed, $"Interferro massimo {r.MaximumLapClearDistance:0.#} mm."));
         }
         foreach (string key in new[] { "confinamento", "posizione", "cautele" })

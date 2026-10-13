@@ -25,6 +25,24 @@
   "evidenze": "supporto/artefatti/refactoring/scostamenti/out del repository principale (non versionata), prodotte dall'harness usa e getta supporto/artefatti/refactoring/scostamenti/harness",
   "voci": [
     {
+      "id": "F4-22",
+      "data": "2026-10-14",
+      "fase": "F4.12e.2",
+      "titolo": "Domande e rapporti di progetto in GPC.Design",
+      "famiglia": "sezioni c.a.",
+      "categoria": "intenzionale",
+      "stato": "dichiarato",
+      "descrizione": "Compressione massima, proiezione delle tensioni, rapporti domanda/capacità e capacità necessaria per obiettivo risolti da SectionDesignDemand; i limiti restano dei servizi Concrete. Risultati, ordinamento e contatori del corpus invariati. Capacità assenti/nonfinite non possono certificare il candidato. Una lettura implicita ripetuta rimossa dalla baseline; distribuzione F4.9 ancora aperta.",
+      "test": [
+        "34 prove native Design e API compatibili",
+        "11 controlli applicativi pertinenti PASS, 21579 numeri equivalenti e prove NEd con attesi manuali"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/demands-b.log",
+        "../Checker/docs/refactoring/f4-section-demand.md"
+      ]
+    },
+    {
       "id": "F4-21",
       "data": "2026-10-14",
       "fase": "F4.15b",

@@ -3632,7 +3632,7 @@
       "Rule": "R4-implicit-number",
       "Owner": "ConcreteReinforcementDesign.AnchorageChecks",
       "Fingerprint": "0872B9020578E17AC47403ACDC85D234F74358D9F0F2443EADA0DF89F13DEC99",
-      "Count": 2,
+      "Count": 1,
       "Example": "anchor . D ( \"lunghezza\" )"
     },
     {
