@@ -49,7 +49,9 @@ try
         "Anthea.Calculations.ConcreteSectionProperties::Calculate", "Anthea.Calculations.ConcreteCurvatureAnalysis::Calculate",
         "Anthea.Calculations.ConcreteReinforcementDesign::Optimize", "Anthea.Calculations.SectionMomentResistance::Calculate",
         "Anthea.Calculations.BridgeSection::Calculate", "Anthea.Calculations.PaloOrizzontale::Calculate",
-        "Anthea.Calculations.MicropaloOrizzontale::Calculate", "Anthea.Calculations.RetainingWall::Calculate"
+        "Anthea.Calculations.MicropaloOrizzontale::Calculate", "Anthea.Calculations.RetainingWall::Calculate",
+        "Anthea.Calculations.ElasticHorizontalPile::DesignSegment",
+        "GPC.Checkers.Geotechnics.Piles.PileSegments::Split", "GPC.Checkers.Geotechnics.Piles.PileSegments::Validate"
     ];
     foreach (string call in transferredCalls)
         Check(!accesses.Any(m => m.Type + "::" + m.Name == call), "Chiamata al motore ritornata nella UI: " + call);

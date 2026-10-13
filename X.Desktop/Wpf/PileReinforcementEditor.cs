@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using X.Core;
+using Anthea.Application.Modules;
 namespace X.Desktop;
 internal sealed partial class PileReinforcementEditor : ContentControl
 {
@@ -157,23 +158,72 @@ internal sealed partial class PileReinforcementEditor : ContentControl
     void Split(int index)
     {
         var edit=new TextBox{Text="",MinWidth=170};var dialog=Ui.Dialog(this,"Dividi il tratto",Ui.Stack(Ui.Text("Quota dalla testa [m]",13),edit),420,220);
-        ((StackPanel)dialog.Content).Children.Add(Ui.Button("Dividi",()=>{try{var segments=ElasticHorizontalPile.ReadSegments(root);var cut=J.Number(JsonValue.Create(edit.Text))??throw new ArgumentException("Quota numerica richiesta.");var division=GPC.Checkers.Geotechnics.Piles.PileSegments.Split(segments,segments[index].Id,cut);GPC.Checkers.Geotechnics.Piles.PileSegments.Validate(division,segments[^1].End);var rows=root["elastico"]!.Array("tratti");var next=(JsonObject)rows[index]!.DeepClone();next["id"]="T-"+Guid.NewGuid().ToString("N")[..6];rows[index]!["fine"]=cut;rows.Insert(index+1,next);changed();Build();dialog.Close();}catch(ArgumentException ex){edit.ToolTip=ex.Message;message.Text=ex.Message;}}));dialog.ShowDialog();
+        ((StackPanel)dialog.Content).Children.Add(Ui.Button("Dividi",()=>{try{var cut=J.Number(JsonValue.Create(edit.Text))??throw new ArgumentException("Quota numerica richiesta.");root["elastico"]!["tratti"]=PileReinforcementOperations.Split(root,index,cut);changed();Build();dialog.Close();}catch(ArgumentException ex){edit.ToolTip=ex.Message;message.Text=ex.Message;}}));dialog.ShowDialog();
     }
     void Propose()
     {
         if(result() is not JsonObject r){message.Text=""+calculationState+"";return;}
-        try{var proposal=ElasticHorizontalPile.ProposeSegments(root,r);var dialog=Ui.Dialog(this,"Proposta di suddivisione",Ui.Stack(Ui.Text("Quote su griglia di 0,5 m (punta esatta), tratti ≥3 m. Preferenza per barre 6/8/10/12 m comprensive dei giunti; arretramento per una sovrapposizione nei tratti successivi al primo, con domanda N–M–V. Il cambio di sezione cerca il primo attraversamento discendente di |M|max/2 dopo il massimo; oltre il cambio l’armatura principale è copiata come primo tentativo personalizzabile, da dimensionare. Le quote finali sono quote di taglio; l’inizio dei gruppi successivi arretra di l₀. Dettagli ancora preliminari.",13),Ui.Text(proposal.ToJsonString(J.Options),12)),700,500);
-            ((StackPanel)dialog.Content).Children.Add(Ui.Button("Applica e archivia i tratti precedenti",()=>{var e=root["elastico"]!.AsObject();if(e["storico_tratti"] is not JsonArray)e["storico_tratti"]=new JsonArray();e.Array("storico_tratti").Add(e["tratti"]!.DeepClone());e["tratti"]=proposal;e["origine_tratti"]="Proposta applicata esplicitamente dall'utente";changed();Build();dialog.Close();}));dialog.ShowDialog();}
+        try{var proposal=PileReinforcementOperations.Propose(root,r);var dialog=Ui.Dialog(this,"Proposta di suddivisione",Ui.Stack(Ui.Text("Quote su griglia di 0,5 m (punta esatta), tratti ≥3 m. Preferenza per barre 6/8/10/12 m comprensive dei giunti; arretramento per una sovrapposizione nei tratti successivi al primo, con domanda N–M–V. Il cambio di sezione cerca il primo attraversamento discendente di |M|max/2 dopo il massimo; oltre il cambio l’armatura principale è copiata come primo tentativo personalizzabile, da dimensionare. Le quote finali sono quote di taglio; l’inizio dei gruppi successivi arretra di l₀. Dettagli ancora preliminari.",13),Ui.Text(proposal.Segments.ToJsonString(J.Options),12)),700,500);
+            ((StackPanel)dialog.Content).Children.Add(Ui.Button("Applica e archivia i tratti precedenti",()=>{try{PileReinforcementOperations.ApplyProposal(root,proposal);changed();Build();dialog.Close();}catch(ArgumentException ex){message.Text=ex.Message;MessageBox.Show(dialog,ex.Message,"Proposta da aggiornare");}}));dialog.ShowDialog();}
         catch(ArgumentException ex){message.Text=ex.Message;}
     }
-    void Design(int index)
+    private Task segmentDesignTask = Task.CompletedTask;
+    void Design(int index) => CreateSegmentDesignWindow(index)?.ShowDialog();
+    private Window? CreateSegmentDesignWindow(int index)
     {
-        if(result() is not JsonObject r){message.Text=""+calculationState+"";return;}
-        var counts=new TextBox{Text="6;8;10;12;14;16;20;24",Margin=new Thickness(5)};var spacings=new TextBox{Text="100;150;200",Margin=new Thickness(5)};var diameters=new TextBox{Text="16;20;24;28;32",Margin=new Thickness(5)};var links=new TextBox{Text="8;10;12",Margin=new Thickness(5)};var status=Ui.Text("Ricerca nel catalogo esplicito: As crescente, poi staffe per metro. Sono controllati N–M–V, interferro e minimi disponibili. Dettagli costruttivi preliminari.",12);JsonObject? proposal=null;var snapshot=(JsonObject)root.DeepClone();string signature=root.ToJsonString();
-        var designProgress=new ProgressBar{Height=8,Maximum=100,Visibility=Visibility.Collapsed};
-        using var cancellation=new System.Threading.CancellationTokenSource();
-        var apply=Ui.Button(index==0?"Applica alla sezione principale":"Applica al tratto",()=>{if(proposal==null)return;if(signature!=root.ToJsonString()){status.Text="Input cambiati: ripetere la ricerca.";return;}var target=index==0?root["sezione"]!.AsObject():root["elastico"]!.Array("tratti")[index]!.AsObject();foreach(string key in ElasticHorizontalPile.ReinforcementKeys)target[key]=proposal[key]!.DeepClone();if(index>0)target["collegato"]=false;target["proposta_armatura"]=proposal.DeepClone();if(index==0)sharedSectionChanged?.Invoke();changed();Build();});apply.IsEnabled=false;
-        var run=Ui.Button("Trova proposta",()=>{});run.Click+=async(_,_)=>{run.IsEnabled=false;apply.IsEnabled=false;try{double[] Values(TextBox box)=>box.Text.Split(';').Select(s=>J.Number(JsonValue.Create(s))??throw new ArgumentException("Catalogo non numerico.")).ToArray();var ns=counts.Text.Split(';').Select(int.Parse).ToArray();var ss=Values(spacings);var ds=Values(diameters);var ts=Values(links);status.Text="Ricerca con Checker…";designProgress.Visibility=Visibility.Visible;designProgress.IsIndeterminate=true;var updates=new Progress<PileCalculationProgress>(p=>{if(cancellation.IsCancellationRequested||run.IsEnabled)return;status.Text=p.Phase;designProgress.IsIndeterminate=p.Total==0;designProgress.Value=p.Total>0?100d*p.Completed/p.Total:0;});proposal=await Task.Run(()=>ElasticHorizontalPile.DesignSegment(snapshot,r,index,ns,ds,ts,ss,cancellation.Token,updates));status.Text=proposal.ToJsonString(J.Options);apply.IsEnabled=true;}catch(OperationCanceledException){status.Text="Ricerca annullata.";}catch(Exception ex){status.Text=ex.Message;}finally{run.IsEnabled=true;designProgress.Visibility=Visibility.Collapsed;}};
-        var dialog=Ui.Dialog(this,"Dimensionamento del tratto · proposta da applicare",Ui.Stack(Ui.Text("Quantità barre candidate (separate da ;)",12),counts,Ui.Text("Diametri longitudinali [mm]",12),diameters,Ui.Text("Diametri staffe [mm]",12),links,Ui.Text("Passi staffe [mm]",12),spacings,Ui.Bar(run,apply),designProgress,status),740,650);dialog.Closed+=(_,_)=>cancellation.Cancel();dialog.ShowDialog();
+        if (result() is not JsonObject r) { message.Text = calculationState; return null; }
+        var counts = new TextBox { Text = "6;8;10;12;14;16;20;24", Margin = new Thickness(5) };
+        var spacings = new TextBox { Text = "100;150;200", Margin = new Thickness(5) };
+        var diameters = new TextBox { Text = "16;20;24;28;32", Margin = new Thickness(5) };
+        var links = new TextBox { Text = "8;10;12", Margin = new Thickness(5) };
+        var status = Ui.Text("Ricerca nel catalogo esplicito: As crescente, poi staffe per metro. Sono controllati N–M–V, interferro e minimi disponibili. Dettagli costruttivi preliminari.", 12);
+        JsonObject? proposal = null; bool closed = false; int generation = 0;
+        var session = new PileSegmentDesignSession(root, r, index);
+        var designProgress = new ProgressBar { Height = 8, Maximum = 100, Visibility = Visibility.Collapsed };
+        var apply = Ui.Button(index == 0 ? "Applica alla sezione principale" : "Applica al tratto", () =>
+        {
+            if (closed || proposal is null) return;
+            try
+            {
+                session.Apply(root, proposal);
+                if (index == 0) sharedSectionChanged?.Invoke(); changed(); Build();
+            }
+            catch (ArgumentException ex) { status.Text = ex.Message; }
+        });
+        apply.IsEnabled = false;
+        var run = Ui.Button("Trova proposta", () => { });
+        async Task RunAsync()
+        {
+            if (closed || !run.IsEnabled) return;
+            run.IsEnabled = false; apply.IsEnabled = false; proposal = null; int requested = ++generation;
+            try
+            {
+                double[] Values(TextBox box) => box.Text.Split(';').Select(s => J.Number(JsonValue.Create(s)) ?? throw new ArgumentException("Catalogo non numerico.")).ToArray();
+                var ns = counts.Text.Split(';').Select(int.Parse).ToArray(); var ss = Values(spacings); var ds = Values(diameters); var ts = Values(links);
+                status.Text = "Ricerca con Checker…"; designProgress.Visibility = Visibility.Visible; designProgress.IsIndeterminate = true;
+                var updates = new Progress<PileCalculationProgress>(p =>
+                {
+                    if (closed || run.IsEnabled || requested != generation) return;
+                    status.Text = p.Phase; designProgress.IsIndeterminate = p.Total == 0;
+                    designProgress.Value = p.Total > 0 ? 100d * p.Completed / p.Total : 0;
+                });
+                var calculation = await session.CalculateAsync(ns, ds, ts, ss, updates);
+                calculation.TryPublish(value =>
+                {
+                    if (closed) return;
+                    if (!session.Matches(root)) { status.Text = "Input cambiati: ripetere la ricerca."; return; }
+                    if (value.Error is not null) { status.Text = value.Error.Message; return; }
+                    proposal = value.Value; status.Text = proposal!.ToJsonString(J.Options); apply.IsEnabled = true;
+                });
+            }
+            catch (Exception ex) { if (!closed) status.Text = ex.Message; }
+            finally { if (!closed) { run.IsEnabled = true; designProgress.Visibility = Visibility.Collapsed; } }
+        }
+        run.Click += (_, _) => segmentDesignTask = RunAsync();
+        var dialog = Ui.Dialog(this, "Dimensionamento del tratto · proposta da applicare", Ui.Stack(
+            Ui.Text("Quantità barre candidate (separate da ;)", 12), counts, Ui.Text("Diametri longitudinali [mm]", 12), diameters,
+            Ui.Text("Diametri staffe [mm]", 12), links, Ui.Text("Passi staffe [mm]", 12), spacings, Ui.Bar(run, apply), designProgress, status), 740, 650);
+        dialog.Closed += (_, _) => { closed = true; session.Dispose(); };
+        return dialog;
     }
 }

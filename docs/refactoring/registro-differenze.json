@@ -3568,6 +3568,29 @@
       "evidenze": [
         "supporto/artefatti/ci/20261013-042707-f3-wall-parameters-final"
       ]
+    },
+    {
+      "id": "F3-04",
+      "data": "2026-10-13",
+      "fase": "F3.7b.6",
+      "titolo": "Proposte dei tratti protette da revisione, chiusura e FEM obsoleto",
+      "famiglia": "interfaccia/integrità del documento",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "La suddivisione proposta non controllava la revisione all’applicazione; il dimensionamento poteva completare gli aggiornamenti di testo dopo la chiusura. Ora le proposte possiedono input e risposta, applicano solo sulla revisione iniziale, rifiutano una chiave FEM non coerente e non pubblicano dopo la chiusura. I campi della proposta sono letti tutti prima di mutare la sezione.",
+      "codice": [
+        "src/ANTHEA.Application/Modules/PileReinforcementOperations.cs",
+        "X.Desktop/Wpf/PileReinforcementEditor.cs"
+      ],
+      "segno": "Nessuna differenza numerica per proposte valide; rifiuto esplicito di proposte obsolete o incomplete.",
+      "test": [
+        "Tredici controlli portabili con confronto esatto con il motore precedente",
+        "Sei WPF con modifica/chiusura al progresso reale",
+        "458 file F3 equivalenti"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-045043-f3-pile-segment-protection"
+      ]
     }
   ]
 }
