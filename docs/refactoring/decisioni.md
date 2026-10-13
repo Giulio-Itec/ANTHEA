@@ -1022,3 +1022,26 @@ prezzari. Chiede inoltre di attendere per la chiusura F4.16, che potrebbe
 includere successivamente Bridge Design. La sospensione non riguarda F4.5,
 che resta il punto tecnico dei coefficienti normativi. Nessun rilascio finale
 di fase né avvio F5; commit e aggiornamento per ogni passo concluso.
+
+### F4 — completamento notturno e prezzari sostituibili
+
+Il 13 ottobre sera l'utente approva la gestione dei prezzari e richiede F4
+completata per la mattina successiva, con commit per punto e aggiornamenti.
+Sono superate le sospensioni di F4.11 e F4.16; F5 resta esclusa.
+
+Cataloghi versionati, import Excel/CSV, associazioni riutilizzabili alle
+lavorazioni, analisi composte, prezzi di progetto e confronto fra revisioni.
+Il cambio di prezzario conserva quantità e revisioni precedenti; segnala voci
+mancanti/incompatibili senza prezzi zero impliciti. La scelta di conservare
+le personalizzazioni è esplicita. I prezzi correnti migrano senza ricalcolo.
+Prezzi e CO₂ hanno fonti/versioni indipendenti.
+
+GPC.Design esegue calcolo e ottimizzazione del costo con dati immutabili della
+chiamata, senza leggere controlli WPF o archivi ANTHEA. ANTHEA gestisce prezzari,
+documenti, associazioni, avvio/annullamento e presentazione. Dopo il cambio dei
+prezzi si rivalutano le alternative note e si può rilanciare la ricerca: la
+nuova soluzione migliore non è necessariamente fra quelle già esplorate.
+
+Prima del collegamento dei nuovi servizi si completa il confronto isolato.
+Il set distribuito si aggiorna soltanto con il treno coerente; i checkpoint
+Git e la rimozione del legacy restano soggetti alle regole del repository.

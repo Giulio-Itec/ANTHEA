@@ -313,12 +313,12 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
 - [ ] F4.8 Muri a gravità e dettagli.
 - [ ] F4.9 [CP] Collegamento dei muri e rilascio `lib/Checker`. Anticipato il 7/10 lo scostamento D7-c (γRd non applicato a F̄).
 - [ ] F4.10 GPC.Design: armature e distinta dei muri, tratti dei pali.
-- [ ] F4.11 GPC.Design: BridgeConcept con listini e CO₂ come dati versionati. **Sospesa il 13/10 su richiesta dell’utente**, che vuole prima definire la gestione dei prezzari.
+- [ ] F4.11 GPC.Design: BridgeConcept con listini e CO₂ come dati versionati. **Riattivata il 13/10 sera**: cataloghi sostituibili, associazioni alle lavorazioni, prezzi personalizzati e revisioni; calcolo e ottimizzazione in GPC.Design, gestione documentale/UI in ANTHEA.
 - [ ] F4.12 GPC.Design: ricerca delle armature di sezione.
 - [ ] F4.13 Logica ingegneristica delle viste verso librerie o Application.
 - [ ] F4.14 [CP] Norme tipizzate negli adattatori residui; validazione esplicita.
 - [ ] F4.15 Copriferro di progetto in un validatore di Application.
-- [ ] F4.16 [CP] Chiusura, pagine dei metodi, eliminazione del legacy su autorizzazione. **Chiusura sospesa il 13/10**, in attesa della possibile inclusione di F4.11; gli altri punti possono procedere.
+- [ ] F4.16 [CP] Chiusura, pagine dei metodi, eliminazione del legacy su autorizzazione. **Riattivata il 13/10 sera**: richiesta di completare F4 durante la notte, con commit e aggiornamento a ogni passo. Confronti, guide, treno coerente e collaudo full restano obbligatori; F5 esclusa.
 
 ## Fase 5: interfaccia MVVM
 
