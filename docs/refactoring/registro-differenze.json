@@ -3692,6 +3692,27 @@
         "supporto/artefatti/ci/20261013-113848-f3-concrete-editor",
         "supporto/artefatti/refactoring/f3/domain-contract-images.json"
       ]
+    },
+    {
+      "id": "F3-09",
+      "data": "2026-10-13",
+      "fase": "F3-TST2",
+      "titolo": "Versione esplicita nella fixture di condivisione materiali",
+      "famiglia": "strumentazione dei test",
+      "categoria": "intenzionale",
+      "stato": "corretto",
+      "descrizione": "La fixture sostituiva i dati generati dalla factory con un oggetto incompleto. Aggiunta versione_materiali=1; rifiuto di documenti non versionati e controlli del prodotto invariati.",
+      "codice": [
+        "supporto/test/Desktop/ProjectCoverWarningSmokeChecks.cs"
+      ],
+      "segno": "Nessuna modifica ai valori ingegneristici o agli attesi indipendenti.",
+      "test": [
+        "ui/smoke-sharing PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261013-130137-f3-final-full",
+        "supporto/artefatti/ci/20261013-132011-f3-final-test-adapters"
+      ]
     }
   ]
 }

@@ -369,3 +369,7 @@ Prima: 20261013-125640-f3-model-boundary-before, quattro PASS delle viste. Dopo:
 Il full 20261013-130137-f3-final-full trova tre progetti di test ancora legati ai tipi nativi pubblici precedenti. ConcreteContractProbe diventa un supporto condiviso solo dai test: accede agli originali per mantenere gli oracoli dei motori senza esporli al prodotto. Gli scanner includono src, il catalogo esposizioni è verificato attraverso il confine applicativo e nella sua origine comune. Nessun atteso scientifico, allowlist o tolleranza modificato.
 
 Ripresa 20261013-132011-f3-final-test-adapters: build, API reuse, report breve Word (13 assert e limite di due pagine), confronto F3 e assenza di codice test in Release passati. Le scansioni obsolete rilevate nell’adattatore sono corrette e rieseguite in 20261013-132314-f3-adapter-scan-layout: tre PASS, 158018 controlli taglio/torsione, 673640 SLE, ulteriori 30 + 579. Il full originario resta documentato con i suoi fallimenti, chiusi da riprese mirate; non è riscritto come corsa pulita.
+
+## F3-TST2 — versione della fixture materiali
+
+ProjectCoverWarningSmokeChecks costruiva un foglio valido, poi ne sostituiva i dati con un oggetto privo del campo obbligatorio versione_materiali. Il full rifiutava correttamente il documento. Aggiunta la versione 1 alla sola fixture; nessuna migrazione o validazione del prodotto modificata. ui/smoke-sharing passato nella corsa 20261013-132011-f3-final-test-adapters (12,1 s). Differenza di strumentazione F3-09.
