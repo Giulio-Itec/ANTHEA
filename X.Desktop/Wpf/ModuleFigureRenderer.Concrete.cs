@@ -44,7 +44,7 @@ internal sealed partial class ModuleFigureRenderer
             }
             domains.Add(new(three, o, rows, selected, analysis.Domains3D.GetValueOrDefault(key), analysis.Domains2D.GetValueOrDefault(key), checks, plot));
         }
-        var stresses = SectionWorkspace.Sets.Skip(2).ToDictionary(key => key, key => new ConcreteStressGraphic(
+        var stresses = ConcreteEditor.Sets.Skip(2).ToDictionary(key => key, key => new ConcreteStressGraphic(
             new ConcreteSectionViewport { Section = section, Stirrups = shear, Tendons = tendons, Contour = settings["sle"]![key].S("contour", ConcreteSectionViewport.Contours[0]) },
             analysis.StressChecks.GetValueOrDefault(key), analysis.Actions[key]));
         return new(data, analysis.Result, preview, domains, stresses);
@@ -72,7 +72,7 @@ internal sealed partial class ModuleFigureRenderer
                     view.Ratios = checks?.ToDictionary(kv => kv.Key, kv => kv.Value.Utilization);
                     view.Resistances = panel.Options.B("tutte_rd") ? panel.Rows.Where(r => r.B("visible", true)).Select(r => (Id: r.S("id"), Check: checks?.GetValueOrDefault(r.S("id")))).Where(r => r.Check?.Resistance is not null).ToDictionary(r => r.Id, r => r.Check!.Resistance!.Value) : null;
                     view.SetActions(points, selected, selected is null ? null : checks?.GetValueOrDefault(selected)?.Resistance); view.SurfaceOpacity = 1 - panel.Options.D("trasparenza", 35) / 100; view.UpdateLayout();
-                    images.Add(new("Dominio 3D " + SectionWorkspace.Label(panel.Key) + " in vista isometrica con filtri e livelli correnti", Ui.DocumentSnapshot(view), category));
+                    images.Add(new("Dominio 3D " + ConcreteEditor.Label(panel.Key) + " in vista isometrica con filtri e livelli correnti", Ui.DocumentSnapshot(view), category));
                 }
                 else if (!panel.ThreeD && panel.Two is not null)
                 {
@@ -85,7 +85,7 @@ internal sealed partial class ModuleFigureRenderer
                 var rows = result["tensioni"]?[key] as System.Text.Json.Nodes.JsonObject ?? new();
                 var governors = new Dictionary<string, string>();
                 foreach (bool cracking in new[] { false, true })
-                    if ((cracking ? SleCheckScope.Cracking(key, settings) : SleCheckScope.Stress(key)) && ReportConcrete.Governing(rows, cracking) is { } governing)
+                    if ((cracking ? ConcreteEditor.HasCrackCheck(key, settings) : ConcreteEditor.HasStressCheck(key)) && ReportConcrete.Governing(rows, cracking) is { } governing)
                     {
                         string reason = cracking ? "fessurazione" : "tensioni";
                         governors[governing.Key] = governors.TryGetValue(governing.Key, out var previous) ? previous + " e " + reason : reason;
@@ -96,7 +96,7 @@ internal sealed partial class ModuleFigureRenderer
                     if (outcomes.GetValueOrDefault(id)?.State is not { } state) continue;
                     var view = new ConcreteSectionViewport { Section = panel.View.Section, Stirrups = panel.View.Stirrups, Tendons = panel.View.Tendons, Stress = state, Contour = panel.View.Contour, Axes = true, Labels = true };
                     string name = panel.Rows.FirstOrDefault(row => row.S("id") == id)?.S("nome") ?? id;
-                    images.Add(new("SLE " + SectionWorkspace.Label(key) + " · governante " + reason + " · " + name + " · " + view.Contour, view.Png(), key));
+                    images.Add(new("SLE " + ConcreteEditor.Label(key) + " · governante " + reason + " · " + name + " · " + view.Contour, view.Png(), key));
                 }
             }
             if (options.Contains("taglio"))

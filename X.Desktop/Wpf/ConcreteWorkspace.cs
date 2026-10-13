@@ -56,11 +56,11 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
 
     internal ConcreteWorkspace(JsonObject data)
     {
-        Data = data; settings = SectionWorkspace.Prepare(Data); Background = Appearance.Surface;
+        Data = data; settings = ConcreteEditor.PrepareWorkspace(Data); Background = Appearance.Surface;
         SetValue(InputForm.CommitOnFocusLossProperty, true);
         SetValue(NumericPresentation.EnabledProperty, true);
         PrepareCoefficients(); PrepareStirrups();
-        foreach (string key in SectionWorkspace.Sets)
+        foreach (string key in ConcreteEditor.Sets)
         {
             var rows = new JsonRows(); actions[key] = rows;
             foreach (var item in Data["combinazioni"]![key]!.AsArray())
@@ -148,7 +148,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
 
     private UIElement BuildControlPanel()
     {
-        var norm = new InputForm(settings, [new("normativa", "Normativa", Choices: ConcreteStandards.OrdinaryNames), new("nota", "Nota del foglio")], key => { if (key == "normativa") { ResetCoefficients(); RefreshStandardMaterialChoices(); } Invalidate(); });
+        var norm = new InputForm(settings, [new("normativa", "Normativa", Choices: ConcreteEditor.Standards), new("nota", "Nota del foglio")], key => { if (key == "normativa") { ResetCoefficients(); RefreshStandardMaterialChoices(); } Invalidate(); });
         geometry = new(Input, [new("shape", "Sezione", Choices: ["Circolare", "Rettangolare", "A T", "Generica (da definire)"]), new("diameter_mm", "Diametro D", "mm"), new("circular_sides", "Lati del contorno (12–720, multipli di 4)"), new("width_mm", "Larghezza b", "mm"), new("height_mm", "Altezza h", "mm"), new("flange_width_mm", "Larghezza ala bf", "mm"), new("web_width_mm", "Larghezza anima bw", "mm"), new("flange_thickness_mm", "Spessore ala hf", "mm"), new("cover_mm", "Copriferro netto", "mm")], _ => Invalidate(), true, wikiModule: "str_palo");
         Anthea.Application.Concrete.ConcreteSheetPreparation.PrepareHoles(Input);
         var holeToggle=new CheckBox{Content="Foro centrale",IsChecked=Input.B("foro_presente"),Margin=new Thickness(4)};
@@ -194,11 +194,11 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
             var heading = new DockPanel(); DockPanel.SetDock(open, Dock.Right); heading.Children.Add(open); heading.Children.Add(Ui.Text(title, 12, true));
             return new Border { Background = Appearance.Paper, BorderBrush = Ui.Brush("#DCE2E9"), BorderThickness = new Thickness(1), Padding = new Thickness(7, 4, 7, 3), Margin = new Thickness(0, 0, 0, 4), Child = Ui.Stack(heading, value) };
         }
-        foreach (string key in SectionWorkspace.Sets)
+        foreach (string key in ConcreteEditor.Sets)
         {
             var value = new VerificationCards(); summaries[key] = value;
-            string title = key.StartsWith("SLE") ? "SLE · " + SectionWorkspace.Label(key) : SectionWorkspace.Label(key);
-            var button = Ui.Button("Apri →", () => { tabs.SelectedIndex = key.StartsWith("SLE") ? 3 : 1; if (key.StartsWith("SLE")) sleTabs.SelectedIndex = Array.IndexOf(SectionWorkspace.Sets, key) - 2; else domainPanels[0].Mode.SelectedItem = key; }, inspection: true); button.HorizontalAlignment = HorizontalAlignment.Right;
+            string title = key.StartsWith("SLE") ? "SLE · " + ConcreteEditor.Label(key) : ConcreteEditor.Label(key);
+            var button = Ui.Button("Apri →", () => { tabs.SelectedIndex = key.StartsWith("SLE") ? 3 : 1; if (key.StartsWith("SLE")) sleTabs.SelectedIndex = Array.IndexOf(ConcreteEditor.Sets, key) - 2; else domainPanels[0].Mode.SelectedItem = key; }, inspection: true); button.HorizontalAlignment = HorizontalAlignment.Right;
             summary.Children.Add(SummaryBlock(title, value, button));
         }
         summary.Children.Add(SummaryBlock("Taglio", shearDashboard, Ui.Button("Apri →", () => tabs.SelectedIndex = 4, inspection: true)));
@@ -310,7 +310,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
             if (x is double xx && y is double yy && a is > 0) preview.Tendons.Add(new(t.S("id"), xx, yy, a.Value));
         }
         SynchronizeStirrups(); foreach (string key in stressPanels.Keys) SynchronizeHomogenization(key);
-        foreach (string field in SectionWorkspace.SharedSleFields) settings["sle_comuni"]![field] = settings["sle"]!["SLE"]![field]?.DeepClone();
+        foreach (string field in ConcreteEditor.SharedSleFields) settings["sle_comuni"]![field] = settings["sle"]!["SLE"]![field]?.DeepClone();
         RefreshTendonOptions(); RefreshAutomaticShear();
         RefreshDetailing();
         preview.InvalidateVisual();
@@ -353,7 +353,7 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
             if (cells.Length == 4 && cells[1].Trim().StartsWith("N", StringComparison.OrdinalIgnoreCase)) continue;
             if (cells.Length == 3) cells = new[] { "", cells[0], cells[1], cells[2] };
             if (cells.Length != 4) throw new ArgumentException("Usare 3 colonne N–Mx–My oppure 4 colonne Nome–N–Mx–My, separate da tabulazioni.");
-            for (int i = 1; i < 4; i++) SectionWorkspace.Number(cells[i], "Riga " + (result.Count + 1));
+            for (int i = 1; i < 4; i++) ConcreteEditor.Number(cells[i], "Riga " + (result.Count + 1));
             result.Add(cells);
         }
         if (result.Count == 0) throw new ArgumentException("Nessuna combinazione da incollare.");

@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,7 +28,7 @@ internal sealed partial class ConcreteWorkspace
 
     private UIElement BuildDesignPanel()
     {
-        ConcreteReinforcementDesign.Prepare(settings);
+        ConcreteEditor.PrepareDesign(settings);
         designRun = Ui.Button("Calcola armature", () => _ = RunDesignAsync());
         designStop = Ui.Button("Ferma ricerca", () => designCancellation?.Cancel()); designStop.IsEnabled = false;
         designApply = Ui.Button("Applica configurazione", ApplyDesign); designApply.IsEnabled = false;
@@ -47,7 +48,7 @@ internal sealed partial class ConcreteWorkspace
          new("ancoraggio_confermato", "Confermo Asl ancorata per proposte senza staffe", Bool: true),
          new("torsione_confermata", "Confermo schema periferico chiuso per torsione", Bool: true)], _ =>
          { MarkDesignStale(); RefreshDesignInputs(); Modified?.Invoke(); }, true, true);
-        var limits = new InputForm(DesignOptions, ConcreteReinforcementDesign.Targets.Select(t => new Field(t.Key, t.Name, "η max")), _ => { MarkDesignStale(); Modified?.Invoke(); }, true);
+        var limits = new InputForm(DesignOptions, ConcreteEditor.DesignTargets.Select(t => new Field(t.Key, t.Name, "η max")), _ => { MarkDesignStale(); Modified?.Invoke(); }, true);
         var common = Ui.Stack(Ui.Text("Geometria, materiali, copriferro e azioni sono quelli del foglio. Il tipo di elemento e l’esposizione vanno compilati nelle schede comuni. Resistenza 3D iterativa a eccentricità costante.", 11),
             Ui.Bar(Ui.Button("Sezione →", () => tabs.SelectedIndex = 0), Ui.Button("Dettagli →", () => tabs.SelectedIndex = 5)),
             Ui.Button("SLE / esposizione →", () => tabs.SelectedIndex = 3));

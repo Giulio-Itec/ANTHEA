@@ -89,6 +89,7 @@ try
     checks += ConcretePresentationChecks.Run(root);
     checks += await ConcretePropertyChecks.Run();
     checks += ConcreteGeometryChecks.Run();
+    checks += ConcreteEditorChecks.Run(root);
     checks += StrainDiagramChecks.Run();
     checks += await ConcreteInspectionChecks.Run();
     checks += await WallParameterChecks.Run();

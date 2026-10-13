@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -44,7 +45,7 @@ internal sealed partial class ConcreteWorkspace
     }
     private UIElement BuildShearPanel()
     {
-        ConcreteCalculationSettings.Prepare(Input, settings);
+        ConcreteEditor.PrepareParameters(Input, settings);
         var options = ShearOptions;
         void EnableFields()
         {

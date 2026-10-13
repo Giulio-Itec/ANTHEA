@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,7 +34,7 @@ internal sealed partial class ConcreteWorkspace
         presenter.Name="PART_SelectedContentHost";
         presenter.SetBinding(ContentPresenter.ContentProperty,new System.Windows.Data.Binding("SelectedContent"){RelativeSource=new System.Windows.Data.RelativeSource(System.Windows.Data.RelativeSourceMode.TemplatedParent)});
         sleTabs.Template=new ControlTemplate(typeof(TabControl)){VisualTree=presenter};
-        foreach (string key in SectionWorkspace.Sets.Skip(2))
+        foreach (string key in ConcreteEditor.Sets.Skip(2))
         {
             var panel = new StressPanel(); stressPanels[key] = panel; var options = settings["sle"]![key]!.AsObject();
             var nonLinearWarning = Notice("Analisi non lineare: le tensioni di esercizio sono calcolate con i legami costitutivi di progetto (valori caratteristici ridotti con αcc e γ). La norma non prescrive il metodo dell'analisi tensionale; per le verifiche SLE il riferimento abituale è l'analisi lineare a sezione fessurata. Vedere la guida (?) accanto ad «Analisi».");
@@ -49,9 +50,9 @@ internal sealed partial class ConcreteWorkspace
                 if (initializing) return;
                 using var notifications = JsonRow.DeferNotifications(actions.Values.SelectMany(r => r));
                 SynchronizeHomogenization(key, field); SynchronizeSharedSle(key); EnableOptions();
-                if (CrackFields.Contains(field)) { InvalidateChecks(SectionWorkspace.Sets.Skip(2).ToArray()); return; }
+                if (CrackFields.Contains(field)) { InvalidateChecks(ConcreteEditor.Sets.Skip(2).ToArray()); return; }
                 stressResults.Remove(key); foreach (var row in actions[key]) { row.Output("sigma_c", "—"); row.Output("sigma_s", "—"); row.Output("stress_status", "Da calcolare"); row.Output("eta_sigma", "—"); row.Output("wk", "Da calcolare"); }
-                UpdateStressSelection(key); RefreshSummary(); InvalidateChecks(SectionWorkspace.Sets.Skip(2).ToArray());
+                UpdateStressSelection(key); RefreshSummary(); InvalidateChecks(ConcreteEditor.Sets.Skip(2).ToArray());
             }, true, true);
             panel.Options.GroupFields("Analisi e omogeneizzazione", ["modello", "n_armature", "phi", "n_trefoli", "phi_trefoli", "__ep_ref"], true);
             panel.Options.GroupFields("Verifiche SLE · ambiente e armatura", ["esposizione", "sensibilita", "durata", "aderenza", "limite_fessure"], true);
@@ -59,7 +60,7 @@ internal sealed partial class ConcreteWorkspace
             panel.Options.GroupFields("Avanzate · CLS teso e assi", ["trazione_cls", "assi", "origine_x", "origine_y", "rotazione"]);
             SynchronizeHomogenization(key); EnableOptions();
             var instructions = Notice("Analisi GPC Engine lineare/non lineare. Rara: limiti CLS e acciaio; quasi permanente: limite CLS. Frequente: nessun limite tensionale automatico. φ è il coefficiente di viscosità. Fessurazione: NTC/UNI frequente e quasi permanente; altri EC2 quasi permanente, salvo NS XD3/XS3 frequente. Model Code richiede wlim di progetto. Il limite assegnato sostituisce quello EC2 (tranne UNI) e va motivato nel progetto. L’apertura richiede analisi lineare con CLS teso escluso.");
-            var combinationChoice=Ui.Choice(SectionWorkspace.Sets.Skip(2).Select(SectionWorkspace.Label).ToArray(),SectionWorkspace.Label(key));
+            var combinationChoice=Ui.Choice(ConcreteEditor.Sets.Skip(2).Select(ConcreteEditor.Label).ToArray(),ConcreteEditor.Label(key));
             RevisionInspection.Allow(combinationChoice); RevisionInspection.Allow(panel.Regions);
             combinationChoice.SelectionChanged+=(_,_)=>{if(combinationChoice.SelectedIndex>=0)sleTabs.SelectedIndex=combinationChoice.SelectedIndex;};
             sleTabs.SelectionChanged+=(_,e)=>{if(e.Source==sleTabs && sleTabs.SelectedIndex>=0)combinationChoice.SelectedIndex=sleTabs.SelectedIndex;};
@@ -97,9 +98,9 @@ internal sealed partial class ConcreteWorkspace
             var resultStyle = new Style(typeof(TextBlock)); resultStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
             panel.Grid.RowHeight = double.NaN; panel.Grid.MinRowHeight = 30;
             foreach (var column in panel.Grid.Columns.TakeLast(2).Cast<DataGridTextColumn>()) column.ElementStyle = resultStyle;
-            var table = Panel("Combinazioni · " + SectionWorkspace.Label(key), ActionTable(key, panel.Grid, () => UpdateStressSelection(key)));
+            var table = Panel("Combinazioni · " + ConcreteEditor.Label(key), ActionTable(key, panel.Grid, () => UpdateStressSelection(key)));
             var body = AnalysisLayout(optionsPanel, viewport, verificationTabs, table);
-            Ui.Tab(sleTabs, SectionWorkspace.Label(key), body);
+            Ui.Tab(sleTabs, ConcreteEditor.Label(key), body);
             panel.View.IsVisibleChanged += (_, _) => { if (panel.View.IsVisible) UpdateStressSelection(key); };
             if (actions[key].Count > 0) panel.Grid.SelectedIndex = 0;
         }
@@ -108,7 +109,7 @@ internal sealed partial class ConcreteWorkspace
     }
     private async Task CalculateStress(string key, CancellationToken token, CheckerSectionModel? prepared = null, JsonObject? preparedInput = null, JsonObject? preparedWorkspace = null)
     {
-        status.Text = "Analisi tensionale · " + SectionWorkspace.Label(key) + "…"; var settingsSle = settings["sle"]![key]!;
+        status.Text = "Analisi tensionale · " + ConcreteEditor.Label(key) + "…"; var settingsSle = settings["sle"]![key]!;
         var input = preparedInput ?? (JsonObject)Input.DeepClone(); var workspace = preparedWorkspace ?? (JsonObject)settings.DeepClone(); var options = (JsonObject)settingsSle.DeepClone();
         var requests = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
         var outcomes = await Task.Run(() => analysisSession.Stress(input, workspace, options, key, requests, token, prepared), token);
@@ -127,14 +128,14 @@ internal sealed partial class ConcreteWorkspace
     private void UpdateStressSelection(string key)
     {
         if (synchronizing || !stressPanels.TryGetValue(key, out var panel) || panel.Grid is null) return;
-        bool stressRequired = SleCheckScope.Stress(key), crackRequired = SleCheckScope.Cracking(key, settings);
+        bool stressRequired = ConcreteEditor.HasStressCheck(key), crackRequired = ConcreteEditor.HasCrackCheck(key, settings);
         panel.Grid.Columns[6].Visibility = panel.Grid.Columns[7].Visibility = stressRequired ? Visibility.Visible : Visibility.Collapsed;
         panel.Grid.Columns[8].Visibility = panel.CrackTab.Visibility = crackRequired ? Visibility.Visible : Visibility.Collapsed;
         if (!panel.View.IsVisible) return;
         using var barsRefresh = panel.Bars.Rows.DeferRefresh();
         using var concreteRefresh = panel.Concrete.Rows.DeferRefresh();
         var row = panel.Grid.SelectedItem as JsonRow; var outcome = row is null ? null : stressResults.GetValueOrDefault(key)?.GetValueOrDefault(row.Values.S("id"));
-        panel.CrackDetail.Text = (row is null ? "" : SectionWorkspace.Label(key) + " · " + row.Values.S("nome") + "\n\n") + CrackCalculationSummary.Format(outcome?.CrackResult, outcome?.Cracking ?? "Selezionare una combinazione calcolata.");
+        panel.CrackDetail.Text = (row is null ? "" : ConcreteEditor.Label(key) + " · " + row.Values.S("nome") + "\n\n") + CrackCalculationSummary.Format(outcome?.CrackResult, outcome?.Cracking ?? "Selezionare una combinazione calcolata.");
         if(outcome?.CrackResult is { } crackTrace && crackTrace.Regions.Length>0)
             panel.CrackDetail.Text+="\n\nZONE EFFICACI\n"+string.Join("\n",crackTrace.Regions.Select(r=>$"{r.Name}: Ac,eff={r.Area:0.###} mm²; As,eff={r.SteelArea:0.###} mm²; wk={r.Width:0.######} mm · "+string.Join(", ",r.BarIndices.Select(i=>$"B{i+1:00}"))))+"\n\nPASSAGGI COMPLETI\n"+string.Join("\n\n",crackTrace.Details.Select(d=>d.Format()));
         panel.View.Stress = outcome?.State;
@@ -148,7 +149,7 @@ internal sealed partial class ConcreteWorkspace
             var options = settings["sle"]![key]!; var force = ReadAction(row);
             string limits = state.ConcreteStressLimit is double limit ? $"|σc,comp| ≤ {limit:0.00} MPa" : "Nessun limite tensionale automatico";
             if (key == "SLE") limits += $"\nσs ≤ {state.SteelStressLimit:0.00} MPa (armatura ordinaria)";
-            panel.Detail.Text = $"{SectionWorkspace.Label(key)} · {options.S("modello")}\n{row.Values.S("nome")} · assi {options.S("assi")}\nN = {force.N:0.00} kN\nMx / My = {force.Mx:0.00} / {force.My:0.00} kNm\n\nTENSIONI · NTC 2018\n{limits}\nησ = {outcome.Ratio?.ToString("0.00") ?? "—"}\n{outcome.Status}\n" + ResponseSummary(state.Response, "STATO ALL’AZIONE APPLICATA") +
+            panel.Detail.Text = $"{ConcreteEditor.Label(key)} · {options.S("modello")}\n{row.Values.S("nome")} · assi {options.S("assi")}\nN = {force.N:0.00} kN\nMx / My = {force.Mx:0.00} / {force.My:0.00} kNm\n\nTENSIONI · NTC 2018\n{limits}\nησ = {outcome.Ratio?.ToString("0.00") ?? "—"}\n{outcome.Status}\n" + ResponseSummary(state.Response, "STATO ALL’AZIONE APPLICATA") +
                 $"\n\nFESSURAZIONE\n{options.S("esposizione")} · armatura {options.S("sensibilita").ToLowerInvariant()}\nCarico di durata {options.S("durata").ToLowerInvariant()}\n{outcome.Cracking}\nwk / limite = {outcome.CrackResult?.Width?.ToString("0.00") ?? "—"} / {outcome.CrackResult?.Limit?.ToString("0.00") ?? "—"} mm\nηw = {outcome.CrackResult?.Ratio?.ToString("0.00") ?? "—"}\nAc,eff = {outcome.CrackResult?.EffectiveArea?.ToString("0.00") ?? "—"} mm²\nAs,eff = {outcome.CrackResult?.EffectiveSteel?.ToString("0.00") ?? "—"} mm²";
             panel.Detail.Text += "\nCoefficienti e formule: scheda «Fessurazione · passaggi» (testo selezionabile e copiabile).";
             panel.Detail.Text += $"\nInterasse barre tese = {EngineeringFormat.Number(outcome.CrackResult?.BarSpacing)} mm · {outcome.CrackResult?.SpacingSource}";

@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,7 +34,7 @@ internal sealed partial class ConcreteWorkspace
         var completion = await quickResistanceScheduler.ScheduleAsync(async token =>
         {
             var o = workspace["resistenze_rapide"]!;
-            double n = SectionWorkspace.Number(o.S("N"), "N"); bool elastic = o.S("tipo") == "Elastico";
+            double n = ConcreteEditor.Number(o.S("N"), "N"); bool elastic = o.S("tipo") == "Elastico";
             return await Task.Run(() => Anthea.Application.Modules.StructuralQueries.ConcreteQuickResistance(input, workspace, n, elastic, token), token);
         });
         completion.TryPublish(current =>

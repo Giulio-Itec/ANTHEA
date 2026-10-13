@@ -58,6 +58,10 @@ try
         "Anthea.Calculations.ElasticHorizontalPile::DesignSegment",
         "GPC.Checkers.Geotechnics.Piles.PileSegments::Split", "GPC.Checkers.Geotechnics.Piles.PileSegments::Validate"
     ];
+    string[] transferredEditors = ["CalculationHelp", "VerificationSummary", "SectionWorkspace", "ConcreteStandards",
+        "ConcreteCalculationSettings", "ConcreteReinforcementDesign", "SleCheckScope", "ReinforcementGeometry", "CheckerSection"];
+    foreach (string name in transferredEditors)
+        Check(!accesses.Any(m => m.Type == "Anthea.Calculations." + name), "Editor di calcolo ritornato nella UI: " + name);
     foreach (string call in transferredCalls)
         Check(!accesses.Any(m => m.Type + "::" + m.Name == call), "Chiamata al motore ritornata nella UI: " + call);
     Check(accesses.Any(m => m.Name.StartsWith("get_", StringComparison.Ordinal)) && accesses.Any(m => m.Kind == "Method" && !m.Name.StartsWith("get_", StringComparison.Ordinal)),

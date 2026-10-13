@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,7 +36,7 @@ internal sealed partial class ConcreteWorkspace
     {
         var panel = new DomainPanel { ThreeD = threeD, Options = settings[threeD ? "dominio3d" : "dominio2d"]!.AsObject() }; domainPanels.Add(panel);
         var fields = new List<Field> { new("stato", "Tipo di dominio", Choices: ["SLU", "SLV"]) };
-        if (threeD) fields.AddRange([new("criterio", "Ricerca resistenza", Choices: CheckerSection.Criteria), new("strategia", "Metodo", Choices: ["Iterativo", "Intersezione"]), new("interpolazione", "Interpolazione mesh", Choices: ["Quadratica", "Lineare"]), new("suddivisioni_n", "Suddivisioni N (mesh)")]);
+        if (threeD) fields.AddRange([new("criterio", "Ricerca resistenza", Choices: ConcreteEditor.ResistanceCriteria), new("strategia", "Metodo", Choices: ["Iterativo", "Intersezione"]), new("interpolazione", "Interpolazione mesh", Choices: ["Quadratica", "Lineare"]), new("suddivisioni_n", "Suddivisioni N (mesh)")]);
         else fields.AddRange([new("tipo", "Sezione dominio", Choices: ["N–M", "Mx–My"]), new("theta", "Direzione θ", "°"), new("N", "N fissato", "kN")]);
         fields.AddRange([new("angoli", "Direzioni angolari"), new("trazione_cls", "CLS resistente a trazione", Choices: ["No", "Sì"]), new("assi", "Assi delle azioni", Choices: ["Locali", "Principali", "Personalizzati"]), new("origine_x", "Origine x", "mm"), new("origine_y", "Origine y", "mm"), new("rotazione", "Rotazione assi", "°")]);
         if (!threeD) fields.Add(new("proietta", "Proietta azioni sul piano", Choices: ["No", "Sì"]));
@@ -148,7 +149,7 @@ internal sealed partial class ConcreteWorkspace
     private async Task CalculateDomain(DomainPanel panel, CancellationToken token, string? requestedKey = null, CheckerSectionModel? prepared = null, JsonObject? preparedInput = null, JsonObject? preparedWorkspace = null)
     {
         string key = requestedKey ?? panel.Key;
-        status.Text = $"GPC Engine · {SectionWorkspace.Label(key)} · dominio {(panel.ThreeD ? "3D" : "2D")}…";
+        status.Text = $"GPC Engine · {ConcreteEditor.Label(key)} · dominio {(panel.ThreeD ? "3D" : "2D")}…";
         var input = preparedInput ?? (JsonObject)Input.DeepClone(); var workspace = preparedWorkspace ?? (JsonObject)settings.DeepClone(); var options = (JsonObject)panel.Options.DeepClone();
         var snapshots = actions[key].Select(row => (JsonObject)row.Values.DeepClone()).ToArray();
         var calculated = await Task.Run(() => analysisSession.Domain(input, workspace, options, key, panel.ThreeD, snapshots, token, prepared), token);
@@ -221,7 +222,7 @@ internal sealed partial class ConcreteWorkspace
         try
         {
             var a = ReadAction(row); panel.Detail.Text = $"{row.Values.S("nome")}\n\nNEd = {a.N:0.00} kN\nMx,Ed = {a.Mx:0.00} kNm\nMy,Ed = {a.My:0.00} kNm\n\n" + (selectedCheck is null ? "Da calcolare" : $"η = {selectedCheck.Utilization?.ToString("0.00") ?? "—"}\n{selectedCheck.Status}");
-            panel.Detail.Text = SectionWorkspace.Label(panel.Key) + " · " + (panel.ThreeD ? panel.Options.S("criterio") + " / " + panel.Options.S("strategia") : panel.Options.S("tipo") + (panel.Options.S("proietta") == "Sì" ? " · proiezione attiva" : " · senza proiezione")) + "\n\nAZIONI · " + panel.Options.S("assi", "Locali") + "\n" + panel.Detail.Text;
+            panel.Detail.Text = ConcreteEditor.Label(panel.Key) + " · " + (panel.ThreeD ? panel.Options.S("criterio") + " / " + panel.Options.S("strategia") : panel.Options.S("tipo") + (panel.Options.S("proietta") == "Sì" ? " · proiezione attiva" : " · senza proiezione")) + "\n\nAZIONI · " + panel.Options.S("assi", "Locali") + "\n" + panel.Detail.Text;
             if (selectedCheck?.Resistance is ActionPoint r) panel.Detail.Text += $"\n\nRESISTENZA · assi locali\nNRd = {r.N:0.00} kN\nMx,Rd = {r.Mx:0.00} kNm\nMy,Rd = {r.My:0.00} kNm\n" + ResponseSummary(selectedCheck.Response, "STATO AL PUNTO RESISTENTE");
             var vertices = panel.ThreeD ? meshes.GetValueOrDefault(panel.Key)?.Vertices.AsEnumerable() : checker2D.GetValueOrDefault(panel.Key)?.Segments.SelectMany(s => new[] { s.A, s.B });
             if (vertices?.ToArray() is { Length: > 0 } extrema)

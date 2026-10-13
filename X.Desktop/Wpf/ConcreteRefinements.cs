@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using Anthea.Application.Concrete;
+using System.Globalization;
 using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,7 +11,7 @@ internal sealed partial class ConcreteWorkspace
 {
     private sealed class DomainLabelConverter : IValueConverter
     {
-        public object Convert(object value, Type type, object parameter, CultureInfo culture) => SectionWorkspace.Label(value?.ToString() ?? "");
+        public object Convert(object value, Type type, object parameter, CultureInfo culture) => ConcreteEditor.Label(value?.ToString() ?? "");
         public object ConvertBack(object value, Type type, object parameter, CultureInfo culture) => Binding.DoNothing;
     }
     private readonly List<FrameworkElement> tendonOnlyControls = [];
@@ -20,13 +21,13 @@ internal sealed partial class ConcreteWorkspace
         foreach (var panel in stressPanels.Values)
             foreach (string key in new[] { "n_trefoli", "phi_trefoli", "__ep_ref" }) panel.Options.ShowField(key, present);
         foreach (var control in tendonOnlyControls) control.Visibility = present ? Visibility.Visible : Visibility.Collapsed;
-        if (coefficients is not null) foreach (var (key, _) in ConcreteStandards.Coefficients.Where(c => c.Key.Contains("Prestress"))) coefficients.ShowField(key, present);
+        if (coefficients is not null) foreach (var (key, _) in ConcreteEditor.Coefficients.Where(c => c.Key.Contains("Prestress"))) coefficients.ShowField(key, present);
     }
     private void SynchronizeSharedSle(string source)
     {
         using var notifications = JsonRow.DeferNotifications(actions.Values.SelectMany(r => r));
         var from = settings["sle"]![source]!;
-        foreach (string field in SectionWorkspace.SharedSleFields)
+        foreach (string field in ConcreteEditor.SharedSleFields)
         {
             settings["sle_comuni"]![field] = from[field]?.DeepClone();
             foreach (var (key, panel) in stressPanels)
@@ -95,7 +96,7 @@ internal sealed partial class ConcreteWorkspace
             {
                 try
                 {
-                    form.Commit(); var values = keys.ToDictionary(k => k, k => SectionWorkspace.Number(draft.S(k), k)); double zoom = SectionWorkspace.Number(draft.S("zoom"), "Zoom") / 100;
+                    form.Commit(); var values = keys.ToDictionary(k => k, k => ConcreteEditor.Number(draft.S(k), k)); double zoom = ConcreteEditor.Number(draft.S("zoom"), "Zoom") / 100;
                     if (values.Values.Any(v => v < .25 || v > 4) || zoom < .1 || zoom > 20) throw new ArgumentException("Fattori ammessi 0,25–4; zoom 10–2000%.");
                     foreach (var (key, value) in values) panel.Options[key] = value;
                     panel.Options["fit_azioni"] = draft.S("fit_azioni") == "Sì"; Apply();

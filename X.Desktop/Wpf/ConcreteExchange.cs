@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using System.Globalization;
 using System.IO;
 using System.Text.Json.Nodes;
@@ -89,7 +90,7 @@ internal sealed partial class ConcreteWorkspace
             for (int c = 0; c < width; c++)
             {
                 if (startColumn + c == 0 && string.IsNullOrWhiteSpace(matrix[r][c])) throw new ArgumentException($"Riga {r + 1}: nome mancante.");
-                if (startColumn + c > 0) SectionWorkspace.Number(matrix[r][c], $"Riga {r + 1}, {keys[startColumn + c]}");
+                if (startColumn + c > 0) ConcreteEditor.Number(matrix[r][c], $"Riga {r + 1}, {keys[startColumn + c]}");
             }
         grid.Commit();
         var collection = family == "Taglio" ? shearGrid!.Rows : actions[family];
@@ -134,7 +135,7 @@ internal sealed partial class ConcreteWorkspace
             if (new FileInfo(path).Length > 20_000_000) throw new ArgumentException("File troppo grande: massimo 20 MB.");
             var import = SectionActionsExcel.Read(File.ReadAllBytes(path));
             if (import.Rows.Count == 0) { status.Text = "Il foglio Azioni è vuoto: nessuna modifica."; return; }
-            string summary = string.Join("\n", import.Rows.GroupBy(r => r.Family).Select(g => (g.Key == "Taglio" ? g.Key : SectionWorkspace.Label(g.Key)) + ": " + g.Count() + " combinazioni"));
+            string summary = string.Join("\n", import.Rows.GroupBy(r => r.Family).Select(g => (g.Key == "Taglio" ? g.Key : ConcreteEditor.Label(g.Key)) + ": " + g.Count() + " combinazioni"));
             string formulas = import.FormulaCells > 0 ? $"\n\n{import.FormulaCells} formule: si importano i valori memorizzati nel file. Confermare solo se il file è stato ricalcolato e salvato in Excel." : "";
             var choice = MessageBox.Show(Window.GetWindow(this), summary + formulas + "\n\nSì = sostituisci le combinazioni delle sole famiglie elencate.\nNo = aggiungi alle combinazioni presenti.\nAnnulla = nessuna modifica.\n\nN negativo a compressione; kN e kNm. Nessun cambio automatico di segno o unità.", "Importazione sollecitazioni", MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
             if (choice == MessageBoxResult.Cancel) return;
@@ -158,7 +159,7 @@ internal sealed partial class ConcreteWorkspace
     {
         foreach (var (key, rows) in actions) foreach (var row in rows) { var p = ReadAction(row); yield return new(key, row.Values.S("nome"), p.N, p.Mx, p.My, null, null); }
         if (shearGrid is not null) foreach (var row in shearGrid.Rows)
-            yield return new("Taglio", row.Values.S("nome"), SectionWorkspace.Number(row.Values.S("N"), "N taglio"), SectionWorkspace.Number(row.Values.S("Mx", "0"), "Mx"), SectionWorkspace.Number(row.Values.S("My", "0"), "My"), SectionWorkspace.Number(row.Values.S("Vx"), "Vx"), SectionWorkspace.Number(row.Values.S("Vy"), "Vy"),SectionWorkspace.Number(row.Values.S("T","0"),"T"));
+            yield return new("Taglio", row.Values.S("nome"), ConcreteEditor.Number(row.Values.S("N"), "N taglio"), ConcreteEditor.Number(row.Values.S("Mx", "0"), "Mx"), ConcreteEditor.Number(row.Values.S("My", "0"), "My"), ConcreteEditor.Number(row.Values.S("Vx"), "Vx"), ConcreteEditor.Number(row.Values.S("Vy"), "Vy"),ConcreteEditor.Number(row.Values.S("T","0"),"T"));
     }
     private void ApplyImport(SectionActionsExcel.Import import, bool replace)
     {

@@ -1,3 +1,4 @@
+using Anthea.Application.Concrete;
 using Anthea.Application.Materials;
 using System.Globalization;
 using System.Text.Json.Nodes;
@@ -15,14 +16,14 @@ internal sealed partial class ConcreteWorkspace
     private static string Exact(double value) => value.ToString("R", CultureInfo.InvariantCulture);
     private JsonRow TendonRow(JsonObject values)
     {
-        if (!values.ContainsKey("diametro")) values["diametro"] = values.D("area") > 0 ? Exact(ReinforcementGeometry.EquivalentDiameter(values.D("area"))) : "";
+        if (!values.ContainsKey("diametro")) values["diametro"] = values.D("area") > 0 ? Exact(ConcreteEditor.ReinforcementDiameter(values.D("area"))) : "";
         JsonRow? row = null;
         row = new JsonRow(values, field =>
         {
             if (field is "area" or "diametro")
             {
                 if (double.TryParse(row!.Values.S(field).Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double number) && double.IsFinite(number) && number > 0)
-                    row.Output(field == "area" ? "diametro" : "area", Exact(field == "area" ? ReinforcementGeometry.EquivalentDiameter(number) : ReinforcementGeometry.Area(number)));
+                    row.Output(field == "area" ? "diametro" : "area", Exact(field == "area" ? ConcreteEditor.ReinforcementDiameter(number) : ConcreteEditor.ReinforcementArea(number)));
                 else row.Output(field == "area" ? "diametro" : "area", "");
             }
             if (field == "materiale")
@@ -54,7 +55,7 @@ internal sealed partial class ConcreteWorkspace
             ((DataGridComboBoxColumn)tendons.Columns.First(c => c.Header?.ToString() == "Materiale")).ItemsSource = materials.Select(m => m.S("nome")).Concat(tendons.Rows.Select(r => r.Values.S("materiale"))).Distinct().ToArray();
         };
         reloadTendonMaterials();
-        var values = J.Obj(("numero", "1"), ("diametro", Exact(ReinforcementGeometry.EquivalentDiameter(150))), ("x", "0"), ("y", "0"), ("sigma0", "1000"));
+        var values = J.Obj(("numero", "1"), ("diametro", Exact(ConcreteEditor.ReinforcementDiameter(150))), ("x", "0"), ("y", "0"), ("sigma0", "1000"));
         var form = new InputForm(values, [new("numero", "Numero trefoli nel cavo"), new("diametro", "Ø equivalente singolo trefolo", "mm"), new("x", "x cavo", "mm"), new("y", "y cavo", "mm"), new("sigma0", "Tensione iniziale σp0", "MPa")], _ => { }, true);
         var message = Ui.Text("", 11);
         return Ui.Stack(Notice("In GPC Engine un cavo di n trefoli è modellato con Øeq = Ø√n e area totale n·πØ²/4. Usare il diametro equivalente all’area metallica, non quello nominale esterno. Materiale e σp0 sono distinti per ogni cavo."),
@@ -66,11 +67,11 @@ internal sealed partial class ConcreteWorkspace
                     if (choice.SelectedIndex < 0) throw new ArgumentException("Creare e selezionare un materiale trefolo nel gruppo Materiali.");
                     double n = values.Required("numero", strict: true), d = values.Required("diametro", strict: true);
                     if (n != Math.Truncate(n) || n > 1000) throw new ArgumentException("Numero trefoli: intero fra 1 e 1000.");
-                    double x = SectionWorkspace.Number(values.S("x"), "x"), y = SectionWorkspace.Number(values.S("y"), "y"), sigma = values.Required("sigma0");
+                    double x = ConcreteEditor.Number(values.S("x"), "x"), y = ConcreteEditor.Number(values.S("y"), "y"), sigma = values.Required("sigma0");
                     var material = materials[choice.SelectedIndex];
                     if (sigma >= material.Required("fpk", strict: true)) throw new ArgumentException("σp0 deve essere inferiore a fpk.");
                     int index = 1; while (tendons.Rows.Any(r => r.Values.S("id") == "T" + index.ToString("D2"))) index++;
-                    var row = TendonRow(J.Obj(("id", "T" + index.ToString("D2")), ("x", Exact(x)), ("y", Exact(y)), ("area", Exact(ReinforcementGeometry.Area(d, (int)n))), ("sigma0", Exact(sigma))));
+                    var row = TendonRow(J.Obj(("id", "T" + index.ToString("D2")), ("x", Exact(x)), ("y", Exact(y)), ("area", Exact(ConcreteEditor.ReinforcementArea(d, (int)n))), ("sigma0", Exact(sigma))));
                     ApplyTendonMaterial(row, material); tendons.Rows.Add(row); tendons.SelectedItem = row; TendonsChanged(); message.Text = "";
                 }
                 catch (ArgumentException ex) { message.Text = ex.Message; }

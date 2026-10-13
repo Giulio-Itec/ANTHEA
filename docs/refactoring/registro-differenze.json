@@ -3662,6 +3662,29 @@
         "supporto/artefatti/refactoring/f3/bridge-diffs",
         "supporto/artefatti/ci/20261013-090512-f3-bridge-contracts-owned"
       ]
+    },
+    {
+      "id": "F3-08",
+      "data": "2026-10-13",
+      "fase": "F3.7b.14",
+      "titolo": "Dimensioni delle finestre nelle catture CA",
+      "famiglia": "strumentazione dei test",
+      "categoria": "volatile",
+      "stato": "corretto",
+      "descrizione": "Sette delle 52 immagini identiche; le altre 45 hanno dimensioni diverse fra le due corse (viewport 1904x993 rispetto a 1586x953 e finestre secondarie con differenza di due pixel). Il confronto delle finestre non è usato per attestare equivalenza grafica. Nessun ricampionamento, maschera, tolleranza o atteso sostituito; confronto dei dati grafici e dei report mantenuto nel banco F3.",
+      "codice": [
+        "supporto/test/Desktop/ConcreteExtensionsSmokeChecks.cs"
+      ],
+      "test": [
+        "68 nuovi controlli applicativi sui cataloghi e sugli input",
+        "37 capitoli e 458 file F3 equivalenti",
+        "Inventario dimensioni di tutte le 52 catture"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f3/concrete-editor-images.json",
+        "supporto/artefatti/refactoring/f3/concrete-editor-moves.json",
+        "supporto/artefatti/ci/20261013-113848-f3-concrete-editor"
+      ]
     }
   ]
 }
