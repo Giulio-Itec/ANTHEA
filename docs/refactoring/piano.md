@@ -613,3 +613,7 @@ Profili composti riconosciuti esattamente, coefficienti dai servizi GPC e defaul
 ### 14/10 — F4.14c etichette dei risultati
 
 Norma effettiva validata per i risultati dei pali, descrizione esplicita dei coefficienti unitari e segnalazione di provenienza assente nella vista. Filtro di omogeneizzazione composto sul profilo tipizzato. standard-labels-a: 7 PASS, 20 pali/28 tratti/22188 numeri equivalenti. Altre quattro occorrenze eliminate; solo due ripieghi R3 diagnostici conservati. Registro F4-34.
+
+### 14/10 — F4.9 set W definitivo
+
+Model d5e328db e Checker 949b4527 integrati e pushati su master; Release-Set completo: 2953 PASS, soli 17 Steel gia censiti e due prove native Model ignorate. Dodici DLL installate, Design 0.19.0.0, Concrete 0.8.0.0, Composite 1.6.0.0, Geotechnics 0.3.0.0, Model 5.4.0.1. DelaunayMesh identica. Corretto Update-Snapshot per conservare il manifest integrale del treno insieme alle DLL, aggiunto controllo di provenienza senza toccare gli attesi F3. release-w-provenance: 5 PASS. Registro F4-35; collaudo full distribuito ancora da completare.

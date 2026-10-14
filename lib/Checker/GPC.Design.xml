@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GPC.Design</name>
+    </assembly>
+    <members>
+        <member name="T:GPC.Design.Bridges.BeamTrafficEnvelope">
+            <summary>
+            Prismatic Euler–Bernoulli beam. Unit-load influence functions are piecewise cubics.
+            Integrates only the unfavourable UDL regions and extremizes the COMPLETE two-axle tandem analytically.
+            Each ordinate has its own load arrangement; envelope reactions must never be summed as one load case.
+            </summary>
+        </member>
+        <member name="M:GPC.Design.Bridges.BeamTrafficEnvelope.At(System.Int32,System.Double,System.Double)">
+            <param name="span">Zero-based span index.</param><param name="x">Distance from its left support, in metres.</param>
+            <param name="ei">Flexural rigidity in kN m²; deflection is positive downwards, in mm.</param>
+        </member>
+        <member name="M:GPC.Design.Bridges.BridgeConcept.Analyze(System.Double[],System.Double,System.Double,System.Boolean)">
+            <summary>Exact prismatic Euler–Bernoulli beam under one uniform load on all spans; no moving-load envelope.</summary>
+        </member>
+        <member name="M:GPC.Design.Bridges.BridgeConcept.Reprice(GPC.Design.Bridges.BridgeConcept.Result,GPC.Design.Bridges.BridgeAssumptions,GPC.Design.Costs.ResolvedPriceSnapshot)">
+            <summary>Pure repricing of measured work: no structural recalculation or mutation.</summary>
+        </member>
+        <member name="M:GPC.Design.Bridges.BridgeConcept.Optimize(GPC.Design.Bridges.BridgeModel,GPC.Design.Bridges.BridgeConcept.OptimizationOptions,System.Threading.CancellationToken,System.IProgress{GPC.Design.Bridges.BridgeConcept.OptimizationProgress})">
+            <summary>Deterministic discrete search, no UI and no mutations of the caller's data.</summary>
+        </member>
+        <member name="M:GPC.Design.Bridges.BridgeConcept.OptimizationRange(System.Double,System.Double,System.Double)">
+            <summary>Inclusive percentage grid, with the upper endpoint included even when the step does not divide the interval.</summary>
+        </member>
+        <member name="M:GPC.Design.Bridges.BridgeConcept.TechnicalSchedule(GPC.Design.Bridges.BridgeModel,GPC.Design.Bridges.BridgeConcept.Result)">
+            <summary>Adopted dimensions of the calculation, independent of formatting and UI.</summary>
+        </member>
+        <member name="T:GPC.Design.Bridges.BridgeInput">
+            <summary>Immutable, explicit SI inputs. Zero dimensions request the documented automatic rule; no archive defaults are inferred.</summary>
+        </member>
+        <member name="P:GPC.Design.Bridges.BridgeInput.TrafficModel">
+            <summary>Defaults only for source compatibility; archive adapters must explicitly identify old documents.</summary>
+        </member>
+        <member name="P:GPC.Design.Bridges.BridgeModel.Prices">
+            <summary>Null preserves the rates and arithmetic of a legacy calculation. Otherwise this owned snapshot governs every candidate.</summary>
+        </member>
+        <member name="M:GPC.Design.Bridges.PlaneTraffic.LocalSupportForce(System.Double)">
+            <summary>Interior support between two simply supported deck panels of equal length.</summary>
+        </member>
+        <member name="M:GPC.Design.Bridges.RoadTraffic.OuterPlane(System.Double,GPC.Design.Bridges.CarriagewayStrip[])">
+            <summary>Lever distribution to the left outer structural plane. Lanes packed towards that plane;
+            adverse lane numbering for axle and uniform effects. Used only for local conceptual cable/member sizing.</summary>
+        </member>
+        <member name="M:GPC.Design.Bridges.RoadTraffic.Ntc2018(System.Double[])">
+            <summary>Global longitudinal action. Numbering is common to carriageways divided by a fixed barrier.</summary>
+        </member>
+        <member name="T:GPC.Design.Costs.CostQuantity">
+            <summary>A measured quantity. InclusionOwner is the id of the specific enclosing work, never a global material exemption.</summary>
+        </member>
+        <member name="M:GPC.Design.Costs.CostQuantity.#ctor(System.String,System.String,System.Decimal,GPC.Design.Costs.QuantityUnit,System.String)">
+            <summary>A measured quantity. InclusionOwner is the id of the specific enclosing work, never a global material exemption.</summary>
+        </member>
+        <member name="T:GPC.Design.Costs.ResolvedPriceSnapshot">
+            <summary>Owned immutable resolved rates; no catalogue, document, I/O or UI dependency.</summary>
+        </member>
+        <member name="M:GPC.Design.Costs.CostEstimator.ConvertPrice(System.Decimal,GPC.Design.Costs.QuantityUnit,GPC.Design.Costs.QuantityUnit)">
+            <summary>Conversion restricted to compatible dimensions. Rates are expressed per rate unit.</summary>
+        </member>
+        <member name="T:GPC.Design.Piles.PileSegmentDesign">
+            <summary>Discrete segment design over the existing Concrete engines. Actions are concomitant kN/kNm at depths in m;
+            layout dimensions are mm. Each factory call transfers a new, exclusive section/solver to the search.
+            Geometrical ordering is PileReinforcement.Layouts; no assumption of monotone resistance is made.</summary>
+        </member>
+        <member name="T:GPC.Design.Sections.SectionDesignDemand">
+            <summary>Numerical demand projections for the design coordinator. Limits are resolved by the existing checkers.
+            Units must be consistent within a ratio. Signed axial force and concrete stress are tension-positive.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.SectionDesignDemand.MaximumCompression(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>Empty action sets give the geometric detailing minimum only, as in the captured coordinator.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.SectionDesignDemand.Ratio(System.Double,System.Nullable{System.Double})">
+            <summary>Missing/nonpositive capacity or invalid demand cannot certify a candidate.</summary>
+        </member>
+        <member name="T:GPC.Design.Sections.SectionDesignQuantities">
+            <summary>Section search quantities (mm, mm², kg/m), scoring and longitudinal torsion allocation.
+            Uses Model's canonical steel density. Transverse take-off is a preliminary geometric estimate.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.SectionDesignCheck.FromRatio(System.String,System.String,System.String,System.Nullable{System.Double},System.Double,System.String)">
+            <summary>Search target with the captured 1e-10 numerical tolerance. Missing/nonfinite/negative ratios fail explicitly.</summary>
+        </member>
+        <member name="T:GPC.Design.Sections.SectionDesignSearch">
+            <summary>Two-stage deterministic section search. The caller adapts a private document per candidate into existing GPC checks.
+            Native resistance is evaluated once per complete longitudinal key and reused only for the corresponding layouts.</summary>
+        </member>
+        <member name="T:GPC.Design.Sections.SectionDesignSelection">
+            <summary>Deterministic ranking, budget sampling and secondary-mat catalogue policy for section design.</summary>
+        </member>
+        <member name="T:GPC.Design.Sections.ShearGeometryProposal">
+            <summary>Geometric suggestions in mm and mm²; no anchorage or detailing certification.
+            Extra face indices identify layers explicitly assigned by the editor.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.GravityWallMaterial">
+            <summary>Material projection used by the coordinator; constituent formulae remain in their checkers.</summary>
+        </member>
+        <member name="P:GPC.Design.Walls.GravityWallMaterial.EffectiveModulus">
+            <summary>MPa; zero means unavailable, only for the assigned-strength model which never uses stiffness.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.GravityWallMaterial.Assigned(System.Double,System.Double,System.Double)">
+            <summary>Assigned strengths without an elastic modulus. No stiffness, stability or curvature is inferred.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.GravitySection">
+            <summary>Per unit wall width: position/thickness in mm, N and V in N/mm, M in Nmm/mm; N positive in compression.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.GravitySection.#ctor(GPC.Checkers.Concrete.Walls.WallMember,System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>Per unit wall width: position/thickness in mm, N and V in N/mm, M in Nmm/mm; N positive in compression.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.GravityWallAnalysis">
+            <summary>Limited gravity-wall orchestration inherited from ANTHEA. mm/N/MPa; no JSON or UI dependency.
+            Elastic magnification and compressed block apply only to stable, uncracked cantilevers. Assigned strengths retain their explicit independent policy.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallBarScheduling">
+            <summary>Preliminary take-off of the entered reinforcement, not a certification of a fabrication drawing.
+            Panel, stock, cut lengths and shape coordinates in m; cover, diameters, spacing, laps and tie cut input in mm.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallDetailGeometry">
+            <summary>Wall dimensions in metres. Reinforcement/detail lengths below are in mm unless stated otherwise.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallDetailGeometry.#ctor(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>Wall dimensions in metres. Reinforcement/detail lengths below are in mm unless stated otherwise.</summary>
+        </member>
+        <member name="P:GPC.Design.Walls.WallRebarLayout.LowerHeight">
+            <summary>Metres from the top of the slab.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallDetailMaterial">
+            <summary>Positive design strengths in MPa, obtained from the selected material/standard services.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallDetailMaterial.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>Positive design strengths in MPa, obtained from the selected material/standard services.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallBarPoint">
+            <summary>Coordinates in metres, at the centre line of the bar.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallBarPoint.#ctor(System.Double,System.Double)">
+            <summary>Coordinates in metres, at the centre line of the bar.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallDetailCheck">
+            <summary>Absolute demand and historical signed capacity (e.g. impossible free space). A nonpositive
+            capacity with positive demand is never satisfied; negative capacity retains unavailable legacy ratio.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallDetailCheck.#ctor(GPC.Design.Walls.WallDetailRule,System.Nullable{GPC.Design.Walls.WallRebarZone},System.Nullable{GPC.Design.Walls.WallRebarFace},System.Double,System.Double,System.String)">
+            <summary>Absolute demand and historical signed capacity (e.g. impossible free space). A nonpositive
+            capacity with positive demand is never satisfied; negative capacity retains unavailable legacy ratio.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallRebarQuantities">
+            <summary>Preliminary main reinforcement mass per metre of wall. The detailed take-off remains
+            WallReinforcementDetailing/WallBarScheduling; this is the existing undetailed-strip estimate.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallDesignAction">
+            <summary>Concomitant section moment in Nmm and thickness in mm, for the one-metre wall strip.</summary>
+        </member>
+        <member name="M:GPC.Design.Walls.WallDesignAction.#ctor(System.Double,System.Double)">
+            <summary>Concomitant section moment in Nmm and thickness in mm, for the one-metre wall strip.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallReinforcementDesign">
+            <summary>Discrete symmetric reinforcement design. Section checks are supplied by the existing Concrete wall session;
+            the delegate must evaluate a fresh candidate and must not change the caller's document.</summary>
+        </member>
+        <member name="T:GPC.Design.Walls.WallReinforcementDetailing">
+            <summary>Existing NTC retaining-wall detail policy, coordinated through shared Concrete services.
+            Geometry/path/length in m; cover, spacing, diameters, anchor and lap lengths in mm. No shop-detail certification.</summary>
+        </member>
+    </members>
+</doc>

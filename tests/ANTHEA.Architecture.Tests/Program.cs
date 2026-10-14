@@ -45,7 +45,7 @@ try
     var baseline = JsonSerializer.Deserialize<ArchitectureBaseline>(File.ReadAllText(Path.Combine(root, "tests/fixtures/f3/architecture.json")))!;
     using var fixtureManifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "tests/fixtures/f3/manifest.json")));
     string manifestHash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(Path.Combine(root, "lib/Checker/manifest.json"))));
-    Check(manifestHash.Equals(fixtureManifest.RootElement.GetProperty("library_manifest_sha256").GetString(), StringComparison.OrdinalIgnoreCase), "Set GPC cambiato durante F3: il riferimento va riesaminato prima degli spostamenti");
+    F4ReleaseProvenance.Verify(root, manifestHash, fixtureManifest.RootElement.GetProperty("library_manifest_sha256").GetString()!, Check);
     var desktopProject = XDocument.Load(Path.Combine(root, "X.Desktop/X.Desktop.csproj"));
     Check(desktopProject.Descendants("GpcRuntimeOnly").Any(e => e.Value == "true" && e.Attribute("Condition")?.Value == "'$(Configuration)' != 'UiTests'"), "Desktop deve distribuire GPC senza riferimenti diretti di compilazione");
     Check(!desktopProject.Descendants("ProjectReference").Any(e => (e.Attribute("Include")?.Value ?? "").Contains("X.Calculations")), "Riferimento di progetto Desktop al motore legacy");

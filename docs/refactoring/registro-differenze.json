@@ -4514,6 +4514,33 @@
       "evidenze": [
         "supporto/artefatti/refactoring/f4/standard-labels-a.log"
       ]
+    },
+    {
+      "id": "F4-35",
+      "data": "2026-10-14",
+      "fase": "F4.9",
+      "titolo": "Set W e provenienza completa installata insieme alle DLL",
+      "famiglia": "Rilascio librerie",
+      "categoria": "difetto-legacy",
+      "stato": "attuato",
+      "descrizione": "Update-Snapshot copiava i binari e il manifest del sottoinsieme ma lasciava release-set.json obsoleto. Ora conserva anche il manifest integrale originale, byte per byte. Il controllo architetturale verifica transizione dal riferimento F3 immutato, suite, impronte e commit pubblicati. Set W da master pushati, 12 DLL distribuite incluse Design/Masonry; DelaunayMesh identica. Nessun atteso numerico modificato.",
+      "test": [
+        "Release-Set: 2953 PASS, 17 fallimenti Steel gia censiti, due prove native Model ignorate",
+        "release-w-provenance: 5 PASS, architettura e Application",
+        "SHA del manifest integrale identico al rilascio W; API pubbliche compatibili"
+      ],
+      "codice": [
+        "tools/libs/Update-Snapshot.ps1",
+        "tests/ANTHEA.Architecture.Tests/F4ReleaseProvenance.cs",
+        "lib/Checker/manifest.json",
+        "lib/Checker/release-set.json"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/release-set-stale-before.json",
+        "supporto/artefatti/refactoring/f4/release-w.log",
+        "supporto/artefatti/refactoring/f4/release-w-provenance.log",
+        "tests/fixtures/f4/library-release.json"
+      ]
     }
   ]
 }

@@ -214,6 +214,9 @@
         <member name="M:GPC.Checkers.Geotechnics.Piles.AxialPileCapacity.Calculate(GPC.Checkers.Geotechnics.Piles.Micropile,System.Collections.Generic.IReadOnlyList{GPC.Checkers.Geotechnics.Piles.MicropileSurvey},GPC.Checkers.Geotechnics.Piles.PileResistanceFactors,GPC.Checkers.Geotechnics.Piles.PileGroupEfficiency)">
             <summary>Axial capacity of a grouted micropile along its axis (Bustamante-Doix); the profiles give the vertical thicknesses, s = z / cos θ.</summary>
         </member>
+        <member name="M:GPC.Checkers.Geotechnics.Piles.AxialPileCapacity.CalculateFromDepths(GPC.Checkers.Geotechnics.Piles.Micropile,System.Collections.Generic.IReadOnlyList{GPC.Checkers.Geotechnics.Piles.MicropileDepthSurvey},GPC.Checkers.Geotechnics.Piles.PileResistanceFactors,GPC.Checkers.Geotechnics.Piles.PileGroupEfficiency)">
+            <summary>Same micropile calculation from vertical thicknesses and Bustamante–Doix parameters only.</summary>
+        </member>
         <member name="M:GPC.Checkers.Geotechnics.Piles.AxialPileCapacity.CompensatedSum(System.Collections.Generic.IEnumerable{System.Double})">
             <summary>Compensated (Neumaier) sum, as the legacy calculation.</summary>
         </member>
@@ -532,6 +535,15 @@
         </member>
         <member name="P:GPC.Checkers.Geotechnics.Piles.LateralPileResult.Experimental">
             <summary>Stratified extension or multilayer Broms: experimental models of ANTHEA, not the original Broms formulas.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Piles.MicropileDepthLayer">
+            <summary>Vertical layer thickness in mm and the Bustamante–Doix parameters actually needed by a micropile.</summary>
+        </member>
+        <member name="T:GPC.Checkers.Geotechnics.Piles.MicropileDepthSurvey">
+            <summary>Micropile survey without invented mechanical soil properties. Layers start at the pile head.</summary>
+        </member>
+        <member name="M:GPC.Checkers.Geotechnics.Piles.MicropileDepthSurvey.AlongAxis(System.Double)">
+            <summary>Convert vertical depths to axis coordinates s = z/cos(theta), with theta in radians from the vertical.</summary>
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Piles.MicropileWeight">
             <summary>Weight per unit length of a grouted micropile (N/mm): steel tube, grout in the rest of the borehole and their sum; areas mm².</summary>
@@ -1201,6 +1213,15 @@
         </member>
         <member name="T:GPC.Checkers.Geotechnics.Walls.WallCheck">
             <summary>A check: demand and design resistance (N/mm, N·mm/mm or mm), ratio |demand|/resistance (null when unavailable), status and message.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallCheck.Outcome">
+            <summary>Common engineering outcome. Zero resistance with nonzero demand and loss of equilibrium are failures, not missing checks.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallCheck.Execution">
+            <summary>Execution of this verification, distinct from the wall analysis that produced its actions.</summary>
+        </member>
+        <member name="P:GPC.Checkers.Geotechnics.Walls.WallCheck.Data">
+            <summary>Unavailable or nonfinite check data cannot certify a result. The existing message retains the detailed reason.</summary>
         </member>
         <member name="M:GPC.Checkers.Geotechnics.Walls.WallCheck.Of(GPC.Checkers.Geotechnics.Walls.WallCheckKind,System.String,System.Double,System.Nullable{System.Double},System.String)">
             <summary>

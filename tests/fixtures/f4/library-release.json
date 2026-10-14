@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "phase": "F4",
+  "release": "W",
+  "previous_manifest_sha256": "64dedf03c1df331cfaca79d044ed04c0975bccec0b53d23eac3f02d55adb14e0",
+  "library_manifest_sha256": "8e4bb5c940110ef2fddac9f717572a53d85a7681c127a2a6865ee87c1421bcc6",
+  "release_set_sha256": "30fe6f2592c826e1665b419ade514804bd58595116af7221c2a8279b898dee30",
+  "note": "Provenance transition only. F3 numerical inputs, expected files and hashes remain frozen."
+}

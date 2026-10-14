@@ -117,6 +117,7 @@ function Install-Staging($assemblies, $docs) {
     foreach ($d in $docs) { Copy-Item -LiteralPath (Join-Path $Staging $d) -Destination $Lib -Force }
     Copy-Item -LiteralPath (Join-Path $Staging 'manifest.json') -Destination $Lib -Force
     Copy-Item -LiteralPath (Join-Path $Staging 'manifest.props') -Destination $Lib -Force
+    if ($ReleaseSet) { Copy-Item -LiteralPath (Join-Path $Staging 'release-set.json') -Destination $Lib -Force }
     Write-Output "Installato in $Lib. Aggiornare lib\Checker\README.md e lanciare build\ci.ps1 -Profile full."
 }
 
@@ -148,6 +149,8 @@ if ($ReleaseSet) {
         nuget = @(@{ name = 'MathNet.Numerics'; version = '5.0.0' }); assemblies = @($assemblies) }
     [IO.File]::WriteAllText((Join-Path $Staging 'manifest.json'), ($manifest | ConvertTo-Json -Depth 5), (New-Object Text.UTF8Encoding($false)))
     & (Join-Path $PSScriptRoot 'Write-ManifestProps.ps1') -LibDir $Staging | Out-Null
+    # Keep the complete, original test and source provenance alongside the installed subset.
+    Copy-Item -LiteralPath (Join-Path $setDir 'release-set.json') -Destination $Staging -Force
     Write-Output "Snapshot dal set $setDir in $Staging"
     $assemblies | ForEach-Object { "{0,-32} {1,-10} {2} {3}@{4}" -f $_.file, $_.assemblyVersion, $_.sha256.Substring(0, 12), $_.repository, $_.commit.Substring(0, 8) }
     if ($Install) { Install-Staging $assemblies $docs }
