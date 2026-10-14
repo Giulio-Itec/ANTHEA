@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 6 aggiornata il 14 ottobre 2026 — revisione documentale 43
+Edizione 6 aggiornata il 14 ottobre 2026 — revisione documentale 44
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -355,11 +355,15 @@ Una configurazione calcolabile può essere fuori dal campo usuale della famiglia
 
 Da Progetto apri Prezzario e premi Gestisci prezzario. La finestra conserva una bozza: il documento cambia soltanto con Applica prezzario. Assegna nome ed edizione al catalogo; gli importi sono in EUR, IVA esclusa. Nella scheda Voci del prezzario puoi aggiungere, modificare ed eliminare voci, oppure importare CSV, XLSX o un catalogo JSON esportato da ANTHEA.
 
-Per Excel usa il foglio Prezzario e cinque colonne, in quest’ordine: Codice, Descrizione, Unita, Prezzo, Inclusioni. Le medesime intestazioni valgono per CSV; Modello CSV prepara il tracciato. Il codice deve essere univoco, la descrizione compilata e il prezzo non negativo. Sono ammesse m, m², m³, kg, t e cad. Scrivi i numeri senza separatori delle migliaia: 1660 oppure 1660,50. Una cella prezzo vuota significa dato mancante; zero è un importo assegnato consapevolmente.
+Per Excel usa il foglio Prezzario e cinque colonne, in quest’ordine: Codice, Descrizione, Unita, Prezzo, Inclusioni. Le medesime intestazioni valgono per CSV; Modello CSV prepara il tracciato. Il codice deve essere univoco, la descrizione compilata e il prezzo non negativo. Sono ammesse m, m², m³, kg, t, cad e h (ore, per manodopera e noli delle analisi composte). Scrivi i numeri senza separatori delle migliaia: 1660 oppure 1660,50. Una cella prezzo vuota significa dato mancante; zero è un importo assegnato consapevolmente.
 
 In Associazioni e anteprima collega ogni lavorazione al codice del catalogo. Le colonne Prima e Dopo mostrano il prezzo adottato nella stessa unità della lavorazione. Puoi assegnare un Prezzo personalizzato, accompagnato dal Motivo personalizzazione; lasciandolo vuoto si usa la voce associata. Se importi un altro catalogo, scegli prima se mantenere questi prezzi: l’opzione non è attiva per impostazione iniziale. Verifica sempre le associazioni, perché lo stesso codice può avere un significato diverso nel nuovo prezzario.
 
 Inclusioni contiene codici di lavorazioni separati da |. Attualmente è supportato rebar nelle tariffe dei pali pile_1 e pile_15: l’armatura del relativo palo non viene addebitata due volte. L’inclusione non elimina le armature dell’impalcato o delle altre parti. Le inclusioni non rappresentate dal computo vengono rifiutate; non dichiarare montaggio o altre prestazioni come comprese se il modello non le distingue.
+
+Nella scheda Analisi composte un prezzo si ricava dai suoi componenti. Per ogni analisi indica codice, descrizione, unità e componenti nella forma codice = quantità, separati da punto e virgola: per un metro cubo di getto, per esempio, CLS = 1,05; MO = 0,8; POMPA = 0,1. Le quantità sono nell'unità del componente; un componente può essere una voce del prezzario o un'altra analisi. Selezionando un'analisi, sotto la tabella compaiono il totale dei componenti, le spese generali, l'utile d'impresa e il prezzo unitario, come voci distinte del totale.
+
+Spese generali e utile d'impresa in alto valgono per tutto il prezzario; compilando le colonne dell'analisi li sostituisci solo per quella riga. Alla prima analisi ANTHEA propone 15% e 10%: sono valori da confermare. Il codice di un'analisi si associa alle lavorazioni come una voce. Componenti mancanti o senza prezzo, analisi che si richiamano a vicenda e percentuali fuori da 0–100 impediscono di applicare il prezzario; l'esito in basso indica la causa.
 
 L’anteprima verifica prezzi, unità e completezza per la geometria corrente. Un’associazione non risolta può non intervenire sul ponte corrente ma escludere una diversa alternativa: controlla anche l’avviso sul catalogo complessivo. Applica prezzario registra una revisione e rivaluta il costo a quantità costanti. La precedente ricerca deve essere rieseguita, perché può cambiare la graduatoria. Puoi scegliere Rivaluta anche l’alternativa A con questo prezzario; altrimenti A conserva la propria base economica, da leggere prima del confronto.
 
@@ -528,7 +532,7 @@ Prima di scegliere definitivamente verifica che la configurazione sia fisicament
 
 ### Conservare dati modificabili
 
-Usare il formato proposto dal modulo per il foglio singolo e .programma per il progetto. I formati dei fogli possono variare per modulo; Bridge Design usa l'archivio .anthea. Gli archivi mantengono input e impostazioni necessarie, mentre CSV, PNG e Word sono esportazioni destinate a lettura, controllo o presentazione.
+Usare il formato proposto dal modulo per il foglio singolo e .programma per il progetto. I formati dei fogli possono variare per modulo; Bridge Design usa l'archivio .anthea. Gli archivi mantengono input e impostazioni necessarie, mentre CSV, PNG, Word e PDF sono esportazioni destinate a lettura, controllo o presentazione.
 
 Utilizzare Salva con nome prima di una variante che si desidera mantenere indipendente. Per la storia interna di un progetto usare le revisioni. I file di progetto con revisioni utilizzano un formato aggiornato e richiedono una versione di ANTHEA compatibile; non risalvarli con un eseguibile precedente senza averne verificato il supporto.
 
@@ -537,6 +541,8 @@ Utilizzare Salva con nome prima di una variante che si desidera mantenere indipe
 Il report di un foglio riguarda i dati e i risultati di quel modulo. «Genera report» su progetto o sezione comprende invece i fogli diretti e tutte le sottosezioni, nell'ordine dell'albero. Include indice navigabile, dati comuni, dati specifici, risultati e immagini. I riferimenti degli antenati necessari vengono richiamati anche esportando un solo ramo.
 
 La generazione ricalcola i fogli su copie dei dati. Le schede incomplete restano nel documento con segnalazione; non vengono trasformate in verifiche favorevoli. In presenza di conflitti si può aprire il confronto oppure proseguire conservando le segnalazioni. Prima della consegna leggere sempre le pagine degli avvisi e verificare il ramo e la revisione indicati nel titolo.
+
+Ogni report si salva in Word e in PDF affiancati, con lo stesso nome nella stessa cartella. ANTHEA produce il PDF dallo stesso contenuto del file Word, senza usare Microsoft Word; se il PDF non può essere generato, nessuno dei due file viene scritto. Il file Word resta modificabile, il PDF è la copia da consegnare o archiviare. L'impaginazione del PDF può differire leggermente da quella che Word mostra aprendo il documento.
 
 Un report storico ricalcola i dati della revisione selezionata con il motore della versione in uso. Per la riproducibilità conservare quindi anche versione dell'applicazione, data del report e archivio originario. Lo snapshot dei dati protegge gli input; non contiene una copia autonoma di ogni vecchio motore di calcolo.
 
@@ -953,7 +959,7 @@ Le procedure di creazione, rinomina, duplicazione e revisioni restano nei capito
 
 ### Controllare norma e dati ereditati
 
-La norma selezionata governa i coefficienti iniziali. Cambiarla richiede il controllo dei parametri assegnati e il ricalcolo. Un documento precedente senza norma conserva il profilo storico NTC 2018 con una nota di migrazione; la scelta va verificata. I campi assenti integrati dalla preparazione del documento sono elencati in Valori integrati dal documento precedente. Valori nulli, testi errati e norme sconosciute richiedono invece una correzione.
+La norma selezionata governa i coefficienti iniziali. Cambiarla richiede il controllo dei parametri assegnati e il ricalcolo. Un documento salvato da una versione di ANTHEA che non registrava ancora la norma si apre con NTC 2018, la norma con cui era stato calcolato. Un documento attuale senza norma è incompleto, perché ANTHEA la registra sempre: l'apertura si ferma con un messaggio e occorre ripristinare una copia del documento. I campi assenti integrati dalla preparazione del documento sono elencati in Valori integrati dal documento precedente. Valori nulli, testi errati e norme sconosciute richiedono invece una correzione.
 
 Il report usa i dati e la norma della copia che ha prodotto il risultato. Se la provenienza manca o è incoerente, occorre ricalcolare; cambiare un campo nella scheda non aggiorna retroattivamente un risultato salvato.
 
@@ -1061,7 +1067,7 @@ Nella scheda taglio e torsione impostare staffe, passo, inclinazione e armatura 
 
 La torsione richiede un dettaglio chiuso compatibile e armatura longitudinale disponibile dopo le esigenze di flessione. Non assegnare come disponibile tutta l'armatura senza aver verificato questa condizione. La verifica combinata usa anche un'interazione conservativa fra torsione e i due tagli, esplicitata nel dettaglio.
 
-Nella scheda dettagli costruttivi scegliere il tipo di elemento e completare le informazioni su diametri, passi, sovrapposizioni, ancoraggi e copriferro. «Da completare» non equivale a «Verificato». I controlli automatici riguardano le condizioni esplicitamente rappresentate; ganci, nodi, confinamento e situazioni esecutive speciali possono richiedere valutazioni aggiuntive.
+Nella scheda dettagli costruttivi scegliere il tipo di elemento e completare le informazioni su diametri, passi, sovrapposizioni, ancoraggi e copriferro. Per i minimi di armatura dei pilastri la scheda usa la compressione più gravosa fra tutte le combinazioni del foglio e indica quella che governa. Se governa una combinazione SLE, il valore è segnalato come di esercizio: controllare che le combinazioni SLU e SLV siano complete. «Da completare» non equivale a «Verificato». I controlli automatici riguardano le condizioni esplicitamente rappresentate; ganci, nodi, confinamento e situazioni esecutive speciali possono richiedere valutazioni aggiuntive.
 
 ### Curva momento curvatura e aggiornamento
 
@@ -1093,7 +1099,7 @@ Filtri e ordinamenti delle tabelle di verifica cambiano la vista, non eliminano 
 
 ### Report short della sezione in calcestruzzo armato
 
-Accanto a Report Word, il pulsante Report short esporta il foglio corrente in Word e PDF omonimi, entro due pagine. Attendere il completamento del calcolo automatico. Il comando richiede Microsoft Word installato: lo usa in background per verificare la paginazione e produrre il PDF. Il report completo rimane disponibile dal pulsante precedente.
+Accanto a Report Word, il pulsante Report short esporta il foglio corrente in Word e PDF omonimi, entro due pagine. Attendere il completamento del calcolo automatico. ANTHEA impagina e produce il PDF da sé: Microsoft Word non serve. Il report completo rimane disponibile dal pulsante precedente.
 
 La prima pagina raccoglie geometria, coordinate delle armature o definizione degli anelli regolari, staffe, materiali, coefficienti e opzioni di calcolo. La seconda contiene una combinazione governante per ciascuna verifica: SLU N–Mx–My, SLV N–Mx–My, taglio, tensioni rara, fessurazione frequente, tensioni quasi permanente e fessurazione quasi permanente. Azioni, resistenze o limiti, tasso ed esito sono racchiusi in due tabelle.
 
@@ -1104,6 +1110,8 @@ Il report short non comprende torsione e interazioni, dettagli costruttivi, anco
 ### Leggere asse neutro, mappe e report
 
 La linea dell'asse neutro rappresenta deformazione nulla dello stato selezionato. Nei domini il piano è quello del punto resistente; nelle SLE è quello dell'azione assegnata. Una mappa normalizzata alla resistenza del materiale non sostituisce il controllo dei limiti SLE. Con campo uniforme l'asse può non essere definito; un asse esterno non indica da solo un errore.
+
+Nell'analisi elastica con viscosità il diagramma delle deformazioni mostra le deformazioni reali della sezione, comprese quelle differite: in una barra la deformazione vale σs/Es. Le tensioni sono le stesse del calcolo; la posizione dell'asse neutro non cambia.
 
 Il report raccoglie input, materiali, coefficienti, azioni ed esiti scelti. Gli estremi di tensione/deformazione e i casi governanti possono provenire da combinazioni diverse. Non leggerli come un unico stato. Dati globalmente invalidi o un aggiornamento in corso impediscono l'esportazione dei risultati correnti.
 
@@ -1270,7 +1278,7 @@ La geometria completa rimane in contesto. Questa versione non simula l'attivazio
 
 I modelli con risultati per fase usano il formato modello 2. Le versioni precedenti di ANTHEA lo rifiutano; questa versione continua a leggere i modelli statici nel formato 1. **Solo risultati** controlla anche le tabelle delle fasi: se la copia precedente non contiene i metadati necessari, usa **Tutto** e verifica la revisione. Gli export tabellari privi di un contesto stage esplicito non vengono confusi con casi statici.
 
-La lettura per fasi è stata collaudata sul protocollo e su dati sintetici. Il confronto con un modello reale dotato di stage resta da completare. Per Straus il catalogo è predisposto, ma la lettura nativa dei risultati stage non è ancora attiva.
+La lettura per fasi è stata collaudata sul protocollo e su dati sintetici. Il confronto con un modello reale dotato di stage resta da completare.
 
 ### Aggiornare una copia esistente
 

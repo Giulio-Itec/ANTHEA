@@ -24,12 +24,12 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[2]
-REVISION = '43'
+REVISION = '44'
 # edition data of the revision: date, contents and description in the revision table of the cover
 DATE = '14/10/2026'
 CONTENTS = '14 ottobre 2026'
 CONTENTS_ISO = '2026-10-14'
-REVISION_NOTE = 'PREZZARI TRAFFICO E SERVIZI DI CALCOLO F4'
+REVISION_NOTE = 'REPORT PDF ANALISI DEI PREZZI E FONTI NORMATIVE'
 ART = ROOT / f'supporto/artefatti/guide_anthea_itec_rev{REVISION}'
 OUT = ROOT / 'supporto/documentazione/Guide_ANTHEA'
 TEMPLATE = Path('C:/Users/g.pacini/Desktop/MODELLO-RELAZIONE-ITEC-AA.docx')

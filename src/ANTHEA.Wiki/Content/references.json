@@ -1,28 +1,18 @@
 [
   {
-    "id": "mit-buckling",
-    "title": "MIT OpenCourseWare · Buckling of Beams · 16.001 · 2021",
-    "kind": "Modello teorico"
+    "id": "timoshenko-stability",
+    "title": "S. P. Timoshenko e J. M. Gere · Theory of Elastic Stability",
+    "kind": "Bibliografia del modello"
   },
   {
-    "id": "delft-beam",
-    "title": "TU Delft · Computational Modelling · Euler-Bernoulli beam elements",
-    "kind": "Formulazione FEM"
-  },
-  {
-    "id": "jrc-cracking",
-    "title": "J.C. Walraven · Eurocode 2 · JRC · 2008 · apertura delle fessure",
-    "kind": "Formulazione normativa classica; verificare edizione di progetto"
+    "id": "en1992-1-1-fessurazione",
+    "title": "EN 1992-1-1:2004 §7.3.4 · calcolo dell'ampiezza delle fessure",
+    "kind": "normative"
   },
   {
     "id": "fhwa-foundations",
     "title": "FHWA · GEC No. 6 · Shallow Foundations",
     "kind": "Modello geotecnico; non prescrizione italiana"
-  },
-  {
-    "id": "fhwa-bridge",
-    "title": "FHWA · Bridge Inspector’s Reference Manual e materiali di ispezione",
-    "kind": "Terminologia e componenti"
   },
   {
     "id": "ifc",
@@ -38,21 +28,6 @@
     "id": "circolare2019",
     "title": "Circolare 21 gennaio 2019 n. 7",
     "kind": "normative"
-  },
-  {
-    "id": "mit-dynamics",
-    "title": "MIT · Structural Mechanics · Unit 20 · 2002",
-    "kind": "Riferimento del modello; non certificazione di ANTHEA"
-  },
-  {
-    "id": "delft-frames",
-    "title": "TU Delft · 2D frame analysis",
-    "kind": "Riferimento del modello; non certificazione di ANTHEA"
-  },
-  {
-    "id": "sci-composite",
-    "title": "SCI · Composite construction",
-    "kind": "Riferimento del modello; non certificazione di ANTHEA"
   },
   {
     "id": "fondazioni-portanza",

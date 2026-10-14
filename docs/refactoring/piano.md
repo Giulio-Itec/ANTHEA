@@ -70,7 +70,7 @@ su un ramo dedicato; i precedenti arresti descrivono lo stato storico.
 | F2.10–F2.13 | Parziali o aperte | Accettazione finale delle differenze, residui legacy/duplicati e registri di chiusura. Rimozione del legacy solo dopo equivalenza e accordo; i lock locali necessari non sono da eliminare indiscriminatamente. |
 | STG | Contratto, importazione, filtri e prove sintetiche presenti | STG-4: confronto numerico sul ponte reale e geometria attiva per fase; reazioni stage e lettura nativa Strand7 non disponibili. |
 | SEZ | Dettaglio separato, geometrie condivise 2D/3D e offset supportati | SEZ-3b: sezione variabile per fase, dipendente dalla geometria attiva. |
-| F3 | Chiusa, compresa la correzione F3.4-U5 successiva all’audit | Nessun punto F3 aperto. Il report CA calcola M–χ con tabella e figura; casi non applicabili e annullamento collaudati. X.Core di compatibilità e PDF breve tramite Word restano invece le eccezioni dichiarate in [confini F3](f3-strato-applicativo.md). Audit 14/10: ratifiche dell'utente di F3.1, F3.4, F3.6 e F3.7 aperte; il «report short senza Word» di F3.6 non è fatto. |
+| F3 | Chiusa, compresa la correzione F3.4-U5 successiva all’audit | Nessun punto F3 aperto. Il report CA calcola M–χ con tabella e figura; casi non applicabili e annullamento collaudati. X.Core di compatibilità resta l'eccezione dichiarata in [confini F3](f3-strato-applicativo.md). Audit 14/10: ratifiche dell'utente di F3.1, F3.4, F3.6 e F3.7 aperte; il «report short senza Word» di F3.6 è fatto il 14/10 dopo l'audit, insieme al PDF di tutti i report (F4-46). |
 | EXCEL-SOL | Conclusa e rilasciata in 1.7.0 | Nessuno per i requisiti concordati: elemento facoltativo, azioni unificate, instradamento per stato limite e criterio resistente indipendente. [Verbale](chiusura-excel-sol-20261013.md). |
 
 Evidenze controllate: 122 voci finali PASS del collaudo F3 (full con riprese
@@ -188,6 +188,8 @@ Tra F1 e F2: regressione in MSTest (464 casi singoli) e `casi_confronto.json` di
   Restano separati: proposte F2.9-U1…U7 e ratifiche normative, F4.13 per le regole residue della scheda,
   F2.11 per ogni eventuale eliminazione del legacy (sonda comune completata in F2.11b). Nessuna nuova scelta normativa fatta con questa chiusura.
   **Audit 14/10: tecnicamente fatto, ratifica dell'utente aperta** sulle decisioni F2.9-D1…D14 del coordinatore e sulle proposte F2.9-U1…U7.
+  Proposte decise dall'utente il 14/10 (punto 4c): U1 resta la UNI 11104:2016, U2 etichetta della libreria, U3 testi dei pali
+  tradotti, U4 valori iniziali espliciti, U5 testi della durabilità con i soli rimandi normativi (F4-47); U6 in coda.
 - [ ] F2.10 [CP] Registro delle differenze e accettazione dell'equivalenza.
 - [~] F2.11 [CP] Eliminazione dei duplicati, dello stato statico e del lock.
   - [x] F2.11a — sei file geotecnici esclusi: rimossi su autorizzazione esplicita con `83081a67`, già in main/set S. BishopSolver, FoundationSettlement, NewmarkSliding, ShallowFoundationSeismic, SlopeGeometry e SlopeStability non sono più nel progetto. Nessuna nuova eliminazione con questa riconciliazione del piano; `SlopeStability.Models.cs` e `WallRecords.cs` restano contratti usati.
@@ -405,12 +407,13 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
   - [ ] Audit 14/10 — cosa manca davvero per chiudere F4.16:
     - un full conforme con il set W: il primo ha 114 PASS e 5 NEW-FAIL, il secondo è interrotto;
     - la revisione puntuale delle 6805 differenze del confronto UI con la cattura F3 ([prospetto](f4-transizioni-ui-da-revisionare.md)), distinguendo la parte che deriva già dalla 1.7.1: fatta il 14/10 ([classificazione](f4-transizioni-ui-classificazione.md), nessuna differenza non spiegata), da rifare sul commit finale con il full;
-    - le pagine dei metodi per σcp nel taglio dei muri (F4-03), per la curvatura con viscosità (F4-08), per il traffico Schema 1 (F4-29) e per GPC.Design;
+    - le pagine dei metodi per σcp nel taglio dei muri (F4-03), per la curvatura con viscosità (F4-08), per il traffico Schema 1 (F4-29) e per GPC.Design: scritte il 14/10 in Checker `docs/metodi` (ramo `claude/f4-method-pages`, commit 26cef01a, esempi verificati con la libreria), push da autorizzare;
     - l'elenco del legacy da rimuovere con i chiamanti rimasti, da preparare prima di chiedere l'accordo dell'utente;
     - il requisito «analisi composte» dei prezzari (decisioni del 13/10 sera): attuato il 14/10 dopo l'audit (registro F4-45,
       GPC.Design 0.20.0.0 nel set X);
     - l'approvazione dell'utente per il merge di F4 in main.
   - [x] F4.16a (14/10) — guide Rev43 e versione: Guide globali pratiche e teoriche aggiornate per prezzari/revisioni/inclusioni, traffico Schema 1, input normativi e calcoli condivisi; esempio storico Bridge conservato con ipotesi esplicite. Word/PDF finali: 80 + 145 pagine, 337 formule e parti ITEC conservate, rendering e controllo grafico completati. Wiki: 71 capitoli/6736 termini; indici aggiornati. Rev42 e indici precedenti archiviati con SHA e origine. ANTHEA 1.8.0 per le nuove funzionalita F4 (secondo componente), commit 0eaebd3e. Restano il full con il set W e la chiusura del rilascio.
+  - [x] 14/10 audit — guide Rev44: riferimenti di terzi tolti (punto 7) e controllo automatico esteso; durabilità con UNI 11104:2016 e testi propri (U1, U5); report Word e PDF senza Word, norma esplicita, NEd dei pilastri, piano delle deformazioni totali e analisi composte documentati. Word/PDF 82 + 145 pagine, 345 formule OMML, 26 parti ITEC identiche per volume, 227 pagine rasterizzate senza sforamenti né glifi sostitutivi. Wiki 71 capitoli/6716 termini. Rev43 e indici archiviati in `supporto/SUPERATI/f4-rev44-20261014` (16 file con SHA-256). Quick 47 PASS, installer 2 PASS.
   - [x] F4.16b (14/10) — regressione predalle: F4-36: mapping dei soli dati delle file attive, campi dormienti conservati. predalle-fix: 9 PASS; 53 casi congelati equivalenti, geometria/report/progetto e prova WPF superati. Nessun atteso o tolleranza modificato.
   - [x] F4.16c (14/10) — muri precedenti: F4-37: quota inferiore letta solo con due zone attive. Suite storica muri PASS; confronti congelati delle verifiche, distinte e ricerca PASS (9 esiti complessivi). Archivi e attesi conservati.
   - [x] F4.16d (14/10) — esempio Wiki: F4-38: esempio della trave aggiornato al contratto N,Vx,Vy,T,Mx,My; momento 200 kNm invariato. Prova completa della Wiki WPF PASS.

@@ -1,12 +1,12 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · 14 ottobre 2026 · Pratica Rev43 e teorica Rev43
+ITEC Engineering · 14 ottobre 2026 · Pratica Rev44 e teorica Rev44
 
-Guide globali consultabili anche nella Wiki. Revisione F4: prezzari sostituibili e versionati, traffico Schema 1, contratti di calcolo GPC, input e provenienza normativa. Conservati i contenuti precedenti su modelli, sezioni, revisioni e risultati per fase.
+Guide globali consultabili anche nella Wiki. Revisione F4: prezzari sostituibili e versionati con analisi composte, traffico Schema 1, contratti di calcolo GPC, input e provenienza normativa, report in Word e PDF. Conservati i contenuti precedenti su modelli, sezioni, revisioni e risultati per fase.
 
 ## Guida pratica ANTHEA
 
-[Word Rev43](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev43.docx) · [PDF Rev43](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev43.pdf)
+[Word Rev44](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev44.docx) · [PDF Rev44](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev44.pdf)
 
 - Avvio e scelta del modulo
 - Progetti e gestione del lavoro
@@ -33,7 +33,7 @@ Guide globali consultabili anche nella Wiki. Revisione F4: prezzari sostituibili
 
 ## Guida teorica ANTHEA
 
-[Word Rev43](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev43.docx) · [PDF Rev43](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev43.pdf)
+[Word Rev44](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev44.docx) · [PDF Rev44](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev44.pdf)
 
 - Architettura del calcolo e convenzioni
 - Calcestruzzo armature e copriferro

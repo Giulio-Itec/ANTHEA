@@ -1,4 +1,4 @@
-﻿param([switch]$VerifyFinal, [string]$Revision = '43', [ValidateSet('pratica', 'teorica')] [string[]]$Kinds = @('pratica', 'teorica'))
+﻿param([switch]$VerifyFinal, [string]$Revision = '44', [ValidateSet('pratica', 'teorica')] [string[]]$Kinds = @('pratica', 'teorica'))
 $ErrorActionPreference = 'Stop'
 $repoPath = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $wordForGuides = $null
