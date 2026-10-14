@@ -575,3 +575,7 @@ Punto 5.2: implementato in `ANTHEA.DesignTools.Presentation` senza WPF e vista c
 - [x] EXCEL-SOL-REG: corretto il posizionamento delle voci 01/02 nel registro, intercettato dalla suite architetturale. Il collaudo standard ha 66 PASS e questo solo errore documentale; quattro suite WPF PASS. Nessun atteso o tolleranza modificato.
 
 - 14/10, F4.11c.3: revisioni ambientali indipendenti dal prezzario, fattori storicizzati nel documento, impronta dei dati effettivamente calcolati in risultato/report/CSV. Candidata L completa; environment-a: 8 PASS, corpus Bridge invariato (161550 numeri). Produzione ancora set V; chiusura F4.16 pendente.
+
+### 14/10 — F4.11d.1 servizio traffico
+
+Checker Design 0.16.0.0: Schema 1 NTC, corsie, tandem e inviluppi da linee di influenza cubiche. Quarantotto test Design PASS inclusi 20 attesi Python preesistenti e controlli esatti di travi appoggiate/continue. Tre campate, 123 sezioni: 3.776 ms. Nessun cambiamento ancora in BridgeConcept o negli archivi; integrazione e prestazioni della ricerca nel passo seguente. Dettagli e SHA nel documento Checker docs/refactoring/f4-bridge-traffic.md.
