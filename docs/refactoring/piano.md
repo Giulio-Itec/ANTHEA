@@ -625,3 +625,7 @@ Guide globali pratiche e teoriche aggiornate per prezzari/revisioni/inclusioni, 
 ### 14/10 — F4.16b regressione predalle
 
 F4-36: mapping dei soli dati delle file attive, campi dormienti conservati. predalle-fix: 9 PASS; 53 casi congelati equivalenti, geometria/report/progetto e prova WPF superati. Nessun atteso o tolleranza modificato.
+
+### 14/10 — F4.16c muri precedenti
+
+F4-37: quota inferiore letta solo con due zone attive. Suite storica muri PASS; confronti congelati delle verifiche, distinte e ricerca PASS (9 esiti complessivi). Archivi e attesi conservati.

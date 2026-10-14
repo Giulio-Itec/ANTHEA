@@ -4562,6 +4562,27 @@
         "supporto/artefatti/refactoring/f4/full-1.8.0.log",
         "supporto/artefatti/refactoring/f4/predalle-fix.log"
       ]
+    },
+    {
+      "id": "F4-37",
+      "data": "2026-10-14",
+      "fase": "F4.16",
+      "titolo": "Muri precedenti senza suddivisione: quota inferiore inattiva",
+      "famiglia": "Muri",
+      "categoria": "difetto-legacy",
+      "stato": "attuato",
+      "descrizione": "La quota lower_height del contratto nativo viene letta solo con due zone abilitate. Ripristinato il calcolo degli archivi precedenti che non contengono il campo, senza completare o alterare gli input e senza cambiare formule.",
+      "test": [
+        "wall-inactive: 7 PASS, confronti strutturali, dettagli e ricerca contro le catture precedenti",
+        "wall-legacy: 2 PASS, suite storica RetainingWall.Checks completa"
+      ],
+      "codice": [
+        "X.Calculations/RetainingWall.Library.Details.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/wall-inactive.log",
+        "supporto/artefatti/refactoring/f4/wall-legacy.log"
+      ]
     }
   ]
 }

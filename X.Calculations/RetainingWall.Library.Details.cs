@@ -40,7 +40,7 @@ public static partial class RetainingWall
         var (profile,specification)=ConcreteDurabilityAdapter.WallCoverInput(opt.S("cover_method"),code,m.Required("fck"),cover,
             opt.S("cover_element")=="Piastra / soletta / parete",opt.B("cover_quality"));
         return new(new(g.Required("height"),g.Required("slab"),g.Required("toe"),g.Required("stem_base"),g.Required("stem_top"),g.Required("heel")),
-            new(r.B("two_zones"),r.Required("lower_height"),zones),new(strengths.Fcd,strengths.Fyd,concrete.Fctk05,section.Required("gamma_c")),m.Required("cover"),
+            new(r.B("two_zones"),r.B("two_zones") ? r.Required("lower_height", strict: true) : 0,zones),new(strengths.Fcd,strengths.Fyd,concrete.Fctk05,section.Required("gamma_c")),m.Required("cover"),
             new(opt.Required("aggregate"),opt.Required("lap_clear"),opt.Required("lap_percent"),opt.B("good_bond"),opt.Required("tie_diameter"),opt.Required("tie_spacing"),profile,specification));
     }
     private static readonly IReadOnlyDictionary<WallDetailRule,string> NativeDetailLabels = new Dictionary<WallDetailRule,string>
