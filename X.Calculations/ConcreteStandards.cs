@@ -7,8 +7,8 @@ namespace Anthea.Calculations;
 /// <summary>Catalog of concrete implementations actually shipped in GPC.Model.dll, not a claim of full code compliance.</summary>
 public static class ConcreteStandards
 {
-    public static readonly string[] Names = ConcreteStandardCatalog.Supported.Select(ConcreteStandardCatalog.Name).ToArray();
-    public static readonly string[] OrdinaryNames = Names.Where(n => n is not ("CNR-DT 204/2006" or "CS-TR34")).ToArray();
+    public static readonly System.Collections.Immutable.ImmutableArray<string> Names = [.. ConcreteStandardCatalog.Supported.Select(ConcreteStandardCatalog.Name)];
+    public static readonly System.Collections.Immutable.ImmutableArray<string> OrdinaryNames = [.. Names.Where(n => n is not ("CNR-DT 204/2006" or "CS-TR34"))];
     public static StandardModelCode2010 Create(string name) => ConcreteStandardCatalog.Create(ConcreteStandardCatalog.Parse(name));
     public static string RequiredName(JsonNode? workspace)
     {
@@ -23,7 +23,7 @@ public static class ConcreteStandards
         string label = workspace.S("normativa_custom");
         return string.IsNullOrWhiteSpace(label) ? throw new ArgumentException("Descrizione della normativa personalizzata assente.") : label;
     }
-    public static readonly (string Key, string Label)[] Coefficients =
+    public static readonly System.Collections.Immutable.ImmutableArray<(string Key, string Label)> Coefficients =
     [
         ("AlphaCC", "αcc · compressione"), ("AlphaCT", "αct · trazione"), ("GammaC", "γc · CLS"), ("GammaS", "γs · armature"),
         ("GammaSPrestress", "γp · trefoli"), ("GammaCAccidental", "γc · accidentale"), ("GammaCE", "γcE · modulo"),

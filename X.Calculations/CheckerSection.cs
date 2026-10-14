@@ -34,7 +34,7 @@ public sealed partial class CheckerSection
     public JsonObject Options { get; }
     private readonly double compressionReduction;
     private readonly StandardModelCode2010 standard;
-    public static readonly string[] Criteria = ["N costante", "Eccentricità costante", "Mx–My costanti", "N e Mx costanti", "N e My costanti"];
+    public static readonly System.Collections.Immutable.ImmutableArray<string> Criteria = ["N costante", "Eccentricità costante", "Mx–My costanti", "N e Mx costanti", "N e My costanti"];
     public static SectionSolver.FailureAnalysisTypes Criterion(string text) => text switch
     {
         "N costante" => SectionSolver.FailureAnalysisTypes.ConstantN,

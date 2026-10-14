@@ -108,7 +108,7 @@ public sealed record ConcreteDesignOptions
 
 public static partial class ConcreteReinforcementDesign
 {
-    public static readonly (string Key, string Name)[] Targets =
+    public static readonly System.Collections.Immutable.ImmutableArray<(string Key, string Name)> Targets =
     [ ("slu", "Resistenza plastica N–Mx–My"), ("slv", "Resistenza elastica N–Mx–My"),
       ("sigma_c_rara", "Tensione CLS · rara"), ("sigma_s_rara", "Tensione acciaio · rara"), ("sigma_c_qp", "Tensione CLS · quasi permanente"),
       ("wk_freq", "Fessurazione · frequente"), ("wk_qp", "Fessurazione · quasi permanente"),

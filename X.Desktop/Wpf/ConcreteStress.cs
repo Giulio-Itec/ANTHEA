@@ -9,7 +9,7 @@ namespace X.Desktop;
 
 internal sealed partial class ConcreteWorkspace
 {
-    private static readonly string[] CrackFields = ConcreteAnalysisSession.CrackFields;
+    private static readonly System.Collections.Immutable.ImmutableArray<string> CrackFields = ConcreteAnalysisSession.CrackFields;
     // SLE inputs are shared; their presentation errors must also stay identical in all three tabs.
     private readonly Dictionary<string, string> homogenizationErrors = [];
     private readonly TabControl sleTabs = new() { BorderThickness = new Thickness(0), Background = Appearance.Surface };

@@ -56,7 +56,7 @@ public sealed partial class ConcreteAnalysisSession
     private readonly ConcreteProjection projection = new();
     private readonly ConcurrentDictionary<string, (string Signature, CheckerDomain3D? Three, CheckerDomain2D? Two)> domainCache = new();
     private readonly ConcurrentDictionary<string, (string Signature, CheckerSection Engine, CheckerStressState State)> stressCache = new();
-    public static readonly string[] CrackFields = ["esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure", "limite_fessure"];
+    public static readonly System.Collections.Immutable.ImmutableArray<string> CrackFields = ["esposizione", "sensibilita", "durata", "aderenza", "copriferro_fessure", "spaziatura_fessure", "limite_fessure"];
     public static ConcreteResults.Action ReadAction(JsonObject row) => new(SectionWorkspace.ReadAction(row));
 
     public ConcreteDomainResult Domain(JsonObject input, JsonObject workspace, JsonObject options, string key,

@@ -9,7 +9,7 @@ internal static class ConcreteEditorChecks
         int checks = 0;
         void Check(bool condition, string message) { if (!condition) throw new InvalidOperationException(message); checks++; }
         static string Failure(Action action) { try { action(); } catch (ArgumentException ex) { return ex.Message; } throw new InvalidOperationException("Input invalido accettato"); }
-        void Independent<T>(Func<T[]> read, T[] expected)
+        void Independent<T>(Func<T[]> read, IEnumerable<T> expected)
         {
             Check(read().SequenceEqual(expected), "Catalogo diverso dal motore");
             var copy = read(); Array.Clear(copy);

@@ -61,7 +61,7 @@ public static partial class RetainingWall
     // ActionTypes and States are in the order of WallActionType and WallLimitState.
     static WallActionType ActionType(string type) => Array.IndexOf(ActionTypes, type) is int index and >= 0 ? (WallActionType)index : throw new ArgumentException("Tipo o natura dell’azione non supportati.");
     static double ActionUnit(WallActionType type) => type is WallActionType.UniformSurcharge or WallActionType.LateralPressure ? KPa : type == WallActionType.Moment ? Mm : 1;
-    static WallLimitState State(string state) => Array.IndexOf(States, state) is int index and >= 0 ? (WallLimitState)index : throw new ArgumentException("Stato limite non valido.");
+    static WallLimitState State(string state) => States.IndexOf(state) is int index and >= 0 ? (WallLimitState)index : throw new ArgumentException("Stato limite non valido.");
     static string StateName(WallLimitState state) => States[(int)state];
 
     /// <summary>The NTC site amplification of the seismic panel (SLV).</summary>

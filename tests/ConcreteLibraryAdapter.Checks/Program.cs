@@ -210,6 +210,15 @@ try
         }
     }
     foreach (var member in declaredStatic.Keys) StaticCheck(excepted.Contains(member), "5l: eccezione dichiarata superata, toglierla: " + member);
+    // A12 (F2.7-D11, chiusa dopo l'audit del 14/10/2026): i cataloghi statici pubblici letti da viste e adattatori sono ImmutableArray
+    foreach (var (owner, name) in new[] { (typeof(CheckerSection), "Criteria"), (typeof(ConcreteStandards), "Names"), (typeof(ConcreteStandards), "OrdinaryNames"),
+        (typeof(ConcreteStandards), "Coefficients"), (typeof(ConcreteMaterials), "ConcreteDiagrams"), (typeof(RetainingWall), "States"), (typeof(SectionWorkspace), "Sets"),
+        (typeof(SectionWorkspace), "SharedSleFields"), (typeof(ConcreteReinforcementDesign), "Targets"), (typeof(ConcreteAnalysisSession), "CrackFields") })
+    {
+        var field = owner.GetField(name, System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+        StaticCheck(field is { IsInitOnly: true } && field.FieldType.IsGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(System.Collections.Immutable.ImmutableArray<>),
+            $"5l/A12: {owner.Name}.{name} non è un catalogo di sola lettura");
+    }
 
     // ---------------------------------------------------------------- 2c. getti sottili (prova 7a)
     var thinCasting = ThinCastingGrid.Run(root, ThinCastingCheck);
@@ -654,7 +663,7 @@ static string Root()
 static List<ConcreteCodeChecks.ShearInput> ShearGrid()
 {
     var cases = new List<ConcreteCodeChecks.ShearInput>();
-    string[] standards = ConcreteStandards.OrdinaryNames;
+    var standards = ConcreteStandards.OrdinaryNames;
     foreach (var s in standards)
     {
         foreach (double n in new[] { -500.0, 0, 100 })
