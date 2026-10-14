@@ -13,7 +13,7 @@ public static partial class ConcreteReinforcementDesign
     static SectionDesignMetric NativeMetric(ConcreteDesignMetrics m)=>new(m.SteelArea,m.LongitudinalKgPerM,m.TransverseKgPerM,m.Bars,m.Diameters,m.PiecesPerM);
     static ConcreteDesignMetrics DisplayMetric(SectionDesignMetric m)=>new(m.SteelArea,m.LongitudinalKgPerM,m.TransverseKgPerM,m.Bars,m.Diameters,m.PiecesPerM);
     static SectionDesignGeometry NativeGeometry(SezioneCA section)=>new(section.Shape=="Circolare",section.Width,section.Height,
-        section.Input.Required("cover_mm"),section.AreaSteel,section.Bars.Select(b=>new DesignBar(b.X,b.Y,b.Diametro,b.Area)));
+        section.Input.Required("cover_mm"),section.AreaSteel,ConcreteDesignMapping.Bars(section));
     static SectionDesignLinks NativeLinks(SezioneCA section,JsonObject shear,ConcreteDesignOptions options)
     {
         bool present=ConcreteCalculationSettings.HasStirrups(section.Input);
@@ -42,7 +42,7 @@ public static partial class ConcreteReinforcementDesign
     }
     static void CheckTorsionDistributionNative(SezioneCA section,TorsionResult torsion,ConcreteDesignOptions options,List<ConcreteDesignCheck> checks,string combination)
     {
-        double worst=SectionDesignQuantities.TorsionDistributionRatio(section.Bars.Select(b=>new DesignBar(b.X,b.Y,b.Diametro,b.Area)),torsion.RequiredLongitudinalArea,options.TorsionReservePercent);
+        double worst=SectionDesignQuantities.TorsionDistributionRatio(ConcreteDesignMapping.Bars(section),torsion.RequiredLongitudinalArea,options.TorsionReservePercent);
         AddRatio(checks,"torsione",combination+" · distribuzione longitudinale",worst,options,
             "As,T ripartita per lunghezza tributaria fra barre consecutive sul perimetro; verifica della quota riservata su ciascuna barra.");
     }

@@ -2222,8 +2222,8 @@
     {
       "File": "X.Calculations/BridgeSection.SlabLayout.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "BridgeSection.SlabLayout",
-      "Fingerprint": "0F27BFAF4E528C239D0965EA923ABFCDA06EFECDC338A45DE9C242D95D38CC24",
+      "Owner": "BridgeSection.LegacySlabLayout",
+      "Fingerprint": "D5E481A8D347C2EFA9C496A6CD23E2F9C64A193D64129F4E64BE2BB459556846",
       "Count": 1,
       "Example": "data . D ( \"d_bottom\" )"
     },
@@ -2258,22 +2258,6 @@
       "Fingerprint": "29779143C82412A1F7372AA8ED9EDD2D5DFF96F5DF24D34E9E0A3D0A951D8FDA",
       "Count": 1,
       "Example": "1e-9"
-    },
-    {
-      "File": "X.Calculations/Calcolo.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "Calcolo.Motore.Esegui",
-      "Fingerprint": "025F103E7F63A56D8FDD5F234B20393438C78E6319464887A5D1F042E1645075",
-      "Count": 1,
-      "Example": "18"
-    },
-    {
-      "File": "X.Calculations/Calcolo.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "Calcolo.Motore.Esegui",
-      "Fingerprint": "908612E1415855F600E3FF66625E641348D18361BFB93E2523ED3BAE597E493C",
-      "Count": 1,
-      "Example": "20"
     },
     {
       "File": "X.Calculations/Calcolo.cs",
@@ -7934,48 +7918,48 @@
     {
       "File": "X.Calculations/SectionShearGeometry.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "SectionShearGeometry.Derive",
-      "Fingerprint": "313186A68DFC1AA1F89A49B3E7E9E30C9DB2DC57EC24770024834FD4D85DAE7D",
+      "Owner": "SectionShearGeometry.LegacyDerive",
+      "Fingerprint": "449E6C32FB1EE32EF81858C5D4F740C4B7663B4616ECACF0E3229DBF7C476BF9",
       "Count": 1,
       "Example": "section . Input . D ( \"inner_diameter_mm\" )"
     },
     {
       "File": "X.Calculations/SectionShearGeometry.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "SectionShearGeometry.Derive",
-      "Fingerprint": "318FED8860D1A5874B8B95943EB1BCDA720741AAC4BEFEFFB79FC6A79D8A10BF",
+      "Owner": "SectionShearGeometry.LegacyDerive",
+      "Fingerprint": "54CFEE929C10C10D73B0F358072DA9EC650207F7130720EB99000B271E12B198",
       "Count": 1,
       "Example": "section . Input . D ( \"top_bar_count\" )"
     },
     {
       "File": "X.Calculations/SectionShearGeometry.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "SectionShearGeometry.Derive",
-      "Fingerprint": "56D57E9EDADB8BD0DA45A4756B2D7DF46697FCCB5E615D48D8368F61189D762B",
+      "Owner": "SectionShearGeometry.LegacyDerive",
+      "Fingerprint": "D5C94A5B1642C188C5F4668ED52523C3626B0F054ED5758263F4AE37DBCE9E98",
       "Count": 1,
       "Example": "section . Input . D ( \"bottom_bar_count\" )"
     },
     {
       "File": "X.Calculations/SectionShearGeometry.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "SectionShearGeometry.Derive",
-      "Fingerprint": "922CD764688B286ED169F7BBF2B8A3C748AAD0B31F4FE0EF4ACD89A0F213A532",
+      "Owner": "SectionShearGeometry.LegacyDerive",
+      "Fingerprint": "6A59B98F743CD1CBA88C85C4AA81903341F55FAE6BFDC3DB00B77367B89865DF",
       "Count": 1,
       "Example": "section . Input . D ( alongX ? \"inner_height_mm\" : \"inner_width_mm\" )"
     },
     {
       "File": "X.Calculations/SectionShearGeometry.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "SectionShearGeometry.Derive",
-      "Fingerprint": "942E09E2281CBE0ED51BE140E5383143C52DCA07AED37735116F0E793F58C92A",
+      "Owner": "SectionShearGeometry.LegacyDerive",
+      "Fingerprint": "A6EB96F2DCD19C9E7F0BCF7B01C2F7540E240352AF97EE6CA5558B4F4C94AE98",
       "Count": 1,
       "Example": "section . Input . D ( \"second_bottom_count\" )"
     },
     {
       "File": "X.Calculations/SectionShearGeometry.cs",
       "Rule": "R4-implicit-number",
-      "Owner": "SectionShearGeometry.Derive",
-      "Fingerprint": "987C3B629A8272242F1FDE57FBC128AE5B6465651464F561B61F5D7922FA2FE9",
+      "Owner": "SectionShearGeometry.LegacyDerive",
+      "Fingerprint": "44F16CAE7AAF5D93106C22574C2DD64ED2F15749E758034E2DE8E37926B79CF8",
       "Count": 1,
       "Example": "section . Input . D ( \"second_top_count\" )"
     },
@@ -8182,14 +8166,6 @@
     {
       "File": "X.Calculations/SezioneCA.cs",
       "Rule": "R1-math",
-      "Owner": "SezioneCA.NAutomatico",
-      "Fingerprint": "55FA6B08343CD8D69DD2E17E5C7E1AEB9572DB4A5DFA88F8FA1A70C0310F8604",
-      "Count": 1,
-      "Example": "Math . Pow ( ( Input . D ( \"fck_mpa\" ) + 8 ) / 10 , .3 )"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R1-math",
       "Owner": "SezioneCA.ParametriCls",
       "Fingerprint": "04527D1CB87ED88D3157A80CA2B49C6327A4815F2E2B254CB42CA6723AD5E55A",
       "Count": 1,
@@ -8342,30 +8318,6 @@
     {
       "File": "X.Calculations/SezioneCA.cs",
       "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.NAutomatico",
-      "Fingerprint": "860A9539F0221110E492B32AE3525EE644D680D9816A32BF49F14933468EAD15",
-      "Count": 1,
-      "Example": "10"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.NAutomatico",
-      "Fingerprint": "D77655DB773BF53FFF2F6E683DEC229EAB3915C28369D252F11FFDF1122955E0",
-      "Count": 1,
-      "Example": "8"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "SezioneCA.NAutomatico",
-      "Fingerprint": "F2413467323A30CEB52DB2911876951C2E0FA7B339E70C39FAEAAA4A60E6079B",
-      "Count": 1,
-      "Example": "22000"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R2-numeric-literal",
       "Owner": "SezioneCA.ParametriCls",
       "Fingerprint": "0337BC96B3E74C416D8EF061200D880FADE1724B806D66E6C9636D02ACA9BED6",
       "Count": 1,
@@ -8490,14 +8442,6 @@
       "Fingerprint": "8ABD79DEC22CE61DBBC85761F7D3CAF7C62603225951508F0F0BCD5D67419B83",
       "Count": 1,
       "Example": "Input . D ( \"flange_bottom_count\" )"
-    },
-    {
-      "File": "X.Calculations/SezioneCA.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "SezioneCA.NAutomatico",
-      "Fingerprint": "3FB633649CD756DA27A70B99A5B3FB00B21AF52D56C68EAF525F5D43F33F916A",
-      "Count": 1,
-      "Example": "Input . D ( \"fck_mpa\" )"
     },
     {
       "File": "X.Calculations/SezioneCA.cs",

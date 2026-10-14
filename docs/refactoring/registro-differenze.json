@@ -4385,6 +4385,31 @@
         "supporto/artefatti/refactoring/f4/traffic-ui-c.log",
         "../Checker/docs/refactoring/f4-bridge-traffic.md"
       ]
+    },
+    {
+      "id": "F4-30",
+      "data": "2026-10-14",
+      "fase": "F4.13a",
+      "titolo": "Geometria residua e dati micropalo senza riempitivi",
+      "famiglia": "Adattatori di sezione e geotecnica",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Proposta bw/d/Asl, riferimento predalle e stratigrafia di soli spessori nelle API GPC. Riutilizzati DesignBar e modulo elastico; nessuna formula duplicata nel percorso migrato. Conservate le implementazioni geometriche precedenti per diagnostica. Valori numerici dei 53 casi congelati equivalenti; sei rifiuti mantenuti.",
+      "test": [
+        "residual-adapter-c: 10 PASS, set P completo",
+        "53 casi congelati confrontati, input invariati",
+        "Suite completa degli adattatori e delle SLE PASS"
+      ],
+      "codice": [
+        "X.Calculations/SectionShearGeometry.cs",
+        "X.Calculations/BridgeSection.SlabLayout.cs",
+        "X.Calculations/Calcolo.cs",
+        "X.Calculations/SezioneCA.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/residual-adapter-c.log",
+        "tests/fixtures/f4/residual-reference.json"
+      ]
     }
   ]
 }

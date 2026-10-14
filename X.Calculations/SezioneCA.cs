@@ -21,7 +21,8 @@ public sealed class SezioneCA
     public List<double[][]> Holes { get; } = [];
     public List<Fibra> Fibers { get; } = [];
     public List<Barra> Bars { get; } = [];
-    public double NAutomatico => Es/(22000*Math.Pow((Input.D("fck_mpa")+8)/10,.3));
+    public double NAutomatico => GPC.Checkers.Concrete.Serviceability.Homogenization.ModularRatio(Es,
+        GPC.Model.Materials.EuropeanConcreteElasticity.SecantModulusMpa(ConcreteMaterials.Concrete(Input).Fcm), 0);
     public static JsonObject DefaultInput() => J.Obj(
         ("shape","Rettangolare"),("diameter_mm","1000"),("circular_sides","32"),("width_mm","600"),("height_mm","800"),("flange_width_mm","1200"),("web_width_mm","400"),("flange_thickness_mm","250"),("cover_mm","70"),
         ("longitudinal_bar_count","16"),("longitudinal_bar_diameter_mm","24"),("top_bar_count","4"),("top_bar_diameter_mm","20"),("bottom_bar_count","6"),("bottom_bar_diameter_mm","24"),("side_bar_count_per_side","2"),("side_bar_diameter_mm","16"),("transverse_bar_diameter_mm","10"),("transverse_spacing_mm","200"),

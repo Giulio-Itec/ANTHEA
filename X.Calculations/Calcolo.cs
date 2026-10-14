@@ -305,12 +305,11 @@ public static class Calcolo
             {
                 var injection=BustamanteDoix.Injection(g.S("tipo_iniezione"));
                 BustamanteDoixSoil Bd(JsonNode v){try{return BustamanteDoix.Soil(v.S("terreno"));}catch(ArgumentException){return BustamanteDoixSoil.Gravel;}}
-                // Le stratigrafie del micropalo hanno solo spessori e parametri di Bustamante–Doix: terreno di Model di riferimento per le quote.
-                var surveys=rowsList.Select((rows,i)=>new MicropileSurvey(Profilo(rows,i,null,(v,k)=>new Soil(v.S("terreno") is {Length:>0} n?n:"Strato "+(k+1),18*KN3,20*KN3,0,0,"ANTHEA, solo quote")),
-                    rows.Select(v=>(Bd(v!),J.Number(v!["alpha"])??double.NaN,v.B("laterale_attiva",true))))).ToArray();
+                var surveys=rowsList.Select(rows=>new MicropileDepthSurvey(rows.Select(v=>new MicropileDepthLayer(
+                    v.Required("spessore",strict:true)*M,Bd(v!),J.Number(v!["alpha"])??double.NaN,v.B("laterale_attiva",true))))).ToArray();
                 var pile=new Micropile(d*M,l*M,(J.Number(g["inclinazione"])??0)*Deg,injection,pi,sb*M,g.B("considera_punta")?pct:null,Chs.Sezione(g.S("profilo_chs")),Chs.Acciaio,
                     g.D("peso_specifico_palo",25)*KN3,compression,tension);
-                var r=AxialPileCapacity.Calculate(pile,surveys,factors,gruppo.Efficienza);
+                var r=AxialPileCapacity.CalculateFromDepths(pile,surveys,factors,gruppo.Efficienza);
                 result=Risultato(r,s=>J.Obj(("compressione",J.Obj(("laterale",s.Shaft/1000),("base",s.Base/1000))),("tratti",s.Segments.Select(t=>Tratto(t,g.S("tipo_iniezione"))).ToList())),gruppo.Metodo);
                 warnings.AddRange(r.Warnings);
                 result["inizio_aderenza"]=sb;result["inclinazione"]=g.D("inclinazione");result["profondita_punta"]=r.PileLength*cos/M;result["coordinata_curve"]="Lungo asse s [m]";result["peso_sezione"]=pesoChs!.DeepClone();

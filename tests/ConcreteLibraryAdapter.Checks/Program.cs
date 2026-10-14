@@ -9,6 +9,7 @@ using GPC.Checkers.Concrete.Torsion;
 using TorsionGeometry = Anthea.Calculations.TorsionGeometry;
 
 if (args.Length == 3 && args[0] == "--f4-residual-capture") return F4ResidualCapture.Run(args[1], args[2]);
+if (args.Length == 3 && args[0] == "--f4-residual") return F4ResidualChecks.Run(args[1], args[2]);
 if (args.Length == 3 && args[0] == "--f4-bridge") return F4BridgeChecks.Run(args[1], args[2]);
 if (args.Length == 3 && args[0] == "--f4-bridge-capture") return F4BridgeCapture.Run(args[1], args[2]);
 if (args.Length == 3 && args[0] == "--f4-input-contracts") return F4InputContractChecks.Run(args[1], args[2]);
