@@ -81,7 +81,7 @@ public static class ConcreteSheetPreparation
         foreach (string key in SectionWorkspace.Sets.Skip(2)) SynchronizeHomogenization(input, settings, key);
         foreach (string field in SectionWorkspace.SharedSleFields) settings["sle_comuni"]![field] = settings["sle"]!["SLE"]![field]?.DeepClone();
         RefreshAutomaticShear(input, settings["taglio"]!.AsObject());
-        ConcreteDetailingPresentation.Calculate(input, settings, ReadActions(data)["SLU"].Concat(ReadActions(data)["SLV"])).ApplyDerivedValues(settings);
+        ConcreteDetailingPresentation.Calculate(input, settings, ConcreteDetailingAnalysis.AllRows(ReadActions(data))).ApplyDerivedValues(settings);
         CommitRows(data);
     }
     public static ConcreteGeometry UpdateAutomaticShear(JsonObject input, JsonObject options)

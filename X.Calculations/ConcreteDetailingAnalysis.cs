@@ -1,10 +1,17 @@
 using System.Text.Json.Nodes;
+using GPC.Design.Sections;
 using Materiali;
 
 namespace Anthea.Calculations;
 
 public sealed record ConcreteDetailingResult(double MaximumCompression, NtcCoverResult? Durability,
-    string? DurabilityError, IReadOnlyList<DetailingCheck> Checks);
+    string? DurabilityError, IReadOnlyList<DetailingCheck> Checks)
+{
+    /// <summary>Combination that gives NEd ("nome · stato"); empty when no row is compressed.</summary>
+    public string CompressionSource { get; init; } = "";
+    /// <summary>NEd comes from a serviceability combination (the most severe compression is a service value).</summary>
+    public bool CompressionFromServiceability { get; init; }
+}
 public sealed record ConcreteAnchorageResult(double Diameter, double Stress, double Fctk05, AnchorageResult Check);
 
 /// <summary>Same section, durability and anchorage adapters for interactive and nonvisual calculations.</summary>
@@ -42,10 +49,14 @@ public static class ConcreteDetailingAnalysis
                 o.S("qualita_copriferro") == "Sì", MinimumConcrete.Required(exposures));
         }
         catch (Exception ex) when (ex is not OperationCanceledException) { durabilityError = ex.Message; }
-        // Legacy shear rows explicitly allow an omitted axial component (= 0). A present malformed value is rejected.
-        var ultimateActions = legacyActions ? actions : actions.Concat(settings["taglio"]!.Array("azioni").OfType<JsonObject>()
-            .Select(row => J.Obj(("N", row.S("N", "0")))));
-        double n = GPC.Design.Sections.SectionDesignDemand.MaximumCompression(ultimateActions.Select(row => SectionWorkspace.Number(row.S("N"), "N")));
+        // NEd: the most severe compression of all the combinations, ultimate, seismic, shear and serviceability (user decision of 14/10/2026,
+        // GPC.Design). Rows without "stato" are ultimate, as the callers before the decision passed only SLU and SLV. Legacy shear rows
+        // explicitly allow an omitted axial component (= 0); a present malformed value is rejected.
+        var rows = actions.Select(row => new DesignAxialAction(row.S("nome"), Family(row.S("stato", "SLU")), SectionWorkspace.Number(row.S("N"), "N")));
+        if (!legacyActions) rows = rows.Concat(settings["taglio"]!.Array("azioni").OfType<JsonObject>()
+            .Select(row => new DesignAxialAction(row.S("nome"), DesignActionFamily.Shear, SectionWorkspace.Number(row.S("N", "0"), "N"))));
+        var governing = SectionDesignDemand.DetailingCompression(rows.ToArray());
+        double n = governing.Value;
         bool hasStirrups = ConcreteCalculationSettings.HasStirrups(input);
         int legs = kind == ConcreteMemberKind.Beam && hasStirrups
             ? ConcreteCalculationSettings.StirrupLegs(settings["taglio"], "rami_y") : 0;
@@ -54,8 +65,32 @@ public static class ConcreteDetailingAnalysis
             Value("aggregato"), durability?.Cover.Durability ?? double.NaN, Value("delta_c"), o.S("zona_sovrapposizione") == "Sì",
             plate ? Value("as_secondaria") : 0, plate ? Value("passo_secondaria") : 0, o.S("zona_critica") == "Sì",
             o.S("barre_trattenute") == "Confermato", o.S("ancoraggio_appoggi") == "Confermato");
-        return new(n, durability, durabilityError, new ConcreteDetailingCalculator().Calculate(request));
+        return new(n, durability, durabilityError, new ConcreteDetailingCalculator().Calculate(request))
+        {
+            CompressionSource = governing.Source is { } s ? s.Name + " · " + FamilyLabel(s.Family) : "",
+            CompressionFromServiceability = governing.FromServiceability
+        };
     }
+
+    /// <summary>Every combination row of the sheet, marked with its limit state, for the NEd of the detailing rules.</summary>
+    public static IEnumerable<JsonObject> AllRows(IReadOnlyDictionary<string, JsonObject[]> rowsBySet)
+        => SectionWorkspace.Sets.SelectMany(set => (rowsBySet.TryGetValue(set, out var rows) ? rows : []).Select(row =>
+        {
+            var copy = (JsonObject)row.DeepClone(); copy["stato"] = set; return copy;
+        }));
+
+    static DesignActionFamily Family(string set) => set switch
+    {
+        "SLU" => DesignActionFamily.Ultimate, "SLV" => DesignActionFamily.Seismic, "SLE" => DesignActionFamily.Characteristic,
+        "SLE_FREQ" => DesignActionFamily.Frequent, "SLE_QP" => DesignActionFamily.QuasiPermanent,
+        _ => throw new ArgumentException("Stato limite della combinazione non riconosciuto: " + set)
+    };
+
+    static string FamilyLabel(DesignActionFamily family) => family switch
+    {
+        DesignActionFamily.Ultimate => "SLU", DesignActionFamily.Seismic => "SLV", DesignActionFamily.Shear => "taglio",
+        DesignActionFamily.Characteristic => "SLE rara", DesignActionFamily.Frequent => "SLE frequente", _ => "SLE quasi permanente"
+    };
 
     public static ConcreteAnchorageResult Anchorage(JsonObject input, JsonObject settings)
     {

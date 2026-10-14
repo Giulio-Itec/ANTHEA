@@ -53,7 +53,7 @@ public sealed record ConcreteReportAnalysis(JsonObject Data, JsonObject Result, 
         cancellation.ThrowIfCancellationRequested();
         if (domains.Count == 0 && stresses.Count == 0 && shear.Count == 0)
             throw new ArgumentException("Dati incompleti o calcolo non riuscito. Aprire la scheda per correggere gli input.");
-        var details = await Task.Run(() => ConcreteDetailingPresentation.Calculate(input, settings, actions["SLU"].Concat(actions["SLV"])), cancellation);
+        var details = await Task.Run(() => ConcreteDetailingPresentation.Calculate(input, settings, ConcreteDetailingAnalysis.AllRows(actions)), cancellation);
         details.ApplyDerivedValues(settings);
         ConcreteResults.CurvatureResult? curvature = null;
         try

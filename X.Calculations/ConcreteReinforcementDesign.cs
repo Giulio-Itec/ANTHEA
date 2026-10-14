@@ -72,12 +72,12 @@ public static partial class ConcreteReinforcementDesign
                 so["ancoraggio"] = options.AnchorageConfirmed ? "Confermato" : "Da verificare";
                 so["chiusura_torsione"] = options.TorsionLayoutConfirmed ? "Confermato" : "Da confermare";
                 if (torsion) so["as_torsione"] = section.AreaSteel * options.TorsionReservePercent / 100;
-                var dc = timers.Measure(1, () => ConcreteDetailingAnalysis.Calculate(ci, cw, rows["SLU"].Concat(rows["SLV"])));
+                var dc = timers.Measure(1, () => ConcreteDetailingAnalysis.Calculate(ci, cw, ConcreteDetailingAnalysis.AllRows(rows)));
                 if (dc.DurabilityError is not null) throw new ArgumentException(dc.DurabilityError);
                 var checks = new List<ConcreteDesignCheck>();
                 if (details.S("elemento") is "Soletta piena" or "Parete")
                     SelectSecondary(section, so, details, dc.Checks, options);
-                if (details.S("elemento") is "Soletta piena" or "Parete") dc = timers.Measure(1, () => ConcreteDetailingAnalysis.Calculate(ci, cw, rows["SLU"].Concat(rows["SLV"])));
+                if (details.S("elemento") is "Soletta piena" or "Parete") dc = timers.Measure(1, () => ConcreteDetailingAnalysis.Calculate(ci, cw, ConcreteDetailingAnalysis.AllRows(rows)));
                 foreach (var check in dc.Checks)
                     checks.Add(new("dettagli", check.Name, "Sezione proposta", null, 1, check.Passed,
                         $"{check.Actual:0.###} / {check.Limit:0.###} {check.Unit}. {check.Explanation} {check.Reference}"));

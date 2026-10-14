@@ -31,12 +31,12 @@ public static partial class ConcreteReinforcementDesign
             var section=timers.Measure(0,()=>ConcreteCalculationSettings.UpdateAutomaticShear(ci,so));
             so["ancoraggio"]=options.AnchorageConfirmed?"Confermato":"Da verificare";so["chiusura_torsione"]=options.TorsionLayoutConfirmed?"Confermato":"Da confermare";
             if(torsion)so["as_torsione"]=SectionDesignQuantities.ReservedArea(section.AreaSteel,options.TorsionReservePercent);
-            var dc=timers.Measure(1,()=>ConcreteDetailingAnalysis.Calculate(ci,cw,rows["SLU"].Concat(rows["SLV"])));
+            var dc=timers.Measure(1,()=>ConcreteDetailingAnalysis.Calculate(ci,cw,ConcreteDetailingAnalysis.AllRows(rows)));
             if(dc.DurabilityError!=null)throw new ArgumentException(dc.DurabilityError);
             if(details.S("elemento") is "Soletta piena" or "Parete")
             {
                 SelectSecondary(section,so,details,dc.Checks,options);
-                dc=timers.Measure(1,()=>ConcreteDetailingAnalysis.Calculate(ci,cw,rows["SLU"].Concat(rows["SLV"])));
+                dc=timers.Measure(1,()=>ConcreteDetailingAnalysis.Calculate(ci,cw,ConcreteDetailingAnalysis.AllRows(rows)));
             }
             var checks=dc.Checks.Select(check=>new ConcreteDesignCheck("dettagli",check.Name,"Sezione proposta",null,1,check.Passed,
                 $"{check.Actual:0.###} / {check.Limit:0.###} {check.Unit}. {check.Explanation} {check.Reference}")).ToList();
