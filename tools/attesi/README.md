@@ -25,3 +25,19 @@ python -I tools/attesi/sezione_ca.py --scrivi supporto/test/casi_confronto.json 
 `--scrivi` sostituisce solo gli attesi dei casi di sezione che hanno `fonte_atteso` e rifiuta il file se la sua
 riscrittura non è identica byte per byte all'originale. Tolleranza dei confronti: la stessa di `supporto/test/X.Verifiche`,
 cioè |Δ| ≤ 1e-8 + 1e-10·|atteso|, con testi uguali. Registro: TEST-02.
+
+## `palo_granulare.py`
+
+Ricalcola gli attesi di `palo_storico_0` e `palo_storico_3` partendo dai risultati del programma originale, salvati in
+`51e1c114:supporto/test/casi_confronto.json`, e cambia solo ciò che dipende da c′.
+
+- **Strati granulari.** τs = K·μ·σ′v senza c′, come prescrive la guida teorica. I valori K, μ e σ′v vengono dai campi
+  del tratto.
+- **Valori derivati.** Resistenze laterali, aggregazioni NTC 2018 (media e minimo fra i sondaggi, ξ3 e ξ4, η/γ) e curve
+  di compressione, trazione e progetto.
+- **Validazione.** Le regole di aggregazione sono provate su tutti i casi di palo originali. Il programma lo fa a ogni
+  esecuzione.
+
+```text
+python -I tools/attesi/palo_granulare.py --originale <copia di 51e1c114:supporto/test/casi_confronto.json> --confronta supporto/test/casi_confronto.json
+```
