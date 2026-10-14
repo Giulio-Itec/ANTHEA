@@ -404,10 +404,11 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
 - [~] F4.16 [CP] Chiusura, pagine dei metodi, eliminazione del legacy su autorizzazione. **Riattivata il 13/10 sera**: richiesta di completare F4 durante la notte, con commit e aggiornamento a ogni passo. Confronti, guide, treno coerente e collaudo full restano obbligatori; F5 esclusa.
   - [ ] Audit 14/10 — cosa manca davvero per chiudere F4.16:
     - un full conforme con il set W: il primo ha 114 PASS e 5 NEW-FAIL, il secondo è interrotto;
-    - la revisione puntuale delle 6805 differenze del confronto UI con la cattura F3 ([prospetto](f4-transizioni-ui-da-revisionare.md)), distinguendo la parte che deriva già dalla 1.7.1;
+    - la revisione puntuale delle 6805 differenze del confronto UI con la cattura F3 ([prospetto](f4-transizioni-ui-da-revisionare.md)), distinguendo la parte che deriva già dalla 1.7.1: fatta il 14/10 ([classificazione](f4-transizioni-ui-classificazione.md), nessuna differenza non spiegata), da rifare sul commit finale con il full;
     - le pagine dei metodi per σcp nel taglio dei muri (F4-03), per la curvatura con viscosità (F4-08), per il traffico Schema 1 (F4-29) e per GPC.Design;
     - l'elenco del legacy da rimuovere con i chiamanti rimasti, da preparare prima di chiedere l'accordo dell'utente;
-    - il requisito «analisi composte» dei prezzari (decisioni del 13/10 sera), non implementato;
+    - il requisito «analisi composte» dei prezzari (decisioni del 13/10 sera): attuato il 14/10 dopo l'audit (registro F4-45,
+      GPC.Design 0.20.0.0 nel set X);
     - l'approvazione dell'utente per il merge di F4 in main.
   - [x] F4.16a (14/10) — guide Rev43 e versione: Guide globali pratiche e teoriche aggiornate per prezzari/revisioni/inclusioni, traffico Schema 1, input normativi e calcoli condivisi; esempio storico Bridge conservato con ipotesi esplicite. Word/PDF finali: 80 + 145 pagine, 337 formule e parti ITEC conservate, rendering e controllo grafico completati. Wiki: 71 capitoli/6736 termini; indici aggiornati. Rev42 e indici precedenti archiviati con SHA e origine. ANTHEA 1.8.0 per le nuove funzionalita F4 (secondo componente), commit 0eaebd3e. Restano il full con il set W e la chiusura del rilascio.
   - [x] F4.16b (14/10) — regressione predalle: F4-36: mapping dei soli dati delle file attive, campi dormienti conservati. predalle-fix: 9 PASS; 53 casi congelati equivalenti, geometria/report/progetto e prova WPF superati. Nessun atteso o tolleranza modificato.

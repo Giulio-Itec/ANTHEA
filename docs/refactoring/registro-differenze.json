@@ -2299,7 +2299,7 @@
       "titolo": "SLE e fessurazione con GPCChecker.Concrete: differenze nelle ultime cifre, Ac,eff dai poligoni invece che dalla mesh",
       "famiglia": "calcestruzzo/sle-fessurazione",
       "categoria": "convenzione",
-      "stato": "da-decidere",
+      "stato": "dichiarato",
       "descrizione": "Voce prevista dal progetto F2.7 (commit A8 e A9) e non scritta quando l'interruttore delle SLE è passato alla libreria nel commit F4 b7339f4a del 12/10; ricostruita dall'audit del 14/10. Con ConcreteServiceabilityAdapter.Default = Library tensioni, limiti e fessurazione vengono da GPCChecker.Concrete con le stesse formule del legacy e un'aritmetica diversa. Nel legacy Ac,eff è la somma delle facce della mesh tagliata nella fascia efficace (X.Calculations/Ntc2018Checks.cs:191); la libreria parte dalla geometria della fessurazione costruita sui poligoni del contorno (CrackSectionGeometry, ConcreteLibraryMapping.CrackGeometry), da cui scarti nelle ultime cifre di Ac,eff e delle grandezze derivate. Il legacy resta selezionabile per i confronti (ServiceabilityEngine.Legacy, --motore-sle legacy).",
       "codice": [
         "X.Calculations/ConcreteServiceabilityAdapter.cs (Default => Library dal commit b7339f4a)",
@@ -2316,7 +2316,7 @@
         ]
       },
       "decisione": {
-        "esito": "nessuna decisione dell'utente registrata: interruttore attivato dall'agente in b7339f4a, fuori dal micro-piano F2.7; da ratificare (audit 14/10)"
+        "esito": "interruttore attivato dall'agente in b7339f4a, fuori dal micro-piano F2.7; ratificato dall'utente il 14/10 («ratifico entrambe», decisioni.md punto 3b): libreria come motore predefinito, legacy selezionabile fino alla revisione delle pagine dei metodi. Cattura B4 del 14/10 con i due motori: supporto/artefatti/baseline/F2-B4, 159 file uguali entro le tolleranze"
       },
       "data": "2026-10-14",
       "fase": "F2.7 (A8 e A9 non eseguiti come previsto); attivazione nel riuso API F4 del 12/10; voce ricostruita nell'audit del 14/10",
@@ -2329,7 +2329,7 @@
       "titolo": "Testi e traccia di SLE e fessurazione: la mappatura restituisce simboli, espressioni, note e stati del legacy",
       "famiglia": "calcestruzzo/sle-fessurazione",
       "categoria": "intenzionale",
-      "stato": "da-decidere",
+      "stato": "dichiarato",
       "descrizione": "Voce prevista dal progetto F2.7 (A8 e A9) e non scritta; ricostruita dall'audit del 14/10. La libreria scrive la traccia della fessurazione con codici e flag stabili (scelta F2.7-D1, traccia T1); ConcreteLibraryMapping.Serviceability traduce codici, flag, esiti, motivi e rifiuti nei simboli, nelle espressioni, nelle note e negli stati italiani del legacy, compresi i testi che descrivono il calcolo sulla mesh (Ac,eff, ConcreteLibraryMapping.Serviceability.cs:442-445). Un codice senza traduzione è un errore di programma. JSON CrackResult.Details, scheda «Fessurazione · passaggi», riepiloghi e relazioni restano quelli del legacy. La scelta F2.7-D1 è del coordinatore e non è registrata in decisioni.md.",
       "codice": [
         "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
@@ -2343,7 +2343,7 @@
         ]
       },
       "decisione": {
-        "esito": "nessuna decisione dell'utente: scelta F2.7-D1 del coordinatore (progetto F2.7 rivisto, §1), non registrata in decisioni.md; da ratificare (audit 14/10). Contribuisce alle tracce per i report di F2.3 [CP]."
+        "esito": "scelta F2.7-D1 del coordinatore (progetto F2.7 rivisto, §1), ratificata dall'utente il 14/10 (decisioni.md punto 4b). Contribuisce alle tracce per i report di F2.3 [CP]."
       },
       "data": "2026-10-14",
       "fase": "F2.7 (A8 e A9 non eseguiti come previsto); voce ricostruita nell'audit del 14/10",
@@ -2374,8 +2374,8 @@
       "titolo": "Ripieghi della cattura headless (fallbacks.json): chiamanti registrati con il motore SLE della libreria",
       "famiglia": "calcestruzzo/sle-fessurazione",
       "categoria": "intenzionale",
-      "stato": "da-ricostruire",
-      "descrizione": "Voce prevista dal progetto F2.7 (A8 e rischio 10: con l'adattatore cambiano i chiamanti registrati dei ripieghi J.S, J.D e J.B, come in F2-1) e non scritta. Misurato nell'audit del 14/10: fallbacks.json della cattura headless del full del 12/10 (commit 71aaa60b, successivo a b7339f4a, quindi con il motore SLE della libreria) è identico byte per byte a quello della baseline F2-B6, catturata con il legacy l'8/10: nessun cambio sui documenti del corpus. Manca: il corpus SLE della baseline B4, mai catturata, e quindi la misura sui documenti SLE e sui fogli senza le chiavi lette; manca la decisione dell'utente.",
+      "stato": "dichiarato",
+      "descrizione": "Voce prevista dal progetto F2.7 (A8 e rischio 10: con l'adattatore cambiano i chiamanti registrati dei ripieghi J.S, J.D e J.B, come in F2-1) e non scritta. Misurato nell'audit del 14/10: fallbacks.json della cattura headless del full del 12/10 (commit 71aaa60b, successivo a b7339f4a, quindi con il motore SLE della libreria) è identico byte per byte a quello della baseline F2-B6, catturata con il legacy l'8/10: nessun cambio sui documenti del corpus. Misurato il 14/10 con la cattura B4 (supporto/artefatti/baseline/F2-B4: corpus str_palo e muri, 17 documenti, motore legacy e libreria): fallbacks.json identico byte per byte fra i due motori, 159 file uguali entro le tolleranze (712 arrotondamenti, 1420 numeri entro tolleranza, nessuna differenza non ammessa). Motore della libreria ratificato dall'utente il 14/10 (decisioni.md punto 3b).",
       "codice": [
         "X.Calculations/ConcreteServiceabilityAdapter.cs",
         "src/ANTHEA.Serialization/JsonData.cs (ripieghi J.S, J.D, J.B)"
@@ -4859,6 +4859,103 @@
         "src/ANTHEA.Application/Projects/ProjectSharedData.cs",
         "X.Desktop/Wpf/Materials/MaterialState.cs",
         "tests/ANTHEA.Application.Tests/MaterialDefaultsChecks.cs"
+      ]
+    },
+    {
+      "id": "F4-43",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, punto 2b",
+      "titolo": "Sezione c.a.: equazione e diagramma del piano di deformazione SLE con la viscosità",
+      "famiglia": "sezioni c.a.",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Nell'analisi lineare con viscosità il solutore usa il piano elastico equivalente (calcestruzzo a Ec, acciaio a Es·(1+φ)): le tensioni dipendono solo da n, ma le deformazioni del piano sono 1+φ volte più piccole di quelle reali. Il testo di ispezione (ε0, gx, gy) e il diagramma delle deformazioni mostravano quel piano, mentre le deformazioni di barre e vertici della stessa vista erano totali. Ora tutti usano StressAnalysisResult.TotalStrainPlane (Concrete 0.9.0.0): una barra a σs sta sul piano a σs/Es. Tensioni, asse neutro e verifiche invariati; con φ = 0 o analisi non lineare il piano non cambia.",
+      "decisione": "Utente, 14/10: «sì a entrambe» (solutore invariato, piano totale esplicito nella libreria, correzione della visualizzazione).",
+      "test": [
+        "Checker: TotalStrainPlaneCarriesThePhysicalStrainsOfTheLinearAnalysisWithCreep (barre a σs/Es, calcestruzzo compresso a σc(1+φ) diviso Ec, stessi valori degli accessori)",
+        "Application.Tests PASS: StrainDiagramChecks sul piano totale"
+      ],
+      "codice": [
+        "src/ANTHEA.Application/Concrete/ConcreteStrainDiagram.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteResponsePresentation.cs",
+        "tests/ANTHEA.Application.Tests/StrainDiagramChecks.cs"
+      ]
+    },
+    {
+      "id": "F4-44",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, punto 2d",
+      "titolo": "NEd dell'armatura minima: compressione più gravosa di tutte le combinazioni, SLE comprese",
+      "famiglia": "sezioni c.a.",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Seguito di F4-20. Scheda dettagli, progetto delle armature e report prendono NEd dalla compressione più gravosa fra SLU, SLV, righe del taglio e SLE rara, frequente e quasi permanente (SectionDesignDemand.DetailingCompression, GPC.Design 0.20.0.0). La scheda indica la combinazione che governa e segnala quando è un valore di esercizio. As,min può solo crescere rispetto a F4-20; con combinazioni ultime complete le SLE non governano. Righe senza stato limite (chiamanti storici) valgono come SLU.",
+      "decisione": "Utente, 14/10: «compressione massima tra tutte le combo. slu, slv e taglio (eventualmente sle se le altre sono nulle)» e «in generale, usa le N più gravose di tutte le combo».",
+      "test": [
+        "Design.Checks: DetailingCompressionTakesTheMostSevereRowOfAllFamilies",
+        "Application.Tests PASS: DetailingCompressionChecks (SLE che governa, SLV che governa, testo, righe storiche)"
+      ],
+      "codice": [
+        "X.Calculations/ConcreteDetailingAnalysis.cs",
+        "X.Calculations/ConcreteReinforcementDesign.cs",
+        "X.Calculations/ConcreteReinforcementDesign.Library.Search.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteDetailingPresentation.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteSheetPreparation.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteReportAnalysis.cs",
+        "X.Desktop/Wpf/ConcreteDetailing.cs",
+        "tests/ANTHEA.Application.Tests/DetailingCompressionChecks.cs"
+      ]
+    },
+    {
+      "id": "F4-45",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, requisito dei prezzari del 13/10",
+      "titolo": "Prezzari del ponte: analisi composte con spese generali e utile",
+      "famiglia": "Bridge Design",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Requisito «analisi composte» del 13/10, non implementato in F4. Un'analisi ha componenti (voci o altre analisi) con quantità nell'unità del componente; prezzo = componenti + spese generali sui componenti + utile su componenti e spese generali, voci esplicite del dettaglio (PriceAnalyses, GPC.Design 0.20.0.0). Percentuali predefinite nel prezzario (15 % e 10 % proposti alla prima analisi, modificabili) e sovrascrivibili per analisi; riferimenti circolari, componenti mancanti o senza prezzo e percentuali fuori da 0–100 rifiutati in italiano. Il codice di un'analisi si associa alle lavorazioni come una voce. Nuova unità h per manodopera e noli. CSV ed Excel conservano le analisi dell'editor, il catalogo JSON le sostituisce. Un prezzario senza analisi si serializza come prima, quindi revisioni e risultati esistenti non cambiano.",
+      "decisione": "Utente, 14/10: prezzo da componenti più spese generali e utile «che siano chiare voci presenti nel totale», percentuali nel prezzario modificabili per analisi, annidamento con rifiuto dei cicli.",
+      "test": [
+        "Design.Checks: PriceAnalysesTests (attesi a mano 187,8525 e 482,1006575 €/m³, rifiuti, ore)",
+        "Application.Tests PASS: BridgePriceAnalysesChecks (dettaglio, associazione, applicazione al computo, JSON, CSV, ciclo, percentuali mancanti)"
+      ],
+      "codice": [
+        "X.Calculations/BridgePricing.cs",
+        "src/ANTHEA.Application/BridgeDesign/PriceCatalogue.cs",
+        "src/ANTHEA.Application/BridgeDesign/PriceCatalogueViewModel.cs",
+        "X.Desktop/Wpf/BridgePricesView.cs",
+        "tests/ANTHEA.Application.Tests/BridgePriceAnalysesChecks.cs"
+      ]
+    },
+    {
+      "id": "F4-46",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, punto 4c-1 (F3.6)",
+      "titolo": "Report in DOCX e PDF senza Word",
+      "famiglia": "Report",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Ogni report si salva in DOCX e PDF con lo stesso nome (ReportFiles), dallo stesso pacchetto: il PDF si genera in ANTHEA.Reports dalle parti Open XML con PDFsharp/MigraDoc (MIT), senza Word. Il report sintetico non usa più Word: ANTHEA impagina il PDF e rifiuta più di due pagine senza scrivere file. I DOCX non cambiano. Report di progetto e scheda materiali scrivono anche il PDF; il report delle fondazioni conserva il suo PDF; la distinta ferri conserva il PDF A3. Un solo risolutore dei caratteri per tutti i PDF del processo (Calibri, Arial, Times New Roman, Segoe UI, alias dei report dei modelli) con passaggio a Segoe UI o Segoe UI Symbol dei caratteri mancanti. L'impaginazione è quella di MigraDoc e può differire da Word.",
+      "decisione": "Utente, 14/10: «predisponilo ora in questo refactoring. fai che faccia entrambi i file: docx e pdf. export in pdf aggiungilo anche agli altri report. per ora però prendi i report per come sono»; «va bene aggiungere un nuget» (già referenziato da ANTHEA.Reports).",
+      "test": [
+        "Reports.Tests PASS: PdfChecks su 151 report della cattura headless (parole del PDF uguali, in ordine, a quelle del DOCX; sintetici entro 2 pagine; DOCX e PDF scritti insieme o nessuno)"
+      ],
+      "codice": [
+        "src/ANTHEA.Reports/Pdf/DocxPdf.cs",
+        "src/ANTHEA.Reports/Pdf/PdfFonts.cs",
+        "src/ANTHEA.Reports/ReportFiles.cs",
+        "src/ANTHEA.Application/Projects/ReportProject.cs",
+        "src/ANTHEA.Reports/Generators/FoundationReport.cs",
+        "src/ANTHEA.ModelReports/ModelReportExporter.cs",
+        "X.Desktop/Wpf/App.cs",
+        "X.Desktop/Wpf/MainWindow.ShortReport.cs",
+        "X.Desktop/Wpf/SheetEditor.cs",
+        "X.Desktop/Wpf/ConcreteReport.cs",
+        "X.Desktop/Wpf/RetainingWallWorkspace.GlobalStability.cs",
+        "X.Desktop/Wpf/ProjectReport.cs",
+        "X.Desktop/Wpf/MainWindow.cs",
+        "tests/ANTHEA.Reports.Tests/PdfChecks.cs"
       ]
     }
   ]

@@ -1133,3 +1133,18 @@ Decisioni dell'utente, una per punto:
    - (5d) tag annotati delle versioni sul commit da cui è costruito l'installer, dove registrato (1.2.0 fc632464, 1.6.0
      8b0da2a2, 1.7.0 68330851, 1.7.1 2c06ab46, 1.8.0 d66379ac), altrimenti sul commit che porta la versione (1.3.0
      71aaa60b, 1.4.0 22f6a1aa, 1.5.0 bce1e337); push dei tag e del ramo `refactoring/f4-correzioni-audit`.
+6. **Profilo full**: «profilo full lo facciamo stanotte. non ora. da mezzanotte in poi»; poi spostato: «lavora uno alla
+   volta. spostiamo il full a domattina alle 6.00. se non riesci a finire le cose, spostiamo il full». Corsa sul ramo
+   delle correzioni il 15/10 alle 06:00 solo se le correzioni concordate sono finite e committate, altrimenti si
+   rinvia; comprende il nuovo confronto UI con la cattura F3 sul commit corrente. Lavoro senza agenti in parallelo.
+8. **Voci anticipate a prima del full** (A12, avviso di migrazione EXCEL-SOL, pagine dei metodi F4, analisi composte).
+   Analisi composte dei prezzari: prezzo unitario = Σ quantità × prezzo dei componenti (materiali, manodopera, noli,
+   trasporti) più spese generali e utile d'impresa, «che siano chiare voci presenti nel totale» e impostabili;
+   percentuali predefinite nel prezzario, modificabili per singola analisi in modo esplicito; un'analisi può usare
+   altre analisi come componenti, con rifiuto dei riferimenti circolari. Calcolo in GPC.Design, gestione in ANTHEA.
+7. **Riferimenti di terzi nelle guide**: «punto 7 ok nella Rev44». Restano citazioni normative e bibliografia dei metodi
+   implementati (FHWA GEC 10 e AASHTO per i p-multiplier, USGS e USACE per Newmark, Timoshenko e Gere, schema IFC); si
+   tolgono TU Delft, MIT, diapositive JRC (al loro posto la norma, es. EN 1992-1-1 §9.2.1.3), SCI, esempi LRFD e
+   manuali FHWA di metodi non implementati, con spiegazioni riscritte in testo nostro. La frase su Straus si toglie
+   finché l'importazione non è attiva; il controllo delle guide intercetta anche questi riferimenti. Tutto nella
+   Rev44, insieme a PDF dei report, regola di NEd e testi ATECAP riscritti.
