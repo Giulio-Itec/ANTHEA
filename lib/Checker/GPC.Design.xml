@@ -49,6 +49,9 @@
         <member name="M:GPC.Design.Bridges.RoadTraffic.Ntc2018(System.Double[])">
             <summary>Global longitudinal action. Numbering is common to carriageways divided by a fixed barrier.</summary>
         </member>
+        <member name="T:GPC.Design.Costs.QuantityUnit">
+            <summary>Units of measured work and prices; Hour (labour and plant hire in price analyses) converts only to itself.</summary>
+        </member>
         <member name="T:GPC.Design.Costs.CostQuantity">
             <summary>A measured quantity. InclusionOwner is the id of the specific enclosing work, never a global material exemption.</summary>
         </member>
@@ -61,14 +64,88 @@
         <member name="M:GPC.Design.Costs.CostEstimator.ConvertPrice(System.Decimal,GPC.Design.Costs.QuantityUnit,GPC.Design.Costs.QuantityUnit)">
             <summary>Conversion restricted to compatible dimensions. Rates are expressed per rate unit.</summary>
         </member>
+        <member name="T:GPC.Design.Costs.AnalysisComponent">
+            <summary>Component of a price analysis: a priced item or another analysis, with its quantity per unit of the analysis, expressed in the
+            unit of the component (for example 0,35 h of labour per m³).</summary>
+        </member>
+        <member name="M:GPC.Design.Costs.AnalysisComponent.#ctor(System.String,System.Decimal)">
+            <summary>Component of a price analysis: a priced item or another analysis, with its quantity per unit of the analysis, expressed in the
+            unit of the component (for example 0,35 h of labour per m³).</summary>
+        </member>
+        <member name="T:GPC.Design.Costs.PriceAnalysis">
+            <summary>Price analysis: unit price built from components, then general expenses and contractor's profit. Null percentages take the
+            defaults of the price list; a value given here overrides them for this analysis only.</summary>
+        </member>
+        <member name="M:GPC.Design.Costs.PriceAnalysis.#ctor(System.String,GPC.Design.Costs.QuantityUnit,System.Collections.Generic.IReadOnlyList{GPC.Design.Costs.AnalysisComponent},System.Nullable{System.Decimal},System.Nullable{System.Decimal})">
+            <summary>Price analysis: unit price built from components, then general expenses and contractor's profit. Null percentages take the
+            defaults of the price list; a value given here overrides them for this analysis only.</summary>
+        </member>
+        <member name="T:GPC.Design.Costs.AnalysisLine">
+            <summary>One component of a resolved analysis: quantity, unit price of the component in its unit and amount.</summary>
+        </member>
+        <member name="M:GPC.Design.Costs.AnalysisLine.#ctor(System.String,System.Decimal,GPC.Design.Costs.QuantityUnit,System.Decimal,System.Decimal)">
+            <summary>One component of a resolved analysis: quantity, unit price of the component in its unit and amount.</summary>
+        </member>
+        <member name="T:GPC.Design.Costs.AnalysisBreakdown">
+            <summary>
+            Resolved analysis with every term of the total: subtotal of the components, general expenses on the subtotal, profit on subtotal
+            plus general expenses, unit price. No rounding: presentation rounds, nested analyses use the exact values.
+            </summary>
+        </member>
+        <member name="M:GPC.Design.Costs.AnalysisBreakdown.#ctor(System.String,GPC.Design.Costs.QuantityUnit,System.Collections.Generic.IReadOnlyList{GPC.Design.Costs.AnalysisLine},System.Decimal,System.Decimal,System.Decimal,System.Decimal,System.Decimal,System.Decimal,System.Boolean,System.Boolean)">
+            <summary>
+            Resolved analysis with every term of the total: subtotal of the components, general expenses on the subtotal, profit on subtotal
+            plus general expenses, unit price. No rounding: presentation rounds, nested analyses use the exact values.
+            </summary>
+        </member>
+        <member name="M:GPC.Design.Costs.AnalysisBreakdown.Rate(System.String)">
+            <summary>Resolved rate for the cost estimate, with the analysis as its source.</summary>
+        </member>
+        <member name="T:GPC.Design.Costs.PriceAnalyses">
+            <summary>Price analyses of a price list (no catalogue, document, I/O or UI dependency).</summary>
+        </member>
+        <member name="M:GPC.Design.Costs.PriceAnalyses.Resolve(System.Collections.Generic.IEnumerable{GPC.Design.Costs.ResolvedCostRate},System.Collections.Generic.IEnumerable{GPC.Design.Costs.PriceAnalysis},System.Decimal,System.Decimal)">
+            <summary>
+            Resolves every analysis. A component is an item of <paramref name="items"/> (with a price) or another analysis; a missing or
+            unpriced component, a code used twice, a circular reference, a non-positive quantity or a percentage outside 0–100 is refused.
+            Unit price = subtotal + general expenses + profit, with general expenses = subtotal · g/100 and profit = (subtotal + general
+            expenses) · u/100.
+            </summary>
+        </member>
         <member name="T:GPC.Design.Piles.PileSegmentDesign">
             <summary>Discrete segment design over the existing Concrete engines. Actions are concomitant kN/kNm at depths in m;
             layout dimensions are mm. Each factory call transfers a new, exclusive section/solver to the search.
             Geometrical ordering is PileReinforcement.Layouts; no assumption of monotone resistance is made.</summary>
         </member>
+        <member name="T:GPC.Design.Sections.DesignActionFamily">
+            <summary>Family of an action row: ultimate, seismic and shear rows are design values, the others serviceability values.</summary>
+        </member>
+        <member name="T:GPC.Design.Sections.DesignAxialAction">
+            <summary>Signed axial force (tension positive) of a named action row.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.DesignAxialAction.#ctor(System.String,GPC.Design.Sections.DesignActionFamily,System.Double)">
+            <summary>Signed axial force (tension positive) of a named action row.</summary>
+        </member>
+        <member name="T:GPC.Design.Sections.GoverningCompression">
+            <summary>Governing compression and the row it comes from; no source when no row is compressed.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.GoverningCompression.#ctor(System.Double,GPC.Design.Sections.DesignAxialAction)">
+            <summary>Governing compression and the row it comes from; no source when no row is compressed.</summary>
+        </member>
+        <member name="P:GPC.Design.Sections.GoverningCompression.FromServiceability">
+            <summary>The compression comes from a serviceability combination: a service value, not a design value.</summary>
+        </member>
         <member name="T:GPC.Design.Sections.SectionDesignDemand">
             <summary>Numerical demand projections for the design coordinator. Limits are resolved by the existing checkers.
             Units must be consistent within a ratio. Signed axial force and concrete stress are tension-positive.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.SectionDesignDemand.DetailingCompression(System.Collections.Generic.IEnumerable{GPC.Design.Sections.DesignAxialAction})">
+            <summary>
+            Compression NEd of the detailing rules: the largest compression of all the rows, ultimate, seismic, shear and serviceability
+            (decision of the ANTHEA user of 14/10/2026: the most severe N of all the combinations). Serviceability rows do not govern when
+            the ultimate rows are complete; they cover sections without ultimate rows. With equal values the design families win, then the
+            first row; without compressed rows the value is 0 and there is no source.
+            </summary>
         </member>
         <member name="M:GPC.Design.Sections.SectionDesignDemand.MaximumCompression(System.Collections.Generic.IEnumerable{System.Double})">
             <summary>Empty action sets give the geometric detailing minimum only, as in the captured coordinator.</summary>
