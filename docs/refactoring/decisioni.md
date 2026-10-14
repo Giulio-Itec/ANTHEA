@@ -1148,3 +1148,10 @@ Decisioni dell'utente, una per punto:
    manuali FHWA di metodi non implementati, con spiegazioni riscritte in testo nostro. La frase su Straus si toglie
    finché l'importazione non è attiva; il controllo delle guide intercetta anche questi riferimenti. Tutto nella
    Rev44, insieme a PDF dei report, regola di NEd e testi ATECAP riscritti.
+9. **Seguiti della sera del 14/10**: «ok push di checker e anthea»; «lascia pure quel minor, non dà fastidio».
+   - Pubblicati master del Checker (26cef01a, pagine dei metodi F4) e il ramo `refactoring/f4-correzioni-audit`.
+   - Il commit vuoto 2bbdcbce «minor» del Checker (aggiunge solo `diff-piano.txt`) resta, senza revert.
+   - F2-7, uscite della fessurazione non raggiunte ([f2-7-rifiuti-sle.md](f2-7-rifiuti-sle.md) §4): «ok 1 e 2, la 3
+     mettila in coda dopo F4». Le sette uscite impossibili o degeneri restano difese della libreria; i due casi
+     raggiungibili con le armature libere diventano stati mirati con il confronto fra i due motori; l'indicazione
+     all'utente sulla zona tesa non armata è in coda dopo F4.

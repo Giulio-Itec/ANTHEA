@@ -20,9 +20,9 @@ La libreria è il trasferimento del legacy (`Ntc2018Checks.Cracking`, ancora sel
 | 4 | `RequiresLinearCrackedAnalysis` (304) | righe 100-101 | sì | sì |
 | 5 | tensioni delle barre mancanti o non finite, `BarStresses` (339-340) | riga 130 | no | no |
 | 6 | sezione interamente compressa, wk = 0 (332-338) | riga 129 | sì | sì |
-| 7 | sezione interamente tesa: facce, `FaceWithoutAreaOrSteel` (561-565), `SpacingUndetermined` (569) | `ConcreteTensionCracking` | facce sì, rifiuto no | idem |
+| 7 | sezione interamente tesa: facce, `FaceWithoutAreaOrSteel` (561-565), `SpacingUndetermined` (569) | `ConcreteTensionCracking` | facce sì, rifiuto no | facce sì; rifiuto sì dal 14/10 (§4) |
 | 8 | `NeutralAxisUndetermined` (366) | riga 153 | no | no |
-| 9 | `NoTensileReinforcement` (385) | riga 172 | no | no |
+| 9 | `NoTensileReinforcement` (385) | riga 172 | no | sì dal 14/10 (§4) |
 | 10 | `ZeroEffectiveDepth` (406) | riga 186 | no | no |
 | 11 | nessuna barra in Ac,eff: limite superiore (427-443) | righe 210-223 | sì | sì |
 | 12 | `NoEffectiveSteelOrArea` (445-449) | riga 224 | no | no |
@@ -50,7 +50,7 @@ corpus, non un ramo morto).
 | `WidthParameters`, `UpperBoundParameters` | impossibile in condizioni ordinarie | i dati della formula sono già controllati a monte (materiali positivi, ρ > 0, s > 0 dopo il punto 13); restano come difesa della libreria |
 | `NeutralAxisUndetermined` | degenere | richiede εmax > 1e-12, εmin < 0 e \|∇ε\| ≤ 1e-15 1/mm: poiché εmax − εmin ≤ \|∇ε\|·D, serve una sezione con estensione D > 1 m e uno scarto di deformazione fra 1e-12 e 1e-15·D, cioè azioni dell'ordine di 1e-8 volte quelle di esercizio |
 | `PrestressNotSupported` | **raggiungibile** | qualunque sezione con trefoli e criterio di apertura delle fessure (`workspace.trefoli` non vuoto); raggiunto dagli stati mirati «precompressione», assente dal corpus |
-| `NoTensileReinforcement` | **raggiungibile con armature libere** | sezione armata da un solo lato con il lato opposto teso, per esempio barre solo inferiori e momento negativo: nessuna barra tesa e la barra più vicina al lembo teso oltre h/2. La disposizione automatica lo esclude, perché impone almeno due barre superiori e due inferiori (`SezioneCA.cs:120`) e la sezione circolare ha barre su tutto il contorno |
+| `NoTensileReinforcement` | **raggiungibile con armature libere** | sezione armata da un solo lato con il lato opposto teso, per esempio barre solo inferiori e pressoflessione che tende il lembo superiore: nessuna barra tesa e la barra più vicina al lembo teso oltre h/2. La disposizione automatica lo esclude, perché impone almeno due barre superiori e due inferiori (`SezioneCA.cs:120`) e la sezione circolare ha barre su tutto il contorno |
 | `FaceWithoutAreaOrSteel` | **raggiungibile con armature libere** | sezione interamente tesa armata da un solo lato: per la faccia senza barre la fascia efficace (al più h/2 o h/3) non contiene barre tese; stessa esclusione della disposizione automatica |
 
 ## 3. Valutazione
@@ -60,8 +60,8 @@ corpus, non un ramo morto).
 - Sei uscite non raggiunte sono impossibili con i dati che il modulo produce e una è degenere: nessuna serve a un
   progetto reale e nessuna dà un esito favorevole senza calcolo.
 - Tre uscite sono raggiungibili con dati plausibili e mancano dal corpus: precompressione con apertura delle
-  fessure e, con le armature libere, sezione armata da un solo lato con il lato opposto teso, in flessione o in
-  trazione. In tutti e tre i casi
+  fessure e, con le armature libere, sezione armata da un solo lato con il lato opposto teso, in pressoflessione o
+  in trazione. In tutti e tre i casi
   la libreria e il legacy si fermano senza esito numerico e con lo stesso testo: «Apertura CAP: modello
   aderenza/decompressione da definire», «Nessuna armatura tesa», «⟨faccia⟩: area o armatura efficace assente».
 
@@ -73,3 +73,17 @@ corpus, non un ramo morto).
    è già coperta dagli stati mirati.
 3. Valutare a parte se «Nessuna armatura tesa» e la faccia senza armatura debbano restare senza esito: il calcolo si
    ferma correttamente, ma l'utente non riceve un'indicazione sulla fessurazione della zona non armata.
+
+**Decisione dell'utente del 14/10**: «ok 1 e 2, la 3 mettila in coda dopo F4».
+
+- Punto 1: accettato. Le sette uscite restano difese della libreria.
+- Punto 2: fatto. Due stati mirati in `tests/ConcreteLibraryAdapter.Checks/ServiceabilityChecks.cs`, sulla R300x500 con
+  armature libere:
+  - «nessuna armatura tesa»: tre φ20 a y = −200 mm, N = −500 kN e Mx = −80 kNm (e = 160 mm > h/6, lembo superiore
+    teso, barre a 450 mm > h/2 dal lembo teso);
+  - «faccia senza armatura»: due file di tre φ20 a y = −200 e −100 mm, N = +300 kN e Mx = +45 kNm (risultante a
+    y = −150 mm, deformazione uniforme, sezione interamente tesa, nessuna barra nella fascia della faccia superiore).
+
+  Libreria e legacy danno la stessa uscita con lo stesso testo; 17 stati mirati in tutto (corsa
+  `20261014-222511-f2-7-stati`, PASS).
+- Punto 3: in coda dopo F4 (piano, «In coda dopo F4»).

@@ -275,20 +275,21 @@ sealed partial class ServiceabilityChecks
     /// <summary>
     /// Stati mirati della 5c (ciclo di prototipo, giro 1): rami raggiungibili in ANTHEA che la griglia della cattura densa non tocca (formazione delle
     /// fessure, barre distanziate con la regione distante o vicina governante, precompressione, copriferro e interasse della fessurazione non validi
-    /// rifiutati al punto d'uso o non letti), sulla R300x500 della griglia; ognuno con il ramo che deve raggiungere nel legacy (risultato o messaggio
-    /// del rifiuto). I rami non raggiungibili in ANTHEA (regola di k₂ prima di D7-b, hc,eff nulla, Ac,eff nulla, faccia senza armatura, asse neutro non
-    /// determinato, nessuna armatura tesa, superfici interne non supportate, limite superiore DIN, rifiuti dei parametri della formula, delle tensioni delle
-    /// barre e della sezione non fessurata) restano provati dalla libreria e dalla 5a.
+    /// rifiutati al punto d'uso o non letti; con le armature libere, F2-7: nessuna armatura tesa e faccia senza armatura), sulla R300x500 della griglia;
+    /// ognuno con il ramo che deve raggiungere nel legacy (risultato o messaggio del rifiuto). I rami non raggiungibili in ANTHEA (regola di k₂ prima di
+    /// D7-b, hc,eff nulla, Ac,eff nulla, asse neutro non determinato, superfici interne non supportate, limite superiore DIN, rifiuti dei parametri della
+    /// formula, delle tensioni delle barre e della sezione non fessurata) restano provati dalla libreria e dalla 5a (docs/refactoring/f2-7-rifiuti-sle.md).
     /// </summary>
     static IEnumerable<(CrackState State, string Branch, Func<Ntc2018Checks.CrackResult?, string, bool> Reached)> TargetedCrackStates()
     {
         (CrackState, string, Func<Ntc2018Checks.CrackResult?, string, bool>) Make(int id, string standard, string set, ActionPoint action, string branch,
-            Func<Ntc2018Checks.CrackResult?, string, bool> reached, Action<JsonObject> options, bool tendon = false)
+            Func<Ntc2018Checks.CrackResult?, string, bool> reached, Action<JsonObject> options, bool tendon = false, (double X, double Y, double Phi)[]? bars = null)
         {
             var data = SezioneCA.DefaultData(); var settings = SectionWorkspace.Prepare(data); var input = data["input"]!.AsObject();
             input["shape"] = "Rettangolare"; input["width_mm"] = "300"; input["height_mm"] = "500"; input["top_bar_count"] = "2"; input["bottom_bar_count"] = "3";
             input["side_bar_count_per_side"] = "0"; input["top_bar_diameter_mm"] = "16"; input["bottom_bar_diameter_mm"] = "20"; input["cover_mm"] = "30"; input["fck_mpa"] = "30";
             input["gettato_sottile"] = "No"; settings["normativa"] = standard;
+            if (bars is not null) input["barre_manuali"] = new JsonArray(bars.Select(b => (JsonNode)J.Obj(("x", b.X), ("y", b.Y), ("phi", b.Phi))).ToArray());
             if (tendon) settings["trefoli"]!.AsArray().Add(J.Obj(("id", "T1"), ("x", "0"), ("y", "-150"), ("area", "150"), ("sigma0", "1000"), ("Ep", "195000"),
                 ("fpyk", "1670"), ("fpk", "1860"), ("eps_u", "35")));
             var prepared = CheckerSection.PrepareModel(input, settings);
@@ -328,6 +329,16 @@ sealed partial class ServiceabilityChecks
             (r, _) => r?.Status == "Sezione interamente compressa", o => { o["copriferro_fessure"] = "abc"; o["spaziatura_fessure"] = "0"; });
         yield return Make(id++, "NTC 2018", "SLE_QP", bending, "copriferro e interasse non validi non letti, decompressione",
             (r, _) => r?.Status.StartsWith("Decompressione") == true, o => { o["esposizione"] = "XD1"; o["sensibilita"] = "Sensibile"; o["copriferro_fessure"] = "abc"; o["spaziatura_fessure"] = "0"; });
+        // F2-7 (decisione dell'utente del 14/10, punto 2): armature libere su un solo lato, con il lato non armato teso.
+        // Pressoflessione con e = 160 mm > h/6 e lembo superiore teso: le sole barre inferiori sono compresse e distano 450 mm > h/2 dal lembo teso.
+        var bottom = new[] { (-100d, -200d, 20d), (0d, -200d, 20d), (100d, -200d, 20d) };
+        yield return Make(id++, "NTC 2018", "SLE_QP", new ActionPoint(-500, -80, 0), "nessuna armatura tesa, armature libere",
+            (r, _) => r?.Status == "Nessuna armatura tesa", _ => { }, bars: bottom);
+        // Trazione con risultante a metà fra due file inferiori (y = −150 mm, M = 300 · 0,15): deformazione uniforme, sezione interamente tesa;
+        // la fascia efficace della faccia superiore non contiene barre.
+        yield return Make(id++, "NTC 2018", "SLE_QP", new ActionPoint(300, 45, 0), "faccia senza armatura, armature libere",
+            (r, _) => r?.Status.Contains(": area o armatura efficace assente") == true, _ => { },
+            bars: bottom.Concat(bottom.Select(b => (b.Item1, -100d, 20d))).ToArray());
     }
 
     void CrackGrid()

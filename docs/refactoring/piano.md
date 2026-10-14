@@ -531,6 +531,10 @@ F5 rimane esclusa. I residui di altre fasi restano separati e tracciati.
     ANTHEA.
   - Come vuole AGENTS.md, interfaccia, guide e report non contengono testi, figure né rimandi al sito.
   - Si progetta con un piano dedicato e con le decisioni dell'utente.
+- [ ] In coda dopo F4 (decisione dell'utente del 14/10 su F2-7, punto 3): indicazione all'utente quando la fessurazione si
+  ferma su una zona tesa non armata («Nessuna armatura tesa», «⟨faccia⟩: area o armatura efficace assente»), oggi senza
+  esito come nel legacy. Proposta dell'agente: verifica non soddisfatta con il motivo. Cambia il comportamento: si decide
+  con l'utente, si implementa nella libreria e si registra come differenza voluta ([f2-7-rifiuti-sle.md](f2-7-rifiuti-sle.md)).
 - [ ] Dopo la fine del refactoring (decisione dell'utente del 14/10, punto 2c dell'audit): Eurocodici con una norma di
   progetto, non per modulo, scritta in ogni documento; annesso nazionale come dato del profilo; profili tipizzati per
   disciplina nelle librerie (combinazioni EN 1990, geotecnica EN 1997 con DA1/DA2/DA3, sisma EN 1998, traffico EN
