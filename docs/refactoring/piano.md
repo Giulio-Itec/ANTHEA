@@ -645,3 +645,7 @@ Disabilitata la normalizzazione Git del solo archivio Rev42: tre Markdown conser
 ### 14/10 — F4.16g confronto UI storico da revisionare
 
 Prima corsa full: 114 PASS e cinque fallimenti. Predalle, muri, Wiki e capitoli corretti e ricollaudati; resta il confronto esatto F3 con le variazioni F4. [Prospetto delle 6805 differenze](f4-transizioni-ui-da-revisionare.md), riferimento F3 e tolleranze invariati. La revisione automatica ha respinto una classificazione per interi file; proposta rimossa. Chiusura e merge finali subordinati alla revisione puntuale e al full conforme.
+
+### 14/10 — F4.16h banco installer isolato
+
+Le fixture modificabili del catalogo e l'installazione di prova delle guide sono ora in una cartella temporanea univoca esterna al checkout; log e percorso della fixture restano in supporto/artefatti. La stessa disinstallazione, interrotta sotto Documents/Repository, completa il percorso in Temp. Tutti i 30 controlli originari rimangono attivi e passano, inclusi rimozione dei PDF/collegamenti e conservazione dei file personali. Evidenza: installer-180-e, installer/guides PASS. Nessuna esclusione o tolleranza introdotta.
