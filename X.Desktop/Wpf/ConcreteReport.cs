@@ -12,7 +12,7 @@ internal sealed partial class ConcreteWorkspace
         return ReportConcreteShort.Create(title, Anthea.Application.Concrete.SectionActionInputs.CalculationCopy(Data), Result!);
     }
     internal void ExportReport(string filename, string title, HashSet<string> options, bool projectReport = false)
-        => Archivio.ScriviAtomico(filename, BuildReport(title, options, projectReport));
+        => Anthea.Reports.ReportFiles.Write(filename, BuildReport(title, options, projectReport), title);
     internal byte[] BuildReport(string title, HashSet<string> options, bool projectReport = false) => DocxWriter.Write(BuildReportDocument(title, options, projectReport));
     internal DocxDocument BuildReportDocument(string title, HashSet<string> options, bool projectReport = false)
     {

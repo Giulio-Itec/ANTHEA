@@ -41,8 +41,8 @@ public static class FoundationReport
     }
     public static byte[] Pdf(string title,JsonObject result)
     {
-        // On Windows, reuse the installed fonts (or the application's existing resolver).
-        GlobalFontSettings.UseWindowsFontsUnderWindows=true;
+        // The single font resolver of every PDF of ANTHEA (Arial among its families)
+        Anthea.Reports.Pdf.PdfFonts.Ensure();
         var doc=new Document();doc.Info.Title=title;doc.Info.Author="ANTHEA";
         var normal=doc.Styles[StyleNames.Normal]!;normal.Font.Name="Arial";normal.Font.Size=10.5;normal.ParagraphFormat.SpaceAfter=Unit.FromPoint(6);
         var section=doc.AddSection();section.PageSetup.PageFormat=PageFormat.A4;section.PageSetup.TopMargin=section.PageSetup.BottomMargin=section.PageSetup.LeftMargin=section.PageSetup.RightMargin=Unit.FromCentimeter(2);

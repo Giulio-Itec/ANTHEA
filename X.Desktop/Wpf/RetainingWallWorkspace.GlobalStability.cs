@@ -155,11 +155,11 @@ internal sealed partial class RetainingWallWorkspace
     private void ExportGlobalWord()
     {
         if (GlobalResult is not { } result || Busy) { MessageBox.Show(Window.GetWindow(this), "Completare prima il calcolo globale."); return; }
-        var dialog = new Microsoft.Win32.SaveFileDialog { Filter = "Relazione Word|*.docx", FileName = "Muro_stabilita_globale.docx" };
+        var dialog = new Microsoft.Win32.SaveFileDialog { Filter = "Relazione Word e PDF affiancati|*.docx", FileName = "Muro_stabilita_globale.docx" };
         if (dialog.ShowDialog(Window.GetWindow(this)) != true) return;
         var input = independentGlobalInput ?? Calculation!.Input;
         var drawing = new GlobalStabilityDrawing { Data = input, Result = result, Case = GlobalCase, Width = 1100, Height = 460 };
         drawing.Measure(new Size(1100, 460)); drawing.Arrange(new Rect(0, 0, 1100, 460)); drawing.UpdateLayout();
-        X.Core.Archivio.ScriviAtomico(dialog.FileName, WallExports.CreateGlobal(input, result, new("Stabilità globale · superficie visualizzata", Ui.DocumentSnapshot(drawing), 1100d / 460)));
+        Anthea.Reports.ReportFiles.Write(dialog.FileName, WallExports.CreateGlobal(input, result, new("Stabilità globale · superficie visualizzata", Ui.DocumentSnapshot(drawing), 1100d / 460)), "Stabilità globale");
     }
 }

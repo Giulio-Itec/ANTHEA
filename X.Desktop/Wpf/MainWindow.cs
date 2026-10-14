@@ -420,7 +420,7 @@ public sealed partial class MainWindow : Window
         if (editor?.Module is "mat_calcestruzzo" or RebarEditor.Module)
         {
             Commit();
-            var save = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = editor.Module == "mat_calcestruzzo" ? "Scheda_calcestruzzo.docx" : "Scheda_acciaio_armature.docx" };
+            var save = new SaveFileDialog { Filter = "Word e PDF affiancati|*.docx", FileName = editor.Module == "mat_calcestruzzo" ? "Scheda_calcestruzzo.docx" : "Scheda_acciaio_armature.docx" };
             if (save.ShowDialog(this) == true) editor.ExportReport(save.FileName, heading.Text, []);
             return;
         }
@@ -428,7 +428,7 @@ public sealed partial class MainWindow : Window
         if (editor.Module is HorizontalPileGroupEditor.Module or HorizontalPileEditor.Module or MicropaloOrizzontale.Module or BridgeDesignModel.Module or WallModel.Module)
         {
             var save = new SaveFileDialog {
-                Filter = "Documento Word|*.docx",
+                Filter = "Word e PDF affiancati|*.docx",
                 FileName = editor.Module == HorizontalPileGroupEditor.Module ? "Relazione_palificata_orizzontale.docx" : editor.Module == WallModel.Module ? "Relazione_muro_sostegno.docx" : editor.Module == BridgeDesignModel.Module ? "BridgeDesign.docx" : editor.Module == MicropaloOrizzontale.Module
                     ? "Relazione_micropalo_orizzontale.docx" : "Relazione_palo_orizzontale.docx"
             };
@@ -442,6 +442,6 @@ public sealed partial class MainWindow : Window
         if (editor.Module == BridgeEditor.Module) list.Children.Add(Ui.Text("Stampa tutte le situazioni e i rispettivi contributi, indipendentemente dalla fase visualizzata. Ambito, riepilogo e avvisi sono sempre inclusi. I grafici riportano la geometria e la somma dei contributi di ogni situazione.", 11));
         if (editor.Module == "str_palo") list.Children.Add(Ui.Text("SLE: di default inviluppo degli estremi con combinazione di origine e casi governanti distinti per tensioni e fessurazione. Nessun esito non determinato viene escluso. In modalità completa si stampano tutte le combinazioni; i grafici SLE restano riferiti ai casi governanti. Ambito, avvisi ed errori sono sempre inclusi.", 11));
         var window = Ui.Dialog(this, "Contenuti del report Word", new ChainedScrollViewer { Content = list, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }, 590, 650); var ok = Ui.Button("Esporta", () => { if (checks.Any(c => c.Value.IsChecked == true && c.Key is not ("sle_tutte" or "dettagli" or "grafici"))) window.DialogResult = true; }, true); list.Children.Add(ok); if (window.ShowDialog() != true) return;
-        var d = new SaveFileDialog { Filter = "Documento Word|*.docx", FileName = "Relazione.docx" }; if (d.ShowDialog(this) == true) editor.ExportReport(d.FileName, heading.Text, checks.Where(p => p.Value.IsChecked == true).Select(p => p.Key).ToHashSet());
+        var d = new SaveFileDialog { Filter = "Word e PDF affiancati|*.docx", FileName = "Relazione.docx" }; if (d.ShowDialog(this) == true) editor.ExportReport(d.FileName, heading.Text, checks.Where(p => p.Value.IsChecked == true).Select(p => p.Key).ToHashSet());
     }
 }
