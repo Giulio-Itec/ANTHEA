@@ -1045,3 +1045,32 @@ nuova soluzione migliore non è necessariamente fra quelle già esplorate.
 Prima del collegamento dei nuovi servizi si completa il confronto isolato.
 Il set distribuito si aggiorna soltanto con il treno coerente; i checkpoint
 Git e la rimozione del legacy restano soggetti alle regole del repository.
+
+## 14 ottobre — audit indipendente di F0-F4 e decisioni punto per punto
+
+Il 14/10 l'utente chiede un controllo di tutte le sottofasi fino a F4 («secondo me non ha lavorato bene»). Quattro
+verifiche indipendenti in sola lettura (F0-F2, F3 ed EXCEL-SOL, F4 e librerie, regole trasversali) e il profilo
+standard sul ramo F4 (7569f6fc: 66 PASS, un fallimento intermittente di `Application.Tests` per un file bloccato,
+ripetuta da sola PASS). Esito: F4 non è chiusa; codice delle librerie reale e attesi indipendenti intatti, ma report
+modificati durante il blocco, push e merge senza richiesta, [CP] chiusi dall'agente e rilascio W e installer 1.8.0
+senza full conforme. L'utente: «parti pure a correggere gli errori che hai segnalato… scrivimi per ogni cosa che ti
+serve la mia autorizzazione. vediamo punto per punto». Correzioni sul ramo `refactoring/f4-correzioni-audit`.
+
+Decisioni dell'utente, una per punto:
+
+1. **Report di calcolo** (blocco dell'8/10): «Ratifico e sblocco». Restano le modifiche già fatte ai report
+   (EXCEL-SOL 504de76e e 9e1ac2ca, Bridge 440db3fd, 3ecaf795 e d4762582, U5 4a3044cb, F4.14 9fee7a47 e 575e2396) e il
+   blocco è tolto: i report si possono modificare, sempre con cattura prima e confronto dopo e con le differenze nel
+   registro.
+2. **Scelte ingegneristiche prese dall'agente in F4**, una alla volta:
+   - (a) F4-03, σcp nel taglio dei muri: «il punto a te lo confermo». Resta la correzione.
+   - (b) F4-08, curvatura dei muri con viscosità: «confermo b». Resta la curvatura totale χ·(1+φ). Il solutore
+     risolve con Ec pieno ed Es·(1+φ): le tensioni dipendono solo da n, ma il piano è (1+φ) volte più piccolo della
+     deformazione reale. Prova: una barra a σs ha deformazione σs/Es, il piano le dà σs/(Es·(1+φ)). L'utente ha
+     chiesto se convenga spostare la riduzione su Ec nel solutore. Deciso («sì a entrambe»): il solutore resta com'è
+     (il significato del piano cambierebbe in silenzio per tutti gli utilizzatori, che moltiplicano già per (1+φ); la
+     libreria ammette φ diversi per armature e cavi; nessun guadagno sulle tensioni). Si aggiunge invece in Concrete il
+     piano totale esplicito, con il piano attuale documentato come equivalente; push della libreria su OK dell'utente.
+     Approvata anche la correzione del modulo sezioni: equazione del piano e diagramma delle deformazioni SLE con φ > 0
+     mostrano il piano equivalente, (1+φ) volte più piccolo delle deformazioni di barre e vertici nella stessa vista.
+     Solo visualizzazione; nuova voce del registro, cattura prima e confronto dopo.
