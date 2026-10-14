@@ -24,7 +24,7 @@ public static class ModuleCatalog
         new("str_palo", "Strutture", "Sezione in c.a.", "Verifiche SLU · SLV · SLE", SezioneCA.DefaultData, ValidateConcrete),
         new(BridgeSection.Module, "Strutture", "Sezione composta da ponte", "Analisi per fasi e classe 4", BridgeSection.Defaults, BridgeSection.ValidateShape),
         new(BridgeConcept.Module, "Strutture", "Bridge Design", "Predimensionamento ponti · quantità, costi e CO₂", BridgeConcept.NewDocument, BridgeConcept.ValidateShape),
-        new("mat_calcestruzzo", "Materiali", "Calcestruzzo", "Proprietà, copriferro e composizione", () => J.Obj(("versione_materiali", 1)), ValidateMaterial),
+        new("mat_calcestruzzo", "Materiali", "Calcestruzzo", "Proprietà, copriferro e composizione", Materiali.MaterialDefaults.NewState, ValidateMaterial),
         new(RebarMaterial.Module, "Materiali", "Acciaio per armature", "Proprietà meccaniche e diagramma", RebarMaterial.Defaults, RebarMaterial.ValidateShape)
     });
     public static ModuleDefinition Get(string id) => All.FirstOrDefault(m => m.Id == id)

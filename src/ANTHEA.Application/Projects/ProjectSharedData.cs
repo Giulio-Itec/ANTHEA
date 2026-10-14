@@ -38,7 +38,7 @@ public static partial class ProjectSharedData
             foreach (string container in new[] { "numeri", "scelte", "opzioni" })
                 if (data[container] is JsonObject values)
                     foreach (var (key, _) in values) Add("Scheda CLS · " + container + "/" + key, "Materiali", container + "/" + key);
-            Add("esposizione", "Materiali", "esposizione_principale", forced: JsonValue.Create(data.S("esposizione_principale", "XC1")));
+            Add("esposizione", "Materiali", "esposizione_principale", forced: JsonValue.Create(data.S("esposizione_principale", Materiali.MaterialDefaults.Exposure)));
         }
         if (module == RebarMaterial.Module)
             foreach (var key in RebarMaterial.Keys) Add(key, "Materiali", "input/" + key);

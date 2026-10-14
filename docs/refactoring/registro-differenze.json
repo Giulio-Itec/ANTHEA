@@ -4837,6 +4837,29 @@
         "X.Calculations/ConcreteLibraryMapping.Durability.cs",
         "tests/ANTHEA.Application.Tests/PileDurabilityTextChecks.cs"
       ]
+    },
+    {
+      "id": "F4-42",
+      "data": "2026-10-14",
+      "fase": "audit 14/10, proposta F2.9-U4",
+      "titolo": "Scheda Materiali: valori iniziali espliciti nei nuovi fogli, in una sola sorgente",
+      "famiglia": "Durabilità",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Un nuovo foglio Materiali conteneva solo versione_materiali e il copriferro, la scheda e i dati condivisi del progetto completavano in silenzio XC1, metodo NTC + Circ. 2019, Ø16, Dmax 20, 50 anni, Δc 10 mm (cnom 35 mm con C30/37). Ora i valori iniziali stanno in MaterialDefaults (X.Calculations/Materials) e un nuovo foglio li riceve esplicitamente, uguali allo stato canonico che la scheda salva; MaterialCover, MaterialSheetInput, la vista e i dati condivisi leggono le chiavi mancanti dei fogli già salvati con gli stessi valori, quindi nessun numero cambia. Effetto atteso nelle catture: i fogli Materiali creati da CreateData/AddSheet (progetti di prova) contengono ora tutte le chiavi.",
+      "decisione": "Utente, 14/10: «U4: ok».",
+      "test": [
+        "Application.Tests PASS: MaterialDefaultsChecks (chiavi esplicite, stato canonico, foglio precedente letto uguale, cnom 35 mm invariato)"
+      ],
+      "codice": [
+        "X.Calculations/Materials/MaterialDefaults.cs",
+        "X.Calculations/Materials/MaterialCover.cs",
+        "X.Calculations/ModuleCatalog.cs",
+        "src/ANTHEA.Application/Materials/MaterialSheetInput.cs",
+        "src/ANTHEA.Application/Projects/ProjectSharedData.cs",
+        "X.Desktop/Wpf/Materials/MaterialState.cs",
+        "tests/ANTHEA.Application.Tests/MaterialDefaultsChecks.cs"
+      ]
     }
   ]
 }

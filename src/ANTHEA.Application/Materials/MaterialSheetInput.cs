@@ -10,30 +10,9 @@ public sealed class MaterialSheetInput
 {
     public static IReadOnlyList<MaterialExposureChoice> ExposureChoices { get; } = Array.AsReadOnly(Durability.Exposures
         .Select(e => new MaterialExposureChoice(e.Code, e.Description, NtcCover.Severity(e.Code))).ToArray());
-    private static readonly IReadOnlyDictionary<string, (string[] Values, int Initial)> ChoiceCatalog = new Dictionary<string, (string[], int)>
-    {
-        ["ntcElement"] = (["Trave / pilastro","Piastra / soletta / parete"], 0),
-        ["coverMethod"] = (["NTC + Circ. 2019","EC2 2004"], 0),
-        ["life"] = (["50 anni","100 anni"], 0),
-        ["deviationControl"] = (["Ordinario","Misura copriferri","Misura accurata + scarto"], 0),
-        ["deviationValue"] = (["10 mm"], 0),
-        ["ground"] = (["Casseratura","Terreno preparato","Direttamente su terra"], 0),
-        ["abrasion"] = (["Nessuno","XM1 · +5 mm","XM2 · +10 mm","XM3 · +15 mm"], 0),
-        ["bondCondition"] = (["Buone · η₁ = 1,0","Altre · η₁ = 0,7"], 1),
-        ["consistency"] = (["Da definire","S1","S2","S3","S4","S5"], 0),
-        ["cement"] = (["CEM I","CEM II","CEM III","CEM IV","CEM V","Altro / da specificare"], 0),
-        ["cementClass"] = (["32,5","42,5","52,5"], 0),
-        ["cementEarly"] = (["N","R"], 0),
-    };
-    private static readonly IReadOnlyDictionary<string, string> NumericCatalog = new Dictionary<string, string>
-    {
-        ["diameter"] = "16",
-        ["aggregate"] = "20",
-        ["bondAlpha"] = "1,0",
-        ["bondGamma"] = "1,5",
-        ["cementName"] = "",
-    };
-    public static IReadOnlyList<string> Options(string key) => Array.AsReadOnly(ChoiceCatalog[key].Values);
+    // Options and initial values: MaterialDefaults, shared with new sheets and the cover of the project (F2.9-U4)
+    private static readonly IReadOnlyDictionary<string, (System.Collections.Immutable.ImmutableArray<string> Values, int Initial)> ChoiceCatalog = MaterialDefaults.Choices;
+    public static IReadOnlyList<string> Options(string key) => ChoiceCatalog[key].Values;
     public static IReadOnlyList<string> DeviationOptions(int mode) => mode switch
     {
         0 => new[] { "10 mm" },
@@ -41,7 +20,7 @@ public sealed class MaterialSheetInput
         _ => Enumerable.Range(0,11).Reverse().Select(x=>x+" mm").ToArray()
     };
     public static int InitialSelection(string key) => ChoiceCatalog[key].Initial;
-    public static string InitialNumber(string key) => NumericCatalog[key];
+    public static string InitialNumber(string key) => MaterialDefaults.Number(key);
     public JsonObject State { get; }
     public string ClassName { get; }
     public double Fck { get; }
@@ -50,11 +29,11 @@ public sealed class MaterialSheetInput
     {
         ModuleCatalog.ValidateData("mat_calcestruzzo", source);
         State = (JsonObject)source.DeepClone();
-        ClassName = source.S("classe", "C30/37");
+        ClassName = source.S("classe", MaterialDefaults.ClassName);
         var selected = ConcreteMaterialCatalog.MaterialSheetClasses().SingleOrDefault(m => m.Name == ClassName);
         if (selected.Name is null) throw new ArgumentException("Classe del calcestruzzo non riconosciuta.");
         Fck = selected.Fck;
-        string first = source.S("esposizione_principale", (source["esposizioni"] as JsonArray)?.FirstOrDefault()?.ToString() ?? "XC1");
+        string first = source.S("esposizione_principale", (source["esposizioni"] as JsonArray)?.FirstOrDefault()?.ToString() ?? MaterialDefaults.Exposure);
         var codes = (activeExposures ?? new[] { first }).ToHashSet(StringComparer.Ordinal);
         if (codes.Any(c => !Durability.Exposures.Any(e => e.Code == c))) throw new ArgumentException("Classe di esposizione non riconosciuta.");
         Exposures = Durability.Exposures.Where(e => codes.Contains(e.Code)).ToArray();
@@ -67,13 +46,13 @@ public sealed class MaterialSheetInput
     public static JsonObject NormalizeState(JsonObject source)
     {
         var input = new MaterialSheetInput(source);
-        string exposure = source.S("esposizione_principale", (source["esposizioni"] as JsonArray)?.FirstOrDefault()?.ToString() ?? "XC1");
+        string exposure = source.S("esposizione_principale", (source["esposizioni"] as JsonArray)?.FirstOrDefault()?.ToString() ?? MaterialDefaults.Exposure);
         if (source["esposizioni"] is JsonArray oldExposures && oldExposures.Any(e => !ExposureChoices.Any(c => c.Code == e!.GetValue<string>())))
             throw new ArgumentException("Classe di esposizione non riconosciuta.");
-        var values = new JsonObject(); foreach (string key in new[] { "diameter", "aggregate", "cementName", "bondAlpha", "bondGamma" }) values[key] = source["numeri"]?[key]?.GetValue<string>() ?? InitialNumber(key);
-        var choices = new JsonObject(); foreach (string key in ChoiceCatalog.Keys.Where(k => k != "bondCondition").Append("bondCondition")) choices[key] = input.Selected(key);
-        var flags = new JsonObject(); foreach (string key in new[] { "highStrength", "slab", "quality", "rough", "ntcQuality" }) flags[key] = source["opzioni"]?[key]?.GetValue<bool>() ?? false;
-        var state = new JsonObject { ["versione_materiali"] = 1, ["classe"] = input.ClassName, ["esposizione_principale"] = exposure,
+        var values = new JsonObject(); foreach (var (key, _) in MaterialDefaults.Numbers) values[key] = source["numeri"]?[key]?.GetValue<string>() ?? InitialNumber(key);
+        var choices = new JsonObject(); foreach (string key in MaterialDefaults.ChoiceOrder) choices[key] = input.Selected(key);
+        var flags = new JsonObject(); foreach (string key in MaterialDefaults.Flags) flags[key] = source["opzioni"]?[key]?.GetValue<bool>() ?? false;
+        var state = new JsonObject { ["versione_materiali"] = MaterialDefaults.Version, ["classe"] = input.ClassName, ["esposizione_principale"] = exposure,
             ["numeri"] = values, ["scelte"] = choices, ["opzioni"] = flags, ["esposizioni"] = new JsonArray(exposure) };
         var legacy = source["esposizioni"] is JsonArray old && old.Count > 1 ? old : source["esposizioni_precedenti"] as JsonArray;
         if (legacy is not null) state["esposizioni_precedenti"] = legacy.DeepClone();
@@ -83,7 +62,7 @@ public sealed class MaterialSheetInput
         ?? ChoiceCatalog[key].Values[ChoiceCatalog[key].Initial];
     public int Index(string key)
     {
-        int index = Array.IndexOf(ChoiceCatalog[key].Values, Selected(key));
+        int index = ChoiceCatalog[key].Values.IndexOf(Selected(key));
         return index >= 0 ? index : throw new ArgumentException("Scelta materiali non valida: " + key);
     }
     public bool Flag(string key) => State["opzioni"]?.B(key) == true;
