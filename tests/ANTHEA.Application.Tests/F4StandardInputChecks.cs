@@ -12,11 +12,16 @@ internal static class F4StandardInputChecks
         void Reject(Action action){try{action();}catch(ArgumentException){checks++;return;}throw new Exception("Invalid standard accepted");}
         var fresh=SezioneCA.DefaultData();var ws=SectionWorkspace.Prepare(fresh);
         Check(ws.S("normativa")=="NTC 2018"&&!ws.ContainsKey("migrazione_normativa"),"New document default is not explicit");
-        var old=(JsonObject)fresh.DeepClone();old["workspace_ca"]!.AsObject().Remove("normativa");old["input"]!["gamma_c"]="1.71";
+        // Decision of 14/10 (audit 2c): only a sheet older than the workspace receives NTC, silently; a workspace without standard is refused
+        var withoutStandard=(JsonObject)fresh.DeepClone();withoutStandard["workspace_ca"]!.AsObject().Remove("normativa");
+        Reject(()=>SectionWorkspace.Prepare(withoutStandard));
+        var old=(JsonObject)fresh.DeepClone();old.Remove("workspace_ca");old["input"]!["gamma_c"]="1.71";
         var migrated=SectionWorkspace.Prepare(old);
-        Check(migrated.S("normativa")=="NTC 2018"&&migrated.S("migrazione_normativa").Length>0,"Old profile not recorded");
+        Check(migrated.S("normativa")=="NTC 2018"&&!migrated.ContainsKey("migrazione_normativa"),"Sheet before the workspace not completed with NTC 2018 without note");
         Check(ConcreteStandards.Effective(old["input"]!.AsObject(),migrated).GammaC==1.71,"Migration overwrote assigned coefficient");
         string once=old.ToJsonString();SectionWorkspace.Prepare(old);Check(once==old.ToJsonString(),"Migration is not idempotent");
+        var noted=(JsonObject)fresh.DeepClone();noted["workspace_ca"]!["migrazione_normativa"]="Documento precedente senza normativa (ANTHEA 1.8.0)";
+        Check(!SectionWorkspace.Prepare(noted).ContainsKey("migrazione_normativa"),"Note of the 1.8.0 migration kept");
         foreach(JsonNode? invalid in new JsonNode?[]{null,JsonValue.Create(""),JsonValue.Create("unknown"),JsonValue.Create(123)})
         {
             var bad=(JsonObject)fresh.DeepClone();bad["workspace_ca"]!["normativa"]=invalid?.DeepClone();

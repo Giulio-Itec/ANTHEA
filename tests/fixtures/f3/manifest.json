@@ -45,9 +45,20 @@
     "inputs/str_mista_ponte--legacy-web-and-accessories.json": "5017f7d1757a886dd9f2dba9309ae82973e8946ad8c949ab198a961002ac3d67",
     "inputs/str_palo--corpus-sezione-ca-taglio-din-rettangolare.json": "0336af6a0e65f7369f1f5a5be590a95a4d908f13bf81ebdb20fedd49ffa162bf",
     "inputs/str_palo--default.json": "68b5bfd77984f0e516340ce47b84f2a48ffbb3f7773af1e53abd4fdcb2763ad2",
-    "inputs/str_palo--legacy-calculation-settings.json": "280f7afd8d662f070054d3cdf7a84d24560963c1504b6fe0f99cdab7ee354332",
-    "inputs/str_palo--legacy-workspace-segni.json": "f1b95f8323e3bccf729fd1225af4fde4810378871e7d3c01319986df4201e3d7"
+    "inputs/str_palo--legacy-calculation-settings.json": "a1760142ce3a39533d95340084e96014d96b13b9ffd409bc592b65940baa1be5",
+    "inputs/str_palo--legacy-workspace-segni.json": "8922b2ea4cde0655690c827324a33c7c3a9b51a1356fe68a87f0ab14c18b3dd6"
   },
+  "input_updates": [
+    {
+      "record": "F4-31",
+      "date": "2026-10-14",
+      "reason": "Decisione dell'utente del 14/10 (audit, punto 2c): un foglio Sezione CA con area di lavoro ma senza normativa si rifiuta, perche' ANTHEA la scrive sempre dal 18/09/2026. Le due fixture sintetiche ricevono la normativa NTC 2018 che il programma avrebbe scritto; Prepare la assegnava gia', quindi gli attesi non cambiano.",
+      "files": [
+        { "file": "inputs/str_palo--legacy-calculation-settings.json", "before_sha256": "280f7afd8d662f070054d3cdf7a84d24560963c1504b6fe0f99cdab7ee354332", "after_sha256": "a1760142ce3a39533d95340084e96014d96b13b9ffd409bc592b65940baa1be5" },
+        { "file": "inputs/str_palo--legacy-workspace-segni.json", "before_sha256": "f1b95f8323e3bccf729fd1225af4fde4810378871e7d3c01319986df4201e3d7", "after_sha256": "8922b2ea4cde0655690c827324a33c7c3a9b51a1356fe68a87f0ab14c18b3dd6" }
+      ]
+    }
+  ],
   "editorial_updates": [
     {
       "revision": 40,

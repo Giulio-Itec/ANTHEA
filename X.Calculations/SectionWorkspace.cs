@@ -35,6 +35,8 @@ public static class SectionWorkspace
             foreach (var row in data["combinazioni"]![set]!.AsArray().OfType<JsonObject>())
                 if (row.S("id") == "" || !ids.Add(row.S("id"))) { row["id"] = Guid.NewGuid().ToString("N"); ids.Add(row.S("id")); }
         }
+        // Sheets written before the concrete workspace (18/09/2026) had no choice of standard: they were NTC 2018
+        bool beforeWorkspace = data["workspace_ca"] is null;
         if (data["workspace_ca"] is not JsonObject) data["workspace_ca"] = new JsonObject();
         var settings = data["workspace_ca"]!.AsObject();
         if (addedInput.Count > 0)
@@ -45,11 +47,14 @@ public static class SectionWorkspace
         if (settings.D("versione", 1) is not (1 or 2)) throw new ArgumentException("Versione dell’interfaccia CA non supportata.");
         void Default(string key, object value) { if (!settings.ContainsKey(key)) settings[key] = J.Node(value); }
         Default("versione", 1);
+        // Since then ANTHEA always writes the standard: a workspace without it is incomplete and is refused, never completed with
+        // NTC (user decision of 14/10/2026, audit point 2c). The note of the 1.8.0 migration is dropped.
         if (!settings.ContainsKey("normativa"))
         {
+            if (!beforeWorkspace) throw new ArgumentException("Normativa assente nel foglio Sezione CA: il file è incompleto, perché ANTHEA la registra sempre. Ripristinare una copia del documento.");
             settings["normativa"] = "NTC 2018";
-            settings["migrazione_normativa"] = "Documento precedente senza normativa: mantenuto il profilo storico NTC 2018. Coefficienti assegnati conservati; verificare la scelta prima dell’uso.";
         }
+        settings.Remove("migrazione_normativa");
         _ = ConcreteStandards.RequiredName(settings);
         Default("nota", ""); Default("tab", 0);
         Default("dominio3d", J.Obj(("stato", "SLU"), ("angoli", "32"), ("criterio", "N costante"), ("filtro", "Tutte")));
