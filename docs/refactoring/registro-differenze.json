@@ -4436,6 +4436,32 @@
         "supporto/artefatti/refactoring/f4/residual-adapter-c.log",
         "../Model/docs/refactoring/f4-concrete-profiles.md"
       ]
+    },
+    {
+      "id": "F4-32",
+      "data": "2026-10-14",
+      "fase": "F4.13b",
+      "titolo": "Braccio del taglio e proprietà delle aste condivisi",
+      "famiglia": "Ultimi adattatori",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Braccio del taglio e duttilità danese nella API Concrete; area delle barre e proprietà delle aste dai servizi esistenti. Report sintetico usa il medesimo rapporto circolare. Nessuna formula nuova in ANTHEA. Tredici segnalazioni eliminate senza aggiunte; attesi e tolleranze invariati.",
+      "test": [
+        "44 casi congelati equivalenti, 53 casi residui equivalenti, 161550 numeri Bridge equivalenti",
+        "last-adapters-a: suite completa ConcreteLibraryAdapter e ingressi PASS",
+        "last-adapters-b: architettura e Application PASS dopo correzione del richiamo UI"
+      ],
+      "codice": [
+        "X.Calculations/ConcreteShearAnalysis.cs",
+        "X.Calculations/ConcreteShearTorsionAdapter.cs",
+        "X.Calculations/BridgeConcept.AdvancedSchema.cs",
+        "src/ANTHEA.Reports/Generators/ReportConcreteShort.cs"
+      ],
+      "evidenze": [
+        "tests/fixtures/f4/last-adapters-reference.json",
+        "supporto/artefatti/refactoring/f4/last-adapters-a.log",
+        "supporto/artefatti/refactoring/f4/last-adapters-b.log"
+      ]
     }
   ]
 }

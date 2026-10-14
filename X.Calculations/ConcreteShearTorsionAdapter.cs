@@ -21,6 +21,14 @@ public static class ConcreteShearTorsionAdapter
     /// catturate con il legacy); il legacy resta raggiungibile con <see cref="ShearTorsionEngine.Legacy"/>.</summary>
     public static ShearTorsionEngine Default => ShearTorsionEngine.Library;
 
+    public static double CircularPierLeverFactor(bool hollow) => ShearLeverArm.NtcCircularPierRatio(hollow);
+    public static bool DanishSteelDuctility(double fy, double fu, double strainPerMille)
+        => ShearLeverArm.DanishSteelDuctility(fy, fu, strainPerMille);
+    public static double LeverFactor(string standard, double depth, double cover, double linkDiameter,
+        bool circular, bool hollow, bool ntcPier, double? assignedRatio)
+        => ShearLeverArm.Ratio(ShearProfiles.Resolve(ConcreteLibraryMapping.StandardFor(standard)), depth, cover, linkDiameter,
+            circular, hollow, ntcPier, assignedRatio);
+
     /// <summary>Taglio di una direzione, come ConcreteCodeChecks.Shear.</summary>
     public static Ntc2018Checks.ShearResult Shear(ConcreteCodeChecks.ShearInput p, ShearTorsionEngine? engine = null)
     {

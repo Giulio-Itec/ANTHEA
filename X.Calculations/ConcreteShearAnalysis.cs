@@ -26,7 +26,8 @@ public static class ConcreteShearAnalysis
         double fcd = materials.Fcd;
         bool stirrups = options.S("modello") == "Con staffe";
         if (stirrups && input.S("staffe_presenti", "Sì") == "No") throw new ArgumentException("Staffe assenti nella sezione: scegliere Senza staffe.");
-        if (stirrups && code.StartsWith("DS") && (input.D("steel_eps_u") < 50 || input.D("steel_fu_mpa") < 1.08*input.D("fyk_mpa")))
+        if (stirrups && code.StartsWith("DS") && !ConcreteShearTorsionAdapter.DanishSteelDuctility(
+            input.Required("fyk_mpa", strict: true), input.Required("steel_fu_mpa", strict: true), input.Required("steel_eps_u", strict: true)))
             throw new ArgumentException("DS: il modello richiede proprietà di duttilità almeno B (εuk ≥ 5%, fu/fyk ≥ 1,08). Classe A: verifica di capacità deformativa non descritta.");
         double torque = SectionWorkspace.Number(row.S("T", "0"), "T");
         if ((!stirrups || code == "Model Code 2010") && options.S("parametri") == "Automatici da sezione" && options.S("ancoraggio") != "Confermato") throw new ArgumentException("Asl ricavata dalla geometria: confermare l’ancoraggio efficace per la verifica senza staffe e per Model Code 2010.");
@@ -43,12 +44,10 @@ public static class ConcreteShearAnalysis
             double bw = Value("bw"), d = Value("d"), asl = stirrups && code != "Model Code 2010" ? 0 : Value("asl");
             if (bw > (axis == "x" ? geometry.Height : geometry.Width) || d >= (axis == "x" ? geometry.Width : geometry.Height) || asl > geometry.AreaSteel)
                 throw new ArgumentException("Taglio " + axis + ": bw, d o Asl superano la geometria/armatura della sezione");
-            double lever = circular ? (options.S("modello_circolare").StartsWith("Pile") ? (input.B("foro_presente") ? .60 : .75) : options.Required("z_d")) : .9;
-            if (code.StartsWith("DIN"))
-            {
-                double cv = input.Required("cover_mm") + (input.S("staffe_presenti", "Sì") == "Sì" ? input.Required("transverse_bar_diameter_mm") : 0);
-                lever = Math.Min(lever, Math.Max(d - cv - 30, d - 2*cv) / d);
-            }
+            bool ntcPier = circular && options.S("modello_circolare").StartsWith("Pile");
+            double lever = ConcreteShearTorsionAdapter.LeverFactor(code, d, input.Required("cover_mm"),
+                ConcreteCalculationSettings.HasStirrups(input) ? input.Required("transverse_bar_diameter_mm") : 0,
+                circular, input.B("foro_presente"), ntcPier, circular && !ntcPier ? options.Required("z_d") : null);
             double moment = code == "Model Code 2010" ? SectionWorkspace.Number(row.S(axis == "x" ? "My" : "Mx"), "Momento per taglio MC2010") : 0;
             var check = ConcreteShearTorsionAdapter.Shear(new(code, n, v, moment, geometry.AreaCls, bw, d, asl,
                 input.Required("fck_mpa"), fcd, materials.Fyd, input.Required("gamma_c"), geometry.Es,
@@ -73,7 +72,7 @@ public static class ConcreteShearAnalysis
         double al = options.Required("as_torsione"); if (al > geometry.AreaSteel) throw new ArgumentException("As disponibile per torsione supera l’armatura totale.");
         // Profilo resistente e torsione dallo stesso motore del taglio (adattatore, refactoring F2.5-F2.6).
         var g = ConcreteShearTorsionAdapter.TorsionGeometryOf(geometry, engine);
-        return ConcreteShearTorsionAdapter.Torsion(new(torque, g, fcd, geometry.Fyd, Math.PI * Math.Pow(input.D("transverse_bar_diameter_mm"), 2) / 4, input.D("transverse_spacing_mm"), al, options.Required("cot_torsione"), row.D("Vx"), row.D("Vy"), shear[0], shear[1]),
+        return ConcreteShearTorsionAdapter.Torsion(new(torque, g, fcd, geometry.Fyd, ReinforcementGeometry.Area(input.Required("transverse_bar_diameter_mm", strict: true)), input.Required("transverse_spacing_mm", strict: true), al, options.Required("cot_torsione"), row.D("Vx"), row.D("Vy"), shear[0], shear[1]),
             input.Required("fck_mpa"), input.Required("gamma_c"), engine);
     }
 }

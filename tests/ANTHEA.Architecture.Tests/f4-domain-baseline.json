@@ -676,38 +676,6 @@
       "Example": "1000"
     },
     {
-      "File": "X.Calculations/BridgeConcept.AdvancedSchema.cs",
-      "Rule": "R1-math",
-      "Owner": "BridgeConcept.StructuralLine.Length",
-      "Fingerprint": "63078FDEF7A8C781BFB3378074F6A480D1F63085AB8739A46459CE550C0D123E",
-      "Count": 1,
-      "Example": "Math . Sqrt ( Math . Pow ( X2 - X1 , 2 ) + Math . Pow ( Z2 - Z1 , 2 ) )"
-    },
-    {
-      "File": "X.Calculations/BridgeConcept.AdvancedSchema.cs",
-      "Rule": "R1-math",
-      "Owner": "BridgeConcept.StructuralLine.Length",
-      "Fingerprint": "8F93F9B5D806497294754202FCF84AAF6A5D3449CB78B1DFC55D7F8C6F69F7C9",
-      "Count": 1,
-      "Example": "Math . Pow ( X2 - X1 , 2 )"
-    },
-    {
-      "File": "X.Calculations/BridgeConcept.AdvancedSchema.cs",
-      "Rule": "R1-math",
-      "Owner": "BridgeConcept.StructuralLine.Length",
-      "Fingerprint": "E4A56747F0C424576B4F8B46C87B62EF9B819CC708A141FE93623F732F96B35C",
-      "Count": 1,
-      "Example": "Math . Pow ( Z2 - Z1 , 2 )"
-    },
-    {
-      "File": "X.Calculations/BridgeConcept.AdvancedSchema.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "BridgeConcept.StructuralLine.Mass",
-      "Fingerprint": "A1F5766FBDF9E729CC6B8E2F460BBC8563B72B34640100627234AE332CCA64EE",
-      "Count": 1,
-      "Example": "7.85"
-    },
-    {
       "File": "X.Calculations/BridgeConcept.AdvancedStructure.cs",
       "Rule": "R1-math",
       "Owner": "BridgeConcept.ExtendedMembers",
@@ -3930,78 +3898,6 @@
       "Fingerprint": "E4A2C51C8133547E790662AFE613D3AE08C010B01E9E86453984BA6A8EF3C329",
       "Count": 1,
       "Example": "geometry . Input . D ( \"cover_mm\" )"
-    },
-    {
-      "File": "X.Calculations/ConcreteShearAnalysis.cs",
-      "Rule": "R1-math",
-      "Owner": "ConcreteShearAnalysis.Torsion",
-      "Fingerprint": "A6F9F8AF7CD904E8E4F20C2BACC16F34EE1ACC2C29EED6484F76C76A634E3747",
-      "Count": 1,
-      "Example": "Math . Pow ( input . D ( \"transverse_bar_diameter_mm\" ) , 2 )"
-    },
-    {
-      "File": "X.Calculations/ConcreteShearAnalysis.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ConcreteShearAnalysis.Calculate",
-      "Fingerprint": "AC4E59FEF1F0CC6A126E962141633888F3AA2BA1B5FC694410C5C08326A367F1",
-      "Count": 1,
-      "Example": "30"
-    },
-    {
-      "File": "X.Calculations/ConcreteShearAnalysis.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ConcreteShearAnalysis.Calculate",
-      "Fingerprint": "D71DDAA46563DA9977B5A18D8ACC0A846D3E3215215022D0C3C8A7C9730A3453",
-      "Count": 1,
-      "Example": "1.08"
-    },
-    {
-      "File": "X.Calculations/ConcreteShearAnalysis.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "ConcreteShearAnalysis.Torsion",
-      "Fingerprint": "FDE31099C9CD149DD4DD8E12CD2EECFDE0E20B416C0A744AC6F307F5371E38A5",
-      "Count": 1,
-      "Example": "4"
-    },
-    {
-      "File": "X.Calculations/ConcreteShearAnalysis.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteShearAnalysis.Calculate",
-      "Fingerprint": "3B71659DD0707E14F48DF4821E7768B117F4D6267FA4E843A12CC86BCD97E02F",
-      "Count": 1,
-      "Example": "input . D ( \"steel_fu_mpa\" )"
-    },
-    {
-      "File": "X.Calculations/ConcreteShearAnalysis.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteShearAnalysis.Calculate",
-      "Fingerprint": "B09922B24D2DE14D512D10561AECBB20D7E3D21C2BEC6BBFD6F7C0C3AEE88EE8",
-      "Count": 1,
-      "Example": "input . D ( \"fyk_mpa\" )"
-    },
-    {
-      "File": "X.Calculations/ConcreteShearAnalysis.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteShearAnalysis.Calculate",
-      "Fingerprint": "FF515B5C4102E02AD195C80BA10C844D101DC1D2D976DFA36FFFEC16507B80FB",
-      "Count": 1,
-      "Example": "input . D ( \"steel_eps_u\" )"
-    },
-    {
-      "File": "X.Calculations/ConcreteShearAnalysis.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteShearAnalysis.Torsion",
-      "Fingerprint": "31CC3759187B24B65B4F3A8DE4B8A846DC8F5F71C7A3C2406F02EC9B546F3A6F",
-      "Count": 1,
-      "Example": "input . D ( \"transverse_spacing_mm\" )"
-    },
-    {
-      "File": "X.Calculations/ConcreteShearAnalysis.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ConcreteShearAnalysis.Torsion",
-      "Fingerprint": "3455F54DA5F992202BC251FDDA7A878C3E85320509305B62821836240F6F646F",
-      "Count": 1,
-      "Example": "input . D ( \"transverse_bar_diameter_mm\" )"
     },
     {
       "File": "X.Calculations/ConcreteShearAnalysis.cs",

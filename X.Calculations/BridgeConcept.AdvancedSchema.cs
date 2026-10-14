@@ -11,7 +11,7 @@ public static partial class BridgeConcept
     public static readonly Parameter[] AdvancedSection = GPC.Design.Bridges.BridgeConcept.AdvancedSection.Select(FromNative).ToArray();
     public static readonly Parameter[] AdvancedAssumptions = GPC.Design.Bridges.BridgeConcept.AdvancedAssumptions.Select(FromNative).ToArray();
     public sealed record StructuralLine(string Kind, double X1, double Z1, double X2, double Z2, int Count, double Area, double Force)
-    { public double Length => Math.Sqrt(Math.Pow(X2 - X1, 2) + Math.Pow(Z2 - Z1, 2)); public double Mass => Count * Area * Length * 7.85; }
+    { public double Length => ToNative(this).Length; public double Mass => ToNative(this).Mass; }
     public sealed record AdvancedGeometry(bool Orthotropic, bool GlobalBeam, double MainSpan, double Rise, double TowerHeight,
         double DeckSteel, double StructureSteel, double CableSteel, double AnchorVolume, double TowerVolume, double HorizontalForce,
         StructuralLine[] Members, TechnicalItem[] Dimensions)
