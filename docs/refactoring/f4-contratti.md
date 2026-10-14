@@ -1,5 +1,7 @@
 # F4.3a — collocazione e contratti prima dei port
 
+**Stato al 14 ottobre:** implementazioni e collegamenti completati nei sorgenti, compreso Bridge Design riattivato dall’utente. [Mappa finale dei servizi e residui espliciti](f4-audit-finale.md). Il testo seguente conserva il riscontro iniziale e le decisioni prima dei port; le sue voci al futuro non rappresentano attività ancora da iniziare. Distribuzione e collaudo finale sono tracciati in piano.md.
+
 Decisioni operative del 13 ottobre 2026, a valle delle catture F4.1 e delle
 protezioni F4.2. Questo passo definisce i confini; non introduce assembly vuoti
 e non dichiara trasferiti i motori ancora in ANTHEA.

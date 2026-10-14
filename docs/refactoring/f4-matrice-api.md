@@ -1,5 +1,7 @@
 # F4.1a — matrice dei servizi e delle prove
 
+**Stato al 14 ottobre:** implementazioni e collegamenti completati nei sorgenti, compreso Bridge Design riattivato dall’utente. [Mappa finale dei servizi e residui espliciti](f4-audit-finale.md). Il testo seguente conserva il riscontro iniziale e le decisioni prima dei port; le sue voci al futuro non rappresentano attività ancora da iniziare. Distribuzione e collaudo finale sono tracciati in piano.md.
+
 Riscontro del 13 ottobre 2026 sul ramo `refactoring/f4-calcoli-residui`, base
 ANTHEA 1.7.1 (`46b4c918`). Bridge Design/prezzari e F4.16 sono sospesi su
 richiesta dell’utente. La finestra di lavoro concessa è di 90 minuti; nessuna
