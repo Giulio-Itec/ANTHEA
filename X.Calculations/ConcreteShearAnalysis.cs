@@ -15,7 +15,7 @@ public static class ConcreteShearAnalysis
         var effective = (JsonObject)options.DeepClone();
         var geometry = ConcreteCalculationSettings.UpdateAutomaticShear(input, effective);
         options = effective;
-        string code = settings.S("normativa", "NTC 2018");
+        string code = ConcreteStandards.RequiredName(settings);
         ConcreteCodeChecks.RequireOrdinary(code);
         bool circular = input.S("shape") == "Circolare";
         if (circular && options.S("modello_circolare", "Da scegliere") == "Da scegliere") throw new ArgumentException("Scegliere esplicitamente il modello di taglio circolare.");

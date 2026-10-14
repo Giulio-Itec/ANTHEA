@@ -72,6 +72,7 @@ public static class ReportConcreteShort
     public static byte[] Create(string title, JsonObject data, JsonObject result)
     {
         if(result.S("motore")!="GPCChecker.Concrete.dll")throw new ArgumentException("Risultati sezionali aggiornati non disponibili.");
+        data=ConcreteReportSource.Read(result);
         var input=data["input"]!.AsObject();var ws=data["workspace_ca"]!.AsObject(); var section=new SezioneCA(input);
         var rows=Select(data,result); var sle=ws["sle_comuni"]!;var domain=ws["dominio3d"]!;var shear=(JsonObject)ws["taglio"]!.DeepClone();
         ConcreteCalculationSettings.UpdateAutomaticShear(input,shear);

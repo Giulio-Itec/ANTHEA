@@ -36,6 +36,7 @@ public static class ReportConcrete
     {
         if (options.Count == 0) throw new ArgumentException("Selezionare almeno un contenuto del report.");
         if (result.S("motore") != "GPCChecker.Concrete.dll") throw new ArgumentException("Risultati GPC Engine aggiornati non disponibili.");
+        data = ConcreteReportSource.Read(result);
         XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main", r = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
         var body = new XElement(w + "body"); var input = data["input"]!; var settings = data["workspace_ca"]!;
         bool unified = settings["sollecitazioni_versione"]?.ToString() == "1";
@@ -79,7 +80,7 @@ public static class ReportConcrete
         P(ConcreteStandards.Note(settings.S("normativa")));
         P("Questo report non attesta una verifica normativa completa. La presenza di un dominio o di tensioni calcolate non implica la conformità delle altre verifiche. I filtri e le opzioni grafiche non escludono combinazioni dai calcoli. Leggere gli esiti non determinati, fuori piano e non implementati.");
         P("Taglio nelle due direzioni secondo la norma selezionata; Model Code 2010 usa il livello II con N, M, V, Asl e granulometria. Per le circolari il modello e i parametri sono espliciti. Fessurazione lineare con CLS teso escluso: inviluppo delle superfici esterne e interne, comprese le sezioni interamente tese. Le superfici prive di armatura efficace restano senza verifica conclusa. Torsione accoppiata, dettagli costruttivi e ancoraggi automatici restano nel campo NTC documentato. Gerarchia sismica, appoggi e punzonamento richiedono il modello dell’elemento.");
-        P(ConcreteStandards.Note(settings.S("normativa", "NTC 2018")));
+        if (!string.IsNullOrEmpty(settings.S("migrazione_normativa"))) P(settings.S("migrazione_normativa"));
         if (!string.IsNullOrWhiteSpace(settings.S("nota"))) P("Nota del foglio: " + settings.S("nota"));
         if (result["errori_calcolo"] is JsonObject errors) foreach (var (key, value) in errors) P("Calcolo non disponibile — " + key + ": " + value);
         if (result["riepilogo_verifiche"] is JsonObject summaries)

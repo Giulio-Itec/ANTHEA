@@ -157,7 +157,7 @@ public static class ConcreteServiceabilityAdapter
         if (chosen == ServiceabilityEngine.Legacy) return LegacyServiceability.CrackingRequired(set, workspace);
         try
         {
-            var (requirement, _) = LibraryRequirement(workspace.S("normativa", "NTC 2018"), set, workspace["sle"]?[set] as JsonObject ?? new());
+            var (requirement, _) = LibraryRequirement(ConcreteStandards.RequiredName(workspace), set, workspace["sle"]?[set] as JsonObject ?? new());
             return requirement.Criterion != CrackCriterion.NotRequired;
         }
         catch (ArgumentException) { return true; }
@@ -218,7 +218,7 @@ public static class ConcreteServiceabilityAdapter
         var header = ConcreteLibraryMapping.CrackInputDetails(set, options.S("esposizione"), options.S("sensibilita"), options.S("durata"), options.S("aderenza"),
             native.LinearElasticAnalysis, options.S("trazione_cls"), options.S("assi", "Locali"), force.N, force.Mx, force.My, native.PsiRebar ?? 0,
             input.D("gamma_c"), input.D("gamma_s"));
-        string code = workspace.S("normativa", "NTC 2018");
+        string code = ConcreteStandards.RequiredName(workspace);
         var standard = ConcreteLibraryMapping.StandardFor(code);
         var profile = CrackProfiles.Resolve(standard);
         var combination = ConcreteLibraryMapping.RequireCombination(set);

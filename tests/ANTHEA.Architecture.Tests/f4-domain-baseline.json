@@ -3901,22 +3901,6 @@
     },
     {
       "File": "X.Calculations/ConcreteServiceabilityAdapter.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "ConcreteServiceabilityAdapter.CrackingRequired",
-      "Fingerprint": "770DE5CDCE6C163F7E8580BA80B4B5DE5022885E3F953F57F1997C0CDC984278",
-      "Count": 1,
-      "Example": "workspace . S ( \"normativa\" , \"NTC 2018\" )"
-    },
-    {
-      "File": "X.Calculations/ConcreteServiceabilityAdapter.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "ConcreteServiceabilityAdapter.LibraryCracking",
-      "Fingerprint": "029C9F984CC91AA28CA3A070E2938C796E77550F11F81E73AA3E456741309911",
-      "Count": 1,
-      "Example": "workspace . S ( \"normativa\" , \"NTC 2018\" )"
-    },
-    {
-      "File": "X.Calculations/ConcreteServiceabilityAdapter.cs",
       "Rule": "R4-implicit-number",
       "Owner": "ConcreteServiceabilityAdapter.LibraryCracking",
       "Fingerprint": "45DB576A25059827D6B331554C8235D2C80FEF554D68718BC325ACE2642BD599",
@@ -3978,14 +3962,6 @@
       "Fingerprint": "FDE31099C9CD149DD4DD8E12CD2EECFDE0E20B416C0A744AC6F307F5371E38A5",
       "Count": 1,
       "Example": "4"
-    },
-    {
-      "File": "X.Calculations/ConcreteShearAnalysis.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "ConcreteShearAnalysis.Calculate",
-      "Fingerprint": "68FE3C0C43F21D01CA200C6FACF2F700D60648C0E2D5FFF9F8049FB66D3B1BBB",
-      "Count": 1,
-      "Example": "settings . S ( \"normativa\" , \"NTC 2018\" )"
     },
     {
       "File": "X.Calculations/ConcreteShearAnalysis.cs",
@@ -4098,14 +4074,6 @@
       "Fingerprint": "F18CDD90AADA909456E9E88A921FF0D8F38AF8DD83D9A47DEF590FECC5828438",
       "Count": 1,
       "Example": "s . Input . D ( \"inner_width_mm\" )"
-    },
-    {
-      "File": "X.Calculations/ConcreteStandards.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "ConcreteStandards.Effective",
-      "Fingerprint": "0B738ED1F83B07D6BDD5B6F8C1F84947C5C735A953FF2B27708BE2538FDBC7F2",
-      "Count": 1,
-      "Example": "workspace . S ( \"normativa\" , \"NTC 2018\" )"
     },
     {
       "File": "X.Calculations/ConcreteTensionCracking.cs",
@@ -22810,14 +22778,6 @@
       "Fingerprint": "5BC07F1D643815A8560F64B5927113A852A2382671FC860F94EDE5181B23F663",
       "Count": 2,
       "Example": "9360"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportConcrete.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "ReportConcrete.CreateDocument",
-      "Fingerprint": "6B445CD0EB913B99EFB172675B5F8D6C753A11A22E6917503C5DC348D1E4F3F4",
-      "Count": 1,
-      "Example": "settings . S ( \"normativa\" , \"NTC 2018\" )"
     },
     {
       "File": "src/ANTHEA.Reports/Generators/ReportConcrete.cs",

@@ -602,7 +602,11 @@ sealed partial class ServiceabilityChecks
                             bool library = ConcreteServiceabilityAdapter.CrackingRequired(set, workspace, ServiceabilityEngine.Library);
                             bool production = SleCheckScope.Cracking(set, workspace);
                             string id = $"ambito {standard} {set} {exposure} «{limit}» {layout}";
-                            Check(direct == legacy && direct == library && direct == production, $"{id}: legacy {direct}, adattatore Legacy {legacy}, Library {library}, SleCheckScope {production}");
+                            // F4.14: a missing standard is invalid, rather than implicitly NTC.
+                            // Keep the check visible so the calculation can explain the missing input.
+                            // The diagnostic legacy path and its original expectation stay unchanged.
+                            Check(direct == legacy && (standard == "" ? library && production : direct == library && direct == production),
+                                $"{id}: legacy {direct}, adattatore Legacy {legacy}, Library {library}, SleCheckScope {production}");
                             // Sonda: SleCheckScope passa dall'adattatore con il motore predefinito.
                             Check(Sle(probe).SequenceEqual(new ServiceabilityProbeEntry[]
                             {
@@ -612,7 +616,7 @@ sealed partial class ServiceabilityChecks
                             rows++; if (direct) required++;
                         }
         Report["ambito_5i"] = new JsonObject { ["righe"] = rows, ["richieste"] = required };
-        Lines.Add($"5i ambito della fessurazione: {rows} righe uguali nei due motori e in SleCheckScope ({required} richieste, norme escluse e dati non validi compresi); {Checks - checksBefore} controlli");
+        Lines.Add($"5i ambito della fessurazione: {rows} righe confrontate ({required} richieste legacy); differenza F4.14 esplicita per normativa assente, verifica visibile; {Checks - checksBefore} controlli");
     }
 
     // ================================================================== 5k. scansione dei sorgenti

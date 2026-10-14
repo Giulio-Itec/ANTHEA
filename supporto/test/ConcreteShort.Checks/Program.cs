@@ -59,6 +59,8 @@ var empty=(JsonObject)data.DeepClone();empty["combinazioni"]!["SLU"]=new JsonArr
 Check(ReportConcreteShort.Select(empty,result)[0].Outcome.StartsWith("Non richiesta"),"Empty family confused with missing results");
 var close=(JsonObject)result.DeepClone();close["domini"]!["3D:SLU"]!["SLU1"]!["Utilization"]=.9902;close["domini"]!["3D:SLU"]!["SLU2"]!["Utilization"]=.9901;
 Check(ReportConcreteShort.Select(data,close)[0].Combination.EndsWith("1"),"Rounded ratio used for selection");
+// The synthetic result carries the same provenance as ConcreteResultExport.
+result["dati"]=data.DeepClone();result["normativa_riferimento"]=ws.S("normativa");
 var bytes=ReportConcreteShort.Create("Sezione di prova con tutte le verifiche",data,result);
 using(var zip=new ZipArchive(new MemoryStream(bytes)))
 {

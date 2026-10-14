@@ -4410,6 +4410,32 @@
         "supporto/artefatti/refactoring/f4/residual-adapter-c.log",
         "tests/fixtures/f4/residual-reference.json"
       ]
+    },
+    {
+      "id": "F4-31",
+      "data": "2026-10-14",
+      "fase": "F4.14a",
+      "titolo": "Norma esplicita e provenienza dei report CA",
+      "famiglia": "Norme e ingressi",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Catalogo tipizzato in Model; i coefficienti dei nove profili restano equivalenti. Documento precedente senza norma migrato esplicitamente a NTC con nota e override conservati; valori nulli, errati o sconosciuti rifiutati. La fessurazione senza norma resta visibile ma non viene calcolata assumendo NTC. Micropalo con terreno sconosciuto rifiutato anche se lo strato non è attivo. Report completo/sintetico legge norma e dati dal risultato, rifiuta snapshot assenti o incoerenti; rimosso un paragrafo normativo duplicato.",
+      "test": [
+        "residual-adapter-c: 10 PASS, nessun nuovo fallimento",
+        "Nove profili congelati, migrazione idempotente, override e rifiuti",
+        "Provenienza report indipendente dalle modifiche successive della UI",
+        "Griglia SLE conserva i confronti legacy; differenza sulla norma assente verificata esplicitamente"
+      ],
+      "codice": [
+        "X.Calculations/ConcreteStandards.cs",
+        "X.Calculations/SectionWorkspace.cs",
+        "src/ANTHEA.Reports/Generators/ConcreteReportSource.cs",
+        "tests/ANTHEA.Application.Tests/F4StandardInputChecks.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/residual-adapter-c.log",
+        "../Model/docs/refactoring/f4-concrete-profiles.md"
+      ]
     }
   ]
 }

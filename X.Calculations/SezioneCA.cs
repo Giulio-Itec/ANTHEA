@@ -39,7 +39,7 @@ public sealed class SezioneCA
     {
         var input = DefaultCatalogInput();
         var combos=new JsonObject();foreach(var limit in new[]{"SLU","SLV","SLE"})combos[limit]=new JsonArray(J.Obj(("nome","Combo 1"),("azioni",new[]{"2500","500","250"})));
-        return J.Obj(("versione_sezione",2),("input",input),("n_automatico",true),("combinazioni",combos));
+        return J.Obj(("versione_sezione",2),("input",input),("n_automatico",true),("combinazioni",combos),("workspace_ca",J.Obj(("normativa","NTC 2018"))));
     }
     public static (double Ec2,double Ecu,double N) ParametriCls(double fck)
     {

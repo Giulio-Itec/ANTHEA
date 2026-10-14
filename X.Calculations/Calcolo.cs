@@ -304,7 +304,7 @@ public static class Calcolo
             else
             {
                 var injection=BustamanteDoix.Injection(g.S("tipo_iniezione"));
-                BustamanteDoixSoil Bd(JsonNode v){try{return BustamanteDoix.Soil(v.S("terreno"));}catch(ArgumentException){return BustamanteDoixSoil.Gravel;}}
+                BustamanteDoixSoil Bd(JsonNode v) => BustamanteDoix.Soil(v.S("terreno"));
                 var surveys=rowsList.Select(rows=>new MicropileDepthSurvey(rows.Select(v=>new MicropileDepthLayer(
                     v.Required("spessore",strict:true)*M,Bd(v!),J.Number(v!["alpha"])??double.NaN,v.B("laterale_attiva",true))))).ToArray();
                 var pile=new Micropile(d*M,l*M,(J.Number(g["inclinazione"])??0)*Deg,injection,pi,sb*M,g.B("considera_punta")?pct:null,Chs.Sezione(g.S("profilo_chs")),Chs.Acciaio,

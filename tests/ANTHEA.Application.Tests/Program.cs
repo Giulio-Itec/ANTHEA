@@ -107,6 +107,7 @@ try
     checks += HorizontalSoilChecks.Run();
     checks += VerticalPilePreviewChecks.Run();
     checks += F4PileCoefficientChecks.Run(root);
+    checks += F4StandardInputChecks.Run(root);
     checks += await PileSegmentOperationChecks.Run(root);
     checks += await ProjectReportServiceChecks.Run(output);
     checks += await ConcreteReportCurvatureChecks.Run(root, output);

@@ -33,7 +33,14 @@ public static class SectionWorkspace
         var settings = data["workspace_ca"]!.AsObject();
         if (settings.D("versione", 1) is not (1 or 2)) throw new ArgumentException("Versione dell’interfaccia CA non supportata.");
         void Default(string key, object value) { if (!settings.ContainsKey(key)) settings[key] = J.Node(value); }
-        Default("versione", 1); Default("normativa", "NTC 2018"); Default("nota", ""); Default("tab", 0);
+        Default("versione", 1);
+        if (!settings.ContainsKey("normativa"))
+        {
+            settings["normativa"] = "NTC 2018";
+            settings["migrazione_normativa"] = "Documento precedente senza normativa: mantenuto il profilo storico NTC 2018. Coefficienti assegnati conservati; verificare la scelta prima dell’uso.";
+        }
+        _ = ConcreteStandards.RequiredName(settings);
+        Default("nota", ""); Default("tab", 0);
         Default("dominio3d", J.Obj(("stato", "SLU"), ("angoli", "32"), ("criterio", "N costante"), ("filtro", "Tutte")));
         Default("dominio2d", J.Obj(("stato", "SLU"), ("tipo", "Mx–My"), ("theta", "0"), ("N", "1000"), ("filtro", "Tutte")));
         Default("trefoli", new JsonArray());
