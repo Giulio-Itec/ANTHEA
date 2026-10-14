@@ -81,6 +81,8 @@ public static class ReportConcrete
         P("Questo report non attesta una verifica normativa completa. La presenza di un dominio o di tensioni calcolate non implica la conformità delle altre verifiche. I filtri e le opzioni grafiche non escludono combinazioni dai calcoli. Leggere gli esiti non determinati, fuori piano e non implementati.");
         P("Taglio nelle due direzioni secondo la norma selezionata; Model Code 2010 usa il livello II con N, M, V, Asl e granulometria. Per le circolari il modello e i parametri sono espliciti. Fessurazione lineare con CLS teso escluso: inviluppo delle superfici esterne e interne, comprese le sezioni interamente tese. Le superfici prive di armatura efficace restano senza verifica conclusa. Torsione accoppiata, dettagli costruttivi e ancoraggi automatici restano nel campo NTC documentato. Gerarchia sismica, appoggi e punzonamento richiedono il modello dell’elemento.");
         if (!string.IsNullOrEmpty(settings.S("migrazione_normativa"))) P(settings.S("migrazione_normativa"));
+        if (settings["migrazione_input"] is JsonObject migratedInput)
+            P("Valori integrati nell’apertura del documento precedente: " + string.Join("; ", migratedInput.Select(p => p.Key + " = " + p.Value)) + ". Controllare la scelta dei dati.");
         if (!string.IsNullOrWhiteSpace(settings.S("nota"))) P("Nota del foglio: " + settings.S("nota"));
         if (result["errori_calcolo"] is JsonObject errors) foreach (var (key, value) in errors) P("Calcolo non disponibile — " + key + ": " + value);
         if (result["riepilogo_verifiche"] is JsonObject summaries)

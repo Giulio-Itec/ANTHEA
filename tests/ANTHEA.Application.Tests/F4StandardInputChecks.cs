@@ -24,6 +24,16 @@ internal static class F4StandardInputChecks
             Reject(()=>ConcreteStandards.Effective(bad["input"]!.AsObject(),bad["workspace_ca"]!.AsObject()));
         }
         Reject(()=>ConcreteStandards.Effective(fresh["input"]!.AsObject(),new JsonObject()));
+        var incomplete=(JsonObject)fresh.DeepClone(); incomplete["input"]!.AsObject().Remove("gamma_c");
+        var restored=SectionWorkspace.Prepare(incomplete);
+        Check(restored["migrazione_input"]?["gamma_c"]?.ToJsonString()==incomplete["input"]!["gamma_c"]?.ToJsonString(),"Implicit input default was not recorded");
+        string restoredOnce=incomplete.ToJsonString();SectionWorkspace.Prepare(incomplete);Check(restoredOnce==incomplete.ToJsonString(),"Input migration repeated");
+        incomplete["input"]!["gamma_c"]=null;SectionWorkspace.Prepare(incomplete);
+        Reject(()=>ConcreteStandards.Effective(incomplete["input"]!.AsObject(),restored));
+        foreach(string badName in new[]{"", "NTC typo", "Unknown"})
+        { var bridge=BridgeSection.Defaults();bridge["normativa"]=badName;Reject(()=>BridgeSection.ApplyStandardDefaults(bridge)); }
+        var missing=SezioneCA.DefaultData();missing["workspace_ca"]!.AsObject().Remove("normativa");
+        Check(CalculationValidation.Coefficients("str_palo",missing).Any(i=>i.Path=="normativa"),"Project masks missing standard");
         var result=new JsonObject{["motore"]="GPCChecker.Concrete.dll",["normativa_riferimento"]="NTC 2018",["dati"]=fresh.DeepClone()};
         var changed=(JsonObject)fresh.DeepClone();changed["workspace_ca"]!["normativa"]="DIN EN 1992-1-1";
         using(var zip=new ZipArchive(new MemoryStream(ReportConcrete.Create("Source",changed,result,["materiali"],includeInputs:false))))

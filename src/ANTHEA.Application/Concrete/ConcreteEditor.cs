@@ -22,6 +22,7 @@ public static class ConcreteEditor
     public static double Number(string text, string label) => SectionWorkspace.Number(text, label);
     public static JsonObject PrepareWorkspace(JsonObject data) => SectionWorkspace.Prepare(data);
     public static JsonObject StandardDefaults(string name) => ConcreteStandards.Defaults(name);
+    public static string RequiredStandardName(JsonObject settings) => ConcreteStandards.RequiredName(settings);
     public static string StandardNote(string name) => ConcreteStandards.Note(name);
     public static void PrepareParameters(JsonObject input, JsonObject settings) => ConcreteCalculationSettings.Prepare(input, settings);
     public static void ValidateStirrups(JsonObject input, JsonObject options) => ConcreteCalculationSettings.ValidateStirrups(input, options);

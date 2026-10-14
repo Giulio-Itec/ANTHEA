@@ -171,7 +171,9 @@ internal sealed partial class ConcreteWorkspace : UserControl, IDisposable
         var materialGroups = Ui.Stack(materials,
             Ui.Button("Reologia del calcestruzzo…", () => ConcreteTimeEffectsView.CreateWindow(this, Math.Abs(Input.D("fck_mpa"))).Show(), inspection: true),
             BuildCustomMaterials()); materialGroups.Margin = new Thickness(14, 0, 0, 0);
-        var inputStack = Ui.Stack(norm, Ui.Text(settings.S("migrazione_normativa"), 11, color: Ui.Muted), standardNote, Group("Coefficienti da normativa", BuildCoefficients()), Group("Materiali", materialGroups, true), Group("Geometria", Ui.Stack(geometry,holeToggle,holeForm), true), Group("Armature", Ui.Stack(reinforcement, BuildAdditionalLayers())), Group("Staffe", BuildStirrups()), Group("Trefoli", tendonInput));
+        var inputStack = Ui.Stack(norm, Ui.Text(settings.S("migrazione_normativa"), 11, color: Ui.Muted),
+            settings["migrazione_input"] is JsonObject migratedInput ? Group("Valori integrati dal documento precedente",
+                Ui.Text("Valori storici iniziali aggiunti ai campi assenti; controllarli prima dell’uso.\n" + string.Join("\n", migratedInput.Select(p => p.Key + " = " + p.Value)), 11)) : Ui.Text(""), standardNote, Group("Coefficienti da normativa", BuildCoefficients()), Group("Materiali", materialGroups, true), Group("Geometria", Ui.Stack(geometry,holeToggle,holeForm), true), Group("Armature", Ui.Stack(reinforcement, BuildAdditionalLayers())), Group("Staffe", BuildStirrups()), Group("Trefoli", tendonInput));
         var left = Panel("Definizione della sezione", Scroller(inputStack), "Dati comuni a tutte le verifiche · mm, MPa");
         var viewport = new ViewportFrame("Sezione geometrica", preview, preview.ResetView);
         var axes = new CheckBox { Content = "Assi", IsChecked = true, Margin = new Thickness(7, 3, 5, 3), VerticalAlignment = VerticalAlignment.Center };

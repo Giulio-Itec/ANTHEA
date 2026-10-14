@@ -605,3 +605,7 @@ Catalogo Model 5.4.0.1 e nove profili congelati equivalenti. Nuove sezioni con N
 ### 14/10 — F4.13b ultimi calcoli condivisi
 
 Braccio del taglio in Concrete 0.8.0.0, duttilità danese e area delle barre condivisi; proprietà delle aste Bridge dal contratto nativo e report sintetico dallo stesso rapporto circolare. 44 casi congelati, 53 residui e 161550 numeri Bridge equivalenti; suite completa adattatori/SLE PASS. Tredici occorrenze eliminate, nessuna aggiunta. last-adapters-a ha individuato un richiamo UI diretto al catalogo: corretto tramite ConcreteEditor e collaudato in last-adapters-b (5 PASS). Registro F4-32. Resta l’audit finale F4.13 e la distribuzione F4.9.
+
+### 14/10 — F4.14b migrazioni e sezioni composte
+
+Profili composti riconosciuti esattamente, coefficienti dai servizi GPC e default Bridge esistente; due cambi di norma congelati equivalenti, override conservati. I campi CA mancanti integrati dall’archivio vengono registrati e mostrati in scheda/report; nulli e dati errati restano invalidi. Progetto senza NTC di ripiego. last-adapters-b: 5 PASS con confine UI/Application ripristinato, nessuna deroga architetturale. Sei occorrenze eliminate. Registro F4-33; audit conclusivo, guide e distribuzione restano separati.

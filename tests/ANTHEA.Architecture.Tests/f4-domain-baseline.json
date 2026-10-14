@@ -2196,14 +2196,6 @@
       "Example": "data . D ( \"d_bottom\" )"
     },
     {
-      "File": "X.Calculations/BridgeSection.StandardDefaults.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "BridgeSection.ApplyStandardDefaults",
-      "Fingerprint": "C068CC1B4690C82D20760A1E56162C37CB098A4743D70E428BE8BE1FF3A5D74F",
-      "Count": 2,
-      "Example": "data . S ( \"normativa\" ) . StartsWith ( \"NTC\" )"
-    },
-    {
       "File": "X.Calculations/BridgeSection.cs",
       "Rule": "R1-math",
       "Owner": "BridgeSection.RealSteelSection",
@@ -2492,14 +2484,6 @@
       "Example": "1000"
     },
     {
-      "File": "X.Calculations/CalculationCoefficients.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "CalculationCoefficients.Standard",
-      "Fingerprint": "C1472F8841D3DC0EEFAAF81D2CDA957EE677AEEB85CF7D60552DA240559F9D09",
-      "Count": 1,
-      "Example": "data [ \"workspace_ca\" ] . S ( \"normativa\" , \"NTC 2018\" )"
-    },
-    {
       "File": "X.Calculations/CheckerSection.cs",
       "Rule": "R1-math",
       "Owner": "CheckerDomain2D.CheckerDomain2D",
@@ -2754,14 +2738,6 @@
       "Fingerprint": "FADA6DA3EAF46575D393C7170142557F265F0C8C7C1B9F463A3668F722D4998B",
       "Count": 1,
       "Example": "1000"
-    },
-    {
-      "File": "X.Calculations/ConcreteCalculationSettings.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "ConcreteCalculationSettings.Prepare",
-      "Fingerprint": "CF749018E58C4B1A9075AA2C0A9907568FCD6A61C324E386716DE754FDA9D4AC",
-      "Count": 1,
-      "Example": "settings . S ( \"normativa\" , \"NTC 2018\" )"
     },
     {
       "File": "X.Calculations/ConcreteCodeChecks.cs",
@@ -11314,14 +11290,6 @@
       "Fingerprint": "10756DA95FB74F4B0D2859AB9AB276CAE6E7641E97087FF2E27296D38FEF3F1B",
       "Count": 1,
       "Example": "settings [ \"layout\" ] . D ( group , initial )"
-    },
-    {
-      "File": "X.Desktop/Wpf/ConcreteParameters.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "ConcreteWorkspace.PrepareCoefficients",
-      "Fingerprint": "305242711BF2E824FEF572E9B800C654F6A05A6DA9D286508793C1D986CB2DDD",
-      "Count": 1,
-      "Example": "settings . S ( \"normativa\" , \"NTC 2018\" )"
     },
     {
       "File": "X.Desktop/Wpf/ConcreteRefinements.cs",
@@ -20730,22 +20698,6 @@
       "Fingerprint": "C0A7F79C7AEE4BFC96D1EEA26E0D2B91844A7BF2A34D83FB46670892D7AB9655",
       "Count": 1,
       "Example": "1e-9"
-    },
-    {
-      "File": "src/ANTHEA.Application/Projects/ProjectCoefficientFields.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "ProjectSharedData.AddCoefficientFields",
-      "Fingerprint": "8A215DD3EA89C9423BC679A78CFB37BC7F114340EA4090A7B049B1FD56F29B35",
-      "Count": 1,
-      "Example": "data [ \"workspace_ca\" ] . S ( \"normativa\" , \"NTC 2018\" )"
-    },
-    {
-      "File": "src/ANTHEA.Application/Projects/ProjectConcreteFields.cs",
-      "Rule": "R3-standard-fallback",
-      "Owner": "ProjectSharedData.ActiveField",
-      "Fingerprint": "DF86BADCB29FC5EAD229BF55A65B0FDDD666E2B6B0F57FDD6CD9EF3D5CE69E78",
-      "Count": 1,
-      "Example": "[ \"workspace_ca\" ] . S ( \"normativa\" , \"NTC 2018\" )"
     },
     {
       "File": "src/ANTHEA.Application/Projects/ProjectConcreteFields.cs",

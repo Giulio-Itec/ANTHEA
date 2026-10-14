@@ -4462,6 +4462,33 @@
         "supporto/artefatti/refactoring/f4/last-adapters-a.log",
         "supporto/artefatti/refactoring/f4/last-adapters-b.log"
       ]
+    },
+    {
+      "id": "F4-33",
+      "data": "2026-10-14",
+      "fase": "F4.14b",
+      "titolo": "Migrazioni degli input e profili composti espliciti",
+      "famiglia": "Norme e ingressi",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Le sezioni composte risolvono esattamente il profilo supportato e riusano i coefficienti dei servizi GPC. I due cambi di norma conservano coefficienti e rappresentazione precedenti. Le integrazioni dei soli campi assenti nei vecchi input CA sono registrate e mostrate nella scheda e nel report; nulli e dati invalidi non sono sostituiti. Nessun ripiego NTC nel validatore di progetto. La UI passa da ConcreteEditor, mantenendo il confine applicativo. Sei segnalazioni eliminate.",
+      "test": [
+        "last-adapters-b: 5 PASS, Architecture e Application",
+        "44 confronti congelati PASS, comprese due transizioni dei profili composti",
+        "Migrazione idempotente, valore nullo conservato e rifiutato, profili sconosciuti rifiutati"
+      ],
+      "codice": [
+        "X.Calculations/BridgeSection.StandardDefaults.cs",
+        "X.Calculations/SectionWorkspace.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteEditor.cs",
+        "src/ANTHEA.Application/Projects/ProjectCoefficientFields.cs",
+        "tests/ANTHEA.Application.Tests/F4StandardInputChecks.cs"
+      ],
+      "evidenze": [
+        "supporto/artefatti/refactoring/f4/last-adapters-a.log",
+        "supporto/artefatti/refactoring/f4/last-adapters-b.log",
+        "tests/fixtures/f4/last-adapters-reference.json"
+      ]
     }
   ]
 }

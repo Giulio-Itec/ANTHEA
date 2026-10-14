@@ -15,8 +15,14 @@ public static class SectionWorkspace
     public static JsonObject Prepare(JsonObject data)
     {
         ModuleCatalog.ValidateConcreteWorkspace(data);
-        if (data["input"] is not JsonObject) data["input"] = SezioneCA.DefaultInput();
-        foreach (var (key, value) in SezioneCA.DefaultInput()) if (!data["input"]!.AsObject().ContainsKey(key)) data["input"]![key] = value?.DeepClone();
+        var addedInput = new JsonObject();
+        if (data["input"] is not JsonObject) data["input"] = new JsonObject();
+        foreach (var (key, value) in SezioneCA.DefaultInput())
+            if (!data["input"]!.AsObject().ContainsKey(key))
+            {
+                data["input"]![key] = value?.DeepClone();
+                addedInput[key] = value?.DeepClone();
+            }
         if (data["input"]!["gettato_sottile"] is null) data["input"]!["gettato_sottile"] = "No";
         data["versione_sezione"] = 2;
         if (data["combinazioni"] is null)
@@ -31,6 +37,11 @@ public static class SectionWorkspace
         }
         if (data["workspace_ca"] is not JsonObject) data["workspace_ca"] = new JsonObject();
         var settings = data["workspace_ca"]!.AsObject();
+        if (addedInput.Count > 0)
+        {
+            if (settings["migrazione_input"] is not JsonObject) settings["migrazione_input"] = new JsonObject();
+            foreach (var (key, value) in addedInput) settings["migrazione_input"]![key] = value?.DeepClone();
+        }
         if (settings.D("versione", 1) is not (1 or 2)) throw new ArgumentException("Versione dell’interfaccia CA non supportata.");
         void Default(string key, object value) { if (!settings.ContainsKey(key)) settings[key] = J.Node(value); }
         Default("versione", 1);
