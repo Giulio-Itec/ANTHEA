@@ -2356,18 +2356,19 @@
       "titolo": "Rifiuti e ordine dei controlli della libreria SLE non raggiungibili dal modulo",
       "famiglia": "calcestruzzo/sle-fessurazione",
       "categoria": "intenzionale",
-      "stato": "da-ricostruire",
-      "descrizione": "Voce prevista dal progetto F2.7 (A8: «rifiuti e ordini della libreria non raggiungibili, misurati») e non scritta quando l'interruttore delle SLE è passato alla libreria in b7339f4a. Disponibile oggi: la copertura misurata da tests/ConcreteLibraryAdapter.Checks nel full del 12/10 (commit 71aaa60b). Rifiuti raggiunti: RibbedBarsRequired; con gli stati mirati anche i parametri coverOverride e spacingOverride. Motivi non raggiunti nemmeno con gli stati mirati: ZeroEffectiveDepth, NoEffectiveSteelOrArea, FaceWithoutAreaOrSteel. Esiti non raggiunti nemmeno con gli stati mirati: NeutralAxisUndetermined, NoTensileReinforcement, NoEffectiveArea, InnerSurfaceNotSupported; PrestressNotSupported è raggiunto solo dagli stati mirati. Il caso (i) di CrackK2Checks del 9/10 (sezione interamente compressa senza tensioni delle barre: wk = 0 nel legacy, rifiuto non tradotto nella libreria) risulta poi trattato con il controllo ValidateAtUse di Concrete 0.0.25.0 (lib/Checker/README.md). Manca: l'elenco ragionato dei rifiuti e dell'ordine dei controlli della libreria non raggiungibili dal modulo, con la prova che la produzione non li raggiunge e il confronto con l'ordine dei rifiuti del legacy; la decisione dell'utente.",
+      "stato": "da-decidere",
+      "descrizione": "Voce prevista dal progetto F2.7 (A8: «rifiuti e ordini della libreria non raggiungibili, misurati») e non scritta quando l'interruttore delle SLE è passato alla libreria in b7339f4a. Disponibile oggi: la copertura misurata da tests/ConcreteLibraryAdapter.Checks nel full del 12/10 (commit 71aaa60b). Rifiuti raggiunti: RibbedBarsRequired; con gli stati mirati anche i parametri coverOverride e spacingOverride. Motivi non raggiunti nemmeno con gli stati mirati: ZeroEffectiveDepth, NoEffectiveSteelOrArea, FaceWithoutAreaOrSteel. Esiti non raggiunti nemmeno con gli stati mirati: NeutralAxisUndetermined, NoTensileReinforcement, NoEffectiveArea, InnerSurfaceNotSupported; PrestressNotSupported è raggiunto solo dagli stati mirati. Il caso (i) di CrackK2Checks del 9/10 (sezione interamente compressa senza tensioni delle barre: wk = 0 nel legacy, rifiuto non tradotto nella libreria) risulta poi trattato con il controllo ValidateAtUse di Concrete 0.0.25.0 (lib/Checker/README.md). Ricostruita il 14/10 sera in docs/refactoring/f2-7-rifiuti-sle.md: l'ordine delle uscite della libreria coincide con quello del legacy (unico controllo in più, UncrackedStressRequired, non raggiungibile perché l'adattatore passa sempre la sezione non fessurata); sei uscite non raggiunte sono impossibili con i dati del modulo (UncrackedStressRequired, BarStresses, ZeroEffectiveDepth, NoEffectiveSteelOrArea, InnerSurfaceNotSupported, parametri della formula) e una è degenere (NeutralAxisUndetermined); tre sono raggiungibili e mancano dal corpus: PrestressNotSupported (coperto dagli stati mirati) e, con le armature libere, NoTensileReinforcement e FaceWithoutAreaOrSteel. Resta la decisione dell'utente sulle proposte del §4. Testo precedente — Manca: l'elenco ragionato dei rifiuti e dell'ordine dei controlli della libreria non raggiungibili dal modulo, con la prova che la produzione non li raggiunge e il confronto con l'ordine dei rifiuti del legacy; la decisione dell'utente.",
       "codice": [
         "X.Calculations/ConcreteLibraryMapping.Serviceability.cs",
         "X.Calculations/ConcreteServiceabilityAdapter.cs"
       ],
       "evidenze": [
         "supporto/artefatti/ci/20261012-225933-f2-set-t-full/ConcreteLibraryAdapter.Checks/misura.json (sle.fessurazione_copertura e sle.fessurazione_copertura_con_stati_mirati)",
-        "docs/refactoring/diario.md, 9 ottobre pomeriggio (caso (i) di CrackK2Checks)"
+        "docs/refactoring/diario.md, 9 ottobre pomeriggio (caso (i) di CrackK2Checks)",
+        "docs/refactoring/f2-7-rifiuti-sle.md (elenco ragionato, 14/10)"
       ],
       "data": "2026-10-14",
-      "fase": "F2.7 (A8 e A9 non eseguiti come previsto); voce ricostruita in parte nell'audit del 14/10"
+      "fase": "F2.7 (A8 e A9 non eseguiti come previsto); voce ricostruita nell'audit del 14/10"
     },
     {
       "id": "F2-8",
